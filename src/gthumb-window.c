@@ -4537,6 +4537,14 @@ window_new (void)
 					   PREF_UI_TOOLBAR_STYLE,
 					   pref_ui_toolbar_style_changed,
 					   window);
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_TOOLBAR_STYLE,
+					   pref_ui_toolbar_style_changed,
+					   window);
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   "/desktop/gnome/interface/toolbar_style",
+					   pref_ui_toolbar_style_changed,
+					   window);
 
 	window->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_TOOLBAR_VISIBLE,

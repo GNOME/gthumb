@@ -197,7 +197,7 @@ real_files_delete__continue2 (GnomeVFSResult result,
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if (result != GNOME_VFS_OK) 
+	if ((result != GNOME_VFS_OK) && (result != GNOME_VFS_ERROR_INTERRUPTED))
 		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window->app),
 				       "%s %s",
 				       _("Could not delete the images:"), 
@@ -1201,6 +1201,7 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fcdata->result = info->vfs_status;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 		if (fcdata->result == GNOME_VFS_OK) {
@@ -1536,7 +1537,7 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->file_list = path_list_dup (file_list);
 	fcdata->copied_list = NULL;
 	fcdata->created_list = NULL;
-	fcdata->current_file = file_list;
+	fcdata->current_file = fcdata->file_list;
 	fcdata->destination = g_strdup (dest_path);
 	fcdata->remove_source = remove_source;
 	fcdata->copy_cache = copy_cache;
@@ -1703,6 +1704,7 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fddata->result = info->vfs_status;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
 		message = g_strdup (_("Collecting images info"));
@@ -1885,7 +1887,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fcdata->result = info->vfs_status;
-		return TRUE;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
 		/**/

@@ -1,3 +1,22 @@
+2003-03-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.h (GCONF_NOTIFICATIONS): 
+	* src/gthumb-window.c (window_new): update back button style on
+	the fly.
+
+	* src/e-combo-button.c (e_combo_button_set_style): s/icon/icons/
+
+2003-02-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (dlg_files_copy): fix fcdata->current_file 
+	initialization.
+
+2003-02-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (real_files_delete__continue2) 
+	(file_progress_update_cb, file_delete_progress_update_cb): return
+	FALSE when an error occur.
+
 2003-01-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 	
 	[ gthumb 2.0.1 released ]  
