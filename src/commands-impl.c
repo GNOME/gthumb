@@ -258,7 +258,7 @@ rename_file (GThumbWindow *window,
 		int        r;
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
-		message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it ?"), utf8_name);
+		message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 		g_free (utf8_name);
 
 		d = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
@@ -447,7 +447,7 @@ edit_delete_files_command_impl (BonoboUIComponent *uic,
 	list = ilist_utils_get_file_list_selection (ilist);
 	dlg_file_delete__confirm (window, 
 				  list, 
-				  _("The selected images will be moved to the Trash, are you sure ?"));
+				  _("The selected images will be moved to the Trash, are you sure?"));
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -467,7 +467,7 @@ image_delete_command_impl (BonoboUIComponent *uic,
 	list = g_list_prepend (NULL, g_strdup (window->image_path));
 	dlg_file_delete__confirm (window, 
 				  list,
-				  _("The image will be moved to the Trash, are you sure ?"));
+				  _("The image will be moved to the Trash, are you sure?"));
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -731,7 +731,7 @@ image_delete_from_catalog_command_impl (BonoboUIComponent *uic,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
-					_("The image will be removed from the catalog, are you sure ?"),
+					_("The image will be removed from the catalog, are you sure?"),
 					GTK_STOCK_CANCEL,
 					GTK_STOCK_REMOVE);
 
@@ -773,7 +773,7 @@ edit_remove_from_catalog_command_impl (BonoboUIComponent *uic,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
-					_("The selected images will be removed from the catalog, are you sure ?"),
+					_("The selected images will be removed from the catalog, are you sure?"),
 					GTK_STOCK_CANCEL,
 					GTK_STOCK_REMOVE);
 
@@ -1123,7 +1123,7 @@ folder_delete__continue (GnomeVFSResult result,
 		int        r;
 
 		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
-		message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently ?"), utf8_name);
+		message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"), utf8_name);
 
 		d = _gtk_yesno_dialog_new (GTK_WINDOW (fddata->window->app),
 					   GTK_DIALOG_MODAL,
@@ -1160,7 +1160,7 @@ folder_delete (GThumbWindow *window,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
-					_("The selected folder will be moved to the Trash, are you sure ?"),
+					_("The selected folder will be moved to the Trash, are you sure?"),
 					GTK_STOCK_CANCEL,
 					_("_Move"));
 
@@ -1729,9 +1729,9 @@ catalog_delete (GThumbWindow *window,
 	}
 
 	if (path_is_dir (catalog_path)) 
-		message = g_strdup (_("The selected library will be removed, are you sure ?"));
+		message = g_strdup (_("The selected library will be removed, are you sure?"));
 	else
-		message = g_strdup (_("The selected catalog will be removed, are you sure ?"));
+		message = g_strdup (_("The selected catalog will be removed, are you sure?"));
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
