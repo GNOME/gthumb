@@ -1,3 +1,7 @@
+2005-01-25  Nikos Charonitakis  <charosn@her.forthnet.gr>
+	
+	* configure.in: Added 'el' (Greek) to ALL_LINGUAS.
+
 2005-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.3 released ]  
@@ -992,7 +996,7 @@
 
 2004-02-24  Adam Weinberger  <adamw@FreeBSD.org>
 
-	* configure.in: Added 'en_CA' (Canadian English) to ALL_LINGUAS.
+		
 
 2004-02-22  Paolo Bacchilega  <paolo.bacch@tin.it>
 
