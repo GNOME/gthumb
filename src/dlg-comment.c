@@ -31,12 +31,6 @@
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 
-#ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#endif /* HAVE_LIBEXIF */
-
 #include "typedefs.h"
 #include "main.h"
 #include "glib-utils.h"
@@ -44,6 +38,7 @@
 #include "gtk-utils.h"
 #include "gth-file-view.h"
 #include "comments.h"
+#include "exif-utils.h"
 
 
 enum {
@@ -122,64 +117,6 @@ text_field_cmp (const char *s1, const char *s2)
 }
 
 
-#ifdef HAVE_LIBEXIF
-
-static time_t
-get_exif_date (DialogData *data, 
-	       const char *filename)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
-	struct tm     tm = { 0, };
-
-	edata = exif_data_new_from_file (filename);
-	if (edata == NULL) 
-		return (time_t) 0;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-			char      *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			data = g_strdup (e->data);
-			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = atoi (data + 11);
-			tm.tm_min  = atoi (data + 14);
-			tm.tm_sec  = atoi (data + 17);
-			time = mktime (&tm);
-
-			g_free (data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return time;
-}
-
-#endif
-
-
 static time_t
 get_requested_time (DialogData *data, 
 		    const char *filename)
@@ -201,7 +138,7 @@ get_requested_time (DialogData *data,
 		break;
 	case EXIF_DATE:
 #ifdef HAVE_LIBEXIF
-		t = get_exif_date (data, filename);
+		t = get_exif_time (filename);
 #endif
 		break;
 	}
@@ -367,7 +304,7 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 	case EXIF_DATE:
 #ifdef HAVE_LIBEXIF
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
-					  get_exif_date (data, first_image));
+					  get_exif_time (first_image));
 #endif
 		break;
 	}
@@ -456,7 +393,6 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	/**/
 
 #ifndef HAVE_LIBEXIF
-	/* gtk_widget_hide (data->cd_exif_date_radiobutton); FIXME */
 	data->have_exif_data = FALSE;
 #else
 	{

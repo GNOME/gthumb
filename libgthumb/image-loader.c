@@ -54,6 +54,8 @@ struct _ImageLoaderPrivateData {
 	gboolean              done;
 	gboolean              error;
 	gboolean              loader_done;
+	gboolean              interrupted;
+	gboolean              loading;
 
 	GTimer               *timer;
 	int                   priority;
@@ -210,7 +212,7 @@ image_loader_init (ImageLoader *il)
 {
 	ImageLoaderPrivateData *priv;
 
-	il->priv = g_new (ImageLoaderPrivateData, 1);
+	il->priv = g_new0 (ImageLoaderPrivateData, 1);
 	priv = il->priv;
 
 	priv->pixbuf = NULL;
@@ -225,6 +227,7 @@ image_loader_init (ImageLoader *il)
 	priv->done = FALSE;
 	priv->error = FALSE;
 	priv->loader_done = FALSE;
+	priv->interrupted = FALSE;
 
 	priv->timer = g_timer_new ();
 	priv->priority = GNOME_VFS_PRIORITY_DEFAULT;
@@ -443,6 +446,22 @@ image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
 
 
 static void 
+image_loader_interrupted (ImageLoader *il)
+{
+	ImageLoaderPrivateData *priv = il->priv;
+
+	g_mutex_lock (priv->yes_or_no);
+	priv->error = TRUE;
+	g_mutex_unlock (priv->yes_or_no);
+
+	image_loader_stop_common (il, 
+				  priv->done_func, 
+				  priv->done_func_data, 
+				  TRUE);
+}
+
+
+static void 
 image_loader_done (ImageLoader *il)
 {
 	ImageLoaderPrivateData *priv = il->priv;
@@ -536,17 +555,23 @@ image_loader_stop__final_step (ImageLoader *il)
 	error = priv->error;
 	priv->done = TRUE;
 	g_mutex_unlock (priv->yes_or_no);
-	
-	if (! error) 
+
+	if (! error && ! priv->interrupted && priv->loading) 
 		image_loader_sync_pixbuf (il);
+	priv->loading = FALSE;
 	
 	priv->done_func = NULL;
 	if (done_func != NULL)
 		(*done_func) (priv->done_func_data);
 	
-	if (! priv->emit_signal)
-		return;
+	if (! priv->emit_signal || priv->interrupted) {
+		priv->interrupted = FALSE;
 		
+		return;
+	}
+		
+	priv->interrupted = FALSE;
+
 	if (error)
 		g_signal_emit (G_OBJECT (il), 
 			       image_loader_signals[IMAGE_ERROR], 0);
@@ -556,7 +581,7 @@ image_loader_stop__final_step (ImageLoader *il)
 }
 
 
-static gint
+static int
 check_thread (gpointer data)
 {
 	ImageLoader            *il = data;
@@ -578,7 +603,10 @@ check_thread (gpointer data)
 
 	/**/
 
-	if (loader_done && done) 
+	if (loader_done && priv->interrupted)
+		image_loader_interrupted (il);
+
+	else if (loader_done && done) 
 		image_loader_done (il);
 	
 	else if (loader_done && error) 
@@ -650,6 +678,7 @@ image_loader_start__step2 (ImageLoader *il)
 	priv->done = FALSE;
 	priv->error = FALSE;
 	priv->loader_done = FALSE;
+	priv->loading = TRUE;
 	g_mutex_unlock (priv->yes_or_no);
 
 	uri_list = g_list_prepend (NULL, priv->uri);
@@ -672,7 +701,6 @@ image_loader_start (ImageLoader *il)
 	g_return_if_fail (il != NULL);
 	priv = il->priv;
 	g_return_if_fail (priv->uri != NULL);
-
 	image_loader_stop_common (il, (DoneFunc) image_loader_start__step2, il, FALSE);
 }
 
@@ -728,7 +756,7 @@ image_loader_stop (ImageLoader *il,
 		   gpointer     done_func_data)
 {
 	ImageLoaderPrivateData *priv;
-	gboolean                emit_sig;
+	/*gboolean                emit_sig;*/
 
 	g_return_if_fail (il != NULL);
 
@@ -738,10 +766,19 @@ image_loader_stop (ImageLoader *il,
 	priv->error = FALSE;
 	g_mutex_unlock (priv->yes_or_no);
 
-	/* emit a signal only if there is an operation to stop */
-	emit_sig = (priv->info_handle != NULL);
+	if (priv->loading) {
+		priv->emit_signal = TRUE;
+		priv->interrupted = TRUE;
+		priv->done_func = done_func;
+		priv->done_func_data = done_func_data;
+	} else
+		image_loader_stop_common (il, done_func, done_func_data, FALSE);
 
-	image_loader_stop_common (il, done_func, done_func_data, emit_sig);
+	/* FIXME: emit a signal only if there is an operation to stop */
+	/*
+	  emit_sig = (priv->info_handle != NULL);
+	  image_loader_stop_common (il, done_func, done_func_data, emit_sig);
+	*/
 }
 
 

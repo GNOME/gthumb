@@ -124,10 +124,6 @@ ok_cb (GtkWidget  *widget,
        DialogData *data)
 {
 	apply_changes (data, data->image, data->image, FALSE);
-	/*
-	image_viewer_set_pixbuf (data->viewer, data->image);
-	window_image_modified (data->window, TRUE);
-	*/
 	gtk_widget_destroy (data->dialog);
 }
 

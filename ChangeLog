@@ -1,6 +1,14 @@
+2003-09-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.6 released ]  
+
 2003-08-31  Wang Jian  <lark@linux.net.cn>
 
 	* configure.in: Added "zh_CN" to ALL_LINGUAS.
+
+2003-08-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c: use the global get_exif_time function.
 
 2003-08-24  Paolo Bacchilega  <paolo.bacch@tin.it>
 

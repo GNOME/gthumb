@@ -30,12 +30,6 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
-#ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#endif /* HAVE_LIBEXIF */
-
 #include "comments.h"
 #include "dlg-image-prop.h"
 #include "file-data.h"
