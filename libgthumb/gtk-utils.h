@@ -50,6 +50,14 @@ GtkWidget*  _gtk_yesno_dialog_new        (GtkWindow        *parent,
 					  const char       *no_button_text,
 					  const char       *yes_button_text);
 
+GtkWidget*  _gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
+						    GtkDialogFlags    flags,
+						    const char       *message,
+						    const char       *no_button_text,
+						    const char       *yes_button_text,
+						    const char       *check_button_label,
+						    const char       *gconf_key);
+
 void        _gtk_error_dialog_from_gerror_run  (GtkWindow        *parent,
 						GError          **gerror);
 

@@ -23,6 +23,10 @@
 		text-decoration: none; 
 		color: gold 
 	}
+	span.note {
+		color: white;
+		font-size: x-small;
+	}
 	span.copyright {
 		color: white;
 		font-size: small;
@@ -115,9 +119,9 @@
           <tr align="left">
 	    <td>&nbsp;</td>
             <td align="right" colspan="2">
-              <font color="#969696">
+              <span class=note>
                 <_gthumb:text>(click on the image to view it at original size)</_gthumb:text>
-              </font>
+              </span>
 	    </td>
 	    <td>&nbsp;</td>
 	  </tr>

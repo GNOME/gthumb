@@ -1172,25 +1172,31 @@ folder_delete__continue (GnomeVFSResult result,
 	FolderDeleteData *fddata = data;
 
 	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
-		GtkWidget *d;
-		char      *utf8_name;
-		char      *message;
-		int        r;
+		int r = GTK_RESPONSE_YES;
 
-		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
-		message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"), utf8_name);
+		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
+			GtkWidget *d;
+			char      *utf8_name;
+			char      *message;
 
-		d = _gtk_yesno_dialog_new (GTK_WINDOW (fddata->window->app),
-					   GTK_DIALOG_MODAL,
-					   message,
-					   GTK_STOCK_CANCEL,
-					   GTK_STOCK_DELETE);
+			utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
+			message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"), utf8_name);
 
-		g_free (message);
-		g_free (utf8_name);
+			d = _gtk_yesno_dialog_with_checkbutton_new (
+				    GTK_WINDOW (fddata->window->app),
+				    GTK_DIALOG_MODAL,
+				    message,
+				    GTK_STOCK_CANCEL,
+				    GTK_STOCK_DELETE,
+				    _("_Do not display this message again"),
+				    PREF_MSG_CANNOT_MOVE_TO_TRASH);
 
-		r = gtk_dialog_run (GTK_DIALOG (d));
-		gtk_widget_destroy (GTK_WIDGET (d));
+			g_free (message);
+			g_free (utf8_name);
+		
+			r = gtk_dialog_run (GTK_DIALOG (d));
+			gtk_widget_destroy (GTK_WIDGET (d));
+		} 
 
 		if (r == GTK_RESPONSE_YES) 
 			dlg_folder_delete (fddata->window, 

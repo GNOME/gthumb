@@ -948,7 +948,7 @@ window_update_sensitivity (GThumbWindow *window)
 	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
 	not_fullscreen = ! window->fullscreen;
-	image_is_visible = ! image_is_void && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
+	image_is_visible = ! image_is_void && ((window->sidebar_visible && window->image_pane_visible && (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) || ! window->sidebar_visible);
 
 	window_update_go_sensitivity (window);
 
@@ -6046,12 +6046,13 @@ window_hide_sidebar (GThumbWindow *window)
 
 	gtk_widget_hide (window->preview_button_image);
 	gtk_widget_hide (window->preview_button_comment);
-	window_update_sensitivity (window);
 
 	/**/
 
 	if (! window->image_pane_visible) 
 		window_show_image_pane (window);
+
+	window_update_sensitivity (window);
 }
 
 
@@ -6108,7 +6109,6 @@ window_show_sidebar (GThumbWindow *window)
 
 	gtk_widget_show (window->preview_button_image);
 	gtk_widget_show (window->preview_button_comment);
-	window_update_sensitivity (window);
 
 	/**/
 
@@ -6118,6 +6118,8 @@ window_show_sidebar (GThumbWindow *window)
 		window_hide_image_pane (window);
 
 	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
+
+	window_update_sensitivity (window);
 }
 
 
@@ -6143,6 +6145,7 @@ window_hide_image_pane (GThumbWindow *window)
 	}
 
 	window_update_statusbar_zoom_info (window);
+	window_update_sensitivity (window);
 }
 
 
@@ -6164,6 +6167,7 @@ window_show_image_pane (GThumbWindow *window)
 	gtk_widget_grab_focus (window->viewer);
 
 	window_update_statusbar_zoom_info (window);
+	window_update_sensitivity (window);
 }
 
 

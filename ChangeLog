@@ -1,6 +1,26 @@
+2003-08-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/file-utils.c (visit_rc_dir_data_new): 
+	* libgthumb/comments.c (crd_interrupt_cb, remove_comments_done) 
+	(comments_remove_old_comments_async): allow to interrupt this
+	operation.
+
 2003-08-08  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* data/albumthemes/*: update themes to conform to new the rules.
+	* data/albumthemes/Classic/image.xml.in: 
+	* data/albumthemes/ClassicClips/image.xml.in: 
+	* data/albumthemes/NeatRound/image.xml.in: 
+	* data/albumthemes/NeatSquare/image.xml.in: use a small size for
+	the note.
+
+	* src/commands-impl.c (folder_delete__continue): allow to not
+	display the message again.
+
+	* src/dlg-file-utils.c (file_delete_progress_update_cb) 
+	(files_delete__done): do not collect deleted files, notify changes
+	only if deletion is completed, otherwise update current view.
+
+	* data/albumthemes/*: update themes to conform to the new rules.
 	
 	* src/gthumb-window.c (item_toggled_handler):
 	update toggle menu items correctly.

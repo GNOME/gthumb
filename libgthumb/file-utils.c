@@ -301,6 +301,7 @@ typedef struct {
 	gpointer data;
 	GList *dirs;
 	GList *visited_dirs;
+	gboolean interrupted;
 } VisitRCDirData;
 
 
@@ -309,7 +310,7 @@ visit_rc_dir_data_new ()
 {
 	VisitRCDirData * rcd;
 
-	rcd = g_new (VisitRCDirData, 1);
+	rcd = g_new0 (VisitRCDirData, 1);
 	rcd->dirs = NULL;
 	rcd->visited_dirs = NULL;
 
@@ -375,9 +376,12 @@ rc_path_list_done_cb (PathListData *pld,
 			(* rcd->do_something) (real_file, rc_file, rcd->data);
 
 		g_free (real_file);
+
+		if (rcd->interrupted)
+			break;
 	}
 
-	if (! rcd->recursive) {
+	if (! rcd->recursive || rcd->interrupted) {
 		if (rcd->done_func)
 			(* rcd->done_func) (rcd->visited_dirs, rcd->data);
 		path_list_data_free (pld);

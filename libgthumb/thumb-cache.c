@@ -476,7 +476,6 @@ ncrop_interrupt_cb (GtkDialog *dialog,
 }
 
 
-
 static void 
 nautilus_cache_remove_old_previews_async (gboolean recursive,
 					  gboolean clear_all)

@@ -350,6 +350,7 @@ comments_remove_old_comments (const char *dir,
 typedef struct {
 	gboolean   recursive;
 	gboolean   clear_all;
+	gboolean   interrupted;
 	GtkWidget *dialog;
 } CommentsRemoveData;
 
@@ -375,10 +376,9 @@ remove_comments_done (const GList *dir_list,
 	CommentsRemoveData *crd = data;
 	const GList        *scan;
 	
-	if (! crd->clear_all) {
+	if (! crd->clear_all || crd->interrupted) {
 		gtk_widget_destroy (crd->dialog);
 		g_free (crd);
-
 		return;
 	}
 
@@ -386,6 +386,15 @@ remove_comments_done (const GList *dir_list,
 		char *dir = scan->data;
 		rmdir (dir);
 	}
+}
+
+
+static void
+crd_interrupt_cb (GtkDialog *dialog,
+		  int response_id,
+		  CommentsRemoveData *crd)
+{
+	crd->interrupted = TRUE;
 }
 
 
@@ -412,10 +421,10 @@ comments_remove_old_comments_async (const char *dir,
 					       NULL,
 					       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					       NULL);
-	g_signal_connect_swapped (G_OBJECT (crd->dialog),
-				  "response",
-				  G_CALLBACK (gtk_widget_hide),
-				  crd->dialog);
+	g_signal_connect (G_OBJECT (crd->dialog),
+			  "response",
+			  G_CALLBACK (crd_interrupt_cb),
+			  crd);
 	gtk_widget_show (crd->dialog);
 
 	visit_rc_directory_async (RC_COMMENTS_DIR,
