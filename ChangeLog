@@ -1,3 +1,7 @@
+2003-12-15  Abel Cheung  <maddog@linux.org.hk>
+
+	* configure.in: Added "hr" to ALL_LINGUAS.
+
 2003-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-photo-importer.c: put config.h before #ifdef HAVE_LIBGPHOTO
