@@ -34,7 +34,7 @@ version 2.6.2
   	  resolved.
 
 version 2.6.1
--------------	
+-------------
 	* Fixed bug #158682: Modified image auto-saved through confirmation 
 	  dialog loses EXIF data.
 	* Fixed bug #158253: Crash when parsing dir with UTF8(?) filenames

@@ -260,17 +260,33 @@ ctx_progress_update_func (GPContext    *context,
 
 
 static gboolean
-valid_mime_type (const char *type)
+valid_mime_type (const char *name,
+		 const char *type)
 {
-	const char *mime_types[] = { "image",
-				     "video",
-				     "audio" };
-	int i;
+	int         i;
+	const char *name_ext;
 
-	for (i = 0; i < G_N_ELEMENTS (mime_types); i++) {
-		const char *mime_type = mime_types[i];
-		if (strncasecmp (type, mime_type, strlen (mime_type)) == 0)
-			return TRUE;
+	if ((type != NULL) && (strcmp (type, "") != 0)) {
+		const char *mime_types[] = { "image",
+					     "video",
+					     "audio" };
+		for (i = 0; i < G_N_ELEMENTS (mime_types); i++) {
+			const char *mime_type = mime_types[i];
+			if (strncasecmp (type, mime_type, strlen (mime_type)) == 0)
+				return TRUE;
+		}
+	}	
+	
+	name_ext = get_filename_extension (name);
+	if ((name_ext != NULL) && (strcmp (name_ext, "") != 0)) {
+		const char *exts[] = { "JPG", "JPEG", "PNG", "TIF", "TIFF", "GIF",
+				       "AVI", "MPG", "MPEG", 
+				       "AU", "WAV", "OGG", "MP3", "FLAC" };
+		for (i = 0; i < G_N_ELEMENTS (exts); i++) {
+			const char *ext = exts[i];
+			if (strncasecmp (ext, name_ext, strlen (name_ext)) == 0)
+				return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -298,9 +314,14 @@ get_file_list (DialogData *data,
 			CameraFileInfo  info;
 
 			gp_list_get_name (list, i, &name);
-			gp_camera_file_get_info (data->camera, folder, name, &info, data->context);
+			if (gp_camera_file_get_info (data->camera, 
+						     folder, 
+						     name, 
+						     &info, 
+						     NULL) != GP_OK)
+				continue;
 			
-			if (valid_mime_type (info.file.type)) {
+			if (valid_mime_type (info.file.name, info.file.type)) {
 				char *filename = g_build_filename (folder, name, NULL);
 				file_list = g_list_prepend (file_list, filename);
 			}
@@ -1450,13 +1471,13 @@ ok_clicked_cb (GtkButton  *button,
 
 		camera_folder = remove_level_from_path (camera_path);
 		camera_filename = file_name_from_path (camera_path);
-		gp_camera_file_get_info (data->camera, 
-					 camera_folder, 
-					 camera_filename,
-					 &info,
-					 data->context);
+		if (gp_camera_file_get_info (data->camera, 
+					     camera_folder, 
+					     camera_filename,
+					     &info,
+					     NULL) == GP_OK)
+			total_size += (GnomeVFSFileSize) info.file.size;
 		g_free (camera_folder);
-		total_size += (GnomeVFSFileSize) info.file.size;
 	}
 
 	if (get_dest_free_space (data->local_folder) < total_size) {

@@ -159,6 +159,8 @@ gboolean            image_is_gif                 (const char *name);
 gboolean            file_extension_is            (const char *filename, 
 						  const char *ext);
 
+const char         *get_filename_extension       (const char *filename);
+
 long                checksum_simple              (const gchar *path);
 
 GList *             dir_list_filter_and_sort     (GList *dir_list, 

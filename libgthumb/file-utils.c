@@ -1138,6 +1138,19 @@ file_extension_is (const char *filename,
 }
 
 
+const char *
+get_filename_extension (const char *filename)
+{
+	char *last_dot;
+
+	last_dot = strrchr (filename, '.');
+	if (last_dot == NULL)
+		return NULL;
+
+	return last_dot + 1;
+}
+
+
 long 
 checksum_simple (const gchar *path)
 {

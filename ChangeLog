@@ -1,3 +1,16 @@
+2005-02-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (get_file_list, ok_clicked_cb): do not use 
+	context here, check return value only.
+
+	* libgthumb/file-utils.c (get_filename_extension): new function.
+
+	* src/dlg-photo-importer.c (valid_mime_type): check filename if
+	mime type fails.
+
+	Attempt to fix bug #160232: gthumb doesn't import pictures from 
+	ARGUS DC1500 camera.
+	
 2005-02-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c:
