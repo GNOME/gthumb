@@ -11,14 +11,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-13 05:02+0100\n"
-"PO-Revision-Date: 2004-01-08 17:14+0100\n"
+"POT-Creation-Date: 2004-01-26 21:18+0100\n"
+"PO-Revision-Date: 2004-01-27 04:21+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -189,7 +188,7 @@ msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:402
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:411
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d beeldpunten"
@@ -482,8 +481,8 @@ msgstr "Geselecteerde afbeeldingen uit de camera verwijderen"
 msgid "Import Photos"
 msgstr "Foto's importeren"
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:685
-#: src/dlg-photo-importer.c:720 src/dlg-photo-importer.c:1178
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:692
+#: src/dlg-photo-importer.c:727 src/dlg-photo-importer.c:1168
 msgid "No camera detected"
 msgstr "Geen camera gevonden"
 
@@ -560,43 +559,48 @@ msgstr "Huidige datum"
 msgid "Image creation date"
 msgstr "Aanmaakdatum afbeelding"
 
+# datum kan hier weggelaten worden
 #: data/glade/gthumb_comments.glade.h:9
+msgid "Last modified date"
+msgstr "Laatst gewijzigd"
+
+#: data/glade/gthumb_comments.glade.h:10
 msgid "No date"
 msgstr "Geen datum"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Datum digitaliseren foto (uit EXIF-data)"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
 msgstr "Geselecteerde categorie verwijderen"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
 msgstr "Enkel aa_ngepaste velden opslaan"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
 msgstr "De volgende datum:"
 
-#: data/glade/gthumb_comments.glade.h:14 data/glade/gthumb_search.glade.h:24
+#: data/glade/gthumb_comments.glade.h:15 data/glade/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Datum:"
 
-#: data/glade/gthumb_comments.glade.h:15
+#: data/glade/gthumb_comments.glade.h:16
 msgid "_Delete"
 msgstr "_Verwijderen"
 
-#: data/glade/gthumb_comments.glade.h:16
+#: data/glade/gthumb_comments.glade.h:17
 msgid "_New"
 msgstr "_Nieuw"
 
-#: data/glade/gthumb_comments.glade.h:17 data/glade/gthumb_search.glade.h:27
+#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Plaats:"
 
-#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:30
+#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "Geselecteerde categoriëen:"
 
@@ -1367,86 +1371,90 @@ msgid "Lo_w"
 msgstr "_Laag"
 
 #: data/glade/gthumb_preferences.glade.h:49
+msgid "Ran_dom"
+msgstr "_Willekeurig"
+
+#: data/glade/gthumb_preferences.glade.h:50
 msgid "Re_verse"
 msgstr "_Omgekeerd"
 
-#: data/glade/gthumb_preferences.glade.h:50
+#: data/glade/gthumb_preferences.glade.h:51
 msgid "Resta_rt when finished"
 msgstr "Opnieuw beginnen na einde"
 
-#: data/glade/gthumb_preferences.glade.h:51
+#: data/glade/gthumb_preferences.glade.h:52
 msgid "Set image to actual size"
 msgstr "Afbeelding op werkelijke grootte instellen"
 
-#: data/glade/gthumb_preferences.glade.h:52
+#: data/glade/gthumb_preferences.glade.h:53
 msgid "Set to C_urrent"
 msgstr "Instellen op h_uidige"
 
-#: data/glade/gthumb_preferences.glade.h:53 data/gthumb-ui.xml.h:146
+#: data/glade/gthumb_preferences.glade.h:54 data/gthumb-ui.xml.h:146
 msgid "Slide Show"
 msgstr "Diavoorstelling"
 
-#: data/glade/gthumb_preferences.glade.h:54
+#: data/glade/gthumb_preferences.glade.h:55
 msgid "Switch to _full screen"
 msgstr "_Volledig scherm"
 
-#: data/glade/gthumb_preferences.glade.h:55
+#: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
 msgstr "Systeem-instellingen"
 
-#: data/glade/gthumb_preferences.glade.h:56
+#: data/glade/gthumb_preferences.glade.h:57
 msgid "Text below icons"
 msgstr "Tekst onder iconen"
 
-#: data/glade/gthumb_preferences.glade.h:57
+#: data/glade/gthumb_preferences.glade.h:58
 msgid "Text beside icons"
 msgstr "Tekst naast iconen"
 
-#: data/glade/gthumb_preferences.glade.h:58
+#: data/glade/gthumb_preferences.glade.h:59
 msgid "Text only"
 msgstr "Alleen tekst"
 
-#: data/glade/gthumb_preferences.glade.h:59
+#: data/glade/gthumb_preferences.glade.h:60
 msgid "Th_umbnail size:"
 msgstr "_Grootte van de voorbeelden"
 
-#: data/glade/gthumb_preferences.glade.h:60
+#: data/glade/gthumb_preferences.glade.h:61
 msgid "Transparency _type:"
 msgstr "_Type transparantie:"
 
-#: data/glade/gthumb_preferences.glade.h:61
+#: data/glade/gthumb_preferences.glade.h:62
 msgid "Viewer"
 msgstr "Weergave"
 
-#: data/glade/gthumb_preferences.glade.h:62
+#: data/glade/gthumb_preferences.glade.h:63
 msgid "White"
 msgstr "Wit"
 
-#: data/glade/gthumb_preferences.glade.h:63
+#: data/glade/gthumb_preferences.glade.h:64
 msgid "_Filenames"
 msgstr "_Bestandsnaam"
 
-#: data/glade/gthumb_preferences.glade.h:64
+#: data/glade/gthumb_preferences.glade.h:65
 msgid "_List"
 msgstr "_Lijst"
 
-#: data/glade/gthumb_preferences.glade.h:65
+#: data/glade/gthumb_preferences.glade.h:66
 msgid "_Slides"
 msgstr "_Dia"
 
-#: data/glade/gthumb_preferences.glade.h:66 data/gthumb-ui.xml.h:259
+#: data/glade/gthumb_preferences.glade.h:67 data/gthumb-ui.xml.h:259
 msgid "_Thumbnails"
 msgstr "_Voorbeelden"
 
-#: data/glade/gthumb_preferences.glade.h:67
+#: data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
 msgstr "_Stijl werkbalk"
 
-#: data/glade/gthumb_preferences.glade.h:68
+#: data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
 msgstr "gThumb voorkeuren"
 
-#: data/glade/gthumb_preferences.glade.h:69
+#: data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
 msgstr "seconden"
 
@@ -1536,8 +1544,8 @@ msgstr "Papier eigenschappen"
 
 #.
 #: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2957 libgthumb/print-callbacks.c:2971
-#: libgthumb/print-callbacks.c:3425
+#: libgthumb/print-callbacks.c:2959 libgthumb/print-callbacks.c:2973
+#: libgthumb/print-callbacks.c:3430
 msgid "Print"
 msgstr "Afdrukken"
 
@@ -1609,8 +1617,8 @@ msgstr "Zoeken op één _van de geselecteerde categoriëen"
 msgid "New _Search..."
 msgstr "_Nieuwe zoekopdracht..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:656
-#: src/dlg-photo-importer.c:1223
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:663
+#: src/dlg-photo-importer.c:1213
 msgid "No images found"
 msgstr "Geen afbeeldingen gevonden"
 
@@ -1790,7 +1798,7 @@ msgid "The _following date:"
 msgstr "_Volgende datum:"
 
 #: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
-#: src/commands-impl.c:277 src/commands-impl.c:1051 src/commands-impl.c:1751
+#: src/commands-impl.c:278 src/commands-impl.c:1052 src/commands-impl.c:1752
 msgid "_Rename"
 msgstr "_Hernoemen"
 
@@ -2087,7 +2095,7 @@ msgstr "Ca_talogus"
 msgid "Ca_tegories"
 msgstr "Ca_tegoriëen"
 
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4204
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4275
 msgid "Catalogs"
 msgstr "Catalogi"
 
@@ -2207,7 +2215,7 @@ msgstr "Afbeeldingen zoeken"
 msgid "Fit"
 msgstr "Inpassen"
 
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4154
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4225
 msgid "Folders"
 msgstr "Mappen"
 
@@ -2231,7 +2239,7 @@ msgstr "Naar eigen map gaan"
 msgid "Go to the next visited location"
 msgstr "Ga naar volgende bezochte locatie"
 
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4122
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4193
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
@@ -2638,11 +2646,11 @@ msgstr "De werkbalk van dit venster tonen of verbergen"
 msgid "View previous image"
 msgstr "Vorige afbeelding weergeven"
 
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4210
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4281
 msgid "View the catalogs"
 msgstr "De catalogi weergeven"
 
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4160
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4231
 msgid "View the folders"
 msgstr "De mappen weergeven"
 
@@ -3019,8 +3027,8 @@ msgid "Possible values are: ascending, descending."
 msgstr "Mogelijke waarden zijn: ascending, descending."
 
 #: data/gthumb.schemas.in.h:5
-msgid "Possible values are: forward, backward."
-msgstr "Mogelijke waarden zijn: forward, backward"
+msgid "Possible values are: forward, backward, random."
+msgstr "Mogelijke waarden zijn: forward, backward, random."
 
 #: data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
@@ -3151,7 +3159,7 @@ msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:398
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:407
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -3160,6 +3168,7 @@ msgid "(No Comment)"
 msgstr "(Geen commentaar)"
 
 #: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
+#: src/dlg-jpegtran.c:549
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -3167,7 +3176,7 @@ msgstr ""
 "U heeft niet de juiste toegangsrechten om afbeeldingen in de map \"%s\" aan "
 "te maken"
 
-#: libgthumb/dlg-save-image.c:130 src/commands-impl.c:311
+#: libgthumb/dlg-save-image.c:130 src/commands-impl.c:312
 #: src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
@@ -3288,12 +3297,12 @@ msgstr "Afdrukken van %s"
 msgid "Print Image"
 msgstr "Afbeelding afdrukken"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2028
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2029
 #, c-format
 msgid "Page %d of %d"
 msgstr "Pagina %d van %d"
 
-#: libgthumb/print-callbacks.c:3027 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3032 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Afbeelding aan het laden: %s"
@@ -3308,12 +3317,12 @@ msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:551
-#: src/gthumb-window.c:1290 src/gthumb-window.c:1297 src/gthumb-window.c:1305
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:560
+#: src/gthumb-window.c:1299 src/gthumb-window.c:1306 src/gthumb-window.c:1314
 msgid "(Invalid Name)"
 msgstr "(Ongeldige naam)"
 
-#: src/catalog-png-exporter.c:1555
+#: src/catalog-png-exporter.c:1563
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Afbeelding aan het aanmaken: %s.%s"
@@ -3331,25 +3340,25 @@ msgid "Saving HTML pages: Indexes"
 msgstr "HTML-pagina indeces worden opgeslagen"
 
 #: src/catalog-web-exporter.c:1780 src/catalog-web-exporter.c:1839
-#: src/catalog-web-exporter.c:1963
+#: src/catalog-web-exporter.c:1974
 msgid "Saving images"
 msgstr "Afbeeldingen worden opgeslagen"
 
-#: src/catalog-web-exporter.c:2172
+#: src/catalog-web-exporter.c:2183
 msgid "Could not create a temporary folder"
 msgstr "Kon geen tijdelijke map aanmaken"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2209
+#: src/catalog-web-exporter.c:2216
 msgid "Loading images"
 msgstr "Afbeelding wordt geladen"
 
-#: src/commands-impl.c:273 src/commands-impl.c:1047 src/commands-impl.c:1747
+#: src/commands-impl.c:274 src/commands-impl.c:1048 src/commands-impl.c:1748
 msgid "Enter the new name: "
 msgstr "Graag de nieuwe naam: "
 
-#: src/commands-impl.c:291 src/commands-impl.c:953 src/commands-impl.c:1065
-#: src/commands-impl.c:1767 src/commands-impl.c:1862
+#: src/commands-impl.c:292 src/commands-impl.c:954 src/commands-impl.c:1066
+#: src/commands-impl.c:1768 src/commands-impl.c:1863
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -3358,101 +3367,101 @@ msgstr ""
 "De naam \"%s\" is ongeldig, want hij bevat het \"/\"-teken. Kies alstublieft "
 "een andere naam."
 
-#: src/commands-impl.c:318 src/dlg-convert.c:314
+#: src/commands-impl.c:319 src/dlg-convert.c:314
 msgid "_Overwrite"
 msgstr "_Overschrijven"
 
-#: src/commands-impl.c:338 src/commands-impl.c:353
+#: src/commands-impl.c:339 src/commands-impl.c:354
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Kon de afbeelding \"%s\" niet hernoemen : %s"
 
-#: src/commands-impl.c:340 src/commands-impl.c:1087 src/commands-impl.c:1406
+#: src/commands-impl.c:341 src/commands-impl.c:1088 src/commands-impl.c:1407
 msgid "source and destination are the same"
 msgstr "bron en doel zijn gelijk"
 
-#: src/commands-impl.c:454
+#: src/commands-impl.c:455
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kon de afbeelding \"%s\" niet kopiëren : %s"
 
-#: src/commands-impl.c:462
+#: src/commands-impl.c:463
 msgid "Stop"
 msgstr "Stoppen"
 
-#: src/commands-impl.c:463
+#: src/commands-impl.c:464
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: src/commands-impl.c:538
+#: src/commands-impl.c:539
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde afbeeldingen zullen naar de Prullenbak verhuizen. Weet u "
 "het zeker ?"
 
-#: src/commands-impl.c:558
+#: src/commands-impl.c:559
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "De afbeelding zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: src/commands-impl.c:793
+#: src/commands-impl.c:794
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr ""
 "De afbeelding zal uit de catalogus worden verwijderd. Weet u het zeker ?"
 
-#: src/commands-impl.c:835
+#: src/commands-impl.c:836
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 "De geselecteerde afbeeldingen zullen uit de catalogus worden verwijderd. "
 "Weet u het zeker ?"
 
-#: src/commands-impl.c:940 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/commands-impl.c:941 src/dlg-catalog.c:86 src/dlg-catalog.c:131
 #: src/dlg-categories.c:205 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "Aan_maken"
 
-#: src/commands-impl.c:969 src/commands-impl.c:1095 src/commands-impl.c:1789
-#: src/commands-impl.c:1881
+#: src/commands-impl.c:970 src/commands-impl.c:1096 src/commands-impl.c:1790
+#: src/commands-impl.c:1882
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "De naam \"%s\" wordt al gebruikt. Kies alstublieft een andere naam."
 
-#: src/commands-impl.c:997
+#: src/commands-impl.c:998
 msgid "New Folder"
 msgstr "Nieuwe map"
 
-#: src/commands-impl.c:998
+#: src/commands-impl.c:999
 msgid "Enter the folder name: "
 msgstr "Geef de mapnaam : "
 
-#: src/commands-impl.c:999 src/dlg-photo-importer.c:1230
+#: src/commands-impl.c:1000 src/dlg-photo-importer.c:1220
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet aanmaken : %s"
 
-#: src/commands-impl.c:1010
+#: src/commands-impl.c:1011
 msgid "New Library"
 msgstr "Nieuwe bibliotheek"
 
-#: src/commands-impl.c:1011 src/dlg-catalog.c:127
+#: src/commands-impl.c:1012 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Geef de naam van de bibliotheek: "
 
-#: src/commands-impl.c:1012
+#: src/commands-impl.c:1013
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet aanmaken : %s"
 
-#: src/commands-impl.c:1085 src/commands-impl.c:1131
+#: src/commands-impl.c:1086 src/commands-impl.c:1132
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet hernoemen : %s"
 
-#: src/commands-impl.c:1201
+#: src/commands-impl.c:1202
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verwijderen : %s"
 
-#: src/commands-impl.c:1232
+#: src/commands-impl.c:1233
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
@@ -3460,94 +3469,94 @@ msgstr ""
 "Kan \"%s\" niet naar de Prullenbak verplaatsen. Wil u het definitief "
 "verwijderen?"
 
-#: src/commands-impl.c:1240 src/dlg-file-utils.c:227 src/gthumb-window.c:5640
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:5720
 msgid "_Do not display this message again"
 msgstr "_Deze boodschap niet meer weergeven"
 
-#: src/commands-impl.c:1273
+#: src/commands-impl.c:1274
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde map zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: src/commands-impl.c:1275 src/dlg-file-utils.c:281
+#: src/commands-impl.c:1276 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: src/commands-impl.c:1341 src/commands-impl.c:1396
+#: src/commands-impl.c:1342 src/commands-impl.c:1397
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet kopieren : %s"
 
-#: src/commands-impl.c:1396 src/dlg-file-utils.c:2445
-#: src/dlg-file-utils.c:2447
+#: src/commands-impl.c:1397 src/dlg-file-utils.c:2454
+#: src/dlg-file-utils.c:2456
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verplaatsen : %s"
 
-#: src/commands-impl.c:1417
+#: src/commands-impl.c:1418
 msgid "source contains destination"
 msgstr "bron bevat doel"
 
-#: src/commands-impl.c:1428
+#: src/commands-impl.c:1429
 msgid "a folder with that name is already present."
 msgstr "er is al een map met die naam."
 
-#: src/commands-impl.c:1524 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/commands-impl.c:1525 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Selecteer doelmap"
 
-#: src/commands-impl.c:1800
+#: src/commands-impl.c:1801
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet hernoemen : %s"
 
-#: src/commands-impl.c:1800
+#: src/commands-impl.c:1801
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet hernoemen : %s"
 
-#: src/commands-impl.c:1846 src/dlg-catalog.c:82
+#: src/commands-impl.c:1847 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr "Catalogusnaam ingeven: "
 
-#: src/commands-impl.c:1847
+#: src/commands-impl.c:1848
 msgid "New Catalog"
 msgstr "Nieuwe catalogus"
 
-#: src/commands-impl.c:1892
+#: src/commands-impl.c:1893
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet aanmaken : %s"
 
-#: src/commands-impl.c:1956
+#: src/commands-impl.c:1957
 msgid "The selected library will be removed, are you sure?"
 msgstr "De geselecteerde bibliotheek zal worden verwijderd. Weet u het zeker ?"
 
-#: src/commands-impl.c:1958
+#: src/commands-impl.c:1959
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Zo verwijdert u de geselecteerde catalogus. Weet u het zeker ?"
 
-#: src/commands-impl.c:2900 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:759
-#: src/dlg-maintenance.c:273 src/dlg-preferences.c:176
+#: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
+#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:785
+#: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Kon geen hulp weergeven: %s"
 
-#: src/commands-impl.c:2951
+#: src/commands-impl.c:2952
 msgid "translator_credits"
 msgstr ""
 " Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 " Mark Van den Borre <mark@markvdb.be>\n"
 " Jeroen van der Vegt <A.J.vanderVegt@ITS.TUDelft.nl>"
 
-#: src/commands-impl.c:2960 src/gthumb-window.c:569 src/gthumb-window.c:4837
+#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4910
 #: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/commands-impl.c:2963
+#: src/commands-impl.c:2964
 msgid "An image viewer and browser for GNOME."
 msgstr "Afbeeldingenbeheer voor GNOME."
 
@@ -3666,11 +3675,11 @@ msgstr "Kon afbeelding niet verplaatsen:"
 msgid "Could not copy the image:"
 msgstr "Kon afbeelding niet kopieren:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2468
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2477
 msgid "_Abort"
 msgstr "_Afbreken"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2469
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2478
 msgid "_Continue"
 msgstr "_Doorgaan"
 
@@ -3707,7 +3716,7 @@ msgid "Type"
 msgstr "Type"
 
 #: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
-#: src/gthumb-window.c:414
+#: src/gthumb-window.c:423
 msgid "Modified"
 msgstr "Laatst gewijzigd"
 
@@ -3732,12 +3741,12 @@ msgstr "U gaat alle voorbeelden verwijderen. Weet u het zeker?"
 msgid "Specify the backup file"
 msgstr "Geef het reservekopie-bestand aan"
 
-#: src/dlg-photo-importer.c:717 src/dlg-photo-importer.c:1177
-#: src/dlg-photo-importer.c:1222 src/dlg-photo-importer.c:1233
+#: src/dlg-photo-importer.c:724 src/dlg-photo-importer.c:1167
+#: src/dlg-photo-importer.c:1212 src/dlg-photo-importer.c:1223
 msgid "Could not import photos"
 msgstr "Kon de foto's niet importeren"
 
-#: src/dlg-photo-importer.c:1056 src/main.c:1002
+#: src/dlg-photo-importer.c:1063 src/main.c:1002
 msgid "Film"
 msgstr "_Rolletje"
 
@@ -3773,7 +3782,7 @@ msgstr "Bestandsnaam"
 msgid "Folder"
 msgstr "Map"
 
-#: src/dlg-web-exporter.c:1184
+#: src/dlg-web-exporter.c:1185
 msgid "Select Album Theme"
 msgstr "Selecteer een album-thema"
 
@@ -3781,7 +3790,7 @@ msgstr "Selecteer een album-thema"
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
-#: src/fullscreen.c:822 src/gthumb-window.c:4103
+#: src/fullscreen.c:822 src/gthumb-window.c:4174
 msgid "Back"
 msgstr "Terug"
 
@@ -3801,76 +3810,76 @@ msgstr "_Bladeren..."
 msgid "_Recents:"
 msgstr "_Recente:"
 
-#: src/gthumb-window.c:448
+#: src/gthumb-window.c:457
 msgid "[Press 'c' to add a comment]"
 msgstr "[Tik 'c' om commentaar toe te voegen]"
 
-#: src/gthumb-window.c:522 src/gthumb-window.c:544
+#: src/gthumb-window.c:531 src/gthumb-window.c:553
 msgid "[modified]"
 msgstr "[gewijzigd]"
 
-#: src/gthumb-window.c:628
+#: src/gthumb-window.c:637
 msgid "No image"
 msgstr "Geen afbeelding"
 
-#: src/gthumb-window.c:630
+#: src/gthumb-window.c:639
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 afbeelding (%s)"
 
-#: src/gthumb-window.c:633
+#: src/gthumb-window.c:642
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d afbeeldingen (%s)"
 
-#: src/gthumb-window.c:640
+#: src/gthumb-window.c:649
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 geselecteerd (%s)"
 
-#: src/gthumb-window.c:643
+#: src/gthumb-window.c:652
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: src/gthumb-window.c:3177
+#: src/gthumb-window.c:3191
 msgid "Dragged Images"
 msgstr "Gesleepte afbeeldingen"
 
-#: src/gthumb-window.c:3376
+#: src/gthumb-window.c:3405
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
-#: src/gthumb-window.c:5169
+#: src/gthumb-window.c:5246
 msgid "Image comment"
 msgstr "Afbeeldingcommentaar"
 
-#: src/gthumb-window.c:5183
+#: src/gthumb-window.c:5260
 msgid "Image data"
 msgstr "Afbeeldingsgegevens"
 
-#: src/gthumb-window.c:5197
+#: src/gthumb-window.c:5274
 msgid "Image preview"
 msgstr "Afbeeld_ingsvoorbeeld"
 
-#: src/gthumb-window.c:5637
+#: src/gthumb-window.c:5717
 msgid "The current image has been modified, do you want to save it?"
 msgstr "De huidige afbeelding is veranderd, wilt u hem opslaan?"
 
-#: src/gthumb-window.c:5638
+#: src/gthumb-window.c:5718
 msgid "Do Not Save"
 msgstr "Niet opslaan"
 
-#: src/gthumb-window.c:6458
+#: src/gthumb-window.c:6548
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6727
+#: src/gthumb-window.c:6817
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8238
+#: src/gthumb-window.c:8430
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -3883,9 +3892,8 @@ msgid "Automatically start a slideshow"
 msgstr "Automatisch een diavoorstelling starten"
 
 #: src/main.c:93
-#, fuzzy
 msgid "Automatically import digital camera photos"
-msgstr "Automatisch het contrast normaliseren"
+msgstr "Automatisch het fotos van de digitale camera importeren"
 
 #: src/main.c:173
 msgid "Holidays"
