@@ -569,8 +569,6 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	guchar       *buf = NULL;
 	guchar       *ptr;
 	guchar       *pixels = NULL;
-	JSAMPROW     *jbuf;
-	int           y = 0;
 	int           quality     = 75; /* default; must be between 0 and 100 */
 	int           smoothing   = 0;
 	gboolean      optimize    = FALSE;
@@ -697,7 +695,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	g_return_val_if_fail (pixels != NULL, FALSE);
 	
 	/* allocate a small buffer to convert image data */
-	buf = g_try_malloc (w * 3 * sizeof (guchar));
+	buf = g_try_malloc (w * bpp * sizeof (guchar));
 	if (! buf) {
 		g_set_error (error,
 			     GDK_PIXBUF_ERROR,
@@ -707,11 +705,11 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	}
 
 	/* set up error handling */
+	cinfo.err = jpeg_std_error (&(jerr.pub));
 	jerr.pub.error_exit = fatal_error_handler;
 	jerr.pub.output_message = output_message_handler;
 	jerr.error = error;
-	
-	cinfo.err = jpeg_std_error (&(jerr.pub));
+
 	if (sigsetjmp (jerr.setjmp_buffer, 1)) {
 		jpeg_destroy_compress (&cinfo);
 		g_free (buf);
@@ -743,6 +741,8 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	/* go one scanline at a time... and save */
 	i = 0;
 	while (cinfo.next_scanline < cinfo.image_height) {
+		JSAMPROW *jbuf;
+
 		/* convert scanline from ARGB to RGB packed */
 		for (j = 0; j < w; j++)
 			memcpy (&(buf[j * 3]), 
@@ -753,16 +753,14 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 		jbuf = (JSAMPROW *)(&buf);
 		jpeg_write_scanlines (&cinfo, jbuf, 1);
 		i++;
-		y++;
-		
 	}
 	
 	/* finish off */
 	jpeg_finish_compress (&cinfo);
+	fclose (file);
+
 	jpeg_destroy_compress(&cinfo);
 	g_free (buf);
-	
-	fclose (file);
 	
 	return TRUE;
 }
@@ -788,7 +786,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	int            cols, col, rows, row;
 	glong          rowsperstrip;
 	gushort        compression;
-	gushort        extra_samples[1];
+	/*gushort        extra_samples[1]; FIXME*/
 	int            alpha;
 	gshort         predictor;
 	gshort         photometric;
@@ -937,14 +935,16 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 		TIFFSetField (tif, TIFFTAG_PREDICTOR, predictor);
 	}
 
+	/* FIXME: alpha in a TIFF ?
 	if (alpha) {
 		extra_samples [0] = EXTRASAMPLE_ASSOCALPHA;
 		TIFFSetField (tif, TIFFTAG_EXTRASAMPLES, 1, extra_samples);
 	}
+	*/
 
 	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC,     photometric);
 	TIFFSetField (tif, TIFFTAG_DOCUMENTNAME,    filename);
-	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, samplesperpixel);
+	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, 3 /*samplesperpixel*/);
 	TIFFSetField (tif, TIFFTAG_ROWSPERSTRIP,    rowsperstrip);
 	TIFFSetField (tif, TIFFTAG_PLANARCONFIG,    PLANARCONFIG_CONTIG);
 
@@ -955,7 +955,7 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	}
 
 	/* allocate a small buffer to convert image data */
-	buf = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
+	buf = g_try_malloc (cols * 3 /*samplesperpixel*/ * sizeof (guchar));
 	if (! buf) {
 		g_set_error (error,
                              GDK_PIXBUF_ERROR,
@@ -969,19 +969,9 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 	/* Now write the TIFF data. */
 	for (row = 0; row < rows; row++) {
-		if (alpha) 
-			for (col = 0; col < cols; col++) {
-				int    c = col * 4;
-				double a = ((double) ptr[c + 3]) / 255.0;
-				buf[c + 0] = (guint) (a * ptr[c + 0]);
-				buf[c + 1] = (guint) (a * ptr[c + 1]);
-				buf[c + 2] = (guint) (a * ptr[c + 2]);
-				buf[c + 3] = ptr[c + 3];
-			}
-		else
-			/* convert scanline from ARGB to RGB packed */
-			for (col = 0; col < cols; col++)
-				memcpy (&(buf[col * 3]), &(ptr[col * 3]), 3);
+		/* convert scanline from ARGB to RGB packed */
+		for (col = 0; col < cols; col++)
+			memcpy (&(buf[col * 3]), &(ptr[col * samplesperpixel /*3*/]), 3);
 		
 		success = TIFFWriteScanline (tif, buf, row, 0) >= 0;
 		
