@@ -1,3 +1,11 @@
+2004-09-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/image-loader.c (image_loader_set_pixbuf): get the private 
+	pointer before using it.
+
+	* libgthumb/image-viewer.c (image_viewer_expose): fix image display and
+	scrolling when the frame border is 0.
+
 2004-09-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/preferences.c (pref_util_restore_window_geometry): 

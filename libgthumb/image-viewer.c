@@ -477,8 +477,8 @@ paint (ImageViewer *viewer,
 				      dest_x, dest_y);
 
 #if 0
-	gdk_draw_rectangle (viewer->drawing_area->window,
-			    viewer->drawing_area->style->black_gc,
+	gdk_draw_rectangle (GTK_WIDGET (viewer)->window,
+			    GTK_WIDGET (viewer)->style->black_gc,
 			    FALSE,
 			    dest_x, dest_y,
 			    width, height);
@@ -572,51 +572,55 @@ image_viewer_expose (GtkWidget      *widget,
 			rx = 0;
 			ry = 0;
 			rw = alloc_width;
-			rh = image_area.y - 1;
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    rx, ry,
-					    rw, rh);
+			rh = image_area.y;
+			if ((rw > 0) && (rh > 0))
+				gdk_draw_rectangle (widget->window,
+						    gc,
+						    TRUE,
+						    rx, ry,
+						    rw, rh);
 			
 			/* Bottom rectangle. */
 			rx = 0;
-			ry = image_area.y + image_area.height + 1;
+			ry = image_area.y + image_area.height;
 			rw = alloc_width;
-			rh = alloc_height - image_area.y - image_area.height - 1;
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    rx, ry,
-					    rw, rh);
+			rh = alloc_height - image_area.y - image_area.height;
+			if ((rw > 0) && (rh > 0))
+				gdk_draw_rectangle (widget->window,
+						    gc,
+						    TRUE,
+						    rx, ry,
+						    rw, rh);
 			
 			/* Left rectangle. */
 			rx = 0;
 			ry = image_area.y - 1;
-			rw = image_area.x - 1;
+			rw = image_area.x;
 			rh = image_area.height + 2;
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    rx, ry,
-					    rw, rh);
+			if ((rw > 0) && (rh > 0))
+				gdk_draw_rectangle (widget->window,
+						    gc,
+						    TRUE,
+						    rx, ry,
+						    rw, rh);
 			
 			/* Right rectangle. */
-			rx = image_area.x + image_area.width + 1;
+			rx = image_area.x + image_area.width;
 			ry = image_area.y - 1;
-			rw = alloc_width - image_area.x - image_area.width - 1;
+			rw = alloc_width - image_area.x - image_area.width;
 			rh = image_area.height + 2;
-			gdk_draw_rectangle (widget->window,
-					    gc,
-					    TRUE,
-					    rx, ry,
-					    rw, rh);
+			if ((rw > 0) && (rh > 0))
+				gdk_draw_rectangle (widget->window,
+						    gc,
+						    TRUE,
+						    rx, ry,
+						    rw, rh);
 		}
 	}
 
 	/* Draw the frame. */
 
-	if (image_viewer_get_current_pixbuf (viewer) != NULL) {
+	if ((viewer->frame_border > 0) && (image_viewer_get_current_pixbuf (viewer) != NULL)) {
 		int    x1, y1, x2, y2;
 		GdkGC *gc;
 
@@ -732,6 +736,9 @@ expose_area (ImageViewer *viewer,
 	     int          height)
 {
 	GdkEventExpose event;
+
+	if (width == 0 || height == 0)
+		return;
 
 	event.area.x = x;
 	event.area.y = y;
@@ -2466,7 +2473,7 @@ image_viewer_show_frame (ImageViewer *viewer)
 	viewer->frame_visible = TRUE;
 	viewer->frame_border = FRAME_BORDER;
 	viewer->frame_border2 = FRAME_BORDER2;
-	gtk_widget_queue_draw (GTK_WIDGET (viewer));
+	gtk_widget_queue_resize (GTK_WIDGET (viewer));
 }
 
 
@@ -2477,7 +2484,7 @@ image_viewer_hide_frame (ImageViewer *viewer)
 	viewer->frame_visible = FALSE;
 	viewer->frame_border = 0;
 	viewer->frame_border2 = 0;
-	gtk_widget_queue_draw (GTK_WIDGET (viewer));
+	gtk_widget_queue_resize (GTK_WIDGET (viewer));
 }
 
 
