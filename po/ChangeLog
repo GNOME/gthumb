@@ -1,3 +1,8 @@
+2002-11-20  Christian Neumair  <chris@gnome-de.org>
+
+	* de.po: Updated German translation.
+	* POTFILES.skip: Added.
+
 2002-11-20  Christian Rose  <menthos@menthos.com>
 
 	* POTFILES.in: Added missing file.
