@@ -1,3 +1,10 @@
+2004-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (fullscreen_start): 
+
+	Fixed bug #148303: Fullscreen window always appears on first
+	screen in xinerama.  Patch by Bastien Nocera.
+
 2004-07-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-search.c (search_clicked_cb): 

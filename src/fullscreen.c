@@ -999,9 +999,6 @@ fullscreen_new (void)
 	if (! fullscreen->wm_state_fullscreen_support) {
 		gtk_widget_destroy (fullscreen->window);
 		fullscreen->window = gtk_window_new (GTK_WINDOW_POPUP);
-		gtk_window_set_default_size (GTK_WINDOW (fullscreen->window), 
-					     gdk_screen_width (), 
-					     gdk_screen_height ());
 	}
 
 	gtk_window_set_wmclass (GTK_WINDOW (fullscreen->window), "",
@@ -1047,6 +1044,9 @@ void
 fullscreen_start (FullScreen   *fullscreen,
 		  GThumbWindow *window)
 {
+	int          monitor;
+	GdkRectangle rect;
+
 	g_return_if_fail (fullscreen != NULL);
 
 	if (fullscreen->related_win != NULL)
@@ -1054,6 +1054,11 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	current_fullscreen = fullscreen;
 
+	monitor = gdk_screen_get_monitor_at_window (gdk_screen_get_default (), GTK_WIDGET (window->app)->window);
+	gdk_screen_get_monitor_geometry (gdk_screen_get_default (), monitor, &rect);
+	gtk_window_set_default_size (GTK_WINDOW (fullscreen->window), rect.width, rect.height);
+	gtk_window_move (GTK_WINDOW (fullscreen->window), rect.x, rect.y);
+	
 	gtk_window_set_screen (GTK_WINDOW (fullscreen->window), gtk_widget_get_screen (window->app));
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
