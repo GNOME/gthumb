@@ -1353,7 +1353,6 @@ image_new_from_pixbuf (ImageList *gil,
 		NULL));
 
 	gthumb_text_item_set_markup_str (image->comment, "<i>%s</i>");
-	/*gthumb_text_item_set_markup_str (image->comment, "<span style=\"italic\" size=\"smaller\" stretch=\"condensed\">%s</span>");*/
 
 	c = truncate_comment_if_needed (gil, comment);
 	gthumb_text_item_configure (image->comment,
@@ -1372,8 +1371,6 @@ image_new_from_pixbuf (ImageList *gil,
 	       group,
 	       GTHUMB_TYPE_TEXT_ITEM,
 	       NULL));
-
-	/*gthumb_text_item_set_markup_str (image->text, "<u>%s</u>");*/
 
 	gthumb_text_item_configure (image->text,
 				    0, 

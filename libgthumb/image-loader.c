@@ -724,7 +724,7 @@ image_loader_stop (ImageLoader *il,
 	g_mutex_unlock (priv->yes_or_no);
 
 	/* emit a signal only if there is an operation to stop */
-	emit_sig = priv->info_handle != NULL;
+	emit_sig = (priv->info_handle != NULL);
 
 	image_loader_stop_common (il, done_func, done_func_data, emit_sig);
 }

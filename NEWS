@@ -1,3 +1,8 @@
+version 1.???
+-------------
+	* Update only visible thumbnails.
+	* Bugfixes.
+
 version 1.107
 -------------
 	* Make image operations asynchronous and cancellable.

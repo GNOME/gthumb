@@ -180,8 +180,9 @@ load_thumb_error_cb (ThumbLoader *tl,
 	file_list->thumb_fd->error = TRUE;
 	file_list->thumb_fd->thumb = FALSE;
 
-	percent = ((float) (file_list->thumbs_num) 
+	percent = ((float) (file_list->thumbs_num - 1) 
 		   / IMAGE_LIST (file_list->ilist)->images);
+
 	if (file_list->progress_func) 
 		file_list->progress_func (percent, file_list->progress_data);
 
@@ -200,8 +201,9 @@ load_thumb_done_cb (ThumbLoader *tl,
 	file_list->thumb_fd->error = FALSE;
 	file_list->thumb_fd->thumb = TRUE;
 
-	percent = ((float) (file_list->thumbs_num) 
+	percent = ((float) (file_list->thumbs_num - 1) 
 		   / IMAGE_LIST (file_list->ilist)->images);
+
 	if (file_list->progress_func) 
 		file_list->progress_func (percent, file_list->progress_data);
 
@@ -696,6 +698,8 @@ add_list_in_chunks (gpointer callback_data)
 	}
 
 	if (file_list->interrupt_set_list) {
+		file_list->enable_thumbs = gfi_data->enable_thumbs;
+
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)

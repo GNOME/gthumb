@@ -350,7 +350,7 @@ get_utf8_text (CommentData *data,
 	if (value == NULL)
 		return NULL;
 
-	if (data->utf8_format)
+	if (data->utf8_format) 
 		return g_strdup (value);
 	else
 		return g_locale_to_utf8 (value, -1, NULL, NULL, NULL);
