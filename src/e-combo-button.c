@@ -645,7 +645,7 @@ e_combo_button_set_style  (EComboButton    *combo_button,
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 		else if (strcmp (system_style, "both") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
-		else if (strcmp (system_style, "both_horiz") == 0)
+		else if (strcmp (system_style, "both-horiz") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BESIDE;
 		else if (strcmp (system_style, "icons") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_ICONS;

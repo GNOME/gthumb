@@ -2649,7 +2649,7 @@ set_as_wallpaper (GThumbWindow   *window,
 		  WallpaperAlign  align)
 {
 	GConfClient *client;
-	char        *options;
+	char        *options = "none";
 
 	client = gconf_client_get_default ();
 
@@ -2734,7 +2734,7 @@ wallpaper_restore_command_impl (BonoboUIComponent *uic,
 				const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	gint align_type;
+	int           align_type = WALLPAPER_ALIGN_CENTERED;
 
 	if (strcmp (preferences.wallpaperAlign, "wallpaper") == 0)
 		align_type = WALLPAPER_ALIGN_TILED;

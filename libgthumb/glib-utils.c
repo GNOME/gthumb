@@ -194,7 +194,7 @@ _g_substitute (const char *from,
 
 char *
 _g_substitute_pattern (const char *utf8_text, 
-		       char        pattern, 
+		       gunichar    pattern, 
 		       const char *value)
 {
 	const char *s;
@@ -257,8 +257,8 @@ _g_utf8_strndup (const char *str,
 
 
 char **
-_g_utf8_strsplit (const char *str,
-		  const char  delimiter)
+_g_utf8_strsplit (const char     *str,
+		  const gunichar  delimiter)
 {
 	GSList      *slist = NULL, *scan;
 	char       **str_array;

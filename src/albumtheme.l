@@ -164,6 +164,11 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					yylval.ivalue = GTH_TAG_SET_VAR;
 					return SET_VAR;
 				}
+"<gthumb:eval"			{
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EVAL;
+					return EVAL;
+				}
 "<gthumb:if"			{ 
 					BEGIN (TAG);
 					return IF;
@@ -208,6 +213,12 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 				}
 <TAG,STAG>"-"			{
 					return '-';
+				}
+<TAG,STAG>"*"			{
+					return '*';
+				}
+<TAG,STAG>"/"			{
+					return '/';
 				}
 <TAG,STAG>"!"			{
 					return '!';

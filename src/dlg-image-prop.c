@@ -520,7 +520,7 @@ i_notebook_switch_page_cb (GtkWidget       *widget,
 	if (data->closing)
 		return TRUE;
 
-	if ((page_num >= 0) && (page_num < IPROP_NUM_PAGES))
+	if (page_num < IPROP_NUM_PAGES)
 		update_notebook_page (data, page_num);
 
 	return FALSE;

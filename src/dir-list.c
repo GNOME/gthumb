@@ -270,7 +270,7 @@ static void
 dir_list_refresh_continue (PathListData *pld, 
 			   gpointer      data)
 {
-	DirList   *dir_list;
+	DirList   *dir_list = data;
 	GList     *new_dir_list = NULL;
 	GList     *new_file_list = NULL;
 	GList     *filtered;

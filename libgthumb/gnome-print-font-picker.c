@@ -545,7 +545,7 @@ void       gnome_print_font_picker_set_mode        (GnomePrintFontPicker *gfp,
 {
     g_return_if_fail (gfp != NULL);
     g_return_if_fail (GNOME_PRINT_IS_FONT_PICKER (gfp));
-    g_return_if_fail (mode >= 0 && mode < GNOME_PRINT_FONT_PICKER_MODE_UNKNOWN);
+    g_return_if_fail (mode < GNOME_PRINT_FONT_PICKER_MODE_UNKNOWN);
 
     if (gfp->_priv->mode != mode) {
 

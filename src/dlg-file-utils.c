@@ -2058,7 +2058,7 @@ static int
 folder_progress_sync_cb (GnomeVFSXferProgressInfo *info,
 			 gpointer                  data)
 {
-	int ret_val;
+	int ret_val = TRUE;
 
 	if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		ret_val = TRUE;

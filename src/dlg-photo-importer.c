@@ -392,10 +392,10 @@ static void
 update_info (DialogData *data)
 {
 	gboolean    update_ui;
-	gfloat      fraction;
+	gfloat      fraction = -0.1;
 	char       *progress_info = NULL;
 	char       *msg_text = NULL;
-	const char *msg_icon;
+	const char *msg_icon = GTK_STOCK_DIALOG_ERROR;
 
 	g_mutex_lock (data->yes_or_no);
 	update_ui = data->update_ui;

@@ -39,6 +39,7 @@
 
 typedef struct _CatalogWebExporter       CatalogWebExporter;
 typedef struct _CatalogWebExporterClass  CatalogWebExporterClass;
+typedef struct _ImageData                ImageData;
 
 struct _CatalogWebExporter {
 	GObject __parent;
@@ -98,6 +99,7 @@ struct _CatalogWebExporter {
 
 	GList        *current_image;
 	guint         saving_timeout;
+	ImageData    *eval_image;
 
 	gboolean      exporting;
 	gboolean      interrupted;

@@ -711,10 +711,10 @@ gboolean
 file_copy (const char *from, 
 	   const char *to)
 {
-	FILE *fin, *fout;
-	char  buf[BUF_SIZE];
-	char *dest_dir;
-	int   n;
+	FILE   *fin, *fout;
+	char    buf[BUF_SIZE];
+	char   *dest_dir;
+	size_t  n;
 
 	if (strcmp (from, to) == 0) {
 		g_warning ("cannot copy file %s: source and destination are the same\n", from);
@@ -752,7 +752,7 @@ file_copy (const char *from,
 		}
 	}
 	
-	if ((n < 0) && (errno == EINTR))
+	if (errno == EINTR)
 		goto retry_read;
 
 	g_free (dest_dir);

@@ -495,7 +495,7 @@ _gdk_pixbuf_draw_rectangle (GdkPixbuf *pixbuf,
 {
 	guchar   *pixels;
 	guchar   *p;
-	guint     width, height;
+	int       width, height;
 	int       n_channels, rowstride;
 	int       w, h;
 	

@@ -564,20 +564,20 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 			  char         **values,
 			  GError       **error)
 {
-	FILE         *file;
 	struct jpeg_compress_struct cinfo;
 	struct error_handler_data jerr;
-	guchar       *buf = NULL;
-	guchar       *ptr;
-	guchar       *pixels = NULL;
-	int           quality     = 75; /* default; must be between 0 and 100 */
-	int           smoothing   = 0;
-	gboolean      optimize    = FALSE;
-	gboolean      progressive = FALSE;
-	int           i, j;
-	int           w, h = 0;
-	int           rowstride = 0;
-	int           bpp;
+	FILE              *file;
+	guchar            *buf = NULL;
+	guchar            *ptr;
+	guchar            *pixels = NULL;
+	volatile int       quality = 75; /* default; must be between 0 and 100 */
+	volatile int       smoothing = 0;
+	volatile gboolean  optimize = FALSE;
+	volatile gboolean  progressive = FALSE;
+	int                i, j;
+	int                w, h = 0;
+	int                rowstride = 0;
+	volatile int       bpp;
 
 	if (keys && *keys) {
 		char **kiter = keys;
@@ -1018,7 +1018,7 @@ rle_write (FILE   *fp,
 	int     repeat = 0;
 	int     direct = 0;
 	guchar *from   = buffer;
-	int     x;
+	guint   x;
 	
 	for (x = 1; x < width; ++x) {
 		if (memcmp (buffer, buffer + bytes, bytes)) {

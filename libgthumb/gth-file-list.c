@@ -1099,7 +1099,7 @@ gth_file_list_select_image_by_pos (GthFileList *file_list,
 
 	visibility = gth_file_view_image_is_visible (file_list->view, pos);
 	if (visibility != GTH_VISIBILITY_FULL) {
-		double offset;
+		double offset = 0.5;
 		switch (visibility) {
 		case GTH_VISIBILITY_NONE:
 			offset = 0.5; 

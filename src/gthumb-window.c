@@ -1655,7 +1655,7 @@ make_image_visible (GThumbWindow *window,
 
 	visibility = gth_file_view_image_is_visible (window->file_list->view, pos);
 	if (visibility != GTH_VISIBILITY_FULL) {
-		double offset;
+		double offset = 0.5;
 		
 		switch (visibility) {
 		case GTH_VISIBILITY_NONE:
@@ -2846,6 +2846,16 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_1:
 	case GDK_z:
 		image_viewer_set_zoom (viewer, 1.0);
+		return TRUE;
+
+		/* Set zoom to 2.0. */
+	case GDK_2:
+		image_viewer_set_zoom (viewer, 2.0);
+		return TRUE;
+
+		/* Set zoom to 3.0. */
+	case GDK_3:
+		image_viewer_set_zoom (viewer, 3.0);
 		return TRUE;
 
 		/* Zoom to fit */
@@ -4146,7 +4156,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	}
 
 	if ((strncmp (path, "TranspType", 10) == 0) && s) {
-		GthTranspType transp_type;
+		GthTranspType transp_type = GTH_TRANSP_TYPE_NONE;
 
 		if (strcmp (path, "TranspTypeWhite") == 0)
 			transp_type = GTH_TRANSP_TYPE_WHITE;
@@ -4434,7 +4444,7 @@ add_listener_for_toggle_items (GThumbWindow *window)
 static void
 window_sync_menu_with_preferences (GThumbWindow *window)
 {
-	char *prop;
+	char *prop = "TranspTypeNone";
 
 	set_command_state (window, "View_PlayAnimation", TRUE);
 
@@ -4855,7 +4865,7 @@ void
 window_set_preview_content (GThumbWindow      *window,
 			    GthPreviewContent  content)
 {
-	GtkWidget *widget_to_focus;
+	GtkWidget *widget_to_focus = window->viewer;
 
 	window->preview_content = content;
 
@@ -5580,7 +5590,7 @@ window_new (void)
 			  window);
 
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		window->cnxn_id[i] = -1;
+		window->cnxn_id[i] = 0;
 
 	window->pixop = NULL;
 
@@ -5805,7 +5815,7 @@ _window_remove_notifications (GThumbWindow *window)
 	int i;
 
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (window->cnxn_id[i] != -1)
+		if (window->cnxn_id[i] != 0)
 			eel_gconf_notification_remove (window->cnxn_id[i]);
 }
 
@@ -8387,7 +8397,7 @@ void
 window_notify_update_toolbar_style (GThumbWindow *window)
 {
 	GthToolbarStyle  toolbar_style;
-	char            *prop;
+	char            *prop = "system";
 
 	toolbar_style = pref_get_toolbar_style ();
 

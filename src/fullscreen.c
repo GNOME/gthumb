@@ -501,6 +501,16 @@ image_key_press_cb (GtkWidget   *widget,
 		image_viewer_set_zoom (viewer, 1.0);
 		break;
 
+		/* Set zoom to 2.0. */
+	case GDK_2:
+		image_viewer_set_zoom (viewer, 2.0);
+		break;
+
+		/* Set zoom to 3.0. */
+	case GDK_3:
+		image_viewer_set_zoom (viewer, 3.0);
+		break;
+
 		/* Zoom to fit. */
 	case GDK_x:
 		image_viewer_zoom_to_fit (viewer);

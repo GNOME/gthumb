@@ -267,12 +267,12 @@ png_simple_warning_callback(png_structp     png_save_ptr,
 static char *
 get_real_name_from_nautilus_cache (const char *cache_path)
 {
-	FILE        *f;
-	char        *result = NULL;
-	png_structp  png_ptr = NULL;
-	png_infop    info_ptr = NULL;
-	png_textp    text_ptr = NULL;
-	int          num_texts;
+	FILE          *f;
+	char          *result;
+	png_structp    png_ptr = NULL;
+	png_infop      info_ptr = NULL;
+	png_textp      text_ptr = NULL;
+	int            num_texts;
 	
 	f = fopen (cache_path, "r");
 	
@@ -302,6 +302,7 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 		return NULL;
 	}
 	
+	result = NULL;
 	png_init_io (png_ptr, f);
 	png_read_info (png_ptr, info_ptr);
 	
@@ -396,7 +397,8 @@ process_files_cb (gpointer data)
 	ncrd->handle = NULL;
 
 	for (; scan && i < PROCESS_MAX_FILES; scan = scan->next, i++) {
-		char  *rc_file, *real_file;
+		char *rc_file;
+		char *real_file;
 
 		rc_file = (char*) scan->data;
 		real_file = get_real_name_from_nautilus_cache (rc_file);

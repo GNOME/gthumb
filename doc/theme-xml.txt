@@ -1,6 +1,8 @@
 EXPR: 
   EXPR + EXPR
   EXPR - EXPR
+  EXPR * EXPR
+  EXPR / EXPR
   EXPR && EXPR
   EXPR || EXPR
   - EXPR
@@ -24,8 +26,14 @@ RVAR (Readable Variables):
   image_idx
   pages
   page_idx
-  display_file_name_thumbnail /* FIXME */
+  display_file_name_thumbnail
   display_file_name_image
+  image_width
+  image_height
+  preview_width
+  preview_height
+  thumb_width
+  thumb_height
 
 WVAR (Writable Variables):
   thumbnail_width
@@ -45,7 +53,7 @@ WVAR (Writable Variables):
   preview="0/1"                     Display the image preview (the
                                     image in the image.html file).
   max_size=EXPR
-  border=EXPR
+  class="NAME"                      Assign CSS class NAME to image element
 
 <gthumb:image_link/>                Display the image link
   idx=EXPR
@@ -69,9 +77,9 @@ WVAR (Writable Variables):
 
   idx_relative=EXPR                 Display the filename of the image with 
 				    index 'current_index + idx_relative'.
-				    For example if idx_relative is -1 will 
-				    be displayed the filename of the previous
-				    image.
+				    For example if idx_relative is -1 the 
+				    filename of the previous image will be 
+				    displayed.
 
   with_path="0/1"                   Display the full image path instead of the 
 				    filename only.
@@ -174,10 +182,10 @@ WVAR (Writable Variables):
 <gthumb:set_var WVAR=EXPR WVAR=EXPR [..] />
 
 
---
+---
 
-<gthumb:text xml:lang="am">
- [TEXT]
+<gthumb:text>                       Localized text.  You need to add the same
+ [TEXT]                             text in the data/albumthemes/text.h file.
 </gthumb:text>
 
 ---
@@ -196,3 +204,11 @@ WVAR (Writable Variables):
 <gthumb:else/> 
  [HTML]
 <gthumb:end/>
+
+---
+
+<gthumb:eval/>
+  idx=EXPR
+  idx_relative=EXPR
+  expr=EXPR                         Insert result of expression, maybe applied
+                                    against given image info

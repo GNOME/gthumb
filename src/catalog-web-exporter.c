@@ -72,7 +72,7 @@ extern FILE         *yyin;
 #define SAVING_TIMEOUT 5
 
 
-typedef struct {
+struct _ImageData {
 	char             *comment;
 	char             *src_filename;
 	char             *dest_filename;
@@ -86,7 +86,7 @@ typedef struct {
 	int               preview_width, preview_height;
 	gboolean          caption_set;
 	gboolean          no_preview;
-} ImageData;
+};
 
 #define IMAGE_DATA(x) ((ImageData*)(x))
 
@@ -654,6 +654,19 @@ get_var_value (const char *var_name,
 	else if (strcmp (var_name, "always") == 0)
 		return GTH_VISIBILITY_ALWAYS;
 
+	else if (strcmp (var_name, "image_width") == 0)
+		return ce->eval_image->image_width;
+	else if (strcmp (var_name, "image_height") == 0)
+		return ce->eval_image->image_height;
+	else if (strcmp (var_name, "preview_width") == 0)
+		return ce->eval_image->preview_width;
+	else if (strcmp (var_name, "preview_height") == 0)
+		return ce->eval_image->preview_height;
+	else if (strcmp (var_name, "thumb_width") == 0)
+		return ce->eval_image->thumb_width;
+	else if (strcmp (var_name, "thumb_height") == 0)
+		return ce->eval_image->thumb_height;
+
 	else if (strcmp (var_name, "image_dim_visibility_index") == 0)
 		return ce->index_caption_mask & GTH_CAPTION_IMAGE_DIM;
 	else if (strcmp (var_name, "file_name_visibility_index") == 0)
@@ -782,6 +795,26 @@ gth_tag_get_var (CatalogWebExporter *ce,
 	}
 
 	return 0;
+}
+
+
+static const char *
+gth_tag_get_str (CatalogWebExporter *ce,
+		 GthTag             *tag,
+		 const char         *var_name)
+{
+	GList *scan;
+
+	for (scan = tag->value.arg_list; scan; scan = scan->next) {
+		GthVar *var = scan->data;
+		if (strcmp (var->name, var_name) == 0) {
+			GthCell *cell = gth_expr_get(var->value.expr);
+			if (cell->type == GTH_CELL_TYPE_VAR)
+				return cell->value.var;
+		}
+	}
+
+	return NULL;
 }
 
 
@@ -944,19 +977,22 @@ gth_parsed_doc_print (GList              *document,
 	GList *scan;
 
 	for (scan = document; scan; scan = scan->next) {
-		GthTag    *tag = scan->data;
-		ImageData *idata;
-		char      *line = NULL;
-		char      *image_src, *image_src_relative;
-		char      *escaped_path;
-		int        idx;
-		int        image_width;
-		int        image_height;
-		int        max_size;
-		int        border;
-		int        r, c;
-		char      *filename;
-		GList     *scan;
+		GthTag     *tag = scan->data;
+		ImageData  *idata;
+		char       *line = NULL;
+		char       *image_src, *image_src_relative;
+		char       *escaped_path;
+		int         idx;
+		int         image_width;
+		int         image_height;
+		int         max_size;
+		int         r, c;
+		int         value;
+		const char *class;
+		char       *class_attr;
+		char       *filename;
+		GList      *scan;
+
 
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
@@ -972,6 +1008,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_IMAGE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
 
 			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
 				image_src = get_thumbnail_filename (ce, idata, ce->location);
@@ -987,24 +1024,29 @@ gth_parsed_doc_print (GList              *document,
 				image_height = idata->image_height;
 			}
 
-			border = gth_tag_get_var (ce, tag, "border");
-			max_size = gth_tag_get_var (ce, tag, "max_size");
+			class = gth_tag_get_str (ce, tag, "class");
+			if (class)
+				class_attr = g_strdup_printf (" class=\"%s\"", class);
+			else
+				class_attr = g_strdup ("");
 
+			max_size = gth_tag_get_var (ce, tag, "max_size");
 			if (max_size > 0) 
 				scale_keepping_ratio (&image_width,
 						      &image_height,
 						      max_size,
 						      max_size);
-			
+
 			image_src_relative = get_path_relative_to_dir (image_src, 
 								       ce->location);
 			escaped_path = gnome_vfs_escape_host_and_path_string (image_src_relative);
 
-			line = g_strdup_printf ("<img src=\"%s\" width=\"%d\" height=\"%d\" border=\"%d\" align=\"middle\">\n", 
+			line = g_strdup_printf ("<img src=\"%s\" alt=\"\" width=\"%d\" height=\"%d\"%s>",
 						escaped_path,
 						image_width,
 						image_height,
-						border);
+						class_attr);
+			g_free (class_attr);
 			g_free (image_src);
 			g_free (image_src_relative);
 			g_free (escaped_path);
@@ -1046,6 +1088,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_FILENAME:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
 
 			if (gth_tag_get_var (ce, tag, "with_path") != 0) {
 				line = get_image_filename (ce, idata, ce->location);
@@ -1075,6 +1118,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_FILEPATH:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
 			filename = get_image_filename (ce, idata, ce->location);
 			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
 				char *tmp;
@@ -1106,6 +1150,7 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_COMMENT:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
 			
 			if (idata->comment == NULL)
 				break;
@@ -1158,10 +1203,10 @@ gth_parsed_doc_print (GList              *document,
 				break;
 
 			for (r = 0; r < ce->page_rows; r++) {
-				write_line ("  <tr height=\"100%\">\n", fout);
+				write_line ("  <tr>\n", fout);
 				for (c = 0; c < ce->page_cols; c++) {
 					if (ce->image < ce->n_images) {
-						write_line ("    <td  align=\"center\" valign=\"top\">\n", fout);
+						write_line ("    <td>\n", fout);
 						gth_parsed_doc_print (ce->thumbnail_parsed, 
 								      ce, 
 								      fout, 
@@ -1170,7 +1215,7 @@ gth_parsed_doc_print (GList              *document,
 						ce->image++;
 					} else {
 						char *line;
-						line = g_strdup_printf ("    <td  align=\"center\" valign=\"top\" width=%d height=%d>\n", ce->thumb_width, ce->thumb_height);
+						line = g_strdup_printf ("    <td width=%d height=%d>\n", ce->thumb_width, ce->thumb_height);
 						write_line (line, fout);
 						g_free (line);
 						write_line ("    &nbsp;\n", fout);
@@ -1288,6 +1333,17 @@ gth_parsed_doc_print (GList              *document,
 			break;
 
 		case GTH_TAG_SET_VAR:
+			break;
+
+		case GTH_TAG_EVAL:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
+
+			value = gth_tag_get_var (ce, tag, "expr");
+
+			line = g_strdup_printf ("%d",value);
+			write_line (line, fout);
 			break;
 
 		case GTH_TAG_IF:

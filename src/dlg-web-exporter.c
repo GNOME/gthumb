@@ -635,7 +635,7 @@ install_theme__ok_cb (GObject  *object,
 	ThemeDialogData  *tdata;
 	GtkWidget        *file_sel = data;
 	char             *theme_archive;
-	char             *command_line;
+	char             *command_line = NULL;
 	GError           *err = NULL;
 
 	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");

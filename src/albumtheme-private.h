@@ -59,6 +59,8 @@ int       gth_mem_get_top    (GthMem *mem);
 typedef enum {
 	GTH_OP_ADD,
 	GTH_OP_SUB,
+	GTH_OP_MUL,
+	GTH_OP_DIV,
 	GTH_OP_NEG,
 	GTH_OP_NOT,
 	GTH_OP_AND,
@@ -197,6 +199,7 @@ typedef enum {
 	GTH_TAG_TEXT,
 	GTH_TAG_HTML,
 	GTH_TAG_SET_VAR,
+	GTH_TAG_EVAL,
 	GTH_TAG_IF,
 	GTH_TAG_EXIF_EXPOSURE_TIME,
 	GTH_TAG_EXIF_EXPOSURE_MODE,

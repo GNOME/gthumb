@@ -2919,7 +2919,7 @@ real_move_cursor (GthImageList       *image_list,
 		visibility = gth_image_list_image_is_visible (image_list, new_focused_item);
 
 		if (visibility != GTH_VISIBILITY_FULL) {
-			double offset;
+			double offset = -1.0;
 
 			switch (visibility) {
 			case GTH_VISIBILITY_NONE:

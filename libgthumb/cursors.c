@@ -81,7 +81,7 @@ cursor_get (GdkWindow *window, CursorType type)
 	GdkCursor *cursor;
 
 	g_return_val_if_fail (window != NULL, NULL);
-	g_return_val_if_fail (type >= 0 && type < CURSOR_NUM_CURSORS, NULL);
+	g_return_val_if_fail (type < CURSOR_NUM_CURSORS, NULL);
 
 	g_assert (cursors[type].data_width == cursors[type].mask_width);
 	g_assert (cursors[type].data_height == cursors[type].mask_height);

@@ -323,7 +323,7 @@ gtk_cell_renderer_three_states_render (GtkCellRenderer *cell,
   GtkCellRendererThreeStates *cell_3states = (GtkCellRendererThreeStates *) cell;
   gint width, height;
   gint x_offset, y_offset;
-  GtkShadowType shadow;
+  GtkShadowType shadow = GTK_SHADOW_OUT;
   GtkStateType state;
   
   gtk_cell_renderer_three_states_get_size (cell, widget, cell_area,

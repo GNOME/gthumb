@@ -49,14 +49,14 @@ char *   _g_substitute             (const char *from,
 				    const char *with_this);
 
 char *   _g_substitute_pattern     (const char *utf8_text, 
-				    char        pattern, 
+				    gunichar    pattern, 
 				    const char *value);
 
 char *   _g_utf8_strndup           (const char *str,
 				    gsize       n);
 
 char **  _g_utf8_strsplit          (const char *str,
-				    const char  delimiter);
+				    gunichar    delimiter);
 
 char *   _g_utf8_strstrip          (const char *str);
 

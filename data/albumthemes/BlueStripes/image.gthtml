@@ -35,6 +35,9 @@
       font-size: x-small;
       text-align: center;
     }
+    img.preview {
+      border-width: 2px;
+    }
     td {
       font-size: x-small;
     }
@@ -75,7 +78,7 @@
       <tr>
         <td colspan=2 align=center>
           <a href="<gthumb:file_name with_relative_path/>">
-            <gthumb:image preview border=2/>
+            <gthumb:image preview class="preview"/>
           </a>
       </tr>
 

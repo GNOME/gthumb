@@ -32,6 +32,12 @@
 		font-size: x-small;
 		text-align: center;
 	}
+        img.thumbnail {
+                border-width: 2px;
+        }
+        img.preview {
+                border-width: 2px;
+        }
 	td {
 		font-size: x-small;
 	}
@@ -104,12 +110,12 @@
             <gthumb:if image_idx > 1 />	
 	      <td>
 	        <a href="<gthumb:image_link idx_relative="-1"/>">
-	          <gthumb:image thumbnail max_size=100 idx_relative="-1" border="2"/></a>
+	          <gthumb:image thumbnail max_size=100 idx_relative="-1" class="thumbnail"/></a>
 	      </td>
 	    <gthumb:end/>
 
             <td align="center" colspan="2">
-              <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview border=2/></a><BR>
+              <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview class="preview"/></a><BR>
             </td>
 
             <gthumb:if image_idx == images />
@@ -121,7 +127,7 @@
             <gthumb:if image_idx < images />	
     	      <td align="right">
 	        <a href="<gthumb:image_link idx_relative="+1"/>">
-		  <gthumb:image thumbnail max_size=100 idx_relative="+1" border="2"/></a>
+		  <gthumb:image thumbnail max_size=100 idx_relative="+1" class="thumbnail"/></a>
 	      </td>
 	    <gthumb:end/>
 

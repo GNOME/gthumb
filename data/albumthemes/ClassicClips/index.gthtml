@@ -31,6 +31,9 @@
 		font-size: x-small;
 		text-align: center;
 	}
+        img.thumbnail {
+                border-width: 0px;
+        }
     </style>
   </head>
   <body bgcolor="#4b4b4b">

@@ -1453,6 +1453,8 @@ print_image_dlg (GtkWindow   *parent,
 		button_name = "print_orient_portrait_radiobutton";
 	else if (strcmp (value, "R90") == 0)
 		button_name = "print_orient_landscape_radiobutton";
+	else
+		button_name = "print_orient_portrait_radiobutton";
 	radio_button = glade_xml_get_widget (data->gui, button_name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
 
@@ -3310,6 +3312,8 @@ print_catalog_dlg (GtkWindow *parent,
 		button_name = "print_orient_portrait_radiobutton";
 	else if (strcmp (value, "R90") == 0)
 		button_name = "print_orient_landscape_radiobutton";
+	else
+		button_name = "print_orient_portrait_radiobutton";
 	radio_button = glade_xml_get_widget (data->gui, button_name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
 

@@ -1,4 +1,73 @@
+2004-04-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/BlueStripes/image.gthtml
+	* data/albumthemes/BlueStripes/index.gthtml
+	* data/albumthemes/BlueStripes/thumbnail.gthtml
+	* data/albumthemes/Classic/image.gthtml
+	* data/albumthemes/Classic/index.gthtml
+	* data/albumthemes/Classic/thumbnail.gthtml
+	* data/albumthemes/ClassicClips/image.gthtml
+	* data/albumthemes/ClassicClips/index.gthtml
+	* data/albumthemes/ClassicClips/thumbnail.gthtml
+	* data/albumthemes/Clean/image.gthtml
+	* data/albumthemes/Clean/index.gthtml
+	* data/albumthemes/Clean/thumbnail.gthtml
+	* data/albumthemes/NeatRound/image.gthtml
+	* data/albumthemes/NeatRound/index.gthtml
+	* data/albumthemes/NeatRound/thumbnail.gthtml
+	* data/albumthemes/NeatSquare/image.gthtml
+	* data/albumthemes/NeatSquare/index.gthtml
+	* data/albumthemes/NeatSquare/thumbnail.gthtml
+	* doc/theme-xml.txt
+	* src/albumtheme-private.c
+	* src/albumtheme-private.h
+	* src/albumtheme.l
+	* src/albumtheme.y
+
+	Removes the style attributes and uses the css classes instead.
+	Added the class attribute to the gthumb:image tag.
+	Added 6 new readable variables: image_width, image_height, 
+	  preview_width, preview_height, thumb_width, thumb_height.
+	Added * and / to the expression evaluation.
+	Added a new tag, <gthumb:eval expr="expression here"/>
+
+	Patch by Martin Ebourne <martin AT zepler DOT org>
+	
+
 2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-web-exporter.c (install_theme__ok_cb): init command_line to
+        NULL
+
+	* src/dlg-png-exporter.c (export): set the default value for 
+	type_extension.
+
+	* libgthumb/gnome-print-font-picker.c (gnome_print_font_picker_set_mode)
+        : remove useless check.
+
+	* libgthumb/file-utils.c (file_copy): remove n <= 0 condition.
+
+	* libgthumb/cursors.c (cursor_get): remove useless check.
+
+	* libgthumb/gth-file-list.c (gth_file_list_select_image_by_pos): 
+	init offset to 0.5
+
+	* libgthumb/gth-image-list.c (real_move_cursor): init offset to -1.0
+
+	* libgthumb/file-utils.c (file_copy): use size_t instead of int.
+
+	* src/dir-list.c (dir_list_refresh_continue): set dir_list
+
+	* libgthumb/preferences.c (pref_get_real_toolbar_style): 
+	* src/gth-toggle-button.c (gth_toggle_button_set_style): 
+	* src/e-combo-button.c (e_combo_button_set_style): 
+	* src/gthumb-window.c (window_notify_update_toolbar_style): 
+	
+	s/both_horiz/both-horiz/
+
+	* src/gthumb-window.c (key_press_cb):
+	* src/fullscreen.c (image_key_press_cb): use '2' to set the zoom 
+	level to 2, and '3' to set it to 3.0.
 
 	* data/albumthemes/*/preview.png: ops, forgot to resize previews :)
 

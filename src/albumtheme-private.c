@@ -319,6 +319,8 @@ gth_expr_set_get_var_value_func (GthExpr            *e,
 static char *op_name[] = {
 	"ADD",
 	"SUB",
+	"MUL",
+	"DIV",
 	"NEG",
 	"NOT",
 	"AND",
@@ -407,6 +409,20 @@ gth_expr_eval (GthExpr *e)
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = a - b;
+				gth_mem_push (mem, c);
+				break;
+
+			case GTH_OP_MUL:
+				b = gth_mem_pop (mem);
+				a = gth_mem_pop (mem);
+				c = a * b;
+				gth_mem_push (mem, c);
+				break;
+
+			case GTH_OP_DIV:
+				b = gth_mem_pop (mem);
+				a = gth_mem_pop (mem);
+				c = a / b;
 				gth_mem_push (mem, c);
 				break;
 

@@ -8,7 +8,7 @@
       <img src="left.png" width=14 height=102 border=0></td>
     <td width=154 height=102 align="center" valign="middle">
       <a href="<gthumb:image_link/>">
-        <gthumb:image thumbnail border=0/></a></td>
+        <gthumb:image thumbnail class="thumbnail"/></a></td>
     <td width=18 height=102 align="right">
       <img src="right.png" width=18 height=102 border=0></td>
   </tr>
@@ -17,45 +17,47 @@
       <img src="bot.png" width=154 height=18 border=0></td>
   </tr>
 </table>
-<gthumb:if file_name_visibility_index/>
-  <font color="#969696">
-    <tt><gthumb:file_name utf8/></tt> <br>
+<div style="text-align: center">
+  <gthumb:if file_name_visibility_index/>
+    <font color="#969696">
+      <tt><gthumb:file_name utf8/></tt> <br>
+    </font>
+  <gthumb:end/>
+  <font color="#969696" size=-1>
+    <gthumb:if image_dim_visibility_index/>
+      <b><gthumb:image_dim/></b>
+    <gthumb:end/>
+    <gthumb:if file_size_visibility_index/>
+      (<gthumb:file_size/>) <br>
+    <gthumb:else/>
+      <br>
+    <gthumb:end/>
+    <gthumb:if comment_visibility_index/>
+      <gthumb:comment/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_date_time_visibility_index/>
+      <gthumb:exif:date_time/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_exposure_time_visibility_index/>
+      <gthumb:exif:exposure_time/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_exposure_mode_visibility_index/>
+      <gthumb:exif:exposure_mode/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_flash_visibility_index/>
+      <gthumb:exif:flash/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_shutter_speed_visibility_index/>
+      <gthumb:exif:shutter_speed/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_aperture_value_visibility_index/>
+      <gthumb:exif:aperture_value/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_focal_length_visibility_index/>
+      <gthumb:exif:focal_length/> <br>
+    <gthumb:end/>
+    <gthumb:if exif_camera_model_visibility_index/>
+      <gthumb:exif:camera_model/> <br>
+    <gthumb:end/>
   </font>
-<gthumb:end/>
-<font color="#969696" size=-1>
-  <gthumb:if image_dim_visibility_index/>
-    <b><gthumb:image_dim/></b>
-  <gthumb:end/>
-  <gthumb:if file_size_visibility_index/>
-    (<gthumb:file_size/>) <br>
-  <gthumb:else/>
-    <br>
-  <gthumb:end/>
-  <gthumb:if comment_visibility_index/>
-    <gthumb:comment/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_date_time_visibility_index/>
-    <gthumb:exif:date_time/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_exposure_time_visibility_index/>
-    <gthumb:exif:exposure_time/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_exposure_mode_visibility_index/>
-    <gthumb:exif:exposure_mode/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_flash_visibility_index/>
-    <gthumb:exif:flash/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_shutter_speed_visibility_index/>
-    <gthumb:exif:shutter_speed/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_aperture_value_visibility_index/>
-    <gthumb:exif:aperture_value/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_focal_length_visibility_index/>
-    <gthumb:exif:focal_length/> <br>
-  <gthumb:end/>
-  <gthumb:if exif_camera_model_visibility_index/>
-    <gthumb:exif:camera_model/> <br>
-  <gthumb:end/>
-</font>
+</div>

@@ -18,6 +18,9 @@
     td {
       font-size: x-small;
     }
+    img.preview {
+      border-width: 2px;
+    }
   </style>
   </head>
   <body bgcolor=white>
@@ -64,7 +67,7 @@
       <tr>
         <td colspan=2 align=center>
           <a href="<gthumb:file_name with_relative_path/>">
-            <gthumb:image preview border=2/>
+            <gthumb:image preview class="preview"/>
           </a>
       </tr>
 

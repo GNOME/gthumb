@@ -123,8 +123,11 @@ export (GtkWidget  *widget,
 
 	type_id = gtk_option_menu_get_history (GTK_OPTION_MENU (data->file_type_option_menu));
 	switch (type_id) {
-	case 0: type_extension = "png"; break;
-	case 1: type_extension = "jpeg"; break;
+	case 0: 
+		type_extension = "png"; break;
+	case 1: 
+	default:
+		type_extension = "jpeg"; break;
 	}
 	eel_gconf_set_string (PREF_EXP_FILE_TYPE, type_extension);
 

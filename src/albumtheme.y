@@ -21,6 +21,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "albumtheme-private.h"
 
 void  yyerror (char *fmt, ...);
@@ -71,6 +72,7 @@ int   yylex   (void);
 %token <ivalue> EXIF_CAMERA_MODEL
 
 %token <ivalue> SET_VAR 
+%token <ivalue> EVAL
 
 %token <text> HTML
 
@@ -88,7 +90,7 @@ int   yylex   (void);
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
-%left  '+', '-', '!' 
+%left  '+', '-', '*', '/', '!' 
 %right UNARY_OP
 
 %%
@@ -179,6 +181,7 @@ opt_else        : gthumb_else document {
 		| /* empty */ {
 			$$ = NULL;
 		}
+		;
 
 gthumb_else	: ELSE END_TAG
 		;
@@ -222,6 +225,32 @@ expr		: '(' expr ')' {
 			gth_expr_push_expr (e, $1);
 			gth_expr_push_expr (e, $3);
 			gth_expr_push_op (e, GTH_OP_SUB);
+
+			gth_expr_unref ($1);
+			gth_expr_unref ($3);
+
+			$$ = e;
+		}
+
+		| expr '*' expr {
+			GthExpr *e = gth_expr_new ();
+
+			gth_expr_push_expr (e, $1);
+			gth_expr_push_expr (e, $3);
+			gth_expr_push_op (e, GTH_OP_MUL);
+
+			gth_expr_unref ($1);
+			gth_expr_unref ($3);
+
+			$$ = e;
+		}
+
+		| expr '/' expr {
+			GthExpr *e = gth_expr_new ();
+
+			gth_expr_push_expr (e, $1);
+			gth_expr_push_expr (e, $3);
+			gth_expr_push_op (e, GTH_OP_DIV);
 
 			gth_expr_unref ($1);
 			gth_expr_unref ($3);
@@ -305,6 +334,7 @@ tag_name	: HEADER              { $$ = $1; }
 		| EXIF_DATE_TIME      { $$ = $1; }
 		| EXIF_CAMERA_MODEL   { $$ = $1; }
 		| SET_VAR             { $$ = $1; }
+		| EVAL                { $$ = $1; }
 		;
 
 arg_list	: arg arg_list {
