@@ -1,3 +1,8 @@
+2003-12-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gnome-print-font-picker.c: 
+	* libgthumb/gnome-print-font-dialog.c: updated from gedit.
+
 2003-12-19  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.2.0 released ]

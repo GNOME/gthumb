@@ -728,7 +728,7 @@ const gchar*	   gnome_print_font_picker_get_font_name    (GnomePrintFontPicker *
 	font_sel = gnome_print_font_dialog_get_fontsel (GNOME_PRINT_FONT_DIALOG (gfp->_priv->font_dialog));
 	font = gnome_font_selection_get_font (GNOME_FONT_SELECTION (font_sel));
 	
-	gfp->_priv->font_name = g_strdup (gnome_font_get_full_name (font));
+	gfp->_priv->font_name = gnome_font_get_full_name (font);
 	gfp->_priv->font = font;
     }
 
