@@ -574,6 +574,7 @@ window_update_sensitivity (GThumbWindow *window)
 	GtkTreeIter iter;
 	int         sidebar_content = window->sidebar_content;
 	gboolean    sel_not_null;
+	gboolean    only_one_is_selected;
 	gboolean    image_is_void;
 	gboolean    image_is_ani;
 	gboolean    playing;
@@ -584,6 +585,7 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    not_fullscreen;
 
 	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
+	only_one_is_selected = ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist));
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (window->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (window->viewer));
@@ -605,12 +607,8 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* File menu. */
 
-	set_command_sensitive (window, 
-			       "File_OpenWith", 
-			       sel_not_null && not_fullscreen);
-	set_command_sensitive (window, 
-			       "File_OpenWithPopup", 
-			       sel_not_null && not_fullscreen);
+	set_command_sensitive (window, "File_OpenWith", sel_not_null && not_fullscreen);
+	set_command_sensitive (window, "File_OpenWithPopup", sel_not_null && not_fullscreen);
 
 	set_command_sensitive (window, "File_Save", ! image_is_void);
 	set_command_sensitive (window, "Image_Save", ! image_is_void);
@@ -620,12 +618,9 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* Edit menu. */
 
-	set_command_sensitive (window, "Edit_RenameFile", 
-			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
-	set_command_sensitive (window, "Edit_RenameFilePopup", 
-			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
-	set_command_sensitive (window, "Edit_DuplicateFile", 
-			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
+	set_command_sensitive (window, "Edit_RenameFile", only_one_is_selected && not_fullscreen);
+	set_command_sensitive (window, "Edit_RenameFilePopup", only_one_is_selected && not_fullscreen);
+	set_command_sensitive (window, "Edit_DuplicateFile", only_one_is_selected && not_fullscreen);
 	set_command_sensitive (window, "Edit_DeleteFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_CopyFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_MoveFiles", sel_not_null && not_fullscreen);
@@ -660,16 +655,10 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Edit_CurrentEditCategories", ! image_is_void);
 
 	set_command_sensitive (window, "Edit_AddToCatalog", sel_not_null);
-	set_command_sensitive (window, 
-			       "Edit_RemoveFromCatalog", 
-			       viewing_catalog && sel_not_null);
+	set_command_sensitive (window, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);
 
-	set_command_sensitive (window,
-			       "Go_ToContainer",
-			       not_fullscreen && viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
-	set_command_sensitive (window,
-			       "Go_ToContainerPopup",
-			       not_fullscreen && viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
+	set_command_sensitive (window, "Go_ToContainer", not_fullscreen && viewing_catalog && only_one_is_selected);
+	set_command_sensitive (window, "Go_ToContainerPopup", not_fullscreen && viewing_catalog && only_one_is_selected);
 
 	set_command_sensitive (window, "Go_Stop", 
 			       ((window->activity_ref > 0) 
@@ -5848,8 +5837,7 @@ window_show_next_image (GThumbWindow *window)
 			pos = gth_file_list_next_image (window->file_list, pos, TRUE);
 
 	} else {
-		pos = gth_file_list_pos_from_path (window->file_list, 
-					       window->image_path);
+		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
 		pos = gth_file_list_next_image (window->file_list, pos, TRUE);
 	}
 
@@ -6053,7 +6041,7 @@ window_image_modified (GThumbWindow *window,
 
 
 static gboolean
-view_timeout_cb (gpointer data)
+load_timeout_cb (gpointer data)
 {
 	GThumbWindow *window = data;
 	char         *prev1;
@@ -6091,7 +6079,7 @@ window_reload_image (GThumbWindow *window)
 	g_return_if_fail (window != NULL);
 	
 	if (window->image_path != NULL)
-		view_timeout_cb (window);
+		load_timeout_cb (window);
 }
 
 
@@ -6146,7 +6134,7 @@ window_load_image (GThumbWindow *window,
 	window->image_path = g_strdup (filename);
 
 	window->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
-						    view_timeout_cb, 
+						    load_timeout_cb, 
 						    window);
 }
 
@@ -6832,7 +6820,7 @@ window_notify_update_toolbar_style (GThumbWindow *window)
 }
 
 
-/**/
+/* -- image operations -- */
 
 
 static void

@@ -25,6 +25,9 @@
 #include <gtk/gtk.h>
 
 
+#define REQUEST_ENTRY_WIDTH 220
+
+
 GtkWidget *
 _gtk_image_new_from_xpm_data (char * xpm_data[])
 {
@@ -216,7 +219,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
 	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 12);
 
 	/* Add label and image */
 
@@ -225,10 +228,11 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 
 	label = gtk_label_new (message);	
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (label), FALSE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 
 	entry = gtk_entry_new ();
+	gtk_widget_set_size_request (entry, REQUEST_ENTRY_WIDTH, -1);
 	gtk_entry_set_max_length (GTK_ENTRY (entry), max_length);
 	gtk_entry_set_text (GTK_ENTRY (entry), default_value);
 	gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
@@ -236,25 +240,27 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	hbox = gtk_hbox_new (FALSE, 6);
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+	gtk_box_set_spacing (GTK_BOX (hbox), 12);
+	gtk_box_set_spacing (GTK_BOX (vbox), 6);
+
+	gtk_box_pack_start (GTK_BOX (vbox), label,
+			    TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), entry,
+			    FALSE, FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (hbox), label,
+	gtk_box_pack_start (GTK_BOX (hbox), vbox,
 			    TRUE, TRUE, 0);
-
-	gtk_box_pack_start (GTK_BOX (vbox), hbox,
-			    FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (vbox), entry,
-			    FALSE, FALSE, 0);
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
-			    vbox,
+			    hbox,
 			    FALSE, FALSE, 0);
 	
-	gtk_widget_show_all (vbox);
+	gtk_widget_show_all (hbox);
 	
 	/* Add buttons */
 

@@ -1,5 +1,5 @@
-version ???
------------
+version 1.107
+-------------
 	* Make image operations asynchronous and cancellable.
 	* Added image saving support to the viewer component. 
 	* Bugfixes.

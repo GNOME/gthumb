@@ -426,7 +426,6 @@ update_general_info (DialogData *data)
 	time_t        timer;
 	struct tm    *tm;
 	char         *utf8_name;
-	char         *title;
 
 	window = data->window;
 	viewer = data->window_viewer;
@@ -438,15 +437,10 @@ update_general_info (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
-
 	} else {
 		utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
-		
-		title = g_strdup_printf (_("%s Properties"), utf8_name); 
-		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 		g_free (utf8_name);
-		g_free (title);
 		
 		/**/
 		
@@ -761,6 +755,30 @@ dlg_image_prop_new (GThumbWindow *window)
 }
 
 
+static void
+update_title (DialogData *data)
+{
+	GThumbWindow *window;
+	ImageViewer  *viewer;
+
+	window = data->window;
+	viewer = data->window_viewer;
+
+	if (window->image_path == NULL) 
+		gtk_window_set_title (GTK_WINDOW (data->dialog), "");
+	else {
+		char *utf8_name;
+		char *title;
+
+		utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
+		title = g_strdup_printf (_("%s Properties"), utf8_name); 
+		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
+		g_free (utf8_name);
+		g_free (title);
+	}
+}
+
+
 void
 dlg_image_prop_update (GtkWidget *image_prop_dlg)
 {
@@ -775,6 +793,7 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 	for (i = 0; i < IPROP_NUM_PAGES; i++)
 		data->page_updated[i] = FALSE;
 
+	update_title (data);
 	update_notebook_page (data, gtk_notebook_get_current_page (GTK_NOTEBOOK (data->i_notebook)));
 }
 
