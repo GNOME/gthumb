@@ -434,7 +434,7 @@ init (EComboButton *combo_button)
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
 
-	priv->hbox = gtk_hbox_new (FALSE, SPACING * 2);
+	priv->hbox = gtk_hbox_new (FALSE, SPACING + 10);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 0);
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
