@@ -698,9 +698,9 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* View menu. */
 
-	set_action_sensitive (window, "View_ShowImage", ! image_is_void);
+	set_action_sensitive (window, "View_ShowImage", window->image_path != NULL);
 	set_action_sensitive (window, "View_ImageProp", window->image_path != NULL);
-	set_action_sensitive (window, "View_Fullscreen", ! image_is_void);
+	set_action_sensitive (window, "View_Fullscreen", window->image_path != NULL);
 	set_action_sensitive (window, "View_ShowPreview", window->sidebar_visible);
 	set_action_sensitive (window, "View_ShowInfo", ! window->sidebar_visible);
 	set_action_sensitive (window, "View_PrevImage", image_pos > 0);
@@ -2634,7 +2634,7 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_f:
 	case GDK_v:
 	case GDK_F11:
-		if (! image_viewer_is_void (IMAGE_VIEWER (window->viewer)))
+		if (window->image_path != NULL)
 			fullscreen_start (fullscreen, window);
 		return TRUE;
 

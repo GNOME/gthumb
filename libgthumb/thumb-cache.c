@@ -333,7 +333,7 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 	return result;
 }
 
-                                                                                
+
 /**/
 
 
