@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-10 23:17+0900\n"
-"PO-Revision-Date: 2003-07-10 23:15+0900\n"
+"POT-Creation-Date: 2003-07-10 23:44+0900\n"
+"PO-Revision-Date: 2003-07-10 23:42+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "GThumb ビュワー"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr "GThumb で表示します"
+msgstr "GThumb で表示"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
