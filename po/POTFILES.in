@@ -102,6 +102,7 @@ src/fullscreen.c
 src/fullscreen.h
 src/gthumb.glade
 src/gthumb_comments.glade
+src/gthumb_edit.glade
 src/gthumb_png_exporter.glade
 src/gthumb_print.glade
 src/gthumb_search.glade
@@ -115,7 +116,7 @@ src/gtkcellrendererthreestates.c
 src/gtkcellrendererthreestates.h
 src/main.c
 src/main.h
-components/image-viewer/GNOME_GThumb_Viewer.server.in
+components/image-viewer/GNOME_GThumb_Viewer.server.in.in
 components/image-viewer/GNOME_GThumb_Viewer.xml.in
 components/image-viewer/iids.h
 components/image-viewer/main.c
@@ -127,7 +128,7 @@ components/image-viewer/viewer-nautilus-view.c
 components/image-viewer/viewer-nautilus-view.h
 components/image-viewer/viewer-stream.c
 components/image-viewer/viewer-stream.h
-components/catalog-view/GNOME_GThumb_CatalogView.server.in
+components/catalog-view/GNOME_GThumb_CatalogView.server.in.in
 components/catalog-view/GNOME_GThumb_CatalogView.xml.in
 components/catalog-view/catalog-control.c
 components/catalog-view/catalog-control.h

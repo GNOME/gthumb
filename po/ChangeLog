@@ -1,3 +1,9 @@
+2002-10-30  Christian Neumair  <chris@gnome-de.org>
+
+	* de.po: Updated German translation.
+	* POTFILES.in: Fixed and added some lines.
+	* gthumb-2.0.pot: Added, needed by our status script.
+
 2002-03-02  gettextize  <bug-gnu-utils@gnu.org>
 
 	* Makefile.in.in: Upgrade to gettext-0.10.38.
