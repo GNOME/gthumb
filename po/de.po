@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2002-12-28 23:16+0100\n"
+"POT-Creation-Date: 2003-01-14 22:23+0100\n"
 "PO-Revision-Date: 2002-12-28 23:00+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -19,11 +19,11 @@ msgstr "Katalog"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr "GThumb Katalogbetrachter"
+msgstr "Katalogansicht (gThumb)"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr "Als Katalog betrachten"
+msgstr "Katalogansicht"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
@@ -39,15 +39,15 @@ msgstr "_Drucken"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr "GTumb Bild"
+msgstr "GThumb Bild"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "GTumb Bildbetrachter"
+msgstr "GTumb Bildansicht"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr "Mit GThumb betrachten"
+msgstr "Gthumb-Ansicht"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
@@ -180,13 +180,13 @@ msgstr "Komponente hat keine vom Benutzer veränderbaren Eigenschaften"
 msgid "Could not open file %s"
 msgstr "Datei %s konnte nicht geöffnet werden"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:518
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:520
 #: src/gthumb-window.c:352
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:486
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:624
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -246,7 +246,7 @@ msgstr "Alte Kommentare werden gelöscht, bitte warten..."
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:506
+#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:644
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
@@ -289,7 +289,7 @@ msgid "Image type:"
 msgstr "Bildtyp:"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2729 src/gthumb-window.c:437
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2743 src/gthumb-window.c:437
 #: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
 #: src/gthumb-window.c:477 src/gthumb-window.c:3987
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
@@ -304,17 +304,17 @@ msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten..."
 
-#: src/commands-impl.c:243 src/commands-impl.c:980 src/commands-impl.c:1559
+#: src/commands-impl.c:243 src/commands-impl.c:993 src/commands-impl.c:1573
 msgid "Enter the new name: "
 msgstr "Geben Sie einen neuen Namen ein:"
 
-#: src/commands-impl.c:247 src/commands-impl.c:984 src/commands-impl.c:1563
+#: src/commands-impl.c:247 src/commands-impl.c:997 src/commands-impl.c:1577
 #: src/gthumb-ui.xml.h:227 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Umbenennen"
 
-#: src/commands-impl.c:261 src/commands-impl.c:886 src/commands-impl.c:998
-#: src/commands-impl.c:1579 src/commands-impl.c:1674
+#: src/commands-impl.c:261 src/commands-impl.c:899 src/commands-impl.c:1011
+#: src/commands-impl.c:1593 src/commands-impl.c:1688
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -332,7 +332,7 @@ msgstr "Ü_berschreiben"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Das Bild »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:310 src/commands-impl.c:1020 src/commands-impl.c:1324
+#: src/commands-impl.c:310 src/commands-impl.c:1033 src/commands-impl.c:1337
 msgid "source and destination are the same"
 msgstr "Quell- und und Zieldatei bzw. -ordner sind identisch"
 
@@ -341,72 +341,72 @@ msgstr "Quell- und und Zieldatei bzw. -ordner sind identisch"
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Das Bild »%s« konnte nicht dupliziert werden: %s"
 
-#: src/commands-impl.c:470
+#: src/commands-impl.c:483
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Sollen die markierten Bilder wirklich in den Müll verschoben werden?"
 
-#: src/commands-impl.c:490
+#: src/commands-impl.c:503
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Soll das Bild wirklich in den Müll verschoben werden?"
 
-#: src/commands-impl.c:755
+#: src/commands-impl.c:768
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Soll das Bild wirklich aus dem Katalog entfernt werden?"
 
-#: src/commands-impl.c:797
+#: src/commands-impl.c:810
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 "Sollen die markierten Dateien wirklich aus dem Katalog entfernt werden?"
 
-#: src/commands-impl.c:873 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:886 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:191 src/dlg-file-utils.c:93
 msgid "C_reate"
 msgstr "_Erstellen"
 
-#: src/commands-impl.c:902 src/commands-impl.c:1027 src/commands-impl.c:1601
-#: src/commands-impl.c:1693
+#: src/commands-impl.c:915 src/commands-impl.c:1040 src/commands-impl.c:1615
+#: src/commands-impl.c:1707
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr ""
 "Der Name »%s« wird bereits verwendet. Bitte geben Sie einen anderen Namen an."
 
-#: src/commands-impl.c:930
+#: src/commands-impl.c:943
 msgid "New Folder"
 msgstr "Neuer Ordner"
 
-#: src/commands-impl.c:931
+#: src/commands-impl.c:944
 msgid "Enter the folder name: "
 msgstr "Geben Sie einen Namen für den Ordner ein: "
 
-#: src/commands-impl.c:932
+#: src/commands-impl.c:945
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht angelegt werden: %s"
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:956
 msgid "New Library"
 msgstr "Neue Bibliothek"
 
-#: src/commands-impl.c:944 src/dlg-catalog.c:120
+#: src/commands-impl.c:957 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Geben Sie einen Namen für die Bibliothek ein: "
 
-#: src/commands-impl.c:945
+#: src/commands-impl.c:958
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Die Bibliothek »%s« konnte nicht angelegt werden: %s"
 
-#: src/commands-impl.c:1018 src/commands-impl.c:1059
+#: src/commands-impl.c:1031 src/commands-impl.c:1072
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:1125
+#: src/commands-impl.c:1138
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht gelöscht werden: %s"
 
-#: src/commands-impl.c:1154
+#: src/commands-impl.c:1167
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
@@ -414,79 +414,80 @@ msgstr ""
 "»%s« konnte nicht in den Müll verschoben werden. Soll die Datei dauerhaft "
 "gelöscht werden?"
 
-#: src/commands-impl.c:1191
+#: src/commands-impl.c:1204
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Soll der markierte Ordner wirklich in den Müll verschoben werden?"
 
-#: src/commands-impl.c:1193 src/dlg-file-utils.c:277
+#: src/commands-impl.c:1206 src/dlg-file-utils.c:277
 msgid "_Move"
 msgstr "_Verschieben"
 
-#: src/commands-impl.c:1259 src/commands-impl.c:1314
+#: src/commands-impl.c:1272 src/commands-impl.c:1327
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht kopiert werden: %s"
 
-#: src/commands-impl.c:1314 src/dlg-file-utils.c:2286
-#: src/dlg-file-utils.c:2288
+#: src/commands-impl.c:1327 src/dlg-file-utils.c:2301
+#: src/dlg-file-utils.c:2303
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht verschoben werden: %s"
 
-#: src/commands-impl.c:1335
+#: src/commands-impl.c:1348
 msgid "source contains destination"
 msgstr "Der Zielordner befindet sich im Quellordner"
 
-#: src/commands-impl.c:1346
+#: src/commands-impl.c:1359
 msgid "a folder with that name is already present."
 msgstr "Es existiert bereits ein gleichnamiger Ordner."
 
-#: src/commands-impl.c:1440 src/dlg-file-utils.c:362 src/dlg-file-utils.c:450
+#: src/commands-impl.c:1454 src/dlg-file-utils.c:363 src/dlg-file-utils.c:452
 msgid "Choose the destination folder"
 msgstr "Wählen Sie einen Zielordner"
 
-#: src/commands-impl.c:1612
+#: src/commands-impl.c:1626
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Die Bibliothek »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:1612
+#: src/commands-impl.c:1626
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Der Katalog »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:1658 src/dlg-catalog.c:79
+#: src/commands-impl.c:1672 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Geben Sie einen Namen für den Katalog ein: "
 
-#: src/commands-impl.c:1659
+#: src/commands-impl.c:1673
 msgid "New Catalog"
 msgstr "Neuer Katalog"
 
-#: src/commands-impl.c:1704
+#: src/commands-impl.c:1718
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Der Katalog »%s« konnte nicht angelegt werden: %s"
 
-#: src/commands-impl.c:1768
+#: src/commands-impl.c:1782
 msgid "The selected library will be removed, are you sure?"
 msgstr "Soll die markierte Bibliothek wirklich entfernt werden?"
 
-#: src/commands-impl.c:1770
+#: src/commands-impl.c:1784
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Solle der markierte Katalog wirklich entfernt werden?"
 
-#: src/commands-impl.c:2669 src/dlg-categories.c:312 src/dlg-comment.c:237
-#: src/dlg-preferences.c:179 src/dlg-search.c:443
+#: src/commands-impl.c:2683 src/dlg-categories.c:312 src/dlg-comment.c:237
+#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:179
+#: src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Hilfe konnte nicht angezeigt werden: %s"
 
-#: src/commands-impl.c:2720
+#: src/commands-impl.c:2734
 msgid "translator_credits"
 msgstr "Christian Neumair <chris@gnome-de.org>"
 
-#: src/commands-impl.c:2732
+#: src/commands-impl.c:2746
 msgid "An image viewer and browser for GNOME."
 msgstr "Ein Bildbetrachter und Browser für GNOME."
 
@@ -530,7 +531,7 @@ msgstr "Duplikate"
 msgid "Duplicates Size"
 msgstr "Größe der Duplikate"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:663
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:804
 msgid "Name"
 msgstr "Name"
 
@@ -538,7 +539,7 @@ msgstr "Name"
 msgid "Last modified"
 msgstr "Zuletzt geändert"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:683
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:824
 msgid "Location"
 msgstr "Speicherort"
 
@@ -575,11 +576,11 @@ msgstr ""
 "Die Bilder konnten nicht in den Müll verschoben werden. Sollen die Dateien "
 "dauerhaft gelöscht werden?"
 
-#: src/dlg-file-utils.c:752 src/dlg-file-utils.c:853
+#: src/dlg-file-utils.c:754 src/dlg-file-utils.c:855
 msgid "You didn't enter the new name"
 msgstr "Sie haben keinen neuen Namen angegeben"
 
-#: src/dlg-file-utils.c:764 src/dlg-file-utils.c:865
+#: src/dlg-file-utils.c:766 src/dlg-file-utils.c:867
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
@@ -587,96 +588,96 @@ msgstr ""
 "Der Name »%s« wird in diesem Ordner bereits verwendet. Bitte geben Sie einen "
 "anderen Namen an."
 
-#: src/dlg-file-utils.c:1004
+#: src/dlg-file-utils.c:1006
 msgid "Could not rename the image:"
 msgstr "Bild konnte nicht umbenannt werden:"
 
-#: src/dlg-file-utils.c:1006
+#: src/dlg-file-utils.c:1008
 msgid "Could not rename the following images:"
 msgstr "Folgende Bilder konnten nicht umbenannt werden:"
 
-#: src/dlg-file-utils.c:1138
+#: src/dlg-file-utils.c:1140
 msgid "Could not move the image:"
 msgstr "Bild konnte nicht verschoben werden:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1142
 msgid "Could not copy the image:"
 msgstr "Bild konnte nicht kopiert werden:"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
+#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2323
 msgid "_Abort"
 msgstr "_Abbrechen"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2309
+#: src/dlg-file-utils.c:1166 src/dlg-file-utils.c:2324
 msgid "_Continue"
 msgstr "_Fortfahren"
 
-#: src/dlg-file-utils.c:1335
+#: src/dlg-file-utils.c:1337
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Datei %d von %d wird kopiert"
 
-#: src/dlg-file-utils.c:1701 src/dlg-file-utils.c:1887
+#: src/dlg-file-utils.c:1708 src/dlg-file-utils.c:1894
 msgid "Collecting images info"
 msgstr "Erfassung der Bildinformationen"
 
-#: src/dlg-file-utils.c:1704 src/dlg-file-utils.c:1900
+#: src/dlg-file-utils.c:1711 src/dlg-file-utils.c:1907
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Datei %ld von %ld wird gelöscht"
 
-#: src/dlg-file-utils.c:1890
+#: src/dlg-file-utils.c:1897
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Datei %ld von %ld wird kopiert"
 
-#: src/dlg-file-utils.c:1895
+#: src/dlg-file-utils.c:1902
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Datei %ld von %ld wird verschoben"
 
-#: src/dlg-image-prop.c:668
+#: src/dlg-image-prop.c:809
 msgid "Image Dimensions"
 msgstr "Bildgröße"
 
-#: src/dlg-image-prop.c:673
+#: src/dlg-image-prop.c:814
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:678
+#: src/dlg-image-prop.c:819
 msgid "File Size"
 msgstr "Dateigröße"
 
-#: src/dlg-image-prop.c:688
+#: src/dlg-image-prop.c:829
 msgid "Last Modified"
 msgstr "Zuletzt geändert"
 
-#: src/dlg-image-prop.c:693
+#: src/dlg-image-prop.c:834
 msgid "Information on Channel"
 msgstr "Kanal-Informationen"
 
-#: src/dlg-image-prop.c:726
+#: src/dlg-image-prop.c:868
 msgid "Field"
 msgstr "Feld"
 
-#: src/dlg-image-prop.c:737 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:878 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Wert"
 
-#: src/dlg-image-prop.c:818
+#: src/dlg-image-prop.c:959
 #, c-format
 msgid "%s Properties"
 msgstr "Eigenschaften von %s"
 
-#: src/dlg-maintenance.c:70
+#: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
 msgstr "Sollen alle Kommentare entfernt werden?"
 
-#: src/dlg-maintenance.c:101
+#: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
 msgstr "Sollen alle Minitatur-Vorschaubilder gelöscht werden?"
 
-#: src/dlg-maintenance.c:162 src/dlg-maintenance.c:232
+#: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
 msgstr "Geben Sie die Sicherungsdatei an"
 
@@ -1230,7 +1231,7 @@ msgstr "Informationen zu gThumb anzeigen"
 
 #: src/gthumb-ui.xml.h:131
 msgid "Show/_Hide"
-msgstr "_Zeigen/verbergen"
+msgstr "an_zeigen/verbergen"
 
 #: src/gthumb-ui.xml.h:132 src/gthumb_preferences.glade.h:63
 msgid "Slide Show"
@@ -2473,7 +2474,7 @@ msgstr "<b>Richtung</b>"
 
 #: src/gthumb_preferences.glade.h:15
 msgid "<b>Hide/Show</b>"
-msgstr "<b>Zeigen/Verbergen</b>"
+msgstr "<b>Anzeigen/Verbergen</b>"
 
 #: src/gthumb_preferences.glade.h:16
 msgid "<b>History</b>"
