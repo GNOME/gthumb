@@ -5813,6 +5813,7 @@ window_hide_sidebar (GThumbWindow *window)
 		window_show_image_pane (window);
 
 	window_update_sensitivity (window);
+	window_update_statusbar_zoom_info (window);
 }
 
 

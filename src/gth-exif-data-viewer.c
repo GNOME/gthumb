@@ -29,6 +29,7 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include "file-utils.h"
 #include "glib-utils.h"
+#include "gth-exif-utils.h"
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
 
@@ -374,7 +375,7 @@ update_exif_data (GthExifDataViewer *edv)
 			continue;
 		}
 
-		utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+		utf8_value = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 		if ((utf8_value == NULL) 
 		    || (*utf8_value == 0) 
 		    || _g_utf8_all_spaces (utf8_value)) {

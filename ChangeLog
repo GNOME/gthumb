@@ -1,3 +1,14 @@
+2004-06-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: require at least libexif 0.6.9 now
+
+	* src/gth-exif-data-viewer.c (update_exif_data): 
+	* src/gth-exif-utils.c (get_exif_entry_value): new function.
+
+2004-06-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (window_hide_sidebar): update the zoom info.
+
 2004-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/*.gthtml: make pages fit the browser window.

@@ -106,6 +106,8 @@ libgthumb/thumb-cache.h
 libgthumb/thumb-loader.c
 libgthumb/thumb-loader.h
 libgthumb/typedefs.h
+src/actions.c
+src/actions.h
 src/albumtheme-private.c
 src/albumtheme-private.h
 src/albumtheme.c
@@ -169,6 +171,8 @@ src/dlg-search.c
 src/dlg-search.h
 src/dlg-web-exporter.c
 src/dlg-web-exporter.h
+src/dlg-write-to-cd.c
+src/dlg-write-to-cd.h
 src/e-combo-button.c
 src/e-combo-button.h
 src/fullscreen.c
@@ -190,3 +194,4 @@ src/gtkorientationbox.h
 src/lex.albumtheme.c
 src/main.c
 src/main.h
+src/ui.h

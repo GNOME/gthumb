@@ -30,6 +30,7 @@
 #include <exif-data.h>
 #include <exif-content.h>
 #include <exif-entry.h>
+#include "gth-exif-utils.h"
 
 
 char *
@@ -57,7 +58,7 @@ get_exif_tag (const char *filename,
 				continue;
 
 			if (e->tag == etag) {
-				char *retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+				char *retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 				exif_data_unref (edata);
 				return retval;
 			}
@@ -153,7 +154,7 @@ get_exif_aperture_value (const char *filename)
 			    (e->tag != EXIF_TAG_FNUMBER))
 				continue;
 
-			retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+			retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 			exif_data_unref (edata);
 
 			return retval;
@@ -179,6 +180,17 @@ have_exif_data (const char *filename)
 		exif_data_unref (edata);
 
 	return result;
+}
+
+
+#define VALUE_LEN 1024
+
+
+const char *
+get_exif_entry_value (ExifEntry *entry)
+{
+	char value[VALUE_LEN + 1];
+	return exif_entry_get_value (entry, value, VALUE_LEN);
 }
 
 

@@ -32,6 +32,7 @@
 #include <exif-content.h>
 #include <exif-entry.h>
 
+
 char *   get_exif_tag            (const char *filename,
 				  ExifTag     etag);
 
@@ -41,6 +42,7 @@ char *   get_exif_aperture_value (const char *filename);
 
 gboolean have_exif_data          (const char *filename);
 
+const char *get_exif_entry_value (ExifEntry *entry);
 
 #endif /* HAVE_LIBEXIF */
 
