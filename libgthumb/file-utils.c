@@ -106,10 +106,10 @@ path_list_handle_free (PathListHandle *handle)
 
 static void
 directory_load_cb (GnomeVFSAsyncHandle *handle,
-		   GnomeVFSResult result,
-		   GList *list,
-		   guint entries_read,
-		   gpointer data)
+		   GnomeVFSResult       result,
+		   GList               *list,
+		   guint                entries_read,
+		   gpointer             data)
 {
 	PathListData *pli;
 	GList *node;

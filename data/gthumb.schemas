@@ -6156,5 +6156,20 @@
 	</locale>
       </schema>
 
+      <!-- Photo Importer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/add_to_catalog/last_catalog</key>
+	<applyto>/apps/gthumb/general/add_to_catalog/last_catalog</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

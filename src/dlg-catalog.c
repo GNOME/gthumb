@@ -38,6 +38,7 @@
 #include "main.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
+#include "gconf-utils.h"
 
 
 #define GLADE_FILE "gthumb.glade"
@@ -76,6 +77,7 @@ new_catalog_cb (GtkWidget *widget,
 	char       *name_utf8, *name;
 	char       *path;
 	int         fd;
+	GtkTreeIter iter;
 
 	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
 					     GTK_DIALOG_MODAL,
@@ -100,12 +102,18 @@ new_catalog_cb (GtkWidget *widget,
 
 	fd = creat (path, 0644);
 	close (fd);
-	g_free (path);
 
 	sync ();
 
 	/* update the catalog list. */
+
 	catalog_list_change_to (data->cat_list, data->current_dir);
+
+	/* select the new catalog. */
+
+	if (catalog_list_get_iter_from_path (data->cat_list, path, &iter))
+		catalog_list_select_iter (data->cat_list, &iter);
+	g_free (path);
 }
 
 
@@ -185,7 +193,10 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 		all_windows_notify_cat_files_added (cat_path, data->data.list);
 
 	catalog_free (catalog);
+	
+	eel_gconf_set_path (PREF_ADD_TO_CATALOG_LAST_CATALOG, cat_path);
 	g_free (cat_path);
+
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -253,13 +264,19 @@ dlg_add_to_catalog (GThumbWindow *window,
 	DialogData       *data;
 	GtkWidget        *list_hbox;
 	GtkWidget        *cat_catalogs_label;
+	char             *last_catalog = NULL;
 
 	data = g_new (DialogData, 1);
 
 	data->window = window;
-	data->current_dir = get_catalog_full_path (NULL);
 	data->cat_list = catalog_list_new (FALSE);
 	data->data.list = list;
+
+	last_catalog = eel_gconf_get_path (PREF_ADD_TO_CATALOG_LAST_CATALOG, NULL);
+	if (path_is_file (last_catalog)) {
+		data->current_dir = remove_level_from_path (last_catalog);
+	} else
+		data->current_dir = get_catalog_full_path (NULL);
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! data->gui) {
@@ -318,6 +335,13 @@ dlg_add_to_catalog (GThumbWindow *window,
 
 	catalog_list_change_to (data->cat_list, data->current_dir);
 	gtk_widget_set_sensitive (data->ok_btn, FALSE);
+
+	if (last_catalog != NULL) {
+		GtkTreeIter iter;
+		if (catalog_list_get_iter_from_path (data->cat_list, last_catalog, &iter))
+			catalog_list_select_iter (data->cat_list, &iter);
+		g_free (last_catalog);
+	}
 
 	/* run dialog. */
 

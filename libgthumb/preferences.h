@@ -189,6 +189,7 @@
 #define  PREF_CROP_ASPECT_RATIO           "/apps/gthumb/dialogs/crop/aspect_ratio"
 #define  PREF_CROP_ASPECT_RATIO_WIDTH     "/apps/gthumb/dialogs/crop/aspect_ratio_width"
 #define  PREF_CROP_ASPECT_RATIO_HEIGHT    "/apps/gthumb/dialogs/crop/aspect_ratio_height"
+#define  PREF_ADD_TO_CATALOG_LAST_CATALOG "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
 
 
 typedef struct {

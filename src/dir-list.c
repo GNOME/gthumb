@@ -393,6 +393,7 @@ dir_list_refresh_continue (PathListData *pld,
 						      TRUE,
 						      0.5,
 						      0.0);
+			gtk_tree_selection_select_path (gtk_tree_view_get_selection (GTK_TREE_VIEW (dir_list->list_view)), path);
 			gtk_tree_path_free (path);
 		}
 		g_free (dir_list->old_dir);

@@ -1,3 +1,21 @@
+2005-01-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.schemas.in:
+	* libgthumb/file-utils.c:
+	* libgthumb/preferences.h:
+	* src/dir-list.c:
+	* src/dlg-catalog.c (new_catalog_cb): automatically select the new
+	catalog.
+	(dlg_add_to_catalog, add_to_catalog__ok_cb): save the last used catalog
+	and auto select it when the dialog is created.
+
+	Fixes bug #149707: Remember last catalog for next catalog operation
+
+	* src/dir-list.c (dir_list_refresh_continue): select row.
+
+	Fixes bug #143161: Select previous directory in directory list.
+	Patch by Jason Tackaberry.
+
 2005-01-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-exif-utils.c (get_exif_time): set isdst to -1
