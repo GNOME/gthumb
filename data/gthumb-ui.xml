@@ -123,6 +123,11 @@
 	<cmd name="EditCurrentCatalog_RedoSearch" _label="Redo _Search" 
 	     _tip="Redo the search"/>
 
+	<cmd name="EditDir_View" _label="Open" 
+	     _tip="Open the selected folder"/>
+	<cmd name="EditDir_View_NewWindow" _label="Open in New Window" 
+	     _tip="Open the selected folder in a new window"/>
+
 	<cmd name="EditDir_Open" _label="Open with the File Manager" 
 	     _tip="Open the selected folder with the Nautilus file
 	     manager"/>
@@ -173,31 +178,29 @@
 	     _tip="View the image with negative colors"
 	     pixtype="stock" pixname="gthumb-invert"/>
 
+	<cmd name="AlterImage_AdjustLevels" _label="_Enhance" 
+	     _tip="Automatically adjust the color levels"
+	     accel="*Shift**Control*E"
+	     pixtype="stock" pixname="gthumb-enhance"/> 
 	<cmd name="AlterImage_Equalize" _label="_Equalize" 
-	     tip="Automatically equalize the image histogram"/>
-	<!--     pixtype="stock" pixname="gthumb-histogram"/> -->
-	<cmd name="AlterImage_AdjustLevels" _label="_Adjust Color Levels" 
-	     tip="Automatically adjust the color levels"/>
-	<!--     pixtype="stock" pixname="gthumb-levels"/>  -->
+	     _tip="Automatically equalize the image histogram"
+	     pixtype="stock" pixname="gthumb-histogram"/> 
 	<cmd name="AlterImage_Normalize" _label="_Normalize" 
 	     _tip="Automatically normalize the contrast"/> 
 	<cmd name="AlterImage_StretchContrast" _label="_Stretch Contrast" 
 	     _tip="Automatically stretch the contrast"/> 
 
 	<cmd name="AlterImage_Posterize" 
-	     _label="_Posterize" _tip="Reduce the number of colors"/>
-	<!--     pixtype="stock" pixname="gthumb-posterize"/> -->
+	     _label="_Posterize" _tip="Reduce the number of colors"
+	     pixtype="stock" pixname="gthumb-posterize"/> 
 	<cmd name="AlterImage_BrightnessContrast" 
 	     _label="_Brightness-Contrast" _tip="Adjust brightness and contrast"
-	     accel="*Control**Shift*B"
 	     pixtype="stock" pixname="gthumb-brightness-contrast"/>
 	<cmd name="AlterImage_HueSaturation" 
 	     _label="_Hue-Saturation" _tip="Adjust hue and saturation"
-     	     accel="*Control**Shift*H"
 	     pixtype="stock" pixname="gthumb-hue-saturation"/> 
 	<cmd name="AlterImage_ColorBalance" 
 	     _label="_Color Balance" _tip="Adjust color balance"
-	     accel="*Control**Shift*C"
 	     pixtype="stock" pixname="gthumb-color-balance"/> 
 	<cmd name="AlterImage_Threshold" 
 	     _label="_Threshold" _tip="Apply threshold"
@@ -205,11 +208,9 @@
 
 	<cmd name="AlterImage_Resize" 
 	     _label="_Resize" _tip="Resize image"
-	     accel="*Control**Shift*Z"
 	     pixtype="stock" pixname="gthumb-resize"/>
 	<cmd name="AlterImage_Rotate" 
 	     _label="_Rotate" _tip="Rotate image"
-	     accel="*Control**Shift*R"
              pixtype="stock" pixname="gthumb-rotate"/>
 	<cmd name="AlterImage_Crop" 
 	     _label="_Crop" _tip="Crop image"
@@ -544,9 +545,10 @@
 		<menuitem name="Go_Refresh" verb=""/>
 	</submenu>
 	<submenu name="Image" _label="_Image">
+	        <menuitem name="AlterImage_AdjustLevels" verb=""/>
 		<menuitem name="AlterImage_Resize" verb=""/>
 <!--		<menuitem name="AlterImage_Rotate" verb=""/> -->
-<!--		<menuitem name="AlterImage_Crop" verb=""/> -->
+		<menuitem name="AlterImage_Crop" verb=""/> 
 		<submenu name="Transform" _label="_Transform">
 			<menuitem name="AlterImage_Rotate90" verb=""/>
 			<menuitem name="AlterImage_Rotate90CC" verb=""/>
@@ -554,17 +556,15 @@
 			<menuitem name="AlterImage_Mirror" verb=""/>
 		</submenu>
 		<separator/>
+		<menuitem name="AlterImage_Desaturate" verb=""/>
+		<menuitem name="AlterImage_Invert" verb=""/>
 		<menuitem name="AlterImage_ColorBalance" verb=""/>
 		<menuitem name="AlterImage_HueSaturation" verb=""/>
 		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
-<!--		<menuitem name="AlterImage_Threshold" verb=""/> -->
+<!--		<menuitem name="AlterImage_Threshold" verb=""/>  -->
 		<menuitem name="AlterImage_Posterize" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_Desaturate" verb=""/>
-		<menuitem name="AlterImage_Invert" verb=""/>
 		<submenu name="Auto" _label="Auto">
 			<menuitem name="AlterImage_Equalize" verb=""/>
-			<menuitem name="AlterImage_AdjustLevels" verb=""/>
 			<menuitem name="AlterImage_Normalize" verb=""/>
 			<menuitem name="AlterImage_StretchContrast" verb=""/>
 		</submenu>
@@ -789,8 +789,11 @@
 	</popup>
 
 	<popup name="DirPopup">
+	        <menuitem name="EditDir_View" verb=""/>
+	        <menuitem name="EditDir_View_NewWindow" verb=""/>
 		<menuitem name="EditDir_Open" verb=""
 		          _label="Open with the File Manager"/>
+		<separator/>
 		<menuitem name="EditDir_Rename" verb=""/>
 		<menuitem name="EditDir_Delete" verb=""/>
 		<menuitem name="EditDir_Copy" verb=""/>

@@ -1585,36 +1585,6 @@ typedef struct {
 } ImageInfo;
 
 
-static int 
-normalize_thumb (int *width, 
-		 int *height, 
-		 int  max_width, 
-		 int  max_height)
-{
-	gboolean modified;
-	float    max_w = max_width;
-	float    max_h = max_height;
-	float    w = *width;
-	float    h = *height;
-	float    factor;
-	int      new_width, new_height;
-
-	if ((*width < max_width - 1) && (*height < max_height - 1)) 
-		return FALSE;
-
-	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor - 0.5), 1);
-	new_height = MAX ((int) (h * factor - 0.5), 1);
-	
-	modified = (new_width != *width) || (new_height != *height);
-
-	*width = new_width;
-	*height = new_height;
-
-	return modified;
-}
-
-
 static ImageInfo *
 image_info_new (const char *filename)
 {
@@ -2062,7 +2032,7 @@ show_current_page (PrintCatalogDialogData *data)
 
 
 static GdkPixbuf *
-_gdk_pixbuf_rotate (GdkPixbuf *pixbuf,
+print__gdk_pixbuf_rotate (GdkPixbuf *pixbuf,
 		    int        angle)
 {
 	GdkPixbuf *rotated = NULL;
@@ -2098,11 +2068,11 @@ image_info_rotate (ImageInfo *image,
 		return;
 
 	tmp_pixbuf = image->thumbnail;
-	image->thumbnail = _gdk_pixbuf_rotate (tmp_pixbuf, angle);
+	image->thumbnail = print__gdk_pixbuf_rotate (tmp_pixbuf, angle);
 	g_object_unref (tmp_pixbuf);
 	
 	tmp_pixbuf = image->thumbnail_active;
-	image->thumbnail_active = _gdk_pixbuf_rotate (tmp_pixbuf, angle);
+	image->thumbnail_active = print__gdk_pixbuf_rotate (tmp_pixbuf, angle);
 	g_object_unref (tmp_pixbuf);
 	
 	image->rotate = (image->rotate + angle) % 360;
@@ -2840,7 +2810,7 @@ print_catalog (GnomePrintContext *pc,
 		}
 		
 		image_pixbuf = gdk_pixbuf_new_from_file (image->filename, NULL);
-		pixbuf = _gdk_pixbuf_rotate (image_pixbuf, image->rotate);
+		pixbuf = print__gdk_pixbuf_rotate (image_pixbuf, image->rotate);
 		g_object_unref (image_pixbuf);
 
 		if (pixbuf != NULL) {
@@ -3126,7 +3096,7 @@ image_loader_done_cb (ImageLoader            *il,
 		thumb_w = image->pixbuf_width = gdk_pixbuf_get_width (pixbuf);
 		thumb_h = image->pixbuf_height = gdk_pixbuf_get_height (pixbuf);
 
-		if (normalize_thumb (&thumb_w, &thumb_h, THUMB_SIZE, THUMB_SIZE))
+		if (scale_keepping_ratio (&thumb_w, &thumb_h, THUMB_SIZE, THUMB_SIZE))
 			image->thumbnail = gdk_pixbuf_scale_simple (pixbuf, 
 								    thumb_w,
 								    thumb_h,

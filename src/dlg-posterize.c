@@ -250,17 +250,9 @@ dlg_posterize (GThumbWindow *window)
 	image_width = gdk_pixbuf_get_width (image);
 	image_height = gdk_pixbuf_get_height (image);
 
-	if (image_width > PREVIEW_SIZE || image_height > PREVIEW_SIZE) {
-		double factor;
-
-		factor = MIN ((double) (PREVIEW_SIZE) / image_width, 
-			      (double) (PREVIEW_SIZE) / image_height);
-		preview_width  = MAX ((int) (factor * image_width), 1);
-		preview_height = MAX ((int) (factor * image_height), 1);
-	} else {
-		preview_width  = image_width;
-		preview_height = image_height;
-	}
+	preview_width  = image_width;
+	preview_height = image_height;
+	scale_keepping_ratio (&preview_width, &preview_height, PREVIEW_SIZE, PREVIEW_SIZE);
 	
 	data->orig_pixbuf = gdk_pixbuf_scale_simple (image, 
 						     preview_width, 

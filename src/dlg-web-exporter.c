@@ -366,11 +366,6 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_combo_entry),
-				      ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
-	g_free (svalue);
-
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
 	g_free (svalue);
@@ -410,8 +405,15 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/**/
 
-	data->destinations = eel_gconf_get_string_list (PREF_WEB_ALBUM_DESTINATIONS);
+	data->destinations = eel_gconf_get_path_list (PREF_WEB_ALBUM_DESTINATIONS);
 	update_destinations_list (data);
+
+	/**/
+
+	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_combo_entry),
+				      (((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue));
+	g_free (svalue);
 
 	/* Signals. */
 
@@ -516,8 +518,8 @@ static void
 destination_dialog_destroy_cb (GtkWidget             *widget, 
 			      DestinationsDialogData *ddata)
 {
-	eel_gconf_set_string_list (PREF_WEB_ALBUM_DESTINATIONS,
-				   ddata->data->destinations);
+	eel_gconf_set_path_list (PREF_WEB_ALBUM_DESTINATIONS,
+				 ddata->data->destinations);
 	update_destinations_list (ddata->data);
 	if (ddata->new_value != NULL)
 		gtk_entry_set_text (GTK_ENTRY (ddata->data->wa_destination_combo_entry), ddata->new_value);

@@ -20,6 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -29,6 +30,8 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#define GDK_PIXBUF_ENABLE_BACKEND
+#include <gdk-pixbuf/gdk-pixbuf-animation.h>
 
 #include "gthumb-init.h"
 #include "thumb-loader.h"
@@ -38,8 +41,8 @@
 #include "pixbuf-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "jpeg-utils.h"
 #include "gthumb-marshal.h"
-
 
 
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
@@ -92,11 +95,6 @@ static void         thumb_loader_done_cb    (ImageLoader *il,
 
 static void         thumb_loader_error_cb   (ImageLoader *il,
 					     gpointer data);
-
-static gboolean     scale_thumb             (gint *width, 
-					     gint *height, 
-					     gint max_w, 
-					     gint max_h);
 
 static gint         normalize_thumb         (gint *width, 
 					     gint *height, 
@@ -226,6 +224,35 @@ thumb_loader_get_type ()
 }
 
 
+static GdkPixbufAnimation*
+thumb_loader (const char  *path,
+	      GError     **error,
+	      gpointer     data)
+{
+	ThumbLoader        *tl = data;
+	GdkPixbufAnimation *animation = NULL;
+
+#ifdef HAVE_LIBJPEG
+	if (image_is_jpeg (path)) {
+		ThumbLoaderPrivateData *priv = tl->priv;
+		GdkPixbuf *pixbuf;
+
+		pixbuf = f_load_scaled_jpeg (path, 
+					     priv->max_w, 
+					     priv->max_h, 
+					     NULL, NULL);
+		if (pixbuf != NULL) {
+			animation = gdk_pixbuf_non_anim_new (pixbuf);
+			g_object_unref (pixbuf);
+		}
+	} else
+#endif
+		animation = gdk_pixbuf_animation_new_from_file (path, error);
+
+	return animation;
+}
+
+
 GObject*     
 thumb_loader_new (const char *path, 
 		  int width, 
@@ -248,6 +275,8 @@ thumb_loader_new (const char *path,
 	}
 
 	priv->il = IMAGE_LOADER (image_loader_new (path, FALSE));
+
+	image_loader_set_loader (priv->il, thumb_loader, tl);
 
 	g_signal_connect (G_OBJECT (priv->il), 
 			  "image_done", 
@@ -492,7 +521,7 @@ thumb_from_xpm_d (const char **data,
 	w = gdk_pixbuf_get_width (pixbuf);
 	h = gdk_pixbuf_get_height (pixbuf);
 
-	if (scale_thumb (&w, &h, max_w, max_h)) {
+	if (scale_keepping_ratio (&w, &h, max_w, max_h)) {
 		/* Scale */
 		GdkPixbuf *tmp;
 		
@@ -586,8 +615,8 @@ thumb_loader_done_cb (ImageLoader *il,
 		 * scaled if necessary. */
 
 		/* Check whether to scale. */
-		modified = scale_thumb (&width, &height, 
-					CACHE_MAX_W, CACHE_MAX_H);
+		modified = scale_keepping_ratio (&width, &height, 
+						 CACHE_MAX_W, CACHE_MAX_H);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
@@ -615,7 +644,7 @@ thumb_loader_done_cb (ImageLoader *il,
 			g_object_unref (pixbuf);
 		}
 	} else {
-		modified = scale_thumb (&width,	&height, priv->max_w, priv->max_h);
+		modified = scale_keepping_ratio (&width, &height, priv->max_w, priv->max_h);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
@@ -654,36 +683,6 @@ thumb_loader_error_cb (ImageLoader *il,
 	
 	image_loader_set_path (priv->il, priv->path);
 	image_loader_start (priv->il);
-}
-
-
-static gboolean
-scale_thumb (gint *width, 
-	     gint *height, 
-	     gint max_width, 
-	     gint max_height)
-{
-	gboolean modified;
-	float    max_w = max_width;
-	float    max_h = max_height;
-	float    w = *width;
-	float    h = *height;
-	float    factor;
-	int      new_width, new_height;
-
-	if ((*width < max_width - 1) && (*height < max_height - 1)) 
-		return FALSE;
-
-	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor - 0.5), 1);
-	new_height = MAX ((int) (h * factor - 0.5), 1);
-	
-	modified = (new_width != *width) || (new_height != *height);
-
-	*width = new_width;
-	*height = new_height;
-
-	return modified;
 }
 
 

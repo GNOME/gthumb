@@ -59,6 +59,7 @@ HEADER_FILES =				\
 	gtk-utils.h			\
 	image-loader.h			\
 	image-viewer.h			\
+	jpeg-utils.h			\
 	nav-window.h			\
 	pixbuf-utils.h			\
 	preferences.h			\
@@ -112,6 +113,7 @@ libgthumb_la_SOURCES =			\
 	gtk-utils.c			\
 	image-loader.c			\
 	image-viewer.c			\
+	jpeg-utils.c			\
 	nav-window.c			\
 	pixbuf-utils.c			\
 	preferences.c			\

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1349,3 +1349,34 @@ _gdk_pixbuf_save (GdkPixbuf    *pixbuf,
 
 	return result;
 }
+
+
+gboolean
+scale_keepping_ratio (int *width,
+		      int *height,
+		      int  max_width,
+		      int  max_height)
+{
+	double   w = *width;
+	double   h = *height;
+	double   max_w = max_width;
+	double   max_h = max_height;
+	double   factor;
+	int      new_width, new_height;
+	gboolean modified;
+
+	if ((*width < max_width) && (*height < max_height)) 
+		return FALSE;
+
+	factor = MIN (max_w / w, max_h / h);
+	new_width  = MAX ((int) (w * factor - 0.5), 1);
+	new_height = MAX ((int) (h * factor - 0.5), 1);
+	
+	modified = (new_width != *width) || (new_height != *height);
+
+	*width = new_width;
+	*height = new_height;
+
+	return modified;
+}
+

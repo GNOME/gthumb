@@ -125,53 +125,66 @@
 	      <property name="spacing">24</property>
 
 	      <child>
-		<widget class="GtkVBox" id="vbox1">
+		<widget class="GtkVBox" id="vbox4">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">6</property>
+		  <property name="spacing">0</property>
 
 		  <child>
-		    <widget class="GtkButton" id="select_model_button">
+		    <widget class="GtkVBox" id="vbox1">
 		      <property name="visible">True</property>
-		      <property name="tooltip" translatable="yes">Select a camera model</property>
-		      <property name="can_focus">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
+		      <property name="homogeneous">False</property>
+		      <property name="spacing">6</property>
 
 		      <child>
-			<widget class="GtkImage" id="progress_camera_image">
+			<widget class="GtkButton" id="select_model_button">
 			  <property name="visible">True</property>
+			  <property name="tooltip" translatable="yes">Select a camera model</property>
+			  <property name="can_focus">True</property>
+			  <property name="relief">GTK_RELIEF_NORMAL</property>
+
+			  <child>
+			    <widget class="GtkImage" id="progress_camera_image">
+			      <property name="visible">True</property>
+			      <property name="xalign">0.5</property>
+			      <property name="yalign">0.5</property>
+			      <property name="xpad">0</property>
+			      <property name="ypad">0</property>
+			    </widget>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">False</property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="camera_model_label">
+			  <property name="width_request">100</property>
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">No camera detected</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_CENTER</property>
+			  <property name="wrap">True</property>
+			  <property name="selectable">False</property>
 			  <property name="xalign">0.5</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
 			</widget>
+			<packing>
+			  <property name="padding">0</property>
+			  <property name="expand">False</property>
+			  <property name="fill">True</property>
+			</packing>
 		      </child>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
 		      <property name="expand">True</property>
-		      <property name="fill">False</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkLabel" id="camera_model_label">
-		      <property name="width_request">100</property>
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">No camera detected</property>
-		      <property name="use_underline">False</property>
-		      <property name="use_markup">False</property>
-		      <property name="justify">GTK_JUSTIFY_CENTER</property>
-		      <property name="wrap">True</property>
-		      <property name="selectable">False</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xpad">0</property>
-		      <property name="ypad">0</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
 		      <property name="fill">False</property>
 		    </packing>
 		  </child>
@@ -336,7 +349,7 @@
 		    <widget class="GtkCheckButton" id="delete_checkbutton">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Delete imported images</property>
+		      <property name="label" translatable="yes">_Delete imported images from the camera</property>
 		      <property name="use_underline">True</property>
 		      <property name="relief">GTK_RELIEF_NORMAL</property>
 		      <property name="active">False</property>
@@ -431,18 +444,96 @@
       </child>
 
       <child>
-	<widget class="GtkScrolledWindow" id="import_preview_scrolledwindow">
-	  <property name="width_request">430</property>
-	  <property name="height_request">200</property>
+	<widget class="GtkHBox" id="import_preview_box">
 	  <property name="visible">True</property>
-	  <property name="can_focus">True</property>
-	  <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-	  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-	  <property name="shadow_type">GTK_SHADOW_IN</property>
-	  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">6</property>
 
 	  <child>
-	    <placeholder/>
+	    <widget class="GtkScrolledWindow" id="import_preview_scrolledwindow">
+	      <property name="width_request">430</property>
+	      <property name="height_request">200</property>
+	      <property name="visible">True</property>
+	      <property name="can_focus">True</property>
+	      <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+	      <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+	      <property name="shadow_type">GTK_SHADOW_IN</property>
+	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
+	      <child>
+		<placeholder/>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkVBox" id="vbox2">
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">6</property>
+
+	      <child>
+		<widget class="GtkButton" id="import_reload_button">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Update previews</property>
+		  <property name="can_focus">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+
+		  <child>
+		    <widget class="GtkImage" id="image2">
+		      <property name="visible">True</property>
+		      <property name="stock">gtk-refresh</property>
+		      <property name="icon_size">4</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkButton" id="import_delete_button">
+		  <property name="visible">True</property>
+		  <property name="tooltip" translatable="yes">Delete selected images from the camera</property>
+		  <property name="can_focus">True</property>
+		  <property name="relief">GTK_RELIEF_NORMAL</property>
+
+		  <child>
+		    <widget class="GtkImage" id="image3">
+		      <property name="visible">True</property>
+		      <property name="stock">gtk-delete</property>
+		      <property name="icon_size">4</property>
+		      <property name="xalign">0.5</property>
+		      <property name="yalign">0.5</property>
+		      <property name="xpad">0</property>
+		      <property name="ypad">0</property>
+		    </widget>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">False</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">True</property>
+	      <property name="fill">True</property>
+	    </packing>
 	  </child>
 	</widget>
 	<packing>
@@ -453,40 +544,53 @@
       </child>
 
       <child>
-	<widget class="GtkHBox" id="progress_info_box">
+	<widget class="GtkVBox" id="progress_info_box">
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">6</property>
 
 	  <child>
-	    <widget class="GtkImage" id="progress_info_image">
+	    <widget class="GtkHBox" id="progress_info_hbox">
 	      <property name="visible">True</property>
-	      <property name="stock">gtk-dialog-warning</property>
-	      <property name="icon_size">4</property>
-	      <property name="xalign">0.5</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xpad">0</property>
-	      <property name="ypad">0</property>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">False</property>
-	      <property name="fill">True</property>
-	    </packing>
-	  </child>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">6</property>
 
-	  <child>
-	    <widget class="GtkLabel" id="progress_info_label">
-	      <property name="visible">True</property>
-	      <property name="label" translatable="yes"></property>
-	      <property name="use_underline">False</property>
-	      <property name="use_markup">False</property>
-	      <property name="justify">GTK_JUSTIFY_LEFT</property>
-	      <property name="wrap">True</property>
-	      <property name="selectable">False</property>
-	      <property name="xalign">0</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xpad">0</property>
-	      <property name="ypad">0</property>
+	      <child>
+		<widget class="GtkImage" id="progress_info_image">
+		  <property name="visible">True</property>
+		  <property name="stock">gtk-dialog-warning</property>
+		  <property name="icon_size">4</property>
+		  <property name="xalign">0.5</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">False</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
+
+	      <child>
+		<widget class="GtkLabel" id="progress_info_label">
+		  <property name="visible">True</property>
+		  <property name="label" translatable="yes"></property>
+		  <property name="use_underline">False</property>
+		  <property name="use_markup">False</property>
+		  <property name="justify">GTK_JUSTIFY_LEFT</property>
+		  <property name="wrap">True</property>
+		  <property name="selectable">False</property>
+		  <property name="xalign">0</property>
+		  <property name="yalign">0.5</property>
+		  <property name="xpad">0</property>
+		  <property name="ypad">0</property>
+		</widget>
+		<packing>
+		  <property name="padding">0</property>
+		  <property name="expand">True</property>
+		  <property name="fill">True</property>
+		</packing>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>

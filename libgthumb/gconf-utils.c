@@ -405,6 +405,96 @@ eel_gconf_get_string_list (const char *key)
 
 
 GSList *
+eel_gconf_get_path_list (const char *key)
+{
+	GSList *str_slist, *slist, *scan;
+
+	str_slist = eel_gconf_get_string_list (key);
+
+	slist = NULL;
+	for (scan = str_slist; scan; scan = scan->next) {
+		char *str = scan->data;
+		char *path = _g_substitute (str, '~', g_get_home_dir ());
+		slist = g_slist_prepend (slist, path);
+	}
+
+	g_slist_foreach (str_slist, (GFunc) g_free, NULL);
+	g_slist_free (str_slist);
+
+	return g_slist_reverse (slist);
+}
+
+
+static char *
+tilde_compress (const char *path)
+{
+	const char *home_dir = g_get_home_dir();
+	int         home_dir_l = strlen (home_dir);
+	int         ntilde = 0;
+	const char *scan;
+	int         path_l, result_l;
+	char       *result, *scan2;
+
+	if (path == NULL)
+		return NULL;
+
+	path_l = strlen (path);
+	for (scan = path; scan != NULL; scan++) {
+		if (path_l - (scan - path) < home_dir_l)
+			break;
+		if (strncmp (scan, home_dir, home_dir_l) == 0)
+			ntilde++;
+	}
+	
+	if (ntilde == 0)
+		return g_strdup (path);
+	
+	result_l = strlen (path) + ntilde - (ntilde * home_dir_l);
+	result = g_new (char, result_l + 1);
+
+	for (scan = path, scan2 = result; scan != NULL; scan2++) {
+		if (path_l - (scan - path) < home_dir_l) {
+			strcpy (scan2, scan);
+			scan2 += strlen (scan);
+			break;
+		}
+		if (strncmp (scan, home_dir, home_dir_l) == 0) {
+			*scan2 = '~';
+			scan += home_dir_l;
+		} else {
+			*scan2 = *scan;
+			scan++;
+		} 
+	}
+	*scan2 = 0;
+
+	return result;
+}
+
+
+void
+eel_gconf_set_path_list (const char    *key,
+			 const GSList  *string_list_value)
+{
+	GSList       *path_slist;
+	const GSList *scan;
+
+	path_slist = NULL;
+	for (scan = string_list_value; scan; scan = scan->next) {
+		char *value = scan->data;
+		char *path = tilde_compress (value);
+		path_slist = g_slist_prepend (path_slist, path);
+	}
+	path_slist = g_slist_reverse (path_slist);
+
+	eel_gconf_set_string_list (key, path_slist);
+
+	g_slist_foreach (path_slist, (GFunc) g_free, NULL);
+	g_slist_free (path_slist);
+}
+
+
+GSList *
 eel_gconf_get_locale_string_list (const char *key)
 {
 	GSList *utf8_slist, *slist, *scan;
@@ -460,53 +550,6 @@ eel_gconf_get_path (const char *key,
 	g_free (path);
 
 	return no_tilde_path;
-}
-
-
-static char *
-tilde_compress (const char *path)
-{
-	const char *home_dir = g_get_home_dir();
-	int         home_dir_l = strlen (home_dir);
-	int         ntilde = 0;
-	const char *scan;
-	int         path_l, result_l;
-	char       *result, *scan2;
-
-	if (path == NULL)
-		return NULL;
-
-	path_l = strlen (path);
-	for (scan = path; scan != NULL; scan++) {
-		if (path_l - (scan - path) < home_dir_l)
-			break;
-		if (strncmp (scan, home_dir, home_dir_l) == 0)
-			ntilde++;
-	}
-	
-	if (ntilde == 0)
-		return g_strdup (path);
-	
-	result_l = strlen (path) + ntilde - (ntilde * home_dir_l);
-	result = g_new (char, result_l + 1);
-
-	for (scan = path, scan2 = result; scan != NULL; scan2++) {
-		if (path_l - (scan - path) < home_dir_l) {
-			strcpy (scan2, scan);
-			scan2 += strlen (scan);
-			break;
-		}
-		if (strncmp (scan, home_dir, home_dir_l) == 0) {
-			*scan2 = '~';
-			scan += home_dir_l;
-		} else {
-			*scan2 = *scan;
-			scan++;
-		} 
-	}
-	*scan2 = 0;
-
-	return result;
 }
 
 

@@ -35,6 +35,7 @@
 #include "gthumb-enum-types.h"
 #include "file-data.h"
 #include "icons/pixbufs.h"
+#include "pixbuf-utils.h"
 
 
 enum {
@@ -1108,6 +1109,7 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 	char       *icon_name;
 	char       *icon_path;
 	GdkPixbuf  *pixbuf = NULL;
+	int         width, height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (GTK_WIDGET (gfv_list->priv->tree_view)),
                                            (big ? GTK_ICON_SIZE_DIALOG: GTK_ICON_SIZE_LARGE_TOOLBAR),
@@ -1139,26 +1141,16 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 		g_free (icon_path);
 	}
 
-	if ((gdk_pixbuf_get_width (pixbuf) > icon_size)
-	    || (gdk_pixbuf_get_height (pixbuf) > icon_size)) {
-		int        new_w, new_h;
-		int        w, h;
-		double     factor;
-		GdkPixbuf *tmp;
-		
-		w = gdk_pixbuf_get_width (pixbuf);
-		h = gdk_pixbuf_get_height (pixbuf);
-
-		factor = MIN ((double) icon_size / w, (double) icon_size / h);
-		new_w  = MAX ((int) (factor * w), 1);
-		new_h  = MAX ((int) (factor * h), 1);
-
-		tmp = gdk_pixbuf_scale_simple (pixbuf,
-					       new_w,
-					       new_h,
-					       GDK_INTERP_BILINEAR);
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	if (scale_keepping_ratio (&width, &height, icon_size, icon_size)) {
+		GdkPixbuf *scaled;
+		scaled = gdk_pixbuf_scale_simple (pixbuf,
+						  width,
+						  height,
+						  GDK_INTERP_BILINEAR);
 		g_object_unref (pixbuf);
-		pixbuf = tmp;
+		pixbuf = scaled;
 	}
 
 	return pixbuf;

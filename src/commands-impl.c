@@ -52,6 +52,7 @@
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
 #include "dlg-scale-image.h"
+#include "dlg-crop.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"
@@ -80,32 +81,16 @@ typedef enum {
 } WallpaperAlign;
 
 
-void 
-file_new_window_command_impl (BonoboUIComponent *uic, 
-			      gpointer           user_data, 
-			      const char        *verbname)
+static void
+open_new_window_at_location (GThumbWindow *window,
+			     const char   *location)
 {
-	GThumbWindow *window = user_data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GThumbWindow *new_window;
-	char         *location = NULL;
 	int           width, height;
 
-	if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
-	    && (window->dir_list->path != NULL))
-		location = g_strconcat ("file://",
-					window->dir_list->path,
-					NULL);
-	else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
-		 && (window->catalog_path != NULL))
-		location = g_strconcat ("catalog://",
-					window->catalog_path,
-					NULL);	
-
-	if (location != NULL) {
+	if (location != NULL) 
 		preferences_set_startup_location (location);
-		g_free (location);
-	}
 
 	/* Save visualization options. */
 
@@ -130,6 +115,30 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 
 	new_window = window_new ();
 	gtk_widget_show (new_window->app);
+}
+
+
+void 
+file_new_window_command_impl (BonoboUIComponent *uic, 
+			      gpointer           user_data, 
+			      const char        *verbname)
+{
+	GThumbWindow *window = user_data;
+	char         *location = NULL;
+
+	if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
+	    && (window->dir_list->path != NULL))
+		location = g_strconcat ("file://",
+					window->dir_list->path,
+					NULL);
+	else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
+		 && (window->catalog_path != NULL))
+		location = g_strconcat ("catalog://",
+					window->catalog_path,
+					NULL);	
+
+	open_new_window_at_location (window, location);
+	g_free (location);
 }
 
 
@@ -855,6 +864,45 @@ folder_open (GThumbWindow *window,
 			    NULL, &err))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app),
 						   &err);
+}
+
+
+void 
+edit_folder_view_command_impl (BonoboUIComponent *uic, 
+			       gpointer           user_data, 
+			       const gchar       *verbname)
+{
+	GThumbWindow  *window = user_data;
+	char          *path;
+
+	path = dir_list_get_selected_path (window->dir_list);
+	if (path == NULL) 
+		return;
+
+	window_go_to_directory (window, path);
+
+	g_free (path);
+}
+
+
+void 
+edit_folder_view_new_window_command_impl (BonoboUIComponent *uic, 
+					  gpointer           user_data, 
+					  const gchar       *verbname)
+{
+	GThumbWindow  *window = user_data;
+	char          *path;
+	char          *location;
+
+	path = dir_list_get_selected_path (window->dir_list);
+	if (path == NULL) 
+		return;
+
+	location = g_strconcat ("file://", path, NULL);
+	open_new_window_at_location (window, location);
+	g_free (location);
+
+	g_free (path);
 }
 
 
@@ -2073,9 +2121,9 @@ edit_current_catalog_redo_search_command_impl (BonoboUIComponent *uic,
 
 
 void 
-alter_image_rotate_command_impl (BonoboUIComponent *uic, 
-				 gpointer           user_data, 
-				 const gchar       *verbname)
+alter_image_rotate_90_command_impl (BonoboUIComponent *uic, 
+				    gpointer           user_data, 
+				    const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
@@ -2092,9 +2140,9 @@ alter_image_rotate_command_impl (BonoboUIComponent *uic,
 
 
 void 
-alter_image_rotate_cc_command_impl (BonoboUIComponent *uic, 
-				    gpointer           user_data, 
-				    const gchar       *verbname)
+alter_image_rotate_90_cc_command_impl (BonoboUIComponent *uic, 
+				       gpointer           user_data, 
+				       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
@@ -2321,6 +2369,16 @@ alter_image_scale_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	dlg_scale_image (window);
+}
+
+
+void 
+alter_image_crop_command_impl (BonoboUIComponent *uic, 
+			       gpointer           user_data, 
+			       const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_crop (window);
 }
 
 

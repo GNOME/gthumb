@@ -153,6 +153,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("Edit_CurrentEditCategories", edit_current_edit_categories_command_impl),
 	BONOBO_UI_VERB ("Edit_AddToCatalog", edit_add_to_catalog_command_impl),
 	BONOBO_UI_VERB ("Edit_RemoveFromCatalog", edit_remove_from_catalog_command_impl),
+	BONOBO_UI_VERB ("EditDir_View", edit_folder_view_command_impl),
+	BONOBO_UI_VERB ("EditDir_View_NewWindow", edit_folder_view_new_window_command_impl),
 	BONOBO_UI_VERB ("EditDir_Open", edit_folder_open_nautilus_command_impl),
 	BONOBO_UI_VERB ("EditDir_Rename", edit_folder_rename_command_impl),
 	BONOBO_UI_VERB ("EditDir_Delete", edit_folder_delete_command_impl),
@@ -178,8 +180,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("EditCurrentCatalog_Move", edit_current_catalog_move_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_EditSearch", edit_current_catalog_edit_search_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_RedoSearch", edit_current_catalog_redo_search_command_impl),
-	BONOBO_UI_VERB ("AlterImage_Rotate90", alter_image_rotate_command_impl),
-	BONOBO_UI_VERB ("AlterImage_Rotate90CC", alter_image_rotate_cc_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Rotate90", alter_image_rotate_90_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Rotate90CC", alter_image_rotate_90_cc_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Flip", alter_image_flip_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Mirror", alter_image_mirror_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Desaturate", alter_image_desaturate_command_impl),
@@ -193,6 +195,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("AlterImage_HueSaturation", alter_image_hue_saturation_command_impl),
 	BONOBO_UI_VERB ("AlterImage_ColorBalance", alter_image_color_balance_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Resize", alter_image_scale_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Crop", alter_image_crop_command_impl),
 	BONOBO_UI_VERB ("View_ZoomIn", view_zoom_in_command_impl),
 	BONOBO_UI_VERB ("View_ZoomOut", view_zoom_out_command_impl),
 	BONOBO_UI_VERB ("View_Zoom100", view_zoom_100_command_impl),
@@ -681,6 +684,7 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    is_search;
 	gboolean    not_fullscreen;
 	gboolean    image_is_visible;
+	int         image_pos;
 
 	sel_not_null = gth_file_view_selection_not_null (window->file_list->view);
 	only_one_is_selected = gth_file_view_only_one_is_selected (window->file_list->view);
@@ -691,6 +695,11 @@ window_update_sensitivity (GThumbWindow *window)
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
 	not_fullscreen = ! window->fullscreen;
 	image_is_visible = ! image_is_void && ((window->sidebar_visible && window->image_pane_visible && (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) || ! window->sidebar_visible);
+
+	if (! image_is_void && (window->image_path != NULL))
+		image_pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+	else
+		image_pos = -1;
 
 	window_update_go_sensitivity (window);
 
@@ -739,6 +748,7 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_command_sensitive (window, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_command_sensitive (window, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
 
 	set_command_sensitive (window, "View_ZoomIn", ! image_is_void);
 	set_command_sensitive (window, "View_ZoomOut", ! image_is_void);
@@ -848,6 +858,8 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "View_Fullscreen", ! image_is_void);
 	set_command_sensitive (window, "View_ShowPreview", window->sidebar_visible);
 	set_command_sensitive (window, "View_ShowInfo", ! window->sidebar_visible);
+	set_command_sensitive (window, "View_PrevImage", image_pos > 0);
+	set_command_sensitive (window, "View_NextImage", (image_pos != -1) && (image_pos < gth_file_view_get_images (window->file_list->view) - 1));
 
 	/* Tools menu. */
 
@@ -2776,7 +2788,7 @@ key_press_cb (GtkWidget   *widget,
 		/* Rotate image */
 	case GDK_bracketright:
 	case GDK_r: 
-		alter_image_rotate_command_impl (NULL, window, NULL);
+		alter_image_rotate_90_command_impl (NULL, window, NULL);
 		return TRUE;
 			
 		/* Flip image */
@@ -2791,7 +2803,7 @@ key_press_cb (GtkWidget   *widget,
 
 		/* Rotate image counter-clockwise */
 	case GDK_bracketleft:
-		alter_image_rotate_cc_command_impl (NULL, window, NULL);
+		alter_image_rotate_90_cc_command_impl (NULL, window, NULL);
 		return TRUE;
 			
 		/* Delete selection. */
@@ -5617,7 +5629,7 @@ ask_whether_to_save (GThumbWindow   *window,
 			    GTK_WINDOW (window->app),
 			    GTK_DIALOG_MODAL,
 			    _("The current image has been modified, do you want to save it?"),
-			    GTK_STOCK_CANCEL,
+			    _("Do Not Save"),
 			    GTK_STOCK_SAVE_AS,
 			    _("_Do not display this message again"),
 			    PREF_MSG_SAVE_MODIFIED_IMAGE);

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -77,6 +78,9 @@ struct _ImageLoaderPrivateData {
 	gboolean              start_loading;
 	GMutex               *start_loading_mutex;
 	GCond                *start_loading_cond;
+
+	LoaderFunc            loader;
+	gpointer              loader_data;
 };
 
 
@@ -102,13 +106,13 @@ image_loader_finalize__step2 (GObject *object)
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
-	if (priv->pixbuf)
+	if (priv->pixbuf != NULL)
 		g_object_unref (G_OBJECT (priv->pixbuf));
 	
-	if (priv->animation)
+	if (priv->animation != NULL)
 		g_object_unref (G_OBJECT (priv->animation));
 
-	if (priv->uri) {
+	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
 		priv->uri = NULL;
 	}
@@ -248,6 +252,9 @@ image_loader_init (ImageLoader *il)
 	priv->start_loading_mutex = g_mutex_new ();
 	priv->start_loading_cond = g_cond_new ();
 
+	priv->loader = NULL;
+	priv->loader_data = NULL;
+
 	priv->thread = g_thread_create (load_image_thread, il, TRUE, NULL);
 }
 
@@ -294,6 +301,20 @@ image_loader_new (const gchar *path,
 	image_loader_set_path (il, path);
 
 	return G_OBJECT (il);
+}
+
+
+void
+image_loader_set_loader (ImageLoader *il,
+			 LoaderFunc   loader,
+			 gpointer     loader_data)
+{
+	g_return_if_fail (il != NULL);
+
+	g_mutex_lock (il->priv->yes_or_no);
+	il->priv->loader = loader;
+	il->priv->loader_data = loader_data;
+	g_mutex_unlock (il->priv->yes_or_no);
 }
 
 
@@ -389,16 +410,18 @@ image_loader_sync_pixbuf (ImageLoader *il)
 
 	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
 
-	g_mutex_unlock (priv->yes_or_no);
-
-	if (priv->pixbuf == pixbuf)
+	if (priv->pixbuf == pixbuf) {
+		g_mutex_unlock (priv->yes_or_no);
 		return;
+	}
 		
 	if (pixbuf != NULL) 
 		g_object_ref (pixbuf);
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
      	priv->pixbuf = pixbuf;
+
+	g_mutex_unlock (priv->yes_or_no);
 }
 
 
@@ -429,18 +452,20 @@ image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
 			priv->animation = NULL;
 	}
 
-	g_mutex_unlock (priv->yes_or_no);
-
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (pb_loader);
 
-	if (priv->pixbuf == pixbuf)
+	if (priv->pixbuf == pixbuf) {
+		g_mutex_unlock (priv->yes_or_no);
 		return;
+	}
 		
 	if (pixbuf != NULL) 
 		g_object_ref (pixbuf);
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
      	priv->pixbuf = pixbuf;
+
+	g_mutex_unlock (priv->yes_or_no);
 }
 
 
@@ -515,9 +540,12 @@ load_image_thread (void *thread_data)
 
 		g_mutex_lock (priv->yes_or_no);
 
-		if (path != NULL)
-			animation = gdk_pixbuf_animation_new_from_file (path, &error);
-		else 
+		if (path != NULL) {
+			if (priv->loader != NULL)
+				animation = (*priv->loader) (path, &error, priv->loader_data);
+			else
+				animation = gdk_pixbuf_animation_new_from_file (path, &error);
+		} else 
 			animation = NULL;
 		
 		priv->loader_done = TRUE;

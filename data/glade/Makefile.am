@@ -9,6 +9,7 @@ glade_DATA = 				\
 	gthumb_camera.glade		\
 	gthumb_comments.glade		\
 	gthumb_convert.glade		\
+	gthumb_crop.glade		\
 	gthumb_edit.glade		\
 	gthumb_png_exporter.glade 	\
 	gthumb_preferences.glade	\

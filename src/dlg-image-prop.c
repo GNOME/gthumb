@@ -39,6 +39,7 @@
 #include "gtk-utils.h"
 #include "image-viewer.h"
 #include "main.h"
+#include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
 
 
@@ -78,6 +79,9 @@ typedef struct {
 	GtkWidget    *i_file_size_label;
 	GtkWidget    *i_location_label;
 	GtkWidget    *i_date_modified_label;
+
+	GtkWidget    *i_next_button;
+	GtkWidget    *i_prev_button;
 
 	GtkWidget    *image;
 
@@ -366,36 +370,6 @@ update_histogram (DialogData *data)
 }
 
 
-static gboolean
-scale_thumb (int *width, 
-	     int *height, 
-	     int  max_width, 
-	     int  max_height)
-{
-	gboolean modified;
-	float    max_w = max_width;
-	float    max_h = max_height;
-	float    w = *width;
-	float    h = *height;
-	float    factor;
-	int      new_width, new_height;
-
-	if ((*width < max_width - 1) && (*height < max_height - 1)) 
-		return FALSE;
-
-	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor), 1);
-	new_height = MAX ((int) (h * factor), 1);
-	
-	modified = (new_width != *width) || (new_height != *height);
-
-	*width = new_width;
-	*height = new_height;
-
-	return modified;
-}
-
-
 static void
 update_general_info (DialogData *data)
 {
@@ -477,7 +451,7 @@ update_general_info (DialogData *data)
 		
 		width = gdk_pixbuf_get_width (pixbuf);
 		height = gdk_pixbuf_get_height (pixbuf);
-		scale_thumb (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
+		scale_keepping_ratio (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
 		
 		scaled = gdk_pixbuf_scale_simple (pixbuf, 
 						  width, 
@@ -560,8 +534,6 @@ dlg_image_prop_new (GThumbWindow *window)
 	DialogData        *data;
 	GtkWidget         *i_image_vbox;
 	GtkWidget         *i_close_button;
-	GtkWidget         *i_next_button;
-	GtkWidget         *i_prev_button;
 	GtkWidget         *i_field_label;
 	char              *label;
 
@@ -599,8 +571,8 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	i_image_vbox = glade_xml_get_widget (data->gui, "i_image_vbox");
 	i_close_button = glade_xml_get_widget (data->gui, "i_close_button");
-	i_next_button = glade_xml_get_widget (data->gui, "i_next_button");
-	i_prev_button = glade_xml_get_widget (data->gui, "i_prev_button");
+	data->i_next_button = glade_xml_get_widget (data->gui, "i_next_button");
+	data->i_prev_button = glade_xml_get_widget (data->gui, "i_prev_button");
 	data->i_notebook = glade_xml_get_widget (data->gui, "i_notebook");
 
 	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
@@ -693,11 +665,11 @@ dlg_image_prop_new (GThumbWindow *window)
 			  "delete_event",
 			  G_CALLBACK (dialog_delete_event_cb),
 			  data);
-	g_signal_connect (G_OBJECT (i_next_button), 
+	g_signal_connect (G_OBJECT (data->i_next_button), 
 			  "clicked",
 			  G_CALLBACK (next_image_cb),
 			  data);
-	g_signal_connect (G_OBJECT (i_prev_button), 
+	g_signal_connect (G_OBJECT (data->i_prev_button), 
 			  "clicked",
 			  G_CALLBACK (prev_image_cb),
 			  data);
@@ -733,6 +705,26 @@ dlg_image_prop_new (GThumbWindow *window)
 
 
 static void
+update_buttons_sensitivity (DialogData *data)
+{
+	GThumbWindow *window;
+	int           image_pos;
+
+	window = data->window;
+
+	if (! image_viewer_is_void (IMAGE_VIEWER (window->viewer))
+	    && (window->image_path != NULL))
+		image_pos = gth_file_list_pos_from_path (window->file_list, 
+							 window->image_path);
+	else
+		image_pos = -1;
+
+	gtk_widget_set_sensitive (data->i_prev_button, image_pos > 0);
+	gtk_widget_set_sensitive (data->i_next_button, (image_pos != -1) && (image_pos < gth_file_view_get_images (window->file_list->view) - 1));
+}
+
+
+static void
 update_title (DialogData *data)
 {
 	GThumbWindow *window;
@@ -743,6 +735,7 @@ update_title (DialogData *data)
 
 	if (window->image_path == NULL) 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), "");
+
 	else {
 		char *utf8_name;
 		char *title;
@@ -771,6 +764,7 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		data->page_updated[i] = FALSE;
 
 	update_title (data);
+	update_buttons_sensitivity (data);
 	update_notebook_page (data, gtk_notebook_get_current_page (GTK_NOTEBOOK (data->i_notebook)));
 }
 

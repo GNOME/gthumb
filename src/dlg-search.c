@@ -140,6 +140,8 @@ typedef struct {
 
 	char           *catalog_path;
 	gboolean        search_comments;
+
+	GHashTable     *folders_comment;
 } DialogData;
 
 
@@ -168,6 +170,15 @@ free_search_criteria_data (DialogData *data)
 }
 
 
+static gboolean
+remove_folder_comment_cb (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	comment_data_free (value);
+        return TRUE;
+}
+
+
 static void
 free_search_results_data (DialogData *data)
 {
@@ -180,6 +191,8 @@ free_search_results_data (DialogData *data)
 		path_list_free (data->dirs);
 		data->dirs = NULL;
 	}
+
+	g_hash_table_foreach_remove (data->folders_comment, remove_folder_comment_cb, NULL);
 }
 
 
@@ -200,6 +213,7 @@ destroy_cb (GtkWidget  *widget,
 		gnome_vfs_uri_unref (data->uri);
 	if (data->catalog_path != NULL)
 		g_free (data->catalog_path);
+	g_hash_table_destroy (data->folders_comment);
 	g_free (data);
 }
 
@@ -511,6 +525,13 @@ dlg_search_ui (GThumbWindow *window,
 
 	data = g_new0 (DialogData, 1);
 
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE, NULL, NULL);
+	if (! data->gui) {
+		g_free (data);
+		g_warning ("Could not find " SEARCH_GLADE_FILE "\n");
+		return;
+	}
+
 	data->file_patterns = NULL;
 	data->comment_patterns = NULL;
 	data->place_patterns = NULL;
@@ -522,14 +543,7 @@ dlg_search_ui (GThumbWindow *window,
 	data->search_data = NULL;
 	data->uri = NULL;
 	data->catalog_path = catalog_path;
-
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE, NULL,
-				   NULL);
-
-	if (! data->gui) {
-		g_warning ("Could not find " SEARCH_GLADE_FILE "\n");
-		return;
-	}
+	data->folders_comment = g_hash_table_new (g_str_hash, g_str_equal);
 
 	/* Get the widgets. */
 
@@ -742,6 +756,67 @@ match_patterns (char       **patterns,
 }
 
 
+static void
+load_parents_comments (DialogData *data,
+		       const char *filename)
+{
+	gboolean  root_folder;
+	char     *parent = g_strdup (filename);
+
+	do {
+		char *tmp = parent;
+		parent = remove_level_from_path (tmp);
+		g_free (tmp);
+
+		if (g_hash_table_lookup (data->folders_comment, parent) == NULL) {
+			CommentData *comment_data = comments_load_comment (parent);
+			if (comment_data == NULL)
+				comment_data = comment_data_new ();
+
+			g_hash_table_insert (data->folders_comment, 
+					     g_strdup (parent), 
+					     comment_data);
+		}
+
+		root_folder = (strcmp (parent, "/") == 0);
+
+	} while (! root_folder);
+
+	g_free (parent);
+}
+
+
+static void
+add_parents_comments (CommentData *comment_data,
+		      DialogData  *data, 
+		      const char  *filename)
+{
+	gboolean  root_folder;
+	char     *parent = g_strdup (filename);
+
+	do {
+		char        *tmp = parent;
+		CommentData *parent_data;
+
+		parent = remove_level_from_path (tmp);
+		g_free (tmp);
+
+		parent_data = g_hash_table_lookup (data->folders_comment, parent);
+
+		if (parent_data != NULL) {
+			int i;
+			for (i = 0; i < parent_data->keywords_n; i++) 
+				comment_data_add_keyword (comment_data, parent_data->keywords[i]);
+		}
+
+		root_folder = (strcmp (parent, "/") == 0);
+
+	} while (! root_folder);
+
+	g_free (parent);
+}
+
+
 static gboolean
 file_respects_search_criteria (DialogData *data, 
 			       char       *filename)
@@ -760,7 +835,12 @@ file_respects_search_criteria (DialogData *data,
 	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
+	load_parents_comments (data, filename);
+
 	comment_data = comments_load_comment (filename);
+	if (comment_data == NULL) 
+		comment_data = comment_data_new ();
+	add_parents_comments (comment_data, data, filename);
 
 	if (comment_data == NULL) {
 		comment = NULL;
@@ -973,7 +1053,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				unesc_uri = tmp;
 			}
 
-			data->dirs = g_list_prepend (data->dirs,  unesc_uri);
+			data->dirs = g_list_prepend (data->dirs, unesc_uri);
 			g_free (str_uri);
 			break;
 
@@ -1083,12 +1163,14 @@ search_images_async (DialogData *data)
 	/* if the search criteria include comment data just search in
 	 * the comments tree */
 
+	/* FIXME 
 	data->search_comments = ! (empty_pattern (search_data->comment_pattern)
 				   && empty_pattern (search_data->place_pattern)
-				   && empty_pattern (search_data->keywords_pattern)) 
-		/* FIXME 
-		   && (search_data->date_scope == DATE_ANY))*/;
-	
+				   && empty_pattern (search_data->keywords_pattern));
+	*/
+
+	data->search_comments = FALSE;
+
 	search_dir_async (data, search_data->start_from);
 }
 

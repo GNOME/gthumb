@@ -990,18 +990,12 @@ gth_parsed_doc_print (GList              *document,
 			border = gth_tag_get_var (ce, tag, "border");
 			max_size = gth_tag_get_var (ce, tag, "max_size");
 
-			if ((max_size > 0) 
-			    && ((image_width > max_size)
-				 || (image_height > max_size))) {
-				double factor;
-
-				factor = MIN ((double) max_size / image_width,
-					      (double) max_size / image_height);
-				
-				image_width = factor * image_width - 0.5;
-				image_height = factor * image_height - 0.5;
-			}
-
+			if (max_size > 0) 
+				scale_keepping_ratio (&image_width,
+						      &image_height,
+						      max_size,
+						      max_size);
+			
 			image_src_relative = get_path_relative_to_dir (image_src, 
 								       ce->location);
 			escaped_path = gnome_vfs_escape_host_and_path_string (image_src_relative);
@@ -1907,17 +1901,9 @@ thumb_loader_done (ThumbLoader *tloader,
 	if (ce->copy_images && ce->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
-		if ((w > ce->resize_max_width) || (h > ce->resize_max_height)) {
-			float      max_w = ce->resize_max_width;
-			float      max_h = ce->resize_max_height;
-			float      factor;
-			int        new_w, new_h;
+		if (scale_keepping_ratio (&w, &h, ce->resize_max_width, ce->resize_max_height)) {
 			GdkPixbuf *scaled;
-
-			factor = MIN (max_w / w, max_h / h);
-			new_w  = MAX ((int) (w * factor + 0.5), 1);
-			new_h  = MAX ((int) (h * factor + 0.5), 1);
-			scaled = gdk_pixbuf_scale_simple (pixbuf, new_w, new_h, GDK_INTERP_BILINEAR);
+			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->image);
 			idata->image = scaled;
 		} 
@@ -1936,21 +1922,14 @@ thumb_loader_done (ThumbLoader *tloader,
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 
-		if ((w > ce->preview_max_width) || (h > ce->preview_max_height)) {
-			float      max_w = ce->preview_max_width;
-			float      max_h = ce->preview_max_height;
-			float      factor;
-			int        new_w, new_h;
+		if (scale_keepping_ratio (&w, &h, 
+					  ce->preview_max_width,
+					  ce->preview_max_height)) {
 			GdkPixbuf *scaled;
-
-			factor = MIN (max_w / w, max_h / h);
-			new_w  = MAX ((int) (w * factor + 0.5), 1);
-			new_h  = MAX ((int) (h * factor + 0.5), 1);
-
-			scaled = gdk_pixbuf_scale_simple (pixbuf, new_w, new_h, GDK_INTERP_BILINEAR);
+			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
 			idata->preview = scaled;
-		} 
+		}
 	}
 
 	idata->preview_width = gdk_pixbuf_get_width (idata->preview);

@@ -576,11 +576,11 @@ image_key_press_cb (GtkWidget   *widget,
 	case GDK_r:
 	case GDK_R:
 	case GDK_bracketright:
-		alter_image_rotate_command_impl (NULL, window, NULL);
+		alter_image_rotate_90_command_impl (NULL, window, NULL);
 		break;
 
 	case GDK_bracketleft:
-		alter_image_rotate_cc_command_impl (NULL, window, NULL);
+		alter_image_rotate_90_cc_command_impl (NULL, window, NULL);
 		break;
 
 		/* Mirror. */

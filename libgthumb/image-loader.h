@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -60,10 +60,16 @@ struct _ImageLoaderClass
 				    float        percent);
 };
 
+typedef GdkPixbufAnimation * (*LoaderFunc) (const char *path, GError **error, gpointer data);
+
 GType                image_loader_get_type           (void);
 
 GObject *            image_loader_new                (const gchar *path,
 						      gboolean as_animation);
+
+void                 image_loader_set_loader         (ImageLoader *il,
+						      LoaderFunc   loader,
+						      gpointer     data);
 
 void                 image_loader_set_path           (ImageLoader *il,
 						      const gchar *path);

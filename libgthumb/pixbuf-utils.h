@@ -65,4 +65,9 @@ gboolean   _gdk_pixbuf_savev                  (GdkPixbuf    *pixbuf,
 					       char        **values,
 					       GError      **error);
 
+gboolean   scale_keepping_ratio               (int *width,
+					       int *height,
+					       int  max_width,
+					       int  max_height);
+
 #endif

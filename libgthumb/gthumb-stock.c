@@ -37,6 +37,7 @@ static struct {
 	{ GTHUMB_STOCK_COLOR_BALANCE,       color_balance_22_rgba,       color_balance_16_rgba },
 	{ GTHUMB_STOCK_CROP,                crop_16_rgba,                NULL },
 	{ GTHUMB_STOCK_DESATURATE,          desaturate_16_rgba,          NULL },
+	{ GTHUMB_STOCK_ENHANCE,             enhance_22_rgba,             NULL },
 	{ GTHUMB_STOCK_EDIT_IMAGE,          edit_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_FILM,                film_16_rgba,                NULL },
 	{ GTHUMB_STOCK_FLIP,                flip_24_rgba,                flip_16_rgba },

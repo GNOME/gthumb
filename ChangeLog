@@ -1,3 +1,49 @@
+2003-12-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-crop.h: 
+	* src/dlg-crop.c: new files.  added initial crop support.
+
+	* libgthumb/thumb-loader.c (thumb_loader): use a faster loader for 
+	jpeg images.
+
+	* libgthumb/image-loader.h: 
+	* libgthumb/image-loader.c: 
+	(image_loader_set_loader): allow to specify a custom loader.
+
+	* libgthumb/jpeg-utils.h: 
+	* libgthumb/jpeg-utils.c: new files.
+
+	* libgthumb/image-loader.c (image_loader_sync_pixbuf): assign the 
+	pixbuf inside the lock.
+
+2003-12-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-image-prop.c (update_buttons_sensitivity): 
+	* src/gthumb-window.c (window_update_sensitivity): update 
+	"View Next Images" and "View Prev Image" sensitivity.
+
+	* src/jpegutils/Makefile.am (noinst_LTLIBRARIES): 
+	* src/Makefile.am (libjpegtran_la_LIBADD): fix bug #129858 
+	(libgthumb-jpegutils.a isn't libtool library, does not link on 
+	non-x86).  
+
+	Patch by Matthew Wilson. 
+
+2003-12-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gnome-print-font-picker.c: 
+	* libgthumb/gnome-print-font-dialog.c: updated from gedit.
+
+2003-12-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-photo-importer.c (dlg_photo_importer): added 
+	'update previews' and 'delete images from camera' buttons.
+
+2003-12-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gconf-utils.c (eel_gconf_set_path_list)
+	(eel_gconf_get_path_list): new functions
+
 2003-12-17  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/preferences.c: 

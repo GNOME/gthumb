@@ -42,6 +42,7 @@ data/glade/gthumb.glade
 data/glade/gthumb_camera.glade
 data/glade/gthumb_comments.glade
 data/glade/gthumb_convert.glade
+data/glade/gthumb_crop.glade
 data/glade/gthumb_edit.glade
 data/glade/gthumb_png_exporter.glade
 data/glade/gthumb_preferences.glade

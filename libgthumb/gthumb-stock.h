@@ -29,6 +29,7 @@
 #define GTHUMB_STOCK_COLOR_BALANCE        "gthumb-color-balance"
 #define GTHUMB_STOCK_CROP                 "gthumb-crop"
 #define GTHUMB_STOCK_DESATURATE           "gthumb-desaturate"
+#define GTHUMB_STOCK_ENHANCE              "gthumb-enhance"
 #define GTHUMB_STOCK_EDIT_IMAGE           "gthumb-edit-image"
 #define GTHUMB_STOCK_FILM                 "gthumb-film"
 #define GTHUMB_STOCK_FLIP                 "gthumb-flip"

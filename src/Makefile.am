@@ -52,6 +52,8 @@ gthumb_SOURCES = 			\
 	dlg-comment.h			\
 	dlg-convert.c			\
 	dlg-convert.h			\
+	dlg-crop.c			\
+	dlg-crop.h			\
 	dlg-file-utils.c		\
 	dlg-file-utils.h		\
 	dlg-hue-saturation.c		\
@@ -117,7 +119,7 @@ libduplicates_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 libjpegtran_la_SOURCES = dlg-jpegtran.c dlg-jpegtran.h
 libjpegtran_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libjpegtran_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.a
+libjpegtran_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
 
 libpngexporter_la_SOURCES = 	\
 	catalog-png-exporter.c	\

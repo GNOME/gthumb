@@ -1,3 +1,4 @@
 *.bak
+*.gladep
 Makefile
 Makefile.in

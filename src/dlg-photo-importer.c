@@ -48,6 +48,7 @@
 #include "dlg-file-utils.h"
 #include "gconf-utils.h"
 #include "preferences.h"
+#include "pixbuf-utils.h"
 
 
 #define GLADE_FILE "gthumb_camera.glade"
@@ -84,6 +85,9 @@ typedef struct {
 	GtkWidget      *categories_entry;
 	GtkWidget      *import_progressbar;
 	GtkWidget      *progress_camera_image;
+	GtkWidget      *import_preview_box;
+	GtkWidget      *import_reload_button;
+	GtkWidget      *import_delete_button;
 
 	GtkWidget      *progress_info_image;
 	GtkWidget      *progress_info_label;
@@ -102,9 +106,11 @@ typedef struct {
 	float                target;
 	GthImporterOps       current_op;
 
+	gboolean             camera_setted;
 	gboolean             keep_original_filename;
 	gboolean             delete_from_camera;
 	gboolean             interrupted;
+	gboolean             error;
 
 	GList               *categories_list;
 	GList               *delete_list;
@@ -315,36 +321,6 @@ get_temp_filename (void)
 }
 
 
-static int 
-normalize_thumb (int *width, 
-		 int *height, 
-		 int  max_width, 
-		 int  max_height)
-{
-	gboolean modified;
-	float    max_w = max_width;
-	float    max_h = max_height;
-	float    w = *width;
-	float    h = *height;
-	float    factor;
-	int      new_width, new_height;
-
-	if ((*width < max_width - 1) && (*height < max_height - 1)) 
-		return FALSE;
-
-	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor - 0.5), 1);
-	new_height = MAX ((int) (h * factor - 0.5), 1);
-	
-	modified = (new_width != *width) || (new_height != *height);
-
-	*width = new_width;
-	*height = new_height;
-
-	return modified;
-}
-
-
 static void
 display_error_dialog (DialogData *data,
 		      const char *msg1,
@@ -375,12 +351,24 @@ load_images_preview (DialogData *data)
 {
 	GList *file_list, *scan;
 
-	gtk_widget_show (data->import_preview_scrolledwindow);
+	gtk_widget_show (data->import_preview_box);
 	gth_image_list_clear (GTH_IMAGE_LIST (data->image_list));
-	
+
+	data->error = FALSE;
 	file_list = get_all_files (data, "/");
-	if (file_list == NULL) 
+
+	if (file_list == NULL) {
+		if (!data->error) {
+			gtk_image_set_from_stock (GTK_IMAGE (data->progress_info_image),
+						  GTK_STOCK_DIALOG_WARNING,
+						  GTK_ICON_SIZE_BUTTON);
+			gtk_label_set_text (GTK_LABEL (data->progress_info_label), _("No images found"));
+			gtk_widget_show (data->progress_info_box);
+			update_ui ();
+		}
 		return;
+	} else
+		gtk_widget_hide (data->progress_info_box);
 
 	for (scan = file_list; scan; scan = scan->next) {
 		const char *camera_path = scan->data;
@@ -410,7 +398,7 @@ load_images_preview (DialogData *data)
 			width = gdk_pixbuf_get_width (pixbuf);
 			height = gdk_pixbuf_get_height (pixbuf);
 
-			if (normalize_thumb (&width, &height, THUMB_SIZE, THUMB_SIZE)) {
+			if (scale_keepping_ratio (&width, &height, THUMB_SIZE, THUMB_SIZE)) {
 				GdkPixbuf *tmp = pixbuf;
 				pixbuf = gdk_pixbuf_scale_simple (tmp,
 								  width,
@@ -432,6 +420,7 @@ load_images_preview (DialogData *data)
 
 		gp_file_unref (file);
 	}
+
 	task_terminated (data);
 }
 
@@ -441,10 +430,13 @@ set_camera_model (DialogData *data,
 		  const char *model,
 		  const char *port)
 {
-        int      r;
+        int r;
 
-	if (model == NULL || port == NULL) {
-		gtk_widget_hide (data->import_preview_scrolledwindow);
+	data->camera_setted = TRUE;
+
+	if ((model == NULL) || (port == NULL)) {
+		data->camera_setted = FALSE;
+		gtk_widget_hide (data->import_preview_box);
 		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), _("No camera detected"));
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 		return;
@@ -473,6 +465,7 @@ set_camera_model (DialogData *data,
 		load_images_preview (data);
 
 	} else {
+		data->camera_setted = FALSE;
 		display_error_dialog (data, 
 				      _("Could not import photos"),  
 				      gp_result_as_string (r));
@@ -551,6 +544,8 @@ ctx_error_func (GPContext  *context,
 {
 	DialogData *data = callback_data;
 	char       *msg;
+
+	data->error = TRUE;
 
 	msg = g_strdup_vprintf (format, args);
 	gtk_image_set_from_stock (GTK_IMAGE (data->progress_info_image),
@@ -712,27 +707,42 @@ get_extension_lowercase (const char *path)
 static char*
 get_file_name (DialogData *data, 
 	       const char *camera_path,
+	       const char *local_folder,
 	       int         n)
 {
-	char *name;
+	char *file_name;
+	char *file_path;
+	int   m = 1;
 
 	if (data->keep_original_filename) {
-		name = g_strdup (file_name_from_path (camera_path));
-		set_lowercase (name);
+		file_name = g_strdup (file_name_from_path (camera_path));
+		set_lowercase (file_name);
 
 	} else {
 		char *s, *new_ext;
 
 		new_ext = get_extension_lowercase (camera_path);
-		name = g_strdup_printf ("%5d%s", n, new_ext);
+		file_name = g_strdup_printf ("%5d%s", n, new_ext);
 		g_free (new_ext);
 		
-		for (s = name; *s != 0; s++)
+		for (s = file_name; *s != 0; s++)
 			if (*s == ' ')
 				*s = '0';
 	}
 
-	return name;
+	file_path = g_build_filename (local_folder, file_name, NULL);
+
+	while (path_is_file (file_path)) {
+		char *test_name;
+		test_name = g_strdup_printf ("%d.%s", m++, file_name);
+		g_free (file_path);
+		file_path = g_build_filename (local_folder, test_name, NULL);
+		g_free (test_name);
+	}
+
+	g_free (file_name);
+
+	return file_path;
 }
 
 
@@ -769,7 +779,6 @@ save_image (DialogData *data,
 	CameraFile *file;
 	char       *camera_folder;
 	const char *camera_filename;
-	char       *local_name;
 	char       *local_path;
 
 	gp_file_new (&file);
@@ -782,12 +791,9 @@ save_image (DialogData *data,
 			    GP_FILE_TYPE_NORMAL,
 			    file, 
 			    data->context);
+	g_free (camera_folder);
 
-	local_name = get_file_name (data, camera_path, n);
-	local_path = g_build_filename (local_folder,
-				       local_name,
-				       NULL);
-	g_free (local_name);
+	local_path = get_file_name (data, camera_path, local_folder, n);
 
 	if (gp_file_save (file, local_path) >= 0) {
 		if (data->delete_from_camera) 
@@ -796,7 +802,6 @@ save_image (DialogData *data,
 		add_categories_to_image (data, local_path);
 	}
 	
-	g_free (camera_folder);
 	g_free (local_path);
 	gp_file_unref (file);
 }
@@ -935,6 +940,58 @@ choose_categories_cb (GtkButton  *button,
 }
 
 
+static void
+import_reload_cb (GtkButton  *button, 
+		  DialogData *data)
+{
+	if (! data->camera_setted)
+		autodetect_camera (data);
+	else
+		load_images_preview (data);
+}
+
+
+static void
+import_delete_cb (GtkButton  *button, 
+		  DialogData *data)
+{
+	GList *sel_list;
+	GList *scan;
+	GList *delete_list = NULL;
+
+	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
+	if (sel_list != NULL) {
+		for (scan = sel_list; scan; scan = scan->next) {
+			FileData   *fdata = scan->data;
+			const char *filename = fdata->path;
+			delete_list = g_list_prepend (delete_list, g_strdup (filename));
+		}
+		if (delete_list != NULL)
+			delete_list = g_list_reverse (delete_list);
+		file_data_list_free (sel_list);
+	}
+
+	for (scan = delete_list; scan; scan = scan->next) {
+		const char *camera_path = scan->data;
+		char       *camera_folder;
+		const char *camera_filename;
+		
+		camera_folder = remove_level_from_path (camera_path);
+		camera_filename = file_name_from_path (camera_path);
+		
+		gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
+		update_ui ();
+	}
+
+	path_list_free (delete_list);
+
+	task_terminated (data);
+	update_ui ();
+
+	load_images_preview (data);
+}
+
+
 static void dlg_select_camera_model_cb (GtkButton  *button, DialogData *data);
 
 
@@ -973,6 +1030,7 @@ dlg_photo_importer (GThumbWindow *window)
 	data->categories_list = NULL;
 	data->delete_list = NULL;
 	data->interrupted = FALSE;
+	data->camera_setted = FALSE;
 
 	/* Get the widgets. */
 
@@ -993,6 +1051,9 @@ dlg_photo_importer (GThumbWindow *window)
 	data->progress_info_label = glade_xml_get_widget (data->gui, "progress_info_label");
 	data->progress_info_box = glade_xml_get_widget (data->gui, "progress_info_box");
 	data->progress_camera_image = glade_xml_get_widget (data->gui, "progress_camera_image");
+	data->import_preview_box = glade_xml_get_widget (data->gui, "import_preview_box");
+	data->import_reload_button = glade_xml_get_widget (data->gui, "import_reload_button");
+	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
 	btn_ok = glade_xml_get_widget (data->gui, "import_okbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 
@@ -1000,7 +1061,7 @@ dlg_photo_importer (GThumbWindow *window)
 	gtk_widget_show (data->image_list);
 	gtk_container_add (GTK_CONTAINER (data->import_preview_scrolledwindow), data->image_list);
 
-	gtk_widget_hide (data->import_preview_scrolledwindow);
+	gtk_widget_hide (data->import_preview_box);
 
 	/* Set widgets data. */
 
@@ -1055,6 +1116,15 @@ dlg_photo_importer (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->choose_categories_button),
 			  "clicked",
 			  G_CALLBACK (choose_categories_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->import_reload_button),
+			  "clicked",
+			  G_CALLBACK (import_reload_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->import_delete_button),
+			  "clicked",
+			  G_CALLBACK (import_delete_cb),
 			  data);
 
 	/* run dialog. */

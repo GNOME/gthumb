@@ -44,6 +44,8 @@
 #include "icons/pixbufs.h"
 #include "typedefs.h"
 #include "comments.h"
+#include "pixbuf-utils.h"
+
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
@@ -771,21 +773,19 @@ get_folder_pixbuf (double icon_size)
 	}
 	
 	if (folder_pixbuf != NULL) {
-		int       new_w, new_h;
-		int       w, h;
-		double    factor;
+		int w, h;
 		
 		w = gdk_pixbuf_get_width (folder_pixbuf);
 		h = gdk_pixbuf_get_height (folder_pixbuf);
-		
-		factor = MIN (icon_size / w, icon_size / h);
-		new_w  = MAX ((gint) (factor * w), 1);
-		new_h  = MAX ((gint) (factor * h), 1);
-				
-		pixbuf = gdk_pixbuf_scale_simple (folder_pixbuf,
-						  new_w,
-						  new_h,
-						  GDK_INTERP_BILINEAR);
+		if (scale_keepping_ratio (&w, &h, icon_size, icon_size)) 
+			pixbuf = gdk_pixbuf_scale_simple (folder_pixbuf,
+							  w,
+							  h,
+							  GDK_INTERP_BILINEAR);
+		else {
+			pixbuf = folder_pixbuf;
+			g_object_ref (pixbuf);
+		}
 	}
 
 	return pixbuf;

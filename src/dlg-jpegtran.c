@@ -120,8 +120,6 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 				     int        max_height)
 {
 	int        width, height;
-	int        new_width, new_height;
-	double     factor;
 	GdkPixbuf *result = NULL;
 
 	if (pixbuf == NULL)
@@ -129,12 +127,8 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
-	factor = MIN ((double)max_width / width, (double)max_height / height);
-	new_width  = MAX ((int) ((double)width * factor - 0.5), 1);
-	new_height = MAX ((int) ((double)height * factor - 0.5), 1);
-
-	if ((new_width != width) || (new_height != height))
-		result = gdk_pixbuf_scale_simple (pixbuf, new_width, new_height, GDK_INTERP_BILINEAR);
+	if (scale_keepping_ratio (&width, &height, max_width, max_height))
+		result = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 	else {
 		result = pixbuf;
 		g_object_ref (result);
@@ -532,7 +526,6 @@ apply_transformation_generic (DialogData *data,
 
 	data->files_changed_list = g_list_prepend (data->files_changed_list, 
 						   g_strdup (fd->path));
-
 }
 
 

@@ -11,9 +11,9 @@ INCLUDES = 				\
 	-I$(top_srcdir)/libgthumb		
 
 
-noinst_LIBRARIES = libgthumb-jpegutils.a
+noinst_LTLIBRARIES = libgthumb-jpegutils.la
 
-libgthumb_jpegutils_a_SOURCES =		\
+libgthumb_jpegutils_la_SOURCES =	\
 	jpeg-data.c			\
 	jpeg-data.h			\
 	jpeg-marker.c			\
