@@ -82,7 +82,6 @@ typedef struct {
 
 	GtkWidget           *dialog;
 	GtkWidget           *results_dialog;
-	GtkWidget           *duplicates_dialog;
 
 	GtkWidget           *fd_start_from_entry;
 	GtkWidget           *fd_start_from_fileentry;
@@ -781,7 +780,6 @@ dlg_duplicates (GThumbWindow *window)
 
 	data->dialog = glade_xml_get_widget (data->gui, "duplicates_dialog");
 	data->results_dialog = glade_xml_get_widget (data->gui, "duplicates_results_dialog");
-	data->duplicates_dialog = glade_xml_get_widget (data->gui, "duplicates_list_dialog");
 
 	data->fd_start_from_entry = glade_xml_get_widget (data->gui, "fd_start_from_entry");
 	data->fd_start_from_fileentry = glade_xml_get_widget (data->gui, "fd_start_from_fileentry");
@@ -871,7 +869,7 @@ dlg_duplicates (GThumbWindow *window)
 			  G_CALLBACK (find_cb),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->dialog),
+	g_signal_connect (G_OBJECT (data->results_dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_results_dialog_cb),
 			  data);

@@ -1,3 +1,15 @@
+2003-12-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (folder_copy__response_cb): do not free a string 
+	twice.
+
+2003-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-duplicates.c: remove unused variable.
+
+	* src/commands-impl.c (wallpaper_restore_command_impl): restore 
+	wallpaper correctly when the picture_options value is 'none'.
+
 2003-12-15  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Added "hr" to ALL_LINGUAS.

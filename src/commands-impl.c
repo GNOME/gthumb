@@ -75,7 +75,8 @@ typedef enum {
 	WALLPAPER_ALIGN_TILED     = 0,
 	WALLPAPER_ALIGN_CENTERED  = 1,
 	WALLPAPER_ALIGN_STRETCHED = 2,
-	WALLPAPER_ALIGN_SCALED    = 3
+	WALLPAPER_ALIGN_SCALED    = 3,
+	WALLPAPER_NONE            = 4
 } WallpaperAlign;
 
 
@@ -1405,7 +1406,6 @@ folder_copy__response_cb (GObject *object,
 				rename (old_cache_path, new_cache_path);
 			}
 
-			g_free (old_cache_path);
 			g_free (new_cache_path);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -2487,7 +2487,11 @@ set_as_wallpaper (GThumbWindow   *window,
 	case WALLPAPER_ALIGN_SCALED:
 		options = "scaled";
 		break;
+	case WALLPAPER_NONE:
+		options = "none";
+		break;
 	}
+
 	gconf_client_set_string (client, 
 				 "/desktop/gnome/background/picture_options", 
 				 options,
@@ -2552,6 +2556,8 @@ wallpaper_restore_command_impl (BonoboUIComponent *uic,
 		align_type = WALLPAPER_ALIGN_STRETCHED;
 	else if (strcmp (preferences.wallpaperAlign, "scaled") == 0)
 		align_type = WALLPAPER_ALIGN_SCALED;
+	else if (strcmp (preferences.wallpaperAlign, "none") == 0)
+		align_type = WALLPAPER_NONE;
 
 	set_as_wallpaper (window, 
 			  preferences.wallpaper,
