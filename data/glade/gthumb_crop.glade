@@ -6,7 +6,7 @@
 
 <widget class="GtkDialog" id="crop_dialog">
   <property name="border_width">6</property>
-  <property name="visible">True</property>
+  <property name="width_request">520</property>
   <property name="title" translatable="yes">Crop</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -19,7 +19,7 @@
     <widget class="GtkVBox" id="dialog-vbox1">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">6</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
@@ -548,7 +548,7 @@
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 1 10000 1 10 10</property>
+				      <property name="adjustment">1 1 9999 1 10 10</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -588,7 +588,7 @@
 				      <property name="update_policy">GTK_UPDATE_IF_VALID</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 1 10000 1 10 10</property>
+				      <property name="adjustment">1 1 9999 1 10 10</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -720,7 +720,7 @@
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
-	      <property name="expand">True</property>
+	      <property name="expand">False</property>
 	      <property name="fill">True</property>
 	    </packing>
 	  </child>

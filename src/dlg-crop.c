@@ -89,7 +89,7 @@ ok_cb (GtkWidget  *widget,
 	GdkPixbuf     *new_pixbuf;
 	GdkRectangle   selection;
 
-	/* Save options */
+	/* FIXME: Save options */
 
 	/**/
 
@@ -320,6 +320,7 @@ dlg_crop (GThumbWindow *window)
 	/**/
 
 	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (data->ratio_optionmenu));
+	g_object_ref (menu);
 
 	label = g_strdup_printf (_("%dx%d (Image)"), data->image_width, data->image_height);
 	item = gtk_menu_item_new_with_label (label);
@@ -335,7 +336,11 @@ dlg_crop (GThumbWindow *window)
 	g_free (label);
 	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 3);
 
-	selection_changed_cb (GTH_IMAGE_SELECTOR (data->crop_image), data);
+	gtk_option_menu_remove_menu (GTK_OPTION_MENU (data->ratio_optionmenu));
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (data->ratio_optionmenu), menu);
+	g_object_unref (menu);
+
+	ratio_optionmenu_changed_cb (GTK_OPTION_MENU (data->ratio_optionmenu), data);
 
 	/* Set the signals handlers. */
 	
