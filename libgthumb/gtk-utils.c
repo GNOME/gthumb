@@ -127,6 +127,10 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons (title, parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+
 	/* Add label and image */
 
 	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
@@ -137,7 +141,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	
 	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);
@@ -208,6 +212,10 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons (title, parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+
 	/* Add label and image */
 
 	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
@@ -226,7 +234,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	hbox = gtk_hbox_new (FALSE, 6);
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);
@@ -305,6 +313,10 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	d = gtk_dialog_new_with_buttons (title, parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+
 	/* Add label and image */
 
 	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
@@ -315,7 +327,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	
 	hbox = gtk_hbox_new (FALSE, 12);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
 	
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);

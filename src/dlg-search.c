@@ -1179,8 +1179,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				unesc_uri = tmp;
 			}
 
-			g_print ("%s\n", unesc_uri);
-
 			if (file_respects_search_criteria (data, unesc_uri)) 
 				files = g_list_prepend (files, unesc_uri);
 			else
@@ -1203,8 +1201,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				g_free (unesc_uri);
 				unesc_uri = tmp;
 			}
-
-			g_print ("{%s}\n", unesc_uri);
 
 			data->dirs = g_list_prepend (data->dirs,  unesc_uri);
 			g_free (str_uri);
@@ -1273,10 +1269,7 @@ search_dir_async (DialogData *data, char *dir)
 	else
 		start_from = g_strdup (dir);
 
-	g_print ("%s --> %s\n", dir, start_from);
-
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->p_current_dir_entry), dir);
-	g_print ("[0]\n");
 
 	/**/
 
@@ -1300,6 +1293,13 @@ search_dir_async (DialogData *data, char *dir)
 }
 
 
+static gboolean
+empty_pattern (const char *pattern)
+{
+	return (pattern == NULL) || (pattern[0] == 0);
+}
+
+
 static void 
 search_images_async (DialogData *data)
 {
@@ -1311,10 +1311,10 @@ search_images_async (DialogData *data)
 	/* if the search criteria include comment data just search in
 	 * the comments tree */
 
-	data->search_comments = ((search_data->comment_pattern != NULL)
-				 || (search_data->place_pattern != NULL)
-				 || (search_data->keywords_pattern != NULL)
-				 || (search_data->date_scope != DATE_ANY));
-
+	data->search_comments = ! (empty_pattern (search_data->comment_pattern)
+				   && empty_pattern (search_data->place_pattern)
+				   && empty_pattern (search_data->keywords_pattern)
+				   && (search_data->date_scope == DATE_ANY));
+	
 	search_dir_async (data, search_data->start_from);
 }

@@ -255,9 +255,16 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
+	gtk_dialog_set_has_separator (dialog, FALSE);
+
 	main_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), main_box, FALSE, FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (main_box), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (main_box), 6);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (dialog->vbox), 8);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
 
 	/* Folder */
 
