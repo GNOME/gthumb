@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-11-10 00:57+0100\n"
-"PO-Revision-Date: 2002-11-10 00:58+0100\n"
+"POT-Creation-Date: 2002-11-10 16:30+0100\n"
+"PO-Revision-Date: 2002-11-10 16:31+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgid "Creating image : %s.%s"
 msgstr "Skapar bild: %s.%s"
 
 #: libgthumb/catalog.c:89
-msgid "Libray not empty"
+msgid "Library not empty"
 msgstr "Biblioteket är inte tomt"
 
 #: libgthumb/catalog.c:98
@@ -873,7 +873,7 @@ msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
 #: src/gthumb-ui.xml.h:58
-msgid "Go to the previuos visited location"
+msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
 #: src/gthumb-ui.xml.h:59
@@ -1218,7 +1218,7 @@ msgid "Sort images by file size"
 msgstr "Sortera bilder efter filstorlek"
 
 #: src/gthumb-ui.xml.h:146
-msgid "Sort images by modifiction time"
+msgid "Sort images by modification time"
 msgstr "Sortera bilder efter ändringsdatum"
 
 #: src/gthumb-ui.xml.h:147
@@ -1242,7 +1242,7 @@ msgid "Stop loading current location"
 msgstr "Stoppa inläsning av aktuell plats"
 
 #: src/gthumb-ui.xml.h:153
-msgid "Str_erched"
+msgid "Str_etched"
 msgstr "Utstr_äckt"
 
 #: src/gthumb-ui.xml.h:154
@@ -1358,13 +1358,12 @@ msgid "Zoom out"
 msgstr "Zooma ut"
 
 #: src/gthumb-ui.xml.h:184
-#, fuzzy
 msgid "Zoom to _Fit"
-msgstr "Anpassa bilden till fönstret"
+msgstr "Anpassa till _fönstret"
 
 #: src/gthumb-ui.xml.h:185
 msgid "Zoom to fit window"
-msgstr "Anpassa till fönster"
+msgstr "Anpassa till fönstret"
 
 #: src/gthumb-ui.xml.h:186
 msgid "_About"
@@ -1850,9 +1849,8 @@ msgid "JPEG Options"
 msgstr "JPEG-alternativ"
 
 #: src/gthumb_convert.glade.h:10
-#, fuzzy
 msgid "No_rmal (Deflate)"
-msgstr "No_rmal (deflate)"
+msgstr "No_rmal (minska)"
 
 #: src/gthumb_convert.glade.h:11
 msgid "Opti_mize"
@@ -1994,7 +1992,7 @@ msgstr "Magenta-Grön:"
 
 #: src/gthumb_edit.glade.h:18
 msgid "Preserve _Luminosity"
-msgstr "Bevara _luminositet"
+msgstr "Bevara _luminans"
 
 #: src/gthumb_edit.glade.h:19
 msgid "Scale Image"
@@ -2567,7 +2565,7 @@ msgstr "Gör till a_ktuell"
 
 #: src/gthumb_preferences.glade.h:59
 msgid "Show _thumbnails"
-msgstr "Visa _miniatybilder"
+msgstr "Visa _miniatyrbilder"
 
 #: src/gthumb_preferences.glade.h:60
 msgid "Show co_mments"
@@ -2646,11 +2644,12 @@ msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
+"<i>Dra bilden för att flytta\n"
+"den på sidan.</i>"
 
 #: src/gthumb_print.glade.h:5
-#, fuzzy
 msgid "Center _on page"
-msgstr "Centrera på sidan"
+msgstr "Centrera _på sidan"
 
 #: src/gthumb_print.glade.h:8
 msgid "Paper"
@@ -2661,386 +2660,350 @@ msgid "Preview"
 msgstr "Förhandsgranska"
 
 #: src/gthumb_print.glade.h:10
-#, fuzzy
 msgid "Print setup"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Utskriftsinställningar"
 
 #: src/gthumb_print.glade.h:11
-#, fuzzy
 msgid "Printer"
-msgstr "Skriv ut"
+msgstr "Skrivare"
 
 #: src/gthumb_print.glade.h:13
-#, fuzzy
 msgid "_Scale:"
-msgstr "Skala:"
+msgstr "_Skala:"
 
 #: src/gthumb_search.glade.h:3
 msgid "..."
 msgstr "..."
 
 #: src/gthumb_search.glade.h:4
-#, fuzzy
 msgid "<b>Search Criteria</b>"
-msgstr "Sökkriterier"
+msgstr "<b>Sökkriterier</b>"
 
 #: src/gthumb_search.glade.h:5
-#, fuzzy
 msgid "<b>Search Scope</b>"
-msgstr "Sökomfång"
+msgstr "<b>Sökomfång</b>"
 
+# src/gthumb_search.glade.h:
 #: src/gthumb_search.glade.h:6
-#, fuzzy
 msgid "A_vailable categories:"
-msgstr "Tillgängliga program"
+msgstr "T_illgängliga kategorier:"
 
 #: src/gthumb_search.glade.h:7
-#, fuzzy
 msgid "After"
-msgstr "efter"
+msgstr "Efter"
 
 #: src/gthumb_search.glade.h:8
-#, fuzzy
 msgid "All Catego_ries"
-msgstr "gThumb - Sökförlopp"
+msgstr "Alla katego_rier"
 
 #: src/gthumb_search.glade.h:9
-#, fuzzy
 msgid "Any"
-msgstr "alla"
+msgstr "Alla"
 
 #: src/gthumb_search.glade.h:10
 msgid "At _Least a Category"
-msgstr ""
+msgstr "_Minst en kategori"
 
 #: src/gthumb_search.glade.h:11
-#, fuzzy
 msgid "Before"
-msgstr "före"
+msgstr "Före"
 
 #: src/gthumb_search.glade.h:12
-#, fuzzy
 msgid "Ca_tegories:"
-msgstr "gThumb - Sökförlopp"
+msgstr "Ka_tegorier:"
 
 #: src/gthumb_search.glade.h:13
-#, fuzzy
 msgid "Choose Categories"
-msgstr "gThumb - Sökförlopp"
+msgstr "Välj kategorier"
 
 #: src/gthumb_search.glade.h:14
 msgid "Choose categories from the saved list"
-msgstr ""
+msgstr "Välj kategorier från den sparade listan"
 
 #: src/gthumb_search.glade.h:16
-#, fuzzy
 msgid "Equal to"
-msgstr "like med"
+msgstr "Lika med"
 
 #: src/gthumb_search.glade.h:17
-#, fuzzy
 msgid "File _Name:"
-msgstr "Filnamn"
+msgstr "Fil_namn:"
 
 #: src/gthumb_search.glade.h:18
-#, fuzzy
 msgid "Found Images:"
-msgstr "_Sök bilder"
+msgstr "Hittade bilder:"
 
 #: src/gthumb_search.glade.h:19
-#, fuzzy
 msgid "New _Search..."
-msgstr "Ny sökning..."
+msgstr "Ny _sökning..."
 
 #: src/gthumb_search.glade.h:20
-#, fuzzy
 msgid "No images found"
-msgstr "Hittade ingen bild"
+msgstr "Inga bilder hittades"
 
 #: src/gthumb_search.glade.h:21
-#, fuzzy
 msgid "Search Progress"
-msgstr "gThumb - Sökförlopp"
+msgstr "Sökförlopp"
 
 #: src/gthumb_search.glade.h:22
-#, fuzzy
 msgid "Search for Images"
-msgstr "gThumb - Sök efter bilder"
+msgstr "Sök efter bilder"
 
 #: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:38
 msgid "Searching in:"
 msgstr "Söker i:"
 
 #: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:43
-#, fuzzy
 msgid "_Include Sub-Folders"
-msgstr "Ta med underkataloger"
+msgstr "_Inkludera undermappar"
 
 #: src/gthumb_search.glade.h:29
 msgid "_Save"
 msgstr "_Spara"
 
 #: src/gthumb_search.glade.h:31
-#, fuzzy
 msgid "_Selected categories:"
-msgstr "Byt namn på valt album"
+msgstr "_Valda kategorier:"
 
 #: src/gthumb_tools.glade.h:4
-#, fuzzy
 msgid "<b>Comments</b>"
-msgstr "Rutor"
+msgstr "<b>Kommentarer</b>"
 
 #: src/gthumb_tools.glade.h:5
-#, fuzzy
 msgid "<b>File list</b>"
-msgstr "Filstorlek"
+msgstr "<b>Fillista</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
-msgstr ""
+msgstr "<b>Ange en mall som ska användas för namnbyte av bilder</b>"
 
 #: src/gthumb_tools.glade.h:8
-#, fuzzy
 msgid "Apply to _all images"
-msgstr "_Välj alla filer"
+msgstr "Tillämpa på _alla bilder"
 
 #: src/gthumb_tools.glade.h:9
-#, fuzzy
 msgid "Backup Comments"
-msgstr "Kommentar"
+msgstr "Säkerhetskopieringskommentarer"
 
 #: src/gthumb_tools.glade.h:10
 msgid "Change Date"
-msgstr ""
+msgstr "Ändra datum"
 
 #: src/gthumb_tools.glade.h:11
 msgid "Change the last modified date to:"
-msgstr ""
+msgstr "Ändra senast ändrad-datumet idag:"
 
 #: src/gthumb_tools.glade.h:12
-#, fuzzy
 msgid "Check _All"
-msgstr "_Välj alla filer"
+msgstr "Kryssa för _alla"
 
 #: src/gthumb_tools.glade.h:13
-#, fuzzy
 msgid "Check _None"
-msgstr "_Välj alla filer"
+msgstr "Kryssa för _ingen"
 
 #: src/gthumb_tools.glade.h:14
 msgid "Checking image:"
-msgstr ""
+msgstr "Kryssar för bild:"
 
 #: src/gthumb_tools.glade.h:15
-#, fuzzy
 msgid "Current date"
-msgstr "S_kapa"
+msgstr "Aktuellt datum"
 
 #: src/gthumb_tools.glade.h:16
-#, fuzzy
 msgid "Date the image was created"
-msgstr "Rotera bilden 180 grader"
+msgstr "Datum då bilden skapades"
 
 #: src/gthumb_tools.glade.h:17
-#, fuzzy
 msgid "Delete ALL Comments"
-msgstr "_Ta bort kommentar"
+msgstr "Ta bort ALLA kommentarer"
 
 #: src/gthumb_tools.glade.h:18
-#, fuzzy
 msgid "Delete Old Thumbnails"
-msgstr "_Ta bort gamla miniatybilder"
+msgstr "Ta bort gamla miniatyrbilder"
 
 #: src/gthumb_tools.glade.h:19
-#, fuzzy
 msgid "Delete thumbnails of no more existing images"
-msgstr "Ta bort gamla miniatybilder från cachen"
+msgstr "Ta bort miniatyrbilder till bilder som inte längre existerar"
 
 #: src/gthumb_tools.glade.h:20
-#, fuzzy
 msgid "Equal images:"
-msgstr "Sortera fillistan:"
+msgstr "Lika bilder:"
 
 #: src/gthumb_tools.glade.h:21
-#, fuzzy
 msgid "Find Duplicates"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Sök dubletter"
 
 #: src/gthumb_tools.glade.h:22
-#, fuzzy
 msgid "Found Duplicates:"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Hittade dubletter:"
 
 #: src/gthumb_tools.glade.h:23
-#, fuzzy
 msgid "JPEG Transform"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "JPEG-transformering"
 
 #: src/gthumb_tools.glade.h:24
-#, fuzzy
 msgid "Maintenance"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Underhåll"
 
 #: src/gthumb_tools.glade.h:25
 msgid "Mirror image horizontally (left-right)"
-msgstr ""
+msgstr "Spegla bilden horisontellt (vänster-höger)"
 
 #: src/gthumb_tools.glade.h:26
 msgid "Mirror image vertically (top-bottom)"
-msgstr ""
+msgstr "Spegla bilden vertikalt (överkant-underkant)"
 
 #: src/gthumb_tools.glade.h:27
-#, fuzzy
 msgid "New names _preview:"
-msgstr "Bildalternativ"
+msgstr "_Förhandsgranskning av nya namn:"
 
 #: src/gthumb_tools.glade.h:28
-#, fuzzy
 msgid "Re_verse Order"
-msgstr "Omvänd ordning"
+msgstr "Om_vänd ordning"
 
 #: src/gthumb_tools.glade.h:29
-#, fuzzy
 msgid "Remove ALL Thumbnails"
-msgstr "_Ta bort gamla miniatybilder"
+msgstr "Ta bort ALLA miniatyrbilder"
 
 #: src/gthumb_tools.glade.h:30
-#, fuzzy
 msgid "Remove Old Comments"
-msgstr "Ta bort _gamla kommentarer"
+msgstr "Ta bort gamla kommentarer"
 
 #: src/gthumb_tools.glade.h:31
-#, fuzzy
 msgid "Remove comments of no more existing images"
-msgstr "Ta bort kommentar från valda bilder"
+msgstr "Ta bort kommentarer till bilder som inte längre existerar"
 
 #: src/gthumb_tools.glade.h:32
-#, fuzzy
 msgid "Rename Series"
-msgstr "_Ändra filnamn..."
+msgstr "Byt namn på serier"
 
 #: src/gthumb_tools.glade.h:33
 msgid "Restore Comments from a Backup File"
-msgstr ""
+msgstr "Återställ kommentarer från en säkerhetskopia"
 
 #: src/gthumb_tools.glade.h:34
 msgid "Revert changes"
-msgstr ""
+msgstr "Återställ ändringar"
 
 #: src/gthumb_tools.glade.h:35
-#, fuzzy
 msgid "Rotate image 90 degrees clockwise"
-msgstr "Rotera bilden medsols"
+msgstr "Rotera bilden 90 grader medsols"
 
 #: src/gthumb_tools.glade.h:36
-#, fuzzy
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Rotera bilden medsols"
+msgstr "Rotera bilden 90 grader motsols"
 
 #: src/gthumb_tools.glade.h:37
 msgid "Search terminated, no duplicates found."
-msgstr ""
+msgstr "Sökningen avslutad, inga dubletter hittades."
 
 #: src/gthumb_tools.glade.h:40
 msgid "The EXIF date"
-msgstr ""
+msgstr "EXIF-datumet"
 
 #: src/gthumb_tools.glade.h:41
 msgid "The following date:"
-msgstr ""
+msgstr "Följande datum:"
 
 #: src/gthumb_tools.glade.h:42
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
 "original filename."
 msgstr ""
+"Använd brädgårdar för att ange positioner som ska användas av numerisk "
+"enumerator. Använd * för att infoga ursprungliga filnamnet."
 
 #: src/gthumb_tools.glade.h:45
 msgid "_Sort Original List:"
-msgstr ""
+msgstr "_Sortera ursprunglig lista:"
 
 #: src/gthumb_tools.glade.h:48
-#, fuzzy
 msgid "by Modification date"
-msgstr "Sortera fillistan efter tillkomstdatum"
+msgstr "efter ändringsdatum"
 
 #: src/gthumb_tools.glade.h:49
-#, fuzzy
 msgid "by Name"
 msgstr "efter namn"
 
 #: src/gthumb_tools.glade.h:50
-#, fuzzy
 msgid "by Size"
-msgstr "efter _filstorlek"
+msgstr "efter storlek"
 
 #: src/main.c:72
-#, fuzzy
 msgid "Start in fullscreen mode"
-msgstr "Visa bilden på hela skärmen"
+msgstr "Starta i helskärmsläge"
 
 #: src/main.c:76
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "Starta ett bildspel automatiskt"
 
 #: src/main.c:155
 msgid "Holidays"
-msgstr ""
+msgstr "Helger"
 
 #: src/main.c:156
 msgid "Temporary"
-msgstr ""
+msgstr "Tillfälligt"
 
 #: src/main.c:157
 msgid "Screenshots"
-msgstr ""
+msgstr "Skärmdumpar"
 
 #: src/main.c:158
 msgid "Science"
-msgstr ""
+msgstr "Vetenskap"
 
 #: src/main.c:159
 msgid "Favourite"
-msgstr ""
+msgstr "Favorit"
 
 #: src/main.c:160
 msgid "Important"
-msgstr ""
+msgstr "Viktigt"
 
 #: src/main.c:161
 msgid "GNOME"
-msgstr ""
+msgstr "GNOME"
 
 #: src/main.c:162
-#, fuzzy
 msgid "Games"
-msgstr "efter _namn"
+msgstr "Spel"
 
 #: src/main.c:163
-#, fuzzy
 msgid "Party"
-msgstr "Skriv ut"
+msgstr "Fest"
 
 #: src/main.c:164
 msgid "Birthday"
-msgstr ""
+msgstr "Födelsedag"
 
 #: src/main.c:165
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomi"
 
 #: src/main.c:166
 msgid "Family"
-msgstr ""
+msgstr "Familj"
 
 #: src/main.c:271 src/main.c:333
 msgid "Command Line"
 msgstr "Kommandoraden"
 
-#~ msgid "Sort images by modification time"
+#~ msgid "Search Criteria"
+#~ msgstr "Sökkriterier"
+
+#~ msgid "Search Scope"
+#~ msgstr "Sökomfång"
+
+#~ msgid "Libray not empty"
+#~ msgstr "Biblioteket är inte tomt"
+
+#~ msgid "Go to the previuos visited location"
+#~ msgstr "Gå till föregående besökta plats"
+
+#~ msgid "Sort images by modifiction time"
 #~ msgstr "Sortera bilder efter ändringsdatum"
 
-#~ msgid "Str_etched"
+#~ msgid "Str_erched"
 #~ msgstr "Utstr_äckt"
 
 #~ msgid "Compression"
@@ -3067,41 +3030,29 @@ msgstr "Kommandoraden"
 #~ msgid "Layout"
 #~ msgstr "Layout"
 
-#~ msgid "Library not empty"
-#~ msgstr "Biblioteket är inte tomt"
-
 #~ msgid "New Catalog..."
 #~ msgstr "Nytt album..."
 
 #~ msgid "Could not create folder \"%s\" : %s"
 #~ msgstr "Kunde inte skapa mappen \"%s\": %s"
 
-#~ msgid "Go to the previous visited location"
-#~ msgstr "Gå till föregående besökta plats"
-
-#, fuzzy
 #~ msgid "Display image properties"
-#~ msgstr "gThumb - Sökförlopp"
+#~ msgstr "Visa bildegenskaper"
 
-#, fuzzy
 #~ msgid "Full screen"
-#~ msgstr "Helskärm"
+#~ msgstr "Helskärmsläge"
 
-#, fuzzy
 #~ msgid "Open With"
-#~ msgstr "_Öppna med..."
+#~ msgstr "Öppna med"
 
-#, fuzzy
 #~ msgid "Refresh"
-#~ msgstr "före"
+#~ msgstr "Uppdatera"
 
-#, fuzzy
 #~ msgid "View images as a slideshow"
-#~ msgstr "Visa aktuell fillista som bildspel"
+#~ msgstr "Visa bilder som ett bildspel"
 
-#, fuzzy
 #~ msgid "_Close Window"
-#~ msgstr "Stäng det här fönstret"
+#~ msgstr "_Stäng fönster"
 
 #~ msgid "_Slideshow"
 #~ msgstr "_Bildspel"
@@ -3112,182 +3063,141 @@ msgstr "Kommandoraden"
 #~ msgid "Source and destination are the same"
 #~ msgstr "Källan och målet är samma"
 
-#, fuzzy
 #~ msgid "New _Library..."
-#~ msgstr "Ny sökning..."
+#~ msgstr "Nytt _bibliotek..."
 
 #~ msgid "gThumb - Bookmarks"
 #~ msgstr "gThumb - Bokmärken"
 
-#, fuzzy
 #~ msgid "gThumb - Open selected files with an application"
-#~ msgstr "Öppna valda filer med ett program"
+#~ msgstr "gThumb - Öppna valda filer med ett program"
 
-#, fuzzy
 #~ msgid "gThumb - Categories"
-#~ msgstr "gThumb - Sökförlopp"
+#~ msgstr "gThumb - Kategorier"
 
-#, fuzzy
 #~ msgid "gThumb - Comment"
-#~ msgstr "Redigera kommentar"
+#~ msgstr "gThumb - Kommentar"
 
-#, fuzzy
 #~ msgid "Co_lor:"
-#~ msgstr "Färg:"
+#~ msgstr "F_ärg:"
 
-#, fuzzy
 #~ msgid "Fo_nt:"
-#~ msgstr "Kommentar:"
+#~ msgstr "Typs_nitt:"
 
-#, fuzzy
 #~ msgid "Number of _rows:"
-#~ msgstr "Antal rader:"
+#~ msgstr "Antal _rader:"
 
-#, fuzzy
 #~ msgid "Wait please..."
 #~ msgstr "Var vänlig vänta..."
 
-#, fuzzy
 #~ msgid "_Background color:"
-#~ msgstr "Bakgrundsfärg:"
+#~ msgstr "_Bakgrundsfärg:"
 
-#, fuzzy
 #~ msgid "gThumb - Create index image"
-#~ msgstr "gThumb - Sök efter bilder"
+#~ msgstr "gThumb - Skapa indexbild"
 
 #~ msgid "result"
 #~ msgstr "resultat"
 
-#, fuzzy
 #~ msgid "Comments"
-#~ msgstr "Kommentar"
+#~ msgstr "Kommentarer"
 
-#, fuzzy
 #~ msgid "Remove ALL Comments"
-#~ msgstr "Ta bort _gamla kommentarer"
+#~ msgstr "Ta bort ALLA kommentarer"
 
 #~ msgid "Thumbnails"
 #~ msgstr "Miniatyrbilder"
 
-#, fuzzy
 #~ msgid "gThumb - Find Duplicates"
-#~ msgstr "gThumb - Skrivarinställningar"
+#~ msgstr "gThumb - Sök dubletter"
 
-#, fuzzy
 #~ msgid "gThumb - Maintenance"
-#~ msgstr "gThumb - Skrivarinställningar"
+#~ msgstr "gThumb - Underhåll"
 
-#, fuzzy
 #~ msgid "gThumb - Rename series"
-#~ msgstr "gThumb - Sökförlopp"
+#~ msgstr "gThumb - Byt namn på serier"
 
-#, fuzzy
 #~ msgid "Delete Catalog"
-#~ msgstr "_Ta bort album..."
+#~ msgstr "Ta bort album"
 
-#, fuzzy
 #~ msgid "Delete current catalog"
-#~ msgstr "_Ta bort album..."
+#~ msgstr "Ta bort aktuellt album"
 
 #~ msgid "Delete selected catalog"
 #~ msgstr "Ta bort valt album"
 
-#, fuzzy
 #~ msgid "F_lip"
 #~ msgstr "_Vänd"
 
-#, fuzzy
 #~ msgid "New _Folder"
-#~ msgstr "Visa kataloger"
+#~ msgstr "Ny _mapp"
 
-#, fuzzy
 #~ msgid "R_otate 180 Degrees"
-#~ msgstr "Rotera 180 _grader"
+#~ msgstr "R_otera 180 grader"
 
-#, fuzzy
 #~ msgid "Transparency typ_e"
-#~ msgstr "Transparenstyp:"
+#~ msgstr "Transparenst_yp"
 
-#, fuzzy
 #~ msgid "View the image rotated of 180 degrees"
-#~ msgstr "Rotera bilden 180 grader"
+#~ msgstr "Visa bilden roterad 180 grader"
 
-#, fuzzy
 #~ msgid "_Delete Catalog"
-#~ msgstr "_Ta bort album..."
+#~ msgstr "_Ta bort album"
 
-#, fuzzy
 #~ msgid "_Delete Folder"
-#~ msgstr "_Ta bort kommentar"
+#~ msgstr "_Ta bort mapp"
 
-#, fuzzy
 #~ msgid "_Move Catalog..."
-#~ msgstr "Flytta albumet till..."
+#~ msgstr "_Flytta album..."
 
-#, fuzzy
 #~ msgid "_Move Folder..."
-#~ msgstr "Visa kataloger"
+#~ msgstr "_Flytta mapp..."
 
-#, fuzzy
 #~ msgid "_Rename Catalog"
-#~ msgstr "_Ändra albumnamn..."
+#~ msgstr "_Byt namn på album"
 
-#, fuzzy
 #~ msgid "_Rename Folder"
-#~ msgstr "_Ändra filnamn..."
+#~ msgstr "_Byt namn på mapp"
 
-#, fuzzy
 #~ msgid "Other"
-#~ msgstr "efter"
+#~ msgstr "Annat"
 
-#, fuzzy
 #~ msgid "Image options"
 #~ msgstr "Bildalternativ"
 
-#, fuzzy
 #~ msgid "Dimensions"
-#~ msgstr "Bilddimensioner"
+#~ msgstr "Dimensioner"
 
-#, fuzzy
 #~ msgid "Start _from:"
-#~ msgstr "Starta från:"
+#~ msgstr "Starta _från:"
 
-#, fuzzy
 #~ msgid "Rotate image 270 degrees clockwise (or 90 ccw)"
-#~ msgstr "Rotera bilden medsols"
+#~ msgstr "Rotera bilden 270 grader medsols (eller 90° motsols)"
 
-#, fuzzy
 #~ msgid "C_omment:"
-#~ msgstr "Kommentar:"
+#~ msgstr "K_ommentar:"
 
-#, fuzzy
 #~ msgid "Caption color:"
-#~ msgstr "Bildtextfärg:"
+#~ msgstr "Rubrikfärg:"
 
-#, fuzzy
 #~ msgid "Caption font:"
-#~ msgstr "Bildtextfont:"
+#~ msgstr "Rubriktypsnitt:"
 
-#, fuzzy
 #~ msgid "File name"
 #~ msgstr "Filnamn"
 
-#, fuzzy
 #~ msgid "File name:"
-#~ msgstr "Filnamn"
+#~ msgstr "Filnamn:"
 
 #~ msgid "NNN"
 #~ msgstr "NNN"
 
-#, fuzzy
 #~ msgid "No zoom"
 #~ msgstr "Ingen zoomning"
 
-#, fuzzy
 #~ msgid "Zoom to fit"
-#~ msgstr "Anpassa bilden till fönstret"
+#~ msgstr "Anpassa till fönstret"
 
-#, fuzzy
 #~ msgid "Image to overwrite:"
 #~ msgstr "Fil att skriva över:"
 
@@ -3300,9 +3210,8 @@ msgstr "Kommandoraden"
 #~ msgid "View"
 #~ msgstr "Visa"
 
-#, fuzzy
 #~ msgid "Edit Search..."
-#~ msgstr "_Redigera sökning..."
+#~ msgstr "Redigera sökning..."
 
 #~ msgid "_Gray"
 #~ msgstr "_Grå"
@@ -3310,9 +3219,8 @@ msgstr "Kommandoraden"
 #~ msgid "Gray"
 #~ msgstr "Grå"
 
-#, fuzzy
 #~ msgid "_Edit Comment"
-#~ msgstr "_Redigera kommentar..."
+#~ msgstr "_Redigera kommentar"
 
 #~ msgid "+"
 #~ msgstr "+"
@@ -3320,42 +3228,32 @@ msgstr "Kommandoraden"
 #~ msgid "-"
 #~ msgstr "-"
 
-#, fuzzy
 #~ msgid "Search data"
 #~ msgstr "Sökdata"
 
-#, fuzzy
 #~ msgid "_Copy Images..."
-#~ msgstr "_Kopiera filer till..."
+#~ msgstr "_Kopiera bilder..."
 
-#, fuzzy
 #~ msgid "_Delete Images"
-#~ msgstr "_Ta bort filer..."
+#~ msgstr "_Ta bort bilder"
 
-#, fuzzy
 #~ msgid "_Move Images..."
-#~ msgstr "_Flytta filer till..."
+#~ msgstr "_Flytta bilder..."
 
-#, fuzzy
 #~ msgid "_Rename Image"
-#~ msgstr "_Ändra filnamn..."
+#~ msgstr "_Byt namn på bild"
 
-#, fuzzy
 #~ msgid "Full Scree_n"
-#~ msgstr "Helskärmsläge"
+#~ msgstr "Helskär_msläge"
 
-#, fuzzy
 #~ msgid "Zoom _in"
-#~ msgstr "Zomma in"
+#~ msgstr "Zomma _in"
 
-#, fuzzy
 #~ msgid "Zoom _out"
-#~ msgstr "Zooma ut"
+#~ msgstr "Zooma _ut"
 
-#, fuzzy
 #~ msgid "Zoom to _fit"
-#~ msgstr "Anpassa bilden till fönstret"
+#~ msgstr "Anpassa till _fönstret"
 
-#, fuzzy
 #~ msgid "_Actual size"
-#~ msgstr "Naturlig storlek"
+#~ msgstr "_Naturlig storlek"
