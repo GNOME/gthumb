@@ -24,7 +24,6 @@
 #include <gnome.h>
 
 static char *text[] = {
-	N_("(click on the image to view it at original size)"),
 	N_("Image"),
 	N_("Dimensions"),
 	N_("Bytes"),

@@ -138,15 +138,6 @@
 	    <gthumb:end/>
 
           </tr>
-          <tr align="left">
-	    <td>&nbsp;</td>
-            <td align="right" colspan="2">
-              <span class=note>
-                <gthumb:text>(click on the image to view it at original size)</gthumb:text>
-              </span>
-	    </td>
-	    <td>&nbsp;</td>
-	  </tr>
           <tr>
             <td colspan="4">
               &nbsp;

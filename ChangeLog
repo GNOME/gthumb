@@ -1,5 +1,23 @@
+2004-09-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/text.h (text): removed 'click on the image...'
+	message.
+
+	* libgthumb/image-loader.c (image_loader_set_pixbuf): lock
+	before setting the pixbuf, unlock when done.
+
 2004-09-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/albumthemes/ClassicClips/image.gthtml: 
+	* data/albumthemes/Clean/image.gthtml: 
+	* data/albumthemes/NeatRound/image.gthtml: 
+	* data/albumthemes/NeatSquare/image.gthtml: 
+	* data/albumthemes/Classic/image.gthtml: removed the "click on
+	image to enlarge" message.
+	
+	
+2004-09-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+	
 	[ gthumb 2.5.1 released ]
 
 2004-09-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
