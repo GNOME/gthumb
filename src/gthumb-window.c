@@ -5194,6 +5194,7 @@ window_new (void)
 
 	/**/
 
+#ifdef HAVE_LIBEXIF
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Field"),
 							   renderer,
@@ -5211,6 +5212,7 @@ window_new (void)
 							   NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
 				     column);
+#endif /* HAVE_LIBEXIF */
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (window->image_exif_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
