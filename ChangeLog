@@ -1,5 +1,23 @@
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gth-folder-selection-dialog.c (file_sel_ok_clicked_cb): do
+	not convert the folder name to utf8.
+
+	* src/gthumb-window.c (window_update_sensitivity): 
+	* src/dlg-jpegtran.c (dlg_jpegtran): fix bug #98755
+
+	* src/gth-folder-selection-dialog.c (gth_folder_selection_construct): 
+	* src/*.glade: fix bug #99044.
+	
+	* src/gthumb-window.h:
+	* src/dlg-bookmarks.c (dlg_edit_bookmarks): 
+	* src/dlg-comment.c (dlg_edit_comment): 
+	* src/dlg-categories.c (dlg_categories): fix bug #99045
+
+	* src/dlg-open-with.c (open_with_cb) 
+	(recent_list_selection_changed_cb, app_list_selection_changed_cb):
+	fix bug #99032
+
 	* src/gthumb-window.c (rename_subdir): fix bug #99037.
 
 	* src/gthumb-ui.xml: add ellipses and underscores (bug #99041).

@@ -75,6 +75,8 @@ static void
 destroy_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
+	data->window->categories_dlg = NULL;
+
 	g_object_unref (data->gui);
 	g_list_foreach (data->file_list, (GFunc) g_free, NULL);
 	g_list_free (data->file_list);
@@ -356,6 +358,7 @@ use_category_toggled (GtkCellRendererThreeStates *cell,
 }
 
 
+#ifdef XXX /* FIXME : delete or fix */
 static void
 category_edited (GtkCellRendererText *cell,
 		 gchar               *path_string,
@@ -370,7 +373,7 @@ category_edited (GtkCellRendererText *cell,
 	if (category_present (data, new_text)) {
 		
 		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-				       _("The category \"%s\" is already present. Please use a different name."), 
+		/*_*/("The category \"%s\" is already present. Please use a different name."), 
 				       new_text);
 	} else {
 		gtk_tree_model_get_iter (model, &iter, path);
@@ -380,6 +383,7 @@ category_edited (GtkCellRendererText *cell,
 
 	gtk_tree_path_free (path);
 }
+#endif
 
 
 static void
@@ -457,6 +461,11 @@ dlg_categories (GtkWidget *widget,
 	char              *first_image;
 	GList             *other_keys = NULL;
 
+	if (window->categories_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (window->categories_dlg));
+		return;
+	}
+
 	data = g_new (DialogData, 1);
 
 	data->window = window;
@@ -477,6 +486,7 @@ dlg_categories (GtkWidget *widget,
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "categories_dialog");
+	window->categories_dlg = data->dialog;
 
 	data->keyword_entry = glade_xml_get_widget (data->gui, "c_keyword_entry");
 	data->add_key_button = glade_xml_get_widget (data->gui, "c_add_key_button");
@@ -517,10 +527,13 @@ dlg_categories (GtkWidget *widget,
 							   "text", CATEGORY_COLUMN,
 							   "editable", IS_EDITABLE_COLUMN,
 							   NULL);
+
+	/*
 	g_signal_connect (G_OBJECT (renderer), 
 			  "edited",
 			  G_CALLBACK (category_edited), 
 			  data);
+	*/
 
 	gtk_tree_view_column_set_sort_column_id (column, 0);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->keywords_list_view),
@@ -679,7 +692,7 @@ dlg_categories (GtkWidget *widget,
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 
 	gtk_widget_grab_focus (data->keywords_list_view);

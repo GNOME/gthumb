@@ -171,7 +171,6 @@ file_sel_ok_clicked_cb (GObject  *object,
 	GtkWidget          *file_sel = data;
 	GthFolderSelection *folder_sel;
 	char               *folder;
-	char               *utf8_folder;
 
 	folder_sel = g_object_get_data (G_OBJECT (file_sel), "folder_sel");
 	
@@ -181,10 +180,8 @@ file_sel_ok_clicked_cb (GObject  *object,
 	if (folder == NULL) 
 		return;
 
-	utf8_folder = g_locale_to_utf8 (folder, -1, 0, 0, 0);
-	gth_folder_selection_set_folder (folder_sel, utf8_folder);
+	gth_folder_selection_set_folder (folder_sel, folder);
 
-	g_free (utf8_folder);
 	g_free (folder);
 }
 
@@ -254,7 +251,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
-
+	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
 	main_box = gtk_vbox_new (FALSE, 12);

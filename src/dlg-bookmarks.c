@@ -59,6 +59,8 @@ static void
 destroy_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
+	data->window->bookmarks_dlg = NULL;
+
 	g_object_unref (G_OBJECT (data->gui));
 	bookmark_list_free (data->book_list);
 	bookmarks_free (data->bookmarks);
@@ -250,6 +252,11 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	DialogData *data;
 	GtkWidget  *bm_bookmarks_label;
 
+	if (window->bookmarks_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (window->bookmarks_dlg));
+		return;
+	}
+
 	data = g_new (DialogData, 1);
 
 	data->window = window;
@@ -263,6 +270,8 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "bookmarks_dialog");
+	window->bookmarks_dlg = data->dialog;
+
 	data->list_container = glade_xml_get_widget (data->gui, "bm_list_container");
 	bm_bookmarks_label = glade_xml_get_widget (data->gui, "bm_bookmarks_label");
 	data->btn_remove = glade_xml_get_widget (data->gui, "bm_remove_button");
@@ -326,9 +335,6 @@ dlg_edit_bookmarks (GThumbWindow *window)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
 }
-
-
-

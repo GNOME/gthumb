@@ -102,7 +102,7 @@ typedef struct {
 	GtkWidget          *image_info_frame;
 	GtkWidget          *info_bar;
 	GtkWidget          *adjust_image_combo_button;
- 
+
 	char                sidebar_content;       /* SidebarContent values. */
 	int                 sidebar_width;
 	gboolean            sidebar_visible;
@@ -111,6 +111,9 @@ typedef struct {
 	gboolean            image_preview_visible;
 
 	GtkWidget          *image_prop_dlg;
+	GtkWidget          *comments_dlg;
+	GtkWidget          *categories_dlg;
+	GtkWidget          *bookmarks_dlg;
 
 	/**/
 

@@ -1279,6 +1279,7 @@
 	  <child>
 	    <widget class="GtkButton" id="bm_btn_ok">
 	      <property name="visible">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>
@@ -1590,6 +1591,7 @@
 	    <widget class="GtkButton" id="cat_ok_btn">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>
@@ -2471,6 +2473,7 @@
 	    <widget class="GtkButton" id="i_close_button">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>

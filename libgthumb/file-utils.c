@@ -864,6 +864,24 @@ file_is_image (const gchar *name,
 }
 
 
+gboolean 
+image_is_jpeg (const char *name)
+{
+	const char *result;
+
+	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE))
+		result = gnome_vfs_mime_type_from_name_or_default (name, NULL);
+	else 
+		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
+	
+	/* Unknown file type. */
+	if (result == NULL)
+		return FALSE;
+
+	return (strcmp (result, "image/jpeg") == 0);
+}
+
+
 gboolean
 file_extension_is (const char *filename, 
 		   const char *ext)

@@ -76,6 +76,8 @@ static void
 destroy_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
+	data->window->comments_dlg = NULL;
+
 	g_object_unref (data->gui);
 	g_list_foreach (data->file_list, (GFunc) g_free, NULL);
 	g_list_free (data->file_list);
@@ -349,6 +351,11 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	GList             *scan;
 	char              *first_image;
 
+	if (window->comments_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (window->comments_dlg));
+		return;
+	}
+
 	data = g_new (DialogData, 1);
 
 	data->window = window;
@@ -369,6 +376,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
+	window->comments_dlg = data->dialog;
 
 	data->place_entry = glade_xml_get_widget (data->gui, "place_entry");
 	data->date_checkbutton = glade_xml_get_widget (data->gui, "date_checkbutton");
@@ -525,6 +533,6 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 }

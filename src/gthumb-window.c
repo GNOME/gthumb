@@ -33,6 +33,7 @@
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <libbonoboui.h>
 
 #include "auto-completion.h"
@@ -115,11 +116,13 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("EditDir_Open", edit_folder_open_nautilus_command_impl),
 	BONOBO_UI_VERB ("EditDir_Rename", edit_folder_rename_command_impl),
 	BONOBO_UI_VERB ("EditDir_Delete", edit_folder_delete_command_impl),
+	BONOBO_UI_VERB ("EditDir_Copy", edit_folder_copy_command_impl),
 	BONOBO_UI_VERB ("EditDir_Move", edit_folder_move_command_impl),
 	BONOBO_UI_VERB ("EditCurrentDir_New", edit_current_folder_new_command_impl),
 	BONOBO_UI_VERB ("EditCurrentDir_Open", edit_current_folder_open_nautilus_command_impl),
 	BONOBO_UI_VERB ("EditCurrentDir_Rename", edit_current_folder_rename_command_impl),
 	BONOBO_UI_VERB ("EditCurrentDir_Delete", edit_current_folder_delete_command_impl),
+	BONOBO_UI_VERB ("EditCurrentDir_Copy", edit_current_folder_copy_command_impl),
 	BONOBO_UI_VERB ("EditCurrentDir_Move", edit_current_folder_move_command_impl),
 	BONOBO_UI_VERB ("EditCatalog_Rename", edit_catalog_rename_command_impl),
 	BONOBO_UI_VERB ("EditCatalog_Delete", edit_catalog_delete_command_impl),
@@ -564,6 +567,7 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    is_catalog;
 	gboolean    is_search;
 	gboolean    not_fullscreen;
+	GList      *list, *scan;
 
 	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
@@ -750,6 +754,17 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Wallpaper_Tiled", ! image_is_void);
 	set_command_sensitive (window, "Wallpaper_Scaled", ! image_is_void);
 	set_command_sensitive (window, "Wallpaper_Stretched", ! image_is_void);
+
+	/* Rotate Tool */
+	
+	list = file_list_get_selection_as_fd (window->file_list);
+	for (scan = list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		if (image_is_jpeg (fd->path)) 
+			break;
+	}
+	set_command_sensitive (window, "Tools_JPEGRotate", scan != NULL);
+	g_list_free (list);
 }
 
 

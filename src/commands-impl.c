@@ -621,6 +621,7 @@ edit_edit_categories_command_impl (BonoboUIComponent *uic,
 				   const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
+
 	dlg_categories (NULL, window);
 }
 
@@ -1189,7 +1190,7 @@ edit_current_folder_delete_command_impl (BonoboUIComponent *uic,
 
 
 static void
-folder_move__response_cb (GObject *object,
+folder_copy__response_cb (GObject *object,
 			  int      response_id,
 			  gpointer data)
 {
@@ -1200,6 +1201,8 @@ folder_move__response_cb (GObject *object,
 	char         *new_path;
 	const char   *dir_name;
 	gboolean      same_fs;
+	gboolean      move;
+	char         *message;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -1211,6 +1214,7 @@ folder_move__response_cb (GObject *object,
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	old_path = g_object_get_data (G_OBJECT (file_sel), "path");
 	dest_dir = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+	move = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (file_sel), "folder_op"));
 
 	if (dest_dir == NULL)
 		return;
@@ -1224,34 +1228,42 @@ folder_move__response_cb (GObject *object,
 	if (gnome_vfs_check_same_fs (old_path, new_path, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
 
+	message = move ? _("Could not move the folder \"%s\" : %s") : _("Could not copy the folder \"%s\" : %s");
+
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
 		
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not move the folder \"%s\" : %s"),
+				       message,
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
+
 	} else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
 		utf8_name = g_locale_to_utf8 (dir_name, -1, NULL, NULL, NULL);
+
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
+				       message,
+				       utf8_name,
+				       _("a folder with that name is already present."));
 		g_free (utf8_name);
 
-	} else if (! same_fs) {
+	} else if (! (move && same_fs)) {
 		dlg_folder_copy (window, 
 				 old_path, 
 				 new_path, 
-				 FALSE /* FIXME: TRUE */, 
+				 move, 
 				 TRUE);
 
 	} else if (rename (old_path, new_path) == 0) { 
 		char *old_cache_path, *new_cache_path;
 
-		/* Update cache info. */
+		/* moving folders on the same file system can be implemeted 
+		 * with rename, which is faster. */
 
 		/* Thumbnail cache. */
 
@@ -1296,7 +1308,7 @@ folder_move__response_cb (GObject *object,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not move the folder \"%s\" : %s"),
+				       message,
                                        utf8_path,
                                        errno_to_string ());
 		g_free (utf8_path);
@@ -1309,7 +1321,7 @@ folder_move__response_cb (GObject *object,
 
 
 static void
-folder_move__destroy_cb (GObject *object,
+folder_copy__destroy_cb (GObject *object,
 			 gpointer data)
 {
 	GtkWidget *file_sel = data;
@@ -1321,8 +1333,9 @@ folder_move__destroy_cb (GObject *object,
 
 
 static void
-folder_move (GThumbWindow *window,
-	     const char   *path)
+folder_copy (GThumbWindow *window,
+	     const char   *path,
+	     gboolean      move)
 {
 	GtkWidget *file_sel;
 	char      *parent;
@@ -1339,15 +1352,16 @@ folder_move (GThumbWindow *window,
 
 	g_object_set_data (G_OBJECT (file_sel), "path", g_strdup (path));
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
+	g_object_set_data (G_OBJECT (file_sel), "folder_op", GINT_TO_POINTER (move));
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "response", 
-			  G_CALLBACK (folder_move__response_cb), 
+			  G_CALLBACK (folder_copy__response_cb), 
 			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 
-			  G_CALLBACK (folder_move__destroy_cb),
+			  G_CALLBACK (folder_copy__destroy_cb),
 			  file_sel);
 
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
@@ -1368,7 +1382,7 @@ edit_folder_move_command_impl (BonoboUIComponent *uic,
 	if (path == NULL)
 		return;
 
-	folder_move (window, path);
+	folder_copy (window, path, TRUE);
 
 	g_free (path);
 }
@@ -1386,7 +1400,41 @@ edit_current_folder_move_command_impl (BonoboUIComponent *uic,
 	if (path == NULL)
 		return;
 
-	folder_move (window, path);
+	folder_copy (window, path, TRUE);
+}
+
+
+void 
+edit_folder_copy_command_impl (BonoboUIComponent *uic, 
+			       gpointer           user_data, 
+			       const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	char         *path;
+
+	path = dir_list_get_selected_path (window->dir_list);
+	if (path == NULL)
+		return;
+
+	folder_copy (window, path, FALSE);
+
+	g_free (path);
+}
+
+
+void 
+edit_current_folder_copy_command_impl (BonoboUIComponent *uic, 
+				       gpointer           user_data, 
+				       const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	char         *path;
+	
+	path = window->dir_list->path;
+	if (path == NULL)
+		return;
+
+	folder_copy (window, path, FALSE);
 }
 
 

@@ -127,6 +127,8 @@
 	     _tip="Rename selected folder"/>
 	<cmd name="EditDir_Delete" _label="_Delete" 
 	     _tip="Delete selected folder"/>
+	<cmd name="EditDir_Copy" _label="_Copy..." 
+	     _tip="Copy selected folder"/>
 	<cmd name="EditDir_Move" _label="_Move..." 
 	     _tip="Move selected folder"/>
 
@@ -136,6 +138,8 @@
 	     _tip="Rename current folder"/>
 	<cmd name="EditCurrentDir_Delete" _label="_Delete" 
 	     _tip="Delete current folder"/>
+	<cmd name="EditCurrentDir_Copy" _label="_Copy..." 
+	     _tip="Copy current folder"/>
 	<cmd name="EditCurrentDir_Move" _label="_Move..." 
 	     _tip="Move current folder"/>
 	<cmd name="EditCurrentDir_New" _label="_New Folder..." 
@@ -285,7 +289,7 @@
 	<cmd name="View_Sidebar_Catalogs"/>
 
 	<cmd name="View_ImageProp" _label="Image _Properties"
-	     _tip="View Properties"
+	     _tip="View Image Properties"
 	     pixtype="stock" pixname="gthumb-properties"
 	     accel="*Control*I"/>
 
@@ -390,6 +394,7 @@
 			<separator/>
 			<menuitem name="EditCurrentDir_Rename" verb=""/>
 			<menuitem name="EditCurrentDir_Delete" verb=""/>
+			<menuitem name="EditCurrentDir_Copy" verb=""/>
 			<menuitem name="EditCurrentDir_Move" verb=""/>
 		</submenu>
 		<submenu name="Catalog" _label="Ca_talog">
@@ -616,7 +621,7 @@
 
 	<separator/>
 
-	<control name="AlterImageComboButton"/>
+	<control name="AlterImageComboButton" _tip="Edit Image"/>
 
   	<toolitem name="File_Save" verb="" _label="Save"
   	          priority="0"/>
@@ -753,12 +758,10 @@
 	<popup name="DirPopup">
 		<menuitem name="EditDir_Open" verb=""
 		          _label="Open with the File Manager"/>
-		<menuitem name="EditDir_Rename" verb=""
-		          _label="_Rename"/>
-		<menuitem name="EditDir_Delete" verb=""
-			  _label="_Delete"/>
-		<menuitem name="EditDir_Move" verb=""
-			  _label="_Move..."/>
+		<menuitem name="EditDir_Rename" verb=""/>
+		<menuitem name="EditDir_Delete" verb=""/>
+		<menuitem name="EditDir_Copy" verb=""/>
+		<menuitem name="EditDir_Move" verb=""/>
 	</popup>
 
 	<popup name="AlterImagePopup">

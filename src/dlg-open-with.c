@@ -161,33 +161,25 @@ open_cb (GtkWidget *widget,
 }
 
 
-static int
-app_list_button_press_cb (GtkWidget      *widget,
-			  GdkEventButton *event,
-			  gpointer        callback_data)
+static void
+app_list_selection_changed_cb (GtkTreeSelection *selection,
+			       gpointer          p)
 {
-        DialogData              *data = callback_data;
-        GtkTreePath             *path;
-        GtkTreeIter              iter;
+	DialogData              *data = p;
+	GtkTreeIter              iter;
         GnomeVFSMimeApplication *app;
 
-        if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (data->app_list_tree_view),
-                                             event->x, event->y,
-                                             &path, NULL, NULL, NULL))
-                return FALSE;
-
-        if (! gtk_tree_model_get_iter (data->app_model, &iter, path)) {
-                gtk_tree_path_free (path);
-                return FALSE;
-        }
-        gtk_tree_path_free (path);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->app_list_tree_view));
+	if (selection == NULL)
+		return;
+	
+	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
 
         gtk_tree_model_get (data->app_model, &iter,
                             1, &app,
                             -1);
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
-
-        return FALSE;
 }
 
 
@@ -214,34 +206,26 @@ app_activated_cb (GtkTreeView       *tree_view,
 }
 
 
-static int
-recent_list_button_press_cb (GtkWidget      *widget,
-			     GdkEventButton *event,
-			     gpointer        callback_data)
+static void
+recent_list_selection_changed_cb (GtkTreeSelection *selection,
+				  gpointer          p)
 {
-        DialogData  *data = callback_data;
-        GtkTreePath *path;
-        GtkTreeIter  iter;
-        char        *editor;
+	DialogData   *data = p;
+	GtkTreeIter   iter;
+	char         *editor;
 
-        if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (data->recent_list_tree_view),
-                                             event->x, event->y,
-                                             &path, NULL, NULL, NULL))
-                return FALSE;
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (data->recent_list_tree_view));
+	if (selection == NULL)
+		return;
 
-        if (! gtk_tree_model_get_iter (data->recent_model, &iter, path)) {
-                gtk_tree_path_free (path);
-                return FALSE;
-        }
+	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
 
-        gtk_tree_model_get (data->recent_model, &iter,
+	gtk_tree_model_get (data->recent_model, &iter,
                             0, &editor,
                             -1);
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), editor);
         g_free (editor);
-        gtk_tree_path_free (path);
-
-        return FALSE;
 }
 
 
@@ -348,18 +332,18 @@ open_with_cb (GThumbWindow *window,
 			  "destroy",
 			  G_CALLBACK (open_with__destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->app_list_tree_view),
-                          "button_press_event",
-                          G_CALLBACK (app_list_button_press_cb),
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->app_list_tree_view))),
+                          "changed",
+                          G_CALLBACK (app_list_selection_changed_cb),
                           data);
 	g_signal_connect (G_OBJECT (data->app_list_tree_view),
                           "row_activated",
                           G_CALLBACK (app_activated_cb),
                           data);
 
-        g_signal_connect (G_OBJECT (data->recent_list_tree_view),
-                          "button_press_event",
-                          G_CALLBACK (recent_list_button_press_cb),
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (data->recent_list_tree_view))),
+                          "changed",
+                          G_CALLBACK (recent_list_selection_changed_cb),
                           data);
 	g_signal_connect (G_OBJECT (data->recent_list_tree_view),
                           "row_activated",
@@ -449,7 +433,7 @@ open_with_cb (GThumbWindow *window,
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->app_list_tree_view),
 				     column);
 
-	if (app_names)
+	if (app_names) 
 		g_list_free (app_names);
 
 	/* * recent editors list. */
