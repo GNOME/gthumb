@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-03-15 14:12+0100\n"
-"PO-Revision-Date: 2003-03-15 14:13+0100\n"
+"POT-Creation-Date: 2003-03-25 01:43+0100\n"
+"PO-Revision-Date: 2003-03-25 01:45+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,12 +175,12 @@ msgid "_Zoom Quality"
 msgstr "_Zoomkvalitet"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
-#: src/gthumb-window.c:351
+#: src/gthumb-window.c:355
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:357
+#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:361
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
@@ -280,9 +280,9 @@ msgid "Name"
 msgstr "Namn"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:436
-#: src/gthumb-window.c:450 src/gthumb-window.c:453 src/gthumb-window.c:470
-#: src/gthumb-window.c:476 src/gthumb-window.c:4097
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:440
+#: src/gthumb-window.c:454 src/gthumb-window.c:457 src/gthumb-window.c:474
+#: src/gthumb-window.c:480 src/gthumb-window.c:4198
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
 #: src/main.c:122
 msgid "gThumb"
@@ -520,8 +520,8 @@ msgstr ""
 "Skicka synpunkter på översättningen till sv@li.org"
 
 #: src/commands-impl.c:2744
-msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr "Copyright © 2001 Free Software Foundation, Inc."
+msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
+msgstr "Copyright © 2001-2003 Free Software Foundation, Inc."
 
 #: src/commands-impl.c:2745
 msgid "An image viewer and browser for GNOME."
@@ -1713,52 +1713,52 @@ msgstr "efter _storlek"
 msgid "by _Time"
 msgstr "efter _tid"
 
-#: src/gthumb-window.c:521
+#: src/gthumb-window.c:525
 msgid "No image"
 msgstr "Ingen bild"
 
-#: src/gthumb-window.c:523
+#: src/gthumb-window.c:527
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 bild (%s)"
 
-#: src/gthumb-window.c:526
+#: src/gthumb-window.c:530
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d bilder (%s)"
 
-#: src/gthumb-window.c:533
+#: src/gthumb-window.c:537
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 markerad (%s)"
 
-#: src/gthumb-window.c:536
+#: src/gthumb-window.c:540
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:2847
+#: src/gthumb-window.c:2851
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: src/gthumb-window.c:3017
+#: src/gthumb-window.c:3029
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: src/gthumb-window.c:3625
+#: src/gthumb-window.c:3722
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/gthumb-window.c:5500
+#: src/gthumb-window.c:5607
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:5770
+#: src/gthumb-window.c:5877
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: src/gthumb-window.c:7102
+#: src/gthumb-window.c:7209
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
