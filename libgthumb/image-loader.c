@@ -36,6 +36,7 @@
 
 
 #define REFRESH_RATE 5
+G_LOCK_DEFINE_STATIC (pixbuf_loader_lock);
 
 
 struct _ImageLoaderPrivateData {
@@ -554,6 +555,7 @@ load_image_thread (void *thread_data)
 
 		g_mutex_lock (priv->yes_or_no);
 
+		G_LOCK (pixbuf_loader_lock);
 		if (path != NULL) {
 			if (priv->loader != NULL)
 				animation = (*priv->loader) (path, &error, priv->loader_data);
@@ -561,7 +563,8 @@ load_image_thread (void *thread_data)
 				animation = gdk_pixbuf_animation_new_from_file (path, &error);
 		} else 
 			animation = NULL;
-		
+		G_UNLOCK (pixbuf_loader_lock);
+
 		priv->loader_done = TRUE;
 
 		if (priv->animation != NULL)
