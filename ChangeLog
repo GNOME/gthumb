@@ -1,3 +1,7 @@
+2003-12-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.2.0 released ]
+
 2003-12-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/commands-impl.c (folder_copy__response_cb): do not free a string 
