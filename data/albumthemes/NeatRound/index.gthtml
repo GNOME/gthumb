@@ -34,6 +34,10 @@
         img.thumbnail {
                 border-width: 0px;
         }
+        td.td_index {
+		width: 215px;
+		vertical-align: top;
+	}
     </style>
   </head>
   <body bgcolor="#ffffff">

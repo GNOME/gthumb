@@ -1776,7 +1776,7 @@ paint_image (CatalogPngExporter *ce,
 				    x, y,
 				    width,
 				    height);
-
+		
 		gdk_pixbuf_render_to_drawable_alpha (image,
 						     ce->pixmap, 
 						     0, 0,
@@ -1785,6 +1785,7 @@ paint_image (CatalogPngExporter *ce,
 						     GDK_PIXBUF_ALPHA_BILEVEL,
 						     112,
 						     GDK_RGB_DITHER_MAX, 0, 0);
+		
 	} else
 		gdk_pixbuf_render_to_drawable (image,
 					       ce->pixmap, 

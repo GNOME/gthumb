@@ -2000,6 +2000,41 @@ export__copy_image (CatalogWebExporter *ce)
 }
 
 
+static GdkPixbuf *
+pixbuf_scale (const GdkPixbuf *src,
+	      int              dest_width,
+	      int              dest_height,
+	      GdkInterpType    interp_type)
+{
+	GdkPixbuf *dest;
+
+	if (! gdk_pixbuf_get_has_alpha (src))
+		return gdk_pixbuf_scale_simple (src, dest_width, dest_height, interp_type);
+	
+	g_return_val_if_fail (src != NULL, NULL);
+	g_return_val_if_fail (dest_width > 0, NULL);
+	g_return_val_if_fail (dest_height > 0, NULL);
+	
+	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, gdk_pixbuf_get_has_alpha (src), 8, dest_width, dest_height);
+	if (!dest)
+		return NULL;
+	
+	gdk_pixbuf_composite_color (src,
+				    dest,
+				    0, 0, dest_width, dest_height, 0, 0,
+				    (double) dest_width / gdk_pixbuf_get_width (src),
+				    (double) dest_height / gdk_pixbuf_get_height (src),
+				    interp_type,
+				    255,
+				    0, 0,
+				    200,
+				    0xFFFFFF,
+				    0xFFFFFF);
+
+	return dest;
+}
+	
+
 static void
 image_loader_done (ImageLoader *iloader, 
 		   gpointer     data)
@@ -2020,7 +2055,7 @@ image_loader_done (ImageLoader *iloader,
 		int h = gdk_pixbuf_get_height (pixbuf);
 		if (scale_keepping_ratio (&w, &h, ce->resize_max_width, ce->resize_max_height)) {
 			GdkPixbuf *scaled;
-			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->image);
 			idata->image = scaled;
 		} 
@@ -2042,7 +2077,7 @@ image_loader_done (ImageLoader *iloader,
 					  ce->preview_max_width,
 					  ce->preview_max_height)) {
 			GdkPixbuf *scaled;
-			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->preview);
 			idata->preview = scaled;
 		}
@@ -2073,7 +2108,7 @@ image_loader_done (ImageLoader *iloader,
 					  ce->thumb_width,
 					  ce->thumb_height)) {
 			GdkPixbuf *scaled;
-			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			scaled = pixbuf_scale (pixbuf, w, h, GDK_INTERP_BILINEAR);
 			g_object_unref (idata->thumb);
 			idata->thumb = scaled;
 		}

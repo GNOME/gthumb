@@ -25,6 +25,10 @@
     img.thumbnail {
       border-width: 0px;
     }
+    td.td_index {
+      width: 215px;
+      vertical-align: top;
+    }
   </style>
   </head>
   <body bgcolor=white>
@@ -65,7 +69,7 @@
     <tr><td height="100%">
 
     <!-- Table -->
-    <table align=center border=0 cellpadding=5 width="95%">
+    <table align=center border=0 cellpadding=5>
       <gthumb:table/>
     </table>
 

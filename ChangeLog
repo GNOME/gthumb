@@ -1,5 +1,8 @@
 2005-01-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/albumthemes/ClassicClips/Makefile.am (theme_DATA): added css
+	files.
+
 	* data/gthumb.schemas.in:
 	* libgthumb/file-utils.c:
 	* libgthumb/preferences.h:

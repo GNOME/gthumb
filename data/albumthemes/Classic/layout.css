@@ -97,7 +97,7 @@ div.thumbnails table {
 td.td_index {
 	width: 215px;
 	padding: 8px 5px 8px 5px;
-	vertical-align: center;
+	vertical-align: top;
 }
 
 table.photo {
