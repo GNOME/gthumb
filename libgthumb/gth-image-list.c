@@ -3446,7 +3446,7 @@ gth_image_list_init (GthImageList *image_list)
 GType
 gth_image_list_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

@@ -206,6 +206,11 @@
 	  <long>Bu böyüklüyün üstündəki rəsmlərin dırnaq görünüşləri göstərilməyəcəkdir. Bütün rəsmlərin dırnaq görünüşlərinin göstərilməsi üçün 0 işlədin.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Изображенията над този размер (в байтове) няма да бъдат намалени. Използвайте 0, ако искате да създадете намалено изображение...</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Les imatge d&apos;una mida superior (en bytes) no es convertiran a miniatures. Si voleu generar les miniatures de totes les imatges utilitzeu 0.</long>
@@ -585,6 +590,11 @@
 	  <long>Mümkün qiymətlər: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: нищо, име, път, размер, време.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: none, nom, camí, mida, hora.</long>
@@ -773,6 +783,11 @@
 	  <long>Mümkün qiymətlər: ascending, descending.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: възходящ, низходящ.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: ascendent; descendent.</long>
@@ -959,6 +974,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: list, thumbnails.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Possible values are: списък, намалени изображения.</long>
 	</locale>
 
 	<locale name="ca">
@@ -1155,6 +1175,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: image, data, comment.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: изображение, данни, коментар.</long>
 	</locale>
 
 	<locale name="ca">
@@ -1360,6 +1385,11 @@
 	  <long>Mümkün qiymətlər: high, low.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: високо, ниско.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: alt, baix.</long>
@@ -1547,6 +1577,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="ca">
@@ -1737,6 +1772,11 @@
 	  <long>Mümkün qiymətlər: white, black, checked, none.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: бяло, черно, маркирано, нищо.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: blanc, negre, activat, cap.</long>
@@ -1920,6 +1960,11 @@
 	  <long>Mümkün qiymətlər: light, midtone, dark.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: светли, средни товнове, тъмни.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: clar, atenuat, fosc.</long>
@@ -2101,6 +2146,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: small, medium, large.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: малко, средно, голямо.</long>
 	</locale>
 
 	<locale name="ca">
@@ -2291,6 +2341,11 @@
 	  <long>Həmişə qara arxa planın işlədilməsi.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Дали винаги да се използва заден фон.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Si s&apos;ha d&apos;utilitzar sempre el negre com a color de fons.</long>
@@ -2464,6 +2519,11 @@
 	  <short></short>
 	  <long> Possible values are: forward, backward, random.
 	  </long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: напред, назад, произволно.</long>
 	</locale>
 
 	<locale name="ca">
@@ -2690,6 +2750,11 @@
 	  <long>Mümkün qiymətlər: 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: 1, 2, 3, 4.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: 1, 2, 3 4.</long>
@@ -2876,6 +2941,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: системно, текст_отдолу, текст_отстрани, само_текст, само_икони.</long>
 	</locale>
 
 	<locale name="ca">
@@ -3183,6 +3253,11 @@
 	<locale name="be">
 	  
 	  <long>Магчымыя значэньні: png, jpeg.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: png, jpeg.</long>
 	</locale>
 
 	<locale name="ca">
@@ -4232,6 +4307,11 @@
 	  <long>Mümkün qiymətlər: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: jpeg, png, tga, tiff.</long>
@@ -4418,6 +4498,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: пропускане, преименуване, запитване, презаписване</long>
 	</locale>
 
 	<locale name="ca">
@@ -4644,6 +4729,11 @@
 	  <long>Mümkün qiymətlər: name, size, time.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: име, размер, време.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: nom, mida, hora.</long>
@@ -4850,6 +4940,11 @@
 	<locale name="be">
 	  
 	  <long>Магчымыя значэньні: pixels (піксалі), percentage (адсоткі).</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: пиксели, проценти.</long>
 	</locale>
 
 	<locale name="ca">
@@ -5170,6 +5265,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: name, path, size, time.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: име, път, размер, време.</long>
 	</locale>
 
 	<locale name="ca">
@@ -5494,6 +5594,11 @@
 	  <long>Mümkün qiymətlər: mm, in.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: mm, in.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: mm, polzades.</long>
@@ -5811,6 +5916,11 @@
 	  <short></short>
 	  <long> Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.
 	  </long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: нищо, квадрат, изображение, показване, 4x3, 4x6, 5x7, 8x10, друго.</long>
 	</locale>
 
 	<locale name="ca">
