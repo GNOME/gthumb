@@ -5,7 +5,7 @@ Compile.sh
 FEATURES
 Makefile
 Makefile.in
-autom4te.cache
+autom4te*.cache
 aclocal.m4
 compile.sh
 config.cache

@@ -1,3 +1,8 @@
+2003-04-06  Christian Neumair  <chris@gnome-de.org>
+
+	* .cvsignore: Updated.
+	* src/commands-impl.c: UTF-8 escaped Copyright entry in about window.
+
 2003-03-28  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* configure.in: Added Belarusian to ALL_LINGUAS.

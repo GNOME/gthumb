@@ -2748,7 +2748,7 @@ help_about_command_impl (BonoboUIComponent *uic,
 	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb.png", NULL);
 	about = gnome_about_new (_("gThumb"), 
 				 VERSION,
-				 _("Copyright (C) 2001-2003 Free Software Foundation, Inc."),
+				 "Copyright \xc2\xa9 2001-2003 Free Software Foundation, Inc.",
 				 _("An image viewer and browser for GNOME."),
 				 authors,
 				 documenters,
