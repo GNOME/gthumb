@@ -1,3 +1,7 @@
+2005-03-14  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "tr" to ALL_LINGUAS.
+
 2005-03-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.4 released ]  
