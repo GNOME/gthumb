@@ -1,3 +1,8 @@
+2003-07-09  Frederic Crozat  <fcrozat@mandrakesoft.com>
+
+	* src/gthumb.schemas:
+	fix type in schema.
+
 2003-07-06  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.1.3 released ]  

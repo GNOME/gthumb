@@ -1511,7 +1511,7 @@
 	<key>/schemas/apps/gthumb/dialogs/print/include_comment</key>
 	<applyto>/apps/gthumb/dialogs/print/include_comment</applyto>
 	<owner>gthumb</owner>
-	<type>boolean</type>
+	<type>bool</type>
 	<default>false</default>
 	<locale name="C">
 	  <short></short>
