@@ -396,12 +396,14 @@ transp_type_changed_cb (GtkOptionMenu *option_menu,
 void
 dlg_preferences (GThumbWindow *window)
 {
-	DialogData *data;
-	GtkWidget  *btn_close;
-	GtkWidget  *btn_help;
-	int         layout_type;
-	char       *startup_location;
-	GthDirectionType direction;
+	DialogData       *data;
+	GtkWidget        *btn_close;
+	GtkWidget        *btn_help;
+	int               layout_type;
+	char             *startup_location;
+	GthDirectionType  direction;
+	GValue            value = {0, };
+	GtkWidget        *fileentry;
 
 	data = g_new (DialogData, 1);
 	data->window = window;
@@ -462,7 +464,14 @@ dlg_preferences (GThumbWindow *window)
 	btn_help   = glade_xml_get_widget (data->gui, "p_help_button");
 
 	/* Set widgets data. */
-	
+
+	/* Make use of new filechooser */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	fileentry = glade_xml_get_widget (data->gui, "file_entry");
+	g_object_set_property (G_OBJECT (fileentry), "use_filechooser", &value);
+
 	/* * general */
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE))

@@ -522,6 +522,7 @@ dlg_search_ui (GThumbWindow *window,
 	DialogData        *data;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
+	GValue             value = {0, };
 
 	data = g_new0 (DialogData, 1);
 
@@ -586,6 +587,14 @@ dlg_search_ui (GThumbWindow *window,
 	}
 
 	/* Set widgets data. */
+
+	/* Make use of the new filechooser */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	g_object_set_property (G_OBJECT (data->s_start_from_fileentry),"use_filechooser", &value);
+	
+	/**/
 
 	if (catalog_path == NULL) {
 		if (data->window->dir_list->path != NULL)

@@ -1,5 +1,21 @@
 2004-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-folder-selection-dialog.c: 
+	* src/dlg-duplicates.c:
+	* src/dlg-photo-importer.c:
+	* src/dlg-png-exporter.c:
+	* src/dlg-preferences.c:
+	* src/dlg-search.c:
+	* src/dlg-web-exporter.c:
+	* libgthumb/dlg-save-image.c: 
+
+	Fixes bug #139569: Gthumb doesn't use the new filechooser. 
+	Patch by Mattias Eriksson.
+	
+	* src/fullscreen.c (fullscreen_new, close_fullscreen_window_cb): 
+
+	Fixes bug #143426: crash when using Alt+F4 to exit after slideshow
+	
 	* src/gthumb-window.c: 
 	* src/gthumb-window.h: 
 	* src/actions.c: 

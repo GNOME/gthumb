@@ -279,6 +279,8 @@ dlg_web_exporter (GThumbWindow *window)
 	GtkWidget    *btn_help;
 	GList        *list;
 	char         *svalue;
+	GValue 	      value = {0, };
+	GtkWidget    *fileentry;
 
 	data = g_new (DialogData, 1);
 
@@ -340,6 +342,16 @@ dlg_web_exporter (GThumbWindow *window)
 	btn_help = glade_xml_get_widget (data->gui, "wa_help_button");
 
 	/* Set widgets data. */
+
+	/* Make gnome_file_entry use the new filechooser */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	
+	fileentry = glade_xml_get_widget (data->gui, "fileentry2");
+	g_object_set_property (G_OBJECT (fileentry), "use_filechooser", &value);
+	
+	/**/ 
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
@@ -629,18 +641,18 @@ ensure_local_theme_dir_exists (void)
 
 
 static void
-install_theme__ok_cb (GObject  *object,
-		      gpointer  data)
+install_theme__ok_cb (GtkDialog  *file_sel,
+		      int         button_number,
+		      gpointer    data)
 {
 	ThemeDialogData  *tdata;
-	GtkWidget        *file_sel = data;
 	char             *theme_archive;
 	char             *command_line = NULL;
 	GError           *err = NULL;
 
 	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");
-	theme_archive = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
-	gtk_widget_destroy (file_sel);
+	theme_archive = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
 	if (theme_archive == NULL)
 		return;
@@ -678,28 +690,39 @@ install_theme__ok_cb (GObject  *object,
 
 
 static void
+install_theme_response_cb (GtkDialog  *file_sel,
+			   int         button_number,
+			   gpointer    userdata)
+{
+	if (button_number == GTK_RESPONSE_ACCEPT) 
+		install_theme__ok_cb (file_sel, button_number, userdata);
+	 else 
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+}
+
+
+static void
 theme_dialog__install_theme_clicked (GtkWidget       *widget, 
 				     ThemeDialogData *tdata)
 {
 	GtkWidget *file_sel;
 	char      *home;
 
-	file_sel = gtk_file_selection_new (_("Select Album Theme"));
+	file_sel = gtk_file_chooser_dialog_new (_("Select Album Theme"), NULL,
+						GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+						NULL);
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 
 	home = g_strconcat (g_get_home_dir (), "/", NULL);
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), home);
+	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_sel), home);
 	g_free (home);
 
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked",
-			  G_CALLBACK (install_theme__ok_cb),
-			  file_sel);
-
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (file_sel));
+	g_signal_connect (GTK_DIALOG (file_sel),
+			  "response",
+			  G_CALLBACK (install_theme_response_cb),
+			  NULL);
 
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel),
 				      GTK_WINDOW (tdata->dialog));

@@ -61,7 +61,8 @@ destroy_cb (GtkWidget *w,
 	SaveImageData *data;
 
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
-	g_object_unref (pixbuf);
+	if (pixbuf != NULL)
+		g_object_unref (pixbuf);
 
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
 	g_free (data);
@@ -69,21 +70,25 @@ destroy_cb (GtkWidget *w,
 
 
 static void 
-file_save_cancel_cb (GtkWidget *w,
-		     GtkWidget *file_sel)
+file_save_cancel_cb (GtkDialog *file_sel,
+		     int        button_number,
+		     gpointer  *userdata)
+
 {
 	SaveImageData *data;	
 
 	data = g_object_get_data (G_OBJECT (file_sel), "data");
 	if (data->done_func != NULL) 
 		(*data->done_func) (NULL, data->done_data);
-	gtk_widget_destroy (file_sel);
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 
 static void 
-file_save_ok_cb (GtkWidget *w,
-		 GtkWidget *file_sel)
+file_save_ok_cb (GtkDialog *file_sel,
+		 int        button_number,
+		 gpointer  *userdata)
+
 {
 	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
 	GtkWindow     *parent;
@@ -99,7 +104,7 @@ file_save_ok_cb (GtkWidget *w,
 
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
-	filename = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
+	filename = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
 
 	if (filename == NULL)
 		return;
@@ -144,7 +149,7 @@ file_save_ok_cb (GtkWidget *w,
 		}
 	}
 
-	gtk_widget_hide (file_sel);
+	gtk_widget_hide (GTK_WIDGET (file_sel));
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
@@ -192,7 +197,19 @@ file_save_ok_cb (GtkWidget *w,
 		(*data->done_func) (filename, data->done_data);
 	
 	g_free (filename);
-	gtk_widget_destroy (file_sel);
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
+}
+
+
+static void 
+file_save_response_cb (GtkDialog *file_sel,
+		       int        button_number,
+		       gpointer  *userdata)
+{
+	if (button_number == GTK_RESPONSE_ACCEPT) 
+		file_save_ok_cb (file_sel, button_number, userdata);
+	else 
+		file_save_cancel_cb (file_sel, button_number, userdata);
 }
 
 
@@ -241,15 +258,18 @@ dlg_save_image (GtkWindow       *parent,
 
 	g_return_if_fail (pixbuf != NULL);
 
-	file_sel = gtk_file_selection_new (_("Save Image"));
-	
+	file_sel = gtk_file_chooser_dialog_new(_("Save Image"), parent,
+					       GTK_FILE_CHOOSER_ACTION_SAVE,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
+					       NULL);
+
 	/**/
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (vbox), 0);
-	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (file_sel)->action_area), 
-			    vbox, 
-			    TRUE, TRUE, 0);
+	gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (file_sel), 
+					   vbox);
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
@@ -274,7 +294,7 @@ dlg_save_image (GtkWindow       *parent,
 				    "/",
 				    NULL);
 
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), path);
+	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_sel), path);
 	g_free (path);
 
 	g_object_ref (pixbuf);
@@ -288,15 +308,10 @@ dlg_save_image (GtkWindow       *parent,
 	g_object_set_data (G_OBJECT (file_sel), "data", data);
 	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
 
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked", 
-			  G_CALLBACK (file_save_ok_cb), 
-			  file_sel);
-
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-			  "clicked", 
-			  G_CALLBACK (file_save_cancel_cb),
-			  file_sel);
+	g_signal_connect (GTK_DIALOG (file_sel),
+			  "response", 
+			  G_CALLBACK (file_save_response_cb), 
+			  NULL);
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 
@@ -314,7 +329,7 @@ dlg_save_image (GtkWindow       *parent,
 
 
 
-#define GLADE_FILE     "gthumb_convert.glade"
+#define GLADE_FILE "gthumb_convert.glade"
 
 
 typedef struct {

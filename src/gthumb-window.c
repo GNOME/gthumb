@@ -92,8 +92,8 @@
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
-#define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
-#define HISTORY_LIST_POPUP     "/popups/HistoryListPopup/"
+#define HISTORY_LIST_MENU      "/MenuBar/View/Go/HistoryList"
+#define HISTORY_LIST_POPUP     "/HistoryListPopup"
 
 enum {
 	NAME_COLUMN,
@@ -522,13 +522,15 @@ window_update_statusbar_list_info (GThumbWindow *window)
 static void
 window_update_go_sensitivity (GThumbWindow *window)
 {
-	return; /* FIXME */
+	gboolean sensitive;
 
-	set_action_sensitive (window, "Go_Back", (window->history_current != NULL) && (window->history_current->next != NULL));
+	sensitive = (window->history_current != NULL) && (window->history_current->next != NULL);
+	set_action_sensitive (window, "Go_Back", sensitive);
+	gtk_widget_set_sensitive (window->go_back_toolbar_button, sensitive);
 
-	gtk_widget_set_sensitive (window->go_back_toolbar_button, (window->history_current != NULL) && (window->history_current->next != NULL));
-
-	set_action_sensitive (window, "Go_Forward", (window->history_current != NULL) && (window->history_current->prev != NULL));
+	sensitive = (window->history_current != NULL) && (window->history_current->prev != NULL);
+	set_action_sensitive (window, "Go_Forward", sensitive);
+	gtk_widget_set_sensitive (window->go_fwd_toolbar_button, sensitive);
 }
 
 
@@ -1242,6 +1244,8 @@ window_update_history_list (GThumbWindow *window)
 	GList *scan;
 	int    i;
 
+	window_update_go_sensitivity (window);
+
 	/* Delete bookmarks menu. */
 
 	if (window->history_merge_id != 0) {
@@ -1277,7 +1281,7 @@ window_update_history_list (GThumbWindow *window)
 					window->history,
 					"History",
 					i,
-					"/MenuBar/View/Go/HistoryList",
+					HISTORY_LIST_POPUP,
 					scan->data);
 		i++;
 	}
@@ -3829,12 +3833,9 @@ combo_button_activate_default_callback (EComboButton *combo_button,
 static void
 setup_toolbar_go_back_button (GThumbWindow *window)
 {
-	GtkWidget         *combo_button;
-	GtkWidget         *menu;
-	BonoboControl     *control;
-	GdkPixbuf         *icon;
-
-	menu = gtk_menu_new ();
+	GtkWidget *combo_button;
+	GtkMenu   *menu;
+	GdkPixbuf *icon;
 
 	icon = gtk_widget_render_icon (window->app,
 				       GTK_STOCK_GO_BACK,
@@ -3843,7 +3844,8 @@ setup_toolbar_go_back_button (GThumbWindow *window)
 
 	combo_button = e_combo_button_new ();
 
-	e_combo_button_set_menu (E_COMBO_BUTTON (combo_button), GTK_MENU (menu));
+	menu = (GtkMenu*) gtk_ui_manager_get_widget (window->ui, "/HistoryListPopup");
+	e_combo_button_set_menu (E_COMBO_BUTTON (combo_button), menu);
 	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("Back"));
 
 	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button), icon);
@@ -3851,15 +3853,11 @@ setup_toolbar_go_back_button (GThumbWindow *window)
 
 	gtk_widget_show (combo_button);
 
+	e_combo_button_set_style (E_COMBO_BUTTON (combo_button), GTH_TOOLBAR_STYLE_ICONS);
+
 	g_signal_connect (combo_button, "activate_default",
 			  G_CALLBACK (combo_button_activate_default_callback),
 			  window);
-
-	bonobo_window_add_popup (BONOBO_WINDOW (window->app), GTK_MENU (menu), HISTORY_LIST_POPUP);
-
-	control = bonobo_control_new (combo_button);
-
-	bonobo_ui_component_object_set (window->ui_component, "/Toolbar/GoBackComboButton", BONOBO_OBJREF (control), NULL);
 
 	window->go_back_toolbar_button = combo_button;
 
@@ -4494,6 +4492,42 @@ content_radio_action (GtkAction      *action,
 }
 
 
+static GtkWidget*
+create_locationbar_button (const char *stock_id,
+                           gboolean    view_text)
+{
+        GtkWidget    *button;
+        GtkWidget    *box;
+        GtkWidget    *image;
+
+        button = gtk_button_new ();
+        gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+
+        box = gtk_hbox_new (FALSE, 1);
+        image = gtk_image_new ();
+        gtk_image_set_from_stock (GTK_IMAGE (image),
+                                  stock_id,
+                                  GTK_ICON_SIZE_LARGE_TOOLBAR);
+        gtk_box_pack_start (GTK_BOX (box), image, !view_text, FALSE, 0);
+
+        if (view_text) {
+                GtkStockItem  stock_item;
+                const char   *text;
+                GtkWidget    *label;
+                if (gtk_stock_lookup (stock_id, &stock_item))
+                        text = stock_item.label;
+                else
+                        text = "";
+                label = gtk_label_new_with_mnemonic (text);
+                gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
+        }
+
+        gtk_container_add (GTK_CONTAINER (button), box);
+
+        return button;
+}
+
+
 
 
 
@@ -4512,6 +4546,7 @@ window_new (void)
 	GtkWidget         *image_pane_paned1;
 	GtkWidget         *image_pane_paned2;
 	GtkWidget         *scrolled_win; 
+	GtkWidget         *nav_bar_box;
 	GtkTreeSelection  *selection;
 	int                i; 
 	GtkActionGroup    *actions;
@@ -4726,10 +4761,32 @@ window_new (void)
 	/* Location entry. */
 
 	window->location_entry = gtk_entry_new ();
-
 	g_signal_connect (G_OBJECT (window->location_entry),
 			  "key_press_event",
 			  G_CALLBACK (location_entry_key_press_cb),
+			  window);
+
+	setup_toolbar_go_back_button (window);
+
+	window->go_fwd_toolbar_button = create_locationbar_button (GTK_STOCK_GO_FORWARD, FALSE);
+	gtk_tooltips_set_tip (window->tooltips, window->go_fwd_toolbar_button, _("Go to the next visited location"), NULL);
+	g_signal_connect (G_OBJECT (window->go_fwd_toolbar_button),
+			  "clicked",
+			  G_CALLBACK (activate_action_go_forward),
+			  window);
+
+	window->go_up_toolbar_button = create_locationbar_button (GTK_STOCK_GO_UP, FALSE);
+	gtk_tooltips_set_tip (window->tooltips, window->go_up_toolbar_button, _("Go up one level"), NULL);
+	g_signal_connect (G_OBJECT (window->go_up_toolbar_button),
+			  "clicked",
+			  G_CALLBACK (activate_action_go_up),
+			  window);
+
+	window->go_home_toolbar_button = create_locationbar_button (GTK_STOCK_HOME, FALSE);
+	gtk_tooltips_set_tip (window->tooltips, window->go_home_toolbar_button, _("Go to the home folder"), NULL);
+	g_signal_connect (G_OBJECT (window->go_home_toolbar_button),
+			  "clicked",
+			  G_CALLBACK (activate_action_go_home),
 			  window);
 
 	/* Info bar. */
@@ -4863,9 +4920,23 @@ window_new (void)
 
 	window->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
 
-	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
+	/* FIXME
+	nav_bar_box = gtk_hbox_new (FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_back_toolbar_button,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_fwd_toolbar_button,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_up_toolbar_button,
+			    FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_home_toolbar_button,
 			    FALSE, FALSE, 0);
 
+	gtk_box_pack_start (GTK_BOX (dir_list_vbox), nav_bar_box, FALSE, FALSE, 0);
+	*/
+
+	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
+			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->notebook, 
 			    TRUE, TRUE, 0);
 

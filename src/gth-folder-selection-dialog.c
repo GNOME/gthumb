@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2004 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -246,22 +246,24 @@ recent_activated_cb (GtkTreeView       *tree_view,
 
 
 static void
-file_sel_ok_clicked_cb (GObject  *object,
-			gpointer  data)
+file_sel_ok_clicked_cb (GtkDialog  *file_sel,
+			int         button_number,
+			gpointer    data)
 {
-	GtkWidget          *file_sel = data;
 	GthFolderSelection *folder_sel;
 	char               *folder;
 
+	if (button_number != GTK_RESPONSE_ACCEPT) {
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+		return;
+	}
+
 	folder_sel = g_object_get_data (G_OBJECT (file_sel), "folder_sel");
 	
-	folder = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
-	gtk_widget_destroy (file_sel);
-
-	if (folder == NULL) 
-		return;
-
+	folder = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
 	gth_folder_selection_set_folder (folder_sel, folder);
+
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
 	g_free (folder);
 }
@@ -277,7 +279,11 @@ browse_button_clicked_cb (GtkWidget *widget,
 	const char  *utf8_folder;
 	char        *folder;
 	
-	file_sel = gtk_file_selection_new (folder_sel->priv->title);
+	file_sel = gtk_file_chooser_dialog_new (folder_sel->priv->title, NULL,
+						GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
+						NULL);
 	
 	entry = folder_sel->priv->file_entry;
 
@@ -290,22 +296,16 @@ browse_button_clicked_cb (GtkWidget *widget,
 		folder = tmp;
 	}
 
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), folder);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), folder);
 	g_free (folder);
 	
 	g_object_set_data (G_OBJECT (file_sel), "folder_sel", folder_sel);
 
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked", 
+	g_signal_connect (G_OBJECT (GTK_DIALOG (file_sel)),
+			  "response", 
 			  G_CALLBACK (file_sel_ok_clicked_cb), 
-			  file_sel);
+			  folder_sel);
 	
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-				  "clicked", 
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (file_sel));
-
-	gtk_widget_set_sensitive (GTK_WIDGET (GTK_FILE_SELECTION (file_sel)->file_list)->parent, FALSE);
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), 
 				      GTK_WINDOW (folder_sel));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
@@ -558,6 +558,8 @@ void
 gth_folder_selection_set_folder (GthFolderSelection *fsel,
 				 const char         *folder)
 {
+	if ((folder == NULL) || (fsel == NULL)) 
+		return;
 	_gtk_entry_set_filename_text (GTK_ENTRY (fsel->priv->file_entry), folder);
 }
 

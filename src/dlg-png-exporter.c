@@ -321,6 +321,7 @@ dlg_exporter (GThumbWindow *window)
 	GList        *list;
 	char         *template;
 	char         *s;
+	GValue        value = {0, };
 
 	data = g_new (DialogData, 1);
 
@@ -411,6 +412,14 @@ dlg_exporter (GThumbWindow *window)
 				  data->exporter);
 
 	/* Set widgets data. */
+
+	/* Make use of the new filechooser */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	g_object_set_property (G_OBJECT (data->dest_fileentry), "use_filechooser", &value);
+
+	/**/
 
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->dest_fileentry), (window->dir_list->path != NULL) ? window->dir_list->path : g_get_home_dir ());
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),

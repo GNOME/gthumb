@@ -1505,6 +1505,7 @@ dlg_photo_importer (GThumbWindow *window)
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
 	char         *default_film_name;
+	GValue        value = {0, };
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -1572,6 +1573,14 @@ dlg_photo_importer (GThumbWindow *window)
 	gtk_widget_hide (data->import_preview_box);
 
 	/* Set widgets data. */
+
+	/* Make use of the new filechooser */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	g_object_set_property (G_OBJECT (data->destination_fileentry), "use_filechooser", &value);
+
+	/**/
 
 	data->camera_present_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL);
 	mute_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL);
