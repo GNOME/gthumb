@@ -364,6 +364,9 @@ dlg_web_exporter (GThumbWindow *window)
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
 	g_free (svalue);
 
+	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION));
+	catalog_web_exporter_set_image_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_IMAGE_CAPTION));
+
 	/* Signals. */
 
 	g_signal_connect (G_OBJECT (data->dialog), 
@@ -834,7 +837,8 @@ static void
 caption_dialog__ok_clicked (GtkWidget         *widget, 
 			    CaptionDialogData *cdata)
 {
-	GthCaptionFields caption = 0;
+	const char       *gconf_key;
+	GthCaptionFields  caption = 0;
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton)))
 		caption |= GTH_CAPTION_COMMENT;
@@ -861,12 +865,15 @@ caption_dialog__ok_clicked (GtkWidget         *widget,
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_camera_model_checkbutton)))
 		caption |= GTH_CAPTION_EXIF_CAMERA_MODEL;
 
-	if (cdata->thumbnail_caption)
+	if (cdata->thumbnail_caption) {
 		catalog_web_exporter_set_index_caption (cdata->data->exporter, caption);
-	else
+		gconf_key = PREF_WEB_ALBUM_INDEX_CAPTION;
+	} else {
 		catalog_web_exporter_set_image_caption (cdata->data->exporter, caption);
+		gconf_key = PREF_WEB_ALBUM_IMAGE_CAPTION;
+	}
 
-	/* FIXME: save settings to gconf */
+	eel_gconf_set_integer (gconf_key, caption);
 
 	gtk_widget_destroy (cdata->dialog);
 }
@@ -880,6 +887,8 @@ show_caption_dialog_cb (GtkWidget       *widget,
 	CaptionDialogData *cdata;
 	GtkWidget         *ok_button;
 	GtkWidget         *cancel_button;
+	const char        *gconf_key;
+	GthCaptionFields   caption = 0;
 
 	cdata = g_new (CaptionDialogData, 1);
 
@@ -930,7 +939,36 @@ show_caption_dialog_cb (GtkWidget       *widget,
 
 	/* Set widgets data. */
 
-	/* FIXME: load default settings from gconf */
+	if (cdata->thumbnail_caption) 
+		gconf_key = PREF_WEB_ALBUM_INDEX_CAPTION;
+	 else 
+		gconf_key = PREF_WEB_ALBUM_IMAGE_CAPTION;
+	caption = eel_gconf_get_integer (gconf_key);
+
+	if (caption & GTH_CAPTION_COMMENT)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_IMAGE_DIM)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_imagedim_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_FILE_NAME)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_filename_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_FILE_SIZE)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_filesize_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_DATE_TIME)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_date_time_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_EXPOSURE_TIME)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_exposure_time_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_EXPOSURE_MODE)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_exposure_mode_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_FLASH)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_flash_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_SHUTTER_SPEED)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_shutter_speed_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_APERTURE_VALUE)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_aperture_value_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_FOCAL_LENGTH)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_focal_length_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_EXIF_CAMERA_MODEL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_camera_model_checkbutton), TRUE);
 
 	/* Run dialog. */
 

@@ -1,3 +1,16 @@
+2003-07-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: fix bug #116386.
+
+	* libgthumb/gthumb-init.c (gthumb_init): preload some gconf dirs.
+
+	* libgthumb/gtk-utils.c (_gtk_yesno_dialog_new) 
+	(_gtk_request_dialog_run): no title for dialogs.
+
+	* libgthumb/preferences.h: 
+	* src/dlg-web-exporter.c (show_caption_dialog_cb) 
+	(caption_dialog__ok_clicked): load and save preferences.
+
 2003-07-02  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/gtk-utils.c (_gtk_message_dialog_new): remove the title.

@@ -5023,6 +5023,7 @@ window_new (void)
 			     target_table, n_targets, 
 			     GDK_ACTION_MOVE);
 	*/
+
 	gtk_drag_dest_set (window->viewer,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,

@@ -1329,7 +1329,7 @@
 		<widget class="GtkCheckButton" id="c_filename_checkbutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">File name</property>
+		  <property name="label" translatable="yes">File _name</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1347,7 +1347,7 @@
 		<widget class="GtkCheckButton" id="c_filesize_checkbutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">File size</property>
+		  <property name="label" translatable="yes">File si_ze</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1365,7 +1365,7 @@
 		<widget class="GtkCheckButton" id="c_imagedim_checkbutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Image dimensions</property>
+		  <property name="label" translatable="yes">Image dim_ensions</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1383,7 +1383,7 @@
 		<widget class="GtkCheckButton" id="c_comment_checkbutton">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes">Comment</property>
+		  <property name="label" translatable="yes">Co_mment</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="active">False</property>
@@ -1468,7 +1468,7 @@
 			<widget class="GtkCheckButton" id="c_exif_date_time_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Date and Time</property>
+			  <property name="label" translatable="yes">_Date and Time</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1486,7 +1486,7 @@
 			<widget class="GtkCheckButton" id="c_exif_exposure_time_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Exposure time</property>
+			  <property name="label" translatable="yes">Exposure _time</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1504,7 +1504,7 @@
 			<widget class="GtkCheckButton" id="c_exif_exposure_mode_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Exposure mode</property>
+			  <property name="label" translatable="yes">E_xposure mode</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1522,7 +1522,7 @@
 			<widget class="GtkCheckButton" id="c_exif_flash_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Flash</property>
+			  <property name="label" translatable="yes">_Flash</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1540,7 +1540,7 @@
 			<widget class="GtkCheckButton" id="c_exif_shutter_speed_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Shutter speed</property>
+			  <property name="label" translatable="yes">_Shutter speed</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1558,7 +1558,7 @@
 			<widget class="GtkCheckButton" id="c_exif_aperture_value_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Aperture value</property>
+			  <property name="label" translatable="yes">_Aperture value</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1576,7 +1576,7 @@
 			<widget class="GtkCheckButton" id="c_exif_focal_length_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Focal length</property>
+			  <property name="label" translatable="yes">Focal _length</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>
@@ -1594,7 +1594,7 @@
 			<widget class="GtkCheckButton" id="c_exif_camera_model_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Camera Model</property>
+			  <property name="label" translatable="yes">Came_ra Model</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">False</property>

@@ -152,6 +152,8 @@
 #define  PREF_WEB_ALBUM_REVERSE       "/apps/gthumb/dialogs/web_album/reverse_order"
 #define  PREF_WEB_ALBUM_TITLE         "/apps/gthumb/dialogs/web_album/title"
 #define  PREF_WEB_ALBUM_THEME         "/apps/gthumb/dialogs/web_album/theme"
+#define  PREF_WEB_ALBUM_INDEX_CAPTION "/apps/gthumb/dialogs/web_album/index_caption"
+#define  PREF_WEB_ALBUM_IMAGE_CAPTION "/apps/gthumb/dialogs/web_album/image_caption"
 #define  PREF_SEARCH_RECURSIVE        "/apps/gthumb/dialogs/search/recursive"
 #define  PREF_PRINT_PAPER_SIZE        "/apps/gthumb/dialogs/print/paper_size"
 #define  PREF_PRINT_PAPER_ORIENTATION "/apps/gthumb/dialogs/print/paper_orientation"

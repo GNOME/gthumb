@@ -151,6 +151,14 @@ gthumb_init ()
 		migrate_to_new_directories ();
 
 	ensure_directories_exist ();
+
+	eel_gconf_preload_cache ("/apps/gthumb/browser",
+				 GCONF_CLIENT_PRELOAD_ONELEVEL);
+	eel_gconf_preload_cache ("/apps/gthumb/ui",
+				 GCONF_CLIENT_PRELOAD_ONELEVEL);
+	eel_gconf_preload_cache ("/apps/gthumb/viewer",
+				 GCONF_CLIENT_PRELOAD_ONELEVEL);
+
 	preferences_init ();
 	gthumb_stock_init ();
 }

@@ -193,7 +193,7 @@
 	     accel="*Control**Shift*C"
 	     pixtype="stock" pixname="gthumb-color-balance"/> 
 	<cmd name="AlterImage_Threshold" 
-	     _label="_Threshold" _tip="Aply threshold"
+	     _label="_Threshold" _tip="Apply threshold"
 	     pixtype="stock" pixname="gthumb-threshold"/> 
 
 	<cmd name="AlterImage_Resize" 
