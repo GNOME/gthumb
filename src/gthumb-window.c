@@ -354,12 +354,11 @@ window_update_statusbar_zoom_info (GThumbWindow *window)
 static void
 window_update_statusbar_image_info (GThumbWindow *window)
 {
-	char        *text;
+	char        *text, *utf8_text;
 	char         time_txt[50];
 	char        *size_txt;
 	char        *file_size_txt;
 	const char  *path;
-	char        *utf8_name;
 	int          width, height;
 	time_t       timer;
 	struct tm   *tm;
@@ -379,9 +378,6 @@ window_update_statusbar_image_info (GThumbWindow *window)
 		bonobo_ui_component_set_prop (window->ui_component, "/status/ImageInfo", "hidden", "0", NULL);
 		gtk_widget_show (window->image_info_frame);
 	}
-
-	utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 
-					NULL, NULL, NULL);
 
 	if (!image_viewer_is_void(IMAGE_VIEWER (window->viewer))) {
 		width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
@@ -405,14 +401,15 @@ window_update_statusbar_image_info (GThumbWindow *window)
 				size_txt,
 				file_size_txt,
 				time_txt);
-	gtk_label_set_markup (GTK_LABEL (window->image_info), text);
+	utf8_text = g_locale_to_utf8 (text, -1, 0, 0, 0);
+	gtk_label_set_markup (GTK_LABEL (window->image_info), utf8_text);
 
 	/**/
 
-	g_free (utf8_name);
 	g_free (size_txt);
 	g_free (file_size_txt);
 	g_free (text);
+	g_free (utf8_text);
 }
 
 

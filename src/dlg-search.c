@@ -112,8 +112,6 @@ typedef struct {
 	GtkWidget      *s_choose_categories_button;
 	GtkWidget      *s_date_optionmenu;
 	GtkWidget      *s_date_dateedit;
-	GtkWidget      *s_at_least_one_cat_radiobutton;
-	GtkWidget      *s_all_cat_radiobutton;
 
 	GtkWidget      *p_progress_tree_view;
 	GtkListStore   *p_progress_tree_model;
@@ -126,13 +124,6 @@ typedef struct {
 	GtkWidget      *p_searching_in_hbox;
 	GtkWidget      *p_images_label;
 
-	GtkWidget      *categories_dialog;
-	GtkWidget      *c_categories_entry;
-	GtkWidget      *c_categories_treeview;
-	GtkWidget      *c_ok_button;
-	GtkWidget      *c_cancel_button;
-	GtkListStore   *c_categories_list_model;
-
 	/* -- search data -- */
 
 	SearchData     *search_data;
@@ -140,6 +131,7 @@ typedef struct {
 	char          **comment_patterns;
 	char          **place_patterns;
 	char          **keywords_patterns; 
+	gboolean        all_keywords;
 
 	GnomeVFSAsyncHandle *handle;
 	GnomeVFSURI    *uri;
@@ -268,7 +260,7 @@ search_clicked_cb (GtkWidget  *widget,
 	/* * keywords pattern */
 
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry));
-	search_data_set_keywords_pattern (data->search_data, entry, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_all_cat_radiobutton)));
+	search_data_set_keywords_pattern (data->search_data, entry, data->all_keywords);
 	if (entry != NULL) 
 		data->keywords_patterns = search_util_get_patterns (entry);
 
@@ -412,7 +404,7 @@ search_finished (DialogData *data)
 		gtk_notebook_set_current_page (GTK_NOTEBOOK ((data)->p_notebook), 1);
 
 	gtk_widget_set_sensitive (data->p_searching_in_hbox, FALSE);
-	gtk_widget_set_sensitive (data->p_view_button, data->files != NULL);
+	gtk_widget_set_sensitive (data->p_view_button, TRUE);
 	gtk_widget_set_sensitive (data->p_search_button, TRUE);
 	gtk_widget_set_sensitive (data->p_close_button, TRUE);
 }
@@ -466,181 +458,14 @@ help_cb (GtkWidget  *widget,
 /* -- choose category dialog -- */
 
 
-static void
-update_category_entry (DialogData *data)
-{
-	GtkTreeIter   iter;
-	GtkTreeModel *model = GTK_TREE_MODEL (data->c_categories_list_model);
-	GString      *categories;
-
-	if (! gtk_tree_model_get_iter_first (model, &iter)) {
-		gtk_entry_set_text (GTK_ENTRY (data->c_categories_entry), "");
-		return;
-	}
-
-	categories = g_string_new (NULL);
-	do {
-		gboolean use_category;
-		gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &use_category, -1);
-		if (use_category) {
-			char *category_name;
-
-			gtk_tree_model_get (model, &iter, 
-					    C_CATEGORY_COLUMN, &category_name, 
-					    -1);
-			if (categories->len > 0)
-				categories = g_string_append (categories, CATEGORY_SEPARATOR_STR " ");
-			categories = g_string_append (categories, category_name);
-			g_free (category_name);
-		}
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	gtk_entry_set_text (GTK_ENTRY (data->c_categories_entry), categories->str);
-	g_string_free (categories, TRUE);
-}
-
-
-static GList *
-get_categories_from_entry (DialogData *data)
-{
-	GList       *cat_list = NULL;
-	const char  *utf8_text;
-	char       **categories;
-	int          i;
-
-	utf8_text = gtk_entry_get_text (GTK_ENTRY (data->c_categories_entry));
-	if (utf8_text == NULL)
-		return NULL;
-	
-	categories = _g_utf8_strsplit (utf8_text, CATEGORY_SEPARATOR_C);
-
-	for (i = 0; categories[i] != NULL; i++) {
-		char *s;
-
-		s = _g_utf8_strstrip (categories[i]);
-
-		if (s != NULL)
-			cat_list = g_list_prepend (cat_list, s);
-	}
-	g_strfreev (categories);
-
-	return g_list_reverse (cat_list);
-}
-
-
-static void
-add_saved_categories (DialogData  *data,
-		      GList       *cat_list)
-{
-	Bookmarks *categories;
-	GList     *scan;
-
-	categories = bookmarks_new (RC_CATEGORIES_FILE);
-	bookmarks_load_from_disk (categories);
-
-	for (scan = categories->list; scan; scan = scan->next) {
-		GtkTreeIter  iter;
-		GList       *scan2;
-		gboolean     found = FALSE;
-		char        *category1 = scan->data;
-
-		for (scan2 = cat_list; scan2 && !found; scan2 = scan2->next) {
-			char *category2 = scan2->data;
-			if (strcmp (category1, category2) == 0)
-				found = TRUE;
-		}
-
-		if (found) 
-			continue;
-
-		gtk_list_store_append (data->c_categories_list_model, &iter);
-
-		gtk_list_store_set (data->c_categories_list_model, &iter,
-				    C_USE_CATEGORY_COLUMN, FALSE,
-				    C_CATEGORY_COLUMN, category1,
-				    -1);
-	}
-
-	bookmarks_free (categories);
-}
-
-
-static void
-update_list_from_entry (DialogData *data)
-{
-	GList *categories = NULL;
-	GList *scan;
-
-	categories = get_categories_from_entry (data);
-
-	gtk_list_store_clear (data->c_categories_list_model); 
-	for (scan = categories; scan; scan = scan->next) {
-		char        *category = scan->data;
-		GtkTreeIter  iter;
-		
-		gtk_list_store_append (data->c_categories_list_model, &iter);
-		
-		gtk_list_store_set (data->c_categories_list_model, &iter,
-				    C_USE_CATEGORY_COLUMN, TRUE,
-				    C_CATEGORY_COLUMN, category,
-				    -1);
-	}
-	add_saved_categories (data, categories);
-	path_list_free (categories);
-}
-
-
-static void
-use_category_toggled (GtkCellRendererToggle *cell,
-		      gchar                 *path_string,
-		      gpointer               callback_data)
-{
-	DialogData   *data  = callback_data;
-	GtkTreeModel *model = GTK_TREE_MODEL (data->c_categories_list_model);
-	GtkTreeIter   iter;
-	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
-	gboolean      value;
-	
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &value, -1);
-	
-	value = !value;
-	gtk_list_store_set (GTK_LIST_STORE (model), &iter, C_USE_CATEGORY_COLUMN, value, -1);
-	
-	gtk_tree_path_free (path);
-	update_category_entry (data);
-}
+static void choose_categories_dialog (DialogData *data);
 
 
 static void
 choose_categories_cb (GtkWidget  *widget, 
 		      DialogData *data)
 {
-	gtk_entry_set_text (GTK_ENTRY (data->c_categories_entry), gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry)));
-	update_list_from_entry (data);
-
-	gtk_widget_show (data->categories_dialog);
-	gtk_widget_grab_focus (data->c_categories_treeview);
-}
-
-
-static void
-choose_categories_ok_cb (GtkWidget  *widget, 
-			 DialogData *data)
-{
-	const char *categories;
-
-	categories = gtk_entry_get_text (GTK_ENTRY (data->c_categories_entry));
-	gtk_entry_set_text (GTK_ENTRY (data->s_categories_entry), categories);
-	gtk_widget_hide (data->categories_dialog);
-}
-
-
-static void
-choose_categories_cancel_cb (GtkWidget  *widget, 
-			     DialogData *data)
-{
-	gtk_widget_hide (data->categories_dialog);
+	choose_categories_dialog (data);
 }
 
 
@@ -684,7 +509,7 @@ dlg_search_ui (GThumbWindow *window,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
 	data->file_patterns = NULL;
 	data->comment_patterns = NULL;
@@ -717,8 +542,6 @@ dlg_search_ui (GThumbWindow *window,
 	data->s_comment_entry = glade_xml_get_widget (data->gui, "s_comment_entry");
 	data->s_place_entry = glade_xml_get_widget (data->gui, "s_place_entry");
 	data->s_categories_entry = glade_xml_get_widget (data->gui, "s_categories_entry");
-	data->s_at_least_one_cat_radiobutton = glade_xml_get_widget (data->gui, "s_at_least_one_cat_radiobutton");
-	data->s_all_cat_radiobutton = glade_xml_get_widget (data->gui, "s_all_cat_radiobutton");
 
 	data->s_choose_categories_button = glade_xml_get_widget (data->gui, "s_choose_categories_button");
 	data->s_date_optionmenu = glade_xml_get_widget (data->gui, "s_date_optionmenu");
@@ -748,12 +571,6 @@ dlg_search_ui (GThumbWindow *window,
 		data->p_images_label = glade_xml_get_widget (data->gui, "ep_images_label");
 	}
 
-	data->categories_dialog = glade_xml_get_widget (data->gui, "categories_dialog");
-	data->c_categories_entry = glade_xml_get_widget (data->gui, "c_categories_entry");
-	data->c_categories_treeview = glade_xml_get_widget (data->gui, "c_categories_treeview");
-	data->c_ok_button = glade_xml_get_widget (data->gui, "c_ok_button");
-	data->c_cancel_button = glade_xml_get_widget (data->gui, "c_cancel_button");
-
 	/* Set widgets data. */
 
 	if (catalog_path == NULL) {
@@ -772,6 +589,8 @@ dlg_search_ui (GThumbWindow *window,
 
 		search_data = catalog->search_data;
 
+		data->all_keywords =  search_data->all_keywords;
+
 		_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), search_data->start_from);
 	
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
@@ -789,11 +608,6 @@ dlg_search_ui (GThumbWindow *window,
 					     search_data->date_scope);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->s_date_dateedit),
 					  search_data->date);
-
-		if (search_data->all_keywords)
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_all_cat_radiobutton), TRUE);
-		else
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_at_least_one_cat_radiobutton), TRUE);
 
 		catalog_free (catalog);
 	}
@@ -827,40 +641,6 @@ dlg_search_ui (GThumbWindow *window,
 
 	/**/
 
-	data->c_categories_list_model = gtk_list_store_new (C_NUM_COLUMNS,
-							    G_TYPE_BOOLEAN, 
-							    G_TYPE_STRING);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (data->c_categories_treeview),
-				 GTK_TREE_MODEL (data->c_categories_list_model));
-	g_object_unref (data->c_categories_list_model);
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->c_categories_treeview), FALSE);
-
-	renderer = gtk_cell_renderer_toggle_new ();
-	g_signal_connect (G_OBJECT (renderer), 
-			  "toggled",
-			  G_CALLBACK (use_category_toggled), 
-			  data);
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (data->c_categories_treeview),
-						     -1, "Use",
-						     renderer,
-						     "active", C_USE_CATEGORY_COLUMN,
-						     NULL);
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes ("",
-							   renderer,
-							   "text", C_CATEGORY_COLUMN,
-							   NULL);
-
-	gtk_tree_view_column_set_sort_column_id (column, 0);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (data->c_categories_treeview),
-				     column);
-
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->c_categories_list_model), C_CATEGORY_COLUMN, GTK_SORT_ASCENDING);
-
-	gtk_entry_set_text (GTK_ENTRY (data->c_categories_entry), gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry)));
-	update_list_from_entry (data);
-
 	gtk_widget_set_sensitive (data->s_date_dateedit, gtk_option_menu_get_history (GTK_OPTION_MENU (data->s_date_optionmenu)) != 0);
 
 	/* Set the signals handlers. */
@@ -892,14 +672,6 @@ dlg_search_ui (GThumbWindow *window,
 	g_signal_connect (G_OBJECT (data->s_choose_categories_button), 
 			  "clicked",
 			  G_CALLBACK (choose_categories_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->c_ok_button), 
-			  "clicked",
-			  G_CALLBACK (choose_categories_ok_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->c_cancel_button), 
-			  "clicked",
-			  G_CALLBACK (choose_categories_cancel_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->s_date_optionmenu), 
 			  "changed",
@@ -1318,4 +1090,290 @@ search_images_async (DialogData *data)
 											&& (search_data->date_scope == DATE_ANY))*/;
 	
 	search_dir_async (data, search_data->start_from);
+}
+
+
+
+
+
+typedef struct {
+	DialogData     *data;
+	GladeXML       *gui;
+
+	GtkWidget      *dialog;
+	GtkWidget      *c_categories_entry;
+	GtkWidget      *c_categories_treeview;
+	GtkWidget      *c_ok_button;
+	GtkWidget      *c_cancel_button;
+	GtkWidget      *s_at_least_one_cat_radiobutton;
+	GtkWidget      *s_all_cat_radiobutton;
+
+	GtkListStore   *c_categories_list_model;
+} CategoriesDialogData;
+
+
+/* called when the main dialog is closed. */
+static void
+categories_dialog__destroy_cb (GtkWidget            *widget, 
+			       CategoriesDialogData *cdata)
+{
+	g_object_unref (cdata->gui);
+	g_free (cdata);
+}
+
+
+static void
+update_category_entry (CategoriesDialogData *cdata)
+{
+	GtkTreeIter   iter;
+	GtkTreeModel *model = GTK_TREE_MODEL (cdata->c_categories_list_model);
+	GString      *categories;
+
+	if (! gtk_tree_model_get_iter_first (model, &iter)) {
+		gtk_entry_set_text (GTK_ENTRY (cdata->c_categories_entry), "");
+		return;
+	}
+
+	categories = g_string_new (NULL);
+	do {
+		gboolean use_category;
+		gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &use_category, -1);
+		if (use_category) {
+			char *category_name;
+
+			gtk_tree_model_get (model, &iter, 
+					    C_CATEGORY_COLUMN, &category_name, 
+					    -1);
+			if (categories->len > 0)
+				categories = g_string_append (categories, CATEGORY_SEPARATOR_STR " ");
+			categories = g_string_append (categories, category_name);
+			g_free (category_name);
+		}
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	gtk_entry_set_text (GTK_ENTRY (cdata->c_categories_entry), categories->str);
+	g_string_free (categories, TRUE);
+}
+
+
+static GList *
+get_categories_from_entry (CategoriesDialogData *cdata)
+{
+	GList       *cat_list = NULL;
+	const char  *utf8_text;
+	char       **categories;
+	int          i;
+
+	utf8_text = gtk_entry_get_text (GTK_ENTRY (cdata->c_categories_entry));
+	if (utf8_text == NULL)
+		return NULL;
+	
+	categories = _g_utf8_strsplit (utf8_text, CATEGORY_SEPARATOR_C);
+
+	for (i = 0; categories[i] != NULL; i++) {
+		char *s;
+
+		s = _g_utf8_strstrip (categories[i]);
+
+		if (s != NULL)
+			cat_list = g_list_prepend (cat_list, s);
+	}
+	g_strfreev (categories);
+
+	return g_list_reverse (cat_list);
+}
+
+
+static void
+add_saved_categories (CategoriesDialogData *cdata,
+		      GList                *cat_list)
+{
+	Bookmarks *categories;
+	GList     *scan;
+
+	categories = bookmarks_new (RC_CATEGORIES_FILE);
+	bookmarks_load_from_disk (categories);
+
+	for (scan = categories->list; scan; scan = scan->next) {
+		GtkTreeIter  iter;
+		GList       *scan2;
+		gboolean     found = FALSE;
+		char        *category1 = scan->data;
+
+		for (scan2 = cat_list; scan2 && !found; scan2 = scan2->next) {
+			char *category2 = scan2->data;
+			if (strcmp (category1, category2) == 0)
+				found = TRUE;
+		}
+
+		if (found) 
+			continue;
+
+		gtk_list_store_append (cdata->c_categories_list_model, &iter);
+
+		gtk_list_store_set (cdata->c_categories_list_model, &iter,
+				    C_USE_CATEGORY_COLUMN, FALSE,
+				    C_CATEGORY_COLUMN, category1,
+				    -1);
+	}
+
+	bookmarks_free (categories);
+}
+
+
+static void
+update_list_from_entry (CategoriesDialogData *cdata)
+{
+	GList *categories = NULL;
+	GList *scan;
+
+	categories = get_categories_from_entry (cdata);
+
+	gtk_list_store_clear (cdata->c_categories_list_model); 
+	for (scan = categories; scan; scan = scan->next) {
+		char        *category = scan->data;
+		GtkTreeIter  iter;
+		
+		gtk_list_store_append (cdata->c_categories_list_model, &iter);
+		
+		gtk_list_store_set (cdata->c_categories_list_model, &iter,
+				    C_USE_CATEGORY_COLUMN, TRUE,
+				    C_CATEGORY_COLUMN, category,
+				    -1);
+	}
+	add_saved_categories (cdata, categories);
+	path_list_free (categories);
+}
+
+
+static void
+use_category_toggled (GtkCellRendererToggle *cell,
+		      gchar                 *path_string,
+		      gpointer               callback_data)
+{
+	CategoriesDialogData *cdata  = callback_data;
+	GtkTreeModel *model = GTK_TREE_MODEL (cdata->c_categories_list_model);
+	GtkTreeIter   iter;
+	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
+	gboolean      value;
+	
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &value, -1);
+	
+	value = !value;
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter, C_USE_CATEGORY_COLUMN, value, -1);
+	
+	gtk_tree_path_free (path);
+	update_category_entry (cdata);
+}
+
+
+static void
+choose_categories_ok_cb (GtkWidget            *widget, 
+			 CategoriesDialogData *cdata)
+{
+	const char *categories;
+
+	categories = gtk_entry_get_text (GTK_ENTRY (cdata->c_categories_entry));
+	gtk_entry_set_text (GTK_ENTRY (cdata->data->s_categories_entry), categories);
+	cdata->data->all_keywords = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->s_all_cat_radiobutton));
+	gtk_widget_destroy (cdata->dialog);
+}
+
+
+static void
+choose_categories_dialog (DialogData *data)
+{
+	CategoriesDialogData *cdata;
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+
+	cdata = g_new (CategoriesDialogData, 1);
+	cdata->data = data;
+
+	cdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE, 
+				    NULL,
+				    NULL);
+	
+	if (! cdata->gui) {
+		g_free (cdata);
+		g_warning ("Could not find " SEARCH_GLADE_FILE "\n");
+		return;
+	}
+
+	/* Get the widgets. */
+
+	cdata->dialog = glade_xml_get_widget (cdata->gui, "categories_dialog");
+	cdata->c_categories_entry = glade_xml_get_widget (cdata->gui, "c_categories_entry");
+	cdata->c_categories_treeview = glade_xml_get_widget (cdata->gui, "c_categories_treeview");
+	cdata->c_ok_button = glade_xml_get_widget (cdata->gui, "c_ok_button");
+	cdata->c_cancel_button = glade_xml_get_widget (cdata->gui, "c_cancel_button");
+	cdata->s_at_least_one_cat_radiobutton = glade_xml_get_widget (cdata->gui, "s_at_least_one_cat_radiobutton");
+	cdata->s_all_cat_radiobutton = glade_xml_get_widget (cdata->gui, "s_all_cat_radiobutton");
+
+	/* Set widgets data. */
+ 
+	cdata->c_categories_list_model = gtk_list_store_new (C_NUM_COLUMNS,
+							     G_TYPE_BOOLEAN, 
+							     G_TYPE_STRING);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (cdata->c_categories_treeview),
+				 GTK_TREE_MODEL (cdata->c_categories_list_model));
+	g_object_unref (cdata->c_categories_list_model);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (cdata->c_categories_treeview), FALSE);
+	
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), 
+			  "toggled",
+			  G_CALLBACK (use_category_toggled), 
+			  cdata);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cdata->c_categories_treeview),
+						     -1, "Use",
+						     renderer,
+						     "active", C_USE_CATEGORY_COLUMN,
+						     NULL);
+	
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   renderer,
+							   "text", C_CATEGORY_COLUMN,
+							   NULL);
+
+	gtk_tree_view_column_set_sort_column_id (column, 0);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (cdata->c_categories_treeview),
+				     column);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (cdata->c_categories_list_model), C_CATEGORY_COLUMN, GTK_SORT_ASCENDING);
+
+	gtk_entry_set_text (GTK_ENTRY (cdata->c_categories_entry), gtk_entry_get_text (GTK_ENTRY (cdata->data->s_categories_entry)));
+	update_list_from_entry (cdata);
+
+	if (data->all_keywords)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->s_all_cat_radiobutton), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->s_at_least_one_cat_radiobutton), TRUE);
+
+	/* Set the signals handlers. */
+
+	g_signal_connect (G_OBJECT (cdata->dialog),
+			  "destroy",
+			  G_CALLBACK (categories_dialog__destroy_cb),
+			  cdata);
+	g_signal_connect (G_OBJECT (cdata->c_ok_button), 
+			  "clicked",
+			  G_CALLBACK (choose_categories_ok_cb),
+			  cdata);
+	g_signal_connect_swapped (G_OBJECT (cdata->c_cancel_button), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (cdata->dialog));
+
+	/* Run dialog. */
+
+	gtk_widget_grab_focus (cdata->c_categories_treeview);
+
+	gtk_window_set_transient_for (GTK_WINDOW (cdata->dialog), 
+				      GTK_WINDOW (data->dialog));
+	gtk_window_set_modal (GTK_WINDOW (cdata->dialog), TRUE);
+
+	gtk_widget_show (cdata->dialog);
 }

@@ -1043,34 +1043,37 @@ folder_rename (GThumbWindow *window,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (rename (old_path, new_path) == 0) { 
-		char *old_cache_path, *new_cache_path;
-
-		/* Update cache info. */
-
-		/* Comment cache. */
-
+	} else {
+		char *old_cache_path = NULL;
+		
 		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
 		if (! path_is_dir (old_cache_path)) {
 			g_free (old_cache_path);
 			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
-		new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
-		rename (old_cache_path, new_cache_path);
+
+		if (rename (old_path, new_path) == 0) { 
+			char *new_cache_path;
+			
+			/* Comment cache. */
+			
+			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
+			rename (old_cache_path, new_cache_path);
+			g_free (new_cache_path);
+			
+			all_windows_notify_directory_rename (old_path, new_path);
+
+		} else {
+			char *utf8_path;
+			utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
+			_gtk_error_dialog_run (GTK_WINDOW (window->app),
+					       _("Could not rename the folder \"%s\": %s"),
+					       utf8_path,
+					       errno_to_string ());
+			g_free (utf8_path);
+		}
+
 		g_free (old_cache_path);
-		g_free (new_cache_path);
-
-		all_windows_notify_directory_rename (old_path, new_path);
-
-	} else {
-		char *utf8_path;
-
-		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-                                       _("Could not rename the folder \"%s\": %s"),
-                                       utf8_path,
-                                       errno_to_string ());
-		g_free (utf8_path);
 	}
 
 	all_windows_add_monitor ();
@@ -1373,45 +1376,52 @@ folder_copy__response_cb (GObject *object,
 				 folder_copy__continue, 
 				 g_strdup (old_path));
 
-	} else if (rename (old_path, new_path) == 0) { 
-		char *old_cache_path, *new_cache_path;
-
-		/* moving folders on the same file system can be implemeted 
-		 * with rename, which is faster. */
+	} else {
+		char *old_cache_path = NULL;
 
 		/* Comment cache. */
-
+			
 		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
 		if (! path_is_dir (old_cache_path)) {
 			g_free (old_cache_path);
 			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
-		new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
 
-		if (path_is_dir (old_cache_path)) {
-			char *parent_dir;
+		if (rename (old_path, new_path) == 0) { 
+			char *new_cache_path;
 
-			parent_dir = remove_level_from_path (new_cache_path);
-			ensure_dir_exists (parent_dir, 0755);
-			g_free (parent_dir);
+			/* moving folders on the same file system can be implemeted 
+			 * with rename, which is faster. */
 
-			rename (old_cache_path, new_cache_path);
+			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
+			
+			if (path_is_dir (old_cache_path)) {
+				char *parent_dir;
+				
+				parent_dir = remove_level_from_path (new_cache_path);
+				ensure_dir_exists (parent_dir, 0755);
+				g_free (parent_dir);
+				
+				rename (old_cache_path, new_cache_path);
+			}
+
+			g_free (old_cache_path);
+			g_free (new_cache_path);
+
+			all_windows_notify_directory_rename (old_path, new_path);
+
+		} else {
+			char *utf8_path;
+
+			utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
+			_gtk_error_dialog_run (GTK_WINDOW (window->app),
+					       message,
+					       utf8_path,
+					       errno_to_string ());
+			g_free (utf8_path);
 		}
 
 		g_free (old_cache_path);
-		g_free (new_cache_path);
-
-		all_windows_notify_directory_rename (old_path, new_path);
-
-	} else {
-		char *utf8_path;
-
-		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       message,
-                                       utf8_path,
-                                       errno_to_string ());
-		g_free (utf8_path);
 	}
 
 	g_free (dest_dir);

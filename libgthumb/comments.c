@@ -220,6 +220,9 @@ comments_get_comment_dir (const char *directory,
 		result = resolve_all_symlinks (directory, &directory_resolved);
 		if (result == GNOME_VFS_OK) 
 			directory_real = directory_resolved;
+		else
+			g_print ("ERROR: %s\n", gnome_vfs_result_to_string (result));
+		g_print ("RESOLVED: %s\n", directory_resolved);
 	}
 
 	if (directory_real == NULL)
