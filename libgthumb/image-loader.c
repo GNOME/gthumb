@@ -101,6 +101,7 @@ image_loader_finalize__step2 (GObject *object)
         il = IMAGE_LOADER (object);
 	priv = il->priv;
 
+	g_mutex_lock (priv->yes_or_no);
 	if (priv->pixbuf)
 		g_object_unref (G_OBJECT (priv->pixbuf));
 	
@@ -111,7 +112,8 @@ image_loader_finalize__step2 (GObject *object)
 		gnome_vfs_uri_unref (priv->uri);
 		priv->uri = NULL;
 	}
-	
+	g_mutex_unlock (priv->yes_or_no);
+
 	g_timer_destroy (priv->timer);
 
 	g_mutex_lock (priv->exit_thread_mutex);
@@ -247,8 +249,6 @@ image_loader_init (ImageLoader *il)
 	priv->start_loading_cond = g_cond_new ();
 
 	priv->thread = g_thread_create (load_image_thread, il, TRUE, NULL);
-
-	/*g_thread_create (load_image_thread, il, FALSE, NULL); FIXME*/
 }
 
 
@@ -512,12 +512,13 @@ load_image_thread (void *thread_data)
 			break;
 
 		path = image_loader_get_path (il);
+
+		g_mutex_lock (priv->yes_or_no);
+
 		if (path != NULL)
 			animation = gdk_pixbuf_animation_new_from_file (path, &error);
 		else 
 			animation = NULL;
-
-		g_mutex_lock (priv->yes_or_no);
 		
 		priv->loader_done = TRUE;
 
@@ -528,12 +529,13 @@ load_image_thread (void *thread_data)
 		if ((animation == NULL) || (error != NULL)) {
 			priv->error = TRUE;
 			priv->done = FALSE;
-			g_clear_error (&error);
+			if (error != NULL)
+				g_clear_error (&error);
 		} else {
 			priv->error = FALSE;
 			priv->done = TRUE;
 		}
-		
+
 		g_mutex_unlock (priv->yes_or_no);
 
 		g_free (path);
@@ -565,7 +567,6 @@ image_loader_stop__final_step (ImageLoader *il)
 	
 	if (! priv->emit_signal || priv->interrupted) {
 		priv->interrupted = FALSE;
-		
 		return;
 	}
 		
@@ -668,19 +669,21 @@ image_loader_start__step2 (ImageLoader *il)
 	g_return_if_fail (il != NULL);
 
 	priv = il->priv;
+
+	g_mutex_lock (priv->yes_or_no);
+
 	g_return_if_fail (priv->uri != NULL);
 
 	g_timer_reset (priv->timer);
 	g_timer_start (priv->timer);
 
-	g_mutex_lock (priv->yes_or_no);
 	priv->done = FALSE;
 	priv->error = FALSE;
 	priv->loader_done = FALSE;
 	priv->loading = TRUE;
+	uri_list = g_list_prepend (NULL, gnome_vfs_uri_dup (priv->uri));
 	g_mutex_unlock (priv->yes_or_no);
 
-	uri_list = g_list_prepend (NULL, priv->uri);
 	gnome_vfs_async_get_file_info (& (priv->info_handle),
 				       uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT
@@ -688,7 +691,12 @@ image_loader_start__step2 (ImageLoader *il)
 				       GNOME_VFS_PRIORITY_DEFAULT,
 				       get_file_info_cb,
 				       il);
-	g_list_free (uri_list);
+	{
+		GList *scan;
+		for (scan = uri_list; scan; scan = scan->next) 
+			gnome_vfs_uri_unref((GnomeVFSURI*) scan->data);
+		g_list_free (uri_list);
+	}
 }
 
 
@@ -698,8 +706,16 @@ image_loader_start (ImageLoader *il)
 	ImageLoaderPrivateData *priv;
 
 	g_return_if_fail (il != NULL);
+
 	priv = il->priv;
-	g_return_if_fail (priv->uri != NULL);
+
+	g_mutex_lock (priv->yes_or_no);
+	if (priv->uri == NULL) {
+		g_mutex_unlock (priv->yes_or_no);		
+		return;
+	}
+	g_mutex_unlock (priv->yes_or_no);
+
 	image_loader_stop_common (il, (DoneFunc) image_loader_start__step2, il, FALSE);
 }
 
@@ -803,12 +819,8 @@ image_loader_stop_with_error (ImageLoader *il,
 GdkPixbuf *
 image_loader_get_pixbuf (ImageLoader *il)
 {
-	ImageLoaderPrivateData *priv;
-
 	g_return_val_if_fail (il != NULL, NULL);
-	priv = il->priv;
-
-	return priv->pixbuf;
+	return il->priv->pixbuf;
 }
 
 
@@ -887,19 +899,20 @@ image_loader_get_path (ImageLoader *il)
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
-	uri = priv->uri;
-	if (uri != NULL)
-		gnome_vfs_uri_ref (uri);
-	g_mutex_unlock (priv->yes_or_no);
 
-	if (uri == NULL) 
+	if (priv->uri == NULL) {
+		g_mutex_unlock (priv->yes_or_no);
                 return NULL;
+	}
 
-        path = gnome_vfs_uri_to_string (uri,
-					GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+	uri = gnome_vfs_uri_dup (priv->uri);
+
+        path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
         esc_path = gnome_vfs_unescape_string (path, NULL);
         g_free (path);
 	gnome_vfs_uri_unref (uri);
+
+	g_mutex_unlock (priv->yes_or_no);
 
         return esc_path;
 }
@@ -909,15 +922,14 @@ GnomeVFSURI *
 image_loader_get_uri (ImageLoader *il)
 {
 	ImageLoaderPrivateData *priv;
-	GnomeVFSURI            *uri;
+	GnomeVFSURI            *uri = NULL;
 
 	g_return_val_if_fail (il != NULL, 0);
 	priv = il->priv;
 
 	g_mutex_lock (priv->yes_or_no);
-	uri = priv->uri;
-	if (uri != NULL)
-		gnome_vfs_uri_ref (uri);
+	if (priv->uri != NULL)
+		uri = gnome_vfs_uri_dup (priv->uri);
 	g_mutex_unlock (priv->yes_or_no);
 
 	return uri;
@@ -927,12 +939,8 @@ image_loader_get_uri (ImageLoader *il)
 GTimer *
 image_loader_get_timer (ImageLoader *il)
 {
-	ImageLoaderPrivateData *priv;
-
 	g_return_val_if_fail (il != NULL, 0);
-	priv = il->priv;
-
-	return priv->timer;
+	return il->priv->timer;
 }
 
 
@@ -975,7 +983,7 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	}
 
 	if (from->priv->uri != NULL)
-		to->priv->uri = gnome_vfs_uri_ref (from->priv->uri);
+		to->priv->uri = gnome_vfs_uri_dup (from->priv->uri);
 
 	/**/
 

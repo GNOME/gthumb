@@ -1,3 +1,8 @@
+2003-11-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-loader.c: do not use the private uri outside the 
+	locks. 
+
 2003-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* Makefile.am (SUBDIRS): remove omf-install
