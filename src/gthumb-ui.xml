@@ -609,18 +609,6 @@
 
 	<control name="ShowFoldersButton"/>
 	<control name="ShowCatalogsButton"/>
-	<control name="ShowImageButton"/>
-
-<!--
-  	<toolitem name="View_ShowFolders" verb="" priority="1" 
-	          _label="Folders"/>
-
-  	<toolitem name="View_ShowCatalogs" verb="" priority="1"
-	          _label="Catalogs"/>
-
-  	<toolitem name="View_ShowImage" verb="" priority="0"
-	          _label="Image"/>
--->
 
 	<separator/>
 

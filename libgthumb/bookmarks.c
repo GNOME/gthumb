@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -105,13 +105,13 @@ bookmarks_utils__get_menu_item_name (const char *path)
 	tmp_path = g_strdup (pref_util_remove_prefix (path));
 
 	/* if it is a catalog then remove the extension */
-
+	
 	catalog_or_search = (pref_util_location_is_catalog (path)
 			     || pref_util_location_is_search (path));
-
+	
 	if (catalog_or_search)
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
-
+			 
 	if (strcmp (tmp_path, "/") == 0) 
 		name = g_strdup ("/");
 	else {
@@ -138,9 +138,9 @@ bookmarks_utils__get_menu_item_name (const char *path)
 				name = g_strdup (tmp_path);
 		}
 	}
-
+	
 	g_free (tmp_path);
-
+	
 	return name;
 }
 
@@ -364,7 +364,7 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 	if (!f)	return;
 
 	while (fgets (line, sizeof (line), f)) {
-		gchar *path;
+		char *path;
 
 		if (line[0] != '"')
 			continue;

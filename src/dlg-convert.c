@@ -150,11 +150,6 @@ load_current_image (DialogData *data)
 	g_free (folder);
 	g_free (name_no_ext);
 
-	if (strcmp (fd->path, data->new_path) == 0) {
-		load_next_image (data);
-		return;
-	}
-
 	utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
 
@@ -196,7 +191,10 @@ show_rename_dialog (DialogData *data)
 static void
 save_image_and_remove_original (DialogData *data)
 {
-	GError *error = NULL;
+	GError   *error = NULL;
+
+	if (path_is_file (data->new_path))
+		unlink (data->new_path);
 
 	if (_gdk_pixbuf_savev (data->pixbuf, 
 			       data->new_path, 
@@ -204,14 +202,15 @@ save_image_and_remove_original (DialogData *data)
 			       data->keys, 
 			       data->values,
 			       &error)) {
-		GList *list;
+		GList    *list;
+		FileData *fd = data->current_image->data;
 
 		list = g_list_prepend (NULL, data->new_path);
 		all_windows_notify_files_created (list);
 		g_list_free (list);
 
-		if (data->remove_original) {
-			FileData *fd = data->current_image->data;
+		if (data->remove_original 
+		    && (strcmp (fd->path, data->new_path) != 0)) {
 			unlink (fd->path);
 
 			list = g_list_prepend (NULL, fd->path);

@@ -1822,7 +1822,7 @@ save_image_preview_cb (gpointer data)
 	if (ce->file_to_load != NULL) {
 		ImageData *idata = ce->file_to_load->data;
 			
-		if (! idata->no_preview && (idata->preview != NULL)) {
+		if ((! idata->no_preview) && (idata->preview != NULL)) {
 			char *filename = get_preview_filename (ce, idata, ce->tmp_location);
 			
 			debug (DEBUG_INFO, "write %s", filename);

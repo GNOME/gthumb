@@ -789,6 +789,8 @@ window_update_title (GThumbWindow *window)
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
 			char *path = g_filename_to_utf8 (window->dir_list->path, -1, NULL, NULL, NULL);
+			if (path == NULL)
+				path = g_strdup (_("(Invalid Name)"));
 			info_txt = g_strconcat (path, " ", modified, NULL);
 			g_free (path);
 
@@ -1529,17 +1531,23 @@ add_bookmark_menu_item (GThumbWindow *window,
 
 	menu_name = escape_underscore (bookmarks_get_menu_name (bookmarks, path));
 	if (menu_name == NULL)
-		menu_name = g_strdup ("???");
+		menu_name = g_strdup (_("(Invalid Name)"));
 	
 	label = _g_strdup_with_max_size (menu_name, BOOKMARKS_MENU_MAX_LENGTH);
 	utf8_s = g_locale_to_utf8 (label, -1, NULL, NULL, NULL);
 	g_free (label);
+
+	if (utf8_s == NULL)
+		utf8_s = g_strdup (_("(Invalid Name)"));
 
 	e_label = g_markup_escape_text (utf8_s, -1);
 	g_free (utf8_s);
 
 	utf8_s = g_locale_to_utf8 (bookmarks_get_menu_tip (bookmarks, path),
 				   -1, NULL, NULL, NULL);
+	if (utf8_s == NULL)
+		utf8_s = g_strdup (_("(Invalid Name)"));
+
 	e_tip = g_markup_escape_text (utf8_s, -1);
 	g_free (utf8_s);
 

@@ -73,6 +73,7 @@ typedef struct {
 	int           rot_type;    /* 0, 90 ,180, 270 */
 	int           tran_type;   /* mirror, flip */
 	GList        *file_list;
+	GList        *files_changed_list;
 	GList        *current_image;
 	GtkWidget    *viewer;
 } DialogData;
@@ -83,6 +84,13 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
+	if (data->files_changed_list != NULL) {
+		all_windows_notify_files_changed (data->files_changed_list);
+		path_list_free (data->files_changed_list);
+	}
+
+	all_windows_add_monitor ();
+
 	file_data_list_free (data->file_list);
 	g_object_unref (data->gui);
 	g_free (data);
@@ -255,6 +263,8 @@ apply_tran (DialogData *data,
 	if ((rot_type == TRAN_ROTATE_0) && (tran_type == TRAN_NONE))
 		return;
 
+	
+
 	if (rot_type == TRAN_ROTATE_0)
 		tmp1 = g_strdup (fd->path);
 	else {
@@ -390,16 +400,13 @@ apply_tran (DialogData *data,
 		_gtk_error_dialog_from_gerror_run (parent, &err);
 
 	} else {
-		GList *list;
-
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == TRAN_ROTATE_90) || (rot_type == TRAN_ROTATE_270))
 			swap_xy_exif_fields (fd->path);
 #endif
 
-		list = g_list_prepend (NULL, fd->path);
-		all_windows_notify_files_changed (list);
-		g_list_free (list);
+		data->files_changed_list = g_list_prepend (data->files_changed_list, 
+							   g_strdup (fd->path));
 	}
 
 	g_free (e1);
@@ -687,7 +694,7 @@ dlg_jpegtran (GThumbWindow *window)
 
 	/**/
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
 	data->file_list = list;
 	data->current_image = list;
@@ -790,6 +797,8 @@ dlg_jpegtran (GThumbWindow *window)
 			  data);
 
 	/* Run dialog. */
+
+	all_windows_remove_monitor ();
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 

@@ -558,7 +558,8 @@ void
 gth_folder_selection_set_folder (GthFolderSelection *fsel,
 				 const char         *folder)
 {
-	_gtk_entry_set_filename_text (GTK_ENTRY (fsel->priv->file_entry), folder);}
+	_gtk_entry_set_filename_text (GTK_ENTRY (fsel->priv->file_entry), folder);
+}
 
 
 char *

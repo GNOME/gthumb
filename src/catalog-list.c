@@ -432,6 +432,9 @@ catalog_list_refresh (CatalogList *cat_list)
 
 		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 
+		if (utf8_name == NULL)
+			utf8_name = g_strdup (_("(Invalid Name)"));
+
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,
 				    CAT_LIST_COLUMN_ICON, pixbuf,
@@ -460,6 +463,9 @@ catalog_list_refresh (CatalogList *cat_list)
 		}
 
 		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+
+		if (utf8_name == NULL)
+			utf8_name = g_strdup (_("(Invalid Name)"));
 
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,

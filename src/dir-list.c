@@ -42,6 +42,7 @@
 enum {
 	DIR_LIST_COLUMN_ICON,
 	DIR_LIST_COLUMN_NAME,
+	DIR_LIST_COLUMN_UTF_NAME,
 	DIR_LIST_NUM_COLUMNS
 };
 
@@ -77,11 +78,11 @@ add_columns (DirList     *dir_list,
                                          renderer,
                                          TRUE);
         gtk_tree_view_column_set_attributes (column, renderer,
-                                             "text", DIR_LIST_COLUMN_NAME,
+                                             "text", DIR_LIST_COLUMN_UTF_NAME,
                                              NULL);
 
         gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
-	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_NAME);
+	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_UTF_NAME);
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 }
 
@@ -117,13 +118,14 @@ dir_list_new ()
 
 	dir_list->list_store = gtk_list_store_new (DIR_LIST_NUM_COLUMNS,
 						   GDK_TYPE_PIXBUF,
+						   G_TYPE_STRING,
 						   G_TYPE_STRING);
 	list_view = (GtkTreeView*) gtk_tree_view_new_with_model (GTK_TREE_MODEL (dir_list->list_store));
         gtk_tree_view_set_rules_hint (list_view, FALSE);
         add_columns (dir_list, list_view);
 	gtk_tree_view_set_headers_visible (list_view, FALSE);
         gtk_tree_view_set_enable_search (list_view, TRUE);
-        gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_NAME);
+        gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_UTF_NAME);
 
 	/**/
 
@@ -212,10 +214,14 @@ dir_list_update_view (DirList *dir_list)
 			pixbuf = dir_pixbuf;
 
 		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
+		if (utf8_name == NULL)
+			utf8_name = g_strdup (_("(Invalid Name)"));
+
 		gtk_list_store_append (dir_list->list_store, &iter);
 		gtk_list_store_set (dir_list->list_store, &iter,
 				    DIR_LIST_COLUMN_ICON, pixbuf,
-				    DIR_LIST_COLUMN_NAME, utf8_name,
+				    DIR_LIST_COLUMN_UTF_NAME, utf8_name,
+				    DIR_LIST_COLUMN_NAME, name,
 				    -1);
 
 		g_free (utf8_name);
@@ -235,12 +241,19 @@ dir_list_update_icon_theme (DirList *dir_list)
 
 static void
 dir_list_refresh_continue (PathListData *pld, 
-			   gpointer data)
+			   gpointer      data)
 {
 	DirList   *dir_list;
 	GList     *new_dir_list = NULL;
 	GList     *new_file_list = NULL;
 	GList     *filtered;
+
+	if (pld == NULL) {
+		if (dir_list->done_func) 
+			dir_list->done_func (dir_list, dir_list->done_data);
+		dir_list->done_func = NULL;
+		return;
+	}
 
 	dir_list = data;
 	dir_list->result = pld->result;
@@ -444,10 +457,13 @@ dir_list_add_directory (DirList         *dir_list,
 
 	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
 	utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
+	if (utf8_name == NULL)
+		utf8_name = g_strdup (_("(Invalid Name)"));
 	gtk_list_store_insert (dir_list->list_store, &iter, pos);
 	gtk_list_store_set (dir_list->list_store, &iter,
 			    DIR_LIST_COLUMN_ICON, dir_pixbuf,
-			    DIR_LIST_COLUMN_NAME, utf8_name,
+			    DIR_LIST_COLUMN_UTF_NAME, utf8_name,
+			    DIR_LIST_COLUMN_NAME, name_only,
 			    -1);
 	g_free (utf8_name);
 	g_object_unref (dir_pixbuf);	
@@ -509,7 +525,7 @@ dir_list_get_name_from_iter (DirList     *dir_list,
 
 	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
 			    iter,
-			    DIR_LIST_COLUMN_NAME, &utf8_name,
+			    DIR_LIST_COLUMN_UTF_NAME, &utf8_name,
 			    -1);
 
 	return utf8_name;
@@ -520,20 +536,16 @@ gchar *
 dir_list_get_path_from_iter (DirList     *dir_list,
 			     GtkTreeIter *iter)
 {
-	gchar *utf8_name;
-	gchar *name;
-	gchar *new_path;
+	char *name;
+	char *new_path;
 
 	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
 			    iter,
-			    DIR_LIST_COLUMN_NAME, &utf8_name,
+			    DIR_LIST_COLUMN_NAME, &name,
 			    -1);
 
-	if (utf8_name == NULL) 
+	if (name == NULL) 
 		return NULL;
-
-	name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
-	g_free (utf8_name);
 
 	if (strcmp (name, ".") == 0)
 		new_path = g_strdup (dir_list->path);

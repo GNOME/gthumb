@@ -1,4 +1,23 @@
+2003-08-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c (dlg_jpegtran, destroy_cb): update images
+	manually instead of hoping that the monitor will work correctly.
+
+	* src/dlg-convert.c (load_current_image) 
+	(save_image_and_remove_original): chack whether source and
+	destination are the same image.
+
+	* src/catalog-list.c (catalog_list_refresh): handle invalid names.
+
+	* src/dlg-file-utils.c (dlg_files_copy): 
+	(dlg_files_delete): 
+	(folder_copy): use the right glade file here.
+
+	* src/dir-list.c (dir_list_update_view): handle invalid names.
+
 2003-08-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.h: remove not used variable.
 
 	* many_files: use g_filename_* instead of g_locale_* where
 	appropriate.

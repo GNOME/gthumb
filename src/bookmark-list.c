@@ -165,6 +165,9 @@ bookmark_list_set (BookmarkList *book_list,
 		menu_name = bookmarks_utils__get_menu_item_name (name);
 		utf8_name = g_locale_to_utf8 (menu_name, -1, NULL, NULL, NULL);
 		
+		if (utf8_name == NULL)
+			utf8_name = g_strdup (_("(Invalid Name)"));
+
 		if (pref_util_location_is_catalog (name)) 
 			pixbuf = catalog_pixbuf;
 		else if (pref_util_location_is_search (name))

@@ -354,7 +354,12 @@ update_list (DialogData *data)
 		gtk_list_store_append (data->rs_list_model, &iter);
 		
 		utf8_on = g_filename_to_utf8 (fdata->name, -1, NULL, NULL, NULL);
+		if (utf8_on == NULL)
+			utf8_on = g_strdup (_("(Invalid Name)"));
+
 		utf8_nn = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		if (utf8_nn == NULL)
+			utf8_nn = g_strdup (_("(Invalid Name)"));
 
 		gtk_list_store_set (data->rs_list_model, &iter,
 				    RS_OLDNAME_COLUMN, utf8_on,

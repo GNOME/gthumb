@@ -42,6 +42,7 @@
 #include "gth-folder-selection-dialog.h"
 
 #define GLADE_FILE "gthumb.glade"
+#define GLADE_PNG_EXP_FILE "gthumb_png_exporter.glade"
 #define DISPLAY_PROGRESS_DELAY 1000
 #define FILE_NAME_MAX_LENGTH   30
 #define PREVIEW_SIZE           150
@@ -333,6 +334,8 @@ file_move_response_cb (GtkWidget *w,
 
 	if (path == NULL) 
 		return;
+
+	g_print ("folder: %s\n", path);
 
 	/* ignore ending slash. */
 	len = strlen (path);
@@ -1601,10 +1604,10 @@ dlg_files_copy (GThumbWindow   *window,
 
 	/**/
 
-	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PNG_EXP_FILE, NULL, NULL);
 	if (! fcdata->gui) {
 		file_copy_data_free (fcdata);
-		g_warning ("Could not find " GLADE_FILE "\n");
+		g_warning ("Could not find " GLADE_PNG_EXP_FILE "\n");
 		return;
 	}
 
@@ -1846,10 +1849,10 @@ dlg_files_delete (GThumbWindow   *window,
 
 	/**/
 
-	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PNG_EXP_FILE, NULL, NULL);
 	if (! fddata->gui) {
 		file_delete_data_free (fddata);
-		g_warning ("Could not find " GLADE_FILE "\n");
+		g_warning ("Could not find " GLADE_PNG_EXP_FILE "\n");
 		return;
 	}
 
@@ -2149,10 +2152,10 @@ folder_copy (GThumbWindow   *window,
 
 	/**/
 
-	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PNG_EXP_FILE, NULL, NULL);
 	if (! fcdata->gui) {
 		folder_copy_data_free (fcdata);
-		g_warning ("Could not find " GLADE_FILE "\n");
+		g_warning ("Could not find " GLADE_PNG_EXP_FILE "\n");
 		return;
 	}
 

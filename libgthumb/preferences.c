@@ -270,7 +270,7 @@ preferences_get_startup_location (void)
 const char * 
 pref_util_get_file_location (const char *location)
 {
-	if (strlen (location) <= FILE_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= FILE_PREFIX_L)
 		return NULL;
 	return location + FILE_PREFIX_L;
 }
@@ -279,7 +279,7 @@ pref_util_get_file_location (const char *location)
 const char * 
 pref_util_get_catalog_location (const char *location)
 {
-	if (strlen (location) <= CATALOG_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= CATALOG_PREFIX_L)
 		return NULL;
 	return location + CATALOG_PREFIX_L;
 }
@@ -288,7 +288,7 @@ pref_util_get_catalog_location (const char *location)
 const char * 
 pref_util_get_search_location (const char *location)
 {
-	if (strlen (location) <= SEARCH_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= SEARCH_PREFIX_L)
 		return NULL;
 	return location + SEARCH_PREFIX_L;
 }
@@ -300,7 +300,7 @@ pref_util_location_is_file (const char *location)
 	if (location == NULL)
 		return FALSE;
 
-	if (strlen (location) <= FILE_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= FILE_PREFIX_L)
 		return FALSE;
 
 	return strncmp (location, FILE_PREFIX, FILE_PREFIX_L) == 0;
@@ -313,7 +313,7 @@ pref_util_location_is_catalog (const char *location)
 	if (location == NULL)
 		return FALSE;
 
-	if (strlen (location) <= CATALOG_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= CATALOG_PREFIX_L)
 		return FALSE;
 
 	return strncmp (location, CATALOG_PREFIX, CATALOG_PREFIX_L) == 0;
@@ -326,7 +326,7 @@ pref_util_location_is_search (const char *location)
 	if (location == NULL)
 		return FALSE;
 
-	if (strlen (location) <= SEARCH_PREFIX_L)
+	if (g_utf8_strlen (location, -1) <= SEARCH_PREFIX_L)
 		return FALSE;
 
 	return strncmp (location, SEARCH_PREFIX, SEARCH_PREFIX_L) == 0;
@@ -392,6 +392,11 @@ pref_util_get_rgb_values (const char *hex,
 		*g = 0;
 		*b = 0;
 
+	} else if (g_utf8_strlen (hex, -1) != 7) {
+		*r = 0;
+		*g = 0;
+		*b = 0;
+
 	} else {
 		int i = 1;
 
@@ -442,8 +447,8 @@ pref_util_get_int_value (const char *hex)
 	guint8  r, g, b;
 	int     i = 1;
 
-	if (hex == NULL)
-		return 0;
+	g_return_val_if_fail (hex != NULL, 0);
+	g_return_val_if_fail (g_utf8_strlen (hex, -1) == 7, 0);
 
 	r = dec (hex[i++]) * 16 + dec (hex[i++]);
 	g = dec (hex[i++]) * 16 + dec (hex[i++]);
