@@ -35,6 +35,7 @@
 #include "gthumb-stock.h"
 #include "main.h"
 #include "pixbuf-utils.h"
+#include "gth-exif-utils.h"
 
 #include "icons/pixbufs.h"
 
@@ -205,7 +206,7 @@ get_file_info (GThumbWindow *window)
 	int         zoom;
 	char       *file_info;
 	char        time_txt[50], *utf8_time_txt;
-	time_t      timer;
+	time_t      timer = 0;
 	struct tm  *tm;
 
 	e_filename = escape_filename (file_name_from_path (window->image_path));
@@ -218,16 +219,20 @@ get_file_info (GThumbWindow *window)
 
 	zoom = (int) (IMAGE_VIEWER (window->viewer)->zoom_level * 100.0);
 
-	timer = get_file_mtime (window->image_path);
+#ifdef HAVE_LIBEXIF
+	timer = get_exif_time (window->image_path);
+#endif
+	if (timer == 0)
+		timer = get_file_mtime (window->image_path);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
-	file_info = g_strdup_printf ("<small><i>%s (%d%%) - %s - %s </i>\n%d/%d - <tt>%s</tt></small>",
+	file_info = g_strdup_printf ("<small><i>%s - %s (%d%%) - %s</i>\n%d/%d - <tt>%s</tt></small>",
+				     utf8_time_txt,
 				     size_txt,
 				     zoom,
 				     file_size_txt,
-				     utf8_time_txt,
 				     gth_file_list_pos_from_path (window->file_list, window->image_path) + 1,
 				     gth_file_list_get_length (window->file_list),
 				     e_filename);

@@ -1,5 +1,13 @@
 2004-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/comments.c (save_comment): use unescape = FALSE for saving
+	comments.
+
+	* src/fullscreen.c (get_file_info): 
+
+	Fixes bug #137860 (New - full screen image info date is not from exif 
+	data).
+
 	* libgthumb/file-utils.c (file_is_image): work around for bug in 
 	gnome_vfs_mime_type_from_name_or_default.
 

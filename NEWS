@@ -1,32 +1,39 @@
 version 2.3.2
 -------------
-        * Removed the destination manager in the Create Web Album dialog.
-	* Fix bug #136097 (gthumb 2.2.1 ignores "save only changed fields" 
+	* Fixed bug #136097 (gthumb 2.2.1 ignores "save only changed fields" 
 	  tickbox).
-	* Fix bug #135110 (An UTF8 string was not converted to the current 
+	* Fixed bug #135110 (An UTF8 string was not converted to the current 
           locale (again)).
-	* Fix bug #126452 (Compilation error in data/albumthemse/BlueStripes 
+	* Fixed bug #126452 (Compilation error in data/albumthemse/BlueStripes 
 	  with index.xml.in parsing.
+	* Fixed bug #136168 (Images with capitalized extensions (.JPG) are not 
+	  found by the image search/browser).
+	* Fixed bug #136451 (Quick multiple selection problem).
+	* Fixed bug #133452 (thumbnail-pane is resized when the application 
+	  window is resized).
+        * Removed the destination manager in the Create Web Album dialog.
         * Fixed drag & drop (again :).
 
 version 2.3.1
 -------------
-	* Fix bug #133131 (exif orientation tag not updated).
-	* Fix bug #132614 (Comment font option menu in print dialog is
+	* Fixed bug #133131 (exif orientation tag not updated).
+	* Fixed bug #132614 (Comment font option menu in print dialog is
           not disabled by default).
-	* Fix bug #109016 (Searches should match directories too).
-	* Fix bug #112254 (status line shoudl use date from comment rather
+	* Fixed bug #109016 (Searches should match directories too).
+	* Fixed bug #112254 (status line shoudl use date from comment rather
           than mtime).
-	* Fix bug #130473 ("add comment" dialog uses ctime instead of mtime).
-	* Fix bug #130382 (gthumb keyboard usability issue).
-	* Fix bug #112254 (Needs Randomize Option on Slide Show).
-	* Fix bug #130823 (gthumb does not maintain permissions on files).
-	* Fix bug #130824 (gthumb does not complain about lack of permissions).
-	* Fix bug #130829 (gthumb ignores current directory when starting).
-	* Fix bug #131852 (Moving images via drag-and-drop no longer works).
-	* Fix bug #131853 (Changing folders produces flicker in image viewer).
-	* Fix thumbnail creation for jpeg images.
-	* Fix drag and drop.
+	* Fixed bug #130473 ("add comment" dialog uses ctime instead of mtime).
+	* Fixed bug #130382 (gthumb keyboard usability issue).
+	* Fixed bug #112254 (Needs Randomize Option on Slide Show).
+	* Fixed bug #130823 (gthumb does not maintain permissions on files).
+	* Fixed bug #130824 (gthumb does not complain about lack of 
+          permissions).
+	* Fixed bug #130829 (gthumb ignores current directory when starting).
+	* Fixed bug #131852 (Moving images via drag-and-drop no longer works).
+	* Fixed bug #131853 (Changing folders produces flicker in image 
+	  viewer).
+	* Fixed thumbnail creation for jpeg images.
+	* Fixed drag and drop.
 
 version 2.3.0
 -------------
