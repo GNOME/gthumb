@@ -415,10 +415,12 @@
 <menu>
 	<submenu name="File" _label="_File">
 		<menuitem name="File_NewWindow" verb=""/>
-		<menuitem name="File_OpenWith" verb=""/>
 		<separator/>
+		<menuitem name="File_OpenWith" verb=""/>
 		<menuitem name="File_Save" verb=""/>
 		<menuitem name="File_Revert" verb=""/>
+		<menuitem name="File_Print" verb=""/>
+		<menuitem name="View_ImageProp" verb=""/>
 		<separator/>
 		<menuitem name="EditCurrentDir_New" verb=""/>
 		<menuitem name="EditCurrentCatalog_New" verb=""/>
@@ -445,12 +447,8 @@
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
 		<separator/>
-		<menuitem name="File_Print" verb=""/>
-		<separator/>
-		<menuitem name="View_ImageProp" verb=""/>
-		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>
-		<menuitem name="File_Exit" verb=""/>
+<!-- 	<menuitem name="File_Exit" verb=""/> -->
 	</submenu>
 	<submenu name="Edit" _label="_Edit">
 		<menuitem name="Edit_RenameFile" verb=""/>

@@ -264,7 +264,7 @@ _g_utf8_strstrip (const char *str)
 
 	do {
 		gunichar ch = g_utf8_get_char (s);
-		if (ch != ' ')
+		if (! g_unichar_isspace (ch))
 			break;
 		s = g_utf8_next_char (s);
 	} while (*s != 0);
@@ -278,7 +278,7 @@ _g_utf8_strstrip (const char *str)
 
 	do {
 		gunichar ch = g_utf8_get_char (t);
-		if (ch == ' ')
+		if (g_unichar_isspace (ch))
 			break;
 		t = g_utf8_next_char (t);
 	} while (*t != 0);
