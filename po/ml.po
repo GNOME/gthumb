@@ -817,7 +817,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:13
 msgid "Auto"
-msgstr ""
+msgstr "സ്വതേ"
 
 #: src/gthumb-ui.xml.h:14
 msgid "Automatically normalize the contrast"
@@ -1116,7 +1116,7 @@ msgstr "അച്ചടി"
 
 #: src/gthumb-ui.xml.h:91
 msgid "Proper_ties"
-msgstr ""
+msgstr "ഗുണഗണങ്ങള്"
 
 #: src/gthumb-ui.xml.h:92
 msgid "Redo Search"
