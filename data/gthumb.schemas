@@ -1289,7 +1289,7 @@
 
 	<locale name="nl">
 	  
-	  <long>Mogelijke waarden zijn: image, data, comment</long>
+	  <long>Mogelijke waarden zijn: image, data, comment.</long>
 	</locale>
 
 	<locale name="no">
@@ -1497,7 +1497,7 @@
 
 	<locale name="nl">
 	  
-	  <long>Mogelijke waarden zijn: high, low</long>
+	  <long>Mogelijke waarden zijn: high, low.</long>
 	</locale>
 
 	<locale name="no">

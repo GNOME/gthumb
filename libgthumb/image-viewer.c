@@ -1841,6 +1841,9 @@ image_loaded (ImageLoader *il,
 
 	halt_animation (viewer);
 
+	viewer->x_offset = 0;
+	viewer->y_offset = 0;
+
 	if (viewer->anim != NULL) {
 		g_object_unref (viewer->anim);
 		viewer->anim = NULL;

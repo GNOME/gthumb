@@ -1,3 +1,11 @@
+2004-12-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/image-viewer.c (image_loaded): reset the scrollbar offsets 
+	after loading an image.
+
+	Fixes bug #161635: Scrollbar doesn't reset when viewing with next and 
+	previous.
+
 2004-12-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.2 released ]  
