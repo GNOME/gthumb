@@ -41,6 +41,7 @@
 #define  PREF_MAX_HISTORY_LENGTH     "/apps/gthumb/general/max_history_length"
 #define  PREF_EDITORS                "/apps/gthumb/general/editors"
 #define  PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
+#define  PREF_MIGRATE_COMMENT_SYSTEM "/apps/gthumb/general/migrate_comment_system"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
 #define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"

@@ -1,5 +1,8 @@
 2004-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.c (convert_to_new_comment_system): automatically migrate to
+	the new comment system.
+
 	* src/gthumb-window.c (close_preview_image_button_cb): 
 	added a close button for the preview content bar, related to bug
 	#143023.

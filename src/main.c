@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -216,6 +216,45 @@ theme_changed_cb (GnomeIconTheme *theme,
 }
 
 
+static void 
+convert_old_comment (char     *real_file, 
+		     char     *rc_file, 
+		     gpointer  data)
+{
+	char *comment_file;
+	char *comment_dir;
+
+	comment_file = comments_get_comment_filename (real_file, TRUE, TRUE);
+	comment_dir = remove_level_from_path (comment_file);
+	ensure_dir_exists (comment_dir, 0755);
+
+	file_copy (rc_file, comment_file);
+
+	g_free (comment_dir);
+	g_free (comment_file);
+}
+
+
+
+
+
+static void
+convert_to_new_comment_system (void)
+{
+	if (!eel_gconf_get_boolean (PREF_MIGRATE_COMMENT_SYSTEM, TRUE))
+		return;
+	g_print ("converting comment system...");
+	visit_rc_directory_sync (RC_COMMENTS_DIR,
+				 COMMENT_EXT,
+				 "",
+				 TRUE,
+				 convert_old_comment,
+				 NULL);
+	g_print ("done.");
+	eel_gconf_set_boolean (PREF_MIGRATE_COMMENT_SYSTEM, FALSE);
+}
+
+
 /* Initialize application data. */
 static void 
 initialize_data (poptContext pctx)
@@ -227,6 +266,7 @@ initialize_data (poptContext pctx)
 	char        *pixmap_file;
 	int          i;
 
+	convert_to_new_comment_system (); /* FIXME */
 	create_default_categories_if_needed ();
 
 	eel_gconf_monitor_add ("/apps/gthumb");

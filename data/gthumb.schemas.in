@@ -82,6 +82,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/general/migrate_comment_system</key>
+	<applyto>/apps/gthumb/general/migrate_comment_system</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Broswer -->
 
       <schema>

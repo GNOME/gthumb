@@ -302,6 +302,71 @@ visit_rc_directory (const gchar *rc_dir,
 	return TRUE;
 }
 
+
+/* Checks all files in ~/RC_DIR and
+ */
+gboolean
+visit_rc_directory_sync (const gchar *rc_dir,
+			 const gchar *rc_ext,
+			 const gchar *dir,
+			 gboolean recursive,
+			 VisitFunc do_something,
+			 gpointer data)
+{
+	gchar *rc_dir_full_path;
+	GList *files, *dirs;
+	GList *scan;
+	gint   prefix_len, ext_len;
+	gchar *prefix;
+	
+	prefix = g_strconcat (g_get_home_dir(), 
+			      "/", 
+			      rc_dir,
+			      NULL);
+	prefix_len = strlen (prefix);
+	rc_dir_full_path = g_strconcat (prefix,
+					dir,
+					NULL);
+	g_free (prefix);
+	ext_len = strlen (rc_ext);
+
+	if (! path_is_dir (rc_dir_full_path)) {
+		g_free (rc_dir_full_path);
+		return FALSE;
+	}
+
+	path_list_new (rc_dir_full_path, &files, &dirs);
+
+	for (scan = files; scan; scan = scan->next) {
+		gchar *rc_file, *real_file;
+
+		rc_file = (gchar*) scan->data;
+		real_file = g_strndup (rc_file + prefix_len, 
+				       strlen (rc_file) - prefix_len - ext_len);
+		if (do_something)
+			(*do_something) (real_file, rc_file, data);
+		
+		g_free (real_file);
+	}
+
+	if (! recursive)
+		return TRUE;
+
+	for (scan = dirs; scan; scan = scan->next) {
+		gchar *sub_dir = (gchar*) scan->data;
+
+		visit_rc_directory_sync (rc_dir,
+					 rc_ext,
+					 sub_dir + prefix_len,
+					 TRUE, 
+					 do_something,
+					 data);
+	}
+
+	return TRUE;
+}
+
+
 /* -- browse_rc_directory_async implementation -- */
 
 typedef struct {

@@ -132,6 +132,13 @@ gboolean            visit_rc_directory           (const gchar *rc_dir,
 typedef void (*VisitFunc) (gchar *real_file, gchar *rc_file, gpointer data);
 typedef void (*VisitDoneFunc) (const GList *dir_list, gpointer data);
 
+gboolean            visit_rc_directory_sync      (const gchar *rc_dir,
+						  const gchar *rc_ext,
+						  const char *dir,
+						  gboolean recursive,
+						  VisitFunc do_something,
+						  gpointer data);
+
 void                visit_rc_directory_async     (const gchar *rc_dir,
 						  const gchar *rc_ext,
 						  const char *dir,
