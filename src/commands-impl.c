@@ -248,10 +248,7 @@ rename_file (GThumbWindow *window,
 	/* Rename */
 
 	dir = remove_level_from_path (old_path);
-	new_path = g_strconcat (dir,
-				"/",
-				new_name,
-				NULL);
+	new_path = g_build_path ("/", dir, new_name, NULL);
 	g_free (dir);
 
 	if (path_is_file (new_path)) {
@@ -374,7 +371,7 @@ duplicate_file (GThumbWindow *window,
 					    try,
 					    (ext == NULL) ? "" : ext);
 
-		new_path = g_strconcat (dir, "/", new_name, NULL);
+		new_path = g_build_path ("/", dir, new_name, NULL);
 		if (! path_is_file (new_path))
 			break;
 		g_free (new_name);
@@ -448,9 +445,9 @@ edit_delete_files_command_impl (BonoboUIComponent *uic,
 	ilist = IMAGE_LIST (window->file_list->ilist);
 
 	list = ilist_utils_get_file_list_selection (ilist);
-	dlg_file_delete (window, 
-			 list, 
-			 _("Selected images will be deleted, are you sure ?"));
+	dlg_file_delete__confirm (window, 
+				  list, 
+				  _("Selected images will be moved to the Trash, are you sure ?"));
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -468,9 +465,9 @@ image_delete_command_impl (BonoboUIComponent *uic,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (window->image_path));
-	dlg_file_delete (window, 
-			 list,
-			 _("The image will be deleted, are you sure ?"));
+	dlg_file_delete__confirm (window, 
+				  list,
+				  _("The image will be moved to the Trash, are you sure ?"));
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -488,7 +485,7 @@ edit_copy_files_command_impl (BonoboUIComponent *uic,
 	ilist = IMAGE_LIST (window->file_list->ilist);
 
 	list = ilist_utils_get_file_list_selection (ilist);
-	dlg_file_copy (window, list);
+	dlg_file_copy__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -506,7 +503,7 @@ image_copy_command_impl (BonoboUIComponent *uic,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (window->image_path));
-	dlg_file_copy (window, list);
+	dlg_file_copy__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -524,7 +521,7 @@ edit_move_files_command_impl (BonoboUIComponent *uic,
 	ilist = IMAGE_LIST (window->file_list->ilist);
 
 	list = ilist_utils_get_file_list_selection (ilist);
-	dlg_file_move (window, list);
+	dlg_file_move__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -542,7 +539,7 @@ image_move_command_impl (BonoboUIComponent *uic,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (window->image_path));
-	dlg_file_move (window, list);
+	dlg_file_move__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -871,10 +868,7 @@ create_new_folder_or_library (GThumbWindow *window,
 
 	/* Create folder */
 
-	if (strcmp (current_path, "/") == 0)
-		new_path = g_strconcat (current_path, new_name, NULL);
-	else
-		new_path = g_build_filename (current_path, new_name, NULL);
+	new_path = g_build_path ("/", current_path, new_name, NULL);
 	
 	if (path_is_dir (new_path)) {
 		char *utf8_name;
@@ -983,10 +977,7 @@ folder_rename (GThumbWindow *window,
 	/* Rename */
 
 	parent_path = remove_level_from_path (old_path);
-	new_path = g_strconcat (parent_path,
-				"/",
-				new_name,
-				NULL);
+	new_path = g_build_path ("/", parent_path, new_name, NULL);
 	g_free (parent_path);
 
 	all_windows_remove_monitor ();
@@ -1084,53 +1075,44 @@ edit_current_folder_rename_command_impl (BonoboUIComponent *uic,
 }
 
 
+/* -- folder delete -- */
+
+
+typedef struct {
+	GThumbWindow *window;
+	char         *path;
+} FolderDeleteData;
+
+
 static void
-folder_delete (GThumbWindow *window,
-	       const char   *path)
+remove_dir_permanently (GThumbWindow *window,
+			const char   *path)
 {
-	GtkWidget    *dialog;
-	GError       *gerror;
-	char         *utf8_name;
-	const char   *details;
-	int           r;
+	GError           *gerror;
+	char             *utf8_name;
+	const char       *details;
 
-	/* Always ask before deleting folders. */
-
-	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
-					GTK_DIALOG_MODAL,
-					_("The selected folder will be deleted, are you sure ?"),
-					GTK_STOCK_CANCEL,
-					GTK_STOCK_DELETE);
-
-
-	r = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-	if (r != GTK_RESPONSE_YES) 
-		return;
-
-	/* Delete */
-
-	if (rmdir (path) == 0) {
+	if (rmdir_recursive (path) == 0) {
 		char *cache_path;
 
-		/* Update cache info. */
-		
 		/* Thumbnail cache. */
-
+		
 		cache_path = cache_get_nautilus_cache_dir (path);
 		rmdir_recursive (cache_path);
 		g_free (cache_path);
 
 		/* Catalog cache. */
-
+		
 		cache_path = comments_get_comment_dir (path);
 		rmdir_recursive (cache_path);
 		g_free (cache_path);
 
 		all_windows_notify_directory_delete (path);
-
+		
 		return;
 	}
+
+	/* error */
 
 	utf8_name = g_locale_to_utf8 (path, -1, 0, 0, 0);
 
@@ -1151,7 +1133,106 @@ folder_delete (GThumbWindow *window,
 	g_free (utf8_name);
 
 	_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-	all_windows_update_file_list ();
+}
+
+
+static void
+folder_delete__continue2 (GnomeVFSResult result,
+			  gpointer       data)
+{
+	FolderDeleteData *fddata = data;
+
+	if (result != GNOME_VFS_OK) {
+		const char *message;
+		char       *utf8_name;
+		
+		message = _("Could not delete the folder \"%s\" : %s");
+		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
+
+		_gtk_error_dialog_run (GTK_WINDOW (fddata->window->app),
+				       message, 
+				       utf8_name, 
+				       gnome_vfs_result_to_string (result));
+		g_free (utf8_name);
+
+	}
+
+	g_free (fddata->path);
+	g_free (fddata);	
+}
+
+
+static void
+folder_delete__continue (GnomeVFSResult result,
+			 gpointer       data)
+{
+	FolderDeleteData *fddata = data;
+
+	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+		GtkWidget *d;
+		char      *utf8_name;
+		char      *message;
+		int        r;
+
+		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
+		message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently ?"), utf8_name);
+
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (fddata->window->app),
+					   GTK_DIALOG_MODAL,
+					   message,
+					   GTK_STOCK_CANCEL,
+					   GTK_STOCK_DELETE);
+
+		g_free (message);
+		g_free (utf8_name);
+
+		r = gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (GTK_WIDGET (d));
+
+		if (r == GTK_RESPONSE_YES) 
+			dlg_folder_delete (fddata->window, 
+					   fddata->path, 
+					   folder_delete__continue2, 
+					   fddata);
+
+	} else 
+		folder_delete__continue2 (result, data);
+}
+
+
+static void
+folder_delete (GThumbWindow *window,
+	       const char   *path)
+{
+	FolderDeleteData *fddata;
+	GtkWidget        *dialog;
+	int               r;
+
+	/* Always ask before deleting folders. */
+
+	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
+					GTK_DIALOG_MODAL,
+					_("The selected folder will be moved to the Trash, are you sure ?"),
+					GTK_STOCK_CANCEL,
+					_("_Move"));
+
+
+	r = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+
+	if (r != GTK_RESPONSE_YES) 
+		return;
+
+	/* Delete */
+
+	fddata = g_new0 (FolderDeleteData, 1);
+	fddata->window = window;
+	fddata->path = g_strdup (path);
+
+	dlg_folder_move_to_trash (window, 
+				  path, 
+				  folder_delete__continue, 
+				  fddata);
 }
 
  
@@ -1190,6 +1271,30 @@ edit_current_folder_delete_command_impl (BonoboUIComponent *uic,
 
 
 static void
+folder_copy__continue (GnomeVFSResult result,
+		       gpointer       data)
+{
+	char *path = data;
+
+	if (result != GNOME_VFS_OK) {
+		const char *message;
+		char       *utf8_name;
+		
+		message = _("Could not copy the folder \"%s\" : %s");
+		utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
+		
+		_gtk_error_dialog_run (NULL,
+				       message, 
+				       utf8_name, 
+				       gnome_vfs_result_to_string (result));
+		g_free (utf8_name);
+	}
+
+	g_free (path);
+}
+
+
+static void
 folder_copy__response_cb (GObject *object,
 			  int      response_id,
 			  gpointer data)
@@ -1202,7 +1307,7 @@ folder_copy__response_cb (GObject *object,
 	const char   *dir_name;
 	gboolean      same_fs;
 	gboolean      move;
-	char         *message;
+	const char   *message;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -1220,10 +1325,7 @@ folder_copy__response_cb (GObject *object,
 		return;
 
 	dir_name = file_name_from_path (old_path);
-	new_path = g_strconcat (dest_dir,
-				"/",
-				dir_name,
-				NULL);
+	new_path = g_build_path ("/", dest_dir, dir_name, NULL);
 	 
 	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
@@ -1249,7 +1351,7 @@ folder_copy__response_cb (GObject *object,
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       message,
 				       utf8_path,
-				       _("source containes destination"));
+				       _("source contains destination"));
 		g_free (utf8_path);
 
 	} else if (path_is_dir (new_path)) {
@@ -1268,7 +1370,9 @@ folder_copy__response_cb (GObject *object,
 				 old_path, 
 				 new_path, 
 				 move, 
-				 TRUE);
+				 TRUE,
+				 folder_copy__continue, 
+				 g_strdup (old_path));
 
 	} else if (rename (old_path, new_path) == 0) { 
 		char *old_cache_path, *new_cache_path;
@@ -1928,6 +2032,46 @@ alter_image_invert_command_impl (BonoboUIComponent *uic,
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	_gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
+}
+
+
+void 
+alter_image_equalize_command_impl (BonoboUIComponent *uic, 
+				   gpointer           user_data, 
+				   const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	_gdk_pixbuf_eq_histogram (dest_pixbuf, dest_pixbuf);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
+}
+
+
+void 
+alter_image_adjust_levels_command_impl (BonoboUIComponent *uic, 
+					gpointer           user_data, 
+					const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	_gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
 	image_viewer_set_pixbuf (viewer, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 

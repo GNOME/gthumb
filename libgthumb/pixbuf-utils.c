@@ -73,6 +73,7 @@
 #include <math.h>
 #include <string.h>
 #include "pixbuf-utils.h"
+#include "gthumb-histogram.h"
 
 #ifdef HAVE_LIBTIFF
 #include <tiffio.h>
@@ -1034,6 +1035,338 @@ _gdk_pixbuf_color_balance (const GdkPixbuf *src,
 }
 
 
+
+/* -- equalize histogram -- */
+
+#define MAX_N_CHANNELS 4
+
+static void
+eq_histogram_setup (GthumbHistogram  *hist, 
+		    int             **part)
+{
+	int  i, k, j;
+	int  pixels_per_value;
+	int  desired;
+	int  sum, dif;
+
+	pixels_per_value = gthumb_histogram_get_count (hist, 0, 255) / 256.0;
+
+	for (k = 0; k < gthumb_histogram_get_nchannels (hist); k++) {
+		/* First and last points in partition */
+		part[k][0]   = 0;
+		part[k][256] = 256;
+
+		/* Find intermediate points */
+		j   = 0;
+		sum = (gthumb_histogram_get_value (hist, k + 1, 0) + 
+		       gthumb_histogram_get_value (hist, k + 1, 1));
+		
+		for (i = 1; i < 256; i++) {
+			desired = i * pixels_per_value;
+
+			while (sum <= desired) {
+				j++;
+				sum += gthumb_histogram_get_value (hist, k + 1, j + 1);
+			}
+
+			/* Nearest sum */
+			dif = sum - gthumb_histogram_get_value (hist, k + 1, j);
+
+			if ((sum - desired) > (dif / 2.0))
+				part[k][i] = j;
+			else
+				part[k][i] = j + 1;
+		}
+	}
+}
+
+
+static guchar
+eq_func (guchar   u_value,
+	 int    **part,
+	 int      channel)
+{
+	guchar i = 0;
+	while (part[channel][i + 1] <= u_value)
+		i++;
+	return i;
+}
+
+
+void
+_gdk_pixbuf_eq_histogram (const GdkPixbuf *src,
+			  GdkPixbuf       *dest)
+{
+	GthumbHistogram  *histogram;
+	int               i, j;
+	int               width, height, has_alpha, bytes_per_pixel; 
+	int               rowstride;
+	guchar           *src_line, *src_pixel;
+	guchar           *dest_line, *dest_pixel;
+	int             **part;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+
+	/**/
+
+	histogram = gthumb_histogram_new ();
+	gthumb_histogram_calculate (histogram, src);
+
+	part = g_new0 (int *, MAX_N_CHANNELS + 1);
+	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+		part[i] = g_new0 (int, 257);
+
+	eq_histogram_setup (histogram, part);
+
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+
+		for (j = 0 ; j < width ; j++) {
+			dest_pixel[RED_PIX]   = eq_func (src_pixel[RED_PIX], part, 0);
+			dest_pixel[GREEN_PIX] = eq_func (src_pixel[GREEN_PIX], part, 1);
+			dest_pixel[BLUE_PIX]  = eq_func (src_pixel[BLUE_PIX], part, 2);
+
+			if (has_alpha)
+				dest_pixel[ALPHA_PIX] = eq_func (src_pixel[ALPHA_PIX], part, 3);
+
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}
+
+	for (i = 0; i < MAX_N_CHANNELS + 1; i++)
+		g_free (part[i]);
+	g_free (part);
+
+	gthumb_histogram_free (histogram);
+}
+
+
+
+/* -- adjust levels -- */
+
+typedef struct 
+{
+	double gamma[5];
+	
+	double low_input[5];
+	double high_input[5];
+	
+	double low_output[5];
+	double high_output[5];
+} Levels;
+
+
+static void
+levels_channel_auto (Levels          *levels,
+		     GthumbHistogram *hist,
+		     int              channel)
+{
+	int    i;
+	double count, new_count, percentage, next_percentage;
+
+	g_return_if_fail (levels != NULL);
+	g_return_if_fail (hist != NULL);
+
+	levels->gamma[channel]       = 1.0;
+	levels->low_output[channel]  = 0;
+	levels->high_output[channel] = 255;
+	
+	count = gthumb_histogram_get_count (hist, 0, 255);
+	
+	if (count == 0.0) {
+		levels->low_input[channel]  = 0;
+		levels->high_input[channel] = 0;
+
+	} else {
+		/*  Set the low input  */
+
+		new_count = 0.0;
+		for (i = 0; i < 255; i++) {
+			double value;
+			double next_value;
+
+			value = gthumb_histogram_get_value (hist, channel, i);
+			next_value = gthumb_histogram_get_value (hist, channel, i + 1);
+
+			new_count += value;
+			percentage = new_count / count;
+			next_percentage = (new_count + next_value) / count;
+
+			if (fabs (percentage - 0.006) < fabs (next_percentage - 0.006)) {
+				levels->low_input[channel] = i + 1;
+				break;
+			}
+		}
+
+		/*  Set the high input  */
+
+		new_count = 0.0;
+		for (i = 255; i > 0; i--) {
+			double value;
+			double next_value;
+
+			value = gthumb_histogram_get_value (hist, channel, i);
+			next_value = gthumb_histogram_get_value (hist, channel, i - 1);
+
+			new_count += value;
+			percentage = new_count / count;
+			next_percentage = (new_count + next_value) / count;
+
+			if (fabs (percentage - 0.006) < fabs (next_percentage - 0.006))	{
+				levels->high_input[channel] = i - 1;
+				break;
+			}
+		}
+	}
+}
+
+
+static guchar
+levels_func (guchar  value,
+	     Levels *levels,
+	     int     channel)
+{
+	double inten;
+	int    j;
+	
+	inten = value;
+	
+	/* For color  images this runs through the loop with j = channel + 1
+	 * the first time and j = 0 the second time
+	 *
+	 * For bw images this runs through the loop with j = 0 the first and
+	 *  only time
+	 */
+	for (j = channel + 1; j >= 0; j -= (channel + 1)) {
+		inten /= 255.0;
+
+		/*  determine input intensity  */
+
+		if (levels->high_input[j] != levels->low_input[j])
+			inten = (255.0 * inten - levels->low_input[j]) /
+				(levels->high_input[j] - levels->low_input[j]);
+		else
+			inten = 255.0 * inten - levels->low_input[j];
+		
+		if (levels->gamma[j] != 0.0) {
+			if (inten >= 0.0)
+				inten =  pow ( inten, (1.0 / levels->gamma[j]));
+			else
+				inten = -pow (-inten, (1.0 / levels->gamma[j]));
+		}
+
+		/*  determine the output intensity  */
+
+		if (levels->high_output[j] >= levels->low_output[j])
+			inten = inten * (levels->high_output[j] - levels->low_output[j]) +
+				levels->low_output[j];
+		else if (levels->high_output[j] < levels->low_output[j])
+			inten = levels->low_output[j] - inten *
+				(levels->low_output[j] - levels->high_output[j]);
+	}
+
+	if (inten < 0.0) 
+		inten = 0.0;
+	else if (inten > 255.0)	
+		inten = 255.0;
+
+	return (guchar) inten;
+}
+
+
+void
+_gdk_pixbuf_adjust_levels (const GdkPixbuf *src,
+			   GdkPixbuf       *dest)
+{
+	GthumbHistogram *hist;
+	Levels          *levels;
+	int              channel;
+	int              i, j;
+	int              width, height, has_alpha, bytes_per_pixel; 
+	int              rowstride;
+	guchar          *src_line, *src_pixel;
+	guchar          *dest_line, *dest_pixel;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+
+	/**/
+
+	hist = gthumb_histogram_new ();
+	gthumb_histogram_calculate (hist, src);
+
+	levels = g_new0 (Levels, 1);
+
+	for (channel = 0; channel < MAX_N_CHANNELS + 1; channel++) {
+		levels->gamma[channel]       = 1.0;
+		levels->low_input[channel]   = 0;
+		levels->high_input[channel]  = 255;
+		levels->low_output[channel]  = 0;
+		levels->high_output[channel] = 255;
+	}
+
+	for (channel = 1; channel < MAX_N_CHANNELS; channel++) 
+		levels_channel_auto (levels, hist, channel);
+
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+
+		for (j = 0 ; j < width ; j++) {
+			dest_pixel[RED_PIX]   = levels_func (src_pixel[RED_PIX], levels, 0);
+			dest_pixel[GREEN_PIX] = levels_func (src_pixel[GREEN_PIX], levels, 1);
+			dest_pixel[BLUE_PIX]  = levels_func (src_pixel[BLUE_PIX], levels, 2);
+
+			if (has_alpha)
+				dest_pixel[ALPHA_PIX] = src_pixel[ALPHA_PIX];
+
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}
+
+	gthumb_histogram_free (hist);
+	g_free (levels);
+}
+
+
 /* -- */
 
 
@@ -1051,7 +1384,7 @@ pixmap_from_xpm (const char **data,
 
 
 /* -- */
-
+
 
 void
 _gdk_pixbuf_vertical_gradient (GdkPixbuf *pixbuf, 

@@ -51,6 +51,8 @@ typedef struct {
 
 	BookmarkList *book_list;
 	Bookmarks *bookmarks;
+
+	gboolean   do_not_update;
 } DialogData;
 
 
@@ -65,8 +67,6 @@ destroy_cb (GtkWidget *widget,
 	bookmark_list_free (data->book_list);
 	bookmarks_free (data->bookmarks);
 	g_free (data);
-
-	all_windows_update_bookmark_list ();
 }
 
 
@@ -85,6 +85,9 @@ remove_cb (GtkWidget *widget,
 
 	bookmarks_write_to_disk (data->bookmarks);
 	bookmark_list_set (data->book_list, data->bookmarks->list);
+
+	data->do_not_update = TRUE;
+	all_windows_update_bookmark_list ();
 }
 
 
@@ -125,8 +128,10 @@ move_up_cb (GtkWidget *widget,
 
 	bookmarks_write_to_disk (data->bookmarks);
 	bookmark_list_set (data->book_list, data->bookmarks->list);
-
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+
+	data->do_not_update = TRUE;
+	all_windows_update_bookmark_list ();
 }
 
 
@@ -169,8 +174,10 @@ move_down_cb (GtkWidget *widget,
 
 	bookmarks_write_to_disk (data->bookmarks);
 	bookmark_list_set (data->book_list, data->bookmarks->list);
-
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+
+	data->do_not_update = TRUE;
+	all_windows_update_bookmark_list ();
 }
 
 
@@ -205,8 +212,10 @@ move_top_cb (GtkWidget *widget,
 
 	bookmarks_write_to_disk (data->bookmarks);
 	bookmark_list_set (data->book_list, data->bookmarks->list);
-
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+
+	data->do_not_update = TRUE;
+	all_windows_update_bookmark_list ();
 }
 
 
@@ -241,8 +250,10 @@ move_bottom_cb (GtkWidget *widget,
 
 	bookmarks_write_to_disk (data->bookmarks);
 	bookmark_list_set (data->book_list, data->bookmarks->list);
-
 	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+
+	data->do_not_update = TRUE;
+	all_windows_update_bookmark_list ();
 }
 
 
@@ -257,9 +268,10 @@ dlg_edit_bookmarks (GThumbWindow *window)
 		return;
 	}
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
 	data->window = window;
+	data->do_not_update = FALSE;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
         if (! data->gui) {
@@ -271,6 +283,7 @@ dlg_edit_bookmarks (GThumbWindow *window)
 
 	data->dialog = glade_xml_get_widget (data->gui, "bookmarks_dialog");
 	window->bookmarks_dlg = data->dialog;
+	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
 	data->list_container = glade_xml_get_widget (data->gui, "bm_list_container");
 	bm_bookmarks_label = glade_xml_get_widget (data->gui, "bm_bookmarks_label");
@@ -337,4 +350,24 @@ dlg_edit_bookmarks (GThumbWindow *window)
 				      GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
+}
+
+
+void
+dlg_edit_bookmarks_update (GtkWidget *dialog)
+{
+	DialogData *data;
+
+	data = g_object_get_data (G_OBJECT (dialog), "dialog_data");
+
+	g_return_if_fail (data != NULL);
+
+	if (data->do_not_update) {
+		data->do_not_update = FALSE;
+		return;
+	}
+
+	data->do_not_update = FALSE;
+	bookmarks_load_from_disk (data->bookmarks);
+	bookmark_list_set (data->book_list, data->bookmarks->list);
 }

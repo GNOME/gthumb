@@ -17,11 +17,13 @@ IMAGES=					\
 	flip-24.png			\
 	fullscreen-16.png		\
 	fullscreen-24.png		\
+	histogram-22.png		\
 	hue-saturation-22.png		\
 	image-info-16.png		\
 	image-info-24.png		\
 	index-image-16.png		\
 	invert-16.png			\
+	levels-22.png			\
 	library-19.png			\
 	maintenance-16.png		\
 	mirror-16.png			\
@@ -64,11 +66,13 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list flip_24_rgba $(srcdir)/flip-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list fullscreen_16_rgba $(srcdir)/fullscreen-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list fullscreen_24_rgba $(srcdir)/fullscreen-24.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list histogram_22_rgba $(srcdir)/histogram-22.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list hue_saturation_22_rgba $(srcdir)/hue-saturation-22.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list image_info_16_rgba $(srcdir)/image-info-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list image_info_24_rgba $(srcdir)/image-info-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list index_image_16_rgba $(srcdir)/index-image-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list invert_16_rgba $(srcdir)/invert-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list levels_22_rgba $(srcdir)/levels-22.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list library_19_rgba $(srcdir)/library-19.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list maintenance_16_rgba $(srcdir)/maintenance-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list mirror_16_rgba $(srcdir)/mirror-16.png >> $(srcdir)/pixbufs.h

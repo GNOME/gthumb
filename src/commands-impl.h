@@ -86,6 +86,8 @@ DEFINE_VERB(alter_image_flip_command_impl);
 DEFINE_VERB(alter_image_mirror_command_impl);
 DEFINE_VERB(alter_image_desaturate_command_impl);
 DEFINE_VERB(alter_image_invert_command_impl);
+DEFINE_VERB(alter_image_equalize_command_impl);
+DEFINE_VERB(alter_image_adjust_levels_command_impl);
 DEFINE_VERB(alter_image_posterize_command_impl);
 DEFINE_VERB(alter_image_brightness_contrast_command_impl);
 DEFINE_VERB(alter_image_hue_saturation_command_impl);

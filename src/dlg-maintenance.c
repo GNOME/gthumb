@@ -70,6 +70,7 @@ remove_all_comments_cb (GtkWidget  *widget,
 				   _("All comments will be removed, are you sure ?"),
 				   GTK_STOCK_NO,
 				   GTK_STOCK_DELETE);
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_NO);
 	r = gtk_dialog_run (GTK_DIALOG (d));
 	gtk_widget_destroy (GTK_WIDGET (d));
 	
@@ -100,6 +101,7 @@ remove_all_thumbs_cb (GtkWidget  *widget,
 				   _("All thumbnails will be deleted, are you sure ?"),
 				   GTK_STOCK_NO,
 				   GTK_STOCK_DELETE);
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_NO);
 	r = gtk_dialog_run (GTK_DIALOG (d));
 	gtk_widget_destroy (GTK_WIDGET (d));
 	

@@ -87,6 +87,11 @@ void       _gdk_pixbuf_color_balance           (const GdkPixbuf *src,
 						double           yellow_blue,
 						gboolean         preserve_luminosity);
 
+void       _gdk_pixbuf_eq_histogram            (const GdkPixbuf *src,
+						GdkPixbuf       *dest);
+
+void       _gdk_pixbuf_adjust_levels           (const GdkPixbuf *src,
+						GdkPixbuf       *dest);
 
 /**/
 

@@ -170,19 +170,6 @@ paint (EComboButton *combo_button,
 		       "button",
 		       0,
 		       0,
-		       GTK_WIDGET (combo_button)->allocation.width,
-		       GTK_WIDGET (combo_button)->allocation.height);
-
-	/*
-	gtk_paint_box (GTK_WIDGET (combo_button)->style,
-		       GTK_WIDGET (combo_button)->window,
-		       GTK_STATE_PRELIGHT,
-		       shadow_type,
-		       area,
-		       GTK_WIDGET (combo_button),
-		       "button",
-		       0,
-		       0,
 		       separator_x,
 		       GTK_WIDGET (combo_button)->allocation.height);
 
@@ -197,7 +184,6 @@ paint (EComboButton *combo_button,
 		       0,
 		       GTK_WIDGET (combo_button)->allocation.width - separator_x,
 		       GTK_WIDGET (combo_button)->allocation.height);
-	*/
 }
 
 
@@ -489,7 +475,6 @@ e_combo_button_new (void)
 	EComboButton *new;
 
 	new = g_object_new (E_TYPE_COMBO_BUTTON, NULL);
-	/* new = gtk_type_new (e_combo_button_get_type ()); FIXME */
 	e_combo_button_construct (new);
 
 	return GTK_WIDGET (new);

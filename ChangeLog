@@ -1,4 +1,33 @@
+2002-11-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c: 
+	* src/commands-impl.c: 
+	* src/dlg-file-utils.c: 
+	* src/dlg-file-utils.h: implement "Move to Trash" files and
+	folders, "Copy" and "Move" folders. Reimplement copying and moving
+	of files using gnome-vfs.
+	
+2002-11-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/e-combo-button.c (paint): restore the old style.
+
+	* src/gthumb-ui.xml:
+	* src/gthumb-window.c (setup_toolbar_combo_button): use the combo
+	button for the "Back" button, remove the "Edit image" combo
+	button, add an "Image" menu and move the "Go" menu in the "View" menu.
+
+	* libgthumb/gthumb-histogram.c: new file.
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_adjust_levels): 
+	Added "equalize histogram" and "auto adjust levels" operations.
+	
+	Patch from Jason Tackaberry <tack@auc.ca>
+	
 2002-11-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-bookmarks.c (dlg_edit_bookmarks_update): fix bug #99121.
+
+	* src/gthumb-window.c (image_requested_error_cb): set the viewer void
+	is the image could not be loaded.
 
 	* src/gth-folder-selection-dialog.c
 	(gth_folder_selection_construct): let the folder entry activates 

@@ -299,10 +299,7 @@ ac_list_row_activated_cb (GtkTreeView       *tree_view,
 	name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 	g_free (utf8_name);
 
-	full_path = g_strconcat (ac_dir,
-				 "/",
-				 name,
-				 NULL);
+	full_path = g_build_path ("/", ac_dir, name, NULL);
 
 	auto_compl_hide_alternatives ();
 

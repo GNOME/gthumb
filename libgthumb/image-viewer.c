@@ -1261,6 +1261,7 @@ image_viewer_size_allocate (GtkWidget       *widget,
 {
 	ImageViewer *viewer;
 	int          gdk_width, gdk_height;
+	GdkPixbuf   *current_pixbuf;
 
 	viewer = IMAGE_VIEWER (widget);
 
@@ -1268,24 +1269,20 @@ image_viewer_size_allocate (GtkWidget       *widget,
 	gdk_width = allocation->width - FRAME_BORDER2; 
 	gdk_height = allocation->height - FRAME_BORDER2;
 
+	current_pixbuf = image_viewer_get_current_pixbuf (viewer);
+
 	/* If zoom_fit is active update the zoom level. */
 
-	if (! viewer->is_void 
-	    && viewer->zoom_fit
-	    && (image_viewer_get_current_pixbuf (viewer) != NULL)) 
+	if (! viewer->is_void && viewer->zoom_fit && (current_pixbuf != NULL)) 
 		zoom_to_fit (viewer);
 
 	/* If zoom_fit_if_larger is active update the zoom level. */
 
 	if (! viewer->is_void 
 	    && viewer->zoom_fit_if_larger
-	    && (image_viewer_get_current_pixbuf (viewer) != NULL)) {
-		GdkPixbuf *buf;
-		
-		buf = image_viewer_get_current_pixbuf (viewer);
-		
-		if ((gdk_width < gdk_pixbuf_get_width (buf))
-		    || (gdk_height < gdk_pixbuf_get_height (buf))) 
+	    && (current_pixbuf != NULL)) {
+		if ((gdk_width < gdk_pixbuf_get_width (current_pixbuf))
+		    || (gdk_height < gdk_pixbuf_get_height (current_pixbuf))) 
 			zoom_to_fit (viewer);
 		else {
 			viewer->doing_zoom_fit = TRUE;
@@ -1296,8 +1293,8 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 	/* Check whether the offset is still valid. */
 
-	if (image_viewer_get_current_pixbuf (viewer) != NULL) {
-		gint width, height;
+	if (current_pixbuf != NULL) {
+		int width, height;
 		
 		get_zoomed_size (viewer, &width, &height, viewer->zoom_level);
 
@@ -1806,6 +1803,7 @@ image_error (ImageLoader *il,
 	ImageViewer *viewer = data;
 
 	image_viewer_set_void (viewer);
+
 	g_signal_emit (G_OBJECT (viewer), 
 		       image_viewer_signals[IMAGE_LOADED], 
 		       0);
@@ -1833,22 +1831,22 @@ image_loaded (ImageLoader *il,
 		image_viewer_set_zoom (viewer, 1.0);
 		add_change_frame_timeout (viewer);
 		break;
-
+		
 	case ZOOM_CHANGE_FIT:
 		image_viewer_zoom_to_fit (viewer);
 		add_change_frame_timeout (viewer);
 		break;
-
+		
 	case ZOOM_CHANGE_KEEP_PREV:
 		image_viewer_update_view (viewer);
 		break;
-
+		
 	case ZOOM_CHANGE_FIT_IF_LARGER:
 		image_viewer_zoom_to_fit_if_larger (viewer);
 		add_change_frame_timeout (viewer);
 		break;
 	}
-
+	
 	g_signal_emit (G_OBJECT (viewer), 
 		       image_viewer_signals[IMAGE_LOADED], 
 		       0);

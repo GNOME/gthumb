@@ -39,6 +39,7 @@ HEADER_FILES =			\
 	gthumb-canvas-text.h	\
 	gnome-canvas-thumb.h	\
 	gthumb-error.h		\
+	gthumb-histogram.h	\
 	gthumb-init.h		\
 	gthumb-info-bar.h	\
 	gthumb-slide.h		\
@@ -86,6 +87,7 @@ libgthumb_a_SOURCES =		\
 	gthumb-canvas-text.c	\
 	gnome-canvas-thumb.c	\
 	gthumb-error.c		\
+	gthumb-histogram.c	\
 	gthumb-init.c		\
 	gthumb-info-bar.c	\
 	gthumb-slide.c		\

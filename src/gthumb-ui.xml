@@ -45,8 +45,8 @@
 	     _tip="Rename this image"/>
 	<cmd name="Image_Duplicate" _label="D_uplicate" 
 	     _tip="Duplicate this image"/>
-	<cmd name="Image_Delete" _label="_Delete" 
-	     _tip="Delete this image from disk"
+	<cmd name="Image_Delete" _label="Move to _Trash" 
+	     _tip="Move this image to the Trash"
 	     pixtype="stock" pixname="gtk-delete"/>
 	<cmd name="Image_Copy" _label="_Copy..." 
 	     _tip="Copy this image to another location"/>
@@ -60,8 +60,8 @@
 	     _tip="Rename selected image"/>
 	<cmd name="Edit_DuplicateFile" _label="D_uplicate" 
 	     _tip="Duplicate selected image"/>
-	<cmd name="Edit_DeleteFiles" _label="_Delete" 
-	     _tip="Delete selected images from disk"
+	<cmd name="Edit_DeleteFiles" _label="Move to _Trash" 
+	     _tip="Move the selected images to the Trash"
 	     pixtype="stock" pixname="gtk-delete"/>
 	<cmd name="Edit_CopyFiles" _label="_Copy..." 
 	     _tip="Copy selected images to another location"/>
@@ -125,8 +125,9 @@
 	     manager"/>
 	<cmd name="EditDir_Rename" _label="_Rename..." 
 	     _tip="Rename selected folder"/>
-	<cmd name="EditDir_Delete" _label="_Delete" 
-	     _tip="Delete selected folder"/>
+	<cmd name="EditDir_Delete" _label="Move to _Trash" 
+	     _tip="Move the selected folder to the Trash"
+	     pixtype="stock" pixname="gtk-delete"/>
 	<cmd name="EditDir_Copy" _label="_Copy..." 
 	     _tip="Copy selected folder"/>
 	<cmd name="EditDir_Move" _label="_Move..." 
@@ -136,8 +137,9 @@
 	     _tip="Open current folder with the Nautilus file manager"/>
 	<cmd name="EditCurrentDir_Rename" _label="_Rename..." 
 	     _tip="Rename current folder"/>
-	<cmd name="EditCurrentDir_Delete" _label="_Delete" 
-	     _tip="Delete current folder"/>
+	<cmd name="EditCurrentDir_Delete" _label="Move to _Trash" 
+	     _tip="Move the current folder to the Trash"
+	     pixtype="stock" pixname="gtk-delete"/>
 	<cmd name="EditCurrentDir_Copy" _label="_Copy..." 
 	     _tip="Copy current folder"/>
 	<cmd name="EditCurrentDir_Move" _label="_Move..." 
@@ -163,6 +165,12 @@
 	<cmd name="AlterImage_Invert" _label="_Negative" 
 	     _tip="View the image with negative colors"
 	     pixtype="stock" pixname="gthumb-invert"/>
+	<cmd name="AlterImage_Equalize" _label="_Equalize Histogram" 
+	     tip=""
+	     pixtype="stock" pixname="gthumb-histogram"/>
+	<cmd name="AlterImage_AdjustLevels" _label="_Adjust Colors Levels" 
+	     tip=""
+	     pixtype="stock" pixname="gthumb-levels"/>
 	<cmd name="AlterImage_Posterize" _label="_Posterize" 
 	     _tip="Reduce the number of colors"
 	     pixtype="stock" pixname="gthumb-posterize"/>
@@ -419,7 +427,6 @@
 		<menuitem name="File_CloseWindow" verb=""/>
 		<menuitem name="File_Exit" verb=""/>
 	</submenu>
-
 	<submenu name="Edit" _label="_Edit">
 		<menuitem name="Edit_RenameFile" verb=""/>
 		<menuitem name="Edit_DuplicateFile" verb=""/>
@@ -432,22 +439,6 @@
 		<menuitem name="Tools_FindImages" verb=""/>
 		<menuitem name="Tools_FindDuplicates" verb=""/>
 		<separator/>
-		<submenu name="ViewImage" _label="_Image">
-			<menuitem name="AlterImage_Resize" verb=""/>
-			<separator/>
-			<menuitem name="AlterImage_Rotate90" verb=""/>
-			<menuitem name="AlterImage_Rotate90CC" verb=""/>
-			<menuitem name="AlterImage_Flip" verb=""/>
-			<menuitem name="AlterImage_Mirror" verb=""/>
-			<separator/>
-			<menuitem name="AlterImage_ColorBalance" verb=""/>
-			<menuitem name="AlterImage_HueSaturation" verb=""/>
-			<menuitem name="AlterImage_BrightnessContrast" verb=""/>
-			<menuitem name="AlterImage_Desaturate" verb=""/>
-			<menuitem name="AlterImage_Invert" verb=""/>
-			<menuitem name="AlterImage_Posterize" verb=""/>
-		</submenu>
-		<separator/>
 		<menuitem name="Edit_EditComment" verb=""/>
 		<menuitem name="Edit_EditCategories" verb=""/>
 		<menuitem name="Edit_DeleteComment" verb=""/>
@@ -457,7 +448,6 @@
 		<separator/>
 		<menuitem name="Tools_Preferences" verb=""/>
 	</submenu>
-
 	<submenu name="View" _label="_View">
                 <menuitem name="Tools_Slideshow" verb=""/>
 		<menuitem name="View_Fullscreen" verb=""
@@ -465,6 +455,18 @@
 		<separator/>
 		<menuitem name="Go_Stop" verb=""/>
 		<menuitem name="Go_Refresh" verb=""/>
+		<submenu name="Go" _label="_Go">
+			<menuitem name="Go_Back" verb=""/>
+			<menuitem name="Go_Forward" verb=""/>
+			<menuitem name="Go_Up" verb=""/>
+			<separator/>
+			<menuitem name="Go_Home" verb=""/>
+			<menuitem name="Go_ToContainer" verb=""/>
+			<menuitem name="Go_Location" verb=""/>
+			<separator/>
+			<menuitem name="Go_DeleteHistory" verb=""/>
+			<placeholder name="HistoryList" delimit="top"/>
+		</submenu>
 		<separator/>
 		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
@@ -514,17 +516,24 @@
 			<menuitem name="View_Statusbar" verb=""/>
 		</submenu>
 	</submenu>
-	<submenu name="Go" _label="_Go">
-		<menuitem name="Go_Back" verb=""/>
-		<menuitem name="Go_Forward" verb=""/>
-		<menuitem name="Go_Up" verb=""/>
+	<submenu name="Image" _label="_Image">
+		<menuitem name="AlterImage_Rotate90" verb=""/>
+		<menuitem name="AlterImage_Rotate90CC" verb=""/>
+		<menuitem name="AlterImage_Flip" verb=""/>
+		<menuitem name="AlterImage_Mirror" verb=""/>
 		<separator/>
-		<menuitem name="Go_Home" verb=""/>
-		<menuitem name="Go_ToContainer" verb=""/>
-		<menuitem name="Go_Location" verb=""/>
+		<menuitem name="AlterImage_Resize" verb=""/>
 		<separator/>
-		<menuitem name="Go_DeleteHistory" verb=""/>
-		<placeholder name="HistoryList" delimit="top"/>
+		<menuitem name="AlterImage_ColorBalance" verb=""/>
+		<menuitem name="AlterImage_HueSaturation" verb=""/>
+		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_Desaturate" verb=""/>
+		<menuitem name="AlterImage_Invert" verb=""/>
+		<menuitem name="AlterImage_Posterize" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_Equalize" verb=""/>
+		<menuitem name="AlterImage_AdjustLevels" verb=""/>
 	</submenu>
 	<submenu name="Bookmarks" _label="_Bookmarks">
 		<menuitem name="Bookmarks_Add" verb=""/>
@@ -562,7 +571,13 @@
 	behavior="exclusive" in_new_band="1" band_num="1"  
 	hlook="system" vlook="system">
 
+<!--
 	<toolitem name="Go_Back" verb="" _label="Back" priority="1"/>
+-->
+
+	<control name="GoBackComboButton" 
+	         _tip="Go to the previous visited location"/>
+
 	<toolitem name="Go_Forward" verb="" _label="Forward"/>
 	<toolitem name="Go_Up" verb="" _label="Up"/>
   	<toolitem name="Go_Home" verb="" _label="Home"/>
@@ -621,7 +636,9 @@
 
 	<separator/>
 
+<!--
 	<control name="AlterImageComboButton" _tip="Edit Image"/>
+-->
 
   	<toolitem name="File_Save" verb="" _label="Save"
   	          priority="0"/>
@@ -734,6 +751,7 @@
 		<menuitem name="AlterImage_Rotate90CC" verb=""/>
 		<menuitem name="AlterImage_Flip" verb=""/>
 		<menuitem name="AlterImage_Mirror" verb=""/>
+		<separator/>
 		<menuitem name="AlterImage_Desaturate" verb=""/>
 		<menuitem name="AlterImage_Invert" verb=""/>
 		<separator/>
@@ -773,22 +791,8 @@
 		<menuitem name="EditDir_Move" verb=""/>
 	</popup>
 
-	<popup name="AlterImagePopup">
-		<menuitem name="AlterImage_Resize" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_Rotate90" verb=""/>
-		<menuitem name="AlterImage_Rotate90CC" verb=""/>
-		<menuitem name="AlterImage_Flip" verb=""/>
-		<menuitem name="AlterImage_Mirror" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_ColorBalance" verb=""/>
-		<menuitem name="AlterImage_HueSaturation" verb=""/>
-		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
-		<menuitem name="AlterImage_Desaturate" verb=""/>
-		<menuitem name="AlterImage_Invert" verb=""/>
-		<menuitem name="AlterImage_Posterize" verb=""/>
+	<popup name="HistoryListPopup">
 	</popup>
-
 </popups>
 
 </Root>

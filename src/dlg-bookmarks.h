@@ -25,6 +25,8 @@
 
 #include "gthumb-window.h"
 
-void dlg_edit_bookmarks (GThumbWindow *window);
+void dlg_edit_bookmarks        (GThumbWindow *window);
+void dlg_edit_bookmarks_update (GtkWidget    *dialog);
+
 
 #endif /* DLG_BOOKMARKS_H */

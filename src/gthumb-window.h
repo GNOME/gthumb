@@ -101,7 +101,7 @@ typedef struct {
 	GtkWidget          *image_info;
 	GtkWidget          *image_info_frame;
 	GtkWidget          *info_bar;
-	GtkWidget          *adjust_image_combo_button;
+	GtkWidget          *go_back_combo_button;
 	GtkWidget          *popup_menu;
 
 	char                sidebar_content;       /* SidebarContent values. */

@@ -711,9 +711,9 @@ delete_cb (GtkWidget  *widget,
 	if (list == NULL)
 		return;
 
-	if (dlg_file_delete (data->window, 
-			     path_list_dup (list),
-			     _("Checked images will be deleted, are you sure ?"))) 
+	if (dlg_file_delete__confirm (data->window, 
+				      path_list_dup (list),
+				      _("Checked images will be deleted, are you sure ?"))) 
 		delete_images_from_lists (data, list);
 
 	path_list_free (list);

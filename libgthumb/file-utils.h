@@ -168,6 +168,8 @@ char *              get_path_relative_to_dir     (const char *filename,
 
 char *              remove_special_dirs_from_path (const char *path);
      
+GnomeVFSURI *       new_uri_from_path             (const char *path);
+
 
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 

@@ -26,6 +26,7 @@
 #include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-pixmap.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 #include "thumb-cache.h"
@@ -40,23 +41,24 @@
 #include "gthumb-window.h"
 #include "gth-folder-selection-dialog.h"
 
-#define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
-#define FILE_NAME_MAX_LENGTH 30
+#define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
+#define FILE_NAME_MAX_LENGTH   30
+#define DISPLAY_PROGRESS_DELAY 1000
 
 
-enum {
+typedef enum {
 	OVERWRITE_YES,
 	OVERWRITE_NO,
 	OVERWRITE_ALL,
 	OVERWRITE_NONE
-};
+} OverwriteResult;
 
 
-static int dlg_overwrite    (GThumbWindow *window,
-			     int           default_overwrite_mode,
-			     char         *old_filename, 
-			     char         *new_filename,
-			     gboolean      show_overwrite_all_none);
+typedef enum {
+	FILE_OP_COPY,
+	FILE_OP_MOVE,
+	FILE_OP_DELETE
+} FileOp;
 
 
 static void
@@ -111,59 +113,88 @@ dlg_show_error (GThumbWindow *window,
 /* -- delete -- */
 
 
+typedef struct {
+	GThumbWindow *window;
+	GList        *file_list;
+} ConfirmFileDeleteData;
+
+
 static void
-real_file_delete (GThumbWindow *window, 
-		  GList        *list)
+real_files_delete__continue2 (GnomeVFSResult result,
+			      gpointer       data)
 {
-	GList    *scan;
-	GList    *error_list = NULL;
-	gboolean  error = FALSE;
+	ConfirmFileDeleteData *cfddata = data;
 
-	scan = list;
-	while (scan) {
-		if (unlink (scan->data) == 0) {
-			cache_delete (scan->data);
-			comment_delete (scan->data);
-			scan = scan->next;
-		} else {
-			list = g_list_remove_link (list, scan);
-			error_list = g_list_prepend (error_list, scan->data);
-			g_list_free (scan);
-			scan = list;
-			error = TRUE;
-		}
-	}
+	if (result != GNOME_VFS_OK) 
+		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window->app),
+				       "%s %s",
+				       _("Could not delete the images:"), 
+				       gnome_vfs_result_to_string (result));
 
-	all_windows_notify_files_deleted (list);
+	path_list_free (cfddata->file_list);
+	g_free (cfddata);
+}
 
-	if (error) {
-		char *msg;
 
-		if (g_list_length (error_list) == 1)
-			msg = _("Could not delete the image:");
-		else
-			msg = _("Could not delete the following images:");
+static void
+real_files_delete__continue (GnomeVFSResult result,
+			     gpointer       data)
+{
+	ConfirmFileDeleteData *cfddata = data;
 
-		dlg_show_error (window,
-				msg,
-				error_list,
-				errno_to_string ());
-	}
-	path_list_free (list);
-	path_list_free (error_list);
+	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
+		GtkWidget *d;
+		int        r;
+
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (cfddata->window->app),
+					   GTK_DIALOG_MODAL,
+					   _("The images cannot be moved to the Trash. Do you want to delete it permanently ?"),
+					   GTK_STOCK_CANCEL,
+					   GTK_STOCK_DELETE);
+
+		r = gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (GTK_WIDGET (d));
+
+		if (r == GTK_RESPONSE_YES) 
+			dlg_files_delete (cfddata->window, 
+					  cfddata->file_list, 
+					  real_files_delete__continue2, 
+					  cfddata);
+
+	} else 
+		real_files_delete__continue2 (result, data);
+}
+
+
+static void
+real_files_delete (GThumbWindow *window, 
+		   GList        *list)
+{
+	ConfirmFileDeleteData *cfddata;
+
+	cfddata = g_new0 (ConfirmFileDeleteData, 1);
+	cfddata->window = window;
+	cfddata->file_list = list;
+
+	dlg_files_move_to_trash (window,
+				 list,
+				 real_files_delete__continue,
+				 cfddata);
+
+	return;
 }
 
 
 gboolean 
-dlg_file_delete (GThumbWindow *window, 
-		 GList        *list,
-		 const char   *message)
+dlg_file_delete__confirm (GThumbWindow *window, 
+			  GList        *list,
+			  const char   *message)
 {
 	GtkWidget *dialog;
 	int        result;
 
 	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION)) {
-		real_file_delete (window, list);
+		real_files_delete (window, list);
 		return TRUE;
 	}
 
@@ -171,12 +202,12 @@ dlg_file_delete (GThumbWindow *window,
 					GTK_DIALOG_MODAL,
 					message,
 					GTK_STOCK_CANCEL,
-					GTK_STOCK_DELETE);
+					_("_Move"));
 
 	result = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
 	if (result == GTK_RESPONSE_YES) {
-		real_file_delete (window, list);
+		real_files_delete (window, list);
 		return TRUE;
 	}
 
@@ -198,19 +229,28 @@ destroy_cb (GtkWidget *w,
 }
 
 
+static void
+file_move_ask__continue (GnomeVFSResult result,
+			 gpointer       data)
+{
+	if (result != GNOME_VFS_OK) 
+		_gtk_error_dialog_run (NULL,
+				       "%s %s",
+				       _("Could not move the images:"), 
+				       gnome_vfs_result_to_string (result));
+	gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+
 static void 
 file_move_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
 {
-	char         *path;
-	GList        *file_list, *scan;
-	GList        *error_list = NULL;
 	GThumbWindow *window;
-	int           len, overwrite_result;
-	gboolean      file_exists, show_ow_all_none;
-	gboolean      error = FALSE;
-	char         *new_name;
+	GList        *file_list;
+	char         *path;
+	int           len;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -225,98 +265,25 @@ file_move_response_cb (GtkWidget *w,
 		return;
 
 	/* ignore ending slash. */
-
 	len = strlen (path);
-	if (path[len - 1] == '/')
+	if ((len > 1) && (path[len - 1] == '/'))
 		path[len - 1] = 0;
 
-	if (! path_is_dir (path)) {
-		g_free (path);
-		return;
-	}
+	dlg_files_copy (window, 
+			file_list, 
+			path, 
+			TRUE, 
+			TRUE, 
+			file_move_ask__continue,
+			file_sel);
 
-	gtk_widget_hide (file_sel);
-
-	show_ow_all_none = g_list_length (file_list) > 1;
-	overwrite_result = OVERWRITE_NO;
-	for (scan = file_list; scan;) {
-		new_name = g_strconcat (path,
-					"/",
-					file_name_from_path (scan->data),
-					NULL);
-
-		/* handle overwrite. */
-
-		file_exists = path_is_file (new_name);
-
-		if ((overwrite_result != OVERWRITE_ALL)
-		    && (overwrite_result != OVERWRITE_NONE)
-		    && file_exists)
-			overwrite_result = dlg_overwrite (window, 
-							  overwrite_result,
-							  scan->data,
-							  new_name,
-							  show_ow_all_none);
-
-		if (file_exists 
-		    && ((overwrite_result == OVERWRITE_NONE)
-			|| (overwrite_result == OVERWRITE_NO))) {
-			/* file will not be deleted, delete the file from 
-			 * the list. */
-			GList *next = scan->next;
-			
-			file_list = g_list_remove_link (file_list, scan);
-			g_free (scan->data);
-			g_list_free (scan);
-			scan = next;
-
-			g_free (new_name);
-			continue;
-		} 
-		
-		if (file_move ((char*) scan->data, new_name)) {
-			cache_move ((char*) scan->data, new_name);
-			comment_move ((char*) scan->data, new_name);
-			scan = scan->next;
-		} else {
-			file_list = g_list_remove_link (file_list, scan);
-			error_list = g_list_prepend (error_list, scan->data);
-			g_list_free (scan);
-			scan = file_list;
-			error = TRUE;
-		}
-		g_free (new_name);
-	}
-
-	all_windows_notify_files_deleted (file_list);
-	all_windows_notify_update_directory (path);
 	g_free (path);
-
-	if (error) {
-		char *msg;
-
-		if (g_list_length (error_list) == 1)
-			msg = _("Could not move the image:");
-		else
-			msg = _("Could not move the following images:");
-		
-		dlg_show_error (window,
-				msg,
-				error_list,
-				errno_to_string ());
-	}
-	path_list_free (error_list);
-
-	/* file_list can change so re-set the data. */
-
-	g_object_set_data (G_OBJECT (file_sel), "list", file_list);
-	gtk_widget_destroy (file_sel);
 }
 
 
 void 
-dlg_file_move (GThumbWindow *window, 
-	       GList        *list)
+dlg_file_move__ask_dest (GThumbWindow *window, 
+			 GList        *list)
 {
 	GtkWidget   *file_sel;
 	const char  *path;
@@ -352,19 +319,29 @@ dlg_file_move (GThumbWindow *window,
 /* -- copy -- */
 
 
+static void
+file_copy_ask__continue (GnomeVFSResult result,
+			 gpointer       data)
+{
+	if (result != GNOME_VFS_OK) 
+		_gtk_error_dialog_run (NULL,
+				       "%s %s",
+				       _("Could not move the images:"), 
+				       gnome_vfs_result_to_string (result));
+
+	gtk_widget_destroy (GTK_WIDGET (data));
+}
+
+
 static void 
 file_copy_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
 {
-	char         *path;
-	GList        *file_list, *scan;
-	GList        *error_list = NULL;
-	int           len, overwrite_result;
-	char         *new_name;
-	gboolean      file_exists, show_ow_all_none;
-	gboolean      error = FALSE;
 	GThumbWindow *window;
+	GList        *file_list;
+	char         *path;
+	int           len;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -379,81 +356,24 @@ file_copy_response_cb (GtkWidget *w,
 
 	/* ignore ending slash. */
 	len = strlen (path);
-	if (path[len - 1] == '/')
+	if ((len > 1) && (path[len - 1] == '/'))
 		path[len - 1] = 0;
 
-	show_ow_all_none = g_list_length (file_list) > 1;
-	overwrite_result = OVERWRITE_NO;
-	for (scan = file_list; scan; ) {
-		new_name = g_strconcat (path,
-					"/",
-					file_name_from_path (scan->data),
-					NULL);
+	dlg_files_copy (window, 
+			file_list, 
+			path, 
+			FALSE, 
+			TRUE, 
+			file_copy_ask__continue,
+			file_sel);
 
-		/* handle overwrite. */
-		file_exists = path_is_file (new_name);
-
-		if ((overwrite_result != OVERWRITE_ALL)
-		    && (overwrite_result != OVERWRITE_NONE)
-		    && file_exists)
-			overwrite_result = dlg_overwrite (window, 
-							  overwrite_result,
-							  scan->data,
-							  new_name,
-							  show_ow_all_none);
-
-		if (file_exists
-		    && ((overwrite_result == OVERWRITE_NONE)
-			|| (overwrite_result == OVERWRITE_NO))) {
-			scan = scan->next;
-			g_free (new_name);
-			continue;
-		}
-
-		if (file_copy ((gchar*) scan->data, new_name)) {
-			cache_copy ((gchar*) scan->data, new_name);
-			comment_copy ((gchar*) scan->data, new_name);
-			scan = scan->next;
-		} else {
-			file_list = g_list_remove_link (file_list, scan);
-			error_list = g_list_prepend (error_list, scan->data);
-			g_list_free (scan);
-			scan = file_list;
-			error = TRUE;
-		}
-
-		g_free (new_name);
-	}
-
-	if (file_list != NULL)
-		all_windows_notify_update_directory (path);
 	g_free (path);
-
-	if (error) {
-		char *msg;
-
-		if (g_list_length (error_list) == 1)
-			msg = _("Could not copy the image:");
-		else
-			msg = _("Could not copy the following images:");
-
-		dlg_show_error (window,
-				msg,
-				error_list,
-				errno_to_string ());
-	}
-	path_list_free (error_list);
-
-	/* file_list can change so re-set the data. */
-
-	g_object_set_data (G_OBJECT (file_sel), "list", file_list);
-	gtk_widget_destroy (file_sel);
 }
 
 
 void 
-dlg_file_copy (GThumbWindow *window,
-	       GList        *list)
+dlg_file_copy__ask_dest (GThumbWindow *window,
+			 GList        *list)
 {
 	GtkWidget  *file_sel;
 	const char *path;
@@ -534,12 +454,226 @@ set_filename_labels (GladeXML    *gui,
 }
 
 
+/* -- dlg_overwrite -- */
+
+typedef struct {
+	GladeXML       *gui;
+
+	GtkWidget      *dialog;
+	GtkWidget      *overwrite_yes_radiobutton;
+	GtkWidget      *overwrite_no_radiobutton;
+	GtkWidget      *overwrite_all_radiobutton;
+	GtkWidget      *overwrite_none_radiobutton;
+
+	GtkTooltips    *tooltips;
+	int             overwrite_mode;
+	FileOpDoneFunc  done_func;
+	gpointer        done_data;
+} DlgOverwriteData;
+
+
+static void
+dlg_overwrite__response_cb (GtkWidget *dialog,
+			    int        response_id,
+			    gpointer   data)
+{
+	DlgOverwriteData *owdata = data;
+	int               result = OVERWRITE_NO;
+
+	if (response_id == GTK_RESPONSE_OK) {
+		if (GTK_TOGGLE_BUTTON (owdata->overwrite_yes_radiobutton)->active)
+			result = OVERWRITE_YES;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_no_radiobutton)->active)
+			result = OVERWRITE_NO;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_all_radiobutton)->active)
+			result = OVERWRITE_ALL;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_none_radiobutton)->active)
+			result = OVERWRITE_NONE;
+		else
+			result = OVERWRITE_NO;
+	}
+
+	gtk_widget_destroy (owdata->dialog);
+	gtk_object_destroy (GTK_OBJECT (owdata->tooltips));
+	g_object_unref (owdata->gui);
+
+	if (owdata->done_func != NULL)
+		(owdata->done_func) (result, owdata->done_data);
+
+	g_free (owdata);
+}
+
+
+static GtkWidget *
+dlg_overwrite (GThumbWindow   *window,
+	       int             default_overwrite_mode,
+	       const char     *old_filename, 
+	       const char     *new_filename,
+	       gboolean        show_overwrite_all_none,
+	       FileOpDoneFunc  done_func,
+	       gpointer        done_data)
+{
+	DlgOverwriteData *owdata;
+	GtkWidget   *old_image_frame;
+	GtkWidget   *old_img_zoom_in_button;
+	GtkWidget   *old_img_zoom_out_button;
+	GtkWidget   *new_image_frame;
+	GtkWidget   *new_img_zoom_in_button;
+	GtkWidget   *new_img_zoom_out_button;
+	GtkWidget   *old_image_viewer, *new_image_viewer;
+	GtkWidget   *overwrite_radiobutton;
+
+	owdata = g_new0 (DlgOverwriteData, 1);
+
+	owdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	if (! owdata->gui) {
+		g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (owdata);
+		return NULL;
+        }
+
+	owdata->tooltips = gtk_tooltips_new ();
+	owdata->done_func = done_func;
+	owdata->done_data = done_data;
+
+	/* Get the widgets. */
+
+	owdata->dialog = glade_xml_get_widget (owdata->gui, "overwrite_dialog");
+
+	old_image_frame = glade_xml_get_widget (owdata->gui, "old_image_frame");
+	old_img_zoom_in_button = glade_xml_get_widget (owdata->gui, "old_img_zoom_in_button");
+	old_img_zoom_out_button = glade_xml_get_widget (owdata->gui, "old_img_zoom_out_button");
+	new_image_frame = glade_xml_get_widget (owdata->gui, "new_image_frame");
+	new_img_zoom_in_button = glade_xml_get_widget (owdata->gui, "new_img_zoom_in_button");
+	new_img_zoom_out_button = glade_xml_get_widget (owdata->gui, "new_img_zoom_out_button");
+	owdata->overwrite_yes_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_yes_radiobutton");
+	owdata->overwrite_no_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_no_radiobutton");
+	owdata->overwrite_all_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_all_radiobutton");
+	owdata->overwrite_none_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_none_radiobutton");
+
+	/* Set widgets data. */
+
+	/* * set filename labels. */
+
+	set_filename_labels (owdata->gui,
+			     owdata->tooltips,
+			     "old_image_filename_label",
+			     "old_image_filename_eventbox",
+			     "old_image_size_label",
+			     "old_image_time_label",
+			     old_filename);
+	set_filename_labels (owdata->gui,
+			     owdata->tooltips,
+			     "new_image_filename_label",
+			     "new_image_filename_eventbox",
+			     "new_image_size_label",
+			     "new_image_time_label",
+			     new_filename);
+
+	/* * set the default overwrite mode. */
+
+	overwrite_radiobutton = owdata->overwrite_no_radiobutton;
+	switch (default_overwrite_mode) {
+	case OVERWRITE_YES:
+		overwrite_radiobutton = owdata->overwrite_yes_radiobutton;
+		break;
+
+	case OVERWRITE_NO:
+		overwrite_radiobutton = owdata->overwrite_no_radiobutton;
+		break;
+
+	case OVERWRITE_ALL:
+		overwrite_radiobutton = owdata->overwrite_all_radiobutton;
+		break;
+
+	case OVERWRITE_NONE:
+		overwrite_radiobutton = owdata->overwrite_none_radiobutton;
+		break;
+	}
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overwrite_radiobutton), TRUE);
+
+	if (! show_overwrite_all_none) {
+		gtk_widget_hide (owdata->overwrite_all_radiobutton);
+		gtk_widget_hide (owdata->overwrite_none_radiobutton);
+	}
+
+	/* * load images. */
+
+	old_image_viewer = image_viewer_new ();
+	gtk_container_add (GTK_CONTAINER (old_image_frame), old_image_viewer);
+	image_viewer_size (IMAGE_VIEWER (old_image_viewer), 
+			   PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_set_zoom_quality (IMAGE_VIEWER (old_image_viewer),
+				       pref_get_zoom_change ());
+	image_viewer_set_check_type (IMAGE_VIEWER (old_image_viewer),
+				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_size (IMAGE_VIEWER (old_image_viewer),
+				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_transp_type (IMAGE_VIEWER (old_image_viewer),
+				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	gtk_widget_show (old_image_viewer);
+	image_viewer_load_image (IMAGE_VIEWER (old_image_viewer), 
+				 old_filename);
+
+	new_image_viewer = image_viewer_new ();
+	gtk_container_add (GTK_CONTAINER (new_image_frame), new_image_viewer);
+	image_viewer_size (IMAGE_VIEWER (new_image_viewer), 
+			   PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_set_zoom_quality (IMAGE_VIEWER (new_image_viewer),
+				       pref_get_zoom_quality ());
+	image_viewer_set_check_type (IMAGE_VIEWER (new_image_viewer),
+				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_size (IMAGE_VIEWER (new_image_viewer),
+				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_transp_type (IMAGE_VIEWER (new_image_viewer),
+				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	gtk_widget_show (new_image_viewer);
+	image_viewer_load_image (IMAGE_VIEWER (new_image_viewer), 
+				 new_filename);
+
+	/* signals. */
+
+	g_signal_connect_swapped (G_OBJECT (old_img_zoom_in_button),
+				  "clicked",
+				  G_CALLBACK (image_viewer_zoom_in),
+				  G_OBJECT (old_image_viewer));
+	g_signal_connect_swapped (G_OBJECT (old_img_zoom_out_button),
+				  "clicked",
+				  G_CALLBACK (image_viewer_zoom_out),
+				  G_OBJECT (old_image_viewer));
+	
+	g_signal_connect_swapped (G_OBJECT (new_img_zoom_in_button),
+				  "clicked",
+				  G_CALLBACK (image_viewer_zoom_in),
+				  G_OBJECT (new_image_viewer));
+	g_signal_connect_swapped (G_OBJECT (new_img_zoom_out_button),
+				  "clicked",
+				  G_CALLBACK (image_viewer_zoom_out),
+				  G_OBJECT (new_image_viewer));
+
+	g_signal_connect (G_OBJECT (owdata->dialog),
+			  "response", 
+			  G_CALLBACK (dlg_overwrite__response_cb), 
+			  owdata);
+
+	/**/
+
+	g_object_set_data (G_OBJECT (owdata->dialog), "tooltips", owdata->tooltips);
+
+	gtk_window_set_transient_for (GTK_WINDOW (owdata->dialog), 
+				      GTK_WINDOW (window->app));
+	gtk_window_set_modal (GTK_WINDOW (owdata->dialog), TRUE);
+
+	return owdata->dialog;
+}
+
+
 static int
-dlg_overwrite (GThumbWindow *window,
-	       int           default_overwrite_mode,
-	       char         *old_filename, 
-	       char         *new_filename,
-	       gboolean      show_overwrite_all_none)
+dlg_overwrite_run (GThumbWindow *window,
+		   int           default_overwrite_mode,
+		   const char   *old_filename, 
+		   const char   *new_filename,
+		   gboolean      show_overwrite_all_none)
 {
 	GladeXML    *gui;
 	GtkWidget   *dialog;
@@ -753,11 +887,11 @@ dlg_file_rename_series (GThumbWindow *window,
 		if ((overwrite_result != OVERWRITE_ALL)
 		    && (overwrite_result != OVERWRITE_NONE)
 		    && file_exists)
-			overwrite_result = dlg_overwrite (window, 
-							  overwrite_result,
-							  old_full_path,
-							  new_full_path,
-							  show_ow_all_none);
+			overwrite_result = dlg_overwrite_run (window, 
+							      overwrite_result,
+							      old_full_path,
+							      new_full_path,
+							      show_ow_all_none);
 
 		if (file_exists 
 		    && ((overwrite_result == OVERWRITE_NONE)
@@ -794,7 +928,7 @@ dlg_file_rename_series (GThumbWindow *window,
 	all_windows_add_monitor ();
 
 	if (error) {
-		char *msg;
+		const char *msg;
 
 		if (g_list_length (error_list) == 1)
 			msg = _("Could not rename the image:");
@@ -814,15 +948,750 @@ dlg_file_rename_series (GThumbWindow *window,
 
 
 
-/* -- dlg_folder_move -- */
+/* -- dlg_files_copy -- */
+
+typedef struct {
+	GList               *file_list;
+	GList               *current_file;
+	GList               *copied_list;
+	char                *destination;
+	gboolean             remove_source;
+	gboolean             copy_cache;
+	GThumbWindow        *window;
+
+	FileOpDoneFunc       done_func;
+	gpointer             done_data;
+
+	GladeXML            *gui;
+	GtkWidget           *progress_dialog;
+	GtkWidget           *progress_progressbar;
+	GtkWidget           *progress_info;
+
+	guint                timeout_id;
+
+	GnomeVFSAsyncHandle *handle;
+	GnomeVFSResult       result;
+	OverwriteResult      overwrite_result;
+	gboolean             cache_copied;
+
+	int                  file_index;
+	int                  files_total;
+	gboolean             continue_dialog_visible;
+	gboolean             overwrite_dialog_visible;
+} FileCopyData;
+
+
+static void
+file_copy_data_free (FileCopyData *fcdata)
+{
+	if (fcdata == NULL)
+		return;
+
+	if (fcdata->timeout_id != 0) {
+		g_source_remove (fcdata->timeout_id);
+		fcdata->timeout_id = 0;
+	}
+
+	gtk_widget_destroy (fcdata->progress_dialog);
+	g_object_unref (fcdata->gui);
+	path_list_free (fcdata->file_list);
+	g_list_free (fcdata->copied_list);
+	g_free (fcdata->destination);
+	g_free (fcdata);
+}
+
+
+static int
+file_copy__display_progress_dialog (gpointer data)
+{
+	FileCopyData *fcdata = data;
+
+	if (fcdata->timeout_id != 0) {
+		g_source_remove (fcdata->timeout_id);
+		fcdata->timeout_id = 0;
+	}
+
+	if (! fcdata->continue_dialog_visible 
+	    && ! fcdata->overwrite_dialog_visible)
+		gtk_widget_show (fcdata->progress_dialog);
+
+	return FALSE;
+}
+
+
+static void copy_next_file (FileCopyData *fcdata);
+
+
+static void
+continue_or_abort__response_cb (GtkWidget *dialog,
+				int        response_id,
+				gpointer   data)
+{
+	FileCopyData *fcdata = data;
+
+	if (response_id == GTK_RESPONSE_YES) {
+		gtk_widget_show (fcdata->progress_dialog);
+		copy_next_file (fcdata);
+
+	} else {
+		file_copy_data_free (fcdata);
+		if (fcdata->done_func != NULL)
+			(*fcdata->done_func) (GNOME_VFS_ERROR_INTERRUPTED, fcdata->done_data);
+	}
+
+	fcdata->continue_dialog_visible = FALSE;
+	gtk_widget_destroy (dialog);
+}
+
+
+static void
+continue_or_abort_dialog (FileCopyData   *fcdata,
+			  GnomeVFSResult  result)
+{
+	GtkWidget  *d;
+	const char *error;
+	const char *src_file;
+	char       *message;
+	char       *utf8_name;
+
+	fcdata->result = result;
+	src_file = fcdata->current_file->data;
+
+	if (fcdata->remove_source)
+		error = _("Could not move the image:");
+	else
+		error = _("Could not copy the image:");
+	utf8_name = g_locale_to_utf8 (file_name_from_path (src_file), -1, 0, 0, 0);
+	message = g_strconcat (error, 
+			       " ",
+			       utf8_name, 
+			       "\n\n",
+			       gnome_vfs_result_to_string (result),
+			       NULL);
+	g_free (utf8_name);
+	
+	d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window->app),
+				   GTK_DIALOG_MODAL,
+				   message,
+				   _("_Abort"),
+				   _("_Continue"));
+
+	g_free (message);
+
+	g_signal_connect (G_OBJECT (d),
+			  "response", 
+			  G_CALLBACK (continue_or_abort__response_cb), 
+			  fcdata);
+
+	fcdata->continue_dialog_visible = TRUE;
+
+	gtk_widget_hide (fcdata->progress_dialog);
+	gtk_widget_show (d);
+}
+
+
+static int
+file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+			 GnomeVFSXferProgressInfo *info,
+			 gpointer                  data)
+{
+	FileCopyData *fcdata = data;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		fcdata->result = info->vfs_status;
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+		if (fcdata->result == GNOME_VFS_OK) {
+			if (! fcdata->cache_copied) /* do not notify cache data. */
+				fcdata->copied_list = g_list_prepend (fcdata->copied_list, fcdata->current_file->data);
+			copy_next_file (fcdata);
+		} else
+			continue_or_abort_dialog (fcdata, info->vfs_status);
+	}
+
+	return TRUE;
+}
+
+
+static void
+xfer_file (FileCopyData *fcdata,
+	   const char   *src_file,
+	   const char   *dest_file)
+{
+	GnomeVFSURI               *src_uri, *dest_uri;
+	GList                     *src_list, *dest_list;
+	GnomeVFSXferOptions        xfer_options;
+	GnomeVFSXferErrorMode      xfer_error_mode;
+	GnomeVFSXferOverwriteMode  overwrite_mode;
+	GnomeVFSResult             result;
+
+	src_uri = new_uri_from_path (src_file);
+	src_list = g_list_append (NULL, src_uri);
+
+	dest_uri = new_uri_from_path (dest_file);
+	dest_list = g_list_append (NULL, dest_uri);
+
+	xfer_options    = fcdata->remove_source ? GNOME_VFS_XFER_REMOVESOURCE : 0;
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
+	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
+
+	result = gnome_vfs_async_xfer (&fcdata->handle,
+				       src_list,
+				       dest_list,
+				       xfer_options,
+				       xfer_error_mode,
+				       overwrite_mode,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       file_progress_update_cb,
+				       fcdata,
+				       NULL,
+				       NULL);
+
+	gnome_vfs_uri_unref (src_uri);
+	g_list_free (src_list);
+
+	gnome_vfs_uri_unref (dest_uri);
+	g_list_free (dest_list);
+
+	/**/
+
+	if (result != GNOME_VFS_OK) 
+		continue_or_abort_dialog (fcdata, result);
+}
+
+
+static void
+copy_current_file__overwrite (GnomeVFSResult  result,
+			      gpointer        data)
+{
+	FileCopyData *fcdata = data;
+	char         *src_file;
+	char         *dest_file;
+
+	fcdata->overwrite_dialog_visible = FALSE;
+	gtk_widget_show (fcdata->progress_dialog);
+
+	fcdata->overwrite_result = (OverwriteResult) result;
+
+	switch (fcdata->overwrite_result) {
+	case OVERWRITE_YES:
+	case OVERWRITE_ALL:
+		src_file = fcdata->current_file->data;
+		dest_file = g_build_path ("/",
+					  fcdata->destination, 
+					  file_name_from_path (src_file),
+					  NULL);
+		xfer_file (fcdata, src_file, dest_file);
+		g_free (dest_file);
+		break;
+
+	case OVERWRITE_NO:
+	case OVERWRITE_NONE:
+		copy_next_file (fcdata);
+		break;
+	}
+}
+
+
+static void
+copy_current_file (FileCopyData *fcdata)
+{
+	const char   *src_file;
+	char         *dest_file;
+	char         *message;
+	float         fraction;
+	GnomeVFSURI  *dest_uri;
+	gboolean      skip = FALSE;
+
+	message = g_strdup_printf (_("Copying file %d of %d"), 
+				   fcdata->file_index,
+				   fcdata->files_total);
+	gtk_label_set_text (GTK_LABEL (fcdata->progress_info), message);
+	g_free (message);
+
+	fraction = (float) fcdata->file_index / fcdata->files_total;
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), fraction);
+
+	/**/
+
+	fcdata->result = GNOME_VFS_OK;
+
+	src_file = fcdata->current_file->data;
+	dest_file = g_build_path ("/",
+				  fcdata->destination, 
+				  file_name_from_path (src_file),
+				  NULL);
+	dest_uri = new_uri_from_path (dest_file);
+
+	if (gnome_vfs_uri_exists (dest_uri)) {
+		if (fcdata->overwrite_result == OVERWRITE_ALL)
+			skip = FALSE;
+		else if (fcdata->overwrite_result == OVERWRITE_NONE)
+			skip = TRUE;
+		else {
+			GtkWidget *d;
+			d = dlg_overwrite (fcdata->window, 
+					   fcdata->overwrite_result,
+					   dest_file,
+					   src_file,
+					   fcdata->current_file->next != NULL,
+					   copy_current_file__overwrite,
+					   fcdata);
+			gtk_widget_show (d);
+
+			fcdata->overwrite_dialog_visible = TRUE;
+
+			g_free (dest_file);
+			gnome_vfs_uri_unref (dest_uri);
+			return;
+		}
+	}
+
+	gnome_vfs_uri_unref (dest_uri);
+
+	if (skip) {
+		g_free (dest_file);
+		copy_next_file (fcdata);
+
+	} else {
+		xfer_file (fcdata, src_file, dest_file);
+		g_free (dest_file);
+	}
+}
+
+
+static void
+files_copy__done (FileCopyData *fcdata)
+{
+	all_windows_notify_files_deleted (fcdata->copied_list);
+	if (fcdata->copied_list != NULL)
+		all_windows_notify_update_directory (fcdata->destination);
+	
+	if (fcdata->done_func != NULL)
+		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
+	file_copy_data_free (fcdata);
+}
+
+
+static void
+copy_next_file (FileCopyData *fcdata)
+{
+	GList                     *src_list = NULL;
+	GList                     *dest_list = NULL;
+	GnomeVFSXferOptions        xfer_options;
+	GnomeVFSXferErrorMode      xfer_error_mode;
+	GnomeVFSXferOverwriteMode  overwrite_mode;
+	GnomeVFSResult             result;
+	GList                     *scan;
+
+	fcdata->current_file = fcdata->current_file->next;
+	fcdata->file_index++;
+
+	if (fcdata->current_file != NULL) {
+		copy_current_file (fcdata);
+		return;
+	}
+	
+	if (! fcdata->copy_cache || fcdata->cache_copied) {
+		files_copy__done (fcdata);
+		return;
+	}
+
+	/* copy cache */
+
+	fcdata->cache_copied = TRUE;
+
+	for (scan = fcdata->file_list; scan; scan = scan->next) {
+		char *src_file = scan->data;
+		char *dest_file;
+		char *src_cache;
+		char *dest_cache;
+		
+		dest_file = g_strconcat (fcdata->destination,
+					 "/", 
+					 file_name_from_path (src_file), 
+					 NULL);
+		
+		src_cache = comments_get_comment_dir (src_file);
+		dest_cache = comments_get_comment_dir (dest_file);
+
+		if (path_is_dir (src_cache)) {
+			char *parent_dir = remove_level_from_path (dest_cache);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+			
+			src_list = g_list_append (src_list, new_uri_from_path (src_cache));
+			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache));
+		}
+
+		g_free (src_cache);
+		g_free (dest_cache);
+
+		/**/
+		
+		src_cache = cache_get_nautilus_cache_dir (src_file);
+		dest_cache = cache_get_nautilus_cache_dir (dest_file);
+		
+		if (path_is_dir (src_cache)) {
+			char *parent_dir = remove_level_from_path (dest_cache);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+			
+			src_list = g_list_append (src_list, new_uri_from_path (src_cache));
+			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache));
+		}
+		
+		g_free (dest_file);
+	}
+	
+	if (src_list == NULL) {
+		files_copy__done (fcdata);
+		return;
+	}
+
+	xfer_options    = fcdata->remove_source ? GNOME_VFS_XFER_REMOVESOURCE : 0;
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
+
+	result = gnome_vfs_async_xfer (&fcdata->handle,
+				       src_list,
+				       dest_list,
+				       xfer_options,
+				       xfer_error_mode,
+				       overwrite_mode,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       file_progress_update_cb,
+				       fcdata,
+				       NULL,
+				       NULL);
+
+	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
+	g_list_free (src_list);
+	g_list_foreach (dest_list, (GFunc) gnome_vfs_uri_unref, NULL);
+	g_list_free (dest_list);
+
+	if (result != GNOME_VFS_OK) {
+		fcdata->result = result;
+		files_copy__done (fcdata);
+	}
+}
+
+
+void
+dlg_files_copy (GThumbWindow   *window,
+		GList          *file_list,
+		const char     *dest_path,
+		gboolean        remove_source,
+		gboolean        copy_cache,
+		FileOpDoneFunc  done_func,
+		gpointer        done_data)
+{
+	FileCopyData              *fcdata;
+
+	if (! path_is_dir (dest_path))
+		return;
+
+	if (file_list == NULL)
+		return;
+
+	fcdata = g_new0 (FileCopyData, 1);
+
+	fcdata->window = window;
+	fcdata->file_list = path_list_dup (file_list);
+	fcdata->copied_list = NULL;
+	fcdata->current_file = file_list;
+	fcdata->destination = g_strdup (dest_path);
+	fcdata->remove_source = remove_source;
+	fcdata->copy_cache = copy_cache;
+	fcdata->done_func = done_func;
+	fcdata->done_data = done_data;
+
+	fcdata->overwrite_result = OVERWRITE_NO;
+	fcdata->cache_copied = FALSE;
+
+	fcdata->file_index = 1;
+	fcdata->files_total = g_list_length (file_list);
+	fcdata->continue_dialog_visible = FALSE;
+	fcdata->overwrite_dialog_visible = FALSE;
+
+	/**/
+
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	if (! fcdata->gui) {
+		file_copy_data_free (fcdata);
+		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		return;
+	}
+
+	fcdata->progress_dialog = glade_xml_get_widget (fcdata->gui, "progress_dialog");
+	fcdata->progress_progressbar = glade_xml_get_widget (fcdata->gui, "progress_progressbar");
+	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
+	
+	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
+				      GTK_WINDOW (fcdata->window->app));
+	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
+
+	fcdata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
+					    file_copy__display_progress_dialog,
+					    fcdata);
+
+	copy_current_file (fcdata);
+}
+
+
+void
+dlg_files_move_to_trash (GThumbWindow   *window,
+			 GList          *file_list,
+			 FileOpDoneFunc  done_func,
+			 gpointer        done_data)
+{
+	char        *e_path;
+	GnomeVFSURI *first_uri, *trash_uri;
+
+	g_return_if_fail (file_list != NULL);
+
+	e_path = gnome_vfs_escape_path_string (file_list->data);
+	first_uri = gnome_vfs_uri_new (e_path);
+	g_free (e_path);
+	
+	gnome_vfs_find_directory (first_uri, 
+				  GNOME_VFS_DIRECTORY_KIND_TRASH,
+				  &trash_uri, 
+				  TRUE,
+				  TRUE,
+				  0777);
+
+	if (trash_uri != NULL) {
+		char *trash_path;
+
+		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		dlg_files_copy (window, 
+				file_list, 
+				trash_path,
+				TRUE, 
+				FALSE, 
+				done_func, 
+				done_data);
+
+		g_free (trash_path);
+		gnome_vfs_uri_unref (trash_uri);
+
+	} else if (done_func != NULL)
+		(*done_func) (GNOME_VFS_ERROR_NOT_FOUND, done_data);
+
+	gnome_vfs_uri_unref (first_uri);
+}
+
+
+
+/* -- dlg_files_delete -- */
+
+
+typedef struct {
+	GladeXML            *gui;
+	GtkWidget           *progress_dialog;
+	GtkWidget           *progress_progressbar;
+	GtkWidget           *progress_info;
+
+	GThumbWindow        *window;
+	GList               *file_list;
+	FileOpDoneFunc       done_func;
+	gpointer             done_data;
+	GnomeVFSResult       result;
+
+	guint                timeout_id;
+
+	GnomeVFSAsyncHandle *handle;
+} FileDeleteData;
+
+
+static void
+file_delete_data_free (FileDeleteData *fddata)
+{
+	if (fddata == NULL)
+		return;
+
+	if (fddata->timeout_id != 0) {
+		g_source_remove (fddata->timeout_id);
+		fddata->timeout_id = 0;
+	}
+
+	gtk_widget_destroy (fddata->progress_dialog);
+	g_object_unref (fddata->gui);
+	path_list_free (fddata->file_list);
+	g_free (fddata);
+}
+
+
+static int
+file_delete__display_progress_dialog (gpointer data)
+{
+	FileDeleteData *fddata = data;
+	
+	if (fddata->timeout_id != 0) {
+		g_source_remove (fddata->timeout_id);
+		fddata->timeout_id = 0;
+	}
+
+	gtk_widget_show (fddata->progress_dialog);
+
+	return FALSE;
+}
+
+
+static void
+files_delete__done (FileDeleteData *fddata)
+{
+	if (fddata->result == GNOME_VFS_OK)
+		all_windows_notify_files_deleted (fddata->file_list);
+	
+	if (fddata->done_func != NULL)
+		(*fddata->done_func) (fddata->result, fddata->done_data);
+	file_delete_data_free (fddata);
+}
+
+
+static int
+file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+				GnomeVFSXferProgressInfo *info,
+				gpointer                  data)
+{
+	FileDeleteData *fddata = data;
+	char           *message = NULL;
+	float           fraction;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		fddata->result = info->vfs_status;
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
+		message = g_strdup (_("Collecting images info"));
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
+		message = g_strdup_printf (_("Deleting file %ld of %ld"), 
+					   info->file_index,
+					   info->files_total);
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+		files_delete__done (fddata);
+		return TRUE;
+	}
+
+	if (message != NULL) {
+		gtk_label_set_text (GTK_LABEL (fddata->progress_info), message);
+		g_free (message);
+	}
+
+	if (info->bytes_total != 0) {
+		fraction = (float)info->total_bytes_copied / info->bytes_total;
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar), fraction);
+	}
+
+	return TRUE;
+}
+
+
+void
+dlg_files_delete (GThumbWindow   *window,
+		  GList          *file_list,
+		  FileOpDoneFunc  done_func,
+		  gpointer        done_data)
+{
+	FileDeleteData            *fddata;
+	GList                     *src_list = NULL;
+	GnomeVFSXferOptions        xfer_options;
+	GnomeVFSXferErrorMode      xfer_error_mode;
+	GnomeVFSXferOverwriteMode  overwrite_mode;
+	GnomeVFSResult             result;
+	GList                     *scan;
+
+	g_return_if_fail (file_list != NULL);
+
+	fddata = g_new0 (FileDeleteData, 1);
+
+	fddata->window = window;
+	fddata->file_list = path_list_dup (file_list);
+	fddata->done_func = done_func;
+	fddata->done_data = done_data;
+
+	fddata->result = GNOME_VFS_OK;
+
+	/**/
+
+	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	if (! fddata->gui) {
+		file_delete_data_free (fddata);
+		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		return;
+	}
+
+	fddata->progress_dialog = glade_xml_get_widget (fddata->gui, "progress_dialog");
+	fddata->progress_progressbar = glade_xml_get_widget (fddata->gui, "progress_progressbar");
+	fddata->progress_info = glade_xml_get_widget (fddata->gui, "progress_info");
+	
+	gtk_window_set_transient_for (GTK_WINDOW (fddata->progress_dialog),
+				      GTK_WINDOW (fddata->window->app));
+	gtk_window_set_modal (GTK_WINDOW (fddata->progress_dialog), FALSE);
+
+	fddata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
+					    file_delete__display_progress_dialog,
+					    fddata);
+
+	/**/
+
+	for (scan = fddata->file_list; scan; scan = scan->next) {
+		const char  *path = scan->data;
+		GnomeVFSURI *uri;
+
+		uri = new_uri_from_path (path);
+		src_list = g_list_prepend (src_list, uri);
+	}
+
+	if (src_list == NULL) {
+		files_delete__done (fddata);
+		return;
+	}
+	
+	xfer_options    = GNOME_VFS_XFER_DELETE_ITEMS;
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
+
+	result = gnome_vfs_async_xfer (&fddata->handle,
+				       src_list,
+				       NULL,
+				       xfer_options,
+				       xfer_error_mode,
+				       overwrite_mode,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       file_delete_progress_update_cb,
+				       fddata,
+				       NULL,
+				       NULL);
+
+	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
+	g_list_free (src_list);
+
+	if (result != GNOME_VFS_OK) {
+		fddata->result = result;
+		files_delete__done (fddata);
+	}
+}
+
+
+
+/* -- dlg_folder_copy -- */
 
 
 typedef struct {
 	char                *source;
 	char                *destination;
-	gboolean             remove_source;
-	gboolean             copy_cache;
+	FileOp               file_op;
+	gboolean             include_cache;
 	GThumbWindow        *window;
+
+	FileOpDoneFunc       done_func;
+	gpointer             done_data;
+
+	guint                timeout_id;
 
 	GladeXML            *gui;
 	GtkWidget           *progress_dialog;
@@ -830,7 +1699,23 @@ typedef struct {
 	GtkWidget           *progress_info;
 
 	GnomeVFSAsyncHandle *handle;
+	GnomeVFSResult       result;
 } FolderCopyData;
+
+
+static void
+destroy_progress_dialog (FolderCopyData *fcdata)
+{
+	if (fcdata->timeout_id != 0) {
+		g_source_remove (fcdata->timeout_id);
+		fcdata->timeout_id = 0;
+	}
+
+	if (fcdata->progress_dialog != NULL) {
+		gtk_widget_destroy (fcdata->progress_dialog);
+		fcdata->progress_dialog = NULL;
+	}
+}
 
 
 static void
@@ -838,7 +1723,8 @@ folder_copy_data_free (FolderCopyData *fcdata)
 {
 	if (fcdata == NULL)
 		return;
-	gtk_widget_destroy (fcdata->progress_dialog);
+
+	destroy_progress_dialog (fcdata);
 	g_object_unref (fcdata->gui);
 	g_free (fcdata->source);
 	g_free (fcdata->destination);
@@ -847,20 +1733,21 @@ folder_copy_data_free (FolderCopyData *fcdata)
 
 
 static int
-progress_update_cb (GnomeVFSAsyncHandle      *handle,
-		    GnomeVFSXferProgressInfo *info,
-		    gpointer                  data)
+folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
+			   GnomeVFSXferProgressInfo *info,
+			   gpointer                  data)
 {
 	FolderCopyData *fcdata = data;
 	int             result = TRUE;
 	char           *message = NULL;
 	float           fraction;
 
-	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) 
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		fcdata->result = info->vfs_status;
 		return TRUE;
 
-	if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
-		gtk_widget_show_all (fcdata->progress_dialog);		
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
+		/**/
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
 		message = g_strdup (_("Collecting images info"));
@@ -869,14 +1756,31 @@ progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		message = g_strdup_printf (_("Copying file %ld of %ld"), 
 					   info->file_index,
 					   info->files_total);
-
+		
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_MOVING) {
+		message = g_strdup_printf (_("Moving file %ld of %ld"), 
+					   info->file_index,
+					   info->files_total);
+		
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_DELETESOURCE) {
+		message = g_strdup_printf (_("Deleting file %ld of %ld"), 
+					   info->file_index,
+					   info->files_total);
+		
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		if (fcdata->remove_source)
-			all_windows_notify_directory_rename (fcdata->source, 
-							     fcdata->destination);
-		else
-			all_windows_notify_directory_new (fcdata->destination);
+		if (fcdata->result == GNOME_VFS_OK) {
+			if (fcdata->file_op == FILE_OP_COPY)
+				all_windows_notify_directory_new (fcdata->destination); 
+			else if (fcdata->file_op == FILE_OP_MOVE)
+				all_windows_notify_directory_rename (fcdata->source, 
+								     fcdata->destination);
+			else if (fcdata->file_op == FILE_OP_DELETE)
+				all_windows_notify_directory_delete (fcdata->source);
+		}
 
+		destroy_progress_dialog (fcdata);		
+		if (fcdata->done_func != NULL)
+			(*fcdata->done_func) (fcdata->result, fcdata->done_data);
 		folder_copy_data_free (fcdata);
 
 		return result;
@@ -897,27 +1801,15 @@ progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 
 static int 
-progress_sync_cb (GnomeVFSXferProgressInfo *info,
-		  gpointer                  data)
+folder_progress_sync_cb (GnomeVFSXferProgressInfo *info,
+			 gpointer                  data)
 {
-	FolderCopyData *fcdata = data;	
-	int             ret_val;
+	int ret_val;
 
 	if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		ret_val = TRUE;
 		
 	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR) {
-		const char *message;
-		char       *utf8_name;
-
-		message = fcdata->remove_source ? _("Could not move folder \"%s\" : %s") : _("Could not copy folder \"%s\" : %s");
-		utf8_name = g_locale_to_utf8 (fcdata->source, -1, 0, 0, 0);
-		_gtk_error_dialog_run (GTK_WINDOW (fcdata->window->app),
-				       message, 
-				       utf8_name, 
-				       gnome_vfs_result_to_string (info->vfs_status));
-		g_free (utf8_name);
-
 		ret_val = GNOME_VFS_XFER_ERROR_ACTION_ABORT;
 
 	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OVERWRITE) {
@@ -928,26 +1820,30 @@ progress_sync_cb (GnomeVFSXferProgressInfo *info,
 }
 
 
-GnomeVFSURI *
-new_uri_from_path (const char *path)
+static int
+folder_copy__display_progress_dialog (gpointer data)
 {
-	char        *escaped;
-	GnomeVFSURI *uri;
+	FolderCopyData *fcdata = data;
+	
+	if (fcdata->timeout_id != 0) {
+		g_source_remove (fcdata->timeout_id);
+		fcdata->timeout_id = 0;
+	}
 
-	escaped = gnome_vfs_escape_path_string (path);
-	uri = gnome_vfs_uri_new (escaped);
-	g_free (escaped);
+	gtk_widget_show (fcdata->progress_dialog);
 
-	return uri;
+	return FALSE;
 }
 
 
-void
-dlg_folder_copy (GThumbWindow *window,
-		 const char   *src_path,
-		 const char   *dest_path,
-		 gboolean      remove_source,
-		 gboolean      copy_cache)
+static void
+folder_copy (GThumbWindow   *window,
+	     const char     *src_path,
+	     const char     *dest_path,
+	     FileOp          file_op,
+	     gboolean        include_cache,
+	     FileOpDoneFunc  done_func,
+	     gpointer        done_data)
 {
 	FolderCopyData            *fcdata;
 	GList                     *src_list = NULL;
@@ -965,8 +1861,12 @@ dlg_folder_copy (GThumbWindow *window,
 	fcdata->window = window;
 	fcdata->source = g_strdup (src_path);
 	fcdata->destination = g_strdup (dest_path);
-	fcdata->remove_source = remove_source;
-	fcdata->copy_cache = copy_cache;
+	fcdata->file_op = file_op;
+	fcdata->include_cache = include_cache;
+	fcdata->done_func = done_func;
+	fcdata->done_data = done_data;
+
+	fcdata->result = GNOME_VFS_OK;
 
 	/**/
 
@@ -985,12 +1885,18 @@ dlg_folder_copy (GThumbWindow *window,
 				      GTK_WINDOW (fcdata->window->app));
 	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
 
+	fcdata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
+					    folder_copy__display_progress_dialog,
+					    fcdata);
+
 	/**/
 
 	src_list = g_list_append (src_list, new_uri_from_path (src_path));
-	dest_list = g_list_append (dest_list, new_uri_from_path (dest_path));
 
-	if (fcdata->copy_cache) {
+	if (fcdata->file_op != FILE_OP_DELETE)
+		dest_list = g_list_append (dest_list, new_uri_from_path (dest_path));
+
+	if (fcdata->include_cache) {
 		char *src_cache;
 		char *dest_cache;
 
@@ -1004,8 +1910,10 @@ dlg_folder_copy (GThumbWindow *window,
 
 			src_list = g_list_append (src_list, 
 						  new_uri_from_path (src_cache));
-			dest_list = g_list_append (dest_list, 
-						   new_uri_from_path (dest_cache));
+
+			if (fcdata->file_op != FILE_OP_DELETE)
+				dest_list = g_list_append (dest_list, 
+							   new_uri_from_path (dest_cache));
 		}
 
 		g_free (src_cache);
@@ -1023,14 +1931,21 @@ dlg_folder_copy (GThumbWindow *window,
 
 			src_list = g_list_append (src_list, 
 						  new_uri_from_path (src_cache));
-			dest_list = g_list_append (dest_list, 
-						   new_uri_from_path (dest_cache));
+
+			if (fcdata->file_op != FILE_OP_DELETE)
+				dest_list = g_list_append (dest_list, 
+							   new_uri_from_path (dest_cache));
 		}
 	}
 
-	xfer_options = (GNOME_VFS_XFER_RECURSIVE 
-			| (remove_source ? GNOME_VFS_XFER_REMOVESOURCE : 0));
-	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	xfer_options = GNOME_VFS_XFER_RECURSIVE;
+	
+	if (fcdata->file_op == FILE_OP_MOVE)
+		xfer_options |= GNOME_VFS_XFER_REMOVESOURCE;
+	else if (fcdata->file_op == FILE_OP_DELETE)
+		xfer_options |= GNOME_VFS_XFER_DELETE_ITEMS;
+
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
 	overwrite_mode = GNOME_VFS_XFER_OVERWRITE_MODE_QUERY;
 
 	result = gnome_vfs_async_xfer (&fcdata->handle,
@@ -1040,9 +1955,9 @@ dlg_folder_copy (GThumbWindow *window,
 				       xfer_error_mode,
 				       overwrite_mode,
 				       GNOME_VFS_PRIORITY_DEFAULT,
-				       progress_update_cb,
+				       folder_progress_update_cb,
 				       fcdata,
-				       progress_sync_cb,
+				       folder_progress_sync_cb,
 				       fcdata);
 
 	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
@@ -1053,18 +1968,233 @@ dlg_folder_copy (GThumbWindow *window,
 	/**/
 
 	if (result != GNOME_VFS_OK) {
-		const char *message;
-		char       *utf8_name;
-		
-		message = fcdata->remove_source ? _("Could not move folder \"%s\" : %s") : _("Could not copy folder \"%s\" : %s");
-		utf8_name = g_locale_to_utf8 (fcdata->source, -1, 0, 0, 0);
-		_gtk_error_dialog_run (GTK_WINDOW (fcdata->window->app),
-				       message, 
-				       utf8_name, 
-				       gnome_vfs_result_to_string (result));
-		g_free (utf8_name);
 		folder_copy_data_free (fcdata);
+		if (done_func != NULL)
+			(*done_func) (result, done_data);
+	}
+}
 
+
+void
+dlg_folder_copy (GThumbWindow   *window,
+		 const char     *src_path,
+		 const char     *dest_path,
+		 gboolean        remove_source,
+		 gboolean        include_cache,
+		 FileOpDoneFunc  done_func,
+		 gpointer        done_data)
+{
+	folder_copy (window, 
+		     src_path,
+		     dest_path,
+		     remove_source ? FILE_OP_MOVE : FILE_OP_COPY,
+		     include_cache,
+		     done_func,
+		     done_data);
+}
+
+
+void
+dlg_folder_move_to_trash (GThumbWindow   *window,
+			  const char     *folder,
+			  FileOpDoneFunc  done_func,
+			  gpointer        done_data)
+{
+	char            *parent_dir;
+	char            *e_parent_dir;
+	GnomeVFSURI     *parent_uri, *trash_uri;
+
+	parent_dir = remove_level_from_path (folder);
+	e_parent_dir = gnome_vfs_escape_path_string (parent_dir);
+	parent_uri = gnome_vfs_uri_new (e_parent_dir);
+	
+	gnome_vfs_find_directory (parent_uri, 
+				  GNOME_VFS_DIRECTORY_KIND_TRASH,
+				  &trash_uri, 
+				  TRUE,
+				  TRUE,
+				  0777);
+
+	if (trash_uri != NULL) {
+		char *trash_path;
+		char *dest_folder;
+
+		trash_path = gnome_vfs_uri_to_string (trash_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		dest_folder = g_strconcat (trash_path, "/", file_name_from_path (folder), NULL);
+
+		folder_copy (window, 
+			     folder, 
+			     dest_folder, 
+			     FILE_OP_MOVE, 
+			     FALSE, 
+			     done_func, 
+			     done_data);
+
+		g_free (trash_path);
+		g_free (dest_folder);
+		gnome_vfs_uri_unref (trash_uri);
+
+	} else if (done_func != NULL)
+		(*done_func) (GNOME_VFS_ERROR_NOT_FOUND, done_data);
+
+	g_free (parent_dir);
+	g_free (e_parent_dir);
+	gnome_vfs_uri_unref (parent_uri);
+}
+
+
+void
+dlg_folder_delete (GThumbWindow   *window,
+		   const char     *folder,
+		   FileOpDoneFunc  done_func,
+		   gpointer        done_data)
+{
+	folder_copy (window, 
+		     folder, 
+		     NULL,
+		     FILE_OP_DELETE,
+		     TRUE, 
+		     done_func, 
+		     done_data);
+}
+
+
+/* -- dlg_copy_items -- */
+
+
+typedef struct {
+	GThumbWindow   *window;
+	GList          *item_list;
+	GList          *current_item;
+	GList          *dir_list;
+	GList          *file_list;
+	char           *destination;
+	gboolean        remove_source;
+	gboolean        include_cache;
+	FileOpDoneFunc  done_func;
+	gpointer        done_data;
+} CopyItemsData;
+
+
+static void
+copy_items_data_free (CopyItemsData *cidata)
+{
+	path_list_free (cidata->item_list);
+	g_list_free (cidata->dir_list);
+	g_list_free (cidata->file_list);
+	g_free (cidata->destination);
+	g_free (cidata);
+}
+
+
+static void
+copy_item__continue2 (GnomeVFSResult result,
+		      gpointer       data)
+{
+	CopyItemsData *cidata = data;
+
+	copy_items_data_free (cidata);
+	if (cidata->done_func != NULL)
+		(cidata->done_func) (result, cidata->done_data);
+}
+
+
+static void copy_current_item (CopyItemsData *cidata);
+
+
+static void
+copy_item__continue1 (GnomeVFSResult result,
+		      gpointer       data)
+{
+	CopyItemsData *cidata = data;
+	cidata->current_item = cidata->current_item->next;
+	copy_current_item (cidata);
+}
+
+
+static void
+copy_current_item (CopyItemsData *cidata)
+{
+	if (cidata->current_item == NULL) {
+		if (cidata->file_list == NULL) {
+			copy_items_data_free (cidata);
+			if (cidata->done_func != NULL)
+				(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+		} else
+			dlg_files_copy (cidata->window,
+					cidata->file_list,
+					cidata->destination,
+					cidata->remove_source,
+					TRUE,
+					copy_item__continue2,
+					cidata);
+
+	} else {
+		const char *src_path;
+		char       *dest_path;
+
+		src_path = cidata->current_item->data;
+		dest_path = g_strconcat (cidata->destination, 
+					 "/", 
+					 file_name_from_path (src_path), 
+					 NULL);
+
+		dlg_folder_copy (cidata->window,
+				 src_path,
+				 dest_path,
+				 cidata->remove_source,
+				 cidata->include_cache,
+				 copy_item__continue1,
+				 cidata);
+
+		g_free (dest_path);
+	}
+}
+
+
+void
+dlg_copy_items (GThumbWindow   *window,
+		GList          *item_list,
+		const char     *destination,
+		gboolean        remove_source,
+		gboolean        include_cache,
+		FileOpDoneFunc  done_func,
+		gpointer        done_data)
+{
+	GList         *scan;
+	CopyItemsData *cidata;
+
+	g_return_if_fail (item_list != NULL);
+	if (! path_is_dir (destination))
+		return;
+
+	cidata = g_new0 (CopyItemsData, 1);
+
+	cidata->window = window;
+	cidata->done_func = done_func;
+	cidata->done_data = done_data;
+	cidata->item_list = path_list_dup (item_list);
+	cidata->destination = g_strdup (destination);
+	cidata->remove_source = remove_source;
+	cidata->include_cache = include_cache;
+
+	for (scan = cidata->item_list; scan; scan = scan->next) {
+		char *path = scan->data;
+
+		if (path_is_dir (path))
+			cidata->dir_list = g_list_prepend (cidata->dir_list, path);
+		else if (path_is_file (path))
+			cidata->file_list = g_list_prepend (cidata->file_list, path);
+	}
+
+	if ((cidata->dir_list == NULL) 
+	    && (cidata->file_list == NULL)) {
+		copy_items_data_free (cidata);
+		if (done_func != NULL)
+			(done_func) (GNOME_VFS_OK, done_data);
 		return;
 	}
+
+	cidata->current_item = cidata->dir_list;
+	copy_current_item (cidata);
 }

@@ -861,7 +861,11 @@ image_loader_load_from_pixbuf_loader (ImageLoader *il,
 	g_return_if_fail (il != NULL);
 
 	image_loader_sync_pixbuf_from_loader (il, pixbuf_loader);
-	g_signal_emit (G_OBJECT (il), image_loader_signals[DONE], 0);
+
+	if ((il->priv->pixbuf == NULL) && (il->priv->animation == NULL))
+		g_signal_emit (G_OBJECT (il), image_loader_signals[ERROR], 0);
+	else
+		g_signal_emit (G_OBJECT (il), image_loader_signals[DONE], 0);
 }
 
 
@@ -904,6 +908,9 @@ image_loader_load_from_image_loader (ImageLoader *to,
 
 	g_mutex_unlock (to->priv->yes_or_no);
 
-	g_signal_emit (G_OBJECT (to), image_loader_signals[DONE], 0);
+	if ((to->priv->pixbuf == NULL) && (to->priv->animation == NULL))
+		g_signal_emit (G_OBJECT (to), image_loader_signals[ERROR], 0);
+	else
+		g_signal_emit (G_OBJECT (to), image_loader_signals[DONE], 0);
 }
 

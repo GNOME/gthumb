@@ -532,14 +532,15 @@ path_is_file (const gchar *path)
 
 
 gboolean
-path_is_dir (const gchar *path)
+path_is_dir (const char *path)
 {
 	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	gboolean is_dir;
-	gchar *escaped;
+	GnomeVFSResult    result;
+	gboolean          is_dir;
+	char             *escaped;
 
-	if (! path || ! *path) return FALSE; 
+	if (! path || ! *path) 
+		return FALSE; 
 
 	info = gnome_vfs_file_info_new ();
 	escaped = gnome_vfs_escape_path_string (path);
@@ -1359,4 +1360,18 @@ remove_special_dirs_from_path (const char *path)
 	g_strfreev (pathv);
 
 	return result;
+}
+
+
+GnomeVFSURI *
+new_uri_from_path (const char *path)
+{
+	char        *escaped;
+	GnomeVFSURI *uri;
+
+	escaped = gnome_vfs_escape_path_string (path);
+	uri = gnome_vfs_uri_new (escaped);
+	g_free (escaped);
+
+	return uri;
 }

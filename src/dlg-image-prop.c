@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
+#include <math.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -38,6 +39,7 @@
 #include "comments.h"
 #include "dlg-image-prop.h"
 #include "file-data.h"
+#include "gthumb-histogram.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
@@ -52,8 +54,8 @@ enum {
 };
 
 
-#define GLADE_FILE "gthumb.glade"
-#define PREVIEW_SIZE 80
+#define GLADE_FILE     "gthumb.glade"
+#define PREVIEW_SIZE   80
 
 
 typedef struct {
@@ -81,6 +83,13 @@ typedef struct {
 
 #endif /* HAVE_LIBEXIF */
 
+	GtkWidget     *i_histogram_channel_label;
+	GtkWidget     *i_histogram_channel;
+	GtkWidget     *i_histogram_channel_alpha;
+	GtkWidget     *i_histogram_graph;
+	GtkWidget     *i_histogram_gradient;
+
+	GthumbHistogram *histogram;
 } DialogData;
 
 
@@ -90,8 +99,124 @@ destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	data->window->image_prop_dlg = NULL;
+	gthumb_histogram_free (data->histogram);
 	g_object_unref (data->gui);
 	g_free (data);
+}
+
+
+static gboolean
+histogram_graph_expose_cb (GtkWidget      *widget,
+			   GdkEventExpose *event,
+			   DialogData     *data)
+{
+	GthumbHistogram *histogram = data->histogram;
+	int              w, h, i, y;
+	float            step;
+	double           max;
+	int              channel;
+
+	w = widget->allocation.width;
+	h = widget->allocation.height;
+	step = w / 256.0;
+
+	channel = gthumb_histogram_get_current_channel (histogram);
+
+	/* Draw an X through the graph area if user wants alpha channela nd
+	 * the image has no alpha channel */
+	if (channel > gthumb_histogram_get_nchannels (histogram)) {
+		gdk_draw_line (widget->window, 
+		               widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+		               0, 0, w, h);
+		gdk_draw_line (widget->window, 
+		               widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+		               w, 0, 0, h);
+		return FALSE;
+	}
+		
+	max = gthumb_histogram_get_max (histogram, channel);
+	if (max > 0.0)
+		max = log (max);
+	else
+		max = 1.0;
+
+	for (i = 0; i < 256; i++) {
+		double value = gthumb_histogram_get_value (histogram, channel, i);
+		y = (int) (h * log (value)) / max;
+
+		gdk_draw_rectangle (widget->window, 
+		                    widget->style->fg_gc[GTK_WIDGET_STATE (widget)],
+		                    TRUE,
+		                    i * step, 
+		                    h - y, 
+		                    1 + step, 
+				    h);
+	}
+
+	return FALSE;
+}
+
+
+static gboolean
+histogram_gradient_expose_cb (GtkWidget      *widget,
+			      GdkEventExpose *event,
+			      DialogData     *data)
+{
+	int       i, w, h;
+	float     step;
+	GdkGC    *gc;
+	GdkColor  color;
+	int       channel, shade;
+
+	w = widget->allocation.width;
+	h = widget->allocation.height;
+	step = w / 256.0;
+
+	channel = gthumb_histogram_get_current_channel (data->histogram);
+
+	/* display a black/white gradient for alpha channel */
+	if (channel == 4)
+		channel = 0;
+
+	gc = gdk_gc_new (widget->window);
+
+	/* draw the gradient in the necessary color for this channel */
+	for (i = 0; i < 256; i++) {
+		shade = (i << 8) + i;
+		color.red = (channel == 0 || channel == 1) ? shade : 0;
+		color.green = (channel == 0 || channel == 2) ? shade : 0;
+		color.blue = (channel == 0 || channel == 3) ? shade : 0;
+		gdk_gc_set_rgb_fg_color (gc, &color);
+		
+		gdk_draw_rectangle (widget->window, 
+		                    gc,
+		                    TRUE,
+		                    i * step, 
+		                    0, 
+		                    1 + step, 
+		                    h);
+	}
+
+	g_object_unref (gc);
+
+	return FALSE;
+}
+
+
+static void
+histogram_channel_changed_cb (GtkOptionMenu *option_menu, 
+			      DialogData   *data)
+{
+	int channel = gtk_option_menu_get_history(option_menu);
+
+	/* Take menu separator into account */
+	if (channel > 1)
+		channel--;
+
+	gthumb_histogram_set_current_channel (data->histogram, channel);
+
+	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_graph));
+	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_gradient));
 }
 
 
@@ -119,6 +244,7 @@ next_image_cb (GtkWidget    *widget,
 }
 
 
+
 GtkWidget *
 dlg_image_prop_new (GThumbWindow *window)
 {
@@ -150,6 +276,8 @@ dlg_image_prop_new (GThumbWindow *window)
 		return NULL;
 	}
 
+	data->histogram = gthumb_histogram_new ();
+
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "image_prop_window");
@@ -174,6 +302,12 @@ dlg_image_prop_new (GThumbWindow *window)
 #endif /* HAVE_LIBEXIF */
 
 	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
+
+	data->i_histogram_channel_label = glade_xml_get_widget (data->gui, "i_histogram_channel_label");
+	data->i_histogram_channel_alpha = glade_xml_get_widget (data->gui, "i_histogram_channel_alpha");
+	data->i_histogram_channel = glade_xml_get_widget (data->gui, "i_histogram_channel");
+	data->i_histogram_graph = glade_xml_get_widget (data->gui, "i_histogram_graph");
+	data->i_histogram_gradient = glade_xml_get_widget (data->gui, "i_histogram_gradient");
 
 	/* * set labels */
 
@@ -204,6 +338,11 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field6_label");
 	label = g_strdup_printf ("<b>%s:</b>", _("Last Modified"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_histogram_channel_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Information on Channel"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 
@@ -297,7 +436,22 @@ dlg_image_prop_new (GThumbWindow *window)
 			  "image_loaded",
 			  G_CALLBACK (image_loaded_cb), 
 			  data);
-	
+
+	g_signal_connect (G_OBJECT (data->i_histogram_graph), 
+			  "expose_event",
+			  G_CALLBACK (histogram_graph_expose_cb), 
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_histogram_gradient), 
+			  "expose_event",
+			  G_CALLBACK (histogram_gradient_expose_cb), 
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_histogram_channel), 
+			  "changed",
+			  G_CALLBACK (histogram_channel_changed_cb), 
+			  data);
+
 	/* Run dialog. */
 
 	gtk_widget_show_all (data->dialog);
@@ -426,6 +580,29 @@ update_comment (DialogData *data)
 }
 
 
+static void
+update_histogram (DialogData *data)
+{
+	ImageViewer  *viewer;
+	GdkPixbuf    *pixbuf;
+
+	viewer = IMAGE_VIEWER (data->window->viewer);
+	pixbuf = image_viewer_get_current_pixbuf (viewer);
+
+	gthumb_histogram_calculate (data->histogram, pixbuf);
+
+	/* disable alpha menu option if image has no alpha channel */
+
+	if (gthumb_histogram_get_nchannels (data->histogram) < 4)
+		gtk_widget_set_sensitive (data->i_histogram_channel_alpha, FALSE);
+	else
+		gtk_widget_set_sensitive (data->i_histogram_channel_alpha, TRUE);
+
+	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_graph));
+	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_gradient));
+}
+
+
 void
 dlg_image_prop_update (GtkWidget *image_prop_dlg)
 {
@@ -456,8 +633,8 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
-	} else {
 
+	} else {
 		utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
 		
@@ -506,6 +683,8 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 	update_exif_data (data);
 
 #endif /* HAVE_LIBEXIF */
+
+	update_histogram (data);
 
 	if (window->image_path != NULL) 
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), IMAGE_VIEWER (window->viewer)->loader);

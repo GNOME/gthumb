@@ -25,25 +25,69 @@
 
 #include "gthumb-window.h"
 
-gboolean dlg_file_delete          (GThumbWindow *window,
-				   GList        *list,
-				   const char   *message);
 
-void     dlg_file_move            (GThumbWindow *window,
-				   GList        *list);
+gboolean dlg_file_delete__confirm (GThumbWindow   *window,
+				   GList          *list,
+				   const char     *message);
 
-void     dlg_file_copy            (GThumbWindow *window,
-				   GList        *list);
+void     dlg_file_move__ask_dest  (GThumbWindow   *window,
+				   GList          *list);
 
-void     dlg_file_rename_series   (GThumbWindow *window,
-				   GList        *old_names,
-				   GList        *new_names);
+void     dlg_file_copy__ask_dest  (GThumbWindow   *window,
+				   GList          *list);
 
-void     dlg_folder_copy          (GThumbWindow *window,
-				   const char   *src_path,
-				   const char   *dest_path,
-				   gboolean      remove_source,
-				   gboolean      copy_cache);
+void     dlg_file_rename_series   (GThumbWindow   *window,
+				   GList          *old_names,
+				   GList          *new_names);
+
+/**/
+
+typedef void (*FileOpDoneFunc) (GnomeVFSResult result,
+				gpointer       data);
+
+void     dlg_files_copy           (GThumbWindow   *window,
+				   GList          *file_list,
+				   const char     *dest_path,
+				   gboolean        remove_source,
+				   gboolean        include_cache,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_files_move_to_trash  (GThumbWindow   *window,
+				   GList          *file_list,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_files_delete         (GThumbWindow   *window,
+				   GList          *file_list,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_folder_copy          (GThumbWindow   *window,
+				   const char     *src_path,
+				   const char     *dest_path,
+				   gboolean        remove_source,
+				   gboolean        include_cache,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_folder_move_to_trash (GThumbWindow   *window,
+				   const char     *folder,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_folder_delete        (GThumbWindow   *window,
+				   const char     *folder,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
+
+void     dlg_copy_items           (GThumbWindow   *window,
+				   GList          *item_list,
+				   const char     *destination,
+				   gboolean        remove_source,
+				   gboolean        include_cache,
+				   FileOpDoneFunc  done_func,
+				   gpointer        done_data);
 
 #endif /* DLG_FILE_UTILS_H */
 
