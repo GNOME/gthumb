@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-12-12 15:53+EDT\n"
+"PO-Revision-Date: 2002-12-21 22:37+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +99,7 @@ msgstr ""
 
 #: src/commands-impl.c:210 src/commands-impl.c:935 src/commands-impl.c:1345
 msgid "Enter the new name : "
-msgstr ""
+msgstr "አዲስ ስም አስገቡ ፦ "
 
 #: src/commands-impl.c:214 src/commands-impl.c:939 src/commands-impl.c:1349
 #: src/gthumb_tools.glade.h:78 src/gthumb-ui.xml.h:227
@@ -432,39 +432,39 @@ msgstr "*"
 
 #: src/gthumb.glade.h:4
 msgid "112 x 112"
-msgstr "112 x 112"
+msgstr "112 በ 112"
 
 #: src/gthumb.glade.h:5
 msgid "128 x 128"
-msgstr "128 x 128"
+msgstr "128 በ 128"
 
 #: src/gthumb.glade.h:6
 msgid "164 x 164"
-msgstr "164 x 164"
+msgstr "164 በ 164"
 
 #: src/gthumb.glade.h:7
 msgid "200 x 200"
-msgstr "200 x 200"
+msgstr "200 በ 200"
 
 #: src/gthumb.glade.h:8
 msgid "256 x 256"
-msgstr "256 x 256"
+msgstr "256 በ 256"
 
 #: src/gthumb.glade.h:9
 msgid "48 x 48"
-msgstr "48 x 48"
+msgstr "48 በ 48"
 
 #: src/gthumb.glade.h:10
 msgid "64 x 64"
-msgstr "64 x 64"
+msgstr "64 በ 64"
 
 #: src/gthumb.glade.h:11
 msgid "85 x 85"
-msgstr "85 x 85"
+msgstr "85 በ 85"
 
 #: src/gthumb.glade.h:12
 msgid "95 x 95"
-msgstr "95 x 95"
+msgstr "95 በ 95"
 
 #: src/gthumb.glade.h:13
 msgid ":"
@@ -472,7 +472,7 @@ msgstr "፦"
 
 #: src/gthumb.glade.h:14
 msgid "<b>Categories:</b>"
-msgstr "ምድብ"
+msgstr "<b>ምድብ፦</b>"
 
 #: src/gthumb.glade.h:15
 msgid "<b>Checks</b>"
@@ -480,11 +480,11 @@ msgstr ""
 
 #: src/gthumb.glade.h:16
 msgid "<b>Direction</b>"
-msgstr ""
+msgstr "<b>አቅጣጫ</b>"
 
 #: src/gthumb.glade.h:17
 msgid "<b>Hide/Show</b>"
-msgstr ""
+msgstr "<b>ደብቅ/አሳይ</b>"
 
 #: src/gthumb.glade.h:18
 msgid "<b>History</b>"
@@ -628,11 +628,11 @@ msgstr ""
 
 #: src/gthumb.glade.h:54
 msgid "H_igh"
-msgstr ""
+msgstr "ከፍ ያለ (_H)"
 
 #: src/gthumb.glade.h:55
 msgid "Icons only"
-msgstr "ምልክቶቸን ብቻ"
+msgstr "ምልክቶች ብቻ"
 
 #: src/gthumb.glade.h:56
 msgid "Keep previous zoom"
@@ -652,7 +652,7 @@ msgstr "ብርሃን"
 
 #: src/gthumb.glade.h:61
 msgid "Lo_w"
-msgstr ""
+msgstr "ዝቅ ያለ (_W)"
 
 #: src/gthumb.glade.h:62
 msgid "Max _history length:"
@@ -949,7 +949,7 @@ msgstr "እርዝማኔ፦"
 
 #: src/gthumb_edit.glade.h:14
 msgid "High _quality"
-msgstr ""
+msgstr "ከፍተኛ ጥራት (_Q)"
 
 #: src/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
@@ -1202,7 +1202,7 @@ msgstr "መደዳዎች እና ዐምዶች"
 
 #: src/gthumb_png_exporter.glade.h:48
 msgid "Select a color"
-msgstr "ቀላሙ ምረጥ"
+msgstr "ቀላም ምረጡ"
 
 #: src/gthumb_png_exporter.glade.h:49
 msgid "Shadow in"
@@ -1488,7 +1488,7 @@ msgstr "<b>ዘይቤ</b>"
 
 #: src/gthumb_tools.glade.h:17
 msgid "A_sk"
-msgstr ""
+msgstr "ጠይቅ (_S)"
 
 #: src/gthumb_tools.glade.h:18
 msgid "Apply to _all images"
@@ -1500,11 +1500,11 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:20
 msgid "Check _All"
-msgstr ""
+msgstr "ሁሉም አጣራ (_A)"
 
 #: src/gthumb_tools.glade.h:21
 msgid "Check _None"
-msgstr ""
+msgstr "ምንም አጣራ (_N)"
 
 #: src/gthumb_tools.glade.h:22
 msgid "Checking image:"
@@ -1536,7 +1536,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:35
 msgid "JPEG Options"
-msgstr ""
+msgstr "የJPEG ምርጫዎች"
 
 #: src/gthumb_tools.glade.h:36
 msgid "JPEG Transform"
@@ -1628,7 +1628,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:58
 msgid "S_kip"
-msgstr ""
+msgstr "ዝለል (_K)"
 
 #: src/gthumb_tools.glade.h:59
 msgid "Search terminated, no duplicates found."
@@ -1687,7 +1687,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:76
 msgid "_Quality:"
-msgstr ""
+msgstr "ጥራት፦ (Q)"
 
 #: src/gthumb_tools.glade.h:77
 msgid "_RLE compression"
@@ -1723,7 +1723,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:89
 msgid "by Modification date"
-msgstr ""
+msgstr "በተለወጠበት ቀን"
 
 #: src/gthumb_tools.glade.h:90
 msgid "by Name"
@@ -1800,7 +1800,7 @@ msgstr "ምድብ... (_t)"
 #: src/gthumb-ui.xml.h:14
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
-msgstr ""
+msgstr "ከፋፍል"
 
 #: src/gthumb-ui.xml.h:15
 msgid "Catalogs"
@@ -1848,7 +1848,7 @@ msgstr "አዲስ መስኮት ፍጠር"
 
 #: src/gthumb-ui.xml.h:28
 msgid "D_uplicate"
-msgstr ""
+msgstr "አባዛ (_P)"
 
 #: src/gthumb-ui.xml.h:29
 msgid "De_lete Comment"
@@ -1908,7 +1908,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:43
 msgid "Duplicate"
-msgstr ""
+msgstr "አባዛ"
 
 #: src/gthumb-ui.xml.h:44
 msgid "Duplicate selected image"
@@ -1968,7 +1968,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:59
 msgid "Go to the next visited location"
-msgstr ""
+msgstr "ወደሚቀጥለው የሚጎበኘው አቅጣጫ ሂድ"
 
 #: src/gthumb-ui.xml.h:60
 msgid "Go to the previuos visited location"
@@ -1976,7 +1976,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:61
 msgid "Go up one level"
-msgstr ""
+msgstr "አንድ ወደላይ ሂድ"
 
 #: src/gthumb-ui.xml.h:62
 msgid "Home"
@@ -1988,7 +1988,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:64
 msgid "Image Inf_ormation"
-msgstr ""
+msgstr "የምስል መረጃ (_O)"
 
 #: src/gthumb-ui.xml.h:65
 msgid "Image Toolbar"
@@ -2020,7 +2020,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:72
 msgid "Move Folder"
-msgstr ""
+msgstr "ዶሴን አስወግድ"
 
 #: src/gthumb-ui.xml.h:73
 msgid "Move current catalog to another location"
@@ -2094,7 +2094,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:92
 msgid "Open with..."
-msgstr "በ...ክፍት"
+msgstr "በ...ክፈት"
 
 #: src/gthumb-ui.xml.h:93
 msgid "Out"
@@ -2144,7 +2144,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:105
 msgid "Refresh"
-msgstr ""
+msgstr "አድስ"
 
 #: src/gthumb-ui.xml.h:106
 msgid "Reload the current location"
@@ -2515,7 +2515,7 @@ msgstr "ሥዕሎችን ፈልግ... (_F)"
 #: src/gthumb-ui.xml.h:199
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 msgid "_Flip"
-msgstr ""
+msgstr "በፍጥነት ግለጥ (_F)"
 
 #: src/gthumb-ui.xml.h:200
 msgid "_Folders"
@@ -2543,7 +2543,7 @@ msgstr "መረጃ (_H)"
 
 #: src/gthumb-ui.xml.h:206
 msgid "_High Quality"
-msgstr ""
+msgstr "ከፍተኛ ጥራት (_H)"
 
 #: src/gthumb-ui.xml.h:207
 msgid "_Home"
@@ -2576,7 +2576,7 @@ msgstr "ቦታ... (_L)"
 
 #: src/gthumb-ui.xml.h:214
 msgid "_Low Quality"
-msgstr ""
+msgstr "ዝቅተኛ ጥራት (_L)"
 
 #: src/gthumb-ui.xml.h:215
 msgid "_Maintenance"
@@ -2589,11 +2589,11 @@ msgstr ""
 #: src/gthumb-ui.xml.h:217
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_Mirror"
-msgstr ""
+msgstr "አንፀባረቀ (_M)"
 
 #: src/gthumb-ui.xml.h:218
 msgid "_Move..."
-msgstr ""
+msgstr "ምንቀሳቅስ... (_M)"
 
 #: src/gthumb-ui.xml.h:219
 msgid "_Negative"
@@ -2601,7 +2601,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:221
 msgid "_Open with..."
-msgstr "በ ክፍት"
+msgstr "በ... ክፈት (_O)"
 
 #: src/gthumb-ui.xml.h:222
 msgid "_Posterize"
@@ -2625,11 +2625,11 @@ msgstr "እንደገና መጧን ማስተሥከል (_R)"
 
 #: src/gthumb-ui.xml.h:230
 msgid "_Restore"
-msgstr ""
+msgstr "አከማች (_R)"
 
 #: src/gthumb-ui.xml.h:231
 msgid "_Reversed Order"
-msgstr ""
+msgstr "የተቀያየረ ቅደም ተከተል (_R)"
 
 #: src/gthumb-ui.xml.h:232
 msgid "_Rotate"
@@ -2641,11 +2641,11 @@ msgstr "በሌላ ስም አስቀምጥ... (_S)"
 
 #: src/gthumb-ui.xml.h:234
 msgid "_Scaled"
-msgstr ""
+msgstr "የተመዘነ (_S)"
 
 #: src/gthumb-ui.xml.h:235
 msgid "_Select All"
-msgstr "ሁሉንም ምረጥ (_S)"
+msgstr "ሁሉንም ምረጡ (_S)"
 
 #: src/gthumb-ui.xml.h:236
 msgid "_Slideshow"
@@ -2653,11 +2653,11 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:237
 msgid "_Sort Images"
-msgstr ""
+msgstr "ምስሎችን አስተካክል (_S)"
 
 #: src/gthumb-ui.xml.h:238
 msgid "_Statusbar"
-msgstr "ስታተስ ባር (_S)"
+msgstr "ስታተስባር (_S)"
 
 #: src/gthumb-ui.xml.h:239
 msgid "_Stop"
@@ -2725,12 +2725,12 @@ msgstr "%d ምስሎች (%s)"
 #: src/gthumb-window.c:1221
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 ተመርጠዋል (%s)"
 
 #: src/gthumb-window.c:1224
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d ተመርጠዋል (%s)"
 
 #: src/gthumb-window.c:2618
 msgid "Drag & Drop"
@@ -2759,7 +2759,7 @@ msgstr "በዓላት"
 
 #: src/main.c:153
 msgid "Temporary"
-msgstr ""
+msgstr "ጊዚያዊ"
 
 #: src/main.c:154
 msgid "Screenshots"
@@ -2771,11 +2771,11 @@ msgstr "ሳይንስ"
 
 #: src/main.c:156
 msgid "Favourite"
-msgstr ""
+msgstr "ተመራጭ"
 
 #: src/main.c:157
 msgid "Important"
-msgstr ""
+msgstr "አስፈላጊ"
 
 #: src/main.c:158
 msgid "GNOME"
@@ -2827,7 +2827,7 @@ msgstr "ጥቁርና ነጭ (_W)"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "Flip"
-msgstr ""
+msgstr "በፍጥነት ግለጥ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
 msgid "Flip the image"
@@ -2835,15 +2835,15 @@ msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "High"
-msgstr ""
+msgstr "ከፍ ያለ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Low"
-msgstr ""
+msgstr "ዝቅ ያለ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 msgid "Mirror"
-msgstr ""
+msgstr "አንፀባረቀ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 msgid "Mirror the image"
