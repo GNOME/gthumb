@@ -323,7 +323,7 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 GType
 catalog_web_exporter_get_type ()
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

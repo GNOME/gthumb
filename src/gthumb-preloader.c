@@ -218,7 +218,7 @@ gthumb_preloader_init (GThumbPreloader *gploader)
 GType
 gthumb_preloader_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {

@@ -1,3 +1,16 @@
+2004-10-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-png-exporter.c:
+	* src/catalog-web-exporter.c:
+	* src/e-combo-button.c:
+	* src/gth-exif-data-viewer.c
+	* src/gth-folder-selection-dialog.c 
+	* src/gth-image-selector.c
+	* src/gth-toggle-button.c 
+	* src/gthumb-preloader.c
+
+	s/guint/GType/  Patch by Dave Malcolm
+
 2004-09-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.4.2 released ]

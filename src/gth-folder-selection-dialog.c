@@ -517,7 +517,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 GType
 gth_folder_selection_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {
