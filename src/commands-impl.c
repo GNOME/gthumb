@@ -622,6 +622,7 @@ edit_delete_comment_command_impl (BonoboUIComponent *uic,
 			comments_save_comment (filename, cdata);
 		else
 			comment_delete (filename);
+		comment_data_free (cdata);
 
 		all_windows_notify_update_comment (filename);
 	}

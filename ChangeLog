@@ -1,3 +1,8 @@
+2002-12-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (edit_delete_comment_command_impl): free
+	allocated data.
+
 2002-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-file-utils.c (folder_copy): do not check dest_dir when

@@ -73,9 +73,9 @@
 #define UPDATE_DIR_DELAY       250
 #define VIEW_IMAGE_DELAY       25
 
-#define GLADE_EXPORTER_FILE   "gthumb_png_exporter.glade"
-#define HISTORY_LIST_MENU     "/menu/Go/HistoryList/"
-#define HISTORY_LIST_POPUP    "/popups/HistoryListPopup/"
+#define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
+#define HISTORY_LIST_MENU      "/menu/Go/HistoryList/"
+#define HISTORY_LIST_POPUP     "/popups/HistoryListPopup/"
 
 enum {
 	TARGET_PLAIN,

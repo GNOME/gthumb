@@ -1549,7 +1549,7 @@
 		  <property name="text" translatable="yes"></property>
 		  <property name="has_frame">True</property>
 		  <property name="invisible_char" translatable="yes">*</property>
-		  <property name="activates_default">True</property>
+		  <property name="activates_default">False</property>
 		</widget>
 	      </child>
 	    </widget>
@@ -1566,7 +1566,7 @@
 	    <widget class="GtkCheckButton" id="fd_include_subfolders_checkbutton">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label" translatable="yes">_Include Sub-Folders</property>
+	      <property name="label" translatable="yes">_Include sub-folders</property>
 	      <property name="use_underline">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="active">False</property>
