@@ -1546,6 +1546,110 @@ edit_current_folder_move_command_impl (BonoboUIComponent *uic,
 }
 
 
+/**/
+
+typedef struct {
+	GThumbWindow  *window;
+	GList         *file_list;
+	GList         *add_list, *remove_list;
+} FolderCategoriesData;
+
+
+static void
+edit_current_folder_categories__done (gpointer data)
+{
+	FolderCategoriesData *fcdata = data;
+	GList                *scan;
+	
+	for (scan = fcdata->file_list; scan; scan = scan->next) {
+		const char  *filename = scan->data;
+		CommentData *cdata;
+		GList       *scan2;
+
+		cdata = comments_load_comment (filename);
+		if (cdata == NULL)
+			cdata = comment_data_new ();
+		else 
+			for (scan2 = fcdata->remove_list; scan2; scan2 = scan2->next) {
+				const char *k = scan2->data;
+				comment_data_remove_keyword (cdata, k);
+			}
+
+		for (scan2 = fcdata->add_list; scan2; scan2 = scan2->next) {
+			const char *k = scan2->data;
+			comment_data_add_keyword (cdata, k);
+		}
+
+		comments_save_categories (filename, cdata);
+		comment_data_free (cdata);
+
+		dir_list_remove_directory (fcdata->window->dir_list, filename);
+		dir_list_add_directory (fcdata->window->dir_list, filename);
+	}
+
+	path_list_free (fcdata->file_list);
+	path_list_free (fcdata->add_list);
+	path_list_free (fcdata->remove_list);
+	g_free (fcdata);
+}
+
+
+static void 
+edit_current_folder_categories (GThumbWindow  *window,
+				const char    *path)
+{
+	FolderCategoriesData *fcdata;
+
+	fcdata = g_new0 (FolderCategoriesData, 1);
+	fcdata->window = window;
+	fcdata->add_list = NULL;
+	fcdata->remove_list = NULL;
+	fcdata->file_list = g_list_prepend (NULL, g_strdup (path));
+
+	dlg_choose_categories (GTK_WINDOW (window->app),
+			       fcdata->file_list,
+			       NULL,
+			       &(fcdata->add_list),
+			       &(fcdata->remove_list),
+			       edit_current_folder_categories__done,
+			       fcdata);
+}
+
+
+void 
+edit_current_folder_categories_command_impl (BonoboUIComponent *uic, 
+					     gpointer           user_data, 
+					     const gchar       *verbname)
+{
+	GThumbWindow         *window = user_data;
+	char                 *path;
+
+	path = window->dir_list->path;
+	if (path == NULL)
+		return;
+
+	edit_current_folder_categories (window, path);
+}
+
+
+void 
+edit_folder_categories_command_impl (BonoboUIComponent *uic, 
+				     gpointer           user_data, 
+				     const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	char         *path;
+
+	path = dir_list_get_selected_path (window->dir_list);
+	if (path == NULL)
+		return;
+
+	edit_current_folder_categories (window, path);
+
+	g_free (path);
+}
+
+
 void 
 edit_folder_copy_command_impl (BonoboUIComponent *uic, 
 			       gpointer           user_data, 

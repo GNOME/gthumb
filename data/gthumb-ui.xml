@@ -135,6 +135,8 @@
 	     _tip="Copy selected folder"/>
 	<cmd name="EditDir_Move" _label="_Move..." 
 	     _tip="Move selected folder"/>
+	<cmd name="EditDir_Categories" _label="Ca_tegories" 
+	     _tip="Assign categories to the selected folder"/>
 
 	<cmd name="EditCurrentDir_Open" _label="Open with the _File Manager" 
 	     _tip="Open current folder with the Nautilus file manager"/>
@@ -149,6 +151,8 @@
 	     _tip="Move current folder"/>
 	<cmd name="EditCurrentDir_New" _label="_New Folder..." 
 	     _tip="Create a new folder"/>
+	<cmd name="EditCurrentDir_Categories" _label="Ca_tegories"
+	     _tip="Assign categories to the current folder"/>
 
 	<cmd name="AlterImage_Rotate90" _label="Rotate Ri_ght" 
 	     _tip="View the image rotated clockwise"
@@ -430,11 +434,12 @@
 		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
 		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
-			<separator/>
 			<menuitem name="EditCurrentDir_Rename" verb=""/>
 			<menuitem name="EditCurrentDir_Delete" verb=""/>
 			<menuitem name="EditCurrentDir_Copy" verb=""/>
 			<menuitem name="EditCurrentDir_Move" verb=""/>
+			<separator/>
+			<menuitem name="EditCurrentDir_Categories" verb=""/>
 		</submenu>
 		<submenu name="Catalog" _label="Ca_talog">
 			<menuitem name="EditCurrentCatalog_Rename" verb=""/>
@@ -790,6 +795,8 @@
 		<menuitem name="EditDir_Delete" verb=""/>
 		<menuitem name="EditDir_Copy" verb=""/>
 		<menuitem name="EditDir_Move" verb=""/>
+		<separator/>
+		<menuitem name="EditDir_Categories" verb=""/>
 	</popup>
 
 	<popup name="HistoryListPopup">

@@ -234,10 +234,8 @@ dir_list_update_view (DirList *dir_list)
 
 		if (strcmp (name, "..") == 0)
 			pixbuf = up_pixbuf;
-
 		else if (is_a_film (dir_list, name))
 			pixbuf = film_pixbuf;
-
 		else
 			pixbuf = dir_pixbuf;
 
