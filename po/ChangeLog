@@ -3,6 +3,11 @@
 	* fr.po: Updated French translation.
 	* POTFILES.in: Updated.
 
+2002-12-10  Daniel Yacob <locales@geez.org>
+
+	* am.po: Updated Amharic translation.
+
+
 2002-12-05  Christian Neumair  <chris@gnome-de.org>
 
 	* de.po: Updated German translation.

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-11-23 00:12+EDT\n"
+"PO-Revision-Date: 2002-12-10 19:37+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgstr ""
 #: src/commands-impl.c:214 src/commands-impl.c:939 src/commands-impl.c:1349
 #: src/gthumb_tools.glade.h:78 src/gthumb-ui.xml.h:227
 msgid "_Rename"
-msgstr ""
+msgstr "እንደገና ሰይም (_R)"
 
 #: src/commands-impl.c:225 src/commands-impl.c:839 src/commands-impl.c:950
 #: src/commands-impl.c:1362
@@ -158,7 +158,7 @@ msgstr ""
 #: src/commands-impl.c:828 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:199 src/dlg-png-exporter.c:204
 msgid "C_reate"
-msgstr "ፍጠር (_r)"
+msgstr "ፍጠር (_R)"
 
 #: src/commands-impl.c:858 src/commands-impl.c:982 src/commands-impl.c:1191
 #: src/commands-impl.c:1384
@@ -572,7 +572,7 @@ msgstr "ቀለም፦ (_r)"
 
 #: src/gthumb.glade.h:39 src/gthumb-ui.xml.h:19
 msgid "Comm_ent"
-msgstr "አስተያየት"
+msgstr "አስተያየት (_M)"
 
 #: src/gthumb.glade.h:40
 msgid "D_elay before changing image:"
@@ -616,7 +616,7 @@ msgstr "ወደፊት (_w)"
 
 #: src/gthumb.glade.h:51
 msgid "General"
-msgstr "ጠቅላላ"
+msgstr "አጠቃላይ"
 
 #: src/gthumb.glade.h:52
 msgid "Go to last _visited folder or catalog"
@@ -660,7 +660,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:63
 msgid "Medium"
-msgstr "መካከል"
+msgstr "መሀከለኛ"
 
 #: src/gthumb.glade.h:64
 msgid "Mid tone"
@@ -736,7 +736,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:83
 msgid "Show co_mments"
-msgstr ""
+msgstr "አስተያየቶች አሳይ (_M)"
 
 #: src/gthumb.glade.h:84
 msgid "Show hi_dden files"
@@ -764,7 +764,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:90
 msgid "System settings"
-msgstr ""
+msgstr "የስይስተም ምርጫዎች"
 
 #: src/gthumb.glade.h:91
 msgid "Text below icons"
@@ -804,7 +804,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:100
 msgid "_General"
-msgstr "ጠቅላላ (_G)"
+msgstr "አጠቃላይ (_G)"
 
 #: src/gthumb.glade.h:101
 msgid "_New Catalog"
@@ -848,15 +848,15 @@ msgstr ""
 
 #: src/gthumb_comments.glade.h:4
 msgid "Add a category"
-msgstr ""
+msgstr "ምድብ ጨምር"
 
 #: src/gthumb_comments.glade.h:5
 msgid "Categories"
-msgstr "ምድብ"
+msgstr "ምድቦች"
 
 #: src/gthumb_comments.glade.h:6 src/gthumb_search.glade.h:15
 msgid "Co_mment:"
-msgstr "አስተያየት፦ (_m)"
+msgstr "አስተያየት፦ (_M)"
 
 #: src/gthumb_comments.glade.h:7
 msgid "Comment"
@@ -896,7 +896,7 @@ msgstr "ቀን፦ (_D)"
 
 #: src/gthumb_comments.glade.h:16 src/gthumb_search.glade.h:28
 msgid "_Place:"
-msgstr ""
+msgstr "ቦታ፦ (_P)"
 
 #: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:31
 msgid "_Selected categories:"
@@ -913,7 +913,7 @@ msgstr "%"
 
 #: src/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr ""
+msgstr "<b>የቀለም ደረጃዎች</b>"
 
 #: src/gthumb_edit.glade.h:6
 msgid "<b>New Dimensions</b>"
@@ -1009,7 +1009,7 @@ msgstr "ቅድመ ዕይታ (_P)"
 
 #: src/gthumb_edit.glade.h:29
 msgid "_Reset"
-msgstr "እንደገና አስተካክል (_R)"
+msgstr "እንደነበረ አድረግ (_R)"
 
 #: src/gthumb_edit.glade.h:30
 msgid "_Saturation:"
@@ -1101,7 +1101,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:22
 msgid "<i>Examples:</i>"
-msgstr ""
+msgstr "<i>ለምሳሌዎች፦</i>"
 
 #: src/gthumb_png_exporter.glade.h:23
 msgid "All pages with the _same size"
@@ -1114,11 +1114,11 @@ msgstr ""
 #: src/gthumb_png_exporter.glade.h:25 src/gthumb_print.glade.h:6
 #: src/gthumb_tools.glade.h:23
 msgid "Co_mment"
-msgstr "አስተያየት (_m)"
+msgstr "አስተያየት (_M)"
 
 #: src/gthumb_png_exporter.glade.h:26 src/gthumb_tools.glade.h:24
 msgid "Col_umns:"
-msgstr "ዐምዶች፦ (_u)"
+msgstr "ዐምዶች፦ (_U)"
 
 #: src/gthumb_png_exporter.glade.h:28
 msgid "Create _HTML image map"
@@ -1130,27 +1130,27 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
-msgstr "የገጽ ግርጌ፦ (_o)"
+msgstr "የገጽ ግርጌ፦ (_O)"
 
 #: src/gthumb_png_exporter.glade.h:31 src/gthumb_tools.glade.h:28
 msgid "File _name"
-msgstr "የፋይል ስም (_n)"
+msgstr "የፋይል ስም (_N)"
 
 #: src/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
-msgstr "የፋይል መንገድ"
+msgstr "የፋይል መንገድ (_T)"
 
 #: src/gthumb_png_exporter.glade.h:33 src/gthumb_tools.glade.h:29
 msgid "File si_ze"
-msgstr "የፋይልን መጠን (_z)"
+msgstr "የፋይልን መጠን (_Z)"
 
 #: src/gthumb_png_exporter.glade.h:34
 msgid "Frame _style:"
-msgstr "የፍሬም ዘዴ፦"
+msgstr "የፍሬም ዘይቤ፦ (_S)"
 
 #: src/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
-msgstr "የፍሬም ቀለም፦ (_l)"
+msgstr "የፍሬም ቀለም፦ (_L)"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Gradient"
@@ -1162,11 +1162,11 @@ msgstr "የገጽ አናት፦"
 
 #: src/gthumb_png_exporter.glade.h:38
 msgid "Header/Footer"
-msgstr ""
+msgstr "የገጽ አናት/ግርጌ"
 
 #: src/gthumb_png_exporter.glade.h:39
 msgid "Hei_ght:"
-msgstr "እርዝማኔ፦ (_g)"
+msgstr "እርዝማኔ፦ (_G)"
 
 #: src/gthumb_png_exporter.glade.h:40
 msgid "Horizontal:"
@@ -1198,7 +1198,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:47
 msgid "Rows a_nd columns"
-msgstr ""
+msgstr "መደዳዎች እና ዐምዶች"
 
 #: src/gthumb_png_exporter.glade.h:48
 msgid "Select a color"
@@ -1218,7 +1218,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:52
 msgid "Simple"
-msgstr ""
+msgstr "ቀላል"
 
 #: src/gthumb_png_exporter.glade.h:53
 msgid "Simple with shadow"
@@ -1247,7 +1247,7 @@ msgstr "በ... ጀምር፦ (_a)"
 
 #: src/gthumb_png_exporter.glade.h:59 src/gthumb_tools.glade.h:62
 msgid "Style Preview"
-msgstr ""
+msgstr "የዘይቤ ቅድመ ዕይታ"
 
 #: src/gthumb_png_exporter.glade.h:60
 msgid "Use #'s to specify positions used by numeric enumerator."
@@ -1286,11 +1286,11 @@ msgstr "ምርጫዎች (_P)"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:79
 msgid "_Rows:"
-msgstr ""
+msgstr "መደዳዎቹ፦ (_R)"
 
 #: src/gthumb_png_exporter.glade.h:70 src/gthumb_tools.glade.h:84
 msgid "_Template:"
-msgstr ""
+msgstr "ንድፍ፦ (_T)"
 
 #: src/gthumb_png_exporter.glade.h:71
 msgid "by name"
@@ -1350,7 +1350,7 @@ msgstr "አትም (_P)"
 
 #: src/gthumb_print.glade.h:13
 msgid "_Scale:"
-msgstr "መለኪያ (_S)"
+msgstr "መለኪያ፦ (_S)"
 
 #: src/gthumb_search.glade.h:3 src/gthumb_tools.glade.h:4
 msgid "..."
@@ -1464,7 +1464,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:9
 msgid "<b>File list</b>"
-msgstr ""
+msgstr "<b>የፋይል ዝርዝር</b>"
 
 #: src/gthumb_tools.glade.h:10
 msgid "<b>Overwrite mode</b>"
@@ -1484,7 +1484,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:15
 msgid "<b>Style</b>"
-msgstr "<b>ዘዴ</b>"
+msgstr "<b>ዘይቤ</b>"
 
 #: src/gthumb_tools.glade.h:17
 msgid "A_sk"
@@ -1703,7 +1703,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:82
 msgid "_Style:"
-msgstr "ዘዴ፦ (_S)"
+msgstr "ዘይቤ፦ (_S)"
 
 #: src/gthumb_tools.glade.h:83
 msgid "_TIFF"
@@ -1755,7 +1755,7 @@ msgstr "1:1"
 
 #: src/gthumb-ui.xml.h:3
 msgid "Actual size"
-msgstr "ትክክለኛው ልክ"
+msgstr "ትክክለኛው መጠን"
 
 #: src/gthumb-ui.xml.h:4
 msgid "Add a comment to selected images"
@@ -1852,7 +1852,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:29
 msgid "De_lete Comment"
-msgstr ""
+msgstr "አስተያየት ሰረዝ"
 
 #: src/gthumb-ui.xml.h:30
 msgid "Delete"
@@ -1928,7 +1928,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:48
 msgid "Edit bookmarks"
-msgstr ""
+msgstr "መለያ ምልክቶች ያስተካክሉ"
 
 #: src/gthumb-ui.xml.h:49
 msgid "Edit various preferences"
@@ -2012,7 +2012,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:70
 msgid "Move"
-msgstr ""
+msgstr "ምንቀሳቅስ"
 
 #: src/gthumb-ui.xml.h:71
 msgid "Move Catalog..."
@@ -2048,7 +2048,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:79
 msgid "Move..."
-msgstr ""
+msgstr "ምንቀሳቅስ..."
 
 #: src/gthumb-ui.xml.h:80
 msgid "Negative"
@@ -2158,10 +2158,6 @@ msgstr ""
 msgid "Remove selected images from the catalog"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:109
-msgid "Rename"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:110
 msgid "Rename Catalog"
 msgstr ""
@@ -2196,7 +2192,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:118
 msgid "Resize"
-msgstr ""
+msgstr "እንደገና መጧን ማስተሥከል"
 
 #: src/gthumb-ui.xml.h:119
 msgid "Resize image"
@@ -2265,7 +2261,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:136
 msgid "Show/_Hide"
-msgstr ""
+msgstr "አሳይ/ደብቅ (_H)"
 
 #: src/gthumb-ui.xml.h:137
 msgid "Sort images by file size"
@@ -2436,11 +2432,11 @@ msgstr "ስለ (_A)"
 
 #: src/gthumb-ui.xml.h:178
 msgid "_Actual Size"
-msgstr "ትክክለኛው ልክ (_A)"
+msgstr "ትክክለኛው መጠን (_A)"
 
 #: src/gthumb-ui.xml.h:179
 msgid "_Add Bookmark"
-msgstr "መለያ ምልክት ተጨማሪ (_A)"
+msgstr "መለያ ምልክት ጨምር (_A)"
 
 #: src/gthumb-ui.xml.h:180
 msgid "_Add to Catalog..."
@@ -2494,7 +2490,7 @@ msgstr "መሰረዣ (_D)"
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Delete History"
-msgstr ""
+msgstr "ታሪክ ሰረዝ (_D)"
 
 #: src/gthumb-ui.xml.h:193
 msgid "_Desaturate"
@@ -2617,7 +2613,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:226
 msgid "_Reload"
-msgstr "እንደገና ይጫን"
+msgstr "እንደገና ይጫን (_R)"
 
 #: src/gthumb-ui.xml.h:228
 msgid "_Rename Series"
@@ -2625,7 +2621,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:229
 msgid "_Resize"
-msgstr ""
+msgstr "እንደገና መጧን ማስተሥከል (_R)"
 
 #: src/gthumb-ui.xml.h:230
 msgid "_Restore"
@@ -2665,7 +2661,7 @@ msgstr "ስታተስ ባር (_S)"
 
 #: src/gthumb-ui.xml.h:239
 msgid "_Stop"
-msgstr "ቆመ (_S)"
+msgstr "አቁም (_S)"
 
 #: src/gthumb-ui.xml.h:240
 msgid "_Thumbnails"
@@ -2694,7 +2690,7 @@ msgstr "_ነጭ (_W)"
 
 #: src/gthumb-ui.xml.h:247
 msgid "_Zoom"
-msgstr "ቅርበትና ርቀት (_Z)"
+msgstr "በቅርበት አሳይ (_Z)"
 
 #: src/gthumb-ui.xml.h:248
 msgid "by _Name"
