@@ -1,3 +1,8 @@
+2004-01-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-photo-importer.c (async_operation_step): fix 
+	progress bar updating.
+
 2004-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/main.c: add a --import-photos option to automatically open

@@ -394,6 +394,7 @@ update_info (DialogData *data)
 	update_ui = data->update_ui;
 	if (update_ui) {
 		fraction = data->fraction;
+		data->fraction = -1.0;
 		if (data->progress_info != NULL) {
 			progress_info = g_strdup (data->progress_info);
 			g_free (data->progress_info);
@@ -412,14 +413,16 @@ update_info (DialogData *data)
 	/**/
 
 	if (update_ui) {
+		if (fraction > -0.1) {
+			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->import_progressbar),  fraction);
+			gtk_widget_show (data->import_progressbar);
+		}
+
 		if (progress_info != NULL) {
-			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->import_progressbar),
-						       fraction);
 			gtk_progress_bar_set_text (GTK_PROGRESS_BAR (data->import_progressbar), 
 						   progress_info);
 			g_free (progress_info);
 			gtk_widget_show (data->import_progressbar);
-
 		}  
 
 		if (msg_text != NULL) {
@@ -457,6 +460,7 @@ typedef void (*AsyncOpFunc) (AsyncOperationData *aodata,
 struct _AsyncOperationData {
 	DialogData  *data;
 	GList       *list, *scan;
+	int          total, current;
 	AsyncOpFunc  init_func, step_func, done_func;
 	guint        timer_id;
 };
@@ -478,6 +482,8 @@ async_operation_new (GList       *list,
 	aodata->step_func = step_func;
 	aodata->done_func = done_func;
 	aodata->data = data;
+	aodata->total = g_list_length (aodata->list);
+	aodata->current = 1;
 
 	return aodata;
 }
@@ -496,6 +502,8 @@ async_operation_step (gpointer callback_data)
 
 	g_mutex_lock (aodata->data->yes_or_no);
 	interrupted = aodata->data->interrupted;
+	aodata->data->update_ui = TRUE;
+	aodata->data->fraction = (float) aodata->current / aodata->total;
 	g_mutex_unlock (aodata->data->yes_or_no);
 
 	if ((aodata->scan == NULL) || interrupted) {
@@ -504,12 +512,13 @@ async_operation_step (gpointer callback_data)
 		g_free (aodata);
 		return FALSE;
 	}
-
+	
 	if (aodata->step_func) {
 		(*aodata->step_func) (aodata, aodata->data);
 		update_info (aodata->data);
 	}
 
+	aodata->current++;
 	aodata->scan = aodata->scan->next;
 	
 	aodata->timer_id = g_timeout_add (ASYNC_STEP_TIMEOUT, 
@@ -525,6 +534,7 @@ async_operation_start (AsyncOperationData *aodata)
 {
 	aodata->timer_id = 0;
 	aodata->scan = aodata->list;
+	aodata->current = 1;
 	if (aodata->init_func)
 		(*aodata->init_func) (aodata, aodata->data);
 
