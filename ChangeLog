@@ -1,3 +1,27 @@
+2004-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/Clean/Makefile.am: 
+	* data/albumthemes/NeatSquare/Makefile.am: 
+	* data/albumthemes/NeatRound/Makefile.am: 
+	* data/albumthemes/BlueStripes/Makefile.am: 
+	* data/albumthemes/ClassicClips/Makefile.am: 
+	* data/albumthemes/Classic/Makefile.am: Do not generate .gthtml files
+	anymore.
+
+	* data/albumthemes/*/index.xml.in: 
+	* data/albumthemes/*/image.xml.in: 
+	* data/albumthemes/*/thumbnail.xml.in: removed files.
+
+	* data/albumthemes/*/index.gthtml: 
+	* data/albumthemes/*/image.gthtml: 
+	* data/albumthemes/*/thumbnail.gthtml: 
+	* data/albumthemes/text.h: new files.
+
+	Fix bug #126452 (Compilation error in data/albumthemse/BlueStripes 
+	with index.xml.in parsing).
+	
+	* src/gthumb-window.c (ask_whether_to_save): removed unused variable.
+
 2004-03-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (image_requested_error_cb): use 

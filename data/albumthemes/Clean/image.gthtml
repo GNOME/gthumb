@@ -92,7 +92,7 @@
           <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Image</_gthumb:text>
+                <gthumb:text>Image</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -106,12 +106,12 @@
           <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Dimensions</_gthumb:text>
+                <gthumb:text>Dimensions</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
-		 <gthumb:image_dim/> <_gthumb:text>pixels</_gthumb:text>
+		 <gthumb:image_dim/> <gthumb:text>pixels</gthumb:text>
 	      </font>
 	    </td>
           </tr>
@@ -120,7 +120,7 @@
           <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Bytes</_gthumb:text>
+                <gthumb:text>Bytes</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -134,7 +134,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Date</_gthumb:text>
+                <gthumb:text>Date</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -148,7 +148,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Exposure time</_gthumb:text>
+                <gthumb:text>Exposure time</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -162,7 +162,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Exposure mode</_gthumb:text>
+                <gthumb:text>Exposure mode</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -176,7 +176,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Flash</_gthumb:text>
+                <gthumb:text>Flash</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -190,7 +190,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Shutter speed</_gthumb:text>
+                <gthumb:text>Shutter speed</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -204,7 +204,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Aperture value</_gthumb:text>
+                <gthumb:text>Aperture value</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -218,7 +218,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Focal length</_gthumb:text>
+                <gthumb:text>Focal length</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">
@@ -232,7 +232,7 @@
             <tr align="left">
             <td>
               <font color="#969696"><nobr><b>
-                <_gthumb:text>Camera model</_gthumb:text>
+                <gthumb:text>Camera model</gthumb:text>
               </b></nobr></font>
 	    </td>
 	    <td width="100%">

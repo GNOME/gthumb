@@ -1667,7 +1667,6 @@ static gboolean
 ask_whether_to_save (GThumbWindow   *window,
 		     ImageSavedFunc  image_saved_func)
 {
-	int        r = GTK_RESPONSE_YES;
 	GtkWidget *d;
 
 	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 

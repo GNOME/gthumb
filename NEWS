@@ -5,6 +5,8 @@ version 2.3.2
 	  tickbox).
 	* Fix bug #135110 (An UTF8 string was not converted to the current 
           locale (again)).
+	* Fix bug #126452 (Compilation error in data/albumthemse/BlueStripes 
+	  with index.xml.in parsing.
 
 version 2.3.1
 -------------

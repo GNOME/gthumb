@@ -203,6 +203,11 @@
 	  <long>Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-Vorschaubilder erzeugt.</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images.</long>
@@ -314,6 +319,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: nautilus, single (einfach), double (Doppel-).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -442,6 +452,11 @@
 	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: none, name, path, size, time.</long>
@@ -555,6 +570,11 @@
 	  <long>Zulässige Werte: ascending (aufsteigend), descending (absteigend).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: ascending, descending.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: ascending, descending.</long>
@@ -666,6 +686,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: list (Liste), thumbnails (Miniatur-Vorschaubilder).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: list, thumbnails.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -792,6 +817,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: image (Bild), data (Daten), comment (Kommentar).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: image, data, comment.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -922,6 +952,11 @@
 	  <long>Zulässige Werte: high (hoch), low (gering).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: high, low.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: high, low.</long>
@@ -1036,6 +1071,11 @@
 	  <long>Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev (vorherige beibehalten) sowie fit_if_larger (einpassen, falls größer).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1142,6 +1182,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: white (weiß), black (schwarz), checked (Karomuster), none (keiner).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -1257,6 +1302,11 @@
 	  <long>Zulässige Werte: light (hell), midtone (mittel) sowie dark (dunkel).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: light, midtone, dark.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: light, midtone, dark.</long>
@@ -1368,6 +1418,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: small (klein), medium (mittel) sowie large (groß).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: small, medium, large.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -1483,6 +1538,11 @@
 	  <long>Soll stets ein schwarzer Hintergrund verwendet werden?</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Whether to always use a black background.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Whether to always use a black background.</long>
@@ -1578,9 +1638,19 @@
 	  </long>
 	</locale>
 
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: endavant, enrere, aleatori.</long>
+	</locale>
+
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: forward, backward, random.</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: forward, backward, random.</long>
 	</locale>
 
 	<locale name="es">
@@ -1591,6 +1661,11 @@
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: forward, backward, random.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : forward, backward et random.</long>
 	</locale>
 
 	<locale name="hu">
@@ -1690,6 +1765,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: 1, 2, 3, 4.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -1803,6 +1883,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: system, text_below (Text unterhalb), text_beside (Text daneben), text_only (nur Text) sowie icons_only (nur Symbole).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -2040,6 +2125,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: png, jpeg.</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: png, jpeg.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -2497,6 +2587,11 @@
 	  <long>Zulässige Werte: none (keins), simple (einfach), simple_with_shadow (einfach mit Schatten), slide (Dia), shadow_in (Schatten nach innen) sowie shadow_out (Schatten nach außen).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -2728,6 +2823,11 @@
 	  <long>Zulässige Werte: none (keine), deflate (packen) sowie jpeg.</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: none, deflate, jpeg.</long>
@@ -2869,6 +2969,11 @@
 	  <long>Zulässige Werte: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: jpeg, png, tga, tiff.</long>
@@ -2980,6 +3085,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: skip (überspringen), rename (umbenennen), ask (rückfragen) sowie overwrite (überschreiben).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -3136,6 +3246,11 @@
 	  <long>Zulässige Werte: name, size (Größe) sowie time (Datum).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: name, size, time.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: name, size, time.</long>
@@ -3267,6 +3382,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: pixels (Pixel), percentage (Prozentsatz).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: pixels, percentage.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -3512,6 +3632,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: name, path (Pfad), size (Größe) sowie time (Datum).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: name, path, size, time.</long>
 	</locale>
 
 	<locale name="en_GB">
@@ -3761,6 +3886,11 @@
 	  <long>Zulässige Werte: mm, in (Zoll).</long>
 	</locale>
 
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: mm, in.</long>
+	</locale>
+
 	<locale name="en_GB">
 	  
 	  <long>Possible values are: mm, in.</long>
@@ -3982,6 +4112,11 @@
 	  </long>
 	</locale>
 
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: cap, quadrat, imatge, visualització, 4x3, 4x6, 5x7, 8x10, personalitzat.</long>
+	</locale>
+
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
@@ -3990,6 +4125,11 @@
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
+	</locale>
+
+	<locale name="en_CA">
+	  
+	  <long>Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="es">

@@ -11,39 +11,39 @@
         a:link { 
 		font-weight: bold; 
 		text-decoration: none;
-		color: #969696;      
+		color: white       
 	}
 	a:visited { 
 		font-weight: bold; 
 		text-decoration: none;
-		color: #969696;
+		color: white
 	}
         a:hover { 
 		font-weight: bold; 
 		text-decoration: none; 
-		color: gold;
+		color: gold 
 	}
 	span.note {
-		color: gray;
+		color: #aaaaaa;
 		font-size: x-small;
 	}
 	span.copyright {
-		color: gray;
+		color: white;
 		font-size: x-small;
 		text-align: center;
 	}
-	td {
-		font-size: x-small;
-	}
+    	td {
+      		font-size: x-small;
+    	}
     </style>
 </head>
-<body bgcolor="#ffffff">
+<body bgcolor="#4b4b4b">
 	<!-- Navigation Bar -->
 
 	<table border=0 cellspacing=0 width="100%">
           <tr>
 	    <td colspan=4 align="center" width="100%">
-	      <font color="#555555" size=+2>
+	      <font color="#FFFFFF" size=+2>
 	        <b><gthumb:header/></b>
 	      </font>
 	    </td>
@@ -74,7 +74,7 @@
 		    <img src="prev.png" align="center" width="40" height="30" border="0"></a> </td>
 	        <gthumb:end/>
 	      <td valign="center" align="center" width="10%">
-		<font style=bold color="#969696">
+		<font style=bold color="white">
 		<b><gthumb:image_idx/> / <gthumb:images/></b>
 		</font>
 	      </td>
@@ -130,7 +130,7 @@
 	    <td>&nbsp;</td>
             <td align="right" colspan="2">
               <span class=note>
-                <_gthumb:text>(click on the image to view it at original size)</_gthumb:text>
+                <gthumb:text>(click on the image to view it at original size)</gthumb:text>
               </span>
 	    </td>
 	    <td>&nbsp;</td>
@@ -143,7 +143,7 @@
           <tr align="left">
 	    <td>&nbsp;</td>
             <td colspan="2">
-	      <font color="black">
+	      <font color="white">
                 <gthumb:if comment_visibility_image/>
 		  <gthumb:comment/>
                 <gthumb:end/>
@@ -160,10 +160,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Image</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Image</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-      	      <font color="black">
+      	      <font color="white">
 	        <tt><gthumb:file_name/></tt>
 	      </font>
 	    </td>
@@ -174,10 +174,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Dimensions</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Dimensions</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:image_dim/> pixels
 	      </font>
 	    </td>
@@ -188,10 +188,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Bytes</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Bytes</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:file_size/>
 	      </font>
 	    </td>
@@ -202,10 +202,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Date</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Date</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:date_time/>
 	      </font>
 	    </td>
@@ -216,10 +216,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Exposure time</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Exposure time</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:exposure_time/>
 	      </font>
 	    </td>
@@ -230,10 +230,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Exposure mode</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Exposure mode</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:exposure_mode/>
 	      </font>
 	    </td>
@@ -244,10 +244,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Flash</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Flash</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:flash/>
 	      </font>
 	    </td>
@@ -258,10 +258,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Shutter speed</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Shutter speed</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:shutter_speed/>
 	      </font>
 	    </td>
@@ -272,10 +272,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Aperture value</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Aperture value</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:aperture_value/>
 	      </font>
 	    </td>
@@ -286,10 +286,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Focal length</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Focal length</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:focal_length/>
 	      </font>
 	    </td>
@@ -300,10 +300,10 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b><_gthumb:text>Camera model</_gthumb:text></b></nobr></font>
+              <font color="#969696"><nobr><b><gthumb:text>Camera model</gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
-	      <font color="black">
+	      <font color="white">
 		 <gthumb:exif:camera_model/>
 	      </font>
 	    </td>
