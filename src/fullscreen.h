@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@ typedef struct {
 	guint          motion_id;
 	guint          mouse_hide_id;
 	gboolean       wm_state_fullscreen_support;
+	gboolean       msg_save_modified_image;
 } FullScreen;
 
 

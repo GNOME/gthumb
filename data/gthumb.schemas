@@ -3565,6 +3565,16 @@
 	  <long> Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.
 	  </long>
 	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -3572,7 +3582,7 @@
 	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_width</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default></default>
+	<default>1</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -3585,7 +3595,7 @@
 	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_height</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default></default>
+	<default>1</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

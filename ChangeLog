@@ -1,4 +1,28 @@
+2003-12-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-crop.c: 
+	* src/gth-image-selector.c: more crop work.
+
+	* libgthumb/icons/reset-16.png: 
+	* libgthumb/icons/swap-24.png: new icons.
+
+	* libgthumb/gthumb-stock.c: 
+	* src/dlg-hue-saturation.c: 
+	* src/dlg-color-balance.c: 
+	* src/dlg-brightness-contrast.c: 
+	* src/dlg-posterize.c: 
+	* src/dlg-png-exporter.c: use the new stock icons.
+
+	* libgthumb/gth-image-list.c (real_set_cursor): stop dragging if
+	cursor changes.
+
 2003-12-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c (gth_image_list_motion_notify): check
+	selection != NULL.
+
+	* src/gthumb-window.c (image_saved_func): do not add a saved image to
+	the current catalog.
 
 	* data/gthumb.schemas.in: 
 	* libgthumb/typedefs.h: 

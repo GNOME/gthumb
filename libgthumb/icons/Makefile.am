@@ -45,6 +45,7 @@ IMAGES=					\
 	preview-comment-16.png		\
 	preview-data-16.png		\
 	preview-image-16.png		\
+	reset-16.png			\
 	resize-16.png			\
 	resize-22.png			\
 	rotate-16.png			\
@@ -55,6 +56,8 @@ IMAGES=					\
 	search-duplicates-16.png	\
 	slideshow-16.png		\
 	slideshow-24.png		\
+	swap-16.png			\
+	swap-24.png			\
 	transform-16.png		\
 	transform-24.png		\
 	threshold-16.png		\
@@ -110,6 +113,7 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list preview_comment_16_rgba $(srcdir)/preview-comment-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_data_16_rgba $(srcdir)/preview-data-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_image_16_rgba $(srcdir)/preview-image-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list reset_16_rgba $(srcdir)/reset-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list resize_16_rgba $(srcdir)/resize-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list resize_22_rgba $(srcdir)/resize-22.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list rotate_16_rgba $(srcdir)/rotate-16.png >> $(srcdir)/pixbufs.h
@@ -120,6 +124,8 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list search_duplicates_16_rgba $(srcdir)/search-duplicates-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list slideshow_16_rgba $(srcdir)/slideshow-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list slideshow_24_rgba $(srcdir)/slideshow-24.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list swap_16_rgba $(srcdir)/swap-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list swap_24_rgba $(srcdir)/swap-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list threshold_16_rgba $(srcdir)/threshold-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list transform_16_rgba $(srcdir)/transform-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list transform_24_rgba $(srcdir)/transform-24.png >> $(srcdir)/pixbufs.h

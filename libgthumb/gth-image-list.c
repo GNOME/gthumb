@@ -1799,6 +1799,38 @@ gth_image_list_focus_in (GtkWidget     *widget,
 }
 
 
+static void
+stop_dragging (GthImageList *image_list)
+{
+	if (! image_list->priv->dragging)
+		return;
+	image_list->priv->dragging = FALSE;
+	image_list->priv->drag_started = FALSE;
+}
+
+
+static void
+stop_selection (GthImageList *image_list)
+{
+	if (! image_list->priv->selecting)
+		return;
+
+	image_list->priv->selecting = FALSE;
+	image_list->priv->sel_start_x = 0;
+	image_list->priv->sel_start_y = 0;
+	
+	if (image_list->priv->timer_tag != 0) {
+		g_source_remove (image_list->priv->timer_tag);
+		image_list->priv->timer_tag = 0;
+	}
+
+	gdk_window_invalidate_rect (image_list->priv->bin_window,
+				    &image_list->priv->selection_area,
+				    FALSE);
+
+}
+
+
 static gboolean 
 gth_image_list_focus_out (GtkWidget     *widget,
 			  GdkEventFocus *event)
@@ -2327,38 +2359,6 @@ gth_image_list_button_press (GtkWidget      *widget,
 }
 
 
-static void
-stop_dragging (GthImageList *image_list)
-{
-	if (! image_list->priv->dragging)
-		return;
-	image_list->priv->dragging = FALSE;
-	image_list->priv->drag_started = FALSE;
-}
-
-
-static void
-stop_selection (GthImageList *image_list)
-{
-	if (! image_list->priv->selecting)
-		return;
-
-	image_list->priv->selecting = FALSE;
-	image_list->priv->sel_start_x = 0;
-	image_list->priv->sel_start_y = 0;
-	
-	if (image_list->priv->timer_tag != 0) {
-		g_source_remove (image_list->priv->timer_tag);
-		image_list->priv->timer_tag = 0;
-	}
-
-	gdk_window_invalidate_rect (image_list->priv->bin_window,
-				    &image_list->priv->selection_area,
-				    FALSE);
-
-}
-
-
 /* Returns whether the specified image is at least partially inside the 
  * specified rectangle.
  */
@@ -2575,6 +2575,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 
 	if (priv->dragging) {
 		if (! priv->drag_started
+		    && (priv->selection != NULL)
 		    && gtk_drag_check_threshold (widget, 
 						 priv->drag_start_x,
 						 priv->drag_start_y,
@@ -3004,6 +3005,8 @@ real_set_cursor (GthImageList *image_list,
 	GthImageListItem    *old_item = NULL;
 	GthImageListItem    *new_item;
 	GList               *link;
+
+	stop_dragging (image_list);
 
         if (priv->focused_item >= 0) {
 		link = g_list_nth (priv->image_list, priv->focused_item);

@@ -42,6 +42,7 @@
 #include "gthumb-window.h"
 #include "gthumb-slide.h"
 #include "glib-utils.h"
+#include "gthumb-stock.h"
 
 
 #define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
@@ -1320,6 +1321,7 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	PrefDialogData *data;
 	GtkWidget      *btn_ok;
 	GtkWidget      *btn_cancel;
+	GtkWidget      *image;
 	char            s[10];
 	char           *v;
 	guint16         r, g, b;
@@ -1388,6 +1390,14 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	btn_ok = glade_xml_get_widget (data->gui, "prop_ok_button");
         btn_cancel = glade_xml_get_widget (data->gui, "prop_cancel_button");
+
+	/**/
+
+	image = glade_xml_get_widget (data->gui, "hgrad_swap_image");
+	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_SWAP, GTK_ICON_SIZE_MENU);
+
+	image = glade_xml_get_widget (data->gui, "vgrad_swap_image");
+	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_SWAP, GTK_ICON_SIZE_MENU);
 
 	/* Signals. */
 

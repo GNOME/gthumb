@@ -1118,41 +1118,13 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkButton" id="hgrad_swap_button">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="relief">GTK_RELIEF_NONE</property>
-
-				      <child>
-					<widget class="GtkImage" id="image9">
-					  <property name="visible">True</property>
-					  <property name="stock">gtk-refresh</property>
-					  <property name="icon_size">4</property>
-					  <property name="xalign">0.5</property>
-					  <property name="yalign">0.5</property>
-					  <property name="xpad">0</property>
-					  <property name="ypad">0</property>
-					</widget>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">3</property>
-				      <property name="right_attach">4</property>
-				      <property name="top_attach">2</property>
-				      <property name="bottom_attach">3</property>
-				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
 				    <widget class="GtkButton" id="vgrad_swap_button">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="relief">GTK_RELIEF_NONE</property>
 
 				      <child>
-					<widget class="GtkImage" id="image8">
+					<widget class="GtkImage" id="vgrad_swap_image">
 					  <property name="visible">True</property>
 					  <property name="stock">gtk-refresh</property>
 					  <property name="icon_size">4</property>
@@ -1168,6 +1140,34 @@
 				      <property name="right_attach">4</property>
 				      <property name="top_attach">3</property>
 				      <property name="bottom_attach">4</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options"></property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkButton" id="hgrad_swap_button">
+				      <property name="visible">True</property>
+				      <property name="can_focus">True</property>
+				      <property name="relief">GTK_RELIEF_NONE</property>
+
+				      <child>
+					<widget class="GtkImage" id="hgrad_swap_image">
+					  <property name="visible">True</property>
+					  <property name="stock">gtk-refresh</property>
+					  <property name="icon_size">4</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+				      </child>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">3</property>
+				      <property name="right_attach">4</property>
+				      <property name="top_attach">2</property>
+				      <property name="bottom_attach">3</property>
 				      <property name="x_options">fill</property>
 				      <property name="y_options"></property>
 				    </packing>

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -51,11 +51,13 @@ static struct {
 	{ GTHUMB_STOCK_NORMAL_VIEW,         exit_fullscreen_24_rgba,     NULL },
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           posterize_16_rgba },
 	{ GTHUMB_STOCK_PROPERTIES,          image_info_24_rgba,          image_info_16_rgba },
+	{ GTHUMB_STOCK_RESET,               reset_16_rgba,               NULL },
 	{ GTHUMB_STOCK_RESIZE,              resize_22_rgba,              resize_16_rgba },
 	{ GTHUMB_STOCK_ROTATE,              rotate_16_rgba,              NULL },
 	{ GTHUMB_STOCK_ROTATE_90,           rotate_90_24_rgba,           rotate_90_16_rgba },
 	{ GTHUMB_STOCK_ROTATE_90_CC,        rotate_270_24_rgba,          rotate_270_16_rgba },
 	{ GTHUMB_STOCK_SLIDESHOW,           slideshow_24_rgba,           slideshow_16_rgba },
+	{ GTHUMB_STOCK_SWAP,                swap_24_rgba,                swap_16_rgba },
 	{ GTHUMB_STOCK_THRESHOLD,           threshold_16_rgba,           NULL },
 	{ GTHUMB_STOCK_TRANSFORM,           transform_24_rgba,           transform_16_rgba }
 };

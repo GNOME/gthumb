@@ -33,6 +33,8 @@
 #define BORDER 3
 #define BORDER2 (BORDER * 2)
 
+#define IROUND(x) ((int)floor(((double)x) + 0.5))
+
 
 typedef struct {
 	int           ref_count;
@@ -310,6 +312,15 @@ selection_changed (GthImageSelector *selector)
 }
 
 
+#if 0 /* FIXME */
+static void
+print_rectangle (GdkRectangle r)
+{
+	g_print ("(%d,%d) [%d,%d]\n", r.x, r.y, r.width, r.height);
+}
+#endif
+
+
 static gboolean
 expose (GtkWidget      *widget, 
 	GdkEventExpose *event)
@@ -337,6 +348,7 @@ expose (GtkWidget      *widget,
 	exposed_area = priv->selection_area;
 	exposed_area.x += priv->image_area.x;
 	exposed_area.y += priv->image_area.y;
+
 	if (gdk_rectangle_intersect (&event->area, 
 				     &exposed_area, 
 				     &exposed_area)) {
@@ -577,7 +589,7 @@ get_semiplane_no (int x1,
 	a = atan ((double) (y1 - y2) / (x2 - x1));
 	b = atan ((double) (y1 - py) / (px - x1));
 
-	return (a + G_PI >= b) && (b >= a);
+	return (a <= b) && (b <= a + G_PI);
 }
 
 
@@ -586,6 +598,9 @@ check_and_select (GthImageSelector *selector,
 		  GdkRectangle      new_selection)
 {
 	GthImageSelectorPriv *priv = selector->priv;
+
+	new_selection.width = MAX (0, new_selection.width);
+	new_selection.height = MAX (0, new_selection.height);
 
 	if (((priv->current_area == NULL)
 	     || (priv->current_area->id != C_SELECTION_AREA))
@@ -677,7 +692,7 @@ motion_notify (GtkWidget      *widget,
 		if (priv->use_ratio)
 			grow_rightward (&priv->image_area, 
 					&new_selection, 
-					-dy * priv->ratio,
+					IROUND (-dy * priv->ratio),
 					check);
 		break;
 	case C_BOTTOM_AREA:
@@ -685,7 +700,7 @@ motion_notify (GtkWidget      *widget,
 		if (priv->use_ratio)
 			grow_leftward (&priv->image_area, 
 				       &new_selection, 
-				       -dy * priv->ratio, 
+				       IROUND (-dy * priv->ratio), 
 				       check);
 		break;
 	case C_LEFT_AREA:
@@ -693,7 +708,7 @@ motion_notify (GtkWidget      *widget,
 		if (priv->use_ratio)
 			grow_downward (&priv->image_area, 
 				       &new_selection, 
-				       -dx / priv->ratio, 
+				       IROUND (-dx / priv->ratio), 
 				       check);
 		break;
 	case C_RIGHT_AREA:
@@ -701,7 +716,7 @@ motion_notify (GtkWidget      *widget,
 		if (priv->use_ratio)
 			grow_upward (&priv->image_area, 
 				     &new_selection, 
-				     -dx / priv->ratio, 
+				     IROUND (-dx / priv->ratio), 
 				     check);
 		break;
 	case C_TOP_LEFT_AREA:
@@ -715,9 +730,9 @@ motion_notify (GtkWidget      *widget,
 				      priv->drag_x - priv->image_area.x,
 				      priv->drag_y - priv->image_area.y);
 			if (semiplane == 1) 
-				dy = dx / priv->ratio;
+				dy = IROUND (dx / priv->ratio);
 			else 
-				dx = dy * priv->ratio;
+				dx = IROUND (dy * priv->ratio);
 		} 
 		grow_upward (&priv->image_area, &new_selection, dy, check);
 		grow_leftward (&priv->image_area, &new_selection, dx, check);
@@ -733,9 +748,9 @@ motion_notify (GtkWidget      *widget,
 				      priv->drag_x - priv->image_area.x,
 				      priv->drag_y - priv->image_area.y);
 			if (semiplane == 1) 
-				dx = -dy * priv->ratio;
+				dx = IROUND (-dy * priv->ratio);
 			else 
-				dy = -dx / priv->ratio;
+				dy = IROUND (-dx / priv->ratio);
 		} 
 		grow_upward (&priv->image_area, &new_selection, dy, check);
 		grow_rightward (&priv->image_area, &new_selection, dx, check);
@@ -751,9 +766,9 @@ motion_notify (GtkWidget      *widget,
 				      priv->drag_x - priv->image_area.x,
 				      priv->drag_y - priv->image_area.y);
 			if (semiplane == 1) 
-				dx = -dy * priv->ratio;
+				dx = IROUND (-dy * priv->ratio);
 			else 
-				dy = -dx / priv->ratio;
+				dy = IROUND (-dx / priv->ratio);
 		} 
 		grow_downward (&priv->image_area, &new_selection, dy, check);
 		grow_leftward (&priv->image_area, &new_selection, dx, check);
@@ -769,9 +784,9 @@ motion_notify (GtkWidget      *widget,
 				      priv->drag_x - priv->image_area.x,
 				      priv->drag_y - priv->image_area.y);
 			if (semiplane == 1) 
-				dy = dx / priv->ratio;
+				dy = IROUND (dx / priv->ratio);
 			else 
-				dx = dy * priv->ratio;
+				dx = IROUND (dy * priv->ratio);
 		} 
 		grow_downward (&priv->image_area, &new_selection, dy, check);
 		grow_rightward (&priv->image_area, &new_selection, dx, check);
@@ -781,6 +796,7 @@ motion_notify (GtkWidget      *widget,
 	}
 
 	check_and_select (selector, new_selection);
+
 	return FALSE;
 }
 
@@ -813,6 +829,33 @@ finalize (GObject *object)
 
         /* Chain up */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static void
+init_selection (GthImageSelector *selector)
+{
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          area;
+
+	if (! priv->use_ratio) {
+		area.width = IROUND (priv->image_area.width * 0.5);
+		area.height = IROUND (priv->image_area.height * 0.5);
+
+	} else {
+		if (priv->ratio > 1.0) {
+			area.width = IROUND (priv->image_area.width * 0.5);
+			area.height = IROUND (area.width / priv->ratio);
+		} else {
+			area.height = IROUND (priv->image_area.height * 0.5);
+			area.width = IROUND (area.height * priv->ratio);
+		}
+	}
+
+	area.x = IROUND ((priv->image_area.width - area.width) / 2.0);
+	area.y = IROUND ((priv->image_area.height - area.height) / 2.0);
+
+	set_selection (selector, area);
 }
 
 
@@ -875,7 +918,8 @@ realize (GtkWidget *widget)
 	add_event_area (selector, C_TOP_RIGHT_AREA, GDK_TOP_RIGHT_CORNER);
 	add_event_area (selector, C_BOTTOM_LEFT_AREA, GDK_BOTTOM_LEFT_CORNER);
 	add_event_area (selector, C_BOTTOM_RIGHT_AREA, GDK_BOTTOM_RIGHT_CORNER);
-		
+
+	init_selection (selector);
 	update_event_areas (selector);
 }
 
@@ -1138,7 +1182,7 @@ static int
 real_to_selector (GthImageSelector *selector,
 		  int               value)
 {
-	return (int) floor (selector->priv->zoom * value + 0.5);
+	return IROUND (selector->priv->zoom * value);
 }
 
 
@@ -1152,7 +1196,7 @@ gth_image_selector_set_selection_width (GthImageSelector *selector,
 	area = priv->selection_area;
 	area.width = real_to_selector (selector, width);
 	if (priv->use_ratio)
-		area.height = area.width / priv->ratio;
+		area.height = IROUND (area.width / priv->ratio);
 	check_and_select (selector, area);
 }
 
@@ -1167,7 +1211,7 @@ gth_image_selector_set_selection_height (GthImageSelector *selector,
 	area = priv->selection_area;
 	area.height = real_to_selector (selector, height);
 	if (priv->use_ratio)
-		area.width = area.height / priv->ratio;
+		area.width = IROUND (area.height * priv->ratio);
 	check_and_select (selector, area);
 }
 
@@ -1192,7 +1236,7 @@ static int
 selector_to_real (GthImageSelector *selector,
 		  int               value)
 {
-	return (int) floor ((double) value / selector->priv->zoom + 0.5);
+	return IROUND ((double) value / selector->priv->zoom);
 }
 
 
@@ -1220,25 +1264,12 @@ gth_image_selector_set_ratio (GthImageSelector *selector,
 			      double            ratio)
 {
 	GthImageSelectorPriv *priv = selector->priv;
-	GdkRectangle          area;
 
 	priv->use_ratio = use_ratio;
 	priv->ratio = ratio;
 
-	if (! priv->use_ratio)
-		return;
-
-	if (priv->ratio > 1.0) {
-		area.width = priv->image_area.width * 0.5;
-		area.height = area.width / priv->ratio;
-	} else {
-		area.height = priv->image_area.height * 0.5;
-		area.width = area.height * priv->ratio;
-	}
-
-	area.x = (priv->image_area.width - area.width) / 2.0;
-	area.y = (priv->image_area.height - area.height) / 2.0;
-	check_and_select (selector, area);
+	if (priv->use_ratio)
+		init_selection (selector);
 }
 
 

@@ -43,11 +43,13 @@
 #define GTHUMB_STOCK_NORMAL_VIEW          "gthumb-normal-view"
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
 #define GTHUMB_STOCK_PROPERTIES           "gthumb-properties"
+#define GTHUMB_STOCK_RESET                "gthumb-reset"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"
 #define GTHUMB_STOCK_ROTATE               "gthumb-rotate"
 #define GTHUMB_STOCK_ROTATE_90            "gthumb-rotate-90"
 #define GTHUMB_STOCK_ROTATE_90_CC         "gthumb-rotate-90-cc"
 #define GTHUMB_STOCK_SLIDESHOW            "gthumb-slideshow"
+#define GTHUMB_STOCK_SWAP                 "gthumb-swap"
 #define GTHUMB_STOCK_THRESHOLD            "gthumb-threshold"
 #define GTHUMB_STOCK_TRANSFORM            "gthumb-transform"
 

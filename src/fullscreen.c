@@ -961,6 +961,8 @@ fullscreen_start (FullScreen   *fullscreen,
 	window->fullscreen = TRUE;
 	fullscreen->related_win = window;
 	fullscreen->viewer = window->viewer;
+	fullscreen->msg_save_modified_image = eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE);
+	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, FALSE);
 
 	wmspec_change_state (TRUE,
 			     fullscreen->window->window,
@@ -972,6 +974,8 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
+
+	gtk_widget_set_sensitive (fullscreen->related_win->app, FALSE);
 
 	/* capture keyboard events. */
 
@@ -1056,6 +1060,8 @@ fullscreen_stop (FullScreen *fullscreen)
 	fullscreen->related_win = NULL;
 	comment_visible = FALSE;
 
+	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, fullscreen->msg_save_modified_image);
+
 	/* release keyboard focus. */ 
 
 	if (! fullscreen->wm_state_fullscreen_support) {
@@ -1072,6 +1078,7 @@ fullscreen_stop (FullScreen *fullscreen)
 	gtk_widget_realize (window->viewer);
 	fullscreen->viewer = NULL;
 
+	gtk_widget_set_sensitive (window->app, TRUE);
 	gtk_widget_show_all (window->app);
 
 	/* restore widgets visiblity */

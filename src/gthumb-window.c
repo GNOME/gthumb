@@ -102,11 +102,11 @@ enum {
 	TARGET_URILIST,
 };
 
+
 static GtkTargetEntry target_table[] = {
 	{ "text/uri-list", 0, TARGET_URILIST },
 	{ "text/plain",    0, TARGET_PLAIN }
 };
-
 
 static GtkTargetEntry same_app_target_table[] = {
 	{ "text/uri-list", GTK_TARGET_SAME_APP, TARGET_URILIST },
@@ -403,10 +403,16 @@ window_update_statusbar_image_info (GThumbWindow *window)
 
 	/**/
 
-	text = g_strdup_printf (" %s - %s - %s ",
-				size_txt,
-				file_size_txt,
-				time_txt);
+	if (! window->image_modified)
+		text = g_strdup_printf (" %s - %s - %s ",
+					size_txt,
+					file_size_txt,
+					time_txt);
+	else
+		text = g_strdup_printf (" %s - %s ", 
+					_("Modified"),
+					size_txt);
+
 	utf8_text = g_locale_to_utf8 (text, -1, 0, 0, 0);
 	gtk_label_set_markup (GTK_LABEL (window->image_info), utf8_text);
 
@@ -7175,6 +7181,7 @@ window_image_set_modified (GThumbWindow *window,
 {
 	window->image_modified = modified;
 	window_update_infobar (window);
+	window_update_statusbar_image_info (window);
 	window_update_title (window);
 
 	set_command_sensitive (window, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (window->viewer)) && window->image_modified);
@@ -7195,7 +7202,7 @@ window_image_get_modified (GThumbWindow *window)
 
 
 void
-image_saved__step2 (gpointer data)
+save_pixbuf__image_saved_step2 (gpointer data)
 {
 	GThumbWindow *window = data;
 	int pos;
@@ -7216,8 +7223,8 @@ image_saved__step2 (gpointer data)
 
 
 static void
-image_saved_func (char     *filename,
-		  gpointer  data)
+save_pixbuf__image_saved_cb (char     *filename,
+			     gpointer  data)
 {
 	GThumbWindow *window = data;
 	GList        *file_list;
@@ -7232,13 +7239,24 @@ image_saved_func (char     *filename,
 
 	pos = gth_file_list_pos_from_path (window->file_list, filename);
 	if (pos == -1) {
+		char *destination = remove_level_from_path (filename);
+
 		g_free (window->image_path);
 		window->image_path = g_strdup (filename);
-		gth_file_list_add_list (window->file_list, 
-					file_list, 
-					image_saved__step2,
-					window);
+
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+		    && (window->dir_list->path != NULL) 
+		    && (strcmp (window->dir_list->path, destination) == 0))
+			gth_file_list_add_list (window->file_list, 
+						file_list, 
+						save_pixbuf__image_saved_step2,
+						window);
+		else
+			save_pixbuf__image_saved_step2 (window);
+		g_free (destination);
+
 		all_windows_notify_files_created (file_list);
+
 	} else {
 		view_image_at_pos (window, pos);
 		all_windows_notify_files_changed (file_list);
@@ -7265,7 +7283,7 @@ window_save_pixbuf (GThumbWindow *window,
 	dlg_save_image (GTK_WINDOW (window->app), 
 			current_folder,
 			pixbuf,
-			image_saved_func,
+			save_pixbuf__image_saved_cb,
 			window);
 
 	g_free (current_folder);
@@ -7352,11 +7370,10 @@ window_reload_image (GThumbWindow *window)
 
 
 static void
-image_saved_cb (char     *filename,
-		gpointer  data)
+load_image__image_saved_cb (char     *filename,
+			    gpointer  data)
 {
 	GThumbWindow *window = data;
-
 	window->image_modified = FALSE;
 	window->saving_modified_image = FALSE;
 	window_load_image (window, window->new_image_path);
@@ -7374,7 +7391,7 @@ window_load_image (GThumbWindow *window,
 			return;
 		g_free (window->new_image_path);
 		window->new_image_path = g_strdup (filename);
-		if (ask_whether_to_save (window, image_saved_cb))
+		if (ask_whether_to_save (window, load_image__image_saved_cb))
 			return;
 	}
 

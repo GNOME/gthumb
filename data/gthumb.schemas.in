@@ -1662,7 +1662,7 @@
 	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_width</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default></default>
+	<default>1</default>
 	<locale name="C">
 	  <short></short>
 	  <long>
@@ -1675,7 +1675,7 @@
 	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_height</applyto>
 	<owner>gthumb</owner>
 	<type>int</type>
-	<default></default>
+	<default>1</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

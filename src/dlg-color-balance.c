@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include "async-pixbuf-ops.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-window.h"
+#include "gthumb-stock.h"
 #include "pixbuf-utils.h"
 
 
@@ -233,6 +234,7 @@ dlg_color_balance (GThumbWindow *window)
 	GtkWidget  *cancel_button;
 	GtkWidget  *preview_button;
 	GtkWidget  *hbox;
+	GtkWidget  *reset_image;
 	GdkPixbuf  *image;
 	int         image_width, image_height;
 	int         preview_width, preview_height;
@@ -282,6 +284,9 @@ dlg_color_balance (GThumbWindow *window)
 							    10.0);
 
 	data->viewer = IMAGE_VIEWER (window->viewer);
+
+	reset_image = glade_xml_get_widget (data->gui, "cb_reset_image");
+	gtk_image_set_from_stock (GTK_IMAGE (reset_image), GTHUMB_STOCK_RESET, GTK_ICON_SIZE_MENU);
 
 	/**/
 
