@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-16 22:26+0100\n"
-"PO-Revision-Date: 2003-12-16 22:37+0100\n"
+"POT-Creation-Date: 2003-12-19 17:24+0100\n"
+"PO-Revision-Date: 2003-12-19 17:25+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +78,7 @@ msgid "Mirror the image"
 msgstr "Refleja la imagen"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: data/gthumb-ui.xml.h:122
+#: data/glade/gthumb_edit.glade.h:19 data/gthumb-ui.xml.h:122
 msgid "Rotate"
 msgstr "Rotar"
 
@@ -287,7 +287,7 @@ msgid "Shutter speed"
 msgstr "Velocidad del diafragma"
 
 #: data/albumthemes/BlueStripes/image.xml.in.h:12
-#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:33
+#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:36
 msgid "pixels"
 msgstr "píxeles"
 
@@ -459,44 +459,55 @@ msgid "Camera Model"
 msgstr "Modelo de cámara"
 
 #: data/glade/gthumb_camera.glade.h:5
+#: data/glade/gthumb_png_exporter.glade.h:25
+msgid "Choose destination folder"
+msgstr "Seleccione la carpeta de destino"
+
+#: data/glade/gthumb_camera.glade.h:6
 msgid "Import Photos"
 msgstr "Importar fotos"
 
-#: data/glade/gthumb_camera.glade.h:6 src/dlg-photo-importer.c:442
-#: src/dlg-photo-importer.c:473
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:448
+#: src/dlg-photo-importer.c:479
 msgid "No camera detected"
 msgstr "Se ha seleccionado ninguna cámara"
 
-#: data/glade/gthumb_camera.glade.h:7
+#: data/glade/gthumb_camera.glade.h:8
 msgid "Select a camera model"
 msgstr "Seleccionar un modelo de cámara"
 
-#: data/glade/gthumb_camera.glade.h:8
+#: data/glade/gthumb_camera.glade.h:9
 msgid "_Auto Detect"
 msgstr "_Autodetectar"
 
-#: data/glade/gthumb_camera.glade.h:9
+#: data/glade/gthumb_camera.glade.h:10
 msgid "_Delete imported images"
 msgstr "_Borrar archivos importados"
 
-#: data/glade/gthumb_camera.glade.h:10
-msgid "_Film Name:"
-msgstr "Nombre de la pe_lícula:"
-
 #: data/glade/gthumb_camera.glade.h:11
+#: data/glade/gthumb_png_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Destination:"
+msgstr "_Destino:"
+
+#: data/glade/gthumb_camera.glade.h:12
+msgid "_Film:"
+msgstr "_Película:"
+
+#: data/glade/gthumb_camera.glade.h:13
 msgid "_Keep original filenames"
 msgstr "_Mantener nombres originales"
 
-#: data/glade/gthumb_camera.glade.h:12
+#: data/glade/gthumb_camera.glade.h:14
 msgid "_Model:"
 msgstr "_Modelo:"
 
-#: data/glade/gthumb_camera.glade.h:13
+#: data/glade/gthumb_camera.glade.h:15
 #: data/glade/gthumb_web_exporter.glade.h:55
 msgid "_Port:"
 msgstr "_Puerto:"
 
-#: data/glade/gthumb_camera.glade.h:14
+#: data/glade/gthumb_camera.glade.h:16
 msgid "_import"
 msgstr "_importar"
 
@@ -724,94 +735,102 @@ msgid "Brightness - Contrast"
 msgstr "Brillo - contraste"
 
 #: data/glade/gthumb_edit.glade.h:10
+msgid "Co_rrective"
+msgstr "Co_rrección"
+
+#: data/glade/gthumb_edit.glade.h:11
 msgid "Color Balance"
 msgstr "Balance de color"
 
-#: data/glade/gthumb_edit.glade.h:11
+#: data/glade/gthumb_edit.glade.h:12
 msgid "Con_trast:"
 msgstr "Con_traste:"
 
-#: data/glade/gthumb_edit.glade.h:12
+#: data/glade/gthumb_edit.glade.h:13
 msgid "Cyan-_Red:"
 msgstr "Cían-_rojo:"
 
-#: data/glade/gthumb_edit.glade.h:13
+#: data/glade/gthumb_edit.glade.h:14
 msgid "Height:"
 msgstr "Altura:"
 
-#: data/glade/gthumb_edit.glade.h:14
+#: data/glade/gthumb_edit.glade.h:15
 msgid "High _quality"
 msgstr "Alta _calidad"
 
-#: data/glade/gthumb_edit.glade.h:15
+#: data/glade/gthumb_edit.glade.h:16
 msgid "Hue - Saturation"
 msgstr "Matiz - Saturación"
 
-#: data/glade/gthumb_edit.glade.h:16
+#: data/glade/gthumb_edit.glade.h:17
 msgid "Posterize"
 msgstr "Posterizar"
 
-#: data/glade/gthumb_edit.glade.h:17
+#: data/glade/gthumb_edit.glade.h:18
 msgid "Preserve l_uminosity"
 msgstr "Conservar l_uminosidad"
 
-#: data/glade/gthumb_edit.glade.h:18
+#: data/glade/gthumb_edit.glade.h:20
 msgid "Scale Image"
 msgstr "Escalar imagen"
 
-#: data/glade/gthumb_edit.glade.h:19
+#: data/glade/gthumb_edit.glade.h:21
 msgid "Width:"
 msgstr "Ancho:"
 
-#: data/glade/gthumb_edit.glade.h:20
+#: data/glade/gthumb_edit.glade.h:22
+msgid "_Angle:"
+msgstr "_Ángulo:"
+
+#: data/glade/gthumb_edit.glade.h:23
 msgid "_Brightness:"
 msgstr "_Brillo:"
 
-#: data/glade/gthumb_edit.glade.h:21 data/glade/gthumb_print.glade.h:29
+#: data/glade/gthumb_edit.glade.h:24 data/glade/gthumb_print.glade.h:29
 msgid "_Height:"
 msgstr "A_ltura:"
 
-#: data/glade/gthumb_edit.glade.h:22
+#: data/glade/gthumb_edit.glade.h:25
 msgid "_Hue:"
 msgstr "_Matiz:"
 
-#: data/glade/gthumb_edit.glade.h:23
+#: data/glade/gthumb_edit.glade.h:26
 msgid "_Keep aspect ratio"
 msgstr "_Mantener proporción"
 
-#: data/glade/gthumb_edit.glade.h:24
+#: data/glade/gthumb_edit.glade.h:27
 msgid "_Levels:"
 msgstr "_Niveles:"
 
-#: data/glade/gthumb_edit.glade.h:25
+#: data/glade/gthumb_edit.glade.h:28
 msgid "_Lightness:"
 msgstr "_Luminosidad:"
 
-#: data/glade/gthumb_edit.glade.h:26
+#: data/glade/gthumb_edit.glade.h:29
 msgid "_Magenta-Green:"
 msgstr "_Magenta-verde:"
 
-#: data/glade/gthumb_edit.glade.h:27
+#: data/glade/gthumb_edit.glade.h:30
 msgid "_Preview"
 msgstr "Vista _previa"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:45
+#: data/glade/gthumb_edit.glade.h:31 data/glade/gthumb_tools.glade.h:45
 msgid "_Reset"
 msgstr "_Reiniciar"
 
-#: data/glade/gthumb_edit.glade.h:29
+#: data/glade/gthumb_edit.glade.h:32
 msgid "_Saturation:"
 msgstr "_Saturación:"
 
-#: data/glade/gthumb_edit.glade.h:30
+#: data/glade/gthumb_edit.glade.h:33
 msgid "_Scale"
 msgstr "E_scala"
 
-#: data/glade/gthumb_edit.glade.h:31 data/glade/gthumb_print.glade.h:31
+#: data/glade/gthumb_edit.glade.h:34 data/glade/gthumb_print.glade.h:31
 msgid "_Width:"
 msgstr "A_ncho:"
 
-#: data/glade/gthumb_edit.glade.h:32
+#: data/glade/gthumb_edit.glade.h:35
 msgid "_Yellow-Blue:"
 msgstr "A_marillo-azul:"
 
@@ -897,11 +916,9 @@ msgstr "<small><i><b>Nota:</b> # (enumerador)</i>.</small>"
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b>Nota:</b> %p (número de página), %n (número total de páginas)</i>.</small>"
-
-#: data/glade/gthumb_png_exporter.glade.h:25
-msgid "Choose destination folder"
-msgstr "Seleccione la carpeta de destino"
+msgstr ""
+"<small><i><b>Nota:</b> %p (número de página), %n (número total de páginas)</"
+"i>.</small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:26
 #: data/glade/gthumb_web_exporter.glade.h:20
@@ -1051,11 +1068,6 @@ msgstr "A_ncho:"
 #: data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
 msgstr "Tod_as las páginas con el mismo tamaño"
-
-#: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:47
-msgid "_Destination:"
-msgstr "_Destino:"
 
 #: data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
@@ -1536,7 +1548,7 @@ msgstr "Coi_ncidir con cualquier categoría seleccionada"
 msgid "New _Search..."
 msgstr "Bú_squeda nueva..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:831
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:855
 msgid "No images found"
 msgstr "No se encontraron imágenes"
 
@@ -1574,14 +1586,17 @@ msgstr "<b>Miniaturas</b>"
 
 #: data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-msgstr "<small><i><b>Note</b>: las transformaciónes jpeg tienen pérdidas.</i></small>"
+msgstr ""
+"<small><i><b>Note</b>: las transformaciónes jpeg tienen pérdidas.</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:8
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
-msgstr "<small><i><b>Caracteres especiales:</b> # (enumerador), %f (nombre original), %d (fecha de la imagen), %s (tamaño).</i></small>"
+msgstr ""
+"<small><i><b>Caracteres especiales:</b> # (enumerador), %f (nombre "
+"original), %d (fecha de la imagen), %s (tamaño).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
 msgid "Apply to _all images"
@@ -3315,7 +3330,7 @@ msgstr "Nueva carpeta"
 msgid "Enter the folder name: "
 msgstr "Introduzca el nombre de la carpeta: "
 
-#: src/commands-impl.c:961 src/dlg-photo-importer.c:840
+#: src/commands-impl.c:961 src/dlg-photo-importer.c:862
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "No se pudo crear la carpeta «%s»: %s"
@@ -3609,12 +3624,12 @@ msgstr "Se borrarán todas las miniaturas. ¿Está seguro?"
 msgid "Specify the backup file"
 msgstr "Especifique el archivo de resguardo"
 
-#: src/dlg-photo-importer.c:471 src/dlg-photo-importer.c:830
-#: src/dlg-photo-importer.c:843
+#: src/dlg-photo-importer.c:477 src/dlg-photo-importer.c:854
+#: src/dlg-photo-importer.c:865
 msgid "Could not import photos"
 msgstr "No se han podido importar fotos"
 
-#: src/dlg-photo-importer.c:796 src/main.c:989
+#: src/dlg-photo-importer.c:813 src/main.c:989
 msgid "Film"
 msgstr "Película"
 
@@ -3806,6 +3821,9 @@ msgstr "Familia"
 #: src/main.c:309 src/main.c:391
 msgid "Command Line"
 msgstr "Línea de comandos"
+
+#~ msgid "_Film Name:"
+#~ msgstr "Nombre de la pe_lícula:"
 
 #~ msgid "Rotate _JPEG"
 #~ msgstr "Rotar _JPEG"
