@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-12-13 03:23+0100\n"
-"PO-Revision-Date: 2002-12-13 03:23+0100\n"
+"POT-Creation-Date: 2002-12-19 09:01+0100\n"
+"PO-Revision-Date: 2002-12-19 09:01+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -189,7 +189,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:482
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:492
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -249,7 +249,7 @@ msgstr "Tar bort gamla kommentarer, var vänlig vänta..."
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:670 src/dlg-duplicates.c:551 src/dlg-image-prop.c:502
+#: libgthumb/comments.c:670 src/dlg-duplicates.c:551 src/dlg-image-prop.c:512
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
@@ -290,9 +290,9 @@ msgid "Image type:"
 msgstr "Bildtyp:"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:319 src/commands-impl.c:2710 src/gthumb-window.c:437
+#: libgthumb/gtk-utils.c:319 src/commands-impl.c:2711 src/gthumb-window.c:437
 #: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
-#: src/gthumb-window.c:477 src/gthumb-window.c:3985
+#: src/gthumb-window.c:477 src/gthumb-window.c:3987
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
@@ -305,17 +305,17 @@ msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
-#: src/commands-impl.c:243 src/commands-impl.c:972 src/commands-impl.c:1547
+#: src/commands-impl.c:243 src/commands-impl.c:973 src/commands-impl.c:1548
 msgid "Enter the new name: "
 msgstr "Ange det nya namnet: "
 
-#: src/commands-impl.c:247 src/commands-impl.c:976 src/commands-impl.c:1551
+#: src/commands-impl.c:247 src/commands-impl.c:977 src/commands-impl.c:1552
 #: src/gthumb-ui.xml.h:226 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: src/commands-impl.c:258 src/commands-impl.c:879 src/commands-impl.c:987
-#: src/commands-impl.c:1564 src/commands-impl.c:1655
+#: src/commands-impl.c:258 src/commands-impl.c:880 src/commands-impl.c:988
+#: src/commands-impl.c:1565 src/commands-impl.c:1656
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -333,7 +333,7 @@ msgstr "Skriv _över"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Kunde inte byta namn på bilden \"%s\": %s"
 
-#: src/commands-impl.c:307 src/commands-impl.c:1009 src/commands-impl.c:1313
+#: src/commands-impl.c:307 src/commands-impl.c:1010 src/commands-impl.c:1314
 msgid "source and destination are the same"
 msgstr "källan och målet är samma"
 
@@ -350,148 +350,148 @@ msgstr "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Bilden kommer att flyttas till papperskorgen, är du säker?"
 
-#: src/commands-impl.c:751
+#: src/commands-impl.c:752
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Bilden kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:793
+#: src/commands-impl.c:794
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "De valda bilderna kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:869 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:870 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:201 src/dlg-file-utils.c:93
 msgid "C_reate"
 msgstr "S_kapa"
 
-#: src/commands-impl.c:895 src/commands-impl.c:1016 src/commands-impl.c:1586
-#: src/commands-impl.c:1674
+#: src/commands-impl.c:896 src/commands-impl.c:1017 src/commands-impl.c:1587
+#: src/commands-impl.c:1675
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Namnet \"%s\" används redan. Använd ett annat namn."
 
-#: src/commands-impl.c:923
+#: src/commands-impl.c:924
 msgid "New Folder"
 msgstr "Ny mapp"
 
-#: src/commands-impl.c:924
+#: src/commands-impl.c:925
 msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
-#: src/commands-impl.c:925
+#: src/commands-impl.c:926
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kunde inte skapa mappen \"%s\": %s"
 
-#: src/commands-impl.c:936
+#: src/commands-impl.c:937
 msgid "New Library"
 msgstr "Nytt bibliotek"
 
-#: src/commands-impl.c:937 src/dlg-catalog.c:120
+#: src/commands-impl.c:938 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
-#: src/commands-impl.c:938
+#: src/commands-impl.c:939
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Kunde inte skapa biblioteket \"%s\": %s"
 
-#: src/commands-impl.c:1007 src/commands-impl.c:1048
+#: src/commands-impl.c:1008 src/commands-impl.c:1049
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kunde inte byta namn på mappen \"%s\": %s"
 
-#: src/commands-impl.c:1114
+#: src/commands-impl.c:1115
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
-#: src/commands-impl.c:1143
+#: src/commands-impl.c:1144
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
-#: src/commands-impl.c:1180
+#: src/commands-impl.c:1181
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Den valda mappen kommer att flyttas till papperskorgen, är du säker?"
 
-#: src/commands-impl.c:1182 src/dlg-file-utils.c:277
+#: src/commands-impl.c:1183 src/dlg-file-utils.c:277
 msgid "_Move"
 msgstr "_Flytta"
 
-#: src/commands-impl.c:1248 src/commands-impl.c:1303
+#: src/commands-impl.c:1249 src/commands-impl.c:1304
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
-#: src/commands-impl.c:1303 src/dlg-file-utils.c:2283
-#: src/dlg-file-utils.c:2285
+#: src/commands-impl.c:1304 src/dlg-file-utils.c:2286
+#: src/dlg-file-utils.c:2288
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
 
-#: src/commands-impl.c:1324
+#: src/commands-impl.c:1325
 msgid "source contains destination"
 msgstr "källan innehåller målet"
 
-#: src/commands-impl.c:1335
+#: src/commands-impl.c:1336
 msgid "a folder with that name is already present."
 msgstr "en mapp med det namnet finns redan."
 
-#: src/commands-impl.c:1429 src/dlg-file-utils.c:362 src/dlg-file-utils.c:450
+#: src/commands-impl.c:1430 src/dlg-file-utils.c:362 src/dlg-file-utils.c:450
 msgid "Choose the destination folder"
 msgstr "Välj målmappen"
 
-#: src/commands-impl.c:1597
+#: src/commands-impl.c:1598
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Kunde inte byta namn på biblioteket \"%s\": %s"
 
-#: src/commands-impl.c:1597
+#: src/commands-impl.c:1598
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kunde inte byta namn på albumet \"%s\": %s"
 
-#: src/commands-impl.c:1642 src/dlg-catalog.c:79
+#: src/commands-impl.c:1643 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
-#: src/commands-impl.c:1643
+#: src/commands-impl.c:1644
 msgid "New Catalog"
 msgstr "Nytt album"
 
-#: src/commands-impl.c:1685
+#: src/commands-impl.c:1686
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kunde inte skapa alumet \"%s\": %s"
 
-#: src/commands-impl.c:1749
+#: src/commands-impl.c:1750
 msgid "The selected library will be removed, are you sure?"
 msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:1751
+#: src/commands-impl.c:1752
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:2650 src/dlg-categories.c:325 src/dlg-comment.c:239
+#: src/commands-impl.c:2651 src/dlg-categories.c:325 src/dlg-comment.c:239
 #: src/dlg-preferences.c:179 src/dlg-search.c:451
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Kunde inte visa hjälp: %s"
 
-#: src/commands-impl.c:2701
+#: src/commands-impl.c:2702
 msgid "translator_credits"
 msgstr ""
 "Christian Rose\n"
 "Bo Rosén\n"
 "Skicka synpunkter på översättningen till sv@li.org"
 
-#: src/commands-impl.c:2712
-msgid "Copyright (C) 2001 The Free Software Foundation, Inc."
+#: src/commands-impl.c:2713
+msgid "Copyright (C) 2001 Free Software Foundation, Inc."
 msgstr "Copyright © 2001 Free Software Foundation, Inc."
 
-#: src/commands-impl.c:2713
+#: src/commands-impl.c:2714
 msgid "An image viewer and browser for GNOME."
 msgstr "En bildvisare och bläddrare för GNOME."
 
@@ -531,7 +531,7 @@ msgstr "Dubletter"
 msgid "Duplicates Size"
 msgstr "Dublettstorlek"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:649
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:666
 msgid "Name"
 msgstr "Namn"
 
@@ -539,7 +539,7 @@ msgstr "Namn"
 msgid "Last modified"
 msgstr "Senast ändrad"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:669
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:686
 msgid "Location"
 msgstr "Plats"
 
@@ -599,11 +599,11 @@ msgstr "Kunde inte flytta bilden:"
 msgid "Could not copy the image:"
 msgstr "Kunde inte kopiera bilden:"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2305
+#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2306
+#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2309
 msgid "_Continue"
 msgstr "_Fortsätt"
 
@@ -631,35 +631,35 @@ msgstr "Kopierar fil %ld av %ld"
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: src/dlg-image-prop.c:654
+#: src/dlg-image-prop.c:671
 msgid "Image Dimensions"
 msgstr "Bilddimensioner"
 
-#: src/dlg-image-prop.c:659
+#: src/dlg-image-prop.c:676
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:664
+#: src/dlg-image-prop.c:681
 msgid "File Size"
 msgstr "Filstorlek"
 
-#: src/dlg-image-prop.c:674
+#: src/dlg-image-prop.c:691
 msgid "Last Modified"
 msgstr "Senast ändrad"
 
-#: src/dlg-image-prop.c:679
+#: src/dlg-image-prop.c:696
 msgid "Information on Channel"
 msgstr "Information om kanal"
 
-#: src/dlg-image-prop.c:712
+#: src/dlg-image-prop.c:729
 msgid "Field"
 msgstr "Fält"
 
-#: src/dlg-image-prop.c:723 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:740 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Värde"
 
-#: src/dlg-image-prop.c:804
+#: src/dlg-image-prop.c:821
 #, c-format
 msgid "%s Properties"
 msgstr "Egenskaper för %s"
@@ -1689,28 +1689,28 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:2857
+#: src/gthumb-window.c:2859
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: src/gthumb-window.c:3030
+#: src/gthumb-window.c:3032
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: src/gthumb-window.c:3631
+#: src/gthumb-window.c:3633
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/gthumb-window.c:5375
+#: src/gthumb-window.c:5397
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:5643
+#: src/gthumb-window.c:5665
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: src/gthumb-window.c:6907
+#: src/gthumb-window.c:6929
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
@@ -2821,7 +2821,7 @@ msgid "Searching in:"
 msgstr "Söker i:"
 
 #: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
-msgid "_Include Sub-Folders"
+msgid "_Include sub-folders"
 msgstr "_Inkludera undermappar"
 
 #: src/gthumb_search.glade.h:29
@@ -3036,7 +3036,10 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
-#~ msgid "Copyright (C) 2001 Free Software Foundation, Inc."
+#~ msgid "_Include subfolders"
+#~ msgstr "_Inkludera undermappar"
+
+#~ msgid "Copyright (C) 2001 The Free Software Foundation, Inc."
 #~ msgstr "Copyright © 2001 Free Software Foundation, Inc."
 
 #~ msgid "_Find images"
