@@ -1,5 +1,9 @@
 2002-11-02  Christian Rose  <menthos@menthos.com>
 
+	* sv.po: Converted to UTF-8 and started updating it.
+
+2002-11-02  Christian Rose  <menthos@menthos.com>
+
 	* gthumb.pot: Removed. Pot files are generated files and
 	should *not* be stored in cvs.
 	* POTFILES.in: Sorted and added missing files.
