@@ -1,3 +1,10 @@
+2005-01-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-rename-series.c (get_image_date): 
+
+	Fixed bug #163417: Filename in Rename Series (date %d) contains ":" 
+	which is invalid filename under Windows
+
 2005-01-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/actions.c (activate_action_help_about): 

@@ -192,7 +192,7 @@ get_image_date (const char *filename)
 	ltime = localtime (&mtime);
 
 	stime = g_new (char, 50 + 1);
-	strftime (stime, 50, "%Y-%m-%d--%H:%M:%S", ltime);
+	strftime (stime, 50, "%Y-%m-%d--%H.%M.%S", ltime);
 
 	return stime;
 }

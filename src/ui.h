@@ -65,7 +65,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_file_open_with) },
 
 	{ "File_Save", GTK_STOCK_SAVE_AS,
-	  N_("Save _As..."), "<control>S",
+	  N_("Save _As..."), "<control><shift>S",
 	  N_("Save current image"),
 	  G_CALLBACK (activate_action_file_save) },
 
