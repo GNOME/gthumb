@@ -1375,5 +1375,33 @@
 	</locale>
       </schema>
 
+      <!-- Print -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_size</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_size</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>A4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_orientation</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>R0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>
