@@ -1,8 +1,12 @@
+2004-07-28  Žygimantas Beručka  <uid0@akl.lt>
+
+	* lt.po: Updated Lithuanian translation.
+
 2004-07-10  Laurent Dhima  <laurenti@alblinux.net>
 
 	* sq.po: Updated Albanian translation.
 
-2004-07-07  Est�v�o Samuel Proc�pio  <tevaum@ig.com.br>
+2004-07-07  Estêvão Samuel Procópio  <tevaum@ig.com.br>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation.
 
@@ -50,7 +54,7 @@
 
 2004-06-17  Metin Amiroff  <metin@karegen.com>
 
-	* az.po: Translation updated by Mətin Əmirov.
+	* az.po: Translation updated by MÉtin Æmirov.
 
 2004-06-02  Funda Wang  <fundawang@linux.net.cn>
 
@@ -64,7 +68,7 @@
 
 	* sk.po: Added Slovak translation by Ivan Noris.
 
-2004-05-08  Iñaki Larrañaga  <dooteo@euskalgnu.org>
+2004-05-08  IÃ±aki LarraÃ±aga  <dooteo@euskalgnu.org>
 
 	* eu.po: Added Basque translation.
 
@@ -112,11 +116,11 @@
 
 	* zh_CN.po: Updated Simplified Chinese translation.
 
-2004-03-26  Danilo Šegan  <dsegan@gmx.net>
+2004-03-26  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
-2004-03-26  Žygimantas Beručka  <uid0@akl.lt>
+2004-03-26  Åœygimantas BeruÄka  <uid0@akl.lt>
 
 	* lt.po: Added Lithuanian translation.
 
@@ -212,7 +216,7 @@
 
 	* no.po: Updated Norwegian translation.
 
-2004-02-12  Danilo Šegan  <dsegan@gmx.net>
+2004-02-12  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -268,7 +272,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2004-01-23  Danilo Šegan  <dsegan@gmx.net>
+2004-01-23  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -297,7 +301,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2004-01-12  Danilo Šegan  <dsegan@gmx.net>
+2004-01-12  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -332,7 +336,7 @@
 
 	* pt.po: Updated Portuguese translation.
 
-2004-01-02  Danilo Šegan  <dsegan@gmx.net>
+2004-01-02  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -352,7 +356,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-12-29  Danilo Šegan  <dsegan@gmx.net>
+2003-12-29  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -366,7 +370,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-12-26  Danilo Šegan  <dsegan@gmx.net>
+2003-12-26  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -402,7 +406,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-12-15  Danilo Šegan  <dsegan@gmx.net>
+2003-12-15  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -513,7 +517,7 @@
 
 	* cs.po: Updated Czech translation.
 
-2003-08-29  Danilo Šegan  <dsegan@gmx.net>
+2003-08-29  Danilo Å egan  <dsegan@gmx.net>
 
 	* POTFILES.in: Removed libgthumb/gthumb-canvas-text.{c|h}.
 
@@ -525,7 +529,7 @@
 
 	* ja.po: Updated Japanese translation.
 
-2003-08-19  Danilo Šegan  <dsegan@gmx.net>
+2003-08-19  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -795,7 +799,7 @@
 
 	* de.po: Updated German translation.
 
-2003-05-06  Danilo Šegan  <dsegan@gmx.net>
+2003-05-06  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Added Serbian translation by 
 	http://Prevod.org/.
