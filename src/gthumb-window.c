@@ -5422,6 +5422,40 @@ window_notify_file_rename (GThumbWindow *window,
 }
 
 
+static void
+rename_subdir (GThumbWindow *window,
+	       const char   *current,
+	       const char   *old_path,
+	       const char   *new_path)
+{
+	const char *old_name;
+	const char *new_name;
+	int         current_l;
+	int         old_path_l;
+	int         new_path_l;
+
+	current_l = strlen (current);
+	old_path_l = strlen (old_path);
+	new_path_l = strlen (new_path);
+
+	if (old_path_l <= current_l + 1)
+		return;
+
+	if (new_path_l <= current_l + 1)
+		return;
+
+	old_name = old_path + current_l + 1;
+	new_name = new_path + current_l + 1;
+
+	if (strchr (old_name, '/') != NULL)
+		/* a sub-sub directory got renamed, we don't care. */
+		return;
+
+	dir_list_remove_directory (window->dir_list, old_name);
+	dir_list_add_directory (window->dir_list, new_name);
+}
+
+
 void
 window_notify_directory_rename (GThumbWindow *window,
 				const gchar  *old_name,
@@ -5434,7 +5468,7 @@ window_notify_directory_rename (GThumbWindow *window,
 			const char *current = window->dir_list->path;
 			if (strncmp (current, old_name, strlen (current)) == 0)
 				/* a sub directory got renamed, refresh. */
-				window_refresh (window);
+				rename_subdir (window, current, old_name, new_name);
 		}
 
 	} else if (window->sidebar_content == CATALOG_LIST) {
@@ -5444,7 +5478,7 @@ window_notify_directory_rename (GThumbWindow *window,
 			const char *current = window->catalog_list->path;
 			if (strncmp (current, old_name, strlen (current)) == 0)
 				/* a sub directory got renamed, refresh. */
-				window_update_catalog_list (window);
+				rename_subdir (window, current, old_name, new_name);
 		}
 	}
 

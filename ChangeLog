@@ -1,5 +1,7 @@
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-window.c (rename_subdir): fix bug #99037.
+
 	* src/gthumb-ui.xml: add ellipses and underscores (bug #99041).
 
 	* libgthumb/file-utils.c (escape_underscore): 
