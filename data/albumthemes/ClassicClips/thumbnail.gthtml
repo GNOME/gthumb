@@ -1,63 +1,58 @@
-<table width=205 height=122 border=0 cellspacing=0 cellpadding=0 align="center" bgcolor="white">
-  <tr>
-    <td width=205 height=21 valign="bottom" colspan=3>
-      <img src="top.png" width=205 height=21 border=0></td>
-  </tr>
-  <tr>
-    <td width=21 height=122 align="left">
-      <img src="left.png" width=21 height=122 border=0></td>
-    <td width=205 height=122 align="center" valign="middle">
-      <a href="<gthumb:image_link/>">
-        <gthumb:image thumbnail class="thumbnail"/></a></td>
-    <td width=22 height=122 align="right">
-      <img src="right.png" width=22 height=122 border=0></td>
-  </tr>
-  <tr>
-    <td width=205 height=26 valign="top" colspan=3>
-      <img src="bot.png" width=205 height=26 border=0></td>
-  </tr>
-</table>
-<div style="text-align: center">
-  <gthumb:if file_name_visibility_index/>
-    <font color="#969696">
-      <tt><gthumb:file_name/></tt> <br>
-    </font>
-  <gthumb:end/>
-  <font color="#969696" size=-1>
-    <gthumb:if image_dim_visibility_index/>
-      <b><gthumb:image_dim/></b>
-    <gthumb:end/>
-    <gthumb:if file_size_visibility_index/>
-      (<gthumb:file_size/>) <br>
-    <gthumb:else/>
-      <br>
-    <gthumb:end/>
-    <gthumb:if comment_visibility_index/>
-      <gthumb:comment/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_date_time_visibility_index/>
-      <gthumb:exif:date_time/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_exposure_time_visibility_index/>
-      <gthumb:exif:exposure_time/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_exposure_mode_visibility_index/>
-      <gthumb:exif:exposure_mode/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_flash_visibility_index/>
-      <gthumb:exif:flash/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_shutter_speed_visibility_index/>
-      <gthumb:exif:shutter_speed/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_aperture_value_visibility_index/>
-      <gthumb:exif:aperture_value/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_focal_length_visibility_index/>
-      <gthumb:exif:focal_length/> <br>
-    <gthumb:end/>
-    <gthumb:if exif_camera_model_visibility_index/>
-      <gthumb:exif:camera_model/> <br>
-    <gthumb:end/>
-  </font>
-</div>
+      <table class="photo" onClick="window.location.href='<gthumb:image_link/>'">
+      <tr>
+        <td colspan="3"><img src="top.png" alt="Top" /></td>
+      </tr>
+      <tr>
+        <td><img src="left.png" alt="Left" /></td>
+        <td class="photo">
+          <gthumb:image thumbnail class="photo_center" />
+        </td>
+        <td><img src="right.png" alt="Right" /></td>
+      </tr>
+      <tr>
+        <td colspan="3"><img src="bot.png" alt="Bas" /></td>
+      </tr>
+      </table>
+<gthumb:if file_name_visibility_index/>
+      <span class="property_value file_name"><gthumb:file_name/></span><br />
+<gthumb:end/>
+<gthumb:if image_dim_visibility_index/>
+      <span class="property_value image_dim"><gthumb:image_dim/></span>
+<gthumb:if file_size_visibility_index/>
+      <span class="property_value file_size">(<gthumb:file_size/>)</span>
+<gthumb:end/>
+<gthumb:else/>
+<gthumb:if file_size_visibility_index/>
+      <span class="property_value file_size"><gthumb:file_size/></span>
+<gthumb:end/>
+<gthumb:end/>
+<gthumb:if image_dim_visibility_index || file_size_visibility_index/>
+      <br />
+<gthumb:end/>
+<gthumb:if comment_visibility_index/>
+      <span class="comment"><gthumb:comment/></span><br />
+<gthumb:end/>
+<gthumb:if exif_date_time_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:date_time/></span><br />
+<gthumb:end/>
+<gthumb:if exif_exposure_time_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:exposure_time/></span><br />
+<gthumb:end/>
+<gthumb:if exif_exposure_mode_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:exposure_mode/></span><br />
+<gthumb:end/>
+<gthumb:if exif_flash_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:flash/></span><br />
+<gthumb:end/>
+<gthumb:if exif_shutter_speed_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:shutter_speed/></span><br />
+<gthumb:end/>
+<gthumb:if exif_aperture_value_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:aperture_value/></span><br />
+<gthumb:end/>
+<gthumb:if exif_focal_length_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:focal_length/></span><br />
+<gthumb:end/>
+<gthumb:if exif_camera_model_visibility_index/>
+      <span class="property_value exif"><gthumb:exif:camera_model/></span>
+<gthumb:end/>
