@@ -154,16 +154,28 @@ get_exif_time (const char *filename)
 			if (e->data == NULL)
 				continue;
 
+			if (strlen (e->data) < 10)
+				continue;
+
 			data = g_strdup (e->data);
-			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
+
+			data[4] = data[7] = data[10] = '\0';
 
 			tm.tm_year = atoi (data) - 1900;
 			tm.tm_mon  = atoi (data + 5) - 1;
 			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = atoi (data + 11);
-			tm.tm_min  = atoi (data + 14);
-			tm.tm_sec  = atoi (data + 17);
+			tm.tm_hour = 0;
+			tm.tm_min  = 0;
+			tm.tm_sec  = 0;
 			tm.tm_isdst = -1;
+
+			if (strlen (e->data) > 10) {
+				data[13] = data[16] = '\0';
+				tm.tm_hour = atoi (data + 11);
+				tm.tm_min  = atoi (data + 14);
+				tm.tm_sec  = atoi (data + 17);
+			}
+
 			time = mktime (&tm);
 
 			g_free (data);

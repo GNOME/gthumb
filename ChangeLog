@@ -1,3 +1,10 @@
+2005-03-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-utils.c (get_exif_time): do not assume a correct data 
+	format.
+
+	Fixes bug #170391: Crash if the EXIF DateTime is too short.
+
 2005-03-14  Abel Cheung  <maddog@linuxhall.org>
 
 	* configure.in: Added "tr" to ALL_LINGUAS.
