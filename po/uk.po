@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "POT-Creation-Date: 2003-03-11 13:39+0200\n"
-"PO-Revision-Date: 2003-03-31 09:28--500\n"
+"PO-Revision-Date: 2003-03-31 10:35--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -621,7 +621,7 @@ msgstr ""
 
 #: src/dlg-file-utils.c:87
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr ""
+msgstr "Теки призначення не існує. Бажаєте створити її?"
 
 #: src/dlg-file-utils.c:103
 #, c-format
@@ -639,7 +639,7 @@ msgstr "Не вдалось стерти зображення:"
 
 #: src/dlg-file-utils.c:219
 msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
-msgstr ""
+msgstr "Зображення не може бути перенесено у смітник. Бажаєте стерти їх остаточно?"
 
 #: src/dlg-file-utils.c:750
 #: src/dlg-file-utils.c:851
