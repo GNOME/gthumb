@@ -214,7 +214,7 @@ dir_list_update_view (DirList *dir_list)
 	GdkPixbuf *film_pixbuf;
 	GList     *scan;
 
-	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
+	dir_pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (dir_list->list_view));
 	up_pixbuf = gtk_widget_render_icon (dir_list->list_view,
 					    GTK_STOCK_GO_UP,
 					    GTK_ICON_SIZE_MENU,
@@ -484,7 +484,7 @@ dir_list_add_directory (DirList         *dir_list,
 
 	/* insert dir in the list view */
 
-	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
+	dir_pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (dir_list->list_view));
 	film_pixbuf = gtk_widget_render_icon (dir_list->list_view, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
 
 	if (is_a_film (dir_list, name_only))

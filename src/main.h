@@ -44,7 +44,6 @@ extern gboolean          ImportPhotos;
 
 #define MENU_ICON_SIZE 20.0
 #define LIST_ICON_SIZE 20.0
-#define ICON_GTK_SIZE  GTK_ICON_SIZE_LARGE_TOOLBAR
 
 
 void all_windows_update_file_list              ();
@@ -97,7 +96,9 @@ void all_windows_remove_monitor                ();
 
 void all_windows_add_monitor                   ();
 
-int        get_default_folder_pixbuf_size      (GtkWidget *widget);
+int        get_folder_pixbuf_size_for_list     (GtkWidget *widget);
+
+int        get_folder_pixbuf_size_for_menu     (GtkWidget *widget);
 
 GdkPixbuf *get_folder_pixbuf                   (double icon_size);
 

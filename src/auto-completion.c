@@ -452,7 +452,7 @@ auto_compl_show_alternatives (GThumbWindow *window,
 	width = 0;
 	n = 0;
 
-	pixbuf = (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) ? get_folder_pixbuf (get_default_folder_pixbuf_size (window->app)) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
+	pixbuf = (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) ? get_folder_pixbuf (get_folder_pixbuf_size_for_list (window->app)) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 
 	gtk_list_store_clear (ac_list_store);
 	for (scan = ac_alternatives; scan; scan = scan->next) {

@@ -28,7 +28,7 @@
 #define IMAGE_SHADOW_OFFSET 8
 #define INOUT_SHADOW_OFFSET 3
 
-
+#if 0
 void
 gthumb_draw_slide (int          slide_x, 
 		   int          slide_y,
@@ -159,6 +159,177 @@ gthumb_draw_slide (int          slide_x,
 				       image_y2,
 				       image_x2,
 				       image_y2);
+		}
+	} else
+		gdk_draw_rectangle (drawable,
+				    gc,
+				    TRUE,
+				    slide_x,
+				    slide_y,
+				    slide_w,
+				    slide_h);
+
+	/* Outter border. */
+
+	gdk_draw_line (drawable,
+		       mid_gc,
+		       slide_x,
+		       slide_y,
+		       slide_x2,
+		       slide_y);
+	gdk_draw_line (drawable,
+		       mid_gc,
+		       slide_x,
+		       slide_y,
+		       slide_x,
+		       slide_y2);
+	gdk_draw_line (drawable,
+		       black_gc,
+		       slide_x2,
+		       slide_y,
+		       slide_x2,
+		       slide_y2);
+	gdk_draw_line (drawable,
+		       black_gc,
+		       slide_x,
+		       slide_y2,
+		       slide_x2,
+		       slide_y2);
+
+	gdk_draw_line (drawable,
+		       light_gc,
+		       slide_x + 1,
+		       slide_y + 1,
+		       slide_x2 - 1,
+		       slide_y + 1);
+	gdk_draw_line (drawable,
+		       light_gc,
+		       slide_x + 1,
+		       slide_y + 1,
+		       slide_x + 1,
+		       slide_y2 - 1);
+	gdk_draw_line (drawable,
+		       dark_gc,
+		       slide_x2 - 1,
+		       slide_y + 1,
+		       slide_x2 - 1,
+		       slide_y2 - 1);
+	gdk_draw_line (drawable,
+		       dark_gc,
+		       slide_x + 1,
+		       slide_y2 - 1,
+		       slide_x2 - 1,
+		       slide_y2 - 1);
+
+	g_object_unref (white_gc);
+}
+#endif
+
+void
+gthumb_draw_slide (int          slide_x, 
+		   int          slide_y,
+		   int          slide_w,
+		   int          slide_h,
+		   int          image_w,
+		   int          image_h,
+		   GdkDrawable *drawable,
+		   GdkGC       *gc,
+		   GdkGC       *black_gc,
+		   GdkGC       *dark_gc,
+		   GdkGC       *mid_gc,
+		   GdkGC       *light_gc,
+		   gboolean     draw_inner_border)
+{
+	GdkGC    *white_gc;
+	GdkColor  white_color;
+	int       slide_x2, slide_y2;
+
+	white_gc = gdk_gc_new (drawable);
+	gdk_color_parse ("#FFFFFF", &white_color);
+	gdk_gc_set_rgb_fg_color (white_gc, &white_color);
+
+	slide_x2 = slide_x + slide_w;
+	slide_y2 = slide_y + slide_h;
+
+	if ((image_w > 0) && (image_h > 0)) {
+		int image_x, image_y;
+		int image_x2, image_y2;
+		
+		image_x = slide_x + (slide_w - image_w) / 2 + 1;
+		image_y = slide_y + (slide_h - image_h) / 2 + 1;
+		
+		/* background. */
+		
+		gdk_draw_rectangle (drawable,
+				    gc,
+				    TRUE,
+				    slide_x,
+				    slide_y,
+				    slide_w,
+				    image_y - slide_y);
+		gdk_draw_rectangle (drawable,
+				    gc,
+				    TRUE,
+				    slide_x,
+				    image_y + image_h - 1,
+				    slide_w,
+				    image_y - slide_y);
+		gdk_draw_rectangle (drawable,
+				    gc,
+				    TRUE,
+				    slide_x,
+				    slide_y,
+				    image_x - slide_x,
+				    slide_h);
+		gdk_draw_rectangle (drawable,
+				    gc,
+				    TRUE,
+				    image_x + image_w - 1,
+				    slide_y,
+				    image_x - slide_x,
+				    slide_h);
+
+
+		/* Inner border. */
+
+		if (draw_inner_border) {
+			image_x2 = image_x + image_w + 1;
+			image_y2 = image_y + image_h + 1;
+			image_x--;
+			image_y--;
+			
+			gdk_draw_rectangle (drawable,
+					    white_gc,
+					    TRUE,
+					    image_x,
+					    image_y,
+					    image_w,
+					    image_h);
+			
+			gdk_draw_line (drawable,
+				       dark_gc,
+				       image_x,
+				       image_y,
+				       image_x2 - 1,
+				       image_y);
+			gdk_draw_line (drawable,
+				       dark_gc,
+				       image_x,
+				       image_y,
+				       image_x,
+				       image_y2 - 1);
+			gdk_draw_line (drawable,
+				       mid_gc,
+				       image_x2 - 1,
+				       image_y,
+				       image_x2 - 1,
+				       image_y2 - 1);
+			gdk_draw_line (drawable,
+				       mid_gc,
+				       image_x,
+				       image_y2 - 1,
+				       image_x2 - 1,
+				       image_y2 - 1);
 		}
 	} else
 		gdk_draw_rectangle (drawable,

@@ -1404,7 +1404,7 @@ add_bookmark_menu_item (GThumbWindow *window,
 	else if (folder_is_film (path))
 		pixbuf = gtk_widget_render_icon (window->app, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
 	else
-		pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (window->app));
+		pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_menu (window->app));
 
 	bonobo_ui_util_set_pixbuf (ui_component, 
 				   full_cmd_name,
@@ -5398,12 +5398,12 @@ window_new (void)
 	/**/
 
 	window->preview_widget_data_comment = image_pane_paned2 = gtk_hpaned_new ();
+	gtk_paned_set_position (GTK_PANED (image_pane_paned2), eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH) / 2);
 	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, TRUE, FALSE);
 
 	window->preview_widget_comment = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
-	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), image_pane_paned2, FALSE, FALSE);
 
 	window->image_comment = gtk_text_view_new ();
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (window->image_comment), FALSE);
@@ -7471,6 +7471,10 @@ save_pixbuf__image_saved_cb (char     *filename,
 		return;
 
 	/**/
+
+	if ((window->image_path != NULL)
+	    && (strcmp (window->image_path, filename) == 0))
+		window->image_modified = FALSE;
 
 	file_list = g_list_prepend (NULL, filename);
 

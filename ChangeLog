@@ -1,3 +1,22 @@
+2004-03-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (save_pixbuf__image_saved_cb): set 
+	image_modified = FALSE if the current image has been saved.
+
+2004-03-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gthumb-slide.c (gthumb_draw_slide): make the inner border
+	slimmer.
+
+2004-03-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (window_new): set the position of the paned
+	window.
+
+2004-03-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.3.2 released ]
+	
 2004-03-26  Zygimantas Berucka  <uid0@akl.lt>
 
 	* configure.in: Added "lt" (Lithuanian) to ALL_LINGUAS.
