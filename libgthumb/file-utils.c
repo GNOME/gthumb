@@ -591,46 +591,36 @@ rmdir_recursive (const gchar *directory)
 /* -- */
 
 
-int
+gboolean
 check_permissions (const char *path,
 		   int         mode) 
 {
 	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
+	GnomeVFSResult    vfs_result;
 	char             *escaped;
-	int	          perm;
-	
+
 	info = gnome_vfs_file_info_new ();
 	escaped = escape_uri (path);
-	result = gnome_vfs_get_file_info (escaped, 
-					  info, 
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	
-	if (result != GNOME_VFS_OK) 
+	vfs_result = gnome_vfs_get_file_info (escaped, 
+					      info, 
+					      (GNOME_VFS_FILE_INFO_DEFAULT 
+					       | GNOME_VFS_FILE_INFO_FOLLOW_LINKS
+					       | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
+	g_free (escaped);
+
+	if (vfs_result != GNOME_VFS_OK) 
 		return FALSE; 
 
-	perm = 7;
-	
-	if ((mode & R_OK) && (info->permissions & 
-			      (GNOME_VFS_PERM_USER_READ | 
-			       GNOME_VFS_PERM_GROUP_READ|
-			       GNOME_VFS_PERM_OTHER_READ))) 
-		perm &= ~R_OK;
+	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE)) 
+		return FALSE; 
 
-	if ((mode & W_OK) && (info->permissions & 
-			      (GNOME_VFS_PERM_USER_WRITE | 
-			       GNOME_VFS_PERM_GROUP_WRITE|
-			       GNOME_VFS_PERM_OTHER_WRITE)))  
-		perm &= ~W_OK;
-	
-	if ((mode & X_OK) && (info->permissions & 
-			      (GNOME_VFS_PERM_USER_EXEC | 
-			       GNOME_VFS_PERM_GROUP_EXEC|
-			       GNOME_VFS_PERM_OTHER_EXEC)))  
-		perm &= ~X_OK;
+	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
+		return FALSE; 
 
-	return (perm);
+	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
+		return FALSE; 
+
+	return TRUE;
 }
 
 

@@ -190,7 +190,7 @@ GnomeVFSFileSize    get_dest_free_space          (const char  *path);
 
 gboolean            is_mime_type_writable        (const char *mime_type);
 
-int	            check_permissions            (const char *path, int mode);
+gboolean            check_permissions            (const char *path, int mode);
 
 
 #endif /* FILE_UTILS_H */
