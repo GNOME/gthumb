@@ -1,5 +1,9 @@
 2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/albumthemes/*/preview.png: ops, forgot to resize previews :)
+
+2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	[ gthumb 2.3.3 released ]
 
 2004-04-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
