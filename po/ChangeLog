@@ -1,3 +1,8 @@
+2002-11-01  Christian Neumair  <chris@gnome-de.org>
+
+	* gthumb.pot: Added.
+	* gthumb-2.0.pot: Removed.
+
 2002-10-31  Pablo Gonzalo del Campo <pablodc@bigfoot.com>
 
 	* es.po: Updated Spanish translation.
