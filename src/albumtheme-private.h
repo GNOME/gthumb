@@ -182,6 +182,7 @@ void           gth_condition_add_document  (GthCondition *cond,
 typedef enum {
 	GTH_TAG_HEADER,
 	GTH_TAG_FOOTER,
+	GTH_TAG_LANGUAGE,
 	GTH_TAG_IMAGE,
 	GTH_TAG_IMAGE_LINK,
 	GTH_TAG_IMAGE_IDX,

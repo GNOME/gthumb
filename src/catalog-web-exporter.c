@@ -22,10 +22,12 @@
 
 #include <config.h>
 #include <stdio.h>
-#include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
+#include <locale.h>
+#include <ctype.h>
+#include <string.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -118,7 +120,7 @@ image_data_new (const char *filename)
 	idata = g_new (ImageData, 1);
 
 	cdata = comments_load_comment (filename);
-	idata->comment = comments_get_comment_as_string (cdata, "&nbsp;<BR>", "&nbsp;<BR>");
+	idata->comment = comments_get_comment_as_string (cdata, "&nbsp;<br />", "&nbsp;<br />");
 	if (cdata != NULL)
 		comment_data_free (cdata);
 
@@ -826,13 +828,30 @@ get_page_idx_from_image_idx (CatalogWebExporter *ce,
 }
 
 
+static gboolean
+line_is_void (const char *line)
+{
+	char *scan;
+
+	if (line == NULL)
+		return TRUE;
+
+	for (scan = line; *scan != '\0'; scan++)
+		if ((*scan != ' ')
+		    && (*scan != '\t')
+		    && (*scan != '\n'))
+			return FALSE;
+
+	return TRUE;
+}
+
+
 static void
 write_line (const char *line, FILE *fout) 
 {
-	if (line == NULL)
+	if (line_is_void (line))
 		return;
-	if (*line == 0)
-		return;
+
 	fwrite (line, sizeof (char), strlen (line), fout);
 }
 
@@ -915,6 +934,52 @@ get_current_date (void)
 	strftime (s, 99, DATE_FORMAT, tp);
 
 	return g_locale_to_utf8 (s, -1, 0, 0, 0);
+}
+
+
+static int
+is_alpha_string (char   *s, 
+		 size_t  maxlen)
+{
+	if (s == NULL)
+		return 0;
+	
+	while ((maxlen > 0) && (*s != '\0') && isalpha (*s)) {
+		maxlen--;
+		s++;
+	}
+	
+	return ((maxlen == 0) || (*s == '\0'));
+}
+
+
+static char*
+get_current_language (void)
+{
+	char   *language = NULL;
+	char   *tmp_locale;
+	char   *locale;
+	char   *underline;
+	size_t  len;
+
+	tmp_locale = setlocale (LC_ALL, NULL);
+	if (tmp_locale == NULL)
+		return NULL;
+	locale = g_strdup (tmp_locale);
+
+	/* FIXME: complete LC_ALL -> RFC 3066 */
+	
+	underline = strchr (locale, '_');
+	if (underline != NULL)
+		*underline = '\0';
+
+	len = strnlen (locale, 4);
+	if (((len == 2) || (len == 3)) && is_alpha_string (locale, len))
+		language = g_locale_to_utf8 (locale, -1, 0, 0, 0);
+		
+	g_free (locale);
+
+	return language;
 }
 
 
@@ -1005,6 +1070,11 @@ gth_parsed_doc_print (GList              *document,
 			write_line (line, fout);
 			break;
 
+		case GTH_TAG_LANGUAGE:
+			line = get_current_language ();
+			write_line (line, fout);
+			break;
+
 		case GTH_TAG_IMAGE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
@@ -1041,7 +1111,7 @@ gth_parsed_doc_print (GList              *document,
 								       ce->location);
 			escaped_path = escape_uri (image_src_relative);
 
-			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s/>",
+			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s />",
 						escaped_path,
 						escaped_path,
 						image_width,
@@ -1204,7 +1274,10 @@ gth_parsed_doc_print (GList              *document,
 				break;
 
 			for (r = 0; r < ce->page_rows; r++) {
-				write_line ("  <tr class=\"tr_index\">\n", fout);
+				if (ce->image < ce->n_images)
+					write_line ("  <tr class=\"tr_index\">\n", fout);
+				else
+					write_line ("  <tr class=\"tr_empty_index\">\n", fout);
 				for (c = 0; c < ce->page_cols; c++) {
 					if (ce->image < ce->n_images) {
 						write_line ("    <td class=\"td_index\">\n", fout);
@@ -1215,10 +1288,7 @@ gth_parsed_doc_print (GList              *document,
 						write_line ("    </td>\n", fout);
 						ce->image++;
 					} else {
-						char *line;
-						line = g_strdup_printf ("    <td width=%d height=%d>\n", ce->thumb_width, ce->thumb_height);
-						write_line (line, fout);
-						g_free (line);
+						write_line ("    <td class=\"td_empty_index\">\n", fout);
 						write_line ("    &nbsp;\n", fout);
 						write_line ("    </td>\n", fout);
 					} 

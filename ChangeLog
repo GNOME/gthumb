@@ -1,3 +1,19 @@
+2004-12-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/Classic/thumbnail.gthtml: 
+	* data/albumthemes/Classic/style.css: 
+	* data/albumthemes/Classic/Makefile.am: 
+	* data/albumthemes/Classic/layout.css: 
+	* data/albumthemes/Classic/index.gthtml: 
+	* data/albumthemes/Classic/image.gthtml: Applied patch #35273 
+	
+	* src/catalog-web-exporter.c: 
+	* src/albumtheme.y: 
+	* src/albumtheme-private.h: 
+	* src/albumtheme.l: Applied patch #35272 
+
+	Started fixing bug #145325: xhtml/xml support for Web Albums.
+	
 2004-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c: use "text/uri-list" only as dnd target type.

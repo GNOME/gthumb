@@ -47,6 +47,7 @@ int   yylex   (void);
 %token <text>   NAME STRING
 %token <ivalue> NUMBER
 %token <ivalue> HEADER FOOTER 
+%token <ivalue> LANGUAGE 
 %token <ivalue> IMAGE 
 %token <ivalue> IMAGE_LINK 
 %token <ivalue> IMAGE_IDX 
@@ -63,12 +64,12 @@ int   yylex   (void);
 %token <ivalue> DATE 
 %token <ivalue> TEXT TEXT_END
 %token <ivalue> EXIF_EXPOSURE_TIME
-%token <ivalue> EXIF_EXPOSURE_MODE,
-%token <ivalue> EXIF_FLASH,
-%token <ivalue> EXIF_SHUTTER_SPEED,
-%token <ivalue> EXIF_APERTURE_VALUE,
-%token <ivalue> EXIF_FOCAL_LENGTH,
-%token <ivalue> EXIF_DATE_TIME,
+%token <ivalue> EXIF_EXPOSURE_MODE
+%token <ivalue> EXIF_FLASH
+%token <ivalue> EXIF_SHUTTER_SPEED
+%token <ivalue> EXIF_APERTURE_VALUE
+%token <ivalue> EXIF_FOCAL_LENGTH
+%token <ivalue> EXIF_DATE_TIME
 %token <ivalue> EXIF_CAMERA_MODEL
 
 %token <ivalue> SET_VAR 
@@ -90,7 +91,7 @@ int   yylex   (void);
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
-%left  '+', '-', '*', '/', '!' 
+%left  '+' '-' '*' '/' '!' 
 %right UNARY_OP
 
 %%
@@ -311,6 +312,7 @@ gthumb_tag 	: tag_name arg_list END_TAG {
 
 tag_name	: HEADER              { $$ = $1; }
 		| FOOTER              { $$ = $1; }
+		| LANGUAGE            { $$ = $1; }
 		| IMAGE               { $$ = $1; }
 		| IMAGE_LINK          { $$ = $1; }
 		| IMAGE_IDX           { $$ = $1; }

@@ -40,6 +40,11 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					yylval.ivalue = GTH_TAG_FOOTER;
 					return FOOTER;
 				}
+"<gthumb:language"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_LANGUAGE;
+					return LANGUAGE;
+				}
 "<gthumb:image"			{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_IMAGE;
@@ -204,7 +209,7 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					yylval.ivalue = GTH_OP_CMP_GT;
 					return COMPARE;
 				}
-<STAG>">"			{
+<STAG>">"		        {
 					BEGIN (INITIAL);
 					return END_TAG;
 				}
@@ -259,7 +264,7 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 <TAG,STAG>[ \t\n]		{
 					/* Eat spaces inside tag. */
 				}
-<TAG>"/>"			{
+<TAG>"/>"		        {
 					BEGIN (INITIAL);
 					return END_TAG;
 				}
