@@ -40,6 +40,7 @@ libgthumb/file-utils.c
 libgthumb/file-utils.h
 libgthumb/gconf-utils.c
 libgthumb/gconf-utils.h
+libgthumb/dlg-save-image.c
 libgthumb/glib-utils.c
 libgthumb/glib-utils.h
 libgthumb/gnome-canvas-thumb.c
@@ -118,7 +119,6 @@ src/dlg-preferences.c
 src/dlg-preferences.h
 src/dlg-rename-series.c
 src/dlg-rename-series.h
-src/dlg-save-image.c
 src/dlg-search.c
 src/dlg-search.h
 src/fullscreen.c
