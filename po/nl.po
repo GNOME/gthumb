@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-07 13:04+0200\n"
+"POT-Creation-Date: 2003-07-16 12:38+0200\n"
 "PO-Revision-Date: 2003-02-01 22:24+0100\n"
 "Last-Translator: Mark Van den Borre <mark@markvdb.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -283,7 +283,7 @@ msgstr "Voorbeeldzin _wijzigen..."
 
 #: libgthumb/gnome-print-font-dialog.c:244
 msgid "Font Selection"
-msgstr "Lettertypeselectie"
+msgstr "Lettertype-selectie"
 
 #: libgthumb/gnome-print-font-picker.c:92
 msgid "Sans Regular 12"
@@ -359,16 +359,16 @@ msgid "Comment"
 msgstr "Commentaar"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:424
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:429
 msgid "Name"
 msgstr "Naam"
 
-#: libgthumb/print-callbacks.c:919 libgthumb/print-callbacks.c:1499
+#: libgthumb/print-callbacks.c:921 libgthumb/print-callbacks.c:1501
 #, fuzzy, c-format
 msgid "Print %s"
 msgstr "Afdrukken"
 
-#: libgthumb/print-callbacks.c:922
+#: libgthumb/print-callbacks.c:924
 msgid "Print Image"
 msgstr "Afbeelding Afdrukken"
 
@@ -545,7 +545,7 @@ msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde map zal naar de PrullenBak verhuizen. Weet u het zeker ?"
 
-#: src/commands-impl.c:1219 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:274
 msgid "_Move"
 msgstr "_Verplaatsen"
 
@@ -616,9 +616,9 @@ msgstr ""
 "Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Mark Van den Borre <mark@markvdb.be>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4859
+#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4877
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
-#: src/main.c:122
+#: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -780,7 +780,7 @@ msgstr "op grootte"
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:438
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:443
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -793,11 +793,11 @@ msgstr "Laatst Gewijzigd"
 msgid "Information on Channel"
 msgstr "Informatie over Kanaal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5308
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5326
 msgid "Field"
 msgstr "Veld"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5302 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5318 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Waarde"
 
@@ -864,7 +864,7 @@ msgstr "Diavoorstelling verlaten"
 msgid "Image Info"
 msgstr "Afbeelding"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4255
+#: src/fullscreen.c:818 src/gthumb-window.c:4270
 msgid "Back"
 msgstr "Terug"
 
@@ -933,9 +933,8 @@ msgid "Assign categories to the image"
 msgstr "Categoriëen aan afbeelding toewijzen"
 
 #: src/gthumb-ui.xml.h:13
-#, fuzzy
 msgid "Auto"
-msgstr "_Over"
+msgstr "Automatisch"
 
 #: src/gthumb-ui.xml.h:14
 #, fuzzy
@@ -1060,7 +1059,7 @@ msgstr "Dubbel maken van afbeelding"
 
 #: src/gthumb-ui.xml.h:44
 msgid "E_xit"
-msgstr "A_fsluiten"
+msgstr "_Afsluiten"
 
 #: src/gthumb-ui.xml.h:45
 msgid "Edit Search"
@@ -1335,7 +1334,7 @@ msgstr "Volgorde afbeeldingen omkeren"
 
 #: src/gthumb-ui.xml.h:116
 msgid "Revert"
-msgstr "Herstellen"
+msgstr "Terugdraaien"
 
 #: src/gthumb-ui.xml.h:117
 msgid "Revert to saved image"
@@ -1806,7 +1805,7 @@ msgstr "Omgekee_rde volgorde"
 
 #: src/gthumb-ui.xml.h:243
 msgid "_Revert"
-msgstr "Volgorde Omke_Ren"
+msgstr "_Terugdraaien"
 
 #: src/gthumb-ui.xml.h:244
 msgid "_Rotate"
@@ -1858,7 +1857,7 @@ msgstr "_Werkbalk"
 
 #: src/gthumb-ui.xml.h:256
 msgid "_Tools"
-msgstr "Ge_reedschap"
+msgstr "E_xtra"
 
 #: src/gthumb-ui.xml.h:257
 msgid "_Transform"
@@ -1921,39 +1920,39 @@ msgstr "1 geselecteerd (%s)"
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: src/gthumb-window.c:3360
+#: src/gthumb-window.c:3378
 msgid "Dragged Images"
 msgstr "Gesleepte Afbeeldingen"
 
-#: src/gthumb-window.c:3556
+#: src/gthumb-window.c:3574
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
-#: src/gthumb-window.c:5189
+#: src/gthumb-window.c:5207
 #, fuzzy
 msgid "Image comment"
 msgstr "Commentaar verwijderen"
 
-#: src/gthumb-window.c:5203
+#: src/gthumb-window.c:5221
 #, fuzzy
 msgid "Image data"
 msgstr "Kop bij Afbeelding"
 
-#: src/gthumb-window.c:5217
+#: src/gthumb-window.c:5235
 #, fuzzy
 msgid "Image preview"
 msgstr "Voorsmaakje afbeeld_Ing"
 
-#: src/gthumb-window.c:6449
+#: src/gthumb-window.c:6467
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6718
+#: src/gthumb-window.c:6736
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8064
+#: src/gthumb-window.c:8082
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -2401,7 +2400,7 @@ msgstr "_Magenta-Groen:"
 
 #: src/gthumb_edit.glade.h:27
 msgid "_Preview"
-msgstr "_Voorsmaakje"
+msgstr "_Voorbeeld"
 
 #: src/gthumb_edit.glade.h:28
 msgid "_Reset"
@@ -2991,7 +2990,7 @@ msgstr "<i>De afbeelding slepen om ze over de pagina te bewegen.</i>"
 
 #: src/gthumb_print.glade.h:9
 msgid "A_4"
-msgstr ""
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
 msgid "C_ustom:"
@@ -3020,9 +3019,8 @@ msgid "Lan_dscape"
 msgstr "Lan_dschap"
 
 #: src/gthumb_print.glade.h:16
-#, fuzzy
 msgid "Layout"
-msgstr "Layout:"
+msgstr "Lay-out"
 
 #: src/gthumb_print.glade.h:17
 msgid "Millimeters"
@@ -3429,7 +3427,7 @@ msgstr "Ga naar de _Afbeeldingenmap"
 
 #: src/gthumb_web_exporter.glade.h:40
 msgid "_Install Theme..."
-msgstr ""
+msgstr "Thema _installeren..."
 
 #: src/gthumb_web_exporter.glade.h:42
 msgid "_Shutter speed"
@@ -3440,7 +3438,7 @@ msgstr ""
 msgid "_Thumbnail Caption..."
 msgstr "_Voorsmaakjes"
 
-#: src/gthumb_web_exporter.glade.h:27
+#: src/gthumb_web_exporter.glade.h:44
 msgid "_Title:"
 msgstr "_Titel:"
 
@@ -3453,62 +3451,62 @@ msgstr "Laatst gewijzigd"
 msgid "index.html"
 msgstr ""
 
-#: src/main.c:78
+#: src/main.c:80
 msgid "Start in fullscreen mode"
 msgstr "Starten in volledig scherm-modus"
 
-#: src/main.c:82
+#: src/main.c:84
 msgid "Automatically start a slideshow"
 msgstr "Automatisch een diavoorstelling starten"
 
-#: src/main.c:161
+#: src/main.c:163
 msgid "Holidays"
 msgstr "Vakantie"
 
-#: src/main.c:162
+#: src/main.c:164
 msgid "Temporary"
 msgstr "Tijdelijk"
 
-#: src/main.c:163
+#: src/main.c:165
 msgid "Screenshots"
 msgstr "Schermafdrukken"
 
-#: src/main.c:164
+#: src/main.c:166
 msgid "Science"
 msgstr "Wetenschap"
 
-#: src/main.c:165
+#: src/main.c:167
 msgid "Favourite"
 msgstr "Favoriet"
 
-#: src/main.c:166
+#: src/main.c:168
 msgid "Important"
 msgstr "Belangrijk"
 
-#: src/main.c:167
+#: src/main.c:169
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:168
+#: src/main.c:170
 msgid "Games"
 msgstr "Spelletjes"
 
-#: src/main.c:169
+#: src/main.c:171
 msgid "Party"
 msgstr "Feest"
 
-#: src/main.c:170
+#: src/main.c:172
 msgid "Birthday"
 msgstr "Verjaardag"
 
-#: src/main.c:171
+#: src/main.c:173
 msgid "Astronomy"
 msgstr "Sterrenkunde"
 
-#: src/main.c:172
+#: src/main.c:174
 msgid "Family"
 msgstr "Familie"
 
-#: src/main.c:308 src/main.c:374
+#: src/main.c:311 src/main.c:393
 msgid "Command Line"
 msgstr "Command Line"
