@@ -34,6 +34,8 @@
 #include "typedefs.h"
 
 #define SPECIAL_DIR(x) (! strcmp (x, "..") || ! strcmp (x, "."))
+#define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
+
 
 typedef struct _PathListData PathListData;
 
@@ -175,7 +177,7 @@ char *              new_path_from_uri             (GnomeVFSURI *uri);
 GnomeVFSResult      resolve_all_symlinks          (const char  *text_uri,
 						   char       **resolved_text_uri);
 
-#define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
+GnomeVFSFileSize    get_dest_free_space          (const char  *path);
 
 
 #endif /* FILE_UTILS_H */

@@ -626,7 +626,7 @@ help_cb (GtkWidget  *widget,
 	GError *err;
 
 	err = NULL;  
-	gnome_help_display ("gthumb", "rotate-jpeg", &err);
+	gnome_help_display ("gthumb", "gthumb-rotate-jpeg", &err);
 	
 	if (err != NULL) {
 		GtkWidget *dialog;

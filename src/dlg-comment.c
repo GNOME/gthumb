@@ -253,7 +253,7 @@ help_cb (GtkWidget  *widget,
 	GError *err;
 
 	err = NULL;  
-	gnome_help_display ("gthumb", "comments", &err);
+	gnome_help_display ("gthumb", "gthumb-comments", &err);
 	
 	if (err != NULL) {
 		GtkWidget *dialog;

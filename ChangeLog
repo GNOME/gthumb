@@ -1,4 +1,30 @@
+2003-10-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* doc/C/gthumb.xml: updated.
+
+	* src/gthumb_convert.glade: 
+	* src/gthumb_tools.glade: 
+	* src/dlg-convert.c (help_cb): 
+	* src/dlg-rename-series.c (help_cb): 
+	* src/dlg-change-date.c (help_cb): add a help button for some dialogs.
+
+	* libgthumb/comments.c (save_comment): init strings to NULL.
+
+	* src/gthumb-window.c (image_requested_error_cb): view the image
+	filename even if the image could not be loaded.
+
+	* src/dlg-file-utils.c (file_move_response_cb): remove a g_print
+
+	* libgthumb/file-utils.c (get_dest_free_space): new function.
+
+2003-10-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fullscreen.c (fullscreen_start): set the window screen.
+
 2003-09-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: always use the name Catalog for the catalog
+	submenu, even when the catalog is a search.
 
 	* doc/C/gthumb.xml: started updating manual.
 

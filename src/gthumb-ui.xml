@@ -436,7 +436,7 @@
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
-		<submenu name="Search" _label="_Search">
+		<submenu name="Search" _label="Ca_talog">
 			<menuitem name="EditCurrentCatalog_RedoSearch" verb=""/>
 			<menuitem name="EditCurrentCatalog_EditSearch" verb=""/>
 			<separator name="EditCurrentCatalog_Sep"/>

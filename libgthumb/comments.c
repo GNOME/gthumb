@@ -152,9 +152,9 @@ comments_get_comment_filename (const char *source,
 			       gboolean    unescape) 
 {
 	char        *source_real = NULL;
-	char        *directory;
-	const char  *filename;
-	char        *path;
+	char        *directory = NULL;
+	const char  *filename = NULL;
+	char        *path = NULL;
 
 	if (source == NULL) 
 		return NULL;
@@ -250,8 +250,8 @@ void
 comment_copy (const char *src,
 	      const char *dest)
 {
-	char *comment_src;
-	char *comment_dest;
+	char *comment_src = NULL;
+	char *comment_dest = NULL;
 
 	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
@@ -277,8 +277,8 @@ void
 comment_move (const char *src,
 	      const char *dest)
 {
-	char *comment_src;
-	char *comment_dest;
+	char *comment_src = NULL;
+	char *comment_dest = NULL;
 
 	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
@@ -572,11 +572,11 @@ save_comment (const char  *filename,
 {
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
-	char        *comment_file;
-	char        *time_str;
-	char        *keywords_str;
-	char        *dest_dir;
-	char        *e_comment, *e_place, *e_keywords;
+	char        *comment_file = NULL;
+	char        *time_str = NULL;
+	char        *keywords_str = NULL;
+	char        *dest_dir = NULL;
+	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
 
 	if (comment_data_is_void (data)) {
 		comment_delete (filename);

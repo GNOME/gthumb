@@ -335,8 +335,6 @@ file_move_response_cb (GtkWidget *w,
 	if (path == NULL) 
 		return;
 
-	g_print ("folder: %s\n", path);
-
 	/* ignore ending slash. */
 	len = strlen (path);
 	if ((len > 1) && (path[len - 1] == '/'))

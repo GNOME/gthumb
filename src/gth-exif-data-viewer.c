@@ -440,8 +440,13 @@ update_file_info (GthExifDataViewer *edv)
 	utf8_name = g_filename_to_utf8 (file_name_from_path (edv->priv->path), -1, 
 					NULL, NULL, NULL);
 
-	width = image_viewer_get_image_width (edv->priv->viewer);
-	height = image_viewer_get_image_height (edv->priv->viewer);
+	if (!image_viewer_is_void(IMAGE_VIEWER (edv->priv->viewer))) {
+		width = image_viewer_get_image_width (edv->priv->viewer);
+		height = image_viewer_get_image_height (edv->priv->viewer);
+	} else {
+		width = 0;
+		height = 0;
+	}
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
 	
 	mtime = get_file_mtime (edv->priv->path);

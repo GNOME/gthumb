@@ -438,7 +438,7 @@ help_cb (GtkWidget  *widget,
 	GError *err;
 
 	err = NULL;  
-	gnome_help_display ("gthumb", "find", &err);
+	gnome_help_display ("gthumb", "gthumb-find", &err);
 	
 	if (err != NULL) {
 		GtkWidget *d;

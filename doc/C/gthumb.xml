@@ -660,13 +660,10 @@
   </sect1>
 
   <!-- ============= Viewing ================================== -->
-  <sect1 id="viewing">
-  <title>Working with Images</title>
-  <para>
-    This section shows how to view, modify and save images.
-  </para>
+  <sect1 id="gthumb-image-viewing">
+  <title>Viewing Images</title>
   <sect2 id="gthumb-view-images">
-  <title>To View Images</title>
+  <title>To View an Image</title>
     <para>
       In order to view an image just click on its thumbnail and the image will
       be visualized in the viewer pane.  If the image doesn't fit the viewer
@@ -675,7 +672,7 @@
       <keycombo><keycap>Return</keycap></keycombo> key, pressing it
       again the browser will be displayed again.  
       Another way of viewing a big image is to view it in full screen
-      mode, type <keycombo> <keycap>V</keycap></keycombo> to
+      mode, type <keycombo> <keycap>F</keycap></keycombo> to
       activate/disactivate the full screen mode.
     </para>
     <para>
@@ -729,8 +726,188 @@
       move the image to the desired position.
     </para>
    </sect2>
+   <sect2 id="gthumb-view-prop">
+   <title>To View the Image Properties</title>
+     <para>
+        To view the image properties, perform the following steps:
+        <orderedlist>
+          <listitem>
+            <para>Select the image.</para>
+          </listitem>
+          <listitem>
+            <para>Choose <menuchoice><guimenu>File</guimenu><guimenuitem>Properties
+            </guimenuitem></menuchoice>. &gthumb; displays a
+            <guilabel>Properties</guilabel> dialog.</para>
+          </listitem>
+        </orderedlist>
+     </para>
+   </sect2>
+  <!-- ============= EXIF ================================== -->
+  <sect2 id="gthumb-exif">
+  <title>To View the Image EXIF Data</title>
+  <para>
+     To view the exif data attached to an image, use the
+     <guilabel>Properties</guilabel> dialog (<xref
+      linkend="gthumb-view-prop"/>) or perform the following
+     steps:
+     <orderedlist>
+        <listitem>
+           Select the image.
+        </listitem>
+        <listitem>
+           View the image pressing Return or double clicking on it.
+        </listitem>
+        <listitem>
+           Choose
+           <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
+           Comment</guimenuitem></menuchoice> or press
+           <keycap>I</keycap>. &gthumb; displays the exif data.
+        </listitem>
+     </orderedlist>
+  </para>
+  </sect2>
+  <!-- ============= Keyboard Shortcuts =============================== -->
+  <sect2 id="gthumb-viewer-shortcuts">
+  <title>Keyboard Shortcuts to View Images</title>
+    <para>
+    <table frame="topbot">
+    <title>Keyboard shortcuts to view images</title>
+    <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>V</keycap></keycombo> ,
+	        <keycombo><keycap>F</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Full screen</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>+</keycap></keycombo> ,
+		<keycombo><keycap>=</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom in</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>-</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom out</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>1</keycap></keycombo> ,
+		<keycombo><keycap>Z</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Actual size</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>X</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>L</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Flip the image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>M</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Mirror the image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>R</keycap></keycombo> ,
+	        <keycombo><keycap>]</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>[</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image counter-clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>G</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop the current animation</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>J</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View the next frame of the current animation</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+   </table>
+   </para>
+   </sect2>
+  </sect1>
+
+  <!-- ============= working with images ================================== -->
+  <sect1 id="gthumb-image-working">
+  <title>Working with Images</title>
    <sect2 id="gthumb-alter-images">
-   <title>To Modify Images</title>
+   <title>To Modify an Image</title>
       <para>
 	The current image can be modified in many ways.  The commands
 	used to modify an image are located in the <guimenu>Image</guimenu> 
@@ -948,7 +1125,7 @@
       </para>
     </sect2>
     <sect2 id="gthumb-save-images">
-    <title>To Save Images</title>
+    <title>To Save an Image</title>
       <para>To save an image, perform the following steps:
       <orderedlist>
         <listitem>
@@ -979,7 +1156,7 @@
     </sect2>      
 
   <sect2 id="gthumb-image-open">
-  <title>To Open Images with Another Program</title>
+  <title>To Open an Image with Another Program</title>
   <para>
     To open a series of images with another program, perform the
     following steps:
@@ -1104,7 +1281,7 @@
 
   <!-- ============= Print ================================== -->
   <sect2 id="gthumb-print-images">
-  <title>To Print Images</title>
+  <title>To Print an Image</title>
   <para>
     To print an image, perform the following steps:
     <orderedlist>
@@ -1143,154 +1320,13 @@
     </orderedlist>
     </para>
   </sect2>
-
-  <!-- ============= EXIF ================================== -->
-  <sect2 id="gthumb-exif">
-  <title>To View EXIF Data</title>
-  <para>
-    FIXME
-  </para>
-  </sect2>
-
-  <!-- ============= Keyboard Shortcuts =============================== -->
-  <sect2 id="gthumb-viewer-shortcuts">
-  <title>Keyboard Shortcuts to View Images</title>
-    <table frame="topbot">
-    <title>Keyboard shortcuts to view images</title>
-    <tgroup cols="2" colsep="0" rowsep="0">
-      	<colspec colwidth="20.00*"/>
-	<colspec colwidth="20.00*"/>
-	<thead>
-	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
-	    <entry><para>Description</para></entry>
-	  </row>
-	</thead>
-	<tbody>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>V</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Full screen</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>+</keycap></keycombo> ,
-		<keycombo><keycap>=</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom in</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>-</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom out</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>1</keycap></keycombo> ,
-		<keycombo><keycap>Z</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Actual size</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>X</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom to fit</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>F</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Flip the image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>M</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Mirror the image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>R</keycap></keycombo> ,
-	        <keycombo><keycap>]</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate the image clockwise</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>[</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate the image counter-clockwise</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>G</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Start/Stop the current animation</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>J</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View the next frame of the current animation</para>
-	    </entry>
-	  </row>
-	</tbody>
-     </tgroup>
-   </table>
-   </sect2>
   </sect1>
 
   <!-- ============= Comments ================================== -->
   <sect1 id="gthumb-comments">
   <title>Comments</title>
   <para>
-    FIXME
+    Comments are pieces of information attached to images.
     <note>
       <title>WARNING</title>
       <para>Comments are not embedded in image files, they are saved
@@ -1305,7 +1341,6 @@
       </para>
     </note>
   </para>
-
   <sect2 id="gthumb-comment-add">
   <title>To Add a Comment</title>
   <para>
@@ -1374,7 +1409,6 @@
   </para>
   </sect3>
   </sect2>
-
   <sect2 id="gthumb-comment-delete">
   <title>To Remove Comments</title>
   <para>
@@ -1392,6 +1426,29 @@
     </orderedlist>
   </para>
   </sect2>
+  <sect2 id="gthumb-comment-view">
+  <title>To View an Image Comment</title>
+  <para>
+     To view an image comment, use the
+     <guilabel>Properties</guilabel> dialog (<xref
+      linkend="gthumb-view-prop"/>) or perform the following
+     steps:
+     <orderedlist>
+        <listitem>
+           Select the image.
+        </listitem>
+        <listitem>
+           View the image pressing Return or double clicking on it.
+        </listitem>
+        <listitem>
+           Choose
+           <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
+           Comment</guimenuitem></menuchoice> or press
+           <keycap>I</keycap>. &gthumb; displays the image comment.
+        </listitem>
+     </orderedlist>
+  </para>
+  </sect2>
   </sect1>
 
   <!-- ============= Catalogs ================================== -->
@@ -1402,11 +1459,15 @@
     another, think of them as "playlists" for images.
   </para>
   <para>
+    Catalogs can be organized in libraries.  A library is like a folder
+    that can contain catalogs and other libraries.
+  </para>
+  <para>
   <note>
   <title>WARNING</title>
   <para>
     Catalogs are not updated when you move images, if you want a more flexible
-    catalog you can use the searches described in <xref linkend="find"/>, 
+    catalog you can use the searches described in <xref linkend="gthumb-find"/>, 
     searches are catalogs with search criteria attached, after moving
     images you can redo the search to get the catalog updated.
   </para>
@@ -1421,13 +1482,31 @@
   </para>
     <sect2 id="gthumb-catalog-view">
     <title>To View the List of Catalogs</title>
-      <para>Press <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> or select the <menuchoice><guimenu>View</guimenu><guimenuitem>Catalogs</guimenuitem></menuchoice> command. 
-       </para>
+        <para> To view the list of catalogs, perform the
+        following step:
+        <orderedlist>
+        <listitem>
+          <para>Press
+          <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> or
+          choose
+          <menuchoice><guimenu>View</guimenu><guimenuitem>Catalogs</guimenuitem></menuchoice>.</para>
+        </listitem>
+        </orderedlist>
+        </para>
     </sect2>
     <sect2 id="gthumb-catalog-view-content">
     <title>To View a Catalog</title>
-       <para>
-         To view the content of a catalog just click on its name.
+        <para> To view the content of a catalog, perform the
+        following steps:
+        <orderedlist>
+        <listitem>
+          <para>Set the catalogs view (described in <xref
+          linkend="gthumb-catalog-view"/>). </para>
+        </listitem>
+        <listitem>
+          <para>Select the catalog clicking on the catalog name.</para>
+        </listitem>
+       </orderedlist>
        </para>
        <para>
          If you want to go to the image folder,
@@ -1459,157 +1538,323 @@
 	</para>
     </sect2>
     <sect2 id="gthumb-catalog-delete">
-    <title>To Delete Images from a Catalog</title>
-        <para>Select the images you want to delete
-	 then use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
-	  Delete from Catalog</guimenuitem></menuchoice> command.
-	</para>
+    <title>To Remove Images from a Catalog</title>
+      <para> To remove images from a catalog, perform the
+      following steps:
+      <orderedlist>
+        <listitem>
+          <para>Set the catalogs view (described in <xref
+          linkend="gthumb-catalog-view"/>). </para>
+        </listitem>
+        <listitem>
+          <para>Select the catalog.</para>
+        </listitem>
+        <listitem>
+         <para>Select the images you want to delete
+	  and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>
+	  Remove from Catalog</guimenuitem></menuchoice>. &gthumb;
+	  removes the images from the catalog.</para>
+        </listitem>
+      </orderedlist>
+      </para>
+    </sect2>
+    <sect2 id="gthumb-catalog-create">
+    <title>To Create a Catalog</title>
+        <para> To create a catalog, perform the
+        following steps:
+        <orderedlist>
+        <listitem>
+          <para>Set the catalogs view (described in <xref
+          linkend="gthumb-catalog-view"/>). </para>
+        </listitem>
+        <listitem>
+          <para>Choose 
+	  <menuchoice><guimenu>File</guimenu><guimenuitem>New
+	  Catalog</guimenuitem></menuchoice>.</para>
+        </listitem>
+        <listitem>
+          <para>Enter the catalog name and click on
+          <guibutton>Ok</guibutton>.  &gthumb; creates the catalog.</para>
+        </listitem>
+        </orderedlist>
+        </para>
     </sect2>
     <sect2 id="gthumb-catalog-rename">
-    <title>To Rename, Delete or Move Catalogs</title>
-        <para>Select the catalog and use 
-	  the corrisponding command in the <guimenu>File</guimenu> menu, or 
-	  use the context menu pressing the right mouse
-	  button on the name of the catalog in the catalog list.
-	</para>
+    <title>To Rename, Remove or Move a Catalog</title>
+        <para> To rename, remove or move a catalog, perform the
+        following steps:
+        <orderedlist>
+        <listitem>
+          <para>Set the catalogs view (described in <xref
+          linkend="gthumb-catalog-view"/>). </para>
+        </listitem>
+        <listitem>
+          <para>Select the catalog.</para>
+        </listitem>
+        <listitem>
+          <para>Choose the corrisponding command in the
+	  <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice>
+	  menu, or use the context menu that can be displayed pressing
+	  the right mouse button on the name of the catalog in the
+	  catalog list.</para>
+        </listitem>
+        </orderedlist>
+        </para>
     </sect2>
-
+    <sect2 id="gthumb-library-create">
+    <title>To Create a Library of Catalogs</title>
+        <para> To create a library of catalogs, perform the
+        following steps:
+        <orderedlist>
+        <listitem>
+          <para>Set the catalogs view (described in <xref
+          linkend="gthumb-catalog-view"/>). </para>
+        </listitem>
+        <listitem>
+          <para>Choose 
+	  <menuchoice><guimenu>File</guimenu><guimenuitem>New
+	  Library</guimenuitem></menuchoice>.</para>
+        </listitem>
+        <listitem>
+          <para>Enter the library name and click on
+          <guibutton>Ok</guibutton>.  &gthumb; creates the library.</para>
+        </listitem>
+        </orderedlist>
+        </para>
+    </sect2>
   </sect1>
 
   <!-- ============= Find ================================== -->
 
-  <sect1 id="find">
+  <sect1 id="gthumb-finding">
+    <title>Finding Images</title>
+    <sect2 id="gthumb-find">
     <title>To Find Images</title>
-      <para>To find images on your hard disk choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice>.
-      </para>
-
-      <!-- ==== Figure ==== -->
-      <figure id="find-images-fig">
-      <title>The "Find" dialog </title> 
-      <screenshot>
-        <screeninfo>The Find dialog </screeninfo> 
-        <graphic format="png" fileref="figures/find-images.png" srccredit="Me">
-        </graphic>
-      </screenshot>
-      </figure>
-      <!-- ==== End of Figure ==== -->
+      <para>To find images on your hard disk choose
+      <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice>.
+      &gthumb; displays the <guilabel>Find</guilabel> dialog.</para>
+     <sect3 id="gthumb-simple-search">
+     <title>To Do a Simple Search</title>
       <para>
 	From the <guilabel>Find</guilabel> dialog
 	you can specify a file name or a pattern in the <guilabel>File name
-	</guilabel> entry, for example : 
-	<itemizedlist>
-	  <listitem>
-	    <para>
-	      <userinput>foo.jpg</userinput>: &gthumb; searches for files
-	      named foo.jpg
-	      </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-	        <userinput>*.png</userinput>: &gthumb; searches for files
-		with the png extension.
-	      </para>
-	    </listitem>
-
-	    <listitem>
-	      <para>
-	        <userinput>*.gif; *.jpg</userinput>: &gthumb; searches for
-		files with the gif or jpg extension.
-	      </para>with an image editor
-	    </listitem>
-	  </itemizedlist>
+	</guilabel> entry.
+      </para>
+      <para>
+        Examples:
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Value</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para>
+                <userinput>foo.jpg</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images named <filename>foo.jpg</filename>
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>*.png</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images with the
+                <filename>png</filename> extension. 
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>*.gif; *.jpg</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images with the
+                <filename>gif</filename> or <filename>jpg</filename>
+                extension. 
+              </para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+      </para>
+        <para>
+          Click on <guibutton>Search</guibutton> to start the search.
+	  Once the search has finished you will see the list of images 
+	  that matches your search, if you want to see these images
+	  click on <guibutton>View</guibutton>, if you want to make another 
+	  search click on <guibutton>New Search</guibutton>.
 	</para>
+	<para>
+	  If you choose to view the images, a catalog named <guilabel>Search 
+	  Results</guilabel> will be created and visualized automatically.  
+	  A catalog created in this way has a special icon, a magnifier, this
+	  is
+	  because on this type of catalogs you can perform two more operations:
+	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
+	  </guibutton>.
 
-        <para>	  
-	  Other search rules:	
-	  <itemizedlist>
+	  These operations can be selected from the
+	  <menuchoice><guimenu>File</guimenu><guisubmenu>Catalog</guisubmenu></menuchoice>
+	  menu, or from the menu that pops up when pressing the right
+	  mouse button on the catalog name. 
+        </para>
+        <para>
+	  The <guilabel>Edit Search</guilabel> command lets you re-edit 
+	  the search rules, while <guilabel>Redo Search</guilabel> lets
+	  you restart the search, at the end of the search you can
+	  decide whether to save the result in the catalog or not.
+        </para>
+      </sect3>
 
-	    <!-- -->
+      <sect3 id="gthumb-other-search-opt">
+      <title>Other Search Options</title>
+          <variablelist> 
+	  <varlistentry>
+            <term><guilabel>Start at</guilabel></term>
 	    <listitem>
-	      <para>
-	        <guilabel>Start at</guilabel>: The folder where the
-		search will start from.
+	      <para>The folder where the search will start from.
 	      </para>
 	    </listitem>
-
-	    <!-- -->
+	  </varlistentry>
+	  <varlistentry>
+            <term><guilabel>Include sub-folder</guilabel></term>
 	    <listitem>
 	      <para>
-	        <guilabel>Include sub-folder</guilabel>:  Whether
-		to search even in the sub folders.
+	        Whether to search even in the sub folders.
 	      </para>
 	    </listitem>
-
-	    <!-- -->
+	  </varlistentry>
+	  <varlistentry>
+            <term><guilabel>Comment</guilabel></term>
 	    <listitem>
 	     <para>
-	      <guilabel>Comment</guilabel>: A list of phrases the 
-	      comment of the image must contain, for example:
+	      A list of phrases the comment of the image must contain.
+      </para>
+      <para>
+	Examples:
+      </para>
+      <para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Value</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para>
+                <userinput>paolo</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "paolo" in the comment.
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>my birthday</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "paolo" in the comment.
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>holiday ; rome</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "holiday" OR
+                "rome" in the comment. 
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>holiday in rome; my birthday</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "holiday in rome"
+		OR "my birthday" in the comment.
+              </para></entry>
+            </row>
 
-	      <itemizedlist>
-	        <listitem>
-	          <para>
-	            <userinput>paolo</userinput>: will search for 
-		    images that have "paolo" in the comment.
-	          </para>
-	        </listitem>
+          </tbody>
+        </tgroup>
+      </informaltable>
 
-	        <listitem>
-	          <para>
-	            <userinput>my birthday</userinput>: will search for 
-		    images that have "my birthday" in the comment.
-	          </para>
-	        </listitem>
-
-	        <listitem>
-	          <para>
-	            <userinput>holiday ; rome</userinput>: will search
-		    for images that have "holiday" OR "rome" in the comment.
-	          </para>
-                </listitem>
-
-	        <listitem>
-	          <para>
-	            <userinput>holiday in rome ; my birthday</userinput>:
-		    will search for images that have "holiday in rome"
-		    OR "my birthday" in the comment.
-	          </para>
-                </listitem>
-	      </itemizedlist>
 	     </para>
 	    </listitem>
-
-	    <!-- -->
+	  </varlistentry>
+	  <varlistentry>
+            <term><guilabel>Place</guilabel></term>
 	    <listitem>
 	    <para>
-	    <guilabel>Place</guilabel>: A list of phrases the place field of
-	    the comment must contain, for example:
+	    A list of phrases the place field of the comment must
+	    contain. 
+         </para>
+         <para>
+	    Examples:
+         </para>
 
-	    <itemizedlist>
-	      <listitem>
-	        <para>
-	        <userinput>rome</userinput>:
-	        will search for images that have "rome" in the place field.
-	        </para>
-              </listitem>
+         <para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Value</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para>
+                <userinput>rome</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "rome" in the
+                place field. 
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>paris; rome; london</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images that have "paris" OR
+                "rome" OR "london" in the place field. 
+                place field. 
+              </para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
+            </para>
+	  </listitem>
 
-	      <listitem>
-	        <para>
-	        <userinput>paris ; rome ; london</userinput>:
-	        will search for images that have "paris" OR "rome" OR "london" in the place field.
-	        </para>
-              </listitem>
-	    </itemizedlist>
-
-	    </para>
-	    </listitem>
-
+	  </varlistentry>
+	  <varlistentry>
 	    <!-- -->
+            <term><guilabel>Date</guilabel></term>
 	    <listitem>
 	    <para>
-	    <guilabel>Date</guilabel>: 
-	    The criteria the date field of the comment must respect:
+	      The criteria the date field of the comment must respect:
 
 	    <itemizedlist>
 	      <listitem>
@@ -1628,99 +1873,89 @@
 
 	    </para>
 	    </listitem>
-
+	  </varlistentry>
+	  <varlistentry>
 	    <!-- -->
+            <term><guilabel>Categories</guilabel></term>
 	    <listitem>
 	    <para>
-	    <guilabel>Categories</guilabel>: 
 	    The list of categories an images must belong to. 
 	    Categories can be added to images using the
 	    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories</guimenuitem></menuchoice>
-	    command or pressing <keycombo><keycap>K</keycap></keycombo>. 
-	    Examples:
-
-	    <itemizedlist>
-	      <listitem>
-	        <para>
-	        <userinput>family</userinput>: images must have "family" has one of their keywords.
-	        </para>
-              </listitem>
-
-	      <listitem>
-	        <para>
-	        <userinput>me, family</userinput>: images must have "family" and/or "me" in the keywords list.
-	        </para>
-              </listitem>
-	    </itemizedlist>
-	    </para>
+	    command or pressing
+	    <keycombo><keycap>K</keycap></keycombo>. 
+            </para>
 	    <para>
 	      You can choose to search for images that belongs to all
 	      the specified categories or at least to one of them,
 	      checking the corresponding option.
 	    </para>
+            <para>
+	      Examples:
+            </para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Value</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para>
+                <userinput>family</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images with "family" as one of their keywords.
+              </para></entry>
+            </row>
+            <row valign="top">
+              <entry><para>
+                <userinput>me; family</userinput>
+              </para></entry>
+              <entry align="left"><para>
+                &gthumb; searches for images with "family" and/or "me"
+                in the keywords list. 
+              </para></entry>
+            </row>
+
+          </tbody>
+        </tgroup>
+      </informaltable>
 	    </listitem>
-	  </itemizedlist> 
-        </para>
+	  </varlistentry>
+          </variablelist> 
         <para>
-          If you use more than one criteria images must respect all of them.  
+          <note>
+            <title>NOTE</title>
+            <para>
+              If you use more than one criteria images must respect
+              all of them. 
+            </para>
+          </note>
+          <note>
+            <title>NOTE</title>
+            <para>
+	       The search is always case insensitive.
+            </para>
+          </note>
         </para>
-        <para>
-	  The search is always case insensitive.
-        </para>
+      </sect3>
 
-        <!-- ==== Figure ==== -->
-        <figure id="search-progress-fig">
-        <title>The "Search Progress" dialog</title> 
-        <screenshot>
-          <screeninfo>The Search Progress dialog</screeninfo> 
-          <graphic fileref="figures/search-progress.png" format="png" 
-	           srccredit="Me">
-          </graphic>
-        </screenshot>
-        </figure>
-        <!-- ==== End of Figure ==== -->
-        <para>
-          Click on <guibutton>Search</guibutton> to start the search.
-	  Once the search has finished you will see the list of images 
-	  that matches your search, if you want to see these images
-	  click on <guibutton>View</guibutton>, if you want to make another 
-	  search click on<guibutton>New Search</guibutton>.
-	</para>
-	<para>
-          <!-- ==== End of Figure ==== -->
-	  If you choose to view the images, a catalog named <interface>Search 
-	  Results</interface> will be created and visualized automatically.  
-	  A catalog created in this way has a special icon, a magnifier, this
-	  is
-	  because on this type of catalogs you can perform two more operations:
-	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
-	  </guibutton>.
-
-          <!-- ==== Figure ==== -->
-          <figure id="search-result-fig">
-          <title>The "Search Result" catalog</title> 
-          <screenshot>
-            <screeninfo>The "Search Result" catalog</screeninfo> 
-            <graphic fileref="figures/search-result.png" format="png" 
-	           srccredit="Me">
-            </graphic>
-          </screenshot>
-          </figure>
-
-        </para>
-        <para>
-	  These operations can be selected from the <menuchoice><guimenu>File</guimenu>
-	<guisubmenu>Search</guisubmenu></menuchoice> 
-	  menu, or from the 
-	  menu that pops up when pressing the right mouse button on the catalog
-	  name.
-        </para>
-        <para>
-	  The <guilabel>Edit Search</guilabel> command lets you re-edit 
-	  the search rules, while <guilabel>Redo Search</guilabel> lets
-	  you restart the search, at the end of the search you can
-	  decide whether to save the result in the catalog or not.
-        </para>
+     </sect2>
+     <sect2 id="gthumb-find-dup">
+     <title>To Find Duplicated Images</title>
+     <para>
+       To find duplicated images, choose
+       <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find
+       Duplicates</guimenuitem></menuchoice>.
+     </para>
+     </sect2>
   </sect1>
 
   <!-- ============= Slideshow ================================== -->
@@ -1796,7 +2031,7 @@
         </listitem>
         <listitem>
           <para>Press <keycombo action="simul">
-	  <keycap>V</keycap></keycombo>. &gthumb; displays the image
+	  <keycap>F</keycap></keycombo>. &gthumb; displays the image
 	  in fullscreen mode.
           </para>
         </listitem>
@@ -1828,44 +2063,37 @@
     <sect2 id="gthumb-wallpaper">
       <title>To Set the Desktop Wallpaper</title>
       <para>
-        If you want to set the selected image as desktop wallpaper select the
-	menu <guimenuitem>Set Image as Wallpaper</guimenuitem> from the 
-	<guimenu>Tools</guimenu> menu.  The menu contains four items
-        each of which let you set the wallpaper in a different way:
+        If you want to set an image as desktop wallpaper, select the
+	image and choose the
+	menu <menuchoice><guimenu>Tools</guimenu><guisubmenu>Set Image
+	as Wallpaper</guisubmenu></menuchoice>.  This menu contains
+	the following items:
         <itemizedlist>
 	  <listitem>
-	    <para>
-	      <guilabel>Centered</guilabel> -- The image will be centered on
-	      the screen.
-	    </para>
+	    <para><guilabel>Centered</guilabel> -- The image will be centered on
+	      the screen.</para>
 	  </listitem>
 	  <listitem>
-	    <para>
-	      <guilabel>Tiled</guilabel> -- The image will be duplicated on
-	      the screen as tiles on the floor.
-	    </para>
+	    <para><guilabel>Tiled</guilabel> -- The image will be duplicated on
+	      the screen as tiles on the floor.</para>
 	  </listitem>
 	  <listitem>
-	    <para>
-	      <guilabel>Stretched</guilabel> -- The image will be scaled to 
-	      fill the screen changing proportions if needed.
-	    </para>
+	    <para><guilabel>Scaled</guilabel> -- The image will be scaled to fill 
+	      the screen mantaining the aspect ratio.</para>
 	  </listitem>
 	  <listitem>
-	    <para>
-	      <guilabel>Scaled</guilabel> -- The image will be scaled to fill 
-	      the screen mantaining the aspect ratio.
-	    </para>
+	    <para><guilabel>Stretched</guilabel> -- The image will be scaled to 
+	      fill the screen changing proportions if needed.</para>
 	  </listitem>
 	</itemizedlist>
       </para>
       <para>
-         If you want to restore the old wallpaper use the 
+         If you want to restore the old wallpaper choose 
 	 <menuchoice>
 	   <guimenu>Tools</guimenu>
            <guisubmenu>Set Image as Wallpaper</guisubmenu> 
            <guimenuitem>Restore</guimenuitem>
-         </menuchoice> item.
+         </menuchoice>.
        </para>
     </sect2>
     <sect2 id="gthumb-rotate-jpeg">
@@ -1878,31 +2106,38 @@
       </para>
       <para>
         If you want to rotate JPEG images without losing image quality,
-	select the images you want to rotate and use the 
+	select the images you want to rotate and choose 
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
-	JPEG</guimenuitem></menuchoice> command.
+	JPEG</guimenuitem></menuchoice>.  &gthumb; displays the <guilabel>Rotate
+	JPEG</guilabel> dialog.
+      </para>
+      <para>
+        Click on <guibutton>Save</guibutton> to save the changes.
       </para>
       <para>
         If you check the <guilabel>Apply to all images</guilabel>
-        option the rotation is applied to the
+        option, the rotation is applied to the
         currently displayed image as well as to all the remaining
-        images you have selected,
+        images you have selected;
         otherwise, once the rotation has been performed on the current
         image, the next image in the selection is displayed, and you can
         choose another type of rotation.
-      </para>
-      <para>
-        If the selection contains some non-JPEG images, they are
-        simply ignored.
+      <note>
+        <title>NOTE</title>
+        <para>
+          If the selection contains some non-JPEG images, they are
+          simply ignored.
+        </para>
+      </note>
       </para>
     </sect2>
     <sect2 id="gthumb-convert-format">
-      <title>To Convert Images Format</title>
+      <title>To Convert the Image Format</title>
       <para>
-        With this tool you can change the format of images.  To use it
-        select the images you want to convert, and use the 
+        To convert the image format,
+        select the images you want to convert and choose 
         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert
-        Format</guimenuitem></menuchoice> command.
+        Format</guimenuitem></menuchoice>.
       </para>
       <para>
         The <guilabel>Convert Format</guilabel> dialog offers you the
@@ -1937,20 +2172,21 @@
         </listitem>
 	</itemizedlist>
       </para>
+      <para>
+        To perform the convertion click on <guibutton>Convert</guibutton>.
+      </para>
     </sect2>
     <sect2 id="gthumb-rename-series">
       <title>To Rename a Series of Images</title>
       <para>
-        With this tool you can change a series of image filenames
-        specifing a name template.  In order to use it
-        select the images you want to rename, and select the 
+        To rename a series of images specifing a name template, choose
         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Rename
-        Series</guimenuitem></menuchoice> command.
+        Series</guimenuitem></menuchoice>.
       </para>
       <para>
         The name template is simply a name that must be used for all
         of the images,  furthermore you can use two special characters
-        to make the new names different each other:
+        to make the new names differ each other:
       <itemizedlist>
         <listitem>
           <para>
@@ -1968,11 +2204,26 @@
             with the image original name.
 	  </para>
         </listitem>
+        <listitem>
+          <para>
+	    <keycap>?</keycap> -- This symbol will be replaced
+            with the image modified date.
+	  </para>
+        </listitem>
+        <listitem>
+          <para>
+	    <keycap>!</keycap> -- This symbol will be replaced
+            with the image dimesions.
+	  </para>
+        </listitem>
       </itemizedlist>
       </para>
       <para>
-        The list at the bottom of the dialog display how the filenames
+        The list at the bottom of the dialog displays how the filenames
         will be renamed.
+      </para>
+      <para>
+        To rename the images click on <guibutton>Rename</guibutton>.
       </para>
       <para>
         If the renaming of an image can overwrite an already existing
@@ -1985,9 +2236,14 @@
       <title>To Change Images Date</title>
       <para>
         If you want to change the last modified date of a series of
-        images,  select the images and use the <menuchoice><guimenu>
-        Tools</guimenu><guimenuitem>Change Date</guimenuitem></menuchoice> 
-        command.
+        images, select the images and choose <menuchoice><guimenu>
+        Tools</guimenu><guimenuitem>Change Date</guimenuitem></menuchoice>.
+      </para>
+      <para>
+        Select the new date.
+      </para>
+      <para>
+        Click on <guibutton>Ok</guibutton>. &gthumb; changes the date.
       </para>
     </sect2>
     <sect2 id="gthumb-index-image">
@@ -1995,16 +2251,18 @@
       <para>
         An index image is an image that contains small previews of a series of 
 	images.  If you want to create an index image select the images you 
-	want to insert in the index and then use the
+	want to insert and choose
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index
-	Image</guimenuitem></menuchoice> command. 
+	Image</guimenuitem></menuchoice>. 
       </para>
     </sect2>
     <sect2 id="gthumb-web-album">
       <title>To Create a Web Album</title>
-      <para>
-         FIXME
-      </para>
+       <para>
+         To create a web album, choose
+         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Web Album
+         </guimenuitem></menuchoice>.
+       </para>
     </sect2>
   </sect1>
 
@@ -2012,9 +2270,13 @@
   <sect1 id="maintenance">
       <title>Maintenance</title>
       <para>
-        To get access to maintenance operations select the
+        To get access to maintenance operations select choosee
         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Maintenance
-	</guimenuitem></menuchoice> menu item.
+	</guimenuitem></menuchoice>.
+      </para>
+      <para>
+        The <guilabel>Maintenance</guilabel> dialog offers the
+        following operations:
       </para>
       <para>
         <guilabel>Backup Comments</guilabel> --  With this command you
@@ -2059,20 +2321,11 @@
  <sect1 id="preferences">
   <title>Preferences</title>
   <para>
-    To configure &gthumb;, open
-    <guilabel>Preferences</guilabel> dialog by selecting
+    To configure &gthumb;, open the
+    <guilabel>Preferences</guilabel> dialog by choosing
     <menuchoice><guimenu>Edit</guimenu><guisubmenu>Preferences</guisubmenu>
     </menuchoice>.
   </para>
-    <figure>
-      <title>Preferences Dialog</title>
-      <screenshot>	    
-      <screeninfo>gThumb Preferences Dialog</screeninfo>
-      <graphic fileref="figures/preferences.png" format="png"
-      srccredit="Sasha Kirillov">
-      </graphic>
-      </screenshot>
-    </figure>
   <para>
     This dialog contains four tabs described in detail below.  
     At the bottom of the dialog window, you'll find the following buttons:
@@ -2117,9 +2370,8 @@
 	  </para>
 	</listitem>
 	<listitem>
-	  <para>The history length, that is the maximal number of locations 
-	  to show in <guimenu>Go</guimenu>  menu. The default is 15.
-	  </para>
+	  <para>Whether to ask confirmation when an image or a catalog
+	  will be deleted</para>.
 	</listitem>
       </itemizedlist>
     </sect2>
@@ -2133,11 +2385,10 @@
       <variablelist>
         <!-- ########### --> 
 	<varlistentry>
-	  <term><guilabel>Show thumbnails</guilabel></term>
+	  <term><guilabel>Show filenames</guilabel></term>
 	  <listitem>
-	    <para>This option (which you can activate simply pressing 
-	    <keycombo><keycap>T</keycap></keycombo>) controls whether
-	    &gthumb; should show thumbnails.
+	    <para>This option controls whether &gthumb; should show
+	    image filenames.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -2155,34 +2406,11 @@
 	</varlistentry>
         <!-- ########### --> 
 	<varlistentry>
-	  <term><guilabel>Show hidden files</guilabel></term>
+	  <term><guilabel>Show thumbnails</guilabel></term>
 	  <listitem>
-	    <para>This option controls whether
-	    &gthumb; should show files with
-	    the names starting with dot (.). These files usually
-	    contain system information or applications settings. Since
-	    these files almost never contain user data, by default
-	    they are not shown by file manager and other
-	    applications. In most cases, you should leave this option
-	    unselected.
-	    </para>
-	  </listitem>
-	</varlistentry>
-        <!-- ########### --> 
-	<varlistentry>
-	  <term><guilabel>Thumbnails</guilabel></term>
-	  <listitem>
-	    <para>Here you can select the thumbnails size to your taste. By
-	    default, &gthumb; display
-	    thumbnails of size 95x95 pixels.  If you like to view as much
-	    thumbnails as possible select a small thumbnail size, if you
-	    want to view detailed thumbnails select a big size.  The other 
-	    option lets you decide whether to save the thumbnails or not,
-	    saving thumbnails is highly recommended because this let you speed
-	    up browsing of folders you already visited, the drawback is that
-	    thumbnails occupy disk space so if your free space is limited you
-	    may prefer to disable this option but in most cases you should
-	    leave this option selected.
+	    <para>This option (which you can activate simply pressing 
+	    <keycombo><keycap>T</keycap></keycombo>) controls whether
+	    &gthumb; should show thumbnails.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -2196,9 +2424,6 @@
 	    hard disk searching for images.  The default behaviour is to
 	    follow the Nautilus file manager policy.
 	    Furthermore you can select whether
-	    &gthumb; should ask
-	    for confirmation before deleting an image or a catalog,
-	    and whether
 	    &gthumb; should determine image
 	    type by looking at the file extension or by looking at the
 	    file content. Determining file type from the content is
@@ -2246,17 +2471,6 @@
 	    images. By default the transparent part of the image is
 	    replaced the window background color,that is the
 	    <guilabel>none</guilabel> option. 
-	    </para>
-	  </listitem>
-	</varlistentry>
-        <!-- ########### --> 
-	<varlistentry>
-	  <term><guilabel>Checks</guilabel></term>
-	  <listitem>
-	    <para>This option only has effect for partly transparent
-	    images and only if <guilabel>checked</guilabel>
-	    transparency type was selected. It controls the size and
-	    colors of checker board pattern used for the background.  
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -2348,7 +2562,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>F</keycap></keycombo>
+		<keycombo><keycap>L</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
@@ -2504,6 +2718,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
+		<keycombo><keycap>F</keycap></keycombo> ,
 		<keycombo><keycap>V</keycap></keycombo> ,
 		<keycombo><keycap>F11</keycap></keycombo> 
 	      </para>
@@ -2653,6 +2868,7 @@
             <entry>
 	      <para>
 	        <keycombo><keycap>Escape</keycap></keycombo> ,
+	      	<keycombo><keycap>F</keycap></keycombo> ,
 	      	<keycombo><keycap>V</keycap></keycombo> ,
 		<keycombo><keycap>F11</keycap></keycombo> ,
 		<keycombo><keycap>Q</keycap></keycombo>
@@ -2782,7 +2998,7 @@
 	  <row>
             <entry>
 	      <para>
-		<keycombo><keycap>F</keycap></keycombo> 
+		<keycombo><keycap>L</keycap></keycombo> 
 	      </para>
 	    </entry>
             <entry>

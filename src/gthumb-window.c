@@ -298,8 +298,6 @@ set_command_state_if_different (GThumbWindow *window,
 		return;
 	}
 
-	/**/
-
 	g_free (old_value);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      cname, 
@@ -377,8 +375,13 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 
 					NULL, NULL, NULL);
 
-	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
-	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
+	if (!image_viewer_is_void(IMAGE_VIEWER (window->viewer))) {
+		width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
+		height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer)); 
+	} else {
+		width = 0;
+		height = 0;
+	}
 	
 	timer = get_file_mtime (path);
 	tm = localtime (&timer);
@@ -2455,7 +2458,18 @@ static void
 image_requested_error_cb (GtkWidget    *widget, 
 			  GThumbWindow *window)
 {
-	window_image_viewer_set_void (window);
+	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
+
+	window->image_mtime = get_file_mtime (window->image_path);
+	window->image_modified = FALSE;
+
+	window_update_image_info (window);
+	window_update_infobar (window);
+	window_update_title (window);
+	window_update_sensitivity (window);
+
+	if (window->image_prop_dlg != NULL)
+		dlg_image_prop_update (window->image_prop_dlg);
 }
 
 
@@ -2687,6 +2701,7 @@ key_press_cb (GtkWidget   *widget,
 		return TRUE;
 
 		/* Full screen view. */
+	case GDK_f:
 	case GDK_v:
 	case GDK_F11:
 		if (! image_viewer_is_void (IMAGE_VIEWER (window->viewer)))
@@ -2772,7 +2787,7 @@ key_press_cb (GtkWidget   *widget,
 		return TRUE;
 			
 		/* Flip image */
-	case GDK_f:
+	case GDK_l:
 		alter_image_flip_command_impl (NULL, window, NULL);
 		return TRUE;
 

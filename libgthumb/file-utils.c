@@ -1503,3 +1503,21 @@ resolve_all_symlinks (const char  *text_uri,
 	gnome_vfs_file_info_unref (info);
 	return res;
 }
+
+
+GnomeVFSFileSize
+get_dest_free_space (const char  *path)
+{
+	GnomeVFSURI      *uri;
+	GnomeVFSResult    result;
+	GnomeVFSFileSize  ret_val;
+
+	uri = new_uri_from_path (path);
+	result = gnome_vfs_get_volume_free_space (uri, &ret_val);
+	gnome_vfs_uri_unref (uri);
+
+	if (result != GNOME_VFS_OK)
+		return (GnomeVFSFileSize) 0;
+	else
+		return ret_val;
+}

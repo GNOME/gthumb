@@ -430,6 +430,7 @@ image_key_press_cb (GtkWidget   *widget,
 	case GDK_Escape:
 	case GDK_q:
 	case GDK_v:
+	case GDK_f:
 	case GDK_F11:
 		fullscreen_stop (fullscreen);
 		break;
@@ -563,8 +564,8 @@ image_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Flip image. */
-	case GDK_f:
-	case GDK_F:
+	case GDK_l:
+	case GDK_L:
 		alter_image_flip_command_impl (NULL, window, NULL);
 		break;
 
@@ -951,6 +952,7 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	current_fullscreen = fullscreen;
 
+	gtk_window_set_screen (GTK_WINDOW (fullscreen->window), gtk_widget_get_screen (window->app));
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
 	window->fullscreen = TRUE;
