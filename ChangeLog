@@ -1,5 +1,10 @@
 2002-12-02  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/dlg-comment: make "from exif data" option insensitive if no
+	exif data is available.
+	
+	* src/gthumb_comments.glade: make the dialog bigger.
+
 	* src/dlg-image-prop.c (dlg_image_prop_update): update a tab only
 	when needed.
 

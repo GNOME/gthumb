@@ -474,6 +474,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	}
 
 	gtk_widget_set_sensitive (data->c_date_vbox, FALSE);
+	gtk_widget_set_sensitive (data->c_exif_date_radiobutton, data->have_exif_data);
 
 	if (cdata != NULL) {
 		char *utf8;
