@@ -1,0 +1,4865 @@
+# GThumb Hungarian po.
+# Copyright (C) 2003, Free Software Foundation Inc.
+# This file is distributed under the same license as the gthumb package.
+# Andras Timar <timar@gnome.hu>, 2003.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: zenity CVS\n"
+"POT-Creation-Date: 2003-09-10 17:02+0200\n"
+"PO-Revision-Date: 2003-09-11 17:21+0200\n"
+"Last-Translator: Andras Timar <timar@gnome.hu>\n"
+"Language-Team: Hungarian <hu@gnome.hu>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "Katalógus"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+msgid "GThumb Catalog View"
+msgstr "GThumb katalógusnézet"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+msgid "View as Catalog"
+msgstr "Katalógusnézet"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+#: src/gthumb-ui.xml.h:90
+msgid "Print the current image"
+msgstr "Az aktuális kép nyomtatása"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+msgid "_Print"
+msgstr "_Nyomtatás"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+msgid "GThumb Image"
+msgstr "GThumb-kép"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+msgid "GThumb Viewer"
+msgstr "Gthumb néző"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+msgid "View with GThumb"
+msgstr "Megtekintés a GThumb programmal"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+msgid "Flip"
+msgstr "Fejreállítás"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+msgid "Flip the image"
+msgstr "A kép fejreállítása"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "High"
+msgstr "Magas"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Low"
+msgstr "Alacsony"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "Mirror"
+msgstr "Tükrözés"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Mirror the image"
+msgstr "A kép tükrözése"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: src/gthumb-ui.xml.h:118
+msgid "Rotate"
+msgstr "Forgatás"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+msgid "Rotate 180 _Degrees"
+msgstr "Forgatás 180 _fokkal"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate the image clockwise"
+msgstr "A kép elforgatása az óramutató járása szerint"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate the image of 180 degrees"
+msgstr "A kép elforgatása 180 fokkal"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: src/gthumb-ui.xml.h:126
+msgid "Save _As..."
+msgstr "Men_tés másként..."
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:39
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: src/gthumb-ui.xml.h:127
+msgid "Save current image"
+msgstr "Az aktuális kép mentése"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: src/gthumb-ui.xml.h:143
+msgid "Start or stop current animation"
+msgstr "Az aktuális animáció elindítása, illetve megállítása"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr "_Animáció indítása/megállítása"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr "Átlátszóság _típusa"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: src/gthumb-ui.xml.h:158
+msgid "View next animation frame"
+msgstr "A következő animációs képkocka megtekintése"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:3
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:3
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: src/gthumb-ui.xml.h:185
+msgid "_Black"
+msgstr "_Fekete"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: src/gthumb-ui.xml.h:190
+msgid "_Checked"
+msgstr "_Sakktábla"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:204
+msgid "_Flip"
+msgstr "_Fejreállítás"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:93
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: src/gthumb-ui.xml.h:215
+msgid "_Image"
+msgstr "_Kép"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gthumb-ui.xml.h:221
+msgid "_Mirror"
+msgstr "_Tükrözés"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: src/gthumb-ui.xml.h:226
+msgid "_None"
+msgstr "_Nincs"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+msgid "_Rotate Clockwise"
+msgstr "Forgatás az ó_ramutató irányába"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+msgid "_Step Animation"
+msgstr "Animáció _léptetése"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:97
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+#: src/gthumb-ui.xml.h:256 src/gthumb_search.glade.h:31
+#: src/gthumb_tools.glade.h:48
+msgid "_View"
+msgstr "_Nézet"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:82
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:82
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: src/gthumb-ui.xml.h:257
+msgid "_White"
+msgstr "_Fehér"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+msgid "_Zoom Quality"
+msgstr "_Nagyítás minősége"
+
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:526
+msgid "%d %b %Y, %H:%M"
+msgstr "%Y %d %B, %H:%M"
+
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
+#: src/dlg-image-prop.c:445 src/fullscreen.c:218 src/gthumb-window.c:388
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d képpont"
+
+#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/Classic/image.xml.in.h:2
+#: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/NeatRound/image.xml.in.h:2
+#: data/albumthemes/NeatSquare/image.xml.in.h:2
+msgid "Aperture value"
+msgstr "Apertúraérték"
+
+#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/Classic/image.xml.in.h:3
+#: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/NeatRound/image.xml.in.h:3
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
+msgid "Bytes"
+msgstr "Byte"
+
+# #-#-#-#-#  gnome-icon-theme.HEAD.hu.po-new.po (gnome-icon-theme CVS)  #-#-#-#-#
+# 48x48/emblems/emblem-camera.icon.in.h:1
+# 48x48/emblems/emblem-camera.icon.in.h:1
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell.c:188
+#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/Classic/image.xml.in.h:4
+#: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/NeatRound/image.xml.in.h:4
+#: data/albumthemes/NeatSquare/image.xml.in.h:4
+msgid "Camera model"
+msgstr "Fényképezőgép"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/time.glade.h:9
+#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/Classic/image.xml.in.h:5
+#: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/NeatRound/image.xml.in.h:5
+#: data/albumthemes/NeatSquare/image.xml.in.h:5
+msgid "Date"
+msgstr "Dátum"
+
+#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/Classic/image.xml.in.h:6
+#: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/NeatRound/image.xml.in.h:6
+#: data/albumthemes/NeatSquare/image.xml.in.h:6
+msgid "Dimensions"
+msgstr "Méretek"
+
+#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/Classic/image.xml.in.h:7
+#: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/NeatRound/image.xml.in.h:7
+#: data/albumthemes/NeatSquare/image.xml.in.h:7
+msgid "Exposure mode"
+msgstr "Expozíciós mód"
+
+#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/Classic/image.xml.in.h:8
+#: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/NeatRound/image.xml.in.h:8
+#: data/albumthemes/NeatSquare/image.xml.in.h:8
+msgid "Exposure time"
+msgstr "Expozíciós idő"
+
+#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/Classic/image.xml.in.h:9
+#: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/NeatRound/image.xml.in.h:9
+#: data/albumthemes/NeatSquare/image.xml.in.h:9
+msgid "Flash"
+msgstr "Vaku"
+
+#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/Classic/image.xml.in.h:10
+#: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/NeatRound/image.xml.in.h:10
+#: data/albumthemes/NeatSquare/image.xml.in.h:10
+msgid "Focal length"
+msgstr "Fókusztávolság"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-property-browser.c:957
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-property-browser.c:957
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-property-browser.c:957
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-property-browser.c:957
+#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/Classic/image.xml.in.h:11
+#: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/NeatRound/image.xml.in.h:11
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:265
+msgid "Image"
+msgstr "Kép"
+
+#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/Classic/image.xml.in.h:12
+#: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/NeatRound/image.xml.in.h:12
+#: data/albumthemes/NeatSquare/image.xml.in.h:12
+msgid "Shutter speed"
+msgstr "Zársebesség"
+
+#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
+#: src/gthumb_web_exporter.glade.h:53
+msgid "pixels"
+msgstr "képpont"
+
+#: data/albumthemes/Classic/image.xml.in.h:1
+#: data/albumthemes/ClassicClips/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:1
+#: data/albumthemes/NeatSquare/image.xml.in.h:1
+msgid "(click on the image to view it at original size)"
+msgstr "(kattints a képre az eredeti méretben való megjelenítéshez)"
+
+#: gthumb.desktop.in.h:1
+msgid "View and organize your images"
+msgstr "Képek megtekintése és rendszerezése"
+
+#: gthumb.desktop.in.h:2
+msgid "gThumb Image Viewer"
+msgstr "gThumb képmegjelenítő"
+
+#: libgthumb/catalog.c:89
+msgid "Library not empty"
+msgstr "A könyvtár nem üres"
+
+#: libgthumb/catalog.c:98
+#, fuzzy, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr ""
+"Nem sikerült eltávolítani a mappát:\n"
+"%s"
+
+#: libgthumb/catalog.c:125
+#, fuzzy, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "Nem sikerült betölteni a levelet: %s:  %s"
+
+#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
+#, fuzzy, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "Nem sikerült megnyitni a postaládát: %s: %s\n"
+
+#: libgthumb/catalog.c:395
+#, fuzzy, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr ""
+"Nem sikerült menteni: `%s'\n"
+"  %s"
+
+#: libgthumb/comments.c:410
+msgid "Deleting all comments, wait please..."
+msgstr "Az összes megjegyzés törlése folyamatban, várj..."
+
+#: libgthumb/comments.c:412
+msgid "Deleting old comments, wait please..."
+msgstr "A régi megjegyzések törlése folyamatban, várj..."
+
+#: libgthumb/comments.c:771
+msgid "%d %B %Y"
+msgstr "%Y %B %d"
+
+#: libgthumb/comments.c:773 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:225
+#: src/gthumb-window.c:385
+msgid "%d %B %Y, %H:%M"
+msgstr "%Y %d %B, %H:%M"
+
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+#: libgthumb/comments.c:783
+msgid "(No Comment)"
+msgstr "(Nincs megjegyzés)"
+
+#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:313 src/dlg-convert.c:307
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "Már létezik \"%s\" nevű kép. Felülírod?"
+
+#: libgthumb/dlg-save-image.c:154
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "A képtípus nem támogatott: %s"
+
+#: libgthumb/dlg-save-image.c:172
+msgid "Determine by extension"
+msgstr "Kiterjesztés alapján"
+
+#: libgthumb/dlg-save-image.c:207
+msgid "Save Image"
+msgstr "Kép mentése"
+
+#: libgthumb/dlg-save-image.c:221
+msgid "Image type:"
+msgstr "Képtípus:"
+
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "Új előnézeti szöveg _beillesztése."
+
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Előnézeti szöveg módosítása..."
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/rpmview/Nautilus_View_rpm.oaf.in.h:5
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Előnézet"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "Előnézeti szöveg _módosítása..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Betűkészlet kiválasztása"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaÁáBbCcDdEeÉéFfGgHhIiÍíJjKkLlMmNnOoÓóÖöŐőPpQqRrSsTtUuÚúÜüŰűVvWwXxYyZz"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Betűkészlet választása"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:325
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:325
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:325
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:325
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Cím"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "A kiválasztó párbeszédablak címsora"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Betűkészlet neve"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "A kiválasztott betűkészlet neve"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Mintaszöveg"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "A párbeszédablakban megjelenített mintaszöveg"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Címke betűkészlete"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Betűkészletinfó módban ezt a betűkészletet használja a címkéken"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Címke betűmérete"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Betűkészletinfó módban ezt a betűméretet használja a címkéken"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Méret megjelenítése"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Méret megjelenítése a betűkészlet-információs módban"
+
+# #-#-#-#-#  gnome-terminal.HEAD.hu.po-new.po (gnome-terminal HEAD)  #-#-#-#-#
+# gnome-terminal/gnome-terminal.c:1127
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  gnome-terminal.HEAD.hu.po-new.po (gnome-terminal HEAD)  #-#-#-#-#
+# gnome-terminal/gnome-terminal.c:1127
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Betűkészlet"
+
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
+#: src/gthumb_comments.glade.h:8
+msgid "Comment"
+msgstr "Megjegyzés"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:46
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# libnautilus-private/nautilus-program-chooser.c:1186
+# src/file-manager/fm-list-view.c:1970
+# src/file-manager/fm-search-list-view.c:549
+# src/nautilus-bookmarks-window.c:164
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:46
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# libnautilus-private/nautilus-program-chooser.c:1186
+# src/file-manager/fm-list-view.c:1970
+# src/file-manager/fm-search-list-view.c:549
+# src/nautilus-bookmarks-window.c:164
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:183 src/trans.h:342 src/trans.h:348 src/trans.h:378
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:46
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# libnautilus-private/nautilus-program-chooser.c:1186
+# src/file-manager/fm-list-view.c:1970
+# src/file-manager/fm-search-list-view.c:549
+# src/nautilus-bookmarks-window.c:164
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:46
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# libnautilus-private/nautilus-program-chooser.c:1186
+# src/file-manager/fm-list-view.c:1970
+# src/file-manager/fm-search-list-view.c:549
+# src/nautilus-bookmarks-window.c:164
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:623
+msgid "Name"
+msgstr "Név"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1504
+#, c-format
+msgid "Print %s"
+msgstr "%s nyomtatása"
+
+#: libgthumb/print-callbacks.c:928
+msgid "Print Image"
+msgstr "Kép nyomtatása"
+
+#: libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr "Az összes bélyegkép törlése folyamatban, várj..."
+
+#: libgthumb/thumb-cache.c:489
+msgid "Deleting old thumbnails, wait please..."
+msgstr "A régi bélyegképek törlése folyamatban, várj..."
+
+#: src/bookmark-list.c:169 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:294
+#: src/dlg-rename-series.c:298 src/gthumb-window.c:531
+#: src/gthumb-window.c:1275 src/gthumb-window.c:1282 src/gthumb-window.c:1290
+msgid "(Invalid Name)"
+msgstr "(Érvénytelen név)"
+
+#: src/catalog-png-exporter.c:1327
+#, c-format
+msgid "Loading image: %s"
+msgstr "Kép betöltése: %s"
+
+#: src/catalog-png-exporter.c:1535
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "Kép létrehozása: %s.%s"
+
+# libnautilus-private/nautilus-global-preferences.c:139
+# libnautilus-private/nautilus-global-preferences.c:760
+#: src/catalog-web-exporter.c:1518
+msgid "Saving thumbnails"
+msgstr "Bélyegképek mentése"
+
+#: src/catalog-web-exporter.c:1584
+msgid "Saving HTML pages: Images"
+msgstr "HTML-oldalak mentése: képek"
+
+#: src/catalog-web-exporter.c:1659
+msgid "Saving HTML pages: Indexes"
+msgstr "HTML-oldalak mentése: mutatók"
+
+#: src/catalog-web-exporter.c:1782 src/catalog-web-exporter.c:1840
+#: src/catalog-web-exporter.c:1979
+msgid "Saving images"
+msgstr "Képek mentése"
+
+#: src/catalog-web-exporter.c:2188
+msgid "Could not create a temporary folder"
+msgstr "Nem sikerült létrehozni az ideiglenes könyvtárat"
+
+#. Load thumbnails.
+#: src/catalog-web-exporter.c:2225
+msgid "Loading images"
+msgstr "Képek betöltése"
+
+#: src/commands-impl.c:275 src/commands-impl.c:1011 src/commands-impl.c:1579
+msgid "Enter the new name: "
+msgstr "Add meg az új nevet: "
+
+#: src/commands-impl.c:279 src/commands-impl.c:1015 src/commands-impl.c:1583
+#: src/gthumb-ui.xml.h:234 src/gthumb_tools.glade.h:45
+msgid "_Rename"
+msgstr "Á_tnevezés"
+
+# src/file-manager/fm-error-reporting.c:104
+#: src/commands-impl.c:293 src/commands-impl.c:917 src/commands-impl.c:1029
+#: src/commands-impl.c:1599 src/commands-impl.c:1694
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"A következő név (%s) nem érvényes, mert tartalmazza a \"/\" karaktert. "
+"Használj másik nevet."
+
+#: src/commands-impl.c:320 src/dlg-convert.c:313
+msgid "_Overwrite"
+msgstr "_Felülírás"
+
+#: src/commands-impl.c:340 src/commands-impl.c:355
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Nem sikerült átnevezni a(z) \"%s\" képet: %s"
+
+#: src/commands-impl.c:342 src/commands-impl.c:1051 src/commands-impl.c:1357
+msgid "source and destination are the same"
+msgstr "a forrás és a cél megegyezik"
+
+#: src/commands-impl.c:446
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Nem sikerült megkettőzni a(z) \"%s\" képet: %s"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:44
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/osf1/siglist.c:44 sysdeps/sun4/siglist.c:44
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/nautilus-music-view.c:1535
+# libnautilus-private/nautilus-file-operations.c:945
+# libnautilus-private/nautilus-file-operations.c:960
+# libnautilus-private/nautilus-file-operations.c:979
+# src/nautilus-shell-ui.xml.h:54
+#: src/commands-impl.c:454
+msgid "Stop"
+msgstr "Leállítás"
+
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/osf1/siglist.c:46 sysdeps/sun4/siglist.c:46
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/osf1/siglist.c:46 sysdeps/sun4/siglist.c:46
+#: src/commands-impl.c:455
+msgid "Continue"
+msgstr "Folytatás"
+
+# src/file-manager/fm-directory-view.c:2594
+#: src/commands-impl.c:531
+#, fuzzy
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr ""
+"A %d kijelölt elem akkor kerül áthelyezésre, ha kiválasztod a Fájl "
+"beillesztése parancsot a menüből"
+
+#: src/commands-impl.c:551
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr ""
+
+#: src/commands-impl.c:786
+#, fuzzy
+msgid "The image will be removed from the catalog, are you sure?"
+msgstr ""
+"A szerkesztett kép törlődött a dokumentumból.\n"
+"A változtatásokat nem lehet alkalmazni."
+
+#: src/commands-impl.c:828
+#, fuzzy
+msgid "The selected images will be removed from the catalog, are you sure?"
+msgstr ""
+"A szerkesztett kép törlődött a dokumentumból.\n"
+"A változtatásokat nem lehet alkalmazni."
+
+#: src/commands-impl.c:904 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:90
+msgid "C_reate"
+msgstr "_Létrehozás"
+
+# src/file-manager/fm-error-reporting.c:89
+#: src/commands-impl.c:933 src/commands-impl.c:1059 src/commands-impl.c:1621
+#: src/commands-impl.c:1713
+#, fuzzy, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "%s nevű elem már létezik ebben a mappában. Használj egy másik nevet."
+
+#: src/commands-impl.c:961
+msgid "New Folder"
+msgstr "Új mappa"
+
+#: src/commands-impl.c:962
+msgid "Enter the folder name: "
+msgstr "Add meg a mappa nevét:"
+
+#: src/commands-impl.c:963
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Nem sikerült létrehozni a(z) \"%s\" mappát: %s"
+
+#: src/commands-impl.c:974
+msgid "New Library"
+msgstr "Új könyvtár"
+
+#: src/commands-impl.c:975 src/dlg-catalog.c:127
+msgid "Enter the library name: "
+msgstr "Add meg a könyvtár nevét: "
+
+#: src/commands-impl.c:976
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Nem sikerült létrehozni a(z) \"%s\" könyvtárat: %s"
+
+#: src/commands-impl.c:1049 src/commands-impl.c:1086
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Nem sikerült átnevezni ezt a mappát: \"%s\": %s"
+
+#: src/commands-impl.c:1152
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Nem sikerült törölni a mappát: \"%s\": %s"
+
+# src/file-manager/fm-directory-view.c:2589
+#: src/commands-impl.c:1183
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" nem helyezhető át a Kukába. Szeretnéd véglegesen törölni?"
+
+#: src/commands-impl.c:1191 src/dlg-file-utils.c:227
+msgid "_Do not display this message again"
+msgstr "_Ne jelenjen meg többet ez az üzenet"
+
+# src/file-manager/fm-directory-view.c:2594
+#: src/commands-impl.c:1224
+#, fuzzy
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr ""
+"A %d kijelölt elem akkor kerül áthelyezésre, ha kiválasztod a Fájl "
+"beillesztése parancsot a menüből"
+
+#: src/commands-impl.c:1226 src/dlg-file-utils.c:281
+msgid "_Move"
+msgstr "Át_helyezés"
+
+#: src/commands-impl.c:1292 src/commands-impl.c:1347
+#, fuzzy, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Nem sikerült megnyitni a mappát: %s: %s"
+
+#: src/commands-impl.c:1347 src/dlg-file-utils.c:2428
+#: src/dlg-file-utils.c:2430
+#, fuzzy, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Nem sikerült megnyitni a mappát: %s: %s"
+
+#: src/commands-impl.c:1368
+msgid "source contains destination"
+msgstr "a forrás tartalmazza a célt"
+
+#: src/commands-impl.c:1379
+msgid "a folder with that name is already present."
+msgstr "a megadott néven már létezik mappa."
+
+#: src/commands-impl.c:1460 src/dlg-file-utils.c:369 src/dlg-file-utils.c:458
+msgid "Choose the destination folder"
+msgstr "Célmappa választása"
+
+#: src/commands-impl.c:1632
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Nem sikerült átnevezni a(z) \"%s\" könyvtárat: %s"
+
+#: src/commands-impl.c:1632
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Nem sikerült átnevezni a(z) \"%s\" katalógust: %s"
+
+#: src/commands-impl.c:1678 src/dlg-catalog.c:82
+msgid "Enter the catalog name: "
+msgstr "Add meg a katalógus nevét:"
+
+#: src/commands-impl.c:1679
+msgid "New Catalog"
+msgstr "Új katalógus"
+
+#: src/commands-impl.c:1724
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Nem sikerült létrehozni a(z) \"%s\" katalógust: %s"
+
+#: src/commands-impl.c:1788
+msgid "The selected library will be removed, are you sure?"
+msgstr "A kiválasztott könyvtár törölve lesz, biztos vagy benne?"
+
+#: src/commands-impl.c:1790
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "A kiválasztott katalógus törölve lesz, biztos vagy benne?"
+
+#: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-comment.c:265
+#: src/dlg-jpegtran.c:638 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
+#: src/dlg-search.c:450
+#, c-format
+msgid "Could not display help: %s"
+msgstr "A súgó megjelenítése nem sikerült: %s"
+
+#: src/commands-impl.c:2764
+msgid "translator_credits"
+msgstr "Tímár András  <timar@gnome.hu>"
+
+#: src/commands-impl.c:2773 src/gthumb-window.c:549 src/gthumb-window.c:4797
+#: src/main.c:125
+msgid "gThumb"
+msgstr "gThumb"
+
+#: src/commands-impl.c:2776
+msgid "An image viewer and browser for GNOME."
+msgstr "Képnézegető és képkatalogizáló a GNOME-hoz."
+
+#: src/dlg-catalog.c:446
+msgid "Move Catalog to..."
+msgstr "Katalógus áthelyezése..."
+
+#: src/dlg-categories.c:196
+msgid "Enter the new category name"
+msgstr "Add meg az új kategórianevet:"
+
+# src/file-manager/fm-error-reporting.c:104
+#: src/dlg-categories.c:207
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr "A(z) \"%s\" név nem érvényes, mert tartalmazza a \",\" karaktert. Használj másik nevet."
+
+# src/file-manager/fm-error-reporting.c:89
+#: src/dlg-categories.c:212
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "%s nevű kategória már van. Használj egy másik nevet."
+
+#: src/dlg-convert.c:154
+#, c-format
+msgid "Converting image: %s"
+msgstr "Kép átalakítása: %s"
+
+#: src/dlg-convert.c:177
+#, fuzzy, c-format
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr "Már létezik \"%s\" nevű mappa. Használj más nevet."
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# libnautilus-private/nautilus-file-operations.c:960
+# libnautilus-private/nautilus-file-operations.c:979
+# libnautilus-private/nautilus-file-operations.c:1093
+# libnautilus-private/nautilus-file-operations.c:1107
+#: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
+msgid "Skip"
+msgstr "Kihagyás"
+
+#: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
+msgid "Duplicates"
+msgstr "Duplikátumok"
+
+#: src/dlg-duplicates.c:294
+msgid "Duplicates Size"
+msgstr "Duplikátumok mérete"
+
+# src/trans.h:327
+#: src/dlg-duplicates.c:400
+msgid "Last modified"
+msgstr "Utoljára módosítva"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:47 src/trans.h:50
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:47 src/trans.h:50
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:31
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:643
+msgid "Location"
+msgstr "Hely"
+
+#: src/dlg-duplicates.c:755
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "A bejelölt képek a Kukába lesznek dobva. Biztos vagy benne?"
+
+#: src/dlg-file-utils.c:88
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "A célmappa nem létezik. Létrehozod?"
+
+#: src/dlg-file-utils.c:104
+#, fuzzy, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr ""
+"Nem sikerült létrehozni a mappát: `%s':\n"
+"%s"
+
+#: src/dlg-file-utils.c:118
+#, fuzzy, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+"Nincs megfelelő jogosultságod archívumok kicsomagolásához ebbe a könyvtárba: "
+"\"%s\""
+
+#: src/dlg-file-utils.c:201
+msgid "Could not delete the images:"
+msgstr "Nem sikerült törölni a képeket:"
+
+#: src/dlg-file-utils.c:224
+#, fuzzy
+msgid ""
+"The images cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr "Az archívumot nem lehet a Kukába helyezni. Törlöd véglegesen?"
+
+#: src/dlg-file-utils.c:760 src/dlg-file-utils.c:861
+msgid "You didn't enter the new name"
+msgstr "Nem adtál meg új nevet"
+
+# src/file-manager/fm-error-reporting.c:89
+#: src/dlg-file-utils.c:772 src/dlg-file-utils.c:873
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr "%s nevű elem már létezik ebben a mappában. Használj egy másik nevet."
+
+#: src/dlg-file-utils.c:1012
+msgid "Could not rename the image:"
+msgstr "Nem sikerült átnevezni a képet:"
+
+#: src/dlg-file-utils.c:1014
+msgid "Could not rename the following images:"
+msgstr "Nem sikerült átnevezni a következő képeket:"
+
+#: src/dlg-file-utils.c:1148
+msgid "Could not move the image:"
+msgstr "A kép áthelyezése nem sikerült:"
+
+#: src/dlg-file-utils.c:1150
+msgid "Could not copy the image:"
+msgstr "A kép másolása nem sikerült:"
+
+# sysdeps/osf1/siglist.c:33 sysdeps/sun4/siglist.c:33
+#: src/dlg-file-utils.c:1174 src/dlg-file-utils.c:2451
+msgid "_Abort"
+msgstr "_Megszakítás"
+
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/osf1/siglist.c:46 sysdeps/sun4/siglist.c:46
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/osf1/siglist.c:46 sysdeps/sun4/siglist.c:46
+#: src/dlg-file-utils.c:1175 src/dlg-file-utils.c:2452
+msgid "_Continue"
+msgstr "_Folytatás"
+
+# libnautilus-private/nautilus-file-operations.c:1848
+#: src/dlg-file-utils.c:1348
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "%d. / %d kép másolása"
+
+#: src/dlg-file-utils.c:1773 src/dlg-file-utils.c:2000
+msgid "Collecting images info"
+msgstr "Képadatok összegyűjtése"
+
+# libnautilus-private/nautilus-file-operations.c:2240
+#: src/dlg-file-utils.c:1776 src/dlg-file-utils.c:2013
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "%ld. / %ld kép törlése"
+
+# libnautilus-private/nautilus-file-operations.c:1848
+#: src/dlg-file-utils.c:2003
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "%ld. / %ld kép másolása"
+
+# libnautilus-private/nautilus-file-operations.c:1817
+#: src/dlg-file-utils.c:2008
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "%ld. / %ld kép áthelyezése"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:24 interfaces/memory.glade.h:9
+# interfaces/memory.glade.h:38
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/names/procargs.c:38 sysdeps/names/procmem.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1976
+# src/file-manager/fm-search-list-view.c:561
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/names/procargs.c:38 sysdeps/names/procmem.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1976
+# src/file-manager/fm-search-list-view.c:561
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:194
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:24 interfaces/memory.glade.h:9
+# interfaces/memory.glade.h:38
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/names/procargs.c:38 sysdeps/names/procmem.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1976
+# src/file-manager/fm-search-list-view.c:561
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:24 interfaces/memory.glade.h:9
+# interfaces/memory.glade.h:38
+# #-#-#-#-#  libgtop.libgtop-GNOME-2-0-port.hu.po-new.po (libgtop 1.1.6)  #-#-#-#-#
+# sysdeps/names/procargs.c:38 sysdeps/names/procmem.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1976
+# src/file-manager/fm-search-list-view.c:561
+#: src/dlg-image-prop.c:628
+msgid "Size"
+msgstr "Méret"
+
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:8 interfaces/shares.glade.h:8
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:8 interfaces/shares.glade.h:8
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1982
+# src/file-manager/fm-search-list-view.c:567
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (Seahorse 0.7)  #-#-#-#-#
+# FIXME
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1982
+# src/file-manager/fm-search-list-view.c:567
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (seahorse CVS)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:8 interfaces/shares.glade.h:8
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/disks.glade.h:8 interfaces/shares.glade.h:8
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1982
+# src/file-manager/fm-search-list-view.c:567
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (Seahorse 0.7)  #-#-#-#-#
+# FIXME
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-list-view.c:1982
+# src/file-manager/fm-search-list-view.c:567
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (Seahorse 0.7)  #-#-#-#-#
+# FIXME
+#: src/dlg-image-prop.c:633
+msgid "Type"
+msgstr "Típus"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1512
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1512
+#: src/dlg-image-prop.c:648
+msgid "Modified"
+msgstr "Módosítva"
+
+#: src/dlg-image-prop.c:653
+msgid "Information on Channel"
+msgstr "Csatornainformáció"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:519
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (seahorse CVS)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:519
+#: src/dlg-image-prop.c:751
+#, c-format
+msgid "%s Properties"
+msgstr "%s tulajdonságai"
+
+#: src/dlg-maintenance.c:71
+msgid "All comments will be removed, are you sure?"
+msgstr "Az összes megjegyzés törölve lesz, biztos vagy benne?"
+
+#: src/dlg-maintenance.c:102
+msgid "All thumbnails will be deleted, are you sure?"
+msgstr "Az összes bélyegkép törölve lesz, biztos vagy benne?"
+
+#: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
+msgid "Specify the backup file"
+msgstr "A biztonsági mentés fájljának megadása"
+
+#: src/dlg-png-exporter.c:999
+msgid "Image Caption"
+msgstr "Képaláírás"
+
+#: src/dlg-png-exporter.c:1052
+msgid "Header"
+msgstr "Élőfej"
+
+#: src/dlg-png-exporter.c:1065 src/dlg-png-exporter.c:1071
+msgid "Footer"
+msgstr "Élőláb"
+
+#: src/dlg-rename-series.c:372
+msgid "Old Name"
+msgstr "Régi név"
+
+#: src/dlg-rename-series.c:380
+msgid "New Name"
+msgstr "Új név"
+
+# src/file-manager/fm-search-list-view.c:124
+#: src/dlg-search.c:337
+msgid "Search Result"
+msgstr "Keresés eredménye"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+#: src/dlg-search.c:810
+msgid "Filename"
+msgstr "Fájlnév"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
+msgid "Folder"
+msgstr "Mappa"
+
+#: src/dlg-web-exporter.c:658
+msgid "Select Album Theme"
+msgstr "Albumtéma választása"
+
+#: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
+msgid "Restore Normal View"
+msgstr "Normál nézet visszaállítása"
+
+# sysdeps/names/swap.c:42
+#: src/fullscreen.c:800
+msgid "Image Info"
+msgstr "Kép adatai"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-toolbars.c:381
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-toolbars.c:381
+#: src/fullscreen.c:818 src/gthumb-window.c:4077
+msgid "Back"
+msgstr "Vissza"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-toolbars.c:383
+#: src/fullscreen.c:836 src/gthumb-ui.xml.h:52
+msgid "Forward"
+msgstr "Előre"
+
+#: src/gth-folder-selection-dialog.c:403
+msgid "_Browse..."
+msgstr "_Tallózás..."
+
+#: src/gth-folder-selection-dialog.c:412
+msgid "_Recents:"
+msgstr "_Legutóbbiak:"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:71
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:71
+#: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
+msgid "_Bookmarks:"
+msgstr "_Könyvjelzők:"
+
+#: src/gthumb-ui.xml.h:1
+msgid "1:1"
+msgstr "1:1"
+
+#: src/gthumb-ui.xml.h:2
+msgid "Actual size"
+msgstr "Tényleges méret"
+
+#: src/gthumb-ui.xml.h:3
+msgid "Add a comment to selected images"
+msgstr "Megjegyzés hozzáadása a kijelölt képekhez"
+
+#: src/gthumb-ui.xml.h:4
+msgid "Add a comment to the image"
+msgstr "Megjegyzés hozzáadása a képhez"
+
+#: src/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "Az aktuális hely hozzáadása a könyvjelzőkhöz"
+
+#: src/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "Kijelölt képek hozzáadása a katalógushoz"
+
+#: src/gthumb-ui.xml.h:7
+msgid "Adjust brightness and contrast"
+msgstr "A fényerő és kontraszt beállítása"
+
+#: src/gthumb-ui.xml.h:8
+msgid "Adjust color balance"
+msgstr "A színegyensúly beállítása"
+
+#: src/gthumb-ui.xml.h:9
+msgid "Adjust hue and saturation"
+msgstr "A színezet és telítettség beállítása"
+
+#: src/gthumb-ui.xml.h:10
+msgid "Apply threshold"
+msgstr "Küszöb alkalmazása"
+
+#: src/gthumb-ui.xml.h:11
+#, fuzzy
+msgid "Assign categories to selected images"
+msgstr "Szűrőszabályok alkalmazása a kijelölt levelekre"
+
+#: src/gthumb-ui.xml.h:12
+msgid "Assign categories to the image"
+msgstr "Kategóriák hozzárendelése a képhez"
+
+#: src/gthumb-ui.xml.h:13
+msgid "Auto"
+msgstr "Automatikus"
+
+#: src/gthumb-ui.xml.h:14
+msgid "Automatically normalize the contrast"
+msgstr "Kontraszt automatikus normalizálása"
+
+#: src/gthumb-ui.xml.h:15
+msgid "Automatically stretch the contrast"
+msgstr "Kontraszt automatikus kifeszítése"
+
+#: src/gthumb-ui.xml.h:16
+msgid "Ca_talog"
+msgstr "Ka_talógus"
+
+#: src/gthumb-ui.xml.h:17
+msgid "Ca_tegories"
+msgstr "Ka_tegóriák"
+
+#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4178
+msgid "Catalogs"
+msgstr "Katalógusok"
+
+#: src/gthumb-ui.xml.h:19 src/gthumb_comments.glade.h:5
+#: src/gthumb_search.glade.h:10
+msgid "Categories"
+msgstr "Kategóriák"
+
+#: src/gthumb-ui.xml.h:20
+msgid "Change _Date"
+msgstr "_Dátum megváltoztatása"
+
+#: src/gthumb-ui.xml.h:21
+msgid "Change images last modified date"
+msgstr "A képek módosítási dátumának megváltoztatása"
+
+#: src/gthumb-ui.xml.h:22
+msgid "Close all windows and exit"
+msgstr "Az összes ablak bezárása és kilépés"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:362
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:13
+#: src/gthumb-ui.xml.h:23
+msgid "Close this window"
+msgstr "Az aktuális ablak bezárása"
+
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/shares.glade.h:52
+#: src/gthumb-ui.xml.h:24 src/gthumb.glade.h:12
+msgid "Comm_ent"
+msgstr "_Megjegyzés"
+
+#: src/gthumb-ui.xml.h:26
+msgid "Convert"
+msgstr "Átalakítás"
+
+#: src/gthumb-ui.xml.h:27
+msgid "Convert F_ormat"
+msgstr "Á_talakítás más formátumba"
+
+#: src/gthumb-ui.xml.h:28
+msgid "Convert image format"
+msgstr "A kép átalakítása más képformátumba"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Copy current folder"
+msgstr "Aktuális mappa másolása"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Copy selected folder"
+msgstr "Kijelölt mappa másolása"
+
+#: src/gthumb-ui.xml.h:31
+msgid "Copy selected images to another location"
+msgstr "A kijelölt képek másolása máshová"
+
+#: src/gthumb-ui.xml.h:32
+msgid "Copy this image to another location"
+msgstr "A kép másolása máshová"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Create _Index Image"
+msgstr "_Indexkép létrehozása"
+
+#: src/gthumb-ui.xml.h:34
+msgid "Create _Web Album"
+msgstr "_Webalbum létrehozása"
+
+#: src/gthumb-ui.xml.h:35
+msgid "Create a new catalog"
+msgstr "Új katalógus létrehozása"
+
+#: src/gthumb-ui.xml.h:36
+msgid "Create a new catalog library"
+msgstr "Új katalóguskönyvtár létrehozása"
+
+#: src/gthumb-ui.xml.h:37
+msgid "Create a new folder"
+msgstr "Új mappa létrehozása"
+
+#: src/gthumb-ui.xml.h:38
+msgid "Create a new window"
+msgstr "Új ablak létrehozása"
+
+#: src/gthumb-ui.xml.h:39
+msgid "Crop image"
+msgstr "Képkivágás"
+
+# src/file-manager/nautilus-directory-view-ui.xml.h:9
+#: src/gthumb-ui.xml.h:40
+msgid "D_uplicate"
+msgstr "Ke_ttőzés"
+
+# src/nautilus-shell-ui.xml.h:30
+#: src/gthumb-ui.xml.h:41
+#, fuzzy
+msgid "Delete the list of visited locations"
+msgstr "A következő meglátogatott helyre ugrik"
+
+# src/file-manager/nautilus-directory-view-ui.xml.h:10
+#: src/gthumb-ui.xml.h:42
+#, fuzzy
+msgid "Duplicate selected image"
+msgstr "Minden kijelölt elem kettőzése"
+
+#: src/gthumb-ui.xml.h:43
+#, fuzzy
+msgid "Duplicate this image"
+msgstr "Útvonal kétszerezése"
+
+#: src/gthumb-ui.xml.h:44
+msgid "E_xit"
+msgstr "_Kilépés"
+
+#: src/gthumb-ui.xml.h:45
+msgid "Edit Search"
+msgstr "Keresés szerkesztése"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Edit bookmarks"
+msgstr "Könyvjelzők szerkesztése"
+
+# src/nautilus-shell-ui.xml.h:24
+#: src/gthumb-ui.xml.h:47
+#, fuzzy
+msgid "Edit various preferences"
+msgstr "A Nautilus beállításainak megváltoztatása"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Fi_nd Duplicates..."
+msgstr "_Duplikátumok keresése..."
+
+#: src/gthumb-ui.xml.h:49
+msgid "Find images"
+msgstr "Képek keresése"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Fit"
+msgstr "Ablakhoz"
+
+#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4128
+msgid "Folders"
+msgstr "Mappák"
+
+#: src/gthumb-ui.xml.h:53
+msgid "Full Screen"
+msgstr "Teljes képernyő"
+
+#: src/gthumb-ui.xml.h:54
+#, fuzzy
+msgid "Go to the folder that contains the selected image"
+msgstr "A kategóriaadatokat tartalmazó GtkTreeModel"
+
+# libnautilus-private/nautilus-search-uri.c:257
+#: src/gthumb-ui.xml.h:55
+#, fuzzy
+msgid "Go to the home folder"
+msgstr "Ugrás a kuka mappájához"
+
+# src/nautilus-shell-ui.xml.h:30
+#: src/gthumb-ui.xml.h:56
+msgid "Go to the next visited location"
+msgstr "A következő meglátogatott helyre ugrik"
+
+# src/nautilus-shell-ui.xml.h:31
+#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4096
+msgid "Go to the previous visited location"
+msgstr "Az előző meglátogatott helyre ugrik"
+
+#: src/gthumb-ui.xml.h:58
+msgid "Go up one level"
+msgstr "Ugrás egy szinttel feljebb"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:42
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/help/converters/gnome-db2html2/gdb3html.c:717
+# libnautilus-private/nautilus-global-preferences.c:706
+# src/nautilus-shell-ui.xml.h:36
+#: src/gthumb-ui.xml.h:59
+msgid "Home"
+msgstr "Saját mappa"
+
+# src/trans.h:14
+#: src/gthumb-ui.xml.h:60
+msgid "Image Toolbar"
+msgstr "Kép eszköztár"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Image _Comment"
+msgstr "_Megjegyzés a képhez"
+
+#: src/gthumb-ui.xml.h:62
+msgid "In"
+msgstr "Nagyítás"
+
+#: src/gthumb-ui.xml.h:63
+msgid "Main Toolbar"
+msgstr "Fő eszköztár"
+
+#: src/gthumb-ui.xml.h:64
+msgid "Modify search criteria"
+msgstr "Keresési feltétel módosítása"
+
+#: src/gthumb-ui.xml.h:65
+#, fuzzy
+msgid "Move current catalog to another location"
+msgstr "Az aktuális archívum áthelyezése másik mappába"
+
+#: src/gthumb-ui.xml.h:66
+msgid "Move current folder"
+msgstr "Az aktuális mappa áthelyezése"
+
+#: src/gthumb-ui.xml.h:67
+#, fuzzy
+msgid "Move selected catalog to another location"
+msgstr "A kijelölt üzenet(ek) áthelyezése egy másik mappába"
+
+#: src/gthumb-ui.xml.h:68
+msgid "Move selected folder"
+msgstr "A kijelölt mappa áthelyezése"
+
+#: src/gthumb-ui.xml.h:69
+#, fuzzy
+msgid "Move selected images to another location"
+msgstr "A kijelölt üzenet(ek) áthelyezése egy másik mappába"
+
+#: src/gthumb-ui.xml.h:70
+#, fuzzy
+msgid "Move the current folder to the Trash"
+msgstr "Az aktuális archívum áthelyezése a kukába"
+
+# src/file-manager/nautilus-directory-view-ui.xml.h:12
+#: src/gthumb-ui.xml.h:71
+#, fuzzy
+msgid "Move the selected folder to the Trash"
+msgstr "Minden kijelölt elem áthelyezése a Kukába"
+
+# src/file-manager/nautilus-directory-view-ui.xml.h:12
+#: src/gthumb-ui.xml.h:72
+#, fuzzy
+msgid "Move the selected images to the Trash"
+msgstr "Minden kijelölt elem áthelyezése a Kukába"
+
+#: src/gthumb-ui.xml.h:73
+#, fuzzy
+msgid "Move this image to another location"
+msgstr "Mappa áthelyezése máshová"
+
+# libnautilus-private/nautilus-file-operations.c:1802
+# libnautilus-private/nautilus-file-operations.c:2195
+#: src/gthumb-ui.xml.h:74
+#, fuzzy
+msgid "Move this image to the Trash"
+msgstr "Fájlok áthelyezése a kukába"
+
+#: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
+msgid "Move to _Trash"
+msgstr "Áthelyezés a _Kukába"
+
+#: src/gthumb-ui.xml.h:76
+msgid "New _Library..."
+msgstr "Új _könyvtár..."
+
+#: src/gthumb-ui.xml.h:77
+msgid "New _Window"
+msgstr "Új _ablak"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:109
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:109
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:109
+#: src/gthumb-ui.xml.h:78
+msgid "Next"
+msgstr "Következő"
+
+#: src/gthumb-ui.xml.h:79
+#, fuzzy
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Megnyitja a saját mappádat a Nautilus fájlkezelőben"
+
+#: src/gthumb-ui.xml.h:80
+#, fuzzy
+msgid "Open selected images with an application"
+msgstr "Kijelölt fájlok megnyitása egy alkalmazással"
+
+#: src/gthumb-ui.xml.h:81
+#, fuzzy
+msgid ""
+"Open the selected folder with the Nautilus file\n"
+"\t     manager"
+msgstr "Megnyitja a saját mappádat a Nautilus fájlkezelőben"
+
+#: src/gthumb-ui.xml.h:83
+#, fuzzy
+msgid "Open this image with an application"
+msgstr "Megnyitás egy _alkalmazással"
+
+# libnautilus-private/nautilus-program-chooser.c:1237
+#: src/gthumb-ui.xml.h:84
+#, fuzzy
+msgid "Open with the File Manager"
+msgstr "Megnyitás más megjelenítővel"
+
+# libnautilus-private/nautilus-program-chooser.c:1237
+#: src/gthumb-ui.xml.h:85
+#, fuzzy
+msgid "Open with the _File Manager"
+msgstr "Megnyitás más megjelenítővel"
+
+#: src/gthumb-ui.xml.h:86
+msgid "Out"
+msgstr "Kicsinyítés"
+
+#: src/gthumb-ui.xml.h:87
+msgid "Play _Animation"
+msgstr "_Animáció lejátszása"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:27
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:27
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:27
+#: src/gthumb-ui.xml.h:88
+msgid "Previous"
+msgstr "Előző"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:206 src/trans.h:207
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-first-time-druid.c:690
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
+msgid "Print"
+msgstr "Nyomtatás"
+
+#: src/gthumb-ui.xml.h:91
+msgid "Proper_ties"
+msgstr "_Tulajdonságok"
+
+#: src/gthumb-ui.xml.h:92
+msgid "Redo Search"
+msgstr "Keresés megismétlése"
+
+#: src/gthumb-ui.xml.h:93
+msgid "Redo _Search"
+msgstr "_Keresés megismétlése"
+
+# libnautilus-private/nautilus-undo-signal-handlers.c:179
+#: src/gthumb-ui.xml.h:94
+msgid "Redo the search"
+msgstr "A keresés megismétlése"
+
+#: src/gthumb-ui.xml.h:95
+msgid "Reduce number of colors"
+msgstr "Színek számának csökkentése"
+
+#: src/gthumb-ui.xml.h:96
+msgid "Reduce the number of colors"
+msgstr "A színek számának csökkentése"
+
+#: src/gthumb-ui.xml.h:97
+msgid "Reload the current location"
+msgstr "Az aktuális hely újrabetöltése"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:320 src/trans.h:352
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-bookmarks-window.c:190 src/nautilus-window-menus.c:725
+#: src/gthumb-ui.xml.h:98
+msgid "Rem_ove"
+msgstr "_Eltávolítás"
+
+#: src/gthumb-ui.xml.h:99
+msgid "Rem_ove Comment"
+msgstr "M_egjegyzés eltávolítása"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Remo_ve from Catalog"
+msgstr "El_távolítás a katalógusból"
+
+#: src/gthumb-ui.xml.h:101
+#, fuzzy
+msgid "Remove comments of selected images"
+msgstr "A kijelölt szűrő törlése"
+
+#: src/gthumb-ui.xml.h:102
+#, fuzzy
+msgid "Remove current catalog"
+msgstr "A jelenlegi szín"
+
+# src/file-manager/nautilus-icon-view-ui.xml.h:26
+#: src/gthumb-ui.xml.h:103
+#, fuzzy
+msgid "Remove selected catalog"
+msgstr "Kijelölt ikon átnevezése"
+
+#: src/gthumb-ui.xml.h:104
+#, fuzzy
+msgid "Remove selected images from the catalog"
+msgstr "Eltávolítja a kiválasztott elemeket a mellékletlistáról"
+
+#: src/gthumb-ui.xml.h:105
+#, fuzzy
+msgid "Remove the comment"
+msgstr "Oszlop eltávolítása"
+
+#: src/gthumb-ui.xml.h:106
+#, fuzzy
+msgid "Rename current catalog"
+msgstr "Az aktuális archívum átnevezése"
+
+#: src/gthumb-ui.xml.h:107
+#, fuzzy
+msgid "Rename current folder"
+msgstr "Az aktuális archívum átnevezése"
+
+# src/file-manager/nautilus-icon-view-ui.xml.h:26
+#: src/gthumb-ui.xml.h:108
+#, fuzzy
+msgid "Rename selected catalog"
+msgstr "Kijelölt ikon átnevezése"
+
+# src/file-manager/nautilus-icon-view-ui.xml.h:26
+#: src/gthumb-ui.xml.h:109
+#, fuzzy
+msgid "Rename selected folder"
+msgstr "Kijelölt ikon átnevezése"
+
+# src/file-manager/nautilus-icon-view-ui.xml.h:26
+#: src/gthumb-ui.xml.h:110
+#, fuzzy
+msgid "Rename selected image"
+msgstr "Kijelölt ikon átnevezése"
+
+#: src/gthumb-ui.xml.h:111
+#, fuzzy
+msgid "Rename this image"
+msgstr "Menüelem törlése"
+
+#: src/gthumb-ui.xml.h:112
+msgid "Resize image"
+msgstr "Kép átméretezése"
+
+#: src/gthumb-ui.xml.h:114
+msgid "Restore the original desktop wallpaper"
+msgstr "Az eredeti munkaasztal-háttérkép visszaállítása"
+
+#: src/gthumb-ui.xml.h:115
+msgid "Reverse images order"
+msgstr "A képsorrend megfordítása"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:97 src/trans.h:146
+#: src/gthumb-ui.xml.h:116
+msgid "Revert"
+msgstr "Visszaállítás"
+
+#: src/gthumb-ui.xml.h:117
+msgid "Revert to saved image"
+msgstr "A mentett kép visszaállítása"
+
+#: src/gthumb-ui.xml.h:119
+msgid "Rotate Ri_ght"
+msgstr "Forgatás j_obbra"
+
+#: src/gthumb-ui.xml.h:120
+msgid "Rotate _JPEG"
+msgstr "_JPEG forgatása"
+
+#: src/gthumb-ui.xml.h:121
+msgid "Rotate _Left"
+msgstr "Forgatás _balra"
+
+#: src/gthumb-ui.xml.h:122
+msgid "Rotate image"
+msgstr "Kép elforgatása"
+
+#: src/gthumb-ui.xml.h:123
+msgid "Rotate jpeg images without loss of quality"
+msgstr "JPEG-képek elforgatása minőségvesztés nélkül"
+
+# src/trans.h:93
+#: src/gthumb-ui.xml.h:124
+msgid "S_ort Images"
+msgstr "_Képek rendezése"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/mpg123.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/mpg123.c:47
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/mpg123.c:47
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/mpg123.c:47
+#: src/gthumb-ui.xml.h:125
+msgid "Save"
+msgstr "Mentés"
+
+#: src/gthumb-ui.xml.h:128
+msgid "Search"
+msgstr "Keresés"
+
+#: src/gthumb-ui.xml.h:129
+msgid "Select all images"
+msgstr "Minden kép kijelölése"
+
+#: src/gthumb-ui.xml.h:130
+msgid "Set Image as _Wallpaper"
+msgstr "Kép beállítása _háttérképként"
+
+# src/file-manager/nautilus-desktop-icon-view-ui.xml.h:9
+#: src/gthumb-ui.xml.h:131
+msgid "Set the image as desktop background (centered)"
+msgstr "A kép beállítása a munkaasztal háttereként (középre igazítva)"
+
+#: src/gthumb-ui.xml.h:132
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "A kép beállítása a munkaasztal háttereként (arányosan átméretezve)"
+
+# src/file-manager/nautilus-desktop-icon-view-ui.xml.h:9
+#: src/gthumb-ui.xml.h:133
+msgid "Set the image as desktop background (stretched)"
+msgstr "A kép beállítása a munkaasztal háttereként (kifeszítve)"
+
+# src/file-manager/nautilus-desktop-icon-view-ui.xml.h:9
+#: src/gthumb-ui.xml.h:134
+msgid "Set the image as desktop background (tiled)"
+msgstr "A kép beállítása a munkaasztal háttereként (mozaikszerűen)"
+
+#: src/gthumb-ui.xml.h:135
+msgid "Show information about gThumb"
+msgstr "A gThumb névjegyének megjelenítése"
+
+#: src/gthumb-ui.xml.h:136
+msgid "Show/_Hide"
+msgstr "Megjelenítés/_Elrejtés"
+
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
+msgid "Slide Show"
+msgstr "Diavetítés"
+
+#: src/gthumb-ui.xml.h:138
+msgid "Sort images by file size"
+msgstr "A képek rendezése fájlméret szerint"
+
+#: src/gthumb-ui.xml.h:139
+msgid "Sort images by modification time"
+msgstr "A képek rendezése a módosítás ideje szerint"
+
+#: src/gthumb-ui.xml.h:140
+msgid "Sort images by name"
+msgstr "A képek rendezése név szerint"
+
+#: src/gthumb-ui.xml.h:141
+msgid "Sort images by path"
+msgstr "A képek rendezése útvonal szerint"
+
+#: src/gthumb-ui.xml.h:142
+msgid "Specify a location to visit"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:144
+msgid "Step A_nimation"
+msgstr "A_nimáció léptetése"
+
+# src/nautilus-shell-ui.xml.h:56
+#: src/gthumb-ui.xml.h:145
+#, fuzzy
+msgid "Stop loading current location"
+msgstr "Hely betöltésének leállítása"
+
+#: src/gthumb-ui.xml.h:146
+#, fuzzy
+msgid "Str_etched"
+msgstr "_Nyújtás"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+#: src/gthumb-ui.xml.h:147
+msgid "Up"
+msgstr "Fel"
+
+#: src/gthumb-ui.xml.h:148
+msgid "Use black as transparency"
+msgstr "A fekete szín használata az átlátszóság jelölésére"
+
+#: src/gthumb-ui.xml.h:149
+msgid "Use checks as transparency"
+msgstr "Sakktáblaminta használata az átlátszóság jelölésére"
+
+#: src/gthumb-ui.xml.h:150
+msgid "Use gray as transparency"
+msgstr "A szürke szín használata az átlátszóság jelölésére"
+
+#: src/gthumb-ui.xml.h:151
+msgid "Use high quality zoom"
+msgstr "Jó minőségű nagyítás használata"
+
+#: src/gthumb-ui.xml.h:152
+msgid "Use low quality zoom"
+msgstr "Alacsony minőségű nagyítás használata"
+
+#: src/gthumb-ui.xml.h:153
+msgid "Use white as transparency"
+msgstr "A fehér szín használata az átlátszóság jelölésére"
+
+#: src/gthumb-ui.xml.h:154
+msgid "View as a slide show"
+msgstr "Megjelenítés diavetítésként"
+
+#: src/gthumb-ui.xml.h:155
+msgid "View image comment"
+msgstr "Kép megjegyzésének megtekintése"
+
+#: src/gthumb-ui.xml.h:156
+msgid "View image in fullscreen mode"
+msgstr "A kép megjelenítése teljes képernyős üzemmódban"
+
+# src/trans.h:93
+#: src/gthumb-ui.xml.h:157
+msgid "View image properties"
+msgstr "A kép tulajdonságainak megtekintése"
+
+#: src/gthumb-ui.xml.h:159
+msgid "View next image"
+msgstr "A következő kép megtekintése"
+
+#: src/gthumb-ui.xml.h:160
+msgid "View or hide the statusbar of this window"
+msgstr "Az ablak állapotsorának megjelenítése vagy elrejtése"
+
+#: src/gthumb-ui.xml.h:161
+msgid "View or hide the toolbar of this window"
+msgstr "Az ablak eszköztárának megjelenítése vagy elrejtése"
+
+#: src/gthumb-ui.xml.h:162
+msgid "View previous image"
+msgstr "Az előző kép megtekintése"
+
+#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4184
+msgid "View the catalogs"
+msgstr "A katalógusok megtekintése"
+
+#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4134
+msgid "View the folders"
+msgstr "A mappák megtekintése"
+
+#: src/gthumb-ui.xml.h:165
+msgid "View the image"
+msgstr "A kép megtekintése"
+
+#: src/gthumb-ui.xml.h:166
+msgid "View the image flipped"
+msgstr "A kép fejreállított nézete"
+
+#: src/gthumb-ui.xml.h:167
+msgid "View the image in black and white"
+msgstr "A kép megtekintése fekete-fehérben"
+
+#: src/gthumb-ui.xml.h:168
+msgid "View the image mirrored"
+msgstr "A kép tükrözött nézete"
+
+#: src/gthumb-ui.xml.h:169
+msgid "View the image rotated clockwise"
+msgstr "A kép megtekintése balra elforgatva"
+
+#: src/gthumb-ui.xml.h:170
+msgid "View the image rotated counter-clockwise"
+msgstr "A kép megtekintése jobbra elforgatva"
+
+#: src/gthumb-ui.xml.h:171
+msgid "View the image with negative colors"
+msgstr "A kép negatívjának megjelenítése"
+
+# libnautilus-private/nautilus-global-preferences.c:139
+# libnautilus-private/nautilus-global-preferences.c:760
+#: src/gthumb-ui.xml.h:172
+msgid "View thumbnails"
+msgstr "Bélyegképek megjelenítése"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:65
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:65
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:65
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:65
+#: src/gthumb-ui.xml.h:173
+msgid "Zoom _In"
+msgstr "_Nagyítás"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:66
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:45
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:66
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:66
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:66
+#: src/gthumb-ui.xml.h:174
+msgid "Zoom _Out"
+msgstr "_Kicsinyítés"
+
+#: src/gthumb-ui.xml.h:175
+msgid "Zoom in"
+msgstr "Nagyítás"
+
+#: src/gthumb-ui.xml.h:176
+msgid "Zoom out"
+msgstr "Kicsinyítés"
+
+# src/nautilus-shell-ui.xml.h:64
+#: src/gthumb-ui.xml.h:177
+msgid "Zoom to _Fit"
+msgstr "Nagyítás az _ablakhoz"
+
+# libnautilus-private/nautilus-global-preferences.c:155
+#: src/gthumb-ui.xml.h:178
+msgid "Zoom to fit window"
+msgstr "Nagyítás az ablak méretére"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/services/install/nautilus-view/nautilus-service-install-view.c:1834
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/services/install/nautilus-view/nautilus-service-install-view.c:1834
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/services/install/nautilus-view/nautilus-service-install-view.c:1834
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/services/install/nautilus-view/nautilus-service-install-view.c:1834
+#: src/gthumb-ui.xml.h:179
+msgid "_About"
+msgstr "_Névjegy"
+
+#: src/gthumb-ui.xml.h:180
+msgid "_Actual Size"
+msgstr "_Tényleges méret"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:370
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:68
+#: src/gthumb-ui.xml.h:181
+msgid "_Add Bookmark"
+msgstr "_Könyvjelző hozzáadása"
+
+# src/nautilus-property-browser.c:2027
+#: src/gthumb-ui.xml.h:182
+msgid "_Add to Catalog..."
+msgstr "_Hozzáadás katalógushoz..."
+
+#: src/gthumb-ui.xml.h:183
+msgid "_Adjust Color Levels"
+msgstr "_Színszintek beállítása"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:69
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:35 src/trans.h:357
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:69
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:69
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:69
+#: src/gthumb-ui.xml.h:184
+msgid "_Back"
+msgstr "_Vissza"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:71
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:71
+#: src/gthumb-ui.xml.h:186
+msgid "_Bookmarks"
+msgstr "Köny_vjelzők"
+
+#: src/gthumb-ui.xml.h:187
+msgid "_Brightness-Contrast"
+msgstr "_Fényerő és kontraszt"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+#: src/gthumb-ui.xml.h:188
+msgid "_Catalogs"
+msgstr "_Katalógusok"
+
+#: src/gthumb-ui.xml.h:189
+msgid "_Centered"
+msgstr "_Középre igazított"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:363
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:363
+#: src/gthumb-ui.xml.h:191
+msgid "_Close"
+msgstr "_Bezárás"
+
+#: src/gthumb-ui.xml.h:192
+msgid "_Color Balance"
+msgstr "_Színegyensúly"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (seahorse CVS)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1085
+#: src/gthumb-ui.xml.h:193
+msgid "_Contents"
+msgstr "_Tartalom"
+
+#: src/gthumb-ui.xml.h:194
+msgid "_Copy..."
+msgstr "_Másolás..."
+
+#: src/gthumb-ui.xml.h:195
+msgid "_Crop"
+msgstr "_Levágás"
+
+# src/nautilus-shell-ui.xml.h:26
+#: src/gthumb-ui.xml.h:196
+msgid "_Delete History"
+msgstr "Előzmények _törlése"
+
+#: src/gthumb-ui.xml.h:197
+msgid "_Desaturate"
+msgstr "_Szürkítés"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:74
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:74
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:74
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:74
+#: src/gthumb-ui.xml.h:198
+msgid "_Edit"
+msgstr "S_zerkesztés"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:18 src/trans.h:189 src/trans.h:369
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:75
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:75
+#: src/gthumb-ui.xml.h:199
+msgid "_Edit Bookmarks"
+msgstr "Köny_vjelzők szerkesztése"
+
+#: src/gthumb-ui.xml.h:200 src/gthumb_search.glade.h:25
+msgid "_Edit Search"
+msgstr "_Keresés szerkesztése"
+
+#: src/gthumb-ui.xml.h:201
+msgid "_Equalize"
+msgstr "_Kiegyenlítés"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/loser/content/nautilus-content-loser-ui.xml.h:3
+# components/loser/sidebar/nautilus-sidebar-loser-ui.xml.h:3
+# components/sample/nautilus-sample-content-view-ui.xml.h:4
+# src/nautilus-shell-ui.xml.h:77
+#: src/gthumb-ui.xml.h:202
+msgid "_File"
+msgstr "_Fájl"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:339
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:339
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:339
+# #-#-#-#-#  gucharmap.HEAD.hu.po-new.po (gucharmap CVS)  #-#-#-#-#
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:339
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:339
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:339
+#: src/gthumb-ui.xml.h:203
+msgid "_Find..."
+msgstr "_Keresés..."
+
+#: src/gthumb-ui.xml.h:205
+msgid "_Folder"
+msgstr "_Mappa"
+
+#: src/gthumb-ui.xml.h:206
+msgid "_Folders"
+msgstr "_Mappák"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:79
+#: src/gthumb-ui.xml.h:207
+msgid "_Forward"
+msgstr "_Előre"
+
+#: src/gthumb-ui.xml.h:208
+msgid "_Full Screen"
+msgstr "_Teljes képernyő"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:26
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:26
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:80
+#: src/gthumb-ui.xml.h:209
+msgid "_Go"
+msgstr "_Ugrás"
+
+# libnautilus-private/nautilus-search-uri.c:257
+#: src/gthumb-ui.xml.h:210
+msgid "_Go to the Image Folder"
+msgstr "_Ugrás a képek mappájához"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  red-carpet.HEAD.hu.po-new.po (Ximian Red Carpet 1.3)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:81
+#: src/gthumb-ui.xml.h:211
+msgid "_Help"
+msgstr "_Súgó"
+
+#: src/gthumb-ui.xml.h:212
+msgid "_High Quality"
+msgstr "_Jó minőség"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:42
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:42
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:42
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:42
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:82
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:82
+#: src/gthumb-ui.xml.h:213
+msgid "_Home"
+msgstr "_Kezdőlap"
+
+#: src/gthumb-ui.xml.h:214
+msgid "_Hue-Saturation"
+msgstr "_Színezet és telítettség"
+
+#: src/gthumb-ui.xml.h:216
+msgid "_Image Preview"
+msgstr "_Előnézeti kép"
+
+#: src/gthumb-ui.xml.h:217
+msgid "_Keyboard Shortcuts"
+msgstr "_Gyorsbillentyűk"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:47 src/trans.h:50
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:47 src/trans.h:50
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-bookmarks-window.c:177
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-bookmarks-window.c:177
+#: src/gthumb-ui.xml.h:218
+msgid "_Location..."
+msgstr "_Hely..."
+
+#: src/gthumb-ui.xml.h:219
+msgid "_Low Quality"
+msgstr "_Alacsony minőség"
+
+#: src/gthumb-ui.xml.h:220
+msgid "_Maintenance"
+msgstr "_Karbantartás"
+
+#: src/gthumb-ui.xml.h:222
+msgid "_Move..."
+msgstr "Á_thelyezés..."
+
+#: src/gthumb-ui.xml.h:223
+msgid "_Negative"
+msgstr "_Negatív"
+
+#: src/gthumb-ui.xml.h:224
+msgid "_New Catalog..."
+msgstr "Új _katalógus..."
+
+#: src/gthumb-ui.xml.h:225
+msgid "_New Folder..."
+msgstr "Új _mappa..."
+
+#: src/gthumb-ui.xml.h:227
+msgid "_Normalize"
+msgstr "_Normalizálás"
+
+#: src/gthumb-ui.xml.h:228
+msgid "_Open With"
+msgstr "_Megnyitás mással"
+
+#: src/gthumb-ui.xml.h:229
+msgid "_Posterize"
+msgstr "_Poszterizálás"
+
+#: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
+msgid "_Preferences"
+msgstr "_Beállítások"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:33
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:33
+#: src/gthumb-ui.xml.h:231
+msgid "_Print..."
+msgstr "_Nyomtatás..."
+
+#: src/gthumb-ui.xml.h:232
+msgid "_Reduce Colors"
+msgstr "_Színek számának csökkentése"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:29
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:29
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-properties-window.c:1958
+#: src/gthumb-ui.xml.h:233
+msgid "_Reload"
+msgstr "_Frissítés"
+
+#: src/gthumb-ui.xml.h:235
+msgid "_Rename Series"
+msgstr "Sorozat át_nevezése"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:10
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/nautilus-icon-view-ui.xml.h:38
+#: src/gthumb-ui.xml.h:236
+msgid "_Rename..."
+msgstr "Á_tnevezés..."
+
+#: src/gthumb-ui.xml.h:237
+msgid "_Resize"
+msgstr "Át_méretezés"
+
+#: src/gthumb-ui.xml.h:238
+msgid "_Restore"
+msgstr "_Helyreállítás"
+
+#: src/gthumb-ui.xml.h:239
+msgid "_Reversed Order"
+msgstr "_Fordított sorrend"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:97 src/trans.h:146
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:97 src/trans.h:146
+#: src/gthumb-ui.xml.h:240
+msgid "_Revert"
+msgstr "_Visszaállítás"
+
+#: src/gthumb-ui.xml.h:241
+msgid "_Rotate"
+msgstr "_Elforgatás"
+
+#: src/gthumb-ui.xml.h:242
+msgid "_Scaled"
+msgstr "_Méretezett"
+
+#: src/gthumb-ui.xml.h:243 src/gthumb_search.glade.h:29
+msgid "_Search"
+msgstr "_Keresés"
+
+#: src/gthumb-ui.xml.h:244
+msgid "_Select All"
+msgstr "_Mindet kijelöli"
+
+#: src/gthumb-ui.xml.h:245
+msgid "_Slide Show"
+msgstr "_Diavetítés"
+
+#: src/gthumb-ui.xml.h:246
+msgid "_Statusbar"
+msgstr "Á_llapotsor"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:31
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:31
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:31
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:31
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/nautilus-music-view.c:1535
+# libnautilus-private/nautilus-file-operations.c:945
+# libnautilus-private/nautilus-file-operations.c:960
+# libnautilus-private/nautilus-file-operations.c:979
+# src/nautilus-shell-ui.xml.h:54
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# components/music/nautilus-music-view.c:1535
+# libnautilus-private/nautilus-file-operations.c:945
+# libnautilus-private/nautilus-file-operations.c:960
+# libnautilus-private/nautilus-file-operations.c:979
+# src/nautilus-shell-ui.xml.h:54
+#: src/gthumb-ui.xml.h:247
+msgid "_Stop"
+msgstr "_Leállítás"
+
+#: src/gthumb-ui.xml.h:248
+msgid "_Stretch Contrast"
+msgstr "K_ontraszt kifeszítése..."
+
+#: src/gthumb-ui.xml.h:249
+msgid "_Threshold"
+msgstr "_Küszöbszint"
+
+# libnautilus-private/nautilus-global-preferences.c:139
+# libnautilus-private/nautilus-global-preferences.c:760
+#: src/gthumb-ui.xml.h:250 src/gthumb_preferences.glade.h:65
+msgid "_Thumbnails"
+msgstr "_Bélyegképek"
+
+# src/trans.h:325
+#: src/gthumb-ui.xml.h:251
+msgid "_Tiled"
+msgstr "_Mozaik"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:14
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:14
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-menus.c:429
+# #-#-#-#-#  seahorse.HEAD.hu.po-new.po (seahorse CVS)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:14
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:14
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-menus.c:429
+#: src/gthumb-ui.xml.h:252
+msgid "_Toolbar"
+msgstr "_Eszköztár"
+
+#: src/gthumb-ui.xml.h:253
+msgid "_Tools"
+msgstr "_Eszközök"
+
+#: src/gthumb-ui.xml.h:254
+msgid "_Transform"
+msgstr "Á_talakítás"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:58
+#: src/gthumb-ui.xml.h:255
+msgid "_Up"
+msgstr "_Fel"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:45
+#: src/gthumb-ui.xml.h:258
+msgid "_Zoom"
+msgstr "_Nagyítás"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:157
+#: src/gthumb-ui.xml.h:259
+msgid "by _Name"
+msgstr "_Név szerint"
+
+#: src/gthumb-ui.xml.h:260
+msgid "by _Path"
+msgstr "Ú_tvonal szerint"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:164
+#: src/gthumb-ui.xml.h:261
+msgid "by _Size"
+msgstr "_Méret szerint"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:157
+#: src/gthumb-ui.xml.h:262
+msgid "by _Time"
+msgstr "_Idő szerint"
+
+#: src/gthumb-window.c:428
+msgid "[Press 'c' to add a comment]"
+msgstr "[Nyomd meg a 'c' billentyűt a megjegyzés hozzáadásához.]"
+
+#: src/gthumb-window.c:502 src/gthumb-window.c:524
+msgid "[modified]"
+msgstr "[megváltozott]"
+
+#: src/gthumb-window.c:608
+msgid "No image"
+msgstr "Nincs kép"
+
+#: src/gthumb-window.c:610
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 kép (%s)"
+
+#: src/gthumb-window.c:613
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d kép (%s)"
+
+#: src/gthumb-window.c:620
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 kijelölve (%s)"
+
+# src/file-manager/fm-directory-view.c:1215
+#: src/gthumb-window.c:623
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d kijelölve (%s)"
+
+#: src/gthumb-window.c:3151
+msgid "Dragged Images"
+msgstr "Behúzott képek"
+
+#: src/gthumb-window.c:3350
+msgid "Could not move the items:"
+msgstr "Az elemek áthelyezése nem sikerült:"
+
+#: src/gthumb-window.c:5129
+msgid "Image comment"
+msgstr "Megjegyzés a képhez"
+
+#: src/gthumb-window.c:5143
+msgid "Image data"
+msgstr "Kép adatai"
+
+#: src/gthumb-window.c:5157
+msgid "Image preview"
+msgstr "Előnézeti kép"
+
+#: src/gthumb-window.c:6363
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "Nem sikerült betölteni a mappát: \"%s\": %s\n"
+
+#: src/gthumb-window.c:6632
+msgid "The specified catalog does not exist."
+msgstr "A megadott katalógus nem létezik."
+
+#: src/gthumb-window.c:8013
+msgid "Wait please..."
+msgstr "Várj..."
+
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
+#: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
+msgid "*"
+msgstr "*"
+
+#: src/gthumb.glade.h:3
+msgid "<b>Categories:</b>"
+msgstr "<b>Kategóriák</b>"
+
+#: src/gthumb.glade.h:4
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>Csatornainformáció:</b>"
+
+#: src/gthumb.glade.h:5
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>Felülírod a régi képet az újjal?</b>"
+
+#: src/gthumb.glade.h:6
+msgid "A_vailable applications:"
+msgstr "E_lérhető alkalmazások:"
+
+#: src/gthumb.glade.h:7
+msgid "Alpha"
+msgstr "Alfa"
+
+#: src/gthumb.glade.h:8
+msgid "Blue"
+msgstr "Kék"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/bookmarks.c:142 src/bookmarks.c:447 src/prefs.c:388 src/trans.h:76
+# src/trans.h:81
+#: src/gthumb.glade.h:9
+msgid "Bookmarks"
+msgstr "Könyvjelzők"
+
+#: src/gthumb.glade.h:10
+msgid "C_atalogs:"
+msgstr "_Katalógusok"
+
+#: src/gthumb.glade.h:11
+msgid "Choose a Catalog"
+msgstr "Katalógus választása"
+
+#: src/gthumb.glade.h:13
+msgid "Do not overwrite _the old image"
+msgstr "Ne írja felül a régi képeket"
+
+#: src/gthumb.glade.h:14
+msgid "Green"
+msgstr "Zöld"
+
+#: src/gthumb.glade.h:15
+msgid "New Image:"
+msgstr "Új kép:"
+
+#: src/gthumb.glade.h:16
+msgid "New _Library"
+msgstr "Új _könyvtár"
+
+#: src/gthumb.glade.h:17
+msgid "Old Image:"
+msgstr "Régi kép:"
+
+#: src/gthumb.glade.h:18
+msgid "Open Images"
+msgstr "Képek megnyitása"
+
+#: src/gthumb.glade.h:19
+msgid "Over_write the old image"
+msgstr "Fe_lülírod a régi képet?"
+
+#: src/gthumb.glade.h:20
+msgid "Overwrite Image"
+msgstr "Kép felülírása"
+
+#: src/gthumb.glade.h:21
+msgid "Overwrite _all images"
+msgstr "_Minden kép felülírása"
+
+#: src/gthumb.glade.h:22
+msgid "Photo _Data (EXIF)"
+msgstr "Fényképa_dat (EXIF)"
+
+#: src/gthumb.glade.h:23
+msgid "R_ecent applications:"
+msgstr "_Legutóbbi alkalmazások:"
+
+#: src/gthumb.glade.h:24
+msgid "Red"
+msgstr "Vörös"
+
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Érték"
+
+#: src/gthumb.glade.h:26
+msgid "_Application:"
+msgstr "_Alkalmazás:"
+
+#: src/gthumb.glade.h:28
+msgid "_Do not overwrite any image"
+msgstr "_Ne írjon felül semmilyen képet"
+
+#: src/gthumb.glade.h:29
+msgid "_General"
+msgstr "Á_ltalános"
+
+#: src/gthumb.glade.h:30
+msgid "_Histogram"
+msgstr "_Hisztogram"
+
+#: src/gthumb.glade.h:31
+msgid "_New Catalog"
+msgstr "Új _katalógus"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:109
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:109
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:109
+#: src/gthumb.glade.h:32
+msgid "_Next"
+msgstr "_Következő"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:27
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:27
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:27
+#: src/gthumb.glade.h:33
+msgid "_Previous"
+msgstr "_Előző"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
+# interfaces/shares.glade.h:65 interfaces/shares.glade.h:68
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
+# interfaces/shares.glade.h:65 interfaces/shares.glade.h:68
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
+# interfaces/shares.glade.h:65 interfaces/shares.glade.h:68
+#: src/gthumb.glade.h:34
+msgid "_Remove"
+msgstr "_Eltávolítás"
+
+#: src/gthumb.glade.h:35
+msgid "_Save the new image as:"
+msgstr "Új kép _mentése:"
+
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Lehetséges értékek: 1, 2, 3, 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Lehetséges értékek: ascending, descending."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Lehetséges értékek: forward, backward."
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Lehetséges értékek: high, low."
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Lehetséges értékek: image, data, comment."
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Lehetséges értékek: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Lehetséges értékek: light, midtone, dark."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Lehetséges értékek: list, thumbnails."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Lehetséges értékek: mm, in."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Lehetséges értékek: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Lehetséges értékek: name, size, time."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Lehetséges értékek: nautilus, single, double."
+
+#: src/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Lehetséges értékek: none, deflate, jpeg."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Lehetséges értékek: none, name, path, size, time."
+
+#: src/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr "Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Lehetséges értékek: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:19
+msgid "Possible values are: png, jpeg."
+msgstr "Lehetséges értékek: png, jpeg."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Lehetséges értékek: skip, rename, ask, overwrite."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values are: small, medium, large."
+msgstr "Lehetséges értékek: small, medium, large."
+
+#: src/gthumb.schemas.in.h:22
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values are: white, black, checked, none."
+msgstr "Lehetséges értékek: white, black, checked, none."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Mindig fekete legyen-e a háttér?"
+
+#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
+msgid "A_vailable categories:"
+msgstr "_Rendelkezésre álló kategóriák:"
+
+#: src/gthumb_comments.glade.h:4 src/gthumb_tools.glade.h:10
+msgid "C_urrent date"
+msgstr "Jelenlegi _dátum"
+
+#: src/gthumb_comments.glade.h:6
+msgid "Choose Date"
+msgstr "Dátum kiválasztása"
+
+#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
+msgid "Co_mment:"
+msgstr "_Megjegyzés:"
+
+#: src/gthumb_comments.glade.h:9
+msgid "Create a new category"
+msgstr "Új kategória létrehozása"
+
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Jelenlegi dátum"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
+msgid "Image c_reation date"
+msgstr "Kép _létrehozásának ideje"
+
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Kép létrehozásának ideje"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Nincs dátum"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "A _fénykép digitalizálásának dátuma (az EXIF-adatokból)"
+
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "A fénykép digitalizálásának dátuma (az EXIF-adatokból)"
+
+#: src/gthumb_comments.glade.h:16
+msgid "Remove selected category"
+msgstr "A kijelölt kategória törlése"
+
+#: src/gthumb_comments.glade.h:17
+msgid "Save only cha_nged fields"
+msgstr "Csak a _változtatott mezők mentése"
+
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "A _következő dátum:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "A következő dátum"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
+msgid "_Date:"
+msgstr "_Dátum:"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/nameresolution.glade.h:11 interfaces/nameresolution.glade.h:31
+# interfaces/nameresolution.glade.h:36 interfaces/nameresolution.glade.h:46
+# interfaces/users.glade.h:35 interfaces/users.glade.h:43
+# interfaces/users.glade.h:67
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-directory-view.c:2607
+# src/file-manager/fm-directory-view.c:2648
+#: src/gthumb_comments.glade.h:21
+msgid "_Delete"
+msgstr "_Törlés"
+
+#: src/gthumb_comments.glade.h:22
+msgid "_New"
+msgstr "Ú_j"
+
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Nincs dátum"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
+msgid "_Place:"
+msgstr "_Hely:"
+
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
+msgid "_Selected categories:"
+msgstr "_Kijelölt kategóriák:"
+
+#: src/gthumb_convert.glade.h:3
+msgid "<b>Compression</b>"
+msgstr "<b>Tömörítés</b>"
+
+#: src/gthumb_convert.glade.h:4
+msgid "<b>Image type</b>"
+msgstr "<b>Képtípusok</b>"
+
+#: src/gthumb_convert.glade.h:5
+msgid "<b>Resolution</b>"
+msgstr "<b>Felbontás</b>"
+
+#: src/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr "Kérdezzen"
+
+#: src/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "Tömörítés _szintje:"
+
+#: src/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "Átalakítás más formátumba"
+
+#: src/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG beállításai"
+
+#: src/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "No_rmál (Deflate)"
+
+#: src/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "Opti_malizálás"
+
+#: src/gthumb_convert.glade.h:12
+msgid "Overwrite"
+msgstr "Felülírás"
+
+#: src/gthumb_convert.glade.h:13
+msgid "Overwrite mode:"
+msgstr "Felülírás módja:"
+
+#: src/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr "PNG beállításai"
+
+#: src/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr "E_redeti eltávolítása"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  gnome-system-tools.HEAD.hu.po-new.po (gnome-system-tools CVS)  #-#-#-#-#
+# interfaces/memory.glade.h:40 interfaces/shares.glade.h:56
+# interfaces/shares.glade.h:65 interfaces/shares.glade.h:68
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/nautilus-icon-view-ui.xml.h:38
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/nautilus-icon-view-ui.xml.h:38
+#: src/gthumb_convert.glade.h:16
+msgid "Rename"
+msgstr "Átnevezés"
+
+#: src/gthumb_convert.glade.h:18
+msgid "TGA Options"
+msgstr "TGA beállításai"
+
+#: src/gthumb_convert.glade.h:19
+msgid "TIFF Options"
+msgstr "TIFF beállításai"
+
+#: src/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr "T_GA"
+
+#: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
+msgid "_Horizontal:"
+msgstr "_Vízszintes:"
+
+#: src/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: src/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr "_Veszteséges tömörítés (JPEG)"
+
+#: src/gthumb_convert.glade.h:24
+msgid "_No compression"
+msgstr "_Nincs tömörítés"
+
+#: src/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr "_PNG"
+
+#: src/gthumb_convert.glade.h:26
+msgid "_Progressive"
+msgstr "_Progresszív"
+
+#: src/gthumb_convert.glade.h:27
+msgid "_Quality:"
+msgstr "_Minőség:"
+
+#: src/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr "_RLE tömörítés"
+
+#: src/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr "_Simítás:"
+
+#: src/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "_Függőleges:"
+
+#: src/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr "dpi"
+
+#: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr "     "
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:122
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:122
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+# src/trans.h:363
+#: src/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>Színszintek</b>"
+
+#: src/gthumb_edit.glade.h:6
+msgid "<b>New dimensions</b>"
+msgstr "<b>Új méret</b>"
+
+#: src/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>Eredeti méret</b>"
+
+#: src/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>Méretarány</b>"
+
+#: src/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "Fényerő és kontraszt"
+
+#: src/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "Színegyensúly"
+
+#: src/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "Kon_traszt:"
+
+#: src/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "Ciánkék-_Vörös:"
+
+#: src/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "Magasság:"
+
+#: src/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "_Jó minőség"
+
+#: src/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "Színezet és telítettség"
+
+#: src/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "Poszter"
+
+#: src/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "_Fényerő megőrzése"
+
+#: src/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "Kép átméretezése"
+
+#: src/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "Szélesség:"
+
+#: src/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "_Fényerő:"
+
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
+msgid "_Height:"
+msgstr "_Magasság:"
+
+#: src/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "Á_rnyalat:"
+
+#: src/gthumb_edit.glade.h:23
+msgid "_Keep aspect ratio"
+msgstr "_Arányok megtartása"
+
+#: src/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "_Szintek:"
+
+#: src/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "_Fényesség:"
+
+#: src/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "_Bíborvörös - Zöld:"
+
+#: src/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "_Előnézet"
+
+#: src/gthumb_edit.glade.h:28
+msgid "_Reset"
+msgstr "_Alapállapot"
+
+#: src/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "_Telítettség:"
+
+#: src/gthumb_edit.glade.h:30
+msgid "_Scale"
+msgstr "_Méretezés"
+
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
+msgid "_Width:"
+msgstr "_Szélesség:"
+
+#: src/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "_Sárga - Kék:"
+
+#: src/gthumb_png_exporter.glade.h:4
+msgid "112"
+msgstr "112"
+
+#: src/gthumb_png_exporter.glade.h:5
+msgid "128"
+msgstr "128"
+
+#: src/gthumb_png_exporter.glade.h:6
+msgid "164"
+msgstr "164"
+
+#: src/gthumb_png_exporter.glade.h:7
+msgid "200"
+msgstr "200"
+
+#: src/gthumb_png_exporter.glade.h:8
+msgid "256"
+msgstr "256"
+
+#: src/gthumb_png_exporter.glade.h:9
+msgid "48"
+msgstr "48"
+
+#: src/gthumb_png_exporter.glade.h:10
+msgid "64"
+msgstr "64"
+
+#: src/gthumb_png_exporter.glade.h:11
+msgid "75"
+msgstr "75"
+
+#: src/gthumb_png_exporter.glade.h:12
+msgid "85"
+msgstr "85"
+
+#: src/gthumb_png_exporter.glade.h:13
+msgid "95"
+msgstr "95"
+
+#: src/gthumb_png_exporter.glade.h:14
+msgid "<b>Background style</b>"
+msgstr "<b>Háttérstílus</b>"
+
+#: src/gthumb_png_exporter.glade.h:15
+msgid "<b>Caption</b>"
+msgstr "<b>Felirat</b>"
+
+#: src/gthumb_png_exporter.glade.h:16
+msgid "<b>Destination folder</b>"
+msgstr "<b>Célmappa</b>"
+
+#: src/gthumb_png_exporter.glade.h:17
+msgid "<b>Footer</b>"
+msgstr "<b>Élőláb</b>"
+
+#: src/gthumb_png_exporter.glade.h:18
+msgid "<b>Header and footer</b>"
+msgstr "<b>Élőfej és élőláb</b>"
+
+# src/trans.h:64 src/trans.h:69
+#: src/gthumb_png_exporter.glade.h:19
+msgid "<b>Header</b>"
+msgstr "<b>Élőfej</b>"
+
+# src/misc.c:529
+#: src/gthumb_png_exporter.glade.h:20
+msgid "<b>Index images</b>"
+msgstr "<b>Indexképek</b>"
+
+#: src/gthumb_png_exporter.glade.h:21
+msgid "<b>Page size</b>"
+msgstr "<b>Oldalméret</b>"
+
+#: src/gthumb_png_exporter.glade.h:22
+msgid "<i>Examples:</i>"
+msgstr "<i>Példák:</i>"
+
+#: src/gthumb_png_exporter.glade.h:23
+msgid "Choose destination folder"
+msgstr "Célmappa választása"
+
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
+msgid "Co_mment"
+msgstr "Meg_jegyzés"
+
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
+msgid "Col_umns:"
+msgstr "Oszlopok:"
+
+#: src/gthumb_png_exporter.glade.h:26
+msgid "Colo_r:"
+msgstr "S_zín:"
+
+#: src/gthumb_png_exporter.glade.h:27
+msgid "Create Index Image"
+msgstr "Indexkép létrehozása"
+
+#: src/gthumb_png_exporter.glade.h:28
+msgid "Create _HTML image map"
+msgstr "_HTML-es interaktív kép létrehozása"
+
+#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
+msgid "F_ooter:"
+msgstr "É_lőláb:"
+
+# src/file-manager/fm-properties-window.c:1910
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
+msgid "File _name"
+msgstr "Fájl_név"
+
+#: src/gthumb_png_exporter.glade.h:31
+msgid "File pa_th"
+msgstr "Út_vonal"
+
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
+msgid "File si_ze"
+msgstr "Fájl_méret:"
+
+#: src/gthumb_png_exporter.glade.h:33
+msgid "Frame _style:"
+msgstr "Keret _stílusa:"
+
+#: src/gthumb_png_exporter.glade.h:34
+msgid "Frame co_lor:"
+msgstr "Keret s_zíne:"
+
+#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
+msgid "H_eader:"
+msgstr "Élő_fej:"
+
+#: src/gthumb_png_exporter.glade.h:36
+msgid "Header/Footer"
+msgstr "Élőfej/élőláb"
+
+#: src/gthumb_png_exporter.glade.h:37
+msgid "Hei_ght:"
+msgstr "Mag_asság:"
+
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
+msgid "Image dim_ensions"
+msgstr "Kép _méretei"
+
+#: src/gthumb_png_exporter.glade.h:39
+msgid "Images"
+msgstr "Képek"
+
+#: src/gthumb_png_exporter.glade.h:40
+msgid "Index Image Properties"
+msgstr "Indexkép tulajdonságai"
+
+#: src/gthumb_png_exporter.glade.h:41
+msgid "Page"
+msgstr "Oldal"
+
+#: src/gthumb_png_exporter.glade.h:42
+msgid "Pi_xels"
+msgstr "_Képpont"
+
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
+msgid "Re_verse order"
+msgstr "_Fordított sorrend"
+
+#: src/gthumb_png_exporter.glade.h:44
+msgid "Rows a_nd columns"
+msgstr "Sorok és oszlopok"
+
+#: src/gthumb_png_exporter.glade.h:45
+msgid "Select a color"
+msgstr "Szín kiválasztása"
+
+#: src/gthumb_png_exporter.glade.h:46
+#, fuzzy
+msgid "Shadow in"
+msgstr "Árnyék"
+
+#: src/gthumb_png_exporter.glade.h:47
+#, fuzzy
+msgid "Shadow only"
+msgstr "Árnyék típusa"
+
+#: src/gthumb_png_exporter.glade.h:48
+#, fuzzy
+msgid "Shadow out"
+msgstr "Árnyék típusa"
+
+#: src/gthumb_png_exporter.glade.h:49
+msgid "Simple"
+msgstr "Egyszerű"
+
+#: src/gthumb_png_exporter.glade.h:50
+#, fuzzy
+msgid "Simple with shadow"
+msgstr "Szél és füst"
+
+#: src/gthumb_png_exporter.glade.h:51
+msgid "Slide"
+msgstr "Dia"
+
+#: src/gthumb_png_exporter.glade.h:52
+msgid "Sor_t images:"
+msgstr "Képek _rendezése:"
+
+#: src/gthumb_png_exporter.glade.h:53
+msgid "Sort"
+msgstr "Rendezés"
+
+#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:23
+#: src/gthumb_tools.glade.h:41
+msgid "Start _at:"
+msgstr "Kezdés itt:"
+
+#: src/gthumb_png_exporter.glade.h:55
+msgid "Style Preview"
+msgstr "Stílus előnézete"
+
+#: src/gthumb_png_exporter.glade.h:56
+msgid "Use #'s to specify positions used by numeric enumerator."
+msgstr ""
+
+#: src/gthumb_png_exporter.glade.h:58
+#, no-c-format
+msgid ""
+"Use %p  to insert the page number, and %n to insert the total number of "
+"pages."
+msgstr ""
+
+#: src/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "Szé_lesség:"
+
+#: src/gthumb_png_exporter.glade.h:60
+#, fuzzy
+msgid "_All pages with the same size"
+msgstr "Hibás képkockaméret."
+
+#: src/gthumb_png_exporter.glade.h:61
+msgid "_Draw frame"
+msgstr "Keret _rajzolása"
+
+# #-#-#-#-#  gnome-terminal.HEAD.hu.po-new.po (gnome-terminal HEAD)  #-#-#-#-#
+# gnome-terminal/gnome-terminal.c:1127
+# #-#-#-#-#  gnome-utils.gnome-2-2.hu.po-new.po (gnome-utils 2.2.0)  #-#-#-#-#
+# gdictsrc/gdict-pref-dialog.c:161
+#: src/gthumb_png_exporter.glade.h:62
+msgid "_Font:"
+msgstr "_Betűkészlet:"
+
+#: src/gthumb_png_exporter.glade.h:63
+msgid "_Gradient"
+msgstr "_Színátmenet"
+
+#: src/gthumb_png_exporter.glade.h:65
+msgid "_Image size:"
+msgstr "_Képméret:"
+
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
+msgid "_Rows:"
+msgstr "_Sorok:"
+
+#: src/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "_Homogén szín"
+
+#: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
+msgid "_Template:"
+msgstr "_Sablon:"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:157
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
+msgid "by name"
+msgstr "név szerint"
+
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
+msgid "by path"
+msgstr "útvonal szerint"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:164
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
+msgid "by size"
+msgstr "méret szerint"
+
+#: src/gthumb_png_exporter.glade.h:74
+msgid "by time"
+msgstr "idő szerint"
+
+#: src/gthumb_png_exporter.glade.h:75
+msgid "jpeg"
+msgstr "jpeg"
+
+#: src/gthumb_png_exporter.glade.h:76
+msgid "png"
+msgstr "png"
+
+#: src/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: src/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: src/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: src/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: src/gthumb_preferences.glade.h:8
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: src/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: src/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: src/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: src/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 x 95"
+
+# src/trans.h:47 src/trans.h:50
+#: src/gthumb_preferences.glade.h:13
+msgid "<b>Direction</b>"
+msgstr "<b>Irány</b>"
+
+#: src/gthumb_preferences.glade.h:14
+msgid "<b>Hide/Show</b>"
+msgstr "<b>Elrejtés/Megjelenítés</b>"
+
+#: src/gthumb_preferences.glade.h:15
+msgid "<b>Interface</b>"
+msgstr "<b>Felület</b>"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:115
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:115
+#: src/gthumb_preferences.glade.h:16
+msgid "<b>On startup:</b>"
+msgstr "<b>Indításkor</b>"
+
+#: src/gthumb_preferences.glade.h:17
+msgid "<b>Other</b>"
+msgstr "<b>Egyéb</b>"
+
+#: src/gthumb_preferences.glade.h:18
+msgid "<b>Slide show</b>"
+msgstr "<b>Diavetítés</b>"
+
+# src/misc.c:529
+#: src/gthumb_preferences.glade.h:19
+#, fuzzy
+msgid "<b>View images as</b>"
+msgstr "<b>Új oldalon</b>"
+
+#: src/gthumb_preferences.glade.h:20
+msgid "<b>Viewer</b>"
+msgstr "<b>Megjelenítő</b>"
+
+#: src/gthumb_preferences.glade.h:21
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Nagyítás minősége</b>"
+
+# libnautilus-private/nautilus-global-preferences.c:105
+#: src/gthumb_preferences.glade.h:22
+#, fuzzy
+msgid "Activate items with a double click"
+msgstr "Elemek aktiválása _dupla kattintással"
+
+# libnautilus-private/nautilus-global-preferences.c:100
+#: src/gthumb_preferences.glade.h:23
+#, fuzzy
+msgid "Activate items with a single click"
+msgstr "Elemek aktiválása _egy kattintással"
+
+#: src/gthumb_preferences.glade.h:24
+#, fuzzy
+msgid "After _loading an image:"
+msgstr "Képek letöltése"
+
+#: src/gthumb_preferences.glade.h:25
+#, fuzzy
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "_Megerősítés kérése elemek törlésekor"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:3
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:3
+#: src/gthumb_preferences.glade.h:26
+msgid "Black"
+msgstr "Fekete"
+
+#: src/gthumb_preferences.glade.h:27
+msgid "Browser"
+msgstr "Böngésző"
+
+#: src/gthumb_preferences.glade.h:28
+msgid "C_lick policy:"
+msgstr "_Kattintás típusa:"
+
+#: src/gthumb_preferences.glade.h:29
+msgid "Checked"
+msgstr "Sakktábla"
+
+#: src/gthumb_preferences.glade.h:30
+msgid "Choose startup folder"
+msgstr "Kezdőmappa választása"
+
+#: src/gthumb_preferences.glade.h:31
+msgid "Co_mments"
+msgstr "Meg_jegyzések"
+
+#: src/gthumb_preferences.glade.h:32
+msgid "D_elay before changing image:"
+msgstr "_Képváltások közötti szünet:"
+
+#: src/gthumb_preferences.glade.h:33
+msgid "D_etermine image type from content (slower)"
+msgstr "Kép_típus meghatározása a tartalom alapján (lassabb)"
+
+#: src/gthumb_preferences.glade.h:34
+msgid "Do _not change folder"
+msgstr "Ne _váltson mappát"
+
+#: src/gthumb_preferences.glade.h:35
+msgid "Fit image to window"
+msgstr "Kép igazítása az ablakmérethez"
+
+#: src/gthumb_preferences.glade.h:36
+msgid "Fit to window if larger"
+msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
+
+#: src/gthumb_preferences.glade.h:37
+msgid "Follow Nautilus behaviour"
+msgstr "A Nautilus viselkedésének átvétele"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:38 src/trans.h:359
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-window-toolbars.c:383
+#: src/gthumb_preferences.glade.h:38
+msgid "For_ward"
+msgstr "_Előre"
+
+#: src/gthumb_preferences.glade.h:39
+msgid "General"
+msgstr "Általános"
+
+# src/nautilus-shell-ui.xml.h:30
+#: src/gthumb_preferences.glade.h:40
+#, fuzzy
+msgid "Go to last _visited folder or catalog"
+msgstr "A következő meglátogatott helyre ugrik"
+
+# libnautilus-private/nautilus-search-uri.c:257
+#: src/gthumb_preferences.glade.h:41
+#, fuzzy
+msgid "Go to this _folder:"
+msgstr "Ugrás a kuka mappájához"
+
+#: src/gthumb_preferences.glade.h:42
+msgid "H_igh"
+msgstr "M_agas"
+
+#: src/gthumb_preferences.glade.h:43
+msgid "Icons only"
+msgstr "Csak ikonok"
+
+#: src/gthumb_preferences.glade.h:44
+msgid "Keep previous zoom"
+msgstr "Előző nagyítás megtartása"
+
+#: src/gthumb_preferences.glade.h:45
+msgid "Layout:"
+msgstr "Elrendezés:"
+
+#: src/gthumb_preferences.glade.h:46
+msgid "Lo_w"
+msgstr "A_lacsony"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:87 src/trans.h:90 src/trans.h:155 src/trans.h:157
+#: src/gthumb_preferences.glade.h:47
+msgid "None"
+msgstr "Nincs"
+
+#: src/gthumb_preferences.glade.h:48
+msgid "Re_verse"
+msgstr "F_ordított"
+
+#: src/gthumb_preferences.glade.h:49
+msgid "Resta_rt when finished"
+msgstr "Automatikus újrakezdés"
+
+#: src/gthumb_preferences.glade.h:50
+msgid "Set image to actual size"
+msgstr "Kép megjelenítése a tényleges méretében"
+
+#: src/gthumb_preferences.glade.h:51
+msgid "Set to C_urrent"
+msgstr "Beállítás az _aktuálisra"
+
+#: src/gthumb_preferences.glade.h:53
+msgid "Switch to _full screen"
+msgstr "Átkapcsolás _teljes képernyőre"
+
+# libnautilus-private/nautilus-global-preferences.c:677
+#: src/gthumb_preferences.glade.h:54
+msgid "System settings"
+msgstr "Rendszerbeállítások"
+
+#: src/gthumb_preferences.glade.h:55
+msgid "Text below icons"
+msgstr "Szöveg az ikonok alatt"
+
+#: src/gthumb_preferences.glade.h:56
+msgid "Text beside icons"
+msgstr "Szöveg az ikonok mellett"
+
+#: src/gthumb_preferences.glade.h:57
+msgid "Text only"
+msgstr "Csak szöveg"
+
+# libnautilus-private/nautilus-global-preferences.c:139
+# libnautilus-private/nautilus-global-preferences.c:760
+#: src/gthumb_preferences.glade.h:58
+msgid "Th_umbnail size:"
+msgstr "_Bélyegképek mérete:"
+
+#: src/gthumb_preferences.glade.h:59
+msgid "Transparency _type:"
+msgstr "Átlátszóság _típusa:"
+
+#: src/gthumb_preferences.glade.h:60
+msgid "Viewer"
+msgstr "Megjelenítő"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:82
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:82
+#: src/gthumb_preferences.glade.h:61
+msgid "White"
+msgstr "Fehér"
+
+# #-#-#-#-#  epiphany.gnome-2-4.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  gtk+.gtk-2-2.hu.po-new.po (gtk+ 2.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  epiphany.HEAD.hu.po-new.po (Epiphany CVS)  #-#-#-#-#
+# src/trans.h:377
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# src/trans.h:377
+#: src/gthumb_preferences.glade.h:62
+msgid "_Filenames"
+msgstr "_Fájlnevek"
+
+# #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/Nautilus_shell.oaf.in.h:3
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/Nautilus_shell.oaf.in.h:3
+#: src/gthumb_preferences.glade.h:63
+msgid "_List"
+msgstr "_Lista"
+
+#: src/gthumb_preferences.glade.h:64
+msgid "_Slides"
+msgstr "_Diák"
+
+#: src/gthumb_preferences.glade.h:66
+msgid "_Toolbar style:"
+msgstr "_Eszköztár stílusa:"
+
+#: src/gthumb_preferences.glade.h:67
+msgid "gThumb Preferences"
+msgstr "A gThumb beállításai"
+
+#: src/gthumb_preferences.glade.h:68
+msgid "seconds"
+msgstr "másodperc"
+
+#: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Kép</b>"
+
+#: src/gthumb_print.glade.h:5
+msgid "<b>Orientation</b>"
+msgstr "<b>Tájolás</b>"
+
+#: src/gthumb_print.glade.h:6
+msgid "<b>Size</b>"
+msgstr "<b>Méret</b>"
+
+#: src/gthumb_print.glade.h:7
+msgid ""
+"<i>Drag the image to move\n"
+"it in the page.</i>"
+msgstr ""
+
+#: src/gthumb_print.glade.h:9
+msgid "A_4"
+msgstr "A_4"
+
+#: src/gthumb_print.glade.h:10
+msgid "C_ustom:"
+msgstr "E_gyéni:"
+
+#: src/gthumb_print.glade.h:11
+msgid "Center _on Page"
+msgstr "Oldal _közepére"
+
+#: src/gthumb_print.glade.h:12
+msgid "Comment _font:"
+msgstr "Megjegyzés _betűkészlete:"
+
+#: src/gthumb_print.glade.h:13
+msgid "I_nclude comment"
+msgstr "_Megjegyzést is"
+
+#: src/gthumb_print.glade.h:14
+msgid "Inches"
+msgstr "Hüvelyk"
+
+#: src/gthumb_print.glade.h:15
+msgid "Lan_dscape"
+msgstr "_Fekvő"
+
+#: src/gthumb_print.glade.h:16
+msgid "Layout"
+msgstr "Elrendezés"
+
+#: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Milliméter"
+
+# src/trans.h:206 src/trans.h:207
+#: src/gthumb_print.glade.h:18
+msgid "P_ortrait"
+msgstr "Á_lló"
+
+#: src/gthumb_print.glade.h:19
+msgid "Paper Details"
+msgstr "Papír adatai"
+
+#: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: src/gthumb_print.glade.h:25
+msgid "_Scale:"
+msgstr "_Méretezés:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
+
+#: src/gthumb_search.glade.h:3
+msgid "<b>Search criteria</b>"
+msgstr "<b>Keresési feltételek</b>"
+
+#: src/gthumb_search.glade.h:4
+msgid "<b>Search scope</b>"
+msgstr "<b>Keresés hatóköre</b>"
+
+#: src/gthumb_search.glade.h:6
+msgid "After"
+msgstr "Ez után"
+
+#: src/gthumb_search.glade.h:7
+msgid "Any"
+msgstr "Bármikor"
+
+#: src/gthumb_search.glade.h:8
+msgid "Before"
+msgstr "Ez előtt"
+
+#: src/gthumb_search.glade.h:9
+msgid "Ca_tegories:"
+msgstr "Ka_tegóriák:"
+
+#: src/gthumb_search.glade.h:11
+msgid "Choose categories from the saved list"
+msgstr "Kategória választása a mentett listáról"
+
+#: src/gthumb_search.glade.h:13
+msgid "Equal to"
+msgstr "Pontosan"
+
+#: src/gthumb_search.glade.h:14
+msgid "File _name:"
+msgstr "Fájl_név:"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:25
+# #-#-#-#-#  gucharmap.HEAD.hu.po-new.po (gucharmap CVS)  #-#-#-#-#
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:25
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:25
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/nautilus-shell-ui.xml.h:25
+#: src/gthumb_search.glade.h:15
+msgid "Find"
+msgstr "Keresés"
+
+#: src/gthumb_search.glade.h:16
+msgid "Found images:"
+msgstr "Talált képek:"
+
+#: src/gthumb_search.glade.h:17
+msgid "Match a_ll selected categories"
+msgstr ""
+
+#: src/gthumb_search.glade.h:18
+#, fuzzy
+msgid "Match a_ny selected category"
+msgstr "Válassz ki egy fájlkategóriát"
+
+#: src/gthumb_search.glade.h:19
+msgid "New _Search..."
+msgstr "Új _keresés..."
+
+#: src/gthumb_search.glade.h:20
+msgid "No images found"
+msgstr "Egy kép sincs"
+
+#: src/gthumb_search.glade.h:21
+msgid "Search Progress"
+msgstr "Keresés folyamata"
+
+#: src/gthumb_search.glade.h:22 src/gthumb_tools.glade.h:40
+msgid "Searching in:"
+msgstr "Keresés itt:"
+
+#: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
+msgid "_Include sub-folders"
+msgstr "_Almappákban is"
+
+#: src/gthumb_search.glade.h:28
+msgid "_Save"
+msgstr "M_entés"
+
+#: src/gthumb_tools.glade.h:4
+msgid "<b>Comments</b>"
+msgstr "<b>Megjegyzések</b>"
+
+#: src/gthumb_tools.glade.h:5
+msgid "<b>File list order</b>"
+msgstr "<b>Fájllista rendezése</b>"
+
+#: src/gthumb_tools.glade.h:6
+msgid "<b>Specify a template to use for renaming images</b>"
+msgstr ""
+
+# src/trans.h:115
+#: src/gthumb_tools.glade.h:7
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Bélyegképek</b>"
+
+#: src/gthumb_tools.glade.h:8
+msgid "Apply to _all images"
+msgstr "Alkalmazás az ö_sszes képre"
+
+#: src/gthumb_tools.glade.h:9
+msgid "Backup Comments"
+msgstr "Megjegyzések biztonsági mentése"
+
+#: src/gthumb_tools.glade.h:11
+msgid "Change Date"
+msgstr "Változás dátuma"
+
+# src/nautilus-search-bar-criterion.c:136
+#: src/gthumb_tools.glade.h:12
+msgid "Change the last modified date to:"
+msgstr "Az utolsó módosítás dátumát erre változtatja:"
+
+#: src/gthumb_tools.glade.h:13
+msgid "Check _All"
+msgstr "_Mindet bejelöli"
+
+#: src/gthumb_tools.glade.h:14
+msgid "Check _None"
+msgstr "_Egyiket sem jelöli be"
+
+#: src/gthumb_tools.glade.h:15
+msgid "Checking image:"
+msgstr "Ellenőrzött kép:"
+
+#: src/gthumb_tools.glade.h:16
+msgid "Delete ALL Comments"
+msgstr "Az összes megjegyzés törlése"
+
+#: src/gthumb_tools.glade.h:17
+msgid "Delete ALL Thumbnails"
+msgstr "Az összes bélyegkép törlése"
+
+#: src/gthumb_tools.glade.h:18
+msgid "Delete Old Comments"
+msgstr "Régi megjegyzések törlése"
+
+#: src/gthumb_tools.glade.h:19
+msgid "Delete Old Thumbnails"
+msgstr "Régi bélyegképek törlése"
+
+#: src/gthumb_tools.glade.h:20
+msgid "Delete comments of no more existing images"
+msgstr "A már nem létező képekhez tartozó megjegyzések törlése"
+
+#: src/gthumb_tools.glade.h:21
+msgid "Delete thumbnails of no more existing images"
+msgstr "A már nem létező képekhez tartozó bélyegképek törlése"
+
+#: src/gthumb_tools.glade.h:22
+msgid "Equal images:"
+msgstr "Azonos képek:"
+
+#: src/gthumb_tools.glade.h:23
+msgid "Find Duplicates"
+msgstr "Duplikátumok keresése"
+
+#: src/gthumb_tools.glade.h:24
+msgid "Found duplicates:"
+msgstr "Talált duplikátumok:"
+
+#: src/gthumb_tools.glade.h:26
+msgid "JPEG Lossless Transformation"
+msgstr "Veszteségmentes JPEG-átalakítás"
+
+#: src/gthumb_tools.glade.h:27
+msgid "Maintenance"
+msgstr "Karbantartás"
+
+#: src/gthumb_tools.glade.h:28
+msgid "Mirror image horizontally (left-right)"
+msgstr "A kép vízszintes irányú tükrözése (bal-jobb)"
+
+#: src/gthumb_tools.glade.h:29
+msgid "Mirror image vertically (top-bottom)"
+msgstr "A kép függőleges irányú tükrözése (fent-lent)"
+
+#: src/gthumb_tools.glade.h:31
+msgid "New names _preview:"
+msgstr "Új nevek _előnézete:"
+
+# src/file-manager/nautilus-icon-view-ui.xml.h:24
+#: src/gthumb_tools.glade.h:33
+msgid "Re_verse Order"
+msgstr "Fo_rdított sorrend"
+
+#: src/gthumb_tools.glade.h:34
+msgid "Rename Series"
+msgstr "Sorozat átnevezése"
+
+#: src/gthumb_tools.glade.h:35
+msgid "Restore Comments From a Backup File"
+msgstr "Megjegyzés helyreállítása a biztonsági mentésből"
+
+#: src/gthumb_tools.glade.h:36
+msgid "Revert changes"
+msgstr "Változások visszavonása"
+
+#: src/gthumb_tools.glade.h:37
+msgid "Rotate image 90 degrees clockwise"
+msgstr "Kép elforgatása 90 fokkal jobbra"
+
+#: src/gthumb_tools.glade.h:38
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "Kép elforgatása 90 fokkal balra"
+
+#: src/gthumb_tools.glade.h:39
+msgid "Search terminated, no duplicates found."
+msgstr "A keresés befejeződött, nincsenek duplikátumok."
+
+#: src/gthumb_tools.glade.h:43
+msgid ""
+"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
+"original filename. Use ? to insert the image date. Use ! to insert the image "
+"size"
+msgstr ""
+
+#: src/gthumb_tools.glade.h:46
+msgid "_Sort original list:"
+msgstr "_Eredeti lista rendezése:"
+
+# src/file-manager/fm-icon-view.c:178
+#: src/gthumb_tools.glade.h:49
+msgid "by Modification date"
+msgstr "Módosítás dátuma szerint"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:157
+#: src/gthumb_tools.glade.h:50
+msgid "by Name"
+msgstr "Név szerint"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# src/file-manager/fm-icon-view.c:164
+#: src/gthumb_tools.glade.h:51
+msgid "by Size"
+msgstr "Méret szerint"
+
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+# src/trans.h:115
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Indexkép elrendezése</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Téma személyre szabása</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Fényképadatok</b>"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Mentés</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Téma</b>"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "Came_ra Model"
+msgstr "Fé_nyképezőgép"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Caption"
+msgstr "Cím"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr "E_xpozíció módja"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Exposure _time"
+msgstr "Expozíciós _idő"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "Focal _length"
+msgstr "Fókusz_távolság"
+
+# aisleriot/menu.c:124
+#: src/gthumb_web_exporter.glade.h:27
+msgid "I_mage Caption..."
+msgstr "Kép_aláírás..."
+
+#: src/gthumb_web_exporter.glade.h:29
+msgid "Inde_x file:"
+msgstr "_Indexfájl:"
+
+# src/nautilus-search-bar-criterion.c:119
+#: src/gthumb_web_exporter.glade.h:31
+msgid "Resi_ze images if larger than:"
+msgstr "Kép átméretezése, ha nagyobb mint:"
+
+#: src/gthumb_web_exporter.glade.h:32
+msgid "Sor_t:"
+msgstr "_Rendezés:"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "Th_eme:"
+msgstr "_Téma:"
+
+#: src/gthumb_web_exporter.glade.h:35
+#, fuzzy, no-c-format
+msgid "Use %d  to insert current date"
+msgstr "Nem tudtam generálni az aktuális dátumot!"
+
+#: src/gthumb_web_exporter.glade.h:36
+msgid "Web Album"
+msgstr "Webalbum"
+
+#: src/gthumb_web_exporter.glade.h:37
+msgid "Web Album Theme"
+msgstr "Webalbumtéma"
+
+#: src/gthumb_web_exporter.glade.h:38
+msgid "_Aperture value"
+msgstr "_Apertúraérték"
+
+# src/misc.c:531
+#: src/gthumb_web_exporter.glade.h:39
+msgid "_Copy images to destination"
+msgstr "Képek _másolása a célba"
+
+#: src/gthumb_web_exporter.glade.h:40
+msgid "_Date and Time"
+msgstr "_Dátum és idő:"
+
+#: src/gthumb_web_exporter.glade.h:41
+msgid "_Destination:"
+msgstr "_Cél:"
+
+# sysdeps/names/prockernel.c:42
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Flash"
+msgstr "_Vaku"
+
+#: src/gthumb_web_exporter.glade.h:43
+msgid "_Go to Theme Folder"
+msgstr "_Ugrás a témák mappájára"
+
+#: src/gthumb_web_exporter.glade.h:44
+msgid "_Install Theme..."
+msgstr "_Téma telepítése"
+
+#: src/gthumb_web_exporter.glade.h:46
+msgid "_Shutter speed"
+msgstr "_Zársebesség"
+
+#: src/gthumb_web_exporter.glade.h:47
+msgid "_Thumbnail Caption..."
+msgstr "_Bélyegkép felirata..."
+
+#: src/gthumb_web_exporter.glade.h:48
+msgid "by modified time"
+msgstr "a módosítás dátuma szerint"
+
+#: src/gthumb_web_exporter.glade.h:52
+msgid "index.html"
+msgstr "index.html"
+
+#: src/main.c:81
+msgid "Start in fullscreen mode"
+msgstr "Indítás teljes képernyős módban"
+
+#: src/main.c:85
+msgid "Automatically start a slideshow"
+msgstr "Diavetítés automatikus indítása"
+
+#: src/main.c:164
+msgid "Holidays"
+msgstr "Szabadság"
+
+#: src/main.c:165
+msgid "Temporary"
+msgstr "Ideiglenes"
+
+#: src/main.c:166
+msgid "Screenshots"
+msgstr "Képernyőkép"
+
+#: src/main.c:167
+msgid "Science"
+msgstr "Tudomány"
+
+# #-#-#-#-#  gnome-icon-theme.HEAD.hu.po-new.po (gnome-icon-theme CVS)  #-#-#-#-#
+# 48x48/emblems/emblem-favorite.icon.in.h:1
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:34
+#: src/main.c:168
+msgid "Favourite"
+msgstr "Kedvenc"
+
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:45
+#: src/main.c:169
+msgid "Important"
+msgstr "Fontos"
+
+# #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:40 icons/gnome/gnome.xml.h:1
+# #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
+# data/browser.xml.h:40 icons/gnome/gnome.xml.h:1
+#: src/main.c:170
+msgid "GNOME"
+msgstr "GNOME"
+
+#: src/main.c:171
+msgid "Games"
+msgstr "Játékok"
+
+#: src/main.c:172
+msgid "Party"
+msgstr "Buli"
+
+#: src/main.c:173
+msgid "Birthday"
+msgstr "Születésnap"
+
+#: src/main.c:174
+msgid "Astronomy"
+msgstr "Csillagászat"
+
+#: src/main.c:175
+msgid "Family"
+msgstr "Család"
+
+#: src/main.c:312 src/main.c:394
+msgid "Command Line"
+msgstr "Parancssor"
