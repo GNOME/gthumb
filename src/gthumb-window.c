@@ -333,12 +333,15 @@ static void
 window_update_statusbar_zoom_info (GThumbWindow *window)
 {
 	const char *path;
+	gboolean    image_is_visible;
 	int         zoom;
 	char       *text;
 
 	path = window->image_path;
 
-	if ((path == NULL) || ! ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) && ! window->sidebar_visible)) {
+	image_is_visible = (path != NULL) && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
+
+	if (! image_is_visible) {
 		if (! GTK_WIDGET_VISIBLE (window->zoom_info_frame))
 			return;
 		bonobo_ui_component_set_prop (window->ui_component, 

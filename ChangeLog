@@ -1,9 +1,14 @@
+2003-05-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb_print.glade: display size in millimeters
+
+	* libgthumb/print-callbacks.c (print_image_dlg): add A3, A5
+	types. 
+
 2003-04-30  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/print-callbacks.c (print_image_dlg): new print dialog,
 	load and save user preferences.
-
-	--
 
 	* src/fullscreen.c (fs_motion_notify_cb): do not show the toolbar
 	if the mouse is moved "slowly".

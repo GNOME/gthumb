@@ -978,12 +978,34 @@ size_executive_toggled_cb (GtkToggleButton  *widget,
 
 
 static void
+size_a3_toggled_cb (GtkToggleButton  *widget,
+		    DialogData       *data)
+{
+	if (! gtk_toggle_button_get_active (widget))
+		return;
+	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A3");
+	page_update (data);
+}
+
+
+static void
 size_a4_toggled_cb (GtkToggleButton  *widget,
 		    DialogData       *data)
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A4");
+	page_update (data);
+}
+
+
+static void
+size_a5_toggled_cb (GtkToggleButton  *widget,
+		    DialogData       *data)
+{
+	if (! gtk_toggle_button_get_active (widget))
+		return;
+	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A5");
 	page_update (data);
 }
 
@@ -1077,6 +1099,10 @@ print_image_dlg (GtkWindow   *parent,
 		button_name = "print_size_executive_radiobutton";
 	else if (strcmp (value, "A4") == 0)
 		button_name = "print_size_a4_radiobutton";
+	else if (strcmp (value, "A5") == 0)
+		button_name = "print_size_a5_radiobutton";
+	else if (strcmp (value, "A3") == 0)
+		button_name = "print_size_a3_radiobutton";
 
 	radio_button = glade_xml_get_widget (data->gui, button_name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
@@ -1155,6 +1181,18 @@ print_image_dlg (GtkWindow   *parent,
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
 			  G_CALLBACK (size_a4_toggled_cb),
+			  data);
+
+	radio_button = glade_xml_get_widget (data->gui, "print_size_a5_radiobutton");
+	g_signal_connect (G_OBJECT (radio_button),
+			  "toggled",
+			  G_CALLBACK (size_a5_toggled_cb),
+			  data);
+
+	radio_button = glade_xml_get_widget (data->gui, "print_size_a3_radiobutton");
+	g_signal_connect (G_OBJECT (radio_button),
+			  "toggled",
+			  G_CALLBACK (size_a3_toggled_cb),
 			  data);
 
 	data->adj = gtk_range_get_adjustment (GTK_RANGE (data->hscale1));
