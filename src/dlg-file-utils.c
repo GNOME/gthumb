@@ -42,15 +42,16 @@
 #include "gth-folder-selection-dialog.h"
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
-#define FILE_NAME_MAX_LENGTH   30
 #define DISPLAY_PROGRESS_DELAY 1000
-
+#define FILE_NAME_MAX_LENGTH   30
+#define PREVIEW_SIZE           150
 
 typedef enum {
-	OVERWRITE_YES,
-	OVERWRITE_NO,
-	OVERWRITE_ALL,
-	OVERWRITE_NONE
+	OVERWRITE_RESULT_YES,
+	OVERWRITE_RESULT_NO,
+	OVERWRITE_RESULT_ALL,
+	OVERWRITE_RESULT_NONE,
+	OVERWRITE_RESULT_RENAME
 } OverwriteResult;
 
 
@@ -59,6 +60,11 @@ typedef enum {
 	FILE_OP_MOVE,
 	FILE_OP_DELETE
 } FileOp;
+
+
+typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
+				   char            *new_name,
+				   gpointer         data);
 
 
 static void
@@ -409,9 +415,6 @@ dlg_file_copy__ask_dest (GThumbWindow *window,
 /* -- overwrite dialog -- */
 
 
-#define PREVIEW_SIZE 180
-
-
 static void
 set_filename_labels (GladeXML    *gui,
 		     GtkTooltips *tooltips,
@@ -433,7 +436,7 @@ set_filename_labels (GladeXML    *gui,
 	label = glade_xml_get_widget (gui, filename_widget);
 	eventbox = glade_xml_get_widget (gui, filename_eventbox);
 
-	name = _g_strdup_with_max_size (filename, FILE_NAME_MAX_LENGTH);
+	name = _g_strdup_with_max_size (file_name_from_path (filename), FILE_NAME_MAX_LENGTH);
 	_gtk_label_set_locale_text (GTK_LABEL (label), name);
 	g_free (name);
 
@@ -454,77 +457,73 @@ set_filename_labels (GladeXML    *gui,
 }
 
 
+
 /* -- dlg_overwrite -- */
 
+
 typedef struct {
+	GThumbWindow   *window;
 	GladeXML       *gui;
+	char           *destination;
 
 	GtkWidget      *dialog;
 	GtkWidget      *overwrite_yes_radiobutton;
 	GtkWidget      *overwrite_no_radiobutton;
 	GtkWidget      *overwrite_all_radiobutton;
 	GtkWidget      *overwrite_none_radiobutton;
+	GtkWidget      *overwrite_rename_radiobutton;
+	GtkWidget      *overwrite_rename_entry;
 
 	GtkTooltips    *tooltips;
 	int             overwrite_mode;
-	FileOpDoneFunc  done_func;
+	OverwriteDoneFunc  done_func;
 	gpointer        done_data;
 } DlgOverwriteData;
 
 
 static void
-dlg_overwrite__response_cb (GtkWidget *dialog,
-			    int        response_id,
-			    gpointer   data)
+dlg_overwrite_data_free (DlgOverwriteData *owdata)
 {
-	DlgOverwriteData *owdata = data;
-	int               result = OVERWRITE_NO;
-
-	if (response_id == GTK_RESPONSE_OK) {
-		if (GTK_TOGGLE_BUTTON (owdata->overwrite_yes_radiobutton)->active)
-			result = OVERWRITE_YES;
-		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_no_radiobutton)->active)
-			result = OVERWRITE_NO;
-		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_all_radiobutton)->active)
-			result = OVERWRITE_ALL;
-		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_none_radiobutton)->active)
-			result = OVERWRITE_NONE;
-		else
-			result = OVERWRITE_NO;
-	}
-
 	gtk_widget_destroy (owdata->dialog);
 	gtk_object_destroy (GTK_OBJECT (owdata->tooltips));
 	g_object_unref (owdata->gui);
-
-	if (owdata->done_func != NULL)
-		(owdata->done_func) (result, owdata->done_data);
-
+	g_free (owdata->destination);
 	g_free (owdata);
 }
 
 
-static GtkWidget *
-dlg_overwrite (GThumbWindow   *window,
-	       int             default_overwrite_mode,
-	       const char     *old_filename, 
-	       const char     *new_filename,
-	       gboolean        show_overwrite_all_none,
-	       FileOpDoneFunc  done_func,
-	       gpointer        done_data)
+static void
+overwrite_rename_radiobutton_toggled_cb (GtkToggleButton  *button,
+					 DlgOverwriteData *owdata)
+{
+	gtk_widget_set_sensitive (owdata->overwrite_rename_entry,
+				  gtk_toggle_button_get_active (button));
+}
+
+
+static DlgOverwriteData *
+create_overwrite_dialog (GThumbWindow      *window,
+			 int                default_overwrite_mode,
+			 const char        *old_filename, 
+			 const char        *new_filename,
+			 gboolean           show_overwrite_all_none,
+			 OverwriteDoneFunc  done_func,
+			 gpointer           done_data)
 {
 	DlgOverwriteData *owdata;
-	GtkWidget   *old_image_frame;
-	GtkWidget   *old_img_zoom_in_button;
-	GtkWidget   *old_img_zoom_out_button;
-	GtkWidget   *new_image_frame;
-	GtkWidget   *new_img_zoom_in_button;
-	GtkWidget   *new_img_zoom_out_button;
-	GtkWidget   *old_image_viewer, *new_image_viewer;
-	GtkWidget   *overwrite_radiobutton;
+	GtkWidget        *old_image_frame;
+	GtkWidget        *old_img_zoom_in_button;
+	GtkWidget        *old_img_zoom_out_button;
+	GtkWidget        *new_image_frame;
+	GtkWidget        *new_img_zoom_in_button;
+	GtkWidget        *new_img_zoom_out_button;
+	GtkWidget        *old_image_viewer, *new_image_viewer;
+	GtkWidget        *overwrite_radiobutton;
+	ImageViewer      *viewer;
 
 	owdata = g_new0 (DlgOverwriteData, 1);
 
+	owdata->window = window;
 	owdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! owdata->gui) {
 		g_warning ("Could not find " GLADE_FILE "\n");
@@ -535,6 +534,7 @@ dlg_overwrite (GThumbWindow   *window,
 	owdata->tooltips = gtk_tooltips_new ();
 	owdata->done_func = done_func;
 	owdata->done_data = done_data;
+	owdata->destination = remove_level_from_path (old_filename);
 
 	/* Get the widgets. */
 
@@ -550,6 +550,8 @@ dlg_overwrite (GThumbWindow   *window,
 	owdata->overwrite_no_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_no_radiobutton");
 	owdata->overwrite_all_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_all_radiobutton");
 	owdata->overwrite_none_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_none_radiobutton");
+	owdata->overwrite_rename_radiobutton = glade_xml_get_widget (owdata->gui, "overwrite_rename_radiobutton");
+	owdata->overwrite_rename_entry = glade_xml_get_widget (owdata->gui, "overwrite_rename_entry");
 
 	/* Set widgets data. */
 
@@ -574,20 +576,24 @@ dlg_overwrite (GThumbWindow   *window,
 
 	overwrite_radiobutton = owdata->overwrite_no_radiobutton;
 	switch (default_overwrite_mode) {
-	case OVERWRITE_YES:
+	case OVERWRITE_RESULT_YES:
 		overwrite_radiobutton = owdata->overwrite_yes_radiobutton;
 		break;
 
-	case OVERWRITE_NO:
+	case OVERWRITE_RESULT_NO:
 		overwrite_radiobutton = owdata->overwrite_no_radiobutton;
 		break;
 
-	case OVERWRITE_ALL:
+	case OVERWRITE_RESULT_ALL:
 		overwrite_radiobutton = owdata->overwrite_all_radiobutton;
 		break;
 
-	case OVERWRITE_NONE:
+	case OVERWRITE_RESULT_NONE:
 		overwrite_radiobutton = owdata->overwrite_none_radiobutton;
+		break;
+
+	case OVERWRITE_RESULT_RENAME:
+		overwrite_radiobutton = owdata->overwrite_rename_radiobutton;
 		break;
 	}
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overwrite_radiobutton), TRUE);
@@ -597,63 +603,50 @@ dlg_overwrite (GThumbWindow   *window,
 		gtk_widget_hide (owdata->overwrite_none_radiobutton);
 	}
 
+	gtk_widget_set_sensitive (owdata->overwrite_rename_entry,
+				  default_overwrite_mode == OVERWRITE_RESULT_RENAME);
+	_gtk_entry_set_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry),
+				    file_name_from_path (new_filename));
+	if (default_overwrite_mode == OVERWRITE_RESULT_RENAME)
+		gtk_widget_grab_focus (owdata->overwrite_rename_entry);
+
 	/* * load images. */
 
 	old_image_viewer = image_viewer_new ();
 	gtk_container_add (GTK_CONTAINER (old_image_frame), old_image_viewer);
-	image_viewer_size (IMAGE_VIEWER (old_image_viewer), 
-			   PREVIEW_SIZE, PREVIEW_SIZE);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (old_image_viewer),
-				       pref_get_zoom_change ());
-	image_viewer_set_check_type (IMAGE_VIEWER (old_image_viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (old_image_viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (old_image_viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+
+	viewer = IMAGE_VIEWER (old_image_viewer);
+	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_set_zoom_quality (viewer, pref_get_zoom_change ());
+	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_zoom_to_fit      (viewer);
+	image_viewer_load_image       (viewer, old_filename);
+
 	gtk_widget_show (old_image_viewer);
-	image_viewer_load_image (IMAGE_VIEWER (old_image_viewer), 
-				 old_filename);
+
+	/**/
 
 	new_image_viewer = image_viewer_new ();
 	gtk_container_add (GTK_CONTAINER (new_image_frame), new_image_viewer);
-	image_viewer_size (IMAGE_VIEWER (new_image_viewer), 
-			   PREVIEW_SIZE, PREVIEW_SIZE);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (new_image_viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_set_check_type (IMAGE_VIEWER (new_image_viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (new_image_viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (new_image_viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+
+	viewer = IMAGE_VIEWER (new_image_viewer);
+	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
+	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
+	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_zoom_to_fit      (viewer);
+	image_viewer_load_image       (viewer, new_filename);
+
 	gtk_widget_show (new_image_viewer);
-	image_viewer_load_image (IMAGE_VIEWER (new_image_viewer), 
-				 new_filename);
 
 	/* signals. */
 
-	g_signal_connect_swapped (G_OBJECT (old_img_zoom_in_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_in),
-				  G_OBJECT (old_image_viewer));
-	g_signal_connect_swapped (G_OBJECT (old_img_zoom_out_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_out),
-				  G_OBJECT (old_image_viewer));
-	
-	g_signal_connect_swapped (G_OBJECT (new_img_zoom_in_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_in),
-				  G_OBJECT (new_image_viewer));
-	g_signal_connect_swapped (G_OBJECT (new_img_zoom_out_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_out),
-				  G_OBJECT (new_image_viewer));
-
-	g_signal_connect (G_OBJECT (owdata->dialog),
-			  "response", 
-			  G_CALLBACK (dlg_overwrite__response_cb), 
+	g_signal_connect (G_OBJECT (owdata->overwrite_rename_radiobutton),
+			  "toggled",
+			  G_CALLBACK (overwrite_rename_radiobutton_toggled_cb),
 			  owdata);
 
 	/**/
@@ -664,185 +657,186 @@ dlg_overwrite (GThumbWindow   *window,
 				      GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (owdata->dialog), TRUE);
 
+	return owdata;
+}
+
+
+static void
+dlg_overwrite__response_cb (GtkWidget *dialog,
+			    int        response_id,
+			    gpointer   data)
+{
+	DlgOverwriteData *owdata   = data;
+	int               result   = OVERWRITE_RESULT_NO;
+	char             *new_name = NULL;
+
+	if (response_id == GTK_RESPONSE_OK) {
+		if (GTK_TOGGLE_BUTTON (owdata->overwrite_yes_radiobutton)->active)
+			result = OVERWRITE_RESULT_YES;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_no_radiobutton)->active)
+			result = OVERWRITE_RESULT_NO;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_all_radiobutton)->active)
+			result = OVERWRITE_RESULT_ALL;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_none_radiobutton)->active)
+			result = OVERWRITE_RESULT_NONE;
+		else if (GTK_TOGGLE_BUTTON (owdata->overwrite_rename_radiobutton)->active) {
+			char *new_path;
+
+			result = OVERWRITE_RESULT_RENAME;
+			new_name = _gtk_entry_get_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry));
+			if ((new_name == NULL) || (new_name[0] == 0)) {
+				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+						       _("You didn't enter the new name"));
+				g_free (new_name);
+				return;
+			}
+			
+			new_path = g_build_path ("/", owdata->destination, new_name, NULL);
+
+			if (path_is_file (new_path)) {
+				char *utf8_name;
+
+				utf8_name = g_locale_to_utf8 (new_name, -1, 0, 0, 0);
+				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+						       _("The name \"%s\" is already used in this folder. Please use a different name."),
+						       utf8_name);
+				g_free (utf8_name);
+				g_free (new_path);
+				g_free (new_name);
+
+				return;
+			}
+			g_free (new_path);
+
+		} else
+			result = OVERWRITE_RESULT_NO;
+	}
+
+	if (owdata->done_func != NULL)
+		(owdata->done_func) (result, new_name, owdata->done_data);
+
+	dlg_overwrite_data_free (owdata);
+}
+
+
+static GtkWidget *
+dlg_overwrite (GThumbWindow      *window,
+	       int                default_overwrite_mode,
+	       const char        *old_filename, 
+	       const char        *new_filename,
+	       gboolean           show_overwrite_all_none,
+	       OverwriteDoneFunc  done_func,
+	       gpointer           done_data)
+{
+	DlgOverwriteData *owdata;
+
+	owdata = create_overwrite_dialog (window,
+					  default_overwrite_mode,
+					  old_filename,
+					  new_filename,
+					  show_overwrite_all_none,
+					  done_func,
+					  done_data);
+
+	g_signal_connect (G_OBJECT (owdata->dialog),
+			  "response", 
+			  G_CALLBACK (dlg_overwrite__response_cb), 
+			  owdata);
+
 	return owdata->dialog;
 }
 
 
 static int
-dlg_overwrite_run (GThumbWindow *window,
-		   int           default_overwrite_mode,
-		   const char   *old_filename, 
-		   const char   *new_filename,
-		   gboolean      show_overwrite_all_none)
+dlg_overwrite_run (GThumbWindow  *window,
+		   int            default_overwrite_mode,
+		   const char    *old_filename, 
+		   const char    *new_filename,
+		   gboolean       show_overwrite_all_none,
+		   char         **new_name)
 {
-	GladeXML    *gui;
-	GtkWidget   *dialog;
-	GtkWidget   *old_image_frame;
-	GtkWidget   *old_img_zoom_in_button;
-	GtkWidget   *old_img_zoom_out_button;
-	GtkWidget   *new_image_frame;
-	GtkWidget   *new_img_zoom_in_button;
-	GtkWidget   *new_img_zoom_out_button;
-	GtkWidget   *overwrite_yes_radiobutton;
-	GtkWidget   *overwrite_no_radiobutton;
-	GtkWidget   *overwrite_all_radiobutton;
-	GtkWidget   *overwrite_none_radiobutton;
-	int          result;
-	GtkWidget   *old_image_viewer, *new_image_viewer;
-	GtkWidget   *overwrite_radiobutton;
-	GtkTooltips *tooltips;
+	DlgOverwriteData *owdata;
+	int               result;
 
-	tooltips = gtk_tooltips_new ();
+	owdata = create_overwrite_dialog (window,
+					  default_overwrite_mode,
+					  old_filename,
+					  new_filename,
+					  show_overwrite_all_none,
+					  NULL,
+					  NULL);
 
-	gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
-
-	if (! gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		return OVERWRITE_NO;
-        }
-
-	/* Get the widgets. */
-
-	dialog = glade_xml_get_widget (gui, "overwrite_dialog");
-
-	old_image_frame = glade_xml_get_widget (gui, "old_image_frame");
-	old_img_zoom_in_button = glade_xml_get_widget (gui, "old_img_zoom_in_button");
-	old_img_zoom_out_button = glade_xml_get_widget (gui, "old_img_zoom_out_button");
-	new_image_frame = glade_xml_get_widget (gui, "new_image_frame");
-	new_img_zoom_in_button = glade_xml_get_widget (gui, "new_img_zoom_in_button");
-	new_img_zoom_out_button = glade_xml_get_widget (gui, "new_img_zoom_out_button");
-	overwrite_yes_radiobutton = glade_xml_get_widget (gui, "overwrite_yes_radiobutton");
-	overwrite_no_radiobutton = glade_xml_get_widget (gui, "overwrite_no_radiobutton");
-	overwrite_all_radiobutton = glade_xml_get_widget (gui, "overwrite_all_radiobutton");
-	overwrite_none_radiobutton = glade_xml_get_widget (gui, "overwrite_none_radiobutton");
-
-	/* Set widgets data. */
-
-	/* * set filename labels. */
-
-	set_filename_labels (gui,
-			     tooltips,
-			     "old_image_filename_label",
-			     "old_image_filename_eventbox",
-			     "old_image_size_label",
-			     "old_image_time_label",
-			     old_filename);
-	set_filename_labels (gui,
-			     tooltips,
-			     "new_image_filename_label",
-			     "new_image_filename_eventbox",
-			     "new_image_size_label",
-			     "new_image_time_label",
-			     new_filename);
-
-	/* * set the default overwrite mode. */
-
-	overwrite_radiobutton = overwrite_no_radiobutton;
-	switch (default_overwrite_mode) {
-	case OVERWRITE_YES:
-		overwrite_radiobutton = overwrite_yes_radiobutton;
-		break;
-
-	case OVERWRITE_NO:
-		overwrite_radiobutton = overwrite_no_radiobutton;
-		break;
-
-	case OVERWRITE_ALL:
-		overwrite_radiobutton = overwrite_all_radiobutton;
-		break;
-
-	case OVERWRITE_NONE:
-		overwrite_radiobutton = overwrite_none_radiobutton;
-		break;
-	}
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (overwrite_radiobutton), TRUE);
-
-	if (!show_overwrite_all_none) {
-		gtk_widget_hide (overwrite_all_radiobutton);
-		gtk_widget_hide (overwrite_none_radiobutton);
-	}
-
-	/* * load images. */
-
-	old_image_viewer = image_viewer_new ();
-	gtk_container_add (GTK_CONTAINER (old_image_frame), old_image_viewer);
-	image_viewer_size (IMAGE_VIEWER (old_image_viewer), 
-			   PREVIEW_SIZE, PREVIEW_SIZE);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (old_image_viewer),
-				       pref_get_zoom_change ());
-	image_viewer_set_check_type (IMAGE_VIEWER (old_image_viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (old_image_viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (old_image_viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
-	gtk_widget_show (old_image_viewer);
-	image_viewer_load_image (IMAGE_VIEWER (old_image_viewer), 
-				 old_filename);
-
-	new_image_viewer = image_viewer_new ();
-	gtk_container_add (GTK_CONTAINER (new_image_frame), new_image_viewer);
-	image_viewer_size (IMAGE_VIEWER (new_image_viewer), 
-			   PREVIEW_SIZE, PREVIEW_SIZE);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (new_image_viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_set_check_type (IMAGE_VIEWER (new_image_viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (new_image_viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (new_image_viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
-	gtk_widget_show (new_image_viewer);
-	image_viewer_load_image (IMAGE_VIEWER (new_image_viewer), 
-				 new_filename);
-
-	/* signals. */
-
-	g_signal_connect_swapped (G_OBJECT (old_img_zoom_in_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_in),
-				  G_OBJECT (old_image_viewer));
-	g_signal_connect_swapped (G_OBJECT (old_img_zoom_out_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_out),
-				  G_OBJECT (old_image_viewer));
-	
-	g_signal_connect_swapped (G_OBJECT (new_img_zoom_in_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_in),
-				  G_OBJECT (new_image_viewer));
-	g_signal_connect_swapped (G_OBJECT (new_img_zoom_out_button),
-				  "clicked",
-				  G_CALLBACK (image_viewer_zoom_out),
-				  G_OBJECT (new_image_viewer));
-
-	g_object_set_data (G_OBJECT (dialog), "tooltips", tooltips);
-
-	/* run dialog. */
-
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), 
-				      GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
-	result = gtk_dialog_run (GTK_DIALOG (dialog));
+ retry:
+	*new_name = NULL;
+	result = gtk_dialog_run (GTK_DIALOG (owdata->dialog));
 
 	if (result == -1)
-		result = OVERWRITE_NO;
-	else if (GTK_TOGGLE_BUTTON (overwrite_yes_radiobutton)->active)
-		result = OVERWRITE_YES;
-	else if (GTK_TOGGLE_BUTTON (overwrite_no_radiobutton)->active)
-		result = OVERWRITE_NO;
-	else if (GTK_TOGGLE_BUTTON (overwrite_all_radiobutton)->active)
-		result = OVERWRITE_ALL;
-	else if (GTK_TOGGLE_BUTTON (overwrite_none_radiobutton)->active)
-		result = OVERWRITE_NONE;
-	else
-		result = OVERWRITE_NO;
+		result = OVERWRITE_RESULT_NO;
+	else if (GTK_TOGGLE_BUTTON (owdata->overwrite_yes_radiobutton)->active)
+		result = OVERWRITE_RESULT_YES;
+	else if (GTK_TOGGLE_BUTTON (owdata->overwrite_no_radiobutton)->active)
+		result = OVERWRITE_RESULT_NO;
+	else if (GTK_TOGGLE_BUTTON (owdata->overwrite_all_radiobutton)->active)
+		result = OVERWRITE_RESULT_ALL;
+	else if (GTK_TOGGLE_BUTTON (owdata->overwrite_none_radiobutton)->active)
+		result = OVERWRITE_RESULT_NONE;
+	else if (GTK_TOGGLE_BUTTON (owdata->overwrite_rename_radiobutton)->active) {
+		char *new_path;
 
-	gtk_widget_destroy (dialog);
-	gtk_object_destroy (GTK_OBJECT (tooltips));
-	g_object_unref (gui);
+		result = OVERWRITE_RESULT_RENAME;
+		*new_name = _gtk_entry_get_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry));
+
+		if ((*new_name == NULL) || ((*new_name)[0] == 0)) {
+			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+					       _("You didn't enter the new name"));
+			g_free (*new_name);
+			goto retry;
+		}
+
+		new_path = g_build_path ("/", owdata->destination, *new_name, NULL);
+		
+		if (path_is_file (new_path)) {
+			char *utf8_name;
+			
+			utf8_name = g_locale_to_utf8 (*new_name, -1, 0, 0, 0);
+			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+					       _("The name \"%s\" is already used in this folder. Please use a different name."),
+					       utf8_name);
+			g_free (utf8_name);
+			g_free (new_path);
+			g_free (*new_name);
+
+			goto retry;
+		}
+		g_free (new_path);
+		
+	} else
+		result = OVERWRITE_RESULT_NO;
+
+	dlg_overwrite_data_free (owdata);
 
 	return result;
+}
+
+
+static GList *
+my_list_remove (GList      *list, 
+		const char *path)
+{
+	GList *link;
+
+	if (list == NULL)
+		return NULL;
+
+	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	if (link == NULL)
+		return list;
+
+	list = g_list_remove_link (list, link);
+	g_free (link->data);
+	g_list_free (link);
+
+	return list;
 }
 
 
@@ -856,64 +850,75 @@ dlg_file_rename_series (GThumbWindow *window,
 	int       overwrite_result;
 	gboolean  file_exists, show_ow_all_none;
 	gboolean  error = FALSE;
+	GList    *files_deleted = NULL;
+	GList    *files_created = NULL;
 
 	all_windows_remove_monitor ();
 
 	show_ow_all_none = g_list_length (old_names) > 1;
-	overwrite_result = OVERWRITE_NO;
+	overwrite_result = OVERWRITE_RESULT_NO;
 	for (n_scan = new_names, o_scan = old_names; o_scan && n_scan;) {
 		char *old_full_path = o_scan->data;
 		char *new_full_path = n_scan->data;
+		char *new_name = NULL;
+
+		if (! path_is_file (old_full_path))
+			continue;
 
 		if (strcmp (old_full_path, new_full_path) == 0) {
-			/* file will not be renamed, delete the file from 
-			 * the list. */
-			GList *next = o_scan->next;
-			
-			old_names = g_list_remove_link (old_names, o_scan);
-			g_free (o_scan->data);
-			g_list_free (o_scan);
-			o_scan = next;
-
+			o_scan = o_scan->next;
 			n_scan = n_scan->next;
-
 			continue;			
 		}
 
 		/* handle overwrite. */
 
+		new_full_path = g_strdup (new_full_path);
 		file_exists = path_is_file (new_full_path);
 
-		if ((overwrite_result != OVERWRITE_ALL)
-		    && (overwrite_result != OVERWRITE_NONE)
-		    && file_exists)
+		while ((overwrite_result != OVERWRITE_RESULT_ALL)
+		       && (overwrite_result != OVERWRITE_RESULT_NONE)
+		       && file_exists) {
+
 			overwrite_result = dlg_overwrite_run (window, 
 							      overwrite_result,
 							      old_full_path,
 							      new_full_path,
-							      show_ow_all_none);
+							      show_ow_all_none,
+							      &new_name);
+			if (overwrite_result == OVERWRITE_RESULT_RENAME) {
+				char *parent_dir;
+				
+				parent_dir = remove_level_from_path (new_full_path);
+				new_full_path = g_build_path ("/", parent_dir,  new_name, NULL);
+				g_free (parent_dir);
+				g_free (new_name);
+			}
+
+			file_exists = path_is_file (new_full_path);
+		}
 
 		if (file_exists 
-		    && ((overwrite_result == OVERWRITE_NONE)
-			|| (overwrite_result == OVERWRITE_NO))) {
-			/* file will not be renamed, delete the file from 
-			 * the list. */
-			GList *next = o_scan->next;
-			
-			old_names = g_list_remove_link (old_names, o_scan);
-			g_free (o_scan->data);
-			g_list_free (o_scan);
-			o_scan = next;
-
+		    && ((overwrite_result == OVERWRITE_RESULT_NONE)
+			|| (overwrite_result == OVERWRITE_RESULT_NO))) {
+			o_scan = o_scan->next;
 			n_scan = n_scan->next;
-
+			g_free (new_full_path);
 			continue;
 		} 
 
-		if (! rename (old_full_path, new_full_path)) {
+		if (rename (old_full_path, new_full_path) == 0) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);
+
+			files_deleted = g_list_prepend (files_deleted, g_strdup (old_full_path));
+			files_created = g_list_prepend (files_created, g_strdup (new_full_path));
+
+			files_deleted = my_list_remove (files_deleted, new_full_path);
+			files_created = my_list_remove (files_created, old_full_path);
+
 			o_scan = o_scan->next;
+
 		} else {
 			old_names = g_list_remove_link (old_names, o_scan);
 			error_list = g_list_prepend (error_list, o_scan->data);
@@ -921,10 +926,13 @@ dlg_file_rename_series (GThumbWindow *window,
 			o_scan = old_names;
 			error = TRUE;
 		}
+
+		g_free (new_full_path);
 		n_scan = n_scan->next;
 	}
 
-	all_windows_notify_files_rename (old_names, new_names);
+	all_windows_notify_files_deleted (files_deleted);
+	all_windows_notify_files_created (files_created);
 	all_windows_add_monitor ();
 
 	if (error) {
@@ -944,6 +952,8 @@ dlg_file_rename_series (GThumbWindow *window,
 	path_list_free (error_list);
 	path_list_free (old_names);
 	path_list_free (new_names);
+	path_list_free (files_deleted);
+	path_list_free (files_created);
 }
 
 
@@ -1175,22 +1185,40 @@ xfer_file (FileCopyData *fcdata,
 
 
 static void
-copy_current_file__overwrite (GnomeVFSResult  result,
-			      gpointer        data)
+copy_current_file__overwrite (OverwriteResult  result,
+			      char            *new_name,
+			      gpointer         data)
 {
 	FileCopyData *fcdata = data;
-	char         *src_file;
+	const char   *src_file;
 	char         *dest_file;
 
 	fcdata->overwrite_dialog_visible = FALSE;
 	gtk_widget_show (fcdata->progress_dialog);
 
-	fcdata->overwrite_result = (OverwriteResult) result;
+	fcdata->overwrite_result = result;
+
+	src_file = fcdata->current_file->data;
 
 	switch (fcdata->overwrite_result) {
-	case OVERWRITE_YES:
-	case OVERWRITE_ALL:
-		src_file = fcdata->current_file->data;
+	case OVERWRITE_RESULT_RENAME:
+		if (new_name == NULL) {
+			/* FIXME */
+			copy_next_file (fcdata);
+			break;
+		}
+			
+		dest_file = g_build_path ("/",
+					  fcdata->destination, 
+					  new_name,
+					  NULL);
+		xfer_file (fcdata, src_file, dest_file);
+		g_free (dest_file);
+		g_free (new_name);
+		break;
+
+	case OVERWRITE_RESULT_YES:
+	case OVERWRITE_RESULT_ALL:
 		dest_file = g_build_path ("/",
 					  fcdata->destination, 
 					  file_name_from_path (src_file),
@@ -1199,8 +1227,8 @@ copy_current_file__overwrite (GnomeVFSResult  result,
 		g_free (dest_file);
 		break;
 
-	case OVERWRITE_NO:
-	case OVERWRITE_NONE:
+	case OVERWRITE_RESULT_NO:
+	case OVERWRITE_RESULT_NONE:
 		copy_next_file (fcdata);
 		break;
 	}
@@ -1238,9 +1266,9 @@ copy_current_file (FileCopyData *fcdata)
 	dest_uri = new_uri_from_path (dest_file);
 
 	if (gnome_vfs_uri_exists (dest_uri)) {
-		if (fcdata->overwrite_result == OVERWRITE_ALL)
+		if (fcdata->overwrite_result == OVERWRITE_RESULT_ALL)
 			skip = FALSE;
-		else if (fcdata->overwrite_result == OVERWRITE_NONE)
+		else if (fcdata->overwrite_result == OVERWRITE_RESULT_NONE)
 			skip = TRUE;
 		else {
 			GtkWidget *d;
@@ -1421,7 +1449,7 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->done_func = done_func;
 	fcdata->done_data = done_data;
 
-	fcdata->overwrite_result = OVERWRITE_NO;
+	fcdata->overwrite_result = OVERWRITE_RESULT_NO;
 	fcdata->cache_copied = FALSE;
 
 	fcdata->file_index = 1;

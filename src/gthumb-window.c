@@ -5729,6 +5729,8 @@ window_notify_file_rename (GThumbWindow *window,
 	int pos;
 
 	g_return_if_fail (window != NULL);
+	if ((old_name == NULL) || (new_name == NULL))
+		return;
 
 	if ((window->sidebar_content == CATALOG_LIST)
 	    && (window->catalog_path != NULL)) { /* update the catalog. */

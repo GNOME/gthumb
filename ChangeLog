@@ -1,3 +1,8 @@
+2002-11-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (create_overwrite_dialog): added an
+	option to specify a new name in the overwrite dialog.
+
 2002-11-23  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-convert.c (save_image_and_remove_original): 
