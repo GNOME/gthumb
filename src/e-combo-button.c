@@ -638,7 +638,7 @@ e_combo_button_set_style  (EComboButton    *combo_button,
 	if (toolbar_style == GTH_TOOLBAR_STYLE_SYSTEM) {
 		char *system_style;
 
-		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style");
+		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style", "system");
 
 		if (system_style == NULL)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;

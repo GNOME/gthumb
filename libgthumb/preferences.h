@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -176,6 +176,7 @@ typedef struct {
 	gboolean     toolbar_detachable;
 	GthClickPolicy  nautilus_click_policy;
 	char        *nautilus_theme;
+	char        *startup_location;
 
 	/* Wallpaper options. */
 
@@ -187,6 +188,10 @@ typedef struct {
 void            preferences_init                      (void);
 
 void            preferences_release                   (void);
+
+void            preferences_set_startup_location      (const char *location);
+
+const char *    preferences_get_startup_location      (void);
 
 const  char    *pref_util_get_file_location           (const char *location);
 

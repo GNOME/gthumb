@@ -83,14 +83,14 @@ get_string_from_enum (EnumStringTable *table,
 
 static EnumStringTable click_policy_table [] = {
 	{ GTH_CLICK_POLICY_FOLLOW_NAUTILUS, "nautilus" },
-	{ GTH_CLICK_POLICY_SINGLE, "single" },
-        { GTH_CLICK_POLICY_DOUBLE, "double" },
+	{ GTH_CLICK_POLICY_SINGLE,          "single" },
+        { GTH_CLICK_POLICY_DOUBLE,          "double" },
 	{ 0, NULL }
 };
 
 static EnumStringTable arrange_type_table [] = {
-	{ GTH_SORT_METHOD_NONE, "none" },
 	{ GTH_SORT_METHOD_BY_NAME, "name" },
+	{ GTH_SORT_METHOD_NONE,    "none" },
         { GTH_SORT_METHOD_BY_PATH, "path" },
         { GTH_SORT_METHOD_BY_SIZE, "size" },
         { GTH_SORT_METHOD_BY_TIME, "time" },
@@ -104,7 +104,7 @@ static EnumStringTable *exp_arrange_type_table = arrange_type_table;
 static EnumStringTable *web_album_sort_order_table = arrange_type_table;
 
 static EnumStringTable sort_order_table [] = {
-	{ GTK_SORT_ASCENDING, "ascending" },
+	{ GTK_SORT_ASCENDING,  "ascending" },
 	{ GTK_SORT_DESCENDING, "descending" },
 	{ 0, NULL }
 };
@@ -113,37 +113,37 @@ static EnumStringTable *exp_sort_order_table = sort_order_table;
 
 static EnumStringTable zoom_quality_table [] = {
 	{ GTH_ZOOM_QUALITY_HIGH, "high" },
-	{ GTH_ZOOM_QUALITY_LOW, "low" },
+	{ GTH_ZOOM_QUALITY_LOW,  "low" },
 	{ 0, NULL }
 };
 
 static EnumStringTable zoom_change_table [] = {
-	{ GTH_ZOOM_CHANGE_ACTUAL_SIZE, "actual_size" },
-	{ GTH_ZOOM_CHANGE_FIT, "fit" },
-	{ GTH_ZOOM_CHANGE_KEEP_PREV, "keep_prev" },
 	{ GTH_ZOOM_CHANGE_FIT_IF_LARGER, "fit_if_larger" },
+	{ GTH_ZOOM_CHANGE_ACTUAL_SIZE,   "actual_size" },
+	{ GTH_ZOOM_CHANGE_FIT,           "fit" },
+	{ GTH_ZOOM_CHANGE_KEEP_PREV,     "keep_prev" },
 	{ 0, NULL }
 };
 
 static EnumStringTable transp_type_table [] = {
-	{ GTH_TRANSP_TYPE_WHITE, "white" },
-	{ GTH_TRANSP_TYPE_BLACK, "black" },
+	{ GTH_TRANSP_TYPE_NONE,    "none" },
+	{ GTH_TRANSP_TYPE_WHITE,   "white" },
+	{ GTH_TRANSP_TYPE_BLACK,   "black" },
 	{ GTH_TRANSP_TYPE_CHECKED, "checked" },
-	{ GTH_TRANSP_TYPE_NONE, "none" },
 	{ 0, NULL }
 };
 
 static EnumStringTable check_type_table [] = {
-	{ GTH_CHECK_TYPE_LIGHT, "light" },
 	{ GTH_CHECK_TYPE_MIDTONE, "midtone" },
-	{ GTH_CHECK_TYPE_DARK, "dark" },
+	{ GTH_CHECK_TYPE_LIGHT,   "light" },
+	{ GTH_CHECK_TYPE_DARK,    "dark" },
 	{ 0, NULL }
 };
 
 static EnumStringTable check_size_table [] = {
-	{ GTH_CHECK_SIZE_SMALL, "small" },
 	{ GTH_CHECK_SIZE_MEDIUM, "medium" },
-	{ GTH_CHECK_SIZE_LARGE, "large" },
+	{ GTH_CHECK_SIZE_SMALL,  "small" },
+	{ GTH_CHECK_SIZE_LARGE,  "large" },
 	{ 0, NULL }
 };
 
@@ -154,42 +154,42 @@ static EnumStringTable slideshow_direction_table [] = {
 };
 
 static EnumStringTable toolbar_style_table [] = {
-	{ GTH_TOOLBAR_STYLE_SYSTEM, "system" },
-	{ GTH_TOOLBAR_STYLE_TEXT_BELOW, "text_below" },
+	{ GTH_TOOLBAR_STYLE_SYSTEM,      "system" },
+	{ GTH_TOOLBAR_STYLE_TEXT_BELOW,  "text_below" },
 	{ GTH_TOOLBAR_STYLE_TEXT_BESIDE, "text_beside" },
-	{ GTH_TOOLBAR_STYLE_ICONS, "icons" },
-	{ GTH_TOOLBAR_STYLE_TEXT, "text" },
+	{ GTH_TOOLBAR_STYLE_ICONS,       "icons" },
+	{ GTH_TOOLBAR_STYLE_TEXT,        "text" },
 	{ 0, NULL }
 };
 
 static EnumStringTable exporter_frame_style_table [] = {
-	{ GTH_FRAME_STYLE_NONE, "none" },
-	{ GTH_FRAME_STYLE_SIMPLE, "simple" },
 	{ GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW, "simple_with_shadow" },
-	{ GTH_FRAME_STYLE_SHADOW, "shadow" },
-	{ GTH_FRAME_STYLE_SLIDE, "slide" },
-	{ GTH_FRAME_STYLE_SHADOW_IN, "shadow_in" },
-	{ GTH_FRAME_STYLE_SHADOW_OUT, "shadow_out" },
+	{ GTH_FRAME_STYLE_NONE,               "none" },
+	{ GTH_FRAME_STYLE_SIMPLE,             "simple" },
+	{ GTH_FRAME_STYLE_SHADOW,             "shadow" },
+	{ GTH_FRAME_STYLE_SLIDE,              "slide" },
+	{ GTH_FRAME_STYLE_SHADOW_IN,          "shadow_in" },
+	{ GTH_FRAME_STYLE_SHADOW_OUT,         "shadow_out" },
 	{ 0, NULL }
 };
 
 static EnumStringTable convert_overwrite_mode_table [] = {
-	{ GTH_OVERWRITE_SKIP,      "skip" },
 	{ GTH_OVERWRITE_RENAME,    "rename" },
+	{ GTH_OVERWRITE_SKIP,      "skip" },
 	{ GTH_OVERWRITE_ASK,       "ask" },
 	{ GTH_OVERWRITE_OVERWRITE, "overwrite" },
 	{ 0, NULL }
 };
 
 static EnumStringTable view_as_table [] = {
-	{ GTH_VIEW_AS_LIST,       "list" },
 	{ GTH_VIEW_AS_THUMBNAILS, "thumbnails" },
+	{ GTH_VIEW_AS_LIST,       "list" },
 	{ 0, NULL }
 };
 
 static EnumStringTable preview_content_table [] = {
-	{ GTH_PREVIEW_CONTENT_IMAGE,     "image" },
 	{ GTH_PREVIEW_CONTENT_DATA,      "data" },
+	{ GTH_PREVIEW_CONTENT_IMAGE,     "image" },
 	{ GTH_PREVIEW_CONTENT_COMMENT,   "comment" },
 	{ 0, NULL }
 };
@@ -225,6 +225,9 @@ preferences_init (void)
         preferences.nautilus_theme = gconf_client_get_string (client, "/desktop/gnome/file_views/icon_theme", NULL);
 
         g_object_unref (client);
+
+	preferences.startup_location = NULL;
+	preferences_set_startup_location (eel_gconf_get_locale_string (PREF_STARTUP_LOCATION, NULL));
 }
 
 
@@ -240,6 +243,24 @@ preferences_release (void)
 	g_free (preferences.wallpaperAlign);
 
 	g_free (preferences.nautilus_theme);
+	g_free (preferences.startup_location);
+}
+
+
+void
+preferences_set_startup_location (const char *location)
+{
+	g_free (preferences.startup_location);
+	preferences.startup_location = NULL;
+	if (location != NULL)
+		preferences.startup_location = g_strdup (location);
+}
+
+
+const char *
+preferences_get_startup_location (void)
+{
+	return preferences.startup_location;
 }
 
 
@@ -425,14 +446,15 @@ pref_util_get_int_value (const char *hex)
 
 
 
-#define GET_SET_FUNC(func_name, pref_name, type) 			\
+#define GET_SET_FUNC(func_name, pref_name, type)			\
 type									\
 pref_get_##func_name (void)						\
 {									\
 	char *s_value;							\
 	char  i_value;							\
 									\
-	s_value = eel_gconf_get_string (pref_name);			\
+	s_value = eel_gconf_get_string (pref_name, 			\
+                                        func_name##_table[0].s_value);	\
 	i_value = get_enum_from_string (func_name##_table, s_value);	\
 	g_free (s_value);						\
 									\
@@ -477,8 +499,8 @@ pref_get_view_mode (void)
 	gboolean view_filenames;
 	gboolean view_comments;
 
-	view_filenames = eel_gconf_get_boolean (PREF_SHOW_FILENAMES);
-	view_comments = eel_gconf_get_boolean (PREF_SHOW_COMMENTS);
+	view_filenames = eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE);
+	view_comments = eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE);
 
 	if (view_filenames && view_comments)
 		return GTH_VIEW_MODE_ALL;

@@ -52,7 +52,11 @@
 #define GLADE_PRINT_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
 #define CANVAS_ZOOM 0.25
-#define DEFAULT_COMMENT_FONT "Sans, 12"
+#define DEF_COMMENT_FONT "Serif 12"
+#define DEF_PAPER_WIDTH  0.0
+#define DEF_PAPER_HEIGHT 0.0
+#define DEF_PAPER_SIZE   "A4"
+#define DEF_PAPER_ORIENT "R0"
 
 
 static const GnomePrintUnit print_units[] = {
@@ -1342,7 +1346,7 @@ print_image_dlg (GtkWindow   *parent,
 
 		gtk_widget_set_sensitive (data->print_comment_checkbutton, TRUE);
 
-		include_comment = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT);
+		include_comment = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT, FALSE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), include_comment);
 		pi->print_comment = include_comment;
 	} else {
@@ -1352,22 +1356,22 @@ print_image_dlg (GtkWindow   *parent,
 	}
 	gtk_widget_set_sensitive (data->comment_font_hbox, pi->print_comment);
 
-	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT);
+	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT);
 	if ((value != NULL) && (*value != 0))
 		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), value);
 	else
-		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEFAULT_COMMENT_FONT);
+		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEF_COMMENT_FONT);
 	g_free (value);
 
 	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
 
 	update_comment_font (data);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->width_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_WIDTH));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->height_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_HEIGHT));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->width_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_WIDTH, DEF_PAPER_WIDTH));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->height_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_HEIGHT, DEF_PAPER_HEIGHT));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->unit_optionmenu), pref_get_print_unit ());
 
-	value = eel_gconf_get_string (PREF_PRINT_PAPER_SIZE);
+	value = eel_gconf_get_string (PREF_PRINT_PAPER_SIZE, DEF_PAPER_SIZE);
 	if (strcmp (value, "Custom") == 0) 
 		update_custom_page_size (data);
 	else {
@@ -1392,7 +1396,7 @@ print_image_dlg (GtkWindow   *parent,
 
 	/**/
 
-	value = eel_gconf_get_string (PREF_PRINT_PAPER_ORIENTATION);
+	value = eel_gconf_get_string (PREF_PRINT_PAPER_ORIENTATION, DEF_PAPER_ORIENT);
 	gnome_print_config_set (pi->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, value);
 
 	if (strcmp (value, "R0") == 0)

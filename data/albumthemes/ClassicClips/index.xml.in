@@ -1,10 +1,15 @@
 <gthumb:set_var thumbnail_width=159 thumbnail_height=120/>
+<gthumb:set_var preview_width=400 preview_height=400/>
 
 <html>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="Generator" content="gThumb Image Viewer">
   <head>
-    <title><gthumb:title/></title>
+    <gthumb:if pages > 1 />
+      <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+    <gthumb:else/>
+      <title><gthumb:header/></title>
+    <gthumb:end/>
     <style type="text/css">
         a:link { 
 		font-weight: bold; 
@@ -21,6 +26,11 @@
 		text-decoration: none; 
 		color: gold 
 	}
+	span.copyright {
+		color: white;
+		font-size: small;
+		text-align: center;
+	}
     </style>
   </head>
   <body bgcolor="#4b4b4b">
@@ -28,6 +38,8 @@
 
 	<table border=0 cellspacing=0 width="100%">
 	  <tr>
+            <td width="83%">
+            </td>
 	    <gthumb:if pages == 1 />
 	      <td align="left" width="1%">
 	        &nbsp;
@@ -46,7 +58,7 @@
 	          <a href="<gthumb:page_link idx_relative=-1/>">
 		    <img src="prev.png" align="center" width="40" height="30" border="0"></a></td>
 	        <gthumb:end/>
-	      <td valign="center" align="center" width="15%" bgcolor="#969696">
+	      <td valign="center" align="center" width="10%">
 		<font style=bold color="white">
 		  <b><gthumb:page_idx/> / <gthumb:pages/></b>
 		</font>
@@ -59,15 +71,13 @@
 		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
 		<gthumb:end/>
 	    <gthumb:end/>
-	    <td align="right" width="83%">
+          <tr>
+	    <td colspan=4 align="center" width="100%">
 	      <font color="#FFFFFF" size=+2>
-	        <b><gthumb:title/></b>
+	        <b><gthumb:header/></b>
 	      </font>
 	    </td>
 	  </tr>
-	  <tr>
-	    <td colspan=4 width="100%" bgcolor="#969696">
-	      <img src="1.gif" height="1" border="0"></td></tr>
 	</table>
 
 	&nbsp;<BR>
@@ -77,54 +87,18 @@
 	</table>
 
 	&nbsp;<BR>
+	&nbsp;<BR>
 	
 	<!-- Navigation Bar -->
 
-	<table border=0 cellspacing=0 width="100%">
+	<table align=center border=0 cellspacing=0 width="90%">
 	  <tr>
-	    <td colspan=4 width="100%" bgcolor="#969696">
+	    <td bgcolor="#969696">
 	      <img src="1.gif" height="1" border="0"></td></tr>
 	  <tr>
-	    <gthumb:if pages == 1 />
-	      <td align="left" width="1%">
-	        &nbsp;
-	      </td>
-	      <td align="left" width="1%">
-	        &nbsp;
-	      </td>
-	      <td align="left" width="1%">
-	        &nbsp;
-	      </td>
-	    <gthumb:end/>
-	    <gthumb:if pages > 1 />
-	      <td align="left" width="1%">
-	        <gthumb:if page_idx == 1 />
-		  <img src="background.gif" width="40" height="30" border="0"></td>
-		<gthumb:end/>
-	        <gthumb:if page_idx > 1 />
-	          <a href="<gthumb:page_link idx_relative=-1/>">
-		    <img src="prev.png" align="center" width="40" height="30" border="0"></a></td>
-	        <gthumb:end/>
-	      <td valign="center" align="center" width="15%" bgcolor="#969696">
-		<font style=bold color="white">
-		  <b><gthumb:page_idx/> / <gthumb:pages/></b>
-		</font>
-	      </td>
-	      <td align="left" width="1%">
-		<gthumb:if page_idx == pages />
-		  <img src="background.gif" width="40" height="30" border="0"></td>
-		<gthumb:end/>
-		<gthumb:if page_idx < pages />
-		  <a href="<gthumb:page_link idx_relative=+1/>">
-		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
-		<gthumb:end/>
-	    <gthumb:end/>
-	    <td align="right" width="83%">
-	      <font color="#FFFFFF">
-	        <b><gthumb:date/></b>
-	      </font>
-	    </td>
-	  </tr>
+	    <td align="center">
+	      &nbsp;<BR>
+              <span class=copyright><gthumb:footer/></span></td></tr>
 	</table>
   </body>
 </html>

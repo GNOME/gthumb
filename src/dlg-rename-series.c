@@ -441,15 +441,15 @@ dlg_rename_series (GThumbWindow *window)
 
 	/**/
 
-	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE);
+	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->rs_template_entry), svalue);
 	g_free (svalue);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->rs_sort_optionmenu), sort_method_to_idx [pref_get_rename_sort_order ()]);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
 
 	update_list (data);
 

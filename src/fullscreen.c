@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -970,7 +970,7 @@ fullscreen_start (FullScreen   *fullscreen,
 					      FALSE),
 			     GDK_NONE);
 
-	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND))
+	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
 	gtk_widget_reparent (window->viewer, fullscreen->window); 
 
@@ -1033,7 +1033,7 @@ fullscreen_stop (FullScreen *fullscreen)
 	if (fullscreen->mouse_hide_id)
 		g_source_remove (fullscreen->mouse_hide_id);
 
-	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND))
+	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
 
 	wmspec_change_state (FALSE,
@@ -1065,7 +1065,7 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	/* stop the slideshow if the user wants so. */
 
-	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN))
+	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
 		window_stop_slideshow (window);
 
 	gtk_widget_reparent (fullscreen->viewer, window->viewer_container);

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ apply_cb (GtkWidget  *widget,
 	eel_gconf_set_boolean (PREF_GO_TO_LAST_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_last_location)));
 	eel_gconf_set_boolean (PREF_USE_STARTUP_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_use_startup)));
 
-	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION)) {
+	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
 		char *temp;
 		char *text;
 		char *location;
@@ -126,6 +126,7 @@ apply_cb (GtkWidget  *widget,
 		location = g_strconcat ("file://", temp, NULL);
 
 		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
+		preferences_set_startup_location (location);
 
 		g_free (temp);
 		g_free (text);
@@ -455,19 +456,19 @@ dlg_preferences (GThumbWindow *window)
 	
 	/* * general */
 
-	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION))
+	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_use_startup), TRUE);
-	else if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION))
+	else if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE))
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_last_location), TRUE);
 	else 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_current_location), TRUE);
 	
-	if (! eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION)) {
+	if (! eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
 		gtk_widget_set_sensitive (data->file_entry, FALSE);
 		gtk_widget_set_sensitive (data->btn_set_to_current, FALSE);
 	}
 
-	startup_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
+	startup_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION, NULL);
 
 	if ((startup_location != NULL)
 	    && pref_util_location_is_file (startup_location)) 
@@ -475,7 +476,7 @@ dlg_preferences (GThumbWindow *window)
 
 	g_free (startup_location);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_confirm_del), eel_gconf_get_boolean (PREF_CONFIRM_DELETION));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_confirm_del), eel_gconf_get_boolean (PREF_CONFIRM_DELETION, TRUE));
 
 	gtk_container_add (GTK_CONTAINER (data->radio_layout1),
 			   _gtk_image_new_from_xpm_data (layout1_xpm));
@@ -489,7 +490,7 @@ dlg_preferences (GThumbWindow *window)
 
 	/* ** layout */
 
-	layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT);
+	layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 
 	if (layout_type == 0)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_layout1), TRUE);
@@ -507,14 +508,14 @@ dlg_preferences (GThumbWindow *window)
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_list_radiobutton), TRUE);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	/* FIXME
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden), eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden), eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
 	*/
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE)));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95)));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_click_policy), pref_get_click_policy ());
 
 	/* * viewer */
@@ -535,9 +536,9 @@ dlg_preferences (GThumbWindow *window)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_reverse), TRUE);
 		
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_ss_delay),
-				   (gfloat) eel_gconf_get_integer (PREF_SLIDESHOW_DELAY));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fullscreen), eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN));
+				   (gfloat) eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, 4));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_wrap_around), eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ss_fullscreen), eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE));
 
 	/* Set the signals handlers. */
 

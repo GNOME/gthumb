@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -376,7 +376,7 @@ prepare_app ()
 		HideSidebar = TRUE;
 
 		image_folder = remove_level_from_path (ImageToDisplay);
-		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, image_folder);
+		preferences_set_startup_location (image_folder);
 		g_free (image_folder);
 
 		current_window = window_new ();
@@ -397,7 +397,7 @@ prepare_app ()
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 		g_free (catalog_path);
 
-		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, catalog_uri);
+		preferences_set_startup_location (catalog_uri);
 		g_free (catalog_uri);
 
 		ViewFirstImage = TRUE;
@@ -412,7 +412,7 @@ prepare_app ()
 
 	for (i = 0; i < n_dir_urls; i++) {
 		/* Go to the specified directory. */
-		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, dir_urls[i]);
+		preferences_set_startup_location (dir_urls[i]);
 
 		current_window = window_new ();
 		gtk_widget_show (current_window->app);
@@ -491,8 +491,8 @@ all_windows_update_browser_options ()
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow  *window = scan->data;
 		
-		window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
-		gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE));
+		window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE);
+		gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95));
 		gth_file_view_set_view_mode (window->file_list->view,
 					     pref_get_view_mode ());
 		window_update_file_list (window);
@@ -973,7 +973,7 @@ load_session (void)
 		location = gnome_config_get_string (key);
 		g_free (key);
 
-		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
+		preferences_set_startup_location (location);
 
 		window = window_new ();
 		gtk_widget_show (window->app);

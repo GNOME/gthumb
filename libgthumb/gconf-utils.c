@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
- *  File-Roller
+ *  gThumb
  *
  *  Copyright (C) 2001, 2002 The Free Software Foundation, Inc.
  *
@@ -42,6 +42,8 @@
    Authors: Ramiro Estrugo <ramiro@eazel.com>
 */
 
+/* Modified by Paolo Bacchilega <paolo.bacch@tin.it> for gThumb. */
+
 #include <config.h>
 #include <string.h>
 #include <gnome.h>
@@ -49,6 +51,7 @@
 #include <gconf/gconf.h>
 #include "gconf-utils.h"
 #include "gtk-utils.h"
+#include "gthumb-error.h"
 
 static GConfClient *global_gconf_client = NULL;
 
@@ -95,7 +98,7 @@ eel_gconf_handle_error (GError **error)
 	g_return_val_if_fail (error != NULL, FALSE);
 
 	if (*error != NULL) {
-		g_warning (_("GConf error:\n  %s"), (*error)->message);
+		g_warning ("GConf error:\n  %s", (*error)->message);
 		if (! shown_dialog) {
 			shown_dialog = TRUE;
 			_gtk_error_dialog_run (NULL, 
@@ -111,6 +114,24 @@ eel_gconf_handle_error (GError **error)
 	}
 
 	return FALSE;
+}
+
+
+static gboolean
+check_type (const char      *key, 
+	    GConfValue      *val, 
+	    GConfValueType   t, 
+	    GError         **err)
+{
+	if (val->type != t) {
+		g_set_error (err,
+			     GTHUMB_ERROR,
+			     errno,
+			     "Type mismatch for key %s",
+			     key);
+		return FALSE;
+	} else
+		return TRUE;
 }
 
 
@@ -132,22 +153,30 @@ eel_gconf_set_boolean (const char *key,
 
 
 gboolean
-eel_gconf_get_boolean (const char *key)
+eel_gconf_get_boolean (const char *key,
+		       gboolean    def)
 {
-	gboolean result;
+	GError      *error = NULL;
+	gboolean     result = def;
 	GConfClient *client;
-	GError *error = NULL;
-	
-	g_return_val_if_fail (key != NULL, FALSE);
+	GConfValue  *val;
+
+	g_return_val_if_fail (key != NULL, def);
 	
 	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (client != NULL, def);
 	
-	result = gconf_client_get_bool (client, key, &error);
-	
-	if (eel_gconf_handle_error (&error)) {
-		result = FALSE;
-	}
+	val = gconf_client_get (client, key, &error);
+
+	if (val != NULL) {
+		if (check_type (key, val, GCONF_VALUE_BOOL, &error))
+			result = gconf_value_get_bool (val);
+		else
+			eel_gconf_handle_error (&error);
+		gconf_value_free (val);
+
+	} else if (error != NULL)
+		eel_gconf_handle_error (&error);
 	
 	return result;
 }
@@ -155,10 +184,10 @@ eel_gconf_get_boolean (const char *key)
 
 void
 eel_gconf_set_integer (const char *key,
-		       int int_value)
+		       int         int_value)
 {
 	GConfClient *client;
-	GError *error = NULL;
+	GError      *error = NULL;
 
 	g_return_if_fail (key != NULL);
 
@@ -171,45 +200,31 @@ eel_gconf_set_integer (const char *key,
 
 
 int
-eel_gconf_get_integer (const char *key)
+eel_gconf_get_integer (const char *key,
+		       int         def)
 {
-	int result;
+	GError      *error = NULL;
+	int          result = def;
 	GConfClient *client;
-	GError *error = NULL;
-	
-	g_return_val_if_fail (key != NULL, 0);
+	GConfValue  *val;
+
+	g_return_val_if_fail (key != NULL, def);
 	
 	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, 0);
+	g_return_val_if_fail (client != NULL, def);
 	
-	result = gconf_client_get_int (client, key, &error);
+	val = gconf_client_get (client, key, &error);
 
-	if (eel_gconf_handle_error (&error)) {
-		result = 0;
-	}
+	if (val != NULL) {
+		if (check_type (key, val, GCONF_VALUE_INT, &error))
+			result = gconf_value_get_int (val);
+		else
+			eel_gconf_handle_error (&error);
+		gconf_value_free (val);
 
-	return result;
-}
-
-
-float
-eel_gconf_get_float (const char *key)
-{
-	float result;
-	GConfClient *client;
-	GError *error = NULL;
+	} else if (error != NULL)
+		eel_gconf_handle_error (&error);
 	
-	g_return_val_if_fail (key != NULL, 0);
-	
-	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, 0);
-	
-	result = gconf_client_get_float (client, key, &error);
-
-	if (eel_gconf_handle_error (&error)) {
-		result = 0.0;
-	}
-
 	return result;
 }
 
@@ -231,9 +246,39 @@ eel_gconf_set_float (const char *key,
 }
 
 
+float
+eel_gconf_get_float (const char *key,
+		     float       def)
+{
+	GError      *error = NULL;
+	float        result = def;
+	GConfClient *client;
+	GConfValue  *val;
+
+	g_return_val_if_fail (key != NULL, def);
+	
+	client = eel_gconf_client_get_global ();
+	g_return_val_if_fail (client != NULL, def);
+	
+	val = gconf_client_get (client, key, &error);
+
+	if (val != NULL) {
+		if (check_type (key, val, GCONF_VALUE_FLOAT, &error))
+			result = gconf_value_get_float (val);
+		else
+			eel_gconf_handle_error (&error);
+		gconf_value_free (val);
+
+	} else if (error != NULL)
+		eel_gconf_handle_error (&error);
+	
+	return result;
+}
+
+
 void
 eel_gconf_set_string (const char *key,
-			   const char *string_value)
+		      const char *string_value)
 {
 	GConfClient *client;
 	GError *error = NULL;
@@ -249,22 +294,33 @@ eel_gconf_set_string (const char *key,
 
 
 char *
-eel_gconf_get_string (const char *key)
+eel_gconf_get_string (const char *key,
+		      const char *def)
 {
-	char *result;
+	GError      *error = NULL;
+	char        *result;
 	GConfClient *client;
-	GError *error = NULL;
-	
-	g_return_val_if_fail (key != NULL, NULL);
-	
+	char        *val;
+
+	if (def != NULL)
+		result = g_strdup (def);
+	else
+		result = NULL;
+
+	g_return_val_if_fail (key != NULL, result);	
+
 	client = eel_gconf_client_get_global ();
-	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (client != NULL, result);
 	
-	result = gconf_client_get_string (client, key, &error);
-	
-	if (eel_gconf_handle_error (&error)) {
-		result = g_strdup ("");
-	}
+	val = gconf_client_get_string (client, key, &error);
+
+	if (val != NULL) {
+		g_return_val_if_fail (error == NULL, result);
+		g_free (result);
+		result = g_strdup (val);
+
+	} else if (error != NULL)
+		eel_gconf_handle_error (&error);
 	
 	return result;
 }
@@ -286,12 +342,13 @@ eel_gconf_set_locale_string (const char *key,
 
 
 char *
-eel_gconf_get_locale_string (const char *key)
+eel_gconf_get_locale_string (const char *key,
+			     const char *def)
 {
 	char *utf8;
 	char *result;
 
-	utf8 = eel_gconf_get_string (key);
+	utf8 = eel_gconf_get_string (key, def);
 
 	if (utf8 == NULL)
 		return NULL;

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -43,6 +43,7 @@
 #define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
 #define MAX_NAME_LEN 1024
+#define DEF_TYPE "jpeg"
 
 
 typedef struct {
@@ -487,7 +488,7 @@ dlg_convert (GThumbWindow *window)
 
 	/* Set default values. */
 
-	image_type = eel_gconf_get_string (PREF_CONVERT_IMAGE_TYPE);
+	image_type = eel_gconf_get_string (PREF_CONVERT_IMAGE_TYPE, DEF_TYPE);
 
 	if (image_type == NULL)
 		button = data->conv_jpeg_radiobutton;
@@ -510,7 +511,7 @@ dlg_convert (GThumbWindow *window)
 				     pref_get_convert_overwrite_mode ());
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->conv_remove_orig_checkbutton), 
-				      eel_gconf_get_boolean (PREF_CONVERT_REMOVE_ORIGINAL));
+				      eel_gconf_get_boolean (PREF_CONVERT_REMOVE_ORIGINAL, FALSE));
 
 	/* Set the signals handlers. */
 	

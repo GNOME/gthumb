@@ -70,6 +70,7 @@
 #include "gth-folder-selection-dialog.h"
 
 #define MAX_NAME_LEN 1024
+#define DEF_CONFIRM_DEL TRUE
 
 typedef enum {
 	WALLPAPER_ALIGN_TILED     = 0,
@@ -102,7 +103,7 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 					NULL);	
 
 	if (location != NULL) {
-		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
+		preferences_set_startup_location (location);
 		g_free (location);
 	}
 
@@ -773,7 +774,7 @@ image_delete_from_catalog_command_impl (BonoboUIComponent *uic,
 	if (window->image_path == NULL)
 		return;
 
-	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION)) {
+	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION, DEF_CONFIRM_DEL)) {
 		list = g_list_prepend (NULL, g_strdup (window->image_path));
 		real_remove_from_catalog (window, list);
 		/* the list is deallocated in real_remove_from_catalog. */
@@ -817,7 +818,7 @@ edit_remove_from_catalog_command_impl (BonoboUIComponent *uic,
 	GtkWidget    *dialog;
 	int           r;
 
-	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION)) {
+	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION, DEF_CONFIRM_DEL)) {
 		remove_selection_from_catalog (window);
 		return;
 	}
@@ -1772,7 +1773,7 @@ catalog_delete (GThumbWindow *window,
 
 	/* Always ask before deleting folders. */
 
-	if (! path_is_dir (catalog_path) && ! eel_gconf_get_boolean (PREF_CONFIRM_DELETION)) {
+	if (! path_is_dir (catalog_path) && ! eel_gconf_get_boolean (PREF_CONFIRM_DELETION, DEF_CONFIRM_DEL)) {
 		real_catalog_delete (window);
 		return;
 	}

@@ -598,7 +598,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		
 		/* Save the thumbnail if necessary. */
 		if (! priv->from_cache
-		    && eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS))
+		    && eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS, TRUE))
 			thumb_loader_save_to_cache (tl);
 		
 		/* Scale if the user wants a different size. */

@@ -353,7 +353,7 @@ real_files_delete__continue (GnomeVFSResult result,
 	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
 		int r = GTK_RESPONSE_YES;
 
-		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH)) {
+		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH, TRUE)) {
 			GtkWidget *d;
 
 			d = _gtk_yesno_dialog_with_checkbutton_new (
@@ -407,7 +407,7 @@ dlg_file_delete__confirm (GThumbWindow *window,
 	GtkWidget *dialog;
 	int        result;
 
-	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION)) {
+	if (! eel_gconf_get_boolean (PREF_CONFIRM_DELETION, TRUE)) {
 		real_files_delete (window, list);
 		return TRUE;
 	}
@@ -1183,6 +1183,7 @@ typedef struct {
 	GtkWidget           *progress_dialog;
 	GtkWidget           *progress_progressbar;
 	GtkWidget           *progress_info;
+	GtkWidget           *progress_cancel;
 
 	guint                timeout_id;
 
@@ -1666,6 +1667,32 @@ copy_next_file (FileCopyData *fcdata)
 }
 
 
+static void
+dlg_files_copy__interrupt (FileCopyData *fcdata)
+{
+	if (fcdata->handle != NULL)
+		gnome_vfs_async_cancel (fcdata->handle);
+	files_copy__done (fcdata);
+}
+
+
+static void
+dlg_files_copy__interrupt_cb1 (GtkWidget    *caller, 
+			       GdkEvent     *event, 
+			       FileCopyData *fcdata)
+{
+	dlg_files_copy__interrupt (fcdata);
+}
+
+
+static void
+dlg_files_copy__interrupt_cb2 (GtkWidget    *caller, 
+			       FileCopyData *fcdata)
+{
+	dlg_files_copy__interrupt (fcdata);
+}
+
+
 void
 dlg_files_copy (GThumbWindow   *window,
 		GList          *file_list,
@@ -1676,7 +1703,7 @@ dlg_files_copy (GThumbWindow   *window,
 		FileOpDoneFunc  done_func,
 		gpointer        done_data)
 {
-	FileCopyData              *fcdata;
+	FileCopyData *fcdata;
 
 	if (! path_is_dir (dest_path))
 		return;
@@ -1723,6 +1750,16 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->progress_dialog = glade_xml_get_widget (fcdata->gui, "progress_dialog");
 	fcdata->progress_progressbar = glade_xml_get_widget (fcdata->gui, "progress_progressbar");
 	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
+	fcdata->progress_cancel = glade_xml_get_widget (fcdata->gui, "progress_cancel");
+
+	g_signal_connect (G_OBJECT (fcdata->progress_dialog), 
+			  "delete_event",
+			  G_CALLBACK (dlg_files_copy__interrupt_cb1),
+			  fcdata);
+	g_signal_connect (G_OBJECT (fcdata->progress_cancel), 
+			  "clicked",
+			  G_CALLBACK (dlg_files_copy__interrupt_cb2),
+			  fcdata);
 
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
 				      GTK_WINDOW (fcdata->window->app));
@@ -1792,9 +1829,11 @@ typedef struct {
 	GtkWidget           *progress_dialog;
 	GtkWidget           *progress_progressbar;
 	GtkWidget           *progress_info;
+	GtkWidget           *progress_cancel;
 
 	GThumbWindow        *window;
 	GList               *file_list;
+	GList               *deleted_file_list;
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
 	GnomeVFSResult       result;
@@ -1818,6 +1857,7 @@ file_delete_data_free (FileDeleteData *fddata)
 
 	gtk_widget_destroy (fddata->progress_dialog);
 	g_object_unref (fddata->gui);
+	path_list_free (fddata->deleted_file_list);
 	path_list_free (fddata->file_list);
 	g_free (fddata);
 }
@@ -1842,10 +1882,9 @@ file_delete__display_progress_dialog (gpointer data)
 static void
 files_delete__done (FileDeleteData *fddata)
 {
-	if (fddata->result == GNOME_VFS_OK) {
-		all_windows_notify_files_deleted (fddata->file_list);
-		all_windows_add_monitor ();
-	}
+	if (fddata->result == GNOME_VFS_OK) 
+		all_windows_notify_files_deleted (fddata->deleted_file_list);
+	all_windows_add_monitor ();
 	
 	if (fddata->done_func != NULL)
 		(*fddata->done_func) (fddata->result, fddata->done_data);
@@ -1874,6 +1913,12 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 					   info->file_index,
 					   info->files_total);
 
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_FILECOMPLETED) {
+		char *local_path = gnome_vfs_get_local_path_from_uri (info->source_name);
+		if (local_path != NULL)
+			fddata->deleted_file_list = g_list_prepend (fddata->deleted_file_list,
+								    local_path);
+
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 		files_delete__done (fddata);
 		return TRUE;
@@ -1890,6 +1935,32 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	}
 
 	return TRUE;
+}
+
+
+static void
+dlg_files_delete__interrupt (FileDeleteData *fcdata)
+{
+	if (fcdata->handle != NULL)
+		gnome_vfs_async_cancel (fcdata->handle);
+	files_delete__done (fcdata);
+}
+
+
+static void
+dlg_files_delete__interrupt_cb1 (GtkWidget      *caller, 
+				 GdkEvent       *event, 
+				 FileDeleteData *fcdata)
+{
+	dlg_files_delete__interrupt (fcdata);
+}
+
+
+static void
+dlg_files_delete__interrupt_cb2 (GtkWidget      *caller, 
+				 FileDeleteData *fcdata)
+{
+	dlg_files_delete__interrupt (fcdata);
 }
 
 
@@ -1930,6 +2001,16 @@ dlg_files_delete (GThumbWindow   *window,
 	fddata->progress_dialog = glade_xml_get_widget (fddata->gui, "progress_dialog");
 	fddata->progress_progressbar = glade_xml_get_widget (fddata->gui, "progress_progressbar");
 	fddata->progress_info = glade_xml_get_widget (fddata->gui, "progress_info");
+	fddata->progress_cancel = glade_xml_get_widget (fddata->gui, "progress_cancel");
+
+	g_signal_connect (G_OBJECT (fddata->progress_dialog), 
+			  "delete_event",
+			  G_CALLBACK (dlg_files_delete__interrupt_cb1),
+			  fddata);
+	g_signal_connect (G_OBJECT (fddata->progress_cancel), 
+			  "clicked",
+			  G_CALLBACK (dlg_files_delete__interrupt_cb2),
+			  fddata);
 	
 	gtk_window_set_transient_for (GTK_WINDOW (fddata->progress_dialog),
 				      GTK_WINDOW (fddata->window->app));
@@ -2002,6 +2083,7 @@ typedef struct {
 	GtkWidget           *progress_dialog;
 	GtkWidget           *progress_progressbar;
 	GtkWidget           *progress_info;
+	GtkWidget           *progress_cancel;
 
 	GnomeVFSAsyncHandle *handle;
 	GnomeVFSResult       result;
@@ -2146,6 +2228,32 @@ folder_copy__display_progress_dialog (gpointer data)
 
 
 static void
+folder_copy__interrupt (FolderCopyData *fcdata)
+{
+	if (fcdata->handle != NULL)
+		gnome_vfs_async_cancel (fcdata->handle);
+	folder_copy_data_free (fcdata);
+}
+
+
+static void
+folder_copy__interrupt_cb1 (GtkWidget     *caller, 
+			    GdkEvent       *event, 
+			    FolderCopyData *fcdata)
+{
+	folder_copy__interrupt (fcdata);
+}
+
+
+static void
+folder_copy__interrupt_cb2 (GtkWidget      *caller, 
+			    FolderCopyData *fcdata)
+{
+	folder_copy__interrupt (fcdata);
+}
+
+
+static void
 folder_copy (GThumbWindow   *window,
 	     const char     *src_path,
 	     const char     *dest_path,
@@ -2197,6 +2305,16 @@ folder_copy (GThumbWindow   *window,
 	fcdata->progress_dialog = glade_xml_get_widget (fcdata->gui, "progress_dialog");
 	fcdata->progress_progressbar = glade_xml_get_widget (fcdata->gui, "progress_progressbar");
 	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
+	fcdata->progress_cancel = glade_xml_get_widget (fcdata->gui, "progress_cancel");
+
+	g_signal_connect (G_OBJECT (fcdata->progress_dialog), 
+			  "delete_event",
+			  G_CALLBACK (folder_copy__interrupt_cb1),
+			  fcdata);
+	g_signal_connect (G_OBJECT (fcdata->progress_cancel), 
+			  "clicked",
+			  G_CALLBACK (folder_copy__interrupt_cb2),
+			  fcdata);
 	
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
 				      GTK_WINDOW (fcdata->window->app));

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -877,7 +877,7 @@ image_is_jpeg (const char *name)
 {
 	const char *result;
 
-	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE))
+	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
 		result = gnome_vfs_mime_type_from_name_or_default (name, NULL);
 	else 
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -147,7 +147,7 @@ gthumb_init ()
 	ensure_dir_exists (path, 0700);
 	g_free (path);
 
-	if (eel_gconf_get_boolean (PREF_MIGRATE_DIRECTORIES))
+	if (eel_gconf_get_boolean (PREF_MIGRATE_DIRECTORIES, TRUE))
 		migrate_to_new_directories ();
 
 	ensure_directories_exist ();

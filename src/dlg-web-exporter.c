@@ -166,16 +166,16 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_location (exporter, location);
 	catalog_web_exporter_set_index_file (exporter, index_file);
 
-	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
 	catalog_web_exporter_set_resize_images (exporter, 
-						eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES),
+						eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE),
 						idx_to_resize_width[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))],
 						idx_to_resize_height[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
 
-	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
+	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
 	
-	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
+	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE, FALSE));
 	catalog_web_exporter_set_header (exporter, header);
 	catalog_web_exporter_set_footer (exporter, footer);
 	catalog_web_exporter_set_style (exporter, theme);
@@ -336,47 +336,47 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION, NULL);
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
 				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
 	g_free (svalue);
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
 	g_free (svalue);
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
-	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE));
 
-	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
+	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE));
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH)));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH, 640)));
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4));
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu), sort_method_to_idx [pref_get_web_album_sort_order ()]);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE, FALSE));
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_HEADER);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_HEADER, "");
 	gtk_entry_set_text (GTK_ENTRY (data->wa_header_entry), svalue);
 	g_free (svalue);
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_FOOTER);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_FOOTER, "");
 	gtk_entry_set_text (GTK_ENTRY (data->wa_footer_entry), svalue);
 	g_free (svalue);
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, "Clean");
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
 	g_free (svalue);
 
-	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION));
-	catalog_web_exporter_set_image_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_IMAGE_CAPTION));
+	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION, 0));
+	catalog_web_exporter_set_image_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_IMAGE_CAPTION, 0));
 
 	/* Signals. */
 
@@ -957,7 +957,7 @@ show_caption_dialog_cb (GtkWidget       *widget,
 		gconf_key = PREF_WEB_ALBUM_INDEX_CAPTION;
 	 else 
 		gconf_key = PREF_WEB_ALBUM_IMAGE_CAPTION;
-	caption = eel_gconf_get_integer (gconf_key);
+	caption = eel_gconf_get_integer (gconf_key, 0);
 
 	if (caption & GTH_CAPTION_COMMENT)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton), TRUE);

@@ -46,6 +46,13 @@
 
 #define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
 #define ROW_SPACING         5
+#define DEF_FILE_TYPE       "jpeg"
+#define DEF_NAME_TEMPLATE   "###"
+#define DEF_ROWS            3
+#define DEF_COLS            4
+#define DEF_PAGE_WIDTH      400
+#define DEF_PAGE_HEIGHT     400
+#define DEF_THUMB_SIZE      128
 
 
 typedef struct {
@@ -204,48 +211,48 @@ export (GtkWidget  *widget,
 	catalog_png_exporter_set_directory (exporter, dir);
 	g_free (dir);
 
-	file_type = eel_gconf_get_string (PREF_EXP_FILE_TYPE);
+	file_type = eel_gconf_get_string (PREF_EXP_FILE_TYPE, DEF_FILE_TYPE);
 	catalog_png_exporter_set_file_type (exporter, file_type);
 	g_free (file_type);
 
-	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE);
+	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	catalog_png_exporter_set_name_template (exporter, template);
 	g_free (template);
 
-	catalog_png_exporter_set_start_at (exporter, eel_gconf_get_integer (PREF_EXP_START_FROM));
+	catalog_png_exporter_set_start_at (exporter, eel_gconf_get_integer (PREF_EXP_START_FROM, 1));
 
 	/* Page options. */
 
-	if (eel_gconf_get_boolean (PREF_EXP_PAGE_SIZE_USE_RC))
-		catalog_png_exporter_set_page_size_row_col (exporter, eel_gconf_get_integer (PREF_EXP_PAGE_ROWS), eel_gconf_get_integer (PREF_EXP_PAGE_COLS));
+	if (eel_gconf_get_boolean (PREF_EXP_PAGE_SIZE_USE_RC, TRUE))
+		catalog_png_exporter_set_page_size_row_col (exporter, eel_gconf_get_integer (PREF_EXP_PAGE_ROWS, DEF_ROWS), eel_gconf_get_integer (PREF_EXP_PAGE_COLS, DEF_COLS));
 	else
-		catalog_png_exporter_set_page_size (exporter, eel_gconf_get_integer (PREF_EXP_PAGE_WIDTH), eel_gconf_get_integer (PREF_EXP_PAGE_HEIGHT));
-	catalog_png_exporter_all_pages_same_size (exporter, eel_gconf_get_boolean (PREF_EXP_PAGE_SAME_SIZE));
+		catalog_png_exporter_set_page_size (exporter, eel_gconf_get_integer (PREF_EXP_PAGE_WIDTH, DEF_PAGE_WIDTH), eel_gconf_get_integer (PREF_EXP_PAGE_HEIGHT, DEF_PAGE_HEIGHT));
+	catalog_png_exporter_all_pages_same_size (exporter, eel_gconf_get_boolean (PREF_EXP_PAGE_SAME_SIZE, TRUE));
 
-	color = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR);
+	color = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR, "#62757b");
 	bg_color = pref_util_get_int_value (color);
 	g_free (color);
 
-	color = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1);
+	color = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1, "#e0d3c0");
 	hgrad1 = pref_util_get_int_value (color);
 	g_free (color);
 
-	color = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2);
+	color = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2, "#b1c3ad");
 	hgrad2 = pref_util_get_int_value (color);
 	g_free (color);
 
-	color = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1);
+	color = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1, "#e8e8ea");
 	vgrad1 = pref_util_get_int_value (color);
 	g_free (color);
 
-	color = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2);
+	color = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2, "#bad8d8");
 	vgrad2 = pref_util_get_int_value (color);
 	g_free (color);
 
 	catalog_png_exporter_set_page_color (exporter,
-					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_SOLID_COLOR),
-					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_HGRADIENT),
-					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_VGRADIENT),
+					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_SOLID_COLOR, FALSE),
+					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_HGRADIENT, TRUE),
+					     eel_gconf_get_boolean (PREF_EXP_PAGE_USE_VGRADIENT, TRUE),
 					     bg_color,
 					     hgrad1, hgrad2,
 					     vgrad1, vgrad2);
@@ -253,68 +260,68 @@ export (GtkWidget  *widget,
 	catalog_png_exporter_set_sort_method (exporter, pref_get_exp_arrange_type ());
 	catalog_png_exporter_set_sort_type (exporter, pref_get_exp_sort_order ());
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_TEXT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_TEXT, "");
 	if (s != NULL && strcmp (s, "") == 0)
 		catalog_png_exporter_set_header (exporter, NULL);
 	else
 		catalog_png_exporter_set_header (exporter, s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_FONT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_FONT, "Arial 22");
 	catalog_png_exporter_set_header_font (exporter, s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_COLOR);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_COLOR, "#d5504a");
 	catalog_png_exporter_set_header_color (exporter, s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_TEXT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_TEXT, "");
 	if (s != NULL && strcmp (s, "") == 0)
 		catalog_png_exporter_set_footer (exporter, NULL);
 	else
 		catalog_png_exporter_set_footer (exporter, s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_FONT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_FONT, "Arial Bold Italic 12");
 	catalog_png_exporter_set_footer_font (exporter, s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_COLOR);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_COLOR, "#394083");
 	catalog_png_exporter_set_footer_color (exporter, s);
 	g_free (s);
 
 	/* Thumbnails options. */
 
 	caption = 0;
-	if (eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT))
+	if (eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT, FALSE))
 		caption |= GTH_CAPTION_COMMENT;
-	if (eel_gconf_get_boolean (PREF_EXP_SHOW_PATH))
+	if (eel_gconf_get_boolean (PREF_EXP_SHOW_PATH, FALSE))
 		caption |= GTH_CAPTION_FILE_PATH;
-	if (eel_gconf_get_boolean (PREF_EXP_SHOW_NAME))
+	if (eel_gconf_get_boolean (PREF_EXP_SHOW_NAME, FALSE))
 		caption |= GTH_CAPTION_FILE_NAME;
-	if (eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE))
+	if (eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE, FALSE))
 		caption |= GTH_CAPTION_FILE_SIZE;
-	if (eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM))
+	if (eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM, FALSE))
 		caption |= GTH_CAPTION_IMAGE_DIM;
 
 	catalog_png_exporter_set_caption (exporter, caption);
 	catalog_png_exporter_set_frame_style (exporter, pref_get_exporter_frame_style ());
 
-	color = eel_gconf_get_string (PREF_EXP_FRAME_COLOR);
+	color = eel_gconf_get_string (PREF_EXP_FRAME_COLOR, "#94d6cd");
 	catalog_png_exporter_set_frame_color (exporter, color);
 	g_free (color);
 	
-	catalog_png_exporter_set_thumb_size (exporter, eel_gconf_get_integer (PREF_EXP_THUMB_SIZE), eel_gconf_get_integer (PREF_EXP_THUMB_SIZE));
+	catalog_png_exporter_set_thumb_size (exporter, eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE), eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE));
 
-	color = eel_gconf_get_string (PREF_EXP_TEXT_COLOR);
+	color = eel_gconf_get_string (PREF_EXP_TEXT_COLOR, "#414141");
 	catalog_png_exporter_set_caption_color (exporter, color);
 	g_free (color);
 
-	s = eel_gconf_get_string (PREF_EXP_TEXT_FONT);
+	s = eel_gconf_get_string (PREF_EXP_TEXT_FONT, "Arial Bold 12");
 	catalog_png_exporter_set_caption_font (exporter, s);
 	g_free (s);
 	
-	catalog_png_exporter_write_image_map (exporter, eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP));
+	catalog_png_exporter_write_image_map (exporter, eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP, FALSE));
 
 	/* Export. */
 
@@ -485,7 +492,7 @@ dlg_exporter (GThumbWindow *window)
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
 				    (window->dir_list->path == NULL) ? g_get_home_dir() : window->dir_list->path);
 
-	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE);
+	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	if (template != NULL)
 		_gtk_entry_set_locale_text (GTK_ENTRY (data->template_entry), 
 					    template);
@@ -494,13 +501,13 @@ dlg_exporter (GThumbWindow *window)
 	g_free (template);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->start_at_spinbutton),
-				   eel_gconf_get_integer (PREF_EXP_START_FROM));
+				   eel_gconf_get_integer (PREF_EXP_START_FROM, 1));
 				    
 	update_example_labels (data);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_map_checkbutton), eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_map_checkbutton), eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP, FALSE));
 
-	s = eel_gconf_get_string (PREF_EXP_FILE_TYPE);
+	s = eel_gconf_get_string (PREF_EXP_FILE_TYPE, DEF_FILE_TYPE);
 	if (s != NULL) {
 		if (strcmp (s, "png") == 0)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (data->file_type_option_menu), 0);
@@ -509,12 +516,12 @@ dlg_exporter (GThumbWindow *window)
 		g_free (s);
 	}
 	
-	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_TEXT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_TEXT, "");
 	if (s != NULL)
 		gtk_entry_set_text (GTK_ENTRY (data->header_entry), s);
 	g_free (s);
 
-	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_TEXT);
+	s = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_TEXT, "");
 	if (s != NULL)
 		gtk_entry_set_text (GTK_ENTRY (data->footer_entry), s);
 	g_free (s);
@@ -1598,27 +1605,27 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	/* background color */
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR, "#62757b");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1, "#e0d3c0");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2, "#b1c3ad");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1, "#e8e8ea");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2, "#bad8d8");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), r, g, b, 65535);
 	g_free (v);
@@ -1630,18 +1637,18 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	/* page size */
 
-	sprintf (s, "%d", eel_gconf_get_integer (PREF_EXP_PAGE_WIDTH));
+	sprintf (s, "%d", eel_gconf_get_integer (PREF_EXP_PAGE_WIDTH, DEF_PAGE_WIDTH));
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->width_entry), s);
 
-	sprintf (s, "%d", eel_gconf_get_integer (PREF_EXP_PAGE_HEIGHT));
+	sprintf (s, "%d", eel_gconf_get_integer (PREF_EXP_PAGE_HEIGHT, DEF_PAGE_HEIGHT));
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->height_entry), s);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rows_spinbutton), 
-				   eel_gconf_get_integer (PREF_EXP_PAGE_ROWS));
+				   eel_gconf_get_integer (PREF_EXP_PAGE_ROWS, DEF_ROWS));
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->cols_spinbutton), 
-				   eel_gconf_get_integer (PREF_EXP_PAGE_COLS));
+				   eel_gconf_get_integer (PREF_EXP_PAGE_COLS, DEF_COLS));
 
-	use_rc = eel_gconf_get_boolean (PREF_EXP_PAGE_SIZE_USE_RC);
+	use_rc = eel_gconf_get_boolean (PREF_EXP_PAGE_SIZE_USE_RC, TRUE);
 	if (use_rc)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->row_col_size_radiobutton), TRUE);
 	else
@@ -1649,11 +1656,11 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	gtk_widget_set_sensitive (data->rows_cols_table, use_rc);
 	gtk_widget_set_sensitive (data->pixel_hbox, ! use_rc);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->same_size_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_SAME_SIZE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->same_size_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_SAME_SIZE, TRUE));
 
 	/**/
 
-	if (eel_gconf_get_boolean (PREF_EXP_PAGE_USE_SOLID_COLOR)) {
+	if (eel_gconf_get_boolean (PREF_EXP_PAGE_USE_SOLID_COLOR, FALSE)) {
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->solid_color_radiobutton), TRUE);
 		use_solid_color_cb (data->solid_color_radiobutton, data);
 	} else {
@@ -1661,28 +1668,28 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 		use_gradient_cb (data->gradient_radiobutton, data);
 	}
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->hgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_HGRADIENT));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->vgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_VGRADIENT));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->hgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_HGRADIENT, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->vgrad_checkbutton), eel_gconf_get_boolean (PREF_EXP_PAGE_USE_VGRADIENT, TRUE));
 
 	/* * Thumbnails */
 
 	/* ** Caption */
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->comment_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->comment_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT, FALSE));
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filepath_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_PATH));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filepath_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_PATH, FALSE));
 	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filename_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_NAME));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filename_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_NAME, FALSE));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filesize_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->filesize_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE, FALSE));
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_dim_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_dim_checkbutton), eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM, FALSE));
 
 	/* ** Frame */
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->frame_style_optionmenu), get_idx_from_style (pref_get_exporter_frame_style ()));
 
-	v = eel_gconf_get_string (PREF_EXP_FRAME_COLOR);
+	v = eel_gconf_get_string (PREF_EXP_FRAME_COLOR, "#94d6cd");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), r, g, b, 65535);
 	g_free (v);
@@ -1693,33 +1700,33 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	/* ** Others */
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->thumb_size_optionmenu), get_idx_from_size (eel_gconf_get_integer (PREF_EXP_THUMB_SIZE)));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->thumb_size_optionmenu), get_idx_from_size (eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE)));
 
-	v = eel_gconf_get_string (PREF_EXP_TEXT_COLOR);
+	v = eel_gconf_get_string (PREF_EXP_TEXT_COLOR, "#414141");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->text_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_TEXT_FONT);
+	v = eel_gconf_get_string (PREF_EXP_TEXT_FONT, "Arial Bold 12");
 	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->text_fontpicker), v);
 	g_free (v);
 
 	/* * Header/Footer */
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_FONT);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_FONT, "Arial 22");
 	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->header_fontpicker), v);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_COLOR);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_COLOR, "#d5504a");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->header_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_FONT);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_FONT, "Arial Bold Italic 12");
 	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->footer_fontpicker), v);
 	g_free (v);
 
-	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_COLOR);
+	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_COLOR, "#394083");
 	pref_util_get_rgb_values (v, &r, &g, &b);
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->footer_colorpicker), r, g, b, 65535);
 	g_free (v);

@@ -360,25 +360,25 @@ dlg_save_options (GtkWindow    *parent,
 		int        ivalue;
 
 	case IMAGE_TYPE_JPEG:
-		ivalue = eel_gconf_get_integer (PREF_JPEG_QUALITY);
+		ivalue = eel_gconf_get_integer (PREF_JPEG_QUALITY, 85);
 		widget = glade_xml_get_widget (gui, "jpeg_quality_hscale");
 		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
 		
 		/**/
 
-		ivalue = eel_gconf_get_integer (PREF_JPEG_SMOOTHING);
+		ivalue = eel_gconf_get_integer (PREF_JPEG_SMOOTHING, 0);
 		widget = glade_xml_get_widget (gui, "jpeg_smooth_hscale");
 		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
 		
 		/**/
 
-		ivalue = eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE);
+		ivalue = eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE, TRUE);
 		widget = glade_xml_get_widget (gui, "jpeg_optimize_checkbutton");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
 		
 		/**/
 
-		ivalue = eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE);
+		ivalue = eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE, FALSE);
 		widget = glade_xml_get_widget (gui, "jpeg_progressive_checkbutton");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
 		break;
@@ -387,7 +387,7 @@ dlg_save_options (GtkWindow    *parent,
 		break;
 		
 	case IMAGE_TYPE_TIFF:
-		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION); 
+		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION, "deflate"); 
 
 		if (svalue == NULL)
 			widget = NULL;
@@ -407,20 +407,20 @@ dlg_save_options (GtkWindow    *parent,
 		
 		/**/
 
-		ivalue = eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES);
+		ivalue = eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES, 72);
 		widget = glade_xml_get_widget (gui, "tiff_hdpi_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), (double) ivalue);
 
 		/**/
 
-		ivalue = eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES);
+		ivalue = eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES, 72);
 		widget = glade_xml_get_widget (gui, "tiff_vdpi_spinbutton");
 		gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), (double) ivalue);
 		
 		break;
 		
 	case IMAGE_TYPE_TGA:
-		ivalue = eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION);
+		ivalue = eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION, TRUE);
 		widget = glade_xml_get_widget (gui, "tga_rle_compression_checkbutton");
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
 		break;

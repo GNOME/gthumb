@@ -45,6 +45,7 @@
 #define ADD_LIST_DELAY 30
 #define ADD_LIST_CHUNK 400
 #define SCROLL_DELAY   20
+#define DEF_THUMB_SIZE 128
 
 enum {
 	BUSY,
@@ -237,9 +238,9 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->list              = NULL;
 	file_list->sort_method       = pref_get_arrange_type ();
 	file_list->sort_type         = pref_get_sort_order ();
-	file_list->show_dot_files    = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES);
-	file_list->enable_thumbs     = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
-	file_list->thumb_size        = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE);
+	file_list->show_dot_files    = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE);
+	file_list->enable_thumbs     = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE);
+	file_list->thumb_size        = eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE);
 	file_list->doing_thumbs      = FALSE;
 	file_list->thumb_loader      = THUMB_LOADER (thumb_loader_new (NULL, file_list->thumb_size, file_list->thumb_size));
 	file_list->thumbs_num        = 0;
@@ -267,10 +268,10 @@ gth_file_list_init (GthFileList *file_list)
 	/* image list. */
 
 	if (pref_get_view_as () == GTH_VIEW_AS_THUMBNAILS)
-		file_list->view = gth_file_view_thumbs_new (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE) + THUMB_BORDER);
+		file_list->view = gth_file_view_thumbs_new (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE) + THUMB_BORDER);
 
 	else if (pref_get_view_as () == GTH_VIEW_AS_LIST)
-		file_list->view = gth_file_view_list_new (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE) + THUMB_BORDER);
+		file_list->view = gth_file_view_list_new (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, DEF_THUMB_SIZE) + THUMB_BORDER);
 
 	gth_file_view_enable_thumbs (file_list->view, file_list->enable_thumbs);
 
@@ -502,7 +503,7 @@ gth_file_list_set_list (GthFileList *file_list,
 					   done_func, 
 					   done_func_data);
 
-	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE);
+	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	for (scan = new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
@@ -748,7 +749,7 @@ gth_file_list_add_list (GthFileList *file_list,
 
 		if ((! gfi_data->file_list->show_dot_files 
 		     && file_is_hidden (name_only))
-		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE)))
+		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 			continue;
 		
 		escaped = gnome_vfs_escape_path_string (full_path);
@@ -1626,7 +1627,7 @@ gth_file_list_update_thumbs (GthFileList *file_list)
 	if (! file_list->enable_thumbs)
 		return;
 
-	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT));
+	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT, 0));
 
 	for (scan = file_list->list; scan; scan = scan->next) {
 		FileData *fd = scan->data;

@@ -1,3 +1,20 @@
+2003-08-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* data/albumthemes/*: update themes to conform to new the rules.
+	
+	* src/gthumb-window.c (item_toggled_handler):
+	update toggle menu items correctly.
+	
+	* src/gthumb-window.c (initial_location_cb):
+	* src/commands-impl.c (file_new_window_command_impl): 
+	* src/main.c (prepare_app, load_session): 
+	* libgthumb/preferences.h: 
+	* libgthumb/preferences.c (preferences_set_startup_location) 
+	(preferences_get_startup_location): do not save the temporary
+	startup location in the gconf key (bug #119334).
+	
+	* a_lot_of_files: specify a default value when reading a gconf key.
+
 2003-08-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/catalog-web-exporter.c (gth_parsed_doc_print, get_exif_tag):

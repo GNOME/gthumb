@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,6 +35,8 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
+
+#define DEF_SHOW_HIDDEN FALSE
 
 
 enum {
@@ -99,7 +101,7 @@ dir_list_new ()
 	dir_list->try_path = NULL;
 	dir_list->list = NULL;
 	dir_list->file_list = NULL;
-	dir_list->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES);
+	dir_list->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN);
 	dir_list->old_dir = NULL;
 	dir_list->dir_load_handle = NULL;
 	dir_list->result = GNOME_VFS_OK;
@@ -308,7 +310,7 @@ dir_list_refresh_continue (PathListData *pld,
 	/* Set the new dir list */
 
 	filtered = dir_list_filter_and_sort (new_dir_list, TRUE, 
-					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES));
+					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
 	/* * Add the ".." entry if the current path is not "/". 
 	 * path_list_new does not include the "." and ".." elements. */
@@ -424,7 +426,7 @@ dir_list_add_directory (DirList         *dir_list,
 
 	/* insert dir in the list */
 	
-	if (! (file_is_hidden (name_only) && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES))
+	if (! (file_is_hidden (name_only) && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN))
 	    && (strcmp (name_only, CACHE_DIR) != 0)) 
 		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
 	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);

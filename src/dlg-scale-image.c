@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -333,7 +333,7 @@ dlg_scale_image (GThumbWindow *window)
 
 	/**/
 
-	unit = eel_gconf_get_string (PREF_SCALE_UNIT);
+	unit = eel_gconf_get_string (PREF_SCALE_UNIT, "pixels");
 
 	data->percentage = strcmp (unit, "percentage") == 0;
 	if (data->percentage) {
@@ -349,9 +349,9 @@ dlg_scale_image (GThumbWindow *window)
 	g_free (unit);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_keep_ratio_checkbutton),
-				      eel_gconf_get_boolean (PREF_SCALE_KEEP_RATIO));
+				      eel_gconf_get_boolean (PREF_SCALE_KEEP_RATIO, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_high_quality_checkbutton),
-				      eel_gconf_get_boolean (PREF_SCALE_HIGH_QUALITY));
+				      eel_gconf_get_boolean (PREF_SCALE_HIGH_QUALITY, TRUE));
 
 	/* Set the signals handlers. */
 	

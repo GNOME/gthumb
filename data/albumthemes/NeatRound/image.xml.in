@@ -2,22 +2,31 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="Generator" content="gThumb Image Viewer">
 <head>
-    <title><gthumb:file_name/></title>
+    <gthumb:if images > 1 />
+      <title><gthumb:header/> (<gthumb:image_idx/>/<gthumb:images/>)</title>
+    <gthumb:else/>
+      <title><gthumb:header/></title>
+    <gthumb:end/>
     <style type="text/css">
         a:link { 
 		font-weight: bold; 
 		text-decoration: none;
-		color: #969696       
+		color: #969696;      
 	}
 	a:visited { 
 		font-weight: bold; 
 		text-decoration: none;
-		color: #969696
+		color: #969696;
 	}
         a:hover { 
 		font-weight: bold; 
 		text-decoration: none; 
-		color: gold 
+		color: gold;
+	}
+	span.copyright {
+		color: gray;
+		font-size: small;
+		text-align: center;
 	}
     </style>
 </head>
@@ -26,19 +35,23 @@
 
 	<table border=0 cellspacing=0 width="100%">
 	  <tr>
+	    <td align="left" width="88%">
+	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+		<img src="back.png" width="30" height="30" border="0"></a>
+	    </td>
             <gthumb:if images == 1 />
-	      <td align="left" width="1%">
+	      <td align="right" width="1%">
 		&nbsp;
 	      </td>
-	      <td align="left" width="1%">
+	      <td align="right" width="1%">
 		&nbsp;
 	      </td>
-	      <td align="left" width="1%">
+	      <td align="right" width="1%">
 		&nbsp;
 	      </td>
             <gthumb:end/>
             <gthumb:if images > 1 />
-	      <td align="left" width="1%">
+	      <td align="right" width="1%">
                 <gthumb:if image_idx == 1 />
 		  <img src="background.gif" width="40" height="30" border="0"></td>
 	        <gthumb:end/>
@@ -46,12 +59,12 @@
 		  <a href="<gthumb:image_link idx_relative=-1/>">
 		    <img src="prev.png" align="center" width="40" height="30" border="0"></a> </td>
 	        <gthumb:end/>
-	      <td valign="center" align="center" width="15%" bgcolor="#969696">
-		<font style=bold color="white">
+	      <td valign="center" align="center" width="10%">
+		<font style=bold color="#969696">
 		<b><gthumb:image_idx/> / <gthumb:images/></b>
 		</font>
 	      </td>
-	      <td align="left" width="1%">
+	      <td align="right" width="1%">
                 <gthumb:if image_idx == images />
 		  <img src="background.gif" width="40" height="30" border="0">
 	        <gthumb:end/>
@@ -61,14 +74,6 @@
 	        <gthumb:end/>
 	      </td>
             <gthumb:end/>
-	    <td align="right" width="83%">
-	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
-		<img src="back.png" width="30" height="30" border="0"></a>
-	    </td>
-	  </tr>
-	  <tr>
-	    <td colspan=4 width="100%" bgcolor="#969696">
-	      <img src="1.gif" height="1" border="0"></td>
 	  </tr>
 	</table>
 
@@ -90,7 +95,7 @@
 	    <gthumb:end/>
 
             <td align="center" colspan="2">
-              <a href="<gthumb:file_name with_relative_path/>"><gthumb:image max_size=400 border=2/></a><BR>
+              <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview border=2/></a><BR>
             </td>
 
             <gthumb:if image_idx == images />
@@ -110,7 +115,9 @@
           <tr align="left">
 	    <td>&nbsp;</td>
             <td align="right" colspan="2">
-              <font color="#969696">(click on the image to view it at original size)</font>
+              <font color="#969696">
+                <_gthumb:text>(click on the image to view it at original size)</_gthumb:text>
+              </font>
 	    </td>
 	    <td>&nbsp;</td>
 	  </tr>
@@ -136,24 +143,24 @@
 	    </td>
           </tr>
           <gthumb:if file_name_visibility_image/>
-          <tr align="left">
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Image:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Image</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
       	      <font color="black">
-		 <tt><gthumb:file_name/></tt>
+	        <tt><gthumb:file_name/></tt>
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
-	  <gthumb:end/>
+            </tr>
+          <gthumb:end/>
           <gthumb:if image_dim_visibility_image/>
-          <tr align="left">
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Dimensions:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Dimensions</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -161,13 +168,13 @@
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
+            </tr>
           <gthumb:end/>
-	  <gthumb:if file_size_visibility_image/>
-          <tr align="left">
+          <gthumb:if file_size_visibility_image/>
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Bytes:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Bytes</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -175,13 +182,13 @@
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
+            </tr>
           <gthumb:end/>
           <gthumb:if exif_date_time_visibility_image/>
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Date:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Date</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -195,7 +202,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Exposure time:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Exposure time</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -209,7 +216,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Exposure mode:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Exposure mode</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -223,7 +230,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Flash:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Flash</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -237,7 +244,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Shutter speed:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Shutter speed</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -251,7 +258,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Aperture value:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Aperture value</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -265,7 +272,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Focal length:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Focal length</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -279,7 +286,7 @@
             <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><nobr><b>Camera model:</b></nobr></font>
+              <font color="#969696"><nobr><b><_gthumb:text>Camera model</_gthumb:text></b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -292,56 +299,18 @@
         </table>
 
 	&nbsp;<BR>
+	&nbsp;<BR>
 
 	<!-- Navigation Bar -->
 
-	<table border=0 cellspacing=0 width="100%">
+	<table align="center" border=0 cellspacing=0 width="90%">
 	  <tr>
-	    <td colspan=4 width="100%" bgcolor="#969696">
-	      <img src="1.gif" height="1" border="0"></td>
-	  </tr>
+	    <td bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
 	  <tr>
-            <gthumb:if images == 1 />
-	      <td align="left" width="1%">
-		&nbsp;
-	      </td>
-	      <td align="left" width="1%">
-		&nbsp;
-	      </td>
-	      <td align="left" width="1%">
-		&nbsp;
-	      </td>
-            <gthumb:end/>
-            <gthumb:if images > 1 />
-	      <td align="left" width="1%">
-                <gthumb:if image_idx == 1 />
-		  <img src="background.gif" width="40" height="30" border="0">
-	        <gthumb:end/>
-                <gthumb:if image_idx > 1 />
-		  <a href="<gthumb:image_link idx_relative=-1/>">
-		    <img src="prev.png" align="center" width="40" height="30" border="0"></a>
-	        <gthumb:end/>
-	      </td>
-	      <td valign="center" align="center" width="15%" bgcolor="#969696">
-		<font style=bold color="white">
-		<b><gthumb:image_idx/> / <gthumb:images/></b>
-		</font>
-	      </td>
-	      <td align="left" width="1%">
-                <gthumb:if image_idx == images />
-		  <img src="background.gif" width="40" height="30" border="0">
-	        <gthumb:end/>
-                <gthumb:if image_idx < images />
-		  <a href="<gthumb:image_link idx_relative=+1/>">
-		    <img src="next.png" align="center" width="40" height="30" border="0"> </a>
-	        <gthumb:end/>
-	      </td>
-            <gthumb:end/>
-	    <td align="right" width="83%">
-	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
-		<img src="back.png" width="30" height="30" border="0"></a>
-	    </td>
-	  </tr>
+	    <td align="center">
+	      &nbsp;<BR>
+              <span class=copyright><gthumb:footer/></span></td></tr>
 	</table>
 </body>
 </html>

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -760,7 +760,7 @@ dlg_search_ui (GThumbWindow *window,
 			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), data->window->dir_list->path);
 		else
 			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), g_get_home_dir ());
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
 
 	} else {
 		Catalog    *catalog;
@@ -985,7 +985,7 @@ file_respects_search_criteria (DialogData *data,
 	time_t       time;
 	const char  *name_only;
 
-	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE)))
+	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 		return FALSE;
 
 	comment_data = comments_load_comment (filename);

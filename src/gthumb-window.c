@@ -82,6 +82,12 @@
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
 
+#define DEF_WIN_WIDTH          690
+#define DEF_WIN_HEIGHT         460
+#define DEF_SIDEBAR_SIZE       255
+#define DEF_SIDEBAR_CONT_SIZE  190
+#define DEF_SLIDESHOW_DELAY    4
+
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
 #define HISTORY_LIST_POPUP     "/popups/HistoryListPopup/"
@@ -308,14 +314,10 @@ set_command_state_if_different (GThumbWindow *window,
 	if (old_value != NULL)
 		g_free (old_value);
 
-	if (!notify)
-		bonobo_ui_component_freeze (window->ui_component, NULL);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      cname, 
 				      "state", new_value,
 				      NULL);
-	if (!notify)
-		bonobo_ui_component_thaw (window->ui_component, NULL);
 }
 
 
@@ -560,7 +562,8 @@ tag_is_present (GtkTreeModel *model,
 				    &iter,
 				    NAME_COLUMN, &tag_name2,
 				    -1);
-		if ((tag_name2 != NULL) && (strcmp (tag_name, tag_name2) == 0)) {
+		if ((tag_name2 != NULL) 
+		    && (strcmp (tag_name, tag_name2) == 0)) {
 			g_free (tag_name2);
 			return TRUE;
 		}
@@ -1700,7 +1703,7 @@ window_update_history_list (GThumbWindow *window)
 		return;
 
 	i = 0;
-	for (scan = window->history_current; scan && (i < eel_gconf_get_integer (PREF_MAX_HISTORY_LENGTH)); scan = scan->next) {
+	for (scan = window->history_current; scan && (i < eel_gconf_get_integer (PREF_MAX_HISTORY_LENGTH, 15)); scan = scan->next) {
 		add_bookmark_menu_item (window,
 					window->history,
 					"History",
@@ -4119,6 +4122,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 
 	debug (DEBUG_INFO, "%s: %s", path, state);
 
+	/* FIXME: delete this */
 	if (window->freeze_toggle_handler > 0) {
 		window->freeze_toggle_handler--;
 		return;
@@ -4126,22 +4130,43 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 
         s = (strcmp (state, "1") == 0);
 
-	if (strcmp (path, "View_Toolbar") == 0) 
-		eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, s);
+	if (strcmp (path, "View_Toolbar") == 0) {
+		const char *component_name;
+		gboolean    hidden = ! s;
 
-	if (strcmp (path, "View_Statusbar") == 0) 
+		if (window->sidebar_visible)
+			component_name = "/Toolbar";
+		else
+			component_name = "/ImageToolbar";
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      component_name,
+					      "hidden", hidden ? "1" : "0",
+					      NULL);
+		eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, s);
+	}
+
+	if (strcmp (path, "View_Statusbar") == 0) {
+		gboolean hidden = ! s;
+
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/status",
+					      "hidden", hidden ? "1" : "0",
+					      NULL);
 		eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, s);
+	}
 
 	if ((strcmp (path, "View_ZoomQualityHigh") == 0) && s) {
 		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
 					       GTH_ZOOM_QUALITY_HIGH);
 		image_viewer_update_view (IMAGE_VIEWER (window->viewer));
+		pref_set_zoom_quality (GTH_ZOOM_QUALITY_HIGH);
 	}
 
 	if ((strcmp (path, "View_ZoomQualityLow") == 0) && s) {
 		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
 					       GTH_ZOOM_QUALITY_LOW);
 		image_viewer_update_view (IMAGE_VIEWER (window->viewer));
+		pref_set_zoom_quality (GTH_ZOOM_QUALITY_LOW);
 	}
 
 	if ((strcmp (path, "SortByName") == 0) && s) 
@@ -4191,9 +4216,12 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 					&& ! image_viewer_is_playing_animation (viewer)));
 	}
 
-	if (strcmp (path, "View_ShowPreview") == 0) 
+	/* FIXME */
+	if (strcmp (path, "View_ShowPreview") == 0) {
 		toggle_image_preview_visibility (window);
+	}
 
+	/* FIXME */
 	if (strcmp (path, "View_ShowInfo") == 0) {
 		toggle_image_data_visibility (window);
 	}
@@ -4349,14 +4377,14 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	}
 	set_command_state (window, prop, TRUE);
 
-	set_command_state (window, "View_Toolbar", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE));
-	set_command_state (window, "View_Statusbar", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE));
+	set_command_state (window, "View_Toolbar", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
+	set_command_state (window, "View_Statusbar", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
 
 	set_command_state (window, "View_ShowFolders", FALSE);
 	set_command_state (window, "View_ShowCatalogs", FALSE);
 
-	set_command_state (window, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW));
-	set_command_state (window, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA));
+	set_command_state (window, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE));
+	set_command_state (window, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 
 	/* Sort type item. */
 
@@ -4417,20 +4445,10 @@ pref_ui_toolbar_visible_changed (GConfClient *client,
 				 gpointer     user_data)
 {
 	GThumbWindow *window = user_data;
-	gboolean      hidden;
+	gboolean      visible;
 
-	hidden = ! eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE);
-
-	if (window->sidebar_visible)
-		bonobo_ui_component_set_prop (window->ui_component, 
-					      "/Toolbar",
-					      "hidden", hidden ? "1" : "0",
-					      NULL);
-	else
-		bonobo_ui_component_set_prop (window->ui_component, 
-					      "/ImageToolbar",
-					      "hidden", hidden ? "1" : "0",
-					      NULL);
+	visible = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE);
+	set_command_state_if_different (window, "/commands/View_Toolbar", visible, TRUE);
 }
 
 
@@ -4441,13 +4459,10 @@ pref_ui_statusbar_visible_changed (GConfClient *client,
 				 gpointer     user_data)
 {
 	GThumbWindow *window = user_data;
-	gboolean      hidden;
+	gboolean      visible;
 
-	hidden = ! eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE);
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      "/status",
-				      "hidden", hidden ? "1" : "0",
-				      NULL);
+	visible = eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE);
+	set_command_state_if_different (window, "/commands/View_Statusbar", visible, TRUE);
 }
 
 
@@ -4459,7 +4474,7 @@ pref_show_thumbnails_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 
-	window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
+	window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE);
 	window_enable_thumbs (window, window->file_list->enable_thumbs);
 }
 
@@ -4507,7 +4522,7 @@ pref_thumbnail_size_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 
-	gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE));
+	gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95));
 	window_update_file_list (window);	
 }
 
@@ -4532,9 +4547,10 @@ pref_zoom_quality_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_update_view (IMAGE_VIEWER (window->viewer));
+	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH)
+		set_command_state_if_different (window, "/commands/View_ZoomQualityHigh", 1, TRUE);
+	else
+		set_command_state_if_different (window, "/commands/View_ZoomQualityLow", 1, TRUE);
 }
 
 
@@ -4559,7 +4575,7 @@ pref_transp_type_changed (GConfClient *client,
 			  gpointer     user_data)
 {
 	GThumbWindow *window = user_data;
-
+	
 	image_viewer_set_transp_type (IMAGE_VIEWER (window->viewer),
 				      pref_get_transp_type ());
 	image_viewer_update_view (IMAGE_VIEWER (window->viewer));
@@ -4603,7 +4619,7 @@ pref_black_background_changed (GConfClient *client,
 	GThumbWindow *window = user_data;
 
 	image_viewer_set_black_background (IMAGE_VIEWER (window->viewer),
-					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND));
+					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 }
 
 
@@ -4823,7 +4839,7 @@ static gboolean
 initial_location_cb (gpointer data)
 {
 	GThumbWindow *window = data;
-	char         *starting_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
+	const char   *starting_location = preferences_get_startup_location ();
 
 	if (pref_util_location_is_catalog (starting_location)) 
 		window_go_to_catalog (window, pref_util_get_catalog_location (starting_location));
@@ -4842,8 +4858,6 @@ initial_location_cb (gpointer data)
 
 		window_go_to_directory (window, path);
 	}
-
-	g_free (starting_location);
 
 	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
 
@@ -4905,8 +4919,8 @@ window_new (void)
 
 	gnome_window_icon_set_from_default (GTK_WINDOW (window->app));
 	gtk_window_set_default_size (GTK_WINDOW (window->app), 
-				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH),
-				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT));
+				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH),
+				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT));
 
 	g_signal_connect (G_OBJECT (window->app), 
 			  "delete_event",
@@ -5123,7 +5137,7 @@ window_new (void)
 
 	/* Pack the widgets */
 
-	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT);
+	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 
 	if (window->layout_type == 1) {
 		window->main_pane = paned1 = gtk_vpaned_new (); 
@@ -5245,7 +5259,7 @@ window_new (void)
 	/* image preview, comment, exif data. */
 
 	image_pane_paned1 = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT) / 2);
+	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) / 2);
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
 
 	/**/
@@ -5422,9 +5436,9 @@ window_new (void)
 
 	window->sidebar_content = GTH_SIDEBAR_NO_LIST;
 	window->sidebar_visible = TRUE;
-	window->preview_visible = eel_gconf_get_boolean (PREF_SHOW_PREVIEW);
+	window->preview_visible = eel_gconf_get_boolean (PREF_SHOW_PREVIEW, TRUE);
 	window->image_pane_visible = window->preview_visible;
-	window->image_data_visible = eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA);
+	window->image_data_visible = eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE);
 	window->catalog_path = NULL;
 	window->image_path = NULL;
 	window->image_mtime = 0;
@@ -5497,7 +5511,7 @@ window_new (void)
 
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/Toolbar",
-				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE) ? "0" : "1",
+				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE) ? "0" : "1",
 				      NULL);
 
 	bonobo_ui_component_set_prop (window->ui_component, 
@@ -5506,7 +5520,7 @@ window_new (void)
 				      NULL);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/status",
-				      "hidden", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE) ? "0" : "1",
+				      "hidden", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE) ? "0" : "1",
 				      NULL);
 
 	window_sync_menu_with_preferences (window);
@@ -5514,16 +5528,17 @@ window_new (void)
 
 	/**/
 
-	window->sidebar_width = eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE);
-	gtk_paned_set_position (GTK_PANED (paned1), eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE));
-	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE));
+	window->sidebar_width = eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE);
+	gtk_paned_set_position (GTK_PANED (paned1), eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE));
+	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, DEF_SIDEBAR_CONT_SIZE));
 
 	gtk_widget_show_all (window->main_pane);
 
-	if (window->preview_visible)
+	if (window->preview_visible) 
 		window_show_image_pane (window);
 	else 
 		window_hide_image_pane (window);
+
 	window_set_preview_content (window, pref_get_preview_content ());
 
 	window_notify_update_toolbar_style (window);
@@ -5541,7 +5556,7 @@ window_new (void)
 	image_viewer_set_transp_type  (IMAGE_VIEWER (window->viewer),
 				       pref_get_transp_type ());
 	image_viewer_set_black_background (IMAGE_VIEWER (window->viewer),
-					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND));
+					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 
 	/* Add the window to the window's list */
 
@@ -5741,7 +5756,8 @@ close__step5 (GThumbWindow *window)
 	pref_set_arrange_type (window->file_list->sort_method);
 	pref_set_sort_order (window->file_list->sort_type);
 
-	if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION)) {
+	if (last_window 
+	    && eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE)) {
 		char *location = NULL;
 
 		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
@@ -6012,7 +6028,7 @@ window_hide_sidebar (GThumbWindow *window)
 
 	/**/
 
-	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE)) {
+	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE)) {
 		bonobo_ui_component_set_prop (window->ui_component, 
 					      "/Toolbar",
 					      "hidden", "1",
@@ -6079,7 +6095,7 @@ window_show_sidebar (GThumbWindow *window)
 
 	/**/
 
-	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE)) {
+	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE)) {
 		bonobo_ui_component_set_prop (window->ui_component, 
 					      "/Toolbar",
 					      "hidden", "0",
@@ -6948,7 +6964,7 @@ slideshow_timeout_cb (gpointer data)
 		go_on = window_show_prev_image (window, window->slideshow_only_selected);
 
 	if (! go_on) {
-		if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND)) 
+		if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
 			window_stop_slideshow (window);
 		else {
 			if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
@@ -6963,7 +6979,7 @@ slideshow_timeout_cb (gpointer data)
 	}
 
 	if (go_on)
-		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 
 	return FALSE;
 }
@@ -6986,7 +7002,7 @@ window_start_slideshow (GThumbWindow *window)
 	window->slideshow = TRUE;
 	window->slideshow_only_selected = gth_file_view_selection_not_null (window->file_list->view) && ! gth_file_view_only_one_is_selected (window->file_list->view);
 
-	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN))
+	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
 		fullscreen_start (fullscreen, window);
 
 	if (window->slideshow_only_selected) {
@@ -7011,7 +7027,7 @@ window_start_slideshow (GThumbWindow *window)
 		return;
 	}
 
-	window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+	window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 }
 
 
@@ -7027,7 +7043,7 @@ window_stop_slideshow (GThumbWindow *window)
 		window->slideshow_timeout = 0;
 	}
 
-	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN) && window->fullscreen)
+	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE) && window->fullscreen)
 		fullscreen_stop (fullscreen);
 }
 
@@ -7096,7 +7112,7 @@ window_show_next_image (GThumbWindow *window,
 	}
 
 	if (stop_and_restart_slideshow) {
-		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 	}
 
 	return (pos != -1);
@@ -7145,7 +7161,7 @@ window_show_prev_image (GThumbWindow *window,
 	}
 
 	if (stop_and_restart_slideshow) {
-		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 	}
 
 	return (pos != -1);
@@ -7938,7 +7954,7 @@ window_notify_update_layout_cb (gpointer data)
 	if (! sidebar_visible) 
 		window_show_sidebar (window);
 
-	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT);
+	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 
 	paned1_pos = gtk_paned_get_position (GTK_PANED (window->main_pane));
 	paned2_pos = gtk_paned_get_position (GTK_PANED (window->content_pane));
