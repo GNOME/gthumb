@@ -570,7 +570,6 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	guchar       *ptr;
 	guchar       *pixels = NULL;
 	JSAMPROW     *jbuf;
-	int           y = 0;
 	int           quality     = 75; /* default; must be between 0 and 100 */
 	int           smoothing   = 0;
 	gboolean      optimize    = FALSE;
@@ -697,7 +696,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	g_return_val_if_fail (pixels != NULL, FALSE);
 	
 	/* allocate a small buffer to convert image data */
-	buf = g_try_malloc (w * 3 * sizeof (guchar));
+	buf = g_try_malloc (w * bpp * sizeof (guchar));
 	if (! buf) {
 		g_set_error (error,
 			     GDK_PIXBUF_ERROR,
@@ -753,8 +752,6 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 		jbuf = (JSAMPROW *)(&buf);
 		jpeg_write_scanlines (&cinfo, jbuf, 1);
 		i++;
-		y++;
-		
 	}
 	
 	/* finish off */

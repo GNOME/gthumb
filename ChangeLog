@@ -1,3 +1,12 @@
+2003-03-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.0.2 released ]   
+	
+2003-03-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_save_as_jpeg): use bpp
+        instead of 3.
+
 2003-03-05  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.h (GCONF_NOTIFICATIONS): 
