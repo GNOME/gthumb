@@ -197,7 +197,7 @@ window_update_statusbar_zoom_info (GThumbWindow *window)
 
 	path = window->image_path;
 
-	image_is_visible = (path != NULL) && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
+	image_is_visible = (path != NULL) && !window->image_error && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
 
 	if (! image_is_visible) {
 		if (! GTK_WIDGET_VISIBLE (window->zoom_info_frame))
@@ -231,7 +231,7 @@ window_update_statusbar_image_info (GThumbWindow *window)
 
 	path = window->image_path;
 
-	if (path == NULL) {
+	if ((path == NULL) || window->image_error) {
 		if (! GTK_WIDGET_VISIBLE (window->image_info_frame))
 			return;
 		gtk_widget_hide (window->image_info_frame);
@@ -591,7 +591,7 @@ window_update_sensitivity (GThumbWindow *window)
 	not_fullscreen = ! window->fullscreen;
 	image_is_visible = ! image_is_void && ((window->sidebar_visible && window->image_pane_visible && (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) || ! window->sidebar_visible);
 
-	if (! image_is_void && (window->image_path != NULL))
+	if (window->image_path != NULL)
 		image_pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
 	else
 		image_pos = -1;
@@ -699,7 +699,7 @@ window_update_sensitivity (GThumbWindow *window)
 	/* View menu. */
 
 	set_action_sensitive (window, "View_ShowImage", ! image_is_void);
-	set_action_sensitive (window, "View_ImageProp", ! image_is_void);
+	set_action_sensitive (window, "View_ImageProp", window->image_path != NULL);
 	set_action_sensitive (window, "View_Fullscreen", ! image_is_void);
 	set_action_sensitive (window, "View_ShowPreview", window->sidebar_visible);
 	set_action_sensitive (window, "View_ShowInfo", ! window->sidebar_visible);
@@ -1506,11 +1506,13 @@ real_set_void (char     *filename,
 {
 	GThumbWindow *window = data;
 
-	g_free (window->image_path);
-	window->image_path = NULL;
+	if (!window->image_error) {
+		g_free (window->image_path);
+		window->image_path = NULL;
+		window->image_mtime = 0;
+		window->image_modified = FALSE;
+	}
 
-	window->image_mtime = 0;
-	window->image_modified = FALSE;
 
 	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
 
@@ -1528,6 +1530,18 @@ real_set_void (char     *filename,
 static void
 window_image_viewer_set_void (GThumbWindow *window)
 {
+	window->image_error = FALSE;
+	if (window->image_modified)
+		if (ask_whether_to_save (window, real_set_void))
+			return;
+	real_set_void (NULL, window);
+}
+
+
+static void
+window_image_viewer_set_error (GThumbWindow *window)
+{
+	window->image_error = TRUE;
 	if (window->image_modified)
 		if (ask_whether_to_save (window, real_set_void))
 			return;
@@ -2385,7 +2399,7 @@ static void
 image_requested_error_cb (GtkWidget    *widget, 
 			  GThumbWindow *window)
 {
-	window_image_viewer_set_void (window);
+	window_image_viewer_set_error (window);
 }
 
 
@@ -2395,6 +2409,7 @@ image_requested_done_cb (GtkWidget    *widget,
 {
 	ImageLoader *loader;
 
+	window->image_error = FALSE;
 	loader = gthumb_preloader_get_loader (window->preloader, window->image_path);
 	if (loader != NULL) 
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (window->viewer), loader);

@@ -176,6 +176,8 @@ typedef struct {
 						 * image belongs to, NULL if 
 						 * the image is not from a 
 						 * catalog. */
+	gboolean            image_error;        /* An error occurred loading 
+						 * the current image. */
 
 	gfloat              dir_load_progress;
 	int                 activity_ref;       /* when > 0 some activity

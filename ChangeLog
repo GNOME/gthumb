@@ -1,5 +1,11 @@
 2004-11-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gthumb-window.h: 
+	* src/gthumb-window.c (window_update_statusbar_zoom_info): 
+	* src/dlg-image-prop.c (update_buttons_sensitivity): 
+
+	Fixed handling of unloadable images (for example: xcf images)
+	
 	* libgthumb/image-loader.c (load_image_thread): added a static lock
 	around gdk_pixbuf_animation_new_from_file.
 

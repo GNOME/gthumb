@@ -712,8 +712,7 @@ update_buttons_sensitivity (DialogData *data)
 
 	window = data->window;
 
-	if (! image_viewer_is_void (IMAGE_VIEWER (window->viewer))
-	    && (window->image_path != NULL))
+	if (window->image_path != NULL)
 		image_pos = gth_file_list_pos_from_path (window->file_list, 
 							 window->image_path);
 	else
