@@ -4,2956 +4,3021 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 0.10\n"
-"POT-Creation-Date: 2002-09-13 18:18+0200\n"
-"PO-Revision-Date: 2002-03-10 23:21+0900\n"
+"Project-Id-Version: gthumb 1.107\n"
+"POT-Creation-Date: 2002-12-23 13:12+0900\n"
+"PO-Revision-Date: 2002-12-23 13:01+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=euc-jp\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+msgid "GThumb Catalog View"
+msgstr "GThumb ã‚«ã‚¿ãƒ­ã‚°ãƒ»ãƒ“ãƒ¥ãƒ¼"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+msgid "View as Catalog"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°è¡¨ç¤º"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+#: src/gthumb-ui.xml.h:84
+msgid "Print the current image"
+msgstr "ã“ã®ç”»åƒã‚’å°åˆ·ã—ã¾ã™"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: src/gthumb_print.glade.h:12
+msgid "_Print"
+msgstr "å°åˆ·(_P)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+msgid "GThumb Image"
+msgstr "GThumb ç”»åƒ"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+msgid "GThumb Viewer"
+msgstr "GThumb ãƒ“ãƒ¥ãƒ¯ãƒ¼"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+msgid "View with GThumb"
+msgstr "GThumb ã§è¡¨ç¤ºã—ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+msgid "Flip"
+msgstr "ã²ã£ãã‚Šè¿”ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+msgid "Flip the image"
+msgstr "ç”»åƒã‚’ä¸Šä¸‹ã²ã£ãã‚Šè¿”ã—ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "High"
+msgstr "é«˜å“è³ª"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Low"
+msgstr "ä½å“è³ª"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "Mirror"
+msgstr "ãƒŸãƒ©ãƒ¼ãƒªãƒ³ã‚°"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Mirror the image"
+msgstr "ç”»åƒã‚’é¡ã«æ˜ ã—ãŸã‚ˆã†ã«åè»¢ã•ã›ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: src/gthumb-ui.xml.h:113
+msgid "Rotate"
+msgstr "å›è»¢"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+msgid "Rotate 180 _Degrees"
+msgstr "180 Â°å›è»¢(_D)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate the image clockwise"
+msgstr "ç”»åƒã‚’æ™‚è¨ˆå›ã‚Šã«å›è»¢ã•ã›ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate the image of 180 degrees"
+msgstr "ç”»åƒã‚’ 180 Â°å›è»¢ã•ã›ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: src/gthumb-ui.xml.h:121
+msgid "Save _As..."
+msgstr "åˆ¥åã§ä¿å­˜(_A)..."
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: src/gthumb-ui.xml.h:122
+msgid "Save current image"
+msgstr "ã“ã®ç”»åƒã‚’ä¿å­˜ã—ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: src/gthumb-ui.xml.h:138
+msgid "Start or stop current animation"
+msgstr "ç¾åœ¨è¡¨ç¤ºä¸­ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é–‹å§‹/åœæ­¢ã‚’åˆ‡ã‚Šæ›¿ãˆã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®é–‹å§‹/åœæ­¢(_A)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr "é€æ˜ã®ç¨®é¡(_Y)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: src/gthumb-ui.xml.h:153
+msgid "View next animation frame"
+msgstr "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®æ¬¡ã®ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: src/gthumb-ui.xml.h:180
+msgid "_Black"
+msgstr "é»’è‰²(_B)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: src/gthumb-ui.xml.h:185
+msgid "_Checked"
+msgstr "æ ¼å­ç¸(_C)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:197
+msgid "_Flip"
+msgstr "ã²ã£ãã‚Šè¿”ã™(_F)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: src/gthumb-ui.xml.h:208
+msgid "_Image"
+msgstr "ç”»åƒ(_I)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gthumb-ui.xml.h:215
+msgid "_Mirror"
+msgstr "ãƒŸãƒ©ãƒ¼ãƒªãƒ³ã‚°(_M)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: src/gthumb-ui.xml.h:220
+msgid "_None"
+msgstr "ãªã—(_N)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+msgid "_Rotate Clockwise"
+msgstr "æ™‚è¨ˆå›ã‚Šã«å›è»¢(_R)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+msgid "_Step Animation"
+msgstr "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¹ãƒ†ãƒƒãƒ—å®Ÿè¡Œ(_S)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:32
+#: src/gthumb_tools.glade.h:48
+msgid "_View"
+msgstr "è¡¨ç¤º(_V)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: src/gthumb-ui.xml.h:247
+msgid "_White"
+msgstr "ç™½è‰²(_W)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+msgid "_Zoom Quality"
+msgstr "ã‚ºãƒ¼ãƒ ã®å“è³ª(_Z)"
+
+#: components/image-viewer/test-component.c:235
+msgid "Component has no editable properties"
+msgstr "ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã«ã¯å¤‰æ›´å¯èƒ½ãªãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ãŒãŒã‚ã‚Šã¾ã›ã‚“"
+
+#: components/image-viewer/test-component.c:373
+#, c-format
+msgid "Could not open file %s"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ« %s ã‚’é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ"
+
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:518
+#: src/gthumb-window.c:352
+msgid "%d %b %Y, %H:%M"
+msgstr "%Yå¹´ %B %dæ—¥ %H:%M"
+
+#: components/image-viewer/viewer-stream.c:98
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:492
+#: src/fullscreen.c:231 src/gthumb-window.c:358
+#, c-format
+msgid "%d x %d pixels"
+msgstr "ãƒ”ã‚¯ã‚»ãƒ«æ•° %d x %d"
+
 #: gthumb.desktop.in.h:1
-#, fuzzy
-msgid "Image Viewer"
-msgstr "¥Ó¥å¥ï¡¼"
+msgid "View and organize your images"
+msgstr "ç”»åƒã®è¡¨ç¤ºã¨ç®¡ç†ã‚’è¡Œã†ãƒ„ãƒ¼ãƒ«ã§ã™"
 
 #: gthumb.desktop.in.h:2
-msgid "View and organize your images"
-msgstr ""
+msgid "gThumb Image Viewer"
+msgstr "gThumb ç”»åƒãƒ“ãƒ¥ãƒ¯ãƒ¼"
 
-#: gthumb.desktop.in.h:3 libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:206
-#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2121 src/gthumb-window.c:1076
-#: src/gthumb-window.c:1078 src/gthumb-window.c:1089 src/gthumb-window.c:1094
-#: src/gthumb-window.c:2828 src/gthumb_png_exporter.glade2.h:71 src/main.c:106
+#: libgthumb/catalog-png-exporter.c:1295
+#, c-format
+msgid "Loading image: %s"
+msgstr "ç”»åƒã®èª­ã¿è¾¼ã¿ä¸­: %s"
+
+#: libgthumb/catalog-png-exporter.c:1487
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "ç”»åƒã®ç”Ÿæˆä¸­: %s.%s"
+
+#: libgthumb/catalog.c:89
+msgid "Library not empty"
+msgstr "ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¯ç©ºã§ã¯ã‚ã‚Šã¾ã›ã‚“"
+
+#: libgthumb/catalog.c:98
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "ãƒ©ã‚¤ãƒ–ãƒ©ãƒª \"%s\" ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“: %s"
+
+#: libgthumb/catalog.c:125
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "ã‚«ã‚¿ãƒ­ã‚° \"%s\" ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“: %s"
+
+#: libgthumb/catalog.c:246 libgthumb/catalog.c:414
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "ã‚«ã‚¿ãƒ­ã‚° \"%s\" ãŒé–‹ã‘ã¾ã›ã‚“: %s"
+
+#: libgthumb/catalog.c:391
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr "ã‚«ã‚¿ãƒ­ã‚° \"%s\" ã‚’ä¿å­˜ã§ãã¾ã›ã‚“: %s"
+
+#: libgthumb/comments.c:317
+msgid "Deleting all comments, wait please..."
+msgstr "å…¨ã¦ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™ã€‚å°‘ã€…ãŠå¾…ã¡ä¸‹ã•ã„..."
+
+#: libgthumb/comments.c:319
+msgid "Deleting old comments, wait please..."
+msgstr "å¤ã„ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™ã€‚å°‘ã€…ãŠå¾…ã¡ä¸‹ã•ã„..."
+
+#: libgthumb/comments.c:668
+msgid "%d %B %Y"
+msgstr "%Yå¹´ %B %dæ—¥"
+
+#: libgthumb/comments.c:670 src/dlg-duplicates.c:551 src/dlg-image-prop.c:512
+#: src/fullscreen.c:238
+msgid "%d %B %Y, %H:%M"
+msgstr "%Yå¹´ %B %dæ—¥ %H:%M"
+
+#: libgthumb/comments.c:680
+msgid "(No Comment)"
+msgstr "(ã‚³ãƒ¡ãƒ³ãƒˆãªã—)"
+
+#: libgthumb/gconf-utils.c:98
+#, c-format
+msgid ""
+"GConf error:\n"
+"  %s"
+msgstr ""
+"GConf ã‚¨ãƒ©ãƒ¼:\n"
+"  %s"
+
+#: libgthumb/dlg-save-image.c:86 src/commands-impl.c:278 src/dlg-convert.c:310
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "ç”»åƒ \"%s\" ã¯æ—¢ã«å­˜åœ¨ã—ã¦ã„ã¾ã™ã€‚ä¸Šæ›¸ãã—ã¦ã‚‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
+
+#: libgthumb/dlg-save-image.c:136
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "ã‚µãƒãƒ¼ãƒˆã—ã¦ã„ãªã„ç”»åƒã®ç¨®é¡: %s"
+
+#: libgthumb/dlg-save-image.c:154
+msgid "Determine by extension"
+msgstr "æ‹¡å¼µå­ã§æ±ºå®šã™ã‚‹"
+
+#: libgthumb/dlg-save-image.c:186
+msgid "Save Image"
+msgstr "ç”»åƒã®ä¿å­˜"
+
+#: libgthumb/dlg-save-image.c:200
+msgid "Image type:"
+msgstr "ç”»åƒã®ç¨®é¡:"
+
+#: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
+#: libgthumb/gtk-utils.c:319 src/commands-impl.c:2711 src/gthumb-window.c:437
+#: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
+#: src/gthumb-window.c:477 src/gthumb-window.c:3987
+#: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/catalog.c:85
-#, fuzzy, c-format
-msgid "Cannot remove library \"%s\" : %s"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
+#: libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr "å…¨ã¦ã®ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™ã€‚å°‘ã€…ãŠå¾…ã¡ä¸‹ã•ã„..."
 
-#: libgthumb/catalog.c:111
-#, fuzzy, c-format
-msgid "Cannot remove catalog \"%s\" : %s"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
-
-#: libgthumb/catalog.c:232 libgthumb/catalog.c:400
-#, fuzzy, c-format
-msgid "Cannot open file \"%s\" : %s"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
-
-#: libgthumb/catalog.c:377
-#, fuzzy, c-format
-msgid "Cannot save file \"%s\" : %s"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
-
-#: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:763 src/dlg-image-prop.c:526
-#: src/fullscreen.c:225 src/gthumb-window.c:434
-#, c-format
-msgid "%d x %d pixels"
-msgstr ""
-
-#: libgthumb/comments.c:321
-msgid "Deleting old comments, wait please..."
-msgstr ""
-
-#: libgthumb/comments.c:651
-msgid "%d %B %Y"
-msgstr ""
-
-#: libgthumb/comments.c:653 src/dlg-duplicates.c:511 src/dlg-image-prop.c:544
-#: src/fullscreen.c:232
-msgid "%d %B %Y, %H:%M"
-msgstr ""
-
-#: libgthumb/comments.c:663
-msgid "(No Comment)"
-msgstr "(¥³¥á¥ó¥È¤Ê¤·)"
-
-#: libgthumb/file-utils.c:1147
-msgid "Cannot find a terminal, using xterm, even if it may not work"
-msgstr ""
-
-#: libgthumb/thumb-cache.c:408 libgthumb/thumb-cache.c:654
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr ""
+msgstr "å¤ã„ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¦ã„ã¾ã™ã€‚å°‘ã€…ãŠå¾…ã¡ä¸‹ã•ã„..."
 
-#: src/commands-impl.c:191 src/commands-impl.c:818 src/commands-impl.c:1224
-#, fuzzy
-msgid "Enter the new name : "
-msgstr "¥Ç¥£¥ì¥¯¥È¥êÌ¾¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤ : "
+#: src/commands-impl.c:243 src/commands-impl.c:973 src/commands-impl.c:1548
+msgid "Enter the new name: "
+msgstr "æ–°ã—ã„åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„: "
 
-#: src/commands-impl.c:195 src/commands-impl.c:822 src/commands-impl.c:1228
-#: src/gthumb-ui.xml.h:195 src/gthumb_tools.glade2.h:34
-#, fuzzy
+#: src/commands-impl.c:247 src/commands-impl.c:977 src/commands-impl.c:1552
+#: src/gthumb-ui.xml.h:227 src/gthumb_tools.glade.h:45
 msgid "_Rename"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«åã®å¤‰æ›´(_R)"
 
-#: src/commands-impl.c:206 src/commands-impl.c:721 src/commands-impl.c:833
-#: src/commands-impl.c:1241
-#, fuzzy, c-format
+#: src/commands-impl.c:258 src/commands-impl.c:880 src/commands-impl.c:988
+#: src/commands-impl.c:1565 src/commands-impl.c:1656
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"Ì¾Á° \"%s\" ¤Ï´û¤Ë¤³¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ç»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ş¤¹¡£ÊÌ¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ"
-"¤¤¡£"
+"åå‰ \"%s\" ã«ã¯ \"/\" æ–‡å­—ãŒå«ã¾ã‚Œã¦ã„ã‚‹ãŸã‚ä½¿ç”¨ã§ãã¾ã›ã‚“ã€‚åˆ¥ã®åå‰ã‚’å…¥åŠ›ã—"
+"ã¦ä¸‹ã•ã„ã€‚"
 
-#: src/commands-impl.c:227
-#, fuzzy, c-format
-msgid ""
-"An image named \"%s\" is already present in this folder. Do you want to "
-"overwrite it ?"
-msgstr ""
-"Ì¾Á° \"%s\" ¤Ï´û¤Ë¤³¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ç»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ş¤¹¡£ÊÌ¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ"
-"¤¤¡£"
-
-#: src/commands-impl.c:233
-#, fuzzy
+#: src/commands-impl.c:285 src/dlg-convert.c:316
 msgid "_Overwrite"
-msgstr "²èÁü¤Î¾å½ñ¤­"
+msgstr "ä¸Šæ›¸ã(_O)"
 
-#: src/commands-impl.c:253 src/commands-impl.c:266
-#, fuzzy, c-format
-msgid "Could not rename the file \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:305 src/commands-impl.c:320
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "ç”»åƒ \"%s\" ã®åå‰ã‚’å¤‰æ›´ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:255 src/commands-impl.c:856 src/commands-impl.c:1063
+#: src/commands-impl.c:307 src/commands-impl.c:1010 src/commands-impl.c:1314
 msgid "source and destination are the same"
-msgstr ""
+msgstr "é€ã‚Šå…ƒã¨é€ã‚Šå…ˆãŒåŒã˜ã§ã™"
 
-#: src/commands-impl.c:326
-#, fuzzy
-msgid "Selected images will be deleted, are you sure ?"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/commands-impl.c:409
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "ç”»åƒ \"%s\" ã®è¤‡è£½ã‚’ä½œæˆã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:346
-#, fuzzy
-msgid "The image will be deleted, are you sure ?"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/commands-impl.c:467
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/commands-impl.c:597
-#, fuzzy
-msgid "The image will be deleted from the catalog, are you sure ?"
-msgstr ""
-"ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ò¥«¥¿¥í¥°¤«¤é\n"
-"ºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/commands-impl.c:487
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "ç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/commands-impl.c:639
-#, fuzzy
-msgid "The selected images will be deleted from the catalog, are you sure ?"
-msgstr ""
-"ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ò¥«¥¿¥í¥°¤«¤é\n"
-"ºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/commands-impl.c:752
+msgid "The image will be removed from the catalog, are you sure?"
+msgstr "ç”»åƒã‚’ã‚«ã‚¿ãƒ­ã‚°ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/commands-impl.c:710 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:199 src/dlg-png-exporter.c:190
+#: src/commands-impl.c:794
+msgid "The selected images will be removed from the catalog, are you sure?"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ã‚«ã‚¿ãƒ­ã‚°ã‹ã‚‰å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
+
+#: src/commands-impl.c:870 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/dlg-categories.c:201 src/dlg-file-utils.c:93
 msgid "C_reate"
-msgstr ""
+msgstr "ç”Ÿæˆ(_C)"
 
-#: src/commands-impl.c:740 src/commands-impl.c:863 src/commands-impl.c:1070
-#: src/commands-impl.c:1263
-#, fuzzy, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
-msgstr ""
-"Ì¾Á° \"%s\" ¤Ï´û¤Ë¤³¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ç»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ş¤¹¡£ÊÌ¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ"
-"¤¤¡£"
+#: src/commands-impl.c:896 src/commands-impl.c:1017 src/commands-impl.c:1587
+#: src/commands-impl.c:1675
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "åå‰ \"%s\" ã¯æ—¢ã«ä½¿ç”¨ã•ã‚Œã¦ã„ã¾ã™ã€‚åˆ¥ã®åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„ã€‚"
 
-#: src/commands-impl.c:768
-#, fuzzy
+#: src/commands-impl.c:924
 msgid "New Folder"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤òÉ½¼¨¤·¤Ş¤¹"
+msgstr "æ–°è¦ãƒ•ã‚©ãƒ«ãƒ€"
 
-#: src/commands-impl.c:769
-#, fuzzy
-msgid "Enter the folder name : "
-msgstr "¥Ç¥£¥ì¥¯¥È¥êÌ¾¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤ : "
+#: src/commands-impl.c:925
+msgid "Enter the folder name: "
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€åã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„: "
 
-#: src/commands-impl.c:770
-#, fuzzy, c-format
-msgid "Could not create the folder \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:926
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã‚’ç”Ÿæˆã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:781
-#, fuzzy
+#: src/commands-impl.c:937
 msgid "New Library"
-msgstr "¿·µ¬¤Î¸¡º÷..."
+msgstr "æ–°è¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª"
 
-#: src/commands-impl.c:782 src/dlg-catalog.c:120
-#, fuzzy
-msgid "Enter the library name : "
-msgstr "¥Ç¥£¥ì¥¯¥È¥êÌ¾¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤ : "
+#: src/commands-impl.c:938 src/dlg-catalog.c:120
+msgid "Enter the library name: "
+msgstr "ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„: "
 
-#: src/commands-impl.c:783
-#, fuzzy, c-format
-msgid "Could not create the library \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:939
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "ãƒ©ã‚¤ãƒ–ãƒ©ãƒª \"%s\" ã‚’ç”Ÿæˆã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:854 src/commands-impl.c:895 src/commands-impl.c:1274
-#, fuzzy, c-format
-msgid "Could not rename the folder \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1008 src/commands-impl.c:1049
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã®åå‰ã‚’å¤‰æ›´ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:952 src/commands-impl.c:1357
-#, fuzzy
-msgid "The selected folder will be deleted, are you sure ?"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/commands-impl.c:1115
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã‚’å‰Šé™¤ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/commands-impl.c:988
-#, fuzzy, c-format
-msgid "Cannot remove folder \"%s\" : %s"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
-
-#: src/commands-impl.c:1061 src/commands-impl.c:1102
-#, fuzzy, c-format
-msgid "Could not move the folder \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
-
-#: src/commands-impl.c:1134 src/dlg-file-utils.c:313 src/dlg-file-utils.c:456
-#, fuzzy
-msgid "Choose the destination folder"
-msgstr "°ÜÆ°Àè¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ÎÁªÂò"
-
-#: src/commands-impl.c:1274
-#, fuzzy, c-format
-msgid "Could not rename the catalog \"%s\" : %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
-
-#: src/commands-impl.c:1359
-msgid "The selected catalog will be deleted, are you sure ?"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
-
-#: src/commands-impl.c:2061 src/dlg-categories.c:323 src/dlg-comment.c:240
-#: src/dlg-preferences.c:290 src/dlg-search.c:467
-#, fuzzy, c-format
-msgid "Could not display help: %s"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
-
-#: src/commands-impl.c:2112
-msgid "translator_credits"
-msgstr ""
-
-#: src/commands-impl.c:2124
-msgid "An image viewer and browser for GNOME."
-msgstr "GNOME ¸ş¤±¤Î²èÁü¥Ó¥å¥ï¡¼¤È¥Ö¥é¥¦¥¶¤Ç¤¹¡£"
-
-#: src/dlg-catalog.c:79
-msgid "Enter the catalog name : "
-msgstr "¥«¥¿¥í¥°Ì¾¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤ : "
-
-#: src/dlg-catalog.c:432
-msgid "Move Catalog to..."
-msgstr "¥«¥¿¥í¥°¤Î°ÜÆ°..."
-
-#: src/dlg-categories.c:195
-#, fuzzy
-msgid "Enter the new category name"
-msgstr "¥Ç¥£¥ì¥¯¥È¥êÌ¾¤òÆşÎÏ¤·¤Æ²¼¤µ¤¤ : "
-
-#: src/dlg-categories.c:208 src/dlg-categories.c:373
-#, fuzzy, c-format
-msgid "The category \"%s\" is already present. Please use a different name."
-msgstr ""
-"Ì¾Á° \"%s\" ¤Ï´û¤Ë¤³¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ç»ÈÍÑ¤µ¤ì¤Æ¤¤¤Ş¤¹¡£ÊÌ¤ÎÌ¾Á°¤ò»ØÄê¤·¤Æ²¼¤µ"
-"¤¤¡£"
-
-#: src/dlg-duplicates.c:260 src/gthumb_print.glade2.h:7
-#: src/gthumb_tools.glade2.h:15
-msgid "Image"
-msgstr "²èÁü"
-
-#: src/dlg-duplicates.c:274 src/dlg-duplicates.c:606
-#, fuzzy
-msgid "Duplicates"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/dlg-duplicates.c:289
-#, fuzzy
-msgid "Duplicates Size"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/dlg-duplicates.c:332 src/dlg-image-prop.c:153 src/gthumb.glade2.h:61
-#, fuzzy
-msgid "Name"
-msgstr "Ì¾Á°½ç(_N)"
-
-#: src/dlg-duplicates.c:360
-msgid "Last modified"
-msgstr ""
-
-#: src/dlg-duplicates.c:375 src/dlg-image-prop.c:173
-msgid "Location"
-msgstr ""
-
-#: src/dlg-duplicates.c:711
-#, fuzzy
-msgid "Checked images will be deleted, are you sure ?"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
-
-#: src/dlg-duplicates.c:757
+#: src/commands-impl.c:1144
+#, c-format
 msgid ""
-"In order to use the \"Find Duplicates\" tool you have to have one of the "
-"following commands: sha1sum, md5sum.\n"
-"None of them could be found, so this tool is disabled."
-msgstr ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" ã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚ã“ã‚Œã‚’å®Œå…¨ã«å‰Šé™¤ã—ã¾ã™ã‹ï¼Ÿ"
 
-#: src/dlg-file-utils.c:138
-#, fuzzy
-msgid "Could not delete the file:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1181
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/dlg-file-utils.c:140
-msgid "Could not delete the following files:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1183 src/dlg-file-utils.c:277
+msgid "_Move"
+msgstr "ç§»å‹•(_M)"
 
-#: src/dlg-file-utils.c:288
-#, fuzzy
-msgid "Could not move the file:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò°ÜÆ°¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1249 src/commands-impl.c:1304
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã‚’ã‚³ãƒ”ãƒ¼ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-file-utils.c:290
-msgid "Could not move the following files:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò°ÜÆ°¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1304 src/dlg-file-utils.c:2286
+#: src/dlg-file-utils.c:2288
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã‚’ç§»å‹•ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-file-utils.c:431
-#, fuzzy
-msgid "Could not copy the file:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò¥³¥Ô¡¼¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1325
+msgid "source contains destination"
+msgstr "é€ã‚Šå…ƒã«é€ã‚Šå…ˆãŒå«ã¾ã‚Œã¦ã„ã¾ã™"
 
-#: src/dlg-file-utils.c:433
-msgid "Could not copy the following files:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò¥³¥Ô¡¼¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1336
+msgid "a folder with that name is already present."
+msgstr "ãã®åå‰ã®ãƒ•ã‚©ãƒ«ãƒ€ã¯æ—¢ã«å­˜åœ¨ã—ã¾ã™ã€‚"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:538
-#: src/gthumb-window.c:428
-msgid "%d %b %Y, %H:%M"
-msgstr ""
+#: src/commands-impl.c:1430 src/dlg-file-utils.c:362 src/dlg-file-utils.c:450
+msgid "Choose the destination folder"
+msgstr "é€ã‚Šå…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’é¸æŠã—ã¦ä¸‹ã•ã„"
 
-#: src/dlg-file-utils.c:806
-#, fuzzy
-msgid "Could not rename the file:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò°ÜÆ°¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1598
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "ãƒ©ã‚¤ãƒ–ãƒ©ãƒª \"%s\" ã®åå‰ã‚’å¤‰æ›´ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-file-utils.c:808
-#, fuzzy
-msgid "Could not rename the following files:"
-msgstr "¼¡¤Î¥Õ¥¡¥¤¥ë¤ò°ÜÆ°¤¹¤ë¤³¤È¤¬½ĞÍè¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/commands-impl.c:1598
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "ã‚«ã‚¿ãƒ­ã‚° \"%s\" ã®åå‰ã‚’å¤‰æ›´ã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-image-prop.c:158
-msgid "Type"
-msgstr ""
+#: src/commands-impl.c:1643 src/dlg-catalog.c:79
+msgid "Enter the catalog name: "
+msgstr "ã‚«ã‚¿ãƒ­ã‚°åã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„: "
 
-#: src/dlg-image-prop.c:163
-#, fuzzy
-msgid "Image Dimensions"
-msgstr "²èÁü¤Î¼¡¸µ"
+#: src/commands-impl.c:1644
+msgid "New Catalog"
+msgstr "æ–°è¦ã‚«ã‚¿ãƒ­ã‚°"
 
-#: src/dlg-image-prop.c:168 src/gthumb.glade2.h:42
-#, fuzzy
-msgid "File Size"
-msgstr "¥Õ¥¡¥¤¥ë¡¦¥µ¥¤¥º"
+#: src/commands-impl.c:1686
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "ã‚«ã‚¿ãƒ­ã‚° \"%s\" ã‚’ç”Ÿæˆã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-image-prop.c:178 src/gthumb.glade2.h:54
-msgid "Last Modified"
-msgstr ""
+#: src/commands-impl.c:1750
+msgid "The selected library will be removed, are you sure?"
+msgstr "é¸æŠã—ãŸãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/dlg-image-prop.c:197 src/gthumb-ui.xml.h:14
-#, fuzzy
-msgid "Comm_ent"
-msgstr "¥³¥á¥ó¥È"
+#: src/commands-impl.c:1752
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "é¸æŠã—ãŸã‚«ã‚¿ãƒ­ã‚°ã‚’å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
 
-#: src/dlg-image-prop.c:220
-msgid "E_XIF"
-msgstr ""
+#: src/commands-impl.c:2651 src/dlg-categories.c:325 src/dlg-comment.c:239
+#: src/dlg-preferences.c:179 src/dlg-search.c:451
+#, c-format
+msgid "Could not display help: %s"
+msgstr "ãƒ˜ãƒ«ãƒ—ã‚’è¡¨ç¤ºã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
 
-#: src/dlg-image-prop.c:461
-#, fuzzy
-msgid "Categories"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
+#: src/commands-impl.c:2702
+msgid "translator_credits"
+msgstr "ç¿»è¨³ã«å”åŠ›ã—ã¦ãã‚ŒãŸæ–¹ã€…"
 
-#: src/dlg-image-prop.c:512
-#, fuzzy, c-format
-msgid "%s properties"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
+#: src/commands-impl.c:2713
+msgid "Copyright (C) 2001 Free Software Foundation, Inc."
+msgstr "Copyright (C) 2001 Free Software Foundation, Inc."
 
-#: src/dlg-jpegtran.c:387
-msgid "No JPEG image selected"
-msgstr ""
+#: src/commands-impl.c:2714
+msgid "An image viewer and browser for GNOME."
+msgstr "GNOME å‘ã‘ã®ç”»åƒãƒ“ãƒ¥ãƒ¯ãƒ¼ã¨ãƒ–ãƒ©ã‚¦ã‚¶ã§ã™ã€‚"
 
-#: src/dlg-maintenance.c:70
-#, fuzzy
-msgid "All comments will be deleted, are you sure ?"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/dlg-catalog.c:435
+msgid "Move Catalog to..."
+msgstr "ã‚«ã‚¿ãƒ­ã‚°ã®ç§»å‹•..."
 
-#: src/dlg-maintenance.c:100
-#, fuzzy
-msgid "All thumbnails will be deleted, are you sure ?"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Æ¤âµ¹¤·¤¤¤Ç¤¹¤«¡©"
+#: src/dlg-categories.c:197
+msgid "Enter the new category name"
+msgstr "ã‚«ãƒ†ã‚´ãƒªåã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„: "
 
-#: src/dlg-maintenance.c:160 src/dlg-maintenance.c:230
-msgid "Specify the backup file"
-msgstr ""
+#: src/dlg-categories.c:210
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "ã‚«ãƒ†ã‚´ãƒª \"%s\" ã¯æ—¢ã«å­˜åœ¨ã—ã¾ã™ã€‚åˆ¥ã®åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„ã€‚"
 
-#: src/dlg-png-exporter.c:188
-msgid "Destination folder does not exits. Do you want to create it ?"
-msgstr ""
+#: src/dlg-convert.c:161
+#, c-format
+msgid "Converting image: %s"
+msgstr "ç”»åƒã®å¤‰æ›: %s"
 
-#: src/dlg-png-exporter.c:204
-#, fuzzy, c-format
-msgid "Could not create folder \"%s\" : %s."
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤òÊÑ¹¹¤Ç¤­¤Ş¤»¤ó¤Ç¤·¤¿:"
+#: src/dlg-convert.c:184
+#, c-format
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr "ç”»åƒ \"%s\" ã¯æ—¢ã«å­˜åœ¨ã—ã¦ã„ã¾ã™ã€‚åˆ¥ã®åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„ã€‚"
 
-#: src/dlg-png-exporter.c:217
+#: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
+msgid "Image"
+msgstr "ç”»åƒ"
+
+#: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
+msgid "Duplicates"
+msgstr "è¤‡è£½"
+
+#: src/dlg-duplicates.c:294
+msgid "Duplicates Size"
+msgstr "è¤‡è£½ã®ã‚µã‚¤ã‚º"
+
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:666
+msgid "Name"
+msgstr "åå‰"
+
+#: src/dlg-duplicates.c:400
+msgid "Last modified"
+msgstr "æœ€çµ‚ä¿®æ­£æ—¥æ™‚"
+
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:686
+msgid "Location"
+msgstr "å ´æ‰€"
+
+#: src/dlg-duplicates.c:755
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
+
+#: src/dlg-file-utils.c:91
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "é€ã‚Šå…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚ãã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ä½œæˆã—ã¾ã™ã‹ï¼Ÿ"
+
+#: src/dlg-file-utils.c:107
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã‚’ç”Ÿæˆã§ãã¾ã›ã‚“ã§ã—ãŸ: %s"
+
+#: src/dlg-file-utils.c:121
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ã®ä¸­ã«ç”»åƒã‚’ç”Ÿæˆã™ã‚‹ãŸã‚ã®æ¨©é™ãŒã‚ã‚Šã¾ã›ã‚“ã€‚"
 
-#: src/dlg-png-exporter.c:846
-#, fuzzy
+#: src/dlg-file-utils.c:203
+msgid "Could not delete the images:"
+msgstr "ç”»åƒã‚’å‰Šé™¤ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/dlg-file-utils.c:223
+msgid ""
+"The images cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr "ç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚ç”»åƒã‚’å®Œå…¨ã«æ¶ˆå»ã—ã¾ã™ã‹ï¼Ÿ"
+
+#: src/dlg-file-utils.c:752 src/dlg-file-utils.c:853
+msgid "You didn't enter the new name"
+msgstr "æ–°ã—ã„åå‰ã‚’å…¥åŠ›ã—ã¦ã„ã¾ã›ã‚“ã€‚"
+
+#: src/dlg-file-utils.c:764 src/dlg-file-utils.c:865
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+"åå‰ \"%s\" ã¯æ—¢ã«ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã§ä½¿ç”¨ã—ã¦ã„ã¾ã™ã€‚åˆ¥ã®åå‰ã‚’å…¥åŠ›ã—ã¦ä¸‹ã•ã„ã€‚"
+
+#: src/dlg-file-utils.c:1004
+msgid "Could not rename the image:"
+msgstr "ç”»åƒã‚’å‰Šé™¤ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/dlg-file-utils.c:1006
+msgid "Could not rename the following images:"
+msgstr "æ¬¡ã®ç”»åƒã®åå‰ã‚’å¤‰æ›´ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/dlg-file-utils.c:1138
+msgid "Could not move the image:"
+msgstr "ç”»åƒã‚’ç§»å‹•ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/dlg-file-utils.c:1140
+msgid "Could not copy the image:"
+msgstr "ç”»åƒã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
+msgid "_Abort"
+msgstr "ä¸­æ­¢(_A)"
+
+#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2309
+msgid "_Continue"
+msgstr "ç¶šè¡Œ(_C)"
+
+#: src/dlg-file-utils.c:1335
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ”ãƒ¼ä¸­: %d/%d"
+
+#: src/dlg-file-utils.c:1701 src/dlg-file-utils.c:1887
+msgid "Collecting images info"
+msgstr "ç”»åƒæƒ…å ±ã®åé›†"
+
+#: src/dlg-file-utils.c:1704 src/dlg-file-utils.c:1900
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ã®å‰Šé™¤ä¸­: %ld/%ld"
+
+#: src/dlg-file-utils.c:1890
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚³ãƒ”ãƒ¼ä¸­: %ld/%ld"
+
+#: src/dlg-file-utils.c:1895
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ã®ç§»å‹•ä¸­: %ld/%ld"
+
+#: src/dlg-image-prop.c:671
+msgid "Image Dimensions"
+msgstr "ç”»åƒã®å¯¸æ³•"
+
+#: src/dlg-image-prop.c:676
+msgid "Type"
+msgstr "ç¨®é¡"
+
+#: src/dlg-image-prop.c:681
+msgid "File Size"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ã‚µã‚¤ã‚º"
+
+#: src/dlg-image-prop.c:691
+msgid "Last Modified"
+msgstr "æœ€çµ‚ä¿®æ­£æ—¥æ™‚"
+
+#: src/dlg-image-prop.c:696
+msgid "Information on Channel"
+msgstr "ãƒãƒ£ãƒ³ãƒãƒ«ã®æƒ…å ±"
+
+#: src/dlg-image-prop.c:729
+msgid "Field"
+msgstr "ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰"
+
+#: src/dlg-image-prop.c:740 src/gthumb.glade.h:25
+msgid "Value"
+msgstr "æ•°å€¤"
+
+#: src/dlg-image-prop.c:821
+#, c-format
+msgid "%s Properties"
+msgstr "%s ã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£"
+
+#: src/dlg-maintenance.c:70
+msgid "All comments will be removed, are you sure?"
+msgstr "å…¨ã¦ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
+
+#: src/dlg-maintenance.c:101
+msgid "All thumbnails will be deleted, are you sure?"
+msgstr "å…¨ã¦ã®ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã™ã€‚å®œã—ã„ã§ã™ã‹ï¼Ÿ"
+
+#: src/dlg-maintenance.c:162 src/dlg-maintenance.c:232
+msgid "Specify the backup file"
+msgstr "ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ãƒ»ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„"
+
+#: src/dlg-png-exporter.c:990
 msgid "Image Caption"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
+msgstr "ç”»åƒã®èª¬æ˜"
 
-#: src/dlg-png-exporter.c:898
+#: src/dlg-png-exporter.c:1043
 msgid "Header"
-msgstr ""
+msgstr "ãƒ˜ãƒƒãƒ€"
 
-#: src/dlg-png-exporter.c:911 src/dlg-png-exporter.c:916
+#: src/dlg-png-exporter.c:1056 src/dlg-png-exporter.c:1062
 msgid "Footer"
-msgstr ""
+msgstr "ãƒ•ãƒƒã‚¿"
 
-#: src/dlg-rename-series.c:297
-#, fuzzy
+#: src/dlg-rename-series.c:319
 msgid "Old Name"
-msgstr "¸Å¤¤²èÁü:"
+msgstr "å¤ã„åå‰"
 
-#: src/dlg-rename-series.c:305
-#, fuzzy
+#: src/dlg-rename-series.c:327
 msgid "New Name"
-msgstr "¿·¤·¤¤²èÁü:"
+msgstr "æ–°ã—ã„åå‰"
 
-#: src/dlg-search.c:356
+#: src/dlg-search.c:340
 msgid "Search Result"
-msgstr "¸¡º÷·ë²Ì"
+msgstr "æ¤œç´¢çµæœ"
 
-#: src/dlg-search.c:840
+#: src/dlg-search.c:824
 msgid "Filename"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«å"
 
-#: src/dlg-search.c:849
+#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
-msgstr ""
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€"
 
-#: src/gthumb.glade2.h:1 src/gthumb_comments.glade2.h:1
-#: src/gthumb_png_exporter.glade2.h:1 src/gthumb_search.glade2.h:1
-#: src/gthumb_tools.glade2.h:1
-msgid "    "
-msgstr ""
+#: src/fullscreen.c:707 src/gthumb-ui.xml.h:108
+msgid "Restore Normal View"
+msgstr "é€šå¸¸è¡¨ç¤ºã«æˆ»ã™"
 
-#: src/gthumb.glade2.h:2 src/gthumb_tools.glade2.h:2
-msgid "     "
-msgstr ""
+#: src/gth-folder-selection-dialog.c:403
+msgid "_Browse..."
+msgstr "å‚ç…§(_B)..."
 
-#: src/gthumb.glade2.h:3 src/gthumb_comments.glade2.h:2
-#: src/gthumb_png_exporter.glade2.h:2 src/gthumb_search.glade2.h:2
-#: src/gthumb_tools.glade2.h:3
-msgid "*"
-msgstr ""
+#: src/gth-folder-selection-dialog.c:412
+msgid "_Recents:"
+msgstr "ç¾åœ¨(_R):"
 
-#: src/gthumb.glade2.h:4
-msgid "112 x 112"
-msgstr "112 x 112"
-
-#: src/gthumb.glade2.h:5
-msgid "128 x 128"
-msgstr "128 x 128"
-
-#: src/gthumb.glade2.h:6
-msgid "164 x 164"
-msgstr "164 x 164"
-
-#: src/gthumb.glade2.h:7
-msgid "200 x 200"
-msgstr "200 x 200"
-
-#: src/gthumb.glade2.h:8
-msgid "256 x 256"
-msgstr "256 x 256"
-
-#: src/gthumb.glade2.h:9
-msgid "48 x 48"
-msgstr "48 x 48"
-
-#: src/gthumb.glade2.h:10
-msgid "64 x 64"
-msgstr "64 x 64"
-
-#: src/gthumb.glade2.h:11
-msgid "85 x 85"
-msgstr "85 x 85"
-
-#: src/gthumb.glade2.h:12
-msgid "95 x 95"
-msgstr "95 x 95"
-
-#: src/gthumb.glade2.h:13
-msgid ":"
-msgstr ""
-
-#: src/gthumb.glade2.h:14
-#, fuzzy
-msgid "<b>Checks</b>"
-msgstr "³Ê»Ò"
-
-#: src/gthumb.glade2.h:15
-#, fuzzy
-msgid "<b>Direction</b>"
-msgstr "¥¹¥é¥¤¥ÉÊı¸ş:"
-
-#: src/gthumb.glade2.h:16
-#, fuzzy
-msgid "<b>Hide/Show</b>"
-msgstr "¥¹¥é¥¤¥É¥·¥ç¡¼"
-
-#: src/gthumb.glade2.h:17
-#, fuzzy
-msgid "<b>History</b>"
-msgstr "ÍúÎò"
-
-#: src/gthumb.glade2.h:18
-msgid "<b>Interface</b>"
-msgstr ""
-
-#: src/gthumb.glade2.h:19
-#, fuzzy
-msgid "<b>On Startup:</b>"
-msgstr "µ¯Æ°»ş¤Î¥Ç¥£¥ì¥¯¥È¥ê:"
-
-#: src/gthumb.glade2.h:20
-msgid "<b>Other</b>"
-msgstr ""
-
-#: src/gthumb.glade2.h:21
-#, fuzzy
-msgid "<b>Overwrite the old image with the new one ?</b>"
-msgstr "¿·¤·¤¤²èÁü¤Ç¸Å¤¤²èÁü¤ò¾å½ñ¤­¤·¤Ş¤¹¤«¡©"
-
-#: src/gthumb.glade2.h:22
-#, fuzzy
-msgid "<b>Slide Show</b>"
-msgstr "¥¹¥é¥¤¥É¥·¥ç¡¼"
-
-#: src/gthumb.glade2.h:23
-#, fuzzy
-msgid "<b>Thumbnails</b>"
-msgstr "¥µ¥à¥Í¥¤¥ë"
-
-#: src/gthumb.glade2.h:24
-#, fuzzy
-msgid "<b>Viewer</b>"
-msgstr "¥Ó¥å¥ï¡¼"
-
-#: src/gthumb.glade2.h:25
-#, fuzzy
-msgid "A_vailable applications:"
-msgstr "ÍøÍÑ²ÄÇ½¤Ê¥¢¥×¥ê¥±¡¼¥·¥ç¥ó"
-
-#: src/gthumb.glade2.h:26
-msgid "Activate items with a double click"
-msgstr ""
-
-#: src/gthumb.glade2.h:27
-msgid "Activate items with a single click"
-msgstr ""
-
-#: src/gthumb.glade2.h:28
-#, fuzzy
-msgid "After _loading an image:"
-msgstr "²èÁü¤òÆÉ¤ß¹ş¤ó¤À¸å:"
-
-#: src/gthumb.glade2.h:29
-#, fuzzy
-msgid "As_k confirmation before deleting images or catalogs"
-msgstr "¥«¥¿¥í¥°¤òºï½ü¤¹¤ëÁ°¤Ë³ÎÇ§¤¹¤ë"
-
-#: src/gthumb.glade2.h:30
-msgid "Black"
-msgstr "¹õ¿§"
-
-#: src/gthumb.glade2.h:31
-msgid "Browser"
-msgstr "¥Ö¥é¥¦¥¶"
-
-#: src/gthumb.glade2.h:32
-#, fuzzy
-msgid "C_atalogs:"
-msgstr "¥«¥¿¥í¥°"
-
-#: src/gthumb.glade2.h:33
-msgid "C_lick policy:"
-msgstr ""
-
-#: src/gthumb.glade2.h:34
-msgid "Checked"
-msgstr "³Ê»Ò¼Ê"
-
-#: src/gthumb.glade2.h:35
-#, fuzzy
-msgid "Choose a catalog"
-msgstr "¥«¥¿¥í¥°¤ÎÁªÂò..."
-
-#: src/gthumb.glade2.h:36 src/gthumb_png_exporter.glade2.h:30
-#, fuzzy
-msgid "Colo_r:"
-msgstr "¿§:"
-
-#: src/gthumb.glade2.h:37
-msgid "D_elay before changing image:"
-msgstr ""
-
-#: src/gthumb.glade2.h:38
-msgid "Dark"
-msgstr "°Å¤¯"
-
-#: src/gthumb.glade2.h:39
-msgid "Determine image type from co_ntent (slower)"
-msgstr ""
-
-#: src/gthumb.glade2.h:40
-#, fuzzy
-msgid "Do _not change folder"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê¤òÊÑ¹¹¤·¤Ê¤¤"
-
-#: src/gthumb.glade2.h:41
-#, fuzzy
-msgid "Do not overwrite _this image"
-msgstr "¤³¤Î²èÁü¤ò¾å½ñ¤­¤·¤Ê¤¤"
-
-#: src/gthumb.glade2.h:43
-msgid "Fit image to window"
-msgstr "²èÁü¤ò¥¦¥£¥ó¥É¥¦¤Î¥µ¥¤¥º¤Ë¹ç¤ï¤»¤ë"
-
-#: src/gthumb.glade2.h:44
-msgid "Fit to window if larger"
-msgstr "²èÁü¤¬¥¦¥£¥ó¥É¥¦¤Î¥µ¥¤¥º¤è¤ê¤âÂç¤­¤¤¾ì¹ç¤Ï¥¦¥£¥ó¥É¥¦¤Ë¥Õ¥£¥Ã¥È¤µ¤»¤ë"
-
-#: src/gthumb.glade2.h:45
-msgid "Follow Nautilus behaviour"
-msgstr ""
-
-#: src/gthumb.glade2.h:46
-#, fuzzy
-msgid "For_ward"
-msgstr "Á°¤Ë¿Ê¤à"
-
-#: src/gthumb.glade2.h:47
-msgid "General"
-msgstr "Á´ÈÌ"
-
-#: src/gthumb.glade2.h:48
-#, fuzzy
-msgid "Go to last _visited folder or catalog"
-msgstr "ºÇ¸å¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤¹¤ë"
-
-#: src/gthumb.glade2.h:49
-#, fuzzy
-msgid "Go to this _folder:"
-msgstr "¼¡¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤¹¤ë:"
-
-#: src/gthumb.glade2.h:50
-#, fuzzy
-msgid "H_igh"
-msgstr "¹âÉÊ¼Á"
-
-#: src/gthumb.glade2.h:51
-msgid "Icons only"
-msgstr ""
-
-#: src/gthumb.glade2.h:52
-msgid "Keep previous zoom"
-msgstr "Á°¤Î³ÈÂçÎ¨¤òÊİ»ı¤¹¤ë"
-
-#: src/gthumb.glade2.h:53
-msgid "Large"
-msgstr "Âç¤­¤¤"
-
-#: src/gthumb.glade2.h:55
-#, fuzzy
-msgid "Layout:"
-msgstr "¥ì¥¤¥¢¥¦¥È"
-
-#: src/gthumb.glade2.h:56
-msgid "Light"
-msgstr "ÌÀ¤ë¤¯"
-
-#: src/gthumb.glade2.h:57
-#, fuzzy
-msgid "Lo_w"
-msgstr "ÄãÉÊ¼Á"
-
-#: src/gthumb.glade2.h:58
-#, fuzzy
-msgid "Max _history length:"
-msgstr "ÍúÎò¤ÎºÇÂçÊİ»ı¿ô:"
-
-#: src/gthumb.glade2.h:59
-msgid "Medium"
-msgstr "Ãæ¤¯¤é¤¤"
-
-#: src/gthumb.glade2.h:60
-#, fuzzy
-msgid "Mid tone"
-msgstr "Ãæ´Ö¥È¡¼¥ó"
-
-#: src/gthumb.glade2.h:62
-msgid "New Image:"
-msgstr "¿·¤·¤¤²èÁü:"
-
-#: src/gthumb.glade2.h:63
-#, fuzzy
-msgid "New _Library..."
-msgstr "¿·µ¬¤Î¸¡º÷..."
-
-#: src/gthumb.glade2.h:64
-msgid "None"
-msgstr ""
-
-#: src/gthumb.glade2.h:65
-msgid "Old Image:"
-msgstr "¸Å¤¤²èÁü:"
-
-#: src/gthumb.glade2.h:66
-#, fuzzy
-msgid "Over_write this image"
-msgstr "¤³¤Î²èÁü¤ò¾å½ñ¤­"
-
-#: src/gthumb.glade2.h:67
-#, fuzzy
-msgid "Overwrite _all images"
-msgstr "Á´¤Æ¤Î²èÁü¤ò¾å½ñ¤­"
-
-#: src/gthumb.glade2.h:68
-msgid "Overwrite image"
-msgstr "²èÁü¤Î¾å½ñ¤­"
-
-#: src/gthumb.glade2.h:69
-msgid "Priority text beside icons"
-msgstr ""
-
-#: src/gthumb.glade2.h:70
-#, fuzzy
-msgid "R_ecent applications:"
-msgstr "ºÇ¶á»ÈÍÑ¤·¤¿¥¢¥×¥ê¥±¡¼¥·¥ç¥ó"
-
-#: src/gthumb.glade2.h:71
-#, fuzzy
-msgid "Re_verse"
-msgstr "¸å¤í¤ËÌá¤ë"
-
-#: src/gthumb.glade2.h:72
-msgid "Resta_rt when finished"
-msgstr ""
-
-#: src/gthumb.glade2.h:73
-#, fuzzy
-msgid "Sa_ve thumbnails"
-msgstr "¥µ¥à¥Í¥¤¥ë¤òÊİÂ¸¤¹¤ë"
-
-#: src/gthumb.glade2.h:74
-msgid "Set image to actual size"
-msgstr "²èÁü¤ò¼Âºİ¤Î¥µ¥¤¥º¤Ë¤¹¤ë"
-
-#: src/gthumb.glade2.h:75
-#, fuzzy
-msgid "Set to C_urrent"
-msgstr "¥«¥ì¥ó¥È¤Ë»ØÄê¤¹¤ë"
-
-#: src/gthumb.glade2.h:76
-#, fuzzy
-msgid "Show _thumbnails"
-msgstr "¥µ¥à¥Í¥¤¥ë¤òÉ½¼¨¤¹¤ë"
-
-#: src/gthumb.glade2.h:77
-#, fuzzy
-msgid "Show co_mments"
-msgstr "¥³¥á¥ó¥È¤òÉ½¼¨¤¹¤ë"
-
-#: src/gthumb.glade2.h:78
-#, fuzzy
-msgid "Show hi_dden files"
-msgstr "±£¤·¥Õ¥¡¥¤¥ë¤òÉ½¼¨¤¹¤ë"
-
-#: src/gthumb.glade2.h:79
-#, fuzzy
-msgid "Si_ze :"
-msgstr "¥µ¥¤¥º:"
-
-#: src/gthumb.glade2.h:80
-#, fuzzy
-msgid "Si_ze:"
-msgstr "¥µ¥¤¥º:"
-
-#: src/gthumb.glade2.h:81
-msgid "Slide Show"
-msgstr "¥¹¥é¥¤¥É¥·¥ç¡¼"
-
-#: src/gthumb.glade2.h:82
-msgid "Small"
-msgstr "¾®¤µ¤¤"
-
-#: src/gthumb.glade2.h:83
-#, fuzzy
-msgid "Switch to _full screen"
-msgstr "¥Õ¥ë¥¹¥¯¥ê¡¼¥óÉ½¼¨¤ËÀÚ¤êÂØ¤¨¤ë"
-
-#: src/gthumb.glade2.h:84
-msgid "System settings"
-msgstr ""
-
-#: src/gthumb.glade2.h:85
-msgid "Text below icons"
-msgstr ""
-
-#: src/gthumb.glade2.h:86
-msgid "Text only"
-msgstr ""
-
-#: src/gthumb.glade2.h:87
-#, fuzzy
-msgid "Transparency _type:"
-msgstr "Æ©ÌÀ¤Î¼ïÎà:"
-
-#: src/gthumb.glade2.h:88
-msgid "Viewer"
-msgstr "¥Ó¥å¥ï¡¼"
-
-#: src/gthumb.glade2.h:89
-msgid "White"
-msgstr "Çò¿§"
-
-#: src/gthumb.glade2.h:90
-#, fuzzy
-msgid "Zoom _quality:"
-msgstr "¥º¡¼¥à¤ÎÉÊ¼Á:"
-
-#: src/gthumb.glade2.h:91
-#, fuzzy
-msgid "_Application:"
-msgstr "¥¢¥×¥ê¥±¡¼¥·¥ç¥ó"
-
-#: src/gthumb.glade2.h:92
-#, fuzzy
+#: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
-msgstr "¥Ö¥Ã¥¯¥Ş¡¼¥¯(_B)"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯(_B):"
 
-#: src/gthumb.glade2.h:93
-#, fuzzy
-msgid "_Do not overwrite any image"
-msgstr "²èÁü¤ò¾å½ñ¤­¤·¤Ê¤¤"
+#: src/gthumb-ui.xml.h:1
+msgid "1:1"
+msgstr "1:1"
 
-#: src/gthumb.glade2.h:94
-#, fuzzy
-msgid "_General"
-msgstr "Á´ÈÌ"
+#: src/gthumb-ui.xml.h:2
+msgid "Actual size"
+msgstr "å®Ÿã‚µã‚¤ã‚ºã§è¡¨ç¤ºã—ã¾ã™"
 
-#: src/gthumb.glade2.h:95
-#, fuzzy
+#: src/gthumb-ui.xml.h:3
+msgid "Add a comment to selected images"
+msgstr "é¸æŠã—ãŸç”»åƒã«ã‚³ãƒ¡ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:4
+msgid "Add a comment to the image"
+msgstr "ç”»åƒã«ã‚³ãƒ¡ãƒ³ãƒˆã‚’è¿½åŠ ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "ã“ã®å ´æ‰€ã‚’ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯ã«è¿½åŠ ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ã‚«ã‚¿ãƒ­ã‚°ã«è¿½åŠ ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:7
+msgid "Adjust brightness and contrast"
+msgstr "æ˜ã‚‹ã•ã¨ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆã‚’èª¿æ•´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:8
+msgid "Adjust color balance"
+msgstr "ã‚«ãƒ©ãƒ¼ãƒ»ãƒãƒ©ãƒ³ã‚¹ã‚’èª¿æ•´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:9
+msgid "Adjust hue and saturation"
+msgstr "è‰²åˆã„ã¨å½©åº¦ã‚’èª¿æ•´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:10
+msgid "Assign categories to selected images"
+msgstr "é¸æŠã—ãŸç”»åƒã«ã‚«ãƒ†ã‚´ãƒªã‚’ä»˜ä¸ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:11
+msgid "Assign categories to the image"
+msgstr "ç”»åƒã«ã‚«ãƒ†ã‚´ãƒªã‚’ä»˜ä¸ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:12
+msgid "Ca_talog"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°(_T)"
+
+#: src/gthumb-ui.xml.h:13
+msgid "Ca_tegories"
+msgstr "ã‚«ãƒ†ã‚´ãƒª(_T)"
+
+#: src/gthumb-ui.xml.h:14
+msgid "Catalogs"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°"
+
+#: src/gthumb-ui.xml.h:15 src/gthumb_comments.glade.h:6
+msgid "Categories"
+msgstr "ã‚«ãƒ†ã‚´ãƒª"
+
+#: src/gthumb-ui.xml.h:16
+msgid "Change _Date"
+msgstr "æ—¥ä»˜ã®å¤‰æ›´(_D)"
+
+#: src/gthumb-ui.xml.h:17
+msgid "Change images last modified date"
+msgstr "æœ€å¾Œã«ä¿®æ­£ã—ãŸæ—¥ä»˜ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:18
+msgid "Close all windows and exit"
+msgstr "å…¨ã¦ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã¦çµ‚äº†ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:19
+msgid "Close this window"
+msgstr "ã“ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã¾ã™"
+
+#: src/gthumb-ui.xml.h:20 src/gthumb.glade.h:12
+msgid "Comm_ent"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆ(_E)"
+
+#: src/gthumb-ui.xml.h:21 src/gthumb_comments.glade.h:8
+msgid "Comment"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆ"
+
+#: src/gthumb-ui.xml.h:22
+msgid "Convert"
+msgstr "å¤‰æ›"
+
+#: src/gthumb-ui.xml.h:23
+msgid "Convert F_ormat"
+msgstr "ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã®å¤‰æ›(_F)"
+
+#: src/gthumb-ui.xml.h:24
+msgid "Convert image format"
+msgstr "ç”»åƒã®ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚’å¤‰æ›ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:25
+msgid "Copy current folder"
+msgstr "ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:26
+msgid "Copy selected folder"
+msgstr "é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚³ãƒ”ãƒ¼ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:27
+msgid "Copy selected images to another location"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ä»–ã®å ´æ‰€ã«ã‚³ãƒ”ãƒ¼ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:28
+msgid "Copy this image to another location"
+msgstr "ã“ã®ç”»åƒã‚’ä»–ã®å ´æ‰€ã«ã‚³ãƒ”ãƒ¼ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Create _Index Image"
+msgstr "ç”»åƒã®ç›®éŒ²ã®ä½œæˆ(_I)"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Create a new catalog"
+msgstr "æ–°è¦ã«ã‚«ã‚¿ãƒ­ã‚°ã‚’ç”Ÿæˆã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:31
+msgid "Create a new catalog library"
+msgstr "æ–°è¦ã«ã‚«ã‚¿ãƒ­ã‚°ç”¨ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ç”Ÿæˆã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:32
+msgid "Create a new folder"
+msgstr "æ–°è¦ã«ãƒ•ã‚©ãƒ«ãƒ€ã‚’ç”Ÿæˆã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Create a new window"
+msgstr "æ–°è¦ã«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ãã¾ã™"
+
+#: src/gthumb-ui.xml.h:34
+msgid "D_uplicate"
+msgstr "è¤‡è£½(_U)"
+
+#: src/gthumb-ui.xml.h:35
+msgid "Delete the list of visited locations"
+msgstr "æœ€è¿‘è¨ªã‚ŒãŸå ´æ‰€ã®ä¸€è¦§ã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:36
+msgid "Duplicate selected image"
+msgstr "é¸æŠã—ãŸç”»åƒã®è¤‡è£½ã‚’ç”Ÿæˆã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:37
+msgid "Duplicate this image"
+msgstr "ã“ã®ç”»åƒã®è¤‡è£½ã‚’ç”Ÿæˆã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:38
+msgid "E_xit"
+msgstr "çµ‚äº†(_X)"
+
+#: src/gthumb-ui.xml.h:39
+msgid "Edit Search"
+msgstr "æ¤œç´¢åŸºæº–ã®ç·¨é›†"
+
+#: src/gthumb-ui.xml.h:40
+msgid "Edit bookmarks"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯ã‚’ç·¨é›†ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:41
+msgid "Edit various preferences"
+msgstr "gThumb ã®è¨­å®šã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:42
+msgid "Fi_nd Duplicates..."
+msgstr "è¤‡è£½ã®æ¤œç´¢(_N)..."
+
+#: src/gthumb-ui.xml.h:43
+msgid "Find images"
+msgstr "ç”»åƒã‚’æ¤œç´¢ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:44
+msgid "Fit"
+msgstr "ãƒ•ã‚£ãƒƒãƒˆ"
+
+#: src/gthumb-ui.xml.h:45
+msgid "Folders"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Forward"
+msgstr "é€²ã‚€"
+
+#: src/gthumb-ui.xml.h:47
+msgid "Full Screen"
+msgstr "ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Go to the folder that contains the selected image"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’æ ¼ç´ã™ã‚‹ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:49
+msgid "Go to the home folder"
+msgstr "ãƒ›ãƒ¼ãƒ ãƒ»ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Go to the next visited location"
+msgstr "æ¬¡ã«è¨ªã‚ŒãŸå ´æ‰€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:51
+msgid "Go to the previous visited location"
+msgstr "å‰ã«è¨ªã‚ŒãŸå ´æ‰€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:52
+msgid "Go up one level"
+msgstr "ä¸€ã¤ä¸Šã®ãƒ¬ãƒ™ãƒ«ã«ä¸ŠãŒã‚Šã¾ã™"
+
+#: src/gthumb-ui.xml.h:53
+msgid "Home"
+msgstr "ãƒ›ãƒ¼ãƒ "
+
+#: src/gthumb-ui.xml.h:54
+msgid "Image Toolbar"
+msgstr "ç”»åƒãƒ„ãƒ¼ãƒ«ãƒãƒ¼"
+
+#: src/gthumb-ui.xml.h:55
+msgid "In"
+msgstr "ä¸­"
+
+#: src/gthumb-ui.xml.h:56
+msgid "Information"
+msgstr "æƒ…å ±"
+
+#: src/gthumb-ui.xml.h:57
+msgid "Main Toolbar"
+msgstr "ãƒ¡ã‚¤ãƒ³ãƒ»ãƒ„ãƒ¼ãƒ«ãƒãƒ¼"
+
+#: src/gthumb-ui.xml.h:58
+msgid "Modify search criteria"
+msgstr "æ¤œç´¢åŸºæº–ã‚’ä¿®æ­£ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:59
+msgid "Move current catalog to another location"
+msgstr "ã“ã®ã‚«ã‚¿ãƒ­ã‚°ã‚’ä»–ã®å ´æ‰€ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:60
+msgid "Move current folder"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆãƒ»ãƒ•ã‚©ãƒ«ãƒ€ã‚’ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Move selected catalog to another location"
+msgstr "é¸æŠã—ãŸã‚«ã‚¿ãƒ­ã‚°ã‚’ä»–ã®ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:62
+msgid "Move selected folder"
+msgstr "é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:63
+msgid "Move selected images to another location"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ä»–ã®å ´æ‰€ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:64
+msgid "Move the current folder to the Trash"
+msgstr "ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:65
+msgid "Move the selected folder to the Trash"
+msgstr "é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:66
+msgid "Move the selected images to the Trash"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:67
+msgid "Move this image to another location"
+msgstr "ã“ã®ç”»åƒã‚’ä»–ã®å ´æ‰€ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:68
+msgid "Move this image to the Trash"
+msgstr "ã“ã®ç”»åƒã‚’ã‚´ãƒŸç®±ã«ç§»å‹•ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:69 src/gthumb_tools.glade.h:30
+msgid "Move to _Trash"
+msgstr "ã‚´ãƒŸç®±ã¸ç§»å‹•(_T)"
+
+#: src/gthumb-ui.xml.h:70
+msgid "New _Library..."
+msgstr "æ–°è¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(_L)..."
+
+#: src/gthumb-ui.xml.h:71
+msgid "New _Window"
+msgstr "æ–°è¦ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦(_N)"
+
+#: src/gthumb-ui.xml.h:72
+msgid "Next"
+msgstr "æ¬¡ã¸"
+
+#: src/gthumb-ui.xml.h:73
+msgid "Open current folder with the Nautilus file manager"
+msgstr "ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã‚’ Nautilus ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã§é–‹ãã¾ã™"
+
+#: src/gthumb-ui.xml.h:74
+msgid "Open selected images with an application"
+msgstr "é¸æŠã—ãŸç”»åƒã‚’ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§é–‹ãã¾ã™"
+
+#: src/gthumb-ui.xml.h:75
+msgid ""
+"Open the selected folder with the Nautilus file\n"
+"\t     manager"
+msgstr "Nautilus ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã§æŒ‡å®šã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã‚’é–‹ãã¾ã™"
+
+#: src/gthumb-ui.xml.h:77
+msgid "Open this image with an application"
+msgstr "ã“ã®ç”»åƒã‚’ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§é–‹ãã¾ã™"
+
+#: src/gthumb-ui.xml.h:78
+msgid "Open with the File Manager"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã§é–‹ã"
+
+#: src/gthumb-ui.xml.h:79
+msgid "Open with the _File Manager"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ãƒãƒãƒ¼ã‚¸ãƒ£ã§é–‹ã(_F)"
+
+#: src/gthumb-ui.xml.h:80
+msgid "Out"
+msgstr "å¤–"
+
+#: src/gthumb-ui.xml.h:81
+msgid "Play _Animation"
+msgstr "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®å®Ÿè¡Œ(_A)"
+
+#: src/gthumb-ui.xml.h:82
+msgid "Previous"
+msgstr "å‰"
+
+#: src/gthumb-ui.xml.h:83
+msgid "Print"
+msgstr "å°åˆ·"
+
+#: src/gthumb-ui.xml.h:85
+msgid "Proper_ties"
+msgstr "ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£(_T)"
+
+#: src/gthumb-ui.xml.h:86
+msgid "Properties"
+msgstr "ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£"
+
+#: src/gthumb-ui.xml.h:87
+msgid "Redo Search"
+msgstr "æ¤œç´¢ã®ã‚„ã‚Šç›´ã—"
+
+#: src/gthumb-ui.xml.h:88
+msgid "Redo _Search"
+msgstr "æ¤œç´¢ã®ã‚„ã‚Šç›´ã—(_S)"
+
+#: src/gthumb-ui.xml.h:89
+msgid "Redo the search"
+msgstr "æ¤œç´¢ã®ã‚„ã‚Šç›´ã—"
+
+#: src/gthumb-ui.xml.h:90
+msgid "Reduce number of colors"
+msgstr "ä½¿ç”¨ã—ã¦ã„ã‚‹è‰²æ•°ã‚’å°‘ãªãã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:91
+msgid "Reduce the number of colors"
+msgstr "ä½¿ç”¨ã—ã¦ã„ã‚‹è‰²æ•°ã‚’å°‘ãªãã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:92
+msgid "Reload the current location"
+msgstr "ã“ã®å ´æ‰€ã®ç”»åƒã‚’å†åº¦èª­ã¿è¾¼ã¿ã¾ã™"
+
+#: src/gthumb-ui.xml.h:93
+msgid "Rem_ove"
+msgstr "å‰Šé™¤(_O)"
+
+#: src/gthumb-ui.xml.h:94
+msgid "Rem_ove Comment"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã®å‰Šé™¤(_O)"
+
+#: src/gthumb-ui.xml.h:95
+msgid "Remo_ve from Catalog"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°ã‹ã‚‰å‰Šé™¤(_V)"
+
+#: src/gthumb-ui.xml.h:96
+msgid "Remove comments of selected images"
+msgstr "é¸æŠã—ãŸç”»åƒã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:97
+msgid "Remove current catalog"
+msgstr "ã“ã®ã‚«ã‚¿ãƒ­ã‚°ã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:98
+msgid "Remove selected catalog"
+msgstr "é¸æŠã—ãŸã‚«ã‚¿ãƒ­ã‚°ã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:99
+msgid "Remove selected images from the catalog"
+msgstr "é¸æŠã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚«ã‚¿ãƒ­ã‚°ã‹ã‚‰å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Remove the comment"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:101
+msgid "Rename current catalog"
+msgstr "ã“ã®ã‚«ã‚¿ãƒ­ã‚°ã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:102
+msgid "Rename current folder"
+msgstr "ã“ã®ãƒ•ã‚©ãƒ«ãƒ€ã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:103
+msgid "Rename selected catalog"
+msgstr "é¸æŠã—ãŸã‚«ã‚¿ãƒ­ã‚°ã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:104
+msgid "Rename selected folder"
+msgstr "é¸æŠã—ãŸãƒ•ã‚©ãƒ«ãƒ€ã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:105
+msgid "Rename selected image"
+msgstr "é¸æŠã—ãŸç”»åƒã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Rename this image"
+msgstr "ã“ã®ç”»åƒã®åå‰ã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:107
+msgid "Resize image"
+msgstr "ç”»åƒã®ã‚µã‚¤ã‚ºã‚’å¤‰æ›´ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:109
+msgid "Restore the original desktop wallpaper"
+msgstr "å…ƒã®ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—å£ç´™ã«æˆ»ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:110
+msgid "Reverse images order"
+msgstr "ç”»åƒã®é †ç•ªã‚’é€†é †ã«ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:111
+msgid "Revert"
+msgstr "é€†é †"
+
+#: src/gthumb-ui.xml.h:112
+msgid "Revert to saved image"
+msgstr "ä¿å­˜ã—ãŸç”»åƒã«æˆ»ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:114
+msgid "Rotate Ri_ght"
+msgstr "å³æ–¹å‘ã«å›è»¢(_G)"
+
+#: src/gthumb-ui.xml.h:115
+msgid "Rotate _JPEG"
+msgstr "JPEG ã®å›è»¢(_J)"
+
+#: src/gthumb-ui.xml.h:116
+msgid "Rotate _Left"
+msgstr "å·¦æ–¹å‘ã«å›è»¢(_L)"
+
+#: src/gthumb-ui.xml.h:117
+msgid "Rotate image"
+msgstr "ç”»åƒã‚’å›è»¢ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:118
+msgid "Rotate jpeg images without loss of quality"
+msgstr "å“è³ªä½ä¸‹ã‚’ãŠã“ã•ãªã„ã‚ˆã†ã« JPEG ç”»åƒã‚’å›è»¢ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:119
+msgid "S_ort Images"
+msgstr "ç”»åƒã®ä¸¦ã¹æ›¿ãˆ(_O)"
+
+#: src/gthumb-ui.xml.h:120
+msgid "Save"
+msgstr "ä¿å­˜"
+
+#: src/gthumb-ui.xml.h:123
+msgid "Search"
+msgstr "æ¤œç´¢"
+
+#: src/gthumb-ui.xml.h:124
+msgid "Select all images"
+msgstr "å…¨ã¦ã®ç”»åƒã‚’é¸æŠã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:125
+msgid "Set Image as _Wallpaper"
+msgstr "å£ç´™ã«ã‚»ãƒƒãƒˆ(_W)"
+
+#: src/gthumb-ui.xml.h:126
+msgid "Set the image as desktop background (centered)"
+msgstr "ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã®èƒŒæ™¯ã«ç”»åƒã‚’ã‚»ãƒƒãƒˆã—ã¾ã™(ä¸­å¤®)"
+
+#: src/gthumb-ui.xml.h:127
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã®èƒŒæ™¯ã«ç”»åƒã‚’ã‚»ãƒƒãƒˆã—ã¾ã™(ç”»é¢ã‚µã‚¤ã‚ºã®ç¸¦æ¨ªæ¯”ã«åˆã‚ã›ã‚‹)"
+
+#: src/gthumb-ui.xml.h:128
+msgid "Set the image as desktop background (stretched)"
+msgstr "ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã®èƒŒæ™¯ã«ç”»åƒã‚’ã‚»ãƒƒãƒˆã—ã¾ã™(ç”»é¢ã‚µã‚¤ã‚ºã«å¼•ãä¼¸ã°ã™)"
+
+#: src/gthumb-ui.xml.h:129
+msgid "Set the image as desktop background (tiled)"
+msgstr "ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã®èƒŒæ™¯ã«ç”»åƒã‚’ã‚»ãƒƒãƒˆã—ã¾ã™(ã‚¿ã‚¤ãƒ«çŠ¶)"
+
+#: src/gthumb-ui.xml.h:130
+msgid "Show information about gThumb"
+msgstr "gThumb ã®æƒ…å ±ã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:131
+msgid "Show/_Hide"
+msgstr "è¡¨ç¤º/éè¡¨ç¤º(H)"
+
+#: src/gthumb-ui.xml.h:132 src/gthumb_preferences.glade.h:63
+msgid "Slide Show"
+msgstr "ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼"
+
+#: src/gthumb-ui.xml.h:133
+msgid "Sort images by file size"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«ãƒ»ã‚µã‚¤ã‚ºã§ç”»åƒã‚’ä¸¦ã¹æ›¿ãˆã¾ã™"
+
+#: src/gthumb-ui.xml.h:134
+msgid "Sort images by modification time"
+msgstr "æœ€çµ‚ä¿®æ­£æ—¥æ™‚ã§ç”»åƒã‚’ä¸¦ã¹æ›¿ãˆã¾ã™"
+
+#: src/gthumb-ui.xml.h:135
+msgid "Sort images by name"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«åã§ç”»åƒã‚’ä¸¦ã¹æ›¿ãˆã¾ã™"
+
+#: src/gthumb-ui.xml.h:136
+msgid "Sort images by path"
+msgstr "ãƒ‘ã‚¹åã§ç”»åƒã‚’ä¸¦ã¹æ›¿ãˆã¾ã™"
+
+#: src/gthumb-ui.xml.h:137
+msgid "Specify a location to visit"
+msgstr "æœ€è¿‘è¨ªã‚ŒãŸå ´æ‰€ã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„"
+
+#: src/gthumb-ui.xml.h:139
+msgid "Step A_nimation"
+msgstr "ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã®ã‚¹ãƒ†ãƒƒãƒ—å®Ÿè¡Œ(_N)"
+
+#: src/gthumb-ui.xml.h:140
+msgid "Stop loading current location"
+msgstr "ã“ã®å ´æ‰€ã®èª­ã¿è¾¼ã¿ã‚’åœæ­¢ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:141
+msgid "Str_etched"
+msgstr "å¼•ãä¼¸ã°ã™(_E)"
+
+#: src/gthumb-ui.xml.h:142
+msgid "Transparen_cy Type"
+msgstr "é€æ˜ãªèƒŒæ™¯ã®ç¨®é¡(_C)"
+
+#: src/gthumb-ui.xml.h:143
+msgid "Up"
+msgstr "ä¸Šã¸"
+
+#: src/gthumb-ui.xml.h:144
+msgid "Use black as transparency"
+msgstr "èƒŒæ™¯ã‚’é»’è‰²ã«ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:145
+msgid "Use checks as transparency"
+msgstr "èƒŒæ™¯ã‚’æ ¼å­ç¸ã«ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:146
+msgid "Use gray as transparency"
+msgstr "èƒŒæ™¯ã‚’ç°è‰²ã«ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:147
+msgid "Use high quality zoom"
+msgstr "é«˜å“è³ªã‚ºãƒ¼ãƒ ã‚’ä½¿ç”¨ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:148
+msgid "Use low quality zoom"
+msgstr "ä½å“è³ªã‚ºãƒ¼ãƒ ã‚’ä½¿ç”¨ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:149
+msgid "Use white as transparency"
+msgstr "èƒŒæ™¯ã‚’ç™½è‰²ã«ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:150
+msgid "View as a slide show"
+msgstr "ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼ã§è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:151
+msgid "View image in fullscreen mode"
+msgstr "ç”»åƒã‚’å…¨ç”»é¢ãƒ¢ãƒ¼ãƒ‰ã§è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:152
+msgid "View image properties"
+msgstr "ç”»åƒã®ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:154
+msgid "View next image"
+msgstr "æ¬¡ã®ç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:155
+msgid "View or hide the statusbar of this window"
+msgstr "ã“ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼ã®è¡¨ç¤ºã‚’ ON/OFF ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:156
+msgid "View or hide the toolbar of this window"
+msgstr "ã“ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®è¡¨ç¤ºã‚’ ON/OFF ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:157
+msgid "View previous image"
+msgstr "å‰ã®ç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:158
+msgid "View the catalogs"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°ã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:159
+msgid "View the folders"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:160
+msgid "View the image"
+msgstr "ç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:161
+msgid "View the image flipped"
+msgstr "ä¸Šä¸‹ã²ã£ãã‚Šè¿”ã—ãŸç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:162
+msgid "View the image in black and white"
+msgstr "ç™½é»’ãƒ¢ãƒ¼ãƒ‰ã§ç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:163
+msgid "View the image mirrored"
+msgstr "ãƒŸãƒ©ãƒ¼ãƒªãƒ³ã‚°ã—ãŸç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:164
+msgid "View the image rotated clockwise"
+msgstr "æ™‚è¨ˆå›ã‚Šã«å›è»¢ã—ãŸç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:165
+msgid "View the image rotated counter-clockwise"
+msgstr "åæ™‚è¨ˆå›ã‚Šã«å›è»¢ã—ãŸç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:166
+msgid "View the image with negative colors"
+msgstr "ãƒŠãƒ“ã‚²ãƒ¼ãƒˆè‰²ã§ç”»åƒã‚’è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:167
+msgid "View thumbnails"
+msgstr "ã‚µãƒ ãƒã‚¤ãƒ«ã§è¡¨ç¤ºã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:168
+msgid "Zoom _In"
+msgstr "æ‹¡å¤§(_I)"
+
+#: src/gthumb-ui.xml.h:169
+msgid "Zoom _Out"
+msgstr "ç¸®å°(_O)"
+
+#: src/gthumb-ui.xml.h:170
+msgid "Zoom in"
+msgstr "ã“ã®ç”»åƒã‚’æ‹¡å¤§ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:171
+msgid "Zoom out"
+msgstr "ã“ã®ç”»åƒã‚’ç¸®å°ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:172
+msgid "Zoom to _Fit"
+msgstr "ãƒ•ã‚£ãƒƒãƒˆ(_F)"
+
+#: src/gthumb-ui.xml.h:173
+msgid "Zoom to fit window"
+msgstr "ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«åˆã‚ã›ã¦ã‚ºãƒ¼ãƒ ã—ã¾ã™"
+
+#: src/gthumb-ui.xml.h:174
+msgid "_About"
+msgstr "æƒ…å ±(_A)"
+
+#: src/gthumb-ui.xml.h:175
+msgid "_Actual Size"
+msgstr "å®Ÿã‚µã‚¤ã‚º(_A)"
+
+#: src/gthumb-ui.xml.h:176
+msgid "_Add Bookmark"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯ã«è¿½åŠ (_A)"
+
+#: src/gthumb-ui.xml.h:177
+msgid "_Add to Catalog..."
+msgstr "ã‚«ã‚¿ãƒ­ã‚°ã«è¿½åŠ (_A)..."
+
+#: src/gthumb-ui.xml.h:178
+msgid "_Adjust Color Levels"
+msgstr "ã‚«ãƒ©ãƒ¼ãƒ»ãƒ¬ãƒ™ãƒ«ã®èª¿æ•´(_A)"
+
+#: src/gthumb-ui.xml.h:179
+msgid "_Back"
+msgstr "æˆ»ã‚‹(_B)"
+
+#: src/gthumb-ui.xml.h:181
+msgid "_Bookmarks"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯(_B)"
+
+#: src/gthumb-ui.xml.h:182
+msgid "_Brightness-Contrast"
+msgstr "è¼åº¦ã¨ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ(_B)"
+
+#: src/gthumb-ui.xml.h:183
+msgid "_Catalogs"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°(_C)"
+
+#: src/gthumb-ui.xml.h:184
+msgid "_Centered"
+msgstr "ä¸­å¤®(_C)"
+
+#: src/gthumb-ui.xml.h:186
+msgid "_Close"
+msgstr "é–‰ã˜ã‚‹(_C)"
+
+#: src/gthumb-ui.xml.h:187
+msgid "_Color Balance"
+msgstr "ã‚«ãƒ©ãƒ¼ãƒ»ãƒãƒ©ãƒ³ã‚¹(_C)"
+
+#: src/gthumb-ui.xml.h:188
+msgid "_Copy..."
+msgstr "ã‚³ãƒ”ãƒ¼(_C)..."
+
+#: src/gthumb-ui.xml.h:189
+msgid "_Delete History"
+msgstr "å±¥æ­´ã®å‰Šé™¤(_D)"
+
+#: src/gthumb-ui.xml.h:190
+msgid "_Desaturate"
+msgstr "Desaturate(_D)"
+
+#: src/gthumb-ui.xml.h:191
+msgid "_Edit"
+msgstr "ç·¨é›†(_E)"
+
+#: src/gthumb-ui.xml.h:192
+msgid "_Edit Bookmarks"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯ã®ç·¨é›†(_E)"
+
+#: src/gthumb-ui.xml.h:193 src/gthumb_search.glade.h:26
+msgid "_Edit Search"
+msgstr "æ¤œç´¢åŸºæº–ã®ç·¨é›†(_E)..."
+
+#: src/gthumb-ui.xml.h:194
+msgid "_Equalize Histogram"
+msgstr "ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ ã®å¹³æ»‘åŒ–(_E)"
+
+#: src/gthumb-ui.xml.h:195
+msgid "_File"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«(_F)"
+
+#: src/gthumb-ui.xml.h:196
+msgid "_Find..."
+msgstr "æ¤œç´¢(_F)..."
+
+#: src/gthumb-ui.xml.h:198
+msgid "_Folder"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€(_F)"
+
+#: src/gthumb-ui.xml.h:199
+msgid "_Folders"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€(_F)"
+
+#: src/gthumb-ui.xml.h:200
+msgid "_Forward"
+msgstr "é€²ã‚€(_F)"
+
+#: src/gthumb-ui.xml.h:201
+msgid "_Full Screen"
+msgstr "ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³(_F)"
+
+#: src/gthumb-ui.xml.h:202
+msgid "_Go"
+msgstr "ã‚¸ãƒ£ãƒ³ãƒ—(_G)"
+
+#: src/gthumb-ui.xml.h:203
+msgid "_Go to the Image Folder"
+msgstr "ç”»åƒã®ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚¸ãƒ£ãƒ³ãƒ—(_G)"
+
+#: src/gthumb-ui.xml.h:204
+msgid "_Help"
+msgstr "ãƒ˜ãƒ«ãƒ—(_H)"
+
+#: src/gthumb-ui.xml.h:205
+msgid "_High Quality"
+msgstr "é«˜å“è³ª(_H)"
+
+#: src/gthumb-ui.xml.h:206
+msgid "_Home"
+msgstr "ãƒ›ãƒ¼ãƒ (_H)"
+
+#: src/gthumb-ui.xml.h:207
+msgid "_Hue-Saturation"
+msgstr "è‰²åˆã„ã¨å½©åº¦(_H)"
+
+#: src/gthumb-ui.xml.h:209
+msgid "_Image preview"
+msgstr "ç”»åƒã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼(_I)"
+
+#: src/gthumb-ui.xml.h:210
+msgid "_Keyboard Shortcuts"
+msgstr "ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ»ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆ(_K)"
+
+#: src/gthumb-ui.xml.h:211
+msgid "_Location..."
+msgstr "å ´æ‰€(_L)..."
+
+#: src/gthumb-ui.xml.h:212
+msgid "_Low Quality"
+msgstr "ä½å“è³ª(_L)"
+
+#: src/gthumb-ui.xml.h:213
+msgid "_Maintenance"
+msgstr "ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹(_M)"
+
+#: src/gthumb-ui.xml.h:214
+msgid "_Manual"
+msgstr "ãƒ‰ã‚­ãƒ¥ãƒ¡ãƒ³ãƒˆ(_M)"
+
+#: src/gthumb-ui.xml.h:216
+msgid "_Move..."
+msgstr "ç§»å‹•(_M)..."
+
+#: src/gthumb-ui.xml.h:217
+msgid "_Negative"
+msgstr "ãƒŠãƒ“ã‚²ãƒ¼ãƒˆ(_N)"
+
+#: src/gthumb-ui.xml.h:218
 msgid "_New Catalog..."
-msgstr "¿·µ¬¥«¥¿¥í¥°..."
+msgstr "æ–°è¦ã‚«ã‚¿ãƒ­ã‚°(_N)..."
 
-#: src/gthumb.glade2.h:96
-#, fuzzy
-msgid "_Next"
-msgstr "¥Û¡¼¥à"
+#: src/gthumb-ui.xml.h:219
+msgid "_New Folder..."
+msgstr "æ–°è¦ãƒ•ã‚©ãƒ«ãƒ€(_N)..."
 
-#: src/gthumb.glade2.h:97
-#, fuzzy
-msgid "_Previous"
-msgstr "¥×¥ì¥Ó¥å¡¼"
+#: src/gthumb-ui.xml.h:221
+msgid "_Open With"
+msgstr "ä»–ã§é–‹ã(_O)"
 
-#: src/gthumb.glade2.h:98
-#, fuzzy
-msgid "_Toolbar style:"
-msgstr "¥Ä¡¼¥ë¥Ğ¡¼"
+#: src/gthumb-ui.xml.h:222
+msgid "_Posterize"
+msgstr "ãƒã‚¹ã‚¿ãƒ©ã‚¤ã‚º(_P)"
 
-#: src/gthumb.glade2.h:99
-msgid "gThumb - Bookmarks"
-msgstr "gThumb - ¥Ö¥Ã¥¯¥Ş¡¼¥¯"
-
-#: src/gthumb.glade2.h:100
-#, fuzzy
-msgid "gThumb - Open selected files with an application"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥¢¥×¥ê¤Ç³«¤­¤Ş¤¹"
-
-#: src/gthumb.glade2.h:101
-#, fuzzy
-msgid "gThumb - Preferences"
-msgstr "ÀßÄê..."
-
-#: src/gthumb.glade2.h:102
-msgid "seconds"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:3 src/gthumb_search.glade2.h:4
-#, fuzzy
-msgid "A_vailable categories:"
-msgstr "ÍøÍÑ²ÄÇ½¤Ê¥¢¥×¥ê¥±¡¼¥·¥ç¥ó"
-
-#: src/gthumb_comments.glade2.h:4
-msgid "Add a category"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:5 src/gthumb_search.glade2.h:13
-#, fuzzy
-msgid "Co_mment:"
-msgstr "¥³¥á¥ó¥È:"
-
-#: src/gthumb_comments.glade2.h:6
-#, fuzzy
-msgid "Image C_reation Date"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
-
-#: src/gthumb_comments.glade2.h:7
-msgid "Import date from attached EXIF data"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:8
-msgid "Import from E_XIF Data"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:9
-#, fuzzy
-msgid "Remove selected category"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤ÎÌ¾Á°¤òÊÑ¹¹¤·¤Ş¤¹"
-
-#: src/gthumb_comments.glade2.h:10
-msgid "Save only cha_nged fields"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:11
-msgid "Set date to image creation date"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:12
-msgid "Set date to today"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:13 src/gthumb_search.glade2.h:23
-#, fuzzy
-msgid "_Date:"
-msgstr "ÆüÉÕ:"
-
-#: src/gthumb_comments.glade2.h:14 src/gthumb_search.glade2.h:26
-#, fuzzy
-msgid "_Place:"
-msgstr "¾ì½ê:"
-
-#: src/gthumb_comments.glade2.h:15 src/gthumb_search.glade2.h:29
-#, fuzzy
-msgid "_Selected categories:"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤ÎÌ¾Á°¤òÊÑ¹¹¤·¤Ş¤¹"
-
-#: src/gthumb_comments.glade2.h:16
-msgid "_Today"
-msgstr ""
-
-#: src/gthumb_comments.glade2.h:17
-#, fuzzy
-msgid "gThumb - Categories"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
-
-#: src/gthumb_comments.glade2.h:18
-#, fuzzy
-msgid "gThumb - Comment"
-msgstr "¥³¥á¥ó¥È¤ÎÊÔ½¸"
-
-#: src/gthumb_png_exporter.glade2.h:3
-msgid "112"
-msgstr "112"
-
-#: src/gthumb_png_exporter.glade2.h:4
-msgid "128"
-msgstr "128"
-
-#: src/gthumb_png_exporter.glade2.h:5
-msgid "164"
-msgstr "164"
-
-#: src/gthumb_png_exporter.glade2.h:6
-msgid "200"
-msgstr "200"
-
-#: src/gthumb_png_exporter.glade2.h:7
-msgid "256"
-msgstr "256"
-
-#: src/gthumb_png_exporter.glade2.h:8
-msgid "48"
-msgstr "48"
-
-#: src/gthumb_png_exporter.glade2.h:9
-msgid "64"
-msgstr "64"
-
-#: src/gthumb_png_exporter.glade2.h:10
-msgid "75"
-msgstr "75"
-
-#: src/gthumb_png_exporter.glade2.h:11
-msgid "85"
-msgstr "85"
-
-#: src/gthumb_png_exporter.glade2.h:12
-msgid "95"
-msgstr "95"
-
-#: src/gthumb_png_exporter.glade2.h:13
-#, fuzzy
-msgid "<b>Caption</b>"
-msgstr "¥¿¥¤¥È¥ë"
-
-#: src/gthumb_png_exporter.glade2.h:14
-#, fuzzy
-msgid "<b>Destination folder</b>"
-msgstr "°ÜÆ°Àè¤Î¥Ç¥£¥ì¥¯¥È¥ê"
-
-#: src/gthumb_png_exporter.glade2.h:15
-msgid "<b>Footer</b>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:16
-msgid "<b>Header</b>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:17
-#, fuzzy
-msgid "<b>Page size</b>"
-msgstr "¥µ¥¤¥º½ç"
-
-#: src/gthumb_png_exporter.glade2.h:18
-msgid "<b>Specify a template to use for creating index images</b>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:19
-msgid "<b>Specify header and footer</b>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:20
-#, fuzzy
-msgid "<i>Examples:</i>"
-msgstr "¥µ¥ó¥×¥ë:"
-
-#: src/gthumb_png_exporter.glade2.h:21 src/gthumb_tools.glade2.h:6
-msgid "<i>Use #'s to specify positions used by numeric enumerator.</i>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:23
-#, no-c-format
-msgid "<i>Use %n to insert total number of pages.</i>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:25
-#, no-c-format
-msgid "<i>Use %p to insert page number.</i>"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:26
-#, fuzzy
-msgid "All pages with the _same size"
-msgstr "Á´¤Æ¤Î¥Ú¡¼¥¸¤òÆ±¤¸¥µ¥¤¥º¤Ç"
-
-#: src/gthumb_png_exporter.glade2.h:27
-#, fuzzy
-msgid "Choose destination folder"
-msgstr "°ÜÆ°Àè¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ÎÁªÂò"
-
-#: src/gthumb_png_exporter.glade2.h:28
-#, fuzzy
-msgid "Co_lor:"
-msgstr "¿§:"
-
-#: src/gthumb_png_exporter.glade2.h:29 src/gthumb_print.glade2.h:6
-#, fuzzy
-msgid "Co_mment"
-msgstr "¥³¥á¥ó¥È:"
-
-#: src/gthumb_png_exporter.glade2.h:31
-#, fuzzy
-msgid "Create _HTML image map"
-msgstr "HTML ¥¤¥á¡¼¥¸¥Ş¥Ã¥×¤ÎºîÀ®"
-
-#: src/gthumb_png_exporter.glade2.h:32
-msgid "F_ooter:"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:33
-#, fuzzy
-msgid "File _name"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾"
-
-#: src/gthumb_png_exporter.glade2.h:34
-#, fuzzy
-msgid "File pa_th"
-msgstr "¥Õ¥¡¥¤¥ë¡¦¥Ñ¥¹"
-
-#: src/gthumb_png_exporter.glade2.h:35
-#, fuzzy
-msgid "File si_ze"
-msgstr "¥Õ¥¡¥¤¥ë¡¦¥µ¥¤¥º"
-
-#: src/gthumb_png_exporter.glade2.h:36
-#, fuzzy
-msgid "Fo_nt:"
-msgstr "¥³¥á¥ó¥È:"
-
-#: src/gthumb_png_exporter.glade2.h:37
-#, fuzzy
-msgid "Frame _style:"
-msgstr "¥Õ¥ì¡¼¥à¤Î¥¹¥¿¥¤¥ë:"
-
-#: src/gthumb_png_exporter.glade2.h:38
-#, fuzzy
-msgid "Frame co_lor:"
-msgstr "¥Õ¥ì¡¼¥à¤Î¿§:"
-
-#: src/gthumb_png_exporter.glade2.h:39
-msgid "H_eader:"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:40
-msgid "Header/Footer"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:41
-#, fuzzy
-msgid "Hei_ght:"
-msgstr "¹â¤µ:"
-
-#: src/gthumb_png_exporter.glade2.h:42
-#, fuzzy
-msgid "Image dim_ensions"
-msgstr "²èÁü¤Î¼¡¸µ"
-
-#: src/gthumb_png_exporter.glade2.h:43
-#, fuzzy
-msgid "Images"
-msgstr "²èÁü"
-
-#: src/gthumb_png_exporter.glade2.h:44
-#, fuzzy
-msgid "Number of _rows:"
-msgstr "Îó¿ô:"
-
-#: src/gthumb_png_exporter.glade2.h:45
-#, fuzzy
-msgid "Number of col_umns:"
-msgstr "·å¿ô:"
-
-#: src/gthumb_png_exporter.glade2.h:46
-msgid "Page"
-msgstr "¥Ú¡¼¥¸"
-
-#: src/gthumb_png_exporter.glade2.h:47
-#, fuzzy
-msgid "Pi_xels"
-msgstr "¥Ô¥¯¥»¥ë"
-
-#: src/gthumb_png_exporter.glade2.h:48
-#, fuzzy
-msgid "Re_verse order"
-msgstr "µÕ½ç"
-
-#: src/gthumb_png_exporter.glade2.h:49
-#, fuzzy
-msgid "Rows a_nd columns"
-msgstr "·å¤ÈÎó"
-
-#: src/gthumb_png_exporter.glade2.h:50
-#, fuzzy
-msgid "Shadow in"
-msgstr "±Æ"
-
-#: src/gthumb_png_exporter.glade2.h:51
-#, fuzzy
-msgid "Shadow only"
-msgstr "±Æ"
-
-#: src/gthumb_png_exporter.glade2.h:52
-#, fuzzy
-msgid "Shadow out"
-msgstr "±Æ"
-
-#: src/gthumb_png_exporter.glade2.h:53
-msgid "Simple"
-msgstr "¥µ¥ó¥×¥ë"
-
-#: src/gthumb_png_exporter.glade2.h:54
-msgid "Simple with shadow"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade2.h:55
-msgid "Slide"
-msgstr "¥¹¥é¥¤¥É"
-
-#: src/gthumb_png_exporter.glade2.h:56
-#, fuzzy
-msgid "Sor_t images:"
-msgstr "¥½¡¼¥È¤¹¤ë¥Õ¥¡¥¤¥ë°ìÍ÷:"
-
-#: src/gthumb_png_exporter.glade2.h:57 src/gthumb_search.glade2.h:22
-#: src/gthumb_tools.glade2.h:31
-#, fuzzy
-msgid "Start _at:"
-msgstr "³«»Ï¤¹¤ë¾ì½ê:"
-
-#: src/gthumb_png_exporter.glade2.h:58
-#, fuzzy
-msgid "Style Preview"
-msgstr "¥×¥ì¥Ó¥å¡¼"
-
-#: src/gthumb_png_exporter.glade2.h:59
-#, fuzzy
-msgid "Wait please..."
-msgstr "¤·¤Ğ¤é¤¯¤ªÂÔ¤Á²¼¤µ¤¤..."
-
-#: src/gthumb_png_exporter.glade2.h:60
-#, fuzzy
-msgid "Wi_dth:"
-msgstr "Éı:"
-
-#: src/gthumb_png_exporter.glade2.h:61
-#, fuzzy
-msgid "_Background color:"
-msgstr "ÇØ·Ê¤Î¿§:"
-
-#: src/gthumb_png_exporter.glade2.h:62
-#, fuzzy
-msgid "_Draw frame"
-msgstr "¥Õ¥ì¡¼¥à¤ÎÉÁ²è"
-
-#: src/gthumb_png_exporter.glade2.h:63
-#, fuzzy
-msgid "_Font:"
-msgstr "¥³¥á¥ó¥È:"
-
-#: src/gthumb_png_exporter.glade2.h:64
-#, fuzzy
-msgid "_Image size:"
-msgstr "¥µ¥à¥Í¥¤¥ë¡¦¥µ¥¤¥º:"
-
-#: src/gthumb-ui.xml.h:191 src/gthumb_png_exporter.glade2.h:65
-#, fuzzy
+#: src/gthumb-ui.xml.h:223 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
-msgstr "ÀßÄê..."
+msgstr "è¨­å®š(_P)"
 
-#: src/gthumb_png_exporter.glade2.h:66 src/gthumb_tools.glade2.h:36
-#, fuzzy
-msgid "_Template:"
-msgstr "ÆüÉÕ:"
+#: src/gthumb-ui.xml.h:224
+msgid "_Print..."
+msgstr "å°åˆ·(_P)..."
 
-#: src/gthumb_png_exporter.glade2.h:67
-#, fuzzy
-msgid "by name"
-msgstr "Ì¾Á°½ç"
+#: src/gthumb-ui.xml.h:225
+msgid "_Reduce Colors"
+msgstr "æ¸›è‰²(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:68
-#, fuzzy
-msgid "by path"
-msgstr "¥Ñ¥¹½ç"
+#: src/gthumb-ui.xml.h:226
+msgid "_Reload"
+msgstr "å†èª­ã¿è¾¼ã¿(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:69
-#, fuzzy
-msgid "by size"
-msgstr "¥µ¥¤¥º½ç"
+#: src/gthumb-ui.xml.h:228
+msgid "_Rename Series"
+msgstr "åå‰ã®ä¸€æ‹¬å¤‰æ›´(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:70
-#, fuzzy
-msgid "by time"
-msgstr "»ş¹ï½ç"
+#: src/gthumb-ui.xml.h:229
+msgid "_Rename..."
+msgstr "åå‰ã®å¤‰æ›´(_R)..."
 
-#: src/gthumb_png_exporter.glade2.h:72
-#, fuzzy
-msgid "gThumb - Create index image"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎºîÀ®"
+#: src/gthumb-ui.xml.h:230
+msgid "_Resize"
+msgstr "ã‚µã‚¤ã‚ºå¤‰æ›´(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:73
-#, fuzzy
-msgid "gThumb - Index image properties"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
+#: src/gthumb-ui.xml.h:231
+msgid "_Restore"
+msgstr "å¾©å¸°(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:74
-msgid "jpeg"
-msgstr ""
+#: src/gthumb-ui.xml.h:232
+msgid "_Reversed Order"
+msgstr "é€†é †ã«ä¸¦ã³æ›¿ãˆ(_R)"
 
-#: src/gthumb_png_exporter.glade2.h:75
-#, fuzzy
-msgid "png"
-msgstr ".png"
+#: src/gthumb-ui.xml.h:233
+msgid "_Revert"
+msgstr "æˆ»ã‚‹(_R)"
 
-#: src/gthumb_print.glade2.h:2
+#: src/gthumb-ui.xml.h:234
+msgid "_Rotate"
+msgstr "å›è»¢(_R)"
+
+#: src/gthumb-ui.xml.h:235
+msgid "_Scaled"
+msgstr "ç¸¦æ¨ªæ¯”ä¸€å®š(_S)"
+
+#: src/gthumb-ui.xml.h:236 src/gthumb_search.glade.h:30
+msgid "_Search"
+msgstr "æ¤œç´¢(_S)"
+
+#: src/gthumb-ui.xml.h:237
+msgid "_Select All"
+msgstr "å…¨ã¦é¸æŠ(_S)"
+
+#: src/gthumb-ui.xml.h:238
+msgid "_Slide Show"
+msgstr "ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼(_S)"
+
+#: src/gthumb-ui.xml.h:239
+msgid "_Statusbar"
+msgstr "ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒãƒ¼(_S)"
+
+#: src/gthumb-ui.xml.h:240
+msgid "_Stop"
+msgstr "åœæ­¢(_S)"
+
+#: src/gthumb-ui.xml.h:241
+msgid "_Thumbnails"
+msgstr "ã‚µãƒ ãƒã‚¤ãƒ«(_T)"
+
+#: src/gthumb-ui.xml.h:242
+msgid "_Tiled"
+msgstr "ã‚¿ã‚¤ãƒ«çŠ¶(_F)"
+
+#: src/gthumb-ui.xml.h:243
+msgid "_Toolbar"
+msgstr "ãƒ„ãƒ¼ãƒ«ãƒãƒ¼(_T)"
+
+#: src/gthumb-ui.xml.h:244
+msgid "_Tools"
+msgstr "ãƒ„ãƒ¼ãƒ«(_T)"
+
+#: src/gthumb-ui.xml.h:245
+msgid "_Up"
+msgstr "ä¸Šã¸(_U)"
+
+#: src/gthumb-ui.xml.h:248
+msgid "_Zoom"
+msgstr "ã‚ºãƒ¼ãƒ (_Z)"
+
+#: src/gthumb-ui.xml.h:249
+msgid "by _Name"
+msgstr "åå‰é †(_N)"
+
+#: src/gthumb-ui.xml.h:250
+msgid "by _Path"
+msgstr "ãƒ‘ã‚¹é †(_P)"
+
+#: src/gthumb-ui.xml.h:251
+msgid "by _Size"
+msgstr "ã‚µã‚¤ã‚ºé †(_S)"
+
+#: src/gthumb-ui.xml.h:252
+msgid "by _Time"
+msgstr "æ™‚åˆ»é †(_T)"
+
+#: src/gthumb-window.c:522
+msgid "No image"
+msgstr "ç”»åƒã§ã¯ã‚ã‚Šã¾ã›ã‚“"
+
+#: src/gthumb-window.c:524
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 å€‹ã®ç”»åƒ (%s)"
+
+#: src/gthumb-window.c:527
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d å€‹ã®ç”»åƒ (%s)"
+
+#: src/gthumb-window.c:534
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 ã¤é¸æŠ (%s)"
+
+#: src/gthumb-window.c:537
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d ã¤é¸æŠ (%s)"
+
+#: src/gthumb-window.c:2859
+msgid "Dragged Images"
+msgstr "ç”»åƒã®ãƒ‰ãƒ©ãƒƒã‚°"
+
+#: src/gthumb-window.c:3032
+msgid "Could not move the items:"
+msgstr "ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç§»å‹•ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã§ã—ãŸ:"
+
+#: src/gthumb-window.c:3633
+msgid "Back"
+msgstr "æˆ»ã‚‹"
+
+#: src/gthumb-window.c:5399
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ \"%s\" ãŒèª­ã‚ã¾ã›ã‚“ã§ã—ãŸ: %s\n"
+
+#: src/gthumb-window.c:5667
+msgid "The specified catalog does not exist."
+msgstr "æŒ‡å®šã—ãŸã‚«ã‚¿ãƒ­ã‚°ã¯å­˜åœ¨ã—ã¾ã›ã‚“ã€‚"
+
+#: src/gthumb-window.c:6931
+msgid "Wait please..."
+msgstr "ã—ã°ã‚‰ããŠå¾…ã¡ä¸‹ã•ã„..."
+
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
+#: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:2
+#: src/gthumb_tools.glade.h:3
+msgid "*"
+msgstr "*"
+
+#: src/gthumb.glade.h:3
+msgid "<b>Categories:</b>"
+msgstr "<b>ã‚«ãƒ†ã‚´ãƒª:</b>"
+
+#: src/gthumb.glade.h:4
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>ãƒãƒ£ãƒ³ãƒãƒ«ã®æƒ…å ±:</b>"
+
+#: src/gthumb.glade.h:5
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>æ–°ã—ã„ç”»åƒã§å¤ã„ç”»åƒã‚’ä¸Šæ›¸ãã—ã¾ã™ã‹ï¼Ÿ</b>"
+
+#: src/gthumb.glade.h:6
+msgid "A_vailable applications:"
+msgstr "åˆ©ç”¨å¯èƒ½ãªã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³(_V):"
+
+#: src/gthumb.glade.h:7
+msgid "Alpha"
+msgstr "Î±"
+
+#: src/gthumb.glade.h:8
+msgid "Blue"
+msgstr "é’"
+
+#: src/gthumb.glade.h:9
+msgid "Bookmarks"
+msgstr "ãƒ–ãƒƒã‚¯ãƒãƒ¼ã‚¯"
+
+#: src/gthumb.glade.h:10
+msgid "C_atalogs:"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°(_A):"
+
+#: src/gthumb.glade.h:11
+msgid "Choose a Catalog"
+msgstr "ã‚«ã‚¿ãƒ­ã‚°ã®é¸æŠ"
+
+#: src/gthumb.glade.h:13
+msgid "Do not overwrite _the old image"
+msgstr "å¤ã„ç”»åƒã‚’ä¸Šæ›¸ãã—ãªã„(_T)"
+
+#: src/gthumb.glade.h:14
+msgid "Green"
+msgstr "ç·‘"
+
+#: src/gthumb.glade.h:15
+msgid "New Image:"
+msgstr "æ–°ã—ã„ç”»åƒ:"
+
+#: src/gthumb.glade.h:16
+msgid "New _Library"
+msgstr "æ–°è¦ãƒ©ã‚¤ãƒ–ãƒ©ãƒª(_L)..."
+
+#: src/gthumb.glade.h:17
+msgid "Old Image:"
+msgstr "å¤ã„ç”»åƒ:"
+
+#: src/gthumb.glade.h:18
+msgid "Open Images"
+msgstr "ç”»åƒã‚’é–‹ãã¾ã™"
+
+#: src/gthumb.glade.h:19
+msgid "Over_write the old image"
+msgstr "å¤ã„ç”»åƒã‚’ä¸Šæ›¸ãã™ã‚‹(_W)"
+
+#: src/gthumb.glade.h:20
+msgid "Overwrite Image"
+msgstr "ç”»åƒã®ä¸Šæ›¸ã"
+
+#: src/gthumb.glade.h:21
+msgid "Overwrite _all images"
+msgstr "å…¨ã¦ã®ç”»åƒã‚’ä¸Šæ›¸ãã™ã‚‹(_A)"
+
+#: src/gthumb.glade.h:22
+msgid "Photo _Data (EXIF)"
+msgstr "å†™çœŸãƒ‡ãƒ¼ã‚¿(_D)"
+
+#: src/gthumb.glade.h:23
+msgid "R_ecent applications:"
+msgstr "æœ€è¿‘ä½¿ç”¨ã—ãŸã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³(_E):"
+
+#: src/gthumb.glade.h:24
+msgid "Red"
+msgstr "èµ¤"
+
+#: src/gthumb.glade.h:26
+msgid "_Application:"
+msgstr "ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³(_A):"
+
+#: src/gthumb.glade.h:28
+msgid "_Do not overwrite any image"
+msgstr "å…¨ã¦ã®ç”»åƒã‚’ä¸Šæ›¸ãã—ãªã„(_D)"
+
+#: src/gthumb.glade.h:29
+msgid "_General"
+msgstr "å…¨èˆ¬(_G)"
+
+#: src/gthumb.glade.h:30
+msgid "_Histogram"
+msgstr "ãƒ’ã‚¹ãƒˆã‚°ãƒ©ãƒ (_H)"
+
+#: src/gthumb.glade.h:31
+msgid "_New Catalog"
+msgstr "æ–°è¦ã‚«ã‚¿ãƒ­ã‚°(_N)"
+
+#: src/gthumb.glade.h:32
+msgid "_Next"
+msgstr "æ¬¡ã¸(_N)"
+
+#: src/gthumb.glade.h:33
+msgid "_Previous"
+msgstr "å‰ã¸(_P)"
+
+#: src/gthumb.glade.h:34
+msgid "_Save the new image as:"
+msgstr "æ–°ã—ã„ç”»åƒã¨ã—ã¦ä¿å­˜ã™ã‚‹(_S):"
+
+#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
+msgid "A_vailable categories:"
+msgstr "æœ‰åŠ¹ãªã‚«ãƒ†ã‚´ãƒªä¸€è¦§(_A):"
+
+#: src/gthumb_comments.glade.h:4
+msgid "Add a category"
+msgstr "ã‚«ãƒ†ã‚´ãƒªã‚’è¿½åŠ ã—ã¾ã™"
+
+#: src/gthumb_comments.glade.h:5 src/gthumb_tools.glade.h:10
+msgid "C_urrent date"
+msgstr "ä»Šæ—¥(_U)"
+
+#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:15
+msgid "Co_mment:"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆ(_M):"
+
+#: src/gthumb_comments.glade.h:9 src/gthumb_tools.glade.h:25
+msgid "Image c_reation date"
+msgstr "ç”»åƒã®ç”Ÿæˆæ—¥(_R)"
+
+#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:32
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "ãƒ‡ã‚¸ã‚¿ãƒ«å†™çœŸã®æ—¥ä»˜ (EXIFã®ãƒ‡ãƒ¼ã‚¿)"
+
+#: src/gthumb_comments.glade.h:11
+msgid "Remove selected category"
+msgstr "é¸æŠã—ãŸã‚«ã‚¿ãƒ­ã‚°ã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb_comments.glade.h:12
+msgid "Save only cha_nged fields"
+msgstr "å¤‰æ›´ã®ã‚ã‚‹ãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ã®ã¿ä¿å­˜ã™ã‚‹(_N)"
+
+#: src/gthumb_comments.glade.h:13 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "æ¬¡ã®æ—¥ä»˜(_F):"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:25
+msgid "_Date:"
+msgstr "æ—¥ä»˜(_D):"
+
+#: src/gthumb_comments.glade.h:15 src/gthumb_search.glade.h:28
+msgid "_Place:"
+msgstr "å ´æ‰€(_P):"
+
+#: src/gthumb_comments.glade.h:16 src/gthumb_search.glade.h:31
+msgid "_Selected categories:"
+msgstr "é¸æŠæ¸ˆã¿ã®ã‚«ãƒ†ã‚´ãƒª(_S):"
+
+#: src/gthumb_convert.glade.h:3
+msgid "<b>Compression</b>"
+msgstr "<b>åœ§ç¸®</b>"
+
+#: src/gthumb_convert.glade.h:4
+msgid "<b>Image type</b>"
+msgstr "<b>ç”»åƒã®ç¨®é¡</b>"
+
+#: src/gthumb_convert.glade.h:5
+msgid "<b>Resolution</b>"
+msgstr "<b>è§£åƒåº¦</b>"
+
+#: src/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr "ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚’å‡ºã™"
+
+#: src/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "åœ§ç¸®ãƒ¬ãƒ™ãƒ«(_L):"
+
+#: src/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã®å¤‰æ›"
+
+#: src/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
+
+#: src/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "æ¨™æº–(åç¸®)(_R)"
+
+#: src/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "æœ€é©åŒ–ã™ã‚‹(_M)"
+
+#: src/gthumb_convert.glade.h:12
+msgid "Overwrite"
+msgstr "ãã®ã¾ã¾ä¸Šæ›¸ãã™ã‚‹"
+
+#: src/gthumb_convert.glade.h:13
+msgid "Overwrite mode:"
+msgstr "ä¸Šæ›¸ãã®æ–¹æ³•:"
+
+#: src/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr "PNG ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
+
+#: src/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr "ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ç”»åƒã‚’å‰Šé™¤ã™ã‚‹(_E)"
+
+#: src/gthumb_convert.glade.h:16
+msgid "Rename"
+msgstr "åå‰ã‚’å¤‰æ›´ã™ã‚‹"
+
+#: src/gthumb_convert.glade.h:17
+msgid "Skip"
+msgstr "ä½•ã‚‚ã—ãªã„"
+
+#: src/gthumb_convert.glade.h:18
+msgid "TGA Options"
+msgstr "TGA ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
+
+#: src/gthumb_convert.glade.h:19
+msgid "TIFF Options"
+msgstr "TIFF ã‚ªãƒ—ã‚·ãƒ§ãƒ³"
+
+#: src/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr "TGA(_G)"
+
+#: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
+msgid "_Horizontal:"
+msgstr "æ°´å¹³æ–¹å‘(_H):"
+
+#: src/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr "JPEG(_J)"
+
+#: src/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr "ä½åœ§ç¸®(JPEG)(_L)"
+
+#: src/gthumb_convert.glade.h:24
+msgid "_No compression"
+msgstr "åœ§ç¸®ãªã—(_N)"
+
+#: src/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr "PNG(_P)"
+
+#: src/gthumb_convert.glade.h:26
+msgid "_Progressive"
+msgstr "ãƒ—ãƒ­ã‚°ãƒ¬ãƒƒã‚·ãƒ–ã‚’æœ‰åŠ¹ã«ã™ã‚‹(_P)"
+
+#: src/gthumb_convert.glade.h:27
+msgid "_Quality:"
+msgstr "å“è³ªã®åº¦åˆã„(_Q):"
+
+#: src/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr "RLE åœ§ç¸®(_R)"
+
+#: src/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr "å¹³æ»‘åŒ–ã®åº¦åˆã„(_S):"
+
+#: src/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr "TIFF(_T)"
+
+#: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "å‚ç›´æ–¹å‘(_V):"
+
+#: src/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr "dpi"
+
+#: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+msgid "     "
+msgstr "     "
+
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/gthumb_print.glade2.h:3
+#: src/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>ã‚«ãƒ©ãƒ¼ãƒ»ãƒ¬ãƒ™ãƒ«</b>"
+
+#: src/gthumb_edit.glade.h:6
+msgid "<b>New dimensions</b>"
+msgstr "<b>æ–°ã—ã„å¯¸æ³•</b>"
+
+#: src/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>ã‚ªãƒªã‚¸ãƒŠãƒ«ã®å¯¸æ³•</b>"
+
+#: src/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>ã‚µã‚¤ã‚ºã®æ¯”ç‡</b>"
+
+#: src/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "è¼åº¦ - ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ"
+
+#: src/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "ã‚«ãƒ©ãƒ¼ãƒ»ãƒãƒ©ãƒ³ã‚¹"
+
+#: src/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "ã‚³ãƒ³ãƒˆãƒ©ã‚¹ãƒˆ(_T):"
+
+#: src/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "ã‚·ã‚¢ãƒ³-èµ¤(_R):"
+
+#: src/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "é«˜ã•:"
+
+#: src/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "é«˜å“è³ª(_Q)"
+
+#: src/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "è‰²åˆã„ - å½©åº¦"
+
+#: src/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "ãƒã‚¹ã‚¿ãƒ©ã‚¤ã‚º"
+
+#: src/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "æ˜åº¦ã®ä¿è­·(_U)"
+
+#: src/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "ç”»åƒã®ã‚µã‚¤ã‚º"
+
+#: src/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "å¹…:"
+
+#: src/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "è¼åº¦(_B):"
+
+#: src/gthumb_edit.glade.h:21
+msgid "_Height:"
+msgstr "é«˜ã•(_H):"
+
+#: src/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "è‰²åˆã„(_H):"
+
+#: src/gthumb_edit.glade.h:23
+msgid "_Keep aspect ratio"
+msgstr "ç¸¦æ¨ªæ¯”ã‚’ä¿ã¤(_K)"
+
+#: src/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "ãƒ¬ãƒ™ãƒ«(_L):"
+
+#: src/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "æ˜ã‚‹ã•(_L):"
+
+#: src/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "ãƒã‚¸ã‚§ãƒ³ã‚¿-ç·‘(_M):"
+
+#: src/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼(_P)"
+
+#: src/gthumb_edit.glade.h:28
+msgid "_Reset"
+msgstr "å¾©å¸°(_R)"
+
+#: src/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "å½©åº¦(_S):"
+
+#: src/gthumb_edit.glade.h:30
+msgid "_Scale"
+msgstr "å¯¸æ³•(_S):"
+
+#: src/gthumb_edit.glade.h:31
+msgid "_Width:"
+msgstr "å¹…(_W):"
+
+#: src/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "é»„-é’(_Y):"
+
+#: src/gthumb_edit.glade.h:33
+msgid "pixels"
+msgstr "ãƒ”ã‚¯ã‚»ãƒ«"
+
+#: src/gthumb_png_exporter.glade.h:4
+msgid "112"
+msgstr "112"
+
+#: src/gthumb_png_exporter.glade.h:5
+msgid "128"
+msgstr "128"
+
+#: src/gthumb_png_exporter.glade.h:6
+msgid "164"
+msgstr "164"
+
+#: src/gthumb_png_exporter.glade.h:7
+msgid "200"
+msgstr "200"
+
+#: src/gthumb_png_exporter.glade.h:8
+msgid "256"
+msgstr "256"
+
+#: src/gthumb_png_exporter.glade.h:9
+msgid "48"
+msgstr "48"
+
+#: src/gthumb_png_exporter.glade.h:10
+msgid "64"
+msgstr "64"
+
+#: src/gthumb_png_exporter.glade.h:11
+msgid "75"
+msgstr "75"
+
+#: src/gthumb_png_exporter.glade.h:12
+msgid "85"
+msgstr "85"
+
+#: src/gthumb_png_exporter.glade.h:13
+msgid "95"
+msgstr "95"
+
+#: src/gthumb_png_exporter.glade.h:14
+msgid "<b>Background style</b>"
+msgstr "<b>èƒŒæ™¯ã®ã‚¹ã‚¿ã‚¤ãƒ«</b>"
+
+#: src/gthumb_png_exporter.glade.h:15
+msgid "<b>Caption</b>"
+msgstr "<b>ã‚¿ã‚¤ãƒˆãƒ«</b>"
+
+#: src/gthumb_png_exporter.glade.h:16
+msgid "<b>Destination folder</b>"
+msgstr "<b>é€ã‚Šå…ˆã®ãƒ•ã‚©ãƒ«ãƒ€</b>"
+
+#: src/gthumb_png_exporter.glade.h:17
+msgid "<b>Footer</b>"
+msgstr "<b>ãƒ•ãƒƒã‚¿</b>"
+
+#: src/gthumb_png_exporter.glade.h:18
+msgid "<b>Header and footer</b>"
+msgstr "<b>ãƒ˜ãƒƒãƒ€ã¨ãƒ•ãƒƒã‚¿</b>"
+
+#: src/gthumb_png_exporter.glade.h:19
+msgid "<b>Header</b>"
+msgstr "<b>ãƒ˜ãƒƒãƒ€</b>"
+
+#: src/gthumb_png_exporter.glade.h:20
+msgid "<b>Index images</b>"
+msgstr "<b>ç”»åƒã®ç›®éŒ²</b>"
+
+#: src/gthumb_png_exporter.glade.h:21
+msgid "<b>Page size</b>"
+msgstr "<b>ãƒšãƒ¼ã‚¸ã®ã‚µã‚¤ã‚º</b>"
+
+#: src/gthumb_png_exporter.glade.h:22
+msgid "<i>Examples:</i>"
+msgstr "<i>ã‚µãƒ³ãƒ—ãƒ«:</i>"
+
+#: src/gthumb_png_exporter.glade.h:23
+msgid "Choose destination folder"
+msgstr "é€ã‚Šå…ˆãƒ•ã‚©ãƒ«ãƒ€ã‚’é¸æŠã—ã¦ä¸‹ã•ã„"
+
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
+msgid "Co_mment"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã‚’ä»˜ã‘ã‚‹(_M)"
+
+#: src/gthumb_png_exporter.glade.h:25
+msgid "Col_umns:"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆ(_U):"
+
+#: src/gthumb_png_exporter.glade.h:26 src/gthumb_preferences.glade.h:31
+msgid "Colo_r:"
+msgstr "è‰²(_R):"
+
+#: src/gthumb_png_exporter.glade.h:27
+msgid "Create Index Image"
+msgstr "ç”»åƒã®ç›®éŒ²ã‚’ä½œæˆã—ã¾ã™"
+
+#: src/gthumb_png_exporter.glade.h:28
+msgid "Create _HTML image map"
+msgstr "HTML ç”»åƒãƒãƒƒãƒ—ã‚’ç”Ÿæˆã™ã‚‹(_H)"
+
+#: src/gthumb_png_exporter.glade.h:29
+msgid "F_ooter:"
+msgstr "ãƒ•ãƒƒã‚¿(_O):"
+
+#: src/gthumb_png_exporter.glade.h:30
+msgid "File _name"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«å(_N)"
+
+#: src/gthumb_png_exporter.glade.h:31
+msgid "File pa_th"
+msgstr "ãƒ‘ã‚¹å(_T)"
+
+#: src/gthumb_png_exporter.glade.h:32
+msgid "File si_ze"
+msgstr "ã‚µã‚¤ã‚º(_Z)"
+
+#: src/gthumb_png_exporter.glade.h:33
+msgid "Frame _style:"
+msgstr "ãƒ•ãƒ¬ãƒ¼ãƒ ã®ã‚¹ã‚¿ã‚¤ãƒ«(_S):"
+
+#: src/gthumb_png_exporter.glade.h:34
+msgid "Frame co_lor:"
+msgstr "ãƒ•ãƒ¬ãƒ¼ãƒ ã®è‰²(_L):"
+
+#: src/gthumb_png_exporter.glade.h:35
+msgid "H_eader:"
+msgstr "ãƒ˜ãƒƒãƒ€(_E):"
+
+#: src/gthumb_png_exporter.glade.h:36
+msgid "Header/Footer"
+msgstr "ãƒ˜ãƒƒãƒ€/ãƒ•ãƒƒã‚¿"
+
+#: src/gthumb_png_exporter.glade.h:37
+msgid "Hei_ght:"
+msgstr "é«˜ã•(_G):"
+
+#: src/gthumb_png_exporter.glade.h:38
+msgid "Image dim_ensions"
+msgstr "ç”»åƒã®å¯¸æ³•(_E)"
+
+#: src/gthumb_png_exporter.glade.h:39
+msgid "Images"
+msgstr "ç”»åƒ"
+
+#: src/gthumb_png_exporter.glade.h:40
+msgid "Index Image Properties"
+msgstr "ç”»åƒãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã®ç›®éŒ²"
+
+#: src/gthumb_png_exporter.glade.h:41
+msgid "Page"
+msgstr "ãƒšãƒ¼ã‚¸"
+
+#: src/gthumb_png_exporter.glade.h:42
+msgid "Pi_xels"
+msgstr "ãƒ”ã‚¯ã‚»ãƒ«(_X)"
+
+#: src/gthumb_png_exporter.glade.h:43
+msgid "Re_verse order"
+msgstr "é€†é †(_V)"
+
+#: src/gthumb_png_exporter.glade.h:44
+msgid "Rows a_nd columns"
+msgstr "æ¡ã¨åˆ—(_N)"
+
+#: src/gthumb_png_exporter.glade.h:45
+msgid "Select a color"
+msgstr "è‰²ã‚’é¸æŠã—ã¦ä¸‹ã•ã„"
+
+#: src/gthumb_png_exporter.glade.h:46
+msgid "Shadow in"
+msgstr "ã‚·ãƒ£ãƒ‰ãƒ¼ãƒ»ã‚¤ãƒ³"
+
+#: src/gthumb_png_exporter.glade.h:47
+msgid "Shadow only"
+msgstr "ã‚·ãƒ£ãƒ‰ãƒ¼ã®ã¿"
+
+#: src/gthumb_png_exporter.glade.h:48
+msgid "Shadow out"
+msgstr "ã‚·ãƒ£ãƒ‰ãƒ¼ãƒ»ã‚¢ã‚¦ãƒˆ"
+
+#: src/gthumb_png_exporter.glade.h:49
+msgid "Simple"
+msgstr "ã‚µãƒ³ãƒ—ãƒ«"
+
+#: src/gthumb_png_exporter.glade.h:50
+msgid "Simple with shadow"
+msgstr "ç°¡å˜ãªå½±ã¤ã"
+
+#: src/gthumb_png_exporter.glade.h:51
+msgid "Slide"
+msgstr "ã‚¹ãƒ©ã‚¤ãƒ‰"
+
+#: src/gthumb_png_exporter.glade.h:52
+msgid "Sor_t images:"
+msgstr "ä¸¦ã³æ›¿ãˆã‚’è¡Œã†ç”»åƒ(_T):"
+
+#: src/gthumb_png_exporter.glade.h:53
+msgid "Sort"
+msgstr "ä¸¦ã³æ›¿ãˆ"
+
+#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:24
+#: src/gthumb_tools.glade.h:41
+msgid "Start _at:"
+msgstr "é–‹å§‹(_A):"
+
+#: src/gthumb_png_exporter.glade.h:55
+msgid "Style Preview"
+msgstr "ã‚¹ã‚¿ã‚¤ãƒ«ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼"
+
+#: src/gthumb_png_exporter.glade.h:56
+msgid "Use #'s to specify positions used by numeric enumerator."
+msgstr "æ–‡å­— # ã¯ãã‚Œãã‚Œæ¡æ•°ã«å¿œã˜ã¦æ•°å€¤ã§ç½®ãæ›ã‚ã‚Šã¾ã™ã€‚"
+
+#: src/gthumb_png_exporter.glade.h:58
+#, no-c-format
+msgid ""
+"Use %p  to insert the page number, and %n to insert the total number of "
+"pages."
+msgstr ""
+"ãƒšãƒ¼ã‚¸ç•ªå·ã‚’æŒ¿å…¥ã™ã‚‹å ´åˆã¯ %p ã‚’ã€ç·ãƒšãƒ¼ã‚¸æ•°ã‚’æŒ¿å…¥ã™ã‚‹å ´åˆã¯ %n ã‚’ä½¿ç”¨ã—ã¦ä¸‹"
+"ã•ã„ã€‚"
+
+#: src/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "å¹…(_D):"
+
+#: src/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "å…¨ã¦ã®ãƒšãƒ¼ã‚¸ã‚’åŒã˜ã‚µã‚¤ã‚ºã§(_A)"
+
+#: src/gthumb_png_exporter.glade.h:61
+msgid "_Draw frame"
+msgstr "ãƒ•ãƒ¬ãƒ¼ãƒ ã®æç”»(_D)"
+
+#: src/gthumb_png_exporter.glade.h:62
+msgid "_Font:"
+msgstr "ãƒ•ã‚©ãƒ³ãƒˆ(_F):"
+
+#: src/gthumb_png_exporter.glade.h:63
+msgid "_Gradient"
+msgstr "ã‚°ãƒ©ãƒ‡ãƒ¼ã‚·ãƒ§ãƒ³(_G)"
+
+#: src/gthumb_png_exporter.glade.h:65
+msgid "_Image size:"
+msgstr "ç”»åƒã®ã‚µã‚¤ã‚º(_I):"
+
+#: src/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "åˆ—(_R):"
+
+#: src/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "å˜è‰²(_S)"
+
+#: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
+msgid "_Template:"
+msgstr "ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆ(_T):"
+
+#: src/gthumb_png_exporter.glade.h:71
+msgid "by name"
+msgstr "åå‰é †"
+
+#: src/gthumb_png_exporter.glade.h:72
+msgid "by path"
+msgstr "ãƒ‘ã‚¹åé †"
+
+#: src/gthumb_png_exporter.glade.h:73
+msgid "by size"
+msgstr "ã‚µã‚¤ã‚ºé †"
+
+#: src/gthumb_png_exporter.glade.h:74
+msgid "by time"
+msgstr "æ™‚åˆ»é †"
+
+#: src/gthumb_png_exporter.glade.h:76
+msgid "jpeg"
+msgstr ".jpeg"
+
+#: src/gthumb_png_exporter.glade.h:77
+msgid "png"
+msgstr ".png"
+
+#: src/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: src/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: src/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: src/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: src/gthumb_preferences.glade.h:8
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: src/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: src/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: src/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: src/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: src/gthumb_preferences.glade.h:13
+msgid "<b>Checks</b>"
+msgstr "<b>æ ¼å­ç¸</b>"
+
+#: src/gthumb_preferences.glade.h:14
+msgid "<b>Direction</b>"
+msgstr "<b>æ–¹å‘</b>"
+
+#: src/gthumb_preferences.glade.h:15
+msgid "<b>Hide/Show</b>"
+msgstr "<b>è¡¨ç¤º/éè¡¨ç¤º</b>"
+
+#: src/gthumb_preferences.glade.h:16
+msgid "<b>History</b>"
+msgstr "<b>å±¥æ­´</b>"
+
+#: src/gthumb_preferences.glade.h:17
+msgid "<b>Interface</b>"
+msgstr "<b>ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹</b>"
+
+#: src/gthumb_preferences.glade.h:18
+msgid "<b>On startup:</b>"
+msgstr "<b>èµ·å‹•æ™‚:</b>"
+
+#: src/gthumb_preferences.glade.h:19
+msgid "<b>Other</b>"
+msgstr "<b>ãã®ä»–</b>"
+
+#: src/gthumb_preferences.glade.h:20
+msgid "<b>Slide show</b>"
+msgstr "<b>ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼</b>"
+
+#: src/gthumb_preferences.glade.h:21 src/gthumb_tools.glade.h:7
+msgid "<b>Thumbnails</b>"
+msgstr "<b>ã‚µãƒ ãƒã‚¤ãƒ«</b>"
+
+#: src/gthumb_preferences.glade.h:22
+msgid "<b>Viewer</b>"
+msgstr "<b>ãƒ“ãƒ¥ãƒ¯ãƒ¼</b>"
+
+#: src/gthumb_preferences.glade.h:23
+msgid "Activate items with a double click"
+msgstr "ãƒ€ãƒ–ãƒ«ãƒ»ã‚¯ãƒªãƒƒã‚¯ã§ã‚¢ã‚¤ãƒ†ãƒ ã‚’æœ‰åŠ¹ã«ã™ã‚‹"
+
+#: src/gthumb_preferences.glade.h:24
+msgid "Activate items with a single click"
+msgstr "ã‚·ãƒ³ã‚°ãƒ«ãƒ»ã‚¯ãƒªãƒƒã‚¯ã§ã‚¢ã‚¤ãƒ†ãƒ ã‚’æœ‰åŠ¹ã«ã™ã‚‹"
+
+#: src/gthumb_preferences.glade.h:25
+msgid "After _loading an image:"
+msgstr "ç”»åƒã‚’èª­ã¿è¾¼ã‚“ã å¾Œ(_L):"
+
+#: src/gthumb_preferences.glade.h:26
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "ç”»åƒã¾ãŸã¯ã‚«ã‚¿ãƒ­ã‚°ã‚’å‰Šé™¤ã™ã‚‹å‰ã«ç¢ºèªã™ã‚‹(_K)"
+
+#: src/gthumb_preferences.glade.h:27
+msgid "Black"
+msgstr "é»’è‰²"
+
+#: src/gthumb_preferences.glade.h:28
+msgid "Browser"
+msgstr "ãƒ–ãƒ©ã‚¦ã‚¶"
+
+#: src/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr "ãƒã‚¦ã‚¹ãƒ»ã‚¯ãƒªãƒƒã‚¯(_L):"
+
+#: src/gthumb_preferences.glade.h:30
+msgid "Checked"
+msgstr "æ ¼å­ç¸"
+
+#: src/gthumb_preferences.glade.h:32
+msgid "D_elay before changing image:"
+msgstr "ç”»åƒã‚’å…¥ã‚Œæ›¿ãˆã‚‹éš›ã®å¾…ã¡æ™‚é–“:"
+
+#: src/gthumb_preferences.glade.h:33
+msgid "Dark"
+msgstr "æš—ã"
+
+#: src/gthumb_preferences.glade.h:34
+msgid "Determine image type from co_ntent (slower)"
+msgstr "ç”»åƒã®å†…å®¹ã‹ã‚‰ç¨®é¡ã‚’åˆ¤æ–­ã™ã‚‹ (ä½é€Ÿ)"
+
+#: src/gthumb_preferences.glade.h:35
+msgid "Do _not change folder"
+msgstr "ãƒ•ã‚©ãƒ«ãƒ€ã‚’å¤‰æ›´ã—ãªã„(_N)"
+
+#: src/gthumb_preferences.glade.h:36
+msgid "Fit image to window"
+msgstr "ç”»åƒã‚’ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã«åˆã‚ã›ã‚‹"
+
+#: src/gthumb_preferences.glade.h:37
+msgid "Fit to window if larger"
+msgstr "ç”»åƒãŒã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚µã‚¤ã‚ºã‚ˆã‚Šã‚‚å¤§ãã„å ´åˆã¯ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ãƒ•ã‚£ãƒƒãƒˆã•ã›ã‚‹"
+
+#: src/gthumb_preferences.glade.h:38
+msgid "Follow Nautilus behaviour"
+msgstr "Nautilus ã®è¨­å®šã«å¾“ã†"
+
+#: src/gthumb_preferences.glade.h:39
+msgid "For_ward"
+msgstr "æ˜‡é †(_W)"
+
+#: src/gthumb_preferences.glade.h:40
+msgid "General"
+msgstr "å…¨èˆ¬"
+
+#: src/gthumb_preferences.glade.h:41
+msgid "Go to last _visited folder or catalog"
+msgstr "æœ€å¾Œã«è¨ªã‚ŒãŸãƒ•ã‚©ãƒ«ãƒ€ã¾ãŸã¯ã‚«ã‚¿ãƒ­ã‚°ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹(_V)"
+
+#: src/gthumb_preferences.glade.h:42
+msgid "Go to this _folder:"
+msgstr "æ¬¡ã®ãƒ•ã‚©ãƒ«ãƒ€ã«ã‚¸ãƒ£ãƒ³ãƒ—ã™ã‚‹(_F):"
+
+#: src/gthumb_preferences.glade.h:43
+msgid "H_igh"
+msgstr "é«˜å“è³ª(_I)"
+
+#: src/gthumb_preferences.glade.h:44
+msgid "Icons only"
+msgstr "ã‚¢ã‚¤ã‚³ãƒ³ã®ã¿"
+
+#: src/gthumb_preferences.glade.h:45
+msgid "Keep previous zoom"
+msgstr "å‰ã®æ‹¡å¤§ç‡ã‚’ä¿æŒã™ã‚‹"
+
+#: src/gthumb_preferences.glade.h:46
+msgid "Large"
+msgstr "å¤§ãã„"
+
+#: src/gthumb_preferences.glade.h:47
+msgid "Layout:"
+msgstr "ãƒ¬ã‚¤ã‚¢ã‚¦ãƒˆ:"
+
+#: src/gthumb_preferences.glade.h:48
+msgid "Light"
+msgstr "æ˜ã‚‹ã"
+
+#: src/gthumb_preferences.glade.h:49
+msgid "Lo_w"
+msgstr "ä½å“è³ª(_W)"
+
+#: src/gthumb_preferences.glade.h:50
+msgid "Max _history length:"
+msgstr "å±¥æ­´ã®æœ€å¤§ä¿æŒæ•°(_H):"
+
+#: src/gthumb_preferences.glade.h:51
+msgid "Medium"
+msgstr "ä¸­ãã‚‰ã„"
+
+#: src/gthumb_preferences.glade.h:52
+msgid "Mid tone"
+msgstr "ä¸­é–“ãƒˆãƒ¼ãƒ³"
+
+#: src/gthumb_preferences.glade.h:53
+msgid "None"
+msgstr "ãªã—"
+
+#: src/gthumb_preferences.glade.h:54
+msgid "Re_verse"
+msgstr "é™é †(_V)"
+
+#: src/gthumb_preferences.glade.h:55
+msgid "Resta_rt when finished"
+msgstr "çµ‚äº†ã—ãŸã‚‰å†åº¦ã€å®Ÿè¡Œã™ã‚‹(_R)"
+
+#: src/gthumb_preferences.glade.h:56
+msgid "Sa_ve thumbnails"
+msgstr "ã‚µãƒ ãƒã‚¤ãƒ«ã‚’ä¿å­˜ã™ã‚‹(_V)"
+
+#: src/gthumb_preferences.glade.h:57
+msgid "Set image to actual size"
+msgstr "ç”»åƒã‚’å®Ÿéš›ã®ã‚µã‚¤ã‚ºã«ã™ã‚‹"
+
+#: src/gthumb_preferences.glade.h:58
+msgid "Set to C_urrent"
+msgstr "ã‚«ãƒ¬ãƒ³ãƒˆã«æŒ‡å®šã™ã‚‹(_U)"
+
+#: src/gthumb_preferences.glade.h:59
+msgid "Show _thumbnails"
+msgstr "ã‚µãƒ ãƒã‚¤ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹(_T)"
+
+#: src/gthumb_preferences.glade.h:60
+msgid "Show co_mments"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã‚’è¡¨ç¤ºã™ã‚‹(_M)"
+
+#: src/gthumb_preferences.glade.h:61
+msgid "Show hi_dden images"
+msgstr "éš ã—ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¡¨ç¤ºã™ã‚‹(_D)"
+
+#: src/gthumb_preferences.glade.h:62
+msgid "Si_ze:"
+msgstr "ã‚µã‚¤ã‚º(_Z):"
+
+#: src/gthumb_preferences.glade.h:64
+msgid "Small"
+msgstr "å°ã•ã„"
+
+#: src/gthumb_preferences.glade.h:65
+msgid "Switch to _full screen"
+msgstr "ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³è¡¨ç¤ºã«åˆ‡ã‚Šæ›¿ãˆã‚‹(_F)"
+
+#: src/gthumb_preferences.glade.h:66
+msgid "System settings"
+msgstr "ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—è¨­å®šã«å¾“ã†"
+
+#: src/gthumb_preferences.glade.h:67
+msgid "Text below icons"
+msgstr "ã‚¢ã‚¤ã‚³ãƒ³ã®ä¸‹ã«ãƒ†ã‚­ã‚¹ãƒˆ"
+
+#: src/gthumb_preferences.glade.h:68
+msgid "Text beside icons"
+msgstr "ã‚¢ã‚¤ã‚³ãƒ³ã®æ¨ªã«ãƒ†ã‚­ã‚¹ãƒˆ"
+
+#: src/gthumb_preferences.glade.h:69
+msgid "Text only"
+msgstr "ãƒ†ã‚­ã‚¹ãƒˆã®ã¿"
+
+#: src/gthumb_preferences.glade.h:70
+msgid "Transparency _type:"
+msgstr "é€æ˜ãªèƒŒæ™¯ã®ç¨®é¡(_T):"
+
+#: src/gthumb_preferences.glade.h:71
+msgid "Viewer"
+msgstr "ãƒ“ãƒ¥ãƒ¯ãƒ¼"
+
+#: src/gthumb_preferences.glade.h:72
+msgid "White"
+msgstr "ç™½è‰²"
+
+#: src/gthumb_preferences.glade.h:73
+msgid "Zoom _quality:"
+msgstr "ã‚ºãƒ¼ãƒ ã®å“è³ª(_Q):"
+
+#: src/gthumb_preferences.glade.h:74
+msgid "_Toolbar style:"
+msgstr "ãƒ„ãƒ¼ãƒ«ãƒãƒ¼ã®ã‚¹ã‚¿ã‚¤ãƒ«(_T):"
+
+#: src/gthumb_preferences.glade.h:75
+msgid "gThumb Preferences"
+msgstr "gThumb ã®è¨­å®š"
+
+#: src/gthumb_preferences.glade.h:76
+msgid "seconds"
+msgstr "ç§’"
+
+#: src/gthumb_print.glade.h:3
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
+"<i>ç”»åƒã®ä½ç½®ã‚’\n"
+"å¤‰æ›´ã™ã‚‹å ´åˆã¯\n"
+"ãƒ‰ãƒ©ãƒƒã‚°ã—ã¦ä¸‹ã•ã„ã€‚</i>"
 
-#: src/gthumb_print.glade2.h:5
-#, fuzzy
-msgid "Center _on page"
-msgstr "¥Ú¡¼¥¸¤ÎÃæ¿´"
+#: src/gthumb_print.glade.h:5
+msgid "Center _on Page"
+msgstr "ãƒšãƒ¼ã‚¸ã®ä¸­å¿ƒã«é…ç½®ã™ã‚‹(_O)"
 
-#: src/gthumb_print.glade2.h:8
-#, fuzzy
+#: src/gthumb_print.glade.h:8
 msgid "Paper"
-msgstr "¥Ú¡¼¥¸"
+msgstr "ç”¨ç´™"
 
-#: src/gthumb_print.glade2.h:9
+#: src/gthumb_print.glade.h:9
 msgid "Preview"
-msgstr "¥×¥ì¥Ó¥å¡¼"
+msgstr "ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼"
 
-#: src/gthumb_print.glade2.h:10
-#, fuzzy
+#: src/gthumb_print.glade.h:10
+msgid "Print Image"
+msgstr "ç”»åƒã®å°åˆ·"
+
+#: src/gthumb_print.glade.h:11
 msgid "Printer"
-msgstr "°õºş"
+msgstr "ãƒ—ãƒªãƒ³ã‚¿"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
-#: src/gthumb-ui.xml.h:192 src/gthumb_print.glade2.h:11
-#, fuzzy
-msgid "_Print"
-msgstr "°õºş"
-
-#: src/gthumb_print.glade2.h:12
-#, fuzzy
+#: src/gthumb_print.glade.h:13
 msgid "_Scale:"
-msgstr "À£Ë¡:"
+msgstr "å¯¸æ³•(_S):"
 
-#: src/gthumb_print.glade2.h:13
-#, fuzzy
-msgid "gThumb - Print setup"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb_search.glade2.h:3
+#: src/gthumb_search.glade.h:3
 msgid "..."
 msgstr "..."
 
-#: src/gthumb_search.glade2.h:5
-#, fuzzy
+#: src/gthumb_search.glade.h:4
+msgid "<b>Search criteria</b>"
+msgstr "<b>æ¤œç´¢åŸºæº–</b>"
+
+#: src/gthumb_search.glade.h:5
+msgid "<b>Search scope</b>"
+msgstr "<b>æ¤œç´¢ç¯„å›²</b>"
+
+#: src/gthumb_search.glade.h:7
 msgid "After"
-msgstr "¸å"
+msgstr "æ¬¡ã‚ˆã‚Šå¾Œ"
 
-#: src/gthumb_search.glade2.h:6
-#, fuzzy
-msgid "All Catego_ries"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
+#: src/gthumb_search.glade.h:8
+msgid "All catego_ries"
+msgstr "å…¨ã¦ã®ã‚«ãƒ†ã‚´ãƒªã‚’å¯¾è±¡ã«ã™ã‚‹(_R)"
 
-#: src/gthumb_search.glade2.h:7
-#, fuzzy
+#: src/gthumb_search.glade.h:9
 msgid "Any"
-msgstr "²¿¤Ç¤â"
+msgstr "ã„ã¤ã§ã‚‚"
 
-#: src/gthumb_search.glade2.h:8
-msgid "At _Least a Category"
-msgstr ""
+#: src/gthumb_search.glade.h:10
+msgid "At _least a category"
+msgstr "å°‘ãªãã¨ã‚‚ä¸€ã¤ã‚«ãƒ†ã‚´ãƒªã§æ¤œç´¢(_L)"
 
-#: src/gthumb_search.glade2.h:9
-#, fuzzy
+#: src/gthumb_search.glade.h:11
 msgid "Before"
-msgstr "Á°"
+msgstr "æ¬¡ã‚ˆã‚Šå‰"
 
-#: src/gthumb_search.glade2.h:10
-#, fuzzy
+#: src/gthumb_search.glade.h:12
 msgid "Ca_tegories:"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
+msgstr "ã‚«ãƒ†ã‚´ãƒª(_T):"
 
-#: src/gthumb_search.glade2.h:11
-#, fuzzy
+#: src/gthumb_search.glade.h:13
 msgid "Choose Categories"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
+msgstr "ã‚«ãƒ†ã‚´ãƒªã®é¸æŠ"
 
-#: src/gthumb_search.glade2.h:12
+#: src/gthumb_search.glade.h:14
 msgid "Choose categories from the saved list"
-msgstr ""
+msgstr "ä¿å­˜ã—ãŸä¸€è¦§ã‹ã‚‰ã‚«ãƒ†ã‚´ãƒªã‚’é¸æŠã—ã¦ä¸‹ã•ã„"
 
-#: src/gthumb_search.glade2.h:14
-#, fuzzy
+#: src/gthumb_search.glade.h:16
 msgid "Equal to"
-msgstr "Åù¤·¤¤"
+msgstr "æ¬¡ã«ç­‰ã—ã„"
 
-#: src/gthumb_search.glade2.h:15
-#, fuzzy
-msgid "File _Name:"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾"
+#: src/gthumb_search.glade.h:17
+msgid "File _name:"
+msgstr "ãƒ•ã‚¡ã‚¤ãƒ«å(_N):"
 
-#: src/gthumb_search.glade2.h:16
-#, fuzzy
-msgid "Found Images:"
-msgstr "²èÁü¤Î¸¡º÷(_F)..."
+#: src/gthumb_search.glade.h:18
+msgid "Find"
+msgstr "æ¤œç´¢"
 
-#: src/gthumb_search.glade2.h:17
-#, fuzzy
+#: src/gthumb_search.glade.h:19
+msgid "Found images:"
+msgstr "è¦‹ã¤ã‹ã£ãŸç”»åƒ:"
+
+#: src/gthumb_search.glade.h:20
 msgid "New _Search..."
-msgstr "¿·µ¬¤Î¸¡º÷..."
+msgstr "æ–°è¦ã®æ¤œç´¢(_S)..."
 
-#: src/gthumb_search.glade2.h:18
-msgid "No image found"
-msgstr "²èÁü¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿"
+#: src/gthumb_search.glade.h:21
+msgid "No images found"
+msgstr "ç”»åƒãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸ"
 
-#: src/gthumb_search.glade2.h:19
-#, fuzzy
-msgid "Search Criteria"
-msgstr "¸¡º÷´ğ½à"
+#: src/gthumb_search.glade.h:22
+msgid "Search Progress"
+msgstr "æ¤œç´¢ã®çŠ¶æ³"
 
-#: src/gthumb_search.glade2.h:20
-#, fuzzy
-msgid "Search Scope"
-msgstr "¸¡º÷ÈÏ°Ï"
-
-#: src/gthumb_search.glade2.h:21 src/gthumb_tools.glade2.h:30
+#: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
-msgstr "¸¡º÷¤¹¤ë¾ì½ê:"
+msgstr "æ¤œç´¢ã™ã‚‹å ´æ‰€:"
 
-#: src/gthumb-ui.xml.h:166 src/gthumb_search.glade2.h:24
-#, fuzzy
-msgid "_Edit Search"
-msgstr "¸¡º÷´ğ½à¤ÎÊÔ½¸..."
+#: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
+msgid "_Include sub-folders"
+msgstr "ã‚µãƒ–ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚‚å«ã‚ã‚‹(_I)"
 
-#: src/gthumb_search.glade2.h:25 src/gthumb_tools.glade2.h:33
-#, fuzzy
-msgid "_Include Sub-Folders"
-msgstr "¥µ¥Ö¥Ç¥£¥ì¥¯¥È¥ê¤â´Ş¤á¤ë"
-
-#: src/gthumb_search.glade2.h:27
-#, fuzzy
+#: src/gthumb_search.glade.h:29
 msgid "_Save"
-msgstr "ÊİÂ¸"
+msgstr "ä¿å­˜(_S)"
 
-#: src/gthumb_search.glade2.h:28
-#, fuzzy
-msgid "_Search"
-msgstr "¸¡º÷"
+#: src/gthumb_tools.glade.h:4
+msgid "<b>Comments</b>"
+msgstr "<b>ã‚³ãƒ¡ãƒ³ãƒˆ</b>"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:213 src/gthumb_search.glade2.h:30
-#: src/gthumb_tools.glade2.h:38
-msgid "_View"
-msgstr "É½¼¨(_V)"
+#: src/gthumb_tools.glade.h:5
+msgid "<b>File list order</b>"
+msgstr "<b>ãƒ•ã‚¡ã‚¤ãƒ«ä¸€è¦§ã®é †åº</b>"
 
-#: src/gthumb_search.glade2.h:31
-msgid "gThumb - Search for images"
-msgstr "gThumb - ²èÁü¤Î¸¡º÷"
-
-#: src/gthumb_search.glade2.h:32
-#, fuzzy
-msgid "gThumb - Search progress"
-msgstr "gThumb - ¸¡º÷¾õ¶·"
-
-#: src/gthumb_search.glade2.h:33
-msgid "progress"
-msgstr "¾õ¶·"
-
-#: src/gthumb_search.glade2.h:34
-msgid "result"
-msgstr "·ë²Ì"
-
-#: src/gthumb_tools.glade2.h:4
-#, fuzzy
-msgid "<b>File list</b>"
-msgstr "¥Õ¥¡¥¤¥ë¡¦¥µ¥¤¥º"
-
-#: src/gthumb_tools.glade2.h:5
+#: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
-msgstr ""
+msgstr "<b>ç”»åƒã®åå‰å¤‰æ›´ã«ä½¿ç”¨ã™ã‚‹ãƒ†ãƒ³ãƒ—ãƒ¬ãƒ¼ãƒˆã‚’æŒ‡å®šã—ã¦ä¸‹ã•ã„ã€‚</b>"
 
-#: src/gthumb_tools.glade2.h:7
-msgid "<i>Use * to insert original filename.</i>"
-msgstr ""
-
-#: src/gthumb_tools.glade2.h:8
-#, fuzzy
+#: src/gthumb_tools.glade.h:8
 msgid "Apply to _all images"
-msgstr "Á´¤Æ¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò(_S)"
+msgstr "å…¨ã¦ã®ç”»åƒã«é©ç”¨ã™ã‚‹(_A)"
 
-#: src/gthumb_tools.glade2.h:9
-#, fuzzy
+#: src/gthumb_tools.glade.h:9
 msgid "Backup Comments"
-msgstr "¥³¥á¥ó¥È"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã®ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã‚’ä½œæˆã™ã‚‹"
 
-#: src/gthumb_tools.glade2.h:10
-#, fuzzy
+#: src/gthumb_tools.glade.h:11
+msgid "Change Date"
+msgstr "æ—¥ä»˜ã®å¤‰æ›´"
+
+#: src/gthumb_tools.glade.h:12
+msgid "Change the last modified date to:"
+msgstr "å¤‰æ›´ã™ã‚‹æœ€çµ‚ä¿®æ­£æ—¥æ™‚:"
+
+#: src/gthumb_tools.glade.h:13
 msgid "Check _All"
-msgstr "Á´¤Æ¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò(_S)"
+msgstr "å…¨ã¦ãƒã‚§ãƒƒã‚¯(_A)"
 
-#: src/gthumb_tools.glade2.h:11
-#, fuzzy
+#: src/gthumb_tools.glade.h:14
 msgid "Check _None"
-msgstr "Á´¤Æ¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò(_S)"
+msgstr "ãƒã‚§ãƒƒã‚¯ã—ãªã„(_N)"
 
-#: src/gthumb_tools.glade2.h:12
+#: src/gthumb_tools.glade.h:15
 msgid "Checking image:"
-msgstr ""
+msgstr "ç”»åƒã®ãƒã‚§ãƒƒã‚¯ä¸­:"
 
-#: src/gthumb_tools.glade2.h:13
-#, fuzzy
-msgid "Comments"
-msgstr "¥³¥á¥ó¥È"
+#: src/gthumb_tools.glade.h:16
+msgid "Delete ALL Comments"
+msgstr "å…¨ã¦ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹"
 
-#: src/gthumb_tools.glade2.h:14
-#, fuzzy
-msgid "Found Duplicates:"
-msgstr "gThumb - °õºşÀßÄê"
+#: src/gthumb_tools.glade.h:17
+msgid "Delete ALL Thumbnails"
+msgstr "å…¨ã¦ã®ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹"
 
-#: src/gthumb_tools.glade2.h:16
+#: src/gthumb_tools.glade.h:18
+msgid "Delete Old Comments"
+msgstr "å¤ã„ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã™ã‚‹"
+
+#: src/gthumb_tools.glade.h:19
+msgid "Delete Old Thumbnails"
+msgstr "å¤ã„ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹"
+
+#: src/gthumb_tools.glade.h:20
+msgid "Delete comments of no more existing images"
+msgstr "ã‚‚ã†å­˜åœ¨ã—ãªã„ç”»åƒã®ã‚³ãƒ¡ãƒ³ãƒˆã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb_tools.glade.h:21
+msgid "Delete thumbnails of no more existing images"
+msgstr "ã‚‚ã†å­˜åœ¨ã—ãªã„ç”»åƒã®ã‚µãƒ ãƒã‚¤ãƒ«ã‚’å‰Šé™¤ã—ã¾ã™"
+
+#: src/gthumb_tools.glade.h:22
+msgid "Equal images:"
+msgstr "ç­‰ã—ã„ç”»åƒ:"
+
+#: src/gthumb_tools.glade.h:23
+msgid "Find Duplicates"
+msgstr "è¤‡è£½ã®æ¤œç´¢"
+
+#: src/gthumb_tools.glade.h:24
+msgid "Found duplicates:"
+msgstr "è¦‹ã¤ã‹ã£ãŸè¤‡è£½:"
+
+#: src/gthumb_tools.glade.h:26
+msgid "JPEG Lossless Transformation"
+msgstr "JPEG ã®ä½å“è³ªå¤‰æ›"
+
+#: src/gthumb_tools.glade.h:27
+msgid "Maintenance"
+msgstr "ãƒ¡ãƒ³ãƒ†ãƒŠãƒ³ã‚¹"
+
+#: src/gthumb_tools.glade.h:28
 msgid "Mirror image horizontally (left-right)"
-msgstr ""
+msgstr "ç”»åƒã‚’æ°´å¹³æ–¹å‘ (å·¦å³) ã«ãƒŸãƒ©ãƒ¼ãƒªãƒ³ã‚°ã—ã¾ã™"
 
-#: src/gthumb_tools.glade2.h:17
+#: src/gthumb_tools.glade.h:29
 msgid "Mirror image vertically (top-bottom)"
-msgstr ""
+msgstr "ç”»åƒã‚’å‚ç›´æ–¹å‘ (ä¸Šä¸‹) ã«ãƒŸãƒ©ãƒ¼ãƒªãƒ³ã‚°ã—ã¾ã™"
 
-#: src/gthumb_tools.glade2.h:18
-#, fuzzy
+#: src/gthumb_tools.glade.h:31
 msgid "New names _preview:"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
+msgstr "æ–°ã—ã„åå‰ã®ãƒ—ãƒ¬ãƒ“ãƒ¥ãƒ¼(_P):"
 
-#: src/gthumb_tools.glade2.h:19
-#, fuzzy
+#: src/gthumb_tools.glade.h:33
 msgid "Re_verse Order"
-msgstr "µÕ½ç"
+msgstr "é€†é †ã«ä¸¦ã¹ã‚‹(_V)"
 
-#: src/gthumb_tools.glade2.h:20
-#, fuzzy
-msgid "Remove ALL Comments"
-msgstr "¸Å¤¤¥³¥á¥ó¥È¤Îºï½ü(_C)"
+#: src/gthumb_tools.glade.h:34
+msgid "Rename Series"
+msgstr "åå‰ã®ä¸€æ‹¬å¤‰æ›"
 
-#: src/gthumb_tools.glade2.h:21
-#, fuzzy
-msgid "Remove ALL Thumbnails"
-msgstr "¸Å¤¤¥µ¥à¥Í¥¤¥ë¤Îºï½ü(_T)"
+#: src/gthumb_tools.glade.h:35
+msgid "Restore Comments From a Backup File"
+msgstr "ã‚³ãƒ¡ãƒ³ãƒˆã‚’ãƒãƒƒã‚¯ã‚¢ãƒƒãƒ—ã—ãŸã‚‚ã®ã«æˆ»ã™"
 
-#: src/gthumb_tools.glade2.h:22
-#, fuzzy
-msgid "Remove Old Comments"
-msgstr "¸Å¤¤¥³¥á¥ó¥È¤Îºï½ü(_C)"
-
-#: src/gthumb_tools.glade2.h:23
-#, fuzzy
-msgid "Remove Old Thumbnails"
-msgstr "¸Å¤¤¥µ¥à¥Í¥¤¥ë¤Îºï½ü(_T)"
-
-#: src/gthumb_tools.glade2.h:24
-#, fuzzy
-msgid "Remove comments of no more existing images"
-msgstr "ÁªÂò¤·¤¿²èÁü¤Î¥³¥á¥ó¥È¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb_tools.glade2.h:25
-#, fuzzy
-msgid "Remove thumbnails of no more existing images"
-msgstr "¥­¥ã¥Ã¥·¥å¤ÎÃæ¤Î¸Å¤¤¥µ¥à¥Í¥¤¥ë¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb_tools.glade2.h:26
-msgid "Restore Comments from a Backup File"
-msgstr ""
-
-#: src/gthumb_tools.glade2.h:27
+#: src/gthumb_tools.glade.h:36
 msgid "Revert changes"
-msgstr ""
+msgstr "å…ƒã«æˆ»ã—ã¾ã™"
 
-#: src/gthumb_tools.glade2.h:28
-#, fuzzy
+#: src/gthumb_tools.glade.h:37
 msgid "Rotate image 90 degrees clockwise"
-msgstr "²èÁü¤ò»ş·×²ó¤ê¤Ë²óÅ¾¤µ¤»¤Ş¤¹"
+msgstr "ç”»åƒã‚’æ™‚è¨ˆå›ã‚Šã« 90Â°å›è»¢ã•ã›ã¾ã™"
 
-#: src/gthumb_tools.glade2.h:29
-#, fuzzy
+#: src/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "²èÁü¤ò»ş·×²ó¤ê¤Ë²óÅ¾¤µ¤»¤Ş¤¹"
+msgstr "ç”»åƒã‚’åæ™‚è¨ˆå›ã‚Šã« 90Â°å›è»¢ã•ã›ã¾ã™"
 
-#: src/gthumb_tools.glade2.h:32
-msgid "Thumbnails"
-msgstr "¥µ¥à¥Í¥¤¥ë"
+#: src/gthumb_tools.glade.h:39
+msgid "Search terminated, no duplicates found."
+msgstr "æ¤œç´¢ãŒçµ‚äº†ã—ã¾ã—ãŸã€‚é‡è¤‡ã—ãŸã‚‚ã®ã¯è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚"
 
-#: src/gthumb_tools.glade2.h:35
-msgid "_Sort Original List:"
+#: src/gthumb_tools.glade.h:43
+msgid ""
+"Use #'s to specify positions used by numeric enumerator. Use * to insert "
+"original filename."
 msgstr ""
+"æ–‡å­— # ã¯ãã‚Œãã‚Œæ¡æ•°ã«å¿œã˜ã¦æ•°å€¤ã§ç½®ãæ›ã‚ã‚Šã¾ã™ã€‚æ–‡å­— * ã¯ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ãƒ•ã‚¡"
+"ã‚¤ãƒ«åã«ç½®ãæ›ã‚ã‚Šã¾ã™ã€‚"
 
-#: src/gthumb_tools.glade2.h:37
-msgid "_Transfrom"
-msgstr ""
+#: src/gthumb_tools.glade.h:46
+msgid "_Sort original list:"
+msgstr "ã‚ªãƒªã‚¸ãƒŠãƒ«ä¸€è¦§ã®ä¸¦ã³æ›¿ãˆ(_S):"
 
-#: src/gthumb_tools.glade2.h:39
-#, fuzzy
+#: src/gthumb_tools.glade.h:49
 msgid "by Modification date"
-msgstr "¥Õ¥¡¥¤¥ë¤òºîÀ®¤·¤¿»ş¹ï¤Ç¥½¡¼¥È¤·¤Ş¤¹"
+msgstr "æœ€çµ‚ä¿®æ­£æ—¥æ™‚ã®é †"
 
-#: src/gthumb_tools.glade2.h:40
-#, fuzzy
+#: src/gthumb_tools.glade.h:50
 msgid "by Name"
-msgstr "Ì¾Á°½ç"
+msgstr "åå‰é †"
 
-#: src/gthumb_tools.glade2.h:41
-#, fuzzy
+#: src/gthumb_tools.glade.h:51
 msgid "by Size"
-msgstr "¥µ¥¤¥º½ç(_S)"
+msgstr "ã‚µã‚¤ã‚ºé †"
 
-#: src/gthumb_tools.glade2.h:42
-#, fuzzy
-msgid "gThumb - Find Duplicates"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb_tools.glade2.h:43
-#, fuzzy
-msgid "gThumb - JPEG Transform"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb_tools.glade2.h:44
-#, fuzzy
-msgid "gThumb - Maintenance"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb_tools.glade2.h:45
-#, fuzzy
-msgid "gThumb - Rename series"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
-
-#: src/gthumb-ui.xml.h:1
-msgid " "
-msgstr ""
-
-#: src/gthumb-ui.xml.h:2
-#, fuzzy
-msgid "1:1"
-msgstr "112"
-
-#: src/gthumb-ui.xml.h:3
-#, fuzzy
-msgid "Actual size"
-msgstr "¼Â¥µ¥¤¥º¤ÇÉ½¼¨"
-
-#: src/gthumb-ui.xml.h:4
-#, fuzzy
-msgid "Add a comment to selected images"
-msgstr "ÁªÂò¤·¤¿²èÁü¤Ë¥³¥á¥ó¥È¤òÄÉ²Ã¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:5
-msgid "Add current location to bookmarks"
-msgstr "¤³¤Î¥Ç¥£¥ì¥¯¥È¥ê¤ò¥Ö¥Ã¥¯¥Ş¡¼¥¯¤ËÄÉ²Ã¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:6
-#, fuzzy
-msgid "Add selected images to a catalog"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ò¥«¥¿¥í¥°¤ËÄÉ²Ã¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:7
-#, fuzzy
-msgid "Assign categories to selected images"
-msgstr "ÁªÂò¤·¤¿²èÁü¤Ë¥³¥á¥ó¥È¤òÄÉ²Ã¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:8
-#, fuzzy
-msgid "Back"
-msgstr "¹õ¿§"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
-#: src/gthumb-ui.xml.h:9
-msgid "Black and _White"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:10
-msgid "Ca_tegories..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:11
-msgid "Catalogs"
-msgstr "¥«¥¿¥í¥°"
-
-#: src/gthumb-ui.xml.h:12
-msgid "Close all windows and exit"
-msgstr "Á´¤Æ¤Î¥¦¥£¥ó¥É¥¦¤òÊÄ¤¸¤Æ½ªÎ»¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:13
-msgid "Close this window"
-msgstr "¤³¤Î¥¦¥£¥ó¥É¥¦¤òÊÄ¤¸¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:15
-msgid "Convert F_ormat"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:16
-#, fuzzy
-msgid "Copy selected images to another location"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥³¥Ô¡¼¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:17
-#, fuzzy
-msgid "Copy this image to another location"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥³¥Ô¡¼¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:18
-#, fuzzy
-msgid "Copy..."
-msgstr "¥Õ¥¡¥¤¥ë¤Î¥³¥Ô¡¼(_C)..."
-
-#: src/gthumb-ui.xml.h:19
-#, fuzzy
-msgid "Create _Index Image"
-msgstr "²èÁü¤ÎÌÜÏ¿¤ÎºîÀ®(_I)..."
-
-#: src/gthumb-ui.xml.h:20
-#, fuzzy
-msgid "Create a new catalog library"
-msgstr "¿·µ¬¤Ë¥¦¥£¥ó¥É¥¦¤ò³«¤­¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:21
-#, fuzzy
-msgid "Create a new folder"
-msgstr "¿·µ¬¤Ë¥¦¥£¥ó¥É¥¦¤ò³«¤­¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:22
-msgid "Create a new window"
-msgstr "¿·µ¬¤Ë¥¦¥£¥ó¥É¥¦¤ò³«¤­¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:23
-#, fuzzy
-msgid "De_lete Comment"
-msgstr "¥³¥á¥ó¥È¤Îºï½ü(_T)"
-
-#: src/gthumb-ui.xml.h:24
-msgid "Delete"
-msgstr "ºï½ü"
-
-#: src/gthumb-ui.xml.h:25
-#, fuzzy
-msgid "Delete Catalog"
-msgstr "¥«¥¿¥í¥°¤Îºï½ü(_D)..."
-
-#: src/gthumb-ui.xml.h:26
-#, fuzzy
-msgid "Delete Folder"
-msgstr "¥³¥á¥ó¥È¤Îºï½ü(_T)"
-
-#: src/gthumb-ui.xml.h:27
-#, fuzzy
-msgid "Delete comments of selected images"
-msgstr "ÁªÂò¤·¤¿²èÁü¤Î¥³¥á¥ó¥È¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:28
-#, fuzzy
-msgid "Delete current catalog"
-msgstr "¥«¥¿¥í¥°¤Îºï½ü(_D)..."
-
-#: src/gthumb-ui.xml.h:29
-#, fuzzy
-msgid "Delete current folder"
-msgstr "¥³¥á¥ó¥È¤Îºï½ü(_T)"
-
-#: src/gthumb-ui.xml.h:30
-msgid "Delete selected catalog"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:31
-#, fuzzy
-msgid "Delete selected folder"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:32
-#, fuzzy
-msgid "Delete selected images from disk"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:33
-msgid "Delete the list of visited locations"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:34
-#, fuzzy
-msgid "Delete this image from disk"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:35
-#, fuzzy
-msgid "Display image properties"
-msgstr "gThumb - ²èÁü¤ÎÌÜÏ¿¤ÎÀßÄê"
-
-#: src/gthumb-ui.xml.h:36
-msgid "E_xit"
-msgstr "½ªÎ»(_X)"
-
-#: src/gthumb-ui.xml.h:37
-#, fuzzy
-msgid "Edit Search"
-msgstr "¸¡º÷´ğ½à¤ÎÊÔ½¸..."
-
-#: src/gthumb-ui.xml.h:38
-#, fuzzy
-msgid "Edit bookmarks"
-msgstr "¥Ö¥Ã¥¯¥Ş¡¼¥¯°ìÍ÷¤òÊÔ½¸¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:39
-msgid "Edit various preferences"
-msgstr "¤¤¤í¤¤¤í¤ÊÀßÄê¤òÊÔ½¸¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:40
-#, fuzzy
-msgid "F_lip"
-msgstr "¤Ò¤Ã¤¯¤êÊÖ¤¹(_F)"
-
-#: src/gthumb-ui.xml.h:41
-#, fuzzy
-msgid "Find _Duplicates"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb-ui.xml.h:42
-msgid "Fit"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:43
-msgid "Folders"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:44
-msgid "Forward"
-msgstr "Á°¤Ë¿Ê¤à"
-
-#: src/gthumb-ui.xml.h:45
-#, fuzzy
-msgid "Full Screen"
-msgstr "¥Õ¥ë¥¹¥¯¥ê¡¼¥ó(_F)"
-
-#: src/gthumb-ui.xml.h:46
-#, fuzzy
-msgid "Full screen"
-msgstr "¥Õ¥ë¥¹¥¯¥ê¡¼¥óÉ½¼¨"
-
-#: src/gthumb-ui.xml.h:47
-#, fuzzy
-msgid "Go to the folder that contains the selected image"
-msgstr "ÁªÂò¤·¤¿²èÁü¤Î¥³¥á¥ó¥È¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:48
-#, fuzzy
-msgid "Go to the home folder"
-msgstr "¥Û¡¼¥à¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:49
-#, fuzzy
-msgid "Go to the next visited location"
-msgstr "ºÇ¸å¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤¹¤ë"
-
-#: src/gthumb-ui.xml.h:50
-#, fuzzy
-msgid "Go to the previuos visited location"
-msgstr "ºÇ¸å¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤¹¤ë"
-
-#: src/gthumb-ui.xml.h:51
-msgid "Go up one level"
-msgstr "°ì¤Ä¾å¤Î¥ì¥Ù¥ë¤Ë¾å¤¬¤ê¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:52
-#, fuzzy
-msgid "Home"
-msgstr "¥Û¡¼¥à"
-
-#: src/gthumb-ui.xml.h:53
-msgid "In"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:54
-#, fuzzy
-msgid "Main Toolbar"
-msgstr "¥Ä¡¼¥ë¥Ğ¡¼"
-
-#: src/gthumb-ui.xml.h:55
-#, fuzzy
-msgid "Modify search criteria"
-msgstr "¸¡º÷´ğ½à"
-
-#: src/gthumb-ui.xml.h:56
-#, fuzzy
-msgid "Move"
-msgstr "..."
-
-#: src/gthumb-ui.xml.h:57
-#, fuzzy
-msgid "Move Catalog..."
-msgstr "¥«¥¿¥í¥°¤Î°ÜÆ°..."
-
-#: src/gthumb-ui.xml.h:58
-#, fuzzy
-msgid "Move Folder"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:59
-#, fuzzy
-msgid "Move current catalog to another location"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë°ÜÆ°¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:60
-#, fuzzy
-msgid "Move current folder"
-msgstr "¥³¥á¥ó¥È¤Îºï½ü(_T)"
-
-#: src/gthumb-ui.xml.h:61
-msgid "Move selected catalog to another location"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë°ÜÆ°¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:62
-#, fuzzy
-msgid "Move selected folder"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤òºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:63
-#, fuzzy
-msgid "Move selected images to another location"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë°ÜÆ°¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:64
-#, fuzzy
-msgid "Move this image to another location"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë°ÜÆ°¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:65
-#, fuzzy
-msgid "Move..."
-msgstr "..."
-
-#: src/gthumb-ui.xml.h:66
-#, fuzzy
-msgid "New _Folder"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:67
-#, fuzzy
-msgid "New _Library"
-msgstr "¿·µ¬¤Î¸¡º÷..."
-
-#: src/gthumb-ui.xml.h:68
-#, fuzzy
-msgid "New _Window"
-msgstr "¿·µ¬¥¦¥£¥ó¥É¥¦(_N)"
-
-#: src/gthumb-ui.xml.h:69
-msgid "Next"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:70
-msgid "Open Folder with _Nautilus"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:71
-msgid "Open current folder with the Nautilus file manager"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:72
-#, fuzzy
-msgid "Open selected images with an application"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥¢¥×¥ê¤Ç³«¤­¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:73
-msgid "Open the selected folder with the Nautilus file manager"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:74
-#, fuzzy
-msgid "Open this image with an application"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤òÂ¾¤Î¥¢¥×¥ê¤Ç³«¤­¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:75
-msgid "Open with Nautilus"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:76
-#, fuzzy
-msgid "Open with..."
-msgstr "Â¾¤Ç³«¤¯(_O)..."
-
-#: src/gthumb-ui.xml.h:77
-msgid "Out"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:78
-#, fuzzy
-msgid "Play _Animation"
-msgstr "¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î³«»Ï/Ää»ß(_A)"
-
-#: src/gthumb-ui.xml.h:79
-#, fuzzy
-msgid "Previous"
-msgstr "¥×¥ì¥Ó¥å¡¼"
-
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
-#: src/gthumb-ui.xml.h:80
-msgid "Print the current image"
-msgstr "¤³¤Î²èÁü¤ò°õºş¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:81
-#, fuzzy
-msgid "Properties"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
-
-#: src/gthumb-ui.xml.h:82
-#, fuzzy
-msgid "R_otate 180 Degrees"
-msgstr "180 ¡ë²óÅ¾(_D)"
-
-#: src/gthumb-ui.xml.h:83
-#, fuzzy
-msgid "Redo Search"
-msgstr "¸¡º÷¤Î¤ä¤êÄ¾¤·(_S)"
-
-#: src/gthumb-ui.xml.h:84
-#, fuzzy
-msgid "Redo _Search"
-msgstr "¸¡º÷¤Î¤ä¤êÄ¾¤·(_S)"
-
-#: src/gthumb-ui.xml.h:85
-#, fuzzy
-msgid "Redo the search"
-msgstr "¸¡º÷¤Î¤ä¤êÄ¾¤·(_S)"
-
-#: src/gthumb-ui.xml.h:86
-#, fuzzy
-msgid "Refresh"
-msgstr "Á°"
-
-#: src/gthumb-ui.xml.h:87
-msgid "Reload the current location"
-msgstr "¸½ºß¤Î³«¤¤¤Æ¤¤¤ë¥Ç¥£¥ì¥¯¥È¥ê¤òºÆÅÙÆÉ¤ß¹ş¤ß¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:88
-#, fuzzy
-msgid "Remo_ve from Catalog"
-msgstr "¥«¥¿¥í¥°¤«¤éºï½ü(_E)"
-
-#: src/gthumb-ui.xml.h:89
-#, fuzzy
-msgid "Remove selected images from the catalog"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ò¥«¥¿¥í¥°¤«¤éºï½ü¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:90
-#, fuzzy
-msgid "Rename"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾"
-
-#: src/gthumb-ui.xml.h:91
-#, fuzzy
-msgid "Rename Catalog"
-msgstr "¥«¥¿¥í¥°Ì¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:92
-#, fuzzy
-msgid "Rename Folder"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:93
-#, fuzzy
-msgid "Rename current catalog"
-msgstr "¥«¥¿¥í¥°Ì¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:94
-#, fuzzy
-msgid "Rename current folder"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:95
-msgid "Rename selected catalog"
-msgstr "ÁªÂò¤·¤¿¥«¥¿¥í¥°¤ÎÌ¾Á°¤òÊÑ¹¹¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:96
-#, fuzzy
-msgid "Rename selected folder"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ÎÌ¾Á°¤òÊÑ¹¹¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:97
-#, fuzzy
-msgid "Rename selected image"
-msgstr "ÁªÂò¤·¤¿¥Õ¥¡¥¤¥ë¤ÎÌ¾Á°¤òÊÑ¹¹¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:98
-#, fuzzy
-msgid "Rename this image"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:99
-msgid "Restore the original desktop wallpaper"
-msgstr "¸µ¤Î¥Ç¥¹¥¯¥È¥Ã¥×ÊÉ»æ¤ËÌá¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:100
-#, fuzzy
-msgid "Reverse images order"
-msgstr "µÕ½ç"
-
-#: src/gthumb-ui.xml.h:101
-#, fuzzy
-msgid "Select all images"
-msgstr "Á´¤Æ¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò(_S)"
-
-#: src/gthumb-ui.xml.h:102
-#, fuzzy
-msgid "Set Image as _Wallpaper"
-msgstr "ÊÉ»æ¤Ë¥»¥Ã¥È(_W)"
-
-#: src/gthumb-ui.xml.h:103
-msgid "Set the image as desktop background (centered)"
-msgstr "¥Ç¥¹¥¯¥È¥Ã¥×¤ÎÇØ·Ê¤Ë²èÁü¤ò¥»¥Ã¥È¤·¤Ş¤¹(Ãæ±û)"
-
-#: src/gthumb-ui.xml.h:104
-#, fuzzy
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "¥Ç¥¹¥¯¥È¥Ã¥×¤ÎÇØ·Ê¤Ë²èÁü¤ò¥»¥Ã¥È¤·¤Ş¤¹(²èÌÌ¥µ¥¤¥º¤Î½Ä²£Èæ¤Ë¹ç¤ï¤»¤ë)"
-
-#: src/gthumb-ui.xml.h:105
-msgid "Set the image as desktop background (stretched)"
-msgstr "¥Ç¥¹¥¯¥È¥Ã¥×¤ÎÇØ·Ê¤Ë²èÁü¤ò¥»¥Ã¥È¤·¤Ş¤¹(²èÌÌ¥µ¥¤¥º¤Ë°ú¤­¿­¤Ğ¤¹)"
-
-#: src/gthumb-ui.xml.h:106
-msgid "Set the image as desktop background (tiled)"
-msgstr "¥Ç¥¹¥¯¥È¥Ã¥×¤ÎÇØ·Ê¤Ë²èÁü¤ò¥»¥Ã¥È¤·¤Ş¤¹(¥¿¥¤¥ë¾õ)"
-
-#: src/gthumb-ui.xml.h:107
-#, fuzzy
-msgid "Show information about gThumb"
-msgstr "¤³¤Î¥×¥í¥°¥é¥à¤Î¾ğÊó¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:108
-#, fuzzy
-msgid "Show/_Hide"
-msgstr "¥«¥¿¥í¥°¤ÎÉ½¼¨/ÈóÉ½¼¨(_C)"
-
-#: src/gthumb-ui.xml.h:109
-#, fuzzy
-msgid "Sort images by file size"
-msgstr "¥Õ¥¡¥¤¥ë¤Î¥µ¥¤¥º¤Ç¥½¡¼¥È¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:110
-#, fuzzy
-msgid "Sort images by modifiction time"
-msgstr "¥Õ¥¡¥¤¥ë¤òºîÀ®¤·¤¿»ş¹ï¤Ç¥½¡¼¥È¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:111
-#, fuzzy
-msgid "Sort images by name"
-msgstr "¥½¡¼¥È¤¹¤ë¥Õ¥¡¥¤¥ë°ìÍ÷:"
-
-#: src/gthumb-ui.xml.h:112
-#, fuzzy
-msgid "Sort images by path"
-msgstr "¥½¡¼¥È¤¹¤ë¥Õ¥¡¥¤¥ë°ìÍ÷:"
-
-#: src/gthumb-ui.xml.h:113
-msgid "Specify a location to visit"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:114
-msgid "Start or stop current animation"
-msgstr "¸½ºßÉ½¼¨Ãæ¤Î¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î³«»Ï/Ää»ß¤òÀÚ¤êÂØ¤¨¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:115
-#, fuzzy
-msgid "Step A_nimation"
-msgstr "¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î¥¹¥Æ¥Ã¥×¼Â¹Ô(_S)"
-
-#: src/gthumb-ui.xml.h:116
-#, fuzzy
-msgid "Stop loading current location"
-msgstr "¸½ºß¤Î³«¤¤¤Æ¤¤¤ë¥Ç¥£¥ì¥¯¥È¥ê¤òºÆÅÙÆÉ¤ß¹ş¤ß¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:117
-#, fuzzy
-msgid "Str_erched"
-msgstr "°ú¤­¿­¤Ğ¤¹(_T)"
-
-#: src/gthumb-ui.xml.h:118
-#, fuzzy
-msgid "Transparency typ_e"
-msgstr "Æ©ÌÀ¤Î¼ïÎà:"
-
-#: src/gthumb-ui.xml.h:119
-#, fuzzy
-msgid "Up"
-msgstr "¾å¤Ø"
-
-#: src/gthumb-ui.xml.h:120
-msgid "Use black as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:121
-msgid "Use checks as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:122
-msgid "Use gray as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:123
-msgid "Use high quality zoom"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:124
-msgid "Use low quality zoom"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:125
-msgid "Use white as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:126
-msgid "View image in fullscreen mode"
-msgstr "²èÁü¤òÁ´²èÌÌ¥â¡¼¥É¤ÇÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:127
-#, fuzzy
-msgid "View images as a slideshow"
-msgstr "¤³¤Î¥Õ¥¡¥¤¥ë°ìÍ÷¤ò¥¹¥é¥¤¥É¥·¥ç¡¼¤ÇÉ½¼¨¤·¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:128
-msgid "View next animation frame"
-msgstr "¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î¼¡¤Î¥Õ¥ì¡¼¥à¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:129
-#, fuzzy
-msgid "View next image"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:130
-msgid "View or hide the statusbar of this window"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:131
-msgid "View or hide the toolbar of this window"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:132
-#, fuzzy
-msgid "View previous image"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:133
-#, fuzzy
-msgid "View the catalogs"
-msgstr "¥«¥¿¥í¥°°ìÍ÷¤ÎÉ½¼¨/ÈóÉ½¼¨¤òÀÚ¤êÂØ¤¨¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:134
-#, fuzzy
-msgid "View the folders"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤ÎÉ½¼¨/ÈóÉ½¼¨¤òÀÚ¤êÂØ¤¨¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:135
-#, fuzzy
-msgid "View the image"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:136
-#, fuzzy
-msgid "View the image flipped"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:137
-#, fuzzy
-msgid "View the image in black and white"
-msgstr "²èÁü¤òÁ´²èÌÌ¥â¡¼¥É¤ÇÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:138
-#, fuzzy
-msgid "View the image mirrored"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:139
-#, fuzzy
-msgid "View the image rotated clockwise"
-msgstr "²èÁü¤ò»ş·×²ó¤ê¤Ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:140
-#, fuzzy
-msgid "View the image rotated of 180 degrees"
-msgstr "²èÁü¤ò 180 ¡ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:141
-msgid "View thumbnails"
-msgstr "¥µ¥à¥Í¥¤¥ë¤ÇÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:142
-msgid "Zoom _In"
-msgstr "³ÈÂç(_I)"
-
-#: src/gthumb-ui.xml.h:143
-msgid "Zoom _Out"
-msgstr "½Ì¾®(_O)"
-
-#: src/gthumb-ui.xml.h:144
-msgid "Zoom in"
-msgstr "¤³¤Î²èÁü¤ò³ÈÂç¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:145
-msgid "Zoom out"
-msgstr "¤³¤Î²èÁü¤ò½Ì¾®¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:146
-#, fuzzy
-msgid "Zoom to _Fit"
-msgstr "¥Õ¥£¥Ã¥È(_F)"
-
-#: src/gthumb-ui.xml.h:147
-msgid "Zoom to fit window"
-msgstr "¥¦¥£¥ó¥É¥¦¤Ë¹ç¤ï¤»¤Æ¥º¡¼¥à¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:148
-msgid "_About..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:149
-#, fuzzy
-msgid "_Actual Size"
-msgstr "¼Â¥µ¥¤¥º¤ÇÉ½¼¨"
-
-#: src/gthumb-ui.xml.h:150
-#, fuzzy
-msgid "_Add Bookmark"
-msgstr "¥Ö¥Ã¥¯¥Ş¡¼¥¯¤ÎÄÉ²Ã(_A)"
-
-#: src/gthumb-ui.xml.h:151
-#, fuzzy
-msgid "_Add to Catalog..."
-msgstr "¥«¥¿¥í¥°¤ËÄÉ²Ã(_A)..."
-
-#: src/gthumb-ui.xml.h:152
-#, fuzzy
-msgid "_Back"
-msgstr "¹õ¿§(_B)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:153
-msgid "_Black"
-msgstr "¹õ¿§(_B)"
-
-#: src/gthumb-ui.xml.h:154
-msgid "_Bookmarks"
-msgstr "¥Ö¥Ã¥¯¥Ş¡¼¥¯(_B)"
-
-#: src/gthumb-ui.xml.h:155
-#, fuzzy
-msgid "_Catalogs"
-msgstr "¥«¥¿¥í¥°"
-
-#: src/gthumb-ui.xml.h:156
-msgid "_Centered"
-msgstr "Ãæ±û(_C)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:157
-msgid "_Checked"
-msgstr "³Ê»Ò¾õ(_C)"
-
-#: src/gthumb-ui.xml.h:158
-#, fuzzy
-msgid "_Close Window"
-msgstr "¤³¤Î¥¦¥£¥ó¥É¥¦¤òÊÄ¤¸¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:159
-#, fuzzy
-msgid "_Copy..."
-msgstr "¥Õ¥¡¥¤¥ë¤Î¥³¥Ô¡¼(_C)..."
-
-#: src/gthumb-ui.xml.h:160
-#, fuzzy
-msgid "_Delete"
-msgstr "ºï½ü"
-
-#: src/gthumb-ui.xml.h:161
-#, fuzzy
-msgid "_Delete Catalog"
-msgstr "¥«¥¿¥í¥°¤Îºï½ü(_D)..."
-
-#: src/gthumb-ui.xml.h:162
-#, fuzzy
-msgid "_Delete Folder"
-msgstr "¥³¥á¥ó¥È¤Îºï½ü(_T)"
-
-#: src/gthumb-ui.xml.h:163
-#, fuzzy
-msgid "_Delete History"
-msgstr "ÍúÎò¤Îºï½ü(_D)"
-
-#: src/gthumb-ui.xml.h:164
-msgid "_Edit"
-msgstr "ÊÔ½¸(_E)"
-
-#: src/gthumb-ui.xml.h:165
-#, fuzzy
-msgid "_Edit Bookmarks"
-msgstr "¥Ö¥Ã¥¯¥Ş¡¼¥¯¤ÎÊÔ½¸(_E)..."
-
-#: src/gthumb-ui.xml.h:167
-#, fuzzy
-msgid "_File"
-msgstr "¥¿¥¤¥ë¾õ(_F)"
-
-#: src/gthumb-ui.xml.h:168
-#, fuzzy
-msgid "_Find Images..."
-msgstr "²èÁü¤Î¸¡º÷(_F)..."
-
-#: src/gthumb-ui.xml.h:169
-#, fuzzy
-msgid "_Folders"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:170
-#, fuzzy
-msgid "_Forward"
-msgstr "Á°¤Ë¿Ê¤à"
-
-#: src/gthumb-ui.xml.h:171
-#, fuzzy
-msgid "_Full Screen"
-msgstr "¥Õ¥ë¥¹¥¯¥ê¡¼¥ó(_F)"
-
-#: src/gthumb-ui.xml.h:172
-msgid "_Go"
-msgstr "¥¸¥ã¥ó¥×(_G)"
-
-#: src/gthumb-ui.xml.h:173
-#, fuzzy
-msgid "_Go to the Image Folder"
-msgstr "¼¡¤Î¥Ç¥£¥ì¥¯¥È¥ê¤Ë¥¸¥ã¥ó¥×¤¹¤ë:"
-
-#: src/gthumb-ui.xml.h:174
-#, fuzzy
-msgid "_Help"
-msgstr "¤Ò¤Ã¤¯¤êÊÖ¤¹(_F)"
-
-#: src/gthumb-ui.xml.h:175
-#, fuzzy
-msgid "_High Quality"
-msgstr "¹âÉÊ¼Á(_H)"
-
-#: src/gthumb-ui.xml.h:176
-#, fuzzy
-msgid "_Home"
-msgstr "¥Û¡¼¥à"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:177
-#, fuzzy
-msgid "_Image"
-msgstr "²èÁü"
-
-#: src/gthumb-ui.xml.h:178
-#, fuzzy
-msgid "_Image preview"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
-
-#: src/gthumb-ui.xml.h:179
-msgid "_JPEG Transform"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:180
-msgid "_Keyboard Shortcuts"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:181
-msgid "_Location..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:182
-#, fuzzy
-msgid "_Low Quality"
-msgstr "ÄãÉÊ¼Á(_L)"
-
-#: src/gthumb-ui.xml.h:183
-#, fuzzy
-msgid "_Maintenance"
-msgstr "gThumb - °õºşÀßÄê"
-
-#: src/gthumb-ui.xml.h:184
-msgid "_Manual"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:185
-msgid "_Mirror"
-msgstr "È¿Å¾¤¹¤ë(_M)"
-
-#: src/gthumb-ui.xml.h:186
-#, fuzzy
-msgid "_Move Catalog..."
-msgstr "¥«¥¿¥í¥°¤Î°ÜÆ°..."
-
-#: src/gthumb-ui.xml.h:187
-#, fuzzy
-msgid "_Move Folder..."
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê°ìÍ÷¤òÉ½¼¨¤·¤Ş¤¹"
-
-#: src/gthumb-ui.xml.h:188
-#, fuzzy
-msgid "_Move..."
-msgstr "..."
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb-ui.xml.h:189
-#, fuzzy
-msgid "_None"
-msgstr "¥Û¡¼¥à"
-
-#: src/gthumb-ui.xml.h:190
-#, fuzzy
-msgid "_Open with..."
-msgstr "Â¾¤Ç³«¤¯(_O)..."
-
-#: src/gthumb-ui.xml.h:193
-#, fuzzy
-msgid "_Properties"
-msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
-
-#: src/gthumb-ui.xml.h:194
-msgid "_Reload"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:196
-#, fuzzy
-msgid "_Rename Catalog"
-msgstr "¥«¥¿¥í¥°Ì¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:197
-#, fuzzy
-msgid "_Rename Folder"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:198
-#, fuzzy
-msgid "_Rename Series"
-msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#: src/gthumb-ui.xml.h:199
-msgid "_Restore"
-msgstr "Éüµ¢(_R)"
-
-#: src/gthumb-ui.xml.h:200
-#, fuzzy
-msgid "_Reversed Order"
-msgstr "µÕ½ç(_R)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
-#: src/gthumb-ui.xml.h:201
-msgid "_Rotate Clockwise"
-msgstr "»ş·×²ó¤ê¤Ë²óÅ¾(_R)"
-
-#: src/gthumb-ui.xml.h:202
-msgid "_Scaled"
-msgstr "½Ä²£Èæ°ìÄê(_S)"
-
-#: src/gthumb-ui.xml.h:203
-#, fuzzy
-msgid "_Select All"
-msgstr "Á´¤Æ¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò(_S)"
-
-#: src/gthumb-ui.xml.h:204
-msgid "_Slideshow"
-msgstr "¥¹¥é¥¤¥É¥·¥ç¡¼(_S)"
-
-#: src/gthumb-ui.xml.h:205
-#, fuzzy
-msgid "_Sort Images"
-msgstr "¥½¡¼¥È¤¹¤ë¥Õ¥¡¥¤¥ë°ìÍ÷:"
-
-#: src/gthumb-ui.xml.h:206
-msgid "_Statusbar"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:207
-msgid "_Stop"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:208
-msgid "_Thumbnails"
-msgstr "¥µ¥à¥Í¥¤¥ë(_T)"
-
-#: src/gthumb-ui.xml.h:209
-msgid "_Tiled"
-msgstr "¥¿¥¤¥ë¾õ(_F)"
-
-#: src/gthumb-ui.xml.h:210
-#, fuzzy
-msgid "_Toolbar"
-msgstr "¥Ä¡¼¥ë¥Ğ¡¼"
-
-#: src/gthumb-ui.xml.h:211
-msgid "_Tools"
-msgstr "¥Ä¡¼¥ë(_T)"
-
-#: src/gthumb-ui.xml.h:212
-#, fuzzy
-msgid "_Up"
-msgstr "¾å¤Ø"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
-#: src/gthumb-ui.xml.h:214
-msgid "_White"
-msgstr "Çò¿§(_W)"
-
-#: src/gthumb-ui.xml.h:215
-msgid "_Zoom"
-msgstr "³ÈÂç(_Z)"
-
-#: src/gthumb-ui.xml.h:216
-#, fuzzy
-msgid "by _Name"
-msgstr "Ì¾Á°½ç"
-
-#: src/gthumb-ui.xml.h:217
-msgid "by _Path"
-msgstr "¥Ñ¥¹½ç(_P)"
-
-#: src/gthumb-ui.xml.h:218
-msgid "by _Size"
-msgstr "¥µ¥¤¥º½ç(_S)"
-
-#: src/gthumb-ui.xml.h:219
-msgid "by _Time"
-msgstr "»ş¹ï½ç(_T)"
-
-#: src/gthumb-window.c:1139
-#, fuzzy
-msgid "No image"
-msgstr "²èÁü¤¬¸«¤Ä¤«¤ê¤Ş¤»¤ó¤Ç¤·¤¿"
-
-#: src/gthumb-window.c:1141
-#, fuzzy, c-format
-msgid "1 image (%s)"
-msgstr "1 ¸Ä¤Î¥Õ¥¡¥¤¥ë (%s)"
-
-#: src/gthumb-window.c:1144
-#, fuzzy, c-format
-msgid "%d images (%s)"
-msgstr "%d ¸Ä¤Î¥Õ¥¡¥¤¥ë (%s)"
-
-#: src/gthumb-window.c:1151
-#, fuzzy, c-format
-msgid "1 selected (%s)"
-msgstr "1 ¸Ä¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò¤·¤Ş¤·¤¿ (%s)"
-
-#: src/gthumb-window.c:1154
-#, fuzzy, c-format
-msgid "%d selected (%s)"
-msgstr "%d ¸Ä¤Î¥Õ¥¡¥¤¥ë¤òÁªÂò¤·¤Ş¤·¤¿ (%s)"
-
-#: src/gthumb-window.c:2513
-msgid "Drag & Drop"
-msgstr "¥É¥é¥Ã¥°¡õ¥É¥í¥Ã¥×"
-
-#: src/gthumb-window.c:3893
-#, fuzzy, c-format
-msgid "Cannot load folder \"%s\" : %s\n"
-msgstr "¥Ç¥£¥ì¥¯¥È¥ê %s ¤òÆÉ¤á¤Ş¤»¤ó: %s\n"
-
-#: src/gthumb-window.c:4142
-msgid "The specified catalog does not exist."
-msgstr "»ØÄê¤·¤¿¥«¥¿¥í¥°¤ÏÂ¸ºß¤·¤Ş¤»¤ó¡£"
-
-#: src/main.c:62
-#, fuzzy
+#: src/main.c:75
 msgid "Start in fullscreen mode"
-msgstr "²èÁü¤òÁ´²èÌÌ¥â¡¼¥É¤ÇÉ½¼¨¤·¤Ş¤¹"
+msgstr "å…¨ç”»é¢ãƒ¢ãƒ¼ãƒ‰ã§èµ·å‹•ã—ã¾ã™"
 
-#: src/main.c:66
+#: src/main.c:79
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "è‡ªå‹•çš„ã«ã‚¹ãƒ©ã‚¤ãƒ‰ã‚·ãƒ§ãƒ¼ã‚’èµ·å‹•ã™ã‚‹"
+
+#: src/main.c:158
+msgid "Holidays"
+msgstr "ç¥­æ—¥"
 
 #: src/main.c:159
-msgid "Holidays"
-msgstr ""
+msgid "Temporary"
+msgstr "ä½œæ¥­ç”¨"
 
 #: src/main.c:160
-msgid "Temporary"
-msgstr ""
+msgid "Screenshots"
+msgstr "ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚·ãƒ§ãƒƒãƒˆ"
 
 #: src/main.c:161
-msgid "Screenshots"
-msgstr ""
+msgid "Science"
+msgstr "ç§‘å­¦"
 
 #: src/main.c:162
-msgid "Science"
-msgstr ""
+msgid "Favourite"
+msgstr "ãŠæ°—ã«å…¥ã‚Š"
 
 #: src/main.c:163
-msgid "Favourite"
-msgstr ""
+msgid "Important"
+msgstr "é‡è¦"
 
 #: src/main.c:164
-msgid "Important"
-msgstr ""
+msgid "GNOME"
+msgstr "GNOME"
 
 #: src/main.c:165
-msgid "GNOME"
-msgstr ""
+msgid "Games"
+msgstr "ã‚²ãƒ¼ãƒ "
 
 #: src/main.c:166
-#, fuzzy
-msgid "Games"
-msgstr "Ì¾Á°½ç(_N)"
+msgid "Party"
+msgstr "ãƒ‘ãƒ¼ãƒ†ã‚£"
 
 #: src/main.c:167
-#, fuzzy
-msgid "Party"
-msgstr "°õºş"
+msgid "Birthday"
+msgstr "èª•ç”Ÿæ—¥"
 
 #: src/main.c:168
-msgid "Birthday"
-msgstr ""
+msgid "Astronomy"
+msgstr "å¤©æ–‡å­¦"
 
 #: src/main.c:169
-msgid "Astronomy"
-msgstr ""
-
-#: src/main.c:170
 msgid "Family"
-msgstr ""
+msgstr "å®¶æ—"
 
-#: src/main.c:275 src/main.c:332
+#: src/main.c:286 src/main.c:348
 msgid "Command Line"
-msgstr "¥³¥Ş¥ó¥É"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:1
-msgid "GThumb Image"
-msgstr "GThumb ²èÁü"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:2
-msgid "GThumb Viewer"
-msgstr "GThumb ¥Ó¥å¥ï¡¼"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:3
-msgid "View with GThumb"
-msgstr "GThumb ¤ÇÉ½¼¨¤·¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
-msgid "Black and White"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
-#, fuzzy
-msgid "Flip"
-msgstr "¤Ò¤Ã¤¯¤êÊÖ¤¹(_F)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
-msgid "Flip the image"
-msgstr "²èÁü¤ò¾å²¼¤Ò¤Ã¤¯¤êÊÖ¤·¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
-msgid "High"
-msgstr "¹âÉÊ¼Á"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
-msgid "Low"
-msgstr "ÄãÉÊ¼Á"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#, fuzzy
-msgid "Mirror"
-msgstr "È¿Å¾¤¹¤ë(_M)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-msgid "Mirror the image"
-msgstr "²èÁü¤òÈ¿Å¾¤µ¤»¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
-msgid "Rotate"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
-msgid "Rotate 180 _Degrees"
-msgstr "180 ¡ë²óÅ¾(_D)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-msgid "Rotate the image clockwise"
-msgstr "²èÁü¤ò»ş·×²ó¤ê¤Ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-msgid "Rotate the image of 180 degrees"
-msgstr "²èÁü¤ò 180 ¡ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
-msgid "Start/Stop _Animation"
-msgstr "¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î³«»Ï/Ää»ß(_A)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-msgid "Transparency T_ype"
-msgstr "Æ©ÌÀ¤Î¼ïÎà(_Y)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-msgid "_Flip"
-msgstr "¤Ò¤Ã¤¯¤êÊÖ¤¹(_F)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-msgid "_Step Animation"
-msgstr "¥¢¥Ë¥á¡¼¥·¥ç¥ó¤Î¥¹¥Æ¥Ã¥×¼Â¹Ô(_S)"
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:30
-msgid "_Zoom Quality"
-msgstr "¥º¡¼¥à¤ÎÉÊ¼Á(_Z)"
-
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:1
-#, fuzzy
-msgid "Catalog"
-msgstr "¥«¥¿¥í¥°"
-
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:2
-#, fuzzy
-msgid "GThumb Catalog View"
-msgstr "GThumb ¥Ó¥å¥ï¡¼"
-
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:3
-#, fuzzy
-msgid "View as Catalog"
-msgstr "¥«¥¿¥í¥°°ìÍ÷¤ÎÉ½¼¨/ÈóÉ½¼¨¤òÀÚ¤êÂØ¤¨¤Ş¤¹"
-
-#, fuzzy
-#~ msgid "Other"
-#~ msgstr "¸å"
-
-#, fuzzy
-#~ msgid "Image options"
-#~ msgstr "²èÁü¥ª¥×¥·¥ç¥ó"
-
-#, fuzzy
-#~ msgid "Dimensions"
-#~ msgstr "²èÁü¤Î¼¡¸µ"
-
-#~ msgid "A_lter Image"
-#~ msgstr "²èÁü¤ÎÊÔ½¸(_L)"
-
-#~ msgid "gThumb - Options"
-#~ msgstr "gThumb - ¥ª¥×¥·¥ç¥ó"
-
-#, fuzzy
-#~ msgid "Start _from:"
-#~ msgstr "³«»Ï¤¹¤ë¾ì½ê:"
-
-#, fuzzy
-#~ msgid "Rotate image 270 degrees clockwise (or 90 ccw)"
-#~ msgstr "²èÁü¤ò»ş·×²ó¤ê¤Ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#, fuzzy
-#~ msgid "C_omment:"
-#~ msgstr "¥³¥á¥ó¥È:"
-
-#, fuzzy
-#~ msgid "Caption color:"
-#~ msgstr "¥¿¥¤¥È¥ë¤Î¿§:"
-
-#, fuzzy
-#~ msgid "Caption font:"
-#~ msgstr "¥¿¥¤¥È¥ë¤Î¿§:"
-
-#, fuzzy
-#~ msgid "File name"
-#~ msgstr "¥Õ¥¡¥¤¥ëÌ¾"
-
-#, fuzzy
-#~ msgid "File name:"
-#~ msgstr "¥Õ¥¡¥¤¥ëÌ¾"
-
-#~ msgid "NNN"
-#~ msgstr "NNN"
-
-#, fuzzy
-#~ msgid "No zoom"
-#~ msgstr "¥º¡¼¥à¤Ê¤·"
-
-#, fuzzy
-#~ msgid "Zoom to fit"
-#~ msgstr "¥Õ¥£¥Ã¥È(_F)"
-
-#~ msgid "Confirmations"
-#~ msgstr "³ÎÇ§"
-
-#, fuzzy
-#~ msgid "Image to overwrite:"
-#~ msgstr "¾å½ñ¤­¤¹¤ë¥Õ¥¡¥¤¥ë:"
-
-#~ msgid "Preferences..."
-#~ msgstr "ÀßÄê..."
-
-#~ msgid "Keywords:"
-#~ msgstr "¥­¡¼¥ï¡¼¥É:"
-
-#~ msgid "View"
-#~ msgstr "É½¼¨"
-
-#, fuzzy
-#~ msgid "Edit Search..."
-#~ msgstr "¸¡º÷´ğ½à¤ÎÊÔ½¸(_E)..."
-
-#~ msgid "Rotate the image 180 degrees"
-#~ msgstr "²èÁü¤ò 180 ¡ë²óÅ¾¤µ¤»¤Ş¤¹"
-
-#~ msgid "_Gray"
-#~ msgstr "³¥¿§(_G)"
-
-#~ msgid "Gray"
-#~ msgstr "³¥¿§"
-
-#, fuzzy
-#~ msgid "_Edit Comment"
-#~ msgstr "¥³¥á¥ó¥È¤ÎÊÔ½¸(_I)..."
-
-#~ msgid "+"
-#~ msgstr "+"
-
-#~ msgid "-"
-#~ msgstr "-"
-
-#, fuzzy
-#~ msgid "Search data"
-#~ msgstr "¸¡º÷¥Ç¡¼¥¿"
-
-#, fuzzy
-#~ msgid "_Copy Images..."
-#~ msgstr "¥Õ¥¡¥¤¥ë¤Î¥³¥Ô¡¼(_C)..."
-
-#, fuzzy
-#~ msgid "_Delete Images"
-#~ msgstr "¥Õ¥¡¥¤¥ë¤Îºï½ü(_D)..."
-
-#, fuzzy
-#~ msgid "_Move Images..."
-#~ msgstr "¥Õ¥¡¥¤¥ë¤Î°ÜÆ°(_M)..."
-
-#, fuzzy
-#~ msgid "_Rename Image"
-#~ msgstr "¥Õ¥¡¥¤¥ëÌ¾¤ÎÊÑ¹¹(_R)..."
-
-#, fuzzy
-#~ msgid "_About gThumb"
-#~ msgstr "gThumb"
-
-#, fuzzy
-#~ msgid "Full Scree_n"
-#~ msgstr "¥Õ¥ë¥¹¥¯¥ê¡¼¥ó(_F)"
-
-#, fuzzy
-#~ msgid "Zoom _in"
-#~ msgstr "¤³¤Î²èÁü¤ò³ÈÂç¤·¤Ş¤¹"
-
-#, fuzzy
-#~ msgid "Zoom _out"
-#~ msgstr "¤³¤Î²èÁü¤ò½Ì¾®¤·¤Ş¤¹"
-
-#, fuzzy
-#~ msgid "Zoom to _fit"
-#~ msgstr "¥Õ¥£¥Ã¥È(_F)"
-
-#, fuzzy
-#~ msgid "_Actual size"
-#~ msgstr "¼Â¥µ¥¤¥º(_A)"
+msgstr "ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³"
