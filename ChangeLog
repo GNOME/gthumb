@@ -1,3 +1,7 @@
+2005-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.6.3 released ]  
+
 2005-01-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c (ok_clicked_cb): check write permissions
