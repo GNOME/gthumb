@@ -96,7 +96,3 @@ msgstr "Ротирај ја сликата за 180 степени"
 msgid "Save _As..."
 msgstr "Сними _како..."
 
-#: components/ima
-msgid ""
-msgstr " "
-
