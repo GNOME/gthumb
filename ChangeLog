@@ -1,3 +1,13 @@
+2005-01-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (notify_cb): notify images creation in an 
+	idle callback.
+
+2005-01-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: changed AC_PROG_LIBTOOL to AM_PROG_LIBTOOL as suggested 
+	by David Moore.
+
 2005-01-25  Nikos Charonitakis  <charosn@her.forthnet.gr>
 	
 	* configure.in: Added 'el' (Greek) to ALL_LINGUAS.

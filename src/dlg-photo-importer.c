@@ -129,6 +129,7 @@ typedef struct {
 
 	GList               *categories_list;
 	GList               *delete_list;
+	GList               *saved_images_list;
 
 	/**/
 
@@ -136,6 +137,8 @@ typedef struct {
 	guint                check_id;
 	GMutex              *yes_or_no;
 	gboolean             thread_done; 
+
+	guint                idle_id;
 } DialogData;
 
 
@@ -152,6 +155,11 @@ destroy_cb (GtkWidget  *widget,
 	if (data->check_id != 0) {
 		g_source_remove (data->check_id);	
 		data->check_id = 0;
+	}
+
+	if (data->idle_id != 0) {
+		g_source_remove (data->idle_id);	
+		data->idle_id = 0;
 	}
 
 	/**/
@@ -182,6 +190,7 @@ destroy_cb (GtkWidget  *widget,
 		g_object_unref (data->camera_present_pixbuf);
 	path_list_free (data->categories_list);
 	path_list_free (data->delete_list);
+	path_list_free (data->saved_images_list);
 	gp_camera_unref (data->camera);
 	gp_context_unref (data->context);
 	gp_abilities_list_free (data->abilities_list);
@@ -1165,8 +1174,8 @@ save_image (DialogData *data,
 
 	if (gp_file_save (file, local_path) >= 0) {
 		if (data->delete_from_camera) 
-			data->delete_list = g_list_prepend (data->delete_list, 
-							    g_strdup (camera_path));
+			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
+		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (camera_path));
 		add_categories_to_image (data, local_path);
 	} else {
 		g_mutex_lock (data->yes_or_no);
@@ -1245,7 +1254,17 @@ static void
 save_images__init (AsyncOperationData *aodata, 
 		   DialogData         *data)
 {
+	all_windows_remove_monitor ();
+
 	data->image_n = 1;
+	if (data->delete_list != NULL) {
+		path_list_free (data->delete_list);
+		data->delete_list = NULL;
+	}
+	if (data->saved_images_list != NULL) {
+		path_list_free (data->saved_images_list);
+		data->saved_images_list = NULL;
+	}
 }
 
 
@@ -1255,6 +1274,26 @@ save_images__step (AsyncOperationData *aodata,
 {
 	const char *camera_path = aodata->scan->data;
 	save_image (data, camera_path, data->local_folder, data->image_n++);
+}
+
+
+static gboolean
+notify_cb (gpointer cb_data)
+{
+	DialogData *data = cb_data;
+
+	g_source_remove (data->idle_id);
+	data->idle_id = 0;
+
+	if (data->saved_images_list != NULL) {
+		all_windows_notify_files_created (data->saved_images_list);
+		path_list_free (data->saved_images_list);
+		data->saved_images_list = NULL;
+	}
+	
+	all_windows_add_monitor ();
+
+	return FALSE;
 }
 
 
@@ -1270,6 +1309,8 @@ save_images__done (AsyncOperationData *aodata,
 	interrupted = data->interrupted;
 	error = data->error;
 	g_mutex_unlock (data->yes_or_no);
+
+	data->idle_id = g_idle_add (notify_cb, data);
 
 	if (interrupted || error)
 		return;
@@ -1662,6 +1703,7 @@ dlg_photo_importer (GThumbWindow *window)
 
 	data->yes_or_no = g_mutex_new ();
 	data->check_id = 0;
+	data->idle_id = 0;
 	data->msg_text  = NULL;
 
 	/* Get the widgets. */
