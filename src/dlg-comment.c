@@ -194,20 +194,18 @@ ok_clicked_cb (GtkWidget  *widget,
 
 		/* NULL-ify equal fields. */
 
-		if (text_field_cmp (cdata->place, o_cdata->place) == 0) 
-			if (cdata->place != NULL) {
-				g_free (cdata->place);
-				cdata->place = NULL;
-			}
+		if (text_field_cmp (cdata->place, o_cdata->place) == 0) {
+			g_free (cdata->place);
+			cdata->place = NULL;
+		}
 
 		if (cdata->time == o_cdata->time)
 			cdata->time = -1;
 		
-		if (text_field_cmp (cdata->comment, o_cdata->comment) == 0) 
-			if (cdata->comment != NULL) {
-				g_free (cdata->comment);
-				cdata->comment = NULL;
-			}
+		if (text_field_cmp (cdata->comment, o_cdata->comment) == 0) {
+			g_free (cdata->comment);
+			cdata->comment = NULL;
+		}
 	}
 
 	/* Save and close. */
@@ -430,25 +428,30 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			CommentData *scan_cdata;
 
 			scan_cdata = comments_load_comment (scan->data);
-			if (scan_cdata == NULL)
-				break;
 
-			if (strcmp_null_tollerant (cdata->place, 
-						   scan_cdata->place) != 0) 
-				if (cdata->place != NULL) {
-					g_free (cdata->place);
-					cdata->place = NULL;
-				}
+			/* If there is no comment then all fields must be
+			 * considered to differ. */
 			
-			if (cdata->time != scan_cdata->time)
+			if ((scan_cdata == NULL) 
+			    || strcmp_null_tollerant (cdata->place, 
+						      scan_cdata->place) != 0) {
+				g_free (cdata->place);
+				cdata->place = NULL;
+			}
+			
+			if ((scan_cdata == NULL)
+			    || cdata->time != scan_cdata->time)
 				cdata->time = 0;
 			
-			if (strcmp_null_tollerant (cdata->comment, 
-						   scan_cdata->comment) != 0) 
-				if (cdata->comment != NULL) {
-					g_free (cdata->comment);
-					cdata->comment = NULL;
-				}
+			if ((scan_cdata == NULL) 
+			    || strcmp_null_tollerant (cdata->comment, 
+						      scan_cdata->comment) != 0) {
+				g_free (cdata->comment);
+				cdata->comment = NULL;
+			}
+			
+			if (scan_cdata == NULL)
+				break;
 			
 			comment_data_free (scan_cdata);
 		}

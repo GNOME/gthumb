@@ -1,3 +1,15 @@
+version 2.4.1
+-------------
+	* gThumb now compiles with both libexif 0.5.x and 0.6.x
+	* Added EXIF_TAG_ISO_SPEED_RATINGS to the displayed exif info.
+	* Refocus the location entry after an auto-completion.
+	* Use "%Y-%m-%d--%H.%M.%S" instead of "%Y-%m-%d--%H:%M:%S" as the 
+	  default film name.
+	* Do not scale images before printing, this causes better print 
+          quality.
+	* Fixed bug #143426: crash when using Alt+F4 to exit fullscreen.
+	* Display dialogs centered on the main window.
+
 version 2.4.0
 -------------
 	* Allow to download video and audio files from a digital camera.

@@ -1,4 +1,17 @@
+2004-06-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.4.1 released ]
+	
+2004-06-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/*.glade: set the type hint to dialog for dialogs.
+
+	* src/dlg-comment.c (dlg_edit_comment): If there is no comment then all
+	fields must be considered to differ.  Patch by Martin Ebourne.
+
 2004-06-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/commands-impl.c (help_about_command_impl): fixed bug #144825
 
 	* src/gth-exif-utils.c (get_exif_tag_short): 
 	* src/dlg-jpegtran.c (update_rotation_from_exif_data): use the 
