@@ -1,4 +1,4 @@
-# Copyright (C) 2001-2002 Free Software Foundation, Inc.
+# Copyright (C) 2001-2004 Free Software Foundation, Inc.
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # Aktualną wersję tego pliku możesz odnaleźć w repozytorium cvs.gnome.pl
 # (:pserver:anonymous@cvs.gnome.pl:/gnomepl, puste hasło)
@@ -6,8 +6,6 @@
 # pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas na adres:
 # translators@gnome.pl
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-# 
-# 
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
@@ -400,9 +398,8 @@ msgid "Ca_tegories:"
 msgstr "Ka_tegorie:"
 
 #: data/glade/gthumb_camera.glade.h:4
-#, fuzzy
 msgid "Camera Model"
-msgstr "Model _aparatu"
+msgstr "Model aparatu"
 
 #: data/glade/gthumb_camera.glade.h:5
 #: data/glade/gthumb_png_exporter.glade.h:25
@@ -410,38 +407,33 @@ msgid "Choose destination folder"
 msgstr "Wybór folderu docelowego"
 
 #: data/glade/gthumb_camera.glade.h:6
-#, fuzzy
 msgid "Delete selected images from the camera"
-msgstr "Usunięcie zaznaczonych obrazów z katalogu"
+msgstr "Usuwa zaznaczone obrazy z aparatu"
 
 #: data/glade/gthumb_camera.glade.h:7
-#, fuzzy
 msgid "Import Photos"
-msgstr "Ważne"
+msgstr "Import zdjęć"
 
 #: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:692
 #: src/dlg-photo-importer.c:727 src/dlg-photo-importer.c:1168
 msgid "No camera detected"
-msgstr ""
+msgstr "Nie wykryto aparatu"
 
 #: data/glade/gthumb_camera.glade.h:9
-#, fuzzy
 msgid "Select a camera model"
-msgstr "Wybór koloru"
+msgstr "Wybór modelu aparatu"
 
 #: data/glade/gthumb_camera.glade.h:10
-#, fuzzy
 msgid "Update previews"
-msgstr "Podgląd obrazu"
+msgstr "Odświeża podgląd"
 
 #: data/glade/gthumb_camera.glade.h:11
 msgid "_Auto Detect"
-msgstr ""
+msgstr "_Automatyczne wykrywanie"
 
 #: data/glade/gthumb_camera.glade.h:12
-#, fuzzy
 msgid "_Delete imported images from the camera"
-msgstr "Usunięcie zaznaczonych obrazów z katalogu"
+msgstr "_Usunięcie zaimportowanych obrazów z aparatu"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
@@ -450,29 +442,24 @@ msgid "_Destination:"
 msgstr "_Folder docelowy:"
 
 #: data/glade/gthumb_camera.glade.h:14
-#, fuzzy
 msgid "_Film:"
-msgstr "_Plik"
+msgstr "_Film:"
 
 #: data/glade/gthumb_camera.glade.h:15
-#, fuzzy
 msgid "_Import"
-msgstr "Ważne"
+msgstr "Za_importuj"
 
 #: data/glade/gthumb_camera.glade.h:16
-#, fuzzy
 msgid "_Keep original filenames"
-msgstr "Usuń oryginał"
+msgstr "Zachowanie _oryginalnych nazw"
 
 #: data/glade/gthumb_camera.glade.h:17
-#, fuzzy
 msgid "_Model:"
-msgstr "_Przenieś"
+msgstr "_Model:"
 
 #: data/glade/gthumb_camera.glade.h:18
-#, fuzzy
 msgid "_Port:"
-msgstr "_Sortowanie:"
+msgstr "_Port:"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -502,14 +489,13 @@ msgstr "Bieżąca data"
 
 #: data/glade/gthumb_comments.glade.h:8
 msgid "Do not modify"
-msgstr ""
+msgstr "Bez modyfikacji"
 
 #: data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "Data utworzenia obrazu"
 
 #: data/glade/gthumb_comments.glade.h:10
-#, fuzzy
 msgid "Last modified date"
 msgstr "Ostatnia modyfikacja"
 
@@ -677,50 +663,43 @@ msgstr "dpi"
 
 #: data/glade/gthumb_crop.glade.h:2
 msgid "4 x 3 (Book, DVD)"
-msgstr ""
+msgstr "4 x 3 (Książka, DVD)"
 
 #: data/glade/gthumb_crop.glade.h:3
 msgid "4 x 6 (Postcard)"
-msgstr ""
+msgstr "4 x 6 (Pocztówka)"
 
 #: data/glade/gthumb_crop.glade.h:4
-#, fuzzy
 msgid "5 x 7"
-msgstr "95 x 95"
+msgstr "5 x 7"
 
 #: data/glade/gthumb_crop.glade.h:5
-#, fuzzy
 msgid "8 x 10"
-msgstr "800 x 600"
+msgstr "8 x 10"
 
 #: data/glade/gthumb_crop.glade.h:6
-#, fuzzy
 msgid "<b>Aspect ratio</b>"
-msgstr "<b>Współczynnik skalowania</b>"
+msgstr "<b>Współczynnik proporcji</b>"
 
 #: data/glade/gthumb_crop.glade.h:7
-#, fuzzy
 msgid "<b>Selection</b>"
-msgstr "<b>Kierunek</b>"
+msgstr "<b>Zaznaczenie</b>"
 
 #: data/glade/gthumb_crop.glade.h:8
-#, fuzzy
 msgid "Crop"
-msgstr "_Przytnij"
+msgstr "Przycięcie"
 
 #: data/glade/gthumb_crop.glade.h:9
-#, fuzzy
 msgid "Custom"
-msgstr "D_owolny:"
+msgstr "Własny"
 
 #: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
 msgid "None"
 msgstr "Brak"
 
 #: data/glade/gthumb_crop.glade.h:11
-#, fuzzy
 msgid "Square"
-msgstr "Zapisz"
+msgstr "Kwadrat"
 
 #: data/glade/gthumb_crop.glade.h:12 data/gthumb-ui.xml.h:203
 msgid "_Crop"
@@ -738,11 +717,11 @@ msgstr "_Szerokość"
 
 #: data/glade/gthumb_crop.glade.h:15
 msgid "_X:"
-msgstr ""
+msgstr "_X:"
 
 #: data/glade/gthumb_crop.glade.h:16
 msgid "_Y:"
-msgstr ""
+msgstr "_Y:"
 
 #: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
 #: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
@@ -934,7 +913,7 @@ msgstr "<b>Zapisywanie</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:22
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr ""
+msgstr "<small><i><b>Uwaga:</b> # (licznik)</i>.</small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:24
 #, no-c-format
@@ -942,6 +921,8 @@ msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
 msgstr ""
+"<small><i><b>Uwaga:</b> %p (numer strony), %n (całkowita liczba stron)</i>.</"
+"small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:26
 #: data/glade/gthumb_web_exporter.glade.h:20
@@ -1014,9 +995,8 @@ msgid "Images"
 msgstr "Obrazy"
 
 #: data/glade/gthumb_png_exporter.glade.h:42
-#, fuzzy
 msgid "Index Image Style"
-msgstr "Właściwości obrazu indeksowanego"
+msgstr "Styl obrazu indeksowanego"
 
 #: data/glade/gthumb_png_exporter.glade.h:43
 msgid "Page"
@@ -1074,7 +1054,7 @@ msgstr "Sortowanie"
 
 #: data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
-msgstr ""
+msgstr "Sty_l"
 
 #: data/glade/gthumb_png_exporter.glade.h:57
 #: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:42
@@ -1238,9 +1218,8 @@ msgid "As_k confirmation before deleting images or catalogs"
 msgstr "_Pytanie o potwierdzenie przed usunięciem plików lub katalogów"
 
 #: data/glade/gthumb_preferences.glade.h:26
-#, fuzzy
 msgid "Ask whether to save _modified images"
-msgstr "Przywrócenie do zapisanego obrazu"
+msgstr "Pytanie o zapis z_modyfikowanych obrazów"
 
 #: data/glade/gthumb_preferences.glade.h:27
 msgid "Black"
@@ -1329,11 +1308,11 @@ msgstr "Niska"
 
 #: data/glade/gthumb_preferences.glade.h:49
 msgid "Ran_dom"
-msgstr ""
+msgstr "_Losowy"
 
 #: data/glade/gthumb_preferences.glade.h:50
 msgid "Re_verse"
-msgstr "Przy_wróć"
+msgstr "_Wstecz"
 
 #: data/glade/gthumb_preferences.glade.h:51
 msgid "Resta_rt when finished"
@@ -1417,26 +1396,23 @@ msgstr "sek."
 
 #: data/glade/gthumb_print.glade.h:4
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: data/glade/gthumb_print.glade.h:5
-#, fuzzy
 msgid "16"
-msgstr "164"
+msgstr "16"
 
 #: data/glade/gthumb_print.glade.h:6
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: data/glade/gthumb_print.glade.h:7
-#, fuzzy
 msgid "4"
-msgstr "64"
+msgstr "4"
 
 #: data/glade/gthumb_print.glade.h:8
-#, fuzzy
 msgid "8"
-msgstr "85"
+msgstr "8"
 
 #: data/glade/gthumb_print.glade.h:9
 msgid "<b>Orientation</b>"
@@ -1451,6 +1427,8 @@ msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
+"<small><i><b>Uwaga:</b> Przeciągnij obraz aby przsunąć go na stronie.\n"
+"Kliknij na obrazie aby go obrócić.</i></small>"
 
 #: data/glade/gthumb_print.glade.h:13
 msgid "A_4"
@@ -1473,9 +1451,8 @@ msgid "I_nclude comment"
 msgstr "_Dołącz komentarz"
 
 #: data/glade/gthumb_print.glade.h:18
-#, fuzzy
 msgid "Images per page:"
-msgstr "Typ obrazu:"
+msgstr "Obrazów na stronę:"
 
 #: data/glade/gthumb_print.glade.h:19
 msgid "Inches"
@@ -1590,9 +1567,10 @@ msgstr "Postęp wyszukiwania"
 msgid "Searching in:"
 msgstr "Wyszukiwanie w:"
 
+# FIXME - Modyfikuj wyszukiwanie jest za dłuuuuuugie
 #: data/glade/gthumb_search.glade.h:25 data/gthumb-ui.xml.h:208
 msgid "_Edit Search"
-msgstr ""
+msgstr "_Modyfikuj"
 
 #: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
@@ -1617,6 +1595,7 @@ msgstr "<b>Miniatury</b>"
 #: data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr ""
+"<small><i><b>Uwaga</b>: przekształcenia jpeg są bezstratne.</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:8
 #, no-c-format
@@ -1624,15 +1603,16 @@ msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 msgstr ""
+"<small><i><b>Specjalne znaki:</b> # (licznik), %f (oryginalna nazwa pliku), %"
+"d (data obrazu), %s (rozmiar obrazu).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
-#, fuzzy
 msgid "Adjust photo _orientation"
-msgstr "Regulacja barwy i nasycenia"
+msgstr "Regulacja położenia _obrazu"
 
 #: data/glade/gthumb_tools.glade.h:10
 msgid "Apply to _all images"
-msgstr "Zastosuj dla _wszystkich obrazów"
+msgstr "_Wszystkie obrazy"
 
 #: data/glade/gthumb_tools.glade.h:11
 msgid "Backup Comments"
@@ -1740,9 +1720,8 @@ msgid "Restore Comments From a Backup File"
 msgstr "Przywróć komentarze z pliku archiwum"
 
 #: data/glade/gthumb_tools.glade.h:37
-#, fuzzy
 msgid "Rotate Images"
-msgstr "Obrót obrazu"
+msgstr "Obrót obrazów"
 
 #: data/glade/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees clockwise"
@@ -1766,7 +1745,6 @@ msgid "_Rename"
 msgstr "_Zmień nazwę"
 
 #: data/glade/gthumb_tools.glade.h:47
-#, fuzzy
 msgid "_Sort:"
 msgstr "_Sortowanie:"
 
@@ -1825,7 +1803,7 @@ msgstr "<b>Motyw</b>"
 #: data/glade/gthumb_web_exporter.glade.h:17
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr ""
+msgstr "<small><i><b>Uwaga:</b> %d (bieżąca data).</i></small>"
 
 #: data/glade/gthumb_web_exporter.glade.h:18
 msgid "Came_ra Model"
@@ -1856,19 +1834,16 @@ msgid "Inde_x file:"
 msgstr "Plik inde_ksu:"
 
 #: data/glade/gthumb_web_exporter.glade.h:32
-#, fuzzy
 msgid "Resi_ze if larger than:"
-msgstr "Zmiana rozmiaru obrazów większych niż:"
+msgstr "_Zmiana rozmiaru obrazów większych niż:"
 
 #: data/glade/gthumb_web_exporter.glade.h:33
-#, fuzzy
 msgid "Select Destination"
-msgstr "_Folder docelowy:"
+msgstr "Wybór celu"
 
 #: data/glade/gthumb_web_exporter.glade.h:34
-#, fuzzy
 msgid "Si_ze :"
-msgstr "Rozmiar"
+msgstr "_Rozmiar:"
 
 #: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Th_eme:"
@@ -1887,9 +1862,8 @@ msgid "_Aperture value"
 msgstr "_Apertura"
 
 #: data/glade/gthumb_web_exporter.glade.h:40
-#, fuzzy
 msgid "_Copy originals to destination"
-msgstr "_Kopiowanie obrazów do folderu docelowego"
+msgstr "_Kopiowanie oryginałów do folderu docelowego"
 
 #: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Date and Time"
@@ -1908,9 +1882,8 @@ msgid "_Install Theme..."
 msgstr "Za_instaluj motyw..."
 
 #: data/glade/gthumb_web_exporter.glade.h:46
-#, fuzzy
 msgid "_Select"
-msgstr "_Wybierz wszystko"
+msgstr "_Wybierz"
 
 #: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Shutter speed"
@@ -1925,18 +1898,16 @@ msgid "by modified time"
 msgstr "według czasu modyfikacji"
 
 #: data/glade/gthumb_web_exporter.glade.h:53
-#, fuzzy
 msgid "columns"
-msgstr "Kol_umny:"
+msgstr "kolumn"
 
 #: data/glade/gthumb_web_exporter.glade.h:54
 msgid "index.html"
 msgstr "index.html"
 
 #: data/glade/gthumb_web_exporter.glade.h:55
-#, fuzzy
 msgid "rows"
-msgstr "Przeglądarka"
+msgstr "wierszy"
 
 #. zoom 100
 #: data/gthumb-ui.xml.h:1 src/fullscreen.c:908
@@ -1984,36 +1955,32 @@ msgid "Assign categories to selected images"
 msgstr "Przypisuje kategorie do zaznaczonych obrazów"
 
 #: data/gthumb-ui.xml.h:12
-#, fuzzy
 msgid "Assign categories to the current folder"
-msgstr "Przyporządkowanie kategorii do obrazu"
+msgstr "Przyporządkowanie kategorii do bieżącego folderu"
 
 #: data/gthumb-ui.xml.h:13
 msgid "Assign categories to the image"
 msgstr "Przyporządkowanie kategorii do obrazu"
 
 #: data/gthumb-ui.xml.h:14
-#, fuzzy
 msgid "Assign categories to the selected folder"
-msgstr "Przypisuje kategorie do zaznaczonych obrazów"
+msgstr "Przyporządkowanie kategorii do zaznaczonego folderu"
 
 #: data/gthumb-ui.xml.h:15
 msgid "Auto"
 msgstr "_Automatycznie"
 
 #: data/gthumb-ui.xml.h:16
-#, fuzzy
 msgid "Automatically adjust the color levels"
-msgstr "Automatyczne rozciąganie kontrastu"
+msgstr "Automatyczne dopasowanie poziomu kolorów"
 
 #: data/gthumb-ui.xml.h:17
-#, fuzzy
 msgid "Automatically equalize the image histogram"
-msgstr "Automatyczne normalizuje kontrast"
+msgstr "Automatyczne wyrównanie histogramu obrazu"
 
 #: data/gthumb-ui.xml.h:18
 msgid "Automatically normalize the contrast"
-msgstr "Automatyczne normalizuje kontrast"
+msgstr "Automatyczna normalizacja kontrastu"
 
 #: data/gthumb-ui.xml.h:19
 msgid "Automatically stretch the contrast"
@@ -2195,7 +2162,7 @@ msgstr "_Komentarz obrazu"
 
 #: data/gthumb-ui.xml.h:66
 msgid "Import photos from a digital camera"
-msgstr ""
+msgstr "Import fotografii z aparatu cyfrowego"
 
 #. zoom in
 #: data/gthumb-ui.xml.h:67 src/fullscreen.c:890
@@ -2264,30 +2231,27 @@ msgstr "Następny"
 
 #: data/gthumb-ui.xml.h:84
 msgid "Open"
-msgstr ""
+msgstr "Otwórz"
 
 #: data/gthumb-ui.xml.h:85
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Otworzenie bieżącego folderu za pomocą menedżera plików Nautilus"
 
 #: data/gthumb-ui.xml.h:86
-#, fuzzy
 msgid "Open in New Window"
-msgstr "_Nowe okno"
+msgstr "Otwórz w nowym oknie"
 
 #: data/gthumb-ui.xml.h:87
 msgid "Open selected images with an application"
 msgstr "Otworzenie zaznaczonych obrazów za pomocą aplikacji"
 
 #: data/gthumb-ui.xml.h:88
-#, fuzzy
 msgid "Open the selected folder"
-msgstr "Zmiana nazwy zaznaczonego folderu"
+msgstr "Otwórz zaznaczony folder"
 
 #: data/gthumb-ui.xml.h:89
-#, fuzzy
 msgid "Open the selected folder in a new window"
-msgstr "Przeniesienie zaznaczonego folderu do kosza"
+msgstr "Otwiera zaznaczony folder w nowym oknie"
 
 # to jest do sprawdzenia, bo nie wiadomo jak to wygląda
 #: data/gthumb-ui.xml.h:90
@@ -2313,7 +2277,7 @@ msgstr "Otwórz za pomocą _menedżera plików"
 #. zoom out
 #: data/gthumb-ui.xml.h:95 src/fullscreen.c:899
 msgid "Out"
-msgstr ""
+msgstr "Pomniejszenie"
 
 #: data/gthumb-ui.xml.h:96
 msgid "Play _Animation"
@@ -2434,9 +2398,8 @@ msgid "Revert to saved image"
 msgstr "Przywrócenie do zapisanego obrazu"
 
 #: data/gthumb-ui.xml.h:127
-#, fuzzy
 msgid "Ro_tate Images"
-msgstr "Obrót obrazu"
+msgstr "Obró_t obrazów"
 
 #: data/gthumb-ui.xml.h:129
 msgid "Rotate Ri_ght"
@@ -2451,9 +2414,8 @@ msgid "Rotate image"
 msgstr "Obrót obrazu"
 
 #: data/gthumb-ui.xml.h:132
-#, fuzzy
 msgid "Rotate images without loss of quality"
-msgstr "Obraca obrazy JPEG bez utraty jakości"
+msgstr "Obraca obrazy bez utraty jakości"
 
 #: data/gthumb-ui.xml.h:133
 msgid "S_ort Images"
@@ -2727,9 +2689,8 @@ msgid "_Edit Bookmarks"
 msgstr "_Modyfikuj Ulubione"
 
 #: data/gthumb-ui.xml.h:209
-#, fuzzy
 msgid "_Enhance"
-msgstr "_Konserwacja"
+msgstr "_Uwydatnij"
 
 #: data/gthumb-ui.xml.h:210
 msgid "_Equalize"
@@ -2789,7 +2750,7 @@ msgstr "_Podgląd obrazu"
 
 #: data/gthumb-ui.xml.h:226
 msgid "_Import Photos..."
-msgstr ""
+msgstr "Za_importuj zdjęcia..."
 
 #: data/gthumb-ui.xml.h:227
 msgid "_Keyboard Shortcuts"
@@ -2976,9 +2937,8 @@ msgid "Possible values are: ascending, descending."
 msgstr "Możliwymi wartościami są: ascending, descending."
 
 #: data/gthumb.schemas.in.h:5
-#, fuzzy
 msgid "Possible values are: forward, backward, random."
-msgstr "Możliwymi wartościami są: forward, backward."
+msgstr "Możliwymi wartościami są: forward, backward, random"
 
 #: data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
@@ -3033,11 +2993,12 @@ msgstr ""
 "shadow_in, shadow_out."
 
 #: data/gthumb.schemas.in.h:18
-#, fuzzy
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr "Możliwymi wartościami są: none, name, path, size, time."
+msgstr ""
+"Możliwymi wartościami są: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
 
 #: data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
@@ -3202,13 +3163,15 @@ msgstr "Napis podglądu"
 msgid "Preview text shown in the dialog"
 msgstr "Napis podglądu widoczny w oknie dialogowym"
 
+# FIXME
 #: libgthumb/gnome-print-font-picker.c:218
 msgid "Use font in label"
-msgstr "2"
+msgstr "Czcionka etykiety"
 
+# FIXME
 #: libgthumb/gnome-print-font-picker.c:219
 msgid "Use font in the label in font info mode"
-msgstr ""
+msgstr "Czcionka etykiety w trybie informacji"
 
 #: libgthumb/gnome-print-font-picker.c:227
 msgid "Font size for label"
@@ -3224,7 +3187,7 @@ msgstr "Wyświetlanie rozmiaru"
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
-msgstr ""
+msgstr "Wyświetlanie rozmiaru w trybie informacji"
 
 #: libgthumb/gnome-print-font-picker.c:1018
 msgid "Font"
@@ -3245,9 +3208,9 @@ msgid "Print Image"
 msgstr "Wydrukuj obraz"
 
 #: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2036
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d of %d"
-msgstr "Kopiowanie pliku %d z %d"
+msgstr "Strona %d z %d"
 
 #: libgthumb/print-callbacks.c:3039 src/catalog-png-exporter.c:1334
 #, c-format
@@ -3528,14 +3491,14 @@ msgid ""
 msgstr "Obraz o nazwie \"%s\" już istnieje. Wybierz inną nazwę."
 
 #: src/dlg-crop.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Image)"
-msgstr "%d x %d pikseli"
+msgstr "%d x %d (obraz)"
 
 #: src/dlg-crop.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Display)"
-msgstr "%d x %d pikseli"
+msgstr "%d x %d (wyświetlacz)"
 
 #: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
@@ -3671,14 +3634,12 @@ msgstr "Wskazanie pliku zapasowego"
 
 #: src/dlg-photo-importer.c:724 src/dlg-photo-importer.c:1167
 #: src/dlg-photo-importer.c:1212 src/dlg-photo-importer.c:1223
-#, fuzzy
 msgid "Could not import photos"
-msgstr "Nie można przenieść elementów:"
+msgstr "Nie można zaimportować zdjęć"
 
 #: src/dlg-photo-importer.c:1063 src/main.c:1014
-#, fuzzy
 msgid "Film"
-msgstr "_Plik"
+msgstr "Film"
 
 #: src/dlg-png-exporter.c:923
 msgid "Image Caption"
@@ -3776,11 +3737,11 @@ msgstr "%d wybrano (%s)"
 
 #: src/gthumb-window.c:1717
 msgid "The current image has been modified, do you want to save it?"
-msgstr ""
+msgstr "Bieżący obraz został zmodyfikowany, czy chcesz go zapisać?"
 
 #: src/gthumb-window.c:1718
 msgid "Do Not Save"
-msgstr ""
+msgstr "Nie zapisuj"
 
 #: src/gthumb-window.c:3286
 msgid "Dragged Images"
@@ -3824,9 +3785,8 @@ msgid "Automatically start a slideshow"
 msgstr "Automatyczne uruchomienie pokazu slajdów"
 
 #: src/main.c:93
-#, fuzzy
 msgid "Automatically import digital camera photos"
-msgstr "Automatyczne normalizuje kontrast"
+msgstr "Automatycznie importuje zdjęcia z aparatu cyfrowego"
 
 #: src/main.c:173
 msgid "Holidays"
@@ -3879,115 +3839,3 @@ msgstr "Rodzina"
 #: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Wiersz poleceń"
-
-#, fuzzy
-#~ msgid "Destinations"
-#~ msgstr "_Folder docelowy:"
-
-#, fuzzy
-#~ msgid "Local Folder"
-#~ msgstr "Folder"
-
-#, fuzzy
-#~ msgid "Saved _Destinations:"
-#~ msgstr "_Folder docelowy:"
-
-#, fuzzy
-#~ msgid "_Host:"
-#~ msgstr "_Wiersze:"
-
-#, fuzzy
-#~ msgid "_Path:"
-#~ msgstr "według ś_cieżki"
-
-#, fuzzy
-#~ msgid "_Type:"
-#~ msgstr "Rodzaj"
-
-#~ msgid "Rotate _JPEG"
-#~ msgstr "Obróć _JPEG"
-
-#~ msgid "_Adjust Color Levels"
-#~ msgstr "_Dopasuj poziomy kolorów"
-
-#~ msgid "Choose Date"
-#~ msgstr "Wybierz datę"
-
-#~ msgid "_No date"
-#~ msgstr "_Brak daty"
-
-#~ msgid "<b>Destination folder</b>"
-#~ msgstr "<b>Folder docelowy</b>"
-
-#~ msgid "<i>Examples:</i>"
-#~ msgstr "<i>Przykłady:</i>"
-
-#~ msgid "Sor_t images:"
-#~ msgstr "Sort_towanie obrazów"
-
-#~ msgid "Use #'s to specify positions used by numeric enumerator."
-#~ msgstr ""
-#~ "Użyj znaków # do określenia pozycji wykorzystywanych przez numerator."
-
-#~ msgid ""
-#~ "Use %p  to insert the page number, and %n to insert the total number of "
-#~ "pages."
-#~ msgstr ""
-#~ "Użyj %p aby wstawić numer strony, oraz %n aby wstawić liczbę wszystkich "
-#~ "stron."
-
-#~ msgid "<b>Image</b>"
-#~ msgstr "<b>Obraz</b>"
-
-#~ msgid ""
-#~ "<i>Drag the image to move\n"
-#~ "it in the page.</i>"
-#~ msgstr ""
-#~ "<i>Przeciągnij obraz aby przemieścić\n"
-#~ "go na stronie.</i>"
-
-#~ msgid "<b>File list order</b>"
-#~ msgstr "<b>Porządek listy plików</b>"
-
-#~ msgid "<b>Specify a template to use for renaming images</b>"
-#~ msgstr "<b>Podanie szablonu do zmiany nazwy obrazów</b>"
-
-#~ msgid "JPEG Lossless Transformation"
-#~ msgstr "Bezstratna transformacja JPEG"
-
-#~ msgid "Revert changes"
-#~ msgstr "Przywróć zmiany"
-
-#~ msgid ""
-#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-#~ "the original filename. Use ? to insert the image date. Use ! to insert "
-#~ "the image size"
-#~ msgstr ""
-#~ "Użyj znaków # do określenia pozycji wykorzystywanych przez numerator. "
-#~ "Użyj * do wprowadzenia oryginalnej nazwy pliku. Użyj ? do wprowadzenia "
-#~ "daty obrazu. Użyj znaku ! do wprowadzenia rozmiaru obrazu."
-
-#~ msgid "_Sort original list:"
-#~ msgstr "_Sortowanie listy oryginalnej:"
-
-#~ msgid "Use %d  to insert current date"
-#~ msgstr "Użyj %d aby wprowadzić bieżącą datę"
-
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Błąd programu GConf:\n"
-#~ "  %s"
-
-#~ msgid "Transparen_cy Type"
-#~ msgstr "Typ prze_zroczystości"
-
-#~ msgid "View as List"
-#~ msgstr "Wyświetlanie jako lista"
-
-#~ msgid "View as Thumbnails"
-#~ msgstr "Wyświetlanie jako miniaturki"
-
-#~ msgid "_Title:"
-#~ msgstr "_Tytuł:"
