@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-30 04:12+0100\n"
-"PO-Revision-Date: 2004-01-30 12:29+0100\n"
+"POT-Creation-Date: 2004-02-10 15:29+0100\n"
+"PO-Revision-Date: 2004-02-10 20:07+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -160,7 +160,7 @@ msgid "_Step Animation"
 msgstr "_Krokovat animaci"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:48
+#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:49
 #: data/gthumb-ui.xml.h:265
 msgid "_View"
 msgstr "Zo_brazit"
@@ -876,7 +876,7 @@ msgstr "Purpurová - _zelená:"
 msgid "_Preview"
 msgstr "Ná_hled"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:45
+#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:46
 msgid "_Reset"
 msgstr "O_bnovit"
 
@@ -1111,7 +1111,7 @@ msgid "St_yle"
 msgstr "St_yl"
 
 #: data/glade/gthumb_png_exporter.glade.h:57
-#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:41
+#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:42
 msgid "Start _at:"
 msgstr "Z_ačít od:"
 
@@ -1152,7 +1152,7 @@ msgid "_Solid color"
 msgstr "_Jednolitá barva"
 
 #: data/glade/gthumb_png_exporter.glade.h:69
-#: data/glade/gthumb_tools.glade.h:47
+#: data/glade/gthumb_tools.glade.h:48
 msgid "_Template:"
 msgstr "Ša_blona:"
 
@@ -1533,8 +1533,8 @@ msgstr "Detaily papíru"
 
 #.
 #: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2959 libgthumb/print-callbacks.c:2973
-#: libgthumb/print-callbacks.c:3430
+#: libgthumb/print-callbacks.c:2960 libgthumb/print-callbacks.c:2974
+#: libgthumb/print-callbacks.c:3432
 msgid "Print"
 msgstr "Tisk"
 
@@ -1615,7 +1615,7 @@ msgstr "Žádné obrázky nebyly nalezeny"
 msgid "Search Progress"
 msgstr "Průběh vyhledávání"
 
-#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:40
+#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:41
 msgid "Searching in:"
 msgstr "Hledám v:"
 
@@ -1623,7 +1623,7 @@ msgstr "Hledám v:"
 msgid "_Edit Search"
 msgstr "Upravit hl_edání"
 
-#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:43
+#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
 msgstr "_Včetně podadresářů"
 
@@ -1658,151 +1658,155 @@ msgstr ""
 "(datum obrázku), %s (velikost obrázku).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
+msgid "Adjust photo _orientation"
+msgstr "Upravit _orientaci fotografie"
+
+#: data/glade/gthumb_tools.glade.h:10
 msgid "Apply to _all images"
 msgstr "_Aplikovat na všechny obrázky"
 
-#: data/glade/gthumb_tools.glade.h:10
+#: data/glade/gthumb_tools.glade.h:11
 msgid "Backup Comments"
 msgstr "Zálohovat komentáře"
 
-#: data/glade/gthumb_tools.glade.h:11
+#: data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "_Dnešní datum"
 
-#: data/glade/gthumb_tools.glade.h:12
+#: data/glade/gthumb_tools.glade.h:13
 msgid "Change Date"
 msgstr "Změnit datum"
 
-#: data/glade/gthumb_tools.glade.h:13
+#: data/glade/gthumb_tools.glade.h:14
 msgid "Change the last modified date to:"
 msgstr "Změnit datum poslední úpravy na:"
 
-#: data/glade/gthumb_tools.glade.h:14
+#: data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "Vybr_at všechny"
 
-#: data/glade/gthumb_tools.glade.h:15
+#: data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "_Nevybrat žádný"
 
-#: data/glade/gthumb_tools.glade.h:16
+#: data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "Kontroluji obrázek:"
 
-#: data/glade/gthumb_tools.glade.h:17
+#: data/glade/gthumb_tools.glade.h:18
 msgid "Delete ALL Comments"
 msgstr "Odstranit VŠECHNY komentáře"
 
-#: data/glade/gthumb_tools.glade.h:18
+#: data/glade/gthumb_tools.glade.h:19
 msgid "Delete ALL Thumbnails"
 msgstr "Odstranit VŠECHNY miniatury"
 
-#: data/glade/gthumb_tools.glade.h:19
+#: data/glade/gthumb_tools.glade.h:20
 msgid "Delete Old Comments"
 msgstr "Odstranit staré komentáře"
 
-#: data/glade/gthumb_tools.glade.h:20
+#: data/glade/gthumb_tools.glade.h:21
 msgid "Delete Old Thumbnails"
 msgstr "Odstranit staré miniatury"
 
-#: data/glade/gthumb_tools.glade.h:21
+#: data/glade/gthumb_tools.glade.h:22
 msgid "Delete comments of no more existing images"
 msgstr "Odstranit komentáře již neexistujících obrázků"
 
-#: data/glade/gthumb_tools.glade.h:22
+#: data/glade/gthumb_tools.glade.h:23
 msgid "Delete thumbnails of no more existing images"
 msgstr "Odstranit miniatury již neexistujících obrázků"
 
-#: data/glade/gthumb_tools.glade.h:23
+#: data/glade/gthumb_tools.glade.h:24
 msgid "Equal images:"
 msgstr "Shodné obrázky:"
 
-#: data/glade/gthumb_tools.glade.h:24
+#: data/glade/gthumb_tools.glade.h:25
 msgid "Find Duplicates"
 msgstr "Hledat duplikáty"
 
-#: data/glade/gthumb_tools.glade.h:25
+#: data/glade/gthumb_tools.glade.h:26
 msgid "Found duplicates:"
 msgstr "Nalezeny duplikáty:"
 
-#: data/glade/gthumb_tools.glade.h:26
+#: data/glade/gthumb_tools.glade.h:27
 msgid "Image c_reation date"
 msgstr "Datum _vytvoření obrázku"
 
-#: data/glade/gthumb_tools.glade.h:27
+#: data/glade/gthumb_tools.glade.h:28
 msgid "Maintenance"
 msgstr "Údržba"
 
-#: data/glade/gthumb_tools.glade.h:28
+#: data/glade/gthumb_tools.glade.h:29
 msgid "Mirror image horizontally (left-right)"
 msgstr "Zrcadlit obrázek horizontálně (zleva doprava)"
 
-#: data/glade/gthumb_tools.glade.h:29
+#: data/glade/gthumb_tools.glade.h:30
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
 
-#: data/glade/gthumb_tools.glade.h:30 data/gthumb-ui.xml.h:80
+#: data/glade/gthumb_tools.glade.h:31 data/gthumb-ui.xml.h:80
 msgid "Move to _Trash"
 msgstr "Přesunout do _Koše"
 
-#: data/glade/gthumb_tools.glade.h:31
+#: data/glade/gthumb_tools.glade.h:32
 msgid "New names _preview:"
 msgstr "_Náhled nových názvů:"
 
-#: data/glade/gthumb_tools.glade.h:32
+#: data/glade/gthumb_tools.glade.h:33
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Datum digitalizace _fotografie (z dat EXIF)"
 
-#: data/glade/gthumb_tools.glade.h:33
+#: data/glade/gthumb_tools.glade.h:34
 msgid "Re_verse Order"
 msgstr "_Obrácené pořadí"
 
-#: data/glade/gthumb_tools.glade.h:34
+#: data/glade/gthumb_tools.glade.h:35
 msgid "Rename Series"
 msgstr "Přejmenovat řadu"
 
-#: data/glade/gthumb_tools.glade.h:35
+#: data/glade/gthumb_tools.glade.h:36
 msgid "Restore Comments From a Backup File"
 msgstr "Obnovit komentáře ze záložního souboru"
 
-#: data/glade/gthumb_tools.glade.h:36
+#: data/glade/gthumb_tools.glade.h:37
 msgid "Rotate Images"
 msgstr "Otočit obrázky"
 
-#: data/glade/gthumb_tools.glade.h:37
+#: data/glade/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Otočit obrázek o 90° po směru hodinových ručiček"
 
-#: data/glade/gthumb_tools.glade.h:38
+#: data/glade/gthumb_tools.glade.h:39
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Otočit obrázek o 90° proti směru hodinových ručiček"
 
-#: data/glade/gthumb_tools.glade.h:39
+#: data/glade/gthumb_tools.glade.h:40
 msgid "Search terminated, no duplicates found."
 msgstr "Hledání ukončeno, nebyly nalezeny žádné duplikáty."
 
-#: data/glade/gthumb_tools.glade.h:42
+#: data/glade/gthumb_tools.glade.h:43
 msgid "The _following date:"
 msgstr "_Následující datum:"
 
-#: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
+#: data/glade/gthumb_tools.glade.h:45 data/gthumb-ui.xml.h:244
 #: src/commands-impl.c:278 src/commands-impl.c:1052 src/commands-impl.c:1752
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
-#: data/glade/gthumb_tools.glade.h:46
+#: data/glade/gthumb_tools.glade.h:47
 msgid "_Sort:"
 msgstr "_Třídění:"
 
-#: data/glade/gthumb_tools.glade.h:49
+#: data/glade/gthumb_tools.glade.h:50
 msgid "by Modification date"
 msgstr "podle data úpravy"
 
-#: data/glade/gthumb_tools.glade.h:50
+#: data/glade/gthumb_tools.glade.h:51
 msgid "by Name"
 msgstr "podle názvu"
 
-#: data/glade/gthumb_tools.glade.h:51
+#: data/glade/gthumb_tools.glade.h:52
 msgid "by Size"
 msgstr "podle velikosti"
 
@@ -3154,7 +3158,7 @@ msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
 #: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:549
+#: src/dlg-jpegtran.c:748
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -3272,7 +3276,7 @@ msgstr "Písmo"
 msgid "Name"
 msgstr "Název"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1546
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1547
 #, c-format
 msgid "Print %s"
 msgstr "Tisk %s"
@@ -3281,12 +3285,12 @@ msgstr "Tisk %s"
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2029
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2030
 #, c-format
 msgid "Page %d of %d"
 msgstr "Strana %d z %d"
 
-#: libgthumb/print-callbacks.c:3032 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3033 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítám obrázek: %s"
@@ -3513,7 +3517,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:785
+#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:997
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3839,16 +3843,16 @@ msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
 msgid "Do Not Save"
 msgstr "Neukládat"
 
-#: src/gthumb-window.c:6548
+#: src/gthumb-window.c:6552
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6817
+#: src/gthumb-window.c:6821
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8430
+#: src/gthumb-window.c:8434
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
