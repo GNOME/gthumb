@@ -1,4 +1,4 @@
-# gthumb Portuguese translation.
+# gthumb's Portuguese translation.
 # Copyright (C) 2003, 2004 gthumb
 # This file is distributed under the same license as the gthumb package.
 # Duarte Loreto <happyguy_pt@hotmail.com>, 2003, 2004.
@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2004-01-03 01:36+0000\n"
-"PO-Revision-Date: 2004-01-03 01:40+0000\n"
+"POT-Creation-Date: 2004-01-11 01:40+0000\n"
+"PO-Revision-Date: 2004-01-11 01:45+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -176,9 +176,9 @@ msgstr "Qualidade _Zoom"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:813
+#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:401
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:402
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -198,7 +198,7 @@ msgstr "Valor focagem"
 #: data/albumthemes/Clean/image.xml.in.h:2
 #: data/albumthemes/NeatRound/image.xml.in.h:3
 #: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:478
+#: src/gth-exif-data-viewer.c:479
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -469,8 +469,8 @@ msgstr "Remover imagens seleccionadas da câmara"
 msgid "Import Photos"
 msgstr "Importar Fotos"
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:440
-#: src/dlg-photo-importer.c:472
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:685
+#: src/dlg-photo-importer.c:720 src/dlg-photo-importer.c:1178
 msgid "No camera detected"
 msgstr "Nenhuma câmara detectada"
 
@@ -1596,8 +1596,8 @@ msgstr "Coi_ncidir qualquer categoria seleccionada"
 msgid "New _Search..."
 msgstr "Nova _Procura..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:365
-#: src/dlg-photo-importer.c:860
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:656
+#: src/dlg-photo-importer.c:1223
 msgid "No images found"
 msgstr "Nenhuma imagem encontrada"
 
@@ -1775,7 +1775,7 @@ msgid "The _following date:"
 msgstr "A data se_guinte:"
 
 #: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
-#: src/commands-impl.c:277 src/commands-impl.c:1061 src/commands-impl.c:1761
+#: src/commands-impl.c:277 src/commands-impl.c:1051 src/commands-impl.c:1751
 msgid "_Rename"
 msgstr "_Renomear"
 
@@ -2196,7 +2196,7 @@ msgstr "Caber"
 msgid "Folders"
 msgstr "Pastas"
 
-#: data/gthumb-ui.xml.h:56 src/fullscreen.c:838
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
 msgid "Forward"
 msgstr "Em Frente"
 
@@ -2448,7 +2448,7 @@ msgstr "Renomear esta imagem"
 msgid "Resize image"
 msgstr "Redimensionar imagem"
 
-#: data/gthumb-ui.xml.h:122 src/fullscreen.c:784
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
 msgid "Restore Normal View"
 msgstr "Repor Vista Normal"
 
@@ -3128,17 +3128,17 @@ msgstr "A apagar todos os comentários, aguarde..."
 msgid "Deleting old comments, wait please..."
 msgstr "A apagar comentários antigos, aguarde..."
 
-#: libgthumb/comments.c:754
+#: libgthumb/comments.c:756
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:756 src/catalog-web-exporter.c:47
+#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
 #: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:398
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:766
+#: libgthumb/comments.c:768
 msgid "(No Comment)"
 msgstr "(Sem Comentário)"
 
@@ -3256,7 +3256,7 @@ msgid "Font"
 msgstr "Fonte"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:464
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:465
 msgid "Name"
 msgstr "Nome"
 
@@ -3325,12 +3325,12 @@ msgstr "Incapaz de criar uma pasta temporária"
 msgid "Loading images"
 msgstr "A ler imagens"
 
-#: src/commands-impl.c:273 src/commands-impl.c:1057 src/commands-impl.c:1757
+#: src/commands-impl.c:273 src/commands-impl.c:1047 src/commands-impl.c:1747
 msgid "Enter the new name: "
 msgstr "Introduza o novo nome: "
 
-#: src/commands-impl.c:291 src/commands-impl.c:963 src/commands-impl.c:1075
-#: src/commands-impl.c:1777 src/commands-impl.c:1872
+#: src/commands-impl.c:291 src/commands-impl.c:953 src/commands-impl.c:1065
+#: src/commands-impl.c:1767 src/commands-impl.c:1862
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -3348,7 +3348,7 @@ msgstr "S_obrepor"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Incapaz de renomear a imagem \"%s\": %s"
 
-#: src/commands-impl.c:340 src/commands-impl.c:1097 src/commands-impl.c:1416
+#: src/commands-impl.c:340 src/commands-impl.c:1087 src/commands-impl.c:1406
 msgid "source and destination are the same"
 msgstr "origem e destino são o mesmo"
 
@@ -3381,127 +3381,127 @@ msgstr "A imagem será removida do catálogo, tem a certeza?"
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "As imagens seleccionadas serão removidas do catálogo, tem a certeza?"
 
-#: src/commands-impl.c:950 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/commands-impl.c:940 src/dlg-catalog.c:86 src/dlg-catalog.c:131
 #: src/dlg-categories.c:205 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "C_riar"
 
-#: src/commands-impl.c:979 src/commands-impl.c:1105 src/commands-impl.c:1799
-#: src/commands-impl.c:1891
+#: src/commands-impl.c:969 src/commands-impl.c:1095 src/commands-impl.c:1789
+#: src/commands-impl.c:1881
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "O nome \"%s\" já está a ser utilizado. utilize um nome diferente."
 
-#: src/commands-impl.c:1007
+#: src/commands-impl.c:997
 msgid "New Folder"
 msgstr "Nova Pasta"
 
-#: src/commands-impl.c:1008
+#: src/commands-impl.c:998
 msgid "Enter the folder name: "
 msgstr "Introduza o nome da pasta: "
 
-#: src/commands-impl.c:1009 src/dlg-photo-importer.c:867
+#: src/commands-impl.c:999 src/dlg-photo-importer.c:1230
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Incapaz de criar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1020
+#: src/commands-impl.c:1010
 msgid "New Library"
 msgstr "Nova Biblioteca"
 
-#: src/commands-impl.c:1021 src/dlg-catalog.c:127
+#: src/commands-impl.c:1011 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Introduza o nome da biblioteca: "
 
-#: src/commands-impl.c:1022
+#: src/commands-impl.c:1012
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Incapaz de criar a biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1095 src/commands-impl.c:1141
+#: src/commands-impl.c:1085 src/commands-impl.c:1131
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Incapaz de renomear a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1211
+#: src/commands-impl.c:1201
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Incapaz de apagar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1242
+#: src/commands-impl.c:1232
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" não pode ser movida para o Lixo. Deseja apaga-la definitivamente?"
 
-#: src/commands-impl.c:1250 src/dlg-file-utils.c:227 src/gthumb-window.c:5640
+#: src/commands-impl.c:1240 src/dlg-file-utils.c:227 src/gthumb-window.c:5640
 msgid "_Do not display this message again"
 msgstr "_Não apresentar novamente esta mensagem"
 
-#: src/commands-impl.c:1283
+#: src/commands-impl.c:1273
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "A pasta seleccionada será movida para o Lixo, tem a certeza?"
 
-#: src/commands-impl.c:1285 src/dlg-file-utils.c:281
+#: src/commands-impl.c:1275 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Mover"
 
-#: src/commands-impl.c:1351 src/commands-impl.c:1406
+#: src/commands-impl.c:1341 src/commands-impl.c:1396
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Incapaz de copiar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1406 src/dlg-file-utils.c:2445
+#: src/commands-impl.c:1396 src/dlg-file-utils.c:2445
 #: src/dlg-file-utils.c:2447
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Incapaz de mover a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1427
+#: src/commands-impl.c:1417
 msgid "source contains destination"
 msgstr "origem contém o destino"
 
-#: src/commands-impl.c:1438
+#: src/commands-impl.c:1428
 msgid "a folder with that name is already present."
 msgstr "já existe uma pasta com esse nome."
 
-#: src/commands-impl.c:1534 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/commands-impl.c:1524 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Seleccione a pasta de destino"
 
-#: src/commands-impl.c:1810
+#: src/commands-impl.c:1800
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Incapaz de renomear a biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1810
+#: src/commands-impl.c:1800
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Incapaz de renomear o catálogo \"%s\": %s"
 
-#: src/commands-impl.c:1856 src/dlg-catalog.c:82
+#: src/commands-impl.c:1846 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr "Introduza o nome do catálogo: "
 
-#: src/commands-impl.c:1857
+#: src/commands-impl.c:1847
 msgid "New Catalog"
 msgstr "Novo Catálogo"
 
-#: src/commands-impl.c:1902
+#: src/commands-impl.c:1892
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Incapaz de criar o catálogo \"%s\": %s"
 
-#: src/commands-impl.c:1966
+#: src/commands-impl.c:1956
 msgid "The selected library will be removed, are you sure?"
 msgstr "A biblioteca seleccionada será removida, tem a certeza?"
 
-#: src/commands-impl.c:1968
+#: src/commands-impl.c:1958
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "O catálogo seleccionado será removido, tem a certeza?"
 
-#: src/commands-impl.c:2910 src/dlg-categories.c:323 src/dlg-change-date.c:151
+#: src/commands-impl.c:2900 src/dlg-categories.c:323 src/dlg-change-date.c:151
 #: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:759
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:176
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
@@ -3509,16 +3509,16 @@ msgstr "O catálogo seleccionado será removido, tem a certeza?"
 msgid "Could not display help: %s"
 msgstr "Incapaz de mostrar ajuda: %s"
 
-#: src/commands-impl.c:2961
+#: src/commands-impl.c:2951
 msgid "translator_credits"
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/commands-impl.c:2970 src/gthumb-window.c:569 src/gthumb-window.c:4837
-#: src/main.c:128
+#: src/commands-impl.c:2960 src/gthumb-window.c:569 src/gthumb-window.c:4837
+#: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/commands-impl.c:2973
+#: src/commands-impl.c:2963
 msgid "An image viewer and browser for GNOME."
 msgstr "Um visualizador e navegador de imagens para o GNOME."
 
@@ -3565,7 +3565,7 @@ msgstr "%d x %d (Imagem)"
 msgid "%d x %d (Display)"
 msgstr "%d x %d (Ecrã)"
 
-#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:649
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
 msgstr "Duplicados"
 
@@ -3581,7 +3581,7 @@ msgstr "Última modificação"
 msgid "Location"
 msgstr "Localização"
 
-#: src/dlg-duplicates.c:754
+#: src/dlg-duplicates.c:756
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Imagens sinalizadas serão movidas para o Lixo, tem a certeza?"
 
@@ -3664,7 +3664,7 @@ msgstr "A copiar ficheiro %ld de %ld"
 msgid "Moving file %ld of %ld"
 msgstr "A mover ficheiro %ld de %ld"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:471
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:472
 msgid "Size"
 msgstr "Tamanho"
 
@@ -3672,8 +3672,8 @@ msgstr "Tamanho"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:485
-#: src/gthumb-window.c:413
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
+#: src/gthumb-window.c:414
 msgid "Modified"
 msgstr "Modificado"
 
@@ -3698,12 +3698,12 @@ msgstr "Todas as imagens de referência serão apagadas, tem a certeza?"
 msgid "Specify the backup file"
 msgstr "Especificar o ficheiro de copia de segurança"
 
-#: src/dlg-photo-importer.c:470 src/dlg-photo-importer.c:859
-#: src/dlg-photo-importer.c:870
+#: src/dlg-photo-importer.c:717 src/dlg-photo-importer.c:1177
+#: src/dlg-photo-importer.c:1222 src/dlg-photo-importer.c:1233
 msgid "Could not import photos"
 msgstr "Incapaz de importar fotos"
 
-#: src/dlg-photo-importer.c:818 src/main.c:989
+#: src/dlg-photo-importer.c:1056 src/main.c:1002
 msgid "Film"
 msgstr "Filme"
 
@@ -3743,11 +3743,11 @@ msgstr "Pasta"
 msgid "Select Album Theme"
 msgstr "Seleccionar Tema Álbum"
 
-#: src/fullscreen.c:802
+#: src/fullscreen.c:804
 msgid "Image Info"
 msgstr "Info Imagem"
 
-#: src/fullscreen.c:820 src/gthumb-window.c:4103
+#: src/fullscreen.c:822 src/gthumb-window.c:4103
 msgid "Back"
 msgstr "Atrás"
 
@@ -3840,63 +3840,67 @@ msgstr "O catálogo especificado não existe."
 msgid "Wait please..."
 msgstr "Aguarde..."
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Start in fullscreen mode"
 msgstr "Iniciar em modo ecrã completo"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Automatically start a slideshow"
 msgstr "Iniciar automaticamente uma apresentação slides"
 
-#: src/main.c:163
+#: src/main.c:93
+msgid "Automatically import digital camera photos"
+msgstr "Importar automaticamente fotografias de câmara digital"
+
+#: src/main.c:173
 msgid "Holidays"
 msgstr "Férias"
 
-#: src/main.c:164
+#: src/main.c:174
 msgid "Temporary"
 msgstr "Temporário"
 
-#: src/main.c:165
+#: src/main.c:175
 msgid "Screenshots"
 msgstr "Capturas Ecrã"
 
-#: src/main.c:166
+#: src/main.c:176
 msgid "Science"
 msgstr "Ciência"
 
-#: src/main.c:167
+#: src/main.c:177
 msgid "Favourite"
 msgstr "Favorito"
 
-#: src/main.c:168
+#: src/main.c:178
 msgid "Important"
 msgstr "Importante"
 
-#: src/main.c:169
+#: src/main.c:179
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:170
+#: src/main.c:180
 msgid "Games"
 msgstr "Jogos"
 
-#: src/main.c:171
+#: src/main.c:181
 msgid "Party"
 msgstr "Festa"
 
-#: src/main.c:172
+#: src/main.c:182
 msgid "Birthday"
 msgstr "Aniversário"
 
-#: src/main.c:173
+#: src/main.c:183
 msgid "Astronomy"
 msgstr "Astronomia"
 
-#: src/main.c:174
+#: src/main.c:184
 msgid "Family"
 msgstr "Família"
 
-#: src/main.c:311 src/main.c:393
+#: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Linha Comando"
 
