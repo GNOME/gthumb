@@ -7,6 +7,15 @@ version 2.6.3
 	  doesn't work.
 	* Fixed bug #142897: Selected Categories area of Categories window 
 	  appears to be directly editable, but it is not.
+	* Fixed bug #160003: gthumb toolbar horizontal icons + text only shows 
+	  icons.
+	* Fixed bug #162323: Doesn't remember settings for serial port cameras.
+	* Fixed bug #162852: pressing the camera icon while importing photos 
+	  does bad things
+	* Fixed bug #163417: Filename in Rename Series (date %d) contains ":" 
+	  which is invalid filename under Windows.
+	* Fixed bug #156677:  - ctrl+S should be the save shortcut, not the 
+	  Slide Show
 
 version 2.6.2
 -------------	

@@ -186,8 +186,10 @@ set_action_important (GThumbWindow *window,
 {
 	GtkAction *action;
 	action = gtk_ui_manager_get_action (window->ui, action_name);
-	g_object_set (action, "is_important", is_important, NULL);
-	g_object_unref (action);
+	if (action != NULL) {
+		g_object_set (action, "is_important", is_important, NULL);
+		g_object_unref (action);
+	}
 }
 
 
@@ -4688,15 +4690,13 @@ content_radio_action (GtkAction      *action,
 	if (content != GTH_SIDEBAR_NO_LIST) {
 		window_set_sidebar_content (window, content);
 		window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
-		set_action_important (window, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
-
+		gtk_ui_manager_ensure_update (window->ui);
 	} else {
 		window_hide_sidebar (window);
 		window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, viewer_ui_info, -1, NULL);
-		set_action_important (window, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
+		gtk_ui_manager_ensure_update (window->ui);
 	}
 
-	gtk_ui_manager_ensure_update (window->ui);
 	gtk_widget_queue_resize (window->toolbar->parent);
 }
 
@@ -4853,6 +4853,10 @@ window_new (void)
 	set_action_important (window, "/ToolBar/View_ShowFolders", TRUE);
 	set_action_important (window, "/ToolBar/View_ShowCatalogs", TRUE);
 	set_action_important (window, "/ToolBar/View_ShowImage", TRUE);
+	/* FIXME
+	set_action_important (window, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
+	set_action_important (window, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
+	*/
 
 	gnome_app_add_docked (GNOME_APP (window->app),
 			      toolbar,
@@ -5600,8 +5604,6 @@ window_new (void)
 					   window);
 
 	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
-	set_action_important (window, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
-
 	gtk_ui_manager_ensure_update (window->ui);	
 
 	/* Initial location. */
