@@ -27,8 +27,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include "actions.h"
 #include "comments.h"
-#include "commands-impl.h"
 #include "fullscreen.h"
 #include "glib-utils.h"
 #include "gconf-utils.h"
@@ -55,17 +55,16 @@ static FullScreen     *current_fullscreen;
 
 
 static void
-set_command_state (GThumbWindow *window,
-		   char         *cname,
-		   gboolean      setted)
+set_action_active (GThumbWindow *window,
+		   char         *action_name,
+		   gboolean      is_active)
 {
-	char *full_cname = g_strconcat ("/commands/", cname, NULL);
-	char *new_value  = setted ? "1" : "0";
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      full_cname, 
-				      "state", new_value,
-				      NULL);
-	g_free (full_cname);
+	GtkAction *action;
+	action = gtk_action_group_get_action (window->actions, action_name);
+	if (action == NULL) 
+		g_print ("%s NON ESISTE\n", action_name);
+	else
+		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
 }
 
 
@@ -526,12 +525,12 @@ image_key_press_cb (GtkWidget   *widget,
 
 		/* Toggle animation. */
 	case GDK_g:
-		set_command_state (window, "View_PlayAnimation", ! viewer->play_animation);
+		set_action_active (window, "View_PlayAnimation", ! viewer->play_animation);
 		break;
 
 		/* Step animation. */
 	case GDK_j:
-		view_step_ani_command_impl (NULL, window, NULL);
+		activate_action_view_step_animation (NULL, window);
 		break;
 
 		/* Delete selection. */
@@ -549,9 +548,9 @@ image_key_press_cb (GtkWidget   *widget,
 		/* Delete. */
 
 		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-			image_delete_command_impl (NULL, window, NULL);
+			activate_action_image_delete (NULL, window);
 		else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
-			image_delete_from_catalog_command_impl (NULL, window, NULL);
+			activate_action_edit_remove_from_catalog (NULL, window);
 		break;
 
 		/* Edit comment. */
@@ -566,7 +565,7 @@ image_key_press_cb (GtkWidget   *widget,
 		if (comment_visible)
 			hide_comment_on_image ();
 
-		edit_current_edit_comment_command_impl (NULL, window, NULL);
+		activate_action_edit_edit_comment (NULL, window);
 		break;
 
 		/* Edit categories. */
@@ -581,30 +580,30 @@ image_key_press_cb (GtkWidget   *widget,
 		if (comment_visible)
 			hide_comment_on_image ();
 
-		edit_current_edit_categories_command_impl (NULL, window, NULL);
+		activate_action_edit_edit_categories (NULL, window);
 		break;
 
 		/* Flip image. */
 	case GDK_l:
 	case GDK_L:
-		alter_image_flip_command_impl (NULL, window, NULL);
+		activate_action_alter_image_flip (NULL, window);
 		break;
 
 		/* Rotate. */
 	case GDK_r:
 	case GDK_R:
 	case GDK_bracketright:
-		alter_image_rotate_90_command_impl (NULL, window, NULL);
+		activate_action_alter_image_rotate90 (NULL, window);
 		break;
 
 	case GDK_bracketleft:
-		alter_image_rotate_90_cc_command_impl (NULL, window, NULL);
+		activate_action_alter_image_rotate90cc (NULL, window);
 		break;
 
 		/* Mirror. */
 	case GDK_m:
 	case GDK_M:
-		alter_image_mirror_command_impl (NULL, window, NULL);
+		activate_action_alter_image_mirror (NULL, window);
 		break;
 
 		/* View/Hide comment */

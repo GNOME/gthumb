@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,8 +32,11 @@ static struct {
 	gconstpointer  menu_pixbuf;
 } items[] = {
 	{ GTHUMB_STOCK_ADD_COMMENT,         add_comment_24_rgba,         add_comment_16_rgba },
+	{ GTHUMB_STOCK_ADD_TO_CATALOG,      add_to_catalog_16_rgba,      NULL },
 	{ GTHUMB_STOCK_BRIGHTNESS_CONTRAST, brightness_contrast_22_rgba, brightness_contrast_16_rgba },
 	{ GTHUMB_STOCK_CAMERA,              camera_24_rgba,              NULL },
+	{ GTHUMB_STOCK_CATALOG,             catalog_24_rgba,             catalog_16_rgba },
+	{ GTHUMB_STOCK_CHANGE_DATE,         change_date_16_rgba,         NULL },
 	{ GTHUMB_STOCK_COLOR_BALANCE,       color_balance_22_rgba,       color_balance_16_rgba },
 	{ GTHUMB_STOCK_CROP,                crop_16_rgba,                NULL },
 	{ GTHUMB_STOCK_DESATURATE,          desaturate_16_rgba,          NULL },
@@ -45,17 +48,24 @@ static struct {
 	{ GTHUMB_STOCK_HISTOGRAM,           histogram_22_rgba,           histogram_16_rgba },
 	{ GTHUMB_STOCK_HUE_SATURATION,      hue_saturation_22_rgba,      hue_saturation_16_rgba },
 	{ GTHUMB_STOCK_IMAGE,               image_24_rgba,               NULL },
+	{ GTHUMB_STOCK_INDEX_IMAGE,         index_image_16_rgba,               NULL },
 	{ GTHUMB_STOCK_INVERT,              invert_16_rgba,              NULL },
 	{ GTHUMB_STOCK_LEVELS,              levels_22_rgba,              levels_16_rgba },
 	{ GTHUMB_STOCK_MIRROR,              mirror_24_rgba,              mirror_16_rgba },
+	{ GTHUMB_STOCK_NEXT_IMAGE,          next_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_NORMAL_VIEW,         exit_fullscreen_24_rgba,     NULL },
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           posterize_16_rgba },
+	{ GTHUMB_STOCK_PREVIOUS_IMAGE,      prev_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_PROPERTIES,          image_info_24_rgba,          image_info_16_rgba },
 	{ GTHUMB_STOCK_RESET,               reset_16_rgba,               NULL },
 	{ GTHUMB_STOCK_RESIZE,              resize_22_rgba,              resize_16_rgba },
 	{ GTHUMB_STOCK_ROTATE,              rotate_16_rgba,              NULL },
 	{ GTHUMB_STOCK_ROTATE_90,           rotate_90_24_rgba,           rotate_90_16_rgba },
 	{ GTHUMB_STOCK_ROTATE_90_CC,        rotate_270_24_rgba,          rotate_270_16_rgba },
+	{ GTHUMB_STOCK_SEARCH,              catalog_search_16_rgba,      NULL },
+	{ GTHUMB_STOCK_SHOW_CATALOGS,       catalog_24_rgba,             catalog_16_rgba },
+	{ GTHUMB_STOCK_SHOW_FOLDERS,        dir_24_rgba,                 dir_16_rgba },
+	{ GTHUMB_STOCK_SHOW_IMAGE,          image_24_rgba,               NULL },
 	{ GTHUMB_STOCK_SLIDESHOW,           slideshow_24_rgba,           slideshow_16_rgba },
 	{ GTHUMB_STOCK_SWAP,                swap_24_rgba,                swap_16_rgba },
 	{ GTHUMB_STOCK_THRESHOLD,           threshold_16_rgba,           NULL },

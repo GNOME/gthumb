@@ -29,6 +29,12 @@
 #include "typedefs.h"
 #include "image-viewer.h"
 
+
+#define PREF_DESKTOP_ICON_THEME         "/desktop/gnome/file_views/icon_theme"
+#define PREF_DESKTOP_MENUS_HAVE_TEAROFF "/desktop/gnome/interface/menus_have_tearoff"
+#define PREF_DESKTOP_MENUBAR_DETACHABLE "/desktop/gnome/interface/menubar_detachable"
+#define PREF_DESKTOP_TOOLBAR_DETACHABLE "/desktop/gnome/interface/toolbar_detachable"
+
 #define  PREF_GO_TO_LAST_LOCATION    "/apps/gthumb/general/go_to_last_location"
 #define  PREF_USE_STARTUP_LOCATION   "/apps/gthumb/general/use_startup_location"
 #define  PREF_STARTUP_LOCATION       "/apps/gthumb/general/startup_location"

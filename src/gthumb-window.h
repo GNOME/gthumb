@@ -61,6 +61,17 @@ typedef struct {
 
 	GtkWidget          *app;                /* The main window. */
 	BonoboUIComponent  *ui_component;
+	GtkUIManager       *ui;
+	GtkActionGroup     *actions;
+	GtkActionGroup     *bookmark_actions;
+	GtkActionGroup     *history_actions;
+	guint               sidebar_merge_id;
+	guint               toolbar_merge_id;
+	guint               bookmarks_merge_id;
+	guint               history_merge_id;
+
+	GtkWidget          *toolbar;
+	GtkWidget          *statusbar;
 
 	GtkWidget          *viewer;
 	GtkWidget          *viewer_container;  /* Container widget for the 
@@ -79,7 +90,17 @@ typedef struct {
 	GtkWidget          *go_back_toolbar_button;
 	GtkWidget          *show_folders_toolbar_button;
 	GtkWidget          *show_catalog_toolbar_button;
-	GtkWidget          *popup_menu;
+
+	GtkWidget          *file_popup_menu;
+	GtkWidget          *image_popup_menu;
+	GtkWidget          *fullscreen_image_popup_menu;
+	GtkWidget          *catalog_popup_menu;
+	GtkWidget          *library_popup_menu;
+	GtkWidget          *dir_popup_menu;
+	GtkWidget          *dir_list_popup_menu;
+	GtkWidget          *catalog_list_popup_menu;
+	GtkWidget          *history_list_popup_menu;
+
 
 	GtkWidget          *image_comment;
 	GtkWidget          *exif_data_viewer;
@@ -208,6 +229,8 @@ typedef struct {
 	guint                  progress_timeout;
 
 	GtkTooltips           *tooltips;
+	guint                  help_message_cid;
+	guint                  list_info_cid;
 } GThumbWindow;
 
 
@@ -225,6 +248,10 @@ void            window_show_sidebar                 (GThumbWindow *window);
 void            window_hide_image_pane              (GThumbWindow *window);
 
 void            window_show_image_pane              (GThumbWindow *window);
+
+void            window_hide_image_data              (GThumbWindow *window);
+
+void            window_show_image_data              (GThumbWindow *window);
 
 void            window_set_preview_content          (GThumbWindow      *window,
 						     GthPreviewContent  content);

@@ -25,10 +25,10 @@
 #include <glade/glade.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-ui-init.h>
-#include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
+#include "actions.h"
 #include "main.h"
 #include "auto-completion.h"
 #include "catalog.h"
@@ -45,7 +45,6 @@
 #include "typedefs.h"
 #include "comments.h"
 #include "pixbuf-utils.h"
-#include "commands-impl.h"
 
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
@@ -114,7 +113,7 @@ static gboolean
 check_whether_to_import_photos (gpointer data) 
 {
 	if ((first_window != NULL) && ImportPhotos) 
-		file_camera_import_command_impl (NULL, first_window, NULL);		
+		activate_action_file_camera_import (NULL, first_window);
 	return FALSE;
 }
 
@@ -141,9 +140,10 @@ main (int argc, char *argv[])
 				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
 				      NULL);
 
-	if (! g_thread_supported ())
+	if (! g_thread_supported ()) {
 		g_thread_init (NULL);
-	gdk_threads_init ();
+		gdk_threads_init ();
+	}
 
 	g_object_get_property (G_OBJECT (program),
 			       GNOME_PARAM_POPT_CONTEXT,
@@ -158,7 +158,7 @@ main (int argc, char *argv[])
 	g_idle_add (check_whether_to_set_fullscreen, NULL);
 	g_idle_add (check_whether_to_import_photos, NULL);
 
-	bonobo_main ();
+	gtk_main ();
 
 	release_data ();
 

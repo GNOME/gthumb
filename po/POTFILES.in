@@ -33,7 +33,6 @@ data/glade/gthumb_print.glade
 data/glade/gthumb_search.glade
 data/glade/gthumb_tools.glade
 data/glade/gthumb_web_exporter.glade
-data/gthumb-ui.xml
 data/gthumb.desktop.in
 data/gthumb.schemas.in
 libgthumb/async-pixbuf-ops.c

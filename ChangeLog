@@ -1,3 +1,15 @@
+2004-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c: 
+	* src/gthumb-window.h: 
+	* src/actions.c: 
+	* src/actions.h: 
+	* src/ui.h: use the gtk+ ui manager to create menus and toolbar.
+
+2004-05-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: updated version to 2.5.0
+
 2004-05-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.4.0 released ]

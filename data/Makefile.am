@@ -14,9 +14,6 @@ icon_DATA = gthumb.png
 
 man_MANS = gthumb.1
 
-uidir = $(datadir)/gnome-2.0/ui
-ui_DATA = gthumb-ui.xml 
-
 schemadir = @GCONF_SCHEMA_FILE_DIR@
 schema_in_files = gthumb.schemas.in
 schema_DATA = $(schema_in_files:.schemas.in=.schemas)
@@ -29,7 +26,6 @@ install-data-local:
 endif
 
 EXTRA_DIST = 			\
-	$(ui_DATA)		\
 	gthumb.schemas		\
 	gthumb.schemas.in	\
 	$(applications_DATA)	\

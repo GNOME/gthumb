@@ -26,14 +26,14 @@ INCLUDES =					\
 bin_PROGRAMS = gthumb
 
 gthumb_SOURCES = 			\
+	actions.c			\
+	actions.h			\
 	auto-completion.c		\
 	auto-completion.h		\
 	bookmark-list.c			\
 	bookmark-list.h			\
 	catalog-list.c			\
 	catalog-list.h			\
-	commands-impl.c			\
-	commands-impl.h			\
 	dir-list.c			\
 	dir-list.h			\
 	dlg-bookmarks.c			\
@@ -60,8 +60,6 @@ gthumb_SOURCES = 			\
 	dlg-hue-saturation.h		\
 	dlg-image-prop.c		\
 	dlg-image-prop.h		\
-	dlg-maintenance.c		\
-	dlg-maintenance.h		\
 	dlg-open-with.c			\
 	dlg-open-with.h			\
 	dlg-posterize.c			\
@@ -95,7 +93,8 @@ gthumb_SOURCES = 			\
 	gtkcellrendererthreestates.h	\
 	gtkcellrendererthreestates.c	\
 	main.c				\
-	main.h
+	main.h				\
+	ui.h
 
 gthumb_LDADD = 					\
 	$(EXIF_LIBS)				\
