@@ -75,7 +75,9 @@ typedef struct {
 	GtkWidget          *viewer_vscr;
 	GtkWidget          *viewer_hscr;
 	GtkWidget          *viewer_event_box;
-	GtkWidget          *go_back_combo_button;
+	GtkWidget          *go_back_toolbar_button;
+	GtkWidget          *show_folders_toolbar_button;
+	GtkWidget          *show_catalog_toolbar_button;
 	GtkWidget          *popup_menu;
 
 	GtkWidget          *image_comment;

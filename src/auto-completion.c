@@ -296,7 +296,7 @@ ac_list_row_activated_cb (GtkTreeView       *tree_view,
                             -1);
 	g_return_if_fail (utf8_name != NULL);
 
-	name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+	name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 	g_free (utf8_name);
 
 	full_path = g_build_path ("/", ac_dir, name, NULL);
@@ -467,7 +467,7 @@ auto_compl_show_alternatives (GThumbWindow *window,
 		if (! ac_change_to_hidden && (*name_only == '.'))
 			continue;
 
-		utf8_name = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
 		gtk_list_store_append (ac_list_store, &iter);
 		gtk_list_store_set (ac_list_store, &iter,
 				    AC_LIST_COLUMN_ICON, pixbuf,

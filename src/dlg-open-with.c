@@ -37,6 +37,9 @@
 #include "gthumb-window.h"
 
 
+#define GLADE_FILE "gthumb.glade"
+
+
 typedef struct {
 	GThumbWindow *window;
 	GladeXML     *gui;

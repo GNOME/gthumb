@@ -49,7 +49,7 @@
 #include "gnome-print-font-picker.h"
 #include "preferences.h"
 
-#define GLADE_PRINT_FILE "gthumb_print.glade"
+#define GLADE_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
 #define CANVAS_ZOOM 0.25
 #define DEF_COMMENT_FONT "Serif 12"
@@ -1301,9 +1301,9 @@ print_image_dlg (GtkWindow   *parent,
 
 	data = g_new (DialogData, 1);
 	data->pi = pi;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PRINT_FILE, NULL, NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
         if (! data->gui) {
-                g_warning ("Cannot find " GLADE_PRINT_FILE "\n");
+                g_warning ("Cannot find " GLADE_FILE "\n");
 		print_info_unref (pi);
 		g_free (data);
                 return;

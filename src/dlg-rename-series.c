@@ -50,7 +50,7 @@ int            sort_method_to_idx[] = { -1, 0, -1, 1, 2 };
 GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME };
 
 
-#define COMMENT_GLADE_FILE "gthumb_tools.glade"
+#define GLADE_FILE "gthumb_tools.glade"
 
 typedef struct {
 	GThumbWindow  *window;
@@ -92,13 +92,12 @@ ok_clicked_cb (GtkWidget  *widget,
 	GList *old_names = NULL;
 	GList *new_names = NULL;
 	GList *o_scan, *n_scan;
-	char  *template;
+	const char  *template;
 
 	/* Save options */
 
-	template = _gtk_entry_get_locale_text (GTK_ENTRY (data->rs_template_entry));
+	template = gtk_entry_get_text (GTK_ENTRY (data->rs_template_entry));
 	eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, template);
-	g_free (template);
 
 	eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton)));
 
@@ -269,7 +268,7 @@ update_list (DialogData *data)
 	int     idx;
 	int     start_at;
 	char  **template;
-	char   *template_s;
+	const char   *template_s;
 
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (data->rs_sort_optionmenu));
 	data->file_list = g_list_sort (data->file_list, get_compare_func_from_idx (idx));
@@ -279,9 +278,8 @@ update_list (DialogData *data)
 
 	/**/
 
-	template_s = _gtk_entry_get_locale_text (GTK_ENTRY (data->rs_template_entry));
+	template_s = gtk_entry_get_text (GTK_ENTRY (data->rs_template_entry));
 	template = _g_get_template_from_text (template_s);
-	g_free (template_s);
 
 	start_at = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton));
 
@@ -300,19 +298,23 @@ update_list (DialogData *data)
 		char     *extension;
 		char     *new_name;
 
-		name1       = _g_get_name_from_template (template, start_at++);
+		name1 = _g_get_name_from_template (template, start_at++);
 
 		if (strchr (name1, '*') != NULL) {
 			char *name_wo_ext = remove_extension_from_path (fdata->name);
-			name2 = _g_substitute (name1, '*', name_wo_ext);
+			char *utf8_txt = g_filename_to_utf8 (name_wo_ext, -1, 0, 0, 0);
+			name2 = _g_substitute (name1, '*', utf8_txt);
 			g_free (name_wo_ext);
+			g_free (utf8_txt);
 		} else
 			name2 = g_strdup (name1);
 
 		if (strchr (name2, '?') != NULL) {
 			char *image_date  = get_image_date (fdata->path);
-			name3 = _g_substitute (name2, '?', image_date);
+			char *utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
+			name3 = _g_substitute (name2, '?', utf8_txt);
 			g_free (image_date);
+			g_free (utf8_txt);
 		} else
 			name3 = g_strdup (name2);
 
@@ -323,15 +325,17 @@ update_list (DialogData *data)
 		} else
 			name4 = g_strdup (name3);
 
-		extension = strrchr (fdata->name, '.');
+		extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
 		new_name = g_strconcat (name4, extension, NULL);
 
-		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
+		data->new_names_list = g_list_prepend (data->new_names_list, g_filename_from_utf8 (new_name, -1, 0, 0, 0));
 
+		g_free (extension);
 		g_free (name1);
 		g_free (name2);
 		g_free (name3);
 		g_free (name4);
+		g_free (new_name);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);
@@ -349,8 +353,8 @@ update_list (DialogData *data)
 		
 		gtk_list_store_append (data->rs_list_model, &iter);
 		
-		utf8_on = g_locale_to_utf8 (fdata->name, -1, NULL, NULL, NULL);
-		utf8_nn = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_on = g_filename_to_utf8 (fdata->name, -1, NULL, NULL, NULL);
+		utf8_nn = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 
 		gtk_list_store_set (data->rs_list_model, &iter,
 				    RS_OLDNAME_COLUMN, utf8_on,
@@ -395,7 +399,7 @@ dlg_rename_series (GThumbWindow *window)
 	data->file_list = list;
 	data->new_names_list = NULL;
 	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" COMMENT_GLADE_FILE , NULL, NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
 	if (!data->gui) {
 		g_free (data);
 		g_warning ("Could not find " GLADE_FILE "\n");

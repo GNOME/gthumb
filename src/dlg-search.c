@@ -233,7 +233,7 @@ search_clicked_cb (GtkWidget  *widget,
 	/* * start from */
 
 	utf8_path = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->s_start_from_fileentry), FALSE);
-	full_path = g_locale_from_utf8 (utf8_path, -1, 0, 0, 0);
+	full_path = g_filename_from_utf8 (utf8_path, -1, 0, 0, 0);
 	g_free (utf8_path);
 
 	search_data_set_start_from (data->search_data, full_path);
@@ -337,7 +337,7 @@ view_result_cb (GtkWidget  *widget,
 	catalog_name_utf8 = g_strconcat (_("Search Result"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+	catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
@@ -701,7 +701,7 @@ dlg_search_ui (GThumbWindow *window,
 				   NULL);
 
 	if (! data->gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
+		g_warning ("Could not find " SEARCH_GLADE_FILE "\n");
 		return;
 	}
 
@@ -757,9 +757,9 @@ dlg_search_ui (GThumbWindow *window,
 
 	if (catalog_path == NULL) {
 		if (data->window->dir_list->path != NULL)
-			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), data->window->dir_list->path);
+			_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), data->window->dir_list->path);
 		else
-			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), g_get_home_dir ());
+			_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), g_get_home_dir ());
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
 
 	} else {
@@ -771,7 +771,7 @@ dlg_search_ui (GThumbWindow *window,
 
 		search_data = catalog->search_data;
 
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), search_data->start_from);
+		_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), search_data->start_from);
 	
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
 		
@@ -1062,8 +1062,8 @@ add_file_list (DialogData *data, GList *file_list)
 		filename = file_name_from_path (path);
 		folder = remove_level_from_path (path);
 
-		utf8_file = g_locale_to_utf8 (filename, -1, NULL, NULL, NULL);
-		utf8_folder = g_locale_to_utf8 (folder, -1, NULL, NULL, NULL);
+		utf8_file = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+		utf8_folder = g_filename_to_utf8 (folder, -1, NULL, NULL, NULL);
 		
 		gtk_list_store_append (data->p_progress_tree_model, &iter);
 		gtk_list_store_set (data->p_progress_tree_model, 
@@ -1265,7 +1265,7 @@ search_dir_async (DialogData *data, char *dir)
 	else
 		start_from = g_strdup (dir);
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->p_current_dir_entry), dir);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
 
 	/**/
 

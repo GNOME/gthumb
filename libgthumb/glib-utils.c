@@ -65,36 +65,46 @@ _g_strdup_with_max_size (const char *s,
  * example 2 : ""         --> [0] = NULL
  **/
 char **
-_g_get_template_from_text (const char *template)
+_g_get_template_from_text (const char *utf8_template)
 {
-	const char  *chunk_start = template;
+	const char  *chunk_start = utf8_template;
 	char       **str_vect;
 	GList       *str_list = NULL, *scan;
 	int          n = 0;
 
-	if (template == NULL)
+	if (utf8_template == NULL)
 		return NULL;
 
 	while (*chunk_start != 0) {
+		gunichar    ch;
 		gboolean    reading_sharps;
 		char       *chunk;
 		const char *chunk_end;
+		int         chunk_len = 0;
 
-		reading_sharps = (*chunk_start == '#');
+		reading_sharps = (g_utf8_get_char (chunk_start) == '#');
 		chunk_end = chunk_start;
 
+		ch = g_utf8_get_char (chunk_end);
 		while (reading_sharps 
 		       && (*chunk_end != 0) 
-		       && (*chunk_end == '#'))
-			chunk_end++;
+		       && (ch == '#')) {
+			chunk_end = g_utf8_next_char (chunk_end);
+			ch = g_utf8_get_char (chunk_end);
+			chunk_len++;
+		}
 		
+		ch = g_utf8_get_char (chunk_end);
 		while (! reading_sharps 
 		       && (*chunk_end != 0) 
-		       && (*chunk_end != '#'))
-			chunk_end++;
+		       && (*chunk_end != '#')) {
+			chunk_end = g_utf8_next_char (chunk_end);
+			ch = g_utf8_get_char (chunk_end);
+			chunk_len++;
+		}
 		
-		chunk = g_strndup (chunk_start, chunk_end - chunk_start);
-		str_list = g_list_prepend (str_list,  chunk);
+		chunk = _g_utf8_strndup (chunk_start, chunk_len);
+		str_list = g_list_prepend (str_list, chunk);
 		n++;
 
 		chunk_start = chunk_end;
@@ -113,7 +123,7 @@ _g_get_template_from_text (const char *template)
 
 
 char *
-_g_get_name_from_template (char **template,
+_g_get_name_from_template (char **utf8_template,
 			   int    n)
 {
 	GString *s;
@@ -122,15 +132,16 @@ _g_get_name_from_template (char **template,
 
 	s = g_string_new (NULL);
 
-	for (i = 0; template[i] != NULL; i++) {
-		const char *chunk = template[i];
+	for (i = 0; utf8_template[i] != NULL; i++) {
+		const char *chunk = utf8_template[i];
+		gunichar    ch = g_utf8_get_char (chunk);
 
-		if (*chunk != '#')
+		if (ch != '#')
 			g_string_append (s, chunk);
 		else {
 			char *s_n;
 			int   s_n_len;
-			int   sharps_len = strlen (chunk);
+			int   sharps_len = g_utf8_strlen (chunk, -1);
 
 			s_n = g_strdup_printf ("%d", n);
 			s_n_len = strlen (s_n);

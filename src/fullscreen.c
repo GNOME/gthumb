@@ -163,12 +163,12 @@ render_frame (GdkDrawable    *drawable,
 
 
 static char *
-escape_locale_text (const char *text) 
+escape_filename (const char *text) 
 {
 	char *utf8_text;
 	char *escaped_text;
 
-	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
+	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
 	g_return_val_if_fail (utf8_text != NULL, NULL);
 	
 	escaped_text = g_markup_escape_text (utf8_text, -1);
@@ -210,7 +210,7 @@ get_file_info (GThumbWindow *window)
 	time_t      timer;
 	struct tm  *tm;
 
-	e_filename = escape_locale_text (file_name_from_path (window->image_path));
+	e_filename = escape_filename (file_name_from_path (window->image_path));
 
 	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
 	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));

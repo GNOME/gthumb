@@ -231,6 +231,7 @@ menu_deactivate_callback (GtkMenuShell *menu_shell,
 	GTK_BUTTON (combo_button)->button_down = FALSE;
 	GTK_BUTTON (combo_button)->in_button = FALSE;
 	gtk_button_leave (GTK_BUTTON (combo_button));
+	/*gtk_button_clicked (GTK_BUTTON (combo_button));*/
 }
 
 static void

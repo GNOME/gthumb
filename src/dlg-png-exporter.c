@@ -98,15 +98,15 @@ destroy_cb (GtkWidget  *widget,
 static void
 update_example_labels (DialogData *data)
 {
-	char  *t_txt;
-	char  *t_txt_png;
-	char **template;
-	char  *example;
-	char  *type_extension;
-	int    type_id;
-	int    start_at;
+	const char  *t_txt;
+	char        *t_txt_png;
+	char       **template;
+	char        *example;
+	char        *type_extension;
+	int          type_id;
+	int          start_at;
 
-	t_txt = _gtk_entry_get_locale_text (GTK_ENTRY (data->template_entry));
+	t_txt = gtk_entry_get_text (GTK_ENTRY (data->template_entry));
 
 	type_id = gtk_option_menu_get_history (GTK_OPTION_MENU (data->file_type_option_menu));
 	switch (type_id) {
@@ -119,12 +119,10 @@ update_example_labels (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->example1_label), "");
 		gtk_label_set_text (GTK_LABEL (data->example2_label), "");
 		gtk_label_set_text (GTK_LABEL (data->example3_label), "");
-		g_free (t_txt);
 		return;
 	}
 
 	t_txt_png = g_strconcat (t_txt, type_extension, NULL);
-	g_free (t_txt);
 
 	gtk_widget_set_sensitive (data->btn_ok, TRUE);
 	template = _g_get_template_from_text (t_txt_png);
@@ -133,15 +131,15 @@ update_example_labels (DialogData *data)
 	start_at = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->start_at_spinbutton));
 	
 	example = _g_get_name_from_template (template, start_at++);
-	_gtk_label_set_locale_text (GTK_LABEL (data->example1_label), example);
+	gtk_label_set_text (GTK_LABEL (data->example1_label), example);
 	g_free (example);
 
 	example = _g_get_name_from_template (template, start_at++);
-	_gtk_label_set_locale_text (GTK_LABEL (data->example2_label), example);
+	gtk_label_set_text (GTK_LABEL (data->example2_label), example);
 	g_free (example);
 
 	example = _g_get_name_from_template (template, start_at++);
-	_gtk_label_set_locale_text (GTK_LABEL (data->example3_label), example);
+	gtk_label_set_text (GTK_LABEL (data->example3_label), example);
 	g_free (example);
 
 	g_strfreev (template);
@@ -178,9 +176,7 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_boolean (PREF_EXP_WRITE_IMAGE_MAP, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->image_map_checkbutton)));
 
-	template = _gtk_entry_get_locale_text (GTK_ENTRY (data->template_entry));
-	eel_gconf_set_string (PREF_EXP_NAME_TEMPLATE, template);
-	g_free (template);
+	eel_gconf_set_string (PREF_EXP_NAME_TEMPLATE, gtk_entry_get_text (GTK_ENTRY (data->template_entry)));
 
 	eel_gconf_set_integer (PREF_EXP_START_FROM, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->start_at_spinbutton)));
 
@@ -197,7 +193,7 @@ export (GtkWidget  *widget,
 
 	/**/
 
-	path = _gtk_entry_get_locale_text (GTK_ENTRY (data->dest_fileentry_entry));
+	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->dest_fileentry_entry));
 	dir = remove_ending_separator (path);
 	g_free (path);
 
@@ -217,7 +213,6 @@ export (GtkWidget  *widget,
 
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	catalog_png_exporter_set_name_template (exporter, template);
-	g_free (template);
 
 	catalog_png_exporter_set_start_at (exporter, eel_gconf_get_integer (PREF_EXP_START_FROM, 1));
 
@@ -402,7 +397,7 @@ dlg_exporter (GThumbWindow *window)
         if (!data->gui) {
 		g_object_unref (data->exporter);
 		g_free (data);
-                g_warning ("Could not find " GLADE_FILE "\n");
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
                 return;
         }
 
@@ -489,13 +484,13 @@ dlg_exporter (GThumbWindow *window)
 	/* Set widgets data. */
 
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->dest_fileentry), (window->dir_list->path != NULL) ? window->dir_list->path : g_get_home_dir ());
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
-				    (window->dir_list->path == NULL) ? g_get_home_dir() : window->dir_list->path);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),
+				      (window->dir_list->path == NULL) ? g_get_home_dir() : window->dir_list->path);
 
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	if (template != NULL)
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->template_entry), 
-					    template);
+		gtk_entry_set_text (GTK_ENTRY (data->template_entry), 
+				    template);
 	else
 		_gtk_entry_set_locale_text (GTK_ENTRY (data->template_entry), "###");
 	g_free (template);

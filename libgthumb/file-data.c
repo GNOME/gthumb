@@ -44,7 +44,7 @@ file_data_new (const char       *path,
 	fd->ref = 1;
 	fd->path = g_strdup (path);
 	fd->name = file_name_from_path (fd->path);
-	fd->utf8_name = g_locale_to_utf8 (fd->name, -1, 0, 0, 0);
+	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
 	fd->size = info->size;
 	fd->ctime = info->ctime;
 	fd->mtime = info->mtime;
@@ -81,7 +81,7 @@ file_data_update (FileData *fd)
 	fd->name = file_name_from_path (fd->path);
 
 	g_free (fd->utf8_name);
-	fd->utf8_name = g_locale_to_utf8 (fd->name, -1, 0, 0, 0);
+	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
 
 	fd->size = info->size;
 	fd->mtime = info->mtime;

@@ -53,6 +53,7 @@
 #include "e-combo-button.h"
 #include "file-utils.h"
 #include "gth-file-list.h"
+#include "gth-toggle-button.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gthumb-window.h"
@@ -191,8 +192,6 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("View_Zoom100", view_zoom_100_command_impl),
 	BONOBO_UI_VERB ("View_ZoomFit", view_zoom_fit_command_impl),
 	BONOBO_UI_VERB ("View_StepAnimation", view_step_ani_command_impl),
-	BONOBO_UI_VERB ("View_ShowFolders", view_show_folders_command_impl),
-	BONOBO_UI_VERB ("View_ShowCatalogs", view_show_catalogs_command_impl),
 	BONOBO_UI_VERB ("View_Fullscreen", view_fullscreen_command_impl),
 	BONOBO_UI_VERB ("View_FullscreenPopup", view_fullscreen_command_impl),
 	BONOBO_UI_VERB ("View_ExitFullscreenPopup", view_fullscreen_command_impl),
@@ -287,8 +286,7 @@ set_command_state (GThumbWindow *window,
 static void
 set_command_state_if_different (GThumbWindow *window,
 				char         *cname,
-				gboolean      setted,
-				gboolean      notify)
+				gboolean      setted)
 {
 	char *old_value;
 	char *new_value;
@@ -304,10 +302,6 @@ set_command_state_if_different (GThumbWindow *window,
 		g_free (old_value);
 		return;
 	}
-
-	/* FIXME */
-	if (! notify && (old_value != NULL)) 
-		window->freeze_toggle_handler++;
 
 	/**/
 
@@ -329,7 +323,7 @@ set_command_state_without_notifing (GThumbWindow *window,
 	char *full_cname;
 
 	full_cname = g_strconcat ("/commands/", cname, NULL);
-	set_command_state_if_different (window, full_cname, state, FALSE);
+	set_command_state_if_different (window, full_cname, state);
 	g_free (full_cname);
 }
 
@@ -403,8 +397,8 @@ window_update_statusbar_image_info (GThumbWindow *window)
 		gtk_widget_show (window->image_info_frame);
 	}
 
-	utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 
-				      NULL, NULL, NULL);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 
+					NULL, NULL, NULL);
 
 	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
 	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
@@ -760,7 +754,7 @@ window_update_infobar (GThumbWindow *window)
 
 	current = gth_file_list_pos_from_path (window->file_list, path) + 1;
 
-	utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 	escaped_name = g_markup_escape_text (utf8_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s", 
@@ -783,7 +777,6 @@ static void
 window_update_title (GThumbWindow *window)
 {
 	char *info_txt      = NULL;
-	char *info_txt_utf8 = NULL;
 	char *path;
 	char *modified;
 
@@ -795,10 +788,10 @@ window_update_title (GThumbWindow *window)
 	if (path == NULL) {
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
+			char *path = g_filename_to_utf8 (window->dir_list->path, -1, NULL, NULL, NULL);
+			info_txt = g_strconcat (path, " ", modified, NULL);
+			g_free (path);
 
-			info_txt = g_strdup_printf ("%s %s",
-						    window->dir_list->path,
-						    modified);
 		} else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			   && (window->catalog_path != NULL)) {
 			const char *cat_name;
@@ -810,18 +803,18 @@ window_update_title (GThumbWindow *window)
 			/* Cut out the file extension. */
 			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
 			
-			info_txt = g_strdup_printf ("%s", cat_name_no_ext);
+			info_txt = g_filename_to_utf8 (cat_name_no_ext, -1, 0, 0, 0);
 			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
 	} else {
-		const char *image_name = file_name_from_path (path);
+		const char *image_name = g_filename_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 
 		if (image_name == NULL)
 			image_name = "";
 
 		if (window->image_catalog != NULL) {
-			char *cat_name = g_strdup (file_name_from_path (window->image_catalog));
+			char *cat_name = g_filename_to_utf8 (file_name_from_path (window->image_catalog), -1, 0, 0, 0);
 
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
@@ -832,9 +825,7 @@ window_update_title (GThumbWindow *window)
 			info_txt = g_strdup_printf ("%s %s", image_name, modified);
 	}
 
-	info_txt_utf8 = g_locale_to_utf8 (info_txt, -1, NULL, NULL, NULL);
-	gtk_window_set_title (GTK_WINDOW (window->app), info_txt_utf8);
-	g_free (info_txt_utf8);
+	gtk_window_set_title (GTK_WINDOW (window->app), info_txt);
 	g_free (info_txt);
 }
 
@@ -914,7 +905,7 @@ window_update_go_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, 
 			       "Go_Back",
 			       (window->history_current != NULL) && (window->history_current->next != NULL));
-	gtk_widget_set_sensitive (window->go_back_combo_button, 
+	gtk_widget_set_sensitive (window->go_back_toolbar_button, 
 				  (window->history_current != NULL) && (window->history_current->next != NULL));
 	
 	set_command_sensitive (window, 
@@ -1784,6 +1775,35 @@ get_command_name_from_sidebar_content (GThumbWindow *window)
 
 
 static void
+set_button_active_no_notify (GThumbWindow *window,
+			     GtkWidget    *button,
+			     gboolean      active)
+{
+	if (button == NULL)
+		return;
+	g_signal_handlers_block_by_data (button, window);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), active);
+	g_signal_handlers_unblock_by_data (button, window);
+}
+
+
+static GtkWidget *
+get_button_from_sidebar_content (GThumbWindow *window)
+{
+	switch (window->sidebar_content) {
+	case GTH_SIDEBAR_DIR_LIST:
+		return window->show_folders_toolbar_button;
+	case GTH_SIDEBAR_CATALOG_LIST:
+		return window->show_catalog_toolbar_button;
+	default:
+		return NULL;
+	}
+
+	return NULL;
+}
+
+
+static void
 _window_set_sidebar (GThumbWindow *window,
 		     int           sidebar_content)
 {
@@ -1791,14 +1811,20 @@ _window_set_sidebar (GThumbWindow *window,
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL) 
-		set_command_state_if_different (window, cname, FALSE, FALSE);
+		set_command_state_if_different (window, cname, FALSE);
+	set_button_active_no_notify (window,
+				     get_button_from_sidebar_content (window),
+				     FALSE);
 
 	window->sidebar_content = sidebar_content;
 
+	set_button_active_no_notify (window,
+				     get_button_from_sidebar_content (window),
+				     TRUE);
+
 	cname = get_command_name_from_sidebar_content (window);
 	if ((cname != NULL) && window->sidebar_visible)
-		set_command_state_if_different (window, cname, TRUE, FALSE);
-
+		set_command_state_if_different (window, cname, TRUE);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), 
 				       sidebar_content - 1);
 
@@ -2165,7 +2191,7 @@ dir_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = dir_list_get_name_from_iter (window->dir_list, &iter);
-		name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2425,7 +2451,7 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 		char             *name;
 
 		utf8_name = catalog_list_get_name_from_iter (window->catalog_list, &iter);
-		name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 		g_free (utf8_name);
 
 		if (strcmp (name, "..") == 0) {
@@ -2487,7 +2513,7 @@ get_location (GThumbWindow *window)
 	char *text2;
 	char *l;
 
-	text = _gtk_entry_get_locale_text (GTK_ENTRY (window->location_entry));
+	text = _gtk_entry_get_filename_text (GTK_ENTRY (window->location_entry));
 	text2 = remove_special_dirs_from_path (text);
 	g_free (text);
 
@@ -2539,7 +2565,7 @@ set_location (GThumbWindow *window,
 
 	if (l) {
 		char *utf8_l;
-		utf8_l = g_locale_to_utf8 (l, -1, NULL, NULL, NULL);
+		utf8_l = g_filename_to_utf8 (l, -1, NULL, NULL, NULL);
 		gtk_entry_set_text (GTK_ENTRY (window->location_entry), utf8_l);
 		gtk_editable_set_position (GTK_EDITABLE (window->location_entry), g_utf8_strlen (utf8_l, -1));
 		g_free (utf8_l);
@@ -2729,17 +2755,6 @@ size_changed_cb (GtkWidget    *widget,
 	}
 
 	return TRUE;	
-}
-
-
-static void
-set_button_active_no_notify (GThumbWindow *window,
-			     GtkWidget    *button,
-			     gboolean      active)
-{
-	g_signal_handlers_block_by_data (button, window);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), active);
-	g_signal_handlers_unblock_by_data (button, window);
 }
 
 
@@ -2970,6 +2985,10 @@ key_press_cb (GtkWidget   *widget,
 		/* Play animation */
 	case GDK_g:
 		set_command_state (window, "View_PlayAnimation", ! viewer->play_animation);
+		if (viewer->play_animation)
+			image_viewer_stop_animation (viewer);
+		else
+			image_viewer_start_animation (viewer);
 		return TRUE;
 
 		/* Step animation */
@@ -3083,7 +3102,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = catalog_list_get_name_from_iter (window->catalog_list, &iter);
-			name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0) 
@@ -3124,7 +3143,7 @@ key_press_cb (GtkWidget   *widget,
 				return FALSE;
 
 			utf8_name = dir_list_get_name_from_iter (window->dir_list, &iter);
-			name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0) 
@@ -3383,7 +3402,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	catalog_name_utf8 = g_strconcat (_("Dragged Images"),
 					 CATALOG_EXT,
 					 NULL);
-	catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+	catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
 	g_free (catalog_name_utf8);
@@ -4120,13 +4139,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	GThumbWindow *window = user_data;
         gboolean      s;
 
-	debug (DEBUG_INFO, "%s: %s", path, state);
-
-	/* FIXME: delete this */
-	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler--;
-		return;
-	}
+	debug (DEBUG_INFO, "%s(%d): %s", path, type, state);
 
         s = (strcmp (state, "1") == 0);
 
@@ -4216,6 +4229,22 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 					&& ! image_viewer_is_playing_animation (viewer)));
 	}
 
+	if ((strcmp (path, "View_ShowCatalogs") == 0) && s) {
+		if (! GTK_WIDGET_VISIBLE (window->app))
+			return;
+		window_set_sidebar_content (window, GTH_SIDEBAR_CATALOG_LIST);
+	}
+
+	if ((strcmp (path, "View_ShowFolders") == 0) && s) {
+		if (! GTK_WIDGET_VISIBLE (window->app))
+			return;
+		window_set_sidebar_content (window, GTH_SIDEBAR_DIR_LIST);
+	}
+
+	if ((strcmp (path, "View_ShowImage") == 0) && s) {
+		window_hide_sidebar (window);
+	}
+
 	/* FIXME */
 	if (strcmp (path, "View_ShowPreview") == 0) {
 		toggle_image_preview_visibility (window);
@@ -4269,7 +4298,7 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 }
 
 
-/* -- setup_toolbar_combo_button -- */
+/* -- setup toolbar custom widgets -- */
 
 
 static gboolean
@@ -4283,7 +4312,7 @@ combo_button_activate_default_callback (EComboButton *combo_button,
 
 
 static void
-setup_toolbar_combo_button (GThumbWindow *window)
+setup_toolbar_go_back_button (GThumbWindow *window)
 {
 	GtkWidget         *combo_button;
 	GtkWidget         *menu;
@@ -4317,9 +4346,112 @@ setup_toolbar_combo_button (GThumbWindow *window)
 
 	bonobo_ui_component_object_set (window->ui_component, "/Toolbar/GoBackComboButton", BONOBO_OBJREF (control), NULL);
 
-	window->go_back_combo_button = combo_button;
+	window->go_back_toolbar_button = combo_button;
+
+	gtk_tooltips_set_tip (window->tooltips, combo_button, _("Go to the previous visited location"), NULL);
 }
 
+
+/**/
+
+
+static void 
+show_folders_toolbar_button_toggled_cb (GtkToggleButton *button,
+					GThumbWindow    *window)
+{
+	if (! GTK_WIDGET_VISIBLE (window->app))
+		return;
+
+	if ((window->sidebar_visible) 
+	    && (window->sidebar_content == GTH_SIDEBAR_DIR_LIST))
+		window_hide_sidebar (window);
+	else
+		window_set_sidebar_content (window, GTH_SIDEBAR_DIR_LIST);
+}
+
+
+static void
+setup_toolbar_show_folders_button (GThumbWindow *window)
+{
+	GtkWidget         *button;
+	BonoboControl     *control;
+	GdkPixbuf         *icon;
+
+	button = gth_toggle_button_new ();
+	window->show_folders_toolbar_button = button;
+
+	gth_toggle_button_set_label (GTH_TOGGLE_BUTTON (button), _("Folders"));
+
+	icon = gdk_pixbuf_new_from_inline (-1, dir_24_rgba, FALSE, NULL);
+	gth_toggle_button_set_icon (GTH_TOGGLE_BUTTON (button), icon);
+	g_object_unref (icon);
+
+	gtk_tooltips_set_tip (window->tooltips, button, _("View the folders"), NULL);
+
+	g_signal_connect (G_OBJECT (button), 
+			  "toggled",
+			  G_CALLBACK (show_folders_toolbar_button_toggled_cb), 
+			  window);
+
+	gtk_widget_show (button);
+
+	/**/
+
+	control = bonobo_control_new (button);
+	bonobo_ui_component_object_set (window->ui_component, "/Toolbar/ShowFoldersButton", BONOBO_OBJREF (control), NULL);
+}
+
+
+/**/
+
+
+static void 
+show_catalogs_toolbar_button_toggled_cb (GtkToggleButton *button,
+					 GThumbWindow    *window)
+{
+	if (! GTK_WIDGET_VISIBLE (window->app))
+		return;
+
+	if ((window->sidebar_visible) 
+	    && (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST))
+		window_hide_sidebar (window);
+	else
+		window_set_sidebar_content (window, GTH_SIDEBAR_CATALOG_LIST);
+}
+
+
+static void
+setup_toolbar_show_catalogs_button (GThumbWindow *window)
+{
+	GtkWidget         *button;
+	BonoboControl     *control;
+	GdkPixbuf         *icon;
+
+	button = gth_toggle_button_new ();
+	window->show_catalog_toolbar_button = button;
+
+	gth_toggle_button_set_label (GTH_TOGGLE_BUTTON (button), _("Catalogs"));
+
+	icon = gdk_pixbuf_new_from_inline (-1, catalog_24_rgba, FALSE, NULL);
+	gth_toggle_button_set_icon (GTH_TOGGLE_BUTTON (button), icon);
+	g_object_unref (icon);
+
+	gtk_tooltips_set_tip (window->tooltips, button, _("View the catalogs"), NULL);
+
+	g_signal_connect (G_OBJECT (button), 
+			  "toggled",
+			  G_CALLBACK (show_catalogs_toolbar_button_toggled_cb),
+			  window);
+
+	gtk_widget_show (button);
+
+	/**/
+
+	control = bonobo_control_new (button);
+	bonobo_ui_component_object_set (window->ui_component, "/Toolbar/ShowCatalogsButton", BONOBO_OBJREF (control), NULL);
+}
+
+/**/
 
 void
 add_listener_for_toggle_items (GThumbWindow *window)
@@ -4340,7 +4472,10 @@ add_listener_for_toggle_items (GThumbWindow *window)
 		"View_PlayAnimation",
 		"View_Toolbar",
 		"View_Statusbar",
+		"View_ShowCatalogs",
+		"View_ShowFolders",
 		"View_ShowPreview",
+		"View_ShowImage",
 		"View_ShowInfo",
 		"View_AsList",
 		"View_AsThumbnails",
@@ -4446,9 +4581,19 @@ pref_ui_toolbar_visible_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 	gboolean      visible;
+	const char   *component_name;
 
 	visible = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE);
-	set_command_state_if_different (window, "/commands/View_Toolbar", visible, TRUE);
+	set_command_state_if_different (window, "/commands/View_Toolbar", visible);
+
+	if (window->sidebar_visible)
+		component_name = "/Toolbar";
+	else
+		component_name = "/ImageToolbar";
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      component_name,
+				      "hidden", !visible ? "1" : "0",
+				      NULL);
 }
 
 
@@ -4462,7 +4607,12 @@ pref_ui_statusbar_visible_changed (GConfClient *client,
 	gboolean      visible;
 
 	visible = eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE);
-	set_command_state_if_different (window, "/commands/View_Statusbar", visible, TRUE);
+	set_command_state_if_different (window, "/commands/View_Statusbar", visible);
+
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/status",
+				      "hidden", !visible ? "1" : "0",
+				      NULL);
 }
 
 
@@ -4547,10 +4697,18 @@ pref_zoom_quality_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 
-	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH)
-		set_command_state_if_different (window, "/commands/View_ZoomQualityHigh", 1, TRUE);
-	else
-		set_command_state_if_different (window, "/commands/View_ZoomQualityLow", 1, TRUE);
+	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH) {
+		set_command_state_if_different (window, "/commands/View_ZoomQualityHigh", 1);
+		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
+					       GTH_ZOOM_QUALITY_HIGH);
+	} else {
+		set_command_state_if_different (window, "/commands/View_ZoomQualityLow", 1);
+		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
+					       GTH_ZOOM_QUALITY_LOW);
+		
+	}
+
+	image_viewer_update_view (IMAGE_VIEWER (window->viewer));
 }
 
 
@@ -4895,6 +5053,8 @@ window_new (void)
 
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
 
+	window->tooltips = gtk_tooltips_new ();
+
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
 					  "/apps/gthumb/ui/kvps");
@@ -4915,7 +5075,9 @@ window_new (void)
 						     window);
 
 	setup_commands_pixbufs (window->ui_component);
-	setup_toolbar_combo_button (window);
+	setup_toolbar_go_back_button (window);
+	setup_toolbar_show_folders_button (window);
+	setup_toolbar_show_catalogs_button (window);
 
 	gnome_window_icon_set_from_default (GTK_WINDOW (window->app));
 	gtk_window_set_default_size (GTK_WINDOW (window->app), 
@@ -5205,8 +5367,6 @@ window_new (void)
 
 	gtk_box_pack_start (GTK_BOX (info_hbox), window->info_bar, TRUE, TRUE, 0);
 
-	window->tooltips = gtk_tooltips_new ();
-
 	/* FIXME */
 	{
 		GtkWidget *button;
@@ -5480,8 +5640,6 @@ window_new (void)
 	window->load_dir_timeout = 0;
 	window->auto_load_timeout = 0;
 
-	window->freeze_toggle_handler = 0;
-
 	window->sel_change_timeout = 0;
 
 	/* preloader */
@@ -5524,7 +5682,6 @@ window_new (void)
 				      NULL);
 
 	window_sync_menu_with_preferences (window);
-	window->freeze_toggle_handler = 0;
 
 	/**/
 
@@ -5995,8 +6152,6 @@ window_set_sidebar_content (GThumbWindow *window,
 void
 window_hide_sidebar (GThumbWindow *window)
 {
-	char *cname;
-
 	window->sidebar_visible = FALSE;
 	window->sidebar_width = gtk_paned_get_position (GTK_PANED (window->main_pane));
 
@@ -6022,9 +6177,10 @@ window_hide_sidebar (GThumbWindow *window)
 
 	/* Sync menu and toolbar. */
 
-	cname = get_command_name_from_sidebar_content (window);
-	if (cname != NULL)
-		set_command_state_if_different (window, cname, FALSE, FALSE);
+	set_command_state_if_different (window, "/commands/View_ShowImage", TRUE);
+	set_button_active_no_notify (window,
+				     get_button_from_sidebar_content (window),
+				     FALSE);
 
 	/**/
 
@@ -6092,7 +6248,10 @@ window_show_sidebar (GThumbWindow *window)
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL)
-		set_command_state_if_different (window, cname, TRUE, FALSE);
+		set_command_state_if_different (window, cname, TRUE);
+	set_button_active_no_notify (window,
+				     get_button_from_sidebar_content (window),
+				     TRUE);
 
 	/**/
 
@@ -6140,7 +6299,6 @@ window_hide_image_pane (GThumbWindow *window)
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
-						FALSE, 
 						FALSE);
 	}
 
@@ -6159,8 +6317,7 @@ window_show_image_pane (GThumbWindow *window)
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
-						TRUE, 
-						FALSE);
+						TRUE);
 	}
 
 	gtk_widget_show (window->image_pane);
@@ -6494,8 +6651,8 @@ go_to_directory_continue (DirList  *dir_list,
 	if (dir_list->result != GNOME_VFS_ERROR_EOF) {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (dir_list->try_path, -1,
-					      NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (dir_list->try_path, -1,
+						NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Cannot load folder \"%s\": %s\n"), 
 				       utf8_path, 
@@ -8047,7 +8204,9 @@ window_notify_update_toolbar_style (GThumbWindow *window)
 
 	bonobo_ui_component_set_prop (window->ui_component, "/Toolbar", "look", prop, NULL);
 	bonobo_ui_component_set_prop (window->ui_component, "/ImageToolbar", "look", prop, NULL);
-	e_combo_button_set_style (E_COMBO_BUTTON (window->go_back_combo_button), toolbar_style); 
+	e_combo_button_set_style (E_COMBO_BUTTON (window->go_back_toolbar_button), toolbar_style);
+	gth_toggle_button_set_style (GTH_TOGGLE_BUTTON (window->show_folders_toolbar_button), toolbar_style);
+	gth_toggle_button_set_style (GTH_TOGGLE_BUTTON (window->show_catalog_toolbar_button), toolbar_style);
 }
 
 
@@ -8072,8 +8231,7 @@ window_notify_update_icon_theme (GThumbWindow *window)
 				       GTK_STOCK_GO_BACK,
 				       GTK_ICON_SIZE_MENU,
 				       "");
-	e_combo_button_set_icon (E_COMBO_BUTTON (window->go_back_combo_button),
-				 icon);
+	e_combo_button_set_icon (E_COMBO_BUTTON (window->go_back_toolbar_button), icon);
 	g_object_unref (icon);
 }
 

@@ -102,7 +102,6 @@ DEFINE_VERB(view_zoom_fit_command_impl);
 DEFINE_VERB(view_step_ani_command_impl);
 DEFINE_VERB(view_show_folders_command_impl);
 DEFINE_VERB(view_show_catalogs_command_impl);
-DEFINE_VERB(view_show_image_command_impl);
 DEFINE_VERB(view_fullscreen_command_impl);
 DEFINE_VERB(view_prev_image_command_impl);
 DEFINE_VERB(view_next_image_command_impl);

@@ -36,7 +36,7 @@
 #endif /* HAVE_LIBEXIF */
 
 
-#define CDATE_GLADE_FILE "gthumb_tools.glade"
+#define GLADE_FILE "gthumb_tools.glade"
 
 
 typedef struct {
@@ -120,6 +120,24 @@ get_exif_time (const char *filename)
 	return time;
 }
 
+
+static gboolean
+exif_time_available (DialogData *data)
+{
+	FileData *fd;
+
+	if (data->file_list == NULL)
+		return FALSE;
+
+	if (data->file_list->next != NULL)
+		return TRUE;
+
+	fd = data->file_list->data;
+
+	return get_exif_time (fd->path) != 0;
+}
+
+
 #endif /* HAVE_LIBEXIF */
 
 #define is_active(x) (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x)))
@@ -182,11 +200,11 @@ dlg_change_date (GThumbWindow *window)
 	data = g_new (DialogData, 1);
 
 	data->file_list = list;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" CDATE_GLADE_FILE, NULL,
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 
 	if (! data->gui) {
-		g_warning ("Could not find " CDATE_GLADE_FILE "\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		if (data->file_list != NULL) 
 			g_list_free (data->file_list);
 		g_free (data);
@@ -209,7 +227,9 @@ dlg_change_date (GThumbWindow *window)
 
 #ifndef HAVE_LIBEXIF
 	gtk_widget_hide (data->cd_exif_radiobutton);
-#endif /* ! HAVE_LIBEXIF */
+#else /* HAVE_LIBEXIF */
+	gtk_widget_set_sensitive (data->cd_exif_radiobutton, exif_time_available (data));
+#endif /* HAVE_LIBEXIF */
 
 	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
 

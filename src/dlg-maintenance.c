@@ -30,7 +30,7 @@
 #include "thumb-cache.h"
 
 
-#define GLADE_EXPORTER_FILE "gthumb_tools.glade"
+#define GLADE_FILE "gthumb_tools.glade"
 
 
 typedef struct {
@@ -303,7 +303,7 @@ dlg_maintenance (GThumbWindow *window)
 	data = g_new (DialogData, 1);
 
 	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
         if (!data->gui) {
 		g_free (data);
                 g_warning ("Could not find " GLADE_FILE "\n");

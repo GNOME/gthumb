@@ -34,8 +34,6 @@
 #define CATALOG_PREFIX_L 10
 #define SEARCH_PREFIX_L  9
 
-#define GLADE_FILE                "gthumb.glade"
-
 #define RC_DIR                    ".gnome2/gthumb"
 
 #define RC_CATALOG_DIR            ".gnome2/gthumb/collections"

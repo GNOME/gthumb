@@ -51,7 +51,7 @@
 #endif
 
 
-#define TOOLS_GLADE_FILE  "gthumb_tools.glade"
+#define GLADE_FILE  "gthumb_tools.glade"
 #define MINI_IMAGE_SIZE   48
 #define MAX_PATH_LENGTH   40
 #define BLOCKSIZE         8192
@@ -243,7 +243,7 @@ find_cb (GtkWidget  *widget,
 	char *utf8_path;
 
 	utf8_path = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->fd_start_from_fileentry), FALSE);
-	data->start_from_path = g_locale_from_utf8 (utf8_path, -1, 0, 0, 0);
+	data->start_from_path = g_filename_from_utf8 (utf8_path, -1, 0, 0, 0);
 	g_free (utf8_path);
 
 	data->recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->fd_include_subfolders_checkbutton));
@@ -541,11 +541,11 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 			continue;
 
 		location = remove_level_from_path (idata2->path);
-		location_utf8 = g_locale_to_utf8 (location, -1, 0, 0, 0);
+		location_utf8 = g_filename_to_utf8 (location, -1, 0, 0, 0);
 		g_free (location);
 			
 		name = file_name_from_path (idata2->path);
-		name_utf8 = g_locale_to_utf8 (name, -1, 0, 0, 0);
+		name_utf8 = g_filename_to_utf8 (name, -1, 0, 0, 0);
 
 		tm = localtime (&idata2->last_modified);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
@@ -769,7 +769,7 @@ dlg_duplicates (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" TOOLS_GLADE_FILE, NULL,
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 
 	if (! data->gui) {
@@ -809,9 +809,9 @@ dlg_duplicates (GThumbWindow *window)
 	/* Set widgets data. */
 
 	if (window->dir_list->path != NULL)
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->fd_start_from_entry), window->dir_list->path);
+		_gtk_entry_set_filename_text (GTK_ENTRY (data->fd_start_from_entry), window->dir_list->path);
 	else
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->fd_start_from_entry), g_get_home_dir ());
+		_gtk_entry_set_filename_text (GTK_ENTRY (data->fd_start_from_entry), g_get_home_dir ());
 
 	/* * Images model */
 
@@ -1434,8 +1434,8 @@ start_next_checksum (DialogData *data)
 
 	/**/
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->fdr_current_image_entry),
-				    file_name_from_path (data->current_path));
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->fdr_current_image_entry),
+				      file_name_from_path (data->current_path));
 
 	/**/
 
@@ -1556,7 +1556,7 @@ search_dir_async (DialogData *data, const char *path)
 {
 	char *escaped;
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->fdr_current_dir_entry), path);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->fdr_current_dir_entry), path);
 	gtk_entry_set_text (GTK_ENTRY (data->fdr_current_image_entry), "");
 
 	if (data->uri != NULL)

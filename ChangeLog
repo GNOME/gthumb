@@ -1,3 +1,27 @@
+2003-08-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* many_files: use g_filename_* instead of g_locale_* where
+	appropriate.
+	
+	* Makefile.am (EXTRA_DIST): remove gthumb.spec and gthumb.spec.in
+
+	* configure.in: update required libraries.
+	(GTHUMB_CFLAGS): remove bonobo-activation
+
+2003-08-12  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-change-date.c (dlg_change_date): make the exif option
+	insensitive if the image has no exif data.
+
+	* components/image-viewer/viewer-control.h (_VIEWER_CONTROL):
+	rename VIEWER_CONTROL to _VIEWER_CONTROL.
+
+	* libgthumb/dlg-save-image.c (CONVERT_GLADE_FILE) 
+	(dlg_save_options): rename GLADE_FILE to CONVERT_GLADE_FILE.
+
+	* src/gthumb-window.c (setup_toolbar_combo_button): 
+	* src/gthumb-ui.xml: use a custom tooltip for the back button.
+
 2003-08-11  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/catalog-web-exporter.c (save_resized_image_cb) 

@@ -41,7 +41,7 @@
 #include "gthumb-window.h"
 #include "gth-folder-selection-dialog.h"
 
-#define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
+#define GLADE_FILE "gthumb.glade"
 #define DISPLAY_PROGRESS_DELAY 1000
 #define FILE_NAME_MAX_LENGTH   30
 #define PREVIEW_SIZE           150
@@ -98,7 +98,7 @@ dlg_check_folder (GThumbWindow *window,
 
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
-		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
@@ -112,7 +112,7 @@ dlg_check_folder (GThumbWindow *window,
 
 	if (access (dir, R_OK | W_OK | X_OK) != 0) {
 		char *utf8_path;
-		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
@@ -505,10 +505,10 @@ set_filename_labels (GladeXML    *gui,
 	eventbox = glade_xml_get_widget (gui, filename_eventbox);
 
 	name = _g_strdup_with_max_size (file_name_from_path (filename), FILE_NAME_MAX_LENGTH);
-	_gtk_label_set_locale_text (GTK_LABEL (label), name);
+	_gtk_label_set_filename_text (GTK_LABEL (label), name);
 	g_free (name);
 
-	utf8_name = g_locale_to_utf8 (filename, -1, NULL, NULL, NULL);
+	utf8_name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 	gtk_tooltips_set_tip (tooltips, eventbox, utf8_name, NULL);
 	g_free (utf8_name);
 
@@ -673,8 +673,8 @@ create_overwrite_dialog (GThumbWindow      *window,
 
 	gtk_widget_set_sensitive (owdata->overwrite_rename_entry,
 				  default_overwrite_mode == OVERWRITE_RESULT_RENAME);
-	_gtk_entry_set_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry),
-				    file_name_from_path (new_filename));
+	_gtk_entry_set_filename_text (GTK_ENTRY (owdata->overwrite_rename_entry),
+				      file_name_from_path (new_filename));
 	if (default_overwrite_mode == OVERWRITE_RESULT_RENAME)
 		gtk_widget_grab_focus (owdata->overwrite_rename_entry);
 
@@ -751,7 +751,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			char *new_path;
 
 			result = OVERWRITE_RESULT_RENAME;
-			new_name = _gtk_entry_get_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry));
+			new_name = _gtk_entry_get_filename_text (GTK_ENTRY (owdata->overwrite_rename_entry));
 			if ((new_name == NULL) || (new_name[0] == 0)) {
 				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
 						       _("You didn't enter the new name"));
@@ -764,7 +764,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			if (path_is_file (new_path)) {
 				char *utf8_name;
 
-				utf8_name = g_locale_to_utf8 (new_name, -1, 0, 0, 0);
+				utf8_name = g_filename_to_utf8 (new_name, -1, 0, 0, 0);
 				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
 						       _("The name \"%s\" is already used in this folder. Please use a different name."),
 						       utf8_name);
@@ -851,7 +851,7 @@ dlg_overwrite_run (GThumbWindow  *window,
 		char *new_path;
 
 		result = OVERWRITE_RESULT_RENAME;
-		*new_name = _gtk_entry_get_locale_text (GTK_ENTRY (owdata->overwrite_rename_entry));
+		*new_name = _gtk_entry_get_filename_text (GTK_ENTRY (owdata->overwrite_rename_entry));
 
 		if ((*new_name == NULL) || ((*new_name)[0] == 0)) {
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
@@ -865,7 +865,7 @@ dlg_overwrite_run (GThumbWindow  *window,
 		if (path_is_file (new_path)) {
 			char *utf8_name;
 			
-			utf8_name = g_locale_to_utf8 (*new_name, -1, 0, 0, 0);
+			utf8_name = g_filename_to_utf8 (*new_name, -1, 0, 0, 0);
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
 					       utf8_name);
@@ -1145,7 +1145,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 		error = _("Could not move the image:");
 	else
 		error = _("Could not copy the image:");
-	utf8_name = g_locale_to_utf8 (file_name_from_path (src_file), -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (src_file), -1, 0, 0, 0);
 	message = g_strconcat (error, 
 			       " ",
 			       utf8_name, 
@@ -1601,10 +1601,10 @@ dlg_files_copy (GThumbWindow   *window,
 
 	/**/
 
-	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! fcdata->gui) {
 		file_copy_data_free (fcdata);
-		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
@@ -1846,10 +1846,10 @@ dlg_files_delete (GThumbWindow   *window,
 
 	/**/
 
-	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	fddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! fddata->gui) {
 		file_delete_data_free (fddata);
-		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
@@ -2149,10 +2149,10 @@ folder_copy (GThumbWindow   *window,
 
 	/**/
 
-	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 	if (! fcdata->gui) {
 		folder_copy_data_free (fcdata);
-		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
 
@@ -2426,7 +2426,7 @@ copy_item__continue1 (GnomeVFSResult result,
 		else
 			error = _("Could not move the folder \"%s\": %s");
 		
-		utf8_name = g_locale_to_utf8 (file_name_from_path (folder), -1, 0, 0, 0);
+		utf8_name = g_filename_to_utf8 (file_name_from_path (folder), -1, 0, 0, 0);
 		message = g_strdup_printf (error, 
 					   utf8_name, 
 					   gnome_vfs_result_to_string (result),

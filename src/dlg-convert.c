@@ -155,7 +155,7 @@ load_current_image (DialogData *data)
 		return;
 	}
 
-	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
 
 	gtk_label_set_text (GTK_LABEL (data->progress_label), message);
@@ -177,7 +177,7 @@ show_rename_dialog (DialogData *data)
 	char  *message;
 	char  *utf8_name;
 
-	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 
 	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
 	
@@ -233,7 +233,7 @@ rename_response_cb (GtkWidget  *dialog,
 	if (response_id == GTK_RESPONSE_OK) {
 		char *new_name, *folder;
 
-		new_name = _gtk_entry_get_locale_text (GTK_ENTRY (data->conv_ren_name_entry));
+		new_name = _gtk_entry_get_filename_text (GTK_ENTRY (data->conv_ren_name_entry));
 		folder = remove_level_from_path (data->new_path);
 
 		g_free (data->new_path);
@@ -304,7 +304,7 @@ loader_done (ImageLoader *il,
 			break;
 
 		case GTH_OVERWRITE_ASK:
-			utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+			utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),

@@ -20,8 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef VIEWER_CONTROL
-#define VIEWER_CONTROL
+#ifndef _VIEWER_CONTROL
+#define _VIEWER_CONTROL
 
 #include <libbonoboui.h>
 #include "image-viewer.h"
@@ -60,4 +60,4 @@ struct _ViewerControlClass {
 GType           viewer_control_get_type   (void);
 BonoboControl  *viewer_control_new        (ImageViewer *viewer);
 
-#endif /* VIEWER_CONTROL */
+#endif /* _VIEWER_CONTROL */

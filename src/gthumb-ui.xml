@@ -291,17 +291,20 @@
 	     pixtype="stock" pixname="gthumb-normal-view"/>
 
 	<cmd name="View_ShowFolders" 
-	     type="toggle"
+	     type="radio" group="content"
 	     _tip="View the folders"
 	     accel="*Alt*1"/>
-	<cmd name="View_ShowCatalogs" type="toggle"
+	<cmd name="View_ShowCatalogs" 
+	     type="radio" group="content"
 	     _tip="View the catalogs"
 	     accel="*Alt*2"/>
-	<cmd name="View_ShowCatalogs" type="toggle"
-	     _tip="View the catalogs"
-	     accel="*Alt*2"/>
+	<cmd name="View_ShowImage" 
+	     type="radio" group="content"
+	     _tip="View the image"
+	     accel="*Alt*3"/>
 
-	<cmd name="View_ShowPreview" type="toggle"
+	<cmd name="View_ShowPreview" 
+             type="toggle"
 	     _tip="View the image"/>
 	<cmd name="View_ShowInfo" 
 	     type="toggle"
@@ -480,10 +483,13 @@
 			<menuitem name="View_Toolbar" verb=""/>
 			<menuitem name="View_Statusbar" verb=""/>
 		</submenu>
+		<separator/>
 		<menuitem name="View_ShowFolders" verb=""
  			  _label="_Folders"/>
 		<menuitem name="View_ShowCatalogs" verb=""
 			  _label="_Catalogs"/>
+		<menuitem name="View_ShowImage" verb=""
+			  _label="_Image"/>
 		<separator/>
 		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
@@ -493,16 +499,6 @@
 			<separator/>
 			<menuitem name="SortReversed" verb=""/>
 		</submenu>
-<!--
-		<menuitem name="View_Thumbnails" verb=""/>
--->
-<!--
-		<separator/>
-		<menuitem name="View_AsList" verb=""
-		          _label="View as List"/>
-		<menuitem name="View_AsThumbnails" verb=""
-		          _label="View as Thumbnails"/>
--->
 		<separator/>
 		<submenu name="ZoomType" _label="_Zoom">
 			<menuitem name="View_ZoomIn" verb="" 
@@ -517,15 +513,6 @@
 			<menuitem name="View_ZoomQualityHigh" verb=""/>
 			<menuitem name="View_ZoomQualityLow" verb=""/>
 		</submenu>
-<!--
-		<submenu name="ViewTranspType" _label="Transparen_cy Type">
-			<menuitem name="TranspTypeNone" verb=""/>
-			<menuitem name="TranspTypeWhite" verb=""/>
-			<menuitem name="TranspTypeBlack" verb=""/>
-			<menuitem name="TranspTypeChecked" verb=""/>
-		</submenu>
-		<separator/>
--->
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
 		<separator/>
@@ -611,8 +598,7 @@
 	behavior="exclusive" in_new_band="1" band_num="1"  
 	hlook="system" vlook="system">
 
-	<control name="GoBackComboButton" 
-	         _tip="Go to the previous visited location"/>
+	<control name="GoBackComboButton"/>
 
 	<toolitem name="Go_Forward" verb="" _label="Forward"/>
 
@@ -621,11 +607,20 @@
 
 	<separator/>
 
+	<control name="ShowFoldersButton"/>
+	<control name="ShowCatalogsButton"/>
+	<control name="ShowImageButton"/>
+
+<!--
   	<toolitem name="View_ShowFolders" verb="" priority="1" 
 	          _label="Folders"/>
 
   	<toolitem name="View_ShowCatalogs" verb="" priority="1"
 	          _label="Catalogs"/>
+
+  	<toolitem name="View_ShowImage" verb="" priority="0"
+	          _label="Image"/>
+-->
 
 	<separator/>
 
@@ -661,12 +656,12 @@
                   _label="Folders" 
 		  _tip="View the folders"
 	          priority="1"
-		  accel="*Alt*Left"/>
+		  accel="*Alt*1"/>
 	<toolitem name="View_Sidebar_Catalogs" verb=""
                   _label="Catalogs" 
 		  _tip="View the catalogs"
 	          priority="1"
-		  accel="*Alt*Left"/>
+		  accel="*Alt*2"/>
 
 	<separator/>
 

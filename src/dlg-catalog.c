@@ -40,6 +40,9 @@
 #include "gtk-utils.h"
 
 
+#define GLADE_FILE "gthumb.glade"
+
+
 typedef struct {
 	GladeXML     *gui;
 	GtkWidget    *dialog;

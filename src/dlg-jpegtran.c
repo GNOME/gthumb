@@ -447,7 +447,7 @@ ok_clicked (GtkWidget  *button,
 		for (scan = data->current_image; scan; scan = scan->next) {
 			FileData *fd = scan->data;
 
-			_gtk_label_set_locale_text (GTK_LABEL (label), fd->name);
+			_gtk_label_set_filename_text (GTK_LABEL (label), fd->name);
 			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
 						       (gdouble) i / n);
 

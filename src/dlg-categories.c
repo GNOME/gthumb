@@ -39,7 +39,7 @@
 #include "comments.h"
 
 
-#define COMMENT_GLADE_FILE "gthumb_comments.glade"
+#define GLADE_FILE "gthumb_comments.glade"
 #define CATEGORY_SEPARATOR ";"
 
 
@@ -470,7 +470,7 @@ dlg_categories (GtkWidget *widget,
 
 	data->window = window;
 
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" COMMENT_GLADE_FILE , NULL, NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
                 return;

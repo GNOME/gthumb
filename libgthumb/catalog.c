@@ -82,7 +82,7 @@ delete_catalog_dir (const char  *full_path,
 		rel_path = full_path + strlen (base_path) + 1;
 		g_free (base_path);
 
-		utf8_path = g_locale_to_utf8 (rel_path, -1, 0, 0, 0);
+		utf8_path = g_filename_to_utf8 (rel_path, -1, 0, 0, 0);
 
 		switch (gnome_vfs_result_from_errno ()) {
 		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:

@@ -97,7 +97,7 @@ static char *get_header_text                (CatalogPngExporter *ce,
 
 #define COL_SPACING      15
 #define ROW_SPACING      15
-#define FRAME_BORDER     8
+#define THUMB_FRAME_BORDER     8
 #define TEXT_SPACING     3
 #define CAPTION_MAX_ROWS 4
 
@@ -541,8 +541,8 @@ catalog_png_exporter_set_thumb_size (CatalogPngExporter *ce,
 	ce->thumb_width = width;
 	ce->thumb_height = height;
 
-	ce->frame_width = width + FRAME_BORDER * 2;
-	ce->frame_height = height + FRAME_BORDER * 2;
+	ce->frame_width = width + THUMB_FRAME_BORDER * 2;
+	ce->frame_height = height + THUMB_FRAME_BORDER * 2;
 }
 
 
@@ -783,17 +783,17 @@ set_item_caption (CatalogPngExporter *ce,
 
 	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH) 
 	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
-		char *utf8_name = g_locale_to_utf8 (idata->filename, -1, 0, 0, 0);
+		char *utf8_name = g_filename_to_utf8 (idata->filename, -1, 0, 0, 0);
 		idata->caption_row[row++] = utf8_name;
 	} else {
 		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
 			char *path = remove_level_from_path (idata->filename);
-			char *utf8_name = g_locale_to_utf8 (path, -1, 0, 0, 0);
+			char *utf8_name = g_filename_to_utf8 (path, -1, 0, 0, 0);
 			idata->caption_row[row++] = utf8_name;
 			g_free (path);
 		} else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
 			const char *name = file_name_from_path (idata->filename);
-			char *utf8_name = g_locale_to_utf8 (name, -1, 0, 0, 0);
+			char *utf8_name = g_filename_to_utf8 (name, -1, 0, 0, 0);
 			idata->caption_row[row++] = utf8_name;
 		}
 	}
@@ -1323,7 +1323,7 @@ load_next_file (CatalogPngExporter *ce)
 
 	g_free (ce->info);
 
-	utf8_name = g_locale_to_utf8 (file_name_from_path (filename), -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (file_name_from_path (filename), -1, 0, 0, 0);
 	ce->info = g_strdup_printf (_("Loading image: %s"), utf8_name);
 	g_free (utf8_name);
 
@@ -1531,7 +1531,7 @@ begin_page (CatalogPngExporter *ce,
 	g_free (ce->info);
 
 	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
-	utf8_name = g_locale_to_utf8 (filename, -1, 0, 0, 0);
+	utf8_name = g_filename_to_utf8 (filename, -1, 0, 0, 0);
 	ce->info = g_strdup_printf (_("Creating image: %s.%s"), 
 				    utf8_name, 
 				    ce->file_type);
@@ -1785,7 +1785,7 @@ paint_text (CatalogPngExporter *ce,
 		font_desc = pango_font_description_from_string (DEFAULT_FONT);
 	pango_layout_set_font_description (ce->layout, font_desc);
 
-	x += FRAME_BORDER;
+	x += THUMB_FRAME_BORDER;
 
 	pango_layout_set_text (ce->layout, utf8_text, strlen (utf8_text));
 
@@ -1845,7 +1845,7 @@ paint_comment (CatalogPngExporter *ce,
 	original_attr_list = pango_layout_get_attributes (ce->layout);
 	if (original_attr_list != NULL)
 		pango_attr_list_ref (original_attr_list);
-	x += FRAME_BORDER;
+	x += THUMB_FRAME_BORDER;
 
 	escaped_text = g_markup_escape_text (utf8_text, -1);
 	marked_text = g_strdup_printf ("<i>%s</i>", escaped_text);

@@ -119,12 +119,12 @@ export (GtkWidget  *widget,
 
 	/* Save options. */
 
-	path = _gtk_entry_get_locale_text (GTK_ENTRY (data->dest_fileentry_entry));
+	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->dest_fileentry_entry));
 	location = remove_ending_separator (path);
 	g_free (path);
 	eel_gconf_set_string (PREF_WEB_ALBUM_DESTINATION, location);
 
-	index_file = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_index_file_entry));
+	index_file = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_index_file_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_INDEX_FILE, index_file);
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton)));
@@ -149,7 +149,7 @@ export (GtkWidget  *widget,
 	footer = gtk_entry_get_text (GTK_ENTRY (data->wa_footer_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_FOOTER, footer);
 
-	theme = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_theme_entry));
+	theme = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_theme_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
 
 	/**/
@@ -296,7 +296,7 @@ dlg_web_exporter (GThumbWindow *window)
         if (!data->gui) {
 		g_object_unref (data->exporter);
 		g_free (data);
-                g_warning ("Could not find " GLADE_FILE "\n");
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
                 return;
         }
 
@@ -337,12 +337,12 @@ dlg_web_exporter (GThumbWindow *window)
 	/* Set widgets data. */
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION, NULL);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),
 				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
 	g_free (svalue);
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
 	g_free (svalue);
 	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES, FALSE));
@@ -372,7 +372,7 @@ dlg_web_exporter (GThumbWindow *window)
 	g_free (svalue);
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, "Clean");
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_theme_entry), svalue);
 	g_free (svalue);
 
 	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION, 0));
@@ -537,7 +537,7 @@ add_theme_dir (ThemeDialogData *tdata,
 			    || (strcmp (info->name, "..") == 0))
 				continue;
 
-			utf8_name = g_locale_to_utf8 (info->name, -1, NULL, NULL, NULL);
+			utf8_name = g_filename_to_utf8 (info->name, -1, NULL, NULL, NULL);
 			
 			gtk_list_store_append (tdata->list_store, &iter);
 			gtk_list_store_set (tdata->list_store, &iter,
@@ -721,7 +721,7 @@ show_album_theme_cb (GtkWidget  *widget,
 	tdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
         if (!tdata->gui) {
 		g_free (tdata);
-                g_warning ("Could not find " GLADE_FILE "\n");
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
                 return;
         }
 

@@ -430,7 +430,7 @@ catalog_list_refresh (CatalogList *cat_list)
 		else 
 			pixbuf = dir_pixbuf;
 
-		utf8_name = g_locale_to_utf8 (name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,
@@ -459,7 +459,7 @@ catalog_list_refresh (CatalogList *cat_list)
 			pixbuf = catalog_pixbuf;
 		}
 
-		utf8_name = g_locale_to_utf8 (name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
 
 		gtk_list_store_append (cat_list->list_store, &iter);
 		gtk_list_store_set (cat_list->list_store, &iter,

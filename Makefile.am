@@ -27,8 +27,6 @@ EXTRA_DIST = 			\
         NEWS                    \
         README                  \
 	add-include-prefix	\
-	gthumb.spec.in          \
-	gthumb.spec		\
 	intltool-merge.in 	\
         intltool-update.in 	\
         intltool-extract.in	\

@@ -311,7 +311,7 @@ initialize_data (poptContext pctx)
 		catalog_name_utf8 = g_strconcat (_("Command Line"),
 						 CATALOG_EXT,
 						 NULL);
-		catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
+		catalog_name = g_filename_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 		catalog_path = get_catalog_full_path (catalog_name);
 		g_free (catalog_name);
 		g_free (catalog_name_utf8);

@@ -268,7 +268,7 @@ rename_file (GThumbWindow *window,
 		
 	old_path = list->data;
 	old_name = file_name_from_path (old_path);
-	old_name_utf8 = g_locale_to_utf8 (old_name, -1, NULL, NULL, NULL);
+	old_name_utf8 = g_filename_to_utf8 (old_name, -1, NULL, NULL, NULL);
 
 	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 						 GTK_DIALOG_MODAL,
@@ -282,13 +282,13 @@ rename_file (GThumbWindow *window,
 	if (new_name_utf8 == NULL) 
 		return;
 
-	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
 	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -309,7 +309,7 @@ rename_file (GThumbWindow *window,
 		char      *utf8_name;
 		int        r;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 		g_free (utf8_name);
 
@@ -335,7 +335,7 @@ rename_file (GThumbWindow *window,
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Could not rename the image \"%s\": %s"),
 				       utf8_path,
@@ -350,7 +350,7 @@ rename_file (GThumbWindow *window,
 	} else {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Could not rename the image \"%s\": %s"),
 				       utf8_path,
@@ -442,7 +442,7 @@ duplicate_file (GThumbWindow *window,
 		GtkWidget *d;
 		int        r;
 
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		msg = g_strdup_printf (_("Could not duplicate the image \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
@@ -906,13 +906,13 @@ create_new_folder_or_library (GThumbWindow *window,
 	if (new_name_utf8 == NULL) 
 		return;
 
-	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
 	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -928,7 +928,7 @@ create_new_folder_or_library (GThumbWindow *window,
 	if (path_is_dir (new_path)) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -937,7 +937,7 @@ create_new_folder_or_library (GThumbWindow *window,
 	} else {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (new_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (new_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
                                        str_error,
                                        utf8_path,
@@ -1004,7 +1004,7 @@ folder_rename (GThumbWindow *window,
 	char         *parent_path;
 
 	old_name = file_name_from_path (old_path);
-	old_name_utf8 = g_locale_to_utf8 (old_name, -1, NULL, NULL, NULL);
+	old_name_utf8 = g_filename_to_utf8 (old_name, -1, NULL, NULL, NULL);
 
 	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 						 GTK_DIALOG_MODAL,
@@ -1018,13 +1018,13 @@ folder_rename (GThumbWindow *window,
 	if (new_name_utf8 == NULL) 
 		return;
 
-	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
 	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -1044,7 +1044,7 @@ folder_rename (GThumbWindow *window,
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
 		
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Could not rename the folder \"%s\": %s"),
 				       utf8_path,
@@ -1054,7 +1054,7 @@ folder_rename (GThumbWindow *window,
 	} else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -1081,7 +1081,7 @@ folder_rename (GThumbWindow *window,
 	} else {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
                                        _("Could not rename the folder \"%s\": %s"),
                                        utf8_path,
@@ -1150,7 +1150,7 @@ folder_delete__continue2 (GnomeVFSResult result,
 		char       *utf8_name;
 		
 		message = _("Could not delete the folder \"%s\": %s");
-		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
+		utf8_name = g_filename_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
 
 		_gtk_error_dialog_run (GTK_WINDOW (fddata->window->app),
 				       message, 
@@ -1179,7 +1179,7 @@ folder_delete__continue (GnomeVFSResult result,
 			char      *utf8_name;
 			char      *message;
 
-			utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
+			utf8_name = g_filename_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
 			message = g_strdup_printf (_("\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"), utf8_name);
 
 			d = _gtk_yesno_dialog_with_checkbutton_new (
@@ -1290,7 +1290,7 @@ folder_copy__continue (GnomeVFSResult result,
 		char       *utf8_name;
 		
 		message = _("Could not copy the folder \"%s\": %s");
-		utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
+		utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 		
 		_gtk_error_dialog_run (NULL,
 				       message, 
@@ -1349,7 +1349,7 @@ folder_copy__response_cb (GObject *object,
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
 		
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       message,
@@ -1360,7 +1360,7 @@ folder_copy__response_cb (GObject *object,
 	} else if (strncmp (old_path, new_path, strlen (old_path)) == 0) {
 		char *utf8_path;
 		
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       message,
@@ -1371,7 +1371,7 @@ folder_copy__response_cb (GObject *object,
 	} else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (dir_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (dir_name, -1, NULL, NULL, NULL);
 
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       message,
@@ -1422,7 +1422,7 @@ folder_copy__response_cb (GObject *object,
 	} else {
 		char *utf8_path;
 
-		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       message,
                                        utf8_path,
@@ -1572,7 +1572,7 @@ catalog_rename (GThumbWindow *window,
 		name_only = remove_extension_from_path (file_name_from_path (catalog_path));
 	else
 		name_only = g_strdup (file_name_from_path (catalog_path));
-	name_only_utf8 = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
+	name_only_utf8 = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
 
 	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 						 GTK_DIALOG_MODAL,
@@ -1588,13 +1588,13 @@ catalog_rename (GThumbWindow *window,
 		return;
 	}
 
-	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
 	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
 
@@ -1616,7 +1616,7 @@ catalog_rename (GThumbWindow *window,
 	if (path_is_file (new_catalog_path)) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -1627,7 +1627,7 @@ catalog_rename (GThumbWindow *window,
 	} else {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
                                        is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
                                        utf8_name,
@@ -1683,13 +1683,13 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 	if (new_name_utf8 == NULL) 
 		return;
 
-	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	new_name = g_filename_from_utf8 (new_name_utf8, -1, 0, 0, 0);
 	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
 
@@ -1708,7 +1708,7 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 	if (path_is_file (new_catalog_path)) {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
@@ -1719,7 +1719,7 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 	} else {
 		char *utf8_name;
 
-		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
                                        _("Could not create the catalog \"%s\": %s"), 
                                        utf8_name,
@@ -2251,52 +2251,6 @@ view_step_ani_command_impl (BonoboUIComponent *uic,
 		return;
 
 	image_viewer_step_animation (viewer);
-}
-
-
-void 
-view_show_folders_command_impl (BonoboUIComponent *uic, 
-				gpointer           user_data, 
-				const gchar       *verbname)
-{
-	GThumbWindow *window = user_data;
-	
-	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler--;
-		return;
-	}
-	
-	if (! GTK_WIDGET_VISIBLE (window->app))
-		return;
-
-	if ((window->sidebar_visible) 
-	    && (window->sidebar_content == GTH_SIDEBAR_DIR_LIST))
-		window_hide_sidebar (window);
-	else
-		window_set_sidebar_content (window, GTH_SIDEBAR_DIR_LIST);
-}
-
-
-void 
-view_show_catalogs_command_impl (BonoboUIComponent *uic, 
-				 gpointer           user_data, 
-				 const gchar       *verbname)
-{
-	GThumbWindow *window = user_data;
-
-	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler--;
-		return;
-	}
-
-	if (! GTK_WIDGET_VISIBLE (window->app))
-		return;
-
-	if ((window->sidebar_visible) 
-	    && (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST))
-		window_hide_sidebar (window);
-	else
-		window_set_sidebar_content (window, GTH_SIDEBAR_CATALOG_LIST);
 }
 
 

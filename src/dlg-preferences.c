@@ -121,7 +121,7 @@ apply_cb (GtkWidget  *widget,
 		char *text;
 		char *location;
 
-		text = _gtk_entry_get_locale_text (GTK_ENTRY (data->startup_dir_entry));
+		text = _gtk_entry_get_filename_text (GTK_ENTRY (data->startup_dir_entry));
 		temp = remove_ending_separator (text);
 		location = g_strconcat ("file://", temp, NULL);
 
@@ -208,8 +208,8 @@ set_to_current_cb (GtkWidget  *widget,
 	if (data->window->dir_list->path == NULL)
 		return;
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->startup_dir_entry), 
-				    data->window->dir_list->path);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->startup_dir_entry), 
+				      data->window->dir_list->path);
 }
 
 
@@ -396,7 +396,7 @@ dlg_preferences (GThumbWindow *window)
 	data->window = window;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PREF_FILE, NULL, NULL);
         if (!data->gui) {
-                g_warning ("Could not find " GLADE_FILE "\n");
+                g_warning ("Could not find " GLADE_PREF_FILE "\n");
 		g_free (data);
                 return;
         }
@@ -472,7 +472,7 @@ dlg_preferences (GThumbWindow *window)
 
 	if ((startup_location != NULL)
 	    && pref_util_location_is_file (startup_location)) 
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->startup_dir_entry), pref_util_get_file_location (startup_location));
+		_gtk_entry_set_filename_text (GTK_ENTRY (data->startup_dir_entry), pref_util_get_file_location (startup_location));
 
 	g_free (startup_location);
 

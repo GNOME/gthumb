@@ -146,9 +146,9 @@ list_view_button_press_cb (GdkEventButton     *event,
                             -1);
 
 	if (bookmarks)
-		utf8_folder_path = g_locale_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
 	else
-		utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (folder_path, -1, 0, 0, 0);
 
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
@@ -209,9 +209,9 @@ list_view_activated_cb (GtkTreePath        *path,
 			    -1);
 	
 	if (bookmarks)
-		utf8_folder_path = g_locale_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
 	else
-		utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (folder_path, -1, 0, 0, 0);
 
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
@@ -282,7 +282,7 @@ browse_button_clicked_cb (GtkWidget *widget,
 	entry = folder_sel->priv->file_entry;
 
 	utf8_folder = gtk_entry_get_text (GTK_ENTRY (entry));
-	folder = g_locale_from_utf8 (utf8_folder, -1, 0, 0, 0);
+	folder = g_filename_from_utf8 (utf8_folder, -1, 0, 0, 0);
 	if (folder[strlen (folder) - 1] != '/') {
 		char *tmp;
 		tmp = g_strconcat (folder, "/", NULL);
@@ -558,11 +558,11 @@ void
 gth_folder_selection_set_folder (GthFolderSelection *fsel,
 				 const char         *folder)
 {
-	_gtk_entry_set_locale_text (GTK_ENTRY (fsel->priv->file_entry), folder);}
+	_gtk_entry_set_filename_text (GTK_ENTRY (fsel->priv->file_entry), folder);}
 
 
 char *
 gth_folder_selection_get_folder (GthFolderSelection *fsel)
 {
-	return _gtk_entry_get_locale_text (GTK_ENTRY (fsel->priv->file_entry));
+	return _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
 }
