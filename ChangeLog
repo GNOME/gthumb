@@ -1,4 +1,8 @@
 2003-01-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+	
+	[ gthumb 2.0.1 released ]  
+
+2003-01-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/image-list.c (image_list_clear): free the list.
 
