@@ -305,11 +305,6 @@ static void
 file_move_ask__continue (GnomeVFSResult result,
 			 gpointer       data)
 {
-	if (result != GNOME_VFS_OK) 
-		_gtk_error_dialog_run (NULL,
-				       "%s %s",
-				       _("Could not move the images:"), 
-				       gnome_vfs_result_to_string (result));
 	gtk_widget_destroy (GTK_WIDGET (data));
 }
 
@@ -399,12 +394,6 @@ static void
 file_copy_ask__continue (GnomeVFSResult result,
 			 gpointer       data)
 {
-	if (result != GNOME_VFS_OK) 
-		_gtk_error_dialog_run (NULL,
-				       "%s %s",
-				       _("Could not move the images:"), 
-				       gnome_vfs_result_to_string (result));
-
 	gtk_widget_destroy (GTK_WIDGET (data));
 }
 
@@ -443,7 +432,7 @@ file_copy_response_cb (GtkWidget *w,
 				path, 
 				FALSE, 
 				TRUE, 
-			file_copy_ask__continue,
+				file_copy_ask__continue,
 				file_sel);
 	}
 
@@ -788,7 +777,6 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 
 	if (owdata->done_func != NULL)
 		(owdata->done_func) (result, new_name, owdata->done_data);
-
 	dlg_overwrite_data_free (owdata);
 }
 
@@ -1111,9 +1099,9 @@ static void copy_next_file (FileCopyData *fcdata);
 
 
 static void
-continue_or_abort__response_cb (GtkWidget *dialog,
-				int        response_id,
-				gpointer   data)
+file_copy__continue_or_abort__response_cb (GtkWidget *dialog,
+					   int        response_id,
+					   gpointer   data)
 {
 	FileCopyData *fcdata = data;
 
@@ -1122,9 +1110,9 @@ continue_or_abort__response_cb (GtkWidget *dialog,
 		copy_next_file (fcdata);
 
 	} else {
-		file_copy_data_free (fcdata);
 		if (fcdata->done_func != NULL)
 			(*fcdata->done_func) (GNOME_VFS_ERROR_INTERRUPTED, fcdata->done_data);
+		file_copy_data_free (fcdata);
 	}
 
 	fcdata->continue_dialog_visible = FALSE;
@@ -1141,6 +1129,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 	const char *src_file;
 	char       *message;
 	char       *utf8_name;
+	gboolean    last_file;
 
 	fcdata->result = result;
 	src_file = fcdata->current_file->data;
@@ -1157,18 +1146,28 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 			       gnome_vfs_result_to_string (result),
 			       NULL);
 	g_free (utf8_name);
-	
-	d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window->app),
-				   GTK_DIALOG_MODAL,
-				   message,
-				   _("_Abort"),
-				   _("_Continue"));
+
+	last_file = fcdata->current_file->next == NULL;
+
+	if (last_file)
+		d = _gtk_message_dialog_new (GTK_WINDOW (fcdata->window->app),
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_DIALOG_ERROR,
+					     message,
+					     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+					     NULL);
+	else 
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window->app),
+					   GTK_DIALOG_MODAL,
+					   message,
+					   _("_Abort"),
+					   _("_Continue"));
 
 	g_free (message);
 
 	g_signal_connect (G_OBJECT (d),
 			  "response", 
-			  G_CALLBACK (continue_or_abort__response_cb), 
+			  G_CALLBACK (file_copy__continue_or_abort__response_cb),
 			  fcdata);
 
 	fcdata->continue_dialog_visible = TRUE;
@@ -1977,6 +1976,12 @@ folder_copy (GThumbWindow   *window,
 	GnomeVFSXferOverwriteMode  overwrite_mode;
 	GnomeVFSResult             result;
 
+	if ((src_path == NULL) || (dest_path == NULL))
+		return;
+
+	if (strncmp (src_path, dest_path, strlen (src_path)) == 0)
+		return;
+
 	if (! path_is_dir (src_path))
 		return;
 
@@ -2092,9 +2097,9 @@ folder_copy (GThumbWindow   *window,
 	/**/
 
 	if (result != GNOME_VFS_OK) {
-		folder_copy_data_free (fcdata);
 		if (done_func != NULL)
 			(*done_func) (result, done_data);
+		folder_copy_data_free (fcdata);
 	}
 }
 
@@ -2217,9 +2222,9 @@ copy_item__continue2 (GnomeVFSResult result,
 {
 	CopyItemsData *cidata = data;
 
-	copy_items_data_free (cidata);
 	if (cidata->done_func != NULL)
-		(cidata->done_func) (result, cidata->done_data);
+		(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+	copy_items_data_free (cidata);
 }
 
 
@@ -2227,12 +2232,78 @@ static void copy_current_item (CopyItemsData *cidata);
 
 
 static void
+item_copy__continue_or_abort__response_cb (GtkWidget *dialog,
+					   int        response_id,
+					   gpointer   data)
+{
+	CopyItemsData *cidata = data;
+	
+	if (response_id == GTK_RESPONSE_YES) {
+		cidata->current_item = cidata->current_item->next;
+		copy_current_item (cidata);
+	} else {
+		if (cidata->done_func != NULL)
+			(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+		copy_items_data_free (cidata);
+	}
+
+	gtk_widget_destroy (dialog);
+}
+
+
+static void
 copy_item__continue1 (GnomeVFSResult result,
 		      gpointer       data)
 {
 	CopyItemsData *cidata = data;
-	cidata->current_item = cidata->current_item->next;
-	copy_current_item (cidata);
+
+	if (result != GNOME_VFS_OK) {
+		gboolean    last_item = cidata->current_item->next == NULL;
+		const char *error;
+		char       *folder = cidata->current_item->data;
+		char       *message;
+		char       *utf8_name;
+		GtkWidget  *d;
+
+		if (cidata->remove_source)
+			error = _("Could not move the folder \"%s\" : %s");
+		else
+			error = _("Could not move the folder \"%s\" : %s");
+		
+		utf8_name = g_locale_to_utf8 (file_name_from_path (folder), -1, 0, 0, 0);
+		message = g_strdup_printf (error, 
+					   utf8_name, 
+					   gnome_vfs_result_to_string (result),
+					   NULL);
+		g_free (utf8_name);
+
+		if (last_item)
+			d = _gtk_message_dialog_new (GTK_WINDOW (cidata->window->app),
+						     GTK_DIALOG_MODAL,
+						     GTK_STOCK_DIALOG_ERROR,
+						     message,
+						     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
+						     NULL);
+		else 
+			d = _gtk_yesno_dialog_new (GTK_WINDOW (cidata->window->app),
+						   GTK_DIALOG_MODAL,
+						   message,
+						   _("_Abort"),
+						   _("_Continue"));
+
+		g_free (message);
+		
+		g_signal_connect (G_OBJECT (d),
+				  "response", 
+				  G_CALLBACK (item_copy__continue_or_abort__response_cb),
+				  cidata);
+
+		gtk_widget_show (d);
+
+	} else {
+		cidata->current_item = cidata->current_item->next;
+		copy_current_item (cidata);
+	}
 }
 
 
@@ -2241,9 +2312,9 @@ copy_current_item (CopyItemsData *cidata)
 {
 	if (cidata->current_item == NULL) {
 		if (cidata->file_list == NULL) {
-			copy_items_data_free (cidata);
 			if (cidata->done_func != NULL)
 				(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
+			copy_items_data_free (cidata);
 		} else 
 			dlg_files_copy (cidata->window,
 					cidata->file_list,
@@ -2312,9 +2383,9 @@ dlg_copy_items (GThumbWindow   *window,
 	}
 
 	if ((cidata->dir_list == NULL) && (cidata->file_list == NULL)) {
-		copy_items_data_free (cidata);
 		if (done_func != NULL)
 			(done_func) (GNOME_VFS_OK, done_data);
+		copy_items_data_free (cidata);
 		return;
 	}
 

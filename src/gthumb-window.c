@@ -85,6 +85,9 @@ static GtkTargetEntry target_table[] = {
 };
 static guint n_targets = sizeof (target_table) / sizeof (target_table[0]);
 
+static GtkTreePath  *dir_list_tree_path = NULL;
+static GtkTreePath  *catalog_list_tree_path = NULL;
+
 static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_NewWindow", file_new_window_command_impl),
 	BONOBO_UI_VERB ("File_CloseWindow", file_close_window_command_impl),
@@ -870,9 +873,13 @@ window_set_file_list_continue (gpointer callback_data)
 		window_start_slideshow (window);
 	} 
 
+	if (HideSidebar) {
+		HideSidebar = FALSE;
+		window_hide_sidebar (window);
+	}
+
 	if (ViewFirstImage) {
 		ViewFirstImage = FALSE;
-		window_hide_sidebar (window);
 		window_show_first_image (window);
 		window_update_sensitivity (window);
 	}
@@ -1663,10 +1670,54 @@ dir_list_activated_cb (GtkTreeView       *tree_view,
 }
 
 
+/**/
+
+
 static int
 dir_list_button_press_cb (GtkWidget      *widget,
 			  GdkEventButton *event,
 			  gpointer        data)
+{
+	GThumbWindow *window     = data;
+	GtkWidget    *treeview   = window->dir_list->list_view;
+	GtkListStore *list_store = window->dir_list->list_store;
+	GtkTreePath  *path;
+	GtkTreeIter   iter;
+
+	if (dir_list_tree_path != NULL) {
+		gtk_tree_path_free (dir_list_tree_path);
+		dir_list_tree_path = NULL;
+	}
+
+	if ((event->state & GDK_SHIFT_MASK) 
+	    || (event->state & GDK_CONTROL_MASK))
+		return FALSE;
+
+	if ((event->button != 1) & (event->button != 3))
+		return FALSE;
+
+	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (treeview),
+					     event->x, event->y,
+					     &path, NULL, NULL, NULL))
+		return FALSE;
+	
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (list_store), 
+				       &iter, 
+				       path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
+	dir_list_tree_path = path;
+
+	return FALSE;
+}
+
+
+static int
+dir_list_button_release_cb (GtkWidget      *widget,
+			    GdkEventButton *event,
+			    gpointer        data)
 {
 	GThumbWindow *window     = data;
 	GtkWidget    *treeview   = window->dir_list->list_view;
@@ -1692,6 +1743,12 @@ dir_list_button_press_cb (GtkWidget      *widget,
 		gtk_tree_path_free (path);
 		return FALSE;
 	}
+
+	if (gtk_tree_path_compare (dir_list_tree_path, path) != 0) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
 	gtk_tree_path_free (path);
 
 	if ((event->button == 1) 
@@ -1851,10 +1908,10 @@ catalog_activate (GThumbWindow *window,
 
 
 static void
-catalog_activated_cb (GtkTreeView       *tree_view,
-		      GtkTreePath       *path,
-		      GtkTreeViewColumn *column,
-		      gpointer           data)
+catalog_list_activated_cb (GtkTreeView       *tree_view,
+			   GtkTreePath       *path,
+			   GtkTreeViewColumn *column,
+			   gpointer           data)
 {
 	GThumbWindow *window = data;
 	char         *cat_path;
@@ -1869,9 +1926,52 @@ catalog_activated_cb (GtkTreeView       *tree_view,
 
 
 static int
-catalog_button_press_cb (GtkWidget      *widget, 
-			 GdkEventButton *event,
-			 gpointer        data)
+catalog_list_button_press_cb (GtkWidget      *widget, 
+			      GdkEventButton *event,
+			      gpointer        data)
+{
+	GThumbWindow *window     = data;
+	GtkWidget    *treeview   = window->catalog_list->list_view;
+	GtkListStore *list_store = window->catalog_list->list_store;
+	GtkTreeIter   iter;
+	GtkTreePath  *path;
+
+	if (catalog_list_tree_path != NULL) {
+		gtk_tree_path_free (catalog_list_tree_path);
+		catalog_list_tree_path = NULL;
+	}
+
+	if ((event->state & GDK_SHIFT_MASK) 
+	    || (event->state & GDK_CONTROL_MASK))
+		return FALSE;
+
+	if ((event->button != 1) & (event->button != 3))
+		return FALSE;
+
+	/* Get the path. */
+
+	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (treeview),
+					     event->x, event->y,
+					     &path, NULL, NULL, NULL))
+		return FALSE;
+
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (list_store), 
+				       &iter, 
+				       path)) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
+	catalog_list_tree_path = path;
+
+	return FALSE;
+}
+
+
+static int
+catalog_list_button_release_cb (GtkWidget      *widget, 
+				GdkEventButton *event,
+				gpointer        data)
 {
 	GThumbWindow *window     = data;
 	GtkWidget    *treeview   = window->catalog_list->list_view;
@@ -1899,6 +1999,12 @@ catalog_button_press_cb (GtkWidget      *widget,
 		gtk_tree_path_free (path);
 		return FALSE;
 	}
+
+	if (gtk_tree_path_compare (catalog_list_tree_path, path) != 0) {
+		gtk_tree_path_free (path);
+		return FALSE;
+	}
+
 	gtk_tree_path_free (path);
 
 	/**/
@@ -2636,6 +2742,48 @@ image_focus_changed_cb (GtkWidget     *widget,
 /* -- drag & drop -- */
 
 
+static GList *
+get_file_list_from_url_list (char *url_list)
+{
+	GList *list = NULL;
+	int    i;
+	char  *url_start, *url_end;
+
+	url_start = url_list;
+	while (url_start[0] != '\0') {
+		char *escaped;
+		char *unescaped;
+
+		if (strncmp (url_start, "file:", 5) == 0) {
+			url_start += 5;
+			if ((url_start[0] == '/') 
+			    && (url_start[1] == '/')) url_start += 2;
+		}
+
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && (url_start[i] != '\r')
+		       && (url_start[i] != '\n')) i++;
+		url_end = url_start + i;
+
+		escaped = g_strndup (url_start, url_end - url_start);
+		unescaped = gnome_vfs_unescape_string_for_display (escaped);
+		g_free (escaped);
+
+		list = g_list_prepend (list, unescaped);
+
+		url_start = url_end;
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && ((url_start[i] == '\r')
+			   || (url_start[i] == '\n'))) i++;
+		url_start += i;
+	}
+	
+	return g_list_reverse (list);
+}
+
+
 static void  
 viewer_drag_data_get  (GtkWidget        *widget,
 		       GdkDragContext   *context,
@@ -2657,6 +2805,69 @@ viewer_drag_data_get  (GtkWidget        *widget,
 				8, 
 				path, strlen (path));
 	g_free (path);
+}
+
+
+static void  
+viewer_drag_data_received  (GtkWidget          *widget,
+			    GdkDragContext     *context,
+			    int                 x,
+			    int                 y,
+			    GtkSelectionData   *data,
+			    guint               info,
+			    guint               time,
+			    gpointer            extra_data)
+{
+	GThumbWindow *window = extra_data;
+	Catalog      *catalog;
+	char         *catalog_path;
+	char         *catalog_name;
+	GList        *list;
+	GList        *scan;
+	GError       *gerror;
+	gboolean      empty = TRUE;
+
+	if (! ((data->length >= 0) && (data->format == 8))) {
+		gtk_drag_finish (context, FALSE, FALSE, time);
+		return;
+	}
+
+	gtk_drag_finish (context, TRUE, FALSE, time);
+
+	list = get_file_list_from_url_list ((char *)data->data);
+
+	/* Create a catalog with the Drag&Drop list. */
+
+	catalog = catalog_new ();
+	catalog_name = g_strconcat (_("Dragged Images"),
+				    CATALOG_EXT,
+				    NULL);
+	catalog_path = get_catalog_full_path (catalog_name);
+	g_free (catalog_name);
+
+	catalog_set_path (catalog, catalog_path);
+
+	for (scan = list; scan; scan = scan->next) {
+		char *filename = scan->data;
+		if (path_is_file (filename)) {
+			catalog_add_item (catalog, filename);
+			empty = FALSE;
+		}
+	}
+
+	if (! empty) {
+		if (! catalog_write_to_disk (catalog, &gerror)) 
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
+		else {
+			/* View the Drag&Drop catalog. */
+			ViewFirstImage = TRUE;
+			window_go_to_catalog (window, catalog_path);
+		}
+	}
+
+	catalog_free (catalog);
+	path_list_free (list);
+	g_free (catalog_path);
 }
 
 
@@ -2792,48 +3003,6 @@ file_list_drag_data_get  (GtkWidget        *widget,
 }
 
 
-static GList *
-get_file_list_from_url_list (char *url_list)
-{
-	GList *list = NULL;
-	int    i;
-	char  *url_start, *url_end;
-
-	url_start = url_list;
-	while (url_start[0] != '\0') {
-		char *escaped;
-		char *unescaped;
-
-		if (strncmp (url_start, "file:", 5) == 0) {
-			url_start += 5;
-			if ((url_start[0] == '/') 
-			    && (url_start[1] == '/')) url_start += 2;
-		}
-
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && (url_start[i] != '\r')
-		       && (url_start[i] != '\n')) i++;
-		url_end = url_start + i;
-
-		escaped = g_strndup (url_start, url_end - url_start);
-		unescaped = gnome_vfs_unescape_string_for_display (escaped);
-		g_free (escaped);
-
-		list = g_list_prepend (list, unescaped);
-
-		url_start = url_end;
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && ((url_start[i] == '\r')
-			   || (url_start[i] == '\n'))) i++;
-		url_start += i;
-	}
-	
-	return g_list_reverse (list);
-}
-
-
 static void
 move_items__continue (GnomeVFSResult result,
 		      gpointer       data)
@@ -2858,8 +3027,8 @@ image_list_drag_data_received  (GtkWidget          *widget,
 				guint               time,
 				gpointer            extra_data)
 {
-	GThumbWindow            *window = extra_data;
-	char                    *dest_dir = NULL;
+	GThumbWindow *window = extra_data;
+	char         *dest_dir = NULL;
 	
 	if (! ((data->length >= 0) && (data->format == 8))
 	    || (window->sidebar_content != DIR_LIST)) {
@@ -2870,7 +3039,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
 	dest_dir = window->dir_list->path;
-	
+
 	if (dest_dir != NULL) {
 		GList *list;
 		list = get_file_list_from_url_list ((char*) data->data);
@@ -3702,7 +3871,7 @@ window_new (void)
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
-					  "/apps/gthumb/ui/kvps");
+					  "/apps/gthumb/UIConfig/kvps");
 	ui_container = bonobo_window_get_ui_container (win);
 	window->ui_component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (window->ui_component, 
@@ -3882,6 +4051,10 @@ window_new (void)
 			  "button_press_event",
 			  G_CALLBACK (dir_list_button_press_cb), 
 			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
+			  "button_release_event",
+			  G_CALLBACK (dir_list_button_release_cb), 
+			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->list_view),
                           "row_activated",
                           G_CALLBACK (dir_list_activated_cb),
@@ -3895,11 +4068,15 @@ window_new (void)
 
 	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
 			  "button_press_event",
-			  G_CALLBACK (catalog_button_press_cb), 
+			  G_CALLBACK (catalog_list_button_press_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
+			  "button_release_event",
+			  G_CALLBACK (catalog_list_button_release_cb), 
 			  window);
 	g_signal_connect (G_OBJECT (window->catalog_list->list_view),
                           "row_activated",
-                          G_CALLBACK (catalog_activated_cb),
+                          G_CALLBACK (catalog_list_activated_cb),
                           window);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->catalog_list->list_view));
@@ -3939,11 +4116,11 @@ window_new (void)
 				     PANE_MIN_SIZE,
 				     PANE_MIN_SIZE);
 
-	/* FIXME
+	/* FIXME 
 	gtk_drag_source_set (window->viewer,
 			     GDK_BUTTON2_MASK,
 			     target_table, n_targets, 
-			     GDK_ACTION_COPY | GDK_ACTION_MOVE);
+			     GDK_ACTION_MOVE);
 	*/
 
 	window->viewer_container = frame = gtk_hbox_new (FALSE, 0);
@@ -4007,6 +4184,15 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->viewer),
 			  "drag_data_get",
 			  G_CALLBACK (viewer_drag_data_get), 
+			  window);
+
+	gtk_drag_dest_set (window->viewer,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (window->viewer), 
+			  "drag_data_received",
+			  G_CALLBACK (viewer_drag_data_received), 
 			  window);
 
 	g_signal_connect (G_OBJECT (window->viewer),
@@ -4406,8 +4592,19 @@ close__step5 (GThumbWindow *window)
 	window_list = g_list_remove (window_list, window);
 	window_free (window);
 
-	if (window_list == NULL)
+	if (window_list == NULL) {
+		if (dir_list_tree_path != NULL) {
+			gtk_tree_path_free (dir_list_tree_path);
+			dir_list_tree_path = NULL;
+		}
+
+		if (catalog_list_tree_path != NULL) {
+			gtk_tree_path_free (catalog_list_tree_path);
+			catalog_list_tree_path = NULL;
+		}
+
 		bonobo_main_quit ();
+	}
 
 	else if (ExitAll) {
 		GThumbWindow *first_window = window_list->data;
@@ -5237,7 +5434,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 	}
 
 	_window_set_sidebar (window, CATALOG_LIST); 
-	if (! window->refreshing)
+	if (! window->refreshing && ! ViewFirstImage)
 		window_show_sidebar (window);
 	else
 		window->refreshing = FALSE;

@@ -571,10 +571,6 @@
 	behavior="exclusive" in_new_band="1" band_num="1"  
 	hlook="system" vlook="system">
 
-<!--
-	<toolitem name="Go_Back" verb="" _label="Back" priority="1"/>
--->
-
 	<control name="GoBackComboButton" 
 	         _tip="Go to the previous visited location"/>
 
@@ -635,10 +631,6 @@
 		  accel="*Alt*Left"/>
 
 	<separator/>
-
-<!--
-	<control name="AlterImageComboButton" _tip="Edit Image"/>
--->
 
   	<toolitem name="File_Save" verb="" _label="Save"
   	          priority="0"/>

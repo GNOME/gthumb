@@ -1,3 +1,16 @@
+2002-11-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (viewer_drag_data_received): create a
+	catalog when files are dropped into the viewer.
+
+	* gthumb.spec.in : updated
+
+	* src/gthumb-window.c (dir_list_button_press_cb) 
+	(dir_list_button_release_cb, catalog_list_button_press_cb) 
+	(catalog_list_button_release_cb): fix bug #99570
+
+	* src/dlg-file-utils.c (folder_copy): fix bug #99577
+
 2002-11-25  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gth-folder-selection-dialog.c: added a recent folders list. 

@@ -36,6 +36,7 @@ extern FullScreen       *fullscreen;
 extern gint              StartInFullscreen;
 extern int               StartSlideshow;
 extern int               ViewFirstImage;
+extern int               HideSidebar;
 extern gboolean          ExitAll;
 
 

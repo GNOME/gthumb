@@ -128,7 +128,7 @@ list_view_button_press_cb (GdkEventButton     *event,
                             2, &folder_path,
                             -1);
 
-	utf8_folder_path = g_locale_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+	utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
 

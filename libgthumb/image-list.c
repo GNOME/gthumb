@@ -52,6 +52,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkbindings.h>
 #include <gtk/gtkselection.h>
+#include <gtk/gtkstock.h>
 #include <gtk/gtkdnd.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
@@ -2695,23 +2696,32 @@ gil_motion_notify (GtkWidget      *widget,
 						 gil->priv->drag_start_y,
 						 event->x,
 						 event->y)) {
+			int             pos;
 			GdkDragContext *context;
-			int             first_selected;
+			gboolean        multi_dnd;
 
 			/**/
 
-			first_selected = GPOINTER_TO_INT (g_list_last (gil->selection)->data);
-			image_list_focus_image (gil, first_selected);
+			pos = image_list_get_image_at (gil, 
+						       gil->priv->drag_start_x,
+						       gil->priv->drag_start_y);
+			if (pos != -1)
+				image_list_focus_image (gil, pos);
 
 			/**/
 
 			gil->priv->drag_started = TRUE;
 			context = gtk_drag_begin (widget,
 						  gil->priv->target_list,
-						  /*GDK_ACTION_COPY |*/ GDK_ACTION_MOVE,
+						  GDK_ACTION_MOVE,
 						  1,
 						  (GdkEvent *) event);
-			gtk_drag_set_icon_default (context);
+
+			multi_dnd = gil->selection->next != NULL;
+			gtk_drag_set_icon_stock (context,
+						 multi_dnd ? GTK_STOCK_DND_MULTIPLE : GTK_STOCK_DND,
+						 -4, -4);
+
 			return TRUE;
 		}
 		return TRUE;

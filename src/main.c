@@ -52,6 +52,7 @@ int                  n_file_urls, n_dir_urls;
 int                  StartInFullscreen;
 int                  StartSlideshow;
 int                  ViewFirstImage = FALSE;
+int                  HideSidebar = FALSE;
 gboolean             ExitAll = FALSE;
 
 
@@ -356,6 +357,7 @@ prepare_app ()
 		g_free (catalog_uri);
 
 		ViewFirstImage = TRUE;
+		HideSidebar = TRUE;
 		current_window = window_new ();
 		gtk_widget_show (current_window->app);
 
