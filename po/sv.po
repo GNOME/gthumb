@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-12-03 12:37+0100\n"
-"PO-Revision-Date: 2002-12-03 12:40+0100\n"
+"POT-Creation-Date: 2002-12-04 17:22+0100\n"
+"PO-Revision-Date: 2002-12-04 17:26+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:446
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:467
 #: src/fullscreen.c:231 src/gthumb-window.c:356
 #, c-format
 msgid "%d x %d pixels"
@@ -207,12 +207,12 @@ msgstr "Visa och organisera dina bilder"
 msgid "gThumb Image Viewer"
 msgstr "Bildvisaren gThumb"
 
-#: libgthumb/catalog-png-exporter.c:1294
+#: libgthumb/catalog-png-exporter.c:1295
 #, c-format
 msgid "Loading image: %s"
 msgstr "Läser in bild: %s"
 
-#: libgthumb/catalog-png-exporter.c:1486
+#: libgthumb/catalog-png-exporter.c:1487
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
@@ -249,16 +249,16 @@ msgstr "Tar bort alla kommentarer, var vänlig vänta..."
 msgid "Deleting old comments, wait please..."
 msgstr "Tar bort gamla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:660
+#: libgthumb/comments.c:668
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:662 src/dlg-duplicates.c:551 src/dlg-image-prop.c:466
+#: libgthumb/comments.c:670 src/dlg-duplicates.c:551 src/dlg-image-prop.c:487
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: libgthumb/comments.c:672
+#: libgthumb/comments.c:680
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
@@ -412,8 +412,8 @@ msgstr "_Flytta"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
-#: src/commands-impl.c:1286 src/dlg-file-utils.c:2275
-#: src/dlg-file-utils.c:2277
+#: src/commands-impl.c:1286 src/dlg-file-utils.c:2283
+#: src/dlg-file-utils.c:2285
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
@@ -514,7 +514,7 @@ msgstr "Dubletter"
 msgid "Duplicates Size"
 msgstr "Dublettstorlek"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:584
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:610
 msgid "Name"
 msgstr "Namn"
 
@@ -522,7 +522,7 @@ msgstr "Namn"
 msgid "Last modified"
 msgstr "Senast ändrad"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:604
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:630
 msgid "Location"
 msgstr "Plats"
 
@@ -582,68 +582,68 @@ msgstr "Kunde inte flytta bilden:"
 msgid "Could not copy the image:"
 msgstr "Kunde inte kopiera bilden:"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2297
+#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2305
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2298
+#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2306
 msgid "_Continue"
 msgstr "_Fortsätt"
 
-#: src/dlg-file-utils.c:1321
+#: src/dlg-file-utils.c:1335
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopierar fil %d av %d"
 
-#: src/dlg-file-utils.c:1693 src/dlg-file-utils.c:1879
+#: src/dlg-file-utils.c:1701 src/dlg-file-utils.c:1887
 msgid "Collecting images info"
 msgstr "Samlar bildinformation"
 
-#: src/dlg-file-utils.c:1696 src/dlg-file-utils.c:1892
+#: src/dlg-file-utils.c:1704 src/dlg-file-utils.c:1900
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Tar bort fil %ld av %ld"
 
-#: src/dlg-file-utils.c:1882
+#: src/dlg-file-utils.c:1890
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopierar fil %ld av %ld"
 
-#: src/dlg-file-utils.c:1887
+#: src/dlg-file-utils.c:1895
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: src/dlg-image-prop.c:426
+#: src/dlg-image-prop.c:447
 #, c-format
 msgid "%s Properties"
 msgstr "Egenskaper för %s"
 
-#: src/dlg-image-prop.c:589
+#: src/dlg-image-prop.c:615
 msgid "Image Dimensions"
 msgstr "Bilddimensioner"
 
-#: src/dlg-image-prop.c:594
+#: src/dlg-image-prop.c:620
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:599
+#: src/dlg-image-prop.c:625
 msgid "File Size"
 msgstr "Filstorlek"
 
-#: src/dlg-image-prop.c:609
+#: src/dlg-image-prop.c:635
 msgid "Last Modified"
 msgstr "Senast ändrad"
 
-#: src/dlg-image-prop.c:614
+#: src/dlg-image-prop.c:640
 msgid "Information on Channel"
 msgstr "Information om kanal"
 
-#: src/dlg-image-prop.c:658
+#: src/dlg-image-prop.c:684
 msgid "Field"
 msgstr "Fält"
 
-#: src/dlg-image-prop.c:669 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:695 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Värde"
 
@@ -704,7 +704,7 @@ msgstr "Sökresultat"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:370
+#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Mapp"
 
@@ -712,15 +712,15 @@ msgstr "Mapp"
 msgid "Restore Normal View"
 msgstr "Återställ normal vy"
 
-#: src/gth-folder-selection-dialog.c:392
+#: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
 msgstr "_Bläddra..."
 
-#: src/gth-folder-selection-dialog.c:401
+#: src/gth-folder-selection-dialog.c:412
 msgid "_Recents:"
 msgstr "_Nyliga:"
 
-#: src/gth-folder-selection-dialog.c:432 src/gthumb.glade.h:27
+#: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
 msgstr "_Bokmärken:"
 
@@ -1701,12 +1701,12 @@ msgstr "Kunde inte flytta objekten:"
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/gthumb-window.c:5300
+#: src/gthumb-window.c:5303
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:5552
+#: src/gthumb-window.c:5555
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
@@ -1797,8 +1797,8 @@ msgid "Overwrite _all images"
 msgstr "Skriv över _alla bilder"
 
 #: src/gthumb.glade.h:22
-msgid "P_hoto Data (EXIF)"
-msgstr "_Bilddata (EXIF)"
+msgid "Photo _Data (EXIF)"
+msgstr "Bild_data (EXIF)"
 
 #: src/gthumb.glade.h:23
 msgid "R_ecent applications:"
@@ -2737,11 +2737,11 @@ msgid "..."
 msgstr "..."
 
 #: src/gthumb_search.glade.h:4
-msgid "<b>Search Criteria</b>"
+msgid "<b>Search criteria</b>"
 msgstr "<b>Sökkriterier</b>"
 
 #: src/gthumb_search.glade.h:5
-msgid "<b>Search Scope</b>"
+msgid "<b>Search scope</b>"
 msgstr "<b>Sökomfång</b>"
 
 #: src/gthumb_search.glade.h:7
