@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 1.101\n"
-"POT-Creation-Date: 2003-04-15 23:22+0800\n"
-"PO-Revision-Date: 2003-04-15 23:22+0800\n"
+"POT-Creation-Date: 2003-04-23 20:32+0800\n"
+"PO-Revision-Date: 2003-04-23 20:31+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -237,10 +237,9 @@ msgid "(No Comment)"
 msgstr "(Tiada Komen)"
 
 #: libgthumb/dlg-save-image.c:86 src/commands-impl.c:300 src/dlg-convert.c:310
-#, fuzzy, c-format
+#, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr ""
-"Imej bernama \"%s\" sudah wujud di folder ini.Adakah anda ingin menindihnya?"
+msgstr "Imej bernama \"%s\" sudah wujud. Adakah anda ingin menindihnya?"
 
 #: libgthumb/dlg-save-image.c:136
 #, c-format
@@ -373,22 +372,18 @@ msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Tak dapat menduakan imej \"%s\": %s"
 
 #: src/commands-impl.c:499
-#, fuzzy
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Imej dipilih akan dipindahkan ke Sampah, anda pasti?"
 
 #: src/commands-impl.c:519
-#, fuzzy
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Imej akan dipindahkan ke Sampah, anda pasti ?"
 
 #: src/commands-impl.c:754
-#, fuzzy
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Imej akan dibuang dari katalog, anda pasti ?"
 
 #: src/commands-impl.c:796
-#, fuzzy
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Imej dipilih akan dibuang dari katalog, anda pasti?"
 
@@ -440,13 +435,12 @@ msgid "Could not delete the folder \"%s\": %s"
 msgstr "Tak dapat mencipta folder \"%s\": %s"
 
 #: src/commands-impl.c:1149
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "Imej tak dapat dipindah ke Sampah. Anda ingin memadamnya terus?"
+msgstr "\"%s\" tak dapat dipindah ke Sampah. Anda ingin memadamnya terus?"
 
 #: src/commands-impl.c:1186
-#, fuzzy
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Folder dipilih akan dipindahkan ke Sampah, anda pasti?"
 
@@ -501,12 +495,10 @@ msgid "Could not create the catalog \"%s\": %s"
 msgstr "Tak dapat mencipta katalog \"%s\": %s"
 
 #: src/commands-impl.c:1750
-#, fuzzy
 msgid "The selected library will be removed, are you sure?"
-msgstr "PUstaka dipilih akan dipadam, anda pasti ?"
+msgstr "Pustaka dipilih akan dibuang, anda pasti ?"
 
 #: src/commands-impl.c:1752
-#, fuzzy
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Katalog dipilih akan dibuang, anda pasti ?"
 
@@ -576,14 +568,12 @@ msgid "Location"
 msgstr "Lokasi"
 
 #: src/dlg-duplicates.c:755
-#, fuzzy
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "Imej akan dipindahkan ke Sampah, anda pasti ?"
+msgstr "Imej ditanda akan dipindahkan ke Sampah, anda pasti?"
 
 #: src/dlg-file-utils.c:87
-#, fuzzy
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "Folder destinasi  tidak wujud. Anda ingin menciptanya ?"
+msgstr "Folder destinasi tidak wujud. Adakah anda ingin menciptanya?"
 
 #: src/dlg-file-utils.c:103
 #, c-format
@@ -603,11 +593,10 @@ msgid "Could not delete the images:"
 msgstr "Tak dapat memadam imej:"
 
 #: src/dlg-file-utils.c:219
-#, fuzzy
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "Imej tak dapat dipindah ke Sampah. Anda ingin memadamnya terus?"
+msgstr "Imej tak dapat dipindah ke Sampah. Adakah anda ingin memadamnya terus?"
 
 #: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
 msgid "You didn't enter the new name"
@@ -705,7 +694,6 @@ msgid "All comments will be removed, are you sure?"
 msgstr "Semua komen akan dibuang, anda pasti ?"
 
 #: src/dlg-maintenance.c:102
-#, fuzzy
 msgid "All thumbnails will be deleted, are you sure?"
 msgstr "Semua thumbnail akan dipadam, anda pasti?"
 
@@ -715,16 +703,15 @@ msgstr "Nyatakan fail backup"
 
 #: src/dlg-png-exporter.c:997
 msgid "Image Caption"
-msgstr ""
+msgstr "Kapsyen Imej"
 
 #: src/dlg-png-exporter.c:1050
 msgid "Header"
 msgstr "Pengepala"
 
 #: src/dlg-png-exporter.c:1063 src/dlg-png-exporter.c:1069
-#, fuzzy
 msgid "Footer"
-msgstr "Folder"
+msgstr ""
 
 #: src/dlg-rename-series.c:410
 msgid "Old Name"
@@ -747,9 +734,8 @@ msgid "Folder"
 msgstr "Folder"
 
 #: src/dlg-web-exporter.c:587
-#, fuzzy
 msgid "Select Album Theme"
-msgstr "Pilih semua imej"
+msgstr "Pilih Tema Album"
 
 #: src/fullscreen.c:709 src/gthumb-ui.xml.h:109
 msgid "Restore Normal View"
@@ -856,9 +842,8 @@ msgid "Convert F_ormat"
 msgstr "Tukar F_ormat"
 
 #: src/gthumb-ui.xml.h:24
-#, fuzzy
 msgid "Convert image format"
-msgstr "Tukar Format"
+msgstr "Tukar format imej"
 
 #: src/gthumb-ui.xml.h:25
 msgid "Copy current folder"
@@ -933,9 +918,8 @@ msgid "Edit various preferences"
 msgstr "Edit pelbagai keutamaan"
 
 #: src/gthumb-ui.xml.h:43
-#, fuzzy
 msgid "Fi_nd Duplicates..."
-msgstr "Duakan"
+msgstr "_Cari Gandaan.."
 
 #: src/gthumb-ui.xml.h:44
 msgid "Find images"
@@ -1351,22 +1335,20 @@ msgid "View as Thumbnails"
 msgstr "Lihat sebagai Thumbnail"
 
 #: src/gthumb-ui.xml.h:153
-#, fuzzy
 msgid "View as a slide show"
-msgstr "Lihat Paparan Slaid"
+msgstr "Lihat sebagai paparan slaid"
 
 #: src/gthumb-ui.xml.h:154
 msgid "View image in fullscreen mode"
 msgstr "Lihat imej pada mod skrinpenuh"
 
 #: src/gthumb-ui.xml.h:155
-#, fuzzy
 msgid "View image properties"
-msgstr "Lihat Ciri-ciri Imej"
+msgstr "Lihat ciri-ciri Imej"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View next image"
-msgstr "LIhat imej berikut"
+msgstr "Lihat imej berikutnya"
 
 #: src/gthumb-ui.xml.h:158
 msgid "View or hide the statusbar of this window"
@@ -1493,9 +1475,8 @@ msgid "_Color Balance"
 msgstr "Imbangan _Warna"
 
 #: src/gthumb-ui.xml.h:191
-#, fuzzy
 msgid "_Contents"
-msgstr "_Teruskan"
+msgstr "_Kandungan"
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Copy..."
@@ -1530,9 +1511,8 @@ msgid "_File"
 msgstr "_Fail"
 
 #: src/gthumb-ui.xml.h:200
-#, fuzzy
 msgid "_Find..."
-msgstr "_Cetak..."
+msgstr "_Cari..."
 
 #: src/gthumb-ui.xml.h:202
 msgid "_Folder"
@@ -1751,9 +1731,8 @@ msgid "%d selected (%s)"
 msgstr "%d dipilih (%s)"
 
 #: src/gthumb-window.c:2852
-#, fuzzy
 msgid "Dragged Images"
-msgstr "SImpan Imej"
+msgstr "Imej diheret"
 
 #: src/gthumb-window.c:3030
 msgid "Could not move the items:"
@@ -1800,12 +1779,10 @@ msgid "<b>Information on Channel:</b>"
 msgstr "<b>Maklumat pada saluran:</b>"
 
 #: src/gthumb.glade.h:5
-#, fuzzy
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Tindih imej lama dengan yang baru?</b>"
 
 #: src/gthumb.glade.h:6
-#, fuzzy
 msgid "A_vailable applications:"
 msgstr "Aplikasi yang _ada:"
 
@@ -1826,9 +1803,8 @@ msgid "C_atalogs:"
 msgstr "_Katalog:"
 
 #: src/gthumb.glade.h:11
-#, fuzzy
 msgid "Choose a Catalog"
-msgstr "Pilih katalog"
+msgstr "Pilih Katalog"
 
 #: src/gthumb.glade.h:13
 msgid "Do not overwrite _the old image"
@@ -1851,18 +1827,16 @@ msgid "Old Image:"
 msgstr "Imej Lama:"
 
 #: src/gthumb.glade.h:18
-#, fuzzy
 msgid "Open Images"
-msgstr "Cari Imej"
+msgstr "Buka Imej"
 
 #: src/gthumb.glade.h:19
 msgid "Over_write the old image"
 msgstr "Tindih imej lama"
 
 #: src/gthumb.glade.h:20
-#, fuzzy
 msgid "Overwrite Image"
-msgstr "TIndih imej"
+msgstr "TiIndih Imej"
 
 #: src/gthumb.glade.h:21
 msgid "Overwrite _all images"
@@ -1873,7 +1847,6 @@ msgid "Photo _Data (EXIF)"
 msgstr "_Data Foto(EXIF)"
 
 #: src/gthumb.glade.h:23
-#, fuzzy
 msgid "R_ecent applications:"
 msgstr "Aplikasi Ke_belakangan:"
 
@@ -1914,27 +1887,24 @@ msgid "_Save the new image as:"
 msgstr "_Simpan imej baru sebagai:"
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
-#, fuzzy
 msgid "A_vailable categories:"
-msgstr "Aplikasi yang ada"
+msgstr "Kategori yang _ada:"
 
 #: src/gthumb_comments.glade.h:4
 msgid "Add a category"
 msgstr "Tambah satu kategori"
 
 #: src/gthumb_comments.glade.h:5 src/gthumb_tools.glade.h:10
-#, fuzzy
 msgid "C_urrent date"
-msgstr "Ci_pta"
+msgstr "Tarikh _semasa"
 
 #: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:15
 msgid "Co_mment:"
 msgstr "Ko_men:"
 
 #: src/gthumb_comments.glade.h:9 src/gthumb_tools.glade.h:25
-#, fuzzy
 msgid "Image c_reation date"
-msgstr "Tarikh Imej Di_cipta"
+msgstr "Tarikh imej di_cipta"
 
 #: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
@@ -1949,9 +1919,8 @@ msgid "Save only cha_nged fields"
 msgstr ""
 
 #: src/gthumb_comments.glade.h:13 src/gthumb_tools.glade.h:42
-#, fuzzy
 msgid "The _following date:"
-msgstr "tarikh berikut"
+msgstr "Tarikh _berikut:"
 
 #: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:25
 msgid "_Date:"
@@ -1962,18 +1931,16 @@ msgid "_Place:"
 msgstr "Te_mpat:"
 
 #: src/gthumb_comments.glade.h:16 src/gthumb_search.glade.h:31
-#, fuzzy
 msgid "_Selected categories:"
-msgstr "Buang kategori yang dipilih"
+msgstr "Kategori yang _dipilih:"
 
 #: src/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
 msgstr "<b>Mampatan</b>"
 
 #: src/gthumb_convert.glade.h:4
-#, fuzzy
 msgid "<b>Image type</b>"
-msgstr "<b>Jenis Imej</b>"
+msgstr "<b>Jenis imej</b>"
 
 #: src/gthumb_convert.glade.h:5
 msgid "<b>Resolution</b>"
@@ -2099,18 +2066,16 @@ msgid "<b>Color levels</b>"
 msgstr "<b>Aras Warna</b>"
 
 #: src/gthumb_edit.glade.h:6
-#, fuzzy
 msgid "<b>New dimensions</b>"
-msgstr "<b>Mampatan</b>"
+msgstr "<b>Dimensi baru</b>"
 
 #: src/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
 msgstr "<b>Dimensi asal</b>"
 
 #: src/gthumb_edit.glade.h:8
-#, fuzzy
 msgid "<b>Scale ratio</b>"
-msgstr "<b>Nisbah Skala</b>"
+msgstr "<b>Nisbah skala</b>"
 
 #: src/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
@@ -2177,14 +2142,12 @@ msgid "_Levels:"
 msgstr "_Aras:"
 
 #: src/gthumb_edit.glade.h:25
-#, fuzzy
 msgid "_Lightness:"
-msgstr "Cerah"
+msgstr "Ke_cerahan:"
 
 #: src/gthumb_edit.glade.h:26
-#, fuzzy
 msgid "_Magenta-Green:"
-msgstr "Magenta-Hijau"
+msgstr "_Magenta-Hijau\":"
 
 #: src/gthumb_edit.glade.h:27
 msgid "_Preview"
@@ -2255,70 +2218,60 @@ msgid "95"
 msgstr "95"
 
 #: src/gthumb_png_exporter.glade.h:14
-#, fuzzy
 msgid "<b>Background style</b>"
-msgstr "<b>Gaya latarbelakangi</b>"
+msgstr "<b>Gaya latarbelakang</b>"
 
 #: src/gthumb_png_exporter.glade.h:15
 msgid "<b>Caption</b>"
 msgstr "<b>Kapsyen</b>"
 
 #: src/gthumb_png_exporter.glade.h:16
-#, fuzzy
 msgid "<b>Destination folder</b>"
-msgstr "Folder destinasi:"
+msgstr "<b>Folder destinasi</b>"
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
 msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:18
-#, fuzzy
 msgid "<b>Header and footer</b>"
-msgstr "<b>Pengepala</b>"
+msgstr "<b>Pengepala dan footer</b>"
 
 #: src/gthumb_png_exporter.glade.h:19
 msgid "<b>Header</b>"
 msgstr "<b>Pengepala</b>"
 
 #: src/gthumb_png_exporter.glade.h:20
-#, fuzzy
 msgid "<b>Index images</b>"
-msgstr "<b>Antaramuka</b>"
+msgstr "<b>Imej indeks</b>"
 
 #: src/gthumb_png_exporter.glade.h:21
-#, fuzzy
 msgid "<b>Page size</b>"
-msgstr "Saiz halaman"
+msgstr "<b>Saiz halaman</b>"
 
 #: src/gthumb_png_exporter.glade.h:22
-#, fuzzy
 msgid "<i>Examples:</i>"
-msgstr "Contoh:"
+msgstr "<i>Contoh:</i>"
 
 #: src/gthumb_png_exporter.glade.h:23
 msgid "Choose destination folder"
 msgstr "Pilih folder destinasi"
 
 #: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
-#, fuzzy
 msgid "Co_mment"
-msgstr "Ko_men:"
+msgstr "Ko_men"
 
 #: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
-#, fuzzy
 msgid "Col_umns:"
-msgstr "Ko_men:"
+msgstr "Kol:um:"
 
 #: src/gthumb_png_exporter.glade.h:26 src/gthumb_preferences.glade.h:31
-#, fuzzy
 msgid "Colo_r:"
-msgstr "Warna:"
+msgstr "Wa_rna:"
 
 #: src/gthumb_png_exporter.glade.h:27
-#, fuzzy
 msgid "Create Index Image"
-msgstr "gThumb - Mencipta imej indeks"
+msgstr "Cipta Imej Indeks"
 
 #: src/gthumb_png_exporter.glade.h:28
 msgid "Create _HTML image map"
@@ -2329,29 +2282,24 @@ msgid "F_ooter:"
 msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:30
-#, fuzzy
 msgid "File _name"
-msgstr "_Nama fail:"
+msgstr "_nama fail"
 
 #: src/gthumb_png_exporter.glade.h:31
-#, fuzzy
 msgid "File pa_th"
 msgstr "Pa_th fail"
 
 #: src/gthumb_png_exporter.glade.h:32
-#, fuzzy
 msgid "File si_ze"
 msgstr "Sai_z fail"
 
 #: src/gthumb_png_exporter.glade.h:33
-#, fuzzy
 msgid "Frame _style:"
 msgstr "_Gaya kerangka:"
 
 #: src/gthumb_png_exporter.glade.h:34
-#, fuzzy
 msgid "Frame co_lor:"
-msgstr "_Warna kerangka:"
+msgstr "Wa_rna kerangka:"
 
 #: src/gthumb_png_exporter.glade.h:35
 msgid "H_eader:"
@@ -2362,12 +2310,10 @@ msgid "Header/Footer"
 msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:37
-#, fuzzy
 msgid "Hei_ght:"
-msgstr "_Tinggi:"
+msgstr "Tin_ggi:"
 
 #: src/gthumb_png_exporter.glade.h:38
-#, fuzzy
 msgid "Image dim_ensions"
 msgstr "_Dimensi imej"
 
@@ -2376,26 +2322,22 @@ msgid "Images"
 msgstr "Imej"
 
 #: src/gthumb_png_exporter.glade.h:40
-#, fuzzy
 msgid "Index Image Properties"
-msgstr "gThumb - Ciri-ciri Imej indeks"
+msgstr "Ciri-ciri Imej indeks"
 
 #: src/gthumb_png_exporter.glade.h:41
 msgid "Page"
 msgstr "Halaman"
 
 #: src/gthumb_png_exporter.glade.h:42
-#, fuzzy
 msgid "Pi_xels"
 msgstr "Pi_ksel"
 
 #: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
-#, fuzzy
 msgid "Re_verse order"
 msgstr "Turutan _songsang"
 
 #: src/gthumb_png_exporter.glade.h:44
-#, fuzzy
 msgid "Rows a_nd columns"
 msgstr "Baris _dan kolumn"
 
@@ -2404,19 +2346,16 @@ msgid "Select a color"
 msgstr "Pilih warna"
 
 #: src/gthumb_png_exporter.glade.h:46
-#, fuzzy
 msgid "Shadow in"
 msgstr "Bebayang masuk"
 
 #: src/gthumb_png_exporter.glade.h:47
-#, fuzzy
 msgid "Shadow only"
-msgstr "Bebayang masuk"
+msgstr "Bebayang sahaja"
 
 #: src/gthumb_png_exporter.glade.h:48
-#, fuzzy
 msgid "Shadow out"
-msgstr "Bebayang masuk"
+msgstr "Bebayang keluar"
 
 #: src/gthumb_png_exporter.glade.h:49
 msgid "Simple"
@@ -2440,14 +2379,12 @@ msgstr "Isih"
 
 #: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:24
 #: src/gthumb_tools.glade.h:41
-#, fuzzy
 msgid "Start _at:"
-msgstr "Bermula _dari:"
+msgstr "Bermula _pada:"
 
 #: src/gthumb_png_exporter.glade.h:55
-#, fuzzy
 msgid "Style Preview"
-msgstr "Prebiu"
+msgstr "Prebiu Gaya"
 
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Use #'s to specify positions used by numeric enumerator."
@@ -2461,32 +2398,26 @@ msgid ""
 msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:59
-#, fuzzy
 msgid "Wi_dth:"
-msgstr "_Lebar:"
+msgstr "_Lebar"
 
 #: src/gthumb_png_exporter.glade.h:60
-#, fuzzy
 msgid "_All pages with the same size"
-msgstr "Semua halaman  dengan  saiz sama."
+msgstr "_Semua halaman  dengan  saiz sama."
 
 #: src/gthumb_png_exporter.glade.h:61
-#, fuzzy
 msgid "_Draw frame"
-msgstr "Lukis kerangka"
+msgstr "_Lukis kerangka"
 
 #: src/gthumb_png_exporter.glade.h:62
-#, fuzzy
 msgid "_Font:"
-msgstr "Ko_men:"
+msgstr "_Font:"
 
 #: src/gthumb_png_exporter.glade.h:63
-#, fuzzy
 msgid "_Gradient"
-msgstr "Gradien"
+msgstr "_Gradien"
 
 #: src/gthumb_png_exporter.glade.h:65
-#, fuzzy
 msgid "_Image size:"
 msgstr "Saiz _imej:"
 
@@ -2495,14 +2426,12 @@ msgid "_Rows:"
 msgstr "_Baris:"
 
 #: src/gthumb_png_exporter.glade.h:68
-#, fuzzy
 msgid "_Solid color"
-msgstr "Pilih warna"
+msgstr "Warna _Tegar"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
-#, fuzzy
 msgid "_Template:"
-msgstr "Tarikh:"
+msgstr "_Templat:"
 
 #: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
 msgid "by name"
@@ -2525,33 +2454,28 @@ msgid "jpeg"
 msgstr "jpeg"
 
 #: src/gthumb_png_exporter.glade.h:77
-#, fuzzy
 msgid "png"
-msgstr ".png"
+msgstr "png"
 
 #: src/gthumb_web_exporter.glade.h:4 src/gthumb_search.glade.h:3
 msgid "..."
 msgstr "..."
 
 #: src/gthumb_web_exporter.glade.h:5
-#, fuzzy
 msgid "<b>Album</b>"
-msgstr "<b>Resolusi</b>"
+msgstr "<b>Album</b>"
 
 #: src/gthumb_web_exporter.glade.h:6
-#, fuzzy
 msgid "<b>Index Layout</b>"
-msgstr "<b>Antaramuka</b>"
+msgstr "<b>Susunatur Indeks</b>"
 
 #: src/gthumb_web_exporter.glade.h:7
-#, fuzzy
 msgid "<b>Saving</b>"
-msgstr "<b>Kapsyen</b>"
+msgstr "<b>Penyimpanan</b>"
 
 #: src/gthumb_web_exporter.glade.h:8
-#, fuzzy
 msgid "<b>Theme</b>"
-msgstr "<b>Lain-lain</b>"
+msgstr "<b>Tema</b>"
 
 #: src/gthumb_web_exporter.glade.h:10
 msgid "Inde_x file:"
@@ -2570,33 +2494,28 @@ msgid "Web Album Theme"
 msgstr "Tema Album Web"
 
 #: src/gthumb_web_exporter.glade.h:16
-#, fuzzy
 msgid "_Copy images to destination"
-msgstr "Salin imej ini ke lokasi lain"
+msgstr "_Salin imej ini ke destinasi"
 
 #: src/gthumb_web_exporter.glade.h:17
-#, fuzzy
 msgid "_Destination:"
-msgstr "Ke_tepuan:"
+msgstr "_Destinasi:"
 
 #: src/gthumb_web_exporter.glade.h:18
-#, fuzzy
 msgid "_Go to Theme Folder"
-msgstr "_Pergi ke Folder Imej"
+msgstr "_Pergi ke Folder Tema"
 
 #: src/gthumb_web_exporter.glade.h:19
 msgid "_Install Theme..."
 msgstr "_Pasang Tema..."
 
 #: src/gthumb_web_exporter.glade.h:21
-#, fuzzy
 msgid "_Title:"
-msgstr "_Fail"
+msgstr "_Tajuk:"
 
 #: src/gthumb_web_exporter.glade.h:22
-#, fuzzy
 msgid "by modified time"
-msgstr "Tarikh diubahsuai"
+msgstr "mengikut masa ubahsuai"
 
 #: src/gthumb_web_exporter.glade.h:27
 msgid "index.html"
@@ -2681,9 +2600,8 @@ msgid "<b>Thumbnails</b>"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:22
-#, fuzzy
 msgid "<b>Viewer</b>"
-msgstr "Pelihat"
+msgstr "<b>Pelihat</b>"
 
 #: src/gthumb_preferences.glade.h:23
 msgid "Activate items with a double click"
@@ -2766,9 +2684,8 @@ msgid "Go to this _folder:"
 msgstr "Pergi ke folder ini:"
 
 #: src/gthumb_preferences.glade.h:43
-#, fuzzy
 msgid "H_igh"
-msgstr "Tinggi"
+msgstr "T_inggi"
 
 #: src/gthumb_preferences.glade.h:44
 msgid "Icons only"
@@ -2783,9 +2700,8 @@ msgid "Large"
 msgstr "Besar"
 
 #: src/gthumb_preferences.glade.h:47
-#, fuzzy
 msgid "Layout:"
-msgstr "Susunatur"
+msgstr "Susunatur:"
 
 #: src/gthumb_preferences.glade.h:48
 msgid "Light"
@@ -2889,18 +2805,16 @@ msgid "White"
 msgstr "Putih"
 
 #: src/gthumb_preferences.glade.h:73
-#, fuzzy
 msgid "Zoom _quality:"
-msgstr "Kualiti zoom:"
+msgstr "_Kualiti zoom:"
 
 #: src/gthumb_preferences.glade.h:74
 msgid "_Toolbar style:"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:75
-#, fuzzy
 msgid "gThumb Preferences"
-msgstr "_Keutamaan"
+msgstr "Keutamaan gThumb"
 
 #: src/gthumb_preferences.glade.h:76
 msgid "seconds"
@@ -2940,14 +2854,12 @@ msgid "<b>Search scope</b>"
 msgstr "Skop carian"
 
 #: src/gthumb_search.glade.h:7
-#, fuzzy
 msgid "After"
 msgstr "selepas"
 
 #: src/gthumb_search.glade.h:8
-#, fuzzy
 msgid "All catego_ries"
-msgstr "Kategori"
+msgstr "Semua Katego_ri"
 
 #: src/gthumb_search.glade.h:9
 #, fuzzy
@@ -3003,7 +2915,6 @@ msgid "New _Search..."
 msgstr "_Carian Baru...."
 
 #: src/gthumb_search.glade.h:21
-#, fuzzy
 msgid "No images found"
 msgstr "Tiada imej dijumpai"
 
@@ -3040,14 +2951,12 @@ msgid "<b>Specify a template to use for renaming images</b>"
 msgstr ""
 
 #: src/gthumb_tools.glade.h:8
-#, fuzzy
 msgid "Apply to _all images"
-msgstr "Tindih semua imej"
+msgstr "Terap pada _semua imej"
 
 #: src/gthumb_tools.glade.h:9
-#, fuzzy
 msgid "Backup Comments"
-msgstr "Komen"
+msgstr "Komen Backup"
 
 #: src/gthumb_tools.glade.h:11
 msgid "Change Date"
