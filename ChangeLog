@@ -1,3 +1,7 @@
+2005-03-23  Adi Attar  <aattar@cvs.gnome.org>
+
+	* configure.in: Added 'xh' to ALL_LINGUAS.
+
 2005-03-21  Rajesh Ranjan  <rranjan@redhat.com>
 
 	* configure.in: Added "hi" to ALL_LINGUAS.
