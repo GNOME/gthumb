@@ -48,6 +48,10 @@ char *   _g_substitute             (const char *from,
 				    const char  this,
 				    const char *with_this);
 
+char *   _g_substitute_pattern     (const char *utf8_text, 
+				    char        pattern, 
+				    const char *value);
+
 char *   _g_utf8_strndup           (const char *str,
 				    gsize       n);
 

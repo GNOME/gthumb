@@ -179,5 +179,7 @@ GnomeVFSResult      resolve_all_symlinks          (const char  *text_uri,
 
 GnomeVFSFileSize    get_dest_free_space          (const char  *path);
 
+gboolean            is_mime_type_writable        (const char *mime_type);
+
 
 #endif /* FILE_UTILS_H */

@@ -141,6 +141,7 @@
 #define  PREF_SCALE_HIGH_QUALITY      "/apps/gthumb/dialogs/scale_image/high_quality"
 
 #define  PREF_WEB_ALBUM_DESTINATION   "/apps/gthumb/dialogs/web_album/destination"
+#define  PREF_WEB_ALBUM_DESTINATIONS  "/apps/gthumb/dialogs/web_album/destinations"
 #define  PREF_WEB_ALBUM_INDEX_FILE    "/apps/gthumb/dialogs/web_album/index_file"
 #define  PREF_WEB_ALBUM_COPY_IMAGES   "/apps/gthumb/dialogs/web_album/copy_images"
 #define  PREF_WEB_ALBUM_RESIZE_IMAGES "/apps/gthumb/dialogs/web_album/resize_images"
@@ -163,7 +164,9 @@
 #define  PREF_PRINT_PAPER_WIDTH       "/apps/gthumb/dialogs/print/paper_width"
 #define  PREF_PRINT_PAPER_HEIGHT      "/apps/gthumb/dialogs/print/paper_height"
 #define  PREF_PRINT_PAPER_UNIT        "/apps/gthumb/dialogs/print/paper_unit"
+#define  PREF_PRINT_IMAGES_PER_PAGE   "/apps/gthumb/dialogs/print/images_per_page"
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
+#define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
 
 
 typedef struct {

@@ -205,16 +205,25 @@ file_print_command_impl (BonoboUIComponent *uic,
 			 const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	char         *uri;
+	GList        *list;
+	
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
+	if (list != NULL)
+		print_catalog_dlg (GTK_WINDOW (window->app), list);
+	path_list_free (list);
+}
 
-	if (window->image_path == NULL)
-		return;
 
-	uri = g_strconcat ("file://", window->image_path, NULL);
-	print_image_dlg (GTK_WINDOW (window->app), 
-			 IMAGE_VIEWER (window->viewer),
-			 uri);
-	g_free (uri);
+void 
+file_camera_import_command_impl (BonoboUIComponent *uic, 
+				 gpointer           user_data, 
+				 const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	void (*module) (GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_photo_importer", (gpointer*) &module))
+		(*module) (window);
 }
 
 

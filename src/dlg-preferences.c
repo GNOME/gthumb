@@ -81,6 +81,7 @@ typedef struct {
 	GtkWidget *toggle_file_type;
 	GtkWidget *opt_thumbs_size;
 	GtkWidget *toggle_confirm_del;
+	GtkWidget *toggle_ask_to_save;
 	GtkWidget *opt_click_policy;
 
 	GtkWidget *opt_zoom_quality_high;
@@ -335,6 +336,14 @@ confirm_del_toggled_cb (GtkToggleButton *button,
 
 
 static void
+ask_to_save_toggled_cb (GtkToggleButton *button, 
+			DialogData      *data)
+{
+	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_ask_to_save)));
+}
+
+
+static void
 fast_file_type_toggled_cb (GtkToggleButton *button, 
 			   DialogData      *data)
 {
@@ -416,6 +425,7 @@ dlg_preferences (GThumbWindow *window)
         data->file_entry = glade_xml_get_widget (data->gui, "file_entry");
 	data->btn_set_to_current = glade_xml_get_widget (data->gui, "btn_set_to_current");
         data->toggle_confirm_del = glade_xml_get_widget (data->gui, "toggle_confirm_del");
+        data->toggle_ask_to_save = glade_xml_get_widget (data->gui, "toggle_ask_to_save");
 	data->radio_layout1 = glade_xml_get_widget (data->gui, "radio_layout1");
 	data->radio_layout2 = glade_xml_get_widget (data->gui, "radio_layout2");
 	data->radio_layout3 = glade_xml_get_widget (data->gui, "radio_layout3");
@@ -477,6 +487,7 @@ dlg_preferences (GThumbWindow *window)
 	g_free (startup_location);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_confirm_del), eel_gconf_get_boolean (PREF_CONFIRM_DELETION, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_ask_to_save), eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE));
 
 	gtk_container_add (GTK_CONTAINER (data->radio_layout1),
 			   _gtk_image_new_from_xpm_data (layout1_xpm));
@@ -628,6 +639,10 @@ dlg_preferences (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->toggle_confirm_del), 
 			  "toggled",
 			  G_CALLBACK (confirm_del_toggled_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->toggle_ask_to_save), 
+			  "toggled",
+			  G_CALLBACK (ask_to_save_toggled_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->toggle_file_type), 
 			  "toggled",

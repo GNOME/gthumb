@@ -42,9 +42,7 @@ HEADER_FILES =				\
 	gconf-utils.h			\
 	glib-utils.h			\
 	gnome-print-font-picker.h	\
-	gnome-print-font-picker.c	\
 	gnome-print-font-dialog.h	\
-	gnome-print-font-dialog.c	\
 	gth-image-list.h		\
 	gth-file-list.h			\
 	gth-file-view.h			\
@@ -64,8 +62,8 @@ HEADER_FILES =				\
 	nav-window.h			\
 	pixbuf-utils.h			\
 	preferences.h			\
-	print-callbacks.c		\
 	print-callbacks.h		\
+	progress-dialog.h		\
 	search.h			\
 	thumb-cache.h			\
 	thumb-loader.h			\
@@ -80,44 +78,48 @@ MD5 = 				\
 	md5.c			\
 	md5.h
 
-libgthumb_la_SOURCES =		\
-	$(EEL_CANVAS_RECT)	\
-	$(ENUMS)		\
-	$(EOG_CURSORS)		\
-	$(HEADER_FILES)		\
-	$(MARSHALLERS)		\
-	$(MD5)			\
-	async-pixbuf-ops.c	\
-	bookmarks.c		\
-	catalog.c		\
-	comments.c		\
-	dlg-save-image.c	\
-	file-data.c		\
-	file-utils.c		\
-	gconf-utils.c		\
-	glib-utils.c		\
-	gth-pixbuf-op.c		\
-	gth-image-list.c	\
-	gth-file-list.c		\
-	gth-file-view.c		\
-	gth-file-view-list.c	\
-	gth-file-view-thumbs.c	\
-	gthumb-error.c		\
-	gthumb-histogram.c	\
-	gthumb-init.c		\
-	gthumb-info-bar.c	\
-	gthumb-module.c		\
-	gthumb-slide.c		\
-	gthumb-stock.c		\
-	gtk-utils.c		\
-	image-loader.c		\
-	image-viewer.c		\
-	nav-window.c		\
-	pixbuf-utils.c		\
-	preferences.c		\
-	search.c		\
-	thumb-cache.c		\
-	thumb-loader.c		\
+libgthumb_la_SOURCES =			\
+	$(EEL_CANVAS_RECT)		\
+	$(ENUMS)			\
+	$(EOG_CURSORS)			\
+	$(HEADER_FILES)			\
+	$(MARSHALLERS)			\
+	$(MD5)				\
+	async-pixbuf-ops.c		\
+	bookmarks.c			\
+	catalog.c			\
+	comments.c			\
+	dlg-save-image.c		\
+	file-data.c			\
+	file-utils.c			\
+	gconf-utils.c			\
+	glib-utils.c			\
+	gnome-print-font-picker.c	\
+	gnome-print-font-dialog.c	\
+	gth-pixbuf-op.c			\
+	gth-image-list.c		\
+	gth-file-list.c			\
+	gth-file-view.c			\
+	gth-file-view-list.c		\
+	gth-file-view-thumbs.c		\
+	gthumb-error.c			\
+	gthumb-histogram.c		\
+	gthumb-init.c			\
+	gthumb-info-bar.c		\
+	gthumb-module.c			\
+	gthumb-slide.c			\
+	gthumb-stock.c			\
+	gtk-utils.c			\
+	image-loader.c			\
+	image-viewer.c			\
+	nav-window.c			\
+	pixbuf-utils.c			\
+	preferences.c			\
+	print-callbacks.c		\
+	progress-dialog.c		\
+	search.c			\
+	thumb-cache.c			\
+	thumb-loader.c			\
 	utf8-fnmatch.c
 
 

@@ -228,6 +228,8 @@ update_list (DialogData *data)
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
+		char     *name_wo_ext = remove_extension_from_path (fdata->name);
+		char     *utf8_txt, *image_date, *image_size;
 		char     *name1 = NULL;
 		char     *name2;
 		char     *name3;
@@ -237,30 +239,20 @@ update_list (DialogData *data)
 
 		name1 = _g_get_name_from_template (template, start_at++);
 
-		if (strchr (name1, '*') != NULL) {
-			char *name_wo_ext = remove_extension_from_path (fdata->name);
-			char *utf8_txt = g_filename_to_utf8 (name_wo_ext, -1, 0, 0, 0);
-			name2 = _g_substitute (name1, '*', utf8_txt);
-			g_free (name_wo_ext);
-			g_free (utf8_txt);
-		} else
-			name2 = g_strdup (name1);
+		utf8_txt = g_filename_to_utf8 (name_wo_ext, -1, 0, 0, 0);
+		name2 = _g_substitute_pattern (name1, 'f', utf8_txt);
+		g_free (name_wo_ext);
+		g_free (utf8_txt);
 
-		if (strchr (name2, '?') != NULL) {
-			char *image_date  = get_image_date (fdata->path);
-			char *utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
-			name3 = _g_substitute (name2, '?', utf8_txt);
-			g_free (image_date);
-			g_free (utf8_txt);
-		} else
-			name3 = g_strdup (name2);
+		image_date  = get_image_date (fdata->path);
+		utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
+		name3 = _g_substitute_pattern (name2, 'd', utf8_txt);
+		g_free (image_date);
+		g_free (utf8_txt);
 
-		if (strchr (name3, '!') != NULL) {
-			char *image_size = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
-			name4 = _g_substitute (name3, '!', image_size);
-			g_free (image_size);
-		} else
-			name4 = g_strdup (name3);
+		image_size = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
+		name4 = _g_substitute_pattern (name3, 's', image_size);
+		g_free (image_size);
 
 		extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
 		new_name = g_strconcat (name4, extension, NULL);

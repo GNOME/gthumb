@@ -32,6 +32,7 @@ DEFINE_VERB(file_new_window_command_impl);
 DEFINE_VERB(file_close_window_command_impl);
 DEFINE_VERB(file_open_with_command_impl);
 DEFINE_VERB(file_print_command_impl);
+DEFINE_VERB(file_camera_import_command_impl);
 DEFINE_VERB(file_save_command_impl);
 DEFINE_VERB(file_revert_command_impl);
 DEFINE_VERB(file_exit_command_impl);

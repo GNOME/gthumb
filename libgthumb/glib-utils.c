@@ -193,6 +193,52 @@ _g_substitute (const char *from,
 
 
 char *
+_g_substitute_pattern (const char *utf8_text, 
+		       char        pattern, 
+		       const char *value)
+{
+	const char *s;
+	GString    *r;
+	char       *r_str;
+
+	if (utf8_text == NULL)
+		return NULL;
+
+	if (g_utf8_strchr (utf8_text, -1, '%') == NULL)
+		return g_strdup (utf8_text);
+
+	r = g_string_new (NULL);
+	for (s = utf8_text; *s != 0; s = g_utf8_next_char (s)) {
+		gunichar ch = g_utf8_get_char (s);
+
+		if (ch == '%') {
+			s = g_utf8_next_char (s);
+			
+			if (*s == 0) {
+				g_string_append_unichar (r, ch);
+				break;
+			}
+
+			ch = g_utf8_get_char (s);
+			if (ch == pattern)
+				g_string_append (r, value);
+			else {
+				g_string_append (r, "%");
+				g_string_append_unichar (r, ch);
+			}
+
+		} else
+			g_string_append_unichar (r, ch);
+	}
+
+	r_str = r->str;
+	g_string_free (r, FALSE);
+
+	return r_str;
+}
+
+
+char *
 _g_utf8_strndup (const char *str,
 		 gsize       n)
 {

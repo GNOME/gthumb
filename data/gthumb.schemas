@@ -1,0 +1,3515 @@
+<gconfschemafile>
+    <schemalist>
+
+      <!-- General -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/go_to_last_location</key>
+	<applyto>/apps/gthumb/general/go_to_last_location</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/use_startup_location</key>
+	<applyto>/apps/gthumb/general/use_startup_location</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/startup_location</key>
+	<applyto>/apps/gthumb/general/startup_location</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/max_history_length</key>
+	<applyto>/apps/gthumb/general/max_history_length</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>15</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/editors</key>
+	<applyto>/apps/gthumb/general/editors</applyto>
+	<owner>gthumb</owner>
+	<type>list</type>
+	<list_type>string</list_type>
+	<default>[]</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/migrate_directories</key>
+	<applyto>/apps/gthumb/general/migrate_directories</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Broswer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_hidden_files</key>
+	<applyto>/apps/gthumb/browser/show_hidden_files</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_filenames</key>
+	<applyto>/apps/gthumb/browser/show_filenames</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_comments</key>
+	<applyto>/apps/gthumb/browser/show_comments</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_thumbnails</key>
+	<applyto>/apps/gthumb/browser/show_thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/fast_file_type</key>
+	<applyto>/apps/gthumb/browser/fast_file_type</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/save_thumbnails</key>
+	<applyto>/apps/gthumb/browser/save_thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/thumbnail_size</key>
+	<applyto>/apps/gthumb/browser/thumbnail_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>95</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/thumbnail_limit</key>
+	<applyto>/apps/gthumb/browser/thumbnail_limit</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Images over this size (in bytes) will not be thumbnailed.  Use
+	  0 if you want to generate thumbnails for all images.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Les imatge d&apos;una mida superior (en bytes) no es convertiran a miniatures. Si voleu generar les miniatures de totes les imatges utilitzeu 0.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všechn obrázků.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-Vorschaubilder erzeugt.</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Las imágenes mayores que este tamaño (en bytes) no serán miniaturizadas. Use 0 si quiere generar miniaturas para todas las imágenes</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les images plus grosse que cette taille (en octets) ne seront pas mise en vignette. Utiliser 0 si vous voulez que les vignettes soient générées pour toutes les images.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 érték az jelenti, hogy minden képhez készüljön bélyegkép.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>Le immagini superiori a questa dimensione (in byte) non verranno miniate. Usare 0 se si vuole che vengano generate le miniature per tutte le immagini.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>このサイズ (バイト単位) より大きい画像はサムネイル表示されません。全ての画像をサムネイル表示する場合は 0 を指定して下さい。</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Van afbeeldingen groter dan dit (in bytes) zal geen voorbeeld worden gemaakt. Kies 0 als je voorbeelden voor alle afbeeldingen wilt laten maken.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Obrazy powyżej tego rozmiaru (w bajtach) nie zostaną zminiaturyzowane. Użyj 0 jeśli chesz wygenerować miniatury dla wszystkich obrazów.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Imagens maiores do que este valor (em bytes) não serão amostradas. Utilize 0 se desejar criar amostras para todas as imagens.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Слике преко ове величине (у бајтовима) неће имати умањени приказ. Користите 0 уколико желите да видите умањени приказ за све слике.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Slike preko ove veličine (u bajtovima) neće imati umanjeni prikaz. Koristite 0 ukoliko želite da vidite umanjeni prikaz za sve slike.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Bilder över denna storlek (i byte) kommer det inte att skapas miniatyrbilder för. Använd 0 om du vill generera miniatyrbilder för alla bilder.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>图像如果超过了这个大小(以字节计算)将不能生成缩略图。如果您想为所有图象创建缩略图，请使用 0。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/click_policy</key>
+	<applyto>/apps/gthumb/browser/click_policy</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>nautilus</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: nautilus, single, double.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: nautilus, individual, doble.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: nautilus, single (einfach), double (Doppel-).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : nautilus, single, double.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: nautilus, single, double</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：nautilus、单、双。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/confirm_deletion</key>
+	<applyto>/apps/gthumb/browser/confirm_deletion</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/arrange_images</key>
+	<applyto>/apps/gthumb/browser/arrange_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>name</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: none, name, path, size, time.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: none, nom, camí, mida, hora.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: none, name, path, size, time</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：无、名称、路径、大小、时间。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/sort_images</key>
+	<applyto>/apps/gthumb/browser/sort_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>ascending</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: ascending, descending.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: ascendent; descendent.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: ascending, descending.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: ascending (aufsteigend), descending (absteigend).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: ascending, descending.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: ascending, descending.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : ascending, descending.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: ascending, descending.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: ascending, descending.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: ascending, descending</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: ascending, descending.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: ascending, descending.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: ascending, descending.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: ascending, descending.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: ascending, descending.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: ascending, descending.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：升序、降序。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/view_as</key>
+	<applyto>/apps/gthumb/browser/view_as</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>thumbnails</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: list, thumbnails.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valor possibles són: llista, miniatures.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: list, thumbnails.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: list (Liste), thumbnails (Miniatur-Vorschaubilder).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: list, thumbnails.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: list, thumbnails.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : list, thumbnails.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: list, thumbnails.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: list, thumbnails.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: list, thumbnails</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: list, thumbnails.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: list, thumbnails.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: list, thumbnails.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: list, thumbnails.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: list, thumbnails.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: list, thumbnails.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：列表、缩略图。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_preview</key>
+	<applyto>/apps/gthumb/browser/show_preview</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/preview_content</key>
+	<applyto>/apps/gthumb/browser/preview_content</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>data</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: image, data, comment.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: imatge, data, comentari.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: image, data, comment.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: image (Bild), data (Daten), comment (Kommentar).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: image, data, comment.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: image, data, comment.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : image, data, comment.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: image, data, comment.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: image, data, comment.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: image, data, comment</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: image, data, comment</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: image, data, comment.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: image, data, comment.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: image, data, comment.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: image, data, comment.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: image, data, comment.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：图像、数据、备注。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_image_data</key>
+	<applyto>/apps/gthumb/browser/show_image_data</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Viewer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_quality</key>
+	<applyto>/apps/gthumb/viewer/zoom_quality</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>high</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: high, low.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: alt, baix.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: high, low.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: high (hoch), low (gering).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: high, low.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: high, low.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : high, low.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: high, low.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: high, low.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: high, low</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: high, low</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: high, low.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: high, low.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: high, low.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: high, low.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: high, low.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：高、低。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_change</key>
+	<applyto>/apps/gthumb/viewer/zoom_change</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>fit_if_larger</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: actual_size, fit, keep_prev, 
+	    fit_if_larger.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: actual_size (tatsächliche Größe), fit (einpassen), keep_prev (vorherige beibehalten) sowie fit_if_larger (einpassen, falls größer).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: actual_size, fit, keep_prev, fit_if_larger</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/transparency_type</key>
+	<applyto>/apps/gthumb/viewer/transparency_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: white, black, checked, none.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: blanc, negre, activat, cap.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: white (weiß), black (schwarz), checked (Karomuster), none (keiner).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: white, black, chequered, none.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : white, black, checked, none.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: white, black, checked, none</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：白、黑、网格、无。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_type</key>
+	<applyto>/apps/gthumb/viewer/check_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>midtone</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: light, midtone, dark.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: clar, atenuat, fosc.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: light (hell), midtone (mittel) sowie dark (dunkel).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : light, midtone, dark.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: light, midtone, dark</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：亮、中、暗。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_size</key>
+	<applyto>/apps/gthumb/viewer/check_size</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>medium</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: small, medium, large.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: petit, mitjà, gran.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: small, medium, large.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: small (klein), medium (mittel) sowie large (groß).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: small, medium, large.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: small, medium, large.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : small, medium, large.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: small, medium, large.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: small, medium, large.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: small, medium, large</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: small, medium, large.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: small, medium, large.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: small, medium, large.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: small, medium, large.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: small, medium, large.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: small, medium, large.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：小、中、大。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/black_background</key>
+	<applyto>/apps/gthumb/viewer/black_background</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Whether to always use a black background.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Si s&apos;ha d&apos;utilitzar sempre el negre com a color de fons.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Jestli pokaždé používat černé pozadí.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Soll stets ein schwarzer Hintergrund verwendet werden?</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Whether to always use a black background.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Indica si se debe usar siempre fondo negro.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Indique si il faut toujours utiliser un arrière-plan noir.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Mindig fekete legyen-e a háttér?</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>Indica se unsare sempre uno sfondo nero.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>常に背景を黒色にするかどうかを設定します。</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Of er altijd een zwarte achtergrond moet worden gebruikt.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Określa czy zawsze należy używać czarnego tła.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Se utilizar sempre ou não um fundo preto.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Да ли да увек користи црну позадину.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Da li da uvek koristi crnu pozadinu.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Huruvida en svart bakgrund alltid ska användas.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>是否总是使用黑色背景。</long>
+	</locale>
+      </schema>
+
+      <!-- Slide Show -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/direction</key>
+	<applyto>/apps/gthumb/slideshow/direction</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>forward</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: forward, backward.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: endavant, enrere.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: forward, backward.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: forward (vor), backward (zurück).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: forward, backward.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: forward, backward.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : forward, backward.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: forward, backward.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: forward, backward.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: forward, backward</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: forward, backward</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: forward, backward.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: forward, backward.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: forward, backward.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: forward, backward.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: forward, backward.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：前进、后退。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/delay</key>
+	<applyto>/apps/gthumb/slideshow/delay</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/wrap_around</key>
+	<applyto>/apps/gthumb/slideshow/wrap_around</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/fullscreen</key>
+	<applyto>/apps/gthumb/slideshow/fullscreen</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- UI -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/layout</key>
+	<applyto>/apps/gthumb/ui/layout</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>2</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: 1, 2, 3, 4.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: 1, 2, 3 4.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son : 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: 1, 2, 3, 4</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: 1, 2, 3 en 4.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：1、2、3、4。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/toolbar_style</key>
+	<applyto>/apps/gthumb/ui/toolbar_style</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>system</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: system, text_below, text_beside, text_only, icons_only.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: system, text_below (Text unterhalb), text_beside (Text daneben), text_only (nur Text) sowie icons_only (nur Symbole).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: system, text_below, text_beside, text_only, icons_only</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：系统、下方文字(_B)、侧方文字(_B)、只有文字(_O)、只有图标(_O)。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/window_width</key>
+	<applyto>/apps/gthumb/ui/window_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>690</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/window_height</key>
+	<applyto>/apps/gthumb/ui/window_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>460</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/image_pane_visible</key>
+	<applyto>/apps/gthumb/ui/image_pane_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/toolbar_visible</key>
+	<applyto>/apps/gthumb/ui/toolbar_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/statusbar_visible</key>
+	<applyto>/apps/gthumb/ui/statusbar_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/sidebar_size</key>
+	<applyto>/apps/gthumb/ui/sidebar_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>255</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/sidebar_content_size</key>
+	<applyto>/apps/gthumb/ui/sidebar_content_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>190</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/General -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/name_template</key>
+	<applyto>/apps/gthumb/exporter/general/name_template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>###</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/start_from</key>
+	<applyto>/apps/gthumb/exporter/general/start_from</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/file_type</key>
+	<applyto>/apps/gthumb/exporter/general/file_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: png, jpeg.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: png, jpeg.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: png, jpeg.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: png, jpeg.</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: png, jpeg.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: png, jpeg.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : png, jpeg.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: png, jpeg.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: png, jpeg.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: png, jpeg</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: png, jpeg.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: png, jpeg.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: png, jpeg.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: png, jpeg.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: png, jpeg.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: png, jpeg.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：png、jpeg。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/write_image_map</key>
+	<applyto>/apps/gthumb/exporter/general/write_image_map</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/Page -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/width</key>
+	<applyto>/apps/gthumb/exporter/page/width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>400</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/height</key>
+	<applyto>/apps/gthumb/exporter/page/height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>400</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/size_use_row_col</key>
+	<applyto>/apps/gthumb/exporter/page/size_use_row_col</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/rows</key>
+	<applyto>/apps/gthumb/exporter/page/rows</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>3</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/cols</key>
+	<applyto>/apps/gthumb/exporter/page/cols</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/all_pages_same_size</key>
+	<applyto>/apps/gthumb/exporter/page/all_pages_same_size</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/background_color</key>
+	<applyto>/apps/gthumb/exporter/page/background_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#62757b</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/hgrad_color1</key>
+	<applyto>/apps/gthumb/exporter/page/hgrad_color1</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#e0d3c0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/hgrad_color2</key>
+	<applyto>/apps/gthumb/exporter/page/hgrad_color2</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#b1c3ad</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/vgrad_color1</key>
+	<applyto>/apps/gthumb/exporter/page/vgrad_color1</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#e8e8ea</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/vgrad_color2</key>
+	<applyto>/apps/gthumb/exporter/page/vgrad_color2</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#bad8d8</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_solid_color</key>
+	<applyto>/apps/gthumb/exporter/page/use_solid_color</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_hgradient</key>
+	<applyto>/apps/gthumb/exporter/page/use_hgradient</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_vgradient</key>
+	<applyto>/apps/gthumb/exporter/page/use_vgradient</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_text</key>
+	<applyto>/apps/gthumb/exporter/page/header_text</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_color</key>
+	<applyto>/apps/gthumb/exporter/page/header_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#d5504a</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_font</key>
+	<applyto>/apps/gthumb/exporter/page/header_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial 22</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_text</key>
+	<applyto>/apps/gthumb/exporter/page/footer_text</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_color</key>
+	<applyto>/apps/gthumb/exporter/page/footer_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#394083</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_font</key>
+	<applyto>/apps/gthumb/exporter/page/footer_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial Bold Italic 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/Thumbnail -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_comment</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_comment</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_path</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_path</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_name</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_name</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_size</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_size</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_image_dim</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_image_dim</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/frame_style</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/frame_style</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>simple_with_shadow</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: none (keins), simple (einfach), simple_with_shadow (einfach mit Schatten), slide (Dia), shadow_in (Schatten nach innen) sowie shadow_out (Schatten nach außen).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/frame_color</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/frame_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#94d6cd</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/thumb_size</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/thumb_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>128</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/text_color</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/text_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#414141</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/text_font</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/text_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial Bold 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- JPEG Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/quality</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/quality</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>85</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/smoothing</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/smoothing</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/optimize</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/optimize</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/pregressive</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/pregressive</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TGA Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tga_saver/rle_compression</key>
+	<applyto>/apps/gthumb/dialogs/tga_saver/rle_compression</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TIFF Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/compression</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/compression</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>deflate</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: none, deflate, jpeg.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: cap, rebaixar, jpeg.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: none (keine), deflate (packen) sowie jpeg.</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: none, deflate, jpeg</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：无、缩减、jpeg。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/horizontal_resolution</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/horizontal_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/vertical_resolution</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/vertical_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Convert Format -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/image_type</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/image_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: jpeg, png, tga, tiff.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: jpeg, png, tga, tiff</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：jpeg、png、tga、tiff。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/overwrite_mode</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/overwrite_mode</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>rename</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: skip, rename, ask, overwrite.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: ometre, canviar el nom, preguntar, sobreesciure.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: skip (überspringen), rename (umbenennen), ask (rückfragen) sowie overwrite (überschreiben).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: skip, rename, ask, overwrite</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：跳过、重命名、询问、覆盖。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/remove_original</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/remove_original</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Rename Series -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/template</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>###</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/start_at</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/start_at</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/sort_by</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/sort_by</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>name</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: name, size, time.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: nom, mida, hora.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: name, size, time.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: name, size (Größe) sowie time (Datum).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: name, size, time.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: name, size, time.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : name, size, time.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: name, size, time.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: name, size, time.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: name, size, time</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: name, size, time.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: name, size, time.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: name, size, time.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: name, size, time.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: name, size, time.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: name, size, time.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：名称、大小、时间。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/reverse_order</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/reverse_order</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Scale Image -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/unit</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>pixels</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: pixels, percentage.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: píxels, percentatge.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: pixels, percentage.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: pixels (Pixel), percentage (Prozentsatz).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: pixels, percentage.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: pixels, percentage.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : pixels, percentage.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: pixels, percentage.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: pixels, percentage.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: pixels, percentage</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: pixels, percentage.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: pixels, percentage.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: pixels, percentage.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: pixels, percentage.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: pixels, percentage.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: pixels, percentage.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：像素、百分比。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/keep_aspect_ratio</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/keep_aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/high_quality</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/high_quality</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Web Album -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/destination</key>
+	<applyto>/apps/gthumb/dialogs/web_album/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/destinations</key>
+	<applyto>/apps/gthumb/dialogs/web_album/destinations</applyto>
+	<owner>gthumb</owner>
+	<type>list</type>
+	<list_type>string</list_type>
+	<default>[]</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+      
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/index_file</key>
+	<applyto>/apps/gthumb/dialogs/web_album/index_file</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>index.html</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/copy_images</key>
+	<applyto>/apps/gthumb/dialogs/web_album/copy_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_images</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_width</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>640</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_height</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>480</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/rows</key>
+	<applyto>/apps/gthumb/dialogs/web_album/rows</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/columns</key>
+	<applyto>/apps/gthumb/dialogs/web_album/columns</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/sort_by</key>
+	<applyto>/apps/gthumb/dialogs/web_album/sort_by</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>name</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: name, path, size, time.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valor possibles són: nom, camí, mida, hora.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: name, path, size, time.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: name, path (Pfad), size (Größe) sowie time (Datum).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: name, path, size, time.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: name, path, size, time.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : name, path, size, time.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: name, path, size, time.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: name, path, size, time.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: name, path, size, time</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: name, path, size, time.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: name, path, size, time.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: name, path, size, time.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: name, path, size, time.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: name, path, size, time.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: name, path, size, time.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：名称、路径、大小、时间。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/reverse_order</key>
+	<applyto>/apps/gthumb/dialogs/web_album/reverse_order</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/header</key>
+	<applyto>/apps/gthumb/dialogs/web_album/header</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/footer</key>
+	<applyto>/apps/gthumb/dialogs/web_album/footer</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/theme</key>
+	<applyto>/apps/gthumb/dialogs/web_album/theme</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Clean</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/index_caption</key>
+	<applyto>/apps/gthumb/dialogs/web_album/index_caption</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/image_caption</key>
+	<applyto>/apps/gthumb/dialogs/web_album/image_caption</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Search -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/search/recursive</key>
+	<applyto>/apps/gthumb/dialogs/search/recursive</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Print -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_size</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_size</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>A4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_width</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_width</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>0.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_height</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_height</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>0.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_unit</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>mm</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: mm, in.
+	  </long>
+	</locale>
+
+	<locale name="ca">
+	  
+	  <long>Els valors possibles són: mm, polzades.</long>
+	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: mm, in.</long>
+	</locale>
+
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: mm, in (Zoll).</long>
+	</locale>
+
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: mm, in.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: mm, in.</long>
+	</locale>
+
+	<locale name="fr">
+	  
+	  <long>Les valeurs possible sont : mm, in.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: mm, in.</long>
+	</locale>
+
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: mm, in.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: mm, in</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: mm, in.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: mm, in.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: mm, in.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: mm, in.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: mm, in.</long>
+	</locale>
+
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: mm, in.</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：毫米、英寸。</long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_orientation</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>R0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/include_comment</key>
+	<applyto>/apps/gthumb/dialogs/print/include_comment</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/comment_font</key>
+	<applyto>/apps/gthumb/dialogs/print/comment_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Serif 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/images_per_page</key>
+	<applyto>/apps/gthumb/dialogs/print/images_per_page</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Messages -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/cannot_move_to_trash</key>
+	<applyto>/apps/gthumb/dialogs/messages/cannot_move_to_trash</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/save_modified_image</key>
+	<applyto>/apps/gthumb/dialogs/messages/save_modified_image</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,21 +20,12 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_CATEGORIES_H
-#define DLG_CATEGORIES_H
+#ifndef DLG_PHOTO_IMPORTER_H
+#define DLG_PHOTO_IMPORTER_H
 
-#include "typedefs.h"
 #include "gthumb-window.h"
 
-void   dlg_choose_categories           (GtkWindow     *parent,
-					GList         *file_list,
-					GList         *default_categories_list,
-					GList        **add_categories_list,
-					GList        **remove_categories_list,
-					DoneFunc       done_func,
-					gpointer       done_data);
+void   dlg_photo_importer (GThumbWindow *window);
 
-void   dlg_categories                  (GtkWidget     *widget,
-					GThumbWindow  *window);
 
-#endif /* DLG_CATEGORIES_H */
+#endif /* DLG_PHOTO_IMPORTER_H */

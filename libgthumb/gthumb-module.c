@@ -29,13 +29,14 @@ static struct {
 	char     *module_name;
 	char     *symbol_name;
 } symbol_module_table [] = {
-	{ "pngexporter", "dlg_exporter" },
-	{ "webexporter", "dlg_web_exporter" },
-	{ "search",      "dlg_search" },
-	{ "search",      "dlg_catalog_edit_search" },
-	{ "search",      "dlg_catalog_search" },
-	{ "jpegtran",    "dlg_jpegtran" },
-	{ "duplicates",  "dlg_duplicates" },
+	{ "pngexporter",   "dlg_exporter" },
+	{ "webexporter",   "dlg_web_exporter" },
+	{ "search",        "dlg_search" },
+	{ "search",        "dlg_catalog_edit_search" },
+	{ "search",        "dlg_catalog_search" },
+	{ "jpegtran",      "dlg_jpegtran" },
+	{ "duplicates",    "dlg_duplicates" },
+	{ "photoimporter", "dlg_photo_importer" },
 	{ NULL, NULL }
 };
 
@@ -49,6 +50,7 @@ static struct {
 	{ "search", NULL },
 	{ "jpegtran", NULL },
 	{ "duplicates", NULL },
+	{ "photoimporter", NULL },
 	{ NULL, NULL }
 };
 

@@ -507,6 +507,6 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
 	}
 
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

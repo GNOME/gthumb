@@ -53,9 +53,12 @@ enum {
 
 
 typedef struct {
-	GThumbWindow  *window;
 	GladeXML      *gui;
 	GList         *file_list;
+	GList        **add_list;
+	GList        **remove_list;
+	DoneFunc       done_func;
+	gpointer       done_data;
 
 	GtkWidget     *dialog;
 
@@ -74,12 +77,14 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	data->window->categories_dlg = NULL;
-
 	g_object_unref (data->gui);
 	g_list_foreach (data->file_list, (GFunc) g_free, NULL);
 	g_list_free (data->file_list);
-	comment_data_free (data->original_cdata);
+	if (data->original_cdata != NULL)
+		comment_data_free (data->original_cdata);
+
+	if (data->done_func)
+		(*data->done_func) (data->done_data);
 
 	g_free (data);
 }
@@ -280,38 +285,19 @@ static void
 ok_clicked_cb (GtkWidget  *widget, 
 	       DialogData *data)
 {
-	GList *add_list, *remove_list, *scan;
-
 	save_categories (data);
 
-	add_list = get_categories (data->keywords_list_model, 1);
-	remove_list = get_categories (data->keywords_list_model, 0);
-
-	for (scan = data->file_list; scan; scan = scan->next) {
-		const char  *filename = scan->data;
-		CommentData *cdata;
-		GList       *scan2;
-
-		cdata = comments_load_comment (filename);
-		if (cdata == NULL)
-			cdata = comment_data_new ();
-		else 
-			for (scan2 = remove_list; scan2; scan2 = scan2->next) {
-				const char *k = scan2->data;
-				comment_data_remove_keyword (cdata, k);
-			}
-
-		for (scan2 = add_list; scan2; scan2 = scan2->next) {
-			const char *k = scan2->data;
-			comment_data_add_keyword (cdata, k);
-		}
-
-		comments_save_categories (filename, cdata);
-		comment_data_free (cdata);
+	if (data->add_list != NULL) {
+		if (*(data->add_list) != NULL)
+			path_list_free (*(data->add_list));
+		*(data->add_list) = get_categories (data->keywords_list_model, 1);
 	}
 
-	path_list_free (add_list);
-	path_list_free (remove_list);
+	if (data->remove_list != NULL) {
+		if (*(data->remove_list) != NULL)
+			path_list_free (*(data->remove_list));
+		*(data->remove_list) = get_categories (data->keywords_list_model, 0);
+	}
 
 	gtk_widget_destroy (data->dialog);
 }
@@ -445,47 +431,51 @@ name_column_sort_func (GtkTreeModel *model,
 
 
 
+
+
 void
-dlg_categories (GtkWidget *widget, 
-		gpointer   wdata)
+dlg_choose_categories (GtkWindow     *parent,
+		       GList         *file_list,
+		       GList         *default_categories_list,
+		       GList        **add_categories_list,
+		       GList        **remove_categories_list,
+		       DoneFunc       done_func,
+		       gpointer       done_data)
 {
-	GThumbWindow      *window = wdata;
 	DialogData        *data;
 	GtkWidget         *btn_ok;
 	GtkWidget         *btn_cancel;
 	GtkWidget         *btn_help;
-	CommentData       *cdata;
+	CommentData       *cdata = NULL;
 	GList             *scan;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	char              *first_image;
 	GList             *other_keys = NULL;
 
-	if (window->categories_dlg != NULL) {
-		gtk_window_present (GTK_WINDOW (window->categories_dlg));
-		return;
-	}
 
 	data = g_new (DialogData, 1);
 
-	data->window = window;
+	data->add_list = add_categories_list;
+	data->remove_list = remove_categories_list;
+	data->done_func = done_func;
+	data->done_data = done_data;
+	data->original_cdata = NULL;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
+		g_free (data);
                 g_warning ("Could not find " GLADE_FILE "\n");
                 return;
         }
 
-	data->file_list = gth_file_view_get_file_list_selection (window->file_list->view);
-	if (data->file_list == NULL) {
-		g_free (data);
-		return;
-	}
+	if (file_list != NULL)
+		data->file_list = path_list_dup (file_list);
+	else
+		data->file_list = NULL;
 
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "categories_dialog");
-	window->categories_dlg = data->dialog;
 
 	data->keyword_entry = glade_xml_get_widget (data->gui, "c_keyword_entry");
 	data->add_key_button = glade_xml_get_widget (data->gui, "c_add_key_button");
@@ -537,8 +527,10 @@ dlg_categories (GtkWidget *widget,
 
 	/**/
 
-	first_image = data->file_list->data;
-	data->original_cdata = cdata = comments_load_comment (first_image);
+	if (data->file_list != NULL) {
+		char *first_image = data->file_list->data;
+		data->original_cdata = cdata = comments_load_comment (first_image);
+	}
 
 	if (cdata != NULL) {
 		comment_data_free_comment (cdata);
@@ -624,6 +616,21 @@ dlg_categories (GtkWidget *widget,
 		}
 	}
 
+	for (scan = default_categories_list; scan; scan = scan->next) {
+		char        *keyword = scan->data;
+		GtkTreeIter  iter;
+		
+		gtk_list_store_append (data->keywords_list_model, 
+				       &iter);
+		
+		gtk_list_store_set (data->keywords_list_model, &iter,
+				    IS_EDITABLE_COLUMN, FALSE,
+				    HAS_THIRD_STATE_COLUMN, FALSE,
+				    USE_CATEGORY_COLUMN, 1,
+				    CATEGORY_COLUMN, keyword,
+				    -1);
+	}
+
 	for (scan = other_keys; scan; scan = scan->next) {
 		char        *keyword = scan->data;
 		GtkTreeIter  iter;
@@ -675,16 +682,85 @@ dlg_categories (GtkWidget *widget,
 
 	/* run dialog. */
 
-	{
-		GtkWidget *parent_win = window->viewer;
-		while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
-			parent_win = parent_win->parent;
-		if (parent_win != NULL)
-			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
-	}
+	if (parent != NULL)
+		gtk_window_set_transient_for (GTK_WINDOW (data->dialog), parent);
 
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 
 	gtk_widget_grab_focus (data->keywords_list_view);
+}
+
+
+typedef struct {
+	GThumbWindow  *window;
+	GList         *file_list;
+	GList         *add_list, *remove_list;
+} DlgCategoriesData;
+
+
+
+static void
+dlg_categories__done (gpointer data)
+{
+	DlgCategoriesData *dcdata = data;
+	GList             *scan;
+	
+	for (scan = dcdata->file_list; scan; scan = scan->next) {
+		const char  *filename = scan->data;
+		CommentData *cdata;
+		GList       *scan2;
+
+		cdata = comments_load_comment (filename);
+		if (cdata == NULL)
+			cdata = comment_data_new ();
+		else 
+			for (scan2 = dcdata->remove_list; scan2; scan2 = scan2->next) {
+				const char *k = scan2->data;
+				comment_data_remove_keyword (cdata, k);
+			}
+
+		for (scan2 = dcdata->add_list; scan2; scan2 = scan2->next) {
+			const char *k = scan2->data;
+			comment_data_add_keyword (cdata, k);
+		}
+
+		comments_save_categories (filename, cdata);
+		comment_data_free (cdata);
+	}
+
+	path_list_free (dcdata->add_list);
+	path_list_free (dcdata->remove_list);
+	g_free (dcdata);
+}
+
+
+void
+dlg_categories (GtkWidget *widget, 
+		gpointer   wdata)
+{
+	GThumbWindow      *window = wdata;
+	GtkWidget         *parent_win = window->viewer;
+	DlgCategoriesData *dcdata;
+
+	dcdata = g_new0 (DlgCategoriesData, 1);
+	dcdata->window = window;
+	dcdata->add_list = NULL;
+	dcdata->remove_list = NULL;
+	dcdata->file_list = gth_file_view_get_file_list_selection (window->file_list->view);
+	if (dcdata->file_list == NULL) {
+		g_free (dcdata);
+		return;
+	}
+
+	while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
+		parent_win = parent_win->parent;
+
+	dlg_choose_categories (GTK_WINDOW (parent_win),
+			       dcdata->file_list,
+			       NULL,
+			       &(dcdata->add_list),
+			       &(dcdata->remove_list),
+			       dlg_categories__done,
+			       dcdata);
 }

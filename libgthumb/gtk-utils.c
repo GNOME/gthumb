@@ -550,6 +550,9 @@ _gtk_entry_set_locale_text (GtkEntry   *entry,
 {
 	char *utf8_text;
 
+	if (text == NULL)
+		text = "";
+
 	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
 	gtk_entry_set_text (entry, utf8_text);
 	g_free (utf8_text);
@@ -577,6 +580,9 @@ _gtk_label_set_locale_text (GtkLabel   *label,
 			    const char *text)
 {
 	char *utf8_text;
+
+	if (text == NULL)
+		text = "";
 
 	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
 	gtk_label_set_text (label, utf8_text);
@@ -606,6 +612,9 @@ _gtk_entry_set_filename_text (GtkEntry   *entry,
 {
 	char *utf8_text;
 
+	if (text == NULL)
+		text = "";
+
 	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
 	gtk_entry_set_text (entry, utf8_text);
 	g_free (utf8_text);
@@ -633,6 +642,9 @@ _gtk_label_set_filename_text (GtkLabel   *label,
 			      const char *text)
 {
 	char *utf8_text;
+
+	if (text == NULL)
+		text = "";
 
 	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
 	gtk_label_set_text (label, utf8_text);

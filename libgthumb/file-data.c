@@ -39,15 +39,17 @@ file_data_new (const char       *path,
 {
 	FileData *fd;
 
-	fd = g_new (FileData, 1);
+	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
 	fd->path = g_strdup (path);
 	fd->name = file_name_from_path (fd->path);
 	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
-	fd->size = info->size;
-	fd->ctime = info->ctime;
-	fd->mtime = info->mtime;
+	if (info != NULL) {
+		fd->size = info->size;
+		fd->ctime = info->ctime;
+		fd->mtime = info->mtime;
+	}
 	fd->error = FALSE;
 	fd->thumb = FALSE;
 	fd->comment = g_strdup ("");

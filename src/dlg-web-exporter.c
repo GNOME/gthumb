@@ -53,6 +53,7 @@ static int           idx_to_resize_width[] = { 320, 640, 800, 1024, 1280 };
 static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 
 
+#define str_void(x) (((x) == NULL) || (*(x) == 0))
 #define GLADE_EXPORTER_FILE "gthumb_web_exporter.glade"
 
 
@@ -69,8 +70,9 @@ typedef struct {
 
 	GtkWidget          *btn_ok;
 
-	GtkWidget          *wa_dest_fileentry;
-	GtkWidget          *dest_fileentry_entry;
+	GtkWidget          *wa_select_destination_button;
+	GtkWidget          *wa_destination_combo_entry;
+	GtkWidget          *wa_destination_combo;
 	GtkWidget          *wa_index_file_entry;
 	GtkWidget          *wa_copy_images_checkbutton;
 	GtkWidget          *wa_resize_images_checkbutton;
@@ -85,12 +87,14 @@ typedef struct {
 
 	GtkWidget          *wa_header_entry;
 	GtkWidget          *wa_footer_entry;
-	GtkWidget          *wa_theme_entry;
+	GtkWidget          *wa_theme_combo_entry;
+	GtkWidget          *wa_theme_combo;
 	GtkWidget          *wa_select_theme_button;
 
 	/**/
 
 	CatalogWebExporter *exporter;
+	GSList *destinations;
 } DialogData;
 
 
@@ -119,7 +123,7 @@ export (GtkWidget  *widget,
 
 	/* Save options. */
 
-	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->dest_fileentry_entry));
+	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_destination_combo_entry));
 	location = remove_ending_separator (path);
 	g_free (path);
 	eel_gconf_set_path (PREF_WEB_ALBUM_DESTINATION, location);
@@ -149,7 +153,7 @@ export (GtkWidget  *widget,
 	footer = gtk_entry_get_text (GTK_ENTRY (data->wa_footer_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_FOOTER, footer);
 
-	theme = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_theme_entry));
+	theme = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_theme_combo_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
 
 	/**/
@@ -267,6 +271,28 @@ resize_image_toggled_cb (GtkToggleButton *button,
 }
 
 
+static void
+update_destinations_list (DialogData *data)
+{
+	GList  *list = NULL;
+	GSList *scan;
+	
+	for (scan = data->destinations; scan; scan = scan->next)
+		list = g_list_prepend (list, scan->data);
+	list = g_list_reverse (list);
+
+	if (list == NULL)
+		list = g_list_append (NULL, "");
+
+	gtk_combo_set_popdown_strings (GTK_COMBO (data->wa_destination_combo), list);
+
+	g_list_free (list);
+}
+
+
+static void show_destination_dialog_cb (GtkWidget  *widget, DialogData *data);
+
+
 /* create the main dialog. */
 void
 dlg_web_exporter (GThumbWindow *window)
@@ -303,7 +329,9 @@ dlg_web_exporter (GThumbWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "web_album_dialog");
-	data->wa_dest_fileentry = glade_xml_get_widget (data->gui, "wa_dest_fileentry");
+	data->wa_select_destination_button = glade_xml_get_widget (data->gui, "wa_select_destination_button");
+	data->wa_destination_combo_entry = glade_xml_get_widget (data->gui, "wa_destination_combo_entry");
+	data->wa_destination_combo = glade_xml_get_widget (data->gui, "wa_destination_combo");
 	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
 	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
 
@@ -319,9 +347,13 @@ dlg_web_exporter (GThumbWindow *window)
 
 	data->wa_header_entry = glade_xml_get_widget (data->gui, "wa_header_entry");
 	data->wa_footer_entry = glade_xml_get_widget (data->gui, "wa_footer_entry");
-	data->wa_theme_entry = glade_xml_get_widget (data->gui, "wa_theme_entry");
+	data->wa_theme_combo_entry = glade_xml_get_widget (data->gui, "wa_theme_combo_entry");
 	data->wa_select_theme_button = glade_xml_get_widget (data->gui, "wa_select_theme_button");
 
+	/**/
+
+
+	/**/
 
 	data->progress_dialog = glade_xml_get_widget (data->gui, "progress_dialog");
 	data->progress_progressbar = glade_xml_get_widget (data->gui, "progress_progressbar");
@@ -332,13 +364,11 @@ dlg_web_exporter (GThumbWindow *window)
 	data->btn_ok = glade_xml_get_widget (data->gui, "wa_ok_button");
 	btn_help = glade_xml_get_widget (data->gui, "wa_help_button");
 
-	data->dest_fileentry_entry = gnome_entry_gtk_entry (GNOME_ENTRY (gnome_file_entry_gnome_entry (GNOME_FILE_ENTRY (data->wa_dest_fileentry))));
-
 	/* Set widgets data. */
 
 	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),
-				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_combo_entry),
+				      ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
 	g_free (svalue);
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE, "index.html");
@@ -372,11 +402,16 @@ dlg_web_exporter (GThumbWindow *window)
 	g_free (svalue);
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, "Clean");
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_theme_entry), svalue);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_theme_combo_entry), svalue);
 	g_free (svalue);
 
 	catalog_web_exporter_set_index_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_INDEX_CAPTION, 0));
 	catalog_web_exporter_set_image_caption (data->exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_IMAGE_CAPTION, 0));
+
+	/**/
+
+	data->destinations = eel_gconf_get_string_list (PREF_WEB_ALBUM_DESTINATIONS);
+	update_destinations_list (data);
 
 	/* Signals. */
 
@@ -433,13 +468,502 @@ dlg_web_exporter (GThumbWindow *window)
 				  G_CALLBACK (catalog_web_exporter_interrupt),
 				  data->exporter);
 
+	g_signal_connect (G_OBJECT (data->wa_select_destination_button),
+			  "clicked",
+			  G_CALLBACK (show_destination_dialog_cb),
+			  data);
+
 	/* Run dialog. */
 
-	gtk_widget_grab_focus (data->wa_dest_fileentry); 
+	gtk_widget_grab_focus (data->wa_destination_combo_entry);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
+}
+
+
+
+
+
+enum {
+	DESTINATION_NAME_COLUMN,
+	DESTINATION_ENTRY_COLUMN,
+};
+
+
+typedef struct {
+	DialogData         *data;
+	GThumbWindow       *window;
+
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+
+	GtkWidget          *wad_destinations_treeview;
+	GtkWidget          *wad_new_button;
+	GtkWidget          *wad_edit_button;
+	GtkWidget          *wad_remove_button;
+	GtkWidget          *wad_cancelbutton;
+	GtkWidget          *wad_okbutton;
+
+	GtkListStore       *list_store;
+	char               *new_value;
+} DestinationsDialogData;
+
+
+/* called when the main dialog is closed. */
+static void
+destination_dialog_destroy_cb (GtkWidget             *widget, 
+			      DestinationsDialogData *ddata)
+{
+	eel_gconf_set_string_list (PREF_WEB_ALBUM_DESTINATIONS,
+				   ddata->data->destinations);
+	update_destinations_list (ddata->data);
+	if (ddata->new_value != NULL)
+		gtk_entry_set_text (GTK_ENTRY (ddata->data->wa_destination_combo_entry), ddata->new_value);
+	g_free (ddata->new_value);
+	g_object_unref (ddata->gui);
+	g_free (ddata);
+}
+
+
+static void
+destination_dialog__ok_clicked (GtkWidget              *widget, 
+				DestinationsDialogData *ddata)
+{
+	GtkTreeSelection *selection;
+	gboolean          destination_selected;
+	GtkTreeIter       iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ddata->wad_destinations_treeview));
+	destination_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	if (destination_selected) 
+		gtk_tree_model_get (GTK_TREE_MODEL (ddata->list_store),
+				    &iter,
+				    DESTINATION_NAME_COLUMN, &ddata->new_value,
+				    -1);
+
+	gtk_widget_destroy (ddata->dialog);
+}
+
+
+static void
+destination_dialog__row_activated_cb (GtkTreeView            *tree_view,
+				      GtkTreePath            *path,
+				      GtkTreeViewColumn      *column,
+				      DestinationsDialogData *ddata)
+{
+	destination_dialog__ok_clicked (NULL, ddata);
+}
+
+
+static void show_edit_destination_dialog (DestinationsDialogData *ddata,
+					  GSList                 *destination_entry);
+
+
+static void
+destination_dialog__new_clicked (GtkWidget              *widget, 
+				 DestinationsDialogData *ddata)
+{
+	GtkTreeSelection *selection;
+	gboolean          destination_selected;
+	GtkTreeIter       iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ddata->wad_destinations_treeview));
+	destination_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	if (destination_selected) {
+		GSList *entry;
+		gtk_tree_model_get (GTK_TREE_MODEL (ddata->list_store),
+				    &iter,
+				    DESTINATION_ENTRY_COLUMN, &entry,
+				    -1);
+		show_edit_destination_dialog (ddata, entry);
+
+	} else
+		show_edit_destination_dialog (ddata, NULL);
+}
+
+
+static void
+destination_dialog__edit_clicked (GtkWidget              *widget, 
+				  DestinationsDialogData *ddata)
+{
+	GtkTreeSelection *selection;
+	gboolean          destination_selected;
+	GtkTreeIter       iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ddata->wad_destinations_treeview));
+	destination_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	if (destination_selected) {
+		GSList *entry;
+		gtk_tree_model_get (GTK_TREE_MODEL (ddata->list_store),
+				    &iter,
+				    DESTINATION_ENTRY_COLUMN, &entry,
+				    -1);
+		show_edit_destination_dialog (ddata, entry);
+	} 
+}
+
+
+static void
+destination_dialog__remove_clicked (GtkWidget              *widget, 
+				    DestinationsDialogData *ddata)
+{
+	GtkTreeSelection *selection;
+	gboolean          destination_selected;
+	GtkTreeIter       iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ddata->wad_destinations_treeview));
+	destination_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	if (destination_selected) {
+		GSList *entry;
+		gtk_tree_model_get (GTK_TREE_MODEL (ddata->list_store),
+				    &iter,
+				    DESTINATION_ENTRY_COLUMN, &entry,
+				    -1);
+		ddata->data->destinations = g_slist_remove_link (ddata->data->destinations, entry);
+		g_free (entry->data);
+		g_slist_free (entry);
+
+		gtk_list_store_remove (ddata->list_store, &iter);
+	}
+}
+
+
+static void
+destionation_dialog_update_destination_list (DestinationsDialogData *ddata)
+{
+	GSList *scan;
+
+	gtk_list_store_clear (ddata->list_store);
+
+	for (scan = ddata->data->destinations; scan; scan = scan->next) {
+		const char  *destination = scan->data;
+		char        *utf8_name;
+		GtkTreeIter  iter;
+			
+		utf8_name = g_filename_to_utf8 (destination, -1, NULL, NULL, NULL);
+			
+		gtk_list_store_append (ddata->list_store, &iter);
+		gtk_list_store_set (ddata->list_store, &iter,
+				    DESTINATION_NAME_COLUMN, utf8_name,
+				    DESTINATION_ENTRY_COLUMN, scan,
+				    -1);
+		
+		g_free (utf8_name);
+	}
+}
+
+
+static void
+show_destination_dialog_cb (GtkWidget  *widget,
+			    DialogData *data)
+{
+	DestinationsDialogData   *ddata;
+	GtkCellRenderer          *renderer;
+	GtkTreeViewColumn        *column;
+
+	ddata = g_new (DestinationsDialogData, 1);
+
+	ddata->data = data;
+	ddata->window = data->window;
+	ddata->new_value = NULL;
+
+	ddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+        if (!ddata->gui) {
+		g_free (ddata);
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+                return;
+        }
+
+	/* Get the widgets. */
+
+	ddata->dialog = glade_xml_get_widget (ddata->gui, "location_dialog");
+	ddata->wad_destinations_treeview = glade_xml_get_widget (ddata->gui, "wad_destinations_treeview");
+	ddata->wad_new_button = glade_xml_get_widget (ddata->gui, "wad_new_button");
+	ddata->wad_edit_button = glade_xml_get_widget (ddata->gui, "wad_edit_button");
+	ddata->wad_remove_button = glade_xml_get_widget (ddata->gui, "wad_remove_button");
+	ddata->wad_cancelbutton = glade_xml_get_widget (ddata->gui, "wad_cancelbutton");
+	ddata->wad_okbutton = glade_xml_get_widget (ddata->gui, "wad_okbutton");
+
+	/* Signals. */
+
+	g_signal_connect (G_OBJECT (ddata->dialog), 
+			  "destroy",
+			  G_CALLBACK (destination_dialog_destroy_cb),
+			  ddata);
+	g_signal_connect_swapped (G_OBJECT (ddata->wad_cancelbutton), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (ddata->dialog));
+	g_signal_connect (G_OBJECT (ddata->wad_okbutton), 
+			  "clicked",
+			  G_CALLBACK (destination_dialog__ok_clicked),
+			  ddata);
+	g_signal_connect (G_OBJECT (ddata->wad_destinations_treeview),
+			  "row_activated",
+			  G_CALLBACK (destination_dialog__row_activated_cb),
+			  ddata);
+
+	g_signal_connect (G_OBJECT (ddata->wad_new_button),
+			  "clicked",
+			  G_CALLBACK (destination_dialog__new_clicked),
+			  ddata);
+	g_signal_connect (G_OBJECT (ddata->wad_edit_button),
+			  "clicked",
+			  G_CALLBACK (destination_dialog__edit_clicked),
+			  ddata);
+	g_signal_connect (G_OBJECT (ddata->wad_remove_button),
+			  "clicked",
+			  G_CALLBACK (destination_dialog__remove_clicked),
+			  ddata);
+
+	/* Set widgets data. */
+
+	ddata->list_store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (ddata->wad_destinations_treeview), GTK_TREE_MODEL (ddata->list_store));
+	g_object_unref (ddata->list_store);
+
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (ddata->wad_destinations_treeview), FALSE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ddata->wad_destinations_treeview), FALSE);
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_text_new ();
+        gtk_tree_view_column_pack_start (column, renderer, TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", DESTINATION_NAME_COLUMN,
+                                             NULL);
+
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+	gtk_tree_view_column_set_sort_column_id (column, DESTINATION_NAME_COLUMN);
+        gtk_tree_view_append_column (GTK_TREE_VIEW (ddata->wad_destinations_treeview), column);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (ddata->list_store), DESTINATION_NAME_COLUMN, GTK_SORT_ASCENDING);
+
+	destionation_dialog_update_destination_list (ddata);
+
+	/* Run dialog. */
+
+	gtk_widget_grab_focus (ddata->wad_destinations_treeview);
+
+	gtk_window_set_transient_for (GTK_WINDOW (ddata->dialog), GTK_WINDOW (data->dialog));
+	gtk_window_set_modal (GTK_WINDOW (ddata->dialog), TRUE);
+	gtk_widget_show_all (ddata->dialog);
+}
+
+
+
+
+typedef struct {
+	DestinationsDialogData *ddata;
+	GThumbWindow       *window;
+
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+
+	GtkWidget          *new_location_dialog;
+	GtkWidget          *wadd_optionmenu;
+	GtkWidget          *wadd_site_entry;
+	GtkWidget          *wadd_port_entry;
+	GtkWidget          *wadd_path_combo_entry;
+	GtkWidget          *wadd_user_entry;
+	GtkWidget          *wadd_password_entry;
+	GtkWidget          *wadd_cancelbutton;
+	GtkWidget          *wadd_okbutton;
+
+	GSList *destination_entry;
+} EditDestinationDialogData;
+
+
+/* called when the main dialog is closed. */
+static void
+edit_destination_dialog_destroy_cb (GtkWidget                 *widget, 
+				    EditDestinationDialogData *eddata)
+{
+	g_object_unref (eddata->gui);
+	g_free (eddata);
+}
+
+
+static void
+edit_destination_dialog__ok_clicked (GtkWidget                 *widget, 
+				     EditDestinationDialogData *eddata)
+{
+	const char  *protocol[3] = {"", "ssh://", "ftp://"};
+	int          protocol_idx;
+	char        *site, *port, *path, *user, *password, *location;
+	GnomeVFSURI *uri;
+	GnomeVFSURIHideOptions hide_opt = GNOME_VFS_URI_HIDE_NONE;
+
+	protocol_idx = gtk_option_menu_get_history (GTK_OPTION_MENU (eddata->wadd_optionmenu));
+
+	site = _gtk_entry_get_filename_text (GTK_ENTRY (eddata->wadd_site_entry));
+	port = _gtk_entry_get_filename_text (GTK_ENTRY (eddata->wadd_port_entry));
+	path = _gtk_entry_get_filename_text (GTK_ENTRY (eddata->wadd_path_combo_entry));
+	user = _gtk_entry_get_locale_text (GTK_ENTRY (eddata->wadd_user_entry));
+	password = _gtk_entry_get_locale_text (GTK_ENTRY (eddata->wadd_password_entry));
+
+	location = g_strdup_printf ("%s%s", protocol[protocol_idx], path);
+	uri = gnome_vfs_uri_new (location);
+	g_free (location);
+
+	if (protocol_idx == 0)
+		hide_opt |= GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD;
+	if (! str_void (site))
+		gnome_vfs_uri_set_host_name (uri, site);
+	else
+		hide_opt |= GNOME_VFS_URI_HIDE_HOST_NAME;
+	if (! str_void (port))
+		gnome_vfs_uri_set_host_port (uri, atoi (port));
+	else
+		hide_opt |= GNOME_VFS_URI_HIDE_HOST_PORT;
+	if (! str_void (user))
+		gnome_vfs_uri_set_user_name (uri, user);
+	else
+		hide_opt |= GNOME_VFS_URI_HIDE_USER_NAME;
+	if (! str_void (password))
+		gnome_vfs_uri_set_password (uri, password);
+	else
+		hide_opt |= GNOME_VFS_URI_HIDE_PASSWORD;
+
+	g_free (site);
+	g_free (port);
+	g_free (path);
+	g_free (user);
+	g_free (password);
+
+	location = gnome_vfs_uri_to_string (uri, hide_opt);
+	gnome_vfs_uri_unref (uri);
+
+	if (eddata->destination_entry == NULL)
+		eddata->ddata->data->destinations = g_slist_append (eddata->ddata->data->destinations, location);
+	else {
+		g_free (eddata->destination_entry->data);
+		eddata->destination_entry->data = location;
+	}
+
+	destionation_dialog_update_destination_list (eddata->ddata);
+	gtk_widget_destroy (eddata->dialog);
+}
+
+
+static void
+edit_destination_dialog_update_sensitivity (EditDestinationDialogData *eddata)
+{
+	gboolean local_host;
+
+	local_host = gtk_option_menu_get_history (GTK_OPTION_MENU (eddata->wadd_optionmenu)) == 0;
+
+	gtk_widget_set_sensitive (eddata->wadd_site_entry, !local_host);
+	gtk_widget_set_sensitive (eddata->wadd_port_entry, !local_host);
+	gtk_widget_set_sensitive (eddata->wadd_user_entry, !local_host);
+	gtk_widget_set_sensitive (eddata->wadd_password_entry, !local_host);
+}
+
+
+static void
+protocol_changed_cb (GtkOptionMenu             *opt_menu,
+		     EditDestinationDialogData *eddata)
+{
+	edit_destination_dialog_update_sensitivity (eddata);
+}
+
+
+static void
+show_edit_destination_dialog (DestinationsDialogData *ddata,
+			      GSList                 *destination_entry)
+{
+	EditDestinationDialogData   *eddata;
+
+	eddata = g_new (EditDestinationDialogData, 1);
+
+	eddata->ddata = ddata;
+	eddata->window = ddata->window;
+	eddata->destination_entry = destination_entry;
+
+	eddata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+        if (!eddata->gui) {
+		g_free (eddata);
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+                return;
+        }
+
+	/* Get the widgets. */
+
+	eddata->dialog = glade_xml_get_widget (eddata->gui, "new_location_dialog");
+	eddata->wadd_optionmenu = glade_xml_get_widget (eddata->gui, "wadd_optionmenu");
+	eddata->wadd_site_entry = glade_xml_get_widget (eddata->gui, "wadd_site_entry");
+	eddata->wadd_port_entry = glade_xml_get_widget (eddata->gui, "wadd_port_entry");
+	eddata->wadd_path_combo_entry = glade_xml_get_widget (eddata->gui, "wadd_path_combo_entry");
+	eddata->wadd_user_entry = glade_xml_get_widget (eddata->gui, "wadd_user_entry");
+	eddata->wadd_password_entry = glade_xml_get_widget (eddata->gui, "wadd_password_entry");
+	eddata->wadd_cancelbutton = glade_xml_get_widget (eddata->gui, "wadd_cancelbutton");
+	eddata->wadd_okbutton = glade_xml_get_widget (eddata->gui, "wadd_okbutton");
+
+	/* Signals. */
+
+	g_signal_connect (G_OBJECT (eddata->dialog), 
+			  "destroy",
+			  G_CALLBACK (edit_destination_dialog_destroy_cb),
+			  eddata);
+	g_signal_connect_swapped (G_OBJECT (eddata->wadd_cancelbutton), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (eddata->dialog));
+	g_signal_connect (G_OBJECT (eddata->wadd_okbutton), 
+			  "clicked",
+			  G_CALLBACK (edit_destination_dialog__ok_clicked),
+			  eddata);
+	g_signal_connect (G_OBJECT (eddata->wadd_optionmenu),
+			  "changed",
+			  G_CALLBACK (protocol_changed_cb),
+			  eddata);
+
+	/* Set widgets data. */
+	
+	if (eddata->destination_entry != NULL) {
+		GnomeVFSURI *uri = gnome_vfs_uri_new (eddata->destination_entry->data);
+
+		if (uri != NULL) {
+			const char  *scheme;
+			int          idx = 0;
+			char        *port;
+			
+			scheme = gnome_vfs_uri_get_scheme (uri);
+			if ((scheme != NULL) && (*scheme != 0)) {
+				if (strcmp (scheme, "ssh") == 0)
+					idx = 1;
+				else if (strcmp (scheme, "ftp") == 0)
+					idx = 2;
+			}
+			gtk_option_menu_set_history (GTK_OPTION_MENU (eddata->wadd_optionmenu), idx);
+			
+			port = g_strdup_printf ("%d", gnome_vfs_uri_get_host_port (uri));
+			_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_port_entry), port);
+			g_free (port);
+			
+			_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_site_entry), gnome_vfs_uri_get_host_name (uri));
+			_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_path_combo_entry), gnome_vfs_uri_get_path (uri));
+			_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_user_entry), gnome_vfs_uri_get_user_name (uri));
+			_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_password_entry), gnome_vfs_uri_get_password (uri));
+			gnome_vfs_uri_unref (uri);
+		}
+
+	} else
+		_gtk_entry_set_filename_text (GTK_ENTRY (eddata->wadd_path_combo_entry), g_get_home_dir());
+
+	edit_destination_dialog_update_sensitivity (eddata);
+
+	/* Run dialog. */
+
+	gtk_widget_grab_focus (eddata->wadd_path_combo_entry);
+
+	gtk_window_set_transient_for (GTK_WINDOW (eddata->dialog), GTK_WINDOW (ddata->dialog));
+	gtk_window_set_modal (GTK_WINDOW (eddata->dialog), TRUE);
+	gtk_widget_show_all (eddata->dialog);
 }
 
 
@@ -499,7 +1023,7 @@ theme_dialog__ok_clicked (GtkWidget       *widget,
 				    &iter,
 				    THEME_NAME_COLUMN, &utf8_name,
 				    -1);
-		gtk_entry_set_text (GTK_ENTRY (tdata->data->wa_theme_entry), utf8_name);
+		gtk_entry_set_text (GTK_ENTRY (tdata->data->wa_theme_combo_entry), utf8_name);
 		g_free (utf8_name);
 	}
 
@@ -704,6 +1228,7 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 
 static void show_thumbnail_caption_dialog_cb (GtkWidget  *widget,  ThemeDialogData *data);
 static void show_image_caption_dialog_cb     (GtkWidget  *widget,  ThemeDialogData *data);
+
 
 static void
 show_album_theme_cb (GtkWidget  *widget,

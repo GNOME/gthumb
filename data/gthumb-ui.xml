@@ -24,6 +24,9 @@
 	<cmd name="File_Print" _label="_Print..." 
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print" accel="*Control*P"/>
+	<cmd name="File_CameraImport" _label="_Import Photos..." 
+	     _tip="Import photos from a digital camera"
+	     pixtype="stock" pixname="gthumb-camera"/>
 	<cmd name="File_Exit" _label="E_xit" 
 	     _tip="Close all windows and exit"
 	     pixtype="stock" pixname="gtk-quit" accel="*Control*Q"/>
@@ -391,9 +394,9 @@
 	     pixtype="stock" pixname="gtk-convert"
 	     _tip="Convert image format"/>
      	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates..."/>
-	<cmd name="Tools_JPEGRotate" _label="Rotate _JPEG" 
+	<cmd name="Tools_JPEGRotate" _label="Ro_tate Images" 
 	     pixtype="stock" pixname="gthumb-transform"
-	     _tip="Rotate jpeg images without loss of quality"/>
+	     _tip="Rotate images without loss of quality"/>
 	<cmd name="Tools_Maintenance" _label="_Maintenance" />
 	<cmd name="Tools_Preferences" _label="_Preferences" 
 	     _tip="Edit various preferences"
@@ -446,6 +449,8 @@
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
+		<separator/>
+		<menuitem name="File_CameraImport" verb=""/>
 		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>
 <!-- 	<menuitem name="File_Exit" verb=""/> -->
@@ -752,18 +757,9 @@
 	<popup name="FullscreenImagePopup">
 		<menuitem name="View_ExitFullscreenPopup" verb=""/>
 		<separator/>
-		<menuitem name="AlterImage_Rotate90" verb=""/>
-		<menuitem name="AlterImage_Rotate90CC" verb=""/>
-		<menuitem name="AlterImage_Flip" verb=""/>
-		<menuitem name="AlterImage_Mirror" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_Desaturate" verb=""/>
-		<menuitem name="AlterImage_Invert" verb=""/>
-		<separator/>
-		<menuitem name="View_ZoomIn" verb="" _label="Zoom _In"/>
-		<menuitem name="View_ZoomOut" verb="" _label="Zoom _Out"/>
-		<menuitem name="View_Zoom100" verb="" _label="_Actual Size"/>
-		<menuitem name="View_ZoomFit" verb="" _label="Zoom to _Fit"/>
+		<menuitem name="Edit_EditComment" verb=""/>
+		<menuitem name="Edit_EditCategories" verb=""/>
+		<menuitem name="Edit_DeleteComment" verb=""/>
 	</popup>
 
 	<popup name="CatalogPopup">

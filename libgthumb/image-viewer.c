@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -960,6 +960,8 @@ image_viewer_button_release  (GtkWidget *widget,
 		return FALSE;
 	}
 
+	gdk_pointer_ungrab (event->time);
+
 	if (! viewer->dragging 
 	    && ! viewer->double_click 
 	    && ! viewer->just_focused) {
@@ -972,7 +974,6 @@ image_viewer_button_release  (GtkWidget *widget,
 	viewer->just_focused = FALSE;
 	viewer->pressed = FALSE;
 	viewer->dragging = FALSE;
-	gdk_pointer_ungrab (event->time);
 
 	return FALSE;
 }

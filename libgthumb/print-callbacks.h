@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,8 +23,11 @@
 #ifndef PRINT_CALLBACKS_H
 #define PRINT_CALLBACKS_H
 
-void  print_image_dlg (GtkWindow   *parent, 
-		       ImageViewer *viewer, 
-		       const char  *location);
+void  print_image_dlg    (GtkWindow   *parent, 
+			  ImageViewer *viewer, 
+			  const char  *location);
+
+void  print_catalog_dlg  (GtkWindow *parent,
+			  GList     *file_list);
 
 #endif /* PRINT_CALLBACKS_H */

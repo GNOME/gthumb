@@ -222,14 +222,15 @@ get_file_info (GThumbWindow *window)
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 
-	file_info = g_strdup_printf ("%d/%d - <tt>%s</tt>\n<i>%s (%d%%) - %s - %s </i>",
-				     gth_file_list_pos_from_path (window->file_list, window->image_path) + 1,
-				     gth_file_list_get_length (window->file_list),
-				     e_filename,
+	file_info = g_strdup_printf ("<small><i>%s (%d%%) - %s - %s </i>\n%d/%d - <tt>%s</tt></small>",
 				     size_txt,
 				     zoom,
 				     file_size_txt,
-				     time_txt);
+				     time_txt,
+				     gth_file_list_pos_from_path (window->file_list, window->image_path) + 1,
+				     gth_file_list_get_length (window->file_list),
+				     e_filename);
+
 	g_free (e_filename);
 	g_free (size_txt);
 	g_free (file_size_txt);
@@ -294,7 +295,7 @@ show_comment_on_image (GThumbWindow *window,
 		marked_text = g_strdup (file_info); /*g_strdup_printf ("<i>%s</i>", file_info);*/
 	else {
 		e_comment = g_markup_escape_text (comment, -1);
-		marked_text = g_strdup_printf ("<b>%s</b>\n%s", 
+		marked_text = g_strdup_printf ("<b>%s</b>\n\n%s", 
 					       e_comment, 
 					       file_info);
 		g_free (e_comment);

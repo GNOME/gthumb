@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <string.h>
+#include <unistd.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -67,25 +68,16 @@ destroy_cb (GtkWidget *w,
 }
 
 
-static gboolean
-is_mime_type_writable (const char *mime_type)
+static void 
+file_save_cancel_cb (GtkWidget *w,
+		     GtkWidget *file_sel)
 {
-	GSList *list, *scan;
+	SaveImageData *data;	
 
-	list = gdk_pixbuf_get_formats();
-	for (scan = list; scan; scan = scan->next) {
-		GdkPixbufFormat *format = scan->data;
-		char **mime_types;
-		int i;
-		mime_types = gdk_pixbuf_format_get_mime_types (format);
-		for (i = 0; mime_types[i] != NULL; i++) 
-			if (strcmp (mime_type, mime_types[i]) == 0)
-				return gdk_pixbuf_format_is_writable (format);
-		g_strfreev (mime_types);
-	}
-	g_slist_free (list);
-	
-	return FALSE;
+	data = g_object_get_data (G_OBJECT (file_sel), "data");
+	if (data->done_func != NULL) 
+		(*data->done_func) (NULL, data->done_data);
+	gtk_widget_destroy (file_sel);
 }
 
 
@@ -93,14 +85,17 @@ static void
 file_save_ok_cb (GtkWidget *w,
 		 GtkWidget *file_sel)
 {
-	static char *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
-	GtkWindow   *parent;
-	GtkWidget   *opt_menu;
-	GdkPixbuf   *pixbuf;
-	char        *filename;
-	gboolean     file_exists;
-	const char  *mime_type;
-	int          idx;
+	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
+	GtkWindow     *parent;
+	GtkWidget     *opt_menu;
+	GdkPixbuf     *pixbuf;
+	char          *filename = NULL;
+	char          *dir;
+	gboolean       file_exists;
+	const char    *mime_type;
+	int            idx;
+	gboolean       image_saved = FALSE;
+	SaveImageData *data;	
 
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
@@ -108,7 +103,23 @@ file_save_ok_cb (GtkWidget *w,
 
 	if (filename == NULL)
 		return;
-	
+
+	/* Check permissions */
+
+	dir = remove_level_from_path (filename);
+	if (access (dir, R_OK | W_OK | X_OK) != 0) {
+		char *utf8_path;
+		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (parent,
+				       _("You don't have the right permissions to create images in the folder \"%s\""),
+				       utf8_path);
+		g_free (utf8_path);
+		g_free (dir);
+		g_free (filename);
+		return;
+	}
+	g_free (dir);
+
 	file_exists = path_is_file (filename);
 
 	if (file_exists) { 
@@ -160,12 +171,8 @@ file_save_ok_cb (GtkWidget *w,
 						 keys, values,
 						 &error)) 
 				_gtk_error_dialog_from_gerror_run (parent, &error);
-			else {
-				SaveImageData *data;	
-				data = g_object_get_data (G_OBJECT (file_sel), "data");
-				if (data->done_func != NULL) 
-					(*data->done_func) (filename, data->done_data);
-			}
+			else 
+				image_saved = TRUE;
 		}
 		
 		g_strfreev (keys);
@@ -174,6 +181,15 @@ file_save_ok_cb (GtkWidget *w,
 		_gtk_error_dialog_run (parent,
 				       _("Image type not supported: %s"),
 				       mime_type);
+
+	if (! image_saved) {
+		g_free (filename);
+		filename = NULL;
+	}
+
+	data = g_object_get_data (G_OBJECT (file_sel), "data");
+	if (data->done_func != NULL) 
+		(*data->done_func) (filename, data->done_data);
 	
 	g_free (filename);
 	gtk_widget_destroy (file_sel);
@@ -277,10 +293,10 @@ dlg_save_image (GtkWindow       *parent,
 			  G_CALLBACK (file_save_ok_cb), 
 			  file_sel);
 
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-				  "clicked", 
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (file_sel));
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
+			  "clicked", 
+			  G_CALLBACK (file_save_cancel_cb),
+			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 

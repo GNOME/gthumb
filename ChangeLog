@@ -1,8 +1,3 @@
-2003-12-14  Paolo Bacchilega  <paolo.bacch@tin.it>
-
-	* libgthumb/print-callbacks.c (get_next_line_to_print_delimiter): 
-	handle new lines in the comments.
-
 2003-12-13  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/commands-impl.c (folder_rename): resolve the old path before 
@@ -13,10 +8,40 @@
 	* src/dlg-search.c: create the categories dialog with a new gui object;
 	allow to save void searches.
 
+2003-12-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-web-exporter.c: Implement destination manager.
+
 2003-12-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* src/gthumb-window.c (window_update_statusbar_image_info): translate 
-	locale text to utf8.
+	* src/dlg-preferences.c (dlg_preferences): added "Ask whether to save
+	modified images" option.
+
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): check write permissions
+	before saving.
+
+	* libgthumb/image-viewer.c (image_viewer_button_release): emit the 
+	CLICK signal after ungrubbing the mouse pointer.
+
+2003-12-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (ask_whether_to_save): ask whether to save a 
+	modified image.
+
+	* src/dlg-png-exporter.c (dlg_exporter): remove name examples.
+
+	* src/dlg-rename-series.c (update_list): use %f, %d, %s instead of 
+	*, ! and ? when renaming filenames.
+
+	* libgthumb/glib-utils.c (_g_substitute_pattern): new function.
+
+2003-12-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/print-callbacks.c (print_catalog_cb): 
+	* libgthumb/print-callbacks.h: implement catalog printing.
+
+	* src/dlg-jpegtran.c (apply_tranformation_generic, dlg_jpegtran): 
+	implement generic transformations of non jpeg images.
 
 2003-12-01  Paolo Bacchilega  <paolo.bacch@tin.it>
 

@@ -65,7 +65,6 @@ typedef struct {
 	GtkWidget          *dest_fileentry_entry;
 	GtkWidget          *template_entry;
 	GtkWidget          *file_type_option_menu;
-	GtkWidget          *example1_label, *example2_label, *example3_label;
 	GtkWidget          *image_map_checkbutton;
 	GtkWidget          *start_at_spinbutton;
 
@@ -92,65 +91,6 @@ destroy_cb (GtkWidget  *widget,
 	if (data->exporter)
 		g_object_unref (data->exporter);
 	g_free (data);
-}
-
-
-static void
-update_example_labels (DialogData *data)
-{
-	const char  *t_txt;
-	char        *t_txt_png;
-	char       **template;
-	char        *example;
-	char        *type_extension;
-	int          type_id;
-	int          start_at;
-
-	t_txt = gtk_entry_get_text (GTK_ENTRY (data->template_entry));
-
-	type_id = gtk_option_menu_get_history (GTK_OPTION_MENU (data->file_type_option_menu));
-	switch (type_id) {
-	case 0: type_extension = ".png"; break;
-	case 1: type_extension = ".jpeg"; break;
-	}
-
-	if ((t_txt == NULL) || (*t_txt == 0)) {
-		gtk_widget_set_sensitive (data->btn_ok, FALSE);
-		gtk_label_set_text (GTK_LABEL (data->example1_label), "");
-		gtk_label_set_text (GTK_LABEL (data->example2_label), "");
-		gtk_label_set_text (GTK_LABEL (data->example3_label), "");
-		return;
-	}
-
-	t_txt_png = g_strconcat (t_txt, type_extension, NULL);
-
-	gtk_widget_set_sensitive (data->btn_ok, TRUE);
-	template = _g_get_template_from_text (t_txt_png);
-	g_free (t_txt_png);
-
-	start_at = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->start_at_spinbutton));
-	
-	example = _g_get_name_from_template (template, start_at++);
-	gtk_label_set_text (GTK_LABEL (data->example1_label), example);
-	g_free (example);
-
-	example = _g_get_name_from_template (template, start_at++);
-	gtk_label_set_text (GTK_LABEL (data->example2_label), example);
-	g_free (example);
-
-	example = _g_get_name_from_template (template, start_at++);
-	gtk_label_set_text (GTK_LABEL (data->example3_label), example);
-	g_free (example);
-
-	g_strfreev (template);
-}
-
-
-static void
-update_example_labels_cb (GtkWidget  *widget,
-			  DialogData *data)
-{
-	update_example_labels (data);
 }
 
 
@@ -407,9 +347,6 @@ dlg_exporter (GThumbWindow *window)
 	data->dest_fileentry = glade_xml_get_widget (data->gui, "dest_fileentry");
 	data->template_entry = glade_xml_get_widget (data->gui, "template_entry");
 	data->file_type_option_menu = glade_xml_get_widget (data->gui, "type_optionmenu");
-	data->example1_label = glade_xml_get_widget (data->gui, "example1_label");
-	data->example2_label = glade_xml_get_widget (data->gui, "example2_label");
-	data->example3_label = glade_xml_get_widget (data->gui, "example3_label");
 	
 	data->progress_dialog = glade_xml_get_widget (data->gui, "progress_dialog");
 	data->progress_progressbar = glade_xml_get_widget (data->gui, "progress_progressbar");
@@ -460,18 +397,6 @@ dlg_exporter (GThumbWindow *window)
 			  G_CALLBACK (export_info),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->template_entry), 
-			  "changed",
-			  G_CALLBACK (update_example_labels_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->start_at_spinbutton), 
-			  "value_changed",
-			  G_CALLBACK (update_example_labels_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->file_type_option_menu), 
-			  "changed",
-			  G_CALLBACK (update_example_labels_cb),
-			  data);
 	g_signal_connect_swapped (G_OBJECT (data->progress_dialog), 
 				  "delete_event",
 				  G_CALLBACK (catalog_png_exporter_interrupt),
@@ -498,8 +423,6 @@ dlg_exporter (GThumbWindow *window)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->start_at_spinbutton),
 				   eel_gconf_get_integer (PREF_EXP_START_FROM, 1));
 				    
-	update_example_labels (data);
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->image_map_checkbutton), eel_gconf_get_boolean (PREF_EXP_WRITE_IMAGE_MAP, FALSE));
 
 	s = eel_gconf_get_string (PREF_EXP_FILE_TYPE, DEF_FILE_TYPE);

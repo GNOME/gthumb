@@ -1,22 +1,7 @@
 SUBDIRS = icons jpegutils
 DIST_SUBDIRS = icons jpegutils 
 
-glade_DATA = 				\
-	gthumb.glade 			\
-	gthumb_comments.glade		\
-	gthumb_convert.glade		\
-	gthumb_edit.glade		\
-	gthumb_png_exporter.glade 	\
-	gthumb_preferences.glade	\
-	gthumb_print.glade		\
-	gthumb_search.glade		\
-	gthumb_tools.glade		\
-	gthumb_web_exporter.glade 
-
 gladedir = $(datadir)/gthumb/glade
-
-uidir = $(datadir)/gnome-2.0/ui
-ui_DATA = gthumb-ui.xml 
 
 if ENABLE_DEPRECATIONS
 DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED
@@ -28,6 +13,7 @@ INCLUDES =					\
 	$(GTHUMB_CFLAGS)			\
 	$(EXIF_CFLAGS)				\
 	$(DISABLE_DEPRECATED)			\
+	$(LIBGPHOTO_CFLAGS)			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
 	-DGTHUMB_DATADIR=\"$(datadir)\"		\
@@ -114,6 +100,7 @@ gthumb_LDADD = 					\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
+	$(LIBGPHOTO_LIBS)			\
 	$(top_builddir)/libgthumb/libgthumb.la
 
 moduledir = $(libdir)/gthumb/modules
@@ -122,7 +109,8 @@ module_LTLIBRARIES = 		\
 	libjpegtran.la		\
 	libpngexporter.la	\
 	libsearch.la		\
-	libwebexporter.la	
+	libwebexporter.la	\
+	libphotoimporter.la
 
 libduplicates_la_SOURCES = dlg-duplicates.c dlg-duplicates.h
 libduplicates_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
@@ -151,26 +139,12 @@ libwebexporter_la_SOURCES = 	\
 	dlg-web-exporter.h
 libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
-schemadir = @GCONF_SCHEMA_FILE_DIR@
-schema_in_files = gthumb.schemas.in
-schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+libphotoimporter_la_SOURCES = dlg-photo-importer.c dlg-photo-importer.h
+libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
-@INTLTOOL_SCHEMAS_RULE@
-
-if SCHEMAS_INSTALL
-install-data-local:
-	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
-endif
 
 EXTRA_DIST = 			\
-	$(glade_DATA)		\
-	$(ui_DATA)		\
 	albumtheme.c		\
 	albumtheme.y		\
 	albumtheme.l		\
-	lex.albumtheme.c	\
-	gthumb.schemas		\
-	gthumb.schemas.in
-
-DISTCLEANFILES =                \
-	$(schema_DATA)
+	lex.albumtheme.c

@@ -415,8 +415,8 @@ catalog_list_refresh (CatalogList *cat_list)
 					    GTK_STOCK_GO_UP,
 					    GTK_ICON_SIZE_MENU,
 					    NULL);
-	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
-	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
+	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
+	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
 
 	name_scan = dir_name;
 	for (scan = dir_list; scan; scan = scan->next) {

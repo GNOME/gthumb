@@ -1521,3 +1521,25 @@ get_dest_free_space (const char  *path)
 	else
 		return ret_val;
 }
+
+
+gboolean
+is_mime_type_writable (const char *mime_type)
+{
+	GSList *list, *scan;
+
+	list = gdk_pixbuf_get_formats();
+	for (scan = list; scan; scan = scan->next) {
+		GdkPixbufFormat *format = scan->data;
+		char **mime_types;
+		int i;
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; mime_types[i] != NULL; i++) 
+			if (strcmp (mime_type, mime_types[i]) == 0)
+				return gdk_pixbuf_format_is_writable (format);
+		g_strfreev (mime_types);
+	}
+	g_slist_free (list);
+	
+	return FALSE;
+}

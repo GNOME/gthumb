@@ -1255,6 +1255,20 @@
 	  </long>
 	</locale>
       </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/destinations</key>
+	<applyto>/apps/gthumb/dialogs/web_album/destinations</applyto>
+	<owner>gthumb</owner>
+	<type>list</type>
+	<list_type>string</list_type>
+	<default>[]</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
       
       <schema>
 	<key>/schemas/apps/gthumb/dialogs/web_album/index_file</key>
@@ -1546,11 +1560,37 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/images_per_page</key>
+	<applyto>/apps/gthumb/dialogs/print/images_per_page</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Messages -->
 
       <schema>
 	<key>/schemas/apps/gthumb/dialogs/messages/cannot_move_to_trash</key>
 	<applyto>/apps/gthumb/dialogs/messages/cannot_move_to_trash</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/save_modified_image</key>
+	<applyto>/apps/gthumb/dialogs/messages/save_modified_image</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>true</default>

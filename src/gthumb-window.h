@@ -136,6 +136,9 @@ typedef struct {
 	char               *image_path;         /* The image file we are 
 						 * showing in the image 
 						 * viewer. */
+	char               *new_image_path;     /* The image to load after
+						 * asking whether to save
+						 * the current image. */
 	time_t              image_mtime;        /* Modification time of loaded
 						 * image, used to reload the 
 						 * image only when needed.*/
@@ -156,6 +159,7 @@ typedef struct {
 						 * the file list.  Used to 
 						 * handle the refreshing case 
 						 * in a special way. */
+	gboolean            saving_modified_image;
 
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
@@ -163,7 +167,7 @@ typedef struct {
 	guint               busy_cursor_timeout;
 	guint               auto_load_timeout;
 	guint               update_layout_timeout;
-
+	
 	GThumbPreloader    *preloader;
 
 	/* viewer stuff */

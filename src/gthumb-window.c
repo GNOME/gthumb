@@ -126,6 +126,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_OpenWith", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_OpenWithPopup", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_Print", file_print_command_impl),
+	BONOBO_UI_VERB ("File_CameraImport", file_camera_import_command_impl),
 	BONOBO_UI_VERB ("Image_Print", file_print_command_impl),
 	BONOBO_UI_VERB ("File_Save", file_save_command_impl),
 	BONOBO_UI_VERB ("Image_Save", file_save_command_impl),
@@ -709,8 +710,8 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "File_Save", ! image_is_void);
 	set_command_sensitive (window, "Image_Save", ! image_is_void);
 	set_command_sensitive (window, "File_Revert", ! image_is_void && window->image_modified);
-	set_command_sensitive (window, "File_Print", ! image_is_void);
-	set_command_sensitive (window, "Image_Print", ! image_is_void);
+	set_command_sensitive (window, "File_Print", ! image_is_void || sel_not_null);
+	set_command_sensitive (window, "Image_Print", ! image_is_void || sel_not_null);
 
 	/* Edit menu. */
 
@@ -860,21 +861,7 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Wallpaper_Scaled", ! image_is_void);
 	set_command_sensitive (window, "Wallpaper_Stretched", ! image_is_void);
 
-	/* Rotate Tool */
-
-	if (! window->setting_file_list && ! window->changing_directory) {
-		GList *list, *scan;
-		list = gth_file_list_get_selection_as_fd (window->file_list);
-		for (scan = list; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			if (image_is_jpeg (fd->path)) 
-				break;
-		}
-		file_data_list_free (list);
-		set_command_sensitive (window, "Tools_JPEGRotate", scan != NULL);
-
-	} else
-		set_command_sensitive (window, "Tools_JPEGRotate", FALSE);
+	set_command_sensitive (window, "Tools_JPEGRotate", sel_not_null);
 }
 
 
@@ -1346,9 +1333,9 @@ add_bookmark_menu_item (GThumbWindow *window,
 						 NULL);
 	else {
 		if (pref_util_location_is_catalog (path)) 
-			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
+			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
 		else if (pref_util_location_is_search (path))
-			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
+			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
 		else
 			pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (window->app));
 	}
@@ -5580,6 +5567,11 @@ window_free (GThumbWindow *window)
 		window->image_path = NULL;
 	}
 
+	if (window->new_image_path) {
+		g_free (window->new_image_path);
+		window->new_image_path = NULL;
+	}
+
 	if (window->image_catalog) {
 		g_free (window->image_catalog);	
 		window->image_catalog = NULL;
@@ -7146,6 +7138,9 @@ image_saved__step2 (gpointer data)
 	if (window->image_path == NULL)
 		return;
 
+	window->image_modified = FALSE;
+	window->saving_modified_image = FALSE;
+
 	pos = gth_file_list_pos_from_path (window->file_list, 
 					   window->image_path);
 	if (pos != -1) {
@@ -7291,12 +7286,67 @@ window_reload_image (GThumbWindow *window)
 }
 
 
+static void
+image_saved_cb (char     *filename,
+		gpointer  data)
+{
+	GThumbWindow *window = data;
+
+	window->image_modified = FALSE;
+	window->saving_modified_image = FALSE;
+	window_load_image (window, window->new_image_path);
+}
+
+
+static gboolean
+ask_whether_to_save (GThumbWindow *window)
+{
+	int        r = GTK_RESPONSE_YES;
+	GtkWidget *d;
+
+	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
+		return FALSE;
+		
+	d = _gtk_yesno_dialog_with_checkbutton_new (
+			    GTK_WINDOW (window->app),
+			    GTK_DIALOG_MODAL,
+			    _("The current image has been modified, do you want to save it?"),
+			    GTK_STOCK_CANCEL,
+			    GTK_STOCK_SAVE_AS,
+			    _("_Do not display this message again"),
+			    PREF_MSG_SAVE_MODIFIED_IMAGE);
+		
+	r = gtk_dialog_run (GTK_DIALOG (d));
+	gtk_widget_destroy (GTK_WIDGET (d));
+	
+	if (r == GTK_RESPONSE_YES) 
+		dlg_save_image (GTK_WINDOW (window->app),
+				window->image_path,
+				image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
+				image_saved_cb,
+				window);
+
+	window->saving_modified_image = (r == GTK_RESPONSE_YES);
+
+	return window->saving_modified_image;
+}
+
 
 void
 window_load_image (GThumbWindow *window, 
 		   const char   *filename)
 {
 	g_return_if_fail (window != NULL);
+
+	if (window->image_modified) {
+		if (window->saving_modified_image)
+			return;
+
+		g_free (window->new_image_path);
+		window->new_image_path = g_strdup (filename);
+		if (ask_whether_to_save (window))
+			return;
+	}
 
 	if (filename == window->image_path) {
 		window_reload_image (window);

@@ -40,7 +40,7 @@
 #include "gconf-utils.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
-#include "image-viewer.h"
+#include "image-loader.h"
 #include "main.h"
 #include "icons/pixbufs.h"
 #include "jpegutils/jpegtran.h"
@@ -50,7 +50,7 @@
 #define ROTATE_GLADE_FILE "gthumb_tools.glade"
 #define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
 
-#define PREVIEW_SIZE 256
+#define PREVIEW_SIZE 200
 
 enum {
 	TRAN_ROTATE_0,
@@ -67,15 +67,17 @@ typedef struct {
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
-	GtkWidget    *j_button_box;
+	GtkWidget    *j_button_box;	
+	GtkWidget    *j_revert_button;;
 	GtkWidget    *j_apply_to_all_checkbutton;
+	GtkWidget    *j_preview_image;
 
 	int           rot_type;    /* 0, 90 ,180, 270 */
 	int           tran_type;   /* mirror, flip */
 	GList        *file_list;
 	GList        *files_changed_list;
 	GList        *current_image;
-	GtkWidget    *viewer;
+	ImageLoader  *loader;
 } DialogData;
 
 
@@ -92,6 +94,7 @@ destroy_cb (GtkWidget  *widget,
 	all_windows_add_monitor ();
 
 	file_data_list_free (data->file_list);
+	g_object_unref (data->loader);
 	g_object_unref (data->gui);
 	g_free (data);
 }
@@ -111,11 +114,60 @@ add_image_to_button (GtkWidget    *button,
 }
 
 
-static void
-image_loaded_cb (ImageViewer *viewer,
-		 DialogData  *data)
+static GdkPixbuf *
+_gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf, 
+				     int        max_width, 
+				     int        max_height)
+{
+	int        width, height;
+	int        new_width, new_height;
+	double     factor;
+	GdkPixbuf *result = NULL;
+
+	if (pixbuf == NULL)
+		return NULL;
+
+	width = gdk_pixbuf_get_width (pixbuf);
+	height = gdk_pixbuf_get_height (pixbuf);
+	factor = MIN ((double)max_width / width, (double)max_height / height);
+	new_width  = MAX ((int) ((double)width * factor - 0.5), 1);
+	new_height = MAX ((int) ((double)height * factor - 0.5), 1);
+
+	if ((new_width != width) || (new_height != height))
+		result = gdk_pixbuf_scale_simple (pixbuf, new_width, new_height, GDK_INTERP_BILINEAR);
+	else {
+		result = pixbuf;
+		g_object_ref (result);
+	}
+
+	return result;
+}
+
+
+static void 
+image_loader_done_cb (ImageLoader  *il,
+		      DialogData   *data)
+{
+	GdkPixbuf *pixbuf;
+
+	pixbuf = image_loader_get_pixbuf (il);
+	if (pixbuf != NULL) {
+		GdkPixbuf *scaled = _gdk_pixbuf_scale_keep_aspect_ratio (pixbuf, PREVIEW_SIZE, PREVIEW_SIZE);
+		gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), scaled);
+		g_object_unref (scaled);
+
+		gtk_widget_set_sensitive (data->j_button_box, TRUE);
+		gtk_widget_set_sensitive (data->j_revert_button, TRUE);
+	}
+}
+
+
+static void 
+image_loader_error_cb (ImageLoader  *il,
+		       DialogData   *data)
 {
 	gtk_widget_set_sensitive (data->j_button_box, TRUE);
+	gtk_widget_set_sensitive (data->j_revert_button, TRUE);
 }
 
 
@@ -130,9 +182,11 @@ load_current_image (DialogData *data)
 	}
 	
 	gtk_widget_set_sensitive (data->j_button_box, FALSE);
+	gtk_widget_set_sensitive (data->j_revert_button, FALSE);
 
 	fd = data->current_image->data;
-	image_viewer_load_image (IMAGE_VIEWER (data->viewer), fd->path);
+	image_loader_set_path (data->loader, fd->path);
+	image_loader_start (data->loader);
 
 	data->rot_type = TRAN_ROTATE_0;
 	data->tran_type = TRAN_NONE;
@@ -242,8 +296,8 @@ swap_xy_exif_fields (const char *filename)
 
 
 static void
-apply_tran (DialogData *data,
-	    GList      *current_image)
+apply_tranformation_jpeg (DialogData *data,
+			  GList      *current_image)
 {
 	FileData   *fd = current_image->data;
 	int         rot_type = data->rot_type; 
@@ -262,8 +316,6 @@ apply_tran (DialogData *data,
 
 	if ((rot_type == TRAN_ROTATE_0) && (tran_type == TRAN_NONE))
 		return;
-
-	
 
 	if (rot_type == TRAN_ROTATE_0)
 		tmp1 = g_strdup (fd->path);
@@ -418,6 +470,86 @@ apply_tran (DialogData *data,
 
 
 static void
+apply_transformation_generic (DialogData *data,
+			      GList      *current_image)
+{
+	FileData   *fd = current_image->data;
+	int         rot_type = data->rot_type; 
+	int         tran_type = data->tran_type; 
+	GdkPixbuf  *pixbuf1, *pixbuf2;
+	const char *mime_type;
+
+	if ((rot_type == TRAN_ROTATE_0) && (tran_type == TRAN_NONE))
+		return;
+
+	pixbuf1 = gdk_pixbuf_new_from_file (fd->path, NULL);
+	if (pixbuf1 == NULL)
+		return;
+
+	switch (rot_type) {
+	case TRAN_ROTATE_90:
+		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, FALSE);
+		break;
+	case TRAN_ROTATE_180:
+		pixbuf2 = _gdk_pixbuf_copy_mirror (pixbuf1, TRUE, TRUE);
+		break;
+	case TRAN_ROTATE_270:
+		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, TRUE);
+		break;
+	default:
+		pixbuf2 = pixbuf1;
+		g_object_ref (pixbuf2);
+		break;
+	}
+	g_object_unref (pixbuf1);
+
+	switch (tran_type) {
+	case TRAN_MIRROR:
+		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, TRUE, FALSE);
+		break;
+	case TRAN_FLIP:
+		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, FALSE, TRUE);
+		break;
+	default:
+		pixbuf1 = pixbuf2;
+		g_object_ref (pixbuf1);
+		break;
+	}
+	g_object_unref (pixbuf2);
+
+	mime_type = gnome_vfs_mime_type_from_name (fd->path);
+	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
+		GError      *error = NULL;
+		const char  *image_type = mime_type + 6;
+		if (! _gdk_pixbuf_save (pixbuf1, 
+					fd->path, 
+					image_type, 
+					&error, 
+					NULL))
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->window->app), &error);
+	}
+	g_object_unref (pixbuf1);
+
+	data->files_changed_list = g_list_prepend (data->files_changed_list, 
+						   g_strdup (fd->path));
+
+}
+
+
+static void
+apply_transformation (DialogData *data,
+		      GList      *current_image)
+{
+	FileData *fd = current_image->data;
+
+	if (image_is_jpeg (fd->path)) 
+		apply_tranformation_jpeg (data, current_image);
+	else 
+		apply_transformation_generic (data, current_image);
+}
+
+
+static void
 ok_clicked (GtkWidget  *button, 
 	    DialogData *data)
 {
@@ -456,12 +588,12 @@ ok_clicked (GtkWidget  *button,
 
 			_gtk_label_set_filename_text (GTK_LABEL (label), fd->name);
 			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
-						       (gdouble) i / n);
+						       (gdouble) (i + 1) / n);
 
 			while (gtk_events_pending())
 				gtk_main_iteration();
 
-			apply_tran (data, scan);
+			apply_transformation (data, scan);
 
 			i++;
 		}
@@ -472,7 +604,7 @@ ok_clicked (GtkWidget  *button,
 		gtk_widget_destroy (data->dialog);
 
 	} else {
-		apply_tran (data, data->current_image);
+		apply_transformation (data, data->current_image);
 		load_next_image (data);
 	}
 }
@@ -501,9 +633,8 @@ static void
 rot90_clicked (GtkWidget  *button, 
 	       DialogData *data)
 {
-	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
-	GdkPixbuf    *src_pixbuf;
-	GdkPixbuf    *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
 	if (data->tran_type == TRAN_NONE)
 		data->rot_type = get_next_rot (data->rot_type);
@@ -513,13 +644,13 @@ rot90_clicked (GtkWidget  *button,
 		data->rot_type = get_next_rot (data->rot_type);
 	}
 
-	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
 	if (src_pixbuf == NULL) 
 		return;
 
 	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 
 	if (dest_pixbuf != NULL) 
 		g_object_unref (dest_pixbuf);
@@ -530,9 +661,8 @@ static void
 rot270_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
-	GdkPixbuf    *src_pixbuf;
-	GdkPixbuf    *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
 	if (data->tran_type == TRAN_NONE) {
 		data->rot_type = get_next_rot (data->rot_type);
@@ -541,13 +671,13 @@ rot270_clicked (GtkWidget  *button,
 	} else
 		data->rot_type = get_next_rot (data->rot_type);
 
-	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
 	if (src_pixbuf == NULL) 
 		return;
 
 	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 
 	if (dest_pixbuf != NULL) 
 		g_object_unref (dest_pixbuf);
@@ -558,11 +688,10 @@ static void
 mirror_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	ImageViewer *viewer = IMAGE_VIEWER (data->viewer);
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
-	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
 	if (src_pixbuf == NULL) 
 		return;
@@ -579,7 +708,7 @@ mirror_clicked (GtkWidget  *button,
 		data->tran_type = TRAN_MIRROR;
 	
 	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 	
 	if (dest_pixbuf != NULL) 
 		g_object_unref (dest_pixbuf);
@@ -590,9 +719,8 @@ static void
 flip_clicked (GtkWidget  *button, 
 	      DialogData *data)
 {
-	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
-	GdkPixbuf    *src_pixbuf;
-	GdkPixbuf    *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
 	if (data->tran_type == TRAN_MIRROR) {
 		data->tran_type = TRAN_NONE;
@@ -605,13 +733,13 @@ flip_clicked (GtkWidget  *button,
 	else
 		data->tran_type = TRAN_FLIP;
 
-	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
 	if (src_pixbuf == NULL) 
 		return;
 
 	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 
 	if (dest_pixbuf != NULL) 
 		g_object_unref (dest_pixbuf);
@@ -664,31 +792,11 @@ dlg_jpegtran (GThumbWindow *window)
 	GtkWidget   *j_help_button;
 	GtkWidget   *j_cancel_button;
 	GtkWidget   *j_ok_button;
-	GList       *list, *scan;
+	GList       *list;
 
 	list = gth_file_list_get_selection_as_fd (window->file_list);
 	if (list == NULL) {
 		g_warning ("No file selected.");
-		return;
-	}
-
-	/* remove non jpeg images */
-
-	for (scan = list; scan; ) {
-		FileData *fd = scan->data;
-		GList    *next = scan->next;
-
-		if (! image_is_jpeg (fd->path)) {
-			list = g_list_remove_link (list, scan);
-			g_list_free (scan);
-			file_data_unref (fd);
-		}
-
-		scan = next;
-	}
-
-	if (list == NULL) {
-		g_warning ("No JPEG image selected");
 		return;
 	}
 
@@ -714,6 +822,8 @@ dlg_jpegtran (GThumbWindow *window)
 	data->dialog = glade_xml_get_widget (data->gui, "jpeg_rotate_dialog");
 	data->j_apply_to_all_checkbutton = glade_xml_get_widget (data->gui, "j_apply_to_all_checkbutton");
 	data->j_button_box = glade_xml_get_widget (data->gui, "j_button_box");
+	data->j_revert_button = glade_xml_get_widget (data->gui, "j_revert_button");
+	data->j_preview_image = glade_xml_get_widget (data->gui, "j_preview_image");
 
 	j_image_vbox = glade_xml_get_widget (data->gui, "j_image_vbox");
 	j_revert_button = glade_xml_get_widget (data->gui, "j_revert_button");
@@ -725,21 +835,6 @@ dlg_jpegtran (GThumbWindow *window)
 	j_help_button = glade_xml_get_widget (data->gui, "j_help_button");
 	j_cancel_button = glade_xml_get_widget (data->gui, "j_cancel_button");
 	j_ok_button = glade_xml_get_widget (data->gui, "j_ok_button");
-
-	/* image viewer */
-
-	data->viewer = image_viewer_new ();
-	image_viewer_size (IMAGE_VIEWER (data->viewer), PREVIEW_SIZE, PREVIEW_SIZE);
-	gtk_container_add (GTK_CONTAINER (j_image_vbox), data->viewer);
-	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), GTH_ZOOM_CHANGE_FIT_IF_LARGER);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (data->viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_set_check_type (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (data->viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
 
 	/* Set widgets data. */
 
@@ -791,9 +886,15 @@ dlg_jpegtran (GThumbWindow *window)
 			  G_CALLBACK (flip_clicked),
 			  data);
 
-	g_signal_connect (G_OBJECT (data->viewer),
-			  "image_loaded",
-			  G_CALLBACK (image_loaded_cb),
+	data->loader = (ImageLoader*)image_loader_new (NULL, FALSE);
+
+	g_signal_connect (G_OBJECT (data->loader),
+			  "image_done",
+			  G_CALLBACK (image_loader_done_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->loader),
+			  "image_error",
+			  G_CALLBACK (image_loader_error_cb),
 			  data);
 
 	/* Run dialog. */
