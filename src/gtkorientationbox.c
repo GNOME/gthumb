@@ -30,8 +30,6 @@
 
 
 #include "gtkorientationbox.h"
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
 
 
 static void gtk_orientation_box_class_init    (GtkOrientationBoxClass   *klass);
@@ -45,8 +43,6 @@ static void gtk_orientation_box_size_allocate (GtkWidget      *widget,
 static GtkBoxClass *parent_class = NULL;
 
 struct _GtkOrientationBoxPrivate {
-  GtkWidget      *hbox;
-  GtkWidget      *vbox;
   GtkOrientation  orientation;
 };
 
@@ -114,8 +110,6 @@ gtk_orientation_box_finalize (GObject *object)
 
   if (orientation_box->priv != NULL) {
     g_free (orientation_box->priv);
-    gtk_widget_destroy (orientation_box->priv->hbox);
-    gtk_widget_destroy (orientation_box->priv->vbox);
     orientation_box->priv = NULL;
   }
 
@@ -135,8 +129,6 @@ gtk_orientation_box_new (gboolean homogeneous,
   GTK_BOX (orientation_box)->homogeneous = homogeneous ? TRUE : FALSE;
 
   orientation_box->priv->orientation = orientation;
-  orientation_box->priv->hbox = gtk_hbox_new (homogeneous, spacing);
-  orientation_box->priv->vbox = gtk_vbox_new (homogeneous, spacing);
 
   return GTK_WIDGET (orientation_box);
 }

@@ -60,7 +60,8 @@ struct _EComboButtonPrivate {
 };
 
 
-#define SPACING 2
+#define SPACING       2
+#define ARROW_SPACING 5
 
 static const char *arrow_xpm[] = {
 	"11 5  2 1",
@@ -159,7 +160,8 @@ paint (EComboButton *combo_button,
 
 	separator_x = (priv->hbox->allocation.width 
 		       - priv->arrow_image->allocation.width
-		       - (priv->hbox->style->xthickness * 2));
+		       - (priv->hbox->style->xthickness * 2) 
+		       - 1);
 
 	if (GTK_WIDGET_STATE (combo_button) == GTK_STATE_ACTIVE)
 		shadow_type = GTK_SHADOW_IN;
@@ -289,7 +291,8 @@ impl_button_press_event (GtkWidget *widget,
 
 		if (event->button == 3 || 
 		    event->x >= (priv->arrow_image->allocation.x 
-				 - (priv->arrow_image->style->xthickness * 2))) {
+				 - (priv->arrow_image->style->xthickness * 2)
+				 - 1)) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 
@@ -434,7 +437,7 @@ init (EComboButton *combo_button)
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
 
-	priv->hbox = gtk_hbox_new (FALSE, SPACING + 10);
+	priv->hbox = gtk_hbox_new (FALSE, ARROW_SPACING);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 0);
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);

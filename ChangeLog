@@ -1,5 +1,7 @@
 2002-11-28  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gtkorientationbox.c: remove useless variables.
+
 	* src/jpegutils/transupp.c (SAVE_MARKERS_SUPPORTED): save markers.
 
 	* src/gtkorientationbox.c: 
