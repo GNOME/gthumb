@@ -1,3 +1,7 @@
+2004-09-06  Tomasz Kłoczko <kloczek@pld.org.pl>
+
+	* components/image-viewer/Makefile.am: fixed paralel build ("make -j<N>").
+
 2004-09-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-image-list.c: display 'No Image' where there is

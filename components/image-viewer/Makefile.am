@@ -57,15 +57,15 @@ serverdir = $(libdir)/bonobo/servers
 server_DATA = GNOME_GThumb_Viewer.server
 GNOME_GThumb_Viewer.server.in: GNOME_GThumb_Viewer.server.in.in Makefile
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|g" \
-	< $(srcdir)/GNOME_GThumb_Viewer.server.in.in > temp \
-	&& mv temp GNOME_GThumb_Viewer.server.in
+	< $(srcdir)/GNOME_GThumb_Viewer.server.in.in > GNOME_GThumb_Viewer.server.temp \
+	&& mv -f GNOME_GThumb_Viewer.server.temp GNOME_GThumb_Viewer.server.in
 
 @INTLTOOL_SERVER_RULE@
 
 GNOME_GThumb_Viewer.xml: GNOME_GThumb_Viewer.xml.in Makefile
 	sed -e 's?\@ICONSDIR\@?$(datadir)/gthumb/icons?g' \
-	< $(srcdir)/GNOME_GThumb_Viewer.xml.in > temp \
-	&& mv temp GNOME_GThumb_Viewer.xml
+	< $(srcdir)/GNOME_GThumb_Viewer.xml.in > GNOME_GThumb_Viewer.temp \
+	&& mv -f GNOME_GThumb_Viewer.temp GNOME_GThumb_Viewer.xml
 
 uidir = $(datadir)/gnome-2.0/ui
 ui_DATA = GNOME_GThumb_Viewer.xml
