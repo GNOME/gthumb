@@ -1,3 +1,25 @@
+2004-06-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-utils.c (get_exif_tag_short): 
+	* src/dlg-jpegtran.c (update_rotation_from_exif_data): use the 
+	orientation value instead of the orientation string.
+
+	* src/gth-exif-data-viewer.c: added EXIF_TAG_ISO_SPEED_RATINGS to
+	the displayed exif info.
+
+	* configure.in (HAVE_LIBEXIF): 
+	* src/gth-exif-utils.c (get_exif_entry_value): make gthumb compatible
+	with both libexif 0.5.x and 0.6.x
+
+2004-06-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (go_to_location, set_dir_list_continue): refocus
+	the location entry after an auto-completion.
+
+2004-06-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.desktop.in (Categories): Added Viewer. Bug #144228.
+
 2004-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/*.gthtml: make pages fit the browser window.

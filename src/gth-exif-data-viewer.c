@@ -30,6 +30,7 @@
 #include "file-utils.h"
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
+#include "gth-exif-utils.h"
 
 #ifdef HAVE_LIBEXIF
 #include <exif-data.h>
@@ -210,6 +211,7 @@ static ExifTag usefull_tags[] = {
 	EXIF_TAG_SUBJECT_DISTANCE,
 	EXIF_TAG_SUBJECT_DISTANCE_RANGE,
 	EXIF_TAG_METERING_MODE,
+	EXIF_TAG_ISO_SPEED_RATINGS,
 	EXIF_TAG_CONTRAST,
 	EXIF_TAG_SATURATION,
 	EXIF_TAG_SHARPNESS,
@@ -373,7 +375,7 @@ update_exif_data (GthExifDataViewer *edv)
 			continue;
 		}
 
-		utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+		utf8_value = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 		if ((utf8_value == NULL) || (*utf8_value == 0)) {
 			g_free (utf8_name);
 			g_free (utf8_value);

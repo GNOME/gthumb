@@ -2517,6 +2517,8 @@ static void
 go_to_location (GThumbWindow *window, 
 		const char   *text)
 {
+	window->focus_location_entry = TRUE;
+
 	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (window, text);
 	else {
@@ -6660,6 +6662,12 @@ set_dir_list_continue (gpointer data)
 	window_update_title (window);
 	window_update_sensitivity (window);
 	window_make_current_image_visible (window);
+
+	if (window->focus_location_entry) {
+		gtk_widget_grab_focus (window->location_entry);
+		gtk_editable_set_position (GTK_EDITABLE (window->location_entry), -1);
+		window->focus_location_entry = FALSE;
+	}
 
 	window_add_monitor (window);
 }

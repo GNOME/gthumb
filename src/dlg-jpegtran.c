@@ -150,41 +150,47 @@ update_rotation_from_exif_data (DialogData *data,
 				GList      *current_image)
 {
 #ifdef HAVE_LIBEXIF
-	FileData *fd = current_image->data;
-	char     *value = get_exif_tag (fd->path, EXIF_TAG_ORIENTATION);
+	FileData           *fd = current_image->data;
+	GthExifOrientation  orientation = get_exif_tag_short (fd->path, EXIF_TAG_ORIENTATION);
 
-	if (value != NULL) {
-		if (strcmp (value, "top - left") == 0) {
-			data->rot_type = TRAN_ROTATE_0;
-			data->tran_type = TRAN_NONE;
-		} else if (strcmp (value, "top - right") == 0) {
-			data->rot_type = TRAN_ROTATE_0;
-			data->tran_type = TRAN_MIRROR;
-		} else if (strcmp (value, "bottom - right") == 0) {
-			data->rot_type = TRAN_ROTATE_180;
-			data->tran_type = TRAN_NONE;
-		} else if (strcmp (value, "bottom - left") == 0) {
-			data->rot_type = TRAN_ROTATE_180;
-			data->tran_type = TRAN_MIRROR;
-		} else if (strcmp (value, "left - top") == 0) {
-			data->rot_type = TRAN_ROTATE_90;
-			data->tran_type = TRAN_MIRROR;
-		} else if (strcmp (value, "right - top") == 0) {
-			data->rot_type = TRAN_ROTATE_90;
-			data->tran_type = TRAN_NONE;
-		} else if (strcmp (value, "right - bottom") == 0) {
-			data->rot_type = TRAN_ROTATE_90;
-			data->tran_type = TRAN_FLIP;
-		} else if (strcmp (value, "left - bottom") == 0) {
-			data->rot_type = TRAN_ROTATE_270;
-			data->tran_type = TRAN_NONE;
-		} else {
-			data->rot_type = TRAN_ROTATE_0;
-			data->tran_type = TRAN_NONE;
-		}
-		g_free (value);
+	switch (orientation) {
+	case GTH_EXIF_ORIENTATION_TOP_LEFT:
+		data->rot_type = TRAN_ROTATE_0;
+		data->tran_type = TRAN_NONE;
+		break;
+	case GTH_EXIF_ORIENTATION_TOP_RIGHT:
+		data->rot_type = TRAN_ROTATE_0;
+		data->tran_type = TRAN_MIRROR;
+		break;
+	case GTH_EXIF_ORIENTATION_BOTTOM_RIGHT:
+		data->rot_type = TRAN_ROTATE_180;
+		data->tran_type = TRAN_NONE;
+		break;
+	case GTH_EXIF_ORIENTATION_BOTTOM_LEFT:
+		data->rot_type = TRAN_ROTATE_180;
+		data->tran_type = TRAN_MIRROR;
+		break;
+	case GTH_EXIF_ORIENTATION_LEFT_TOP:
+		data->rot_type = TRAN_ROTATE_90;
+		data->tran_type = TRAN_MIRROR;
+		break;
+	case GTH_EXIF_ORIENTATION_RIGHT_TOP:
+		data->rot_type = TRAN_ROTATE_90;
+		data->tran_type = TRAN_NONE;
+		break;
+	case GTH_EXIF_ORIENTATION_RIGHT_BOTTOM:
+		data->rot_type = TRAN_ROTATE_90;
+		data->tran_type = TRAN_FLIP;
+		break;
+	case GTH_EXIF_ORIENTATION_LEFT_BOTTOM:
+		data->rot_type = TRAN_ROTATE_270;
+		data->tran_type = TRAN_NONE;
+		break;
+	default:
+		data->rot_type = TRAN_ROTATE_0;
+		data->tran_type = TRAN_NONE;
+		break;
 	}
-
 #endif /* HAVE_LIBEXIF */
 }
 

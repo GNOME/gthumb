@@ -208,6 +208,8 @@ typedef struct {
 	guint                  progress_timeout;
 
 	GtkTooltips           *tooltips;
+
+	gboolean               focus_location_entry;
 } GThumbWindow;
 
 

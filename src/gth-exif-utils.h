@@ -31,15 +31,35 @@
 #include <exif-data.h>
 #include <exif-content.h>
 #include <exif-entry.h>
+#include <exif-utils.h>
 
-char *   get_exif_tag            (const char *filename,
-				  ExifTag     etag);
 
-time_t   get_exif_time           (const char *filename);
+typedef enum { /*< skip >*/
+	GTH_EXIF_ORIENTATION_NONE = 0,
+	GTH_EXIF_ORIENTATION_TOP_LEFT,
+	GTH_EXIF_ORIENTATION_TOP_RIGHT,
+	GTH_EXIF_ORIENTATION_BOTTOM_RIGHT,
+	GTH_EXIF_ORIENTATION_BOTTOM_LEFT,
+	GTH_EXIF_ORIENTATION_LEFT_TOP,
+	GTH_EXIF_ORIENTATION_RIGHT_TOP,
+	GTH_EXIF_ORIENTATION_RIGHT_BOTTOM,
+	GTH_EXIF_ORIENTATION_LEFT_BOTTOM
+} GthExifOrientation;
 
-char *   get_exif_aperture_value (const char *filename);
 
-gboolean have_exif_data          (const char *filename);
+char *      get_exif_tag            (const char *filename,
+				     ExifTag     etag);
+
+ExifShort   get_exif_tag_short      (const char *filename,
+				     ExifTag     etag);
+
+time_t      get_exif_time           (const char *filename);
+
+char *      get_exif_aperture_value (const char *filename);
+
+gboolean    have_exif_data          (const char *filename);
+
+const char *get_exif_entry_value    (ExifEntry  *entry);
 
 
 #endif /* HAVE_LIBEXIF */

@@ -198,6 +198,11 @@
 	  <long>Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všech obrázků.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Billeder over denne størrelse (i byte) vil ikke blive vist som miniaturebilleder. Vælg 0 hvis du ønsker altid at lave miniaturebilleder.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Von Bildern, die größer sind als dieser Wert, wird kein Miniatur-Vorschaubild erzeugt. Falls dieser Wert 0 ist, werden für alle Bilder Miniatur-Vorschaubilder erzeugt.</long>
@@ -310,7 +315,7 @@
 
 	<locale name="zh_CN">
 	  
-	  <long>图像如果超过了这个大小(以字节计算)将不能生成缩略图。如果您想为所有图象创建缩略图，请使用 0。</long>
+	  <long>图像如果超过了这个大小(以字节计算)将不能生成缩略图。如果您想为所有图像创建缩略图，请使用 0。</long>
 	</locale>
       </schema>
 
@@ -334,6 +339,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="de">
@@ -492,6 +502,11 @@
 	  <long>Možné hodnoty jsou: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
@@ -635,6 +650,11 @@
 	  <long>Možné hodnoty jsou: ascending, descending.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: ascending, descending.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: ascending (aufsteigend), descending (absteigend).</long>
@@ -776,6 +796,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: list, thumbnails.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: list, thumbnails.</long>
 	</locale>
 
 	<locale name="de">
@@ -932,6 +957,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: image, data, comment.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: image, data, comment.</long>
 	</locale>
 
 	<locale name="de">
@@ -1092,6 +1122,11 @@
 	  <long>Možné hodnoty jsou: high, low.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: high, low.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: high (hoch), low (gering).</long>
@@ -1234,6 +1269,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="de">
@@ -1379,6 +1419,11 @@
 	  <long>Možné hodnoty jsou: white, black, checked, none.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: white, black, checked, none.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: white (weiß), black (schwarz), checked (Karomuster), none (keiner).</long>
@@ -1520,6 +1565,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: light, midtone, dark.</long>
 	</locale>
 
 	<locale name="de">
@@ -1665,6 +1715,11 @@
 	  <long>Možné hodnoty jsou: small, medium, large.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: small, medium, large.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: small (klein), medium (mittel) sowie large (groß).</long>
@@ -1808,6 +1863,11 @@
 	  <long>Jestli pokaždé používat černé pozadí.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Afgør om der altid skal anvendes sort baggrund.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Soll stets ein schwarzer Hintergrund verwendet werden?</long>
@@ -1946,6 +2006,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: forward, backward, random.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>&lt;Mulige værdier er: forward, backward, random.</long>
 	</locale>
 
 	<locale name="en_CA">
@@ -2127,6 +2192,11 @@
 	  <long>Možné hodnoty jsou: 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: 1, 2, 3 og 4.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: 1, 2, 3, 4.</long>
@@ -2268,6 +2338,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="de">
@@ -2535,6 +2610,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: png, jpeg.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: png, jpeg.</long>
 	</locale>
 
 	<locale name="de">
@@ -3022,6 +3102,11 @@
 	  <long>Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: none (keins), simple (einfach), simple_with_shadow (einfach mit Schatten), slide (Dia), shadow_in (Schatten nach innen) sowie shadow_out (Schatten nach außen).</long>
@@ -3288,6 +3373,11 @@
 	  <long>Možné hodnoty jsou: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: none (keine), deflate (packen) sowie jpeg.</long>
@@ -3459,6 +3549,11 @@
 	  <long>Možné hodnoty jsou: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: jpeg, png, tga, tiff.</long>
@@ -3600,6 +3695,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="de">
@@ -3786,6 +3886,11 @@
 	  <long>Možné hodnoty jsou: name, size, time.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: name, size, time.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: name, size (Größe) sowie time (Datum).</long>
@@ -3947,6 +4052,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: pixels, percentage.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: pixels, percentage.</long>
 	</locale>
 
 	<locale name="de">
@@ -4224,6 +4334,11 @@
 	  <long>Možné hodnoty jsou: name, path, size, time.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: name, path, size, time.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: name, path (Pfad), size (Größe) sowie time (Datum).</long>
@@ -4499,6 +4614,11 @@
 	<locale name="cs">
 	  
 	  <long>Možné hodnoty jsou: mm, in.</long>
+	</locale>
+
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: mm, in.</long>
 	</locale>
 
 	<locale name="de">
@@ -4780,6 +4900,11 @@
 	  <long>Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="da">
+	  
+	  <long>Mulige værdier er: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="de">
 	  
 	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
@@ -4897,7 +5022,7 @@
 
 	<locale name="zh_CN">
 	  
-	  <long>可能的取值是：无、正方、图象、陈列、4x3、4x6、5x7、8x10、自定义。</long>
+	  <long>可能的取值是：无、正方、图像、陈列、4x3、4x6、5x7、8x10、自定义。</long>
 	</locale>
       </schema>
 

@@ -30,6 +30,7 @@
 #include <exif-data.h>
 #include <exif-content.h>
 #include <exif-entry.h>
+#include "gth-exif-utils.h"
 
 
 char *
@@ -57,7 +58,7 @@ get_exif_tag (const char *filename,
 				continue;
 
 			if (e->tag == etag) {
-				char *retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+				char *retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 				exif_data_unref (edata);
 				return retval;
 			}
@@ -67,6 +68,45 @@ get_exif_tag (const char *filename,
 	exif_data_unref (edata);
 
 	return g_strdup ("-");
+}
+
+
+ExifShort
+get_exif_tag_short (const char *filename,
+		    ExifTag     etag)
+{
+	ExifData     *edata;
+	unsigned int  i, j;
+
+	edata = exif_data_new_from_file (filename);
+
+	if (edata == NULL) 
+		return 0;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry *e = content->entries[j];
+
+			if (! content->entries[j]) 
+				continue;
+
+			if (e->tag == etag) {
+				ExifByteOrder o = exif_data_get_byte_order (e->parent->parent);
+				ExifShort retval = exif_get_short (e->data, o);
+				exif_data_unref (edata);
+				return retval;
+			}
+		}
+	}
+
+	exif_data_unref (edata);
+
+	return 0;
 }
 
 
@@ -153,7 +193,7 @@ get_exif_aperture_value (const char *filename)
 			    (e->tag != EXIF_TAG_FNUMBER))
 				continue;
 
-			retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+			retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
 			exif_data_unref (edata);
 
 			return retval;
@@ -179,6 +219,21 @@ have_exif_data (const char *filename)
 		exif_data_unref (edata);
 
 	return result;
+}
+
+
+#define VALUE_LEN 1024
+
+
+const char *
+get_exif_entry_value (ExifEntry *entry)
+{
+#ifdef HAVE_LIBEXIF_0_5
+	return exif_entry_get_value (entry);
+#else
+	char value[VALUE_LEN + 1];
+	return exif_entry_get_value (entry, value, VALUE_LEN);
+#endif
 }
 
 
