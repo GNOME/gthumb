@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-28 20:37+0100\n"
-"PO-Revision-Date: 2004-07-16 18:05+0300\n"
-"Last-Translator: Gorkem Cetin <gorkem@bahcesehir.edu.tr>\n"
+"POT-Creation-Date: 2004-07-18 15:18+0200\n"
+"PO-Revision-Date: 2004-07-18 18:17+0300\n"
+"Last-Translator: Ridvan CAN <<ridvan@gamebox.net>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,8 +28,7 @@ msgid "View as Catalog"
 msgstr "Katalog Görünümü"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#: data/gthumb-ui.xml.h:99
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7 src/ui.h:79
 msgid "Print the current image"
 msgstr "Geçerli resmi yazdır"
 
@@ -75,7 +74,6 @@ msgid "Mirror the image"
 msgstr "Yansı resim"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: data/gthumb-ui.xml.h:128
 msgid "Rotate"
 msgstr "Döndür"
 
@@ -91,20 +89,17 @@ msgstr "Resmi saat yönünde döndür"
 msgid "Rotate the image of 180 degrees"
 msgstr "Resmi 180 derece döndür"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: data/gthumb-ui.xml.h:135
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 src/ui.h:68
 msgid "Save _As..."
 msgstr "Farklı K_aydet..."
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: data/gthumb-ui.xml.h:136
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 src/ui.h:69
 msgid "Save current image"
 msgstr "Geçerli resmi kaydet"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: data/gthumb-ui.xml.h:152
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14 src/ui.h:623
 msgid "Start or stop current animation"
-msgstr "Animasyonu başlat/durdur"
+msgstr "Animasyonu başlat ya da durdur"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
@@ -112,40 +107,34 @@ msgstr "_Animasyonu Başlat/Durdur"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
 msgid "Transparency T_ype"
-msgstr "Şeffaf Tür"
+msgstr "Şeffaflık _Türü"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: data/gthumb-ui.xml.h:167
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17 src/ui.h:439
 msgid "View next animation frame"
 msgstr "Sonraki animasyon çerçevesini göster"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: data/gthumb-ui.xml.h:193
 msgid "_Black"
 msgstr "_Siyah"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: data/gthumb-ui.xml.h:198
 msgid "_Checked"
 msgstr "_Kareli"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: data/gthumb-ui.xml.h:213
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 src/ui.h:328
 msgid "_Flip"
 msgstr "Çe_vir"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: data/gthumb-ui.xml.h:224
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 src/ui.h:44
+#: src/ui.h:681
 msgid "_Image"
 msgstr "Res_im"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: data/gthumb-ui.xml.h:231
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22 src/ui.h:333
 msgid "_Mirror"
 msgstr "_Yansı"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: data/gthumb-ui.xml.h:236
 msgid "_None"
 msgstr "_Hiçbiri"
 
@@ -158,13 +147,12 @@ msgid "_Step Animation"
 msgstr "Anima_syon Adımı"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:48
-#: data/gthumb-ui.xml.h:265
+#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:53
+#: src/ui.h:39
 msgid "_View"
 msgstr "_Göster"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: data/gthumb-ui.xml.h:266
 msgid "_White"
 msgstr "_Beyaz"
 
@@ -174,126 +162,67 @@ msgstr "_Büyültme Kalitesi"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr "%d·%b·%Y,·%H:%M"
+msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:401
+#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
+#: src/dlg-image-prop.c:419 src/fullscreen.c:217
+#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:267
 #, c-format
 msgid "%d x %d pixels"
-msgstr "%d·x·%d·nokta"
+msgstr "%d x %d nokta"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:1
-#: data/albumthemes/Classic/image.xml.in.h:2
-#: data/albumthemes/ClassicClips/image.xml.in.h:2
-#: data/albumthemes/Clean/image.xml.in.h:1
-#: data/albumthemes/NeatRound/image.xml.in.h:2
-#: data/albumthemes/NeatSquare/image.xml.in.h:2
-msgid "Aperture value"
-msgstr "Açıklık değeri"
+#: data/albumthemes/text.h:27
+msgid "(click on the image to view it at original size)"
+msgstr "(özgün boyuta getirmek için şekle tıklayınız)"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:2
-#: data/albumthemes/Classic/image.xml.in.h:3
-#: data/albumthemes/ClassicClips/image.xml.in.h:3
-#: data/albumthemes/Clean/image.xml.in.h:2
-#: data/albumthemes/NeatRound/image.xml.in.h:3
-#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:478
-msgid "Bytes"
-msgstr "Bayt"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:3
-#: data/albumthemes/Classic/image.xml.in.h:4
-#: data/albumthemes/ClassicClips/image.xml.in.h:4
-#: data/albumthemes/Clean/image.xml.in.h:3
-#: data/albumthemes/NeatRound/image.xml.in.h:4
-#: data/albumthemes/NeatSquare/image.xml.in.h:4
-msgid "Camera model"
-msgstr "Kamera Modeli"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:4
-#: data/albumthemes/Classic/image.xml.in.h:5
-#: data/albumthemes/ClassicClips/image.xml.in.h:5
-#: data/albumthemes/Clean/image.xml.in.h:4
-#: data/albumthemes/NeatRound/image.xml.in.h:5
-#: data/albumthemes/NeatSquare/image.xml.in.h:5
-msgid "Date"
-msgstr "Tarih"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:5
-#: data/albumthemes/Classic/image.xml.in.h:6
-#: data/albumthemes/ClassicClips/image.xml.in.h:6
-#: data/albumthemes/Clean/image.xml.in.h:5
-#: data/albumthemes/NeatRound/image.xml.in.h:6
-#: data/albumthemes/NeatSquare/image.xml.in.h:6
-msgid "Dimensions"
-msgstr "Boyutlar"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:6
-#: data/albumthemes/Classic/image.xml.in.h:7
-#: data/albumthemes/ClassicClips/image.xml.in.h:7
-#: data/albumthemes/Clean/image.xml.in.h:6
-#: data/albumthemes/NeatRound/image.xml.in.h:7
-#: data/albumthemes/NeatSquare/image.xml.in.h:7
-msgid "Exposure mode"
-msgstr "Açma kipi"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:7
-#: data/albumthemes/Classic/image.xml.in.h:8
-#: data/albumthemes/ClassicClips/image.xml.in.h:8
-#: data/albumthemes/Clean/image.xml.in.h:7
-#: data/albumthemes/NeatRound/image.xml.in.h:8
-#: data/albumthemes/NeatSquare/image.xml.in.h:8
-msgid "Exposure time"
-msgstr "Açma zamanı"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:8
-#: data/albumthemes/Classic/image.xml.in.h:9
-#: data/albumthemes/ClassicClips/image.xml.in.h:9
-#: data/albumthemes/Clean/image.xml.in.h:8
-#: data/albumthemes/NeatRound/image.xml.in.h:9
-#: data/albumthemes/NeatSquare/image.xml.in.h:9
-msgid "Flash"
-msgstr "Işık"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:9
-#: data/albumthemes/Classic/image.xml.in.h:10
-#: data/albumthemes/ClassicClips/image.xml.in.h:10
-#: data/albumthemes/Clean/image.xml.in.h:9
-#: data/albumthemes/NeatRound/image.xml.in.h:10
-#: data/albumthemes/NeatSquare/image.xml.in.h:10
-msgid "Focal length"
-msgstr "Odak uzaklığı"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:10
-#: data/albumthemes/Classic/image.xml.in.h:11
-#: data/albumthemes/ClassicClips/image.xml.in.h:11
-#: data/albumthemes/Clean/image.xml.in.h:10
-#: data/albumthemes/NeatRound/image.xml.in.h:11
-#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:264
+#: data/albumthemes/text.h:28 src/dlg-duplicates.c:264
 msgid "Image"
 msgstr "Resim"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:11
-#: data/albumthemes/Classic/image.xml.in.h:12
-#: data/albumthemes/ClassicClips/image.xml.in.h:12
-#: data/albumthemes/Clean/image.xml.in.h:11
-#: data/albumthemes/NeatRound/image.xml.in.h:12
-#: data/albumthemes/NeatSquare/image.xml.in.h:12
+#: data/albumthemes/text.h:29
+msgid "Dimensions"
+msgstr "Boyutlar"
+
+#: data/albumthemes/text.h:30 src/dlg-image-prop.c:610
+#: src/gth-exif-data-viewer.c:484
+msgid "Bytes"
+msgstr "Bayt"
+
+#: data/albumthemes/text.h:31
+msgid "Date"
+msgstr "Tarih"
+
+#: data/albumthemes/text.h:32
+msgid "Exposure time"
+msgstr "Açma zamanı"
+
+#: data/albumthemes/text.h:33
+msgid "Exposure mode"
+msgstr "Açma kipi"
+
+#: data/albumthemes/text.h:34
+msgid "Flash"
+msgstr "Işık"
+
+#: data/albumthemes/text.h:35
 msgid "Shutter speed"
 msgstr "Diyafram kapağı hızı"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:12
-#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:33
+#: data/albumthemes/text.h:36
+msgid "Aperture value"
+msgstr "Açıklık değeri"
+
+#: data/albumthemes/text.h:37
+msgid "Focal length"
+msgstr "Odak uzaklığı"
+
+#: data/albumthemes/text.h:38
+msgid "Camera model"
+msgstr "Kamera Modeli"
+
+#: data/albumthemes/text.h:39 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "pikseller"
-
-#: data/albumthemes/Classic/image.xml.in.h:1
-#: data/albumthemes/ClassicClips/image.xml.in.h:1
-#: data/albumthemes/NeatRound/image.xml.in.h:1
-#: data/albumthemes/NeatSquare/image.xml.in.h:1
-msgid "(click on the image to view it at original size)"
-msgstr "(özgün boyuta getirmek için şekle tıklayınız)"
 
 #: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
 #: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
@@ -325,7 +254,7 @@ msgstr "<b>Eski resim üzerine yazılsın mı?</b>"
 
 #: data/glade/gthumb.glade.h:6
 msgid "A_vailable applications:"
-msgstr "Kullanılabilir uygulamalar:"
+msgstr "Kull_anılabilir uygulamalar:"
 
 #: data/glade/gthumb.glade.h:7
 msgid "Alpha"
@@ -347,7 +276,7 @@ msgstr "K_ataloglar:"
 msgid "Choose a Catalog"
 msgstr "Katalog Seç"
 
-#: data/glade/gthumb.glade.h:12 data/gthumb-ui.xml.h:28
+#: data/glade/gthumb.glade.h:12 src/ui.h:158
 msgid "Comm_ent"
 msgstr "Açıkla_ma"
 
@@ -377,7 +306,7 @@ msgstr "Resim Aç"
 
 #: data/glade/gthumb.glade.h:19
 msgid "Over_write the old image"
-msgstr "Eski resmin üzerine yaz"
+msgstr "Eski resmin üzerine _yaz"
 
 #: data/glade/gthumb.glade.h:20
 msgid "Overwrite Image"
@@ -385,7 +314,7 @@ msgstr "Resmin üzerine yaz"
 
 #: data/glade/gthumb.glade.h:21
 msgid "Overwrite _all images"
-msgstr "Bütün resimlerin üzerine yaz"
+msgstr "_Bütün resimlerin üzerine yaz"
 
 #: data/glade/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
@@ -393,7 +322,7 @@ msgstr "Resim Ve_risi (EXIF)"
 
 #: data/glade/gthumb.glade.h:23
 msgid "R_ecent applications:"
-msgstr "Son uygulamalar:"
+msgstr "Son _uygulamalar:"
 
 #: data/glade/gthumb.glade.h:24
 msgid "Red"
@@ -450,7 +379,7 @@ msgstr "..."
 
 #: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
-msgstr "Kategoriler:"
+msgstr "_Kategoriler:"
 
 #: data/glade/gthumb_camera.glade.h:4
 msgid "Camera Model"
@@ -469,8 +398,8 @@ msgstr "Kameradan seçilmiş resimleri sil"
 msgid "Import Photos"
 msgstr "Resim Al"
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:440
-#: src/dlg-photo-importer.c:472
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:785
+#: src/dlg-photo-importer.c:820 src/dlg-photo-importer.c:1262
 msgid "No camera detected"
 msgstr "Kamera algılanmadı"
 
@@ -492,7 +421,7 @@ msgstr "Alınan resimleri kamera_dan sil"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "He_def:"
 
@@ -501,28 +430,26 @@ msgid "_Film:"
 msgstr "_Film:"
 
 #: data/glade/gthumb_camera.glade.h:15
-msgid "_Keep original filenames"
-msgstr "Özgün dosya adlarını koru"
+msgid "_Import"
+msgstr "_Al"
 
 #: data/glade/gthumb_camera.glade.h:16
+msgid "_Keep original filenames"
+msgstr "Özgün _dosya adlarını koru"
+
+#: data/glade/gthumb_camera.glade.h:17
 msgid "_Model:"
 msgstr "_Model:"
 
-#: data/glade/gthumb_camera.glade.h:17
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: data/glade/gthumb_camera.glade.h:18
 msgid "_Port:"
 msgstr "_Port:"
-
-#: data/glade/gthumb_camera.glade.h:18
-msgid "_import"
-msgstr "_al"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "Kull_anılabilir kategoriler:"
 
 #: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
-#: data/gthumb-ui.xml.h:23
 msgid "Categories"
 msgstr "Kategoriler"
 
@@ -530,8 +457,7 @@ msgstr "Kategoriler"
 msgid "Co_mment:"
 msgstr "Açıkla_ma:"
 
-#: data/glade/gthumb_comments.glade.h:5 data/gthumb-ui.xml.h:29
-#: libgthumb/gth-file-view-list.c:1368
+#: data/glade/gthumb_comments.glade.h:5 libgthumb/gth-file-view-list.c:1368
 msgid "Comment"
 msgstr "Açıklama"
 
@@ -544,46 +470,54 @@ msgid "Current date"
 msgstr "Geçerli tarih"
 
 #: data/glade/gthumb_comments.glade.h:8
+msgid "Do not modify"
+msgstr "Değiştirme"
+
+#: data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "Resim oluşturma tarihi"
 
-#: data/glade/gthumb_comments.glade.h:9
+#: data/glade/gthumb_comments.glade.h:10
+msgid "Last modified date"
+msgstr "Son değiştirilme tarihi"
+
+#: data/glade/gthumb_comments.glade.h:11
 msgid "No date"
 msgstr "Tarih yok"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: data/glade/gthumb_comments.glade.h:12
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Fotoğraf dijitalleştirme tarihi (EXIF verisinden)"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: data/glade/gthumb_comments.glade.h:13
 msgid "Remove selected category"
 msgstr "Seçili kategoriyi kaldır"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: data/glade/gthumb_comments.glade.h:14
 msgid "Save only cha_nged fields"
 msgstr "Sadece değişen ala_nları kaydet"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: data/glade/gthumb_comments.glade.h:15
 msgid "The following date"
 msgstr "Takip eden tarih"
 
-#: data/glade/gthumb_comments.glade.h:14 data/glade/gthumb_search.glade.h:24
+#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Tarih:"
 
-#: data/glade/gthumb_comments.glade.h:15
+#: data/glade/gthumb_comments.glade.h:17
 msgid "_Delete"
 msgstr "_Sil"
 
-#: data/glade/gthumb_comments.glade.h:16
+#: data/glade/gthumb_comments.glade.h:18
 msgid "_New"
 msgstr "_Yeni"
 
-#: data/glade/gthumb_comments.glade.h:17 data/glade/gthumb_search.glade.h:27
+#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "Y_er:"
 
-#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:30
+#: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "_Seçilmiş kategoriler:"
 
@@ -710,20 +644,20 @@ msgid "dpi"
 msgstr "dpi"
 
 #: data/glade/gthumb_crop.glade.h:2
-msgid "4x3 (Book, DVD)"
-msgstr "4x3 (Kitap, DVD)"
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 x 3 (Kitap, DVD)"
 
 #: data/glade/gthumb_crop.glade.h:3
-msgid "4x6 (Postcard)"
-msgstr "4x6 (Kartpostal)"
+msgid "4 x 6 (Postcard)"
+msgstr "4 x 6 (Kartpostal)"
 
 #: data/glade/gthumb_crop.glade.h:4
-msgid "5x7"
-msgstr "5x7"
+msgid "5 x 7"
+msgstr "5 x 7"
 
 #: data/glade/gthumb_crop.glade.h:5
-msgid "8x10"
-msgstr "8x10"
+msgid "8 x 10"
+msgstr "8 x 10"
 
 #: data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
@@ -749,7 +683,7 @@ msgstr "Bilinmeyen"
 msgid "Square"
 msgstr "Köşeli"
 
-#: data/glade/gthumb_crop.glade.h:12 data/gthumb-ui.xml.h:203
+#: data/glade/gthumb_crop.glade.h:12 src/ui.h:403
 msgid "_Crop"
 msgstr "_Kes"
 
@@ -770,10 +704,6 @@ msgstr "_X:"
 #: data/glade/gthumb_crop.glade.h:16
 msgid "_Y:"
 msgstr "_Y:"
-
-#: data/glade/gthumb_crop.glade.h:17
-msgid "x"
-msgstr "x"
 
 #: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
 #: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
@@ -816,7 +746,7 @@ msgstr "Karşı_tlık:"
 
 #: data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr ""
+msgstr "Camgöbeği (Cyan)-_Kırmızı:"
 
 #: data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -868,13 +798,13 @@ msgstr "Açık_lık:"
 
 #: data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
-msgstr ""
+msgstr "_Macenta-Yeşil:"
 
 #: data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
 msgstr "Ö_n izleme"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:45
+#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:49
 msgid "_Reset"
 msgstr "Eski Du_rum"
 
@@ -998,12 +928,12 @@ msgid "Create _HTML image map"
 msgstr "_HTML resim haritası oluştur"
 
 #: data/glade/gthumb_png_exporter.glade.h:31
-#: data/glade/gthumb_web_exporter.glade.h:26
+#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "Say_fa altlığı:"
 
 #: data/glade/gthumb_png_exporter.glade.h:32
-#: data/glade/gthumb_web_exporter.glade.h:27
+#: data/glade/gthumb_web_exporter.glade.h:24
 msgid "File _name"
 msgstr "Dosya is_mi"
 
@@ -1012,7 +942,7 @@ msgid "File pa_th"
 msgstr "Dosya y_olu"
 
 #: data/glade/gthumb_png_exporter.glade.h:34
-#: data/glade/gthumb_web_exporter.glade.h:28
+#: data/glade/gthumb_web_exporter.glade.h:25
 msgid "File si_ze"
 msgstr "Dosya boyu_tu"
 
@@ -1025,7 +955,7 @@ msgid "Frame co_lor:"
 msgstr "Çerçeve ren_gi:"
 
 #: data/glade/gthumb_png_exporter.glade.h:37
-#: data/glade/gthumb_web_exporter.glade.h:30
+#: data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "Sayfa baş_lığı:"
 
@@ -1038,7 +968,7 @@ msgid "Hei_ght:"
 msgstr "Yük_seklik:"
 
 #: data/glade/gthumb_png_exporter.glade.h:40
-#: data/glade/gthumb_web_exporter.glade.h:32
+#: data/glade/gthumb_web_exporter.glade.h:29
 msgid "Image dim_ensions"
 msgstr "Re_sim boyutları"
 
@@ -1059,7 +989,7 @@ msgid "Pi_xels"
 msgstr "_Piksel"
 
 #: data/glade/gthumb_png_exporter.glade.h:45
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: data/glade/gthumb_web_exporter.glade.h:31
 msgid "Re_verse order"
 msgstr "Ters düze_n"
 
@@ -1096,7 +1026,7 @@ msgid "Slide"
 msgstr "Slayt"
 
 #: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:35
 msgid "Sor_t:"
 msgstr "Sı_rala:"
 
@@ -1109,7 +1039,7 @@ msgid "St_yle"
 msgstr "Biçe_m"
 
 #: data/glade/gthumb_png_exporter.glade.h:57
-#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:41
+#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:44
 msgid "Start _at:"
 msgstr "Başlan_gıç:"
 
@@ -1123,7 +1053,7 @@ msgstr "Geniş_lik:"
 
 #: data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr "Bütün·s_ayfalar aynı büyüklükle"
+msgstr "Bütün s_ayfalar aynı büyüklükle"
 
 #: data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
@@ -1150,22 +1080,22 @@ msgid "_Solid color"
 msgstr "_Düz renk"
 
 #: data/glade/gthumb_png_exporter.glade.h:69
-#: data/glade/gthumb_tools.glade.h:47
+#: data/glade/gthumb_tools.glade.h:52
 msgid "_Template:"
 msgstr "Şa_blon:"
 
 #: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:62
+#: data/glade/gthumb_web_exporter.glade.h:50
 msgid "by name"
 msgstr "isim"
 
 #: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:63
+#: data/glade/gthumb_web_exporter.glade.h:51
 msgid "by path"
 msgstr "yol"
 
 #: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:64
+#: data/glade/gthumb_web_exporter.glade.h:52
 msgid "by size"
 msgstr "boyut"
 
@@ -1271,7 +1201,7 @@ msgstr "Resimleri ya da _katalogları silmeden önce doğrulama sor"
 
 #: data/glade/gthumb_preferences.glade.h:26
 msgid "Ask whether to save _modified images"
-msgstr "Değiştirilen resimleri kaydederken sor"
+msgstr "Değiştirilen resimleri _kaydederken sor"
 
 #: data/glade/gthumb_preferences.glade.h:27
 msgid "Black"
@@ -1283,7 +1213,7 @@ msgstr "Tarayıcı"
 
 #: data/glade/gthumb_preferences.glade.h:29
 msgid "C_lick policy:"
-msgstr "Tıklama kuralı:"
+msgstr "Tıklama _kuralı:"
 
 #: data/glade/gthumb_preferences.glade.h:30
 msgid "Checked"
@@ -1307,7 +1237,7 @@ msgstr "İç_erikten şekil türüne karar ver (daha yavaş)"
 
 #: data/glade/gthumb_preferences.glade.h:35
 msgid "Do _not change folder"
-msgstr "Klasör değiştirme"
+msgstr "Klasör _değiştirme"
 
 #: data/glade/gthumb_preferences.glade.h:36
 msgid "Fit image to window"
@@ -1319,7 +1249,7 @@ msgstr "Eğer büyükse pencereye uydur"
 
 #: data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
-msgstr "Nautilus·tavrı"
+msgstr "Nautilus tavrı"
 
 #: data/glade/gthumb_preferences.glade.h:39
 msgid "For_ward"
@@ -1331,7 +1261,7 @@ msgstr "Genel"
 
 #: data/glade/gthumb_preferences.glade.h:41
 msgid "Go to last _visited folder or catalog"
-msgstr "Son bakılan klasör ya da katalog"
+msgstr "_Son bakılan klasör ya da katalog"
 
 #: data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
@@ -1358,86 +1288,90 @@ msgid "Lo_w"
 msgstr "Düşü_k"
 
 #: data/glade/gthumb_preferences.glade.h:49
+msgid "Ran_dom"
+msgstr "Rast_gele"
+
+#: data/glade/gthumb_preferences.glade.h:50
 msgid "Re_verse"
 msgstr "Ters_i"
 
-#: data/glade/gthumb_preferences.glade.h:50
+#: data/glade/gthumb_preferences.glade.h:51
 msgid "Resta_rt when finished"
 msgstr "Bittiğinde tek_rar başlat"
 
-#: data/glade/gthumb_preferences.glade.h:51
+#: data/glade/gthumb_preferences.glade.h:52
 msgid "Set image to actual size"
 msgstr "Resimlerin güncel büyüklüğünü koru"
 
-#: data/glade/gthumb_preferences.glade.h:52
+#: data/glade/gthumb_preferences.glade.h:53
 msgid "Set to C_urrent"
-msgstr "Geçerli olarak belirle"
+msgstr "Geçerli _olarak belirle"
 
-#: data/glade/gthumb_preferences.glade.h:53 data/gthumb-ui.xml.h:146
+#: data/glade/gthumb_preferences.glade.h:54
 msgid "Slide Show"
 msgstr "Slayt Gösterisi"
 
-#: data/glade/gthumb_preferences.glade.h:54
+#: data/glade/gthumb_preferences.glade.h:55
 msgid "Switch to _full screen"
 msgstr "_Tam ekranı kapat"
 
-#: data/glade/gthumb_preferences.glade.h:55
+#: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
 msgstr "Sistem ayarları"
 
-#: data/glade/gthumb_preferences.glade.h:56
+#: data/glade/gthumb_preferences.glade.h:57
 msgid "Text below icons"
 msgstr "Simgelerin altında metin"
 
-#: data/glade/gthumb_preferences.glade.h:57
+#: data/glade/gthumb_preferences.glade.h:58
 msgid "Text beside icons"
 msgstr "Simgelerin yanında metin"
 
-#: data/glade/gthumb_preferences.glade.h:58
+#: data/glade/gthumb_preferences.glade.h:59
 msgid "Text only"
 msgstr "Sadece metin"
 
-#: data/glade/gthumb_preferences.glade.h:59
+#: data/glade/gthumb_preferences.glade.h:60
 msgid "Th_umbnail size:"
 msgstr "Küçük _resim büyüklüğü:"
 
-#: data/glade/gthumb_preferences.glade.h:60
+#: data/glade/gthumb_preferences.glade.h:61
 msgid "Transparency _type:"
 msgstr "Şeffaflık _türü:"
 
-#: data/glade/gthumb_preferences.glade.h:61
+#: data/glade/gthumb_preferences.glade.h:62
 msgid "Viewer"
 msgstr "Gösterici"
 
-#: data/glade/gthumb_preferences.glade.h:62
+#: data/glade/gthumb_preferences.glade.h:63
 msgid "White"
 msgstr "Beyaz"
 
-#: data/glade/gthumb_preferences.glade.h:63
+#: data/glade/gthumb_preferences.glade.h:64
 msgid "_Filenames"
 msgstr "_Dosya isimleri"
 
-#: data/glade/gthumb_preferences.glade.h:64
+#: data/glade/gthumb_preferences.glade.h:65
 msgid "_List"
 msgstr "_Liste"
 
-#: data/glade/gthumb_preferences.glade.h:65
+#: data/glade/gthumb_preferences.glade.h:66
 msgid "_Slides"
 msgstr "_Slaytlar"
 
-#: data/glade/gthumb_preferences.glade.h:66 data/gthumb-ui.xml.h:259
+#: data/glade/gthumb_preferences.glade.h:67 src/ui.h:617
 msgid "_Thumbnails"
 msgstr "_Küçük resimler"
 
-#: data/glade/gthumb_preferences.glade.h:67
+#: data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
 msgstr "_Araç çubuğu biçemi:"
 
-#: data/glade/gthumb_preferences.glade.h:68
-msgid "gThumb Preferences"
-msgstr "gThumb·Tercihleri"
-
 #: data/glade/gthumb_preferences.glade.h:69
+msgid "gThumb Preferences"
+msgstr "gThumb Tercihleri"
+
+#: data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
 msgstr "saniye"
 
@@ -1487,7 +1421,7 @@ msgstr "Ö_zel:"
 
 #: data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
-msgstr "Sayfa Ortasına"
+msgstr "Sayfa _Ortasına"
 
 #: data/glade/gthumb_print.glade.h:16
 msgid "Comment _font:"
@@ -1495,7 +1429,7 @@ msgstr "Ya_zı tipi açıklaması:"
 
 #: data/glade/gthumb_print.glade.h:17
 msgid "I_nclude comment"
-msgstr "Açıklamayı içer"
+msgstr "_Açıklamayı içer"
 
 #: data/glade/gthumb_print.glade.h:18
 msgid "Images per page:"
@@ -1526,9 +1460,8 @@ msgid "Paper Details"
 msgstr "Kağıt Ayrıntıları"
 
 #.
-#: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2957 libgthumb/print-callbacks.c:2971
-#: libgthumb/print-callbacks.c:3425
+#: data/glade/gthumb_print.glade.h:25 libgthumb/print-callbacks.c:2962
+#: libgthumb/print-callbacks.c:2976 libgthumb/print-callbacks.c:3442
 msgid "Print"
 msgstr "Yazdır"
 
@@ -1594,14 +1527,14 @@ msgstr "Tüm seçi_lmiş kategorileri eşleştir"
 
 #: data/glade/gthumb_search.glade.h:18
 msgid "Match a_ny selected category"
-msgstr "Seçilme_miş·kategorileri·eşleştir"
+msgstr "Seçilme_miş kategorileri eşleştir"
 
 #: data/glade/gthumb_search.glade.h:19
 msgid "New _Search..."
 msgstr "Ye_ni Arama..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:365
-#: src/dlg-photo-importer.c:860
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:756
+#: src/dlg-photo-importer.c:1307
 msgid "No images found"
 msgstr "Resim bulunamadı"
 
@@ -1609,15 +1542,15 @@ msgstr "Resim bulunamadı"
 msgid "Search Progress"
 msgstr "Arama Durumu"
 
-#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:40
+#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:43
 msgid "Searching in:"
 msgstr "Aranıyor:"
 
-#: data/glade/gthumb_search.glade.h:25 data/gthumb-ui.xml.h:208
+#: data/glade/gthumb_search.glade.h:25 src/ui.h:198 src/ui.h:233
 msgid "_Edit Search"
 msgstr "Aramayı Düz_enle"
 
-#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:43
+#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:47
 msgid "_Include sub-folders"
 msgstr "Alt klasörleri de _içer"
 
@@ -1638,10 +1571,14 @@ msgid "<b>Thumbnails</b>"
 msgstr "<b>Küçük resimler</b>"
 
 #: data/glade/gthumb_tools.glade.h:6
+msgid "<b>Write to CD</b>"
+msgstr "<b>CD'ye Yaz</b>"
+
+#: data/glade/gthumb_tools.glade.h:7
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr "<small><i><b>Not</b>: jpeg dönüştürmeyle daha az kayıp.</i></small>"
 
-#: data/glade/gthumb_tools.glade.h:8
+#: data/glade/gthumb_tools.glade.h:9
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
@@ -1650,152 +1587,169 @@ msgstr ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 
-#: data/glade/gthumb_tools.glade.h:9
+#: data/glade/gthumb_tools.glade.h:10
+msgid "Adjust photo _orientation"
+msgstr "F_otoğraf yönünü ayarla"
+
+#: data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "Bütün resimlere uygul_a"
 
-#: data/glade/gthumb_tools.glade.h:10
+#: data/glade/gthumb_tools.glade.h:12
 msgid "Backup Comments"
 msgstr "Yedek Açıklamalar"
 
-#: data/glade/gthumb_tools.glade.h:11
+#: data/glade/gthumb_tools.glade.h:13
 msgid "C_urrent date"
 msgstr "_Geçerli tarih"
 
-#: data/glade/gthumb_tools.glade.h:12
+#: data/glade/gthumb_tools.glade.h:14
 msgid "Change Date"
 msgstr "Tarih Değiştir"
 
-#: data/glade/gthumb_tools.glade.h:13
+#: data/glade/gthumb_tools.glade.h:15
 msgid "Change the last modified date to:"
 msgstr "Son değiştirilme tarihi:"
 
-#: data/glade/gthumb_tools.glade.h:14
+#: data/glade/gthumb_tools.glade.h:16
 msgid "Check _All"
 msgstr "Hepsini K_ontrol Et"
 
-#: data/glade/gthumb_tools.glade.h:15
+#: data/glade/gthumb_tools.glade.h:17
 msgid "Check _None"
-msgstr "Hiçbirini Kontrol Etme"
+msgstr "Hiçbirini _Kontrol Etme"
 
-#: data/glade/gthumb_tools.glade.h:16
+#: data/glade/gthumb_tools.glade.h:18
 msgid "Checking image:"
 msgstr "Resim kontrol ediliyor:"
 
-#: data/glade/gthumb_tools.glade.h:17
+#: data/glade/gthumb_tools.glade.h:19
+msgid "Current _Folder"
+msgstr "Geçerli _Klasör"
+
+#: data/glade/gthumb_tools.glade.h:20
 msgid "Delete ALL Comments"
 msgstr "BÜTÜN Açıklamaları Sil"
 
-#: data/glade/gthumb_tools.glade.h:18
+#: data/glade/gthumb_tools.glade.h:21
 msgid "Delete ALL Thumbnails"
 msgstr "BÜTÜN Küçük Resimleri Sil"
 
-#: data/glade/gthumb_tools.glade.h:19
+#: data/glade/gthumb_tools.glade.h:22
 msgid "Delete Old Comments"
 msgstr "Eski Açıklamaları Sil"
 
-#: data/glade/gthumb_tools.glade.h:20
+#: data/glade/gthumb_tools.glade.h:23
 msgid "Delete Old Thumbnails"
 msgstr "Eski Küçük Resimleri Sil"
 
-#: data/glade/gthumb_tools.glade.h:21
+#: data/glade/gthumb_tools.glade.h:24
 msgid "Delete comments of no more existing images"
 msgstr "Artık olmayan resimlerin açıklamalarını sil"
 
-#: data/glade/gthumb_tools.glade.h:22
+#: data/glade/gthumb_tools.glade.h:25
 msgid "Delete thumbnails of no more existing images"
 msgstr "Artık olmayan resimlerin küçük resimlerini sil"
 
-#: data/glade/gthumb_tools.glade.h:23
+#: data/glade/gthumb_tools.glade.h:26
 msgid "Equal images:"
 msgstr "Eşit resimler:"
 
-#: data/glade/gthumb_tools.glade.h:24
+#: data/glade/gthumb_tools.glade.h:27
 msgid "Find Duplicates"
 msgstr "Kopyaları Bul"
 
-#: data/glade/gthumb_tools.glade.h:25
+#: data/glade/gthumb_tools.glade.h:28
 msgid "Found duplicates:"
 msgstr "Bulunan kopyalar:"
 
-#: data/glade/gthumb_tools.glade.h:26
+#: data/glade/gthumb_tools.glade.h:29
 msgid "Image c_reation date"
 msgstr "Resim oluştu_rma tarihi"
 
-#: data/glade/gthumb_tools.glade.h:27
+#: data/glade/gthumb_tools.glade.h:30
 msgid "Maintenance"
 msgstr "Bakım"
 
-#: data/glade/gthumb_tools.glade.h:28
+#: data/glade/gthumb_tools.glade.h:31
 msgid "Mirror image horizontally (left-right)"
 msgstr "Yansı resmi yatay olarak (sol-sağ)"
 
-#: data/glade/gthumb_tools.glade.h:29
+#: data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image vertically (top-bottom)"
-msgstr "Yansı·resmi·dikey·olarak·(üst-orta)"
+msgstr "Yansı resmi dikey olarak (üst-orta)"
 
-#: data/glade/gthumb_tools.glade.h:30 data/gthumb-ui.xml.h:80
+#: data/glade/gthumb_tools.glade.h:33 src/ui.h:113 src/ui.h:138 src/ui.h:263
+#: src/ui.h:293
 msgid "Move to _Trash"
 msgstr "Çöpe _Taşı"
 
-#: data/glade/gthumb_tools.glade.h:31
+#: data/glade/gthumb_tools.glade.h:34
 msgid "New names _preview:"
-msgstr "Yeni ön izleme ismi:"
+msgstr "_Yeni ön izleme ismi:"
 
-#: data/glade/gthumb_tools.glade.h:32
+#: data/glade/gthumb_tools.glade.h:35
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "Fotoğraf dijitalleştirme tarihi (EXIF verisinden)"
+msgstr "Fotoğraf dijitalleştirme _tarihi (EXIF verisinden)"
 
-#: data/glade/gthumb_tools.glade.h:33
+#: data/glade/gthumb_tools.glade.h:36
 msgid "Re_verse Order"
 msgstr "_Ters Düzen"
 
-#: data/glade/gthumb_tools.glade.h:34
+#: data/glade/gthumb_tools.glade.h:37
 msgid "Rename Series"
 msgstr "Serileri yeniden isimlendir"
 
-#: data/glade/gthumb_tools.glade.h:35
+#: data/glade/gthumb_tools.glade.h:38
 msgid "Restore Comments From a Backup File"
 msgstr "Yedekleme Dosyasından Açıklamaları Geri Yükle"
 
-#: data/glade/gthumb_tools.glade.h:36
+#: data/glade/gthumb_tools.glade.h:39
 msgid "Rotate Images"
 msgstr "Resmi Döndür"
 
-#: data/glade/gthumb_tools.glade.h:37
+#: data/glade/gthumb_tools.glade.h:40
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Resmi saat yönünde 90 derece döndür"
 
-#: data/glade/gthumb_tools.glade.h:38
+#: data/glade/gthumb_tools.glade.h:41
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Resmi saat yönü tersine 90 derece döndür"
 
-#: data/glade/gthumb_tools.glade.h:39
+#: data/glade/gthumb_tools.glade.h:42
 msgid "Search terminated, no duplicates found."
 msgstr "Arama sona erdi, kopyalar bulunamadı."
 
-#: data/glade/gthumb_tools.glade.h:42
+#: data/glade/gthumb_tools.glade.h:45
 msgid "The _following date:"
-msgstr "Müteakip tarih:"
+msgstr "Müteakip _tarih:"
 
-#: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
-#: src/commands-impl.c:277 src/commands-impl.c:1061 src/commands-impl.c:1761
+#: data/glade/gthumb_tools.glade.h:46
+msgid "Write To CD"
+msgstr "CD'ye Yaz"
+
+#: data/glade/gthumb_tools.glade.h:48 src/actions.c:288 src/actions.c:793
+#: src/actions.c:1317
 msgid "_Rename"
 msgstr "Yeniden İsimlendi_r"
 
-#: data/glade/gthumb_tools.glade.h:46
+#: data/glade/gthumb_tools.glade.h:50
+msgid "_Selected Images"
+msgstr "_Seçilmiş Resimler"
+
+#: data/glade/gthumb_tools.glade.h:51
 msgid "_Sort:"
 msgstr "_Sırala:"
 
-#: data/glade/gthumb_tools.glade.h:49
+#: data/glade/gthumb_tools.glade.h:54
 msgid "by Modification date"
 msgstr "Değiştirilme tarihi"
 
-#: data/glade/gthumb_tools.glade.h:50
+#: data/glade/gthumb_tools.glade.h:55
 msgid "by Name"
 msgstr "İsim"
 
-#: data/glade/gthumb_tools.glade.h:51
+#: data/glade/gthumb_tools.glade.h:56
 msgid "by Size"
 msgstr "Boyut"
 
@@ -1853,1127 +1807,100 @@ msgid "Caption"
 msgstr "Başlık"
 
 #: data/glade/gthumb_web_exporter.glade.h:21
-msgid "Destination"
-msgstr "Varış Yeri"
-
-#: data/glade/gthumb_web_exporter.glade.h:22
-msgid "Destinations"
-msgstr "Varış Yerleri"
-
-#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "E_xposure mode"
 msgstr "_Görüntüleme kipi"
 
-#: data/glade/gthumb_web_exporter.glade.h:24
+#: data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
 msgstr "Görün_tüleme zamanı"
 
-#: data/glade/gthumb_web_exporter.glade.h:25
-msgid "FTP"
-msgstr "FTP"
-
-#: data/glade/gthumb_web_exporter.glade.h:29
+#: data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr "Odak uzak_lığı"
 
-#: data/glade/gthumb_web_exporter.glade.h:31
+#: data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "Resi_m Başlığı..."
 
-#: data/glade/gthumb_web_exporter.glade.h:33
+#: data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
 msgstr "Dosya di_zini:"
 
-#: data/glade/gthumb_web_exporter.glade.h:34
-msgid "Local Folder"
-msgstr "Yerel Klasör"
-
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: data/glade/gthumb_web_exporter.glade.h:32
 msgid "Resi_ze if larger than:"
-msgstr "Bundan büyükse yeniden boyutlandır:"
+msgstr "Bundan büyükse yeniden _boyutlandır:"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
-msgid "SSH"
-msgstr "SSH"
+#: data/glade/gthumb_web_exporter.glade.h:33
+msgid "Select Destination"
+msgstr "Yön Seç"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
-msgid "Saved _Destinations:"
-msgstr "Varış Yerlerini Kay_det:"
-
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
 msgstr "Boyu_t:"
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Th_eme:"
 msgstr "T_ema:"
 
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album"
 msgstr "Web Albümü"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: data/glade/gthumb_web_exporter.glade.h:38
 msgid "Web Album Theme"
 msgstr "Web Albüm Teması"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Aperture value"
 msgstr "_Açıklık değeri"
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Copy originals to destination"
 msgstr "_Varış yerine özgün olanları kopyala"
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Date and Time"
 msgstr "_Tarih ve Zaman"
 
-#: data/glade/gthumb_web_exporter.glade.h:48 data/gthumb-ui.xml.h:206
-msgid "_Edit"
-msgstr "_Düzenle"
-
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Flash"
 msgstr "_Işık"
 
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Go to Theme Folder"
 msgstr "Tema Klasörüne _Git"
 
-#: data/glade/gthumb_web_exporter.glade.h:51
-msgid "_Host:"
-msgstr "_Makine:"
-
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Install Theme..."
 msgstr "Tema _Yükle..."
 
-#: data/glade/gthumb_web_exporter.glade.h:53
-msgid "_Password:"
-msgstr "_Parola:"
-
-#: data/glade/gthumb_web_exporter.glade.h:54
-msgid "_Path:"
-msgstr "_Yol:"
-
-#: data/glade/gthumb_web_exporter.glade.h:56
+#: data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Select"
 msgstr "_Seç"
 
-#: data/glade/gthumb_web_exporter.glade.h:57
+#: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Shutter speed"
 msgstr "_Diyafram kapağı hızı"
 
-#: data/glade/gthumb_web_exporter.glade.h:58
+#: data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Thumbnail Caption..."
 msgstr "Küçük Re_sim Başlığı..."
 
-#: data/glade/gthumb_web_exporter.glade.h:59
-msgid "_Type:"
-msgstr "_Tür:"
-
-#: data/glade/gthumb_web_exporter.glade.h:60
-msgid "_User:"
-msgstr "K_ullanıcı:"
-
-#: data/glade/gthumb_web_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:49
 msgid "by modified time"
 msgstr "değiştirilme tarihi"
 
-#: data/glade/gthumb_web_exporter.glade.h:65
+#: data/glade/gthumb_web_exporter.glade.h:53
 msgid "columns"
 msgstr "sütun"
 
-#: data/glade/gthumb_web_exporter.glade.h:66
+#: data/glade/gthumb_web_exporter.glade.h:54
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:67
+#: data/glade/gthumb_web_exporter.glade.h:55
 msgid "rows"
 msgstr "satır"
-
-#: data/gthumb-ui.xml.h:1
-msgid "1:1"
-msgstr "1:1"
-
-#: data/gthumb-ui.xml.h:2
-msgid "Actual size"
-msgstr "Güncel boyut"
-
-#: data/gthumb-ui.xml.h:3
-msgid "Add a comment to selected images"
-msgstr "Seçilmiş resimlere açıklama ekle"
-
-#: data/gthumb-ui.xml.h:4
-msgid "Add a comment to the image"
-msgstr "Seçilmiş resme açıklama ekle"
-
-#: data/gthumb-ui.xml.h:5
-msgid "Add current location to bookmarks"
-msgstr "Geçerli konumu yer imlerine ekle"
-
-#: data/gthumb-ui.xml.h:6
-msgid "Add selected images to a catalog"
-msgstr "Seçilmiş resimleri kataloga ekle"
-
-#: data/gthumb-ui.xml.h:7
-msgid "Adjust brightness and contrast"
-msgstr "Parlaklık ve karşıtlığı ayarla"
-
-#: data/gthumb-ui.xml.h:8
-msgid "Adjust color balance"
-msgstr "Renk dengesini ayarla"
-
-#: data/gthumb-ui.xml.h:9
-msgid "Adjust hue and saturation"
-msgstr "Renk tonu ve doygunluğu ayarla"
-
-#: data/gthumb-ui.xml.h:10
-msgid "Apply threshold"
-msgstr "Eşiği uygula"
-
-#: data/gthumb-ui.xml.h:11
-msgid "Assign categories to selected images"
-msgstr "Seçilmiş resimlere kategori ata"
-
-#: data/gthumb-ui.xml.h:12
-msgid "Assign categories to the current folder"
-msgstr "Geçerli klasöre kategori ata"
-
-#: data/gthumb-ui.xml.h:13
-msgid "Assign categories to the image"
-msgstr "Resime kategori ata"
-
-#: data/gthumb-ui.xml.h:14
-msgid "Assign categories to the selected folder"
-msgstr "Seçili klasöre kategori ata"
-
-#: data/gthumb-ui.xml.h:15
-msgid "Auto"
-msgstr "Otomatik"
-
-#: data/gthumb-ui.xml.h:16
-msgid "Automatically adjust the color levels"
-msgstr "Renk seviyesini otomatik ayarla"
-
-#: data/gthumb-ui.xml.h:17
-msgid "Automatically equalize the image histogram"
-msgstr "Resim histogramını otomatik olarak eşitle"
-
-#: data/gthumb-ui.xml.h:18
-msgid "Automatically normalize the contrast"
-msgstr "Otomatik olarak karşıtlığı uygun hale getir"
-
-#: data/gthumb-ui.xml.h:19
-msgid "Automatically stretch the contrast"
-msgstr "Otomatik olarak karşıtlığı genişlet"
-
-#: data/gthumb-ui.xml.h:20
-msgid "Ca_talog"
-msgstr "Ka_talog"
-
-#: data/gthumb-ui.xml.h:21
-msgid "Ca_tegories"
-msgstr "Ka_tegoriler"
-
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4198
-msgid "Catalogs"
-msgstr "Kataloglar"
-
-#: data/gthumb-ui.xml.h:24
-msgid "Change _Date"
-msgstr "_Değişim Tarihi"
-
-#: data/gthumb-ui.xml.h:25
-msgid "Change images last modified date"
-msgstr "Resimleri son değiştirilme tarihi değişimi"
-
-#: data/gthumb-ui.xml.h:26
-msgid "Close all windows and exit"
-msgstr "Bütün pencereleri kapat ve çık"
-
-#: data/gthumb-ui.xml.h:27
-msgid "Close this window"
-msgstr "Pencereyi kapat"
-
-#: data/gthumb-ui.xml.h:30
-msgid "Convert"
-msgstr "Dönüştür"
-
-#: data/gthumb-ui.xml.h:31
-msgid "Convert F_ormat"
-msgstr "Dönüştürme B_içimi"
-
-#: data/gthumb-ui.xml.h:32
-msgid "Convert image format"
-msgstr "Resim biçimini dönüştür"
-
-#: data/gthumb-ui.xml.h:33
-msgid "Copy current folder"
-msgstr "Geçerli klasöre kopyala"
-
-#: data/gthumb-ui.xml.h:34
-msgid "Copy selected folder"
-msgstr "Seçilmiş klasöre kopyala"
-
-#: data/gthumb-ui.xml.h:35
-msgid "Copy selected images to another location"
-msgstr "Resimleri başka konuma kopyala"
-
-#: data/gthumb-ui.xml.h:36
-msgid "Copy this image to another location"
-msgstr "Resmi başka konuma kopyala"
-
-#: data/gthumb-ui.xml.h:37
-msgid "Create _Index Image"
-msgstr "Resim D_izini Oluştur"
-
-#: data/gthumb-ui.xml.h:38
-msgid "Create _Web Album"
-msgstr "_Web Albümü Oluştur"
-
-#: data/gthumb-ui.xml.h:39
-msgid "Create a new catalog"
-msgstr "Yeni katalog oluştur"
-
-#: data/gthumb-ui.xml.h:40
-msgid "Create a new catalog library"
-msgstr "Yeni katalog kütüphanesi oluştur"
-
-#: data/gthumb-ui.xml.h:41
-msgid "Create a new folder"
-msgstr "Yeni klasör oluştur"
-
-#: data/gthumb-ui.xml.h:42
-msgid "Create a new window"
-msgstr "Yeni bir pencere oluştur"
-
-#: data/gthumb-ui.xml.h:43
-msgid "Crop image"
-msgstr "Resmi kes"
-
-#: data/gthumb-ui.xml.h:44
-msgid "D_uplicate"
-msgstr "_Kopyala"
-
-#: data/gthumb-ui.xml.h:45
-msgid "Delete the list of visited locations"
-msgstr "Ziyaret edilmiş yerlerin listesini sil"
-
-#: data/gthumb-ui.xml.h:46
-msgid "Duplicate selected image"
-msgstr "Seçilmiş resmi kopyala"
-
-#: data/gthumb-ui.xml.h:47
-msgid "Duplicate this image"
-msgstr "Resmi kopyala"
-
-#: data/gthumb-ui.xml.h:48
-msgid "E_xit"
-msgstr "Çı_kış"
-
-#: data/gthumb-ui.xml.h:49
-msgid "Edit Search"
-msgstr "Arama Düzenle"
-
-#: data/gthumb-ui.xml.h:50
-msgid "Edit bookmarks"
-msgstr "Yer imlerini düzenle"
-
-#: data/gthumb-ui.xml.h:51
-msgid "Edit various preferences"
-msgstr "Çeşitli tercihleri düzenle"
-
-#: data/gthumb-ui.xml.h:52
-msgid "Fi_nd Duplicates..."
-msgstr "Ko_pya Bul..."
-
-#: data/gthumb-ui.xml.h:53
-msgid "Find images"
-msgstr "Resim bul"
-
-#: data/gthumb-ui.xml.h:54
-msgid "Fit"
-msgstr "Uydur"
-
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4148
-msgid "Folders"
-msgstr "Klasörler"
-
-#: data/gthumb-ui.xml.h:56 src/fullscreen.c:838
-msgid "Forward"
-msgstr "İleri"
-
-#: data/gthumb-ui.xml.h:57
-msgid "Full Screen"
-msgstr "Tam Ekran"
-
-#: data/gthumb-ui.xml.h:58
-msgid "Go to the folder that contains the selected image"
-msgstr "Seçilmiş resmin bulunduğu klasöre git"
-
-#: data/gthumb-ui.xml.h:59
-msgid "Go to the home folder"
-msgstr "Başlangıç klasörüne git"
-
-#: data/gthumb-ui.xml.h:60
-msgid "Go to the next visited location"
-msgstr "Ziyaret edilmiş sonraki yere git"
-
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4116
-msgid "Go to the previous visited location"
-msgstr "Ziyaret edilmiş önceki yere git"
-
-#: data/gthumb-ui.xml.h:62
-msgid "Go up one level"
-msgstr "Bir üste git"
-
-#: data/gthumb-ui.xml.h:63
-msgid "Home"
-msgstr "Başlangıç"
-
-#: data/gthumb-ui.xml.h:64
-msgid "Image Toolbar"
-msgstr "Resim Araç Çubuğu"
-
-#: data/gthumb-ui.xml.h:65
-msgid "Image _Comment"
-msgstr "_Resim Açıklaması"
-
-#: data/gthumb-ui.xml.h:66
-msgid "Import photos from a digital camera"
-msgstr "Dijital kameradan fotoğrafları al"
-
-#: data/gthumb-ui.xml.h:67
-msgid "In"
-msgstr "Büyült"
-
-#: data/gthumb-ui.xml.h:68
-msgid "Main Toolbar"
-msgstr "Ana Araç Çubuğu"
-
-#: data/gthumb-ui.xml.h:69
-msgid "Modify search criteria"
-msgstr "Arama Ölçütünü Değiştir"
-
-#: data/gthumb-ui.xml.h:70
-msgid "Move current catalog to another location"
-msgstr "Geçerli katalogu başka yere taşı"
-
-#: data/gthumb-ui.xml.h:71
-msgid "Move current folder"
-msgstr "Geçerli klasörü taşı"
-
-#: data/gthumb-ui.xml.h:72
-msgid "Move selected catalog to another location"
-msgstr "Seçilmiş katalogu başka yere taşı"
-
-#: data/gthumb-ui.xml.h:73
-msgid "Move selected folder"
-msgstr "Seçilmiş klasörü taşı"
-
-#: data/gthumb-ui.xml.h:74
-msgid "Move selected images to another location"
-msgstr "Seçilmiş resimleri başka yere taşı"
-
-#: data/gthumb-ui.xml.h:75
-msgid "Move the current folder to the Trash"
-msgstr "Geçerli klasörü Çöpe taşı"
-
-#: data/gthumb-ui.xml.h:76
-msgid "Move the selected folder to the Trash"
-msgstr "Seçilmiş klasörü Çöpe taşı"
-
-#: data/gthumb-ui.xml.h:77
-msgid "Move the selected images to the Trash"
-msgstr "Seçilmiş resimleri Çöpe taşı"
-
-#: data/gthumb-ui.xml.h:78
-msgid "Move this image to another location"
-msgstr "Resmi başka yere taşı"
-
-#: data/gthumb-ui.xml.h:79
-msgid "Move this image to the Trash"
-msgstr "Resmi Çöpe taşı"
-
-#: data/gthumb-ui.xml.h:81
-msgid "New _Library..."
-msgstr "Yeni Kütüp_hane..."
-
-#: data/gthumb-ui.xml.h:82
-msgid "New _Window"
-msgstr "Yeni _Pencere"
-
-#: data/gthumb-ui.xml.h:83
-msgid "Next"
-msgstr "Sonraki"
-
-#: data/gthumb-ui.xml.h:84
-msgid "Open"
-msgstr "Aç"
-
-#: data/gthumb-ui.xml.h:85
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Nautilus dosya yöneticisiyle geçerli klasörü aç"
-
-#: data/gthumb-ui.xml.h:86
-msgid "Open in New Window"
-msgstr "Yeni Pencerede Aç"
-
-#: data/gthumb-ui.xml.h:87
-msgid "Open selected images with an application"
-msgstr "Seçilmiş resimleri uygulamayla aç"
-
-#: data/gthumb-ui.xml.h:88
-msgid "Open the selected folder"
-msgstr "Seçilmiş klasörü aç"
-
-#: data/gthumb-ui.xml.h:89
-msgid "Open the selected folder in a new window"
-msgstr "Seçilmiş klasörü yeni pencerede aç"
-
-#: data/gthumb-ui.xml.h:90
-msgid ""
-"Open the selected folder with the Nautilus file\n"
-"\t     manager"
-msgstr "Seçilmiş klasörü Nautilus ile aç\n"
-"\t·····yönetici"
-
-#: data/gthumb-ui.xml.h:92
-msgid "Open this image with an application"
-msgstr "Resmi uygulamayla aç"
-
-#: data/gthumb-ui.xml.h:93
-msgid "Open with the File Manager"
-msgstr "Dosya Yöneticisiyle aç"
-
-#: data/gthumb-ui.xml.h:94
-msgid "Open with the _File Manager"
-msgstr "_Dosya Yöneticisiyle aç"
-
-#: data/gthumb-ui.xml.h:95
-msgid "Out"
-msgstr "Küçült"
-
-#: data/gthumb-ui.xml.h:96
-msgid "Play _Animation"
-msgstr "_Animasyonu Başlat"
-
-#: data/gthumb-ui.xml.h:97
-msgid "Previous"
-msgstr "Önceki"
-
-#: data/gthumb-ui.xml.h:100
-msgid "Proper_ties"
-msgstr "_Tercihler"
-
-#: data/gthumb-ui.xml.h:101
-msgid "Redo Search"
-msgstr "Aramayı Geri Al"
-
-#: data/gthumb-ui.xml.h:102
-msgid "Redo _Search"
-msgstr "A_ramayı Geri Al"
-
-#: data/gthumb-ui.xml.h:103
-msgid "Redo the search"
-msgstr "Aramayı geri al"
-
-#: data/gthumb-ui.xml.h:104
-msgid "Reduce number of colors"
-msgstr "Renk sayısını azalt"
-
-#: data/gthumb-ui.xml.h:105
-msgid "Reduce the number of colors"
-msgstr "Renk·sayısını·azalt"
-
-#: data/gthumb-ui.xml.h:106
-msgid "Reload the current location"
-msgstr "Geçerli konumu tekrar yükle"
-
-#: data/gthumb-ui.xml.h:107
-msgid "Rem_ove"
-msgstr "Kal_dır"
-
-#: data/gthumb-ui.xml.h:108
-msgid "Rem_ove Comment"
-msgstr "Açıklamaları Kal_dır"
-
-#: data/gthumb-ui.xml.h:109
-msgid "Remo_ve from Catalog"
-msgstr "Katalo_gdan Kaldır"
-
-#: data/gthumb-ui.xml.h:110
-msgid "Remove comments of selected images"
-msgstr "Seçilmiş resimlerin açıklamalarını kaldır"
-
-#: data/gthumb-ui.xml.h:111
-msgid "Remove current catalog"
-msgstr "Geçerli katalogu kaldır"
-
-#: data/gthumb-ui.xml.h:112
-msgid "Remove selected catalog"
-msgstr "Seçilmiş katalogu kaldır"
-
-#: data/gthumb-ui.xml.h:113
-msgid "Remove selected images from the catalog"
-msgstr "Katalogdan seçilmiş resimleri kaldır"
-
-#: data/gthumb-ui.xml.h:114
-msgid "Remove the comment"
-msgstr "Açıklamaları kaldır"
-
-#: data/gthumb-ui.xml.h:115
-msgid "Rename current catalog"
-msgstr "Geçerli katalogu yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:116
-msgid "Rename current folder"
-msgstr "Geçerli klasörü yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:117
-msgid "Rename selected catalog"
-msgstr "Seçilmiş katalogu yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:118
-msgid "Rename selected folder"
-msgstr "Seçilmiş klasörü yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:119
-msgid "Rename selected image"
-msgstr "Seçilmiş resmi yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:120
-msgid "Rename this image"
-msgstr "Resmi yeniden isimlendir"
-
-#: data/gthumb-ui.xml.h:121
-msgid "Resize image"
-msgstr "Resmi yeniden boyutlandır"
-
-#: data/gthumb-ui.xml.h:122 src/fullscreen.c:784
-msgid "Restore Normal View"
-msgstr "Normal Görünümü Geri Yükle"
-
-#: data/gthumb-ui.xml.h:123
-msgid "Restore the original desktop wallpaper"
-msgstr "Özgün masaüstü duvar kağıdını geri yükle"
-
-#: data/gthumb-ui.xml.h:124
-msgid "Reverse images order"
-msgstr "Resimleri tersten sırala"
-
-#: data/gthumb-ui.xml.h:125
-msgid "Revert"
-msgstr "Dön"
-
-#: data/gthumb-ui.xml.h:126
-msgid "Revert to saved image"
-msgstr "Kayıtlı resme dön"
-
-#: data/gthumb-ui.xml.h:127
-msgid "Ro_tate Images"
-msgstr "Resimleri döndür"
-
-#: data/gthumb-ui.xml.h:129
-msgid "Rotate Ri_ght"
-msgstr "_Sağa Döndür"
-
-#: data/gthumb-ui.xml.h:130
-msgid "Rotate _Left"
-msgstr "So_la Döndür"
-
-#: data/gthumb-ui.xml.h:131
-msgid "Rotate image"
-msgstr "Resmi döndür"
-
-#: data/gthumb-ui.xml.h:132
-msgid "Rotate images without loss of quality"
-msgstr "Özellik kaybı olmaksızın resimleri döndür"
-
-#: data/gthumb-ui.xml.h:133
-msgid "S_ort Images"
-msgstr "Resi_mleri Sırala"
-
-#: data/gthumb-ui.xml.h:134
-msgid "Save"
-msgstr "Kaydet"
-
-#: data/gthumb-ui.xml.h:137
-msgid "Search"
-msgstr "Ara"
-
-#: data/gthumb-ui.xml.h:138
-msgid "Select all images"
-msgstr "Bütün resimleri seç"
-
-#: data/gthumb-ui.xml.h:139
-msgid "Set Image as _Wallpaper"
-msgstr "Duvar Kağıdı _Olarak Belirle"
-
-#: data/gthumb-ui.xml.h:140
-msgid "Set the image as desktop background (centered)"
-msgstr "Masaüstü arkaplanı olarak belirle (ortalanmış)"
-
-#: data/gthumb-ui.xml.h:141
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Masaüstü·arkaplanı·olarak·belirle (ölçeklenmiş oran)"
-
-#: data/gthumb-ui.xml.h:142
-msgid "Set the image as desktop background (stretched)"
-msgstr "Masaüstü arkaplanı olarak belirle·(uzatılmış)"
-
-#: data/gthumb-ui.xml.h:143
-msgid "Set the image as desktop background (tiled)"
-msgstr "Masaüstü·arkaplanı·olarak·belirle (döşeli)"
-
-#: data/gthumb-ui.xml.h:144
-msgid "Show information about gThumb"
-msgstr "gThumb hakkında bilgileri göster"
-
-#: data/gthumb-ui.xml.h:145
-msgid "Show/_Hide"
-msgstr "Göster/_Gizle"
-
-#: data/gthumb-ui.xml.h:147
-msgid "Sort images by file size"
-msgstr "Resimleri dosya boyutlarına göre sırala"
-
-#: data/gthumb-ui.xml.h:148
-msgid "Sort images by modification time"
-msgstr "Resimleri değiştirilme zamanlarına göre sırala"
-
-#: data/gthumb-ui.xml.h:149
-msgid "Sort images by name"
-msgstr "Resimleri isimlerine göre sırala"
-
-#: data/gthumb-ui.xml.h:150
-msgid "Sort images by path"
-msgstr "Resimleri yollarına göre sırala"
-
-#: data/gthumb-ui.xml.h:151
-msgid "Specify a location to visit"
-msgstr "Ziyaret etmek için bir konum belirt"
-
-#: data/gthumb-ui.xml.h:153
-msgid "Step A_nimation"
-msgstr "A_nimasyon Adımı"
-
-#: data/gthumb-ui.xml.h:154
-msgid "Stop loading current location"
-msgstr "Geçerli konum yüklemesini durdur"
-
-#: data/gthumb-ui.xml.h:155
-msgid "Str_etched"
-msgstr "Döş_enmiş"
-
-#: data/gthumb-ui.xml.h:156
-msgid "Up"
-msgstr "Yukarı"
-
-#: data/gthumb-ui.xml.h:157
-msgid "Use black as transparency"
-msgstr "Şeffaflık olarak siyahı kullan"
-
-#: data/gthumb-ui.xml.h:158
-msgid "Use checks as transparency"
-msgstr "Şeffaflık olarak denetimleri kullan"
-
-#: data/gthumb-ui.xml.h:159
-msgid "Use gray as transparency"
-msgstr "Şeffaflık·olarak·griyi·kullan"
-
-#: data/gthumb-ui.xml.h:160
-msgid "Use high quality zoom"
-msgstr "Yüksek kalite büyültme kullan"
-
-#: data/gthumb-ui.xml.h:161
-msgid "Use low quality zoom"
-msgstr "Düşük kalite büyültme kullan"
-
-#: data/gthumb-ui.xml.h:162
-msgid "Use white as transparency"
-msgstr "Şeffaflık olarak beyazı kullan"
-
-#: data/gthumb-ui.xml.h:163
-msgid "View as a slide show"
-msgstr "Slayt gösterisi olarak göster"
-
-#: data/gthumb-ui.xml.h:164
-msgid "View image comment"
-msgstr "Resim açıklamalarını göster"
-
-#: data/gthumb-ui.xml.h:165
-msgid "View image in fullscreen mode"
-msgstr "Resmi tam ekran kipinde göster"
-
-#: data/gthumb-ui.xml.h:166
-msgid "View image properties"
-msgstr "Resim tercihlerini göster"
-
-#: data/gthumb-ui.xml.h:168
-msgid "View next image"
-msgstr "Sonraki resmi göster"
-
-#: data/gthumb-ui.xml.h:169
-msgid "View or hide the statusbar of this window"
-msgstr "Bu pencerede durum çubuğu göster ya da gizle"
-
-#: data/gthumb-ui.xml.h:170
-msgid "View or hide the toolbar of this window"
-msgstr "Bu pencerede araç çubuğunu göster ya da gizle"
-
-#: data/gthumb-ui.xml.h:171
-msgid "View previous image"
-msgstr "Önceki resmi göster"
-
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4204
-msgid "View the catalogs"
-msgstr "Katalogları göster"
-
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4154
-msgid "View the folders"
-msgstr "Klasörleri göster"
-
-#: data/gthumb-ui.xml.h:174
-msgid "View the image"
-msgstr "Resmi göster"
-
-#: data/gthumb-ui.xml.h:175
-msgid "View the image flipped"
-msgstr "Resmi çevrilmiş göster"
-
-#: data/gthumb-ui.xml.h:176
-msgid "View the image in black and white"
-msgstr "Resmi siyah ve beyaz göster"
-
-#: data/gthumb-ui.xml.h:177
-msgid "View the image mirrored"
-msgstr "Resmi yansılanmış göster"
-
-#: data/gthumb-ui.xml.h:178
-msgid "View the image rotated clockwise"
-msgstr "Resmi saat yönünde döndürerek göster"
-
-#: data/gthumb-ui.xml.h:179
-msgid "View the image rotated counter-clockwise"
-msgstr "Resmi sayaç-saat yönünde döndürerek göster"
-
-#: data/gthumb-ui.xml.h:180
-msgid "View the image with negative colors"
-msgstr "Resmi negatif renkler kullanarak göster"
-
-#: data/gthumb-ui.xml.h:181
-msgid "View thumbnails"
-msgstr "Küçük resim görünümü"
-
-#: data/gthumb-ui.xml.h:182
-msgid "Zoom _In"
-msgstr "Büyültmey_i Arttır"
-
-#: data/gthumb-ui.xml.h:183
-msgid "Zoom _Out"
-msgstr "_Büyültmeyi Azalt"
-
-#: data/gthumb-ui.xml.h:184
-msgid "Zoom in"
-msgstr "Büyültmeyi arttır"
-
-#: data/gthumb-ui.xml.h:185
-msgid "Zoom out"
-msgstr "Büyültmeyi azalt"
-
-#: data/gthumb-ui.xml.h:186
-msgid "Zoom to _Fit"
-msgstr "Büyültmeyi _Uydur"
-
-#: data/gthumb-ui.xml.h:187
-msgid "Zoom to fit window"
-msgstr "Büyültmeyi pencereye uydur"
-
-#: data/gthumb-ui.xml.h:188
-msgid "_About"
-msgstr "_Hakkında"
-
-#: data/gthumb-ui.xml.h:189
-msgid "_Actual Size"
-msgstr "Güncel _Boyut"
-
-#: data/gthumb-ui.xml.h:190
-msgid "_Add Bookmark"
-msgstr "_Yer İmlerine Ekle"
-
-#: data/gthumb-ui.xml.h:191
-msgid "_Add to Catalog..."
-msgstr "K_ataloga Ekle..."
-
-#: data/gthumb-ui.xml.h:192
-msgid "_Back"
-msgstr "_Geri"
-
-#: data/gthumb-ui.xml.h:194
-msgid "_Bookmarks"
-msgstr "_Yer İmleri"
-
-#: data/gthumb-ui.xml.h:195
-msgid "_Brightness-Contrast"
-msgstr "_Parlaklık-Karşıtlık"
-
-#: data/gthumb-ui.xml.h:196
-msgid "_Catalogs"
-msgstr "_Kataloglar"
-
-#: data/gthumb-ui.xml.h:197
-msgid "_Centered"
-msgstr "_Ortala"
-
-#: data/gthumb-ui.xml.h:199
-msgid "_Close"
-msgstr "_Kapat"
-
-#: data/gthumb-ui.xml.h:200
-msgid "_Color Balance"
-msgstr "_Renk Dengesi"
-
-#: data/gthumb-ui.xml.h:201
-msgid "_Contents"
-msgstr "İçer_ikler"
-
-#: data/gthumb-ui.xml.h:202
-msgid "_Copy..."
-msgstr "_Kopyala..."
-
-#: data/gthumb-ui.xml.h:204
-msgid "_Delete History"
-msgstr "Geçmişi _Sil"
-
-#: data/gthumb-ui.xml.h:205
-msgid "_Desaturate"
-msgstr "_Solgunluk"
-
-#: data/gthumb-ui.xml.h:207
-msgid "_Edit Bookmarks"
-msgstr "Y_er İmlerini Düzenle"
-
-#: data/gthumb-ui.xml.h:209
-msgid "_Enhance"
-msgstr "_Geliştirme"
-
-#: data/gthumb-ui.xml.h:210
-msgid "_Equalize"
-msgstr "_Eşitle"
-
-#: data/gthumb-ui.xml.h:211
-msgid "_File"
-msgstr "_Dosya"
-
-#: data/gthumb-ui.xml.h:212
-msgid "_Find..."
-msgstr "_Ara..."
-
-#: data/gthumb-ui.xml.h:214
-msgid "_Folder"
-msgstr "_Klasör"
-
-#: data/gthumb-ui.xml.h:215
-msgid "_Folders"
-msgstr "_Klasörler"
-
-#: data/gthumb-ui.xml.h:216
-msgid "_Forward"
-msgstr "İler_i"
-
-#: data/gthumb-ui.xml.h:217
-msgid "_Full Screen"
-msgstr "_Tam Ekran"
-
-#: data/gthumb-ui.xml.h:218
-msgid "_Go"
-msgstr "_Git"
-
-#: data/gthumb-ui.xml.h:219
-msgid "_Go to the Image Folder"
-msgstr "Resim Klasörüne _Git"
-
-#: data/gthumb-ui.xml.h:220
-msgid "_Help"
-msgstr "_Yardım"
-
-#: data/gthumb-ui.xml.h:221
-msgid "_High Quality"
-msgstr "_Yüksek Kalite"
-
-#: data/gthumb-ui.xml.h:222
-msgid "_Home"
-msgstr "_Başlangıç"
-
-#: data/gthumb-ui.xml.h:223
-msgid "_Hue-Saturation"
-msgstr "_Renk Tonu-Doygunluk"
-
-#: data/gthumb-ui.xml.h:225
-msgid "_Image Preview"
-msgstr "_Resim Ön İzleme"
-
-#: data/gthumb-ui.xml.h:226
-msgid "_Import Photos..."
-msgstr "_Fotoğraf Al..."
-
-#: data/gthumb-ui.xml.h:227
-msgid "_Keyboard Shortcuts"
-msgstr "_Klavye Kısa Yolları"
-
-#: data/gthumb-ui.xml.h:228
-msgid "_Location..."
-msgstr "_Konum..."
-
-#: data/gthumb-ui.xml.h:229
-msgid "_Low Quality"
-msgstr "_Düşük Kalite"
-
-#: data/gthumb-ui.xml.h:230
-msgid "_Maintenance"
-msgstr "_Bakım"
-
-#: data/gthumb-ui.xml.h:232
-msgid "_Move..."
-msgstr "_Taşı..."
-
-#: data/gthumb-ui.xml.h:233
-msgid "_Negative"
-msgstr "_Negatif"
-
-#: data/gthumb-ui.xml.h:234
-msgid "_New Catalog..."
-msgstr "_Yeni Katalog..."
-
-#: data/gthumb-ui.xml.h:235
-msgid "_New Folder..."
-msgstr "_Yeni Klasör..."
-
-#: data/gthumb-ui.xml.h:237
-msgid "_Normalize"
-msgstr "_Normalleştir"
-
-#: data/gthumb-ui.xml.h:238
-msgid "_Open With"
-msgstr "_Birlikte Aç"
-
-#: data/gthumb-ui.xml.h:239
-msgid "_Posterize"
-msgstr "_Posterleştir"
-
-#: data/gthumb-ui.xml.h:240
-msgid "_Preferences"
-msgstr "Ö_zellikler"
-
-#: data/gthumb-ui.xml.h:241
-msgid "_Print..."
-msgstr "Yazdı_r..."
-
-#: data/gthumb-ui.xml.h:242
-msgid "_Reduce Colors"
-msgstr "_Renkleri Azalt"
-
-#: data/gthumb-ui.xml.h:243
-msgid "_Reload"
-msgstr "Tekra_r Yükle"
-
-#: data/gthumb-ui.xml.h:245
-msgid "_Rename Series"
-msgstr "Se_rileri Yeniden İsimlendir"
-
-#: data/gthumb-ui.xml.h:246
-msgid "_Rename..."
-msgstr "Yeniden İsimlendi_r..."
-
-#: data/gthumb-ui.xml.h:247
-msgid "_Resize"
-msgstr "Yeniden Boyutlandı_r"
-
-#: data/gthumb-ui.xml.h:248
-msgid "_Restore"
-msgstr "_Geri Yükle"
-
-#: data/gthumb-ui.xml.h:249
-msgid "_Reversed Order"
-msgstr "Te_rsten Sırala"
-
-#: data/gthumb-ui.xml.h:250
-msgid "_Revert"
-msgstr "_Dön"
-
-#: data/gthumb-ui.xml.h:251
-msgid "_Rotate"
-msgstr "_Döndür"
-
-#: data/gthumb-ui.xml.h:252
-msgid "_Scaled"
-msgstr "Ö_lçekle"
-
-#: data/gthumb-ui.xml.h:253
-msgid "_Select All"
-msgstr "Hep_sini Seç"
-
-#: data/gthumb-ui.xml.h:254
-msgid "_Slide Show"
-msgstr "_Slayt Gösterisi"
-
-#: data/gthumb-ui.xml.h:255
-msgid "_Statusbar"
-msgstr "_Durum Çubuğu"
-
-#: data/gthumb-ui.xml.h:256
-msgid "_Stop"
-msgstr "_Dur"
-
-#: data/gthumb-ui.xml.h:257
-msgid "_Stretch Contrast"
-msgstr "_Genişletilmiş Karşıtlık"
-
-#: data/gthumb-ui.xml.h:258
-msgid "_Threshold"
-msgstr "_Eşik"
-
-#: data/gthumb-ui.xml.h:260
-msgid "_Tiled"
-msgstr "_Döşeli"
-
-#: data/gthumb-ui.xml.h:261
-msgid "_Toolbar"
-msgstr "_Araç Çubuğu"
-
-#: data/gthumb-ui.xml.h:262
-msgid "_Tools"
-msgstr "_Araçlar"
-
-#: data/gthumb-ui.xml.h:263
-msgid "_Transform"
-msgstr "Dönüş_tür"
-
-#: data/gthumb-ui.xml.h:264
-msgid "_Up"
-msgstr "Y_ukarı"
-
-#: data/gthumb-ui.xml.h:267
-msgid "_Zoom"
-msgstr "_Büyült"
-
-#: data/gthumb-ui.xml.h:268
-msgid "by _Name"
-msgstr "İsi_m"
-
-#: data/gthumb-ui.xml.h:269
-msgid "by _Path"
-msgstr "Yo_l"
-
-#: data/gthumb-ui.xml.h:270
-msgid "by _Size"
-msgstr "_Boyut"
-
-#: data/gthumb-ui.xml.h:271
-msgid "by _Time"
-msgstr "_Tarih"
 
 #: data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
@@ -2997,15 +1924,16 @@ msgstr "Mümkün değerler: 1,2,3,4."
 
 #: data/gthumb.schemas.in.h:3
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr "Mümkün değerler: güncel_boyut, uygun, öncekini_koru, eğer_büyükse_uydur."
+msgstr ""
+"Mümkün değerler: güncel_boyut, uygun, öncekini_koru, eğer_büyükse_uydur."
 
 #: data/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
 msgstr "Mümkün değerler: artan, azalan."
 
 #: data/gthumb.schemas.in.h:5
-msgid "Possible values are: forward, backward."
-msgstr "Mümkün değerler: ileri, geri."
+msgid "Possible values are: forward, backward, random."
+msgstr "Mümkün değerler: ileri, geri, rastgele."
 
 #: data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
@@ -3056,8 +1984,8 @@ msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 msgstr ""
-"Mümkün değerler: hiçbiri, basit, basit_gölgeleme, gölgeli, slayt, "
-"iç_gölge, dış_gölge."
+"Mümkün değerler: hiçbiri, basit, basit_gölgeleme, gölgeli, slayt, iç_gölge, "
+"dış_gölge."
 
 #: data/gthumb.schemas.in.h:18
 msgid ""
@@ -3086,7 +2014,8 @@ msgstr "Mümkün değerler: küçük, orta, büyük."
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
-"Mümkün değerler: sistem, metin_altında, metin_yanında, sadece_metin, sadece_simge."
+"Mümkün değerler: sistem, metin_altında, metin_yanında, sadece_metin, "
+"sadece_simge."
 
 #: data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
@@ -3120,74 +2049,74 @@ msgstr "\"%s\" katalogu açılamıyor: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "\"%s\" katalogu kaydedilemiyor: %s"
 
-#: libgthumb/comments.c:392
+#: libgthumb/comments.c:429
 msgid "Deleting all comments, wait please..."
 msgstr "Bütün açıklamalar siliniyor, lütfen bekleyin..."
 
-#: libgthumb/comments.c:394
+#: libgthumb/comments.c:431
 msgid "Deleting old comments, wait please..."
 msgstr "Eski açıklamalar siliniyor, lütfen bekleyin..."
 
-#: libgthumb/comments.c:754
+#: libgthumb/comments.c:788
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:756 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:398
+#: libgthumb/comments.c:790 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
+#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:263
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:766
+#: libgthumb/comments.c:800
 msgid "(No Comment)"
 msgstr "(Açıklama Yok)"
 
-#: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
+#: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
+#: src/dlg-jpegtran.c:769
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "\"%s\" klasöründe resim oluşturmak için izne sahip değilsiniz."
 
-#: libgthumb/dlg-save-image.c:130 src/commands-impl.c:311
-#: src/dlg-convert.c:308
+#: libgthumb/dlg-save-image.c:135 src/actions.c:322 src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "\"%s\" isminde bir resim zaten mevcut. Üzerine yazmak istiyor musunuz?"
 
-#: libgthumb/dlg-save-image.c:182
+#: libgthumb/dlg-save-image.c:187
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Resim türü desteklenmiyor: %s"
 
-#: libgthumb/dlg-save-image.c:209
+#: libgthumb/dlg-save-image.c:226
 msgid "Determine by extension"
 msgstr "Uzantıyla karar ver"
 
-#: libgthumb/dlg-save-image.c:244
+#: libgthumb/dlg-save-image.c:261
 msgid "Save Image"
 msgstr "Resmi Kaydet"
 
-#: libgthumb/dlg-save-image.c:258
+#: libgthumb/dlg-save-image.c:278
 msgid "Image type:"
 msgstr "Resim türü:"
 
-#: libgthumb/gnome-print-font-dialog.c:109
+#: libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
 msgstr "Araya yen_i bir ön izleme ekle."
 
-#: libgthumb/gnome-print-font-dialog.c:114
+#: libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
 msgstr "Ön izlemeyi değiştir..."
 
-#: libgthumb/gnome-print-font-dialog.c:168
+#: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "Ön izleme"
 
-#: libgthumb/gnome-print-font-dialog.c:181
+#: libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
 msgstr "Ön izle_meyi değiştir..."
 
-#: libgthumb/gnome-print-font-dialog.c:237
+#: libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
 msgstr "Yazı Tipi Seçimi"
 
@@ -3256,11 +2185,11 @@ msgid "Font"
 msgstr "Yazı tipi"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:464
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
 msgid "Name"
 msgstr "İsim"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1546
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1555
 #, c-format
 msgid "Print %s"
 msgstr "%s Yazdır"
@@ -3269,275 +2198,269 @@ msgstr "%s Yazdır"
 msgid "Print Image"
 msgstr "Resmi Yazdır"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2028
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2038
 #, c-format
 msgid "Page %d of %d"
 msgstr "Sayfa %d / %d"
 
-#: libgthumb/print-callbacks.c:3027 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3035 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Resim yükleniyor: %s"
 
-#: libgthumb/thumb-cache.c:483
+#: libgthumb/thumb-cache.c:485
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Bütün küçük resimler siliniyor, lütfen bekleyin..."
 
-#: libgthumb/thumb-cache.c:485
+#: libgthumb/thumb-cache.c:487
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Eski küçük resimler siliniyor, lütfen bekleyin..."
 
-#: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
-#: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:545
-#: src/gthumb-window.c:1284 src/gthumb-window.c:1291 src/gthumb-window.c:1299
-msgid "(Invalid Name)"
-msgstr "(Geçersiz İsim)"
-
-#: src/catalog-png-exporter.c:1555
-#, c-format
-msgid "Creating image: %s.%s"
-msgstr "Resim oluştur: %s.%s"
-
-#: src/catalog-web-exporter.c:1516
-msgid "Saving thumbnails"
-msgstr "Küçük resimler kaydediliyor"
-
-#: src/catalog-web-exporter.c:1582
-msgid "Saving HTML pages: Images"
-msgstr "HTML sayfaları kaydediliyor: Resimler"
-
-#: src/catalog-web-exporter.c:1657
-msgid "Saving HTML pages: Indexes"
-msgstr "HTML sayfaları kaydediliyor: Dizinler"
-
-#: src/catalog-web-exporter.c:1780 src/catalog-web-exporter.c:1839
-#: src/catalog-web-exporter.c:1963
-msgid "Saving images"
-msgstr "Resimler kaydediliyor"
-
-#: src/catalog-web-exporter.c:2172
-msgid "Could not create a temporary folder"
-msgstr "Geçici klasör oluşturulamıyor"
-
-#. Load thumbnails.
-#: src/catalog-web-exporter.c:2209
-msgid "Loading images"
-msgstr "Resimler yükleniyor"
-
-#: src/commands-impl.c:273 src/commands-impl.c:1057 src/commands-impl.c:1757
+#: src/actions.c:284 src/actions.c:789 src/actions.c:1313
 msgid "Enter the new name: "
 msgstr "Yeni isim girin:"
 
-#: src/commands-impl.c:291 src/commands-impl.c:963 src/commands-impl.c:1075
-#: src/commands-impl.c:1777 src/commands-impl.c:1872
+#: src/actions.c:302 src/actions.c:809 src/actions.c:1032 src/actions.c:1109
+#: src/actions.c:1331
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr "\"/\" karakterini içerdiği için isim \"%s\" geçerli değildir. Lütfen farklı "
+msgstr ""
+"\"/\" karakterini içerdiği için isim \"%s\" geçerli değildir. Lütfen farklı "
 "isim kullanınız."
 
-#: src/commands-impl.c:318 src/dlg-convert.c:314
+#: src/actions.c:329 src/dlg-convert.c:314
 msgid "_Overwrite"
 msgstr "Ü_zerine Yaz"
 
-#: src/commands-impl.c:338 src/commands-impl.c:353
+#: src/actions.c:349 src/actions.c:364
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "\"%s\" resmi yeniden isimlendirilemiyor: %s"
 
-#: src/commands-impl.c:340 src/commands-impl.c:1097 src/commands-impl.c:1416
+#: src/actions.c:351 src/actions.c:1353 src/actions.c:1625
 msgid "source and destination are the same"
 msgstr "kaynak ve varış yeri aynı"
 
-#: src/commands-impl.c:454
+#: src/actions.c:448
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "\"%s\" resmi kopyalanamıyor: %s"
 
-#: src/commands-impl.c:462
+#: src/actions.c:456
 msgid "Stop"
 msgstr "Dur"
 
-#: src/commands-impl.c:463
+#: src/actions.c:457
 msgid "Continue"
 msgstr "Devam et"
 
-#: src/commands-impl.c:538
-msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Seçili resimler Çöp kutusuna taşınacak, taşınsın mı?"
-
-#: src/commands-impl.c:558
+#: src/actions.c:517
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Resim Çöp kutusuna taşınacak, taşınsın mı?"
 
-#: src/commands-impl.c:793
-msgid "The image will be removed from the catalog, are you sure?"
-msgstr "Resim katalogdan kaldırılacak, kaldırılsın mı?"
+#: src/actions.c:597
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Seçili resimler Çöp kutusuna taşınacak, taşınsın mı?"
 
-#: src/commands-impl.c:835
+#: src/actions.c:756
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Seçili resimler katalogdan kaldırılacak, kaldırılsın mı?"
 
-#: src/commands-impl.c:950 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:205 src/dlg-file-utils.c:90
-msgid "C_reate"
-msgstr "Oluştu_r"
-
-#: src/commands-impl.c:979 src/commands-impl.c:1105 src/commands-impl.c:1799
-#: src/commands-impl.c:1891
+#: src/actions.c:831 src/actions.c:1051 src/actions.c:1125 src/actions.c:1361
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "\"%s\" ismi daha önce kullanılmış. Lütfen başka isim kullanınız."
 
-#: src/commands-impl.c:1007
-msgid "New Folder"
-msgstr "Yeni Klasör"
-
-#: src/commands-impl.c:1008
-msgid "Enter the folder name: "
-msgstr "Klasör ismi girin: "
-
-#: src/commands-impl.c:1009 src/dlg-photo-importer.c:867
+#: src/actions.c:842
 #, c-format
-msgid "Could not create the folder \"%s\": %s"
-msgstr "\"%s\" klasörü oluşturulamıyor: %s"
+msgid "Could not rename the library \"%s\": %s"
+msgstr "\"%s\" kütüphanesi yeniden isimlendirilemiyor: %s"
 
-#: src/commands-impl.c:1020
+#: src/actions.c:842
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "\"%s\" katalogu yeniden isimlendirilemiyor: %s"
+
+#: src/actions.c:911
+msgid "The selected library will be removed, are you sure?"
+msgstr "Seçilmiş kütüphane kaldırılacak, kaldırılsın mı?"
+
+#: src/actions.c:913
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Seçilmiş katalog kaldırılacak, kaldırılsın mı?"
+
+#: src/actions.c:1016 src/dlg-catalog.c:82
+msgid "Enter the catalog name: "
+msgstr "Katalog ismi girin:"
+
+#: src/actions.c:1017
+msgid "New Catalog"
+msgstr "Yeni Katalog"
+
+#: src/actions.c:1062
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "\"%s\" katalogu oluşturulamadı: %s"
+
+#: src/actions.c:1096 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:230 src/dlg-file-utils.c:90
+msgid "C_reate"
+msgstr "Oluştu_r"
+
+#: src/actions.c:1152
 msgid "New Library"
 msgstr "Yeni Kütüphane"
 
-#: src/commands-impl.c:1021 src/dlg-catalog.c:127
+#: src/actions.c:1153 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Kütüphane ismi girin: "
 
-#: src/commands-impl.c:1022
+#: src/actions.c:1154
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "\"%s\" kütüphanesi oluşturulamıyor: %s"
 
-#: src/commands-impl.c:1095 src/commands-impl.c:1141
+#: src/actions.c:1351 src/actions.c:1385
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "\"%s\" klasör yeniden isimlendirilemiyor: %s"
 
-#: src/commands-impl.c:1211
+#: src/actions.c:1437
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "\"%s\" klasörü silinemedi: %s"
 
-#: src/commands-impl.c:1242
+#: src/actions.c:1468
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" Çöpe taşınamıyor. Kalıcı olarak silmek ister misiniz?"
 
-#: src/commands-impl.c:1250 src/dlg-file-utils.c:227 src/gthumb-window.c:5634
+#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1484
 msgid "_Do not display this message again"
 msgstr "Bu mesajı bir _daha gösterme"
 
-#: src/commands-impl.c:1283
+#: src/actions.c:1509
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Seçilmiş klasör Çöpe taşınacak, emin misiniz?"
 
-#: src/commands-impl.c:1285 src/dlg-file-utils.c:281
+#: src/actions.c:1511 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Taşı"
 
-#: src/commands-impl.c:1351 src/commands-impl.c:1406
+#: src/actions.c:1560 src/actions.c:1615
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "\"%s\" klasörü kopyalanamadı: %s"
 
-#: src/commands-impl.c:1406 src/dlg-file-utils.c:2445
-#: src/dlg-file-utils.c:2447
+#: src/actions.c:1615 src/dlg-file-utils.c:2413 src/dlg-file-utils.c:2415
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "\"%s\" klasörü taşınamadı: %s"
 
-#: src/commands-impl.c:1427
+#: src/actions.c:1636
 msgid "source contains destination"
 msgstr "kaynak varış yerini içer"
 
-#: src/commands-impl.c:1438
+#: src/actions.c:1647
 msgid "a folder with that name is already present."
 msgstr "o isimde bir dosya zaten mevcut."
 
-#: src/commands-impl.c:1534 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/actions.c:1720 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Varış yeri klasörü seçin"
 
-#: src/commands-impl.c:1810
+#: src/actions.c:1967
+msgid "New Folder"
+msgstr "Yeni Klasör"
+
+#: src/actions.c:1968
+msgid "Enter the folder name: "
+msgstr "Klasör ismi girin: "
+
+#: src/actions.c:1969 src/dlg-photo-importer.c:1314
 #, c-format
-msgid "Could not rename the library \"%s\": %s"
-msgstr "\"%s\" kütüphanesi yeniden isimlendirilemiyor: %s"
+msgid "Could not create the folder \"%s\": %s"
+msgstr "\"%s\" klasörü oluşturulamıyor: %s"
 
-#: src/commands-impl.c:1810
-#, c-format
-msgid "Could not rename the catalog \"%s\": %s"
-msgstr "\"%s\" katalogu yeniden isimlendirilemiyor: %s"
+#: src/actions.c:2713
+msgid "translator_credits"
+msgstr "Rıdvan CAN <ridvan@gamebox.net>"
 
-#: src/commands-impl.c:1856 src/dlg-catalog.c:82
-msgid "Enter the catalog name: "
-msgstr "Katalog ismi girin:"
+#: src/actions.c:2722 src/gthumb-window.c:434 src/gthumb-window.c:4620
+#: src/main.c:136
+msgid "gThumb"
+msgstr "gThumb"
 
-#: src/commands-impl.c:1857
-msgid "New Catalog"
-msgstr "Yeni Katalog"
+#: src/actions.c:2725
+msgid "An image viewer and browser for GNOME."
+msgstr "GNOME için tarayıcı ve resim gösterici."
 
-#: src/commands-impl.c:1902
-#, c-format
-msgid "Could not create the catalog \"%s\": %s"
-msgstr "\"%s\" katalogu oluşturulamadı: %s"
-
-#: src/commands-impl.c:1966
-msgid "The selected library will be removed, are you sure?"
-msgstr "Seçilmiş kütüphane kaldırılacak, kaldırılsın mı?"
-
-#: src/commands-impl.c:1968
-msgid "The selected catalog will be removed, are you sure?"
-msgstr "Seçilmiş katalog kaldırılacak, kaldırılsın mı?"
-
-#: src/commands-impl.c:2910 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:759
-#: src/dlg-maintenance.c:273 src/dlg-preferences.c:176
-#: src/dlg-rename-series.c:330 src/dlg-search.c:457
+#: src/actions.c:2762 src/dlg-categories.c:351 src/dlg-change-date.c:151
+#: src/dlg-comment.c:287 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
+#: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Yardım gösterilemiyor: %s"
 
-#: src/commands-impl.c:2961
-msgid "translator_credits"
-msgstr "Rıdvan CAN"
+#: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:416
+#: src/gthumb-window.c:1111 src/gthumb-window.c:1117 src/gthumb-window.c:1123
+msgid "(Invalid Name)"
+msgstr "(Geçersiz İsim)"
 
-#: src/commands-impl.c:2970 src/gthumb-window.c:563 src/gthumb-window.c:4831
-#: src/main.c:128
-msgid "gThumb"
-msgstr "gThumb"
+#: src/catalog-png-exporter.c:1563
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "Resim oluştur: %s.%s"
 
-#: src/commands-impl.c:2973
-msgid "An image viewer and browser for GNOME."
-msgstr "GNOME için tarayıcı ve resim gösterici."
+#: src/catalog-web-exporter.c:1572
+msgid "Saving thumbnails"
+msgstr "Küçük resimler kaydediliyor"
+
+#: src/catalog-web-exporter.c:1638
+msgid "Saving HTML pages: Images"
+msgstr "HTML sayfaları kaydediliyor: Resimler"
+
+#: src/catalog-web-exporter.c:1713
+msgid "Saving HTML pages: Indexes"
+msgstr "HTML sayfaları kaydediliyor: Dizinler"
+
+#: src/catalog-web-exporter.c:1836 src/catalog-web-exporter.c:1895
+#: src/catalog-web-exporter.c:2030
+msgid "Saving images"
+msgstr "Resimler kaydediliyor"
+
+#: src/catalog-web-exporter.c:2239
+msgid "Could not create a temporary folder"
+msgstr "Geçici klasör oluşturulamıyor"
+
+#. Load thumbnails.
+#: src/catalog-web-exporter.c:2272
+msgid "Loading images"
+msgstr "Resimler yükleniyor"
 
 #: src/dlg-catalog.c:446
 msgid "Move Catalog to..."
 msgstr "Katalogu Taşı..."
 
-#: src/dlg-categories.c:201
+#: src/dlg-categories.c:226
 msgid "Enter the new category name"
 msgstr "Yeni kategori ismi girin"
 
-#: src/dlg-categories.c:212
+#: src/dlg-categories.c:237
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"\",\"·karakterini·içerdiği·için·isim·\"%s\"·geçerli·değildir.·Lütfen·farklı·"
-"isim·kullanınız."
+"\",\" karakterini içerdiği için isim \"%s\" geçerli değildir."
+" Lütfen farklı isim kullanınız."
 
-#: src/dlg-categories.c:217
+#: src/dlg-categories.c:242
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "\"%s\" kategorisi önceden belirtilmiş. Lütfen başka isim kullanınız."
@@ -3551,9 +2474,20 @@ msgstr "Dönüştürülen resim: %s"
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
-msgstr "\"%s\" ismi başka resim tarafından kullanıyor. Lütfen başka isim kullanınız."
+msgstr ""
+"\"%s\" ismi başka resim tarafından kullanıyor. Lütfen başka isim kullanınız."
 
-#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:649
+#: src/dlg-crop.c:367
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (Resim)"
+
+#: src/dlg-crop.c:375
+#, c-format
+msgid "%d x %d (Display)"
+msgstr "%d x %d (Göster)"
+
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
 msgstr "Kopyalar"
 
@@ -3569,7 +2503,7 @@ msgstr "Son değişiklik"
 msgid "Location"
 msgstr "Konum"
 
-#: src/dlg-duplicates.c:754
+#: src/dlg-duplicates.c:756
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "İşaretli resimler Çöp kutusuna taşınacak, taşımak istiyor musunuz?"
 
@@ -3590,8 +2524,7 @@ msgstr "Resimler silenemedi:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr ""
-"Resimler Çöpe taşınamadı. Kalıcı olarak silmek ister misiniz?"
+msgstr "Resimler Çöpe taşınamadı. Kalıcı olarak silmek ister misiniz?"
 
 #: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
 msgid "You didn't enter the new name"
@@ -3620,11 +2553,11 @@ msgstr "Resim taşınamadı:"
 msgid "Could not copy the image:"
 msgstr "Resim kopyalanamadı:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2468
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2436
 msgid "_Abort"
 msgstr "D_urdur"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2469
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2437
 msgid "_Continue"
 msgstr "_Devam et"
 
@@ -3633,26 +2566,26 @@ msgstr "_Devam et"
 msgid "Copying file %d of %d"
 msgstr "%d %d dosyasına kopyalanıyor"
 
-#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2003
+#: src/dlg-file-utils.c:1763 src/dlg-file-utils.c:1991
 msgid "Collecting images info"
 msgstr "Toplam Resim Bilgisi"
 
-#: src/dlg-file-utils.c:1778 src/dlg-file-utils.c:2016
+#: src/dlg-file-utils.c:1766 src/dlg-file-utils.c:2004
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "%ld %ld dosyasından siliniyor"
 
-#: src/dlg-file-utils.c:2006
+#: src/dlg-file-utils.c:1994
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "%ld %ld dosyasına kopyalanıyor"
 
-#: src/dlg-file-utils.c:2011
+#: src/dlg-file-utils.c:1999
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "%ld %ld dosyasına taşınıyor"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:471
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
 msgid "Size"
 msgstr "Boyut"
 
@@ -3660,7 +2593,8 @@ msgstr "Boyut"
 msgid "Type"
 msgstr "Tür"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:485
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
+#: src/gthumb-window.c:279
 msgid "Modified"
 msgstr "Değiştirildi"
 
@@ -3671,38 +2605,26 @@ msgstr "Bilgi Kanalı"
 #: src/dlg-image-prop.c:744
 #, c-format
 msgid "%s Properties"
-msgstr "% Özellikleri"
+msgstr "%s Özellikleri"
 
-#: src/dlg-maintenance.c:71
-msgid "All comments will be removed, are you sure?"
-msgstr "Bütün açıklamalar silinecek, emin misiniz?"
-
-#: src/dlg-maintenance.c:102
-msgid "All thumbnails will be deleted, are you sure?"
-msgstr "Bütün küçük resimler silenecek, emin misiniz?"
-
-#: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
-msgid "Specify the backup file"
-msgstr "Yedekleme dosyası belirle"
-
-#: src/dlg-photo-importer.c:470 src/dlg-photo-importer.c:859
-#: src/dlg-photo-importer.c:870
+#: src/dlg-photo-importer.c:817 src/dlg-photo-importer.c:1261
+#: src/dlg-photo-importer.c:1306 src/dlg-photo-importer.c:1317
 msgid "Could not import photos"
 msgstr "Fotoğraflar alınamadı"
 
-#: src/dlg-photo-importer.c:818 src/main.c:989
+#: src/dlg-photo-importer.c:1157 src/main.c:1054
 msgid "Film"
 msgstr "Film"
 
-#: src/dlg-png-exporter.c:922
+#: src/dlg-png-exporter.c:935
 msgid "Image Caption"
 msgstr "Resim Başlığı"
 
-#: src/dlg-png-exporter.c:975
+#: src/dlg-png-exporter.c:988
 msgid "Header"
 msgstr "Sayfa Başlığı"
 
-#: src/dlg-png-exporter.c:988 src/dlg-png-exporter.c:994
+#: src/dlg-png-exporter.c:1001 src/dlg-png-exporter.c:1007
 msgid "Footer"
 msgstr "Sayfa Altlığı"
 
@@ -3714,35 +2636,71 @@ msgstr "Eski İsim"
 msgid "New Name"
 msgstr "Yeni İsim"
 
-#: src/dlg-search.c:344
+#: src/dlg-search.c:343
 msgid "Search Result"
 msgstr "Arama Sonucu"
 
-#: src/dlg-search.c:639
+#: src/dlg-search.c:647
 msgid "Filename"
 msgstr "Dosya ismi"
 
-#: src/dlg-search.c:648 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:656 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Klasör"
 
-#: src/dlg-web-exporter.c:1184
+#: src/dlg-web-exporter.c:711
 msgid "Select Album Theme"
 msgstr "Albüm Teması Seç"
 
-#: src/fullscreen.c:802
+#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3274
+msgid "Could not move the items:"
+msgstr "Öğeler taşınamadı:"
+
+#. restore normal view
+#: src/fullscreen.c:862 src/ui.h:448
+msgid "Restore Normal View"
+msgstr "Normal Görünümü Geri Yükle"
+
+#. image info
+#: src/fullscreen.c:871
 msgid "Image Info"
 msgstr "Resim Bilgisi"
 
-#: src/fullscreen.c:820 src/gthumb-window.c:4097
+#. back
+#: src/fullscreen.c:880 src/gthumb-window.c:3881
 msgid "Back"
 msgstr "Geri"
 
-#: src/gth-exif-data-viewer.c:127
+#. forward
+#: src/fullscreen.c:889
+msgid "Forward"
+msgstr "İleri"
+
+#. zoom in
+#: src/fullscreen.c:898 src/ui.h:418
+msgid "In"
+msgstr "Büyült"
+
+#. zoom out
+#: src/fullscreen.c:907 src/ui.h:423
+msgid "Out"
+msgstr "Küçült"
+
+#. zoom 100
+#: src/fullscreen.c:916 src/ui.h:428
+msgid "1:1"
+msgstr "1:1"
+
+#. zoom fit
+#: src/fullscreen.c:925 src/ui.h:433
+msgid "Fit"
+msgstr "Uydur"
+
+#: src/gth-exif-data-viewer.c:129
 msgid "Field"
 msgstr "Alan"
 
-#: src/gth-exif-data-viewer.c:137
+#: src/gth-exif-data-viewer.c:139
 msgid "Value "
 msgstr "Değer "
 
@@ -3754,76 +2712,92 @@ msgstr "_Gözat..."
 msgid "_Recents:"
 msgstr "_Yeniler:"
 
-#: src/gthumb-window.c:442
+#: src/gthumb-window.c:313
 msgid "[Press 'c' to add a comment]"
 msgstr "[Açıklama eklemek için 'c' ye basın]"
 
-#: src/gthumb-window.c:516 src/gthumb-window.c:538
+#: src/gthumb-window.c:387 src/gthumb-window.c:409
 msgid "[modified]"
 msgstr "[değiştirildi]"
 
-#: src/gthumb-window.c:622
+#: src/gthumb-window.c:493
 msgid "No image"
 msgstr "Resim yok"
 
-#: src/gthumb-window.c:624
+#: src/gthumb-window.c:495
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 resim (%s)"
 
-#: src/gthumb-window.c:627
+#: src/gthumb-window.c:498
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d resmi (%s)"
 
-#: src/gthumb-window.c:634
+#: src/gthumb-window.c:505
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 seçilmiş (%s)"
 
-#: src/gthumb-window.c:637
+#: src/gthumb-window.c:508
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d seçilmiş (%s)"
 
-#: src/gthumb-window.c:3171
-msgid "Dragged Images"
-msgstr "Sürüklenmiş Görüntüler"
-
-#: src/gthumb-window.c:3370
-msgid "Could not move the items:"
-msgstr "Öğeler taşınamadı:"
-
-#: src/gthumb-window.c:5163
-msgid "Image comment"
-msgstr "Resim açıklaması"
-
-#: src/gthumb-window.c:5177
-msgid "Image data"
-msgstr "Resim verisi"
-
-#: src/gthumb-window.c:5191
-msgid "Image preview"
-msgstr "Resim ön izleme"
-
-#: src/gthumb-window.c:5631
+#: src/gthumb-window.c:1481
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Geçerli resim değiştirildi, kaydetmek ister misiniz?"
 
-#: src/gthumb-window.c:5632
+#: src/gthumb-window.c:1482
 msgid "Do Not Save"
 msgstr "Kaydetme"
 
-#: src/gthumb-window.c:6452
+#: src/gthumb-window.c:3066
+msgid "Dragged Images"
+msgstr "Sürüklenmiş Görüntüler"
+
+#: src/gthumb-window.c:3896 src/ui.h:459
+msgid "Go to the previous visited location"
+msgstr "Ziyaret edilmiş önceki yere git"
+
+#: src/gthumb-window.c:4837 src/ui.h:464
+msgid "Go to the next visited location"
+msgstr "Ziyaret edilmiş sonraki yere git"
+
+#: src/gthumb-window.c:4844 src/ui.h:469
+msgid "Go up one level"
+msgstr "Bir üste git"
+
+#: src/gthumb-window.c:4851 src/ui.h:484
+msgid "Go to the home folder"
+msgstr "Başlangıç klasörüne git"
+
+#: src/gthumb-window.c:5045
+msgid "Close"
+msgstr "Kapat"
+
+#: src/gthumb-window.c:5059
+msgid "Image comment"
+msgstr "Resim açıklaması"
+
+#: src/gthumb-window.c:5073
+msgid "Image data"
+msgstr "Resim verisi"
+
+#: src/gthumb-window.c:5087
+msgid "Image preview"
+msgstr "Resim ön izleme"
+
+#: src/gthumb-window.c:6338
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "\"%s\" klasöre yüklenemiyor: %s\n"
 
-#: src/gthumb-window.c:6721
+#: src/gthumb-window.c:6608
 msgid "The specified catalog does not exist."
 msgstr "Belirlenmiş bir katalog yok."
 
-#: src/gthumb-window.c:8221
+#: src/gthumb-window.c:8262
 msgid "Wait please..."
 msgstr "Lütfen bekleyin..."
 
@@ -3835,55 +2809,1029 @@ msgstr "Tam ekran kipinde başlat"
 msgid "Automatically start a slideshow"
 msgstr "Slayt gösterisini otomatik başlat"
 
-#: src/main.c:163
+#: src/main.c:92
+msgid "Automatically import digital camera photos"
+msgstr "Otomatik olarak dijital kameradan fotoğrafları al"
+
+#: src/main.c:173
 msgid "Holidays"
 msgstr "Tatiller"
 
-#: src/main.c:164
+#: src/main.c:174
 msgid "Temporary"
 msgstr "Geçici"
 
-#: src/main.c:165
+#: src/main.c:175
 msgid "Screenshots"
 msgstr "Ekran Görüntüsü"
 
-#: src/main.c:166
+#: src/main.c:176
 msgid "Science"
 msgstr "Bilim"
 
-#: src/main.c:167
+#: src/main.c:177
 msgid "Favourite"
 msgstr "Favori"
 
-#: src/main.c:168
+#: src/main.c:178
 msgid "Important"
 msgstr "Önemli"
 
-#: src/main.c:169
+#: src/main.c:179
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:170
+#: src/main.c:180
 msgid "Games"
 msgstr "Oyunlar"
 
-#: src/main.c:171
+#: src/main.c:181
 msgid "Party"
 msgstr "Parti"
 
-#: src/main.c:172
+#: src/main.c:182
 msgid "Birthday"
 msgstr "Doğum Günü"
 
-#: src/main.c:173
+#: src/main.c:183
 msgid "Astronomy"
 msgstr "Astronomi"
 
-#: src/main.c:174
+#: src/main.c:184
 msgid "Family"
 msgstr "Aile"
 
-#: src/main.c:311 src/main.c:393
+#: src/main.c:361 src/main.c:446
 msgid "Command Line"
 msgstr "Komut Satırı"
 
+#: src/ui.h:34
+msgid "_File"
+msgstr "_Dosya"
+
+#: src/ui.h:35
+msgid "_Folder"
+msgstr "_Klasör"
+
+#: src/ui.h:36 src/ui.h:37
+msgid "Ca_talog"
+msgstr "Ka_talog"
+
+#: src/ui.h:38
+msgid "_Edit"
+msgstr "_Düzenle"
+
+#: src/ui.h:40
+msgid "Show/_Hide"
+msgstr "Göster/_Gizle"
+
+#: src/ui.h:41
+msgid "S_ort Images"
+msgstr "Resi_mleri Sırala"
+
+#: src/ui.h:42
+msgid "_Zoom"
+msgstr "_Büyült"
+
+#: src/ui.h:43
+msgid "_Go"
+msgstr "_Git"
+
+#: src/ui.h:45
+msgid "_Transform"
+msgstr "Dönüş_tür"
+
+#: src/ui.h:46
+msgid "Auto"
+msgstr "Otomatik"
+
+#: src/ui.h:47
+msgid "_Bookmarks"
+msgstr "_Yer İmleri"
+
+#: src/ui.h:48
+msgid "_Tools"
+msgstr "_Araçlar"
+
+#: src/ui.h:49
+msgid "Set Image as _Wallpaper"
+msgstr "Duvar Kağıdı _Olarak Belirle"
+
+#: src/ui.h:50
+msgid "_Help"
+msgstr "_Yardım"
+
+#: src/ui.h:53
+msgid "New _Window"
+msgstr "Yeni _Pencere"
+
+#: src/ui.h:54
+msgid "Create a new window"
+msgstr "Yeni bir pencere oluştur"
+
+#: src/ui.h:58
+msgid "_Close"
+msgstr "_Kapat"
+
+#: src/ui.h:59
+msgid "Close this window"
+msgstr "Pencereyi kapat"
+
+#: src/ui.h:63 src/ui.h:98
+msgid "_Open With"
+msgstr "_Birlikte Aç"
+
+#: src/ui.h:64
+msgid "Open selected images with an application"
+msgstr "Seçilmiş resimleri uygulamayla aç"
+
+#: src/ui.h:73
+msgid "_Revert"
+msgstr "_Dön"
+
+#: src/ui.h:74
+msgid "Revert to saved image"
+msgstr "Kayıtlı resme dön"
+
+#: src/ui.h:78
+msgid "_Print..."
+msgstr "Yazdı_r..."
+
+#: src/ui.h:83 src/ui.h:453
+msgid "Proper_ties"
+msgstr "_Tercihler"
+
+#: src/ui.h:84 src/ui.h:454
+msgid "View image properties"
+msgstr "Resim tercihlerini göster"
+
+#: src/ui.h:88
+msgid "_Import Photos..."
+msgstr "_Fotoğraf Al..."
+
+#: src/ui.h:89
+msgid "Import photos from a digital camera"
+msgstr "Dijital kameradan fotoğrafları al"
+
+#: src/ui.h:93
+msgid "_Write To CD"
+msgstr "CD'ye _Yaz"
+
+#: src/ui.h:94
+msgid "Write selection to CD"
+msgstr "Seçilenleri CD'ye yaz"
+
+#: src/ui.h:99
+msgid "Open this image with an application"
+msgstr "Resmi uygulamayla aç"
+
+#: src/ui.h:103 src/ui.h:128 src/ui.h:183 src/ui.h:218 src/ui.h:258
+#: src/ui.h:288
+msgid "_Rename..."
+msgstr "Yeniden İsimlendi_r..."
+
+#: src/ui.h:104
+msgid "Rename this image"
+msgstr "Resmi yeniden isimlendir"
+
+#: src/ui.h:108 src/ui.h:133
+msgid "D_uplicate"
+msgstr "_Kopyala"
+
+#: src/ui.h:109
+msgid "Duplicate this image"
+msgstr "Resmi kopyala"
+
+#: src/ui.h:114
+msgid "Move this image to the Trash"
+msgstr "Resmi Çöpe taşı"
+
+#: src/ui.h:118 src/ui.h:143 src/ui.h:268 src/ui.h:298
+msgid "_Copy..."
+msgstr "_Kopyala..."
+
+#: src/ui.h:119
+msgid "Copy this image to another location"
+msgstr "Resmi başka konuma kopyala"
+
+#: src/ui.h:123 src/ui.h:148 src/ui.h:193 src/ui.h:228 src/ui.h:273
+#: src/ui.h:303
+msgid "_Move..."
+msgstr "_Taşı..."
+
+#: src/ui.h:124
+msgid "Move this image to another location"
+msgstr "Resmi başka yere taşı"
+
+#: src/ui.h:129
+msgid "Rename selected image"
+msgstr "Seçilmiş resmi yeniden isimlendir"
+
+#: src/ui.h:134
+msgid "Duplicate selected image"
+msgstr "Seçilmiş resmi kopyala"
+
+#: src/ui.h:139
+msgid "Move the selected images to the Trash"
+msgstr "Seçilmiş resimleri Çöpe taşı"
+
+#: src/ui.h:144
+msgid "Copy selected images to another location"
+msgstr "Resimleri başka konuma kopyala"
+
+#: src/ui.h:149
+msgid "Move selected images to another location"
+msgstr "Seçilmiş resimleri başka yere taşı"
+
+#: src/ui.h:153
+msgid "_Select All"
+msgstr "Hep_sini Seç"
+
+#: src/ui.h:154
+msgid "Select all images"
+msgstr "Bütün resimleri seç"
+
+#: src/ui.h:159
+msgid "Add a comment to selected images"
+msgstr "Seçilmiş resimlere açıklama ekle"
+
+#: src/ui.h:163
+msgid "Rem_ove Comment"
+msgstr "Açıklamaları Kal_dır"
+
+#: src/ui.h:164
+msgid "Remove comments of selected images"
+msgstr "Seçilmiş resimlerin açıklamalarını kaldır"
+
+#: src/ui.h:168 src/ui.h:278 src/ui.h:308
+msgid "Ca_tegories"
+msgstr "Ka_tegoriler"
+
+#: src/ui.h:169
+msgid "Assign categories to selected images"
+msgstr "Seçilmiş resimlere kategori ata"
+
+#: src/ui.h:173
+msgid "_Add to Catalog..."
+msgstr "K_ataloga Ekle..."
+
+#: src/ui.h:174
+msgid "Add selected images to a catalog"
+msgstr "Seçilmiş resimleri kataloga ekle"
+
+#: src/ui.h:178
+msgid "Remo_ve from Catalog"
+msgstr "Katalo_gdan Kaldır"
+
+#: src/ui.h:179
+msgid "Remove selected images from the catalog"
+msgstr "Katalogdan seçilmiş resimleri kaldır"
+
+#: src/ui.h:184
+msgid "Rename selected catalog"
+msgstr "Seçilmiş katalogu yeniden isimlendir"
+
+#: src/ui.h:188 src/ui.h:223
+msgid "Rem_ove"
+msgstr "Kal_dır"
+
+#: src/ui.h:189
+msgid "Remove selected catalog"
+msgstr "Seçilmiş katalogu kaldır"
+
+#: src/ui.h:194
+msgid "Move selected catalog to another location"
+msgstr "Seçilmiş katalogu başka yere taşı"
+
+#: src/ui.h:199 src/ui.h:234
+msgid "Modify search criteria"
+msgstr "Arama Ölçütünü Değiştir"
+
+#: src/ui.h:203 src/ui.h:238
+msgid "Redo _Search"
+msgstr "A_ramayı Geri Al"
+
+#: src/ui.h:204 src/ui.h:239
+msgid "Redo the search"
+msgstr "Aramayı geri al"
+
+#: src/ui.h:208
+msgid "_New Catalog..."
+msgstr "_Yeni Katalog..."
+
+#: src/ui.h:209
+msgid "Create a new catalog"
+msgstr "Yeni katalog oluştur"
+
+#: src/ui.h:213
+msgid "New _Library..."
+msgstr "Yeni Kütüp_hane..."
+
+#: src/ui.h:214
+msgid "Create a new catalog library"
+msgstr "Yeni katalog kütüphanesi oluştur"
+
+#: src/ui.h:219
+msgid "Rename current catalog"
+msgstr "Geçerli katalogu yeniden isimlendir"
+
+#: src/ui.h:224
+msgid "Remove current catalog"
+msgstr "Geçerli katalogu kaldır"
+
+#: src/ui.h:229
+msgid "Move current catalog to another location"
+msgstr "Geçerli katalogu başka yere taşı"
+
+#: src/ui.h:243
+msgid "Open"
+msgstr "Aç"
+
+#: src/ui.h:244
+msgid "Open the selected folder"
+msgstr "Seçilmiş klasörü aç"
+
+#: src/ui.h:248
+msgid "Open in New Window"
+msgstr "Yeni Pencerede Aç"
+
+#: src/ui.h:249
+msgid "Open the selected folder in a new window"
+msgstr "Seçilmiş klasörü yeni pencerede aç"
+
+#: src/ui.h:253 src/ui.h:283
+msgid "Open with the _File Manager"
+msgstr "_Dosya Yöneticisiyle aç"
+
+#: src/ui.h:254
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Seçilmiş klasörü Nautilus dosya yöneticisiyle aç"
+
+#: src/ui.h:259
+msgid "Rename selected folder"
+msgstr "Seçilmiş klasörü yeniden isimlendir"
+
+#: src/ui.h:264
+msgid "Move the selected folder to the Trash"
+msgstr "Seçilmiş klasörü Çöpe taşı"
+
+#: src/ui.h:269
+msgid "Copy selected folder"
+msgstr "Seçilmiş klasöre kopyala"
+
+#: src/ui.h:274
+msgid "Move selected folder"
+msgstr "Seçilmiş klasörü taşı"
+
+#: src/ui.h:279
+msgid "Assign categories to the selected folder"
+msgstr "Seçili klasöre kategori ata"
+
+#: src/ui.h:284
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Nautilus dosya yöneticisiyle geçerli klasörü aç"
+
+#: src/ui.h:289
+msgid "Rename current folder"
+msgstr "Geçerli klasörü yeniden isimlendir"
+
+#: src/ui.h:294
+msgid "Move the current folder to the Trash"
+msgstr "Geçerli klasörü Çöpe taşı"
+
+#: src/ui.h:299
+msgid "Copy current folder"
+msgstr "Geçerli klasöre kopyala"
+
+#: src/ui.h:304
+msgid "Move current folder"
+msgstr "Geçerli klasörü taşı"
+
+#: src/ui.h:309
+msgid "Assign categories to the current folder"
+msgstr "Geçerli klasöre kategori ata"
+
+#: src/ui.h:313
+msgid "_New Folder..."
+msgstr "_Yeni Klasör..."
+
+#: src/ui.h:314
+msgid "Create a new folder"
+msgstr "Yeni klasör oluştur"
+
+#: src/ui.h:318
+msgid "Rotate Ri_ght"
+msgstr "_Sağa Döndür"
+
+#: src/ui.h:319
+msgid "View the image rotated clockwise"
+msgstr "Resmi saat yönünde döndürerek göster"
+
+#: src/ui.h:323
+msgid "Rotate _Left"
+msgstr "So_la Döndür"
+
+#: src/ui.h:324
+msgid "View the image rotated counter-clockwise"
+msgstr "Resmi sayaç-saat yönünde döndürerek göster"
+
+#: src/ui.h:329
+msgid "View the image flipped"
+msgstr "Resmi çevrilmiş göster"
+
+#: src/ui.h:334
+msgid "View the image mirrored"
+msgstr "Resmi yansılanmış göster"
+
+#: src/ui.h:338
+msgid "_Desaturate"
+msgstr "_Solgunluk"
+
+#: src/ui.h:339
+msgid "View the image in black and white"
+msgstr "Resmi siyah ve beyaz göster"
+
+#: src/ui.h:343
+msgid "_Negative"
+msgstr "_Negatif"
+
+#: src/ui.h:344
+msgid "View the image with negative colors"
+msgstr "Resmi negatif renkler kullanarak göster"
+
+#: src/ui.h:348
+msgid "_Enhance"
+msgstr "_Geliştirme"
+
+#: src/ui.h:349
+msgid "Automatically adjust the color levels"
+msgstr "Renk seviyesini otomatik ayarla"
+
+#: src/ui.h:353
+msgid "_Equalize"
+msgstr "_Eşitle"
+
+#: src/ui.h:354
+msgid "Automatically equalize the image histogram"
+msgstr "Resim histogramını otomatik olarak eşitle"
+
+#: src/ui.h:358
+msgid "_Normalize"
+msgstr "_Normalleştir"
+
+#: src/ui.h:359
+msgid "Automatically normalize the contrast"
+msgstr "Otomatik olarak karşıtlığı uygun hale getir"
+
+#: src/ui.h:363
+msgid "_Stretch Contrast"
+msgstr "_Genişletilmiş Karşıtlık"
+
+#: src/ui.h:364
+msgid "Automatically stretch the contrast"
+msgstr "Otomatik olarak karşıtlığı genişlet"
+
+#: src/ui.h:368
+msgid "_Posterize"
+msgstr "_Posterleştir"
+
+#: src/ui.h:369
+msgid "Reduce the number of colors"
+msgstr "Renk sayısını azalt"
+
+#: src/ui.h:373
+msgid "_Brightness-Contrast"
+msgstr "_Parlaklık-Karşıtlık"
+
+#: src/ui.h:374
+msgid "Adjust brightness and contrast"
+msgstr "Parlaklık ve karşıtlığı ayarla"
+
+#: src/ui.h:378
+msgid "_Hue-Saturation"
+msgstr "_Renk Tonu-Doygunluk"
+
+#: src/ui.h:379
+msgid "Adjust hue and saturation"
+msgstr "Renk tonu ve doygunluğu ayarla"
+
+#: src/ui.h:383
+msgid "_Color Balance"
+msgstr "_Renk Dengesi"
+
+#: src/ui.h:384
+msgid "Adjust color balance"
+msgstr "Renk dengesini ayarla"
+
+#: src/ui.h:388
+msgid "_Threshold"
+msgstr "_Eşik"
+
+#: src/ui.h:389
+msgid "Apply threshold"
+msgstr "Eşiği uygula"
+
+#: src/ui.h:393
+msgid "_Resize"
+msgstr "Yeniden Boyutlandı_r"
+
+#: src/ui.h:394
+msgid "Resize image"
+msgstr "Resmi yeniden boyutlandır"
+
+#: src/ui.h:398
+msgid "_Rotate"
+msgstr "_Döndür"
+
+#: src/ui.h:399
+msgid "Rotate image"
+msgstr "Resmi döndür"
+
+#: src/ui.h:404
+msgid "Crop image"
+msgstr "Resmi kes"
+
+#: src/ui.h:408
+msgid "Next"
+msgstr "Sonraki"
+
+#: src/ui.h:409
+msgid "View next image"
+msgstr "Sonraki resmi göster"
+
+#: src/ui.h:413
+msgid "Previous"
+msgstr "Önceki"
+
+#: src/ui.h:414
+msgid "View previous image"
+msgstr "Önceki resmi göster"
+
+#: src/ui.h:419
+msgid "Zoom in"
+msgstr "Büyültmeyi arttır"
+
+#: src/ui.h:424
+msgid "Zoom out"
+msgstr "Büyültmeyi azalt"
+
+#: src/ui.h:429
+msgid "Actual size"
+msgstr "Güncel boyut"
+
+#: src/ui.h:434
+msgid "Zoom to fit window"
+msgstr "Büyültmeyi pencereye uydur"
+
+#: src/ui.h:438
+msgid "Step A_nimation"
+msgstr "A_nimasyon Adımı"
+
+#: src/ui.h:443
+msgid "_Full Screen"
+msgstr "_Tam Ekran"
+
+#: src/ui.h:444 src/ui.h:449
+msgid "View image in fullscreen mode"
+msgstr "Resmi tam ekran kipinde göster"
+
+#: src/ui.h:458
+msgid "_Back"
+msgstr "_Geri"
+
+#: src/ui.h:463
+msgid "_Forward"
+msgstr "İler_i"
+
+#: src/ui.h:468
+msgid "_Up"
+msgstr "Y_ukarı"
+
+#: src/ui.h:473
+msgid "_Reload"
+msgstr "Tekra_r Yükle"
+
+#: src/ui.h:474
+msgid "Reload the current location"
+msgstr "Geçerli konumu tekrar yükle"
+
+#: src/ui.h:478
+msgid "_Stop"
+msgstr "_Dur"
+
+#: src/ui.h:479
+msgid "Stop loading current location"
+msgstr "Geçerli konum yüklemesini durdur"
+
+#: src/ui.h:483
+msgid "_Home"
+msgstr "_Başlangıç"
+
+#: src/ui.h:488
+msgid "_Go to the Image Folder"
+msgstr "Resim Klasörüne _Git"
+
+#: src/ui.h:489
+msgid "Go to the folder that contains the selected image"
+msgstr "Seçilmiş resmin bulunduğu klasöre git"
+
+#: src/ui.h:493
+msgid "_Delete History"
+msgstr "Geçmişi _Sil"
+
+#: src/ui.h:494
+msgid "Delete the list of visited locations"
+msgstr "Ziyaret edilmiş yerlerin listesini sil"
+
+#: src/ui.h:498
+msgid "_Location..."
+msgstr "_Konum..."
+
+#: src/ui.h:499
+msgid "Specify a location to visit"
+msgstr "Ziyaret etmek için bir konum belirt"
+
+#: src/ui.h:503
+msgid "_Add Bookmark"
+msgstr "_Yer İmlerine Ekle"
+
+#: src/ui.h:504
+msgid "Add current location to bookmarks"
+msgstr "Geçerli konumu yer imlerine ekle"
+
+#: src/ui.h:508
+msgid "_Edit Bookmarks"
+msgstr "Y_er İmlerini Düzenle"
+
+#: src/ui.h:509
+msgid "Edit bookmarks"
+msgstr "Yer imlerini düzenle"
+
+#: src/ui.h:513
+msgid "_Centered"
+msgstr "_Ortala"
+
+#: src/ui.h:514
+msgid "Set the image as desktop background (centered)"
+msgstr "Masaüstü arkaplanı olarak belirle (ortalanmış)"
+
+#: src/ui.h:518
+msgid "_Tiled"
+msgstr "_Döşeli"
+
+#: src/ui.h:519
+msgid "Set the image as desktop background (tiled)"
+msgstr "Masaüstü arkaplanı olarak belirle (döşeli)"
+
+#: src/ui.h:523
+msgid "_Scaled"
+msgstr "Ö_lçekle"
+
+#: src/ui.h:524
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "Masaüstü arkaplanı olarak belirle (ölçeklenmiş oran)"
+
+#: src/ui.h:528
+msgid "Str_etched"
+msgstr "Döş_enmiş"
+
+#: src/ui.h:529
+msgid "Set the image as desktop background (stretched)"
+msgstr "Masaüstü arkaplanı olarak belirle (uzatılmış)"
+
+#: src/ui.h:533
+msgid "_Restore"
+msgstr "_Geri Yükle"
+
+#: src/ui.h:534
+msgid "Restore the original desktop wallpaper"
+msgstr "Özgün masaüstü duvar kağıdını geri yükle"
+
+#: src/ui.h:538
+msgid "_Slide Show"
+msgstr "_Slayt Gösterisi"
+
+#: src/ui.h:539
+msgid "View as a slide show"
+msgstr "Slayt gösterisi olarak göster"
+
+#: src/ui.h:543
+msgid "_Find"
+msgstr "_Ara"
+
+#: src/ui.h:544
+msgid "Find images"
+msgstr "Resim bul"
+
+#: src/ui.h:548
+msgid "Create _Index Image"
+msgstr "Resim D_izini Oluştur"
+
+#: src/ui.h:553
+msgid "Create _Web Album"
+msgstr "_Web Albümü Oluştur"
+
+#: src/ui.h:558
+msgid "_Rename Series"
+msgstr "Se_rileri Yeniden İsimlendir"
+
+#: src/ui.h:563
+msgid "Convert F_ormat"
+msgstr "Dönüştürme B_içimi"
+
+#: src/ui.h:568
+msgid "Fi_nd Duplicates..."
+msgstr "Ko_pya Bul..."
+
+#: src/ui.h:573
+msgid "Ro_tate Images"
+msgstr "Resimleri _Döndür"
+
+#: src/ui.h:574
+msgid "Rotate images without loss of quality"
+msgstr "Özellik kaybı olmaksızın resimleri döndür"
+
+#: src/ui.h:578
+msgid "_Preferences"
+msgstr "Ö_zellikler"
+
+#: src/ui.h:579
+msgid "Edit various preferences"
+msgstr "Çeşitli tercihleri düzenle"
+
+#: src/ui.h:583
+msgid "Change _Date"
+msgstr "_Değişim Tarihi"
+
+#: src/ui.h:584
+msgid "Change images last modified date"
+msgstr "Resimleri son değiştirilme tarihi değişimi"
+
+#: src/ui.h:588
+msgid "_About"
+msgstr "_Hakkında"
+
+#: src/ui.h:589
+msgid "Show information about gThumb"
+msgstr "gThumb hakkında bilgileri göster"
+
+#: src/ui.h:593
+msgid "_Contents"
+msgstr "İçer_ikler"
+
+#: src/ui.h:598
+msgid "_Keyboard Shortcuts"
+msgstr "_Klavye Kısa Yolları"
+
+#: src/ui.h:607
+msgid "_Toolbar"
+msgstr "_Araç Çubuğu"
+
+#: src/ui.h:608
+msgid "View or hide the toolbar of this window"
+msgstr "Bu pencerede araç çubuğunu göster ya da gizle"
+
+#: src/ui.h:612
+msgid "_Statusbar"
+msgstr "_Durum Çubuğu"
+
+#: src/ui.h:613
+msgid "View or hide the statusbar of this window"
+msgstr "Bu pencerede durum çubuğu göster ya da gizle"
+
+#: src/ui.h:618
+msgid "View thumbnails"
+msgstr "Küçük resim görünümü"
+
+#: src/ui.h:622
+msgid "Play _Animation"
+msgstr "_Animasyonu Başlat"
+
+#: src/ui.h:627
+msgid "_Image Preview"
+msgstr "_Resim Ön İzleme"
+
+#: src/ui.h:628 src/ui.h:682
+msgid "View the image"
+msgstr "Resmi göster"
+
+#: src/ui.h:632
+msgid "Image _Comment"
+msgstr "_Resim Açıklaması"
+
+#: src/ui.h:633
+msgid "View image comment"
+msgstr "Resim açıklamalarını göster"
+
+#: src/ui.h:637
+msgid "_Reversed Order"
+msgstr "Te_rsten Sırala"
+
+#: src/ui.h:638
+msgid "Reverse images order"
+msgstr "Resimleri tersten sırala"
+
+#: src/ui.h:647
+msgid "by _Name"
+msgstr "İsi_m"
+
+#: src/ui.h:648
+msgid "Sort images by name"
+msgstr "Resimleri isimlerine göre sırala"
+
+#: src/ui.h:650
+msgid "by _Path"
+msgstr "Yo_l"
+
+#: src/ui.h:651
+msgid "Sort images by path"
+msgstr "Resimleri yollarına göre sırala"
+
+#: src/ui.h:653
+msgid "by _Size"
+msgstr "_Boyut"
+
+#: src/ui.h:654
+msgid "Sort images by file size"
+msgstr "Resimleri dosya boyutlarına göre sırala"
+
+#: src/ui.h:656
+msgid "by _Time"
+msgstr "_Tarih"
+
+#: src/ui.h:657
+msgid "Sort images by modification time"
+msgstr "Resimleri değiştirilme zamanlarına göre sırala"
+
+#: src/ui.h:664
+msgid "_High Quality"
+msgstr "_Yüksek Kalite"
+
+#: src/ui.h:665
+msgid "Use high quality zoom"
+msgstr "Yüksek kalite büyültme kullan"
+
+#: src/ui.h:667
+msgid "_Low Quality"
+msgstr "_Düşük Kalite"
+
+#: src/ui.h:668
+msgid "Use low quality zoom"
+msgstr "Düşük kalite büyültme kullan"
+
+#: src/ui.h:675
+msgid "_Folders"
+msgstr "_Klasörler"
+
+#: src/ui.h:676
+msgid "View the folders"
+msgstr "Klasörleri göster"
+
+#: src/ui.h:678
+msgid "_Catalogs"
+msgstr "_Kataloglar"
+
+#: src/ui.h:679
+msgid "View the catalogs"
+msgstr "Katalogları göster"
+
+#~ msgid "x"
+#~ msgstr "x"
+
+#~ msgid "Destinations"
+#~ msgstr "Varış Yerleri"
+
+#~ msgid "FTP"
+#~ msgstr "FTP"
+
+#~ msgid "Local Folder"
+#~ msgstr "Yerel Klasör"
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Saved _Destinations:"
+#~ msgstr "Varış Yerlerini Kay_det:"
+
+#~ msgid "_Host:"
+#~ msgstr "_Makine:"
+
+#~ msgid "_Password:"
+#~ msgstr "_Parola:"
+
+#~ msgid "_Path:"
+#~ msgstr "_Yol:"
+
+#~ msgid "_Type:"
+#~ msgstr "_Tür:"
+
+#~ msgid "_User:"
+#~ msgstr "K_ullanıcı:"
+
+#~ msgid "Add a comment to the image"
+#~ msgstr "Seçilmiş resme açıklama ekle"
+
+#~ msgid "Assign categories to the image"
+#~ msgstr "Resime kategori ata"
+
+#~ msgid "Catalogs"
+#~ msgstr "Kataloglar"
+
+#~ msgid "Close all windows and exit"
+#~ msgstr "Bütün pencereleri kapat ve çık"
+
+#~ msgid "Convert"
+#~ msgstr "Dönüştür"
+
+#~ msgid "Convert image format"
+#~ msgstr "Resim biçimini dönüştür"
+
+#~ msgid "E_xit"
+#~ msgstr "Çı_kış"
+
+#~ msgid "Edit Search"
+#~ msgstr "Arama Düzenle"
+
+#~ msgid "Folders"
+#~ msgstr "Klasörler"
+
+#~ msgid "Full Screen"
+#~ msgstr "Tam Ekran"
+
+#~ msgid "Home"
+#~ msgstr "Başlangıç"
+
+#~ msgid "Image Toolbar"
+#~ msgstr "Resim Araç Çubuğu"
+
+#~ msgid "Main Toolbar"
+#~ msgstr "Ana Araç Çubuğu"
+
+#~ msgid "Open with the File Manager"
+#~ msgstr "Dosya Yöneticisiyle aç"
+
+#~ msgid "Redo Search"
+#~ msgstr "Aramayı Geri Al"
+
+#~ msgid "Reduce number of colors"
+#~ msgstr "Renk sayısını azalt"
+
+#~ msgid "Remove the comment"
+#~ msgstr "Açıklamaları kaldır"
+
+#~ msgid "Revert"
+#~ msgstr "Dön"
+
+#~ msgid "Save"
+#~ msgstr "Kaydet"
+
+#~ msgid "Search"
+#~ msgstr "Ara"
+
+#~ msgid "Up"
+#~ msgstr "Yukarı"
+
+#~ msgid "Use black as transparency"
+#~ msgstr "Şeffaflık olarak siyahı kullan"
+
+#~ msgid "Use checks as transparency"
+#~ msgstr "Şeffaflık olarak denetimleri kullan"
+
+#~ msgid "Use gray as transparency"
+#~ msgstr "Şeffaflık olarak griyi kullan"
+
+#~ msgid "Use white as transparency"
+#~ msgstr "Şeffaflık olarak beyazı kullan"
+
+#~ msgid "Zoom _In"
+#~ msgstr "Büyültmey_i Arttır"
+
+#~ msgid "Zoom _Out"
+#~ msgstr "_Büyültmeyi Azalt"
+
+#~ msgid "Zoom to _Fit"
+#~ msgstr "Büyültmeyi _Uydur"
+
+#~ msgid "_Actual Size"
+#~ msgstr "Güncel _Boyut"
+
+#~ msgid "_Find..."
+#~ msgstr "_Ara..."
+
+#~ msgid "_Maintenance"
+#~ msgstr "_Bakım"
+
+#~ msgid "_Reduce Colors"
+#~ msgstr "_Renkleri Azalt"
+
+#~ msgid "The image will be removed from the catalog, are you sure?"
+#~ msgstr "Resim katalogdan kaldırılacak, kaldırılsın mı?"
+
+#~ msgid "All comments will be removed, are you sure?"
+#~ msgstr "Bütün açıklamalar silinecek, emin misiniz?"
+
+#~ msgid "All thumbnails will be deleted, are you sure?"
+#~ msgstr "Bütün küçük resimler silenecek, emin misiniz?"
+
+#~ msgid "Specify the backup file"
+#~ msgstr "Yedekleme dosyası belirle"
