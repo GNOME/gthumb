@@ -544,6 +544,9 @@ update_notebook_page (DialogData *data,
 	if (data->page_updated[page_num]) 
 		return;
 
+	if (data->closing)
+		return;
+
 	switch (page_num) {
 	case IPROP_PAGE_GENERAL:
 		update_general_info (data); 

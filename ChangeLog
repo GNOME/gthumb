@@ -1,5 +1,8 @@
 2002-12-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* libgthumb/file-data.c (file_data_update): 
+	(file_data_new): update name and utf8_name fields correctly.
+
 	* src/gthumb-ui.xml: s/Manual/Content/
 
 2002-12-24  Paolo Bacchilega  <paolo.bacch@tin.it>

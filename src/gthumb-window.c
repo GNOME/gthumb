@@ -4775,9 +4775,6 @@ close__step5 (GThumbWindow *window)
 		window->update_changes_timeout = 0;
 	}
 
-	if (window->image_prop_dlg != NULL) 
-		dlg_image_prop_close (window->image_prop_dlg);
-
 	if (window->pixop != NULL) 
 		g_object_unref (window->pixop);
 
@@ -4861,6 +4858,11 @@ window_close (GThumbWindow *window)
 	_window_remove_notifications (window);
 	window_stop_activity_mode (window);
 	window_remove_monitor (window);
+
+	if (window->image_prop_dlg != NULL) {
+		dlg_image_prop_close (window->image_prop_dlg);
+		window->image_prop_dlg = NULL;
+	}
 
 	if (window->changing_directory) 
 		dir_list_interrupt_change_to (window->dir_list, 
