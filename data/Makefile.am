@@ -10,7 +10,7 @@ applicationsdir = $(datadir)/application-registry
 applications_DATA = gthumb.applications
 
 icondir = $(datadir)/pixmaps
-icon_DATA = gthumb.png
+icon_DATA = gthumb.png gthumb-logo.png
 
 man_MANS = gthumb.1
 
@@ -33,7 +33,6 @@ EXTRA_DIST = 			\
 	$(desktop_DATA)		\
 	$(icon_DATA)		\
 	$(man_MANS)
-
 
 DISTCLEANFILES =                \
 	$(schema_DATA)		\

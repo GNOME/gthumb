@@ -1,3 +1,10 @@
+2005-01-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/actions.c (activate_action_help_about): 
+	* data/gthumb-logo.png: new file
+
+	Added gthumb logo to the about dialog.  Logo by Cristian Correa.
+
 2005-01-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/ui.h: 

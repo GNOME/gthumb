@@ -2722,7 +2722,7 @@ activate_action_help_about (GtkAction *action,
 		return;
 	}
 
-	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb.png", NULL);
+	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb-logo.png", NULL);
 	about = gnome_about_new (_("gThumb"), 
 				 VERSION,
 				 "Copyright \xc2\xa9 2001-2004 Free Software Foundation, Inc.",

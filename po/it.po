@@ -1,6 +1,6 @@
 # Traduzione italiana di gThumb.
 # Copyright (C) 2003 Free Software Foundation, Inc.
-# Paolo Bacchilega <paolo.bacch@tin.it>, 2003
+# Paolo Bacchilega <paolo.bacchilega@libero.it>, 2003
 # Francesco Marletta <francesco.marletta@tiscali.it>, 2003-2004
 #
 msgid ""
@@ -2398,7 +2398,7 @@ msgstr "Impossibile creare la cartella \"%s\": %s"
 #: src/actions.c:2717
 msgid "translator_credits"
 msgstr ""
-"Paolo Bacchilega <paolo.bacch@tin.it>\n"
+"Paolo Bacchilega <paolo.bacchilega@libero.it>\n"
 "Francesco Marletta <francesco.marletta@tiscali.it>"
 
 #: src/actions.c:2726 src/gthumb-window.c:428 src/gthumb-window.c:4630
