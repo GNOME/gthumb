@@ -146,7 +146,8 @@ static void
 set_unknown_icon (GthFileList *file_list, int pos)
 {
 	image_list_set_image_pixbuf (IMAGE_LIST (file_list->ilist), 
-				     pos, unknown_pixbuf);
+				     pos, 
+				     unknown_pixbuf);
 }
 
 

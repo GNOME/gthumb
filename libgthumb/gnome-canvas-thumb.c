@@ -193,18 +193,103 @@ gnome_canvas_thumb_init (GnomeCanvasThumb *image)
 static void
 free_pixmap_and_mask (GnomeCanvasThumb *image)
 {
-	if (image->pixmap) {
+	if (image->pixmap != NULL) {
 		g_object_unref (image->pixmap);
 		image->pixmap = NULL;
 	}
 
-	if (image->mask) {
+	if (image->mask != NULL) {
 		g_object_unref (image->mask);
 		image->mask = NULL;
 	}
 
 	image->cwidth = 0;
 	image->cheight = 0;
+}
+
+
+static void
+render_to_pixmap (GnomeCanvasThumb *image,
+		  GdkPixbuf        *pixbuf)
+{
+	static GdkPixbuf *last_pixbuf = NULL;
+	static GdkPixmap *last_pixmap = NULL;
+	static GdkBitmap *last_mask   = NULL;
+	GdkPixbuf        *tmp;
+
+	if (pixbuf != NULL) {
+		image->iwidth = gdk_pixbuf_get_width (pixbuf);
+		image->iheight = gdk_pixbuf_get_height (pixbuf);
+	}
+
+	free_pixmap_and_mask (image);
+
+	if ((pixbuf != NULL) && (last_pixbuf == pixbuf)) {
+		if (last_pixmap != NULL)
+			image->pixmap = g_object_ref (last_pixmap);
+		else
+			image->pixmap = NULL;
+
+		if (last_mask != NULL)
+			image->mask = g_object_ref (last_mask); 
+		else
+			image->mask = NULL;
+
+		return;
+	} 
+
+	if (last_pixbuf != NULL) {
+		g_object_unref (last_pixbuf);
+		last_pixbuf = NULL;
+	}
+
+	if (last_pixmap != NULL) {
+		g_object_unref (last_pixmap);
+		last_pixmap = NULL;
+	}
+
+	if (last_mask != NULL) {
+		g_object_unref (last_mask);
+		last_mask = NULL;
+	}
+
+	if (pixbuf == NULL) {
+		image->pixmap = NULL;
+		image->mask = NULL;
+		return;
+	}
+
+	last_pixbuf = g_object_ref (pixbuf);
+
+	if (gdk_pixbuf_get_has_alpha (pixbuf))
+		tmp = gdk_pixbuf_composite_color_simple (
+					 pixbuf, 
+					 image->iwidth,
+					 image->iheight, 
+					 GDK_INTERP_NEAREST,
+					 255,
+					 CHECK_SIZE, 
+					 COLOR_WHITE, 
+					 COLOR_WHITE);
+	else 
+		tmp = g_object_ref (pixbuf);
+
+	gdk_pixbuf_render_pixmap_and_mask (tmp,
+					   &(last_pixmap), 
+					   &(last_mask), 
+					   112);
+	
+	if (last_pixmap != NULL)
+		image->pixmap = g_object_ref (last_pixmap);
+	else
+		image->pixmap = NULL;
+	
+	if (last_mask != NULL)
+		image->mask = g_object_ref (last_mask); 
+	else
+		image->mask = NULL;
+
+	g_object_unref (tmp);
 }
 
 
@@ -220,42 +305,11 @@ gnome_canvas_thumb_destroy (GtkObject *object)
 
 	free_pixmap_and_mask (image);
 
+	/* do a fake rendering to free cache data. */
+	render_to_pixmap (image, NULL);
+
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-
-static void
-render_to_pixmap (GnomeCanvasThumb *image,
-		  GdkPixbuf *pixbuf)
-{
-	GdkPixbuf *tmp;
-
-	image->iwidth = gdk_pixbuf_get_width (pixbuf);
-	image->iheight = gdk_pixbuf_get_height (pixbuf);
-
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		tmp = gdk_pixbuf_composite_color_simple (
-					   pixbuf, 
-					   image->iwidth,
-					   image->iheight, 
-					   GDK_INTERP_NEAREST,
-					   255,
-					   CHECK_SIZE, 
-					   COLOR_WHITE, 
-					   COLOR_WHITE);
-	else {
-		tmp = pixbuf;
-		g_object_ref (tmp);
-	}
-	
-	free_pixmap_and_mask (image);
-	gdk_pixbuf_render_pixmap_and_mask (tmp,
-					   &(image->pixmap), 
-					   &(image->mask), 
-					   112);
-
-	g_object_unref (tmp);
 }
 
 

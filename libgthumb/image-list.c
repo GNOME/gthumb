@@ -1533,6 +1533,7 @@ image_list_append (ImageList  *gil,
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
 	image = image_new_from_pixbuf (gil, pixbuf, text, comment);
+
 	return image_list_append_image (gil, image);
 }
 
