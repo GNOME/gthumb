@@ -88,7 +88,7 @@ dlg_check_folder (GThumbWindow   *window,
 
 	d = _gtk_yesno_dialog_new (parent,
 				   GTK_DIALOG_MODAL,
-				   _("The destination folder does not exits. " "Do you want to create it ?"),
+				   _("The destination folder does not exist. " "Do you want to create it ?"),
 				   GTK_STOCK_CANCEL,
 				   _("C_reate"));
 		
@@ -2266,9 +2266,9 @@ copy_item__continue1 (GnomeVFSResult result,
 		GtkWidget  *d;
 
 		if (cidata->remove_source)
-			error = _("Could not move the folder \"%s\" : %s");
+			error = _("Could not move the folder \"%s\": %s");
 		else
-			error = _("Could not move the folder \"%s\" : %s");
+			error = _("Could not move the folder \"%s\": %s");
 		
 		utf8_name = g_locale_to_utf8 (file_name_from_path (folder), -1, 0, 0, 0);
 		message = g_strdup_printf (error, 

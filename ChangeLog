@@ -1,5 +1,8 @@
 2002-11-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/dlg-file-utils.c (copy_item__continue1): arifixed #99430
+	(dlg_check_folder): fixed #99629
+
 	* src/gth-folder-selection-dialog.c (list_view_activated_cb):
 	fixed bug.
 
