@@ -1,3 +1,19 @@
+2004-11-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-preloader.c (loader_error_cb, loader_done_cb): 
+	start next image load after in idle time.
+
+	* src/gthumb-window.c (window_show_prev_image): skip broken
+	images when in fullscreen mode.
+
+	* libgthumb/gth-image-list.c (gth_image_list_realize): use 
+	pango_font_metrics_get_approximate_digit_width instead of 
+	pango_font_metrics_get_approximate_char_width.
+
+	* src/ui.h: associate F12 to the Revert action.
+
+	Fixes bug #152542: Revert F12
+
 2004-11-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (window_update_sensitivity): 

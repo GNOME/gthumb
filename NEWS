@@ -1,3 +1,10 @@
+version 2.6.1
+---------------
+	* Fixed Bug #156851: Crash on startup on 64-bit architectures, 
+	  and other 64-bit cleanliness issues.
+	* Fixed bug #156933: Patch to enable resizing of Import Photos dialog.
+	* Fixes bug #152542: Add F12 keybinding to the Revert action.
+
 version 2.6.0.1
 ---------------
 	* Fixed bug #155958: Save as report incorrect write permissions issue.

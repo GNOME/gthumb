@@ -28,6 +28,9 @@
 #include "gthumb-preloader.h"
 #include "gthumb-marshal.h"
 
+#define NEXT_LOAD_SMALL_TIMEOUT 100
+#define NEXT_LOAD_BIG_TIMEOUT 500
+
 
 enum {
 	REQUESTED_ERROR,
@@ -47,20 +50,40 @@ static PreLoader * current_preloader   (GThumbPreloader *gploader);
 static PreLoader * requested_preloader (GThumbPreloader *gploader);
 
 
+static gboolean
+load_next (gpointer data)
+{
+	GThumbPreloader *gploader = data;
+	
+	if (gploader->load_id != 0) {
+		g_source_remove (gploader->load_id);
+		gploader->load_id = 0;
+	}
+
+	start_next_loader (gploader);
+
+	return FALSE;
+}
+
+
 static void
 loader_error_cb (ImageLoader  *il,
 		 PreLoader    *ploader)
 {
+	GThumbPreloader *gploader = ploader->gploader;
+	int              timeout = NEXT_LOAD_SMALL_TIMEOUT;
+
 	ploader->loaded = FALSE;
 	ploader->error  = TRUE;
 
-	if (ploader == requested_preloader (ploader->gploader)) {
-		g_signal_emit (G_OBJECT (ploader->gploader), 
+	if (ploader == requested_preloader (gploader)) {
+		g_signal_emit (G_OBJECT (gploader), 
 			       gthumb_preloader_signals[REQUESTED_ERROR], 0);
 		debug (DEBUG_INFO, "[requested] error");
+		timeout = NEXT_LOAD_BIG_TIMEOUT;
 	}
-	
-	start_next_loader (ploader->gploader);
+
+	gploader->load_id = g_timeout_add (timeout, load_next, gploader);
 }
 
 
@@ -68,16 +91,20 @@ static void
 loader_done_cb (ImageLoader  *il,
 		PreLoader    *ploader)
 {
+	GThumbPreloader *gploader = ploader->gploader;
+	int              timeout = NEXT_LOAD_SMALL_TIMEOUT;
+
 	ploader->loaded = TRUE;
 	ploader->error  = FALSE;
 
-	if (ploader == requested_preloader (ploader->gploader)) {
-		g_signal_emit (G_OBJECT (ploader->gploader), 
+	if (ploader == requested_preloader (gploader)) {
+		g_signal_emit (G_OBJECT (gploader), 
 			       gthumb_preloader_signals[REQUESTED_DONE], 0);
 		debug (DEBUG_INFO, "[requested] done");
+		timeout = NEXT_LOAD_BIG_TIMEOUT;
 	}
 
-	start_next_loader (ploader->gploader);
+	gploader->load_id = g_timeout_add (timeout, load_next, gploader);
 }
 
 
@@ -165,6 +192,12 @@ gthumb_preloader_finalize (GObject *object)
 	g_return_if_fail (GTHUMB_IS_PRELOADER (object));
   
 	gploader = GTHUMB_PRELOADER (object);
+
+	if (gploader->load_id != 0) {
+		g_source_remove (gploader->load_id);
+		gploader->load_id = 0;
+	}
+
 	gthumb_preloader_stop (gploader, (DoneFunc) gploader_finalize__step2, object);
 }
 

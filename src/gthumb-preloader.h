@@ -76,6 +76,7 @@ struct _GThumbPreloader {
 	DoneFunc     done_func;               /* Function to call after 
 					       * stopping the loader. */
 	gpointer     done_func_data;
+	guint        load_id;
 };
 
 

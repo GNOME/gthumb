@@ -7114,8 +7114,9 @@ gboolean
 window_show_next_image (GThumbWindow *window,
 			gboolean      only_selected)
 {
-	int pos;
-	
+	gboolean skip_broken;
+	int      pos;
+
 	g_return_val_if_fail (window != NULL, FALSE);
 	
 	if (window->slideshow 
@@ -7123,17 +7124,19 @@ window_show_next_image (GThumbWindow *window,
 	    || window->changing_directory) 
 		return FALSE;
 	
+	skip_broken = window->fullscreen;
+
 	if (window->image_path == NULL) {
-		pos = gth_file_list_next_image (window->file_list, -1, TRUE, only_selected);
+		pos = gth_file_list_next_image (window->file_list, -1, skip_broken, only_selected);
 
 	} else if (view_focused_image (window)) {
 		pos = gth_file_view_get_cursor (window->file_list->view);
 		if (pos == -1)
-			pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
+			pos = gth_file_list_next_image (window->file_list, pos, skip_broken, only_selected);
 
 	} else {
 		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
+		pos = gth_file_list_next_image (window->file_list, pos, skip_broken, only_selected);
 	}
 
 	if (pos != -1) {
@@ -7150,6 +7153,7 @@ gboolean
 window_show_prev_image (GThumbWindow *window,
 			gboolean      only_selected)
 {
+	gboolean skip_broken;
 	int pos;
 
 	g_return_val_if_fail (window != NULL, FALSE);
@@ -7158,21 +7162,23 @@ window_show_prev_image (GThumbWindow *window,
 	    || window->setting_file_list 
 	    || window->changing_directory)
 		return FALSE;
+
+	skip_broken = window->fullscreen;
 	
 	if (window->image_path == NULL) {
 		pos = gth_file_view_get_images (window->file_list->view);
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+		pos = gth_file_list_prev_image (window->file_list, pos, skip_broken, only_selected);
 			
 	} else if (view_focused_image (window)) {
 		pos = gth_file_view_get_cursor (window->file_list->view);
 		if (pos == -1) {
 			pos = gth_file_view_get_images (window->file_list->view);
-			pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+			pos = gth_file_list_prev_image (window->file_list, pos, skip_broken, only_selected);
 		}
 
 	} else {
 		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+		pos = gth_file_list_prev_image (window->file_list, pos, skip_broken, only_selected);
 	}
 
 	if (pos != -1) {

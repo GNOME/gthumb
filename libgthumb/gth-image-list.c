@@ -1133,7 +1133,8 @@ gth_image_list_realize (GtkWidget *widget)
 
 	context = pango_layout_get_context (priv->comment_layout);
 	metrics = pango_context_get_metrics (context, font_desc, NULL);
-	priv->approx_char_width = PANGO_PIXELS (pango_font_metrics_get_approximate_char_width (metrics));
+	priv->approx_char_width = PANGO_PIXELS (pango_font_metrics_get_approximate_digit_width (metrics));
+
 	pango_font_metrics_unref (metrics);
 
 	/**/
