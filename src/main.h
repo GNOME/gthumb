@@ -33,14 +33,14 @@ extern GThumbWindow     *current_window;
 extern Preferences       preferences;
 extern FullScreen       *fullscreen;
 
-extern gint              StartInFullscreen;
-extern int               StartSlideshow;
-extern int               ViewFirstImage;
-extern int               HideSidebar;
+extern gboolean          StartInFullscreen;
+extern gboolean          StartSlideshow;
+extern gboolean          ViewFirstImage;
+extern gboolean          HideSidebar;
 extern gboolean          ExitAll;
 extern char             *ImageToDisplay;
 extern gboolean          FirstStart;
-
+extern gboolean          ImportPhotos;
 
 #define MENU_ICON_SIZE 20.0
 #define LIST_ICON_SIZE 20.0

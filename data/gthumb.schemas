@@ -3566,6 +3566,21 @@
 	  </long>
 	</locale>
 
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>

@@ -1,3 +1,15 @@
+version 2.3.0
+-------------
+	* Added photo importer tool.
+	* Added crop image tool.
+	* Added ability to print more images on one sheet.
+	* Ask whether to save a modified image.
+	* Implement generic transformations of non jpeg images.
+	* Use %f, %d, %s instead of *, ! and ? in the renaming tool.
+	* Allow to save void searches.
+	* Update "View Next Images" and "View Prev Image" sensitivity.
+	* New search icon.
+
 version 2.2.0
 -------------
 	* Bugfixes.

@@ -844,26 +844,17 @@ edit_remove_from_catalog_command_impl (BonoboUIComponent *uic,
 
 
 static void
-folder_open (GThumbWindow *window,
-	     const char   *viewer,
-	     const char   *path,
-	     const char   *working_dir) 
+show_folder (GThumbWindow *window,
+	     const char   *path)
 {
 	GError *err = NULL;
-	char   *argv[5];
+	char   *uri;
 
-	argv[0] = (char*) viewer;
-	argv[1] = (char*) path;
-	argv[2] = NULL;
-	
-	if (! g_spawn_sync (working_dir, 
-			    argv, NULL, 
-			    G_SPAWN_SEARCH_PATH, 
-			    NULL, NULL, 
-			    NULL, NULL,
-			    NULL, &err))
+	uri = g_strconcat ("file://", path, NULL);
+	if (! gnome_url_show (uri, &err))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app),
 						   &err);
+	g_free (uri);
 }
 
 
@@ -918,8 +909,7 @@ edit_folder_open_nautilus_command_impl (BonoboUIComponent *uic,
 	if (path == NULL) 
 		return;
 
-	folder_open (window, "nautilus", path, NULL);
-
+	show_folder (window, path);
 	g_free (path);
 }
 
@@ -1034,7 +1024,7 @@ edit_current_folder_open_nautilus_command_impl (BonoboUIComponent *uic,
 	path = window->dir_list->path;
 	if (path == NULL) 
 		return;
-	folder_open (window, "nautilus", path, NULL);
+	show_folder (window, path);
 }
 
 

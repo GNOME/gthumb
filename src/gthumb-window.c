@@ -360,8 +360,8 @@ window_update_statusbar_zoom_info (GThumbWindow *window)
 static void
 window_update_statusbar_image_info (GThumbWindow *window)
 {
-	char        *text, *utf8_text;
-	char         time_txt[50];
+	char        *text;
+	char         time_txt[50], *utf8_time_txt;
 	char        *size_txt;
 	char        *file_size_txt;
 	const char  *path;
@@ -396,6 +396,7 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	timer = get_file_mtime (path);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 	sec = g_timer_elapsed (image_loader_get_timer (IMAGE_VIEWER (window->viewer)->loader),  NULL);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
@@ -407,21 +408,20 @@ window_update_statusbar_image_info (GThumbWindow *window)
 		text = g_strdup_printf (" %s - %s - %s ",
 					size_txt,
 					file_size_txt,
-					time_txt);
+					utf8_time_txt);
 	else
 		text = g_strdup_printf (" %s - %s ", 
 					_("Modified"),
 					size_txt);
 
-	utf8_text = g_locale_to_utf8 (text, -1, 0, 0, 0);
-	gtk_label_set_markup (GTK_LABEL (window->image_info), utf8_text);
+	gtk_label_set_markup (GTK_LABEL (window->image_info), text);
 
 	/**/
 
 	g_free (size_txt);
 	g_free (file_size_txt);
 	g_free (text);
-	g_free (utf8_text);
+	g_free (utf8_time_txt);
 }
 
 
@@ -4796,7 +4796,7 @@ initial_location_cb (gpointer data)
 		else {  /* we suppose it is a directory name without prefix. */
 			path = starting_location;
 			if (! path_is_dir (path))
-				path = g_get_home_dir ();
+				return FALSE;
 		}
 
 		window_go_to_directory (window, path);
@@ -5684,7 +5684,7 @@ close__step6 (char     *filename,
 	state = gdk_window_get_state (GTK_WIDGET (window->app)->window);
 	maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
 
-	if (! maximized) {
+	if (! maximized && GTK_WIDGET_VISIBLE (window->app)) {
 		int width, height;
 		
 		if (window->sidebar_visible) {

@@ -45,6 +45,7 @@
 #include "typedefs.h"
 #include "comments.h"
 #include "pixbuf-utils.h"
+#include "commands-impl.h"
 
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
@@ -54,14 +55,14 @@ GList          *window_list = NULL;
 FullScreen     *fullscreen;
 char          **file_urls, **dir_urls;
 int             n_file_urls, n_dir_urls;
-int             StartInFullscreen;
-int             StartSlideshow;
+int             StartInFullscreen = FALSE;
+int             StartSlideshow = FALSE;
 int             ViewFirstImage = FALSE;
 int             HideSidebar = FALSE;
 gboolean        ExitAll = FALSE;
 char           *ImageToDisplay = NULL;
 gboolean        FirstStart = TRUE;
-
+gboolean        ImportPhotos = FALSE;
 
 static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
@@ -80,12 +81,16 @@ static gboolean load_session        (void);
 
 
 struct poptOption options[] = {
-	{ "fullscreen", 'f', POPT_ARG_NONE, &StartInFullscreen, 0,
+	{ "fullscreen", '\0', POPT_ARG_NONE, &StartInFullscreen, 0,
 	  N_("Start in fullscreen mode"),
 	  0 },
 
-	{ "slideshow", 's', POPT_ARG_NONE, &StartSlideshow, 0,
+	{ "slideshow", '\0', POPT_ARG_NONE, &StartSlideshow, 0,
 	  N_("Automatically start a slideshow"),
+	  0 },
+
+	{ "import-photos", '\0', POPT_ARG_NONE, &ImportPhotos, 0,
+	  N_("Automatically import digital camera photos"),
 	  0 },
 
 	{ NULL, '\0', 0, NULL, 0 }
@@ -98,14 +103,18 @@ struct poptOption options[] = {
 static gboolean 
 check_whether_to_set_fullscreen (gpointer data) 
 {
-	if (first_window == NULL)
-		return FALSE;
-
-	if (StartInFullscreen) {
-		StartInFullscreen = FALSE;
+	if ((first_window != NULL) && StartInFullscreen) 
 		fullscreen_start (fullscreen, first_window);
-	}
-	
+	StartInFullscreen = FALSE;
+	return FALSE;
+}
+
+
+static gboolean 
+check_whether_to_import_photos (gpointer data) 
+{
+	if ((first_window != NULL) && ImportPhotos) 
+		file_camera_import_command_impl (NULL, first_window, NULL);		
 	return FALSE;
 }
 
@@ -147,6 +156,7 @@ main (int argc, char *argv[])
 	prepare_app ();
 
 	g_idle_add (check_whether_to_set_fullscreen, NULL);
+	g_idle_add (check_whether_to_import_photos, NULL);
 
 	bonobo_main ();
 
@@ -363,8 +373,11 @@ prepare_app ()
 	if (! view_comline_catalog 
 	    && (n_dir_urls == 0) 
 	    && (n_file_urls == 0)) {
+		if (ImportPhotos)
+			preferences_set_startup_location (NULL);
 		current_window = window_new ();
-		gtk_widget_show (current_window->app);
+		if (!ImportPhotos)
+			gtk_widget_show (current_window->app);
 		if (first_window == NULL)
 			first_window = current_window;
 	}

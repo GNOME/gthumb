@@ -346,7 +346,7 @@ nav_window_grab_pointer (NavWindow *nav_win)
 
 	gtk_grab_add (nav_win->popup_win);
 
-	cursor = gdk_cursor_new (GDK_CROSSHAIR); 
+	cursor = gdk_cursor_new (GDK_FLEUR); 
 	gdk_pointer_grab (nav_win->popup_win->window, 
 			  TRUE,
 			  (GDK_BUTTON_RELEASE_MASK 

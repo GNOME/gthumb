@@ -1,3 +1,26 @@
+2004-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c: add a --import-photos option to automatically open
+	the import photos dialog.
+
+	* src/dlg-photo-importer.c: make operations asynchronous.
+
+	* libgthumb/comments.c (comments_get_comment_as_string):
+	* src/gthumb-window.c (window_update_statusbar_image_info):
+	* src/gth-exif-data-viewer.c (update_file_info):
+	* src/fullscreen.c (get_file_info):
+	* src/dlg-duplicates.c (images_selection_changed_cb):
+	* components/image-viewer/viewer-stream.c (get_status):
+ 
+	Fix bug  #126292 (Date shows badly if locale charset is not utf8).
+	Patch by Egmont Koblinger.
+
+2004-01-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-web-exporter.c (theme_dialog__go_to_folder_clicked): 
+	* src/commands-impl.c (show_folder): do not launch nautilus 
+	explicitly, use gnome_url_show instead.
+
 2003-12-29  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-crop.c: 

@@ -1209,22 +1209,22 @@ static void
 theme_dialog__go_to_folder_clicked (GtkWidget       *widget, 
 				    ThemeDialogData *tdata)
 {
-	char        *path, *command;
-        GnomeVFSURI *uri;
- 
-	path = g_strdup_printf ("%s/.gnome2/gthumb/albumthemes", 
+	char         *path;
+        GnomeVFSURI  *uri;
+	GError       *err;
+
+	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes", 
 			       g_get_home_dir ());
 
 	uri = gnome_vfs_uri_new (path);
 	if (! gnome_vfs_uri_exists (uri)) 
 		gnome_vfs_make_directory_for_uri (uri, 0775);
         gnome_vfs_uri_unref (uri);
- 
-        command = g_strdup_printf ("nautilus --no-desktop %s", path);
+
+	if (! gnome_url_show (path, &err))
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (tdata->dialog),
+						   &err);
         g_free (path);
- 
-        g_spawn_command_line_async (command, NULL);
-        g_free (command);
 }
 
 

@@ -533,7 +533,7 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 		char         *location, *location_utf8;
 		const char   *name;
 		char         *name_utf8;
-		char          time_txt[50];
+		char          time_txt[50], *time_txt_utf8;
 		struct tm    *tm;
 
 		if (idata->common != idata2->common)
@@ -548,6 +548,7 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 
 		tm = localtime (&idata2->last_modified);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+		time_txt_utf8 = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
 		gtk_list_store_append (GTK_LIST_STORE (data->duplicates_model), &iter2);
 		gtk_list_store_set (GTK_LIST_STORE (data->duplicates_model), 
@@ -555,9 +556,10 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 				    DCOLUMN_IMAGE_DATA, idata2,
 				    DCOLUMN_NAME, name_utf8,
 				    DCOLUMN_LOCATION, location_utf8,
-				    DCOLUMN_LAST_MODIFIED, time_txt,
+				    DCOLUMN_LAST_MODIFIED, time_txt_utf8,
 				    -1);
 
+		g_free (time_txt_utf8);
 		g_free (name_utf8);
 		g_free (location_utf8);
 	}
