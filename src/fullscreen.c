@@ -972,6 +972,15 @@ wmspec_change_state (gboolean   add,
 }
 
 
+static void
+close_fullscreen_window_cb (GtkWidget    *caller, 
+			    GdkEvent     *event, 
+			    FullScreen *fullscreen)
+{
+	fullscreen_stop (fullscreen);
+}
+
+
 FullScreen *
 fullscreen_new (void)
 {
@@ -981,6 +990,11 @@ fullscreen_new (void)
 	fullscreen->motion_id = 0;
 	fullscreen->mouse_hide_id = 0;
 	fullscreen->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+
+	g_signal_connect (G_OBJECT (fullscreen->window), 
+			  "delete_event",
+			  G_CALLBACK (close_fullscreen_window_cb),
+			  fullscreen);
 
 	fullscreen->wm_state_fullscreen_support = gdk_net_wm_supports (gdk_atom_intern ("_NET_WM_STATE_FULLSCREEN", FALSE));
 

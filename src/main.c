@@ -141,9 +141,10 @@ main (int argc, char *argv[])
 				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
 				      NULL);
 
-	if (! g_thread_supported ())
+	if (! g_thread_supported ()) {
 		g_thread_init (NULL);
-	gdk_threads_init ();
+		gdk_threads_init ();
+	}
 
 	g_object_get_property (G_OBJECT (program),
 			       GNOME_PARAM_POPT_CONTEXT,

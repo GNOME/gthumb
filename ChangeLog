@@ -1,3 +1,11 @@
+2004-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (main): call gdk_threads_init only if necessary.
+
+	* src/fullscreen.c (fullscreen_new, close_fullscreen_window_cb): 
+
+	Fixes bug #143426: crash when using Alt+F4 to exit after slideshow
+
 2004-05-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.4.0 released ]
