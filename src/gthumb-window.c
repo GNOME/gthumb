@@ -85,6 +85,7 @@
 #define DEF_SIDEBAR_CONT_SIZE  190
 #define DEF_SLIDESHOW_DELAY    4
 #define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
+#define PRELOADED_IMAGE_MAX_DIM  (2000*2000)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
@@ -7315,6 +7316,23 @@ get_image_to_preload (GThumbWindow *window,
 		file_data_unref (fdata);
 		return NULL;
 	}
+
+#ifdef HAVE_LIBJPEG
+	if (image_is_jpeg (fdata->path)) {
+		int width = 0, height = 0;
+
+		f_get_jpeg_size (fdata->path, &width, &height);
+
+		debug (DEBUG_INFO, "[%dx%d] <-> %d\n", width, height, PRELOADED_IMAGE_MAX_DIM);
+
+		if (width * height > PRELOADED_IMAGE_MAX_DIM) {
+			debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (window->file_list, pos));
+			file_data_unref (fdata);
+			return NULL;
+		}
+	}
+#endif /* HAVE_LIBJPEG */
+
 	file_data_unref (fdata);
 
 	return gth_file_list_path_from_pos (window->file_list, pos);
