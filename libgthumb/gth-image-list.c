@@ -398,6 +398,8 @@ struct _GthImageListPrivate {
 	gboolean           use_render;
 	XRenderPictFormat *format;
 #endif
+
+	char             *no_image_text;
 };
 
 
@@ -484,6 +486,8 @@ gth_image_list_finalize (GObject *object)
 		g_list_free (priv->image_list);
 		priv->image_list = NULL;
 	}
+
+	g_free (priv->no_image_text);
 
 	free_line_info (image_list);
 
@@ -1655,21 +1659,24 @@ gth_image_list_expose (GtkWidget      *widget,
 	pos_start = gth_image_list_get_first_visible (image_list);
 	pos_end = gth_image_list_get_last_visible (image_list);
 
-	scan = g_list_nth (image_list->priv->image_list, pos_start);
+	scan = g_list_nth (priv->image_list, pos_start);
 
 	if (pos_start == -1) {
-		char           *no_image_msg = _("No image");
+		char           *no_image_msg = priv->no_image_text;
 		int             w, h;
-		PangoLayout    *layout = image_list->priv->no_image_msg_layout;
+		PangoLayout    *layout = priv->no_image_msg_layout;
 		PangoRectangle  bounds;
 		
-		gdk_drawable_get_size (image_list->priv->bin_window, &w, &h);
+		if (no_image_msg == NULL)
+			return TRUE;
+
+		gdk_drawable_get_size (priv->bin_window, &w, &h);
 		
 		pango_layout_set_width (layout, w * PANGO_SCALE);
 		pango_layout_set_text (layout, no_image_msg, strlen (no_image_msg));
 		pango_layout_get_pixel_extents (layout, NULL, &bounds);
 		
-		gdk_draw_layout (image_list->priv->bin_window,
+		gdk_draw_layout (priv->bin_window,
 				 widget->style->text_gc[GTK_WIDGET_STATE (widget)],
 				 0,
 				 (h - bounds.height) / 2,
@@ -1677,7 +1684,7 @@ gth_image_list_expose (GtkWidget      *widget,
 		
 		if (GTK_WIDGET_HAS_FOCUS (widget)) {
 			gtk_paint_focus (widget->style,
-					 image_list->priv->bin_window,
+					 priv->bin_window,
 					 GTK_WIDGET_STATE (widget),
 					 &event->area,
 					 widget,
@@ -3431,6 +3438,8 @@ gth_image_list_init (GthImageList *image_list)
 	priv->target_list = gtk_target_list_new (target_table, G_N_ELEMENTS (target_table));
 
 	priv->enable_search = TRUE;
+
+	priv->no_image_text = g_strdup (_("No image"));
 }
 
 
@@ -4305,6 +4314,32 @@ gth_image_list_get_cursor (GthImageList *image_list)
 		return -1;
 	else
 		return image_list->priv->focused_item;
+}
+
+
+void
+gth_image_list_set_no_image_text (GthImageList *image_list,
+				  const char  *text)
+{
+	GthImageListPrivate *priv;
+
+	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
+
+	priv = image_list->priv;
+
+	g_free (priv->no_image_text);
+	priv->no_image_text = NULL;
+
+	if (text != NULL)
+		priv->no_image_text = g_strdup (text);
+
+	if (priv->images == 0) {
+		if (! priv->frozen) {
+			layout_all_images (image_list);
+			keep_focus_consistent (image_list);
+		} else
+			priv->dirty = TRUE;
+	}
 }
 
 

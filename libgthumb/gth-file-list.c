@@ -519,6 +519,7 @@ gth_file_list_set_list (GthFileList *file_list,
 
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
 
+	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
 	gth_file_view_clear (file_list->view); 
 
 	file_list->interrupt_set_list = FALSE;
@@ -612,6 +613,8 @@ add_list_in_chunks (gpointer callback_data)
 		if (done_func != NULL)
 			(*done_func) (file_list->interrupt_done_data);
 
+		gth_file_view_set_no_image_text (file_list->view, _("No image"));
+
 		get_file_info_data_free (gfi_data);
 
 		return FALSE;
@@ -630,7 +633,9 @@ add_list_in_chunks (gpointer callback_data)
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
 			(*done_func) (gfi_data->done_func_data);
-		
+
+		gth_file_view_set_no_image_text (file_list->view, _("No image"));
+
 		get_file_info_data_free (gfi_data);
 
 		return FALSE;

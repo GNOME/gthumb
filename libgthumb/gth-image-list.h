@@ -290,6 +290,8 @@ void           gth_image_list_set_cursor           (GthImageList *image_list,
 
 int            gth_image_list_get_cursor           (GthImageList *image_list);
 
+void           gth_image_list_set_no_image_text    (GthImageList *image_list,
+						    const char  *text);
 
 /* Interactive search */
 

@@ -439,6 +439,13 @@ gfv_update_icon_theme (GthFileView *file_view)
 }
 
 
+static void
+gfv_set_no_image_text (GthFileView *file_view,
+		       const char  *text)
+{
+}
+
+
 /* Interactive search */
 
 
@@ -520,6 +527,7 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->set_cursor           = gfv_set_cursor;
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->update_icon_theme    = gfv_update_icon_theme;
+	file_view_class->set_no_image_text    = gfv_set_no_image_text;
 	file_view_class->set_enable_search    = gfv_set_enable_search;
 	file_view_class->get_enable_search    = gfv_get_enable_search;
 
@@ -1014,6 +1022,14 @@ void
 gth_file_view_update_icon_theme (GthFileView *file_view)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->update_icon_theme (file_view);
+}
+
+
+void
+gth_file_view_set_no_image_text (GthFileView *file_view,
+				 const char  *text)
+{
+	GTH_FILE_VIEW_GET_CLASS (file_view)->set_no_image_text (file_view, text);
 }
 
 

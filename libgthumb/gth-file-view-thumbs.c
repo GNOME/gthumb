@@ -850,6 +850,17 @@ gfv_update_icon_theme (GthFileView *file_view)
 }
 
 
+static void
+gfv_set_no_image_text (GthFileView *file_view,
+		       const char  *text)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	gth_image_list_set_no_image_text (ilist, text);
+}
+
+
 /* Interactive search */
 
 
@@ -960,6 +971,7 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->set_cursor           = gfv_set_cursor;
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->update_icon_theme    = gfv_update_icon_theme;
+	file_view_class->set_no_image_text    = gfv_set_no_image_text;
 	file_view_class->set_enable_search    = gfv_set_enable_search;
 	file_view_class->get_enable_search    = gfv_get_enable_search;
 }

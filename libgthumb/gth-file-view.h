@@ -222,6 +222,8 @@ typedef struct {
 
 	void           (* update_icon_theme)    (GthFileView *file_view);
 	
+	void           (* set_no_image_text)    (GthFileView *file_view,
+						 const char  *text);
 	
 	/* Interactive search */
 	
@@ -396,6 +398,9 @@ void           gth_file_view_set_cursor           (GthFileView *file_view,
 int            gth_file_view_get_cursor           (GthFileView *file_view);
 
 void           gth_file_view_update_icon_theme    (GthFileView *file_view);
+
+void           gth_file_view_set_no_image_text    (GthFileView *file_view,
+						   const char  *text);
 
 /* Interactive search */
 
