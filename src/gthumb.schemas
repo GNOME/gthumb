@@ -357,7 +357,7 @@
 	<applyto>/apps/gthumb/ui/toolbar_style</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>text_beside</default>
+	<default>system</default>
 	<locale name="C">
 	  <short></short>
 	  <long> Possible values are : system, text_below, text_beside, text_only, icons_only.

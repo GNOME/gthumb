@@ -541,27 +541,27 @@
 	<toolitem name="Tools_FindImages" verb="" priority="0"
 	          _label="Search"/>
 
-	<toolitem name="Edit_EditComment" verb="" _label="Comment Images" />
+	<toolitem name="Edit_EditComment" verb="" _label="Comment" />
 
-	<toolitem name="Edit_EditCategories" verb="" _label="Assign Categories" />
+	<toolitem name="Edit_EditCategories" verb="" _label="Categories" />
 
 	<separator/>
 
   	<toolitem name="Tools_Slideshow" verb=""
-	          label=""/>
+	          label="Slide Show"/>
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
 
-  	<toolitem name="View_ImageProp" verb="" _label="Information" />
+  	<toolitem name="View_ImageProp" verb="" _label="Properties" />
 
 	<separator/>
 
   	<toolitem name="Tools_JPEGRotate" verb=""
-	          label=""/>
+	          label="Rotate"/>
 
   	<toolitem name="Tools_ConvertFormat" verb=""
-	          label=""/>
+	          label="Convert"/>
 
 </dockitem>
 

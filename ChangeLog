@@ -1,5 +1,9 @@
 2002-11-06  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb.schemas: use system style as default toolbar style.
+
+	* src/gthumb-ui.xml: add labels to toolbar
+
 	* libgthumb/gnome-canvas-thumb.c (gnome_canvas_thumb_draw): make
 	thumbnails white, and paint the selection as a colored frame.
 
