@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-03-25 01:43+0100\n"
-"PO-Revision-Date: 2003-03-25 01:45+0100\n"
+"POT-Creation-Date: 2003-04-24 23:23+0200\n"
+"PO-Revision-Date: 2003-04-24 23:23+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Visa som album"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#: src/gthumb-ui.xml.h:85
+#: src/gthumb-ui.xml.h:90
 msgid "Print the current image"
 msgstr "Skriv ut den aktuella bilden"
 
@@ -77,7 +77,7 @@ msgid "Mirror the image"
 msgstr "Spegla bilden"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: src/gthumb-ui.xml.h:114
+#: src/gthumb-ui.xml.h:118
 msgid "Rotate"
 msgstr "Rotera"
 
@@ -94,17 +94,17 @@ msgid "Rotate the image of 180 degrees"
 msgstr "Rotera bilden 180 grader"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: src/gthumb-ui.xml.h:122
+#: src/gthumb-ui.xml.h:126
 msgid "Save _As..."
 msgstr "Spara so_m..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: src/gthumb-ui.xml.h:123
+#: src/gthumb-ui.xml.h:127
 msgid "Save current image"
 msgstr "Spara den aktuella bilden"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:139
+#: src/gthumb-ui.xml.h:143
 msgid "Start or stop current animation"
 msgstr "Starta eller stoppa aktuell animering"
 
@@ -117,37 +117,37 @@ msgid "Transparency T_ype"
 msgstr "_Transparenstyp"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:156
+#: src/gthumb-ui.xml.h:161
 msgid "View next animation frame"
 msgstr "Visa nästa ruta i animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:188
 msgid "_Black"
 msgstr "_Svart"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:193
 msgid "_Checked"
 msgstr "_Rutor"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:207
 msgid "_Flip"
 msgstr "_Vänd"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:218
 msgid "_Image"
 msgstr "_Bild"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:218
+#: src/gthumb-ui.xml.h:224
 msgid "_Mirror"
 msgstr "_Spegla"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:223
+#: src/gthumb-ui.xml.h:229
 msgid "_None"
 msgstr "_Ingen"
 
@@ -160,13 +160,13 @@ msgid "_Step Animation"
 msgstr "_Stega igenom animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:249 src/gthumb_search.glade.h:32
+#: src/gthumb-ui.xml.h:259 src/gthumb_search.glade.h:31
 #: src/gthumb_tools.glade.h:48
 msgid "_View"
 msgstr "_Visa"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:260
 msgid "_White"
 msgstr "_Vit"
 
@@ -175,12 +175,11 @@ msgid "_Zoom Quality"
 msgstr "_Zoomkvalitet"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
-#: src/gthumb-window.c:355
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:361
+#: src/dlg-image-prop.c:656 src/fullscreen.c:233 src/gthumb-window.c:406
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
@@ -217,46 +216,46 @@ msgstr "Kan inte öppna albumet \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
 
-#: libgthumb/comments.c:317
+#: libgthumb/comments.c:387
 msgid "Deleting all comments, wait please..."
 msgstr "Tar bort alla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:319
+#: libgthumb/comments.c:389
 msgid "Deleting old comments, wait please..."
 msgstr "Tar bort gamla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:656
+#: libgthumb/comments.c:732
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:644
-#: src/fullscreen.c:240
+#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
+#: src/fullscreen.c:240 src/gthumb-window.c:403
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: libgthumb/comments.c:668
+#: libgthumb/comments.c:744
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
-#: libgthumb/dlg-save-image.c:86 src/commands-impl.c:300 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:310
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "En bild med namnet \"%s\" finns redan. Vill du skriva över den?"
 
-#: libgthumb/dlg-save-image.c:136
+#: libgthumb/dlg-save-image.c:154
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Bildtypen stöds inte: %s"
 
-#: libgthumb/dlg-save-image.c:154
+#: libgthumb/dlg-save-image.c:172
 msgid "Determine by extension"
 msgstr "Avgör på filändelse"
 
-#: libgthumb/dlg-save-image.c:186
+#: libgthumb/dlg-save-image.c:207
 msgid "Save Image"
 msgstr "Spara bild"
 
-#: libgthumb/dlg-save-image.c:200
+#: libgthumb/dlg-save-image.c:221
 msgid "Image type:"
 msgstr "Bildtyp:"
 
@@ -269,22 +268,20 @@ msgstr ""
 "GConf-fel:\n"
 "  %s"
 
-#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:21
+#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
 msgstr "Kommentar"
 
 #: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:804
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:421
 msgid "Name"
 msgstr "Namn"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:440
-#: src/gthumb-window.c:454 src/gthumb-window.c:457 src/gthumb-window.c:474
-#: src/gthumb-window.c:480 src/gthumb-window.c:4198
-#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
-#: src/main.c:122
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:805
+#: src/gthumb-window.c:4750 src/gthumb_png_exporter.glade.h:75
+#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -297,11 +294,11 @@ msgstr "Skriv ut %s"
 msgid "Print Image"
 msgstr "Skriv ut bild"
 
-#: libgthumb/thumb-cache.c:399
+#: libgthumb/thumb-cache.c:409
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
 
-#: libgthumb/thumb-cache.c:401
+#: libgthumb/thumb-cache.c:411
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
@@ -336,17 +333,17 @@ msgstr "Kunde inte skapa temporär mapp"
 msgid "Loading images"
 msgstr "Läser in bilder"
 
-#: src/commands-impl.c:262 src/commands-impl.c:979 src/commands-impl.c:1534
+#: src/commands-impl.c:274 src/commands-impl.c:991 src/commands-impl.c:1553
 msgid "Enter the new name: "
 msgstr "Ange det nya namnet: "
 
-#: src/commands-impl.c:266 src/commands-impl.c:983 src/commands-impl.c:1538
-#: src/gthumb-ui.xml.h:230 src/gthumb_tools.glade.h:45
+#: src/commands-impl.c:278 src/commands-impl.c:995 src/commands-impl.c:1557
+#: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: src/commands-impl.c:280 src/commands-impl.c:885 src/commands-impl.c:997
-#: src/commands-impl.c:1554 src/commands-impl.c:1649
+#: src/commands-impl.c:292 src/commands-impl.c:897 src/commands-impl.c:1009
+#: src/commands-impl.c:1573 src/commands-impl.c:1668
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -355,175 +352,171 @@ msgstr ""
 "Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \"/\". Använd "
 "ett annat namn."
 
-#: src/commands-impl.c:307 src/dlg-convert.c:316
+#: src/commands-impl.c:319 src/dlg-convert.c:316
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
-#: src/commands-impl.c:327 src/commands-impl.c:342
+#: src/commands-impl.c:339 src/commands-impl.c:354
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Kunde inte byta namn på bilden \"%s\": %s"
 
-#: src/commands-impl.c:329 src/commands-impl.c:1019 src/commands-impl.c:1316
+#: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
 msgid "source and destination are the same"
 msgstr "källan och målet är samma"
 
-#: src/commands-impl.c:431
+#: src/commands-impl.c:443
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kunde inte duplicera bilden \"%s\": %s"
 
-#: src/commands-impl.c:499
+#: src/commands-impl.c:511
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
 
-#: src/commands-impl.c:519
+#: src/commands-impl.c:531
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Bilden kommer att flyttas till papperskorgen, är du säker?"
 
-#: src/commands-impl.c:754
+#: src/commands-impl.c:766
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Bilden kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:796
+#: src/commands-impl.c:808
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "De valda bilderna kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:872 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:884 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:190 src/dlg-file-utils.c:89
 msgid "C_reate"
 msgstr "S_kapa"
 
-#: src/commands-impl.c:901 src/commands-impl.c:1027 src/commands-impl.c:1576
-#: src/commands-impl.c:1668
+#: src/commands-impl.c:913 src/commands-impl.c:1039 src/commands-impl.c:1595
+#: src/commands-impl.c:1687
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Namnet \"%s\" används redan. Använd ett annat namn."
 
-#: src/commands-impl.c:929
+#: src/commands-impl.c:941
 msgid "New Folder"
 msgstr "Ny mapp"
 
-#: src/commands-impl.c:930
+#: src/commands-impl.c:942
 msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
-#: src/commands-impl.c:931
+#: src/commands-impl.c:943
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kunde inte skapa mappen \"%s\": %s"
 
-#: src/commands-impl.c:942
+#: src/commands-impl.c:954
 msgid "New Library"
 msgstr "Nytt bibliotek"
 
-#: src/commands-impl.c:943 src/dlg-catalog.c:120
+#: src/commands-impl.c:955 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
-#: src/commands-impl.c:944
+#: src/commands-impl.c:956
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Kunde inte skapa biblioteket \"%s\": %s"
 
-#: src/commands-impl.c:1017 src/commands-impl.c:1051
+#: src/commands-impl.c:1029 src/commands-impl.c:1066
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kunde inte byta namn på mappen \"%s\": %s"
 
-#: src/commands-impl.c:1117
+#: src/commands-impl.c:1132
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
-#: src/commands-impl.c:1146
+#: src/commands-impl.c:1161
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
-#: src/commands-impl.c:1183
+#: src/commands-impl.c:1198
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Den valda mappen kommer att flyttas till papperskorgen, är du säker?"
 
-#: src/commands-impl.c:1185 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1200 src/dlg-file-utils.c:273
 msgid "_Move"
 msgstr "_Flytta"
 
-#: src/commands-impl.c:1251 src/commands-impl.c:1306
+#: src/commands-impl.c:1266 src/commands-impl.c:1321
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
-#: src/commands-impl.c:1306 src/dlg-file-utils.c:2285
-#: src/dlg-file-utils.c:2287
+#: src/commands-impl.c:1321 src/dlg-file-utils.c:2295
+#: src/dlg-file-utils.c:2297
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
 
-#: src/commands-impl.c:1327
+#: src/commands-impl.c:1342
 msgid "source contains destination"
 msgstr "källan innehåller målet"
 
-#: src/commands-impl.c:1338
+#: src/commands-impl.c:1353
 msgid "a folder with that name is already present."
 msgstr "en mapp med det namnet finns redan."
 
-#: src/commands-impl.c:1415 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
+#: src/commands-impl.c:1434 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
 msgid "Choose the destination folder"
 msgstr "Välj målmappen"
 
-#: src/commands-impl.c:1587
+#: src/commands-impl.c:1606
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Kunde inte byta namn på biblioteket \"%s\": %s"
 
-#: src/commands-impl.c:1587
+#: src/commands-impl.c:1606
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kunde inte byta namn på albumet \"%s\": %s"
 
-#: src/commands-impl.c:1633 src/dlg-catalog.c:79
+#: src/commands-impl.c:1652 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
-#: src/commands-impl.c:1634
+#: src/commands-impl.c:1653
 msgid "New Catalog"
 msgstr "Nytt album"
 
-#: src/commands-impl.c:1679
+#: src/commands-impl.c:1698
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kunde inte skapa alumet \"%s\": %s"
 
-#: src/commands-impl.c:1743
+#: src/commands-impl.c:1762
 msgid "The selected library will be removed, are you sure?"
 msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:1745
+#: src/commands-impl.c:1764
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:2682 src/dlg-categories.c:311 src/dlg-comment.c:236
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:179
+#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
+#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Kunde inte visa hjälp: %s"
 
-#: src/commands-impl.c:2733
+#: src/commands-impl.c:2794
 msgid "translator_credits"
 msgstr ""
 "Christian Rose\n"
 "Bo Rosén\n"
 "Skicka synpunkter på översättningen till sv@li.org"
 
-#: src/commands-impl.c:2744
-msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
-msgstr "Copyright © 2001-2003 Free Software Foundation, Inc."
-
-#: src/commands-impl.c:2745
+#: src/commands-impl.c:2806
 msgid "An image viewer and browser for GNOME."
 msgstr "En bildvisare och bläddrare för GNOME."
 
@@ -571,7 +564,7 @@ msgstr "Dublettstorlek"
 msgid "Last modified"
 msgstr "Senast ändrad"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:824
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:856
 msgid "Location"
 msgstr "Plats"
 
@@ -631,11 +624,11 @@ msgstr "Kunde inte flytta bilden:"
 msgid "Could not copy the image:"
 msgstr "Kunde inte kopiera bilden:"
 
-#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2307
+#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2317
 msgid "_Abort"
 msgstr "_Avbryt"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
+#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2318
 msgid "_Continue"
 msgstr "_Fortsätt"
 
@@ -644,54 +637,54 @@ msgstr "_Fortsätt"
 msgid "Copying file %d of %d"
 msgstr "Kopierar fil %d av %d"
 
-#: src/dlg-file-utils.c:1713 src/dlg-file-utils.c:1899
+#: src/dlg-file-utils.c:1718 src/dlg-file-utils.c:1904
 msgid "Collecting images info"
 msgstr "Samlar bildinformation"
 
-#: src/dlg-file-utils.c:1716 src/dlg-file-utils.c:1912
+#: src/dlg-file-utils.c:1721 src/dlg-file-utils.c:1917
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Tar bort fil %ld av %ld"
 
-#: src/dlg-file-utils.c:1902
+#: src/dlg-file-utils.c:1907
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopierar fil %ld av %ld"
 
-#: src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:1912
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: src/dlg-image-prop.c:809
-msgid "Image Dimensions"
-msgstr "Bilddimensioner"
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:428
+msgid "Size"
+msgstr "Storlek"
 
-#: src/dlg-image-prop.c:814
+#: src/dlg-image-prop.c:846
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:819
-msgid "File Size"
-msgstr "Filstorlek"
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:435
+msgid "Bytes"
+msgstr "Byte"
 
-#: src/dlg-image-prop.c:829
-msgid "Last Modified"
-msgstr "Senast ändrad"
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:442
+msgid "Modified"
+msgstr "Ändrad"
 
-#: src/dlg-image-prop.c:834
+#: src/dlg-image-prop.c:866
 msgid "Information on Channel"
 msgstr "Information om kanal"
 
-#: src/dlg-image-prop.c:868
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5198
 msgid "Field"
 msgstr "Fält"
 
-#: src/dlg-image-prop.c:878 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5208 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Värde"
 
-#: src/dlg-image-prop.c:959
+#: src/dlg-image-prop.c:991
 #, c-format
 msgid "%s Properties"
 msgstr "Egenskaper för %s"
@@ -744,7 +737,7 @@ msgstr "Mapp"
 msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
-#: src/fullscreen.c:709 src/gthumb-ui.xml.h:109
+#: src/fullscreen.c:709 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Återställ normal vy"
 
@@ -797,983 +790,1038 @@ msgid "Adjust hue and saturation"
 msgstr "Justera nyans och mättnad"
 
 #: src/gthumb-ui.xml.h:10
+msgid "Aply threshold"
+msgstr "Tillämpa tröskel"
+
+#: src/gthumb-ui.xml.h:11
 msgid "Assign categories to selected images"
 msgstr "Tilldela kategorier till valda bilder"
 
-#: src/gthumb-ui.xml.h:11
+#: src/gthumb-ui.xml.h:12
 msgid "Assign categories to the image"
 msgstr "Tilldela kategorier till bilden"
 
-#: src/gthumb-ui.xml.h:12
+#: src/gthumb-ui.xml.h:13
+msgid "Auto"
+msgstr "Auto"
+
+#: src/gthumb-ui.xml.h:14
+msgid "Automatically normalize the contrast"
+msgstr "Normalisera kontrasten automatiskt"
+
+#: src/gthumb-ui.xml.h:15
+msgid "Automatically stretch the contrast"
+msgstr "Sträck ut kontrasten automatiskt"
+
+#: src/gthumb-ui.xml.h:16
 msgid "Ca_talog"
 msgstr "Al_bum"
 
-#: src/gthumb-ui.xml.h:13
+#: src/gthumb-ui.xml.h:17
 msgid "Ca_tegories"
 msgstr "Ka_tegorier"
 
-#: src/gthumb-ui.xml.h:14
+#: src/gthumb-ui.xml.h:18
 msgid "Catalogs"
 msgstr "Album"
 
-#: src/gthumb-ui.xml.h:15 src/gthumb_comments.glade.h:6
+#: src/gthumb-ui.xml.h:19 src/gthumb_comments.glade.h:5
+#: src/gthumb_search.glade.h:10
 msgid "Categories"
 msgstr "Kategorier"
 
-#: src/gthumb-ui.xml.h:16
+#: src/gthumb-ui.xml.h:20
 msgid "Change _Date"
 msgstr "Ändra _datum"
 
-#: src/gthumb-ui.xml.h:17
+#: src/gthumb-ui.xml.h:21
 msgid "Change images last modified date"
 msgstr "Ändra bildens senast ändrad-datum"
 
-#: src/gthumb-ui.xml.h:18
+#: src/gthumb-ui.xml.h:22
 msgid "Close all windows and exit"
 msgstr "Stäng alla fönster och avsluta"
 
-#: src/gthumb-ui.xml.h:19
+#: src/gthumb-ui.xml.h:23
 msgid "Close this window"
 msgstr "Stäng det här fönstret"
 
-#: src/gthumb-ui.xml.h:20 src/gthumb.glade.h:12
+#: src/gthumb-ui.xml.h:24 src/gthumb.glade.h:12
 msgid "Comm_ent"
 msgstr "Komm_entar"
 
-#: src/gthumb-ui.xml.h:22
+#: src/gthumb-ui.xml.h:26
 msgid "Convert"
 msgstr "Konvertera"
 
-#: src/gthumb-ui.xml.h:23
+#: src/gthumb-ui.xml.h:27
 msgid "Convert F_ormat"
 msgstr "Konvertera f_ormat"
 
-#: src/gthumb-ui.xml.h:24
+#: src/gthumb-ui.xml.h:28
 msgid "Convert image format"
 msgstr "Konvertera bildformat"
 
-#: src/gthumb-ui.xml.h:25
+#: src/gthumb-ui.xml.h:29
 msgid "Copy current folder"
 msgstr "Kopiera aktuell mapp"
 
-#: src/gthumb-ui.xml.h:26
+#: src/gthumb-ui.xml.h:30
 msgid "Copy selected folder"
 msgstr "Kopiera vald mapp"
 
-#: src/gthumb-ui.xml.h:27
+#: src/gthumb-ui.xml.h:31
 msgid "Copy selected images to another location"
 msgstr "Kopiera de valda bilderna till en annan plats"
 
-#: src/gthumb-ui.xml.h:28
+#: src/gthumb-ui.xml.h:32
 msgid "Copy this image to another location"
 msgstr "Kopiera denna bild till en annan plats"
 
-#: src/gthumb-ui.xml.h:29
+#: src/gthumb-ui.xml.h:33
 msgid "Create _Index Image"
 msgstr "Skapa _indexbild"
 
-#: src/gthumb-ui.xml.h:30
+#: src/gthumb-ui.xml.h:34
 msgid "Create _Web Album"
 msgstr "Skapa _webbalbum"
 
-#: src/gthumb-ui.xml.h:31
+#: src/gthumb-ui.xml.h:35
 msgid "Create a new catalog"
 msgstr "Skapa ett nytt album"
 
-#: src/gthumb-ui.xml.h:32
+#: src/gthumb-ui.xml.h:36
 msgid "Create a new catalog library"
 msgstr "Skapa ett nytt albumbibliotek"
 
-#: src/gthumb-ui.xml.h:33
+#: src/gthumb-ui.xml.h:37
 msgid "Create a new folder"
 msgstr "Skapa en ny mapp"
 
-#: src/gthumb-ui.xml.h:34
+#: src/gthumb-ui.xml.h:38
 msgid "Create a new window"
 msgstr "Skapa ett nytt fönster"
 
-#: src/gthumb-ui.xml.h:35
+#: src/gthumb-ui.xml.h:39
+msgid "Crop image"
+msgstr "Beskär bild"
+
+#: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
 msgstr "_Duplicera"
 
-#: src/gthumb-ui.xml.h:36
+#: src/gthumb-ui.xml.h:41
 msgid "Delete the list of visited locations"
 msgstr "Ta bort listan över besökta platser"
 
-#: src/gthumb-ui.xml.h:37
+#: src/gthumb-ui.xml.h:42
 msgid "Duplicate selected image"
 msgstr "Duplicera den valda bilden"
 
-#: src/gthumb-ui.xml.h:38
+#: src/gthumb-ui.xml.h:43
 msgid "Duplicate this image"
 msgstr "Duplicera denna bild"
 
-#: src/gthumb-ui.xml.h:39
+#: src/gthumb-ui.xml.h:44
 msgid "E_xit"
 msgstr "_Avsluta"
 
-#: src/gthumb-ui.xml.h:40
+#: src/gthumb-ui.xml.h:45
 msgid "Edit Search"
 msgstr "Redigera sökning"
 
-#: src/gthumb-ui.xml.h:41
+#: src/gthumb-ui.xml.h:46
 msgid "Edit bookmarks"
 msgstr "Redigera bokmärken"
 
-#: src/gthumb-ui.xml.h:42
+#: src/gthumb-ui.xml.h:47
 msgid "Edit various preferences"
 msgstr "Redigera olika inställningar"
 
-#: src/gthumb-ui.xml.h:43
+#: src/gthumb-ui.xml.h:48
 msgid "Fi_nd Duplicates..."
 msgstr "S_ök dubletter..."
 
-#: src/gthumb-ui.xml.h:44
+#: src/gthumb-ui.xml.h:49
 msgid "Find images"
 msgstr "Sök bilder"
 
-#: src/gthumb-ui.xml.h:45
+#: src/gthumb-ui.xml.h:50
 msgid "Fit"
 msgstr "Passa"
 
-#: src/gthumb-ui.xml.h:46
+#: src/gthumb-ui.xml.h:51
 msgid "Folders"
 msgstr "Mappar"
 
-#: src/gthumb-ui.xml.h:47
+#: src/gthumb-ui.xml.h:52
 msgid "Forward"
 msgstr "Framåt"
 
-#: src/gthumb-ui.xml.h:48
+#: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
 msgstr "Helskärmsläge"
 
-#: src/gthumb-ui.xml.h:49
+#: src/gthumb-ui.xml.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "Gå till mappen som innehåller den valda bilden"
 
-#: src/gthumb-ui.xml.h:50
+#: src/gthumb-ui.xml.h:55
 msgid "Go to the home folder"
 msgstr "Gå till hemmappen"
 
-#: src/gthumb-ui.xml.h:51
+#: src/gthumb-ui.xml.h:56
 msgid "Go to the next visited location"
 msgstr "Gå till nästa besökta plats"
 
-#: src/gthumb-ui.xml.h:52
+#: src/gthumb-ui.xml.h:57
 msgid "Go to the previous visited location"
 msgstr "Gå till föregående besökta plats"
 
-#: src/gthumb-ui.xml.h:53
+#: src/gthumb-ui.xml.h:58
 msgid "Go up one level"
 msgstr "Gå upp en nivå"
 
-#: src/gthumb-ui.xml.h:54
+#: src/gthumb-ui.xml.h:59
 msgid "Home"
 msgstr "Hem"
 
-#: src/gthumb-ui.xml.h:55
+#: src/gthumb-ui.xml.h:60
 msgid "Image Toolbar"
 msgstr "Bildverktygsrad"
 
+#: src/gthumb-ui.xml.h:61
+msgid "Image _Comment"
+msgstr "Bild_kommentar"
+
 # Tror detta är i sammanhanget "zoom in"
-#: src/gthumb-ui.xml.h:56
+#: src/gthumb-ui.xml.h:62
 msgid "In"
 msgstr "In"
 
-#: src/gthumb-ui.xml.h:57
-msgid "Information"
-msgstr "Information"
-
-#: src/gthumb-ui.xml.h:58
+#: src/gthumb-ui.xml.h:63
 msgid "Main Toolbar"
 msgstr "Huvudverktygsrad"
 
-#: src/gthumb-ui.xml.h:59
+#: src/gthumb-ui.xml.h:64
 msgid "Modify search criteria"
 msgstr "Ändra sökkriterium"
 
-#: src/gthumb-ui.xml.h:60
+#: src/gthumb-ui.xml.h:65
 msgid "Move current catalog to another location"
 msgstr "Flytta aktuellt album till en annan plats"
 
-#: src/gthumb-ui.xml.h:61
+#: src/gthumb-ui.xml.h:66
 msgid "Move current folder"
 msgstr "Flytta aktuell mapp"
 
-#: src/gthumb-ui.xml.h:62
+#: src/gthumb-ui.xml.h:67
 msgid "Move selected catalog to another location"
 msgstr "Flytta det valda albumet till en annan plats"
 
-#: src/gthumb-ui.xml.h:63
+#: src/gthumb-ui.xml.h:68
 msgid "Move selected folder"
 msgstr "Flytta aktuell mapp"
 
-#: src/gthumb-ui.xml.h:64
+#: src/gthumb-ui.xml.h:69
 msgid "Move selected images to another location"
 msgstr "Flytta de valda bilderna till en annan plats"
 
-#: src/gthumb-ui.xml.h:65
+#: src/gthumb-ui.xml.h:70
 msgid "Move the current folder to the Trash"
 msgstr "Flytta aktuell mapp till papperskorgen"
 
-#: src/gthumb-ui.xml.h:66
+#: src/gthumb-ui.xml.h:71
 msgid "Move the selected folder to the Trash"
 msgstr "Flytta den valda mappen till papperskorgen"
 
-#: src/gthumb-ui.xml.h:67
+#: src/gthumb-ui.xml.h:72
 msgid "Move the selected images to the Trash"
 msgstr "Flytta de valda bilderna till papperskorgen"
 
-#: src/gthumb-ui.xml.h:68
+#: src/gthumb-ui.xml.h:73
 msgid "Move this image to another location"
 msgstr "Flytta denna bild till en annan plats"
 
-#: src/gthumb-ui.xml.h:69
+#: src/gthumb-ui.xml.h:74
 msgid "Move this image to the Trash"
 msgstr "Flytta denna bild till papperskorgen"
 
-#: src/gthumb-ui.xml.h:70 src/gthumb_tools.glade.h:30
+#: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
 msgstr "Flytta till _papperskorgen"
 
-#: src/gthumb-ui.xml.h:71
+#: src/gthumb-ui.xml.h:76
 msgid "New _Library..."
 msgstr "Nytt _bibliotek..."
 
-#: src/gthumb-ui.xml.h:72
+#: src/gthumb-ui.xml.h:77
 msgid "New _Window"
 msgstr "Nytt _fönster"
 
-#: src/gthumb-ui.xml.h:73
+#: src/gthumb-ui.xml.h:78
 msgid "Next"
 msgstr "Nästa"
 
-#: src/gthumb-ui.xml.h:74
+#: src/gthumb-ui.xml.h:79
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Öppna aktuell mapp med filhanteraren Nautilus"
 
-#: src/gthumb-ui.xml.h:75
+#: src/gthumb-ui.xml.h:80
 msgid "Open selected images with an application"
 msgstr "Öppna valda bilder med ett program"
 
-#: src/gthumb-ui.xml.h:76
+#: src/gthumb-ui.xml.h:81
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
 msgstr "Öppna den valda mappen med filhanteraren Nautilus"
 
-#: src/gthumb-ui.xml.h:78
+#: src/gthumb-ui.xml.h:83
 msgid "Open this image with an application"
 msgstr "Öppna denna bild med ett program"
 
-#: src/gthumb-ui.xml.h:79
+#: src/gthumb-ui.xml.h:84
 msgid "Open with the File Manager"
 msgstr "Öppna med filhanteraren"
 
-#: src/gthumb-ui.xml.h:80
+#: src/gthumb-ui.xml.h:85
 msgid "Open with the _File Manager"
 msgstr "Öppna med _filhanteraren"
 
-#: src/gthumb-ui.xml.h:81
+#: src/gthumb-ui.xml.h:86
 msgid "Out"
 msgstr "Ut"
 
-#: src/gthumb-ui.xml.h:82
+#: src/gthumb-ui.xml.h:87
 msgid "Play _Animation"
 msgstr "Spela _animering"
 
-#: src/gthumb-ui.xml.h:83
+#: src/gthumb-ui.xml.h:88
 msgid "Previous"
 msgstr "Föregående"
 
-#: src/gthumb-ui.xml.h:84
+#: src/gthumb-ui.xml.h:89
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/gthumb-ui.xml.h:86
+#: src/gthumb-ui.xml.h:91
 msgid "Proper_ties"
 msgstr "Egenska_per"
 
-#: src/gthumb-ui.xml.h:87
-msgid "Properties"
-msgstr "Egenskaper"
-
-#: src/gthumb-ui.xml.h:88
+#: src/gthumb-ui.xml.h:92
 msgid "Redo Search"
 msgstr "Gör om sökning"
 
-#: src/gthumb-ui.xml.h:89
+#: src/gthumb-ui.xml.h:93
 msgid "Redo _Search"
 msgstr "Gör om _sökning"
 
-#: src/gthumb-ui.xml.h:90
+#: src/gthumb-ui.xml.h:94
 msgid "Redo the search"
 msgstr "Gör om sökningen"
 
-#: src/gthumb-ui.xml.h:91
+#: src/gthumb-ui.xml.h:95
 msgid "Reduce number of colors"
 msgstr "Reducera antalet färger"
 
-#: src/gthumb-ui.xml.h:92
+#: src/gthumb-ui.xml.h:96
 msgid "Reduce the number of colors"
 msgstr "Reducera antalet färger"
 
-#: src/gthumb-ui.xml.h:93
+#: src/gthumb-ui.xml.h:97
 msgid "Reload the current location"
 msgstr "Läs om aktuell plats"
 
-#: src/gthumb-ui.xml.h:94
+#: src/gthumb-ui.xml.h:98
 msgid "Rem_ove"
 msgstr "Ta _bort"
 
-#: src/gthumb-ui.xml.h:95
+#: src/gthumb-ui.xml.h:99
 msgid "Rem_ove Comment"
 msgstr "Ta _bort kommentar"
 
-#: src/gthumb-ui.xml.h:96
+#: src/gthumb-ui.xml.h:100
 msgid "Remo_ve from Catalog"
 msgstr "Ta _bort från album"
 
-#: src/gthumb-ui.xml.h:97
+#: src/gthumb-ui.xml.h:101
 msgid "Remove comments of selected images"
 msgstr "Ta bort kommentarer från valda bilder"
 
-#: src/gthumb-ui.xml.h:98
+#: src/gthumb-ui.xml.h:102
 msgid "Remove current catalog"
 msgstr "Ta bort aktuellt album"
 
-#: src/gthumb-ui.xml.h:99
+#: src/gthumb-ui.xml.h:103
 msgid "Remove selected catalog"
 msgstr "Ta bort valt album"
 
-#: src/gthumb-ui.xml.h:100
+#: src/gthumb-ui.xml.h:104
 msgid "Remove selected images from the catalog"
 msgstr "Ta bort de valda bilderna från albumet"
 
-#: src/gthumb-ui.xml.h:101
+#: src/gthumb-ui.xml.h:105
 msgid "Remove the comment"
 msgstr "Ta bort kommentaren"
 
-#: src/gthumb-ui.xml.h:102
+#: src/gthumb-ui.xml.h:106
 msgid "Rename current catalog"
 msgstr "Byt namn på aktuellt album"
 
-#: src/gthumb-ui.xml.h:103
+#: src/gthumb-ui.xml.h:107
 msgid "Rename current folder"
 msgstr "Byt namn på aktuell mapp"
 
-#: src/gthumb-ui.xml.h:104
+#: src/gthumb-ui.xml.h:108
 msgid "Rename selected catalog"
 msgstr "Byt namn på valt album"
 
-#: src/gthumb-ui.xml.h:105
+#: src/gthumb-ui.xml.h:109
 msgid "Rename selected folder"
 msgstr "Byt namn på vald mapp"
 
-#: src/gthumb-ui.xml.h:106
+#: src/gthumb-ui.xml.h:110
 msgid "Rename selected image"
 msgstr "Byt namn på vald bild"
 
-#: src/gthumb-ui.xml.h:107
+#: src/gthumb-ui.xml.h:111
 msgid "Rename this image"
 msgstr "Byt namn på denna bild"
 
-#: src/gthumb-ui.xml.h:108
+#: src/gthumb-ui.xml.h:112
 msgid "Resize image"
 msgstr "Ändra storlek på bild"
 
-#: src/gthumb-ui.xml.h:110
+#: src/gthumb-ui.xml.h:114
 msgid "Restore the original desktop wallpaper"
 msgstr "Återställ ursprunglig bakgrundsbild"
 
-#: src/gthumb-ui.xml.h:111
+#: src/gthumb-ui.xml.h:115
 msgid "Reverse images order"
 msgstr "Omvänd bildordning"
 
-#: src/gthumb-ui.xml.h:112
+#: src/gthumb-ui.xml.h:116
 msgid "Revert"
 msgstr "Återgå"
 
-#: src/gthumb-ui.xml.h:113
+#: src/gthumb-ui.xml.h:117
 msgid "Revert to saved image"
 msgstr "Återgå till sparad bild"
 
-#: src/gthumb-ui.xml.h:115
+#: src/gthumb-ui.xml.h:119
 msgid "Rotate Ri_ght"
 msgstr "Rotera hö_ger"
 
-#: src/gthumb-ui.xml.h:116
+#: src/gthumb-ui.xml.h:120
 msgid "Rotate _JPEG"
 msgstr "Rotera _JPEG"
 
-#: src/gthumb-ui.xml.h:117
+#: src/gthumb-ui.xml.h:121
 msgid "Rotate _Left"
 msgstr "Rotera _vänster"
 
-#: src/gthumb-ui.xml.h:118
+#: src/gthumb-ui.xml.h:122
 msgid "Rotate image"
 msgstr "Rotera bild"
 
-#: src/gthumb-ui.xml.h:119
+#: src/gthumb-ui.xml.h:123
 msgid "Rotate jpeg images without loss of quality"
 msgstr "Rotera jpeg-bilder utan kvalitetsförlust"
 
-#: src/gthumb-ui.xml.h:120
+#: src/gthumb-ui.xml.h:124
 msgid "S_ort Images"
 msgstr "S_ortera bilder"
 
-#: src/gthumb-ui.xml.h:121
+#: src/gthumb-ui.xml.h:125
 msgid "Save"
 msgstr "Spara"
 
-#: src/gthumb-ui.xml.h:124
+#: src/gthumb-ui.xml.h:128
 msgid "Search"
 msgstr "Sök"
 
-#: src/gthumb-ui.xml.h:125
+#: src/gthumb-ui.xml.h:129
 msgid "Select all images"
 msgstr "Välj alla bilder"
 
-#: src/gthumb-ui.xml.h:126
+#: src/gthumb-ui.xml.h:130
 msgid "Set Image as _Wallpaper"
 msgstr "Spara bild som _bakgrund"
 
-#: src/gthumb-ui.xml.h:127
+#: src/gthumb-ui.xml.h:131
 msgid "Set the image as desktop background (centered)"
 msgstr "Använd bilden som bakgrund på skrivbordet (centrerad)"
 
-#: src/gthumb-ui.xml.h:128
+#: src/gthumb-ui.xml.h:132
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
 "Använd bilden som skrivbordsbakgrund (skalad och behåll höjd-/"
 "breddförhållande)"
 
-#: src/gthumb-ui.xml.h:129
+#: src/gthumb-ui.xml.h:133
 msgid "Set the image as desktop background (stretched)"
 msgstr "Använd bilden som skrivbordsbakgrund (utsträckt)"
 
-#: src/gthumb-ui.xml.h:130
+#: src/gthumb-ui.xml.h:134
 msgid "Set the image as desktop background (tiled)"
 msgstr "Använd bilden som skrivbordsbakgrund (sida vid sida)"
 
-#: src/gthumb-ui.xml.h:131
+#: src/gthumb-ui.xml.h:135
 msgid "Show information about gThumb"
 msgstr "Visa information om gThumb"
 
-#: src/gthumb-ui.xml.h:132
+#: src/gthumb-ui.xml.h:136
 msgid "Show/_Hide"
 msgstr "Visa/_dölj"
 
-#: src/gthumb-ui.xml.h:133 src/gthumb_preferences.glade.h:63
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:51
 msgid "Slide Show"
 msgstr "Bildspel"
 
-#: src/gthumb-ui.xml.h:134
+#: src/gthumb-ui.xml.h:138
 msgid "Sort images by file size"
 msgstr "Sortera bilder efter filstorlek"
 
-#: src/gthumb-ui.xml.h:135
+#: src/gthumb-ui.xml.h:139
 msgid "Sort images by modification time"
 msgstr "Sortera bilder efter ändringsdatum"
 
-#: src/gthumb-ui.xml.h:136
+#: src/gthumb-ui.xml.h:140
 msgid "Sort images by name"
 msgstr "Sortera bilder efter namn"
 
-#: src/gthumb-ui.xml.h:137
+#: src/gthumb-ui.xml.h:141
 msgid "Sort images by path"
 msgstr "Sortera bilder efter sökväg"
 
-#: src/gthumb-ui.xml.h:138
+#: src/gthumb-ui.xml.h:142
 msgid "Specify a location to visit"
 msgstr "Ange en plats att besöka"
 
-#: src/gthumb-ui.xml.h:140
+#: src/gthumb-ui.xml.h:144
 msgid "Step A_nimation"
 msgstr "Stega igenom a_nimering"
 
-#: src/gthumb-ui.xml.h:141
+#: src/gthumb-ui.xml.h:145
 msgid "Stop loading current location"
 msgstr "Stoppa inläsning av aktuell plats"
 
-#: src/gthumb-ui.xml.h:142
+#: src/gthumb-ui.xml.h:146
 msgid "Str_etched"
 msgstr "Utstr_äckt"
 
-#: src/gthumb-ui.xml.h:143
+#: src/gthumb-ui.xml.h:147
 msgid "Transparen_cy Type"
 msgstr "T_ransparenstyp"
 
-#: src/gthumb-ui.xml.h:144
+#: src/gthumb-ui.xml.h:148
 msgid "Up"
 msgstr "Upp"
 
-#: src/gthumb-ui.xml.h:145
+#: src/gthumb-ui.xml.h:149
 msgid "Use black as transparency"
 msgstr "Använd svart som transparens"
 
-#: src/gthumb-ui.xml.h:146
+#: src/gthumb-ui.xml.h:150
 msgid "Use checks as transparency"
 msgstr "Använd rutor som transparens"
 
-#: src/gthumb-ui.xml.h:147
+#: src/gthumb-ui.xml.h:151
 msgid "Use gray as transparency"
 msgstr "Använd grått som transparens"
 
-#: src/gthumb-ui.xml.h:148
+#: src/gthumb-ui.xml.h:152
 msgid "Use high quality zoom"
 msgstr "Använd högkvalitativ zoom"
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:153
 msgid "Use low quality zoom"
 msgstr "Använd lågkvalititiv zoom"
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:154
 msgid "Use white as transparency"
 msgstr "Använd vitt som transparens"
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:155
 msgid "View as List"
 msgstr "Visa som lista"
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:156
 msgid "View as Thumbnails"
 msgstr "Visa som miniatyrbilder"
 
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:157
 msgid "View as a slide show"
 msgstr "Visa som ett bildspel"
 
-#: src/gthumb-ui.xml.h:154
+#: src/gthumb-ui.xml.h:158
+msgid "View image comment"
+msgstr "Visa bildkommentar"
+
+#: src/gthumb-ui.xml.h:159
 msgid "View image in fullscreen mode"
 msgstr "Visa bilden i helskärmsläge"
 
-#: src/gthumb-ui.xml.h:155
+#: src/gthumb-ui.xml.h:160
 msgid "View image properties"
 msgstr "Visa bildegenskaper"
 
-#: src/gthumb-ui.xml.h:157
+#: src/gthumb-ui.xml.h:162
 msgid "View next image"
 msgstr "Visa nästa bild"
 
-#: src/gthumb-ui.xml.h:158
+#: src/gthumb-ui.xml.h:163
 msgid "View or hide the statusbar of this window"
 msgstr "Visa eller dölj statusraden för detta fönster"
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:164
 msgid "View or hide the toolbar of this window"
 msgstr "Visa eller dölj verktygsraden för detta fönster"
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:165
 msgid "View previous image"
 msgstr "Visa föregående bild"
 
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:166
 msgid "View the catalogs"
 msgstr "Visa albumen"
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:167
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:168
 msgid "View the image"
 msgstr "Visa bilden"
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:169
 msgid "View the image flipped"
 msgstr "Visa bilden omvänd"
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:170
 msgid "View the image in black and white"
 msgstr "Visa bilden i svartvitt"
 
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:171
 msgid "View the image mirrored"
 msgstr "Visa bilden spegelvänd"
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:172
 msgid "View the image rotated clockwise"
 msgstr "Visa bilden roterad medsols"
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:173
 msgid "View the image rotated counter-clockwise"
 msgstr "Visa bilden roterad motsols"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:174
 msgid "View the image with negative colors"
 msgstr "Visa bilden med negativa färger"
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:175
 msgid "View thumbnails"
 msgstr "Visa miniatyrbilder"
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:176
 msgid "Zoom _In"
 msgstr "Zooma _in"
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:177
 msgid "Zoom _Out"
 msgstr "Zooma _ut"
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:178
 msgid "Zoom in"
 msgstr "Zomma in"
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:179
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:180
 msgid "Zoom to _Fit"
 msgstr "Anpassa till _fönstret"
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:181
 msgid "Zoom to fit window"
 msgstr "Anpassa till fönstret"
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:182
 msgid "_About"
 msgstr "_Om"
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:183
 msgid "_Actual Size"
 msgstr "_Naturlig storlek"
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:184
 msgid "_Add Bookmark"
 msgstr "_Lägg till bokmärke"
 
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:185
 msgid "_Add to Catalog..."
 msgstr "_Lägg till i album..."
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:186
 msgid "_Adjust Color Levels"
 msgstr "_Justera färgbalans"
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:187
 msgid "_Back"
 msgstr "_Bakåt"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:189
 msgid "_Bookmarks"
 msgstr "_Bokmärken"
 
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:190
 msgid "_Brightness-Contrast"
 msgstr "_Ljusstyrka-kontrast"
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:191
 msgid "_Catalogs"
 msgstr "_Album"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:192
 msgid "_Centered"
 msgstr "_Centrerad"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:194
 msgid "_Close"
 msgstr "S_täng"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:195
 msgid "_Color Balance"
 msgstr "_Färgbalans"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:196
 msgid "_Contents"
 msgstr "_Innehåll"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:197
 msgid "_Copy..."
 msgstr "_Kopiera..."
 
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:198
+msgid "_Crop"
+msgstr "_Beskär"
+
+#: src/gthumb-ui.xml.h:199
 msgid "_Delete History"
 msgstr "_Ta bort historik"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:200
 msgid "_Desaturate"
 msgstr "_Avmätta"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:201
 msgid "_Edit"
 msgstr "_Redigera"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:202
 msgid "_Edit Bookmarks"
 msgstr "_Redigera bokmärken"
 
-#: src/gthumb-ui.xml.h:197 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:203 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
 msgstr "_Redigera sökning"
 
-#: src/gthumb-ui.xml.h:198
-msgid "_Equalize Histogram"
-msgstr "_Jämna ut histogram"
+#: src/gthumb-ui.xml.h:204
+msgid "_Equalize"
+msgstr "_Jämna ut"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:205
 msgid "_File"
 msgstr "_Arkiv"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:206
 msgid "_Find..."
 msgstr "_Sök..."
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:208
 msgid "_Folder"
 msgstr "_Mapp"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:209
 msgid "_Folders"
 msgstr "_Mappar"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:210
 msgid "_Forward"
 msgstr "_Framåt"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:211
 msgid "_Full Screen"
 msgstr "_Helskärmsläge"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:212
 msgid "_Go"
 msgstr "_Gå"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:213
 msgid "_Go to the Image Folder"
 msgstr "_Gå till bildmappen"
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:214
 msgid "_Help"
 msgstr "_Hjälp"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:215
 msgid "_High Quality"
 msgstr "_Hög kvalitet"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:216
 msgid "_Home"
 msgstr "_Hem"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:217
 msgid "_Hue-Saturation"
 msgstr "_Nyans-mättnad"
 
-#: src/gthumb-ui.xml.h:213
-msgid "_Image preview"
+#: src/gthumb-ui.xml.h:219
+msgid "_Image Preview"
 msgstr "_Bildförhandsgranskning"
 
-#: src/gthumb-ui.xml.h:214
+#: src/gthumb-ui.xml.h:220
 msgid "_Keyboard Shortcuts"
 msgstr "_Tangentbordsgenvägar"
 
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:221
 msgid "_Location..."
 msgstr "_Plats..."
 
-#: src/gthumb-ui.xml.h:216
+#: src/gthumb-ui.xml.h:222
 msgid "_Low Quality"
 msgstr "_Låg kvalitet"
 
-#: src/gthumb-ui.xml.h:217
+#: src/gthumb-ui.xml.h:223
 msgid "_Maintenance"
 msgstr "_Underhåll"
 
-#: src/gthumb-ui.xml.h:219
+#: src/gthumb-ui.xml.h:225
 msgid "_Move..."
 msgstr "_Flytta..."
 
-#: src/gthumb-ui.xml.h:220
+#: src/gthumb-ui.xml.h:226
 msgid "_Negative"
 msgstr "_Negativ"
 
-#: src/gthumb-ui.xml.h:221
+#: src/gthumb-ui.xml.h:227
 msgid "_New Catalog..."
 msgstr "_Nytt album..."
 
-#: src/gthumb-ui.xml.h:222
+#: src/gthumb-ui.xml.h:228
 msgid "_New Folder..."
 msgstr "_Ny mapp..."
 
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:230
+msgid "_Normalize"
+msgstr "_Normalisera"
+
+#: src/gthumb-ui.xml.h:231
 msgid "_Open With"
 msgstr "_Öppna med"
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:232
 msgid "_Posterize"
 msgstr "_Posterisera"
 
-#: src/gthumb-ui.xml.h:226 src/gthumb_png_exporter.glade.h:66
+#: src/gthumb-ui.xml.h:233 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
 msgstr "_Inställningar"
 
-#: src/gthumb-ui.xml.h:227
+#: src/gthumb-ui.xml.h:234
 msgid "_Print..."
 msgstr "Skriv _ut..."
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:235
 msgid "_Reduce Colors"
 msgstr "_Reducera färger"
 
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:236
 msgid "_Reload"
 msgstr "_Läs om"
 
-#: src/gthumb-ui.xml.h:231
+#: src/gthumb-ui.xml.h:238
 msgid "_Rename Series"
 msgstr "_Byt namn på serier"
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:239
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: src/gthumb-ui.xml.h:233
+#: src/gthumb-ui.xml.h:240
 msgid "_Resize"
 msgstr "_Ändra storlek"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:241
 msgid "_Restore"
 msgstr "_Återställ"
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:242
 msgid "_Reversed Order"
 msgstr "_Omvänd ordning"
 
-#: src/gthumb-ui.xml.h:236
+#: src/gthumb-ui.xml.h:243
 msgid "_Revert"
 msgstr "_Återgå"
 
-#: src/gthumb-ui.xml.h:237
+#: src/gthumb-ui.xml.h:244
 msgid "_Rotate"
 msgstr "_Rotera"
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:245
 msgid "_Scaled"
 msgstr "_Skalad"
 
-#: src/gthumb-ui.xml.h:239 src/gthumb_search.glade.h:30
+#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:29
 msgid "_Search"
 msgstr "_Sök"
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:247
 msgid "_Select All"
 msgstr "_Välj alla"
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:248
 msgid "_Slide Show"
 msgstr "_Bildspel"
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:249
 msgid "_Statusbar"
 msgstr "_Statusrad"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:250
 msgid "_Stop"
 msgstr "_Stopp"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:251
+msgid "_Stretch Contrast"
+msgstr "_Sträck ut kontrast"
+
+#: src/gthumb-ui.xml.h:252
+msgid "_Threshold"
+msgstr "_Tröskel"
+
+#: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:64
 msgid "_Thumbnails"
 msgstr "_Miniatyrbilder"
 
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb-ui.xml.h:254
 msgid "_Tiled"
 msgstr "_Sida vid sida"
 
-#: src/gthumb-ui.xml.h:246
+#: src/gthumb-ui.xml.h:255
 msgid "_Toolbar"
 msgstr "_Verktygsrad"
 
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:256
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:257
+msgid "_Transform"
+msgstr "_Transformera"
+
+#: src/gthumb-ui.xml.h:258
 msgid "_Up"
 msgstr "_Upp"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:261
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:262
 msgid "by _Name"
 msgstr "efter _namn"
 
-#: src/gthumb-ui.xml.h:253
+#: src/gthumb-ui.xml.h:263
 msgid "by _Path"
 msgstr "efter sök_väg"
 
-#: src/gthumb-ui.xml.h:254
+#: src/gthumb-ui.xml.h:264
 msgid "by _Size"
 msgstr "efter _storlek"
 
-#: src/gthumb-ui.xml.h:255
+#: src/gthumb-ui.xml.h:265
 msgid "by _Time"
 msgstr "efter _tid"
 
-#: src/gthumb-window.c:525
+#: src/gthumb-window.c:684
+msgid "Press 'c' to add a comment"
+msgstr "Tryck \"c\" för att lägga till en kommentar"
+
+#: src/gthumb-window.c:866
 msgid "No image"
 msgstr "Ingen bild"
 
-#: src/gthumb-window.c:527
+#: src/gthumb-window.c:868
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 bild (%s)"
 
-#: src/gthumb-window.c:530
+#: src/gthumb-window.c:871
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d bilder (%s)"
 
-#: src/gthumb-window.c:537
+#: src/gthumb-window.c:878
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 markerad (%s)"
 
-#: src/gthumb-window.c:540
+#: src/gthumb-window.c:881
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:2851
+#: src/gthumb-window.c:3318
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: src/gthumb-window.c:3029
+#: src/gthumb-window.c:3511
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: src/gthumb-window.c:3722
+#: src/gthumb-window.c:4207
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/gthumb-window.c:5607
+#: src/gthumb-window.c:5079
+msgid "Image comment"
+msgstr "Bildkommentar"
+
+#: src/gthumb-window.c:5093
+msgid "Image data"
+msgstr "Bilddata"
+
+#: src/gthumb-window.c:5107
+msgid "Image preview"
+msgstr "Bildförhandsgranskning"
+
+#: src/gthumb-window.c:6362
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:5877
+#: src/gthumb-window.c:6632
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: src/gthumb-window.c:7209
+#: src/gthumb-window.c:7959
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
-#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
-#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_search.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb_preferences.glade.h:1 src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
 #: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:2 src/gthumb_tools.glade.h:3
+#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1890,55 +1938,72 @@ msgid "_Previous"
 msgstr "_Föregående"
 
 #: src/gthumb.glade.h:34
+msgid "_Remove"
+msgstr "_Ta bort"
+
+#: src/gthumb.glade.h:35
 msgid "_Save the new image as:"
 msgstr "_Spara den nya bilden som:"
 
+#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
+#: src/gthumb_search.glade.h:2
+msgid "..."
+msgstr "..."
+
 # src/gthumb_search.glade.h:
-#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
+#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "T_illgängliga kategorier:"
 
-#: src/gthumb_comments.glade.h:4
-msgid "Add a category"
-msgstr "Lägg till en kategori"
-
-#: src/gthumb_comments.glade.h:5 src/gthumb_tools.glade.h:10
+#: src/gthumb_comments.glade.h:4 src/gthumb_tools.glade.h:10
 msgid "C_urrent date"
 msgstr "A_ktuellt datum"
 
-#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:15
+#: src/gthumb_comments.glade.h:6
+msgid "Choose Date"
+msgstr "Välj datum"
+
+#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
 msgid "Co_mment:"
 msgstr "Ko_mmentar:"
 
-#: src/gthumb_comments.glade.h:9 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:9
+msgid "Create a new category"
+msgstr "Skapa en ny kategori"
+
+#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Datum för s_kapande av bilden"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Bild_digitaliseringsdatum (från EXIF-data)"
 
-#: src/gthumb_comments.glade.h:11
+#: src/gthumb_comments.glade.h:12
 msgid "Remove selected category"
 msgstr "Ta bort vald kategori"
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
 msgstr "Spara endast _ändrade fält"
 
-#: src/gthumb_comments.glade.h:13 src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "_Följande datum:"
-
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:25
+#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Datum:"
 
-#: src/gthumb_comments.glade.h:15 src/gthumb_search.glade.h:28
+#: src/gthumb_comments.glade.h:15
+msgid "_Delete"
+msgstr "_Ta bort"
+
+#: src/gthumb_comments.glade.h:16
+msgid "_New"
+msgstr "_Ny"
+
+#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Plats:"
 
-#: src/gthumb_comments.glade.h:16 src/gthumb_search.glade.h:31
+#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "_Valda kategorier:"
 
@@ -2273,7 +2338,7 @@ msgstr "Ko_mmentar"
 msgid "Col_umns:"
 msgstr "Kol_umner:"
 
-#: src/gthumb_png_exporter.glade.h:26 src/gthumb_preferences.glade.h:31
+#: src/gthumb_png_exporter.glade.h:26
 msgid "Colo_r:"
 msgstr "Fä_rg:"
 
@@ -2385,7 +2450,7 @@ msgstr "Sor_tera bilder:"
 msgid "Sort"
 msgstr "Sortera"
 
-#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:24
+#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:23
 #: src/gthumb_tools.glade.h:41
 msgid "Start _at:"
 msgstr "Starta _från:"
@@ -2467,10 +2532,6 @@ msgstr "jpeg"
 #: src/gthumb_png_exporter.glade.h:77
 msgid "png"
 msgstr "png"
-
-#: src/gthumb_web_exporter.glade.h:4 src/gthumb_search.glade.h:3
-msgid "..."
-msgstr "..."
 
 #: src/gthumb_web_exporter.glade.h:5
 msgid "<b>Album</b>"
@@ -2569,252 +2630,215 @@ msgid "95 x 95"
 msgstr "95 × 95"
 
 #: src/gthumb_preferences.glade.h:13
-msgid "<b>Checks</b>"
-msgstr "<b>Rutor</b>"
-
-#: src/gthumb_preferences.glade.h:14
 msgid "<b>Direction</b>"
 msgstr "<b>Riktning</b>"
 
-#: src/gthumb_preferences.glade.h:15
+#: src/gthumb_preferences.glade.h:14
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Dölj/Visa</b>"
 
-#: src/gthumb_preferences.glade.h:16
-msgid "<b>History</b>"
-msgstr "<b>Historik</b>"
-
-#: src/gthumb_preferences.glade.h:17
+#: src/gthumb_preferences.glade.h:15
 msgid "<b>Interface</b>"
 msgstr "<b>Gränssnitt</b>"
 
-#: src/gthumb_preferences.glade.h:18
+#: src/gthumb_preferences.glade.h:16
 msgid "<b>On startup:</b>"
 msgstr "<b>Vid uppstart:</b>"
 
-#: src/gthumb_preferences.glade.h:19
+#: src/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
 msgstr "<b>Annat</b>"
 
-#: src/gthumb_preferences.glade.h:20
+#: src/gthumb_preferences.glade.h:18
 msgid "<b>Slide show</b>"
 msgstr "<b>Bildspel</b>"
 
-#: src/gthumb_preferences.glade.h:21 src/gthumb_tools.glade.h:7
-msgid "<b>Thumbnails</b>"
-msgstr "<b>Miniatyrbilder</b>"
+#: src/gthumb_preferences.glade.h:19
+msgid "<b>View images as</b>"
+msgstr "<b>Visa bilder som</b>"
 
-#: src/gthumb_preferences.glade.h:22
+#: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
 msgstr "<b>Visare</b>"
 
-#: src/gthumb_preferences.glade.h:23
+#: src/gthumb_preferences.glade.h:21
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Zoomkvalitet</b>"
+
+#: src/gthumb_preferences.glade.h:22
 msgid "Activate items with a double click"
 msgstr "Aktivera objekt med ett dubbelklick"
 
-#: src/gthumb_preferences.glade.h:24
+#: src/gthumb_preferences.glade.h:23
 msgid "Activate items with a single click"
 msgstr "Aktivera objekt med ett enkelklick"
 
-#: src/gthumb_preferences.glade.h:25
+#: src/gthumb_preferences.glade.h:24
 msgid "After _loading an image:"
 msgstr "När en bild är _inläst:"
 
-#: src/gthumb_preferences.glade.h:26
+#: src/gthumb_preferences.glade.h:25
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "Fr_åga efter bekräftelse innan bilder eller album tas bort"
 
-#: src/gthumb_preferences.glade.h:27
+#: src/gthumb_preferences.glade.h:26
 msgid "Black"
 msgstr "Svart"
 
-#: src/gthumb_preferences.glade.h:28
+#: src/gthumb_preferences.glade.h:27
 msgid "Browser"
 msgstr "Bläddrare"
 
-#: src/gthumb_preferences.glade.h:29
+#: src/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
 msgstr "Klick_policy:"
 
-#: src/gthumb_preferences.glade.h:30
+#: src/gthumb_preferences.glade.h:29
 msgid "Checked"
 msgstr "Rutor"
 
-#: src/gthumb_preferences.glade.h:32
+#: src/gthumb_preferences.glade.h:30
+msgid "Co_mments"
+msgstr "Ko_mmentarer"
+
+#: src/gthumb_preferences.glade.h:31
 msgid "D_elay before changing image:"
 msgstr "F_ördröjning innan ändring av bild:"
 
+#: src/gthumb_preferences.glade.h:32
+msgid "D_etermine image type from content (slower)"
+msgstr "A_vgör bildtyp från innehåll (långsammare)"
+
 #: src/gthumb_preferences.glade.h:33
-msgid "Dark"
-msgstr "Mörk"
-
-#: src/gthumb_preferences.glade.h:34
-msgid "Determine image type from co_ntent (slower)"
-msgstr "Avgör bildtyp från inne_håll (långsammare)"
-
-#: src/gthumb_preferences.glade.h:35
 msgid "Do _not change folder"
 msgstr "Byt _inte mapp"
 
-#: src/gthumb_preferences.glade.h:36
+#: src/gthumb_preferences.glade.h:34
 msgid "Fit image to window"
 msgstr "Anpassa bild till fönster"
 
-#: src/gthumb_preferences.glade.h:37
+#: src/gthumb_preferences.glade.h:35
 msgid "Fit to window if larger"
 msgstr "Anpassa till fönster om större"
 
-#: src/gthumb_preferences.glade.h:38
+#: src/gthumb_preferences.glade.h:36
 msgid "Follow Nautilus behaviour"
 msgstr "Följ Nautilus beteende"
 
-#: src/gthumb_preferences.glade.h:39
+#: src/gthumb_preferences.glade.h:37
 msgid "For_ward"
 msgstr "Fra_måt"
 
-#: src/gthumb_preferences.glade.h:40
+#: src/gthumb_preferences.glade.h:38
 msgid "General"
 msgstr "Allmänt"
 
-#: src/gthumb_preferences.glade.h:41
+#: src/gthumb_preferences.glade.h:39
 msgid "Go to last _visited folder or catalog"
 msgstr "Gå till senast _besökta mappen eller albumet"
 
-#: src/gthumb_preferences.glade.h:42
+#: src/gthumb_preferences.glade.h:40
 msgid "Go to this _folder:"
 msgstr "Gå till denna _mapp:"
 
-#: src/gthumb_preferences.glade.h:43
+#: src/gthumb_preferences.glade.h:41
 msgid "H_igh"
 msgstr "H_ög"
 
-#: src/gthumb_preferences.glade.h:44
+#: src/gthumb_preferences.glade.h:42
 msgid "Icons only"
 msgstr "Endast ikoner"
 
 # kanske zoomingsgrad- eller nivå? Zoomnivå?
-#: src/gthumb_preferences.glade.h:45
+#: src/gthumb_preferences.glade.h:43
 msgid "Keep previous zoom"
 msgstr "Behåll föregående zoomning"
 
-#: src/gthumb_preferences.glade.h:46
-msgid "Large"
-msgstr "Stor"
-
-#: src/gthumb_preferences.glade.h:47
+#: src/gthumb_preferences.glade.h:44
 msgid "Layout:"
 msgstr "Layout:"
 
-#: src/gthumb_preferences.glade.h:48
-msgid "Light"
-msgstr "Ljus"
-
-#: src/gthumb_preferences.glade.h:49
+#: src/gthumb_preferences.glade.h:45
 msgid "Lo_w"
 msgstr "L_åg"
 
-#: src/gthumb_preferences.glade.h:50
-msgid "Max _history length:"
-msgstr "Maxlängd på _historik:"
-
-#: src/gthumb_preferences.glade.h:51
-msgid "Medium"
-msgstr "Medel"
-
-# Bör komma med ngt bättre.
-#: src/gthumb_preferences.glade.h:52
-msgid "Mid tone"
-msgstr "Medelton"
-
-#: src/gthumb_preferences.glade.h:53
+#: src/gthumb_preferences.glade.h:46
 msgid "None"
 msgstr "Ingen"
 
-#: src/gthumb_preferences.glade.h:54
+#: src/gthumb_preferences.glade.h:47
 msgid "Re_verse"
 msgstr "Om_vänd"
 
-#: src/gthumb_preferences.glade.h:55
+#: src/gthumb_preferences.glade.h:48
 msgid "Resta_rt when finished"
 msgstr "Starta _om då avslutad"
 
-#: src/gthumb_preferences.glade.h:56
-msgid "Sa_ve thumbnails"
-msgstr "Spa_ra miniatyrbilder"
-
-#: src/gthumb_preferences.glade.h:57
+#: src/gthumb_preferences.glade.h:49
 msgid "Set image to actual size"
 msgstr "Ställ in bilden till naturlig storlek"
 
-#: src/gthumb_preferences.glade.h:58
+#: src/gthumb_preferences.glade.h:50
 msgid "Set to C_urrent"
 msgstr "Gör till a_ktuell"
 
-#: src/gthumb_preferences.glade.h:59
-msgid "Show _thumbnails"
-msgstr "Visa _miniatyrbilder"
-
-#: src/gthumb_preferences.glade.h:60
-msgid "Show co_mments"
-msgstr "Visa _kommentarer"
-
-#: src/gthumb_preferences.glade.h:61
-msgid "Show hi_dden images"
-msgstr "Visa _dolda bilder"
-
-#: src/gthumb_preferences.glade.h:62
-msgid "Si_ze:"
-msgstr "Sto_rlek:"
-
-#: src/gthumb_preferences.glade.h:64
-msgid "Small"
-msgstr "Liten"
-
-#: src/gthumb_preferences.glade.h:65
+#: src/gthumb_preferences.glade.h:52
 msgid "Switch to _full screen"
 msgstr "Växla till _helskärmsläge"
 
-#: src/gthumb_preferences.glade.h:66
+#: src/gthumb_preferences.glade.h:53
 msgid "System settings"
 msgstr "Systeminställningar"
 
-#: src/gthumb_preferences.glade.h:67
+#: src/gthumb_preferences.glade.h:54
 msgid "Text below icons"
 msgstr "Text under ikoner"
 
-#: src/gthumb_preferences.glade.h:68
+#: src/gthumb_preferences.glade.h:55
 msgid "Text beside icons"
 msgstr "Text bredvid ikoner"
 
-#: src/gthumb_preferences.glade.h:69
+#: src/gthumb_preferences.glade.h:56
 msgid "Text only"
 msgstr "Endast text"
 
-#: src/gthumb_preferences.glade.h:70
+#: src/gthumb_preferences.glade.h:57
+msgid "Th_umbnail size:"
+msgstr "_Miniatyrbildsstorlek:"
+
+#: src/gthumb_preferences.glade.h:58
 msgid "Transparency _type:"
 msgstr "Transparens_typ:"
 
-#: src/gthumb_preferences.glade.h:71
+#: src/gthumb_preferences.glade.h:59
 msgid "Viewer"
 msgstr "Visare"
 
-#: src/gthumb_preferences.glade.h:72
+#: src/gthumb_preferences.glade.h:60
 msgid "White"
 msgstr "Vit"
 
-#: src/gthumb_preferences.glade.h:73
-msgid "Zoom _quality:"
-msgstr "Zoom_kvalitet:"
+#: src/gthumb_preferences.glade.h:61
+msgid "_Filenames"
+msgstr "_Filnamn"
 
-#: src/gthumb_preferences.glade.h:74
+#: src/gthumb_preferences.glade.h:62
+msgid "_List"
+msgstr "_Lista"
+
+#: src/gthumb_preferences.glade.h:63
+msgid "_Slides"
+msgstr "_Diabilder"
+
+#: src/gthumb_preferences.glade.h:65
 msgid "_Toolbar style:"
 msgstr "_Verktygsradsstil:"
 
-#: src/gthumb_preferences.glade.h:75
+#: src/gthumb_preferences.glade.h:66
 msgid "gThumb Preferences"
 msgstr "Inställningar för gThumb"
 
-#: src/gthumb_preferences.glade.h:76
+#: src/gthumb_preferences.glade.h:67
 msgid "seconds"
 msgstr "sekunder"
 
@@ -2842,83 +2866,79 @@ msgstr "Förhandsgranska"
 msgid "_Scale:"
 msgstr "_Skala:"
 
-#: src/gthumb_search.glade.h:4
+#: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
 msgstr "<b>Sökkriterier</b>"
 
-#: src/gthumb_search.glade.h:5
+#: src/gthumb_search.glade.h:4
 msgid "<b>Search scope</b>"
 msgstr "<b>Sökomfång</b>"
 
-#: src/gthumb_search.glade.h:7
+#: src/gthumb_search.glade.h:6
 msgid "After"
 msgstr "Efter"
 
-#: src/gthumb_search.glade.h:8
-msgid "All catego_ries"
-msgstr "Alla katego_rier"
-
-#: src/gthumb_search.glade.h:9
+#: src/gthumb_search.glade.h:7
 msgid "Any"
 msgstr "Alla"
 
-#: src/gthumb_search.glade.h:10
-msgid "At _least a category"
-msgstr "_Minst en kategori"
-
-#: src/gthumb_search.glade.h:11
+#: src/gthumb_search.glade.h:8
 msgid "Before"
 msgstr "Före"
 
-#: src/gthumb_search.glade.h:12
+#: src/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
 msgstr "Ka_tegorier:"
 
-#: src/gthumb_search.glade.h:13
-msgid "Choose Categories"
-msgstr "Välj kategorier"
-
-#: src/gthumb_search.glade.h:14
+#: src/gthumb_search.glade.h:11
 msgid "Choose categories from the saved list"
 msgstr "Välj kategorier från den sparade listan"
 
-#: src/gthumb_search.glade.h:16
+#: src/gthumb_search.glade.h:13
 msgid "Equal to"
 msgstr "Lika med"
 
-#: src/gthumb_search.glade.h:17
+#: src/gthumb_search.glade.h:14
 msgid "File _name:"
 msgstr "Fil_namn:"
 
-#: src/gthumb_search.glade.h:18
+#: src/gthumb_search.glade.h:15
 msgid "Find"
 msgstr "Sök"
 
-#: src/gthumb_search.glade.h:19
+#: src/gthumb_search.glade.h:16
 msgid "Found images:"
 msgstr "Hittade bilder:"
 
-#: src/gthumb_search.glade.h:20
+#: src/gthumb_search.glade.h:17
+msgid "Match a_ll selected categories"
+msgstr "Matcha a_lla markerade kategorier"
+
+#: src/gthumb_search.glade.h:18
+msgid "Match a_ny selected category"
+msgstr "Matcha n_ågon markerad kategori"
+
+#: src/gthumb_search.glade.h:19
 msgid "New _Search..."
 msgstr "Ny _sökning..."
 
-#: src/gthumb_search.glade.h:21
+#: src/gthumb_search.glade.h:20
 msgid "No images found"
 msgstr "Inga bilder hittades"
 
-#: src/gthumb_search.glade.h:22
+#: src/gthumb_search.glade.h:21
 msgid "Search Progress"
 msgstr "Sökförlopp"
 
-#: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:40
+#: src/gthumb_search.glade.h:22 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
 msgstr "Söker i:"
 
-#: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
+#: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
 msgstr "_Inkludera undermappar"
 
-#: src/gthumb_search.glade.h:29
+#: src/gthumb_search.glade.h:28
 msgid "_Save"
 msgstr "_Spara"
 
@@ -2933,6 +2953,10 @@ msgstr "<b>Fillisteordning</b>"
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
 msgstr "<b>Ange en mall som ska användas för namnbyte av bilder</b>"
+
+#: src/gthumb_tools.glade.h:7
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Miniatyrbilder</b>"
 
 #: src/gthumb_tools.glade.h:8
 msgid "Apply to _all images"
@@ -3046,6 +3070,10 @@ msgstr "Rotera bilden 90 grader motsols"
 msgid "Search terminated, no duplicates found."
 msgstr "Sökningen avslutad, inga dubletter hittades."
 
+#: src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "_Följande datum:"
+
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
@@ -3130,6 +3158,118 @@ msgstr "Familj"
 #: src/main.c:308 src/main.c:372
 msgid "Command Line"
 msgstr "Kommandoraden"
+
+#~ msgid "Apply threshold"
+#~ msgstr "Tillämpa tröskel"
+
+#~ msgid "Crop"
+#~ msgstr "Beskär"
+
+#~ msgid "Threshold"
+#~ msgstr "Tröskel"
+
+#~ msgid "Remove"
+#~ msgstr "Ta bort"
+
+#~ msgid "View images as"
+#~ msgstr "Visa bilder som"
+
+#~ msgid "Zoom quality"
+#~ msgstr "Zoomkvalitet"
+
+#~ msgid "Comments"
+#~ msgstr "Kommentarer"
+
+#~ msgid "Thumbnail size:"
+#~ msgstr "Miniatyrbildsstorlek:"
+
+#~ msgid "Filenames"
+#~ msgstr "Filnamn"
+
+#~ msgid "_Filename"
+#~ msgstr "_Filnamn"
+
+#~ msgid "List"
+#~ msgstr "Lista"
+
+#~ msgid "Slides"
+#~ msgstr "Diabilder"
+
+#~ msgid "_Slide"
+#~ msgstr "_Diabild"
+
+#~ msgid "Match all selected categories"
+#~ msgstr "Matcha alla markerade kategorier"
+
+#~ msgid "Match any selected category"
+#~ msgstr "Matcha någon markerad kategori"
+
+#~ msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
+#~ msgstr "Copyright © 2001-2003 Free Software Foundation, Inc."
+
+#~ msgid "Image Dimensions"
+#~ msgstr "Bilddimensioner"
+
+#~ msgid "File Size"
+#~ msgstr "Filstorlek"
+
+#~ msgid "Information"
+#~ msgstr "Information"
+
+#~ msgid "Properties"
+#~ msgstr "Egenskaper"
+
+#~ msgid "_Equalize Histogram"
+#~ msgstr "_Jämna ut histogram"
+
+#~ msgid "Add a category"
+#~ msgstr "Lägg till en kategori"
+
+#~ msgid "<b>Checks</b>"
+#~ msgstr "<b>Rutor</b>"
+
+#~ msgid "<b>History</b>"
+#~ msgstr "<b>Historik</b>"
+
+#~ msgid "Dark"
+#~ msgstr "Mörk"
+
+#~ msgid "Large"
+#~ msgstr "Stor"
+
+#~ msgid "Max _history length:"
+#~ msgstr "Maxlängd på _historik:"
+
+#~ msgid "Medium"
+#~ msgstr "Medel"
+
+# Bör komma med ngt bättre.
+#~ msgid "Mid tone"
+#~ msgstr "Medelton"
+
+#~ msgid "Sa_ve thumbnails"
+#~ msgstr "Spa_ra miniatyrbilder"
+
+#~ msgid "Show _thumbnails"
+#~ msgstr "Visa _miniatyrbilder"
+
+#~ msgid "Show co_mments"
+#~ msgstr "Visa _kommentarer"
+
+#~ msgid "Show hi_dden images"
+#~ msgstr "Visa _dolda bilder"
+
+#~ msgid "Small"
+#~ msgstr "Liten"
+
+#~ msgid "All catego_ries"
+#~ msgstr "Alla katego_rier"
+
+#~ msgid "At _least a category"
+#~ msgstr "_Minst en kategori"
+
+#~ msgid "Choose Categories"
+#~ msgstr "Välj kategorier"
 
 #~ msgid "<b>Themes</b>"
 #~ msgstr "<b>Teman</b>"
@@ -3340,9 +3480,6 @@ msgstr "Kommandoraden"
 #~ msgid "Delete this image from disk"
 #~ msgstr "Ta bort denna bild från hårddisken"
 
-#~ msgid "_Delete"
-#~ msgstr "_Ta bort"
-
 #~ msgid "Edit"
 #~ msgstr "Redigera"
 
@@ -3387,9 +3524,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "Move..."
 #~ msgstr "Flytta..."
-
-#~ msgid "Remove"
-#~ msgstr "Ta bort"
 
 #~ msgid "Remove Catalog"
 #~ msgstr "Ta bort album"
@@ -3516,9 +3650,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "Remove ALL Comments"
 #~ msgstr "Ta bort ALLA kommentarer"
-
-#~ msgid "Thumbnails"
-#~ msgstr "Miniatyrbilder"
 
 #~ msgid "gThumb - Find Duplicates"
 #~ msgstr "gThumb - Sök dubletter"
@@ -3663,6 +3794,3 @@ msgstr "Kommandoraden"
 
 #~ msgid "Zoom to _fit"
 #~ msgstr "Anpassa till _fönstret"
-
-#~ msgid "_Actual size"
-#~ msgstr "_Naturlig storlek"
