@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-04-27 13:34+0100\n"
-"PO-Revision-Date: 2003-03-27 13:40+0000\n"
+"POT-Creation-Date: 2003-05-02 22:05+0100\n"
+"PO-Revision-Date: 2003-05-02 22:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,6 @@ msgstr "Imprimir a imagem actual"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb_print.glade.h:11
 msgid "_Print"
 msgstr "Im_primir"
 
@@ -177,7 +176,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:233 src/gthumb-window.c:406
+#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -227,7 +226,7 @@ msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:240 src/gthumb-window.c:403
+#: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -272,23 +271,23 @@ msgid "Comment"
 msgstr "Comentário"
 
 #: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:421
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:424
 msgid "Name"
 msgstr "Nome"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:805
-#: src/gthumb-window.c:4750 src/gthumb_png_exporter.glade.h:75
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
+#: src/gthumb-window.c:4824 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:26 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:749 libgthumb/print-callbacks.c:1026
+#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
 #, c-format
 msgid "Print %s"
 msgstr "Imprimir %s"
 
-#: libgthumb/print-callbacks.c:752 src/gthumb_print.glade.h:10
+#: libgthumb/print-callbacks.c:786
 msgid "Print Image"
 msgstr "Imprimir Imagem"
 
@@ -502,7 +501,7 @@ msgstr "O catálogo seleccionado será removido, tem a certeza?"
 
 #: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:443
+#: src/dlg-search.c:448
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Incapaz de mostrar ajuda: %s"
@@ -543,7 +542,7 @@ msgstr "Uma imagem de nome \"%s\" já existe. Especifique um nome diferente."
 msgid "Skip"
 msgstr "Saltar"
 
-#: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
+#: src/dlg-duplicates.c:265
 msgid "Image"
 msgstr "Imagem"
 
@@ -652,7 +651,7 @@ msgstr "A copiar ficheiro %ld de %ld"
 msgid "Moving file %ld of %ld"
 msgstr "A mover ficheiro %ld de %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:428
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:431
 msgid "Size"
 msgstr "Tamanho"
 
@@ -660,11 +659,11 @@ msgstr "Tamanho"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:435
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:438
 msgid "Bytes"
 msgstr "Bytes"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:442
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:445
 msgid "Modified"
 msgstr "Modificado"
 
@@ -672,11 +671,11 @@ msgstr "Modificado"
 msgid "Information on Channel"
 msgstr "Informação no Canal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5198
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5273
 msgid "Field"
 msgstr "Campo"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5208 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5283 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Valor"
 
@@ -709,23 +708,23 @@ msgstr "Cabeçalho"
 msgid "Footer"
 msgstr "Rodapé"
 
-#: src/dlg-rename-series.c:410
+#: src/dlg-rename-series.c:419
 msgid "Old Name"
 msgstr "Nome Antigo"
 
-#: src/dlg-rename-series.c:418
+#: src/dlg-rename-series.c:427
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: src/dlg-search.c:332
+#: src/dlg-search.c:337
 msgid "Search Result"
 msgstr "Resultado Procura"
 
-#: src/dlg-search.c:801
+#: src/dlg-search.c:808
 msgid "Filename"
 msgstr "Nome Ficheiro"
 
-#: src/dlg-search.c:810 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Pasta"
 
@@ -733,9 +732,21 @@ msgstr "Pasta"
 msgid "Select Album Theme"
 msgstr "Seleccionar Tema Álbum"
 
-#: src/fullscreen.c:709 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Repor Vista Normal"
+
+#: src/fullscreen.c:822
+msgid "Image Info"
+msgstr "Info Imagem"
+
+#: src/fullscreen.c:840 src/gthumb-window.c:4252
+msgid "Back"
+msgstr "Atrás"
+
+#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
+msgid "Forward"
+msgstr "Em Frente"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
@@ -950,10 +961,6 @@ msgstr "Caber"
 msgid "Folders"
 msgstr "Pastas"
 
-#: src/gthumb-ui.xml.h:52
-msgid "Forward"
-msgstr "Em Frente"
-
 #: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
 msgstr "Ecrã Completo"
@@ -1098,7 +1105,7 @@ msgstr "Reproduzir _Animação"
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/gthumb-ui.xml.h:89
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
 msgid "Print"
 msgstr "Imprimir"
 
@@ -1743,74 +1750,75 @@ msgstr "por _Tamanho"
 msgid "by _Time"
 msgstr "por _Data"
 
-#: src/gthumb-window.c:684
-msgid "Press 'c' to add a comment"
-msgstr "Prima 'c' para adicionar um comentário"
+#: src/gthumb-window.c:687
+msgid "[Press 'c' to add a comment]"
+msgstr "[Prima 'c' para adicionar um comentário]"
 
-#: src/gthumb-window.c:866
+#: src/gthumb-window.c:762 src/gthumb-window.c:785
+msgid "[modified]"
+msgstr "[modificado]"
+
+#: src/gthumb-window.c:869
 msgid "No image"
 msgstr "Nenhuma imagem"
 
-#: src/gthumb-window.c:868
+#: src/gthumb-window.c:871
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imagem (%s)"
 
-#: src/gthumb-window.c:871
+#: src/gthumb-window.c:874
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imagens (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:881
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 seleccionada (%s)"
 
-#: src/gthumb-window.c:881
+#: src/gthumb-window.c:884
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d seleccionadas (%s)"
 
-#: src/gthumb-window.c:3318
+#: src/gthumb-window.c:3362
 msgid "Dragged Images"
 msgstr "Imagens Arrastadas"
 
-#: src/gthumb-window.c:3511
+#: src/gthumb-window.c:3556
 msgid "Could not move the items:"
 msgstr "Incapaz de mover os itens:"
 
-#: src/gthumb-window.c:4207
-msgid "Back"
-msgstr "Atrás"
-
-#: src/gthumb-window.c:5079
+#: src/gthumb-window.c:5153
 msgid "Image comment"
 msgstr "Comentário da imagem"
 
-#: src/gthumb-window.c:5093
+#: src/gthumb-window.c:5167
 msgid "Image data"
 msgstr "Dados da imagem"
 
-#: src/gthumb-window.c:5107
+#: src/gthumb-window.c:5181
 msgid "Image preview"
 msgstr "Antevisão da imagem"
 
-#: src/gthumb-window.c:6362
+#: src/gthumb-window.c:6439
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Incapaz de ler pasta \"%s\": %s\n"
 
-#: src/gthumb-window.c:6632
+#: src/gthumb-window.c:6708
 msgid "The specified catalog does not exist."
 msgstr "O catálogo especificado não existe."
 
-#: src/gthumb-window.c:7959
+#: src/gthumb-window.c:8054
 msgid "Wait please..."
 msgstr "Aguarde..."
 
 #: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
+#: src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -2124,7 +2132,7 @@ msgstr "ppp"
 msgid "     "
 msgstr "     "
 
-#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -2325,7 +2333,7 @@ msgstr "<i>Exemplos:</i>"
 msgid "Choose destination folder"
 msgstr "Seleccionar pasta destino"
 
-#: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
+#: src/gthumb_png_exporter.glade.h:24
 msgid "Co_mment"
 msgstr "Co_mentário"
 
@@ -2836,7 +2844,15 @@ msgstr "Preferências gThumb"
 msgid "seconds"
 msgstr "segundos"
 
-#: src/gthumb_print.glade.h:3
+#: src/gthumb_print.glade.h:4
+msgid "<b>Orientation</b>"
+msgstr "<b>Orientação</b>"
+
+#: src/gthumb_print.glade.h:5
+msgid "<b>Size</b>"
+msgstr "<b>Tamanho</b>"
+
+#: src/gthumb_print.glade.h:6
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2844,19 +2860,55 @@ msgstr ""
 "<i>Arraste a imagem a mover\n"
 "para a página.</i>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:8
+msgid "A_3 (297 x 420 mm)"
+msgstr "A_3 (297 x 420 mm)"
+
+#: src/gthumb_print.glade.h:9
+msgid "A_4 (210 x 297 mm)"
+msgstr "A_4 (210 x 297 mm)"
+
+#: src/gthumb_print.glade.h:10
+msgid "A_5 (148 x 210 mm)"
+msgstr "A_5 (148 x 210 mm)"
+
+#: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Centrar _na Página"
 
-#: src/gthumb_print.glade.h:8
-msgid "Paper"
-msgstr "Papel"
-
-#: src/gthumb_print.glade.h:9
-msgid "Preview"
-msgstr "Antever"
-
 #: src/gthumb_print.glade.h:12
+msgid "E_xecutive (190 x 254 mm)"
+msgstr "E_xecutive (190 x 254 mm)"
+
+#: src/gthumb_print.glade.h:13
+msgid "I_nclude comment"
+msgstr "I_ncluir comentário"
+
+#: src/gthumb_print.glade.h:14
+msgid "L_egal (216 x 356 mm)"
+msgstr "L_egal (216 x 356 mm)"
+
+#: src/gthumb_print.glade.h:15
+msgid "Lan_dscape"
+msgstr "Paisa_gem"
+
+#: src/gthumb_print.glade.h:16
+msgid "Layout"
+msgstr "Disposição"
+
+#: src/gthumb_print.glade.h:17
+msgid "P_ortrait"
+msgstr "Retrat_o"
+
+#: src/gthumb_print.glade.h:18
+msgid "Paper Details"
+msgstr "Detalhes Papel"
+
+#: src/gthumb_print.glade.h:20
+msgid "_Letter (216 x 279 mm)"
+msgstr "_Letter (216 x 279 mm)"
+
+#: src/gthumb_print.glade.h:21
 msgid "_Scale:"
 msgstr "E_scala:"
 
@@ -3070,12 +3122,13 @@ msgstr "A data se_guinte:"
 
 #: src/gthumb_tools.glade.h:43
 msgid ""
-"Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename. Use ? to insert image date."
+"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
+"original filename. Use ? to insert the image date. Use ! to insert the image "
+"size"
 msgstr ""
 "Utilizar nºs para especificar posições utilizadas pelo enumerador numérico. "
 "Utilize * para inserir nome de ficheiro original. Utilize ? para inserir "
-"data da imagem."
+"data da imagem. Utilize ! para inserir o tamanho da imagem"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3153,6 +3206,12 @@ msgstr "Família"
 msgid "Command Line"
 msgstr "Linha Comando"
 
+#~ msgid "Paper"
+#~ msgstr "Papel"
+
+#~ msgid "Preview"
+#~ msgstr "Antever"
+
 #~ msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
 #~ msgstr "Copyright (C) 2001-2003 Free Software Foundation, Inc."
 
@@ -3164,9 +3223,6 @@ msgstr "Linha Comando"
 
 #~ msgid "Information"
 #~ msgstr "Informação"
-
-#~ msgid "Properties"
-#~ msgstr "Propriedades"
 
 #~ msgid "_Equalize Histogram"
 #~ msgstr "_Equalizar Histograma"
