@@ -70,8 +70,6 @@ libgthumb/gth-image-list.c
 libgthumb/gth-image-list.h
 libgthumb/gth-pixbuf-op.c
 libgthumb/gth-pixbuf-op.h
-libgthumb/gthumb-canvas-text.c
-libgthumb/gthumb-canvas-text.h
 libgthumb/gthumb-error.c
 libgthumb/gthumb-error.h
 libgthumb/gthumb-histogram.c
