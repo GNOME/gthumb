@@ -4017,6 +4017,10 @@ close__step5 (GThumbWindow *window)
 
 	if (window_list == NULL)
 		bonobo_main_quit ();
+	else if (ExitAll) {
+		GThumbWindow *first_window = window_list->data;
+		window_close (first_window);
+	}
 }
 
 

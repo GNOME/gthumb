@@ -36,6 +36,7 @@ extern FullScreen       *fullscreen;
 extern gint              StartInFullscreen;
 extern int               StartSlideshow;
 extern int               ViewFirstImage;
+extern gboolean          ExitAll;
 
 
 #define MENU_ICON_SIZE 20.0

@@ -356,7 +356,7 @@
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
 	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
-	<cmd name="Tools_RenameSeries" _label="_Rename Series..." />
+	<cmd name="Tools_RenameSeries" _label="_Rename Series" />
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"
 	     _tip="Convert Format"/>

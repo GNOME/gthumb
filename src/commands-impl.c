@@ -199,10 +199,10 @@ file_exit_command_impl (BonoboUIComponent *uic,
 			gpointer           user_data, 
 			const gchar       *verbname)
 {
-	GList *scan;
+	GThumbWindow *first_window = window_list->data;
 
-	for (scan = window_list; scan; scan = window_list)
-		file_close_window_command_impl (uic, scan->data, NULL);
+	ExitAll = TRUE;
+	window_close (first_window);
 }
 
 
@@ -1225,7 +1225,7 @@ folder_copy__response_cb (GObject *object,
 				dir_name,
 				NULL);
 	 
-	if (gnome_vfs_check_same_fs (old_path, new_path, &same_fs) != GNOME_VFS_OK)
+	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
 
 	message = move ? _("Could not move the folder \"%s\" : %s") : _("Could not copy the folder \"%s\" : %s");

@@ -45,13 +45,15 @@
 #include "typedefs.h"
 
 
-GList       *window_list = NULL;
-FullScreen  *fullscreen;
-char       **file_urls, **dir_urls;
-int          n_file_urls, n_dir_urls;
-int          StartInFullscreen;
-int          StartSlideshow;
-int          ViewFirstImage = FALSE;
+GList               *window_list = NULL;
+FullScreen          *fullscreen;
+char               **file_urls, **dir_urls;
+int                  n_file_urls, n_dir_urls;
+int                  StartInFullscreen;
+int                  StartSlideshow;
+int                  ViewFirstImage = FALSE;
+gboolean             ExitAll = FALSE;
+
 
 static gboolean      view_comline_catalog = FALSE;
 static GdkPixbuf    *folder_pixbuf = NULL;

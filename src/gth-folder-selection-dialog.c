@@ -287,6 +287,8 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
 	folder_sel->priv->file_entry = gnome_entry_new ("file_ops_ID");
+	gtk_entry_set_activates_default (GTK_ENTRY (gnome_entry_gtk_entry (GNOME_ENTRY (folder_sel->priv->file_entry))), TRUE);
+
 	gtk_box_pack_start (GTK_BOX (hbox2), folder_sel->priv->file_entry, TRUE, TRUE, 0);
 
 	browse_button = gtk_button_new_with_mnemonic (_("_Browse..."));

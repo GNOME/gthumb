@@ -1,3 +1,17 @@
+2002-11-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gth-folder-selection-dialog.c
+	(gth_folder_selection_construct): let the folder entry activates 
+	the default action.
+
+	* src/*.glade: bug #99044 again.
+
+	* src/main.c: 
+	* src/main.h: 
+	* src/commands-impl.c (file_exit_command_impl) 
+	(folder_copy__response_cb): fix bug #99140
+	* src/gthumb-window.c (close__step5): fix bug #99151.
+
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (key_press_cb, viewer_key_press_cb): popup a
