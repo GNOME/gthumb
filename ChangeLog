@@ -1,5 +1,11 @@
 2005-01-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-photo-importer.c (main_dialog_set_sensitive)
+	(async_operation_step, async_operation_start): 
+
+	Fixed bug #162852: pressing the camera icon while importing photos does
+	bad things
+
 	* src/dlg-rename-series.c (get_image_date): 
 
 	Fixed bug #163417: Filename in Rename Series (date %d) contains ":" 

@@ -462,6 +462,16 @@ update_info (DialogData *data)
 }
 
 
+static void
+main_dialog_set_sensitive (DialogData *data,
+			   gboolean    value)
+{
+	gtk_widget_set_sensitive (data->select_model_button, value);
+	gtk_widget_set_sensitive (data->import_reload_button, value);
+	gtk_widget_set_sensitive (data->import_delete_button, value);
+}
+
+
  /**/
 
 
@@ -526,9 +536,13 @@ async_operation_step (gpointer callback_data)
 		g_mutex_lock (aodata->data->yes_or_no);
 		aodata->data->async_operation = FALSE;
 		g_mutex_unlock (aodata->data->yes_or_no);
+
+		main_dialog_set_sensitive (aodata->data, TRUE);
+
 		if (aodata->done_func != NULL)
 			(*aodata->done_func) (aodata, aodata->data);
 		g_free (aodata);
+
 		return FALSE;
 	}
 	
@@ -556,6 +570,8 @@ async_operation_start (AsyncOperationData *aodata)
 	aodata->current = 1;
 	if (aodata->init_func)
 		(*aodata->init_func) (aodata, aodata->data);
+
+	main_dialog_set_sensitive (aodata->data, FALSE);
 
 	g_mutex_lock (aodata->data->yes_or_no);
 	aodata->data->async_operation = TRUE;
@@ -1291,6 +1307,7 @@ ok_clicked_cb (GtkButton  *button,
 	}
 
 	/**/
+
 	g_free (data->local_folder);
 
 	data->local_folder = get_folder_name (data);
