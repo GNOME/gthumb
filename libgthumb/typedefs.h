@@ -89,6 +89,7 @@ typedef enum { /*< skip >*/
 
 
 typedef enum { /*< skip >*/
+	GTH_VIEW_MODE_VOID,               /* No text at all. */
 	GTH_VIEW_MODE_LABEL,              /* Display label. */
 	GTH_VIEW_MODE_COMMENTS,           /* Display comment. */
  	GTH_VIEW_MODE_COMMENTS_OR_TEXT,   /* When a comment is present do

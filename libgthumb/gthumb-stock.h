@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,13 +25,16 @@
 
 #define GTHUMB_STOCK_ADD_COMMENT          "gthumb-add-comment"
 #define GTHUMB_STOCK_BRIGHTNESS_CONTRAST  "gthumb-brightness-contrast"
+#define GTHUMB_STOCK_CAMERA               "gthumb-camera"
 #define GTHUMB_STOCK_COLOR_BALANCE        "gthumb-color-balance"
+#define GTHUMB_STOCK_CROP                 "gthumb-crop"
 #define GTHUMB_STOCK_DESATURATE           "gthumb-desaturate"
 #define GTHUMB_STOCK_EDIT_IMAGE           "gthumb-edit-image"
 #define GTHUMB_STOCK_FLIP                 "gthumb-flip"
 #define GTHUMB_STOCK_FULLSCREEN           "gthumb-fullscreen"
 #define GTHUMB_STOCK_HISTOGRAM            "gthumb-histogram"
 #define GTHUMB_STOCK_HUE_SATURATION       "gthumb-hue-saturation"
+#define GTHUMB_STOCK_IMAGE                "gthumb-image"
 #define GTHUMB_STOCK_INVERT               "gthumb-invert"
 #define GTHUMB_STOCK_LEVELS               "gthumb-levels"
 #define GTHUMB_STOCK_MIRROR               "gthumb-mirror"
@@ -39,9 +42,11 @@
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
 #define GTHUMB_STOCK_PROPERTIES           "gthumb-properties"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"
+#define GTHUMB_STOCK_ROTATE               "gthumb-rotate"
 #define GTHUMB_STOCK_ROTATE_90            "gthumb-rotate-90"
 #define GTHUMB_STOCK_ROTATE_90_CC         "gthumb-rotate-90-cc"
 #define GTHUMB_STOCK_SLIDESHOW            "gthumb-slideshow"
+#define GTHUMB_STOCK_THRESHOLD            "gthumb-threshold"
 #define GTHUMB_STOCK_TRANSFORM            "gthumb-transform"
 
 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ gthumb_info_bar_style_set (GtkWidget *widget,
         if (in_style_set > 0)
                 return;
 
-        in_style_set ++;
+        in_style_set++;
 
 	rc_style = gtk_widget_get_modifier_style (widget);
 
@@ -89,7 +89,7 @@ gthumb_info_bar_style_set (GtkWidget *widget,
 
 	gtk_widget_modify_style (widget, rc_style);
 
-        in_style_set --;
+        in_style_set--;
 
         (* GTK_WIDGET_CLASS (parent_class)->style_set) (widget, previous_style);
 }
@@ -121,7 +121,7 @@ gthumb_info_bar_init (GThumbInfoBar *info_bar)
 	priv = g_new0 (GThumbInfoBarPrivate, 1);
 	info_bar->priv = priv;
 
-	priv->hbox = gtk_hbox_new (TRUE, 0);
+	priv->hbox = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (info_bar), priv->hbox);
 
 	priv->label = gtk_label_new ("");
@@ -132,6 +132,15 @@ gthumb_info_bar_init (GThumbInfoBar *info_bar)
 
 	info_bar->priv->tooltips = gtk_tooltips_new ();
 	info_bar->priv->tooltip = NULL;
+}
+
+
+void
+gthumb_info_bar_add_button (GThumbInfoBar *info_bar,
+			    GtkWidget     *button,
+			    int            padding)
+{
+	gtk_box_pack_end (GTK_BOX (info_bar->priv->hbox), button, FALSE, FALSE, padding);
 }
 
 
@@ -184,6 +193,8 @@ gthumb_info_bar_set_focused (GThumbInfoBar *info_bar,
 		gtk_widget_set_state (widget, GTK_STATE_SELECTED);
 	else
 		gtk_widget_set_state (widget, GTK_STATE_NORMAL);
+
+	gtk_widget_queue_draw (info_bar->priv->hbox);
 }
 
 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -678,7 +678,7 @@ create_overwrite_dialog (GThumbWindow      *window,
 
 	viewer = IMAGE_VIEWER (old_image_viewer);
 	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
-	image_viewer_set_zoom_quality (viewer, pref_get_zoom_change ());
+	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
 	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
 	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
 	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -59,6 +59,12 @@ GthPixbufOp* _gdk_pixbuf_eq_histogram             (GdkPixbuf *src,
 						   GdkPixbuf *dest);
 
 GthPixbufOp* _gdk_pixbuf_adjust_levels            (GdkPixbuf *src,
+						   GdkPixbuf *dest);
+
+GthPixbufOp* _gdk_pixbuf_stretch_contrast         (GdkPixbuf *src,
+						   GdkPixbuf *dest);
+
+GthPixbufOp* _gdk_pixbuf_normalize_contrast       (GdkPixbuf *src,
 						   GdkPixbuf *dest);
 
 #endif /* ASYNC_PIXBUF_OPS_H */

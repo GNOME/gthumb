@@ -1230,21 +1230,18 @@ application_get_command (const GnomeVFSMimeApplication *app)
 
 	if (app->requires_terminal) {
 		char *terminal;
-		char *command_to_exec;
 
 		terminal = get_terminal (TRUE);
 		if (terminal == NULL)
 			return NULL;
 
-		command_to_exec = shell_escape (app->command);
 		command = g_strconcat (terminal,
 				       " ",
-				       command_to_exec,
+				       app->command,
 				       NULL);
 		g_free (terminal);
-		g_free (command_to_exec);
 	} else
-		command = shell_escape (app->command);
+		command = g_strdup (app->command);
 
 	return command;
 }

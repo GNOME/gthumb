@@ -70,13 +70,14 @@ typedef struct {
 	GtkWidget *radio_layout2;
 	GtkWidget *radio_layout3;
 	GtkWidget *radio_layout4;
-	GtkWidget *spin_history_length;
 	GtkWidget *toolbar_style_optionmenu;
 
-	GtkWidget *toggle_show_hidden;
+	GtkWidget *view_as_slides_radiobutton;
+	GtkWidget *view_as_list_radiobutton;
+	/*GtkWidget *toggle_show_hidden;*/
+	GtkWidget *toggle_show_filenames;
 	GtkWidget *toggle_show_comments;
 	GtkWidget *toggle_show_thumbs;
-	GtkWidget *toggle_save_thumbs;
 	GtkWidget *toggle_file_type;
 	GtkWidget *opt_thumbs_size;
 	GtkWidget *toggle_confirm_del;
@@ -86,8 +87,6 @@ typedef struct {
 	GtkWidget *opt_zoom_quality_low;
 	GtkWidget *opt_zoom_change;
 	GtkWidget *opt_transparency;
-	GtkWidget *opt_check_type;
-	GtkWidget *opt_check_size;
 
 	GtkWidget *radio_ss_direction_forward;
 	GtkWidget *radio_ss_direction_reverse;
@@ -132,10 +131,6 @@ apply_cb (GtkWidget  *widget,
 		g_free (text);
 		g_free (location);
 	}
-
-	/* History options. */
-
-	eel_gconf_set_integer (PREF_MAX_HISTORY_LENGTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->spin_history_length)));
 
 	/* Slide Show. */
 
@@ -266,6 +261,14 @@ show_thumbs_toggled_cb (GtkToggleButton *button,
 
 
 static void
+show_filenames_toggled_cb (GtkToggleButton *button, 
+			   DialogData      *data)
+{
+	eel_gconf_set_boolean (PREF_SHOW_FILENAMES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames)));
+}
+
+
+static void
 show_comments_toggled_cb (GtkToggleButton *button, 
 			  DialogData      *data)
 {
@@ -273,11 +276,33 @@ show_comments_toggled_cb (GtkToggleButton *button,
 }
 
 
+/* FIXME
 static void
 show_hidden_toggled_cb (GtkToggleButton *button, 
 			DialogData      *data)
 {
 	eel_gconf_set_boolean (PREF_SHOW_HIDDEN_FILES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden)));
+}
+*/
+
+
+static void
+view_as_slides_toggled_cb (GtkToggleButton *button, 
+			   DialogData      *data)
+{
+	if (! gtk_toggle_button_get_active (button))
+		return;
+	pref_set_view_as (GTH_VIEW_AS_THUMBNAILS);
+}
+
+
+static void
+view_as_list_toggled_cb (GtkToggleButton *button, 
+			 DialogData      *data)
+{
+	if (! gtk_toggle_button_get_active (button))
+		return;
+	pref_set_view_as (GTH_VIEW_AS_LIST);
 }
 
 
@@ -291,14 +316,6 @@ thumbs_size_changed_cb (GtkOptionMenu *option_menu,
 	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[i]);
 }
 
-
-static void
-save_thumbs_toggled_cb (GtkToggleButton *button, 
-			DialogData      *data)
-{
-	eel_gconf_set_boolean (PREF_SAVE_THUMBNAILS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_save_thumbs)));
-}
-	
 
 static void
 click_policy_changed_cb (GtkOptionMenu *option_menu,
@@ -360,30 +377,6 @@ transp_type_changed_cb (GtkOptionMenu *option_menu,
 }
 
 
-static void
-check_type_changed_cb (GtkOptionMenu *option_menu, 
-		       DialogData    *data)
-{
-	pref_set_check_type (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_check_type)));
-}
-
-
-static void
-check_size_changed_cb (GtkOptionMenu *option_menu, 
-		       DialogData    *data)
-{
-	GthCheckSize check_size;
-
-	switch (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_check_size))) {
-	case 0: check_size = GTH_CHECK_SIZE_SMALL; break;
-	case 1: check_size = GTH_CHECK_SIZE_MEDIUM; break;
-	case 2: check_size = GTH_CHECK_SIZE_LARGE; break;
-	}
-
-	pref_set_check_size (check_size);
-}
-
-
 
 
 
@@ -394,7 +387,7 @@ dlg_preferences (GThumbWindow *window)
 	DialogData *data;
 	GtkWidget  *btn_close;
 	GtkWidget  *btn_help;
-	int         i = 0;
+	/*	int         i = 0;*/
 	int         layout_type;
 	char       *startup_location;
 
@@ -427,23 +420,27 @@ dlg_preferences (GThumbWindow *window)
 	data->radio_layout3 = glade_xml_get_widget (data->gui, "radio_layout3");
 	data->radio_layout4 = glade_xml_get_widget (data->gui, "radio_layout4");
 	data->toolbar_style_optionmenu = glade_xml_get_widget (data->gui, "toolbar_style_optionmenu");
+
+	data->view_as_slides_radiobutton = glade_xml_get_widget (data->gui, "view_as_slides_radiobutton");
+	data->view_as_list_radiobutton = glade_xml_get_widget (data->gui, "view_as_list_radiobutton");
+
+	/* FIXME
         data->toggle_show_hidden = glade_xml_get_widget (data->gui, "toggle_show_hidden");
+	*/
+
+        data->toggle_show_filenames = glade_xml_get_widget (data->gui, "toggle_show_filenames");
         data->toggle_show_comments = glade_xml_get_widget (data->gui, "toggle_show_comments");
 
         data->toggle_show_thumbs = glade_xml_get_widget (data->gui, "toggle_show_thumbs");
-        data->toggle_save_thumbs = glade_xml_get_widget (data->gui, "toggle_save_thumbs");
         data->toggle_file_type = glade_xml_get_widget (data->gui, "toggle_file_type");
 
         data->opt_thumbs_size = glade_xml_get_widget (data->gui, "opt_thumbs_size");
         data->opt_click_policy = glade_xml_get_widget (data->gui, "opt_click_policy");
-        data->spin_history_length = glade_xml_get_widget (data->gui, "spin_history_length");
 
 	data->opt_zoom_quality_high = glade_xml_get_widget (data->gui, "opt_zoom_quality_high");
 	data->opt_zoom_quality_low = glade_xml_get_widget (data->gui, "opt_zoom_quality_low");
         data->opt_zoom_change = glade_xml_get_widget (data->gui, "opt_zoom_change");
 	data->opt_transparency = glade_xml_get_widget (data->gui, "opt_transparency");
-	data->opt_check_type = glade_xml_get_widget (data->gui, "opt_check_type");
-	data->opt_check_size = glade_xml_get_widget (data->gui, "opt_check_size");
 
         data->radio_ss_direction_forward = glade_xml_get_widget (data->gui, "radio_ss_direction_forward");
         data->radio_ss_direction_reverse = glade_xml_get_widget (data->gui, "radio_ss_direction_reverse");
@@ -505,14 +502,19 @@ dlg_preferences (GThumbWindow *window)
 
 	/* * browser */
 
+	if (pref_get_view_as () == GTH_VIEW_AS_THUMBNAILS)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_slides_radiobutton), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_list_radiobutton), TRUE);
+
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE));
+	/* FIXME
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden), eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES));
+	*/
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_save_thumbs), eel_gconf_get_boolean (PREF_SAVE_THUMBNAILS));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE)));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_history_length),
-				   (gfloat) eel_gconf_get_integer (PREF_MAX_HISTORY_LENGTH));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_click_policy), pref_get_click_policy ());
 
 	/* * viewer */
@@ -524,14 +526,6 @@ dlg_preferences (GThumbWindow *window)
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), pref_get_zoom_change ());
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_check_type), pref_get_check_type ());
-
-	switch (pref_get_check_size ()) {
-	case GTH_CHECK_SIZE_SMALL:   i = 0; break;
-	case GTH_CHECK_SIZE_MEDIUM:  i = 1; break;
-	case GTH_CHECK_SIZE_LARGE:   i = 2; break;
-	}
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_check_size), i);
 
 	/* * slide show */
 
@@ -597,22 +591,33 @@ dlg_preferences (GThumbWindow *window)
 			  "toggled",
 			  G_CALLBACK (show_thumbs_toggled_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->toggle_show_filenames), 
+			  "toggled",
+			  G_CALLBACK (show_filenames_toggled_cb),
+			  data);
 	g_signal_connect (G_OBJECT (data->toggle_show_comments), 
 			  "toggled",
 			  G_CALLBACK (show_comments_toggled_cb),
 			  data);
+	/* FIXME
 	g_signal_connect (G_OBJECT (data->toggle_show_hidden), 
 			  "toggled",
 			  G_CALLBACK (show_hidden_toggled_cb),
+			  data);
+	*/
+
+	g_signal_connect (G_OBJECT (data->view_as_slides_radiobutton), 
+			  "toggled",
+			  G_CALLBACK (view_as_slides_toggled_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->view_as_list_radiobutton), 
+			  "toggled",
+			  G_CALLBACK (view_as_list_toggled_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->opt_thumbs_size),
 			  "changed",
 			  G_CALLBACK (thumbs_size_changed_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->toggle_save_thumbs), 
-			  "toggled",
-			  G_CALLBACK (save_thumbs_toggled_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->opt_click_policy),
@@ -643,14 +648,6 @@ dlg_preferences (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->opt_transparency),
 			  "changed",
 			  G_CALLBACK (transp_type_changed_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->opt_check_type),
-			  "changed",
-			  G_CALLBACK (check_type_changed_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->opt_check_size),
-			  "changed",
-			  G_CALLBACK (check_size_changed_cb),
 			  data);
 
 	/* run dialog. */

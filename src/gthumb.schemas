@@ -98,6 +98,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/browser/show_filenames</key>
+	<applyto>/apps/gthumb/browser/show_filenames</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/browser/show_comments</key>
 	<applyto>/apps/gthumb/browser/show_comments</applyto>
 	<owner>gthumb</owner>

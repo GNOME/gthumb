@@ -35,7 +35,7 @@
 #include "gth-pixbuf-op.h"
 #include "gthumb-preloader.h"
 
-#define GCONF_NOTIFICATIONS 17
+#define GCONF_NOTIFICATIONS 18
 
 
 typedef enum {
@@ -53,6 +53,13 @@ typedef enum {
 	MONITOR_EVENT_FILE_CHANGED,
 	MONITOR_EVENT_NUM
 } MonitorEventType;
+
+
+typedef enum {
+	PREVIEW_CONTENT_IMAGE,
+	PREVIEW_CONTENT_DATA,
+	PREVIEW_CONTENT_COMMENT,
+} PreviewContent;
 
 
 typedef struct {
@@ -75,25 +82,47 @@ typedef struct {
 	GtkWidget          *viewer_vscr;
 	GtkWidget          *viewer_hscr;
 	GtkWidget          *viewer_event_box;
-	GtkWidget          *info_bar;
 	GtkWidget          *go_back_combo_button;
 	GtkWidget          *popup_menu;
+
+	GtkWidget          *image_comment;
+	GtkWidget          *image_exif_view;
+	GtkListStore       *image_exif_model;
 
 	GtkWidget          *progress;              /* statusbar widgets. */
 	GtkWidget          *image_info;
 	GtkWidget          *image_info_frame;
+	GtkWidget          *zoom_info;
+	GtkWidget          *zoom_info_frame;
 
 	GtkWidget          *image_prop_dlg;        /* no-modal dialogs. */
 	GtkWidget          *comments_dlg;
 	GtkWidget          *categories_dlg;
 	GtkWidget          *bookmarks_dlg;
 
+	GtkWidget          *info_bar;
+	GtkWidget          *info_combo;
+	GtkWidget          *info_icon;
+
 	char                sidebar_content;       /* SidebarContent values. */
 	int                 sidebar_width;
 	gboolean            sidebar_visible;
 	guint               layout_type : 2;
+
 	gboolean            image_pane_visible;
-	gboolean            image_preview_visible;
+
+	GtkWidget          *preview_widget_image;
+	GtkWidget          *preview_widget_data_comment;
+	GtkWidget          *preview_widget_data;
+	GtkWidget          *preview_widget_comment;
+
+	GtkWidget          *preview_button_image;
+	GtkWidget          *preview_button_data;
+	GtkWidget          *preview_button_comment;
+
+	gboolean            preview_visible;
+	PreviewContent      preview_content;
+	gboolean            image_data_visible;
 
 	/* bookmarks & history */
 
@@ -170,6 +199,8 @@ typedef struct {
 	GtkWidget             *progress_progressbar;
 	GtkWidget             *progress_info;
 	guint                  progress_timeout;
+
+	GtkTooltips           *tooltips;
 } GThumbWindow;
 
 

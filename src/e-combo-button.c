@@ -55,6 +55,7 @@ struct _EComboButtonPrivate {
 	GtkMenu *menu;
 
 	gboolean menu_popped_up;
+	gboolean button_active;
 
 	GthToolbarStyle toolbar_style;
 };
@@ -145,13 +146,16 @@ paint (EComboButton *combo_button,
        GdkRectangle *area)
 {
 	EComboButtonPrivate *priv = combo_button->priv;
-	GtkShadowType shadow_type;
-	int separator_x;
+	GtkShadowType        shadow_type;
+	int                  separator_x;
+	GtkAllocation       *allocation;
 
+	/* FIXME
 	gdk_window_set_back_pixmap (GTK_WIDGET (combo_button)->window, NULL, TRUE);
 	gdk_window_clear_area (GTK_WIDGET (combo_button)->window,
 			       area->x, area->y,
 			       area->width, area->height);
+	*/
 
 	/* Only paint the outline if we are in prelight state.  */
 	if (GTK_WIDGET_STATE (combo_button) != GTK_STATE_PRELIGHT
@@ -167,17 +171,20 @@ paint (EComboButton *combo_button,
 	else
 		shadow_type = GTK_SHADOW_OUT;
 
-	gtk_paint_box (GTK_WIDGET (combo_button)->style,
-		       GTK_WIDGET (combo_button)->window,
-		       GTK_STATE_PRELIGHT,
-		       shadow_type,
-		       area,
-		       GTK_WIDGET (combo_button),
-		       "button",
-		       0,
-		       0,
-		       separator_x,
-		       GTK_WIDGET (combo_button)->allocation.height);
+	allocation = & (GTK_WIDGET (combo_button)->allocation);
+
+	if (priv->button_active)
+		gtk_paint_box (GTK_WIDGET (combo_button)->style,
+			       GTK_WIDGET (combo_button)->window,
+			       GTK_STATE_PRELIGHT,
+			       shadow_type,
+			       area,
+			       GTK_WIDGET (combo_button),
+			       "button",
+			       allocation->x,
+			       allocation->y,
+			       separator_x,
+			       allocation->height);
 
 	gtk_paint_box (GTK_WIDGET (combo_button)->style,
 		       GTK_WIDGET (combo_button)->window,
@@ -186,10 +193,10 @@ paint (EComboButton *combo_button,
 		       area,
 		       GTK_WIDGET (combo_button),
 		       "button",
-		       separator_x,
-		       0,
-		       GTK_WIDGET (combo_button)->allocation.width - separator_x,
-		       GTK_WIDGET (combo_button)->allocation.height);
+		       allocation->x + separator_x,
+		       allocation->y,
+		       allocation->width - separator_x,
+		       allocation->height);
 }
 
 
@@ -227,11 +234,11 @@ menu_deactivate_callback (GtkMenuShell *menu_shell,
 }
 
 static void
-menu_position_func (GtkMenu *menu,
-		    gint *x_return,
-		    gint *y_return,
+menu_position_func (GtkMenu  *menu,
+		    int      *x_return,
+		    int      *y_return,
 		    gboolean *push_in,
-		    void *data)
+		    void     *data)
 {
 	EComboButton *combo_button;
 	GtkAllocation *allocation;
@@ -240,8 +247,8 @@ menu_position_func (GtkMenu *menu,
 	allocation = & (GTK_WIDGET (combo_button)->allocation);
 
 	gdk_window_get_origin (GTK_WIDGET (combo_button)->window, x_return, y_return);
-
-	*y_return += allocation->height;
+	*x_return += allocation->x;
+	*y_return += allocation->y + allocation->height;
 }
 
 
@@ -251,22 +258,25 @@ static void
 impl_destroy (GtkObject *object)
 {
 	EComboButton *combo_button;
-	EComboButtonPrivate *priv;
 
 	combo_button = E_COMBO_BUTTON (object);
-	priv = combo_button->priv;
 
-	if (priv->arrow_image != NULL) {
-		gtk_widget_destroy (priv->arrow_image);
-		priv->arrow_image = NULL;
+	if (combo_button->priv != NULL) {
+		EComboButtonPrivate *priv = combo_button->priv;
+
+		if (priv->arrow_image != NULL) {
+			gtk_widget_destroy (priv->arrow_image);
+			priv->arrow_image = NULL;
+		}
+		
+		if (priv->icon != NULL) {
+			g_object_unref (priv->icon);
+			priv->icon = NULL;
+		}
+		
+		g_free (priv);
+		combo_button->priv = NULL;
 	}
-
-	if (priv->icon != NULL) {
-		g_object_unref (priv->icon);
-		priv->icon = NULL;
-	}
-
-	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -290,6 +300,7 @@ impl_button_press_event (GtkWidget *widget,
 
 		if (event->button == 3 || 
 		    event->x >= (priv->arrow_image->allocation.x 
+				 - widget->allocation.x
 				 - widget->style->xthickness)) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
@@ -301,8 +312,10 @@ impl_button_press_event (GtkWidget *widget,
 		} else {
 			/* User clicked on the left side: just behave like a
 			   normal button (i.e. not a toggle).  */
-			gtk_grab_add (widget);
-			gtk_button_pressed (GTK_BUTTON (widget));
+			if (priv->button_active) {
+				gtk_grab_add (widget);
+				gtk_button_pressed (GTK_BUTTON (widget));
+			}
 		}
 	}
 
@@ -333,14 +346,14 @@ static int
 impl_expose_event (GtkWidget *widget,
 		   GdkEventExpose *event)
 {
-	GtkBin *bin;
-	GdkEventExpose child_event;
+	GtkBin         *bin;
+	GdkEventExpose  child_event;
 
 	if (! GTK_WIDGET_DRAWABLE (widget))
 		return FALSE;
 
 	bin = GTK_BIN (widget);
-      
+
 	paint (E_COMBO_BUTTON (widget), &event->area);
 
 	child_event = *event;
@@ -396,6 +409,7 @@ impl_released (GtkButton *button)
 			g_signal_emit (G_OBJECT (button), signals[ACTIVATE_DEFAULT], 0);
 	}
 }
+
 
 
 static void
@@ -470,7 +484,9 @@ init (EComboButton *combo_button)
 	priv->icon           = NULL;
 	priv->menu           = NULL;
 	priv->menu_popped_up = FALSE;
+	priv->button_active  = TRUE;
 }
+
 
 
 void
@@ -488,6 +504,7 @@ e_combo_button_construct (EComboButton *combo_button)
 
 	gtk_button_set_relief (GTK_BUTTON (combo_button), GTK_RELIEF_NONE);
 }
+
 
 GtkWidget *
 e_combo_button_new (void)
@@ -644,21 +661,24 @@ e_combo_button_set_style  (EComboButton    *combo_button,
 	switch (toolbar_style) {
 	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
 		gtk_widget_show (priv->label);
-		gtk_widget_show (priv->icon_image);
+		if (combo_button->priv->button_active)
+			gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_VERTICAL);
 		break;
 
 	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
 		gtk_widget_show (priv->label);
-		gtk_widget_show (priv->icon_image);
+		if (combo_button->priv->button_active)
+			gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_HORIZONTAL);
 		break;
 
 	case GTH_TOOLBAR_STYLE_ICONS:
 		gtk_widget_hide (priv->label);
-		gtk_widget_show (priv->icon_image);
+		if (combo_button->priv->button_active)
+			gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_HORIZONTAL);
 		break;
@@ -666,12 +686,30 @@ e_combo_button_set_style  (EComboButton    *combo_button,
 
 	case GTH_TOOLBAR_STYLE_TEXT:
 		gtk_widget_show (priv->label);
-		gtk_widget_hide (priv->icon_image);
+		if (combo_button->priv->button_active)
+			gtk_widget_hide (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_HORIZONTAL);
 		break;
 
 	default:
 		break;
+	}
+}
+
+
+void
+e_combo_button_set_button_active  (EComboButton    *combo_button,
+				   gboolean         active)
+{
+	combo_button->priv->button_active = active;
+	if (!active) {
+		gtk_widget_hide (combo_button->priv->icon_image);
+		gtk_box_set_spacing (GTK_BOX (combo_button->priv->orient_box), 0); 
+		gtk_box_set_spacing (GTK_BOX (combo_button->priv->hbox), 0); 
+	} else {
+		gtk_widget_show (combo_button->priv->icon_image);
+		gtk_box_set_spacing (GTK_BOX (combo_button->priv->orient_box), SPACING); 
+		gtk_box_set_spacing (GTK_BOX (combo_button->priv->hbox), ARROW_SPACING); 
 	}
 }

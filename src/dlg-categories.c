@@ -249,6 +249,16 @@ save_categories (DialogData *data)
 }
 
 
+/* called when the "cancel" button is pressed. */
+static void
+cancel_clicked_cb (GtkWidget  *widget, 
+		   DialogData *data)
+{
+	save_categories (data);
+	gtk_widget_destroy (data->dialog);
+}
+
+
 /* called when the "ok" button is pressed. */
 static void
 ok_clicked_cb (GtkWidget  *widget, 
@@ -629,10 +639,10 @@ dlg_categories (GtkWidget *widget,
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (btn_cancel), 
+			  "clicked",
+			  G_CALLBACK (cancel_clicked_cb),
+			  data);
 	g_signal_connect (G_OBJECT (btn_help), 
 			  "clicked",
 			  G_CALLBACK (help_cb),

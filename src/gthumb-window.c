@@ -36,10 +36,17 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libbonoboui.h>
 
+#ifdef HAVE_LIBEXIF
+#include <exif-data.h>
+#include <exif-content.h>
+#include <exif-entry.h>
+#endif /* HAVE_LIBEXIF */
+
 #include "auto-completion.h"
 #include "catalog.h"
 #include "catalog-list.h"
 #include "commands-impl.h"
+#include "comments.h"
 #include "dlg-image-prop.h"
 #include "dlg-bookmarks.h"
 #include "dlg-file-utils.h"
@@ -75,8 +82,15 @@
 #define AUTO_LOAD_DELAY        750
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
-#define HISTORY_LIST_MENU      "/menu/Go/HistoryList/"
+#define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
 #define HISTORY_LIST_POPUP     "/popups/HistoryListPopup/"
+
+enum {
+	NAME_COLUMN,
+	VALUE_COLUMN,
+	POS_COLUMN,
+	NUM_COLUMNS
+};
 
 enum {
 	TARGET_PLAIN,
@@ -157,6 +171,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("AlterImage_Desaturate", alter_image_desaturate_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Invert", alter_image_invert_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Equalize", alter_image_equalize_command_impl),
+	BONOBO_UI_VERB ("AlterImage_StretchContrast", alter_image_stretch_contrast_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Normalize", alter_image_normalize_contrast_command_impl),
 	BONOBO_UI_VERB ("AlterImage_AdjustLevels", alter_image_adjust_levels_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Posterize", alter_image_posterize_command_impl),
 	BONOBO_UI_VERB ("AlterImage_BrightnessContrast", alter_image_brightness_contrast_command_impl),
@@ -314,20 +330,52 @@ set_radio_state_without_notifing (GThumbWindow *window,
 
 
 static void
+window_update_statusbar_zoom_info (GThumbWindow *window)
+{
+	const char *path;
+	int         zoom;
+	char       *text;
+
+	path = window->image_path;
+
+	if (path == NULL) {
+		if (! GTK_WIDGET_VISIBLE (window->zoom_info_frame))
+			return;
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/status/ZoomInfo", "hidden", "1", NULL);
+		gtk_widget_hide (window->zoom_info_frame);
+		return;
+	} 
+
+	if (! GTK_WIDGET_VISIBLE (window->zoom_info_frame)) {
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/status/ZoomInfo", "hidden", "0", NULL);
+		gtk_widget_show (window->zoom_info_frame);
+	}
+
+	zoom = (int) (IMAGE_VIEWER (window->viewer)->zoom_level * 100.0);
+	text = g_strdup_printf (" %d%% ", zoom);
+	gtk_label_set_markup (GTK_LABEL (window->zoom_info), text);
+	g_free (text);
+}
+
+
+static void
 window_update_statusbar_image_info (GThumbWindow *window)
 {
-	char       *text;
-	char        time_txt[50];
-	char       *size_txt;
-	char       *file_size_txt;
-	const char *path;
-	char       *escaped_name;
-	char       *utf8_name;
-	int         width, height;
-	int         zoom;
-	time_t      timer;
-	struct tm  *tm;
-	gdouble     sec;
+	char        *text;
+	char         time_txt[50];
+	char        *size_txt;
+	char        *file_size_txt;
+	const char  *path;
+	char        *utf8_name;
+	int          width, height;
+	time_t       timer;
+	struct tm   *tm;
+	gdouble      sec;
+	GtkTreeIter  iter;
+
+	gtk_list_store_clear (window->image_exif_model);
 
 	path = window->image_path;
 
@@ -352,29 +400,332 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	
 	timer = get_file_mtime (path);
 	tm = localtime (&timer);
-	strftime (time_txt, 50, _("%d %b %Y, %H:%M"), tm);
+	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	sec = g_timer_elapsed (image_loader_get_timer (IMAGE_VIEWER (window->viewer)->loader),  NULL);
-
-	zoom = (int) (IMAGE_VIEWER (window->viewer)->zoom_level * 100.0);
-	escaped_name = g_markup_escape_text (utf8_name, -1);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
 	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (path));
 
 	/**/
 
-	text = g_strdup_printf (" %s (%d%%) - %s - %s ",
+	text = g_strdup_printf (" %s - %s - %s ",
 				size_txt,
-				zoom,
 				file_size_txt,
 				time_txt);
 	gtk_label_set_markup (GTK_LABEL (window->image_info), text);
 
+	/**/
+
+	gtk_list_store_append (window->image_exif_model, &iter);
+	gtk_list_store_set (window->image_exif_model, &iter,
+			    NAME_COLUMN, _("Name"), 
+			    VALUE_COLUMN, utf8_name,
+			    POS_COLUMN, -4,
+			    -1);
+	
+	gtk_list_store_append (window->image_exif_model, &iter);
+	gtk_list_store_set (window->image_exif_model, &iter,
+			    NAME_COLUMN, _("Size"), 
+			    VALUE_COLUMN, size_txt,
+			    POS_COLUMN, -3,
+			    -1);
+	
+	gtk_list_store_append (window->image_exif_model, &iter);
+	gtk_list_store_set (window->image_exif_model, &iter,
+			    NAME_COLUMN, _("Bytes"), 
+			    VALUE_COLUMN, file_size_txt,
+			    POS_COLUMN, -2,
+			    -1);
+	
+	gtk_list_store_append (window->image_exif_model, &iter);
+	gtk_list_store_set (window->image_exif_model, &iter,
+			    NAME_COLUMN, _("Modified"),
+			    VALUE_COLUMN, time_txt,
+			    POS_COLUMN, -1,
+			    -1);
+
+	/**/
+
 	g_free (utf8_name);
-	g_free (escaped_name);
 	g_free (size_txt);
 	g_free (file_size_txt);
 	g_free (text);
+}
+
+
+#ifdef HAVE_LIBEXIF
+
+static ExifTag usefull_tags[] = {
+	0,
+
+	EXIF_TAG_EXPOSURE_TIME,
+	EXIF_TAG_EXPOSURE_PROGRAM,
+	EXIF_TAG_EXPOSURE_MODE,
+	EXIF_TAG_EXPOSURE_BIAS_VALUE,
+	EXIF_TAG_FLASH,
+	EXIF_TAG_FLASH_ENERGY,
+	EXIF_TAG_SPECTRAL_SENSITIVITY,
+	EXIF_TAG_SHUTTER_SPEED_VALUE,
+	EXIF_TAG_APERTURE_VALUE,
+	EXIF_TAG_BRIGHTNESS_VALUE,
+	EXIF_TAG_LIGHT_SOURCE,
+	EXIF_TAG_FOCAL_LENGTH,
+	EXIF_TAG_WHITE_BALANCE,
+	EXIF_TAG_WHITE_POINT,
+	EXIF_TAG_DIGITAL_ZOOM_RATIO,
+	EXIF_TAG_SUBJECT_DISTANCE,
+	EXIF_TAG_SUBJECT_DISTANCE_RANGE,
+	EXIF_TAG_METERING_MODE,
+	EXIF_TAG_CONTRAST,
+	EXIF_TAG_SATURATION,
+	EXIF_TAG_SHARPNESS,
+	EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
+	EXIF_TAG_BATTERY_LEVEL,
+
+	0,
+
+	EXIF_TAG_DATE_TIME,
+	EXIF_TAG_DATE_TIME_ORIGINAL,
+	EXIF_TAG_DATE_TIME_DIGITIZED,
+	EXIF_TAG_ORIENTATION,
+	EXIF_TAG_BITS_PER_SAMPLE,
+	EXIF_TAG_SAMPLES_PER_PIXEL,
+	EXIF_TAG_COMPRESSION,
+	EXIF_TAG_DOCUMENT_NAME,
+	EXIF_TAG_IMAGE_DESCRIPTION,
+
+	0,
+
+	/*
+	EXIF_TAG_RELATED_IMAGE_WIDTH,
+	EXIF_TAG_RELATED_IMAGE_LENGTH,
+	*/
+	EXIF_TAG_IMAGE_WIDTH,
+	EXIF_TAG_IMAGE_LENGTH,
+	EXIF_TAG_PIXEL_X_DIMENSION,
+	EXIF_TAG_PIXEL_Y_DIMENSION,
+	EXIF_TAG_X_RESOLUTION,
+	EXIF_TAG_Y_RESOLUTION,
+	EXIF_TAG_RESOLUTION_UNIT,
+
+	0,
+
+	EXIF_TAG_ARTIST,
+	EXIF_TAG_COPYRIGHT,
+	/*
+	EXIF_TAG_MAKER_NOTE,
+	EXIF_TAG_USER_COMMENT,
+	*/
+	EXIF_TAG_SUBJECT_LOCATION,
+	EXIF_TAG_SCENE_TYPE,
+
+	0,
+
+	EXIF_TAG_MAKE,
+	EXIF_TAG_MODEL,
+	EXIF_TAG_MAX_APERTURE_VALUE,
+	EXIF_TAG_SENSING_METHOD,
+	EXIF_TAG_EXIF_VERSION,
+	EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+	EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
+	EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT
+};
+
+
+static gboolean
+tag_is_present (GtkTreeModel *model,
+		const char   *tag_name)
+{
+	GtkTreeIter  iter;
+
+	if (tag_name == NULL)
+		return FALSE;
+
+	if (! gtk_tree_model_get_iter_first (model, &iter))
+		return FALSE;
+
+	do {
+		char *tag_name2;
+
+		gtk_tree_model_get (model,
+				    &iter,
+				    NAME_COLUMN, &tag_name2,
+				    -1);
+		if ((tag_name2 != NULL) && (strcmp (tag_name, tag_name2) == 0)) {
+			g_free (tag_name2);
+			return TRUE;
+		}
+
+		g_free (tag_name2);
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	return FALSE;
+}
+
+
+static ExifEntry *
+get_entry_from_tag (ExifData *edata,
+		    int       tag)
+{
+	int i, j;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry *e = content->entries[j];
+
+			if (! content->entries[j]) 
+				continue;
+
+			if (e->tag == tag)
+				return e;
+		}
+	}
+
+	return NULL;
+}
+
+
+static void
+update_exif_data (GThumbWindow *window)
+{
+	ExifData     *edata;
+	unsigned int  i;
+	gboolean      date_added = FALSE;
+	gboolean      last_entry_is_void = FALSE;
+	gboolean      list_is_empty = TRUE;
+
+	edata = exif_data_new_from_file (window->image_path);
+
+	if (edata == NULL) 
+                return;
+
+	for (i = 0; i < G_N_ELEMENTS (usefull_tags); i++) {
+		ExifEntry   *e;
+		GtkTreeIter  iter;
+		char        *utf8_name;
+		char        *utf8_value;
+		
+		if ((usefull_tags[i] == 0) && ! last_entry_is_void) {
+			gtk_list_store_append (window->image_exif_model, &iter);
+			gtk_list_store_set (window->image_exif_model, &iter,
+					    NAME_COLUMN, "",
+					    VALUE_COLUMN, "",
+					    POS_COLUMN, i,
+					    -1);
+			last_entry_is_void = TRUE;
+			continue;
+		}
+
+		e = get_entry_from_tag (edata, usefull_tags[i]);
+		if (e == NULL)
+			continue;
+
+		utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
+		if (tag_is_present (GTK_TREE_MODEL (window->image_exif_model), utf8_name)) {
+			g_free (utf8_name);
+			continue;
+		}
+
+		if ((e->tag == EXIF_TAG_DATE_TIME)
+		    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
+		    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
+			if (date_added) {
+				g_free (utf8_name);
+				continue;
+			} else
+				date_added = TRUE;
+		}
+
+		gtk_list_store_append (window->image_exif_model, &iter);
+		utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+		gtk_list_store_set (window->image_exif_model, &iter,
+				    NAME_COLUMN, utf8_name,
+				    VALUE_COLUMN, utf8_value,
+				    POS_COLUMN, i,
+				    -1);
+		g_free (utf8_name);
+		g_free (utf8_value);
+
+		last_entry_is_void = FALSE;
+		list_is_empty = FALSE;
+	}
+
+	exif_data_unref (edata);
+}
+
+#endif /* HAVE_LIBEXIF */
+
+
+static void
+update_image_comment (GThumbWindow *window)
+{
+	CommentData   *cdata;
+	char          *comment;
+	GtkTextBuffer *text_buffer;
+
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (window->image_comment));
+
+	if (window->image_path == NULL) {
+		GtkTextIter start, end;
+		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
+		gtk_text_buffer_delete (text_buffer, &start, &end);
+                return;
+	}
+
+	cdata = comments_load_comment (window->image_path);
+
+	if (cdata == NULL) {
+		GtkTextIter  iter;
+		const char  *click_here = _("Press 'c' to add a comment");
+		GtkTextIter  start, end;
+		GtkTextTag  *tag;
+
+		gtk_text_buffer_set_text (text_buffer, click_here, strlen (click_here));
+		gtk_text_buffer_get_iter_at_line (text_buffer, &iter, 0);
+		gtk_text_buffer_place_cursor (text_buffer, &iter);
+
+		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
+		tag = gtk_text_buffer_create_tag (text_buffer, NULL, 
+						  "style", PANGO_STYLE_ITALIC,
+						  NULL);
+		gtk_text_buffer_apply_tag (text_buffer, tag, &start, &end);
+
+                return;
+	}
+
+	comment = comments_get_comment_as_string (cdata, "\n\n", " - ");
+
+	if (comment != NULL) {
+		GtkTextIter iter;
+		gtk_text_buffer_set_text (text_buffer, comment, strlen (comment));
+		gtk_text_buffer_get_iter_at_line (text_buffer, &iter, 0);
+		gtk_text_buffer_place_cursor (text_buffer, &iter);
+
+	} else {
+		GtkTextIter start, end;
+		gtk_text_buffer_get_bounds (text_buffer, &start, &end);
+		gtk_text_buffer_delete (text_buffer, &start, &end);
+	}
+
+	g_free (comment);
+	comment_data_free (cdata);
+}
+
+
+static void
+window_update_image_info (GThumbWindow *window)
+{
+	window_update_statusbar_image_info (window);
+	window_update_statusbar_zoom_info (window);
+#ifdef HAVE_LIBEXIF
+	update_exif_data (window);
+#endif /* HAVE_LIBEXIF */
+	update_image_comment (window);
 }
 
 
@@ -434,10 +785,9 @@ window_update_title (GThumbWindow *window)
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
 
-			info_txt = g_strdup_printf ("%s%s - %s",
+			info_txt = g_strdup_printf ("%s%s",
 						    window->dir_list->path,
-						    modified,
-						    _("gThumb"));
+						    modified);
 		} else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			   && (window->catalog_path != NULL)) {
 			const char *cat_name;
@@ -449,9 +799,7 @@ window_update_title (GThumbWindow *window)
 			/* Cut out the file extension. */
 			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
 			
-			info_txt = g_strdup_printf ("%s - %s",
-						    cat_name_no_ext,
-						    _("gThumb"));
+			info_txt = g_strdup_printf ("%s", cat_name_no_ext);
 			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
@@ -467,17 +815,10 @@ window_update_title (GThumbWindow *window)
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
 			
-			info_txt = g_strdup_printf ("%s%s - %s - %s",
-						    image_name,
-						    modified,
-						    cat_name,
-						    _("gThumb"));
+			info_txt = g_strdup_printf ("%s%s - %s", image_name, modified, cat_name);
 			g_free (cat_name);
 		} else 
-			info_txt = g_strdup_printf ("%s%s - %s",
-						    image_name,
-						    modified,
-						    _("gThumb"));
+			info_txt = g_strdup_printf ("%s%s", image_name, modified);
 	}
 
 	info_txt_utf8 = g_locale_to_utf8 (info_txt, -1, NULL, NULL, NULL);
@@ -750,6 +1091,8 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_command_sensitive (window, "View_ImageProp", ! image_is_void);
 	set_command_sensitive (window, "View_Fullscreen", ! image_is_void);
+	set_command_sensitive (window, "View_ShowPreview", window->sidebar_visible);
+	set_command_sensitive (window, "View_ShowInfo", ! window->sidebar_visible);
 
 	/* Tools menu. */
 
@@ -818,6 +1161,8 @@ window_start_activity_mode (GThumbWindow *window)
 	if (window->activity_ref++ > 0)
 		return;
 
+	gtk_widget_show (window->progress);
+
 	window->activity_timeout = g_timeout_add (ACTIVITY_DELAY, 
 						  load_progress, 
 						  window);
@@ -831,6 +1176,8 @@ window_stop_activity_mode (GThumbWindow *window)
 
 	if (--window->activity_ref > 0)
 		return;
+
+	gtk_widget_hide (window->progress);
 
 	if (window->activity_timeout == 0)
 		return;
@@ -1452,6 +1799,27 @@ make_image_visible (GThumbWindow *window,
 	}
 }
 
+static void
+window_image_viewer_set_void (GThumbWindow *window)
+{
+	g_free (window->image_path);
+	window->image_path = NULL;
+
+	window->image_mtime = 0;
+	window->image_modified = FALSE;
+
+	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
+
+	window_update_statusbar_image_info (window);
+ 	window_update_image_info (window);
+	window_update_title (window);
+	window_update_infobar (window);
+	window_update_sensitivity (window);
+
+	if (window->image_prop_dlg != NULL)
+		dlg_image_prop_update (window->image_prop_dlg);
+}
+
 
 static void
 window_make_current_image_visible (GThumbWindow *window)
@@ -1469,10 +1837,10 @@ window_make_current_image_visible (GThumbWindow *window)
 	pos = gth_file_list_pos_from_path (window->file_list, path);
 	g_free (path);
 
-	if (pos == -1)
-		return;
-	
-	make_image_visible (window, pos);
+	if (pos == -1) 
+		window_image_viewer_set_void (window);
+	else
+		make_image_visible (window, pos);
 }
 
 
@@ -1868,6 +2236,7 @@ catalog_activate (GThumbWindow *window,
 	if (path_is_dir (cat_path)) {
 		window_go_to_catalog (window, NULL);
 		window_go_to_catalog_directory (window, cat_path);
+
 	} else {
 		Catalog *catalog = catalog_new ();
 		GError  *gerror;
@@ -2256,8 +2625,8 @@ image_loaded_cb (GtkWidget    *widget,
 	window->image_mtime = get_file_mtime (window->image_path);
 	window->image_modified = FALSE;
 
+	window_update_image_info (window);
 	window_update_infobar (window);
-	window_update_statusbar_image_info (window);
 	window_update_title (window);
 	window_update_sensitivity (window);
 
@@ -2270,18 +2639,7 @@ static void
 image_requested_error_cb (GtkWidget    *widget, 
 			  GThumbWindow *window)
 {
-	window->image_mtime = 0;
-	window->image_modified = FALSE;
-
-	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
-
-	window_update_infobar (window);
-	window_update_title (window);
-	window_update_statusbar_image_info (window);
-	window_update_sensitivity (window);
-
-	if (window->image_prop_dlg != NULL)
-		dlg_image_prop_update (window->image_prop_dlg);
+	window_image_viewer_set_void (window);
 }
 
 
@@ -2301,7 +2659,7 @@ static gint
 zoom_changed_cb (GtkWidget    *widget, 
 		 GThumbWindow *window)
 {
-	window_update_statusbar_image_info (window);
+	window_update_statusbar_zoom_info (window);
 	return TRUE;	
 }
 
@@ -2334,21 +2692,100 @@ size_changed_cb (GtkWidget    *widget,
 
 
 static void
+show_image_data (GThumbWindow *window)
+{
+	gtk_widget_show (window->preview_widget_data);
+	gtk_widget_show (window->preview_widget_comment);
+	gtk_widget_show (window->preview_widget_data_comment);
+
+	window->image_data_visible = TRUE;
+}
+
+
+static void
+hide_image_data (GThumbWindow *window)
+{
+	gtk_widget_hide (window->preview_widget_data_comment);
+	window->image_data_visible = FALSE;
+}
+
+
+static void
+toggle_image_data_visibility (GThumbWindow *window)
+{
+	if (window->sidebar_visible)
+		return;
+
+	if (window->image_data_visible) 
+		hide_image_data (window);
+	else
+		show_image_data (window);
+}
+
+
+static void
+change_image_preview_content (GThumbWindow *window)
+{
+	GtkWidget *widget_to_focus;
+
+	if (! window->sidebar_visible) 
+		return;
+
+	if (! window->image_pane_visible) {
+		window_show_image_pane (window);
+		return;
+	}
+
+	if (window->preview_content == PREVIEW_CONTENT_IMAGE) {
+		gtk_widget_hide (window->preview_widget_image);
+		gtk_widget_show (window->preview_widget_data_comment);
+		gtk_widget_show (window->preview_widget_data);
+		gtk_widget_hide (window->preview_widget_comment);
+		window->preview_content = PREVIEW_CONTENT_DATA;
+		
+	} else if (window->preview_content == PREVIEW_CONTENT_DATA) {
+		gtk_widget_hide (window->preview_widget_image);
+		gtk_widget_show (window->preview_widget_data_comment);
+		gtk_widget_show (window->preview_widget_comment);
+		gtk_widget_hide (window->preview_widget_data);
+		window->preview_content = PREVIEW_CONTENT_COMMENT;
+		
+	} else if (window->preview_content == PREVIEW_CONTENT_COMMENT) {
+		gtk_widget_hide (window->preview_widget_data_comment);
+		gtk_widget_show (window->preview_widget_image);
+		window->preview_content = PREVIEW_CONTENT_IMAGE;
+	}
+
+	/**/
+
+	switch (window->preview_content) {
+	case PREVIEW_CONTENT_IMAGE:
+		widget_to_focus = window->viewer;
+		break;
+	case PREVIEW_CONTENT_DATA:
+		widget_to_focus = window->image_exif_view;
+		break;
+	case PREVIEW_CONTENT_COMMENT:
+		widget_to_focus = window->image_comment;
+		break;
+	}
+
+	gtk_widget_grab_focus (widget_to_focus);
+}
+
+
+static void
 toggle_image_preview_visibility (GThumbWindow *window)
 {
-	if (window->sidebar_visible) {
-		if (window->image_pane_visible) 
-			window_hide_image_pane (window);
-		else
-			window_show_image_pane (window);
+	if (! window->sidebar_visible) 
+		return;
+
+	if (window->preview_visible) {
+		window->preview_visible = FALSE;
+		window_hide_image_pane (window);
 	} else {
-		window->image_preview_visible = ! window->image_preview_visible;
-		/* Sync menu and toolbar. */
-		set_command_state_if_different (window, 
-						"/commands/View_ShowPreview", 
-						window->image_preview_visible, 
-						FALSE,
-						FALSE);
+		window->preview_visible = TRUE;
+		window_show_image_pane (window);
 	}
 }
 
@@ -2380,6 +2817,12 @@ key_press_cb (GtkWidget   *widget,
 	if (GTK_WIDGET_HAS_FOCUS (window->location_entry))
 		return FALSE;
 
+	if (GTK_WIDGET_HAS_FOCUS (window->preview_button_image)
+	    || GTK_WIDGET_HAS_FOCUS (window->preview_button_data)
+	    || GTK_WIDGET_HAS_FOCUS (window->preview_button_comment))
+		if (event->keyval == GDK_space)
+			return FALSE;
+
 	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
 		return FALSE;
 
@@ -2396,8 +2839,18 @@ key_press_cb (GtkWidget   *widget,
 			window_show_sidebar (window);
 		return TRUE;
 
-		/* Hide/Show image pane. */
+		/* Change image pane content. */
+	case GDK_i:
+	case GDK_a: /* FIXME */
+		toggle_image_data_visibility (window);
+		return TRUE;
+
 	case GDK_q:
+		change_image_preview_content (window);
+		return TRUE;
+
+		/* Hide/Show image pane. */
+	case GDK_Q:
 		toggle_image_preview_visibility (window);
 		return TRUE;
 
@@ -2544,14 +2997,6 @@ key_press_cb (GtkWidget   *widget,
 			break;
 
 		edit_edit_categories_command_impl (NULL, window, NULL);
-		return TRUE;
-
-		/* Image Properties */
-	case GDK_i:
-		if (image_is_void)
-			break;
-
-		window_show_image_prop (window);
 		return TRUE;
 
 	default:
@@ -2741,9 +3186,30 @@ image_focus_changed_cb (GtkWidget     *widget,
 			gpointer       data)
 {
 	GThumbWindow *window = data;
+	gboolean      viewer_visible;
+	gboolean      data_visible;
+	gboolean      comment_visible;
 
-	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
-				     GTK_WIDGET_HAS_FOCUS (window->viewer));
+	viewer_visible  = ((window->sidebar_visible 
+			    && window->preview_visible 
+			    && (window->preview_content == PREVIEW_CONTENT_IMAGE))
+			   || ! window->sidebar_visible);
+	data_visible    = (window->sidebar_visible 
+			   && window->preview_visible 
+			   && (window->preview_content == PREVIEW_CONTENT_DATA));
+	comment_visible = (window->sidebar_visible 
+			   && window->preview_visible 
+			   && (window->preview_content == PREVIEW_CONTENT_COMMENT));
+
+	if (viewer_visible)
+		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
+					     GTK_WIDGET_HAS_FOCUS (window->viewer));
+	else if (data_visible)
+		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
+					     GTK_WIDGET_HAS_FOCUS (window->image_exif_view));
+	else if (comment_visible)
+		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
+					     GTK_WIDGET_HAS_FOCUS (window->image_comment));
 
 	return FALSE;
 }
@@ -2936,7 +3402,22 @@ info_bar_clicked_cb (GtkWidget      *widget,
 		     GdkEventButton *event,
 		     GThumbWindow   *window)
 {
-	gtk_widget_grab_focus (window->viewer);
+	GtkWidget *widget_to_focus = NULL;
+
+	switch (window->preview_content) {
+	case PREVIEW_CONTENT_IMAGE:
+		widget_to_focus = window->viewer;
+		break;
+	case PREVIEW_CONTENT_DATA:
+		widget_to_focus = window->image_exif_view;
+		break;
+	case PREVIEW_CONTENT_COMMENT:
+		widget_to_focus = window->image_comment;
+		break;
+	}
+
+	gtk_widget_grab_focus (widget_to_focus);
+
 	return TRUE;
 }
 
@@ -3646,6 +4127,9 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	if (strcmp (path, "View_ShowPreview") == 0) 
 		toggle_image_preview_visibility (window);
 
+	if (strcmp (path, "View_ShowInfo") == 0) 
+		toggle_image_data_visibility (window);
+
 	if ((strcmp (path, "View_AsList") == 0) && s) {
 		pref_set_view_as (GTH_VIEW_AS_LIST);
 
@@ -3762,6 +4246,7 @@ add_listener_for_toggle_items (GThumbWindow *window)
 		"View_Toolbar",
 		"View_Statusbar",
 		"View_ShowPreview",
+		"View_ShowInfo",
 		"View_AsList",
 		"View_AsThumbnails",
 		"Tools_Slideshow"
@@ -3920,20 +4405,25 @@ pref_show_thumbnails_changed (GConfClient *client,
 
 
 static void
+pref_show_filenames_changed (GConfClient *client,
+			     guint        cnxn_id,
+			     GConfEntry  *entry,
+			     gpointer     user_data)
+{
+	GThumbWindow  *window = user_data;
+	gth_file_view_set_view_mode (window->file_list->view, pref_get_view_mode ());
+	window_update_file_list (window);
+}
+
+
+static void
 pref_show_comments_changed (GConfClient *client,
 			    guint        cnxn_id,
 			    GConfEntry  *entry,
 			    gpointer     user_data)
 {
 	GThumbWindow  *window = user_data;
-	GthViewMode    view_mode;
-
-	if (eel_gconf_get_boolean (PREF_SHOW_COMMENTS))
-		view_mode = GTH_VIEW_MODE_ALL;
-	else
-		view_mode = GTH_VIEW_MODE_LABEL;
-
-	gth_file_view_set_view_mode (window->file_list->view, view_mode);
+	gth_file_view_set_view_mode (window->file_list->view, pref_get_view_mode ());
 	window_update_file_list (window);
 }
 
@@ -4173,6 +4663,59 @@ pref_view_as_changed (GConfClient *client,
 }
 
 
+static void
+set_preview_content (GThumbWindow   *window,
+		     PreviewContent  content)
+{
+	window->preview_content = content;
+
+	gtk_widget_hide (window->preview_widget_image);
+	gtk_widget_hide (window->preview_widget_data);
+	gtk_widget_hide (window->preview_widget_comment);
+	gtk_widget_hide (window->preview_widget_data_comment);
+
+	if (window->preview_content == PREVIEW_CONTENT_IMAGE)
+		gtk_widget_show (window->preview_widget_image);
+
+	if (window->preview_content == PREVIEW_CONTENT_DATA) {
+		gtk_widget_show (window->preview_widget_data);
+		gtk_widget_show(window->preview_widget_data_comment);
+	}
+
+	if (window->preview_content == PREVIEW_CONTENT_COMMENT) {
+		gtk_widget_show (window->preview_widget_comment);
+		gtk_widget_show(window->preview_widget_data_comment);
+	}
+}
+
+
+static void
+preview_image_button_cb (GtkWidget    *widget,
+			 GThumbWindow *window)
+{
+	set_preview_content (window, PREVIEW_CONTENT_IMAGE);
+}
+
+
+static void
+preview_data_button_cb (GtkWidget    *widget,
+			GThumbWindow *window)
+{
+	if (window->sidebar_visible)
+		set_preview_content (window, PREVIEW_CONTENT_DATA);
+	else
+		toggle_image_data_visibility (window);
+}
+
+
+static void
+preview_comment_button_cb (GtkWidget    *widget,
+			   GThumbWindow *window)
+{
+	set_preview_content (window, PREVIEW_CONTENT_COMMENT);
+}
+
+
 
 
 
@@ -4187,12 +4730,20 @@ window_new (void)
 	GtkWidget         *image_vbox;
 	GtkWidget         *dir_list_vbox;
 	GtkWidget         *info_frame;
+	GtkWidget         *info_hbox;
+	GtkWidget         *image_pane_paned1;
+	GtkWidget         *image_pane_paned2;
+	GtkWidget         *scrolled_win; 
         BonoboUIContainer *ui_container;
         BonoboControl     *control;
 	BonoboWindow      *win;
 	GtkTreeSelection  *selection;
 	int                i; 
 	char              *starting_location;
+#ifdef HAVE_LIBEXIF
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+#endif /* HAVE_LIBEXIF */
 
 	window = g_new0 (GThumbWindow, 1);
 
@@ -4490,25 +5041,87 @@ window_new (void)
 	/**/
 
 	image_vbox = window->image_pane = gtk_vbox_new (FALSE, 0);
+
 	if (window->layout_type <= 1)
 		gtk_paned_pack2 (GTK_PANED (paned1), image_vbox, TRUE, FALSE);
 	else
 		gtk_paned_pack2 (GTK_PANED (paned2), image_vbox, TRUE, FALSE);
 
-	/**/
+	/* image info bar */
 
 	info_frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (info_frame), window->info_bar);
-
 	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
+
+	info_hbox = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (info_frame), info_hbox);
+
+	gtk_box_pack_start (GTK_BOX (info_hbox), window->info_bar, TRUE, TRUE, 0);
+
+	window->tooltips = gtk_tooltips_new ();
+
+	/* FIXME */
+	{
+		GtkWidget *button;
+		GtkWidget *image;
+
+		image = _gtk_image_new_from_inline (preview_comment_16_rgba);
+		window->preview_button_comment = button = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (button), image);
+		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		g_signal_connect (G_OBJECT (button), 
+				  "clicked",
+				  G_CALLBACK (preview_comment_button_cb), 
+				  window);
+		gtk_tooltips_set_tip (window->tooltips,
+				      button,
+				      _("Image comment"),
+				      NULL);
+
+		image = _gtk_image_new_from_inline (preview_data_16_rgba);
+		window->preview_button_data = button = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (button), image);
+		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		g_signal_connect (G_OBJECT (button), 
+				  "clicked",
+				  G_CALLBACK (preview_data_button_cb), 
+				  window);
+		gtk_tooltips_set_tip (window->tooltips,
+				      button,
+				      _("Image data"),
+				      NULL);
+
+		image = _gtk_image_new_from_inline (preview_image_16_rgba);
+		window->preview_button_image = button = gtk_button_new ();
+		gtk_container_add (GTK_CONTAINER (button), image);
+		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		g_signal_connect (G_OBJECT (button), 
+				  "clicked",
+				  G_CALLBACK (preview_image_button_cb), 
+				  window);
+		gtk_tooltips_set_tip (window->tooltips,
+				      button,
+				      _("Image preview"),
+				      NULL);
+	}
+
+
+	/* image preview, comment, exif data. */
+
+	image_pane_paned1 = gtk_vpaned_new ();
+	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT) / 2);
+	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
 
 	/**/
 
 	window->viewer_container = frame = gtk_hbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), window->viewer);
 
-	table = gtk_table_new (2, 2, FALSE);
+	window->preview_widget_image = table = gtk_table_new (2, 2, FALSE);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), table, TRUE, FALSE);
 
 	gtk_table_attach (GTK_TABLE (table), frame, 0, 1, 0, 1,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -4523,16 +5136,103 @@ window_new (void)
 			  (GtkAttachOptions) (GTK_FILL),
 			  (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-	gtk_box_pack_start (GTK_BOX (image_vbox), table, TRUE, TRUE, 0);
+	/**/
+
+	window->preview_widget_data_comment = image_pane_paned2 = gtk_hpaned_new ();
+	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, FALSE, FALSE);
+
+	window->preview_widget_comment = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), image_pane_paned2, FALSE, FALSE);
+
+	window->image_comment = gtk_text_view_new ();
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (window->image_comment), FALSE);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (window->image_comment), GTK_WRAP_WORD);
+	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (window->image_comment), TRUE);
+	gtk_container_add (GTK_CONTAINER (scrolled_win), window->image_comment);
+
+	gtk_paned_pack2 (GTK_PANED (image_pane_paned2), scrolled_win, FALSE, FALSE);
+
+	g_signal_connect (G_OBJECT (window->image_comment), 
+			  "focus_in_event",
+			  G_CALLBACK (image_focus_changed_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (window->image_comment), 
+			  "focus_out_event",
+			  G_CALLBACK (image_focus_changed_cb), 
+			  window);
+
+	/* exif data */
+
+	window->preview_widget_data = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
+
+	window->image_exif_view = gtk_tree_view_new ();
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (window->image_exif_view), FALSE);
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (window->image_exif_view), TRUE);
+	window->image_exif_model = gtk_list_store_new (3,
+						       G_TYPE_STRING, 
+						       G_TYPE_STRING,
+						       G_TYPE_INT);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (window->image_exif_view),
+				 GTK_TREE_MODEL (window->image_exif_model));
+	g_object_unref (window->image_exif_model);
+
+	gtk_container_add (GTK_CONTAINER (scrolled_win), window->image_exif_view);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned2), scrolled_win, FALSE, FALSE);
+
+	g_signal_connect (G_OBJECT (window->image_exif_view), 
+			  "focus_in_event",
+			  G_CALLBACK (image_focus_changed_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (window->image_exif_view), 
+			  "focus_out_event",
+			  G_CALLBACK (image_focus_changed_cb), 
+			  window);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Field"),
+							   renderer,
+							   "text", NAME_COLUMN,
+							   NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
+				     column);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Value"),
+							   renderer,
+							   "text", VALUE_COLUMN,
+							   NULL);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
+				     column);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (window->image_exif_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
 	/* Progress bar. */
 
+	window->progress = gtk_progress_bar_new ();
+	gtk_widget_show (window->progress);
+	control = bonobo_control_new (window->progress);
+	bonobo_ui_component_object_set (window->ui_component,
+                                        "/status/ActivityProgress",
+                                        BONOBO_OBJREF (control),
+                                        NULL);
+        bonobo_object_unref (BONOBO_OBJECT (control));
+
+	/* Image info */
+
 	window->image_info = gtk_label_new (NULL);
+	gtk_widget_show (window->image_info);
 
 	window->image_info_frame = info_frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (info_frame), window->image_info);
-	gtk_widget_show_all (info_frame);
 
 	control = bonobo_control_new (info_frame);
 	bonobo_ui_component_object_set (window->ui_component,
@@ -4541,12 +5241,18 @@ window_new (void)
                                         NULL);
         bonobo_object_unref (BONOBO_OBJECT (control));
 
-	window->progress = gtk_progress_bar_new ();
-	gtk_widget_set_size_request (window->progress, PROGRESS_BAR_WIDTH, -1);
-	gtk_widget_show (window->progress);
-	control = bonobo_control_new (window->progress);
+	/* Zoom info */
+
+	window->zoom_info = gtk_label_new (NULL);
+	gtk_widget_show (window->zoom_info);
+
+	window->zoom_info_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (window->zoom_info_frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (window->zoom_info_frame), window->zoom_info);
+
+	control = bonobo_control_new (window->zoom_info_frame);
 	bonobo_ui_component_object_set (window->ui_component,
-                                        "/status/ActivityProgress",
+                                        "/status/ZoomInfo",
                                         BONOBO_OBJREF (control),
                                         NULL);
         bonobo_object_unref (BONOBO_OBJECT (control));
@@ -4583,8 +5289,9 @@ window_new (void)
 
 	window->sidebar_content = GTH_SIDEBAR_NO_LIST;
 	window->sidebar_visible = TRUE;
-	window->image_preview_visible = eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE);
-	window->image_pane_visible = window->image_preview_visible;
+	window->preview_visible = eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE);
+	window->image_pane_visible = window->preview_visible;
+	window->image_data_visible = FALSE;
 	window->catalog_path = NULL;
 	window->image_path = NULL;
 	window->image_mtime = 0;
@@ -4683,8 +5390,13 @@ window_new (void)
 	else 
 		window_hide_image_pane (window);
 
+	window->preview_content = PREVIEW_CONTENT_IMAGE;
+	gtk_widget_show (window->preview_widget_image);
+	gtk_widget_hide (window->preview_widget_data_comment);
+
 	window_notify_update_toolbar_style (window);
 	window_update_statusbar_image_info (window);
+	window_update_statusbar_zoom_info (window);
 
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
 				       pref_get_zoom_quality ());
@@ -4734,6 +5446,11 @@ window_new (void)
 	window->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_SHOW_THUMBNAILS,
 					   pref_show_thumbnails_changed,
+					   window);
+
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_SHOW_FILENAMES,
+					   pref_show_filenames_changed,
 					   window);
 
 	window->cnxn_id[i++] = eel_gconf_notification_add (
@@ -4797,9 +5514,10 @@ window_new (void)
 
 	starting_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
 
-	if (pref_util_location_is_catalog (starting_location)) {
+	if (pref_util_location_is_catalog (starting_location)) 
 		window_go_to_catalog (window, pref_util_get_catalog_location (starting_location));
-	} else {
+
+	else {
 		const char *path;
 
 		if (pref_util_location_is_file (starting_location))
@@ -4933,7 +5651,7 @@ close__step5 (GThumbWindow *window)
 	pref_set_check_type (image_viewer_get_check_type (viewer));
 	pref_set_check_size (image_viewer_get_check_size (viewer));
 
-	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->image_preview_visible);
+	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->preview_visible);
 
 	/* Destroy the main window. */
 
@@ -4988,6 +5706,8 @@ close__step5 (GThumbWindow *window)
 		window->popup_menu = NULL;
 	}
 
+	gtk_object_destroy (GTK_OBJECT (window->tooltips));
+
 	gtk_widget_destroy (window->app);
 	window_list = g_list_remove (window_list, window);
 	window_free (window);
@@ -5017,9 +5737,13 @@ close__step4 (GThumbWindow *window)
 {
 	if (window->slideshow)
 		window_stop_slideshow (window);
-	gthumb_preloader_stop (window->preloader, 
-			       (DoneFunc) close__step5, 
-			       window);
+
+	if (window->preloader != NULL)
+		gthumb_preloader_stop (window->preloader, 
+				       (DoneFunc) close__step5, 
+				       window);
+	else
+		close__step5 (window);
 }
 
 
@@ -5103,7 +5827,11 @@ window_set_sidebar_content (GThumbWindow *window,
 		window_go_to_catalog_directory (window, path);
 		
 		g_free (path);
-		
+
+#ifdef DEBUG
+		g_print ("catalog path: %s\n", window->catalog_path);
+#endif /* DEBUG */
+
 		if (window->catalog_path != NULL) {
 			GtkTreeIter iter;
 			
@@ -5149,6 +5877,11 @@ window_hide_sidebar (GThumbWindow *window)
 		gtk_widget_hide (GTK_PANED (window->content_pane)->child1);
 	}
 
+	if (window->image_data_visible)
+		show_image_data (window);
+	else
+		hide_image_data (window);
+	gtk_widget_show (window->preview_widget_image);
 	gtk_widget_grab_focus (window->viewer);
 
 	/* Sync menu and toolbar. */
@@ -5172,6 +5905,13 @@ window_hide_sidebar (GThumbWindow *window)
 		set_command_visible (window, "View_Sidebar_Catalogs", window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST);
 		set_command_visible (window, "View_Sidebar_Folders", window->sidebar_content == GTH_SIDEBAR_DIR_LIST);
 	}
+
+	/**/
+
+	gtk_widget_hide (window->preview_button_image);
+	/*gtk_widget_hide (window->preview_button_data);*/
+	gtk_widget_hide (window->preview_button_comment);
+	window_update_sensitivity (window);
 
 	/**/
 
@@ -5204,6 +5944,15 @@ window_show_sidebar (GThumbWindow *window)
 		gtk_widget_show (GTK_PANED (window->content_pane)->child1);
 	}
 
+	/**/
+
+	set_preview_content (window, window->preview_content);
+
+	if (window->preview_visible) 
+		gtk_widget_show (window->image_pane);
+	else 
+		gtk_widget_hide (window->image_pane);
+
 	/* Sync menu and toolbar. */
 
 	cname = get_command_name_from_sidebar_content (window);
@@ -5223,9 +5972,14 @@ window_show_sidebar (GThumbWindow *window)
 					      NULL);
 	}
 
+	gtk_widget_show (window->preview_button_image);
+	/*gtk_widget_show (window->preview_button_data);*/
+	gtk_widget_show (window->preview_button_comment);
+	window_update_sensitivity (window);
+
 	/**/
 
-	if (window->image_preview_visible)
+	if (window->preview_visible)
 		window_show_image_pane (window);
 	else
 		window_hide_image_pane (window);
@@ -5247,7 +6001,7 @@ window_hide_image_pane (GThumbWindow *window)
 	if (! window->sidebar_visible)
 		window_show_sidebar (window);
 	else {
-		window->image_preview_visible = FALSE;
+		window->preview_visible = FALSE;
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
@@ -5264,7 +6018,7 @@ window_show_image_pane (GThumbWindow *window)
 	window->image_pane_visible = TRUE;
 
 	if (window->sidebar_visible) {
-		window->image_preview_visible = TRUE;
+		window->preview_visible = TRUE;
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
@@ -5579,7 +6333,7 @@ window_remove_monitor (GThumbWindow *window)
 static void
 set_dir_list_continue (gpointer data)
 {
-	GThumbWindow   *window = data;
+	GThumbWindow *window = data;
 
 	window_update_title (window);
 	window_update_sensitivity (window);
@@ -6420,19 +7174,12 @@ window_load_image (GThumbWindow *window,
 
 	/**/
 
-	if (window->image_path)
-		g_free (window->image_path);
-	window->image_path = NULL;
-
 	if (filename == NULL) {
-		image_viewer_set_void (IMAGE_VIEWER (window->viewer));
-		window_update_title (window);
-		window_update_statusbar_image_info (window);
-		window_update_infobar (window);
-		window_update_sensitivity (window);
+		window_image_viewer_set_void (window);
 		return;
 	}
-		
+
+	g_free (window->image_path);
 	window->image_path = g_strdup (filename);
 
 	window->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
@@ -7008,6 +7755,8 @@ window_notify_update_comment (GThumbWindow *window,
 
 	g_return_if_fail (window != NULL);
 
+	update_image_comment (window);
+
 	pos = gth_file_list_pos_from_path (window->file_list, filename);
 	if (pos != -1)
 		gth_file_list_update_comment (window->file_list, pos);
@@ -7082,10 +7831,10 @@ window_notify_update_layout (GThumbWindow *window)
 
 	bonobo_window_set_contents (BONOBO_WINDOW (window->app), paned1);
 
-	gtk_widget_destroy (window->main_pane);
-
 	gtk_widget_show (paned1);
 	gtk_widget_show (paned2);
+
+	gtk_widget_destroy (window->main_pane);
 
 	window->main_pane = paned1;
 	window->content_pane = paned2;
@@ -7141,7 +7890,7 @@ window_notify_update_icon_theme (GThumbWindow *window)
 
 	icon = gtk_widget_render_icon (window->app,
 				       GTK_STOCK_GO_BACK,
-				       GTK_ICON_SIZE_LARGE_TOOLBAR,
+				       GTK_ICON_SIZE_MENU,
 				       "");
 	e_combo_button_set_icon (E_COMBO_BUTTON (window->go_back_combo_button),
 				 icon);

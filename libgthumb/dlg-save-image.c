@@ -46,13 +46,24 @@ typedef enum {
 } ImageType;
 
 
+typedef struct {
+	ImageSavedFunc  done_func;
+	gpointer        done_data;
+} SaveImageData;
+
+
 static void
 destroy_cb (GtkWidget *w,
 	    GtkWidget *file_sel)
 {
-	GdkPixbuf *pixbuf;
+	GdkPixbuf     *pixbuf;
+	SaveImageData *data;
+
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	g_object_unref (pixbuf);
+
+	data = g_object_get_data (G_OBJECT (file_sel), "data");
+	g_free (data);
 }
 
 
@@ -60,14 +71,14 @@ static void
 file_save_ok_cb (GtkWidget *w,
 		 GtkWidget *file_sel)
 {
-	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
-	GtkWindow     *parent;
-	GtkWidget     *opt_menu;
-	GdkPixbuf     *pixbuf;
-	char          *filename;
-	gboolean       file_exists;
-	const char    *mime_type;
-	int            idx;
+	static char *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
+	GtkWindow   *parent;
+	GtkWidget   *opt_menu;
+	GdkPixbuf   *pixbuf;
+	char        *filename;
+	gboolean     file_exists;
+	const char  *mime_type;
+	int          idx;
 
 	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
@@ -79,8 +90,8 @@ file_save_ok_cb (GtkWidget *w,
 	file_exists = path_is_file (filename);
 
 	if (file_exists) { 
-		GtkWidget *d;
 		char      *message;
+		GtkWidget *d;
 		int        r;
 
 		message = g_strdup_printf (_("An image named \"%s\" is already present. Do you want to overwrite it?"), file_name_from_path (filename));
@@ -120,7 +131,7 @@ file_save_ok_cb (GtkWidget *w,
 		if (dlg_save_options (parent,
 				      image_type,
 				      &keys,
-				      &values))
+				      &values)) {
 			if (! _gdk_pixbuf_savev (pixbuf, 
 						 filename, 
 						 image_type, 
@@ -128,6 +139,13 @@ file_save_ok_cb (GtkWidget *w,
 						 &error)) 
 				_gtk_error_dialog_from_gerror_run (parent, 
 								   &error);
+			else {
+				SaveImageData *data;
+				data = g_object_get_data (G_OBJECT (file_sel), "data");
+				if (data->done_func != NULL) 
+					(*data->done_func) (filename, data->done_data);
+			}
+		}
 		
 		g_strfreev (keys);
 		g_strfreev (values);
@@ -170,10 +188,13 @@ build_file_type_menu (void)
 
 
 void
-dlg_save_image (GtkWindow    *parent,
-		const char   *current_folder,
-		GdkPixbuf    *pixbuf)
+dlg_save_image (GtkWindow      *parent,
+		const char     *current_folder,
+		GdkPixbuf      *pixbuf,
+		ImageSavedFunc  done_func,
+		gpointer        done_data)
 {
+	SaveImageData *data;
 	GtkWidget *file_sel;
 	GtkWidget *vbox;
 	GtkWidget *hbox;
@@ -221,8 +242,13 @@ dlg_save_image (GtkWindow    *parent,
 
 	g_object_ref (pixbuf);
 
+	data = g_new0 (SaveImageData, 1);
+	data->done_func = done_func;
+	data->done_data = done_data;
+
 	g_object_set_data (G_OBJECT (file_sel), "parent_window", parent);
 	g_object_set_data (G_OBJECT (file_sel), "pixbuf", pixbuf);
+	g_object_set_data (G_OBJECT (file_sel), "data", data);
 	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
 
 	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),

@@ -349,7 +349,7 @@ gfv_set_view_mode (GthFileView *file_view,
 static GthViewMode
 gfv_get_view_mode (GthFileView *file_view)
 {
-	return GTH_VIEW_MODE_ALL;
+	return GTH_VIEW_MODE_COMMENTS;
 }
 
 

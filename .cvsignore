@@ -7,6 +7,7 @@ Makefile
 Makefile.in
 autom4te*.cache
 aclocal.m4
+bug*
 compile.sh
 config.cache
 config.guess

@@ -65,21 +65,29 @@ struct _EComboButtonClass {
 };
 
 
-GType      e_combo_button_get_type   (void);
-void       e_combo_button_construct  (EComboButton *combo_button);
-GtkWidget *e_combo_button_new        (void);
 
-void       e_combo_button_set_icon   (EComboButton *combo_button,
-				      GdkPixbuf    *pixbuf);
-void       e_combo_button_set_label  (EComboButton *combo_button,
-				      const char   *label);
-void       e_combo_button_set_menu   (EComboButton *combo_button,
-				      GtkMenu      *menu);
-void       e_combo_button_popup_menu (EComboButton *combo_button);
+GType      e_combo_button_get_type           (void);
 
-void       e_combo_button_set_style  (EComboButton    *combo_button,
-				      GthToolbarStyle  toolbar_style);
+void       e_combo_button_construct          (EComboButton    *combo_button);
 
+GtkWidget *e_combo_button_new                (void);
+
+void       e_combo_button_set_icon           (EComboButton    *combo_button,
+					      GdkPixbuf       *pixbuf);
+
+void       e_combo_button_set_label          (EComboButton    *combo_button,
+					      const char      *label);
+
+void       e_combo_button_set_menu           (EComboButton    *combo_button,
+					      GtkMenu         *menu);
+
+void       e_combo_button_popup_menu         (EComboButton    *combo_button);
+
+void       e_combo_button_set_style          (EComboButton    *combo_button,
+					      GthToolbarStyle  toolbar_style);
+
+void       e_combo_button_set_button_active  (EComboButton    *combo_button,
+					      gboolean         active);
 
 #ifdef __cplusplus
 }

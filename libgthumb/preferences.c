@@ -454,3 +454,25 @@ GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   GthOverwriteMode)
 GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  GthSortMethod)
 GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
 GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)
+
+
+GthViewMode
+pref_get_view_mode (void)
+{
+	gboolean view_filenames;
+	gboolean view_comments;
+
+	view_filenames = eel_gconf_get_boolean (PREF_SHOW_FILENAMES);
+	view_comments = eel_gconf_get_boolean (PREF_SHOW_COMMENTS);
+
+	if (view_filenames && view_comments)
+		return GTH_VIEW_MODE_ALL;
+	else if (view_filenames && ! view_comments)
+		return GTH_VIEW_MODE_LABEL;
+	else if (! view_filenames && view_comments)
+		return GTH_VIEW_MODE_COMMENTS;
+	else if (! view_filenames && ! view_comments)
+		return GTH_VIEW_MODE_VOID;
+
+	return GTH_VIEW_MODE_VOID;
+}

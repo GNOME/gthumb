@@ -93,6 +93,8 @@ DEFINE_VERB(alter_image_brightness_contrast_command_impl);
 DEFINE_VERB(alter_image_hue_saturation_command_impl);
 DEFINE_VERB(alter_image_color_balance_command_impl);
 DEFINE_VERB(alter_image_scale_command_impl);
+DEFINE_VERB(alter_image_stretch_contrast_command_impl);
+DEFINE_VERB(alter_image_normalize_contrast_command_impl);
 DEFINE_VERB(view_zoom_in_command_impl);
 DEFINE_VERB(view_zoom_out_command_impl);
 DEFINE_VERB(view_zoom_100_command_impl);

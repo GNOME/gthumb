@@ -281,20 +281,6 @@ next_image_cb (GtkWidget    *widget,
 #ifdef HAVE_LIBEXIF
 
 static ExifTag usefull_tags[] = {
-	/*
-	EXIF_TAG_RELATED_IMAGE_WIDTH,
-	EXIF_TAG_RELATED_IMAGE_LENGTH,
-	*/
-
-	EXIF_TAG_IMAGE_WIDTH,
-	EXIF_TAG_IMAGE_LENGTH,
-	EXIF_TAG_PIXEL_X_DIMENSION,
-	EXIF_TAG_PIXEL_Y_DIMENSION,
-
-	EXIF_TAG_X_RESOLUTION,
-	EXIF_TAG_Y_RESOLUTION,
-	EXIF_TAG_RESOLUTION_UNIT,
-
 	EXIF_TAG_EXPOSURE_TIME,
 	EXIF_TAG_EXPOSURE_PROGRAM,
 	EXIF_TAG_EXPOSURE_MODE,
@@ -319,6 +305,8 @@ static ExifTag usefull_tags[] = {
 	EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
 	EXIF_TAG_BATTERY_LEVEL,
 
+	0,
+
 	EXIF_TAG_DATE_TIME,
 	EXIF_TAG_DATE_TIME_ORIGINAL,
 	EXIF_TAG_DATE_TIME_DIGITIZED,
@@ -329,12 +317,32 @@ static ExifTag usefull_tags[] = {
 	EXIF_TAG_DOCUMENT_NAME,
 	EXIF_TAG_IMAGE_DESCRIPTION,
 
+	0,
+
+	/*
+	EXIF_TAG_RELATED_IMAGE_WIDTH,
+	EXIF_TAG_RELATED_IMAGE_LENGTH,
+	*/
+	EXIF_TAG_IMAGE_WIDTH,
+	EXIF_TAG_IMAGE_LENGTH,
+	EXIF_TAG_PIXEL_X_DIMENSION,
+	EXIF_TAG_PIXEL_Y_DIMENSION,
+	EXIF_TAG_X_RESOLUTION,
+	EXIF_TAG_Y_RESOLUTION,
+	EXIF_TAG_RESOLUTION_UNIT,
+
+	0,
+
 	EXIF_TAG_ARTIST,
 	EXIF_TAG_COPYRIGHT,
+	/*
 	EXIF_TAG_MAKER_NOTE,
 	EXIF_TAG_USER_COMMENT,
+	*/
 	EXIF_TAG_SUBJECT_LOCATION,
 	EXIF_TAG_SCENE_TYPE,
+
+	0,
 
 	EXIF_TAG_MAKE,
 	EXIF_TAG_MODEL,
@@ -345,19 +353,6 @@ static ExifTag usefull_tags[] = {
 	EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
 	EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT
 };
-
-
-static int
-get_tag_position (ExifTag tag)
-{
-	int i, n = G_N_ELEMENTS (usefull_tags);
-
-	for (i = 0; i < n; i++)
-		if (tag == usefull_tags[i])
-			return i;
-
-	return -1;
-}
 
 
 static gboolean
@@ -391,19 +386,11 @@ tag_is_present (GtkTreeModel *model,
 }
 
 
-static void
-update_exif_data (DialogData *data)
+static ExifEntry *
+get_entry_from_tag (ExifData *edata,
+		    int       tag)
 {
-	ExifData     *edata;
-	unsigned int  i, j;
-	gboolean      date_added = FALSE;
-
-	gtk_list_store_clear (data->i_exif_model);
-	
-	edata = exif_data_new_from_file (data->window->image_path);
-
-	if (edata == NULL) 
-                return;
+	int i, j;
 
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
@@ -412,47 +399,83 @@ update_exif_data (DialogData *data)
 			continue;
 
 		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			GtkTreeIter  iter;
-			char        *utf8_name;
-			char        *utf8_value;
-			int          tag_pos;
+			ExifEntry *e = content->entries[j];
 
 			if (! content->entries[j]) 
 				continue;
 
-			tag_pos = get_tag_position (e->tag);
-			if (tag_pos == -1)
-				continue;
+			if (e->tag == tag)
+				return e;
+		}
+	}
 
-			utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
-			if (tag_is_present (GTK_TREE_MODEL (data->i_exif_model), utf8_name)) {
+	return NULL;
+}
+
+
+static void
+update_exif_data (DialogData *data)
+{
+	ExifData     *edata;
+	unsigned int  i;
+	gboolean      date_added = FALSE;
+	gboolean      last_entry_is_void = TRUE;
+
+	gtk_list_store_clear (data->i_exif_model);
+	
+	edata = exif_data_new_from_file (data->window->image_path);
+
+	if (edata == NULL) 
+                return;
+
+	for (i = 0; i < G_N_ELEMENTS (usefull_tags); i++) {
+		ExifEntry   *e;
+		GtkTreeIter  iter;
+		char        *utf8_name;
+		char        *utf8_value;
+		
+		if ((usefull_tags[i] == 0) && ! last_entry_is_void) {
+			gtk_list_store_append (data->i_exif_model, &iter);
+			gtk_list_store_set (data->i_exif_model, &iter,
+					    NAME_COLUMN, "",
+					    VALUE_COLUMN, "",
+					    POS_COLUMN, i,
+					    -1);
+			last_entry_is_void = TRUE;
+			continue;
+		}
+
+		e = get_entry_from_tag (edata, usefull_tags[i]);
+		if (e == NULL)
+			continue;
+
+		utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
+		if (tag_is_present (GTK_TREE_MODEL (data->i_exif_model), utf8_name)) {
+			g_free (utf8_name);
+			continue;
+		}
+
+		if ((e->tag == EXIF_TAG_DATE_TIME)
+		    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
+		    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
+			if (date_added) {
 				g_free (utf8_name);
 				continue;
-			}
-
-			if ((e->tag == EXIF_TAG_DATE_TIME)
-			    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
-			    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
-				if (date_added) {
-					g_free (utf8_name);
-					continue;
-				} else
-					date_added = TRUE;
-			}
-
-			gtk_list_store_append (data->i_exif_model, &iter);
-
-			utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
-
-			gtk_list_store_set (data->i_exif_model, &iter,
-					    NAME_COLUMN, utf8_name,
-					    VALUE_COLUMN, utf8_value,
-					    POS_COLUMN, tag_pos,
-					    -1);
-			g_free (utf8_name);
-			g_free (utf8_value);
+			} else
+				date_added = TRUE;
 		}
+		
+		gtk_list_store_append (data->i_exif_model, &iter);
+		utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+		gtk_list_store_set (data->i_exif_model, &iter,
+				    NAME_COLUMN, utf8_name,
+				    VALUE_COLUMN, utf8_value,
+				    POS_COLUMN, i,
+				    -1);
+		g_free (utf8_name);
+		g_free (utf8_value);
+
+		last_entry_is_void = FALSE;
 	}
 
 	exif_data_unref (edata);
@@ -486,11 +509,20 @@ update_comment (DialogData *data)
 
 	comment = comments_get_comment_as_string (cdata, "\n", " - ");
 
-	if (comment != NULL) 
+	if (comment != NULL) {
+		GtkTextIter iter;
+
 		gtk_text_buffer_set_text (data->i_comment_textbuffer,
 					  comment,
 					  strlen (comment));
-	else {
+
+		gtk_text_buffer_get_iter_at_line (data->i_comment_textbuffer,
+						  &iter,
+						  0);
+		gtk_text_buffer_place_cursor (data->i_comment_textbuffer,
+					      &iter);
+
+	} else {
 		GtkTextIter start_iter, end_iter;
 		gtk_text_buffer_get_bounds (data->i_comment_textbuffer,
 					    &start_iter, 
@@ -806,7 +838,7 @@ dlg_image_prop_new (GThumbWindow *window)
 	g_free (label);
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field2_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Image Dimensions"));
+	label = g_strdup_printf ("<b>%s:</b>", _("Size"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 
@@ -816,7 +848,7 @@ dlg_image_prop_new (GThumbWindow *window)
 	g_free (label);
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field4_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("File Size"));
+	label = g_strdup_printf ("<b>%s:</b>", _("Bytes"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 
@@ -826,7 +858,7 @@ dlg_image_prop_new (GThumbWindow *window)
 	g_free (label);
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field6_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Last Modified"));
+	label = g_strdup_printf ("<b>%s:</b>", _("Modified"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 

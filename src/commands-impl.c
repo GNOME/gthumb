@@ -123,7 +123,7 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 	pref_set_check_type (image_viewer_get_check_type (viewer));
 	pref_set_check_size (image_viewer_get_check_size (viewer));
 
-	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->image_preview_visible);
+	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->preview_visible);
 
 	/**/
 
@@ -177,6 +177,16 @@ image_open_with_command_impl (BonoboUIComponent *uic,
 }
 
 
+static void
+image_saved_func (char     *filename,
+		  gpointer  data)
+{
+	GThumbWindow *window = data;
+	if (filename != NULL) 
+		window_load_image (window, filename);
+}
+
+
 void 
 file_save_command_impl (BonoboUIComponent *uic, 
 			gpointer           user_data, 
@@ -195,7 +205,9 @@ file_save_command_impl (BonoboUIComponent *uic,
 
 	dlg_save_image (GTK_WINDOW (window->app), 
 			current_folder,
-			image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)));
+			image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
+			image_saved_func,
+			window);
 
 	g_free (current_folder);
 }
@@ -2057,6 +2069,48 @@ alter_image_adjust_levels_command_impl (BonoboUIComponent *uic,
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
+}
+
+
+void 
+alter_image_stretch_contrast_command_impl (BonoboUIComponent *uic, 
+					   gpointer           user_data, 
+					   const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	pixop = _gdk_pixbuf_stretch_contrast (dest_pixbuf, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
+}
+
+
+void 
+alter_image_normalize_contrast_command_impl (BonoboUIComponent *uic, 
+					     gpointer           user_data, 
+					     const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	pixop = _gdk_pixbuf_normalize_contrast (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
 	window_exec_pixbuf_op (window, pixop);

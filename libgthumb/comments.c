@@ -150,8 +150,7 @@ char *
 comments_get_comment_filename (const char *source,
 			       gboolean    resolve_symlinks) 
 {
-	char        *source_resolved = NULL;
-	const char  *source_real = source;
+	char        *source_real = NULL;
 	char        *directory;
 	const char  *filename;
 	char        *path;
@@ -159,21 +158,32 @@ comments_get_comment_filename (const char *source,
 	if (source == NULL) 
 		return NULL;
 
+	source_real = g_strdup (source);
+
 	if (resolve_symlinks) {
-		char           *source_escaped;
+		char           *parent;
+		char           *parent_escaped;
+		char           *parent_resolved;
 		GnomeVFSResult  result;
 
-		source_escaped = gnome_vfs_escape_path_string (source);
-		result = resolve_all_symlinks (source_escaped, 
-					       &source_resolved);
-		g_free (source_escaped);
+		parent = remove_level_from_path (source);
+		parent_escaped = gnome_vfs_escape_path_string (parent);
+		g_free (parent);
 
-		if (result != GNOME_VFS_OK) 
-			return NULL;
-		
-		source_real = source_resolved;
+		result = resolve_all_symlinks (parent_escaped, 
+					       &parent_resolved);
+		g_free (parent_escaped);
+
+		if (result == GNOME_VFS_OK) { 
+			g_free (source_real);
+			source_real = g_strconcat (parent_resolved, 
+						   "/",
+						   file_name_from_path (source),
+						   NULL);
+			g_free (parent_resolved);
+		} 
 	}
-	
+
 	directory = remove_level_from_path (source_real);
 	filename = file_name_from_path (source_real);
 
@@ -187,7 +197,7 @@ comments_get_comment_filename (const char *source,
 			    NULL);
 
 	g_free (directory);
-	g_free (source_resolved);
+	g_free (source_real);
 
 	return path;
 }
@@ -211,10 +221,8 @@ comments_get_comment_dir (const char *directory,
 					       &directory_resolved);
 		g_free (directory_escaped);
 
-		if (result != GNOME_VFS_OK) 
-			return NULL;
-		
-		directory_real = directory_resolved;
+		if (result == GNOME_VFS_OK) 
+			directory_real = directory_resolved;
 	}
 
 	if (directory_real == NULL)

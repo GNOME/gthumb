@@ -48,21 +48,31 @@
 char *
 cache_get_nautilus_cache_name (const char *path) 
 {
+	char           *parent;
 	char           *escaped_path;
-	char           *resolved_path;
+	char           *resolved_parent;
+	char           *resolved_path = NULL;
 	GnomeVFSResult  result;
 	GnomeVFSURI    *uri;
 	char           *uri_txt;
 	char           *retval;
 
-	escaped_path = gnome_vfs_escape_path_string (path);
-	result = resolve_all_symlinks (escaped_path, &resolved_path);
+	parent = remove_level_from_path (path);
+	escaped_path = gnome_vfs_escape_path_string (parent);
+	g_free (parent);
+
+	result = resolve_all_symlinks (escaped_path, &resolved_parent);
 	g_free (escaped_path);
 
-	if (result != GNOME_VFS_OK) {
-		g_warning ("cache_get_nautilus_cache_name ** %s: %s", path, gnome_vfs_result_to_string (result));
-		return NULL;
-	}
+	if (result == GNOME_VFS_OK) {
+		resolved_path = g_strconcat (resolved_parent, 
+					     "/", 
+					     file_name_from_path (path), 
+					     NULL);
+		g_free (resolved_parent);
+
+	} else
+		resolved_path = g_strdup (path);
 
 	uri = gnome_vfs_uri_new (resolved_path);
 	g_free (resolved_path);

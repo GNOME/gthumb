@@ -2,6 +2,7 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
+<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="posterize_dialog">
   <property name="border_width">6</property>
@@ -1682,7 +1683,7 @@
 	  <property name="spacing">12</property>
 
 	  <child>
-	    <widget class="GtkVBox" id="vbox18">
+	    <widget class="GtkVBox" id="vbox19">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
@@ -1709,13 +1710,13 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkHBox" id="hbox43">
+		<widget class="GtkHBox" id="hbox47">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">0</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label59">
+		    <widget class="GtkLabel" id="label75">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">    </property>
 		      <property name="use_underline">False</property>
@@ -1736,13 +1737,13 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkTable" id="table4">
+		    <widget class="GtkTable" id="table8">
 		      <property name="visible">True</property>
 		      <property name="n_rows">2</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
 		      <property name="row_spacing">6</property>
-		      <property name="column_spacing">6</property>
+		      <property name="column_spacing">11</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label63">
@@ -1862,7 +1863,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkVBox" id="vbox19">
+	    <widget class="GtkVBox" id="vbox21">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>
@@ -1889,13 +1890,13 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkHBox" id="hbox44">
+		<widget class="GtkHBox" id="hbox49">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">0</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label60">
+		    <widget class="GtkLabel" id="label77">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">    </property>
 		      <property name="use_underline">False</property>
@@ -1916,13 +1917,13 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkTable" id="table5">
+		    <widget class="GtkTable" id="table10">
 		      <property name="visible">True</property>
 		      <property name="n_rows">3</property>
 		      <property name="n_columns">3</property>
 		      <property name="homogeneous">False</property>
 		      <property name="row_spacing">6</property>
-		      <property name="column_spacing">6</property>
+		      <property name="column_spacing">12</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label67">
@@ -2078,7 +2079,7 @@
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
-		      <property name="expand">False</property>
+		      <property name="expand">True</property>
 		      <property name="fill">True</property>
 		    </packing>
 		  </child>
@@ -2125,13 +2126,13 @@
 	      </child>
 
 	      <child>
-		<widget class="GtkHBox" id="hbox47">
+		<widget class="GtkHBox" id="hbox48">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
 		  <property name="spacing">0</property>
 
 		  <child>
-		    <widget class="GtkLabel" id="label72">
+		    <widget class="GtkLabel" id="label76">
 		      <property name="visible">True</property>
 		      <property name="label" translatable="yes">    </property>
 		      <property name="use_underline">False</property>
@@ -2152,13 +2153,13 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkTable" id="table6">
+		    <widget class="GtkTable" id="table9">
 		      <property name="visible">True</property>
 		      <property name="n_rows">2</property>
 		      <property name="n_columns">2</property>
 		      <property name="homogeneous">False</property>
 		      <property name="row_spacing">6</property>
-		      <property name="column_spacing">6</property>
+		      <property name="column_spacing">12</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label73">
@@ -2185,30 +2186,6 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkLabel" id="label74">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Height:</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-			<packing>
-			  <property name="left_attach">0</property>
-			  <property name="right_attach">1</property>
-			  <property name="top_attach">1</property>
-			  <property name="bottom_attach">2</property>
-			  <property name="x_options">fill</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
 			<widget class="GtkLabel" id="s_width_ratio_label">
 			  <property name="visible">True</property>
 			  <property name="label" translatable="yes"></property>
@@ -2227,6 +2204,30 @@
 			  <property name="right_attach">2</property>
 			  <property name="top_attach">0</property>
 			  <property name="bottom_attach">1</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkLabel" id="label74">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Height:</property>
+			  <property name="use_underline">False</property>
+			  <property name="use_markup">False</property>
+			  <property name="justify">GTK_JUSTIFY_LEFT</property>
+			  <property name="wrap">False</property>
+			  <property name="selectable">False</property>
+			  <property name="xalign">0</property>
+			  <property name="yalign">0.5</property>
+			  <property name="xpad">0</property>
+			  <property name="ypad">0</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">1</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options"></property>
 			</packing>

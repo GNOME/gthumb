@@ -37,6 +37,7 @@
 #define  PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
+#define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"
 #define  PREF_SHOW_COMMENTS          "/apps/gthumb/browser/show_comments"
 #define  PREF_SHOW_THUMBNAILS        "/apps/gthumb/browser/show_thumbnails"
 #define  PREF_FAST_FILE_TYPE         "/apps/gthumb/browser/fast_file_type"
@@ -265,5 +266,7 @@ void               pref_set_web_album_sort_order   (GthSortMethod value);
 GthViewAs          pref_get_view_as                (void);
 
 void               pref_set_view_as                (GthViewAs value);
+
+GthViewMode        pref_get_view_mode              (void);
 
 #endif /* PREFERENCES_H */

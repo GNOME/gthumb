@@ -165,35 +165,49 @@
 	<cmd name="AlterImage_Invert" _label="_Negative" 
 	     _tip="View the image with negative colors"
 	     pixtype="stock" pixname="gthumb-invert"/>
-	<cmd name="AlterImage_Equalize" _label="_Equalize Histogram" 
-	     tip=""
-	     pixtype="stock" pixname="gthumb-histogram"/>
+
+	<cmd name="AlterImage_Equalize" _label="_Equalize" 
+	     tip="Automatically equalize the image histogram"/>
+	<!--     pixtype="stock" pixname="gthumb-histogram"/> -->
 	<cmd name="AlterImage_AdjustLevels" _label="_Adjust Color Levels" 
-	     tip=""
-	     pixtype="stock" pixname="gthumb-levels"/>
-	<cmd name="AlterImage_Posterize" _label="_Posterize" 
-	     _tip="Reduce the number of colors"
-	     pixtype="stock" pixname="gthumb-posterize"/>
+	     tip="Automatically adjust the color levels"/>
+	<!--     pixtype="stock" pixname="gthumb-levels"/>  -->
+	<cmd name="AlterImage_Normalize" _label="_Normalize" 
+	     _tip="Automatically normalize the contrast"/> 
+	<cmd name="AlterImage_StretchContrast" _label="_Stretch Contrast" 
+	     _tip="Automatically stretch the contrast"/> 
+
+	<cmd name="AlterImage_Posterize" 
+	     _label="_Posterize" _tip="Reduce the number of colors"/>
+	<!--     pixtype="stock" pixname="gthumb-posterize"/> -->
 	<cmd name="AlterImage_BrightnessContrast" 
-	     _label="_Brightness-Contrast" 
-	     _tip="Adjust brightness and contrast"
+	     _label="_Brightness-Contrast" _tip="Adjust brightness and contrast"
+	     accel="*Control**Shift*B"
 	     pixtype="stock" pixname="gthumb-brightness-contrast"/>
 	<cmd name="AlterImage_HueSaturation" 
-	     _label="_Hue-Saturation" 
-	     _tip="Adjust hue and saturation"
-	     pixtype="stock" pixname="gthumb-hue-saturation"/>
+	     _label="_Hue-Saturation" _tip="Adjust hue and saturation"
+     	     accel="*Control**Shift*H"
+	     pixtype="stock" pixname="gthumb-hue-saturation"/> 
 	<cmd name="AlterImage_ColorBalance" 
-	     _label="_Color Balance" 
-	     _tip="Adjust color balance"
-	     pixtype="stock" pixname="gthumb-color-balance"/>
+	     _label="_Color Balance" _tip="Adjust color balance"
+	     accel="*Control**Shift*C"
+	     pixtype="stock" pixname="gthumb-color-balance"/> 
+	<cmd name="AlterImage_Threshold" 
+	     _label="_Threshold" _tip="Aply threshold"
+	     pixtype="stock" pixname="gthumb-threshold"/> 
 
 	<cmd name="AlterImage_Resize" 
-	     _label="_Resize" 
-	     _tip="Resize image"
+	     _label="_Resize" _tip="Resize image"
+	     accel="*Control**Shift*Z"
 	     pixtype="stock" pixname="gthumb-resize"/>
 	<cmd name="AlterImage_Rotate" 
-	     _label="_Rotate" 
-	     _tip="Rotate image"/>
+	     _label="_Rotate" _tip="Rotate image"
+	     accel="*Control**Shift*R"
+             pixtype="stock" pixname="gthumb-rotate"/>
+	<cmd name="AlterImage_Crop" 
+	     _label="_Crop" _tip="Crop image"
+	     pixtype="stock" pixname="gthumb-crop"/>
+
 	<cmd name="AlterImage_ReduceColors" 
 	     _label="_Reduce Colors" 
 	     _tip="Reduce number of colors"/>
@@ -292,6 +306,9 @@
 
 	<cmd name="View_ShowPreview" type="toggle"
 	     _tip="View the image"/>
+	<cmd name="View_ShowInfo" 
+	     type="toggle"
+	     _tip="View image comment"/>
 
 	<cmd name="View_Sidebar_Folders"/>
 	<cmd name="View_Sidebar_Catalogs"/>
@@ -459,7 +476,9 @@
 	<submenu name="View" _label="_View">
 		<submenu name="ShowHide" _label="Show/_Hide">
 			<menuitem name="View_ShowPreview" verb=""
-				_label="_Image preview"/>
+				_label="_Image Preview"/>
+			<menuitem name="View_ShowInfo" verb=""
+				_label="Image _Comment"/>
 			<separator/>
 			<menuitem name="View_Toolbar" verb=""/>
 			<menuitem name="View_Statusbar" verb=""/>
@@ -469,9 +488,6 @@
 		<menuitem name="View_ShowCatalogs" verb=""
 			  _label="_Catalogs"/>
 		<separator/>
-		<menuitem name="Go_Stop" verb=""/>
-		<menuitem name="Go_Refresh" verb=""/>
-		<separator/>
 		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
 			<menuitem name="SortByPath" verb=""/>
@@ -480,16 +496,16 @@
 			<separator/>
 			<menuitem name="SortReversed" verb=""/>
 		</submenu>
+<!--
 		<menuitem name="View_Thumbnails" verb=""/>
+-->
+<!--
 		<separator/>
 		<menuitem name="View_AsList" verb=""
 		          _label="View as List"/>
 		<menuitem name="View_AsThumbnails" verb=""
 		          _label="View as Thumbnails"/>
-		<separator/>
-                <menuitem name="Tools_Slideshow" verb=""/>
-		<menuitem name="View_Fullscreen" verb=""
-			  _label="_Full Screen"/>
+-->
 		<separator/>
 		<submenu name="ZoomType" _label="_Zoom">
 			<menuitem name="View_ZoomIn" verb="" 
@@ -504,6 +520,7 @@
 			<menuitem name="View_ZoomQualityHigh" verb=""/>
 			<menuitem name="View_ZoomQualityLow" verb=""/>
 		</submenu>
+<!--
 		<submenu name="ViewTranspType" _label="Transparen_cy Type">
 			<menuitem name="TranspTypeNone" verb=""/>
 			<menuitem name="TranspTypeWhite" verb=""/>
@@ -511,39 +528,55 @@
 			<menuitem name="TranspTypeChecked" verb=""/>
 		</submenu>
 		<separator/>
+-->
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
+		<separator/>
+                <menuitem name="Tools_Slideshow" verb=""/>
+		<menuitem name="View_Fullscreen" verb=""
+			  _label="_Full Screen"/>
+		<separator/>
+		<submenu name="Go" _label="_Go">
+			<menuitem name="Go_Back" verb=""/>
+			<menuitem name="Go_Forward" verb=""/>
+			<menuitem name="Go_Up" verb=""/>
+			<separator/>
+			<menuitem name="Go_Home" verb=""/>
+			<menuitem name="Go_ToContainer" verb=""/>
+			<menuitem name="Go_Location" verb=""/>
+			<separator/>
+			<menuitem name="Go_DeleteHistory" verb=""/>
+			<placeholder name="HistoryList" delimit="top"/>
+		</submenu>
+		<menuitem name="Go_Stop" verb=""/>
+		<menuitem name="Go_Refresh" verb=""/>
 	</submenu>
 	<submenu name="Image" _label="_Image">
-		<menuitem name="AlterImage_Rotate90" verb=""/>
-		<menuitem name="AlterImage_Rotate90CC" verb=""/>
-		<menuitem name="AlterImage_Flip" verb=""/>
-		<menuitem name="AlterImage_Mirror" verb=""/>
-		<separator/>
 		<menuitem name="AlterImage_Resize" verb=""/>
+		<menuitem name="AlterImage_Rotate" verb=""/>
+		<menuitem name="AlterImage_Crop" verb=""/>
+		<separator/>
+		<submenu name="Transform" _label="_Transform">
+			<menuitem name="AlterImage_Rotate90" verb=""/>
+			<menuitem name="AlterImage_Rotate90CC" verb=""/>
+			<menuitem name="AlterImage_Flip" verb=""/>
+			<menuitem name="AlterImage_Mirror" verb=""/>
+		</submenu>
 		<separator/>
 		<menuitem name="AlterImage_ColorBalance" verb=""/>
 		<menuitem name="AlterImage_HueSaturation" verb=""/>
 		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
+		<menuitem name="AlterImage_Threshold" verb=""/>
+		<menuitem name="AlterImage_Posterize" verb=""/>
 		<separator/>
 		<menuitem name="AlterImage_Desaturate" verb=""/>
 		<menuitem name="AlterImage_Invert" verb=""/>
-		<menuitem name="AlterImage_Posterize" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_Equalize" verb=""/>
-		<menuitem name="AlterImage_AdjustLevels" verb=""/>
-	</submenu>
-	<submenu name="Go" _label="_Go">
-		<menuitem name="Go_Back" verb=""/>
-		<menuitem name="Go_Forward" verb=""/>
-		<menuitem name="Go_Up" verb=""/>
-		<separator/>
-		<menuitem name="Go_Home" verb=""/>
-		<menuitem name="Go_ToContainer" verb=""/>
-		<menuitem name="Go_Location" verb=""/>
-		<separator/>
-		<menuitem name="Go_DeleteHistory" verb=""/>
-		<placeholder name="HistoryList" delimit="top"/>
+		<submenu name="Auto" _label="Auto">
+			<menuitem name="AlterImage_Equalize" verb=""/>
+			<menuitem name="AlterImage_AdjustLevels" verb=""/>
+			<menuitem name="AlterImage_Normalize" verb=""/>
+			<menuitem name="AlterImage_StretchContrast" verb=""/>
+		</submenu>
 	</submenu>
 	<submenu name="Bookmarks" _label="_Bookmarks">
 		<menuitem name="Bookmarks_Add" verb=""/>
@@ -586,7 +619,8 @@
 	         _tip="Go to the previous visited location"/>
 
 	<toolitem name="Go_Forward" verb="" _label="Forward"/>
-	<toolitem name="Go_Up" verb="" _label="Up"/>
+
+	<toolitem name="Go_Up" verb="" _label="Up"/> 
   	<toolitem name="Go_Home" verb="" _label="Home"/>
 
 	<separator/>
@@ -596,10 +630,6 @@
 
   	<toolitem name="View_ShowCatalogs" verb="" priority="1"
 	          _label="Catalogs"/>
-
-	<separator/>
-
-  	<toolitem name="View_ImageProp" verb="" _label="Properties" />
 
 	<separator/>
 
@@ -652,9 +682,10 @@
   	<toolitem name="File_Print" verb="" _label="Print"
 	          priority="0"/>
 
-  	<toolitem name="View_ImageProp" verb="" _label="Information" />
-
 	<separator/>
+
+	<toolitem name="Tools_FindImages" verb="" priority="0"
+	          _label="Search"/>
 
 	<toolitem name="Edit_CurrentEditComment" verb="" _label="Comment" />
 
@@ -684,8 +715,9 @@
 <status resize_grip="1">
 	<item name="main"/>
 	<control name="dummy" hidden="1"/>
-	<control name="ActivityProgress"/>
 	<control name="ImageInfo"/>
+	<control name="ZoomInfo"/>
+	<control name="ActivityProgress"/>
 </status>
 
 <popups>

@@ -73,8 +73,8 @@ open_with__destroy_cb (GtkWidget  *widget,
 
 
 static gboolean
-exec_command (const gchar *application, 
-	      GList       *file_list)
+exec_command (const char *application, 
+	      GList      *file_list)
 {
         GString *command;
         GList   *scan;
@@ -117,6 +117,7 @@ open_cb (GtkWidget *widget,
 	char        *command = NULL;
 
 	application_utf8 = gtk_entry_get_text (GTK_ENTRY (data->app_entry));
+
 	application = g_locale_from_utf8 (application_utf8, -1, NULL, NULL, NULL);
 
 	/* add the command to the editors list if not already present. */

@@ -169,7 +169,9 @@ verb_save_image (BonoboUIComponent *component,
 
 	dlg_save_image (NULL, 
 			current_folder,
-			image_viewer_get_current_pixbuf (viewer));
+			image_viewer_get_current_pixbuf (viewer),
+			NULL,
+			NULL);
 
 	g_free (current_folder);
 }

@@ -288,11 +288,7 @@ gth_file_list_init (GthFileList *file_list)
 	gth_file_view_set_image_width (file_list->view, file_list->thumb_size + THUMB_BORDER);
 	gth_file_view_sorted (file_list->view, file_list->sort_method, file_list->sort_type);
 
-	if (eel_gconf_get_boolean (PREF_SHOW_COMMENTS))
-		view_mode = GTH_VIEW_MODE_ALL;
-	else
-		view_mode = GTH_VIEW_MODE_LABEL;
-	gth_file_view_set_view_mode (file_list->view, view_mode);
+	gth_file_view_set_view_mode (file_list->view, pref_get_view_mode ());
 
 	/**/
 
@@ -463,8 +459,6 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
 
-	gth_file_view_clear (file_list->view);
-
 	add_list_in_chunks (gfi_data);
 }
 
@@ -510,6 +504,8 @@ gth_file_list_set_list (GthFileList *file_list,
 	g_return_if_fail (file_list != NULL);
 
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
+
+	gth_file_view_clear (file_list->view); 
 
 	file_list->interrupt_set_list = FALSE;
 	gfi_data = get_file_info_data_new (file_list, 
@@ -1163,16 +1159,18 @@ gth_file_list_next_image (GthFileList *file_list,
 	n = gth_file_view_get_images (file_list->view);
 
 	pos++;
-	while (pos < n) {
+	for (; pos < n; pos++) {
 		FileData *fd;
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
 
-		if ((! without_error || ! fd->error)
-		    && (! only_selected || gth_file_view_pos_is_selected (file_list->view, pos)))
-		    break;
+		if (without_error && fd->error)
+			continue;
 
-		pos++;
+		if (only_selected && ! gth_file_view_pos_is_selected (file_list->view, pos))
+			continue;
+
+		break;
 	}
 
 	if (pos >= n)
@@ -1191,16 +1189,18 @@ gth_file_list_prev_image (GthFileList *file_list,
 	g_return_val_if_fail (file_list != NULL, -1);
 
 	pos--;
-	while (pos >= 0) {
+	for (; pos >= 0; pos--) {
 		FileData *fd;
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
 
-		if ((! without_error || ! fd->error)
-		    && (! only_selected || gth_file_view_pos_is_selected (file_list->view, pos)))
-		    break;
+		if (without_error && fd->error)
+			continue;
 
-		pos--;
+		if (only_selected && ! gth_file_view_pos_is_selected (file_list->view, pos))
+			continue;
+
+		break;
 	}
 
 	if (pos < 0)
@@ -1428,19 +1428,24 @@ gth_file_list_set_thumbs_size (GthFileList *file_list,
 static void
 gth_file_list_update_current_thumb (GthFileList *file_list)
 {
-	gboolean error = TRUE;
+	gboolean  error = TRUE;
+	char     *path;
 
 	if (! file_list->doing_thumbs) {
 		interrupt_thumbs__part2 (file_list);
 		return;
 	}
 
-	if (path_is_file (file_list->thumb_fd->path)) {
-		char *escaped_path;
-		char *escaped_resolved_path;
-		GnomeVFSResult result;
+	g_return_if_fail (file_list->thumb_fd != NULL);
 
-		escaped_path = gnome_vfs_escape_path_string (file_list->thumb_fd->path);
+	path = g_strdup (file_list->thumb_fd->path);
+
+	if (path_is_file (path)) {
+		char           *escaped_path;
+		char           *escaped_resolved_path;
+		GnomeVFSResult  result;
+
+		escaped_path = gnome_vfs_escape_path_string (path);
 
 		result = resolve_all_symlinks (escaped_path, &escaped_resolved_path);
 		if (result == GNOME_VFS_OK) {
@@ -1462,6 +1467,8 @@ gth_file_list_update_current_thumb (GthFileList *file_list)
 		g_free (escaped_path);
 	}
 		
+	g_free (path);
+
 	if (error) /* Error: the file does not exists. */
 		g_signal_emit_by_name (G_OBJECT (file_list->thumb_loader),
 				       "error",
@@ -1480,6 +1487,7 @@ gth_file_list_update_thumb (GthFileList  *file_list,
 		return;
 
 	fd = gth_file_view_get_image_data (file_list->view, pos);
+
 	file_data_update (fd);
 	fd->error = FALSE;
 	fd->thumb = FALSE;

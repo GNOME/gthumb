@@ -1,3 +1,68 @@
+2003-04-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (set_preview_content) 
+	(preview_image_button_cb, preview_data_button_cb) 
+	(preview_comment_button_cb): added ability to change the preview
+	content.
+
+	* libgthumb/gth-image-list.c (gth_image_list_item_set_pixbuf): use
+	the gtk theme background color as check color.
+	(paint_item): paint the focus on the thumbnail if the filename is
+	not displayed.
+
+	* libgthumb/preferences.c (pref_get_view_mode): new function.
+	
+	* libgthumb/gth-file-list.c (gth_file_list_init): use
+	pref_get_view_mode to get the view mode.
+	(gth_file_list_set_list): clear before setting the list
+
+	* src/commands-impl.c (alter_image_normalize_contrast_command_impl): 
+	* src/commands-impl.c (alter_image_stretch_contrast_command_impl): 
+	* libgthumb/async-pixbuf-ops.c (_gdk_pixbuf_iterate) 
+	(_gdk_pixbuf_normalize_contrast): 
+	(_gdk_pixbuf_stretch_contrast): implement normalize and stretch
+	contrast.
+
+	* src/commands-impl.c (file_save_command_impl): 
+	* libgthumb/dlg-save-image.c (dlg_save_image): 
+	* components/image-viewer/ui.c (verb_save_image): load the image
+	after saving it.
+
+2003-04-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-categories.c (cancel_clicked_cb): always save the categories.
+
+2003-04-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (create_overwrite_dialog): use zoom_quality
+	not zoom_change.
+
+	* libgthumb/file-utils.c (application_get_command): do not escape
+	the command (bug #109619).
+
+2003-04-03  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c (dlg_edit_comment): 
+	* src/dlg-image-prop.c (update_comment): set the cursor at the top
+
+	* libgthumb/thumb-cache.c (cache_get_nautilus_cache_name): 
+	* libgthumb/comments.c (comments_get_comment_dir) 
+	(comments_get_comment_filename): if a path cannot be resolved use
+	the user specified one, instead of returning NULL.
+
+	* src/gthumb_preferences.glade: 
+	* src/dlg-preferences.c: remove the check type and size options,
+	just use good default values, though they can still be changed via
+	gconf.
+
+	* src/gthumb_comments.glade: 
+	* src/dlg-comment.c (dlg_edit_comment): humanize the comment dialog.
+
+2003-04-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-file-list.c (gth_file_list_prev_image) 
+	(gth_file_list_next_image): skip broken images correctly.
+
 2003-04-06  Paul Duffy <dubhthach@frink.nuigalway.ie>
 
         * configure.in: Added ga (irish) to ALL_LINGUAS

@@ -60,4 +60,8 @@ void           gthumb_info_bar_set_text           (GThumbInfoBar *info_bar,
 						   const char    *text,
 						   const char    *tooltip);
 
+void           gthumb_info_bar_add_button         (GThumbInfoBar *info_bar,
+						   GtkWidget     *button,
+						   int            padding);
+
 #endif /* GTHUMB_INFO_BAR_H */

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,9 +26,9 @@
 
 
 #define PROGRESS_TIMEOUT 5    /* timeout delay. */
-#define N_STEPS          30   /* number of lines to process in a single 
+#define N_STEPS          20   /* number of lines to process in a single 
 			       * timeout handler. */
-#define PROGRESS_STEP    2    /* notify progress each PROGRESS_STEP lines. */ 
+#define PROGRESS_STEP    5    /* notify progress each PROGRESS_STEP lines. */ 
 
 
 enum {

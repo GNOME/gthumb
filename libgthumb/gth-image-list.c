@@ -120,8 +120,16 @@ gth_image_list_item_free_pixmap_and_mask (GthImageListItem *item)
 }
 
 
+static int
+to_255 (int v)
+{
+	return v * 255 / 65535;
+}
+
+
 static void
-gth_image_list_item_set_pixbuf (GthImageListItem *item,
+gth_image_list_item_set_pixbuf (GthImageList     *image_list,
+				GthImageListItem *item,
 				GdkPixbuf        *pixbuf)
 {
 	static GdkPixbuf *last_pixbuf = NULL;
@@ -173,7 +181,16 @@ gth_image_list_item_set_pixbuf (GthImageListItem *item,
 
 	last_pixbuf = g_object_ref (pixbuf);
 
-	if (gdk_pixbuf_get_has_alpha (pixbuf))
+	if (gdk_pixbuf_get_has_alpha (pixbuf)) {
+		GdkColor color;
+		guint32  uint_color;
+
+		color = GTK_WIDGET (image_list)->style->base[GTK_STATE_NORMAL];
+		uint_color = (0xFF000000
+			      | (to_255 (color.red) << 16) 
+			      | (to_255 (color.green) << 8) 
+			      | (to_255 (color.blue) << 0));
+
 		tmp = gdk_pixbuf_composite_color_simple (
 					 pixbuf, 
 					 item->image_area.width,
@@ -181,9 +198,9 @@ gth_image_list_item_set_pixbuf (GthImageListItem *item,
 					 GDK_INTERP_NEAREST,
 					 255,
 					 CHECK_SIZE, 
-					 COLOR_WHITE, 
-					 COLOR_WHITE);
-	else 
+					 uint_color, 
+					 uint_color);
+	} else 
 		tmp = g_object_ref (pixbuf);
 
 	gdk_pixbuf_render_pixmap_and_mask (tmp,
@@ -206,9 +223,10 @@ gth_image_list_item_set_pixbuf (GthImageListItem *item,
 
 
 static GthImageListItem*
-gth_image_list_item_new (GdkPixbuf  *image,
-			 const char *label,
-			 const char *comment)
+gth_image_list_item_new (GthImageList  *image_list,
+			 GdkPixbuf     *image,
+			 const char    *label,
+			 const char    *comment)
 {
 	GthImageListItem *item;
 
@@ -222,7 +240,7 @@ gth_image_list_item_new (GdkPixbuf  *image,
 	item->comment_area.width = -1;
 
 	if (image != NULL) 
-		gth_image_list_item_set_pixbuf (item, image);
+		gth_image_list_item_set_pixbuf (image_list, item, image);
 
 	if (label != NULL)
 		item->label = g_strdup (label);
@@ -253,7 +271,7 @@ gth_image_list_item_unref (GthImageListItem *item)
 
 	if (--item->ref == 0) {
 		/* fake rendering to free cached data. */
-		gth_image_list_item_set_pixbuf (item, NULL);
+		gth_image_list_item_set_pixbuf (NULL, item, NULL);
 
 		gth_image_list_item_free_pixmap_and_mask (item);
 		g_free (item->label);
@@ -614,6 +632,11 @@ item_get_view_mode (GthImageList     *image_list,
 	*view_label   = TRUE;
 	*view_comment = TRUE;
 
+	if (priv->view_mode == GTH_VIEW_MODE_VOID) {
+		*view_label   = FALSE;
+		*view_comment = FALSE;
+		return;
+	}
 	if (priv->view_mode == GTH_VIEW_MODE_LABEL)
 		*view_comment = FALSE;
 	if (priv->view_mode == GTH_VIEW_MODE_COMMENTS)
@@ -964,13 +987,6 @@ layout_all_images (GthImageList *image_list)
 
 
 /**/
-
-
-static int
-to_255 (int v)
-{
-	return v * 255 / 65535;
-}
 
 
 static void 
@@ -1443,17 +1459,30 @@ paint_item (GthImageList     *image_list,
 
 	/* Focus */
 
-	if (view_label && focused)
-		gtk_paint_focus (widget->style, 
-				 image_list->priv->bin_window, 
-				 text_state, 
-				 expose_area,
-				 widget, 
-				 "icon_list",
-				 item->label_area.x - 1,
-				 item->label_area.y - 1,
-				 item->label_area.width + 2,
-				 item->label_area.height + 2);
+	if (focused) {
+		if (view_label)
+			gtk_paint_focus (widget->style, 
+					 image_list->priv->bin_window, 
+					 text_state, 
+					 expose_area,
+					 widget, 
+					 "icon_list",
+					 item->label_area.x - 1,
+					 item->label_area.y - 1,
+					 item->label_area.width + 2,
+					 item->label_area.height + 2);
+		else
+			gtk_paint_focus (widget->style, 
+					 image_list->priv->bin_window, 
+					 text_state, 
+					 expose_area,
+					 widget, 
+					 "button",
+					 item->slide_area.x + 2,
+					 item->slide_area.y + 2,
+					 image_list->priv->max_item_width - 4,
+					 image_list->priv->max_item_width - 4);
+	}
 }
 	    
 
@@ -3312,7 +3341,7 @@ gth_image_list_init (GthImageList *image_list)
 	priv->selection_mode = GTK_SELECTION_MULTIPLE;
 	priv->last_selected_pos = -1;
 
-	priv->view_mode = GTH_VIEW_MODE_ALL;
+	priv->view_mode = GTH_VIEW_MODE_VOID;
 
 	priv->row_spacing = DEFAULT_ROW_SPACING;
 	priv->col_spacing = DEFAULT_COLUMN_SPACING;
@@ -3523,7 +3552,7 @@ gth_image_list_insert (GthImageList *image_list,
 	g_return_if_fail ((pos >= 0) && (pos <= image_list->priv->images));
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (pixbuf, text, comment2);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2);
 	g_free (comment2);
 
 	image_list_insert_item (image_list, item, pos);
@@ -3544,7 +3573,7 @@ gth_image_list_append_with_data (GthImageList  *image_list,
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
 	comment2 = truncate_comment_if_needed (image_list, comment);
-	item = gth_image_list_item_new (pixbuf, text, comment2);
+	item = gth_image_list_item_new (image_list, pixbuf, text, comment2);
 	g_free (comment2);
 
 	/**/
@@ -3685,7 +3714,7 @@ gth_image_list_set_image_pixbuf (GthImageList  *image_list,
 	item = g_list_nth (priv->image_list, pos)->data;
 	g_return_if_fail (item != NULL);
 
-	gth_image_list_item_set_pixbuf (item, pixbuf);
+	gth_image_list_item_set_pixbuf (image_list, item, pixbuf);
 
 	/* update image area */
 
@@ -4087,16 +4116,19 @@ gth_image_list_get_image_at (GthImageList *image_list,
 		if ((x >= item->slide_area.x)
 		    && (y >= item->slide_area.y)
 		    && (x <= item->slide_area.x + priv->max_item_width)
-		    && (y <= item->slide_area.y + priv->max_item_width))
+		    && (y <= item->slide_area.y + priv->max_item_width)) {
 			return n;
+		}
 
 		item_get_view_mode (image_list, item, &view_text, &view_comment);
 
-		if (view_text && _gdk_rectangle_point_in (&item->label_area, x, y))
+		if (view_text && _gdk_rectangle_point_in (&item->label_area, x, y)) {
 			return n;
+		}
 
-		if (view_comment && _gdk_rectangle_point_in (&item->comment_area, x, y))
+		if (view_comment && _gdk_rectangle_point_in (&item->comment_area, x, y)) {
 			return n;
+		}
 	}
 
 	return -1;
