@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
-"POT-Creation-Date: 2003-03-03 01:09+0900\n"
-"PO-Revision-Date: 2003-03-03 01:07+0900\n"
+"POT-Creation-Date: 2003-03-22 19:59+0900\n"
+"PO-Revision-Date: 2003-03-22 19:58+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -172,12 +172,12 @@ msgid "_Zoom Quality"
 msgstr "ズームの品質(_Z)"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
-#: src/gthumb-window.c:351
+#: src/gthumb-window.c:355
 msgid "%d %b %Y, %H:%M"
 msgstr "%Y年 %B %d日 %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:357
+#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:361
 #, c-format
 msgid "%d x %d pixels"
 msgstr "ピクセル数 %d x %d"
@@ -277,9 +277,9 @@ msgid "Name"
 msgstr "名前"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:436
-#: src/gthumb-window.c:450 src/gthumb-window.c:453 src/gthumb-window.c:470
-#: src/gthumb-window.c:476 src/gthumb-window.c:4097
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:440
+#: src/gthumb-window.c:454 src/gthumb-window.c:457 src/gthumb-window.c:474
+#: src/gthumb-window.c:480 src/gthumb-window.c:4198
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
 #: src/main.c:122
 msgid "gThumb"
@@ -294,11 +294,11 @@ msgstr "%s の印刷"
 msgid "Print Image"
 msgstr "画像の印刷"
 
-#: libgthumb/thumb-cache.c:396
+#: libgthumb/thumb-cache.c:399
 msgid "Deleting all thumbnails, wait please..."
 msgstr "全てのサムネイルを削除しています。少々お待ち下さい..."
 
-#: libgthumb/thumb-cache.c:398
+#: libgthumb/thumb-cache.c:401
 msgid "Deleting old thumbnails, wait please..."
 msgstr "古いサムネイルを削除しています。少々お待ち下さい..."
 
@@ -312,24 +312,24 @@ msgstr "画像の読み込み中: %s"
 msgid "Creating image: %s.%s"
 msgstr "画像の生成中: %s.%s"
 
-#: src/catalog-web-exporter.c:1100
+#: src/catalog-web-exporter.c:1102
 msgid "Saving thumbnails"
 msgstr "サムネイルの保存"
 
-#: src/catalog-web-exporter.c:1168
+#: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
 msgstr "HTML ページの保存: 画像"
 
-#: src/catalog-web-exporter.c:1245
+#: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML ページの保存: 目録"
 
-#: src/catalog-web-exporter.c:1550
+#: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
 msgstr "作業フォルダを生成できませんでした"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1591
 msgid "Loading images"
 msgstr "画像の読み込み中"
 
@@ -513,8 +513,8 @@ msgid "translator_credits"
 msgstr "Takeshi AIHANA <aihana@gnome.gr.jp>"
 
 #: src/commands-impl.c:2744
-msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr "Copyright (C) 2001 Free Software Foundation, Inc."
+msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
+msgstr "Copyright (C) 2001-2003 Free Software Foundation, Inc."
 
 #: src/commands-impl.c:2745
 msgid "An image viewer and browser for GNOME."
@@ -713,11 +713,11 @@ msgstr "ヘッダ"
 msgid "Footer"
 msgstr "フッタ"
 
-#: src/dlg-rename-series.c:318
+#: src/dlg-rename-series.c:410
 msgid "Old Name"
 msgstr "古い名前"
 
-#: src/dlg-rename-series.c:326
+#: src/dlg-rename-series.c:418
 msgid "New Name"
 msgstr "新しい名前"
 
@@ -1703,52 +1703,52 @@ msgstr "サイズ順(_S)"
 msgid "by _Time"
 msgstr "時刻順(_T)"
 
-#: src/gthumb-window.c:521
+#: src/gthumb-window.c:525
 msgid "No image"
 msgstr "画像ではありません"
 
-#: src/gthumb-window.c:523
+#: src/gthumb-window.c:527
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 個の画像 (%s)"
 
-#: src/gthumb-window.c:526
+#: src/gthumb-window.c:530
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 個の画像 (%s)"
 
-#: src/gthumb-window.c:533
+#: src/gthumb-window.c:537
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 つ選択 (%s)"
 
-#: src/gthumb-window.c:536
+#: src/gthumb-window.c:540
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d つ選択 (%s)"
 
-#: src/gthumb-window.c:2847
+#: src/gthumb-window.c:2851
 msgid "Dragged Images"
 msgstr "画像のドラッグ"
 
-#: src/gthumb-window.c:3017
+#: src/gthumb-window.c:3029
 msgid "Could not move the items:"
 msgstr "アイテムを移動することができませんでした:"
 
-#: src/gthumb-window.c:3625
+#: src/gthumb-window.c:3722
 msgid "Back"
 msgstr "戻る"
 
-#: src/gthumb-window.c:5500
+#: src/gthumb-window.c:5607
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "フォルダ \"%s\" が読めませんでした: %s\n"
 
-#: src/gthumb-window.c:5770
+#: src/gthumb-window.c:5877
 msgid "The specified catalog does not exist."
 msgstr "指定したカタログは存在しません。"
 
-#: src/gthumb-window.c:7102
+#: src/gthumb-window.c:7209
 msgid "Wait please..."
 msgstr "しばらくお待ち下さい..."
 
@@ -3036,10 +3036,10 @@ msgstr "検索が終了しました。重複したものは見つかりません
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
+"original filename. Use ? to insert image date."
 msgstr ""
-"文字 # はそれぞれ桁数に応じて数値で置き換わります。文字 * はオリジナルのファ"
-"イル名に置き換わります。"
+"文字 # はそれぞれの桁に応じた数値に置き換わります。文字 * はオリジナルのファ"
+"イル名に置き換わります。文字 ? は日付に置き換わります。"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
