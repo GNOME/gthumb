@@ -1331,6 +1331,13 @@ get_item_bounding_box (GthImageList     *image_list,
 	item_rectangle->y -= 1;
 	item_rectangle->width += 2;
 	item_rectangle->height += 2;
+
+	/* include the selection */
+
+	item_rectangle->x -= FRAME_SELECTION_BORDER;
+	item_rectangle->y -= FRAME_SELECTION_BORDER;
+	item_rectangle->width += FRAME_SELECTION_BORDER * 2;
+	item_rectangle->height += FRAME_SELECTION_BORDER * 2;
 }
 
 
@@ -1389,10 +1396,10 @@ paint_item (GthImageList     *image_list,
 		gdk_draw_rectangle (image_list->priv->bin_window,
 				    sel_gc,
 				    FALSE,
-				    item->slide_area.x + FRAME_SELECTION_BORDER,
-				    item->slide_area.y + FRAME_SELECTION_BORDER,
-				    image_list->priv->max_item_width - (FRAME_SELECTION_BORDER * 2),
-				    image_list->priv->max_item_width - (FRAME_SELECTION_BORDER * 2));
+				    item->slide_area.x - FRAME_SELECTION_BORDER + 1,
+				    item->slide_area.y - FRAME_SELECTION_BORDER + 1,
+				    image_list->priv->max_item_width + (FRAME_SELECTION_BORDER * 2) - 2,
+				    image_list->priv->max_item_width + (FRAME_SELECTION_BORDER * 2) - 2);
                  
 		g_object_unref (sel_gc);
         }

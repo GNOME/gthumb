@@ -1,3 +1,8 @@
+2003-10-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c (paint_item): draw the selection
+	outside the thumbnail not inside it.
+
 2003-10-05  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* data/albumthemes/*/*.xml.in: little changes.

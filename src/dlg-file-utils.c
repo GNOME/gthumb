@@ -1193,9 +1193,10 @@ files_copy__done (FileCopyData *fcdata)
 		all_windows_notify_files_deleted (fcdata->copied_list);
 	all_windows_notify_files_created (fcdata->created_list);
 	all_windows_add_monitor ();
-	
+
 	if (fcdata->done_func != NULL)
 		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
+	
 	file_copy_data_free (fcdata);
 }
 

@@ -1040,6 +1040,8 @@ update_page (DialogData *data)
 	pi->paper_rmargin = paper_rmargin;
 	pi->paper_bmargin = paper_bmargin;
 
+	g_print ("%f x %f\n", paper_width, paper_height);
+
 	clear_canvas (GNOME_CANVAS_GROUP (GNOME_CANVAS (pi->canvas)->root));
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (pi->canvas), 
 					0, 0,

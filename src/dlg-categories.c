@@ -675,8 +675,14 @@ dlg_categories (GtkWidget *widget,
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+	{
+		GtkWidget *parent_win = window->viewer;
+		while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
+			parent_win = parent_win->parent;
+		if (parent_win != NULL)
+			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
+	}
+
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 
