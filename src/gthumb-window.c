@@ -4744,8 +4744,34 @@ close__step5 (GThumbWindow *window)
 
 	/* Destroy the main window. */
 
-	if (window->progress_timeout != 0) 
+	if (window->progress_timeout != 0) {
 		g_source_remove (window->progress_timeout);
+		window->progress_timeout = 0;
+	}
+	if (window->activity_timeout != 0) {
+		g_source_remove (window->activity_timeout);
+		window->activity_timeout = 0;
+	}
+	if (window->load_dir_timeout != 0) {
+		g_source_remove (window->load_dir_timeout);
+		window->load_dir_timeout = 0;
+	}
+	if (window->sel_change_timeout != 0) {
+		g_source_remove (window->sel_change_timeout);
+		window->sel_change_timeout = 0;
+	}
+	if (window->busy_cursor_timeout != 0) {
+		g_source_remove (window->busy_cursor_timeout);
+		window->busy_cursor_timeout = 0;
+	}
+	if (window->view_image_timeout != 0) {
+ 		g_source_remove (window->view_image_timeout);
+		window->view_image_timeout = 0;
+	}
+	if (window->update_changes_timeout != 0) {
+		g_source_remove (window->update_changes_timeout);
+		window->update_changes_timeout = 0;
+	}
 
 	if (window->image_prop_dlg != NULL) 
 		dlg_image_prop_close (window->image_prop_dlg);
@@ -4778,9 +4804,8 @@ close__step5 (GThumbWindow *window)
 		}
 
 		bonobo_main_quit ();
-	}
 
-	else if (ExitAll) {
+	} else if (ExitAll) {
 		GThumbWindow *first_window = window_list->data;
 		window_close (first_window);
 	}
@@ -4833,6 +4858,7 @@ window_close (GThumbWindow *window)
 
 	_window_remove_notifications (window);
 	window_stop_activity_mode (window);
+	window_remove_monitor (window);
 
 	if (window->changing_directory) 
 		dir_list_interrupt_change_to (window->dir_list, 

@@ -191,7 +191,7 @@
     </para>
     <para>
       To sort the images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
-      use <menuchoice><guimenu>Go</guimenu><guimenuitem>Refresh</guimenuitem></menuchoice> to reload the current folder,  click on
+      use <menuchoice><guimenu>View</guimenu><guimenuitem>Refresh</guimenuitem></menuchoice> to reload the current folder,  click on
       <menuchoice><guimenu>View</guimenu><guimenuitem>Thumbnails</guimenuitem></menuchoice> to view or hide the thumbnails in the images list.
     </para>
 

@@ -83,7 +83,7 @@ typedef struct {
 	GtkWidget    *i_location_label;
 	GtkWidget    *i_date_modified_label;
 
-	GtkWidget    *viewer;
+	GtkWidget    *image;
 
 	GtkWidget     *i_comment_textview;
 	GtkTextBuffer *i_comment_textbuffer;
@@ -230,14 +230,6 @@ histogram_channel_changed_cb (GtkOptionMenu *option_menu,
 
 	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_graph));
 	gtk_widget_queue_draw (GTK_WIDGET (data->i_histogram_gradient));
-}
-
-
-static void
-image_loaded_cb (GtkWidget    *widget, 
-		 DialogData   *data)
-{
-	gtk_widget_queue_resize (data->viewer);
 }
 
 
@@ -413,6 +405,36 @@ update_histogram (DialogData *data)
 }
 
 
+static gboolean
+scale_thumb (int *width, 
+	     int *height, 
+	     int  max_width, 
+	     int  max_height)
+{
+	gboolean modified;
+	float    max_w = max_width;
+	float    max_h = max_height;
+	float    w = *width;
+	float    h = *height;
+	float    factor;
+	int      new_width, new_height;
+
+	if ((*width < max_width - 1) && (*height < max_height - 1)) 
+		return FALSE;
+
+	factor = MIN (max_w / w, max_h / h);
+	new_width  = MAX ((int) (w * factor), 1);
+	new_height = MAX ((int) (h * factor), 1);
+	
+	modified = (new_width != *width) || (new_height != *height);
+
+	*width = new_width;
+	*height = new_height;
+
+	return modified;
+}
+
+
 static void
 update_general_info (DialogData *data)
 {
@@ -481,11 +503,35 @@ update_general_info (DialogData *data)
 		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
 }
 
-	if ((window->image_path != NULL) && ! image_viewer_is_void (viewer))
-		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), viewer->loader);
-	else
-		image_viewer_set_void (IMAGE_VIEWER (data->viewer));
+	if (window->image_path != NULL) {
+		ImageViewer *viewer = IMAGE_VIEWER (data->window_viewer);
+		GdkPixbuf   *pixbuf = image_viewer_get_current_pixbuf (viewer);
 
+		if (pixbuf != NULL) {
+			GdkPixbuf *scaled = NULL;
+			int        width;
+			int        height;
+
+			g_object_ref (pixbuf);
+
+			width = gdk_pixbuf_get_width (pixbuf);
+			height = gdk_pixbuf_get_height (pixbuf);
+			scale_thumb (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
+
+			scaled = gdk_pixbuf_scale_simple (pixbuf, 
+							  width, 
+							  height,
+							  GDK_INTERP_BILINEAR);
+			gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), scaled);
+
+			if (scaled != NULL) 
+				g_object_unref (scaled);
+
+			g_object_unref (pixbuf);
+		}
+		
+	} else
+		gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), NULL);
 }
 
 
@@ -644,20 +690,9 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	/* * image viewer */
 
-	data->viewer = image_viewer_new ();
-	image_viewer_size (IMAGE_VIEWER (data->viewer), PREVIEW_SIZE, PREVIEW_SIZE);
-	gtk_box_pack_start (GTK_BOX (i_image_vbox), data->viewer, FALSE, FALSE, 0);
-	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), ZOOM_CHANGE_FIT_IF_LARGER);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (data->viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_set_check_type (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (data->viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_stop_animation (IMAGE_VIEWER (data->viewer));
-	GTK_WIDGET_UNSET_FLAGS (data->viewer, GTK_CAN_FOCUS);
+	data->image = gtk_image_new ();
+	gtk_widget_set_size_request (data->image, PREVIEW_SIZE, PREVIEW_SIZE);
+	gtk_box_pack_start (GTK_BOX (i_image_vbox), data->image, FALSE, FALSE, 0);
 
 	/* Set widgets data. */
 
@@ -723,11 +758,6 @@ dlg_image_prop_new (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->i_notebook), 
 			  "switch_page",
 			  G_CALLBACK (i_notebook_switch_page_cb),
-			  data);
-
-	g_signal_connect (G_OBJECT (data->viewer), 
-			  "image_loaded",
-			  G_CALLBACK (image_loaded_cb), 
 			  data);
 
 	g_signal_connect (G_OBJECT (data->i_histogram_graph), 

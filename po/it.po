@@ -1524,7 +1524,7 @@ msgstr "Aggiungi le immagini selezionate a un catalogo"
 
 #: src/gthumb-ui.xml.h:7
 msgid "Assign categories to selected images"
-msgstr "Assegna delle categories alle immagini selezionate"
+msgstr "Assegna delle categorie alle immagini selezionate"
 
 #: src/gthumb-ui.xml.h:8
 msgid "Back"

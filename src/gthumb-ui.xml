@@ -451,6 +451,21 @@
 		<menuitem name="Tools_Preferences" verb=""/>
 	</submenu>
 	<submenu name="View" _label="_View">
+		<submenu name="ShowHide" _label="Show/_Hide">
+			<menuitem name="View_ShowPreview" verb=""
+				_label="_Image preview"/>
+			<separator/>
+			<menuitem name="View_Toolbar" verb=""/>
+			<menuitem name="View_Statusbar" verb=""/>
+		</submenu>
+		<menuitem name="View_ShowFolders" verb=""
+ 			  _label="_Folders"/>
+		<menuitem name="View_ShowCatalogs" verb=""
+			  _label="_Catalogs"/>
+		<separator/>
+		<menuitem name="Go_Stop" verb=""/>
+		<menuitem name="Go_Refresh" verb=""/>
+		<separator/>
                 <menuitem name="Tools_Slideshow" verb=""/>
 		<menuitem name="View_Fullscreen" verb=""
 			  _label="_Full Screen"/>
@@ -464,9 +479,6 @@
 			<menuitem name="SortReversed" verb=""/>
 		</submenu>
 		<menuitem name="View_Thumbnails" verb=""/>
-		<separator/>
-		<menuitem name="Go_Stop" verb=""/>
-		<menuitem name="Go_Refresh" verb=""/>
 		<separator/>
 		<submenu name="ZoomType" _label="_Zoom">
 			<menuitem name="View_ZoomIn" verb="" 
@@ -490,19 +502,6 @@
 		<separator/>
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
-		<separator/>
-		<submenu name="ShowHide" _label="Show/_Hide">
-			<menuitem name="View_ShowFolders" verb=""
-				  _label="_Folders"/>
-			<menuitem name="View_ShowCatalogs" verb=""
-				  _label="_Catalogs"/>
-			<separator/>
-			<menuitem name="View_ShowPreview" verb=""
-			  	  _label="_Image preview"/>
-			<separator/>
-			<menuitem name="View_Toolbar" verb=""/>
-			<menuitem name="View_Statusbar" verb=""/>
-		</submenu>
 	</submenu>
 	<submenu name="Image" _label="_Image">
 		<menuitem name="AlterImage_Rotate90" verb=""/>
@@ -588,6 +587,10 @@
 
 	<separator/>
 
+  	<toolitem name="View_ImageProp" verb="" _label="Properties" />
+
+	<separator/>
+
 	<toolitem name="Tools_FindImages" verb="" priority="0"
 	          _label="Search"/>
 
@@ -602,8 +605,6 @@
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
-
-  	<toolitem name="View_ImageProp" verb="" _label="Properties" />
 
 	<separator/>
 
@@ -639,6 +640,8 @@
   	<toolitem name="File_Print" verb="" _label="Print"
 	          priority="0"/>
 
+  	<toolitem name="View_ImageProp" verb="" _label="Information" />
+
 	<separator/>
 
 	<toolitem name="Edit_CurrentEditComment" verb="" _label="Comment" />
@@ -647,26 +650,22 @@
 
 	<separator/>
 
+  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
+		  priority="0"/>
+
+  	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
+  	<toolitem name="View_NextImage" verb="" _label="Next"/>
+
+	<separator/>
+
   	<toolitem name="View_ZoomIn" verb=""
 	          _label="In"/>
-  	<toolitem name="View_ZoomOut" verb=""
+ 	<toolitem name="View_ZoomOut" verb=""
 	          _label="Out"/>
   	<toolitem name="View_Zoom100" verb=""
 	          _label="1:1"/>
   	<toolitem name="View_ZoomFit" verb=""
 	          _label="Fit"/>
-
-	<separator/>
-
-  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
-		  priority="0"/>
-
-  	<toolitem name="View_ImageProp" verb="" _label="Information" />
-
-	<separator/>
-
-  	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
-  	<toolitem name="View_NextImage" verb="" _label="Next"/>
 
 </dockitem>
 
