@@ -1,4 +1,4 @@
-/* Gthumb "Classic" layout, v. 2004-12-29 */
+/* Gthumb "Classic" layout, v. 2005-02-25 */
 
 html, body {
 	height: 100%;
@@ -45,6 +45,7 @@ td.nav_bar {
 
 td.button {
 	width: 60px;
+	white-space: nowrap;
 }
 
 td.button img,
@@ -100,9 +101,10 @@ td.td_index {
 	vertical-align: top;
 }
 
+
+/* thumbnail.gthtml */
+
 table.photo {
-	width: 205px;
-	height: 169px;
 	cursor: pointer;
 }
 
@@ -112,13 +114,29 @@ td.photo {
 	height: 122px;
 }
 
-td.photo a {
-	vertical-align: center;
-}
-
-table.photo tr td img,
-table.photo tr td a img {
-	vertical-align: bottom;
+img.photo_top {
 	border-style: none;
+	vertical-align: bottom;
 }
 
+img.photo_bottom {
+	border-style: none;
+	vertical-align: top;
+}
+
+img.photo_left {
+	border-style: none;
+	text-align: right;
+	vertical-align: top;
+}
+
+img.photo_right {
+	border-style: none;
+	text-align: left;
+	vertical-align: top;
+}
+
+img.photo_center {
+	border-style: none;
+	vertical-align: top;
+}

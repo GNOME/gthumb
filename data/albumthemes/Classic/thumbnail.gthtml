@@ -1,21 +1,23 @@
-      <table class="photo" onClick="window.location.href='<gthumb:image_link/>'">
+      <table class="photo" onclick="window.location.href='<gthumb:image_link/>'">
       <tr>
-        <td colspan="3"><img src="top.png" alt="Top" /></td>
+        <td colspan="3"><img class="photo_top" src="top.png" alt="Top" /></td>
       </tr>
       <tr>
-        <td><img src="left.png" alt="Left" /></td>
+        <td><img class="photo_left" src="left.png" alt="Left" /></td>
         <td class="photo">
           <gthumb:image thumbnail class="photo_center" />
         </td>
-        <td><img src="right.png" alt="Right" /></td>
+        <td><img class="photo_right" src="right.png" alt="Right" /></td>
       </tr>
       <tr>
-        <td colspan="3"><img src="bot.png" alt="Bas" /></td>
+        <td colspan="3"><img class="photo_bottom" src="bot.png" alt="Bottom" /></td>
       </tr>
       </table>
-<gthumb:if file_name_visibility_index/>
-      <span class="property_value file_name"><gthumb:file_name/></span><br />
+
+<gthumb:if comment_visibility_index/>
+      <span class="comment"><gthumb:comment/></span><br />
 <gthumb:end/>
+
 <gthumb:if image_dim_visibility_index/>
       <span class="property_value image_dim"><gthumb:image_dim/></span>
 <gthumb:if file_size_visibility_index/>
@@ -29,9 +31,11 @@
 <gthumb:if image_dim_visibility_index || file_size_visibility_index/>
       <br />
 <gthumb:end/>
-<gthumb:if comment_visibility_index/>
-      <span class="comment"><gthumb:comment/></span><br />
+
+<gthumb:if file_name_visibility_index/>
+      <span class="property_value file_name"><gthumb:file_name/></span><br />
 <gthumb:end/>
+
 <gthumb:if exif_date_time_visibility_index/>
       <span class="property_value exif"><gthumb:exif:date_time/></span><br />
 <gthumb:end/>

@@ -1,4 +1,4 @@
-/* Gthumb "Classic" style, v. 2004-12-29 */
+/* Gthumb "Classic" style, v. 2005-02-25 */
 
 /* Common */
 
@@ -9,11 +9,12 @@ body {
 
 span.title {
 	font-weight: bold;
-	font-size: 180%;
+	font-size: 150%;
 }
 
 span.page_index {
 	font-weight: bold;
+	font-size: small;
 }
 
 span.file_name {
@@ -37,6 +38,11 @@ img.thumbnail {
 }
 
 span.comment {
+	font-size: small;
+}
+
+div.properties {
+	width: 80%;
 }
 
 span.property {

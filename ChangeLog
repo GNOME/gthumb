@@ -1,3 +1,40 @@
+2005-02-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/BlueStripes/image.gthtml:
+	* data/albumthemes/BlueStripes/index.gthtml:
+	* data/albumthemes/BlueStripes/layout.css:
+	* data/albumthemes/BlueStripes/Makefile.am:
+	* data/albumthemes/BlueStripes/style.css:
+	* data/albumthemes/BlueStripes/thumbnail.gthtml:
+	* data/albumthemes/Classic/layout.css:
+	* data/albumthemes/Classic/style.css:
+	* data/albumthemes/Classic/thumbnail.gthtml:
+	* data/albumthemes/ClassicClips/layout.css:
+	* data/albumthemes/ClassicClips/style.css:
+	* data/albumthemes/ClassicClips/thumbnail.gthtml:
+	* data/albumthemes/Clean/image.gthtml:
+	* data/albumthemes/Clean/index.gthtml:
+	* data/albumthemes/Clean/layout.css:
+	* data/albumthemes/Clean/Makefile.am:
+	* data/albumthemes/Clean/style.css:
+	* data/albumthemes/Clean/thumbnail.gthtml:
+	* data/albumthemes/NeatRound/image.gthtml:
+	* data/albumthemes/NeatRound/index.gthtml:
+	* data/albumthemes/NeatRound/layout.css:
+	* data/albumthemes/NeatRound/Makefile.am:
+	* data/albumthemes/NeatRound/style.css:
+	* data/albumthemes/NeatRound/thumbnail.gthtml:
+	* data/albumthemes/NeatSquare/image.gthtml:
+	* data/albumthemes/NeatSquare/index.gthtml:
+	* data/albumthemes/NeatSquare/layout.css:
+	* data/albumthemes/NeatSquare/Makefile.am:
+	* data/albumthemes/NeatSquare/style.css:
+	* data/albumthemes/NeatSquare/thumbnail.gthtml:
+
+	Fixes bug #145325: xhtml/xml support for Web Albums
+	Patch by Christophe Bisière.
+
+
 2005-02-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-exif-data-viewer.c (update_exif_data): declare value as 

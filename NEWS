@@ -8,6 +8,8 @@ version 2.6.4
 	  ARGUS DC1500 camera.
 	* Fixed bug #165478: Rotated images no longer auto-refresh in image 
 	  viewer.
+	* Fixed bug #167502: crash trying to open specific image.
+	* Fixed bug #145325: xhtml/xml support for Web Albums
 	  
 version 2.6.3
 -------------	

@@ -1,91 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<gthumb:language/>">
+<head>
+<gthumb:if pages > 1 />
+  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+<gthumb:else/>
+  <title><gthumb:header/></title>
+<gthumb:end/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="Generator" content="gThumb Image Viewer" />
+  <link href="layout.css" rel="stylesheet" type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
 <gthumb:set_var thumbnail_width="185" thumbnail_height="146"/>
 <gthumb:set_var preview_width="600" preview_height="400"/>
+<body>
 
-<html>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="Generator" content="gThumb Image Viewer">
-  <head>
-    <gthumb:if pages > 1 />
-      <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
-    <gthumb:else/>
-      <title><gthumb:header/></title>
-    <gthumb:end/>
-    <style>
-      a:link {
-        font-weight: bold;
-        text-decoration: none;
-        color: white
-      }
-      a:visited {
-        font-weight: bold;
-        text-decoration: none;
-        color: white
-      }
-      a:hover {
-        font-weight: bold;
-        text-decoration: none;
-        color: white
-      }
-      span.title { 
-        color: white; 
-        font-weight: bold;
-        font-size: x-large;
-        text-transform: uppercase; 
-      }
-      span.copyright {
-        color: white;
-        font-weight: bold;
-        font-size: x-small;
-        text-align: center;
-      }
-      img.thumbnail {
-        border-width: 0px;
-      }
-    </style>
-  </head>
-  <body background="background.png">
-    <table width="100%" height="100%" colspacing="0" colpadding="0">
-    <tr><td>
+<table class="full_size">
+<tr>
+<td class="title">
 
-    <!-- Navigation Bar -->
-    <p align="center">
-          <span class=title><gthumb:header/></span>     
-    </p>
-    <p align="right">
-          <gthumb:if pages > 1 && page_idx > 1 />
-            <a href="<gthumb:page_link idx_relative=-1/>">
-              <img align="middle" src="prev.png" width=18 height=20 border=0></a>
-          <gthumb:else/>
-              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
-          <gthumb:end/>
+<!-- Title -->
+<table class="title">
+<tr>
+  <td>
+  <span class="title"><gthumb:header/></span>
+  </td>
+</tr>
+</table>
 
-          &nbsp;
+</td>
+</tr>
+<tr>
+<td class="nav_bar">
 
-	  <gthumb:if pages > 1 && page_idx < pages />
-            <a href="<gthumb:page_link idx_relative=+1/>">
-              <img align="middle" src="next.png" width=18 height=20 border=0></a>
-          <gthumb:else/>
-              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
-          <gthumb:end/>
-    </p>
+<!-- Navigation Bar -->
+<table class="full_size">
+<tr>
+  <td>
+    &nbsp;
+  </td>
+  <td class="button">
+<gthumb:if page_idx > 1 />
+    <a href="<gthumb:page_link idx_relative=-1/>"><img src="prev.png" alt="Previous" /></a>
+<gthumb:end/>
+  </td>
+  <td class="button">
+<gthumb:if page_idx < pages />
+    <a href="<gthumb:page_link idx_relative=+1/>"><img src="next.png" alt="Next" /></a>
+<gthumb:end/>
+  </td>
+</tr>
+</table>
 
-    <tr><td height="100%">
+</td>
+</tr>
+<tr>
+<td>
 
-    <!-- Table -->
-    <table align=center border=0 cellpadding=5 width="95%">
-      <gthumb:table/>
-    </table>
+<!-- Photos -->
+<div class="thumbnails">
+<table>
+<gthumb:table/>
+</table>
+</div>
 
-    <tr><td valign="bottom">
+</td>
+</tr>
+<tr>
+<td class="footer">
 
-    <center>
-      <!-- <img src="white-dot.png" width="100%" height=2> -->
-      <span class=copyright>
-         <gthumb:footer/>
-      </span>
-    </center>
+<!-- Footer -->
+<table class="full_size">
+<tr>
+  <td>
+  <span class="copyright"><gthumb:footer/></span>
+  </td>
+</tr>
+</table>
 
-    </table>
+</td>
+</tr>
+</table>
 
-  </body>
+</body>
 </html>

@@ -17,6 +17,8 @@ theme_DATA =			\
 	top.png			\
 	transparent.png		\
 	white-dot.png		\
+	layout.css		\
+	style.css		\
 	$(gthtml_files)
 
 EXTRA_DIST = $(theme_DATA) 
