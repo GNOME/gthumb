@@ -27,7 +27,7 @@
 #include <gtk/gtk.h>
 #include <gtk/gtkenums.h> /* for GtkSortType */
 #include "gthumb-window.h"
-#include "thumb-loader.h"
+#include "image-loader.h"
 #include "typedefs.h"
 
 #define CATALOG_WEB_EXPORTER_TYPE            (catalog_web_exporter_get_type ())
@@ -84,7 +84,7 @@ struct _CatalogWebExporter {
 
 	/**/
 
-	ThumbLoader  *tloader;
+	ImageLoader  *iloader;
 	GList        *file_to_load;          /* Next file to be loaded. */
 
 	int           n_images;              /* Used for the progress signal.*/

@@ -228,9 +228,9 @@ catalog_web_exporter_finalize (GObject *object)
 		ce->album_files = NULL;
 	}
 
-	if (ce->tloader != NULL) {
-		g_object_unref (G_OBJECT (ce->tloader));
-		ce->tloader = NULL;
+	if (ce->iloader != NULL) {
+		g_object_unref (ce->iloader);
+		ce->iloader = NULL;
 	}
 
 	free_parsed_docs (ce);
@@ -302,7 +302,7 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->index_file = g_strdup (DEFAULT_INDEX_FILE);
 	ce->file_list = NULL;
 	ce->album_files = NULL;
-	ce->tloader = NULL;
+	ce->iloader = NULL;
 
 	ce->thumb_width = DEFAULT_THUMB_SIZE;
 	ce->thumb_height = DEFAULT_THUMB_SIZE;
@@ -1721,8 +1721,8 @@ load_next_file (CatalogWebExporter *ce)
 
 	} else {
 		char *filename = IMAGE_DATA (ce->file_to_load->data)->src_filename;
-		thumb_loader_set_path (ce->tloader, filename);
-		thumb_loader_start (ce->tloader);
+		image_loader_set_path (ce->iloader, filename);
+		image_loader_start (ce->iloader);
 	}
 }
 
@@ -1874,28 +1874,18 @@ export__copy_image (CatalogWebExporter *ce)
 
 
 static void
-thumb_loader_done (ThumbLoader *tloader, 
+image_loader_done (ImageLoader *iloader, 
 		   gpointer     data)
 {
 	CatalogWebExporter *ce = data;
-	ImageLoader        *il;
 	GdkPixbuf          *pixbuf;
 	ImageData          *idata;
 
 	idata = (ImageData*) ce->file_to_load->data;
 
-	/* thumbnail. */
-
-	pixbuf = thumb_loader_get_pixbuf (tloader);
-	g_object_ref (pixbuf);
-	idata->thumb = pixbuf;
-	idata->thumb_width = gdk_pixbuf_get_width (idata->thumb);
-	idata->thumb_height = gdk_pixbuf_get_height (idata->thumb);
-	
 	/* image */
 
-	il = thumb_loader_get_image_loader (tloader);
-	idata->image = pixbuf = image_loader_get_pixbuf (il);
+	idata->image = pixbuf = image_loader_get_pixbuf (iloader);
 	g_object_ref (idata->image);
 
 	if (ce->copy_images && ce->resize_images) {
@@ -1914,8 +1904,7 @@ thumb_loader_done (ThumbLoader *tloader,
 
 	/* preview */
 
-	il = thumb_loader_get_image_loader (tloader);
-	idata->preview = pixbuf = image_loader_get_pixbuf (il);
+	idata->preview = pixbuf = image_loader_get_pixbuf (iloader);
 	g_object_ref (idata->preview);
 
 	if ((ce->preview_max_width > 0) && (ce->preview_max_height > 0)) {
@@ -1944,6 +1933,28 @@ thumb_loader_done (ThumbLoader *tloader,
 			idata->preview = NULL;
 		}
 
+	/* thumbnail. */
+
+	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);
+	g_object_ref (idata->thumb);
+
+	if ((ce->thumb_width > 0) && (ce->thumb_height > 0)) {
+		int w = gdk_pixbuf_get_width (pixbuf);
+		int h = gdk_pixbuf_get_height (pixbuf);
+
+		if (scale_keepping_ratio (&w, &h, 
+					  ce->thumb_width,
+					  ce->thumb_height)) {
+			GdkPixbuf *scaled;
+			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			g_object_unref (idata->thumb);
+			idata->thumb = scaled;
+		}
+	}
+
+	idata->thumb_width = gdk_pixbuf_get_width (idata->thumb);
+	idata->thumb_height = gdk_pixbuf_get_height (idata->thumb);
+
 	/**/
 
 	idata->file_size = get_file_size (idata->src_filename);
@@ -1969,7 +1980,7 @@ thumb_loader_done (ThumbLoader *tloader,
 
 
 static void
-thumb_loader_error (ThumbLoader *tloader, 
+image_loader_error (ImageLoader *iloader, 
 		    gpointer     data)
 {
 	CatalogWebExporter *ce = data;
@@ -2187,21 +2198,17 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 
 	/**/
 
-	if (ce->tloader != NULL)
-		g_object_unref (G_OBJECT (ce->tloader));
+	if (ce->iloader != NULL)
+		g_object_unref (ce->iloader);
 
-	ce->tloader = THUMB_LOADER (thumb_loader_new (NULL, 
-						      ce->thumb_width,
-						      ce->thumb_height));
-	thumb_loader_use_cache (ce->tloader, FALSE);
-
-	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "thumb_done",
-			  G_CALLBACK (thumb_loader_done),
+	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	g_signal_connect (G_OBJECT (ce->iloader), 
+			  "image_done",
+			  G_CALLBACK (image_loader_done),
 			  ce);
-	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "thumb_error",
-			  G_CALLBACK (thumb_loader_error),
+	g_signal_connect (G_OBJECT (ce->iloader), 
+			  "image_error",
+			  G_CALLBACK (image_loader_error),
 			  ce);
 
 	/* Load thumbnails. */
@@ -2212,9 +2219,9 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	ce->n_images_done = 0;
 		
 	ce->file_to_load = ce->file_list;
-	thumb_loader_set_path (ce->tloader, 
+	image_loader_set_path (ce->iloader, 
 			       IMAGE_DATA (ce->file_to_load->data)->src_filename);
-	thumb_loader_start (ce->tloader);
+	image_loader_start (ce->iloader);
 }
 
 
