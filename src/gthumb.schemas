@@ -1283,6 +1283,45 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_images</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_images</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_width</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>640</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/resize_height</key>
+	<applyto>/apps/gthumb/dialogs/web_album/resize_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>480</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/web_album/rows</key>
 	<applyto>/apps/gthumb/dialogs/web_album/rows</applyto>
 	<owner>gthumb</owner>

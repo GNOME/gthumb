@@ -1,3 +1,13 @@
+2003-05-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-web-exporter.c: 
+	* src/dlg-web-exporter.c: added ability to resize images before
+	copying them to the destination.
+
+	* data/albumthemes/*/index.gthtml: 
+	* data/albumthemes/*/image.gthtml: added Content-Type and
+	Generator meta tags.
+
 2003-05-06  Danilo Šegan  <dsegan@gmx.net>
 
 	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.

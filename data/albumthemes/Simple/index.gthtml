@@ -1,6 +1,8 @@
 <gthumb:set_var thumbnail_width=120 thumbnail_height=100/>
 
 <html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf8">
+  <meta name="Generator" content="gThumb Image Viewer">
   <head>
     <title><gthumb:title/></title>
     <style type="text/css">

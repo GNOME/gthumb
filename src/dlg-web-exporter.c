@@ -44,8 +44,13 @@
 #include "gthumb-window.h"
 #include "glib-utils.h"
 
-int           sort_method_to_idx[] = { -1, 0, 1, 2, 3 };
-GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_PATH, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3 };
+static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
+					      GTH_SORT_METHOD_BY_PATH, 
+					      GTH_SORT_METHOD_BY_SIZE, 
+					      GTH_SORT_METHOD_BY_TIME };
+static int           idx_to_resize_width[] = { 320, 640, 800, 1024, 1280 };
+static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 
 
 #define GLADE_EXPORTER_FILE "gthumb_web_exporter.glade"
@@ -68,6 +73,10 @@ typedef struct {
 	GtkWidget          *dest_fileentry_entry;
 	GtkWidget          *wa_index_file_entry;
 	GtkWidget          *wa_copy_images_checkbutton;
+	GtkWidget          *wa_resize_images_checkbutton;
+	GtkWidget          *wa_resize_images_optionmenu;
+	GtkWidget          *wa_resize_images_hbox;
+	GtkWidget          *wa_resize_images_options_hbox;
 
 	GtkWidget          *wa_rows_spinbutton;
 	GtkWidget          *wa_cols_spinbutton;
@@ -126,6 +135,12 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton)));
 
+	eel_gconf_set_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton)));
+
+	eel_gconf_set_integer (PREF_WEB_ALBUM_RESIZE_WIDTH, idx_to_resize_width[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
+
+	eel_gconf_set_integer (PREF_WEB_ALBUM_RESIZE_HEIGHT, idx_to_resize_height[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
+
 	eel_gconf_set_integer (PREF_WEB_ALBUM_ROWS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_rows_spinbutton)));
 
 	eel_gconf_set_integer (PREF_WEB_ALBUM_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_cols_spinbutton)));
@@ -155,6 +170,11 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_index_file (exporter, index_file);
 
 	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	catalog_web_exporter_set_resize_images (exporter, 
+						eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES),
+						idx_to_resize_width[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))],
+						idx_to_resize_height[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
 
 	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
 	
@@ -216,6 +236,40 @@ export_start_copying (GtkObject  *object,
 static void show_album_theme_cb (GtkWidget *widget, DialogData *data);
 
 
+static int
+get_idx_from_resize_width (int width)
+{
+	if (width == 320)
+		return 0;
+	else if (width == 640)
+		return 1;
+	else if (width == 800)
+		return 2;
+	else if (width == 1024)
+		return 3;
+	else if (width == 1280)
+		return 4;
+	else
+		return 1;
+}
+
+
+static void
+copy_image_toggled_cb (GtkToggleButton *button,
+		       DialogData      *data)
+{
+	gtk_widget_set_sensitive (data->wa_resize_images_hbox, gtk_toggle_button_get_active (button));
+}
+
+
+static void
+resize_image_toggled_cb (GtkToggleButton *button,
+			 DialogData      *data)
+{
+	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, gtk_toggle_button_get_active (button));
+}
+
+
 /* create the main dialog. */
 void
 dlg_web_exporter (GThumbWindow *window)
@@ -255,6 +309,11 @@ dlg_web_exporter (GThumbWindow *window)
 	data->wa_dest_fileentry = glade_xml_get_widget (data->gui, "wa_dest_fileentry");
 	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
 	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
+
+	data->wa_resize_images_checkbutton = glade_xml_get_widget (data->gui, "wa_resize_images_checkbutton");
+	data->wa_resize_images_optionmenu = glade_xml_get_widget (data->gui, "wa_resize_images_optionmenu");
+	data->wa_resize_images_hbox = glade_xml_get_widget (data->gui, "wa_resize_images_hbox");
+	data->wa_resize_images_options_hbox = glade_xml_get_widget (data->gui, "wa_resize_images_options_hbox");
 
 	data->wa_rows_spinbutton = glade_xml_get_widget (data->gui, "wa_rows_spinbutton");
 	data->wa_cols_spinbutton = glade_xml_get_widget (data->gui, "wa_cols_spinbutton");
@@ -297,6 +356,15 @@ dlg_web_exporter (GThumbWindow *window)
 			  G_CALLBACK (show_album_theme_cb),
 			  data);
 
+	g_signal_connect (G_OBJECT (data->wa_copy_images_checkbutton), 
+			  "toggled",
+			  G_CALLBACK (copy_image_toggled_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->wa_resize_images_checkbutton), 
+			  "toggled",
+			  G_CALLBACK (resize_image_toggled_cb),
+			  data);
+
 	g_signal_connect (G_OBJECT (data->exporter), 
 			  "done",
 			  G_CALLBACK (export_done),
@@ -335,6 +403,10 @@ dlg_web_exporter (GThumbWindow *window)
 	g_free (svalue);
 	
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH)));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS));
 
@@ -432,7 +504,9 @@ add_theme_dir (ThemeDialogData *tdata,
 	GList          *file_list = NULL;
 	GList          *scan;
 
+#ifdef DEBUG
 	g_print ("theme dir: %s\n", theme_dir);
+#endif
 
 	if (theme_dir != NULL)
 		result = gnome_vfs_directory_list_load (&file_list, 

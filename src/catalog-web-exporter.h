@@ -72,6 +72,10 @@ struct _CatalogWebExporter {
 	GthSortMethod sort_method;
 	GtkSortType   sort_type;
 
+	gboolean      resize_images;
+	int           resize_max_width;
+	int           resize_max_height;
+
 	/**/
 
 	ThumbLoader  *tloader;
@@ -138,6 +142,11 @@ void       catalog_web_exporter_set_thumb_size        (CatalogWebExporter *ce,
 
 void       catalog_web_exporter_set_copy_images       (CatalogWebExporter *ce,
 						       gboolean            copy);
+
+void       catalog_web_exporter_set_resize_images     (CatalogWebExporter *ce,
+						       gboolean            resize,
+						       int                 max_width,
+						       int                 max_height);
 
 void       catalog_web_exporter_set_sorted            (CatalogWebExporter *ce,
 						       GthSortMethod       method,

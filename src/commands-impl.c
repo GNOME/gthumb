@@ -2206,10 +2206,12 @@ view_zoom_fit_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 
+	/* FIXME: delete if useless.
 	if (window->freeze_toggle_handler > 0) {
 		window->freeze_toggle_handler--;
 		return;
 	}
+	*/
 
 	if (viewer->zoom_fit) 
 		viewer->zoom_fit = FALSE;

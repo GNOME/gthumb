@@ -61,12 +61,16 @@ extern FILE         *yyin;
 #define DEFAULT_THUMB_SIZE 100
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
+#define DEFAULT_MAX_WIDTH 640
+#define DEFAULT_MAX_HEIGHT 480
+
 
 typedef struct {
 	char             *comment;
 	char             *filename;
 	GnomeVFSFileSize  file_size;
 	time_t            file_time;
+	GdkPixbuf        *image;
 	GdkPixbuf        *thumb;
 	int               image_width;
 	int               image_height;
@@ -91,6 +95,7 @@ image_data_new (char *filename)
 
 	idata->filename = g_strdup (filename);
 	idata->file_size = 0;
+	idata->image = NULL;
 	idata->thumb = NULL;
 	idata->image_width = 0;
 	idata->image_height = 0;
@@ -107,7 +112,9 @@ image_data_free (ImageData *idata)
 	g_free (idata->comment);
 	g_free (idata->filename);
 
-	if (idata->thumb)
+	if (idata->image != NULL)
+		g_object_unref (idata->image);
+	if (idata->thumb != NULL)
 		g_object_unref (idata->thumb);
 
 	g_free (idata);
@@ -250,6 +257,10 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 
 	ce->thumb_width = DEFAULT_THUMB_SIZE;
 	ce->thumb_height = DEFAULT_THUMB_SIZE;
+
+	ce->resize_images = FALSE;
+	ce->resize_max_width = DEFAULT_MAX_WIDTH;
+	ce->resize_max_height = DEFAULT_MAX_HEIGHT;
 }
 
 
@@ -352,6 +363,21 @@ catalog_web_exporter_set_copy_images (CatalogWebExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 	ce->copy_images = copy;
+}
+
+
+void
+catalog_web_exporter_set_resize_images (CatalogWebExporter *ce,
+					gboolean            resize,
+					int                 max_width,
+					int                 max_height)
+{
+	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
+	ce->resize_images = resize;
+	if (resize) {
+		ce->resize_max_width = max_width;
+		ce->resize_max_height = max_height;
+	}
 }
 
 
@@ -624,31 +650,56 @@ write_line (const char *line, FILE *fout)
 
 static char *
 get_thumbnail_filename (CatalogWebExporter *ce,
-			ImageData          *image)
+			ImageData          *idata)
 {
 	return g_strconcat (ce->location,
 			    "/",
 			    "small.", 
-			    file_name_from_path (image->filename), 
+			    file_name_from_path (idata->filename), 
 			    ".jpeg",
 			    NULL);
 }
 
 
 static char *
-get_image_filename (CatalogWebExporter *ce,
-		    ImageData          *image)
+get_filename_with_other_ext (const char *filename,
+			     const char *new_ext)
 {
-	if (ce->copy_images) {
+	char *name_wo_ext;
+	char *newname;
+
+	name_wo_ext = remove_extension_from_path (file_name_from_path (filename));
+	newname = g_strconcat (name_wo_ext, new_ext, NULL);
+
+	return newname;
+}
+
+
+static char *
+get_image_filename (CatalogWebExporter *ce,
+		    ImageData          *idata)
+{
+	if (ce->copy_images && ! ce->resize_images) {
 		char *filename;
 		filename = g_strconcat (ce->location,
 					"/",
-					file_name_from_path (image->filename),
+					file_name_from_path (idata->filename),
 					NULL);
 		return filename;
 	} 
+
+	if (ce->copy_images && ce->resize_images) {
+		char *jpeg_name = get_filename_with_other_ext (idata->filename, ".jpeg");
+		char *filename;
+		filename = g_strconcat (ce->location,
+					"/",
+					jpeg_name,
+					NULL);
+		g_free (jpeg_name);
+		return filename;
+	} 
 	
-	return g_strdup (image->filename);
+	return g_strdup (idata->filename);
 }
 
 
@@ -662,7 +713,7 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 	for (scan = index_parsed; scan; scan = scan->next) {
 		GthTag    *tag = scan->data;
-		ImageData *image;
+		ImageData *idata;
 		char      *line = NULL;
 		char      *image_src, *image_src_relative;
 		int        idx;
@@ -681,16 +732,16 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 		case GTH_TAG_IMAGE:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
+			idata = g_list_nth (ce->file_list, idx)->data;
 
 			if (gth_tag_get_var (ce, tag, "thumbnail") != 0) {
-				image_src = get_thumbnail_filename (ce, image);
-				image_width = gdk_pixbuf_get_width (image->thumb);
-				image_height = gdk_pixbuf_get_height (image->thumb);
+				image_src = get_thumbnail_filename (ce, idata);
+				image_width = gdk_pixbuf_get_width (idata->thumb);
+				image_height = gdk_pixbuf_get_height (idata->thumb);
 			} else {
-				image_src = get_image_filename (ce, image);
-				image_width = image->image_width;
-				image_height = image->image_height;
+				image_src = get_image_filename (ce, idata);
+				image_width = idata->image_width;
+				image_height = idata->image_height;
 			}
 
 			border = gth_tag_get_var (ce, tag, "border");
@@ -723,8 +774,8 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 		case GTH_TAG_IMAGE_LINK:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
-			line = g_strconcat (file_name_from_path (image->filename), 
+			idata = g_list_nth (ce->file_list, idx)->data;
+			line = g_strconcat (file_name_from_path (idata->filename), 
 					    ".html",
 					    NULL);
 			write_line (line, fout);
@@ -737,10 +788,10 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 		case GTH_TAG_IMAGE_DIM:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
+			idata = g_list_nth (ce->file_list, idx)->data;
 			line = g_strdup_printf ("%dx%d",
-						image->image_width,
-						image->image_height);
+						idata->image_width,
+						idata->image_height);
 			write_line (line, fout);
 			break;
 
@@ -751,26 +802,26 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 		case GTH_TAG_FILENAME:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
+			idata = g_list_nth (ce->file_list, idx)->data;
 
 			if (gth_tag_get_var (ce, tag, "with_path") != 0) {
-				line = get_image_filename (ce, image);
+				line = get_image_filename (ce, idata);
 
 			} else if (gth_tag_get_var (ce, tag, "with_relative_path") != 0) {
-				char *path = get_image_filename (ce, image);
+				char *path = get_image_filename (ce, idata);
 				line = get_path_relative_to_dir (path, ce->location);
 				g_free (path);
 
 			} else
-				line = g_strdup (file_name_from_path (image->filename));
+				line = g_strdup (file_name_from_path (idata->filename));
 
 			write_line (line, fout);
 			break;
 
 		case GTH_TAG_FILEPATH:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
-			filename = get_image_filename (ce, image);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			filename = get_image_filename (ce, idata);
 			if (gth_tag_get_var (ce, tag, "relative_path") != 0) {
 				char *tmp;
 				tmp = get_path_relative_to_dir (filename, ce->location);
@@ -785,24 +836,24 @@ gth_parsed_doc_print (GList              *index_parsed,
 
 		case GTH_TAG_FILESIZE:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
-			line = gnome_vfs_format_file_size_for_display (image->file_size);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			line = gnome_vfs_format_file_size_for_display (idata->file_size);
 			write_line (line, fout);
 			break;
 
 		case GTH_TAG_COMMENT:
 			idx = get_image_idx (tag, ce);
-			image = g_list_nth (ce->file_list, idx)->data;
+			idata = g_list_nth (ce->file_list, idx)->data;
 			
-			if (image->comment == NULL)
+			if (idata->comment == NULL)
 				break;
 
 			max_size = gth_tag_get_var (ce, tag, "max_size");
 			if (max_size <= 0)
-				line = g_strdup (image->comment);
+				line = g_strdup (idata->comment);
 			else {
-				char *comment = g_strndup (image->comment, max_size);
-				if (strlen (comment) < strlen (image->comment))
+				char *comment = g_strndup (idata->comment, max_size);
+				if (strlen (comment) < strlen (idata->comment))
 					line = g_strconcat (comment, "...", NULL);
 				else
 					line = g_strdup (comment);
@@ -1055,7 +1106,7 @@ save_thumbnail_cb (gpointer data)
 		export__save_other_files (ce);
 
 	else {
-		ImageData *image = ce->current_image->data;
+		ImageData *idata = ce->current_image->data;
 		char      *filename;
 		
 		g_signal_emit (G_OBJECT (ce), 
@@ -1066,7 +1117,7 @@ save_thumbnail_cb (gpointer data)
 		filename = g_strconcat (ce->tmp_location,
 					"/",
 					"small.", 
-					file_name_from_path (image->filename), 
+					file_name_from_path (idata->filename), 
 					".jpeg",
 					NULL);
 
@@ -1074,7 +1125,7 @@ save_thumbnail_cb (gpointer data)
 		g_print ("write %s\n", filename);
 #endif
 
-		if (_gdk_pixbuf_save (image->thumb,
+		if (_gdk_pixbuf_save (idata->thumb,
 				      filename,
 				      "jpeg",
 				      NULL, NULL))
@@ -1123,7 +1174,7 @@ save_html_image_cb (gpointer data)
 		export__save_thumbnails (ce);
 
 	else {
-		ImageData *image = ce->current_image->data;
+		ImageData *idata = ce->current_image->data;
 		char      *filename;
 		FILE      *fout;
 
@@ -1134,7 +1185,7 @@ save_html_image_cb (gpointer data)
 
 		filename = g_strconcat (ce->tmp_location,
 					"/",
-					file_name_from_path (image->filename), 
+					file_name_from_path (idata->filename), 
 					".html",
 					NULL);
 
@@ -1250,6 +1301,7 @@ export__save_html_files (CatalogWebExporter *ce)
 	if (ce->n_images % (ce->page_rows * ce->page_cols) > 0)
 		ce->n_pages++;
 
+	ce->image = 0;
 	ce->page = 0;
 	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
 					    save_html_index_cb,
@@ -1257,18 +1309,83 @@ export__save_html_files (CatalogWebExporter *ce)
 }
 
 
+static gboolean
+save_resized_image_cb (gpointer data)
+{
+	CatalogWebExporter *ce = data;
+
+	if (ce->saving_timeout != 0) {
+		g_source_remove (ce->saving_timeout);
+		ce->saving_timeout = 0;
+	}
+
+	if (ce->current_image == NULL) 
+		export__save_html_files (ce);
+
+	else {
+		ImageData *idata = ce->current_image->data;
+		char      *jpeg_name = get_filename_with_other_ext (idata->filename, ".jpeg");
+		char      *filename;
+		
+		g_signal_emit (G_OBJECT (ce), 
+			       catalog_web_exporter_signals[PROGRESS],
+			       0,
+			       (float) ce->image / ce->n_images);
+
+		filename = g_strconcat (ce->tmp_location,
+					"/",
+					jpeg_name,
+					NULL);
+		g_free (jpeg_name);
+
+#ifdef DEBUG
+		g_print ("write %s\n", filename);
+#endif
+
+		if (_gdk_pixbuf_save (idata->image,
+				      filename,
+				      "jpeg",
+				      NULL, NULL))
+			ce->album_files = g_list_prepend (ce->album_files, filename);
+		else
+			g_free (filename);
+
+		/**/
+
+		ce->current_image = ce->current_image->next;
+		ce->image++;
+
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_resized_image_cb,
+						    data);
+	}
+
+	return FALSE;
+}
+
+
 static void
 export__save_images (CatalogWebExporter *ce)
 {
-	if (ce->copy_images) {
+	if (! ce->copy_images) {
+		export__save_html_files (ce);
+
+	} else if (ce->copy_images && ! ce->resize_images) {
 		GList *scan;
 		for (scan = ce->file_list; scan; scan = scan->next) {
 			ImageData *idata = scan->data;
 			ce->album_files = g_list_prepend (ce->album_files, g_strdup (idata->filename));
 		}
-	}
+		export__save_html_files (ce);
 
-	export__save_html_files (ce);
+	} else if (ce->copy_images && ce->resize_images) {
+		exporter_set_info (ce, _("Saving images"));
+		ce->image = 0;
+		ce->current_image = ce->file_list;
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_resized_image_cb,
+						    ce);
+	}
 }
 
 
@@ -1324,15 +1441,42 @@ thumb_loader_done (ThumbLoader *tloader,
 	idata = (ImageData*) ce->file_to_load->data;
 
 	/* thumbnail. */
+
 	pixbuf = thumb_loader_get_pixbuf (tloader);
 	g_object_ref (pixbuf);
 	idata->thumb = pixbuf;
 	
 	/* image width and height. */
+
 	il = thumb_loader_get_image_loader (tloader);
 	pixbuf = image_loader_get_pixbuf (il);
 	idata->image_width = gdk_pixbuf_get_width (pixbuf);
 	idata->image_height = gdk_pixbuf_get_height (pixbuf);
+
+	/* resize if requested. */
+
+	if (ce->resize_images) {
+		int w = gdk_pixbuf_get_width (pixbuf);
+		int h = gdk_pixbuf_get_height (pixbuf);
+		if ((w > ce->resize_max_width) || (h > ce->resize_max_height)) {
+			float      max_w = ce->resize_max_width;
+			float      max_h = ce->resize_max_height;
+			float      factor;
+			int        new_w, new_h;
+			GdkPixbuf *scaled;
+
+			factor = MIN (max_w / w, max_h / h);
+			new_w  = MAX ((int) (w * factor + 0.5), 1);
+			new_h  = MAX ((int) (h * factor + 0.5), 1);
+			scaled = gdk_pixbuf_scale_simple (pixbuf, new_w, new_h, GDK_INTERP_BILINEAR);
+			idata->image = scaled;
+			idata->image_width = gdk_pixbuf_get_width (idata->image);
+			idata->image_height = gdk_pixbuf_get_height (idata->image);
+		} else {
+			idata->image = pixbuf;
+			g_object_ref (idata->image);
+		}
+	}
 
 	/* file size. */
 	idata->file_size = get_file_size (idata->filename);
