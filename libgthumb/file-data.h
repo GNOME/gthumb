@@ -30,8 +30,10 @@
 #include <sys/stat.h>
 
 typedef struct {
-	gchar *             path;          /* Full path name. */
-	gchar *             name;          /* File name only. */
+	int                 ref;
+
+	char               *path;          /* Full path name. */
+	char               *name;          /* File name only. */
 	GnomeVFSFileSize    size;
 	time_t              ctime;
 	time_t              mtime;
@@ -39,22 +41,26 @@ typedef struct {
 					    * this file. */
 	guint               thumb : 1;     /* Whether we have a thumb of this
 					    * image. */
-
-	gchar *             comment;
+	char               *comment;
 } FileData;
 
 
-FileData *   file_data_new               (const gchar *path, 
+FileData *   file_data_new               (const char       *path, 
 					  GnomeVFSFileInfo *info);
 
-void         file_data_set_path          (FileData *fd,
-					  const gchar *path);
+void         file_data_ref               (FileData         *fd);
 
-void         file_data_update            (FileData *fd);
+void         file_data_unref             (FileData         *fd);
 
-void         file_data_update_comment    (FileData *fd);
+void         file_data_set_path          (FileData         *fd,
+					  const char       *path);
 
-void         file_data_free              (FileData *fd);
+void         file_data_update            (FileData         *fd);
 
+void         file_data_update_comment    (FileData         *fd);
+
+/*
+void         file_data_free              (FileData         *fd);
+*/
 
 #endif /* FILE_DATA_H */

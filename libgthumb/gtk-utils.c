@@ -226,7 +226,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	hbox = gtk_hbox_new (FALSE, 6);
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 5);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);
@@ -314,8 +314,8 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 5);
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 12);
 	
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);

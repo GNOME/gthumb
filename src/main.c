@@ -555,6 +555,18 @@ all_windows_notify_catalog_rename (const gchar *oldname,
 
 
 void
+all_windows_notify_catalog_new (const gchar *path)
+{
+	GList *scan;
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+		window_notify_catalog_new (window, path);
+	}
+}
+
+
+void
 all_windows_notify_catalog_delete (const gchar *path)
 {
 	GList *scan;

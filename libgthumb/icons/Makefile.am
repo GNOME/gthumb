@@ -33,6 +33,7 @@ IMAGES=					\
 	rotate-270-24.png		\
 	rotate-90-16.png		\
 	rotate-90-24.png		\
+	search-duplicates-16.png	\
 	slideshow-16.png		\
 	transform-16.png		\
 	unknown-48.png
@@ -75,6 +76,7 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list rotate_270_24_rgba $(srcdir)/rotate-270-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list rotate_90_16_rgba $(srcdir)/rotate-90-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list rotate_90_24_rgba $(srcdir)/rotate-90-24.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list search_duplicates_16_rgba $(srcdir)/search-duplicates-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list slideshow_16_rgba $(srcdir)/slideshow-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list transform_16_rgba $(srcdir)/transform-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list unknown_48_rgba $(srcdir)/unknown-48.png >> $(srcdir)/pixbufs.h

@@ -100,6 +100,14 @@ typedef enum { /*< skip >*/
 } ClickPolicy;
 
 
+typedef enum { /*< skip >*/
+	OVERWRITE_SKIP,
+	OVERWRITE_RENAME,
+	OVERWRITE_ASK,
+	OVERWRITE_OVERWRITE,
+} OverwriteMode;
+
+
 typedef void (*ErrorFunc)      (gpointer data);
 
 typedef void (*DoneFunc)       (gpointer data);

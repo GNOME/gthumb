@@ -98,6 +98,8 @@ static EnumStringTable arrange_type_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable *rename_sort_order_table = arrange_type_table;
+
 static EnumStringTable *exp_arrange_type_table = arrange_type_table;
 
 static EnumStringTable sort_order_table [] = {
@@ -170,6 +172,13 @@ static EnumStringTable exporter_frame_style_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable convert_overwrite_mode_table [] = {
+	{ OVERWRITE_SKIP,      "skip" },
+	{ OVERWRITE_RENAME,    "rename" },
+	{ OVERWRITE_ASK,       "ask" },
+	{ OVERWRITE_OVERWRITE, "overwrite" },
+	{ 0, NULL }
+};
 
 /* --------------- */
 
@@ -421,16 +430,18 @@ pref_set_##func_name (type i_value)					\
 }
 
 
-GET_SET_FUNC(click_policy,         PREF_CLICK_POLICY,        ClickPolicy)
-GET_SET_FUNC(arrange_type,         PREF_ARRANGE_IMAGES,      SortMethod)
-GET_SET_FUNC(sort_order,           PREF_SORT_IMAGES,         GtkSortType)
-GET_SET_FUNC(zoom_quality,         PREF_ZOOM_QUALITY,        ZoomQuality)
-GET_SET_FUNC(zoom_change,          PREF_ZOOM_CHANGE,         ZoomChange)
-GET_SET_FUNC(transp_type,          PREF_TRANSP_TYPE,         TranspType)
-GET_SET_FUNC(check_type,           PREF_CHECK_TYPE,          CheckType)
-GET_SET_FUNC(check_size,           PREF_CHECK_SIZE,          CheckSize)
-GET_SET_FUNC(slideshow_direction,  PREF_SLIDESHOW_DIR,       DirectionType)
-GET_SET_FUNC(toolbar_style,        PREF_UI_TOOLBAR_STYLE,    ToolbarStyle)
-GET_SET_FUNC(exp_arrange_type,     PREF_EXP_ARRANGE_IMAGES,  SortMethod)
-GET_SET_FUNC(exp_sort_order,       PREF_EXP_SORT_IMAGES,     GtkSortType)
-GET_SET_FUNC(exporter_frame_style, PREF_EXP_FRAME_STYLE,     FrameStyle)
+GET_SET_FUNC(click_policy,           PREF_CLICK_POLICY,        ClickPolicy)
+GET_SET_FUNC(arrange_type,           PREF_ARRANGE_IMAGES,      SortMethod)
+GET_SET_FUNC(sort_order,             PREF_SORT_IMAGES,         GtkSortType)
+GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,        ZoomQuality)
+GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,         ZoomChange)
+GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,         TranspType)
+GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,          CheckType)
+GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,          CheckSize)
+GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,       DirectionType)
+GET_SET_FUNC(toolbar_style,          PREF_UI_TOOLBAR_STYLE,    ToolbarStyle)
+GET_SET_FUNC(exp_arrange_type,       PREF_EXP_ARRANGE_IMAGES,  SortMethod)
+GET_SET_FUNC(exp_sort_order,         PREF_EXP_SORT_IMAGES,     GtkSortType)
+GET_SET_FUNC(exporter_frame_style,   PREF_EXP_FRAME_STYLE,     FrameStyle)
+GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   OverwriteMode)
+GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  SortMethod)

@@ -3,17 +3,18 @@
 <commands>
 	<cmd name="File_NewWindow" _label="New _Window" 
 	     _tip="Create a new window"
-	     accel="*Control*N"/>
+	     accel="*Control*N"
+	     pixtype="stock" pixname="gtk-new"/>
 	<cmd name="File_CloseWindow" _label="_Close Window"
 	     _tip="Close this window"
 	     pixtype="stock" pixname="gtk-close" accel="*Control*W"/>
-	<cmd name="File_OpenWith" _label="_Open with..." 
+	<cmd name="File_OpenWith" _label="_Open With" 
 	     _tip="Open selected images with an application"
 	     pixtype="stock" pixname="gtk-open" accel="*Control*O"/>
 	<cmd name="File_OpenWithPopup" _label="_Open with..." 
 	     _tip="Open selected images with an application"
 	     pixtype="stock" pixname="gtk-open"/>
-	<cmd name="File_Save" _label="_Save as..." 
+	<cmd name="File_Save" _label="Save _As..." 
 	     _tip="Save current image"
 	     pixtype="stock" pixname="gtk-save-as" 
 	     accel="*Shift**Control*S"/>
@@ -83,9 +84,10 @@
 	<cmd name="EditCatalog_RedoSearch" _label="Redo Search" 
 	     _tip="Redo the search"/>
 
-	<cmd name="EditCurrentCatalog_New" _label="New _Library" 
-	     _tip="Create a new catalog library"
-	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
+	<cmd name="EditCurrentCatalog_New" _label="_New Catalog" 
+	     _tip="Create a new catalog"/>
+	<cmd name="EditCurrentCatalog_NewLibrary" _label="New _Library" 
+	     _tip="Create a new catalog library"/>
 	<cmd name="EditCurrentCatalog_Rename" _label="_Rename" 
 	     _tip="Rename current catalog"/>
 	<cmd name="EditCurrentCatalog_Delete" _label="_Delete" 
@@ -115,9 +117,8 @@
 	     _tip="Delete current folder"/>
 	<cmd name="EditCurrentDir_Move" _label="_Move..." 
 	     _tip="Move current folder"/>
-	<cmd name="EditCurrentDir_New" _label="New _Folder" 
-	     _tip="Create a new folder"
-	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
+	<cmd name="EditCurrentDir_New" _label="_New Folder" 
+	     _tip="Create a new folder"/>
 
 	<cmd name="AlterImage_Rotate90" _label="Rotate Ri_ght" 
 	     _tip="View the image rotated clockwise"
@@ -253,8 +254,8 @@
 	<cmd name="View_Sidebar_Folders"/>
 	<cmd name="View_Sidebar_Catalogs"/>
 
-	<cmd name="View_ImageProp" _label="Image Inf_ormation"
-	     _tip="Display image information"
+	<cmd name="View_ImageProp" _label="Image _Properties"
+	     _tip="Display image properties"
 	     accel="*Control*I"/>
 
 	<cmd name="Go_Back" _label="_Back" 
@@ -314,7 +315,7 @@
 	<cmd name="Tools_Slideshow" _label="_Slideshow" 
 	     _tip="View images as a slideshow"
 	     accel="*Control*S"/>
-	<cmd name="Tools_FindImages" _label="_Find Images..." 
+	<cmd name="Tools_FindImages" _label="_Find Images" 
 	     _tip=" "
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
@@ -325,7 +326,7 @@
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"/>
 	     _tip=" "/>
-     	<cmd name="Tools_FindDuplicates" _label="Find _Duplicates" 
+     	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates" 
 	     _tip=" "/>
 	<cmd name="Tools_JPEGRotate" _label="_JPEG Transform" 
 	     _tip=" "/>
@@ -350,18 +351,19 @@
 		<menuitem name="File_NewWindow" verb=""/>
 		<menuitem name="EditCurrentDir_New" verb=""/>
 		<menuitem name="EditCurrentCatalog_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
 		<separator/>
 		<menuitem name="File_OpenWith" verb=""/>
 		<menuitem name="File_Save" verb=""/>
 		<menuitem name="File_Print" verb=""/>
 		<separator/>
-		<submenu name="Folder" _label="Folder">
+		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
 			<menuitem name="EditCurrentDir_Rename" verb=""/>
 			<menuitem name="EditCurrentDir_Delete" verb=""/>
 			<menuitem name="EditCurrentDir_Move" verb=""/>
 		</submenu>
-		<submenu name="Catalog" _label="Catalog">
+		<submenu name="Catalog" _label="Ca_talog">
 			<menuitem name="EditCurrentCatalog_Rename" verb=""/>
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
@@ -382,6 +384,9 @@
 		<menuitem name="Edit_MoveFiles" verb=""/>
 		<separator/>
 		<menuitem name="Edit_SelectAll" verb=""/>
+		<separator/>
+		<menuitem name="Tools_FindImages" verb=""/>
+		<menuitem name="Tools_FindDuplicates" verb=""/>
 		<separator/>
 		<submenu name="ViewImage" _label="_Image">
 			<menuitem name="AlterImage_Rotate90" verb=""/>
@@ -426,7 +431,7 @@
 		<menuitem name="Go_Stop" verb=""/>
 		<menuitem name="Go_Refresh" verb=""/>
 		<separator/>
-		<submenu name="ViewSort" _label="_Sort Images">
+		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
 			<menuitem name="SortByPath" verb=""/>
 			<menuitem name="SortBySize" verb=""/>
@@ -451,7 +456,7 @@
 			<menuitem name="View_ZoomQualityHigh" verb=""/>
 			<menuitem name="View_ZoomQualityLow" verb=""/>
 		</submenu>
-		<submenu name="ViewTranspType" _label="Transparency typ_e">
+		<submenu name="ViewTranspType" _label="Transparen_cy Type">
 			<menuitem name="TranspTypeNone" verb=""/>
 			<menuitem name="TranspTypeWhite" verb=""/>
 			<menuitem name="TranspTypeBlack" verb=""/>
@@ -480,7 +485,6 @@
 	</submenu>
 	<submenu name="Tools" _label="_Tools">
 		<menuitem name="Tools_Slideshow" verb=""/>
-		<menuitem name="Tools_FindImages" verb=""/>
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
 			<menuitem name="Wallpaper_Tiled" verb=""/>
@@ -495,7 +499,6 @@
 		<menuitem name="Tools_RenameSeries" verb=""/>
 		<separator/>
 		<menuitem name="Tools_IndexImage" verb=""/>
-		<menuitem name="Tools_FindDuplicates" verb=""/>
 		<separator/>
 		<menuitem name="Tools_Maintenance" verb=""/>
 	</submenu>
@@ -570,14 +573,6 @@
 
   	<toolitem name="File_Print" verb="" _label="Print"
 	          priority="0"/>
-
-<!--
-	<separator/>
-
-	<toolitem name="AlterImage_Rotate" verb="" _label="Rotate"/>
-	<toolitem name="AlterImage_ReduceColors" verb=""
-	          _label="Reduce Colors"/>
--->
 
 	<separator/>
 

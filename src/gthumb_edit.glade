@@ -1685,7 +1685,7 @@
 	    <widget class="GtkVBox" id="vbox18">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label58">
@@ -1865,7 +1865,7 @@
 	    <widget class="GtkVBox" id="vbox19">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label61">
@@ -2101,7 +2101,7 @@
 	    <widget class="GtkVBox" id="vbox20">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label71">

@@ -462,7 +462,7 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
 		
-		title = g_strdup_printf ("%s", utf8_name); 
+		title = g_strdup_printf (_("%s Properties"), utf8_name); 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 		g_free (utf8_name);
 		g_free (title);

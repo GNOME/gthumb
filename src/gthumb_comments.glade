@@ -11,7 +11,7 @@
   <property name="modal">False</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">False</property>
+  <property name="has_separator">True</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox4">
@@ -73,21 +73,21 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox2">
-	  <property name="border_width">5</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">10</property>
+	  <property name="spacing">12</property>
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox5">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label5">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">_Selected categories:</property>
+		  <property name="label" translatable="yes">_Selected Categories:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -170,12 +170,12 @@
 	    <widget class="GtkVBox" id="vbox4">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label4">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">A_vailable categories:</property>
+		  <property name="label" translatable="yes">A_vailable Categories:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -225,7 +225,7 @@
 		    <widget class="GtkHBox" id="hbox3">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkScrolledWindow" id="scrolledwindow1">
@@ -260,7 +260,7 @@
 			<widget class="GtkVBox" id="vbox4">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <widget class="GtkButton" id="c_add_key_button">
@@ -401,14 +401,13 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox6">
-	  <property name="border_width">5</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">5</property>
+	  <property name="spacing">12</property>
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox11">
-	      <property name="border_width">5</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">10</property>
@@ -417,7 +416,7 @@
 		<widget class="GtkVBox" id="vbox7">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label9">
@@ -444,7 +443,7 @@
 		    <widget class="GtkHBox" id="hbox5">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">0</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label6">
@@ -521,7 +520,7 @@
 		<widget class="GtkVBox" id="vbox8">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkLabel" id="label10">
@@ -548,7 +547,7 @@
 		    <widget class="GtkHBox" id="hbox6">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">0</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label7">
@@ -608,7 +607,7 @@
 		<widget class="GtkVBox" id="vbox15">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkCheckButton" id="date_checkbutton">
@@ -632,7 +631,7 @@
 		    <widget class="GtkHBox" id="hbox14">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">0</property>
 
 		      <child>
 			<widget class="GtkLabel" id="label21">
@@ -680,7 +679,7 @@
 			    <widget class="GtkHBox" id="hbox11">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkButton" id="date_today_button">
@@ -760,17 +759,6 @@
 		  <property name="fill">True</property>
 		</packing>
 	      </child>
-	    </widget>
-	    <packing>
-	      <property name="padding">0</property>
-	      <property name="expand">True</property>
-	      <property name="fill">True</property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkHSeparator" id="hseparator4">
-	      <property name="visible">True</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>

@@ -235,6 +235,9 @@ void            window_notify_catalog_rename        (GThumbWindow *window,
 						     const gchar *old_name,
 						     const gchar *new_name);
 
+void            window_notify_catalog_new           (GThumbWindow *window,
+						     const gchar  *path);
+
 void            window_notify_catalog_delete        (GThumbWindow *window,
 						     const gchar  *path);
 

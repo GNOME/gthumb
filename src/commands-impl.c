@@ -22,6 +22,9 @@
 
 #include <config.h>
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-exec.h>
@@ -890,9 +893,9 @@ edit_current_folder_new_command_impl (BonoboUIComponent *uic,
 
 
 void 
-edit_current_catalog_new_command_impl (BonoboUIComponent *uic, 
-				       gpointer           user_data, 
-				       const gchar       *verbname)
+edit_current_catalog_new_library_command_impl (BonoboUIComponent *uic, 
+					       gpointer           user_data, 
+					       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
 	create_new_folder_or_library (window, 
@@ -1419,6 +1422,77 @@ edit_catalog_rename_command_impl (BonoboUIComponent *uic,
 	catalog_rename (window, catalog_path);
 
 	g_free (catalog_path);
+}
+
+
+void 
+edit_current_catalog_new_command_impl (BonoboUIComponent *uic, 
+				       gpointer           user_data, 
+				       const char        *verbname)
+{
+	GThumbWindow *window = user_data;
+	char         *new_name;
+	char         *new_catalog_path;
+	int           fd;
+
+	if (window->catalog_list->path == NULL)
+		return;
+
+	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+					    GTK_DIALOG_MODAL,
+					    _("Enter the catalog name : "),
+					    _("New Catalog"),
+					    MAX_NAME_LEN,
+					    GTK_STOCK_CANCEL,
+					    GTK_STOCK_OK);
+	if (new_name == NULL) 
+		return;
+
+	if (strchr (new_name, '/') != NULL) {
+		char *utf8_name;
+
+		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+				       _("The name \"%s\" is not valid because it contains the character \"/\". " "Please use a different name."), utf8_name);
+
+		g_free (utf8_name);
+		g_free (new_name);
+
+		return;
+	}
+
+	new_catalog_path = g_strconcat (window->catalog_list->path,
+					"/",
+					new_name,
+					CATALOG_EXT,
+					NULL);
+
+	g_print ("create %s\n", new_catalog_path);
+
+	if (path_is_file (new_catalog_path)) {
+		char *utf8_name;
+
+		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
+				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+		g_free (utf8_name);
+
+	} else if ((fd = creat (new_catalog_path, 0660)) != -1) {
+		all_windows_notify_catalog_new (new_catalog_path);
+		close (fd);
+	} else {
+		char *utf8_name;
+
+		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
+                                       _("Could not create the catalog \"%s\" : %s"), 
+                                       utf8_name,
+                                       errno_to_string ());
+		g_free (utf8_name);
+	}
+
+	g_free (new_name); 	
+	g_free (new_catalog_path);
 }
 
 

@@ -71,6 +71,7 @@ DEFINE_VERB(edit_catalog_move_command_impl);
 DEFINE_VERB(edit_catalog_edit_search_command_impl);
 DEFINE_VERB(edit_catalog_redo_search_command_impl);
 DEFINE_VERB(edit_current_catalog_new_command_impl);
+DEFINE_VERB(edit_current_catalog_new_library_command_impl);
 DEFINE_VERB(edit_current_catalog_rename_command_impl);
 DEFINE_VERB(edit_current_catalog_delete_command_impl);
 DEFINE_VERB(edit_current_catalog_move_command_impl);

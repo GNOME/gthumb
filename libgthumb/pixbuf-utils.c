@@ -20,6 +20,55 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+/* Some bits are based upon the gimp source code, the original copyright
+ * note follows:
+ *
+ * The GIMP -- an image manipulation program
+ * Copyright (C) 1995 Spencer Kimball and Peter Mattis
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ */
+
+/* The jpeg saver is based upon the gdk-pixbuf library, which has the
+ * following copyright note : 
+ *
+ * Copyright (C) 1999 Michael Zucchi
+ * Copyright (C) 1999 The Free Software Foundation
+ * 
+ * Progressive loading code Copyright (C) 1999 Red Hat, Inc.
+ *
+ * Authors: Michael Zucchi <zucchi@zedzone.mmc.com.au>
+ *          Federico Mena-Quintero <federico@gimp.org>
+ *          Michael Fulbright <drmike@redhat.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
 #include <config.h>
 #include <math.h>
 #include <string.h>
@@ -1286,12 +1335,10 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 }
 
 
-/**/
-
-
 
-#ifdef HAVE_LIBJPEG
 
+
+#ifdef HAVE_LIBJPEG
 
 /* error handler data */
 struct error_handler_data {
@@ -1552,6 +1599,8 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 
 
 
+
+
 #ifdef HAVE_LIBTIFF
 
 #define  TILE_HEIGHT 40   /* FIXME */
@@ -1576,6 +1625,8 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	int            rowstride;
 	guchar        *pixels, *buf, *ptr;
 	int            success;
+	int            horizontal_dpi = 72, vertical_dpi = 72;
+	gboolean       save_resolution = FALSE;
 
 	compression = COMPRESSION_DEFLATE;
 
@@ -1608,6 +1659,56 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,       
 						     "Unsupported compression type passed to the TIFF saver");
+					return FALSE;
+				}
+				
+			} else if (strcmp (*kiter, "vertical dpi") == 0) {
+				char *endptr = NULL;
+				vertical_dpi = strtol (*viter, &endptr, 10);
+				save_resolution = TRUE;
+
+				if (endptr == *viter) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "TIFF vertical dpi must be a value greater than 0; value '%s' could not be parsed.",
+						     *viter);
+					
+					return FALSE;
+				}
+				
+				if (vertical_dpi < 0) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "TIFF vertical dpi must be a value greater than 0; value '%d' is not allowed.",
+						     vertical_dpi);
+					
+					return FALSE;
+				}
+				
+			} else if (strcmp (*kiter, "horizontal dpi") == 0) {
+				char *endptr = NULL;
+				horizontal_dpi = strtol (*viter, &endptr, 10);
+				save_resolution = TRUE;
+				
+				if (endptr == *viter) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "TIFF horizontal dpi must be a value greater than 0; value '%s' could not be parsed.",
+						     *viter);
+					
+					return FALSE;
+				}
+				
+				if (horizontal_dpi < 0) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "TIFF horizontal dpi must be a value greater than 0; value '%d' is not allowed.",
+						     horizontal_dpi);
+					
 					return FALSE;
 				}
 			} else {
@@ -1675,6 +1776,12 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 	TIFFSetField (tif, TIFFTAG_ROWSPERSTRIP,    rowsperstrip);
 	TIFFSetField (tif, TIFFTAG_PLANARCONFIG,    PLANARCONFIG_CONTIG);
 
+	if (save_resolution) {
+		TIFFSetField (tif, TIFFTAG_XRESOLUTION, (double) horizontal_dpi);
+		TIFFSetField (tif, TIFFTAG_YRESOLUTION, (double) vertical_dpi);
+		TIFFSetField (tif, TIFFTAG_RESOLUTIONUNIT, RESUNIT_INCH);
+	}
+
 	/* allocate a small buffer to convert image data */
 	buf = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
 	if (! buf) {
@@ -1730,6 +1837,8 @@ _gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
 
 
 
+
+
 /* TRUEVISION-XFILE magic signature string */
 static guchar magic[18] = {
 	0x54, 0x52, 0x55, 0x45, 0x56, 0x49, 0x53, 0x49, 0x4f,

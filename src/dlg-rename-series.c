@@ -27,9 +27,11 @@
 #include "gthumb-window.h"
 #include "image-list-utils.h"
 #include "gtk-utils.h"
+#include "gconf-utils.h"
 #include "glib-utils.h"
 #include "file-utils.h"
 #include "dlg-file-utils.h"
+#include "preferences.h"
 
 
 enum {
@@ -37,6 +39,10 @@ enum {
 	RS_NEWNAME_COLUMN,
 	RS_NUM_COLUMNS
 };
+
+int         sort_method_to_idx[] = { -1, 0, -1, 1, 2 };
+SortMethod  idx_to_sort_method[] = { SORT_BY_NAME, SORT_BY_SIZE, SORT_BY_TIME };
+
 
 #define COMMENT_GLADE_FILE "gthumb_tools.glade"
 
@@ -81,6 +87,21 @@ ok_clicked_cb (GtkWidget  *widget,
 	GList *old_names = NULL;
 	GList *new_names = NULL;
 	GList *o_scan, *n_scan;
+	char  *template;
+
+	/* Save options */
+
+	template = _gtk_entry_get_locale_text (GTK_ENTRY (data->rs_template_entry));
+	eel_gconf_set_string (PREF_RENAME_SERIES_TEMPLATE, template);
+	g_free (template);
+
+	eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton)));
+
+	pref_set_rename_sort_order (idx_to_sort_method [gtk_option_menu_get_history (GTK_OPTION_MENU (data->rs_sort_optionmenu))]);
+
+	eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)));
+
+	/**/
 
 	for (o_scan = data->file_list, n_scan = data->new_names_list; o_scan && n_scan; o_scan = o_scan->next, n_scan = n_scan->next) {
 		FileData *fdata     = o_scan->data;
@@ -253,6 +274,7 @@ dlg_rename_series (GThumbWindow *window)
 	GList             *list;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
+	char              *svalue;
 
 	list = file_list_get_selection_as_fd (window->file_list);
 	if (list == NULL) {
@@ -309,7 +331,18 @@ dlg_rename_series (GThumbWindow *window)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->rs_list_treeview),
 				     column);
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->rs_template_entry), "###");
+	/**/
+
+	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->rs_template_entry), svalue);
+	g_free (svalue);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT));
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->rs_sort_optionmenu), sort_method_to_idx [pref_get_rename_sort_order ()]);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE));
+
 	update_list (data);
 
 	/* Set the signals handlers. */

@@ -40,6 +40,8 @@ file_data_new (const gchar *path,
 	FileData *fd;
 
 	fd = g_new (FileData, 1);
+
+	fd->ref = 1;
 	fd->path = g_strdup (path);
 	fd->name = g_strdup (info->name);
 	fd->size = info->size;
@@ -127,11 +129,26 @@ file_data_update_comment (FileData *fd)
 }
 
 
-void 
-file_data_free (FileData *fd)
+void
+file_data_ref (FileData *fd)
 {
-	g_free (fd->name);
-	g_free (fd->path);
-	g_free (fd->comment);
-	g_free (fd);
+	g_return_if_fail (fd != NULL);
+	fd->ref++;
 }
+
+
+void
+file_data_unref (FileData *fd)
+{
+	g_return_if_fail (fd != NULL);
+
+	fd->ref--;
+
+	if (fd->ref == 0) {
+		g_free (fd->name);
+		g_free (fd->path);
+		g_free (fd->comment);
+		g_free (fd);
+	}
+}
+

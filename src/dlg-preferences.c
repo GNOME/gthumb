@@ -105,28 +105,6 @@ destroy_cb (GtkWidget *widget,
 }
 
 
-static guint
-opt_menu_get_active_idx (GtkWidget *opt_menu)
-{
-	GtkWidget *item;
-	guint      idx;
-	GList     *scan;
-	GtkWidget *menu;
-
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (opt_menu));
-	item = gtk_menu_get_active (GTK_MENU (menu));
-
-	idx = 0;
-	scan = GTK_MENU_SHELL (menu)->children;
-	while (scan && (item != scan->data)) {
-		idx++;
-		scan = scan->next;
-	}
-
-	return idx;
-}
-
-
 /* called when the "apply" button is clicked. */
 static void
 apply_cb (GtkWidget  *widget, 
@@ -273,7 +251,7 @@ static void
 toolbar_style_changed_cb (GtkOptionMenu *option_menu,
 			  DialogData    *data)
 {
-	pref_set_toolbar_style (opt_menu_get_active_idx (data->toolbar_style_optionmenu));
+	pref_set_toolbar_style (gtk_option_menu_get_history (GTK_OPTION_MENU (data->toolbar_style_optionmenu)));
 }
 
 
@@ -305,7 +283,10 @@ static void
 thumbs_size_changed_cb (GtkOptionMenu *option_menu,
 			DialogData    *data)
 {
-	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[opt_menu_get_active_idx (data->opt_thumbs_size)]);
+	int i;
+
+	i = gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_thumbs_size));
+	eel_gconf_set_integer (PREF_THUMBNAIL_SIZE, thumb_size[i]);
 }
 
 
@@ -321,7 +302,7 @@ static void
 click_policy_changed_cb (GtkOptionMenu *option_menu,
 			 DialogData    *data)
 {
-	pref_set_click_policy (opt_menu_get_active_idx (data->opt_click_policy));
+	pref_set_click_policy (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_click_policy)));
 }
 
 
@@ -365,7 +346,7 @@ static void
 zoom_change_changed_cb (GtkOptionMenu *option_menu, 
 			DialogData    *data)
 {
-	pref_set_zoom_change (opt_menu_get_active_idx (data->opt_zoom_change));
+	pref_set_zoom_change (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_zoom_change)));
 }
 
 
@@ -373,7 +354,7 @@ static void
 transp_type_changed_cb (GtkOptionMenu *option_menu, 
 			DialogData    *data)
 {
-	pref_set_transp_type(opt_menu_get_active_idx (data->opt_transparency));
+	pref_set_transp_type(gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_transparency)));
 }
 
 
@@ -381,7 +362,7 @@ static void
 check_type_changed_cb (GtkOptionMenu *option_menu, 
 		       DialogData    *data)
 {
-	pref_set_check_type (opt_menu_get_active_idx (data->opt_check_type));
+	pref_set_check_type (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_check_type)));
 }
 
 
@@ -391,7 +372,7 @@ check_size_changed_cb (GtkOptionMenu *option_menu,
 {
 	CheckSize check_size;
 
-	switch (opt_menu_get_active_idx (data->opt_check_size)) {
+	switch (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_check_size))) {
 	case 0: check_size = CHECK_SIZE_SMALL; break;
 	case 1: check_size = CHECK_SIZE_MEDIUM; break;
 	case 2: check_size = CHECK_SIZE_LARGE; break;

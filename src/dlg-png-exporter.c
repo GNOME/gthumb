@@ -733,28 +733,6 @@ get_sort_method_from_idx (gint idx)
 }
 
 
-static guint
-opt_menu_get_active_idx (GtkWidget *opt_menu)
-{
-	GtkWidget *item;
-	guint      idx;
-	GList     *scan;
-	GtkWidget *menu;
-
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (opt_menu));
-	item = gtk_menu_get_active (GTK_MENU (menu));
-
-	idx = 0;
-	scan = GTK_MENU_SHELL (menu)->children;
-	while (scan && (item != scan->data)) {
-		idx++;
-		scan = scan->next;
-	}
-
-	return idx;
-}
-
-
 static void
 paint_sample_text (GtkWidget   *drawable,
 		   GdkPixmap   *pixmap,
@@ -940,7 +918,7 @@ update_thumb_preview (PrefDialogData *data,
 
 	/* Get current values. */
 
-	frame_style = get_style_from_idx (opt_menu_get_active_idx (data->frame_style_optionmenu));
+	frame_style = get_style_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->frame_style_optionmenu)));
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton)))
 		frame_style = FRAME_STYLE_NONE;
 
@@ -948,7 +926,7 @@ update_thumb_preview (PrefDialogData *data,
 	
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), &bg_color.red, &bg_color.green, &bg_color.blue, NULL);
 
-	thumb_size = get_size_from_idx (opt_menu_get_active_idx ( data->thumb_size_optionmenu));
+	thumb_size = get_size_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->thumb_size_optionmenu)));
 
 	/* Init colors. */
 
@@ -1265,7 +1243,7 @@ ok_cb (GtkWidget *widget,
 		pref_set_exp_sort_order (GTK_SORT_DESCENDING);
 	else
 		pref_set_exp_sort_order (GTK_SORT_ASCENDING);
-	pref_set_exp_arrange_type (get_sort_method_from_idx (opt_menu_get_active_idx (data->sort_method_optionmenu)));
+	pref_set_exp_arrange_type (get_sort_method_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->sort_method_optionmenu))));
 
 	/* Thumbnails */
 
@@ -1279,7 +1257,7 @@ ok_cb (GtkWidget *widget,
 
 	/* ** Frame */
 
-	pref_set_exporter_frame_style (get_style_from_idx (opt_menu_get_active_idx (data->frame_style_optionmenu)));
+	pref_set_exporter_frame_style (get_style_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->frame_style_optionmenu))));
 
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), &red, &green, &blue, NULL);
 	eel_gconf_set_string (PREF_EXP_FRAME_COLOR, pref_util_get_hex_value (red, green, blue));
@@ -1289,7 +1267,7 @@ ok_cb (GtkWidget *widget,
 
 	/* ** Others */
 
-	eel_gconf_set_integer (PREF_EXP_THUMB_SIZE, get_size_from_idx (opt_menu_get_active_idx ( data->thumb_size_optionmenu)));
+	eel_gconf_set_integer (PREF_EXP_THUMB_SIZE, get_size_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->thumb_size_optionmenu))));
 
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->text_colorpicker), &red, &green, &blue, NULL);
 	eel_gconf_set_string (PREF_EXP_TEXT_COLOR, pref_util_get_hex_value (red, green, blue));

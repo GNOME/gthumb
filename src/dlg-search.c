@@ -212,28 +212,6 @@ destroy_cb (GtkWidget  *widget,
 static void search_images_async (DialogData *data);
 
 
-static guint
-opt_menu_get_active_idx (GtkWidget *opt_menu)
-{
-        GtkWidget *item;
-        guint      idx;
-        GList     *scan;
-        GtkWidget *menu;
-
-        menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (opt_menu));
-        item = gtk_menu_get_active (GTK_MENU (menu));
-
-        idx = 0;
-        scan = GTK_MENU_SHELL (menu)->children;
-        while (scan && (item != scan->data)) {
-                idx++;
-                scan = scan->next;
-        }
-
-        return idx;
-}
-
-
 /* called when the "search" button is pressed. */
 static void
 search_clicked_cb (GtkWidget  *widget, 
@@ -297,7 +275,7 @@ search_clicked_cb (GtkWidget  *widget,
 
 	/* * date scope pattern */
 
-	search_data_set_date_scope (data->search_data, opt_menu_get_active_idx (data->s_date_optionmenu));
+	search_data_set_date_scope (data->search_data, gtk_option_menu_get_history (GTK_OPTION_MENU (data->s_date_optionmenu)));
 
 	/* * date */
 

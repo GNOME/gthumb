@@ -43,13 +43,7 @@
 
 #define CONVERT_GLADE_FILE "gthumb_tools.glade"
 #define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
-
-
-typedef enum {
-	OVERWRITE_SKIP,
-	OVERWRITE_OVERWRITE,
-	OVERWRITE_ASK
-} OverwriteMode;
+#define MAX_NAME_LEN 1024
 
 
 typedef struct {
@@ -58,16 +52,16 @@ typedef struct {
 	GladeXML     *progress_gui;
 
 	GtkWidget    *dialog;
-	GtkWidget    *viewer;
-
 	GtkWidget    *conv_jpeg_radiobutton;
 	GtkWidget    *conv_png_radiobutton;
 	GtkWidget    *conv_tga_radiobutton;
 	GtkWidget    *conv_tiff_radiobutton;
+	GtkWidget    *conv_om_optionmenu;
+	GtkWidget    *conv_remove_orig_checkbutton;
 
-	GtkWidget    *conv_om_overwrite_radiobutton;
-	GtkWidget    *conv_om_skip_radiobutton;
-	GtkWidget    *conv_om_ask_radiobutton;
+	GtkWidget    *rename_dialog;
+	GtkWidget    *conv_ren_message_label;
+	GtkWidget    *conv_ren_name_entry;
 
 	GtkWidget    *progress_dialog;
 	GtkWidget    *progress_label;
@@ -78,10 +72,12 @@ typedef struct {
 
 	int           images;
 	int           image;
+	gboolean      remove_original;
 	gboolean      stop_convertion;
 	OverwriteMode overwrite_mode;
 
 	ImageLoader  *loader;
+	GdkPixbuf    *pixbuf;
 	const char   *image_type;
 	const char   *ext;
 	char         *new_path;	
@@ -95,11 +91,16 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
+	if (data->rename_dialog)
+		gtk_widget_destroy (data->rename_dialog);
+
 	if (data->loader != NULL)
 		g_object_unref (data->loader);
 
-	if (data->file_list != NULL) 
+	if (data->file_list != NULL) {
+		g_list_foreach (data->file_list, (GFunc) file_data_unref, NULL);
 		g_list_free (data->file_list);
+	}
 
 	g_strfreev (data->keys);
 	g_strfreev (data->values);	
@@ -117,36 +118,8 @@ static void load_current_image (DialogData *data);
 
 
 static void
-overwrite_response_cb (GtkWidget  *dialog,
-		       int         response_id,
-		       DialogData *data)
+load_next_image (DialogData *data)
 {
-	GdkPixbuf *pixbuf;
-
-	pixbuf = g_object_get_data (G_OBJECT (dialog), "pixbuf");
-	gtk_widget_destroy (dialog);
-
-	if (response_id == GTK_RESPONSE_YES) {
-		GError *error = NULL;
-	
-		if (! _gdk_pixbuf_savev (pixbuf, 
-					 data->new_path, 
-					 data->image_type, 
-					 data->keys, 
-					 data->values,
-					 &error)) {
-			if (error == NULL)
-				g_print ("Oops\n"); /* FIXME */
-			else
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog),
-								   &error);
-		}
-	}
-
-	g_object_unref (pixbuf);
-
-	/**/
-
 	data->image++;
 	data->current_image = g_list_next (data->current_image);
 	load_current_image (data);
@@ -154,23 +127,158 @@ overwrite_response_cb (GtkWidget  *dialog,
 
 
 static void
-loader_done (ImageLoader *il,
-	     DialogData  *data)
+load_current_image (DialogData *data)
 {
-	GdkPixbuf *pixbuf;
-	GError    *error = NULL;
-	gboolean   save_image;
+	FileData  *fd;
+	char      *folder;
+	char      *name_no_ext;
+	char      *utf8_name;
+	char      *message;
 
-	pixbuf = image_loader_get_pixbuf (il);
-
-	if (pixbuf == NULL) {
-		data->image++;
-		data->current_image = g_list_next (data->current_image);
-		load_current_image (data);
+	if (data->stop_convertion || (data->current_image == NULL)) {
+		gtk_widget_destroy (data->progress_dialog);
+		gtk_widget_destroy (data->dialog);
 		return;
 	}
 
-	g_object_ref (pixbuf);
+	g_free (data->new_path);
+	data->new_path = NULL;
+
+	fd = (FileData*) data->current_image->data;
+	folder = remove_level_from_path (fd->path);
+	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
+
+	data->new_path = g_strconcat (folder, "/", name_no_ext, ".", data->ext, 0);
+
+	g_free (folder);
+	g_free (name_no_ext);
+
+	if (strcmp (fd->path, data->new_path) == 0) {
+		load_next_image (data);
+		return;
+	}
+
+	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
+
+	gtk_label_set_text (GTK_LABEL (data->progress_label), message);
+
+	g_free (utf8_name);
+	g_free (message);
+
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_bar),
+				       (double) data->image / data->images);
+	
+	image_loader_set_path (data->loader, fd->path);
+	image_loader_start (data->loader);
+}
+
+
+static void
+show_rename_dialog (DialogData *data)
+{
+	char  *message;
+	char  *utf8_name;
+
+	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+
+	message = g_strdup_printf (_("An image named \"%s\" is already present in this folder. " "Please specify a different name."), utf8_name);
+	
+	_gtk_label_set_locale_text (GTK_LABEL (data->conv_ren_message_label), message);
+	g_free (message);
+	
+	gtk_entry_set_text (GTK_ENTRY (data->conv_ren_name_entry), utf8_name);
+
+	g_free (utf8_name);
+
+	gtk_widget_show (data->rename_dialog);
+	gtk_widget_grab_focus (data->conv_ren_name_entry);
+}
+
+
+static void
+save_image_and_remove_original (DialogData *data)
+{
+	GError *error = NULL;
+
+	if (_gdk_pixbuf_savev (data->pixbuf, 
+			       data->new_path, 
+			       data->image_type, 
+			       data->keys, 
+			       data->values,
+			       &error)) {
+		if (data->remove_original) {
+			FileData *fd = data->current_image->data;
+			unlink (fd->path);
+		}
+	} else 
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
+}
+
+
+static void
+rename_response_cb (GtkWidget  *dialog,
+		    int         response_id,
+		    DialogData *data)
+{
+	gtk_widget_hide (dialog);
+
+	if (response_id == GTK_RESPONSE_OK) {
+		char *new_name, *folder;
+
+		new_name = _gtk_entry_get_locale_text (GTK_ENTRY (data->conv_ren_name_entry));
+		folder = remove_level_from_path (data->new_path);
+
+		g_free (data->new_path);
+		data->new_path = g_strconcat (folder, "/", new_name, NULL);
+		g_free (folder);
+		g_free (new_name);
+
+		if (path_is_file (data->new_path)) {
+			show_rename_dialog (data);
+			return;
+		} else 
+			save_image_and_remove_original (data);
+	}
+	
+	g_object_unref (data->pixbuf);
+	data->pixbuf = NULL;
+
+	load_next_image (data);
+}
+
+
+static void
+overwrite_response_cb (GtkWidget  *dialog,
+		       int         response_id,
+		       DialogData *data)
+{
+	gtk_widget_destroy (dialog);
+
+	if (response_id == GTK_RESPONSE_YES) 
+		save_image_and_remove_original (data);
+
+	g_object_unref (data->pixbuf);
+	data->pixbuf = NULL;
+
+	load_next_image (data);
+}
+
+
+static void
+loader_done (ImageLoader *il,
+	     DialogData  *data)
+{
+	gboolean save_image;
+
+	data->pixbuf = image_loader_get_pixbuf (il);
+
+	if (data->pixbuf == NULL) {
+		load_next_image (data);
+		return;
+	}
+
+	g_object_ref (data->pixbuf);
 
 	save_image = TRUE;
 
@@ -202,36 +310,25 @@ loader_done (ImageLoader *il,
 					  G_CALLBACK (overwrite_response_cb),
 					  data);
 
-			g_object_set_data (G_OBJECT (d), "pixbuf", pixbuf);
-
 			g_free (message);
 			g_free (utf8_name);
 
 			gtk_widget_show (d);
-
+			return;
+			
+		case OVERWRITE_RENAME:
+			show_rename_dialog (data);
 			return;
 		}
 	} 
 
-	if (save_image && ! _gdk_pixbuf_savev (pixbuf, 
-					       data->new_path, 
-					       data->image_type, 
-					       data->keys, 
-					       data->values,
-					       &error)) {
-		if (error == NULL)
-			g_print ("Oops\n"); /* FIXME */
-		else
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
-	}
+	if (save_image)
+		save_image_and_remove_original (data);
 
-	g_object_unref (pixbuf);
+	g_object_unref (data->pixbuf);
+	data->pixbuf = NULL;
 
-	/**/
-
-	data->image++;
-	data->current_image = g_list_next (data->current_image);
-	load_current_image (data);
+	load_next_image (data);	
 }
 
 
@@ -239,58 +336,8 @@ static void
 loader_error (ImageLoader *il,
 	      DialogData  *data)
 {
-	/* FIXME */
-
-	data->image++;
-	data->current_image = g_list_next (data->current_image);
-	load_current_image (data);
+	load_next_image (data);
 }
-
-
-static void
-load_current_image (DialogData *data)
-{
-	FileData  *fd;
-	char      *folder;
-	char      *name_no_ext;
-	char      *utf8_name;
-
-	if (data->stop_convertion || (data->current_image == NULL)) {
-		gtk_widget_destroy (data->progress_dialog);
-		gtk_widget_destroy (data->dialog);
-		return;
-	}
-
-	g_free (data->new_path);
-	data->new_path = NULL;
-
-	fd = (FileData*) data->current_image->data;
-	folder = remove_level_from_path (fd->path);
-	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
-
-	data->new_path = g_strconcat (folder, "/", name_no_ext, ".", data->ext, 0);
-
-	g_free (folder);
-	g_free (name_no_ext);
-
-	if (strcmp (fd->path, data->new_path) == 0) {
-		data->image++;
-		data->current_image = g_list_next (data->current_image);
-		load_current_image (data);
-		return;
-	}
-
-	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
-	gtk_label_set_text (GTK_LABEL (data->progress_label), utf8_name);
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_bar),
-				       (double) data->image / data->images);
-	
-	image_loader_set_path (data->loader, fd->path);
-	image_loader_start (data->loader);
-}
-
-
-#define is_active(x) (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x)))
 
 
 static void
@@ -311,28 +358,25 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	if (is_active (data->conv_jpeg_radiobutton)) 
+#define is_active(x) gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x))
+
+	if (is_active (data->conv_jpeg_radiobutton))
 		data->image_type = data->ext = "jpeg";
-
-	else if (is_active (data->conv_png_radiobutton)) 
+	else if (is_active (data->conv_png_radiobutton))
 		data->image_type = data->ext = "png";
-
-	else if (is_active (data->conv_tga_radiobutton)) 
+	else if (is_active (data->conv_tga_radiobutton))
 		data->image_type = data->ext = "tga";
-
-	else if (is_active (data->conv_tiff_radiobutton)) 
+	else if (is_active (data->conv_tiff_radiobutton))
 		data->image_type = data->ext = "tiff";
 
-	/**/
+	data->overwrite_mode = gtk_option_menu_get_history (GTK_OPTION_MENU (data->conv_om_optionmenu));
+	data->remove_original = is_active (data->conv_remove_orig_checkbutton);
 
-	if (is_active (data->conv_om_overwrite_radiobutton)) 
-		data->overwrite_mode = OVERWRITE_OVERWRITE;
+	/* Save options. */
 
-	else if (is_active (data->conv_om_skip_radiobutton)) 
-		data->overwrite_mode = OVERWRITE_SKIP;
-
-	else if (is_active (data->conv_om_ask_radiobutton)) 
-		data->overwrite_mode = OVERWRITE_ASK;
+	eel_gconf_set_string (PREF_CONVERT_IMAGE_TYPE, data->image_type);
+	pref_set_convert_overwrite_mode (data->overwrite_mode);
+	eel_gconf_set_boolean (PREF_CONVERT_REMOVE_ORIGINAL, data->remove_original);
 
 	/**/
 
@@ -365,8 +409,10 @@ dlg_convert (GThumbWindow *window)
 	DialogData  *data;
 	GtkWidget   *cancel_button;
 	GtkWidget   *ok_button;
+	GtkWidget   *button;
 	GtkWidget   *progress_cancel;
 	GList       *list;
+	char        *image_type;
 
 	list = file_list_get_selection_as_fd (window->file_list);
 	if (list == NULL) {
@@ -378,6 +424,7 @@ dlg_convert (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 
+	g_list_foreach (list, (GFunc) file_data_ref, NULL);
 	data->file_list = list;
 	data->current_image = list;
 
@@ -411,13 +458,17 @@ dlg_convert (GThumbWindow *window)
 	data->conv_png_radiobutton = glade_xml_get_widget (data->gui, "conv_png_radiobutton");
 	data->conv_tga_radiobutton = glade_xml_get_widget (data->gui, "conv_tga_radiobutton");
 	data->conv_tiff_radiobutton = glade_xml_get_widget (data->gui, "conv_tiff_radiobutton");
-
-	data->conv_om_overwrite_radiobutton = glade_xml_get_widget (data->gui, "conv_om_overwrite_radiobutton");
-	data->conv_om_skip_radiobutton = glade_xml_get_widget (data->gui, "conv_om_skip_radiobutton");
-	data->conv_om_ask_radiobutton = glade_xml_get_widget (data->gui, "conv_om_ask_radiobutton");
+	data->conv_om_optionmenu = glade_xml_get_widget (data->gui, "conv_om_optionmenu");
+	data->conv_remove_orig_checkbutton = glade_xml_get_widget (data->gui, "conv_remove_orig_checkbutton");
 
 	ok_button = glade_xml_get_widget (data->gui, "conv_ok_button");
 	cancel_button = glade_xml_get_widget (data->gui, "conv_cancel_button");
+
+	/**/
+
+	data->rename_dialog = glade_xml_get_widget (data->gui, "convert_rename_dialog");
+	data->conv_ren_message_label = glade_xml_get_widget (data->gui, "conv_ren_message_label");
+	data->conv_ren_name_entry = glade_xml_get_widget (data->gui, "conv_ren_name_entry");
 
 	/**/
 
@@ -426,6 +477,32 @@ dlg_convert (GThumbWindow *window)
 	data->progress_bar = glade_xml_get_widget (data->progress_gui, "progress_progressbar");
 
 	progress_cancel = glade_xml_get_widget (data->progress_gui, "progress_cancel");
+
+	/* Set default values. */
+
+	image_type = eel_gconf_get_string (PREF_CONVERT_IMAGE_TYPE);
+
+	if (strcmp (image_type, "jpeg") == 0)
+		button = data->conv_jpeg_radiobutton;
+	else if (strcmp (image_type, "png") == 0)
+		button = data->conv_png_radiobutton;
+	else if (strcmp (image_type, "tga") == 0)
+		button = data->conv_tga_radiobutton;
+	else if (strcmp (image_type, "tiff") == 0)
+		button = data->conv_tiff_radiobutton;
+	else
+		button = NULL;
+
+	g_free (image_type);
+
+	if (button != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->conv_om_optionmenu),
+				     pref_get_convert_overwrite_mode ());
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->conv_remove_orig_checkbutton), 
+				      eel_gconf_get_boolean (PREF_CONVERT_REMOVE_ORIGINAL));
 
 	/* Set the signals handlers. */
 	
@@ -447,6 +524,11 @@ dlg_convert (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (progress_cancel), 
 			  "clicked",
 			  G_CALLBACK (stop_convertion_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->rename_dialog), 
+			  "response",
+			  G_CALLBACK (rename_response_cb),
 			  data);
 
 	/* Run dialog. */

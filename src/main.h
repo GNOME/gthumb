@@ -75,6 +75,8 @@ void all_windows_notify_directory_new          (const gchar *path);
 void all_windows_notify_catalog_rename         (const gchar *oldname,
 						const gchar *newname);
 
+void all_windows_notify_catalog_new            (const gchar *path);
+
 void all_windows_notify_catalog_delete         (const gchar *path);
 
 void all_windows_notify_update_comment         (const gchar *filename);

@@ -1,6 +1,32 @@
+2002-10-31  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: Fixed duplicated mnemonics again.
+
+	* src/dlg-rename-series.c: 
+	* src/dlg-convert.c: save options.
+
+	* libgthumb/preferences.h: 
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_save_as_tiff): 
+	* src/dlg-save-image.c (dlg_save_options): added resolution option
+	to the tiff saver.
+	(dlg_save_options): save options.
+
+	* configure.in: set GETTEXT_PACKAGE to gthumb
+
 2002-10-30  Christian Neumair  <chris@gnome-de.org>
 
 	* src/gthumb-ui.xml: Fixed some duplicate mnemotics.
+
+2002-10-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: make dialogs more HIG compliant.
+
+	* src/gthumb-window.c (window_notify_catalog_new): 
+	* src/main.c (all_windows_notify_catalog_new): 
+	* src/commands-impl.c (edit_current_catalog_new_command_impl):
+	added 'New Catalog' command.
+	
+	* libgthumb/pixbuf-utils.c: added copyright notes.
 
 2002-10-28  Paolo Bacchilega  <paolo.bacch@tin.it>
 

@@ -118,6 +118,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("EditCatalog_Move", edit_catalog_move_command_impl),
 	BONOBO_UI_VERB ("EditCatalog_EditSearch", edit_catalog_edit_search_command_impl),
 	BONOBO_UI_VERB ("EditCatalog_RedoSearch", edit_catalog_redo_search_command_impl),
+	BONOBO_UI_VERB ("EditCurrentCatalog_NewLibrary", edit_current_catalog_new_library_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_New", edit_current_catalog_new_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_Rename", edit_current_catalog_rename_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_Delete", edit_current_catalog_delete_command_impl),
@@ -640,6 +641,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 		set_command_visible (window, "EditCurrentDir_New", FALSE);
 		set_command_visible (window, "EditCurrentCatalog_New", TRUE);
+		set_command_visible (window, "EditCurrentCatalog_NewLibrary", TRUE);
 
 		/**/
 
@@ -677,6 +679,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 		set_command_visible (window, "EditCurrentDir_New", TRUE);
 		set_command_visible (window, "EditCurrentCatalog_New", FALSE);
+		set_command_visible (window, "EditCurrentCatalog_NewLibrary", FALSE);
 	}
 
 	/* View menu. */
@@ -2748,24 +2751,24 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 		const guint8 *rgba_data;
 		char         *command;
 	} comm_list_rgba [] = {
-		{ add_comment_16_rgba,     "/commands/Edit_EditComment" },
-		{ add_to_catalog_16_rgba,  "/commands/Edit_AddToCatalog" },
-		{ catalog_24_rgba,         "/commands/View_ShowCatalogs" },
-		{ catalog_24_rgba,         "/ImageToolbar/View_Sidebar_Catalogs" },
-		{ catalog_search_17_rgba,  "/menu/Tools/Tools_FindImages" },
-		{ dir_24_rgba,             "/commands/View_ShowFolders" },
-		{ dir_24_rgba,             "/ImageToolbar/View_Sidebar_Folders" },
-		{ image_info_24_rgba,      "/commands/View_ImageProp" },
-		{ image_info_16_rgba,      "/menu/View/View_ImageProp" },
-		{ index_image_16_rgba,     "/menu/Tools/Tools_IndexImage" },
-		{ maintenance_16_rgba,     "/menu/Tools/Tools_Maintenance" },
-		{ next_image_24_rgba,      "/commands/View_NextImage" },
-		{ prev_image_24_rgba,      "/commands/View_PrevImage" },
-		{ slideshow_16_rgba,       "/menu/Tools/Tools_Slideshow" },
-		{ transform_16_rgba,       "/menu/Tools/Tools_JPEGRotate" },
+		{ add_comment_16_rgba,       "/commands/Edit_EditComment" },
+		{ add_to_catalog_16_rgba,    "/commands/Edit_AddToCatalog" },
+		{ catalog_24_rgba,           "/commands/View_ShowCatalogs" },
+		{ catalog_24_rgba,           "/ImageToolbar/View_Sidebar_Catalogs" },
+		{ dir_24_rgba,               "/commands/View_ShowFolders" },
+		{ dir_24_rgba,               "/ImageToolbar/View_Sidebar_Folders" },
+		{ image_info_24_rgba,        "/commands/View_ImageProp" },
+		{ image_info_16_rgba,        "/menu/View/View_ImageProp" },
+		{ index_image_16_rgba,       "/menu/Tools/Tools_IndexImage" },
+		{ maintenance_16_rgba,       "/menu/Tools/Tools_Maintenance" },
+		{ next_image_24_rgba,        "/commands/View_NextImage" },
+		{ prev_image_24_rgba,        "/commands/View_PrevImage" },
+		{ search_duplicates_16_rgba, "/menu/Edit/Tools_FindDuplicates" },
+		{ slideshow_16_rgba,         "/menu/Tools/Tools_Slideshow" },
+		{ transform_16_rgba,         "/menu/Tools/Tools_JPEGRotate" },
 		/*
-		{ reduce_colors_24_rgba,   "/ImageToolbar/AlterImage_ReduceColors"},
-		{ rotate_24_rgba,          "/ImageToolbar/AlterImage_Rotate"},
+		{ reduce_colors_24_rgba,     "/ImageToolbar/AlterImage_ReduceColors"},
+		{ rotate_24_rgba,            "/ImageToolbar/AlterImage_Rotate"},
 		*/
 		{ NULL, NULL }
 	};
@@ -5436,6 +5439,45 @@ window_notify_catalog_rename (GThumbWindow *window,
 							     window->catalog_path, &iter))
 				catalog_list_select_iter (window->catalog_list, &iter);
 		}
+	}
+
+	g_free (catalog_dir);
+}
+
+
+void
+window_notify_catalog_new (GThumbWindow *window,
+			   const char   *path)
+{
+	char     *catalog_dir;
+	gboolean  viewing_a_catalog;
+	gboolean  created_cat_is_in_current_dir;
+
+	if (window->sidebar_content != CATALOG_LIST) 
+		return;
+
+	if (window->catalog_list->path == NULL)
+		return;
+
+	viewing_a_catalog = (window->catalog_path != NULL);
+	catalog_dir = remove_level_from_path (window->catalog_list->path);
+	created_cat_is_in_current_dir = strncmp (catalog_dir, path, strlen (catalog_dir)) == 0;
+
+	if (! created_cat_is_in_current_dir) {
+		g_free (catalog_dir);
+		return;
+	}
+
+	window_go_to_catalog_directory (window, window->catalog_list->path);
+
+	if (viewing_a_catalog) {
+		GtkTreeIter iter;
+			
+		/* reselect the current catalog. */
+		if (catalog_list_get_iter_from_path (window->catalog_list, 
+						     window->catalog_path, 
+						     &iter))
+			catalog_list_select_iter (window->catalog_list, &iter);
 	}
 
 	g_free (catalog_dir);

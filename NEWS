@@ -1,5 +1,6 @@
 version 1.105
 -------------
+	* New tools: edit image, convert format.
 	* Use gconf as configuration system instead of gnome-config.
 
 version 1.104

@@ -27,8 +27,10 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
+#include "preferences.h"
 #include "gtk-utils.h"
 #include "gthumb-window.h"
+#include "gconf-utils.h"
 #include "pixbuf-utils.h"
 #include "dlg-save-image.h"
 
@@ -49,28 +51,6 @@ destroy_cb (GtkWidget *w,
 	GdkPixbuf *pixbuf;
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	g_object_unref (pixbuf);
-}
-
-
-static guint
-opt_menu_get_active_idx (GtkWidget *opt_menu)
-{
-        GtkWidget *item;
-        guint      idx;
-        GList     *scan;
-        GtkWidget *menu;
-
-        menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (opt_menu));
-        item = gtk_menu_get_active (GTK_MENU (menu));
-
-        idx = 0;
-        scan = GTK_MENU_SHELL (menu)->children;
-        while (scan && (item != scan->data)) {
-                idx++;
-                scan = scan->next;
-        }
-
-        return idx;
 }
 
 
@@ -107,14 +87,12 @@ file_save_ok_cb (GtkWidget *w,
 	}
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
-	idx = opt_menu_get_active_idx (opt_menu);
+	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
 
 	if (idx == IMAGE_TYPE_AUTOMATIC)
 		mime_type = gnome_vfs_mime_type_from_name (filename);
 	else
 		mime_type = mime_types [idx - 2];
-
-	g_print ("TYPE : %s\n", mime_type);
 
 	if (strncmp (mime_type, "image/", 6) == 0) {
 		GError      *error = NULL;
@@ -267,7 +245,7 @@ typedef struct {
 TypeEntry types_table[] = {
 	{ "jpeg", IMAGE_TYPE_JPEG, 4 },
 	{ "png", IMAGE_TYPE_PNG, 0 },
-	{ "tiff", IMAGE_TYPE_TIFF, 1 },
+	{ "tiff", IMAGE_TYPE_TIFF, 3 },
 	{ "tga", IMAGE_TYPE_TGA, 1 },
 	{ NULL, 0, 0 }
 };
@@ -324,6 +302,81 @@ dlg_save_options (GtkWindow    *parent,
 	dialog = glade_xml_get_widget (gui, dialog_name);
 	g_free (dialog_name);
 
+	/* Set default values */
+
+	switch (type->type) {
+		GtkWidget *widget;
+		char      *svalue;
+		int        ivalue;
+
+	case IMAGE_TYPE_JPEG:
+		ivalue = eel_gconf_get_integer (PREF_JPEG_QUALITY);
+		widget = glade_xml_get_widget (gui, "jpeg_quality_hscale");
+		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
+		
+		/**/
+
+		ivalue = eel_gconf_get_integer (PREF_JPEG_SMOOTHING);
+		widget = glade_xml_get_widget (gui, "jpeg_smooth_hscale");
+		gtk_range_set_value (GTK_RANGE (widget), (double) ivalue);
+		
+		/**/
+
+		ivalue = eel_gconf_get_boolean (PREF_JPEG_OPTIMIZE);
+		widget = glade_xml_get_widget (gui, "jpeg_optimize_checkbutton");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
+		
+		/**/
+
+		ivalue = eel_gconf_get_boolean (PREF_JPEG_PROGRESSIVE);
+		widget = glade_xml_get_widget (gui, "jpeg_progressive_checkbutton");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
+		break;
+		
+	case IMAGE_TYPE_PNG:
+		break;
+		
+	case IMAGE_TYPE_TIFF:
+		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION); 
+
+		if (strcmp (svalue, "none") == 0) 
+			widget = glade_xml_get_widget (gui, "tiff_comp_none_radiobutton");
+		else if (strcmp (svalue, "deflate") == 0) 
+			widget = glade_xml_get_widget (gui, "tiff_comp_deflate_radiobutton");
+		else if (strcmp (svalue, "jpeg") == 0) 
+			widget = glade_xml_get_widget (gui, "tiff_comp_jpeg_radiobutton");
+		else
+			widget = NULL;
+		
+		if (widget != NULL)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), TRUE);
+
+		g_free (svalue);
+		
+		/**/
+
+		ivalue = eel_gconf_get_integer (PREF_TIFF_HORIZONTAL_RES);
+		widget = glade_xml_get_widget (gui, "tiff_hdpi_spinbutton");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), (double) ivalue);
+
+		/**/
+
+		ivalue = eel_gconf_get_integer (PREF_TIFF_VERTICAL_RES);
+		widget = glade_xml_get_widget (gui, "tiff_vdpi_spinbutton");
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (widget), (double) ivalue);
+		
+		break;
+		
+	case IMAGE_TYPE_TGA:
+		ivalue = eel_gconf_get_boolean (PREF_TGA_RLE_COMPRESSION);
+		widget = glade_xml_get_widget (gui, "tga_rle_compression_checkbutton");
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), ivalue);
+		break;
+
+	default:
+		break;
+	}
+
 	/* Run dialog. */
 
 	if (parent != NULL)
@@ -344,12 +397,20 @@ dlg_save_options (GtkWindow    *parent,
 			ivalue = gtk_range_get_value (GTK_RANGE (widget));
 			(*values)[i] = g_strdup_printf ("%d", ivalue);
 
+			eel_gconf_set_integer (PREF_JPEG_QUALITY, ivalue);
+
+			/**/
+
 			i++;
 			(*keys)[i] = g_strdup ("smooth");
 
 			widget = glade_xml_get_widget (gui, "jpeg_smooth_hscale");
 			ivalue = gtk_range_get_value (GTK_RANGE (widget));
 			(*values)[i] = g_strdup_printf ("%d", ivalue);
+
+			eel_gconf_set_integer (PREF_JPEG_SMOOTHING, ivalue);
+
+			/**/
 
 			i++;
 			(*keys)[i] = g_strdup ("optimize");
@@ -358,20 +419,22 @@ dlg_save_options (GtkWindow    *parent,
 			ivalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 			(*values)[i] = g_strdup_printf (ivalue ? "yes" : "no");
 
+			eel_gconf_set_boolean (PREF_JPEG_OPTIMIZE, ivalue);
+
+			/**/
+
 			i++;
 			(*keys)[i] = g_strdup ("progressive");
 
 			widget = glade_xml_get_widget (gui, "jpeg_progressive_checkbutton");
 			ivalue = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 			(*values)[i] = g_strdup_printf (ivalue ? "yes" : "no");
+
+			eel_gconf_set_boolean (PREF_JPEG_PROGRESSIVE, ivalue);
+
 			break;
 			
 		case IMAGE_TYPE_PNG:
-			(*keys)[i] = g_strdup ("compression level");
-
-			widget = glade_xml_get_widget (gui, "png_compression_hscale");
-			ivalue = gtk_range_get_value (GTK_RANGE (widget));
-			(*values)[i] = g_strdup_printf ("%d", ivalue);
 			break;
 			
 		case IMAGE_TYPE_TIFF:
@@ -392,6 +455,30 @@ dlg_save_options (GtkWindow    *parent,
 			if (ivalue)
 				(*values)[i] = g_strdup_printf ("jpeg");
 
+			eel_gconf_set_string (PREF_TIFF_COMPRESSION, (*values)[i]); 
+
+			/**/
+
+			i++;
+			(*keys)[i] = g_strdup ("horizontal dpi");
+
+			widget = glade_xml_get_widget (gui, "tiff_hdpi_spinbutton");
+			ivalue = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
+			(*values)[i] = g_strdup_printf ("%d", ivalue);
+
+			eel_gconf_set_integer (PREF_TIFF_HORIZONTAL_RES, ivalue);
+
+			/**/
+
+			i++;
+			(*keys)[i] = g_strdup ("vertical dpi");
+
+			widget = glade_xml_get_widget (gui, "tiff_vdpi_spinbutton");
+			ivalue = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (widget));
+			(*values)[i] = g_strdup_printf ("%d", ivalue);
+
+			eel_gconf_set_integer (PREF_TIFF_VERTICAL_RES, ivalue);
+
 			break;
 			
 		case IMAGE_TYPE_TGA:
@@ -403,8 +490,11 @@ dlg_save_options (GtkWindow    *parent,
 				(*values)[i] = g_strdup_printf ("rle");
 			else
 				(*values)[i] = g_strdup_printf ("none");
-			break;
 			
+			eel_gconf_set_boolean (PREF_TGA_RLE_COMPRESSION, strcmp ((*values)[i], "rle") == 0);
+
+			break;
+
 		default:
 			break;
 		}
@@ -415,6 +505,8 @@ dlg_save_options (GtkWindow    *parent,
 
 	} else
 		retval = FALSE;
+
+	/**/
 	    
 	gtk_widget_destroy (dialog);
 	g_object_unref (gui);

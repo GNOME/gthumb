@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="preferences_dialog">
-  <property name="title" translatable="yes">Preferences</property>
+  <property name="title" translatable="yes">gThumb Preferences</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -59,7 +59,7 @@
 
       <child>
 	<widget class="GtkNotebook" id="notebook2">
-	  <property name="border_width">5</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="can_focus">True</property>
 	  <property name="show_tabs">True</property>
@@ -72,16 +72,16 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox11">
-	      <property name="border_width">10</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">10</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox25">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox66">
@@ -145,16 +145,16 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkVBox" id="vbox28">
+			<widget class="GtkVBox" id="vbox54">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox69">
+			    <widget class="GtkHBox" id="hbox106">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkLabel" id="label155">
@@ -281,10 +281,10 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkHBox" id="hbox70">
+			    <widget class="GtkHBox" id="hbox107">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkLabel" id="label154">
@@ -338,7 +338,7 @@
 				      <child>
 					<widget class="GtkMenuItem" id="priority_text_beside_icons1">
 					  <property name="visible">True</property>
-					  <property name="label" translatable="yes">Priority text beside icons</property>
+					  <property name="label" translatable="yes">Text beside icons</property>
 					  <property name="use_underline">True</property>
 					  <signal name="activate" handler="on_priority_text_beside_icons1_activate" last_modification_time="Tue, 18 Jun 2002 16:28:56 GMT"/>
 					</widget>
@@ -403,7 +403,7 @@
 		<widget class="GtkVBox" id="vbox26">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox34">
@@ -470,7 +470,7 @@
 			<widget class="GtkVBox" id="vbox29">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkRadioButton" id="radio_current_location">
@@ -610,7 +610,7 @@
 		<widget class="GtkVBox" id="vbox27">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox44">
@@ -677,7 +677,7 @@
 			<widget class="GtkHBox" id="hbox45">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="label115">
@@ -768,16 +768,16 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox12">
-	      <property name="border_width">10</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">10</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox30">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox67">
@@ -844,7 +844,7 @@
 			<widget class="GtkVBox" id="vbox33">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkCheckButton" id="toggle_show_thumbs">
@@ -925,7 +925,7 @@
 		<widget class="GtkVBox" id="vbox31">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox65">
@@ -992,13 +992,13 @@
 			<widget class="GtkVBox" id="vbox34">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkHBox" id="hbox64">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkLabel" id="label113">
@@ -1163,7 +1163,7 @@
 		<widget class="GtkVBox" id="vbox32">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox36">
@@ -1189,17 +1189,6 @@
 			  <property name="padding">0</property>
 			  <property name="expand">False</property>
 			  <property name="fill">False</property>
-			</packing>
-		      </child>
-
-		      <child>
-			<widget class="GtkHSeparator" id="hseparator20">
-			  <property name="visible">True</property>
-			</widget>
-			<packing>
-			  <property name="padding">0</property>
-			  <property name="expand">True</property>
-			  <property name="fill">True</property>
 			</packing>
 		      </child>
 		    </widget>
@@ -1241,13 +1230,13 @@
 			<widget class="GtkVBox" id="vbox35">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkHBox" id="hbox93">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkLabel" id="label180">
@@ -1407,16 +1396,16 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox13">
-	      <property name="border_width">10</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">10</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox38">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox81">
@@ -1485,8 +1474,8 @@
 			  <property name="n_rows">3</property>
 			  <property name="n_columns">2</property>
 			  <property name="homogeneous">False</property>
-			  <property name="row_spacing">5</property>
-			  <property name="column_spacing">5</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="label93">
@@ -1746,7 +1735,7 @@
 		<widget class="GtkVBox" id="vbox39">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox42">
@@ -1815,8 +1804,8 @@
 			  <property name="n_rows">2</property>
 			  <property name="n_columns">2</property>
 			  <property name="homogeneous">False</property>
-			  <property name="row_spacing">5</property>
-			  <property name="column_spacing">5</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="label97">
@@ -2008,16 +1997,16 @@
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox14">
-	      <property name="border_width">10</property>
+	      <property name="border_width">12</property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">10</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkVBox" id="vbox41">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox85">
@@ -2084,13 +2073,13 @@
 			<widget class="GtkVBox" id="vbox43">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkHBox" id="hbox61">
 			      <property name="visible">True</property>
 			      <property name="homogeneous">False</property>
-			      <property name="spacing">5</property>
+			      <property name="spacing">12</property>
 
 			      <child>
 				<widget class="GtkLabel" id="label100">
@@ -2115,42 +2104,55 @@
 			      </child>
 
 			      <child>
-				<widget class="GtkSpinButton" id="spin_ss_delay">
+				<widget class="GtkHBox" id="hbox105">
 				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="climb_rate">1</property>
-				  <property name="digits">0</property>
-				  <property name="numeric">False</property>
-				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
-				  <property name="snap_to_ticks">False</property>
-				  <property name="wrap">False</property>
-				  <property name="adjustment">1 1 100 1 10 10</property>
-				</widget>
-				<packing>
-				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
-				</packing>
-			      </child>
+				  <property name="homogeneous">False</property>
+				  <property name="spacing">6</property>
 
-			      <child>
-				<widget class="GtkLabel" id="label176">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">seconds</property>
-				  <property name="use_underline">False</property>
-				  <property name="use_markup">False</property>
-				  <property name="justify">GTK_JUSTIFY_LEFT</property>
-				  <property name="wrap">False</property>
-				  <property name="selectable">False</property>
-				  <property name="xalign">0.5</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
+				  <child>
+				    <widget class="GtkSpinButton" id="spin_ss_delay">
+				      <property name="visible">True</property>
+				      <property name="can_focus">True</property>
+				      <property name="climb_rate">1</property>
+				      <property name="digits">0</property>
+				      <property name="numeric">False</property>
+				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+				      <property name="snap_to_ticks">False</property>
+				      <property name="wrap">False</property>
+				      <property name="adjustment">1 1 100 1 10 10</property>
+				    </widget>
+				    <packing>
+				      <property name="padding">0</property>
+				      <property name="expand">False</property>
+				      <property name="fill">True</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkLabel" id="label176">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">seconds</property>
+				      <property name="use_underline">False</property>
+				      <property name="use_markup">False</property>
+				      <property name="justify">GTK_JUSTIFY_LEFT</property>
+				      <property name="wrap">False</property>
+				      <property name="selectable">False</property>
+				      <property name="xalign">0.5</property>
+				      <property name="yalign">0.5</property>
+				      <property name="xpad">0</property>
+				      <property name="ypad">0</property>
+				    </widget>
+				    <packing>
+				      <property name="padding">0</property>
+				      <property name="expand">False</property>
+				      <property name="fill">False</property>
+				    </packing>
+				  </child>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
-				  <property name="expand">False</property>
-				  <property name="fill">False</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
 				</packing>
 			      </child>
 			    </widget>
@@ -2222,7 +2224,7 @@
 		<widget class="GtkVBox" id="vbox42">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="hbox78">
@@ -2289,7 +2291,7 @@
 			<widget class="GtkVBox" id="vbox44">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkRadioButton" id="radio_ss_direction_forward">
@@ -2429,10 +2431,10 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox22">
-	  <property name="border_width">5</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">0</property>
+	  <property name="spacing">6</property>
 
 	  <child>
 	    <widget class="GtkLabel" id="label124">
@@ -2459,7 +2461,7 @@
 	    <widget class="GtkHBox" id="hbox46">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkFrame" id="frame2">
@@ -2473,7 +2475,7 @@
 		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkTable" id="table15">
@@ -2481,8 +2483,8 @@
 			  <property name="n_rows">3</property>
 			  <property name="n_columns">3</property>
 			  <property name="homogeneous">False</property>
-			  <property name="row_spacing">0</property>
-			  <property name="column_spacing">5</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="label141">
@@ -2733,7 +2735,7 @@
 			<widget class="GtkHBox" id="hbox47">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">5</property>
+			  <property name="spacing">6</property>
 
 			  <child>
 			    <widget class="GtkButton" id="old_img_zoom_out_button">
@@ -2834,7 +2836,7 @@
 		      <property name="border_width">5</property>
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkTable" id="table16">
@@ -2842,8 +2844,8 @@
 			  <property name="n_rows">3</property>
 			  <property name="n_columns">3</property>
 			  <property name="homogeneous">False</property>
-			  <property name="row_spacing">0</property>
-			  <property name="column_spacing">5</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">12</property>
 
 			  <child>
 			    <widget class="GtkLabel" id="label148">
@@ -3334,21 +3336,21 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox23">
-	  <property name="border_width">5</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">10</property>
+	  <property name="spacing">12</property>
 
 	  <child>
 	    <widget class="GtkVBox" id="vbox45">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label172">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">A_vailable applications:</property>
+		  <property name="label" translatable="yes">A_vailable Applications:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3440,12 +3442,12 @@
 	    <widget class="GtkVBox" id="vbox46">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label173">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">R_ecent applications:</property>
+		  <property name="label" translatable="yes">R_ecent Applications:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -3495,7 +3497,7 @@
 		    <widget class="GtkVBox" id="vbox21">
 		      <property name="visible">True</property>
 		      <property name="homogeneous">False</property>
-		      <property name="spacing">5</property>
+		      <property name="spacing">6</property>
 
 		      <child>
 			<widget class="GtkScrolledWindow" id="scrolledwindow4">
@@ -3578,7 +3580,7 @@
 	    <widget class="GtkHBox" id="hbox54">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">5</property>
+	      <property name="spacing">12</property>
 
 	      <child>
 		<widget class="GtkLabel" id="label128">
@@ -3684,7 +3686,7 @@
 
       <child>
 	<widget class="GtkHBox" id="hbox57">
-	  <property name="border_width">10</property>
+	  <property name="border_width">12</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">0</property>
@@ -3693,7 +3695,7 @@
 	    <widget class="GtkVBox" id="vbox47">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">0</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="bm_bookmarks_label">
@@ -3720,7 +3722,7 @@
 		<widget class="GtkHBox" id="hbox90">
 		  <property name="visible">True</property>
 		  <property name="homogeneous">False</property>
-		  <property name="spacing">5</property>
+		  <property name="spacing">6</property>
 
 		  <child>
 		    <widget class="GtkHBox" id="bm_list_container">
@@ -3855,7 +3857,7 @@
 	    <widget class="GtkVBox" id="vbox52">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
-	      <property name="spacing">2</property>
+	      <property name="spacing">6</property>
 
 	      <child>
 		<widget class="GtkLabel" id="cat_catalogs_label">
@@ -3970,7 +3972,7 @@
       <property name="border_width">10</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">10</property>
+      <property name="spacing">12</property>
 
       <child>
 	<widget class="GtkNotebook" id="i_notebook">
@@ -4388,12 +4390,7 @@
 		      <property name="left_margin">1</property>
 		      <property name="right_margin">1</property>
 		      <property name="indent">0</property>
-		      <property name="text" translatable="yes">jhjghjghjhj
-jghj
-hg
-j
-hj
-ghj</property>
+		      <property name="text" translatable="yes"></property>
 		    </widget>
 		  </child>
 		</widget>

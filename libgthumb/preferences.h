@@ -109,6 +109,28 @@
 #define  PREF_EXP_TEXT_COLOR         "/apps/gthumb/exporter/thumbnail/text_color"
 #define  PREF_EXP_TEXT_FONT          "/apps/gthumb/exporter/thumbnail/text_font"
 
+#define  PREF_PNG_COMPRESSION_LEVEL  "/apps/gthumb/dialogs/png_saver/compression_level"
+
+#define  PREF_JPEG_QUALITY           "/apps/gthumb/dialogs/jpeg_saver/quality"
+#define  PREF_JPEG_SMOOTHING         "/apps/gthumb/dialogs/jpeg_saver/smoothing"
+#define  PREF_JPEG_OPTIMIZE          "/apps/gthumb/dialogs/jpeg_saver/optimize"
+#define  PREF_JPEG_PROGRESSIVE       "/apps/gthumb/dialogs/jpeg_saver/progressive"
+
+#define  PREF_TGA_RLE_COMPRESSION    "/apps/gthumb/dialogs/tga_saver/rle_compression"
+
+#define  PREF_TIFF_COMPRESSION       "/apps/gthumb/dialogs/tiff_saver/compression"
+#define  PREF_TIFF_HORIZONTAL_RES    "/apps/gthumb/dialogs/tiff_saver/horizontal_resolution"
+#define  PREF_TIFF_VERTICAL_RES      "/apps/gthumb/dialogs/tiff_saver/vertical_resolution"
+
+#define  PREF_CONVERT_IMAGE_TYPE      "/apps/gthumb/dialogs/convert_format/image_type"
+#define  PREF_CONVERT_OVERWRITE       "/apps/gthumb/dialogs/convert_format/overwrite_mode"
+#define  PREF_CONVERT_REMOVE_ORIGINAL "/apps/gthumb/dialogs/convert_format/remove_original"
+
+#define  PREF_RENAME_SERIES_TEMPLATE  "/apps/gthumb/dialogs/rename_series/template"
+#define  PREF_RENAME_SERIES_START_AT  "/apps/gthumb/dialogs/rename_series/start_at"
+#define  PREF_RENAME_SERIES_SORT      "/apps/gthumb/dialogs/rename_series/sort_by"
+#define  PREF_RENAME_SERIES_REVERSE   "/apps/gthumb/dialogs/rename_series/reverse_order"
+
 
 typedef struct {
 	Bookmarks   *bookmarks;
@@ -212,6 +234,14 @@ void            pref_set_exp_sort_order       (GtkSortType value);
 FrameStyle      pref_get_exporter_frame_style ();
 
 void            pref_set_exporter_frame_style (FrameStyle value);
+
+OverwriteMode   pref_get_convert_overwrite_mode ();
+
+void            pref_set_convert_overwrite_mode (OverwriteMode value);
+
+GtkSortType     pref_get_rename_sort_order      ();
+
+void            pref_set_rename_sort_order      (GtkSortType value);
 
 
 #endif /* PREFERENCES_H */

@@ -308,7 +308,7 @@ free_file_data_list (GList *list)
 {
 	GList *scan;
 	for (scan = list; scan; scan = scan->next) 
-		file_data_free (scan->data);
+		file_data_unref (scan->data);
 	g_list_free (list);
 }
 
@@ -423,7 +423,7 @@ get_file_info_data_free (GetFileInfoData *data)
 
 	if (data->filtered != NULL) {
 		g_list_foreach (data->filtered, 
-				(GFunc) file_data_free, 
+				(GFunc) file_data_unref, 
 				NULL);
 		g_list_free (data->filtered);
 	}
@@ -1226,7 +1226,7 @@ delete_pos__step2 (InterruptThumbsData *it_data)
 	g_return_if_fail (fd != NULL);
 
 	file_list->list = g_list_remove (file_list->list, fd);
-	file_data_free (fd);
+	file_data_unref (fd);
 
 	image_list_remove (ilist, pos);
 

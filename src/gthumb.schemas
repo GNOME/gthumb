@@ -904,5 +904,210 @@
 	</locale>
       </schema>
 
+      <!-- JPEG Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/quality</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/quality</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>85</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/smoothing</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/smoothing</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/optimize</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/optimize</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/jpeg_saver/pregressive</key>
+	<applyto>/apps/gthumb/dialogs/jpeg_saver/pregressive</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TGA Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tga_saver/rle_compression</key>
+	<applyto>/apps/gthumb/dialogs/tga_saver/rle_compression</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- TIFF Saver -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/compression</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/compression</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>deflate</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : none, deflate, jpeg.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/horizontal_resolution</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/horizontal_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/tiff_saver/vertical_resolution</key>
+	<applyto>/apps/gthumb/dialogs/tiff_saver/vertical_resolution</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>72</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Convert Format -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/image_type</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/image_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : jpeg, png, tga, tiff.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/overwrite_mode</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/overwrite_mode</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>rename</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : skip, rename, ask, overwrite.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/convert_format/remove_original</key>
+	<applyto>/apps/gthumb/dialogs/convert_format/remove_original</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Rename Series -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/template</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>###</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/start_at</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/start_at</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/sort_by</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/sort_by</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>name</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values: name, size, time.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rename_series/reverse_order</key>
+	<applyto>/apps/gthumb/dialogs/rename_series/reverse_order</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>
