@@ -50,10 +50,6 @@ void verb_mirror         (BonoboUIComponent *component,
 			  gpointer callback_data,
 			  const char *cname);
 
-void verb_black_white    (BonoboUIComponent *component, 
-			  gpointer callback_data,
-			  const char *cname);
-
 void verb_start_stop_ani (BonoboUIComponent *component, 
 			  gpointer callback_data,
 			  const char *cname);
@@ -66,5 +62,8 @@ void verb_print_image    (BonoboUIComponent *component,
 			  gpointer callback_data, 
 			  const char *cname);
 
+void verb_save_image     (BonoboUIComponent *component, 
+			  gpointer callback_data, 
+			  const char *cname);
 
 #endif /* UI_H */

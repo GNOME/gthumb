@@ -43,12 +43,13 @@
 		<item value="image/tiff"/>
                 <item value="image/x-bmp"/>
                 <item value="image/x-cmu-raster"/>
-                <item value="image/x-ico"/>
+      	        <item value="image/x-ico"/>
                 <item value="image/x-png"/>
                 <item value="image/x-portable-anymap"/>
                 <item value="image/x-portable-bitmap"/>
                 <item value="image/x-portable-graymap"/>
                 <item value="image/x-portable-pixmap"/>
+                <item value="image/x-tga"/>
                 <item value="image/x-xpixmap"/>
                 <item value="image/xpm"/>
 	</oaf_attribute>

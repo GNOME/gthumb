@@ -23,16 +23,18 @@
 #include <config.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
-#include "preferences.h"
+#include "dlg-save-image.h"
+#include "file-utils.h"
 #include "gtk-utils.h"
-#include "gthumb-window.h"
 #include "gconf-utils.h"
 #include "pixbuf-utils.h"
-#include "dlg-save-image.h"
+#include "preferences.h"
+
 
 #define IMAGE_TYPE_AUTOMATIC 0
 
@@ -59,7 +61,6 @@ file_save_ok_cb (GtkWidget *w,
 		 GtkWidget *file_sel)
 {
 	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
-	GThumbWindow  *window;
 	GtkWindow     *parent;
 	GtkWidget     *opt_menu;
 	GdkPixbuf     *pixbuf;
@@ -68,11 +69,9 @@ file_save_ok_cb (GtkWidget *w,
 	const char    *mime_type;
 	int            idx;
 
-	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
+	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	filename = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
-
-	parent = GTK_WINDOW (window->app);
 
 	if (filename == NULL)
 		return;
@@ -143,7 +142,7 @@ file_save_ok_cb (GtkWidget *w,
 
 
 static GtkWidget *
-build_file_type_menu ()
+build_file_type_menu (void)
 {
 	static char *type_name[] = { "JPEG", "PNG", "TGA", "TIFF", NULL };
         GtkWidget   *menu;
@@ -171,10 +170,12 @@ build_file_type_menu ()
 
 
 void
-dlg_save_image (GThumbWindow *window, 
+dlg_save_image (GtkWindow    *parent,
+		const char   *current_folder,
 		GdkPixbuf    *pixbuf)
 {
 	GtkWidget *file_sel;
+	GtkWidget *vbox;
 	GtkWidget *hbox;
 	GtkWidget *opt_menu;
 	GtkWidget *menu;
@@ -186,28 +187,30 @@ dlg_save_image (GThumbWindow *window,
 	
 	/**/
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 0);
-	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (file_sel)->action_area), hbox, 
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 0);
+	gtk_box_pack_start (GTK_BOX (GTK_FILE_SELECTION (file_sel)->action_area), 
+			    vbox, 
 			    TRUE, TRUE, 0);
 
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 6);
+
+	gtk_box_pack_start (GTK_BOX (hbox), 
+			    gtk_label_new (_("Image type:")), 
+			    FALSE, FALSE, 0);
+
 	opt_menu = gtk_option_menu_new ();
-	menu = build_file_type_menu (window);
-        gtk_option_menu_set_menu (GTK_OPTION_MENU (opt_menu), menu);
-	gtk_box_pack_end (GTK_BOX (hbox), opt_menu, FALSE, FALSE, 0);
+	menu = build_file_type_menu ();
+	gtk_option_menu_set_menu (GTK_OPTION_MENU (opt_menu), menu);
+	gtk_box_pack_start (GTK_BOX (hbox), opt_menu, FALSE, FALSE, 12);
 
-	gtk_box_pack_end (GTK_BOX (hbox), gtk_label_new (_("Image type:")), FALSE, FALSE, 5);
-
-	gtk_widget_show_all (hbox);
+	gtk_widget_show_all (vbox);
 
 	/**/
 
-	if ((window != NULL) && (window->image_path != NULL))
-		path = g_strdup (window->image_path);
-	else if ((window != NULL) && (window->dir_list->path != NULL))
-		path = g_strconcat (window->dir_list->path,
-				    "/",
-				    NULL);
+	if (current_folder != NULL)
+		path = g_strdup (current_folder);
 	else
 		path = g_strconcat (g_get_home_dir (),
 				    "/",
@@ -218,7 +221,7 @@ dlg_save_image (GThumbWindow *window,
 
 	g_object_ref (pixbuf);
 
-	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
+	g_object_set_data (G_OBJECT (file_sel), "parent_window", parent);
 	g_object_set_data (G_OBJECT (file_sel), "pixbuf", pixbuf);
 	g_object_set_data (G_OBJECT (file_sel), "opt_menu", opt_menu);
 
@@ -237,9 +240,8 @@ dlg_save_image (GThumbWindow *window,
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
     
-	if (window != NULL) {
-		gtk_window_set_transient_for (GTK_WINDOW (file_sel), 
-					      GTK_WINDOW (window->app));
+	if (parent != NULL) {
+		gtk_window_set_transient_for (GTK_WINDOW (file_sel), parent);
 		gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	}
 

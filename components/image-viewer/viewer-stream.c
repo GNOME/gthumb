@@ -222,6 +222,7 @@ get_content_types (BonoboPersist *persist, CORBA_Environment *ev)
 		 "image/x-portable-bitmap",
 		 "image/x-portable-graymap",
 		 "image/x-portable-pixmap",
+		 "image/x-tga",
 		 "image/x-xpixmap",
 		 "image/xpm");
 }

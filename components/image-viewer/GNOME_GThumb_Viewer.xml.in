@@ -17,9 +17,6 @@
 	     pixname="@ICONSDIR@/mirror.xpm"
 	     _tip="Mirror the image"/>
 
-	<cmd name="BlackWhite" 
-	     _tip="View the image in black and white"/>
-
 	<cmd name="StartStopAnimation" 
 	     _tip="Start or stop current animation"/>
 
@@ -50,14 +47,20 @@
 	     type="radio"
 	     group="zoom quality"/>
 
+	<cmd name="SaveImage" _label="Save _As..."
+	     _tip="Save current image" 
+	     pixtype="stock" pixname="gtk-save-as" 
+	     accel="*Shift**Control*S"/>
+
 	<cmd name="PrintImage" _label="_Print"
-	     _tip="Print the current image" pixtype="stock"
-             pixname="Print" accel="*Control*p"/>
+	     _tip="Print the current image" 
+	     pixtype="stock" pixname="gtk-print" accel="*Control*p"/>
 </commands>
 
 <menu>
 	<submenu name="File">
       		<placeholder name="File Items Placeholder">
+	       	<menuitem name="SaveImage" verb=""/>
 	       	<menuitem name="PrintImage" verb=""/>
       		</placeholder>
     	</submenu>
@@ -100,9 +103,6 @@
 			<menuitem name="ImageMirror" 
 				  verb="" 
 			          _label="_Mirror"/>
-			<menuitem name="BlackWhite" 
-				  verb="" 
-			          _label="_Desaturate"/>
 		</submenu>
 		<separator/>
 		<menuitem name="StartStopAnimation"
@@ -128,9 +128,6 @@
 	<toolitem name="ImageMirror" verb="" _label="Mirror"
 		  pixtype="filename"
 		  pixname="@ICONSDIR@/mirror.png"/>
-	<toolitem name="BlackWhite" verb="" _label="Desaturate"
-		  pixtype="filename"
-		  pixname="@ICONSDIR@/black-white.png"/>
     </placeholder>
 </dockitem>
 

@@ -1,3 +1,14 @@
+2002-12-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* components/image-viewer/GNOME_GThumb_Viewer.server.in.in: added
+	x-tga to the supported mime type list.
+
+	* libgthumb/dlg-save-image.c: 
+	* libgthumb/dlg-save-image.h: moved from src to libgthumb 	
+
+	* components/image-viewer/ui.c (verb_save_image): added 'Save
+	Image' function.
+
 2002-12-06  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c: 

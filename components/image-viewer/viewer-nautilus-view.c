@@ -43,8 +43,6 @@ viewer_nautilus_view_load_location (PortableServer_Servant  servant,
 	BonoboControl        *control;
 	char                 *unesc_loc;
 
-	g_print ("viewer_nautilus_view_load_location\n");
-
 	g_free (nautilus_view->location);
 	nautilus_view->location = g_strdup (location);
 

@@ -83,8 +83,6 @@ gthumb_SOURCES = 			\
 	dlg-preferences.h		\
 	dlg-rename-series.c		\
 	dlg-rename-series.h		\
-	dlg-save-image.c		\
-	dlg-save-image.h		\
 	dlg-scale-image.c		\
 	dlg-scale-image.h		\
 	dlg-search.c			\

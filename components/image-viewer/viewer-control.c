@@ -86,11 +86,11 @@ static BonoboUIVerb verbs [] = {
         BONOBO_UI_VERB ("ImageRotate180", verb_rotate_180),
         BONOBO_UI_VERB ("ImageFlip",      verb_flip),
         BONOBO_UI_VERB ("ImageMirror",    verb_mirror),
-        BONOBO_UI_VERB ("BlackWhite",     verb_black_white),
 
 	BONOBO_UI_VERB ("StartStopAnimation", verb_start_stop_ani),
 	BONOBO_UI_VERB ("StepAnimation",      verb_step_ani),
 
+	BONOBO_UI_VERB ("SaveImage",          verb_save_image),
 	BONOBO_UI_VERB ("PrintImage",         verb_print_image),
 
 	BONOBO_UI_VERB_END
@@ -152,8 +152,6 @@ viewer_control_activate (BonoboControl *object,
 	BonoboControl *control;
 
 	g_return_if_fail (object != NULL);
-
-	g_print ("viewer_control_activate\n");
 
 	control = BONOBO_CONTROL (object);
 

@@ -26,6 +26,7 @@
 #include <libbonobo.h>
 
 #include "async-pixbuf-ops.h"
+#include "dlg-save-image.h"
 #include "gthumb-init.h"
 #include "image-viewer.h"
 #include "viewer-control.h"
@@ -103,24 +104,6 @@ verb_mirror (BonoboUIComponent *component,
 
 
 void
-verb_black_white (BonoboUIComponent *component, 
-		  gpointer callback_data,
-		  const char *cname)
-{
-	ViewerControl *control = callback_data;
-	ImageViewer   *viewer = control->priv->viewer;
-	GdkPixbuf     *src_pixbuf;
-	GdkPixbuf     *dest_pixbuf;
-
-	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	_gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
-	g_object_unref (dest_pixbuf);
-}
-
-
-void
 verb_start_stop_ani (BonoboUIComponent *component, 
 		     gpointer callback_data, 
 		     const char *cname)
@@ -162,6 +145,33 @@ verb_print_image (BonoboUIComponent *component,
 
 	location = VIEWER_NAUTILUS_VIEW (nautilus_view)->location;
 	print_image_dlg (NULL, control->priv->viewer, location);
+}
+
+
+void
+verb_save_image (BonoboUIComponent *component, 
+		 gpointer           callback_data, 
+		 const char        *cname)
+{
+	ViewerControl *control = callback_data;
+	ImageViewer   *viewer = control->priv->viewer;
+	BonoboObject  *nautilus_view = control->priv->nautilus_view;
+	const char    *location;
+	char          *current_folder = NULL;
+
+	location = VIEWER_NAUTILUS_VIEW (nautilus_view)->location;
+	if ((location != NULL) && (strncmp (location, "file://", 7) == 0))
+		current_folder = g_strdup (location + 7);
+	else
+		current_folder = g_strconcat (g_get_home_dir (),
+					      "/",
+					      NULL);
+
+	dlg_save_image (NULL, 
+			current_folder,
+			image_viewer_get_current_pixbuf (viewer));
+
+	g_free (current_folder);
 }
 
 

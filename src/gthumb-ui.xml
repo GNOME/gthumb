@@ -297,7 +297,7 @@
 	<cmd name="View_Sidebar_Catalogs"/>
 
 	<cmd name="View_ImageProp" _label="Proper_ties"
-	     _tip="View Image Properties"
+	     _tip="View image properties"
 	     pixtype="stock" pixname="gthumb-properties"/>
 
 	<cmd name="Go_Back" _label="_Back" 
@@ -355,22 +355,22 @@
 	     _tip="Restore the original desktop wallpaper"/>
 
 	<cmd name="Tools_Slideshow" _label="_Slide Show" 
-	     _tip="Slide Show"
+	     _tip="View as a slide show"
 	     pixtype="stock" pixname="gthumb-slideshow"/>
 	     accel="*Control*S"/>
 	<cmd name="Tools_FindImages" _label="_Find..." 
-	     _tip="Find"
+	     _tip="Find images"
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
 	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
 	<cmd name="Tools_RenameSeries" _label="_Rename Series" />
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"
-	     _tip="Convert Format"/>
+	     _tip="Convert image format"/>
      	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates..."/>
 	<cmd name="Tools_JPEGRotate" _label="Rotate _JPEG" 
 	     pixtype="stock" pixname="gthumb-transform"
-	     _tip="Rotate Images"/>
+	     _tip="Rotate jpeg images without loss of quality"/>
 	<cmd name="Tools_Maintenance" _label="_Maintenance" />
 	<cmd name="Tools_Preferences" _label="_Preferences" 
 	     _tip="Edit various preferences"
@@ -598,7 +598,7 @@
 	<separator/>
 
   	<toolitem name="Tools_Slideshow" verb=""
-	          _label="Slide Show"/>
+	          _label="View as a slide show"/>
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>

@@ -23,10 +23,12 @@
 #ifndef DLG_SAVE_IMAGE_H
 #define DLG_SAVE_IMAGE_H
 
-#include "gthumb-window.h"
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtkwindow.h>
 
 
-void       dlg_save_image   (GThumbWindow *window, 
+void       dlg_save_image   (GtkWindow    *parent,
+			     const char   *current_folder,
 			     GdkPixbuf    *pixbuf);
 
 gboolean   dlg_save_options (GtkWindow    *parent,

@@ -32,6 +32,7 @@ HEADER_FILES =			\
 	catalog.h		\
 	catalog-png-exporter.h	\
 	comments.h		\
+	dlg-save-image.h	\
 	file-data.h		\
 	file-list.h		\
 	file-utils.h		\
@@ -82,6 +83,7 @@ libgthumb_a_SOURCES =		\
 	catalog.c		\
 	catalog-png-exporter.c	\
 	comments.c		\
+	dlg-save-image.c	\
 	file-data.c		\
 	file-list.c		\
 	file-utils.c		\

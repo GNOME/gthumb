@@ -164,7 +164,21 @@ file_save_command_impl (BonoboUIComponent *uic,
 			const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	dlg_save_image (window, image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)));
+	char         *current_folder = NULL;
+
+	if (window->image_path != NULL)
+		current_folder = g_strdup (window->image_path);
+
+	else if (window->dir_list->path != NULL)
+		current_folder = g_strconcat (window->dir_list->path,
+					      "/", 
+					      NULL);
+
+	dlg_save_image (GTK_WINDOW (window->app), 
+			current_folder,
+			image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)));
+
+	g_free (current_folder);
 }
 
 
