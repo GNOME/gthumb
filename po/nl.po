@@ -1,16 +1,18 @@
 # gThumb superb dutch translation.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Dennis Smit <synap@area101.penguin.nl>, 2001.
+# Mark Van den Borre <mark@markvdb.be>
+# Tino Meinen <a.t.meinen@chello.nl>, 2003.
 #
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 12:11+0200\n"
-"PO-Revision-Date: 2003-08-05 23:54+0200\n"
-"Last-Translator: Mark Van den Borre <mark@markvdb.be>\n"
-"Language-Team: Dutch <nl@li.org>\n"
+"POT-Creation-Date: 2003-09-23 12:36+0200\n"
+"PO-Revision-Date: 2003-09-17 23:17+0200\n"
+"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
+"Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,8 +23,9 @@ msgstr "Catalogus"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr "GThumb catalogus-aanzicht"
+msgstr "GThumb catalogus-weergave"
 
+# weergeven als catalogus
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
 msgstr "Bekijken als catalogus"
@@ -42,21 +45,25 @@ msgstr "Af_drukken"
 msgid "GThumb Image"
 msgstr "GThumb afbeelding"
 
+# een viewer bestaat ook in het Nederlands. Bekijker/weergever 
+# is te vergezocht
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "GThumb bekijker"
+msgstr "GThumb viewer"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
 msgstr "Bekijken met gThumb"
 
+# was eerst tuimelen.
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
-msgstr "Tuimelen"
+msgstr "Omdraaien"
 
+# was eerst tuimelen
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
-msgstr "De afbeelding tuimelen"
+msgstr "De afbeelding omdraaien"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
@@ -104,7 +111,7 @@ msgstr "Huidige afbeelding opslaan"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 #: src/gthumb-ui.xml.h:143
 msgid "Start or stop current animation"
-msgstr "Start of stop huidige animatie"
+msgstr "Huidige animatie starten of stoppen"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
@@ -129,10 +136,11 @@ msgstr "_Zwart"
 msgid "_Checked"
 msgstr "_Dambord"
 
+# was eerst _Tuimelen
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: src/gthumb-ui.xml.h:204
 msgid "_Flip"
-msgstr "_Tuimelen"
+msgstr "_Omdraaien"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: src/gthumb-ui.xml.h:215
@@ -180,87 +188,81 @@ msgstr "%d %b %Y, %H:%M"
 #: src/dlg-image-prop.c:445 src/fullscreen.c:218 src/gthumb-window.c:388
 #, c-format
 msgid "%d x %d pixels"
-msgstr "%d x %d pixels"
+msgstr "%d x %d beeldpunten"
 
+# Aperture is letterlijk opening, dus er wordt ws. diafragma bedoeld
 #: data/albumthemes/Clean/image.xml.in.h:1
 #: data/albumthemes/Classic/image.xml.in.h:2
 #: data/albumthemes/ClassicClips/image.xml.in.h:2
 #: data/albumthemes/NeatRound/image.xml.in.h:2
 #: data/albumthemes/NeatSquare/image.xml.in.h:2
-#, fuzzy
 msgid "Aperture value"
-msgstr "_Arperture"
+msgstr "Diafragmawaarde"
 
+# Meervoud van byte is byte zonder s
 #: data/albumthemes/Clean/image.xml.in.h:2
 #: data/albumthemes/Classic/image.xml.in.h:3
 #: data/albumthemes/ClassicClips/image.xml.in.h:3
 #: data/albumthemes/NeatRound/image.xml.in.h:3
 #: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
 msgid "Bytes"
-msgstr "Bytes"
+msgstr "Byte"
 
 #: data/albumthemes/Clean/image.xml.in.h:3
 #: data/albumthemes/Classic/image.xml.in.h:4
 #: data/albumthemes/ClassicClips/image.xml.in.h:4
 #: data/albumthemes/NeatRound/image.xml.in.h:4
 #: data/albumthemes/NeatSquare/image.xml.in.h:4
-#, fuzzy
 msgid "Camera model"
-msgstr "Came_ra model"
+msgstr "Model camera"
 
 #: data/albumthemes/Clean/image.xml.in.h:4
 #: data/albumthemes/Classic/image.xml.in.h:5
 #: data/albumthemes/ClassicClips/image.xml.in.h:5
 #: data/albumthemes/NeatRound/image.xml.in.h:5
 #: data/albumthemes/NeatSquare/image.xml.in.h:5
-#, fuzzy
 msgid "Date"
-msgstr "_Datum:"
+msgstr "Datum"
 
 #: data/albumthemes/Clean/image.xml.in.h:5
 #: data/albumthemes/Classic/image.xml.in.h:6
 #: data/albumthemes/ClassicClips/image.xml.in.h:6
 #: data/albumthemes/NeatRound/image.xml.in.h:6
 #: data/albumthemes/NeatSquare/image.xml.in.h:6
-#, fuzzy
 msgid "Dimensions"
-msgstr "Afm_etingen afbeelding"
+msgstr "Afmetingen"
 
 #: data/albumthemes/Clean/image.xml.in.h:6
 #: data/albumthemes/Classic/image.xml.in.h:7
 #: data/albumthemes/ClassicClips/image.xml.in.h:7
 #: data/albumthemes/NeatRound/image.xml.in.h:7
 #: data/albumthemes/NeatSquare/image.xml.in.h:7
-#, fuzzy
 msgid "Exposure mode"
-msgstr "_Belichtingsmethode"
+msgstr "Belichtingsmethode"
 
 #: data/albumthemes/Clean/image.xml.in.h:7
 #: data/albumthemes/Classic/image.xml.in.h:8
 #: data/albumthemes/ClassicClips/image.xml.in.h:8
 #: data/albumthemes/NeatRound/image.xml.in.h:8
 #: data/albumthemes/NeatSquare/image.xml.in.h:8
-#, fuzzy
 msgid "Exposure time"
-msgstr "Belichtings_tijd"
+msgstr "Belichtingstijd"
 
 #: data/albumthemes/Clean/image.xml.in.h:8
 #: data/albumthemes/Classic/image.xml.in.h:9
 #: data/albumthemes/ClassicClips/image.xml.in.h:9
 #: data/albumthemes/NeatRound/image.xml.in.h:9
 #: data/albumthemes/NeatSquare/image.xml.in.h:9
-#, fuzzy
 msgid "Flash"
-msgstr "_Knipperen"
+msgstr "Flits"
 
 #: data/albumthemes/Clean/image.xml.in.h:9
 #: data/albumthemes/Classic/image.xml.in.h:10
 #: data/albumthemes/ClassicClips/image.xml.in.h:10
 #: data/albumthemes/NeatRound/image.xml.in.h:10
 #: data/albumthemes/NeatSquare/image.xml.in.h:10
-#, fuzzy
 msgid "Focal length"
-msgstr "Focusafstand"
+msgstr "Brandpuntafstand"
 
 #: data/albumthemes/Clean/image.xml.in.h:10
 #: data/albumthemes/Classic/image.xml.in.h:11
@@ -275,7 +277,6 @@ msgstr "Afbeelding"
 #: data/albumthemes/ClassicClips/image.xml.in.h:12
 #: data/albumthemes/NeatRound/image.xml.in.h:12
 #: data/albumthemes/NeatSquare/image.xml.in.h:12
-#, fuzzy
 msgid "Shutter speed"
 msgstr "Sluitertijd"
 
@@ -289,7 +290,7 @@ msgstr "beeldpunten"
 #: data/albumthemes/NeatRound/image.xml.in.h:1
 #: data/albumthemes/NeatSquare/image.xml.in.h:1
 msgid "(click on the image to view it at original size)"
-msgstr ""
+msgstr "(klik op de afbeelding om het op oorspronkelijke grootte te bekijken)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
@@ -297,7 +298,7 @@ msgstr "Uw afbeeldingen bekijken en beheren"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr "GThumb afbeelding weergave"
+msgstr "gThumb afbeelding viewer"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
@@ -482,9 +483,8 @@ msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 #: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:294
 #: src/dlg-rename-series.c:298 src/gthumb-window.c:531
 #: src/gthumb-window.c:1275 src/gthumb-window.c:1282 src/gthumb-window.c:1290
-#, fuzzy
 msgid "(Invalid Name)"
-msgstr "Oude naam"
+msgstr "(Ongeldige naam)"
 
 #: src/catalog-png-exporter.c:1327
 #, c-format
@@ -2979,9 +2979,8 @@ msgid "Checked"
 msgstr "Dambord"
 
 #: src/gthumb_preferences.glade.h:30
-#, fuzzy
 msgid "Choose startup folder"
-msgstr "Doelmap kiezen"
+msgstr "Beginmap kiezen"
 
 #: src/gthumb_preferences.glade.h:31
 msgid "Co_mments"
@@ -3527,7 +3526,7 @@ msgstr "Th_ema:"
 #: src/gthumb_web_exporter.glade.h:35
 #, no-c-format
 msgid "Use %d  to insert current date"
-msgstr ""
+msgstr "Gebruik %d om de huidige datum in te voegen"
 
 #: src/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
@@ -3579,7 +3578,7 @@ msgstr "Op wijzigingstijd"
 
 #: src/gthumb_web_exporter.glade.h:52
 msgid "index.html"
-msgstr ""
+msgstr "index.html"
 
 #: src/main.c:81
 msgid "Start in fullscreen mode"
@@ -3607,7 +3606,7 @@ msgstr "Wetenschap"
 
 #: src/main.c:168
 msgid "Favourite"
-msgstr "Favoriet"
+msgstr "Favorieten"
 
 #: src/main.c:169
 msgid "Important"
@@ -3641,27 +3640,34 @@ msgstr "Familie"
 msgid "Command Line"
 msgstr "Opdrachtregel"
 
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "GConf fout:\n"
-#~ "  %s"
+msgid ""
+"GConf error:\n"
+"  %s"
+msgstr ""
+"GConf fout:\n"
+"  %s"
 
-#~ msgid "Field"
-#~ msgstr "Veld"
+#, fuzzy
+msgid "Field"
+msgstr "Zoeken"
 
-#~ msgid "Value "
-#~ msgstr "Waarde"
+#, fuzzy
+msgid "Value "
+msgstr "Waarde"
 
-#~ msgid "Transparen_cy Type"
-#~ msgstr "T_ype transparantie"
+#, fuzzy
+msgid "Transparen_cy Type"
+msgstr "T_ype transparantie"
 
-#~ msgid "View as List"
-#~ msgstr "Bekijken als catalogus"
+# weergeven als catalogus
+#, fuzzy
+msgid "View as List"
+msgstr "Bekijken als catalogus"
 
-#~ msgid "View as Thumbnails"
-#~ msgstr "Bekijken als voorbeelden"
+#, fuzzy
+msgid "View as Thumbnails"
+msgstr "Voorbeelden bekijken"
 
-#~ msgid "_Title:"
-#~ msgstr "_Titel:"
+#, fuzzy
+msgid "_Title:"
+msgstr "Titel"
