@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"POT-Creation-Date: 2003-07-24 23:34+0100\n"
-"PO-Revision-Date: 2003-07-24 23:36+0000\n"
+"POT-Creation-Date: 2003-07-29 22:10+0100\n"
+"PO-Revision-Date: 2003-07-29 22:16+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -171,12 +171,12 @@ msgstr "_Branco"
 msgid "_Zoom Quality"
 msgstr "Qualidade _Zoom"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:517
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:662
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
-#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:414
+#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:415
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -226,7 +226,7 @@ msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:749 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:225 src/gthumb-window.c:411
+#: src/fullscreen.c:225 src/gthumb-window.c:412
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -355,7 +355,7 @@ msgid "Comment"
 msgstr "Comentário"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:429
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:430
 msgid "Name"
 msgstr "Nome"
 
@@ -368,11 +368,11 @@ msgstr "Imprimir %s"
 msgid "Print Image"
 msgstr "Imprimir Imagem"
 
-#: libgthumb/thumb-cache.c:486
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting all thumbnails, wait please..."
 msgstr "A apagar todas as imagens de referência, aguarde..."
 
-#: libgthumb/thumb-cache.c:488
+#: libgthumb/thumb-cache.c:491
 msgid "Deleting old thumbnails, wait please..."
 msgstr "A apagar imagens de referência antigas, aguarde..."
 
@@ -530,7 +530,7 @@ msgstr ""
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "A pasta seleccionada será movida para o Lixo, tem a certeza?"
 
-#: src/commands-impl.c:1219 src/dlg-file-utils.c:274
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:419
 msgid "_Move"
 msgstr "_Mover"
 
@@ -539,8 +539,8 @@ msgstr "_Mover"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Incapaz de copiar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1340 src/dlg-file-utils.c:2297
-#: src/dlg-file-utils.c:2299
+#: src/commands-impl.c:1340 src/dlg-file-utils.c:2453
+#: src/dlg-file-utils.c:2455
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Incapaz de mover a pasta \"%s\": %s"
@@ -553,7 +553,7 @@ msgstr "origem contém o destino"
 msgid "a folder with that name is already present."
 msgstr "já existe uma pasta com esse nome."
 
-#: src/commands-impl.c:1453 src/dlg-file-utils.c:360 src/dlg-file-utils.c:449
+#: src/commands-impl.c:1453 src/dlg-file-utils.c:505 src/dlg-file-utils.c:594
 msgid "Choose the destination folder"
 msgstr "Seleccione a pasta de destino"
 
@@ -599,8 +599,8 @@ msgstr "Incapaz de mostrar ajuda: %s"
 msgid "translator_credits"
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4880
-#: src/gthumb_png_exporter.glade.h:75 src/main.c:124
+#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4881
+#: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -688,7 +688,7 @@ msgstr "Não tem as permissões adequadas para criar imagens na pasta \"%s\""
 msgid "Could not delete the images:"
 msgstr "Incapaz de apagar as imagens:"
 
-#: src/dlg-file-utils.c:220
+#: src/dlg-file-utils.c:362
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -696,65 +696,69 @@ msgstr ""
 "As imagens não podem ser movidas para o Lixo. Deseja apaga-las "
 "definitivamente?"
 
-#: src/dlg-file-utils.c:751 src/dlg-file-utils.c:852
+#: src/dlg-file-utils.c:365
+msgid "_Do not display this message again"
+msgstr "_Não apresentar novamente esta mensagem"
+
+#: src/dlg-file-utils.c:896 src/dlg-file-utils.c:997
 msgid "You didn't enter the new name"
 msgstr "Não introduziu o novo nome"
 
-#: src/dlg-file-utils.c:763 src/dlg-file-utils.c:864
+#: src/dlg-file-utils.c:908 src/dlg-file-utils.c:1009
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "O nome \"%s\" já existe nesta pasta. Utilize um nome diferente."
 
-#: src/dlg-file-utils.c:1003
+#: src/dlg-file-utils.c:1148
 msgid "Could not rename the image:"
 msgstr "Incapaz de renomear a imagem:"
 
-#: src/dlg-file-utils.c:1005
+#: src/dlg-file-utils.c:1150
 msgid "Could not rename the following images:"
 msgstr "Incapaz de renomear as seguintes imagens:"
 
-#: src/dlg-file-utils.c:1138
+#: src/dlg-file-utils.c:1283
 msgid "Could not move the image:"
 msgstr "Incapaz de mover a imagem:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1285
 msgid "Could not copy the image:"
 msgstr "Incapaz de copiar a imagem:"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2320
+#: src/dlg-file-utils.c:1309 src/dlg-file-utils.c:2476
 msgid "_Abort"
 msgstr "_Abortar"
 
-#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2321
+#: src/dlg-file-utils.c:1310 src/dlg-file-utils.c:2477
 msgid "_Continue"
 msgstr "_Continuar"
 
-#: src/dlg-file-utils.c:1337
+#: src/dlg-file-utils.c:1483
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "A copiar %d de %d ficheiros"
 
-#: src/dlg-file-utils.c:1720 src/dlg-file-utils.c:1906
+#: src/dlg-file-utils.c:1870 src/dlg-file-utils.c:2060
 msgid "Collecting images info"
 msgstr "A coligir info de imagens"
 
-#: src/dlg-file-utils.c:1723 src/dlg-file-utils.c:1919
+#: src/dlg-file-utils.c:1873 src/dlg-file-utils.c:2073
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "A apagar ficheiro %ld de %ld"
 
-#: src/dlg-file-utils.c:1909
+#: src/dlg-file-utils.c:2063
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "A copiar ficheiro %ld de %ld"
 
-#: src/dlg-file-utils.c:1914
+#: src/dlg-file-utils.c:2068
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "A mover ficheiro %ld de %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:436
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:437
 msgid "Size"
 msgstr "Tamanho"
 
@@ -762,11 +766,11 @@ msgstr "Tamanho"
 msgid "Type"
 msgstr "Tipo"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:443
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:444
 msgid "Bytes"
 msgstr "Bytes"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:450
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:451
 msgid "Modified"
 msgstr "Modificado"
 
@@ -774,11 +778,11 @@ msgstr "Modificado"
 msgid "Information on Channel"
 msgstr "Informação no Canal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5329
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5330
 msgid "Field"
 msgstr "Campo"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5339
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5340
 msgid "Value "
 msgstr "Valor "
 
@@ -843,7 +847,7 @@ msgstr "Repor Vista Normal"
 msgid "Image Info"
 msgstr "Info Imagem"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4273
+#: src/fullscreen.c:818 src/gthumb-window.c:4274
 msgid "Back"
 msgstr "Atrás"
 
@@ -1853,68 +1857,68 @@ msgstr "por _Tamanho"
 msgid "by _Time"
 msgstr "por _Data"
 
-#: src/gthumb-window.c:692
+#: src/gthumb-window.c:693
 msgid "[Press 'c' to add a comment]"
 msgstr "[Prima 'c' para adicionar um comentário]"
 
-#: src/gthumb-window.c:766 src/gthumb-window.c:789
+#: src/gthumb-window.c:767 src/gthumb-window.c:790
 msgid "[modified]"
 msgstr "[modificado]"
 
-#: src/gthumb-window.c:873
+#: src/gthumb-window.c:874
 msgid "No image"
 msgstr "Nenhuma imagem"
 
-#: src/gthumb-window.c:875
+#: src/gthumb-window.c:876
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imagem (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:879
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imagens (%s)"
 
-#: src/gthumb-window.c:885
+#: src/gthumb-window.c:886
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 seleccionada (%s)"
 
-#: src/gthumb-window.c:888
+#: src/gthumb-window.c:889
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d seleccionadas (%s)"
 
-#: src/gthumb-window.c:3379
+#: src/gthumb-window.c:3380
 msgid "Dragged Images"
 msgstr "Imagens Arrastadas"
 
-#: src/gthumb-window.c:3575
+#: src/gthumb-window.c:3576
 msgid "Could not move the items:"
 msgstr "Incapaz de mover os itens:"
 
-#: src/gthumb-window.c:5210
+#: src/gthumb-window.c:5211
 msgid "Image comment"
 msgstr "Comentário da imagem"
 
-#: src/gthumb-window.c:5224
+#: src/gthumb-window.c:5225
 msgid "Image data"
 msgstr "Dados da imagem"
 
-#: src/gthumb-window.c:5238
+#: src/gthumb-window.c:5239
 msgid "Image preview"
 msgstr "Antevisão da imagem"
 
-#: src/gthumb-window.c:6475
+#: src/gthumb-window.c:6481
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Incapaz de ler pasta \"%s\": %s\n"
 
-#: src/gthumb-window.c:6744
+#: src/gthumb-window.c:6750
 msgid "The specified catalog does not exist."
 msgstr "O catálogo especificado não existe."
 
-#: src/gthumb-window.c:8090
+#: src/gthumb-window.c:8120
 msgid "Wait please..."
 msgstr "Aguarde..."
 
@@ -2056,6 +2060,112 @@ msgstr "_Remover"
 #: src/gthumb.glade.h:35
 msgid "_Save the new image as:"
 msgstr "_Gravar a nova imagem como:"
+
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Imagens maiores do que este valor (em bytes) não serão amostradas. Utilize 0 "
+"se desejar criar amostras para todas as imagens."
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Valores possíveis são: 1, 2, 3, 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Valores possíveis são: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Valores possíveis são: ascending, descending."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Valores possíveis são: forward, backward."
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Valores possíveis são: high, low."
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Valores possíveis são: image, data, comment."
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Valores possíveis são: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Valores possíveis são: light, midtone, dark."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Valores possíveis são: list, thumbnails."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Valores possíveis são: mm, in."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: nautilus, single, double."
+msgstr "Valores possíveis são: nautilus, single, double."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Valores possíveis são: none, deflate, jpeg."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Valores possíveis são: none, name, path, size, time."
+
+#: src/gthumb.schemas.in.h:15
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Valores possíveis são: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: png, jpeg."
+msgstr "Valores possíveis são: png, jpeg."
+
+#: src/gthumb.schemas.in.h:17
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Valores possíveis são: skip, rename, ask, overwrite."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: small, medium, large."
+msgstr "Valores possíveis são: small, medium, large."
+
+#: src/gthumb.schemas.in.h:19
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Valores possíveis são: system, text_below, text_beside, text_only, icons_only."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: white, black, checked, none."
+msgstr "Valores possíveis são: white, black, checked, none."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values: name, path, size, time."
+msgstr "Valores possíveis são: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:22
+msgid "Possible values: name, size, time."
+msgstr "Valores possíveis são: name, size, time."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values: pixels, percentage."
+msgstr "Valores possíveis são: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Se utilizar sempre ou não um fundo preto."
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -2659,11 +2769,11 @@ msgstr "por tamanho"
 msgid "by time"
 msgstr "por data"
 
-#: src/gthumb_png_exporter.glade.h:76
+#: src/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: src/gthumb_png_exporter.glade.h:77
+#: src/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
 
