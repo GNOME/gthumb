@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-07 13:04+0200\n"
-"PO-Revision-Date: 2003-07-07 21:33+0200\n"
+"POT-Creation-Date: 2003-07-21 12:33+0200\n"
+"PO-Revision-Date: 2003-07-21 22:57+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -360,20 +360,20 @@ msgstr "Komentář"
 msgid "Name"
 msgstr "Název"
 
-#: libgthumb/print-callbacks.c:919 libgthumb/print-callbacks.c:1499
+#: libgthumb/print-callbacks.c:921 libgthumb/print-callbacks.c:1500
 #, c-format
 msgid "Print %s"
 msgstr "Tisk %s"
 
-#: libgthumb/print-callbacks.c:922
+#: libgthumb/print-callbacks.c:924
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
-#: libgthumb/thumb-cache.c:409
+#: libgthumb/thumb-cache.c:486
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 
-#: libgthumb/thumb-cache.c:411
+#: libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
@@ -387,28 +387,28 @@ msgstr "Načítám obrázek: %s"
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: src/catalog-web-exporter.c:1444
+#: src/catalog-web-exporter.c:1453
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: src/catalog-web-exporter.c:1512
+#: src/catalog-web-exporter.c:1521
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1598
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1673
+#: src/catalog-web-exporter.c:1682
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: src/catalog-web-exporter.c:1987
+#: src/catalog-web-exporter.c:1996
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2026
+#: src/catalog-web-exporter.c:2035
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -427,9 +427,7 @@ msgstr "_Přejmenovat"
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr ""
-"Název \"%s\" není platný, jelikož obsahuje znak \"/\". Použijte prosím jiný "
-"název."
+msgstr "Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím jiný název."
 
 #: src/commands-impl.c:319 src/dlg-convert.c:313
 msgid "_Overwrite"
@@ -474,7 +472,7 @@ msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Vybrané obrázky budou z katalogu odstraněny, jste si jisti?"
 
 #: src/commands-impl.c:903 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:190 src/dlg-file-utils.c:89
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:89
 msgid "C_reate"
 msgstr "_Vytvořit"
 
@@ -588,7 +586,7 @@ msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2752 src/dlg-categories.c:321 src/dlg-comment.c:327
+#: src/commands-impl.c:2752 src/dlg-categories.c:337 src/dlg-comment.c:327
 #: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:450
 #, c-format
@@ -599,9 +597,9 @@ msgstr "Nelze zobrazit nápovědu: %s"
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4859
+#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4880
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
-#: src/main.c:122
+#: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -613,11 +611,18 @@ msgstr "Prohlížeč obrázků pro prostředí GNOME"
 msgid "Move Catalog to..."
 msgstr "Přesunout katalog do..."
 
-#: src/dlg-categories.c:186
+#: src/dlg-categories.c:196
 msgid "Enter the new category name"
 msgstr "Zadejte název nové kategorie"
 
-#: src/dlg-categories.c:197
+#: src/dlg-categories.c:207
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr "Název \"%s\" není platný, protože obsahuje znak \",\". Použijte prosím jiný název."
+
+#: src/dlg-categories.c:212
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
@@ -765,13 +770,13 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5308
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5329
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5318 src/gthumb.glade.h:25
-msgid "Value"
-msgstr "Hodnota"
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5339
+msgid "Value "
+msgstr "Hodnota "
 
 #: src/dlg-image-prop.c:991
 #, c-format
@@ -834,7 +839,7 @@ msgstr "Obnovit normální pohled"
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4252
+#: src/fullscreen.c:818 src/gthumb-window.c:4273
 msgid "Back"
 msgstr "Zpět"
 
@@ -1877,36 +1882,36 @@ msgstr "1 vybraný (%s)"
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:3360
+#: src/gthumb-window.c:3379
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3556
+#: src/gthumb-window.c:3575
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5189
+#: src/gthumb-window.c:5210
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5203
+#: src/gthumb-window.c:5224
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5217
+#: src/gthumb-window.c:5238
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6449
+#: src/gthumb-window.c:6468
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6718
+#: src/gthumb-window.c:6737
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8064
+#: src/gthumb-window.c:8083
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2008,6 +2013,10 @@ msgstr "N_edávné aplikace:"
 #: src/gthumb.glade.h:24
 msgid "Red"
 msgstr "Červená"
+
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Hodnota"
 
 #: src/gthumb.glade.h:26
 msgid "_Application:"
@@ -3356,63 +3365,63 @@ msgstr "podle času změny"
 msgid "index.html"
 msgstr "index.html"
 
-#: src/main.c:78
+#: src/main.c:80
 msgid "Start in fullscreen mode"
 msgstr "Začít v celoobrazovkovém režimu"
 
-#: src/main.c:82
+#: src/main.c:84
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít s promítáním snímků"
 
-#: src/main.c:161
+#: src/main.c:163
 msgid "Holidays"
 msgstr "Dovolená"
 
-#: src/main.c:162
+#: src/main.c:164
 msgid "Temporary"
 msgstr "Dočasné"
 
-#: src/main.c:163
+#: src/main.c:165
 msgid "Screenshots"
 msgstr "Sejmuté obrazovky"
 
-#: src/main.c:164
+#: src/main.c:166
 msgid "Science"
 msgstr "Věda"
 
-#: src/main.c:165
+#: src/main.c:167
 msgid "Favourite"
 msgstr "Oblíbené"
 
-#: src/main.c:166
+#: src/main.c:168
 msgid "Important"
 msgstr "Důležité"
 
-#: src/main.c:167
+#: src/main.c:169
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:168
+#: src/main.c:170
 msgid "Games"
 msgstr "Hry"
 
-#: src/main.c:169
+#: src/main.c:171
 msgid "Party"
 msgstr "Večírek"
 
-#: src/main.c:170
+#: src/main.c:172
 msgid "Birthday"
 msgstr "Narozeniny"
 
-#: src/main.c:171
+#: src/main.c:173
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: src/main.c:172
+#: src/main.c:174
 msgid "Family"
 msgstr "Rodina"
 
-#: src/main.c:308 src/main.c:374
+#: src/main.c:311 src/main.c:393
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
