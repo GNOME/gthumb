@@ -1,3 +1,16 @@
+version 2.3.1
+-------------
+	* Fix bug #130473 ("add comment" dialog uses ctime instead of mtime).
+	* Fix bug #130382 (gthumb keyboard usability issue).
+	* Fix bug #112254 (Needs Randomize Option on Slide Show).
+	* Fix bug #130823 (gthumb does not maintain permissions on files).
+	* Fix bug #130824 (gthumb does not complain about lack of permissions).
+	* Fix bug #130829 (gthumb ignores current directory when starting).
+	* Fix bug #131852 (Moving images via drag-and-drop no longer works).
+	* Fix bug #131853 (Changing folders produces flicker in image viewer).
+	* Fix thumbnail creation for jpeg images.
+	* Fix drag and drop.
+
 version 2.3.0
 -------------
 	* Added photo importer tool.

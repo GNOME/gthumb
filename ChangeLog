@@ -1,3 +1,33 @@
+2004-01-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_update_statusbar_image_info): 
+
+	s/filename/path/
+
+	* src/dlg-search.c (file_respects_search_criteria): 
+
+	Fix bug #109016 (Searches should match directories too).
+
+2004-01-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_update_statusbar_image_info): 
+
+	Fix bug #112254 (status line shoudl use date from comment rather 
+	than mtime).
+
+	* src/dlg-file-utils.c (folder_copy): 
+
+	Delete the comment cache before copying the folder.
+
+	* data/glade/gthumb_comments.glade: 
+	* src/dlg-comment.c: 
+
+	Fix bug #130473 ("add comment" dialog uses ctime instead of mtime).
+
+	* src/gthumb-window.c (key_press_cb): 
+
+	Fix bug #130382 (gthumb keyboard usability issue).
+
 2004-01-22  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-preferences.c (apply_cb): 

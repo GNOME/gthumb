@@ -63,6 +63,7 @@
 #include "nav-window.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
+#include "exif-utils.h"
 
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
@@ -370,7 +371,7 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	char        *file_size_txt;
 	const char  *path;
 	int          width, height;
-	time_t       timer;
+	time_t       timer = 0;
 	struct tm   *tm;
 	gdouble      sec;
 
@@ -396,8 +397,12 @@ window_update_statusbar_image_info (GThumbWindow *window)
 		width = 0;
 		height = 0;
 	}
-	
-	timer = get_file_mtime (path);
+
+#ifdef HAVE_LIBEXIF
+	timer = get_exif_time (path);
+#endif
+	if (timer == 0)
+		timer = get_file_mtime (path);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
@@ -2862,6 +2867,11 @@ key_press_cb (GtkWidget   *widget,
 		edit_edit_categories_command_impl (NULL, window, NULL);
 		return TRUE;
 
+	case GDK_Escape:
+		if (window->image_pane_visible)
+			window_hide_image_pane (window);
+		return TRUE;
+
 	default:
 		break;
 	}
@@ -3409,9 +3419,11 @@ image_list_drag_data_received  (GtkWidget          *widget,
 {
 	GThumbWindow *window = extra_data;
 	char         *dest_dir = NULL;
-	
+
 	if (! ((data->length >= 0) && (data->format == 8))
-	    || (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)) {
+	    || (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
+	    || ((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
+	    || ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE)) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}
@@ -3426,7 +3438,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 		dlg_copy_items (window, 
 				list,
 				dest_dir,
-				TRUE,
+				((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
 				TRUE,
 				move_items__continue,
 				window);
@@ -3454,7 +3466,10 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 
 	debug (DEBUG_INFO, "DirList::DragDataReceived");
 
-	if (! ((data->length >= 0) && (data->format == 8))) {
+	if ((data->length < 0) 
+	    || (data->format != 8)
+	    || ((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
+	    || ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE)) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}
@@ -3494,7 +3509,7 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 		dlg_copy_items (window, 
 				list,
 				dest_dir,
-				TRUE,
+				((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
 				TRUE,
 				move_items__continue,
 				window);
@@ -3611,6 +3626,18 @@ dir_list_drag_begin (GtkWidget          *widget,
 		return;
 
 	dir_list_drag_data = dir_list_get_path_from_iter (window->dir_list, &iter);
+}
+
+
+static void
+dir_list_drag_end (GtkWidget          *widget,
+		   GdkDragContext     *context,
+		   gpointer            extra_data)
+{	
+	if (dir_list_drag_data != NULL) {
+		g_free (dir_list_drag_data);
+		dir_list_drag_data = NULL;
+	}
 }
 
 
@@ -4945,6 +4972,10 @@ window_new (void)
 			  "drag_begin",
 			  G_CALLBACK (dir_list_drag_begin), 
 			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
+			  "drag_end",
+			  G_CALLBACK (dir_list_drag_end), 
+			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
 			  "drag_motion",
 			  G_CALLBACK (dir_list_drag_motion), 
@@ -5841,6 +5872,11 @@ close__step6 (char     *filename,
 	if (gth_file_list_drag_data != NULL) {
 		path_list_free (gth_file_list_drag_data);
 		gth_file_list_drag_data = NULL;
+	}
+
+	if (dir_list_drag_data != NULL) {
+		g_free (dir_list_drag_data);
+		dir_list_drag_data = NULL;
 	}
 
 	if (window->slideshow_set != NULL)

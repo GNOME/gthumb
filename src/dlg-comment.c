@@ -45,8 +45,10 @@ enum {
 	NO_DATE = 0,
 	FOLLOWING_DATE,
 	CURRENT_DATE,
+	EXIF_DATE,
+	LAST_MODIFIED_DATE,
 	IMAGE_CREATION_DATE,
-	EXIF_DATE
+	N_DATE_OPTIONS
 };
 
 
@@ -133,13 +135,16 @@ get_requested_time (DialogData *data,
 	case CURRENT_DATE:
 		t = time (NULL);
 		break;
-	case IMAGE_CREATION_DATE:
-		t = get_file_ctime (filename);
-		break;
 	case EXIF_DATE:
 #ifdef HAVE_LIBEXIF
 		t = get_exif_time (filename);
 #endif
+		break;
+	case LAST_MODIFIED_DATE:
+		t = get_file_mtime (filename);
+		break;
+	case IMAGE_CREATION_DATE:
+		t = get_file_ctime (filename);
 		break;
 	}
 
@@ -289,7 +294,6 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 
 	switch (idx) {
 	case NO_DATE:
-		break;
 	case FOLLOWING_DATE:
 		break;
 	case CURRENT_DATE:
@@ -300,6 +304,10 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 	case IMAGE_CREATION_DATE:
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
 					  get_file_ctime (first_image));
+		break;
+	case LAST_MODIFIED_DATE:
+		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
+					  get_file_mtime (first_image));
 		break;
 	case EXIF_DATE:
 #ifdef HAVE_LIBEXIF
