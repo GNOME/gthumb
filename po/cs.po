@@ -6,8 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-05-26 04:29+0200\n"
-"PO-Revision-Date: 2003-05-26 12:19+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-14 13:25+0200\n"
+"PO-Revision-Date: 2003-06-14 17:02+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +176,7 @@ msgstr "Kvalita _zvětšení"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
 #, c-format
 msgid "%d x %d pixels"
@@ -213,24 +214,24 @@ msgstr "Nelze otevřít katalog \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Nelze uložit katalog \"%s\": %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
 msgstr "Odstraňují se všechny komentáře, prosím počkejte..."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
 msgstr "Odstraňují se staré komentáře, prosím počkejte..."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:746
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
+#: libgthumb/comments.c:748 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
 #: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:758
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
@@ -265,6 +266,90 @@ msgstr ""
 "Chyba GConf:\n"
 " %s"
 
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Vložit novou frázi náhledu."
+
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Upravit frázi náhledu..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Náhled"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Upravit frázi náhledu..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Výběr písma"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaÁáBbCcČčDdĎďEéÉéĚěFfGgHhIiÍíJjKkLlMmNnŇňOoÓóPpQqRrŘřSsŠšTtŤťUuÚúŮůVvWwXxYyÝýZzŽž"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Vyberte písmo"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Titulek"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Titulke dialogového okna výběru"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Název písma"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Název vybraného písma"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Text náhledu"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Text náhledu zobrazovaný v dialogu"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Použít písmo v jmenovce"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Použít písmo v jmenovce v režimu informací o písmu"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Velikost písma jmenovky"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Velikost písma jmenovky v režimu informací o písmu"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Zobrazovat velikost"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Zobrazovat velikost v režimu informací o písmu"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Písmo"
+
 #: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
@@ -276,18 +361,18 @@ msgid "Name"
 msgstr "Název"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2824 src/gthumb-window.c:808
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2812 src/gthumb-window.c:808
 #: src/gthumb-window.c:4843 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:32 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
+#: libgthumb/print-callbacks.c:917 libgthumb/print-callbacks.c:1497
 #, c-format
 msgid "Print %s"
 msgstr "Tisk %s"
 
-#: libgthumb/print-callbacks.c:786
+#: libgthumb/print-callbacks.c:920
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
@@ -299,12 +384,12 @@ msgstr "Odstraňují se všechny miniatury, prosím počkejte..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňují se staré miniatury, prosím počkejte..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítá se obrázek: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Vytváří se obrázek: %s.%s"
@@ -510,18 +595,18 @@ msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2764 src/dlg-categories.c:321 src/dlg-comment.c:244
+#: src/commands-impl.c:2752 src/dlg-categories.c:321 src/dlg-comment.c:327
 #: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
 
-#: src/commands-impl.c:2815
+#: src/commands-impl.c:2803
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2827
+#: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
@@ -1115,7 +1200,7 @@ msgstr "Přehrát _animaci"
 msgid "Previous"
 msgstr "Předchozí"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
 msgstr "Tisk"
 
@@ -1826,17 +1911,18 @@ msgstr "Zadaný katalog neexistuje."
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1960,11 +2046,6 @@ msgstr "_Odstranit"
 msgid "_Save the new image as:"
 msgstr "_Uložit nový obrázek jako: "
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
-#: src/gthumb_search.glade.h:2
-msgid "..."
-msgstr "..."
-
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "_Dostupné kategorie:"
@@ -1985,39 +2066,67 @@ msgstr "Ko_mentář:"
 msgid "Create a new category"
 msgstr "Vytvořit novou kategorii"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Dnešní datum"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Datum vytvoření ob_rázku"
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Datum vytvoření obrázku"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Žádné datum"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Datum digitalizace _fotografie (z dat EXIF)"
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Datum digitalizace fotografie (z dat EXIF)"
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr "Odstranit vybranou kategorii"
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr "Uložit pouze změ_něná pole"
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "_Následující datum:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "Následující datum"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Datum:"
 
-#: src/gthumb_comments.glade.h:15
+#: src/gthumb_comments.glade.h:21
 msgid "_Delete"
 msgstr "O_dstranit"
 
-#: src/gthumb_comments.glade.h:16
+#: src/gthumb_comments.glade.h:22
 msgid "_New"
 msgstr "_Nový"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Žádné datum"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Umístění:"
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "_Vybrané kategorie:"
 
@@ -2138,8 +2247,8 @@ msgid "dpi"
 msgstr "dpi"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
-#: src/gthumb_tools.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
@@ -2212,7 +2321,7 @@ msgstr "Šířka:"
 msgid "_Brightness:"
 msgstr "_Jas:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "_Výška:"
 
@@ -2252,7 +2361,7 @@ msgstr "_Sytost:"
 msgid "_Scale"
 msgstr "_Zvětšení"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "Šíř_ka:"
 
@@ -2546,94 +2655,6 @@ msgstr "jpeg"
 msgid "png"
 msgstr "png"
 
-#: src/gthumb_web_exporter.glade.h:5
-msgid "1024 x 768"
-msgstr "1024 × 768"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "1280 x 960"
-msgstr "1280 × 960"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "320 x 200"
-msgstr "320 × 200"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "640 x 480"
-msgstr "640 × 480"
-
-#: src/gthumb_web_exporter.glade.h:9
-msgid "800 x 600"
-msgstr "800 × 600"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "<b>Album</b>"
-msgstr "<b>Album</b>"
-
-#: src/gthumb_web_exporter.glade.h:11
-msgid "<b>Index Layout</b>"
-msgstr "<b>Rozložení indexu</b>"
-
-#: src/gthumb_web_exporter.glade.h:12
-msgid "<b>Saving</b>"
-msgstr "<b>Ukládání</b>"
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "<b>Theme</b>"
-msgstr "<b>Téma</b>"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Inde_x file:"
-msgstr "Soubor s inde_xem:"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "Resi_ze images if larger than:"
-msgstr "Z_menšit obrázky, pokud jsou větší než:"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "Sor_t:"
-msgstr "_Třídění:"
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "Th_eme:"
-msgstr "_Téma:"
-
-#: src/gthumb_web_exporter.glade.h:20
-msgid "Web Album"
-msgstr "Webové album"
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "Web Album Theme"
-msgstr "Téma webového alba"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "_Copy images to destination"
-msgstr "_Kopírovat obrázky do cíle"
-
-#: src/gthumb_web_exporter.glade.h:23
-msgid "_Destination:"
-msgstr "_Cíl:"
-
-#: src/gthumb_web_exporter.glade.h:24
-msgid "_Go to Theme Folder"
-msgstr "Pře_jít do adresáře témat"
-
-#: src/gthumb_web_exporter.glade.h:25
-msgid "_Install Theme..."
-msgstr "Na_instalovat téma..."
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "_Title:"
-msgstr "_Titulek:"
-
-#: src/gthumb_web_exporter.glade.h:28
-msgid "by modified time"
-msgstr "podle času změny"
-
-#: src/gthumb_web_exporter.glade.h:33
-msgid "index.html"
-msgstr "index.html"
-
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 × 112"
@@ -2883,14 +2904,18 @@ msgid "seconds"
 msgstr "sekund(y)"
 
 #: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Obrázek</b>"
+
+#: src/gthumb_print.glade.h:5
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientace</b>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:6
 msgid "<b>Size</b>"
 msgstr "<b>Velikost</b>"
 
-#: src/gthumb_print.glade.h:6
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2898,33 +2923,29 @@ msgstr ""
 "<i>Táhnutím můžete obrázek\n"
 "přesunovat na stránce.</i>"
 
-#: src/gthumb_print.glade.h:8
-msgid "A_3 (297 x 420 mm)"
-msgstr "A_3 (297 × 420 mm)"
-
 #: src/gthumb_print.glade.h:9
-msgid "A_4 (210 x 297 mm)"
-msgstr "A_4 (210 × 297 mm)"
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "A_5 (148 x 210 mm)"
-msgstr "A_5 (148 × 210 mm)"
+msgid "C_ustom:"
+msgstr "_Vlastní:"
 
 #: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Centr_ovat na stránce"
 
 #: src/gthumb_print.glade.h:12
-msgid "E_xecutive (190 x 254 mm)"
-msgstr "E_xecutive (190 × 254 mm)"
+msgid "Comment _font:"
+msgstr "_Písmo komentáře:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
 msgstr "Za_hrnout komentář"
 
 #: src/gthumb_print.glade.h:14
-msgid "L_egal (216 x 356 mm)"
-msgstr "L_egal (216 × 356 mm)"
+msgid "Inches"
+msgstr "Palce"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
@@ -2935,20 +2956,36 @@ msgid "Layout"
 msgstr "Rozvržení"
 
 #: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Milimetry"
+
+#: src/gthumb_print.glade.h:18
 msgid "P_ortrait"
 msgstr "Na _výšku"
 
-#: src/gthumb_print.glade.h:18
+#: src/gthumb_print.glade.h:19
 msgid "Paper Details"
 msgstr "Detaily papíru"
 
-#: src/gthumb_print.glade.h:20
-msgid "_Letter (216 x 279 mm)"
-msgstr "_Letter (216 × 279 mm)"
-
 #: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
 msgstr "_Zvětšení:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -3154,10 +3191,6 @@ msgstr "Otočit obrázek o 90° proti směru hodinových ručiček"
 msgid "Search terminated, no duplicates found."
 msgstr "Hledání ukončeno, nebyly nalezeny žádné duplikáty."
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "_Následující datum:"
-
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
@@ -3183,6 +3216,94 @@ msgstr "podle názvu"
 #: src/gthumb_tools.glade.h:51
 msgid "by Size"
 msgstr "podle velikosti"
+
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 × 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 × 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 × 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 × 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 × 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Rozložení indexu</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Saving</b>"
+msgstr "<b>Ukládání</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Theme</b>"
+msgstr "<b>Téma</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "Inde_x file:"
+msgstr "Soubor s inde_xem:"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Resi_ze images if larger than:"
+msgstr "Z_menšit obrázky, pokud jsou větší než:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "Sor_t:"
+msgstr "_Třídění:"
+
+#: src/gthumb_web_exporter.glade.h:19
+msgid "Th_eme:"
+msgstr "_Téma:"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "Web Album"
+msgstr "Webové album"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Web Album Theme"
+msgstr "Téma webového alba"
+
+#: src/gthumb_web_exporter.glade.h:22
+msgid "_Copy images to destination"
+msgstr "_Kopírovat obrázky do cíle"
+
+#: src/gthumb_web_exporter.glade.h:23
+msgid "_Destination:"
+msgstr "_Cíl:"
+
+#: src/gthumb_web_exporter.glade.h:24
+msgid "_Go to Theme Folder"
+msgstr "Pře_jít do adresáře témat"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "_Install Theme..."
+msgstr "Na_instalovat téma..."
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "_Title:"
+msgstr "_Titulek:"
+
+#: src/gthumb_web_exporter.glade.h:28
+msgid "by modified time"
+msgstr "podle času změny"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "index.html"
+msgstr "index.html"
 
 #: src/main.c:78
 msgid "Start in fullscreen mode"
@@ -3243,3 +3364,21 @@ msgstr "Rodina"
 #: src/main.c:308 src/main.c:374
 msgid "Command Line"
 msgstr "Příkazový řádek"
+
+#~ msgid "A_3 (297 x 420 mm)"
+#~ msgstr "A_3 (297 × 420 mm)"
+
+#~ msgid "A_4 (210 x 297 mm)"
+#~ msgstr "A_4 (210 × 297 mm)"
+
+#~ msgid "A_5 (148 x 210 mm)"
+#~ msgstr "A_5 (148 × 210 mm)"
+
+#~ msgid "E_xecutive (190 x 254 mm)"
+#~ msgstr "E_xecutive (190 × 254 mm)"
+
+#~ msgid "L_egal (216 x 356 mm)"
+#~ msgstr "L_egal (216 × 356 mm)"
+
+#~ msgid "_Letter (216 x 279 mm)"
+#~ msgstr "_Letter (216 × 279 mm)"
