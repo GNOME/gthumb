@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -152,8 +152,6 @@ update_rotation_from_exif_data (DialogData *data)
 	FileData *fd = data->current_image->data;
 	char     *value = get_exif_tag (fd->path, EXIF_TAG_ORIENTATION);
 
-	g_print ("update_rotation_from_exif_data [0]\n");
-
 	if (value != NULL) {
 		if (strcmp (value, "top - left") == 0) {
 			data->rot_type = TRAN_ROTATE_0;
@@ -168,16 +166,16 @@ update_rotation_from_exif_data (DialogData *data)
 			data->rot_type = TRAN_ROTATE_180;
 			data->tran_type = TRAN_MIRROR;
 		} else if (strcmp (value, "left - top") == 0) {
-			data->rot_type = TRAN_ROTATE_270;
-			data->tran_type = TRAN_FLIP;
+			data->rot_type = TRAN_ROTATE_90;
+			data->tran_type = TRAN_MIRROR;
 		} else if (strcmp (value, "right - top") == 0) {
-			data->rot_type = TRAN_ROTATE_270;
+			data->rot_type = TRAN_ROTATE_90;
 			data->tran_type = TRAN_NONE;
 		} else if (strcmp (value, "right - bottom") == 0) {
 			data->rot_type = TRAN_ROTATE_90;
 			data->tran_type = TRAN_FLIP;
 		} else if (strcmp (value, "left - bottom") == 0) {
-			data->rot_type = TRAN_ROTATE_90;
+			data->rot_type = TRAN_ROTATE_270;
 			data->tran_type = TRAN_NONE;
 		} else {
 			data->rot_type = TRAN_ROTATE_0;
@@ -200,13 +198,9 @@ update_from_exif_data (DialogData *data)
 	from_exif = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton));
 	gtk_widget_set_sensitive (data->j_button_box, !from_exif);
 
-	g_print ("update_from_exif_data [0]\n");
-	
 	if (! from_exif)
 		return;
 	
-	g_print ("update_from_exif_data [1]\n");
-
 	update_rotation_from_exif_data (data);
 
 	src_pixbuf = data->original_preview;
@@ -304,8 +298,6 @@ load_current_image (DialogData *data)
 
 	data->rot_type = TRAN_ROTATE_0;
 	data->tran_type = TRAN_NONE;
-
-	g_print ("load_current_image [0]\n");
 }
 
 
@@ -361,26 +353,26 @@ swap_fields (ExifContent *content,
 }
 
 
-static int
+static ExifShort
 get_next_value_rotation_90 (int value)
 {
-	static int new_value [8] = {8, 7, 6, 5, 2, 1, 4, 3};
+	static ExifShort new_value [8] = {8, 7, 6, 5, 2, 1, 4, 3};
 	return new_value[value - 1];
 }
 
 
-static int
+static ExifShort
 get_next_value_mirror (int value)
 {
-	static int new_value [8] = {2, 1, 4, 3, 8, 7, 6, 5};
+	static ExifShort new_value [8] = {2, 1, 4, 3, 8, 7, 6, 5};
 	return new_value[value - 1];
 }
 
 
-static int
+static ExifShort
 get_next_value_flip (int value)
 {
-	static int new_value [8] = {4, 3, 2, 1, 6, 5, 8, 7};
+	static ExifShort new_value [8] = {4, 3, 2, 1, 6, 5, 8, 7};
 	return new_value[value - 1];
 }
 
@@ -388,6 +380,54 @@ get_next_value_flip (int value)
 static void
 swap_xy_exif_fields (const char *filename,
 		     DialogData *data)
+{
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
+
+	jdata = jpeg_data_new_from_file (filename);
+	if (jdata == NULL)
+		return;
+
+	edata = jpeg_data_get_exif_data (jdata);
+	if (edata == NULL) {
+		jpeg_data_unref (jdata);
+		return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+		
+		swap_fields (content, 
+			     EXIF_TAG_RELATED_IMAGE_WIDTH,
+			     EXIF_TAG_RELATED_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_IMAGE_WIDTH,
+			     EXIF_TAG_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_PIXEL_X_DIMENSION,
+			     EXIF_TAG_PIXEL_Y_DIMENSION);
+		swap_fields (content, 
+			     EXIF_TAG_X_RESOLUTION,
+			     EXIF_TAG_Y_RESOLUTION);
+		swap_fields (content, 
+			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
+	}
+
+	jpeg_data_save_file (jdata, filename);
+
+	exif_data_unref (edata);
+	jpeg_data_unref (jdata);
+}
+
+
+static void
+update_orientation_field (const char *filename,
+			  DialogData *data)
 {
 	JPEGData     *jdata;
 	ExifData     *edata;
@@ -410,22 +450,6 @@ swap_xy_exif_fields (const char *filename,
 
 		if ((content == NULL) || (content->count == 0)) 
 			continue;
-		
-		swap_fields (content, 
-			     EXIF_TAG_RELATED_IMAGE_WIDTH,
-			     EXIF_TAG_RELATED_IMAGE_LENGTH);
-		swap_fields (content, 
-			     EXIF_TAG_IMAGE_WIDTH,
-			     EXIF_TAG_IMAGE_LENGTH);
-		swap_fields (content, 
-			     EXIF_TAG_PIXEL_X_DIMENSION,
-			     EXIF_TAG_PIXEL_Y_DIMENSION);
-		swap_fields (content, 
-			     EXIF_TAG_X_RESOLUTION,
-			     EXIF_TAG_Y_RESOLUTION);
-		swap_fields (content, 
-			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
-			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
 
 		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
 		if (!orientation_changed && (entry != NULL)) {
@@ -434,8 +458,6 @@ swap_xy_exif_fields (const char *filename,
 
 			byte_order = exif_data_get_byte_order (edata);
 			value = exif_get_short (entry->data, byte_order);
-
-			g_print ("OLD ORIENTATION: %d\n", value);
 
 			switch (data->rot_type) {
 			case TRAN_ROTATE_90:
@@ -464,8 +486,6 @@ swap_xy_exif_fields (const char *filename,
 			default:
 				break;
 			}
-
-			g_print ("NEW ORIENTATION: %d\n", value);
 
 			exif_set_short (entry->data, byte_order, value);
 
@@ -502,15 +522,8 @@ apply_tranformation_jpeg (DialogData *data,
 #endif
 	char       *e1, *e2;
 
-	g_print ("[0]\n");
-
-	g_print ("rot: %d\n", data->rot_type);
-	g_print ("tran: %d\n", data->tran_type);
-
 	if ((rot_type == TRAN_ROTATE_0) && (tran_type == TRAN_NONE))
 		return;
-
-	g_print ("[1]\n");
 
 	if (rot_type == TRAN_ROTATE_0)
 		tmp1 = g_strdup (fd->path);
@@ -650,6 +663,7 @@ apply_tranformation_jpeg (DialogData *data,
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == TRAN_ROTATE_90) || (rot_type == TRAN_ROTATE_270))
 			swap_xy_exif_fields (fd->path, data);
+		update_orientation_field (fd->path, data);
 #endif
 
 		data->files_changed_list = g_list_prepend (data->files_changed_list, 
@@ -848,8 +862,6 @@ revert_clicked (GtkWidget  *button,
 	data->rot_type = TRAN_ROTATE_0;
 	data->tran_type = TRAN_NONE;
 
-	g_print ("revert_clicked [0]");
-
 	if (data->original_preview != NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), data->original_preview);
 }
@@ -862,8 +874,6 @@ rot90_clicked (GtkWidget  *button,
 	GdkPixbuf *src_pixbuf;
 	GdkPixbuf *dest_pixbuf;
 
-	g_print ("rot90\n");
-
 	if (data->tran_type == TRAN_NONE)
 		data->rot_type = get_next_rot (data->rot_type);
 	else {
@@ -871,9 +881,6 @@ rot90_clicked (GtkWidget  *button,
 		data->rot_type = get_next_rot (data->rot_type);
 		data->rot_type = get_next_rot (data->rot_type);
 	}
-
-	g_print ("rot: %d\n", data->rot_type);
-	g_print ("tran: %d\n", data->tran_type);
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
