@@ -4,6 +4,8 @@
 	
 2002-11-14  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/Makefile.am (DIST_SUBDIRS): add jpegutils to DIST_SUBDIRS
+	
 	* src/gthumb-window.c (pref_show_thumbnails_changed): use window
 	not window->file_list.
 

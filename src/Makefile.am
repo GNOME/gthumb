@@ -1,5 +1,5 @@
 SUBDIRS = icons jpegutils
-DIST_SUBDIRS = icons 
+DIST_SUBDIRS = icons jpegutils 
 
 glade_DATA = 				\
 	gthumb.glade 			\
