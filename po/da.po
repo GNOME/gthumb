@@ -1,11 +1,14 @@
 # Danish messages for gThumb.
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Keld Simonsen <keld@dkuug.dk>, 2002.
+#
+# Review 2003-02-03 by Ole Laursen
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 0.13\n"
 "POT-Creation-Date: 2003-01-19 04:10+0100\n"
-"PO-Revision-Date: 2003-02-02 12:05+0100\n"
+"PO-Revision-Date: 2003-02-04 09:05+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +25,7 @@ msgstr "GThumb-albumvisning"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr "Vis som album"
+msgstr "Vís som album"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
@@ -42,11 +45,11 @@ msgstr "GThumb-billede"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "Gthumb-viser"
+msgstr "Gthumb-fremviser"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr "Vis med GThumb"
+msgstr "Vís med GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
@@ -110,12 +113,12 @@ msgstr "Start/stop _animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
 msgid "Transparency T_ype"
-msgstr "_Transparenstype"
+msgstr "_Gennemsigtighedstype"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 #: src/gthumb-ui.xml.h:153
 msgid "View next animation frame"
-msgstr "Vis næste billede i animering"
+msgstr "Vís næste billede i animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 #: src/gthumb-ui.xml.h:180
@@ -125,7 +128,7 @@ msgstr "_Sort"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 #: src/gthumb-ui.xml.h:185
 msgid "_Checked"
-msgstr "_Afkrydset"
+msgstr "_Ternet"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: src/gthumb-ui.xml.h:198
@@ -194,16 +197,16 @@ msgstr "%d × %d billedpunkter"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr "Vis og organisér dine billeder"
+msgstr "Vís og organisér dine billeder"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr "Billedviseren gThumb"
+msgstr "gThumb - billedfremviseren"
 
 #: libgthumb/catalog-png-exporter.c:1295
 #, c-format
 msgid "Loading image: %s"
-msgstr "Indlæser billede: %s"
+msgstr "Læser it billede: %s"
 
 #: libgthumb/catalog-png-exporter.c:1487
 #, c-format
@@ -225,7 +228,7 @@ msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Kan ikke fjerne albummet \"%s\": %s"
 
 #: libgthumb/catalog.c:246 libgthumb/catalog.c:414
-#, c-format
+#, , c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Kan ikke åbne albummet \"%s\": %s"
 
@@ -489,7 +492,7 @@ msgstr "Copyright © 2001 Free Software Foundation, Inc."
 
 #: src/commands-impl.c:2746
 msgid "An image viewer and browser for GNOME."
-msgstr "En billedviser og bladrer for GNOME."
+msgstr "En billedfremviser og -bladrer for GNOME."
 
 #: src/dlg-catalog.c:435
 msgid "Move Catalog to..."
@@ -754,7 +757,7 @@ msgstr "Justér farvebalance"
 
 #: src/gthumb-ui.xml.h:9
 msgid "Adjust hue and saturation"
-msgstr "Justér glød og mætning"
+msgstr "Justér farvetone og mætning"
 
 #: src/gthumb-ui.xml.h:10
 msgid "Assign categories to selected images"
@@ -966,7 +969,7 @@ msgstr "Flyt valgt album til et andet sted"
 
 #: src/gthumb-ui.xml.h:62
 msgid "Move selected folder"
-msgstr "Flyt aktuel mappe"
+msgstr "Flyt valgte mappe"
 
 #: src/gthumb-ui.xml.h:63
 msgid "Move selected images to another location"
@@ -1040,7 +1043,7 @@ msgstr "Ud"
 
 #: src/gthumb-ui.xml.h:81
 msgid "Play _Animation"
-msgstr "Spil _animering"
+msgstr "Afspil _animering"
 
 #: src/gthumb-ui.xml.h:82
 msgid "Previous"
@@ -1148,11 +1151,11 @@ msgstr "Genskab oprindeligt baggrundstapet"
 
 #: src/gthumb-ui.xml.h:110
 msgid "Reverse images order"
-msgstr "Omvendt billedordning"
+msgstr "Omvendt billedrækkefølge"
 
 #: src/gthumb-ui.xml.h:111
 msgid "Revert"
-msgstr "Gå tilbage"
+msgstr "Forkast"
 
 #: src/gthumb-ui.xml.h:112
 msgid "Revert to saved image"
@@ -1217,7 +1220,7 @@ msgstr "Brug billedet som skrivebordsbaggrund (side ved side)"
 
 #: src/gthumb-ui.xml.h:130
 msgid "Show information about gThumb"
-msgstr "Vis information om gThumb"
+msgstr "Vís information om gThumb"
 
 #: src/gthumb-ui.xml.h:131
 msgid "Show/_Hide"
@@ -1241,7 +1244,7 @@ msgstr "Sortér billeder efter navn"
 
 #: src/gthumb-ui.xml.h:136
 msgid "Sort images by path"
-msgstr "Sortér billeder efter søgesti"
+msgstr "Sortér billeder efter sti"
 
 #: src/gthumb-ui.xml.h:137
 msgid "Specify a location to visit"
@@ -1249,7 +1252,7 @@ msgstr "Angiv et sted at besøge"
 
 #: src/gthumb-ui.xml.h:139
 msgid "Step A_nimation"
-msgstr "Trin ved a_nimering"
+msgstr "Gå igennem a_nimering"
 
 #: src/gthumb-ui.xml.h:140
 msgid "Stop loading current location"
@@ -1261,7 +1264,7 @@ msgstr "Udstr_ukket"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Transparen_cy Type"
-msgstr "T_ransparenstype"
+msgstr "G_ennemsigtighedstype"
 
 #: src/gthumb-ui.xml.h:143
 msgid "Up"
@@ -1269,103 +1272,103 @@ msgstr "Op"
 
 #: src/gthumb-ui.xml.h:144
 msgid "Use black as transparency"
-msgstr "Brug sort som transparens"
+msgstr "Vís gennemsigtighed med sort farve"
 
 #: src/gthumb-ui.xml.h:145
 msgid "Use checks as transparency"
-msgstr "Brug kasser som transparens"
+msgstr "Vís gennemsigtighed ternet"
 
 #: src/gthumb-ui.xml.h:146
 msgid "Use gray as transparency"
-msgstr "Brug gråt som transparens"
+msgstr "Vís gennemsigtighed med grå farve"
 
 #: src/gthumb-ui.xml.h:147
 msgid "Use high quality zoom"
-msgstr "Brug højkvalitativ zoom"
+msgstr "Brug højkvalits zoom"
 
 #: src/gthumb-ui.xml.h:148
 msgid "Use low quality zoom"
-msgstr "Brug lavkvalitativ zoom"
+msgstr "Brug lavkvalits zoom"
 
 #: src/gthumb-ui.xml.h:149
 msgid "Use white as transparency"
-msgstr "Brug hvid som transparens"
+msgstr "Vís gennemsigtighed med hvid farve"
 
 #: src/gthumb-ui.xml.h:150
 msgid "View as a slide show"
-msgstr "Vis som et diasshow"
+msgstr "Vís som et diasshow"
 
 #: src/gthumb-ui.xml.h:151
 msgid "View image in fullscreen mode"
-msgstr "Vis billedet i fuldskærmstilstand"
+msgstr "Vís billedet i fuldskærmstilstand"
 
 #: src/gthumb-ui.xml.h:152
 msgid "View image properties"
-msgstr "Vis billedegenskaber"
+msgstr "Vís billedegenskaber"
 
 #: src/gthumb-ui.xml.h:154
 msgid "View next image"
-msgstr "Vis næste billede"
+msgstr "Vís næste billede"
 
 #: src/gthumb-ui.xml.h:155
 msgid "View or hide the statusbar of this window"
-msgstr "Vis eller skjul statuslinjen for dette vindue"
+msgstr "Vís eller skjul statuslinjen for dette vindue"
 
 #: src/gthumb-ui.xml.h:156
 msgid "View or hide the toolbar of this window"
-msgstr "Vis eller skjul værktøjslinjen for dette vindue"
+msgstr "Vís eller skjul værktøjslinjen for dette vindue"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View previous image"
-msgstr "Vis foregående billede"
+msgstr "Vís foregående billede"
 
 #: src/gthumb-ui.xml.h:158
 msgid "View the catalogs"
-msgstr "Vis albummerne"
+msgstr "Vís albummerne"
 
 #: src/gthumb-ui.xml.h:159
 msgid "View the folders"
-msgstr "Vis mapperne"
+msgstr "Vís mapperne"
 
 #: src/gthumb-ui.xml.h:160
 msgid "View the image"
-msgstr "Vis billedet"
+msgstr "Vís billedet"
 
 #: src/gthumb-ui.xml.h:161
 msgid "View the image flipped"
-msgstr "Vis billedet omvendt"
+msgstr "Vís billedet omvendt"
 
 #: src/gthumb-ui.xml.h:162
 msgid "View the image in black and white"
-msgstr "Vis billedet i sorthvidt"
+msgstr "Vís billedet i sort/hvid"
 
 #: src/gthumb-ui.xml.h:163
 msgid "View the image mirrored"
-msgstr "Vis billedet spejlvendt"
+msgstr "Vís billedet spejlvendt"
 
 #: src/gthumb-ui.xml.h:164
 msgid "View the image rotated clockwise"
-msgstr "Vis billedet roteret med uret"
+msgstr "Vís billedet roteret med uret"
 
 #: src/gthumb-ui.xml.h:165
 msgid "View the image rotated counter-clockwise"
-msgstr "Vis billedet roteret mod uret"
+msgstr "Vís billedet roteret mod uret"
 
 #: src/gthumb-ui.xml.h:166
 msgid "View the image with negative colors"
-msgstr "Vis billedet med negative farver"
+msgstr "Vís billedet med negative farver"
 
 #: src/gthumb-ui.xml.h:167
 msgid "View thumbnails"
-msgstr "Vis miniaturebilleder"
+msgstr "Vís miniaturebilleder"
 
 #: src/gthumb-ui.xml.h:168
 msgid "Zoom _In"
-msgstr "Forstør"
+msgstr "For_stør"
 
 #: src/gthumb-ui.xml.h:169
 msgid "Zoom _Out"
-msgstr "Formindsk"
+msgstr "For_mindsk"
 
 #: src/gthumb-ui.xml.h:170
 msgid "Zoom in"
@@ -1377,11 +1380,11 @@ msgstr "Formindsk"
 
 #: src/gthumb-ui.xml.h:172
 msgid "Zoom to _Fit"
-msgstr "_Tilpas billedet til vinduet"
+msgstr "_Tilpas til vindue"
 
 #: src/gthumb-ui.xml.h:173
 msgid "Zoom to fit window"
-msgstr "Tilpas til vindue"
+msgstr "Tilpas billedet til vinduet"
 
 #: src/gthumb-ui.xml.h:174
 msgid "_About"
@@ -1441,7 +1444,7 @@ msgstr "_Kopiér..."
 
 #: src/gthumb-ui.xml.h:190
 msgid "_Delete History"
-msgstr "_Slet historikken"
+msgstr "_Slet historik"
 
 #: src/gthumb-ui.xml.h:191
 msgid "_Desaturate"
@@ -1453,7 +1456,7 @@ msgstr "_Redigér"
 
 #: src/gthumb-ui.xml.h:193
 msgid "_Edit Bookmarks"
-msgstr "_Redigér bogmærken"
+msgstr "_Redigér bogmærker"
 
 #: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
@@ -1465,7 +1468,7 @@ msgstr "_Udjævn histogram"
 
 #: src/gthumb-ui.xml.h:196
 msgid "_File"
-msgstr "_Arkiv"
+msgstr "_Filer"
 
 #: src/gthumb-ui.xml.h:197
 msgid "_Find..."
@@ -1489,7 +1492,7 @@ msgstr "_Fuldskærmstilstand"
 
 #: src/gthumb-ui.xml.h:203
 msgid "_Go"
-msgstr "_Gå"
+msgstr "_Gå til"
 
 #: src/gthumb-ui.xml.h:204
 msgid "_Go to the Image Folder"
@@ -1509,7 +1512,7 @@ msgstr "_Hjem"
 
 #: src/gthumb-ui.xml.h:208
 msgid "_Hue-Saturation"
-msgstr "_Glød-mætning"
+msgstr "_Farvetone-mætning"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Image preview"
@@ -1517,7 +1520,7 @@ msgstr "_Billedforhåndsgranskning"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Keyboard Shortcuts"
-msgstr "_Tastatursgenveje"
+msgstr "_Tastaturgenveje"
 
 #: src/gthumb-ui.xml.h:212
 msgid "_Location..."
@@ -1553,7 +1556,7 @@ msgstr "_Åbn med"
 
 #: src/gthumb-ui.xml.h:222
 msgid "_Posterize"
-msgstr "_Lav til plakat"
+msgstr "_Posterisér"
 
 #: src/gthumb-ui.xml.h:223 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
@@ -1561,7 +1564,7 @@ msgstr "_Indstillinger"
 
 #: src/gthumb-ui.xml.h:224
 msgid "_Print..."
-msgstr "Skriv _ud..."
+msgstr "_Udskriv..."
 
 #: src/gthumb-ui.xml.h:225
 msgid "_Reduce Colors"
@@ -1593,7 +1596,7 @@ msgstr "_Omvendt rækkefølge"
 
 #: src/gthumb-ui.xml.h:233
 msgid "_Revert"
-msgstr "_Gå tilbage"
+msgstr "_Forkast"
 
 #: src/gthumb-ui.xml.h:234
 msgid "_Rotate"
@@ -1653,7 +1656,7 @@ msgstr "efter _navn"
 
 #: src/gthumb-ui.xml.h:250
 msgid "by _Path"
-msgstr "efter _søgesti"
+msgstr "efter _sti"
 
 #: src/gthumb-ui.xml.h:251
 msgid "by _Size"
@@ -1764,7 +1767,7 @@ msgstr "Vælg et album"
 
 #: src/gthumb.glade.h:13
 msgid "Do not overwrite _the old image"
-msgstr "Overskriv ikke _det gamle billede"
+msgstr "Overskriv ikke det _gamle billede"
 
 #: src/gthumb.glade.h:14
 msgid "Green"
@@ -1800,7 +1803,7 @@ msgstr "Overskriv _alle billeder"
 
 #: src/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
-msgstr "Billed_data (EXIF)"
+msgstr "Foto_data (EXIF)"
 
 #: src/gthumb.glade.h:23
 msgid "R_ecent applications:"
@@ -1916,7 +1919,7 @@ msgstr "Konvertér format"
 
 #: src/gthumb_convert.glade.h:9
 msgid "JPEG Options"
-msgstr "JPEG-alternativer"
+msgstr "JPEG-indstillinger"
 
 #: src/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
@@ -1936,7 +1939,7 @@ msgstr "Overskrivningstilstand:"
 
 #: src/gthumb_convert.glade.h:14
 msgid "PNG Options"
-msgstr "PNG-alternativer"
+msgstr "PNG-indstillinger"
 
 #: src/gthumb_convert.glade.h:15
 msgid "R_emove original"
@@ -1952,11 +1955,11 @@ msgstr "Overspring"
 
 #: src/gthumb_convert.glade.h:18
 msgid "TGA Options"
-msgstr "TGA-alternativer"
+msgstr "TGA-indstillinger"
 
 #: src/gthumb_convert.glade.h:19
 msgid "TIFF Options"
-msgstr "TIFF-alternativer"
+msgstr "TIFF-indstillinger"
 
 #: src/gthumb_convert.glade.h:20
 msgid "T_GA"
@@ -2050,7 +2053,7 @@ msgstr "Kon_trast:"
 
 #: src/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr "Cyan-_Rød:"
+msgstr "Cyan-_rød:"
 
 #: src/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -2062,7 +2065,7 @@ msgstr "Høj _kvalitet"
 
 #: src/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
-msgstr "Glød - mætning"
+msgstr "Farvetone - mætning"
 
 #: src/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -2090,7 +2093,7 @@ msgstr "_Højde:"
 
 #: src/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr "_Glød:"
+msgstr "_Farvetone:"
 
 #: src/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
@@ -2102,11 +2105,11 @@ msgstr "_Niveauer:"
 
 #: src/gthumb_edit.glade.h:25
 msgid "_Lightness:"
-msgstr "_Lyshed:"
+msgstr "_Lysstyrke:"
 
 #: src/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
-msgstr "_Magenta-Grøn:"
+msgstr "_Magenta-grøn:"
 
 #: src/gthumb_edit.glade.h:27
 msgid "_Preview"
@@ -2114,7 +2117,7 @@ msgstr "_Forhåndsgransk"
 
 #: src/gthumb_edit.glade.h:28
 msgid "_Reset"
-msgstr "_Genskab"
+msgstr "_Nulstil"
 
 #: src/gthumb_edit.glade.h:29
 msgid "_Saturation:"
@@ -2130,7 +2133,7 @@ msgstr "_Bredde:"
 
 #: src/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
-msgstr "_Gul-Blå:"
+msgstr "_Gul-blå:"
 
 #: src/gthumb_edit.glade.h:33
 msgid "pixels"
@@ -2246,7 +2249,7 @@ msgstr "Fil_navn"
 
 #: src/gthumb_png_exporter.glade.h:31
 msgid "File pa_th"
-msgstr "Søge_sti til filen"
+msgstr "_Sti til filen"
 
 #: src/gthumb_png_exporter.glade.h:32
 msgid "File si_ze"
@@ -2306,15 +2309,15 @@ msgstr "Vælg en farve"
 
 #: src/gthumb_png_exporter.glade.h:46
 msgid "Shadow in"
-msgstr "Skyg ind"
+msgstr "Skygge indad"
 
 #: src/gthumb_png_exporter.glade.h:47
 msgid "Shadow only"
-msgstr "Skyg kun"
+msgstr "Kun skygge"
 
 #: src/gthumb_png_exporter.glade.h:48
 msgid "Shadow out"
-msgstr "Skyg ud"
+msgstr "Skygge udad"
 
 #: src/gthumb_png_exporter.glade.h:49
 msgid "Simple"
@@ -2349,7 +2352,7 @@ msgstr "Stilforhåndsgranskning"
 msgid "Use #'s to specify positions used by numeric enumerator."
 msgstr ""
 "Brug #'er for at angive positioner som bruges af numerisk "
-"enumerator."
+"tæller."
 
 #: src/gthumb_png_exporter.glade.h:58
 #, no-c-format
@@ -2378,7 +2381,7 @@ msgstr "_Skrifttype:"
 
 #: src/gthumb_png_exporter.glade.h:63
 msgid "_Gradient"
-msgstr "_Farvetoning"
+msgstr "_Farveovergang"
 
 #: src/gthumb_png_exporter.glade.h:65
 msgid "_Image size:"
@@ -2390,7 +2393,7 @@ msgstr "_Linjer:"
 
 #: src/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr "_Helfarvet"
+msgstr "_Ensfarvet"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
@@ -2402,7 +2405,7 @@ msgstr "efter navn"
 
 #: src/gthumb_png_exporter.glade.h:72
 msgid "by path"
-msgstr "efter søgesti"
+msgstr "efter sti"
 
 #: src/gthumb_png_exporter.glade.h:73
 msgid "by size"
@@ -2466,7 +2469,7 @@ msgstr "<b>Retning</b>"
 
 #: src/gthumb_preferences.glade.h:15
 msgid "<b>Hide/Show</b>"
-msgstr "<b>Skjul/Vis</b>"
+msgstr "<b>Skjul/vís</b>"
 
 #: src/gthumb_preferences.glade.h:16
 msgid "<b>History</b>"
@@ -2494,15 +2497,15 @@ msgstr "<b>Miniaturebilleder</b>"
 
 #: src/gthumb_preferences.glade.h:22
 msgid "<b>Viewer</b>"
-msgstr "<b>Viser</b>"
+msgstr "<b>Fremviser</b>"
 
 #: src/gthumb_preferences.glade.h:23
 msgid "Activate items with a double click"
-msgstr "Aktivér objekt med et dobbeltklik"
+msgstr "Aktivér objekter med et dobbeltklik"
 
 #: src/gthumb_preferences.glade.h:24
 msgid "Activate items with a single click"
-msgstr "Aktivér objekt med et enkeltklik"
+msgstr "Aktivér objekter med et enkeltklik"
 
 #: src/gthumb_preferences.glade.h:25
 msgid "After _loading an image:"
@@ -2522,11 +2525,11 @@ msgstr "Netlæser"
 
 #: src/gthumb_preferences.glade.h:29
 msgid "C_lick policy:"
-msgstr "Klik_politik:"
+msgstr "Klik_opførsel:"
 
 #: src/gthumb_preferences.glade.h:30
 msgid "Checked"
-msgstr "Afkrydset"
+msgstr "Ternet"
 
 #: src/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
@@ -2555,7 +2558,7 @@ msgstr "Tilpas billede til vindue hvis det er større"
 
 #: src/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
-msgstr "Følg Nautilus opførsel"
+msgstr "Følg Nautilus' opførsel"
 
 #: src/gthumb_preferences.glade.h:39
 msgid "For_ward"
@@ -2603,16 +2606,16 @@ msgstr "_Lav"
 
 #: src/gthumb_preferences.glade.h:50
 msgid "Max _history length:"
-msgstr "Maxlængde på _historik:"
+msgstr "Maks. længde på _historik:"
 
 #: src/gthumb_preferences.glade.h:51
 msgid "Medium"
-msgstr "Middel"
+msgstr "Mellem"
 
 # Bør komma med ngt bedre.
 #: src/gthumb_preferences.glade.h:52
 msgid "Mid tone"
-msgstr "Middeltoning"
+msgstr "Mellemtoning"
 
 #: src/gthumb_preferences.glade.h:53
 msgid "None"
@@ -2640,15 +2643,15 @@ msgstr "Gør til _aktuel"
 
 #: src/gthumb_preferences.glade.h:59
 msgid "Show _thumbnails"
-msgstr "Vis _miniaturebilleder"
+msgstr "Vís _miniaturebilleder"
 
 #: src/gthumb_preferences.glade.h:60
 msgid "Show co_mments"
-msgstr "Vis _kommentarer"
+msgstr "Vís _kommentarer"
 
 #: src/gthumb_preferences.glade.h:61
 msgid "Show hi_dden images"
-msgstr "Vis _skjulte billeder"
+msgstr "Vís _skjulte billeder"
 
 #: src/gthumb_preferences.glade.h:62
 msgid "Si_ze:"
@@ -2680,7 +2683,7 @@ msgstr "Kun tekst"
 
 #: src/gthumb_preferences.glade.h:70
 msgid "Transparency _type:"
-msgstr "Transparens_type:"
+msgstr "Gennemsigtigheds_type:"
 
 #: src/gthumb_preferences.glade.h:71
 msgid "Viewer"
@@ -2713,7 +2716,7 @@ msgid ""
 "it in the page.</i>"
 msgstr ""
 "<i>Træk billedet for at flytte\n"
-"den på siden.</i>"
+"det på siden.</i>"
 
 #: src/gthumb_print.glade.h:5
 msgid "Center _on Page"
@@ -2737,7 +2740,7 @@ msgstr "Printer"
 
 #: src/gthumb_print.glade.h:13
 msgid "_Scale:"
-msgstr "_Skala:"
+msgstr "_Skalering:"
 
 #: src/gthumb_search.glade.h:3
 msgid "..."
@@ -2781,7 +2784,7 @@ msgstr "Vælg kategorier"
 
 #: src/gthumb_search.glade.h:14
 msgid "Choose categories from the saved list"
-msgstr "Vælg kategorier fra den gemte liste"
+msgstr "Vælg kategorier fra den gemte listexn"
 
 #: src/gthumb_search.glade.h:16
 msgid "Equal to"
@@ -2817,7 +2820,7 @@ msgstr "Søger i:"
 
 #: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
-msgstr "_Inkludér undermapper"
+msgstr "_Medtag undermapper"
 
 #: src/gthumb_search.glade.h:29
 msgid "_Save"
@@ -2881,11 +2884,11 @@ msgstr "Fjern gamle miniaturebilleder"
 
 #: src/gthumb_tools.glade.h:20
 msgid "Delete comments of no more existing images"
-msgstr "Fjern kommentarer til billeder som ikke længere eksisterer"
+msgstr "Fjern kommentarer til billeder som ikke længre eksisterer"
 
 #: src/gthumb_tools.glade.h:21
 msgid "Delete thumbnails of no more existing images"
-msgstr "Fjern miniaturebilleder til billeder som ikke længere eksisterer"
+msgstr "Fjern miniaturebilleder til billeder som ikke længre eksisterer"
 
 #: src/gthumb_tools.glade.h:22
 msgid "Equal images:"
@@ -2921,7 +2924,7 @@ msgstr "_Forhåndsgranskning af nye navne:"
 
 #: src/gthumb_tools.glade.h:33
 msgid "Re_verse Order"
-msgstr "Om_vendt ordnen"
+msgstr "Om_vendt rækkefølge"
 
 #: src/gthumb_tools.glade.h:34
 msgid "Rename Series"
@@ -2933,7 +2936,7 @@ msgstr "Gendan kommentarer fra en sikkerhedskopi"
 
 #: src/gthumb_tools.glade.h:36
 msgid "Revert changes"
-msgstr "Nulstil ændringer"
+msgstr "Forkast ændringer"
 
 #: src/gthumb_tools.glade.h:37
 msgid "Rotate image 90 degrees clockwise"
@@ -2953,7 +2956,7 @@ msgid ""
 "original filename."
 msgstr ""
 "Brug #'er for at angive positioner som skal bruges af numerisk "
-"enumerator. Brug * for at indsætte det oprindelige filnavn."
+"tæller. Brug * for at indsætte det oprindelige filnavn."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
