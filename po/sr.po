@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-05-06 05:25+0200\n"
-"PO-Revision-Date: 2003-05-05 19:18+0100\n"
+"POT-Creation-Date: 2003-08-19 02:28+0200\n"
+"PO-Revision-Date: 2003-08-19 02:27+0200\n"
 "Last-Translator: Dušan Živojnov <calvin@verat.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -72,9 +72,8 @@ msgid "Mirror"
 msgstr "Одраз"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
-#, fuzzy
 msgid "Mirror the image"
-msgstr "Одрази слику"
+msgstr "Направи одраз слике"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:118
@@ -117,37 +116,37 @@ msgid "Transparency T_ype"
 msgstr "Вр_ста провидности"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:158
 msgid "View next animation frame"
 msgstr "Погледај следећи оквир анимације"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:185
 msgid "_Black"
 msgstr "_Црно"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:190
 msgid "_Checked"
 msgstr "_Потврђено"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:204
 msgid "_Flip"
 msgstr "_Преокрени"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:218
+#: src/gthumb-ui.xml.h:215
 msgid "_Image"
 msgstr "_Слика"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:221
 msgid "_Mirror"
 msgstr "_Одраз"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:226
 msgid "_None"
 msgstr "_Ниједнa"
 
@@ -160,13 +159,13 @@ msgid "_Step Animation"
 msgstr "Анимација у _корацима"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:259 src/gthumb_search.glade.h:31
+#: src/gthumb-ui.xml.h:256 src/gthumb_search.glade.h:31
 #: src/gthumb_tools.glade.h:48
 msgid "_View"
-msgstr "_Погледај"
+msgstr "П_реглед"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:260
+#: src/gthumb-ui.xml.h:257
 msgid "_White"
 msgstr "_Бело"
 
@@ -174,15 +173,116 @@ msgstr "_Бело"
 msgid "_Zoom Quality"
 msgstr "_Квалитет увећања"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:526
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
+#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:411
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d тачака"
+
+#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/Classic/image.xml.in.h:2
+#: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/NeatRound/image.xml.in.h:2
+#: data/albumthemes/NeatSquare/image.xml.in.h:2
+msgid "Aperture value"
+msgstr "Величина отвора"
+
+#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/Classic/image.xml.in.h:3
+#: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/NeatRound/image.xml.in.h:3
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:851
+#: src/gthumb-window.c:440
+msgid "Bytes"
+msgstr "Бајтова"
+
+#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/Classic/image.xml.in.h:4
+#: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/NeatRound/image.xml.in.h:4
+#: data/albumthemes/NeatSquare/image.xml.in.h:4
+msgid "Camera model"
+msgstr "Модел камере"
+
+#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/Classic/image.xml.in.h:5
+#: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/NeatRound/image.xml.in.h:5
+#: data/albumthemes/NeatSquare/image.xml.in.h:5
+msgid "Date"
+msgstr "Датум"
+
+#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/Classic/image.xml.in.h:6
+#: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/NeatRound/image.xml.in.h:6
+#: data/albumthemes/NeatSquare/image.xml.in.h:6
+msgid "Dimensions"
+msgstr "Величина"
+
+#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/Classic/image.xml.in.h:7
+#: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/NeatRound/image.xml.in.h:7
+#: data/albumthemes/NeatSquare/image.xml.in.h:7
+msgid "Exposure mode"
+msgstr "Начин експозиције"
+
+#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/Classic/image.xml.in.h:8
+#: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/NeatRound/image.xml.in.h:8
+#: data/albumthemes/NeatSquare/image.xml.in.h:8
+msgid "Exposure time"
+msgstr "Дужина експозиције"
+
+#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/Classic/image.xml.in.h:9
+#: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/NeatRound/image.xml.in.h:9
+#: data/albumthemes/NeatSquare/image.xml.in.h:9
+msgid "Flash"
+msgstr "Блиц"
+
+#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/Classic/image.xml.in.h:10
+#: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/NeatRound/image.xml.in.h:10
+#: data/albumthemes/NeatSquare/image.xml.in.h:10
+msgid "Focal length"
+msgstr "Жижна даљина"
+
+#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/Classic/image.xml.in.h:11
+#: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/NeatRound/image.xml.in.h:11
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:265
+msgid "Image"
+msgstr "Слика"
+
+#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/Classic/image.xml.in.h:12
+#: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/NeatRound/image.xml.in.h:12
+#: data/albumthemes/NeatSquare/image.xml.in.h:12
+msgid "Shutter speed"
+msgstr "Брзина затварача"
+
+#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
+#: src/gthumb_web_exporter.glade.h:53
+msgid "pixels"
+msgstr "тачака"
+
+#: data/albumthemes/Classic/image.xml.in.h:1
+#: data/albumthemes/ClassicClips/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:1
+#: data/albumthemes/NeatSquare/image.xml.in.h:1
+msgid "(click on the image to view it at original size)"
+msgstr "(кликните на слику да је погледате у изворној величини)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
@@ -197,48 +297,49 @@ msgid "Library not empty"
 msgstr "Библиотека није празна"
 
 #: libgthumb/catalog.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "Не могу уклонити библиотеку „%s“: %s"
+msgstr "Не могу да уклоним библиотеку „%s“: %s"
 
 #: libgthumb/catalog.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Не могу уклонити каталог „%s“: %s"
+msgstr "Не могу да уклоним каталог „%s“: %s"
 
-#: libgthumb/catalog.c:246 libgthumb/catalog.c:414
-#, fuzzy, c-format
+#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
+#, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "Не могу отворити каталог „%s“: %s"
+msgstr "Не могу да отворим каталог „%s“: %s"
 
-#: libgthumb/catalog.c:391
-#, fuzzy, c-format
+#: libgthumb/catalog.c:395
+#, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "Не могу сачувати каталог „%s“: %s"
+msgstr "Не могу да сачувам каталог „%s“: %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:410
 msgid "Deleting all comments, wait please..."
 msgstr "Брисање свих предлога, сачекајте..."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:412
 msgid "Deleting old comments, wait please..."
 msgstr "Брисање старих предлога, молим сачекајте..."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:771
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:244 src/gthumb-window.c:406
+#: libgthumb/comments.c:773 src/catalog-web-exporter.c:53
+#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:676 src/fullscreen.c:225
+#: src/gthumb-window.c:408
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:783
 msgid "(No Comment)"
 msgstr "(Без коментара)"
 
-#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:310
-#, fuzzy, c-format
+#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:313 src/dlg-convert.c:307
+#, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Слика са именом „%s“ већ постоји. Желите ли је преснимити?"
 
@@ -248,7 +349,6 @@ msgid "Image type not supported: %s"
 msgstr "Врста слике није подржана: %s"
 
 #: libgthumb/dlg-save-image.c:172
-#, fuzzy
 msgid "Determine by extension"
 msgstr "Одреди по екстензији"
 
@@ -260,292 +360,398 @@ msgstr "Сачувај слику"
 msgid "Image type:"
 msgstr "Врста слике:"
 
-#: libgthumb/gconf-utils.c:98
-#, c-format
-msgid ""
-"GConf error:\n"
-"  %s"
-msgstr ""
-"GConf грешка:\n"
-"  %s"
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Убаци нову фразу за приказ."
 
-#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:25
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Измени фразу за приказ..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Приказ"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Измени фразу за приказ..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Избор фонта"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "АаБбВвГгДдЂђЕеЖжЗзИиЈјКкЛлЉљМмНнЊњОоПпРрСсТтЋћУуФфХхЦцЧчЏџШшDdFfGgQqWwYy"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Изаберите фонт"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Наслов"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Наслов прозорчета за избор"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Име фонта"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Име изабраног фонта"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Текст за приказ"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Текст за приказ који се појављује у прозорчету"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Користи фонт у ознаци"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Користи фонт у ознаци у режиму за приказ података о фонту"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Величина фонта за ознаку"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Величина фонта за ознаку у режиму за приказ података о фонту"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Прикажи величину"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Прикажи величину у режиму за приказ података о фонту"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Фонт"
+
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
-msgstr "Предлог"
+msgstr "Примедба"
 
-#: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:424
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:426
 msgid "Name"
 msgstr "Име"
 
-#: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
-#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
-#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
-msgid "gThumb"
-msgstr "gThumb"
-
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
+#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1504
 #, c-format
 msgid "Print %s"
 msgstr "Штампање %s"
 
-#: libgthumb/print-callbacks.c:786
+#: libgthumb/print-callbacks.c:928
 msgid "Print Image"
 msgstr "Штампање слике"
 
-#: libgthumb/thumb-cache.c:409
+#: libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Брисање свих умањених слика, сачекајте..."
 
-#: libgthumb/thumb-cache.c:411
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Брисање старих умањених слика, сачекајте..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/bookmark-list.c:169 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:358
+#: src/dlg-rename-series.c:362 src/gthumb-window.c:793
+#: src/gthumb-window.c:1537 src/gthumb-window.c:1544 src/gthumb-window.c:1552
+msgid "(Invalid Name)"
+msgstr "(Неисправно име)"
+
+#: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
 msgstr "Учитавање слике: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Стварање слике: %s.%s"
 
-#: src/catalog-web-exporter.c:1102
+#: src/catalog-web-exporter.c:1615
 msgid "Saving thumbnails"
 msgstr "Снимање умањених приказа"
 
-#: src/catalog-web-exporter.c:1170
+#: src/catalog-web-exporter.c:1681
 msgid "Saving HTML pages: Images"
 msgstr "Снимање HTML страница: слике"
 
-#: src/catalog-web-exporter.c:1247
+#: src/catalog-web-exporter.c:1756
 msgid "Saving HTML pages: Indexes"
 msgstr "Снимање HTML страница: индекси"
 
-#: src/catalog-web-exporter.c:1552
+#: src/catalog-web-exporter.c:1865 src/catalog-web-exporter.c:1926
+#: src/catalog-web-exporter.c:2069
+msgid "Saving images"
+msgstr "Снима слике"
+
+#: src/catalog-web-exporter.c:2278
 msgid "Could not create a temporary folder"
 msgstr "Не могу направити привремени директоријум"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1591
+#: src/catalog-web-exporter.c:2315
 msgid "Loading images"
 msgstr "Учитавање слика"
 
-#: src/commands-impl.c:274 src/commands-impl.c:991 src/commands-impl.c:1553
+#: src/commands-impl.c:275 src/commands-impl.c:1011 src/commands-impl.c:1579
 msgid "Enter the new name: "
 msgstr "Унети ново име датотеке:"
 
-#: src/commands-impl.c:278 src/commands-impl.c:995 src/commands-impl.c:1557
-#: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
+#: src/commands-impl.c:279 src/commands-impl.c:1015 src/commands-impl.c:1583
+#: src/gthumb-ui.xml.h:234 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Промени име"
 
-#: src/commands-impl.c:292 src/commands-impl.c:897 src/commands-impl.c:1009
-#: src/commands-impl.c:1573 src/commands-impl.c:1668
-#, fuzzy, c-format
+#: src/commands-impl.c:293 src/commands-impl.c:917 src/commands-impl.c:1029
+#: src/commands-impl.c:1599 src/commands-impl.c:1694
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr "Име „%s“ није добро зато што садржи знак „/“. Унсите друго име."
+msgstr ""
+"Име „%s“ није добро зато што садржи знак „/“. Молим користите неко друго име."
 
-#: src/commands-impl.c:319 src/dlg-convert.c:316
+#: src/commands-impl.c:320 src/dlg-convert.c:313
 msgid "_Overwrite"
 msgstr "_Препиши"
 
-#: src/commands-impl.c:339 src/commands-impl.c:354
-#, fuzzy, c-format
+#: src/commands-impl.c:340 src/commands-impl.c:355
+#, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "Не могу променити име слике „%s“: %s"
+msgstr "Не могу да преименујем слику „%s“: %s"
 
-#: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
+#: src/commands-impl.c:342 src/commands-impl.c:1051 src/commands-impl.c:1357
 msgid "source and destination are the same"
 msgstr "извор и одредиште су исти"
 
-#: src/commands-impl.c:443
-#, fuzzy, c-format
+#: src/commands-impl.c:446
+#, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Не могу дуплитари слику „%s“: %s"
+msgstr "Не могу да дуплирам слику „%s“: %s"
 
-#: src/commands-impl.c:511
+#: src/commands-impl.c:454
+msgid "Stop"
+msgstr "Заустави"
+
+#: src/commands-impl.c:455
+msgid "Continue"
+msgstr "Настави"
+
+#: src/commands-impl.c:531
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Ознечене слике ће бити пребачене у Ђубре, да ли сте сигурни?"
 
-#: src/commands-impl.c:531
+#: src/commands-impl.c:551
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Слика ће бити пребачена у Ђубре, да ли сте сигурни?"
 
-#: src/commands-impl.c:766
+#: src/commands-impl.c:786
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Слика ће бити уклоњена из каталога, да ли сте сигурни?"
 
-#: src/commands-impl.c:808
+#: src/commands-impl.c:828
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Означене слике ће бити уклоњене из каталога, да ли сте сигурни?"
 
-#: src/commands-impl.c:884 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:190 src/dlg-file-utils.c:89
+#: src/commands-impl.c:904 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "Нап_рави"
 
-#: src/commands-impl.c:913 src/commands-impl.c:1039 src/commands-impl.c:1595
-#: src/commands-impl.c:1687
-#, fuzzy, c-format
+#: src/commands-impl.c:933 src/commands-impl.c:1059 src/commands-impl.c:1621
+#: src/commands-impl.c:1713
+#, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Име „%s“ се већ користи. Користите друго име."
+msgstr "Име „%s“ је већ у употреби. Молим користите неко друго име."
 
-#: src/commands-impl.c:941
+#: src/commands-impl.c:961
 msgid "New Folder"
 msgstr "Нови директоријум"
 
-#: src/commands-impl.c:942
+#: src/commands-impl.c:962
 msgid "Enter the folder name: "
 msgstr "Унесите име директоријума:"
 
-#: src/commands-impl.c:943
-#, fuzzy, c-format
+#: src/commands-impl.c:963
+#, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "Не могу направити директоријум „%s“: %s"
+msgstr "Не могу да направим директоријум „%s“: %s"
 
-#: src/commands-impl.c:954
+#: src/commands-impl.c:974
 msgid "New Library"
 msgstr "Нова библиотека"
 
-#: src/commands-impl.c:955 src/dlg-catalog.c:120
+#: src/commands-impl.c:975 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Унесите име библиотеке:"
 
-#: src/commands-impl.c:956
-#, fuzzy, c-format
+#: src/commands-impl.c:976
+#, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr "Ме ногу направити библиотеку „%s“: %s"
+msgstr "Не могу да направим библиотеку „%s“: %s"
 
-#: src/commands-impl.c:1029 src/commands-impl.c:1066
-#, fuzzy, c-format
+#: src/commands-impl.c:1049 src/commands-impl.c:1086
+#, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "Не могу променити име директоријума „%s“: %s"
+msgstr "Не могу да променим име директоријума „%s“: %s"
 
-#: src/commands-impl.c:1132
-#, fuzzy, c-format
+#: src/commands-impl.c:1152
+#, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "Не могу обрисати директоријум „%s“: %s"
+msgstr "Не могу да обришем директоријум „%s“: %s"
 
-#: src/commands-impl.c:1161
-#, fuzzy, c-format
+#: src/commands-impl.c:1183
+#, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "„%s“ не може бити пребачен у Ђубре. Желите ли га обрисати трајно?"
+msgstr "„%s“ не може бити пребачен у смеће. Желите ли да га трајно обришете?"
 
-#: src/commands-impl.c:1198
+#: src/commands-impl.c:1191 src/dlg-file-utils.c:227
+msgid "_Do not display this message again"
+msgstr "_Не приказуј више ову поруку"
+
+#: src/commands-impl.c:1224
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Означени директоријум ће бити пребачен у Ђубре, да ли сте сигурни?"
 
-#: src/commands-impl.c:1200 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1226 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Пребацити"
 
-#: src/commands-impl.c:1266 src/commands-impl.c:1321
-#, fuzzy, c-format
+#: src/commands-impl.c:1292 src/commands-impl.c:1347
+#, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "Не могу умножити директоријум „%s“: %s"
+msgstr "Не могу да умножим директоријум „%s“: %s"
 
-#: src/commands-impl.c:1321 src/dlg-file-utils.c:2295
-#: src/dlg-file-utils.c:2297
-#, fuzzy, c-format
+#: src/commands-impl.c:1347 src/dlg-file-utils.c:2428
+#: src/dlg-file-utils.c:2430
+#, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "Не могу преместити директоријум „%s“: %s"
+msgstr "Не могу да преместим директоријум „%s“: %s"
 
-#: src/commands-impl.c:1342
+#: src/commands-impl.c:1368
 msgid "source contains destination"
 msgstr "извор садржи одредиште"
 
-#: src/commands-impl.c:1353
+#: src/commands-impl.c:1379
 msgid "a folder with that name is already present."
 msgstr "директоријум са тим именом већ постоји."
 
-#: src/commands-impl.c:1434 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
+#: src/commands-impl.c:1460 src/dlg-file-utils.c:369 src/dlg-file-utils.c:458
 msgid "Choose the destination folder"
 msgstr "Одабрати одредишни директоријум"
 
-#: src/commands-impl.c:1606
-#, fuzzy, c-format
+#: src/commands-impl.c:1632
+#, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "Не могу променити име библиотеке „%s“: %s"
+msgstr "Не могу да преименујем библиотеку „%s“: %s"
 
-#: src/commands-impl.c:1606
-#, fuzzy, c-format
+#: src/commands-impl.c:1632
+#, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Не могу променити име каталога „%s“: %s"
+msgstr "Не могу да применујем каталог „%s“: %s"
 
-#: src/commands-impl.c:1652 src/dlg-catalog.c:79
+#: src/commands-impl.c:1678 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr "Унети име каталога:"
 
-#: src/commands-impl.c:1653
+#: src/commands-impl.c:1679
 msgid "New Catalog"
 msgstr "Нови каталог"
 
-#: src/commands-impl.c:1698
-#, fuzzy, c-format
+#: src/commands-impl.c:1724
+#, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr "Не могу направити каталог „%s“: %s"
+msgstr "Не могу да направим каталог „%s“: %s"
 
-#: src/commands-impl.c:1762
+#: src/commands-impl.c:1788
 msgid "The selected library will be removed, are you sure?"
 msgstr "Означена библиотека ће бити уклоњена, да ли сте сигурни?"
 
-#: src/commands-impl.c:1764
+#: src/commands-impl.c:1790
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Означени каталог ће бити уклоњен, да ли сте сигурни?"
 
-#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:448
+#: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-comment.c:328
+#: src/dlg-jpegtran.c:638 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
+#: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Не могу приказати помоћ: %s"
 
-#: src/commands-impl.c:2794
+#: src/commands-impl.c:2764
 msgid "translator_credits"
 msgstr ""
+"Душан Живојнов <calvin@verat.net>\n"
+"Данило Шеган <danilo@prevod.org>\n"
+"\n"
+"Prevod.org — превод на српски језик."
 
-#: src/commands-impl.c:2806
+#: src/commands-impl.c:2773 src/gthumb-window.c:811 src/gthumb-window.c:5061
+#: src/main.c:125
+msgid "gThumb"
+msgstr "gThumb"
+
+#: src/commands-impl.c:2776
 msgid "An image viewer and browser for GNOME."
 msgstr "Прегледач и претрживач слика за Гном."
 
-#: src/dlg-catalog.c:435
+#: src/dlg-catalog.c:446
 msgid "Move Catalog to..."
 msgstr "Пребаци каталог у ..."
 
-#: src/dlg-categories.c:186
+#: src/dlg-categories.c:196
 msgid "Enter the new category name"
 msgstr "Унети ново име за категорију"
 
-#: src/dlg-categories.c:197
-#, fuzzy, c-format
-msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "Категорија „%s“ већ постоји. Користите другачије име."
+#: src/dlg-categories.c:207
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+"Име „%s“ није добро зато што садржи знак „/“. Молим користите неко друго име."
 
-#: src/dlg-convert.c:161
+#: src/dlg-categories.c:212
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "Категорија „%s“ већ постоји. Молим користите неко друго име."
+
+#: src/dlg-convert.c:154
 #, c-format
 msgid "Converting image: %s"
 msgstr "Претварање слике: %s"
 
-#: src/dlg-convert.c:184
-#, fuzzy, c-format
+#: src/dlg-convert.c:177
+#, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Слика са именом „%s“ већ постоји. Наведите другачије име."
+msgstr "Слика са именом „%s“ већ постоји. Молим наведите неко друго име."
 
-#: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
+#: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
 msgid "Skip"
 msgstr "Прескочити"
-
-#: src/dlg-duplicates.c:265
-msgid "Image"
-msgstr "Слика"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
 msgid "Duplicates"
@@ -567,119 +773,114 @@ msgstr "Место"
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Одабране слике ће бити пребачене у Ђубре, да ли сте сигурни?"
 
-#: src/dlg-file-utils.c:87
+#: src/dlg-file-utils.c:88
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Одредишни директоријум не постоји. Желите ли да направити?"
 
-#: src/dlg-file-utils.c:103
-#, fuzzy, c-format
+#: src/dlg-file-utils.c:104
+#, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "Не могу направити директоријум „%s“: %s."
+msgstr "Не могу да направим директоријум „%s“: %s."
 
-#: src/dlg-file-utils.c:117
-#, fuzzy, c-format
+#: src/dlg-file-utils.c:118
+#, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Немате одговарајуће дозволе да направите слике у „%s“ директоријуму"
+msgstr "Немате одговарајућа овлашћења да направите слике у „%s“ директоријуму"
 
-#: src/dlg-file-utils.c:199
+#: src/dlg-file-utils.c:201
 msgid "Could not delete the images:"
 msgstr "Не могу обрисати слике:"
 
-#: src/dlg-file-utils.c:219
+#: src/dlg-file-utils.c:224
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Слике не могу бити пребачене у Ђубре. Желите ли их трајно обрисати?"
 
-#: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
+#: src/dlg-file-utils.c:760 src/dlg-file-utils.c:861
 msgid "You didn't enter the new name"
 msgstr "Нисте унели ново име"
 
-#: src/dlg-file-utils.c:762 src/dlg-file-utils.c:863
-#, fuzzy, c-format
+#: src/dlg-file-utils.c:772 src/dlg-file-utils.c:873
+#, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
-"Име „%s“ је већ коришћено у овом директоријуму. Користите другачије име."
+"Име „%s“ је већ у употреби у овом директоријуму. Молим користите другачије "
+"име."
 
-#: src/dlg-file-utils.c:1002
+#: src/dlg-file-utils.c:1012
 msgid "Could not rename the image:"
 msgstr "Не могу променити име слике:"
 
-#: src/dlg-file-utils.c:1004
+#: src/dlg-file-utils.c:1014
 msgid "Could not rename the following images:"
 msgstr "Немогу променити име следећих слика:"
 
-#: src/dlg-file-utils.c:1137
+#: src/dlg-file-utils.c:1148
 msgid "Could not move the image:"
 msgstr "Не могу пребацити слику:"
 
-#: src/dlg-file-utils.c:1139
+#: src/dlg-file-utils.c:1150
 msgid "Could not copy the image:"
 msgstr "Не могу умножити слику:"
 
-#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2317
+#: src/dlg-file-utils.c:1174 src/dlg-file-utils.c:2451
 msgid "_Abort"
 msgstr "_Одустати"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2318
+#: src/dlg-file-utils.c:1175 src/dlg-file-utils.c:2452
 msgid "_Continue"
 msgstr "_Наставити"
 
-#: src/dlg-file-utils.c:1335
+#: src/dlg-file-utils.c:1348
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Умножавање датотеке %d од %d"
 
-#: src/dlg-file-utils.c:1718 src/dlg-file-utils.c:1904
+#: src/dlg-file-utils.c:1773 src/dlg-file-utils.c:2000
 msgid "Collecting images info"
 msgstr "Сакуљање информација о сликама"
 
-#: src/dlg-file-utils.c:1721 src/dlg-file-utils.c:1917
+#: src/dlg-file-utils.c:1776 src/dlg-file-utils.c:2013
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Брисање датотеке %ld од %ld"
 
-#: src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:2003
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Умножавање датотеке %ld од %ld"
 
-#: src/dlg-file-utils.c:1912
+#: src/dlg-file-utils.c:2008
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Пребацивање датотеке %ld од %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:431
-#, fuzzy
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:433
 msgid "Size"
-msgstr "Вел_ичина:"
+msgstr "Величина"
 
 #: src/dlg-image-prop.c:846
 msgid "Type"
 msgstr "Тип"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:438
-msgid "Bytes"
-msgstr ""
-
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:445
-#, fuzzy
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:447
 msgid "Modified"
-msgstr "Мењано последњи пут"
+msgstr "Измењено"
 
 #: src/dlg-image-prop.c:866
 msgid "Information on Channel"
 msgstr "Информација о каналу"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5512
 msgid "Field"
 msgstr "Поље"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
-msgid "Value"
-msgstr "Вредност"
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5522
+msgid "Value "
+msgstr "Вредност "
 
 #: src/dlg-image-prop.c:991
 #, c-format
@@ -698,23 +899,23 @@ msgstr "Све умањене слике ће бити обрисне, да ли
 msgid "Specify the backup file"
 msgstr "Назначите резервни примерак датотеке"
 
-#: src/dlg-png-exporter.c:997
+#: src/dlg-png-exporter.c:999
 msgid "Image Caption"
 msgstr "Наслов слике"
 
-#: src/dlg-png-exporter.c:1050
+#: src/dlg-png-exporter.c:1052
 msgid "Header"
 msgstr "Заглавље"
 
-#: src/dlg-png-exporter.c:1063 src/dlg-png-exporter.c:1069
+#: src/dlg-png-exporter.c:1065 src/dlg-png-exporter.c:1071
 msgid "Footer"
 msgstr "Подножје"
 
-#: src/dlg-rename-series.c:419
+#: src/dlg-rename-series.c:436
 msgid "Old Name"
 msgstr "Старо име"
 
-#: src/dlg-rename-series.c:427
+#: src/dlg-rename-series.c:444
 msgid "New Name"
 msgstr "Ново име"
 
@@ -722,32 +923,31 @@ msgstr "Ново име"
 msgid "Search Result"
 msgstr "Резултат претраге"
 
-#: src/dlg-search.c:808
+#: src/dlg-search.c:810
 msgid "Filename"
 msgstr "Име датотеке"
 
-#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Директоријум"
 
-#: src/dlg-web-exporter.c:587
+#: src/dlg-web-exporter.c:658
 msgid "Select Album Theme"
 msgstr "Одаберите тему албума"
 
-#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Врати нормални преглед"
 
-#: src/fullscreen.c:822
-#, fuzzy
+#: src/fullscreen.c:800
 msgid "Image Info"
-msgstr "Слика"
+msgstr "Подаци о слици"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4253
+#: src/fullscreen.c:818 src/gthumb-window.c:4339
 msgid "Back"
 msgstr "Назад"
 
-#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
+#: src/fullscreen.c:836 src/gthumb-ui.xml.h:52
 msgid "Forward"
 msgstr "Напред"
 
@@ -800,8 +1000,8 @@ msgid "Adjust hue and saturation"
 msgstr "Подеси нијансу и засићеност"
 
 #: src/gthumb-ui.xml.h:10
-msgid "Aply threshold"
-msgstr ""
+msgid "Apply threshold"
+msgstr "Примени праг"
 
 #: src/gthumb-ui.xml.h:11
 msgid "Assign categories to selected images"
@@ -812,19 +1012,16 @@ msgid "Assign categories to the image"
 msgstr "Додели категорије слици"
 
 #: src/gthumb-ui.xml.h:13
-#, fuzzy
 msgid "Auto"
-msgstr "_О"
+msgstr "Аутоматски"
 
 #: src/gthumb-ui.xml.h:14
-#, fuzzy
 msgid "Automatically normalize the contrast"
-msgstr "Аутоматски стартовати низ слика"
+msgstr "Аутоматски нормализовати контраст"
 
 #: src/gthumb-ui.xml.h:15
-#, fuzzy
 msgid "Automatically stretch the contrast"
-msgstr "Аутоматски стартовати низ слика"
+msgstr "Аутоматски развући контраст"
 
 #: src/gthumb-ui.xml.h:16
 msgid "Ca_talog"
@@ -834,7 +1031,7 @@ msgstr "Ка_талог"
 msgid "Ca_tegories"
 msgstr "Ка_тегорија"
 
-#: src/gthumb-ui.xml.h:18
+#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4440
 msgid "Catalogs"
 msgstr "Каталози"
 
@@ -916,9 +1113,8 @@ msgid "Create a new window"
 msgstr "Направи нови прозор"
 
 #: src/gthumb-ui.xml.h:39
-#, fuzzy
 msgid "Crop image"
-msgstr "Нема слике"
+msgstr "Исечак слике"
 
 #: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
@@ -964,7 +1160,7 @@ msgstr "Нађи слике"
 msgid "Fit"
 msgstr "Поравнај"
 
-#: src/gthumb-ui.xml.h:51
+#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4390
 msgid "Folders"
 msgstr "Директоријуми"
 
@@ -984,7 +1180,7 @@ msgstr "Иди у лични директоријум"
 msgid "Go to the next visited location"
 msgstr "Иди на следеће посећено место"
 
-#: src/gthumb-ui.xml.h:57
+#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4358
 msgid "Go to the previous visited location"
 msgstr "Иди на претходно посећено место"
 
@@ -1001,13 +1197,12 @@ msgid "Image Toolbar"
 msgstr "Алатке за слику"
 
 #: src/gthumb-ui.xml.h:61
-#, fuzzy
 msgid "Image _Comment"
-msgstr "Укл_они коментар"
+msgstr "_Примедба уз слику"
 
 #: src/gthumb-ui.xml.h:62
 msgid "In"
-msgstr "Унутра"
+msgstr "Увећај"
 
 #: src/gthumb-ui.xml.h:63
 msgid "Main Toolbar"
@@ -1103,7 +1298,7 @@ msgstr "Отвори са _управником датотека"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Out"
-msgstr "Напоље"
+msgstr "Умањи"
 
 #: src/gthumb-ui.xml.h:87
 msgid "Play _Animation"
@@ -1113,7 +1308,7 @@ msgstr "Пусти _анимацију"
 msgid "Previous"
 msgstr "Претходно"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
 msgstr "Штампај"
 
@@ -1286,7 +1481,7 @@ msgstr "Прикажи информације о gThumb-у"
 msgid "Show/_Hide"
 msgstr "Прикажи/_Склони"
 
-#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:51
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
 msgid "Slide Show"
 msgstr "Покретни приказ"
 
@@ -1323,523 +1518,504 @@ msgid "Str_etched"
 msgstr "Рашир_ено"
 
 #: src/gthumb-ui.xml.h:147
-msgid "Transparen_cy Type"
-msgstr "Врста провид_ности"
-
-#: src/gthumb-ui.xml.h:148
 msgid "Up"
 msgstr "Горе"
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:148
 msgid "Use black as transparency"
 msgstr "Користи црну за провидну"
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:149
 msgid "Use checks as transparency"
 msgstr "Користи шах за провидно"
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:150
 msgid "Use gray as transparency"
 msgstr "Користи сиву за провидну"
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:151
 msgid "Use high quality zoom"
 msgstr "Користи увећање доброг квалитета"
 
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:152
 msgid "Use low quality zoom"
 msgstr "Користи увећање лошег квалитета"
 
-#: src/gthumb-ui.xml.h:154
+#: src/gthumb-ui.xml.h:153
 msgid "Use white as transparency"
 msgstr "Користи белу за провидну"
 
-#: src/gthumb-ui.xml.h:155
-msgid "View as List"
-msgstr "Погледај као списак"
-
-#: src/gthumb-ui.xml.h:156
-msgid "View as Thumbnails"
-msgstr "Погледај као умањени приказ"
-
-#: src/gthumb-ui.xml.h:157
+#: src/gthumb-ui.xml.h:154
 msgid "View as a slide show"
 msgstr "Погледај као покретни приказ"
 
-#: src/gthumb-ui.xml.h:158
-#, fuzzy
+#: src/gthumb-ui.xml.h:155
 msgid "View image comment"
-msgstr "Погледај особине слике"
+msgstr "Погледај примедбу уз слику"
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:156
 msgid "View image in fullscreen mode"
 msgstr "Погледај слику преко целог екрана"
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:157
 msgid "View image properties"
 msgstr "Погледај особине слике"
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:159
 msgid "View next image"
 msgstr "Погледај следећу слику"
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:160
 msgid "View or hide the statusbar of this window"
 msgstr "Погледај или склони линију са стањем овог прозора"
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:161
 msgid "View or hide the toolbar of this window"
 msgstr "Погледај или склони алатке овог прозора"
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:162
 msgid "View previous image"
 msgstr "Погледај претходну слику"
 
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4446
 msgid "View the catalogs"
 msgstr "Погледај каталоге"
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4396
 msgid "View the folders"
 msgstr "Погледај директоријуме"
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:165
 msgid "View the image"
 msgstr "Погледај слику"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:166
 msgid "View the image flipped"
 msgstr "Погледај преокренуту слику"
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:167
 msgid "View the image in black and white"
 msgstr "Погледај слику као црно-белу"
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:168
 msgid "View the image mirrored"
 msgstr "Погледај слику у одразу"
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:169
 msgid "View the image rotated clockwise"
 msgstr "Погледај слику ротирану у правцу кретања казаљке на сату"
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:170
 msgid "View the image rotated counter-clockwise"
 msgstr "Погледај слику ротирану у супротном правцу кретања казаљке на сату"
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:171
 msgid "View the image with negative colors"
 msgstr "Погледај слику са бојама негатива"
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:172
 msgid "View thumbnails"
 msgstr "Погледај умањене слике"
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:173
 msgid "Zoom _In"
 msgstr "У_већај"
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:174
 msgid "Zoom _Out"
 msgstr "У_мањи"
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:175
 msgid "Zoom in"
 msgstr "Увећај"
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:176
 msgid "Zoom out"
 msgstr "Умањи"
 
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:177
 msgid "Zoom to _Fit"
 msgstr "Увећај до поравнања"
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:178
 msgid "Zoom to fit window"
 msgstr "Увећај до поравнања прозора"
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:179
 msgid "_About"
 msgstr "_О"
 
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:180
 msgid "_Actual Size"
 msgstr "_Стварна величина"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:181
 msgid "_Add Bookmark"
 msgstr "_Додај обележивач"
 
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:182
 msgid "_Add to Catalog..."
 msgstr "_Додај у каталог"
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:183
 msgid "_Adjust Color Levels"
 msgstr "_Подеси нивое боја"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:184
 msgid "_Back"
 msgstr "_Назад"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:186
 msgid "_Bookmarks"
 msgstr "_Обележивачи"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:187
 msgid "_Brightness-Contrast"
 msgstr "_Светлина-контраст"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:188
 msgid "_Catalogs"
 msgstr "_Каталози"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:189
 msgid "_Centered"
 msgstr "_Центрирано"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:191
 msgid "_Close"
 msgstr "_Затвори"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:192
 msgid "_Color Balance"
 msgstr "_Однос боја"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:193
 msgid "_Contents"
 msgstr "_Садржај"
 
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:194
 msgid "_Copy..."
 msgstr "_Умножи..."
 
-#: src/gthumb-ui.xml.h:198
-#, fuzzy
+#: src/gthumb-ui.xml.h:195
 msgid "_Crop"
-msgstr "_Умножи..."
+msgstr "_Исечак"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:196
 msgid "_Delete History"
 msgstr "_Обриши историјат"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:197
 msgid "_Desaturate"
 msgstr "_Незасићен"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:198
 msgid "_Edit"
-msgstr "_Узмени"
+msgstr "_Уреди"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:199
 msgid "_Edit Bookmarks"
 msgstr "_Измени обележиваче"
 
-#: src/gthumb-ui.xml.h:203 src/gthumb_search.glade.h:25
+#: src/gthumb-ui.xml.h:200 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
 msgstr "_Измени претрагу"
 
-#: src/gthumb-ui.xml.h:204
-#, fuzzy
+#: src/gthumb-ui.xml.h:201
 msgid "_Equalize"
-msgstr "_Стварна величина"
+msgstr "Из_једначи"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:202
 msgid "_File"
 msgstr "_Датотека"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:203
 msgid "_Find..."
 msgstr "_Пронађи..."
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:205
 msgid "_Folder"
 msgstr "_Директоријум"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:206
 msgid "_Folders"
 msgstr "_Директоријуми"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:207
 msgid "_Forward"
 msgstr "_Напред"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:208
 msgid "_Full Screen"
 msgstr "_Цео екран"
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:209
 msgid "_Go"
 msgstr "_Иди"
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:210
 msgid "_Go to the Image Folder"
 msgstr "_Иди у директоријум са сликама"
 
-#: src/gthumb-ui.xml.h:214
+#: src/gthumb-ui.xml.h:211
 msgid "_Help"
 msgstr "_Помоћ"
 
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:212
 msgid "_High Quality"
 msgstr "_Добар квалитет"
 
-#: src/gthumb-ui.xml.h:216
+#: src/gthumb-ui.xml.h:213
 msgid "_Home"
 msgstr "_Почетак"
 
-#: src/gthumb-ui.xml.h:217
+#: src/gthumb-ui.xml.h:214
 msgid "_Hue-Saturation"
 msgstr "_Нијанса-засићеност"
 
-#: src/gthumb-ui.xml.h:219
-#, fuzzy
+#: src/gthumb-ui.xml.h:216
 msgid "_Image Preview"
 msgstr "Пре_глед слике"
 
-#: src/gthumb-ui.xml.h:220
+#: src/gthumb-ui.xml.h:217
 msgid "_Keyboard Shortcuts"
 msgstr "Пречице на _тастатури"
 
-#: src/gthumb-ui.xml.h:221
+#: src/gthumb-ui.xml.h:218
 msgid "_Location..."
 msgstr "_Место..."
 
-#: src/gthumb-ui.xml.h:222
+#: src/gthumb-ui.xml.h:219
 msgid "_Low Quality"
 msgstr "_Лош квалитет"
 
-#: src/gthumb-ui.xml.h:223
+#: src/gthumb-ui.xml.h:220
 msgid "_Maintenance"
 msgstr "_Одржавање"
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:222
 msgid "_Move..."
 msgstr "_Премести..."
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:223
 msgid "_Negative"
 msgstr "_Негатив"
 
-#: src/gthumb-ui.xml.h:227
+#: src/gthumb-ui.xml.h:224
 msgid "_New Catalog..."
 msgstr "_Нови каталог..."
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:225
 msgid "_New Folder..."
 msgstr "_Нови директоријум..."
 
-#: src/gthumb-ui.xml.h:230
-#, fuzzy
+#: src/gthumb-ui.xml.h:227
 msgid "_Normalize"
-msgstr "_Направи плакат"
+msgstr "_Нормализуј"
 
-#: src/gthumb-ui.xml.h:231
+#: src/gthumb-ui.xml.h:228
 msgid "_Open With"
 msgstr "_Отвори са"
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:229
 msgid "_Posterize"
 msgstr "_Направи плакат"
 
-#: src/gthumb-ui.xml.h:233 src/gthumb_png_exporter.glade.h:66
+#: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
 msgstr "_Поставке"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:231
 msgid "_Print..."
 msgstr "_Штампај..."
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:232
 msgid "_Reduce Colors"
 msgstr "_Умањи боје"
 
-#: src/gthumb-ui.xml.h:236
+#: src/gthumb-ui.xml.h:233
 msgid "_Reload"
 msgstr "_Поново учитај"
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:235
 msgid "_Rename Series"
 msgstr "Преименуј _серије"
 
-#: src/gthumb-ui.xml.h:239
+#: src/gthumb-ui.xml.h:236
 msgid "_Rename..."
 msgstr "_Промени име..."
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:237
 msgid "_Resize"
 msgstr "_Промени величину"
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:238
 msgid "_Restore"
 msgstr "_Поврати"
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:239
 msgid "_Reversed Order"
 msgstr "_Обрнути редослед"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:240
 msgid "_Revert"
 msgstr "_Врати"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:241
 msgid "_Rotate"
 msgstr "_Ротирај"
 
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb-ui.xml.h:242
 msgid "_Scaled"
 msgstr "_Пропорционално"
 
-#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:29
+#: src/gthumb-ui.xml.h:243 src/gthumb_search.glade.h:29
 msgid "_Search"
 msgstr "_Претражи"
 
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:244
 msgid "_Select All"
 msgstr "_Означи све"
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:245
 msgid "_Slide Show"
 msgstr "По_кретни приказ"
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:246
 msgid "_Statusbar"
 msgstr "_Линија са стањем"
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:247
 msgid "_Stop"
 msgstr "_Заустави"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:248
 msgid "_Stretch Contrast"
-msgstr ""
+msgstr "_Развуци контраст"
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:249
 msgid "_Threshold"
-msgstr ""
+msgstr "_Праг"
 
-#: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:64
+#: src/gthumb-ui.xml.h:250 src/gthumb_preferences.glade.h:65
 msgid "_Thumbnails"
 msgstr "_Умањени прикази"
 
-#: src/gthumb-ui.xml.h:254
+#: src/gthumb-ui.xml.h:251
 msgid "_Tiled"
 msgstr "_Поравнато"
 
-#: src/gthumb-ui.xml.h:255
+#: src/gthumb-ui.xml.h:252
 msgid "_Toolbar"
 msgstr "_Алатке"
 
-#: src/gthumb-ui.xml.h:256
+#: src/gthumb-ui.xml.h:253
 msgid "_Tools"
 msgstr "_Алати"
 
-#: src/gthumb-ui.xml.h:257
+#: src/gthumb-ui.xml.h:254
 msgid "_Transform"
-msgstr ""
+msgstr "_Трансформиши"
 
-#: src/gthumb-ui.xml.h:258
+#: src/gthumb-ui.xml.h:255
 msgid "_Up"
 msgstr "_Горе"
 
-#: src/gthumb-ui.xml.h:261
+#: src/gthumb-ui.xml.h:258
 msgid "_Zoom"
 msgstr "У_већање"
 
-#: src/gthumb-ui.xml.h:262
+#: src/gthumb-ui.xml.h:259
 msgid "by _Name"
 msgstr "по _имену"
 
-#: src/gthumb-ui.xml.h:263
+#: src/gthumb-ui.xml.h:260
 msgid "by _Path"
 msgstr "по _путањи"
 
-#: src/gthumb-ui.xml.h:264
+#: src/gthumb-ui.xml.h:261
 msgid "by _Size"
 msgstr "по _величини"
 
-#: src/gthumb-ui.xml.h:265
+#: src/gthumb-ui.xml.h:262
 msgid "by _Time"
 msgstr "по в_ремену"
 
-#: src/gthumb-window.c:687
+# bug: can "c" be translated?
+#: src/gthumb-window.c:690
 msgid "[Press 'c' to add a comment]"
-msgstr ""
+msgstr "[Притисните „ц“ да додате примедбу]"
 
-#: src/gthumb-window.c:762 src/gthumb-window.c:785
-#, fuzzy
+#: src/gthumb-window.c:764 src/gthumb-window.c:786
 msgid "[modified]"
-msgstr "Последњи пут мењано"
+msgstr "[измењено]"
 
-#: src/gthumb-window.c:869
+#: src/gthumb-window.c:870
 msgid "No image"
 msgstr "Нема слике"
 
-#: src/gthumb-window.c:871
+#: src/gthumb-window.c:872
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 слика (%s)"
 
-#: src/gthumb-window.c:874
+#: src/gthumb-window.c:875
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d слика (%s)"
 
-#: src/gthumb-window.c:881
+#: src/gthumb-window.c:882
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 одабранa (%s)"
 
-#: src/gthumb-window.c:884
+#: src/gthumb-window.c:885
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d одабраних (%s)"
 
-#: src/gthumb-window.c:3363
+#: src/gthumb-window.c:3413
 msgid "Dragged Images"
 msgstr "Превучене слике"
 
-#: src/gthumb-window.c:3557
+#: src/gthumb-window.c:3612
 msgid "Could not move the items:"
 msgstr "Не могу преместити ставке:"
 
-#: src/gthumb-window.c:5170
-#, fuzzy
+#: src/gthumb-window.c:5393
 msgid "Image comment"
-msgstr "Уклони коментар"
+msgstr "Примедба за слику"
 
-#: src/gthumb-window.c:5184
-#, fuzzy
+#: src/gthumb-window.c:5407
 msgid "Image data"
-msgstr "Наслов слике"
+msgstr "Подаци слике"
 
-#: src/gthumb-window.c:5198
-#, fuzzy
+#: src/gthumb-window.c:5421
 msgid "Image preview"
-msgstr "Пре_глед слике"
+msgstr "Преглед слике"
 
-#: src/gthumb-window.c:6456
-#, fuzzy, c-format
+#: src/gthumb-window.c:6664
+#, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "Не могу учитати директоријум „%s“: %s\n"
+msgstr "Не могу да учитам директоријум „%s“: %s\n"
 
-#: src/gthumb-window.c:6725
+#: src/gthumb-window.c:6933
 msgid "The specified catalog does not exist."
 msgstr "Наведени каталог не постоји."
 
-#: src/gthumb-window.c:8071
+#: src/gthumb-window.c:8307
 msgid "Wait please..."
 msgstr "Молим сачекајте..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
 #: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
 #: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
 #: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
 #: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
@@ -1930,6 +2106,10 @@ msgstr "_Скорији програми:"
 msgid "Red"
 msgstr "Црвена"
 
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Вредност"
+
 #: src/gthumb.glade.h:26
 msgid "_Application:"
 msgstr "_Програм:"
@@ -1959,7 +2139,6 @@ msgid "_Previous"
 msgstr "_Претходно"
 
 #: src/gthumb.glade.h:34
-#, fuzzy
 msgid "_Remove"
 msgstr "Укл_они"
 
@@ -1967,10 +2146,112 @@ msgstr "Укл_они"
 msgid "_Save the new image as:"
 msgstr "_Сачувај нову слику као:"
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_search.glade.h:2
-#: src/gthumb_web_exporter.glade.h:4
-msgid "..."
-msgstr "..."
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Слике преко ове величине (у бајтовима) неће имати умањени приказ. Користите "
+"0 уколико желите да видите умањени приказ за све слике."
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Дозвољене вредности су: 1, 2, 3, 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Дозвољене вредности су: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Дозвољене вредности су: ascending, descending."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Дозвољене вредности су: forward, backward."
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Дозвољене вредности су: high, low."
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Дозвољене вредности су: image, data, comment."
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Дозвољене вредности су: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Дозвољене вредности су: light, midtone, dark."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Дозвољене вредности су: list, thumbnails."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Дозвољене вредности су: mm, in."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Дозвољене вредности су: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Дозвољене вредности су: name, size, time."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Дозвољене вредности су: nautilus, single, double."
+
+#: src/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Дозвољене вредности су: none, deflate, jpeg."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Дозвољене вредности су: none, name, path, size, time."
+
+#: src/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Дозвољене вредности су: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Дозвољене вредности су: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:19
+msgid "Possible values are: png, jpeg."
+msgstr "Дозвољене вредности су: png, jpeg."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Дозвољене вредности су: skip, rename, ask, overwrite."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values are: small, medium, large."
+msgstr "Дозвољене вредности су: small, medium, large."
+
+#: src/gthumb.schemas.in.h:22
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Дозвољене вредности су: system, text_below, text_beside, text_only, "
+"icons_only."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values are: white, black, checked, none."
+msgstr "Дозвољене вредности су: white, black, checked, none."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Да ли да увек користи црну позадину."
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -1981,54 +2262,78 @@ msgid "C_urrent date"
 msgstr "Трен_утни датум"
 
 #: src/gthumb_comments.glade.h:6
-#, fuzzy
 msgid "Choose Date"
-msgstr "Промени датум"
+msgstr "Изабери датум"
 
 #: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
 msgid "Co_mment:"
 msgstr "Ко_ментар:"
 
 #: src/gthumb_comments.glade.h:9
-#, fuzzy
 msgid "Create a new category"
-msgstr "Направи нови каталог"
+msgstr "Направи нову категорију"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Текући датум"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Датум п_рављења слике"
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Датум прављења слике"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Нема датума"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Датум _фото дигитализације (из EXIF података)"
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Датум _фото дигитализације (из EXIF података)"
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr "Уклонити изабрану категорију"
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr "Сачувај само измење_на поља"
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "Следећи _датум:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "Следећи датум"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Датум:"
 
-#: src/gthumb_comments.glade.h:15
-#, fuzzy
+#: src/gthumb_comments.glade.h:21
 msgid "_Delete"
-msgstr "_Обриши историјат"
+msgstr "_Обриши"
 
-#: src/gthumb_comments.glade.h:16
-#, fuzzy
+#: src/gthumb_comments.glade.h:22
 msgid "_New"
-msgstr "_Следеће"
+msgstr "_Нова"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Нема датума"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Место:"
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "_Означене категорије:"
 
@@ -2223,7 +2528,7 @@ msgstr "Ширина:"
 msgid "_Brightness:"
 msgstr "_Светлина:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "_Висина:"
 
@@ -2263,17 +2568,13 @@ msgstr "_Засићеност:"
 msgid "_Scale"
 msgstr "_Скала"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "_Ширина:"
 
 #: src/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
 msgstr "_Жута-плава:"
-
-#: src/gthumb_edit.glade.h:33
-msgid "pixels"
-msgstr "тачака"
 
 #: src/gthumb_png_exporter.glade.h:4
 msgid "112"
@@ -2355,11 +2656,11 @@ msgstr "<b>Примери:</b>"
 msgid "Choose destination folder"
 msgstr "Одабери одредишни директоријум"
 
-#: src/gthumb_png_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
 msgstr "Пре_длог"
 
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
 msgid "Col_umns:"
 msgstr "Кол_оне:"
 
@@ -2375,11 +2676,11 @@ msgstr "Направи индекс слику"
 msgid "Create _HTML image map"
 msgstr "Направи _HTML мапу слике"
 
-#: src/gthumb_png_exporter.glade.h:29
+#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
 msgid "F_ooter:"
 msgstr "П_одножје:"
 
-#: src/gthumb_png_exporter.glade.h:30
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
 msgid "File _name"
 msgstr "Име _датотеке"
 
@@ -2387,7 +2688,7 @@ msgstr "Име _датотеке"
 msgid "File pa_th"
 msgstr "_Путања до датотеке"
 
-#: src/gthumb_png_exporter.glade.h:32
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
 msgid "File si_ze"
 msgstr "Ве_личина датотеке"
 
@@ -2399,7 +2700,7 @@ msgstr "_Стил оквира:"
 msgid "Frame co_lor:"
 msgstr "Бо_ја оквира:"
 
-#: src/gthumb_png_exporter.glade.h:35
+#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
 msgid "H_eader:"
 msgstr "З_аглавље:"
 
@@ -2411,7 +2712,7 @@ msgstr "Заглавље/Подножје"
 msgid "Hei_ght:"
 msgstr "Ви_сина:"
 
-#: src/gthumb_png_exporter.glade.h:38
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
 msgid "Image dim_ensions"
 msgstr "В_еличина слике"
 
@@ -2431,7 +2732,7 @@ msgstr "Страница"
 msgid "Pi_xels"
 msgstr "Тач_ке"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
 msgid "Re_verse order"
 msgstr "О_брнути поредак"
 
@@ -2467,7 +2768,7 @@ msgstr "Једноставно са сенком"
 msgid "Slide"
 msgstr "Клизај"
 
-#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
+#: src/gthumb_png_exporter.glade.h:52
 msgid "Sor_t images:"
 msgstr "П_оређај слике:"
 
@@ -2519,7 +2820,7 @@ msgstr "_Прелаз"
 msgid "_Image size:"
 msgstr "_Величина слике:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
 msgstr "_Редови:"
 
@@ -2531,15 +2832,15 @@ msgstr "_Једнобојна"
 msgid "_Template:"
 msgstr "_Шаблон:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "по имену"
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr "по путањи"
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "по величини"
 
@@ -2547,73 +2848,13 @@ msgstr "по величини"
 msgid "by time"
 msgstr "по времену"
 
-#: src/gthumb_png_exporter.glade.h:76
+#: src/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: src/gthumb_png_exporter.glade.h:77
+#: src/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
-
-#: src/gthumb_web_exporter.glade.h:5
-msgid "<b>Album</b>"
-msgstr "<b>Албум</b>"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "<b>Index Layout</b>"
-msgstr "<b>Распоред индекса</b>"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "<b>Saving</b>"
-msgstr "<b>Снимање</b>"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "<b>Theme</b>"
-msgstr "<b>Тема</b>"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "Inde_x file:"
-msgstr "Инде_кс датотека:"
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "Th_eme:"
-msgstr "Т_ема"
-
-#: src/gthumb_web_exporter.glade.h:14
-msgid "Web Album"
-msgstr "Веб албум"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Web Album Theme"
-msgstr "Тема веб албума"
-
-#: src/gthumb_web_exporter.glade.h:16
-msgid "_Copy images to destination"
-msgstr "_Умножи слике у одредиште"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "_Destination:"
-msgstr "О_дредиште:"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "_Go to Theme Folder"
-msgstr "_Иди у директоријум са темама"
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "_Install Theme..."
-msgstr "Инсталирај тему..."
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "_Title:"
-msgstr "_Назив:"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "by modified time"
-msgstr "по времену измене"
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "index.html"
-msgstr "index.html"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
@@ -2676,18 +2917,16 @@ msgid "<b>Slide show</b>"
 msgstr "<b>Покретни приказ</b>"
 
 #: src/gthumb_preferences.glade.h:19
-#, fuzzy
 msgid "<b>View images as</b>"
-msgstr "<b>Индексирај слике</b>"
+msgstr "<b>Гледај слике као</b>"
 
 #: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
 msgstr "<b>Прегледач</b>"
 
 #: src/gthumb_preferences.glade.h:21
-#, fuzzy
 msgid "<b>Zoom quality</b>"
-msgstr "_Квалитет увећања:"
+msgstr "<b>Квалитет увећања</b>"
 
 #: src/gthumb_preferences.glade.h:22
 msgid "Activate items with a double click"
@@ -2722,166 +2961,166 @@ msgid "Checked"
 msgstr "Проверено"
 
 #: src/gthumb_preferences.glade.h:30
-#, fuzzy
-msgid "Co_mments"
-msgstr "Пре_длог"
+msgid "Choose startup folder"
+msgstr "Одабери почетни директоријум"
 
 #: src/gthumb_preferences.glade.h:31
+msgid "Co_mments"
+msgstr "При_медбе"
+
+#: src/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
 msgstr "Од_ложи пре промене слике:"
 
-#: src/gthumb_preferences.glade.h:32
-#, fuzzy
-msgid "D_etermine image type from content (slower)"
-msgstr "ОДреди врсту слике из сад_ржаја (спорије)"
-
 #: src/gthumb_preferences.glade.h:33
+msgid "D_etermine image type from content (slower)"
+msgstr "Одреди врсту слике из сад_ржаја (спорије)"
+
+#: src/gthumb_preferences.glade.h:34
 msgid "Do _not change folder"
 msgstr "_Не мењај директоријум"
 
-#: src/gthumb_preferences.glade.h:34
+#: src/gthumb_preferences.glade.h:35
 msgid "Fit image to window"
 msgstr "Поравнај у прозор"
 
-#: src/gthumb_preferences.glade.h:35
+#: src/gthumb_preferences.glade.h:36
 msgid "Fit to window if larger"
 msgstr "Поравнај у прозор ако је веће"
 
-#: src/gthumb_preferences.glade.h:36
+#: src/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
 msgstr "Прати понашање Наутилуса"
 
-#: src/gthumb_preferences.glade.h:37
+#: src/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "На_пред"
 
-#: src/gthumb_preferences.glade.h:38
+#: src/gthumb_preferences.glade.h:39
 msgid "General"
 msgstr "Опште"
 
-#: src/gthumb_preferences.glade.h:39
+#: src/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
 msgstr "Иди у последње _посећени директоријум или каталог"
 
-#: src/gthumb_preferences.glade.h:40
+#: src/gthumb_preferences.glade.h:41
 msgid "Go to this _folder:"
 msgstr "Иди у овај _директоријум:"
 
-#: src/gthumb_preferences.glade.h:41
+#: src/gthumb_preferences.glade.h:42
 msgid "H_igh"
 msgstr "В_исоко"
 
-#: src/gthumb_preferences.glade.h:42
+#: src/gthumb_preferences.glade.h:43
 msgid "Icons only"
 msgstr "Само иконице"
 
-#: src/gthumb_preferences.glade.h:43
+#: src/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
 msgstr "Задржи претходно увећање"
 
-#: src/gthumb_preferences.glade.h:44
+#: src/gthumb_preferences.glade.h:45
 msgid "Layout:"
 msgstr "Распоред:"
 
-#: src/gthumb_preferences.glade.h:45
+#: src/gthumb_preferences.glade.h:46
 msgid "Lo_w"
 msgstr "Нис_ко"
 
-#: src/gthumb_preferences.glade.h:46
+#: src/gthumb_preferences.glade.h:47
 msgid "None"
 msgstr "Ништа"
 
-#: src/gthumb_preferences.glade.h:47
+#: src/gthumb_preferences.glade.h:48
 msgid "Re_verse"
 msgstr "Об_рнуто"
 
-#: src/gthumb_preferences.glade.h:48
+#: src/gthumb_preferences.glade.h:49
 msgid "Resta_rt when finished"
 msgstr "Поново стартуј када заврши"
 
-#: src/gthumb_preferences.glade.h:49
+#: src/gthumb_preferences.glade.h:50
 msgid "Set image to actual size"
 msgstr "Постави слику на праву величину"
 
-#: src/gthumb_preferences.glade.h:50
+#: src/gthumb_preferences.glade.h:51
 msgid "Set to C_urrent"
 msgstr "Постави на трен_утно"
 
-#: src/gthumb_preferences.glade.h:52
+#: src/gthumb_preferences.glade.h:53
 msgid "Switch to _full screen"
 msgstr "Пређи у _цео екран"
 
-#: src/gthumb_preferences.glade.h:53
+#: src/gthumb_preferences.glade.h:54
 msgid "System settings"
 msgstr "Системска подешавања"
 
-#: src/gthumb_preferences.glade.h:54
+#: src/gthumb_preferences.glade.h:55
 msgid "Text below icons"
 msgstr "Текст испод иконица"
 
-#: src/gthumb_preferences.glade.h:55
+#: src/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
 msgstr "Текст поред иконица"
 
-#: src/gthumb_preferences.glade.h:56
+#: src/gthumb_preferences.glade.h:57
 msgid "Text only"
 msgstr "Само текст"
 
-#: src/gthumb_preferences.glade.h:57
-#, fuzzy
-msgid "Th_umbnail size:"
-msgstr "_Умањени прикази"
-
 #: src/gthumb_preferences.glade.h:58
+msgid "Th_umbnail size:"
+msgstr "Величина умањено_г приказа:"
+
+#: src/gthumb_preferences.glade.h:59
 msgid "Transparency _type:"
 msgstr "_Тип провидности:"
 
-#: src/gthumb_preferences.glade.h:59
+#: src/gthumb_preferences.glade.h:60
 msgid "Viewer"
 msgstr "Прегледач"
 
-#: src/gthumb_preferences.glade.h:60
+#: src/gthumb_preferences.glade.h:61
 msgid "White"
 msgstr "Бела"
 
-#: src/gthumb_preferences.glade.h:61
-#, fuzzy
-msgid "_Filenames"
-msgstr "Име датотеке"
-
 #: src/gthumb_preferences.glade.h:62
-#, fuzzy
-msgid "_List"
-msgstr "Светло"
+msgid "_Filenames"
+msgstr "_Имена датотека"
 
 #: src/gthumb_preferences.glade.h:63
-#, fuzzy
-msgid "_Slides"
-msgstr "Клизај"
+msgid "_List"
+msgstr "_Списак"
 
-#: src/gthumb_preferences.glade.h:65
+#: src/gthumb_preferences.glade.h:64
+msgid "_Slides"
+msgstr "_Слајдови"
+
+#: src/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
 msgstr "Стил алатке:"
 
-#: src/gthumb_preferences.glade.h:66
+#: src/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
 msgstr "gThumb поставке"
 
-#: src/gthumb_preferences.glade.h:67
+#: src/gthumb_preferences.glade.h:68
 msgid "seconds"
 msgstr "секунде"
 
 #: src/gthumb_print.glade.h:4
-#, fuzzy
-msgid "<b>Orientation</b>"
-msgstr "<b>Правац</b>"
+msgid "<b>Image</b>"
+msgstr "<b>Слика</b>"
 
 #: src/gthumb_print.glade.h:5
-#, fuzzy
-msgid "<b>Size</b>"
-msgstr "<b>Снимање</b>"
+msgid "<b>Orientation</b>"
+msgstr "<b>Усмерење</b>"
 
 #: src/gthumb_print.glade.h:6
+msgid "<b>Size</b>"
+msgstr "<b>Величина</b>"
+
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2889,60 +3128,69 @@ msgstr ""
 "<i>Превуци слику за пребацивање\n"
 "по страници.</i>"
 
-#: src/gthumb_print.glade.h:8
-msgid "A_3 (297 x 420 mm)"
-msgstr ""
-
 #: src/gthumb_print.glade.h:9
-msgid "A_4 (210 x 297 mm)"
-msgstr ""
+msgid "A_4"
+msgstr "А_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "A_5 (148 x 210 mm)"
-msgstr ""
+msgid "C_ustom:"
+msgstr "По _избору"
 
 #: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Центрирај _на страници"
 
 #: src/gthumb_print.glade.h:12
-msgid "E_xecutive (190 x 254 mm)"
-msgstr ""
+msgid "Comment _font:"
+msgstr "_Фонт за примедбу:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
-msgstr ""
+msgstr "У_кључи примедбу"
 
 #: src/gthumb_print.glade.h:14
-msgid "L_egal (216 x 356 mm)"
-msgstr ""
+msgid "Inches"
+msgstr "Инчи"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
-msgstr ""
+msgstr "Поп_реко"
 
 #: src/gthumb_print.glade.h:16
-#, fuzzy
 msgid "Layout"
-msgstr "Распоред:"
+msgstr "Распоред"
 
 #: src/gthumb_print.glade.h:17
-#, fuzzy
-msgid "P_ortrait"
-msgstr "_Ротирај"
+msgid "Millimeters"
+msgstr "Милиметри"
 
 #: src/gthumb_print.glade.h:18
-#, fuzzy
-msgid "Paper Details"
-msgstr "Особине"
+msgid "P_ortrait"
+msgstr "У_здуж"
 
-#: src/gthumb_print.glade.h:20
-msgid "_Letter (216 x 279 mm)"
-msgstr ""
+#: src/gthumb_print.glade.h:19
+msgid "Paper Details"
+msgstr "Детаљи за папир"
 
 #: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "Амерички из_вршни"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "Амерички п_равни"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "Америчко _писмо"
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
 msgstr "_Размера:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -2989,14 +3237,12 @@ msgid "Found images:"
 msgstr "Пронађене слике:"
 
 #: src/gthumb_search.glade.h:17
-#, fuzzy
 msgid "Match a_ll selected categories"
-msgstr "_Означене категорије:"
+msgstr "Поклапање са с_вим изабраним категоријама"
 
 #: src/gthumb_search.glade.h:18
-#, fuzzy
 msgid "Match a_ny selected category"
-msgstr "Уклонити изабрану категорију"
+msgstr "Поклапање са _било којом изабраном категоријом"
 
 #: src/gthumb_search.glade.h:19
 msgid "New _Search..."
@@ -3150,20 +3396,15 @@ msgstr "Ротирај  слику 90 степени супротно крета
 msgid "Search terminated, no duplicates found."
 msgstr "Претрага завршена, дупликати нису пронађени."
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "Следећи _датум:"
-
 #: src/gthumb_tools.glade.h:43
-#, fuzzy
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
 "original filename. Use ? to insert the image date. Use ! to insert the image "
 "size"
 msgstr ""
-"Користити # да се назначе позиције које користи бројшани enumerator. "
-"Користити * за унос првобитног имена датотеке. Користити ? за унос датума "
-"слике."
+"Користите # да се назначе позиције које користи бројчани пребројавач. "
+"Користите * за унос првобитног имена датотеке. Користите ? за унос датума "
+"слике. Користите ! да убаците величину слике"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3181,68 +3422,222 @@ msgstr "по имену"
 msgid "by Size"
 msgstr "по величини"
 
-#: src/main.c:78
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Албум</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Распоред индекса</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Прилагоди тему</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Подаци о фотографији</b>"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Снимање</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Тема</b>"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "Came_ra Model"
+msgstr "Модел каме_ре"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Caption"
+msgstr "Наслов"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr "Начин е_кспозиције"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Exposure _time"
+msgstr "Дужина _експозиције"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "Focal _length"
+msgstr "Жижна даљ_ина"
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "I_mage Caption..."
+msgstr "Наслов _слике..."
+
+#: src/gthumb_web_exporter.glade.h:29
+msgid "Inde_x file:"
+msgstr "Инде_кс датотека:"
+
+#: src/gthumb_web_exporter.glade.h:31
+msgid "Resi_ze images if larger than:"
+msgstr "Промени _величину слика уколико су веће од:"
+
+#: src/gthumb_web_exporter.glade.h:32
+msgid "Sor_t:"
+msgstr "По_ређај:"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "Th_eme:"
+msgstr "Т_ема"
+
+#: src/gthumb_web_exporter.glade.h:35
+#, no-c-format
+msgid "Use %d  to insert current date"
+msgstr "Користите %d да убаците текући датум"
+
+#: src/gthumb_web_exporter.glade.h:36
+msgid "Web Album"
+msgstr "Веб албум"
+
+#: src/gthumb_web_exporter.glade.h:37
+msgid "Web Album Theme"
+msgstr "Тема веб албума"
+
+#: src/gthumb_web_exporter.glade.h:38
+msgid "_Aperture value"
+msgstr "Величина о_твора"
+
+#: src/gthumb_web_exporter.glade.h:39
+msgid "_Copy images to destination"
+msgstr "_Умножи слике у одредиште"
+
+#: src/gthumb_web_exporter.glade.h:40
+msgid "_Date and Time"
+msgstr "_Датум и време"
+
+#: src/gthumb_web_exporter.glade.h:41
+msgid "_Destination:"
+msgstr "О_дредиште:"
+
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Flash"
+msgstr "_Блиц"
+
+#: src/gthumb_web_exporter.glade.h:43
+msgid "_Go to Theme Folder"
+msgstr "_Иди у директоријум са темама"
+
+#: src/gthumb_web_exporter.glade.h:44
+msgid "_Install Theme..."
+msgstr "Инсталирај тему..."
+
+#: src/gthumb_web_exporter.glade.h:46
+msgid "_Shutter speed"
+msgstr "_Брзина затварача"
+
+#: src/gthumb_web_exporter.glade.h:47
+msgid "_Thumbnail Caption..."
+msgstr "_Наслов умањеног приказа"
+
+#: src/gthumb_web_exporter.glade.h:48
+msgid "by modified time"
+msgstr "по времену измене"
+
+#: src/gthumb_web_exporter.glade.h:52
+msgid "index.html"
+msgstr "index.html"
+
+#: src/main.c:81
 msgid "Start in fullscreen mode"
 msgstr "Почни у целом екрану"
 
-#: src/main.c:82
+#: src/main.c:85
 msgid "Automatically start a slideshow"
 msgstr "Аутоматски стартовати низ слика"
 
-#: src/main.c:161
+#: src/main.c:164
 msgid "Holidays"
 msgstr "Одмор"
 
-#: src/main.c:162
+#: src/main.c:165
 msgid "Temporary"
 msgstr "Привемено"
 
-#: src/main.c:163
+#: src/main.c:166
 msgid "Screenshots"
 msgstr "Снимци екрана"
 
-#: src/main.c:164
+#: src/main.c:167
 msgid "Science"
 msgstr "Наука"
 
-#: src/main.c:165
+#: src/main.c:168
 msgid "Favourite"
 msgstr "Омиљено"
 
-#: src/main.c:166
+#: src/main.c:169
 msgid "Important"
 msgstr "Важно"
 
-#: src/main.c:167
+#: src/main.c:170
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:168
+#: src/main.c:171
 msgid "Games"
 msgstr "Игре"
 
-#: src/main.c:169
+#: src/main.c:172
 msgid "Party"
 msgstr "Забава"
 
-#: src/main.c:170
+#: src/main.c:173
 msgid "Birthday"
 msgstr "Рођендан"
 
-#: src/main.c:171
+#: src/main.c:174
 msgid "Astronomy"
 msgstr "Астрономија"
 
-#: src/main.c:172
+#: src/main.c:175
 msgid "Family"
 msgstr "Породица"
 
-#: src/main.c:308 src/main.c:372
+#: src/main.c:312 src/main.c:394
 msgid "Command Line"
 msgstr "Наредбна линија"
 
-#~ msgid "Image Dimensions"
-#~ msgstr "Величина слике"
+#~ msgid ""
+#~ "GConf error:\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "GConf грешка:\n"
+#~ "  %s"
+
+#~ msgid "Transparen_cy Type"
+#~ msgstr "Врста провид_ности"
+
+#~ msgid "View as List"
+#~ msgstr "Погледај као списак"
+
+#~ msgid "View as Thumbnails"
+#~ msgstr "Погледај као умањени приказ"
 
 #~ msgid "File Size"
 #~ msgstr "Величина датотеке"
@@ -3294,9 +3689,6 @@ msgstr "Наредбна линија"
 
 #~ msgid "Paper"
 #~ msgstr "Папир"
-
-#~ msgid "Preview"
-#~ msgstr "Приказ"
 
 #~ msgid "All catego_ries"
 #~ msgstr "Све катего_рије"
