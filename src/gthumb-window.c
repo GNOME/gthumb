@@ -2959,7 +2959,7 @@ pref_show_thumbnails_changed (GConfClient *client,
 	GThumbWindow *window = user_data;
 
 	window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
-	window_enable_thumbs (window->file_list, window->file_list->enable_thumbs);
+	window_enable_thumbs (window, window->file_list->enable_thumbs);
 }
 
 
