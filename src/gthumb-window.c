@@ -7798,14 +7798,12 @@ window_notify_files_changed (GThumbWindow *window,
 	if (! window->file_list->doing_thumbs)
 		gth_file_list_update_thumb_list (window->file_list, list);
 
-	/* FIXME
 	if (window->image_path != NULL) {
-		int pos;
-		pos = gth_file_list_pos_from_path (window->file_list,
-						   window->image_path);
+		int pos = gth_file_list_pos_from_path (window->file_list,
+						       window->image_path);
 		if (pos != -1)
 			view_image_at_pos (window, pos);
-			}*/
+	}
 }
 
 
