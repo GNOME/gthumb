@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-03 04:59+0200\n"
-"PO-Revision-Date: 2003-07-03 10:24+0200\n"
+"POT-Creation-Date: 2003-07-07 13:04+0200\n"
+"PO-Revision-Date: 2003-07-07 21:33+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -351,7 +351,7 @@ msgid "Font"
 msgstr "Písmo"
 
 #: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
-#: src/gthumb_comments.glade.h:8 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_comments.glade.h:8
 msgid "Comment"
 msgstr "Komentář"
 
@@ -360,19 +360,12 @@ msgstr "Komentář"
 msgid "Name"
 msgstr "Název"
 
-#: libgthumb/gtk-utils.c:223 libgthumb/gtk-utils.c:326
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4861
-#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
-#: src/main.c:122
-msgid "gThumb"
-msgstr "gThumb"
-
-#: libgthumb/print-callbacks.c:917 libgthumb/print-callbacks.c:1497
+#: libgthumb/print-callbacks.c:919 libgthumb/print-callbacks.c:1499
 #, c-format
 msgid "Print %s"
 msgstr "Tisk %s"
 
-#: libgthumb/print-callbacks.c:920
+#: libgthumb/print-callbacks.c:922
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
@@ -606,6 +599,12 @@ msgstr "Nelze zobrazit nápovědu: %s"
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
+#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4859
+#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
+#: src/main.c:122
+msgid "gThumb"
+msgstr "gThumb"
+
 #: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
@@ -766,11 +765,11 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5310
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5308
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5320 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5318 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Hodnota"
 
@@ -823,7 +822,7 @@ msgstr "Název souboru"
 msgid "Folder"
 msgstr "Adresář"
 
-#: src/dlg-web-exporter.c:646
+#: src/dlg-web-exporter.c:649
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
@@ -892,7 +891,7 @@ msgid "Adjust hue and saturation"
 msgstr "Upravit odstín a sytost"
 
 #: src/gthumb-ui.xml.h:10
-msgid "Aply threshold"
+msgid "Apply threshold"
 msgstr "Použít práh"
 
 #: src/gthumb-ui.xml.h:11
@@ -1886,28 +1885,28 @@ msgstr "Tažené obrázky"
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5190
+#: src/gthumb-window.c:5189
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5204
+#: src/gthumb-window.c:5203
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5218
+#: src/gthumb-window.c:5217
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6452
+#: src/gthumb-window.c:6449
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6721
+#: src/gthumb-window.c:6718
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8067
+#: src/gthumb-window.c:8064
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2453,7 +2452,7 @@ msgstr "<i>Příklady:</i>"
 msgid "Choose destination folder"
 msgstr "Vyberte cílový adresář"
 
-#: src/gthumb_png_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
 msgstr "Ko_mentář"
 
@@ -2477,7 +2476,7 @@ msgstr "Vytvořit obrázkové mapy v _HTML"
 msgid "F_ooter:"
 msgstr "Zá_patí:"
 
-#: src/gthumb_png_exporter.glade.h:30
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:22
 msgid "File _name"
 msgstr "Název s_ouboru"
 
@@ -2485,7 +2484,7 @@ msgstr "Název s_ouboru"
 msgid "File pa_th"
 msgstr "Ces_ta k souboru"
 
-#: src/gthumb_png_exporter.glade.h:32
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:23
 msgid "File si_ze"
 msgstr "Velikost s_ouboru"
 
@@ -2509,7 +2508,7 @@ msgstr "Záhlaví/zápatí"
 msgid "Hei_ght:"
 msgstr "Výš_ka:"
 
-#: src/gthumb_png_exporter.glade.h:38
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:26
 msgid "Image dim_ensions"
 msgstr "Rozměr_y obrázku"
 
@@ -2529,7 +2528,7 @@ msgstr "Strana"
 msgid "Pi_xels"
 msgstr "Pi_xely"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:31
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:28
 msgid "Re_verse order"
 msgstr "_Obrácené pořadí"
 
@@ -2619,7 +2618,7 @@ msgstr "_Přechod"
 msgid "_Image size:"
 msgstr "Vel_ikost obrázku:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:42
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:41
 msgid "_Rows:"
 msgstr "Řád_ky:"
 
@@ -3262,96 +3261,84 @@ msgid "<b>Theme</b>"
 msgstr "<b>Téma</b>"
 
 #: src/gthumb_web_exporter.glade.h:16
-msgid "Aperture value"
-msgstr "Hodnota clony"
+msgid "Came_ra Model"
+msgstr "Model _fotoaparátu"
 
 #: src/gthumb_web_exporter.glade.h:17
-msgid "Camera Model"
-msgstr "Model fotoaparátu"
-
-#: src/gthumb_web_exporter.glade.h:18
 msgid "Caption"
 msgstr "Titulek"
 
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr "Režim _expozice"
+
 #: src/gthumb_web_exporter.glade.h:21
-msgid "Date and Time"
-msgstr "Datum a čas"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "Exposure mode"
-msgstr "Režim expozice"
-
-#: src/gthumb_web_exporter.glade.h:23
-msgid "Exposure time"
-msgstr "Doba expozice"
+msgid "Exposure _time"
+msgstr "_Doba expozice"
 
 #: src/gthumb_web_exporter.glade.h:24
-msgid "File name"
-msgstr "Název souboru"
+msgid "Focal _length"
+msgstr "Ohnisková _vzdálenost"
 
 #: src/gthumb_web_exporter.glade.h:25
-msgid "File size"
-msgstr "Velikost souboru"
-
-#: src/gthumb_web_exporter.glade.h:26
-msgid "Flash"
-msgstr "Blesk"
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "Focal length"
-msgstr "Ohnisková vzdálenost"
-
-#: src/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "Za_chycení obrázku..."
 
-#: src/gthumb_web_exporter.glade.h:29
-msgid "Image dimensions"
-msgstr "Rozměry obrázku"
-
-#: src/gthumb_web_exporter.glade.h:30
+#: src/gthumb_web_exporter.glade.h:27
 msgid "Inde_x file:"
 msgstr "Soubor s _indexem:"
 
-#: src/gthumb_web_exporter.glade.h:32
+#: src/gthumb_web_exporter.glade.h:29
 msgid "Resi_ze images if larger than:"
 msgstr "Z_menšit obrázky, pokud jsou větší než:"
 
-#: src/gthumb_web_exporter.glade.h:33
-msgid "Shutter speed"
-msgstr "Rychlost závěrky"
-
-#: src/gthumb_web_exporter.glade.h:34
+#: src/gthumb_web_exporter.glade.h:30
 msgid "Sor_t:"
 msgstr "_Třídění:"
 
-#: src/gthumb_web_exporter.glade.h:35
+#: src/gthumb_web_exporter.glade.h:31
 msgid "Th_eme:"
 msgstr "_Téma:"
 
-#: src/gthumb_web_exporter.glade.h:36
+#: src/gthumb_web_exporter.glade.h:32
 msgid "Web Album"
 msgstr "Webové album"
 
-#: src/gthumb_web_exporter.glade.h:37
+#: src/gthumb_web_exporter.glade.h:33
 msgid "Web Album Theme"
 msgstr "Téma webového alba"
 
-#: src/gthumb_web_exporter.glade.h:38
+#: src/gthumb_web_exporter.glade.h:34
+msgid "_Aperture value"
+msgstr "Hodnota _clony"
+
+#: src/gthumb_web_exporter.glade.h:35
 msgid "_Copy images to destination"
 msgstr "_Kopírovat obrázky do cíle"
 
-#: src/gthumb_web_exporter.glade.h:39
+#: src/gthumb_web_exporter.glade.h:36
+msgid "_Date and Time"
+msgstr "_Datum a čas"
+
+#: src/gthumb_web_exporter.glade.h:37
 msgid "_Destination:"
 msgstr "_Cíl:"
 
-#: src/gthumb_web_exporter.glade.h:40
+#: src/gthumb_web_exporter.glade.h:38
+msgid "_Flash"
+msgstr "_Blesk"
+
+#: src/gthumb_web_exporter.glade.h:39
 msgid "_Go to Theme Folder"
 msgstr "Pře_jít do adresáře témat"
 
-#: src/gthumb_web_exporter.glade.h:41
+#: src/gthumb_web_exporter.glade.h:40
 msgid "_Install Theme..."
 msgstr "Na_instalovat téma..."
+
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Shutter speed"
+msgstr "_Rychlost závěrky"
 
 #: src/gthumb_web_exporter.glade.h:43
 msgid "_Thumbnail Caption..."
@@ -3428,6 +3415,15 @@ msgstr "Rodina"
 #: src/main.c:308 src/main.c:374
 msgid "Command Line"
 msgstr "Příkazový řádek"
+
+#~ msgid "File name"
+#~ msgstr "Název souboru"
+
+#~ msgid "File size"
+#~ msgstr "Velikost souboru"
+
+#~ msgid "Image dimensions"
+#~ msgstr "Rozměry obrázku"
 
 #~ msgid "A_3 (297 x 420 mm)"
 #~ msgstr "A_3 (297 × 420 mm)"
