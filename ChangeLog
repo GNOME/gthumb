@@ -1,5 +1,8 @@
 2004-09-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-image-list.c: display 'No Image' where there is
+	no image in the list.
+
 	* data/albumthemes/text.h (text): removed 'click on the image...'
 	message.
 

@@ -20,6 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
+#include <libintl.h>
 #include <string.h>
 #include <math.h>
 #include <glib.h>
@@ -40,6 +42,7 @@
 #include "gthumb-enum-types.h"
 #include "gthumb-slide.h"
 
+#define _(String) dgettext(GETTEXT_PACKAGE,String)
 
 #define DEFAULT_FONT "Sans normal 12"
 
@@ -386,6 +389,7 @@ struct _GthImageListPrivate {
 
 	PangoLayout      *layout;
 	PangoLayout      *comment_layout;
+	PangoLayout      *no_image_msg_layout;
 	guint             layout_timeout;
 
 	int               approx_char_width;
@@ -517,6 +521,11 @@ gth_image_list_finalize (GObject *object)
 	if (priv->comment_layout != NULL) {
 		g_object_unref (priv->comment_layout);
 		priv->comment_layout = NULL;
+	}
+
+	if (priv->no_image_msg_layout != NULL) {
+		g_object_unref (priv->no_image_msg_layout);
+		priv->no_image_msg_layout = NULL;
 	}
 
 	g_free (image_list->priv);
@@ -772,7 +781,7 @@ add_and_layout_line (GthImageList *image_list,
 	GthImageListPrivate *priv = image_list->priv;
 	GthImageListLine    *line;
 
-	line = g_new (GthImageListLine, 1);
+	line = g_new0 (GthImageListLine, 1);
 	line->image_list = line_images;
 	line->y = y;
 	line->image_height = image_height;
@@ -1106,6 +1115,16 @@ gth_image_list_realize (GtkWidget *widget)
 	pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
 	pango_layout_set_font_description (priv->comment_layout, font_desc);
 
+	/* 'No Image' message Layout */
+
+	if (priv->no_image_msg_layout != NULL)
+		g_object_unref (priv->no_image_msg_layout);
+	
+	priv->no_image_msg_layout = gtk_widget_create_pango_layout (widget, NULL);
+	pango_layout_set_wrap (priv->no_image_msg_layout, PANGO_WRAP_WORD_CHAR);
+	pango_layout_set_font_description (priv->no_image_msg_layout, widget->style->font_desc);
+	pango_layout_set_alignment (priv->no_image_msg_layout, PANGO_ALIGN_CENTER);
+	
 	/**/
 
 	context = pango_layout_get_context (priv->comment_layout);
@@ -1638,8 +1657,36 @@ gth_image_list_expose (GtkWidget      *widget,
 
 	scan = g_list_nth (image_list->priv->image_list, pos_start);
 
-	if (pos_start == -1) 
-		return FALSE;
+	if (pos_start == -1) {
+		char           *no_image_msg = _("No image");
+		int             w, h;
+		PangoLayout    *layout = image_list->priv->no_image_msg_layout;
+		PangoRectangle  bounds;
+		
+		gdk_drawable_get_size (image_list->priv->bin_window, &w, &h);
+		
+		pango_layout_set_width (layout, w * PANGO_SCALE);
+		pango_layout_set_text (layout, no_image_msg, strlen (no_image_msg));
+		pango_layout_get_pixel_extents (layout, NULL, &bounds);
+		
+		gdk_draw_layout (image_list->priv->bin_window,
+				 widget->style->text_gc[GTK_WIDGET_STATE (widget)],
+				 0,
+				 (h - bounds.height) / 2,
+				 layout);
+		
+		if (GTK_WIDGET_HAS_FOCUS (widget)) {
+			gtk_paint_focus (widget->style,
+					 image_list->priv->bin_window,
+					 GTK_WIDGET_STATE (widget),
+					 &event->area,
+					 widget,
+					 NULL,
+					 1, 1,
+					 w - 2, h - 2);
+		}
+		return TRUE;
+	}
 
 	for (i = pos_start; i <= pos_end && scan; i++, scan = scan->next) {
 		GthImageListItem *item = scan->data;
