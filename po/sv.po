@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-03-03 14:06+0100\n"
-"PO-Revision-Date: 2003-03-03 14:07+0100\n"
+"POT-Creation-Date: 2003-03-15 14:12+0100\n"
+"PO-Revision-Date: 2003-03-15 14:13+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -297,11 +297,11 @@ msgstr "Skriv ut %s"
 msgid "Print Image"
 msgstr "Skriv ut bild"
 
-#: libgthumb/thumb-cache.c:396
+#: libgthumb/thumb-cache.c:399
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
 
-#: libgthumb/thumb-cache.c:398
+#: libgthumb/thumb-cache.c:401
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
@@ -315,24 +315,24 @@ msgstr "Läser in bild: %s"
 msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
 
-#: src/catalog-web-exporter.c:1100
+#: src/catalog-web-exporter.c:1102
 msgid "Saving thumbnails"
 msgstr "Sparar miniatyrbilder"
 
-#: src/catalog-web-exporter.c:1168
+#: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
 msgstr "Sparar HTML-sidor: Bilder"
 
-#: src/catalog-web-exporter.c:1245
+#: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
 msgstr "Sparar HTML-sidor: Index"
 
-#: src/catalog-web-exporter.c:1550
+#: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
 msgstr "Kunde inte skapa temporär mapp"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1591
 msgid "Loading images"
 msgstr "Läser in bilder"
 
@@ -720,11 +720,11 @@ msgstr "Huvud"
 msgid "Footer"
 msgstr "Fot"
 
-#: src/dlg-rename-series.c:318
+#: src/dlg-rename-series.c:410
 msgid "Old Name"
 msgstr "Gammalt namn"
 
-#: src/dlg-rename-series.c:326
+#: src/dlg-rename-series.c:418
 msgid "New Name"
 msgstr "Nytt namn"
 
@@ -3049,10 +3049,11 @@ msgstr "Sökningen avslutad, inga dubletter hittades."
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
+"original filename. Use ? to insert image date."
 msgstr ""
 "Använd brädgårdar för att ange positioner som ska användas av numerisk "
-"enumerator. Använd * för att infoga ursprungliga filnamnet."
+"enumerator. Använd * för att infoga ursprungliga filnamnet. Använd ? för att "
+"infoga bilddatum."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
