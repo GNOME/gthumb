@@ -2651,6 +2651,28 @@ key_press_cb (GtkWidget   *widget,
 					event->time);
 			
 			return TRUE;
+		} else if (GTK_WIDGET_HAS_FOCUS (window->file_list->ilist)) {
+			GtkWidget *popup_menu;
+			
+			if (window->popup_menu != NULL)
+				gtk_widget_destroy (window->popup_menu);
+			window->popup_menu = popup_menu = gtk_menu_new ();
+			
+			window_update_sensitivity (window);
+			
+			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+						 GTK_MENU (popup_menu), 
+						 "/popups/FilePopup");
+
+			gtk_menu_popup (GTK_MENU (popup_menu),
+					NULL,                                   
+					NULL,                                   
+					NULL,
+					NULL,
+					3,                               
+					event->time);
+			
+			return TRUE;
 		}
 	}
 

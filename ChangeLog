@@ -1,4 +1,11 @@
+2002-11-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 1.106 released ]
+
 2002-11-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (key_press_cb): popup file context menu when
+	the user press Shift-F10.
 
 	* src/gtkorientationbox.c: remove useless variables.
 
