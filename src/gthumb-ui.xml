@@ -119,13 +119,13 @@
 	     _tip="Create a new folder"
 	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
 
-	<cmd name="AlterImage_Rotate90" _label="_Rotate Right" 
+	<cmd name="AlterImage_Rotate90" _label="Rotate Ri_ght" 
 	     _tip="View the image rotated clockwise"
 	     pixtype="stock" pixname="gthumb-rotate-90"/>
-	<cmd name="AlterImage_Rotate90CC" _label="_Rotate Left" 
+	<cmd name="AlterImage_Rotate90CC" _label="Rotate _Left" 
 	     _tip="View the image rotated counter-clockwise"
 	     pixtype="stock" pixname="gthumb-rotate-90-cc"/>
-	<cmd name="AlterImage_Flip" _label="F_lip" 
+	<cmd name="AlterImage_Flip" _label="_Flip" 
 	     _tip="View the image flipped"
 	     pixtype="stock" pixname="gthumb-flip"/>
 	<cmd name="AlterImage_Mirror" _label="_Mirror" 
