@@ -5247,6 +5247,7 @@ _window_add_monitor_event (GThumbWindow             *window,
 {
 	MonitorEventType type;
 
+#ifdef DEBUG
 	{
 		char *op;
 
@@ -5259,6 +5260,7 @@ _window_add_monitor_event (GThumbWindow             *window,
 
 		g_print ("[%s] %s\n", op, path);
 	}
+#endif
 
 	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
 		if (path_is_dir (path))

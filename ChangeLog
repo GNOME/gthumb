@@ -1,3 +1,12 @@
+2002-12-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 1.107 released ]
+	
+2002-12-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-list.c (gil_relayout_images_at): use always the
+	same function to compute the max height.
+
 2002-12-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* README: updated.

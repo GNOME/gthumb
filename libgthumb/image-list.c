@@ -69,7 +69,7 @@
 #define DEFAULT_COL_SPACING   4
 #define DEFAULT_TEXT_SPACING  2
 #define DEFAULT_IMAGE_BORDER  3
-#define TEXT_COMMENT_SPACE    2  /* space between text and comment. */
+#define TEXT_COMMENT_SPACE    4  /* space between text and comment. */
 
 /* Autoscroll timeout in milliseconds */
 #define SCROLL_TIMEOUT 30
@@ -249,7 +249,7 @@ get_text_item_size (GThumbTextItem *text_item,
 		    int *width, 
 		    int *height)
 {
-	if (text_item->text != NULL) {
+	if ((text_item->text != NULL) && (*text_item->text != 0)) {
 		if (width != NULL) 
 			*width = gthumb_text_item_get_text_width (text_item);
 		if (height != NULL)
@@ -374,7 +374,7 @@ gil_place_image (ImageList *gil,
 					x + x_offset + 1,
 					y);
 		get_text_item_size (image->comment, NULL, &comment_height);
-		y += comment_height + TEXT_COMMENT_SPACE + 2;
+		y += comment_height + TEXT_COMMENT_SPACE;
 	} else
 		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (image->comment));
 
@@ -392,9 +392,9 @@ static void
 gil_layout_line (ImageList *gil, 
 		 ImageLine *il)
 {
-	GList *l;
-	gint x;
-	gboolean view_text, view_comment;
+	GList    *l;
+	int       x;
+	gboolean  view_text, view_comment;
 
 	x = 0;
 	for (l = il->line_images; l; l = l->next) {
@@ -438,19 +438,20 @@ static void gil_scrollbar_adjust (ImageList *gil);
 
 static void
 gil_relayout_images_at (ImageList *gil, 
-			gint pos, 
-			gint y)
+			int        pos, 
+			int        y)
 {
-	gint col, row, text_height, image_height, comment_height;
-	gint images_per_line, n;
+	int    col, row, text_height, image_height, comment_height;
+	int    images_per_line, n;
 	GList *line_images, *l;
-	gint max_height, tmp_max_height;
-	gint max_width;
-	gint old_max_image_width;
+	int    max_height;
+	int    max_width;
+	int    old_max_image_width;
 
 	images_per_line = gil_get_images_per_line (gil);
 
-	col = row = text_height = image_height = comment_height = 0;
+	col = row = 0;
+	text_height = image_height = comment_height = 0;
 	max_width = 0;
 	max_height = 0;
 	line_images = NULL;
@@ -458,9 +459,9 @@ gil_relayout_images_at (ImageList *gil,
 	l = g_list_nth (gil->priv->image_list, pos);
 
 	for (n = pos; l; l = l->next, n++) {
-		Image *image = l->data;
-		gint ih, th, ch;
-		gboolean view_text, view_comment;
+		Image    *image = l->data;
+		int       ih, th, ch;
+		gboolean  view_text, view_comment;
 
 		if (! (n % images_per_line)) {
 			if (line_images) {
@@ -473,9 +474,9 @@ gil_relayout_images_at (ImageList *gil,
 				y += max_height + gil->priv->row_spacing;
 			}
 
-			max_height = 0;
-			image_height = 0;
-			text_height = 0;
+			max_height     = 0;
+			image_height   = 0;
+			text_height    = 0;
 			comment_height = 0;
 		}
 
@@ -487,16 +488,15 @@ gil_relayout_images_at (ImageList *gil,
 		if (! view_text) th = 0;
 		if (! view_comment) ch = 0;
 
-		tmp_max_height = ih + th + ch;
-		if ((ch > 0) || (th > 0))
-			tmp_max_height += gil->priv->text_spacing;
-		if ((ch > 0) && (th > 0))
-			tmp_max_height += TEXT_COMMENT_SPACE;
-		max_height = MAX (tmp_max_height, max_height);
-
 		image_height   = MAX (ih, image_height);
 		text_height    = MAX (th, text_height);
 		comment_height = MAX (ch, comment_height);
+
+		max_height = (image_height 
+			      + ((comment_height || text_height) ? gil->priv->text_spacing : 0)
+			      + comment_height
+			      + ((comment_height && text_height) ? TEXT_COMMENT_SPACE : 0)
+			      + text_height);
 
 		line_images = g_list_append (line_images, image);
 	}
