@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 1.101\n"
-"POT-Creation-Date: 2003-05-16 00:39+0800\n"
-"PO-Revision-Date: 2003-05-16 00:39+0800\n"
+"POT-Creation-Date: 2003-07-23 00:07+0800\n"
+"PO-Revision-Date: 2003-07-23 00:07+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -170,12 +170,12 @@ msgstr "_Putih"
 msgid "_Zoom Quality"
 msgstr "Kualiti _Zoom"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:517
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
+#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:414
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d piksel"
@@ -213,28 +213,28 @@ msgstr "Tak dapat membuka katalog \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Tak dapat menyimpan katalog \"%s\": %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
 msgstr "Memadam semua komen, sila tunggu...."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
 msgstr "Memadam komen lama, sila tunggu...."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:747
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:244 src/gthumb-window.c:406
+#: libgthumb/comments.c:749 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
+#: src/fullscreen.c:225 src/gthumb-window.c:411
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:759
 msgid "(No Comment)"
 msgstr "(Tiada Komen)"
 
-#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:307
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Imej bernama \"%s\" sudah wujud. Adakah anda ingin menindihnya?"
@@ -265,82 +265,163 @@ msgstr ""
 "Ralat GConf:\n"
 "  %s"
 
-#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:25
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Selit frasa prebiu baru."
+
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Ubahsuai frasa prebiu..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Prebiu"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Ubahsuai frasa prebiu..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Pemilihan Font"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Pilih satu Font"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Tajuk"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Tajuk bagi kekotak dialog pilihan"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Nama font"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Nama bagi font dipilih"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Prebiu teks"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Prebiu teks yang dipaparkan pada dialog"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Guna font pada label"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Guna font pada label dalam mod maklumat font"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Saiz font bagi label"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Saiz font bagi label dalam mod maklumat font"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Papar saiz"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Papar saiz dalam mod maklumat font"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Font"
+
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
 msgstr "Komen"
 
-#: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:424
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:429
 msgid "Name"
 msgstr "Nama"
 
-#: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
-#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
-#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
-msgid "gThumb"
-msgstr "gThumb"
-
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
+#: libgthumb/print-callbacks.c:921 libgthumb/print-callbacks.c:1500
 #, c-format
 msgid "Print %s"
 msgstr "Cetak %s"
 
-#: libgthumb/print-callbacks.c:786
+#: libgthumb/print-callbacks.c:924
 msgid "Print Image"
 msgstr "Cetak Imej"
 
-#: libgthumb/thumb-cache.c:409
+#: libgthumb/thumb-cache.c:486
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Memadam semua thumbnail, sila tunggu..."
 
-#: libgthumb/thumb-cache.c:411
+#: libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Memadam thumbnail lama, sila tunggu..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
 msgstr "Memuatkan imej: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Mencipta imej : %s.%s"
 
-#: src/catalog-web-exporter.c:1102
+#: src/catalog-web-exporter.c:1453
 msgid "Saving thumbnails"
-msgstr ""
+msgstr "Menyimpan thumbnail"
 
-#: src/catalog-web-exporter.c:1170
+#: src/catalog-web-exporter.c:1521
 msgid "Saving HTML pages: Images"
 msgstr "Menyimpan laman HTML : Imej"
 
-#: src/catalog-web-exporter.c:1247
+#: src/catalog-web-exporter.c:1598
 msgid "Saving HTML pages: Indexes"
 msgstr "Menyimpan laman HTML : Indeks"
 
-#: src/catalog-web-exporter.c:1552
+#: src/catalog-web-exporter.c:1682
+msgid "Saving images"
+msgstr "Menyimpan imej"
+
+#: src/catalog-web-exporter.c:1996
 msgid "Could not create a temporary folder"
 msgstr "Tak dapat mencipta folder "
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1591
+#: src/catalog-web-exporter.c:2035
 msgid "Loading images"
 msgstr "Memuatkan imej"
 
-#: src/commands-impl.c:274 src/commands-impl.c:991 src/commands-impl.c:1553
+#: src/commands-impl.c:274 src/commands-impl.c:1010 src/commands-impl.c:1572
 msgid "Enter the new name: "
 msgstr "Masukkan nama baru : "
 
-#: src/commands-impl.c:278 src/commands-impl.c:995 src/commands-impl.c:1557
+#: src/commands-impl.c:278 src/commands-impl.c:1014 src/commands-impl.c:1576
 #: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Tukarnama"
 
-#: src/commands-impl.c:292 src/commands-impl.c:897 src/commands-impl.c:1009
-#: src/commands-impl.c:1573 src/commands-impl.c:1668
+#: src/commands-impl.c:292 src/commands-impl.c:916 src/commands-impl.c:1028
+#: src/commands-impl.c:1592 src/commands-impl.c:1687
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -349,7 +430,7 @@ msgstr ""
 "Nama \"%s\" adalah tidak sah kerana ia mengandungi aksara \"/\". Sila guna "
 "nama lain."
 
-#: src/commands-impl.c:319 src/dlg-convert.c:316
+#: src/commands-impl.c:319 src/dlg-convert.c:313
 msgid "_Overwrite"
 msgstr "_Tindih"
 
@@ -358,160 +439,174 @@ msgstr "_Tindih"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Tak dapat menukarnama imej \"%s\": %s"
 
-#: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
+#: src/commands-impl.c:341 src/commands-impl.c:1050 src/commands-impl.c:1350
 msgid "source and destination are the same"
 msgstr "sumber dan destinasi adalah sama"
 
-#: src/commands-impl.c:443
+#: src/commands-impl.c:445
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Tak dapat menduakan imej \"%s\": %s"
 
-#: src/commands-impl.c:511
+#: src/commands-impl.c:453
+msgid "Stop"
+msgstr "Henti"
+
+#: src/commands-impl.c:454
+msgid "Continue"
+msgstr "Teruskan"
+
+#: src/commands-impl.c:530
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Imej dipilih akan dipindahkan ke Sampah, anda pasti?"
 
-#: src/commands-impl.c:531
+#: src/commands-impl.c:550
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Imej akan dipindahkan ke Sampah, anda pasti ?"
 
-#: src/commands-impl.c:766
+#: src/commands-impl.c:785
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Imej akan dibuang dari katalog, anda pasti ?"
 
-#: src/commands-impl.c:808
+#: src/commands-impl.c:827
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Imej dipilih akan dibuang dari katalog, anda pasti?"
 
-#: src/commands-impl.c:884 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:190 src/dlg-file-utils.c:89
+#: src/commands-impl.c:903 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:89
 msgid "C_reate"
 msgstr "_Cipta"
 
-#: src/commands-impl.c:913 src/commands-impl.c:1039 src/commands-impl.c:1595
-#: src/commands-impl.c:1687
+#: src/commands-impl.c:932 src/commands-impl.c:1058 src/commands-impl.c:1614
+#: src/commands-impl.c:1706
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Nama  \"%s\" sudah digunakan. Sila guna nama lain."
 
-#: src/commands-impl.c:941
+#: src/commands-impl.c:960
 msgid "New Folder"
 msgstr "Folder Baru"
 
-#: src/commands-impl.c:942
+#: src/commands-impl.c:961
 msgid "Enter the folder name: "
 msgstr "Masukkan nama folder: "
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:962
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Tak dapat mencipta folder \"%s\": %s"
 
-#: src/commands-impl.c:954
+#: src/commands-impl.c:973
 msgid "New Library"
 msgstr "Pustaka Baru"
 
-#: src/commands-impl.c:955 src/dlg-catalog.c:120
+#: src/commands-impl.c:974 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Masukkan nama pustaka: "
 
-#: src/commands-impl.c:956
+#: src/commands-impl.c:975
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Tak dapat mencipta pustaka \"%s\": %s"
 
-#: src/commands-impl.c:1029 src/commands-impl.c:1066
+#: src/commands-impl.c:1048 src/commands-impl.c:1085
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Tak dapat menukarnama folder \"%s\": %s"
 
-#: src/commands-impl.c:1132
+#: src/commands-impl.c:1151
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Tak dapat mencipta folder \"%s\": %s"
 
-#: src/commands-impl.c:1161
+#: src/commands-impl.c:1180
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" tak dapat dipindah ke Sampah. Anda ingin memadamnya terus?"
 
-#: src/commands-impl.c:1198
+#: src/commands-impl.c:1217
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Folder dipilih akan dipindahkan ke Sampah, anda pasti?"
 
-#: src/commands-impl.c:1200 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:274
 msgid "_Move"
 msgstr "_Pindah"
 
-#: src/commands-impl.c:1266 src/commands-impl.c:1321
+#: src/commands-impl.c:1285 src/commands-impl.c:1340
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Tak dapat menyalin folder \"%s\": %s"
 
-#: src/commands-impl.c:1321 src/dlg-file-utils.c:2295
-#: src/dlg-file-utils.c:2297
+#: src/commands-impl.c:1340 src/dlg-file-utils.c:2297
+#: src/dlg-file-utils.c:2299
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Tak dapat memindah folder \"%s\": %s"
 
-#: src/commands-impl.c:1342
+#: src/commands-impl.c:1361
 msgid "source contains destination"
 msgstr "sumber mengandungi destinasi"
 
-#: src/commands-impl.c:1353
+#: src/commands-impl.c:1372
 msgid "a folder with that name is already present."
 msgstr "folder dengan nama itu sudah wujud."
 
-#: src/commands-impl.c:1434 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
+#: src/commands-impl.c:1453 src/dlg-file-utils.c:360 src/dlg-file-utils.c:449
 msgid "Choose the destination folder"
 msgstr "Pilih folder destinasi"
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1625
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Tak dapat menukarnama pustaka \"%s\": %s"
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1625
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Tak dapat menukarnama katalog \"%s\": %s"
 
-#: src/commands-impl.c:1652 src/dlg-catalog.c:79
+#: src/commands-impl.c:1671 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Masukkan nama katalog: "
 
-#: src/commands-impl.c:1653
+#: src/commands-impl.c:1672
 msgid "New Catalog"
 msgstr "Katalog Baru"
 
-#: src/commands-impl.c:1698
+#: src/commands-impl.c:1717
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Tak dapat mencipta katalog \"%s\": %s"
 
-#: src/commands-impl.c:1762
+#: src/commands-impl.c:1781
 msgid "The selected library will be removed, are you sure?"
 msgstr "Pustaka dipilih akan dibuang, anda pasti ?"
 
-#: src/commands-impl.c:1764
+#: src/commands-impl.c:1783
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Katalog dipilih akan dibuang, anda pasti ?"
 
-#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:448
+#: src/commands-impl.c:2752 src/dlg-categories.c:337 src/dlg-comment.c:327
+#: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
+#: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Tak dapat memapar bantuan: %s"
 
-#: src/commands-impl.c:2794
+#: src/commands-impl.c:2803
 msgid "translator_credits"
 msgstr ""
 "Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Noor Azurah Bte Anuar <gbumla@yahoo.com>"
 
-#: src/commands-impl.c:2806
+#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4880
+#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
+#: src/main.c:124
+msgid "gThumb"
+msgstr "gThumb"
+
+#: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
 msgstr "Pelungsur dan pelihat imej untuk GNOME"
 
@@ -519,27 +614,36 @@ msgstr "Pelungsur dan pelihat imej untuk GNOME"
 msgid "Move Catalog to..."
 msgstr "Pindah Katalog ke..."
 
-#: src/dlg-categories.c:186
+#: src/dlg-categories.c:196
 msgid "Enter the new category name"
 msgstr "Masukkan nama kategori baru "
 
-#: src/dlg-categories.c:197
+#: src/dlg-categories.c:207
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+"Nama \"%s\" adalah tidak sah kerana ia mengandungi aksara \",\". Sila guna "
+"nama lain."
+
+#: src/dlg-categories.c:212
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategori  \"%s\" sudah ada. Sila guna nama lain."
 
-#: src/dlg-convert.c:161
+#: src/dlg-convert.c:158
 #, c-format
 msgid "Converting image: %s"
 msgstr "Menukar imej: %s"
 
-#: src/dlg-convert.c:184
+#: src/dlg-convert.c:181
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Imej bernama  \"%s\" sudah ada. Sila nyatakan  nama lain."
 
-#: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
+#: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
 msgid "Skip"
 msgstr "Langkau"
 
@@ -584,75 +688,75 @@ msgstr ""
 "Anda tidak mempunyai keizinan mencukupi untuk mencipta imej pada folder \"%s"
 "\""
 
-#: src/dlg-file-utils.c:199
+#: src/dlg-file-utils.c:200
 msgid "Could not delete the images:"
 msgstr "Tak dapat memadam imej:"
 
-#: src/dlg-file-utils.c:219
+#: src/dlg-file-utils.c:220
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Imej tak dapat dipindah ke Sampah. Adakah anda ingin memadamnya terus?"
 
-#: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
+#: src/dlg-file-utils.c:751 src/dlg-file-utils.c:852
 msgid "You didn't enter the new name"
 msgstr "Anda tidak memasukkan nama baru"
 
-#: src/dlg-file-utils.c:762 src/dlg-file-utils.c:863
+#: src/dlg-file-utils.c:763 src/dlg-file-utils.c:864
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Nama  \"%s\" sudah digunakan dalam folder ini. Sila guna nama lain."
 
-#: src/dlg-file-utils.c:1002
+#: src/dlg-file-utils.c:1003
 msgid "Could not rename the image:"
 msgstr "Tak dapat menukarnama imej:"
 
-#: src/dlg-file-utils.c:1004
+#: src/dlg-file-utils.c:1005
 msgid "Could not rename the following images:"
 msgstr "Tidak dapat menukarnama imej berikut:"
 
-#: src/dlg-file-utils.c:1137
+#: src/dlg-file-utils.c:1138
 msgid "Could not move the image:"
 msgstr "Tak dapat memindah imej:"
 
-#: src/dlg-file-utils.c:1139
+#: src/dlg-file-utils.c:1140
 msgid "Could not copy the image:"
 msgstr "Tak dapat menyalin imej:"
 
-#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2317
+#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2320
 msgid "_Abort"
 msgstr "_Batal"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2318
+#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2321
 msgid "_Continue"
 msgstr "_Teruskan"
 
-#: src/dlg-file-utils.c:1335
+#: src/dlg-file-utils.c:1337
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Menyalin fail %d drpd %d"
 
-#: src/dlg-file-utils.c:1718 src/dlg-file-utils.c:1904
+#: src/dlg-file-utils.c:1720 src/dlg-file-utils.c:1906
 msgid "Collecting images info"
 msgstr "Mengumpul maklumat imej"
 
-#: src/dlg-file-utils.c:1721 src/dlg-file-utils.c:1917
+#: src/dlg-file-utils.c:1723 src/dlg-file-utils.c:1919
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Memadam fail %ld drpd %ld"
 
-#: src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:1909
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Menyalin fail %ld drpd %ld"
 
-#: src/dlg-file-utils.c:1912
+#: src/dlg-file-utils.c:1914
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Memindah fail %ld drpd %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:431
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:436
 msgid "Size"
 msgstr "Saiz"
 
@@ -660,11 +764,11 @@ msgstr "Saiz"
 msgid "Type"
 msgstr "Jenis"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:438
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:443
 msgid "Bytes"
 msgstr "Byte"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:445
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:450
 msgid "Modified"
 msgstr "Diubahsuai"
 
@@ -672,12 +776,12 @@ msgstr "Diubahsuai"
 msgid "Information on Channel"
 msgstr "Maklumat pada saluran"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5329
 msgid "Field"
 msgstr "Medan"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
-msgid "Value"
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5339
+msgid "Value "
 msgstr "Nilai"
 
 #: src/dlg-image-prop.c:991
@@ -707,13 +811,13 @@ msgstr "Pengepala"
 
 #: src/dlg-png-exporter.c:1063 src/dlg-png-exporter.c:1069
 msgid "Footer"
-msgstr ""
+msgstr "Pengaki"
 
-#: src/dlg-rename-series.c:419
+#: src/dlg-rename-series.c:427
 msgid "Old Name"
 msgstr "Nama Lama"
 
-#: src/dlg-rename-series.c:427
+#: src/dlg-rename-series.c:435
 msgid "New Name"
 msgstr "Nama Baru"
 
@@ -721,31 +825,31 @@ msgstr "Nama Baru"
 msgid "Search Result"
 msgstr "Hasil Pencarian"
 
-#: src/dlg-search.c:808
+#: src/dlg-search.c:810
 msgid "Filename"
 msgstr "Namafail"
 
-#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Folder"
 
-#: src/dlg-web-exporter.c:587
+#: src/dlg-web-exporter.c:649
 msgid "Select Album Theme"
 msgstr "Pilih Tema Album"
 
-#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Pulihkan paparan normal"
 
-#: src/fullscreen.c:822
+#: src/fullscreen.c:800
 msgid "Image Info"
 msgstr "Maklumat Imej"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4253
+#: src/fullscreen.c:818 src/gthumb-window.c:4273
 msgid "Back"
 msgstr "Undur"
 
-#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
+#: src/fullscreen.c:836 src/gthumb-ui.xml.h:52
 msgid "Forward"
 msgstr "Maju"
 
@@ -799,7 +903,7 @@ msgid "Adjust hue and saturation"
 msgstr "Ubahsuai hue dan ketepuan"
 
 #: src/gthumb-ui.xml.h:10
-msgid "Aply threshold"
+msgid "Apply threshold"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:11
@@ -1109,7 +1213,7 @@ msgstr "Main _Animasi"
 msgid "Previous"
 msgstr "Terdahulu"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
 msgstr "Cetak"
 
@@ -1428,7 +1532,7 @@ msgstr "Lihat imej dengan warna negatif"
 
 #: src/gthumb-ui.xml.h:175
 msgid "View thumbnails"
-msgstr ""
+msgstr "Lihat thumbnail"
 
 #: src/gthumb-ui.xml.h:176
 msgid "Zoom _In"
@@ -1755,82 +1859,83 @@ msgstr "mengikut _Saiz"
 msgid "by _Time"
 msgstr "mengikut _Masa"
 
-#: src/gthumb-window.c:687
+#: src/gthumb-window.c:692
 msgid "[Press 'c' to add a comment]"
-msgstr ""
+msgstr "[Tekan 'c' untuk menambah komen]"
 
-#: src/gthumb-window.c:762 src/gthumb-window.c:785
+#: src/gthumb-window.c:766 src/gthumb-window.c:789
 msgid "[modified]"
 msgstr "[diubahsuai]"
 
-#: src/gthumb-window.c:869
+#: src/gthumb-window.c:873
 msgid "No image"
 msgstr "Tiada Imej"
 
-#: src/gthumb-window.c:871
+#: src/gthumb-window.c:875
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imej (%s)"
 
-#: src/gthumb-window.c:874
+#: src/gthumb-window.c:878
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imej (%s)"
 
-#: src/gthumb-window.c:881
+#: src/gthumb-window.c:885
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 dipilih (%s)"
 
-#: src/gthumb-window.c:884
+#: src/gthumb-window.c:888
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d dipilih (%s)"
 
-#: src/gthumb-window.c:3363
+#: src/gthumb-window.c:3379
 msgid "Dragged Images"
 msgstr "Imej diheret"
 
-#: src/gthumb-window.c:3557
+#: src/gthumb-window.c:3575
 msgid "Could not move the items:"
 msgstr "Tak dapat memindah item:"
 
-#: src/gthumb-window.c:5170
+#: src/gthumb-window.c:5210
 msgid "Image comment"
 msgstr "Komen imej"
 
-#: src/gthumb-window.c:5184
+#: src/gthumb-window.c:5224
 msgid "Image data"
 msgstr "Data Imej"
 
-#: src/gthumb-window.c:5198
+#: src/gthumb-window.c:5238
 msgid "Image preview"
 msgstr "Prebiu imej"
 
-#: src/gthumb-window.c:6456
+#: src/gthumb-window.c:6468
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Tak dapat memuatkan folder \"%s\": %s\n"
 
-#: src/gthumb-window.c:6725
+#: src/gthumb-window.c:6737
 msgid "The specified catalog does not exist."
 msgstr "Katalog dinyatakan tidak wujud."
 
-#: src/gthumb-window.c:8071
+#: src/gthumb-window.c:8083
 msgid "Wait please..."
 msgstr "Sila tunggu..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1918,6 +2023,10 @@ msgstr "Aplikasi Ke_belakangan:"
 msgid "Red"
 msgstr "merah"
 
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Nilai"
+
 #: src/gthumb.glade.h:26
 msgid "_Application:"
 msgstr "_Aplikasi:"
@@ -1954,11 +2063,6 @@ msgstr "_Buang"
 msgid "_Save the new image as:"
 msgstr "_Simpan imej baru sebagai:"
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
-#: src/gthumb_search.glade.h:2
-msgid "..."
-msgstr "..."
-
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "Kategori yang _ada:"
@@ -1979,39 +2083,67 @@ msgstr "Ko_men:"
 msgid "Create a new category"
 msgstr "Cipta kategori baru"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Tarikh semasa"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Tarikh imej di_cipta"
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Tarikh imej dicipta"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Tiada tarikh"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr ""
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr "Buang kategori yang dipilih"
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "Tarikh _berikut:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "Tarikh berikut"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "Tarikh:"
 
-#: src/gthumb_comments.glade.h:15
+#: src/gthumb_comments.glade.h:21
 msgid "_Delete"
 msgstr "Pa_dam"
 
-#: src/gthumb_comments.glade.h:16
+#: src/gthumb_comments.glade.h:22
 msgid "_New"
 msgstr "Ba_ru"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Tiada tarikh"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "Te_mpat:"
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "Kategori yang _dipilih:"
 
@@ -2132,8 +2264,8 @@ msgid "dpi"
 msgstr "dpi"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
-#: src/gthumb_tools.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
@@ -2206,7 +2338,7 @@ msgstr "Lebar:"
 msgid "_Brightness:"
 msgstr "_Kecerahan:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "_Tinggi:"
 
@@ -2246,7 +2378,7 @@ msgstr "Ke_tepuan:"
 msgid "_Scale"
 msgstr "_Skala"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "_Lebar:"
 
@@ -2254,7 +2386,7 @@ msgstr "_Lebar:"
 msgid "_Yellow-Blue:"
 msgstr "_kuning-Biru:"
 
-#: src/gthumb_edit.glade.h:33
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:51
 msgid "pixels"
 msgstr "piksel"
 
@@ -2312,7 +2444,7 @@ msgstr "<b>Folder destinasi</b>"
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
-msgstr ""
+msgstr "<b>Pengaki</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
 msgid "<b>Header and footer</b>"
@@ -2338,11 +2470,11 @@ msgstr "<i>Contoh:</i>"
 msgid "Choose destination folder"
 msgstr "Pilih folder destinasi"
 
-#: src/gthumb_png_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
 msgstr "Ko_men"
 
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
 msgid "Col_umns:"
 msgstr "Kol:um:"
 
@@ -2360,9 +2492,9 @@ msgstr "Cipta peta imej _HTML"
 
 #: src/gthumb_png_exporter.glade.h:29
 msgid "F_ooter:"
-msgstr ""
+msgstr "Penga_ki:"
 
-#: src/gthumb_png_exporter.glade.h:30
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:22
 msgid "File _name"
 msgstr "_nama fail"
 
@@ -2370,7 +2502,7 @@ msgstr "_nama fail"
 msgid "File pa_th"
 msgstr "Pa_th fail"
 
-#: src/gthumb_png_exporter.glade.h:32
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:23
 msgid "File si_ze"
 msgstr "Sai_z fail"
 
@@ -2388,13 +2520,13 @@ msgstr "_Pengepala"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Header/Footer"
-msgstr ""
+msgstr "Pengepala/Pengaki"
 
 #: src/gthumb_png_exporter.glade.h:37
 msgid "Hei_ght:"
 msgstr "Tin_ggi:"
 
-#: src/gthumb_png_exporter.glade.h:38
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:26
 msgid "Image dim_ensions"
 msgstr "_Dimensi imej"
 
@@ -2414,7 +2546,7 @@ msgstr "Halaman"
 msgid "Pi_xels"
 msgstr "Pi_ksel"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:28
 msgid "Re_verse order"
 msgstr "Turutan _songsang"
 
@@ -2450,7 +2582,7 @@ msgstr "Ringkas sengan bebayang"
 msgid "Slide"
 msgstr "Slaid"
 
-#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
+#: src/gthumb_png_exporter.glade.h:52
 msgid "Sor_t images:"
 msgstr "_Isih Imej:"
 
@@ -2502,7 +2634,7 @@ msgstr "_Gradien"
 msgid "_Image size:"
 msgstr "Saiz _imej:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:41
 msgid "_Rows:"
 msgstr "_Baris:"
 
@@ -2514,15 +2646,15 @@ msgstr "Warna _Tegar"
 msgid "_Template:"
 msgstr "_Templat:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:46
 msgid "by name"
 msgstr "mengikut _nama"
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:47
 msgid "by path"
 msgstr "mengikut path"
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:48
 msgid "by size"
 msgstr "Mengikut saiz"
 
@@ -2537,66 +2669,6 @@ msgstr "jpeg"
 #: src/gthumb_png_exporter.glade.h:77
 msgid "png"
 msgstr "png"
-
-#: src/gthumb_web_exporter.glade.h:5
-msgid "<b>Album</b>"
-msgstr "<b>Album</b>"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "<b>Index Layout</b>"
-msgstr "<b>Susunatur Indeks</b>"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "<b>Saving</b>"
-msgstr "<b>Penyimpanan</b>"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "<b>Theme</b>"
-msgstr "<b>Tema</b>"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "Inde_x file:"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "Th_eme:"
-msgstr "T_ema:"
-
-#: src/gthumb_web_exporter.glade.h:14
-msgid "Web Album"
-msgstr "Album Web"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Web Album Theme"
-msgstr "Tema Album Web"
-
-#: src/gthumb_web_exporter.glade.h:16
-msgid "_Copy images to destination"
-msgstr "_Salin imej ini ke destinasi"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "_Destination:"
-msgstr "_Destinasi:"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "_Go to Theme Folder"
-msgstr "_Pergi ke Folder Tema"
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "_Install Theme..."
-msgstr "_Pasang Tema..."
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "_Title:"
-msgstr "_Tajuk:"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "by modified time"
-msgstr "mengikut masa ubahsuai"
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "index.html"
-msgstr "index.html"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
@@ -2672,11 +2744,11 @@ msgstr "<b>Kualiti zum</b>"
 
 #: src/gthumb_preferences.glade.h:22
 msgid "Activate items with a double click"
-msgstr ""
+msgstr "Aktifkan item dengan dwi klik"
 
 #: src/gthumb_preferences.glade.h:23
 msgid "Activate items with a single click"
-msgstr ""
+msgstr "Aktifkan item dengan satu klik"
 
 #: src/gthumb_preferences.glade.h:24
 msgid "After _loading an image:"
@@ -2696,7 +2768,7 @@ msgstr "Pelungsur"
 
 #: src/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
-msgstr ""
+msgstr "Polisi k_lik:"
 
 #: src/gthumb_preferences.glade.h:29
 msgid "Checked"
@@ -2708,7 +2780,7 @@ msgstr "Ko_men"
 
 #: src/gthumb_preferences.glade.h:31
 msgid "D_elay before changing image:"
-msgstr ""
+msgstr "Lengahan sebelum menukar imej:"
 
 #: src/gthumb_preferences.glade.h:32
 msgid "D_etermine image type from content (slower)"
@@ -2740,7 +2812,7 @@ msgstr "Umum"
 
 #: src/gthumb_preferences.glade.h:39
 msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgstr "Pergi ke folder atau katalog terakhir di_lawati"
 
 #: src/gthumb_preferences.glade.h:40
 msgid "Go to this _folder:"
@@ -2787,9 +2859,8 @@ msgid "Set to C_urrent"
 msgstr "Tetapkan sebagai _Semasa"
 
 #: src/gthumb_preferences.glade.h:52
-#, fuzzy
 msgid "Switch to _full screen"
-msgstr "Beralih ke  skrin penuh"
+msgstr "Beralih ke skrin _penuh"
 
 #: src/gthumb_preferences.glade.h:53
 msgid "System settings"
@@ -2808,9 +2879,8 @@ msgid "Text only"
 msgstr "Teks sahaja"
 
 #: src/gthumb_preferences.glade.h:57
-#, fuzzy
 msgid "Th_umbnail size:"
-msgstr "Saiz _imej:"
+msgstr "Saiz th_umbnail:"
 
 #: src/gthumb_preferences.glade.h:58
 msgid "Transparency _type:"
@@ -2849,46 +2919,48 @@ msgid "seconds"
 msgstr "saat"
 
 #: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Imej</b>"
+
+#: src/gthumb_print.glade.h:5
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientasi</b>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:6
 msgid "<b>Size</b>"
 msgstr "<b>Saiz</b>"
 
-#: src/gthumb_print.glade.h:6
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
-
-#: src/gthumb_print.glade.h:8
-msgid "A_3 (297 x 420 mm)"
-msgstr "A_3 (297 x 420 mm)"
+"<i>Heret imej untuk gerakkan\n"
+" ia ke halaman.</i>"
 
 #: src/gthumb_print.glade.h:9
-msgid "A_4 (210 x 297 mm)"
-msgstr "A_4 (210 x 297 mm)"
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "A_5 (148 x 210 mm)"
-msgstr "A_5 (148 x 210 mm)"
+msgid "C_ustom:"
+msgstr "Ter_sendiri:"
 
 #: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Tengah _pada Halaman"
 
 #: src/gthumb_print.glade.h:12
-msgid "E_xecutive (190 x 254 mm)"
-msgstr "E_ksekutif (190 x 254 mm)"
+msgid "Comment _font:"
+msgstr "Komen _font:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
 msgstr "Ter_masuk komen"
 
 #: src/gthumb_print.glade.h:14
-msgid "L_egal (216 x 356 mm)"
-msgstr ""
+msgid "Inches"
+msgstr "Inci"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
@@ -2899,20 +2971,36 @@ msgid "Layout"
 msgstr "Susunatur"
 
 #: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Milimeter"
+
+#: src/gthumb_print.glade.h:18
 msgid "P_ortrait"
 msgstr "P_otret"
 
-#: src/gthumb_print.glade.h:18
+#: src/gthumb_print.glade.h:19
 msgid "Paper Details"
 msgstr "Perincian Kertas"
 
-#: src/gthumb_print.glade.h:20
-msgid "_Letter (216 x 279 mm)"
+#: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_ksecutif"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
 msgstr ""
 
-#: src/gthumb_print.glade.h:21
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr ""
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
 msgstr "_Skala:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -2995,9 +3083,8 @@ msgid "<b>Comments</b>"
 msgstr "<b>Komen</b>"
 
 #: src/gthumb_tools.glade.h:5
-#, fuzzy
 msgid "<b>File list order</b>"
-msgstr "Sejarah"
+msgstr "<b>Turutan senarai fail</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
@@ -3005,7 +3092,7 @@ msgstr "<b>Nyatakan templat untuk digunakan bagi menukarnama imej</b>"
 
 #: src/gthumb_tools.glade.h:7
 msgid "<b>Thumbnails</b>"
-msgstr ""
+msgstr "<b>Thumbnail</b>"
 
 #: src/gthumb_tools.glade.h:8
 msgid "Apply to _all images"
@@ -3121,10 +3208,6 @@ msgstr ""
 msgid "Search terminated, no duplicates found."
 msgstr ""
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "Tarikh _berikut:"
-
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
@@ -3148,62 +3231,203 @@ msgstr "mengikut Nama"
 msgid "by Size"
 msgstr "mengikut Saiz"
 
-#: src/main.c:78
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Susunatur Indeks</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Personalisasi tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Data foto</b>"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Penyimpanan</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "Came_ra Model"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Caption"
+msgstr "Kapsyen"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Exposure _time"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:24
+msgid "Focal _length"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "I_mage Caption..."
+msgstr "Kapsyen I_mej..."
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "Inde_x file:"
+msgstr "Fail inde_ks:"
+
+#: src/gthumb_web_exporter.glade.h:29
+msgid "Resi_ze images if larger than:"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:30
+msgid "Sor_t:"
+msgstr "_Isih:"
+
+#: src/gthumb_web_exporter.glade.h:31
+msgid "Th_eme:"
+msgstr "T_ema:"
+
+#: src/gthumb_web_exporter.glade.h:32
+msgid "Web Album"
+msgstr "Album Web"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "Web Album Theme"
+msgstr "Tema Album Web"
+
+#: src/gthumb_web_exporter.glade.h:34
+msgid "_Aperture value"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:35
+msgid "_Copy images to destination"
+msgstr "_Salin imej ini ke destinasi"
+
+#: src/gthumb_web_exporter.glade.h:36
+msgid "_Date and Time"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:37
+msgid "_Destination:"
+msgstr "_Destinasi:"
+
+#: src/gthumb_web_exporter.glade.h:38
+#, fuzzy
+msgid "_Flash"
+msgstr "_Namafail"
+
+#: src/gthumb_web_exporter.glade.h:39
+msgid "_Go to Theme Folder"
+msgstr "_Pergi ke Folder Tema"
+
+#: src/gthumb_web_exporter.glade.h:40
+msgid "_Install Theme..."
+msgstr "_Pasang Tema..."
+
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Shutter speed"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:43
+msgid "_Thumbnail Caption..."
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:44
+msgid "_Title:"
+msgstr "_Tajuk:"
+
+#: src/gthumb_web_exporter.glade.h:45
+msgid "by modified time"
+msgstr "mengikut masa ubahsuai"
+
+#: src/gthumb_web_exporter.glade.h:50
+msgid "index.html"
+msgstr "index.html"
+
+#: src/main.c:80
 msgid "Start in fullscreen mode"
 msgstr "Bermula pada mod skrin penuh"
 
-#: src/main.c:82
+#: src/main.c:84
 msgid "Automatically start a slideshow"
 msgstr "Automatik mula paparan slaid"
 
-#: src/main.c:161
+#: src/main.c:163
 msgid "Holidays"
 msgstr "Cuti"
 
-#: src/main.c:162
+#: src/main.c:164
 msgid "Temporary"
 msgstr "Sementara"
 
-#: src/main.c:163
+#: src/main.c:165
 msgid "Screenshots"
 msgstr "Cekupanskrin"
 
-#: src/main.c:164
+#: src/main.c:166
 msgid "Science"
 msgstr "Sains"
 
-#: src/main.c:165
+#: src/main.c:167
 msgid "Favourite"
 msgstr "Kegemaran"
 
-#: src/main.c:166
+#: src/main.c:168
 msgid "Important"
 msgstr "Penting"
 
-#: src/main.c:167
+#: src/main.c:169
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:168
+#: src/main.c:170
 msgid "Games"
 msgstr "Permainan"
 
-#: src/main.c:169
+#: src/main.c:171
 msgid "Party"
 msgstr "Parti"
 
-#: src/main.c:170
+#: src/main.c:172
 msgid "Birthday"
 msgstr "Hari jadi"
 
-#: src/main.c:171
+#: src/main.c:173
 msgid "Astronomy"
 msgstr "Falak"
 
-#: src/main.c:172
+#: src/main.c:174
 msgid "Family"
 msgstr "Keluarga"
 
-#: src/main.c:308 src/main.c:372
+#: src/main.c:311 src/main.c:393
 msgid "Command Line"
 msgstr "Arahan Baris"
