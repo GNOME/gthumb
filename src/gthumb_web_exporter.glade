@@ -1405,7 +1405,7 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkVBox" id="vbox37">
+	    <widget class="GtkVBox" id="c_exif_data_vbox">
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">6</property>

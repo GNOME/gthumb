@@ -223,12 +223,12 @@ msgstr "Eliminazione dei vecchi commenti in corso..."
 
 #: libgthumb/comments.c:746
 msgid "%d %B %Y"
-msgstr "%-b %B %Y"
+msgstr "%-d %B %Y"
 
 #: libgthumb/comments.c:748 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
 #: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
-msgstr "%-b %B %Y, %k.%M"
+msgstr "%-d %B %Y, %k.%M"
 
 #: libgthumb/comments.c:758
 msgid "(No Comment)"

@@ -1915,7 +1915,7 @@ gth_file_list_cursor_changed_cb (GtkWidget *widget,
 	GThumbWindow *window = data;	
 	char         *focused_image;
 
-	if (window->setting_file_list) 
+	if (window->setting_file_list || window->changing_directory) 
 		return;
 
 	focused_image = gth_file_list_path_from_pos (window->file_list, pos);
@@ -4851,10 +4851,8 @@ window_new (void)
 	BonoboWindow      *win;
 	GtkTreeSelection  *selection;
 	int                i; 
-#ifdef HAVE_LIBEXIF
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-#endif /* HAVE_LIBEXIF */
 
 	window = g_new0 (GThumbWindow, 1);
 
@@ -5306,7 +5304,6 @@ window_new (void)
 
 	/**/
 
-#ifdef HAVE_LIBEXIF
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (_("Field"),
 							   renderer,
@@ -5324,7 +5321,6 @@ window_new (void)
 							   NULL);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
 				     column);
-#endif /* HAVE_LIBEXIF */
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (window->image_exif_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
