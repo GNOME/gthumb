@@ -21,6 +21,8 @@
 #ifndef __JPEG_DATA_H__
 #define __JPEG_DATA_H__
 
+#ifdef HAVE_LIBEXIF
+
 #include "jpeg-marker.h"
 #include <libexif/exif-data.h>
 
@@ -84,5 +86,7 @@ ExifData *jpeg_data_get_exif_data (JPEGData *data);
 void      jpeg_data_dump (JPEGData *data);
 
 void      jpeg_data_append_section (JPEGData *data);
+
+#endif /* HAVE_LIBEXIF */
 
 #endif /* __JPEG_DATA_H__ */

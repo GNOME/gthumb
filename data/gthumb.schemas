@@ -326,6 +326,11 @@
 	  <long>Bilder över denna storlek (i byte) kommer det inte att skapas miniatyrbilder för. Använd 0 om du vill generera miniatyrbilder för alla bilder.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Bu büyüklüğün(byte) üstündeki resimlerin küçük resmi olmayacaktır. Bütün resimlerin küçük resminin olmasını isterseniz 0 kullanın.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>З зображень цього розміру (у байтах) не будуть створюватись мініатюри. Вкажіть 0, якщо бажаєте створювати мініатюри для будь-яких зображень.</long>
@@ -444,6 +449,11 @@
 	  <long>Mulige verdier er: nautilus, single, double.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਨਟਾਲਿਸ, ਇੱਕਲਾ, ਦੂਹਰਾ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: nautilus, single, double.</long>
@@ -477,6 +487,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: nautilus, tek, çift.</long>
 	</locale>
 
 	<locale name="uk">
@@ -610,6 +625,11 @@
 	  <long>Mulige verdier er: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਕੋਈ ਨਹੀ, ਨਾਮ, ਰਸਤਾ, ਅਕਾਰ, ਸਮਾਂ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: none, name, path, size, time.</long>
@@ -643,6 +663,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: hiçbiri, isim, yol, boyut, tarih.</long>
 	</locale>
 
 	<locale name="uk">
@@ -763,6 +788,11 @@
 	  <long>Mulige verdier er: ascending, descending.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਆਰੋਹੀ, ਅਵਰੋਹੀ</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: ascending, descending.</long>
@@ -796,6 +826,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: ascending, descending.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: artan, azalan.</long>
 	</locale>
 
 	<locale name="uk">
@@ -951,6 +986,11 @@
 	  <long>Möjliga värden är: list, thumbnails.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: liste, küçük resim.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: list(список), thumbnails(мініатюри).</long>
@@ -1082,6 +1122,11 @@
 	  <long>Mulige verdier er: image, data, comment.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਚਿੱਤਰ, ਡਾਟਾ, ਟਿੱਪਣੀ</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: image, data, comment.</long>
@@ -1115,6 +1160,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: image, data, comment.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: resim, veri, açıklama.</long>
 	</locale>
 
 	<locale name="uk">
@@ -1250,6 +1300,11 @@
 	  <long>Mulige verdier er: high, low.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਘੱਟ, ਜਿਆਦਾ</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: high, low.</long>
@@ -1283,6 +1338,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: high, low.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: yüksek, düşük.</long>
 	</locale>
 
 	<locale name="uk">
@@ -1404,6 +1464,11 @@
 	  <long>Mulige verdier er: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਅਸਲੀ ਅਕਾਰ, ਅਨੁਕੂਲ, ਪਿਛਲਾ, ਜੇਕਰ ਵੱਡਾ ਤਾਂ ਅਨੁਕੂਲ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1437,6 +1502,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: güncel_boyut, uygun, öncekini_koru, eğer_büyükse_uydur.</long>
 	</locale>
 
 	<locale name="uk">
@@ -1592,6 +1662,11 @@
 	  <long>Möjliga värden är: white, black, checked, none.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: beyaz, siyah, kareli, hiçbiri.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: white(білий), black(чорний), checked(клітинки), none(немає).</long>
@@ -1745,6 +1820,11 @@
 	  <long>Möjliga värden är: light, midtone, dark.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: açık, orta, koyu.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: light(світлий), midtone(півтони), dark(темний).</long>
@@ -1863,6 +1943,11 @@
 	  <long>Mulige verdier er: small, medium, large.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਛੋਟਾ, ਮੱਧਮ, ਵੱਡਾ</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: small, medium, large.</long>
@@ -1896,6 +1981,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: small, medium, large.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: küçük, orta, büyük.</long>
 	</locale>
 
 	<locale name="uk">
@@ -2046,6 +2136,11 @@
 	  <long>Huruvida en svart bakgrund alltid ska användas.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Her zaman arkaplanı siyah olarak kullan.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Чи завжди використовувати чорне тло.</long>
@@ -2154,6 +2249,11 @@
 	<locale name="no">
 	  
 	  <long>Mulige verdier er: forward, backward, random.</long>
+	</locale>
+
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਅੱਗੇ, ਪਿੱਛੇ, ਤਰਤੀਬ ।</long>
 	</locale>
 
 	<locale name="pl">
@@ -2350,6 +2450,11 @@
 	  <long>Mulige verdier er: 1,2,3,4.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ 1,2,3,4 ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: 1, 2, 3, 4.</long>
@@ -2383,6 +2488,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: 1,2,3,4.</long>
 	</locale>
 
 	<locale name="uk">
@@ -2536,6 +2646,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: sistem, metin_altında, metin_yanında, sadece_metin, sadece_simge.</long>
 	</locale>
 
 	<locale name="uk">
@@ -2780,6 +2895,11 @@
 	  <long>Mulige verdier er: png, jpeg.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ png, jpeg ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: png, jpeg.</long>
@@ -2813,6 +2933,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: png, jpeg.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: png, jpeg.</long>
 	</locale>
 
 	<locale name="uk">
@@ -3310,6 +3435,11 @@
 	  <long>Möjliga värden är: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: hiçbiri, basit, basit_gölgeleme, gölgeli, slayt, iç_gölge, dış_gölge.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: none(без рамки), simple(рамка), simple_with_shadow(рамка з тінню), shadow(лише тінь), slide(слайд), shadow_in(витиснутий), shadow_out(випуклий).</long>
@@ -3586,6 +3716,11 @@
 	  <long>Möjliga värden är: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: hiçbiri, kopya, jpeg.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: none(без стиснення), deflate(стискати без втрат), jpeg.</long>
@@ -3732,6 +3867,11 @@
 	  <long>Mulige verdier er: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ jpeg, png, tga, tiff ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: jpeg, png, tga, tiff.</long>
@@ -3765,6 +3905,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: jpeg, png, tga, tiff.</long>
 	</locale>
 
 	<locale name="uk">
@@ -3918,6 +4063,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: atla, yeniden_isimlendir, sor, üzerine_yaz.</long>
 	</locale>
 
 	<locale name="uk">
@@ -4079,6 +4229,11 @@
 	  <long>Mulige verdier er: name, size, time.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਨਾਮ, ਅਕਾਰ, ਸਮਾਂ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: name, size, time.</long>
@@ -4112,6 +4267,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: name, size, time.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: isim, boyut, tarih.</long>
 	</locale>
 
 	<locale name="uk">
@@ -4252,6 +4412,11 @@
 	  <long>Mulige verdier er: pixels, percentage.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਪਿਕਸਲ, ਪ੍ਰਤੀਸ਼ਤ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: pixels, percentage.</long>
@@ -4285,6 +4450,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: pixels, percentage.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: piksel, yüzde.</long>
 	</locale>
 
 	<locale name="uk">
@@ -4537,6 +4707,11 @@
 	  <long>Mulige verdier er: name, path, size, time.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਨਾਮ, ਰਸਤਾ, ਅਕਾਰ, ਸਮਾਂ</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: name, path, size, time.</long>
@@ -4570,6 +4745,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: name, path, size, time.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: isim, yol, boyut, tarih.</long>
 	</locale>
 
 	<locale name="uk">
@@ -4824,6 +5004,11 @@
 	  <long>Mulige verdier er: mm, in.</long>
 	</locale>
 
+	<locale name="pa">
+	  
+	  <long>ਸੰਭਵ ਮੁੱਲ ਹਨਃ ਮਿਲੀ, ਇੰਚ ।</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Możliwymi wartościami są: mm, in.</long>
@@ -4857,6 +5042,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: mm, in.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: mm, in.</long>
 	</locale>
 
 	<locale name="uk">
@@ -5141,6 +5331,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: hiçbiri, köşeli, resim, ekran, 4x3, 4x6, 5x7, 8x10, özel.</long>
 	</locale>
 
 	<locale name="uk">

@@ -18,9 +18,12 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#include "config.h"
-#include "jpeg-data.h"
 
+#include "config.h"
+
+#ifdef HAVE_LIBEXIF
+
+#include "jpeg-data.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -435,3 +438,5 @@ jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data)
 	section->content.app1 = exif_data;
 	exif_data_ref (exif_data);
 }
+
+#endif /* HAVE_LIBEXIF */

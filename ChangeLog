@@ -1,5 +1,9 @@
 2004-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/jpegutils/jpeg-data.c: 
+
+	Fixed bug #148301: gthumb doesn't compile without libexif
+
 	* src/fullscreen.c (fullscreen_start): 
 
 	Fixed bug #148303: Fullscreen window always appears on first
