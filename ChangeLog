@@ -1,3 +1,9 @@
+2004-09-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.5.2 released ]
+
+	* doc/C/gthumb.xml: updated.
+
 2004-09-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_tools.glade: 

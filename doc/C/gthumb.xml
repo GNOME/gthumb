@@ -2,9 +2,9 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY gthumb-version "2.4">
-  <!ENTITY manual-version "2.4">
-  <!ENTITY date "September 2003">
+  <!ENTITY gthumb-version "2.6">
+  <!ENTITY manual-version "2.6">
+  <!ENTITY date "September 2004">
   <!ENTITY gthumb "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
 <!--  Template Version: 1.0.1  (do not remove this line) -->
@@ -216,7 +216,7 @@
       <varlistentry> <term>Folder list</term>
       <listitem> 
         <para>The folder list shows the
-	  sub-folders contained in the current folder.
+	  subfolders contained in the current folder.
 	</para>
       </listitem>
       </varlistentry>
@@ -276,7 +276,7 @@
     </para>
     <para>
       When using the location entry you can press 
-      <keycombo><keycap>Ctrl</keycap><keycap>TAB</keycap></keycombo> to
+      <keycombo><keycap>TAB</keycap></keycombo> to
       try to automatically complete the folder name,  this simplify the 
       typing of long names.  You can quickly give focus to the
       location entry pressing
@@ -284,14 +284,10 @@
     </para>
     <para>
       To go to a previously visited folder you can use the 
-      toolbar <guilabel>Back</guilabel> button or click on the
-      down arrow located near the button to display a menu that
-      contains a list of the most recently visited folders.  When this
-      menu is displayed, if you keep the pointer on a folder name, you
-      can read the full folder path in the statusbar.
+      toolbar <guilabel>Back</guilabel> button.
     </para>
     <para>
-      The above commands are also present in the
+      Other navigation commands are located in the
       <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu></menuchoice>
       menu.
     </para>
@@ -1104,14 +1100,14 @@
     <note>
       <title>WARNING</title>
       <para>Comments are not embedded in image files, they are saved
-      separately. This means that if you move images or 
+      separately.  This means that if you move images or 
       folders with other programs you will lose the comments.
       </para>
     </note>
     <note>
       <title>FOR EXPERTS</title>
-      <para>Comments are saved in the folder
-      <filename>$(HOME)/.gnome2/gthumb/comments</filename>. 
+      <para>The image comment is saved in a subfolder of the image
+      folder named <filename>.comments</filename>.
       </para>
     </note>
   </para>
@@ -1178,7 +1174,7 @@
   </para>
   <para>
     You can activate the <guilabel>Save only changed fields
-    </guilabel> option (active by default) to change one or more
+    </guilabel> option (which is active by default) to change one or more
     fields of many comments leaving all other fields unchanged.
   </para>
   </sect3>
@@ -1216,10 +1212,10 @@
            clicking on it. 
         </listitem>
         <listitem>
-           Choose
+           Press <keycap>I</keycap> or  choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
-           Comment</guimenuitem></menuchoice> or press
-           <keycap>I</keycap>. &gthumb; displays the image comment.
+           Comment</guimenuitem></menuchoice>. 
+           &gthumb; displays the image comment.
         </listitem>
      </orderedlist>
   </para>
@@ -1234,15 +1230,16 @@
     grained searches as described in <xref linkend="gthumb-finding"/>.
     <note>
       <title>WARNING</title>
-      <para>Categories are not embedded in image files, they are saved
+      <para>Categories are not embedded in image files, they are instead saved
       separately.  This means that if you move images or 
-      folders with other programs you will lose the comments.
+      folders with other programs you will lose your comments.
       </para>
     </note>
     <note>
       <title>FOR EXPERTS</title>
-      <para>Categories are saved in the folder
-      <filename>$(HOME)/.gnome2/gthumb/comments</filename>. 
+      <para>Categories are saved in the subfolder
+      <filename>.comments</filename> of the image folder and in the same file 
+      where the image comment is saved.
       </para>
     </note>
   </para>
@@ -1264,7 +1261,7 @@
 	list clicking on the <guilabel>Remove</guilabel> button. </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; assigns
+        <para>Click on <guibutton>Save</guibutton>. &gthumb; assigns
         the catories to the images.
         </para>
       </listitem>
@@ -1276,7 +1273,7 @@
   <para>
     Instead of assigning categories to single images you can assign them
     to a folder, this is equivalent to assign the categories to all the images
-    contained in the folder and in all of its sub-folders.
+    contained in the folder and in all of its subfolders.
   </para>
   <para>
     To add categories to a folder, perform the following steps:
@@ -1340,7 +1337,7 @@
   <title>FOR EXPERTS</title>
   <para>
     Catalogs are saved in the
-    folder <filename>$(HOME)/.gnome2/gthumb/collections</filename>.
+    <filename>$(HOME)/.gnome2/gthumb/collections</filename> folder.
   </para>
   </note>
   </para>
@@ -1379,6 +1376,8 @@
          to the image folder </guimenuitem></menuchoice> command or
          press <keycombo
          action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. 
+         &gthumb; will display the image folder and will scroll the image list in 
+         order to make the image visible.
        </para>
     </sect2>
     <sect2 id="gthumb-catalog-add">
@@ -1590,7 +1589,7 @@
 	    </listitem>
 	  </varlistentry>
 	  <varlistentry>
-            <term><guilabel>Include sub-folder</guilabel></term>
+            <term><guilabel>Include subfolder</guilabel></term>
 	    <listitem>
 	      <para>
 	        Whether to search even in the sub folders.
@@ -1835,10 +1834,15 @@
 	<keycap>S</keycap></keycombo> again.
       </para>
       <para>
+        If the current selection contains two or more images the slide show will
+        be done only with the selected images, otherwise all of the images in 
+        the current folder or catalog will be showed.
+      </para>
+      <para>
         Switching on/off the full screen mode does not stop the
         slide show.  If the <guilabel>Switch to full screen</guilabel> option
         is on then the slide show is started in
-        fullscreen mode and exiting from the fullscreen mode stops the
+        fullscreen mode and exiting from the fullscreen mode will stop the
         slide show. 
       </para>
       <para>
@@ -1860,12 +1864,16 @@
           want to present.</para>
         </listitem>
         <listitem>
-          <para>Choose
+          <para>Select the images you want to view in the slideshow, or select
+          none to view all the images in the current folder or catalog.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Press <keycombo action="simul">
+	  <keycap>S</keycap></keycombo> or choose
           <menuchoice><guimenu>View</guimenu><guimenuitem>Slide Show
-          </guimenuitem></menuchoice> or press <keycombo action="simul">
-	  <keycap>S</keycap></keycombo>. &gthumb; starts an automatic
-          presentation of the images catained in the folder or
-          catalog. 
+          </guimenuitem></menuchoice>. &gthumb; starts an automatic
+          presentation of the images.
           </para>
         </listitem>
       </orderedlist>
@@ -2169,57 +2177,40 @@
          </guimenuitem></menuchoice>.
        </para>
     </sect2>
-  </sect1>
-
-  <!-- ============= Maintenance ================================== -->
-  <sect1 id="maintenance">
-      <title>Maintenance</title>
-      <para>
-        To get access to maintenance operations select choosee
-        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Maintenance
-	</guimenuitem></menuchoice>.
+    <sect2 id="gthumb-write-to-cd">
+      <title>To Write Images to a CD or DVD</title>
+       <para>To write a series of images to a CD or DVD, perform the following steps:
+       <orderedlist>
+        <listitem>
+          <para>Select the images you want to write to and choose
+            <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
+            </guimenuitem></menuchoice>, &gthumb; displays the 
+            <guilabel>Write to CD</guilabel> dialog.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Click on <guilabel>Current folder</guilabel> if you want to 
+            write all of the images in the current folder and its subfolders.
+            Click on <guilabel>Selected images</guilabel> to write the current 
+            selection only.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Click on <guibutton>Ok</guibutton>. &gthumb;, after preparing the
+            images for CD/DVD writing, displays the <filename>burn:///</filename>
+            location with <guilabel>Nautilus</guilabel>.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Click on the <guilabel>Write to CD</guilabel> toolbar button or 
+            choose
+            <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
+            </guimenuitem></menuchoice>.  Images are written to the CD or DVD.
+          </para>
+        </listitem>
+       </orderedlist>
       </para>
-      <para>
-        The <guilabel>Maintenance</guilabel> dialog offers the
-        following operations:
-      </para>
-      <para>
-        <guilabel>Backup Comments</guilabel>:  With this command you
-        can create an archive of all the comments you have writed.
-        After pressing the button you have to enter the archive name,
-        for example: <filename>comments.tgz</filename>, or 
-	<filename>comments.zip</filename>.  The archive is created
-        using the application <application>File Roller</application>.
-      </para>
-      <para>
-        <guilabel>Restore Comments From a Backup File</guilabel>:  Use
-        this command if
-        you want to restore comments previously saved in an archive.
-	After pressing the button you have to
-        specify the archive where the comments are stored.  The
-        archive is extracted using the application  <application>File
-        Roller</application>.
-      </para>
-      <para>
-        <guilabel>Delete Old Comments</guilabel>:  If you use
-        &gthumb; to delete or move images,
-        comments are deleted and moved accordingly.  Other
-        applications do not handle image comments so it can happen that
-        a comment exists but the relative image does not exist
-        anymore. This command lets you delete such comments.
-      </para>
-      <para>
-        <guilabel>Delete ALL Comments</guilabel>:  This command will
-        delete all the comments you have written.
-      </para>
-      <para>
-        Thumbnails are small versions of the images you have on your
-        disk,  they are used to speed up browsing.  Thumbnails can use
-        a lot of space, so in order to save disk space you may wish to
-        delete all the thumbnails or only the thumbnails of no more
-        existing images.  The commands in the
-        <guilabel>Thumbnails</guilabel> section let you do this.
-      </para>
+    </sect2>
   </sect1>
 
  <!-- ============= Preferences ================================== -->
@@ -2418,7 +2409,7 @@
         <para>
           When the <guilabel>location</guilabel> entry is focused you
           can use
-          <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>
+          <keycombo><keycap>Tab</keycap></keycombo>
           to display a list of possible location completions. 
         </para>
       </note>

@@ -1,3 +1,14 @@
+version 2.5.2
+-------------
+	* Allow to burn the current catalog.
+	* Save and restore the geometry of the comment and categories dialogs.
+	* Fixed bug #134671: `Zoom to Fit' needlessly scales down image
+	* Display a "no image" message in the image list when no image
+          is present in the current folder/cartalog.
+	* Removed the "click on image to enlarge" message from the web
+	  album themes.
+	* Updated the user's manual.
+
 version 2.5.1
 -------------
 	* Added supported mime types list to the .desktop file.
