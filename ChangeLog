@@ -1,5 +1,8 @@
 2002-11-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-window.c (stop__step2): set changing_directory to FALSE
+	(stop__step3): set setting_file_list to FALSE
+
 	* src/commands-impl.c (edit_delete_comment_command_impl): remove
 	only the comment not the keywords.
 

@@ -550,9 +550,9 @@ add_list_in_chunks (gpointer callback_data)
 	if (file_list->interrupt_set_list) {
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
-
 		if (done_func != NULL)
 			(*done_func) (file_list->interrupt_done_data);
+
 		get_file_info_data_free (gfi_data);
 
 		return FALSE;

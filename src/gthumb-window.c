@@ -3787,6 +3787,7 @@ close__step4 (GThumbWindow *window)
 void
 close__step3 (GThumbWindow *window)
 {
+	window->setting_file_list = FALSE;
 	if (window->file_list->doing_thumbs)
 		file_list_interrupt_thumbs (window->file_list, 
 					    (DoneFunc) close__step4, 
@@ -3799,6 +3800,7 @@ close__step3 (GThumbWindow *window)
 void
 close__step2 (GThumbWindow *window)
 {
+	window->changing_directory = FALSE;
 	if (window->setting_file_list) 
 		file_list_interrupt_set_list (window->file_list,
 					      (DoneFunc) close__step3,
@@ -4031,7 +4033,6 @@ window_show_image_pane (GThumbWindow *window)
 void
 stop__step5 (GThumbWindow *window)
 {
-	/* FIXME */
 	set_command_sensitive (window, "Go_Stop", 
 			       (window->activity_ref > 0) 
 			       || window->setting_file_list
@@ -4055,6 +4056,7 @@ stop__step4 (GThumbWindow *window)
 void
 stop__step3 (GThumbWindow *window)
 {
+	window->setting_file_list = FALSE;
 	if (window->file_list->doing_thumbs)
 		file_list_interrupt_thumbs (window->file_list, 
 					    (DoneFunc) stop__step4, 
@@ -4067,6 +4069,7 @@ stop__step3 (GThumbWindow *window)
 void
 stop__step2 (GThumbWindow *window)
 {
+	window->changing_directory = FALSE;
 	if (window->setting_file_list) 
 		file_list_interrupt_set_list (window->file_list,
 					      (DoneFunc) stop__step3,
