@@ -59,7 +59,10 @@ cache_get_nautilus_cache_name (const char *path)
 	result = resolve_all_symlinks (escaped_path, &resolved_path);
 	g_free (escaped_path);
 
-	g_return_val_if_fail (result == GNOME_VFS_OK, NULL); 
+	if (result != GNOME_VFS_OK) {
+		g_warning ("cache_get_nautilus_cache_name ** %s: %s", path, gnome_vfs_result_to_string (result));
+		return NULL;
+	}
 
 	uri = gnome_vfs_uri_new (resolved_path);
 	g_free (resolved_path);

@@ -1,3 +1,10 @@
+version 2.1.1
+-------------
+	* Added ability to insert image date in the 'rename series' tool.
+	* Fixed jpeg saving.
+	* Fixed toolbar not following the system style.
+	* Fixed album exporter creating a broken previous page link.
+
 version 2.1.0
 -------------
 	* New (faster) icon list widget.

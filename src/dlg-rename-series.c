@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -31,6 +31,12 @@
 #include "file-utils.h"
 #include "dlg-file-utils.h"
 #include "preferences.h"
+
+#ifdef HAVE_LIBEXIF
+#include <exif-data.h>
+#include <exif-content.h>
+#include <exif-entry.h>
+#endif /* HAVE_LIBEXIF */
 
 
 enum {
@@ -175,6 +181,87 @@ get_compare_func_from_idx (int column_index)
 }
 
 
+#ifdef HAVE_LIBEXIF
+
+static time_t
+get_exif_time (const char *filename)
+{
+	ExifData     *edata;
+	unsigned int  i, j;
+	time_t        time = 0;
+	struct tm     tm = { 0, };
+
+	edata = exif_data_new_from_file (filename);
+
+	if (edata == NULL) 
+                return (time_t)0;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry   *e = content->entries[j];
+			char        *data;
+
+			if (! content->entries[j]) 
+				continue;
+
+			if ((e->tag != EXIF_TAG_DATE_TIME) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
+				continue;
+
+			data = g_strdup (e->data);
+			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
+
+			tm.tm_year = atoi (data) - 1900;
+			tm.tm_mon  = atoi (data + 5) - 1;
+			tm.tm_mday = atoi (data + 8);
+			tm.tm_hour = atoi (data + 11);
+			tm.tm_min  = atoi (data + 14);
+			tm.tm_sec  = atoi (data + 17);
+			time = mktime (&tm);
+
+			g_free (data);
+
+			break;
+		}
+	}
+
+	exif_data_unref (edata);
+
+	return time;
+}
+
+#endif /* HAVE_LIBEXIF */
+
+
+static char *
+get_image_date (const char *filename)
+{
+	time_t     mtime = 0;
+	struct tm *ltime;
+	char      *stime;
+
+#ifdef HAVE_LIBEXIF
+	mtime = get_exif_time (filename);
+#endif /* HAVE_LIBEXIF */
+
+	if (mtime == 0)
+		mtime = get_file_mtime (filename);
+
+	ltime = localtime (&mtime);
+
+	stime = g_new (char, 50 + 1);
+	strftime (stime, 50, "%Y-%m-%d %T", ltime);
+
+	return stime;
+}
+
+
 static void
 update_list (DialogData *data)
 {
@@ -207,19 +294,24 @@ update_list (DialogData *data)
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
 		char     *name1;
+		char     *name_wo_ext;
 		char     *name2;
+		char     *image_date;
 		char     *name3;
-		char     *name4;
 		char     *extension;
+		char     *new_name;
 
-		name1 = _g_get_name_from_template (template, start_at++);
-		name2 = remove_extension_from_path (fdata->name);
-		extension = strrchr (fdata->name, '.');
-		name3 = _g_substitute (name1, '*', name2);
-		name4 = g_strconcat (name3, extension, NULL);
+		name1       = _g_get_name_from_template (template, start_at++);
+		name_wo_ext = remove_extension_from_path (fdata->name);
+		name2       = _g_substitute (name1, '*', name_wo_ext);
+		image_date  = get_image_date (fdata->path);
+		name3       = _g_substitute (name2, '?', image_date);
+		extension   = strrchr (fdata->name, '.');
+		new_name    = g_strconcat (name3, extension, NULL);
 
-		data->new_names_list = g_list_prepend (data->new_names_list, 
-						       name4);
+		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
+
+		g_free (name_wo_ext);
 		g_free (name1);
 		g_free (name2);
 		g_free (name3);
