@@ -1,5 +1,19 @@
 2003-08-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	[ gthumb 2.1.4 released ]  
+	
+2003-08-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/jpegutils/Makefile.am (INCLUDES): add libghtumb dir.
+
+	* src/gthumb-window.c (window_sync_menu_with_preferences): make
+	this function static.
+
+	* src/main.c (all_windows_update_viewer_options): remove this function.
+
+	* libgthumb/preferences.c (pref_util_get_rgb_values): 
+	(pref_util_get_int_value): check null pointers.
+
 	* libgthumb/file-utils.c (visit_rc_dir_data_new): 
 	* libgthumb/comments.c (crd_interrupt_cb, remove_comments_done) 
 	(comments_remove_old_comments_async): allow to interrupt this

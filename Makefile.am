@@ -26,7 +26,6 @@ EXTRA_DIST = 			\
         AUTHORS                 \
         NEWS                    \
         README                  \
-	acinclude.m4		\
 	add-include-prefix	\
 	gthumb.spec.in          \
 	gthumb.spec		\

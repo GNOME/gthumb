@@ -387,15 +387,22 @@ pref_util_get_rgb_values (const char *hex,
 			  guint16    *g,
 			  guint16    *b)
 {
-	int i = 1;
+	if (hex == NULL) {
+		*r = 0;
+		*g = 0;
+		*b = 0;
 
-	*r = dec (hex[i++]) * 16 + dec (hex[i++]);
-	*g = dec (hex[i++]) * 16 + dec (hex[i++]);
-	*b = dec (hex[i++]) * 16 + dec (hex[i++]);
+	} else {
+		int i = 1;
 
-	*r = UNSCALE (*r / 255.);
-	*g = UNSCALE (*g / 255.);
-	*b = UNSCALE (*b / 255.);
+		*r = dec (hex[i++]) * 16 + dec (hex[i++]);
+		*g = dec (hex[i++]) * 16 + dec (hex[i++]);
+		*b = dec (hex[i++]) * 16 + dec (hex[i++]);
+		
+		*r = UNSCALE (*r / 255.);
+		*g = UNSCALE (*g / 255.);
+		*b = UNSCALE (*b / 255.);
+	}
 }
 
 
@@ -434,6 +441,9 @@ pref_util_get_int_value (const char *hex)
 {
 	guint8  r, g, b;
 	int     i = 1;
+
+	if (hex == NULL)
+		return 0;
 
 	r = dec (hex[i++]) * 16 + dec (hex[i++]);
 	g = dec (hex[i++]) * 16 + dec (hex[i++]);
