@@ -1,0 +1,105 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <config.h>
+#include <gtk/gtk.h>
+#include "gthumb-stock.h"
+#include "icons/pixbufs.h"
+
+
+static struct {
+	const char    *stock_id;
+	gconstpointer  default_pixbuf;
+	gconstpointer  menu_pixbuf;
+} items[] = {
+	{ GTHUMB_STOCK_BRIGHTNESS_CONTRAST, brightness_contrast_22_rgba, NULL },
+	{ GTHUMB_STOCK_COLOR_BALANCE,       color_balance_22_rgba,       NULL },
+	{ GTHUMB_STOCK_DESATURATE,          desaturate_16_rgba,          NULL },
+	{ GTHUMB_STOCK_FLIP,                flip_24_rgba,                flip_16_rgba },
+	{ GTHUMB_STOCK_FULLSCREEN,          fullscreen_24_rgba,          fullscreen_16_rgba },
+	{ GTHUMB_STOCK_HUE_SATURATION,      hue_saturation_22_rgba,      NULL },
+	{ GTHUMB_STOCK_INVERT,              invert_16_rgba,              NULL },
+	{ GTHUMB_STOCK_MIRROR,              mirror_24_rgba,              mirror_16_rgba },
+	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           NULL },
+	{ GTHUMB_STOCK_RESIZE,              resize_22_rgba,              resize_16_rgba },
+	{ GTHUMB_STOCK_ROTATE_90,           rotate_90_24_rgba,           rotate_90_16_rgba },
+	{ GTHUMB_STOCK_ROTATE_90_CC,        rotate_270_24_rgba,          rotate_270_16_rgba }
+};
+
+
+void
+gthumb_stock_init (void)
+{
+	GtkIconFactory *factory;
+	int             i;
+
+	factory = gtk_icon_factory_new ();
+
+	for (i = 0; i < G_N_ELEMENTS (items); i++) {
+		GtkIconSet    *set;
+		GtkIconSource *source;
+		GdkPixbuf     *pixbuf;
+
+		set = gtk_icon_set_new ();
+
+		source = gtk_icon_source_new ();
+
+		if (items[i].menu_pixbuf != NULL) {
+			pixbuf = gdk_pixbuf_new_from_inline (-1, 
+							     items[i].menu_pixbuf, 
+							     FALSE, 
+							     NULL);
+			gtk_icon_source_set_pixbuf (source, pixbuf);
+
+			gtk_icon_source_set_size_wildcarded (source, FALSE);
+			gtk_icon_source_set_size (source, GTK_ICON_SIZE_MENU);
+			gtk_icon_set_add_source (set, source);
+
+			g_object_unref (pixbuf);
+		}
+
+		pixbuf = gdk_pixbuf_new_from_inline (-1, 
+						     items[i].default_pixbuf, 
+						     FALSE, 
+						     NULL);
+		
+		gtk_icon_source_set_pixbuf (source, pixbuf);
+
+		gtk_icon_source_set_size_wildcarded (source, FALSE);
+		gtk_icon_source_set_size (source, GTK_ICON_SIZE_LARGE_TOOLBAR);
+		gtk_icon_set_add_source (set, source);
+
+
+		gtk_icon_source_set_size_wildcarded (source, TRUE);
+		gtk_icon_set_add_source (set, source);
+
+		gtk_icon_factory_add (factory, items[i].stock_id, set);
+
+		gtk_icon_set_unref (set);
+		gtk_icon_source_free (source);
+		g_object_unref (pixbuf);
+	}
+
+	gtk_icon_factory_add_default (factory);
+
+	g_object_unref (factory);
+}

@@ -20,8 +20,26 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <math.h>
+#include <string.h>
 #include "pixbuf-utils.h"
+
+#ifdef HAVE_LIBTIFF
+#include <tiffio.h>
+#endif /* HAVE_LIBTIFF */
+
+#ifdef HAVE_LIBJPEG
+#include <stdlib.h>
+#include <setjmp.h>
+#include <jpeglib.h>
+#endif /* HAVE_LIBJPEG */
+
+#ifdef HAVE_RINT
+#define RINT(x) rint(x)
+#else
+#define RINT(x) floor ((x) + 0.5)
+#endif /* HAVE_RINT */
 
 
 enum {
@@ -37,8 +55,8 @@ enum {
  * counterclockwise.
  */
 GdkPixbuf *
-pixbuf_copy_rotate_90 (GdkPixbuf *src, 
-		       gboolean counter_clockwise)
+_gdk_pixbuf_copy_rotate_90 (GdkPixbuf *src, 
+			    gboolean counter_clockwise)
 {
 	GdkPixbuf *dest;
 	int        has_alpha;
@@ -92,9 +110,9 @@ pixbuf_copy_rotate_90 (GdkPixbuf *src,
  * if mirror and flip are FALSE, result is a simple copy.
  */
 GdkPixbuf *
-pixbuf_copy_mirror (GdkPixbuf *src, 
-		    gboolean mirror, 
-		    gboolean flip)
+_gdk_pixbuf_copy_mirror (GdkPixbuf *src, 
+			 gboolean mirror, 
+			 gboolean flip)
 {
 	GdkPixbuf *dest;
 	int        has_alpha;
@@ -151,37 +169,41 @@ pixbuf_copy_mirror (GdkPixbuf *src,
 }
 
 
-GdkPixbuf *
-pixbuf_copy_gray (GdkPixbuf *src)
+void
+_gdk_pixbuf_desaturate (const GdkPixbuf *src,
+			GdkPixbuf       *dest)
 {
-	GdkPixbuf *dest;
-	int        i, j, t;
+	int        i, j;
 	int        width, height, has_alpha, bytes_per_pixel; 
-	int        src_rowstride, dest_rowstride;
-	guchar    *src_line, *dest_line;
-	guchar    *src_pixel, *dest_pixel;
+	int        rowstride;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
 	guchar     min, max, lightness;
 	
-	has_alpha = gdk_pixbuf_get_has_alpha (src);
-	bytes_per_pixel = has_alpha ? 4 : 3;
-	width = gdk_pixbuf_get_width (src);
-	height = gdk_pixbuf_get_height (src);
-	src_rowstride = gdk_pixbuf_get_rowstride (src);
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
 
-	dest = gdk_pixbuf_new (GDK_COLORSPACE_RGB, has_alpha, 8, width, height);
-	dest_rowstride = gdk_pixbuf_get_rowstride (dest);
-	
-	src_line = gdk_pixbuf_get_pixels (src);
-	dest_line = gdk_pixbuf_get_pixels (dest);
-	
-#define CLAMP_UCHAR(v) (t = (v), CLAMP (t, 0, 255))
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
 
 	for (i = 0 ; i < height ; i++) {
 		src_pixel = src_line;
-		src_line += src_rowstride;
+		src_line += rowstride;
+
 		dest_pixel = dest_line;
-		dest_line += dest_rowstride;
-		
+		dest_line += rowstride;
+
 		for (j = 0 ; j < width ; j++) {
 			max = MAX (src_pixel[RED_PIX], src_pixel[GREEN_PIX]);
 			max = MAX (max, src_pixel[BLUE_PIX]);
@@ -190,10 +212,10 @@ pixbuf_copy_gray (GdkPixbuf *src)
 
 			lightness = (max + min) / 2;
 
-			dest_pixel[RED_PIX] = CLAMP_UCHAR (lightness);
-			dest_pixel[GREEN_PIX] = CLAMP_UCHAR (lightness);
-			dest_pixel[BLUE_PIX] = CLAMP_UCHAR (lightness);
-			
+			dest_pixel[RED_PIX]   = lightness;
+			dest_pixel[GREEN_PIX] = lightness;
+			dest_pixel[BLUE_PIX]  = lightness;
+
 			if (has_alpha)
 				dest_pixel[ALPHA_PIX] = src_pixel[ALPHA_PIX];
 			
@@ -201,9 +223,769 @@ pixbuf_copy_gray (GdkPixbuf *src)
 			dest_pixel += bytes_per_pixel;
 		}
 	}
-
-	return dest;
 }
+
+
+void
+_gdk_pixbuf_invert (const GdkPixbuf *src,
+		    GdkPixbuf       *dest)
+{
+	int        i, j;
+	int        width, height, has_alpha, bytes_per_pixel; 
+	int        rowstride;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+		
+		for (j = 0 ; j < width ; j++) {
+			dest_pixel[RED_PIX]   = 255 - src_pixel[RED_PIX];
+			dest_pixel[GREEN_PIX] = 255 - src_pixel[GREEN_PIX];
+			dest_pixel[BLUE_PIX]  = 255 - src_pixel[BLUE_PIX];
+			
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}
+}
+
+
+static guchar
+bc_func (guchar u_value,
+	 double brightness, 
+	 double contrast)
+{
+	float  nvalue;
+	double power;
+	float  value;
+
+	value = (float) u_value / 255.0;
+
+	/* apply brightness */
+	if (brightness < 0.0)
+		value = value * (1.0 + brightness);
+	else
+		value = value + ((1.0 - value) * brightness);
+	
+	/* apply contrast */
+	if (contrast < 0.0) {
+		if (value > 0.5)
+			nvalue = 1.0 - value;
+		else
+			nvalue = value;
+
+		if (nvalue < 0.0)
+			nvalue = 0.0;
+
+		nvalue = 0.5 * pow (nvalue * 2.0 , (double) (1.0 + contrast));
+
+		if (value > 0.5)
+			value = 1.0 - nvalue;
+		else
+			value = nvalue;
+	} else {
+		if (value > 0.5)
+			nvalue = 1.0 - value;
+		else
+			nvalue = value;
+		
+		if (nvalue < 0.0)
+			nvalue = 0.0;
+		
+		power = (contrast == 1.0) ? 127 : 1.0 / (1.0 - contrast);
+		nvalue = 0.5 * pow (2.0 * nvalue, power);
+		
+		if (value > 0.5)
+			value = 1.0 - nvalue;
+		else
+			value = nvalue;
+	}
+	
+	return (guchar) (value * 255);
+}
+
+
+void
+_gdk_pixbuf_brightness_contrast (const GdkPixbuf *src,
+				 GdkPixbuf       *dest,
+				 double           brightness,
+				 double           contrast)
+{
+	int        i, j;
+	int        width, height, has_alpha, bytes_per_pixel; 
+	int        rowstride;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+	
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+
+		for (j = 0 ; j < width ; j++) {
+			dest_pixel[RED_PIX]   = bc_func (src_pixel[RED_PIX],
+							 brightness,
+							 contrast);
+			dest_pixel[GREEN_PIX] = bc_func (src_pixel[GREEN_PIX],
+							 brightness,
+							 contrast);
+			dest_pixel[BLUE_PIX]  = bc_func (src_pixel[BLUE_PIX],
+							 brightness,
+							 contrast);
+
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}
+}
+
+
+static guchar
+posterize_func (guchar u_value,
+		int    levels)
+{
+	double value;
+
+	value = (float) u_value / 255.0;
+	value = RINT (value * (levels - 1.0)) / (levels - 1.0);
+
+	return (guchar) (value * 255.0);
+}
+
+
+void
+_gdk_pixbuf_posterize (const GdkPixbuf *src, 
+		       GdkPixbuf       *dest,
+		       int              levels)
+{
+	int        i, j;
+	int        width, height, has_alpha, bytes_per_pixel; 
+	int        rowstride;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line        = gdk_pixbuf_get_pixels (dest);
+
+	if (levels < 2)
+		levels = 2;
+	
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+		
+		for (j = 0 ; j < width ; j++) {
+			dest_pixel[RED_PIX]   = posterize_func (src_pixel[RED_PIX], levels);
+			dest_pixel[GREEN_PIX] = posterize_func (src_pixel[GREEN_PIX], levels);
+			dest_pixel[BLUE_PIX]  = posterize_func (src_pixel[BLUE_PIX], levels);
+
+			if (has_alpha)
+				dest_pixel[ALPHA_PIX] = src_pixel[ALPHA_PIX];
+			
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}
+}
+
+/* -- gimpcolorspace -- */
+
+
+void
+gimp_rgb_to_hls_int (gint *red,
+		     gint *green,
+		     gint *blue)
+{
+  gint    r, g, b;
+  gdouble h, l, s;
+  gint    min, max;
+  gint    delta;
+
+  r = *red;
+  g = *green;
+  b = *blue;
+
+  if (r > g)
+    {
+      max = MAX (r, b);
+      min = MIN (g, b);
+    }
+  else
+    {
+      max = MAX (g, b);
+      min = MIN (r, b);
+    }
+
+  l = (max + min) / 2.0;
+
+  if (max == min)
+    {
+      s = 0.0;
+      h = 0.0;
+    }
+  else
+    {
+      delta = (max - min);
+
+      if (l < 128)
+	s = 255 * (gdouble) delta / (gdouble) (max + min);
+      else
+	s = 255 * (gdouble) delta / (gdouble) (511 - max - min);
+
+      if (r == max)
+	h = (g - b) / (gdouble) delta;
+      else if (g == max)
+	h = 2 + (b - r) / (gdouble) delta;
+      else
+	h = 4 + (r - g) / (gdouble) delta;
+
+      h = h * 42.5;
+
+      if (h < 0)
+	h += 255;
+      else if (h > 255)
+	h -= 255;
+    }
+
+  *red   = h;
+  *green = l;
+  *blue  = s;
+}
+
+gint
+gimp_rgb_to_l_int (gint red,
+		   gint green,
+		   gint blue)
+{
+  gint min, max;
+
+  if (red > green)
+    {
+      max = MAX (red,   blue);
+      min = MIN (green, blue);
+    }
+  else
+    {
+      max = MAX (green, blue);
+      min = MIN (red,   blue);
+    }
+
+  return (max + min) / 2.0;
+}
+
+static gint
+gimp_hls_value (gdouble n1,
+		gdouble n2,
+		gdouble hue)
+{
+  gdouble value;
+
+  if (hue > 255)
+    hue -= 255;
+  else if (hue < 0)
+    hue += 255;
+  if (hue < 42.5)
+    value = n1 + (n2 - n1) * (hue / 42.5);
+  else if (hue < 127.5)
+    value = n2;
+  else if (hue < 170)
+    value = n1 + (n2 - n1) * ((170 - hue) / 42.5);
+  else
+    value = n1;
+
+  return (gint) (value * 255);
+}
+
+void
+gimp_hls_to_rgb_int (gint *hue,
+		     gint *lightness,
+		     gint *saturation)
+{
+  gdouble h, l, s;
+  gdouble m1, m2;
+
+  h = *hue;
+  l = *lightness;
+  s = *saturation;
+
+  if (s == 0)
+    {
+      /*  achromatic case  */
+      *hue        = l;
+      *lightness  = l;
+      *saturation = l;
+    }
+  else
+    {
+      if (l < 128)
+	m2 = (l * (255 + s)) / 65025.0;
+      else
+	m2 = (l + s - (l * s) / 255.0) / 255.0;
+
+      m1 = (l / 127.5) - m2;
+
+      /*  chromatic case  */
+      *hue        = gimp_hls_value (m1, m2, h + 85);
+      *lightness  = gimp_hls_value (m1, m2, h);
+      *saturation = gimp_hls_value (m1, m2, h - 85);
+    }
+}
+
+
+/* -- hue / lightness / saturation -- */
+
+
+typedef enum
+{
+	GIMP_ALL_HUES,
+	GIMP_RED_HUES,
+	GIMP_YELLOW_HUES,
+	GIMP_GREEN_HUES,
+	GIMP_CYAN_HUES,
+	GIMP_BLUE_HUES,
+	GIMP_MAGENTA_HUES
+} GimpHueRange;
+
+
+typedef struct 
+{
+	double hue[7];
+	double lightness[7];
+	double saturation[7];
+
+	int    hue_transfer[6][256];
+	int    lightness_transfer[6][256];
+	int    saturation_transfer[6][256];
+} HueSaturation;
+
+
+static HueSaturation hue_saturation;
+static gboolean      hue_saturation_initialized = FALSE;
+
+
+static void
+hue_saturation_init (HueSaturation *hs)
+{
+	GimpHueRange partition;
+
+	g_return_if_fail (hs != NULL);
+
+	for (partition = GIMP_ALL_HUES; partition <= GIMP_MAGENTA_HUES; partition++) {
+		hs->hue[partition]        = 0.0;
+		hs->lightness[partition]  = 0.0;
+		hs->saturation[partition] = 0.0;
+	}
+}
+
+
+static void
+hue_saturation_calculate_transfers (HueSaturation *hs)
+{
+	int value;
+	int hue;
+	int i;
+
+	g_return_if_fail (hs != NULL);
+
+	/*  Calculate transfers  */
+	for (hue = 0; hue < 6; hue++)
+		for (i = 0; i < 256; i++) {
+			/* Hue */
+			value = (hs->hue[0] + hs->hue[hue + 1]) * 255.0 / 360.0;
+			if ((i + value) < 0)
+				hs->hue_transfer[hue][i] = 255 + (i + value);
+			else if ((i + value) > 255)
+				hs->hue_transfer[hue][i] = i + value - 255;
+			else
+				hs->hue_transfer[hue][i] = i + value;
+
+			/*  Lightness  */
+			value = (hs->lightness[0] + hs->lightness[hue + 1]) * 127.0 / 100.0;
+			value = CLAMP (value, -255, 255);
+			if (value < 0)
+				hs->lightness_transfer[hue][i] = (unsigned char) ((i * (255 + value)) / 255);
+			else
+				hs->lightness_transfer[hue][i] = (unsigned char) (i + ((255 - i) * value) / 255);
+			
+			/*  Saturation  */
+			value = (hs->saturation[0] + hs->saturation[hue + 1]) * 255.0 / 100.0;
+			value = CLAMP (value, -255, 255);
+			hs->saturation_transfer[hue][i] = CLAMP ((i * (255 + value)) / 255, 0, 255);
+		}
+}
+
+
+void
+_gdk_pixbuf_hue_lightness_saturation (const GdkPixbuf *src,
+				      GdkPixbuf       *dest,
+				      double           hue,
+				      double           lightness,
+				      double           saturation)
+{
+	int        width, height, has_alpha, bytes_per_pixel; 
+	int        rowstride;
+	int        i, j;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
+	int        r, g, b, hue_idx;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+
+	/**/
+
+	if (! hue_saturation_initialized) {
+		hue_saturation_init (&hue_saturation);
+		hue_saturation_initialized = TRUE;
+	}
+
+	/**/
+
+	hue_saturation.hue[GIMP_ALL_HUES] = hue;
+	hue_saturation.lightness[GIMP_ALL_HUES] = lightness;
+	hue_saturation.saturation[GIMP_ALL_HUES] = saturation;
+
+	/**/
+
+	hue_saturation_calculate_transfers (&hue_saturation);
+
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+		
+		for (j = 0 ; j < width ; j++) {
+			r = src_pixel[RED_PIX];
+			g = src_pixel[GREEN_PIX];
+			b = src_pixel[BLUE_PIX];
+
+			gimp_rgb_to_hls_int (&r, &g, &b);
+
+			if (r < 43)
+				hue_idx = 0;
+			else if (r < 85)
+				hue_idx = 1;
+			else if (r < 128)
+				hue_idx = 2;
+			else if (r < 171)
+				hue_idx = 3;
+			else if (r < 213)
+				hue_idx = 4;
+			else
+				hue_idx = 5;
+
+			r = hue_saturation.hue_transfer[hue_idx][r];
+			g = hue_saturation.lightness_transfer[hue_idx][g];
+			b = hue_saturation.saturation_transfer[hue_idx][b];
+			
+			gimp_hls_to_rgb_int (&r, &g, &b);
+			
+			dest_pixel[RED_PIX] = r;
+			dest_pixel[GREEN_PIX] = g;
+			dest_pixel[BLUE_PIX] = b;
+			
+			if (has_alpha)
+				dest_pixel[ALPHA_PIX] = src_pixel[ALPHA_PIX];
+			
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}	
+}
+
+
+/* -- color balance -- */
+
+
+#define SQR(x) ((x) * (x))
+#define CLAMP0255(a) CLAMP(a,0,255)
+
+typedef enum {
+	GIMP_SHADOWS,
+	GIMP_MIDTONES,
+	GIMP_HIGHLIGHTS
+} GimpTransferMode;
+
+typedef struct {
+	double   cyan_red[3];
+	double   magenta_green[3];
+	double   yellow_blue[3];
+	
+	guchar   r_lookup[256];
+	guchar   g_lookup[256];
+	guchar   b_lookup[256];
+} ColorBalance;
+
+/*  private variables  */
+
+static ColorBalance color_balance;
+static gboolean     color_balance_initialized = FALSE;
+static gboolean     transfer_initialized = FALSE;
+
+/*  for lightening  */
+static double  highlights_add[256] = { 0 };
+static double  midtones_add[256]   = { 0 };
+static double  shadows_add[256]    = { 0 };
+
+/*  for darkening  */
+static double  highlights_sub[256] = { 0 };
+static double  midtones_sub[256]   = { 0 };
+static double  shadows_sub[256]    = { 0 };
+
+
+static void
+color_balance_init (ColorBalance *cb)
+{
+	GimpTransferMode range;
+
+	g_return_if_fail (cb != NULL);
+
+	for (range = GIMP_SHADOWS; range <= GIMP_HIGHLIGHTS; range++) {
+		cb->cyan_red[range]      = 0.0;
+		cb->magenta_green[range] = 0.0;
+		cb->yellow_blue[range]   = 0.0;
+	}
+}
+
+
+static void
+color_balance_transfer_init (void)
+{
+	int i;
+
+	for (i = 0; i < 256; i++) {
+		highlights_add[i] = shadows_sub[255 - i] = (1.075 - 1 / ((gdouble) i / 16.0 + 1));
+
+		midtones_add[i] = midtones_sub[i] = 0.667 * (1 - SQR (((gdouble) i - 127.0) / 127.0));
+
+		shadows_add[i] = highlights_sub[i] = 0.667 * (1 - SQR (((gdouble) i - 127.0) / 127.0));
+	}
+}
+
+
+void
+color_balance_create_lookup_tables (ColorBalance *cb)
+{
+	double  *cyan_red_transfer[3];
+	double  *magenta_green_transfer[3];
+	double  *yellow_blue_transfer[3];
+	int      i;
+	gint32   r_n, g_n, b_n;
+	
+	g_return_if_fail (cb != NULL);
+	
+	if (! transfer_initialized) {
+		color_balance_transfer_init ();
+		transfer_initialized = TRUE;
+	}
+
+	/*  Set the transfer arrays  (for speed)  */
+	cyan_red_transfer[GIMP_SHADOWS] = (cb->cyan_red[GIMP_SHADOWS] > 0) ? shadows_add : shadows_sub;
+	cyan_red_transfer[GIMP_MIDTONES] = (cb->cyan_red[GIMP_MIDTONES] > 0) ? midtones_add : midtones_sub;
+	cyan_red_transfer[GIMP_HIGHLIGHTS] = (cb->cyan_red[GIMP_HIGHLIGHTS] > 0) ? highlights_add : highlights_sub;
+	
+	magenta_green_transfer[GIMP_SHADOWS] = (cb->magenta_green[GIMP_SHADOWS] > 0) ? shadows_add : shadows_sub;
+	magenta_green_transfer[GIMP_MIDTONES] =	(cb->magenta_green[GIMP_MIDTONES] > 0) ? midtones_add : midtones_sub;
+	magenta_green_transfer[GIMP_HIGHLIGHTS] = (cb->magenta_green[GIMP_HIGHLIGHTS] > 0) ? highlights_add : highlights_sub;
+
+	yellow_blue_transfer[GIMP_SHADOWS] = (cb->yellow_blue[GIMP_SHADOWS] > 0) ? shadows_add : shadows_sub;
+	yellow_blue_transfer[GIMP_MIDTONES] = (cb->yellow_blue[GIMP_MIDTONES] > 0) ? midtones_add : midtones_sub;
+	yellow_blue_transfer[GIMP_HIGHLIGHTS] =	(cb->yellow_blue[GIMP_HIGHLIGHTS] > 0) ? highlights_add : highlights_sub;
+	
+	for (i = 0; i < 256; i++) {
+		r_n = i;
+		g_n = i;
+		b_n = i;
+		
+		r_n += cb->cyan_red[GIMP_SHADOWS] * cyan_red_transfer[GIMP_SHADOWS][r_n];
+		r_n = CLAMP0255 (r_n);
+		r_n += cb->cyan_red[GIMP_MIDTONES] * cyan_red_transfer[GIMP_MIDTONES][r_n];
+		r_n = CLAMP0255 (r_n);
+		r_n += cb->cyan_red[GIMP_HIGHLIGHTS] * cyan_red_transfer[GIMP_HIGHLIGHTS][r_n];
+		r_n = CLAMP0255 (r_n);
+		
+		g_n += cb->magenta_green[GIMP_SHADOWS] * magenta_green_transfer[GIMP_SHADOWS][g_n];
+		g_n = CLAMP0255 (g_n);
+		g_n += cb->magenta_green[GIMP_MIDTONES] * magenta_green_transfer[GIMP_MIDTONES][g_n];
+		g_n = CLAMP0255 (g_n);
+		g_n += cb->magenta_green[GIMP_HIGHLIGHTS] * magenta_green_transfer[GIMP_HIGHLIGHTS][g_n];
+		g_n = CLAMP0255 (g_n);
+		
+		b_n += cb->yellow_blue[GIMP_SHADOWS] * yellow_blue_transfer[GIMP_SHADOWS][b_n];
+		b_n = CLAMP0255 (b_n);
+		b_n += cb->yellow_blue[GIMP_MIDTONES] * yellow_blue_transfer[GIMP_MIDTONES][b_n];
+		b_n = CLAMP0255 (b_n);
+		b_n += cb->yellow_blue[GIMP_HIGHLIGHTS] * yellow_blue_transfer[GIMP_HIGHLIGHTS][b_n];
+		b_n = CLAMP0255 (b_n);
+		
+		cb->r_lookup[i] = r_n;
+		cb->g_lookup[i] = g_n;
+		cb->b_lookup[i] = b_n;
+	}
+}
+
+
+void
+_gdk_pixbuf_color_balance (const GdkPixbuf *src,
+			   GdkPixbuf       *dest,
+			   double           cyan_red,
+			   double           magenta_green,
+			   double           yellow_blue,
+			   gboolean         preserve_luminosity)
+{
+	int        width, height, has_alpha, bytes_per_pixel; 
+	int        rowstride;
+	int        i, j;
+	guchar    *src_line, *src_pixel;
+	guchar    *dest_line, *dest_pixel;
+	int        r, g, b;
+	int        r_n, g_n, b_n;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+        g_return_if_fail (GDK_IS_PIXBUF (dest));
+	g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+	g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+	g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+	g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+
+	has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	bytes_per_pixel = has_alpha ? 4 : 3;
+	width           = gdk_pixbuf_get_width (src);
+	height          = gdk_pixbuf_get_height (src);
+	rowstride       = gdk_pixbuf_get_rowstride (src);
+	src_line        = gdk_pixbuf_get_pixels (src);
+	dest_line       = gdk_pixbuf_get_pixels (dest);
+
+	/**/
+
+	if (! color_balance_initialized) {
+		color_balance_init (&color_balance);
+		color_balance_initialized = TRUE;
+	}
+
+	/**/
+
+	color_balance.cyan_red[GIMP_MIDTONES]      = cyan_red;
+	color_balance.magenta_green[GIMP_MIDTONES] = magenta_green;
+	color_balance.yellow_blue[GIMP_MIDTONES]   = yellow_blue;
+
+	/**/
+
+	color_balance_create_lookup_tables (&color_balance);
+
+	for (i = 0 ; i < height ; i++) {
+		src_pixel = src_line;
+		src_line += rowstride;
+
+		dest_pixel = dest_line;
+		dest_line += rowstride;
+		
+		for (j = 0 ; j < width ; j++) {
+			r = src_pixel[RED_PIX];
+			g = src_pixel[GREEN_PIX];
+			b = src_pixel[BLUE_PIX];
+
+			r_n = color_balance.r_lookup[r];
+			g_n = color_balance.g_lookup[g];
+			b_n = color_balance.b_lookup[b];
+
+			if (preserve_luminosity) {
+				gimp_rgb_to_hls_int (&r_n, &g_n, &b_n);
+				g_n = gimp_rgb_to_l_int (r, g, b);
+				gimp_hls_to_rgb_int (&r_n, &g_n, &b_n);
+			}
+
+			dest_pixel[RED_PIX]   = r_n;
+			dest_pixel[GREEN_PIX] = g_n;
+			dest_pixel[BLUE_PIX]  = b_n;
+
+			if (has_alpha)
+				dest_pixel[ALPHA_PIX] = src_pixel[ALPHA_PIX];
+			
+			src_pixel += bytes_per_pixel;
+			dest_pixel += bytes_per_pixel;
+		}
+	}	
+}
+
+
+/* -- */
 
 
 void
@@ -217,6 +999,9 @@ pixmap_from_xpm (const char **data,
 	gdk_pixbuf_render_pixmap_and_mask (pixbuf, pixmap, mask, 127);
 	g_object_unref (pixbuf);
 }
+
+
+/* -- */
 
 
 void
@@ -458,7 +1243,7 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 		x = (((double) height) - h) / height;
 
 		for (w = 0; w < width; w++) {
-			gdouble x_y, x_1_y, y_1_x, _1_x_1_y;
+			double x_y, x_1_y, y_1_x, _1_x_1_y;
 
 			y = (((double) width) - w) / width;;
 
@@ -498,4 +1283,798 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 
 		pixels += rowstride;
 	}
+}
+
+
+/**/
+
+
+
+#ifdef HAVE_LIBJPEG
+
+
+/* error handler data */
+struct error_handler_data {
+	struct jpeg_error_mgr pub;
+	sigjmp_buf setjmp_buffer;
+        GError **error;
+};
+
+
+static void
+fatal_error_handler (j_common_ptr cinfo)
+{
+	struct error_handler_data *errmgr;
+        char buffer[JMSG_LENGTH_MAX];
+        
+	errmgr = (struct error_handler_data *) cinfo->err;
+        
+        /* Create the message */
+        (* cinfo->err->format_message) (cinfo, buffer);
+
+        /* broken check for *error == NULL for robustness against
+         * crappy JPEG library
+         */
+        if (errmgr->error && *errmgr->error == NULL) {
+                g_set_error (errmgr->error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
+			     "Error interpreting JPEG image file (%s)",
+                             buffer);
+        }
+        
+	siglongjmp (errmgr->setjmp_buffer, 1);
+
+        g_assert_not_reached ();
+}
+
+
+static void
+output_message_handler (j_common_ptr cinfo)
+{
+	/* This method keeps libjpeg from dumping crap to stderr */
+	/* do nothing */
+}
+
+
+static gboolean
+_gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf, 
+			  const char    *filename,
+			  char         **keys,
+			  char         **values,
+			  GError       **error)
+{
+	FILE         *file;
+	struct jpeg_compress_struct cinfo;
+	struct error_handler_data jerr;
+	guchar       *buf = NULL;
+	guchar       *ptr;
+	guchar       *pixels = NULL;
+	JSAMPROW     *jbuf;
+	int           y = 0;
+	int           quality     = 75; /* default; must be between 0 and 100 */
+	int           smoothing   = 0;
+	gboolean      optimize    = FALSE;
+	gboolean      progressive = FALSE;
+	int           i, j;
+	int           w, h = 0;
+	int           rowstride = 0;
+	int           bpp;
+
+	if (keys && *keys) {
+		char **kiter = keys;
+		char **viter = values;
+		
+		while (*kiter) {
+			if (strcmp (*kiter, "quality") == 0) {
+				char *endptr = NULL;
+				quality = strtol (*viter, &endptr, 10);
+
+				if (endptr == *viter) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG quality must be a value between 0 and 100; value '%s' could not be parsed.",
+						     *viter);
+					
+					return FALSE;
+				}
+				
+				if (quality < 0 || quality > 100) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG quality must be a value between 0 and 100; value '%d' is not allowed.",
+						     quality);
+					
+					return FALSE;
+				}
+
+			} else if (strcmp (*kiter, "smooth") == 0) {
+				char *endptr = NULL;
+				smoothing = strtol (*viter, &endptr, 10);
+
+				if (endptr == *viter) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG smoothing must be a value between 0 and 100; value '%s' could not be parsed.",
+						     *viter);
+					
+					return FALSE;
+				}
+				
+				if (smoothing < 0 || smoothing > 100) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG smoothing must be a value between 0 and 100; value '%d' is not allowed.",
+						     smoothing);
+					
+					return FALSE;
+				}
+
+			} else if (strcmp (*kiter, "optimize") == 0) {
+				if (strcmp (*viter, "yes") == 0)
+					optimize = TRUE;
+				else if (strcmp (*viter, "no") == 0)
+					optimize = FALSE;
+				else {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG optimize option must be 'yes' or 'no', value is : %s", *viter);
+					
+					return FALSE;
+				}
+
+			} else if (strcmp (*kiter, "progressive") == 0) {
+				if (strcmp (*viter, "yes") == 0)
+					progressive = TRUE;
+				else if (strcmp (*viter, "no") == 0)
+					progressive = FALSE;
+				else {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,
+						     "JPEG progressive option must be 'yes' or 'no', value is : %s", *viter);
+					
+					return FALSE;
+				}
+				
+			} else {
+				g_warning ("Bad option name '%s' passed to JPEG saver", *kiter);
+				return FALSE;
+			}
+			
+			++kiter;
+			++viter;
+		}
+	}
+	
+	file = fopen (filename, "wb");
+	
+	if (file == NULL) {
+		g_set_error (error,
+			     GDK_PIXBUF_ERROR,
+			     GDK_PIXBUF_ERROR_FAILED,
+			     "Can't write image to file '%s'", 
+			     filename);
+		return FALSE;
+	}
+       
+	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	
+	w = gdk_pixbuf_get_width (pixbuf);
+	h = gdk_pixbuf_get_height (pixbuf);
+
+	if (gdk_pixbuf_get_has_alpha (pixbuf))
+		bpp = 4;
+	else
+		bpp = 3;
+	
+	/* no image data? abort */
+	pixels = gdk_pixbuf_get_pixels (pixbuf);
+	g_return_val_if_fail (pixels != NULL, FALSE);
+	
+	/* allocate a small buffer to convert image data */
+	buf = g_try_malloc (w * 3 * sizeof (guchar));
+	if (! buf) {
+		g_set_error (error,
+			     GDK_PIXBUF_ERROR,
+			     GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
+			     "Couldn't allocate memory for loading JPEG file");
+		return FALSE;
+	}
+
+	/* set up error handling */
+	jerr.pub.error_exit = fatal_error_handler;
+	jerr.pub.output_message = output_message_handler;
+	jerr.error = error;
+	
+	cinfo.err = jpeg_std_error (&(jerr.pub));
+	if (sigsetjmp (jerr.setjmp_buffer, 1)) {
+		jpeg_destroy_compress (&cinfo);
+		g_free (buf);
+		return FALSE;
+	}
+
+	/* setup compress params */
+	jpeg_create_compress (&cinfo);
+	jpeg_stdio_dest (&cinfo, file);
+	cinfo.image_width      = w;
+	cinfo.image_height     = h;
+	cinfo.input_components = 3; 
+	cinfo.in_color_space   = JCS_RGB;
+	
+	/* set up jepg compression parameters */
+	jpeg_set_defaults (&cinfo);
+	jpeg_set_quality (&cinfo, quality, TRUE);
+	cinfo.smoothing_factor = smoothing;
+	cinfo.optimize_coding = optimize;
+
+#ifdef HAVE_PROGRESSIVE_JPEG
+	if (progressive) 
+		jpeg_simple_progression (&cinfo);
+#endif /* HAVE_PROGRESSIVE_JPEG */
+
+	jpeg_start_compress (&cinfo, TRUE);
+	/* get the start pointer */
+	ptr = pixels;
+	/* go one scanline at a time... and save */
+	i = 0;
+	while (cinfo.next_scanline < cinfo.image_height) {
+		/* convert scanline from ARGB to RGB packed */
+		for (j = 0; j < w; j++)
+			memcpy (&(buf[j * 3]), 
+				&(ptr[i * rowstride + j * bpp]), 
+				3);
+		
+		/* write scanline */
+		jbuf = (JSAMPROW *)(&buf);
+		jpeg_write_scanlines (&cinfo, jbuf, 1);
+		i++;
+		y++;
+		
+	}
+	
+	/* finish off */
+	jpeg_finish_compress (&cinfo);
+	jpeg_destroy_compress(&cinfo);
+	g_free (buf);
+	
+	fclose (file);
+	
+	return TRUE;
+}
+
+#endif
+
+
+
+#ifdef HAVE_LIBTIFF
+
+#define  TILE_HEIGHT 40   /* FIXME */
+
+static gboolean
+_gdk_pixbuf_save_as_tiff (GdkPixbuf   *pixbuf,
+			  const char  *filename,
+			  char       **keys,
+			  char       **values,
+			  GError     **error)
+{
+	TIFF          *tif;
+	int            cols, col, rows, row;
+	glong          rowsperstrip;
+	gushort        compression;
+	gushort        extra_samples[1];
+	int            alpha;
+	gshort         predictor;
+	gshort         photometric;
+	gshort         samplesperpixel;
+	gshort         bitspersample;
+	int            rowstride;
+	guchar        *pixels, *buf, *ptr;
+	int            success;
+
+	compression = COMPRESSION_DEFLATE;
+
+	if (keys && *keys) {
+		char **kiter = keys;
+		char **viter = values;
+		
+		while (*kiter) {
+			if (strcmp (*kiter, "compression") == 0) {
+				if (*viter == NULL) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION, 
+						     "Must specify a compression type");
+					return FALSE;
+				}
+
+				if (strcmp (*viter, "none") == 0)
+					compression = COMPRESSION_NONE;
+				else if (strcmp (*viter, "pack bits") == 0)
+					compression = COMPRESSION_PACKBITS;
+				else if (strcmp (*viter, "lzw") == 0)
+					compression = COMPRESSION_LZW;
+				else if (strcmp (*viter, "deflate") == 0)
+					compression = COMPRESSION_DEFLATE;
+				else if (strcmp (*viter, "jpeg") == 0)
+					compression = COMPRESSION_JPEG;
+				else {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,       
+						     "Unsupported compression type passed to the TIFF saver");
+					return FALSE;
+				}
+			} else {
+				g_warning ("Bad option name '%s' passed to the TIFF saver", *kiter);
+				return FALSE;
+			}
+			
+			++kiter;
+			++viter;
+		}
+	}
+				
+	predictor    = 0;
+	rowsperstrip = TILE_HEIGHT;
+
+	tif = TIFFOpen (filename, "w");
+
+	if (tif == NULL) {
+		g_set_error (error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_FAILED,
+			     "Can't write image to file '%s'", 
+			     filename);
+		return FALSE;
+	}
+
+	cols      = gdk_pixbuf_get_width (pixbuf);
+	rows      = gdk_pixbuf_get_height (pixbuf);
+	alpha     = gdk_pixbuf_get_has_alpha (pixbuf);
+	pixels    = gdk_pixbuf_get_pixels (pixbuf);
+	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+
+	predictor       = 2;
+	bitspersample   = 8;
+	photometric     = PHOTOMETRIC_RGB;
+
+	if (alpha)
+		samplesperpixel = 4;
+	else
+		samplesperpixel = 3;
+	
+	/* Set TIFF parameters. */
+
+	TIFFSetField (tif, TIFFTAG_SUBFILETYPE,   0);
+	TIFFSetField (tif, TIFFTAG_IMAGEWIDTH,    cols);
+	TIFFSetField (tif, TIFFTAG_IMAGELENGTH,   rows);
+	TIFFSetField (tif, TIFFTAG_BITSPERSAMPLE, bitspersample);
+	TIFFSetField (tif, TIFFTAG_ORIENTATION,   ORIENTATION_TOPLEFT);
+	TIFFSetField (tif, TIFFTAG_COMPRESSION,   compression);
+
+	if ((compression == COMPRESSION_LZW
+	     || compression == COMPRESSION_DEFLATE)
+	    && (predictor != 0)) {
+		TIFFSetField (tif, TIFFTAG_PREDICTOR, predictor);
+	}
+
+	if (alpha) {
+		extra_samples [0] = EXTRASAMPLE_ASSOCALPHA;
+		TIFFSetField (tif, TIFFTAG_EXTRASAMPLES, 1, extra_samples);
+	}
+
+	TIFFSetField (tif, TIFFTAG_PHOTOMETRIC,     photometric);
+	TIFFSetField (tif, TIFFTAG_DOCUMENTNAME,    filename);
+	TIFFSetField (tif, TIFFTAG_SAMPLESPERPIXEL, samplesperpixel);
+	TIFFSetField (tif, TIFFTAG_ROWSPERSTRIP,    rowsperstrip);
+	TIFFSetField (tif, TIFFTAG_PLANARCONFIG,    PLANARCONFIG_CONTIG);
+
+	/* allocate a small buffer to convert image data */
+	buf = g_try_malloc (cols * samplesperpixel * sizeof (guchar));
+	if (! buf) {
+		g_set_error (error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
+			     "Couldn't allocate memory for writing TIFF file '%s'",
+			     filename);
+		return FALSE;
+	}
+
+	ptr = pixels;
+
+	/* Now write the TIFF data. */
+	for (row = 0; row < rows; row++) {
+		if (alpha) 
+			for (col = 0; col < cols; col++) {
+				int    c = col * 4;
+				double a = ((double) ptr[c + 3]) / 255.0;
+				buf[c + 0] = (guint) (a * ptr[c + 0]);
+				buf[c + 1] = (guint) (a * ptr[c + 1]);
+				buf[c + 2] = (guint) (a * ptr[c + 2]);
+				buf[c + 3] = ptr[c + 3];
+			}
+		else
+			/* convert scanline from ARGB to RGB packed */
+			for (col = 0; col < cols; col++)
+				memcpy (&(buf[col * 3]), &(ptr[col * 3]), 3);
+		
+		success = TIFFWriteScanline (tif, buf, row, 0) >= 0;
+		
+		if (! success) {
+			g_set_error (error,
+				     GDK_PIXBUF_ERROR,
+				     GDK_PIXBUF_ERROR_FAILED,
+				     "TIFF Failed a scanline write on row %d",
+				     row);
+			return FALSE;
+		}
+
+		ptr += rowstride;
+	}
+	
+	TIFFFlushData (tif);
+	TIFFClose (tif);
+
+	g_free (buf);
+	
+	return TRUE;
+}
+
+#endif
+
+
+
+/* TRUEVISION-XFILE magic signature string */
+static guchar magic[18] = {
+	0x54, 0x52, 0x55, 0x45, 0x56, 0x49, 0x53, 0x49, 0x4f,
+	0x4e, 0x2d, 0x58, 0x46, 0x49, 0x4c, 0x45, 0x2e, 0x0
+};
+
+
+static void
+rle_write (FILE   *fp,
+	   guchar *buffer,
+	   guint   width,
+	   guint   bytes)
+{
+	int     repeat = 0;
+	int     direct = 0;
+	guchar *from   = buffer;
+	int     x;
+	
+	for (x = 1; x < width; ++x) {
+		if (memcmp (buffer, buffer + bytes, bytes)) {
+			/* next pixel is different */
+			if (repeat) {
+				putc (128 + repeat, fp);
+				fwrite (from, bytes, 1, fp);
+				from = buffer + bytes; /* point to first different pixel */
+				repeat = 0;
+				direct = 0;
+			} else
+				direct += 1;
+			
+		} else {
+			/* next pixel is the same */
+			if (direct) {
+				putc (direct - 1, fp);
+				fwrite (from, bytes, direct, fp);
+				from = buffer; /* point to first identical pixel */
+				direct = 0;
+				repeat = 1;
+			} else 
+				repeat += 1;
+		}
+
+		if (repeat == 128) {
+			putc (255, fp);
+			fwrite (from, bytes, 1, fp);
+			from = buffer + bytes;
+			direct = 0;
+			repeat = 0;
+		} else if (direct == 128) {
+			putc (127, fp);
+			fwrite (from, bytes, direct, fp);
+			from = buffer + bytes;
+			direct = 0;
+			repeat = 0;
+		}
+		
+		buffer += bytes;
+	}
+	
+	if (repeat > 0) {
+		putc (128 + repeat, fp);
+		fwrite (from, bytes, 1, fp);
+	} else {
+		putc (direct, fp);
+		fwrite (from, bytes, direct + 1, fp);
+	}
+}
+
+
+static void
+bgr2rgb (guchar *dest,
+	 guchar *src,
+	 guint   width,
+	 guint   bytes,
+	 guint   alpha)
+{
+	guint x;
+	
+	if (alpha) 
+		for (x = 0; x < width; x++) {
+			*(dest++) = src[2];
+			*(dest++) = src[1];
+			*(dest++) = src[0];
+			*(dest++) = src[3];
+			
+			src += bytes;
+		}
+	else 
+		for (x = 0; x < width; x++) {
+			*(dest++) = src[2];
+			*(dest++) = src[1];
+			*(dest++) = src[0];
+			
+			src += bytes;
+		}
+}
+
+
+static gboolean
+_gdk_pixbuf_save_as_tga (GdkPixbuf   *pixbuf,
+			 const char  *filename,
+			 char       **keys,
+			 char       **values,
+			 GError     **error)
+{
+	FILE      *fp;
+	int        out_bpp = 0;
+	int        row;
+	guchar     header[18];
+	guchar     footer[26];
+	gboolean   rle_compression;
+	gboolean   alpha;
+	guchar    *pixels, *ptr, *buf;
+	int        width, height;
+	int        rowstride;
+
+	rle_compression = TRUE;
+
+	if (keys && *keys) {
+		char **kiter = keys;
+		char **viter = values;
+		
+		while (*kiter) {
+			if (strcmp (*kiter, "compression") == 0) {
+				if (*viter == NULL) {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,   
+						     "Must specify a compression type");
+					return FALSE;
+				}
+
+				if (strcmp (*viter, "none") == 0)
+					rle_compression = FALSE;
+
+				else if (strcmp (*viter, "rle") == 0)
+					rle_compression = TRUE;
+
+				else {
+					g_set_error (error,
+						     GDK_PIXBUF_ERROR,
+						     GDK_PIXBUF_ERROR_BAD_OPTION,    
+						     "Unsupported compression type passed to the TGA saver");
+					return FALSE;
+				}
+			} else {
+				g_warning ("Bad option name '%s' passed to the TGA saver", *kiter);
+				return FALSE;
+			}
+			
+			++kiter;
+			++viter;
+		}
+	}
+
+	width     = gdk_pixbuf_get_width (pixbuf);
+	height    = gdk_pixbuf_get_height (pixbuf);
+	alpha     = gdk_pixbuf_get_has_alpha (pixbuf);
+	pixels    = gdk_pixbuf_get_pixels (pixbuf);
+	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+
+	if ((fp = fopen (filename, "wb")) == NULL) {
+		g_set_error (error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_FAILED,
+			     "Can't write image to file '%s'", 
+			     filename);
+		return FALSE;
+	}
+	
+	header[0] = 0; /* No image identifier / description */
+
+	header[1]= 0;
+	header[2]= rle_compression ? 10 : 2;
+	header[3] = header[4] = header[5] = header[6] = header[7] = 0;
+
+	header[8]  = header[9]  = 0; /* xorigin */
+	header[10] = header[11] = 0; /* yorigin */
+
+	header[12] = width % 256;
+	header[13] = width / 256;
+
+	header[14] = height % 256;
+	header[15] = height / 256;
+
+	if (alpha) {
+		out_bpp = 4;
+		header[16] = 32; /* bpp */
+		header[17] = 0x28; /* alpha + orientation */
+	} else {
+		out_bpp = 3;
+		header[16] = 24; /* bpp */
+		header[17] = 0x20; /* alpha + orientation */
+	}
+
+	/* write header to front of file */
+	fwrite (header, sizeof (header), 1, fp);
+
+	/* allocate a small buffer to convert image data */
+	buf = g_try_malloc (width * out_bpp * sizeof (guchar));
+	if (! buf) {
+		g_set_error (error,
+                             GDK_PIXBUF_ERROR,
+                             GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
+			     "Couldn't allocate memory for writing TGA file '%s'",
+			     filename);
+		return FALSE;
+	}
+
+	ptr = pixels;
+
+	for (row = 0; row < height; ++row) {
+		bgr2rgb (buf, ptr, width, out_bpp, alpha);
+
+		if (rle_compression) 
+			rle_write (fp, buf, width, out_bpp);
+		else
+			fwrite (buf, width * out_bpp, 1, fp);
+
+		ptr += rowstride;
+	}
+
+	g_free (buf);
+
+	/* footer must be the last thing written to file */
+	memset (footer, 0, 8); /* No extensions, no developer directory */
+	memcpy (footer + 8, magic, sizeof (magic)); /* magic signature */
+	fwrite (footer, sizeof (footer), 1, fp);
+	
+	fclose (fp);
+	
+	return TRUE;
+}
+
+
+/**/
+
+
+gboolean
+_gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
+		   const char   *filename,
+		   const char   *type,
+		   char        **keys,
+		   char        **values,
+		   GError      **error)
+{
+	gboolean   result;
+	
+	g_return_val_if_fail (pixbuf != NULL, TRUE);
+	g_return_val_if_fail (filename != NULL, TRUE);
+	g_return_val_if_fail (type != NULL, TRUE);
+
+#ifdef HAVE_LIBTIFF
+	if (strcmp (type, "tiff") == 0) 
+		result = _gdk_pixbuf_save_as_tiff (pixbuf, 
+						   filename, 
+						   keys, values, 
+						   error);
+	else
+#endif
+#ifdef HAVE_LIBJPEG
+	if (strcmp (type, "jpeg") == 0) 
+		result = _gdk_pixbuf_save_as_jpeg (pixbuf, 
+						   filename, 
+						   keys, values, 
+						   error);
+	else
+#endif
+	if ((strcmp (type, "x-tga") == 0) ||  (strcmp (type, "tga") == 0))
+		result = _gdk_pixbuf_save_as_tga (pixbuf, 
+						  filename, 
+						  keys, values, 
+						  error);
+	else
+
+		result = gdk_pixbuf_savev (pixbuf, filename, type,
+					   keys, values,
+					   error);
+
+	return result;
+}
+
+
+static void
+collect_save_options (va_list   opts,
+		      char    ***keys,
+		      char    ***vals)
+{
+	char *key;
+	char *val;
+	char *next;
+	int   count;
+
+	count = 0;
+	*keys = NULL;
+	*vals = NULL;
+	
+	next = va_arg (opts, gchar*);
+	while (next) {
+		key = next;
+		val = va_arg (opts, gchar*);
+
+		++count;
+
+		/* woo, slow */
+		*keys = g_realloc (*keys, sizeof(char*) * (count + 1));
+		*vals = g_realloc (*vals, sizeof(char*) * (count + 1));
+		
+		(*keys)[count-1] = g_strdup (key);
+		(*vals)[count-1] = g_strdup (val);
+
+		(*keys)[count] = NULL;
+		(*vals)[count] = NULL;
+		
+		next = va_arg (opts, gchar*);
+	}
+}
+
+
+gboolean
+_gdk_pixbuf_save (GdkPixbuf    *pixbuf,
+		  const char   *filename,
+		  const char   *type,
+		  GError      **error,
+		  ...)
+{
+	va_list    args;
+	char     **keys = NULL;
+	char     **values = NULL;
+	gboolean   result;
+
+	g_return_val_if_fail (pixbuf != NULL, TRUE);
+	g_return_val_if_fail (filename != NULL, TRUE);
+	g_return_val_if_fail (type != NULL, TRUE);
+
+	va_start (args, error);
+	collect_save_options (args, &keys, &values);
+	va_end (args);
+
+	result = _gdk_pixbuf_savev (pixbuf, filename, type,
+				    keys, values,
+				    error);
+	
+	g_strfreev (keys);
+	g_strfreev (values);
+
+	return result;
 }

@@ -1274,7 +1274,7 @@ remove_special_dirs_from_path (const char *path)
 
 	pathv = g_strsplit (path, "/", 0);
 
-	/* start from 1 to remove the first / that will be readded later. */
+	/* start from 1 to remove the first / that will be re-added later. */
 	for (i = 1; pathv[i] != NULL; i++) {
 		if (strcmp (pathv[i], ".") == 0) {
 			/* nothing to do. */

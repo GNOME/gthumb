@@ -304,6 +304,7 @@ dlg_add_to_catalog (GThumbWindow *window,
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
+
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }
@@ -432,7 +433,11 @@ dlg_move_to_catalog_directory (GThumbWindow *window,
 	gtk_window_set_title (GTK_WINDOW (data->dialog), _("Move Catalog to..."));
 
 	/* run dialog. */
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+				      GTK_WINDOW (window->app));
+	
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
+
 	gtk_widget_show_all (data->dialog);
 }

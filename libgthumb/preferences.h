@@ -43,6 +43,7 @@
 #define  PREF_FAST_FILE_TYPE         "/apps/gthumb/browser/fast_file_type"
 #define  PREF_SAVE_THUMBNAILS        "/apps/gthumb/browser/save_thumbnails"
 #define  PREF_THUMBNAIL_SIZE         "/apps/gthumb/browser/thumbnail_size"
+#define  PREF_THUMBNAIL_LIMIT        "/apps/gthumb/browser/thumbnail_limit"
 #define  PREF_CLICK_POLICY           "/apps/gthumb/browser/click_policy"
 #define  PREF_CONFIRM_DELETION       "/apps/gthumb/browser/confirm_deletion"
 #define  PREF_ARRANGE_IMAGES         "/apps/gthumb/browser/arrange_images"

@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="categories_dialog">
-  <property name="title" translatable="yes">gThumb - Categories</property>
+  <property name="title" translatable="yes">Categories</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -333,7 +333,7 @@
 </widget>
 
 <widget class="GtkDialog" id="comments_dialog">
-  <property name="title" translatable="yes">gThumb - Comment</property>
+  <property name="title" translatable="yes">Comment</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

@@ -195,7 +195,7 @@ preferences_init ()
         preferences.toolbar_detachable = gconf_client_get_bool (client, "/desktop/gnome/interface/toolbar_detachable", NULL);
         preferences.nautilus_theme = gconf_client_get_string (client, "/desktop/gnome/file_views/icon_theme", NULL);
 
-        g_object_unref (G_OBJECT (client));
+        g_object_unref (client);
 }
 
 

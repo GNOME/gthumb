@@ -173,8 +173,8 @@ bookmark_list_set (BookmarkList *book_list,
 	g_return_if_fail (book_list != NULL);
 
 	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
-	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_rgba, FALSE, NULL);
-	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_rgba, FALSE, NULL);
+	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
+	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
 
 	gtk_list_store_clear (book_list->list_store);
 

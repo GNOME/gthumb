@@ -13,6 +13,10 @@
 	<cmd name="File_OpenWithPopup" _label="_Open with..." 
 	     _tip="Open selected images with an application"
 	     pixtype="stock" pixname="gtk-open"/>
+	<cmd name="File_Save" _label="_Save as..." 
+	     _tip="Save current image"
+	     pixtype="stock" pixname="gtk-save-as" 
+	     accel="*Shift**Control*S"/>
 	<cmd name="File_Print" _label="_Print" 
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print" accel="*Control*P"/>
@@ -61,7 +65,8 @@
 	<cmd name="Edit_DeleteComment" _label="De_lete Comment" 
 	     _tip="Delete comments of selected images"/>
 	<cmd name="Edit_EditCategories" _label="Ca_tegories..." 
-	     _tip="Assign categories to selected images"/>
+	     _tip="Assign categories to selected images"
+	     pixtype="stock" pixname="gtk-index" />
 	<cmd name="Edit_AddToCatalog" _label="_Add to Catalog..." 
 	     _tip="Add selected images to a catalog"/>
 	<cmd name="Edit_RemoveFromCatalog" _label="Remo_ve from Catalog" 
@@ -114,16 +119,50 @@
 	     _tip="Create a new folder"
 	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
 
-	<cmd name="AlterImage_Rotate" _label="_Rotate Clockwise" 
-	     _tip="View the image rotated clockwise"/>
-	<cmd name="AlterImage_Rotate180" _label="R_otate 180 Degrees" 
-	     _tip="View the image rotated of 180 degrees"/>
+	<cmd name="AlterImage_Rotate90" _label="_Rotate Right" 
+	     _tip="View the image rotated clockwise"
+	     pixtype="stock" pixname="gthumb-rotate-90"/>
+	<cmd name="AlterImage_Rotate90CC" _label="_Rotate Left" 
+	     _tip="View the image rotated counter-clockwise"
+	     pixtype="stock" pixname="gthumb-rotate-90-cc"/>
 	<cmd name="AlterImage_Flip" _label="F_lip" 
-	     _tip="View the image flipped"/>
+	     _tip="View the image flipped"
+	     pixtype="stock" pixname="gthumb-flip"/>
 	<cmd name="AlterImage_Mirror" _label="_Mirror" 
-	     _tip="View the image mirrored"/>
-	<cmd name="AlterImage_Gray" _label="Black and _White" 
-	     _tip="View the image in black and white"/>
+	     _tip="View the image mirrored"
+	     pixtype="stock" pixname="gthumb-mirror"/>
+	<cmd name="AlterImage_Desaturate" _label="_Desaturate" 
+	     _tip="View the image in black and white"
+	      pixtype="stock" pixname="gthumb-desaturate"/>
+	<cmd name="AlterImage_Invert" _label="_Negative" 
+	     _tip="View the image with negative colors"
+	     pixtype="stock" pixname="gthumb-invert"/>
+	<cmd name="AlterImage_Posterize" _label="_Posterize" 
+	     _tip="Reduce the number of colors"
+	     pixtype="stock" pixname="gthumb-posterize"/>
+	<cmd name="AlterImage_BrightnessContrast" 
+	     _label="_Brightness-Contrast" 
+	     _tip="Adjust brightness and contrast"
+	     pixtype="stock" pixname="gthumb-brightness-contrast"/>
+	<cmd name="AlterImage_HueSaturation" 
+	     _label="_Hue-Saturation" 
+	     _tip="Adjust hue and saturation"
+	     pixtype="stock" pixname="gthumb-hue-saturation"/>
+	<cmd name="AlterImage_ColorBalance" 
+	     _label="_Color Balance" 
+	     _tip="Adjust color balance"
+	     pixtype="stock" pixname="gthumb-color-balance"/>
+
+	<cmd name="AlterImage_Resize" 
+	     _label="_Resize" 
+	     _tip="Resize image"
+	     pixtype="stock" pixname="gthumb-resize"/>
+	<cmd name="AlterImage_Rotate" 
+	     _label="_Rotate" 
+	     _tip="Rotate image"/>
+	<cmd name="AlterImage_ReduceColors" 
+	     _label="_Reduce Colors" 
+	     _tip="Reduce number of colors"/>
 
 	<cmd name="SortByName" _label="by _Name" 
 	     _tip="Sort images by name"
@@ -194,7 +233,7 @@
 	     _tip="View next animation frame"/>
 	<cmd name="View_Fullscreen" _label="Full screen"
 	     _tip="View image in fullscreen mode"
-	     pixtype="pixbuf"
+	     pixtype="stock" pixname="gthumb-fullscreen"
 	     accel="*Control*V"/>
 	<cmd name="View_FullscreenPopup" _label="Full screen"
 	     _tip="View image in fullscreen mode"/>
@@ -210,6 +249,9 @@
 	     accel="*Alt*2"/>
 	<cmd name="View_ShowImage" type="toggle"
 	     _tip="View the image"/>
+
+	<cmd name="View_Sidebar_Folders"/>
+	<cmd name="View_Sidebar_Catalogs"/>
 
 	<cmd name="View_ImageProp" _label="Image Inf_ormation"
 	     _tip="Display image information"
@@ -233,6 +275,7 @@
 	     accel="*Control*R"/>
 	<cmd name="Go_Stop" _label="_Stop" 
 	     _tip="Stop loading current location"
+	     pixtype="stock" pixname="gtk-stop"
 	     accel="Escape"/>
 	<cmd name="Go_Home" _label="_Home" 
 	     _tip="Go to the home folder"
@@ -270,7 +313,7 @@
 
 	<cmd name="Tools_Slideshow" _label="_Slideshow" 
 	     _tip="View images as a slideshow"
-	     type="toggle" accel="*Control*S"/>
+	     accel="*Control*S"/>
 	<cmd name="Tools_FindImages" _label="_Find Images..." 
 	     _tip=" "
 	     accel="*Control*F"
@@ -280,6 +323,7 @@
 	<cmd name="Tools_RenameSeries" _label="_Rename Series" 
 	     _tip=" "/>
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
+	     pixtype="stock" pixname="gtk-convert"/>
 	     _tip=" "/>
      	<cmd name="Tools_FindDuplicates" _label="Find _Duplicates" 
 	     _tip=" "/>
@@ -292,7 +336,8 @@
 	     pixtype="stock" pixname="gtk-preferences"/>
 
 	<cmd name="Help_About" _label="_About"
-	     _tip="Show information about gThumb"/>
+	     _tip="Show information about gThumb"
+	     pixtype="stock" pixname="gnome-stock-about"/>
 	<cmd name="Help_Help" _label="_Manual"
 	     accel="F1"
 	     pixtype="stock" pixname="gtk-help"/>
@@ -307,6 +352,7 @@
 		<menuitem name="EditCurrentCatalog_New" verb=""/>
 		<separator/>
 		<menuitem name="File_OpenWith" verb=""/>
+		<menuitem name="File_Save" verb=""/>
 		<menuitem name="File_Print" verb=""/>
 		<separator/>
 		<submenu name="Folder" _label="Folder">
@@ -337,6 +383,21 @@
 		<separator/>
 		<menuitem name="Edit_SelectAll" verb=""/>
 		<separator/>
+		<submenu name="ViewImage" _label="_Image">
+			<menuitem name="AlterImage_Rotate90" verb=""/>
+			<menuitem name="AlterImage_Rotate90CC" verb=""/>
+			<menuitem name="AlterImage_Flip" verb=""/>
+			<menuitem name="AlterImage_Mirror" verb=""/>
+			<separator/>
+			<menuitem name="AlterImage_Resize" verb=""/>
+			<separator/>
+			<menuitem name="AlterImage_HueSaturation" verb=""/>
+			<menuitem name="AlterImage_BrightnessContrast" verb=""/>
+			<menuitem name="AlterImage_Desaturate" verb=""/>
+			<menuitem name="AlterImage_Invert" verb=""/>
+			<menuitem name="AlterImage_Posterize" verb=""/>
+		</submenu>
+		<separator/>
 		<menuitem name="Edit_EditComment" verb=""/>
 		<menuitem name="Edit_DeleteComment" verb=""/>
 		<menuitem name="Edit_EditCategories" verb=""/>
@@ -360,8 +421,7 @@
 			<menuitem name="View_Statusbar" verb=""/>
 		</submenu>
 		<menuitem name="View_Fullscreen" verb=""
-			  _label="_Full Screen"
-			  pixtype=""/>
+			  _label="_Full Screen"/>
 		<separator/>
 		<menuitem name="Go_Stop" verb=""/>
 		<menuitem name="Go_Refresh" verb=""/>
@@ -397,13 +457,6 @@
 			<menuitem name="TranspTypeBlack" verb=""/>
 			<menuitem name="TranspTypeChecked" verb=""/>
 		</submenu>
-		<submenu name="ViewImage" _label="_Image">
-			<menuitem name="AlterImage_Rotate" verb=""/>
-			<menuitem name="AlterImage_Rotate180" verb=""/>
-			<menuitem name="AlterImage_Flip" verb=""/>
-			<menuitem name="AlterImage_Mirror" verb=""/>
-			<menuitem name="AlterImage_Gray" verb=""/>
-		</submenu>
 		<separator/>
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
@@ -437,12 +490,11 @@
 			<menuitem name="Wallpaper_Restore" verb=""/>
 		</submenu>
 		<separator/>
-		<menuitem name="Tools_IndexImage" verb=""/>
-		<menuitem name="Tools_RenameSeries" verb=""/>
-<!--
 		<menuitem name="Tools_ConvertFormat" verb=""/>
--->
 		<menuitem name="Tools_JPEGRotate" verb=""/>
+		<menuitem name="Tools_RenameSeries" verb=""/>
+		<separator/>
+		<menuitem name="Tools_IndexImage" verb=""/>
 		<menuitem name="Tools_FindDuplicates" verb=""/>
 		<separator/>
 		<menuitem name="Tools_Maintenance" verb=""/>
@@ -494,6 +546,77 @@
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
+</dockitem>
+
+<dockitem name="ImageToolbar" _tip="Image Toolbar" config="0"
+	  behavior="exclusive" in_new_band="1" band_num="2"  
+	  hlook="system" vlook="system">
+
+	<toolitem name="View_Sidebar_Folders" verb="" 
+                  _label="Folders" 
+		  _tip="View the folders"
+	          priority="1"
+		  accel="*Alt*Left"/>
+	<toolitem name="View_Sidebar_Catalogs" verb=""
+                  _label="Catalogs" 
+		  _tip="View the catalogs"
+	          priority="1"
+		  accel="*Alt*Left"/>
+
+	<separator/>
+
+  	<toolitem name="File_Save" verb="" _label="Save"
+  	          priority="0"/>
+
+  	<toolitem name="File_Print" verb="" _label="Print"
+	          priority="0"/>
+
+<!--
+	<separator/>
+
+	<toolitem name="AlterImage_Rotate" verb="" _label="Rotate"/>
+	<toolitem name="AlterImage_ReduceColors" verb=""
+	          _label="Reduce Colors"/>
+-->
+
+	<separator/>
+
+	<toolitem name="AlterImage_Resize" verb="" _label="Resize"/>
+
+	<toolitem name="AlterImage_ColorBalance" verb="" 
+	          _label="Color Balance"/>
+	<toolitem name="AlterImage_HueSaturation" verb=""
+	          _label="Hue-Saturation"/>
+	<toolitem name="AlterImage_BrightnessContrast" verb=""
+	          _label="Brightness-Contrast"/>
+
+	<toolitem name="AlterImage_Desaturate" verb="" _label="Desaturate"/>
+	<toolitem name="AlterImage_Invert" verb="" _label="Negative"/>
+	<toolitem name="AlterImage_Posterize" verb="" _label="Posterize"/>
+	<separator/>
+
+  	<toolitem name="View_ZoomIn" verb=""
+	          _label="In"/>
+  	<toolitem name="View_ZoomOut" verb=""
+	          _label="Out"/>
+  	<toolitem name="View_Zoom100" verb=""
+	          _label="1:1"/>
+  	<toolitem name="View_ZoomFit" verb=""
+	          _label="Fit"/>
+
+	<separator/>
+
+  	<toolitem name="View_ImageProp" verb="" _label="Information" />
+
+	<separator/>
+
+  	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
+  	<toolitem name="View_NextImage" verb="" _label="Next"/>
+
+	<separator/>
+
+  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
+		  priority="0"/>
 </dockitem>
 
 <status resize_grip="1">
@@ -549,20 +672,22 @@
 		<menuitem name="Image_Copy" verb=""/>
 		<menuitem name="Image_Move" verb=""/>
 		<separator/>
-		<menuitem name="AlterImage_Rotate" verb=""/>
-		<menuitem name="AlterImage_Rotate180" verb=""/>
+		<menuitem name="AlterImage_Rotate90" verb=""/>
+		<menuitem name="AlterImage_Rotate90CC" verb=""/>
 		<menuitem name="AlterImage_Flip" verb=""/>
 		<menuitem name="AlterImage_Mirror" verb=""/>
-		<menuitem name="AlterImage_Gray" verb=""/>
+		<menuitem name="AlterImage_Desaturate" verb=""/>
+		<menuitem name="AlterImage_Invert" verb=""/>
 	</popup>
 	<popup name="FullscreenImagePopup">
 		<menuitem name="View_ExitFullscreenPopup" verb=""/>
 		<separator/>
-		<menuitem name="AlterImage_Rotate" verb=""/>
-		<menuitem name="AlterImage_Rotate180" verb=""/>
+		<menuitem name="AlterImage_Rotate90" verb=""/>
+		<menuitem name="AlterImage_Rotate90CC" verb=""/>
 		<menuitem name="AlterImage_Flip" verb=""/>
 		<menuitem name="AlterImage_Mirror" verb=""/>
-		<menuitem name="AlterImage_Gray" verb=""/>
+		<menuitem name="AlterImage_Desaturate" verb=""/>
+		<menuitem name="AlterImage_Invert" verb=""/>
 		<separator/>
 		<menuitem name="View_ZoomIn" verb="" _label="Zoom _In"/>
 		<menuitem name="View_ZoomOut" verb="" _label="Zoom _Out"/>

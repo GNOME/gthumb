@@ -146,7 +146,7 @@ apply_cb (GtkWidget  *widget,
 		temp = remove_ending_separator (text);
 		location = g_strconcat ("file://", temp, NULL);
 
-		eel_gconf_set_string (PREF_STARTUP_LOCATION, location);
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
 
 		g_free (temp);
 		g_free (text);
@@ -487,7 +487,7 @@ dlg_preferences (GThumbWindow *window)
 		gtk_widget_set_sensitive (data->btn_set_to_current, FALSE);
 	}
 
-	startup_location = eel_gconf_get_string (PREF_STARTUP_LOCATION);
+	startup_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
 
 	if ((startup_location != NULL)
 	    && pref_util_location_is_file (startup_location)) 

@@ -28,18 +28,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
-GdkPixbuf *pixbuf_copy_rotate_90  (GdkPixbuf *src, 
-				   gboolean   counter_clockwise);
+void        pixmap_from_xpm                   (const char **data, 
+					       GdkPixmap  **pixmap, 
+					       GdkBitmap  **mask);
 
-GdkPixbuf *pixbuf_copy_mirror     (GdkPixbuf *src, 
-				   gboolean   mirror, 
-				   gboolean   flip);
-
-GdkPixbuf *pixbuf_copy_gray       (GdkPixbuf *src);
-
-void       pixmap_from_xpm        (const char **data, 
-				   GdkPixmap  **pixmap, 
-				   GdkBitmap  **mask);
+/* -- */
 
 void       _gdk_pixbuf_vertical_gradient      (GdkPixbuf *pixbuf, 
 					       guint32    color1,
@@ -55,4 +48,59 @@ void       _gdk_pixbuf_hv_gradient            (GdkPixbuf *pixbuf,
 					       guint32    vcolor1,
 					       guint32    vcolor2);
 
+/* -- */
+
+GdkPixbuf *_gdk_pixbuf_copy_rotate_90         (GdkPixbuf *src, 
+					       gboolean   counter_clockwise);
+
+GdkPixbuf *_gdk_pixbuf_copy_mirror            (GdkPixbuf *src, 
+					       gboolean   mirror, 
+					       gboolean   flip);
+
+/* -- */
+
+void       _gdk_pixbuf_desaturate               (const GdkPixbuf *src,
+						 GdkPixbuf       *dest);
+
+void       _gdk_pixbuf_invert                   (const GdkPixbuf *src,
+						 GdkPixbuf       *dest);
+
+void       _gdk_pixbuf_brightness_contrast      (const GdkPixbuf *src,
+						 GdkPixbuf       *dest,
+						 double           brightness,
+						 double           contrast);
+
+void       _gdk_pixbuf_posterize                (const GdkPixbuf *src,
+						 GdkPixbuf       *dest, 
+						 int              levels);
+
+void       _gdk_pixbuf_hue_lightness_saturation (const GdkPixbuf *src,
+						 GdkPixbuf       *dest,
+						 double           hue,
+						 double           lightness,
+						 double           saturation);
+
+void       _gdk_pixbuf_color_balance           (const GdkPixbuf *src,
+						GdkPixbuf       *dest,
+						double           cyan_red,
+						double           magenta_green,
+						double           yellow_blue,
+						gboolean         preserve_luminosity);
+
+
+/**/
+
+gboolean   _gdk_pixbuf_save                    (GdkPixbuf       *pixbuf,
+						const char      *filename,
+						const char      *type,
+						GError         **error,
+						...);
+
+gboolean   _gdk_pixbuf_savev                   (GdkPixbuf    *pixbuf,
+						const char   *filename,
+						const char   *type,
+						char        **keys,
+						char        **values,
+						GError      **error);
+						
 #endif

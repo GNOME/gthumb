@@ -31,17 +31,24 @@
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-bookmarks.h"
+#include "dlg-brightness-contrast.h"
+#include "dlg-hue-saturation.h"
 #include "dlg-catalog.h"
 #include "dlg-categories.h"
 #include "dlg-comment.h"
+#include "dlg-convert.h"
 #include "dlg-duplicates.h"
 #include "dlg-file-utils.h"
 #include "dlg-jpegtran.h"
 #include "dlg-maintenance.h"
 #include "dlg-open-with.h"
 #include "dlg-png-exporter.h"
+#include "dlg-posterize.h"
+#include "dlg-color-balance.h"
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
+#include "dlg-save-image.h"
+#include "dlg-scale-image.h"
 #include "dlg-search.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
@@ -52,6 +59,7 @@
 #include "image-list-utils.h"
 #include "image-viewer.h"
 #include "main.h"
+#include "pixbuf-utils.h"
 #include "print-callbacks.h"
 #include "thumb-cache.h"
 #include "typedefs.h"
@@ -87,7 +95,7 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 					NULL);	
 
 	if (location != NULL) {
-		eel_gconf_set_string (PREF_STARTUP_LOCATION, location);
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
 		g_free (location);
 	}
 
@@ -138,6 +146,16 @@ image_open_with_command_impl (BonoboUIComponent *uic,
 	open_with_cb (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
+}
+
+
+void 
+file_save_command_impl (BonoboUIComponent *uic, 
+			gpointer           user_data, 
+			const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_save_image (window, image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)));
 }
 
 
@@ -255,10 +273,12 @@ rename_file (GThumbWindow *window,
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
-	} else if (! rename (old_path, new_path)) {
+
+	} else if (file_move (old_path, new_path)) {
 		cache_move (old_path, new_path);
 		comment_move (old_path, new_path);
 		all_windows_notify_file_rename (old_path, new_path);
+
 	} else {
 		char *utf8_path;
 
@@ -942,6 +962,8 @@ folder_rename (GThumbWindow *window,
 				new_name,
 				NULL);
 	g_free (parent_path);
+
+	all_windows_remove_monitor ();
 	
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
@@ -994,6 +1016,8 @@ folder_rename (GThumbWindow *window,
                                        errno_to_string ());
 		g_free (utf8_path);
 	}
+
+	all_windows_add_monitor ();
 
 	g_free (new_path);
 	g_free (new_name); 		
@@ -1604,21 +1628,35 @@ alter_image_rotate_command_impl (BonoboUIComponent *uic,
 				 const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_viewer_alter (IMAGE_VIEWER (window->viewer), ALTER_ROTATE_90);
-	/* set mtime to 0 so when clicking on the thumbnail the image get 
-	 * reloaded. */
-	window->image_mtime = 0;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
 }
 
 
 void 
-alter_image_rotate_180_command_impl (BonoboUIComponent *uic, 
-				     gpointer           user_data, 
-				     const gchar       *verbname)
+alter_image_rotate_cc_command_impl (BonoboUIComponent *uic, 
+				    gpointer           user_data, 
+				    const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_viewer_alter (IMAGE_VIEWER (window->viewer), ALTER_ROTATE_180);
-	window->image_mtime = 0;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
 }
 
 
@@ -1628,8 +1666,16 @@ alter_image_flip_command_impl (BonoboUIComponent *uic,
 			       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_viewer_alter (IMAGE_VIEWER (window->viewer), ALTER_FLIP);
-	window->image_mtime = 0;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
 }
 
 
@@ -1639,19 +1685,106 @@ alter_image_mirror_command_impl (BonoboUIComponent *uic,
 				 const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_viewer_alter (IMAGE_VIEWER (window->viewer), ALTER_MIRROR);
-	window->image_mtime = 0;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
 }
 
 
 void 
-alter_image_gray_command_impl (BonoboUIComponent *uic, 
-			       gpointer           user_data, 
-			       const gchar       *verbname)
+alter_image_desaturate_command_impl (BonoboUIComponent *uic, 
+				     gpointer           user_data, 
+				     const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_viewer_alter (IMAGE_VIEWER (window->viewer), ALTER_GRAY);
-	window->image_mtime = 0;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+	
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	_gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
+}
+
+
+void 
+alter_image_invert_command_impl (BonoboUIComponent *uic, 
+				 gpointer           user_data, 
+				 const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	_gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
+
+	window_image_modified (window, TRUE);
+}
+
+
+void 
+alter_image_posterize_command_impl (BonoboUIComponent *uic, 
+				    gpointer           user_data, 
+				    const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_posterize (window);
+}
+
+
+void 
+alter_image_brightness_contrast_command_impl (BonoboUIComponent *uic, 
+					      gpointer           user_data, 
+					      const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_brightness_contrast (window);
+}
+
+
+void 
+alter_image_hue_saturation_command_impl (BonoboUIComponent *uic, 
+					 gpointer           user_data, 
+					 const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_hue_saturation (window);
+}
+
+
+void 
+alter_image_color_balance_command_impl (BonoboUIComponent *uic, 
+					gpointer           user_data, 
+					const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_color_balance (window);
+}
+
+
+void 
+alter_image_scale_command_impl (BonoboUIComponent *uic, 
+				gpointer           user_data, 
+				const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	dlg_scale_image (window);
 }
 
 
@@ -1808,6 +1941,16 @@ view_image_prop_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	window_show_image_prop (window);
+}
+
+
+void 
+view_sidebar_command_impl (BonoboUIComponent *uic, 
+			   gpointer           user_data, 
+			   const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	window_show_sidebar (window);
 }
 
 
@@ -2070,6 +2213,20 @@ wallpaper_restore_command_impl (BonoboUIComponent *uic,
 
 
 void 
+tools_slideshow_command_impl (BonoboUIComponent *uic, 
+			      gpointer           user_data, 
+			      const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	
+	if (! window->slideshow)
+		window_start_slideshow (window);
+	else
+		window_stop_slideshow (window);
+}
+
+
+void 
 tools_find_images_command_impl (BonoboUIComponent *uic, 
 				gpointer           user_data, 
 				const gchar       *verbname)
@@ -2136,6 +2293,16 @@ tools_duplicates_command_impl (BonoboUIComponent *uic,
 {
         GThumbWindow *window = user_data;
         dlg_duplicates (window);
+}
+
+
+void 
+tools_convert_format_command_impl (BonoboUIComponent *uic, 
+				   gpointer           user_data, 
+				   const gchar       *verbname)
+{
+        GThumbWindow *window = user_data;
+        dlg_convert (window);
 }
 
 

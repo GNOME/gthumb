@@ -1581,6 +1581,23 @@ image_viewer_load_from_image_loader (ImageViewer *viewer,
 
 
 void
+image_viewer_set_pixbuf (ImageViewer *viewer,
+			 GdkPixbuf   *pixbuf)
+{
+	g_return_if_fail (viewer != NULL);
+
+	if (viewer->is_animation) 
+		return;
+
+        if (viewer->rendering) 
+		return;
+
+	image_loader_set_pixbuf (viewer->loader, pixbuf);
+	image_viewer_update_view (viewer);
+}
+
+
+void
 image_viewer_set_void (ImageViewer *viewer)
 {
 	g_return_if_fail (viewer != NULL);
@@ -2163,59 +2180,6 @@ image_viewer_get_check_size (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, FALSE);
 	return viewer->check_size;
-}
-
-
-void
-image_viewer_alter (ImageViewer    *viewer, 
-		    ImageAlterType  type)
-{
-	GdkPixbuf *pixbuf;
-	GdkPixbuf *orig_pixbuf;
-
-	g_return_if_fail (viewer != NULL);
-	
-	if (viewer->is_void) return;
-	if (viewer->is_animation) return;
-	if (viewer->rendering) return;
-	
-	orig_pixbuf = image_loader_get_pixbuf (viewer->loader);
-	if (orig_pixbuf == NULL) return;
-
-	pixbuf = NULL;
-	switch (type) {
-	case ALTER_NONE:
-		pixbuf = gdk_pixbuf_copy (orig_pixbuf);
-		return;
-
-	case ALTER_ROTATE_90:
-		pixbuf = pixbuf_copy_rotate_90 (orig_pixbuf, FALSE);
-		break;
-
-	case ALTER_ROTATE_90_CC:
-		pixbuf = pixbuf_copy_rotate_90 (orig_pixbuf, TRUE);
-		break;
-
-	case ALTER_ROTATE_180:
-		pixbuf = pixbuf_copy_mirror (orig_pixbuf, TRUE, TRUE);
-		break;
-
-	case ALTER_MIRROR:
-		pixbuf = pixbuf_copy_mirror (orig_pixbuf, TRUE, FALSE);
-		break;
-
-	case ALTER_FLIP:
-		pixbuf = pixbuf_copy_mirror (orig_pixbuf, FALSE, TRUE);
-		break;
-
-	case ALTER_GRAY:
-		pixbuf = pixbuf_copy_gray (orig_pixbuf);
-	}
-
-	image_loader_set_pixbuf (viewer->loader, pixbuf);
-	g_object_unref (G_OBJECT (pixbuf));
-
-	image_viewer_update_view (viewer);
 }
 
 

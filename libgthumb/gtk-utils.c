@@ -356,9 +356,9 @@ _gtk_error_dialog_from_gerror_run (GtkWindow        *parent,
 				   GError          **gerror)
 {
 	GtkWidget *d;
-	
+
 	g_return_if_fail (*gerror != NULL);
-	
+
 	d = _gtk_message_dialog_new (parent,
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_ERROR,

@@ -150,6 +150,20 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/browser/thumbnail_limit</key>
+	<applyto>/apps/gthumb/browser/thumbnail_limit</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Images over this size (in bytes) will not be thumbnailed.  Use
+	  0 if you want to generate thumbnails for all images.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/browser/click_policy</key>
 	<applyto>/apps/gthumb/browser/click_policy</applyto>
 	<owner>gthumb</owner>

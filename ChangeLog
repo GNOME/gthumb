@@ -1,3 +1,56 @@
+2002-10-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* added a simple image editor.
+
+2002-10-12  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (hide_sidebar_idle, file_button_press_cb):
+	make double-clicking on a thumbnail hide the sidebar. Use a
+	timeout to avoid that the viewer gets the button press event.
+
+	* src/dlg-image-prop.c (dlg_image_prop_new): 
+	* src/gthumb.glade: define the image properties window as a window
+	not as a dialog.
+
+	* libgthumb/preferences.h:
+	* libgthumb/file-list.c (file_list_update_thumbs): 
+	* libgthumb/thumb-loader.c (thumb_loader_init): add a gconf key
+	for the max file size over which thumbnails are not generated.
+	
+	* libgthumb/thumb-loader.c (thumb_loader_start): emit DONE instead
+	of ERROR when the file size exceeds the limit.
+
+2002-10-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-catalog.c (dlg_move_to_catalog_directory) 
+	(dlg_add_to_catalog): center dialog on parent.
+
+	* src/dlg-image-prop.c: 
+	* src/gthumb.glade: make the properties dialog navigable with the 
+	keyword.
+
+2002-10-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (folder_rename): remove the VFS monitor before
+	renaming a folder.
+
+2002-10-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: add stock icon to the Go_Stop command.
+
+	* src/gthumb-window.c (stop__step5, window_update_sensitivity):
+	update the Go_Stop command sensitivity when appropriate.
+	
+
+	* src/gthumb-window.c (item_toggled_handler, window_new) 
+	* src/gthumb-window.h: add notifications for
+	PREF_UI_TOOLBAR_VISIBLE and PREF_UI_STATUSBAR_VISIBLE preferences.
+
+2002-10-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/catalog-png-exporter.c (paint_frame): remove special dirs
+	from the destination directory before getting the relative path.
+
 2002-10-05  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* Ported to gconf.

@@ -30,6 +30,9 @@ gthumb_image_viewer_SOURCES = 			\
 
 gthumb_image_viewer_LDADD = 			\
 	$(COMPONENT_LIBS)			\
+	$(JPEG_LIBS)				\
+	$(PNG_LIBS)				\
+	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(top_builddir)/libgthumb/libgthumb.a
 

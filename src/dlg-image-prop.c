@@ -45,6 +45,14 @@
 #include "main.h"
 #include "icons/pixbufs.h"
 
+
+enum {
+	NAME_COLUMN,
+	VALUE_COLUMN,
+	NUM_COLUMNS
+};
+
+
 #define GLADE_FILE "gthumb.glade"
 #define PREVIEW_SIZE 80
 
@@ -62,12 +70,18 @@ typedef struct {
 	GtkWidget    *i_date_modified_label;
 
 	GtkWidget    *viewer;
-	GtkWidget    *comment_viewport;
-	GtkWidget    *comment_vbox;
+
+	GtkWidget     *i_comment_textview;
+	GtkTextBuffer *i_comment_textbuffer;
+	GtkWidget     *i_categories_label;
+
 #ifdef HAVE_LIBEXIF
-	GtkWidget    *exif_viewport;
-	GtkWidget    *exif_table;
+
+	GtkWidget     *i_exif_treeview;
+	GtkListStore  *i_exif_model;
+
 #endif /* HAVE_LIBEXIF */
+
 } DialogData;
 
 
@@ -115,9 +129,15 @@ dlg_image_prop_new (GThumbWindow *window)
 	GtkWidget   *i_next_button;
 	GtkWidget   *i_prev_button;
 	GtkWidget   *i_field_label;
-	GtkWidget   *tab_label;
-	GtkWidget   *scrolled_window;
 	GtkWidget   *i_notebook;
+
+#ifdef HAVE_LIBEXIF
+
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+
+#endif /* HAVE_LIBEXIF */
+
 	char        *label;
 
 	data = g_new0 (DialogData, 1);
@@ -133,7 +153,7 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	/* Get the widgets. */
 
-	data->dialog = glade_xml_get_widget (data->gui, "image_prop_dialog");
+	data->dialog = glade_xml_get_widget (data->gui, "image_prop_window");
 	data->i_name_label = glade_xml_get_widget (data->gui, "i_name_label");
 	data->i_type_label = glade_xml_get_widget (data->gui, "i_type_label");
 	data->i_image_size_label = glade_xml_get_widget (data->gui, "i_image_size_label");
@@ -146,6 +166,15 @@ dlg_image_prop_new (GThumbWindow *window)
 	i_next_button = glade_xml_get_widget (data->gui, "i_next_button");
 	i_prev_button = glade_xml_get_widget (data->gui, "i_prev_button");
 	i_notebook = glade_xml_get_widget (data->gui, "i_notebook");
+
+	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
+	data->i_categories_label = glade_xml_get_widget (data->gui, "i_categories_label");
+
+#ifdef HAVE_LIBEXIF
+	data->i_exif_treeview = glade_xml_get_widget (data->gui, "i_exif_treeview");
+#endif /* HAVE_LIBEXIF */
+
+	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
 
 	/* * set labels */
 
@@ -181,49 +210,13 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	/* * comment data */
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_NONE);
-	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 12);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-
-	data->comment_viewport = gtk_viewport_new (NULL, NULL);
-	gtk_viewport_set_shadow_type (GTK_VIEWPORT (data->comment_viewport),
-				      GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (scrolled_window), data->comment_viewport);
-
-	tab_label = gtk_label_new (_("Comm_ent"));
-	gtk_label_set_use_underline (GTK_LABEL (tab_label), TRUE);
-	gtk_notebook_append_page (GTK_NOTEBOOK (i_notebook),
-				  scrolled_window,
-				  tab_label);
-
 	/* * exif data */
 
-#ifdef HAVE_LIBEXIF
+#ifndef HAVE_LIBEXIF
 
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window),
-					     GTK_SHADOW_NONE);
-	gtk_container_set_border_width (GTK_CONTAINER (scrolled_window), 12);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
+	gtk_notebook_remove_page (GTK_NOTEBOOK (i_notebook), 2);
 
-	data->exif_viewport = gtk_viewport_new (NULL, NULL);
-	gtk_viewport_set_shadow_type (GTK_VIEWPORT (data->exif_viewport),
-				      GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (scrolled_window), data->exif_viewport);
-
-	tab_label = gtk_label_new (_("E_XIF"));
-	gtk_label_set_use_underline (GTK_LABEL (tab_label), TRUE);
-	gtk_notebook_append_page (GTK_NOTEBOOK (i_notebook),
-				  scrolled_window,
-				  tab_label);
-
-#endif /* HAVE_LIBEXIF */
+#endif /* ! HAVE_LIBEXIF */
 
 	/* * image viewer */
 
@@ -245,6 +238,41 @@ dlg_image_prop_new (GThumbWindow *window)
 	/* Set widgets data. */
 
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
+
+#ifdef HAVE_LIBEXIF
+
+	data->i_exif_model = gtk_list_store_new (NUM_COLUMNS,
+						 G_TYPE_STRING, 
+						 G_TYPE_STRING);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (data->i_exif_treeview),
+				 GTK_TREE_MODEL (data->i_exif_model));
+	g_object_unref (data->i_exif_model);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Field"),
+							   renderer,
+							   "text", NAME_COLUMN,
+							   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, NAME_COLUMN);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
+				     column);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Value"),
+							   renderer,
+							   "text", VALUE_COLUMN,
+							   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, VALUE_COLUMN);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
+				     column);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->i_exif_model), NAME_COLUMN, GTK_SORT_ASCENDING);
+
+#endif /* HAVE_LIBEXIF */
 
 	/* Set the signals handlers. */
 	
@@ -281,48 +309,6 @@ dlg_image_prop_new (GThumbWindow *window)
 }
 
 
-static void
-add_table_line (GtkWidget  *table, 
-		int         row, 
-		const char *left, 
-		const char *right)
-{
-	GtkWidget *left_lbl;
-	GtkWidget *right_lbl;
-	char      *left_text;
-
-	if (left != NULL) 
-		left_text = g_strdup_printf ("<b>%s</b>:", left);
-	else
-		left_text = "";
-	
-	left_lbl = gtk_label_new (left_text);
-	gtk_label_set_use_markup (GTK_LABEL (left_lbl), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (left_lbl), 1.0, 0.0);
-	g_free (left_text);
-	
-	gtk_table_attach (GTK_TABLE (table), left_lbl, 
-			  0, 1, row, row + 1,
-			  GTK_FILL, GTK_FILL, 0, 0);
-
-	/**/
-	
-	if (right != NULL) 
-		right_lbl = gtk_label_new (right);
-	else
-		right_lbl = gtk_label_new ("");
-	
-	gtk_label_set_use_markup (GTK_LABEL (right_lbl), FALSE);
-	gtk_label_set_line_wrap  (GTK_LABEL (right_lbl), TRUE);
-	gtk_misc_set_alignment   (GTK_MISC (right_lbl), 0.0, 0.0);
-	gtk_label_set_selectable (GTK_LABEL (right_lbl), TRUE);
-
-	gtk_table_attach (GTK_TABLE (table), right_lbl, 
-			  1, 2, row, row + 1,
-			  GTK_FILL, GTK_FILL, 0, 0);
-}
-
-
 #ifdef HAVE_LIBEXIF
 
 
@@ -331,33 +317,14 @@ update_exif_data (DialogData *data)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
-	int           rows, n;
+
+	gtk_list_store_clear (data->i_exif_model);
 	
-	if (data->exif_table != NULL) {
-		gtk_widget_destroy (data->exif_table);
-		data->exif_table = NULL;
-	}
-
 	edata = exif_data_new_from_file (data->window->image_path);
-	if (edata == NULL) {
-		data->exif_table = gtk_label_new ("");
-		gtk_container_add (GTK_CONTAINER (data->exif_viewport),
-				   data->exif_table); 
-		gtk_widget_show (data->exif_table);
+
+	if (edata == NULL) 
                 return;
-	}
 
-	rows = 0;
-	for (i = 0; i < EXIF_IFD_COUNT; i++) 
-		if (edata->ifd[i])
-			rows += edata->ifd[i]->count;
-
-	n = 0;
-	data->exif_table = gtk_table_new (rows, 2, FALSE);
-	gtk_table_set_row_spacings (GTK_TABLE (data->exif_table), 5);
-	gtk_table_set_col_spacings (GTK_TABLE (data->exif_table), 5);
-	gtk_container_add (GTK_CONTAINER (data->exif_viewport),
-			   data->exif_table); 
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 
@@ -365,24 +332,29 @@ update_exif_data (DialogData *data)
 			continue;
 
 		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-			char      *utf8_name;
-			char      *utf8_value;
+			ExifEntry   *e = content->entries[j];
+			GtkTreeIter  iter;
+			char        *utf8_name;
+			char        *utf8_value;
 
 			if (! content->entries[j]) 
 				continue;
 
+			gtk_list_store_append (data->i_exif_model, &iter);
+
 			utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
 			utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
-			
-			add_table_line (data->exif_table, n++, utf8_name, utf8_value);
+
+			gtk_list_store_set (data->i_exif_model, &iter,
+					    NAME_COLUMN, utf8_name,
+					    VALUE_COLUMN, utf8_value,
+					    -1);
 
 			g_free (utf8_name);
 			g_free (utf8_value);
 		}
 	}
 
-	gtk_widget_show_all (data->exif_table);
 	exif_data_unref (edata);
 }
 
@@ -395,60 +367,45 @@ update_comment (DialogData *data)
 {
 	CommentData *cdata;
 	char        *comment;
-	char        *utf8_text;
-
-	if (data->comment_vbox != NULL) {
-		gtk_widget_destroy (data->comment_vbox);
-		data->comment_vbox = NULL;
-	}
 
 	cdata = comments_load_comment (data->window->image_path);
+
 	if (cdata == NULL) {
-		data->comment_vbox = gtk_label_new ("");
-		gtk_container_add (GTK_CONTAINER (data->comment_viewport),
-				   data->comment_vbox); 
-		gtk_widget_show (data->comment_vbox);
+		GtkTextIter  start_iter, end_iter;
+		gtk_text_buffer_get_bounds (data->i_comment_textbuffer,
+					    &start_iter, 
+					    &end_iter);
+		gtk_text_buffer_delete     (data->i_comment_textbuffer,
+					    &start_iter, 
+					    &end_iter);
+		gtk_label_set_text (GTK_LABEL (data->i_categories_label), "");
                 return;
 	}
-
-	data->comment_vbox = gtk_vbox_new (FALSE, 10);
-	gtk_container_add (GTK_CONTAINER (data->comment_viewport),
-			   data->comment_vbox);
 
 	comment = comments_get_comment_as_string (cdata, "\n", " - ");
 
 	if (comment != NULL) {
-		GtkWidget *comment_lbl;
+		char          *utf8_text;
 
 		utf8_text = g_locale_to_utf8 (comment, -1, 0, 0, 0);
-		comment_lbl = gtk_label_new (utf8_text);
+		gtk_text_buffer_set_text (data->i_comment_textbuffer,
+					  utf8_text, 
+					  strlen (utf8_text));
 		g_free (utf8_text);
-
-		gtk_label_set_use_markup (GTK_LABEL (comment_lbl), FALSE);
-		gtk_label_set_line_wrap  (GTK_LABEL (comment_lbl), TRUE);
-		gtk_misc_set_alignment   (GTK_MISC  (comment_lbl), 0.0, 0.0);
-		gtk_label_set_selectable (GTK_LABEL (comment_lbl), TRUE);
-
-		gtk_box_pack_start (GTK_BOX (data->comment_vbox),
-				    comment_lbl,
-				    FALSE,
-				    FALSE,
-				    0);
+	} else {
+		GtkTextIter  start_iter, end_iter;
+		gtk_text_buffer_get_bounds (data->i_comment_textbuffer,
+					    &start_iter, 
+					    &end_iter);
+		gtk_text_buffer_delete     (data->i_comment_textbuffer,
+					    &start_iter, 
+					    &end_iter);
 	}
 
 	if (cdata->keywords_n > 0) {
-		GtkWidget *table;
 		GString   *keywords;
+		char      *utf8_text;
 		int        i;
-
-		table = gtk_table_new (1, 2, FALSE);
-		gtk_table_set_row_spacings (GTK_TABLE (table), 5);
-		gtk_table_set_col_spacings (GTK_TABLE (table), 5);
-		gtk_box_pack_start (GTK_BOX (data->comment_vbox),
-				    table,
-				    FALSE,
-				    FALSE,
-				    0);
 
 		keywords = g_string_new (cdata->keywords[0]);
 		for (i = 1; i < cdata->keywords_n; i++) {
@@ -458,14 +415,14 @@ update_comment (DialogData *data)
 		g_string_append (keywords, ".");
 		utf8_text = g_locale_to_utf8 (keywords->str, -1, 0, 0, 0);
 
-		add_table_line (table, 0, _("Categories"), utf8_text);
+		gtk_label_set_text (GTK_LABEL (data->i_categories_label), utf8_text);
 
 		g_string_free (keywords, TRUE);
 		g_free (utf8_text);
-	}
-	g_free (comment);
+	} else
+		gtk_label_set_text (GTK_LABEL (data->i_categories_label), "");
 
-	gtk_widget_show_all (data->comment_vbox);
+	g_free (comment);
 	comment_data_free (cdata);
 }
 
@@ -500,62 +457,57 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
+	} else {
 
-		return;
+		utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
+		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
+		
+		title = g_strdup_printf ("%s", utf8_name); 
+		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
+		g_free (utf8_name);
+		g_free (title);
+		
+		/**/
+		
+		gtk_label_set_text (GTK_LABEL (data->i_type_label),
+				    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (window->image_path, NULL, FALSE)));
+		
+		/**/
+		
+		width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
+		height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
+		size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
+		gtk_label_set_text (GTK_LABEL (data->i_image_size_label), size_txt);
+		g_free (size_txt);
+		
+		/**/
+		
+		file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (window->image_path));
+		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), file_size_txt);
+		g_free (file_size_txt);
+		
+		/**/
+		
+		location = remove_level_from_path (window->image_path);
+		_gtk_label_set_locale_text (GTK_LABEL (data->i_location_label), location);
+		g_free (location);
+		
+		/**/
+		
+		timer = get_file_mtime (window->image_path);
+		tm = localtime (&timer);
+		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
 	}
-
-	/**/
-
-	utf8_name = g_locale_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
-	gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
-
-	title = g_strdup_printf ("%s", utf8_name); 
-	gtk_window_set_title (GTK_WINDOW (data->dialog), title);
-	g_free (utf8_name);
-	g_free (title);
-	
-	/**/
-
-	gtk_label_set_text (GTK_LABEL (data->i_type_label),
-			    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (window->image_path, NULL, FALSE)));
-	
-	/**/
-
-	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
-	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
-	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	gtk_label_set_text (GTK_LABEL (data->i_image_size_label), size_txt);
-	g_free (size_txt);
-
-	/**/
-
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (window->image_path));
-	gtk_label_set_text (GTK_LABEL (data->i_file_size_label), file_size_txt);
-	g_free (file_size_txt);
-
-	/**/
-
-	location = remove_level_from_path (window->image_path);
-	_gtk_label_set_locale_text (GTK_LABEL (data->i_location_label), location);
-	g_free (location);
-
-	/**/
-
-	timer = get_file_mtime (window->image_path);
-	tm = localtime (&timer);
-	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
-	_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
-
-	/**/
-
+		
 	update_comment (data);
 
 #ifdef HAVE_LIBEXIF
+
 	update_exif_data (data);
+
 #endif /* HAVE_LIBEXIF */
 
-	/**/
-
-	image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), 
-					     IMAGE_VIEWER (window->viewer)->loader);
+	if (window->image_path != NULL) 
+		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), IMAGE_VIEWER (window->viewer)->loader);
 }

@@ -46,6 +46,7 @@
 #include "glib-utils.h"
 #include "gthumb-window.h"
 #include "gthumb-info-bar.h"
+#include "gthumb-stock.h"
 #include "gtk-utils.h"
 #include "image-list-utils.h"
 #include "image-viewer.h"
@@ -56,14 +57,11 @@
 
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
-#include "icons/mirror.xpm"
-#include "icons/flip.xpm"
-#include "icons/rotate.xpm"
-
 
 #define ACTIVITY_DELAY        200
 #define LOAD_DIR_DELAY        25
-#define UPDATE_DIR_DELAY      200
+#define UPDATE_DIR_DELAY      250
+#define HIDE_SIDEBAR_DELAY    150
 #define PROGRESS_BAR_WIDTH    60
 #define PANE_MIN_SIZE         60
 
@@ -85,6 +83,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_OpenWith", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_OpenWithPopup", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_Print", file_print_command_impl),
+	BONOBO_UI_VERB ("File_Save", file_save_command_impl),
 	BONOBO_UI_VERB ("File_Exit", file_exit_command_impl),
 	BONOBO_UI_VERB ("Image_OpenWith", image_open_with_command_impl),
 	BONOBO_UI_VERB ("Image_Rename", image_rename_command_impl),
@@ -125,11 +124,17 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("EditCurrentCatalog_Move", edit_current_catalog_move_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_EditSearch", edit_current_catalog_edit_search_command_impl),
 	BONOBO_UI_VERB ("EditCurrentCatalog_RedoSearch", edit_current_catalog_redo_search_command_impl),
-	BONOBO_UI_VERB ("AlterImage_Rotate", alter_image_rotate_command_impl),
-	BONOBO_UI_VERB ("AlterImage_Rotate180", alter_image_rotate_180_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Rotate90", alter_image_rotate_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Rotate90CC", alter_image_rotate_cc_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Flip", alter_image_flip_command_impl),
 	BONOBO_UI_VERB ("AlterImage_Mirror", alter_image_mirror_command_impl),
-	BONOBO_UI_VERB ("AlterImage_Gray", alter_image_gray_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Desaturate", alter_image_desaturate_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Invert", alter_image_invert_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Posterize", alter_image_posterize_command_impl),
+	BONOBO_UI_VERB ("AlterImage_BrightnessContrast", alter_image_brightness_contrast_command_impl),
+	BONOBO_UI_VERB ("AlterImage_HueSaturation", alter_image_hue_saturation_command_impl),
+	BONOBO_UI_VERB ("AlterImage_ColorBalance", alter_image_color_balance_command_impl),
+	BONOBO_UI_VERB ("AlterImage_Resize", alter_image_scale_command_impl),
 	BONOBO_UI_VERB ("View_ZoomIn", view_zoom_in_command_impl),
 	BONOBO_UI_VERB ("View_ZoomOut", view_zoom_out_command_impl),
 	BONOBO_UI_VERB ("View_Zoom100", view_zoom_100_command_impl),
@@ -143,6 +148,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("View_PrevImage", view_prev_image_command_impl),
 	BONOBO_UI_VERB ("View_NextImage", view_next_image_command_impl),
 	BONOBO_UI_VERB ("View_ImageProp", view_image_prop_command_impl),
+	BONOBO_UI_VERB ("View_Sidebar_Folders", view_sidebar_command_impl),
+	BONOBO_UI_VERB ("View_Sidebar_Catalogs", view_sidebar_command_impl),
 	BONOBO_UI_VERB ("Go_Back", go_back_command_impl),
 	BONOBO_UI_VERB ("Go_Forward", go_forward_command_impl),
 	BONOBO_UI_VERB ("Go_Up", go_up_command_impl),
@@ -167,6 +174,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("Tools_Preferences", tools_preferences_command_impl),
 	BONOBO_UI_VERB ("Tools_JPEGRotate", tools_jpeg_rotate_command_impl),
 	BONOBO_UI_VERB ("Tools_FindDuplicates", tools_duplicates_command_impl),
+	BONOBO_UI_VERB ("Tools_ConvertFormat", tools_convert_format_command_impl),
+	BONOBO_UI_VERB ("Tools_Slideshow", tools_slideshow_command_impl),
 	BONOBO_UI_VERB ("Help_Help", help_help_command_impl),
 	BONOBO_UI_VERB ("Help_Shortcuts", help_shortcuts_command_impl),
 	BONOBO_UI_VERB ("Help_About", help_about_command_impl),
@@ -317,6 +326,12 @@ window_set_file_list_continue (gpointer callback_data)
 		window_show_first_image (window);
 		window_update_sensitivity (window);
 	}
+
+	set_command_sensitive (window, "Go_Stop", 
+			       ((window->activity_ref > 0) 
+				|| window->setting_file_list
+				|| window->changing_directory
+				|| window->file_list->doing_thumbs));
 
 	if (data->done_func != NULL)
 		(*data->done_func) (data->done_func_data);
@@ -483,10 +498,11 @@ window_update_infobar (GThumbWindow *window)
 	utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 	escaped_name = g_markup_escape_text (utf8_name, -1);
 
-	text = g_strdup_printf ("%d/%d - <b>%s</b>", 
+	text = g_strdup_printf ("%d/%d - <b>%s</b>%s", 
 				current, 
 				images, 
-				escaped_name);
+				escaped_name,
+				window->image_modified ? "*" : "");
 
 	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (window->info_bar), 
 				  text, 
@@ -554,28 +570,37 @@ window_update_sensitivity (GThumbWindow *window)
 			       "File_OpenWithPopup", 
 			       sel_not_null && not_fullscreen);
 
+	set_command_sensitive (window, "File_Save", ! image_is_void);
 	set_command_sensitive (window, "File_Print", ! image_is_void);
 
 	/* Edit menu. */
 
-	set_command_sensitive (window, 
-		       "Edit_RenameFile", 
-		       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
-	set_command_sensitive (window, 
-		       "Edit_RenameFilePopup", 
-		       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
-	set_command_sensitive (window, 
-		       "Edit_DuplicateFile", 
-		       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
+	set_command_sensitive (window, "Edit_RenameFile", 
+			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
+	set_command_sensitive (window, "Edit_RenameFilePopup", 
+			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
+	set_command_sensitive (window, "Edit_DuplicateFile", 
+			       ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)) && not_fullscreen);
 	set_command_sensitive (window, "Edit_DeleteFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_CopyFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_MoveFiles", sel_not_null && not_fullscreen);
 
-	set_command_sensitive (window, "AlterImage_Rotate", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Rotate180", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani);
 	set_command_sensitive (window, "AlterImage_Flip", ! image_is_void && ! image_is_ani);
 	set_command_sensitive (window, "AlterImage_Mirror", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Gray", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Desaturate", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Resize", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_ColorBalance", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_HueSaturation", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_BrightnessContrast", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Invert", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Posterize", ! image_is_void && ! image_is_ani);
+
+	set_command_sensitive (window, "View_ZoomIn", ! image_is_void);
+	set_command_sensitive (window, "View_ZoomOut", ! image_is_void);
+	set_command_sensitive (window, "View_Zoom100", ! image_is_void);
+	set_command_sensitive (window, "View_ZoomFit", ! image_is_void);
 	set_command_sensitive (window, "View_PlayAnimation", image_is_ani);
 	set_command_sensitive (window, "View_StepAnimation", image_is_ani && ! playing);
 
@@ -594,6 +619,12 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window,
 			       "Go_ToContainerPopup",
 			       viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
+
+	set_command_sensitive (window, "Go_Stop", 
+			       ((window->activity_ref > 0) 
+				|| window->setting_file_list
+				|| window->changing_directory
+				|| window->file_list->doing_thumbs));
 
 	/* Edit Catalog menu. */
 
@@ -656,6 +687,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_command_sensitive (window, "Tools_IndexImage", sel_not_null);
 	set_command_sensitive (window, "Tools_RenameSeries", sel_not_null);
+	set_command_sensitive (window, "Tools_ConvertFormat", sel_not_null);
 	set_command_sensitive (window, "Tools_JPEGRotate", sel_not_null);
 	set_command_sensitive (window, "Wallpaper_Centered", ! image_is_void);
 	set_command_sensitive (window, "Wallpaper_Tiled", ! image_is_void);
@@ -907,9 +939,9 @@ add_bookmark_menu_item (GThumbWindow *window,
 	full_cmd_name = g_strdup_printf ("/commands/%s%d", prefix, id);
 
 	if (pref_util_location_is_catalog (path)) 
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_rgba, FALSE, NULL);
+		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
 	else if (pref_util_location_is_search (path))
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_rgba, FALSE, NULL);
+		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
 	else
 		pixbuf = get_folder_pixbuf (MENU_ICON_SIZE);
 
@@ -1056,7 +1088,8 @@ view_image_at_pos (GThumbWindow *window,
 	if (path == NULL) 
 		return;
 
-	if ((window->image_path != NULL) 
+	if (! window->image_modified
+	    && (window->image_path != NULL) 
 	    && (strcmp (path, window->image_path) == 0)
 	    && (window->image_mtime == get_file_mtime (window->image_path))) {
 		g_free (path);
@@ -1074,35 +1107,60 @@ window_update_title (GThumbWindow *window)
 	char *info_txt      = NULL;
 	char *info_txt_utf8 = NULL;
 	char *path;
+	char *modified;
 
 	g_return_if_fail (window != NULL);
 
 	path = window->image_path;
+	modified = window->image_modified ? "*" : "";
 
 	if (path == NULL) {
 		if ((window->sidebar_content == DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
 
-			info_txt = g_strdup_printf ("%s - %s",
+			info_txt = g_strdup_printf ("%s%s - %s",
 						    window->dir_list->path,
+						    modified,
 						    _("gThumb"));
+		} else if ((window->sidebar_content == CATALOG_LIST)
+			   && (window->catalog_path != NULL)) {
+			const char *cat_name;
+			char       *cat_name_no_ext;
+
+			cat_name = file_name_from_path (window->catalog_path);
+			cat_name_no_ext = g_strdup (cat_name);
+			
+			/* Cut out the file extension. */
+			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
+			
+			info_txt = g_strdup_printf ("%s - %s",
+						    cat_name_no_ext,
+						    _("gThumb"));
+			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
 	} else {
+		const char *image_name = file_name_from_path (path);
+
+		if (image_name == NULL)
+			image_name = "";
+
 		if (window->image_catalog != NULL) {
-			gchar *cat_name = g_strdup (file_name_from_path (window->image_catalog));
+			char *cat_name = g_strdup (file_name_from_path (window->image_catalog));
 
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
 			
-			info_txt = g_strdup_printf ("%s - %s - %s",
-						    path,
+			info_txt = g_strdup_printf ("%s%s - %s - %s",
+						    image_name,
+						    modified,
 						    cat_name,
 						    _("gThumb"));
 			g_free (cat_name);
 		} else 
-			info_txt = g_strdup_printf ("%s - %s",
-						    path ? path : "",
+			info_txt = g_strdup_printf ("%s%s - %s",
+						    image_name,
+						    modified,
 						    _("gThumb"));
 	}
 
@@ -1209,8 +1267,16 @@ window_progress (gfloat   percent,
 		 gpointer data)
 {
 	GThumbWindow *window = data;
+
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (window->progress), 
 				       percent);
+
+	if (percent == 0.0) 
+		set_command_sensitive (window, "Go_Stop", 
+				       (window->activity_ref > 0) 
+				       || window->setting_file_list
+				       || window->changing_directory
+				       || window->file_list->doing_thumbs);
 }
 
 
@@ -1405,6 +1471,16 @@ focus_image_cb (GtkWidget *widget,
 }
 
 
+static gboolean 
+hide_sidebar_idle (gpointer data) 
+{
+	GThumbWindow *window = data;
+	/*fullscreen_start (fullscreen, window);*/
+	window_hide_sidebar (window);
+	return FALSE;
+}
+
+
 static int
 file_button_press_cb (GtkWidget      *widget, 
 		      GdkEventButton *event,
@@ -1429,6 +1505,13 @@ file_button_press_cb (GtkWidget      *widget,
 		pos = image_list_get_image_at (ilist, event->x, event->y);
 		if (pos == -1)
 			return FALSE;
+
+		if (event->type == GDK_2BUTTON_PRESS) {
+			/* use a timeout to avoid that the viewer gets
+			 * the button press event. */
+			g_timeout_add (HIDE_SIDEBAR_DELAY, hide_sidebar_idle, window);
+			return TRUE;
+		}
 
 		if (event->type == GDK_BUTTON_PRESS) {
 			make_image_visible (window, pos);
@@ -1462,6 +1545,8 @@ file_button_press_cb (GtkWidget      *widget,
 				NULL,
 				3,                               
 				event->time);
+
+		return TRUE;
 	}
 
 	return FALSE;
@@ -1619,6 +1704,7 @@ catalog_activate_continue (gpointer data)
 	} else 
 		window->go_op = WINDOW_GO_TO;
 	window_update_history_list (window);
+	window_update_title (window);
 }
 
 
@@ -1963,6 +2049,7 @@ image_loaded_cb (GtkWidget    *widget,
 		 GThumbWindow *window)
 {
 	window->image_mtime = get_file_mtime (window->image_path);
+	window->image_modified = FALSE;
 
 	window_update_infobar (window);
 	window_update_statusbar_image_info (window);
@@ -2154,22 +2241,22 @@ key_press_cb (GtkWidget   *widget,
 		/* Rotate image */
 	case GDK_bracketright:
 	case GDK_r: 
-		image_viewer_alter (viewer, ALTER_ROTATE_90);
+		alter_image_rotate_command_impl (NULL, window, NULL);
 		return TRUE;
 			
 		/* Flip image */
 	case GDK_f:
-		image_viewer_alter (viewer, ALTER_FLIP);
+		alter_image_flip_command_impl (NULL, window, NULL);
 		return TRUE;
 
 		/* Mirror image */
 	case GDK_m:
-		image_viewer_alter (viewer, ALTER_MIRROR);
+		alter_image_mirror_command_impl (NULL, window, NULL);
 		return TRUE;
 
 		/* Rotate image counter-clockwise */
 	case GDK_bracketleft:
-		image_viewer_alter (viewer, ALTER_ROTATE_90_CC);
+		alter_image_rotate_cc_command_impl (NULL, window, NULL);
 		return TRUE;
 			
 		/* Delete selection. */
@@ -2260,7 +2347,7 @@ image_button_press_cb (GtkWidget      *widget,
 				NULL,
 				3,
 				event->time);
-		return FALSE;
+		return TRUE;
 	}
 
 	return FALSE;
@@ -2572,21 +2659,11 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 
         s = (strcmp (state, "1") == 0);
 
-	if (strcmp (path, "View_Toolbar") == 0) {
-		window->toolbar_visible = s;
-		bonobo_ui_component_set_prop (window->ui_component, 
-					      "/Toolbar",
-					      "hidden", s ? "0" : "1",
-					      NULL);
-	}
+	if (strcmp (path, "View_Toolbar") == 0) 
+		eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, s);
 
-	if (strcmp (path, "View_Statusbar") == 0) {
-		window->statusbar_visible = s;
-		bonobo_ui_component_set_prop (window->ui_component, 
-					      "/status",
-					      "hidden", s ? "0" : "1",
-					      NULL);
-	}
+	if (strcmp (path, "View_Statusbar") == 0) 
+		eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, s);
 
 	if ((strcmp (path, "View_ZoomQualityHigh") == 0) && s) {
 		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
@@ -2657,13 +2734,6 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 		file_list_enable_thumbs (window->file_list,
 					 ! (window->file_list->enable_thumbs));
 
-	if (strcmp (path, "Tools_Slideshow") == 0) {
-		if (! window->slideshow)
-			window_start_slideshow (window);
-		else
-			window_stop_slideshow (window);
-	}
-
 	if (strcmp (path, "View_ShowImage") == 0) 
 		toggle_image_preview_visibility (window);
 }
@@ -2675,40 +2745,32 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 	GdkPixbuf *pixbuf;
 	int        i;
 	struct {
-		char **xpm_data;
-		char  *command;
-	} comm_list_xpm [] = { 
-		{ mirror_xpm,             "/commands/AlterImage_Mirror" },
-		{ flip_xpm,               "/commands/AlterImage_Flip" },
-		{ rotate_xpm,             "/commands/AlterImage_Rotate" },
-		{ NULL, NULL }
-	};
-	struct {
 		const guint8 *rgba_data;
 		char         *command;
 	} comm_list_rgba [] = {
-		{ add_comment_rgba,        "/commands/Edit_EditComment" },
-		{ add_to_catalog_rgba,     "/commands/Edit_AddToCatalog" },
+		{ add_comment_16_rgba,     "/commands/Edit_EditComment" },
+		{ add_to_catalog_16_rgba,  "/commands/Edit_AddToCatalog" },
+		{ catalog_24_rgba,         "/commands/View_ShowCatalogs" },
+		{ catalog_24_rgba,         "/ImageToolbar/View_Sidebar_Catalogs" },
+		{ catalog_search_17_rgba,  "/menu/Tools/Tools_FindImages" },
+		{ dir_24_rgba,             "/commands/View_ShowFolders" },
+		{ dir_24_rgba,             "/ImageToolbar/View_Sidebar_Folders" },
 		{ image_info_24_rgba,      "/commands/View_ImageProp" },
 		{ image_info_16_rgba,      "/menu/View/View_ImageProp" },
-		{ toolbar_fullscreen_rgba, "/Toolbar/View_Fullscreen"},
-		{ toolbar_catalog_rgba,    "/commands/View_ShowCatalogs" },
-		{ toolbar_dir_rgba,        "/commands/View_ShowFolders" },
-		{ toolbar_prev_image_rgba, "/commands/View_PrevImage" },
-		{ toolbar_next_image_rgba, "/commands/View_NextImage" },
+		{ index_image_16_rgba,     "/menu/Tools/Tools_IndexImage" },
+		{ maintenance_16_rgba,     "/menu/Tools/Tools_Maintenance" },
+		{ next_image_24_rgba,      "/commands/View_NextImage" },
+		{ prev_image_24_rgba,      "/commands/View_PrevImage" },
+		{ slideshow_16_rgba,       "/menu/Tools/Tools_Slideshow" },
+		{ transform_16_rgba,       "/menu/Tools/Tools_JPEGRotate" },
+		/*
+		{ reduce_colors_24_rgba,   "/ImageToolbar/AlterImage_ReduceColors"},
+		{ rotate_24_rgba,          "/ImageToolbar/AlterImage_Rotate"},
+		*/
 		{ NULL, NULL }
 	};
 
-	for (i = 0; comm_list_xpm [i].xpm_data != NULL; i++) {
-		pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) comm_list_xpm[i].xpm_data);
-		bonobo_ui_util_set_pixbuf (ui_component, 
-					   comm_list_xpm[i].command,
-					   pixbuf,
-					   NULL);
-		g_object_unref (pixbuf);
-	}
-
-	for (i = 0; comm_list_rgba [i].rgba_data != NULL; i++) {
+	for (i = 0; comm_list_rgba[i].rgba_data != NULL; i++) {
 		pixbuf = gdk_pixbuf_new_from_inline (-1, comm_list_rgba[i].rgba_data, FALSE, NULL);
 		bonobo_ui_util_set_pixbuf (ui_component, 
 					   comm_list_rgba[i].command,
@@ -2716,7 +2778,6 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 					   NULL);
 		g_object_unref (pixbuf);
 	}
-
 }
 
 
@@ -2765,7 +2826,6 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	set_command_state_without_notifing (window, "View_PlayAnimation", 1);
 	set_command_state_without_notifing (window, "View_Toolbar", 1);
 	set_command_state_without_notifing (window, "View_Statusbar", 1);
-	set_command_state_without_notifing (window, "Tools_Slideshow", FALSE);
 
 	switch (pref_get_transp_type ()) {
 	case TRANSP_TYPE_WHITE:   prop = "TranspTypeWhite"; break;
@@ -2796,6 +2856,10 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/Toolbar",
 				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE) ? "0" : "1",
+				      NULL);
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/ImageToolbar",
+				      "hidden", "1", /* FIXME */
 				      NULL);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/status",
@@ -2841,6 +2905,47 @@ pref_ui_toolbar_style_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 	window_notify_update_toolbar_style (window);
+}
+
+
+static void
+pref_ui_toolbar_visible_changed (GConfClient *client,
+				 guint        cnxn_id,
+				 GConfEntry  *entry,
+				 gpointer     user_data)
+{
+	GThumbWindow *window = user_data;
+	gboolean      hidden;
+
+	hidden = ! eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE);
+
+	if (window->sidebar_visible)
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/Toolbar",
+					      "hidden", hidden ? "1" : "0",
+					      NULL);
+	else
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/ImageToolbar",
+					      "hidden", hidden ? "1" : "0",
+					      NULL);
+}
+
+
+static void
+pref_ui_statusbar_visible_changed (GConfClient *client,
+				 guint        cnxn_id,
+				 GConfEntry  *entry,
+				 gpointer     user_data)
+{
+	GThumbWindow *window = user_data;
+	gboolean      hidden;
+
+	hidden = ! eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE);
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/status",
+				      "hidden", hidden ? "1" : "0",
+				      NULL);
 }
 
 
@@ -3010,7 +3115,7 @@ window_new (void)
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
-					  "/apps/gThumb/UIConfig/kvps");
+					  "/apps/gthumb/UIConfig/kvps");
 	ui_container = bonobo_window_get_ui_container (win);
 	window->ui_component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (window->ui_component, 
@@ -3334,6 +3439,7 @@ window_new (void)
 	window->image_path = NULL;
 	window->image_mtime = 0;
 	window->image_catalog = NULL;
+	window->image_modified = FALSE;
 
 	window->fullscreen = FALSE;
 	window->slideshow = FALSE;
@@ -3370,7 +3476,7 @@ window_new (void)
 			  G_CALLBACK (image_requested_done_cb), 
 			  window);
 
-	/* FIXME */
+	/* FIXME 
 	for (i = 0; i < N_LOADERS; i++) {
 		PreLoader *ploader = window->preloader->loader[i];
 		g_signal_connect (G_OBJECT (ploader->loader), 
@@ -3386,7 +3492,7 @@ window_new (void)
 				  G_CALLBACK (image_loader_done_cb), 
 				  window);
 	}
-	/**/
+	*/
 
 	/**/
 
@@ -3412,8 +3518,7 @@ window_new (void)
 		window_show_image_pane (window);
 	else 
 		window_hide_image_pane (window);
-	window->toolbar_visible = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE);
-	window->statusbar_visible = eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE);
+
 	window_notify_update_toolbar_style (window);
 	window_update_statusbar_image_info (window);
 
@@ -3445,6 +3550,16 @@ window_new (void)
 	window->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_TOOLBAR_STYLE,
 					   pref_ui_toolbar_style_changed,
+					   window);
+
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_TOOLBAR_VISIBLE,
+					   pref_ui_toolbar_visible_changed,
+					   window);
+
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_STATUSBAR_VISIBLE,
+					   pref_ui_statusbar_visible_changed,
 					   window);
 
 	window->cnxn_id[i++] = eel_gconf_notification_add (
@@ -3499,7 +3614,7 @@ window_new (void)
 
 	/* Initial location. */
 
-	starting_location = eel_gconf_get_string (PREF_STARTUP_LOCATION);
+	starting_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
 
 	if (pref_util_location_is_catalog (starting_location)) 
 		window_go_to_catalog (window, pref_util_get_catalog_location (starting_location));
@@ -3587,6 +3702,9 @@ close__step5 (GThumbWindow *window)
 {
 	ImageViewer *viewer = IMAGE_VIEWER (window->viewer);
 	int          width, height;
+	gboolean     last_window;
+
+	last_window = window_list->next == NULL;
 
 	/* Save visualization options. */
 
@@ -3600,7 +3718,8 @@ close__step5 (GThumbWindow *window)
 	eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
 	eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
 
-	eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, window->file_list->enable_thumbs);
+	if (last_window)
+		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, window->file_list->enable_thumbs);
 
 	pref_set_arrange_type (window->file_list->sort_method);
 	pref_set_sort_order (window->file_list->sort_type);
@@ -3619,19 +3738,19 @@ close__step5 (GThumbWindow *window)
 						NULL);
 
 		if (location != NULL) {
-			eel_gconf_set_string (PREF_STARTUP_LOCATION, location);
+			eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
 			g_free (location);
 		}
 	}
 
-	pref_set_zoom_quality (image_viewer_get_zoom_quality (viewer));
-	pref_set_transp_type (image_viewer_get_transp_type (viewer));
+	if (last_window) {
+		pref_set_zoom_quality (image_viewer_get_zoom_quality (viewer));
+		pref_set_transp_type (image_viewer_get_transp_type (viewer));
+	}
 	pref_set_check_type (image_viewer_get_check_type (viewer));
 	pref_set_check_size (image_viewer_get_check_size (viewer));
 
 	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->image_preview_visible);
-	eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, window->toolbar_visible);
-	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, window->statusbar_visible);
 
 	/* Destroy the main window. */
 
@@ -3781,6 +3900,22 @@ window_hide_sidebar (GThumbWindow *window)
 
 	/**/
 
+	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE)) {
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/Toolbar",
+					      "hidden", "1",
+					      NULL);
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/ImageToolbar",
+					      "hidden", "0",
+					      NULL);
+
+		set_command_visible (window, "View_Sidebar_Catalogs", window->sidebar_content == CATALOG_LIST);
+		set_command_visible (window, "View_Sidebar_Folders", window->sidebar_content == DIR_LIST);
+	}
+
+	/**/
+
 	if (! window->image_pane_visible)
 		window_show_image_pane (window);
 }
@@ -3813,6 +3948,21 @@ window_show_sidebar (GThumbWindow *window)
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL)
 		set_command_state_if_different (window, cname, TRUE, FALSE);
+
+	/**/
+
+	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE)) {
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/Toolbar",
+					      "hidden", "0",
+					      NULL);
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/ImageToolbar",
+					      "hidden", "1",
+					      NULL);
+	}
+
+	/**/
 
 	if (window->image_preview_visible)
 		window_show_image_pane (window);
@@ -3875,6 +4025,11 @@ void
 stop__step5 (GThumbWindow *window)
 {
 	/* FIXME */
+	set_command_sensitive (window, "Go_Stop", 
+			       (window->activity_ref > 0) 
+			       || window->setting_file_list
+			       || window->changing_directory
+			       || window->file_list->doing_thumbs);
 }
 
 
@@ -4354,7 +4509,7 @@ window_go_to_directory (GThumbWindow *window,
 
 void
 window_go_to_catalog_directory (GThumbWindow *window,
-				const gchar  *catalog_dir)
+				const char   *catalog_dir)
 {
 	char *base_dir;
 	char *catalog_dir2;
@@ -4403,6 +4558,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		window->catalog_path = NULL;
 		g_free (gt_data->path);
 		g_free (gt_data);
+		window_update_title (window);
 		return;
 	}
 
@@ -4413,6 +4569,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		/* window_go_to_directory (window, g_get_home_dir ()); FIXME */
 		g_free (gt_data->path);
 		g_free (gt_data);
+		window_update_title (window);
 		return;
 	}
 
@@ -4758,9 +4915,6 @@ window_start_slideshow (GThumbWindow *window)
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN))
 		fullscreen_start (fullscreen, window);
 
-	/* Check menu item. */
-	set_command_state_without_notifing (window, "Tools_Slideshow", TRUE);
-
 	pos = file_list_pos_from_path (window->file_list, window->image_path);
 	if (pos == -1) {
 		if (pref_get_slideshow_direction () == DIRECTION_FORWARD)
@@ -4790,8 +4944,6 @@ window_stop_slideshow (GThumbWindow *window)
 		window->timer = 0;
 	}
 
-	set_command_state_without_notifing (window, "Tools_Slideshow", FALSE);
-
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN) && window->fullscreen)
 		fullscreen_stop (fullscreen);
 }
@@ -4805,6 +4957,17 @@ window_show_image_prop (GThumbWindow *window)
 	else
 		gtk_window_present (GTK_WINDOW (window->image_prop_dlg));
 }
+
+
+void
+window_image_modified (GThumbWindow *window,
+		       gboolean      modified)
+{
+	window->image_modified = modified;
+	window_update_infobar (window);
+	window_update_title (window);
+}
+
 
 
 /* -- load image -- */
@@ -5441,5 +5604,5 @@ window_notify_update_toolbar_style (GThumbWindow *window)
 	}
 
 	bonobo_ui_component_set_prop (window->ui_component, "/Toolbar", "look", prop, NULL);
-	bonobo_ui_component_set_prop (window->ui_component, "/Imagebar", "look", prop, NULL);
+	bonobo_ui_component_set_prop (window->ui_component, "/ImageToolbar", "look", prop, NULL);
 }

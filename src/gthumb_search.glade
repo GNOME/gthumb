@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="search_dialog">
-  <property name="title" translatable="yes">gThumb - Search for images</property>
+  <property name="title" translatable="yes">Search for images</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -775,7 +775,7 @@
 
 <widget class="GtkDialog" id="search_progress_dialog">
   <property name="height_request">320</property>
-  <property name="title" translatable="yes">gThumb - Search progress</property>
+  <property name="title" translatable="yes">Search progress</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -1346,7 +1346,7 @@
 
 <widget class="GtkDialog" id="edit_search_progress_dialog">
   <property name="height_request">320</property>
-  <property name="title" translatable="yes">gThumb - Search progress</property>
+  <property name="title" translatable="yes">Search progress</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

@@ -33,7 +33,7 @@
 #include "bookmarks.h"
 #include "gthumb-preloader.h"
 
-#define GCONF_NOTIFICATIONS 12
+#define GCONF_NOTIFICATIONS 14
 
 
 typedef enum {
@@ -71,6 +71,7 @@ typedef struct {
 						 * image belongs to, NULL if 
 						 * the image is not from a 
 						 * catalog. */
+	gboolean            image_modified;
 
 	/* bookmarks & history */
 
@@ -106,8 +107,6 @@ typedef struct {
 	guint               layout_type : 2;
 	gboolean            image_pane_visible;
 	gboolean            image_preview_visible;
-	gboolean            toolbar_visible;
-	gboolean            statusbar_visible;
 
 	GtkWidget          *image_prop_dlg;
 
@@ -202,6 +201,9 @@ void            window_start_slideshow              (GThumbWindow *window);
 void            window_stop_slideshow               (GThumbWindow *window);
 
 void            window_show_image_prop              (GThumbWindow *window);
+
+void            window_image_modified               (GThumbWindow *window,
+						     gboolean      modified);
 
 /* functions used to notify a change. */
 

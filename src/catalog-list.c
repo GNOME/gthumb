@@ -388,13 +388,13 @@ catalog_list_refresh (CatalogList *cat_list)
 
 	gtk_list_store_clear (cat_list->list_store);
 
-	dir_pixbuf = gdk_pixbuf_new_from_inline (-1, library_rgba, FALSE, NULL);
+	dir_pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 	up_pixbuf = gtk_widget_render_icon (cat_list->list_view,
 					    GTK_STOCK_GO_UP,
 					    GTK_ICON_SIZE_MENU,
 					    NULL);
-	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_rgba, FALSE, NULL);
-	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_rgba, FALSE, NULL);
+	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
+	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
 
 	name_scan = dir_name;
 	for (scan = dir_list; scan; scan = scan->next) {

@@ -40,9 +40,8 @@
 #include "gthumb-marshal.h"
 
 
-/* If the file size is greater than this the thumbnail will not be
- * created, for functionality reasons. **/
-#define MAX_FILE_SIZE (4*1024*1024)
+
+#define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
 
 #define CACHE_MAX_W   128
 #define CACHE_MAX_H   128
@@ -66,6 +65,11 @@ typedef struct
 
 	gint max_w;
 	gint max_h;
+
+	GnomeVFSFileSize max_file_size;    /* If the file size is greater 
+					    * than this the thumbnail will 
+					    * not be created, for 
+					    * functionality reasons. */
 } ThumbLoaderPrivateData;
 
 
@@ -86,7 +90,7 @@ static void         thumb_loader_done_cb    (ImageLoader *il,
 static void         thumb_loader_error_cb   (ImageLoader *il,
 					     gpointer data);
 
-static gint         scale_thumb             (gint *width, 
+static gboolean     scale_thumb             (gint *width, 
 					     gint *height, 
 					     gint max_w, 
 					     gint max_h);
@@ -182,6 +186,7 @@ thumb_loader_init (ThumbLoader *tl)
 	priv->from_cache = FALSE;
 	priv->from_nautilus_cache = FALSE;
 	priv->percent_done = 0.0;
+	priv->max_file_size = 0;
 }
 
 
@@ -256,6 +261,32 @@ thumb_loader_use_cache (ThumbLoader *tl,
 
 	priv = tl->priv;
 	priv->use_cache = use;
+}
+
+
+void
+thumb_loader_set_max_file_size (ThumbLoader      *tl,
+				GnomeVFSFileSize  size)
+{
+	ThumbLoaderPrivateData *priv;
+
+	g_return_if_fail (tl != NULL);
+
+	priv = tl->priv;
+	priv->max_file_size = size;
+}
+
+
+GnomeVFSFileSize
+thumb_loader_get_max_file_size (ThumbLoader      *tl)
+{
+	ThumbLoaderPrivateData *priv;
+
+	g_return_val_if_fail (tl != NULL, 0);
+
+	priv = tl->priv;
+
+	return priv->max_file_size;
 }
 
 
@@ -406,11 +437,16 @@ thumb_loader_start (ThumbLoader *tl)
 		image_loader_set_path (priv->il, path);
 
 		/* Check file dimensions. */
-		if (get_file_size (path) > MAX_FILE_SIZE) {
+
+		if ((priv->max_file_size != 0)
+		    && get_file_size (path) > priv->max_file_size) {
+			if (priv->pixbuf != NULL) {
+				g_object_unref (priv->pixbuf);
+				priv->pixbuf = NULL;
+			}
 			g_signal_emit (G_OBJECT (tl), 
-				       thumb_loader_signals[ERROR], 
-				       0,
-				       tl);
+				       thumb_loader_signals[DONE], 
+				       0);
 			return;
 		}
 	}
@@ -478,11 +514,11 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 	char                   *cache_path;
 	int                     success = FALSE;
 
-	if (! tl) 
+	if (tl == NULL) 
 		return FALSE;
 
 	priv = tl->priv;
-	if (! priv->pixbuf) 
+	if (priv->pixbuf == NULL) 
 		return FALSE;
 
 	cache_path = cache_get_nautilus_cache_name (priv->path); 
@@ -510,22 +546,26 @@ static void
 thumb_loader_done_cb (ImageLoader *il,
 		      gpointer data)
 {
-	ThumbLoader *tl = data;
+	ThumbLoader            *tl = data;
 	ThumbLoaderPrivateData *priv = tl->priv;
-	GdkPixbuf *pixbuf;
-	gint width, height;
-	gboolean modified;
+	GdkPixbuf              *pixbuf;
+	int                     width, height;
+	gboolean                modified;
+
+	if (priv->pixbuf != NULL) {
+		g_object_unref (priv->pixbuf);
+		priv->pixbuf = NULL;
+	}
 
 	pixbuf = image_loader_get_pixbuf (priv->il);
+
 	if (pixbuf == NULL) {
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[ERROR], 0);
 		return;
 	}
 
-	if (priv->pixbuf != NULL) 
-		g_object_unref (G_OBJECT (priv->pixbuf));
 	priv->pixbuf = pixbuf;
-	g_object_ref (G_OBJECT (pixbuf));
+	g_object_ref (pixbuf);
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);
@@ -561,15 +601,12 @@ thumb_loader_done_cb (ImageLoader *il,
 								width, 
 								height, 
 								GDK_INTERP_BILINEAR);
-			g_object_unref (G_OBJECT (pixbuf));
+			g_object_unref (pixbuf);
 		}
 	} else {
-		modified = scale_thumb (&width, 
-					&height, 
-					priv->max_w, 
-					priv->max_h);
+		modified = scale_thumb (&width,	&height, priv->max_w, priv->max_h);
 		if (modified) {
-			g_object_unref (G_OBJECT (priv->pixbuf));
+			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
 								width,
 								height,
@@ -585,10 +622,14 @@ static void
 thumb_loader_error_cb (ImageLoader *il,
 		       gpointer data)
 {
-	ThumbLoader *tl = data;
+	ThumbLoader            *tl = data;
 	ThumbLoaderPrivateData *priv = tl->priv;
 
 	if (! priv->from_cache) {
+		if (priv->pixbuf != NULL) {
+			g_object_unref (priv->pixbuf);
+			priv->pixbuf = NULL;
+		}
 		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[ERROR], 0);
 		return;
 	}
@@ -602,26 +643,26 @@ thumb_loader_error_cb (ImageLoader *il,
 }
 
 
-static gint 
+static gboolean
 scale_thumb (gint *width, 
 	     gint *height, 
 	     gint max_width, 
 	     gint max_height)
 {
 	gboolean modified;
-	gfloat max_w = max_width;
-	gfloat max_h = max_height;
-	gfloat w = *width;
-	gfloat h = *height;
-	gfloat factor;
-	gint new_width, new_height;
+	float    max_w = max_width;
+	float    max_h = max_height;
+	float    w = *width;
+	float    h = *height;
+	float    factor;
+	int      new_width, new_height;
 
 	if ((*width < max_width - 1) && (*height < max_height - 1)) 
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((gint) (w * factor), 1);
-	new_height = MAX ((gint) (h * factor), 1);
+	new_width  = MAX ((int) (w * factor), 1);
+	new_height = MAX ((int) (h * factor), 1);
 	
 	modified = (new_width != *width) || (new_height != *height);
 

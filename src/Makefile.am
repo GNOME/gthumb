@@ -4,6 +4,7 @@ DIST_SUBDIRS = icons
 glade_DATA = 				\
 	gthumb.glade 			\
 	gthumb_comments.glade		\
+	gthumb_edit.glade		\
 	gthumb_png_exporter.glade 	\
 	gthumb_print.glade		\
 	gthumb_search.glade		\
@@ -44,16 +45,24 @@ gthumb_SOURCES = 			\
 	dir-list.h			\
 	dlg-bookmarks.c			\
 	dlg-bookmarks.h			\
+	dlg-brightness-contrast.c	\
+	dlg-brightness-contrast.h	\
 	dlg-catalog.c			\
 	dlg-catalog.h			\
 	dlg-categories.c		\
 	dlg-categories.h		\
+	dlg-color-balance.c		\
+	dlg-color-balance.h		\
 	dlg-comment.c			\
 	dlg-comment.h			\
+	dlg-convert.c			\
+	dlg-convert.h			\
 	dlg-duplicates.c		\
 	dlg-duplicates.h		\
 	dlg-file-utils.c		\
 	dlg-file-utils.h		\
+	dlg-hue-saturation.c		\
+	dlg-hue-saturation.h		\
 	dlg-image-prop.c		\
 	dlg-image-prop.h		\
 	dlg-jpegtran.c			\
@@ -64,10 +73,16 @@ gthumb_SOURCES = 			\
 	dlg-open-with.h			\
 	dlg-png-exporter.c		\
 	dlg-png-exporter.h		\
+	dlg-posterize.c			\
+	dlg-posterize.h			\
 	dlg-preferences.c		\
 	dlg-preferences.h		\
 	dlg-rename-series.c		\
 	dlg-rename-series.h		\
+	dlg-save-image.c		\
+	dlg-save-image.h		\
+	dlg-scale-image.c		\
+	dlg-scale-image.h		\
 	dlg-search.c			\
 	dlg-search.h			\
 	fullscreen.c			\
@@ -87,6 +102,7 @@ gthumb_LDADD = 							\
 	$(GTHUMB_LIBS)						\
 	$(JPEG_LIBS)						\
 	$(PNG_LIBS)						\
+	$(TIFF_LIBS)						\
 	$(RENDER_LIBS)						\
 	$(top_builddir)/libgthumb/libgthumb.a			\
 	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.a

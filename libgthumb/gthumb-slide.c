@@ -24,8 +24,8 @@
 #include <gdk/gdk.h>
 
 #define FRAME_WIDTH         3
-#define FRAME_SHADOW_OFFSET 6
-#define IMAGE_SHADOW_OFFSET 10
+#define FRAME_SHADOW_OFFSET 4
+#define IMAGE_SHADOW_OFFSET 8
 #define INOUT_SHADOW_OFFSET 3
 
 

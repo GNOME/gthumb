@@ -80,24 +80,24 @@ exec_command (const gchar *application,
 	GError  *err = NULL;
 	gboolean error;
 
-        command = g_string_new ("");
-        g_string_append (command, application);
+	command = g_string_new ("");
+	g_string_append (command, application);
         for (scan = file_list; scan; scan = scan->next) {
-                gchar *filename = scan->data;
-                gchar *e_filename;
+		char *filename = scan->data;
+		char *e_filename;
 
-                g_string_append_c (command, ' ');
-                e_filename = shell_escape (filename);
-                g_string_append (command, e_filename);
+		g_string_append_c (command, ' ');
+		e_filename = shell_escape (filename);
+		g_string_append (command, e_filename);
 
-                g_free (e_filename);
+		g_free (e_filename);
         }
 
 	error = (! g_spawn_command_line_async (command->str, &err) 
 		 || (err != NULL));
 	if (error)
 		_gtk_error_dialog_from_gerror_run (NULL, &err);
-        g_string_free (command, TRUE);
+	g_string_free (command, TRUE);
 
 	return ! error;
 }
@@ -128,7 +128,7 @@ open_cb (GtkWidget *widget,
 		}
 	}
 
-	editors = eel_gconf_get_string_list (PREF_EDITORS);
+	editors = eel_gconf_get_locale_string_list (PREF_EDITORS);
 	for (sscan = editors; sscan && ! present; sscan = sscan->next) {
 		char *recent_command = sscan->data;
 		if (strcmp (recent_command, application) == 0) {
@@ -139,7 +139,7 @@ open_cb (GtkWidget *widget,
 
 	if (! present) {
 		editors = g_slist_prepend (editors, g_strdup (application));
-		eel_gconf_set_string_list (PREF_EDITORS, editors);
+		eel_gconf_set_locale_string_list (PREF_EDITORS, editors);
 		command = g_strdup (application);
 	}
 
@@ -214,7 +214,7 @@ recent_list_button_press_cb (GtkWidget      *widget,
         gtk_tree_model_get (data->recent_model, &iter,
                             0, &editor,
                             -1);
-        _gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), editor);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), editor);
         g_free (editor);
         gtk_tree_path_free (path);
 
@@ -244,7 +244,7 @@ delete_recent_cb (GtkWidget *widget,
 			    -1);
 	gtk_list_store_remove (GTK_LIST_STORE (data->recent_model), &iter);
 
-	editors = eel_gconf_get_string_list (PREF_EDITORS);
+	editors = eel_gconf_get_locale_string_list (PREF_EDITORS);
 	link = g_slist_find_custom (editors, editor, (GCompareFunc) strcmp);
 	g_free (editor);
 
@@ -254,7 +254,7 @@ delete_recent_cb (GtkWidget *widget,
 	g_free (link->data);
 	g_slist_free (link);
 
-	eel_gconf_set_string_list (PREF_EDITORS, editors);
+	eel_gconf_set_locale_string_list (PREF_EDITORS, editors);
 	g_slist_foreach (editors, (GFunc) g_free, NULL);
 	g_slist_free (editors);
 }
@@ -393,7 +393,7 @@ open_with_cb (GThumbWindow *window,
 							   renderer,
 							   "text", 0,
 							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, 0);
+	gtk_tree_view_column_set_sort_column_id (column, 1);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->app_list_tree_view),
 				     column);
 
@@ -402,34 +402,34 @@ open_with_cb (GThumbWindow *window,
 
 	/* * recent editors list. */
 
-	data->recent_model = GTK_TREE_MODEL (gtk_list_store_new (1, G_TYPE_STRING));
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->recent_model), 0, GTK_SORT_ASCENDING);
+	data->recent_model = GTK_TREE_MODEL (gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING));
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->recent_model), 1, GTK_SORT_ASCENDING);
 	
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->recent_list_tree_view),
 				 data->recent_model);
 	g_object_unref (G_OBJECT (data->recent_model));
 
-	editors = eel_gconf_get_string_list (PREF_EDITORS);
+	editors = eel_gconf_get_locale_string_list (PREF_EDITORS);
 	for (sscan = editors; sscan; sscan = sscan->next) {
 		char *editor = sscan->data;
-		char *utf8_name;
+		char *utf8;
 
 		gtk_list_store_append (GTK_LIST_STORE (data->recent_model), &iter);
-		utf8_name = g_locale_to_utf8 (editor, -1, NULL, NULL, NULL);
+		utf8 = g_locale_to_utf8 (editor, -1, 0, 0, 0);
 		gtk_list_store_set (GTK_LIST_STORE (data->recent_model), &iter,
-				    0, utf8_name,
+				    0, editor,
+				    1, utf8,
 				    -1);
-		g_free (utf8_name);
+		g_free (utf8);
 	}
 
 	g_slist_foreach (editors, (GFunc) g_free, NULL);
 	g_slist_free (editors);
 
-
 	renderer = gtk_cell_renderer_text_new ();
 	column = gtk_tree_view_column_new_with_attributes (NULL,
 							   renderer,
-							   "text", 0,
+							   "text", 1,
 							   NULL);
 	gtk_tree_view_column_set_sort_column_id (column, 0);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->recent_list_tree_view),

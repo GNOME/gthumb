@@ -32,6 +32,7 @@
 #include "glib-utils.h"
 #include "gconf-utils.h"
 #include "main.h"
+#include "pixbuf-utils.h"
 
 #include "icons/pixbufs.h"
 
@@ -43,6 +44,8 @@ static gboolean        comment_visible = FALSE;
 static GdkPixmap      *buffer = NULL;
 static GdkPixmap      *original_buffer = NULL;
 static PangoRectangle  bounds;
+static GtkWidget      *popup_window = NULL;
+static FullScreen     *current_fullscreen;
 
 
 static void
@@ -323,7 +326,7 @@ show_comment_on_image (GThumbWindow *window,
 	pango_layout_set_text (layout, parsed_text, strlen (parsed_text));
 	g_free (parsed_text);
 
-	icon = gdk_pixbuf_new_from_inline (-1, add_comment_rgba, FALSE, NULL);
+	icon = gdk_pixbuf_new_from_inline (-1, add_comment_24_rgba, FALSE, NULL);
 	icon_w = gdk_pixbuf_get_width (icon);
 	icon_h = gdk_pixbuf_get_height (icon);
 
@@ -554,24 +557,24 @@ image_key_press_cb (GtkWidget *widget,
 		/* Flip image. */
 	case GDK_f:
 	case GDK_F:
-		image_viewer_alter (viewer, ALTER_FLIP);
+		alter_image_flip_command_impl (NULL, window, NULL);
 		break;
 
 		/* Rotate. */
 	case GDK_r:
 	case GDK_R:
 	case GDK_bracketright:
-		image_viewer_alter (viewer, ALTER_ROTATE_90);
+		alter_image_rotate_command_impl (NULL, window, NULL);
 		break;
 
 	case GDK_bracketleft:
-		image_viewer_alter (viewer, ALTER_ROTATE_90_CC);
+		alter_image_rotate_cc_command_impl (NULL, window, NULL);
 		break;
 
 		/* Mirror. */
 	case GDK_m:
 	case GDK_M:
-		image_viewer_alter (viewer, ALTER_MIRROR);
+		alter_image_mirror_command_impl (NULL, window, NULL);
 		break;
 
 		/* View/Hide comment */
@@ -597,6 +600,7 @@ hide_mouse_pointer_cb (gpointer data)
 {
         FullScreen *fullscreen = data;
 
+	gtk_widget_hide (popup_window);
 	image_viewer_hide_cursor (IMAGE_VIEWER (fullscreen->viewer));
 	fullscreen->mouse_hide_id = 0;
 
@@ -611,6 +615,7 @@ fs_motion_notify_cb (GtkWidget      *widget,
 {
         FullScreen *fullscreen = data;
 
+	gtk_widget_show (popup_window);
 	gdk_window_get_pointer (widget->window, NULL, NULL, NULL);
 	image_viewer_show_cursor (IMAGE_VIEWER (fullscreen->viewer));
 
@@ -658,6 +663,52 @@ fs_repainted_cb (GtkWidget        *widget,
 {
 	comment_visible = FALSE;
 	return TRUE;
+}
+
+
+static void
+exif_fs_clicked_cb (GtkWidget *button)
+{
+	if (current_fullscreen != NULL)
+		fullscreen_stop (current_fullscreen);
+}
+
+
+static void
+create_popup_window (void)
+{
+	GtkWidget *exit_fs_button;
+	GtkWidget *frame;
+	GtkWidget *hbox;
+	GtkWidget *image;
+	GdkPixbuf *icon;
+
+	popup_window = gtk_window_new (GTK_WINDOW_POPUP);
+
+	frame = gtk_frame_new (NULL);
+
+	icon = gdk_pixbuf_new_from_inline (-1, exit_fullscreen_24_rgba, FALSE, 
+					   NULL);
+	image = gtk_image_new_from_pixbuf (icon);
+	g_object_unref (icon);
+
+	exit_fs_button = gtk_button_new ();
+
+	hbox = gtk_hbox_new (FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (_("Restore Normal View")), FALSE, FALSE, 0);
+
+	gtk_container_add (GTK_CONTAINER (exit_fs_button), hbox);
+
+	gtk_container_add (GTK_CONTAINER (frame), exit_fs_button);
+	gtk_container_add (GTK_CONTAINER (popup_window), frame);
+
+	gtk_widget_show_all (frame);
+
+	g_signal_connect (G_OBJECT (exit_fs_button),
+			  "clicked",
+			  G_CALLBACK (exif_fs_clicked_cb),
+			  NULL);
 }
 
 
@@ -730,6 +781,9 @@ fullscreen_new ()
 			  G_CALLBACK (fs_motion_notify_cb),
 			  fullscreen);
 
+	if (popup_window == NULL)
+		create_popup_window ();
+
 	return fullscreen;
 }
 
@@ -759,6 +813,8 @@ fullscreen_start (FullScreen *fullscreen,
 	if (fullscreen->related_win != NULL)
 		return;
 
+	current_fullscreen = fullscreen;
+
 	gtk_widget_hide (window->app); /* FIXME*/
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
@@ -780,9 +836,11 @@ fullscreen_start (FullScreen *fullscreen,
 
 	/* capture keyboard events. */
 
-	gdk_keyboard_grab (fullscreen->window->window, TRUE, GDK_CURRENT_TIME);
-        gtk_grab_add (fullscreen->window);
-        gtk_widget_grab_focus (fullscreen->window);
+	if (! fullscreen->wm_state_fullscreen_support) {
+		gdk_keyboard_grab (fullscreen->window->window, TRUE, GDK_CURRENT_TIME);
+		gtk_grab_add (fullscreen->window);
+		gtk_widget_grab_focus (fullscreen->window);
+	}
 
 	/* hide mouse pointer. */
 
@@ -815,6 +873,11 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	if (fullscreen->related_win == NULL)
 		return;
+
+	if (GTK_WIDGET_VISIBLE (popup_window))
+		gtk_widget_hide (popup_window);
+
+	current_fullscreen = NULL;
 
 	g_signal_handlers_disconnect_by_data (G_OBJECT (fullscreen->viewer),
 					      fullscreen);
@@ -860,8 +923,10 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	/* release keyboard focus. */ 
 
-	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
-	gtk_grab_remove (fullscreen->window);
+	if (! fullscreen->wm_state_fullscreen_support) {
+		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
+		gtk_grab_remove (fullscreen->window);
+	}
 
 	/* stop the slideshow if the user wants so. */
 

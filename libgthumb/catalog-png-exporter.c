@@ -1592,6 +1592,7 @@ paint_frame (CatalogPngExporter *ce,
 	GnomeVFSFileSize  temp;
 	char             *line;
 	char             *rel_path;
+	char             *dest_dir;
 
 	switch (ce->frame_style) {
 	case FRAME_STYLE_NONE:
@@ -1662,7 +1663,10 @@ paint_frame (CatalogPngExporter *ce,
 	if (! ce->write_image_map || (ce->imap_handle == NULL))
 		return;
 
-	rel_path = get_path_relative_to_dir (filename, ce->directory);
+	dest_dir = remove_special_dirs_from_path (ce->directory);
+	rel_path = get_path_relative_to_dir (filename, dest_dir);
+	g_free (dest_dir);
+
 	line = g_strdup_printf ("<AREA SHAPE=\"RECT\" COORDS=\"%d,%d,%d,%d\" HREF=\"%s\">\n", 
 				frame_rect->x, 
 				frame_rect->y, 

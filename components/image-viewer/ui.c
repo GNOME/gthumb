@@ -28,6 +28,7 @@
 #include "gthumb-init.h"
 #include "image-viewer.h"
 #include "viewer-control.h"
+#include "pixbuf-utils.h"
 #include "print-callbacks.h"
 #include "viewer-nautilus-view.h"
 
@@ -38,7 +39,14 @@ verb_rotate (BonoboUIComponent *component,
 	     const char *cname)
 {
 	ViewerControl *control = callback_data;
-	image_viewer_alter (control->priv->viewer, ALTER_ROTATE_90);
+	ImageViewer   *viewer = control->priv->viewer;
+	GdkPixbuf     *src_pixbuf;
+	GdkPixbuf     *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -48,7 +56,14 @@ verb_rotate_180 (BonoboUIComponent *component,
 		 const char *cname)
 {
 	ViewerControl *control = callback_data;
-	image_viewer_alter (control->priv->viewer, ALTER_ROTATE_180);
+	ImageViewer   *viewer = control->priv->viewer;
+	GdkPixbuf     *src_pixbuf;
+	GdkPixbuf     *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -58,7 +73,14 @@ verb_flip (BonoboUIComponent *component,
 	   const char *cname)
 {
 	ViewerControl *control = callback_data;
-	image_viewer_alter (control->priv->viewer, ALTER_FLIP);
+	ImageViewer   *viewer = control->priv->viewer;
+	GdkPixbuf     *src_pixbuf;
+	GdkPixbuf     *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -68,7 +90,14 @@ verb_mirror (BonoboUIComponent *component,
 	     const char *cname)
 {
 	ViewerControl *control = callback_data;
-	image_viewer_alter (control->priv->viewer, ALTER_MIRROR);
+	ImageViewer   *viewer = control->priv->viewer;
+	GdkPixbuf     *src_pixbuf;
+	GdkPixbuf     *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -78,7 +107,15 @@ verb_black_white (BonoboUIComponent *component,
 		  const char *cname)
 {
 	ViewerControl *control = callback_data;
-	image_viewer_alter (control->priv->viewer, ALTER_GRAY);
+	ImageViewer   *viewer = control->priv->viewer;
+	GdkPixbuf     *src_pixbuf;
+	GdkPixbuf     *dest_pixbuf;
+
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	_gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 

@@ -232,6 +232,39 @@ eel_gconf_get_string (const char *key)
 
 
 void
+eel_gconf_set_locale_string (const char *key,
+			     const char *string_value)
+{
+	char *utf8;
+
+	utf8 = g_locale_to_utf8 (string_value, -1, 0, 0, 0);
+
+	if (utf8 != NULL) {
+		eel_gconf_set_string (key, utf8);
+		g_free (utf8);
+	}
+}
+
+
+char *
+eel_gconf_get_locale_string (const char *key)
+{
+	char *utf8;
+	char *result;
+
+	utf8 = eel_gconf_get_string (key);
+
+	if (utf8 == NULL)
+		return NULL;
+
+	result = g_locale_from_utf8 (utf8, -1, 0, 0, 0);
+	g_free (utf8);
+
+	return result;
+}
+
+
+void
 eel_gconf_set_string_list (const char *key,
 			   const GSList *slist)
 {
@@ -271,6 +304,50 @@ eel_gconf_get_string_list (const char *key)
 	}
 
 	return slist;
+}
+
+
+GSList *
+eel_gconf_get_locale_string_list (const char *key)
+{
+	GSList *utf8_slist, *slist, *scan;
+
+	utf8_slist = eel_gconf_get_string_list (key);
+
+	slist = NULL;
+	for (scan = utf8_slist; scan; scan = scan->next) {
+		char *utf8 = scan->data;
+		char *locale = g_locale_from_utf8 (utf8, -1, 0, 0, 0);
+		slist = g_slist_prepend (slist, locale);
+	}
+
+	g_slist_foreach (utf8_slist, (GFunc) g_free, NULL);
+	g_slist_free (utf8_slist);
+
+	return g_slist_reverse (slist);
+}
+
+
+void
+eel_gconf_set_locale_string_list (const char   *key,
+				  const GSList *string_list_value)
+{
+	GSList       *utf8_slist;
+	const GSList *scan;
+
+	utf8_slist = NULL;
+	for (scan = string_list_value; scan; scan = scan->next) {
+		char *locale = scan->data;
+		char *utf8 = g_locale_to_utf8 (locale, -1, 0, 0, 0);
+		utf8_slist = g_slist_prepend (utf8_slist, utf8);
+	}
+
+	utf8_slist = g_slist_reverse (utf8_slist);
+
+	eel_gconf_set_string_list (key, utf8_slist);
+
+	g_slist_foreach (utf8_slist, (GFunc) g_free, NULL);
+	g_slist_free (utf8_slist);
 }
 
 

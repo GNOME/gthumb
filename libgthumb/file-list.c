@@ -37,7 +37,7 @@
 #include "image-list.h"
 #include "thumb-loader.h"
 #include "typedefs.h"
-#include "icons/img_unknown.xpm"
+#include "icons/pixbufs.h"
 
 #define THUMB_BORDER 19
 
@@ -139,9 +139,16 @@ set_unknown_icon (FileList *file_list, gint pos)
 static void 
 update_thumb_in_clist (FileList *file_list)
 {
+	GdkPixbuf *pixbuf;
+
+	pixbuf = thumb_loader_get_pixbuf (file_list->thumb_loader);
+
+	if (pixbuf == NULL)
+		return;
+
 	image_list_set_image_pixbuf (IMAGE_LIST (file_list->ilist), 
 				     file_list->thumb_pos, 
-				     thumb_loader_get_pixbuf (file_list->thumb_loader));
+				     pixbuf);
 }
 
 
@@ -242,7 +249,7 @@ file_list_new ()
 	file_list->interrupt_done_data = NULL;
 
 	if (unknown_pixbuf == NULL)
-		unknown_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) img_unknown_xpm);
+		unknown_pixbuf = gdk_pixbuf_new_from_inline (-1, unknown_48_rgba, FALSE, NULL);
 	else
 		g_object_ref (G_OBJECT (unknown_pixbuf));
 
@@ -610,6 +617,13 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 
 	if (gfi_data->filtered != NULL) {
 		image_list_freeze (IMAGE_LIST (ilist));
+
+		for (scan = file_list->list; scan; scan = scan->next) {
+			FileData *fd = scan->data;
+			fd->thumb = TRUE;
+			fd->error = FALSE;
+		}
+
 		for (scan = gfi_data->filtered; scan; scan = scan->next) {
 			FileData *fd = scan->data;
 			int       pos;
@@ -1418,11 +1432,27 @@ file_list_set_thumbs_size (FileList *file_list,
 /* -- -- */
 
 
+static void
+file_list_update_current_thumb (FileList *file_list)
+{
+	if (path_is_file (file_list->thumb_fd->path)) {
+		thumb_loader_set_path (file_list->thumb_loader, 
+				       file_list->thumb_fd->path);
+		thumb_loader_start (file_list->thumb_loader);
+		
+	} else /* Error: the file does not exists. */
+		g_signal_emit_by_name (G_OBJECT (file_list->thumb_loader),
+				       "error",
+				       0,
+				       file_list);
+}
+
+
 void
 file_list_update_thumb (FileList     *file_list,
 			int           pos)
 {
-	FileData *fd;
+	FileData  *fd;
 
 	if (! file_list->enable_thumbs)
 		return;
@@ -1431,9 +1461,13 @@ file_list_update_thumb (FileList     *file_list,
 	file_data_update (fd);
 	fd->error = FALSE;
 	fd->thumb = FALSE;
+
+	file_list->thumb_pos = pos;
+	/* file_list->thumbs_num++; */
+	file_list->thumb_fd = fd;
 	
-	file_list->doing_thumbs = TRUE;
-	file_list_update_next_thumb (file_list);
+	/* file_list->doing_thumbs = FALSE; FIXME */
+	file_list_update_current_thumb (file_list);
 }
 
 
@@ -1441,23 +1475,31 @@ void
 file_list_update_thumb_list (FileList     *file_list,
 			     GList        *list)
 {
-	FileData  *fd;
-	ImageList *ilist;
 	GList     *scan;
+	ImageList *ilist;
 
 	if (! file_list->enable_thumbs)
 		return;
-	
+
+	for (scan = file_list->list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		fd->thumb = TRUE;
+		fd->error = FALSE;
+	}
+
 	ilist = IMAGE_LIST (file_list->ilist);
 	for (scan = list; scan; scan = scan->next) {
-		char *path = scan->data;
-		int   pos = GPOINTER_TO_INT (scan->data);
-		
+		char      *path = scan->data;
+		FileData  *fd;
+		int        pos;
+
 		pos = file_list_pos_from_path (file_list, path);
+
 		if (pos == -1)
 			continue;
 
 		fd = image_list_get_image_data (ilist, pos);
+
 		file_data_update (fd);
 		fd->error = FALSE;
 		fd->thumb = FALSE;
@@ -1551,15 +1593,22 @@ file_list_update_next_thumb (FileList *file_list)
 	file_list->thumbs_num++;
 	file_list->thumb_fd = fd;
 
+	file_list_update_current_thumb (file_list);
+
+	/* FIXME */
+
+#if 0
 	if (path_is_file (file_list->thumb_fd->path)) {
 		thumb_loader_set_path (file_list->thumb_loader, 
 				       file_list->thumb_fd->path);
 		thumb_loader_start (file_list->thumb_loader);
+
 	} else /* Error: the file does not exists. */
 		g_signal_emit_by_name (G_OBJECT (file_list->thumb_loader),
 				       "error",
 				       0,
 				       file_list);
+#endif
 }
 
 
@@ -1570,6 +1619,8 @@ file_list_update_thumbs (FileList *file_list)
 
 	if (! file_list->enable_thumbs)
 		return;
+
+	thumb_loader_set_max_file_size (THUMB_LOADER (file_list->thumb_loader), eel_gconf_get_integer (PREF_THUMBNAIL_LIMIT));
 
 	for (scan = file_list->list; scan; scan = scan->next) {
 		FileData *fd = scan->data;

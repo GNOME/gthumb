@@ -57,17 +57,6 @@ typedef enum { /*< skip >*/
 } ZoomChange;
 
 
-typedef enum { /*< skip >*/
-	ALTER_NONE,		/* do nothing */
-	ALTER_ROTATE_90,
-	ALTER_ROTATE_90_CC,	/* counterclockwise */
-	ALTER_ROTATE_180,
-	ALTER_MIRROR,
-	ALTER_FLIP,
-	ALTER_GRAY
-} ImageAlterType;
-
-
 /* transparenty type. */
 typedef enum { /*< skip >*/
         TRANSP_TYPE_WHITE,
@@ -203,6 +192,9 @@ void           image_viewer_load_from_pixbuf_loader (ImageViewer     *viewer,
 void           image_viewer_load_from_image_loader  (ImageViewer *viewer, 
 						     ImageLoader *loader);
 
+void           image_viewer_set_pixbuf         (ImageViewer *viewer,
+						GdkPixbuf   *pixbuf);
+
 void           image_viewer_set_void           (ImageViewer *viewer);
 
 gboolean       image_viewer_is_void            (ImageViewer *viewer);
@@ -278,9 +270,6 @@ void           image_viewer_set_check_size     (ImageViewer *view,
 CheckSize      image_viewer_get_check_size     (ImageViewer *viewer);
 
 /* misc. */
-void           image_viewer_alter              (ImageViewer *viewer, 
-						ImageAlterType type);
-
 void           image_viewer_clicked            (ImageViewer *viewer);
 
 void           image_viewer_size               (ImageViewer *viewer,

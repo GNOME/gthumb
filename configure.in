@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 1.104.1)
+AC_INIT(gthumb, 1.104.2)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_CONFIG_HEADER(config.h)
@@ -132,12 +132,38 @@ AC_MSG_CHECKING(for libjpeg)
     if test "$jpeg_ok" = yes; then
       JPEG_LIBS='-ljpeg'
       AC_DEFINE(HAVE_LIBJPEG)
+      AC_CHECK_LIB(jpeg, jpeg_simple_progression,     
+        AC_DEFINE(HAVE_PROGRESSIVE_JPEG, 1,
+                  [Define to 1 if jpeglib supports progressive JPEG.]),
+        AC_MSG_WARN(JPEG library does not support progressive saving.))
     else
       AC_MSG_WARN([*** Internal jpegtran will not be built (JPEG library not found) ***])
     fi
   fi
 
 AC_SUBST(JPEG_LIBS)
+
+
+# 
+# Checks for libtiff
+# 
+tiff_ok=no
+AC_MSG_CHECKING(for libtiff)
+  if test -z "$TIFF_LIBS"; then
+    AC_CHECK_LIB(tiff, TIFFWriteScanline,
+      [AC_CHECK_HEADER(tiffio.h,
+        tiff_ok=yes,
+        tiff_ok=no)],
+      AC_MSG_WARN([*** (TIFF library not found) ***]), -lm)
+    if test "$tiff_ok" = yes; then
+      TIFF_LIBS='-ltiff -ljpeg -lz'
+      AC_DEFINE(HAVE_LIBTIFF)
+    else
+      AC_MSG_WARN([*** (TIFF library not found) ***])
+    fi
+  fi
+
+AC_SUBST(TIFF_LIBS)
 
 
 #
@@ -243,7 +269,8 @@ Configuration:
         Source code location:   ${srcdir}
         Compiler:               ${CC}
     	Have Render:            ${have_render}
-    	Have EXIF:              ${have_libexif}
-	Internal JPEGTRAN:      ${jpeg_ok}
+    	Have libexif:           ${have_libexif}
+	Have libjpeg:           ${jpeg_ok}
+	Have libtiff:           ${tiff_ok}
 
 "

@@ -23,6 +23,7 @@
 #include <config.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <libgnomeui/gnome-ui-init.h>
 #include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -33,6 +34,7 @@
 #include "file-utils.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
+#include "gthumb-init.h"
 #include "gthumb-window.h"
 #include "image-viewer.h"
 #include "image-list.h"
@@ -75,7 +77,8 @@ struct poptOption options[] = {
 
 
 static gboolean 
-check_whether_to_set_fullscreen (gpointer data) {
+check_whether_to_set_fullscreen (gpointer data) 
+{
 	if (first_window == NULL)
 		return FALSE;
 
@@ -101,12 +104,8 @@ main (gint argc, char *argv[])
 
 	/* init threads */
 
-	if (! g_thread_supported ())
-		g_thread_init (NULL);
-	gdk_threads_init ();
-
 	program = gnome_program_init ("gthumb", VERSION,
-				      LIBBONOBOUI_MODULE, 
+				      LIBGNOMEUI_MODULE, 
 				      argc, argv,
 				      GNOME_PARAM_POPT_TABLE, options,
 				      GNOME_PARAM_HUMAN_READABLE_NAME, _("gThumb"),
@@ -116,15 +115,22 @@ main (gint argc, char *argv[])
 				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
 				      NULL);
 
+	if (! g_thread_supported ())
+		g_thread_init (NULL);
+
+	gdk_threads_init ();
+
 	g_object_get_property (G_OBJECT (program),
 			       GNOME_PARAM_POPT_CONTEXT,
 			       g_value_init (&value, G_TYPE_POINTER));
 	pctx = g_value_get_pointer (&value);
 
-
 	glade_gnome_init ();
 
+	gthumb_init ();
+
 	initialize_data (pctx);
+
 	poptFreeContext (pctx);
 
 	prepare_app ();
@@ -136,27 +142,6 @@ main (gint argc, char *argv[])
 	release_data ();
 
 	return 0;
-}
-
-
-static void
-ensure_directories_exist ()
-{
-	gchar *path;
-
-	path = g_strconcat (g_get_home_dir (),
-			    "/",
-			    RC_THUMBS_DIR,
-			    NULL);
-	ensure_dir_exists (path, 0700);
-	g_free (path);
-
-	path = g_strconcat (g_get_home_dir (),
-			    "/",
-			    RC_CATALOG_DIR,
-			    NULL);
-	ensure_dir_exists (path, 0700);
-	g_free (path);
 }
 
 
@@ -209,10 +194,6 @@ initialize_data (poptContext pctx)
 	char        *pixmap_file;
 	int          i;
 
-	/* Initialize preferences. */
-
-	ensure_directories_exist ();
-	preferences_init ();
 	create_default_categories_if_needed ();
 	eel_gconf_monitor_add ("/apps/gthumb");
 
@@ -343,7 +324,7 @@ prepare_app ()
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 		g_free (catalog_path);
 
-		eel_gconf_set_string (PREF_STARTUP_LOCATION, catalog_uri);
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, catalog_uri);
 
 		g_free (catalog_uri);
 
@@ -357,7 +338,7 @@ prepare_app ()
 
 	for (i = 0; i < n_dir_urls; i++) {
 		/* Go to the specified dierectory. */
-		eel_gconf_set_string (PREF_STARTUP_LOCATION, dir_urls[i]);
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, dir_urls[i]);
 
 		current_window = window_new ();
 		gtk_widget_show (current_window->app);
@@ -703,7 +684,7 @@ get_folder_pixbuf (double icon_size)
 
 		if (icon_path == NULL) {
 			folder_pixbuf = gdk_pixbuf_new_from_inline (-1, 
-								    dir_rgba, 
+								    dir_16_rgba, 
 								    FALSE, 
 								    NULL);
 			scale = FALSE;

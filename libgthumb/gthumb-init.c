@@ -26,19 +26,19 @@
 #include "catalog.h"
 #include "file-utils.h"
 #include "gthumb-init.h"
+#include "gthumb-stock.h"
 #include "preferences.h"
 #include "image-viewer.h"
 #include "image-list.h"
 #include "typedefs.h"
 
-
-Preferences       preferences;
+Preferences preferences;
 
 
 static void
 ensure_directories_exist ()
 {
-	gchar *path;
+	char *path;
 
 	path = g_strconcat (g_get_home_dir (),
 			    "/",
@@ -59,9 +59,9 @@ ensure_directories_exist ()
 void
 gthumb_init ()
 {
-	/* initialize preferences. */
 	ensure_directories_exist ();
 	preferences_init ();
+	gthumb_stock_init ();
 }
 
 

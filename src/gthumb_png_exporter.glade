@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="exporter_save_dialog">
-  <property name="title" translatable="yes">gThumb - Create index image</property>
+  <property name="title" translatable="yes">Create index image</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -867,14 +867,14 @@
 	  <property name="spacing">10</property>
 
 	  <child>
-	    <widget class="GtkButton" id="button6">
+	    <widget class="GtkButton" id="progress_cancel">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
-	      <property name="response_id">0</property>
+	      <property name="response_id">-6</property>
 	    </widget>
 	  </child>
 	</widget>
@@ -943,7 +943,7 @@
 </widget>
 
 <widget class="GtkDialog" id="exporter_property_dialog">
-  <property name="title" translatable="yes">gThumb - Index image properties</property>
+  <property name="title" translatable="yes">Index image properties</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

@@ -36,9 +36,12 @@
 #include "main.h"
 #include "icons/pixbufs.h"
 #include "jpegutils/jpegtran.h"
+#include "pixbuf-utils.h"
 
 
 #define ROTATE_GLADE_FILE "gthumb_tools.glade"
+#define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
+
 #define PREVIEW_SIZE 256
 
 enum {
@@ -331,10 +334,49 @@ ok_clicked (GtkWidget  *button,
 	to_all = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_apply_to_all_checkbutton));
 
 	if (to_all) {
-		GList *scan;
-		for (scan = data->current_image; scan; scan = scan->next) 
+		GladeXML  *gui;
+		GtkWidget *dialog;
+		GtkWidget *label;
+		GtkWidget *bar;
+		GList     *scan;
+		int        i, n;
+
+		gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE, 
+				     NULL,
+				     NULL);
+
+		dialog = glade_xml_get_widget   (gui, "progress_dialog");
+		label = glade_xml_get_widget    (gui, "progress_info");
+		bar = glade_xml_get_widget (gui, "progress_progressbar");
+
+		n = g_list_length (data->current_image);
+
+		gtk_widget_show (dialog);
+
+		while (gtk_events_pending())
+			gtk_main_iteration();
+
+		i = 0;
+		for (scan = data->current_image; scan; scan = scan->next) {
+			FileData *fd = scan->data;
+
+			_gtk_label_set_locale_text (GTK_LABEL (label), fd->name);
+			gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
+						       (gdouble) i / n);
+
+			while (gtk_events_pending())
+				gtk_main_iteration();
+
 			apply_tran (data, scan);
+
+			i++;
+		}
+
+		gtk_widget_destroy (dialog);
+		g_object_unref (gui);
+
 		gtk_widget_destroy (data->dialog);
+
 	} else {
 		apply_tran (data, data->current_image);
 		load_next_image (data);
@@ -365,6 +407,10 @@ static void
 rot90_clicked (GtkWidget  *button, 
 	       DialogData *data)
 {
+	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
 	if (data->tran_type == TRAN_NONE)
 		data->rot_type = get_next_rot (data->rot_type);
 	else {
@@ -373,7 +419,10 @@ rot90_clicked (GtkWidget  *button,
 		data->rot_type = get_next_rot (data->rot_type);
 	}
 
-	image_viewer_alter (IMAGE_VIEWER (data->viewer), ALTER_ROTATE_90);
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -381,6 +430,10 @@ static void
 rot270_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
+	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
 	if (data->tran_type == TRAN_NONE) {
 		data->rot_type = get_next_rot (data->rot_type);
 		data->rot_type = get_next_rot (data->rot_type);
@@ -388,7 +441,10 @@ rot270_clicked (GtkWidget  *button,
 	} else
 		data->rot_type = get_next_rot (data->rot_type);
 
-	image_viewer_alter (IMAGE_VIEWER (data->viewer), ALTER_ROTATE_90_CC);
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -396,6 +452,10 @@ static void
 mirror_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
+	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
 	if (data->tran_type == TRAN_FLIP) {
 		data->tran_type = TRAN_NONE;
 		data->rot_type = get_next_rot (data->rot_type);
@@ -405,7 +465,10 @@ mirror_clicked (GtkWidget  *button,
 	else
 		data->tran_type = TRAN_MIRROR;
 
-	image_viewer_alter (IMAGE_VIEWER (data->viewer), ALTER_MIRROR);
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -413,6 +476,10 @@ static void
 flip_clicked (GtkWidget  *button, 
 	      DialogData *data)
 {
+	ImageViewer  *viewer = IMAGE_VIEWER (data->viewer);
+	GdkPixbuf    *src_pixbuf;
+	GdkPixbuf    *dest_pixbuf;
+
 	if (data->tran_type == TRAN_MIRROR) {
 		data->tran_type = TRAN_NONE;
 		data->rot_type = get_next_rot (data->rot_type);
@@ -422,7 +489,10 @@ flip_clicked (GtkWidget  *button,
 	else
 		data->tran_type = TRAN_FLIP;
 
-	image_viewer_alter (IMAGE_VIEWER (data->viewer), ALTER_FLIP);
+	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
+	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	g_object_unref (dest_pixbuf);
 }
 
 
@@ -516,10 +586,10 @@ dlg_jpegtran (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	add_image_to_button (j_rot_90_button, rotate90_rgba);
-	add_image_to_button (j_rot_270_button, rotate270_rgba);
-	add_image_to_button (j_v_flip_button, mirror_rgba);
-	add_image_to_button (j_h_flip_button, flip_rgba);
+	add_image_to_button (j_rot_90_button, rotate_90_24_rgba);
+	add_image_to_button (j_rot_270_button, rotate_270_24_rgba);
+	add_image_to_button (j_v_flip_button, mirror_24_rgba);
+	add_image_to_button (j_h_flip_button, flip_24_rgba);
 
 	gtk_widget_set_sensitive (data->j_apply_to_all_checkbutton,
 				  data->file_list->next != NULL);

@@ -42,6 +42,7 @@ HEADER_FILES =			\
 	gthumb-init.h		\
 	gthumb-info-bar.h	\
 	gthumb-slide.h		\
+	gthumb-stock.h		\
 	gthumb-text-item.h	\
 	gtk-utils.h		\
 	image-list.h		\
@@ -88,6 +89,7 @@ libgthumb_a_SOURCES =		\
 	gthumb-init.c		\
 	gthumb-info-bar.c	\
 	gthumb-slide.c		\
+	gthumb-stock.c		\
 	gthumb-text-item.c	\
 	gtk-utils.c		\
 	image-list.c		\

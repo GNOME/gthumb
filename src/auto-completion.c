@@ -455,7 +455,7 @@ auto_compl_show_alternatives (GThumbWindow *window,
 	width = 0;
 	n = 0;
 
-	pixbuf = (window->sidebar_content == DIR_LIST) ? get_folder_pixbuf (LIST_ICON_SIZE) : gdk_pixbuf_new_from_inline (-1, library_rgba, FALSE, NULL);
+	pixbuf = (window->sidebar_content == DIR_LIST) ? get_folder_pixbuf (LIST_ICON_SIZE) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 
 	gtk_list_store_clear (ac_list_store);
 	for (scan = ac_alternatives; scan; scan = scan->next) {
