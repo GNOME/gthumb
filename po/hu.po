@@ -2,18 +2,20 @@
 # Copyright (C) 2003, Free Software Foundation Inc.
 # This file is distributed under the same license as the gthumb package.
 # Andras Timar <timar@gnome.hu>, 2003.
+# Andras Timar <timar@fsf.hu>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.1.6\n"
-"POT-Creation-Date: 2003-10-14 08:56+0200\n"
-"PO-Revision-Date: 2003-10-14 23:08+0200\n"
-"Last-Translator: Andras Timar <timar@gnome.hu>\n"
-"Language-Team: Hungarian <hu@gnome.hu>\n"
+"POT-Creation-Date: 2004-01-25 09:24+0100\n"
+"PO-Revision-Date: 2004-01-25 19:25+0100\n"
+"Last-Translator: Andras Timar <timar@fsf.hu>\n"
+"Language-Team: Hungarian <translation-team-hu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Report-Msgid-Bugs-To: \n"
+"X-Generator: KBabel 1.2\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -29,7 +31,7 @@ msgstr "Katalógusnézet"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#: src/gthumb-ui.xml.h:90
+#: data/gthumb-ui.xml.h:99
 msgid "Print the current image"
 msgstr "Az aktuális kép nyomtatása"
 
@@ -75,7 +77,7 @@ msgid "Mirror the image"
 msgstr "A kép tükrözése"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: src/gthumb-ui.xml.h:118
+#: data/gthumb-ui.xml.h:128
 msgid "Rotate"
 msgstr "Forgatás"
 
@@ -92,17 +94,17 @@ msgid "Rotate the image of 180 degrees"
 msgstr "A kép elforgatása 180 fokkal"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: src/gthumb-ui.xml.h:126
+#: data/gthumb-ui.xml.h:135
 msgid "Save _As..."
 msgstr "Men_tés másként..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: src/gthumb-ui.xml.h:127
+#: data/gthumb-ui.xml.h:136
 msgid "Save current image"
 msgstr "Az aktuális kép mentése"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:143
+#: data/gthumb-ui.xml.h:152
 msgid "Start or stop current animation"
 msgstr "Az aktuális animáció elindítása, illetve megállítása"
 
@@ -115,37 +117,37 @@ msgid "Transparency T_ype"
 msgstr "Átlátszóság _típusa"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:158
+#: data/gthumb-ui.xml.h:167
 msgid "View next animation frame"
 msgstr "A következő animációs képkocka megtekintése"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:185
+#: data/gthumb-ui.xml.h:193
 msgid "_Black"
 msgstr "_Fekete"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:190
+#: data/gthumb-ui.xml.h:198
 msgid "_Checked"
 msgstr "_Sakktábla"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:204
+#: data/gthumb-ui.xml.h:213
 msgid "_Flip"
 msgstr "_Fejreállítás"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:215
+#: data/gthumb-ui.xml.h:224
 msgid "_Image"
 msgstr "_Kép"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:221
+#: data/gthumb-ui.xml.h:231
 msgid "_Mirror"
 msgstr "_Tükrözés"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:226
+#: data/gthumb-ui.xml.h:236
 msgid "_None"
 msgstr "_Nincs"
 
@@ -158,13 +160,13 @@ msgid "_Step Animation"
 msgstr "Animáció _léptetése"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:255 src/gthumb_search.glade.h:31
-#: src/gthumb_tools.glade.h:48
+#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:48
+#: data/gthumb-ui.xml.h:265
 msgid "_View"
 msgstr "_Nézet"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:256
+#: data/gthumb-ui.xml.h:266
 msgid "_White"
 msgstr "_Fehér"
 
@@ -174,106 +176,117 @@ msgstr "_Nagyítás minősége"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr "%Y. %B %-d., %H.%M"
+msgstr "%Y. %B %e., %H.%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
-#: src/dlg-image-prop.c:445 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:391
+#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
+#: src/dlg-image-prop.c:419 src/fullscreen.c:216
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:406
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d képpont"
 
-#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/BlueStripes/image.xml.in.h:1
 #: data/albumthemes/Classic/image.xml.in.h:2
 #: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/Clean/image.xml.in.h:1
 #: data/albumthemes/NeatRound/image.xml.in.h:2
 #: data/albumthemes/NeatSquare/image.xml.in.h:2
 msgid "Aperture value"
 msgstr "Apertúraérték"
 
-#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/BlueStripes/image.xml.in.h:2
 #: data/albumthemes/Classic/image.xml.in.h:3
 #: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/Clean/image.xml.in.h:2
 #: data/albumthemes/NeatRound/image.xml.in.h:3
-#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
-#: src/gth-exif-data-viewer.c:478
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
+#: src/gth-exif-data-viewer.c:479
 msgid "Bytes"
 msgstr "Byte"
 
-#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/BlueStripes/image.xml.in.h:3
 #: data/albumthemes/Classic/image.xml.in.h:4
 #: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/Clean/image.xml.in.h:3
 #: data/albumthemes/NeatRound/image.xml.in.h:4
 #: data/albumthemes/NeatSquare/image.xml.in.h:4
 msgid "Camera model"
 msgstr "Fényképezőgép"
 
-#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/BlueStripes/image.xml.in.h:4
 #: data/albumthemes/Classic/image.xml.in.h:5
 #: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/Clean/image.xml.in.h:4
 #: data/albumthemes/NeatRound/image.xml.in.h:5
 #: data/albumthemes/NeatSquare/image.xml.in.h:5
 msgid "Date"
 msgstr "Dátum"
 
-#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/BlueStripes/image.xml.in.h:5
 #: data/albumthemes/Classic/image.xml.in.h:6
 #: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/Clean/image.xml.in.h:5
 #: data/albumthemes/NeatRound/image.xml.in.h:6
 #: data/albumthemes/NeatSquare/image.xml.in.h:6
 msgid "Dimensions"
 msgstr "Méretek"
 
-#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/BlueStripes/image.xml.in.h:6
 #: data/albumthemes/Classic/image.xml.in.h:7
 #: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/Clean/image.xml.in.h:6
 #: data/albumthemes/NeatRound/image.xml.in.h:7
 #: data/albumthemes/NeatSquare/image.xml.in.h:7
 msgid "Exposure mode"
 msgstr "Expozíciós mód"
 
-#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/BlueStripes/image.xml.in.h:7
 #: data/albumthemes/Classic/image.xml.in.h:8
 #: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/Clean/image.xml.in.h:7
 #: data/albumthemes/NeatRound/image.xml.in.h:8
 #: data/albumthemes/NeatSquare/image.xml.in.h:8
 msgid "Exposure time"
 msgstr "Expozíciós idő"
 
-#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/BlueStripes/image.xml.in.h:8
 #: data/albumthemes/Classic/image.xml.in.h:9
 #: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/Clean/image.xml.in.h:8
 #: data/albumthemes/NeatRound/image.xml.in.h:9
 #: data/albumthemes/NeatSquare/image.xml.in.h:9
 msgid "Flash"
 msgstr "Vaku"
 
-#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/BlueStripes/image.xml.in.h:9
 #: data/albumthemes/Classic/image.xml.in.h:10
 #: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/Clean/image.xml.in.h:9
 #: data/albumthemes/NeatRound/image.xml.in.h:10
 #: data/albumthemes/NeatSquare/image.xml.in.h:10
 msgid "Focal length"
 msgstr "Fókusztávolság"
 
-#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/BlueStripes/image.xml.in.h:10
 #: data/albumthemes/Classic/image.xml.in.h:11
 #: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/Clean/image.xml.in.h:10
 #: data/albumthemes/NeatRound/image.xml.in.h:11
-#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:265
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:264
 msgid "Image"
 msgstr "Kép"
 
-#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/BlueStripes/image.xml.in.h:11
 #: data/albumthemes/Classic/image.xml.in.h:12
 #: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/Clean/image.xml.in.h:11
 #: data/albumthemes/NeatRound/image.xml.in.h:12
 #: data/albumthemes/NeatSquare/image.xml.in.h:12
 msgid "Shutter speed"
 msgstr "Zársebesség"
 
-#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
-#: src/gthumb_web_exporter.glade.h:53
+#: data/albumthemes/BlueStripes/image.xml.in.h:12
+#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "képpont"
 
@@ -282,15 +295,2806 @@ msgstr "képpont"
 #: data/albumthemes/NeatRound/image.xml.in.h:1
 #: data/albumthemes/NeatSquare/image.xml.in.h:1
 msgid "(click on the image to view it at original size)"
-msgstr "(kattints a képre az eredeti méretben való megjelenítéshez)"
+msgstr "(Kattintson a képre az eredeti méretben való megjelenítéshez.)"
 
-#: gthumb.desktop.in.h:1
+#: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
+#: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
+#: data/glade/gthumb_png_exporter.glade.h:1
+#: data/glade/gthumb_preferences.glade.h:1 data/glade/gthumb_print.glade.h:1
+#: data/glade/gthumb_tools.glade.h:1 data/glade/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: data/glade/gthumb.glade.h:2 data/glade/gthumb_camera.glade.h:1
+#: data/glade/gthumb_comments.glade.h:1 data/glade/gthumb_convert.glade.h:2
+#: data/glade/gthumb_png_exporter.glade.h:3
+#: data/glade/gthumb_preferences.glade.h:3 data/glade/gthumb_search.glade.h:1
+#: data/glade/gthumb_tools.glade.h:3 data/glade/gthumb_web_exporter.glade.h:3
+msgid "*"
+msgstr "*"
+
+#: data/glade/gthumb.glade.h:3
+msgid "<b>Categories:</b>"
+msgstr "<b>Kategóriák:</b>"
+
+#: data/glade/gthumb.glade.h:4
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>Csatornainformáció:</b>"
+
+#: data/glade/gthumb.glade.h:5
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>Felülírja a régi képet az újjal?</b>"
+
+#: data/glade/gthumb.glade.h:6
+msgid "A_vailable applications:"
+msgstr "E_lérhető alkalmazások:"
+
+#: data/glade/gthumb.glade.h:7
+msgid "Alpha"
+msgstr "Alfa"
+
+#: data/glade/gthumb.glade.h:8
+msgid "Blue"
+msgstr "Kék"
+
+#: data/glade/gthumb.glade.h:9
+msgid "Bookmarks"
+msgstr "Könyvjelzők"
+
+#: data/glade/gthumb.glade.h:10
+msgid "C_atalogs:"
+msgstr "_Katalógusok:"
+
+#: data/glade/gthumb.glade.h:11
+msgid "Choose a Catalog"
+msgstr "Katalógus választása"
+
+#: data/glade/gthumb.glade.h:12 data/gthumb-ui.xml.h:28
+msgid "Comm_ent"
+msgstr "_Megjegyzés"
+
+#: data/glade/gthumb.glade.h:13
+msgid "Do not overwrite _the old image"
+msgstr "Ne írja felül a _régi képeket"
+
+#: data/glade/gthumb.glade.h:14
+msgid "Green"
+msgstr "Zöld"
+
+#: data/glade/gthumb.glade.h:15
+msgid "New Image:"
+msgstr "Új kép:"
+
+#: data/glade/gthumb.glade.h:16
+msgid "New _Library"
+msgstr "Új _könyvtár"
+
+#: data/glade/gthumb.glade.h:17
+msgid "Old Image:"
+msgstr "Régi kép:"
+
+#: data/glade/gthumb.glade.h:18
+msgid "Open Images"
+msgstr "Képek megnyitása"
+
+#: data/glade/gthumb.glade.h:19
+msgid "Over_write the old image"
+msgstr "Fe_lülírja a régi képet?"
+
+#: data/glade/gthumb.glade.h:20
+msgid "Overwrite Image"
+msgstr "Kép felülírása"
+
+#: data/glade/gthumb.glade.h:21
+msgid "Overwrite _all images"
+msgstr "_Minden kép felülírása"
+
+#: data/glade/gthumb.glade.h:22
+msgid "Photo _Data (EXIF)"
+msgstr "Fényképa_dat (EXIF)"
+
+#: data/glade/gthumb.glade.h:23
+msgid "R_ecent applications:"
+msgstr "_Legutóbbi alkalmazások:"
+
+#: data/glade/gthumb.glade.h:24
+msgid "Red"
+msgstr "Vörös"
+
+#: data/glade/gthumb.glade.h:25
+msgid "Value"
+msgstr "Érték"
+
+#: data/glade/gthumb.glade.h:26
+msgid "_Application:"
+msgstr "_Alkalmazás:"
+
+#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:443
+msgid "_Bookmarks:"
+msgstr "_Könyvjelzők:"
+
+#: data/glade/gthumb.glade.h:28
+msgid "_Do not overwrite any image"
+msgstr "_Ne írjon felül semmilyen képet"
+
+#: data/glade/gthumb.glade.h:29
+msgid "_General"
+msgstr "Á_ltalános"
+
+#: data/glade/gthumb.glade.h:30
+msgid "_Histogram"
+msgstr "_Hisztogram"
+
+#: data/glade/gthumb.glade.h:31
+msgid "_New Catalog"
+msgstr "Új _katalógus"
+
+#: data/glade/gthumb.glade.h:32
+msgid "_Next"
+msgstr "_Következő"
+
+#: data/glade/gthumb.glade.h:33
+msgid "_Previous"
+msgstr "_Előző"
+
+#: data/glade/gthumb.glade.h:34
+msgid "_Remove"
+msgstr "_Eltávolítás"
+
+#: data/glade/gthumb.glade.h:35
+msgid "_Save the new image as:"
+msgstr "Új kép _mentése:"
+
+#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:2
+#: data/glade/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
+
+#: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
+msgid "Ca_tegories:"
+msgstr "Ka_tegóriák:"
+
+#: data/glade/gthumb_camera.glade.h:4
+msgid "Camera Model"
+msgstr "Fényképezőgép"
+
+#: data/glade/gthumb_camera.glade.h:5
+#: data/glade/gthumb_png_exporter.glade.h:25
+msgid "Choose destination folder"
+msgstr "Célmappa választása"
+
+#: data/glade/gthumb_camera.glade.h:6
+msgid "Delete selected images from the camera"
+msgstr "A kijelölt képek eltávolítása a fényképezőgépből"
+
+#: data/glade/gthumb_camera.glade.h:7
+msgid "Import Photos"
+msgstr "Fényképek importálása"
+
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:692
+#: src/dlg-photo-importer.c:727 src/dlg-photo-importer.c:1168
+msgid "No camera detected"
+msgstr "Nem található fényképezőgép"
+
+#: data/glade/gthumb_camera.glade.h:9
+msgid "Select a camera model"
+msgstr "Fényképezőgép-típus kiválasztása"
+
+#: data/glade/gthumb_camera.glade.h:10
+msgid "Update previews"
+msgstr "Előnézeti képek frissítése"
+
+#: data/glade/gthumb_camera.glade.h:11
+msgid "_Auto Detect"
+msgstr "_Automatikus felismerés"
+
+#: data/glade/gthumb_camera.glade.h:12
+msgid "_Delete imported images from the camera"
+msgstr "Az _importált képek törlése a fényképezőgépből"
+
+#: data/glade/gthumb_camera.glade.h:13
+#: data/glade/gthumb_png_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Destination:"
+msgstr "_Cél:"
+
+#: data/glade/gthumb_camera.glade.h:14
+msgid "_Film:"
+msgstr "_Film:"
+
+#: data/glade/gthumb_camera.glade.h:15
+msgid "_Keep original filenames"
+msgstr "E_redeti fájlnevek megtartása"
+
+#: data/glade/gthumb_camera.glade.h:16
+msgid "_Model:"
+msgstr "_Típus:"
+
+#: data/glade/gthumb_camera.glade.h:17
+#: data/glade/gthumb_web_exporter.glade.h:55
+msgid "_Port:"
+msgstr "_Port:"
+
+#: data/glade/gthumb_camera.glade.h:18
+msgid "_import"
+msgstr "_Importálás"
+
+#: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
+msgid "A_vailable categories:"
+msgstr "_Rendelkezésre álló kategóriák:"
+
+#: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
+#: data/gthumb-ui.xml.h:23
+msgid "Categories"
+msgstr "Kategóriák"
+
+#: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
+msgid "Co_mment:"
+msgstr "_Megjegyzés:"
+
+#: data/glade/gthumb_comments.glade.h:5 data/gthumb-ui.xml.h:29
+#: libgthumb/gth-file-view-list.c:1368
+msgid "Comment"
+msgstr "Megjegyzés"
+
+#: data/glade/gthumb_comments.glade.h:6
+msgid "Create a new category"
+msgstr "Új kategória létrehozása"
+
+#: data/glade/gthumb_comments.glade.h:7
+msgid "Current date"
+msgstr "Mai dátum"
+
+#: data/glade/gthumb_comments.glade.h:8
+msgid "Image creation date"
+msgstr "Kép létrehozásának ideje"
+
+#: data/glade/gthumb_comments.glade.h:9
+msgid "No date"
+msgstr "Nincs dátum"
+
+#: data/glade/gthumb_comments.glade.h:10
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "A fénykép digitalizálásának dátuma (az EXIF-adatokból)"
+
+#: data/glade/gthumb_comments.glade.h:11
+msgid "Remove selected category"
+msgstr "A kijelölt kategória törlése"
+
+#: data/glade/gthumb_comments.glade.h:12
+msgid "Save only cha_nged fields"
+msgstr "Csak a _változtatott mezők mentése"
+
+#: data/glade/gthumb_comments.glade.h:13
+msgid "The following date"
+msgstr "A következő dátum"
+
+#: data/glade/gthumb_comments.glade.h:14 data/glade/gthumb_search.glade.h:24
+msgid "_Date:"
+msgstr "_Dátum:"
+
+#: data/glade/gthumb_comments.glade.h:15
+msgid "_Delete"
+msgstr "_Törlés"
+
+#: data/glade/gthumb_comments.glade.h:16
+msgid "_New"
+msgstr "Ú_j"
+
+#: data/glade/gthumb_comments.glade.h:17 data/glade/gthumb_search.glade.h:27
+msgid "_Place:"
+msgstr "_Hely:"
+
+#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:30
+msgid "_Selected categories:"
+msgstr "_Kijelölt kategóriák:"
+
+#: data/glade/gthumb_convert.glade.h:3
+msgid "<b>Compression</b>"
+msgstr "<b>Tömörítés</b>"
+
+#: data/glade/gthumb_convert.glade.h:4
+msgid "<b>Image type</b>"
+msgstr "<b>Képtípusok</b>"
+
+#: data/glade/gthumb_convert.glade.h:5
+msgid "<b>Resolution</b>"
+msgstr "<b>Felbontás</b>"
+
+#: data/glade/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr "Kérdezzen"
+
+#: data/glade/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "Tömörítés _szintje:"
+
+#: data/glade/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "Átalakítás más formátumba"
+
+#: data/glade/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG beállításai"
+
+#: data/glade/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "No_rmál (Deflate)"
+
+#: data/glade/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "Opti_malizálás"
+
+#: data/glade/gthumb_convert.glade.h:12
+msgid "Overwrite"
+msgstr "Felülírás"
+
+#: data/glade/gthumb_convert.glade.h:13
+msgid "Overwrite mode:"
+msgstr "Felülírás módja:"
+
+#: data/glade/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr "PNG beállításai"
+
+#: data/glade/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr "E_redeti eltávolítása"
+
+#: data/glade/gthumb_convert.glade.h:16
+msgid "Rename"
+msgstr "Átnevezés"
+
+#: data/glade/gthumb_convert.glade.h:17 src/dlg-convert.c:313
+msgid "Skip"
+msgstr "Kihagyás"
+
+#: data/glade/gthumb_convert.glade.h:18
+msgid "TGA Options"
+msgstr "TGA beállításai"
+
+#: data/glade/gthumb_convert.glade.h:19
+msgid "TIFF Options"
+msgstr "TIFF beállításai"
+
+#: data/glade/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr "T_GA"
+
+#: data/glade/gthumb_convert.glade.h:21
+#: data/glade/gthumb_png_exporter.glade.h:65
+msgid "_Horizontal:"
+msgstr "_Vízszintes:"
+
+#: data/glade/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: data/glade/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr "_Veszteséges tömörítés (JPEG)"
+
+#: data/glade/gthumb_convert.glade.h:24
+msgid "_No compression"
+msgstr "_Nincs tömörítés"
+
+#: data/glade/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr "_PNG"
+
+#: data/glade/gthumb_convert.glade.h:26
+msgid "_Progressive"
+msgstr "_Progresszív"
+
+#: data/glade/gthumb_convert.glade.h:27
+msgid "_Quality:"
+msgstr "_Minőség:"
+
+#: data/glade/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr "_RLE tömörítés"
+
+#: data/glade/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr "_Simítás:"
+
+#: data/glade/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: data/glade/gthumb_convert.glade.h:31
+#: data/glade/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "_Függőleges:"
+
+#: data/glade/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr "dpi"
+
+#: data/glade/gthumb_crop.glade.h:2
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 × 3 (könyv, DVD)"
+
+#: data/glade/gthumb_crop.glade.h:3
+msgid "4 x 6 (Postcard)"
+msgstr "4 × 6 (képeslap)"
+
+#: data/glade/gthumb_crop.glade.h:4
+msgid "5 x 7"
+msgstr "5 × 7"
+
+#: data/glade/gthumb_crop.glade.h:5
+msgid "8 x 10"
+msgstr "8 × 10"
+
+#: data/glade/gthumb_crop.glade.h:6
+msgid "<b>Aspect ratio</b>"
+msgstr "<b>Képarány</b>"
+
+#: data/glade/gthumb_crop.glade.h:7
+msgid "<b>Selection</b>"
+msgstr "<b>Kijelölés</b>"
+
+#: data/glade/gthumb_crop.glade.h:8
+msgid "Crop"
+msgstr "Levágás"
+
+#: data/glade/gthumb_crop.glade.h:9
+msgid "Custom"
+msgstr "Egyéni"
+
+#: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
+msgid "None"
+msgstr "Nincs"
+
+#: data/glade/gthumb_crop.glade.h:11
+msgid "Square"
+msgstr "Négyzet"
+
+#: data/glade/gthumb_crop.glade.h:12 data/gthumb-ui.xml.h:203
+msgid "_Crop"
+msgstr "_Levágás"
+
+#: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
+#: data/glade/gthumb_print.glade.h:29
+msgid "_Height:"
+msgstr "_Magasság:"
+
+#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
+#: data/glade/gthumb_print.glade.h:31
+msgid "_Width:"
+msgstr "_Szélesség:"
+
+#: data/glade/gthumb_crop.glade.h:15
+msgid "_X:"
+msgstr "_X:"
+
+#: data/glade/gthumb_crop.glade.h:16
+msgid "_Y:"
+msgstr "_Y:"
+
+#: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
+#: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
+#: data/glade/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr "     "
+
+#: data/glade/gthumb_edit.glade.h:4 data/glade/gthumb_print.glade.h:3
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: data/glade/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>Színszintek</b>"
+
+#: data/glade/gthumb_edit.glade.h:6
+msgid "<b>New dimensions</b>"
+msgstr "<b>Új méret</b>"
+
+#: data/glade/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>Eredeti méret</b>"
+
+#: data/glade/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>Méretarány</b>"
+
+#: data/glade/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "Fényerő és kontraszt"
+
+#: data/glade/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "Színegyensúly"
+
+#: data/glade/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "Kon_traszt:"
+
+#: data/glade/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "Ciánkék - _Vörös:"
+
+#: data/glade/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "Magasság:"
+
+#: data/glade/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "_Jó minőség"
+
+#: data/glade/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "Színezet és telítettség"
+
+#: data/glade/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "Poszter"
+
+#: data/glade/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "_Fényerő megőrzése"
+
+#: data/glade/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "Kép átméretezése"
+
+#: data/glade/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "Szélesség:"
+
+#: data/glade/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "_Fényerő:"
+
+#: data/glade/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "Á_rnyalat:"
+
+#: data/glade/gthumb_edit.glade.h:23
+msgid "_Keep aspect ratio"
+msgstr "_Arányok megtartása"
+
+#: data/glade/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "_Szintek:"
+
+#: data/glade/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "_Fényesség:"
+
+#: data/glade/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "_Bíborvörös - Zöld:"
+
+#: data/glade/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "_Előnézet"
+
+#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:45
+msgid "_Reset"
+msgstr "_Alapállapot"
+
+#: data/glade/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "_Telítettség:"
+
+#: data/glade/gthumb_edit.glade.h:30
+msgid "_Scale"
+msgstr "_Méretezés"
+
+#: data/glade/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "_Sárga - Kék:"
+
+#: data/glade/gthumb_png_exporter.glade.h:4
+msgid "112"
+msgstr "112"
+
+#: data/glade/gthumb_png_exporter.glade.h:5
+msgid "128"
+msgstr "128"
+
+#: data/glade/gthumb_png_exporter.glade.h:6
+msgid "164"
+msgstr "164"
+
+#: data/glade/gthumb_png_exporter.glade.h:7
+msgid "200"
+msgstr "200"
+
+#: data/glade/gthumb_png_exporter.glade.h:8
+msgid "256"
+msgstr "256"
+
+#: data/glade/gthumb_png_exporter.glade.h:9
+msgid "48"
+msgstr "48"
+
+#: data/glade/gthumb_png_exporter.glade.h:10
+msgid "64"
+msgstr "64"
+
+#: data/glade/gthumb_png_exporter.glade.h:11
+msgid "75"
+msgstr "75"
+
+#: data/glade/gthumb_png_exporter.glade.h:12
+msgid "85"
+msgstr "85"
+
+#: data/glade/gthumb_png_exporter.glade.h:13
+msgid "95"
+msgstr "95"
+
+#: data/glade/gthumb_png_exporter.glade.h:14
+msgid "<b>Background style</b>"
+msgstr "<b>Háttérstílus</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:15
+msgid "<b>Caption</b>"
+msgstr "<b>Képaláírás</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:16
+msgid "<b>Footer</b>"
+msgstr "<b>Élőláb</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:17
+msgid "<b>Header and footer</b>"
+msgstr "<b>Élőfej és élőláb</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:18
+msgid "<b>Header</b>"
+msgstr "<b>Élőfej</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:19
+msgid "<b>Index images</b>"
+msgstr "<b>Indexképek</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:20
+msgid "<b>Page size</b>"
+msgstr "<b>Oldalméret</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:21
+#: data/glade/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Mentés</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:22
+msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
+msgstr "<small><i><b>Megjegyzés:</b> # (sorszám)</i>.</small>"
+
+#: data/glade/gthumb_png_exporter.glade.h:24
+#, no-c-format
+msgid ""
+"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
+"small>"
+msgstr ""
+"<small><i><b>Megjegyzés:</b> %p (oldalszám), %n (oldalak száma)</i>.</"
+"small>"
+
+#: data/glade/gthumb_png_exporter.glade.h:26
+#: data/glade/gthumb_web_exporter.glade.h:20
+msgid "Co_mment"
+msgstr "Meg_jegyzés"
+
+#: data/glade/gthumb_png_exporter.glade.h:27
+msgid "Col_umns:"
+msgstr "Oszlopok:"
+
+#: data/glade/gthumb_png_exporter.glade.h:28
+msgid "Colo_r:"
+msgstr "S_zín:"
+
+#: data/glade/gthumb_png_exporter.glade.h:29
+msgid "Create Index Image"
+msgstr "Indexkép létrehozása"
+
+#: data/glade/gthumb_png_exporter.glade.h:30
+msgid "Create _HTML image map"
+msgstr "_HTML-es interaktív kép létrehozása"
+
+#: data/glade/gthumb_png_exporter.glade.h:31
+#: data/glade/gthumb_web_exporter.glade.h:26
+msgid "F_ooter:"
+msgstr "É_lőláb:"
+
+#: data/glade/gthumb_png_exporter.glade.h:32
+#: data/glade/gthumb_web_exporter.glade.h:27
+msgid "File _name"
+msgstr "Fájl_név"
+
+#: data/glade/gthumb_png_exporter.glade.h:33
+msgid "File pa_th"
+msgstr "Út_vonal"
+
+#: data/glade/gthumb_png_exporter.glade.h:34
+#: data/glade/gthumb_web_exporter.glade.h:28
+msgid "File si_ze"
+msgstr "Fájl_méret"
+
+#: data/glade/gthumb_png_exporter.glade.h:35
+msgid "Frame _style:"
+msgstr "Keret _stílusa:"
+
+#: data/glade/gthumb_png_exporter.glade.h:36
+msgid "Frame co_lor:"
+msgstr "Keret s_zíne:"
+
+#: data/glade/gthumb_png_exporter.glade.h:37
+#: data/glade/gthumb_web_exporter.glade.h:30
+msgid "H_eader:"
+msgstr "Élő_fej:"
+
+#: data/glade/gthumb_png_exporter.glade.h:38
+msgid "Header/Footer"
+msgstr "Élőfej és élőláb"
+
+#: data/glade/gthumb_png_exporter.glade.h:39
+msgid "Hei_ght:"
+msgstr "Mag_asság:"
+
+#: data/glade/gthumb_png_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:32
+msgid "Image dim_ensions"
+msgstr "Kép _méretei"
+
+#: data/glade/gthumb_png_exporter.glade.h:41
+msgid "Images"
+msgstr "Képek"
+
+#: data/glade/gthumb_png_exporter.glade.h:42
+msgid "Index Image Style"
+msgstr "Indexkép stílusa"
+
+#: data/glade/gthumb_png_exporter.glade.h:43
+msgid "Page"
+msgstr "Oldal"
+
+#: data/glade/gthumb_png_exporter.glade.h:44
+msgid "Pi_xels"
+msgstr "_Képpont"
+
+#: data/glade/gthumb_png_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:35
+msgid "Re_verse order"
+msgstr "_Fordított sorrend"
+
+#: data/glade/gthumb_png_exporter.glade.h:46
+msgid "Rows a_nd columns"
+msgstr "Sorok és oszlopok"
+
+#: data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a color"
+msgstr "Szín kiválasztása"
+
+#: data/glade/gthumb_png_exporter.glade.h:48
+msgid "Shadow in"
+msgstr "Bemélyedés"
+
+#: data/glade/gthumb_png_exporter.glade.h:49
+msgid "Shadow only"
+msgstr "Csak árnyékolás"
+
+#: data/glade/gthumb_png_exporter.glade.h:50
+msgid "Shadow out"
+msgstr "Kiemelkedés"
+
+#: data/glade/gthumb_png_exporter.glade.h:51
+msgid "Simple"
+msgstr "Egyszerű"
+
+#: data/glade/gthumb_png_exporter.glade.h:52
+msgid "Simple with shadow"
+msgstr "Egyszerű és árnyékolás"
+
+#: data/glade/gthumb_png_exporter.glade.h:53
+msgid "Slide"
+msgstr "Dia"
+
+#: data/glade/gthumb_png_exporter.glade.h:54
+#: data/glade/gthumb_web_exporter.glade.h:40
+msgid "Sor_t:"
+msgstr "_Rendezés:"
+
+#: data/glade/gthumb_png_exporter.glade.h:55
+msgid "Sort"
+msgstr "Rendezés"
+
+#: data/glade/gthumb_png_exporter.glade.h:56
+msgid "St_yle"
+msgstr "_Stílus:"
+
+#: data/glade/gthumb_png_exporter.glade.h:57
+#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:41
+msgid "Start _at:"
+msgstr "Kezdés itt:"
+
+#: data/glade/gthumb_png_exporter.glade.h:58
+msgid "Style Preview"
+msgstr "Stílus előnézete"
+
+#: data/glade/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "Szé_lesség:"
+
+#: data/glade/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "_Minden oldal azonos méretű"
+
+#: data/glade/gthumb_png_exporter.glade.h:62
+msgid "_Draw frame"
+msgstr "Keret _rajzolása"
+
+#: data/glade/gthumb_png_exporter.glade.h:63
+msgid "_Font:"
+msgstr "_Betűkészlet:"
+
+#: data/glade/gthumb_png_exporter.glade.h:64
+msgid "_Gradient"
+msgstr "_Színátmenet"
+
+#: data/glade/gthumb_png_exporter.glade.h:66
+msgid "_Image size:"
+msgstr "_Képméret:"
+
+#: data/glade/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "_Sorok:"
+
+#: data/glade/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "_Homogén szín"
+
+#: data/glade/gthumb_png_exporter.glade.h:69
+#: data/glade/gthumb_tools.glade.h:47
+msgid "_Template:"
+msgstr "_Sablon:"
+
+#: data/glade/gthumb_png_exporter.glade.h:71
+#: data/glade/gthumb_web_exporter.glade.h:62
+msgid "by name"
+msgstr "név szerint"
+
+#: data/glade/gthumb_png_exporter.glade.h:72
+#: data/glade/gthumb_web_exporter.glade.h:63
+msgid "by path"
+msgstr "útvonal szerint"
+
+#: data/glade/gthumb_png_exporter.glade.h:73
+#: data/glade/gthumb_web_exporter.glade.h:64
+msgid "by size"
+msgstr "méret szerint"
+
+#: data/glade/gthumb_png_exporter.glade.h:74
+msgid "by time"
+msgstr "idő szerint"
+
+#: data/glade/gthumb_png_exporter.glade.h:75
+msgid "jpeg"
+msgstr "jpeg"
+
+#: data/glade/gthumb_png_exporter.glade.h:76
+msgid "png"
+msgstr "png"
+
+#: data/glade/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 × 112"
+
+#: data/glade/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 × 128"
+
+#: data/glade/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 × 164"
+
+#: data/glade/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr "200 × 200"
+
+#: data/glade/gthumb_preferences.glade.h:8
+msgid "256 x 256"
+msgstr "256 × 256"
+
+#: data/glade/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 × 48"
+
+#: data/glade/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 × 64"
+
+#: data/glade/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 × 85"
+
+#: data/glade/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 × 95"
+
+#: data/glade/gthumb_preferences.glade.h:13
+msgid "<b>Direction</b>"
+msgstr "<b>Irány</b>"
+
+#: data/glade/gthumb_preferences.glade.h:14
+msgid "<b>Hide/Show</b>"
+msgstr "<b>Elrejtés/Megjelenítés</b>"
+
+#: data/glade/gthumb_preferences.glade.h:15
+msgid "<b>Interface</b>"
+msgstr "<b>Felület</b>"
+
+#: data/glade/gthumb_preferences.glade.h:16
+msgid "<b>On startup:</b>"
+msgstr "<b>Indításkor</b>"
+
+#: data/glade/gthumb_preferences.glade.h:17
+msgid "<b>Other</b>"
+msgstr "<b>Egyéb</b>"
+
+#: data/glade/gthumb_preferences.glade.h:18
+msgid "<b>Slide show</b>"
+msgstr "<b>Diavetítés</b>"
+
+#: data/glade/gthumb_preferences.glade.h:19
+msgid "<b>View images as</b>"
+msgstr "<b>Képek megjelenítésének módja</b>"
+
+#: data/glade/gthumb_preferences.glade.h:20
+msgid "<b>Viewer</b>"
+msgstr "<b>Megjelenítő</b>"
+
+#: data/glade/gthumb_preferences.glade.h:21
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Nagyítás minősége</b>"
+
+#: data/glade/gthumb_preferences.glade.h:22
+msgid "Activate items with a double click"
+msgstr "Elemek aktiválása dupla kattintással"
+
+#: data/glade/gthumb_preferences.glade.h:23
+msgid "Activate items with a single click"
+msgstr "Elemek aktiválása egy kattintással"
+
+#: data/glade/gthumb_preferences.glade.h:24
+msgid "After _loading an image:"
+msgstr "A kép betöltése _után:"
+
+#: data/glade/gthumb_preferences.glade.h:25
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "_Megerősítés kérése képek vagy katalógusok törlésekor"
+
+#: data/glade/gthumb_preferences.glade.h:26
+msgid "Ask whether to save _modified images"
+msgstr "Kérdés, hogy mentse-e a _módosított képeket"
+
+#: data/glade/gthumb_preferences.glade.h:27
+msgid "Black"
+msgstr "Fekete"
+
+#: data/glade/gthumb_preferences.glade.h:28
+msgid "Browser"
+msgstr "Böngésző"
+
+#: data/glade/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr "_Kattintás típusa:"
+
+#: data/glade/gthumb_preferences.glade.h:30
+msgid "Checked"
+msgstr "Sakktábla"
+
+#: data/glade/gthumb_preferences.glade.h:31
+msgid "Choose startup folder"
+msgstr "Kezdőmappa választása"
+
+#: data/glade/gthumb_preferences.glade.h:32
+msgid "Co_mments"
+msgstr "Meg_jegyzések"
+
+#: data/glade/gthumb_preferences.glade.h:33
+msgid "D_elay before changing image:"
+msgstr "_Képváltások közötti szünet:"
+
+#: data/glade/gthumb_preferences.glade.h:34
+msgid "D_etermine image type from content (slower)"
+msgstr "Kép_típus meghatározása a tartalom alapján (lassabb)"
+
+#: data/glade/gthumb_preferences.glade.h:35
+msgid "Do _not change folder"
+msgstr "Ne _váltson mappát"
+
+#: data/glade/gthumb_preferences.glade.h:36
+msgid "Fit image to window"
+msgstr "Kép igazítása az ablakmérethez"
+
+#: data/glade/gthumb_preferences.glade.h:37
+msgid "Fit to window if larger"
+msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
+
+#: data/glade/gthumb_preferences.glade.h:38
+msgid "Follow Nautilus behaviour"
+msgstr "A Nautilus viselkedésének átvétele"
+
+#: data/glade/gthumb_preferences.glade.h:39
+msgid "For_ward"
+msgstr "_Előre"
+
+#: data/glade/gthumb_preferences.glade.h:40
+msgid "General"
+msgstr "Általános"
+
+#: data/glade/gthumb_preferences.glade.h:41
+msgid "Go to last _visited folder or catalog"
+msgstr "Ugrás az utoljára _meglátogatott mappába vagy katalógusba"
+
+#: data/glade/gthumb_preferences.glade.h:42
+msgid "Go to this _folder:"
+msgstr "Ugrás a következő mappába:"
+
+#: data/glade/gthumb_preferences.glade.h:43
+msgid "H_igh"
+msgstr "M_agas"
+
+#: data/glade/gthumb_preferences.glade.h:44
+msgid "Icons only"
+msgstr "Csak ikonok"
+
+#: data/glade/gthumb_preferences.glade.h:45
+msgid "Keep previous zoom"
+msgstr "Előző nagyítás megtartása"
+
+#: data/glade/gthumb_preferences.glade.h:46
+msgid "Layout:"
+msgstr "Elrendezés:"
+
+#: data/glade/gthumb_preferences.glade.h:47
+msgid "Lo_w"
+msgstr "A_lacsony"
+
+#: data/glade/gthumb_preferences.glade.h:49
+msgid "Ran_dom"
+msgstr "_Véletlenszerű"
+
+#: data/glade/gthumb_preferences.glade.h:50
+msgid "Re_verse"
+msgstr "F_ordított"
+
+#: data/glade/gthumb_preferences.glade.h:51
+msgid "Resta_rt when finished"
+msgstr "Automatikus újrakezdés"
+
+#: data/glade/gthumb_preferences.glade.h:52
+msgid "Set image to actual size"
+msgstr "Kép megjelenítése a tényleges méretében"
+
+#: data/glade/gthumb_preferences.glade.h:53
+msgid "Set to C_urrent"
+msgstr "Beállítás az _aktuálisra"
+
+#: data/glade/gthumb_preferences.glade.h:54 data/gthumb-ui.xml.h:146
+msgid "Slide Show"
+msgstr "Diavetítés"
+
+#: data/glade/gthumb_preferences.glade.h:55
+msgid "Switch to _full screen"
+msgstr "Átkapcsolás _teljes képernyőre"
+
+#: data/glade/gthumb_preferences.glade.h:56
+msgid "System settings"
+msgstr "Rendszerbeállítások"
+
+#: data/glade/gthumb_preferences.glade.h:57
+msgid "Text below icons"
+msgstr "Szöveg az ikonok alatt"
+
+#: data/glade/gthumb_preferences.glade.h:58
+msgid "Text beside icons"
+msgstr "Szöveg az ikonok mellett"
+
+#: data/glade/gthumb_preferences.glade.h:59
+msgid "Text only"
+msgstr "Csak szöveg"
+
+#: data/glade/gthumb_preferences.glade.h:60
+msgid "Th_umbnail size:"
+msgstr "_Bélyegképek mérete:"
+
+#: data/glade/gthumb_preferences.glade.h:61
+msgid "Transparency _type:"
+msgstr "Átlátszóság _típusa:"
+
+#: data/glade/gthumb_preferences.glade.h:62
+msgid "Viewer"
+msgstr "Megjelenítő"
+
+#: data/glade/gthumb_preferences.glade.h:63
+msgid "White"
+msgstr "Fehér"
+
+#: data/glade/gthumb_preferences.glade.h:64
+msgid "_Filenames"
+msgstr "_Fájlnevek"
+
+#: data/glade/gthumb_preferences.glade.h:65
+msgid "_List"
+msgstr "_Lista"
+
+#: data/glade/gthumb_preferences.glade.h:66
+msgid "_Slides"
+msgstr "_Diák"
+
+#: data/glade/gthumb_preferences.glade.h:67 data/gthumb-ui.xml.h:259
+msgid "_Thumbnails"
+msgstr "_Bélyegképek"
+
+#: data/glade/gthumb_preferences.glade.h:68
+msgid "_Toolbar style:"
+msgstr "_Eszköztár stílusa:"
+
+#: data/glade/gthumb_preferences.glade.h:69
+msgid "gThumb Preferences"
+msgstr "A gThumb beállításai"
+
+#: data/glade/gthumb_preferences.glade.h:70
+msgid "seconds"
+msgstr "másodperc"
+
+#: data/glade/gthumb_print.glade.h:4
+msgid "1"
+msgstr "1"
+
+#: data/glade/gthumb_print.glade.h:5
+msgid "16"
+msgstr "16"
+
+#: data/glade/gthumb_print.glade.h:6
+msgid "2"
+msgstr "2"
+
+#: data/glade/gthumb_print.glade.h:7
+msgid "4"
+msgstr "4"
+
+#: data/glade/gthumb_print.glade.h:8
+msgid "8"
+msgstr "8"
+
+#: data/glade/gthumb_print.glade.h:9
+msgid "<b>Orientation</b>"
+msgstr "<b>Tájolás</b>"
+
+#: data/glade/gthumb_print.glade.h:10
+msgid "<b>Size</b>"
+msgstr "<b>Méret</b>"
+
+#: data/glade/gthumb_print.glade.h:11
+msgid ""
+"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
+"Click on an image to rotate it.</i></small>"
+msgstr ""
+"<small><i><b>Megjegyzés:</b> Húzza a képet az oldalra az áthelyezéshez.\n"
+"Kattintson a képre a forgatáshoz.</i></small>"
+
+#: data/glade/gthumb_print.glade.h:13
+msgid "A_4"
+msgstr "A_4"
+
+#: data/glade/gthumb_print.glade.h:14
+msgid "C_ustom:"
+msgstr "E_gyéni:"
+
+#: data/glade/gthumb_print.glade.h:15
+msgid "Center _on Page"
+msgstr "Oldal _közepére"
+
+#: data/glade/gthumb_print.glade.h:16
+msgid "Comment _font:"
+msgstr "Megjegyzés _betűkészlete:"
+
+#: data/glade/gthumb_print.glade.h:17
+msgid "I_nclude comment"
+msgstr "_Megjegyzést is"
+
+#: data/glade/gthumb_print.glade.h:18
+msgid "Images per page:"
+msgstr "Képek száma oldalanként:"
+
+#: data/glade/gthumb_print.glade.h:19
+msgid "Inches"
+msgstr "Hüvelyk"
+
+#: data/glade/gthumb_print.glade.h:20
+msgid "Lan_dscape"
+msgstr "_Fekvő"
+
+#: data/glade/gthumb_print.glade.h:21
+msgid "Layout"
+msgstr "Elrendezés"
+
+#: data/glade/gthumb_print.glade.h:22
+msgid "Millimeters"
+msgstr "Milliméter"
+
+#: data/glade/gthumb_print.glade.h:23
+msgid "P_ortrait"
+msgstr "Á_lló"
+
+#: data/glade/gthumb_print.glade.h:24
+msgid "Paper Details"
+msgstr "Papír adatai"
+
+#.
+#: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
+#: libgthumb/print-callbacks.c:2959 libgthumb/print-callbacks.c:2973
+#: libgthumb/print-callbacks.c:3430
+msgid "Print"
+msgstr "Nyomtatás"
+
+#: data/glade/gthumb_print.glade.h:26
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: data/glade/gthumb_print.glade.h:27
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: data/glade/gthumb_print.glade.h:28
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: data/glade/gthumb_print.glade.h:30
+msgid "_Scale:"
+msgstr "_Méretezés:"
+
+#: data/glade/gthumb_search.glade.h:3
+msgid "<b>Search criteria</b>"
+msgstr "<b>Keresési feltételek</b>"
+
+#: data/glade/gthumb_search.glade.h:4
+msgid "<b>Search scope</b>"
+msgstr "<b>Keresés hatóköre</b>"
+
+#: data/glade/gthumb_search.glade.h:6
+msgid "After"
+msgstr "Ez után"
+
+#: data/glade/gthumb_search.glade.h:7
+msgid "Any"
+msgstr "Bármikor"
+
+#: data/glade/gthumb_search.glade.h:8
+msgid "Before"
+msgstr "Ez előtt"
+
+#: data/glade/gthumb_search.glade.h:11
+msgid "Choose categories from the saved list"
+msgstr "Kategória választása a mentett listáról"
+
+#: data/glade/gthumb_search.glade.h:13
+msgid "Equal to"
+msgstr "Pontosan"
+
+#: data/glade/gthumb_search.glade.h:14
+msgid "File _name:"
+msgstr "Fájl_név:"
+
+#: data/glade/gthumb_search.glade.h:15
+msgid "Find"
+msgstr "Keresés"
+
+#: data/glade/gthumb_search.glade.h:16
+msgid "Found images:"
+msgstr "Talált képek:"
+
+#: data/glade/gthumb_search.glade.h:17
+msgid "Match a_ll selected categories"
+msgstr "Legyen benne _mindegyik kijelölt kategóriában"
+
+#: data/glade/gthumb_search.glade.h:18
+msgid "Match a_ny selected category"
+msgstr "Legyen benne _bármelyik kijelölt kategóriában"
+
+#: data/glade/gthumb_search.glade.h:19
+msgid "New _Search..."
+msgstr "Új _keresés..."
+
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:663
+#: src/dlg-photo-importer.c:1213
+msgid "No images found"
+msgstr "Egy kép sincs"
+
+#: data/glade/gthumb_search.glade.h:21
+msgid "Search Progress"
+msgstr "Keresés folyamata"
+
+#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:40
+msgid "Searching in:"
+msgstr "Keresés itt:"
+
+#: data/glade/gthumb_search.glade.h:25 data/gthumb-ui.xml.h:208
+msgid "_Edit Search"
+msgstr "_Keresés szerkesztése"
+
+#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:43
+msgid "_Include sub-folders"
+msgstr "_Almappákban is"
+
+#: data/glade/gthumb_search.glade.h:28
+msgid "_Save"
+msgstr "M_entés"
+
+#: data/glade/gthumb_search.glade.h:29
+msgid "_Search"
+msgstr "_Keresés"
+
+#: data/glade/gthumb_tools.glade.h:4
+msgid "<b>Comments</b>"
+msgstr "<b>Megjegyzések</b>"
+
+#: data/glade/gthumb_tools.glade.h:5
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Bélyegképek</b>"
+
+#: data/glade/gthumb_tools.glade.h:6
+msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+msgstr "<small><i><b>Megjegyzés:</b> a JPEG-átalakítások veszteségmentesek.</i></small>"
+
+#: data/glade/gthumb_tools.glade.h:8
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
+"%d (image date), %s (image size).</i></small>"
+msgstr ""
+"<small><i><b>Speciális karakterek:</b> # (sorszám), %f (eredeti fájlnév), "
+"%d (kép dátuma), %s (kép mérete).</i></small>"
+
+#: data/glade/gthumb_tools.glade.h:9
+msgid "Apply to _all images"
+msgstr "Alkalmazás az ö_sszes képre"
+
+#: data/glade/gthumb_tools.glade.h:10
+msgid "Backup Comments"
+msgstr "Megjegyzések biztonsági mentése"
+
+#: data/glade/gthumb_tools.glade.h:11
+msgid "C_urrent date"
+msgstr "Jelenlegi _dátum"
+
+#: data/glade/gthumb_tools.glade.h:12
+msgid "Change Date"
+msgstr "Változás dátuma"
+
+#: data/glade/gthumb_tools.glade.h:13
+msgid "Change the last modified date to:"
+msgstr "Az utolsó módosítás dátumát erre változtatja:"
+
+#: data/glade/gthumb_tools.glade.h:14
+msgid "Check _All"
+msgstr "_Mindet bejelöli"
+
+#: data/glade/gthumb_tools.glade.h:15
+msgid "Check _None"
+msgstr "_Egyiket sem jelöli be"
+
+#: data/glade/gthumb_tools.glade.h:16
+msgid "Checking image:"
+msgstr "Ellenőrzött kép:"
+
+#: data/glade/gthumb_tools.glade.h:17
+msgid "Delete ALL Comments"
+msgstr "Az összes megjegyzés törlése"
+
+#: data/glade/gthumb_tools.glade.h:18
+msgid "Delete ALL Thumbnails"
+msgstr "Az összes bélyegkép törlése"
+
+#: data/glade/gthumb_tools.glade.h:19
+msgid "Delete Old Comments"
+msgstr "Régi megjegyzések törlése"
+
+#: data/glade/gthumb_tools.glade.h:20
+msgid "Delete Old Thumbnails"
+msgstr "Régi bélyegképek törlése"
+
+#: data/glade/gthumb_tools.glade.h:21
+msgid "Delete comments of no more existing images"
+msgstr "A már nem létező képekhez tartozó megjegyzések törlése"
+
+#: data/glade/gthumb_tools.glade.h:22
+msgid "Delete thumbnails of no more existing images"
+msgstr "A már nem létező képekhez tartozó bélyegképek törlése"
+
+#: data/glade/gthumb_tools.glade.h:23
+msgid "Equal images:"
+msgstr "Azonos képek:"
+
+#: data/glade/gthumb_tools.glade.h:24
+msgid "Find Duplicates"
+msgstr "Azonosak keresése"
+
+#: data/glade/gthumb_tools.glade.h:25
+msgid "Found duplicates:"
+msgstr "Talált azonos képek:"
+
+#: data/glade/gthumb_tools.glade.h:26
+msgid "Image c_reation date"
+msgstr "Kép _létrehozásának ideje"
+
+#: data/glade/gthumb_tools.glade.h:27
+msgid "Maintenance"
+msgstr "Karbantartás"
+
+#: data/glade/gthumb_tools.glade.h:28
+msgid "Mirror image horizontally (left-right)"
+msgstr "A kép vízszintes irányú tükrözése (bal-jobb)"
+
+#: data/glade/gthumb_tools.glade.h:29
+msgid "Mirror image vertically (top-bottom)"
+msgstr "A kép függőleges irányú tükrözése (fent-lent)"
+
+#: data/glade/gthumb_tools.glade.h:30 data/gthumb-ui.xml.h:80
+msgid "Move to _Trash"
+msgstr "Áthelyezés a _Kukába"
+
+#: data/glade/gthumb_tools.glade.h:31
+msgid "New names _preview:"
+msgstr "Új nevek _előnézete:"
+
+#: data/glade/gthumb_tools.glade.h:32
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "A _fénykép digitalizálásának dátuma (az EXIF-adatokból)"
+
+#: data/glade/gthumb_tools.glade.h:33
+msgid "Re_verse Order"
+msgstr "Fo_rdított sorrend"
+
+#: data/glade/gthumb_tools.glade.h:34
+msgid "Rename Series"
+msgstr "Sorozat átnevezése"
+
+#: data/glade/gthumb_tools.glade.h:35
+msgid "Restore Comments From a Backup File"
+msgstr "Megjegyzés helyreállítása a biztonsági mentésből"
+
+#: data/glade/gthumb_tools.glade.h:36
+msgid "Rotate Images"
+msgstr "Képek elforgatása"
+
+#: data/glade/gthumb_tools.glade.h:37
+msgid "Rotate image 90 degrees clockwise"
+msgstr "A kép elforgatása 90 fokkal jobbra"
+
+#: data/glade/gthumb_tools.glade.h:38
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "A kép elforgatása 90 fokkal balra"
+
+#: data/glade/gthumb_tools.glade.h:39
+msgid "Search terminated, no duplicates found."
+msgstr "A keresés befejeződött, nincsenek duplikátumok."
+
+#: data/glade/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "A _következő dátum:"
+
+#: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
+#: src/commands-impl.c:278 src/commands-impl.c:1052 src/commands-impl.c:1752
+msgid "_Rename"
+msgstr "Á_tnevezés"
+
+#: data/glade/gthumb_tools.glade.h:46
+msgid "_Sort:"
+msgstr "_Rendezés:"
+
+#: data/glade/gthumb_tools.glade.h:49
+msgid "by Modification date"
+msgstr "Módosítás dátuma szerint"
+
+#: data/glade/gthumb_tools.glade.h:50
+msgid "by Name"
+msgstr "Név szerint"
+
+#: data/glade/gthumb_tools.glade.h:51
+msgid "by Size"
+msgstr "Méret szerint"
+
+#: data/glade/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 × 768"
+
+#: data/glade/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 × 960"
+
+#: data/glade/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 × 200"
+
+#: data/glade/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 × 480"
+
+#: data/glade/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 × 600"
+
+#: data/glade/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Indexkép elrendezése</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Téma személyre szabása</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Fényképadatok</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Téma</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:17
+#, no-c-format
+msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
+msgstr "<small><i><b>Megjegyzés:</b> %d (mai dátum).</i></small>"
+
+#: data/glade/gthumb_web_exporter.glade.h:18
+msgid "Came_ra Model"
+msgstr "Fé_nyképezőgép"
+
+#: data/glade/gthumb_web_exporter.glade.h:19
+msgid "Caption"
+msgstr "Cím"
+
+#: data/glade/gthumb_web_exporter.glade.h:21
+msgid "Destination"
+msgstr "Célhely"
+
+#: data/glade/gthumb_web_exporter.glade.h:22
+msgid "Destinations"
+msgstr "Célhelyek"
+
+#: data/glade/gthumb_web_exporter.glade.h:23
+msgid "E_xposure mode"
+msgstr "E_xpozíció módja"
+
+#: data/glade/gthumb_web_exporter.glade.h:24
+msgid "Exposure _time"
+msgstr "Expozíciós _idő"
+
+#: data/glade/gthumb_web_exporter.glade.h:25
+msgid "FTP"
+msgstr "FTP"
+
+#: data/glade/gthumb_web_exporter.glade.h:29
+msgid "Focal _length"
+msgstr "Fókusz_távolság"
+
+#: data/glade/gthumb_web_exporter.glade.h:31
+msgid "I_mage Caption..."
+msgstr "Kép_aláírás..."
+
+#: data/glade/gthumb_web_exporter.glade.h:33
+msgid "Inde_x file:"
+msgstr "_Indexfájl:"
+
+#: data/glade/gthumb_web_exporter.glade.h:34
+msgid "Local Folder"
+msgstr "Helyi mappa"
+
+#: data/glade/gthumb_web_exporter.glade.h:36
+msgid "Resi_ze if larger than:"
+msgstr "Át_méretezés, ha nagyobb mint:"
+
+#: data/glade/gthumb_web_exporter.glade.h:37
+msgid "SSH"
+msgstr "SSH"
+
+#: data/glade/gthumb_web_exporter.glade.h:38
+msgid "Saved _Destinations:"
+msgstr "Mentett _célhelyek:"
+
+#: data/glade/gthumb_web_exporter.glade.h:39
+msgid "Si_ze :"
+msgstr "Mé_ret:"
+
+#: data/glade/gthumb_web_exporter.glade.h:41
+msgid "Th_eme:"
+msgstr "_Téma:"
+
+#: data/glade/gthumb_web_exporter.glade.h:42
+msgid "Web Album"
+msgstr "Webalbum"
+
+#: data/glade/gthumb_web_exporter.glade.h:43
+msgid "Web Album Theme"
+msgstr "Webalbumtéma"
+
+#: data/glade/gthumb_web_exporter.glade.h:44
+msgid "_Aperture value"
+msgstr "_Apertúraérték"
+
+#: data/glade/gthumb_web_exporter.glade.h:45
+msgid "_Copy originals to destination"
+msgstr "Eredeti képek _másolása a célba"
+
+#: data/glade/gthumb_web_exporter.glade.h:46
+msgid "_Date and Time"
+msgstr "_Dátum és idő:"
+
+#: data/glade/gthumb_web_exporter.glade.h:48 data/gthumb-ui.xml.h:206
+msgid "_Edit"
+msgstr "S_zerkesztés"
+
+#: data/glade/gthumb_web_exporter.glade.h:49
+msgid "_Flash"
+msgstr "_Vaku"
+
+#: data/glade/gthumb_web_exporter.glade.h:50
+msgid "_Go to Theme Folder"
+msgstr "_Ugrás a témák mappájára"
+
+#: data/glade/gthumb_web_exporter.glade.h:51
+msgid "_Host:"
+msgstr "_Gép:"
+
+#: data/glade/gthumb_web_exporter.glade.h:52
+msgid "_Install Theme..."
+msgstr "_Téma telepítése"
+
+#: data/glade/gthumb_web_exporter.glade.h:53
+msgid "_Password:"
+msgstr "_Jelszó:"
+
+#: data/glade/gthumb_web_exporter.glade.h:54
+msgid "_Path:"
+msgstr "Ú_tvonal:"
+
+#: data/glade/gthumb_web_exporter.glade.h:56
+msgid "_Select"
+msgstr "_Kijelölés"
+
+#: data/glade/gthumb_web_exporter.glade.h:57
+msgid "_Shutter speed"
+msgstr "_Zársebesség"
+
+#: data/glade/gthumb_web_exporter.glade.h:58
+msgid "_Thumbnail Caption..."
+msgstr "_Bélyegkép felirata..."
+
+#: data/glade/gthumb_web_exporter.glade.h:59
+msgid "_Type:"
+msgstr "_Típus:"
+
+#: data/glade/gthumb_web_exporter.glade.h:60
+msgid "_User:"
+msgstr "_Felhasználó:"
+
+#: data/glade/gthumb_web_exporter.glade.h:61
+msgid "by modified time"
+msgstr "a módosítás dátuma szerint"
+
+#: data/glade/gthumb_web_exporter.glade.h:65
+msgid "columns"
+msgstr "oszlop"
+
+#: data/glade/gthumb_web_exporter.glade.h:66
+msgid "index.html"
+msgstr "index.html"
+
+#: data/glade/gthumb_web_exporter.glade.h:67
+msgid "rows"
+msgstr "sor"
+
+#: data/gthumb-ui.xml.h:1
+msgid "1:1"
+msgstr "1:1"
+
+#: data/gthumb-ui.xml.h:2
+msgid "Actual size"
+msgstr "Tényleges méret"
+
+#: data/gthumb-ui.xml.h:3
+msgid "Add a comment to selected images"
+msgstr "Megjegyzés hozzáadása a kijelölt képekhez"
+
+#: data/gthumb-ui.xml.h:4
+msgid "Add a comment to the image"
+msgstr "Megjegyzés hozzáadása a képhez"
+
+#: data/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "Az aktuális hely hozzáadása a könyvjelzőkhöz"
+
+#: data/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "A kijelölt képek hozzáadása a katalógushoz"
+
+#: data/gthumb-ui.xml.h:7
+msgid "Adjust brightness and contrast"
+msgstr "A fényerő és kontraszt beállítása"
+
+#: data/gthumb-ui.xml.h:8
+msgid "Adjust color balance"
+msgstr "A színegyensúly beállítása"
+
+#: data/gthumb-ui.xml.h:9
+msgid "Adjust hue and saturation"
+msgstr "A színezet és telítettség beállítása"
+
+#: data/gthumb-ui.xml.h:10
+msgid "Apply threshold"
+msgstr "Küszöb alkalmazása"
+
+#: data/gthumb-ui.xml.h:11
+msgid "Assign categories to selected images"
+msgstr "Kategóriák hozzárendelése a kijelölt képekhez"
+
+#: data/gthumb-ui.xml.h:12
+msgid "Assign categories to the current folder"
+msgstr "Kategóriák hozzárendelése az aktuális mappához"
+
+#: data/gthumb-ui.xml.h:13
+msgid "Assign categories to the image"
+msgstr "Kategóriák hozzárendelése a képhez"
+
+#: data/gthumb-ui.xml.h:14
+msgid "Assign categories to the selected folder"
+msgstr "Kategóriák hozzárendelése a kijelölt mappához"
+
+#: data/gthumb-ui.xml.h:15
+msgid "Auto"
+msgstr "Automatikus"
+
+#: data/gthumb-ui.xml.h:16
+msgid "Automatically adjust the color levels"
+msgstr "Színszintek automatikus beállítása"
+
+#: data/gthumb-ui.xml.h:17
+msgid "Automatically equalize the image histogram"
+msgstr "Kép hisztogramjának automatikus kiegyenlítése"
+
+#: data/gthumb-ui.xml.h:18
+msgid "Automatically normalize the contrast"
+msgstr "Kontraszt automatikus normalizálása"
+
+#: data/gthumb-ui.xml.h:19
+msgid "Automatically stretch the contrast"
+msgstr "Kontraszt automatikus kifeszítése"
+
+#: data/gthumb-ui.xml.h:20
+msgid "Ca_talog"
+msgstr "Ka_talógus"
+
+#: data/gthumb-ui.xml.h:21
+msgid "Ca_tegories"
+msgstr "Ka_tegóriák"
+
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4248
+msgid "Catalogs"
+msgstr "Katalógusok"
+
+#: data/gthumb-ui.xml.h:24
+msgid "Change _Date"
+msgstr "_Dátum megváltoztatása"
+
+#: data/gthumb-ui.xml.h:25
+msgid "Change images last modified date"
+msgstr "A képek módosítási dátumának megváltoztatása"
+
+#: data/gthumb-ui.xml.h:26
+msgid "Close all windows and exit"
+msgstr "Az összes ablak bezárása és kilépés"
+
+#: data/gthumb-ui.xml.h:27
+msgid "Close this window"
+msgstr "Az aktuális ablak bezárása"
+
+#: data/gthumb-ui.xml.h:30
+msgid "Convert"
+msgstr "Átalakítás"
+
+#: data/gthumb-ui.xml.h:31
+msgid "Convert F_ormat"
+msgstr "Á_talakítás más formátumba"
+
+#: data/gthumb-ui.xml.h:32
+msgid "Convert image format"
+msgstr "A kép átalakítása más képformátumba"
+
+#: data/gthumb-ui.xml.h:33
+msgid "Copy current folder"
+msgstr "Az aktuális mappa másolása"
+
+#: data/gthumb-ui.xml.h:34
+msgid "Copy selected folder"
+msgstr "A kijelölt mappa másolása"
+
+#: data/gthumb-ui.xml.h:35
+msgid "Copy selected images to another location"
+msgstr "A kijelölt képek másolása máshová"
+
+#: data/gthumb-ui.xml.h:36
+msgid "Copy this image to another location"
+msgstr "A kép másolása máshová"
+
+#: data/gthumb-ui.xml.h:37
+msgid "Create _Index Image"
+msgstr "_Indexkép létrehozása"
+
+#: data/gthumb-ui.xml.h:38
+msgid "Create _Web Album"
+msgstr "_Webalbum létrehozása"
+
+#: data/gthumb-ui.xml.h:39
+msgid "Create a new catalog"
+msgstr "Új katalógus létrehozása"
+
+#: data/gthumb-ui.xml.h:40
+msgid "Create a new catalog library"
+msgstr "Új katalóguskönyvtár létrehozása"
+
+#: data/gthumb-ui.xml.h:41
+msgid "Create a new folder"
+msgstr "Új mappa létrehozása"
+
+#: data/gthumb-ui.xml.h:42
+msgid "Create a new window"
+msgstr "Új ablak létrehozása"
+
+#: data/gthumb-ui.xml.h:43
+msgid "Crop image"
+msgstr "Képkivágás"
+
+#: data/gthumb-ui.xml.h:44
+msgid "D_uplicate"
+msgstr "Ke_ttőzés"
+
+#: data/gthumb-ui.xml.h:45
+msgid "Delete the list of visited locations"
+msgstr "A meglátogatott helyek listájának törlése"
+
+#: data/gthumb-ui.xml.h:46
+msgid "Duplicate selected image"
+msgstr "A kijelölt kép megkettőzése"
+
+#: data/gthumb-ui.xml.h:47
+msgid "Duplicate this image"
+msgstr "A kép megkettőzése"
+
+#: data/gthumb-ui.xml.h:48
+msgid "E_xit"
+msgstr "_Kilépés"
+
+#: data/gthumb-ui.xml.h:49
+msgid "Edit Search"
+msgstr "Keresés szerkesztése"
+
+#: data/gthumb-ui.xml.h:50
+msgid "Edit bookmarks"
+msgstr "Könyvjelzők szerkesztése"
+
+#: data/gthumb-ui.xml.h:51
+msgid "Edit various preferences"
+msgstr "Különféle beállítások megváltoztatása"
+
+#: data/gthumb-ui.xml.h:52
+msgid "Fi_nd Duplicates..."
+msgstr "_Azonosak keresése..."
+
+#: data/gthumb-ui.xml.h:53
+msgid "Find images"
+msgstr "Képek keresése"
+
+#: data/gthumb-ui.xml.h:54
+msgid "Fit"
+msgstr "Ablakhoz"
+
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4198
+msgid "Folders"
+msgstr "Mappák"
+
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
+msgid "Forward"
+msgstr "Előre"
+
+#: data/gthumb-ui.xml.h:57
+msgid "Full Screen"
+msgstr "Teljes képernyő"
+
+#: data/gthumb-ui.xml.h:58
+msgid "Go to the folder that contains the selected image"
+msgstr "Ugrás arra a mappába, amely a kijelölt képet tartalmazza"
+
+#: data/gthumb-ui.xml.h:59
+msgid "Go to the home folder"
+msgstr "Ugrás a kezdőmappába"
+
+#: data/gthumb-ui.xml.h:60
+msgid "Go to the next visited location"
+msgstr "Ugrás a következő meglátogatott helyre"
+
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4166
+msgid "Go to the previous visited location"
+msgstr "Ugrás az előző meglátogatott helyre"
+
+#: data/gthumb-ui.xml.h:62
+msgid "Go up one level"
+msgstr "Ugrás egy szinttel feljebb"
+
+#: data/gthumb-ui.xml.h:63
+msgid "Home"
+msgstr "Saját mappa"
+
+#: data/gthumb-ui.xml.h:64
+msgid "Image Toolbar"
+msgstr "Kép eszköztár"
+
+#: data/gthumb-ui.xml.h:65
+msgid "Image _Comment"
+msgstr "_Megjegyzés a képhez"
+
+#: data/gthumb-ui.xml.h:66
+msgid "Import photos from a digital camera"
+msgstr "Fényképek importálása digitális fényképezőgépből"
+
+#: data/gthumb-ui.xml.h:67
+msgid "In"
+msgstr "Nagyítás"
+
+#: data/gthumb-ui.xml.h:68
+msgid "Main Toolbar"
+msgstr "Fő eszköztár"
+
+#: data/gthumb-ui.xml.h:69
+msgid "Modify search criteria"
+msgstr "Keresési feltétel módosítása"
+
+#: data/gthumb-ui.xml.h:70
+msgid "Move current catalog to another location"
+msgstr "Az aktuális katalógus áthelyezése máshová"
+
+#: data/gthumb-ui.xml.h:71
+msgid "Move current folder"
+msgstr "Az aktuális mappa áthelyezése"
+
+#: data/gthumb-ui.xml.h:72
+msgid "Move selected catalog to another location"
+msgstr "A kijelölt katalógus áthelyezése máshová"
+
+#: data/gthumb-ui.xml.h:73
+msgid "Move selected folder"
+msgstr "A kijelölt mappa áthelyezése"
+
+#: data/gthumb-ui.xml.h:74
+msgid "Move selected images to another location"
+msgstr "A kijelölt képek áthelyezése máshová"
+
+#: data/gthumb-ui.xml.h:75
+msgid "Move the current folder to the Trash"
+msgstr "Az aktuális mappa áthelyezése a Kukába"
+
+#: data/gthumb-ui.xml.h:76
+msgid "Move the selected folder to the Trash"
+msgstr "A kijelölt mappa áthelyezése a Kukába"
+
+#: data/gthumb-ui.xml.h:77
+msgid "Move the selected images to the Trash"
+msgstr "A kijelölt kép áthelyezése a Kukába"
+
+#: data/gthumb-ui.xml.h:78
+msgid "Move this image to another location"
+msgstr "A kép áthelyezése máshová"
+
+#: data/gthumb-ui.xml.h:79
+msgid "Move this image to the Trash"
+msgstr "A kép áthelyezése a Kukába"
+
+#: data/gthumb-ui.xml.h:81
+msgid "New _Library..."
+msgstr "Új _könyvtár..."
+
+#: data/gthumb-ui.xml.h:82
+msgid "New _Window"
+msgstr "Új _ablak"
+
+#: data/gthumb-ui.xml.h:83
+msgid "Next"
+msgstr "Következő"
+
+#: data/gthumb-ui.xml.h:84
+msgid "Open"
+msgstr "Megnyitás"
+
+#: data/gthumb-ui.xml.h:85
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Az aktuális mappa megnyitása a Nautilus fájlkezelőben"
+
+#: data/gthumb-ui.xml.h:86
+msgid "Open in New Window"
+msgstr "Megnyitás új ablakban"
+
+#: data/gthumb-ui.xml.h:87
+msgid "Open selected images with an application"
+msgstr "A kijelölt képek megnyitása egy alkalmazással"
+
+#: data/gthumb-ui.xml.h:88
+msgid "Open the selected folder"
+msgstr "A kijelölt mappa megnyitása"
+
+#: data/gthumb-ui.xml.h:89
+msgid "Open the selected folder in a new window"
+msgstr "A kijelölt mappa megnyitása új ablakban"
+
+#: data/gthumb-ui.xml.h:90
+msgid ""
+"Open the selected folder with the Nautilus file\n"
+"\t     manager"
+msgstr "Az kijelölt mappa megnyitása a Nautilus fájlkezelőben"
+
+#: data/gthumb-ui.xml.h:92
+msgid "Open this image with an application"
+msgstr "A kép megnyitása egy alkalmazással"
+
+#: data/gthumb-ui.xml.h:93
+msgid "Open with the File Manager"
+msgstr "Megnyitás a fájlkezelővel"
+
+#: data/gthumb-ui.xml.h:94
+msgid "Open with the _File Manager"
+msgstr "Megnyitás a _fájlkezelővel"
+
+#: data/gthumb-ui.xml.h:95
+msgid "Out"
+msgstr "Kicsinyítés"
+
+#: data/gthumb-ui.xml.h:96
+msgid "Play _Animation"
+msgstr "_Animáció lejátszása"
+
+#: data/gthumb-ui.xml.h:97
+msgid "Previous"
+msgstr "Előző"
+
+#: data/gthumb-ui.xml.h:100
+msgid "Proper_ties"
+msgstr "_Tulajdonságok"
+
+#: data/gthumb-ui.xml.h:101
+msgid "Redo Search"
+msgstr "Keresés megismétlése"
+
+#: data/gthumb-ui.xml.h:102
+msgid "Redo _Search"
+msgstr "_Keresés megismétlése"
+
+#: data/gthumb-ui.xml.h:103
+msgid "Redo the search"
+msgstr "A keresés megismétlése"
+
+#: data/gthumb-ui.xml.h:104
+msgid "Reduce number of colors"
+msgstr "Színek számának csökkentése"
+
+#: data/gthumb-ui.xml.h:105
+msgid "Reduce the number of colors"
+msgstr "A színek számának csökkentése"
+
+#: data/gthumb-ui.xml.h:106
+msgid "Reload the current location"
+msgstr "Az aktuális hely újrabetöltése"
+
+#: data/gthumb-ui.xml.h:107
+msgid "Rem_ove"
+msgstr "_Eltávolítás"
+
+#: data/gthumb-ui.xml.h:108
+msgid "Rem_ove Comment"
+msgstr "M_egjegyzés eltávolítása"
+
+#: data/gthumb-ui.xml.h:109
+msgid "Remo_ve from Catalog"
+msgstr "El_távolítás a katalógusból"
+
+#: data/gthumb-ui.xml.h:110
+msgid "Remove comments of selected images"
+msgstr "A kijelölt képek megjegyzéseinek törlése"
+
+#: data/gthumb-ui.xml.h:111
+msgid "Remove current catalog"
+msgstr "Az aktuális katalógus eltávolítása"
+
+#: data/gthumb-ui.xml.h:112
+msgid "Remove selected catalog"
+msgstr "A kijelölt katalógus eltávolítása"
+
+#: data/gthumb-ui.xml.h:113
+msgid "Remove selected images from the catalog"
+msgstr "A kijelölt képek eltávolítása a katalógusból"
+
+#: data/gthumb-ui.xml.h:114
+msgid "Remove the comment"
+msgstr "A megjegyzés eltávolítása"
+
+#: data/gthumb-ui.xml.h:115
+msgid "Rename current catalog"
+msgstr "Az aktuális archívum átnevezése"
+
+#: data/gthumb-ui.xml.h:116
+msgid "Rename current folder"
+msgstr "Az aktuális mappa átnevezése"
+
+#: data/gthumb-ui.xml.h:117
+msgid "Rename selected catalog"
+msgstr "A kijelölt katalógus átnevezése"
+
+#: data/gthumb-ui.xml.h:118
+msgid "Rename selected folder"
+msgstr "A kijelölt mappa átnevezése"
+
+#: data/gthumb-ui.xml.h:119
+msgid "Rename selected image"
+msgstr "A kijelölt kép átnevezése"
+
+#: data/gthumb-ui.xml.h:120
+msgid "Rename this image"
+msgstr "A kép átnevezése"
+
+#: data/gthumb-ui.xml.h:121
+msgid "Resize image"
+msgstr "Kép átméretezése"
+
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
+msgid "Restore Normal View"
+msgstr "Normál nézet visszaállítása"
+
+#: data/gthumb-ui.xml.h:123
+msgid "Restore the original desktop wallpaper"
+msgstr "Az eredeti munkaasztal-háttérkép visszaállítása"
+
+#: data/gthumb-ui.xml.h:124
+msgid "Reverse images order"
+msgstr "A képsorrend megfordítása"
+
+#: data/gthumb-ui.xml.h:125
+msgid "Revert"
+msgstr "Visszaállítás"
+
+#: data/gthumb-ui.xml.h:126
+msgid "Revert to saved image"
+msgstr "A mentett kép visszaállítása"
+
+#: data/gthumb-ui.xml.h:127
+msgid "Ro_tate Images"
+msgstr "Képek el_forgatása"
+
+#: data/gthumb-ui.xml.h:129
+msgid "Rotate Ri_ght"
+msgstr "Forgatás j_obbra"
+
+#: data/gthumb-ui.xml.h:130
+msgid "Rotate _Left"
+msgstr "Forgatás _balra"
+
+#: data/gthumb-ui.xml.h:131
+msgid "Rotate image"
+msgstr "Kép elforgatása"
+
+#: data/gthumb-ui.xml.h:132
+msgid "Rotate images without loss of quality"
+msgstr "Képek elforgatása minőségvesztés nélkül"
+
+#: data/gthumb-ui.xml.h:133
+msgid "S_ort Images"
+msgstr "_Képek rendezése"
+
+#: data/gthumb-ui.xml.h:134
+msgid "Save"
+msgstr "Mentés"
+
+#: data/gthumb-ui.xml.h:137
+msgid "Search"
+msgstr "Keresés"
+
+#: data/gthumb-ui.xml.h:138
+msgid "Select all images"
+msgstr "Minden kép kijelölése"
+
+#: data/gthumb-ui.xml.h:139
+msgid "Set Image as _Wallpaper"
+msgstr "Kép beállítása _háttérképként"
+
+#: data/gthumb-ui.xml.h:140
+msgid "Set the image as desktop background (centered)"
+msgstr "A kép beállítása a munkaasztal háttereként (középre igazítva)"
+
+#: data/gthumb-ui.xml.h:141
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "A kép beállítása a munkaasztal háttereként (arányosan átméretezve)"
+
+#: data/gthumb-ui.xml.h:142
+msgid "Set the image as desktop background (stretched)"
+msgstr "A kép beállítása a munkaasztal háttereként (kifeszítve)"
+
+#: data/gthumb-ui.xml.h:143
+msgid "Set the image as desktop background (tiled)"
+msgstr "A kép beállítása a munkaasztal háttereként (mozaikszerűen)"
+
+#: data/gthumb-ui.xml.h:144
+msgid "Show information about gThumb"
+msgstr "A gThumb névjegyének megjelenítése"
+
+#: data/gthumb-ui.xml.h:145
+msgid "Show/_Hide"
+msgstr "Megjelenítés/_Elrejtés"
+
+#: data/gthumb-ui.xml.h:147
+msgid "Sort images by file size"
+msgstr "A képek rendezése fájlméret szerint"
+
+#: data/gthumb-ui.xml.h:148
+msgid "Sort images by modification time"
+msgstr "A képek rendezése a módosítás ideje szerint"
+
+#: data/gthumb-ui.xml.h:149
+msgid "Sort images by name"
+msgstr "A képek rendezése név szerint"
+
+#: data/gthumb-ui.xml.h:150
+msgid "Sort images by path"
+msgstr "A képek rendezése útvonal szerint"
+
+#: data/gthumb-ui.xml.h:151
+msgid "Specify a location to visit"
+msgstr "Meglátogatandó hely megadása"
+
+#: data/gthumb-ui.xml.h:153
+msgid "Step A_nimation"
+msgstr "A_nimáció léptetése"
+
+#: data/gthumb-ui.xml.h:154
+msgid "Stop loading current location"
+msgstr "A hely betöltésének leállítása"
+
+#: data/gthumb-ui.xml.h:155
+msgid "Str_etched"
+msgstr "_Kifeszített"
+
+#: data/gthumb-ui.xml.h:156
+msgid "Up"
+msgstr "Fel"
+
+#: data/gthumb-ui.xml.h:157
+msgid "Use black as transparency"
+msgstr "A fekete szín használata az átlátszóság jelölésére"
+
+#: data/gthumb-ui.xml.h:158
+msgid "Use checks as transparency"
+msgstr "Sakktáblaminta használata az átlátszóság jelölésére"
+
+#: data/gthumb-ui.xml.h:159
+msgid "Use gray as transparency"
+msgstr "A szürke szín használata az átlátszóság jelölésére"
+
+#: data/gthumb-ui.xml.h:160
+msgid "Use high quality zoom"
+msgstr "Jó minőségű nagyítás használata"
+
+#: data/gthumb-ui.xml.h:161
+msgid "Use low quality zoom"
+msgstr "Alacsony minőségű nagyítás használata"
+
+#: data/gthumb-ui.xml.h:162
+msgid "Use white as transparency"
+msgstr "A fehér szín használata az átlátszóság jelölésére"
+
+#: data/gthumb-ui.xml.h:163
+msgid "View as a slide show"
+msgstr "Megjelenítés diavetítésként"
+
+#: data/gthumb-ui.xml.h:164
+msgid "View image comment"
+msgstr "Kép megjegyzésének megtekintése"
+
+#: data/gthumb-ui.xml.h:165
+msgid "View image in fullscreen mode"
+msgstr "A kép megjelenítése teljes képernyős üzemmódban"
+
+#: data/gthumb-ui.xml.h:166
+msgid "View image properties"
+msgstr "A kép tulajdonságainak megtekintése"
+
+#: data/gthumb-ui.xml.h:168
+msgid "View next image"
+msgstr "A következő kép megtekintése"
+
+#: data/gthumb-ui.xml.h:169
+msgid "View or hide the statusbar of this window"
+msgstr "Az ablak állapotsorának megjelenítése vagy elrejtése"
+
+#: data/gthumb-ui.xml.h:170
+msgid "View or hide the toolbar of this window"
+msgstr "Az ablak eszköztárának megjelenítése vagy elrejtése"
+
+#: data/gthumb-ui.xml.h:171
+msgid "View previous image"
+msgstr "Az előző kép megtekintése"
+
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4254
+msgid "View the catalogs"
+msgstr "A katalógusok megtekintése"
+
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4204
+msgid "View the folders"
+msgstr "A mappák megtekintése"
+
+#: data/gthumb-ui.xml.h:174
+msgid "View the image"
+msgstr "A kép megtekintése"
+
+#: data/gthumb-ui.xml.h:175
+msgid "View the image flipped"
+msgstr "A kép fejreállított nézete"
+
+#: data/gthumb-ui.xml.h:176
+msgid "View the image in black and white"
+msgstr "A kép megtekintése fekete-fehérben"
+
+#: data/gthumb-ui.xml.h:177
+msgid "View the image mirrored"
+msgstr "A kép tükrözött nézete"
+
+#: data/gthumb-ui.xml.h:178
+msgid "View the image rotated clockwise"
+msgstr "A kép megtekintése balra elforgatva"
+
+#: data/gthumb-ui.xml.h:179
+msgid "View the image rotated counter-clockwise"
+msgstr "A kép megtekintése jobbra elforgatva"
+
+#: data/gthumb-ui.xml.h:180
+msgid "View the image with negative colors"
+msgstr "A kép negatívjának megjelenítése"
+
+#: data/gthumb-ui.xml.h:181
+msgid "View thumbnails"
+msgstr "Bélyegképek megjelenítése"
+
+#: data/gthumb-ui.xml.h:182
+msgid "Zoom _In"
+msgstr "_Nagyítás"
+
+#: data/gthumb-ui.xml.h:183
+msgid "Zoom _Out"
+msgstr "_Kicsinyítés"
+
+#: data/gthumb-ui.xml.h:184
+msgid "Zoom in"
+msgstr "Nagyítás"
+
+#: data/gthumb-ui.xml.h:185
+msgid "Zoom out"
+msgstr "Kicsinyítés"
+
+#: data/gthumb-ui.xml.h:186
+msgid "Zoom to _Fit"
+msgstr "Nagyítás az _ablakhoz"
+
+#: data/gthumb-ui.xml.h:187
+msgid "Zoom to fit window"
+msgstr "Nagyítás az ablak méretére"
+
+#: data/gthumb-ui.xml.h:188
+msgid "_About"
+msgstr "_Névjegy"
+
+#: data/gthumb-ui.xml.h:189
+msgid "_Actual Size"
+msgstr "_Tényleges méret"
+
+#: data/gthumb-ui.xml.h:190
+msgid "_Add Bookmark"
+msgstr "_Könyvjelző hozzáadása"
+
+#: data/gthumb-ui.xml.h:191
+msgid "_Add to Catalog..."
+msgstr "_Hozzáadás katalógushoz..."
+
+#: data/gthumb-ui.xml.h:192
+msgid "_Back"
+msgstr "_Vissza"
+
+#: data/gthumb-ui.xml.h:194
+msgid "_Bookmarks"
+msgstr "Köny_vjelzők"
+
+#: data/gthumb-ui.xml.h:195
+msgid "_Brightness-Contrast"
+msgstr "_Fényerő és kontraszt"
+
+#: data/gthumb-ui.xml.h:196
+msgid "_Catalogs"
+msgstr "_Katalógusok"
+
+#: data/gthumb-ui.xml.h:197
+msgid "_Centered"
+msgstr "_Középre igazított"
+
+#: data/gthumb-ui.xml.h:199
+msgid "_Close"
+msgstr "_Bezárás"
+
+#: data/gthumb-ui.xml.h:200
+msgid "_Color Balance"
+msgstr "_Színegyensúly"
+
+#: data/gthumb-ui.xml.h:201
+msgid "_Contents"
+msgstr "_Tartalom"
+
+#: data/gthumb-ui.xml.h:202
+msgid "_Copy..."
+msgstr "_Másolás..."
+
+#: data/gthumb-ui.xml.h:204
+msgid "_Delete History"
+msgstr "Előzmények _törlése"
+
+#: data/gthumb-ui.xml.h:205
+msgid "_Desaturate"
+msgstr "_Szürkítés"
+
+#: data/gthumb-ui.xml.h:207
+msgid "_Edit Bookmarks"
+msgstr "Köny_vjelzők szerkesztése"
+
+#: data/gthumb-ui.xml.h:209
+msgid "_Enhance"
+msgstr "_Javítás"
+
+#: data/gthumb-ui.xml.h:210
+msgid "_Equalize"
+msgstr "_Kiegyenlítés"
+
+#: data/gthumb-ui.xml.h:211
+msgid "_File"
+msgstr "_Fájl"
+
+#: data/gthumb-ui.xml.h:212
+msgid "_Find..."
+msgstr "_Keresés..."
+
+#: data/gthumb-ui.xml.h:214
+msgid "_Folder"
+msgstr "_Mappa"
+
+#: data/gthumb-ui.xml.h:215
+msgid "_Folders"
+msgstr "_Mappák"
+
+#: data/gthumb-ui.xml.h:216
+msgid "_Forward"
+msgstr "_Előre"
+
+#: data/gthumb-ui.xml.h:217
+msgid "_Full Screen"
+msgstr "_Teljes képernyő"
+
+#: data/gthumb-ui.xml.h:218
+msgid "_Go"
+msgstr "_Ugrás"
+
+#: data/gthumb-ui.xml.h:219
+msgid "_Go to the Image Folder"
+msgstr "_Ugrás a képek mappájához"
+
+#: data/gthumb-ui.xml.h:220
+msgid "_Help"
+msgstr "_Súgó"
+
+#: data/gthumb-ui.xml.h:221
+msgid "_High Quality"
+msgstr "_Jó minőség"
+
+#: data/gthumb-ui.xml.h:222
+msgid "_Home"
+msgstr "_Kezdőlap"
+
+#: data/gthumb-ui.xml.h:223
+msgid "_Hue-Saturation"
+msgstr "_Színezet és telítettség"
+
+#: data/gthumb-ui.xml.h:225
+msgid "_Image Preview"
+msgstr "_Előnézeti kép"
+
+#: data/gthumb-ui.xml.h:226
+msgid "_Import Photos..."
+msgstr "_Fényképek importálása..."
+
+#: data/gthumb-ui.xml.h:227
+msgid "_Keyboard Shortcuts"
+msgstr "_Gyorsbillentyűk"
+
+#: data/gthumb-ui.xml.h:228
+msgid "_Location..."
+msgstr "_Hely..."
+
+#: data/gthumb-ui.xml.h:229
+msgid "_Low Quality"
+msgstr "_Alacsony minőség"
+
+#: data/gthumb-ui.xml.h:230
+msgid "_Maintenance"
+msgstr "_Karbantartás"
+
+#: data/gthumb-ui.xml.h:232
+msgid "_Move..."
+msgstr "Á_thelyezés..."
+
+#: data/gthumb-ui.xml.h:233
+msgid "_Negative"
+msgstr "_Negatív"
+
+#: data/gthumb-ui.xml.h:234
+msgid "_New Catalog..."
+msgstr "Új _katalógus..."
+
+#: data/gthumb-ui.xml.h:235
+msgid "_New Folder..."
+msgstr "Új _mappa..."
+
+#: data/gthumb-ui.xml.h:237
+msgid "_Normalize"
+msgstr "_Normalizálás"
+
+#: data/gthumb-ui.xml.h:238
+msgid "_Open With"
+msgstr "_Megnyitás mással"
+
+#: data/gthumb-ui.xml.h:239
+msgid "_Posterize"
+msgstr "_Poszterizálás"
+
+#: data/gthumb-ui.xml.h:240
+msgid "_Preferences"
+msgstr "_Beállítások"
+
+#: data/gthumb-ui.xml.h:241
+msgid "_Print..."
+msgstr "_Nyomtatás..."
+
+#: data/gthumb-ui.xml.h:242
+msgid "_Reduce Colors"
+msgstr "_Színek számának csökkentése"
+
+#: data/gthumb-ui.xml.h:243
+msgid "_Reload"
+msgstr "_Frissítés"
+
+#: data/gthumb-ui.xml.h:245
+msgid "_Rename Series"
+msgstr "Sorozat át_nevezése"
+
+#: data/gthumb-ui.xml.h:246
+msgid "_Rename..."
+msgstr "Á_tnevezés..."
+
+#: data/gthumb-ui.xml.h:247
+msgid "_Resize"
+msgstr "Át_méretezés"
+
+#: data/gthumb-ui.xml.h:248
+msgid "_Restore"
+msgstr "_Helyreállítás"
+
+#: data/gthumb-ui.xml.h:249
+msgid "_Reversed Order"
+msgstr "_Fordított sorrend"
+
+#: data/gthumb-ui.xml.h:250
+msgid "_Revert"
+msgstr "_Visszaállítás"
+
+#: data/gthumb-ui.xml.h:251
+msgid "_Rotate"
+msgstr "_Elforgatás"
+
+#: data/gthumb-ui.xml.h:252
+msgid "_Scaled"
+msgstr "_Méretezett"
+
+#: data/gthumb-ui.xml.h:253
+msgid "_Select All"
+msgstr "_Mindet kijelöli"
+
+#: data/gthumb-ui.xml.h:254
+msgid "_Slide Show"
+msgstr "_Diavetítés"
+
+#: data/gthumb-ui.xml.h:255
+msgid "_Statusbar"
+msgstr "Á_llapotsor"
+
+#: data/gthumb-ui.xml.h:256
+msgid "_Stop"
+msgstr "_Leállítás"
+
+#: data/gthumb-ui.xml.h:257
+msgid "_Stretch Contrast"
+msgstr "K_ontraszt kifeszítése..."
+
+#: data/gthumb-ui.xml.h:258
+msgid "_Threshold"
+msgstr "_Küszöbszint"
+
+#: data/gthumb-ui.xml.h:260
+msgid "_Tiled"
+msgstr "_Mozaik"
+
+#: data/gthumb-ui.xml.h:261
+msgid "_Toolbar"
+msgstr "_Eszköztár"
+
+#: data/gthumb-ui.xml.h:262
+msgid "_Tools"
+msgstr "_Eszközök"
+
+#: data/gthumb-ui.xml.h:263
+msgid "_Transform"
+msgstr "Á_talakítás"
+
+#: data/gthumb-ui.xml.h:264
+msgid "_Up"
+msgstr "_Fel"
+
+#: data/gthumb-ui.xml.h:267
+msgid "_Zoom"
+msgstr "_Nagyítás"
+
+#: data/gthumb-ui.xml.h:268
+msgid "by _Name"
+msgstr "_Név szerint"
+
+#: data/gthumb-ui.xml.h:269
+msgid "by _Path"
+msgstr "Ú_tvonal szerint"
+
+#: data/gthumb-ui.xml.h:270
+msgid "by _Size"
+msgstr "_Méret szerint"
+
+#: data/gthumb-ui.xml.h:271
+msgid "by _Time"
+msgstr "_Idő szerint"
+
+#: data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
 msgstr "Képek megtekintése és rendszerezése"
 
-#: gthumb.desktop.in.h:2
+#: data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
 msgstr "gThumb képmegjelenítő"
+
+#: data/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 "
+"érték az jelenti, hogy minden képhez készüljön bélyegkép."
+
+#: data/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Lehetséges értékek: 1, 2, 3, 4."
+
+#: data/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger."
+
+#: data/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Lehetséges értékek: ascending, descending."
+
+#: data/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward, random."
+msgstr "Lehetséges értékek: forward, backward, random."
+
+#: data/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Lehetséges értékek: high, low."
+
+#: data/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Lehetséges értékek: image, data, comment."
+
+#: data/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Lehetséges értékek: jpeg, png, tga, tiff."
+
+#: data/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Lehetséges értékek: light, midtone, dark."
+
+#: data/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Lehetséges értékek: list, thumbnails."
+
+#: data/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Lehetséges értékek: mm, in."
+
+#: data/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Lehetséges értékek: name, path, size, time."
+
+#: data/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Lehetséges értékek: name, size, time."
+
+#: data/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Lehetséges értékek: nautilus, single, double."
+
+#: data/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Lehetséges értékek: none, deflate, jpeg."
+
+#: data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Lehetséges értékek: none, name, path, size, time."
+
+#: data/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: data/gthumb.schemas.in.h:18
+msgid ""
+"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+msgstr ""
+"Lehetséges értékek: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+
+#: data/gthumb.schemas.in.h:19
+msgid "Possible values are: pixels, percentage."
+msgstr "Lehetséges értékek: pixels, percentage."
+
+#: data/gthumb.schemas.in.h:20
+msgid "Possible values are: png, jpeg."
+msgstr "Lehetséges értékek: png, jpeg."
+
+#: data/gthumb.schemas.in.h:21
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Lehetséges értékek: skip, rename, ask, overwrite."
+
+#: data/gthumb.schemas.in.h:22
+msgid "Possible values are: small, medium, large."
+msgstr "Lehetséges értékek: small, medium, large."
+
+#: data/gthumb.schemas.in.h:23
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
+
+#: data/gthumb.schemas.in.h:24
+msgid "Possible values are: white, black, checked, none."
+msgstr "Lehetséges értékek: white, black, checked, none."
+
+#: data/gthumb.schemas.in.h:25
+msgid "Whether to always use a black background."
+msgstr "Mindig fekete legyen-e a háttér?"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
@@ -316,68 +3120,74 @@ msgstr "Nem sikerült megnyitni a(z) \"%s\" katalógust: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Nem sikerült menteni a(z) \"%s\" katalógust: %s"
 
-#: libgthumb/comments.c:399
+#: libgthumb/comments.c:392
 msgid "Deleting all comments, wait please..."
-msgstr "Az összes megjegyzés törlése folyamatban, várj..."
+msgstr "Az összes megjegyzés törlése folyamatban, várjon..."
 
-#: libgthumb/comments.c:401
+#: libgthumb/comments.c:394
 msgid "Deleting old comments, wait please..."
-msgstr "A régi megjegyzések törlése folyamatban, várj..."
+msgstr "A régi megjegyzések törlése folyamatban, várjon..."
 
-#: libgthumb/comments.c:760
+#: libgthumb/comments.c:756
 msgid "%d %B %Y"
-msgstr "%Y. %B %-d."
+msgstr "%Y. %B %e."
 
-#: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:388
+#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:402
 msgid "%d %B %Y, %H:%M"
-msgstr "%Y. %B %-d., %H.%M"
+msgstr "%Y. %B %e., %H.%M"
 
-#: libgthumb/comments.c:772
+#: libgthumb/comments.c:768
 msgid "(No Comment)"
 msgstr "(Nincs megjegyzés)"
 
-#: libgthumb/dlg-save-image.c:119 src/commands-impl.c:313
+#: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
+#: src/dlg-jpegtran.c:549
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Nincs megfelelő jogosultsága képek létrehozásához ebben a mappában: \"%s\""
+
+#: libgthumb/dlg-save-image.c:130 src/commands-impl.c:312
 #: src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "Már létezik \"%s\" nevű kép. Felülírod?"
+msgstr "Már létezik \"%s\" nevű kép. Felülírja?"
 
-#: libgthumb/dlg-save-image.c:175
+#: libgthumb/dlg-save-image.c:182
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "A képtípus nem támogatott: %s"
 
-#: libgthumb/dlg-save-image.c:193
+#: libgthumb/dlg-save-image.c:209
 msgid "Determine by extension"
 msgstr "Kiterjesztés alapján"
 
-#: libgthumb/dlg-save-image.c:228
+#: libgthumb/dlg-save-image.c:244
 msgid "Save Image"
 msgstr "Kép mentése"
 
-#: libgthumb/dlg-save-image.c:242
+#: libgthumb/dlg-save-image.c:258
 msgid "Image type:"
 msgstr "Képtípus:"
 
-#: libgthumb/gnome-print-font-dialog.c:114
+#: libgthumb/gnome-print-font-dialog.c:109
 msgid "_Insert a new preview phrase."
 msgstr "Új előnézeti szöveg _beillesztése."
 
-#: libgthumb/gnome-print-font-dialog.c:119
+#: libgthumb/gnome-print-font-dialog.c:114
 msgid "Modify preview phrase..."
 msgstr "Előnézeti szöveg módosítása..."
 
-#: libgthumb/gnome-print-font-dialog.c:173
+#: libgthumb/gnome-print-font-dialog.c:168
 msgid "Preview"
 msgstr "Előnézet"
 
-#: libgthumb/gnome-print-font-dialog.c:186
+#: libgthumb/gnome-print-font-dialog.c:181
 msgid "_Modify preview phrase..."
 msgstr "Előnézeti szöveg _módosítása..."
 
-#: libgthumb/gnome-print-font-dialog.c:244
+#: libgthumb/gnome-print-font-dialog.c:237
 msgid "Font Selection"
 msgstr "Betűkészlet kiválasztása"
 
@@ -445,274 +3255,268 @@ msgstr "Méret megjelenítése a betűkészlet-információs módban"
 msgid "Font"
 msgstr "Betűkészlet"
 
-#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
-#: src/gthumb_comments.glade.h:8
-msgid "Comment"
-msgstr "Megjegyzés"
-
-#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:623 src/gth-exif-data-viewer.c:464
+#: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:465
 msgid "Name"
 msgstr "Név"
 
-#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1506
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1546
 #, c-format
 msgid "Print %s"
 msgstr "%s nyomtatása"
 
-#: libgthumb/print-callbacks.c:928
+#: libgthumb/print-callbacks.c:942
 msgid "Print Image"
 msgstr "Kép nyomtatása"
 
-#: libgthumb/thumb-cache.c:483
-msgid "Deleting all thumbnails, wait please..."
-msgstr "Az összes bélyegkép törlése folyamatban, várj..."
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2029
+#, c-format
+msgid "Page %d of %d"
+msgstr "%d. / %d oldal"
 
-#: libgthumb/thumb-cache.c:485
-msgid "Deleting old thumbnails, wait please..."
-msgstr "A régi bélyegképek törlése folyamatban, várj..."
-
-#: src/bookmark-list.c:169 src/catalog-list.c:436 src/catalog-list.c:468
-#: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:294
-#: src/dlg-rename-series.c:298 src/gthumb-window.c:534
-#: src/gthumb-window.c:1278 src/gthumb-window.c:1285 src/gthumb-window.c:1293
-msgid "(Invalid Name)"
-msgstr "(Érvénytelen név)"
-
-#: src/catalog-png-exporter.c:1327
+#: libgthumb/print-callbacks.c:3032 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Kép betöltése: %s"
 
-#: src/catalog-png-exporter.c:1535
+#: libgthumb/thumb-cache.c:483
+msgid "Deleting all thumbnails, wait please..."
+msgstr "Az összes bélyegkép törlése folyamatban, várjon..."
+
+#: libgthumb/thumb-cache.c:485
+msgid "Deleting old thumbnails, wait please..."
+msgstr "A régi bélyegképek törlése folyamatban, várjon..."
+
+#: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:555
+#: src/gthumb-window.c:1294 src/gthumb-window.c:1301 src/gthumb-window.c:1309
+msgid "(Invalid Name)"
+msgstr "(Érvénytelen név)"
+
+#: src/catalog-png-exporter.c:1563
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Kép létrehozása: %s.%s"
 
-#: src/catalog-web-exporter.c:1518
+#: src/catalog-web-exporter.c:1516
 msgid "Saving thumbnails"
 msgstr "Bélyegképek mentése"
 
-#: src/catalog-web-exporter.c:1584
+#: src/catalog-web-exporter.c:1582
 msgid "Saving HTML pages: Images"
 msgstr "HTML-oldalak mentése: képek"
 
-#: src/catalog-web-exporter.c:1659
+#: src/catalog-web-exporter.c:1657
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML-oldalak mentése: mutatók"
 
-#: src/catalog-web-exporter.c:1782 src/catalog-web-exporter.c:1840
-#: src/catalog-web-exporter.c:1979
+#: src/catalog-web-exporter.c:1780 src/catalog-web-exporter.c:1839
+#: src/catalog-web-exporter.c:1974
 msgid "Saving images"
 msgstr "Képek mentése"
 
-#: src/catalog-web-exporter.c:2188
+#: src/catalog-web-exporter.c:2183
 msgid "Could not create a temporary folder"
 msgstr "Nem sikerült létrehozni az ideiglenes könyvtárat"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2225
+#: src/catalog-web-exporter.c:2216
 msgid "Loading images"
 msgstr "Képek betöltése"
 
-#: src/commands-impl.c:275 src/commands-impl.c:1011 src/commands-impl.c:1579
+#: src/commands-impl.c:274 src/commands-impl.c:1048 src/commands-impl.c:1748
 msgid "Enter the new name: "
-msgstr "Add meg az új nevet: "
+msgstr "Adja meg az új nevet: "
 
-#: src/commands-impl.c:279 src/commands-impl.c:1015 src/commands-impl.c:1583
-#: src/gthumb-ui.xml.h:234 src/gthumb_tools.glade.h:45
-msgid "_Rename"
-msgstr "Á_tnevezés"
-
-#: src/commands-impl.c:293 src/commands-impl.c:917 src/commands-impl.c:1029
-#: src/commands-impl.c:1599 src/commands-impl.c:1694
+#: src/commands-impl.c:292 src/commands-impl.c:954 src/commands-impl.c:1066
+#: src/commands-impl.c:1768 src/commands-impl.c:1863
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
 "A következő név (%s) nem érvényes, mert tartalmazza a \"/\" karaktert. "
-"Használj másik nevet."
+"Használjon másik nevet."
 
-#: src/commands-impl.c:320 src/dlg-convert.c:314
+#: src/commands-impl.c:319 src/dlg-convert.c:314
 msgid "_Overwrite"
 msgstr "_Felülírás"
 
-#: src/commands-impl.c:340 src/commands-impl.c:355
+#: src/commands-impl.c:339 src/commands-impl.c:354
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Nem sikerült átnevezni a(z) \"%s\" képet: %s"
 
-#: src/commands-impl.c:342 src/commands-impl.c:1051 src/commands-impl.c:1357
+#: src/commands-impl.c:341 src/commands-impl.c:1088 src/commands-impl.c:1407
 msgid "source and destination are the same"
 msgstr "a forrás és a cél megegyezik"
 
-#: src/commands-impl.c:446
+#: src/commands-impl.c:455
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Nem sikerült megkettőzni a(z) \"%s\" képet: %s"
 
-#: src/commands-impl.c:454
+#: src/commands-impl.c:463
 msgid "Stop"
 msgstr "Leállítás"
 
-#: src/commands-impl.c:455
+#: src/commands-impl.c:464
 msgid "Continue"
 msgstr "Folytatás"
 
-#: src/commands-impl.c:531
+#: src/commands-impl.c:539
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "A kijelölt képek a Kukába lesznek dobva. Ezt szeretnéd?"
+msgstr "A kijelölt képek a Kukába lesznek dobva. Ezt szeretné?"
 
-#: src/commands-impl.c:551
+#: src/commands-impl.c:559
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "A kép a Kukába lesz dobva. Ezt szeretnéd?"
+msgstr "A kép a Kukába lesz dobva. Ezt szeretné?"
 
-#: src/commands-impl.c:786
+#: src/commands-impl.c:794
 msgid "The image will be removed from the catalog, are you sure?"
-msgstr "A kép el lesz távolítva a katalógusból. Ezt szeretnéd?"
+msgstr "A kép el lesz távolítva a katalógusból. Ezt szeretné?"
 
-#: src/commands-impl.c:828
+#: src/commands-impl.c:836
 msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr "A kijelölt képek el lesznek távolítva a katalógusból. Ezt szeretnéd?"
+msgstr "A kijelölt képek el lesznek távolítva a katalógusból. Ezt szeretné?"
 
-#: src/commands-impl.c:904 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:200 src/dlg-file-utils.c:90
+#: src/commands-impl.c:941 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:205 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "_Létrehozás"
 
-#: src/commands-impl.c:933 src/commands-impl.c:1059 src/commands-impl.c:1621
-#: src/commands-impl.c:1713
+#: src/commands-impl.c:970 src/commands-impl.c:1096 src/commands-impl.c:1790
+#: src/commands-impl.c:1882
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "\"%s\" nevű elem már létezik. Használj egy másik nevet."
+msgstr "\"%s\" nevű elem már létezik. Használjon másik nevet."
 
-#: src/commands-impl.c:961
+#: src/commands-impl.c:998
 msgid "New Folder"
 msgstr "Új mappa"
 
-#: src/commands-impl.c:962
+#: src/commands-impl.c:999
 msgid "Enter the folder name: "
-msgstr "Add meg a mappa nevét:"
+msgstr "Adja meg a mappa nevét:"
 
-#: src/commands-impl.c:963
+#: src/commands-impl.c:1000 src/dlg-photo-importer.c:1220
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nem sikerült létrehozni a(z) \"%s\" mappát: %s"
 
-#: src/commands-impl.c:974
+#: src/commands-impl.c:1011
 msgid "New Library"
 msgstr "Új könyvtár"
 
-#: src/commands-impl.c:975 src/dlg-catalog.c:127
+#: src/commands-impl.c:1012 src/dlg-catalog.c:127
 msgid "Enter the library name: "
-msgstr "Add meg a könyvtár nevét: "
+msgstr "Adja meg a könyvtár nevét: "
 
-#: src/commands-impl.c:976
+#: src/commands-impl.c:1013
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Nem sikerült létrehozni a(z) \"%s\" könyvtárat: %s"
 
-#: src/commands-impl.c:1049 src/commands-impl.c:1086
+#: src/commands-impl.c:1086 src/commands-impl.c:1132
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Nem sikerült átnevezni ezt a mappát: \"%s\": %s"
 
-#: src/commands-impl.c:1152
+#: src/commands-impl.c:1202
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Nem sikerült törölni a mappát: \"%s\": %s"
 
-#: src/commands-impl.c:1183
+#: src/commands-impl.c:1233
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "\"%s\" nem helyezhető át a Kukába. Szeretnéd véglegesen törölni?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" nem helyezhető át a Kukába. Szeretné véglegesen törölni?"
 
-#: src/commands-impl.c:1191 src/dlg-file-utils.c:227
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:5689
 msgid "_Do not display this message again"
 msgstr "_Ne jelenjen meg többet ez az üzenet"
 
-#: src/commands-impl.c:1224
+#: src/commands-impl.c:1274
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "A kijelölt mappa a Kukába lesz dobva. Ezt szeretnéd?"
+msgstr "A kijelölt mappa a Kukába lesz dobva. Ezt szeretné?"
 
-#: src/commands-impl.c:1226 src/dlg-file-utils.c:281
+#: src/commands-impl.c:1276 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "Át_helyezés"
 
-#: src/commands-impl.c:1292 src/commands-impl.c:1347
+#: src/commands-impl.c:1342 src/commands-impl.c:1397
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Mappa másolása nem sikerült: \"%s\": %s"
 
-#: src/commands-impl.c:1347 src/dlg-file-utils.c:2427
-#: src/dlg-file-utils.c:2429
+#: src/commands-impl.c:1397 src/dlg-file-utils.c:2450
+#: src/dlg-file-utils.c:2452
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Mappa áthelyezése nem sikerült: \"%s\": %s"
 
-#: src/commands-impl.c:1368
+#: src/commands-impl.c:1418
 msgid "source contains destination"
 msgstr "a forrás tartalmazza a célt"
 
-#: src/commands-impl.c:1379
+#: src/commands-impl.c:1429
 msgid "a folder with that name is already present."
 msgstr "a megadott néven már létezik mappa."
 
-#: src/commands-impl.c:1460 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/commands-impl.c:1525 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Célmappa választása"
 
-#: src/commands-impl.c:1632
+#: src/commands-impl.c:1801
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Nem sikerült átnevezni a(z) \"%s\" könyvtárat: %s"
 
-#: src/commands-impl.c:1632
+#: src/commands-impl.c:1801
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Nem sikerült átnevezni a(z) \"%s\" katalógust: %s"
 
-#: src/commands-impl.c:1678 src/dlg-catalog.c:82
+#: src/commands-impl.c:1847 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
-msgstr "Add meg a katalógus nevét:"
+msgstr "Adja meg a katalógus nevét:"
 
-#: src/commands-impl.c:1679
+#: src/commands-impl.c:1848
 msgid "New Catalog"
 msgstr "Új katalógus"
 
-#: src/commands-impl.c:1724
+#: src/commands-impl.c:1893
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Nem sikerült létrehozni a(z) \"%s\" katalógust: %s"
 
-#: src/commands-impl.c:1788
+#: src/commands-impl.c:1957
 msgid "The selected library will be removed, are you sure?"
-msgstr "A kiválasztott könyvtár törölve lesz. Ezt szeretnéd?"
+msgstr "A kiválasztott könyvtár törölve lesz. Ezt szeretné?"
 
-#: src/commands-impl.c:1790
+#: src/commands-impl.c:1959
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "A kiválasztott katalógus törölve lesz. Ezt szeretnéd?"
+msgstr "A kiválasztott katalógus törölve lesz. Ezt szeretné?"
 
-#: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-change-date.c:144
-#: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:638
-#: src/dlg-maintenance.c:273 src/dlg-preferences.c:175
-#: src/dlg-rename-series.c:337 src/dlg-search.c:450
+#: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
+#: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:785
+#: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
+#: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
 msgid "Could not display help: %s"
 msgstr "A súgó megjelenítése nem sikerült: %s"
 
-#: src/commands-impl.c:2764
+#: src/commands-impl.c:2952
 msgid "translator_credits"
-msgstr "Tímár András  <timar@gnome.hu>"
+msgstr "Tímár András <timar@gnome.hu>"
 
-#: src/commands-impl.c:2773 src/gthumb-window.c:552 src/gthumb-window.c:4808
-#: src/main.c:125
+#: src/commands-impl.c:2961 src/gthumb-window.c:573 src/gthumb-window.c:4883
+#: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/commands-impl.c:2776
+#: src/commands-impl.c:2964
 msgid "An image viewer and browser for GNOME."
 msgstr "Képnézegető és képkatalogizáló a GNOME-hoz."
 
@@ -720,23 +3524,23 @@ msgstr "Képnézegető és képkatalogizáló a GNOME-hoz."
 msgid "Move Catalog to..."
 msgstr "Katalógus áthelyezése..."
 
-#: src/dlg-categories.c:196
+#: src/dlg-categories.c:201
 msgid "Enter the new category name"
 msgstr "Add meg az új kategórianevet:"
 
-#: src/dlg-categories.c:207
+#: src/dlg-categories.c:212
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"A(z) \"%s\" név nem érvényes, mert tartalmazza a \",\" karaktert. Használj "
+"A(z) \"%s\" név nem érvényes, mert tartalmazza a \",\" karaktert. Használjon"
 "másik nevet."
 
-#: src/dlg-categories.c:212
+#: src/dlg-categories.c:217
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "%s nevű kategória már van. Használj egy másik nevet."
+msgstr "%s nevű kategória már van. Használjon másik nevet."
 
 #: src/dlg-convert.c:162
 #, c-format
@@ -745,49 +3549,47 @@ msgstr "Kép átalakítása: %s"
 
 #: src/dlg-convert.c:185
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
-msgstr "Már létezik \"%s\" nevű kép. Használj más nevet."
+msgid "An image named \"%s\" is already present. Please specify a different name."
+msgstr "Már létezik \"%s\" nevű kép. Használjon másik nevet."
 
-#: src/dlg-convert.c:313 src/gthumb_convert.glade.h:17
-msgid "Skip"
-msgstr "Kihagyás"
+#: src/dlg-crop.c:367
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d × %d (kép)"
 
-#: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
+#: src/dlg-crop.c:375
+#, c-format
+msgid "%d x %d (Display)"
+msgstr "%d × %d (megjelenítés)"
+
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
 msgstr "Azonosak"
 
-#: src/dlg-duplicates.c:294
+#: src/dlg-duplicates.c:293
 msgid "Duplicates Size"
 msgstr "Azonosak mérete"
 
-#: src/dlg-duplicates.c:400
+#: src/dlg-duplicates.c:399
 msgid "Last modified"
 msgstr "Utoljára módosítva"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:643
+#: src/dlg-duplicates.c:414 src/dlg-image-prop.c:615
 msgid "Location"
 msgstr "Hely"
 
-#: src/dlg-duplicates.c:755
+#: src/dlg-duplicates.c:756
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "A bejelölt képek a Kukába lesznek dobva. Biztos vagy benne?"
+msgstr "A bejelölt képek a Kukába lesznek dobva. Ezt szeretné?"
 
 #: src/dlg-file-utils.c:88
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "A célmappa nem létezik. Létrehozod?"
+msgstr "A célmappa nem létezik. Szeretné létrehozni?"
 
 #: src/dlg-file-utils.c:104
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nem sikerült létrehozni a mappát: \"%s\": %s"
-
-#: src/dlg-file-utils.c:118
-#, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Nincs megfelelő jogosultságod képek létrehozásához ebben a mappában: \"%s\""
 
 #: src/dlg-file-utils.c:201
 msgid "Could not delete the images:"
@@ -797,17 +3599,16 @@ msgstr "Nem sikerült törölni a képeket:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "A képeket archívumot nem lehet a Kukába helyezni. Törlöd véglegesen?"
+msgstr "A képeket archívumot nem lehet a Kukába helyezni. Szeretné véglegesen törölni?"
 
 #: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
 msgid "You didn't enter the new name"
-msgstr "Nem adtál meg új nevet"
+msgstr "Nem adott meg új nevet"
 
 #: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
-msgstr "%s nevű elem már létezik ebben a mappában. Használj egy másik nevet."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr "%s nevű elem már létezik ebben a mappában. Használjon másik nevet."
 
 #: src/dlg-file-utils.c:1010
 msgid "Could not rename the image:"
@@ -825,11 +3626,11 @@ msgstr "A kép áthelyezése nem sikerült:"
 msgid "Could not copy the image:"
 msgstr "A kép másolása nem sikerült:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2450
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2473
 msgid "_Abort"
 msgstr "_Megszakítás"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2451
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2474
 msgid "_Continue"
 msgstr "_Folytatás"
 
@@ -838,109 +3639,111 @@ msgstr "_Folytatás"
 msgid "Copying file %d of %d"
 msgstr "%d. / %d kép másolása"
 
-#: src/dlg-file-utils.c:1772 src/dlg-file-utils.c:1999
+#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2003
 msgid "Collecting images info"
 msgstr "Képadatok összegyűjtése"
 
-#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2012
+#: src/dlg-file-utils.c:1778 src/dlg-file-utils.c:2016
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "%ld. / %ld kép törlése"
 
-#: src/dlg-file-utils.c:2002
+#: src/dlg-file-utils.c:2006
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "%ld. / %ld kép másolása"
 
-#: src/dlg-file-utils.c:2007
+#: src/dlg-file-utils.c:2011
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "%ld. / %ld kép áthelyezése"
 
-#: src/dlg-image-prop.c:628 src/gth-exif-data-viewer.c:471
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:472
 msgid "Size"
 msgstr "Méret"
 
-#: src/dlg-image-prop.c:633
+#: src/dlg-image-prop.c:605
 msgid "Type"
 msgstr "Típus"
 
-#: src/dlg-image-prop.c:648 src/gth-exif-data-viewer.c:485
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
+#: src/gthumb-window.c:418
 msgid "Modified"
 msgstr "Módosítva"
 
-#: src/dlg-image-prop.c:653
+#: src/dlg-image-prop.c:625
 msgid "Information on Channel"
 msgstr "Csatornainformáció"
 
-#: src/dlg-image-prop.c:751
+#: src/dlg-image-prop.c:744
 #, c-format
 msgid "%s Properties"
 msgstr "%s tulajdonságai"
 
 #: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
-msgstr "Az összes megjegyzés törölve lesz. Ezt szeretnéd?"
+msgstr "Az összes megjegyzés törölve lesz. Ezt szeretné?"
 
 #: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
-msgstr "Az összes bélyegkép törölve lesz. Ezt szeretnéd?"
+msgstr "Az összes bélyegkép törölve lesz. Ezt szeretné?"
 
 #: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
 msgstr "A biztonsági mentés fájljának megadása"
 
-#: src/dlg-png-exporter.c:999
+#: src/dlg-photo-importer.c:724 src/dlg-photo-importer.c:1167
+#: src/dlg-photo-importer.c:1212 src/dlg-photo-importer.c:1223
+msgid "Could not import photos"
+msgstr "Fényképek importálása nem sikerült"
+
+#: src/dlg-photo-importer.c:1063 src/main.c:1002
+msgid "Film"
+msgstr "Film"
+
+#: src/dlg-png-exporter.c:923
 msgid "Image Caption"
 msgstr "Képaláírás"
 
-#: src/dlg-png-exporter.c:1052
+#: src/dlg-png-exporter.c:976
 msgid "Header"
 msgstr "Élőfej"
 
-#: src/dlg-png-exporter.c:1065 src/dlg-png-exporter.c:1071
+#: src/dlg-png-exporter.c:989 src/dlg-png-exporter.c:995
 msgid "Footer"
 msgstr "Élőláb"
 
-#: src/dlg-rename-series.c:407
+#: src/dlg-rename-series.c:400
 msgid "Old Name"
 msgstr "Régi név"
 
-#: src/dlg-rename-series.c:415
+#: src/dlg-rename-series.c:408
 msgid "New Name"
 msgstr "Új név"
 
-#: src/dlg-search.c:337
+#: src/dlg-search.c:344
 msgid "Search Result"
 msgstr "Keresés eredménye"
 
-#: src/dlg-search.c:810
+#: src/dlg-search.c:639
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:648 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Mappa"
 
-#: src/dlg-web-exporter.c:658
+#: src/dlg-web-exporter.c:1185
 msgid "Select Album Theme"
 msgstr "Albumtéma választása"
 
-#: src/fullscreen.c:783 src/gthumb-ui.xml.h:113
-msgid "Restore Normal View"
-msgstr "Normál nézet visszaállítása"
-
-#: src/fullscreen.c:801
+#: src/fullscreen.c:804
 msgid "Image Info"
 msgstr "Kép adatai"
 
-#: src/fullscreen.c:819 src/gthumb-window.c:4091
+#: src/fullscreen.c:822 src/gthumb-window.c:4147
 msgid "Back"
 msgstr "Vissza"
-
-#: src/fullscreen.c:837 src/gthumb-ui.xml.h:52
-msgid "Forward"
-msgstr "Előre"
 
 #: src/gth-exif-data-viewer.c:127
 msgid "Field"
@@ -958,2661 +3761,207 @@ msgstr "_Tallózás..."
 msgid "_Recents:"
 msgstr "_Legutóbbiak:"
 
-#: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
-msgid "_Bookmarks:"
-msgstr "_Könyvjelzők:"
-
-#: src/gthumb-ui.xml.h:1
-msgid "1:1"
-msgstr "1:1"
-
-#: src/gthumb-ui.xml.h:2
-msgid "Actual size"
-msgstr "Tényleges méret"
-
-#: src/gthumb-ui.xml.h:3
-msgid "Add a comment to selected images"
-msgstr "Megjegyzés hozzáadása a kijelölt képekhez"
-
-#: src/gthumb-ui.xml.h:4
-msgid "Add a comment to the image"
-msgstr "Megjegyzés hozzáadása a képhez"
-
-#: src/gthumb-ui.xml.h:5
-msgid "Add current location to bookmarks"
-msgstr "Az aktuális hely hozzáadása a könyvjelzőkhöz"
-
-#: src/gthumb-ui.xml.h:6
-msgid "Add selected images to a catalog"
-msgstr "A kijelölt képek hozzáadása a katalógushoz"
-
-#: src/gthumb-ui.xml.h:7
-msgid "Adjust brightness and contrast"
-msgstr "A fényerő és kontraszt beállítása"
-
-#: src/gthumb-ui.xml.h:8
-msgid "Adjust color balance"
-msgstr "A színegyensúly beállítása"
-
-#: src/gthumb-ui.xml.h:9
-msgid "Adjust hue and saturation"
-msgstr "A színezet és telítettség beállítása"
-
-#: src/gthumb-ui.xml.h:10
-msgid "Apply threshold"
-msgstr "Küszöb alkalmazása"
-
-#: src/gthumb-ui.xml.h:11
-msgid "Assign categories to selected images"
-msgstr "Kategóriák hozzárendelése a kijelölt képekhez"
-
-#: src/gthumb-ui.xml.h:12
-msgid "Assign categories to the image"
-msgstr "Kategóriák hozzárendelése a képhez"
-
-#: src/gthumb-ui.xml.h:13
-msgid "Auto"
-msgstr "Automatikus"
-
-#: src/gthumb-ui.xml.h:14
-msgid "Automatically normalize the contrast"
-msgstr "Kontraszt automatikus normalizálása"
-
-#: src/gthumb-ui.xml.h:15
-msgid "Automatically stretch the contrast"
-msgstr "Kontraszt automatikus kifeszítése"
-
-#: src/gthumb-ui.xml.h:16
-msgid "Ca_talog"
-msgstr "Ka_talógus"
-
-#: src/gthumb-ui.xml.h:17
-msgid "Ca_tegories"
-msgstr "Ka_tegóriák"
-
-#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4192
-msgid "Catalogs"
-msgstr "Katalógusok"
-
-#: src/gthumb-ui.xml.h:19 src/gthumb_comments.glade.h:5
-#: src/gthumb_search.glade.h:10
-msgid "Categories"
-msgstr "Kategóriák"
-
-#: src/gthumb-ui.xml.h:20
-msgid "Change _Date"
-msgstr "_Dátum megváltoztatása"
-
-#: src/gthumb-ui.xml.h:21
-msgid "Change images last modified date"
-msgstr "A képek módosítási dátumának megváltoztatása"
-
-#: src/gthumb-ui.xml.h:22
-msgid "Close all windows and exit"
-msgstr "Az összes ablak bezárása és kilépés"
-
-#: src/gthumb-ui.xml.h:23
-msgid "Close this window"
-msgstr "Az aktuális ablak bezárása"
-
-#: src/gthumb-ui.xml.h:24 src/gthumb.glade.h:12
-msgid "Comm_ent"
-msgstr "_Megjegyzés"
-
-#: src/gthumb-ui.xml.h:26
-msgid "Convert"
-msgstr "Átalakítás"
-
-#: src/gthumb-ui.xml.h:27
-msgid "Convert F_ormat"
-msgstr "Á_talakítás más formátumba"
-
-#: src/gthumb-ui.xml.h:28
-msgid "Convert image format"
-msgstr "A kép átalakítása más képformátumba"
-
-#: src/gthumb-ui.xml.h:29
-msgid "Copy current folder"
-msgstr "Az aktuális mappa másolása"
-
-#: src/gthumb-ui.xml.h:30
-msgid "Copy selected folder"
-msgstr "A kijelölt mappa másolása"
-
-#: src/gthumb-ui.xml.h:31
-msgid "Copy selected images to another location"
-msgstr "A kijelölt képek másolása máshová"
-
-#: src/gthumb-ui.xml.h:32
-msgid "Copy this image to another location"
-msgstr "A kép másolása máshová"
-
-#: src/gthumb-ui.xml.h:33
-msgid "Create _Index Image"
-msgstr "_Indexkép létrehozása"
-
-#: src/gthumb-ui.xml.h:34
-msgid "Create _Web Album"
-msgstr "_Webalbum létrehozása"
-
-#: src/gthumb-ui.xml.h:35
-msgid "Create a new catalog"
-msgstr "Új katalógus létrehozása"
-
-#: src/gthumb-ui.xml.h:36
-msgid "Create a new catalog library"
-msgstr "Új katalóguskönyvtár létrehozása"
-
-#: src/gthumb-ui.xml.h:37
-msgid "Create a new folder"
-msgstr "Új mappa létrehozása"
-
-#: src/gthumb-ui.xml.h:38
-msgid "Create a new window"
-msgstr "Új ablak létrehozása"
-
-#: src/gthumb-ui.xml.h:39
-msgid "Crop image"
-msgstr "Képkivágás"
-
-#: src/gthumb-ui.xml.h:40
-msgid "D_uplicate"
-msgstr "Ke_ttőzés"
-
-#: src/gthumb-ui.xml.h:41
-msgid "Delete the list of visited locations"
-msgstr "A meglátogatott helyek listájának törlése"
-
-#: src/gthumb-ui.xml.h:42
-msgid "Duplicate selected image"
-msgstr "A kijelölt kép megkettőzése"
-
-#: src/gthumb-ui.xml.h:43
-msgid "Duplicate this image"
-msgstr "A kép megkettőzése"
-
-#: src/gthumb-ui.xml.h:44
-msgid "E_xit"
-msgstr "_Kilépés"
-
-#: src/gthumb-ui.xml.h:45
-msgid "Edit Search"
-msgstr "Keresés szerkesztése"
-
-#: src/gthumb-ui.xml.h:46
-msgid "Edit bookmarks"
-msgstr "Könyvjelzők szerkesztése"
-
-#: src/gthumb-ui.xml.h:47
-msgid "Edit various preferences"
-msgstr "Különféle beállítások megváltoztatása"
-
-#: src/gthumb-ui.xml.h:48
-msgid "Fi_nd Duplicates..."
-msgstr "_Azonosak keresése..."
-
-#: src/gthumb-ui.xml.h:49
-msgid "Find images"
-msgstr "Képek keresése"
-
-#: src/gthumb-ui.xml.h:50
-msgid "Fit"
-msgstr "Ablakhoz"
-
-#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4142
-msgid "Folders"
-msgstr "Mappák"
-
-#: src/gthumb-ui.xml.h:53
-msgid "Full Screen"
-msgstr "Teljes képernyő"
-
-#: src/gthumb-ui.xml.h:54
-msgid "Go to the folder that contains the selected image"
-msgstr "Ugrás arra a mappába, amely a kijelölt képet tartalmazza"
-
-#: src/gthumb-ui.xml.h:55
-msgid "Go to the home folder"
-msgstr "Ugrás a kezdőmappába"
-
-#: src/gthumb-ui.xml.h:56
-msgid "Go to the next visited location"
-msgstr "Ugrás a következő meglátogatott helyre"
-
-#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4110
-msgid "Go to the previous visited location"
-msgstr "Ugrás az előző meglátogatott helyre"
-
-#: src/gthumb-ui.xml.h:58
-msgid "Go up one level"
-msgstr "Ugrás egy szinttel feljebb"
-
-#: src/gthumb-ui.xml.h:59
-msgid "Home"
-msgstr "Saját mappa"
-
-#: src/gthumb-ui.xml.h:60
-msgid "Image Toolbar"
-msgstr "Kép eszköztár"
-
-#: src/gthumb-ui.xml.h:61
-msgid "Image _Comment"
-msgstr "_Megjegyzés a képhez"
-
-#: src/gthumb-ui.xml.h:62
-msgid "In"
-msgstr "Nagyítás"
-
-#: src/gthumb-ui.xml.h:63
-msgid "Main Toolbar"
-msgstr "Fő eszköztár"
-
-#: src/gthumb-ui.xml.h:64
-msgid "Modify search criteria"
-msgstr "Keresési feltétel módosítása"
-
-#: src/gthumb-ui.xml.h:65
-msgid "Move current catalog to another location"
-msgstr "Az aktuális katalógus áthelyezése máshová"
-
-#: src/gthumb-ui.xml.h:66
-msgid "Move current folder"
-msgstr "Az aktuális mappa áthelyezése"
-
-#: src/gthumb-ui.xml.h:67
-msgid "Move selected catalog to another location"
-msgstr "A kijelölt katalógus áthelyezése máshová"
-
-#: src/gthumb-ui.xml.h:68
-msgid "Move selected folder"
-msgstr "A kijelölt mappa áthelyezése"
-
-#: src/gthumb-ui.xml.h:69
-msgid "Move selected images to another location"
-msgstr "A kijelölt képek áthelyezése máshová"
-
-#: src/gthumb-ui.xml.h:70
-msgid "Move the current folder to the Trash"
-msgstr "Az aktuális mappa áthelyezése a Kukába"
-
-#: src/gthumb-ui.xml.h:71
-msgid "Move the selected folder to the Trash"
-msgstr "A kijelölt mappa áthelyezése a Kukába"
-
-#: src/gthumb-ui.xml.h:72
-msgid "Move the selected images to the Trash"
-msgstr "A kijelölt kép áthelyezése a Kukába"
-
-#: src/gthumb-ui.xml.h:73
-msgid "Move this image to another location"
-msgstr "A kép áthelyezése máshová"
-
-#: src/gthumb-ui.xml.h:74
-msgid "Move this image to the Trash"
-msgstr "A kép áthelyezése a Kukába"
-
-#: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
-msgid "Move to _Trash"
-msgstr "Áthelyezés a _Kukába"
-
-#: src/gthumb-ui.xml.h:76
-msgid "New _Library..."
-msgstr "Új _könyvtár..."
-
-#: src/gthumb-ui.xml.h:77
-msgid "New _Window"
-msgstr "Új _ablak"
-
-#: src/gthumb-ui.xml.h:78
-msgid "Next"
-msgstr "Következő"
-
-#: src/gthumb-ui.xml.h:79
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Az aktuális mappa megnyitása a Nautilus fájlkezelőben"
-
-#: src/gthumb-ui.xml.h:80
-msgid "Open selected images with an application"
-msgstr "A kijelölt képek megnyitása egy alkalmazással"
-
-#: src/gthumb-ui.xml.h:81
-msgid ""
-"Open the selected folder with the Nautilus file\n"
-"\t     manager"
-msgstr "Az kijelölt mappa megnyitása a Nautilus fájlkezelőben"
-
-#: src/gthumb-ui.xml.h:83
-msgid "Open this image with an application"
-msgstr "A kép megnyitása egy alkalmazással"
-
-#: src/gthumb-ui.xml.h:84
-msgid "Open with the File Manager"
-msgstr "Megnyitás a fájlkezelővel"
-
-#: src/gthumb-ui.xml.h:85
-msgid "Open with the _File Manager"
-msgstr "Megnyitás a _fájlkezelővel"
-
-#: src/gthumb-ui.xml.h:86
-msgid "Out"
-msgstr "Kicsinyítés"
-
-#: src/gthumb-ui.xml.h:87
-msgid "Play _Animation"
-msgstr "_Animáció lejátszása"
-
-#: src/gthumb-ui.xml.h:88
-msgid "Previous"
-msgstr "Előző"
-
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
-msgid "Print"
-msgstr "Nyomtatás"
-
-#: src/gthumb-ui.xml.h:91
-msgid "Proper_ties"
-msgstr "_Tulajdonságok"
-
-#: src/gthumb-ui.xml.h:92
-msgid "Redo Search"
-msgstr "Keresés megismétlése"
-
-#: src/gthumb-ui.xml.h:93
-msgid "Redo _Search"
-msgstr "_Keresés megismétlése"
-
-#: src/gthumb-ui.xml.h:94
-msgid "Redo the search"
-msgstr "A keresés megismétlése"
-
-#: src/gthumb-ui.xml.h:95
-msgid "Reduce number of colors"
-msgstr "Színek számának csökkentése"
-
-#: src/gthumb-ui.xml.h:96
-msgid "Reduce the number of colors"
-msgstr "A színek számának csökkentése"
-
-#: src/gthumb-ui.xml.h:97
-msgid "Reload the current location"
-msgstr "Az aktuális hely újrabetöltése"
-
-#: src/gthumb-ui.xml.h:98
-msgid "Rem_ove"
-msgstr "_Eltávolítás"
-
-#: src/gthumb-ui.xml.h:99
-msgid "Rem_ove Comment"
-msgstr "M_egjegyzés eltávolítása"
-
-#: src/gthumb-ui.xml.h:100
-msgid "Remo_ve from Catalog"
-msgstr "El_távolítás a katalógusból"
-
-#: src/gthumb-ui.xml.h:101
-msgid "Remove comments of selected images"
-msgstr "A kijelölt képek megjegyzéseinek törlése"
-
-#: src/gthumb-ui.xml.h:102
-msgid "Remove current catalog"
-msgstr "Az aktuális katalógus eltávolítása"
-
-#: src/gthumb-ui.xml.h:103
-msgid "Remove selected catalog"
-msgstr "A kijelölt katalógus eltávolítása"
-
-#: src/gthumb-ui.xml.h:104
-msgid "Remove selected images from the catalog"
-msgstr "A kijelölt képek eltávolítása a katalógusból"
-
-#: src/gthumb-ui.xml.h:105
-msgid "Remove the comment"
-msgstr "A megjegyzés eltávolítása"
-
-#: src/gthumb-ui.xml.h:106
-msgid "Rename current catalog"
-msgstr "Az aktuális archívum átnevezése"
-
-#: src/gthumb-ui.xml.h:107
-msgid "Rename current folder"
-msgstr "Az aktuális mappa átnevezése"
-
-#: src/gthumb-ui.xml.h:108
-msgid "Rename selected catalog"
-msgstr "A kijelölt katalógus átnevezése"
-
-#: src/gthumb-ui.xml.h:109
-msgid "Rename selected folder"
-msgstr "A kijelölt mappa átnevezése"
-
-#: src/gthumb-ui.xml.h:110
-msgid "Rename selected image"
-msgstr "A kijelölt kép átnevezése"
-
-#: src/gthumb-ui.xml.h:111
-msgid "Rename this image"
-msgstr "A kép átnevezése"
-
-#: src/gthumb-ui.xml.h:112
-msgid "Resize image"
-msgstr "Kép átméretezése"
-
-#: src/gthumb-ui.xml.h:114
-msgid "Restore the original desktop wallpaper"
-msgstr "Az eredeti munkaasztal-háttérkép visszaállítása"
-
-#: src/gthumb-ui.xml.h:115
-msgid "Reverse images order"
-msgstr "A képsorrend megfordítása"
-
-#: src/gthumb-ui.xml.h:116
-msgid "Revert"
-msgstr "Visszaállítás"
-
-#: src/gthumb-ui.xml.h:117
-msgid "Revert to saved image"
-msgstr "A mentett kép visszaállítása"
-
-#: src/gthumb-ui.xml.h:119
-msgid "Rotate Ri_ght"
-msgstr "Forgatás j_obbra"
-
-#: src/gthumb-ui.xml.h:120
-msgid "Rotate _JPEG"
-msgstr "_JPEG forgatása"
-
-#: src/gthumb-ui.xml.h:121
-msgid "Rotate _Left"
-msgstr "Forgatás _balra"
-
-#: src/gthumb-ui.xml.h:122
-msgid "Rotate image"
-msgstr "Kép elforgatása"
-
-#: src/gthumb-ui.xml.h:123
-msgid "Rotate jpeg images without loss of quality"
-msgstr "JPEG-képek elforgatása minőségvesztés nélkül"
-
-#: src/gthumb-ui.xml.h:124
-msgid "S_ort Images"
-msgstr "_Képek rendezése"
-
-#: src/gthumb-ui.xml.h:125
-msgid "Save"
-msgstr "Mentés"
-
-#: src/gthumb-ui.xml.h:128
-msgid "Search"
-msgstr "Keresés"
-
-#: src/gthumb-ui.xml.h:129
-msgid "Select all images"
-msgstr "Minden kép kijelölése"
-
-#: src/gthumb-ui.xml.h:130
-msgid "Set Image as _Wallpaper"
-msgstr "Kép beállítása _háttérképként"
-
-#: src/gthumb-ui.xml.h:131
-msgid "Set the image as desktop background (centered)"
-msgstr "A kép beállítása a munkaasztal háttereként (középre igazítva)"
-
-#: src/gthumb-ui.xml.h:132
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "A kép beállítása a munkaasztal háttereként (arányosan átméretezve)"
-
-#: src/gthumb-ui.xml.h:133
-msgid "Set the image as desktop background (stretched)"
-msgstr "A kép beállítása a munkaasztal háttereként (kifeszítve)"
-
-#: src/gthumb-ui.xml.h:134
-msgid "Set the image as desktop background (tiled)"
-msgstr "A kép beállítása a munkaasztal háttereként (mozaikszerűen)"
-
-#: src/gthumb-ui.xml.h:135
-msgid "Show information about gThumb"
-msgstr "A gThumb névjegyének megjelenítése"
-
-#: src/gthumb-ui.xml.h:136
-msgid "Show/_Hide"
-msgstr "Megjelenítés/_Elrejtés"
-
-#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
-msgid "Slide Show"
-msgstr "Diavetítés"
-
-#: src/gthumb-ui.xml.h:138
-msgid "Sort images by file size"
-msgstr "A képek rendezése fájlméret szerint"
-
-#: src/gthumb-ui.xml.h:139
-msgid "Sort images by modification time"
-msgstr "A képek rendezése a módosítás ideje szerint"
-
-#: src/gthumb-ui.xml.h:140
-msgid "Sort images by name"
-msgstr "A képek rendezése név szerint"
-
-#: src/gthumb-ui.xml.h:141
-msgid "Sort images by path"
-msgstr "A képek rendezése útvonal szerint"
-
-#: src/gthumb-ui.xml.h:142
-msgid "Specify a location to visit"
-msgstr "Meglátogatandó hely megadása"
-
-#: src/gthumb-ui.xml.h:144
-msgid "Step A_nimation"
-msgstr "A_nimáció léptetése"
-
-#: src/gthumb-ui.xml.h:145
-msgid "Stop loading current location"
-msgstr "A hely betöltésének leállítása"
-
-#: src/gthumb-ui.xml.h:146
-msgid "Str_etched"
-msgstr "_Kifeszített"
-
-#: src/gthumb-ui.xml.h:147
-msgid "Up"
-msgstr "Fel"
-
-#: src/gthumb-ui.xml.h:148
-msgid "Use black as transparency"
-msgstr "A fekete szín használata az átlátszóság jelölésére"
-
-#: src/gthumb-ui.xml.h:149
-msgid "Use checks as transparency"
-msgstr "Sakktáblaminta használata az átlátszóság jelölésére"
-
-#: src/gthumb-ui.xml.h:150
-msgid "Use gray as transparency"
-msgstr "A szürke szín használata az átlátszóság jelölésére"
-
-#: src/gthumb-ui.xml.h:151
-msgid "Use high quality zoom"
-msgstr "Jó minőségű nagyítás használata"
-
-#: src/gthumb-ui.xml.h:152
-msgid "Use low quality zoom"
-msgstr "Alacsony minőségű nagyítás használata"
-
-#: src/gthumb-ui.xml.h:153
-msgid "Use white as transparency"
-msgstr "A fehér szín használata az átlátszóság jelölésére"
-
-#: src/gthumb-ui.xml.h:154
-msgid "View as a slide show"
-msgstr "Megjelenítés diavetítésként"
-
-#: src/gthumb-ui.xml.h:155
-msgid "View image comment"
-msgstr "Kép megjegyzésének megtekintése"
-
-#: src/gthumb-ui.xml.h:156
-msgid "View image in fullscreen mode"
-msgstr "A kép megjelenítése teljes képernyős üzemmódban"
-
-#: src/gthumb-ui.xml.h:157
-msgid "View image properties"
-msgstr "A kép tulajdonságainak megtekintése"
-
-#: src/gthumb-ui.xml.h:159
-msgid "View next image"
-msgstr "A következő kép megtekintése"
-
-#: src/gthumb-ui.xml.h:160
-msgid "View or hide the statusbar of this window"
-msgstr "Az ablak állapotsorának megjelenítése vagy elrejtése"
-
-#: src/gthumb-ui.xml.h:161
-msgid "View or hide the toolbar of this window"
-msgstr "Az ablak eszköztárának megjelenítése vagy elrejtése"
-
-#: src/gthumb-ui.xml.h:162
-msgid "View previous image"
-msgstr "Az előző kép megtekintése"
-
-#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4198
-msgid "View the catalogs"
-msgstr "A katalógusok megtekintése"
-
-#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4148
-msgid "View the folders"
-msgstr "A mappák megtekintése"
-
-#: src/gthumb-ui.xml.h:165
-msgid "View the image"
-msgstr "A kép megtekintése"
-
-#: src/gthumb-ui.xml.h:166
-msgid "View the image flipped"
-msgstr "A kép fejreállított nézete"
-
-#: src/gthumb-ui.xml.h:167
-msgid "View the image in black and white"
-msgstr "A kép megtekintése fekete-fehérben"
-
-#: src/gthumb-ui.xml.h:168
-msgid "View the image mirrored"
-msgstr "A kép tükrözött nézete"
-
-#: src/gthumb-ui.xml.h:169
-msgid "View the image rotated clockwise"
-msgstr "A kép megtekintése balra elforgatva"
-
-#: src/gthumb-ui.xml.h:170
-msgid "View the image rotated counter-clockwise"
-msgstr "A kép megtekintése jobbra elforgatva"
-
-#: src/gthumb-ui.xml.h:171
-msgid "View the image with negative colors"
-msgstr "A kép negatívjának megjelenítése"
-
-#: src/gthumb-ui.xml.h:172
-msgid "View thumbnails"
-msgstr "Bélyegképek megjelenítése"
-
-#: src/gthumb-ui.xml.h:173
-msgid "Zoom _In"
-msgstr "_Nagyítás"
-
-#: src/gthumb-ui.xml.h:174
-msgid "Zoom _Out"
-msgstr "_Kicsinyítés"
-
-#: src/gthumb-ui.xml.h:175
-msgid "Zoom in"
-msgstr "Nagyítás"
-
-#: src/gthumb-ui.xml.h:176
-msgid "Zoom out"
-msgstr "Kicsinyítés"
-
-#: src/gthumb-ui.xml.h:177
-msgid "Zoom to _Fit"
-msgstr "Nagyítás az _ablakhoz"
-
-#: src/gthumb-ui.xml.h:178
-msgid "Zoom to fit window"
-msgstr "Nagyítás az ablak méretére"
-
-#: src/gthumb-ui.xml.h:179
-msgid "_About"
-msgstr "_Névjegy"
-
-#: src/gthumb-ui.xml.h:180
-msgid "_Actual Size"
-msgstr "_Tényleges méret"
-
-#: src/gthumb-ui.xml.h:181
-msgid "_Add Bookmark"
-msgstr "_Könyvjelző hozzáadása"
-
-#: src/gthumb-ui.xml.h:182
-msgid "_Add to Catalog..."
-msgstr "_Hozzáadás katalógushoz..."
-
-#: src/gthumb-ui.xml.h:183
-msgid "_Adjust Color Levels"
-msgstr "_Színszintek beállítása"
-
-#: src/gthumb-ui.xml.h:184
-msgid "_Back"
-msgstr "_Vissza"
-
-#: src/gthumb-ui.xml.h:186
-msgid "_Bookmarks"
-msgstr "Köny_vjelzők"
-
-#: src/gthumb-ui.xml.h:187
-msgid "_Brightness-Contrast"
-msgstr "_Fényerő és kontraszt"
-
-#: src/gthumb-ui.xml.h:188
-msgid "_Catalogs"
-msgstr "_Katalógusok"
-
-#: src/gthumb-ui.xml.h:189
-msgid "_Centered"
-msgstr "_Középre igazított"
-
-#: src/gthumb-ui.xml.h:191
-msgid "_Close"
-msgstr "_Bezárás"
-
-#: src/gthumb-ui.xml.h:192
-msgid "_Color Balance"
-msgstr "_Színegyensúly"
-
-#: src/gthumb-ui.xml.h:193
-msgid "_Contents"
-msgstr "_Tartalom"
-
-#: src/gthumb-ui.xml.h:194
-msgid "_Copy..."
-msgstr "_Másolás..."
-
-#: src/gthumb-ui.xml.h:195
-msgid "_Crop"
-msgstr "_Levágás"
-
-#: src/gthumb-ui.xml.h:196
-msgid "_Delete History"
-msgstr "Előzmények _törlése"
-
-#: src/gthumb-ui.xml.h:197
-msgid "_Desaturate"
-msgstr "_Szürkítés"
-
-#: src/gthumb-ui.xml.h:198
-msgid "_Edit"
-msgstr "S_zerkesztés"
-
-#: src/gthumb-ui.xml.h:199
-msgid "_Edit Bookmarks"
-msgstr "Köny_vjelzők szerkesztése"
-
-#: src/gthumb-ui.xml.h:200 src/gthumb_search.glade.h:25
-msgid "_Edit Search"
-msgstr "_Keresés szerkesztése"
-
-#: src/gthumb-ui.xml.h:201
-msgid "_Equalize"
-msgstr "_Kiegyenlítés"
-
-#: src/gthumb-ui.xml.h:202
-msgid "_File"
-msgstr "_Fájl"
-
-#: src/gthumb-ui.xml.h:203
-msgid "_Find..."
-msgstr "_Keresés..."
-
-#: src/gthumb-ui.xml.h:205
-msgid "_Folder"
-msgstr "_Mappa"
-
-#: src/gthumb-ui.xml.h:206
-msgid "_Folders"
-msgstr "_Mappák"
-
-#: src/gthumb-ui.xml.h:207
-msgid "_Forward"
-msgstr "_Előre"
-
-#: src/gthumb-ui.xml.h:208
-msgid "_Full Screen"
-msgstr "_Teljes képernyő"
-
-#: src/gthumb-ui.xml.h:209
-msgid "_Go"
-msgstr "_Ugrás"
-
-#: src/gthumb-ui.xml.h:210
-msgid "_Go to the Image Folder"
-msgstr "_Ugrás a képek mappájához"
-
-#: src/gthumb-ui.xml.h:211
-msgid "_Help"
-msgstr "_Súgó"
-
-#: src/gthumb-ui.xml.h:212
-msgid "_High Quality"
-msgstr "_Jó minőség"
-
-#: src/gthumb-ui.xml.h:213
-msgid "_Home"
-msgstr "_Kezdőlap"
-
-#: src/gthumb-ui.xml.h:214
-msgid "_Hue-Saturation"
-msgstr "_Színezet és telítettség"
-
-#: src/gthumb-ui.xml.h:216
-msgid "_Image Preview"
-msgstr "_Előnézeti kép"
-
-#: src/gthumb-ui.xml.h:217
-msgid "_Keyboard Shortcuts"
-msgstr "_Gyorsbillentyűk"
-
-#: src/gthumb-ui.xml.h:218
-msgid "_Location..."
-msgstr "_Hely..."
-
-#: src/gthumb-ui.xml.h:219
-msgid "_Low Quality"
-msgstr "_Alacsony minőség"
-
-#: src/gthumb-ui.xml.h:220
-msgid "_Maintenance"
-msgstr "_Karbantartás"
-
-#: src/gthumb-ui.xml.h:222
-msgid "_Move..."
-msgstr "Á_thelyezés..."
-
-#: src/gthumb-ui.xml.h:223
-msgid "_Negative"
-msgstr "_Negatív"
-
-#: src/gthumb-ui.xml.h:224
-msgid "_New Catalog..."
-msgstr "Új _katalógus..."
-
-#: src/gthumb-ui.xml.h:225
-msgid "_New Folder..."
-msgstr "Új _mappa..."
-
-#: src/gthumb-ui.xml.h:227
-msgid "_Normalize"
-msgstr "_Normalizálás"
-
-#: src/gthumb-ui.xml.h:228
-msgid "_Open With"
-msgstr "_Megnyitás mással"
-
-#: src/gthumb-ui.xml.h:229
-msgid "_Posterize"
-msgstr "_Poszterizálás"
-
-#: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
-msgid "_Preferences"
-msgstr "_Beállítások"
-
-#: src/gthumb-ui.xml.h:231
-msgid "_Print..."
-msgstr "_Nyomtatás..."
-
-#: src/gthumb-ui.xml.h:232
-msgid "_Reduce Colors"
-msgstr "_Színek számának csökkentése"
-
-#: src/gthumb-ui.xml.h:233
-msgid "_Reload"
-msgstr "_Frissítés"
-
-#: src/gthumb-ui.xml.h:235
-msgid "_Rename Series"
-msgstr "Sorozat át_nevezése"
-
-#: src/gthumb-ui.xml.h:236
-msgid "_Rename..."
-msgstr "Á_tnevezés..."
-
-#: src/gthumb-ui.xml.h:237
-msgid "_Resize"
-msgstr "Át_méretezés"
-
-#: src/gthumb-ui.xml.h:238
-msgid "_Restore"
-msgstr "_Helyreállítás"
-
-#: src/gthumb-ui.xml.h:239
-msgid "_Reversed Order"
-msgstr "_Fordított sorrend"
-
-#: src/gthumb-ui.xml.h:240
-msgid "_Revert"
-msgstr "_Visszaállítás"
-
-#: src/gthumb-ui.xml.h:241
-msgid "_Rotate"
-msgstr "_Elforgatás"
-
-#: src/gthumb-ui.xml.h:242
-msgid "_Scaled"
-msgstr "_Méretezett"
-
-#: src/gthumb-ui.xml.h:243
-msgid "_Select All"
-msgstr "_Mindet kijelöli"
-
-#: src/gthumb-ui.xml.h:244
-msgid "_Slide Show"
-msgstr "_Diavetítés"
-
-#: src/gthumb-ui.xml.h:245
-msgid "_Statusbar"
-msgstr "Á_llapotsor"
-
-#: src/gthumb-ui.xml.h:246
-msgid "_Stop"
-msgstr "_Leállítás"
-
-#: src/gthumb-ui.xml.h:247
-msgid "_Stretch Contrast"
-msgstr "K_ontraszt kifeszítése..."
-
-#: src/gthumb-ui.xml.h:248
-msgid "_Threshold"
-msgstr "_Küszöbszint"
-
-#: src/gthumb-ui.xml.h:249 src/gthumb_preferences.glade.h:65
-msgid "_Thumbnails"
-msgstr "_Bélyegképek"
-
-#: src/gthumb-ui.xml.h:250
-msgid "_Tiled"
-msgstr "_Mozaik"
-
-#: src/gthumb-ui.xml.h:251
-msgid "_Toolbar"
-msgstr "_Eszköztár"
-
-#: src/gthumb-ui.xml.h:252
-msgid "_Tools"
-msgstr "_Eszközök"
-
-#: src/gthumb-ui.xml.h:253
-msgid "_Transform"
-msgstr "Á_talakítás"
-
-#: src/gthumb-ui.xml.h:254
-msgid "_Up"
-msgstr "_Fel"
-
-#: src/gthumb-ui.xml.h:257
-msgid "_Zoom"
-msgstr "_Nagyítás"
-
-#: src/gthumb-ui.xml.h:258
-msgid "by _Name"
-msgstr "_Név szerint"
-
-#: src/gthumb-ui.xml.h:259
-msgid "by _Path"
-msgstr "Ú_tvonal szerint"
-
-#: src/gthumb-ui.xml.h:260
-msgid "by _Size"
-msgstr "_Méret szerint"
-
-#: src/gthumb-ui.xml.h:261
-msgid "by _Time"
-msgstr "_Idő szerint"
-
-#: src/gthumb-window.c:431
+#: src/gthumb-window.c:452
 msgid "[Press 'c' to add a comment]"
-msgstr "[Nyomd meg a 'c' billentyűt a megjegyzés hozzáadásához.]"
+msgstr "[Nyomja meg a 'c' billentyűt a megjegyzés hozzáadásához.]"
 
-#: src/gthumb-window.c:505 src/gthumb-window.c:527
+#: src/gthumb-window.c:526 src/gthumb-window.c:548
 msgid "[modified]"
 msgstr "[megváltozott]"
 
-#: src/gthumb-window.c:611
+#: src/gthumb-window.c:632
 msgid "No image"
 msgstr "Nincs kép"
 
-#: src/gthumb-window.c:613
+#: src/gthumb-window.c:634
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 kép (%s)"
 
-#: src/gthumb-window.c:616
+#: src/gthumb-window.c:637
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d kép (%s)"
 
-#: src/gthumb-window.c:623
+#: src/gthumb-window.c:644
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 kijelölve (%s)"
 
-#: src/gthumb-window.c:626
+#: src/gthumb-window.c:647
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d kijelölve (%s)"
 
-#: src/gthumb-window.c:3165
+#: src/gthumb-window.c:3181
 msgid "Dragged Images"
 msgstr "Behúzott képek"
 
-#: src/gthumb-window.c:3364
+#: src/gthumb-window.c:3395
 msgid "Could not move the items:"
 msgstr "Az elemek áthelyezése nem sikerült:"
 
-#: src/gthumb-window.c:5140
+#: src/gthumb-window.c:5215
 msgid "Image comment"
 msgstr "Megjegyzés a képhez"
 
-#: src/gthumb-window.c:5154
+#: src/gthumb-window.c:5229
 msgid "Image data"
 msgstr "Kép adatai"
 
-#: src/gthumb-window.c:5168
+#: src/gthumb-window.c:5243
 msgid "Image preview"
 msgstr "Előnézeti kép"
 
-#: src/gthumb-window.c:6373
+#: src/gthumb-window.c:5686
+msgid "The current image has been modified, do you want to save it?"
+msgstr "Az aktuális kép megváltozott. Szeretné menteni?"
+
+#: src/gthumb-window.c:5687
+msgid "Do Not Save"
+msgstr "Ne mentse"
+
+#: src/gthumb-window.c:6512
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nem sikerült betölteni a mappát: \"%s\": %s\n"
 
-#: src/gthumb-window.c:6642
+#: src/gthumb-window.c:6781
 msgid "The specified catalog does not exist."
 msgstr "A megadott katalógus nem létezik."
 
-#: src/gthumb-window.c:8023
+#: src/gthumb-window.c:8394
 msgid "Wait please..."
 msgstr "Várj..."
 
-#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
-#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
-#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
-#: src/gthumb_web_exporter.glade.h:1
-msgid "    "
-msgstr "    "
-
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
-#: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
-#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
-msgid "*"
-msgstr "*"
-
-#: src/gthumb.glade.h:3
-msgid "<b>Categories:</b>"
-msgstr "<b>Kategóriák:</b>"
-
-#: src/gthumb.glade.h:4
-msgid "<b>Information on Channel:</b>"
-msgstr "<b>Csatornainformáció:</b>"
-
-#: src/gthumb.glade.h:5
-msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>Felülírod a régi képet az újjal?</b>"
-
-#: src/gthumb.glade.h:6
-msgid "A_vailable applications:"
-msgstr "E_lérhető alkalmazások:"
-
-#: src/gthumb.glade.h:7
-msgid "Alpha"
-msgstr "Alfa"
-
-#: src/gthumb.glade.h:8
-msgid "Blue"
-msgstr "Kék"
-
-#: src/gthumb.glade.h:9
-msgid "Bookmarks"
-msgstr "Könyvjelzők"
-
-#: src/gthumb.glade.h:10
-msgid "C_atalogs:"
-msgstr "_Katalógusok:"
-
-#: src/gthumb.glade.h:11
-msgid "Choose a Catalog"
-msgstr "Katalógus választása"
-
-#: src/gthumb.glade.h:13
-msgid "Do not overwrite _the old image"
-msgstr "Ne írja felül a régi képeket"
-
-#: src/gthumb.glade.h:14
-msgid "Green"
-msgstr "Zöld"
-
-#: src/gthumb.glade.h:15
-msgid "New Image:"
-msgstr "Új kép:"
-
-#: src/gthumb.glade.h:16
-msgid "New _Library"
-msgstr "Új _könyvtár"
-
-#: src/gthumb.glade.h:17
-msgid "Old Image:"
-msgstr "Régi kép:"
-
-#: src/gthumb.glade.h:18
-msgid "Open Images"
-msgstr "Képek megnyitása"
-
-#: src/gthumb.glade.h:19
-msgid "Over_write the old image"
-msgstr "Fe_lülírod a régi képet?"
-
-#: src/gthumb.glade.h:20
-msgid "Overwrite Image"
-msgstr "Kép felülírása"
-
-#: src/gthumb.glade.h:21
-msgid "Overwrite _all images"
-msgstr "_Minden kép felülírása"
-
-#: src/gthumb.glade.h:22
-msgid "Photo _Data (EXIF)"
-msgstr "Fényképa_dat (EXIF)"
-
-#: src/gthumb.glade.h:23
-msgid "R_ecent applications:"
-msgstr "_Legutóbbi alkalmazások:"
-
-#: src/gthumb.glade.h:24
-msgid "Red"
-msgstr "Vörös"
-
-#: src/gthumb.glade.h:25
-msgid "Value"
-msgstr "Érték"
-
-#: src/gthumb.glade.h:26
-msgid "_Application:"
-msgstr "_Alkalmazás:"
-
-#: src/gthumb.glade.h:28
-msgid "_Do not overwrite any image"
-msgstr "_Ne írjon felül semmilyen képet"
-
-#: src/gthumb.glade.h:29
-msgid "_General"
-msgstr "Á_ltalános"
-
-#: src/gthumb.glade.h:30
-msgid "_Histogram"
-msgstr "_Hisztogram"
-
-#: src/gthumb.glade.h:31
-msgid "_New Catalog"
-msgstr "Új _katalógus"
-
-#: src/gthumb.glade.h:32
-msgid "_Next"
-msgstr "_Következő"
-
-#: src/gthumb.glade.h:33
-msgid "_Previous"
-msgstr "_Előző"
-
-#: src/gthumb.glade.h:34
-msgid "_Remove"
-msgstr "_Eltávolítás"
-
-#: src/gthumb.glade.h:35
-msgid "_Save the new image as:"
-msgstr "Új kép _mentése:"
-
-#: src/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 "
-"érték az jelenti, hogy minden képhez készüljön bélyegkép."
-
-#: src/gthumb.schemas.in.h:2
-msgid "Possible values are: 1, 2, 3, 4."
-msgstr "Lehetséges értékek: 1, 2, 3, 4."
-
-#: src/gthumb.schemas.in.h:3
-msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr "Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger."
-
-#: src/gthumb.schemas.in.h:4
-msgid "Possible values are: ascending, descending."
-msgstr "Lehetséges értékek: ascending, descending."
-
-#: src/gthumb.schemas.in.h:5
-msgid "Possible values are: forward, backward."
-msgstr "Lehetséges értékek: forward, backward."
-
-#: src/gthumb.schemas.in.h:6
-msgid "Possible values are: high, low."
-msgstr "Lehetséges értékek: high, low."
-
-#: src/gthumb.schemas.in.h:7
-msgid "Possible values are: image, data, comment."
-msgstr "Lehetséges értékek: image, data, comment."
-
-#: src/gthumb.schemas.in.h:8
-msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr "Lehetséges értékek: jpeg, png, tga, tiff."
-
-#: src/gthumb.schemas.in.h:9
-msgid "Possible values are: light, midtone, dark."
-msgstr "Lehetséges értékek: light, midtone, dark."
-
-#: src/gthumb.schemas.in.h:10
-msgid "Possible values are: list, thumbnails."
-msgstr "Lehetséges értékek: list, thumbnails."
-
-#: src/gthumb.schemas.in.h:11
-msgid "Possible values are: mm, in."
-msgstr "Lehetséges értékek: mm, in."
-
-#: src/gthumb.schemas.in.h:12
-msgid "Possible values are: name, path, size, time."
-msgstr "Lehetséges értékek: name, path, size, time."
-
-#: src/gthumb.schemas.in.h:13
-msgid "Possible values are: name, size, time."
-msgstr "Lehetséges értékek: name, size, time."
-
-#: src/gthumb.schemas.in.h:14
-msgid "Possible values are: nautilus, single, double."
-msgstr "Lehetséges értékek: nautilus, single, double."
-
-#: src/gthumb.schemas.in.h:15
-msgid "Possible values are: none, deflate, jpeg."
-msgstr "Lehetséges értékek: none, deflate, jpeg."
-
-#: src/gthumb.schemas.in.h:16
-msgid "Possible values are: none, name, path, size, time."
-msgstr "Lehetséges értékek: none, name, path, size, time."
-
-#: src/gthumb.schemas.in.h:17
-msgid ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-msgstr ""
-"Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-
-#: src/gthumb.schemas.in.h:18
-msgid "Possible values are: pixels, percentage."
-msgstr "Lehetséges értékek: pixels, percentage."
-
-#: src/gthumb.schemas.in.h:19
-msgid "Possible values are: png, jpeg."
-msgstr "Lehetséges értékek: png, jpeg."
-
-#: src/gthumb.schemas.in.h:20
-msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr "Lehetséges értékek: skip, rename, ask, overwrite."
-
-#: src/gthumb.schemas.in.h:21
-msgid "Possible values are: small, medium, large."
-msgstr "Lehetséges értékek: small, medium, large."
-
-#: src/gthumb.schemas.in.h:22
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
-
-#: src/gthumb.schemas.in.h:23
-msgid "Possible values are: white, black, checked, none."
-msgstr "Lehetséges értékek: white, black, checked, none."
-
-#: src/gthumb.schemas.in.h:24
-msgid "Whether to always use a black background."
-msgstr "Mindig fekete legyen-e a háttér?"
-
-#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
-msgid "A_vailable categories:"
-msgstr "_Rendelkezésre álló kategóriák:"
-
-#: src/gthumb_comments.glade.h:4 src/gthumb_tools.glade.h:10
-msgid "C_urrent date"
-msgstr "Jelenlegi _dátum"
-
-#: src/gthumb_comments.glade.h:6
-msgid "Choose Date"
-msgstr "Dátum kiválasztása"
-
-#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
-msgid "Co_mment:"
-msgstr "_Megjegyzés:"
-
-#: src/gthumb_comments.glade.h:9
-msgid "Create a new category"
-msgstr "Új kategória létrehozása"
-
-#: src/gthumb_comments.glade.h:10
-msgid "Current date"
-msgstr "Jelenlegi dátum"
-
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
-msgid "Image c_reation date"
-msgstr "Kép _létrehozásának ideje"
-
-#: src/gthumb_comments.glade.h:12
-msgid "Image creation date"
-msgstr "Kép létrehozásának ideje"
-
-#: src/gthumb_comments.glade.h:13
-msgid "No date"
-msgstr "Nincs dátum"
-
-#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
-msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "A _fénykép digitalizálásának dátuma (az EXIF-adatokból)"
-
-#: src/gthumb_comments.glade.h:15
-msgid "Photo digitalization date (From EXIF data)"
-msgstr "A fénykép digitalizálásának dátuma (az EXIF-adatokból)"
-
-#: src/gthumb_comments.glade.h:16
-msgid "Remove selected category"
-msgstr "A kijelölt kategória törlése"
-
-#: src/gthumb_comments.glade.h:17
-msgid "Save only cha_nged fields"
-msgstr "Csak a _változtatott mezők mentése"
-
-#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "A _következő dátum:"
-
-#: src/gthumb_comments.glade.h:19
-msgid "The following date"
-msgstr "A következő dátum"
-
-#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
-msgid "_Date:"
-msgstr "_Dátum:"
-
-#: src/gthumb_comments.glade.h:21
-msgid "_Delete"
-msgstr "_Törlés"
-
-#: src/gthumb_comments.glade.h:22
-msgid "_New"
-msgstr "Ú_j"
-
-#: src/gthumb_comments.glade.h:23
-msgid "_No date"
-msgstr "_Nincs dátum"
-
-#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
-msgid "_Place:"
-msgstr "_Hely:"
-
-#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
-msgid "_Selected categories:"
-msgstr "_Kijelölt kategóriák:"
-
-#: src/gthumb_convert.glade.h:3
-msgid "<b>Compression</b>"
-msgstr "<b>Tömörítés</b>"
-
-#: src/gthumb_convert.glade.h:4
-msgid "<b>Image type</b>"
-msgstr "<b>Képtípusok</b>"
-
-#: src/gthumb_convert.glade.h:5
-msgid "<b>Resolution</b>"
-msgstr "<b>Felbontás</b>"
-
-#: src/gthumb_convert.glade.h:6
-msgid "Ask"
-msgstr "Kérdezzen"
-
-#: src/gthumb_convert.glade.h:7
-msgid "Compression _level:"
-msgstr "Tömörítés _szintje:"
-
-#: src/gthumb_convert.glade.h:8
-msgid "Convert Format"
-msgstr "Átalakítás más formátumba"
-
-#: src/gthumb_convert.glade.h:9
-msgid "JPEG Options"
-msgstr "JPEG beállításai"
-
-#: src/gthumb_convert.glade.h:10
-msgid "No_rmal (Deflate)"
-msgstr "No_rmál (Deflate)"
-
-#: src/gthumb_convert.glade.h:11
-msgid "Opti_mize"
-msgstr "Opti_malizálás"
-
-#: src/gthumb_convert.glade.h:12
-msgid "Overwrite"
-msgstr "Felülírás"
-
-#: src/gthumb_convert.glade.h:13
-msgid "Overwrite mode:"
-msgstr "Felülírás módja:"
-
-#: src/gthumb_convert.glade.h:14
-msgid "PNG Options"
-msgstr "PNG beállításai"
-
-#: src/gthumb_convert.glade.h:15
-msgid "R_emove original"
-msgstr "E_redeti eltávolítása"
-
-#: src/gthumb_convert.glade.h:16
-msgid "Rename"
-msgstr "Átnevezés"
-
-#: src/gthumb_convert.glade.h:18
-msgid "TGA Options"
-msgstr "TGA beállításai"
-
-#: src/gthumb_convert.glade.h:19
-msgid "TIFF Options"
-msgstr "TIFF beállításai"
-
-#: src/gthumb_convert.glade.h:20
-msgid "T_GA"
-msgstr "T_GA"
-
-#: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
-msgid "_Horizontal:"
-msgstr "_Vízszintes:"
-
-#: src/gthumb_convert.glade.h:22
-msgid "_JPEG"
-msgstr "_JPEG"
-
-#: src/gthumb_convert.glade.h:23
-msgid "_Loss compression (JPEG)"
-msgstr "_Veszteséges tömörítés (JPEG)"
-
-#: src/gthumb_convert.glade.h:24
-msgid "_No compression"
-msgstr "_Nincs tömörítés"
-
-#: src/gthumb_convert.glade.h:25
-msgid "_PNG"
-msgstr "_PNG"
-
-#: src/gthumb_convert.glade.h:26
-msgid "_Progressive"
-msgstr "_Progresszív"
-
-#: src/gthumb_convert.glade.h:27
-msgid "_Quality:"
-msgstr "_Minőség:"
-
-#: src/gthumb_convert.glade.h:28
-msgid "_RLE compression"
-msgstr "_RLE tömörítés"
-
-#: src/gthumb_convert.glade.h:29
-msgid "_Smoothing:"
-msgstr "_Simítás:"
-
-#: src/gthumb_convert.glade.h:30
-msgid "_TIFF"
-msgstr "_TIFF"
-
-#: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
-msgid "_Vertical:"
-msgstr "_Függőleges:"
-
-#: src/gthumb_convert.glade.h:32
-msgid "dpi"
-msgstr "dpi"
-
-#: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2
-msgid "     "
-msgstr "     "
-
-#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
-#, no-c-format
-msgid "%"
-msgstr "%"
-
-#: src/gthumb_edit.glade.h:5
-msgid "<b>Color levels</b>"
-msgstr "<b>Színszintek</b>"
-
-#: src/gthumb_edit.glade.h:6
-msgid "<b>New dimensions</b>"
-msgstr "<b>Új méret</b>"
-
-#: src/gthumb_edit.glade.h:7
-msgid "<b>Original dimensions</b>"
-msgstr "<b>Eredeti méret</b>"
-
-#: src/gthumb_edit.glade.h:8
-msgid "<b>Scale ratio</b>"
-msgstr "<b>Méretarány</b>"
-
-#: src/gthumb_edit.glade.h:9
-msgid "Brightness - Contrast"
-msgstr "Fényerő és kontraszt"
-
-#: src/gthumb_edit.glade.h:10
-msgid "Color Balance"
-msgstr "Színegyensúly"
-
-#: src/gthumb_edit.glade.h:11
-msgid "Con_trast:"
-msgstr "Kon_traszt:"
-
-#: src/gthumb_edit.glade.h:12
-msgid "Cyan-_Red:"
-msgstr "Ciánkék - _Vörös:"
-
-#: src/gthumb_edit.glade.h:13
-msgid "Height:"
-msgstr "Magasság:"
-
-#: src/gthumb_edit.glade.h:14
-msgid "High _quality"
-msgstr "_Jó minőség"
-
-#: src/gthumb_edit.glade.h:15
-msgid "Hue - Saturation"
-msgstr "Színezet és telítettség"
-
-#: src/gthumb_edit.glade.h:16
-msgid "Posterize"
-msgstr "Poszter"
-
-#: src/gthumb_edit.glade.h:17
-msgid "Preserve l_uminosity"
-msgstr "_Fényerő megőrzése"
-
-#: src/gthumb_edit.glade.h:18
-msgid "Scale Image"
-msgstr "Kép átméretezése"
-
-#: src/gthumb_edit.glade.h:19
-msgid "Width:"
-msgstr "Szélesség:"
-
-#: src/gthumb_edit.glade.h:20
-msgid "_Brightness:"
-msgstr "_Fényerő:"
-
-#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
-msgid "_Height:"
-msgstr "_Magasság:"
-
-#: src/gthumb_edit.glade.h:22
-msgid "_Hue:"
-msgstr "Á_rnyalat:"
-
-#: src/gthumb_edit.glade.h:23
-msgid "_Keep aspect ratio"
-msgstr "_Arányok megtartása"
-
-#: src/gthumb_edit.glade.h:24
-msgid "_Levels:"
-msgstr "_Szintek:"
-
-#: src/gthumb_edit.glade.h:25
-msgid "_Lightness:"
-msgstr "_Fényesség:"
-
-#: src/gthumb_edit.glade.h:26
-msgid "_Magenta-Green:"
-msgstr "_Bíborvörös - Zöld:"
-
-#: src/gthumb_edit.glade.h:27
-msgid "_Preview"
-msgstr "_Előnézet"
-
-#: src/gthumb_edit.glade.h:28
-msgid "_Reset"
-msgstr "_Alapállapot"
-
-#: src/gthumb_edit.glade.h:29
-msgid "_Saturation:"
-msgstr "_Telítettség:"
-
-#: src/gthumb_edit.glade.h:30
-msgid "_Scale"
-msgstr "_Méretezés"
-
-#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
-msgid "_Width:"
-msgstr "_Szélesség:"
-
-#: src/gthumb_edit.glade.h:32
-msgid "_Yellow-Blue:"
-msgstr "_Sárga - Kék:"
-
-#: src/gthumb_png_exporter.glade.h:4
-msgid "112"
-msgstr "112"
-
-#: src/gthumb_png_exporter.glade.h:5
-msgid "128"
-msgstr "128"
-
-#: src/gthumb_png_exporter.glade.h:6
-msgid "164"
-msgstr "164"
-
-#: src/gthumb_png_exporter.glade.h:7
-msgid "200"
-msgstr "200"
-
-#: src/gthumb_png_exporter.glade.h:8
-msgid "256"
-msgstr "256"
-
-#: src/gthumb_png_exporter.glade.h:9
-msgid "48"
-msgstr "48"
-
-#: src/gthumb_png_exporter.glade.h:10
-msgid "64"
-msgstr "64"
-
-#: src/gthumb_png_exporter.glade.h:11
-msgid "75"
-msgstr "75"
-
-#: src/gthumb_png_exporter.glade.h:12
-msgid "85"
-msgstr "85"
-
-#: src/gthumb_png_exporter.glade.h:13
-msgid "95"
-msgstr "95"
-
-#: src/gthumb_png_exporter.glade.h:14
-msgid "<b>Background style</b>"
-msgstr "<b>Háttérstílus</b>"
-
-#: src/gthumb_png_exporter.glade.h:15
-msgid "<b>Caption</b>"
-msgstr "<b>Képaláírás</b>"
-
-#: src/gthumb_png_exporter.glade.h:16
-msgid "<b>Destination folder</b>"
-msgstr "<b>Célmappa</b>"
-
-#: src/gthumb_png_exporter.glade.h:17
-msgid "<b>Footer</b>"
-msgstr "<b>Élőláb</b>"
-
-#: src/gthumb_png_exporter.glade.h:18
-msgid "<b>Header and footer</b>"
-msgstr "<b>Élőfej és élőláb</b>"
-
-#: src/gthumb_png_exporter.glade.h:19
-msgid "<b>Header</b>"
-msgstr "<b>Élőfej</b>"
-
-#: src/gthumb_png_exporter.glade.h:20
-msgid "<b>Index images</b>"
-msgstr "<b>Indexképek</b>"
-
-#: src/gthumb_png_exporter.glade.h:21
-msgid "<b>Page size</b>"
-msgstr "<b>Oldalméret</b>"
-
-#: src/gthumb_png_exporter.glade.h:22
-msgid "<i>Examples:</i>"
-msgstr "<i>Példák:</i>"
-
-#: src/gthumb_png_exporter.glade.h:23
-msgid "Choose destination folder"
-msgstr "Célmappa választása"
-
-#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
-msgid "Co_mment"
-msgstr "Meg_jegyzés"
-
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
-msgid "Col_umns:"
-msgstr "Oszlopok:"
-
-#: src/gthumb_png_exporter.glade.h:26
-msgid "Colo_r:"
-msgstr "S_zín:"
-
-#: src/gthumb_png_exporter.glade.h:27
-msgid "Create Index Image"
-msgstr "Indexkép létrehozása"
-
-#: src/gthumb_png_exporter.glade.h:28
-msgid "Create _HTML image map"
-msgstr "_HTML-es interaktív kép létrehozása"
-
-#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
-msgid "F_ooter:"
-msgstr "É_lőláb:"
-
-#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
-msgid "File _name"
-msgstr "Fájl_név"
-
-#: src/gthumb_png_exporter.glade.h:31
-msgid "File pa_th"
-msgstr "Út_vonal"
-
-#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
-msgid "File si_ze"
-msgstr "Fájl_méret"
-
-#: src/gthumb_png_exporter.glade.h:33
-msgid "Frame _style:"
-msgstr "Keret _stílusa:"
-
-#: src/gthumb_png_exporter.glade.h:34
-msgid "Frame co_lor:"
-msgstr "Keret s_zíne:"
-
-#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
-msgid "H_eader:"
-msgstr "Élő_fej:"
-
-#: src/gthumb_png_exporter.glade.h:36
-msgid "Header/Footer"
-msgstr "Élőfej és élőláb"
-
-#: src/gthumb_png_exporter.glade.h:37
-msgid "Hei_ght:"
-msgstr "Mag_asság:"
-
-#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
-msgid "Image dim_ensions"
-msgstr "Kép _méretei"
-
-#: src/gthumb_png_exporter.glade.h:39
-msgid "Images"
-msgstr "Képek"
-
-#: src/gthumb_png_exporter.glade.h:40
-msgid "Index Image Properties"
-msgstr "Indexkép tulajdonságai"
-
-#: src/gthumb_png_exporter.glade.h:41
-msgid "Page"
-msgstr "Oldal"
-
-#: src/gthumb_png_exporter.glade.h:42
-msgid "Pi_xels"
-msgstr "_Képpont"
-
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
-msgid "Re_verse order"
-msgstr "_Fordított sorrend"
-
-#: src/gthumb_png_exporter.glade.h:44
-msgid "Rows a_nd columns"
-msgstr "Sorok és oszlopok"
-
-#: src/gthumb_png_exporter.glade.h:45
-msgid "Select a color"
-msgstr "Szín kiválasztása"
-
-#: src/gthumb_png_exporter.glade.h:46
-msgid "Shadow in"
-msgstr "Bemélyedés"
-
-#: src/gthumb_png_exporter.glade.h:47
-msgid "Shadow only"
-msgstr "Csak árnyékolás"
-
-#: src/gthumb_png_exporter.glade.h:48
-msgid "Shadow out"
-msgstr "Kiemelkedés"
-
-#: src/gthumb_png_exporter.glade.h:49
-msgid "Simple"
-msgstr "Egyszerű"
-
-#: src/gthumb_png_exporter.glade.h:50
-msgid "Simple with shadow"
-msgstr "Egyszerű és árnyékolás"
-
-#: src/gthumb_png_exporter.glade.h:51
-msgid "Slide"
-msgstr "Dia"
-
-#: src/gthumb_png_exporter.glade.h:52
-msgid "Sor_t images:"
-msgstr "Képek _rendezése:"
-
-#: src/gthumb_png_exporter.glade.h:53
-msgid "Sort"
-msgstr "Rendezés"
-
-#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:23
-#: src/gthumb_tools.glade.h:41
-msgid "Start _at:"
-msgstr "Kezdés itt:"
-
-#: src/gthumb_png_exporter.glade.h:55
-msgid "Style Preview"
-msgstr "Stílus előnézete"
-
-#: src/gthumb_png_exporter.glade.h:56
-msgid "Use #'s to specify positions used by numeric enumerator."
-msgstr "A # jel jelöli a sorszámok által felhasznált helyet."
-
-#: src/gthumb_png_exporter.glade.h:58
-#, no-c-format
-msgid ""
-"Use %p  to insert the page number, and %n to insert the total number of "
-"pages."
-msgstr "A %p jelöli az oldalszámot, és a %n jelöli az oldalak teljes számát."
-
-#: src/gthumb_png_exporter.glade.h:59
-msgid "Wi_dth:"
-msgstr "Szé_lesség:"
-
-#: src/gthumb_png_exporter.glade.h:60
-msgid "_All pages with the same size"
-msgstr "_Minden oldal azonos méretű"
-
-#: src/gthumb_png_exporter.glade.h:61
-msgid "_Draw frame"
-msgstr "Keret _rajzolása"
-
-#: src/gthumb_png_exporter.glade.h:62
-msgid "_Font:"
-msgstr "_Betűkészlet:"
-
-#: src/gthumb_png_exporter.glade.h:63
-msgid "_Gradient"
-msgstr "_Színátmenet"
-
-#: src/gthumb_png_exporter.glade.h:65
-msgid "_Image size:"
-msgstr "_Képméret:"
-
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
-msgid "_Rows:"
-msgstr "_Sorok:"
-
-#: src/gthumb_png_exporter.glade.h:68
-msgid "_Solid color"
-msgstr "_Homogén szín"
-
-#: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
-msgid "_Template:"
-msgstr "_Sablon:"
-
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
-msgid "by name"
-msgstr "név szerint"
-
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
-msgid "by path"
-msgstr "útvonal szerint"
-
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
-msgid "by size"
-msgstr "méret szerint"
-
-#: src/gthumb_png_exporter.glade.h:74
-msgid "by time"
-msgstr "idő szerint"
-
-#: src/gthumb_png_exporter.glade.h:75
-msgid "jpeg"
-msgstr "jpeg"
-
-#: src/gthumb_png_exporter.glade.h:76
-msgid "png"
-msgstr "png"
-
-#: src/gthumb_preferences.glade.h:4
-msgid "112 x 112"
-msgstr "112 x 112"
-
-#: src/gthumb_preferences.glade.h:5
-msgid "128 x 128"
-msgstr "128 x 128"
-
-#: src/gthumb_preferences.glade.h:6
-msgid "164 x 164"
-msgstr "164 x 164"
-
-#: src/gthumb_preferences.glade.h:7
-msgid "200 x 200"
-msgstr "200 x 200"
-
-#: src/gthumb_preferences.glade.h:8
-msgid "256 x 256"
-msgstr "256 x 256"
-
-#: src/gthumb_preferences.glade.h:9
-msgid "48 x 48"
-msgstr "48 x 48"
-
-#: src/gthumb_preferences.glade.h:10
-msgid "64 x 64"
-msgstr "64 x 64"
-
-#: src/gthumb_preferences.glade.h:11
-msgid "85 x 85"
-msgstr "85 x 85"
-
-#: src/gthumb_preferences.glade.h:12
-msgid "95 x 95"
-msgstr "95 x 95"
-
-#: src/gthumb_preferences.glade.h:13
-msgid "<b>Direction</b>"
-msgstr "<b>Irány</b>"
-
-#: src/gthumb_preferences.glade.h:14
-msgid "<b>Hide/Show</b>"
-msgstr "<b>Elrejtés/Megjelenítés</b>"
-
-#: src/gthumb_preferences.glade.h:15
-msgid "<b>Interface</b>"
-msgstr "<b>Felület</b>"
-
-#: src/gthumb_preferences.glade.h:16
-msgid "<b>On startup:</b>"
-msgstr "<b>Indításkor</b>"
-
-#: src/gthumb_preferences.glade.h:17
-msgid "<b>Other</b>"
-msgstr "<b>Egyéb</b>"
-
-#: src/gthumb_preferences.glade.h:18
-msgid "<b>Slide show</b>"
-msgstr "<b>Diavetítés</b>"
-
-#: src/gthumb_preferences.glade.h:19
-msgid "<b>View images as</b>"
-msgstr "<b>Képek megjelenítésének módja</b>"
-
-#: src/gthumb_preferences.glade.h:20
-msgid "<b>Viewer</b>"
-msgstr "<b>Megjelenítő</b>"
-
-#: src/gthumb_preferences.glade.h:21
-msgid "<b>Zoom quality</b>"
-msgstr "<b>Nagyítás minősége</b>"
-
-#: src/gthumb_preferences.glade.h:22
-msgid "Activate items with a double click"
-msgstr "Elemek aktiválása dupla kattintással"
-
-#: src/gthumb_preferences.glade.h:23
-msgid "Activate items with a single click"
-msgstr "Elemek aktiválása egy kattintással"
-
-#: src/gthumb_preferences.glade.h:24
-msgid "After _loading an image:"
-msgstr "A kép betöltése _után:"
-
-#: src/gthumb_preferences.glade.h:25
-msgid "As_k confirmation before deleting images or catalogs"
-msgstr "_Megerősítés kérése képek vagy katalógusok törlésekor"
-
-#: src/gthumb_preferences.glade.h:26
-msgid "Black"
-msgstr "Fekete"
-
-#: src/gthumb_preferences.glade.h:27
-msgid "Browser"
-msgstr "Böngésző"
-
-#: src/gthumb_preferences.glade.h:28
-msgid "C_lick policy:"
-msgstr "_Kattintás típusa:"
-
-#: src/gthumb_preferences.glade.h:29
-msgid "Checked"
-msgstr "Sakktábla"
-
-#: src/gthumb_preferences.glade.h:30
-msgid "Choose startup folder"
-msgstr "Kezdőmappa választása"
-
-#: src/gthumb_preferences.glade.h:31
-msgid "Co_mments"
-msgstr "Meg_jegyzések"
-
-#: src/gthumb_preferences.glade.h:32
-msgid "D_elay before changing image:"
-msgstr "_Képváltások közötti szünet:"
-
-#: src/gthumb_preferences.glade.h:33
-msgid "D_etermine image type from content (slower)"
-msgstr "Kép_típus meghatározása a tartalom alapján (lassabb)"
-
-#: src/gthumb_preferences.glade.h:34
-msgid "Do _not change folder"
-msgstr "Ne _váltson mappát"
-
-#: src/gthumb_preferences.glade.h:35
-msgid "Fit image to window"
-msgstr "Kép igazítása az ablakmérethez"
-
-#: src/gthumb_preferences.glade.h:36
-msgid "Fit to window if larger"
-msgstr "Kép igazítása az ablakmérethez, ha nagyobb"
-
-#: src/gthumb_preferences.glade.h:37
-msgid "Follow Nautilus behaviour"
-msgstr "A Nautilus viselkedésének átvétele"
-
-#: src/gthumb_preferences.glade.h:38
-msgid "For_ward"
-msgstr "_Előre"
-
-#: src/gthumb_preferences.glade.h:39
-msgid "General"
-msgstr "Általános"
-
-#: src/gthumb_preferences.glade.h:40
-msgid "Go to last _visited folder or catalog"
-msgstr "Ugrás az utoljára _meglátogatott mappába vagy katalógusba"
-
-#: src/gthumb_preferences.glade.h:41
-msgid "Go to this _folder:"
-msgstr "Ugrás a következő mappába:"
-
-#: src/gthumb_preferences.glade.h:42
-msgid "H_igh"
-msgstr "M_agas"
-
-#: src/gthumb_preferences.glade.h:43
-msgid "Icons only"
-msgstr "Csak ikonok"
-
-#: src/gthumb_preferences.glade.h:44
-msgid "Keep previous zoom"
-msgstr "Előző nagyítás megtartása"
-
-#: src/gthumb_preferences.glade.h:45
-msgid "Layout:"
-msgstr "Elrendezés:"
-
-#: src/gthumb_preferences.glade.h:46
-msgid "Lo_w"
-msgstr "A_lacsony"
-
-#: src/gthumb_preferences.glade.h:47
-msgid "None"
-msgstr "Nincs"
-
-#: src/gthumb_preferences.glade.h:48
-msgid "Re_verse"
-msgstr "F_ordított"
-
-#: src/gthumb_preferences.glade.h:49
-msgid "Resta_rt when finished"
-msgstr "Automatikus újrakezdés"
-
-#: src/gthumb_preferences.glade.h:50
-msgid "Set image to actual size"
-msgstr "Kép megjelenítése a tényleges méretében"
-
-#: src/gthumb_preferences.glade.h:51
-msgid "Set to C_urrent"
-msgstr "Beállítás az _aktuálisra"
-
-#: src/gthumb_preferences.glade.h:53
-msgid "Switch to _full screen"
-msgstr "Átkapcsolás _teljes képernyőre"
-
-#: src/gthumb_preferences.glade.h:54
-msgid "System settings"
-msgstr "Rendszerbeállítások"
-
-#: src/gthumb_preferences.glade.h:55
-msgid "Text below icons"
-msgstr "Szöveg az ikonok alatt"
-
-#: src/gthumb_preferences.glade.h:56
-msgid "Text beside icons"
-msgstr "Szöveg az ikonok mellett"
-
-#: src/gthumb_preferences.glade.h:57
-msgid "Text only"
-msgstr "Csak szöveg"
-
-#: src/gthumb_preferences.glade.h:58
-msgid "Th_umbnail size:"
-msgstr "_Bélyegképek mérete:"
-
-#: src/gthumb_preferences.glade.h:59
-msgid "Transparency _type:"
-msgstr "Átlátszóság _típusa:"
-
-#: src/gthumb_preferences.glade.h:60
-msgid "Viewer"
-msgstr "Megjelenítő"
-
-#: src/gthumb_preferences.glade.h:61
-msgid "White"
-msgstr "Fehér"
-
-#: src/gthumb_preferences.glade.h:62
-msgid "_Filenames"
-msgstr "_Fájlnevek"
-
-#: src/gthumb_preferences.glade.h:63
-msgid "_List"
-msgstr "_Lista"
-
-#: src/gthumb_preferences.glade.h:64
-msgid "_Slides"
-msgstr "_Diák"
-
-#: src/gthumb_preferences.glade.h:66
-msgid "_Toolbar style:"
-msgstr "_Eszköztár stílusa:"
-
-#: src/gthumb_preferences.glade.h:67
-msgid "gThumb Preferences"
-msgstr "A gThumb beállításai"
-
-#: src/gthumb_preferences.glade.h:68
-msgid "seconds"
-msgstr "másodperc"
-
-#: src/gthumb_print.glade.h:4
-msgid "<b>Image</b>"
-msgstr "<b>Kép</b>"
-
-#: src/gthumb_print.glade.h:5
-msgid "<b>Orientation</b>"
-msgstr "<b>Tájolás</b>"
-
-#: src/gthumb_print.glade.h:6
-msgid "<b>Size</b>"
-msgstr "<b>Méret</b>"
-
-#: src/gthumb_print.glade.h:7
-msgid ""
-"<i>Drag the image to move\n"
-"it in the page.</i>"
-msgstr ""
-"<i>Ragadd meg a képet,\n"
-"és mozgasd a helyére.</i>"
-
-#: src/gthumb_print.glade.h:9
-msgid "A_4"
-msgstr "A_4"
-
-#: src/gthumb_print.glade.h:10
-msgid "C_ustom:"
-msgstr "E_gyéni:"
-
-#: src/gthumb_print.glade.h:11
-msgid "Center _on Page"
-msgstr "Oldal _közepére"
-
-#: src/gthumb_print.glade.h:12
-msgid "Comment _font:"
-msgstr "Megjegyzés _betűkészlete:"
-
-#: src/gthumb_print.glade.h:13
-msgid "I_nclude comment"
-msgstr "_Megjegyzést is"
-
-#: src/gthumb_print.glade.h:14
-msgid "Inches"
-msgstr "Hüvelyk"
-
-#: src/gthumb_print.glade.h:15
-msgid "Lan_dscape"
-msgstr "_Fekvő"
-
-#: src/gthumb_print.glade.h:16
-msgid "Layout"
-msgstr "Elrendezés"
-
-#: src/gthumb_print.glade.h:17
-msgid "Millimeters"
-msgstr "Milliméter"
-
-#: src/gthumb_print.glade.h:18
-msgid "P_ortrait"
-msgstr "Á_lló"
-
-#: src/gthumb_print.glade.h:19
-msgid "Paper Details"
-msgstr "Papír adatai"
-
-#: src/gthumb_print.glade.h:21
-msgid "US E_xecutive"
-msgstr "US E_xecutive"
-
-#: src/gthumb_print.glade.h:22
-msgid "US L_egal"
-msgstr "US L_egal"
-
-#: src/gthumb_print.glade.h:23
-msgid "US _Letter"
-msgstr "US _Letter"
-
-#: src/gthumb_print.glade.h:25
-msgid "_Scale:"
-msgstr "_Méretezés:"
-
-#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
-msgid "..."
-msgstr "..."
-
-#: src/gthumb_search.glade.h:3
-msgid "<b>Search criteria</b>"
-msgstr "<b>Keresési feltételek</b>"
-
-#: src/gthumb_search.glade.h:4
-msgid "<b>Search scope</b>"
-msgstr "<b>Keresés hatóköre</b>"
-
-#: src/gthumb_search.glade.h:6
-msgid "After"
-msgstr "Ez után"
-
-#: src/gthumb_search.glade.h:7
-msgid "Any"
-msgstr "Bármikor"
-
-#: src/gthumb_search.glade.h:8
-msgid "Before"
-msgstr "Ez előtt"
-
-#: src/gthumb_search.glade.h:9
-msgid "Ca_tegories:"
-msgstr "Ka_tegóriák:"
-
-#: src/gthumb_search.glade.h:11
-msgid "Choose categories from the saved list"
-msgstr "Kategória választása a mentett listáról"
-
-#: src/gthumb_search.glade.h:13
-msgid "Equal to"
-msgstr "Pontosan"
-
-#: src/gthumb_search.glade.h:14
-msgid "File _name:"
-msgstr "Fájl_név:"
-
-#: src/gthumb_search.glade.h:15
-msgid "Find"
-msgstr "Keresés"
-
-#: src/gthumb_search.glade.h:16
-msgid "Found images:"
-msgstr "Talált képek:"
-
-#: src/gthumb_search.glade.h:17
-msgid "Match a_ll selected categories"
-msgstr "Legyen benne _mindegyik kijelölt kategóriában"
-
-#: src/gthumb_search.glade.h:18
-msgid "Match a_ny selected category"
-msgstr "Legyen benne _bármelyik kijelölt kategóriában"
-
-#: src/gthumb_search.glade.h:19
-msgid "New _Search..."
-msgstr "Új _keresés..."
-
-#: src/gthumb_search.glade.h:20
-msgid "No images found"
-msgstr "Egy kép sincs"
-
-#: src/gthumb_search.glade.h:21
-msgid "Search Progress"
-msgstr "Keresés folyamata"
-
-#: src/gthumb_search.glade.h:22 src/gthumb_tools.glade.h:40
-msgid "Searching in:"
-msgstr "Keresés itt:"
-
-#: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
-msgid "_Include sub-folders"
-msgstr "_Almappákban is"
-
-#: src/gthumb_search.glade.h:28
-msgid "_Save"
-msgstr "M_entés"
-
-#: src/gthumb_search.glade.h:29
-msgid "_Search"
-msgstr "_Keresés"
-
-#: src/gthumb_tools.glade.h:4
-msgid "<b>Comments</b>"
-msgstr "<b>Megjegyzések</b>"
-
-#: src/gthumb_tools.glade.h:5
-msgid "<b>File list order</b>"
-msgstr "<b>Fájllista rendezése</b>"
-
-#: src/gthumb_tools.glade.h:6
-msgid "<b>Specify a template to use for renaming images</b>"
-msgstr "<b>Sablon megadása a képek átnevezéséhez</b>"
-
-#: src/gthumb_tools.glade.h:7
-msgid "<b>Thumbnails</b>"
-msgstr "<b>Bélyegképek</b>"
-
-#: src/gthumb_tools.glade.h:8
-msgid "Apply to _all images"
-msgstr "Alkalmazás az ö_sszes képre"
-
-#: src/gthumb_tools.glade.h:9
-msgid "Backup Comments"
-msgstr "Megjegyzések biztonsági mentése"
-
-#: src/gthumb_tools.glade.h:11
-msgid "Change Date"
-msgstr "Változás dátuma"
-
-#: src/gthumb_tools.glade.h:12
-msgid "Change the last modified date to:"
-msgstr "Az utolsó módosítás dátumát erre változtatja:"
-
-#: src/gthumb_tools.glade.h:13
-msgid "Check _All"
-msgstr "_Mindet bejelöli"
-
-#: src/gthumb_tools.glade.h:14
-msgid "Check _None"
-msgstr "_Egyiket sem jelöli be"
-
-#: src/gthumb_tools.glade.h:15
-msgid "Checking image:"
-msgstr "Ellenőrzött kép:"
-
-#: src/gthumb_tools.glade.h:16
-msgid "Delete ALL Comments"
-msgstr "Az összes megjegyzés törlése"
-
-#: src/gthumb_tools.glade.h:17
-msgid "Delete ALL Thumbnails"
-msgstr "Az összes bélyegkép törlése"
-
-#: src/gthumb_tools.glade.h:18
-msgid "Delete Old Comments"
-msgstr "Régi megjegyzések törlése"
-
-#: src/gthumb_tools.glade.h:19
-msgid "Delete Old Thumbnails"
-msgstr "Régi bélyegképek törlése"
-
-#: src/gthumb_tools.glade.h:20
-msgid "Delete comments of no more existing images"
-msgstr "A már nem létező képekhez tartozó megjegyzések törlése"
-
-#: src/gthumb_tools.glade.h:21
-msgid "Delete thumbnails of no more existing images"
-msgstr "A már nem létező képekhez tartozó bélyegképek törlése"
-
-#: src/gthumb_tools.glade.h:22
-msgid "Equal images:"
-msgstr "Azonos képek:"
-
-#: src/gthumb_tools.glade.h:23
-msgid "Find Duplicates"
-msgstr "Azonosak keresése"
-
-#: src/gthumb_tools.glade.h:24
-msgid "Found duplicates:"
-msgstr "Talált azonos képek:"
-
-#: src/gthumb_tools.glade.h:26
-msgid "JPEG Lossless Transformation"
-msgstr "Veszteségmentes JPEG-átalakítás"
-
-#: src/gthumb_tools.glade.h:27
-msgid "Maintenance"
-msgstr "Karbantartás"
-
-#: src/gthumb_tools.glade.h:28
-msgid "Mirror image horizontally (left-right)"
-msgstr "A kép vízszintes irányú tükrözése (bal-jobb)"
-
-#: src/gthumb_tools.glade.h:29
-msgid "Mirror image vertically (top-bottom)"
-msgstr "A kép függőleges irányú tükrözése (fent-lent)"
-
-#: src/gthumb_tools.glade.h:31
-msgid "New names _preview:"
-msgstr "Új nevek _előnézete:"
-
-#: src/gthumb_tools.glade.h:33
-msgid "Re_verse Order"
-msgstr "Fo_rdított sorrend"
-
-#: src/gthumb_tools.glade.h:34
-msgid "Rename Series"
-msgstr "Sorozat átnevezése"
-
-#: src/gthumb_tools.glade.h:35
-msgid "Restore Comments From a Backup File"
-msgstr "Megjegyzés helyreállítása a biztonsági mentésből"
-
-#: src/gthumb_tools.glade.h:36
-msgid "Revert changes"
-msgstr "Változások visszavonása"
-
-#: src/gthumb_tools.glade.h:37
-msgid "Rotate image 90 degrees clockwise"
-msgstr "A kép elforgatása 90 fokkal jobbra"
-
-#: src/gthumb_tools.glade.h:38
-msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "A kép elforgatása 90 fokkal balra"
-
-#: src/gthumb_tools.glade.h:39
-msgid "Search terminated, no duplicates found."
-msgstr "A keresés befejeződött, nincsenek duplikátumok."
-
-#: src/gthumb_tools.glade.h:43
-msgid ""
-"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
-"original filename. Use ? to insert the image date. Use ! to insert the image "
-"size"
-msgstr ""
-"A # jel jelöli a sorszámok által felhasznált helyet. A * jel jelöli az "
-"eredeti fájlnevet. A ? jel jelöli a kép dátumát. A ! jel jelöli a kép "
-"méretét."
-
-#: src/gthumb_tools.glade.h:46
-msgid "_Sort original list:"
-msgstr "_Eredeti lista rendezése:"
-
-#: src/gthumb_tools.glade.h:49
-msgid "by Modification date"
-msgstr "Módosítás dátuma szerint"
-
-#: src/gthumb_tools.glade.h:50
-msgid "by Name"
-msgstr "Név szerint"
-
-#: src/gthumb_tools.glade.h:51
-msgid "by Size"
-msgstr "Méret szerint"
-
-#: src/gthumb_web_exporter.glade.h:5
-msgid "1024 x 768"
-msgstr "1024 x 768"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "1280 x 960"
-msgstr "1280 x 960"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "320 x 200"
-msgstr "320 x 200"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "640 x 480"
-msgstr "640 x 480"
-
-#: src/gthumb_web_exporter.glade.h:9
-msgid "800 x 600"
-msgstr "800 x 600"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "<b>Album</b>"
-msgstr "<b>Album</b>"
-
-#: src/gthumb_web_exporter.glade.h:11
-msgid "<b>Index Layout</b>"
-msgstr "<b>Indexkép elrendezése</b>"
-
-#: src/gthumb_web_exporter.glade.h:12
-msgid "<b>Personalize theme</b>"
-msgstr "<b>Téma személyre szabása</b>"
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "<b>Photo data</b>"
-msgstr "<b>Fényképadatok</b>"
-
-#: src/gthumb_web_exporter.glade.h:14
-msgid "<b>Saving</b>"
-msgstr "<b>Mentés</b>"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "<b>Theme</b>"
-msgstr "<b>Téma</b>"
-
-#: src/gthumb_web_exporter.glade.h:16
-msgid "Came_ra Model"
-msgstr "Fé_nyképezőgép"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "Caption"
-msgstr "Cím"
-
-#: src/gthumb_web_exporter.glade.h:20
-msgid "E_xposure mode"
-msgstr "E_xpozíció módja"
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "Exposure _time"
-msgstr "Expozíciós _idő"
-
-#: src/gthumb_web_exporter.glade.h:25
-msgid "Focal _length"
-msgstr "Fókusz_távolság"
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "I_mage Caption..."
-msgstr "Kép_aláírás..."
-
-#: src/gthumb_web_exporter.glade.h:29
-msgid "Inde_x file:"
-msgstr "_Indexfájl:"
-
-#: src/gthumb_web_exporter.glade.h:31
-msgid "Resi_ze images if larger than:"
-msgstr "Kép átméretezése, ha nagyobb mint:"
-
-#: src/gthumb_web_exporter.glade.h:32
-msgid "Sor_t:"
-msgstr "_Rendezés:"
-
-#: src/gthumb_web_exporter.glade.h:33
-msgid "Th_eme:"
-msgstr "_Téma:"
-
-#: src/gthumb_web_exporter.glade.h:35
-#, no-c-format
-msgid "Use %d  to insert current date"
-msgstr "A %d jelenti az aktuális dátumot"
-
-#: src/gthumb_web_exporter.glade.h:36
-msgid "Web Album"
-msgstr "Webalbum"
-
-#: src/gthumb_web_exporter.glade.h:37
-msgid "Web Album Theme"
-msgstr "Webalbumtéma"
-
-#: src/gthumb_web_exporter.glade.h:38
-msgid "_Aperture value"
-msgstr "_Apertúraérték"
-
-#: src/gthumb_web_exporter.glade.h:39
-msgid "_Copy images to destination"
-msgstr "Képek _másolása a célba"
-
-#: src/gthumb_web_exporter.glade.h:40
-msgid "_Date and Time"
-msgstr "_Dátum és idő:"
-
-#: src/gthumb_web_exporter.glade.h:41
-msgid "_Destination:"
-msgstr "_Cél:"
-
-#: src/gthumb_web_exporter.glade.h:42
-msgid "_Flash"
-msgstr "_Vaku"
-
-#: src/gthumb_web_exporter.glade.h:43
-msgid "_Go to Theme Folder"
-msgstr "_Ugrás a témák mappájára"
-
-#: src/gthumb_web_exporter.glade.h:44
-msgid "_Install Theme..."
-msgstr "_Téma telepítése"
-
-#: src/gthumb_web_exporter.glade.h:46
-msgid "_Shutter speed"
-msgstr "_Zársebesség"
-
-#: src/gthumb_web_exporter.glade.h:47
-msgid "_Thumbnail Caption..."
-msgstr "_Bélyegkép felirata..."
-
-#: src/gthumb_web_exporter.glade.h:48
-msgid "by modified time"
-msgstr "a módosítás dátuma szerint"
-
-#: src/gthumb_web_exporter.glade.h:52
-msgid "index.html"
-msgstr "index.html"
-
-#: src/main.c:81
+#: src/main.c:85
 msgid "Start in fullscreen mode"
 msgstr "Indítás teljes képernyős módban"
 
-#: src/main.c:85
+#: src/main.c:89
 msgid "Automatically start a slideshow"
 msgstr "Diavetítés automatikus indítása"
 
-#: src/main.c:164
+#: src/main.c:93
+msgid "Automatically import digital camera photos"
+msgstr "Fényképek automatikus importálása a digitális fényképezőgépből"
+
+#: src/main.c:173
 msgid "Holidays"
 msgstr "Szabadság"
 
-#: src/main.c:165
+#: src/main.c:174
 msgid "Temporary"
 msgstr "Ideiglenes"
 
-#: src/main.c:166
+#: src/main.c:175
 msgid "Screenshots"
 msgstr "Képernyőkép"
 
-#: src/main.c:167
+#: src/main.c:176
 msgid "Science"
 msgstr "Tudomány"
 
-#: src/main.c:168
+#: src/main.c:177
 msgid "Favourite"
 msgstr "Kedvenc"
 
-#: src/main.c:169
+#: src/main.c:178
 msgid "Important"
 msgstr "Fontos"
 
-#: src/main.c:170
+#: src/main.c:179
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:171
+#: src/main.c:180
 msgid "Games"
 msgstr "Játékok"
 
-#: src/main.c:172
+#: src/main.c:181
 msgid "Party"
 msgstr "Buli"
 
-#: src/main.c:173
+#: src/main.c:182
 msgid "Birthday"
 msgstr "Születésnap"
 
-#: src/main.c:174
+#: src/main.c:183
 msgid "Astronomy"
 msgstr "Csillagászat"
 
-#: src/main.c:175
+#: src/main.c:184
 msgid "Family"
 msgstr "Család"
 
-#: src/main.c:312 src/main.c:394
+#: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Parancssor"
+
+#~ msgid "Rotate _JPEG"
+#~ msgstr "_JPEG forgatása"
+
+#~ msgid "_Adjust Color Levels"
+#~ msgstr "_Színszintek beállítása"
+
+#~ msgid "Choose Date"
+#~ msgstr "Dátum kiválasztása"
+
+#~ msgid "_No date"
+#~ msgstr "_Nincs dátum"
+
+#~ msgid "<b>Destination folder</b>"
+#~ msgstr "<b>Célmappa</b>"
+
+#~ msgid "<i>Examples:</i>"
+#~ msgstr "<i>Példák:</i>"
+
+#~ msgid "Sor_t images:"
+#~ msgstr "Képek _rendezése:"
+
+#~ msgid "Use #'s to specify positions used by numeric enumerator."
+#~ msgstr "A # jel jelöli a sorszámok által felhasznált helyet."
+
+#~ msgid ""
+#~ "Use %p  to insert the page number, and %n to insert the total number of "
+#~ "pages."
+#~ msgstr ""
+#~ "A %p jelöli az oldalszámot, és a %n jelöli az oldalak teljes számát."
+
+#~ msgid "<b>Image</b>"
+#~ msgstr "<b>Kép</b>"
+
+#~ msgid ""
+#~ "<i>Drag the image to move\n"
+#~ "it in the page.</i>"
+#~ msgstr ""
+#~ "<i>Ragadd meg a képet,\n"
+#~ "és mozgasd a helyére.</i>"
+
+#~ msgid "<b>File list order</b>"
+#~ msgstr "<b>Fájllista rendezése</b>"
+
+#~ msgid "<b>Specify a template to use for renaming images</b>"
+#~ msgstr "<b>Sablon megadása a képek átnevezéséhez</b>"
+
+#~ msgid "JPEG Lossless Transformation"
+#~ msgstr "Veszteségmentes JPEG-átalakítás"
+
+#~ msgid "Revert changes"
+#~ msgstr "Változások visszavonása"
+
+#~ msgid ""
+#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
+#~ "the original filename. Use ? to insert the image date. Use ! to insert "
+#~ "the image size"
+#~ msgstr ""
+#~ "A # jel jelöli a sorszámok által felhasznált helyet. A * jel jelöli az "
+#~ "eredeti fájlnevet. A ? jel jelöli a kép dátumát. A ! jel jelöli a kép "
+#~ "méretét."
+
+#~ msgid "_Sort original list:"
+#~ msgstr "_Eredeti lista rendezése:"
+
+#~ msgid "Use %d  to insert current date"
+#~ msgstr "A %d jelenti az aktuális dátumot"
+
