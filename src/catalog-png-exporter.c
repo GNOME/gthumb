@@ -38,6 +38,7 @@
 #include "image-loader.h"
 #include "gthumb-slide.h"
 #include "glib-utils.h"
+#include "main.h"
 
 
 static void begin_export       (CatalogPngExporter *ce);
@@ -216,6 +217,11 @@ catalog_png_exporter_finalize (GObject *object)
 		ce->file_list = NULL;
 	}
 
+	if (ce->created_list != NULL) {
+		path_list_free (ce->created_list);
+		ce->created_list = NULL;
+	}
+
 	if (ce->pages_height != NULL) {
 		g_free (ce->pages_height);
 		ce->pages_height = NULL;
@@ -314,6 +320,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 	PangoFontDescription *font_desc;
 
 	ce->file_list = NULL;
+	ce->created_list = NULL;
 
 	ce->page_width = 0;
 	ce->page_height = 0;
@@ -1394,6 +1401,11 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	if (ce->tloader != NULL)
 		g_object_unref (G_OBJECT (ce->tloader));
 
+	if (ce->created_list != NULL) {
+		path_list_free (ce->created_list);
+		ce->created_list = NULL;
+	}
+
 	ce->tloader = THUMB_LOADER (thumb_loader_new (NULL, 
 						      ce->thumb_width,
 						      ce->thumb_height));
@@ -1452,6 +1464,14 @@ begin_export (CatalogPngExporter *ce)
 static void
 end_export (CatalogPngExporter *ce)
 {
+	if (ce->created_list != NULL) {
+		all_windows_remove_monitor ();
+		all_windows_notify_files_created (ce->created_list);
+		all_windows_add_monitor ();
+		path_list_free (ce->created_list);
+		ce->created_list = NULL;
+	}
+
 	g_object_unref (G_OBJECT (ce->gc));
 	g_object_unref (G_OBJECT (ce->pixmap));
 }
@@ -1613,6 +1633,8 @@ end_page (CatalogPngExporter *ce,
 		gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "85", NULL);
 	else
 		gdk_pixbuf_save (pixbuf, path, ce->file_type, NULL, NULL);
+
+	ce->created_list = g_list_prepend (ce->created_list, g_strdup (path));
 
 	g_object_unref (pixbuf);
 	g_free (path);

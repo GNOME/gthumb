@@ -1351,7 +1351,8 @@ copy_current_file (FileCopyData *fcdata)
 	g_free (message);
 
 	fraction = (float) fcdata->file_index / fcdata->files_total;
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), fraction);
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), 
+				       CLAMP (fraction, 0.0, 1.0));
 
 	/**/
 
@@ -1788,7 +1789,8 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->bytes_total != 0) {
 		fraction = (float)info->total_bytes_copied / info->bytes_total;
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar), fraction);
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fddata->progress_progressbar), 
+					       CLAMP (fraction, 0.0, 1.0));
 	}
 
 	return TRUE;
@@ -2026,6 +2028,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		}
 
 		destroy_progress_dialog (fcdata);		
+
 		if (fcdata->done_func != NULL)
 			(*fcdata->done_func) (fcdata->result, fcdata->done_data);
 		folder_copy_data_free (fcdata);
@@ -2038,9 +2041,10 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		g_free (message);
 	}
 
-	if (info->bytes_total != 0) {
+	if (info->files_total != 0) {
 		fraction = (float) info->file_index / info->files_total;
-		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), fraction);
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), 
+					       CLAMP (fraction, 0.0, 1.0));
 	}
 
 	return result;

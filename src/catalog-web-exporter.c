@@ -1358,6 +1358,10 @@ export__copy_to_destination__step2 (GnomeVFSResult  result,
 
 	debug (DEBUG_INFO, "result: %s", gnome_vfs_result_to_string (result));
 
+	if (result != GNOME_VFS_OK) 
+		_gtk_error_dialog_run (ce->window, 
+				       gnome_vfs_result_to_string (result));
+
 	dlg_folder_delete (ce->window,
 			   ce->tmp_location,
 			   export__final_step,

@@ -30,6 +30,7 @@
 #include "exif-utils.h"
 #include "file-utils.h"
 #include "gthumb-window.h"
+#include "main.h"
 
 
 #define GLADE_FILE "gthumb_tools.glade"
@@ -98,6 +99,8 @@ ok_clicked (GtkWidget  *button,
 	else if (is_active (data->cd_current_radiobutton)) 
 		time (&mtime);
 	
+	all_windows_remove_monitor ();
+
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
 		
@@ -111,6 +114,9 @@ ok_clicked (GtkWidget  *button,
 		if (mtime > 0) 
 			set_file_mtime (fdata->path, mtime);
 	}
+
+	all_windows_notify_files_changed (data->file_list);
+	all_windows_add_monitor ();
 	
 	gtk_widget_destroy (data->dialog);
 }

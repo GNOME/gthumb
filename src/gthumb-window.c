@@ -83,6 +83,7 @@
 #define DEF_SIDEBAR_SIZE       255
 #define DEF_SIDEBAR_CONT_SIZE  190
 #define DEF_SLIDESHOW_DELAY    4
+#define PRELOADED_IMAGE_MAX_SIZE (1024*1024)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
@@ -7138,6 +7139,34 @@ window_image_get_modified (GThumbWindow *window)
 /* -- load image -- */
 
 
+static char *
+get_image_to_preload (GThumbWindow *window,
+		      int           pos)
+{
+	FileData *fdata;
+
+	if (pos < 0)
+		return NULL;
+	if (pos >= gth_file_view_get_images (window->file_list->view))
+		return NULL;
+
+	fdata = gth_file_view_get_image_data (window->file_list->view, pos);
+	if (fdata == NULL)
+		return NULL;
+
+	debug (DEBUG_INFO, "%ld <-> %d\n", (long int) fdata->size, PRELOADED_IMAGE_MAX_SIZE);
+
+	if (fdata->size > PRELOADED_IMAGE_MAX_SIZE) {
+		debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (window->file_list, pos));
+		file_data_unref (fdata);
+		return NULL;
+	}
+	file_data_unref (fdata);
+
+	return gth_file_list_path_from_pos (window->file_list, pos);
+}
+
+
 static gboolean
 load_timeout_cb (gpointer data)
 {
@@ -7156,13 +7185,11 @@ load_timeout_cb (gpointer data)
 		return FALSE;
 
 	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+	g_return_val_if_fail (pos != -1, FALSE);
 
-	if (pos == -1)
-		return FALSE;
-
-	prev1 = gth_file_list_path_from_pos (window->file_list, pos - 1);
-	next1 = gth_file_list_path_from_pos (window->file_list, pos + 1);
-	next2 = gth_file_list_path_from_pos (window->file_list, pos + 2);
+	prev1 = get_image_to_preload (window, pos - 1);
+	next1 = get_image_to_preload (window, pos + 1);
+	next2 = get_image_to_preload (window, pos + 2);
 
 	gthumb_preloader_start (window->preloader, 
 				window->image_path, 
@@ -7567,6 +7594,9 @@ first_level_sub_directory (GThumbWindow *window,
 	if (old_path_l <= current_l + 1)
 		return FALSE;
 
+	if (strncmp (current, old_path, current_l) != 0)
+		return FALSE;
+
 	old_name = old_path + current_l + 1;
 
 	return (strchr (old_name, '/') == NULL);
@@ -7584,13 +7614,14 @@ window_notify_directory_rename (GThumbWindow *window,
 		else {
 			const char *current = window->dir_list->path;
 
-			/* a sub directory got renamed, refresh. */
-			if (first_level_sub_directory (window, current, old_name))  {
+			/* a sub directory was renamed, refresh. */
+			if (first_level_sub_directory (window, current, old_name)) 
 				dir_list_remove_directory (window->dir_list, 
 							   file_name_from_path (old_name));
+
+			if (first_level_sub_directory (window, current, new_name)) 
 				dir_list_add_directory (window->dir_list, 
 							file_name_from_path (new_name));
-			}
 		}
 		
 	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {

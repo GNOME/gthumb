@@ -322,7 +322,7 @@ export (GtkWidget  *widget,
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
 				      GTK_WINDOW (data->window->app));
-	gtk_window_set_modal (GTK_WINDOW (data->progress_dialog), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (data->progress_dialog), FALSE);
 	gtk_widget_show_all (data->progress_dialog);
 
 	catalog_png_exporter_export (exporter);

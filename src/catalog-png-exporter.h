@@ -47,6 +47,7 @@ struct _CatalogPngExporter {
 	/*< private >*/
 
 	GList        *file_list;              /* gchar* elements. */
+	GList        *created_list;
 
 	int           thumb_width;
 	int           thumb_height;

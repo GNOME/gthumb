@@ -455,7 +455,7 @@ dir_list_add_directory (DirList         *dir_list,
 
 	/* insert dir in the list view */
 
-	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
+	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
 	utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
 	if (utf8_name == NULL)
 		utf8_name = g_strdup (_("(Invalid Name)"));
