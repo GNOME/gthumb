@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-11-26 18:12+0100\n"
-"PO-Revision-Date: 2002-11-26 18:12+0100\n"
+"POT-Creation-Date: 2002-11-29 02:27+0100\n"
+"PO-Revision-Date: 2002-11-29 02:28+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr ""
 #: libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:211
 #: libgthumb/gtk-utils.c:313 src/commands-impl.c:2689 src/gthumb-window.c:434
 #: src/gthumb-window.c:448 src/gthumb-window.c:451 src/gthumb-window.c:468
-#: src/gthumb-window.c:474 src/gthumb-window.c:3871
+#: src/gthumb-window.c:474 src/gthumb-window.c:3896
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
@@ -308,7 +308,7 @@ msgstr ""
 
 #: src/commands-impl.c:261 src/dlg-convert.c:310 src/dlg-save-image.c:87
 #, c-format
-msgid "An image named \"%s\" is already present. Do you want to overwrite it ?"
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "En bild med namnet \"%s\" finns redan. Vill du skriva över den?"
 
 #: src/commands-impl.c:268 src/dlg-convert.c:316
@@ -330,19 +330,19 @@ msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kunde inte duplicera bilden \"%s\": %s"
 
 #: src/commands-impl.c:450
-msgid "The selected images will be moved to the Trash, are you sure ?"
+msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
 
 #: src/commands-impl.c:470
-msgid "The image will be moved to the Trash, are you sure ?"
+msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Bilden kommer att flyttas till papperskorgen, är du säker?"
 
 #: src/commands-impl.c:734
-msgid "The image will be removed from the catalog, are you sure ?"
+msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Bilden kommer att tas bort från albumet, är du säker?"
 
 #: src/commands-impl.c:776
-msgid "The selected images will be removed from the catalog, are you sure ?"
+msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "De valda bilderna kommer att tas bort från albumet, är du säker?"
 
 #: src/commands-impl.c:852 src/dlg-catalog.c:83 src/dlg-catalog.c:124
@@ -395,12 +395,12 @@ msgstr "Kunde inte ta bort mappen \"%s\": %s"
 #: src/commands-impl.c:1126
 #, c-format
 msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently ?"
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" kan inte flyttas till papperskorgen. Vill du ta bort den permanent?"
 
 #: src/commands-impl.c:1163
-msgid "The selected folder will be moved to the Trash, are you sure ?"
+msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Den valda mappen kommer att flyttas till papperskorgen, är du säker?"
 
 #: src/commands-impl.c:1165 src/dlg-file-utils.c:277
@@ -412,7 +412,8 @@ msgstr "_Flytta"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
-#: src/commands-impl.c:1286
+#: src/commands-impl.c:1286 src/dlg-file-utils.c:2269
+#: src/dlg-file-utils.c:2271
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
@@ -453,11 +454,11 @@ msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kunde inte skapa alumet \"%s\": %s"
 
 #: src/commands-impl.c:1732
-msgid "The selected library will be removed, are you sure ?"
+msgid "The selected library will be removed, are you sure?"
 msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
 
 #: src/commands-impl.c:1734
-msgid "The selected catalog will be removed, are you sure ?"
+msgid "The selected catalog will be removed, are you sure?"
 msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
 #: src/commands-impl.c:2629 src/dlg-categories.c:325 src/dlg-comment.c:242
@@ -526,11 +527,11 @@ msgid "Location"
 msgstr "Plats"
 
 #: src/dlg-duplicates.c:716
-msgid "Checked images will be deleted, are you sure ?"
+msgid "Checked images will be deleted, are you sure?"
 msgstr "De valda bilderna kommer att tas bort, är du säker?"
 
 #: src/dlg-file-utils.c:91
-msgid "The destination folder does not exits. Do you want to create it ?"
+msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Målmappen finns inte. Vill du skapa den?"
 
 #: src/dlg-file-utils.c:107
@@ -551,7 +552,7 @@ msgstr "Kunde inte ta bort bilderna:"
 #: src/dlg-file-utils.c:223
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
-"permanently ?"
+"permanently?"
 msgstr ""
 "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
 
@@ -613,11 +614,6 @@ msgstr "Kopierar fil %ld av %ld"
 msgid "Moving file %ld of %ld"
 msgstr "Flyttar fil %ld av %ld"
 
-#: src/dlg-file-utils.c:2269 src/dlg-file-utils.c:2271
-#, c-format
-msgid "Could not move the folder \"%s\" : %s"
-msgstr "Kunde inte flytta mappen \"%s\": %s"
-
 #: src/dlg-image-prop.c:318
 msgid "Image Dimensions"
 msgstr "Bilddimensioner"
@@ -652,11 +648,11 @@ msgid "%s Properties"
 msgstr "Egenskaper för %s"
 
 #: src/dlg-maintenance.c:70
-msgid "All comments will be removed, are you sure ?"
+msgid "All comments will be removed, are you sure?"
 msgstr "Alla kommentarer kommer att tas bort, är du säker?"
 
 #: src/dlg-maintenance.c:101
-msgid "All thumbnails will be deleted, are you sure ?"
+msgid "All thumbnails will be deleted, are you sure?"
 msgstr "Alla miniatyrbilder kommer att tas bort, är du säker?"
 
 #: src/dlg-maintenance.c:162 src/dlg-maintenance.c:232
@@ -708,7 +704,7 @@ msgstr "Sökresultat"
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:353
+#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:369
 msgid "Folder"
 msgstr "Mapp"
 
@@ -716,15 +712,15 @@ msgstr "Mapp"
 msgid "Restore Normal View"
 msgstr "Återställ normal vy"
 
-#: src/gth-folder-selection-dialog.c:375
+#: src/gth-folder-selection-dialog.c:391
 msgid "_Browse..."
 msgstr "_Bläddra..."
 
-#: src/gth-folder-selection-dialog.c:384
+#: src/gth-folder-selection-dialog.c:400
 msgid "_Recents:"
 msgstr "_Nyliga:"
 
-#: src/gth-folder-selection-dialog.c:415 src/gthumb.glade.h:27
+#: src/gth-folder-selection-dialog.c:431 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
 msgstr "_Bokmärken:"
 
@@ -1697,24 +1693,24 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:2842
+#: src/gthumb-window.c:2843
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: src/gthumb-window.c:3015
+#: src/gthumb-window.c:3016
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: src/gthumb-window.c:3513
+#: src/gthumb-window.c:3538
 msgid "Back"
 msgstr "Bakåt"
 
-#: src/gthumb-window.c:5169
+#: src/gthumb-window.c:5202
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:5421
+#: src/gthumb-window.c:5454
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
@@ -1741,7 +1737,7 @@ msgid "<b>Information on Channel:</b>"
 msgstr "<b>Information om kanal:</b>"
 
 #: src/gthumb.glade.h:5
-msgid "<b>Overwrite the old image with the new one ?</b>"
+msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Skriv över den gamla bilden med den nya?</b>"
 
 #: src/gthumb.glade.h:6
@@ -3068,14 +3064,17 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
-#~ msgid "The image will be removed from the catalog, are you sure?"
+#~ msgid "The image will be removed from the catalog, are you sure ?"
 #~ msgstr "Bilden kommer att tas bort från albumet, är du säker?"
 
-#~ msgid "The selected images will be removed from the catalog, are you sure?"
+#~ msgid "The selected images will be removed from the catalog, are you sure ?"
 #~ msgstr "De valda bilderna kommer att tas bort från albumet, är du säker?"
 
-#~ msgid "The destination folder does not exist. Do you want to create it?"
+#~ msgid "The destination folder does not exits. Do you want to create it ?"
 #~ msgstr "Målmappen finns inte. Vill du skapa den?"
+
+#~ msgid "Could not move the folder \"%s\" : %s"
+#~ msgstr "Kunde inte flytta mappen \"%s\": %s"
 
 #~ msgid "Folder not empty"
 #~ msgstr "Mappen är inte tom"
