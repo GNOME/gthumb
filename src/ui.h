@@ -315,12 +315,12 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_edit_current_dir_new) },
 
 	{ "AlterImage_Rotate90", GTHUMB_STOCK_ROTATE_90,
-	  N_("Ritate Ri_ght"), NULL,
+	  N_("Rotate Ri_ght"), NULL,
 	  N_("View the image rotated clockwise"),
 	  G_CALLBACK (activate_action_alter_image_rotate90) },
 
 	{ "AlterImage_Rotate90CC", GTHUMB_STOCK_ROTATE_90_CC,
-	  N_("Ritate _Left"), NULL,
+	  N_("Rotate _Left"), NULL,
 	  N_("View the image rotated counter-clockwise"),
 	  G_CALLBACK (activate_action_alter_image_rotate90cc) },
 
