@@ -1,3 +1,30 @@
+2004-01-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c (apply_transformation): 
+
+	Fix bug #130823 (gthumb does not maintain permissions on files).
+	Fix bug #130824 (gthumb does not complain about lack of permissions).
+
+	* libgthumb/preferences.c (preferences_init): 
+
+	Fix bug #130829 (gthumb ignores current directory when starting).
+	
+	* src/gthumb-window.c (create_new_file_list): 
+	(window_set_preview_content): 
+	
+	Fix bug #131852 (Moving images via drag-and-drop no longer works).
+	Fix bug #131853 (Changing folders produces flicker in image viewer).
+
+	* src/dlg-file-utils.c (folder_copy): 
+
+	Check whether the folder comment exists before including it in the 
+	URIs to move.
+
+	* src/gthumb-window.c (catalog_list_drag_leave)
+	(dir_list_drag_leave): 
+
+	Remove the auto load timeout after leaving.
+
 2004-01-17  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/jpeg-utils.c (do_load_internal): escape the path before

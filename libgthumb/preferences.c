@@ -240,7 +240,15 @@ preferences_init (void)
         g_object_unref (client);
 
 	preferences.startup_location = NULL;
-	preferences_set_startup_location (eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL));
+
+	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE) ||
+	    eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, FALSE))
+		preferences_set_startup_location (eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL));
+	else {
+		char *current = g_get_current_dir ();
+		preferences_set_startup_location (current);
+		g_free (current);
+	}
 }
 
 

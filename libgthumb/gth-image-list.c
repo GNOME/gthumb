@@ -100,9 +100,14 @@ typedef enum {
 	SYNC_REMOVE
 } SyncType;
 
+enum {
+	TARGET_PLAIN,
+	TARGET_URILIST,
+};
 
 static GtkTargetEntry target_table[] = {
-	{ "text/uri-list", 0, 0 } 
+	{ "text/uri-list", 0, TARGET_URILIST },
+	{ "text/plain",    0, TARGET_PLAIN }
 };
 
 static guint image_list_signals[LAST_SIGNAL] = { 0 };

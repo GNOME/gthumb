@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <libgnome/gnome-url.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-color-picker.h>

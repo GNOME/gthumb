@@ -22,6 +22,7 @@
 
 #include <config.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
 #include <gtk/gtk.h>
@@ -534,12 +535,36 @@ static void
 apply_transformation (DialogData *data,
 		      GList      *current_image)
 {
-	FileData *fd = current_image->data;
+	FileData    *fd = current_image->data;
+	char        *dir;
+	struct stat  buf;
+
+	/* Check directory permissions. */
+
+	dir = remove_level_from_path (fd->path);
+	if (access (dir, R_OK | W_OK | X_OK) != 0) {
+		char *utf8_path;
+		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+				       _("You don't have the right permissions to create images in the folder \"%s\""),
+				       utf8_path);
+		g_free (utf8_path);
+		g_free (dir);
+		return;
+	} 
+
+	g_free (dir);
+
+	/**/
+
+	stat (fd->path, &buf);
 
 	if (image_is_jpeg (fd->path)) 
 		apply_tranformation_jpeg (data, current_image);
 	else 
 		apply_transformation_generic (data, current_image);
+
+	chmod (fd->path, buf.st_mode);
 }
 
 

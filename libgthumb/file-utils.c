@@ -1402,10 +1402,13 @@ GnomeVFSURI *
 new_uri_from_path (const char *path)
 {
 	char        *escaped;
+	char        *uri_txt;
 	GnomeVFSURI *uri;
 
 	escaped = gnome_vfs_escape_path_string (path);
-	uri = gnome_vfs_uri_new (escaped);
+	uri_txt = g_strconcat ("file://", escaped, NULL);
+	uri = gnome_vfs_uri_new (uri_txt);
+	g_free (uri_txt);
 	g_free (escaped);
 
 	g_return_val_if_fail (uri != NULL, NULL);

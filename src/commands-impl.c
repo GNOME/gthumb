@@ -29,6 +29,7 @@
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
+#include <libgnome/gnome-url.h>
 #include <libgnomeui/libgnomeui.h>
 #include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-ops.h>

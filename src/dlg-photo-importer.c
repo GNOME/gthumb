@@ -140,8 +140,8 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-
-	gboolean    thread_done;
+	GThumbWindow *window = data->window;
+	gboolean      thread_done;
 
 	/* Remove check. */
 
@@ -179,6 +179,13 @@ destroy_cb (GtkWidget  *widget,
 	gp_port_info_list_free (data->port_list);
 	g_object_unref (data->gui);
 	g_free (data);
+
+	/**/
+
+	if (ImportPhotos) {
+		ImportPhotos = FALSE;
+		window_close (window);
+	}
 }
 
 
@@ -627,7 +634,7 @@ load_images_preview__done (AsyncOperationData *aodata,
 static void
 load_images_preview (DialogData *data)
 {
-	GList              *file_list, *scan;
+	GList              *file_list;
 	gboolean            error;
 	AsyncOperationData *aodata;
 
@@ -1059,21 +1066,6 @@ add_film_keyword (const char *folder)
 }
 
 
-static void
-cancel_clicked_cb (GtkButton  *button,
-		   DialogData *data)
-{
-	GThumbWindow *window = data->window;
-
-	gtk_widget_destroy (data->dialog);
-
-	if (ImportPhotos) {
-		ImportPhotos = FALSE;
-		window_close (window);
-	}
-}
-
-
 static void 
 delete_images__step (AsyncOperationData *aodata, 
 		     DialogData         *data)
@@ -1165,9 +1157,7 @@ static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
-	GThumbWindow       *window = data->window;
 	GList              *file_list = NULL, *scan;
-	int                 n = 1;
 	GList              *sel_list;
 	gboolean            error;
 	AsyncOperationData *aodata;
@@ -1362,6 +1352,8 @@ load_abilities_thread (void *thread_data)
 	g_mutex_unlock (data->yes_or_no);
 
 	g_thread_exit (NULL);
+
+	return NULL;
 }
 
 
@@ -1404,7 +1396,7 @@ start_operation (DialogData    *data,
 		 GthImporterOp  operation)
 {
 	if (data->check_id != 0)
-		g_remove_source (data->check_id);
+		g_source_remove (data->check_id);
 
 	g_mutex_lock (data->yes_or_no);
 	data->thread_done = FALSE;
@@ -1526,16 +1518,16 @@ dlg_photo_importer (GThumbWindow *window)
 
 	g_signal_connect (G_OBJECT (data->dialog), 
 			  "destroy",
-			  G_CALLBACK (cancel_clicked_cb),
+			  G_CALLBACK (destroy_cb),
 			  data);
 	g_signal_connect (G_OBJECT (btn_ok), 
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_cancel), 
-			  "clicked",
-			  G_CALLBACK (cancel_clicked_cb),
-			  data);
+	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (data->dialog));
 	g_signal_connect (G_OBJECT (data->select_model_button), 
 			  "clicked",
 			  G_CALLBACK (dlg_select_camera_model_cb),
