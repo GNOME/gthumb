@@ -182,13 +182,15 @@ get_next_line_to_print_delimiter (PrintInfo  *pi,
 	double       current_width = 0.0;
 	double       printable_page_width;
 	ArtPoint     space_advance;
-	int          space;
+	int          space, new_line;
 	
 	printable_page_width = pi->paper_width - pi->paper_rmargin - pi->paper_lmargin;
 	
 	/* Find space advance */
 	space = gnome_font_lookup_default (pi->font_comment, ' ');
 	gnome_font_get_glyph_stdadvance (pi->font_comment, space, &space_advance);
+
+	new_line = gnome_font_lookup_default (pi->font_comment, '\n');
 
 	for (p = start; p < end; p = g_utf8_next_char (p)) {
 		gunichar ch;
@@ -197,8 +199,14 @@ get_next_line_to_print_delimiter (PrintInfo  *pi,
 		ch = g_utf8_get_char (p);
 		glyph = gnome_font_lookup_default (pi->font_comment, ch);
 
-		if (glyph == space)
+		if (glyph == new_line) {
+			if (line_width != NULL)
+				*line_width = printable_page_width;
+			return p;
+			
+		} else if (glyph == space)
 			current_width += space_advance.x;
+
 		else {
 			ArtPoint adv;
 			gnome_font_get_glyph_stdadvance (pi->font_comment, 
@@ -643,7 +651,7 @@ add_image_preview (PrintInfo *pi,
 					gnome_canvas_rect_get_type (),
 					"x1",             lmargin,
 					"y1",             pi->paper_height - bmargin,
-					"x2",             lmargin + width,
+					"x2",             pi->paper_width - rmargin,
 					"y2",             pi->paper_height - bmargin - height,
 					"fill_color",     "darkgray",
 					"fill_stipple",   stipple,
