@@ -61,10 +61,12 @@ gboolean       comment_data_is_void                (CommentData *data);
 /* -- */
 
 char *         comments_get_comment_filename       (const char  *source,
-						    gboolean     resolve_symlinks);
+						    gboolean     resolve_symlinks,
+						    gboolean     unescape);
 
 char *         comments_get_comment_dir            (const char  *directory,
-						    gboolean     resolve_symlinks);
+						    gboolean     resolve_symlinks,
+						    gboolean     unescape);
 
 void           comment_copy                        (const char  *src,
 						    const char  *dest);

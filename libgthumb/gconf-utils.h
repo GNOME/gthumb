@@ -69,6 +69,11 @@ int          eel_gconf_get_integer           (const char             *key);
 void         eel_gconf_set_integer           (const char             *key,
 					      int                     int_value);
 
+float        eel_gconf_get_float             (const char             *key);
+
+void         eel_gconf_set_float             (const char             *key,
+					      float                   float_value);
+
 char *       eel_gconf_get_string            (const char             *key);
 
 void         eel_gconf_set_string            (const char             *key,

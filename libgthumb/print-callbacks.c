@@ -24,7 +24,9 @@
 #include <string.h>
 
 #include <libgnome/libgnome.h>
+#include <libgnomeui/gnome-font-picker.h>
 #include <libgnomeprint/gnome-print.h>
+#include <libgnomeprint/gnome-print-unit.h>
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-preview.h>
 #include <libgnomeprintui/gnome-print-job-preview.h>
@@ -44,15 +46,19 @@
 #include "image-viewer.h"
 #include "pixbuf-utils.h"
 #include "comments.h"
-#include "gthumb-canvas-text.h"
+#include "gnome-print-font-picker.h"
 #include "preferences.h"
 
 #define GLADE_PRINT_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
-#define CANVAS_ZOOM 0.25 /*0.30*/
+#define CANVAS_ZOOM 0.25
+#define DEFAULT_COMMENT_FONT "Sans, 12"
 
-#define COMMENT_FONT_NAME "Sans Serif"
-#define COMMENT_FONT_SIZE 10
+
+static const GnomePrintUnit print_units[] = {
+        {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0 / 25.4), "Millimeter", "mm", "Millimeters", "mm"},
+        {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0), "Inch", "in", "Inches", "in"},
+};
 
 
 typedef struct {
@@ -100,15 +106,32 @@ typedef struct {
 } PrintInfo;
 
 
+enum {
+	PAPER_LIST_COLUMN_DATA,
+	PAPER_LIST_COLUMN_NAME,
+	PAPER_LIST_NUM_COLUMNS
+};
+
+
 typedef struct {
 	GladeXML      *gui;
 	GtkWidget     *dialog;
 
 	GtkWidget     *print_comment_checkbutton;
+	GtkWidget     *comment_fontpicker;
 	GtkWidget     *btn_close;
 	GtkWidget     *btn_center;
 	GtkWidget     *btn_print;
 	GtkWidget     *hscale1;
+	GtkWidget     *unit_optionmenu;
+	GtkWidget     *width_spinbutton;
+	GtkWidget     *height_spinbutton;
+	GtkWidget     *paper_size_a4_radiobutton;
+	GtkWidget     *paper_size_letter_radiobutton;
+	GtkWidget     *paper_size_legal_radiobutton;
+	GtkWidget     *paper_size_executive_radiobutton;
+	GtkWidget     *paper_size_custom_radiobutton;
+	GtkWidget     *comment_font_hbox;
 
 	GtkAdjustment *adj;
 
@@ -136,6 +159,12 @@ print_info_unref (PrintInfo *pi)
 	}
 }
 
+
+/* The following functions are from gedit-print.c
+ * Copyright (C) 2000, 2001 Chema Celorio, Paolo Maggi
+ * Copyright (C) 2002  Paolo Maggi  
+ * Modified for gthumb by Paolo Bacchilega, 2003.
+ */
 
 static const char*
 get_next_line_to_print_delimiter (PrintInfo  *pi, 
@@ -294,7 +323,7 @@ get_text_extents (PrintInfo   *pi,
 }
 
 
-static void
+static double
 print_comment (GnomePrintContext *pc,
 	       PrintInfo         *pi)
 {
@@ -369,6 +398,8 @@ print_comment (GnomePrintContext *pc,
 			end = p + paragraph_delimiter_index;
 		}
 	}
+
+	return pi->paper_bmargin + height;
 }
 
 
@@ -402,6 +433,17 @@ print_image (GnomePrintContext *pc,
 		gnome_print_grestore (pc);
 	}
 
+	if (pi->print_comment) {
+		/* FIXME 
+		gnome_print_showpage (pc);
+		gnome_print_beginpage (pc, NULL);
+		*/
+
+		gnome_print_gsave (pc);
+		print_comment (pc, pi);
+		gnome_print_grestore (pc);
+	}
+
 	p = gdk_pixbuf_get_pixels (pi->pixbuf);
         pw = gdk_pixbuf_get_width (pi->pixbuf);
         ph = gdk_pixbuf_get_height (pi->pixbuf);
@@ -419,16 +461,6 @@ print_image (GnomePrintContext *pc,
 		gnome_print_grayimage (pc, p, pw, ph, rs);
         gnome_print_grestore (pc);
 
-	if (pi->print_comment) {
-		/* FIXME
-		gnome_print_showpage (pc);
-		gnome_print_beginpage (pc, NULL);
-		*/
-
-		gnome_print_gsave (pc);
-		print_comment (pc, pi);
-		gnome_print_grestore (pc);
-	}
 
 	gnome_print_showpage (pc);
 }
@@ -480,7 +512,7 @@ check_bounds (PrintInfo *pi, double *x1, double *y1)
 }
 
 
-static gint
+static int
 item_event (GnomeCanvasItem *item, 
 	    GdkEvent        *event, 
 	    PrintInfo       *pi)
@@ -578,34 +610,44 @@ add_image_preview (PrintInfo *pi,
 	layout_width = (int) ((pi->paper_width - lmargin - rmargin) * CANVAS_ZOOM);
 
 	if (pi->print_comment && (pi->comment != NULL)) {
-		const char *font_name;
+#define gray50_width  1
+#define gray50_height 5
+		static char gray50_bits[] = {
+			0x0,
+			0x0,
+			0x1,
+			0x1,
+			0x1,
+		};
+		GdkBitmap  *stipple;
+		const char *p;
+		const char *text_end;
+		double      width, height;
+	
+		p = pi->comment;
+		text_end = pi->comment + strlen (pi->comment);
+		get_text_extents (pi, p, text_end, &width, &height);
 
-		font_name = gnome_font_get_name (pi->font_comment);
+		comment_height = height;
+
+		stipple = gdk_bitmap_create_from_data (NULL, gray50_bits, gray50_width, gray50_height);
 
 		pi->ci_comment = gnome_canvas_item_new (
 					group,
-					gthumb_canvas_text_get_type (),
-					"text",          pi->comment,
-					"x",             pi->paper_width / 2,
-					"y",             pi->paper_height - bmargin,
-					"layout_width",  layout_width,
-					"wrap_mode",     PANGO_WRAP_CHAR,
-					"font",          font_name,
-					"size_points",   CANVAS_ZOOM * COMMENT_FONT_SIZE,
-					"anchor",        GTK_ANCHOR_S,
-					"justification", GTK_JUSTIFY_LEFT,
-					"clip_width",    pi->paper_width - lmargin - rmargin,
-					"clip_height",   pi->paper_height - tmargin - bmargin,
-					"clip",          TRUE,
+					gnome_canvas_rect_get_type (),
+					"x1",             lmargin,
+					"y1",             pi->paper_height - bmargin,
+					"x2",             lmargin + width,
+					"y2",             pi->paper_height - bmargin - height,
+					"fill_color",     "darkgray",
+					"fill_stipple",   stipple,
 					NULL);
 
-		g_object_get (G_OBJECT (pi->ci_comment),
-			      "text_height", &comment_height,
-			      NULL);
+		g_object_unref (stipple);
 	} else 
 		comment_height = 0;
 
-	/* Scale if image does not fit on the window. */
+	/* Scale if image does not fit in the window. */
 
 	max_w = w - lmargin - rmargin;
 	max_h = h - bmargin - tmargin - comment_height;
@@ -736,6 +778,85 @@ zoom_changed (GtkAdjustment *adj,
 }
 
 
+static void
+update_comment_font (DialogData *data)
+{
+	PrintInfo *pi = data->pi;
+	const char *font_name;
+
+	if (pi->font_comment != NULL)
+		g_object_unref (pi->font_comment);		
+
+	font_name = gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker));
+	g_print ("Find closest: %s\n", font_name);
+	pi->font_comment = gnome_font_find_closest_from_full_name (font_name);
+
+	if (pi->font_comment == NULL)
+		g_warning ("Could not find font %s\n", font_name);
+}
+
+
+static GthPrintUnit
+get_current_unit (DialogData *data)
+{
+	return gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu));
+}
+
+
+static double
+get_current_unittobase (DialogData *data)
+{
+	const GnomePrintUnit *unit;
+	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	return unit->unittobase;
+}
+
+
+static double 
+get_page_width (DialogData *data)
+{
+	const GnomePrintUnit *unit;
+	double w;
+
+	gnome_print_config_get_length (data->pi->config, GNOME_PRINT_KEY_PAPER_WIDTH, &w, &unit);
+	w = w * unit->unittobase / get_current_unittobase (data);
+	
+	return w;
+}
+
+
+static double 
+get_page_height (DialogData *data)
+{
+	const GnomePrintUnit *unit;
+	double h;
+
+	gnome_print_config_get_length (data->pi->config, GNOME_PRINT_KEY_PAPER_HEIGHT, &h, &unit);
+	h = h * unit->unittobase / get_current_unittobase (data);
+	
+	return h;
+}
+
+
+static const char *
+get_current_paper_size (DialogData *data)
+{
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_letter_radiobutton)))
+		return "USLetter";
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_legal_radiobutton)))
+		return "USLegal";
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_executive_radiobutton)))
+		return "Executive";
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_a4_radiobutton)))
+		return "A4";
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_custom_radiobutton)))
+		return "Custom";
+	else
+		return "A4";
+
+}
+
+
 /* called when the print button is clicked. */
 static void 
 print_cb (GtkWidget *widget,
@@ -743,39 +864,52 @@ print_cb (GtkWidget *widget,
 {
 	PrintInfo         *pi = data->pi;
 	GnomePrintContext *gp_ctx;
-	double             x, y;
+	double             image_x, image_y;
 	char              *title;
 	GtkWidget         *dialog;
 	int                response;
 	char              *value;
+	double             length;
 
 	/* Save options */
 
-	value = gnome_print_config_get (pi->config, GNOME_PRINT_KEY_PAPER_SIZE);
-	eel_gconf_set_string (PREF_PRINT_PAPER_SIZE, value);
-	g_free (value);
+	eel_gconf_set_string (PREF_PRINT_PAPER_SIZE, get_current_paper_size (data));
+
+	length = get_page_width (data);
+	eel_gconf_set_float (PREF_PRINT_PAPER_WIDTH, length);
+
+	length = get_page_height (data);
+	eel_gconf_set_float (PREF_PRINT_PAPER_HEIGHT, length);
+
+	pref_set_print_unit (get_current_unit (data));
 
 	value = gnome_print_config_get (pi->config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
 	eel_gconf_set_string (PREF_PRINT_PAPER_ORIENTATION, value);
 	g_free (value);
 
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT, !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)));
+
+	eel_gconf_set_string (PREF_PRINT_COMMENT_FONT, gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker)));
+
 	/**/
 
 	g_object_get (G_OBJECT (pi->ci_image),
-		      "x", &x,
-		      "y", &y,
+		      "x", &image_x,
+		      "y", &image_y,
 		      NULL);
 	pi->scale_x = pi->image_w * pi->zoom;
 	pi->scale_y = pi->image_h * pi->zoom;
-	pi->trans_x = x / pi->scale_x;
-	pi->trans_y = (pi->paper_height - pi->scale_y - y) / pi->scale_y;
+	pi->trans_x = image_x / pi->scale_x;
+	pi->trans_y = (pi->paper_height - pi->scale_y - image_y) / pi->scale_y;
 
 	/* pi is used to print, so we must add a reference. */
 
 	pi->ref_count++;
-	gtk_widget_destroy (data->dialog); 
+	gtk_widget_hide (data->dialog); 
 
 	/* Gnome Print Dialog */
+
+	update_comment_font (data);
 
 	pi->gpj = gnome_print_job_new (pi->config);
 
@@ -807,6 +941,7 @@ print_cb (GtkWidget *widget,
  
 	g_free (title);
 
+	gtk_widget_destroy (data->dialog); 
 	print_info_unref (pi);
 }
 
@@ -824,7 +959,7 @@ clear_canvas (GnomeCanvasGroup *group)
 
 
 static void
-page_update (DialogData *data)
+update_page (DialogData *data)
 {
 	PrintInfo *pi = data->pi;
 	const      GnomePrintUnit *unit;
@@ -918,7 +1053,9 @@ print_comment_cb (GtkWidget  *widget,
 		  DialogData *data)
 {
 	data->pi->print_comment = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	page_update ((DialogData*) data);
+	gtk_widget_set_sensitive (data->comment_font_hbox, data->pi->print_comment);
+	update_page ((DialogData*) data);
+	center_cb (NULL, data);
 }
 
 
@@ -929,7 +1066,7 @@ portrait_toggled_cb (GtkToggleButton  *widget,
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
-	page_update (data);
+	update_page (data);
 }
 
 
@@ -940,73 +1077,165 @@ landscape_toggled_cb (GtkToggleButton  *widget,
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
-	page_update (data);
+	update_page (data);
 }
 
 
 static void
-size_letter_toggled_cb (GtkToggleButton  *widget,
+update_custom_page_size (DialogData *data)
+{
+	const GnomePrintUnit *unit;
+	double width, height;
+
+	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
+	width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->width_spinbutton));
+	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->height_spinbutton));
+	gnome_print_config_set_length (data->pi->config, GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
+	gnome_print_config_set_length (data->pi->config, GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
+
+	update_page (data);
+}
+
+
+static void
+custom_size_toggled_cb (GtkToggleButton  *widget,
+			DialogData       *data)
+{
+
+	if (! gtk_toggle_button_get_active (widget))
+		return;
+	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "Custom");
+	update_custom_page_size (data);
+}
+
+
+static void
+custom_size_value_changed_cb (GtkSpinButton *spin,
+			      DialogData    *data)
+{
+	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->paper_size_custom_radiobutton))) {
+		g_signal_handlers_block_by_func (data->paper_size_custom_radiobutton, custom_size_toggled_cb, data);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->paper_size_custom_radiobutton), TRUE);
+		g_signal_handlers_unblock_by_func (data->paper_size_custom_radiobutton, custom_size_toggled_cb, data);
+	}
+
+	update_custom_page_size (data);
+}
+
+
+static void
+update_page_size_from_config (DialogData *data)
+{
+	g_signal_handlers_block_by_func (data->width_spinbutton, custom_size_value_changed_cb, data);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->width_spinbutton), get_page_width (data));
+	g_signal_handlers_unblock_by_func (data->width_spinbutton, custom_size_value_changed_cb, data);
+
+	g_signal_handlers_block_by_func (data->height_spinbutton, custom_size_value_changed_cb, data);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->height_spinbutton), get_page_height (data));
+	g_signal_handlers_unblock_by_func (data->height_spinbutton, custom_size_value_changed_cb, data);
+
+}
+
+
+static void
+unit_changed_cb (GtkOptionMenu *opt_menu,
+		 DialogData    *data)
+{
+	update_page_size_from_config (data);
+}
+
+
+static void
+letter_size_toggled_cb (GtkToggleButton  *widget,
 			DialogData       *data)
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "USLetter");
-	page_update (data);
+	update_page_size_from_config (data);
+	update_page (data);
 }
 
 
 static void
-size_legal_toggled_cb (GtkToggleButton  *widget,
+legal_size_toggled_cb (GtkToggleButton  *widget,
 		       DialogData       *data)
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "USLegal");
-	page_update (data);
+	update_page_size_from_config (data);
+	update_page (data);
 }
 
 
 static void
-size_executive_toggled_cb (GtkToggleButton  *widget,
+executive_size_toggled_cb (GtkToggleButton  *widget,
 			   DialogData       *data)
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "Executive");
-	page_update (data);
+	update_page_size_from_config (data);
+	update_page (data);
 }
 
 
 static void
-size_a3_toggled_cb (GtkToggleButton  *widget,
-		    DialogData       *data)
-{
-	if (! gtk_toggle_button_get_active (widget))
-		return;
-	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A3");
-	page_update (data);
-}
-
-
-static void
-size_a4_toggled_cb (GtkToggleButton  *widget,
+a4_size_toggled_cb (GtkToggleButton  *widget,
 		    DialogData       *data)
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
 	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A4");
-	page_update (data);
+	update_page_size_from_config (data);
+	update_page (data);
 }
 
 
 static void
-size_a5_toggled_cb (GtkToggleButton  *widget,
-		    DialogData       *data)
+comment_fontpicker_font_set_cb (GnomePrintFontPicker *fontpicker,
+				const char           *font_name,
+				DialogData           *data)
 {
-	if (! gtk_toggle_button_get_active (widget))
-		return;
-	gnome_print_config_set (data->pi->config, GNOME_PRINT_KEY_PAPER_SIZE, "A5");
-	page_update (data);
+	update_comment_font (data);
+	update_page (data);
+}
+
+
+#define DEFAULT_FONT_SIZE 10
+
+
+static int
+get_desktop_default_font_size (void)
+{
+	GConfClient          *gconf_client = NULL;
+	int                   res;
+        char                 *font;
+        PangoFontDescription *desc;
+
+	gconf_client = gconf_client_get_default ();
+        if (gconf_client == NULL)
+                return DEFAULT_FONT_SIZE;
+
+	font = gconf_client_get_string (gconf_client,
+                                        "/desktop/gnome/interface/font_name",
+                                        NULL);
+        if (font == NULL)
+                return DEFAULT_FONT_SIZE;
+
+        desc = pango_font_description_from_string (font);
+
+        g_free (font);
+        g_return_val_if_fail (desc != NULL, DEFAULT_FONT_SIZE);
+
+        res = pango_font_description_get_size (desc) / PANGO_SCALE;
+
+        pango_font_description_free (desc);
+
+        g_object_unref (gconf_client);
+
+        return res;
 }
 
 
@@ -1020,6 +1249,7 @@ print_image_dlg (GtkWindow   *parent,
 	CommentData  *cdata = NULL;
 	char         *title = NULL;
 	GtkWidget    *radio_button;
+	GtkWidget    *comment_fontpicker_hbox;
 	char         *value;
 	char         *button_name;
 
@@ -1061,8 +1291,6 @@ print_image_dlg (GtkWindow   *parent,
 	pi->portrait = TRUE;
 	pi->use_colors = TRUE;
 
-	pi->font_comment = gnome_font_find_closest (COMMENT_FONT_NAME, COMMENT_FONT_SIZE);
-
 	data = g_new (DialogData, 1);
 	data->pi = pi;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PRINT_FILE, NULL, NULL);
@@ -1077,36 +1305,85 @@ print_image_dlg (GtkWindow   *parent,
 
 	data->dialog = glade_xml_get_widget (data->gui, "page_setup_dialog");
 	data->print_comment_checkbutton = glade_xml_get_widget (data->gui, "print_comment_checkbutton");
-	data->btn_close = glade_xml_get_widget (data->gui, "btn_close");
+	data->comment_font_hbox = glade_xml_get_widget (data->gui, "comment_font_hbox");
+	comment_fontpicker_hbox = glade_xml_get_widget (data->gui, "comment_fontpicker_hbox");
 	data->hscale1 = glade_xml_get_widget (data->gui, "hscale");
+	data->unit_optionmenu = glade_xml_get_widget (data->gui, "unit_optionmenu");
+	data->width_spinbutton = glade_xml_get_widget (data->gui, "width_spinbutton");
+	data->height_spinbutton = glade_xml_get_widget (data->gui, "height_spinbutton");
+	data->paper_size_a4_radiobutton = glade_xml_get_widget (data->gui, "paper_size_a4_radiobutton");
+	data->paper_size_letter_radiobutton = glade_xml_get_widget (data->gui, "paper_size_letter_radiobutton");
+	data->paper_size_legal_radiobutton = glade_xml_get_widget (data->gui, "paper_size_legal_radiobutton");
+	data->paper_size_executive_radiobutton = glade_xml_get_widget (data->gui, "paper_size_executive_radiobutton");
+	data->paper_size_custom_radiobutton = glade_xml_get_widget (data->gui, "paper_size_custom_radiobutton");
 	data->btn_center = glade_xml_get_widget (data->gui, "btn_center");
+	data->btn_close = glade_xml_get_widget (data->gui, "btn_close");
 	data->btn_print = glade_xml_get_widget (data->gui, "btn_print");
 
 	pi->canvas = glade_xml_get_widget (data->gui, "canvas");
 
+	data->comment_fontpicker = gnome_print_font_picker_new ();
+	gnome_print_font_picker_set_mode (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker),
+				    GNOME_FONT_PICKER_MODE_FONT_INFO);
+	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
+	gnome_print_font_picker_fi_set_show_size (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE);
+
+	gtk_widget_show (data->comment_fontpicker);
+	gtk_container_add (GTK_CONTAINER (comment_fontpicker_hbox), data->comment_fontpicker);
+
 	/* Set widgets data. */
 
-	gtk_widget_set_sensitive (data->print_comment_checkbutton, pi->comment != NULL);
+	if (pi->comment != NULL) {
+		gboolean include_comment;
+
+		gtk_widget_set_sensitive (data->print_comment_checkbutton, TRUE);
+
+		include_comment = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), include_comment);
+		pi->print_comment = include_comment;
+	} else {
+		gtk_widget_set_sensitive (data->print_comment_checkbutton, TRUE);
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT));
+		pi->print_comment = FALSE;
+	}
+	gtk_widget_set_sensitive (data->comment_font_hbox, pi->print_comment);
+
+	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT);
+	if ((value != NULL) && (*value != 0))
+		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), value);
+	else
+		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEFAULT_COMMENT_FONT);
+	g_free (value);
+
+	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
+
+	update_comment_font (data);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->width_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_WIDTH));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->height_spinbutton), eel_gconf_get_float (PREF_PRINT_PAPER_HEIGHT));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->unit_optionmenu), pref_get_print_unit ());
 
 	value = eel_gconf_get_string (PREF_PRINT_PAPER_SIZE);
-	gnome_print_config_set (pi->config, GNOME_PRINT_KEY_PAPER_SIZE, value);
+	if (strcmp (value, "Custom") == 0) 
+		update_custom_page_size (data);
+	else {
+		gnome_print_config_set (pi->config, GNOME_PRINT_KEY_PAPER_SIZE, value);
+		update_page_size_from_config (data);
+	}
 
 	if (strcmp (value, "USLetter") == 0)
-		button_name = "print_size_letter_radiobutton";
+		radio_button = data->paper_size_letter_radiobutton;
 	else if (strcmp (value, "USLegal") == 0)
-		button_name = "print_size_legal_radiobutton";
+		radio_button = data->paper_size_legal_radiobutton;
 	else if (strcmp (value, "Executive") == 0)
-		button_name = "print_size_executive_radiobutton";
+		radio_button = data->paper_size_executive_radiobutton;
 	else if (strcmp (value, "A4") == 0)
-		button_name = "print_size_a4_radiobutton";
-	else if (strcmp (value, "A5") == 0)
-		button_name = "print_size_a5_radiobutton";
-	else if (strcmp (value, "A3") == 0)
-		button_name = "print_size_a3_radiobutton";
-
-	radio_button = glade_xml_get_widget (data->gui, button_name);
+		radio_button = data->paper_size_a4_radiobutton;
+	else if (strcmp (value, "Custom") == 0)
+		radio_button = data->paper_size_custom_radiobutton;
+	else
+		radio_button = data->paper_size_a4_radiobutton;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
-	
 	g_free (value);
 
 	/**/
@@ -1118,7 +1395,6 @@ print_image_dlg (GtkWindow   *parent,
 		button_name = "print_orient_portrait_radiobutton";
 	else if (strcmp (value, "R90") == 0)
 		button_name = "print_orient_landscape_radiobutton";
-
 	radio_button = glade_xml_get_widget (data->gui, button_name);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (radio_button), TRUE);
 
@@ -1147,6 +1423,7 @@ print_image_dlg (GtkWindow   *parent,
 			  G_CALLBACK (print_comment_cb),
 			  data);
 
+	
 	radio_button = glade_xml_get_widget (data->gui, "print_orient_portrait_radiobutton");
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
@@ -1158,47 +1435,60 @@ print_image_dlg (GtkWindow   *parent,
 			  "toggled",
 			  G_CALLBACK (landscape_toggled_cb),
 			  data);
-
-	radio_button = glade_xml_get_widget (data->gui, "print_size_letter_radiobutton");
+	
+	radio_button = data->paper_size_letter_radiobutton;
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
-			  G_CALLBACK (size_letter_toggled_cb),
+			  G_CALLBACK (letter_size_toggled_cb),
 			  data);
 
-	radio_button = glade_xml_get_widget (data->gui, "print_size_legal_radiobutton");
+	radio_button = data->paper_size_legal_radiobutton;
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
-			  G_CALLBACK (size_legal_toggled_cb),
+			  G_CALLBACK (legal_size_toggled_cb),
 			  data);
 
-	radio_button = glade_xml_get_widget (data->gui, "print_size_executive_radiobutton");
+	radio_button = data->paper_size_executive_radiobutton;
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
-			  G_CALLBACK (size_executive_toggled_cb),
+			  G_CALLBACK (executive_size_toggled_cb),
 			  data);
 
-	radio_button = glade_xml_get_widget (data->gui, "print_size_a4_radiobutton");
+	radio_button = data->paper_size_a4_radiobutton;
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
-			  G_CALLBACK (size_a4_toggled_cb),
+			  G_CALLBACK (a4_size_toggled_cb),
 			  data);
 
-	radio_button = glade_xml_get_widget (data->gui, "print_size_a5_radiobutton");
+	radio_button = data->paper_size_custom_radiobutton;
 	g_signal_connect (G_OBJECT (radio_button),
 			  "toggled",
-			  G_CALLBACK (size_a5_toggled_cb),
+			  G_CALLBACK (custom_size_toggled_cb),
 			  data);
 
-	radio_button = glade_xml_get_widget (data->gui, "print_size_a3_radiobutton");
-	g_signal_connect (G_OBJECT (radio_button),
-			  "toggled",
-			  G_CALLBACK (size_a3_toggled_cb),
+	g_signal_connect (G_OBJECT (data->comment_fontpicker),
+			  "font_set",
+			  G_CALLBACK (comment_fontpicker_font_set_cb),
 			  data);
 
 	data->adj = gtk_range_get_adjustment (GTK_RANGE (data->hscale1));
 	g_signal_connect (G_OBJECT (data->adj), 
 			  "value_changed",
 			  G_CALLBACK (zoom_changed),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->unit_optionmenu), 
+			  "changed",
+			  G_CALLBACK (unit_changed_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->width_spinbutton), 
+			  "value_changed",
+			  G_CALLBACK (custom_size_value_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->height_spinbutton), 
+			  "value_changed",
+			  G_CALLBACK (custom_size_value_changed_cb),
 			  data);
 
 	/**/
@@ -1213,7 +1503,9 @@ print_image_dlg (GtkWindow   *parent,
 
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (pi->canvas), 
 					  CANVAS_ZOOM);
-	page_update (data);
+
+	update_page (data);
+	center_cb (NULL, data);
 
 	gtk_widget_show (data->dialog);
 }

@@ -906,11 +906,11 @@ wmspec_change_state (gboolean   add,
 
 
 FullScreen *
-fullscreen_new ()
+fullscreen_new (void)
 {
 	FullScreen *fullscreen;
 
-	fullscreen = g_new (FullScreen, 1);
+	fullscreen = g_new0 (FullScreen, 1);
 	fullscreen->motion_id = 0;
 	fullscreen->mouse_hide_id = 0;
 	fullscreen->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);

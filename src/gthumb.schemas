@@ -1430,11 +1430,76 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_width</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_width</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>0.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_height</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_height</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>0.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/paper_unit</key>
+	<applyto>/apps/gthumb/dialogs/print/paper_unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>mm</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: mm, in.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/print/paper_orientation</key>
 	<applyto>/apps/gthumb/dialogs/print/paper_orientation</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>R0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/include_comment</key>
+	<applyto>/apps/gthumb/dialogs/print/include_comment</applyto>
+	<owner>gthumb</owner>
+	<type>boolean</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/comment_font</key>
+	<applyto>/apps/gthumb/dialogs/print/comment_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Serif 12</default>
 	<locale name="C">
 	  <short></short>
 	  <long> 

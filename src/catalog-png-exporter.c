@@ -782,13 +782,20 @@ set_item_caption (CatalogPngExporter *ce,
 		idata->caption_row[row++] = g_strdup (idata->comment);
 
 	if ((ce->caption_fields & GTH_CAPTION_FILE_PATH) 
-	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) 
-		idata->caption_row[row++] = g_strdup (idata->filename);
-	else {
-		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) 
-			idata->caption_row[row++] = remove_level_from_path (idata->filename);
-		else if (ce->caption_fields & GTH_CAPTION_FILE_NAME)
-			idata->caption_row[row++] = g_strdup (file_name_from_path (idata->filename));
+	    && (ce->caption_fields & GTH_CAPTION_FILE_NAME)) {
+		char *utf8_name = g_locale_to_utf8 (idata->filename, -1, 0, 0, 0);
+		idata->caption_row[row++] = utf8_name;
+	} else {
+		if (ce->caption_fields & GTH_CAPTION_FILE_PATH) {
+			char *path = remove_level_from_path (idata->filename);
+			char *utf8_name = g_locale_to_utf8 (path, -1, 0, 0, 0);
+			idata->caption_row[row++] = utf8_name;
+			g_free (path);
+		} else if (ce->caption_fields & GTH_CAPTION_FILE_NAME) {
+			const char *name = file_name_from_path (idata->filename);
+			char *utf8_name = g_locale_to_utf8 (name, -1, 0, 0, 0);
+			idata->caption_row[row++] = utf8_name;
+		}
 	}
 	
 	if (ce->caption_fields & GTH_CAPTION_FILE_SIZE) 
@@ -1766,12 +1773,11 @@ paint_text (CatalogPngExporter *ce,
 	    int                 x,
 	    int                 y,
 	    int                 width,
-	    const char         *text,
+	    const char         *utf8_text,
 	    int                *height)
 {
 	PangoFontDescription *font_desc;
 	PangoRectangle        bounds;
-	char                 *utf8_text;
 
 	if (font_name)
 		font_desc = pango_font_description_from_string (font_name);
@@ -1781,9 +1787,7 @@ paint_text (CatalogPngExporter *ce,
 
 	x += FRAME_BORDER;
 
-	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
 	pango_layout_set_text (ce->layout, utf8_text, strlen (utf8_text));
-	g_free (utf8_text);
 
 	pango_layout_set_width (ce->layout, width * PANGO_SCALE);
 	pango_layout_get_pixel_extents (ce->layout, NULL, &bounds);

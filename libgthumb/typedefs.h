@@ -113,6 +113,12 @@ typedef enum { /*< skip >*/
 } GthVisibility;
 
 
+typedef enum { /*< skip >*/
+	GTH_PRINT_UNIT_MM = 0,
+	GTH_PRINT_UNIT_IN
+} GthPrintUnit;
+
+
 /* keep the order of the items in sync with the order of the 
  * sort_by_radio_list structure in the file menu.h */
 typedef enum { /*< skip >*/

@@ -148,7 +148,8 @@ comment_data_dup (CommentData *data)
 
 char *
 comments_get_comment_filename (const char *source,
-			       gboolean    resolve_symlinks) 
+			       gboolean    resolve_symlinks,
+			       gboolean    unescape) 
 {
 	char        *source_real = NULL;
 	char        *directory;
@@ -199,13 +200,20 @@ comments_get_comment_filename (const char *source,
 	g_free (directory);
 	g_free (source_real);
 
+	if (unescape) {
+		char *unesc_path = gnome_vfs_unescape_string (path, NULL);
+		g_free (path);
+		path = unesc_path;
+	}
+
 	return path;
 }
 
 
 char *
 comments_get_comment_dir (const char *directory,
-			  gboolean    resolve_symlinks) 
+			  gboolean    resolve_symlinks,
+			  gboolean    unescape) 
 {
 	char        *directory_resolved = NULL;
 	const char  *directory_real = directory;
@@ -239,6 +247,12 @@ comments_get_comment_dir (const char *directory,
 
 	g_free (directory_resolved);
 
+	if (unescape) {
+		char *unesc_path = gnome_vfs_unescape_string (path, NULL);
+		g_free (path);
+		path = unesc_path;
+	}
+
 	return path;
 }
 
@@ -250,16 +264,16 @@ comment_copy (const char *src,
 	char *comment_src;
 	char *comment_dest;
 
-	comment_src = comments_get_comment_filename (src, TRUE);
+	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
-		comment_src = comments_get_comment_filename (src, FALSE);
+		comment_src = comments_get_comment_filename (src, FALSE, TRUE);
 		if (! path_is_file (comment_src)) {
 			g_free (comment_src);
 			return;
 		}
 	}
-	comment_dest = comments_get_comment_filename (dest, TRUE);
+	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
@@ -277,17 +291,17 @@ comment_move (const char *src,
 	char *comment_src;
 	char *comment_dest;
 
-	comment_src = comments_get_comment_filename (src, TRUE);
+	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
-		comment_src = comments_get_comment_filename (src, FALSE);
+		comment_src = comments_get_comment_filename (src, FALSE, TRUE);
 		if (! path_is_file (comment_src)) {
 			g_free (comment_src);
 			return;
 		}
 	}
 
-	comment_dest = comments_get_comment_filename (dest, TRUE);
+	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
@@ -303,11 +317,11 @@ comment_delete (const char *filename)
 {
 	char *comment_name;
 
-	comment_name = comments_get_comment_filename (filename, FALSE);
+	comment_name = comments_get_comment_filename (filename, FALSE, TRUE);
 	unlink (comment_name);
 	g_free (comment_name);
 
-	comment_name = comments_get_comment_filename (filename, TRUE);
+	comment_name = comments_get_comment_filename (filename, TRUE, TRUE);
 	unlink (comment_name);
 	g_free (comment_name);
 }
@@ -493,11 +507,11 @@ comments_load_comment (const char *filename)
 	if (filename == NULL)
 		return NULL;
 
-	comment_file = comments_get_comment_filename (filename, TRUE);
+	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
 
-		comment_file = comments_get_comment_filename (filename, FALSE);
+		comment_file = comments_get_comment_filename (filename, FALSE, TRUE);
 		if (! path_is_file (comment_file)) {
 			g_free (comment_file);
 
@@ -598,7 +612,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (filename, TRUE);
+	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 	dest_dir = remove_level_from_path (comment_file);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);

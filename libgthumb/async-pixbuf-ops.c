@@ -1347,7 +1347,7 @@ normalize_contrast_release (GthPixbufOp *pixop)
 
 GthPixbufOp*
 _gdk_pixbuf_normalize_contrast (GdkPixbuf *src,
-			      GdkPixbuf *dest)
+				GdkPixbuf *dest)
 {
 	NormalizeContrastData *data;
 

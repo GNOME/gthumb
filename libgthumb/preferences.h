@@ -155,6 +155,11 @@
 #define  PREF_SEARCH_RECURSIVE        "/apps/gthumb/dialogs/search/recursive"
 #define  PREF_PRINT_PAPER_SIZE        "/apps/gthumb/dialogs/print/paper_size"
 #define  PREF_PRINT_PAPER_ORIENTATION "/apps/gthumb/dialogs/print/paper_orientation"
+#define  PREF_PRINT_INCLUDE_COMMENT   "/apps/gthumb/dialogs/print/include_comment"
+#define  PREF_PRINT_COMMENT_FONT      "/apps/gthumb/dialogs/print/comment_font"
+#define  PREF_PRINT_PAPER_WIDTH       "/apps/gthumb/dialogs/print/paper_width"
+#define  PREF_PRINT_PAPER_HEIGHT      "/apps/gthumb/dialogs/print/paper_height"
+#define  PREF_PRINT_PAPER_UNIT        "/apps/gthumb/dialogs/print/paper_unit"
 
 
 typedef struct {
@@ -281,5 +286,9 @@ void               pref_set_preview_content        (GthPreviewContent value);
 GthPreviewContent  pref_get_preview_content        (void);
 
 GthViewMode        pref_get_view_mode              (void);
+
+void               pref_set_print_unit             (GthPrintUnit value);
+
+GthPrintUnit       pref_get_print_unit             (void);
 
 #endif /* PREFERENCES_H */

@@ -192,6 +192,45 @@ eel_gconf_get_integer (const char *key)
 }
 
 
+float
+eel_gconf_get_float (const char *key)
+{
+	float result;
+	GConfClient *client;
+	GError *error = NULL;
+	
+	g_return_val_if_fail (key != NULL, 0);
+	
+	client = eel_gconf_client_get_global ();
+	g_return_val_if_fail (client != NULL, 0);
+	
+	result = gconf_client_get_float (client, key, &error);
+
+	if (eel_gconf_handle_error (&error)) {
+		result = 0.0;
+	}
+
+	return result;
+}
+
+
+void
+eel_gconf_set_float (const char *key,
+		     float       float_value)
+{
+	GConfClient *client;
+	GError *error = NULL;
+
+	g_return_if_fail (key != NULL);
+
+	client = eel_gconf_client_get_global ();
+	g_return_if_fail (client != NULL);
+
+	gconf_client_set_float (client, key, float_value, &error);
+	eel_gconf_handle_error (&error);
+}
+
+
 void
 eel_gconf_set_string (const char *key,
 			   const char *string_value)

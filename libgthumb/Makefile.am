@@ -27,42 +27,45 @@ EOG_CURSORS =			\
 	cursors.c		\
 	cursors.h
 
-HEADER_FILES =			\
-	async-pixbuf-ops.h	\
-	bookmarks.h		\
-	catalog.h		\
-	comments.h		\
-	dlg-save-image.h	\
-	file-data.h		\
-	file-utils.h		\
-	gconf-utils.h		\
-	glib-utils.h		\
-	gth-image-list.h	\
-	gth-file-list.h		\
-	gth-file-view.h		\
-	gth-file-view-list.h	\
-	gth-file-view-thumbs.h	\
-	gth-pixbuf-op.h		\
-	gthumb-canvas-text.h	\
-	gthumb-error.h		\
-	gthumb-histogram.h	\
-	gthumb-init.h		\
-	gthumb-info-bar.h	\
-	gthumb-module.h		\
-	gthumb-slide.h		\
-	gthumb-stock.h		\
-	gtk-utils.h		\
-	image-loader.h		\
-	image-viewer.h		\
-	nav-window.h		\
-	pixbuf-utils.h		\
-	preferences.h		\
-	print-callbacks.c	\
-	print-callbacks.h	\
-	search.h		\
-	thumb-cache.h		\
-	thumb-loader.h		\
-	typedefs.h		\
+HEADER_FILES =				\
+	async-pixbuf-ops.h		\
+	bookmarks.h			\
+	catalog.h			\
+	comments.h			\
+	dlg-save-image.h		\
+	file-data.h			\
+	file-utils.h			\
+	gconf-utils.h			\
+	glib-utils.h			\
+	gnome-print-font-picker.h	\
+	gnome-print-font-picker.c	\
+	gnome-print-font-dialog.h	\
+	gnome-print-font-dialog.c	\
+	gth-image-list.h		\
+	gth-file-list.h			\
+	gth-file-view.h			\
+	gth-file-view-list.h		\
+	gth-file-view-thumbs.h		\
+	gth-pixbuf-op.h			\
+	gthumb-error.h			\
+	gthumb-histogram.h		\
+	gthumb-init.h			\
+	gthumb-info-bar.h		\
+	gthumb-module.h			\
+	gthumb-slide.h			\
+	gthumb-stock.h			\
+	gtk-utils.h			\
+	image-loader.h			\
+	image-viewer.h			\
+	nav-window.h			\
+	pixbuf-utils.h			\
+	preferences.h			\
+	print-callbacks.c		\
+	print-callbacks.h		\
+	search.h			\
+	thumb-cache.h			\
+	thumb-loader.h			\
+	typedefs.h			\
 	utf8-fnmatch.h
 
 MARSHALLERS =			\
@@ -95,7 +98,6 @@ libgthumb_la_SOURCES =		\
 	gth-file-view.c		\
 	gth-file-view-list.c	\
 	gth-file-view-thumbs.c	\
-	gthumb-canvas-text.c	\
 	gthumb-error.c		\
 	gthumb-histogram.c	\
 	gthumb-init.c		\

@@ -194,6 +194,12 @@ static EnumStringTable preview_content_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable print_unit_table [] = {
+	{ GTH_PRINT_UNIT_MM,     "mm" },
+	{ GTH_PRINT_UNIT_IN,     "in" },
+	{ 0, NULL }
+};
+
 /* --------------- */
 
 
@@ -462,6 +468,7 @@ GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  GthSortMethod)
 GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
 GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)
 GET_SET_FUNC(preview_content,        PREF_PREVIEW_CONTENT,     GthPreviewContent)
+GET_SET_FUNC(print_unit,             PREF_PRINT_PAPER_UNIT,    GthPrintUnit)
 
 
 GthViewMode

@@ -1065,12 +1065,12 @@ folder_rename (GThumbWindow *window,
 
 		/* Comment cache. */
 
-		old_cache_path = comments_get_comment_dir (old_path, TRUE);
+		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
 		if (! path_is_dir (old_cache_path)) {
 			g_free (old_cache_path);
-			old_cache_path = comments_get_comment_dir (old_path, FALSE);
+			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
-		new_cache_path = comments_get_comment_dir (new_path, TRUE);
+		new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
 		rename (old_cache_path, new_cache_path);
 		g_free (old_cache_path);
 		g_free (new_cache_path);
@@ -1390,12 +1390,12 @@ folder_copy__response_cb (GObject *object,
 
 		/* Comment cache. */
 
-		old_cache_path = comments_get_comment_dir (old_path, TRUE);
+		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
 		if (! path_is_dir (old_cache_path)) {
 			g_free (old_cache_path);
-			old_cache_path = comments_get_comment_dir (old_path, FALSE);
+			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
-		new_cache_path = comments_get_comment_dir (new_path, TRUE);
+		new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
 
 		if (path_is_dir (old_cache_path)) {
 			char *parent_dir;
@@ -2225,13 +2225,6 @@ view_zoom_fit_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 
-	/* FIXME: delete if useless.
-	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler--;
-		return;
-	}
-	*/
-
 	if (viewer->zoom_fit) 
 		viewer->zoom_fit = FALSE;
 	else 
@@ -2306,11 +2299,6 @@ view_fullscreen_command_impl (BonoboUIComponent *uic,
 			      const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-
-	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler--;
-		return;
-	}
 
 	if (! window->fullscreen)
 		fullscreen_start (fullscreen, window);

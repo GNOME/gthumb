@@ -1,3 +1,36 @@
+2003-06-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c (ok_clicked_cb): fix bug #114679
+
+	* src/catalog-png-exporter.c (paint_text): do dot translate text
+	in utf format again.
+	(set_item_caption): translate filenames to utf8 format.
+
+	* libgthumb/print-callbacks.c (print_cb): allow to set custom
+	paper size.
+
+	* libgthumb/preferences.c: added more print preferences.
+
+	* libgthumb/gconf-utils.c (eel_gconf_get_float): new function.
+
+	* libgthumb/comments.c (comments_get_comment_filename): allow to
+	unescape the path.
+
+2003-06-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gthumb-canvas-text.c: 
+	* libgthumb/gthumb-canvas-text.h: removed files.
+	
+	* libgthumb/gnome-print-font-picker.c: 
+	* libgthumb/gnome-print-font-picker.h: 
+	* libgthumb/gnome-print-font-dialog.c: 
+	* libgthumb/gnome-print-font-dialog.h: new files.
+
+	* libgthumb/print-callbacks.c (print_image_dlg): user can choose
+	comment font; better preview; remember all settings; allow to set
+	custom paper size.
+
+
 2003-05-25  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (viewer_drag_data_received): 

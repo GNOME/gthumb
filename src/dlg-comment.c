@@ -45,6 +45,15 @@
 #include "comments.h"
 
 
+enum {
+	NO_DATE = 0,
+	FOLLOWING_DATE,
+	CURRENT_DATE,
+	IMAGE_CREATION_DATE,
+	EXIF_DATE
+};
+
+
 #define COMMENT_GLADE_FILE "gthumb_comments.glade"
 
 typedef struct {
@@ -53,29 +62,20 @@ typedef struct {
 	GList         *file_list;
 
 	GtkWidget     *dialog;
-	GtkWidget     *choose_date_dialog;
-
-	GtkWidget     *place_entry;
-	GtkWidget     *date_checkbutton;
-	GtkWidget     *date_dateedit;
-
-	GtkWidget     *date_box;
-	GtkWidget     *choose_date_button;
-
-	GtkWidget     *cd_current_date_radiobutton;
-	GtkWidget     *cd_creation_date_radiobutton;
-	GtkWidget     *cd_exif_date_radiobutton;
-
-	GtkWidget     *cd_cancel_button;
-	GtkWidget     *cd_ok_button;
 
 	GtkWidget     *note_text_view;
 	GtkTextBuffer *note_text_buffer;
+
+	GtkWidget     *place_entry;
+
+	GtkWidget     *date_optionmenu;
+	GtkWidget     *date_dateedit;
 
 	GtkWidget     *save_changed_checkbutton;
 
 	CommentData   *original_cdata;
 	gboolean       have_exif_data;
+	gboolean       several_images;
 } DialogData;
 
 
@@ -91,17 +91,7 @@ destroy_cb (GtkWidget  *widget,
 	g_list_free (data->file_list);
 	comment_data_free (data->original_cdata);
 
-	gtk_widget_destroy (data->choose_date_dialog);
-
 	g_free (data);
-}
-
-
-static void
-date_check_toggled_cb (GtkWidget *widget,
-		       DialogData *data)
-{
-	gtk_widget_set_sensitive (data->date_box, GTK_TOGGLE_BUTTON (widget)->active);
 }
 
 
@@ -131,6 +121,94 @@ text_field_cmp (const char *s1, const char *s2)
 }
 
 
+#ifdef HAVE_LIBEXIF
+
+static time_t
+get_exif_date (DialogData *data, 
+	       const char *filename)
+{
+	ExifData     *edata;
+	unsigned int  i, j;
+	time_t        time = 0;
+	struct tm     tm = { 0, };
+
+	edata = exif_data_new_from_file (filename);
+	if (edata == NULL) 
+		return (time_t) 0;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry *e = content->entries[j];
+			char      *data;
+
+			if (! content->entries[j]) 
+				continue;
+
+			if ((e->tag != EXIF_TAG_DATE_TIME) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
+				continue;
+
+			data = g_strdup (e->data);
+			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
+
+			tm.tm_year = atoi (data) - 1900;
+			tm.tm_mon  = atoi (data + 5) - 1;
+			tm.tm_mday = atoi (data + 8);
+			tm.tm_hour = atoi (data + 11);
+			tm.tm_min  = atoi (data + 14);
+			tm.tm_sec  = atoi (data + 17);
+			time = mktime (&tm);
+
+			g_free (data);
+
+			break;
+		}
+	}
+
+	exif_data_unref (edata);
+
+	return time;
+}
+
+#endif
+
+
+static time_t
+get_requested_time (DialogData *data, 
+		    const char *filename)
+{
+	int idx  = gtk_option_menu_get_history (GTK_OPTION_MENU (data->date_optionmenu));
+	time_t t = (time_t)0;
+
+	switch (idx) {
+	case NO_DATE:
+		break;
+	case FOLLOWING_DATE:
+		t = gnome_date_edit_get_time (GNOME_DATE_EDIT (data->date_dateedit));
+		break;
+	case CURRENT_DATE:
+		t = time (NULL);
+		break;
+	case IMAGE_CREATION_DATE:
+		t = get_file_ctime (filename);
+		break;
+	case EXIF_DATE:
+#ifdef HAVE_LIBEXIF
+		t = get_exif_date (data, filename);
+#endif
+		break;
+	}
+
+	return t;
+}
+
+
 /* called when the "ok" button is pressed. */
 static void
 ok_clicked_cb (GtkWidget  *widget, 
@@ -153,26 +231,6 @@ ok_clicked_cb (GtkWidget  *widget,
 	if (text != NULL)
 		cdata->place = g_strdup (text);
 	
-	/* Date */
-
-	if (GTK_TOGGLE_BUTTON (data->date_checkbutton)->active) {
-		time_t     t;
-		struct tm *tm_date;
-
-		t = gnome_date_edit_get_time (GNOME_DATE_EDIT (data->date_dateedit));
-		tm_date = localtime (&t);
-		tm.tm_year = tm_date->tm_year;
-		tm.tm_mon = tm_date->tm_mon;
-		tm.tm_mday = tm_date->tm_mday;
-		tm.tm_hour = tm_date->tm_hour;
-		tm.tm_min = tm_date->tm_min;
-		tm.tm_sec = tm_date->tm_sec;
-		tm.tm_isdst = tm_date->tm_isdst;
-	}
-	cdata->time = mktime (&tm);
-	if (cdata->time <= 0)
-		cdata->time = 0;
-
 	/* Comment */
 
 	gtk_text_buffer_get_bounds (data->note_text_buffer, 
@@ -212,6 +270,31 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		const char *filename = scan->data;
+
+		/* Date */
+
+		cdata->time = -1;
+
+		if (gtk_option_menu_get_history (GTK_OPTION_MENU (data->date_optionmenu)) != NO_DATE) {
+			time_t     t;
+			struct tm *tm_date;
+			
+			t = get_requested_time (data, filename);
+			tm_date = localtime (&t);
+			tm.tm_year = tm_date->tm_year;
+			tm.tm_mon = tm_date->tm_mon;
+			tm.tm_mday = tm_date->tm_mday;
+			tm.tm_hour = tm_date->tm_hour;
+			tm.tm_min = tm_date->tm_min;
+			tm.tm_sec = tm_date->tm_sec;
+			tm.tm_isdst = tm_date->tm_isdst;
+		}
+		cdata->time = mktime (&tm);
+		if (cdata->time <= 0)
+			cdata->time = 0;
+		
+		/**/
+
 		if (save_changed)
 			comments_save_comment_non_null (filename, cdata);
 		else
@@ -258,117 +341,55 @@ help_cb (GtkWidget  *widget,
 
 
 static void
-cd_current_date_toggled_cb (GtkToggleButton  *button, 
-			    DialogData       *data)
-{
-	if (! gtk_toggle_button_get_active (button))
-		return;
-
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
-				  time (NULL));
-}
-
-
-static void
-cd_creation_date_toggled_cb (GtkToggleButton  *button, 
-			     DialogData       *data)
+date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
+			    DialogData    *data)
 {
 	char *first_image = data->file_list->data;
+	int   idx = gtk_option_menu_get_history (option_menu);
 
-	if (! gtk_toggle_button_get_active (button))
-		return;
+	gtk_widget_set_sensitive (data->date_dateedit, idx == FOLLOWING_DATE);
 
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
-				  get_file_ctime (first_image));
-}
+	switch (idx) {
+	case NO_DATE:
+		break;
+	case FOLLOWING_DATE:
+		break;
+	case CURRENT_DATE:
+		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
+					  time (NULL));
 
-
+		break;
+	case IMAGE_CREATION_DATE:
+		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), 
+					  get_file_ctime (first_image));
+		break;
+	case EXIF_DATE:
 #ifdef HAVE_LIBEXIF
-
-static void
-cd_exif_date_toggled_cb (GtkToggleButton  *button, 
-			 DialogData       *data)
-{
-	char         *first_image = data->file_list->data;
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
-	struct tm     tm = { 0, };
-
-	if (! gtk_toggle_button_get_active (button))
-		return;
-
-	edata = exif_data_new_from_file (first_image);
-	if (edata == NULL) 
-		return;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-			char      *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			data = g_strdup (e->data);
-			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = atoi (data + 11);
-			tm.tm_min  = atoi (data + 14);
-			tm.tm_sec  = atoi (data + 17);
-			time = mktime (&tm);
-
-			g_free (data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	if (time == 0)
-		return;
-
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), time);
-}
-
+		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
+					  get_exif_date (data, first_image));
 #endif
+		break;
+	}
+}
 
 
-static void
-set_date_from_cd_dialog (GtkWidget  *widget,
-			 DialogData *data)
+static GtkWidget *
+get_exif_date_option_item (DialogData *data)
 {
-	GtkToggleButton *button;
+	GtkWidget *menu;
+	GList     *list, *scan;
+	int        i = 0;
+	GtkWidget *retval = NULL;
 
-	button = GTK_TOGGLE_BUTTON (data->cd_current_date_radiobutton);
-	if (gtk_toggle_button_get_active (button))
-		cd_current_date_toggled_cb (button, data);
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (data->date_optionmenu));
+	list = gtk_container_get_children (GTK_CONTAINER (menu));
+	for (scan = list; scan && i < EXIF_DATE; scan = scan->next)
+		i++;
 
-	button = GTK_TOGGLE_BUTTON (data->cd_creation_date_radiobutton);
-	if (gtk_toggle_button_get_active (button))
-		cd_creation_date_toggled_cb (button, data);
+	retval = (GtkWidget*) scan->data;
+	g_list_free (list);
 
-#ifdef HAVE_LIBEXIF
-	button = GTK_TOGGLE_BUTTON (data->cd_exif_date_radiobutton);
-	if (gtk_toggle_button_get_active (button))
-		cd_exif_date_toggled_cb  (button, data);
-#endif	
-
-	gtk_widget_hide (data->choose_date_dialog);
+	return retval;
 }
 
 
@@ -390,7 +411,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		return;
 	}
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
 	data->window = window;
 
@@ -408,44 +429,33 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 
 	/* Get the widgets. */
 
-	data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
-	window->comments_dlg = data->dialog;
-
-	data->choose_date_dialog = glade_xml_get_widget (data->gui, "choose_date_dialog");
-
-	data->place_entry = glade_xml_get_widget (data->gui, "place_entry");
-	data->date_checkbutton = glade_xml_get_widget (data->gui, "date_checkbutton");
-	data->date_dateedit = glade_xml_get_widget (data->gui, "date_dateedit");
-	data->date_box = glade_xml_get_widget (data->gui, "date_box");
-	data->choose_date_button = glade_xml_get_widget (data->gui, "choose_date_button");
-	data->cd_current_date_radiobutton = glade_xml_get_widget (data->gui, "cd_current_date_radiobutton");
-	data->cd_creation_date_radiobutton = glade_xml_get_widget (data->gui, "cd_creation_date_radiobutton");
-	data->cd_exif_date_radiobutton = glade_xml_get_widget (data->gui, "cd_exif_date_radiobutton");
-
-	data->cd_cancel_button = glade_xml_get_widget (data->gui, "cd_cancel_button");
-	data->cd_ok_button = glade_xml_get_widget (data->gui, "cd_ok_button");
-
+	window->comments_dlg = data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
 	data->note_text_view = glade_xml_get_widget (data->gui, "note_text");
-
+	data->place_entry = glade_xml_get_widget (data->gui, "place_entry");
+	data->date_optionmenu = glade_xml_get_widget (data->gui, "date_optionmenu");
+	data->date_dateedit = glade_xml_get_widget (data->gui, "date_dateedit");
 	data->save_changed_checkbutton = glade_xml_get_widget (data->gui, "save_changed_checkbutton");
-
         btn_ok = glade_xml_get_widget (data->gui, "ok_button");
         btn_cancel = glade_xml_get_widget (data->gui, "close_button");
 	btn_help = glade_xml_get_widget (data->gui, "help_button");
 
 	/* Set widgets data. */
 
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
+
 	data->note_text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->note_text_view));
 
-	if (g_list_length (data->file_list) > 1) {
+	data->several_images = g_list_length (data->file_list) > 1;
+
+	if (data->several_images) 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton), TRUE);
-	} else
+	else
 		gtk_widget_set_sensitive (data->save_changed_checkbutton, FALSE);
 
 	/**/
 
 #ifndef HAVE_LIBEXIF
-	gtk_widget_hide (data->cd_exif_date_radiobutton);
+	/* gtk_widget_hide (data->cd_exif_date_radiobutton); FIXME */
 	data->have_exif_data = FALSE;
 #else
 	{
@@ -495,8 +505,8 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		}
 	}
 
-	gtk_widget_set_sensitive (data->date_box, FALSE);
-	gtk_widget_set_sensitive (data->cd_exif_date_radiobutton, data->have_exif_data);
+	/* gtk_widget_set_sensitive (data->cd_exif_date_radiobutton, data->have_exif_data); FIXME */
+	gtk_widget_set_sensitive (get_exif_date_option_item (data), data->have_exif_data);
 
 	if (cdata != NULL) {
 		if (cdata->comment != NULL) {
@@ -521,9 +531,8 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		/**/
 
 		if (cdata->time > 0) {
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->date_checkbutton), TRUE);
+			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), FOLLOWING_DATE);
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), cdata->time);
-			gtk_widget_set_sensitive (data->date_box, TRUE);
 
 		} else 
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
@@ -549,24 +558,11 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			  "clicked",
 			  G_CALLBACK (help_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->date_checkbutton),
-			  "toggled",
-			  G_CALLBACK (date_check_toggled_cb),
-			  data);
 
-	g_signal_connect_swapped (G_OBJECT (data->choose_date_button), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_show),
-				  data->choose_date_dialog);
-
-	g_signal_connect (G_OBJECT (data->cd_ok_button), 
-			  "clicked",
-			  G_CALLBACK (set_date_from_cd_dialog),
+	g_signal_connect (G_OBJECT (data->date_optionmenu), 
+			  "changed",
+			  G_CALLBACK (date_optionmenu_changed_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (data->cd_cancel_button), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_hide),
-				  data->choose_date_dialog);
 
 	/* run dialog. */
 

@@ -134,7 +134,7 @@ backup__ok_cb (GObject  *object,
 
 	/**/
 
-	comment_dir = comments_get_comment_dir (NULL, TRUE);
+	comment_dir = comments_get_comment_dir (NULL, TRUE, TRUE);
 	command_line = g_strconcat ("file-roller",
 				    " --add-to=", backup_file, 
 				    " --force",

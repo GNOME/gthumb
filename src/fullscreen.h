@@ -37,7 +37,7 @@ typedef struct {
 } FullScreen;
 
 
-FullScreen *   fullscreen_new    ();
+FullScreen *   fullscreen_new    (void);
 
 void           fullscreen_close  (FullScreen *fullscreen);
 
