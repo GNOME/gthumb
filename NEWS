@@ -1,15 +1,16 @@
 version 2.6.4
 -------------	
-	* Fixed bug #164961: Browsing for Web Album location adds %20 to names 
-	  with spaces.
+	* Fixed bug #145325: xhtml/xml support for Web Albums
 	* Create high quality thumbnails when the thumbnail size is greater 
 	  than 128.  Fixes bug #152441: fuzzy thumbnails, not sharp thumbnails.
+	* Fixed bug #164961: Browsing for Web Album location adds %20 to names 
+	  with spaces.
 	* Fixed bug #160232: gthumb doesn't import pictures from 
 	  ARGUS DC1500 camera.
 	* Fixed bug #165478: Rotated images no longer auto-refresh in image 
 	  viewer.
 	* Fixed bug #167502: crash trying to open specific image.
-	* Fixed bug #145325: xhtml/xml support for Web Albums
+	* Fixed bug #168938: Crash when loading a photo.
 	  
 version 2.6.3
 -------------	
