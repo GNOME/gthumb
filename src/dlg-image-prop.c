@@ -106,6 +106,10 @@ typedef struct {
 } DialogData;
 
 
+static GdkPixbuf *unknown = NULL;
+static int        unknown_ref_count = 0;
+
+
 /* called when the main dialog is closed. */
 static void
 destroy_cb (GtkWidget  *widget, 
@@ -115,6 +119,11 @@ destroy_cb (GtkWidget  *widget,
 	gthumb_histogram_free (data->histogram);
 	g_object_unref (data->gui);
 	g_free (data);
+
+	if (--unknown_ref_count == 0) {
+		g_object_unref (unknown);
+		unknown = NULL;
+	}
 }
 
 
@@ -440,6 +449,7 @@ update_general_info (DialogData *data)
 {
 	GThumbWindow *window;
 	ImageViewer  *viewer;
+	GdkPixbuf    *pixbuf = image_viewer_get_current_pixbuf (viewer);
 	int           width, height;
 	char         *file_size_txt;
 	char         *size_txt;
@@ -503,35 +513,33 @@ update_general_info (DialogData *data)
 		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
 }
 
-	if (window->image_path != NULL) {
-		ImageViewer *viewer = IMAGE_VIEWER (data->window_viewer);
-		GdkPixbuf   *pixbuf = image_viewer_get_current_pixbuf (viewer);
+	pixbuf = image_viewer_get_current_pixbuf (viewer);
 
-		if (pixbuf != NULL) {
-			GdkPixbuf *scaled = NULL;
-			int        width;
-			int        height;
-
-			g_object_ref (pixbuf);
-
-			width = gdk_pixbuf_get_width (pixbuf);
-			height = gdk_pixbuf_get_height (pixbuf);
-			scale_thumb (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
-
-			scaled = gdk_pixbuf_scale_simple (pixbuf, 
-							  width, 
-							  height,
-							  GDK_INTERP_BILINEAR);
-			gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), scaled);
-
-			if (scaled != NULL) 
-				g_object_unref (scaled);
-
-			g_object_unref (pixbuf);
-		}
+	if ((window->image_path != NULL) && (pixbuf != NULL)) {
+		GdkPixbuf *scaled = NULL;
+		int        width;
+		int        height;
 		
-	} else
-		gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), NULL);
+		g_object_ref (pixbuf);
+		
+		width = gdk_pixbuf_get_width (pixbuf);
+		height = gdk_pixbuf_get_height (pixbuf);
+		scale_thumb (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE); 
+		
+		scaled = gdk_pixbuf_scale_simple (pixbuf, 
+						  width, 
+						  height,
+						  GDK_INTERP_BILINEAR);
+		gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), scaled);
+		gtk_widget_show (data->image);
+		
+		if (scaled != NULL) 
+			g_object_unref (scaled);
+		
+		g_object_unref (pixbuf);
+		
+	}  else 
+		gtk_image_set_from_pixbuf (GTK_IMAGE (data->image), unknown);
 }
 
 
@@ -610,6 +618,15 @@ dlg_image_prop_new (GThumbWindow *window)
 		g_free (data);
 		return NULL;
 	}
+
+	if (unknown == NULL) {
+		unknown = gdk_pixbuf_new_from_inline (-1, 
+						      unknown_48_rgba, 
+						      FALSE, 
+						      NULL);
+		unknown_ref_count = 1;
+	} else 
+		unknown_ref_count++;
 
 	data->histogram = gthumb_histogram_new ();
 

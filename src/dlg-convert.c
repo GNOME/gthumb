@@ -377,6 +377,8 @@ ok_cb (GtkWidget  *widget,
 		data->image_type = data->ext = "tga";
 	else if (is_active (data->conv_tiff_radiobutton))
 		data->image_type = data->ext = "tiff";
+	else
+		data->image_type = data->ext = "jpeg";
 
 	data->overwrite_mode = gtk_option_menu_get_history (GTK_OPTION_MENU (data->conv_om_optionmenu));
 	data->remove_original = is_active (data->conv_remove_orig_checkbutton);
@@ -491,7 +493,9 @@ dlg_convert (GThumbWindow *window)
 
 	image_type = eel_gconf_get_string (PREF_CONVERT_IMAGE_TYPE);
 
-	if (strcmp (image_type, "jpeg") == 0)
+	if (image_type == NULL)
+		button = data->conv_jpeg_radiobutton;
+	else if (strcmp (image_type, "jpeg") == 0)
 		button = data->conv_jpeg_radiobutton;
 	else if (strcmp (image_type, "png") == 0)
 		button = data->conv_png_radiobutton;
@@ -500,12 +504,11 @@ dlg_convert (GThumbWindow *window)
 	else if (strcmp (image_type, "tiff") == 0)
 		button = data->conv_tiff_radiobutton;
 	else
-		button = NULL;
+		button = data->conv_jpeg_radiobutton;
 
 	g_free (image_type);
 
-	if (button != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->conv_om_optionmenu),
 				     pref_get_convert_overwrite_mode ());

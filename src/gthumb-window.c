@@ -1700,7 +1700,8 @@ dir_list_button_press_cb (GtkWidget      *widget,
 		return FALSE;
 	}
 
-	dir_list_tree_path = path;
+	dir_list_tree_path = gtk_tree_path_copy (path);
+	gtk_tree_path_free (path);
 
 	return FALSE;
 }
@@ -1955,7 +1956,8 @@ catalog_list_button_press_cb (GtkWidget      *widget,
 		return FALSE;
 	}
 
-	catalog_list_tree_path = path;
+	catalog_list_tree_path = gtk_tree_path_copy (path);
+	gtk_tree_path_free (path);
 
 	return FALSE;
 }
@@ -5245,18 +5247,37 @@ _window_add_monitor_event (GThumbWindow             *window,
 {
 	MonitorEventType type;
 
+	{
+		char *op;
+
+		if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
+			op = "CREATED";
+		else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
+			op = "DELETED";
+		else 
+			op = "CHANGED";
+
+		g_print ("[%s] %s\n", op, path);
+	}
+
 	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
 		if (path_is_dir (path))
 			type = MONITOR_EVENT_DIR_CREATED;
 		else
 			type = MONITOR_EVENT_FILE_CREATED;
-	} else	if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
+
+	} else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
 		if (dir_list_get_row_from_path (window->dir_list, path) != -1)
 			type = MONITOR_EVENT_DIR_DELETED;
 		else
 			type = MONITOR_EVENT_FILE_DELETED;
-	} else
-		type = MONITOR_EVENT_FILE_CHANGED;
+
+	} else {
+		if (! path_is_dir (path))
+			type = MONITOR_EVENT_FILE_CHANGED;
+		else
+			return;
+	}
 
 	if (type == MONITOR_EVENT_FILE_CREATED) {
 		if (remove_if_present (window, 
@@ -5264,13 +5285,14 @@ _window_add_monitor_event (GThumbWindow             *window,
 				       path))
 			type = MONITOR_EVENT_FILE_CHANGED;
 		
-	} else if (type == MONITOR_EVENT_FILE_DELETED) 
+	} else if (type == MONITOR_EVENT_FILE_DELETED) {
 		remove_if_present (window, MONITOR_EVENT_FILE_CREATED, path);
-		
-	else if (type == MONITOR_EVENT_DIR_CREATED) 
+		remove_if_present (window, MONITOR_EVENT_FILE_CHANGED, path);
+
+	} else if (type == MONITOR_EVENT_DIR_CREATED) {
 		remove_if_present (window, MONITOR_EVENT_DIR_DELETED, path);
 
-	else if (type == MONITOR_EVENT_DIR_DELETED) 
+	} else if (type == MONITOR_EVENT_DIR_DELETED) 
 		remove_if_present (window, MONITOR_EVENT_DIR_CREATED, path);
 
 	window->monitor_events[type] = g_list_append (window->monitor_events[type], g_strdup (path));

@@ -441,42 +441,43 @@ void
 dir_list_remove_directory (DirList         *dir_list,
 			   const char      *path)
 {
-	GList       *scan, *link = NULL;
-	const char  *name_only;
-	GtkTreeIter  iter;
-	GtkTreePath *tpath;
-	int          pos;
+	GList        *scan, *link = NULL;
+	const char   *name_only;
+	int           pos;
+	GtkTreeIter   iter;
 
 	if (path == NULL)
 		return;
+
 	name_only = file_name_from_path (path);
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
 		char *dir = scan->data;
+
 		if (strcmp (name_only, dir) == 0) {
 			link = scan;
 			break;
 		}
 		pos++;
 	}
-	if (link == NULL)
+
+	if (link == NULL) 
 		return;
 
 	/**/
 	
-	g_list_remove_link (dir_list->list, link);
+	dir_list->list = g_list_remove_link (dir_list->list, link);
+	g_free (link->data);
 	g_list_free (link);
 
 	/**/
 
-	tpath = gtk_tree_path_new ();
-	gtk_tree_path_append_index (tpath, pos);
-	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
-                                       &iter,
-                                       tpath)) 
-                return;
-	gtk_tree_path_free (tpath);
-	
+	if (! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (dir_list->list_store),
+					     &iter,
+					     NULL,
+					     pos)) 
+		return;
+
 	gtk_list_store_remove (dir_list->list_store, &iter);
 }
 
@@ -544,27 +545,26 @@ dir_list_get_row_from_path (DirList     *dir_list,
 {
 	GList      *scan;
 	const char *name;
-	char       *dir;
+	char       *parent;
 	int         pos;
 
-	dir = remove_level_from_path (path);
-	if (strcmp (dir_list->path, dir) != 0) {
-		g_free (dir);
+	parent = remove_level_from_path (path);
+	if (strcmp (dir_list->path, parent) != 0) {
+		g_free (parent);
 		return -1;
 	}
+	g_free (parent);
 
 	name = file_name_from_path (path);
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
 		char *dir = scan->data;
-		if (strcmp (name, dir) == 0) {
-			g_free (dir);
+
+		if (strcmp (name, dir) == 0) 
 			return pos;
-		}
+
 		pos++;
 	}
-
-	g_free (dir);
 
 	return -1;
 }

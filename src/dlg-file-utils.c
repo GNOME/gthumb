@@ -1905,6 +1905,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 		if (fcdata->result == GNOME_VFS_OK) {
 			if (fcdata->file_op == FILE_OP_COPY)
 				all_windows_notify_directory_new (fcdata->destination); 
+
 			else if (fcdata->file_op == FILE_OP_MOVE)
 				all_windows_notify_directory_rename (fcdata->source, 
 								     fcdata->destination);
@@ -1926,7 +1927,8 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	}
 
 	if (info->bytes_total != 0) {
-		fraction = (float)info->total_bytes_copied / info->bytes_total;
+		fraction = (float) info->file_index / info->files_total;
+		fraction /= 2.0;
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), fraction);
 	}
 
@@ -1944,7 +1946,7 @@ folder_progress_sync_cb (GnomeVFSXferProgressInfo *info,
 		ret_val = TRUE;
 		
 	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR) {
-		ret_val = GNOME_VFS_XFER_ERROR_ACTION_ABORT;
+		ret_val = GNOME_VFS_XFER_ERROR_ACTION_SKIP;
 
 	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OVERWRITE) {
 		ret_val = GNOME_VFS_XFER_OVERWRITE_ACTION_REPLACE_ALL;
@@ -1987,11 +1989,12 @@ folder_copy (GThumbWindow   *window,
 	GnomeVFSXferOverwriteMode  overwrite_mode;
 	GnomeVFSResult             result;
 
-	if ((src_path == NULL) || (dest_path == NULL))
-		return;
-
-	if (strncmp (src_path, dest_path, strlen (src_path)) == 0)
-		return;
+	if (file_op != FILE_OP_DELETE) {
+		if ((src_path == NULL) || (dest_path == NULL))
+			return;
+		if (strncmp (src_path, dest_path, strlen (src_path)) == 0)
+			return;
+	}
 
 	if (! path_is_dir (src_path))
 		return;
