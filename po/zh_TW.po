@@ -4,11 +4,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.1.1\n"
-"POT-Creation-Date: 2003-04-29 20:19+0800\n"
-"PO-Revision-Date: 2003-05-02 01:30+0800\n"
+"Project-Id-Version: gthumb 2.1.2\n"
+"POT-Creation-Date: 2003-05-13 19:50+0800\n"
+"PO-Revision-Date: 2003-05-15 09:03+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
-"Language-Team: traditioanl Chinese <zh-l10n@linux.org.tw>\n"
+"Language-Team: Chinese (traditioanl) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +33,6 @@ msgstr "列印目前的圖像"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb_print.glade.h:11
 msgid "_Print"
 msgstr "列印(_P)"
 
@@ -176,7 +175,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%x %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:233 src/gthumb-window.c:406
+#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d×%d 像素"
@@ -226,7 +225,7 @@ msgid "%d %B %Y"
 msgstr "%x"
 
 #: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:240 src/gthumb-window.c:403
+#: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
 msgstr "%x %H:%M"
 
@@ -271,23 +270,23 @@ msgid "Comment"
 msgstr "備註"
 
 #: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:421
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:424
 msgid "Name"
 msgstr "名稱"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:805
-#: src/gthumb-window.c:4750 src/gthumb_png_exporter.glade.h:75
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
+#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:26 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:749 libgthumb/print-callbacks.c:1026
+#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
 #, c-format
 msgid "Print %s"
 msgstr "列印 %s"
 
-#: libgthumb/print-callbacks.c:752 src/gthumb_print.glade.h:10
+#: libgthumb/print-callbacks.c:786
 msgid "Print Image"
 msgstr "列印圖像"
 
@@ -315,11 +314,11 @@ msgstr "儲存縮圖"
 
 #: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
-msgstr ""
+msgstr "儲存 HTML 頁面：圖像"
 
 #: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
-msgstr ""
+msgstr "儲存 HTML 頁面：索引"
 
 #: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
@@ -354,7 +353,7 @@ msgstr "覆寫(_O)"
 #: src/commands-impl.c:339 src/commands-impl.c:354
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "無法將圖像“%s”重新命名：%s"
+msgstr "無法更改圖像“%s”的名稱：%s"
 
 #: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
 msgid "source and destination are the same"
@@ -367,11 +366,11 @@ msgstr "無法複製圖像“%s”：%s"
 
 #: src/commands-impl.c:511
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "選定的圖像將會被移至垃圾桶，是否確定？"
+msgstr "選定的圖像將會被丟進垃圾桶，是否確定？"
 
 #: src/commands-impl.c:531
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "該圖像將會被移至垃圾桶，是否確定？"
+msgstr "該圖像將會被丟進垃圾桶，是否確定？"
 
 #: src/commands-impl.c:766
 msgid "The image will be removed from the catalog, are you sure?"
@@ -421,7 +420,7 @@ msgstr "無法建立圖庫“%s”：%s"
 #: src/commands-impl.c:1029 src/commands-impl.c:1066
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "無法為資料夾“%s”重新命名：%s"
+msgstr "無法更改資料夾“%s”的名稱：%s"
 
 #: src/commands-impl.c:1132
 #, c-format
@@ -432,11 +431,11 @@ msgstr "無法刪除資料夾“%s”：%s"
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "“%s”無法移至垃圾桶。是否永遠刪除該圖像？"
+msgstr "“%s”無法丟進垃圾桶。是否永遠刪除該圖像？"
 
 #: src/commands-impl.c:1198
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "選定的資料夾將會被移至垃圾桶，是否確定？"
+msgstr "選定的資料夾將會被丟進垃圾桶，是否確定？"
 
 #: src/commands-impl.c:1200 src/dlg-file-utils.c:273
 msgid "_Move"
@@ -468,12 +467,12 @@ msgstr "請選擇目的地資料夾"
 #: src/commands-impl.c:1606
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "無法將圖庫“%s”重新命名：%s"
+msgstr "無法更改圖庫“%s”的名稱：%s"
 
 #: src/commands-impl.c:1606
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "無法將圖像集“%s”重新命名：%s"
+msgstr "無法更改圖像集“%s”的名稱：%s"
 
 #: src/commands-impl.c:1652 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
@@ -498,7 +497,7 @@ msgstr "將會移除選定的圖像集，是否確定？"
 
 #: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:443
+#: src/dlg-search.c:448
 #, c-format
 msgid "Could not display help: %s"
 msgstr "無法顯示說明文件：%s"
@@ -539,7 +538,7 @@ msgstr "名稱為“%s”的圖像已經存在。請使用另一個名稱。"
 msgid "Skip"
 msgstr "略過"
 
-#: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
+#: src/dlg-duplicates.c:265
 msgid "Image"
 msgstr "圖像"
 
@@ -561,7 +560,7 @@ msgstr "位置"
 
 #: src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr "已選取的圖像將會被移至垃圾桶，是否確定？"
+msgstr "已選取的圖像將會被丟進垃圾桶，是否確定？"
 
 #: src/dlg-file-utils.c:87
 msgid "The destination folder does not exist. Do you want to create it?"
@@ -586,7 +585,7 @@ msgstr "無法刪除檔案："
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "無法將圖像移至垃圾桶。是否永遠刪除圖像？"
+msgstr "無法將圖像丟進垃圾桶。是否永遠刪除圖像？"
 
 #: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
 msgid "You didn't enter the new name"
@@ -646,7 +645,7 @@ msgstr "正在複製第 %ld 個檔案 (總共 %ld 個)"
 msgid "Moving file %ld of %ld"
 msgstr "正在移動第 %ld 個檔案 (總共 %ld 個)"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:428
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:431
 msgid "Size"
 msgstr "尺寸"
 
@@ -654,11 +653,11 @@ msgstr "尺寸"
 msgid "Type"
 msgstr "類型"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:435
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:438
 msgid "Bytes"
 msgstr "位元組"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:442
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:445
 msgid "Modified"
 msgstr "最後修改時間"
 
@@ -666,11 +665,11 @@ msgstr "最後修改時間"
 msgid "Information on Channel"
 msgstr "請選取色版"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5198
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
 msgid "Field"
 msgstr "欄位"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5208 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "亮度"
 
@@ -703,23 +702,23 @@ msgstr "頁首"
 msgid "Footer"
 msgstr "頁尾"
 
-#: src/dlg-rename-series.c:410
+#: src/dlg-rename-series.c:419
 msgid "Old Name"
 msgstr "舊檔名"
 
-#: src/dlg-rename-series.c:418
+#: src/dlg-rename-series.c:427
 msgid "New Name"
 msgstr "新檔名"
 
-#: src/dlg-search.c:332
+#: src/dlg-search.c:337
 msgid "Search Result"
 msgstr "搜尋結果"
 
-#: src/dlg-search.c:801
+#: src/dlg-search.c:808
 msgid "Filename"
 msgstr "檔案名稱"
 
-#: src/dlg-search.c:810 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "資料夾"
 
@@ -727,9 +726,21 @@ msgstr "資料夾"
 msgid "Select Album Theme"
 msgstr "選取相片簿佈景主題"
 
-#: src/fullscreen.c:709 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "還原為正常顯示模式"
+
+#: src/fullscreen.c:822
+msgid "Image Info"
+msgstr "圖像資訊"
+
+#: src/fullscreen.c:840 src/gthumb-window.c:4253
+msgid "Back"
+msgstr "上一頁"
+
+#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
+msgid "Forward"
+msgstr "下一頁"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
@@ -944,33 +955,29 @@ msgstr "符合視窗"
 msgid "Folders"
 msgstr "資料夾"
 
-#: src/gthumb-ui.xml.h:52
-msgid "Forward"
-msgstr "下一頁"
-
 #: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
 msgstr "全螢幕"
 
 #: src/gthumb-ui.xml.h:54
 msgid "Go to the folder that contains the selected image"
-msgstr "進入載有已選取的圖像的資料夾"
+msgstr "前往載有選定的圖像的資料夾"
 
 #: src/gthumb-ui.xml.h:55
 msgid "Go to the home folder"
-msgstr "進入個人目錄"
+msgstr "前往個人目錄"
 
 #: src/gthumb-ui.xml.h:56
 msgid "Go to the next visited location"
-msgstr "進入下一次瀏覽的位置"
+msgstr "前往下一次瀏覽的位置"
 
 #: src/gthumb-ui.xml.h:57
 msgid "Go to the previous visited location"
-msgstr "進入上一次瀏覽的位置"
+msgstr "前往上一次瀏覽的位置"
 
 #: src/gthumb-ui.xml.h:58
 msgid "Go up one level"
-msgstr "進入上一層資料夾"
+msgstr "前往上一層資料夾"
 
 #: src/gthumb-ui.xml.h:59
 msgid "Home"
@@ -1018,15 +1025,15 @@ msgstr "將選定的圖像移動至其它位置"
 
 #: src/gthumb-ui.xml.h:70
 msgid "Move the current folder to the Trash"
-msgstr "將目前的資料夾移至垃圾桶"
+msgstr "將目前的資料夾丟進垃圾桶"
 
 #: src/gthumb-ui.xml.h:71
 msgid "Move the selected folder to the Trash"
-msgstr "將選定的資料夾移至垃圾桶"
+msgstr "將選定的資料夾丟進垃圾桶"
 
 #: src/gthumb-ui.xml.h:72
 msgid "Move the selected images to the Trash"
-msgstr "將選定的圖像移至垃圾桶"
+msgstr "將選定的圖像丟進垃圾桶"
 
 #: src/gthumb-ui.xml.h:73
 msgid "Move this image to another location"
@@ -1034,11 +1041,11 @@ msgstr "將本圖像移動至其它位置"
 
 #: src/gthumb-ui.xml.h:74
 msgid "Move this image to the Trash"
-msgstr "將本圖像移至垃圾桶"
+msgstr "將本圖像丟進垃圾桶"
 
 #: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
-msgstr "移至垃圾桶(_T)"
+msgstr "丟進垃圾桶(_T)"
 
 #: src/gthumb-ui.xml.h:76
 msgid "New _Library..."
@@ -1054,7 +1061,7 @@ msgstr "下一幅"
 
 #: src/gthumb-ui.xml.h:79
 msgid "Open current folder with the Nautilus file manager"
-msgstr "用 Nautilus 檔案管理程式開啟目前的資料夾"
+msgstr "用 Nautilus 檔案總管開啟目前的資料夾"
 
 #: src/gthumb-ui.xml.h:80
 msgid "Open selected images with an application"
@@ -1064,7 +1071,7 @@ msgstr "用其它程式開啟已選取的圖像"
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
-msgstr "用 Nautilus 檔案管理程式開啟選定的資料夾"
+msgstr "用 Nautilus 檔案總管開啟選定的資料夾"
 
 #: src/gthumb-ui.xml.h:83
 msgid "Open this image with an application"
@@ -1072,11 +1079,11 @@ msgstr "用其它程式開啟本圖像"
 
 #: src/gthumb-ui.xml.h:84
 msgid "Open with the File Manager"
-msgstr "以檔案管理程式開啟"
+msgstr "以檔案總管開啟"
 
 #: src/gthumb-ui.xml.h:85
 msgid "Open with the _File Manager"
-msgstr "以檔案管理程式開啟(_F)"
+msgstr "以檔案總管開啟(_F)"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Out"
@@ -1090,7 +1097,7 @@ msgstr "播放動畫(_A)"
 msgid "Previous"
 msgstr "上一幅"
 
-#: src/gthumb-ui.xml.h:89
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
 msgid "Print"
 msgstr "列印"
 
@@ -1156,27 +1163,27 @@ msgstr "移除備註"
 
 #: src/gthumb-ui.xml.h:106
 msgid "Rename current catalog"
-msgstr "將目前的圖像集重新命名"
+msgstr "更改目前的圖像集的名稱"
 
 #: src/gthumb-ui.xml.h:107
 msgid "Rename current folder"
-msgstr "將目前的資料夾重新命名"
+msgstr "更改目前的資料夾的名稱"
 
 #: src/gthumb-ui.xml.h:108
 msgid "Rename selected catalog"
-msgstr "將已選取的圖像集重新命名"
+msgstr "更改選定的圖像集的名稱"
 
 #: src/gthumb-ui.xml.h:109
 msgid "Rename selected folder"
-msgstr "將已選取的資料夾重新命名"
+msgstr "更改選定的資料夾的名稱"
 
 #: src/gthumb-ui.xml.h:110
 msgid "Rename selected image"
-msgstr "將已選取的圖像重新命名"
+msgstr "更改選定的圖像的名稱"
 
 #: src/gthumb-ui.xml.h:111
 msgid "Rename this image"
-msgstr "將圖像重新命名"
+msgstr "更改圖像的名稱"
 
 #: src/gthumb-ui.xml.h:112
 msgid "Resize image"
@@ -1352,7 +1359,7 @@ msgstr "以全螢幕模式瀏覽圖像"
 
 #: src/gthumb-ui.xml.h:160
 msgid "View image properties"
-msgstr "檢視圖像屬性"
+msgstr "顯示圖像屬性"
 
 #: src/gthumb-ui.xml.h:162
 msgid "View next image"
@@ -1544,11 +1551,11 @@ msgstr "全螢幕(_F)"
 
 #: src/gthumb-ui.xml.h:212
 msgid "_Go"
-msgstr "移至(_G)"
+msgstr "前往(_G)"
 
 #: src/gthumb-ui.xml.h:213
 msgid "_Go to the Image Folder"
-msgstr "進入圖像資料夾(_G)"
+msgstr "前往圖像資料夾(_G)"
 
 #: src/gthumb-ui.xml.h:214
 msgid "_Help"
@@ -1632,7 +1639,7 @@ msgstr "重新載入(_R)"
 
 #: src/gthumb-ui.xml.h:238
 msgid "_Rename Series"
-msgstr "將一系列圖像重新命名(_R)"
+msgstr "更改一系列圖像的名稱(_R)"
 
 #: src/gthumb-ui.xml.h:239
 msgid "_Rename..."
@@ -1734,74 +1741,75 @@ msgstr "根據大小(_S)"
 msgid "by _Time"
 msgstr "根據時間(_T)"
 
-#: src/gthumb-window.c:684
-msgid "Press 'c' to add a comment"
-msgstr "請按‘c’加上備註"
+#: src/gthumb-window.c:687
+msgid "[Press 'c' to add a comment]"
+msgstr "[請按‘c’加上備註]"
 
-#: src/gthumb-window.c:866
+#: src/gthumb-window.c:762 src/gthumb-window.c:785
+msgid "[modified]"
+msgstr "[最後修改時間]"
+
+#: src/gthumb-window.c:869
 msgid "No image"
 msgstr "沒有任何圖像"
 
-#: src/gthumb-window.c:868
+#: src/gthumb-window.c:871
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 幅圖像 (%s)"
 
-#: src/gthumb-window.c:871
+#: src/gthumb-window.c:874
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 幅圖像 (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:881
 #, c-format
 msgid "1 selected (%s)"
 msgstr "選取了 1 幅 (%s)"
 
-#: src/gthumb-window.c:881
+#: src/gthumb-window.c:884
 #, c-format
 msgid "%d selected (%s)"
 msgstr "選取了 %d 幅 (%s)"
 
-#: src/gthumb-window.c:3318
+#: src/gthumb-window.c:3363
 msgid "Dragged Images"
 msgstr "拖曳的圖像"
 
-#: src/gthumb-window.c:3511
+#: src/gthumb-window.c:3557
 msgid "Could not move the items:"
 msgstr "無法移動以下的項目："
 
-#: src/gthumb-window.c:4207
-msgid "Back"
-msgstr "上一頁"
-
-#: src/gthumb-window.c:5079
+#: src/gthumb-window.c:5170
 msgid "Image comment"
 msgstr "圖像備註"
 
-#: src/gthumb-window.c:5093
+#: src/gthumb-window.c:5184
 msgid "Image data"
 msgstr "圖像資料"
 
-#: src/gthumb-window.c:5107
+#: src/gthumb-window.c:5198
 msgid "Image preview"
 msgstr "圖像預覽"
 
-#: src/gthumb-window.c:6362
+#: src/gthumb-window.c:6456
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "無法載入資料夾“%s”：%s\n"
 
-#: src/gthumb-window.c:6632
+#: src/gthumb-window.c:6725
 msgid "The specified catalog does not exist."
 msgstr "指定的圖像集不存在。"
 
-#: src/gthumb-window.c:7959
+#: src/gthumb-window.c:8071
 msgid "Wait please..."
 msgstr "請稍等..."
 
 #: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
+#: src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -2115,7 +2123,7 @@ msgstr "dpi"
 msgid "     "
 msgstr "     "
 
-#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -2316,7 +2324,7 @@ msgstr "<i>例子：</i>"
 msgid "Choose destination folder"
 msgstr "建立目的地資料夾"
 
-#: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
+#: src/gthumb_png_exporter.glade.h:24
 msgid "Co_mment"
 msgstr "備註(_M)"
 
@@ -2558,7 +2566,7 @@ msgstr "目的地(_D)："
 
 #: src/gthumb_web_exporter.glade.h:18
 msgid "_Go to Theme Folder"
-msgstr "進入佈景主題資料夾(_G)"
+msgstr "前往佈景主題資料夾(_G)"
 
 #: src/gthumb_web_exporter.glade.h:19
 msgid "_Install Theme..."
@@ -2638,7 +2646,7 @@ msgstr "<b>投影片</b>"
 
 #: src/gthumb_preferences.glade.h:19
 msgid "<b>View images as</b>"
-msgstr ""
+msgstr "<b>圖像的顯示模式</b>"
 
 #: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
@@ -2718,11 +2726,11 @@ msgstr "一般"
 
 #: src/gthumb_preferences.glade.h:39
 msgid "Go to last _visited folder or catalog"
-msgstr "進入上一次程式啟動時瀏覽的資料夾或圖像集(_V)"
+msgstr "前往上一次程式啟動時瀏覽的資料夾或圖像集(_V)"
 
 #: src/gthumb_preferences.glade.h:40
 msgid "Go to this _folder:"
-msgstr "進入以下的資料夾(_F)："
+msgstr "前往指定資料夾(_F)："
 
 #: src/gthumb_preferences.glade.h:41
 msgid "H_igh"
@@ -2766,7 +2774,7 @@ msgstr "更改為目前的資料夾(_U)"
 
 #: src/gthumb_preferences.glade.h:52
 msgid "Switch to _full screen"
-msgstr "進入全螢幕模式(_F)"
+msgstr "切換為全螢幕模式(_F)"
 
 #: src/gthumb_preferences.glade.h:53
 msgid "System settings"
@@ -2824,7 +2832,15 @@ msgstr "gThumb 偏好設定"
 msgid "seconds"
 msgstr "秒"
 
-#: src/gthumb_print.glade.h:3
+#: src/gthumb_print.glade.h:4
+msgid "<b>Orientation</b>"
+msgstr "<b>方向</b>"
+
+#: src/gthumb_print.glade.h:5
+msgid "<b>Size</b>"
+msgstr "<b>尺寸</b>"
+
+#: src/gthumb_print.glade.h:6
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2832,19 +2848,55 @@ msgstr ""
 "<i>可在頁面中拖曳\n"
 "圖像來選擇位置。</i>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:8
+msgid "A_3 (297 x 420 mm)"
+msgstr "A_3 (297×420 毫米)"
+
+#: src/gthumb_print.glade.h:9
+msgid "A_4 (210 x 297 mm)"
+msgstr "A_4 (210×297 毫米)"
+
+#: src/gthumb_print.glade.h:10
+msgid "A_5 (148 x 210 mm)"
+msgstr "A_5 (148×210 毫米)"
+
+#: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "放置在頁面中央(_O)"
 
-#: src/gthumb_print.glade.h:8
-msgid "Paper"
-msgstr "紙張"
-
-#: src/gthumb_print.glade.h:9
-msgid "Preview"
-msgstr "預覽"
-
 #: src/gthumb_print.glade.h:12
+msgid "E_xecutive (190 x 254 mm)"
+msgstr "E_xecutive (190×254 毫米)"
+
+#: src/gthumb_print.glade.h:13
+msgid "I_nclude comment"
+msgstr "包括備註(_N)"
+
+#: src/gthumb_print.glade.h:14
+msgid "L_egal (216 x 356 mm)"
+msgstr "L_egal (216×356 毫米)"
+
+#: src/gthumb_print.glade.h:15
+msgid "Lan_dscape"
+msgstr "橫向(_D)"
+
+#: src/gthumb_print.glade.h:16
+msgid "Layout"
+msgstr "配置"
+
+#: src/gthumb_print.glade.h:17
+msgid "P_ortrait"
+msgstr "直向(_O)"
+
+#: src/gthumb_print.glade.h:18
+msgid "Paper Details"
+msgstr "紙張詳細資料"
+
+#: src/gthumb_print.glade.h:20
+msgid "_Letter (216 x 279 mm)"
+msgstr "_Letter (216×279 毫米)"
+
+#: src/gthumb_print.glade.h:21
 msgid "_Scale:"
 msgstr "比例(_S)："
 
@@ -2934,7 +2986,7 @@ msgstr "<b>檔案清單排列次序</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
-msgstr "<b>指定將圖像重新命名的規則</b>"
+msgstr "<b>指定更改圖像檔名稱的規則</b>"
 
 #: src/gthumb_tools.glade.h:7
 msgid "<b>Thumbnails</b>"
@@ -2994,7 +3046,7 @@ msgstr "刪除已經不存在的圖像的縮圖"
 
 #: src/gthumb_tools.glade.h:22
 msgid "Equal images:"
-msgstr "排列圖像："
+msgstr "重複的圖像："
 
 #: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
@@ -3014,11 +3066,11 @@ msgstr "維謢"
 
 #: src/gthumb_tools.glade.h:28
 msgid "Mirror image horizontally (left-right)"
-msgstr "水平鏡射圖像 (左右反轉)"
+msgstr "水平鏡射圖像 (左右倒置)"
 
 #: src/gthumb_tools.glade.h:29
 msgid "Mirror image vertically (top-bottom)"
-msgstr "垂直鏡射圖像 (上下反轉)"
+msgstr "垂直鏡射圖像 (上下倒置)"
 
 #: src/gthumb_tools.glade.h:31
 msgid "New names _preview:"
@@ -3030,7 +3082,7 @@ msgstr "相反次序排列(_V)"
 
 #: src/gthumb_tools.glade.h:34
 msgid "Rename Series"
-msgstr "將一系列圖像重新命名"
+msgstr "更改一系列圖像的名稱"
 
 #: src/gthumb_tools.glade.h:35
 msgid "Restore Comments From a Backup File"
@@ -3058,9 +3110,12 @@ msgstr "以下的日期(_F)："
 
 #: src/gthumb_tools.glade.h:43
 msgid ""
-"Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename. Use ? to insert image date."
-msgstr "# 表示數字的位置。* 表示原來的檔案名稱。? 表示圖像檔的日期。"
+"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
+"original filename. Use ? to insert the image date. Use ! to insert the image "
+"size"
+msgstr ""
+"# 表示數字的位置。* 表示原來的檔案名稱。? 表示圖像檔的日期。! 表示圖像的尺"
+"寸。"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3138,6 +3193,12 @@ msgstr "全家褔"
 msgid "Command Line"
 msgstr "指令列"
 
+#~ msgid "Paper"
+#~ msgstr "紙張"
+
+#~ msgid "Preview"
+#~ msgstr "預覽"
+
 #~ msgid "Component has no editable properties"
 #~ msgstr "該部件沒有任何可修改的屬性"
 
@@ -3152,9 +3213,6 @@ msgstr "指令列"
 
 #~ msgid "Information"
 #~ msgstr "資訊"
-
-#~ msgid "Properties"
-#~ msgstr "屬性"
 
 #~ msgid "_Equalize Histogram"
 #~ msgstr "平均分佈亮度(_E)"
