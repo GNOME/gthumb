@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-03-05 20:17+0100\n"
-"PO-Revision-Date: 2003-03-06 02:10+0000\n"
+"POT-Creation-Date: 2003-03-16 03:17+0000\n"
+"PO-Revision-Date: 2003-03-16 03:20+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -295,11 +295,11 @@ msgstr "Imprimir %s"
 msgid "Print Image"
 msgstr "Imprimir Imagem"
 
-#: libgthumb/thumb-cache.c:396
+#: libgthumb/thumb-cache.c:399
 msgid "Deleting all thumbnails, wait please..."
 msgstr "A apagar todas as imagens de referência, aguarde..."
 
-#: libgthumb/thumb-cache.c:398
+#: libgthumb/thumb-cache.c:401
 msgid "Deleting old thumbnails, wait please..."
 msgstr "A apagar imagens de referência antigas, aguarde..."
 
@@ -313,24 +313,24 @@ msgstr "A ler imagem: %s"
 msgid "Creating image: %s.%s"
 msgstr "A criar imagem: %s.%s"
 
-#: src/catalog-web-exporter.c:1100
+#: src/catalog-web-exporter.c:1102
 msgid "Saving thumbnails"
 msgstr "A gravar imagens referência"
 
-#: src/catalog-web-exporter.c:1168
+#: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
 msgstr "A gravar páginas HTML: Imagens"
 
-#: src/catalog-web-exporter.c:1245
+#: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
 msgstr "A gravar páginas HTML: Índices"
 
-#: src/catalog-web-exporter.c:1550
+#: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
 msgstr "Incapaz de criar uma pasta temporária"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1591
 msgid "Loading images"
 msgstr "A ler imagens"
 
@@ -544,8 +544,7 @@ msgstr "A converter imagem: %s"
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
-msgstr ""
-"Uma imagem de nome \"%s\" já existe. Especifique um nome diferente."
+msgstr "Uma imagem de nome \"%s\" já existe. Especifique um nome diferente."
 
 #: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
 msgid "Skip"
@@ -588,8 +587,7 @@ msgstr "Incapaz de criar pasta \"%s\": %s."
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Não tem as permissões adequadas para criar imagens na pasta \"%s\""
+msgstr "Não tem as permissões adequadas para criar imagens na pasta \"%s\""
 
 #: src/dlg-file-utils.c:199
 msgid "Could not delete the images:"
@@ -611,8 +609,7 @@ msgstr "Não introduziu o novo nome"
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
-msgstr ""
-"O nome \"%s\" já existe nesta pasta. Utilize um nome diferente."
+msgstr "O nome \"%s\" já existe nesta pasta. Utilize um nome diferente."
 
 #: src/dlg-file-utils.c:1002
 msgid "Could not rename the image:"
@@ -719,11 +716,11 @@ msgstr "Cabeçalho"
 msgid "Footer"
 msgstr "Rodapé"
 
-#: src/dlg-rename-series.c:318
+#: src/dlg-rename-series.c:410
 msgid "Old Name"
 msgstr "Nome Antigo"
 
-#: src/dlg-rename-series.c:326
+#: src/dlg-rename-series.c:418
 msgid "New Name"
 msgstr "Novo Nome"
 
@@ -1245,7 +1242,8 @@ msgstr "Definir a imagem como o fundo do ambiente (centrada)"
 
 #: src/gthumb-ui.xml.h:128
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "Definir a imagem como o fundo do ambiente (redimensionada mantendo aparência)"
+msgstr ""
+"Definir a imagem como o fundo do ambiente (redimensionada mantendo aparência)"
 
 #: src/gthumb-ui.xml.h:129
 msgid "Set the image as desktop background (stretched)"
@@ -2393,7 +2391,8 @@ msgstr "Antevisão Estilo"
 
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Use #'s to specify positions used by numeric enumerator."
-msgstr "Utilizar nºs para especificar posições utilizadas pelo enumerador numérico."
+msgstr ""
+"Utilizar nºs para especificar posições utilizadas pelo enumerador numérico."
 
 #: src/gthumb_png_exporter.glade.h:58
 #, no-c-format
@@ -3043,10 +3042,11 @@ msgstr "Procura terminou, nenhum duplicado encontrado."
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
+"original filename. Use ? to insert image date."
 msgstr ""
 "Utilizar nºs para especificar posições utilizadas pelo enumerador numérico. "
-"utilize * para inserir nome de ficheiro original."
+"Utilize * para inserir nome de ficheiro original. Utilize ? para inserir data "
+"da imagem."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
