@@ -1,3 +1,11 @@
+2004-10-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (dlg_photo_importer): 
+	* data/glade/gthumb_camera.glade: 
+
+	Fixed bug #156933: Patch to enable resizing of Import Photos dialog
+	Patch by Tim Gerla
+
 2004-10-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c (thumb_loader_get_type): 

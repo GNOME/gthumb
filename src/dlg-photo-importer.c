@@ -755,11 +755,13 @@ load_images_preview (DialogData *data)
 					  GTK_ICON_SIZE_BUTTON);
 		gtk_label_set_text (GTK_LABEL (data->progress_info_label), _("No images found"));
 		gtk_widget_show (data->progress_info_box);
+		gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 		return;
 
 	} else {
 		gtk_widget_show (data->import_preview_box);
 		gtk_widget_hide (data->progress_info_box);
+		gtk_window_set_resizable (GTK_WINDOW (data->dialog), TRUE);
 	}
 
 	aodata = async_operation_new (file_list,
@@ -784,6 +786,7 @@ set_camera_model (DialogData *data,
 		gtk_widget_hide (data->import_preview_box);
 		gtk_label_set_text (GTK_LABEL (data->camera_model_label), _("No camera detected"));
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
+		gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 		return;
 	}
 
@@ -1576,6 +1579,7 @@ dlg_photo_importer (GThumbWindow *window)
 	gtk_container_add (GTK_CONTAINER (data->import_preview_scrolledwindow), data->image_list);
 
 	gtk_widget_hide (data->import_preview_box);
+	gtk_window_set_resizable (GTK_WINDOW (data->dialog), FALSE);
 
 	/* Set widgets data. */
 
