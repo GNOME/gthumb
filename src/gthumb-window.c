@@ -580,7 +580,6 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    not_fullscreen;
 	gboolean    image_is_visible;
 	int         image_pos;
-	GError     *error = NULL;
 
 	sel_not_null = gth_file_view_selection_not_null (window->file_list->view);
 	only_one_is_selected = gth_file_view_only_one_is_selected (window->file_list->view);
@@ -662,9 +661,6 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* Edit Catalog menu. */
 
-	if (window->sidebar_merge_id != 0)
-		gtk_ui_manager_remove_ui (window->ui, window->sidebar_merge_id);
-
 	if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) { 
 		char *view_catalog;
 		char *view_search;
@@ -698,17 +694,7 @@ window_update_sensitivity (GThumbWindow *window)
 			view_catalog = "0";
 			view_search = "1";
 		}
-
-		if (is_search)
-			window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, search_ui_info, -1, &error);
-		else
-			window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, catalog_ui_info, -1, &error);
-		
-	} else {
-		window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, folder_ui_info, -1, &error);
-		if (window->sidebar_merge_id == 0)
-			g_print ("%s\n", error->message);
-	}
+	} 
 
 	/* View menu. */
 
@@ -1377,7 +1363,8 @@ static void
 _window_set_sidebar (GThumbWindow *window,
 		     int           sidebar_content)
 {
-	char *cname;
+	char   *cname;
+	GError *error = NULL;
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL) 
@@ -1399,6 +1386,29 @@ _window_set_sidebar (GThumbWindow *window,
 				       sidebar_content - 1);
 
 	window_update_sensitivity (window);
+
+	/**/
+
+	if (window->sidebar_merge_id != 0)
+		gtk_ui_manager_remove_ui (window->ui, window->sidebar_merge_id);
+	gtk_ui_manager_ensure_update (window->ui);
+
+	if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) { 
+		gboolean    is_catalog;
+		gboolean    is_search;
+		GtkTreeIter iter;
+		
+		is_catalog = (window->catalog_path != NULL) && (catalog_list_get_iter_from_path (window->catalog_list, window->catalog_path, &iter));
+		is_search = (is_catalog && (catalog_list_is_search (window->catalog_list, &iter)));
+		if (is_search)
+			window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, search_ui_info, -1, &error);
+		else
+			window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, catalog_ui_info, -1, &error);
+	} else 
+		window->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, folder_ui_info, -1, &error);
+
+	gtk_ui_manager_ensure_update (window->ui);
+	gtk_widget_queue_resize (window->app);
 }
 
 
@@ -4531,6 +4541,7 @@ content_radio_action (GtkAction      *action,
 
 	if (window->toolbar_merge_id != 0)
 		gtk_ui_manager_remove_ui (window->ui, window->toolbar_merge_id);
+	gtk_ui_manager_ensure_update (window->ui);
 
 	if (content != GTH_SIDEBAR_NO_LIST) {
 		window_set_sidebar_content (window, content);
@@ -4541,6 +4552,8 @@ content_radio_action (GtkAction      *action,
 	}
 
 	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, ui_info, -1, NULL);
+	gtk_ui_manager_ensure_update (window->ui);
+	gtk_widget_queue_resize (window->toolbar->parent);
 }
 
 
@@ -5439,6 +5452,7 @@ window_new (void)
 					   window);
 
 	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
+	gtk_ui_manager_ensure_update (window->ui);	
 
 	/* Initial location. */
 	g_idle_add (initial_location_cb, window);

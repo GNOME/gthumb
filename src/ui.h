@@ -836,8 +836,7 @@ static const gchar *main_ui_info =
 "    <toolitem action='View_ShowCatalogs'/>"
 "    <toolitem action='View_ShowImage'/>"
 "    <separator/>"
-"    <placeholder name='ContentPlaceholder1'/>"
-"    <placeholder name='ContentPlaceholder2'/>"
+"    <placeholder name='ModeCommands'/>"
 "  </toolbar>"
 "  <popup name='FilePopup'>"
 "    <menuitem action='File_OpenWith'/>"
@@ -997,7 +996,7 @@ static const gchar *search_ui_info =
 static const gchar *browser_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
-"    <placeholder name='ContentPlaceholder1'>"
+"    <placeholder name='ModeCommands'>"
 "      <toolitem action='Go_Back'/>"
 "      <toolitem action='Go_Forward'/>"
 "      <toolitem action='Go_Home'/>"
@@ -1017,7 +1016,7 @@ static const gchar *browser_ui_info =
 static const gchar *viewer_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
-"    <placeholder name='ContentPlaceholder2'>"
+"    <placeholder name='ModeCommands'>"
 "      <toolitem action='View_PrevImage'/>"
 "      <toolitem action='View_NextImage'/>"
 "      <separator name='sep01'/>"

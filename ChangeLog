@@ -1,3 +1,8 @@
+2004-10-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/ui.h: 
+	* src/gthumb-window.c: queue a resize after merging the ui.
+
 2004-09-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.5.2 released ]
