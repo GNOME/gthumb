@@ -1,20 +1,21 @@
+# translation of gthumb.HEAD.po to Azerbaijani
 # gthumb.HEAD.po faylının Azərbaycan dilinə tərcüməsi
 # This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# Mətin Əmirov <metin@karegen.com>, 2003
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# Mətin Əmirov <metin@karegen.com>, 2003, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-11 12:22+0200\n"
-"PO-Revision-Date: 2003-09-01 09:07+0300\n"
+"PO-Revision-Date: 2004-06-17 12:23+0300\n"
 "Last-Translator: Mətin Əmirov <metin@karegen.com>\n"
-"Language-Team: Azərbaycan <gnome@azitt.com>\n"
+"Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
+"X-Generator: KBabel 1.3\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -82,7 +83,7 @@ msgstr "Çevir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr ""
+msgstr "180 _Dərəcə Çevir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
@@ -138,7 +139,7 @@ msgstr ""
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: src/gthumb-ui.xml.h:218
 msgid "_Image"
-msgstr ""
+msgstr "_Rəsm"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 #: src/gthumb-ui.xml.h:224
@@ -332,7 +333,7 @@ msgstr "%d %B %Y"
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:676 src/fullscreen.c:225
 #: src/gthumb-window.c:414
 msgid "%d %B %Y, %H:%M"
-msgstr ""
+msgstr "%d %B %Y, %H:%M"
 
 #: libgthumb/comments.c:783
 msgid "(No Comment)"
@@ -362,11 +363,11 @@ msgstr ""
 
 #: libgthumb/gnome-print-font-dialog.c:114
 msgid "_Insert a new preview phrase."
-msgstr ""
+msgstr "Yeni ön nümayiş ifadəsi _daxil et."
 
 #: libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
-msgstr ""
+msgstr "Ön nümayiş ifadəsini dəyişdir..."
 
 #: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
@@ -374,7 +375,7 @@ msgstr "Nümayiş"
 
 #: libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
-msgstr ""
+msgstr "Ön nümayiş ifadəsini də_yişdir..."
 
 #: libgthumb/gnome-print-font-dialog.c:244
 msgid "Font Selection"
@@ -382,15 +383,15 @@ msgstr "Yazı Növü Seçimi"
 
 #: libgthumb/gnome-print-font-picker.c:92
 msgid "Sans Regular 12"
-msgstr ""
+msgstr "Sans Regular 12"
 
 #: libgthumb/gnome-print-font-picker.c:93
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr ""
+msgstr "AaBbCcÇçDdEeƏəFfGgĞğHhIıİiJjKkLlMmNnOoÖöPpQqRrSsŞşTtUuÜüVvWwXxYyZz"
 
 #: libgthumb/gnome-print-font-picker.c:94
 msgid "Pick a Font"
-msgstr ""
+msgstr "Yazı Növü Seç"
 
 #: libgthumb/gnome-print-font-picker.c:179
 msgid "Title"
@@ -398,47 +399,47 @@ msgstr "Başlıq"
 
 #: libgthumb/gnome-print-font-picker.c:180
 msgid "The title of the selection dialog box"
-msgstr ""
+msgstr "Seçki dialoq qutusu başlığı"
 
 #: libgthumb/gnome-print-font-picker.c:200
 msgid "Font name"
-msgstr ""
+msgstr "Yazı növü adı"
 
 #: libgthumb/gnome-print-font-picker.c:201
 msgid "Name of the selected font"
-msgstr ""
+msgstr "Seçili yazı növünün adı"
 
 #: libgthumb/gnome-print-font-picker.c:209
 msgid "Preview text"
-msgstr ""
+msgstr "Nümayiş mətni"
 
 #: libgthumb/gnome-print-font-picker.c:210
 msgid "Preview text shown in the dialog"
-msgstr ""
+msgstr "Dialoqda göstərilən nümayiş mətni"
 
 #: libgthumb/gnome-print-font-picker.c:218
 msgid "Use font in label"
-msgstr ""
+msgstr "Etiketdə yazı növü işlət"
 
 #: libgthumb/gnome-print-font-picker.c:219
 msgid "Use font in the label in font info mode"
-msgstr ""
+msgstr "Yazı növü info modunda etiket üçün yazı növü işlət"
 
 #: libgthumb/gnome-print-font-picker.c:227
 msgid "Font size for label"
-msgstr ""
+msgstr "Etiket yazı növü böyüklüyü"
 
 #: libgthumb/gnome-print-font-picker.c:228
 msgid "Font size for label in font info mode"
-msgstr ""
+msgstr "Yazı növü info modunda etiket yazı növü böyüklüyü"
 
 #: libgthumb/gnome-print-font-picker.c:238
 msgid "Show size"
-msgstr ""
+msgstr "Böyüklüyü göstər"
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
-msgstr ""
+msgstr "Yazı növü info modunda böyüklüyü göstər"
 
 #: libgthumb/gnome-print-font-picker.c:1018
 msgid "Font"
@@ -522,6 +523,8 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
+"\"%s\" adı \"/\" işarəsi daxil etdiyi üçün hökmsüzdür. Xahiş edirik başqa "
+"bir ad istifadə edin."
 
 #: src/commands-impl.c:320 src/dlg-convert.c:314
 msgid "_Overwrite"
@@ -694,7 +697,10 @@ msgstr "Yardım göstərilə bilmədi: %s"
 msgid "translator_credits"
 msgstr ""
 "Vasif İsmailoğlu <linuxaz@azerimail.net>\n"
-"Mətin Əmirov <metin@karegen.com>"
+"Mətin Əmirov <metin@karegen.com>\n"
+"\n"
+"Tərcümə işləri üzrə yazışma siyahısı ünvanımız:\n"
+"<translation-team-az@lists.sourceforge.net> "
 
 #: src/commands-impl.c:2819 src/gthumb-window.c:816 src/gthumb-window.c:4896
 #: src/main.c:124
@@ -791,6 +797,8 @@ msgstr ""
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
+"\"%s\" adı bu qovluqda onsuz da istifadə edilməkdədir.\n"
+"Xahiş edirik başqa bir ad istifadə edin."
 
 #: src/dlg-file-utils.c:1009
 msgid "Could not rename the image:"
@@ -850,11 +858,11 @@ msgstr "Növ"
 
 #: src/dlg-image-prop.c:861 src/gthumb-window.c:453
 msgid "Modified"
-msgstr ""
+msgstr "Təkmilləşdirilib"
 
 #: src/dlg-image-prop.c:866
 msgid "Information on Channel"
-msgstr ""
+msgstr "Kanal Məlumatı"
 
 #: src/dlg-image-prop.c:900 src/gthumb-window.c:5345
 msgid "Field"
@@ -862,7 +870,7 @@ msgstr "Sahə"
 
 #: src/dlg-image-prop.c:910 src/gthumb-window.c:5355
 msgid "Value "
-msgstr ""
+msgstr "Qiymət"
 
 #: src/dlg-image-prop.c:991
 #, c-format
@@ -895,15 +903,15 @@ msgstr "Altlıq"
 
 #: src/dlg-rename-series.c:427
 msgid "Old Name"
-msgstr ""
+msgstr "Köhnə Ad"
 
 #: src/dlg-rename-series.c:435
 msgid "New Name"
-msgstr ""
+msgstr "Yeni Ad"
 
 #: src/dlg-search.c:337
 msgid "Search Result"
-msgstr ""
+msgstr "Axtarış Nəticəsi"
 
 #: src/dlg-search.c:810
 msgid "Filename"
@@ -915,7 +923,7 @@ msgstr "Qovluq"
 
 #: src/dlg-web-exporter.c:658
 msgid "Select Album Theme"
-msgstr ""
+msgstr "Albom Örtüyünü Seç"
 
 #: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
@@ -923,7 +931,7 @@ msgstr ""
 
 #: src/fullscreen.c:800
 msgid "Image Info"
-msgstr ""
+msgstr "Rəsm Məlumatı"
 
 #: src/fullscreen.c:818 src/gthumb-window.c:4303
 msgid "Back"
@@ -1100,7 +1108,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
-msgstr ""
+msgstr "İki_ləşdir"
 
 #: src/gthumb-ui.xml.h:41
 msgid "Delete the list of visited locations"
@@ -1124,7 +1132,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:46
 msgid "Edit bookmarks"
-msgstr ""
+msgstr "Nişanları düzəlt"
 
 #: src/gthumb-ui.xml.h:47
 msgid "Edit various preferences"
@@ -1140,7 +1148,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:50
 msgid "Fit"
-msgstr ""
+msgstr "Yaraşdır"
 
 #: src/gthumb-ui.xml.h:51
 msgid "Folders"
@@ -1148,7 +1156,7 @@ msgstr "Qovluqlar"
 
 #: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
-msgstr ""
+msgstr "Tam Ekran"
 
 #: src/gthumb-ui.xml.h:54
 msgid "Go to the folder that contains the selected image"
@@ -1160,15 +1168,15 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:56
 msgid "Go to the next visited location"
-msgstr ""
+msgstr "Ziyarət edilən sonrakı mövqeyə get"
 
 #: src/gthumb-ui.xml.h:57
 msgid "Go to the previous visited location"
-msgstr ""
+msgstr "Ziyarət edilən əvvəlki mövqeyə get"
 
 #: src/gthumb-ui.xml.h:58
 msgid "Go up one level"
-msgstr ""
+msgstr "Bir səviyyə üstə get"
 
 #: src/gthumb-ui.xml.h:59
 msgid "Home"
@@ -1236,7 +1244,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
-msgstr ""
+msgstr "Zibil Qutusuna _Daşı"
 
 #: src/gthumb-ui.xml.h:76
 msgid "New _Library..."
@@ -1294,7 +1302,7 @@ msgstr "Çap Et"
 
 #: src/gthumb-ui.xml.h:91
 msgid "Proper_ties"
-msgstr ""
+msgstr "_Xassələr"
 
 #: src/gthumb-ui.xml.h:92
 msgid "Redo Search"
@@ -1462,7 +1470,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
 msgid "Slide Show"
-msgstr ""
+msgstr "Ardıcıl Nümayiş"
 
 #: src/gthumb-ui.xml.h:138
 msgid "Sort images by file size"
@@ -1530,7 +1538,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:155
 msgid "View as List"
-msgstr ""
+msgstr "Sıra Nümayişi"
 
 #: src/gthumb-ui.xml.h:156
 msgid "View as Thumbnails"
@@ -1626,11 +1634,11 @@ msgstr "Uzaqlaşdır"
 
 #: src/gthumb-ui.xml.h:180
 msgid "Zoom to _Fit"
-msgstr ""
+msgstr "_Uyğunlaşdırmaq üçün yaxınlaşdır"
 
 #: src/gthumb-ui.xml.h:181
 msgid "Zoom to fit window"
-msgstr ""
+msgstr "Pəncərəyə uyğunlaşdırmaq üçün yaxınlaşdır"
 
 #: src/gthumb-ui.xml.h:182
 msgid "_About"
@@ -1642,7 +1650,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:184
 msgid "_Add Bookmark"
-msgstr ""
+msgstr "_Nişan Əlavə Et"
 
 #: src/gthumb-ui.xml.h:185
 msgid "_Add to Catalog..."
@@ -1670,7 +1678,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Centered"
-msgstr ""
+msgstr "_Ortalanmış"
 
 #: src/gthumb-ui.xml.h:194
 msgid "_Close"
@@ -1706,7 +1714,7 @@ msgstr "_Düzəlt"
 
 #: src/gthumb-ui.xml.h:202
 msgid "_Edit Bookmarks"
-msgstr ""
+msgstr "Nişanları _Düzəlt"
 
 #: src/gthumb-ui.xml.h:203 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
@@ -1738,7 +1746,7 @@ msgstr "_İrəli"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Full Screen"
-msgstr ""
+msgstr "_Tam Ekran"
 
 #: src/gthumb-ui.xml.h:212
 msgid "_Go"
@@ -1758,7 +1766,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:216
 msgid "_Home"
-msgstr ""
+msgstr "_Ev"
 
 #: src/gthumb-ui.xml.h:217
 msgid "_Hue-Saturation"
@@ -1774,11 +1782,11 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:221
 msgid "_Location..."
-msgstr ""
+msgstr "_Mövqe..."
 
 #: src/gthumb-ui.xml.h:222
 msgid "_Low Quality"
-msgstr ""
+msgstr "_Alçaq Keyfiyyət"
 
 #: src/gthumb-ui.xml.h:223
 msgid "_Maintenance"
@@ -1846,7 +1854,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:242
 msgid "_Reversed Order"
-msgstr ""
+msgstr "_Tərs Ardıcıllıq"
 
 #: src/gthumb-ui.xml.h:243
 msgid "_Revert"
@@ -1874,7 +1882,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:249
 msgid "_Statusbar"
-msgstr ""
+msgstr "_Vəziyyət Çubuğu"
 
 #: src/gthumb-ui.xml.h:250
 msgid "_Stop"
@@ -1918,7 +1926,7 @@ msgstr "_Yaxınlıq"
 
 #: src/gthumb-ui.xml.h:262
 msgid "by _Name"
-msgstr ""
+msgstr "_Ada görə"
 
 #: src/gthumb-ui.xml.h:263
 msgid "by _Path"
@@ -1926,7 +1934,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:264
 msgid "by _Size"
-msgstr ""
+msgstr "_Böyüklüyə görə"
 
 #: src/gthumb-ui.xml.h:265
 msgid "by _Time"
@@ -1942,7 +1950,7 @@ msgstr ""
 
 #: src/gthumb-window.c:877
 msgid "No image"
-msgstr ""
+msgstr "Rəsm yoxdur"
 
 #: src/gthumb-window.c:879
 #, c-format
@@ -2090,7 +2098,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:23
 msgid "R_ecent applications:"
-msgstr ""
+msgstr "Son işlədilən proqramlar:"
 
 #: src/gthumb.glade.h:24
 msgid "Red"
@@ -2102,7 +2110,7 @@ msgstr "Qiymət"
 
 #: src/gthumb.glade.h:26
 msgid "_Application:"
-msgstr ""
+msgstr "_Proqram:"
 
 #: src/gthumb.glade.h:28
 msgid "_Do not overwrite any image"
@@ -2126,7 +2134,7 @@ msgstr "İ_rəri"
 
 #: src/gthumb.glade.h:33
 msgid "_Previous"
-msgstr ""
+msgstr "Ə_vvəlki"
 
 #: src/gthumb.glade.h:34
 msgid "_Remove"
@@ -2338,7 +2346,7 @@ msgstr ""
 
 #: src/gthumb_convert.glade.h:7
 msgid "Compression _level:"
-msgstr ""
+msgstr "Sıxışdırma _səviyyəsi:"
 
 #: src/gthumb_convert.glade.h:8
 msgid "Convert Format"
@@ -2517,7 +2525,7 @@ msgstr "_Hündürlük:"
 
 #: src/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr ""
+msgstr "_Rəng:"
 
 #: src/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
@@ -2701,7 +2709,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:39
 msgid "Images"
-msgstr ""
+msgstr "Rəsmlər"
 
 #: src/gthumb_png_exporter.glade.h:40
 msgid "Index Image Properties"
@@ -2805,7 +2813,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
-msgstr ""
+msgstr "_Sətirlər:"
 
 #: src/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
@@ -2893,7 +2901,7 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Digər</b> "
 
 #: src/gthumb_preferences.glade.h:18
 msgid "<b>Slide show</b>"
@@ -2997,7 +3005,7 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:43
 msgid "Icons only"
-msgstr ""
+msgstr "Təkcə timsallar"
 
 #: src/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
@@ -3041,11 +3049,11 @@ msgstr "Sistem qurğuları"
 
 #: src/gthumb_preferences.glade.h:55
 msgid "Text below icons"
-msgstr ""
+msgstr "Mətn timsalların altında"
 
 #: src/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
-msgstr ""
+msgstr "Mətn timsalların yanında"
 
 #: src/gthumb_preferences.glade.h:57
 msgid "Text only"
@@ -3111,7 +3119,7 @@ msgstr ""
 
 #: src/gthumb_print.glade.h:9
 msgid "A_4"
-msgstr ""
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
 msgid "C_ustom:"
@@ -3135,7 +3143,7 @@ msgstr "İnç"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
-msgstr ""
+msgstr "Mə_nzərə"
 
 #: src/gthumb_print.glade.h:16
 msgid "Layout"
@@ -3147,7 +3155,7 @@ msgstr "Millimetr"
 
 #: src/gthumb_print.glade.h:18
 msgid "P_ortrait"
-msgstr ""
+msgstr "P_ortret"
 
 #: src/gthumb_print.glade.h:19
 msgid "Paper Details"
@@ -3442,7 +3450,7 @@ msgstr ""
 
 #: src/gthumb_web_exporter.glade.h:15
 msgid "<b>Theme</b>"
-msgstr ""
+msgstr "<b>Örtük</b>"
 
 #: src/gthumb_web_exporter.glade.h:16
 msgid "Came_ra Model"
@@ -3523,7 +3531,7 @@ msgstr ""
 
 #: src/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
-msgstr ""
+msgstr "Ö_rtük Qur..."
 
 #: src/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
