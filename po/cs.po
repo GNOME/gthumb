@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-06 20:42+0200\n"
-"PO-Revision-Date: 2003-08-07 15:07+0200\n"
+"POT-Creation-Date: 2003-08-08 12:27+0200\n"
+"PO-Revision-Date: 2003-08-08 20:46+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -182,6 +182,56 @@ msgstr "%d. %b %Y, %H:%M"
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
 
+#: data/albumthemes/Clean/image.xml.in.h:1
+msgid "Aperture value"
+msgstr "Hodnota clony"
+
+#: data/albumthemes/Clean/image.xml.in.h:2 src/dlg-image-prop.c:851
+#: src/gthumb-window.c:444
+msgid "Bytes"
+msgstr "Bajtů"
+
+#: data/albumthemes/Clean/image.xml.in.h:3
+msgid "Camera model"
+msgstr "Model fotoaparátu"
+
+#: data/albumthemes/Clean/image.xml.in.h:4
+msgid "Date"
+msgstr "Datum"
+
+#: data/albumthemes/Clean/image.xml.in.h:5
+msgid "Dimensions"
+msgstr "Rozměry"
+
+#: data/albumthemes/Clean/image.xml.in.h:6
+msgid "Exposure mode"
+msgstr "Režim expozice"
+
+#: data/albumthemes/Clean/image.xml.in.h:7
+msgid "Exposure time"
+msgstr "Doba expozice"
+
+#: data/albumthemes/Clean/image.xml.in.h:8
+msgid "Flash"
+msgstr "Blesk"
+
+#: data/albumthemes/Clean/image.xml.in.h:9
+msgid "Focal length"
+msgstr "Ohnisková vzdálenost"
+
+#: data/albumthemes/Clean/image.xml.in.h:10 src/dlg-duplicates.c:265
+msgid "Image"
+msgstr "Obrázek"
+
+#: data/albumthemes/Clean/image.xml.in.h:11
+msgid "Shutter speed"
+msgstr "Rychlost závěrky"
+
+#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
+#: src/gthumb_web_exporter.glade.h:53
+msgid "pixels"
+msgstr "bodů"
+
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
 msgstr "Prohlížení a uspořádání vašich obrázků"
@@ -226,8 +276,9 @@ msgstr "Odstraňuji staré komentáře, prosím počkejte..."
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:749 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:225 src/gthumb-window.c:412
+#: libgthumb/comments.c:749 src/catalog-web-exporter.c:53
+#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:676 src/fullscreen.c:225
+#: src/gthumb-window.c:412
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
@@ -369,11 +420,11 @@ msgstr "Tisk %s"
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
-#: libgthumb/thumb-cache.c:489
+#: libgthumb/thumb-cache.c:488
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 
-#: libgthumb/thumb-cache.c:491
+#: libgthumb/thumb-cache.c:490
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
@@ -387,28 +438,28 @@ msgstr "Načítám obrázek: %s"
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: src/catalog-web-exporter.c:1456
+#: src/catalog-web-exporter.c:1615
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: src/catalog-web-exporter.c:1524
+#: src/catalog-web-exporter.c:1681
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: src/catalog-web-exporter.c:1601
+#: src/catalog-web-exporter.c:1756
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1701 src/catalog-web-exporter.c:1747
+#: src/catalog-web-exporter.c:1899 src/catalog-web-exporter.c:2034
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: src/catalog-web-exporter.c:2061
+#: src/catalog-web-exporter.c:2243
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2100
+#: src/catalog-web-exporter.c:2280
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -599,7 +650,7 @@ msgstr "Nelze zobrazit nápovědu: %s"
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4884
+#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4882
 #: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
@@ -644,10 +695,6 @@ msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název
 #: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
 msgid "Skip"
 msgstr "Přeskočit"
-
-#: src/dlg-duplicates.c:265
-msgid "Image"
-msgstr "Obrázek"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
 msgid "Duplicates"
@@ -765,10 +812,6 @@ msgstr "Velikost"
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:444
-msgid "Bytes"
-msgstr "Bajtů"
-
 #: src/dlg-image-prop.c:861 src/gthumb-window.c:451
 msgid "Modified"
 msgstr "Změněn"
@@ -777,11 +820,11 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5333
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5331
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5343
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5341
 msgid "Value "
 msgstr "Hodnota "
 
@@ -834,7 +877,7 @@ msgstr "Název souboru"
 msgid "Folder"
 msgstr "Adresář"
 
-#: src/dlg-web-exporter.c:649
+#: src/dlg-web-exporter.c:658
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
@@ -846,7 +889,7 @@ msgstr "Obnovit normální pohled"
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4277
+#: src/fullscreen.c:818 src/gthumb-window.c:4275
 msgid "Back"
 msgstr "Zpět"
 
@@ -1897,28 +1940,28 @@ msgstr "Tažené obrázky"
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5214
+#: src/gthumb-window.c:5212
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5228
+#: src/gthumb-window.c:5226
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5242
+#: src/gthumb-window.c:5240
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6484
+#: src/gthumb-window.c:6480
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6753
+#: src/gthumb-window.c:6749
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8123
+#: src/gthumb-window.c:8119
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2490,10 +2533,6 @@ msgstr "Šíř_ka:"
 msgid "_Yellow-Blue:"
 msgstr "Žl_utá - modrá:"
 
-#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:49
-msgid "pixels"
-msgstr "bodů"
-
 #: src/gthumb_png_exporter.glade.h:4
 msgid "112"
 msgstr "112"
@@ -2594,11 +2633,11 @@ msgstr "Vytvořit obrázek s indexem"
 msgid "Create _HTML image map"
 msgstr "Vytvořit obrázkové mapy v _HTML"
 
-#: src/gthumb_png_exporter.glade.h:29
+#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
 msgid "F_ooter:"
 msgstr "Zá_patí:"
 
-#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:22
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
 msgid "File _name"
 msgstr "Název s_ouboru"
 
@@ -2606,7 +2645,7 @@ msgstr "Název s_ouboru"
 msgid "File pa_th"
 msgstr "Ces_ta k souboru"
 
-#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
 msgid "File si_ze"
 msgstr "Velikost s_ouboru"
 
@@ -2618,7 +2657,7 @@ msgstr "_Styl rámu:"
 msgid "Frame co_lor:"
 msgstr "_Barva rámu:"
 
-#: src/gthumb_png_exporter.glade.h:35
+#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
 msgid "H_eader:"
 msgstr "Zá_hlaví:"
 
@@ -2630,7 +2669,7 @@ msgstr "Záhlaví/zápatí"
 msgid "Hei_ght:"
 msgstr "Výš_ka:"
 
-#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:26
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
 msgid "Image dim_ensions"
 msgstr "Rozměr_y obrázku"
 
@@ -2650,7 +2689,7 @@ msgstr "Strana"
 msgid "Pi_xels"
 msgstr "Pi_xely"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:28
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
 msgid "Re_verse order"
 msgstr "_Obrácené pořadí"
 
@@ -2740,7 +2779,7 @@ msgstr "_Přechod"
 msgid "_Image size:"
 msgstr "Vel_ikost obrázku:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:41
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
 msgstr "Řád_ky:"
 
@@ -2752,15 +2791,15 @@ msgstr "_Jednolitá barva"
 msgid "_Template:"
 msgstr "Ša_blona:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:46
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "podle názvu"
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:47
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr "podle cesty"
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:48
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "podle velikosti"
 
@@ -3398,81 +3437,86 @@ msgstr "Režim _expozice"
 msgid "Exposure _time"
 msgstr "_Doba expozice"
 
-#: src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_web_exporter.glade.h:25
 msgid "Focal _length"
 msgstr "Ohnisková _vzdálenost"
 
-#: src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_web_exporter.glade.h:27
 msgid "I_mage Caption..."
 msgstr "Za_chycení obrázku..."
 
-#: src/gthumb_web_exporter.glade.h:27
+#: src/gthumb_web_exporter.glade.h:29
 msgid "Inde_x file:"
 msgstr "Soubor s _indexem:"
 
-#: src/gthumb_web_exporter.glade.h:29
+#: src/gthumb_web_exporter.glade.h:31
 msgid "Resi_ze images if larger than:"
 msgstr "Z_menšit obrázky, pokud jsou větší než:"
 
-#: src/gthumb_web_exporter.glade.h:30
+#: src/gthumb_web_exporter.glade.h:32
 msgid "Sor_t:"
 msgstr "_Třídění:"
 
-#: src/gthumb_web_exporter.glade.h:31
+#: src/gthumb_web_exporter.glade.h:33
 msgid "Th_eme:"
 msgstr "_Téma:"
 
-#: src/gthumb_web_exporter.glade.h:32
+#: src/gthumb_web_exporter.glade.h:35
+#, no-c-format
+msgid "Use %d  to insert current date"
+msgstr "Současné datum vložte pomocí %d"
+
+#: src/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
 msgstr "Webové album"
 
-#: src/gthumb_web_exporter.glade.h:33
+#: src/gthumb_web_exporter.glade.h:37
 msgid "Web Album Theme"
 msgstr "Téma webového alba"
 
-#: src/gthumb_web_exporter.glade.h:34
+#: src/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr "Hodnota _clony"
 
-#: src/gthumb_web_exporter.glade.h:35
+#: src/gthumb_web_exporter.glade.h:39
 msgid "_Copy images to destination"
 msgstr "_Kopírovat obrázky do cíle"
 
-#: src/gthumb_web_exporter.glade.h:36
+#: src/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
 msgstr "_Datum a čas"
 
-#: src/gthumb_web_exporter.glade.h:37
+#: src/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr "_Cíl:"
 
-#: src/gthumb_web_exporter.glade.h:38
+#: src/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
 msgstr "_Blesk"
 
-#: src/gthumb_web_exporter.glade.h:39
+#: src/gthumb_web_exporter.glade.h:43
 msgid "_Go to Theme Folder"
 msgstr "Pře_jít do adresáře témat"
 
-#: src/gthumb_web_exporter.glade.h:40
+#: src/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
 msgstr "Na_instalovat téma..."
 
-#: src/gthumb_web_exporter.glade.h:42
+#: src/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
 msgstr "_Rychlost závěrky"
 
-#: src/gthumb_web_exporter.glade.h:43
+#: src/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
 msgstr "_Titulek miniatury..."
 
-#: src/gthumb_web_exporter.glade.h:44
-msgid "_Title:"
-msgstr "_Titulek:"
-
-#: src/gthumb_web_exporter.glade.h:45
+#: src/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
 msgstr "podle času změny"
+
+#: src/gthumb_web_exporter.glade.h:52
+msgid "index.html"
+msgstr "index.html"
 
 #: src/main.c:80
 msgid "Start in fullscreen mode"
@@ -3534,14 +3578,14 @@ msgstr "Rodina"
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
+#~ msgid "_Title:"
+#~ msgstr "_Titulek:"
+
 #~ msgid "File name"
 #~ msgstr "Název souboru"
 
 #~ msgid "File size"
 #~ msgstr "Velikost souboru"
-
-#~ msgid "Image dimensions"
-#~ msgstr "Rozměry obrázku"
 
 #~ msgid "A_3 (297 x 420 mm)"
 #~ msgstr "A_3 (297 × 420 mm)"
