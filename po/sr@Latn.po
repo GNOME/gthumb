@@ -9,12 +9,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-02 17:36+0100\n"
-"PO-Revision-Date: 2004-01-02 17:37+0100\n"
+"POT-Creation-Date: 2004-01-12 03:19+0100\n"
+"PO-Revision-Date: 2004-01-12 04:08+0100\n"
 "Last-Translator: Dušan Živojnov <calvin@verat.net>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
@@ -178,9 +178,9 @@ msgstr "_Kvalitet uvećanja"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:813
+#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:401
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:402
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d tačaka"
@@ -200,7 +200,7 @@ msgstr "Veličina otvora"
 #: data/albumthemes/Clean/image.xml.in.h:2
 #: data/albumthemes/NeatRound/image.xml.in.h:3
 #: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:478
+#: src/gth-exif-data-viewer.c:479
 msgid "Bytes"
 msgstr "Bajtova"
 
@@ -471,8 +471,8 @@ msgstr "Ukloni odabrane slike iz kamere"
 msgid "Import Photos"
 msgstr "Uvezi slike"
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:440
-#: src/dlg-photo-importer.c:472
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:685
+#: src/dlg-photo-importer.c:720 src/dlg-photo-importer.c:1178
 msgid "No camera detected"
 msgstr "Kamera nije prepoznata"
 
@@ -1602,8 +1602,8 @@ msgstr "Poklapanje sa _bilo kojom izabranom kategorijom"
 msgid "New _Search..."
 msgstr "Nova _pretraga..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:365
-#: src/dlg-photo-importer.c:860
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:656
+#: src/dlg-photo-importer.c:1223
 msgid "No images found"
 msgstr "Slike nisu pronađene"
 
@@ -1783,7 +1783,7 @@ msgid "The _following date:"
 msgstr "Sledeći _datum:"
 
 #: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
-#: src/commands-impl.c:277 src/commands-impl.c:1061 src/commands-impl.c:1761
+#: src/commands-impl.c:277 src/commands-impl.c:1051 src/commands-impl.c:1751
 msgid "_Rename"
 msgstr "_Promeni ime"
 
@@ -2205,7 +2205,7 @@ msgstr "Poravnaj"
 msgid "Folders"
 msgstr "Direktorijumi"
 
-#: data/gthumb-ui.xml.h:56 src/fullscreen.c:838
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
 msgid "Forward"
 msgstr "Napred"
 
@@ -2457,7 +2457,7 @@ msgstr "Promeni ime ove slike"
 msgid "Resize image"
 msgstr "Promeni veličinu slike"
 
-#: data/gthumb-ui.xml.h:122 src/fullscreen.c:784
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
 msgid "Restore Normal View"
 msgstr "Vrati normalni pregled"
 
@@ -3137,17 +3137,17 @@ msgstr "Brisanje svih predloga, sačekajte..."
 msgid "Deleting old comments, wait please..."
 msgstr "Brisanje starih predloga, molim sačekajte..."
 
-#: libgthumb/comments.c:754
+#: libgthumb/comments.c:756
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:756 src/catalog-web-exporter.c:47
+#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
 #: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:398
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:766
+#: libgthumb/comments.c:768
 msgid "(No Comment)"
 msgstr "(Bez komentara)"
 
@@ -3265,7 +3265,7 @@ msgid "Font"
 msgstr "Font"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:464
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:465
 msgid "Name"
 msgstr "Ime"
 
@@ -3334,12 +3334,12 @@ msgstr "Ne mogu napraviti privremeni direktorijum"
 msgid "Loading images"
 msgstr "Učitavanje slika"
 
-#: src/commands-impl.c:273 src/commands-impl.c:1057 src/commands-impl.c:1757
+#: src/commands-impl.c:273 src/commands-impl.c:1047 src/commands-impl.c:1747
 msgid "Enter the new name: "
 msgstr "Uneti novo ime datoteke:"
 
-#: src/commands-impl.c:291 src/commands-impl.c:963 src/commands-impl.c:1075
-#: src/commands-impl.c:1777 src/commands-impl.c:1872
+#: src/commands-impl.c:291 src/commands-impl.c:953 src/commands-impl.c:1065
+#: src/commands-impl.c:1767 src/commands-impl.c:1862
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -3356,7 +3356,7 @@ msgstr "_Prepiši"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Ne mogu da preimenujem sliku „%s“: %s"
 
-#: src/commands-impl.c:340 src/commands-impl.c:1097 src/commands-impl.c:1416
+#: src/commands-impl.c:340 src/commands-impl.c:1087 src/commands-impl.c:1406
 msgid "source and destination are the same"
 msgstr "izvor i odredište su isti"
 
@@ -3389,126 +3389,126 @@ msgstr "Slika će biti uklonjena iz kataloga, da li ste sigurni?"
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Označene slike će biti uklonjene iz kataloga, da li ste sigurni?"
 
-#: src/commands-impl.c:950 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/commands-impl.c:940 src/dlg-catalog.c:86 src/dlg-catalog.c:131
 #: src/dlg-categories.c:205 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "Nap_ravi"
 
-#: src/commands-impl.c:979 src/commands-impl.c:1105 src/commands-impl.c:1799
-#: src/commands-impl.c:1891
+#: src/commands-impl.c:969 src/commands-impl.c:1095 src/commands-impl.c:1789
+#: src/commands-impl.c:1881
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Ime „%s“ je već u upotrebi. Molim koristite neko drugo ime."
 
-#: src/commands-impl.c:1007
+#: src/commands-impl.c:997
 msgid "New Folder"
 msgstr "Novi direktorijum"
 
-#: src/commands-impl.c:1008
+#: src/commands-impl.c:998
 msgid "Enter the folder name: "
 msgstr "Unesite ime direktorijuma:"
 
-#: src/commands-impl.c:1009 src/dlg-photo-importer.c:867
+#: src/commands-impl.c:999 src/dlg-photo-importer.c:1230
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Ne mogu da napravim direktorijum „%s“: %s"
 
-#: src/commands-impl.c:1020
+#: src/commands-impl.c:1010
 msgid "New Library"
 msgstr "Nova biblioteka"
 
-#: src/commands-impl.c:1021 src/dlg-catalog.c:127
+#: src/commands-impl.c:1011 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Unesite ime biblioteke:"
 
-#: src/commands-impl.c:1022
+#: src/commands-impl.c:1012
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Ne mogu da napravim biblioteku „%s“: %s"
 
-#: src/commands-impl.c:1095 src/commands-impl.c:1141
+#: src/commands-impl.c:1085 src/commands-impl.c:1131
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Ne mogu da promenim ime direktorijuma „%s“: %s"
 
-#: src/commands-impl.c:1211
+#: src/commands-impl.c:1201
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Ne mogu da obrišem direktorijum „%s“: %s"
 
-#: src/commands-impl.c:1242
+#: src/commands-impl.c:1232
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "„%s“ ne može biti prebačen u smeće. Želite li da ga trajno obrišete?"
 
-#: src/commands-impl.c:1250 src/dlg-file-utils.c:227 src/gthumb-window.c:5640
+#: src/commands-impl.c:1240 src/dlg-file-utils.c:227 src/gthumb-window.c:5640
 msgid "_Do not display this message again"
 msgstr "_Ne prikazuj više ovu poruku"
 
-#: src/commands-impl.c:1283
+#: src/commands-impl.c:1273
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Označeni direktorijum će biti prebačen u Đubre, da li ste sigurni?"
 
-#: src/commands-impl.c:1285 src/dlg-file-utils.c:281
+#: src/commands-impl.c:1275 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Prebaciti"
 
-#: src/commands-impl.c:1351 src/commands-impl.c:1406
+#: src/commands-impl.c:1341 src/commands-impl.c:1396
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Ne mogu da umnožim direktorijum „%s“: %s"
 
-#: src/commands-impl.c:1406 src/dlg-file-utils.c:2445
+#: src/commands-impl.c:1396 src/dlg-file-utils.c:2445
 #: src/dlg-file-utils.c:2447
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Ne mogu da premestim direktorijum „%s“: %s"
 
-#: src/commands-impl.c:1427
+#: src/commands-impl.c:1417
 msgid "source contains destination"
 msgstr "izvor sadrži odredište"
 
-#: src/commands-impl.c:1438
+#: src/commands-impl.c:1428
 msgid "a folder with that name is already present."
 msgstr "direktorijum sa tim imenom već postoji."
 
-#: src/commands-impl.c:1534 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/commands-impl.c:1524 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Odabrati odredišni direktorijum"
 
-#: src/commands-impl.c:1810
+#: src/commands-impl.c:1800
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Ne mogu da preimenujem biblioteku „%s“: %s"
 
-#: src/commands-impl.c:1810
+#: src/commands-impl.c:1800
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Ne mogu da primenujem katalog „%s“: %s"
 
-#: src/commands-impl.c:1856 src/dlg-catalog.c:82
+#: src/commands-impl.c:1846 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr "Uneti ime kataloga:"
 
-#: src/commands-impl.c:1857
+#: src/commands-impl.c:1847
 msgid "New Catalog"
 msgstr "Novi katalog"
 
-#: src/commands-impl.c:1902
+#: src/commands-impl.c:1892
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Ne mogu da napravim katalog „%s“: %s"
 
-#: src/commands-impl.c:1966
+#: src/commands-impl.c:1956
 msgid "The selected library will be removed, are you sure?"
 msgstr "Označena biblioteka će biti uklonjena, da li ste sigurni?"
 
-#: src/commands-impl.c:1968
+#: src/commands-impl.c:1958
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Označeni katalog će biti uklonjen, da li ste sigurni?"
 
-#: src/commands-impl.c:2910 src/dlg-categories.c:323 src/dlg-change-date.c:151
+#: src/commands-impl.c:2900 src/dlg-categories.c:323 src/dlg-change-date.c:151
 #: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:759
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:176
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
@@ -3516,7 +3516,7 @@ msgstr "Označeni katalog će biti uklonjen, da li ste sigurni?"
 msgid "Could not display help: %s"
 msgstr "Ne mogu prikazati pomoć: %s"
 
-#: src/commands-impl.c:2961
+#: src/commands-impl.c:2951
 msgid "translator_credits"
 msgstr ""
 "Dušan Živojnov <calvin@verat.net>\n"
@@ -3524,12 +3524,12 @@ msgstr ""
 "\n"
 "Prevod.org — prevod na srpski jezik."
 
-#: src/commands-impl.c:2970 src/gthumb-window.c:569 src/gthumb-window.c:4837
-#: src/main.c:128
+#: src/commands-impl.c:2960 src/gthumb-window.c:569 src/gthumb-window.c:4837
+#: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/commands-impl.c:2973
+#: src/commands-impl.c:2963
 msgid "An image viewer and browser for GNOME."
 msgstr "Pregledač i pretrživač slika za Gnom."
 
@@ -3575,7 +3575,7 @@ msgstr "%d x %d (slika)"
 msgid "%d x %d (Display)"
 msgstr "%d x %d (ekran)"
 
-#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:649
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
 msgstr "Duplikati"
 
@@ -3591,7 +3591,7 @@ msgstr "Poslednji put menjano"
 msgid "Location"
 msgstr "Mesto"
 
-#: src/dlg-duplicates.c:754
+#: src/dlg-duplicates.c:756
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Odabrane slike će biti prebačene u Đubre, da li ste sigurni?"
 
@@ -3674,7 +3674,7 @@ msgstr "Umnožavanje datoteke %ld od %ld"
 msgid "Moving file %ld of %ld"
 msgstr "Prebacivanje datoteke %ld od %ld"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:471
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:472
 msgid "Size"
 msgstr "Veličina"
 
@@ -3682,8 +3682,8 @@ msgstr "Veličina"
 msgid "Type"
 msgstr "Tip"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:485
-#: src/gthumb-window.c:413
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
+#: src/gthumb-window.c:414
 msgid "Modified"
 msgstr "Izmenjeno"
 
@@ -3708,12 +3708,12 @@ msgstr "Sve umanjene slike će biti obrisne, da li ste sigurni?"
 msgid "Specify the backup file"
 msgstr "Naznačite rezervni primerak datoteke"
 
-#: src/dlg-photo-importer.c:470 src/dlg-photo-importer.c:859
-#: src/dlg-photo-importer.c:870
+#: src/dlg-photo-importer.c:717 src/dlg-photo-importer.c:1177
+#: src/dlg-photo-importer.c:1222 src/dlg-photo-importer.c:1233
 msgid "Could not import photos"
 msgstr "Ne mogu da uvezem slike"
 
-#: src/dlg-photo-importer.c:818 src/main.c:989
+#: src/dlg-photo-importer.c:1056 src/main.c:1002
 msgid "Film"
 msgstr "Film"
 
@@ -3753,11 +3753,11 @@ msgstr "Direktorijum"
 msgid "Select Album Theme"
 msgstr "Odaberite temu albuma"
 
-#: src/fullscreen.c:802
+#: src/fullscreen.c:804
 msgid "Image Info"
 msgstr "Podaci o slici"
 
-#: src/fullscreen.c:820 src/gthumb-window.c:4103
+#: src/fullscreen.c:822 src/gthumb-window.c:4103
 msgid "Back"
 msgstr "Nazad"
 
@@ -3851,63 +3851,67 @@ msgstr "Navedeni katalog ne postoji."
 msgid "Wait please..."
 msgstr "Molim sačekajte..."
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Start in fullscreen mode"
 msgstr "Počni u celom ekranu"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Automatically start a slideshow"
 msgstr "Automatski startovati niz slika"
 
-#: src/main.c:163
+#: src/main.c:93
+msgid "Automatically import digital camera photos"
+msgstr "Sam uvezi slike sa digitalnog fotoaparata"
+
+#: src/main.c:173
 msgid "Holidays"
 msgstr "Odmor"
 
-#: src/main.c:164
+#: src/main.c:174
 msgid "Temporary"
 msgstr "Privemeno"
 
-#: src/main.c:165
+#: src/main.c:175
 msgid "Screenshots"
 msgstr "Snimci ekrana"
 
-#: src/main.c:166
+#: src/main.c:176
 msgid "Science"
 msgstr "Nauka"
 
-#: src/main.c:167
+#: src/main.c:177
 msgid "Favourite"
 msgstr "Omiljeno"
 
-#: src/main.c:168
+#: src/main.c:178
 msgid "Important"
 msgstr "Važno"
 
-#: src/main.c:169
+#: src/main.c:179
 msgid "GNOME"
-msgstr "GNOME"
+msgstr "Gnom"
 
-#: src/main.c:170
+#: src/main.c:180
 msgid "Games"
 msgstr "Igre"
 
-#: src/main.c:171
+#: src/main.c:181
 msgid "Party"
 msgstr "Zabava"
 
-#: src/main.c:172
+#: src/main.c:182
 msgid "Birthday"
 msgstr "Rođendan"
 
-#: src/main.c:173
+#: src/main.c:183
 msgid "Astronomy"
 msgstr "Astronomija"
 
-#: src/main.c:174
+#: src/main.c:184
 msgid "Family"
 msgstr "Porodica"
 
-#: src/main.c:311 src/main.c:393
+#: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Naredbna linija"
 
