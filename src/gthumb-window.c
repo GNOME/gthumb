@@ -705,6 +705,7 @@ window_update_sensitivity (GThumbWindow *window)
 	/* View menu. */
 
 	set_command_sensitive (window, "View_ImageProp", ! image_is_void);
+	set_command_sensitive (window, "View_Fullscreen", ! image_is_void);
 
 	/* Tools menu. */
 
@@ -2726,25 +2727,16 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 		const guint8 *rgba_data;
 		char         *command;
 	} comm_list_rgba [] = {
-		{ add_comment_16_rgba,       "/commands/Edit_EditComment" },
 		{ add_to_catalog_16_rgba,    "/commands/Edit_AddToCatalog" },
 		{ catalog_24_rgba,           "/commands/View_ShowCatalogs" },
 		{ catalog_24_rgba,           "/ImageToolbar/View_Sidebar_Catalogs" },
 		{ dir_24_rgba,               "/commands/View_ShowFolders" },
 		{ dir_24_rgba,               "/ImageToolbar/View_Sidebar_Folders" },
-		{ image_info_24_rgba,        "/commands/View_ImageProp" },
-		{ image_info_16_rgba,        "/menu/View/View_ImageProp" },
 		{ index_image_16_rgba,       "/menu/Tools/Tools_IndexImage" },
 		{ maintenance_16_rgba,       "/menu/Tools/Tools_Maintenance" },
 		{ next_image_24_rgba,        "/commands/View_NextImage" },
 		{ prev_image_24_rgba,        "/commands/View_PrevImage" },
 		{ search_duplicates_16_rgba, "/menu/Edit/Tools_FindDuplicates" },
-		{ slideshow_16_rgba,         "/menu/Tools/Tools_Slideshow" },
-		{ transform_16_rgba,         "/menu/Tools/Tools_JPEGRotate" },
-		/*
-		{ reduce_colors_24_rgba,     "/ImageToolbar/AlterImage_ReduceColors"},
-		{ rotate_24_rgba,            "/ImageToolbar/AlterImage_Rotate"},
-		*/
 		{ NULL, NULL }
 	};
 
@@ -3411,6 +3403,9 @@ window_new (void)
         bonobo_object_unref (BONOBO_OBJECT (control));
 
 	/* Update data. */
+
+	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
+		window->cnxn_id[i] = -1;
 
 	window->sidebar_content = NO_LIST;
 	window->catalog_path = NULL;

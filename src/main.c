@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <gnome.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-ui-init.h>
@@ -56,9 +57,15 @@ static gboolean      view_comline_catalog = FALSE;
 static GdkPixbuf    *folder_pixbuf = NULL;
 static GThumbWindow *first_window = NULL;
 
-static void prepare_app     ();
-static void initialize_data (poptContext pctx);
-static void release_data    ();
+
+static void     prepare_app         ();
+static void     initialize_data     (poptContext pctx);
+static void     release_data        ();
+
+static void     init_session        (const char *argv0);
+static gboolean session_is_restored (void);
+static gboolean load_session        (void);
+
 
 struct poptOption options[] = {
 	{ "fullscreen", 'f', POPT_ARG_NONE, &StartInFullscreen, 0,
@@ -130,7 +137,6 @@ main (gint argc, char *argv[])
 	gthumb_init ();
 
 	initialize_data (pctx);
-
 	poptFreeContext (pctx);
 
 	prepare_app ();
@@ -203,6 +209,10 @@ initialize_data (poptContext pctx)
 	if (g_file_test (pixmap_file, G_FILE_TEST_EXISTS))
 		gnome_window_icon_set_default_from_file (pixmap_file);
 
+	init_session ("gthumb");
+	if (session_is_restored ()) 
+		return;
+
 	/* Parse command line arguments. */
 
 	argv = poptGetArgs (pctx);
@@ -216,8 +226,8 @@ initialize_data (poptContext pctx)
 	if (argc == 0)
 		return;
 
-        file_urls = g_new0 (gchar*, argc);
-        dir_urls = g_new0 (gchar*, argc);
+	file_urls = g_new0 (char*, argc);
+	dir_urls = g_new0 (char*, argc);
 
 	n_file_urls = 0;
 	n_dir_urls = 0;
@@ -301,7 +311,12 @@ static void
 prepare_app ()
 {
 	GThumbWindow *current_window = NULL;
-	gint          i;
+	int           i;
+	
+	if (session_is_restored ()) {
+		load_session ();
+		return;
+	}
 
 	if (! view_comline_catalog 
 	    && (n_dir_urls == 0) 
@@ -733,4 +748,174 @@ get_folder_pixbuf (double icon_size)
 	}
 
 	return pixbuf;
+}
+
+
+
+
+/* SM support */
+
+/* The master client we use for SM */
+static GnomeClient *master_client = NULL;
+
+/* argv[0] from main(); used as the command to restart the program */
+static const char *program_argv0 = NULL;
+
+
+static void
+save_session (GnomeClient *client)
+{
+	const char  *prefix;
+	GList        *scan;
+	int          i = 0;
+
+	prefix = gnome_client_get_config_prefix (client);
+	gnome_config_push_prefix (prefix);
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+		char         *location = NULL;
+		char         *key;
+
+		if ((window->sidebar_content == DIR_LIST) 
+		    && (window->dir_list != NULL)
+		    && (window->dir_list->path != NULL))
+			location = g_strconcat ("file://",
+						window->dir_list->path,
+						NULL);
+		else if ((window->sidebar_content == CATALOG_LIST) 
+			 && (window->catalog_path != NULL))
+			location = g_strconcat ("catalog://",
+						window->catalog_path,
+						NULL);
+		
+		if (location == NULL)
+			continue;
+
+		key = g_strdup_printf ("Session/location%d", i);
+		gnome_config_set_string (key, location);
+
+		g_free (key);
+		g_free (location);
+
+		i++;
+	}
+
+	gnome_config_set_int ("Session/locations", i);
+
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
+}
+
+
+/* save_yourself handler for the master client */
+static gboolean
+client_save_yourself_cb (GnomeClient *client,
+			 gint phase,
+			 GnomeSaveStyle save_style,
+			 gboolean shutdown,
+			 GnomeInteractStyle interact_style,
+			 gboolean fast,
+			 gpointer data)
+{
+	const char *prefix;
+	char       *argv[4] = { NULL };
+
+	save_session (client);
+
+	prefix = gnome_client_get_config_prefix (client);
+
+	/* Tell the session manager how to discard this save */
+
+	argv[0] = "rm";
+	argv[1] = "-rf";
+	argv[2] = gnome_config_get_real_path (prefix);
+	argv[3] = NULL;
+	gnome_client_set_discard_command (client, 3, argv);
+
+	/* Tell the session manager how to clone or restart this instance */
+
+	argv[0] = (char *) program_argv0;
+	argv[1] = NULL; /* "--debug-session"; */
+	
+	gnome_client_set_clone_command (client, 1, argv);
+	gnome_client_set_restart_command (client, 1, argv);
+
+	return TRUE;
+}
+
+
+/* die handler for the master client */
+static void
+client_die_cb (GnomeClient *client, gpointer data)
+{
+	if (! client->save_yourself_emitted)
+		save_session (client);
+
+	gtk_main_quit ();
+}
+
+
+static void
+init_session (const char *argv0)
+{
+	if (master_client != NULL)
+		return;
+
+	program_argv0 = argv0;
+
+	master_client = gnome_master_client ();
+
+	g_signal_connect (master_client, "save_yourself",
+			  G_CALLBACK (client_save_yourself_cb),
+			  NULL);
+
+	g_signal_connect (master_client, "die",
+			  G_CALLBACK (client_die_cb),
+			  NULL);
+}
+
+
+static gboolean
+session_is_restored (void)
+{
+	gboolean restored;
+	
+	if (! master_client)
+		return FALSE;
+
+	restored = (gnome_client_get_flags (master_client) & GNOME_CLIENT_RESTORED) != 0;
+
+	return restored;
+}
+
+
+static gboolean
+load_session (void)
+{
+	int i, n;
+	
+	gnome_config_push_prefix (gnome_client_get_config_prefix (master_client));
+
+	n = gnome_config_get_int ("Session/locations");
+	for (i = 0; i < n; i++) {
+		GThumbWindow *window;
+		char         *key;
+		char         *location;
+
+		key = g_strdup_printf ("Session/location%d", i);
+		location = gnome_config_get_string (key);
+		g_free (key);
+
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
+
+		window = window_new ();
+		gtk_widget_show (window->app);
+
+		g_free (location);
+	}
+
+	gnome_config_pop_prefix ();
+
+	return TRUE;
 }

@@ -63,10 +63,13 @@ open_with__destroy_cb (GtkWidget  *widget,
 		       DialogData *data)
 {
 	g_object_unref (G_OBJECT (data->gui));
+
 	if (data->file_list)
 		path_list_free (data->file_list);
+
 	if (data->app_list)
 		gnome_vfs_mime_application_list_free (data->app_list);
+
 	g_free (data);
 }
 
@@ -184,10 +187,30 @@ app_list_button_press_cb (GtkWidget      *widget,
                             -1);
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
 
-	if (event->type == GDK_2BUTTON_PRESS)
-		open_cb (NULL, data);
-
         return FALSE;
+}
+
+
+static void
+app_activated_cb (GtkTreeView       *tree_view,
+                  GtkTreePath       *path,
+                  GtkTreeViewColumn *column,
+                  gpointer           callback_data)
+{
+        DialogData              *data = callback_data;
+	GtkTreeIter              iter;
+	GnomeVFSMimeApplication *app;
+
+	if (! gtk_tree_model_get_iter (data->app_model, &iter, path)) 
+		return;
+	
+	gtk_tree_model_get (data->app_model, &iter,
+			    1, &app,
+			    -1);
+
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
+
+	open_cb (NULL, data);
 }
 
 
@@ -199,7 +222,7 @@ recent_list_button_press_cb (GtkWidget      *widget,
         DialogData  *data = callback_data;
         GtkTreePath *path;
         GtkTreeIter  iter;
-        gchar       *editor;
+        char        *editor;
 
         if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (data->recent_list_tree_view),
                                              event->x, event->y,
@@ -218,10 +241,30 @@ recent_list_button_press_cb (GtkWidget      *widget,
         g_free (editor);
         gtk_tree_path_free (path);
 
-	if (event->type == GDK_2BUTTON_PRESS)
-		open_cb (NULL, data);
-
         return FALSE;
+}
+
+
+static void
+recent_activated_cb (GtkTreeView       *tree_view,
+		     GtkTreePath       *path,
+		     GtkTreeViewColumn *column,
+		     gpointer           callback_data)
+{
+        DialogData   *data = callback_data;
+	GtkTreeIter   iter;
+	char         *editor;
+
+	if (! gtk_tree_model_get_iter (data->recent_model, &iter, path)) 
+		return;
+	
+	gtk_tree_model_get (data->recent_model, &iter,
+			    0, &editor,
+			    -1);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), editor);
+	g_free (editor);
+
+	open_cb (NULL, data);
 }
 
 
@@ -309,11 +352,20 @@ open_with_cb (GThumbWindow *window,
                           "button_press_event",
                           G_CALLBACK (app_list_button_press_cb),
                           data);
+	g_signal_connect (G_OBJECT (data->app_list_tree_view),
+                          "row_activated",
+                          G_CALLBACK (app_activated_cb),
+                          data);
 
         g_signal_connect (G_OBJECT (data->recent_list_tree_view),
                           "button_press_event",
                           G_CALLBACK (recent_list_button_press_cb),
                           data);
+	g_signal_connect (G_OBJECT (data->recent_list_tree_view),
+                          "row_activated",
+                          G_CALLBACK (recent_activated_cb),
+                          data);
+
 	g_signal_connect_swapped (G_OBJECT (cancel_btn), 
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),

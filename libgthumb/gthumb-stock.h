@@ -23,6 +23,7 @@
 #ifndef GTHUMB_STOCK_H
 #define GTHUMB_STOCK_H
 
+#define GTHUMB_STOCK_ADD_COMMENT          "gthumb-add-comment"
 #define GTHUMB_STOCK_BRIGHTNESS_CONTRAST  "gthumb-brightness-contrast"
 #define GTHUMB_STOCK_COLOR_BALANCE        "gthumb-color-balance"
 #define GTHUMB_STOCK_DESATURATE           "gthumb-desaturate"
@@ -33,9 +34,12 @@
 #define GTHUMB_STOCK_MIRROR               "gthumb-mirror"
 #define GTHUMB_STOCK_NORMAL_VIEW          "gthumb-normal-view"
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
+#define GTHUMB_STOCK_PROPERTIES           "gthumb-properties"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"
 #define GTHUMB_STOCK_ROTATE_90            "gthumb-rotate-90"
 #define GTHUMB_STOCK_ROTATE_90_CC         "gthumb-rotate-90-cc"
+#define GTHUMB_STOCK_SLIDESHOW            "gthumb-slideshow"
+#define GTHUMB_STOCK_TRANSFORM            "gthumb-transform"
 
 
 void gthumb_stock_init (void);

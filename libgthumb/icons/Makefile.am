@@ -35,7 +35,9 @@ IMAGES=					\
 	rotate-90-24.png		\
 	search-duplicates-16.png	\
 	slideshow-16.png		\
+	slideshow-24.png		\
 	transform-16.png		\
+	transform-24.png		\
 	unknown-48.png
 
 noinst_DATA = pixbufs.h
@@ -78,7 +80,9 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list rotate_90_24_rgba $(srcdir)/rotate-90-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list search_duplicates_16_rgba $(srcdir)/search-duplicates-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list slideshow_16_rgba $(srcdir)/slideshow-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list slideshow_24_rgba $(srcdir)/slideshow-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list transform_16_rgba $(srcdir)/transform-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list transform_24_rgba $(srcdir)/transform-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list unknown_48_rgba $(srcdir)/unknown-48.png >> $(srcdir)/pixbufs.h
 
 EXTRA_DIST = \

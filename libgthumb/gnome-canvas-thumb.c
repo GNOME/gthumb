@@ -498,53 +498,54 @@ static void
 gnome_canvas_thumb_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			  int x, int y, int width, int height)
 {
-	GtkWidget        *widget = GTK_WIDGET (item->canvas);
 	GnomeCanvasThumb *image;
-	GtkStateType      state;
 	GtkStyle         *style;
-	GdkGC            *gc;
-	/* GdkGCValues       values; FIXME */
         int               x1, y1;
-	int               image_x1, image_y1;
 
 	image = GNOME_CANVAS_THUMB (item);
+
 	recalc_if_needed (image);
-	
-	x1 = image->cx - x;
-	y1 = image->cy - y;
 
 	style = GTK_WIDGET (item->canvas)->style;
-	if (GTK_WIDGET_HAS_FOCUS (widget))
-                state = GTK_STATE_SELECTED;
-        else
-                state = GTK_STATE_ACTIVE;
- 	gc = image->selected ? style->bg_gc[state] : style->bg_gc[GTK_STATE_INSENSITIVE];
 
-	/**/
+	x1 = image->cx - x;
+	y1 = image->cy - y;
 
 	gthumb_draw_slide (x1, y1,
 			   image->cwidth, image->cheight,
 			   image->iwidth, image->iheight,
 			   drawable,
-			   gc,
+			   style->white_gc,
 			   style->black_gc,
 			   style->dark_gc[GTK_STATE_NORMAL],
 			   style->mid_gc[GTK_STATE_NORMAL],
 			   style->light_gc[GTK_STATE_NORMAL]);
 
-	image_x1 = x1 + (image->cwidth - image->iwidth) / 2 + 1;
-	image_y1 = y1 + (image->cheight - image->iheight) / 2 + 1;
+	if (image->selected) {
+		GdkGC *sel_gc;
+		int    frame_width = 3;
 
-	/* FIXME
-	gdk_gc_get_values (gc, &values);
-	gthumb_draw_frame (x1 + (image->cwidth - image->iwidth) / 2 + 1, 
-			   y1 + (image->cheight - image->iheight) / 2 + 1,
-			   image->iwidth, image->iheight,
-			   drawable,
-			   &values.foreground);
-	*/
-	   
+		sel_gc = gdk_gc_new (drawable);
+		gdk_gc_copy (sel_gc, style->bg_gc[GTK_STATE_SELECTED]);
+		gdk_gc_set_line_attributes (sel_gc, frame_width, 0, 0, 0);
+
+		gdk_draw_rectangle (drawable,
+				    sel_gc,
+				    FALSE,
+				    x1 + frame_width,
+				    y1 + frame_width,
+				    image->cwidth - (frame_width * 2), 
+				    image->cheight - (frame_width * 2));
+		
+		g_object_unref (sel_gc);
+	}
+
 	if (image->pixmap) {
+		int image_x1, image_y1;
+
+		image_x1 = x1 + (image->cwidth - image->iwidth) / 2 + 1;
+		image_y1 = y1 + (image->cheight - image->iheight) / 2 + 1;
+
 		if (image->mask) 
 			gdk_gc_set_clip_origin (image->gc, image_x1, image_y1);
 		

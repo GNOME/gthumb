@@ -39,7 +39,9 @@
 #include "typedefs.h"
 #include "icons/pixbufs.h"
 
-#define THUMB_BORDER 19
+#define THUMB_BORDER 13
+#define ROW_SPACING  14
+#define COL_SPACING  14
 
 static GdkPixbuf *unknown_pixbuf = NULL;
 
@@ -274,8 +276,8 @@ file_list_new ()
 				0);
         image_list_set_selection_mode (IMAGE_LIST (ilist), 
                                        GTK_SELECTION_MULTIPLE);
-        image_list_set_row_spacing (IMAGE_LIST (ilist), 15);
-        image_list_set_col_spacing (IMAGE_LIST (ilist), 15);
+        image_list_set_row_spacing (IMAGE_LIST (ilist), ROW_SPACING);
+        image_list_set_col_spacing (IMAGE_LIST (ilist), COL_SPACING);
 	image_list_set_compare_func (IMAGE_LIST (ilist),
 				    get_compfunc_from_method (file_list->sort_method));
 	image_list_set_sort_type (IMAGE_LIST (ilist), file_list->sort_type);

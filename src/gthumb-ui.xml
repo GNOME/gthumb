@@ -5,7 +5,7 @@
 	     _tip="Create a new window"
 	     accel="*Control*N"
 	     pixtype="stock" pixname="gtk-new"/>
-	<cmd name="File_CloseWindow" _label="_Close Window"
+	<cmd name="File_CloseWindow" _label="_Close"
 	     _tip="Close this window"
 	     pixtype="stock" pixname="gtk-close" accel="*Control*W"/>
 	<cmd name="File_OpenWith" _label="_Open With" 
@@ -62,7 +62,8 @@
 	     _tip="Select all images"
 	     accel="*Control*A"/>
 	<cmd name="Edit_EditComment" _label="Comm_ent" 
-	     _tip="Add a comment to selected images"/>
+	     _tip="Add a comment to selected images"
+	     pixtype="stock" pixname="gthumb-add-comment"/>
 	<cmd name="Edit_DeleteComment" _label="Rem_ove Comment" 
 	     _tip="Remove comments of selected images"/>
 	<cmd name="Edit_EditCategories" _label="Ca_tegories..." 
@@ -257,7 +258,8 @@
 	<cmd name="View_Sidebar_Catalogs"/>
 
 	<cmd name="View_ImageProp" _label="Image _Properties"
-	     _tip="Display image properties"
+	     _tip="View Properties"
+	     pixtype="stock" pixname="gthumb-properties"
 	     accel="*Control*I"/>
 
 	<cmd name="Go_Back" _label="_Back" 
@@ -314,26 +316,24 @@
 	<cmd name="Wallpaper_Restore" _label="_Restore" 
 	     _tip="Restore the original desktop wallpaper"/>
 
-	<cmd name="Tools_Slideshow" _label="_Slideshow" 
-	     _tip="View images as a slideshow"
+	<cmd name="Tools_Slideshow" _label="_Slide Show" 
+	     _tip="View Slide Show"
+	     pixtype="stock" pixname="gthumb-slideshow"/>
 	     accel="*Control*S"/>
 	<cmd name="Tools_FindImages" _label="_Find Images" 
-	     _tip=" "
+	     _tip="Find Images"
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
-	<cmd name="Tools_IndexImage" _label="Create _Index Image" 
-	     _tip=" "/>
-	<cmd name="Tools_RenameSeries" _label="_Rename Series" 
-	     _tip=" "/>
+	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
+	<cmd name="Tools_RenameSeries" _label="_Rename Series" />
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
-	     pixtype="stock" pixname="gtk-convert"/>
-	     _tip=" "/>
-     	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates" 
-	     _tip=" "/>
-	<cmd name="Tools_JPEGRotate" _label="_JPEG Transform" 
-	     _tip=" "/>
-	<cmd name="Tools_Maintenance" _label="_Maintenance" 
-	     _tip=" "/>
+	     pixtype="stock" pixname="gtk-convert"
+	     _tip="Convert Format"/>
+     	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates" />
+	<cmd name="Tools_JPEGRotate" _label="Rotate _JPEG" 
+	     pixtype="stock" pixname="gthumb-transform"
+	     _tip="Rotate Images"/>
+	<cmd name="Tools_Maintenance" _label="_Maintenance" />
 	<cmd name="Tools_Preferences" _label="_Preferences" 
 	     _tip="Edit various preferences"
 	     pixtype="stock" pixname="gtk-preferences"/>
@@ -351,16 +351,12 @@
 <menu>
 	<submenu name="File" _label="_File">
 		<menuitem name="File_NewWindow" verb=""/>
-		<menuitem name="EditCurrentDir_New" verb=""/>
-		<menuitem name="EditCurrentCatalog_New" verb=""/>
-		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
-		<separator/>
 		<menuitem name="File_OpenWith" verb=""/>
 		<menuitem name="File_Save" verb=""/>
-		<menuitem name="File_Print" verb=""/>
 		<separator/>
 		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
+			<separator/>
 			<menuitem name="EditCurrentDir_Rename" verb=""/>
 			<menuitem name="EditCurrentDir_Delete" verb=""/>
 			<menuitem name="EditCurrentDir_Move" verb=""/>
@@ -378,6 +374,11 @@
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
+		<menuitem name="EditCurrentDir_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
+		<separator/>
+		<menuitem name="File_Print" verb=""/>
 		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>
 		<menuitem name="File_Exit" verb=""/>
@@ -421,17 +422,7 @@
 	</submenu>
 
 	<submenu name="View" _label="_View">
-		<submenu name="ShowHide" _label="Show/_Hide">
-			<menuitem name="View_ShowFolders" verb=""
-				  _label="_Folders"/>
-			<menuitem name="View_ShowCatalogs" verb=""
-				  _label="_Catalogs"/>
-			<menuitem name="View_ShowImage" verb=""
-			  	  _label="_Image preview"/>
-			<separator/>
-			<menuitem name="View_Toolbar" verb=""/>
-			<menuitem name="View_Statusbar" verb=""/>
-		</submenu>
+                <menuitem name="Tools_Slideshow" verb=""/>
 		<menuitem name="View_Fullscreen" verb=""
 			  _label="_Full Screen"/>
 		<separator/>
@@ -472,6 +463,18 @@
 		<separator/>
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
+		<separator/>
+		<submenu name="ShowHide" _label="Show/_Hide">
+			<menuitem name="View_ShowFolders" verb=""
+				  _label="_Folders"/>
+			<menuitem name="View_ShowCatalogs" verb=""
+				  _label="_Catalogs"/>
+			<menuitem name="View_ShowImage" verb=""
+			  	  _label="_Image preview"/>
+			<separator/>
+			<menuitem name="View_Toolbar" verb=""/>
+			<menuitem name="View_Statusbar" verb=""/>
+		</submenu>
 	</submenu>
 	<submenu name="Go" _label="_Go">
 		<menuitem name="Go_Back" verb=""/>
@@ -491,7 +494,6 @@
 		<placeholder name="BookmarkList" delimit="top"/>
 	</submenu>
 	<submenu name="Tools" _label="_Tools">
-		<menuitem name="Tools_Slideshow" verb=""/>
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
 			<menuitem name="Wallpaper_Tiled" verb=""/>
@@ -501,8 +503,8 @@
 			<menuitem name="Wallpaper_Restore" verb=""/>
 		</submenu>
 		<separator/>
-		<menuitem name="Tools_ConvertFormat" verb=""/>
 		<menuitem name="Tools_JPEGRotate" verb=""/>
+		<menuitem name="Tools_ConvertFormat" verb=""/>
 		<menuitem name="Tools_RenameSeries" verb=""/>
 		<separator/>
 		<menuitem name="Tools_IndexImage" verb=""/>
@@ -524,40 +526,43 @@
 	<toolitem name="Go_Back" verb="" _label="Back" priority="1"/>
 	<toolitem name="Go_Forward" verb="" _label="Forward"/>
 	<toolitem name="Go_Up" verb="" _label="Up"/>
-	<toolitem name="Go_Refresh" verb=""  _label="Refresh"/>
-
   	<toolitem name="Go_Home" verb="" _label="Home"/>
+
 	<separator/>
 
   	<toolitem name="View_ShowFolders" verb="" priority="1" 
 	          _label="Folders"/>
+
   	<toolitem name="View_ShowCatalogs" verb="" priority="1"
 	          _label="Catalogs"/>
 
 	<separator/>
 
-  	<toolitem name="View_ZoomIn" verb=""
-	          _label="In"/>
-  	<toolitem name="View_ZoomOut" verb=""
-	          _label="Out"/>
-  	<toolitem name="View_Zoom100" verb=""
-	          _label="1:1"/>
-  	<toolitem name="View_ZoomFit" verb=""
-	          _label="Fit"/>
+	<toolitem name="Tools_FindImages" verb="" priority="0"
+	          _label="Search"/>
+
+	<toolitem name="Edit_EditComment" verb="" _label="Comment Images" />
+
+	<toolitem name="Edit_EditCategories" verb="" _label="Assign Categories" />
 
 	<separator/>
+
+  	<toolitem name="Tools_Slideshow" verb=""
+	          label=""/>
+
+  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
+		priority="0"/>
 
   	<toolitem name="View_ImageProp" verb="" _label="Information" />
 
 	<separator/>
 
-  	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
-  	<toolitem name="View_NextImage" verb="" _label="Next"/>
+  	<toolitem name="Tools_JPEGRotate" verb=""
+	          label=""/>
 
-	<separator/>
+  	<toolitem name="Tools_ConvertFormat" verb=""
+	          label=""/>
 
-  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
-		priority="0"/>
 </dockitem>
 
 <dockitem name="ImageToolbar" _tip="Image Toolbar" config="0"
@@ -611,6 +616,9 @@
 
 	<separator/>
 
+  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
+		  priority="0"/>
+
   	<toolitem name="View_ImageProp" verb="" _label="Information" />
 
 	<separator/>
@@ -618,10 +626,6 @@
   	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
   	<toolitem name="View_NextImage" verb="" _label="Next"/>
 
-	<separator/>
-
-  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
-		  priority="0"/>
 </dockitem>
 
 <status resize_grip="1">

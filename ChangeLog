@@ -1,3 +1,12 @@
+2002-11-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gnome-canvas-thumb.c (gnome_canvas_thumb_draw): make
+	thumbnails white, and paint the selection as a colored frame.
+
+2002-11-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c: Added SM support.
+
 2002-11-05  Stanislav Brabec  <sbrabec@suse.cz>
 
 	* configure.in: Added cs to ALL_LINGUAS.
