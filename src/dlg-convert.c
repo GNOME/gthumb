@@ -26,6 +26,7 @@
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnome/libgnome.h>
 #include <glade/glade.h>
 #include "file-data.h"
 #include "gconf-utils.h"
@@ -69,6 +70,8 @@ typedef struct {
 
 	GList        *file_list;
 	GList        *current_image;
+	GList        *saved_list;
+	GList        *deleted_list;
 
 	int              images;
 	int              image;
@@ -98,6 +101,8 @@ destroy_cb (GtkWidget  *widget,
 		g_object_unref (data->loader);
 
 	file_data_list_free (data->file_list);
+	path_list_free (data->saved_list);
+	path_list_free (data->deleted_list);
 
 	g_strfreev (data->keys);
 	g_strfreev (data->values);	
@@ -133,6 +138,9 @@ load_current_image (DialogData *data)
 	char      *message;
 
 	if (data->stop_convertion || (data->current_image == NULL)) {
+		all_windows_notify_files_created (data->saved_list);
+		all_windows_notify_files_deleted (data->deleted_list);
+		all_windows_add_monitor ();
 		gtk_widget_destroy (data->progress_dialog);
 		gtk_widget_destroy (data->dialog);
 		return;
@@ -202,20 +210,13 @@ save_image_and_remove_original (DialogData *data)
 			       data->keys, 
 			       data->values,
 			       &error)) {
-		GList    *list;
 		FileData *fd = data->current_image->data;
-
-		list = g_list_prepend (NULL, data->new_path);
-		all_windows_notify_files_created (list);
-		g_list_free (list);
+		data->saved_list = g_list_prepend (data->saved_list, g_strdup (data->new_path));
 
 		if (data->remove_original 
 		    && (strcmp (fd->path, data->new_path) != 0)) {
 			unlink (fd->path);
-
-			list = g_list_prepend (NULL, fd->path);
-			all_windows_notify_files_deleted (list);
-			g_list_free (list);
+			data->deleted_list = g_list_prepend (data->deleted_list, g_strdup (fd->path));
 		}
 	} else 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);
@@ -350,6 +351,8 @@ static void
 ok_cb (GtkWidget  *widget, 
        DialogData *data)
 {
+	all_windows_remove_monitor ();
+
 	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
 
 	g_signal_connect (G_OBJECT (data->loader),

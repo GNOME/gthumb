@@ -256,6 +256,10 @@
       linkend="preferences-browser"/> of the
       <guilabel>Preferences</guilabel> dialog.
     </para>
+    <para>
+      Keyboard shortcuts to browse folders are described in <xref
+      linkend="gthumb-TBL-keyword-shortcuts-browser"/>.
+    </para>
     <sect2 id="gthumb-change-folder">
     <title>To Change Folder</title>
     <para>
@@ -314,175 +318,6 @@
       Bookmarks</guimenuitem></menuchoice> command.
   </para>
   </sect2>
-  <sect2 id="gthumb-browser-shortcuts">
-  <title>Keyboard Shortcuts to Navigate Folders</title>
-    <para>
-      <table frame="topbot">
-      <title>Keyboard shortcuts to navigate folders</title>
-      <tgroup cols="2" colsep="0" rowsep="0">
-      	<colspec colwidth="20.00*"/>
-	<colspec colwidth="20.00*"/>
-	<thead>
-	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
-	    <entry><para>Description</para></entry>
-	  </row>
-	</thead>
-	<tbody>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>N</keycap></keycombo> ,
-	        <keycombo action="simul"><keycap>Space</keycap></keycombo> or
-		<keycombo action="simul"><keycap>Page Down</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View next image.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>B</keycap></keycombo> ,
-		<keycombo><keycap>P</keycap></keycombo> ,
-		<keycombo><keycap>Backspace</keycap></keycombo> ,
-		<keycombo action="simul"><keycap>Page Up</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View previous image.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Home</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View first image.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>End</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View last image.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Home
-		</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Go to your Home folder.</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Left
-		</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Go to the previously visited folder.</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Up
-		</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Go to up one level.</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>D
-		</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Add bookmark.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Return</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide the browser.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>Q</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide the image preview.</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo action="simul"><keycap>T</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide thumbnails.</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>F2</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rename current image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>O</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Open selected files with an application</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>Delete</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Delete seleceted files</para>
-	    </entry>
-	  </row>
-	</tbody>
-      </tgroup>
-      </table>
-    </para>
-    </sect2>
   </sect1>
   <sect1 id="gthumb-folders">
     <title>
@@ -662,6 +497,10 @@
   <!-- ============= Viewing ================================== -->
   <sect1 id="gthumb-image-viewing">
   <title>Viewing Images</title>
+  <para>
+     Keyboard shortcuts to view images are described in <xref
+     linkend="gthumb-TBL-keyword-shortcuts-viewer"/>.
+  </para>
   <sect2 id="gthumb-view-images">
   <title>To View an Image</title>
     <para>
@@ -766,141 +605,6 @@
      </orderedlist>
   </para>
   </sect2>
-  <!-- ============= Keyboard Shortcuts =============================== -->
-  <sect2 id="gthumb-viewer-shortcuts">
-  <title>Keyboard Shortcuts to View Images</title>
-    <para>
-    <table frame="topbot">
-    <title>Keyboard shortcuts to view images</title>
-    <tgroup cols="2" colsep="0" rowsep="0">
-      	<colspec colwidth="20.00*"/>
-	<colspec colwidth="20.00*"/>
-	<thead>
-	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
-	    <entry><para>Description</para></entry>
-	  </row>
-	</thead>
-	<tbody>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>V</keycap></keycombo> ,
-	        <keycombo><keycap>F</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Full screen</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>+</keycap></keycombo> ,
-		<keycombo><keycap>=</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom in</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>-</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom out</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>1</keycap></keycombo> ,
-		<keycombo><keycap>Z</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Actual size</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>X</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom to fit</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>L</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Flip the image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>M</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Mirror the image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>R</keycap></keycombo> ,
-	        <keycombo><keycap>]</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate the image clockwise</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>[</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate the image counter-clockwise</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>G</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Start/Stop the current animation</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <keycombo><keycap>J</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View the next frame of the current animation</para>
-	    </entry>
-	  </row>
-	</tbody>
-     </tgroup>
-   </table>
-   </para>
-   </sect2>
   </sect1>
 
   <!-- ============= working with images ================================== -->
@@ -2070,19 +1774,19 @@
 	the following items:
         <itemizedlist>
 	  <listitem>
-	    <para><guilabel>Centered</guilabel> -- The image will be centered on
+	    <para><guilabel>Centered</guilabel>: The image will be centered on
 	      the screen.</para>
 	  </listitem>
 	  <listitem>
-	    <para><guilabel>Tiled</guilabel> -- The image will be duplicated on
+	    <para><guilabel>Tiled</guilabel>: The image will be duplicated on
 	      the screen as tiles on the floor.</para>
 	  </listitem>
 	  <listitem>
-	    <para><guilabel>Scaled</guilabel> -- The image will be scaled to fill 
+	    <para><guilabel>Scaled</guilabel>: The image will be scaled to fill 
 	      the screen mantaining the aspect ratio.</para>
 	  </listitem>
 	  <listitem>
-	    <para><guilabel>Stretched</guilabel> -- The image will be scaled to 
+	    <para><guilabel>Stretched</guilabel>: The image will be scaled to 
 	      fill the screen changing proportions if needed.</para>
 	  </listitem>
 	</itemizedlist>
@@ -2187,37 +1891,55 @@
         The name template is simply a name that must be used for all
         of the images,  furthermore you can use two special characters
         to make the new names differ each other:
-      <itemizedlist>
-        <listitem>
-          <para>
-	    <keycap>#</keycap> -- This symbol will be replaced with
-            the value of a counter that increments itself by 1
-	    passing from one image to another.  If you specify 
-	    this symbols in sequence you'll get leading zeros if the
-	    counter value has a lesser number of digits, for example ###
-	    will produce the sequence: 001, 002, 003, etc.. 
-	  </para>
-        </listitem>
-        <listitem>
-          <para>
-	    <keycap>*</keycap> -- This symbol will be replaced
-            with the image original name.
-	  </para>
-        </listitem>
-        <listitem>
-          <para>
-	    <keycap>?</keycap> -- This symbol will be replaced
-            with the image modified date.
-	  </para>
-        </listitem>
-        <listitem>
-          <para>
-	    <keycap>!</keycap> -- This symbol will be replaced
-            with the image dimesions.
-	  </para>
-        </listitem>
-      </itemizedlist>
       </para>
+        <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Symbol</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Description</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry>
+                <para><keycap>#</keycap></para></entry>
+              <entry align="left">
+                <para>This symbol will be replaced with
+                the value of a counter that increments itself by 1
+	        passing from one image to another.  If you specify 
+	        this symbols in sequence you'll get leading zeros if the
+	        counter value has a lesser number of digits, for example ###
+	        will produce the sequence: 001, 002, 003, etc..</para></entry>
+            </row>
+            <row valign="top">
+              <entry>
+                <para><keycap>*</keycap></para></entry>
+              <entry align="left">
+                <para>This symbol will be replaced with the image
+                original name.</para></entry>
+            </row>
+            <row valign="top">
+              <entry>
+                <para><keycap>?</keycap></para></entry>
+              <entry align="left">
+                <para>This symbol will be replaced with the image
+                modified date.</para></entry> 
+            </row>
+            <row valign="top">
+              <entry>
+                <para><keycap>!</keycap></para></entry>
+              <entry align="left">
+                <para>This symbol will be replaced with the image
+                dimesions.</para></entry> 
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
       <para>
         The list at the bottom of the dialog displays how the filenames
         will be renamed.
@@ -2279,7 +2001,7 @@
         following operations:
       </para>
       <para>
-        <guilabel>Backup Comments</guilabel> --  With this command you
+        <guilabel>Backup Comments</guilabel>:  With this command you
         can create an archive of all the comments you have writed.
         After pressing the button you have to enter the archive name,
         for example: <filename>comments.tgz</filename>, or 
@@ -2287,7 +2009,7 @@
         using the application <application>File Roller</application>.
       </para>
       <para>
-        <guilabel>Restore Comments From a Backup File</guilabel> --  Use
+        <guilabel>Restore Comments From a Backup File</guilabel>:  Use
         this command if
         you want to restore comments previously saved in an archive.
 	After pressing the button you have to
@@ -2296,7 +2018,7 @@
         Roller</application>.
       </para>
       <para>
-        <guilabel>Delete Old Comments</guilabel> --  If you use
+        <guilabel>Delete Old Comments</guilabel>:  If you use
         &gthumb; to delete or move images,
         comments are deleted and moved accordingly.  Other
         applications do not handle image comments so it can happen that
@@ -2304,7 +2026,7 @@
         anymore. This command lets you delete such comments.
       </para>
       <para>
-        <guilabel>Delete ALL Comments</guilabel> --  This command will
+        <guilabel>Delete ALL Comments</guilabel>:  This command will
         delete all the comments you have written.
       </para>
       <para>
@@ -2497,202 +2219,141 @@
 
   <!-- ============= Keyboard Shortcuts ================================== -->
   <sect1 id="shortcuts">
-  <title>Keyboard Shortcuts</title>
-
+  <title>Quick Reference: Keyboard Shortcuts</title>
+  <para><xref linkend="gthumb-TBL-keyword-shortcuts-browser"/>, <xref
+    linkend="gthumb-TBL-keyword-shortcuts-viewer"/>, <xref
+    linkend="gthumb-TBL-keyword-shortcuts-other"/> and <xref
+    linkend="gthumb-TBL-keyword-shortcuts-fullscreen"/> provide a quick
+    reference for all of the &gthumb; keyword shortcuts.  Look in the
+    menus for other shortcuts.</para>  
   <para>
-    When the location entry is focused you can use 
+    When the <guilabel>location</guilabel> entry is focused you can use 
     <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo> to display a
     list of possible location completions.
+      <note>
+        <title>WARNING</title>
+        <para>
+          When the <guilabel>location</guilabel> entry is focused
+          keyword shortcuts are not available.
+        </para>
+      </note>
   </para>
-
-  <table frame="topbot">
-    <title>Keyboard shortcuts available when the location entry is <emphasis>NOT</emphasis> focused</title>
-    <tgroup cols="2" colsep="0" rowsep="0">
-      	<colspec colwidth="20.00*"/>
-	<colspec colwidth="20.00*"/>
+      <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
+      <title>Keyboard shortcuts to navigate folders</title>
+      <tgroup cols="3" colsep="1" rowsep="1">
+      	<colspec colanme="COLSPEC0" colwidth="50*"/>
+	<colspec colanme="COLSPEC1" colwidth="50*"/>
+	<colspec colanme="COLSPEC2" colwidth="50*"/>
 	<thead>
-	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
-	    <entry><para>Description</para></entry>
+	  <row valign="top" rowsep="1">
+	    <entry colname="COLSPEC0">
+	    	<para>Keyboard Shortcut</para></entry>
+	    <entry colname="COLSPEC1">
+                <para>Description</para></entry>
+            <entry colname="COLSPEC2">
+                <para>Available in Fullscreen Mode</para></entry>
 	  </row>
 	</thead>
 	<tbody>
-	  <row rowsep="0">
+	  <row valign="top">
             <entry>
 	      <para>
-	        <keycombo><keycap>+</keycap></keycombo> ,
-		<keycombo><keycap>=</keycap></keycombo>
+		<keycombo><keycap>n</keycap></keycombo> or
+	        <keycombo action="simul"><keycap>Space</keycap></keycombo> or
+		<keycombo action="simul"><keycap>Page Down</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Zoom in</para>
+	      <para>View the next image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>-</keycap></keycombo>
+	        <keycombo action="simul"><keycap>b</keycap></keycombo> or
+		<keycombo><keycap>p</keycap></keycombo> or
+		<keycombo><keycap>Backspace</keycap></keycombo> or
+		<keycombo action="simul"><keycap>Page Up</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Zoom out</para>
+	      <para>View the previous image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>1</keycap></keycombo> ,
-		<keycombo><keycap>Z</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Home</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Actual size</para>
+	      <para>View the first image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>X</keycap></keycombo>
+	        <keycombo action="simul"><keycap>End</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Zoom to fit</para>
+	      <para>View the last image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>L</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Home
+		</keycap></keycombo> or
+	        <keycombo action="simul"><keycap>h</keycap></keycombo> 
 	      </para>
 	    </entry>
             <entry>
-	      <para>Flip image</para>
+	      <para>Go to your Home folder.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
-	  <row rowsep="0">
+	  <row>
             <entry>
 	      <para>
-	        <keycombo><keycap>R</keycap></keycombo> ,
-		<keycombo><keycap>]</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Left
+		</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Rotate image clockwise</para>
+	      <para>Go to the previously visited folder.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
-	  <row rowsep="0">
+	  <row>
             <entry>
 	      <para>
-		<keycombo><keycap>[</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Up
+		</keycap></keycombo> or
+	        <keycombo action="simul"><keycap>u</keycap></keycombo> 
 	      </para>
 	    </entry>
             <entry>
-	      <para>Rotate image counter-clockwise</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>M</keycap></keycombo>
-	      </para>
+	      <para>Go up one level.</para>
 	    </entry>
             <entry>
-	      <para>Mirror image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>G</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Start/Stop animation</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>J</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Step animation</para>
-	    </entry>
-	  </row>
-	  <row rowsep="1">
-            <entry>
-	      <para>
-		<keycombo><keycap>B</keycap></keycombo> ,
-		<keycombo><keycap>P</keycap></keycombo> ,
-		<keycombo><keycap>Backspace</keycap></keycombo> ,
-		<keycombo><keycap>Page Up</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show previous image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>N</keycap></keycombo> ,
-		<keycombo><keycap>Space</keycap></keycombo> ,
-		<keycombo><keycap>Page Down</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show next image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>Home</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show first image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>End</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show last image</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>U</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Go up one level</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>H</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Go to the home folder</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>T</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide thumbnails</para>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
@@ -2702,49 +2363,125 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Interrupt thumbnails creation</para>
+	      <para>Interrupt thumbnails creation.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>D
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Add the current location to the bookmarks.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>S</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Return</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Start/Stop slideshow</para>
+	      <para>View/Hide the browser.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>F</keycap></keycombo> ,
-		<keycombo><keycap>V</keycap></keycombo> ,
-		<keycombo><keycap>F11</keycap></keycombo> 
+	        <keycombo action="simul"><keycap>Q</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Full screen mode</para>
+	      <para>View/Hide the image properties pane.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>Return</keycap></keycombo>
+	        <keycombo action="simul"><keycap>q</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>View/Hide browser</para>
+	      <para>Change the image properties pane content or
+	      display the pane if it is not visible.</para> 
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>Q</keycap></keycombo>
+	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>1
+		</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>View/Hide image preview</para>
+	      <para>Set the image preview as the image properties pane
+	      content or hide the pane if this content type is already
+	      visible.</para> 
+	    </entry>
+            <entry>
+	      <para>no</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>2
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Set the image exif data as the image properties pane
+	      content or hide the pane if this content type is already
+	      visible.</para> 
+	    </entry>
+            <entry>
+	      <para>no</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>3
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Set the image comment as the image properties pane
+	      content or hide the pane if this content type is already
+	      visible.</para> 
+	    </entry>
+            <entry>
+	      <para>no</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>t</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide the thumbnails.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
@@ -2754,17 +2491,23 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Rename current image</para>
+	      <para>Rename the current image.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-		<keycombo><keycap>O</keycap></keycombo>
+		<keycombo><keycap>o</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Open selected files with an application</para>
+	      <para>Open the selected images with an application.</para>
+	    </entry>
+            <entry>
+	      <para>no</para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
@@ -2774,57 +2517,184 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Delete seleceted files</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>C</keycap></keycombo>
-	      </para>
+	      <para>Delete the seleceted images.</para>
 	    </entry>
             <entry>
-	      <para>Add a comment to selected images</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>K</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Assign categories to selected images</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>I</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View image properties (image name, size, EXIF data, etc.)</para>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	</tbody>
-     </tgroup>
-  </table>
+      </tgroup>
+      </table>
 
-  <para></para>
+  <para>
+  </para>
 
-  <table frame="topbot">
-    <title>Keyboard shortcuts available when the image is focused</title>
-    <tgroup cols="2" colsep="0" rowsep="0">
-      	<colspec colwidth="20.00*"/>
-	<colspec colwidth="20.00*"/>
+    <table id="gthumb-TBL-keyword-shortcuts-viewer" frame="topbot">
+    <title>Keyboard shortcuts to view images</title>
+    <tgroup cols="3" colsep="1" rowsep="1">
+      	<colspec colanme="COLSPEC0" colwidth="50*"/>
+	<colspec colanme="COLSPEC1" colwidth="50*"/>
+	<colspec colanme="COLSPEC2" colwidth="50*"/>
 	<thead>
-	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
-	    <entry><para>Description</para></entry>
+	  <row valign="top">
+	    <entry colname="COLSPEC0">
+              <para>Keyboard Shortcut</para></entry>
+	    <entry colname="COLSPEC1">
+              <para>Description</para></entry>
+	    <entry colname="COLSPEC2">
+              <para>Available in Fullscreen Mode</para></entry>
 	  </row>
 	</thead>
 	<tbody>
+	  <row valign="top">
+            <entry>
+	      <para>
+	        <keycombo><keycap>v</keycap></keycombo> or
+	        <keycombo><keycap>f</keycap></keycombo> or
+                <keycombo><keycap>F11</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Set/Unset the full screen mode.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>+</keycap></keycombo> or
+		<keycombo><keycap>=</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom in.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>-</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom out.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>1</keycap></keycombo> or
+		<keycombo><keycap>z</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Actual size.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>x</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>l</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Flip the image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>m</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Mirror the image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>r</keycap></keycombo> or
+	        <keycombo><keycap>]</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image clockwise of 90 degrees.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>[</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image counter-clockwise of 90 degrees.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>g</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop the animation</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>j</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View the next frame of a stopped animation.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
@@ -2832,7 +2702,10 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Scroll the image</para>
+	      <para>Scroll the image.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	  <row>
@@ -2843,23 +2716,88 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Scroll the image faster</para>
+	      <para>Scroll the image faster.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+   </table>
+
+  <para>
+  </para>
+
+  <table id="gthumb-TBL-keyword-shortcuts-other" frame="topbot">
+    <title>Other keyboard shortcuts.</title>
+    <tgroup cols="3" colsep="0" rowsep="0">
+      	<colspec colanme="COLSPEC0" colwidth="50*"/>
+	<colspec colanme="COLSPEC1" colwidth="50*"/>
+	<colspec colanme="COLSPEC2" colwidth="50*"/>
+	<thead>
+	  <row valign="top" rowsep="1">
+	    <entry colname="COLSPEC0">
+                <para>Keyboard Shortcut</para></entry>
+	    <entry colname="COLSPEC1">
+                <para>Description</para></entry>
+            <entry colname="COLSPEC2">
+                <para>Available in Fullscreen Mode</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row valign="top">
+            <entry>
+	      <para>
+		<keycombo><keycap>s</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop the slideshow.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>c</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Add a comment to the selected images.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>k</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Assign categories to the selected images.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
 	    </entry>
 	  </row>
 	</tbody>
      </tgroup>
   </table>
-
-  <para></para>
-
-  <table frame="topbot">
+  <para>
+  </para>
+  <table id="gthumb-TBL-keyword-shortcuts-fullscreen" frame="topbot">
     <title>Keyboard shortcuts available when in fullscreen mode</title>
     <tgroup cols="2" colsep="0" rowsep="0">
       	<colspec colwidth="20.00*"/>
 	<colspec colwidth="20.00*"/>
 	<thead>
 	  <row rowsep="1">
-	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Keyboard Shortcut</para></entry>
 	    <entry><para>Description</para></entry>
 	  </row>
 	</thead>
@@ -2867,221 +2805,20 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>Escape</keycap></keycombo> ,
-	      	<keycombo><keycap>F</keycap></keycombo> ,
-	      	<keycombo><keycap>V</keycap></keycombo> ,
-		<keycombo><keycap>F11</keycap></keycombo> ,
-		<keycombo><keycap>Q</keycap></keycombo>
+	        <keycombo><keycap>Escape</keycap></keycombo> or
+	      	<keycombo><keycap>f</keycap></keycombo> or
+	      	<keycombo><keycap>v</keycap></keycombo> or
+		<keycombo><keycap>F11</keycap></keycombo> or
+		<keycombo><keycap>q</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>
-	      <para>Exit fullscreen mode</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo><keycap>B</keycap></keycombo> ,
-		<keycombo><keycap>P</keycap></keycombo> ,
-		<keycombo><keycap>Backspace</keycap></keycombo> ,
-		<keycombo><keycap>Page Up</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show previous image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-	        <keycombo><keycap>Space</keycap></keycombo> ,
-		<keycombo><keycap>N</keycap></keycombo> ,
-		<keycombo><keycap>Page Down</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show next image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>Home</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show first image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>End</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Show last image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>+</keycap></keycombo> ,
-		<keycombo><keycap>=</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom in</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>-</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom out</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>Z</keycap></keycombo> ,
-		<keycombo><keycap>1</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Actual size</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>X</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Zoom to fit</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>S</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Start/Stop slideshow</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>G</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Start/Stop animation</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>J</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Step animation</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>L</keycap></keycombo> 
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Flip image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>R</keycap></keycombo> ,
-		<keycombo><keycap>]</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate image clockwise</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>[</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Rotate image counter-clockwise</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>M</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Mirror image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>C</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Edit current image comment</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>K</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Assign categories to current image</para>
-	    </entry>
-	  </row>
-	  <row>
-            <entry>
-	      <para>
-		<keycombo><keycap>I</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide image comment</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-		<keycombo><keycap>Delete</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>Delete current image</para>
+	      <para>Exit the fullscreen mode.</para>
 	    </entry>
 	  </row>
 	</tbody>
      </tgroup>
   </table>
-  <para>
-    Look in the menus for other shortcuts.
-  </para>
   </sect1>
 
 </article>

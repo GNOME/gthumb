@@ -1,4 +1,11 @@
+2003-10-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* doc/C/gthumb.xml: updated.
+
 2003-10-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-convert.c (load_current_image): notify files created and
+	deleted.
 
 	* doc/C/gthumb.xml: updated.
 
