@@ -1603,6 +1603,19 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/film</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/film</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/photo_importer/delete_from_camera</key>
 	<applyto>/apps/gthumb/dialogs/photo_importer/delete_from_camera</applyto>
 	<owner>gthumb</owner>

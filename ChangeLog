@@ -1,3 +1,20 @@
+2004-05-22  Paolo Bacchilega  <paolo@localhost.localdomain>
+
+	* src/gthumb-window.c (add_image_list_to_catalog): new function.
+	(image_list_drag_data_received): add images to the current catalog.
+
+	Fixes bug #142929
+
+	* data/glade/gthumb_comments.glade: Moved the "Selected Categories"
+	entry to the bottom.  Attempt to fix bug #142987
+
+2004-05-21  Paolo Bacchilega  <paolo@localhost.localdomain>
+
+	* src/dlg-photo-importer.c (get_folder_name): save the film name
+	(dlg_photo_importer): set the default film name
+
+	* data/gthumb.schemas.in: added film property
+
 2004-05-20  Paolo Bacchilega  <paolo@localhost.localdomain>
 
 	* src/gthumb-window.c (notify_files_deleted__step2) 

@@ -998,7 +998,8 @@ get_folder_name (DialogData *data)
 		strftime (time_txt, 50, "%Y-%m-%d--%H:%M:%S", tm);
 	
 		film_name = g_strdup (time_txt);
-	}
+	} else
+		eel_gconf_set_path (PREF_PHOTO_IMPORT_FILM, film_name);
 
 	path = g_build_filename (destination, film_name, NULL);
 	g_free (film_name);
@@ -1503,6 +1504,7 @@ dlg_photo_importer (GThumbWindow *window)
 	GtkWidget    *btn_ok, *btn_cancel;
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
+	char         *default_film_name;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -1600,6 +1602,10 @@ dlg_photo_importer (GThumbWindow *window)
 	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->destination_fileentry), default_path);
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->destination_entry), default_path);
 	g_free (default_path);
+
+	default_film_name = eel_gconf_get_path (PREF_PHOTO_IMPORT_FILM, "");
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->film_entry), default_film_name);
+	g_free (default_film_name);
 
 	task_terminated (data);
 

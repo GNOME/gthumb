@@ -172,6 +172,7 @@
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
 
 #define  PREF_PHOTO_IMPORT_DESTINATION "/apps/gthumb/dialogs/photo_importer/destination"
+#define  PREF_PHOTO_IMPORT_FILM        "/apps/gthumb/dialogs/photo_importer/film"
 #define  PREF_PHOTO_IMPORT_DELETE      "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
 #define  PREF_CROP_ASPECT_RATIO        "/apps/gthumb/dialogs/crop/aspect_ratio"

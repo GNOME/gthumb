@@ -3560,6 +3560,46 @@ move_items__continue (GnomeVFSResult result,
 }
 
 
+static void
+add_image_list_to_catalog (GThumbWindow *window,
+			   const char   *catalog_path, 
+			   GList        *list)
+{
+	Catalog *catalog;
+	GError  *gerror;
+
+	if ((catalog_path == NULL) || ! path_is_file (catalog_path)) 
+		return;
+	
+	catalog = catalog_new ();
+	
+	if (! catalog_load_from_disk (catalog, catalog_path, &gerror)) 
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
+	
+	else {
+		GList *scan;
+		GList *files_added = NULL;
+			
+		for (scan = list; scan; scan = scan->next) {
+			char *filename = scan->data;
+			if (path_is_file (filename)) {
+				catalog_add_item (catalog, filename);
+				files_added = g_list_prepend (files_added, filename);
+			}
+		}
+		
+		if (! catalog_write_to_disk (catalog, &gerror)) 
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
+		else 
+			all_windows_notify_cat_files_added (catalog_path, files_added);
+		
+		g_list_free (files_added);
+	}
+	
+	catalog_free (catalog);
+}
+
+
 static void  
 image_list_drag_data_received  (GtkWidget          *widget,
 				GdkDragContext     *context,
@@ -3571,10 +3611,8 @@ image_list_drag_data_received  (GtkWidget          *widget,
 				gpointer            extra_data)
 {
 	GThumbWindow *window = extra_data;
-	char         *dest_dir = NULL;
 
 	if (! ((data->length >= 0) && (data->format == 8))
-	    || (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 	    || (((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
 		&& ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE))) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
@@ -3583,18 +3621,24 @@ image_list_drag_data_received  (GtkWidget          *widget,
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
-	dest_dir = window->dir_list->path;
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+		char *dest_dir = window->dir_list->path;
+		if (dest_dir != NULL) {
+			GList *list;
+			list = get_file_list_from_url_list ((char*) data->data);
+			dlg_copy_items (window, 
+					list,
+					dest_dir,
+					((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
+					TRUE,
+					move_items__continue,
+					window);
+			path_list_free (list);
+		}
 
-	if (dest_dir != NULL) {
-		GList *list;
-		list = get_file_list_from_url_list ((char*) data->data);
-		dlg_copy_items (window, 
-				list,
-				dest_dir,
-				((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
-				TRUE,
-				move_items__continue,
-				window);
+	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		GList *list = get_file_list_from_url_list ((char*) data->data);
+		add_image_list_to_catalog (window, window->catalog_path, list);
 		path_list_free (list);
 	}
 }
@@ -3864,8 +3908,7 @@ catalog_list_drag_data_received  (GtkWidget          *widget,
 	GtkTreePath             *pos_path;
 	GtkTreeViewDropPosition  drop_pos;
 	int                      pos;
-	char                    *dest_catalog = NULL;
-	const char              *current_catalog;
+	char                    *catalog_path = NULL;
 
 	if (! ((data->length >= 0) && (data->format == 8))) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
@@ -3887,53 +3930,18 @@ catalog_list_drag_data_received  (GtkWidget          *widget,
 	} else
 		pos = -1;
 	
-	current_catalog = window->catalog_path;
-	
 	if (pos == -1) {
-		if (current_catalog != NULL)
-			dest_catalog = g_strdup (current_catalog);
+		if (window->catalog_path != NULL)
+			catalog_path = g_strdup (window->catalog_path);
 	} else
-		dest_catalog = catalog_list_get_path_from_row (window->catalog_list, pos);
+		catalog_path = catalog_list_get_path_from_row (window->catalog_list, pos);
 	
-	/**/
-	
-	if (path_is_file (dest_catalog)) {
-		GList   *list;
-		Catalog *catalog;
-		GError  *gerror;
-		
-		list = get_file_list_from_url_list ((char*) data->data);
-		
-		catalog = catalog_new ();
-		
-		if (! catalog_load_from_disk (catalog, dest_catalog, &gerror)) 
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-		
-		else {
-			GList    *scan;
-			GList    *files_added = NULL;
-			
-			for (scan = list; scan; scan = scan->next) {
-				char *filename = scan->data;
-				if (path_is_file (filename)) {
-					catalog_add_item (catalog, filename);
-					files_added = g_list_prepend (files_added, filename);
-				}
-			}
-			
-			if (! catalog_write_to_disk (catalog, &gerror)) 
-				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-			else 
-				all_windows_notify_cat_files_added (dest_catalog, files_added);
-			
-			g_list_free (files_added);
-		}
-
-		catalog_free (catalog);
+	if (catalog_path != NULL) {
+		GList *list = get_file_list_from_url_list ((char*) data->data);
+		add_image_list_to_catalog (window, catalog_path, list);
 		path_list_free (list);
+		g_free (catalog_path);
 	}
-	
-	g_free (dest_catalog);
 }
 
 
