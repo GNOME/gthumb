@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-12-10 19:37+EDT\n"
+"PO-Revision-Date: 2002-12-12 15:53+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -1138,7 +1138,7 @@ msgstr "የፋይል ስም (_N)"
 
 #: src/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
-msgstr "የፋይል መንገድ (_T)"
+msgstr "የፋይል መተላለፊያ (_T)"
 
 #: src/gthumb_png_exporter.glade.h:33 src/gthumb_tools.glade.h:29
 msgid "File si_ze"
