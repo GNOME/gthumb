@@ -1,3 +1,10 @@
+2004-04-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (path_is_dir): remove the warning.
+
+	* libgthumb/comments.c (save_comment): unescaped comment filename
+	before saving. Patch by Matthew West (gnomebugzilla@matthewwest.co.uk)
+
 2004-04-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/fullscreen.c (create_popup_window): added zoom buttons to the 

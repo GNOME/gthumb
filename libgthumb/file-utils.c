@@ -572,8 +572,6 @@ path_is_dir (const char *path)
 	is_dir = FALSE;
 	if (result == GNOME_VFS_OK)
 		is_dir = (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY);
-	else
-		g_warning ("%s: %s\n", path, gnome_vfs_result_to_string (result));
 
 	g_free (escaped);
 	gnome_vfs_file_info_unref (info);

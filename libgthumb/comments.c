@@ -620,7 +620,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (filename, TRUE, FALSE);
+	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 
 	dest_dir = remove_level_from_path (comment_file);
 
