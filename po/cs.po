@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-14 13:25+0200\n"
-"PO-Revision-Date: 2003-06-14 17:02+0200\n"
+"PO-Revision-Date: 2003-06-17 20:08+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -216,11 +216,11 @@ msgstr "Nelze uložit katalog \"%s\": %s"
 
 #: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
-msgstr "Odstraňují se všechny komentáře, prosím počkejte..."
+msgstr "Odstraňuji všechny komentáře, prosím počkejte..."
 
 #: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
-msgstr "Odstraňují se staré komentáře, prosím počkejte..."
+msgstr "Odstraňuji staré komentáře, prosím počkejte..."
 
 #: libgthumb/comments.c:746
 msgid "%d %B %Y"
@@ -378,21 +378,21 @@ msgstr "Tisknout obrázek"
 
 #: libgthumb/thumb-cache.c:409
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Odstraňují se všechny miniatury, prosím počkejte..."
+msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 
 #: libgthumb/thumb-cache.c:411
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Odstraňují se staré miniatury, prosím počkejte..."
+msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
 #: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
-msgstr "Načítá se obrázek: %s"
+msgstr "Načítám obrázek: %s"
 
 #: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
-msgstr "Vytváří se obrázek: %s.%s"
+msgstr "Vytvářím obrázek: %s.%s"
 
 #: src/catalog-web-exporter.c:1153
 msgid "Saving thumbnails"
@@ -426,7 +426,7 @@ msgstr "Zadejte nový název: "
 #: src/commands-impl.c:278 src/commands-impl.c:1014 src/commands-impl.c:1576
 #: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
 msgid "_Rename"
-msgstr "Přej_menovat"
+msgstr "_Přejmenovat"
 
 #: src/commands-impl.c:292 src/commands-impl.c:916 src/commands-impl.c:1028
 #: src/commands-impl.c:1592 src/commands-impl.c:1687
@@ -626,7 +626,7 @@ msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
 #: src/dlg-convert.c:158
 #, c-format
 msgid "Converting image: %s"
-msgstr "Převádí se obrázek: %s"
+msgstr "Převádím obrázek: %s"
 
 #: src/dlg-convert.c:181
 #, c-format
@@ -725,26 +725,26 @@ msgstr "_Pokračovat"
 #: src/dlg-file-utils.c:1335
 #, c-format
 msgid "Copying file %d of %d"
-msgstr "Kopíruje se %d. soubor ze %d"
+msgstr "Kopíruji %d. soubor ze %d"
 
 #: src/dlg-file-utils.c:1718 src/dlg-file-utils.c:1904
 msgid "Collecting images info"
-msgstr "Zjišťují se informace o obrázcích"
+msgstr "Zjišťuji informace o obrázcích"
 
 #: src/dlg-file-utils.c:1721 src/dlg-file-utils.c:1917
 #, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "Odstraňuje se %ld. soubor ze %ld"
+msgstr "Odstraňuji %ld. soubor ze %ld"
 
 #: src/dlg-file-utils.c:1907
 #, c-format
 msgid "Copying file %ld of %ld"
-msgstr "Kopíruje se %ld. soubor ze %ld"
+msgstr "Kopíruji %ld. soubor ze %ld"
 
 #: src/dlg-file-utils.c:1912
 #, c-format
 msgid "Moving file %ld of %ld"
-msgstr "Přesunuje se %ld. soubor ze %ld"
+msgstr "Přesouvám %ld. soubor ze %ld"
 
 #: src/dlg-image-prop.c:841 src/gthumb-window.c:431
 msgid "Size"
@@ -841,7 +841,7 @@ msgstr "Zpět"
 
 #: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
 msgid "Forward"
-msgstr "Dopředu"
+msgstr "Vpřed"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
@@ -950,7 +950,7 @@ msgstr "Zavřít toto okno"
 
 #: src/gthumb-ui.xml.h:24 src/gthumb.glade.h:12
 msgid "Comm_ent"
-msgstr "Kom_entář"
+msgstr "Komen_tář"
 
 #: src/gthumb-ui.xml.h:26
 msgid "Convert"
@@ -958,7 +958,7 @@ msgstr "Převést"
 
 #: src/gthumb-ui.xml.h:27
 msgid "Convert F_ormat"
-msgstr "Převést f_ormát"
+msgstr "Převést _formát"
 
 #: src/gthumb-ui.xml.h:28
 msgid "Convert image format"
@@ -1010,7 +1010,7 @@ msgstr "Oříznout obrázek"
 
 #: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
-msgstr "D_uplikovat"
+msgstr "_Duplikovat"
 
 #: src/gthumb-ui.xml.h:41
 msgid "Delete the list of visited locations"
@@ -1042,11 +1042,11 @@ msgstr "Upravit různá nastavení"
 
 #: src/gthumb-ui.xml.h:48
 msgid "Fi_nd Duplicates..."
-msgstr "_Najít duplikáty..."
+msgstr "_Hledat d_uplikáty..."
 
 #: src/gthumb-ui.xml.h:49
 msgid "Find images"
-msgstr "Najít obrázky"
+msgstr "Hledat obrázky"
 
 #: src/gthumb-ui.xml.h:50
 msgid "Fit"
@@ -1408,7 +1408,7 @@ msgstr "Přestat s načítáním tohoto místa"
 
 #: src/gthumb-ui.xml.h:146
 msgid "Str_etched"
-msgstr "Roztaž_ený"
+msgstr "_Roztažený"
 
 #: src/gthumb-ui.xml.h:147
 msgid "Transparen_cy Type"
@@ -1556,7 +1556,7 @@ msgstr "_Skutečná velikost"
 
 #: src/gthumb-ui.xml.h:184
 msgid "_Add Bookmark"
-msgstr "Přid_at záložku"
+msgstr "_Přidat záložku"
 
 #: src/gthumb-ui.xml.h:185
 msgid "_Add to Catalog..."
@@ -1564,7 +1564,7 @@ msgstr "Přid_at do katalogu..."
 
 #: src/gthumb-ui.xml.h:186
 msgid "_Adjust Color Levels"
-msgstr "Upr_avit barevné vyvážení"
+msgstr "_Upravit barevné vyvážení"
 
 #: src/gthumb-ui.xml.h:187
 msgid "_Back"
@@ -1584,7 +1584,7 @@ msgstr "Katalo_gy"
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Centered"
-msgstr "Na stře_d"
+msgstr "_Na střed"
 
 #: src/gthumb-ui.xml.h:194
 msgid "_Close"
@@ -1620,7 +1620,7 @@ msgstr "Ú_pravy"
 
 #: src/gthumb-ui.xml.h:202
 msgid "_Edit Bookmarks"
-msgstr "U_pravit záložky"
+msgstr "_Upravit záložky"
 
 #: src/gthumb-ui.xml.h:203 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
@@ -1636,7 +1636,7 @@ msgstr "_Soubor"
 
 #: src/gthumb-ui.xml.h:206
 msgid "_Find..."
-msgstr "_Najít..."
+msgstr "_Hledat..."
 
 #: src/gthumb-ui.xml.h:208
 msgid "_Folder"
@@ -1648,7 +1648,7 @@ msgstr "_Adresáře"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Forward"
-msgstr "_Dopředu"
+msgstr "_Vpřed"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Full Screen"
@@ -1756,11 +1756,11 @@ msgstr "Z_měnit velikost"
 
 #: src/gthumb-ui.xml.h:241
 msgid "_Restore"
-msgstr "O_bnovit"
+msgstr "_Obnovit"
 
 #: src/gthumb-ui.xml.h:242
 msgid "_Reversed Order"
-msgstr "O_brácené pořadí"
+msgstr "_Obrácené pořadí"
 
 #: src/gthumb-ui.xml.h:243
 msgid "_Revert"
@@ -1772,7 +1772,7 @@ msgstr "_Otočit"
 
 #: src/gthumb-ui.xml.h:245
 msgid "_Scaled"
-msgstr "Přizpů_sobený"
+msgstr "_Přizpůsobený"
 
 #: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:29
 msgid "_Search"
@@ -2052,7 +2052,7 @@ msgstr "_Dostupné kategorie:"
 
 #: src/gthumb_comments.glade.h:4 src/gthumb_tools.glade.h:10
 msgid "C_urrent date"
-msgstr "Dnešní dat_um"
+msgstr "_Dnešní datum"
 
 #: src/gthumb_comments.glade.h:6
 msgid "Choose Date"
@@ -2072,7 +2072,7 @@ msgstr "Dnešní datum"
 
 #: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
-msgstr "Datum vytvoření ob_rázku"
+msgstr "Datum _vytvoření obrázku"
 
 #: src/gthumb_comments.glade.h:12
 msgid "Image creation date"
@@ -2112,11 +2112,11 @@ msgstr "_Datum:"
 
 #: src/gthumb_comments.glade.h:21
 msgid "_Delete"
-msgstr "O_dstranit"
+msgstr "_Odstranit"
 
 #: src/gthumb_comments.glade.h:22
 msgid "_New"
-msgstr "_Nový"
+msgstr "_Nové"
 
 #: src/gthumb_comments.glade.h:23
 msgid "_No date"
@@ -2180,7 +2180,7 @@ msgstr "Volby PNG"
 
 #: src/gthumb_convert.glade.h:15
 msgid "R_emove original"
-msgstr "Odstr_anit originál"
+msgstr "_Odstranit originál"
 
 #: src/gthumb_convert.glade.h:16
 msgid "Rename"
@@ -2475,7 +2475,7 @@ msgstr "Vytvořit obrázkové mapy v _HTML"
 
 #: src/gthumb_png_exporter.glade.h:29
 msgid "F_ooter:"
-msgstr "_Zápatí:"
+msgstr "Zá_patí:"
 
 #: src/gthumb_png_exporter.glade.h:30
 msgid "File _name"
@@ -2499,7 +2499,7 @@ msgstr "_Barva rámu:"
 
 #: src/gthumb_png_exporter.glade.h:35
 msgid "H_eader:"
-msgstr "Záhl_aví:"
+msgstr "Zá_hlaví:"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Header/Footer"
@@ -2531,7 +2531,7 @@ msgstr "Pi_xely"
 
 #: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:16
 msgid "Re_verse order"
-msgstr "Obrá_cené pořadí"
+msgstr "_Obrácené pořadí"
 
 #: src/gthumb_png_exporter.glade.h:44
 msgid "Rows a_nd columns"
@@ -2737,11 +2737,11 @@ msgstr "Aktivovat položky jedním kliknutím"
 
 #: src/gthumb_preferences.glade.h:24
 msgid "After _loading an image:"
-msgstr "Po načtení o_brázku:"
+msgstr "Po načtení _obrázku:"
 
 #: src/gthumb_preferences.glade.h:25
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Vyžádat potvrzení před smazáním obráz_ků nebo katalogů"
+msgstr "Vyžádat _potvrzení před odstraněním obrázků nebo katalogů"
 
 #: src/gthumb_preferences.glade.h:26
 msgid "Black"
@@ -2765,7 +2765,7 @@ msgstr "Ko_mentáře"
 
 #: src/gthumb_preferences.glade.h:31
 msgid "D_elay before changing image:"
-msgstr "Prodl_eva před změnou obrázku:"
+msgstr "_Prodleva před změnou obrázku:"
 
 #: src/gthumb_preferences.glade.h:32
 msgid "D_etermine image type from content (slower)"
@@ -2789,7 +2789,7 @@ msgstr "Převzít chování prohlížeče Nautilus"
 
 #: src/gthumb_preferences.glade.h:37
 msgid "For_ward"
-msgstr "_Dopředu"
+msgstr "_Vpřed"
 
 #: src/gthumb_preferences.glade.h:38
 msgid "General"
@@ -2805,7 +2805,7 @@ msgstr "Pře_jít do tohoto adresáře:"
 
 #: src/gthumb_preferences.glade.h:41
 msgid "H_igh"
-msgstr "V_ysoká"
+msgstr "_Vysoká"
 
 #: src/gthumb_preferences.glade.h:42
 msgid "Icons only"
@@ -2821,7 +2821,7 @@ msgstr "Rozvržení:"
 
 #: src/gthumb_preferences.glade.h:45
 msgid "Lo_w"
-msgstr "Ní_zká"
+msgstr "Níz_ká"
 
 #: src/gthumb_preferences.glade.h:46
 msgid "None"
@@ -2829,7 +2829,7 @@ msgstr "Žádná"
 
 #: src/gthumb_preferences.glade.h:47
 msgid "Re_verse"
-msgstr "_Obrácený"
+msgstr "_Obráceně"
 
 #: src/gthumb_preferences.glade.h:48
 msgid "Resta_rt when finished"
@@ -2893,7 +2893,7 @@ msgstr "Sním_ky"
 
 #: src/gthumb_preferences.glade.h:65
 msgid "_Toolbar style:"
-msgstr "S_tyl lišty:"
+msgstr "_Styl lišty:"
 
 #: src/gthumb_preferences.glade.h:66
 msgid "gThumb Preferences"
@@ -2989,11 +2989,11 @@ msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
-msgstr "<b>Vyhledávací podmínky</b>"
+msgstr "<b>Podmínky hledání</b>"
 
 #: src/gthumb_search.glade.h:4
 msgid "<b>Search scope</b>"
-msgstr "<b>Rozsah prohledávání</b>"
+msgstr "<b>Rozsah hledání</b>"
 
 #: src/gthumb_search.glade.h:6
 msgid "After"
@@ -3025,7 +3025,7 @@ msgstr "_Název souboru:"
 
 #: src/gthumb_search.glade.h:15
 msgid "Find"
-msgstr "Najít"
+msgstr "Hledat"
 
 #: src/gthumb_search.glade.h:16
 msgid "Found images:"
@@ -3053,7 +3053,7 @@ msgstr "Průběh vyhledávání"
 
 #: src/gthumb_search.glade.h:22 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
-msgstr "Hledá se v:"
+msgstr "Hledám v:"
 
 #: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
@@ -3137,7 +3137,7 @@ msgstr "Shodné obrázky:"
 
 #: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
-msgstr "Najít duplikáty"
+msgstr "Hledat duplikáty"
 
 #: src/gthumb_tools.glade.h:24
 msgid "Found duplicates:"
@@ -3161,11 +3161,11 @@ msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
 
 #: src/gthumb_tools.glade.h:31
 msgid "New names _preview:"
-msgstr "Ná_hled nových názvů:"
+msgstr "_Náhled nových názvů:"
 
 #: src/gthumb_tools.glade.h:33
 msgid "Re_verse Order"
-msgstr "O_brácené pořadí"
+msgstr "_Obrácené pořadí"
 
 #: src/gthumb_tools.glade.h:34
 msgid "Rename Series"
@@ -3199,7 +3199,7 @@ msgid ""
 msgstr ""
 "Použijte znaky # pro určení pozic používaných číslováním. Použijte * pro "
 "vložení původního názvu souboru. Použijte ? pro vložení data obrázku. "
-"Použijte ! pro vložení velikost obrázku"
+"Použijte ! pro vložení velikosti obrázku"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3255,7 +3255,7 @@ msgstr "<b>Téma</b>"
 
 #: src/gthumb_web_exporter.glade.h:15
 msgid "Inde_x file:"
-msgstr "Soubor s inde_xem:"
+msgstr "Soubor s _indexem:"
 
 #: src/gthumb_web_exporter.glade.h:17
 msgid "Resi_ze images if larger than:"
@@ -3319,7 +3319,7 @@ msgstr "Dovolená"
 
 #: src/main.c:162
 msgid "Temporary"
-msgstr "Dočasný"
+msgstr "Dočasné"
 
 #: src/main.c:163
 msgid "Screenshots"
