@@ -76,7 +76,7 @@ get_status (ImageViewer *viewer,
 	    const char  *location)
 {
 	char       *text;
-	char        time_txt[50];
+	char        time_txt[50], *utf8_time_txt;
 	char       *size_txt;
 	char       *file_size_txt;
 	char       *escaped_name;
@@ -88,6 +88,7 @@ get_status (ImageViewer *viewer,
 	timer = get_uri_mtime (location);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %b %Y, %H:%M"), tm);
+	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 
 	utf8_name = g_locale_to_utf8 (file_name_from_path (location), -1, 
 				      0, 0, 0);
@@ -104,8 +105,9 @@ get_status (ImageViewer *viewer,
 	text = g_strdup_printf ("%s - %s - %s",
 				size_txt,
 				file_size_txt,
-				time_txt);
+				utf8_time_txt);
 
+	g_free (utf8_time_txt);
 	g_free (utf8_name);
 	g_free (escaped_name);
 	g_free (size_txt);

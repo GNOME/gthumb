@@ -753,9 +753,11 @@ comments_get_comment_as_string (CommentData *data,
 {
 	char      *as_string = NULL;
 	char       time_txt[50];
+	char      *utf8_time_txt = NULL;
 	struct tm *tm;
 
-	if (data == NULL) return NULL;
+	if (data == NULL) 
+		return NULL;
  
 	if (data->time != 0) {
 		tm = localtime (& data->time);
@@ -763,8 +765,8 @@ comments_get_comment_as_string (CommentData *data,
 			strftime (time_txt, 50, _("%d %B %Y"), tm);
 		else
 			strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
-	} else
-		time_txt[0] = 0;
+		utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
+	} 
 
 	if ((data->comment == NULL) 
 	    && (data->place == NULL) 
@@ -791,12 +793,14 @@ comments_get_comment_as_string (CommentData *data,
 		if ((data->place != NULL) && (*time_txt != 0))
 			g_string_append (comment, sep2);
 
-		if (*time_txt != 0) 
-			g_string_append (comment, time_txt);
+		if (utf8_time_txt != NULL) 
+			g_string_append (comment, utf8_time_txt);
 
 		as_string = comment->str;
 		g_string_free (comment, FALSE);
 	}
+
+	g_free (utf8_time_txt);
 
 	return as_string;
 }

@@ -1,3 +1,20 @@
+2004-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/comments.c (comments_get_comment_as_string): 
+	* src/gthumb-window.c (window_update_statusbar_image_info): 
+	* src/gth-exif-data-viewer.c (update_file_info): 
+	* src/fullscreen.c (get_file_info): 
+	* src/dlg-duplicates.c (images_selection_changed_cb): 
+	* components/image-viewer/viewer-stream.c (get_status): 
+
+	Fix bug  #126292 (Date shows badly if locale charset is not utf8). 
+	Patch by Egmont Koblinger.
+
+2003-12-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-loader.c (image_loader_sync_pixbuf): assign pixbuf
+	inside the lock.
+
 2003-12-23  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/jpegutils/Makefile.am (noinst_LTLIBRARIES): 

@@ -428,7 +428,7 @@ update_file_info (GthExifDataViewer *edv)
 	char              *size_txt;
 	time_t             mtime;
 	struct tm         *tm;
-	char               time_txt[50];
+	char               time_txt[50], *utf8_time_txt;
 	double             sec;
 	GnomeVFSFileSize   file_size;
 	char              *file_size_txt;
@@ -452,6 +452,7 @@ update_file_info (GthExifDataViewer *edv)
 	mtime = get_file_mtime (edv->priv->path);
 	tm = localtime (&mtime);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 	sec = g_timer_elapsed (image_loader_get_timer (edv->priv->viewer->loader),  NULL);
 		
 	file_size = get_file_size (edv->priv->path);
@@ -483,12 +484,13 @@ update_file_info (GthExifDataViewer *edv)
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("Modified"),
-			    VALUE_COLUMN, time_txt,
+			    VALUE_COLUMN, utf8_time_txt,
 			    POS_COLUMN, -1,
 			    -1);
 
 	/**/
 
+	g_free (utf8_time_txt);
 	g_free (utf8_name);
 	g_free (size_txt);
 	g_free (file_size_txt);

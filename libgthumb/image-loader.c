@@ -389,16 +389,18 @@ image_loader_sync_pixbuf (ImageLoader *il)
 
 	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
 
-	g_mutex_unlock (priv->yes_or_no);
-
-	if (priv->pixbuf == pixbuf)
+	if (priv->pixbuf == pixbuf) {
+		g_mutex_unlock (priv->yes_or_no);
 		return;
+	}
 		
 	if (pixbuf != NULL) 
 		g_object_ref (pixbuf);
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
      	priv->pixbuf = pixbuf;
+
+	g_mutex_unlock (priv->yes_or_no);
 }
 
 
@@ -429,18 +431,20 @@ image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
 			priv->animation = NULL;
 	}
 
-	g_mutex_unlock (priv->yes_or_no);
-
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (pb_loader);
 
-	if (priv->pixbuf == pixbuf)
+	if (priv->pixbuf == pixbuf) {
+		g_mutex_unlock (priv->yes_or_no);
 		return;
+	}
 		
 	if (pixbuf != NULL) 
 		g_object_ref (pixbuf);
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
      	priv->pixbuf = pixbuf;
+
+	g_mutex_unlock (priv->yes_or_no);
 }
 
 
