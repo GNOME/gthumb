@@ -1,10 +1,15 @@
 2004-09-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/preferences.c (pref_util_restore_window_geometry): 
+
+	Do not restore the position, let the WM place the dialog where it
+	likes.
+	
 	* src/dlg-comment.c (dlg_comment_new): 
 	* src/dlg-categories.c (dlg_categories_common): 
 	* libgthumb/preferences.h: 
 	* libgthumb/preferences.c (pref_util_restore_window_geometry) 
-	(pref_util_save_window_geometry): 
+	(pref_util_save_window_geometry):
 
 	Save the geometry of the comment and categories dialogs.
 	

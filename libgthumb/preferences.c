@@ -643,8 +643,9 @@ pref_util_restore_window_geometry (GtkWindow  *window,
 
 	gtk_window_present (window);
 
+	/*
 	if (x != -1 && y != 1)
 		gtk_window_move (window, x, y);
-
 	gtk_window_present (window);
+	*/
 }
