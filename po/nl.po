@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-10-02 12:22+0200\n"
-"PO-Revision-Date: 2003-10-02 21:40+0200\n"
+"POT-Creation-Date: 2003-10-01 20:19+0200\n"
+"PO-Revision-Date: 2003-10-02 02:03+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -3650,27 +3650,3 @@ msgstr "Familie"
 #: src/main.c:312 src/main.c:394
 msgid "Command Line"
 msgstr "Opdrachtregel"
-
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "GConf fout:\n"
-#~ "  %s"
-
-#, fuzzy
-#~ msgid "Transparen_cy Type"
-#~ msgstr "T_ype transparantie"
-
-# weergeven als catalogus
-#, fuzzy
-#~ msgid "View as List"
-#~ msgstr "Bekijken als catalogus"
-
-#, fuzzy
-#~ msgid "View as Thumbnails"
-#~ msgstr "Voorbeelden bekijken"
-
-#, fuzzy
-#~ msgid "_Title:"
-#~ msgstr "Titel"
