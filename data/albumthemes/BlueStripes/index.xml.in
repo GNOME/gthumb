@@ -1,5 +1,5 @@
-<gthumb:set_var thumbnail_width=185 thumbnail_height=146/>
-<gthumb:set_var preview_width=600 preview_height=400/>
+<gthumb:set_var thumbnail_width="185" thumbnail_height="146"/>
+<gthumb:set_var preview_width="600" preview_height="400"/>
 
 <html>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -69,10 +69,12 @@
       <gthumb:table/>
     </table>
 
-    &nbsp;
+    &nbsp;<br>
+    &nbsp;<br>
+    &nbsp;<br>
 
     <center>
-      <img src="white-dot.png" width="100%" height=2>
+      <!-- <img src="white-dot.png" width="100%" height=2> -->
       <span class=copyright>
          <gthumb:footer/>
       </span>

@@ -255,10 +255,12 @@
           <gthumb:end/>
     </table>
 
-    &nbsp;
+    &nbsp;<br>
+    &nbsp;<br>
+    &nbsp;<br>
 
     <center>
-      <img src="white-dot.png" width="100%" height=2>
+      <!-- <img src="white-dot.png" width="100%" height=2> -->
       <span class=copyright>
          <gthumb:footer/>
       </span>

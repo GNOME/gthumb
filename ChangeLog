@@ -1,3 +1,7 @@
+2003-11-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.9 released ]
+
 2003-11-11  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/image-loader.c: do not use the private uri outside the 

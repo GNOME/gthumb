@@ -314,13 +314,11 @@
 
 	&nbsp;<BR>
 	&nbsp;<BR>
+	&nbsp;<BR>
 
 	<!-- Navigation Bar -->
 
 	<table align="center" border=0 cellspacing=0 width="100%">
-	  <tr>
-	    <td bgcolor="#969696">
-	      <img src="1.gif" height="1" border="0"></td></tr>
 	  <tr>
 	    <td align="center">
               <span class=copyright><gthumb:footer/></span></td></tr>

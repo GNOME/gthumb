@@ -64,9 +64,10 @@
     </table>
 
     &nbsp;
+    &nbsp;
+    &nbsp;
 
     <!-- Copyright -->
-    <hr noshade size=1 width=95%>
     <center>
       <span class=copyright>
          <gthumb:footer/>

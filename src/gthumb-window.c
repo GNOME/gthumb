@@ -7275,7 +7275,7 @@ notify_files_added__step2 (gpointer data)
 	window_update_statusbar_list_info (window);
 	window_update_infobar (window);
 
-	/* select the current image. FIXME */
+	/* select the current image. FIXME
 
 	if (window->image_path != NULL) {
 		int pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
@@ -7286,6 +7286,8 @@ notify_files_added__step2 (gpointer data)
 			window_make_current_image_visible (window);
 		}
 	}
+
+	*/
 }
 
 
