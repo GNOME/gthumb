@@ -47,6 +47,7 @@ typedef struct {
 
 	GtkWidget     *dialog;
 	GtkWidget     *wtc_folder_radiobutton;
+	GtkWidget     *wtc_catalog_radiobutton;
 	GtkWidget     *wtc_selection_radiobutton;
 } DialogData;
 
@@ -75,10 +76,14 @@ write_to_cd__continue (GnomeVFSResult  result,
 				       "%s %s",
 				       _("Could not move the items:"), 
 				       gnome_vfs_result_to_string (result));
+
 	else {
-		GError *err = NULL;
-		if (! gnome_url_show ("burn:///", &err))
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &err);
+		exec_command ("nautilus --no-default-window --no-desktop --browser burn://", NULL);
+		/*
+		  GError *err = NULL;
+		  if (! gnome_url_show ("burn:///", &err))
+		  _gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &err);
+		*/
 	}
 
 	gtk_widget_destroy (data->dialog);
@@ -99,7 +104,20 @@ ok_clicked_cb (GtkWidget  *widget,
 				TRUE,
 				write_to_cd__continue,
 				data);
-	else {
+
+	else if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		GList *file_list = gth_file_list_get_all (data->window->file_list);
+		dlg_copy_items (data->window, 
+				file_list,
+				"burn:///",
+				FALSE,
+				TRUE,
+				TRUE,
+				write_to_cd__continue,
+				data);
+		path_list_free (file_list);
+
+	} else {
 		char *dest_folder = g_build_filename ("burn:///", file_name_from_path (data->current_folder), NULL);
 		dlg_folder_copy (data->window,
 				 data->current_folder,
@@ -138,12 +156,23 @@ dlg_write_to_cd (GThumbWindow *window)
 
 	data->dialog = glade_xml_get_widget (data->gui, "write_to_cd_dialog");
 	data->wtc_folder_radiobutton = glade_xml_get_widget (data->gui, "wtc_folder_radiobutton");
+	data->wtc_catalog_radiobutton = glade_xml_get_widget (data->gui, "wtc_catalog_radiobutton");
 	data->wtc_selection_radiobutton = glade_xml_get_widget (data->gui, "wtc_selection_radiobutton");
 
         btn_ok = glade_xml_get_widget (data->gui, "wtc_okbutton");
         btn_cancel = glade_xml_get_widget (data->gui, "wtc_cancelbutton");
 
 	/* Set widgets data. */
+
+	if (data->window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+		gtk_widget_show (data->wtc_folder_radiobutton);
+	else
+		gtk_widget_hide (data->wtc_folder_radiobutton);
+
+	if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+		gtk_widget_show (data->wtc_catalog_radiobutton);
+	else
+		gtk_widget_hide (data->wtc_catalog_radiobutton);
 
 	gtk_widget_set_sensitive (data->wtc_selection_radiobutton, data->file_list != NULL);
 

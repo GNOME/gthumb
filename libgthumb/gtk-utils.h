@@ -89,4 +89,7 @@ void        _gtk_label_set_filename_text (GtkLabel   *label,
 
 char *      _gtk_label_get_filename_text (GtkLabel   *label);
 
+gboolean    exec_command                 (const char *application, 
+					  GList      *file_list);
+
 #endif /* _GTK_UTILS_H */

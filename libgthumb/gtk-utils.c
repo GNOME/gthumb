@@ -24,6 +24,7 @@
 #include <libgnome/libgnome.h>
 #include <gtk/gtk.h>
 #include "gconf-utils.h"
+#include "file-utils.h"
 
 
 #define REQUEST_ENTRY_WIDTH 220
@@ -668,4 +669,35 @@ _gtk_label_get_filename_text (GtkLabel   *label)
 	text = g_filename_from_utf8 (utf8_text, -1, NULL, NULL, NULL);
 
 	return text;
+}
+
+
+gboolean
+exec_command (const char *application, 
+	      GList      *file_list)
+{
+        GString *command;
+        GList   *scan;
+	GError  *err = NULL;
+	gboolean error;
+
+	command = g_string_new ("");
+	g_string_append (command, application);
+        for (scan = file_list; scan; scan = scan->next) {
+		char *filename = scan->data;
+		char *e_filename;
+
+		g_string_append_c (command, ' ');
+		e_filename = shell_escape (filename);
+		g_string_append (command, e_filename);
+
+		g_free (e_filename);
+        }
+
+	error = (! g_spawn_command_line_async (command->str, &err) || (err != NULL));
+	if (error)
+		_gtk_error_dialog_from_gerror_run (NULL, &err);
+	g_string_free (command, TRUE);
+
+	return ! error;
 }

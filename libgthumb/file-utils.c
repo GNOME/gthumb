@@ -1736,3 +1736,4 @@ is_mime_type_writable (const char *mime_type)
 	
 	return FALSE;
 }
+

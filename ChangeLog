@@ -1,3 +1,12 @@
+2004-09-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_tools.glade: 
+	* libgthumb/gtk-utils.c (exec_command): 
+	* src/dlg-write-to-cd.c (write_to_cd__continue, ok_clicked_cb): 
+	* src/dlg-open-with.c (open_cb): 
+
+	Allow to burn the current catalog.
+	
 2004-09-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/image-loader.c (image_loader_set_pixbuf): get the private 

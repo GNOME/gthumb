@@ -1998,7 +1998,7 @@
         <para>
           If you check both the <guilabel>Adjust photo orientation</guilabel>
 	  and the <guilabel>Apply to all images</guilabel> options, all the
-	  images will be rotated by the value in the photo orientation data.
+	  images will be rotated by the value in each photo orientation data.
         </para>
       </note>
       <note>
