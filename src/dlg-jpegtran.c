@@ -301,7 +301,12 @@ apply_tran (DialogData *data,
 
 	if (err != NULL) {
 		_gtk_error_dialog_from_gerror_run (parent, &err);
-		return;
+	} else {
+		GList *list;
+
+		list = g_list_prepend (NULL, fd->path);
+		all_windows_notify_files_changed (list);
+		g_list_free (list);
 	}
 }
 

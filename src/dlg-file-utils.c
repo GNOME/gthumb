@@ -954,6 +954,7 @@ typedef struct {
 	GList               *file_list;
 	GList               *current_file;
 	GList               *copied_list;
+	GList               *created_list;
 	char                *destination;
 	gboolean             remove_source;
 	gboolean             copy_cache;
@@ -994,8 +995,11 @@ file_copy_data_free (FileCopyData *fcdata)
 
 	gtk_widget_destroy (fcdata->progress_dialog);
 	g_object_unref (fcdata->gui);
+
 	path_list_free (fcdata->file_list);
 	g_list_free (fcdata->copied_list);
+	path_list_free (fcdata->created_list);
+
 	g_free (fcdata->destination);
 	g_free (fcdata);
 }
@@ -1102,9 +1106,19 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 		if (fcdata->result == GNOME_VFS_OK) {
-			if (! fcdata->cache_copied) /* do not notify cache data. */
-				fcdata->copied_list = g_list_prepend (fcdata->copied_list, fcdata->current_file->data);
-			copy_next_file (fcdata);
+			if (! fcdata->cache_copied) { /* do not notify cache data. */
+				char *src_file;
+				char *dest_file;
+
+				src_file = fcdata->current_file->data;
+				dest_file = g_build_path ("/",
+							  fcdata->destination, 
+							  file_name_from_path (src_file),
+							  NULL);
+				fcdata->copied_list = g_list_prepend (fcdata->copied_list, src_file);
+				fcdata->created_list = g_list_prepend (fcdata->created_list, dest_file);
+				copy_next_file (fcdata);
+			}
 		} else
 			continue_or_abort_dialog (fcdata, info->vfs_status);
 	}
@@ -1263,9 +1277,9 @@ copy_current_file (FileCopyData *fcdata)
 static void
 files_copy__done (FileCopyData *fcdata)
 {
-	all_windows_notify_files_deleted (fcdata->copied_list);
-	if (fcdata->copied_list != NULL)
-		all_windows_notify_update_directory (fcdata->destination);
+	if (fcdata->remove_source)
+		all_windows_notify_files_deleted (fcdata->copied_list);
+	all_windows_notify_files_created (fcdata->created_list);
 	
 	if (fcdata->done_func != NULL)
 		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
@@ -1399,6 +1413,7 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->window = window;
 	fcdata->file_list = path_list_dup (file_list);
 	fcdata->copied_list = NULL;
+	fcdata->created_list = NULL;
 	fcdata->current_file = file_list;
 	fcdata->destination = g_strdup (dest_path);
 	fcdata->remove_source = remove_source;
@@ -2120,7 +2135,7 @@ copy_current_item (CopyItemsData *cidata)
 			copy_items_data_free (cidata);
 			if (cidata->done_func != NULL)
 				(cidata->done_func) (GNOME_VFS_OK, cidata->done_data);
-		} else
+		} else 
 			dlg_files_copy (cidata->window,
 					cidata->file_list,
 					cidata->destination,
@@ -2183,12 +2198,11 @@ dlg_copy_items (GThumbWindow   *window,
 
 		if (path_is_dir (path))
 			cidata->dir_list = g_list_prepend (cidata->dir_list, path);
-		else if (path_is_file (path))
+		else if (path_is_file (path)) 
 			cidata->file_list = g_list_prepend (cidata->file_list, path);
 	}
 
-	if ((cidata->dir_list == NULL) 
-	    && (cidata->file_list == NULL)) {
+	if ((cidata->dir_list == NULL) && (cidata->file_list == NULL)) {
 		copy_items_data_free (cidata);
 		if (done_func != NULL)
 			(done_func) (GNOME_VFS_OK, done_data);

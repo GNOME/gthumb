@@ -2793,25 +2793,35 @@ get_file_list_from_url_list (char *url_list)
 	int    i;
 	char  *url_start, *url_end;
 
-	i = 0;
 	url_start = url_list;
-	while (url_list[i] != '\0')	{
-		while ((url_list[i] != '\0')
-		       && (url_list[i] != '\r')
-		       && (url_list[i] != '\n')) i++;
+	while (url_start[0] != '\0') {
+		char *escaped;
+		char *unescaped;
 
-		url_end = url_list + i;
 		if (strncmp (url_start, "file:", 5) == 0) {
 			url_start += 5;
 			if ((url_start[0] == '/') 
 			    && (url_start[1] == '/')) url_start += 2;
 		}
-		list = g_list_prepend (list, g_strndup (url_start, url_end - url_start));
 
-		while ((url_list[i] != '\0')
-		       && ((url_list[i] == '\r')
-			   || (url_list[i] == '\n'))) i++;
-		url_start = url_list + i;
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && (url_start[i] != '\r')
+		       && (url_start[i] != '\n')) i++;
+		url_end = url_start + i;
+
+		escaped = g_strndup (url_start, url_end - url_start);
+		unescaped = gnome_vfs_unescape_string_for_display (escaped);
+		g_free (escaped);
+
+		list = g_list_prepend (list, unescaped);
+
+		url_start = url_end;
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && ((url_start[i] == '\r')
+			   || (url_start[i] == '\n'))) i++;
+		url_start += i;
 	}
 	
 	return g_list_reverse (list);
@@ -2857,7 +2867,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 	catalog_set_path (catalog, catalog_path);
 
 	for (scan = list; scan; scan = scan->next)
-		catalog_add_item (catalog, (gchar*) scan->data);
+		catalog_add_item (catalog, (char*) scan->data);
 
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
@@ -2906,8 +2916,6 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
 	list = get_file_list_from_url_list ((char *)data->data);
-
-	/* do somethink */
 
 	if (window->sidebar_content == DIR_LIST) {
 		const char *current_dir;
@@ -3518,7 +3526,7 @@ window_new (void)
 	gtk_drag_dest_set (window->file_list->ilist,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
+			   /*GDK_ACTION_COPY | FIXME */ GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (window->file_list->ilist), 
 			  "drag_data_received",
@@ -5499,6 +5507,40 @@ notify_files_added (GThumbWindow *window,
 			    list, 
 			    notify_files_added__step2,
 			    window);
+}
+
+
+void
+window_notify_files_created (GThumbWindow *window,
+			     GList        *list)
+{
+	GList *scan;
+	GList *created_in_current_dir = NULL;
+	char  *current_dir;
+
+	if (window->sidebar_content != DIR_LIST)
+		return;
+
+	current_dir = window->dir_list->path;
+	if (current_dir == NULL)
+		return;
+
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		char *parent_dir;
+		
+		parent_dir = remove_level_from_path (path);
+
+		if (strcmp (parent_dir, current_dir) == 0)
+			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
+
+		g_free (parent_dir);
+	}
+
+	if (created_in_current_dir != NULL) {
+		notify_files_added (window, created_in_current_dir);
+		g_list_free (created_in_current_dir);
+	}
 }
 
 

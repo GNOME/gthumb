@@ -53,9 +53,11 @@ void all_windows_update_viewer_options         ();
 
 void all_windows_update_browser_options        ();
 
-void all_windows_update_editors_menu           ();
+void all_windows_notify_files_created          (GList *list);
 
 void all_windows_notify_files_deleted          (GList *list);
+
+void all_windows_notify_files_changed          (GList *list);
 
 void all_windows_notify_cat_files_deleted      (const gchar *catalog_path,
 						GList *list);

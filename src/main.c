@@ -460,8 +460,19 @@ all_windows_update_browser_options ()
 
 
 void 
-all_windows_update_editors_menu ()
+all_windows_notify_files_created (GList *list)
 {
+	GList *scan;
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+
+		if ((window->sidebar_content == DIR_LIST) &&
+		    window->monitor_enabled)
+			continue;
+
+		window_notify_files_created (window, list);
+	}
 }
 
 
@@ -478,6 +489,23 @@ all_windows_notify_files_deleted (GList *list)
 			continue;
 
 		window_notify_files_deleted (window, list);
+	}
+}
+
+
+void 
+all_windows_notify_files_changed (GList *list)
+{
+	GList *scan;
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+
+		if ((window->sidebar_content == DIR_LIST) &&
+		    window->monitor_enabled)
+			continue;
+
+		window_notify_files_changed (window, list);
 	}
 }
 

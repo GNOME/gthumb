@@ -111,7 +111,8 @@ file_save_ok_cb (GtkWidget *w,
 	else
 		mime_type = mime_types [idx - 2];
 
-	if (strncmp (mime_type, "image/", 6) == 0) {
+	if ((mime_type != NULL)
+	    && strncmp (mime_type, "image/", 6) == 0) {
 		GError      *error = NULL;
 		const char  *image_type = mime_type + 6;
 		char       **keys = NULL;
@@ -295,6 +296,11 @@ dlg_save_options (GtkWindow    *parent,
 	*keys   = NULL;
 	*values = NULL;	
 
+	if (image_type == NULL) {
+		g_warning ("Invalid image type\n");
+		return FALSE;
+	}
+
 	if (strncmp (image_type, "x-", 2) == 0) 
 		image_type += 2;
 
@@ -355,7 +361,9 @@ dlg_save_options (GtkWindow    *parent,
 	case IMAGE_TYPE_TIFF:
 		svalue = eel_gconf_get_string (PREF_TIFF_COMPRESSION); 
 
-		if (strcmp (svalue, "none") == 0) 
+		if (svalue == NULL)
+			widget = NULL;
+		else if (strcmp (svalue, "none") == 0) 
 			widget = glade_xml_get_widget (gui, "tiff_comp_none_radiobutton");
 		else if (strcmp (svalue, "deflate") == 0) 
 			widget = glade_xml_get_widget (gui, "tiff_comp_deflate_radiobutton");

@@ -1,5 +1,8 @@
 2002-11-23  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/dlg-convert.c (save_image_and_remove_original): 
+	* src/dlg-jpegtran.c (apply_tran): notify changes to all windows.
+
 	* src/gthumb-window.c: 
 	* src/commands-impl.c: 
 	* src/dlg-file-utils.c: 

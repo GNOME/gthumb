@@ -206,9 +206,19 @@ save_image_and_remove_original (DialogData *data)
 			       data->keys, 
 			       data->values,
 			       &error)) {
+		GList *list;
+
+		list = g_list_prepend (NULL, data->new_path);
+		all_windows_notify_files_created (list);
+		g_list_free (list);
+
 		if (data->remove_original) {
 			FileData *fd = data->current_image->data;
 			unlink (fd->path);
+
+			list = g_list_prepend (NULL, fd->path);
+			all_windows_notify_files_deleted (list);
+			g_list_free (list);
 		}
 	} else 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &error);

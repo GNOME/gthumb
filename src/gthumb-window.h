@@ -216,6 +216,9 @@ void            window_image_modified               (GThumbWindow *window,
 
 /* functions used to notify a change. */
 
+void            window_notify_files_created         (GThumbWindow *window,
+						     GList *list);
+
 void            window_notify_files_deleted         (GThumbWindow *window,
 						     GList *list);
 
