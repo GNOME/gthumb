@@ -1,12 +1,12 @@
 # German gThumb translation.
-# Copyright (C) 2002 Paolo Bacch.
-# Christian Neumair <chris@gnome-de.org>, 2002.
+# Copyright (C) 2002-2003 Paolo Bacch
+# Christian Neumair <chris@gnome-de.org>, 2002, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-01-14 22:23+0100\n"
-"PO-Revision-Date: 2002-12-28 23:00+0100\n"
+"POT-Creation-Date: 2003-01-19 22:07+0100\n"
+"PO-Revision-Date: 2003-01-19 22:07+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -39,11 +39,11 @@ msgstr "_Drucken"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr "GThumb Bild"
+msgstr "GThumb-Bild"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "GTumb Bildansicht"
+msgstr "GThumb-Bildansicht"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
@@ -186,7 +186,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:624
+#: libgthumb/catalog-png-exporter.c:799 src/dlg-image-prop.c:624
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -200,12 +200,12 @@ msgstr "Ihre Bilder betrachten und katalogisieren"
 msgid "gThumb Image Viewer"
 msgstr "gThumb Bildbetrachter"
 
-#: libgthumb/catalog-png-exporter.c:1295
+#: libgthumb/catalog-png-exporter.c:1320
 #, c-format
 msgid "Loading image: %s"
 msgstr "Bild wird geladen: %s"
 
-#: libgthumb/catalog-png-exporter.c:1487
+#: libgthumb/catalog-png-exporter.c:1527
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Bild wird erzeugt: %s.%s"
@@ -291,7 +291,7 @@ msgstr "Bildtyp:"
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
 #: libgthumb/gtk-utils.c:317 src/commands-impl.c:2743 src/gthumb-window.c:437
 #: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
-#: src/gthumb-window.c:477 src/gthumb-window.c:3987
+#: src/gthumb-window.c:477 src/gthumb-window.c:3982
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
@@ -372,7 +372,7 @@ msgstr ""
 
 #: src/commands-impl.c:943
 msgid "New Folder"
-msgstr "Neuer Ordner"
+msgstr "Ordner anlegen"
 
 #: src/commands-impl.c:944
 msgid "Enter the folder name: "
@@ -681,15 +681,15 @@ msgstr "Sollen alle Minitatur-Vorschaubilder gelöscht werden?"
 msgid "Specify the backup file"
 msgstr "Geben Sie die Sicherungsdatei an"
 
-#: src/dlg-png-exporter.c:990
+#: src/dlg-png-exporter.c:1000
 msgid "Image Caption"
 msgstr "Bildüberschrift"
 
-#: src/dlg-png-exporter.c:1043
+#: src/dlg-png-exporter.c:1053
 msgid "Header"
 msgstr "Kopfzeile"
 
-#: src/dlg-png-exporter.c:1056 src/dlg-png-exporter.c:1062
+#: src/dlg-png-exporter.c:1066 src/dlg-png-exporter.c:1072
 msgid "Footer"
 msgstr "Fußzeile"
 
@@ -1053,7 +1053,7 @@ msgstr "_Animation abspielen"
 
 #: src/gthumb-ui.xml.h:82
 msgid "Previous"
-msgstr "Voriges"
+msgstr "Vorheriges"
 
 #: src/gthumb-ui.xml.h:83
 msgid "Print"
@@ -1327,7 +1327,7 @@ msgstr "Die Werkzeugleiste dieses Fensters zeigen oder verbergen"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View previous image"
-msgstr "Das vorige Bild anzeigen"
+msgstr "Das vorherige Bild anzeigen"
 
 #: src/gthumb-ui.xml.h:158
 msgid "View the catalogs"
@@ -1551,11 +1551,11 @@ msgstr "_Negativ"
 
 #: src/gthumb-ui.xml.h:218
 msgid "_New Catalog..."
-msgstr "_Neuer Katalog..."
+msgstr "Katalog a_nlegen..."
 
 #: src/gthumb-ui.xml.h:219
 msgid "_New Folder..."
-msgstr "_Neuer Ordner..."
+msgstr "Ordner a_nlegen..."
 
 #: src/gthumb-ui.xml.h:221
 msgid "_Open With"
@@ -1697,28 +1697,28 @@ msgstr "1 markiert (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markiert (%s)"
 
-#: src/gthumb-window.c:2859
+#: src/gthumb-window.c:2854
 msgid "Dragged Images"
 msgstr "Abgelegte Bilder"
 
-#: src/gthumb-window.c:3032
+#: src/gthumb-window.c:3027
 msgid "Could not move the items:"
 msgstr "Die Objekte konnten nicht verschoben werden:"
 
-#: src/gthumb-window.c:3633
+#: src/gthumb-window.c:3628
 msgid "Back"
 msgstr "Zurück"
 
-#: src/gthumb-window.c:5401
+#: src/gthumb-window.c:5398
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Ordner »%s« konnte nicht geladen werden: %s\n"
 
-#: src/gthumb-window.c:5669
+#: src/gthumb-window.c:5666
 msgid "The specified catalog does not exist."
 msgstr "Der angegebene Katalog existiert nicht."
 
-#: src/gthumb-window.c:6933
+#: src/gthumb-window.c:6930
 msgid "Wait please..."
 msgstr "Bitte warten..."
 
@@ -1838,7 +1838,7 @@ msgstr "_Histogramm"
 
 #: src/gthumb.glade.h:31
 msgid "_New Catalog"
-msgstr "_Neuer Katalog"
+msgstr "Katalog a_nlegen"
 
 #: src/gthumb.glade.h:32
 msgid "_Next"
@@ -1846,7 +1846,7 @@ msgstr "_Nächstes"
 
 #: src/gthumb.glade.h:33
 msgid "_Previous"
-msgstr "_Voriges"
+msgstr "_Vorheriges"
 
 #: src/gthumb.glade.h:34
 msgid "_Save the new image as:"
