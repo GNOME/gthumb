@@ -1,12 +1,16 @@
-# 
+# gthumb Finnish translation
+# Suomennos: http://gnome-fi.org/
+# Copyright (C) 2004 Free Software Foundation, Inc.
+# Ville Pohjanheimo <vpohjanheimo@hotmail.com>, 2004,
+# Sami Pesonen <sampeson@iki.fi>, 2004.
 msgid ""
 msgstr ""
 "Project-Id-Version: GThumb 2.3.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-05 17:23+0300\n"
-"PO-Revision-Date: 2004-03-24 12:00+0200\n"
-"Last-Translator: Ville Pohjanheimo <vpohjanheimo@hotmail.com>\n"
-"Language-Team: Finnish\n"
+"POT-Creation-Date: 2004-04-18 22:36+0300\n"
+"PO-Revision-Date: 2004-04-18 22:30+0300\n"
+"Last-Translator: Sami Pesonen <sampeson@iki.fi>\n"
+"Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -174,7 +178,7 @@ msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:217
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:418
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:420
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d kuvapistettä"
@@ -434,7 +438,6 @@ msgid "_Destination:"
 msgstr "Ko_hdekansio:"
 
 #: data/glade/gthumb_camera.glade.h:14
-#, fuzzy
 msgid "_Film:"
 msgstr "_Video:"
 
@@ -1982,7 +1985,7 @@ msgstr "Al_bumi"
 msgid "Ca_tegories"
 msgstr "Luo_kat"
 
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4368
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4373
 msgid "Catalogs"
 msgstr "Albumit"
 
@@ -2102,7 +2105,7 @@ msgstr "Etsi kuvia"
 msgid "Fit"
 msgstr "Sovita"
 
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4318
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4323
 msgid "Folders"
 msgstr "Kansiot"
 
@@ -2126,7 +2129,7 @@ msgstr "Siirry kotikansioon"
 msgid "Go to the next visited location"
 msgstr "Siirry seuraavaan sijaintiin"
 
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4286
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4291
 msgid "Go to the previous visited location"
 msgstr "Siirry edelliseen sijaintiin"
 
@@ -2534,11 +2537,11 @@ msgstr "Näytä tai piilota tämän ikkunan työkalupalkki"
 msgid "View previous image"
 msgstr "Näytä edellinen kuva"
 
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4374
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4379
 msgid "View the catalogs"
 msgstr "Näytä albumit"
 
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4324
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4329
 msgid "View the folders"
 msgstr "Näytä kansiot"
 
@@ -3047,7 +3050,7 @@ msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:760 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:414
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:416
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -3142,22 +3145,18 @@ msgid "Preview text shown in the dialog"
 msgstr "Ikkunassa näytetty esikatseluteksti"
 
 #: libgthumb/gnome-print-font-picker.c:218
-#, fuzzy
 msgid "Use font in label"
 msgstr "Käytä kirjasinta otsikossa"
 
 #: libgthumb/gnome-print-font-picker.c:219
-#, fuzzy
 msgid "Use font in the label in font info mode"
 msgstr "Käytä kirjasinta kirjasintietojen otsikossa"
 
 #: libgthumb/gnome-print-font-picker.c:227
-#, fuzzy
 msgid "Font size for label"
 msgstr "Otsikkokirjasimen koko"
 
 #: libgthumb/gnome-print-font-picker.c:228
-#, fuzzy
 msgid "Font size for label in font info mode"
 msgstr "Kirjasintietojen otsikkokirjasimen koko"
 
@@ -3166,7 +3165,6 @@ msgid "Show size"
 msgstr "Näytä koko"
 
 #: libgthumb/gnome-print-font-picker.c:239
-#, fuzzy
 msgid "Show size in font info mode"
 msgstr "Näytä koko kirjasintiedoissa"
 
@@ -3208,8 +3206,8 @@ msgstr "Poistetaan vanhat pienoiskuvat. Ole hyvä ja odota..."
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:567
-#: src/gthumb-window.c:1336 src/gthumb-window.c:1343 src/gthumb-window.c:1351
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:569
+#: src/gthumb-window.c:1338 src/gthumb-window.c:1345 src/gthumb-window.c:1353
 msgid "(Invalid Name)"
 msgstr "(Virheellinen nimi)"
 
@@ -3351,7 +3349,7 @@ msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" ei voida siirtää roskakoriin. Poistetaanko se pysyvästi?"
 
-#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1718
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1720
 msgid "_Do not display this message again"
 msgstr "_Älä näytä tätä viestiä enää uudestaan"
 
@@ -3418,7 +3416,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "Poistetaanko valittu albumi varmasti?"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
+#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1008
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3432,7 +3430,7 @@ msgstr ""
 "\n"
 "http://gnome-fi.org/"
 
-#: src/commands-impl.c:2961 src/gthumb-window.c:585 src/gthumb-window.c:5003
+#: src/commands-impl.c:2961 src/gthumb-window.c:587 src/gthumb-window.c:5008
 #: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
@@ -3593,7 +3591,7 @@ msgid "Type"
 msgstr "Tyyppi"
 
 #: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
-#: src/gthumb-window.c:430
+#: src/gthumb-window.c:432
 msgid "Modified"
 msgstr "Muokattu"
 
@@ -3624,7 +3622,6 @@ msgid "Could not import photos"
 msgstr "Valokuvien tuonti ei onnistunut"
 
 #: src/dlg-photo-importer.c:1063 src/main.c:1014
-#, fuzzy
 msgid "Film"
 msgstr "Video"
 
@@ -3668,7 +3665,7 @@ msgstr "Valitse verkkoalbumin teema"
 msgid "Image Info"
 msgstr "Tietoja kuvasta"
 
-#: src/fullscreen.c:827 src/gthumb-window.c:4267
+#: src/fullscreen.c:827 src/gthumb-window.c:4272
 msgid "Back"
 msgstr "Edellinen"
 
@@ -3688,76 +3685,76 @@ msgstr "_Selaa..."
 msgid "_Recents:"
 msgstr "_Viimeimmät:"
 
-#: src/gthumb-window.c:464
+#: src/gthumb-window.c:466
 msgid "[Press 'c' to add a comment]"
 msgstr "[Paina \"c\"-näppäintä lisätäksesi kommentin]"
 
-#: src/gthumb-window.c:538 src/gthumb-window.c:560
+#: src/gthumb-window.c:540 src/gthumb-window.c:562
 msgid "[modified]"
 msgstr "[muokattu]"
 
-#: src/gthumb-window.c:644
+#: src/gthumb-window.c:646
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: src/gthumb-window.c:646
+#: src/gthumb-window.c:648
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 kuva (%s)"
 
-#: src/gthumb-window.c:649
+#: src/gthumb-window.c:651
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d kuvaa (%s)"
 
-#: src/gthumb-window.c:656
+#: src/gthumb-window.c:658
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 valittu (%s)"
 
-#: src/gthumb-window.c:659
+#: src/gthumb-window.c:661
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d valittua (%s)"
 
-#: src/gthumb-window.c:1715
+#: src/gthumb-window.c:1717
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Valittua kuvaa on muokattu. Tallennetaanko muutokset?"
 
-#: src/gthumb-window.c:1716
+#: src/gthumb-window.c:1718
 msgid "Do Not Save"
 msgstr "Älä tallenna"
 
-#: src/gthumb-window.c:3284
+#: src/gthumb-window.c:3286
 msgid "Dragged Images"
 msgstr "Raahatut kuvat"
 
-#: src/gthumb-window.c:3498
+#: src/gthumb-window.c:3503
 msgid "Could not move the items:"
 msgstr "Objektien siirto ei onnistunut:"
 
-#: src/gthumb-window.c:5339
+#: src/gthumb-window.c:5344
 msgid "Image comment"
 msgstr "Kuvan kommentti"
 
-#: src/gthumb-window.c:5353
+#: src/gthumb-window.c:5358
 msgid "Image data"
 msgstr "Tietoja kuvasta"
 
-#: src/gthumb-window.c:5367
+#: src/gthumb-window.c:5372
 msgid "Image preview"
 msgstr "Kuvan esikatselu"
 
-#: src/gthumb-window.c:6610
+#: src/gthumb-window.c:6615
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kansion %s\" lataus ei onnistunut: %s\n"
 
-#: src/gthumb-window.c:6879
+#: src/gthumb-window.c:6884
 msgid "The specified catalog does not exist."
 msgstr "Annettua albumia ei löydy."
 
-#: src/gthumb-window.c:8496
+#: src/gthumb-window.c:8499
 msgid "Wait please..."
 msgstr "Ole hyvä ja odota..."
 
