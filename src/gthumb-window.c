@@ -71,15 +71,16 @@
 
 #define ACTIVITY_DELAY         200
 #define BUSY_CURSOR_DELAY      200
-#define DISPLAY_PROGRESS_DELAY 1000
+#define DISPLAY_PROGRESS_DELAY 750
 #define HIDE_SIDEBAR_DELAY     150
 #define LOAD_DIR_DELAY         25
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
-#define UPDATE_DIR_DELAY       250
+#define UPDATE_DIR_DELAY       1000
 #define VIEW_IMAGE_DELAY       25
 #define AUTO_LOAD_DELAY        750
+#define UPDATE_LAYOUT_DELAY    250
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
@@ -5897,6 +5898,11 @@ window_close (GThumbWindow *window)
 
 	/* Interrupt any activity. */
 
+	if (window->update_layout_timeout != 0) {
+		g_source_remove (window->update_layout_timeout);
+		window->update_layout_timeout = 0;
+	}
+
 	_window_remove_notifications (window);
 	window_stop_activity_mode (window);
 	window_remove_monitor (window);
@@ -7911,14 +7917,23 @@ window_notify_update_directory (GThumbWindow *window,
 }
 
 
-void
-window_notify_update_layout (GThumbWindow *window)
+gboolean
+window_notify_update_layout_cb (gpointer data)
 {
-	GtkWidget *paned1;      /* Main paned widget. */
-	GtkWidget *paned2;      /* Secondary paned widget. */
-	int        paned1_pos;
-	int        paned2_pos;
-	gboolean   sidebar_visible;
+	GThumbWindow *window = data;
+	GtkWidget    *paned1;      /* Main paned widget. */
+	GtkWidget    *paned2;      /* Secondary paned widget. */
+	int           paned1_pos;
+	int           paned2_pos;
+	gboolean      sidebar_visible;
+
+	if (! GTK_IS_WIDGET (window->main_pane))
+		return TRUE;
+
+	if (window->update_layout_timeout != 0) {
+		g_source_remove (window->update_layout_timeout);
+		window->update_layout_timeout = 0;
+	}
 
 	sidebar_visible = window->sidebar_visible;
 	if (! sidebar_visible) 
@@ -7965,13 +7980,28 @@ window_notify_update_layout (GThumbWindow *window)
 	gtk_widget_show (paned1);
 	gtk_widget_show (paned2);
 
-	gtk_widget_destroy (window->main_pane);
-
 	window->main_pane = paned1;
 	window->content_pane = paned2;
 
 	if (! sidebar_visible) 
 		window_hide_sidebar (window);
+
+	return FALSE;
+}
+
+
+
+void
+window_notify_update_layout (GThumbWindow *window)
+{
+	if (window->update_layout_timeout != 0) {
+		g_source_remove (window->update_layout_timeout);
+		window->update_layout_timeout = 0;
+	}
+
+	window->update_layout_timeout = g_timeout_add (UPDATE_LAYOUT_DELAY, 
+						       window_notify_update_layout_cb, 
+						       window);
 }
 
 

@@ -162,6 +162,7 @@ typedef struct {
 	guint               sel_change_timeout;
 	guint               busy_cursor_timeout;
 	guint               auto_load_timeout;
+	guint               update_layout_timeout;
 
 	GThumbPreloader    *preloader;
 

@@ -205,6 +205,145 @@ real_files_delete__continue2 (GnomeVFSResult result,
 }
 
 
+static GtkWidget *
+create_button (const char *stock_id, 
+	       const char *text)
+{
+	GtkWidget    *button;
+	GtkWidget    *hbox;
+	GtkWidget    *image;
+	GtkWidget    *label;
+	GtkWidget    *align;
+	const char   *label_text;
+	gboolean      text_is_stock;
+	GtkStockItem  stock_item;
+
+	button = gtk_button_new ();
+
+	if (gtk_stock_lookup (text, &stock_item)) {
+		label_text = stock_item.label;
+		text_is_stock = TRUE;
+	} else {
+		label_text = text;
+		text_is_stock = FALSE;
+	}
+
+	if (text_is_stock)
+		image = gtk_image_new_from_stock (text, GTK_ICON_SIZE_BUTTON);
+	else
+		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
+	label = gtk_label_new_with_mnemonic (label_text);
+	hbox = gtk_hbox_new (FALSE, 2);
+	align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+
+	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
+
+	gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (button), align);
+	gtk_container_add (GTK_CONTAINER (align), hbox);
+
+	gtk_widget_show_all (button);
+
+	return button;
+}
+
+
+
+static void
+check_button_toggled_cb (GtkToggleButton *button,
+			 const char      *gconf_key)
+{
+	eel_gconf_set_boolean (gconf_key, 
+			       ! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (button)));
+}
+
+
+static GtkWidget*
+_gtk_yesno_dialog_with_checkbutton_new (GtkWindow        *parent,
+					GtkDialogFlags    flags,
+					const char       *message,
+					const char       *no_button_text,
+					const char       *yes_button_text,
+					const char       *check_button_label,
+					const char       *gconf_key)
+{
+	GtkWidget *d;
+	GtkWidget *label;
+	GtkWidget *image;
+	GtkWidget *hbox;
+	GtkWidget *button;
+	GtkWidget *check_button;
+	char      *stock_id = GTK_STOCK_DIALOG_QUESTION;
+
+	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
+	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
+	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
+
+	/* Add label and image */
+
+	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
+
+	label = gtk_label_new (message);	
+	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
+	
+	hbox = gtk_hbox_new (FALSE, 12);
+	gtk_container_set_border_width (GTK_CONTAINER (hbox), 6);
+	
+	gtk_box_pack_start (GTK_BOX (hbox), image,
+			    FALSE, FALSE, 0);
+	
+	gtk_box_pack_start (GTK_BOX (hbox), label,
+			    TRUE, TRUE, 0);
+	
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    hbox,
+			    FALSE, FALSE, 0);
+
+	/* Add checkbutton */
+
+	check_button = gtk_check_button_new_with_mnemonic (check_button_label);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (d)->vbox),
+			    check_button,
+			    FALSE, FALSE, 0);
+	gtk_widget_show (check_button);
+	
+	gtk_widget_show_all (hbox);
+
+	/* Add buttons */
+
+	button = create_button (GTK_STOCK_CANCEL, no_button_text);
+	gtk_dialog_add_action_widget (GTK_DIALOG (d), 
+				      button, 
+				      GTK_RESPONSE_CANCEL);
+
+	/**/
+
+	button = create_button (GTK_STOCK_OK, yes_button_text);
+	gtk_dialog_add_action_widget (GTK_DIALOG (d), 
+				      button, 
+				      GTK_RESPONSE_YES);
+
+	/**/
+
+	gtk_dialog_set_default_response (GTK_DIALOG (d), GTK_RESPONSE_YES);
+
+	g_signal_connect (G_OBJECT (check_button),
+			  "toggled", 
+			  G_CALLBACK (check_button_toggled_cb), 
+			  (gpointer) gconf_key);
+	
+	return d;
+}
+
+
 static void
 real_files_delete__continue (GnomeVFSResult result,
 			     gpointer       data)
@@ -212,17 +351,23 @@ real_files_delete__continue (GnomeVFSResult result,
 	ConfirmFileDeleteData *cfddata = data;
 
 	if (result == GNOME_VFS_ERROR_NOT_FOUND) {
-		GtkWidget *d;
-		int        r;
+		int r = GTK_RESPONSE_YES;
 
-		d = _gtk_yesno_dialog_new (GTK_WINDOW (cfddata->window->app),
-					   GTK_DIALOG_MODAL,
-					   _("The images cannot be moved to the Trash. Do you want to delete them permanently?"),
-					   GTK_STOCK_CANCEL,
-					   GTK_STOCK_DELETE);
+		if (eel_gconf_get_boolean (PREF_MSG_CANNOT_MOVE_TO_TRASH)) {
+			GtkWidget *d;
 
-		r = gtk_dialog_run (GTK_DIALOG (d));
-		gtk_widget_destroy (GTK_WIDGET (d));
+			d = _gtk_yesno_dialog_with_checkbutton_new (
+				    GTK_WINDOW (cfddata->window->app),
+				    GTK_DIALOG_MODAL,
+				    _("The images cannot be moved to the Trash. Do you want to delete them permanently?"),
+				    GTK_STOCK_CANCEL,
+				    GTK_STOCK_DELETE,
+				    _("_Do not display this message again"),
+				    PREF_MSG_CANNOT_MOVE_TO_TRASH);
+		
+			r = gtk_dialog_run (GTK_DIALOG (d));
+			gtk_widget_destroy (GTK_WIDGET (d));
+		} 
 
 		if (r == GTK_RESPONSE_YES) 
 			dlg_files_delete (cfddata->window, 
@@ -1184,6 +1329,7 @@ files_copy__done (FileCopyData *fcdata)
 	if (fcdata->remove_source)
 		all_windows_notify_files_deleted (fcdata->copied_list);
 	all_windows_notify_files_created (fcdata->created_list);
+	all_windows_add_monitor ();
 	
 	if (fcdata->done_func != NULL)
 		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
@@ -1586,6 +1732,8 @@ dlg_files_copy (GThumbWindow   *window,
 					    file_copy__display_progress_dialog,
 					    fcdata);
 
+	all_windows_remove_monitor ();
+
 	copy_current_file (fcdata);
 }
 
@@ -1694,8 +1842,10 @@ file_delete__display_progress_dialog (gpointer data)
 static void
 files_delete__done (FileDeleteData *fddata)
 {
-	if (fddata->result == GNOME_VFS_OK)
+	if (fddata->result == GNOME_VFS_OK) {
 		all_windows_notify_files_deleted (fddata->file_list);
+		all_windows_add_monitor ();
+	}
 	
 	if (fddata->done_func != NULL)
 		(*fddata->done_func) (fddata->result, fddata->done_data);
@@ -1791,6 +1941,8 @@ dlg_files_delete (GThumbWindow   *window,
 
 	/**/
 
+	all_windows_remove_monitor ();
+
 	for (scan = fddata->file_list; scan; scan = scan->next) {
 		const char  *path = scan->data;
 		GnomeVFSURI *uri;
@@ -1874,6 +2026,8 @@ destroy_progress_dialog (FolderCopyData *fcdata)
 static void
 folder_copy_data_free (FolderCopyData *fcdata)
 {
+	all_windows_add_monitor ();
+
 	if (fcdata == NULL)
 		return;
 
@@ -2053,6 +2207,8 @@ folder_copy (GThumbWindow   *window,
 					    fcdata);
 
 	/**/
+
+	all_windows_remove_monitor ();
 
 	src_list = g_list_append (src_list, new_uri_from_path (src_path));
 

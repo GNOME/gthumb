@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -452,9 +452,9 @@ size_column_sort_func (GtkTreeModel *model,
 
 static int
 n_column_sort_func (GtkTreeModel *model, 
-		       GtkTreeIter  *a, 
-		       GtkTreeIter  *b, 
-		       gpointer      user_data)
+		    GtkTreeIter  *a, 
+		    GtkTreeIter  *b, 
+		    gpointer      user_data)
 {
 	ImageData *idata1, *idata2;
 	int        n1, n2;

@@ -86,6 +86,9 @@ cache_get_nautilus_cache_name (const char *path)
 	uri_txt = gnome_vfs_unescape_string (escaped_path, NULL);
 	g_free (escaped_path);
 
+	if (uri_txt == NULL)
+		return NULL;
+
 	retval = gnome_thumbnail_path_for_uri (uri_txt, GNOME_THUMBNAIL_SIZE_NORMAL);
 	g_free (uri_txt);
 

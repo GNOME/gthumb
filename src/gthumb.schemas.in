@@ -1533,5 +1533,20 @@
 	</locale>
       </schema>
 
+      <!-- Messages -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/messages/cannot_move_to_trash</key>
+	<applyto>/apps/gthumb/dialogs/messages/cannot_move_to_trash</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

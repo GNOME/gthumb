@@ -105,8 +105,10 @@ image_loader_finalize__step2 (GObject *object)
 	if (priv->animation)
 		g_object_unref (G_OBJECT (priv->animation));
 
-	if (priv->uri)
+	if (priv->uri) {
 		gnome_vfs_uri_unref (priv->uri);
+		priv->uri = NULL;
+	}
 	
 	g_timer_destroy (priv->timer);
 
@@ -308,8 +310,10 @@ image_loader_set_path (ImageLoader *il,
 
 	g_mutex_lock (priv->yes_or_no);
 
-	if (priv->uri != NULL)
+	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
+		priv->uri = NULL;
+	}
 	escaped_path = gnome_vfs_escape_path_string (path);
 	priv->uri = gnome_vfs_uri_new (escaped_path);
 	g_free (escaped_path);
@@ -331,9 +335,12 @@ image_loader_set_uri (ImageLoader       *il,
 
 	g_mutex_lock (priv->yes_or_no);
 
-	if (priv->uri != NULL)
+	if (priv->uri != NULL) {
 		gnome_vfs_uri_unref (priv->uri);
-	priv->uri = gnome_vfs_uri_dup (uri);
+		priv->uri = NULL;
+	}
+	if (uri != NULL)
+		priv->uri = gnome_vfs_uri_dup (uri);
 
 	g_mutex_unlock (priv->yes_or_no);
 }

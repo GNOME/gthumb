@@ -164,6 +164,7 @@ src/gthumb-ui.xml
 src/gthumb-window.c
 src/gthumb-window.h
 src/gthumb.glade
+src/gthumb.schemas.in
 src/gthumb_comments.glade
 src/gthumb_convert.glade
 src/gthumb_edit.glade

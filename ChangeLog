@@ -1,3 +1,29 @@
+2003-07-07  Abel Cheung  <maddog@linux.org.hk>
+
+	* src/Makefile.am: gthumb.schemas -> schemas.in, and fixed typo.
+
+2003-07-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_notify_update_layout_cb): update the
+	layout after a timeout and do not destroy the main_pane widget.
+
+	* libgthumb/image-loader.c (image_loader_load_from_image_loader):
+	set uri to NULL after unreferencing
+
+	* libgthumb/thumb-cache.c (cache_get_nautilus_cache_name): check
+	whether uri_txt == NULL
+
+	* src/dlg-file-utils.c (dlg_file_rename_series, dlg_files_delete) 
+	(folder_copy, dlg_files_copy): remove the monitor while processing
+	files.
+
+2003-07-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/preferences.h (PREF_MSG_CANNOT_MOVE_TO_TRASH): 
+	* src/dlg-file-utils.c (real_files_delete__continue) 
+	(_gtk_yesno_dialog_with_checkbutton_new): add a checkbutton to
+	allow the user to not display the warning again.
+
 2003-07-22  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (close__step5): do not save the

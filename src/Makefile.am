@@ -142,7 +142,10 @@ libwebexporter_la_SOURCES = 	\
 libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 schemadir = @GCONF_SCHEMA_FILE_DIR@
-schema_DATA = gthumb.schemas
+schema_in_files = gthumb.schemas.in
+schema_DATA = $(schema_in_files:.schemas.in=.schemas)
+
+@INTLTOOL_SCHEMAS_RULE@
 
 if SCHEMAS_INSTALL
 install-data-local:
