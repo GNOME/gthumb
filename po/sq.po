@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-10 04:39+0200\n"
+"POT-Creation-Date: 2004-07-28 03:54+0200\n"
 "PO-Revision-Date: 2004-07-01 18:17+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -139,9 +139,10 @@ msgstr "_Pasqyrë"
 msgid "_None"
 msgstr "_Asnjë"
 
+#. GRUT modified this item
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
-msgstr "_Rrotullo në sensin orar"
+msgstr "_Rrotullim Orar"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_Step Animation"
@@ -167,7 +168,7 @@ msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:217
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:260
+#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:267
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -185,7 +186,7 @@ msgid "Dimensions"
 msgstr "Përmasat"
 
 #: data/albumthemes/text.h:30 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:483
+#: src/gth-exif-data-viewer.c:484
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -221,9 +222,10 @@ msgstr "Gjatësia e fokusit"
 msgid "Camera model"
 msgstr "Modeli i kamerës"
 
+#. GRUT modified this item
 #: data/albumthemes/text.h:39 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
-msgstr "piksele"
+msgstr "pixels"
 
 #: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
 #: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
@@ -365,9 +367,10 @@ msgstr "_Pasardhëse"
 msgid "_Previous"
 msgstr "_Paraardhësja"
 
+#. GRUT modified this item
 #: data/glade/gthumb.glade.h:34
 msgid "_Remove"
-msgstr "_Hiqe"
+msgstr "_Hiq"
 
 #: data/glade/gthumb.glade.h:35
 msgid "_Save the new image as:"
@@ -2055,7 +2058,7 @@ msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:790 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
-#: src/gth-exif-data-viewer.c:458 src/gthumb-window.c:256
+#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:263
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2064,7 +2067,7 @@ msgid "(No Comment)"
 msgstr ""
 
 #: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:763
+#: src/dlg-jpegtran.c:769
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2084,9 +2087,10 @@ msgstr ""
 msgid "Determine by extension"
 msgstr ""
 
+#. GRUT modified this item
 #: libgthumb/dlg-save-image.c:261
 msgid "Save Image"
-msgstr "Ruaje figurën"
+msgstr "Ruaj figurën"
 
 #: libgthumb/dlg-save-image.c:278
 msgid "Image type:"
@@ -2164,9 +2168,10 @@ msgstr "Madhësia e gërmave për etiketën"
 msgid "Font size for label in font info mode"
 msgstr "Madhësia e gërmave për etiketën në modalitetin informacione mbi gërmat"
 
+#. GRUT modified this item
 #: libgthumb/gnome-print-font-picker.c:238
 msgid "Show size"
-msgstr "Shfaq dimensionin"
+msgstr "Shfaq madhësinë"
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
@@ -2177,7 +2182,7 @@ msgid "Font"
 msgstr "Gërmat"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:469
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
 msgid "Name"
 msgstr "Emri"
 
@@ -2297,7 +2302,7 @@ msgid "Could not create the catalog \"%s\": %s"
 msgstr ""
 
 #: src/actions.c:1096 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:205 src/dlg-file-utils.c:90
+#: src/dlg-categories.c:230 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "K_rijo"
 
@@ -2330,7 +2335,7 @@ msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 
-#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1477
+#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1484
 msgid "_Do not display this message again"
 msgstr ""
 
@@ -2381,7 +2386,7 @@ msgstr ""
 msgid "translator_credits"
 msgstr ""
 
-#: src/actions.c:2722 src/gthumb-window.c:427 src/gthumb-window.c:4581
+#: src/actions.c:2722 src/gthumb-window.c:434 src/gthumb-window.c:4620
 #: src/main.c:136
 msgid "gThumb"
 msgstr ""
@@ -2390,8 +2395,8 @@ msgstr ""
 msgid "An image viewer and browser for GNOME."
 msgstr ""
 
-#: src/actions.c:2762 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1008
+#: src/actions.c:2762 src/dlg-categories.c:351 src/dlg-change-date.c:151
+#: src/dlg-comment.c:287 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
@@ -2399,8 +2404,8 @@ msgstr "Nuk arrij të shfaq ndihmën: %s"
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:409
-#: src/gthumb-window.c:1104 src/gthumb-window.c:1110 src/gthumb-window.c:1116
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:416
+#: src/gthumb-window.c:1111 src/gthumb-window.c:1117 src/gthumb-window.c:1123
 msgid "(Invalid Name)"
 msgstr ""
 
@@ -2439,18 +2444,18 @@ msgstr ""
 msgid "Move Catalog to..."
 msgstr ""
 
-#: src/dlg-categories.c:201
+#: src/dlg-categories.c:226
 msgid "Enter the new category name"
 msgstr ""
 
-#: src/dlg-categories.c:212
+#: src/dlg-categories.c:237
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
 
-#: src/dlg-categories.c:217
+#: src/dlg-categories.c:242
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr ""
@@ -2575,7 +2580,7 @@ msgstr ""
 msgid "Moving file %ld of %ld"
 msgstr ""
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:476
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
 msgid "Size"
 msgstr ""
 
@@ -2583,8 +2588,8 @@ msgstr ""
 msgid "Type"
 msgstr "Lloji"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:490
-#: src/gthumb-window.c:272
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
+#: src/gthumb-window.c:279
 msgid "Modified"
 msgstr "Ndryshuar"
 
@@ -2642,7 +2647,7 @@ msgstr "Kartelë"
 msgid "Select Album Theme"
 msgstr ""
 
-#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3240
+#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3274
 msgid "Could not move the items:"
 msgstr ""
 
@@ -2657,7 +2662,7 @@ msgid "Image Info"
 msgstr ""
 
 #. back
-#: src/fullscreen.c:880 src/gthumb-window.c:3847
+#: src/fullscreen.c:880 src/gthumb-window.c:3881
 msgid "Back"
 msgstr "Mbrapa"
 
@@ -2702,92 +2707,93 @@ msgstr "_Shfleto..."
 msgid "_Recents:"
 msgstr ""
 
-#: src/gthumb-window.c:306
+#: src/gthumb-window.c:313
 msgid "[Press 'c' to add a comment]"
 msgstr ""
 
-#: src/gthumb-window.c:380 src/gthumb-window.c:402
+#: src/gthumb-window.c:387 src/gthumb-window.c:409
 msgid "[modified]"
 msgstr ""
 
-#: src/gthumb-window.c:486
+#: src/gthumb-window.c:493
 msgid "No image"
 msgstr "Asnjë figurë"
 
-#: src/gthumb-window.c:488
+#: src/gthumb-window.c:495
 #, c-format
 msgid "1 image (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:491
+#: src/gthumb-window.c:498
 #, c-format
 msgid "%d images (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:498
+#: src/gthumb-window.c:505
 #, c-format
 msgid "1 selected (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:501
+#: src/gthumb-window.c:508
 #, c-format
 msgid "%d selected (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:1474
+#: src/gthumb-window.c:1481
 msgid "The current image has been modified, do you want to save it?"
 msgstr ""
 
-#: src/gthumb-window.c:1475
+#: src/gthumb-window.c:1482
 msgid "Do Not Save"
 msgstr ""
 
-#: src/gthumb-window.c:3032
+#: src/gthumb-window.c:3066
 msgid "Dragged Images"
 msgstr ""
 
-#: src/gthumb-window.c:3862 src/ui.h:459
+#: src/gthumb-window.c:3896 src/ui.h:459
 msgid "Go to the previous visited location"
 msgstr "Shko tek pozicioni paraardhës i vizituar"
 
-#: src/gthumb-window.c:4798 src/ui.h:464
+#: src/gthumb-window.c:4837 src/ui.h:464
 msgid "Go to the next visited location"
 msgstr "Shko tek pozicioni në vazhdim i vizituar"
 
-#: src/gthumb-window.c:4805 src/ui.h:469
+#: src/gthumb-window.c:4844 src/ui.h:469
 msgid "Go up one level"
 msgstr "Ngjitu një nivel më lart"
 
-#: src/gthumb-window.c:4812 src/ui.h:484
+#: src/gthumb-window.c:4851 src/ui.h:484
 msgid "Go to the home folder"
 msgstr ""
 
-#: src/gthumb-window.c:5002
+#. GRUT modified this item
+#: src/gthumb-window.c:5045
 msgid "Close"
-msgstr "Mbylle"
+msgstr "Mbyll"
 
-#: src/gthumb-window.c:5016
+#: src/gthumb-window.c:5059
 msgid "Image comment"
 msgstr ""
 
-#: src/gthumb-window.c:5030
+#: src/gthumb-window.c:5073
 msgid "Image data"
 msgstr ""
 
-#: src/gthumb-window.c:5044
+#: src/gthumb-window.c:5087
 msgid "Image preview"
 msgstr ""
 
-#: src/gthumb-window.c:6273
+#: src/gthumb-window.c:6338
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr ""
 
-#: src/gthumb-window.c:6543
+#: src/gthumb-window.c:6608
 msgid "The specified catalog does not exist."
 msgstr ""
 
-#: src/gthumb-window.c:8165
+#: src/gthumb-window.c:8262
 msgid "Wait please..."
 msgstr ""
 
@@ -2859,7 +2865,6 @@ msgstr "Rreshti i komandës"
 msgid "_File"
 msgstr "_File"
 
-#. GRUT modified this item
 #: src/ui.h:35
 msgid "_Folder"
 msgstr "_Kartela"
@@ -2912,21 +2917,24 @@ msgstr ""
 msgid "_Help"
 msgstr "_Ndihmë"
 
+#. GRUT modified this item
 #: src/ui.h:53
 msgid "New _Window"
-msgstr "Dritare e _Re"
+msgstr "_Dritare e Re"
 
 #: src/ui.h:54
 msgid "Create a new window"
 msgstr "Krijo një dritare të re"
 
+#. GRUT modified this item
 #: src/ui.h:58
 msgid "_Close"
-msgstr "_Mbylle"
+msgstr "_Mbyll"
 
+#. GRUT modified this item
 #: src/ui.h:59
 msgid "Close this window"
-msgstr "Mbylle këtë dritare"
+msgstr "Mbyll këtë dritare"
 
 #: src/ui.h:63 src/ui.h:98
 msgid "_Open With"
@@ -3034,7 +3042,6 @@ msgstr ""
 msgid "Move selected images to another location"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:153
 msgid "_Select All"
 msgstr "_Zgjidh gjithçka"
@@ -3583,9 +3590,10 @@ msgstr "_Paneli i instrumentëve"
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:612
 msgid "_Statusbar"
-msgstr "_Paneli i gjendjes"
+msgstr "_Paneli i gjëndjes"
 
 #: src/ui.h:613
 msgid "View or hide the statusbar of this window"
