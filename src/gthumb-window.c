@@ -61,6 +61,7 @@
 
 #define ACTIVITY_DELAY        200
 #define LOAD_DIR_DELAY        25
+#define VIEW_IMAGE_DELAY      25
 #define UPDATE_DIR_DELAY      250
 #define SEL_CHANGED_DELAY     150
 #define HIDE_SIDEBAR_DELAY    150
@@ -192,16 +193,8 @@ static const BonoboUIVerb gthumb_verbs [] = {
 };
 
 
-static void window_update_infobar              (GThumbWindow *window);
-static void window_update_sensitivity          (GThumbWindow *window);
-static void window_update_title                (GThumbWindow *window);
-static void window_update_statusbar_image_info (GThumbWindow *window);
-static void window_update_statusbar_list_info  (GThumbWindow *window);
-static void window_start_activity_mode         (GThumbWindow *window);
-static void window_stop_activity_mode          (GThumbWindow *window);
-
-
 
+
 
 static void 
 set_command_sensitive (GThumbWindow *window,
@@ -299,124 +292,7 @@ set_command_state_if_different (GThumbWindow *window,
 }
 
 
-/* -- set file list -- */
-
-
-typedef struct {
-	GThumbWindow *window;
-	DoneFunc      done_func;
-	gpointer      done_func_data;
-} WindowSetListData;
-
-
-static void
-window_set_file_list_continue (gpointer callback_data)
-{
-	WindowSetListData *data = callback_data;
-	GThumbWindow      *window = data->window;
-
-	window_stop_activity_mode (window);
-	window_update_statusbar_list_info (window);
-	window->setting_file_list = FALSE;
-
-	if (StartInFullscreen) {
-		StartInFullscreen = FALSE;
-		fullscreen_start (fullscreen, window);
-	}
-
-	if (StartSlideshow) {
-		StartSlideshow = FALSE;
-		window_start_slideshow (window);
-	} 
-
-	if (ViewFirstImage) {
-		ViewFirstImage = FALSE;
-		window_hide_sidebar (window);
-		window_show_first_image (window);
-		window_update_sensitivity (window);
-	}
-
-	set_command_sensitive (window, "Go_Stop", 
-			       ((window->activity_ref > 0) 
-				|| window->setting_file_list
-				|| window->changing_directory
-				|| window->file_list->doing_thumbs));
-
-	if (data->done_func != NULL)
-		(*data->done_func) (data->done_func_data);
-	g_free (data);
-}
-
-
-typedef struct {
-	WindowSetListData *wsl_data;
-	GList             *list;
-	GThumbWindow      *window;
-} SetListInterruptedData; 
-
-
-static void
-set_list_interrupted_cb (gpointer callback_data)
-{
-	SetListInterruptedData *sli_data = callback_data;
-
-	sli_data->window->setting_file_list = TRUE;
-	file_list_set_list (sli_data->window->file_list, 
-			    sli_data->list, 
-			    window_set_file_list_continue, 
-			    sli_data->wsl_data);
-
-	g_list_foreach (sli_data->list, (GFunc) g_free, NULL);
-	g_list_free (sli_data->list);
-	g_free (sli_data);
-}
-
-
-static void
-window_set_file_list (GThumbWindow *window, 
-		      GList        *list,
-		      DoneFunc      done_func,
-		      gpointer      done_func_data)
-{
-	WindowSetListData *data;
-
-	if (window->slideshow)
-		window_stop_slideshow (window);
-
-	data = g_new (WindowSetListData, 1);
-	data->window = window;
-	data->done_func = done_func;
-	data->done_func_data = done_func_data;
-
-	if (window->setting_file_list) {
-		SetListInterruptedData *sli_data;
-		GList                  *scan;
-
-		sli_data = g_new (SetListInterruptedData, 1);
-
-		sli_data->wsl_data = data;
-		sli_data->window = window;
-
-		sli_data->list = NULL;
-		for (scan = list; scan; scan = scan->next) {
-			char *path = g_strdup ((char*)(scan->data));
-			sli_data->list = g_list_prepend (sli_data->list, path);
-		}
-
-		file_list_interrupt_set_list (window->file_list,
-					      set_list_interrupted_cb,
-					      sli_data);
-		return;
-	}
-
-	window->setting_file_list = TRUE;
-	window_start_activity_mode (window);
-	file_list_set_list (window->file_list, list, 
-			    window_set_file_list_continue, data);
-}
-
-
-/* -- update callbacks -- */
+
 
 
 static void
@@ -520,6 +396,145 @@ window_update_infobar (GThumbWindow *window)
 	g_free (utf8_name);
 	g_free (escaped_name);
 	g_free (text);
+}
+
+
+static void 
+window_update_title (GThumbWindow *window)
+{
+	char *info_txt      = NULL;
+	char *info_txt_utf8 = NULL;
+	char *path;
+	char *modified;
+
+	g_return_if_fail (window != NULL);
+
+	path = window->image_path;
+	modified = window->image_modified ? "*" : "";
+
+	if (path == NULL) {
+		if ((window->sidebar_content == DIR_LIST)
+		    && (window->dir_list->path != NULL)) {
+
+			info_txt = g_strdup_printf ("%s%s - %s",
+						    window->dir_list->path,
+						    modified,
+						    _("gThumb"));
+		} else if ((window->sidebar_content == CATALOG_LIST)
+			   && (window->catalog_path != NULL)) {
+			const char *cat_name;
+			char       *cat_name_no_ext;
+
+			cat_name = file_name_from_path (window->catalog_path);
+			cat_name_no_ext = g_strdup (cat_name);
+			
+			/* Cut out the file extension. */
+			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
+			
+			info_txt = g_strdup_printf ("%s - %s",
+						    cat_name_no_ext,
+						    _("gThumb"));
+			g_free (cat_name_no_ext);
+		} else
+			info_txt = g_strdup_printf ("%s", _("gThumb"));
+	} else {
+		const char *image_name = file_name_from_path (path);
+
+		if (image_name == NULL)
+			image_name = "";
+
+		if (window->image_catalog != NULL) {
+			char *cat_name = g_strdup (file_name_from_path (window->image_catalog));
+
+			/* Cut out the file extension. */
+			cat_name[strlen (cat_name) - 4] = 0;
+			
+			info_txt = g_strdup_printf ("%s%s - %s - %s",
+						    image_name,
+						    modified,
+						    cat_name,
+						    _("gThumb"));
+			g_free (cat_name);
+		} else 
+			info_txt = g_strdup_printf ("%s%s - %s",
+						    image_name,
+						    modified,
+						    _("gThumb"));
+	}
+
+	info_txt_utf8 = g_locale_to_utf8 (info_txt, -1, NULL, NULL, NULL);
+	gtk_window_set_title (GTK_WINDOW (window->app), info_txt_utf8);
+	g_free (info_txt_utf8);
+	g_free (info_txt);
+}
+
+
+static void
+window_update_statusbar_list_info (GThumbWindow *window)
+{
+	char             *info, *size_txt, *sel_size_txt;
+	char             *total_info, *selected_info;
+	int               tot_n, sel_n;
+	GnomeVFSFileSize  tot_size, sel_size;
+	GList            *scan;
+	GList            *selection;
+
+	tot_n = 0;
+	tot_size = 0;
+
+	for (scan = window->file_list->list; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		tot_n++;
+		tot_size += fd->size;
+	}
+
+	sel_n = 0;
+	sel_size = 0;
+	selection = file_list_get_selection_as_fd (window->file_list);
+
+	for (scan = selection; scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		sel_n++;
+		sel_size += fd->size;
+	}
+
+	g_list_free (selection);
+
+	size_txt = gnome_vfs_format_file_size_for_display (tot_size);
+	sel_size_txt = gnome_vfs_format_file_size_for_display (sel_size);
+
+	if (tot_n == 0)
+		total_info = g_strdup (_("No image"));
+	else if (tot_n == 1)
+		total_info = g_strdup_printf (_("1 image (%s)"),
+					      size_txt);
+	else
+		total_info = g_strdup_printf (_("%d images (%s)"),
+					      tot_n,
+					      size_txt); 
+
+	if (sel_n == 0)
+		selected_info = g_strdup (" ");
+	else if (sel_n == 1)
+		selected_info = g_strdup_printf (_("1 selected (%s)"), 
+						 sel_size_txt);
+	else
+		selected_info = g_strdup_printf (_("%d selected (%s)"), 
+						 sel_n, 
+						 sel_size_txt);
+
+	info = g_strconcat (total_info, 
+			    ((sel_n == 0) ? NULL : ", "),
+			    selected_info, 
+			    NULL);
+
+	bonobo_ui_component_set_status (window->ui_component, info, NULL);
+
+	g_free (total_info);
+	g_free (selected_info);
+	g_free (size_txt);
+	g_free (sel_size_txt);
+	g_free (info);
 }
 
 
@@ -738,6 +753,184 @@ window_update_sensitivity (GThumbWindow *window)
 }
 
 
+static void
+window_progress (gfloat   percent, 
+		 gpointer data)
+{
+	GThumbWindow *window = data;
+
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (window->progress), 
+				       percent);
+
+	if (percent == 0.0) 
+		set_command_sensitive (window, "Go_Stop", 
+				       (window->activity_ref > 0) 
+				       || window->setting_file_list
+				       || window->changing_directory
+				       || window->file_list->doing_thumbs);
+}
+
+
+static gboolean
+load_progress (gpointer data)
+{
+	GThumbWindow *window = data;
+	gtk_progress_bar_pulse (GTK_PROGRESS_BAR (window->progress));
+	return TRUE;
+}
+
+
+static void
+window_start_activity_mode (GThumbWindow *window)
+{
+	g_return_if_fail (window != NULL);
+
+	if (window->activity_ref++ > 0)
+		return;
+
+	window->dir_load_timeout_handle = g_timeout_add (ACTIVITY_DELAY, 
+							 load_progress, 
+							 window);
+}
+
+
+static void
+window_stop_activity_mode (GThumbWindow *window)
+{
+	g_return_if_fail (window != NULL);
+
+	if (--window->activity_ref > 0)
+		return;
+
+	if (window->dir_load_timeout_handle == 0)
+		return;
+
+	g_source_remove (window->dir_load_timeout_handle);
+	window->dir_load_timeout_handle = 0;
+	window_progress (0.0, window);
+}
+
+
+/* -- set file list -- */
+
+
+typedef struct {
+	GThumbWindow *window;
+	DoneFunc      done_func;
+	gpointer      done_func_data;
+} WindowSetListData;
+
+
+static void
+window_set_file_list_continue (gpointer callback_data)
+{
+	WindowSetListData *data = callback_data;
+	GThumbWindow      *window = data->window;
+
+	window_stop_activity_mode (window);
+	window_update_statusbar_list_info (window);
+	window->setting_file_list = FALSE;
+
+	if (StartInFullscreen) {
+		StartInFullscreen = FALSE;
+		fullscreen_start (fullscreen, window);
+	}
+
+	if (StartSlideshow) {
+		StartSlideshow = FALSE;
+		window_start_slideshow (window);
+	} 
+
+	if (ViewFirstImage) {
+		ViewFirstImage = FALSE;
+		window_hide_sidebar (window);
+		window_show_first_image (window);
+		window_update_sensitivity (window);
+	}
+
+	set_command_sensitive (window, "Go_Stop", 
+			       ((window->activity_ref > 0) 
+				|| window->setting_file_list
+				|| window->changing_directory
+				|| window->file_list->doing_thumbs));
+
+	if (data->done_func != NULL)
+		(*data->done_func) (data->done_func_data);
+	g_free (data);
+}
+
+
+typedef struct {
+	WindowSetListData *wsl_data;
+	GList             *list;
+	GThumbWindow      *window;
+} SetListInterruptedData; 
+
+
+static void
+set_list_interrupted_cb (gpointer callback_data)
+{
+	SetListInterruptedData *sli_data = callback_data;
+
+	sli_data->window->setting_file_list = TRUE;
+	file_list_set_list (sli_data->window->file_list, 
+			    sli_data->list, 
+			    window_set_file_list_continue, 
+			    sli_data->wsl_data);
+
+	g_list_foreach (sli_data->list, (GFunc) g_free, NULL);
+	g_list_free (sli_data->list);
+	g_free (sli_data);
+}
+
+
+static void
+window_set_file_list (GThumbWindow *window, 
+		      GList        *list,
+		      DoneFunc      done_func,
+		      gpointer      done_func_data)
+{
+	WindowSetListData *data;
+
+	if (window->slideshow)
+		window_stop_slideshow (window);
+
+	data = g_new (WindowSetListData, 1);
+	data->window = window;
+	data->done_func = done_func;
+	data->done_func_data = done_func_data;
+
+	if (window->setting_file_list) {
+		SetListInterruptedData *sli_data;
+		GList                  *scan;
+
+		sli_data = g_new (SetListInterruptedData, 1);
+
+		sli_data->wsl_data = data;
+		sli_data->window = window;
+
+		sli_data->list = NULL;
+		for (scan = list; scan; scan = scan->next) {
+			char *path = g_strdup ((char*)(scan->data));
+			sli_data->list = g_list_prepend (sli_data->list, path);
+		}
+
+		file_list_interrupt_set_list (window->file_list,
+					      set_list_interrupted_cb,
+					      sli_data);
+		return;
+	}
+
+	window->setting_file_list = TRUE;
+	window_start_activity_mode (window);
+	file_list_set_list (window->file_list, list, 
+			    window_set_file_list_continue, data);
+}
+
+
+
+
+
 void
 window_update_file_list (GThumbWindow *window)
 {
@@ -745,7 +938,7 @@ window_update_file_list (GThumbWindow *window)
 		window_go_to_directory (window, window->dir_list->path);
 
 	else if (window->sidebar_content == CATALOG_LIST) {
-		gchar *catalog_path;
+		char *catalog_path;
 
 		catalog_path = catalog_list_get_selected_path (window->catalog_list);
 		if (catalog_path == NULL)
@@ -903,7 +1096,7 @@ add_bookmark_menu_item (GThumbWindow *window,
 			const char   *path)
 {
 	BonoboUIComponent *ui_component = window->ui_component;
-	const char        *menu_name;
+	char              *menu_name;
 	char              *cmd;
 	char              *cmd_name;
 	char              *full_cmd_name;
@@ -925,9 +1118,9 @@ add_bookmark_menu_item (GThumbWindow *window,
 
 	/* label */
 
-	menu_name = bookmarks_get_menu_name (bookmarks, path);
+	menu_name = escape_underscore (bookmarks_get_menu_name (bookmarks, path));
 	if (menu_name == NULL)
-		menu_name = "???";
+		menu_name = g_strdup ("???");
 	
 	label = _g_strdup_with_max_size (menu_name, BOOKMARKS_MENU_MAX_LENGTH);
 	utf8_s = g_locale_to_utf8 (label, -1, NULL, NULL, NULL);
@@ -1000,6 +1193,7 @@ add_bookmark_menu_item (GThumbWindow *window,
 				   NULL);
 	g_object_unref (pixbuf);
 	g_free (full_cmd_name);
+	g_free (menu_name);
 }
 
 
@@ -1116,145 +1310,6 @@ view_image_at_pos (GThumbWindow *window,
 }
 
 
-static void 
-window_update_title (GThumbWindow *window)
-{
-	char *info_txt      = NULL;
-	char *info_txt_utf8 = NULL;
-	char *path;
-	char *modified;
-
-	g_return_if_fail (window != NULL);
-
-	path = window->image_path;
-	modified = window->image_modified ? "*" : "";
-
-	if (path == NULL) {
-		if ((window->sidebar_content == DIR_LIST)
-		    && (window->dir_list->path != NULL)) {
-
-			info_txt = g_strdup_printf ("%s%s - %s",
-						    window->dir_list->path,
-						    modified,
-						    _("gThumb"));
-		} else if ((window->sidebar_content == CATALOG_LIST)
-			   && (window->catalog_path != NULL)) {
-			const char *cat_name;
-			char       *cat_name_no_ext;
-
-			cat_name = file_name_from_path (window->catalog_path);
-			cat_name_no_ext = g_strdup (cat_name);
-			
-			/* Cut out the file extension. */
-			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
-			
-			info_txt = g_strdup_printf ("%s - %s",
-						    cat_name_no_ext,
-						    _("gThumb"));
-			g_free (cat_name_no_ext);
-		} else
-			info_txt = g_strdup_printf ("%s", _("gThumb"));
-	} else {
-		const char *image_name = file_name_from_path (path);
-
-		if (image_name == NULL)
-			image_name = "";
-
-		if (window->image_catalog != NULL) {
-			char *cat_name = g_strdup (file_name_from_path (window->image_catalog));
-
-			/* Cut out the file extension. */
-			cat_name[strlen (cat_name) - 4] = 0;
-			
-			info_txt = g_strdup_printf ("%s%s - %s - %s",
-						    image_name,
-						    modified,
-						    cat_name,
-						    _("gThumb"));
-			g_free (cat_name);
-		} else 
-			info_txt = g_strdup_printf ("%s%s - %s",
-						    image_name,
-						    modified,
-						    _("gThumb"));
-	}
-
-	info_txt_utf8 = g_locale_to_utf8 (info_txt, -1, NULL, NULL, NULL);
-	gtk_window_set_title (GTK_WINDOW (window->app), info_txt_utf8);
-	g_free (info_txt_utf8);
-	g_free (info_txt);
-}
-
-
-static void
-window_update_statusbar_list_info (GThumbWindow *window)
-{
-	char             *info, *size_txt, *sel_size_txt;
-	char             *total_info, *selected_info;
-	int               tot_n, sel_n;
-	GnomeVFSFileSize  tot_size, sel_size;
-	GList            *scan;
-	GList            *selection;
-
-	tot_n = 0;
-	tot_size = 0;
-
-	for (scan = window->file_list->list; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		tot_n++;
-		tot_size += fd->size;
-	}
-
-	sel_n = 0;
-	sel_size = 0;
-	selection = file_list_get_selection_as_fd (window->file_list);
-
-	for (scan = selection; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		sel_n++;
-		sel_size += fd->size;
-	}
-
-	g_list_free (selection);
-
-	size_txt = gnome_vfs_format_file_size_for_display (tot_size);
-	sel_size_txt = gnome_vfs_format_file_size_for_display (sel_size);
-
-	if (tot_n == 0)
-		total_info = g_strdup (_("No image"));
-	else if (tot_n == 1)
-		total_info = g_strdup_printf (_("1 image (%s)"),
-					      size_txt);
-	else
-		total_info = g_strdup_printf (_("%d images (%s)"),
-					      tot_n,
-					      size_txt); 
-
-	if (sel_n == 0)
-		selected_info = g_strdup (" ");
-	else if (sel_n == 1)
-		selected_info = g_strdup_printf (_("1 selected (%s)"), 
-						 sel_size_txt);
-	else
-		selected_info = g_strdup_printf (_("%d selected (%s)"), 
-						 sel_n, 
-						 sel_size_txt);
-
-	info = g_strconcat (total_info, 
-			    ((sel_n == 0) ? NULL : ", "),
-			    selected_info, 
-			    NULL);
-
-	bonobo_ui_component_set_status (window->ui_component, info, NULL);
-
-	g_free (total_info);
-	g_free (selected_info);
-	g_free (size_txt);
-	g_free (sel_size_txt);
-	g_free (info);
-}
-
-
 /* -- activity -- */
 
 
@@ -1274,64 +1329,6 @@ image_loader_done_cb (ImageLoader *loader,
 {
 	GThumbWindow *window = data;
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (window->progress), 0.0);
-}
-
-
-static void
-window_progress (gfloat   percent, 
-		 gpointer data)
-{
-	GThumbWindow *window = data;
-
-	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (window->progress), 
-				       percent);
-
-	if (percent == 0.0) 
-		set_command_sensitive (window, "Go_Stop", 
-				       (window->activity_ref > 0) 
-				       || window->setting_file_list
-				       || window->changing_directory
-				       || window->file_list->doing_thumbs);
-}
-
-
-static gboolean
-load_progress (gpointer data)
-{
-	GThumbWindow *window = data;
-	gtk_progress_bar_pulse (GTK_PROGRESS_BAR (window->progress));
-	return TRUE;
-}
-
-
-static void
-window_start_activity_mode (GThumbWindow *window)
-{
-	g_return_if_fail (window != NULL);
-
-	if (window->activity_ref++ > 0)
-		return;
-
-	window->dir_load_timeout_handle = g_timeout_add (ACTIVITY_DELAY, 
-							 load_progress, 
-							 window);
-}
-
-
-static void
-window_stop_activity_mode (GThumbWindow *window)
-{
-	g_return_if_fail (window != NULL);
-
-	if (--window->activity_ref > 0)
-		return;
-
-	if (window->dir_load_timeout_handle == 0)
-		return;
-
-	g_source_remove (window->dir_load_timeout_handle);
-	window->dir_load_timeout_handle = 0;
-	window_progress (0.0, window);
 }
 
 
@@ -1480,12 +1477,16 @@ file_selection_changed_cb (GtkWidget *widget,
 
 
 static void
-focus_image_cb (GtkWidget *widget,
-		int        pos,
-		gpointer   data)
+file_list_focus_image_cb (GtkWidget *widget,
+			  int        pos,
+			  gpointer   data)
 {
 	GThumbWindow *window = data;	
 	char         *focused_image;
+
+	/* FIXME */
+	if (window->setting_file_list) 
+		return;
 
 	focused_image = file_list_path_from_pos (window->file_list, pos);
 
@@ -1505,20 +1506,10 @@ focus_image_cb (GtkWidget *widget,
 }
 
 
-static gboolean 
-hide_sidebar_idle (gpointer data) 
-{
-	GThumbWindow *window = data;
-	/*fullscreen_start (fullscreen, window);*/
-	window_hide_sidebar (window);
-	return FALSE;
-}
-
-
 static int
-file_button_press_cb (GtkWidget      *widget, 
-		      GdkEventButton *event,
-		      gpointer        data)
+file_list_button_press_cb (GtkWidget      *widget, 
+			   GdkEventButton *event,
+			   gpointer        data)
 {
 	GThumbWindow *window = data;
 
@@ -1541,9 +1532,6 @@ file_button_press_cb (GtkWidget      *widget,
 			return FALSE;
 
 		if (event->type == GDK_2BUTTON_PRESS) {
-			/* use a timeout to avoid that the viewer gets
-			 * the button press event. */
-			g_timeout_add (HIDE_SIDEBAR_DELAY, hide_sidebar_idle, window);
 			return TRUE;
 		}
 
@@ -1584,6 +1572,31 @@ file_button_press_cb (GtkWidget      *widget,
 	}
 
 	return FALSE;
+}
+
+
+static gboolean 
+hide_sidebar_idle (gpointer data) 
+{
+	GThumbWindow *window = data;
+	/*fullscreen_start (fullscreen, window);*/
+	window_hide_sidebar (window);
+	return FALSE;
+}
+
+
+static int 
+file_list_double_click_cb (GtkWidget  *widget, 
+			   int         idx,
+			   gpointer    data)
+{
+	GThumbWindow *window = data;
+
+	/* use a timeout to avoid that the viewer gets
+	 * the button press event. */
+	g_timeout_add (HIDE_SIDEBAR_DELAY, hide_sidebar_idle, window);
+	
+	return TRUE;
 }
 
 
@@ -1707,8 +1720,14 @@ add_history_item (GThumbWindow *window,
 		  const char   *path,
 		  const char   *prefix)
 {
+	char *location;
+
 	bookmarks_remove_from (window->history, window->history_current);
-	bookmarks_add_with_prefix (window->history, path, prefix, FALSE, FALSE);
+
+	location = g_strconcat (prefix, path, NULL);
+	bookmarks_remove_all_instances (window->history, location);
+	bookmarks_add (window->history, location, FALSE, FALSE);
+
 	window->history_current = window->history->list;
 }
 
@@ -2009,15 +2028,6 @@ location_entry_key_press_cb (GtkWidget    *widget,
                 return FALSE;
 
 	case GDK_Tab:
-		/* FIXME
-		if (event->state & GDK_CONTROL_MASK) {
-			g_signal_emit_by_name (G_OBJECT (window->app),
-					       "move_focus",
-					       GTK_DIR_TAB_FORWARD);
-			return TRUE;
-		}
-		*/
-
 		if ((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
 			return FALSE;
 		
@@ -2656,10 +2666,9 @@ window_drag_data_received  (GtkWidget          *widget,
 
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-	else {
+	else 
 		/* View the Drag&Drop catalog. */
 		window_go_to_catalog (window, catalog_path);
-	}
 
 	catalog_free (catalog);
 	path_list_free (list);
@@ -2803,7 +2812,7 @@ combo_button_activate_default_callback (EComboButton *combo_button,
 {
 	GThumbWindow *window = data;
 	e_combo_button_popup_menu (E_COMBO_BUTTON (window->adjust_image_combo_button));
-	return TRUE; /* FIXME */
+	return TRUE;
 }
 
 
@@ -2949,6 +2958,9 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 					    "SortReversed",
 					    (window->file_list->sort_type != GTK_SORT_ASCENDING));
 }
+
+
+/* preferences change notification callbacks */
 
 
 static void
@@ -3153,6 +3165,8 @@ pref_check_size_changed (GConfClient *client,
 
 
 
+
+
 GThumbWindow *
 window_new (void)
 {
@@ -3298,12 +3312,16 @@ window_new (void)
 			  window);
 	g_signal_connect (G_OBJECT (window->file_list->ilist), 
 			  "focus_image",
-			  G_CALLBACK (focus_image_cb), 
+			  G_CALLBACK (file_list_focus_image_cb), 
 			  window);
 	g_signal_connect_after (G_OBJECT (window->file_list->ilist), 
 				"button_press_event",
-				G_CALLBACK (file_button_press_cb), 
+				G_CALLBACK (file_list_button_press_cb), 
 				window);
+	g_signal_connect (G_OBJECT (window->file_list->ilist), 
+			  "double_click",
+			  G_CALLBACK (file_list_double_click_cb), 
+			  window);
 	g_signal_connect (G_OBJECT (window->file_list->ilist), 
 			  "drag_data_get",
 			  G_CALLBACK (file_list_drag_data_get), 
@@ -4169,7 +4187,7 @@ window_refresh (GThumbWindow *window)
 }
 
 
-/* -- -- */
+/* -- file system monitor -- */
 
 
 static void notify_files_added (GThumbWindow *window, GList *list);
@@ -4616,6 +4634,7 @@ window_go_to_catalog_directory (GThumbWindow *window,
 
 
 /* -- window_go_to_catalog -- */
+
 
 void
 go_to_catalog__step2 (GoToData *gt_data)
@@ -5149,13 +5168,13 @@ window_load_image (GThumbWindow *window,
 		
 	window->image_path = g_strdup (filename);
 
-	window->view_image_timer = g_timeout_add (LOAD_DIR_DELAY,
+	window->view_image_timer = g_timeout_add (VIEW_IMAGE_DELAY,
 						  view_timeout_cb, 
 						  window);
 }
 
 
-/* -- */
+/* -- changes notification functions -- */
 
 
 void
@@ -5702,11 +5721,9 @@ window_notify_update_layout (GThumbWindow *window)
 	else
 		gtk_widget_reparent (window->dir_list_pane, paned2);
 
-	if (window->layout_type <= 1) 
-		gtk_widget_reparent (window->file_list->root_widget, paned2);
-	else if (window->layout_type == 2)
+	if (window->layout_type == 2) 
 		gtk_widget_reparent (window->file_list->root_widget, paned1);
-	else if (window->layout_type == 3)
+	else 
 		gtk_widget_reparent (window->file_list->root_widget, paned2);
 
 	if (window->layout_type <= 1) 

@@ -154,6 +154,8 @@ GList *             dir_list_filter_and_sort     (GList *dir_list,
 
 char*               shell_escape                 (const char *filename);
 
+char *              escape_underscore            (const char *name);
+
 char *              get_terminal                 (gboolean with_exec_flag);
 
 char *              application_get_command      (const GnomeVFSMimeApplication *app);

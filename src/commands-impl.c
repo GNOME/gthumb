@@ -31,6 +31,7 @@
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/libgnomeui.h>
 #include <libbonoboui.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-bookmarks.h"
@@ -1198,6 +1199,7 @@ folder_move__response_cb (GObject *object,
 	char         *dest_dir;
 	char         *new_path;
 	const char   *dir_name;
+	gboolean      same_fs;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -1215,8 +1217,12 @@ folder_move__response_cb (GObject *object,
 
 	dir_name = file_name_from_path (old_path);
 	new_path = g_strconcat (dest_dir,
+				"/",
 				dir_name,
 				NULL);
+	 
+	if (gnome_vfs_check_same_fs (old_path, new_path, &same_fs) != GNOME_VFS_OK)
+		same_fs = FALSE;
 
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
@@ -1235,6 +1241,13 @@ folder_move__response_cb (GObject *object,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
+	} else if (! same_fs) {
+		dlg_folder_copy (window, 
+				 old_path, 
+				 new_path, 
+				 FALSE /* FIXME: TRUE */, 
+				 TRUE);
+
 	} else if (rename (old_path, new_path) == 0) { 
 		char *old_cache_path, *new_cache_path;
 
@@ -1244,7 +1257,16 @@ folder_move__response_cb (GObject *object,
 
 		old_cache_path = cache_get_nautilus_cache_dir (old_path);
 		new_cache_path = cache_get_nautilus_cache_dir (new_path);
-		rename (old_cache_path, new_cache_path);
+
+		if (path_is_dir (old_cache_path)) {
+			char *parent_dir;
+
+			parent_dir = remove_level_from_path (new_cache_path);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+
+			rename (old_cache_path, new_cache_path);
+		}
 
 		g_free (old_cache_path);
 		g_free (new_cache_path);
@@ -1253,12 +1275,22 @@ folder_move__response_cb (GObject *object,
 
 		old_cache_path = comments_get_comment_dir (old_path);
 		new_cache_path = comments_get_comment_dir (new_path);
-		rename (old_cache_path, new_cache_path);
+
+		if (path_is_dir (old_cache_path)) {
+			char *parent_dir;
+
+			parent_dir = remove_level_from_path (new_cache_path);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+
+			rename (old_cache_path, new_cache_path);
+		}
 
 		g_free (old_cache_path);
 		g_free (new_cache_path);
 
 		all_windows_notify_directory_rename (old_path, new_path);
+
 	} else {
 		char *utf8_path;
 

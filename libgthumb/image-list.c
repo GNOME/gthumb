@@ -83,6 +83,7 @@ enum {
 	UNSELECT_IMAGE,
 	FOCUS_IMAGE,
 	TEXT_CHANGED,
+	DOUBLE_CLICK,
 	SELECT_ALL,
 	MOVE_CURSOR,
 	ADD_CURSOR_SELECTION,
@@ -848,7 +849,9 @@ selection_one_image_event (ImageList *gil,
 			if (gil->priv->selection_mode == GTK_SELECTION_SINGLE
 			    && (event->button.state & GDK_CONTROL_MASK))
 				emit_select (gil, FALSE, idx, event);
-			else if (on_text && gil->priv->is_editable && event->button.button == 1)
+			else if (on_text 
+				 && gil->priv->is_editable 
+				 && event->button.button == 1)
 				gil->priv->edit_pending = TRUE;
 			else {
 				image_list_unselect_all (gil, NULL, NULL);
@@ -862,6 +865,14 @@ selection_one_image_event (ImageList *gil,
 
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
+		if (gil->priv->select_pending) {
+			g_signal_emit (G_OBJECT (gil),
+				       gil_signals[DOUBLE_CLICK],
+				       0,
+				       idx);
+			break;
+		}
+
 		stop_dragging (gil);
 		stop_selection (gil, GDK_CURRENT_TIME);
 
@@ -982,9 +993,9 @@ selection_many_image_event (ImageList *gil,
 			    GdkEvent  *event)
 {
 	GThumbTextItem *text;
-	gint retval;
-	gint additive, range;
-	gint do_select;
+	int             retval;
+	int             additive, range;
+	int             do_select;
 
 	retval = FALSE;
 
@@ -1040,6 +1051,14 @@ selection_many_image_event (ImageList *gil,
 		
 	case GDK_2BUTTON_PRESS:
 	case GDK_3BUTTON_PRESS:
+		if (gil->priv->select_pending) {
+			g_signal_emit (G_OBJECT (gil),
+				       gil_signals[DOUBLE_CLICK],
+				       0,
+				       idx);
+			break;
+		}
+
 		stop_dragging (gil);
 		stop_selection (gil, GDK_CURRENT_TIME);
 
@@ -2985,6 +3004,16 @@ gil_class_init (ImageListClass *gil_class)
 			G_TYPE_BOOLEAN, 2,
 			G_TYPE_INT,
 			G_TYPE_POINTER);
+	gil_signals[DOUBLE_CLICK] =
+		g_signal_new (
+			"double_click",
+			G_TYPE_FROM_CLASS (gobject_class),
+			G_SIGNAL_RUN_LAST,
+			G_STRUCT_OFFSET (ImageListClass, double_click),
+			NULL, NULL,
+			g_cclosure_marshal_VOID__INT,
+			G_TYPE_NONE, 1,
+			G_TYPE_INT);
 	gil_signals[SELECT_ALL] =
 		g_signal_new (
 			"select_all",

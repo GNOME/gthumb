@@ -1,6 +1,37 @@
+2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/file-utils.c (escape_underscore): 
+	* src/gthumb-window.c (add_bookmark_menu_item): fix bug #99042.
+
+	* src/commands-impl.c (folder_move__response_cb): fix bug #99036.
+
+	* src/gthumb-window.c (file_list_double_click_cb, window_new): 
+	* libgthumb/image-list.c (selection_many_image_event): fix bug #99028.
+
+2002-11-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (dlg_folder_copy): new function.
+
+	* src/commands-impl.c (folder_move__response_cb): use 
+	dlg_folder_copy to move the folder if destination is not on the
+	same file system.
+
+	* src/gthumb-window.c: reorganized in order to avoid forward
+	declarations.
+	
+	* src/gthumb-window.c (add_history_item): remove duplicated
+	locations before adding a new one.
+
+	* libgthumb/bookmarks.c (bookmarks_remove_all_instances): new function.
+	* libgthumb/bookmarks.h: remove useless function
+	bookmarks_add_with_prefix.
+
+	* src/main.c (initialize_data): use absolute paths.
+
 2002-11-18  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* src/dlg-search.c (search_images_async): fixed search_comments condition.
+	* src/dlg-search.c (search_images_async): fixed search_comments 
+	condition.
 
 	* libgthumb/gtk-utils.c (_gtk_message_dialog_new): 
 	* src/gth-folder-selection-dialog.c (gth_folder_selection_construct): 

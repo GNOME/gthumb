@@ -39,5 +39,11 @@ void     dlg_file_rename_series   (GThumbWindow *window,
 				   GList        *old_names,
 				   GList        *new_names);
 
+void     dlg_folder_copy          (GThumbWindow *window,
+				   const char   *src_path,
+				   const char   *dest_path,
+				   gboolean      remove_source,
+				   gboolean      copy_cache);
+
 #endif /* DLG_FILE_UTILS_H */
 

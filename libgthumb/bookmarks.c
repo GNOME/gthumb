@@ -94,9 +94,9 @@ bookmarks_free (Bookmarks *bookmarks)
 char *
 bookmarks_utils__get_menu_item_name (const char *path)
 {
-	char     *name;
 	char     *tmp_path;
 	gboolean  catalog_or_search;
+	char     *name;
 
 	tmp_path = g_strdup (pref_util_remove_prefix (path));
 
@@ -239,25 +239,6 @@ bookmarks_add (Bookmarks   *bookmarks,
 }
 
 
-void
-bookmarks_add_with_prefix (Bookmarks   *bookmarks,
-			   const gchar *path,
-			   const gchar *prefix,
-			   gboolean     avoid_duplicates,
-			   gboolean     append)
-{
-	gchar *full_path;
-
-	g_return_if_fail (bookmarks != NULL);
-	g_return_if_fail (path != NULL);	
-
-	full_path = g_strconcat (prefix, path, NULL);
-	
-	bookmarks_add (bookmarks, full_path, avoid_duplicates, append);
-	g_free (full_path);
-}
-
-
 static GList *
 get_link_from_path (GList      *list, 
 		    const char *path)
@@ -287,13 +268,36 @@ bookmarks_remove (Bookmarks  *bookmarks,
 
 	bookmarks->list = g_list_remove_link (bookmarks->list, link);
 	g_list_free (link);
+	g_free (link->data);
 
 	if (get_link_from_path (bookmarks->list, path) == NULL) {
 		my_remove (bookmarks->names, path);
 		my_remove (bookmarks->tips, path);
 	}
+}
 
-	g_free (link->data);
+
+void
+bookmarks_remove_all_instances (Bookmarks   *bookmarks,
+				const char  *path)
+{
+	GList *link;
+
+	g_return_if_fail (bookmarks != NULL);
+	g_return_if_fail (path != NULL);	
+
+	link = get_link_from_path (bookmarks->list, path);
+
+	while (link != NULL) {
+		bookmarks->list = g_list_remove_link (bookmarks->list, link);
+		g_list_free (link);
+		g_free (link->data);
+
+		link = get_link_from_path (bookmarks->list, path);
+	}
+
+	my_remove (bookmarks->names, path);
+	my_remove (bookmarks->tips, path);
 }
 
 

@@ -170,6 +170,8 @@ typedef struct {
 	gboolean (*text_changed)             (ImageList  *gil, 
 					      int         num, 
 					      const char *new_text);
+	void     (*double_click)             (ImageList  *gil,
+					      int         idx);
 
         /* Key Binding signals */
 

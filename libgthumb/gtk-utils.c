@@ -128,6 +128,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
 	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
 
@@ -213,6 +214,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
 	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
 
@@ -234,7 +236,7 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 	hbox = gtk_hbox_new (FALSE, 6);
 	vbox = gtk_vbox_new (FALSE, 6);
 
-	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
 
 	gtk_box_pack_start (GTK_BOX (hbox), image,
 			    FALSE, FALSE, 0);
@@ -314,6 +316,7 @@ _gtk_yesno_dialog_new (GtkWindow        *parent,
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (d), 6);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (d)->vbox), 6);
 	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (d)->vbox), 8);
 

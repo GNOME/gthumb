@@ -232,20 +232,32 @@ initialize_data (poptContext pctx)
 
 	current_dir = g_get_current_dir ();
 	for (i = 0; i < argc; i++) {
-		gboolean is_dir;
+		char     *tmp1, *tmp2;
+		gboolean  is_dir;
 
 		if (! g_path_is_absolute (argv[i]))
-			path = g_strconcat (current_dir,
-					    "/",
-					    argv[i],
-					    NULL);
+			tmp1 = g_strconcat (current_dir, "/", argv[i], NULL);
 		else
-			path = g_strdup (argv[i]);
+			tmp1 = g_strdup (argv[i]);
+
+		tmp2= remove_special_dirs_from_path (tmp1);
+
+		if (! g_path_is_absolute (tmp2))
+			path = g_strconcat (current_dir, "/", tmp2, NULL);
+		else {
+			path = tmp2;
+			tmp2 = NULL;
+		}
+		
+		g_free (tmp1);
+		g_free (tmp2);
 
 		if (path_is_dir (path))
 			is_dir = TRUE;
+
 		else if (path_is_file (path))
 			is_dir = FALSE;
+
 		else {
 			g_free (path);
 			continue;
@@ -350,7 +362,7 @@ prepare_app ()
 	}
 
 	for (i = 0; i < n_dir_urls; i++) {
-		/* Go to the specified dierectory. */
+		/* Go to the specified directory. */
 		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, dir_urls[i]);
 
 		current_window = window_new ();

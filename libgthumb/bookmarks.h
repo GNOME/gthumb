@@ -44,14 +44,11 @@ void               bookmarks_add               (Bookmarks   *bookmarks,
 						gboolean     avoid_duplicates,
 						gboolean     append);
 
-void               bookmarks_add_with_prefix   (Bookmarks   *bookmarks,
-						const char  *path,
-						const char  *prefix,
-						gboolean     avoid_duplicates,
-						gboolean     append);
-
 void               bookmarks_remove            (Bookmarks   *bookmarks,
 						const char  *path);
+
+void               bookmarks_remove_all_instances (Bookmarks   *bookmarks,
+						   const char  *path);
 
 void               bookmarks_remove_all        (Bookmarks   *bookmarks);
 

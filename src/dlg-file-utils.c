@@ -40,8 +40,9 @@
 #include "gthumb-window.h"
 #include "gth-folder-selection-dialog.h"
 
-
+#define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
 #define FILE_NAME_MAX_LENGTH 30
+
 
 enum {
 	OVERWRITE_YES,
@@ -809,4 +810,261 @@ dlg_file_rename_series (GThumbWindow *window,
 	path_list_free (error_list);
 	path_list_free (old_names);
 	path_list_free (new_names);
+}
+
+
+
+/* -- dlg_folder_move -- */
+
+
+typedef struct {
+	char                *source;
+	char                *destination;
+	gboolean             remove_source;
+	gboolean             copy_cache;
+	GThumbWindow        *window;
+
+	GladeXML            *gui;
+	GtkWidget           *progress_dialog;
+	GtkWidget           *progress_progressbar;
+	GtkWidget           *progress_info;
+
+	GnomeVFSAsyncHandle *handle;
+} FolderCopyData;
+
+
+static void
+folder_copy_data_free (FolderCopyData *fcdata)
+{
+	if (fcdata == NULL)
+		return;
+	gtk_widget_destroy (fcdata->progress_dialog);
+	g_object_unref (fcdata->gui);
+	g_free (fcdata->source);
+	g_free (fcdata->destination);
+	g_free (fcdata);
+}
+
+
+static int
+progress_update_cb (GnomeVFSAsyncHandle      *handle,
+		    GnomeVFSXferProgressInfo *info,
+		    gpointer                  data)
+{
+	FolderCopyData *fcdata = data;
+	int             result = TRUE;
+	char           *message = NULL;
+	float           fraction;
+
+	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) 
+		return TRUE;
+
+	if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
+		gtk_widget_show_all (fcdata->progress_dialog);		
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
+		message = g_strdup (_("Collecting images info"));
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COPYING) {
+		message = g_strdup_printf (_("Copying file %ld of %ld"), 
+					   info->file_index,
+					   info->files_total);
+
+	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
+		if (fcdata->remove_source)
+			all_windows_notify_directory_rename (fcdata->source, 
+							     fcdata->destination);
+		else
+			all_windows_notify_directory_new (fcdata->destination);
+
+		folder_copy_data_free (fcdata);
+
+		return result;
+	}
+
+	if (message != NULL) {
+		gtk_label_set_text (GTK_LABEL (fcdata->progress_info), message);
+		g_free (message);
+	}
+
+	if (info->bytes_total != 0) {
+		fraction = (float)info->total_bytes_copied / info->bytes_total;
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (fcdata->progress_progressbar), fraction);
+	}
+
+	return result;
+}
+
+
+static int 
+progress_sync_cb (GnomeVFSXferProgressInfo *info,
+		  gpointer                  data)
+{
+	FolderCopyData *fcdata = data;	
+	int             ret_val;
+
+	if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
+		ret_val = TRUE;
+		
+	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_VFSERROR) {
+		const char *message;
+		char       *utf8_name;
+
+		message = fcdata->remove_source ? _("Could not move folder \"%s\" : %s") : _("Could not copy folder \"%s\" : %s");
+		utf8_name = g_locale_to_utf8 (fcdata->source, -1, 0, 0, 0);
+		_gtk_error_dialog_run (GTK_WINDOW (fcdata->window->app),
+				       message, 
+				       utf8_name, 
+				       gnome_vfs_result_to_string (info->vfs_status));
+		g_free (utf8_name);
+
+		ret_val = GNOME_VFS_XFER_ERROR_ACTION_ABORT;
+
+	} else if (info->status == GNOME_VFS_XFER_PROGRESS_STATUS_OVERWRITE) {
+		ret_val = GNOME_VFS_XFER_OVERWRITE_ACTION_REPLACE_ALL;
+	}
+
+	return ret_val;
+}
+
+
+GnomeVFSURI *
+new_uri_from_path (const char *path)
+{
+	char        *escaped;
+	GnomeVFSURI *uri;
+
+	escaped = gnome_vfs_escape_path_string (path);
+	uri = gnome_vfs_uri_new (escaped);
+	g_free (escaped);
+
+	return uri;
+}
+
+
+void
+dlg_folder_copy (GThumbWindow *window,
+		 const char   *src_path,
+		 const char   *dest_path,
+		 gboolean      remove_source,
+		 gboolean      copy_cache)
+{
+	FolderCopyData            *fcdata;
+	GList                     *src_list = NULL;
+	GList                     *dest_list = NULL;
+	GnomeVFSXferOptions        xfer_options;
+	GnomeVFSXferErrorMode      xfer_error_mode;
+	GnomeVFSXferOverwriteMode  overwrite_mode;
+	GnomeVFSResult             result;
+
+	if (! path_is_dir (src_path))
+		return;
+
+	fcdata = g_new0 (FolderCopyData, 1);
+
+	fcdata->window = window;
+	fcdata->source = g_strdup (src_path);
+	fcdata->destination = g_strdup (dest_path);
+	fcdata->remove_source = remove_source;
+	fcdata->copy_cache = copy_cache;
+
+	/**/
+
+	fcdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	if (! fcdata->gui) {
+		folder_copy_data_free (fcdata);
+		g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+		return;
+	}
+
+	fcdata->progress_dialog = glade_xml_get_widget (fcdata->gui, "progress_dialog");
+	fcdata->progress_progressbar = glade_xml_get_widget (fcdata->gui, "progress_progressbar");
+	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
+	
+	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
+				      GTK_WINDOW (fcdata->window->app));
+	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
+
+	/**/
+
+	src_list = g_list_append (src_list, new_uri_from_path (src_path));
+	dest_list = g_list_append (dest_list, new_uri_from_path (dest_path));
+
+	if (fcdata->copy_cache) {
+		char *src_cache;
+		char *dest_cache;
+
+		src_cache = comments_get_comment_dir (src_path);
+		dest_cache = comments_get_comment_dir (dest_path);
+
+		if (path_is_dir (src_cache)) {
+			char *parent_dir = remove_level_from_path (dest_cache);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+
+			src_list = g_list_append (src_list, 
+						  new_uri_from_path (src_cache));
+			dest_list = g_list_append (dest_list, 
+						   new_uri_from_path (dest_cache));
+		}
+
+		g_free (src_cache);
+		g_free (dest_cache);
+
+		/**/
+
+		src_cache = cache_get_nautilus_cache_dir (src_path);
+		dest_cache = cache_get_nautilus_cache_dir (dest_path);
+
+		if (path_is_dir (src_cache)) {
+			char *parent_dir = remove_level_from_path (dest_cache);
+			ensure_dir_exists (parent_dir, 0755);
+			g_free (parent_dir);
+
+			src_list = g_list_append (src_list, 
+						  new_uri_from_path (src_cache));
+			dest_list = g_list_append (dest_list, 
+						   new_uri_from_path (dest_cache));
+		}
+	}
+
+	xfer_options = (GNOME_VFS_XFER_RECURSIVE 
+			| (remove_source ? GNOME_VFS_XFER_REMOVESOURCE : 0));
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	overwrite_mode = GNOME_VFS_XFER_OVERWRITE_MODE_QUERY;
+
+	result = gnome_vfs_async_xfer (&fcdata->handle,
+				       src_list,
+				       dest_list,
+				       xfer_options,
+				       xfer_error_mode,
+				       overwrite_mode,
+				       GNOME_VFS_PRIORITY_DEFAULT,
+				       progress_update_cb,
+				       fcdata,
+				       progress_sync_cb,
+				       fcdata);
+
+	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
+	g_list_free (src_list);
+	g_list_foreach (dest_list, (GFunc) gnome_vfs_uri_unref, NULL);
+	g_list_free (dest_list);
+
+	/**/
+
+	if (result != GNOME_VFS_OK) {
+		const char *message;
+		char       *utf8_name;
+		
+		message = fcdata->remove_source ? _("Could not move folder \"%s\" : %s") : _("Could not copy folder \"%s\" : %s");
+		utf8_name = g_locale_to_utf8 (fcdata->source, -1, 0, 0, 0);
+		_gtk_error_dialog_run (GTK_WINDOW (fcdata->window->app),
+				       message, 
+				       utf8_name, 
+				       gnome_vfs_result_to_string (result));
+		g_free (utf8_name);
+		folder_copy_data_free (fcdata);
+
+		return;
+	}
 }

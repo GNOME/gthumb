@@ -1110,6 +1110,40 @@ shell_escape (const gchar *filename)
 
 
 char *
+escape_underscore (const char *name)
+{
+	const char *s;
+	char       *e_name, *t;
+	int         l = 0, us = 0;
+
+	if (name == NULL)
+		return NULL;
+
+	for (s = name; *s != 0; s++) {
+		if (*s == '_')
+			us++;
+		l++;
+	}
+        
+	if (us == 0)
+		return g_strdup (name);
+
+	e_name = g_malloc (sizeof (char) * (l + us + 1));
+
+	t = e_name;
+	for (s = name; *s != 0; s++) 
+		if (*s == '_') {
+			*t++ = '_';
+			*t++ = '_';
+		} else
+			*t++ = *s;
+	*t = 0;
+
+	return e_name;
+}
+
+
+char *
 get_terminal (gboolean with_exec_flag)
 {
 	GConfClient *client;
