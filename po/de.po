@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2002-12-25 13:01+0100\n"
-"PO-Revision-Date: 2002-12-17 21:00+0100\n"
+"POT-Creation-Date: 2002-12-28 23:16+0100\n"
+"PO-Revision-Date: 2002-12-28 23:00+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -129,12 +129,12 @@ msgid "_Checked"
 msgstr "Karo_muster"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:198
 msgid "_Flip"
 msgstr "_Vertikal spiegeln"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:209
 msgid "_Image"
 msgstr "_Bild"
 
@@ -186,7 +186,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:485
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:486
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -246,7 +246,7 @@ msgstr "Alte Kommentare werden gelöscht, bitte warten..."
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:505
+#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:506
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
@@ -530,7 +530,7 @@ msgstr "Duplikate"
 msgid "Duplicates Size"
 msgstr "Größe der Duplikate"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:659
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:663
 msgid "Name"
 msgstr "Name"
 
@@ -538,7 +538,7 @@ msgstr "Name"
 msgid "Last modified"
 msgstr "Zuletzt geändert"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:679
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:683
 msgid "Location"
 msgstr "Speicherort"
 
@@ -635,35 +635,35 @@ msgstr "Datei %ld von %ld wird kopiert"
 msgid "Moving file %ld of %ld"
 msgstr "Datei %ld von %ld wird verschoben"
 
-#: src/dlg-image-prop.c:664
+#: src/dlg-image-prop.c:668
 msgid "Image Dimensions"
 msgstr "Bildgröße"
 
-#: src/dlg-image-prop.c:669
+#: src/dlg-image-prop.c:673
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:674
+#: src/dlg-image-prop.c:678
 msgid "File Size"
 msgstr "Dateigröße"
 
-#: src/dlg-image-prop.c:684
+#: src/dlg-image-prop.c:688
 msgid "Last Modified"
 msgstr "Zuletzt geändert"
 
-#: src/dlg-image-prop.c:689
+#: src/dlg-image-prop.c:693
 msgid "Information on Channel"
 msgstr "Kanal-Informationen"
 
-#: src/dlg-image-prop.c:722
+#: src/dlg-image-prop.c:726
 msgid "Field"
 msgstr "Feld"
 
-#: src/dlg-image-prop.c:733 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:737 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Wert"
 
-#: src/dlg-image-prop.c:814
+#: src/dlg-image-prop.c:818
 #, c-format
 msgid "%s Properties"
 msgstr "Eigenschaften von %s"
@@ -1441,104 +1441,104 @@ msgid "_Color Balance"
 msgstr "Farb_balance"
 
 #: src/gthumb-ui.xml.h:188
+msgid "_Contents"
+msgstr "I_nhalt"
+
+#: src/gthumb-ui.xml.h:189
 msgid "_Copy..."
 msgstr "_Kopieren..."
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:190
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:191
 msgid "_Desaturate"
 msgstr "_Schwarz-Weiß"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:192
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:193
 msgid "_Edit Bookmarks"
 msgstr "Lesezeichen _bearbeiten"
 
-#: src/gthumb-ui.xml.h:193 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
 msgstr "Suche _bearbeiten"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:195
 msgid "_Equalize Histogram"
 msgstr "Histogramm ang_leichen"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:196
 msgid "_File"
 msgstr "_Datei"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:197
 msgid "_Find..."
 msgstr "_Suchen..."
 
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:199
 msgid "_Folder"
 msgstr "_Ordner"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:200
 msgid "_Folders"
 msgstr "_Ordner"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:201
 msgid "_Forward"
 msgstr "_Vor"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:202
 msgid "_Full Screen"
 msgstr "_Vollbild"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:203
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:204
 msgid "_Go to the Image Folder"
 msgstr "Zum Bildordner _gehen"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:205
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:206
 msgid "_High Quality"
 msgstr "_Hohe Qualität"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:207
 msgid "_Home"
 msgstr "_Persönlicher Ordner"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:208
 msgid "_Hue-Saturation"
 msgstr "_Farbton und Sättigung"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:210
 msgid "_Image preview"
 msgstr "_Bildvorschau"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:211
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkürzel"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:212
 msgid "_Location..."
 msgstr "_Ort..."
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:213
 msgid "_Low Quality"
 msgstr "_Niedrige Qualität"
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:214
 msgid "_Maintenance"
 msgstr "_Routineaufgaben"
-
-#: src/gthumb-ui.xml.h:214
-msgid "_Manual"
-msgstr "_Handbuch"
 
 #: src/gthumb-ui.xml.h:216
 msgid "_Move..."
@@ -1708,16 +1708,16 @@ msgstr "Die Objekte konnten nicht verschoben werden:"
 msgid "Back"
 msgstr "Zurück"
 
-#: src/gthumb-window.c:5399
+#: src/gthumb-window.c:5401
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Ordner »%s« konnte nicht geladen werden: %s\n"
 
-#: src/gthumb-window.c:5667
+#: src/gthumb-window.c:5669
 msgid "The specified catalog does not exist."
 msgstr "Der angegebene Katalog existiert nicht."
 
-#: src/gthumb-window.c:6931
+#: src/gthumb-window.c:6933
 msgid "Wait please..."
 msgstr "Bitte warten..."
 
@@ -3038,6 +3038,9 @@ msgstr "Familie"
 #: src/main.c:286 src/main.c:348
 msgid "Command Line"
 msgstr "Befehlszeile"
+
+#~ msgid "_Manual"
+#~ msgstr "_Handbuch"
 
 #~ msgid "Copyright (C) 2001 Free Software Foundation, Inc."
 #~ msgstr "Copyright © 2001 Free Software Foundation, Inc."
