@@ -2,6 +2,10 @@
 
 	* src/gthumb-window.c (image_comment_button_press_cb): make
 	the comment text selectable.
+	(key_press_cb): handle  key press events if the location entry returns
+	FALSE.
+	(window_hide_sidebar): do not hide the sidebar if no image is
+	available.
 
 2005-03-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

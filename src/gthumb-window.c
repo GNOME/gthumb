@@ -2700,8 +2700,10 @@ key_press_cb (GtkWidget   *widget,
 	gboolean      image_is_void;
 
 	if (GTK_WIDGET_HAS_FOCUS (window->location_entry)) {
-		gtk_widget_event (window->location_entry, (GdkEvent*) event);
-		return TRUE;
+		if (gtk_widget_event (window->location_entry, (GdkEvent*)event))
+			return TRUE;
+		else
+			return FALSE;
 	}
 
 	if (GTK_WIDGET_HAS_FOCUS (window->preview_button_image)
@@ -6001,6 +6003,9 @@ window_set_sidebar_content (GThumbWindow *window,
 void
 window_hide_sidebar (GThumbWindow *window)
 {
+	if (window->image_path == NULL)
+		return;
+
 	window->sidebar_visible = FALSE;
 	window->sidebar_width = gtk_paned_get_position (GTK_PANED (window->main_pane));
 
