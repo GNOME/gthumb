@@ -1,3 +1,7 @@
+2004-09-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.4.2 released ]
+
 2004-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/fullscreen.c (fullscreen_stop): fixed fullscreen mode.

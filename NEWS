@@ -1,3 +1,8 @@
+version 2.4.2
+-------------
+	* Fixed bug #150729: Problems saving .JPEG images.
+	* Fixed fullscreen mode.
+
 version 2.4.1
 -------------
 	* gThumb now compiles with both libexif 0.5.x and 0.6.x
