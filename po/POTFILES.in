@@ -157,6 +157,7 @@ src/dlg-comment.c
 src/dlg-comment.h
 src/dlg-convert.c
 src/dlg-convert.h
+src/dlg-crop.c
 src/dlg-duplicates.c
 src/dlg-duplicates.h
 src/dlg-file-utils.c
