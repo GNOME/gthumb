@@ -38,6 +38,10 @@ img.thumbnail {
 	border: solid 2px white;
 }
 
+div.preview_comment {
+	text-align: justify;
+}
+
 span.comment {
 	font-size: small;
 }

@@ -44,6 +44,10 @@ div.properties {
 	width: 80%;
 }
 
+div.preview_comment {
+	text-align: justify;
+}
+
 span.comment {
 	font-size: small;
 }

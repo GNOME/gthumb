@@ -861,7 +861,7 @@ write_markup_escape_line (const char *line, FILE *fout)
 {
 	char *e_line;
 
-	e_line = g_markup_escape_text (line, -1);
+	e_line = _g_escape_text_for_html (line, -1);
 	write_line (e_line, fout);
 	g_free (e_line);
 }
@@ -888,7 +888,7 @@ write_markup_escape_locale_line (const char *line, FILE *fout)
 {
 	char *e_line;
 	
-	e_line = g_markup_escape_text(line, -1);
+	e_line = _g_escape_text_for_html (line, -1);
 	write_locale_line (e_line, fout);
 	g_free (e_line);
 }
@@ -1132,7 +1132,7 @@ gth_parsed_doc_print (GList              *document,
 			image_src_relative = get_path_relative_to_dir (image_src, 
 								       ce->location);
 			escaped_path = escape_uri (image_src_relative);
-			e_escaped_path = g_markup_escape_text (escaped_path, -1);
+			e_escaped_path = _g_escape_text_for_html (escaped_path, -1);
 
 			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s />",
 						e_escaped_path,

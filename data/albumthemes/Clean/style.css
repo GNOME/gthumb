@@ -37,6 +37,10 @@ img.thumbnail {
 	border-style: none;
 }
 
+div.preview_comment {
+	text-align: justify;
+}
+
 span.comment {
 	font-size: small;
 }

@@ -1,5 +1,9 @@
 2005-02-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/albumthemes/*/style.css: justify comments.
+
+	* libgthumb/comments.c (_g_escape_text_for_html): new function
+
 	* src/catalog-web-exporter.c (gth_parsed_doc_print): 
 
 	escape xml special characters.  Patch by Christophe Bisière
