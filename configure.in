@@ -211,7 +211,7 @@ dnl ###############################################
 AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
 AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
 
-ALL_LINGUAS="am cs da de es fr it ja ko lv ms nl no pt_BR ru sv zh_TW"
+ALL_LINGUAS="am be cs da de es fr it ja ko lv ms nl no pt_BR ru sv zh_TW"
 GETTEXT_PACKAGE=gthumb
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
