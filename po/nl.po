@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-21 20:35+0200\n"
-"PO-Revision-Date: 2003-07-23 00:25+0200\n"
+"POT-Creation-Date: 2003-08-05 20:33+0200\n"
+"PO-Revision-Date: 2003-08-05 23:54+0200\n"
 "Last-Translator: Mark Van den Borre <mark@markvdb.be>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17,11 +17,11 @@ msgstr ""
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
-msgstr "Catalogus·"
+msgstr "Catalogus"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr "GThumb Catalogus-aanzicht"
+msgstr "GThumb catalogus-aanzicht"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
@@ -48,7 +48,7 @@ msgstr "GThumb bekijker"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr "Bekijken met GThumb"
+msgstr "Bekijken met gThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
@@ -172,12 +172,12 @@ msgstr "_Wit"
 msgid "_Zoom Quality"
 msgstr "_Zoomkwaliteit"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:517
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:662
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
-#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:414
+#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:415
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -188,7 +188,7 @@ msgstr "Uw afbeeldingen bekijken en beheren"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr "gThumb afbeelding·weergave"
+msgstr "GThumb afbeelding weergave"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
@@ -216,18 +216,18 @@ msgstr "Kan catalogus \"%s\" niet opslaan : %s"
 
 #: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
-msgstr "Alle commentaren worden verwijderd,·een·ogenblik·alstublieft"
+msgstr "Alle commentaren worden verwijderd, een ogenblik alstublieft"
 
 #: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
-msgstr "Oude commentaren·worden verwijderd, een ogenblik alstublieft..."
+msgstr "Oude commentaren worden verwijderd, een ogenblik alstublieft..."
 
 #: libgthumb/comments.c:747
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:749 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:225 src/gthumb-window.c:411
+#: src/fullscreen.c:225 src/gthumb-window.c:412
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -312,11 +312,11 @@ msgstr "Lettertype"
 
 #: libgthumb/gnome-print-font-picker.c:201
 msgid "Name of the selected font"
-msgstr "Naam·van·het·geselecteerde·lettertype"
+msgstr "Naam van het geselecteerde lettertype"
 
 #: libgthumb/gnome-print-font-picker.c:209
 msgid "Preview text"
-msgstr "Tekst·voorbeeld"
+msgstr "Tekst voorbeeld"
 
 #: libgthumb/gnome-print-font-picker.c:210
 msgid "Preview text shown in the dialog"
@@ -340,7 +340,7 @@ msgstr "Grootte van het lettertype voor het label in lettertype-infomodus"
 
 #: libgthumb/gnome-print-font-picker.c:238
 msgid "Show size"
-msgstr "Grootte·weergeven"
+msgstr "Grootte weergeven"
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
@@ -356,26 +356,26 @@ msgid "Comment"
 msgstr "Commentaar"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:429
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:430
 msgid "Name"
 msgstr "Naam"
 
 #: libgthumb/print-callbacks.c:921 libgthumb/print-callbacks.c:1500
 #, c-format
 msgid "Print %s"
-msgstr "Afdrukken·van·%s"
+msgstr "Afdrukken van %s"
 
 #: libgthumb/print-callbacks.c:924
 msgid "Print Image"
 msgstr "Afbeelding afdrukken"
 
-#: libgthumb/thumb-cache.c:486
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Alle voorbeelden aan het verwijderen, een·ogenblik·alstublieft..."
+msgstr "Alle voorbeelden aan het verwijderen, een ogenblik alstublieft..."
 
-#: libgthumb/thumb-cache.c:488
+#: libgthumb/thumb-cache.c:491
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Oude·voorbeelden·worden·verwijderd, een ogenblik alstublieft..."
+msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 
 #: src/catalog-png-exporter.c:1327
 #, c-format
@@ -387,30 +387,30 @@ msgstr "Afbeelding aan het laden: %s"
 msgid "Creating image: %s.%s"
 msgstr "Afbeelding aan het aanmaken: %s.%s"
 
-#: src/catalog-web-exporter.c:1453
+#: src/catalog-web-exporter.c:1456
 msgid "Saving thumbnails"
-msgstr "Voorbeelden·opslaan"
+msgstr "Voorbeelden opslaan"
 
-#: src/catalog-web-exporter.c:1521
+#: src/catalog-web-exporter.c:1524
 msgid "Saving HTML pages: Images"
-msgstr "HTML-pagina·afbeeldingen·worden·opgeslagen"
+msgstr "HTML-pagina afbeeldingen worden opgeslagen"
 
-#: src/catalog-web-exporter.c:1598
+#: src/catalog-web-exporter.c:1601
 msgid "Saving HTML pages: Indexes"
-msgstr "HTML-pagina·indeces·worden·opgeslagen"
+msgstr "HTML-pagina indeces worden opgeslagen"
 
-#: src/catalog-web-exporter.c:1682
+#: src/catalog-web-exporter.c:1701 src/catalog-web-exporter.c:1747
 msgid "Saving images"
-msgstr "Afbeeldingen wordne·opgeslagen"
+msgstr "Afbeeldingen worden opgeslagen"
 
-#: src/catalog-web-exporter.c:1996
+#: src/catalog-web-exporter.c:2061
 msgid "Could not create a temporary folder"
-msgstr "Kon·geen·tijdelijke·map·aanmaken"
+msgstr "Kon geen tijdelijke map aanmaken"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2035
+#: src/catalog-web-exporter.c:2100
 msgid "Loading images"
-msgstr "Afbeelding ·wordt·geladen"
+msgstr "Afbeelding wordt geladen"
 
 #: src/commands-impl.c:274 src/commands-impl.c:1010 src/commands-impl.c:1572
 msgid "Enter the new name: "
@@ -538,7 +538,7 @@ msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde map zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: src/commands-impl.c:1219 src/dlg-file-utils.c:274
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:419
 msgid "_Move"
 msgstr "_Verplaatsen"
 
@@ -547,8 +547,8 @@ msgstr "_Verplaatsen"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet kopieren : %s"
 
-#: src/commands-impl.c:1340 src/dlg-file-utils.c:2297
-#: src/dlg-file-utils.c:2299
+#: src/commands-impl.c:1340 src/dlg-file-utils.c:2453
+#: src/dlg-file-utils.c:2455
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verplaatsen : %s"
@@ -561,7 +561,7 @@ msgstr "bron bevat doel"
 msgid "a folder with that name is already present."
 msgstr "er is al een map met die naam."
 
-#: src/commands-impl.c:1453 src/dlg-file-utils.c:360 src/dlg-file-utils.c:449
+#: src/commands-impl.c:1453 src/dlg-file-utils.c:505 src/dlg-file-utils.c:594
 msgid "Choose the destination folder"
 msgstr "Selecteer doelmap"
 
@@ -608,10 +608,9 @@ msgid "translator_credits"
 msgstr ""
 " Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 " Mark Van den Borre <mark@markvdb.be>\n"
-"·Jeroen·van·der·Vegt·<A.J.vanderVegt@ITS.TUDelft.nl>"
+" Jeroen van der Vegt <A.J.vanderVegt@ITS.TUDelft.nl>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4880
-#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
+#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4884
 #: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
@@ -645,7 +644,7 @@ msgstr "De categorie \"%s\" bestaat al. Gebruik graag een andere naam."
 #: src/dlg-convert.c:158
 #, c-format
 msgid "Converting image: %s"
-msgstr "Afbeelding %s wordt·omgezet"
+msgstr "Afbeelding %s wordt omgezet"
 
 #: src/dlg-convert.c:181
 #, c-format
@@ -706,7 +705,7 @@ msgstr ""
 msgid "Could not delete the images:"
 msgstr "Kan de afbeeldingen niet verwijderen:"
 
-#: src/dlg-file-utils.c:220
+#: src/dlg-file-utils.c:362
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -714,66 +713,70 @@ msgstr ""
 " De afbeeldingen kunnen niet naar de Prullenbak. Wilt u ze definitief  "
 "verwijderen?"
 
-#: src/dlg-file-utils.c:751 src/dlg-file-utils.c:852
+#: src/dlg-file-utils.c:365
+msgid "_Do not display this message again"
+msgstr "_Deze boodschap niet meer weergeven"
+
+#: src/dlg-file-utils.c:896 src/dlg-file-utils.c:997
 msgid "You didn't enter the new name"
 msgstr "U heeft de nieuwe naam niet opgegeven"
 
-#: src/dlg-file-utils.c:763 src/dlg-file-utils.c:864
+#: src/dlg-file-utils.c:908 src/dlg-file-utils.c:1009
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 " De naam \"%s\" is al in gebruik in deze map. Graag een andere naam  kiezen."
 
-#: src/dlg-file-utils.c:1003
+#: src/dlg-file-utils.c:1148
 msgid "Could not rename the image:"
 msgstr "Kon afbeelding niet hernoemen:"
 
-#: src/dlg-file-utils.c:1005
+#: src/dlg-file-utils.c:1150
 msgid "Could not rename the following images:"
 msgstr "Kon volgende afbeeldingen niet hernoemen:"
 
-#: src/dlg-file-utils.c:1138
+#: src/dlg-file-utils.c:1283
 msgid "Could not move the image:"
 msgstr "Kon afbeelding niet verplaatsen:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1285
 msgid "Could not copy the image:"
 msgstr "Kon afbeelding niet kopieren:"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2320
+#: src/dlg-file-utils.c:1309 src/dlg-file-utils.c:2476
 msgid "_Abort"
 msgstr "_Afbreken"
 
-#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2321
+#: src/dlg-file-utils.c:1310 src/dlg-file-utils.c:2477
 msgid "_Continue"
 msgstr "_Doorgaan"
 
-#: src/dlg-file-utils.c:1337
+#: src/dlg-file-utils.c:1483
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Bestand %d van %d aan het kopiëren"
 
-#: src/dlg-file-utils.c:1720 src/dlg-file-utils.c:1906
+#: src/dlg-file-utils.c:1870 src/dlg-file-utils.c:2060
 msgid "Collecting images info"
 msgstr "Afbeeldingsinformatie verzamelen"
 
-#: src/dlg-file-utils.c:1723 src/dlg-file-utils.c:1919
+#: src/dlg-file-utils.c:1873 src/dlg-file-utils.c:2073
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Bestand %ld van %ld wordt verwijderd"
 
-#: src/dlg-file-utils.c:1909
+#: src/dlg-file-utils.c:2063
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Bestand %ld van %ld wordt gekopieerd"
 
-#: src/dlg-file-utils.c:1914
+#: src/dlg-file-utils.c:2068
 #, c-format
 msgid "Moving file %ld of %ld"
-msgstr "Bestand %ld van %ld wordt·verplaatst"
+msgstr "Bestand %ld van %ld wordt verplaatst"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:436
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:437
 msgid "Size"
 msgstr "Grootte"
 
@@ -781,11 +784,11 @@ msgstr "Grootte"
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:443
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:444
 msgid "Bytes"
 msgstr "Bytes"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:450
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:451
 msgid "Modified"
 msgstr "Laatst gewijzigd"
 
@@ -793,11 +796,11 @@ msgstr "Laatst gewijzigd"
 msgid "Information on Channel"
 msgstr "Informatie over kanaal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5329
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5333
 msgid "Field"
 msgstr "Veld"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5339
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5343
 msgid "Value "
 msgstr "Waarde"
 
@@ -852,7 +855,7 @@ msgstr "Map"
 
 #: src/dlg-web-exporter.c:649
 msgid "Select Album Theme"
-msgstr "Selecteer·een·album-thema"
+msgstr "Selecteer een album-thema"
 
 #: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
@@ -862,7 +865,7 @@ msgstr "Diavoorstelling verlaten"
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4273
+#: src/fullscreen.c:818 src/gthumb-window.c:4277
 msgid "Back"
 msgstr "Vorige"
 
@@ -920,7 +923,7 @@ msgstr "Tint en verzadiging bijsturen"
 
 #: src/gthumb-ui.xml.h:10
 msgid "Apply threshold"
-msgstr "Grenswaarde·instellen"
+msgstr "Grenswaarde instellen"
 
 #: src/gthumb-ui.xml.h:11
 msgid "Assign categories to selected images"
@@ -932,15 +935,15 @@ msgstr "Categoriëen aan afbeelding toewijzen"
 
 #: src/gthumb-ui.xml.h:13
 msgid "Auto"
-msgstr "Automatisch"
+msgstr "_Automatisch"
 
 #: src/gthumb-ui.xml.h:14
 msgid "Automatically normalize the contrast"
-msgstr "Automatisch het·contrast·normaliseren"
+msgstr "Automatisch het contrast normaliseren"
 
 #: src/gthumb-ui.xml.h:15
 msgid "Automatically stretch the contrast"
-msgstr "Automatisch het·contrast·maximaliseren"
+msgstr "Automatisch het contrast maximaliseren"
 
 #: src/gthumb-ui.xml.h:16
 msgid "Ca_talog"
@@ -989,7 +992,7 @@ msgstr "_Formaat omzetten"
 
 #: src/gthumb-ui.xml.h:28
 msgid "Convert image format"
-msgstr "Formaat afbeelding omzetten"
+msgstr "Afbeeldingsformaat omzetten"
 
 #: src/gthumb-ui.xml.h:29
 msgid "Copy current folder"
@@ -1001,7 +1004,7 @@ msgstr "Kopieer geselecteerde map"
 
 #: src/gthumb-ui.xml.h:31
 msgid "Copy selected images to another location"
-msgstr "Kopieer geselecteerde afbeeldingen naar andere locatie"
+msgstr "Geselecteerde afbeeldingen naar andere locatie·kopieëren"
 
 #: src/gthumb-ui.xml.h:32
 msgid "Copy this image to another location"
@@ -1013,7 +1016,7 @@ msgstr "Inde_xafbeelding aanmaken"
 
 #: src/gthumb-ui.xml.h:34
 msgid "Create _Web Album"
-msgstr "_Web·album·maken"
+msgstr "_Webalbum maken"
 
 #: src/gthumb-ui.xml.h:35
 msgid "Create a new catalog"
@@ -1033,7 +1036,7 @@ msgstr "Een nieuw venster maken"
 
 #: src/gthumb-ui.xml.h:39
 msgid "Crop image"
-msgstr "Krimp·afbeelding"
+msgstr "Krimp afbeelding"
 
 #: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
@@ -1045,7 +1048,7 @@ msgstr "Lijst van bezochte locaties verwijderen"
 
 #: src/gthumb-ui.xml.h:42
 msgid "Duplicate selected image"
-msgstr "Dubbel maken van gekozen afbeelding"
+msgstr "Geselecteerde·afbeelding(en)·dubbel maken."
 
 #: src/gthumb-ui.xml.h:43
 msgid "Duplicate this image"
@@ -1117,7 +1120,7 @@ msgstr "Afbeelding-werkbalk"
 
 #: src/gthumb-ui.xml.h:61
 msgid "Image _Comment"
-msgstr "Afbeeldings·_commentaar"
+msgstr "Afbeeldings_commentaar"
 
 #: src/gthumb-ui.xml.h:62
 msgid "In"
@@ -1211,7 +1214,7 @@ msgstr "Open met bestandsbeheer"
 
 #: src/gthumb-ui.xml.h:85
 msgid "Open with the _File Manager"
-msgstr "_Openen metbestandsbeheer"
+msgstr "_Openen met bestandsbeheer"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Out"
@@ -1251,7 +1254,7 @@ msgstr "Aantal kleuren verminderen"
 
 #: src/gthumb-ui.xml.h:96
 msgid "Reduce the number of colors"
-msgstr "Het·aantal kleuren verminderen"
+msgstr "Het aantal kleuren verminderen"
 
 #: src/gthumb-ui.xml.h:97
 msgid "Reload the current location"
@@ -1267,7 +1270,7 @@ msgstr "Com_mentaar verwijderen"
 
 #: src/gthumb-ui.xml.h:100
 msgid "Remo_ve from Catalog"
-msgstr "Uitcatalogus _verwijderen"
+msgstr "Uit catalogus _verwijderen"
 
 #: src/gthumb-ui.xml.h:101
 msgid "Remove comments of selected images"
@@ -1335,7 +1338,7 @@ msgstr "Opgeslagen afbeelding herstellen"
 
 #: src/gthumb-ui.xml.h:119
 msgid "Rotate Ri_ght"
-msgstr "_Rechtsom·draaien"
+msgstr "_Rechtsom draaien"
 
 #: src/gthumb-ui.xml.h:120
 msgid "Rotate _JPEG"
@@ -1343,7 +1346,7 @@ msgstr "_JPEG draaien"
 
 #: src/gthumb-ui.xml.h:121
 msgid "Rotate _Left"
-msgstr "_Linksom·draaien"
+msgstr "_Linksom draaien"
 
 #: src/gthumb-ui.xml.h:122
 msgid "Rotate image"
@@ -1380,7 +1383,7 @@ msgstr "Afbeelding als achtergrond instellen (gecentreerd)"
 #: src/gthumb-ui.xml.h:132
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
-" Afbeelding als achtergrond instellen (grootte naar verhouding  aanpassen)"
+"Afbeelding als achtergrond instellen (grootte naar verhouding aanpassen)"
 
 #: src/gthumb-ui.xml.h:133
 msgid "Set the image as desktop background (stretched)"
@@ -1472,7 +1475,7 @@ msgstr "Bekijken als catalogus"
 
 #: src/gthumb-ui.xml.h:156
 msgid "View as Thumbnails"
-msgstr "Bekijken·als·voorbeelden"
+msgstr "Bekijken als voorbeelden"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View as a slide show"
@@ -1484,7 +1487,7 @@ msgstr "Afbeeldingscommentaar bekijken"
 
 #: src/gthumb-ui.xml.h:159
 msgid "View image in fullscreen mode"
-msgstr "Bekijk afbeelding in volledig-scherm·modus"
+msgstr "Bekijk afbeelding in volledig-scherm modus"
 
 #: src/gthumb-ui.xml.h:160
 msgid "View image properties"
@@ -1778,7 +1781,7 @@ msgstr "_Hernoemen..."
 
 #: src/gthumb-ui.xml.h:240
 msgid "_Resize"
-msgstr "_Grootte aanpassen"
+msgstr "G_rootte aanpassen"
 
 #: src/gthumb-ui.xml.h:241
 msgid "_Restore"
@@ -1822,7 +1825,7 @@ msgstr "_Stoppen"
 
 #: src/gthumb-ui.xml.h:251
 msgid "_Stretch Contrast"
-msgstr "Contra_st·oprekken"
+msgstr "Contra_st oprekken"
 
 #: src/gthumb-ui.xml.h:252
 msgid "_Threshold"
@@ -1850,7 +1853,7 @@ msgstr "_Transformeer"
 
 #: src/gthumb-ui.xml.h:258
 msgid "_Up"
-msgstr "_Omhoog"
+msgstr "O_mhoog"
 
 #: src/gthumb-ui.xml.h:261
 msgid "_Zoom"
@@ -1872,68 +1875,68 @@ msgstr "op _grootte"
 msgid "by _Time"
 msgstr "op _tijd"
 
-#: src/gthumb-window.c:692
+#: src/gthumb-window.c:693
 msgid "[Press 'c' to add a comment]"
-msgstr "[Tik·'c'·om·commentaar·toe·te·voegen]"
+msgstr "[Tik 'c' om commentaar toe te voegen]"
 
-#: src/gthumb-window.c:766 src/gthumb-window.c:789
+#: src/gthumb-window.c:767 src/gthumb-window.c:790
 msgid "[modified]"
 msgstr "[gewijzigd]"
 
-#: src/gthumb-window.c:873
+#: src/gthumb-window.c:874
 msgid "No image"
 msgstr "Geen afbeelding"
 
-#: src/gthumb-window.c:875
+#: src/gthumb-window.c:876
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 afbeelding (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:879
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d afbeeldingen (%s)"
 
-#: src/gthumb-window.c:885
+#: src/gthumb-window.c:886
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 geselecteerd (%s)"
 
-#: src/gthumb-window.c:888
+#: src/gthumb-window.c:889
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: src/gthumb-window.c:3379
+#: src/gthumb-window.c:3380
 msgid "Dragged Images"
 msgstr "Gesleepte afbeeldingen"
 
-#: src/gthumb-window.c:3575
+#: src/gthumb-window.c:3579
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
-#: src/gthumb-window.c:5210
+#: src/gthumb-window.c:5214
 msgid "Image comment"
 msgstr "Afbeeldingcommentaar"
 
-#: src/gthumb-window.c:5224
+#: src/gthumb-window.c:5228
 msgid "Image data"
 msgstr "Afbeeldingsgegevens"
 
-#: src/gthumb-window.c:5238
+#: src/gthumb-window.c:5242
 msgid "Image preview"
 msgstr "Afbeeld_ingsvoorbeeld"
 
-#: src/gthumb-window.c:6468
+#: src/gthumb-window.c:6484
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6737
+#: src/gthumb-window.c:6753
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8083
+#: src/gthumb-window.c:8123
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -2076,6 +2079,113 @@ msgstr "_Verwijderen"
 msgid "_Save the new image as:"
 msgstr "Nieuwe afbeelding op_slaan als:"
 
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Van afbeeldingen groter dan dit (in bytes) zal geen voorbeeld worden "
+"gemaakt. Kies 0 als je voorbeelden voor alle afbeeldingen wilt laten maken."
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Mogelijke waarden zijn: 1, 2, 3 en 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Mogelijke waarden zijn: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Mogelijke waarden zijn: ascending, descending."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Mogelijke waarden zijn: forward, backward"
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Mogelijke waarden zijn: high, low"
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Mogelijke waarden zijn: image, data, comment"
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Mogelijke waarden zijn: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Mogelijke waarden zijn: light, midtone, dark."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Mogelijke waarden zijn: list, thumbnails."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Mogelijke waarden zijn: mm, in."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Mogelijke waarden zijn: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Mogelijke waarden zijn: name, size, time."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Mogelijke waarden zijn: nautilus, single, double."
+
+#: src/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Mogelijke waarden zijn: none, deflate, jpeg."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Mogelijke waarden zijn: none, name, path, size, time."
+
+#: src/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Mogelijke waarden zijn: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Mogelijke waarden zijn: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:19
+msgid "Possible values are: png, jpeg."
+msgstr "Mogelijke waarden zijn: png, jpeg."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Mogelijke waarden zijn: skip, rename, ask, overwrite."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values are: small, medium, large."
+msgstr "Mogelijke waarden zijn: small, medium, large."
+
+#: src/gthumb.schemas.in.h:22
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Mogelijke waarden zijn: system, text_below, text_beside, text_only, "
+"icons_only."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values are: white, black, checked, none."
+msgstr "Mogelijke waarden zijn: white, black, checked, none."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Of er altijd een zwarte achtergrond moet worden gebruikt."
+
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "_Beschikbare categoriëen:"
@@ -2086,7 +2196,7 @@ msgstr "_Huidige datum"
 
 #: src/gthumb_comments.glade.h:6
 msgid "Choose Date"
-msgstr "Selecteer·een·datum"
+msgstr "Selecteer een datum"
 
 #: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
 msgid "Co_mment:"
@@ -2134,7 +2244,7 @@ msgstr "_Volgende datum:"
 
 #: src/gthumb_comments.glade.h:19
 msgid "The following date"
-msgstr "De·volgende datum:"
+msgstr "De volgende datum:"
 
 #: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
@@ -2150,7 +2260,7 @@ msgstr "_Nieuw"
 
 #: src/gthumb_comments.glade.h:23
 msgid "_No date"
-msgstr "Gee_n·datum"
+msgstr "Gee_n datum"
 
 #: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
@@ -2399,7 +2509,7 @@ msgstr "_Breedte:"
 msgid "_Yellow-Blue:"
 msgstr "_Geel-blauw:"
 
-#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:51
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:49
 msgid "pixels"
 msgstr "beeldpunten"
 
@@ -2678,11 +2788,11 @@ msgstr "op grootte"
 msgid "by time"
 msgstr "op tijd"
 
-#: src/gthumb_png_exporter.glade.h:76
+#: src/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: src/gthumb_png_exporter.glade.h:77
+#: src/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
 
@@ -2728,7 +2838,7 @@ msgstr "<b>Richting</b>"
 
 #: src/gthumb_preferences.glade.h:14
 msgid "<b>Hide/Show</b>"
-msgstr "<b>Verbergen/Tonen</b>"
+msgstr "<b>Verbergen/tonen</b>"
 
 #: src/gthumb_preferences.glade.h:15
 msgid "<b>Interface</b>"
@@ -2740,7 +2850,7 @@ msgstr "<b>Bij opstarten:</b>"
 
 #: src/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
-msgstr "<b>Andere</b>"
+msgstr "<b>Overig</b>"
 
 #: src/gthumb_preferences.glade.h:18
 msgid "<b>Slide show</b>"
@@ -2748,7 +2858,7 @@ msgstr "<b>Diavoorstelling</b>"
 
 #: src/gthumb_preferences.glade.h:19
 msgid "<b>View images as</b>"
-msgstr "<b>Afbeeldingen·weergeven·als</b>"
+msgstr "<b>Afbeeldingen weergeven als</b>"
 
 #: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
@@ -2896,7 +3006,7 @@ msgstr "Enkel tekst"
 
 #: src/gthumb_preferences.glade.h:57
 msgid "Th_umbnail size:"
-msgstr "_Grootte·van·de·voorbeelden"
+msgstr "_Grootte van de voorbeelden"
 
 #: src/gthumb_preferences.glade.h:58
 msgid "Transparency _type:"
@@ -2932,7 +3042,7 @@ msgstr "gThumb voorkeuren"
 
 #: src/gthumb_preferences.glade.h:67
 msgid "seconds"
-msgstr "seconden"
+msgstr "seconden."
 
 #: src/gthumb_print.glade.h:4
 msgid "<b>Image</b>"
@@ -2966,11 +3076,11 @@ msgstr "_Centreren op pagina"
 
 #: src/gthumb_print.glade.h:12
 msgid "Comment _font:"
-msgstr "_Lettertype·voor·commentaar:"
+msgstr "_Lettertype voor commentaar:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
-msgstr "Commentaar·_invoegen"
+msgstr "Commentaar _invoegen"
 
 #: src/gthumb_print.glade.h:14
 msgid "Inches"
@@ -2994,7 +3104,7 @@ msgstr "_Portret"
 
 #: src/gthumb_print.glade.h:19
 msgid "Paper Details"
-msgstr "Papier·eigenschappen"
+msgstr "Papier eigenschappen"
 
 #: src/gthumb_print.glade.h:21
 msgid "US E_xecutive"
@@ -3154,11 +3264,11 @@ msgstr "Oude voorbeelden verwijderen"
 
 #: src/gthumb_tools.glade.h:20
 msgid "Delete comments of no more existing images"
-msgstr "Commentaren bij verdwenen afbeeldingen verwijderen"
+msgstr "Commentaren verwijderen van afbeeldingen die niet langer bestaan"
 
 #: src/gthumb_tools.glade.h:21
 msgid "Delete thumbnails of no more existing images"
-msgstr "Oude voorbeelden van niet-bestaande afbeeldingen verwijderen"
+msgstr "Oude voorbeelden verwijderen van afbeeldingen die niet langer bestaan."
 
 #: src/gthumb_tools.glade.h:22
 msgid "Equal images:"
@@ -3214,7 +3324,7 @@ msgstr "Afbeelding 90 kloksgewijs draaien"
 
 #: src/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Afbeelding 270·graden kloksgewijs draaien"
+msgstr "Afbeelding 270 graden kloksgewijs draaien"
 
 #: src/gthumb_tools.glade.h:39
 msgid "Search terminated, no duplicates found."
@@ -3227,9 +3337,9 @@ msgid ""
 "size"
 msgstr ""
 " Gebruik #'s om posities die de numerieke enumerator gebruikt aan te geven.  "
-"Gebruik * om oorspronkelijke bestandsnaam in te voegen.·Gebruik·?"
-"·om·de·afbeeldingsdatum·in·te·voegen.·Gebruik·!"
-"·om·de·afbeeldingsgrootte·in·te·voegen."
+"Gebruik * om oorspronkelijke bestandsnaam in te voegen. Gebruik ? om de "
+"afbeeldingsdatum in te voegen. Gebruik ! om de afbeeldingsgrootte in te "
+"voegen."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3249,7 +3359,7 @@ msgstr "op grootte"
 
 #: src/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
-msgstr "1024·x768"
+msgstr "1024 x768"
 
 #: src/gthumb_web_exporter.glade.h:6
 msgid "1280 x 960"
@@ -3273,11 +3383,11 @@ msgstr "<b>Album</b>"
 
 #: src/gthumb_web_exporter.glade.h:11
 msgid "<b>Index Layout</b>"
-msgstr "<b>Index·layout</b>"
+msgstr "<b>Index layout</b>"
 
 #: src/gthumb_web_exporter.glade.h:12
 msgid "<b>Personalize theme</b>"
-msgstr "<b>Thema·aanpassen</b>"
+msgstr "<b>Thema aanpassen</b>"
 
 #: src/gthumb_web_exporter.glade.h:13
 msgid "<b>Photo data</b>"
@@ -3293,7 +3403,7 @@ msgstr "<b>Thema</b>"
 
 #: src/gthumb_web_exporter.glade.h:16
 msgid "Came_ra Model"
-msgstr "Came_ra·model"
+msgstr "Came_ra model"
 
 #: src/gthumb_web_exporter.glade.h:17
 msgid "Caption"
@@ -3305,11 +3415,11 @@ msgstr "_Belichtingsmethode"
 
 #: src/gthumb_web_exporter.glade.h:21
 msgid "Exposure _time"
-msgstr "Belichtings·_tijd"
+msgstr "Belichtings_tijd"
 
 #: src/gthumb_web_exporter.glade.h:24
 msgid "Focal _length"
-msgstr "Focus·afstand"
+msgstr "Focusafstand"
 
 #: src/gthumb_web_exporter.glade.h:25
 msgid "I_mage Caption..."
@@ -3317,11 +3427,11 @@ msgstr "Afbeeldingstitel"
 
 #: src/gthumb_web_exporter.glade.h:27
 msgid "Inde_x file:"
-msgstr "_Bestand·met·inhoudsopgave:"
+msgstr "_Bestand met inhoudsopgave:"
 
 #: src/gthumb_web_exporter.glade.h:29
 msgid "Resi_ze images if larger than:"
-msgstr "Grootte·van·afbeeldingen wijzigen·als·ze·groter·zijn·dan:"
+msgstr "Grootte van afbeeldingen wijzigen als ze groter zijn dan:"
 
 #: src/gthumb_web_exporter.glade.h:30
 msgid "Sor_t:"
@@ -3333,11 +3443,11 @@ msgstr "Th_ema:"
 
 #: src/gthumb_web_exporter.glade.h:32
 msgid "Web Album"
-msgstr "Internet·album"
+msgstr "Internet album"
 
 #: src/gthumb_web_exporter.glade.h:33
 msgid "Web Album Theme"
-msgstr "Internet·album·thema"
+msgstr "Webalbum thema"
 
 #: src/gthumb_web_exporter.glade.h:34
 msgid "_Aperture value"
@@ -3345,11 +3455,11 @@ msgstr "_Arperture"
 
 #: src/gthumb_web_exporter.glade.h:35
 msgid "_Copy images to destination"
-msgstr "Geselecteerde bestanden naar andere locatie·kopiëren"
+msgstr "Geselecteerde bestanden naar andere locatie kopiëren"
 
 #: src/gthumb_web_exporter.glade.h:36
 msgid "_Date and Time"
-msgstr "_Datum·en·tijd"
+msgstr "_Datum en tijd"
 
 #: src/gthumb_web_exporter.glade.h:37
 msgid "_Destination:"
@@ -3373,7 +3483,7 @@ msgstr "Sluitertijd"
 
 #: src/gthumb_web_exporter.glade.h:43
 msgid "_Thumbnail Caption..."
-msgstr "Voorbeeld·_titel..."
+msgstr "Voorbeeld _titel..."
 
 #: src/gthumb_web_exporter.glade.h:44
 msgid "_Title:"
@@ -3381,11 +3491,7 @@ msgstr "_Titel:"
 
 #: src/gthumb_web_exporter.glade.h:45
 msgid "by modified time"
-msgstr "Op·wijzigingstijd"
-
-#: src/gthumb_web_exporter.glade.h:50
-msgid "index.html"
-msgstr "index.html"
+msgstr "Op wijzigingstijd"
 
 #: src/main.c:80
 msgid "Start in fullscreen mode"
