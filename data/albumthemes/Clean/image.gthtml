@@ -18,6 +18,9 @@
     td {
       font-size: x-small;
     }
+    img {
+      border-color: white;
+    }
     img.preview {
       border-width: 2px;
     }

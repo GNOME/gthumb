@@ -1,3 +1,13 @@
+version 2.3.4
+-------------
+	* Allow to download video and audio files from a digital camera.
+	* Resized album theme previews.
+	* Removed the style attributes from the album theme files, uses css
+	  classes instead.
+	* Use '2' to set the zoom level to 200% and '3' to set it to 300%.
+	* Fixes debian bug #241800: gthumb: incorrect treatment of accented 
+	  character in tools - rename series
+
 version 2.3.3
 -------------
 	* Fixed bug #138979: DnD for non-Latin1 filenames fails.

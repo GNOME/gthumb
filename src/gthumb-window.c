@@ -87,7 +87,8 @@
 #define DEF_SIDEBAR_CONT_SIZE  190
 #define DEF_SLIDESHOW_DELAY    4
 #define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
-#define PRELOADED_IMAGE_MAX_DIM  (2000*2000)
+#define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
+#define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"
@@ -7551,9 +7552,11 @@ window_save_pixbuf (GThumbWindow *window,
 
 static char *
 get_image_to_preload (GThumbWindow *window,
-		      int           pos)
+		      int           pos,
+		      int           priority)
 {
 	FileData *fdata;
+	int       max_size;
 
 	if (pos < 0)
 		return NULL;
@@ -7566,7 +7569,12 @@ get_image_to_preload (GThumbWindow *window,
 
 	debug (DEBUG_INFO, "%ld <-> %ld\n", (long int) fdata->size, (long int)PRELOADED_IMAGE_MAX_SIZE);
 
-	if (fdata->size > PRELOADED_IMAGE_MAX_SIZE) {
+	if (priority == 1)
+		max_size = PRELOADED_IMAGE_MAX_DIM1;
+	else
+		max_size = PRELOADED_IMAGE_MAX_DIM2;
+
+	if (fdata->size > max_size) {
 		debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (window->file_list, pos));
 		file_data_unref (fdata);
 		return NULL;
@@ -7578,9 +7586,9 @@ get_image_to_preload (GThumbWindow *window,
 
 		f_get_jpeg_size (fdata->path, &width, &height);
 
-		debug (DEBUG_INFO, "[%dx%d] <-> %d\n", width, height, PRELOADED_IMAGE_MAX_DIM);
+		debug (DEBUG_INFO, "[%dx%d] <-> %d\n", width, height, max_size);
 
-		if (width * height > PRELOADED_IMAGE_MAX_DIM) {
+		if (width * height > max_size) {
 			debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (window->file_list, pos));
 			file_data_unref (fdata);
 			return NULL;
@@ -7600,7 +7608,7 @@ load_timeout_cb (gpointer data)
 	GThumbWindow *window = data;
 	char         *prev1;
 	char         *next1;
-	/*char         *next2;*/
+	char         *next2;
 	int           pos;
 
 	if (window->view_image_timeout != 0) {
@@ -7614,19 +7622,19 @@ load_timeout_cb (gpointer data)
 	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
 	g_return_val_if_fail (pos != -1, FALSE);
 
-	prev1 = get_image_to_preload (window, pos - 1);
-	next1 = get_image_to_preload (window, pos + 1);
-	/*next2 = get_image_to_preload (window, pos + 2);*/
-
+	prev1 = get_image_to_preload (window, pos - 1, 1);
+	next1 = get_image_to_preload (window, pos + 1, 1);
+	next2 = get_image_to_preload (window, pos + 2, 2);
+	
 	gthumb_preloader_start (window->preloader, 
 				window->image_path, 
 				next1, 
 				prev1, 
-				NULL/*next2*/);
+				next2);
 
 	g_free (prev1);
 	g_free (next1);
-	/*g_free (next2);*/
+	g_free (next2);
 
 	return FALSE;
 }

@@ -415,7 +415,7 @@ dlg_rename_series (GThumbWindow *window)
 	/**/
 
 	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->rs_template_entry), svalue);
+	gtk_entry_set_text (GTK_ENTRY (data->rs_template_entry), svalue);
 	g_free (svalue);
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));

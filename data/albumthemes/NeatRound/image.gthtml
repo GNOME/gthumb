@@ -32,6 +32,9 @@
 		font-size: x-small;
 		text-align: center;
 	}
+	img {
+		border-color: white;
+	}
         img.thumbnail {
                 border-width: 2px;
         }

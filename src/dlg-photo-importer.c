@@ -33,6 +33,9 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-file-entry.h>
+#include <libgnomeui/gnome-icon-theme.h>
+#include <libgnomeui/gnome-icon-lookup.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-abilities-list.h>
@@ -244,18 +247,16 @@ ctx_progress_update_func (GPContext    *context,
 static gboolean
 valid_mime_type (const char *type)
 {
-	const char *mime_types[] = { GP_MIME_PNG, 
-				     GP_MIME_PGM,
-				     GP_MIME_PPM, 
-				     GP_MIME_PNM, 
-				     GP_MIME_JPEG,
-				     GP_MIME_TIFF,
-				     GP_MIME_BMP };
+	const char *mime_types[] = { "image",
+				     "video",
+				     "audio" };
 	int i;
 
-	for (i = 0; i < G_N_ELEMENTS (mime_types); i++)
-		if (strcasecmp (type, mime_types[i]) == 0)
+	for (i = 0; i < G_N_ELEMENTS (mime_types); i++) {
+		const char *mime_type = mime_types[i];
+		if (strncasecmp (type, mime_type, strlen (mime_type)) == 0)
 			return TRUE;
+	}
 
 	return FALSE;
 }
@@ -284,8 +285,10 @@ get_file_list (DialogData *data,
 			gp_list_get_name (list, i, &name);
 			gp_camera_file_get_info (data->camera, folder, name, &info, data->context);
 			
-			if (valid_mime_type (info.file.type))
-				file_list = g_list_prepend (file_list, g_build_filename (folder, name, NULL));
+			if (valid_mime_type (info.file.type)) {
+				char *filename = g_build_filename (folder, name, NULL);
+				file_list = g_list_prepend (file_list, filename);
+			}
 		}
 	}
 	gp_list_free (list);
@@ -564,6 +567,88 @@ load_images_preview__init (AsyncOperationData *aodata,
 }
 
 
+static int
+get_default_icon_size (GtkWidget *widget)
+{
+        int icon_width, icon_height;
+                                                                                
+        gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
+                                           GTK_ICON_SIZE_DIALOG,
+                                           &icon_width, &icon_height);
+        return MAX (icon_width, icon_height);
+}
+
+
+static GdkPixbuf*
+get_icon_from_mime_type (DialogData *data,
+			 const char *mime_type)
+{
+	GdkPixbuf      *pixbuf = NULL;
+	int             icon_size;
+        GnomeIconTheme *icon_theme = gnome_icon_theme_new ();
+        char           *icon_name;
+        char           *icon_path;
+
+        icon_size = get_default_icon_size (data->dialog);
+        icon_name = gnome_icon_lookup (icon_theme,
+                                       NULL,
+                                       NULL,
+                                       NULL,
+                                       NULL,
+                                       mime_type,
+                                       GNOME_ICON_LOOKUP_FLAGS_NONE,
+                                       NULL);
+	icon_path = gnome_icon_theme_lookup_icon (icon_theme,
+                                                  icon_name,
+                                                  icon_size,
+                                                  NULL,
+                                                  NULL);
+        g_free (icon_name);
+
+	if (icon_path != NULL) {
+		 pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
+                g_free (icon_path);
+	}
+
+	g_object_unref (icon_theme);
+
+	return pixbuf;
+}
+
+
+static const char *
+get_mime_type_from_filename (const char*filename)
+{
+	const char *result;
+
+	char *n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
+	char *n2 = g_utf8_strdown (n1, -1);
+	char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+	result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+	g_free (n3);
+	g_free (n2);
+	g_free (n1);
+
+	return result;
+}
+
+
+static GdkPixbuf*
+get_mime_type_icon (DialogData *data,
+		    const char *filename)
+{
+	GdkPixbuf  *pixbuf = NULL;
+	const char *mime_type;
+
+	mime_type = get_mime_type_from_filename (filename);
+	pixbuf = get_icon_from_mime_type (data, mime_type);
+	if (pixbuf == NULL)
+		pixbuf = get_icon_from_mime_type (data, "image/*");
+
+	return pixbuf;
+}
+
+
 static void 
 load_images_preview__step (AsyncOperationData *aodata, 
 			   DialogData         *data)
@@ -592,6 +677,9 @@ load_images_preview__step (AsyncOperationData *aodata,
 		FileData  *fdata;
 		
 		pixbuf = gdk_pixbuf_new_from_file (tmp_filename, NULL);
+		if (pixbuf == NULL) 
+			pixbuf = get_mime_type_icon (data, camera_filename);
+
 		width = gdk_pixbuf_get_width (pixbuf);
 		height = gdk_pixbuf_get_height (pixbuf);
 		
@@ -610,7 +698,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 		fdata = file_data_new (camera_path, NULL);
 		gth_image_list_append_with_data (GTH_IMAGE_LIST (data->image_list),
 						 pixbuf,
-						 NULL,
+						 camera_filename,
 						 NULL,
 						 fdata);
 		g_object_unref (pixbuf);
@@ -1475,6 +1563,7 @@ dlg_photo_importer (GThumbWindow *window)
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 
 	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
+	gth_image_list_set_view_mode (GTH_IMAGE_LIST (data->image_list), GTH_VIEW_MODE_LABEL);
 	gtk_widget_show (data->image_list);
 	gtk_container_add (GTK_CONTAINER (data->import_preview_scrolledwindow), data->image_list);
 

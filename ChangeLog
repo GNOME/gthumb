@@ -1,3 +1,13 @@
+2004-05-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c: allow to download video and audio files
+	from the camera.
+
+	* src/dlg-rename-series.c (dlg_rename_series): 
+	
+	Fixes debian bug #241800: gthumb: incorrect treatment of accented 
+	character in tools - rename series
+
 2004-04-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/BlueStripes/image.gthtml
@@ -32,7 +42,6 @@
 	Added a new tag, <gthumb:eval expr="expression here"/>
 
 	Patch by Martin Ebourne <martin AT zepler DOT org>
-	
 
 2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -42,8 +51,8 @@
 	* src/dlg-png-exporter.c (export): set the default value for 
 	type_extension.
 
-	* libgthumb/gnome-print-font-picker.c (gnome_print_font_picker_set_mode)
-        : remove useless check.
+	* libgthumb/gnome-print-font-picker.c 
+	(gnome_print_font_picker_set_mode): remove useless check.
 
 	* libgthumb/file-utils.c (file_copy): remove n <= 0 condition.
 
