@@ -1,1 +1,1 @@
-SUBDIRS = Classic ClassicClips NeatRound NeatSquare Simple
+SUBDIRS = Classic ClassicClips Clean NeatRound NeatSquare Simple

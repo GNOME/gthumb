@@ -270,6 +270,7 @@ data/Makefile
 data/albumthemes/Makefile
 data/albumthemes/Classic/Makefile
 data/albumthemes/ClassicClips/Makefile
+data/albumthemes/Clean/Makefile
 data/albumthemes/NeatRound/Makefile
 data/albumthemes/NeatSquare/Makefile
 data/albumthemes/Simple/Makefile

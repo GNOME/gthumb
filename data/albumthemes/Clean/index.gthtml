@@ -1,0 +1,71 @@
+<gthumb:set_var thumbnail_width=120 thumbnail_height=100/>
+
+<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="Generator" content="gThumb Image Viewer">
+  <head>
+  <title><gthumb:title/></title>
+  <style>
+    span.titolo { 
+      color: black; 
+      font-weight: bold;
+      font-size: large;
+      text-transform: uppercase; 
+    }
+    span.copyright {
+      color: gray;
+      font-family: sans-serif;
+      font-size: xx-small;
+      text-align: center;
+    }
+    span.disabled {
+      color: white;
+    }
+  </style>
+  </head>
+  <body bgcolor=white>
+    <!-- Navigation Bar -->
+    <table align=center border=0  width="95%">
+      <gthumb:if pages > 1 />
+        <tr>
+          <td align=right width=12%>
+            <tt>
+            <gthumb:if page_idx == 1 />
+              <span class="disabled">prev</span>
+            <gthumb:else/>
+              <a href="<gthumb:page_link idx_relative=-1/>">prev</a> 
+            <gthumb:end/>
+            &nbsp; 
+            <b><gthumb:page_idx/>/<gthumb:pages/></b> 
+            &nbsp; 
+            <gthumb:if page_idx == pages />
+              <span class="disabled">next</span>
+            <gthumb:else/>
+              <a href="<gthumb:page_link idx_relative=+1/>">next</a>
+            <gthumb:end/>
+            </tt>
+        </tr>
+      <gthumb:end/>
+      <tr bgcolor="white">
+        <td align=center colspan=2 width=88%>
+          &nbsp;<b><span class=titolo><gthumb:title/></span></b>
+        </td>
+      </tr>
+    </table>
+
+    &nbsp;
+
+    <!-- Table -->
+    <table align=center border=0 cellpadding=5 width="95%">
+      <gthumb:table/>
+    </table>
+
+    &nbsp;
+
+    <!-- Copyright -->
+    <hr noshade size=1 width=95%>
+    <center>
+      <span class=copyright>Album created on <gthumb:date/></span>
+    </center>
+  </body>
+</html>
