@@ -563,7 +563,7 @@ gth_file_view_init (GthFileView *file_view)
 GType
 gth_file_view_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

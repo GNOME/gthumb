@@ -262,7 +262,7 @@ image_loader_init (ImageLoader *il)
 GType
 image_loader_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {

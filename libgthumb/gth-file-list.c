@@ -333,7 +333,7 @@ gth_file_list_init (GthFileList *file_list)
 GType
 gth_file_list_get_type ()
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

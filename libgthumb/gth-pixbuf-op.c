@@ -127,7 +127,7 @@ gth_pixbuf_op_init (GthPixbufOp *pixbuf_op)
 GType
 gth_pixbuf_op_get_type ()
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

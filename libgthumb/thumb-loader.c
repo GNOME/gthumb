@@ -199,7 +199,7 @@ thumb_loader_init (ThumbLoader *tl)
 GType
 thumb_loader_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {

@@ -1,3 +1,17 @@
+2004-10-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c (thumb_loader_get_type): 
+	* libgthumb/image-viewer.c (image_viewer_get_type): 
+	* libgthumb/image-loader.c (image_loader_get_type): 
+	* libgthumb/gth-pixbuf-op.c (gth_pixbuf_op_get_type): 
+	* libgthumb/gth-image-list.c (gth_image_list_get_type): 
+	* libgthumb/gth-file-view-thumbs.c (gth_file_view_thumbs_get_type): 
+	* libgthumb/gth-file-view-list.c (gth_file_view_list_get_type): 
+	* libgthumb/gth-file-view.c (gth_file_view_get_type): 
+	* libgthumb/gth-file-list.c (gth_file_list_get_type): 
+
+	s/guint/GType/  Patch by Dave Malcolm
+	
 2004-10-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/catalog-png-exporter.c:

@@ -968,7 +968,7 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 GType
 gth_file_view_thumbs_get_type (void)
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {
