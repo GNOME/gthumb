@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-03-03 20:13+0100\n"
-"PO-Revision-Date: 2003-03-03 23:59+0100\n"
+"POT-Creation-Date: 2003-03-15 12:10+0100\n"
+"PO-Revision-Date: 2003-03-15 17:10+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -295,11 +295,11 @@ msgstr "Tisk %s"
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
-#: libgthumb/thumb-cache.c:396
+#: libgthumb/thumb-cache.c:399
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Odstraňují se všechny miniatury, prosím počkejte..."
 
-#: libgthumb/thumb-cache.c:398
+#: libgthumb/thumb-cache.c:401
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňují se staré miniatury, prosím počkejte..."
 
@@ -313,24 +313,24 @@ msgstr "Načítá se obrázek: %s"
 msgid "Creating image: %s.%s"
 msgstr "Vytváří se obrázek: %s.%s"
 
-#: src/catalog-web-exporter.c:1100
+#: src/catalog-web-exporter.c:1102
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: src/catalog-web-exporter.c:1168
+#: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: src/catalog-web-exporter.c:1245
+#: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1550
+#: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1591
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -714,11 +714,11 @@ msgstr "Záhlaví"
 msgid "Footer"
 msgstr "Zápatí"
 
-#: src/dlg-rename-series.c:318
+#: src/dlg-rename-series.c:410
 msgid "Old Name"
 msgstr "Starý název"
 
-#: src/dlg-rename-series.c:326
+#: src/dlg-rename-series.c:418
 msgid "New Name"
 msgstr "Nový název"
 
@@ -3040,10 +3040,8 @@ msgstr "Hledání ukončeno, nebyly nalezeny žádné duplikáty."
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
-msgstr ""
-"Použijte znaky # jako náhradu za číslování. Použijte znak * jako náhradu za "
-"původní název souboru."
+"original filename. Use ? to insert image date."
+msgstr "Použijte znaky # pro určení pozic používaných číslováním. Použijte * pro vložení původního názvu souboru. Použijte ? pro vložení data obrázku."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
