@@ -5700,16 +5700,16 @@ close__step6 (char     *filename,
 	if (! maximized && GTK_WIDGET_VISIBLE (window->app)) {
 		int width, height;
 
-		if (window->sidebar_visible) {
-			eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, gtk_paned_get_position (GTK_PANED (window->main_pane)));
-			eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (window->content_pane)));
-		} else
-			eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, window->sidebar_width);
-
 		gdk_drawable_get_size (window->app->window, &width, &height);
 		eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
 		eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
 	}
+
+	if (window->sidebar_visible) {
+		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, gtk_paned_get_position (GTK_PANED (window->main_pane)));
+		eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (window->content_pane)));
+	} else
+		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, window->sidebar_width);
 
 	if (last_window)
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, window->file_list->enable_thumbs);
