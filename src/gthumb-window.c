@@ -630,13 +630,12 @@ window_update_sensitivity (GThumbWindow *window)
 	/* Edit Catalog menu. */
 
 	if (window->sidebar_content == CATALOG_LIST) { 
+		char *view_catalog;
+		char *view_search;
+
 		bonobo_ui_component_set_prop (window->ui_component, 
 					      "/menu/File/Folder", 
 					      "hidden", "1",
-					      NULL);
-		bonobo_ui_component_set_prop (window->ui_component, 
-					      "/menu/File/Catalog", 
-					      "hidden", "0",
 					      NULL);
 
 		set_command_visible (window, "EditCurrentDir_New", FALSE);
@@ -666,7 +665,24 @@ window_update_sensitivity (GThumbWindow *window)
 		is_search = (is_catalog && (catalog_list_is_search (window->catalog_list, &iter)));
 		set_command_sensitive (window, "EditCurrentCatalog_EditSearch", is_search);
 		set_command_sensitive (window, "EditCurrentCatalog_RedoSearch", is_search);
+
+		if (is_search) {
+			view_catalog = "1";
+			view_search = "0";
+		} else {
+			view_catalog = "0";
+			view_search = "1";
+		}
 		
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/menu/File/Catalog", 
+					      "hidden", view_catalog,
+					      NULL);
+
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/menu/File/Search", 
+					      "hidden", view_search,
+					      NULL);
 	} else {
 		bonobo_ui_component_set_prop (window->ui_component, 
 					      "/menu/File/Folder", 
@@ -674,6 +690,10 @@ window_update_sensitivity (GThumbWindow *window)
 					      NULL);
 		bonobo_ui_component_set_prop (window->ui_component, 
 					      "/menu/File/Catalog", 
+					      "hidden", "1",
+					      NULL);
+		bonobo_ui_component_set_prop (window->ui_component, 
+					      "/menu/File/Search", 
 					      "hidden", "1",
 					      NULL);
 
@@ -941,12 +961,19 @@ add_bookmark_menu_item (GThumbWindow *window,
 
 	full_cmd_name = g_strdup_printf ("/commands/%s%d", prefix, id);
 
-	if (pref_util_location_is_catalog (path)) 
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
-	else if (pref_util_location_is_search (path))
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
-	else
-		pixbuf = get_folder_pixbuf (MENU_ICON_SIZE);
+	if (strcmp (menu_name, g_get_home_dir ()) == 0) 
+		pixbuf = gtk_widget_render_icon (window->app,
+						 GTK_STOCK_HOME,
+						 GTK_ICON_SIZE_MENU,
+						 NULL);
+	else {
+		if (pref_util_location_is_catalog (path)) 
+			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
+		else if (pref_util_location_is_search (path))
+			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
+		else
+			pixbuf = get_folder_pixbuf (MENU_ICON_SIZE);
+	}
 
 	bonobo_ui_util_set_pixbuf (ui_component, 
 				   full_cmd_name,
@@ -982,30 +1009,6 @@ remove_bookmark_menu_item (GThumbWindow *window,
 }
 
 
-static gint
-bookmark_sort (gconstpointer p1,
-	       gconstpointer p2)
-{
-	const gchar *s1, *s2;
-	const gchar *n1, *n2;
-
-	s1 = pref_util_remove_prefix ((const gchar *) p1);
-	s2 = pref_util_remove_prefix ((const gchar *) p2);
-
-	if (strcmp (s1, "/") == 0)
-		n1 = s1;
-	else
-		n1 = file_name_from_path (s1);
-
-	if (strcmp (s2, "/") == 0)
-		n2 = s2;
-	else
-		n2 = file_name_from_path (s2);
-	
-	return strcasecmp (n1, n2);
-}
-
-
 void
 window_update_bookmark_list (GThumbWindow *window)
 {
@@ -1027,7 +1030,6 @@ window_update_bookmark_list (GThumbWindow *window)
 		return;
 
 	names = g_list_copy (preferences.bookmarks->list);
-	names = g_list_sort (names, bookmark_sort);
 
 	/* Update bookmarks menu. */
 
@@ -4014,6 +4016,7 @@ stop__step4 (GThumbWindow *window)
 {
 	if (window->slideshow)
 		window_stop_slideshow (window);
+
 	gthumb_preloader_stop (window->preloader, 
 			       (DoneFunc) stop__step5, 
 			       window);

@@ -35,7 +35,7 @@ _g_strdup_with_max_size (const char *s,
 		char *first_half;
 		char *second_half;
 		int   offset;
-		int   half_max_size = max_size / 2;
+		int   half_max_size = max_size / 2 + 1;
 
 		first_half = g_strndup (s, half_max_size);
 		offset = half_max_size + l - max_size;

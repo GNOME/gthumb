@@ -39,6 +39,7 @@ static struct {
 	{ GTHUMB_STOCK_HUE_SATURATION,      hue_saturation_22_rgba,      NULL },
 	{ GTHUMB_STOCK_INVERT,              invert_16_rgba,              NULL },
 	{ GTHUMB_STOCK_MIRROR,              mirror_24_rgba,              mirror_16_rgba },
+	{ GTHUMB_STOCK_NORMAL_VIEW,         exit_fullscreen_24_rgba,     NULL },
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           NULL },
 	{ GTHUMB_STOCK_RESIZE,              resize_22_rgba,              resize_16_rgba },
 	{ GTHUMB_STOCK_ROTATE_90,           rotate_90_24_rgba,           rotate_90_16_rgba },

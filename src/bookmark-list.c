@@ -25,6 +25,7 @@
 #include <gtk/gtk.h>
 #include "main.h"
 #include "gthumb-init.h"
+#include "bookmarks.h"
 #include "bookmark-list.h"
 #include "typedefs.h"
 #include "pixbuf-utils.h"
@@ -40,22 +41,6 @@ enum {
 	BOOK_LIST_COLUMN_PATH,
 	BOOK_LIST_NUM_COLUMNS
 };
-
-
-static gint
-sort_by_name (gconstpointer  ptr1,
-	      gconstpointer  ptr2)
-{
-	const gchar *name1, *name2;
-
-	name1 = file_name_from_path ((gchar*) ptr1);
-	name2 = file_name_from_path ((gchar*) ptr2);
-
-	if ((name1 == NULL) || (name2 == NULL))
-		return 0;
-
-	return strcasecmp (name1, name2);
-}
 
 
 static void
@@ -83,7 +68,6 @@ add_columns (GtkTreeView *treeview)
                                              NULL);
 
         gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
-	gtk_tree_view_column_set_sort_column_id (column, BOOK_LIST_COLUMN_NAME);
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 }
 
@@ -137,44 +121,22 @@ bookmark_list_free (BookmarkList *book_list)
 }
 
 
-gchar *
-get_menu_name (const gchar *label)
-{
-	const char *name_with_ext;
-	gint offset = 0;
-
-	if (pref_util_location_is_catalog (label)
-	    || pref_util_location_is_search (label)) {
-		gchar *rc_dir_prefix;
-
-		rc_dir_prefix = g_strconcat (g_get_home_dir (),
-					     "/",
-					     RC_CATALOG_DIR,
-					     "/",
-					     NULL);
-
-		offset = strlen (rc_dir_prefix);
-
-		g_free (rc_dir_prefix);
-	}
-
-	name_with_ext = pref_util_remove_prefix (label) + offset;
-	return remove_extension_from_path (name_with_ext);
-}
-
-
 void 
 bookmark_list_set (BookmarkList *book_list,
-		   GList *list)
+		   GList        *list)
 {
-	GList *scan;
-	GdkPixbuf *dir_pixbuf, *search_pixbuf, *catalog_pixbuf;
+	GdkPixbuf *dir_pixbuf;
+	GdkPixbuf *search_pixbuf;
+	GdkPixbuf *catalog_pixbuf;
+	GdkPixbuf *home_pixbuf;
+	GList     *scan;
 
 	g_return_if_fail (book_list != NULL);
 
 	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
 	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
 	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
+	home_pixbuf = gtk_widget_render_icon (book_list->root_widget, GTK_STOCK_HOME, GTK_ICON_SIZE_MENU, NULL);
 
 	gtk_list_store_clear (book_list->list_store);
 
@@ -187,28 +149,30 @@ bookmark_list_set (BookmarkList *book_list,
 
 	for (scan = list; scan; scan = scan->next)
 		book_list->list = g_list_prepend (
-			book_list->list, g_strdup ((gchar*) scan->data));
+			book_list->list, g_strdup ((char*) scan->data));
 
-	book_list->list = g_list_sort (book_list->list, sort_by_name);
+	book_list->list = g_list_reverse (book_list->list);
 
 	/* Insert the bookmarks in the list. */
 
 	for (scan = book_list->list; scan; scan = scan->next) {
-		gchar *       name = scan->data;
-		gchar *       menu_name;
-		gchar *       utf8_name;
+		char        *name = scan->data;
+		char        *menu_name;
+		char        *utf8_name;
 		GtkTreeIter   iter;
-		GdkPixbuf *   pixbuf;
+		GdkPixbuf   *pixbuf;
+
+		menu_name = bookmarks_utils__get_menu_item_name (name);
+		utf8_name = g_locale_to_utf8 (menu_name, -1, NULL, NULL, NULL);
 		
 		if (pref_util_location_is_catalog (name)) 
 			pixbuf = catalog_pixbuf;
 		else if (pref_util_location_is_search (name))
 			pixbuf = search_pixbuf;
-		else 
+		else if (strcmp (g_get_home_dir (), menu_name) == 0)
+			pixbuf = home_pixbuf;
+		else
 			pixbuf = dir_pixbuf;
-
-		menu_name = get_menu_name (name);
-		utf8_name = g_locale_to_utf8 (menu_name, -1, NULL, NULL, NULL);
 
 		gtk_list_store_append (book_list->list_store, &iter);
 		gtk_list_store_set (book_list->list_store, &iter,
@@ -220,9 +184,10 @@ bookmark_list_set (BookmarkList *book_list,
 		g_free (utf8_name);
 	}
 
-	g_object_unref (G_OBJECT (dir_pixbuf));
-	g_object_unref (G_OBJECT (search_pixbuf));
-	g_object_unref (G_OBJECT (catalog_pixbuf));
+	g_object_unref (dir_pixbuf);
+	g_object_unref (search_pixbuf);
+	g_object_unref (catalog_pixbuf);
+	g_object_unref (home_pixbuf);
 }
 
 
@@ -253,7 +218,7 @@ bookmark_list_get_path_from_row (BookmarkList *book_list,
 				 gint row)
 {
 	GtkTreePath *path;
-	gchar *result;
+	char        *result;
 
 	g_return_val_if_fail (book_list != NULL, NULL);
 
@@ -270,8 +235,8 @@ gchar *
 bookmark_list_get_selected_path (BookmarkList *book_list)
 {
 	GtkTreeSelection *selection;
-	GtkTreeIter iter;
-	gchar *name;
+	GtkTreeIter       iter;
+	char             *name;
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (book_list->list_view));
         if (selection == NULL)
@@ -285,4 +250,22 @@ bookmark_list_get_selected_path (BookmarkList *book_list)
 			    BOOK_LIST_COLUMN_PATH, &name,
 			    -1);
 	return name;
+}
+
+
+void
+bookmark_list_select_item (BookmarkList *book_list,
+			   int           row)
+{
+	GtkTreeSelection *selection;
+	GtkTreePath      *tpath;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (book_list->list_view));
+        if (selection == NULL)
+                return;
+
+	tpath = gtk_tree_path_new ();
+	gtk_tree_path_append_index (tpath, row);
+	gtk_tree_selection_select_path (selection, tpath);
+	gtk_tree_path_free (tpath);
 }

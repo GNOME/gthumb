@@ -184,12 +184,12 @@ dlg_image_prop_new (GThumbWindow *window)
 	g_free (label);
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field2_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Type"));
+	label = g_strdup_printf ("<b>%s:</b>", _("Image Dimensions"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 
 	i_field_label = glade_xml_get_widget (data->gui, "i_field3_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Image Dimensions"));
+	label = g_strdup_printf ("<b>%s:</b>", _("Type"));
 	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
 	g_free (label);
 

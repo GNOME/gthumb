@@ -42,16 +42,18 @@ BookmarkList * bookmark_list_new                     ();
 void           bookmark_list_free                    (BookmarkList *book_list);
 
 void           bookmark_list_set                     (BookmarkList *book_list,
-						      GList *list);
+						      GList        *list);
 
-gchar *        bookmark_list_get_path_from_tree_path (BookmarkList *book_list,
-						      GtkTreePath *path);
+char *         bookmark_list_get_path_from_tree_path (BookmarkList *book_list,
+						      GtkTreePath  *path);
 
-gchar *        bookmark_list_get_path_from_row       (BookmarkList *book_list,
-						      gint row);
+char *         bookmark_list_get_path_from_row       (BookmarkList *book_list,
+						      int           row);
 
-gchar *        bookmark_list_get_selected_path       (BookmarkList *book_list);
+char *         bookmark_list_get_selected_path       (BookmarkList *book_list);
 
+void           bookmark_list_select_item             (BookmarkList *book_list,
+						      int           row);
 
 #endif /* BOOKMARKS_LIST_H */
 

@@ -125,12 +125,9 @@ file_save_ok_cb (GtkWidget *w,
 						 filename, 
 						 image_type, 
 						 keys, values,
-						 &error)) {
-				if (error == NULL)
-					g_print ("Oops\n"); /* FIXME */
-				else
-					_gtk_error_dialog_from_gerror_run (parent,  &error);
-			}
+						 &error)) 
+				_gtk_error_dialog_from_gerror_run (parent, 
+								   &error);
 		
 		g_strfreev (keys);
 		g_strfreev (values);

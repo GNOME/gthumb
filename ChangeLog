@@ -1,9 +1,22 @@
+2002-11-03  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (add_bookmark_menu_item): 
+	* libgthumb/bookmarks.c: 
+	* src/dlg-bookmarks.c: do not sort bokkmarks, let the user modify
+	the bookmarks order instead.
+
+	* libgthumb/bookmarks.c (get_menu_item_name): use relative path
+	for folders under the home dir, full path for other folders and
+	relative path for catalogs.
+
 2002-10-31  Christian Neumair  <chris@gnome-de.org>
 
 	* gthumb.desktop.in: Moved text from generic to name line so that gnome
 	displays it in its menu.
 
 2002-10-31  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/icons/Makefile.am (EXTRA_DIST): remove unknown.xpm
 
 	* src/dlg-scale-image.c: implement unit change.
 	(ok_cb): save options.

@@ -31,6 +31,7 @@
 #define GTHUMB_STOCK_HUE_SATURATION       "gthumb-hue-saturation"
 #define GTHUMB_STOCK_INVERT               "gthumb-invert"
 #define GTHUMB_STOCK_MIRROR               "gthumb-mirror"
+#define GTHUMB_STOCK_NORMAL_VIEW          "gthumb-normal-view"
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"
 #define GTHUMB_STOCK_ROTATE_90            "gthumb-rotate-90"

@@ -232,14 +232,16 @@
 	     _tip="Start or stop current animation"/>
      	<cmd name="View_StepAnimation" _label="Step A_nimation" 
 	     _tip="View next animation frame"/>
-	<cmd name="View_Fullscreen" _label="Full screen"
+	<cmd name="View_Fullscreen" _label="Full Screen"
 	     _tip="View image in fullscreen mode"
 	     pixtype="stock" pixname="gthumb-fullscreen"
 	     accel="*Control*V"/>
-	<cmd name="View_FullscreenPopup" _label="Full screen"
-	     _tip="View image in fullscreen mode"/>
+	<cmd name="View_FullscreenPopup" _label="Full Screen"
+	     _tip="View image in fullscreen mode"
+	     pixtype="stock" pixname="gthumb-fullscreen"/>
 	<cmd name="View_ExitFullscreenPopup" _label="Restore Normal View"
-	     _tip="View image in fullscreen mode"/>
+	     _tip="View image in fullscreen mode"
+	     pixtype="stock" pixname="gthumb-normal-view"/>
 	<cmd name="View_ShowFolders" type="toggle"
 	     _tip="View the folders"
 	     pixtype="pixbuf"
@@ -367,9 +369,14 @@
 			<menuitem name="EditCurrentCatalog_Rename" verb=""/>
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
-			<separator name="EditCurrentCatalog_Sep"/>
-			<menuitem name="EditCurrentCatalog_EditSearch" verb=""/>
+		</submenu>
+		<submenu name="Search" _label="_Search">
 			<menuitem name="EditCurrentCatalog_RedoSearch" verb=""/>
+			<menuitem name="EditCurrentCatalog_EditSearch" verb=""/>
+			<separator name="EditCurrentCatalog_Sep"/>
+			<menuitem name="EditCurrentCatalog_Rename" verb=""/>
+			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
+			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
 		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>
@@ -518,8 +525,10 @@
 	<toolitem name="Go_Forward" verb="" _label="Forward"/>
 	<toolitem name="Go_Up" verb="" _label="Up"/>
 	<toolitem name="Go_Refresh" verb=""  _label="Refresh"/>
+
   	<toolitem name="Go_Home" verb="" _label="Home"/>
 	<separator/>
+
   	<toolitem name="View_ShowFolders" verb="" priority="1" 
 	          _label="Folders"/>
   	<toolitem name="View_ShowCatalogs" verb="" priority="1"
@@ -588,6 +597,7 @@
 	<toolitem name="AlterImage_Desaturate" verb="" _label="Desaturate"/>
 	<toolitem name="AlterImage_Invert" verb="" _label="Negative"/>
 	<toolitem name="AlterImage_Posterize" verb="" _label="Posterize"/>
+
 	<separator/>
 
   	<toolitem name="View_ZoomIn" verb=""
@@ -692,15 +702,15 @@
 		<menuitem name="View_ZoomFit" verb="" _label="Zoom to _Fit"/>
 	</popup>
 	<popup name="CatalogPopup">
+		<menuitem name="EditCatalog_RedoSearch" verb=""/>
+		<menuitem name="EditCatalog_EditSearch" verb=""/>
+		<separator/>
 		<menuitem name="EditCatalog_Rename" verb="" 
 		          _label="Rename"/>
 		<menuitem name="EditCatalog_Delete" verb=""
 		          _label="Remove"/>
 		<menuitem name="EditCatalog_Move" verb=""
 		          _label="Move..."/>
-		<separator/>
-		<menuitem name="EditCatalog_EditSearch" verb=""/>
-		<menuitem name="EditCatalog_RedoSearch" verb=""/>
 	</popup>
 	<popup name="DirPopup">
 		<menuitem name="EditDir_Open" verb=""

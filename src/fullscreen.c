@@ -279,6 +279,8 @@ show_comment_on_image (GThumbWindow *window,
 	else
 		return;
 
+	comment_visible = TRUE;
+
 	comment = NULL;
 	if (cdata != NULL) {
 		comment = comments_get_comment_as_string (cdata, "\n", " - ");
@@ -386,7 +388,6 @@ show_comment_on_image (GThumbWindow *window,
 			   bounds.x, bounds.y,
 			   bounds.width, bounds.height);
 
-	comment_visible = TRUE;
 	viewer->next_scroll_repaint = TRUE;
 }
 
@@ -402,13 +403,15 @@ hide_comment_on_image ()
 	if (original_buffer == NULL)
 		return;
 
+	comment_visible = FALSE;
+
 	gdk_draw_drawable (viewer->window,
 			   viewer->style->black_gc,
 			   original_buffer,
 			   0, 0,
 			   bounds.x, bounds.y,
 			   bounds.width, bounds.height);
-	comment_visible = FALSE;
+	gdk_flush ();
 }
 
 
@@ -603,6 +606,9 @@ hide_mouse_pointer_cb (gpointer data)
 	gtk_widget_hide (popup_window);
 	image_viewer_hide_cursor (IMAGE_VIEWER (fullscreen->viewer));
 	fullscreen->mouse_hide_id = 0;
+
+	if (comment_visible) 
+		gtk_widget_queue_draw (fullscreen->viewer);
 
         return FALSE;
 }

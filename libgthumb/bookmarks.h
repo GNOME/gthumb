@@ -67,5 +67,8 @@ const char *       bookmarks_get_menu_tip      (Bookmarks   *bookmarks,
 						const gchar *path);
 
 
+char *             bookmarks_utils__get_menu_item_name  (const char *path);
+
+
 #endif /* BOOKMARKS_H */
 

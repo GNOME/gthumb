@@ -27,6 +27,7 @@
 
 #include "typedefs.h"
 #include "bookmarks.h"
+#include "catalog.h"
 #include "file-utils.h"
 #include "preferences.h"
 
@@ -89,24 +90,50 @@ bookmarks_free (Bookmarks *bookmarks)
 }
 
 
-static char *
-get_menu_item_name (const char *path)
+
+char *
+bookmarks_utils__get_menu_item_name (const char *path)
 {
-	char *name;
-	char *tmp_path;
+	char     *name;
+	char     *tmp_path;
+	gboolean  catalog_or_search;
 
 	tmp_path = g_strdup (pref_util_remove_prefix (path));
 
 	/* if it is a catalog then remove the extension */
 
-	if (pref_util_location_is_catalog (path)
-	    || pref_util_location_is_search (path)) 
+	catalog_or_search = (pref_util_location_is_catalog (path)
+			     || pref_util_location_is_search (path));
+
+	if (catalog_or_search)
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 
 	if (strcmp (tmp_path, "/") == 0) 
 		name = g_strdup ("/");
-	else
-		name = g_strdup (file_name_from_path (tmp_path));
+	else {
+		if (catalog_or_search) {
+			char *base_path;
+			int   l;
+
+			base_path = get_catalog_full_path (NULL);
+			l = strlen (base_path);
+			g_free (base_path);
+
+			name = g_strdup (tmp_path + 1 + l);
+		} else {
+			const char *base_path;
+			int         l;
+			
+			base_path = g_get_home_dir ();
+			l = strlen (base_path);
+			
+			if ((strcmp (tmp_path, base_path) != 0)
+			    && (strncmp (tmp_path, base_path, l) == 0))
+				name = g_strdup (tmp_path + 1 + l);
+			else
+				name = g_strdup (tmp_path);
+		}
+	}
 
 	g_free (tmp_path);
 
@@ -198,7 +225,7 @@ bookmarks_add (Bookmarks   *bookmarks,
 
 	my_insert (bookmarks->names, 
 		   path, 
-		   get_menu_item_name (path));
+		   bookmarks_utils__get_menu_item_name (path));
 
 	my_insert (bookmarks->tips, 
 		   path, 
@@ -334,7 +361,7 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 						  g_strdup (path));
 		my_insert (bookmarks->names, 
 			   path, 
-			   get_menu_item_name (path));
+			   bookmarks_utils__get_menu_item_name (path));
 
 		my_insert (bookmarks->tips, 
 			   path, 

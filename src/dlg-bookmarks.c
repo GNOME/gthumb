@@ -44,6 +44,10 @@ typedef struct {
 	GtkWidget *list_container;
 	GtkWidget *btn_remove;
 	GtkWidget *btn_ok;
+	GtkWidget *up_button;
+	GtkWidget *down_button;
+	GtkWidget *bottom_button;
+	GtkWidget *top_button;
 
 	BookmarkList *book_list;
 	Bookmarks *bookmarks;
@@ -82,6 +86,164 @@ remove_cb (GtkWidget *widget,
 }
 
 
+static void
+move_up_cb (GtkWidget *widget,
+	    DialogData *data)
+{
+	GList    *list, *link, *prev;
+	char     *path;
+	gpointer  ldata;
+
+	path = bookmark_list_get_selected_path (data->book_list);
+	if (path == NULL)
+		return;
+	
+	list = data->bookmarks->list;
+
+	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	if (link == NULL) {
+		g_free (path);
+		return;
+	}
+
+	prev = g_list_previous (link);
+	if (prev == NULL) {
+		g_free (path);
+		return;
+	}
+
+	ldata = link->data;
+
+	list = g_list_remove_link (list, link);
+	list = g_list_insert_before (list, prev, ldata);
+	g_list_free (link);
+	data->bookmarks->list = list;
+
+	g_free (path);
+
+	bookmarks_write_to_disk (data->bookmarks);
+	bookmark_list_set (data->book_list, data->bookmarks->list);
+
+	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+}
+
+
+static void
+move_down_cb (GtkWidget *widget,
+	      DialogData *data)
+{
+	GList    *list, *link, *next;
+	gpointer  ldata;
+	char     *path;
+	int       i;
+
+	path = bookmark_list_get_selected_path (data->book_list);
+	if (path == NULL)
+		return;
+	
+	list = data->bookmarks->list;
+
+	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	if (link == NULL) {
+		g_free (path);
+		return;
+	}
+
+	next = g_list_next (link);
+	if (next == NULL) {
+		g_free (path);
+		return;
+	}
+
+	ldata = link->data;
+
+	i = g_list_position (list, link);
+	list = g_list_remove_link (list, link);
+	list = g_list_insert (list, ldata, i + 1);
+	g_list_free (link);
+	data->bookmarks->list = list;
+
+	g_free (path);
+
+	bookmarks_write_to_disk (data->bookmarks);
+	bookmark_list_set (data->book_list, data->bookmarks->list);
+
+	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+}
+
+
+static void
+move_top_cb (GtkWidget *widget,
+	     DialogData *data)
+{
+	GList    *list, *link;
+	gpointer  ldata;
+	char     *path;
+
+	path = bookmark_list_get_selected_path (data->book_list);
+	if (path == NULL)
+		return;
+	
+	list = data->bookmarks->list;
+
+	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	if (link == NULL) {
+		g_free (path);
+		return;
+	}
+
+	ldata = link->data;
+
+	list = g_list_remove_link (list, link);
+	list = g_list_insert (list, ldata, 0);
+	g_list_free (link);
+	data->bookmarks->list = list;
+
+	g_free (path);
+
+	bookmarks_write_to_disk (data->bookmarks);
+	bookmark_list_set (data->book_list, data->bookmarks->list);
+
+	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+}
+
+
+static void
+move_bottom_cb (GtkWidget *widget,
+		DialogData *data)
+{
+	GList    *list, *link;
+	gpointer  ldata;
+	char     *path;
+
+	path = bookmark_list_get_selected_path (data->book_list);
+	if (path == NULL)
+		return;
+	
+	list = data->bookmarks->list;
+
+	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	if (link == NULL) {
+		g_free (path);
+		return;
+	}
+
+	ldata = link->data;
+
+	list = g_list_remove_link (list, link);
+	list = g_list_insert (list, ldata, g_list_length (list));
+	g_list_free (link);
+	data->bookmarks->list = list;
+
+	g_free (path);
+
+	bookmarks_write_to_disk (data->bookmarks);
+	bookmark_list_set (data->book_list, data->bookmarks->list);
+
+	bookmark_list_select_item (data->book_list, g_list_index (list, ldata));
+}
+
+
 void
 dlg_edit_bookmarks (GThumbWindow *window)
 {
@@ -103,9 +265,13 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	data->dialog = glade_xml_get_widget (data->gui, "bookmarks_dialog");
 	data->list_container = glade_xml_get_widget (data->gui, "bm_list_container");
 	bm_bookmarks_label = glade_xml_get_widget (data->gui, "bm_bookmarks_label");
-	data->btn_remove = glade_xml_get_widget (data->gui, "bm_btn_remove");
+	data->btn_remove = glade_xml_get_widget (data->gui, "bm_remove_button");
 	data->btn_ok = glade_xml_get_widget (data->gui, "bm_btn_ok");
 
+	data->up_button = glade_xml_get_widget (data->gui, "bm_up_button");
+	data->down_button = glade_xml_get_widget (data->gui, "bm_down_button");
+	data->top_button = glade_xml_get_widget (data->gui, "bm_top_button");
+	data->bottom_button = glade_xml_get_widget (data->gui, "bm_bottom_button");
 
 	data->book_list = bookmark_list_new ();
 	gtk_container_add (GTK_CONTAINER (data->list_container), 
@@ -134,6 +300,26 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->btn_remove), 
 			  "clicked",
 			  G_CALLBACK (remove_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->up_button), 
+			  "clicked",
+			  G_CALLBACK (move_up_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->down_button), 
+			  "clicked",
+			  G_CALLBACK (move_down_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->top_button), 
+			  "clicked",
+			  G_CALLBACK (move_top_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->bottom_button), 
+			  "clicked",
+			  G_CALLBACK (move_bottom_cb),
 			  data);
 
 	/* run dialog. */
