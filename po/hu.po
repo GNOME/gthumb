@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.1.6\n"
 "POT-Creation-Date: 2003-10-07 17:02+0200\n"
-"PO-Revision-Date: 2003-10-07 16:58+0200\n"
+"PO-Revision-Date: 2003-10-08 12:09+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -755,11 +755,11 @@ msgstr "Kihagyás"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
 msgid "Duplicates"
-msgstr "Duplikátumok"
+msgstr "Azonosak"
 
 #: src/dlg-duplicates.c:294
 msgid "Duplicates Size"
-msgstr "Duplikátumok mérete"
+msgstr "Azonosak mérete"
 
 #: src/dlg-duplicates.c:400
 msgid "Last modified"
@@ -1149,7 +1149,7 @@ msgstr "Különféle beállítások megváltoztatása"
 
 #: src/gthumb-ui.xml.h:48
 msgid "Fi_nd Duplicates..."
-msgstr "_Duplikátumok keresése..."
+msgstr "_Azonosak keresése..."
 
 #: src/gthumb-ui.xml.h:49
 msgid "Find images"
@@ -3336,11 +3336,11 @@ msgstr "Azonos képek:"
 
 #: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
-msgstr "Duplikátumok keresése"
+msgstr "Azonosak keresése"
 
 #: src/gthumb_tools.glade.h:24
 msgid "Found duplicates:"
-msgstr "Talált duplikátumok:"
+msgstr "Talált azonos képek:"
 
 #: src/gthumb_tools.glade.h:26
 msgid "JPEG Lossless Transformation"
