@@ -149,6 +149,7 @@ typedef struct {
 	GList          *dirs;
 
 	char           *catalog_path;
+	gboolean        search_comments;
 } DialogData;
 
 
@@ -1108,6 +1109,43 @@ add_file_list (DialogData *data, GList *file_list)
 }
 
 
+static char *
+uri_from_comment_uri (const char *comment_uri,
+		      gboolean    is_file)
+{
+	char *base;
+	char *uri;
+	int   comment_uri_l;
+	int   base_l;
+
+	if (comment_uri == NULL)
+		return NULL;
+
+	comment_uri_l = strlen (comment_uri);
+
+	base = comments_get_comment_dir (NULL);
+	base_l = strlen (base);
+
+	if (comment_uri_l == base_l) 
+		uri = g_strdup ("/");
+
+	else if (comment_uri_l > base_l) {
+		uri = g_strdup (comment_uri + base_l);
+
+		if (is_file) { /* remove the comment extension. */
+			int uri_l = comment_uri_l - base_l;
+			uri [uri_l - strlen (COMMENT_EXT)] = 0;
+		}
+
+	} else
+		uri = NULL;
+	
+	g_free (base);
+
+	return uri;
+}
+
+
 static void search_dir_async (DialogData *data, gchar *dir);
 
 
@@ -1124,7 +1162,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 	for (node = list; node != NULL; node = node->next) {
 		GnomeVFSURI *full_uri = NULL;
-		gchar       *str_uri, *unesc_uri;
+		char        *str_uri, *unesc_uri;
 
 		info = node->data;
 
@@ -1133,6 +1171,15 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
+
+			if (data->search_comments) {
+				char *tmp;
+				tmp = uri_from_comment_uri (unesc_uri, TRUE);
+				g_free (unesc_uri);
+				unesc_uri = tmp;
+			}
+
+			g_print ("%s\n", unesc_uri);
 
 			if (file_respects_search_criteria (data, unesc_uri)) 
 				files = g_list_prepend (files, unesc_uri);
@@ -1149,6 +1196,15 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
+
+			if (data->search_comments) {
+				char *tmp;
+				tmp = uri_from_comment_uri (unesc_uri, FALSE);
+				g_free (unesc_uri);
+				unesc_uri = tmp;
+			}
+
+			g_print ("{%s}\n", unesc_uri);
 
 			data->dirs = g_list_prepend (data->dirs,  unesc_uri);
 			g_free (str_uri);
@@ -1174,7 +1230,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		
 		do {
 			GList *first_dir;
-			gchar *dir;
+			char  *dir;
 
 			if (data->dirs == NULL) {
 				search_finished (data);
@@ -1183,7 +1239,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 			first_dir = data->dirs;
 			data->dirs = g_list_remove_link (data->dirs, first_dir);
-			dir = (gchar*) first_dir->data; 
+			dir = (char*) first_dir->data; 
 			g_list_free (first_dir);
 
 			good_dir_to_search_into = ! file_is_hidden (file_name_from_path (dir));
@@ -1193,7 +1249,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		} while (! good_dir_to_search_into);
 
 	} else if (result != GNOME_VFS_OK) {
-		gchar *path;
+		char *path;
 
 		path = gnome_vfs_uri_to_string (data->uri, 
 						GNOME_VFS_URI_HIDE_NONE);
@@ -1210,13 +1266,27 @@ static void
 search_dir_async (DialogData *data, char *dir)
 {
 	char *escaped;
+	char *start_from;
+
+	if (data->search_comments) 
+		start_from = comments_get_comment_dir (dir);
+	else
+		start_from = g_strdup (dir);
+
+	g_print ("%s --> %s\n", dir, start_from);
 
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->p_current_dir_entry), dir);
+	g_print ("[0]\n");
+
+	/**/
 
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
-	escaped = gnome_vfs_escape_path_string (dir);
+
+	escaped = gnome_vfs_escape_path_string (start_from);
 	data->uri = gnome_vfs_uri_new (escaped);
+
+	g_free (start_from);
 	g_free (escaped);
 
 	gnome_vfs_async_load_directory_uri (
@@ -1233,7 +1303,18 @@ search_dir_async (DialogData *data, char *dir)
 static void 
 search_images_async (DialogData *data)
 {
+	SearchData *search_data = data->search_data;
+
 	free_search_results_data (data);
 	gtk_list_store_clear (data->p_progress_tree_model);
-	search_dir_async (data, data->search_data->start_from);
+
+	/* if the search criteria include comment data just search in
+	 * the comments tree */
+
+	data->search_comments = ((search_data->comment_pattern != NULL)
+				 || (search_data->place_pattern != NULL)
+				 || (search_data->keywords_pattern != NULL)
+				 || (search_data->date_scope != DATE_ANY));
+
+	search_dir_async (data, search_data->start_from);
 }

@@ -1718,6 +1718,8 @@ catalog_activate_continue (gpointer data)
 {
 	GThumbWindow *window = data;
 
+	window_update_sensitivity (window);
+
 	/* Add to history list if not present as last entry. */
 
 	if ((window->go_op == WINDOW_GO_TO)
@@ -1737,6 +1739,7 @@ catalog_activate_continue (gpointer data)
 				  is_search ? SEARCH_PREFIX : CATALOG_PREFIX);
 	} else 
 		window->go_op = WINDOW_GO_TO;
+
 	window_update_history_list (window);
 	window_update_title (window);
 }
@@ -1771,7 +1774,6 @@ catalog_activate (GThumbWindow *window,
 				g_free (window->catalog_path);
 			window->catalog_path = g_strdup (cat_path);
 		}
-		window_update_sensitivity (window);
 	}
 }
 
@@ -2799,6 +2801,8 @@ static gboolean
 combo_button_activate_default_callback (EComboButton *combo_button,
 					void *data)
 {
+	GThumbWindow *window = data;
+	e_combo_button_popup_menu (E_COMBO_BUTTON (window->adjust_image_combo_button));
 	return TRUE; /* FIXME */
 }
 

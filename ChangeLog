@@ -1,8 +1,15 @@
 2002-11-17  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* libgthumb/bookmarks.c (bookmarks_add): added an append parameter
-	to append or prepend an item to the bookmarks.  This is because
-	bookmark items are appended while history items are prepended.
+	* src/e-combo-button.c (paint): paint the combo button as a single
+	button.
+
+	* src/dlg-search.c (search_images_async): if the search criteria
+	 include comment data just search in the comments tree.
+
+	* libgthumb/bookmarks.c (bookmarks_add): added a parameter to choose
+	whether	to append or to prepend an item to the bookmarks.  
+	This is usefull because	bookmark items are appended while history 
+	items are prepended.
 
 	* src/commands-impl.c (edit_current_edit_comment_command_impl) 
 	(edit_current_edit_categories_command_impl): new functions to edit
