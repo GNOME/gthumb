@@ -1,6 +1,6 @@
 [Desktop Entry]
-_Name=gThumb
-_GenericName=Image Viewer
+_Name=gThumb Image Viewer
+_GenericName=
 _Comment=View and organize your images
 Exec=gthumb
 Terminal=false

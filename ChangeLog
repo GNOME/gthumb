@@ -1,3 +1,8 @@
+2002-10-31  Christian Neumair  <chris@gnome-de.org>
+
+	* gthumb.desktop.in: Moved text from generic to name line so that gnome
+	displays it in its menu.
+
 2002-10-31  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-scale-image.c: implement unit change.
