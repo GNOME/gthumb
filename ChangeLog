@@ -1,3 +1,11 @@
+2004-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.5.0 released ]
+
+2004-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.1: added --import-photos option documentation.
+
 2004-07-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/jpegutils/jpeg-data.c: 
@@ -14,7 +22,7 @@
 	* src/dlg-search.c (search_clicked_cb): 
 	* libgthumb/search.c (search_util_get_file_patterns): new function
 
-	Fixes bug #148571: Problem with regular expressio	
+	Fixes bug #148571: Problem with regular expressions	
 
 2004-07-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

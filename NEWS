@@ -1,3 +1,14 @@
+version 2.5.0
+-------------
+	* Use the Gtk+ UI Manager to handle menus and toolbar.
+	* Use the Gtk+ FileChooser for saving and loading images or selecting
+          folders.
+	* New comment system that saves comments in the .comments subfolder.
+	* Added ability to write images and their comments to CDs using 
+          Nautilus.
+	* Make the comments dialog and the categories dialog modeless.
+	* Preserve EXIF data when saving an image.
+
 version 2.4.0
 -------------
 	* Allow to download video and audio files from a digital camera.

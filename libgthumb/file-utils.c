@@ -23,6 +23,7 @@
 #include <pwd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
@@ -590,6 +591,49 @@ rmdir_recursive (const gchar *directory)
 /* -- */
 
 
+int
+check_permissions (const char *path,
+		   int         mode) 
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    result;
+	char             *escaped;
+	int	          perm;
+	
+	info = gnome_vfs_file_info_new ();
+	escaped = gnome_vfs_escape_host_and_path_string (path);
+	result = gnome_vfs_get_file_info (escaped, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+	
+	if (result != GNOME_VFS_OK) 
+		return FALSE; 
+
+	perm = 7;
+	
+	if ((mode & R_OK) && (info->permissions & 
+			      (GNOME_VFS_PERM_USER_READ | 
+			       GNOME_VFS_PERM_GROUP_READ|
+			       GNOME_VFS_PERM_OTHER_READ))) 
+		perm &= ~R_OK;
+
+	if ((mode & W_OK) && (info->permissions & 
+			      (GNOME_VFS_PERM_USER_WRITE | 
+			       GNOME_VFS_PERM_GROUP_WRITE|
+			       GNOME_VFS_PERM_OTHER_WRITE)))  
+		perm &= ~W_OK;
+	
+	if ((mode & X_OK) && (info->permissions & 
+			      (GNOME_VFS_PERM_USER_EXEC | 
+			       GNOME_VFS_PERM_GROUP_EXEC|
+			       GNOME_VFS_PERM_OTHER_EXEC)))  
+		perm &= ~X_OK;
+
+	return (perm);
+}
+
+
 gboolean
 path_is_file (const char *path)
 {
@@ -1144,8 +1188,13 @@ ensure_dir_exists (const char *a_path,
 		return TRUE;
 
 	path = g_strdup (a_path);
-	p = path;
-	
+
+	p = strstr (path, "://");
+	if (p == NULL)   /* Not a URI */
+		p = path;
+	else  /* Is a URI */
+		p = p + 3;  /* Move p past the :// */
+
 	while (*p != '\0') {
 		p++;
 		if ((*p == '/') || (*p == '\0')) {

@@ -5533,20 +5533,18 @@ close__step6 (char     *filename,
 
 	last_window = window_list->next == NULL;
 
-	/* Save visualization options if the window is not maximized. */
-
+	/* Save visualization options only if the window is not maximized. */
 	state = gdk_window_get_state (GTK_WIDGET (window->app)->window);
 	maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
-
 	if (! maximized && GTK_WIDGET_VISIBLE (window->app)) {
 		int width, height;
-		
+
 		if (window->sidebar_visible) {
 			eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, gtk_paned_get_position (GTK_PANED (window->main_pane)));
 			eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (window->content_pane)));
 		} else
 			eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, window->sidebar_width);
-		
+
 		gdk_drawable_get_size (window->app->window, &width, &height);
 		eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
 		eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
