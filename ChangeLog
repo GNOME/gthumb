@@ -1,3 +1,15 @@
+2005-02-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c:
+
+	Fixes bug #152441: fuzzy thumbnails, not sharp thumbnails.
+	Patch by Robert Schultz.
+
+2005-01-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c (get_current_language): use strlen
+	instead of the non-standard strnlen.
+
 2005-01-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-web-exporter.c (export): unescape destination.

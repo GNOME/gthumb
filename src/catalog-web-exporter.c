@@ -973,7 +973,7 @@ get_current_language (void)
 	if (underline != NULL)
 		*underline = '\0';
 
-	len = strnlen (locale, 4);
+	len = strlen (locale);
 	if (((len == 2) || (len == 3)) && is_alpha_string (locale, len))
 		language = g_locale_to_utf8 (locale, -1, 0, 0, 0);
 		

@@ -48,8 +48,8 @@
 
 #define DEFAULT_MAX_FILE_SIZE (4*1024*1024)
 
-#define CACHE_MAX_W   128
-#define CACHE_MAX_H   128
+#define THUMBNAIL_LARGE_SIZE	256
+#define THUMBNAIL_NORMAL_SIZE	128
 
 #define THUMBNAIL_DIR_PERMISSIONS 0700
 
@@ -72,6 +72,9 @@ typedef struct
 
 	int max_w;
 	int max_h;
+
+	int cache_max_w;
+	int cache_max_h;
 
 	GnomeVFSFileSize max_file_size;    /* If the file size is greater 
 					    * than this the thumbnail will 
@@ -100,7 +103,9 @@ static void         thumb_loader_error_cb   (ImageLoader *il,
 static gint         normalize_thumb         (gint *width, 
 					     gint *height, 
 					     gint max_w, 
-					     gint max_h);
+					     gint max_h,
+					     gint cache_max_w,
+					     gint cache_max_h);
 
 
 static void 
@@ -185,8 +190,7 @@ thumb_loader_init (ThumbLoader *tl)
 	tl->priv = g_new (ThumbLoaderPrivateData, 1);
 	priv = tl->priv;
 
-	priv->thumb_factory = gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
-
+	priv->thumb_factory = NULL;
 	priv->uri = NULL;
 	priv->path = NULL;
 	priv->pixbuf = NULL;
@@ -239,8 +243,8 @@ thumb_loader (const char  *path,
 		GdkPixbuf *pixbuf;
 
 		pixbuf = f_load_scaled_jpeg (path, 
-					     priv->max_w, 
-					     priv->max_h, 
+					     priv->cache_max_w, 
+					     priv->cache_max_h, 
 					     NULL, NULL);
 
 		if (pixbuf != NULL) {
@@ -282,6 +286,17 @@ thumb_loader_new (const char *path,
 
 	tl = THUMB_LOADER (g_object_new (THUMB_LOADER_TYPE, NULL));
 	priv = tl->priv;
+
+	if (width <= THUMBNAIL_NORMAL_SIZE && height <= THUMBNAIL_NORMAL_SIZE) {
+		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_NORMAL_SIZE;
+		priv->thumb_factory =
+			gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_NORMAL);
+	}
+	else {
+		priv->cache_max_w = priv->cache_max_h = THUMBNAIL_LARGE_SIZE;
+		priv->thumb_factory =
+			gnome_thumbnail_factory_new (GNOME_THUMBNAIL_SIZE_LARGE);
+	}
 
 	priv->max_w = width;
 	priv->max_h = height;
@@ -635,7 +650,8 @@ thumb_loader_done_cb (ImageLoader *il,
 
 		/* Check whether to scale. */
 		modified = scale_keepping_ratio (&width, &height, 
-						 CACHE_MAX_W, CACHE_MAX_H);
+						 priv->cache_max_w,
+						 priv->cache_max_h);
 		if (modified) {
 			g_object_unref (priv->pixbuf);
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
@@ -653,7 +669,9 @@ thumb_loader_done_cb (ImageLoader *il,
 		modified = normalize_thumb (&width, 
 					    &height,
 					    priv->max_w, 
-					    priv->max_h);
+					    priv->max_h,
+					    priv->cache_max_w,
+					    priv->cache_max_h);
 		if (modified) {
 			pixbuf = priv->pixbuf;
 			priv->pixbuf = gdk_pixbuf_scale_simple (pixbuf, 
@@ -709,7 +727,9 @@ static gint
 normalize_thumb (gint *width, 
 		 gint *height, 
 		 gint max_width, 
-		 gint max_height)
+		 gint max_height,
+		 gint cache_max_w,
+		 gint cache_max_h)
 {
 	gboolean modified;
 	float    max_w = max_width;
@@ -719,15 +739,15 @@ normalize_thumb (gint *width,
 	float    factor;
 	int      new_width, new_height;
 
-	if ((max_width > CACHE_MAX_W) && (max_height > CACHE_MAX_H)) {
-		if ((*width < CACHE_MAX_W - 1) && (*height < CACHE_MAX_H - 1)) 
+	if ((max_width > cache_max_w) && (max_height > cache_max_h)) {
+		if ((*width < cache_max_w - 1) && (*height < cache_max_h - 1)) 
 			return FALSE;
 	} else if ((*width < max_width - 1) && (*height < max_height - 1)) 
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((gint) (w * factor - 0.5), 1);
-	new_height = MAX ((gint) (h * factor - 0.5), 1);
+	new_width  = MAX ((gint) (w * factor), 1);
+	new_height = MAX ((gint) (h * factor), 1);
 	
 	modified = (new_width != *width) || (new_height != *height);
 
