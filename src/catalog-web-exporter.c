@@ -1204,10 +1204,10 @@ gth_parsed_doc_print (GList              *document,
 				break;
 
 			for (r = 0; r < ce->page_rows; r++) {
-				write_line ("  <tr>\n", fout);
+				write_line ("  <tr class=\"tr_index\">\n", fout);
 				for (c = 0; c < ce->page_cols; c++) {
 					if (ce->image < ce->n_images) {
-						write_line ("    <td>\n", fout);
+						write_line ("    <td class=\"td_index\">\n", fout);
 						gth_parsed_doc_print (ce->thumbnail_parsed, 
 								      ce, 
 								      fout, 

@@ -1,5 +1,13 @@
+version 2.6.2
+-------------	
+	* Fixed bug #159492: freezes when trying to create thumbnail for a JPEG
+	  file.
+	* Fixed bug #159672: log2() function already defined under cygwin.
+	* Fixed bug #159661: Symlinks in the root directory are incorrectly 
+  	  resolved.
+
 version 2.6.1
----------------	
+-------------	
 	* Fixed bug #158682: Modified image auto-saved through confirmation 
 	  dialog loses EXIF data.
 	* Fixed bug #158253: Crash when parsing dir with UTF8(?) filenames

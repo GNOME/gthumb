@@ -1622,6 +1622,9 @@ new_path_from_uri (GnomeVFSURI *uri)
 	char *path;
 	char *unescaped_path;
 
+	if (uri == NULL)
+		return NULL;
+
 	path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 	unescaped_path = gnome_vfs_unescape_string (path, NULL);
 	g_free (path);
