@@ -1,3 +1,9 @@
+2003-12-15  Danilo Šegan  <dsegan@gmx.net>
+
+	* sr.po, sr@Latn.po: Updated Serbian translation.
+
+	* POTFILES.in: Added comment and src/dlg-photo-importer.c.
+
 2003-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* it.po: use %d instead of %b in the date format.
