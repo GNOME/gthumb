@@ -35,6 +35,7 @@ static struct {
 	{ GTHUMB_STOCK_BRIGHTNESS_CONTRAST, brightness_contrast_22_rgba, NULL },
 	{ GTHUMB_STOCK_COLOR_BALANCE,       color_balance_22_rgba,       NULL },
 	{ GTHUMB_STOCK_DESATURATE,          desaturate_16_rgba,          NULL },
+	{ GTHUMB_STOCK_EDIT_IMAGE,          edit_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_FLIP,                flip_24_rgba,                flip_16_rgba },
 	{ GTHUMB_STOCK_FULLSCREEN,          fullscreen_24_rgba,          fullscreen_16_rgba },
 	{ GTHUMB_STOCK_HUE_SATURATION,      hue_saturation_22_rgba,      NULL },

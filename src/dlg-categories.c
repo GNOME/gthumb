@@ -251,7 +251,7 @@ save_categories (DialogData *data)
 
 	for (scan = cat_list; scan; scan = scan->next) {
 		char *category = scan->data;
-		bookmarks_add (categories, category, TRUE);
+		bookmarks_add (categories, category, TRUE, TRUE);
 	}
 
 	bookmarks_write_to_disk (categories);
@@ -414,7 +414,7 @@ add_saved_categories (DialogData *data)
 		utf8_name = g_locale_to_utf8 (category1,
                                               -1, NULL, NULL, NULL);
 		gtk_list_store_set (data->keywords_list_model, &iter,
-				    IS_EDITABLE_COLUMN, TRUE,
+				    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
 				    USE_CATEGORY_COLUMN, 0,
 				    CATEGORY_COLUMN, utf8_name,
 				    -1);
@@ -612,7 +612,7 @@ dlg_categories (GtkWidget *widget,
 			utf8_name = g_locale_to_utf8 (cdata->keywords[i],
 						      -1, NULL, NULL, NULL);
 			gtk_list_store_set (data->keywords_list_model, &iter,
-					    IS_EDITABLE_COLUMN, TRUE,
+					    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
 					    HAS_THIRD_STATE_COLUMN, FALSE,
 					    USE_CATEGORY_COLUMN, 1,
 					    CATEGORY_COLUMN, utf8_name,
@@ -633,7 +633,7 @@ dlg_categories (GtkWidget *widget,
 					      -1, NULL, NULL, NULL);
 		
 		gtk_list_store_set (data->keywords_list_model, &iter,
-				    IS_EDITABLE_COLUMN, TRUE,
+				    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
 				    HAS_THIRD_STATE_COLUMN, TRUE,
 				    USE_CATEGORY_COLUMN, 2,
 				    CATEGORY_COLUMN, utf8_name,

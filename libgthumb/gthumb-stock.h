@@ -27,6 +27,7 @@
 #define GTHUMB_STOCK_BRIGHTNESS_CONTRAST  "gthumb-brightness-contrast"
 #define GTHUMB_STOCK_COLOR_BALANCE        "gthumb-color-balance"
 #define GTHUMB_STOCK_DESATURATE           "gthumb-desaturate"
+#define GTHUMB_STOCK_EDIT_IMAGE           "gthumb-edit-image"
 #define GTHUMB_STOCK_FLIP                 "gthumb-flip"
 #define GTHUMB_STOCK_FULLSCREEN           "gthumb-fullscreen"
 #define GTHUMB_STOCK_HUE_SATURATION       "gthumb-hue-saturation"

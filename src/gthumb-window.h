@@ -101,6 +101,8 @@ typedef struct {
 	GtkWidget          *image_info;
 	GtkWidget          *image_info_frame;
 	GtkWidget          *info_bar;
+	GtkWidget          *adjust_image_combo_button;
+ 
 	char                sidebar_content;       /* SidebarContent values. */
 	int                 sidebar_width;
 	gboolean            sidebar_visible;

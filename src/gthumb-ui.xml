@@ -79,6 +79,16 @@
 	<cmd name="Edit_EditCategories" _label="Ca_tegories" 
 	     _tip="Assign categories to selected images"
 	     pixtype="stock" pixname="gtk-index" />
+
+	<cmd name="Edit_CurrentEditComment" label="" 
+	     _tip="Add a comment to the image"
+	     pixtype="stock" pixname="gthumb-add-comment"/>
+	<cmd name="Edit_CurrentDeleteComment" label="" 
+	     _tip="Remove the comment"/>
+	<cmd name="Edit_CurrentEditCategories" label="" 
+	     _tip="Assign categories to the image"
+	     pixtype="stock" pixname="gtk-index" />    
+
 	<cmd name="Edit_AddToCatalog" _label="_Add to Catalog..." 
 	     _tip="Add selected images to a catalog"/>
 	<cmd name="Edit_RemoveFromCatalog" _label="Remo_ve from Catalog" 
@@ -418,13 +428,14 @@
 		<menuitem name="Tools_FindDuplicates" verb=""/>
 		<separator/>
 		<submenu name="ViewImage" _label="_Image">
+			<menuitem name="AlterImage_Resize" verb=""/>
+			<separator/>
 			<menuitem name="AlterImage_Rotate90" verb=""/>
 			<menuitem name="AlterImage_Rotate90CC" verb=""/>
 			<menuitem name="AlterImage_Flip" verb=""/>
 			<menuitem name="AlterImage_Mirror" verb=""/>
 			<separator/>
-			<menuitem name="AlterImage_Resize" verb=""/>
-			<separator/>
+			<menuitem name="AlterImage_ColorBalance" verb=""/>
 			<menuitem name="AlterImage_HueSaturation" verb=""/>
 			<menuitem name="AlterImage_BrightnessContrast" verb=""/>
 			<menuitem name="AlterImage_Desaturate" verb=""/>
@@ -605,6 +616,8 @@
 
 	<separator/>
 
+	<control name="AlterImageComboButton"/>
+
   	<toolitem name="File_Save" verb="" _label="Save"
   	          priority="0"/>
   	<toolitem name="File_Revert" verb="" _label="Revert"
@@ -615,18 +628,9 @@
 
 	<separator/>
 
-	<toolitem name="AlterImage_Resize" verb="" _label="Resize"/>
+	<toolitem name="Edit_CurrentEditComment" verb="" _label="Comment" />
 
-	<toolitem name="AlterImage_ColorBalance" verb="" 
-	          _label="Color Balance"/>
-	<toolitem name="AlterImage_HueSaturation" verb=""
-	          _label="Hue-Saturation"/>
-	<toolitem name="AlterImage_BrightnessContrast" verb=""
-	          _label="Brightness-Contrast"/>
-
-	<toolitem name="AlterImage_Desaturate" verb="" _label="Desaturate"/>
-	<toolitem name="AlterImage_Invert" verb="" _label="Negative"/>
-	<toolitem name="AlterImage_Posterize" verb="" _label="Posterize"/>
+	<toolitem name="Edit_CurrentEditCategories" verb="" _label="Categories" />
 
 	<separator/>
 
@@ -690,6 +694,7 @@
 		<separator/>
 		<menuitem name="Go_ToContainerPopup" verb=""/>
 	</popup>
+
 	<popup name="ImagePopup">
 		<menuitem name="View_FullscreenPopup" verb=""/>
 		<separator/>
@@ -716,6 +721,7 @@
 		<separator/>
 		<menuitem name="Go_ToContainerPopup" verb=""/>
 	</popup>
+
 	<popup name="FullscreenImagePopup">
 		<menuitem name="View_ExitFullscreenPopup" verb=""/>
 		<separator/>
@@ -731,6 +737,7 @@
 		<menuitem name="View_Zoom100" verb="" _label="_Actual Size"/>
 		<menuitem name="View_ZoomFit" verb="" _label="Zoom to _Fit"/>
 	</popup>
+
 	<popup name="CatalogPopup">
 		<menuitem name="EditCatalog_RedoSearch" verb=""/>
 		<menuitem name="EditCatalog_EditSearch" verb=""/>
@@ -742,6 +749,7 @@
 		<menuitem name="EditCatalog_Move" verb=""
 		          _label="Move..."/>
 	</popup>
+
 	<popup name="DirPopup">
 		<menuitem name="EditDir_Open" verb=""
 		          _label="Open with the File Manager"/>
@@ -752,6 +760,23 @@
 		<menuitem name="EditDir_Move" verb=""
 			  _label="Move"/>
 	</popup>
+
+	<popup name="AlterImagePopup">
+		<menuitem name="AlterImage_Resize" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_Rotate90" verb=""/>
+		<menuitem name="AlterImage_Rotate90CC" verb=""/>
+		<menuitem name="AlterImage_Flip" verb=""/>
+		<menuitem name="AlterImage_Mirror" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_ColorBalance" verb=""/>
+		<menuitem name="AlterImage_HueSaturation" verb=""/>
+		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
+		<menuitem name="AlterImage_Desaturate" verb=""/>
+		<menuitem name="AlterImage_Invert" verb=""/>
+		<menuitem name="AlterImage_Posterize" verb=""/>
+	</popup>
+
 </popups>
 
 </Root>

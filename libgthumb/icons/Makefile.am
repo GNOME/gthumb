@@ -11,6 +11,7 @@ IMAGES=					\
 	desaturate-16.png		\
 	dir-16.png			\
 	dir-24.png			\
+	edit-image-24.png		\
 	exit-fullscreen-24.png		\
 	flip-16.png			\
 	flip-24.png			\
@@ -57,6 +58,7 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list desaturate_16_rgba $(srcdir)/desaturate-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list dir_16_rgba $(srcdir)/dir-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list dir_24_rgba $(srcdir)/dir-24.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list edit_image_24_rgba $(srcdir)/edit-image-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list exit_fullscreen_24_rgba $(srcdir)/exit-fullscreen-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list flip_16_rgba $(srcdir)/flip-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list flip_24_rgba $(srcdir)/flip-24.png >> $(srcdir)/pixbufs.h

@@ -45,8 +45,6 @@ DEFINE_VERB(image_rename_command_impl);
 DEFINE_VERB(image_duplicate_command_impl);
 DEFINE_VERB(image_delete_command_impl);
 DEFINE_VERB(image_delete_from_catalog_command_impl);
-DEFINE_VERB(image_edit_comment_command_impl);
-DEFINE_VERB(image_edit_categories_command_impl);
 DEFINE_VERB(image_copy_command_impl);
 DEFINE_VERB(image_move_command_impl);
 
@@ -54,6 +52,9 @@ DEFINE_VERB(edit_select_all_command_impl);
 DEFINE_VERB(edit_edit_comment_command_impl);
 DEFINE_VERB(edit_delete_comment_command_impl);
 DEFINE_VERB(edit_edit_categories_command_impl);
+DEFINE_VERB(edit_current_edit_comment_command_impl);
+DEFINE_VERB(edit_current_delete_comment_command_impl);
+DEFINE_VERB(edit_current_edit_categories_command_impl);
 DEFINE_VERB(edit_add_to_catalog_command_impl);
 DEFINE_VERB(edit_remove_from_catalog_command_impl);
 DEFINE_VERB(edit_folder_open_nautilus_command_impl);

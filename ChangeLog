@@ -1,3 +1,33 @@
+2002-11-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/bookmarks.c (bookmarks_add): added an append parameter
+	to append or prepend an item to the bookmarks.  This is because
+	bookmark items are appended while history items are prepended.
+
+	* src/commands-impl.c (edit_current_edit_comment_command_impl) 
+	(edit_current_edit_categories_command_impl): new functions to edit
+	current image comment and categories.
+
+	* src/fullscreen.c (image_key_press_cb): 
+	* src/gthumb-window.c: use the above functions.	
+	
+	* libgthumb/gthumb-stock.c: added the edit_image stock image.
+
+	* src/gthumb-window.c (window_enable_thumbs): change
+	View_Thumbnail command state if needed.
+	(window_update_sensitivity) 
+	(combo_button_activate_default_callback) 
+	(setup_toolbar_combo_button, window_new): 
+	* src/gthumb-ui.xml: add to the viewer toolbar a combo button with
+	the editing commands.
+
+	* src/e-combo-button.c: 
+	* src/e-combo-button.h: the combo button implementation, taken
+	from evolution.
+	
+	* src/gthumb-ui.xml: add the 'color balance' command to the 
+	Edit->Image menu.
+
 2002-11-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (stop__step2): set changing_directory to FALSE

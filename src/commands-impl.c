@@ -568,9 +568,9 @@ edit_edit_comment_command_impl (BonoboUIComponent *uic,
 
 
 void 
-image_edit_comment_command_impl (BonoboUIComponent *uic, 
-				 gpointer           user_data, 
-				 const gchar       *verbname)
+edit_current_edit_comment_command_impl (BonoboUIComponent *uic, 
+					gpointer           user_data, 
+					const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
 	int           pos;
@@ -624,9 +624,9 @@ edit_edit_categories_command_impl (BonoboUIComponent *uic,
 }
 
 void 
-image_edit_categories_command_impl (BonoboUIComponent *uic, 
-				   gpointer           user_data, 
-				   const gchar       *verbname)
+edit_current_edit_categories_command_impl (BonoboUIComponent *uic, 
+					   gpointer           user_data, 
+					   const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
 	int           pos;
@@ -2199,7 +2199,7 @@ bookmarks_add_command_impl (BonoboUIComponent *uic,
 				    NULL);
 	}
 
-	bookmarks_add (preferences.bookmarks, path, TRUE);
+	bookmarks_add (preferences.bookmarks, path, TRUE, TRUE);
 	bookmarks_write_to_disk (preferences.bookmarks);
 	all_windows_update_bookmark_list ();
 

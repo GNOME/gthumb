@@ -35,21 +35,23 @@ typedef struct {
 
 /* Bookmarks functions. */
 
-Bookmarks *        bookmarks_new               (gchar       *rc_filename);
+Bookmarks *        bookmarks_new               (char        *rc_filename);
 
 void               bookmarks_free              (Bookmarks   *bookmarks);
 
 void               bookmarks_add               (Bookmarks   *bookmarks,
-						const gchar *path,
-						gboolean     avoid_duplicates);
+						const char  *path,
+						gboolean     avoid_duplicates,
+						gboolean     append);
 
 void               bookmarks_add_with_prefix   (Bookmarks   *bookmarks,
-						const gchar *path,
-						const gchar *prefix,
-						gboolean     avoid_duplicates);
+						const char  *path,
+						const char  *prefix,
+						gboolean     avoid_duplicates,
+						gboolean     append);
 
 void               bookmarks_remove            (Bookmarks   *bookmarks,
-						const gchar *path);
+						const char  *path);
 
 void               bookmarks_remove_all        (Bookmarks   *bookmarks);
 
@@ -61,10 +63,10 @@ void               bookmarks_load_from_disk    (Bookmarks   *bookmarks);
 void               bookmarks_write_to_disk     (Bookmarks   *bookmarks);
 
 const char *       bookmarks_get_menu_name     (Bookmarks   *bookmarks,
-						const gchar *path);
+						const char  *path);
 
 const char *       bookmarks_get_menu_tip      (Bookmarks   *bookmarks,
-						const gchar *path);
+						const char  *path);
 
 
 char *             bookmarks_utils__get_menu_item_name  (const char *path);

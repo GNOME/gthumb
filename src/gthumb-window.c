@@ -40,6 +40,7 @@
 #include "catalog-list.h"
 #include "commands-impl.h"
 #include "dlg-image-prop.h"
+#include "e-combo-button.h"
 #include "file-utils.h"
 #include "file-list.h"
 #include "gconf-utils.h"
@@ -104,8 +105,10 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("Edit_MoveFiles", edit_move_files_command_impl),
 	BONOBO_UI_VERB ("Edit_SelectAll", edit_select_all_command_impl),
 	BONOBO_UI_VERB ("Edit_EditComment", edit_edit_comment_command_impl),
+	BONOBO_UI_VERB ("Edit_CurrentEditComment", edit_current_edit_comment_command_impl),
 	BONOBO_UI_VERB ("Edit_DeleteComment", edit_delete_comment_command_impl),
 	BONOBO_UI_VERB ("Edit_EditCategories", edit_edit_categories_command_impl),
+	BONOBO_UI_VERB ("Edit_CurrentEditCategories", edit_current_edit_categories_command_impl),
 	BONOBO_UI_VERB ("Edit_AddToCatalog", edit_add_to_catalog_command_impl),
 	BONOBO_UI_VERB ("Edit_RemoveFromCatalog", edit_remove_from_catalog_command_impl),
 	BONOBO_UI_VERB ("EditDir_Open", edit_folder_open_nautilus_command_impl),
@@ -616,6 +619,11 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Edit_EditComment", sel_not_null);
 	set_command_sensitive (window, "Edit_DeleteComment", sel_not_null);
 	set_command_sensitive (window, "Edit_EditCategories", sel_not_null);
+
+	set_command_sensitive (window, "Edit_CurrentEditComment", ! image_is_void);
+	set_command_sensitive (window, "Edit_CurrentDeleteComment", ! image_is_void);
+	set_command_sensitive (window, "Edit_CurrentEditCategories", ! image_is_void);
+	gtk_widget_set_sensitive (window->adjust_image_combo_button, ! image_is_void);
 
 	set_command_sensitive (window, "Edit_AddToCatalog", sel_not_null);
 	set_command_sensitive (window, 
@@ -1700,7 +1708,7 @@ add_history_item (GThumbWindow *window,
 		  const char   *prefix)
 {
 	bookmarks_remove_from (window->history, window->history_current);
-	bookmarks_add_with_prefix (window->history, path, prefix, FALSE);
+	bookmarks_add_with_prefix (window->history, path, prefix, FALSE, FALSE);
 	window->history_current = window->history->list;
 }
 
@@ -2158,6 +2166,7 @@ static void
 window_enable_thumbs (GThumbWindow *window,
 		      gboolean      enable)
 {
+	set_command_state_without_notifing (window, "View_Thumbnails", enable);
 	file_list_enable_thumbs (window->file_list, enable);
 	set_command_sensitive (window, "Go_Stop", 
 			       ((window->activity_ref > 0) 
@@ -2783,6 +2792,56 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 }
 
 
+/* -- setup_toolbar_combo_button -- */
+
+
+static gboolean
+combo_button_activate_default_callback (EComboButton *combo_button,
+					void *data)
+{
+	return TRUE; /* FIXME */
+}
+
+
+static void
+setup_toolbar_combo_button (GThumbWindow *window)
+{
+	GtkWidget         *combo_button;
+	GtkWidget         *menu;
+	BonoboControl     *control;
+	GdkPixbuf         *icon;
+
+	menu = gtk_menu_new ();
+
+	icon = gtk_widget_render_icon (window->app,
+				       GTHUMB_STOCK_EDIT_IMAGE,
+				       GTK_ICON_SIZE_LARGE_TOOLBAR,
+				       "");
+
+	combo_button = e_combo_button_new ();
+
+	e_combo_button_set_menu (E_COMBO_BUTTON (combo_button), GTK_MENU (menu));
+	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("Edit"));
+
+	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button), icon);
+	g_object_unref (icon);
+
+	gtk_widget_show (combo_button);
+
+	g_signal_connect (combo_button, "activate_default",
+			  G_CALLBACK (combo_button_activate_default_callback),
+			  window);
+
+	bonobo_window_add_popup (BONOBO_WINDOW (window->app), GTK_MENU (menu), "/popups/AlterImagePopup");
+
+	control = bonobo_control_new (combo_button);
+
+	bonobo_ui_component_object_set (window->ui_component, "/ImageToolbar/AlterImageComboButton", BONOBO_OBJREF (control), NULL);
+
+	window->adjust_image_combo_button = combo_button;
+}
+
+
 void
 add_listener_for_toggle_items (GThumbWindow *window)
 {
@@ -3133,6 +3192,7 @@ window_new (void)
 						     window);
 
 	setup_commands_pixbufs (window->ui_component);
+	setup_toolbar_combo_button (window);
 	add_listener_for_toggle_items (window);
 
 	gnome_window_icon_set_from_default (GTK_WINDOW (window->app));
@@ -3718,8 +3778,9 @@ close__step5 (GThumbWindow *window)
 	if (window->sidebar_visible) {
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, gtk_paned_get_position (GTK_PANED (window->main_pane)));
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (window->content_pane)));
-	}
-
+	} else
+		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, window->sidebar_width);
+	
 	gdk_drawable_get_size (window->app->window, &width, &height);
 
 	eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
@@ -4348,15 +4409,16 @@ go_to_directory_continue (DirList  *dir_list,
 		window->go_op = WINDOW_GO_TO;
 	window_update_history_list (window);
 
+	set_location (window, path);
+
+	window->changing_directory = FALSE;
+
 	/**/
 
 	file_list = dir_list_get_file_list (window->dir_list);
 	window_set_file_list (window, file_list, 
 			      set_dir_list_continue, window);
 	g_list_free (file_list);
-	window->changing_directory = FALSE;
-
-	set_location (window, path);
 }
 
 

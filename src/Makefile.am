@@ -89,6 +89,8 @@ gthumb_SOURCES = 			\
 	dlg-scale-image.h		\
 	dlg-search.c			\
 	dlg-search.h			\
+	e-combo-button.c		\
+	e-combo-button.h		\
 	fullscreen.c			\
 	fullscreen.h			\
 	gth-folder-selection-dialog.c	\

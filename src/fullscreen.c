@@ -541,7 +541,7 @@ image_key_press_cb (GtkWidget *widget,
 		if (comment_visible)
 			hide_comment_on_image ();
 
-		image_edit_comment_command_impl (NULL, window, NULL);
+		edit_current_edit_comment_command_impl (NULL, window, NULL);
 		break;
 
 		/* Edit categories. */
@@ -556,7 +556,7 @@ image_key_press_cb (GtkWidget *widget,
 		if (comment_visible)
 			hide_comment_on_image ();
 
-		image_edit_categories_command_impl (NULL, window, NULL);
+		edit_current_edit_categories_command_impl (NULL, window, NULL);
 		break;
 
 		/* Flip image. */

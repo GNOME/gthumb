@@ -180,7 +180,7 @@ create_default_categories_if_needed ()
 
 	categories = bookmarks_new (RC_CATEGORIES_FILE);
 	for (i = 0; default_categories[i] != NULL; i++) 
-		bookmarks_add (categories, _(default_categories[i]), TRUE);
+		bookmarks_add (categories, _(default_categories[i]), TRUE, TRUE);
 	bookmarks_write_to_disk (categories);
 	bookmarks_free (categories);
 }
