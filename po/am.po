@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-11-06 09:27+EDT\n"
+"PO-Revision-Date: 2002-11-23 00:12+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -383,11 +383,11 @@ msgstr ""
 
 #: src/dlg-png-exporter.c:1100
 msgid "Header"
-msgstr ""
+msgstr "የገጽ አናት"
 
 #: src/dlg-png-exporter.c:1113 src/dlg-png-exporter.c:1119
 msgid "Footer"
-msgstr ""
+msgstr "የገጽ ግርጌ"
 
 #: src/dlg-rename-series.c:297
 msgid "Old Name"
@@ -544,7 +544,7 @@ msgstr "ጥቁር"
 
 #: src/gthumb.glade.h:32
 msgid "Bookmarks"
-msgstr ""
+msgstr "መለያ ምልክቶች"
 
 #: src/gthumb.glade.h:33
 msgid "Browser"
@@ -796,7 +796,7 @@ msgstr "መጠቀሚያ ፕሮግራም፦ (_A)"
 
 #: src/gthumb.glade.h:98
 msgid "_Bookmarks:"
-msgstr ""
+msgstr "መለያ ምልክቶች፦ (_B)"
 
 #: src/gthumb.glade.h:99
 msgid "_Do not overwrite any image"
@@ -997,7 +997,7 @@ msgstr ""
 
 #: src/gthumb_edit.glade.h:26
 msgid "_Levels:"
-msgstr ""
+msgstr "ደረጃዎች፦ (_L)"
 
 #: src/gthumb_edit.glade.h:27
 msgid "_Lightness:"
@@ -1005,11 +1005,11 @@ msgstr ""
 
 #: src/gthumb_edit.glade.h:28
 msgid "_Preview"
-msgstr "ቅድመ ዕይታ"
+msgstr "ቅድመ ዕይታ (_P)"
 
 #: src/gthumb_edit.glade.h:29
 msgid "_Reset"
-msgstr ""
+msgstr "እንደገና አስተካክል (_R)"
 
 #: src/gthumb_edit.glade.h:30
 msgid "_Saturation:"
@@ -1081,11 +1081,11 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
-msgstr ""
+msgstr "<b>የገጽ ግርጌ</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
 msgid "<b>Header</b>"
-msgstr ""
+msgstr "<b>የገጽ አናት</b>"
 
 #: src/gthumb_png_exporter.glade.h:19 src/gthumb_tools.glade.h:11
 msgid "<b>Page size</b>"
@@ -1130,7 +1130,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
-msgstr ""
+msgstr "የገጽ ግርጌ፦ (_o)"
 
 #: src/gthumb_png_exporter.glade.h:31 src/gthumb_tools.glade.h:28
 msgid "File _name"
@@ -1150,7 +1150,7 @@ msgstr "የፍሬም ዘዴ፦"
 
 #: src/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
-msgstr "የፍሬም ቀለም፦"
+msgstr "የፍሬም ቀለም፦ (_l)"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Gradient"
@@ -1158,7 +1158,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:37
 msgid "H_eader:"
-msgstr ""
+msgstr "የገጽ አናት፦"
 
 #: src/gthumb_png_exporter.glade.h:38
 msgid "Header/Footer"
@@ -1243,7 +1243,7 @@ msgstr "ቅደም ተከተል"
 #: src/gthumb_png_exporter.glade.h:58 src/gthumb_search.glade.h:24
 #: src/gthumb_tools.glade.h:61
 msgid "Start _at:"
-msgstr ""
+msgstr "በ... ጀምር፦ (_a)"
 
 #: src/gthumb_png_exporter.glade.h:59 src/gthumb_tools.glade.h:62
 msgid "Style Preview"
@@ -1808,7 +1808,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:16
 msgid "Close all windows and exit"
-msgstr ""
+msgstr "ሁሉንም መስኮቶች ምረጡና ይውጡ"
 
 #: src/gthumb-ui.xml.h:17
 msgid "Close this window"
@@ -2200,7 +2200,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:119
 msgid "Resize image"
-msgstr ""
+msgstr "ምስሉን እንደገና መጠን ለውጥ"
 
 #: src/gthumb-ui.xml.h:121
 msgid "Restore the original desktop wallpaper"
@@ -2440,7 +2440,7 @@ msgstr "ትክክለኛው ልክ (_A)"
 
 #: src/gthumb-ui.xml.h:179
 msgid "_Add Bookmark"
-msgstr ""
+msgstr "መለያ ምልክት ተጨማሪ (_A)"
 
 #: src/gthumb-ui.xml.h:180
 msgid "_Add to Catalog..."
@@ -2457,7 +2457,7 @@ msgstr "ጥቁር (_B)"
 
 #: src/gthumb-ui.xml.h:183
 msgid "_Bookmarks"
-msgstr ""
+msgstr "መለያ ምልክት (_B)"
 
 #: src/gthumb-ui.xml.h:184
 msgid "_Brightness-Contrast"
@@ -2469,7 +2469,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:186
 msgid "_Centered"
-msgstr ""
+msgstr "መሀከል (_C)"
 
 #: src/gthumb-ui.xml.h:187
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
@@ -2506,7 +2506,7 @@ msgstr "አስተካክል (_E)"
 
 #: src/gthumb-ui.xml.h:195
 msgid "_Edit Bookmarks"
-msgstr ""
+msgstr "መለያ ምልክት ያስተካክሉ (_E)"
 
 #: src/gthumb-ui.xml.h:197
 msgid "_File"
@@ -2560,7 +2560,7 @@ msgstr ""
 #: src/gthumb-ui.xml.h:209
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 msgid "_Image"
-msgstr "ምስል"
+msgstr "ምስል (_I)"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Image preview"
@@ -2576,7 +2576,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:213
 msgid "_Location..."
-msgstr "ቦታ"
+msgstr "ቦታ... (_L)"
 
 #: src/gthumb-ui.xml.h:214
 msgid "_Low Quality"
