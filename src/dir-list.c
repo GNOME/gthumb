@@ -314,8 +314,8 @@ dir_list_refresh_continue (PathListData *pld,
 
 	if (dir_list->old_dir) {
 		GList *scan;
-		gint   row;
-		gint   found = FALSE;
+		int    row;
+		int    found = FALSE;
 
 		row = -1;
 		scan = dir_list->list;
@@ -329,7 +329,7 @@ dir_list_refresh_continue (PathListData *pld,
 		if (found) {
 			GtkTreePath *path;
 			path = gtk_tree_path_new ();
-			gtk_tree_path_append_index (path, row);
+			gtk_tree_path_prepend_index (path, row);
 			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (dir_list->list_view),
 						      path,
 						      NULL,

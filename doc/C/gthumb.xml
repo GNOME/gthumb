@@ -1303,22 +1303,6 @@
         </para>
     </sect2>
 
-    <!-- Create Index Image -->
-
-    <sect2 id="create-index-image">
-      <title>Index Image</title>
-      <para>
-        An index image is an image that contains small previews of a series of 
-	images.  If you want to create an index image select the images you 
-	want
-	to insert in the index and then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice> command.
-      </para>
-
-      <para>
-        [...]
-      </para>
-    </sect2>
-
     <sect2 id="rotate-jpeg">
       <title>Rotate JPEG</title>
       <para>
@@ -1328,27 +1312,67 @@
         quality for JPEG images.
       </para>
       <para>
-        If you want to rotate JPEG images without losing quality you
-        can select the images you want to rotate and use the 
+        If you want to rotate JPEG images without losing image quality,
+	select the images you want to rotate and use the 
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
 	JPEG</guimenuitem></menuchoice> command.
       </para>
       <para>
-        If you select the <guilabel>Apply to all images</guilabel>
+        If you check the <guilabel>Apply to all images</guilabel>
         option the rotation is applied to the
-        currently displayed image as well as to all the remaining images,
+        currently displayed image as well as to all the remaining
+        images you have selected,
         otherwise, once the rotation has been performed on the current
         image, the next image in the selection is displayed, and you can
         choose another type of rotation.
       </para>
       <para>
-        If the selection contains some non-JPEG images, they are simply ignored.
+        If the selection contains some non-JPEG images, they are
+        simply ignored.
       </para>
     </sect2>
 
     <sect2 id="convert-format">
       <title>Convert Format</title>
       <para>
+        With this tool you can change the format of images.  To use it
+        select the images you want to convert, and use the 
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Convert
+        Format</guimenuitem></menuchoice> command.
+      </para>
+      <para>
+        The <guilabel>Convert Format</guilabel> dialog offers you the
+        following options:
+
+	<itemizedlist>
+        <listitem>
+          <para>
+            <guilabel>Image type</guilabel>: this is the format you want to
+            convert images into.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Overwrite mode</guilabel>: a converted image has the
+	    same name of the original image except for the extension which is
+	    determined by the new format, an image with the new name
+	    can already exist in the destination folder, this option lets you
+	    decide what to do when such a case occurs.  If use choose
+	    <guilabel>skip</guilabel> the new image won't be created;
+	    <guilabel>rename</guilabel> will ask you to specify a new name;
+	    <guilabel>ask</guilabel> will ask you whether to overwrite the
+	    old image or not and <guilabel>overwrite</guilabel> will
+	    overwrite the old image without asking.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Remove original</guilabel>: lets you remove the
+	    original image.  If an image is not converted because of an
+	    error it will not be removed.
+	  </para>
+        </listitem>
+	</itemizedlist>
       </para>
     </sect2>
 
@@ -1364,9 +1388,63 @@
       </para>
     </sect2>
 
+    <sect2 id="create-index-image">
+      <title>Index Image</title>
+      <para>
+        An index image is an image that contains small previews of a series of 
+	images.  If you want to create an index image select the images you 
+	want
+	to insert in the index and then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice> command.
+      </para>
+
+      <para>
+        [..]
+      </para>
+    </sect2>
+
     <sect2 id="maintenance">
       <title>Maintenance</title>
       <para>
+        To get access to maintenance operations select the
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Maintenance
+	</guimenuitem></menuchoice> menu item.
+      </para>
+      <para>
+        <guilabel>Backup Comments</guilabel>.  With this command you
+        can create an archive of all the comments you have writed.
+        After pressing the button you have to enter the archive name,
+        for example: <filename>comments.tgz</filename>, or 
+	<filename>comments.zip</filename>.  The archive is created
+        using the application <application>File Roller</application>.
+      </para>
+      <para>
+        <guilabel>Restore Comments From a Backup File</guilabel>.  Use
+        this command if
+        you want to restore comments previously saved in an archive.
+	After pressing the button you have to
+        specify the archive where the comments are stored.  The
+        archive is extracted using the application  <application>File
+        Roller</application>.
+      </para>
+      <para>
+        <guilabel>Delete Old Comments</guilabel>.  If you use
+        <application>gThumb</application> to delete or move images,
+        comments are deleted and moved accordingly.  Other
+        applications do not handle image comments so it can happen that
+        a comment exists but the relative image does not exist
+        anymore. This command lets you delete such comments.
+      </para>
+      <para>
+        <guilabel>Delete ALL Comments</guilabel>.  This command will
+        delete all the comments you have written.
+      </para>
+      <para>
+        Thumbnails are small versions of the images you have on your
+        disk,  they are used to speed up browsing.  Thumbnails can use
+        a lot of space, so in order to save disk space you may wish to
+        delete all the thumbnails or only the thumbnails of no more
+        existing images.  The commands in the
+        <guilabel>Thumbnails</guilabel> section let you do this.
       </para>
     </sect2>
 

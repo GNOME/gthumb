@@ -620,7 +620,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_command_sensitive (window, "Edit_RenameFile", only_one_is_selected && not_fullscreen);
 	set_command_sensitive (window, "Edit_RenameFilePopup", only_one_is_selected && not_fullscreen);
-	set_command_sensitive (window, "Edit_DuplicateFile", only_one_is_selected && not_fullscreen);
+	set_command_sensitive (window, "Edit_DuplicateFile", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_DeleteFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_CopyFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_MoveFiles", sel_not_null && not_fullscreen);

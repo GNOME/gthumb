@@ -48,11 +48,10 @@ ensure_directories_exist (void)
 {
 	char *path;
 
-	/* FIXME
-	path = get_home_relative_dir (RC_THUMBS_DIR);
-	ensure_dir_exists (path, 0700);
-	g_free (path);
-	*/
+        /* before the gconf port this was a file, now it's folder. */
+        path = get_home_relative_dir (RC_DIR);
+        if (path_is_file (path))
+                unlink (path);
 
 	path = get_home_relative_dir (RC_CATALOG_DIR);
 	ensure_dir_exists (path, 0700);

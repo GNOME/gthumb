@@ -368,17 +368,16 @@ image_rename_command_impl (BonoboUIComponent *uic,
 
 static void 
 duplicate_file (GThumbWindow *window,
-		const GList  *list)
+		const char   *old_path)
 {
-	const char   *old_name, *old_path, *ext;
-	char         *old_name_no_ext;
-	char         *new_name, *new_path;
-	char         *dir;
-	int           try;
+	const char *old_name, *ext;
+	char       *old_name_no_ext;
+	char       *new_name, *new_path;
+	char       *dir;
+	int         try;
 
-	g_return_if_fail (list != NULL);
+	g_return_if_fail (old_path != NULL);
 		
-	old_path = list->data;
 	old_name = file_name_from_path (old_path);
 	old_name_no_ext = remove_extension_from_path (old_name);
 	ext = strrchr (old_name, '.');
@@ -404,6 +403,7 @@ duplicate_file (GThumbWindow *window,
 	if (file_copy (old_path, new_path)) {
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
+
 	} else {
 		char *utf8_path;
 
@@ -420,6 +420,19 @@ duplicate_file (GThumbWindow *window,
 }
 
 
+static void 
+duplicate_file_list (GThumbWindow *window,
+		     const GList  *list)
+{
+	const GList *scan;
+
+	for (scan = list; scan; scan = scan->next) {
+		char *filename = scan->data;
+		duplicate_file (window, filename);
+	}
+}
+
+
 void 
 edit_duplicate_file_command_impl (BonoboUIComponent *uic, 
 				  gpointer           user_data, 
@@ -431,7 +444,7 @@ edit_duplicate_file_command_impl (BonoboUIComponent *uic,
 	list = ilist_utils_get_file_list_selection (IMAGE_LIST (window->file_list->ilist));
 	g_return_if_fail (list != NULL);
 
-	duplicate_file (window, list);
+	duplicate_file_list (window, list);
 	path_list_free (list);
 }
 
@@ -448,7 +461,7 @@ image_duplicate_command_impl (BonoboUIComponent *uic,
 		return;
 
 	list = g_list_prepend (NULL, g_strdup (window->image_path));
-	duplicate_file (window, list);
+	duplicate_file_list (window, list);
 	path_list_free (list);
 }
 

@@ -1,3 +1,14 @@
+2003-01-12  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c (load_current_image): make rotation buttons
+	not sensitive while loading the image.
+
+	* src/commands-impl.c (edit_duplicate_file_command_impl):
+	duplicate all images not only the first one.
+
+	* libgthumb/gthumb-init.c (ensure_directories_exist): remove the
+	old config file if present.
+
 2003-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-file-utils.h: 

@@ -1295,8 +1295,8 @@ gth_file_list_enable_thumbs (GthFileList *file_list,
 
 void
 gth_file_list_set_progress_func (GthFileList *file_list,
-			    ProgressFunc func,
-			    gpointer data)
+				 ProgressFunc func,
+				 gpointer     data)
 {
 	g_return_if_fail (file_list != NULL);
 

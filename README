@@ -15,7 +15,7 @@ Notes:
 What is gThumb
 ==============
 
- * gThumb is a browser
+ * gThumb is an image browser
 
    + Browse your hard disk showing you thumbnails of image files.
    + Thumbnails are saved in the same database used by Nautilus so you
@@ -24,7 +24,7 @@ What is gThumb
    + Copy, move, delete images and folders.
    + Bookmarks of folders and catalogs.
 
- * gThumb is a viewer
+ * gThumb is an image viewer
 
    + View single images (including GIF animations).  Supported image
      types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.  
@@ -32,7 +32,7 @@ What is gThumb
    + View in fullscreen mode.
    + View images rotated, flipped, mirrored.
 
- * gThumb is an organizer
+ * gThumb is an image organizer
 
    + Add comments to images.
    + Organize images in catalogs, catalogs in libraries.
