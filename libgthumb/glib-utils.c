@@ -333,6 +333,23 @@ _g_utf8_strstrip (const char *str)
 }
 
 
+gboolean
+_g_utf8_all_spaces (const char *utf8_string)
+{
+	gunichar c;
+	
+	c = g_utf8_get_char (utf8_string);
+	while (c != 0) {
+		if (! g_unichar_isspace (c))
+			return FALSE;
+		utf8_string = g_utf8_next_char (utf8_string);
+		c = g_utf8_get_char (utf8_string);
+	}
+
+	return TRUE;
+}
+
+
 void
 debug (const char *file,
        int         line,

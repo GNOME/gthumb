@@ -1,3 +1,23 @@
+2004-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/*.gthtml: make pages fit the browser window.
+	
+	* src/gth-exif-utils.c (get_exif_time): set daylight saving time to 1.
+
+2004-06-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c (print_catalog): do not scale images
+	before printing.
+
+2004-06-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (get_folder_name): use "%Y-%m-%d--%H.%M.%S"
+	instead of "%Y-%m-%d--%H:%M:%S" as the default film name.
+
+2004-06-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/ui.h: fixed typo.
+
 2004-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (window_show_cb): restore saved toolbar and

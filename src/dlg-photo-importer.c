@@ -105,7 +105,7 @@ typedef struct {
 	/**/
 
 	Camera              *camera;
-	gboolean             camera_setted;
+	gboolean             camera_setted, view_folder;
         GPContext           *context;
 	CameraAbilitiesList *abilities_list;
 	GPPortInfoList      *port_list;
@@ -163,6 +163,11 @@ destroy_cb (GtkWidget  *widget,
 		g_thread_join (data->thread);
 
 	g_mutex_free (data->yes_or_no);
+
+	/**/
+
+	if (data->view_folder)
+		window_go_to_directory (data->window, data->local_folder);
 
 	/**/
 
@@ -995,7 +1000,7 @@ get_folder_name (DialogData *data)
 
 		time (&now);
 		tm = localtime (&now);
-		strftime (time_txt, 50, "%Y-%m-%d--%H:%M:%S", tm);
+		strftime (time_txt, 50, "%Y-%m-%d--%H.%M.%S", tm);
 	
 		film_name = g_strdup (time_txt);
 	} else
@@ -1190,8 +1195,8 @@ delete_images__done (AsyncOperationData *aodata,
 
 	if (interrupted)
 		return;
-	
-	window_go_to_directory (data->window, data->local_folder);
+
+	data->view_folder = TRUE;
 
 	if (ImportPhotos) {
 		ImportPhotos = FALSE;

@@ -60,6 +60,8 @@ char **  _g_utf8_strsplit          (const char *str,
 
 char *   _g_utf8_strstrip          (const char *str);
 
+gboolean _g_utf8_all_spaces        (const char *utf8_string);
+
 /**/
 
 #ifndef __GNUC__

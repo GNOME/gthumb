@@ -1249,7 +1249,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 		   GError      **error)
 {
 	gboolean   result;
-	
+
 	g_return_val_if_fail (pixbuf != NULL, TRUE);
 	g_return_val_if_fail (filename != NULL, TRUE);
 	g_return_val_if_fail (type != NULL, TRUE);
