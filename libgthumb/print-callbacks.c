@@ -139,7 +139,7 @@ typedef struct {
 } DialogData;
 
 
-void 
+static void 
 print_info_unref (PrintInfo *pi)
 {
 	g_return_if_fail (pi != NULL);

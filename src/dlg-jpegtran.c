@@ -279,11 +279,10 @@ apply_tran (DialogData *data,
 			break;
 		}
 
-		if (jpegtran (fd->path, tmp1, transf) != 0) {
+		if (jpegtran (fd->path, tmp1, transf, &err) != 0) {
 			g_free (tmp1);
-			
-			/* FIXME : error dialog here */
-
+			if (err != NULL) 
+				_gtk_error_dialog_from_gerror_run (parent, &err);
 			return;
 		}
 
@@ -342,11 +341,10 @@ apply_tran (DialogData *data,
 			break;
 		}
 
-		if (jpegtran (tmp1, tmp2, transf) != 0) {
+		if (jpegtran (tmp1, tmp2, transf, &err) != 0) {
 			g_free (tmp1);
-			
-			/* FIXME : error dialog here */
-
+			if (err != NULL) 
+				_gtk_error_dialog_from_gerror_run (parent, &err);
 			return;
 		}
 
@@ -428,12 +426,14 @@ ok_clicked (GtkWidget  *button,
 		GList     *scan;
 		int        i, n;
 
+		gtk_widget_hide (data->dialog);
+
 		gui = glade_xml_new (GTHUMB_GLADEDIR "/" PROGRESS_GLADE_FILE, 
 				     NULL,
 				     NULL);
 
-		dialog = glade_xml_get_widget   (gui, "progress_dialog");
-		label = glade_xml_get_widget    (gui, "progress_info");
+		dialog = glade_xml_get_widget (gui, "progress_dialog");
+		label = glade_xml_get_widget (gui, "progress_info");
 		bar = glade_xml_get_widget (gui, "progress_progressbar");
 
 		n = g_list_length (data->current_image);

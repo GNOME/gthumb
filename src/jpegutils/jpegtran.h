@@ -27,11 +27,14 @@
 #ifndef JPEGTRAN_H
 #define JPEGTRAN_H
 
+#include <glib.h>
 #include "transupp.h"
 
-int  jpegtran (char        *input_filename,
-	       char        *output_filename,
-	       JXFORM_CODE  transformation);
+
+int  jpegtran (char         *input_filename,
+	       char         *output_filename,
+	       JXFORM_CODE   transformation,
+	       GError      **error);
 
 #endif /* JPEGTRAN_H */
 

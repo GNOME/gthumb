@@ -449,7 +449,7 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 }
 
 
-void
+static void
 set_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
@@ -694,7 +694,7 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 }
 
 
-void
+static void
 add_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
@@ -819,7 +819,7 @@ it_data_free (InterruptThumbsData *it_data)
 /* -- -- */
 
 
-void
+static void
 set_sort_method__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList    *file_list = it_data->file_list;
@@ -866,7 +866,7 @@ gth_file_list_set_sort_method (GthFileList   *file_list,
 /* -- -- */
 
 
-void
+static void
 set_sort_type__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList *file_list = it_data->file_list;
@@ -1227,7 +1227,7 @@ gth_file_list_prev_image (GthFileList *file_list,
 /* -- -- */
 
 
-void
+static void
 delete_pos__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList *file_list = it_data->file_list;
@@ -1280,7 +1280,7 @@ gth_file_list_delete_pos (GthFileList *file_list,
 /* -- -- */
 
 
-void
+static void
 rename_pos__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList    *file_list = it_data->file_list;
@@ -1336,7 +1336,7 @@ gth_file_list_rename_pos (GthFileList *file_list,
 /* -- -- */
 
 
-void
+static void
 update_comment__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList   *file_list = it_data->file_list;
@@ -1386,7 +1386,7 @@ gth_file_list_update_comment (GthFileList *file_list,
 /* -- -- */
 
 
-void
+static void
 set_thumbs_size__step2 (InterruptThumbsData *it_data)
 {
 	GthFileList *file_list = it_data->file_list;

@@ -50,7 +50,8 @@
 
 /* -- path_list_async_new implementation -- */
 
-PathListData * 
+
+static PathListData * 
 path_list_data_new ()
 {
 	PathListData *pli;
@@ -303,7 +304,7 @@ typedef struct {
 } VisitRCDirData;
 
 
-VisitRCDirData *
+static VisitRCDirData *
 visit_rc_dir_data_new ()
 {
 	VisitRCDirData * rcd;
@@ -316,7 +317,7 @@ visit_rc_dir_data_new ()
 }
 
 
-void
+static void
 visit_rc_dir_data_free (VisitRCDirData *rcd)
 {
 	if (rcd == NULL)

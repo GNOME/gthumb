@@ -18,9 +18,6 @@
       font-size: xx-small;
       text-align: center;
     }
-    span.disabled {
-      color: white;
-    }
   </style>
   </head>
   <body bgcolor=white>
@@ -31,17 +28,19 @@
           <td align=right width=12%>
             <tt>
             <gthumb:if page_idx == 1 />
-              <span class="disabled">prev</span>
+              <img src="background.gif" width=16 height=16 border=0 align=center>
             <gthumb:else/>
-              <a href="<gthumb:page_link idx_relative=-1/>">prev</a> 
+              <a href="<gthumb:page_link idx_relative=-1/>">
+                <img src="left_arrow.png" width=16 height=16 border=0 align=center></a> 
             <gthumb:end/>
             &nbsp; 
             <b><gthumb:page_idx/>/<gthumb:pages/></b> 
             &nbsp; 
             <gthumb:if page_idx == pages />
-              <span class="disabled">next</span>
+              <img src="background.gif" width=16 height=16 border=0 align=center>
             <gthumb:else/>
-              <a href="<gthumb:page_link idx_relative=+1/>">next</a>
+              <a href="<gthumb:page_link idx_relative=+1/>">
+                <img src="right_arrow.png" width=16 height=16 border=0 align=center></a>
             <gthumb:end/>
             </tt>
         </tr>

@@ -112,7 +112,8 @@ export (GtkWidget  *widget,
 	CatalogWebExporter *exporter = data->exporter;
 	char               *location;
 	char               *path;
-	char               *title, *theme, *index_file;
+	char               *theme, *index_file;
+	const char         *title;
 
 	/* Save options. */
 
@@ -140,7 +141,7 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton)));
 
-	title = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_title_entry));
+	title = gtk_entry_get_text (GTK_ENTRY (data->wa_title_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_TITLE, title);
 
 	theme = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_theme_entry));
@@ -174,7 +175,6 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_style (exporter, theme);
 
 	g_free (location);
-	g_free (title);
 	g_free (theme);
 	g_free (index_file);
 	

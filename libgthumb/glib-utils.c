@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include <glib.h>
+#include "glib-utils.h"
 
 
 char *

@@ -8,8 +8,11 @@ theme_DATA =			\
 	image.gthtml		\
 	index.gthtml		\
 	left.png		\
+	left_arrow.png		\
 	right.png		\
+	right_arrow.png		\
 	thumbnail.gthtml	\
-	top.png
+	top.png			\
+	up_arrow.png
 
 EXTRA_DIST = $(theme_DATA)

@@ -27,23 +27,26 @@
       <tr>
         <td align=left>
           <tt>
-          <a href="<gthumb:page_link idx_relative=0 image_idx/>">index</a>
+          <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+            <img src="up_arrow.png" width=16 height=16 border=0 align=center></a>
           </tt>
         <gthumb:if images > 1 />
           <td align=right>
             <tt>
             <gthumb:if image_idx == 1 />
-              <span class="disabled">prev</span>
+              <img src="background.gif" width=16 height=16 border=0 align=center>
             <gthumb:else/>
-              <a href="<gthumb:image_link idx_relative=-1/>">prev</a>
+              <a href="<gthumb:image_link idx_relative=-1/>">
+                <img src="left_arrow.png" width=16 height=16 border=0 align=center></a>
             <gthumb:end/>
             &nbsp; 
             <b><gthumb:image_idx/>/<gthumb:images/></b>
             &nbsp; 
  	    <gthumb:if image_idx == images />
-	      <span class="disabled">next</span>
+	      <img src="background.gif" width=16 height=16 border=0 align=center>
             <gthumb:else/>
-              <a href="<gthumb:image_link idx_relative=+1/>">next</a>
+              <a href="<gthumb:image_link idx_relative=+1/>">
+                <img src="right_arrow.png" width=16 height=16 border=0 align=center></a>
             <gthumb:end/>
             </tt>
          <gthumb:end/>

@@ -499,7 +499,7 @@ update_category_entry (DialogData *data)
 }
 
 
-GList *
+static GList *
 get_categories_from_entry (DialogData *data)
 {
 	GList       *cat_list = NULL;

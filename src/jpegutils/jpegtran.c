@@ -40,21 +40,72 @@
 
 #ifdef HAVE_LIBJPEG
 
-
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <setjmp.h>
 #include <jpeglib.h>
+#include <glib.h>
+#include "libgthumb/gthumb-error.h"
+#include "libgthumb/file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
 
 
+/* error handler data */
+struct error_handler_data {
+	struct jpeg_error_mgr pub;
+	sigjmp_buf setjmp_buffer;
+        GError **error;
+	const char *filename;
+};
+
+
+static void
+fatal_error_handler (j_common_ptr cinfo)
+{
+	struct error_handler_data *errmgr;
+        char buffer[JMSG_LENGTH_MAX];
+        
+	errmgr = (struct error_handler_data *) cinfo->err;
+        
+        /* Create the message */
+        (* cinfo->err->format_message) (cinfo, buffer);
+
+        /* broken check for *error == NULL for robustness against
+         * crappy JPEG library
+         */
+        if (errmgr->error && *errmgr->error == NULL) {
+                g_set_error (errmgr->error,
+			     GTHUMB_ERROR,
+			     0,
+			     "Error interpreting JPEG image file: %s\n\n%s",
+			     file_name_from_path (errmgr->filename),
+                             buffer);
+        }
+        
+	siglongjmp (errmgr->setjmp_buffer, 1);
+
+        g_assert_not_reached ();
+}
+
+
+static void
+output_message_handler (j_common_ptr cinfo)
+{
+	/* This method keeps libjpeg from dumping crap to stderr */
+	/* do nothing */
+}
+
+
 int
-jpegtran (char        *input_filename,
-	  char        *output_filename,
-	  JXFORM_CODE  transformation)
+jpegtran (char         *input_filename,
+	  char         *output_filename,
+	  JXFORM_CODE   transformation,
+	  GError      **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
-	struct jpeg_error_mgr          jsrcerr, jdsterr;
+	struct error_handler_data      jsrcerr, jdsterr;
 	jpeg_transform_info            transformoption; 
 	jvirt_barray_ptr              *src_coef_arrays;
 	jvirt_barray_ptr              *dst_coef_arrays;
@@ -67,19 +118,29 @@ jpegtran (char        *input_filename,
 	
 	/* Initialize the JPEG decompression object with default error 
 	 * handling. */
-	srcinfo.err = jpeg_std_error (&jsrcerr);
+	jsrcerr.filename = input_filename;
+	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
+	jsrcerr.pub.error_exit = fatal_error_handler;
+	jsrcerr.pub.output_message = output_message_handler;
+	jsrcerr.error = error;
+
 	jpeg_create_decompress (&srcinfo);
 
 	/* Initialize the JPEG compression object with default error 
 	 * handling. */
-	dstinfo.err = jpeg_std_error (&jdsterr);
+	jdsterr.filename = output_filename;
+	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
+	jdsterr.pub.error_exit = fatal_error_handler;
+	jdsterr.pub.output_message = output_message_handler;
+	jdsterr.error = error;
+
 	jpeg_create_compress (&dstinfo);
 	
 	dstinfo.err->trace_level = 0;
 	dstinfo.arith_code = FALSE;
 	dstinfo.optimize_coding = FALSE;
 
-	jsrcerr.trace_level = jdsterr.trace_level;
+	jsrcerr.pub.trace_level = jdsterr.pub.trace_level;
 	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
 
 	/* Open the input file. */
@@ -90,6 +151,18 @@ jpegtran (char        *input_filename,
 	output_file = fopen (output_filename, "wb");
 	if (output_file == NULL) {
 		fclose (input_file);
+		return 1;
+	}
+
+	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		return 1;
+	}
+
+	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
 		return 1;
 	}
 

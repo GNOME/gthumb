@@ -1,3 +1,25 @@
+2003-08-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* data/albumthemes/Clean/index.gthtml: 
+	* data/albumthemes/Clean/image.gthtml: 
+	* data/albumthemes/Clean/lest_arrow.png:
+	* data/albumthemes/Clean/right_arrow.png:
+	* data/albumthemes/Clean/up_arrow.png: use images instead of text.
+
+	* src/dlg-jpegtran.c (apply_tran): display the error with a dialog.
+	* src/jpegutils/jpegtran.c (jpegtran): use a custom error handler.
+
+	* src/catalog-web-exporter.c (export__copy_images) 
+	(export__save_images, image_data_new): rename images before
+	copying them to the destination. (fixes bug #118098).
+
+	* src/gthumb.schemas.in: fix message inconsistency (bug #118958).
+
+2003-07-31  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-web-exporter.c (export): keep the title in utf-8 format
+	(bug #118503).
+
 2003-07-07  Abel Cheung  <maddog@linux.org.hk>
 
 	* src/Makefile.am: gthumb.schemas -> schemas.in, and fixed typo.

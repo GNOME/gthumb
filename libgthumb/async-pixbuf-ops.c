@@ -47,6 +47,7 @@
 #include "pixbuf-utils.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-histogram.h"
+#include "async-pixbuf-ops.h"
 
 #ifdef HAVE_RINT
 #define RINT(x) rint(x)
@@ -327,7 +328,7 @@ _gdk_pixbuf_posterize (GdkPixbuf *src,
 /* -- gimpcolorspace -- */
 
 
-void
+static void
 gimp_rgb_to_hls_int (gint *red,
 		     gint *green,
 		     gint *blue)
@@ -388,7 +389,8 @@ gimp_rgb_to_hls_int (gint *red,
   *blue  = s;
 }
 
-gint
+
+static gint
 gimp_rgb_to_l_int (gint red,
 		   gint green,
 		   gint blue)
@@ -432,7 +434,8 @@ gimp_hls_value (gdouble n1,
   return (gint) (value * 255);
 }
 
-void
+
+static void
 gimp_hls_to_rgb_int (gint *hue,
 		     gint *lightness,
 		     gint *saturation)
@@ -701,7 +704,7 @@ color_balance_transfer_init (ColorBalanceData *data)
 }
 
 
-void
+static void
 color_balance_create_lookup_tables (ColorBalanceData *cb)
 {
 	double  *cyan_red_transfer[3];

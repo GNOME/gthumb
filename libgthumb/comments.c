@@ -368,7 +368,7 @@ check_comment_file (char     *real_file,
 }
 
 
-void
+static void
 remove_comments_done (const GList *dir_list, 
 		      gpointer     data)
 {

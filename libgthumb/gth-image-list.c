@@ -2066,7 +2066,7 @@ gth_image_list_select_all (GthImageList *image_list)
 }
 
 
-gboolean
+static gboolean
 key_binding_select_all (GthImageList *image_list)
 {
 	gth_image_list_select_all (image_list);
@@ -2074,7 +2074,7 @@ key_binding_select_all (GthImageList *image_list)
 }
 
 
-gboolean
+static gboolean
 key_binding_unselect_all (GthImageList *image_list)
 {
 	gth_image_list_unselect_all (image_list);
@@ -2082,7 +2082,7 @@ key_binding_unselect_all (GthImageList *image_list)
 }
 
 
-int
+static int
 real_unselect_all (GthImageList *image_list,
 		   gpointer      keep)
 {

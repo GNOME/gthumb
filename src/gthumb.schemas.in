@@ -1182,7 +1182,7 @@
 	<default>name</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values: name, size, time.
+	  <long> Possible values are: name, size, time.
 	  </long>
 	</locale>
       </schema>
@@ -1210,7 +1210,7 @@
 	<default>pixels</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values: pixels, percentage.
+	  <long> Possible values are: pixels, percentage.
 	  </long>
 	</locale>
       </schema>
@@ -1355,7 +1355,7 @@
 	<default>name</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values: name, path, size, time.
+	  <long> Possible values are: name, path, size, time.
 	  </long>
 	</locale>
       </schema>

@@ -3517,10 +3517,11 @@ make_url_list (GList    *list,
 	return result;
 }
 
+
 static void
 gth_file_list_drag_begin (GtkWidget          *widget,
-		     GdkDragContext     *context,
-		     gpointer            extra_data)
+			  GdkDragContext     *context,
+			  gpointer            extra_data)
 {	
 	GThumbWindow *window = extra_data;
 
@@ -3528,6 +3529,7 @@ gth_file_list_drag_begin (GtkWidget          *widget,
 		path_list_free (gth_file_list_drag_data);
 	gth_file_list_drag_data = gth_file_view_get_file_list_selection (window->file_list->view);
 }
+
 
 static void  
 gth_file_list_drag_data_get  (GtkWidget        *widget,
@@ -3563,6 +3565,7 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 
 	g_string_free (url_list, TRUE);	
 }
+
 
 static void
 move_items__continue (GnomeVFSResult result,

@@ -270,7 +270,7 @@ int            gth_image_list_get_first_visible    (GthImageList *image_list);
 
 int            gth_image_list_get_last_visible     (GthImageList *image_list);
 
-int            gth_image_list_get_images_per_line  (GthImageList *image_list);
+int            gth_image_list_get_items_per_line   (GthImageList *image_list);
 
 /* Sort */
 
