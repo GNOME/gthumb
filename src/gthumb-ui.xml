@@ -601,7 +601,7 @@
 	<separator/>
 
   	<toolitem name="Tools_Slideshow" verb=""
-	          _label="View as a slide show"/>
+	          _label="Slide Show"/>
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
