@@ -1,3 +1,7 @@
+2002-11-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/*.glade: make dialogs more HIG compliant.
+
 2002-11-17  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/e-combo-button.c (paint): paint the combo button as a single

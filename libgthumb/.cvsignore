@@ -1,5 +1,6 @@
 .deps
 .libs
+.xvpics
 Makefile
 Makefile.in
 gthumb-marshal.c

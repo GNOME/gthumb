@@ -5,27 +5,25 @@
 <requires lib="gnome"/>
 
 <widget class="GtkDialog" id="exporter_save_dialog">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Create Index Image</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
   <property name="resizable">False</property>
   <property name="destroy_with_parent">False</property>
-  <property name="has_separator">True</property>
+  <property name="has_separator">False</property>
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox1">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">8</property>
+      <property name="spacing">12</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area1">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="pref_button">
@@ -128,7 +126,7 @@
 
       <child>
 	<widget class="GtkVBox" id="vbox5">
-	  <property name="border_width">12</property>
+	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
 	  <property name="spacing">12</property>
@@ -853,6 +851,7 @@
 </widget>
 
 <widget class="GtkDialog" id="progress_dialog">
+  <property name="border_width">6</property>
   <property name="width_request">300</property>
   <property name="title" translatable="yes">gThumb</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
@@ -864,17 +863,14 @@
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox3">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">8</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area3">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="progress_cancel">
@@ -909,10 +905,6 @@
 	      <property name="orientation">GTK_PROGRESS_LEFT_TO_RIGHT</property>
 	      <property name="fraction">0</property>
 	      <property name="pulse_step">0.1</property>
-	      <property name="activity_mode">False</property>
-	      <property name="show_text">False</property>
-	      <property name="text_xalign">0.5</property>
-	      <property name="text_yalign">0.5</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">12</property>
@@ -953,6 +945,7 @@
 </widget>
 
 <widget class="GtkDialog" id="exporter_property_dialog">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Index Image Properties</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -963,17 +956,14 @@
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox6">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">8</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area6">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="prop_cancel_button">
@@ -1012,7 +1002,7 @@
 	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
-	  <property name="spacing">5</property>
+	  <property name="spacing">12</property>
 
 	  <child>
 	    <widget class="GtkNotebook" id="notebook2">
@@ -1022,8 +1012,6 @@
 	      <property name="show_border">True</property>
 	      <property name="tab_pos">GTK_POS_TOP</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 
 	      <child>

@@ -5,6 +5,7 @@
 <requires lib="canvas"/>
 
 <widget class="GtkDialog" id="page_setup_dialog">
+  <property name="border_width">6</property>
   <property name="title" translatable="yes">Print Setup</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
@@ -17,7 +18,7 @@
     <widget class="GtkVBox" id="dialog-vbox2">
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
-      <property name="spacing">0</property>
+      <property name="spacing">12</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area2">
