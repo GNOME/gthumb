@@ -2237,8 +2237,11 @@ folder_copy (GThumbWindow   *window,
 			char *dest_folder_comment;
 			dest_folder_comment = comments_get_comment_filename (dest_path, TRUE, TRUE);
 			src_list = g_list_append (src_list, new_uri_from_path (src_folder_comment));
-			if (fcdata->file_op != FILE_OP_DELETE)
+			if (fcdata->file_op != FILE_OP_DELETE) {
+				if (path_is_file (dest_folder_comment))
+					unlink (dest_folder_comment);
 				dest_list = g_list_append (dest_list, new_uri_from_path (dest_folder_comment));
+			}
 			g_free (dest_folder_comment);
 		}
 

@@ -1,3 +1,8 @@
+2004-05-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-file-utils.c (folder_copy): delete the old destination folder
+	comment if it exists.
+
 2004-05-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/gthumb.schemas.in: fixes bug #143020 : gthumb should default to 
