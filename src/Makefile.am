@@ -105,7 +105,6 @@ gthumb_SOURCES = 			\
 	main.h
 
 gthumb_LDADD = 							\
-	@LIBOBJS@						\
 	$(EXIF_LIBS)						\
 	$(GTHUMB_LIBS)						\
 	$(JPEG_LIBS)						\
@@ -128,7 +127,5 @@ endif
 EXTRA_DIST = 		\
 	$(glade_DATA)	\
 	$(ui_DATA)	\
-	$(schema_DATA)	\
-	fnmatch.c       \
-        fnmatch.h
+	$(schema_DATA)
 

@@ -174,18 +174,14 @@ iti_stop_editing (GThumbTextItem *iti)
 
 static void
 update_text (GThumbTextItem  *iti, 
-	     const char      *new_text)
+	     const char      *utf8_text)
 {
 	GThumbTextItemPrivate *priv = iti->_priv;
 	PangoAttrList         *attr_list = NULL;
         GError                *error = NULL;
 	char                  *marked_text;
 	char                  *parsed_text;
-	char                  *utf8_text;
 
-	g_return_if_fail (new_text != NULL);
-
-	utf8_text = g_locale_to_utf8 (new_text, -1, NULL, NULL, NULL);
 	g_return_if_fail (utf8_text != NULL);
 
 	if (priv->markup_str != NULL) {
@@ -194,9 +190,6 @@ update_text (GThumbTextItem  *iti,
 		g_free (escaped_text);
 	} else
 		marked_text = g_markup_escape_text (utf8_text, -1);
-
-	g_free (utf8_text);
-
 
 	if (iti->text != NULL) {
 		g_free (iti->text);
@@ -214,7 +207,7 @@ update_text (GThumbTextItem  *iti,
 				  &parsed_text, 
 				  NULL,
 				  &error)) {
-		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, new_text);
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, utf8_text);
 		g_error_free (error);
 		g_free (marked_text);
 		return;
@@ -222,7 +215,7 @@ update_text (GThumbTextItem  *iti,
 
 	g_free (marked_text);
 
-	iti->text = g_strdup (new_text);
+	iti->text = g_strdup (utf8_text);
 	priv->parsed_text = parsed_text;
 
 	pango_layout_set_attributes (priv->layout, attr_list);
@@ -443,7 +436,6 @@ gthumb_text_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	text_xofs = xofs - (iti->width - priv->layout_width - 2 * MARGIN_X) / 2;
 	text_yofs = yofs + MARGIN_Y;
 
-
 	if (GTK_WIDGET_HAS_FOCUS (widget))
 		state = GTK_STATE_SELECTED;
 	else
@@ -528,6 +520,7 @@ draw_pixbuf_aa (GdkPixbuf *pixbuf,
 	affine[5] -= y_offset;
 }
 
+
 static void
 gthumb_text_item_render (GnomeCanvasItem *item, GnomeCanvasBuf *buffer)
 {
@@ -552,8 +545,8 @@ gthumb_text_item_render (GnomeCanvasItem *item, GnomeCanvasBuf *buffer)
 
 	/* use a common routine to draw the label into the pixmap */
 	gthumb_text_item_draw (item, pixmap,
-				   ROUND (item->x1), ROUND (item->y1),
-				   width, height);
+			       ROUND (item->x1), ROUND (item->y1),
+			       width, height);
 
 	/* turn it into a pixbuf */
 	text_pixbuf = gdk_pixbuf_get_from_drawable
@@ -1011,11 +1004,10 @@ gthumb_text_item_get_text (GThumbTextItem *iti)
 
 	priv = iti->_priv;
 
-	if (iti->editing) {
+	if (iti->editing) 
 		return gtk_entry_get_text (GTK_ENTRY (priv->entry));
-	} else {
+	else 
 		return iti->text;
-	}
 }
 
 

@@ -1777,12 +1777,11 @@ static void
 paint_comment (CatalogPngExporter *ce,
 	       int                 x,
 	       int                 y,
-	       char               *text,
+	       char               *utf8_text,
 	       int                *height)
 {
 	PangoRectangle        bounds;
 	const char           *font_name;
-	char                 *utf8_text;
 	char                 *escaped_text;
 	char                 *marked_text;
 	char                 *parsed_text;
@@ -1803,11 +1802,9 @@ paint_comment (CatalogPngExporter *ce,
 		pango_attr_list_ref (original_attr_list);
 	x += FRAME_BORDER;
 
-	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
 	escaped_text = g_markup_escape_text (utf8_text, -1);
 	marked_text = g_strdup_printf ("<i>%s</i>", escaped_text);
 	g_free (escaped_text);
-	g_free (utf8_text);
 
 	if (! pango_parse_markup (marked_text, -1,
 				  0,
@@ -1815,7 +1812,7 @@ paint_comment (CatalogPngExporter *ce,
 				  &parsed_text, 
 				  NULL,
 				  &error)) {
-		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, text);
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, utf8_text);
 		g_error_free (error);
 		g_free (marked_text);
 		pango_attr_list_unref (original_attr_list);

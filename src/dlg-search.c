@@ -21,9 +21,6 @@
  */
 
 #include <config.h>
-#ifdef HAVE_FNMATCH
-#include <fnmatch.h>
-#endif /* HAVE_FNMATCH */
 #include <string.h>
 #include <time.h>
 
@@ -44,10 +41,8 @@
 #include "search.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
+#include "glib-utils.h"
 
-#ifndef HAVE_FNMATCH
-#include "fnmatch.h"
-#endif /* ! HAVE_FNMATCH */
 
 enum {
 	C_USE_CATEGORY_COLUMN,
@@ -61,7 +56,8 @@ enum {
 	P_NUM_COLUMNS
 };
 
-#define CATEGORY_SEPARATOR ";"
+#define CATEGORY_SEPARATOR_C   ';'
+#define CATEGORY_SEPARATOR_STR ";"
 
 static void dlg_search_ui (GThumbWindow *window, 
 			   char         *catalog_path, 
@@ -218,9 +214,9 @@ static void
 search_clicked_cb (GtkWidget  *widget, 
 		   DialogData *data)
 {
-	char *full_path;
-	char *entry;
-	char *utf8_path;
+	char       *full_path;
+	const char *entry;
+	char       *utf8_path;
 
 	/* collect search data. */
 
@@ -244,35 +240,31 @@ search_clicked_cb (GtkWidget  *widget,
 
 	/* * file pattern */
 
-	entry = _gtk_entry_get_locale_text (GTK_ENTRY (data->s_filename_entry));
+	entry = gtk_entry_get_text (GTK_ENTRY (data->s_filename_entry));
 	search_data_set_file_pattern (data->search_data, entry);
 	if (entry != NULL) 
 		data->file_patterns = search_util_get_patterns (entry);
-	g_free (entry);
 
 	/* * comment pattern */
 
-	entry = _gtk_entry_get_locale_text (GTK_ENTRY (data->s_comment_entry));
+	entry = gtk_entry_get_text (GTK_ENTRY (data->s_comment_entry));
 	search_data_set_comment_pattern (data->search_data, entry);
 	if (entry != NULL) 
 		data->comment_patterns = search_util_get_patterns (entry);
-	g_free (entry);
 
 	/* * place pattern */
 
-	entry = _gtk_entry_get_locale_text (GTK_ENTRY (data->s_place_entry));
+	entry = gtk_entry_get_text (GTK_ENTRY (data->s_place_entry));
 	search_data_set_place_pattern (data->search_data, entry);
 	if (entry != NULL) 
 		data->place_patterns = search_util_get_patterns (entry);
-	g_free (entry);
 
 	/* * keywords pattern */
 
-	entry = _gtk_entry_get_locale_text (GTK_ENTRY (data->s_categories_entry));
+	entry = gtk_entry_get_text (GTK_ENTRY (data->s_categories_entry));
 	search_data_set_keywords_pattern (data->search_data, entry, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_all_cat_radiobutton)));
 	if (entry != NULL) 
 		data->keywords_patterns = search_util_get_patterns (entry);
-	g_free (entry);
 
 	/* * date scope pattern */
 
@@ -483,24 +475,19 @@ update_category_entry (DialogData *data)
 		gboolean use_category;
 		gtk_tree_model_get (model, &iter, C_USE_CATEGORY_COLUMN, &use_category, -1);
 		if (use_category) {
-			char *utf8_name;
 			char *category_name;
 
 			gtk_tree_model_get (model, &iter, 
-					    C_CATEGORY_COLUMN, &utf8_name, 
+					    C_CATEGORY_COLUMN, &category_name, 
 					    -1);
-			category_name = g_locale_from_utf8 (utf8_name, -1,
-							    NULL, NULL, NULL);
-
 			if (categories->len > 0)
-				categories = g_string_append (categories, CATEGORY_SEPARATOR " ");
+				categories = g_string_append (categories, CATEGORY_SEPARATOR_STR " ");
 			categories = g_string_append (categories, category_name);
 			g_free (category_name);
-			g_free (utf8_name);
 		}
 	} while (gtk_tree_model_iter_next (model, &iter));
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->c_categories_entry), categories->str);
+	gtk_entry_set_text (GTK_ENTRY (data->c_categories_entry), categories->str);
 	g_string_free (categories, TRUE);
 }
 
@@ -510,7 +497,6 @@ get_categories_from_entry (DialogData *data)
 {
 	GList       *cat_list = NULL;
 	const char  *utf8_text;
-	char        *text;
 	char       **categories;
 	int          i;
 
@@ -518,17 +504,15 @@ get_categories_from_entry (DialogData *data)
 	if (utf8_text == NULL)
 		return NULL;
 	
-	text = g_locale_from_utf8 (utf8_text, -1, NULL, NULL, NULL);
-	categories = g_strsplit (text, CATEGORY_SEPARATOR, 0);
-	g_free (text);
+	categories = _g_utf8_strsplit (utf8_text, CATEGORY_SEPARATOR_C);
 
 	for (i = 0; categories[i] != NULL; i++) {
 		char *s;
 
-		s = g_strdup (categories[i]);
-		g_strchomp (s);
-		g_strchug (s);
-		cat_list = g_list_prepend (cat_list, s);
+		s = _g_utf8_strstrip (categories[i]);
+
+		if (s != NULL)
+			cat_list = g_list_prepend (cat_list, s);
 	}
 	g_strfreev (categories);
 
@@ -551,7 +535,6 @@ add_saved_categories (DialogData  *data,
 		GList       *scan2;
 		gboolean     found = FALSE;
 		char        *category1 = scan->data;
-		char        *utf8_name;
 
 		for (scan2 = cat_list; scan2 && !found; scan2 = scan2->next) {
 			char *category2 = scan2->data;
@@ -564,13 +547,10 @@ add_saved_categories (DialogData  *data,
 
 		gtk_list_store_append (data->c_categories_list_model, &iter);
 
-
-		utf8_name = g_locale_to_utf8 (category1, -1, NULL, NULL, NULL);
 		gtk_list_store_set (data->c_categories_list_model, &iter,
 				    C_USE_CATEGORY_COLUMN, FALSE,
-				    C_CATEGORY_COLUMN, utf8_name,
+				    C_CATEGORY_COLUMN, category1,
 				    -1);
-		g_free (utf8_name);
 	}
 
 	bookmarks_free (categories);
@@ -589,16 +569,13 @@ update_list_from_entry (DialogData *data)
 	for (scan = categories; scan; scan = scan->next) {
 		char        *category = scan->data;
 		GtkTreeIter  iter;
-		char        *utf8_name;
 		
 		gtk_list_store_append (data->c_categories_list_model, &iter);
 		
-		utf8_name = g_locale_to_utf8 (category, -1, NULL, NULL, NULL);
 		gtk_list_store_set (data->c_categories_list_model, &iter,
 				    C_USE_CATEGORY_COLUMN, TRUE,
-				    C_CATEGORY_COLUMN, utf8_name,
+				    C_CATEGORY_COLUMN, category,
 				    -1);
-		g_free (utf8_name);
 	}
 	add_saved_categories (data, categories);
 	path_list_free (categories);
@@ -789,14 +766,14 @@ dlg_search_ui (GThumbWindow *window,
 	
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
 		
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->s_filename_entry),
-					    search_data->file_pattern);
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->s_comment_entry),
-					    search_data->comment_pattern);
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->s_place_entry),
-					    search_data->place_pattern);
-		_gtk_entry_set_locale_text (GTK_ENTRY (data->s_categories_entry),
-					    search_data->keywords_pattern);
+		gtk_entry_set_text (GTK_ENTRY (data->s_filename_entry),
+				    search_data->file_pattern);
+		gtk_entry_set_text (GTK_ENTRY (data->s_comment_entry),
+				    search_data->comment_pattern);
+		gtk_entry_set_text (GTK_ENTRY (data->s_place_entry),
+				    search_data->place_pattern);
+		gtk_entry_set_text (GTK_ENTRY (data->s_categories_entry),
+				    search_data->keywords_pattern);
 
 		gtk_option_menu_set_history (GTK_OPTION_MENU (data->s_date_optionmenu),
 					     search_data->date_scope);
@@ -950,8 +927,8 @@ static gboolean
 pattern_matched_by_keywords (char  *pattern,
 			     char **keywords)
 {
-	int i;
-	int result;
+	GPatternSpec * pspec;
+	int            match, i;
 
 	if (pattern == NULL)
 		return TRUE;
@@ -959,14 +936,18 @@ pattern_matched_by_keywords (char  *pattern,
 	if ((keywords == NULL) || (keywords[0] == NULL))
 		return FALSE;
 
-	result = FNM_NOMATCH;
+	pspec = g_pattern_spec_new (pattern);
+
+	match = FALSE;
 	i = 0;
-	while ((result != 0) && (keywords[i] != NULL)) {
-		result = fnmatch (pattern, keywords[i], CASE_INSENSITIVE);
+	while (! match && (keywords[i] != NULL)) {
+		match = g_pattern_match_string (pspec, keywords[i]);
 		i++;
 	}
 
-	return (result == 0);
+	g_pattern_spec_free (pspec);
+
+	return match;
 }
 
 
@@ -975,7 +956,7 @@ match_patterns (char       **patterns,
 		const char  *string)
 {
 	int i;
-	int result;
+	int match;
 
 	if (patterns[0] == NULL)
 		return TRUE;
@@ -983,14 +964,14 @@ match_patterns (char       **patterns,
 	if (string == NULL)
 		return FALSE;
 
-	result = FNM_NOMATCH;
+	match = FALSE;
 	i = 0;
-	while ((result != 0) && (patterns[i] != NULL)) {
-		result = fnmatch (patterns[i], string, CASE_INSENSITIVE);
+	while (! match && (patterns[i] != NULL)) {
+		match = g_pattern_match_simple (patterns[i], string);
 		i++;
 	}
 
-	return (result == 0);
+	return match;
 }
 
 

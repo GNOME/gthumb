@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib.h>
 #include "search.h"
+#include "glib-utils.h"
 
 
 SearchData* 
@@ -184,22 +185,27 @@ search_data_copy (SearchData *dest,
 }
 
 
-gchar **
-search_util_get_patterns (const gchar *pattern_string)
+char **
+search_util_get_patterns (const char *pattern_string)
 {
-	gchar **patterns;
-	gint i;
+	char **patterns;
+	int    i;
 
-	patterns = g_strsplit (pattern_string, ";", 10);
+	patterns = _g_utf8_strsplit (pattern_string, ';');
+
 	for (i = 0; patterns[i] != NULL; i++) {
-		patterns[i] = g_strstrip (patterns[i]);
+		char *stripped = _g_utf8_strstrip (patterns[i]);
+
+		if (stripped == NULL)
+			continue;
 		
-		if (strchr (patterns[i], '*') == NULL) {
-			gchar *temp;
-			temp = patterns[i];
-			patterns[i] = g_strdup_printf ("*%s*", temp);
+		if (g_utf8_strchr (stripped, -1, '*') == NULL) {
+			char *temp = patterns[i];
+			patterns[i] = g_strconcat ("*", stripped, "*", NULL);
 			g_free (temp);
 		}
+
+		g_free (stripped);
 	}
 
 	return patterns;

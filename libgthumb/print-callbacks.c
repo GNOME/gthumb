@@ -892,12 +892,7 @@ print_image_dlg (GtkWindow   *parent,
 	}
 
 	if (cdata != NULL) {
-		char *comment;
-
-		comment = comments_get_comment_as_string (cdata, "\n", " - ");
-		pi->comment = g_locale_to_utf8 (comment, -1, 0, 0, 0);
-
-		g_free (comment);
+		pi->comment = comments_get_comment_as_string (cdata, "\n", " - ");
 		comment_data_free (cdata);
 	}
 

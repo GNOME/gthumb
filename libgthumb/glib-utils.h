@@ -48,4 +48,13 @@ char *   _g_substitute             (const char *from,
 				    const char  this,
 				    const char *with_this);
 
+char *   _g_utf8_strndup           (const char *str,
+				    gsize       n);
+
+char **  _g_utf8_strsplit          (const char *str,
+				    const char  delimiter);
+
+char *   _g_utf8_strstrip          (const char *str);
+
+
 #endif /* _GLIB_UTILS_H */

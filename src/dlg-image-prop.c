@@ -348,16 +348,12 @@ update_comment (DialogData *data)
 
 	comment = comments_get_comment_as_string (cdata, "\n", " - ");
 
-	if (comment != NULL) {
-		char          *utf8_text;
-
-		utf8_text = g_locale_to_utf8 (comment, -1, 0, 0, 0);
+	if (comment != NULL) 
 		gtk_text_buffer_set_text (data->i_comment_textbuffer,
-					  utf8_text, 
-					  strlen (utf8_text));
-		g_free (utf8_text);
-	} else {
-		GtkTextIter  start_iter, end_iter;
+					  comment,
+					  strlen (comment));
+	else {
+		GtkTextIter start_iter, end_iter;
 		gtk_text_buffer_get_bounds (data->i_comment_textbuffer,
 					    &start_iter, 
 					    &end_iter);
@@ -368,7 +364,6 @@ update_comment (DialogData *data)
 
 	if (cdata->keywords_n > 0) {
 		GString   *keywords;
-		char      *utf8_text;
 		int        i;
 
 		keywords = g_string_new (cdata->keywords[0]);
@@ -377,12 +372,10 @@ update_comment (DialogData *data)
 			g_string_append (keywords, cdata->keywords[i]);
 		}
 		g_string_append (keywords, ".");
-		utf8_text = g_locale_to_utf8 (keywords->str, -1, 0, 0, 0);
 
-		gtk_label_set_text (GTK_LABEL (data->i_categories_label), utf8_text);
+		gtk_label_set_text (GTK_LABEL (data->i_categories_label), keywords->str);
 
 		g_string_free (keywords, TRUE);
-		g_free (utf8_text);
 	} else
 		gtk_label_set_text (GTK_LABEL (data->i_categories_label), "");
 

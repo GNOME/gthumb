@@ -176,7 +176,7 @@ render_frame (GdkDrawable    *drawable,
 
 
 static char *
-escape_text (const char *text) 
+escape_locale_text (const char *text) 
 {
 	char *utf8_text;
 	char *escaped_text;
@@ -223,7 +223,7 @@ get_file_info (GThumbWindow *window)
 	time_t      timer;
 	struct tm  *tm;
 
-	e_filename = escape_text (file_name_from_path (window->image_path));
+	e_filename = escape_locale_text (file_name_from_path (window->image_path));
 
 	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
 	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
@@ -294,7 +294,7 @@ show_comment_on_image (GThumbWindow *window,
 	if (comment == NULL)
 		marked_text = g_strdup_printf ("<i>%s</i>", file_info);
 	else {
-		e_comment = escape_text (comment);
+		e_comment = g_markup_escape_text (comment, -1);
 		marked_text = g_strdup_printf ("<b>%s</b>\n<i>%s</i>", 
 					       e_comment, 
 					       file_info);

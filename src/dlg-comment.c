@@ -144,7 +144,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	text = gtk_entry_get_text (GTK_ENTRY (data->place_entry));
 	if (text != NULL)
-		cdata->place = g_locale_from_utf8 (text, -1, NULL, NULL, NULL);
+		cdata->place = g_strdup (text);
 	
 	/* Date */
 
@@ -175,10 +175,8 @@ ok_clicked_cb (GtkWidget  *widget,
 					 &start_iter, 
 					 &end_iter, 
 					 FALSE);
-
-	if (comment_text != NULL)
-		cdata->comment = g_locale_from_utf8 (comment_text, -1, NULL, NULL, NULL);
-	g_free (comment_text);
+	if (comment_text)
+		cdata->comment = comment_text;
 
 	/**/
 
@@ -447,7 +445,6 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		for (scan = data->file_list->next; scan; scan = scan->next) {
 			CommentData *scan_cdata;
 
-
 			scan_cdata = comments_load_comment (scan->data);
 			if (scan_cdata == NULL)
 				break;
@@ -477,23 +474,15 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	gtk_widget_set_sensitive (data->c_exif_date_radiobutton, data->have_exif_data);
 
 	if (cdata != NULL) {
-		char *utf8;
-
-		if (cdata->comment != NULL)
-			utf8 = g_locale_to_utf8 (cdata->comment, -1,
-						 NULL, NULL, NULL);
-		else
-			utf8 = NULL;
 		if (cdata->comment != NULL)
 			gtk_text_buffer_set_text (data->note_text_buffer,
-						  utf8, 
-						  strlen (utf8));
-		g_free (utf8);
+						  cdata->comment, 
+						  strlen (cdata->comment));
 
 		/**/
 
 		if (cdata->place != NULL)
-			_gtk_entry_set_locale_text (GTK_ENTRY (data->place_entry), cdata->place);
+			gtk_entry_set_text (GTK_ENTRY (data->place_entry), cdata->place);
 
 		/**/
 

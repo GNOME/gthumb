@@ -33,7 +33,8 @@ typedef struct {
 	int                 ref;
 
 	char               *path;          /* Full path name. */
-	char               *name;          /* File name only. */
+	const char         *name;          /* File name only. */
+	char               *utf8_name;
 	GnomeVFSFileSize    size;
 	time_t              ctime;
 	time_t              mtime;

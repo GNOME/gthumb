@@ -176,3 +176,98 @@ _g_substitute (const char *from,
 
 	return result;
 }
+
+
+char *
+_g_utf8_strndup (const char *str,
+		 gsize       n)
+{
+	const char *s = str;
+	char       *result;
+
+	while (n && *s) {
+		s = g_utf8_next_char (s);
+		n--;
+	}
+
+	result = g_strndup (str, s - str);
+
+	return result;
+}
+
+
+char **
+_g_utf8_strsplit (const char *str,
+		  const char  delimiter)
+{
+	GSList      *slist = NULL, *scan;
+	char       **str_array;
+	const char  *s, *t;
+	guint        n = 0;
+
+	if (str == NULL)
+		return g_new0 (char *, 1);
+
+	t = s = str;
+	do {
+		gunichar ch = g_utf8_get_char (t);
+		if ((ch == delimiter) || (*t == 0)) {
+			if (t != s) {
+				n++;
+				slist = g_slist_prepend (slist, g_strndup (s, t - s));
+			}
+
+			if (*t != 0)
+				t = s = g_utf8_next_char (t);
+			else
+				break;
+		} else 
+			t = g_utf8_next_char (t);
+	} while (TRUE);
+
+	str_array = g_new (char*, n + 1);
+
+	str_array[n--] = NULL;
+	for (scan = slist; scan; scan = scan->next)
+		str_array[n--] = scan->data;
+
+	g_slist_free (slist);
+
+	return str_array;
+}
+
+
+char *
+_g_utf8_strstrip (const char *str)
+{
+	const char *s;
+	const char *t;
+
+	if (str == NULL)
+		return NULL;
+
+	s = str;
+
+	do {
+		gunichar ch = g_utf8_get_char (s);
+		if (ch != ' ')
+			break;
+		s = g_utf8_next_char (s);
+	} while (*s != 0);
+
+	if (*s == 0)
+		return NULL;
+
+	/**/
+
+	t = s;
+
+	do {
+		gunichar ch = g_utf8_get_char (t);
+		if (ch == ' ')
+			break;
+		t = g_utf8_next_char (t);
+	} while (*t != 0);
+
+	return g_strndup (s, t - s);
+}

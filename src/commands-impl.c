@@ -228,7 +228,7 @@ rename_file (GThumbWindow *window,
 	     const GList  *list)
 {
 	const char   *old_name, *old_path;
-	char         *old_name_utf8;
+	char         *old_name_utf8, *new_name_utf8;
 	char         *new_name, *new_path;
 	char         *dir;
 
@@ -238,17 +238,20 @@ rename_file (GThumbWindow *window,
 	old_name = file_name_from_path (old_path);
 	old_name_utf8 = g_locale_to_utf8 (old_name, -1, NULL, NULL, NULL);
 
-	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
-					    GTK_DIALOG_MODAL,
-					    _("Enter the new name: "),
-					    old_name_utf8,
-					    MAX_NAME_LEN,
-					    GTK_STOCK_CANCEL,
-					    _("_Rename"));
+	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+						 GTK_DIALOG_MODAL,
+						 _("Enter the new name: "),
+						 old_name_utf8,
+						 MAX_NAME_LEN,
+						 GTK_STOCK_CANCEL,
+						 _("_Rename"));
 	g_free (old_name_utf8);
 
-	if (new_name == NULL) 
+	if (new_name_utf8 == NULL) 
 		return;
+
+	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
@@ -851,7 +854,7 @@ create_new_folder_or_library (GThumbWindow *window,
 			      char         *str_error)
 {
 	const char   *current_path;
-	char         *new_name;
+	char         *new_name, *new_name_utf8;
 	char         *new_path;
 
 	if (window->sidebar_content == DIR_LIST)
@@ -861,16 +864,19 @@ create_new_folder_or_library (GThumbWindow *window,
 	else
 		return;
 
-	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
-					    GTK_DIALOG_MODAL,
-					    str_prompt,
-					    str_old_name,
-					    MAX_NAME_LEN,
-					    GTK_STOCK_CANCEL,
-					    _("C_reate"));
+	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+						 GTK_DIALOG_MODAL,
+						 str_prompt,
+						 str_old_name,
+						 MAX_NAME_LEN,
+						 GTK_STOCK_CANCEL,
+						 _("C_reate"));
 	
-	if (new_name == NULL) 
+	if (new_name_utf8 == NULL) 
 		return;
+
+	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
@@ -962,23 +968,27 @@ folder_rename (GThumbWindow *window,
 	const char   *old_name;
 	char         *old_name_utf8;
 	char         *new_name;
+	char         *new_name_utf8;
 	char         *new_path;
 	char         *parent_path;
 
 	old_name = file_name_from_path (old_path);
 	old_name_utf8 = g_locale_to_utf8 (old_name, -1, NULL, NULL, NULL);
 
-	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
-					    GTK_DIALOG_MODAL,
-					    _("Enter the new name: "),
-					    old_name_utf8,
-					    MAX_NAME_LEN,
-					    GTK_STOCK_CANCEL,
-					    _("_Rename"));
+	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+						 GTK_DIALOG_MODAL,
+						 _("Enter the new name: "),
+						 old_name_utf8,
+						 MAX_NAME_LEN,
+						 GTK_STOCK_CANCEL,
+						 _("_Rename"));
 	g_free (old_name_utf8);
 	
-	if (new_name == NULL) 
+	if (new_name_utf8 == NULL) 
 		return;
+
+	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
@@ -1531,6 +1541,7 @@ catalog_rename (GThumbWindow *window,
 	char         *name_only;
 	char         *name_only_utf8;
 	char         *new_name;
+	char         *new_name_utf8;
 	char         *new_catalog_path;
 	char         *path_only;
 	gboolean      is_dir;
@@ -1543,19 +1554,22 @@ catalog_rename (GThumbWindow *window,
 		name_only = g_strdup (file_name_from_path (catalog_path));
 	name_only_utf8 = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
 
-	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
-					    GTK_DIALOG_MODAL,
-					    _("Enter the new name: "),
-					    name_only_utf8,
-					    MAX_NAME_LEN,
-					    GTK_STOCK_CANCEL,
-					    _("_Rename"));
+	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+						 GTK_DIALOG_MODAL,
+						 _("Enter the new name: "),
+						 name_only_utf8,
+						 MAX_NAME_LEN,
+						 GTK_STOCK_CANCEL,
+						 _("_Rename"));
 	g_free (name_only_utf8);
 	
-	if (new_name == NULL) {
+	if (new_name_utf8 == NULL) {
 		g_free (name_only);
 		return;
 	}
+
+	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;
@@ -1632,21 +1646,25 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	char         *new_name;
+	char         *new_name_utf8;
 	char         *new_catalog_path;
 	int           fd;
 
 	if (window->catalog_list->path == NULL)
 		return;
 
-	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
-					    GTK_DIALOG_MODAL,
-					    _("Enter the catalog name: "),
-					    _("New Catalog"),
-					    MAX_NAME_LEN,
-					    GTK_STOCK_CANCEL,
-					    GTK_STOCK_OK);
-	if (new_name == NULL) 
+	new_name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (window->app),
+						 GTK_DIALOG_MODAL,
+						 _("Enter the catalog name: "),
+						 _("New Catalog"),
+						 MAX_NAME_LEN,
+						 GTK_STOCK_CANCEL,
+						 GTK_STOCK_OK);
+	if (new_name_utf8 == NULL) 
 		return;
+
+	new_name = g_locale_from_utf8 (new_name_utf8, -1, 0, 0, 0);
+	g_free (new_name_utf8);
 
 	if (strchr (new_name, '/') != NULL) {
 		char *utf8_name;

@@ -119,7 +119,7 @@ void         gthumb_text_item_configure      (GThumbTextItem *iti,
 					      int             y,
 					      int             width,
 					      const char     *fontname,
-					      const char     *text,
+					      const char     *utf8_text,
 					      gboolean        is_editable,
 					      gboolean        is_static);
 

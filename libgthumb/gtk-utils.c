@@ -284,11 +284,9 @@ _gtk_request_dialog_run (GtkWindow        *parent,
 
 	/* Run dialog */
 
-	if (gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_YES) {
-		const char *text;
-		text = gtk_entry_get_text (GTK_ENTRY (entry));
-		result = g_locale_from_utf8 (text, -1, NULL, NULL, NULL);
-	} else
+	if (gtk_dialog_run (GTK_DIALOG (d)) == GTK_RESPONSE_YES) 
+		result = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+	else
 		result = NULL;
 
 	gtk_widget_destroy (d);

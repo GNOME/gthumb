@@ -73,6 +73,8 @@ struct _GthFileList {
 	FileData    *thumb_fd;
 	int          thumb_pos;           /* The position of the item we are 
 					   * genereting a thumbnail. */
+
+	guint        scroll_timer;
 };
 
 

@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 1.107)
+AC_INIT(gthumb, 1.107.1)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_CONFIG_HEADER(config.h)
@@ -178,11 +178,6 @@ if $have_render ; then
    AC_DEFINE(HAVE_RENDER)
 fi
 AC_SUBST(RENDER_LIBS)
-
-#
-# Checks for fnmatch
-#
-FUNC_FNMATCH(AC_DEFINE(HAVE_FNMATCH, 1, [Define if you have the `fnmatch' function.]), AC_LIBOBJ(fnmatch))
 
 #
 # Checks for libexif

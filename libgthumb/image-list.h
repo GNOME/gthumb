@@ -114,7 +114,7 @@ typedef enum {
 
 
 typedef enum { /*< skip >*/
-	GTHUMB_VISIBILITY_NONE,
+	GTHUMB_VISIBILITY_NONE = 0,
 	GTHUMB_VISIBILITY_FULL,
 	GTHUMB_VISIBILITY_PARTIAL,
 	GTHUMB_VISIBILITY_PARTIAL_TOP,
@@ -206,6 +206,7 @@ void           image_list_set_vadjustment     (ImageList *gil,
 /* To avoid excesive recomputes during insertion/deletion */
 void           image_list_freeze              (ImageList *gil);
 void           image_list_thaw                (ImageList *gil);
+gboolean       image_list_is_frozen           (ImageList *gil);
 
 void           image_list_insert              (ImageList *gil,
 					       gint pos, 

@@ -104,23 +104,20 @@ update_category_entry (DialogData *data)
 		gtk_tree_model_get (model, &iter, USE_CATEGORY_COLUMN, &use_category, -1);
 		if (use_category == 1) {
 			char *utf8_name;
-			char *category_name;
 
 			gtk_tree_model_get (model, &iter, 
 					    CATEGORY_COLUMN, &utf8_name, 
 					    -1);
-			category_name = g_locale_from_utf8 (utf8_name, -1,
-							    NULL, NULL, NULL);
 
 			if (categories->len > 0)
 				categories = g_string_append (categories, CATEGORY_SEPARATOR " ");
-			categories = g_string_append (categories, category_name);
-			g_free (category_name);
+			categories = g_string_append (categories, utf8_name);
+
 			g_free (utf8_name);
 		}
 	} while (gtk_tree_model_iter_next (model, &iter));
 
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->keyword_entry), categories->str);
+	gtk_entry_set_text (GTK_ENTRY (data->keyword_entry), categories->str);
 	g_string_free (categories, TRUE);
 }
 
@@ -146,16 +143,10 @@ get_categories (GtkListStore *store,
 				    USE_CATEGORY_COLUMN, &state, 
 				    CATEGORY_COLUMN, &utf8_name, 
 				    -1);
-		if ((state_to_get == -1) || (state == state_to_get)) {
-			char *name;
-			name = g_locale_from_utf8 (utf8_name, 
-						   -1, 
-						   NULL, 
-						   NULL, 
-						   NULL);
-			list = g_list_prepend (list, name);
-		}
-		g_free (utf8_name);
+		if ((state_to_get == -1) || (state == state_to_get)) 
+			list = g_list_prepend (list, utf8_name);
+		else
+			g_free (utf8_name);
 
 	} while (gtk_tree_model_iter_next (model, &iter));
 
@@ -190,7 +181,6 @@ add_category_cb (GtkWidget  *widget,
 {
 	GtkTreeIter  iter;
 	char        *new_category;
-	char        *utf8_name;
 
 	new_category = _gtk_request_dialog_run (GTK_WINDOW (data->dialog),
 						GTK_DIALOG_MODAL,
@@ -203,23 +193,20 @@ add_category_cb (GtkWidget  *widget,
 	if (new_category == NULL)
 		return;
 
-	utf8_name = g_locale_to_utf8 (new_category, -1, NULL, NULL, NULL);
-	
 	if (category_present (data, new_category)) {
 		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
 				       _("The category \"%s\" is already present. Please use a different name."), 
-				       utf8_name);
+				       new_category);
 	} else {
 		gtk_list_store_append (data->keywords_list_model, &iter);
 		gtk_list_store_set (data->keywords_list_model, &iter,
 				    IS_EDITABLE_COLUMN, TRUE,
 				    USE_CATEGORY_COLUMN, 0,
-				    CATEGORY_COLUMN, utf8_name,
+				    CATEGORY_COLUMN, new_category,
 				    -1);
 		update_category_entry (data);
 	}
 
-	g_free (utf8_name);
 	g_free (new_category);
 }
 
@@ -358,34 +345,6 @@ use_category_toggled (GtkCellRendererThreeStates *cell,
 }
 
 
-#ifdef XXX /* FIXME : delete or fix */
-static void
-category_edited (GtkCellRendererText *cell,
-		 gchar               *path_string,
-		 gchar               *new_text,
-		 gpointer             callback_data)
-{
-	DialogData   *data  = callback_data;
-	GtkTreeModel *model = GTK_TREE_MODEL (data->keywords_list_model);
-	GtkTreeIter   iter;
-	GtkTreePath  *path = gtk_tree_path_new_from_string (path_string);
-
-	if (category_present (data, new_text)) {
-		
-		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-		/*_*/("The category \"%s\" is already present. Please use a different name."), 
-				       new_text);
-	} else {
-		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_list_store_set (GTK_LIST_STORE (model), &iter, CATEGORY_COLUMN, new_text, -1);
-		update_category_entry (data);
-	}
-
-	gtk_tree_path_free (path);
-}
-#endif
-
-
 static void
 add_saved_categories (DialogData *data)
 {
@@ -402,7 +361,6 @@ add_saved_categories (DialogData *data)
 		GList       *scan2;
 		gboolean     found = FALSE;
 		char        *category1 = scan->data;
-		char        *utf8_name;
 
 		for (scan2 = cat_list; scan2 && !found; scan2 = scan2->next) {
 			char *category2 = scan2->data;
@@ -415,14 +373,11 @@ add_saved_categories (DialogData *data)
 
 		gtk_list_store_append (data->keywords_list_model, &iter);
 
-		utf8_name = g_locale_to_utf8 (category1,
-                                              -1, NULL, NULL, NULL);
 		gtk_list_store_set (data->keywords_list_model, &iter,
-				    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
+				    IS_EDITABLE_COLUMN, FALSE,
 				    USE_CATEGORY_COLUMN, 0,
-				    CATEGORY_COLUMN, utf8_name,
+				    CATEGORY_COLUMN, category1,
 				    -1);
-		g_free (utf8_name);
 	}
 
 	bookmarks_free (categories);
@@ -440,6 +395,27 @@ key_in_list (GList      *list,
 		if (strcmp (scan->data, key) == 0)
 			return TRUE;
 	return FALSE;
+}
+
+
+static int
+name_column_sort_func (GtkTreeModel *model, 
+                       GtkTreeIter  *a, 
+                       GtkTreeIter  *b, 
+                       gpointer      user_data)
+{
+        char *category1, *category2;
+	int   result;
+
+        gtk_tree_model_get (model, a, CATEGORY_COLUMN, &category1, -1);
+        gtk_tree_model_get (model, b, CATEGORY_COLUMN, &category2, -1);
+
+	result = g_utf8_collate (category1, category2);
+
+	g_free (category1);
+	g_free (category2);
+
+        return result;
 }
 
 
@@ -528,18 +504,13 @@ dlg_categories (GtkWidget *widget,
 							   "editable", IS_EDITABLE_COLUMN,
 							   NULL);
 
-	/*
-	g_signal_connect (G_OBJECT (renderer), 
-			  "edited",
-			  G_CALLBACK (category_edited), 
-			  data);
-	*/
-
 	gtk_tree_view_column_set_sort_column_id (column, 0);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->keywords_list_view),
 				     column);
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->keywords_list_model), CATEGORY_COLUMN, GTK_SORT_ASCENDING);
+	gtk_tree_sortable_set_default_sort_func (GTK_TREE_SORTABLE (data->keywords_list_model), name_column_sort_func, NULL, NULL);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->keywords_list_model), GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID, GTK_SORT_ASCENDING);
 
 	/**/
 
@@ -617,41 +588,32 @@ dlg_categories (GtkWidget *widget,
 
 		for (i = 0; i < cdata->keywords_n; i++) {
 			GtkTreeIter  iter;
-			char        *utf8_name;
 
 			gtk_list_store_append (data->keywords_list_model, 
 					       &iter);
 
-			utf8_name = g_locale_to_utf8 (cdata->keywords[i],
-						      -1, NULL, NULL, NULL);
 			gtk_list_store_set (data->keywords_list_model, &iter,
-					    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
+					    IS_EDITABLE_COLUMN, FALSE,
 					    HAS_THIRD_STATE_COLUMN, FALSE,
 					    USE_CATEGORY_COLUMN, 1,
-					    CATEGORY_COLUMN, utf8_name,
+					    CATEGORY_COLUMN, cdata->keywords[i],
 					    -1);
-			g_free (utf8_name);
 		}
 	}
 
 	for (scan = other_keys; scan; scan = scan->next) {
 		char        *keyword = scan->data;
 		GtkTreeIter  iter;
-		char        *utf8_name;
 		
 		gtk_list_store_append (data->keywords_list_model, 
 				       &iter);
 		
-		utf8_name = g_locale_to_utf8 (keyword,
-					      -1, NULL, NULL, NULL);
-		
 		gtk_list_store_set (data->keywords_list_model, &iter,
-				    IS_EDITABLE_COLUMN, FALSE /*TRUE*/,
+				    IS_EDITABLE_COLUMN, FALSE,
 				    HAS_THIRD_STATE_COLUMN, TRUE,
 				    USE_CATEGORY_COLUMN, 2,
-				    CATEGORY_COLUMN, utf8_name,
+				    CATEGORY_COLUMN, keyword,
 				    -1);
-		g_free (utf8_name);
 	}
 
 	if (other_keys != NULL)

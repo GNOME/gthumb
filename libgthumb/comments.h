@@ -28,12 +28,14 @@
 
 
 typedef struct {
-	char      *place;
+	char      *place;           /* All strings contain text in utf8 format. */
 	time_t     time;
 	char      *comment;
 	char     **keywords;
 	int        keywords_n;
-	gboolean   utf8_format;
+	gboolean   utf8_format;     /* TRUE if text is saved in UTF8 format. gthumb for
+				     * GNOME 1.x saved text in locale format, gthumb for
+				     * GNOME 2.x saves in utf8 format. */
 } CommentData;
 
 
@@ -58,35 +60,35 @@ gboolean       comment_data_is_void                (CommentData *data);
 
 /* -- */
 
-gchar *        comments_get_comment_filename       (const gchar *source);
+char *         comments_get_comment_filename       (const char  *source);
 
-gchar *        comments_get_comment_dir            (const gchar *directory);
+char *         comments_get_comment_dir            (const char  *directory);
 
-void           comment_copy                        (const gchar *src,
-						    const gchar *dest);
+void           comment_copy                        (const char  *src,
+						    const char  *dest);
 
-void           comment_move                        (const gchar *src,
-						    const gchar *dest);
+void           comment_move                        (const char  *src,
+						    const char  *dest);
 
-void           comment_delete                      (const gchar *filename);
+void           comment_delete                      (const char  *filename);
 
-void           comments_remove_old_comments        (const gchar *dir, 
+void           comments_remove_old_comments        (const char  *dir, 
 						    gboolean     recursive, 
 						    gboolean     clear_all);
 
-void           comments_remove_old_comments_async  (const gchar *dir, 
+void           comments_remove_old_comments_async  (const char  *dir, 
 						    gboolean     recursive, 
 						    gboolean     clear_all);
 
-CommentData *  comments_load_comment               (const gchar *filename);
+CommentData *  comments_load_comment               (const char  *filename);
 
-void           comments_save_comment               (const gchar *filename,
+void           comments_save_comment               (const char  *filename,
 						    CommentData *data);
 
-void           comments_save_comment_non_null      (const gchar *filename,
+void           comments_save_comment_non_null      (const char  *filename,
 						    CommentData *data);
 
-void           comments_save_categories            (const gchar *filename,
+void           comments_save_categories            (const char  *filename,
 						    CommentData *data);
 
 char *         comments_get_comment_as_string      (CommentData *data,

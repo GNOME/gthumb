@@ -102,9 +102,9 @@ typedef enum {
 #define STRING_IS_VOID(s) ((s == NULL) || (*s == 0))
 #define IMAGE_LINE_HEIGHT(gil, il) \
  ((il)->image_height \
-  + (((il)->comment_height > 0 || (il)->text_height > 0) ? (gil)->priv->text_spacing : 0) \
+  + ((((il)->comment_height > 0) || ((il)->text_height > 0)) ? (gil)->priv->text_spacing : 0) \
   + (il)->comment_height \
-  + (((il)->comment_height > 0 && (il)->text_height > 0) ? TEXT_COMMENT_SPACE : 0) \
+  + ((((il)->comment_height > 0) && ((il)->text_height > 0)) ? TEXT_COMMENT_SPACE: 0) \
   + (il)->text_height \
   + (gil)->priv->row_spacing) 
 
@@ -1270,9 +1270,9 @@ static char *
 truncate_comment_if_needed (ImageList  *gil, 
 			    const char *comment)
 {
-	GString  *truncated;
-	char     *result;
-	int       max_len, approx_char_width = 6; /* FIXME */
+	char *result;
+	int   max_len, approx_char_width = 6; /* FIXME */
+	int   comment_len;
 
 	if (comment == NULL)
 		return NULL;
@@ -1281,15 +1281,17 @@ truncate_comment_if_needed (ImageList  *gil,
 		return g_strdup ("");
 
 	max_len = (gil->priv->max_image_width / approx_char_width) * COMMENT_MAX_LINES;
+	comment_len = g_utf8_strlen (comment, -1);
 
-	truncated = g_string_new ("");
-	g_string_append_len (truncated, comment, max_len);
-	if (strlen (comment) > max_len) 
-		g_string_append (truncated, ETC);
+	if (comment_len > max_len) {
+		char *comment_n;
 
-	result = truncated->str;
+		comment_n = _g_utf8_strndup (comment, max_len);
+		result = g_strconcat (comment_n, ETC, NULL);
 
-	g_string_free (truncated, FALSE);
+		g_free (comment_n);
+	} else
+		result = g_strdup (comment);
 
 	return result;
 }
@@ -1298,7 +1300,7 @@ truncate_comment_if_needed (ImageList  *gil,
 static Image *
 image_new_from_pixbuf (ImageList *gil, 
 		       GdkPixbuf *pixbuf, 
-		       const char *text,
+		       const char *utf8_text,
 		       const char *comment)
 {
 	GnomeCanvas       *canvas;
@@ -1351,6 +1353,7 @@ image_new_from_pixbuf (ImageList *gil,
 		NULL));
 
 	gthumb_text_item_set_markup_str (image->comment, "<i>%s</i>");
+	/*gthumb_text_item_set_markup_str (image->comment, "<tt>%s</tt>");*/
 
 	c = truncate_comment_if_needed (gil, comment);
 	gthumb_text_item_configure (image->comment,
@@ -1369,12 +1372,15 @@ image_new_from_pixbuf (ImageList *gil,
 	       group,
 	       GTHUMB_TYPE_TEXT_ITEM,
 	       NULL));
+
+	/*gthumb_text_item_set_markup_str (image->text, "<span weight=\"bold\">%s</span>");*/
+
 	gthumb_text_item_configure (image->text,
 				    0, 
 				    0, 
 				    gil->priv->max_image_width, 
 				    DEFAULT_FONT,
-				    text, 
+				    utf8_text, 
 				    gil->priv->is_editable, 
 				    gil->priv->static_text);
 			   
@@ -3489,6 +3495,14 @@ image_list_thaw (ImageList *gil)
 	
 		gnome_canvas_item_show (GNOME_CANVAS (gil)->root);
 	}
+}
+
+
+gboolean
+image_list_is_frozen (ImageList *gil)
+{
+	g_return_val_if_fail (IS_IMAGE_LIST (gil), FALSE);
+	return gil->priv->frozen > 0;
 }
 
 

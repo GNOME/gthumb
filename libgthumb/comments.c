@@ -148,9 +148,9 @@ comment_data_dup (CommentData *data)
 char *
 comments_get_comment_filename (const char *source) 
 {
-	char *path;
-	char *directory;
+	char       *directory;
 	const char *filename;
+	char       *path;
 
 	if (!source) return NULL;
 
@@ -175,8 +175,8 @@ comments_get_comment_filename (const char *source)
 char *
 comments_get_comment_dir (const char *directory) 
 {
+	char *separator;
 	char *path;
-	char  *separator;
 
 	if (directory == NULL)
 		separator = NULL;
@@ -249,8 +249,8 @@ comment_delete (const char *filename)
  */
 void
 comments_remove_old_comments (const char *dir,
-			      gboolean recursive,
-			      gboolean clear_all)
+			      gboolean    recursive,
+			      gboolean    clear_all)
 {
 	visit_rc_directory (RC_COMMENTS_DIR,
 			    COMMENT_EXT,
@@ -299,7 +299,7 @@ remove_comments_done (const GList *dir_list,
 	}
 
 	for (scan = dir_list; scan; scan = scan->next) {
-		gchar *dir = scan->data;
+		char *dir = scan->data;
 		rmdir (dir);
 	}
 }
@@ -344,15 +344,16 @@ comments_remove_old_comments_async (const char *dir,
 
 
 static char *
-get_text (CommentData *data,
-	  xmlChar     *value)
+get_utf8_text (CommentData *data,
+	       xmlChar     *value)
 {
 	if (value == NULL)
 		return NULL;
-	if (! data->utf8_format)
+
+	if (data->utf8_format)
 		return g_strdup (value);
 	else
-		return g_locale_from_utf8 (value, -1, NULL, NULL, NULL);
+		return g_locale_to_utf8 (value, -1, NULL, NULL, NULL);
 }
 
 
@@ -361,18 +362,18 @@ get_keywords (CommentData *data,
 	      xmlChar     *utf8_value)
               
 {
-        int       n, i;
-        xmlChar  *c, *sub_str;
-        gboolean  done;
 	char     *value;
+        int       n;
+        xmlChar  *p, *keyword;
+        gboolean  done;
 
-        if ((utf8_value == NULL) || (*utf8_value == 0)) {
+	if ((utf8_value == NULL) || (*utf8_value == 0)) {
 		data->keywords_n = 0;
 		data->keywords = NULL;
-                return;
+		return;
 	}
 
-	value = get_text (data, utf8_value);
+	value = get_utf8_text (data, utf8_value);
 
 	if (value == NULL) {
 		data->keywords_n = 0;
@@ -380,27 +381,30 @@ get_keywords (CommentData *data,
 		return;
 	}
 
-        n = 1;
-        for (c = value; *c != 0; c++)
-                if (*c == ',')
-                        n++;
-        data->keywords_n = n;
-        data->keywords = g_new0 (char*, n + 1);
+	n = 1;
+	for (p = value; *p != 0; p = g_utf8_next_char (p)) {
+		gunichar ch = g_utf8_get_char (p);
+		if (ch == ',')
+			n++;
+	}
+
+	data->keywords_n = n;
+	data->keywords = g_new0 (char*, n + 1);
 	data->keywords[n] = NULL;
 
-        i = 0;
-        sub_str = c = value;
-        do {
-                done = (*c == 0); 
+        n = 0;
+	keyword = p = value;
+	do {
+		gunichar ch = g_utf8_get_char (p);
 
-                if (*c == ',')
-                        *c = 0;
-                if (*c == 0) {
-			data->keywords[i++] = g_strdup (sub_str);
-			sub_str = c + 1;
-                }
-                c++;
-        } while (! done);
+		done = (*p == 0); 
+
+		if ((ch == ',') || (*p == 0)) {
+			data->keywords[n++] = g_strndup (keyword, p - keyword);
+			keyword = p = g_utf8_next_char (p);
+		} else
+			p = g_utf8_next_char (p);
+	} while (! done);
 
 	g_free (value);
 }
@@ -452,18 +456,18 @@ comments_load_comment (const char *filename)
                 value = xmlNodeListGetString (doc, node->xmlChildrenNode, 1);
 
                 if (strcmp (node->name, PLACE_TAG) == 0) 
-			data->place = get_text (data, value);
+			data->place = get_utf8_text (data, value);
 		else if (strcmp (node->name, NOTE_TAG) == 0) 
-			data->comment = get_text (data, value);
+			data->comment = get_utf8_text (data, value);
 		else if (strcmp (node->name, KEYWORDS_TAG) == 0) 
-                        get_keywords (data, value);
+			get_keywords (data, value);
 		else if (strcmp (node->name, TIME_TAG) == 0) {
-                        if (value != NULL)
+			if (value != NULL)
 				data->time = atol (value);
 		}
 		
-                if (value)
-                        xmlFree (value);
+		if (value)
+			xmlFree (value);
         }
 
         xmlFreeDoc (doc);
@@ -483,10 +487,6 @@ save_comment (const char  *filename,
 	char        *time_str;
 	char        *keywords_str;
 	char        *dest_dir;
-	char        *place_utf8 = NULL;
-	char        *time_utf8 = NULL;
-	char        *keywords_utf8 = NULL;
-	char        *comment_utf8 = NULL;
 
 	if (comment_data_is_void (data)) {
 		comment_delete (filename);
@@ -504,16 +504,6 @@ save_comment (const char  *filename,
 	} else
 		keywords_str = g_strdup ("");
 
-	if (data->place != NULL)
-		place_utf8 = g_locale_to_utf8 (data->place, -1, NULL, NULL, NULL);
-	time_utf8 = g_locale_to_utf8 (time_str, -1, NULL, NULL, NULL);
-	if (data->comment != NULL)
-		comment_utf8 = g_locale_to_utf8 (data->comment, -1, NULL, NULL, NULL);
-	keywords_utf8 = g_locale_to_utf8 (keywords_str, -1, NULL, NULL, NULL);
-
-	g_free (time_str);
-	g_free (keywords_str);
-
 	/* Create the xml tree. */
 
 	doc = xmlNewDoc ("1.0");
@@ -522,15 +512,13 @@ save_comment (const char  *filename,
 	xmlSetProp (doc->xmlRootNode, FORMAT_TAG, FORMAT_VER);
 
 	tree = doc->xmlRootNode;
-	subtree = xmlNewChild (tree, NULL, PLACE_TAG, place_utf8);
-	subtree = xmlNewChild (tree, NULL, TIME_TAG, time_utf8);
-	subtree = xmlNewChild (tree, NULL, NOTE_TAG, comment_utf8);
-	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, keywords_utf8);
+	subtree = xmlNewChild (tree, NULL, PLACE_TAG,    data->place);
+	subtree = xmlNewChild (tree, NULL, TIME_TAG,     time_str);
+	subtree = xmlNewChild (tree, NULL, NOTE_TAG,     data->comment);
+	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, keywords_str);
 
-	g_free (place_utf8);
-	g_free (time_utf8);
-	g_free (comment_utf8);
-	g_free (keywords_utf8);
+	g_free (time_str);
+	g_free (keywords_str);
 
 	/* Write to disk. */
 
@@ -720,7 +708,7 @@ comment_data_remove_keyword (CommentData *data,
 		return;
 
 	for (i = 0; i < data->keywords_n; i++) 
-		if (strcmp (data->keywords[i], keyword) == 0) {
+		if (g_utf8_collate (data->keywords[i], keyword) == 0) {
 			found = TRUE;
 			break;
 		}
@@ -748,13 +736,13 @@ void
 comment_data_add_keyword (CommentData *data,
 			  const char  *keyword)
 {
-	int      i;
+	int i;
 
 	if (keyword == NULL)
 		return;
 
  	for (i = 0; i < data->keywords_n; i++) 
-		if (strcmp (data->keywords[i], keyword) == 0) 
+		if (g_utf8_collate (data->keywords[i], keyword) == 0) 
 			return;
 	
 	data->keywords_n++;

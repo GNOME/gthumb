@@ -45,6 +45,7 @@
 #define COL_SPACING    14
 #define ADD_LIST_DELAY 75
 #define ADD_LIST_CHUNK 333
+#define SCROLL_DELAY   120
 
 enum {
 	BUSY,
@@ -305,6 +306,42 @@ gth_file_list_class_init (GthFileListClass *class)
 }
 
 
+static gboolean
+update_thumbnails_cb (gpointer data)
+{
+	GthFileList *file_list = data;
+
+	if (file_list->scroll_timer != 0)
+		g_source_remove (file_list->scroll_timer);
+
+	gth_file_list_restart_thumbs (file_list, TRUE);
+
+	file_list->scroll_timer = 0;
+
+	return FALSE;
+}
+
+
+static gboolean
+file_list_adj_value_changed (GtkAdjustment *adj, 
+			     GthFileList   *file_list)
+{	
+	if (file_list->scroll_timer != 0) {
+		g_source_remove (file_list->scroll_timer);
+		file_list->scroll_timer = 0;
+	}
+
+	if (image_list_is_frozen (IMAGE_LIST (file_list->ilist)))
+		return FALSE;
+
+	file_list->scroll_timer = g_timeout_add (SCROLL_DELAY,
+						 update_thumbnails_cb,
+						 file_list);
+
+	return FALSE;
+}
+
+
 static void
 gth_file_list_init (GthFileList *file_list)
 {
@@ -331,6 +368,7 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->progress_data     = NULL;
 	file_list->interrupt_done_func = NULL;
 	file_list->interrupt_done_data = NULL;
+	file_list->scroll_timer      = 0;
 
 	if (unknown_pixbuf == NULL)
 		unknown_pixbuf = gdk_pixbuf_new_from_inline (-1, unknown_48_rgba, FALSE, NULL);
@@ -349,10 +387,12 @@ gth_file_list_init (GthFileList *file_list)
 	/* Create the widgets. */
 
 	/* vertical scrollbar. */
+
 	adj = GTK_ADJUSTMENT (gtk_adjustment_new (0, 0, 1, 1, 1, 1));
         vsb = gtk_vscrollbar_new (adj);
 
 	/* image list. */
+
 	ilist = image_list_new (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE) + THUMB_BORDER,
 				adj, 
 				0);
@@ -376,12 +416,27 @@ gth_file_list_init (GthFileList *file_list)
 	gtk_container_add (GTK_CONTAINER (frame), ilist);
 
 	/**/
+
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), frame, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), vsb, FALSE, FALSE, 0);
 
 	file_list->ilist = ilist;
 	file_list->root_widget = hbox;
+
+	/* signals */
+
+	g_signal_connect_after (G_OBJECT (adj), 
+				"value_changed",
+				G_CALLBACK (file_list_adj_value_changed),
+				file_list);
+
+	/* FIXME
+	  g_signal_connect_after (G_OBJECT (adj), 
+				"changed",
+				G_CALLBACK (file_list_adj_value_changed), 
+				file_list);
+	*/
 }
 
 
@@ -679,7 +734,7 @@ add_list_in_chunks (gpointer callback_data)
 		
 		pos = image_list_append (IMAGE_LIST (ilist),
 					 unknown_pixbuf,
-					 fd->name,
+					 fd->utf8_name,
 					 fd->comment);
 		
 		image_list_set_image_data (IMAGE_LIST (ilist), pos, fd);
@@ -1152,7 +1207,7 @@ gth_file_list_select_image_by_pos (GthFileList *file_list,
 
 	visibility = image_list_image_is_visible (IMAGE_LIST (ilist), pos);
 	if (visibility != GTHUMB_VISIBILITY_FULL) {
-		gdouble offset;
+		double offset;
 		switch (visibility) {
 		case GTHUMB_VISIBILITY_NONE:
 			offset = 0.5; 
@@ -1381,7 +1436,7 @@ rename_pos__step2 (InterruptThumbsData *it_data)
 	file_data_set_path (fd, path);
 
 	/* Set the new name. */
-	image_list_set_image_text (ilist, pos, fd->name);
+	image_list_set_image_text (ilist, pos, fd->utf8_name);
 	image_list_sort (ilist); 
 
 	if (it_data->restart_thumbs) {
@@ -1499,10 +1554,12 @@ set_thumbs_size__step2 (InterruptThumbsData *it_data)
 	image_list_set_image_width (IMAGE_LIST (file_list->ilist), 
 				    size + THUMB_BORDER);
 
+	/* FIXME
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
 		gth_file_list_update_next_thumb (file_list);
 	}
+	*/
 
 	it_data_free (it_data);
 }
@@ -1639,6 +1696,7 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 	ilist = IMAGE_LIST (file_list->ilist);
 
 	/* Find first visible undone. */
+
 	pos = image_list_get_first_visible (ilist);
 	if (pos != -1) { 
 		GList *scan; 
@@ -1659,32 +1717,11 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 		}
 	}
 
-	/* If not found then search the first undone. */
 	if (new_pos == -1) {
-		GList *scan;
-		int    n = ilist->images;
-
-		pos = 0;
-		scan = image_list_get_list (ilist);
-		while ((pos < n) && (new_pos == -1)) {
-			Image *image = scan->data;			
-			fd = image->data;			
-			if (! fd->thumb && ! fd->error) 
-				new_pos = pos;
-			else {
-				pos++;
-				scan = scan->next;
-			}
-		}
-		
-		if (pos == n) {
-			/* Thumbnails creation terminated. */
-			gth_file_list_thumb_cleanup (file_list);
-			return;
-		}
+		gth_file_list_thumb_cleanup (file_list);
+		return;
 	}
 
-	g_assert (new_pos != -1);
 	g_assert (fd != NULL);
 
 	file_list->thumb_pos = new_pos;

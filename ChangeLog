@@ -1,3 +1,22 @@
+2002-12-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fnmatch.[ch]: removed.
+
+	* libgthumb/glib-utils.c: 
+	* libgthumb/search.c: 
+	* libgthumb/comments.c: 
+	* libgthumb/catalog-png-exporter.c: 
+	* libgthumb/file-list.c: 
+	* libgthumb/file-data.c: 
+	* libgthumb/gtk-utils.c: 
+	* libgthumb/gthumb-text-item.c: 
+	* libgthumb/image-list.c: 
+	* libgthumb/print-callbacks.c (print_image_dlg): do not convert
+	comments in locale format, handle them in utf8 format instead.
+
+	* libgthumb/file-list.c: 
+	(gth_file_list_update_next_thumb): update only visible thumbnails.
+	
 2002-12-22  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 1.107 released ]

@@ -34,7 +34,7 @@
 
 
 FileData *
-file_data_new (const gchar *path, 
+file_data_new (const char       *path, 
 	       GnomeVFSFileInfo *info)
 {
 	FileData *fd;
@@ -43,7 +43,8 @@ file_data_new (const gchar *path,
 
 	fd->ref = 1;
 	fd->path = g_strdup (path);
-	fd->name = g_strdup (info->name);
+	fd->name = file_name_from_path (path);
+	fd->utf8_name = g_locale_to_utf8 (fd->name, -1, 0, 0, 0);
 	fd->size = info->size;
 	fd->ctime = info->ctime;
 	fd->mtime = info->mtime;
@@ -59,8 +60,8 @@ void
 file_data_update (FileData *fd)
 {
 	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	gchar *escaped;
+	GnomeVFSResult    result;
+	char             *escaped;
 
 	g_return_if_fail (fd != NULL);
 
@@ -92,13 +93,12 @@ file_data_set_path (FileData *fd,
 	g_return_if_fail (fd != NULL);
 	g_return_if_fail (path != NULL);
 
-	if (fd->path)
-		g_free (fd->path);
-	if (fd->name)
-		g_free (fd->name);
+	g_free (fd->path);
+	g_free (fd->utf8_name);
 
 	fd->path = g_strdup (path);
-	fd->name = g_strdup (file_name_from_path (path));
+	fd->name = file_name_from_path (path);
+	fd->utf8_name = g_locale_to_utf8 (fd->name, -1, 0, 0, 0);
 
 	file_data_update (fd);
 }
@@ -145,8 +145,8 @@ file_data_unref (FileData *fd)
 	fd->ref--;
 
 	if (fd->ref == 0) {
-		g_free (fd->name);
 		g_free (fd->path);
+		g_free (fd->utf8_name);
 		g_free (fd->comment);
 		g_free (fd);
 	}
