@@ -1,5 +1,7 @@
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-ui.xml: add ellipses to "Rename"
+
 	* src/gth-folder-selection-dialog.c (file_sel_ok_clicked_cb): do
 	not convert the folder name to utf8.
 

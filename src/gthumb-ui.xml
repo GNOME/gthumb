@@ -38,10 +38,10 @@
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print"/>
 
-	<cmd name="Image_Rename" _label="_Rename" 
+	<cmd name="Image_Rename" _label="_Rename..." 
 	     _tip="Rename this image"
 	     accel="F2"/>
-	<cmd name="Image_RenamePopup" _label="_Rename" 
+	<cmd name="Image_RenamePopup" _label="_Rename..." 
 	     _tip="Rename this image"/>
 	<cmd name="Image_Duplicate" _label="D_uplicate" 
 	     _tip="Duplicate this image"/>
@@ -53,10 +53,10 @@
 	<cmd name="Image_Move" _label="_Move..." 
 	     _tip="Move this image to another location"/>
 
-	<cmd name="Edit_RenameFile" _label="_Rename" 
+	<cmd name="Edit_RenameFile" _label="_Rename..." 
 	     _tip="Rename selected image"
 	     accel="F2"/>
-	<cmd name="Edit_RenameFilePopup" _label="_Rename" 
+	<cmd name="Edit_RenameFilePopup" _label="_Rename..." 
 	     _tip="Rename selected image"/>
 	<cmd name="Edit_DuplicateFile" _label="D_uplicate" 
 	     _tip="Duplicate selected image"/>
@@ -134,7 +134,7 @@
 
 	<cmd name="EditCurrentDir_Open" _label="Open with the _File Manager" 
 	     _tip="Open current folder with the Nautilus file manager"/>
-	<cmd name="EditCurrentDir_Rename" _label="_Rename" 
+	<cmd name="EditCurrentDir_Rename" _label="_Rename..." 
 	     _tip="Rename current folder"/>
 	<cmd name="EditCurrentDir_Delete" _label="_Delete" 
 	     _tip="Delete current folder"/>
@@ -356,7 +356,7 @@
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
 	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
-	<cmd name="Tools_RenameSeries" _label="_Rename Series" />
+	<cmd name="Tools_RenameSeries" _label="_Rename Series..." />
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"
 	     _tip="Convert Format"/>
