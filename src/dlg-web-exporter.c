@@ -276,8 +276,7 @@ open_response_cb (GtkDialog  *file_sel,
 		  int         button_number,
 		  gpointer    userdata)
 {
-	DialogData     *data = (DialogData   * )userdata;
-	GnomeFileEntry *fentry = (GnomeFileEntry *) data;
+	DialogData  *data = (DialogData   * )userdata;
 
 	if (button_number == GTK_RESPONSE_ACCEPT) {
 		_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_entry),
@@ -324,7 +323,6 @@ dlg_web_exporter (GThumbWindow *window)
 	GtkWidget    *btn_help;
 	GList        *list;
 	char         *svalue;
-	GtkWidget    *fileentry;
 
 	data = g_new (DialogData, 1);
 
@@ -431,6 +429,10 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/* Signals. */
 
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "destroy",
+			  G_CALLBACK (destroy_cb),
+			  data);
 	g_signal_connect (G_OBJECT (data->wa_destination_button), 
 			  "clicked",
 			  G_CALLBACK (wa_destination_button_clicked_cb),

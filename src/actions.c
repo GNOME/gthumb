@@ -53,6 +53,7 @@
 #include "dlg-scale-image.h"
 #include "dlg-crop.h"
 #include "dlg-write-to-cd.h"
+#include "dlg-image-prop.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"

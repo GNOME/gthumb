@@ -2355,7 +2355,6 @@ image_loaded_cb (GtkWidget    *widget,
 #ifdef HAVE_LIBEXIF
 	{
 		JPEGData *jdata;
-		ExifData *exif_data;
 
 		if (window->exif_data != NULL) {
 			exif_data_unref (window->exif_data);
@@ -2932,6 +2931,8 @@ image_comment_button_press_cb (GtkWidget      *widget,
 	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) 
 		if (gth_file_view_selection_not_null (window->file_list->view))
 			activate_action_edit_edit_comment (NULL, window);
+
+	return TRUE;
 }
 
 
@@ -6103,17 +6104,31 @@ static gboolean
 _proc_monitor_events (gpointer data)
 {
 	GThumbWindow *window = data;
+	GList        *dir_created_list, *dir_deleted_list;
+	GList        *file_created_list, *file_deleted_list, *file_changed_list;
 	GList        *scan;
 		
-	if (window->update_changes_timeout != 0) {
+	dir_created_list = window->monitor_events[MONITOR_EVENT_DIR_CREATED];
+	window->monitor_events[MONITOR_EVENT_DIR_CREATED] = NULL;
+
+	dir_deleted_list = window->monitor_events[MONITOR_EVENT_DIR_DELETED];
+	window->monitor_events[MONITOR_EVENT_DIR_DELETED] = NULL;
+
+	file_created_list = window->monitor_events[MONITOR_EVENT_FILE_CREATED];
+	window->monitor_events[MONITOR_EVENT_FILE_CREATED] = NULL;
+
+	file_deleted_list = window->monitor_events[MONITOR_EVENT_FILE_DELETED];
+	window->monitor_events[MONITOR_EVENT_FILE_DELETED] = NULL;
+
+	file_changed_list = window->monitor_events[MONITOR_EVENT_FILE_CHANGED];
+	window->monitor_events[MONITOR_EVENT_FILE_CHANGED] = NULL;
+
+	if (window->update_changes_timeout != 0) 
 		g_source_remove (window->update_changes_timeout);
-		window->update_changes_timeout = 0;
-	}
 
 	/**/
 
-	scan = window->monitor_events[MONITOR_EVENT_DIR_CREATED];
-	for (; scan; scan = scan->next) {
+	for (scan = dir_created_list; scan; scan = scan->next) {
 		char *path = scan->data;
 		const char *name = file_name_from_path (path);
 
@@ -6123,44 +6138,36 @@ _proc_monitor_events (gpointer data)
 
 		dir_list_add_directory (window->dir_list, path);
 	}
-	path_list_free (window->monitor_events[MONITOR_EVENT_DIR_CREATED]);
-	window->monitor_events[MONITOR_EVENT_DIR_CREATED] = NULL;
+	path_list_free (dir_created_list);
 
 	/**/
 
-	scan = window->monitor_events[MONITOR_EVENT_DIR_DELETED];
-	for (; scan; scan = scan->next) {
+	for (scan = dir_deleted_list; scan; scan = scan->next) {
 		char *path = scan->data;
 		dir_list_remove_directory (window->dir_list, path);
 	}
-	path_list_free (window->monitor_events[MONITOR_EVENT_DIR_DELETED]);
-	window->monitor_events[MONITOR_EVENT_DIR_DELETED] = NULL;
+	path_list_free (dir_deleted_list);
 
 	/**/
 
-	if (window->monitor_events[MONITOR_EVENT_FILE_CREATED] != NULL) {
-		notify_files_added (window, window->monitor_events[MONITOR_EVENT_FILE_CREATED]);
-		path_list_free (window->monitor_events[MONITOR_EVENT_FILE_CREATED]);
-		window->monitor_events[MONITOR_EVENT_FILE_CREATED] = NULL;
+	if (file_created_list != NULL) {
+		notify_files_added (window, file_created_list);
+		path_list_free (file_created_list);
+	}
+
+	if (file_deleted_list != NULL) {
+		notify_files_deleted (window, file_deleted_list);
+		path_list_free (file_deleted_list);
+	}
+
+	if (file_changed_list != NULL) {
+		window_notify_files_changed (window, file_changed_list);
+		path_list_free (file_changed_list);
 	}
 
 	/**/
 
-	if (window->monitor_events[MONITOR_EVENT_FILE_DELETED] != NULL) {
-		notify_files_deleted (window, window->monitor_events[MONITOR_EVENT_FILE_DELETED]);
-		path_list_free (window->monitor_events[MONITOR_EVENT_FILE_DELETED]);
-		window->monitor_events[MONITOR_EVENT_FILE_DELETED] = NULL;
-	}
-
-	/**/
-
-	if (window->monitor_events[MONITOR_EVENT_FILE_CHANGED] != NULL) {
-		window_notify_files_changed (window, window->monitor_events[MONITOR_EVENT_FILE_CHANGED]);
-		path_list_free (window->monitor_events[MONITOR_EVENT_FILE_CHANGED]);
-		window->monitor_events[MONITOR_EVENT_FILE_CHANGED] = NULL;
-	}
-
-	/**/
+	window->update_changes_timeout = 0;
 
 	return FALSE;
 }
@@ -6259,13 +6266,13 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
+	if (window->update_changes_timeout != 0)
+		return;
+
 	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
 	_window_add_monitor_event (window, event_type, path);
 	g_free (path);
 
-	if (window->update_changes_timeout != 0) 
-		g_source_remove (window->update_changes_timeout);
-	
 	window->update_changes_timeout = g_timeout_add (UPDATE_DIR_DELAY,
 							_proc_monitor_events,
 							window);
@@ -7686,13 +7693,14 @@ window_notify_files_changed (GThumbWindow *window,
 	if (! window->file_list->doing_thumbs)
 		gth_file_list_update_thumb_list (window->file_list, list);
 
+	/* FIXME
 	if (window->image_path != NULL) {
 		int pos;
 		pos = gth_file_list_pos_from_path (window->file_list,
 						   window->image_path);
 		if (pos != -1)
 			view_image_at_pos (window, pos);
-	}
+			}*/
 }
 
 

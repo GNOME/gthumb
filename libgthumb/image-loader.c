@@ -409,17 +409,21 @@ image_loader_sync_pixbuf (ImageLoader *il)
 	}
 
 	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
+	g_object_ref (pixbuf);
 
 	if (priv->pixbuf == pixbuf) {
+		g_object_unref (pixbuf);
 		g_mutex_unlock (priv->yes_or_no);
 		return;
 	}
 
-	if (priv->pixbuf != NULL) 
+	if (priv->pixbuf != NULL) {
 		g_object_unref (priv->pixbuf);
+		priv->pixbuf = NULL;
+	}
 	if (pixbuf != NULL) 
-		g_object_ref (pixbuf);
-     	priv->pixbuf = pixbuf;
+		priv->pixbuf = gdk_pixbuf_copy (pixbuf);
+	g_object_unref (pixbuf);
 
 	g_mutex_unlock (priv->yes_or_no);
 }
@@ -453,17 +457,21 @@ image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
 	}
 
 	pixbuf = gdk_pixbuf_loader_get_pixbuf (pb_loader);
+	g_object_ref (pixbuf);
 
 	if (priv->pixbuf == pixbuf) {
+		g_object_unref (priv->pixbuf);
 		g_mutex_unlock (priv->yes_or_no);
 		return;
 	}
 
-	if (priv->pixbuf != NULL) 
+	if (priv->pixbuf != NULL) {
 		g_object_unref (priv->pixbuf);
-	if (pixbuf != NULL) 
-		g_object_ref (pixbuf);
-     	priv->pixbuf = pixbuf;
+		priv->pixbuf = NULL;
+	}
+	if (pixbuf != NULL)
+		priv->pixbuf = gdk_pixbuf_copy (pixbuf);
+	g_object_unref (pixbuf);
 
 	g_mutex_unlock (priv->yes_or_no);
 }
@@ -1032,7 +1040,7 @@ image_loader_load_from_image_loader (ImageLoader *to,
 		to->priv->animation = NULL;
 	}
 
-	if (from->priv->animation) {
+	if (from->priv->animation) { /* FIXME*/
 		g_object_ref (from->priv->animation);
 		to->priv->animation = from->priv->animation;
 	}

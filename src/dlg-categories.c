@@ -485,8 +485,6 @@ dlg_categories_common (GtkWindow     *parent,
 	GtkWidget         *btn_ok;
 	GtkWidget         *btn_cancel;
 	GtkWidget         *btn_help;
-	CommentData       *cdata = NULL;
-	GList             *scan;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
@@ -507,7 +505,7 @@ dlg_categories_common (GtkWindow     *parent,
         if (!data->gui) {
 		g_free (data);
                 g_warning ("Could not find " GLADE_FILE "\n");
-                return;
+                return NULL;
         }
 
 	if (file_list != NULL)
@@ -714,7 +712,7 @@ dlg_categories_new (GThumbWindow *window)
 
 	if (window->categories_dlg != NULL) {
 		gtk_window_present (GTK_WINDOW (window->categories_dlg));
-		return;
+		return window->categories_dlg;
 	}
 
 	dcdata = g_new0 (DlgCategoriesData, 1);
@@ -745,7 +743,6 @@ dlg_categories_update (GtkWidget *dlg)
 	DialogData    *data;
 	CommentData   *cdata = NULL;
 	GList         *scan;
-	char          *first_image = NULL;
 	GList         *other_keys = NULL;
 
 

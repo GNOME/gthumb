@@ -40,6 +40,7 @@
 #include "comments.h"
 #include "gth-exif-utils.h"
 #include "dlg-comment.h"
+#include "dlg-image-prop.h"
 
 
 enum {
@@ -380,7 +381,7 @@ dlg_comment_new (GThumbWindow *window)
 
 	if (window->comment_dlg != NULL) {
 		gtk_window_present (GTK_WINDOW (window->comment_dlg));
-		return;
+		return window->comment_dlg;
 	}
 
 	data = g_new0 (DialogData, 1);
@@ -390,7 +391,7 @@ dlg_comment_new (GThumbWindow *window)
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
-                return;
+                return NULL;
         }
 
 	/* Get the widgets. */
