@@ -155,54 +155,6 @@ new_dir_cb (GtkWidget *widget,
 /* -- "add to catalog" dialog -- */
 
 
-/* called when an item of the catalog list is activated. */
-static void 
-add_to_catalog__activated_cb (GtkTreeView *tree_view,
-			      GtkTreePath *path,
-			      GtkTreeViewColumn *column,
-			      gpointer p)
-{
-	DialogData *  data = p;
-	gchar *       cat_path;
-
-	cat_path = catalog_list_get_path_from_tree_path (data->cat_list, path);
-	if (cat_path == NULL)
-		return;
-	catalog_list_change_to (data->cat_list, cat_path);
-	g_free (data->current_dir);
-	data->current_dir = cat_path;
-}
-
-
-/* called when an item of the catalog list is selected. */
-static void 
-add_to_catalog__sel_changed_cb (GtkTreeSelection *selection,
-				gpointer p)
-{
-	DialogData *  data = p;
-	gchar *       cat_path;
-
-	cat_path = catalog_list_get_selected_path (data->cat_list);
-	gtk_widget_set_sensitive (data->ok_btn, ((cat_path != NULL)
-						 && ! path_is_dir (cat_path)));
-	if (cat_path != NULL)
-		g_free (cat_path);
-	return;
-}
-
-
-/* called when the main dialog is closed. */
-static void
-add_to_catalog__destroy_cb (GtkWidget *widget, 
-			    DialogData *data)
-{
-	g_object_unref (G_OBJECT (data->gui));
-	g_free (data->current_dir);
-	catalog_list_free (data->cat_list);
-	path_list_free (data->data.list);
-	g_free (data);
-}
-
 
 /* called when the "ok" button is clicked. */
 static void
@@ -235,6 +187,60 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	catalog_free (catalog);
 	g_free (cat_path);
 	gtk_widget_destroy (data->dialog);
+}
+
+
+/* called when an item of the catalog list is activated. */
+static void 
+add_to_catalog__activated_cb (GtkTreeView *tree_view,
+			      GtkTreePath *path,
+			      GtkTreeViewColumn *column,
+			      gpointer p)
+{
+	DialogData *  data = p;
+	gchar *       cat_path;
+
+	cat_path = catalog_list_get_path_from_tree_path (data->cat_list, path);
+	if (cat_path == NULL)
+		return;
+	
+	if (path_is_dir (cat_path)) {
+		catalog_list_change_to (data->cat_list, cat_path);
+		g_free (data->current_dir);
+		data->current_dir = cat_path;
+
+	} else if (path_is_file (cat_path)) 
+		add_to_catalog__ok_cb (NULL, data);
+}
+
+
+/* called when an item of the catalog list is selected. */
+static void 
+add_to_catalog__sel_changed_cb (GtkTreeSelection *selection,
+				gpointer p)
+{
+	DialogData *  data = p;
+	gchar *       cat_path;
+
+	cat_path = catalog_list_get_selected_path (data->cat_list);
+	gtk_widget_set_sensitive (data->ok_btn, ((cat_path != NULL)
+						 && ! path_is_dir (cat_path)));
+	if (cat_path != NULL)
+		g_free (cat_path);
+	return;
+}
+
+
+/* called when the main dialog is closed. */
+static void
+add_to_catalog__destroy_cb (GtkWidget *widget, 
+			    DialogData *data)
+{
+	g_object_unref (G_OBJECT (data->gui));
+	g_free (data->current_dir);
+	catalog_list_free (data->cat_list);
+	path_list_free (data->data.list);
+	g_free (data);
 }
 
 

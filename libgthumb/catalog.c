@@ -508,7 +508,9 @@ catalog_add_item (Catalog *catalog,
 	g_return_if_fail (catalog != NULL);
 	g_return_if_fail (file_path != NULL);	
 
-	if (g_list_find (catalog->list, file_path) == NULL)
+	if (g_list_find_custom (catalog->list, 
+				file_path, 
+				(GCompareFunc) strcmp) == NULL)
 		catalog->list = g_list_prepend (catalog->list, 
 						g_strdup (file_path));
 }

@@ -1,5 +1,12 @@
 2004-12-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-catalog.c (add_to_catalog__activated_cb): change to library 
+	only if a library was activated.
+
+	* libgthumb/catalog.c (catalog_add_item): 
+
+	Fixes bug #156870: Duplicates allowed in catalogues.
+
 	* libgthumb/image-viewer.c (image_loaded): reset the scrollbar offsets 
 	after loading an image.
 
