@@ -43,6 +43,8 @@
 #include "comments.h"
 #include "dlg-image-prop.h"
 #include "dlg-bookmarks.h"
+#include "dlg-categories.h"
+#include "dlg-comment.h"
 #include "dlg-file-utils.h"
 #include "dlg-save-image.h"
 #include "e-combo-button.h"
@@ -65,6 +67,11 @@
 #include "thumb-cache.h"
 #include "gth-exif-utils.h"
 #include "ui.h"
+
+#ifdef HAVE_LIBEXIF
+#include <libexif/exif-data.h>
+#include "jpegutils/jpeg-data.h"
+#endif /* HAVE_LIBEXIF */
 
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
@@ -1588,6 +1595,13 @@ file_selection_changed_cb (GtkWidget *widget,
 						    sel_change_update_cb,
 						    window);
 
+	if (window->comment_dlg != NULL)
+		dlg_comment_update (window->comment_dlg);
+
+	if (window->categories_dlg != NULL)
+		dlg_categories_update (window->categories_dlg);
+
+
 	return TRUE;
 }
 
@@ -2235,6 +2249,8 @@ static void
 go_to_location (GThumbWindow *window, 
 		const char   *text)
 {
+	window->focus_location_entry = TRUE;
+
 	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (window, text);
 	else {
@@ -2265,7 +2281,7 @@ location_entry_key_press_cb (GtkWidget    *widget,
                 return FALSE;
 
 	case GDK_Tab:
-		if ((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK)
 			return FALSE;
 		
 		path = get_location (window);
@@ -2316,10 +2332,10 @@ location_entry_key_press_cb (GtkWidget    *widget,
 				g_free (text);
 		}
 		g_free (path);
-
+		
 		return TRUE;
 	}
-
+	
 	return FALSE;
 }
 
@@ -2341,6 +2357,24 @@ image_loaded_cb (GtkWidget    *widget,
 
 	if (window->image_prop_dlg != NULL)
 		dlg_image_prop_update (window->image_prop_dlg);
+
+#ifdef HAVE_LIBEXIF
+	{
+		JPEGData *jdata;
+		ExifData *exif_data;
+
+		if (window->exif_data != NULL) {
+			exif_data_unref (window->exif_data);
+			window->exif_data = NULL;
+		}
+		
+		jdata = jpeg_data_new_from_file (window->image_path);
+		if (jdata != NULL) {
+			window->exif_data = jpeg_data_get_exif_data (jdata);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
 }
 
 
@@ -4222,6 +4256,10 @@ pref_view_as_changed (GConfClient *client,
 
 	file_list = create_new_file_list (window);
 
+	gtk_widget_destroy (window->file_list->root_widget);
+	gtk_box_pack_start (GTK_BOX (window->file_list_pane), file_list->root_widget, TRUE, TRUE, 0);
+
+	/*
 	if (window->layout_type <= 1) {
 		gtk_widget_destroy (GTK_PANED (window->content_pane)->child2);
 		GTK_PANED (window->content_pane)->child2 = NULL;
@@ -4235,6 +4273,7 @@ pref_view_as_changed (GConfClient *client,
 		GTK_PANED (window->content_pane)->child1 = NULL;
 		gtk_paned_pack1 (GTK_PANED (window->content_pane), file_list->root_widget, FALSE, FALSE);
 	}
+	*/
 
 	gth_file_list_set_sort_method (file_list, sort_method);
 	gth_file_list_set_sort_type (file_list, sort_type);
@@ -4916,6 +4955,10 @@ window_new (void)
 
 	/* Pack the widgets */
 
+	window->file_list_pane = gtk_vbox_new (0, FALSE);
+	gtk_widget_show_all (window->file_list->root_widget);
+	gtk_box_pack_start (GTK_BOX (window->file_list_pane), window->file_list->root_widget, TRUE, TRUE, 0);
+
 	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
 
 	if (window->layout_type == 1) {
@@ -4957,11 +5000,11 @@ window_new (void)
 		gtk_paned_pack1 (GTK_PANED (paned2), dir_list_vbox, FALSE, FALSE);
 
 	if (window->layout_type <= 1) 
-		gtk_paned_pack2 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
+		gtk_paned_pack2 (GTK_PANED (paned2), window->file_list_pane, TRUE, FALSE);
 	else if (window->layout_type == 2)
-		gtk_paned_pack2 (GTK_PANED (paned1), window->file_list->root_widget, TRUE, FALSE);
+		gtk_paned_pack2 (GTK_PANED (paned1), window->file_list_pane, TRUE, FALSE);
 	else if (window->layout_type == 3)
-		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list->root_widget, FALSE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list_pane, FALSE, FALSE);
 
 	/**/
 
@@ -5410,6 +5453,13 @@ window_free (GThumbWindow *window)
 		window->image_path = NULL;
 	}
 
+#ifdef HAVE_LIBEXIF
+	if (window->exif_data != NULL) {
+		exif_data_unref (window->exif_data);
+		window->exif_data = NULL;
+	}
+#endif /* HAVE_LIBEXIF */
+
 	if (window->new_image_path) {
 		g_free (window->new_image_path);
 		window->new_image_path = NULL;
@@ -5691,6 +5741,16 @@ window_close (GThumbWindow *window)
 		window->image_prop_dlg = NULL;
 	}
 
+	if (window->comment_dlg != NULL) {
+		dlg_comment_close (window->comment_dlg);
+		window->comment_dlg = NULL;
+	}
+
+	if (window->categories_dlg != NULL) {
+		dlg_categories_close (window->categories_dlg);
+		window->categories_dlg = NULL;
+	}
+
 	if (window->changing_directory) 
 		dir_list_interrupt_change_to (window->dir_list, 
 					      (DoneFunc) close__step2,
@@ -5826,7 +5886,7 @@ window_show_sidebar (GThumbWindow *window)
 {
 	char *cname;
 
-	if (! window->sidebar_visible)
+	if (! window->sidebar_visible) 
 		gtk_paned_set_position (GTK_PANED (window->main_pane), 
 					window->sidebar_width); 
 
@@ -5887,7 +5947,6 @@ window_show_sidebar (GThumbWindow *window)
 	/**/
 
 	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
-
 	window_update_sensitivity (window);
 }
 
@@ -6249,6 +6308,12 @@ set_dir_list_continue (gpointer data)
 	window_update_title (window);
 	window_update_sensitivity (window);
 	window_make_current_image_visible (window);
+
+	if (window->focus_location_entry) {
+		gtk_widget_grab_focus (window->location_entry);
+		gtk_editable_set_position (GTK_EDITABLE (window->location_entry), -1);
+		window->focus_location_entry = FALSE;
+	}
 
 	window_add_monitor (window);
 }
@@ -7079,6 +7144,26 @@ window_show_image_prop (GThumbWindow *window)
 
 
 void
+window_show_comment_dlg (GThumbWindow *window)
+{
+	if (window->comment_dlg == NULL) 
+		window->comment_dlg = dlg_comment_new (window);
+	else
+		gtk_window_present (GTK_WINDOW (window->comment_dlg));
+}
+
+
+void
+window_show_categories_dlg (GThumbWindow *window)
+{
+	if (window->categories_dlg == NULL) 
+		window->categories_dlg = dlg_categories_new (window);
+	else
+		gtk_window_present (GTK_WINDOW (window->categories_dlg));
+}
+
+
+void
 window_image_set_modified (GThumbWindow *window,
 			   gboolean      modified)
 {
@@ -7135,6 +7220,19 @@ save_pixbuf__image_saved_cb (char     *filename,
 
 	if (filename == NULL) 
 		return;
+
+#ifdef HAVE_LIBEXIF
+	if (window->exif_data != NULL) {
+		JPEGData *jdata;
+
+		jdata = jpeg_data_new_from_file (filename);
+		if (jdata != NULL) {
+			jpeg_data_set_exif_data (jdata, window->exif_data);
+			jpeg_data_save_file (jdata, filename);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
 
 	/**/
 
@@ -8011,9 +8109,9 @@ window_notify_update_layout_cb (gpointer data)
 		gtk_widget_reparent (window->dir_list_pane, paned2);
 
 	if (window->layout_type == 2) 
-		gtk_widget_reparent (window->file_list->root_widget, paned1);
+		gtk_widget_reparent (window->file_list_pane, paned1);
 	else 
-		gtk_widget_reparent (window->file_list->root_widget, paned2);
+		gtk_widget_reparent (window->file_list_pane, paned2);
 
 	if (window->layout_type <= 1) 
 		gtk_widget_reparent (window->image_pane, paned1);

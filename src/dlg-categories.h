@@ -26,15 +26,20 @@
 #include "typedefs.h"
 #include "gthumb-window.h"
 
-void   dlg_choose_categories           (GtkWindow     *parent,
-					GList         *file_list,
-					GList         *default_categories_list,
-					GList        **add_categories_list,
-					GList        **remove_categories_list,
-					DoneFunc       done_func,
-					gpointer       done_data);
 
-void   dlg_categories                  (GtkWidget     *widget,
-					GThumbWindow  *window);
+void        dlg_choose_categories    (GtkWindow     *parent,
+				      GList         *file_list,
+				      GList         *default_categories_list,
+				      GList        **add_categories_list,
+				      GList        **remove_categories_list,
+				      DoneFunc       done_func,
+				      gpointer       done_data);
+
+GtkWidget*  dlg_categories_new       (GThumbWindow  *window);
+
+void        dlg_categories_update    (GtkWidget     *dlg);
+
+void        dlg_categories_close     (GtkWidget     *dlg);
+
 
 #endif /* DLG_CATEGORIES_H */

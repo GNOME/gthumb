@@ -31,6 +31,7 @@ LIBGNOMEPRINT_REQUIRED=2.1.0
 LIBGNOMEPRINTUI_REQUIRED=2.1.0
 LIBBONOBO_REQUIRED=2.3.3
 LIBBONOBOUI_REQUIRED=2.3.3
+LIBEXIF_0_5_REQUIRED=0.5.12
 LIBEXIF_REQUIRED=0.6.9
 LIBGPHOTO_REQUIRED=2.1.3
 
@@ -193,10 +194,16 @@ have_libexif=no
 EXIF_LIBS=""
 EXIF_CFLAGS=""
 if pkg-config --atleast-version=$LIBEXIF_REQUIRED libexif; then
-   have_libexif=yes
+   have_libexif="yes (0.6.x)"
    EXIF_LIBS=`pkg-config --libs libexif`
    EXIF_CFLAGS=`pkg-config --cflags libexif`
    AC_DEFINE(HAVE_LIBEXIF, 1, [Have libexif])
+elif pkg-config --atleast-version=$LIBEXIF_0_5_REQUIRED libexif; then
+   have_libexif="yes (0.5.x)"
+   EXIF_LIBS=`pkg-config --libs libexif`
+   EXIF_CFLAGS=`pkg-config --cflags libexif`
+   AC_DEFINE(HAVE_LIBEXIF, 1, [Have libexif])
+   AC_DEFINE(HAVE_LIBEXIF_0_5, 1, [Have libexif 0.5.x])
 fi
 AC_MSG_RESULT($have_libexif)
 AC_SUBST(EXIF_LIBS)

@@ -1,3 +1,55 @@
+2004-07-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (save_pixbuf__image_saved_cb) 
+	(image_loaded_cb): 
+
+	Fixes bug #144099: EXIF data not preserved when image is manipulated.
+
+2004-07-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gtk-utils.c (_gtk_error_dialog_from_gerror_run): 
+	display the error dialog only if the message is not null.
+
+2004-07-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (fullscreen_stop): show_all after exiting
+	fullscreen mode.
+
+2004-07-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-comment.c: 
+	* src/dlg-categories.c: Make the comments dialog and the categories
+	dialog modeless.  Fixes Bug #142941.
+
+2004-06-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-comment.c (dlg_comment_update): If there is no comment then 
+        all fields must be considered to differ.  Patch by Martin Ebourne.
+
+2004-06-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-utils.c (get_exif_tag_short): 
+	* src/dlg-jpegtran.c (update_rotation_from_exif_data): use the 
+	orientation value instead of the orientation string.
+
+	* configure.in (HAVE_LIBEXIF): 
+	* src/gth-exif-utils.c (get_exif_entry_value): make gthumb compatible
+	with both libexif 0.5.x and 0.6.x
+
+2004-06-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (go_to_location, set_dir_list_continue): refocus
+	the location entry after an autocompletion.
+
+2004-06-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: added EXIF_TAG_ISO_SPEED_RATINGS 
+
+2004-06-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/actions.c (activate_action_help_about): updated copyright to 
+	2004.  Bug #144825.
+
 2004-06-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/ui.h: use GTK_STOCK_ADD insead of GTHUMB_STOCK_BOOKMARK

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@
 #include "gth-file-view.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
+#include "dlg-comment.h"
 
 
 enum {
@@ -61,16 +62,14 @@ typedef struct {
 	GList         *file_list;
 
 	GtkWidget     *dialog;
-
+	GtkWidget     *comment_main_box;
 	GtkWidget     *note_text_view;
 	GtkTextBuffer *note_text_buffer;
-
 	GtkWidget     *place_entry;
-
 	GtkWidget     *date_optionmenu;
 	GtkWidget     *date_dateedit;
-
 	GtkWidget     *save_changed_checkbutton;
+	GtkWidget     *save_button;
 
 	CommentData   *original_cdata;
 	gboolean       have_exif_data;
@@ -78,18 +77,30 @@ typedef struct {
 } DialogData;
 
 
+static void
+free_dialog_data (DialogData *data)
+{
+	if (data->file_list != NULL) {
+		g_list_foreach (data->file_list, (GFunc) g_free, NULL);
+		g_list_free (data->file_list);
+		data->file_list = NULL;
+	}
+	
+	if (data->original_cdata != NULL) {
+		comment_data_free (data->original_cdata);
+		data->original_cdata = NULL;
+	}
+}
+
+
 /* called when the main dialog is closed. */
 static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	data->window->comments_dlg = NULL;
-
+	data->window->comment_dlg = NULL;
 	g_object_unref (data->gui);
-	g_list_foreach (data->file_list, (GFunc) g_free, NULL);
-	g_list_free (data->file_list);
-	comment_data_free (data->original_cdata);
-
+	free_dialog_data (data);
 	g_free (data);
 }
 
@@ -153,10 +164,10 @@ get_requested_time (DialogData *data,
 }
 
 
-/* called when the "ok" button is pressed. */
+/* called when the "save" button is pressed. */
 static void
-ok_clicked_cb (GtkWidget  *widget, 
-	       DialogData *data)
+save_clicked_cb (GtkWidget  *widget, 
+		 DialogData *data)
 {
 	GList       *scan;
 	CommentData *cdata;
@@ -194,20 +205,18 @@ ok_clicked_cb (GtkWidget  *widget,
 
 		/* NULL-ify equal fields. */
 
-		if (text_field_cmp (cdata->place, o_cdata->place) == 0) 
-			if (cdata->place != NULL) {
-				g_free (cdata->place);
-				cdata->place = NULL;
-			}
+		if (text_field_cmp (cdata->place, o_cdata->place) == 0) {
+			g_free (cdata->place);
+			cdata->place = NULL;
+		}
 
 		if (cdata->time == o_cdata->time)
 			cdata->time = -1;
 		
-		if (text_field_cmp (cdata->comment, o_cdata->comment) == 0) 
-			if (cdata->comment != NULL) {
-				g_free (cdata->comment);
-				cdata->comment = NULL;
-			}
+		if (text_field_cmp (cdata->comment, o_cdata->comment) == 0) {
+			g_free (cdata->comment);
+			cdata->comment = NULL;
+		}
 	}
 
 	/* Save and close. */
@@ -255,7 +264,6 @@ ok_clicked_cb (GtkWidget  *widget,
 	}
 
 	comment_data_free (cdata);
-	gtk_widget_destroy (data->dialog);
 }
 
 
@@ -350,20 +358,15 @@ get_exif_date_option_item (DialogData *data)
 
 
 
-void
-dlg_edit_comment (GtkWidget *widget, gpointer wdata)
+GtkWidget *
+dlg_comment_new (GThumbWindow *window)
 {
-	GThumbWindow      *window = wdata;
-	DialogData        *data;
-	GtkWidget         *btn_ok;
-	GtkWidget         *btn_cancel;
-	GtkWidget         *btn_help;
-	CommentData       *cdata;
-	GList             *scan;
-	char              *first_image;
+	DialogData   *data;
+	GtkWidget    *btn_close;
+	GtkWidget    *btn_help;
 
-	if (window->comments_dlg != NULL) {
-		gtk_window_present (GTK_WINDOW (window->comments_dlg));
+	if (window->comment_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (window->comment_dlg));
 		return;
 	}
 
@@ -377,36 +380,110 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
                 return;
         }
 
-	data->file_list = gth_file_view_get_file_list_selection (window->file_list->view);
-	if (data->file_list == NULL) {
-		g_free (data);
-		return;
-	}
-
 	/* Get the widgets. */
 
-	window->comments_dlg = data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
+	window->comment_dlg = data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
+	data->comment_main_box = glade_xml_get_widget (data->gui, "comment_main_box");
 	data->note_text_view = glade_xml_get_widget (data->gui, "note_text");
 	data->place_entry = glade_xml_get_widget (data->gui, "place_entry");
 	data->date_optionmenu = glade_xml_get_widget (data->gui, "date_optionmenu");
 	data->date_dateedit = glade_xml_get_widget (data->gui, "date_dateedit");
 	data->save_changed_checkbutton = glade_xml_get_widget (data->gui, "save_changed_checkbutton");
-        btn_ok = glade_xml_get_widget (data->gui, "ok_button");
-        btn_cancel = glade_xml_get_widget (data->gui, "close_button");
+	data->save_button = glade_xml_get_widget (data->gui, "save_button");
+	btn_close = glade_xml_get_widget (data->gui, "close_button");
 	btn_help = glade_xml_get_widget (data->gui, "help_button");
-
-	/* Set widgets data. */
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
 
 	data->note_text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->note_text_view));
 
+	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
+
+	/* Set the signals handlers. */
+	
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "destroy",
+			  G_CALLBACK (destroy_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->save_button), 
+			  "clicked",
+			  G_CALLBACK (save_clicked_cb),
+			  data);
+	g_signal_connect_swapped (G_OBJECT (btn_close), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (btn_help), 
+			  "clicked",
+			  G_CALLBACK (help_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->date_optionmenu), 
+			  "changed",
+			  G_CALLBACK (date_optionmenu_changed_cb),
+			  data);
+
+	/* run dialog. */
+
+	gtk_widget_grab_focus (data->note_text_view);
+
+	{
+		GtkWidget *parent_win = window->viewer;
+		while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
+			parent_win = parent_win->parent;
+		if (parent_win != NULL)
+			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
+	}
+
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_widget_show (data->dialog);
+	dlg_comment_update (data->dialog);
+
+	return data->dialog;
+}
+
+
+void
+dlg_comment_update (GtkWidget *dlg)
+{
+	DialogData    *data;
+	CommentData   *cdata;
+	GList         *scan;
+	char          *first_image;
+
+	g_return_if_fail (dlg != NULL);
+
+	data = g_object_get_data (G_OBJECT (dlg), "dialog_data");
+	g_return_if_fail (data != NULL);
+
+	/**/
+	
+	free_dialog_data (data);
+
+	data->file_list = gth_file_view_get_file_list_selection (data->window->file_list->view);
+
+	if (data->file_list == NULL) {
+		gtk_widget_set_sensitive (data->comment_main_box, FALSE);
+		gtk_widget_set_sensitive (data->save_button, FALSE);
+		return;
+	} else {
+		gtk_widget_set_sensitive (data->comment_main_box, TRUE);
+		gtk_widget_set_sensitive (data->save_button, TRUE);
+	}
+
+	/* Set widgets data. */
+	
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
+	gtk_text_buffer_set_text (data->note_text_buffer, "", -1);
+	gtk_entry_set_text (GTK_ENTRY (data->place_entry), "");
+
 	data->several_images = g_list_length (data->file_list) > 1;
 
-	if (data->several_images) 
+	if (data->several_images) {
+		gtk_widget_set_sensitive (data->save_changed_checkbutton, TRUE);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton), TRUE);
-	else
+	} else {
 		gtk_widget_set_sensitive (data->save_changed_checkbutton, FALSE);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton), FALSE);
+	}
 
 	/**/
 
@@ -418,7 +495,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		data->have_exif_data = have_exif_data (first_image);
 	}
 #endif
-
+	
 	first_image = data->file_list->data;
 	data->original_cdata = cdata = comments_load_comment (first_image);
 	
@@ -430,26 +507,31 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			CommentData *scan_cdata;
 
 			scan_cdata = comments_load_comment (scan->data);
+
+			/* If there is no comment then all fields must be
+			 * considered to differ. */
+
+			if ((scan_cdata == NULL) 
+			    || strcmp_null_tollerant (cdata->place, 
+						      scan_cdata->place) != 0) {
+				g_free (cdata->place);
+				cdata->place = NULL;
+			}
+			
+			if ((scan_cdata == NULL) 
+			    || cdata->time != scan_cdata->time)
+				cdata->time = 0;
+			
+			if ((scan_cdata == NULL) 
+			    || strcmp_null_tollerant (cdata->comment, 
+						      scan_cdata->comment) != 0) {
+				g_free (cdata->comment);
+				cdata->comment = NULL;
+			}
+
 			if (scan_cdata == NULL)
 				break;
 
-			if (strcmp_null_tollerant (cdata->place, 
-						   scan_cdata->place) != 0) 
-				if (cdata->place != NULL) {
-					g_free (cdata->place);
-					cdata->place = NULL;
-				}
-			
-			if (cdata->time != scan_cdata->time)
-				cdata->time = 0;
-			
-			if (strcmp_null_tollerant (cdata->comment, 
-						   scan_cdata->comment) != 0) 
-				if (cdata->comment != NULL) {
-					g_free (cdata->comment);
-					cdata->comment = NULL;
-				}
-			
 			comment_data_free (scan_cdata);
 		}
 	}
@@ -484,48 +566,33 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), cdata->time);
 			gtk_widget_set_sensitive (data->date_dateedit, TRUE);
 		} else {
-			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_CHANGE);
+			if (data->several_images)
+				gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_CHANGE);
+			else
+				gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
 		}
-	} else 
-		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
+	} else {
+		time_t ctime = get_file_ctime (first_image);
 
-	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog), 
-			  "destroy",
-			  G_CALLBACK (destroy_cb),
-			  data);
-	g_signal_connect (G_OBJECT (btn_ok), 
-			  "clicked",
-			  G_CALLBACK (ok_clicked_cb),
-			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (btn_help), 
-			  "clicked",
-			  G_CALLBACK (help_cb),
-			  data);
-
-	g_signal_connect (G_OBJECT (data->date_optionmenu), 
-			  "changed",
-			  G_CALLBACK (date_optionmenu_changed_cb),
-			  data);
-
-	/* run dialog. */
-
-	gtk_widget_grab_focus (data->note_text_view);
-
-	{
-		GtkWidget *parent_win = window->viewer;
-		while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
-			parent_win = parent_win->parent;
-		if (parent_win != NULL)
-			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
+		if (ctime == 0)
+			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
+		else
+			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), FOLLOWING_DATE);
+		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), ctime);
 	}
+}
 
-	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
-	gtk_widget_show (data->dialog);
+
+void
+dlg_comment_close  (GtkWidget *dlg)
+{
+	DialogData *data;
+
+	g_return_if_fail (dlg != NULL);
+
+	data = g_object_get_data (G_OBJECT (dlg), "dialog_data");
+	g_return_if_fail (data != NULL);
+
+	gtk_widget_destroy (dlg);
 }

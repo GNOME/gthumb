@@ -36,6 +36,10 @@
 #include "gthumb-preloader.h"
 #include "dlg-save-image.h"
 
+#ifdef HAVE_LIBEXIF
+#include <libexif/exif-data.h>
+#endif /* HAVE_LIBEXIF */
+
 #define GCONF_NOTIFICATIONS 18
 
 
@@ -82,6 +86,7 @@ typedef struct {
 	GtkWidget          *content_pane;
 	GtkWidget          *image_pane;
 	GtkWidget          *dir_list_pane;
+	GtkWidget          *file_list_pane;
 	GtkWidget          *notebook;
 	GtkWidget          *location_entry;
 	GtkWidget          *viewer_vscr;
@@ -115,7 +120,7 @@ typedef struct {
 	GtkWidget          *zoom_info_frame;
 
 	GtkWidget          *image_prop_dlg;        /* no-modal dialogs. */
-	GtkWidget          *comments_dlg;
+	GtkWidget          *comment_dlg;
 	GtkWidget          *categories_dlg;
 	GtkWidget          *bookmarks_dlg;
 
@@ -213,6 +218,10 @@ typedef struct {
 	GList              *slideshow_first;
 	GList              *slideshow_current;
 
+#ifdef HAVE_LIBEXIF
+	ExifData           *exif_data;
+#endif /* HAVE_LIBEXIF */
+
 	/* monitor stuff */
 
 	GnomeVFSMonitorHandle *monitor_handle;
@@ -234,6 +243,8 @@ typedef struct {
 	GtkTooltips           *tooltips;
 	guint                  help_message_cid;
 	guint                  list_info_cid;
+
+	gboolean               focus_location_entry;
 } GThumbWindow;
 
 
@@ -302,6 +313,10 @@ void            window_start_slideshow              (GThumbWindow *window);
 void            window_stop_slideshow               (GThumbWindow *window);
 
 void            window_show_image_prop              (GThumbWindow *window);
+
+void            window_show_comment_dlg             (GThumbWindow *window);
+
+void            window_show_categories_dlg          (GThumbWindow *window);
 
 void            window_image_set_modified           (GThumbWindow *window,
 						     gboolean      modified);

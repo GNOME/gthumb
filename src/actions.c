@@ -642,7 +642,7 @@ activate_action_edit_edit_comment (GtkAction *action,
 				   gpointer   data)
 {
 	GThumbWindow *window = data;
-	dlg_edit_comment (NULL, window);
+	window_show_comment_dlg (window);
 }
 
 
@@ -677,7 +677,7 @@ activate_action_edit_edit_categories (GtkAction *action,
 				      gpointer   data)
 {
 	GThumbWindow *window = data;
-	dlg_categories (NULL, window);
+	window_show_categories_dlg (window);
 }
 
 
@@ -2721,7 +2721,7 @@ activate_action_help_about (GtkAction *action,
 	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb.png", NULL);
 	about = gnome_about_new (_("gThumb"), 
 				 VERSION,
-				 "Copyright \xc2\xa9 2001-2003 Free Software Foundation, Inc.",
+				 "Copyright \xc2\xa9 2001-2004 Free Software Foundation, Inc.",
 				 _("An image viewer and browser for GNOME."),
 				 authors,
 				 documenters,

@@ -1,6 +1,6 @@
 /* jpeg-marker.c
  *
- * Copyright (C) 2001 Lutz Müller <lutz@users.sourceforge.net>
+ * Copyright © 2001 Lutz Müller <lutz@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,14 +17,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-
-/* Changed by Paolo Bacchilega. */
-
-#include <config.h>
-
-#ifdef HAVE_LIBEXIF
-
-#include <config.h>
+#include "config.h"
 #include "jpeg-marker.h"
 
 #include <stdlib.h>
@@ -127,4 +120,3 @@ jpeg_marker_get_description (JPEGMarker marker)
 	return (JPEGMarkerTable[i].description);
 }
 
-#endif /* HAVE_LIBEXIF */

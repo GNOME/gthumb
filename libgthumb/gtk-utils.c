@@ -120,6 +120,8 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	int           response_id;
 	char         *escaped_message, *markup_text;
 
+	g_return_val_if_fail (NULL, message != NULL);
+
 	if (stock_id == NULL)
 		stock_id = GTK_STOCK_DIALOG_INFO;
 
@@ -466,19 +468,19 @@ _gtk_error_dialog_from_gerror_run (GtkWindow        *parent,
 
 	g_return_if_fail (*gerror != NULL);
 
-	d = _gtk_message_dialog_new (parent,
-				     GTK_DIALOG_MODAL,
-				     GTK_STOCK_DIALOG_ERROR,
-				     (*gerror)->message,
-				     NULL,
-				     GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
-				     NULL);
-
-	g_signal_connect (G_OBJECT (d), "response",
-			  G_CALLBACK (gtk_widget_destroy),
-			  NULL);
-
-	gtk_widget_show (d);
+	if ((*gerror)->message != NULL) {
+		d = _gtk_message_dialog_new (parent,
+					     GTK_DIALOG_MODAL,
+					     GTK_STOCK_DIALOG_ERROR,
+					     (*gerror)->message,
+					     NULL,
+					     GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
+					     NULL);
+		g_signal_connect (G_OBJECT (d), "response",
+				  G_CALLBACK (gtk_widget_destroy),
+				  NULL);
+		gtk_widget_show (d);
+	}
 
 	g_clear_error (gerror);
 }

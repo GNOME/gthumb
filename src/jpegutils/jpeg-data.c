@@ -1,16 +1,16 @@
 /* jpeg-data.c
  *
- * Copyright (C) 2001 Lutz Müller <lutz@users.sourceforge.net>
+ * Copyright © 2001 Lutz Müller <lutz@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
  * version 2 of the License, or (at your option) any later version.
  *
- * This library is distributed in the hope that it will be useful, 
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details. 
+ * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
@@ -18,21 +18,14 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* Changed by Paolo Bacchilega. */
-
-#include <config.h>
-
-#ifdef HAVE_LIBEXIF
-
-#include <config.h>
+#include "config.h"
 #include "jpeg-data.h"
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <string.h>
 
-//#define DEBUG
+/* #define DEBUG */
 
 struct _JPEGDataPrivate
 {
@@ -59,7 +52,7 @@ jpeg_data_new (void)
 	return (data);
 }
 
-static void
+void
 jpeg_data_append_section (JPEGData *data)
 {
 	JPEGSection *s;
@@ -76,26 +69,32 @@ jpeg_data_append_section (JPEGData *data)
 	data->count++;
 }
 
-void
+/* jpeg_data_save_file returns 1 on succes, 0 on failure */
+int
 jpeg_data_save_file (JPEGData *data, const char *path)
 {
 	FILE *f;
 	unsigned char *d = NULL;
-	unsigned int size = 0;
+	unsigned int size = 0, written;
 
 	jpeg_data_save_data (data, &d, &size);
 	if (!d)
-		return;
+		return 0;
 
-	unlink (path);
+	remove (path);
 	f = fopen (path, "wb");
 	if (!f) {
 		free (d);
-		return;
+		return 0;
 	}
-	fwrite (d, sizeof (char), size, f);
+	written = fwrite (d, 1, size, f);
 	fclose (f);
 	free (d);
+	if (written == size)  {
+		return 1;
+	}
+	remove(path);
+	return 0;
 }
 
 void
@@ -131,6 +130,7 @@ jpeg_data_save_data (JPEGData *data, unsigned char **d, unsigned int *ds)
 			break;
 		case JPEG_MARKER_APP1:
 			exif_data_save_data (s.content.app1, &ed, &eds);
+			if (!ed) break;
 			*d = realloc (*d, sizeof (char) * (*ds + 2));
 			(*d)[*ds + 0] = (eds + 2) >> 8;
 			(*d)[*ds + 1] = (eds + 2) >> 0;
@@ -138,6 +138,7 @@ jpeg_data_save_data (JPEGData *data, unsigned char **d, unsigned int *ds)
 			*d = realloc (*d, sizeof (char) * (*ds + eds));
 			memcpy (*d + *ds, ed, eds);
 			*ds += eds;
+			free (ed);
 			break;
 		default:
 			*d = realloc (*d, sizeof (char) *
@@ -210,6 +211,7 @@ jpeg_data_load_data (JPEGData *data, const unsigned char *d,
 		jpeg_data_append_section (data);
 		s = &data->sections[data->count - 1];
 		s->marker = marker;
+		s->content.generic.data = NULL;
 		o += i + 1;
 
 		switch (s->marker) {
@@ -220,7 +222,9 @@ jpeg_data_load_data (JPEGData *data, const unsigned char *d,
 
 			/* Read the length of the section */
 			len = ((d[o] << 8) | d[o + 1]) - 2;
+			if (len > size) { o = size; break; }
 			o += 2;
+			if (o + len > size) { o = size; break; }
 
 			switch (s->marker) {
 			case JPEG_MARKER_APP1:
@@ -422,12 +426,12 @@ jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data)
 	if (!section) {
 		jpeg_data_append_section (data);
 		memmove (&data->sections[2], &data->sections[1],
-			 data->count - 2);
+			 sizeof (JPEGSection) * (data->count - 2));
 		section = &data->sections[1];
+	} else {
+		exif_data_unref (section->content.app1);
 	}
 	section->marker = JPEG_MARKER_APP1;
 	section->content.app1 = exif_data;
 	exif_data_ref (exif_data);
 }
-
-#endif /* HAVE_LIBEXIF */

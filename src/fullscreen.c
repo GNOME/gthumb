@@ -1179,13 +1179,15 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	gtk_widget_reparent (fullscreen->viewer, window->viewer_container);
 	gtk_widget_realize (window->viewer);
+	gtk_widget_show_all (window->viewer);
 	fullscreen->viewer = NULL;
 
 	gtk_widget_set_sensitive (window->app, TRUE);
-	gtk_widget_show (window->app);
+	/*gtk_widget_show_all (window->app);*/
 
 	/* restore widgets visiblity */
 
+	gtk_widget_hide (window->progress);
 	window_set_preview_content (window, window->preview_content);
 	if (! window->image_pane_visible)
 		window_hide_image_pane (window);

@@ -106,7 +106,8 @@ gthumb_LDADD = 					\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(LIBGPHOTO_LIBS)			\
-	$(top_builddir)/libgthumb/libgthumb.la
+	$(top_builddir)/libgthumb/libgthumb.la	\
+	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
 
 moduledir = $(libdir)/gthumb/modules
 module_LTLIBRARIES = 		\

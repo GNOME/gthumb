@@ -1,6 +1,6 @@
 /* jpeg-marker.h
  *
- * Copyright (C) 2001 Lutz Müller <lutz@users.sourceforge.net>
+ * Copyright © 2001 Lutz Müller <lutz@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -17,18 +17,14 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  */
-
-/* Changed by Paolo Bacchilega. */
-
-#include <config.h>
-
-#ifdef HAVE_LIBEXIF
-
 #ifndef __JPEG_MARKER_H__
 #define __JPEG_MARKER_H__
 
-typedef enum _JPEGMarker JPEGMarker;
-enum _JPEGMarker {
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
+
+typedef enum {
         JPEG_MARKER_SOF0        = 0xc0,
         JPEG_MARKER_SOF1        = 0xc1,
         JPEG_MARKER_SOF2        = 0xc2,
@@ -92,7 +88,7 @@ enum _JPEGMarker {
 	JPEG_MARKER_JPG12	= 0xfc,
 	JPEG_MARKER_JPG13	= 0xfd,
         JPEG_MARKER_COM         = 0xfe
-};
+} JPEGMarker;
 
 #define JPEG_IS_MARKER(m) (((m) >= JPEG_MARKER_SOF0) &&		\
 			   ((m) <= JPEG_MARKER_COM))
@@ -100,6 +96,8 @@ enum _JPEGMarker {
 const char *jpeg_marker_get_name        (JPEGMarker marker);
 const char *jpeg_marker_get_description (JPEGMarker marker);
 
-#endif /* __JPEG_MARKER_H__ */
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
-#endif /* HAVE_LIBEXIF */
+#endif /* __JPEG_MARKER_H__ */

@@ -1,6 +1,6 @@
 /* jpeg-data.h
  *
- * Copyright (C) 2001 Lutz Müller <lutz@users.sourceforge.net>
+ * Copyright © 2001 Lutz Müller <lutz@users.sourceforge.net>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,17 +18,11 @@
  * Boston, MA 02111-1307, USA.
  */
 
-/* Changed by Paolo Bacchilega. */
-
-#include <config.h>
-
-#ifdef HAVE_LIBEXIF
-
 #ifndef __JPEG_DATA_H__
 #define __JPEG_DATA_H__
 
-#include <libexif/exif-data.h>
 #include "jpeg-marker.h"
+#include <libexif/exif-data.h>
 
 typedef ExifData * JPEGContentAPP1;
 
@@ -82,13 +76,13 @@ void      jpeg_data_save_data     (JPEGData *data, unsigned char **d,
 				   unsigned int *size);
 
 void      jpeg_data_load_file     (JPEGData *data, const char *path);
-void      jpeg_data_save_file     (JPEGData *data, const char *path);
+int       jpeg_data_save_file     (JPEGData *data, const char *path);
 
 void      jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data);
 ExifData *jpeg_data_get_exif_data (JPEGData *data);
 
 void      jpeg_data_dump (JPEGData *data);
 
-#endif /* __JPEG_DATA_H__ */
+void      jpeg_data_append_section (JPEGData *data);
 
-#endif /* HAVE_LIBEXIF */
+#endif /* __JPEG_DATA_H__ */

@@ -24,7 +24,11 @@
 #define DLG_COMMENT_H
 
 
-void dlg_edit_comment (GtkWidget *widget, gpointer data);
+GtkWidget *   dlg_comment_new      (GThumbWindow *window);
+
+void          dlg_comment_update   (GtkWidget *dlg);
+
+void          dlg_comment_close    (GtkWidget *dlg);
 
 
 #endif /* DLG_COMMENT_H */

@@ -344,22 +344,22 @@
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
-	      <property name="label">gtk-cancel</property>
+	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
-	      <property name="response_id">-6</property>
+	      <property name="response_id">-7</property>
 	    </widget>
 	  </child>
 
 	  <child>
-	    <widget class="GtkButton" id="ok_button">
+	    <widget class="GtkButton" id="save_button">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
 	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="has_focus">True</property>
-	      <property name="label">gtk-ok</property>
+	      <property name="label">gtk-save</property>
 	      <property name="use_stock">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="focus_on_click">True</property>
@@ -376,7 +376,7 @@
       </child>
 
       <child>
-	<widget class="GtkVBox" id="vbox6">
+	<widget class="GtkVBox" id="comment_main_box">
 	  <property name="border_width">6</property>
 	  <property name="visible">True</property>
 	  <property name="homogeneous">False</property>
