@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 12:00+0200\n"
-"PO-Revision-Date: 2004-09-17 21:28+0200\n"
+"PO-Revision-Date: 2004-09-19 23:10+0200\n"
 "Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
@@ -2748,7 +2748,7 @@ msgstr "Оди едно ниво погоре"
 
 #: src/gthumb-window.c:4861 src/ui.h:484
 msgid "Go to the home folder"
-msgstr "Од во домашната папка"
+msgstr "Оди во домашната папка"
 
 #: src/gthumb-window.c:5055
 msgid "Close"
@@ -3451,11 +3451,11 @@ msgstr "_Центрирано"
 
 #: src/ui.h:514
 msgid "Set the image as desktop background (centered)"
-msgstr "Постави ја сликата како позадина (центрирано)"
+msgstr "Постави ја сликата како позадина (центрирана)"
 
 #: src/ui.h:518
 msgid "_Tiled"
-msgstr "_"
+msgstr "_Ситно"
 
 #: src/ui.h:519
 msgid "Set the image as desktop background (tiled)"
@@ -3475,7 +3475,7 @@ msgstr "Ра_стегнато"
 
 #: src/ui.h:529
 msgid "Set the image as desktop background (stretched)"
-msgstr "Постави ја сликата како позадина (раширено)"
+msgstr "Постави ја сликата како позадина (растегнато)"
 
 #: src/ui.h:533
 msgid "_Restore"
@@ -3491,7 +3491,7 @@ msgstr "_Слајд шоу"
 
 #: src/ui.h:539
 msgid "View as a slide show"
-msgstr "Преглед како слајд поу"
+msgstr "Преглед како слајд шоу"
 
 #: src/ui.h:543
 msgid "_Find"
@@ -3639,7 +3639,7 @@ msgstr "по _време"
 
 #: src/ui.h:657
 msgid "Sort images by modification time"
-msgstr "Подреди ги сликите ои време на промена"
+msgstr "Подреди ги сликите по време на промена"
 
 #: src/ui.h:664
 msgid "_High Quality"
