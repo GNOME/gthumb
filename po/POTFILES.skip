@@ -1,5 +1,3 @@
-components/catalog-view/GNOME_GThumb_CatalogView.server.in
-components/catalog-view/GNOME_GThumb_CatalogView.xml
-components/image-viewer/GNOME_GThumb_Viewer.server.in
-components/image-viewer/GNOME_GThumb_Viewer.xml
+# List of source files that should NOT be translated.
+# Please keep this file sorted alphabetically.
 components/image-viewer/test-component.c
