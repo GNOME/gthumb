@@ -805,6 +805,14 @@
 		<menuitem name="EditDir_Categories" verb=""/>
 	</popup>
 
+        <popup name="DirListPopup">
+	        <menuitem name="EditCurrentDir_New" verb=""/>
+	</popup>
+
+        <popup name="CatalogListPopup">
+	        <menuitem name="EditCurrentCatalog_New" verb=""/>
+	</popup>
+
 	<popup name="HistoryListPopup">
 	</popup>
 </popups>

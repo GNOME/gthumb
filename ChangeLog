@@ -1,3 +1,17 @@
+2004-05-18  Paolo Bacchilega  <paolo@localhost.localdomain>
+
+	* data/gthumb-ui.xml: added a popup menu for the dir list.
+
+	* libgthumb/gthumb-init.c (gthumb_init): add the dir monitoring before
+	preloading.
+	(gthumb_release): remove dir monitoring here.
+
+	Fixes bug #142619
+
+	* src/commands-impl.c (edit_current_folder_categories__done): check
+	whether the modified folder is in the folder list before updating
+	the folder view.
+
 2004-05-08  Iñaki Larrañaga  <dooteo@euskalgnu.org>
 
 	* configure.in: Added "eu" (Basque) to ALL_LINGUAS.

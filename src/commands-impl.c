@@ -1622,8 +1622,10 @@ edit_current_folder_categories__done (gpointer data)
 		comments_save_categories (filename, cdata);
 		comment_data_free (cdata);
 
-		dir_list_remove_directory (fcdata->window->dir_list, filename);
-		dir_list_add_directory (fcdata->window->dir_list, filename);
+		if (path_in_path (fcdata->window->dir_list->path, filename)) {
+			dir_list_remove_directory (fcdata->window->dir_list, filename);
+			dir_list_add_directory (fcdata->window->dir_list, filename);
+		}
 	}
 
 	path_list_free (fcdata->file_list);

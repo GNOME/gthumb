@@ -218,6 +218,11 @@
 	  <long>Las imágenes mayores que este tamaño (en bytes) no serán miniaturizadas. Use 0 si quiere generar miniaturas para todas las imágenes</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Tamaina hau baina handiagoak diren irudiak (byte-etan) ez dira koadro txikietan bihurtuko. Erabili 0 irudi guztien koadro txikiak sortu nahi baduzu.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Kuvista, jotka ovat tätä suurempia (tavuissa), ei luoda pienoiskuvia. Aseta luvuksi 0 jos haluat luoda pienoiskuvat kaikista kuvista.</long>
@@ -344,6 +349,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="fi">
@@ -492,6 +502,11 @@
 	  <long>Los valores posibles son: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: none, name, path, size, time.</long>
@@ -625,6 +640,11 @@
 	  <long>Los valores posibles son: ascending, descending.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: ascending, descending.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: ascending, descending.</long>
@@ -756,6 +776,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: list, thumbnails.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: list, thumbnails.</long>
 	</locale>
 
 	<locale name="fi">
@@ -902,6 +927,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: image, data, comment.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: image, data, comment.</long>
 	</locale>
 
 	<locale name="fi">
@@ -1052,6 +1082,11 @@
 	  <long>Los valores posibles son: high, low.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: high, low.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: high, low.</long>
@@ -1184,6 +1219,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak:: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="fi">
@@ -1319,6 +1359,11 @@
 	  <long>Los valores posibles son: white, black, checked, none.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: white, black, checked, none.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: white, black, checked, none.</long>
@@ -1450,6 +1495,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: light, midtone, dark.</long>
 	</locale>
 
 	<locale name="fi">
@@ -1585,6 +1635,11 @@
 	  <long>Los valores posibles son: small, medium, large.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: small, medium, large.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: small, medium, large.</long>
@@ -1718,6 +1773,11 @@
 	  <long>Indica si se debe usar siempre fondo negro.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Atzeko plano beltza erabili behar den edo ez adierazten du</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Käytetäänkö aina mustaa taustaa</long>
@@ -1841,6 +1901,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: forward, backward, random.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: forward, backward, random.</long>
 	</locale>
 
 	<locale name="fi">
@@ -2017,6 +2082,11 @@
 	  <long>Los valores posibles son : 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: 1, 2, 3, 4.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: 1, 2, 3, 4.</long>
@@ -2148,6 +2218,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="fi">
@@ -2405,6 +2480,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: png, jpeg.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: png, jpeg.</long>
 	</locale>
 
 	<locale name="fi">
@@ -2882,6 +2962,11 @@
 	  <long>Los valores posibles son: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -3138,6 +3223,11 @@
 	  <long>Los valores posibles son: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: none, deflate, jpeg.</long>
@@ -3299,6 +3389,11 @@
 	  <long>Los valores posibles son: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: jpeg, png, tga, tiff.</long>
@@ -3430,6 +3525,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="fi">
@@ -3606,6 +3706,11 @@
 	  <long>Los valores posibles son: name, size, time.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: name, size, time.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: name, size, time.</long>
@@ -3757,6 +3862,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: pixels, percentage.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: pixels, percentage.</long>
 	</locale>
 
 	<locale name="fi">
@@ -4022,6 +4132,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: name, path, size, time.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: name, path, size, time.</long>
 	</locale>
 
 	<locale name="fi">
@@ -4291,6 +4406,11 @@
 	  <long>Los valores posibles son: mm, in.</long>
 	</locale>
 
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: mm, in.</long>
+	</locale>
+
 	<locale name="fi">
 	  
 	  <long>Sallittuja arvoja ovat: mm, in.</long>
@@ -4545,6 +4665,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="eu">
+	  
+	  <long>Balio posibleak: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="fi">

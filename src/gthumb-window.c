@@ -2035,8 +2035,30 @@ dir_list_button_release_cb (GtkWidget      *widget,
 
 	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (treeview),
 					     event->x, event->y,
-					     &path, NULL, NULL, NULL))
-		return FALSE;
+					     &path, NULL, NULL, NULL)) {
+		GtkWidget *popup_menu;
+
+		if (event->button != 3)
+			return FALSE;
+		
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
+		
+		window_update_sensitivity (window);
+		bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+					 GTK_MENU (popup_menu), 
+					 "/popups/DirListPopup");
+		gtk_menu_popup (GTK_MENU (popup_menu),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				3,
+				event->time);
+
+		return TRUE;
+	}
 	
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (list_store), 
 				       &iter, 
@@ -2294,8 +2316,30 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 
 	if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (treeview),
 					     event->x, event->y,
-					     &path, NULL, NULL, NULL))
-		return FALSE;
+					     &path, NULL, NULL, NULL)) {
+		GtkWidget *popup_menu;
+
+		if (event->button != 3)
+			return FALSE;
+		
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
+		
+		window_update_sensitivity (window);
+		bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+					 GTK_MENU (popup_menu), 
+					 "/popups/CatalogListPopup");
+		gtk_menu_popup (GTK_MENU (popup_menu),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				3,
+				event->time);
+
+		return TRUE;
+	}
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (list_store), 
 				       &iter, 

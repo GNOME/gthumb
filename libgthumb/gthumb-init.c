@@ -152,6 +152,10 @@ gthumb_init ()
 
 	ensure_directories_exist ();
 
+	eel_gconf_monitor_add ("/apps/gthumb/browser");
+	eel_gconf_monitor_add ("/apps/gthumb/ui");
+	eel_gconf_monitor_add ("/apps/gthumb/viewer");
+
 	eel_gconf_preload_cache ("/apps/gthumb/browser",
 				 GCONF_CLIENT_PRELOAD_ONELEVEL);
 	eel_gconf_preload_cache ("/apps/gthumb/ui",
@@ -167,5 +171,9 @@ gthumb_init ()
 void
 gthumb_release ()
 {
+	eel_gconf_monitor_remove ("/apps/gthumb/browser");
+	eel_gconf_monitor_remove ("/apps/gthumb/ui");
+	eel_gconf_monitor_remove ("/apps/gthumb/viewer");
+
 	preferences_release ();
 }
