@@ -1810,7 +1810,7 @@ load_next_file (CatalogWebExporter *ce)
 
 
 static gboolean
-save_resized_image_cb (gpointer data)
+save_image_preview_cb (gpointer data)
 {
 	CatalogWebExporter *ce = data;
 
@@ -1822,24 +1822,7 @@ save_resized_image_cb (gpointer data)
 	if (ce->file_to_load != NULL) {
 		ImageData *idata = ce->file_to_load->data;
 			
-		if (idata->image != NULL) {
-			char *filename = get_image_filename (ce, idata, ce->tmp_location);
-			
-			debug (DEBUG_INFO, "write %s", filename);
-		
-			if (_gdk_pixbuf_save (idata->image,
-					      filename,
-					      "jpeg",
-					      NULL, NULL))
-				ce->album_files = g_list_prepend (ce->album_files, filename);
-			else
-				g_free (filename);
-		
-			g_object_unref (idata->image);
-			idata->image = NULL;
-		}
-
-		if (!idata->no_preview && (idata->preview != NULL)) {
+		if (! idata->no_preview && (idata->preview != NULL)) {
 			char *filename = get_preview_filename (ce, idata, ce->tmp_location);
 			
 			debug (DEBUG_INFO, "write %s", filename);
@@ -1863,6 +1846,47 @@ save_resized_image_cb (gpointer data)
 }
 
 
+static gboolean
+save_resized_image_cb (gpointer data)
+{
+	CatalogWebExporter *ce = data;
+
+	if (ce->saving_timeout != 0) {
+		g_source_remove (ce->saving_timeout);
+		ce->saving_timeout = 0;
+	}
+
+	if (ce->file_to_load != NULL) {
+		ImageData *idata = ce->file_to_load->data;
+			
+		if (ce->copy_images && idata->image != NULL) {
+			char *filename = get_image_filename (ce, idata, ce->tmp_location);
+
+			exporter_set_info (ce, _("Saving images"));
+			
+			debug (DEBUG_INFO, "write %s", filename);
+		
+			if (_gdk_pixbuf_save (idata->image,
+					      filename,
+					      "jpeg",
+					      NULL, NULL))
+				ce->album_files = g_list_prepend (ce->album_files, filename);
+			else
+				g_free (filename);
+		
+			g_object_unref (idata->image);
+			idata->image = NULL;
+		}
+	}
+
+	ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+					    save_image_preview_cb,
+					    ce);
+
+	return FALSE;
+}
+
+
 static int
 export__copy_image__progress_update_cb (GnomeVFSAsyncHandle      *handle,
 					GnomeVFSXferProgressInfo *info,
@@ -1871,12 +1895,15 @@ export__copy_image__progress_update_cb (GnomeVFSAsyncHandle      *handle,
 	CatalogWebExporter *ce = data;
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
-		load_next_file (ce);
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_image_preview_cb,
+						    ce);
 		return FALSE;
 		
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
-		load_next_file (ce);
-
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_image_preview_cb,
+						    ce);
 	} 
 
 	return TRUE;
@@ -1926,7 +1953,9 @@ export__copy_image (CatalogWebExporter *ce)
 	g_list_free (dest_list);
 	
 	if (result != GNOME_VFS_OK) 
-		load_next_file (ce);
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_image_preview_cb,
+						    ce);
 }
 
 
@@ -1982,7 +2011,8 @@ thumb_loader_done (ThumbLoader *tloader,
 	/* preview */
 
 	il = thumb_loader_get_image_loader (tloader);
-	pixbuf = image_loader_get_pixbuf (il);
+	idata->preview = pixbuf = image_loader_get_pixbuf (il);
+	g_object_ref (idata->preview);
 
 	if ((ce->preview_max_width > 0) && (ce->preview_max_height > 0)) {
 		int w = gdk_pixbuf_get_width (pixbuf);
@@ -2004,13 +2034,16 @@ thumb_loader_done (ThumbLoader *tloader,
 			idata->preview = pixbuf;
 			g_object_ref (idata->preview);
 		}
-		idata->preview_width = gdk_pixbuf_get_width (idata->preview);
-		idata->preview_height = gdk_pixbuf_get_height (idata->preview);
 	}
+
+	idata->preview_width = gdk_pixbuf_get_width (idata->preview);
+	idata->preview_height = gdk_pixbuf_get_height (idata->preview);
 
 	idata->no_preview = ((idata->preview_width == idata->image_width) 
 			     && (idata->preview_height == idata->image_height));
 	
+	debug (DEBUG_INFO, "no preview: %d", idata->no_preview);
+
 	if (idata->no_preview) 
 		if (idata->preview != NULL) {
 			g_object_unref (idata->preview);
@@ -2025,7 +2058,9 @@ thumb_loader_done (ThumbLoader *tloader,
 	/* save the image */
 
 	if (! ce->copy_images) 
-		load_next_file (ce);
+		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
+						    save_image_preview_cb,
+						    ce);
 
 	else if (ce->copy_images && ! ce->resize_images) 
 		export__copy_image (ce);

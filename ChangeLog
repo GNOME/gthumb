@@ -1,3 +1,12 @@
+2003-08-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-web-exporter.c (save_resized_image_cb) 
+	(export__copy_image__progress_update_cb, export__copy_image) 
+	(thumb_loader_done): fix bug #117668
+
+	* libgthumb/gth-file-list.c (gth_file_list_update_next_thumb):
+	ref/unref the current thumb file data.
+
 2003-08-10  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb_preferences.glade: 

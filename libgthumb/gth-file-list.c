@@ -136,6 +136,11 @@ gth_file_list_finalize (GObject *object)
 
         g_return_if_fail (GTH_IS_FILE_LIST (object));
 	file_list = GTH_FILE_LIST (object);
+	
+	if (file_list->thumb_fd != NULL) {
+		file_data_unref (file_list->thumb_fd);
+		file_list->thumb_fd = NULL;
+	}
 
 	gth_file_list_free_list (file_list);
 	g_object_unref (file_list->thumb_loader);
@@ -1511,8 +1516,9 @@ gth_file_list_update_thumb (GthFileList  *file_list,
 	fd->thumb = FALSE;
 
 	file_list->thumb_pos = pos;
+	if (file_list->thumb_fd != NULL)
+		file_data_unref (file_list->thumb_fd);
 	file_list->thumb_fd = fd;
-	file_data_unref (fd);
 
 	gth_file_list_update_current_thumb (file_list);
 }
@@ -1558,6 +1564,11 @@ gth_file_list_thumb_cleanup (GthFileList *file_list)
 {
 	file_list->thumbs_num = 0;
 	file_list->doing_thumbs = FALSE;
+
+	if (file_list->thumb_fd != NULL) {
+		file_data_unref (file_list->thumb_fd);
+		file_list->thumb_fd = NULL;
+	}
 
 	if (file_list->progress_func) 
 		file_list->progress_func (0.0, file_list->progress_data);
@@ -1613,7 +1624,11 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	file_list->thumb_pos = new_pos;
 	file_list->thumbs_num++;
+
+	if (file_list->thumb_fd != NULL)
+		file_data_unref (file_list->thumb_fd);
 	file_list->thumb_fd = fd;
+	file_data_ref (file_list->thumb_fd);
 
 	gth_file_list_update_current_thumb (file_list);
 }
