@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zenity CVS\n"
 "POT-Creation-Date: 2003-09-10 17:02+0200\n"
-"PO-Revision-Date: 2003-09-12 13:29+0200\n"
+"PO-Revision-Date: 2003-09-12 21:49+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -992,23 +992,20 @@ msgid "Could not create folder \"%s\": %s."
 msgstr "Nem sikerült létrehozni a mappát: \"%s\": %s"
 
 #: src/dlg-file-utils.c:118
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Nincs megfelelő jogosultságod archívumok kicsomagolásához ebbe a könyvtárba: "
-"\"%s\""
+msgstr "Nincs megfelelő jogosultságod képek létrehozásához ebben a mappában: \"%s\""
 
 #: src/dlg-file-utils.c:201
 msgid "Could not delete the images:"
 msgstr "Nem sikerült törölni a képeket:"
 
 #: src/dlg-file-utils.c:224
-#, fuzzy
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "Az archívumot nem lehet a Kukába helyezni. Törlöd véglegesen?"
+msgstr "A képeket archívumot nem lehet a Kukába helyezni. Törlöd véglegesen?"
 
 #: src/dlg-file-utils.c:760 src/dlg-file-utils.c:861
 msgid "You didn't enter the new name"
@@ -1351,9 +1348,8 @@ msgid "Apply threshold"
 msgstr "Küszöb alkalmazása"
 
 #: src/gthumb-ui.xml.h:11
-#, fuzzy
 msgid "Assign categories to selected images"
-msgstr "Szűrőszabályok alkalmazása a kijelölt levelekre"
+msgstr "Kategóriák hozzárendelése a kijelölt képekhez"
 
 #: src/gthumb-ui.xml.h:12
 msgid "Assign categories to the image"
@@ -1592,40 +1588,34 @@ msgid "Move current folder"
 msgstr "Az aktuális mappa áthelyezése"
 
 #: src/gthumb-ui.xml.h:67
-#, fuzzy
 msgid "Move selected catalog to another location"
-msgstr "A kijelölt üzenet(ek) áthelyezése egy másik mappába"
+msgstr "A kijelölt katalógus áthelyezése máshová"
 
 #: src/gthumb-ui.xml.h:68
 msgid "Move selected folder"
 msgstr "A kijelölt mappa áthelyezése"
 
 #: src/gthumb-ui.xml.h:69
-#, fuzzy
 msgid "Move selected images to another location"
-msgstr "A kijelölt üzenet(ek) áthelyezése egy másik mappába"
+msgstr "A kijelölt képek áthelyezése máshová"
 
 #: src/gthumb-ui.xml.h:70
-#, fuzzy
 msgid "Move the current folder to the Trash"
-msgstr "Az aktuális archívum áthelyezése a kukába"
+msgstr "Az aktuális mappa áthelyezése a Kukába"
 
 # src/file-manager/nautilus-directory-view-ui.xml.h:12
 #: src/gthumb-ui.xml.h:71
-#, fuzzy
 msgid "Move the selected folder to the Trash"
-msgstr "Minden kijelölt elem áthelyezése a Kukába"
+msgstr "A kijelölt mappa áthelyezése a Kukába"
 
 # src/file-manager/nautilus-directory-view-ui.xml.h:12
 #: src/gthumb-ui.xml.h:72
-#, fuzzy
 msgid "Move the selected images to the Trash"
-msgstr "Minden kijelölt elem áthelyezése a Kukába"
+msgstr "A kijelölt kép áthelyezése a Kukába"
 
 #: src/gthumb-ui.xml.h:73
-#, fuzzy
 msgid "Move this image to another location"
-msgstr "Mappa áthelyezése máshová"
+msgstr "A kép áthelyezése máshová"
 
 # libnautilus-private/nautilus-file-operations.c:1802
 # libnautilus-private/nautilus-file-operations.c:2195
@@ -1657,38 +1647,32 @@ msgid "Next"
 msgstr "Következő"
 
 #: src/gthumb-ui.xml.h:79
-#, fuzzy
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Megnyitja a saját mappádat a Nautilus fájlkezelőben"
+msgstr "Az aktuális mappa megnyitása a Nautilus fájlkezelőben"
 
 #: src/gthumb-ui.xml.h:80
-#, fuzzy
 msgid "Open selected images with an application"
-msgstr "Kijelölt fájlok megnyitása egy alkalmazással"
+msgstr "A kijelölt képek megnyitása egy alkalmazással"
 
 #: src/gthumb-ui.xml.h:81
-#, fuzzy
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
-msgstr "Megnyitja a saját mappádat a Nautilus fájlkezelőben"
+msgstr "Az kijelölt mappa megnyitása a Nautilus fájlkezelőben"
 
 #: src/gthumb-ui.xml.h:83
-#, fuzzy
 msgid "Open this image with an application"
-msgstr "Megnyitás egy _alkalmazással"
+msgstr "A kép megnyitása egy alkalmazással"
 
 # libnautilus-private/nautilus-program-chooser.c:1237
 #: src/gthumb-ui.xml.h:84
-#, fuzzy
 msgid "Open with the File Manager"
-msgstr "Megnyitás más megjelenítővel"
+msgstr "Megnyitás a fájlkezelővel"
 
 # libnautilus-private/nautilus-program-chooser.c:1237
 #: src/gthumb-ui.xml.h:85
-#, fuzzy
 msgid "Open with the _File Manager"
-msgstr "Megnyitás más megjelenítővel"
+msgstr "Megnyitás a _fájlkezelővel"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Out"
@@ -1784,14 +1768,12 @@ msgid "Remo_ve from Catalog"
 msgstr "El_távolítás a katalógusból"
 
 #: src/gthumb-ui.xml.h:101
-#, fuzzy
 msgid "Remove comments of selected images"
-msgstr "A kijelölt szűrő törlése"
+msgstr "A kijelölt képek megjegyzéseinek törlése"
 
 #: src/gthumb-ui.xml.h:102
-#, fuzzy
 msgid "Remove current catalog"
-msgstr "A jelenlegi szín"
+msgstr "Az aktuális katalógus eltávolítása"
 
 # src/file-manager/nautilus-icon-view-ui.xml.h:26
 #: src/gthumb-ui.xml.h:103
@@ -1799,9 +1781,8 @@ msgid "Remove selected catalog"
 msgstr "A kijelölt katalógus eltávolítása"
 
 #: src/gthumb-ui.xml.h:104
-#, fuzzy
 msgid "Remove selected images from the catalog"
-msgstr "Eltávolítja a kiválasztott elemeket a mellékletlistáról"
+msgstr "A kijelölt képek eltávolítása a katalógusból"
 
 #: src/gthumb-ui.xml.h:105
 msgid "Remove the comment"
@@ -1966,9 +1947,8 @@ msgstr "A_nimáció léptetése"
 
 # src/nautilus-shell-ui.xml.h:56
 #: src/gthumb-ui.xml.h:145
-#, fuzzy
 msgid "Stop loading current location"
-msgstr "Hely betöltésének leállítása"
+msgstr "A hely betöltésének leállítása"
 
 #: src/gthumb-ui.xml.h:146
 msgid "Str_etched"
@@ -3001,7 +2981,7 @@ msgstr "*"
 
 #: src/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr "<b>Kategóriák</b>"
+msgstr "<b>Kategóriák:</b>"
 
 #: src/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
@@ -3035,7 +3015,7 @@ msgstr "Könyvjelzők"
 
 #: src/gthumb.glade.h:10
 msgid "C_atalogs:"
-msgstr "_Katalógusok"
+msgstr "_Katalógusok:"
 
 #: src/gthumb.glade.h:11
 msgid "Choose a Catalog"
@@ -3159,7 +3139,7 @@ msgstr "Új kép _mentése:"
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr ""
+msgstr "Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 érték az jelenti, hogy minden képhez készüljön bélyegkép."
 
 #: src/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -3905,7 +3885,7 @@ msgstr "Szé_lesség:"
 
 #: src/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr "_Mindel oldal azonos méretű"
+msgstr "_Minden oldal azonos méretű"
 
 #: src/gthumb_png_exporter.glade.h:61
 msgid "_Draw frame"
@@ -4578,7 +4558,7 @@ msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
 "original filename. Use ? to insert the image date. Use ! to insert the image "
 "size"
-msgstr ""
+msgstr "A # jel jelöli a sorszámok által felhasznált helyet. A * jel jelöli az eredeti fájlnevet. A ? jel jelöli a kép dátumát. A ! jel jelöli a kép méretét."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
