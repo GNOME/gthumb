@@ -367,10 +367,6 @@ gth_expr_eval (GthExpr *e)
 	int     retval = 0;
 	int     i;
 
-#ifdef DEBUG
-	gth_expr_print (e);
-#endif
-
 	mem = gth_mem_new (MEM_SIZE);
 
 	for (i = 0; i < gth_expr_get_top (e); i++) {
@@ -477,10 +473,6 @@ gth_expr_eval (GthExpr *e)
 	retval = gth_mem_get (mem);
 
 	gth_mem_free (mem);
-
-#ifdef DEBUG
-	g_print ("result: %d\n\n", retval);
-#endif
 
 	return retval;
 }

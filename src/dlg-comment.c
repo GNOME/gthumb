@@ -505,8 +505,8 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		}
 	}
 
-	/* gtk_widget_set_sensitive (data->cd_exif_date_radiobutton, data->have_exif_data); FIXME */
 	gtk_widget_set_sensitive (get_exif_date_option_item (data), data->have_exif_data);
+	gtk_widget_set_sensitive (data->date_dateedit, FALSE);
 
 	if (cdata != NULL) {
 		if (cdata->comment != NULL) {
@@ -533,7 +533,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 		if (cdata->time > 0) {
 			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), FOLLOWING_DATE);
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), cdata->time);
-
+			gtk_widget_set_sensitive (data->date_dateedit, TRUE);
 		} else 
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
 

@@ -67,7 +67,6 @@ struct _CatalogWebExporter {
 	int           thumb_width;
 	int           thumb_height;
 
-	guint8        caption_fields;
 	gboolean      copy_images;
 	GthSortMethod sort_method;
 	GtkSortType   sort_type;
@@ -75,6 +74,9 @@ struct _CatalogWebExporter {
 	gboolean      resize_images;
 	int           resize_max_width;
 	int           resize_max_height;
+
+	guint16       index_caption_mask;
+	guint16       image_caption_mask;
 
 	/**/
 
@@ -156,8 +158,15 @@ void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 rows,
 						       int                 cols);
 
-void       catalog_web_exporter_set_caption           (CatalogWebExporter *ce,
+void       catalog_web_exporter_set_image_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);
+
+guint16    catalog_web_exporter_get_image_caption     (CatalogWebExporter *ce);
+
+void       catalog_web_exporter_set_index_caption     (CatalogWebExporter *ce,
+						       GthCaptionFields    caption);
+
+guint16    catalog_web_exporter_get_index_caption     (CatalogWebExporter *ce);
 
 void       catalog_web_exporter_export                (CatalogWebExporter *ce);
 

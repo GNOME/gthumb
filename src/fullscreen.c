@@ -55,36 +55,17 @@ static int             main_window_y;
 
 
 static void
-set_state_if_different (GThumbWindow *window,
-			char         *cname,
-			gboolean      setted,
-			gboolean      notify)
+set_command_state (GThumbWindow *window,
+		   char         *cname,
+		   gboolean      setted)
 {
-	char *old_value;
-	char *new_value;
-
-	new_value = setted ? "1" : "0";
-
-	old_value = bonobo_ui_component_get_prop (window->ui_component, 
-						  cname,
-						  "state",
-						  NULL);
-
-	if ((old_value != NULL) && (strcmp (old_value, new_value) == 0)) {
-		g_free (old_value);
-		return;
-	}
-	if (old_value != NULL)
-		g_free (old_value);
-
-	if (! notify) {
-		g_print ("++\n");
-		window->freeze_toggle_handler++;
-	}
+	char *full_cname = g_strconcat ("/commands/", cname, NULL);
+	char *new_value  = setted ? "1" : "0";
 	bonobo_ui_component_set_prop (window->ui_component, 
-				      cname, 
+				      full_cname, 
 				      "state", new_value,
 				      NULL);
+	g_free (full_cname);
 }
 
 
@@ -525,10 +506,7 @@ image_key_press_cb (GtkWidget   *widget,
 
 		/* Toggle animation. */
 	case GDK_g:
-		set_state_if_different (window, 
-					"/commands/View_PlayAnimation",
-					! viewer->play_animation,
-					TRUE);
+		set_command_state (window, "View_PlayAnimation", ! viewer->play_animation);
 		break;
 
 		/* Step animation. */

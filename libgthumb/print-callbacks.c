@@ -1342,8 +1342,8 @@ print_image_dlg (GtkWindow   *parent,
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), include_comment);
 		pi->print_comment = include_comment;
 	} else {
-		gtk_widget_set_sensitive (data->print_comment_checkbutton, TRUE);
-		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT));
+		gtk_widget_set_sensitive (data->print_comment_checkbutton, FALSE);
+		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), TRUE);
 		pi->print_comment = FALSE;
 	}
 	gtk_widget_set_sensitive (data->comment_font_hbox, pi->print_comment);

@@ -105,6 +105,46 @@ name             [a-zA-Z_]+
 					yylval.ivalue = GTH_TAG_DATE;
 					return DATE;
 				}
+"<gthumb:exif:exposure_time"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_TIME;
+					return EXIF_EXPOSURE_TIME;
+				}
+"<gthumb:exif:exposure_mode"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_MODE;
+					return EXIF_EXPOSURE_MODE;
+				}
+"<gthumb:exif:flash"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_FLASH;
+					return EXIF_FLASH;
+				}
+"<gthumb:exif:shutter_speed"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_SHUTTER_SPEED;
+					return EXIF_SHUTTER_SPEED;
+				}
+"<gthumb:exif:aperture_value"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_APERTURE_VALUE;
+					return EXIF_APERTURE_VALUE;
+				}
+"<gthumb:exif:focal_length"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_FOCAL_LENGTH;
+					return EXIF_FOCAL_LENGTH;
+				}
+"<gthumb:exif:date_time"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_DATE_TIME;
+					return EXIF_DATE_TIME;
+				}
+"<gthumb:exif:camera_model"	{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_EXIF_CAMERA_MODEL;
+					return EXIF_CAMERA_MODEL;
+				}
 "<gthumb:set_var"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_SET_VAR;

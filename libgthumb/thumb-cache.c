@@ -426,6 +426,7 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 						 GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_INFO,
 						 message,
+						 NULL,
 						 GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						 NULL);
 	g_signal_connect_swapped (G_OBJECT (ncrd->dialog),

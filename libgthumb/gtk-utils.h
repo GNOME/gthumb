@@ -32,6 +32,7 @@ GtkWidget*  _gtk_message_dialog_new      (GtkWindow        *parent,
 					  GtkDialogFlags    flags,
 					  const char       *stock_id,
 					  const char       *message,
+					  const char       *secondary_message,
 					  const char       *first_button_text,
 					  ...);
 

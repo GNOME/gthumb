@@ -417,8 +417,6 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
 
-		g_print ("[1]\n");
-
 		file_list->interrupt_set_list = FALSE;
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
@@ -434,7 +432,7 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		char                      *escaped;
 		FileData                  *fd;
 
-		if (info_result->result != GNOME_VFS_OK) 
+		if ((info_result->result != GNOME_VFS_OK) || (info_result->uri == NULL))
 			continue;
 
 		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
@@ -459,8 +457,6 @@ set_list__step2 (GetFileInfoData *gfi_data)
 
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
-
-		g_print ("[2]\n");
 
 		g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
@@ -543,8 +539,6 @@ gth_file_list_interrupt_set_list (GthFileList *file_list,
 {
 	g_return_if_fail (file_list != NULL);
 
-	g_print ("[0]\n");
-
 	if (file_list->interrupt_set_list) {
 		if (done_func != NULL)
 			(*done_func) (done_data);
@@ -575,8 +569,6 @@ add_list_in_chunks (gpointer callback_data)
 
 	if (file_list->interrupt_set_list) {
 		DoneFunc  done_func;
-
-		g_print ("[3]\n");
 
 		file_list->enable_thumbs = gfi_data->enable_thumbs;
 
@@ -669,8 +661,6 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
 	
-		g_print ("[4]\n");
-
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
@@ -708,12 +698,10 @@ void
 add_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
-	GthFileList            *file_list = gfi_data->file_list;
+	GthFileList         *file_list = gfi_data->file_list;
 
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
-
-		g_print ("[5]\n");
 
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
@@ -1533,7 +1521,7 @@ void
 gth_file_list_update_thumb_list (GthFileList  *file_list,
 				 GList        *list)
 {
-	GList        *scan;
+	GList *scan;
 
 	if (! file_list->enable_thumbs)
 		return;
@@ -1578,11 +1566,11 @@ gth_file_list_thumb_cleanup (GthFileList *file_list)
 static void
 gth_file_list_update_next_thumb (GthFileList *file_list)
 {
-	FileData     *fd = NULL;
-	int           first_pos, last_pos;
-	int           pos = -1;
-	GList        *list, *scan;
-	int           new_pos = -1;
+	FileData *fd = NULL;
+	int       first_pos, last_pos;
+	int       pos = -1;
+	GList    *list, *scan;
+	int       new_pos = -1;
 
 	if (! file_list->doing_thumbs) {
 		interrupt_thumbs__part2 (file_list);

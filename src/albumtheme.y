@@ -60,6 +60,15 @@ int   yylex   (void);
 %token <ivalue> PAGES 
 %token <ivalue> TABLE 
 %token <ivalue> DATE 
+%token <ivalue> EXIF_EXPOSURE_TIME
+%token <ivalue> EXIF_EXPOSURE_MODE,
+%token <ivalue> EXIF_FLASH,
+%token <ivalue> EXIF_SHUTTER_SPEED,
+%token <ivalue> EXIF_APERTURE_VALUE,
+%token <ivalue> EXIF_FOCAL_LENGTH,
+%token <ivalue> EXIF_DATE_TIME,
+%token <ivalue> EXIF_CAMERA_MODEL
+
 %token <ivalue> SET_VAR 
 
 %token <text> TEXT
@@ -256,22 +265,30 @@ gthumb_tag 	: tag_name arg_list END_TAG {
 		}
 		;
 
-tag_name	: TITLE       { $$ = $1; }
-		| IMAGE       { $$ = $1; }
-		| IMAGE_LINK  { $$ = $1; }
-		| IMAGE_IDX   { $$ = $1; }
-		| IMAGE_DIM   { $$ = $1; }
-		| IMAGES      { $$ = $1; }
-		| FILENAME    { $$ = $1; }
-		| FILEPATH    { $$ = $1; }
-		| FILESIZE    { $$ = $1; }
-		| COMMENT     { $$ = $1; }
-		| PAGE_LINK   { $$ = $1; }
-		| PAGE_IDX    { $$ = $1; }
-		| PAGES       { $$ = $1; }
-		| TABLE       { $$ = $1; }
-		| DATE        { $$ = $1; }
-		| SET_VAR     { $$ = $1; }
+tag_name	: TITLE               { $$ = $1; }
+		| IMAGE               { $$ = $1; }
+		| IMAGE_LINK          { $$ = $1; }
+		| IMAGE_IDX           { $$ = $1; }
+		| IMAGE_DIM           { $$ = $1; }
+		| IMAGES              { $$ = $1; }
+		| FILENAME            { $$ = $1; }
+		| FILEPATH            { $$ = $1; }
+		| FILESIZE            { $$ = $1; }
+		| COMMENT             { $$ = $1; }
+		| PAGE_LINK           { $$ = $1; }
+		| PAGE_IDX            { $$ = $1; }
+		| PAGES               { $$ = $1; }
+		| TABLE               { $$ = $1; }
+		| DATE                { $$ = $1; }
+		| EXIF_EXPOSURE_TIME  { $$ = $1; }
+		| EXIF_EXPOSURE_MODE  { $$ = $1; }
+		| EXIF_FLASH          { $$ = $1; }
+		| EXIF_SHUTTER_SPEED  { $$ = $1; }
+		| EXIF_APERTURE_VALUE { $$ = $1; }
+		| EXIF_FOCAL_LENGTH   { $$ = $1; }
+		| EXIF_DATE_TIME      { $$ = $1; }
+		| EXIF_CAMERA_MODEL   { $$ = $1; }
+		| SET_VAR             { $$ = $1; }
 		;
 
 arg_list	: arg arg_list {

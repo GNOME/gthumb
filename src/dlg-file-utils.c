@@ -168,6 +168,7 @@ dlg_show_error (GThumbWindow *window,
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_ERROR,
 				     utf8_msg,
+				     NULL,
 				     GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
 				     NULL);
 	g_free (msg);
@@ -1153,6 +1154,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 					     GTK_DIALOG_MODAL,
 					     GTK_STOCK_DIALOG_ERROR,
 					     message,
+					     NULL,
 					     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 					     NULL);
 	else 
@@ -2308,6 +2310,7 @@ copy_item__continue1 (GnomeVFSResult result,
 						     GTK_DIALOG_MODAL,
 						     GTK_STOCK_DIALOG_ERROR,
 						     message,
+						     NULL,
 						     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 						     NULL);
 		else 

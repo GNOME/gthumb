@@ -2620,16 +2620,16 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 
 		update_mouse_selection (image_list, event->x, event->y);
 
-		/* If we are out of bounds, schedule a timeout that will do the 
-		 * scrolling */
+		/* If we are out of bounds, schedule a timeout that will do 
+		 * the scrolling */
 
 		absolute_y = event->y - priv->vadjustment->value;
 		if ((absolute_y < 0) || (absolute_y > widget->allocation.height)) {
 			priv->event_last_x = event->x;
 			priv->event_last_y = event->y;
 			
-			/* Make the steppings be relative to the mouse distance from 
-			 * the canvas.  
+			/* Make the steppings be relative to the mouse 
+			 * distance from the canvas.  
 			 * Also notice the timeout below is small to give a
 			 * more smooth movement.
 			 */
@@ -3961,7 +3961,6 @@ gth_image_list_find_image_from_data (GthImageList *image_list,
 	}
 
 	return -1;
-
 }
 
 
@@ -4037,6 +4036,9 @@ gth_image_list_moveto (GthImageList *image_list,
 		y += IMAGE_LINE_HEIGHT (image_list, line);
 	}
 
+	if (l == NULL)
+		return;
+
 	line = l->data;
 
 	uh = GTK_WIDGET (image_list)->allocation.height - IMAGE_LINE_HEIGHT (image_list, line);
@@ -4083,6 +4085,10 @@ gth_image_list_image_is_visible (GthImageList *image_list,
 		line = l->data;
 		image_top += IMAGE_LINE_HEIGHT (image_list, line);
 	}
+
+	if (l == NULL)
+		return GTH_VISIBILITY_NONE;
+
 	line = l->data;
 	image_bottom = image_top + IMAGE_LINE_HEIGHT (image_list, line);
 

@@ -72,6 +72,7 @@
 #include <config.h>
 #include <math.h>
 #include <string.h>
+#include <stdio.h>
 #include "pixbuf-utils.h"
 
 #ifdef HAVE_LIBTIFF

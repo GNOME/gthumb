@@ -106,6 +106,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 			 GtkDialogFlags    flags,
 			 const char       *stock_id,
 			 const char       *message,
+			 const char       *secondary_message,
 			 const char       *first_button_text,
 			 ...)
 {
@@ -116,18 +117,12 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	va_list       args;
 	const gchar  *text;
 	int           response_id;
-	GtkStockItem  item;
-	char         *title;
+	char         *escaped_message, *markup_text;
 
 	if (stock_id == NULL)
 		stock_id = GTK_STOCK_DIALOG_INFO;
 
-	if (gtk_stock_lookup (stock_id, &item))
-		title = item.label;
-	else
-		title = _("gThumb");
-
-	d = gtk_dialog_new_with_buttons (title, parent, flags, NULL);
+	d = gtk_dialog_new_with_buttons ("", parent, flags, NULL);
 	gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
 
 	gtk_dialog_set_has_separator (GTK_DIALOG (d), FALSE);
@@ -140,7 +135,21 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (image), 0.5, 0.0);
 
-	label = gtk_label_new (message);	
+	label = gtk_label_new ("");
+
+	escaped_message = g_markup_escape_text (message, -1);
+	if (secondary_message != NULL) {
+		char *escaped_secondary_message = g_markup_escape_text (secondary_message, -1);
+		markup_text = g_strdup_printf ("<span weight=\"bold\" size=\"larger\">%s</span>\n\n%s", 
+					       escaped_message,
+					       escaped_secondary_message);
+		g_free (escaped_secondary_message);
+	} else 
+		markup_text = g_strdup (escaped_message);
+	gtk_label_set_markup (GTK_LABEL (label), markup_text);
+	g_free (markup_text);
+	g_free (escaped_message);
+
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	
@@ -382,6 +391,7 @@ _gtk_error_dialog_from_gerror_run (GtkWindow        *parent,
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_ERROR,
 				     (*gerror)->message,
+				     NULL,
 				     GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
 				     NULL);
 
@@ -412,6 +422,7 @@ _gtk_error_dialog_run (GtkWindow        *parent,
 				      GTK_DIALOG_MODAL,
 				      GTK_STOCK_DIALOG_ERROR,
 				      message,
+				      NULL,
 				      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 				      NULL);
 	g_free (message);
@@ -441,6 +452,7 @@ _gtk_info_dialog_run (GtkWindow        *parent,
 				      GTK_DIALOG_MODAL,
 				      GTK_STOCK_DIALOG_INFO,
 				      message,
+				      NULL,
 				      GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 				      NULL);
 	g_free (message);

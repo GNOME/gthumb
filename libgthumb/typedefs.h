@@ -146,11 +146,19 @@ typedef enum { /*< skip >*/
 
 
 typedef enum { /*< skip >*/
-	GTH_CAPTION_COMMENT    = 1 << 0,
-	GTH_CAPTION_FILE_PATH  = 1 << 1,
-	GTH_CAPTION_FILE_NAME  = 1 << 2,
-	GTH_CAPTION_FILE_SIZE  = 1 << 3,
-	GTH_CAPTION_IMAGE_DIM  = 1 << 4
+	GTH_CAPTION_COMMENT             = 1 << 0,
+	GTH_CAPTION_FILE_PATH           = 1 << 1,
+	GTH_CAPTION_FILE_NAME           = 1 << 2,
+	GTH_CAPTION_FILE_SIZE           = 1 << 3,
+	GTH_CAPTION_IMAGE_DIM           = 1 << 4,
+	GTH_CAPTION_EXIF_EXPOSURE_TIME  = 1 << 5,
+	GTH_CAPTION_EXIF_EXPOSURE_MODE  = 1 << 6,
+	GTH_CAPTION_EXIF_FLASH          = 1 << 7,
+	GTH_CAPTION_EXIF_SHUTTER_SPEED  = 1 << 8,
+	GTH_CAPTION_EXIF_APERTURE_VALUE = 1 << 9,
+	GTH_CAPTION_EXIF_FOCAL_LENGTH   = 1 << 10,
+	GTH_CAPTION_EXIF_DATE_TIME      = 1 << 11,
+	GTH_CAPTION_EXIF_CAMERA_MODEL   = 1 << 12
 } GthCaptionFields;
 
  

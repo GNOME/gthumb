@@ -89,15 +89,6 @@ typedef struct {
 
 	/**/
 
-	GtkWidget          *wat_dialog;
-	GtkWidget          *wat_theme_treeview;
-	GtkWidget          *wat_ok_button;
-	GtkWidget          *wat_cancel_button;
-	GtkWidget          *wat_install_button;
-	GtkWidget          *wat_go_to_folder_button;
-
-	/**/
-
 	CatalogWebExporter *exporter;
 } DialogData;
 
@@ -108,7 +99,7 @@ destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	g_object_unref (data->gui);
-	if (data->exporter)
+	if (data->exporter != NULL)
 		g_object_unref (data->exporter);
 	g_free (data);
 }
@@ -336,6 +327,43 @@ dlg_web_exporter (GThumbWindow *window)
 
 	data->dest_fileentry_entry = gnome_entry_gtk_entry (GNOME_ENTRY (gnome_file_entry_gnome_entry (GNOME_FILE_ENTRY (data->wa_dest_fileentry))));
 
+	/* Set widgets data. */
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
+				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
+	g_free (svalue);
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
+	g_free (svalue);
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	gtk_widget_set_sensitive (data->wa_resize_images_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
+
+	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH)));
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS));
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu), sort_method_to_idx [pref_get_web_album_sort_order ()]);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_TITLE);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_title_entry), svalue);
+	g_free (svalue);
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
+	g_free (svalue);
+
 	/* Signals. */
 
 	g_signal_connect (G_OBJECT (data->dialog), 
@@ -391,39 +419,6 @@ dlg_web_exporter (GThumbWindow *window)
 				  G_CALLBACK (catalog_web_exporter_interrupt),
 				  data->exporter);
 
-	/* Set widgets data. */
-
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
-				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
-	g_free (svalue);
-
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
-	g_free (svalue);
-	
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_resize_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES));
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH)));
-
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS));
-
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu), sort_method_to_idx [pref_get_web_album_sort_order ()]);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
-
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_TITLE);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_title_entry), svalue);
-	g_free (svalue);
-
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
-	g_free (svalue);
-
 	/* Run dialog. */
 
 	gtk_widget_grab_focus (data->wa_dest_fileentry); 
@@ -449,6 +444,8 @@ typedef struct {
 	GtkWidget          *wat_cancel_button;
 	GtkWidget          *wat_install_button;
 	GtkWidget          *wat_go_to_folder_button;
+	GtkWidget          *wat_thumbnail_caption_button;
+	GtkWidget          *wat_image_caption_button;
 
 	GtkListStore       *list_store;
 } ThemeDialogData;
@@ -562,18 +559,6 @@ load_themes (ThemeDialogData *tdata)
 				  NULL);
 	add_theme_dir (tdata, theme_dir);
 	g_free (theme_dir);	
-}
-
-
-static void
-theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
-			      ThemeDialogData  *tdata)
-{
-	gboolean     theme_selected;
-	GtkTreeIter  iter;
-
-	theme_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
-	gtk_widget_set_sensitive (tdata->wat_ok_button, theme_selected);
 }
 
 
@@ -705,6 +690,9 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 }
 
 
+static void show_thumbnail_caption_dialog_cb (GtkWidget  *widget,  ThemeDialogData *data);
+static void show_image_caption_dialog_cb     (GtkWidget  *widget,  ThemeDialogData *data);
+
 static void
 show_album_theme_cb (GtkWidget  *widget,
 		     DialogData *data)
@@ -733,6 +721,8 @@ show_album_theme_cb (GtkWidget  *widget,
 	tdata->wat_cancel_button = glade_xml_get_widget (tdata->gui, "wat_cancel_button");
 	tdata->wat_install_button = glade_xml_get_widget (tdata->gui, "wat_install_button");
 	tdata->wat_go_to_folder_button = glade_xml_get_widget (tdata->gui, "wat_go_to_folder_button");
+	tdata->wat_thumbnail_caption_button = glade_xml_get_widget (tdata->gui, "wat_thumbnail_caption_button");
+	tdata->wat_image_caption_button = glade_xml_get_widget (tdata->gui, "wat_image_caption_button");
 
 	/* Signals. */
 
@@ -748,10 +738,6 @@ show_album_theme_cb (GtkWidget  *widget,
 			  "clicked",
 			  G_CALLBACK (theme_dialog__ok_clicked),
 			  tdata);
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview))),
-			  "changed",
-			  G_CALLBACK (theme_dialog__sel_changed_cb),
-			  tdata);
 	g_signal_connect (G_OBJECT (tdata->wat_theme_treeview),
 			  "row_activated",
 			  G_CALLBACK (theme_dialog__row_activated_cb),
@@ -764,6 +750,14 @@ show_album_theme_cb (GtkWidget  *widget,
 	g_signal_connect (G_OBJECT (tdata->wat_go_to_folder_button), 
 			  "clicked",
 			  G_CALLBACK (theme_dialog__go_to_folder_clicked),
+			  tdata);
+	g_signal_connect (G_OBJECT (tdata->wat_thumbnail_caption_button), 
+			  "clicked",
+			  G_CALLBACK (show_thumbnail_caption_dialog_cb),
+			  tdata);
+	g_signal_connect (G_OBJECT (tdata->wat_image_caption_button), 
+			  "clicked",
+			  G_CALLBACK (show_image_caption_dialog_cb),
 			  tdata);
 
 	/* Set widgets data. */
@@ -789,8 +783,6 @@ show_album_theme_cb (GtkWidget  *widget,
 
 	load_themes (tdata);
 
-	gtk_widget_set_sensitive (tdata->wat_ok_button, FALSE);
-
 	/* Run dialog. */
 
 	gtk_widget_grab_focus (tdata->wat_theme_treeview); 
@@ -798,4 +790,167 @@ show_album_theme_cb (GtkWidget  *widget,
 	gtk_window_set_transient_for (GTK_WINDOW (tdata->dialog), GTK_WINDOW (data->dialog));
 	gtk_window_set_modal (GTK_WINDOW (tdata->dialog), FALSE);
 	gtk_widget_show_all (tdata->dialog);
+}
+
+
+
+
+typedef struct {
+	DialogData         *data;
+	GThumbWindow       *window;
+
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+
+	GtkWidget          *c_comment_checkbutton;
+	GtkWidget          *c_imagedim_checkbutton;
+	GtkWidget          *c_filename_checkbutton;
+	GtkWidget          *c_filesize_checkbutton;
+
+	GtkWidget          *c_exif_date_time_checkbutton;
+	GtkWidget          *c_exif_exposure_time_checkbutton;
+	GtkWidget          *c_exif_exposure_mode_checkbutton;
+	GtkWidget          *c_exif_flash_checkbutton;
+	GtkWidget          *c_exif_shutter_speed_checkbutton;
+	GtkWidget          *c_exif_aperture_value_checkbutton;
+	GtkWidget          *c_exif_focal_length_checkbutton;
+	GtkWidget          *c_exif_camera_model_checkbutton;
+
+	gboolean            thumbnail_caption;
+} CaptionDialogData;
+
+
+/* called when the dialog is closed. */
+static void
+caption_dialog_destroy_cb (GtkWidget         *widget, 
+			   CaptionDialogData *cdata)
+{
+	g_object_unref (cdata->gui);
+	g_free (cdata);
+}
+
+
+static void
+caption_dialog__ok_clicked (GtkWidget         *widget, 
+			    CaptionDialogData *cdata)
+{
+	GthCaptionFields caption = 0;
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton)))
+		caption |= GTH_CAPTION_COMMENT;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_imagedim_checkbutton)))
+		caption |= GTH_CAPTION_IMAGE_DIM;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_filename_checkbutton)))
+		caption |= GTH_CAPTION_FILE_NAME;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_filesize_checkbutton)))
+		caption |= GTH_CAPTION_FILE_SIZE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_date_time_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_DATE_TIME;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_exposure_time_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_EXPOSURE_TIME;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_exposure_mode_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_EXPOSURE_MODE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_flash_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_FLASH;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_shutter_speed_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_SHUTTER_SPEED;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_aperture_value_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_APERTURE_VALUE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_focal_length_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_FOCAL_LENGTH;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_exif_camera_model_checkbutton)))
+		caption |= GTH_CAPTION_EXIF_CAMERA_MODEL;
+
+	if (cdata->thumbnail_caption)
+		catalog_web_exporter_set_index_caption (cdata->data->exporter, caption);
+	else
+		catalog_web_exporter_set_image_caption (cdata->data->exporter, caption);
+
+	/* FIXME: save settings to gconf */
+
+	gtk_widget_destroy (cdata->dialog);
+}
+
+
+static void
+show_caption_dialog_cb (GtkWidget       *widget,
+			ThemeDialogData *tdata,
+			gboolean         thumbnail_caption)
+{
+	CaptionDialogData *cdata;
+	GtkWidget         *ok_button;
+	GtkWidget         *cancel_button;
+
+	cdata = g_new (CaptionDialogData, 1);
+
+	cdata->data = tdata->data;
+	cdata->window = tdata->window;
+	cdata->thumbnail_caption = thumbnail_caption;
+
+	cdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+        if (!cdata->gui) {
+		g_free (cdata);
+                g_warning ("Could not find " GLADE_EXPORTER_FILE "\n");
+                return;
+        }
+
+	/* Get the widgets. */
+
+	cdata->dialog = glade_xml_get_widget (cdata->gui, "caption_dialog");
+	cdata->c_comment_checkbutton = glade_xml_get_widget (cdata->gui, "c_comment_checkbutton");
+	cdata->c_imagedim_checkbutton = glade_xml_get_widget (cdata->gui, "c_imagedim_checkbutton");
+	cdata->c_filename_checkbutton = glade_xml_get_widget (cdata->gui, "c_filename_checkbutton");
+	cdata->c_filesize_checkbutton = glade_xml_get_widget (cdata->gui, "c_filesize_checkbutton");
+	cdata->c_exif_date_time_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_date_time_checkbutton");
+	cdata->c_exif_exposure_time_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_exposure_time_checkbutton");
+	cdata->c_exif_exposure_mode_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_exposure_mode_checkbutton");
+	cdata->c_exif_flash_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_flash_checkbutton");
+	cdata->c_exif_shutter_speed_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_shutter_speed_checkbutton");
+	cdata->c_exif_aperture_value_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_aperture_value_checkbutton");
+	cdata->c_exif_focal_length_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_focal_length_checkbutton");
+	cdata->c_exif_camera_model_checkbutton = glade_xml_get_widget (cdata->gui, "c_exif_camera_model_checkbutton");
+
+	ok_button = glade_xml_get_widget (cdata->gui, "c_okbutton");
+	cancel_button = glade_xml_get_widget (cdata->gui, "c_cancelbutton");
+
+	/* Signals. */
+
+	g_signal_connect (G_OBJECT (cdata->dialog), 
+			  "destroy",
+			  G_CALLBACK (caption_dialog_destroy_cb),
+			  cdata);
+	g_signal_connect_swapped (G_OBJECT (cancel_button), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (cdata->dialog));
+	g_signal_connect (G_OBJECT (ok_button), 
+			  "clicked",
+			  G_CALLBACK (caption_dialog__ok_clicked),
+			  cdata);
+
+	/* Set widgets data. */
+
+	/* FIXME: load default settings from gconf */
+
+	/* Run dialog. */
+
+	gtk_window_set_transient_for (GTK_WINDOW (cdata->dialog), GTK_WINDOW (tdata->dialog));
+	gtk_window_set_modal (GTK_WINDOW (cdata->dialog), TRUE);
+	gtk_widget_show_all (cdata->dialog);
+}
+
+
+static void
+show_thumbnail_caption_dialog_cb (GtkWidget       *widget,
+				  ThemeDialogData *data)
+{
+	show_caption_dialog_cb (widget, data, TRUE);
+}
+
+
+static void
+show_image_caption_dialog_cb (GtkWidget       *widget,
+			      ThemeDialogData *data)
+{
+	show_caption_dialog_cb (widget, data, FALSE);
 }

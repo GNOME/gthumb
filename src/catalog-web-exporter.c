@@ -43,6 +43,18 @@
 #include "glib-utils.h"
 #include "albumtheme-private.h"
 
+#ifdef HAVE_LIBEXIF
+#include <exif-data.h>
+#include <exif-content.h>
+#include <exif-entry.h>
+#endif /* HAVE_LIBEXIF */
+
+
+typedef enum {
+	GTH_VISIBILITY_ALWAYS = 0,
+	GTH_VISIBILITY_INDEX,
+	GTH_VISIBILITY_IMAGE
+} GthTagVisibility;
 
 enum {
 	DONE,
@@ -261,6 +273,9 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->resize_images = FALSE;
 	ce->resize_max_width = DEFAULT_MAX_WIDTH;
 	ce->resize_max_height = DEFAULT_MAX_HEIGHT;
+
+	ce->index_caption_mask = GTH_CAPTION_IMAGE_DIM | GTH_CAPTION_FILE_SIZE;
+	ce->image_caption_mask = GTH_CAPTION_COMMENT | GTH_CAPTION_EXIF_DATE_TIME;
 }
 
 
@@ -272,23 +287,23 @@ catalog_web_exporter_get_type ()
 	if (! type) {
 		GTypeInfo type_info = {
 			sizeof (CatalogWebExporterClass),
-                        NULL,
-                        NULL,
-                        (GClassInitFunc) catalog_web_exporter_class_init,
-                        NULL,
-                        NULL,
-                        sizeof (CatalogWebExporter),
-                        0,
-                        (GInstanceInitFunc) catalog_web_exporter_init
+			NULL,
+			NULL,
+			(GClassInitFunc) catalog_web_exporter_class_init,
+			NULL,
+			NULL,
+			sizeof (CatalogWebExporter),
+			0,
+			(GInstanceInitFunc) catalog_web_exporter_init
                 };
 
                 type = g_type_register_static (G_TYPE_OBJECT,
-                                               "CatalogWebExporter",
-                                               &type_info,
-                                               0);
+					       "CatalogWebExporter",
+					       &type_info,
+					       0);
         }
 
-        return type;
+	return type;
 }
 
 
@@ -415,11 +430,34 @@ catalog_web_exporter_set_thumb_size (CatalogWebExporter *ce,
 
 
 void
-catalog_web_exporter_set_caption (CatalogWebExporter *ce,
-				  GthCaptionFields    caption)
+catalog_web_exporter_set_image_caption (CatalogWebExporter *ce,
+					GthCaptionFields    caption)
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
-	ce->caption_fields = caption;
+	ce->image_caption_mask = caption;
+}
+
+
+guint16
+catalog_web_exporter_get_image_caption (CatalogWebExporter *ce)
+{
+	return ce->image_caption_mask;
+}
+
+
+void
+catalog_web_exporter_set_index_caption (CatalogWebExporter *ce,
+					GthCaptionFields    caption)
+{
+	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
+	ce->index_caption_mask = caption;
+}
+
+
+guint16
+catalog_web_exporter_get_index_caption (CatalogWebExporter *ce)
+{
+	return ce->index_caption_mask;
 }
 
 
@@ -542,15 +580,72 @@ get_var_value (const char *var_name,
 
 	if (strcmp (var_name, "image_idx") == 0)
 		return ce->image + 1;
-
 	else if (strcmp (var_name, "images") == 0)
 		return ce->n_images;
-
 	else if (strcmp (var_name, "page_idx") == 0)
 		return ce->page + 1;
-
 	else if (strcmp (var_name, "pages") == 0)
 		return ce->n_pages;
+	else if (strcmp (var_name, "index") == 0)
+		return GTH_VISIBILITY_INDEX;
+	else if (strcmp (var_name, "image") == 0)
+		return GTH_VISIBILITY_IMAGE;
+	else if (strcmp (var_name, "always") == 0)
+		return GTH_VISIBILITY_ALWAYS;
+
+	else if (strcmp (var_name, "image_dim_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_IMAGE_DIM;
+	else if (strcmp (var_name, "file_name_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_FILE_NAME;
+ 	else if (strcmp (var_name, "file_path_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_FILE_PATH;
+	else if (strcmp (var_name, "file_size_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_FILE_SIZE;
+	else if (strcmp (var_name, "comment_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_COMMENT;
+	else if (strcmp (var_name, "exif_date_time_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
+	else if (strcmp (var_name, "exif_exposure_time_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_TIME;
+	else if (strcmp (var_name, "exif_exposure_mode_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_MODE;
+	else if (strcmp (var_name, "exif_flash_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_FLASH;
+	else if (strcmp (var_name, "exif_shutter_speed_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_SHUTTER_SPEED;
+	else if (strcmp (var_name, "exif_aperture_value_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_APERTURE_VALUE;
+	else if (strcmp (var_name, "exif_focal_length_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
+	else if (strcmp (var_name, "exif_camera_model_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
+
+	else if (strcmp (var_name, "image_dim_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_IMAGE_DIM;
+	else if (strcmp (var_name, "file_name_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_FILE_NAME;
+ 	else if (strcmp (var_name, "file_path_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_FILE_PATH;
+	else if (strcmp (var_name, "file_size_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_FILE_SIZE;
+	else if (strcmp (var_name, "comment_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_COMMENT;
+	else if (strcmp (var_name, "exif_date_time_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
+	else if (strcmp (var_name, "exif_exposure_time_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_TIME;
+	else if (strcmp (var_name, "exif_exposure_mode_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_EXPOSURE_MODE;
+	else if (strcmp (var_name, "exif_flash_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_FLASH;
+	else if (strcmp (var_name, "exif_shutter_speed_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_SHUTTER_SPEED;
+	else if (strcmp (var_name, "exif_aperture_value_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_APERTURE_VALUE;
+	else if (strcmp (var_name, "exif_focal_length_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
+	else if (strcmp (var_name, "exif_camera_model_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
 
 	g_warning ("[GetVarValue] Unknown variable name: %s", var_name);
 	
@@ -580,9 +675,7 @@ gth_tag_get_idx (GthTag             *tag,
 		GthVar *var = scan->data;
 
 		if (strcmp (var->name, "idx_relative") == 0) {
-			g_print ("default value: %d\n", default_value);
 			retval = default_value + expression_value (ce, var->expr);
-			g_print ("return value: %d\n", retval);
 			break;
 
 		} else if (strcmp (var->name, "idx") == 0) {
@@ -591,7 +684,7 @@ gth_tag_get_idx (GthTag             *tag,
 		}
 	}
 
-	retval = MIN (retval, max_value - 1);
+	retval = MIN (retval, max_value);
 	retval = MAX (retval, 0);
 
 	return retval;
@@ -602,7 +695,7 @@ static int
 get_image_idx (GthTag             *tag,
 	       CatalogWebExporter *ce)
 {
-	return gth_tag_get_idx (tag, ce, ce->image, ce->n_images);	
+	return gth_tag_get_idx (tag, ce, ce->image, ce->n_images - 1);	
 }
 
 
@@ -610,7 +703,7 @@ static int
 get_page_idx (GthTag             *tag,
 	      CatalogWebExporter *ce)
 {
-	return gth_tag_get_idx (tag, ce, ce->page, ce->n_pages);	
+	return gth_tag_get_idx (tag, ce, ce->page, ce->n_pages - 1);	
 }
 
 
@@ -670,6 +763,7 @@ get_filename_with_other_ext (const char *filename,
 
 	name_wo_ext = remove_extension_from_path (file_name_from_path (filename));
 	newname = g_strconcat (name_wo_ext, new_ext, NULL);
+	g_free (name_wo_ext);
 
 	return newname;
 }
@@ -679,28 +773,125 @@ static char *
 get_image_filename (CatalogWebExporter *ce,
 		    ImageData          *idata)
 {
-	if (ce->copy_images && ! ce->resize_images) {
-		char *filename;
+	char *filename;
+
+	if (ce->copy_images && ! ce->resize_images) 
 		filename = g_strconcat (ce->location,
 					"/",
 					file_name_from_path (idata->filename),
 					NULL);
-		return filename;
-	} 
-
-	if (ce->copy_images && ce->resize_images) {
+	else if (ce->copy_images && ce->resize_images) {
 		char *jpeg_name = get_filename_with_other_ext (idata->filename, ".jpeg");
-		char *filename;
 		filename = g_strconcat (ce->location,
 					"/",
 					jpeg_name,
 					NULL);
 		g_free (jpeg_name);
-		return filename;
-	} 
+	} else
+		filename = g_strdup (idata->filename);
 	
-	return g_strdup (idata->filename);
+	return filename;
 }
+
+
+#ifdef HAVE_LIBEXIF
+
+static time_t
+get_exif_time (const char *filename)
+{
+	ExifData     *edata;
+	unsigned int  i, j;
+	time_t        time = 0;
+	struct tm     tm = { 0, };
+
+	edata = exif_data_new_from_file (filename);
+
+	if (edata == NULL) 
+                return (time_t)0;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry   *e = content->entries[j];
+			char        *data;
+
+			if (! content->entries[j]) 
+				continue;
+
+			if ((e->tag != EXIF_TAG_DATE_TIME) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
+			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
+				continue;
+
+			data = g_strdup (e->data);
+			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
+
+			tm.tm_year = atoi (data) - 1900;
+			tm.tm_mon  = atoi (data + 5) - 1;
+			tm.tm_mday = atoi (data + 8);
+			tm.tm_hour = atoi (data + 11);
+			tm.tm_min  = atoi (data + 14);
+			tm.tm_sec  = atoi (data + 17);
+			time = mktime (&tm);
+
+			g_free (data);
+
+			break;
+		}
+	}
+
+	exif_data_unref (edata);
+
+	return time;
+}
+
+
+static char *
+get_exif_tag (const char *filename, ExifTag etag)
+{
+	ExifData     *edata;
+	unsigned int  i, j;
+
+	g_print ("EXIF TAG %s --> ", exif_tag_get_name (etag));
+
+	edata = exif_data_new_from_file (filename);
+
+	if (edata == NULL) 
+		return NULL;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+			continue;
+
+		for (j = 0; j < content->count; j++) {
+			ExifEntry *e = content->entries[j];
+
+			if (! content->entries[j]) 
+				continue;
+
+			if (e->tag == etag) {
+				char *retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
+				exif_data_unref (edata);
+				g_print ("%s\n", retval);
+				return retval;
+			}
+		}
+	}
+
+	g_print ("\n");
+
+	exif_data_unref (edata);
+
+	return NULL;
+}
+
+#endif /* HAVE_LIBEXIF */
 
 
 static void
@@ -928,7 +1119,8 @@ gth_parsed_doc_print (GList              *index_parsed,
 				t = time (NULL);
 				tp = localtime (&t);
 				strftime (s, 99, "%A %x, %X", tp);
-				write_line (s, fout);
+				line = g_locale_to_utf8 (s, -1, 0, 0, 0);
+				write_line (line, fout);
 			}
 			break;
 
@@ -936,7 +1128,103 @@ gth_parsed_doc_print (GList              *index_parsed,
 			write_line (tag->value.text, fout);
 			break;
 
+		case GTH_TAG_EXIF_EXPOSURE_TIME:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_EXPOSURE_TIME);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_EXPOSURE_MODE:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_EXPOSURE_MODE);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_FLASH:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, EXIF_TAG_FLASH);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_SHUTTER_SPEED:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_SHUTTER_SPEED_VALUE);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_APERTURE_VALUE:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_APERTURE_VALUE);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_FOCAL_LENGTH:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_FOCAL_LENGTH);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_DATE_TIME:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			{
+				time_t     t;
+				struct tm *tp;
+				char s[100];
+
+				t = get_exif_time (idata->filename);
+				tp = localtime (&t);
+				strftime (s, 99, "%A %x, %X", tp);
+				line = g_locale_to_utf8 (s, -1, 0, 0, 0);
+				write_line (line, fout);
+			}
+#endif /* HAVE_LIBEXIF */
+			break;
+
+		case GTH_TAG_EXIF_CAMERA_MODEL:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+#ifdef HAVE_LIBEXIF
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_MAKE);
+			write_line (line, fout);
+			g_free (line);
+
+			write_line (" ", fout);
+
+			line = get_exif_tag (idata->filename, 
+					     EXIF_TAG_MODEL);
+			write_line (line, fout);
+#endif /* HAVE_LIBEXIF */
+			break;
+
 		case GTH_TAG_SET_VAR:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
 			break;
 
 		case GTH_TAG_IF:
@@ -950,6 +1238,9 @@ gth_parsed_doc_print (GList              *index_parsed,
 					break;
 				}
 			}
+			break;
+
+		default:
 			break;
 		}
 

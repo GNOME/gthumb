@@ -1,3 +1,12 @@
+2003-07-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gtk-utils.c (_gtk_message_dialog_new): remove the title.
+
+	* src/albumtheme.y: 
+	* src/albumtheme.l: 
+	* src/catalog-web-exporter.c (get_var_value): added ability to
+	personalize the album theme.
+
 2003-06-28  Artur Flinta  <aflinta@cvs.gnome.org>
 
 	* configure.in: Added "pl" to ALL_LINGUAS.
