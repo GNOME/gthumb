@@ -1237,7 +1237,7 @@
 			<widget class="GtkVBox" id="j_button_vbox">
 			  <property name="visible">True</property>
 			  <property name="homogeneous">False</property>
-			  <property name="spacing">6</property>
+			  <property name="spacing">12</property>
 
 			  <child>
 			    <widget class="GtkHBox" id="j_button_box">

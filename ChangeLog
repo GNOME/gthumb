@@ -1,3 +1,9 @@
+2004-02-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-photo-importer.c (set_camera_model)
+	(set_camera_model): : use gtk_label_set_text instead of 
+	_gtk_label_set_locale_text.
+
 2004-02-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.3.1 released ]

@@ -689,7 +689,7 @@ set_camera_model (DialogData *data,
 	if ((model == NULL) || (port == NULL)) {
 		data->camera_setted = FALSE;
 		gtk_widget_hide (data->import_preview_box);
-		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), _("No camera detected"));
+		gtk_label_set_text (GTK_LABEL (data->camera_model_label), _("No camera detected"));
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 		return;
 	}
@@ -723,8 +723,8 @@ set_camera_model (DialogData *data,
 		display_error_dialog (data, 
 				      _("Could not import photos"),  
 				      gp_result_as_string (r));
-		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), 
-					    _("No camera detected"));
+		gtk_label_set_text (GTK_LABEL (data->camera_model_label), 
+				    _("No camera detected"));
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), 
 					   data->no_camera_pixbuf);
 	}
