@@ -245,25 +245,45 @@ static void
 apply_tran (DialogData *data,
 	    GList      *current_image)
 {
-	FileData   *fd = current_image->data;
-	int         rot_type = data->rot_type; 
-	int         tran_type = data->tran_type; 
-	char       *line;
-	char       *tmp1, *tmp2;
-	static int  count = 0;
-	GError     *err = NULL;
-	GtkWindow  *parent = GTK_WINDOW (data->dialog);
+	FileData    *fd = current_image->data;
+	char        *dir;
+	struct stat  buf;
+	int          rot_type = data->rot_type; 
+	int          tran_type = data->tran_type; 
+	char        *line;
+	char        *tmp1, *tmp2;
+	static int   count = 0;
+	GError      *err = NULL;
+	GtkWindow   *parent = GTK_WINDOW (data->dialog);
 #ifdef HAVE_LIBJPEG
-	JXFORM_CODE transf;
+	JXFORM_CODE  transf;
 #else
-	char       *command;
+	char        *command;
 #endif
-	char       *e1, *e2;
+	char        *e1, *e2;
 
 	if ((rot_type == TRAN_ROTATE_0) && (tran_type == TRAN_NONE))
 		return;
 
+	/* Check directory permissions. */
 	
+	dir = remove_level_from_path (fd->path);
+	if (access (dir, R_OK | W_OK | X_OK) != 0) {
+		char *utf8_path;
+		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+				       _("You don't have the right permissions to create images in the folder \"%s\""),
+				       utf8_path);
+		g_free (utf8_path);
+		g_free (dir);
+		return;
+	} 
+	
+	g_free (dir);
+
+	/**/
+
+	stat (fd->path, &buf);
 
 	if (rot_type == TRAN_ROTATE_0)
 		tmp1 = g_strdup (fd->path);
@@ -408,6 +428,8 @@ apply_tran (DialogData *data,
 		data->files_changed_list = g_list_prepend (data->files_changed_list, 
 							   g_strdup (fd->path));
 	}
+
+	chmod (fd->path, buf.st_mode);
 
 	g_free (e1);
 	g_free (e2);

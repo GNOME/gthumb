@@ -1,3 +1,23 @@
+2004-01-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (dir_list_drag_leave): 
+	(dir_list_drag_leave, create_new_file_list): 
+
+	Remove the auto load timeout after leaving.
+	
+	* src/dlg-jpegtran.c (apply_tran): 
+
+	Fix bug #130823 (gthumb does not maintain permissions on files).
+	Fix bug #130824 (gthumb does not complain about lack of permissions).
+	
+	* libgthumb/preferences.c (preferences_init): 
+
+	Fix bug #130829 (gthumb ignores current directory when starting).
+
+	* src/gthumb-window.c (window_set_preview_content): 
+
+	Fix bug #131853 (Changing folders produces flicker in image viewer).
+
 2004-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/comments.c (comments_get_comment_as_string): 

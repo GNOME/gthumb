@@ -3321,6 +3321,17 @@ gth_file_list_drag_begin (GtkWidget          *widget,
 }
 
 
+static void
+gth_file_list_drag_end (GtkWidget          *widget,
+			GdkDragContext     *context,
+			gpointer            extra_data)
+{	
+	if (gth_file_list_drag_data != NULL)
+		path_list_free (gth_file_list_drag_data);
+	gth_file_list_drag_data = NULL;
+}
+
+
 static void  
 gth_file_list_drag_data_get  (GtkWidget        *widget,
 			      GdkDragContext   *context,
@@ -3341,8 +3352,6 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 	g_free (target);
 
 	url_list = make_url_list (gth_file_list_drag_data, target_id);
-	path_list_free (gth_file_list_drag_data);
-	gth_file_list_drag_data = NULL;
 
 	if (url_list == NULL) 
 		return;
@@ -3586,6 +3595,11 @@ dir_list_drag_leave (GtkWidget          *widget,
 	GThumbWindow  *window = extra_data;
 	GtkTreeView   *list_view;
 
+	if (window->auto_load_timeout != 0) {
+		g_source_remove (window->auto_load_timeout);
+		window->auto_load_timeout = 0;
+	}
+
 	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
 	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
 }
@@ -3809,6 +3823,11 @@ catalog_list_drag_leave (GtkWidget          *widget,
 {	
 	GThumbWindow *window = extra_data;
 	GtkTreeView  *list_view;
+
+	if (window->auto_load_timeout != 0) {
+		g_source_remove (window->auto_load_timeout);
+		window->auto_load_timeout = 0;
+	}
 
 	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
 	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
@@ -4566,12 +4585,14 @@ create_new_file_list (GThumbWindow *window)
 			     target_table, 
 			     G_N_ELEMENTS(target_table),
 			     GDK_ACTION_COPY);
-	
+
+	/*
 	gtk_drag_dest_set (file_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   same_app_target_table, 
 			   G_N_ELEMENTS(same_app_target_table),
 			   GDK_ACTION_MOVE);
+	*/
 	gtk_drag_source_set (file_list->root_widget,
 			     GDK_BUTTON1_MASK,
 			     same_app_target_table, 
@@ -4610,6 +4631,10 @@ create_new_file_list (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (view_widget),
 			  "drag_begin",
 			  G_CALLBACK (gth_file_list_drag_begin), 
+			  window);
+	g_signal_connect (G_OBJECT (view_widget),
+			  "drag_end",
+			  G_CALLBACK (gth_file_list_drag_end), 
 			  window);
 	g_signal_connect (G_OBJECT (view_widget),
 			  "drag_data_get",
@@ -4683,25 +4708,27 @@ window_set_preview_content (GThumbWindow      *window,
 
 	window->preview_content = content;
 
-	gtk_widget_hide (window->preview_widget_image);
-	gtk_widget_hide (window->preview_widget_data);
-	gtk_widget_hide (window->preview_widget_comment);
-	gtk_widget_hide (window->preview_widget_data_comment);
-
 	set_button_active_no_notify (window, window->preview_button_image, FALSE);
 	set_button_active_no_notify (window, window->preview_button_data, FALSE);
 	set_button_active_no_notify (window, window->preview_button_comment, FALSE);
 
 	if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) {
+		gtk_widget_hide (window->preview_widget_data);
+		gtk_widget_hide (window->preview_widget_comment);
+		gtk_widget_hide (window->preview_widget_data_comment);
 		gtk_widget_show (window->preview_widget_image);
 		set_button_active_no_notify (window, window->preview_button_image, TRUE);
 
 	} else if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) {
+		gtk_widget_hide (window->preview_widget_image);
+		gtk_widget_hide (window->preview_widget_comment);
 		gtk_widget_show (window->preview_widget_data);
 		gtk_widget_show (window->preview_widget_data_comment);
 		set_button_active_no_notify (window, window->preview_button_data, TRUE);
 
 	} else if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) {
+		gtk_widget_hide (window->preview_widget_image);
+		gtk_widget_hide (window->preview_widget_data);
 		gtk_widget_show (window->preview_widget_comment);
 		gtk_widget_show (window->preview_widget_data_comment);
 		set_button_active_no_notify (window, window->preview_button_comment, TRUE);
@@ -5734,6 +5761,11 @@ close__step5 (GThumbWindow *window)
 	if (window->popup_menu != NULL) {
 		gtk_widget_destroy (window->popup_menu);
 		window->popup_menu = NULL;
+	}
+
+	if (gth_file_list_drag_data != NULL) {
+		path_list_free (gth_file_list_drag_data);
+		gth_file_list_drag_data = NULL;
 	}
 
 	gtk_object_destroy (GTK_OBJECT (window->tooltips));
