@@ -734,7 +734,6 @@ match_patterns (char       **patterns,
 	if (string == NULL)
 		return FALSE;
 
-
 	for (i = 0; patterns[i] != NULL; i++) 
 		if (g_utf8_fnmatch (patterns[i], string, FNM_CASEFOLD) == 0)
 			return TRUE;
@@ -1086,8 +1085,9 @@ search_images_async (DialogData *data)
 
 	data->search_comments = ! (empty_pattern (search_data->comment_pattern)
 				   && empty_pattern (search_data->place_pattern)
-				   && empty_pattern (search_data->keywords_pattern)) /* FIXME 
-											&& (search_data->date_scope == DATE_ANY))*/;
+				   && empty_pattern (search_data->keywords_pattern)) 
+		/* FIXME 
+		   && (search_data->date_scope == DATE_ANY))*/;
 	
 	search_dir_async (data, search_data->start_from);
 }

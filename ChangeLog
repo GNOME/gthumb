@@ -1,3 +1,11 @@
+2003-12-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/preferences.c: 
+	* src/dlg-photo-importer.c: load and save dialog preferences; added a 
+	destination entry instead of hardcoding it.
+
+	* libgthumb/icons/film-16.png: resize icon to 16x16.
+
 2003-12-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (close__step5): ask whether to save a modified 

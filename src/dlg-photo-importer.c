@@ -32,6 +32,7 @@
 #include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-file-entry.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-abilities-list.h>
@@ -44,6 +45,9 @@
 #include "dlg-categories.h"
 #include "comments.h"
 #include "gth-image-list.h"
+#include "dlg-file-utils.h"
+#include "gconf-utils.h"
+#include "preferences.h"
 
 
 #define GLADE_FILE "gthumb_camera.glade"
@@ -71,6 +75,8 @@ typedef struct {
 	GtkWidget      *import_preview_scrolledwindow;
 	GtkWidget      *camera_model_label; 
 	GtkWidget      *select_model_button;
+	GtkWidget      *destination_fileentry;
+	GtkWidget      *destination_entry;
 	GtkWidget      *film_entry;
 	GtkWidget      *keep_names_checkbutton;
 	GtkWidget      *delete_checkbutton;
@@ -637,29 +643,40 @@ is_valid_filename (const char *name)
 static char*
 get_folder_name (DialogData *data)
 {
-	char *name;
+	char *entry_val;
+	char *destination;
+	char *film_name;
 	char *path;
 
-	name = _gtk_entry_get_filename_text (GTK_ENTRY (data->film_entry));
-	if (! is_valid_filename (name)) {
+	entry_val = _gtk_entry_get_filename_text (GTK_ENTRY (data->destination_entry));
+	destination = remove_ending_separator (entry_val);
+	g_free (entry_val);
+
+	if (! dlg_check_folder (data->window, destination)) {
+		g_free (destination);
+		return NULL;
+	}
+
+	film_name = _gtk_entry_get_filename_text (GTK_ENTRY (data->film_entry));
+	if (! is_valid_filename (film_name)) {
 		time_t     now;
 		struct tm *tm;
 		char       time_txt[50 + 1];
 		
-		g_free (name);
+		g_free (film_name);
 
 		time (&now);
 		tm = localtime (&now);
 		strftime (time_txt, 50, "%Y-%m-%d--%H:%M:%S", tm);
 	
-		name = g_strdup (time_txt);
+		film_name = g_strdup (time_txt);
 	}
 
-	path = g_build_filename (g_get_home_dir(),
-				 "Images",
-				 name,
-				 NULL);
-	g_free (name);
+	path = g_build_filename (destination, film_name, NULL);
+	g_free (film_name);
+
+	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
+	g_free (destination);
 
 	return path;
 }
@@ -808,8 +825,15 @@ ok_clicked_cb (GtkButton  *button,
 	int    n = 1;
 	GList *sel_list;
 
+	local_folder = get_folder_name (data);
+	if (local_folder == NULL)
+		return;
+
 	data->keep_original_filename = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton));
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
+
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, data->keep_original_filename);
+	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
 		
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
 	if (sel_list != NULL) {
@@ -831,8 +855,6 @@ ok_clicked_cb (GtkButton  *button,
 				      _("No images found"));
 		return;
 	}
-	
-	local_folder = get_folder_name (data);
 	
 	if (! ensure_dir_exists (local_folder, 0755)) {
 		char *msg;
@@ -922,6 +944,7 @@ dlg_photo_importer (GThumbWindow *window)
 	DialogData   *data;
 	GtkWidget    *btn_ok, *btn_cancel;
 	GdkPixbuf    *mute_pixbuf;
+	char         *default_path;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -958,6 +981,8 @@ dlg_photo_importer (GThumbWindow *window)
 	data->import_preview_scrolledwindow = glade_xml_get_widget (data->gui, "import_preview_scrolledwindow");
 	data->camera_model_label = glade_xml_get_widget (data->gui, "camera_model_label");
 	data->select_model_button = glade_xml_get_widget (data->gui, "select_model_button");
+	data->destination_fileentry = glade_xml_get_widget (data->gui, "destination_fileentry");
+	data->destination_entry = glade_xml_get_widget (data->gui, "destination_entry");
 	data->film_entry = glade_xml_get_widget (data->gui, "film_entry");
 	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
@@ -998,6 +1023,16 @@ dlg_photo_importer (GThumbWindow *window)
 	g_object_unref (mute_pixbuf);
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+
+	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
+	if ((default_path == NULL) || (*default_path == 0))
+		default_path = g_strdup (g_get_home_dir());
+	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->destination_fileentry), default_path);
+	_gtk_entry_set_filename_text (GTK_ENTRY (data->destination_entry), default_path);
+	g_free (default_path);
 
 	/* Set the signals handlers. */
 

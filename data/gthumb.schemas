@@ -3511,5 +3511,46 @@
 	</locale>
       </schema>
 
+      <!-- Photo Importer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/destination</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/destination</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/delete_from_camera</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/delete_from_camera</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/keep_original_filenames</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/keep_original_filenames</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>FALSE</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

@@ -156,7 +156,9 @@
 #define  PREF_WEB_ALBUM_THEME         "/apps/gthumb/dialogs/web_album/theme"
 #define  PREF_WEB_ALBUM_INDEX_CAPTION "/apps/gthumb/dialogs/web_album/index_caption"
 #define  PREF_WEB_ALBUM_IMAGE_CAPTION "/apps/gthumb/dialogs/web_album/image_caption"
+
 #define  PREF_SEARCH_RECURSIVE        "/apps/gthumb/dialogs/search/recursive"
+
 #define  PREF_PRINT_PAPER_SIZE        "/apps/gthumb/dialogs/print/paper_size"
 #define  PREF_PRINT_PAPER_ORIENTATION "/apps/gthumb/dialogs/print/paper_orientation"
 #define  PREF_PRINT_INCLUDE_COMMENT   "/apps/gthumb/dialogs/print/include_comment"
@@ -165,8 +167,13 @@
 #define  PREF_PRINT_PAPER_HEIGHT      "/apps/gthumb/dialogs/print/paper_height"
 #define  PREF_PRINT_PAPER_UNIT        "/apps/gthumb/dialogs/print/paper_unit"
 #define  PREF_PRINT_IMAGES_PER_PAGE   "/apps/gthumb/dialogs/print/images_per_page"
+
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
+
+#define  PREF_PHOTO_IMPORT_DESTINATION "/apps/gthumb/dialogs/photo_importer/destination"
+#define  PREF_PHOTO_IMPORT_DELETE      "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
+#define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
 
 
 typedef struct {
