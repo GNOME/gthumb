@@ -1,3 +1,7 @@
+2004-06-19  Metin Amiroff  <metin@karegen.com>
+
+	* az.po: Translation updated.
+
 2004-06-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* POTFILES.in: added src/actions.c, src/dlg-write-to-cd.c, src/ui.h

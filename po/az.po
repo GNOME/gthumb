@@ -1,21 +1,21 @@
-# translation of gthumb.HEAD.po to Azerbaijani
-# gthumb.HEAD.po faylının Azərbaycan dilinə tərcüməsi
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
-# Mətin Əmirov <metin@karegen.com>, 2003, 2004.
+# translation of gthumb.HEAD.az.po to Azerbaijani
+# This file is distributed under the same license as the gthumb package.
+# Copyright (C) 2004 Metin Amiroff
+# Metin Amiroff <metin@karegen.com>, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.HEAD\n"
+"Project-Id-Version: gthumb.HEAD.az\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-11 12:22+0200\n"
-"PO-Revision-Date: 2004-06-17 12:23+0300\n"
-"Last-Translator: Mətin Əmirov <metin@karegen.com>\n"
+"PO-Revision-Date: 2004-06-19 17:12+0300\n"
+"Last-Translator: Metin Amiroff <metin@karegen.com>\n"
 "Language-Team: Azerbaijani <translation-team-az@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3\n"
+"Plural-Forms: Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -23,17 +23,17 @@ msgstr "Kataloq"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr ""
+msgstr "GThumb Kataloq Görünüşü"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr ""
+msgstr "Kataloq Olaraq Göstər"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 #: src/gthumb-ui.xml.h:90
 msgid "Print the current image"
-msgstr ""
+msgstr "Hazırkı rəsmi çap et"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
@@ -42,23 +42,23 @@ msgstr "_Çap Et"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr ""
+msgstr "GThumb Rəsmi"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "GThumb Nümayişçisi"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr ""
+msgstr "GThumb ilə göstər"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
-msgstr "Fırlat"
+msgstr "Çevir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
-msgstr ""
+msgstr "Rəsmi çevir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
@@ -70,28 +70,28 @@ msgstr "Alçaq"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
-msgstr ""
+msgstr "Əks"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
-msgstr ""
+msgstr "Rəsmi əksinə çevir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:118
 msgid "Rotate"
-msgstr "Çevir"
+msgstr "Fırlat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr "180 _Dərəcə Çevir"
+msgstr "180 _Dərəcə Fırlat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Rəsmi saat istiqamətində fırlat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate the image of 180 degrees"
-msgstr ""
+msgstr "Rəsmi 180 dərəcə fırlat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
 #: src/gthumb-ui.xml.h:126
@@ -101,40 +101,40 @@ msgstr "_Fərqli Qeyd Et..."
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
 #: src/gthumb-ui.xml.h:127
 msgid "Save current image"
-msgstr ""
+msgstr "Hazırkı rəsmi qeyd et"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 #: src/gthumb-ui.xml.h:143
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "Hazırkı animasiyanı başlat/dayandır"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
-msgstr ""
+msgstr "_Animasiyanı Başlat/Dayandır"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
 msgid "Transparency T_ype"
-msgstr ""
+msgstr "Şəffaflıq _Növü"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 #: src/gthumb-ui.xml.h:161
 msgid "View next animation frame"
-msgstr ""
+msgstr "Növbəti animasiya kadrını göstər"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 #: src/gthumb-ui.xml.h:188
 msgid "_Black"
-msgstr ""
+msgstr "_Qara"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 #: src/gthumb-ui.xml.h:193
 msgid "_Checked"
-msgstr ""
+msgstr "_Nöqtəli"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: src/gthumb-ui.xml.h:207
 msgid "_Flip"
-msgstr ""
+msgstr "Ç_evir"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: src/gthumb-ui.xml.h:218
@@ -144,7 +144,7 @@ msgstr "_Rəsm"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 #: src/gthumb-ui.xml.h:224
 msgid "_Mirror"
-msgstr ""
+msgstr "Ə_ks"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 #: src/gthumb-ui.xml.h:229
@@ -153,11 +153,11 @@ msgstr "Y_xdur"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
-msgstr ""
+msgstr "Saat İstiqamətində _Fırlat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_Step Animation"
-msgstr ""
+msgstr "Animasiya _Addımı"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 #: src/gthumb-ui.xml.h:259 src/gthumb_search.glade.h:31
@@ -168,15 +168,15 @@ msgstr "_Görünüş"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
 #: src/gthumb-ui.xml.h:260
 msgid "_White"
-msgstr ""
+msgstr "_Ağ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_Zoom Quality"
-msgstr ""
+msgstr "_Yaxınlıq Keyfiyyəti"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:523
 msgid "%d %b %Y, %H:%M"
-msgstr ""
+msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:417
@@ -207,7 +207,7 @@ msgstr "Bayt"
 #: data/albumthemes/NeatRound/image.xml.in.h:4
 #: data/albumthemes/NeatSquare/image.xml.in.h:4
 msgid "Camera model"
-msgstr ""
+msgstr "Kamera modeli"
 
 #: data/albumthemes/Clean/image.xml.in.h:4
 #: data/albumthemes/Classic/image.xml.in.h:5
@@ -255,7 +255,7 @@ msgstr ""
 #: data/albumthemes/NeatRound/image.xml.in.h:10
 #: data/albumthemes/NeatSquare/image.xml.in.h:10
 msgid "Focal length"
-msgstr ""
+msgstr "Fokal uzunluq"
 
 #: data/albumthemes/Clean/image.xml.in.h:10
 #: data/albumthemes/Classic/image.xml.in.h:11
@@ -271,7 +271,7 @@ msgstr "Rəsm"
 #: data/albumthemes/NeatRound/image.xml.in.h:12
 #: data/albumthemes/NeatSquare/image.xml.in.h:12
 msgid "Shutter speed"
-msgstr ""
+msgstr "Şatter sürəti"
 
 #: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
 #: src/gthumb_web_exporter.glade.h:53
@@ -283,47 +283,47 @@ msgstr "piksel"
 #: data/albumthemes/NeatRound/image.xml.in.h:1
 #: data/albumthemes/NeatSquare/image.xml.in.h:1
 msgid "(click on the image to view it at original size)"
-msgstr ""
+msgstr "(əsl böyüklükdə görmək üçün rəsmə tıqlayın)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr ""
+msgstr "Rəsmlərinizi nümayiş və idarə edin"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr ""
+msgstr "gThumb Rəsm Nümayişçisi"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
-msgstr ""
+msgstr "Kitabxana boş deyil"
 
 #: libgthumb/catalog.c:98
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kitabxanası silinə bilmir: %s"
 
 #: libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kataloqu silinə bilmir: %s"
 
 #: libgthumb/catalog.c:246 libgthumb/catalog.c:414
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kataloqu açıla bilmir: %s"
 
 #: libgthumb/catalog.c:391
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kataloqu qeyd edilə bilmir: %s"
 
 #: libgthumb/comments.c:410
 msgid "Deleting all comments, wait please..."
-msgstr ""
+msgstr "Bütün şərhlər silinir, xahiş edirik gözləyin..."
 
 #: libgthumb/comments.c:412
 msgid "Deleting old comments, wait please..."
-msgstr ""
+msgstr "Köhnə şərhlər silinir, xahiş edirik gözləyin..."
 
 #: libgthumb/comments.c:771
 msgid "%d %B %Y"
@@ -337,21 +337,21 @@ msgstr "%d %B %Y, %H:%M"
 
 #: libgthumb/comments.c:783
 msgid "(No Comment)"
-msgstr ""
+msgstr "(Şərh Yoxdur)"
 
 #: libgthumb/dlg-save-image.c:97 src/commands-impl.c:313 src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr ""
+msgstr "\"%s\" adında rəsm onsuz da mövcuddur. Üstündən yazman istəyirsiniz?"
 
 #: libgthumb/dlg-save-image.c:154
 #, c-format
 msgid "Image type not supported: %s"
-msgstr ""
+msgstr "Rəsm növü dəstəklənmir: %s"
 
 #: libgthumb/dlg-save-image.c:172
 msgid "Determine by extension"
-msgstr ""
+msgstr "Uzantısına görə aşkar et"
 
 #: libgthumb/dlg-save-image.c:207
 msgid "Save Image"
@@ -359,15 +359,15 @@ msgstr "Rəsmi Qeyd Et"
 
 #: libgthumb/dlg-save-image.c:221
 msgid "Image type:"
-msgstr ""
+msgstr "Rəsm növü:"
 
 #: libgthumb/gnome-print-font-dialog.c:114
 msgid "_Insert a new preview phrase."
-msgstr "Yeni ön nümayiş ifadəsi _daxil et."
+msgstr "Nümayiş ifadəsi _daxil et."
 
 #: libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
-msgstr "Ön nümayiş ifadəsini dəyişdir..."
+msgstr "Nümayiş ifadəsini dəyişdir..."
 
 #: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
@@ -375,7 +375,7 @@ msgstr "Nümayiş"
 
 #: libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
-msgstr "Ön nümayiş ifadəsini də_yişdir..."
+msgstr "Nümayiş ifadəsini də_yişdir..."
 
 #: libgthumb/gnome-print-font-dialog.c:244
 msgid "Font Selection"
@@ -458,58 +458,58 @@ msgstr "Ad"
 #: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1504
 #, c-format
 msgid "Print %s"
-msgstr ""
+msgstr "%s faylını çap et"
 
 #: libgthumb/print-callbacks.c:928
 msgid "Print Image"
-msgstr ""
+msgstr "Rəsmi Çap Et"
 
 #: libgthumb/thumb-cache.c:487
 msgid "Deleting all thumbnails, wait please..."
-msgstr ""
+msgstr "Bütün dırnaq görünüşləri silinir, xahiş edirik gözləyin..."
 
 #: libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
-msgstr ""
+msgstr "Köhnə dırnaq görünüşləri silinir, xahiş edirik gözləyin..."
 
 #: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
-msgstr ""
+msgstr "Rəsm yüklənir: %s"
 
 #: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
-msgstr ""
+msgstr "Rəsm yaradılır: %s.%s"
 
 #: src/catalog-web-exporter.c:1615
 msgid "Saving thumbnails"
-msgstr ""
+msgstr "Dirnaq görünüşləri qeyd edilir"
 
 #: src/catalog-web-exporter.c:1681
 msgid "Saving HTML pages: Images"
-msgstr ""
+msgstr "HTML səhifələri qeyd edilir: Rəsmlər"
 
 #: src/catalog-web-exporter.c:1756
 msgid "Saving HTML pages: Indexes"
-msgstr ""
+msgstr "HTML səhifələri qeyd edilir: İndekslər"
 
 #: src/catalog-web-exporter.c:1899 src/catalog-web-exporter.c:2034
 msgid "Saving images"
-msgstr ""
+msgstr "Rəsmlər qeyd edilir"
 
 #: src/catalog-web-exporter.c:2243
 msgid "Could not create a temporary folder"
-msgstr ""
+msgstr "Müvəqqəti qovluq yaradıla bilmədi"
 
 #. Load thumbnails.
 #: src/catalog-web-exporter.c:2280
 msgid "Loading images"
-msgstr ""
+msgstr "Rəsmlər yüklənir"
 
 #: src/commands-impl.c:275 src/commands-impl.c:1011 src/commands-impl.c:1579
 msgid "Enter the new name: "
-msgstr ""
+msgstr "Yeni fayl adı bildir:"
 
 #: src/commands-impl.c:279 src/commands-impl.c:1015 src/commands-impl.c:1583
 #: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
@@ -533,16 +533,16 @@ msgstr "Ü_stünə yaz"
 #: src/commands-impl.c:340 src/commands-impl.c:355
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" rəsmi yenidən adlandırıla bilmədi: %s"
 
 #: src/commands-impl.c:342 src/commands-impl.c:1051 src/commands-impl.c:1357
 msgid "source and destination are the same"
-msgstr ""
+msgstr "mənbə və hədəf eynidir"
 
 #: src/commands-impl.c:446
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" rəsminin qoşası yaradıla bilmədi: %s"
 
 #: src/commands-impl.c:454
 msgid "Stop"
@@ -554,19 +554,19 @@ msgstr "Davam Et"
 
 #: src/commands-impl.c:531
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Seçili rəsmlər zibil qabına daşınacaqdır, əminsiniz?"
 
 #: src/commands-impl.c:551
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Rəsm zibil qabına daşınacaqdır, əminsiniz?"
 
 #: src/commands-impl.c:786
 msgid "The image will be removed from the catalog, are you sure?"
-msgstr ""
+msgstr "Rəsm kataloqdan silinəcəkdir, əminsiniz?"
 
 #: src/commands-impl.c:828
 msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr ""
+msgstr "Seçili rəsmlər kataloqdan silinəcəkdir, əminsiniz?"
 
 #: src/commands-impl.c:904 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:200 src/dlg-file-utils.c:89
@@ -577,7 +577,7 @@ msgstr "_Yarat"
 #: src/commands-impl.c:1713
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr ""
+msgstr "\"%s\" adı onsuz da istifadədədir. Xahiş edirik başqa ad seçin."
 
 #: src/commands-impl.c:961
 msgid "New Folder"
@@ -585,48 +585,48 @@ msgstr "Yeni Qovluq"
 
 #: src/commands-impl.c:962
 msgid "Enter the folder name: "
-msgstr ""
+msgstr "Qovluq adını bildir:"
 
 #: src/commands-impl.c:963
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" qovluğu yaradıla bilmədi: %s"
 
 #: src/commands-impl.c:974
 msgid "New Library"
-msgstr ""
+msgstr "Yeni Kitabxana"
 
 #: src/commands-impl.c:975 src/dlg-catalog.c:120
 msgid "Enter the library name: "
-msgstr ""
+msgstr "Kitabxana adını bildir:"
 
 #: src/commands-impl.c:976
 #, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kitabxanası yaradıla bilmədi: %s"
 
 #: src/commands-impl.c:1049 src/commands-impl.c:1086
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" qovluğu yenidən adlandırıla bilmədi: %s"
 
 #: src/commands-impl.c:1152
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" qovluğu silinə bilmədi: %s"
 
 #: src/commands-impl.c:1183
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
+msgstr "\"%s\" zibil qabına daşına bilmir. Onu həmişəlik silmək istəyirsiniz?"
 
 #: src/commands-impl.c:1191 src/dlg-file-utils.c:226
 msgid "_Do not display this message again"
-msgstr ""
+msgstr "Bu ismarışı bir də _göstərmə"
 
 #: src/commands-impl.c:1224
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Seçili qovluq zibilə qutusuna daşınacaqdır, əminsiniz?"
 
 #: src/commands-impl.c:1226 src/dlg-file-utils.c:280
 msgid "_Move"
@@ -635,56 +635,56 @@ msgstr "_Daşı"
 #: src/commands-impl.c:1292 src/commands-impl.c:1347
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" qovluğu köçürülə bilmədi: %s"
 
 #: src/commands-impl.c:1347 src/dlg-file-utils.c:2425
 #: src/dlg-file-utils.c:2427
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" qovluğu daşına bilmədi: %s"
 
 #: src/commands-impl.c:1368
 msgid "source contains destination"
-msgstr ""
+msgstr "mənbə hədəfi daxil edir"
 
 #: src/commands-impl.c:1379
 msgid "a folder with that name is already present."
-msgstr ""
+msgstr "bu adla onsuz da bir qovluq mövcuddur."
 
 #: src/commands-impl.c:1460 src/dlg-file-utils.c:366 src/dlg-file-utils.c:455
 msgid "Choose the destination folder"
-msgstr ""
+msgstr "Hədəf qovluğu seç"
 
 #: src/commands-impl.c:1632
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kitabxanası yenidən adlandırıla bilmədi: %s"
 
 #: src/commands-impl.c:1632
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kataloqu yenidən adlandırıla bilmədi: %s"
 
 #: src/commands-impl.c:1678 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
-msgstr ""
+msgstr "Kataloq adını bildir:"
 
 #: src/commands-impl.c:1679
 msgid "New Catalog"
-msgstr ""
+msgstr "Yeni Kataloq"
 
 #: src/commands-impl.c:1724
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr ""
+msgstr "\"%s\" kataloqu yaradıla bilmədi: %s"
 
 #: src/commands-impl.c:1788
 msgid "The selected library will be removed, are you sure?"
-msgstr ""
+msgstr "Seçili kitabxana silinəcəkdir, əminsiniz?"
 
 #: src/commands-impl.c:1790
 msgid "The selected catalog will be removed, are you sure?"
-msgstr ""
+msgstr "Seçili kataloq silinəcəkdir, əminsiniz?"
 
 #: src/commands-impl.c:2759 src/dlg-categories.c:337 src/dlg-comment.c:328
 #: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
@@ -696,7 +696,6 @@ msgstr "Yardım göstərilə bilmədi: %s"
 #: src/commands-impl.c:2810
 msgid "translator_credits"
 msgstr ""
-"Vasif İsmailoğlu <linuxaz@azerimail.net>\n"
 "Mətin Əmirov <metin@karegen.com>\n"
 "\n"
 "Tərcümə işləri üzrə yazışma siyahısı ünvanımız:\n"
@@ -705,41 +704,41 @@ msgstr ""
 #: src/commands-impl.c:2819 src/gthumb-window.c:816 src/gthumb-window.c:4896
 #: src/main.c:124
 msgid "gThumb"
-msgstr ""
+msgstr "gThumb"
 
 #: src/commands-impl.c:2822
 msgid "An image viewer and browser for GNOME."
-msgstr ""
+msgstr "GNOME üçün rəsm nümayişçisi və səyyahı."
 
 #: src/dlg-catalog.c:435
 msgid "Move Catalog to..."
-msgstr ""
+msgstr "Kataloqu Daşı..."
 
 #: src/dlg-categories.c:196
 msgid "Enter the new category name"
-msgstr ""
+msgstr "Yeni kateqoriya adı bildir"
 
 #: src/dlg-categories.c:207
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr ""
+msgstr "\"%s\" adı \",\" hərfini daxil edə bilməz. Xahiş edirik başqa ad seçin."
 
 #: src/dlg-categories.c:212
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr ""
+msgstr "\"%s\" kateqoriyası onsuz da mövcuddur. Xahiş edirik başqa ad seçin."
 
 #: src/dlg-convert.c:159
 #, c-format
 msgid "Converting image: %s"
-msgstr ""
+msgstr "Dönüşdürülən rəsm: %s"
 
 #: src/dlg-convert.c:182
 #, c-format
 msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr ""
+msgstr "\"%s\" adlı rəsm onsuz da mövcuddur. Xahiş edirik başqa ad seçin."
 
 #: src/dlg-convert.c:313 src/gthumb_convert.glade.h:17
 msgid "Skip"
@@ -747,27 +746,27 @@ msgstr "Keç"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
 msgid "Duplicates"
-msgstr ""
+msgstr "Qoşalar"
 
 #: src/dlg-duplicates.c:294
 msgid "Duplicates Size"
-msgstr ""
+msgstr "Qoşanın Böyüklüyü"
 
 #: src/dlg-duplicates.c:400
 msgid "Last modified"
-msgstr ""
+msgstr "Təkmilləşdirmə"
 
 #: src/dlg-duplicates.c:415 src/dlg-image-prop.c:856
 msgid "Location"
-msgstr "Yer"
+msgstr "Möve"
 
 #: src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "İşarəli rəsmlər zibil qutusuna daşınacaqdır, əminsiniz?"
 
 #: src/dlg-file-utils.c:87
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr ""
+msgstr "Hədəf qovluq mövcud deyil. Onu yaratmaq istəyirsiniz?"
 
 #: src/dlg-file-utils.c:103
 #, c-format
