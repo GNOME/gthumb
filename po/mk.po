@@ -1,3 +1,4 @@
+# translation of mk.po to Macedonian
 # translation of gthumb.HEAD.mk.po to Macedonian
 # translation of gthumb.HEAD.mk.po to
 # This file is distributed under the same license as the PACKAGE package.
@@ -6,10 +7,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb.HEAD.mk\n"
+"Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-09-08 12:00+0200\n"
-"PO-Revision-Date: 2004-09-17 21:09+0200\n"
+"PO-Revision-Date: 2004-09-17 21:28+0200\n"
 "Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
@@ -760,7 +761,7 @@ msgstr "Хју - заситување"
 
 #: data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
-msgstr "Направи постер"
+msgstr "Намали бои и сенки"
 
 #: data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
@@ -3270,7 +3271,7 @@ msgstr "Автоматски растегни го контрастот"
 
 #: src/ui.h:368
 msgid "_Posterize"
-msgstr "_Направи постер"
+msgstr "_Намали бои и сенки"
 
 #: src/ui.h:369
 msgid "Reduce the number of colors"
