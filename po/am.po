@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-12-29 19:37+EDT\n"
+"PO-Revision-Date: 2002-12-10 19:37+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -411,7 +411,7 @@ msgstr "ዶሴ"
 
 #: src/fullscreen.c:699 src/gthumb-ui.xml.h:120
 msgid "Restore Normal View"
-msgstr "የተለመደ እይታ አከማች"
+msgstr "የተለመደ ዕይታ አከማች"
 
 #: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
 #: src/gthumb_edit.glade.h:1 src/gthumb_png_exporter.glade.h:1
@@ -969,7 +969,7 @@ msgstr ""
 
 #: src/gthumb_edit.glade.h:19
 msgid "Scale Image"
-msgstr ""
+msgstr "ምስልን ለኩ"
 
 #: src/gthumb_edit.glade.h:20
 msgid "Width:"
@@ -2404,19 +2404,19 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:171
 msgid "Zoom _In"
-msgstr "ከ_ቅርበት እይታ (_I)"
+msgstr "ከ_ቅርበት ዕይታ (_I)"
 
 #: src/gthumb-ui.xml.h:172
 msgid "Zoom _Out"
-msgstr "ከ_ርቀት እይታ (_O)"
+msgstr "ከ_ርቀት ዕይታ (_O)"
 
 #: src/gthumb-ui.xml.h:173
 msgid "Zoom in"
-msgstr "ከቅርበት እይታ"
+msgstr "ከቅርበት ዕይታ"
 
 #: src/gthumb-ui.xml.h:174
 msgid "Zoom out"
-msgstr "ከርቀት እይታ"
+msgstr "ከርቀት ዕይታ"
 
 #: src/gthumb-ui.xml.h:175
 msgid "Zoom to _Fit"
@@ -2560,7 +2560,7 @@ msgstr "ምስል (_I)"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Image preview"
-msgstr "የምስሉ ቅድመ እይታ"
+msgstr "የምስሉ ቅድመ ዕይታ"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_JPEG Transform"
