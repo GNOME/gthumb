@@ -72,6 +72,7 @@
 #define SEL_CHANGED_DELAY      150
 #define UPDATE_DIR_DELAY       250
 #define VIEW_IMAGE_DELAY       25
+#define AUTO_LOAD_DELAY        750
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/Go/HistoryList/"
@@ -90,6 +91,9 @@ static guint n_targets = sizeof (target_table) / sizeof (target_table[0]);
 
 static GtkTreePath  *dir_list_tree_path = NULL;
 static GtkTreePath  *catalog_list_tree_path = NULL;
+static GList        *gth_file_list_drag_data = NULL;
+static char         *dir_list_drag_data = NULL;
+
 
 static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_NewWindow", file_new_window_command_impl),
@@ -2966,6 +2970,17 @@ make_url_list (GList    *list,
 	return result;
 }
 
+static void
+gth_file_list_drag_begin (GtkWidget          *widget,
+		     GdkDragContext     *context,
+		     gpointer            extra_data)
+{	
+	GThumbWindow *window = extra_data;
+
+	if (gth_file_list_drag_data)
+		path_list_free (gth_file_list_drag_data);
+	gth_file_list_drag_data = gth_file_view_get_file_list_selection (window->file_list->view);
+}
 
 static void  
 gth_file_list_drag_data_get  (GtkWidget        *widget,
@@ -2975,11 +2990,9 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 			      guint             time,
 			      gpointer          data)
 {
-	GThumbWindow *window = data;
-	GList        *list;
-	GString      *url_list;
-	char         *target;
-	int           target_id;
+	GString *url_list;
+	char    *target;
+	int      target_id;
 
 	target = gdk_atom_name (selection_data->target);
 	if (strcmp (target, "text/uri-list") == 0)
@@ -2988,9 +3001,9 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 		target_id = TARGET_PLAIN;
 	g_free (target);
 
-	list = gth_file_view_get_file_list_selection (window->file_list->view);
-	url_list = make_url_list (list, target_id);
-	path_list_free (list);
+	url_list = make_url_list (gth_file_list_drag_data, target_id);
+	path_list_free (gth_file_list_drag_data);
+	gth_file_list_drag_data = NULL;
 
 	if (url_list == NULL) 
 		return;
@@ -3003,7 +3016,6 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 
 	g_string_free (url_list, TRUE);	
 }
-
 
 static void
 move_items__continue (GnomeVFSResult result,
@@ -3123,6 +3135,33 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 
 
 static gboolean
+auto_load_directory_cb (gpointer data)
+{
+	GThumbWindow            *window = data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	GtkTreeView             *list_view;
+	char                    *new_path;
+
+	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
+
+	g_source_remove (window->auto_load_timeout);
+	window->auto_load_timeout = 0;
+
+	gtk_tree_view_get_drag_dest_row (list_view, &pos_path, &drop_pos);
+	new_path = dir_list_get_path_from_tree_path (window->dir_list, pos_path);
+	if (new_path)  {
+		window_go_to_directory (window, new_path);
+		g_free(new_path);
+	}
+
+	gtk_tree_path_free (pos_path);
+
+	return FALSE;
+}
+
+
+static gboolean
 dir_list_drag_motion (GtkWidget          *widget,
 		      GdkDragContext     *context,
 		      gint                x,
@@ -3137,11 +3176,20 @@ dir_list_drag_motion (GtkWidget          *widget,
 
 	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
 
+	if (window->auto_load_timeout != 0) {
+		g_source_remove (window->auto_load_timeout);
+		window->auto_load_timeout = 0;
+	}
+
 	if (! gtk_tree_view_get_dest_row_at_pos (list_view,
 						 x, y,
 						 &pos_path,
 						 &drop_pos)) 
 		pos_path = gtk_tree_path_new_first ();
+	else 
+		window->auto_load_timeout = g_timeout_add (AUTO_LOAD_DELAY, 
+							   auto_load_directory_cb, 
+							   window);
 
 	switch (drop_pos) {
 	case GTK_TREE_VIEW_DROP_BEFORE:
@@ -3167,10 +3215,25 @@ dir_list_drag_begin (GtkWidget          *widget,
 		     GdkDragContext     *context,
 		     gpointer            extra_data)
 {	
+	GThumbWindow      *window = extra_data;
+	GtkTreeIter        iter;
+	GtkTreeSelection  *selection;
+
 	if (dir_list_tree_path != NULL) {
 		gtk_tree_path_free (dir_list_tree_path);
 		dir_list_tree_path = NULL;
 	}
+
+	if (dir_list_drag_data) {
+		g_free (dir_list_drag_data);
+		dir_list_drag_data = NULL;
+	}
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->dir_list->list_view));
+	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
+
+	dir_list_drag_data = dir_list_get_path_from_iter (window->dir_list, &iter);
 }
 
 
@@ -3196,11 +3259,11 @@ dir_list_drag_data_get  (GtkWidget        *widget,
 			 guint             time,
 			 gpointer          data)
 {
-	GThumbWindow     *window = data;
-        char             *target;
-	char             *path, *uri;
-	GtkTreeIter       iter;
-	GtkTreeSelection *selection;
+        char *target;
+	char *uri;
+
+	if (dir_list_drag_data == NULL)
+		return;
 
         target = gdk_atom_name (selection_data->target);
         if (strcmp (target, "text/uri-list") != 0) {
@@ -3209,18 +3272,14 @@ dir_list_drag_data_get  (GtkWidget        *widget,
 	}
         g_free (target);
 
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->dir_list->list_view));
-	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
-		return;
-
-	path = dir_list_get_path_from_iter (window->dir_list, &iter);
-	uri = g_strconcat ("file://", path, "\n", NULL);
+	uri = g_strconcat ("file://", dir_list_drag_data, "\n", NULL);
         gtk_selection_data_set (selection_data, 
                                 selection_data->target,
                                 8, 
-				path,
+                                dir_list_drag_data, 
                                 strlen (uri));
-	g_free (path);
+	g_free (dir_list_drag_data);
+	dir_list_drag_data = NULL;
 	g_free (uri);
 }
 
@@ -3313,6 +3372,35 @@ catalog_list_drag_data_received  (GtkWidget          *widget,
 
 
 static gboolean
+auto_load_library_cb (gpointer data)
+{
+	GThumbWindow            *window = data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	GtkTreeView             *list_view;
+	char                    *new_path;
+
+	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
+
+	g_source_remove (window->auto_load_timeout);
+	window->auto_load_timeout = 0;
+
+	gtk_tree_view_get_drag_dest_row (list_view, &pos_path, &drop_pos);
+	new_path = catalog_list_get_path_from_tree_path (window->catalog_list, pos_path);
+
+	if (new_path)  {
+		if (path_is_dir (new_path))
+			window_go_to_catalog_directory (window, new_path);
+		g_free(new_path);
+	}
+
+	gtk_tree_path_free (pos_path);
+
+	return FALSE;
+}
+
+
+static gboolean
 catalog_list_drag_motion (GtkWidget          *widget,
 			  GdkDragContext     *context,
 			  gint                x,
@@ -3327,11 +3415,20 @@ catalog_list_drag_motion (GtkWidget          *widget,
 
 	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
 
+	if (window->auto_load_timeout != 0) {
+		g_source_remove (window->auto_load_timeout);
+		window->auto_load_timeout = 0;
+	}
+
 	if (! gtk_tree_view_get_dest_row_at_pos (list_view,
 						 x, y,
 						 &pos_path,
 						 &drop_pos)) 
 		pos_path = gtk_tree_path_new_first ();
+	else 
+		window->auto_load_timeout = g_timeout_add (AUTO_LOAD_DELAY, 
+							   auto_load_library_cb, 
+							   window);
 
 	switch (drop_pos) {
 	case GTK_TREE_VIEW_DROP_BEFORE:
@@ -4008,6 +4105,10 @@ create_new_file_list (GThumbWindow *window)
 			  G_CALLBACK (image_list_drag_data_received), 
 			  window);
 	g_signal_connect (G_OBJECT (view_widget),
+			  "drag_begin",
+			  G_CALLBACK (gth_file_list_drag_begin), 
+			  window);
+	g_signal_connect (G_OBJECT (view_widget),
 			  "drag_data_get",
 			  G_CALLBACK (gth_file_list_drag_data_get), 
 			  window);
@@ -4520,6 +4621,7 @@ window_new (void)
 
 	window->view_image_timeout = 0;
 	window->load_dir_timeout = 0;
+	window->auto_load_timeout = 0;
 
 	window->freeze_toggle_handler = 0;
 
@@ -4867,6 +4969,11 @@ close__step5 (GThumbWindow *window)
 	if (window->update_changes_timeout != 0) {
 		g_source_remove (window->update_changes_timeout);
 		window->update_changes_timeout = 0;
+	}
+
+	if (window->auto_load_timeout != 0) {
+		g_source_remove (window->auto_load_timeout);
+		window->auto_load_timeout = 0;
 	}
 
 	if (window->pixop != NULL) 

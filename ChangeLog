@@ -1,3 +1,16 @@
+2003-03-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (auto_load_library_cb,
+	catalog_list_drag_motion): added auto load for catalog libraries.
+
+2003-03-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.h: 
+	* src/gthumb-window.c (auto_load_cb, dir_list_drag_motion) 
+	(window_new, close__step5): auto load a folder when hovering on
+	it during a 'drag & drop' operation, patch from 
+	Jason Tackaberry <tack@auc.ca>
+
 2003-03-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.1.1 released ]  

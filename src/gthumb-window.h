@@ -137,6 +137,7 @@ typedef struct {
 	guint               load_dir_timeout;
 	guint               sel_change_timeout;
 	guint               busy_cursor_timeout;
+	guint               auto_load_timeout;
 
 	GThumbPreloader    *preloader;
 
