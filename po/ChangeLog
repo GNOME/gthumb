@@ -1,3 +1,8 @@
+2003-02-21  Pablo Saratxaga  <pablo@mandrakesoft.com>
+
+	* ca.po: Added Catalan file
+	* it.po,pt_BR.po: Corrected headers
+
 2003-02-20  Evandro Fernandes Giovanini <evandrofg@ig.com.br>
  
         * pt_BR.po: Updated Brazilian Portuguese translation
