@@ -6913,6 +6913,7 @@ get_next_slideshow_image (GThumbWindow *window)
 {
 	GList    *current;
 	FileData *fd;
+	gboolean  wrap_around;
 
 	current = window->slideshow_current;
 	if (current == NULL) {
@@ -6925,27 +6926,28 @@ get_next_slideshow_image (GThumbWindow *window)
 			return current;
 	}
 
+	wrap_around = eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE);
 	do {
 		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
 			current = current->next;
 			if (current == NULL)
 				current = window->slideshow_set;
-			if ((current == window->slideshow_first) && ! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
+			if ((current == window->slideshow_first) && !wrap_around) 
 				return NULL;
 
 		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_REVERSE) {
 			current = current->prev;
 			if (current == NULL)
 				current = g_list_last (window->slideshow_set);
-			if ((current == window->slideshow_first) && ! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
+			if ((current == window->slideshow_first) && ! wrap_around)
 				return NULL;
 
 		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM) {
 			current = get_slideshow_random_image (window);
 			if (current == NULL) {
-				if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) {
+				if (! wrap_around)
 					return NULL;
-				} else {
+				else {
 					window->slideshow_random_set = g_list_copy (window->slideshow_set);
 					current = get_slideshow_random_image (window);
 				}

@@ -443,8 +443,8 @@ image_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Next image. */
-	case GDK_n:
 	case GDK_space:
+	case GDK_n:
 	case GDK_Page_Down:
 		if (fullscreen->related_win->image_data_visible)
 			comment_visible = TRUE;

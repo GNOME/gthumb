@@ -4,6 +4,9 @@ version 2.6.1
 	  and other 64-bit cleanliness issues.
 	* Fixed bug #156933: Patch to enable resizing of Import Photos dialog.
 	* Fixes bug #152542: Add F12 keybinding to the Revert action.
+	* Fixes bug #157761: cannot resize the columns in the 
+	  "find duplicates" dialog of gthumb.
+	* Enhanced usability with non-loadable images, for example xcf images.
 
 version 2.6.0.1
 ---------------

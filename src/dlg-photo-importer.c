@@ -117,6 +117,7 @@ typedef struct {
 	char                *local_folder;
 
 	GthImporterOp        current_op;
+	gboolean             async_operation;
 	gboolean             interrupted;
 	gboolean             error;
 	float                target;
@@ -522,6 +523,9 @@ async_operation_step (gpointer callback_data)
 	g_mutex_unlock (aodata->data->yes_or_no);
 
 	if ((aodata->scan == NULL) || interrupted) {
+		g_mutex_lock (aodata->data->yes_or_no);
+		aodata->data->async_operation = FALSE;
+		g_mutex_unlock (aodata->data->yes_or_no);
 		if (aodata->done_func != NULL)
 			(*aodata->done_func) (aodata, aodata->data);
 		g_free (aodata);
@@ -554,6 +558,7 @@ async_operation_start (AsyncOperationData *aodata)
 		(*aodata->init_func) (aodata, aodata->data);
 
 	g_mutex_lock (aodata->data->yes_or_no);
+	aodata->data->async_operation = TRUE;
 	aodata->data->interrupted = FALSE;
 	g_mutex_unlock (aodata->data->yes_or_no);
 
@@ -1251,6 +1256,25 @@ save_images__done (AsyncOperationData *aodata,
 
 
 static void
+cancel_clicked_cb (GtkButton  *button,
+		   DialogData *data)
+{
+	gboolean async_operation;
+
+	g_mutex_lock (data->yes_or_no);
+	async_operation = data->async_operation;
+	g_mutex_unlock (data->yes_or_no);
+
+	if (async_operation) {
+		g_mutex_lock (data->yes_or_no);
+		data->interrupted = TRUE;
+		g_mutex_unlock (data->yes_or_no);
+	} else
+		gtk_widget_destroy (data->dialog);
+}
+
+
+static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
@@ -1637,10 +1661,10 @@ dlg_photo_importer (GThumbWindow *window)
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
-	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (btn_cancel), 
+			  "clicked",
+			  G_CALLBACK (cancel_clicked_cb),
+			  data);
 	g_signal_connect (G_OBJECT (data->select_model_button), 
 			  "clicked",
 			  G_CALLBACK (dlg_select_camera_model_cb),

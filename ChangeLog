@@ -1,7 +1,25 @@
+2004-11-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (cancel_clicked_cb): interrupt the current 
+	operation instead if destroying the dialog (bug #158174).
+
+	* libgthumb/file-utils.c (file_is_image): 
+	* libgthumb/gtk-utils.c (_gtk_label_set_filename_text)
+	(_gtk_entry_set_filename_text):  
+
+	Check invalid filenames (bug #158253).
+
+2004-11-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-duplicates.c (duplicates_add_columns): allow column resizing
+
+	Fixes bug #157761: cannot resize the columns in the "find duplicates" 
+	dialog of gthumb.
+
 2004-11-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-preloader.c (loader_error_cb, loader_done_cb): 
-	start next image load after in idle time.
+	start next image load after an idle time.
 
 	* src/gthumb-window.c (window_show_prev_image): skip broken
 	images when in fullscreen mode.
@@ -18,8 +36,8 @@
 
 	* src/gthumb-window.c (window_update_sensitivity): 
 
-	make View_ShowImage and View_Fullscreen active when an
-	image (even an unloadable one) is selected.
+	make View_ShowImage and View_Fullscreen active even when a
+	broken image is selected.
 
 2004-11-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

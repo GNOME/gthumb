@@ -390,6 +390,7 @@ duplicates_add_columns (DialogData  *data,
                                              NULL);
 
 	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	gtk_tree_view_column_set_resizable (column, TRUE);
 	gtk_tree_view_column_set_sort_column_id (column, DCOLUMN_NAME);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
 
