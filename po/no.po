@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-31 14:32+0100\n"
-"PO-Revision-Date: 2004-01-31 14:36+0100\n"
+"POT-Creation-Date: 2004-02-13 16:15+0100\n"
+"PO-Revision-Date: 2004-02-13 16:38+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian (bokmål) <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -157,7 +157,7 @@ msgid "_Step Animation"
 msgstr "_Stegvis animasjon"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:48
+#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:49
 #: data/gthumb-ui.xml.h:265
 msgid "_View"
 msgstr "_Vis"
@@ -834,9 +834,8 @@ msgid "Posterize"
 msgstr "Posteriser"
 
 #: data/glade/gthumb_edit.glade.h:17
-#, fuzzy
 msgid "Preserve l_uminosity"
-msgstr "Behold "
+msgstr "Behold l_ys"
 
 #: data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
@@ -874,7 +873,7 @@ msgstr "_Magenta-grønn:"
 msgid "_Preview"
 msgstr "_Forhåndsvis"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:45
+#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:46
 msgid "_Reset"
 msgstr "_Nullstill"
 
@@ -1108,7 +1107,7 @@ msgid "St_yle"
 msgstr "St_il"
 
 #: data/glade/gthumb_png_exporter.glade.h:57
-#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:41
+#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:42
 msgid "Start _at:"
 msgstr "Start _ved:"
 
@@ -1149,7 +1148,7 @@ msgid "_Solid color"
 msgstr "_Helfylt farge"
 
 #: data/glade/gthumb_png_exporter.glade.h:69
-#: data/glade/gthumb_tools.glade.h:47
+#: data/glade/gthumb_tools.glade.h:48
 msgid "_Template:"
 msgstr "_Mal:"
 
@@ -1530,8 +1529,8 @@ msgstr "Detaljer for papir"
 
 #.
 #: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2959 libgthumb/print-callbacks.c:2973
-#: libgthumb/print-callbacks.c:3430
+#: libgthumb/print-callbacks.c:2960 libgthumb/print-callbacks.c:2974
+#: libgthumb/print-callbacks.c:3432
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1612,7 +1611,7 @@ msgstr "Ingen bilder funnet"
 msgid "Search Progress"
 msgstr "Søkets fremgang"
 
-#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:40
+#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:41
 msgid "Searching in:"
 msgstr "Søker i:"
 
@@ -1620,7 +1619,7 @@ msgstr "Søker i:"
 msgid "_Edit Search"
 msgstr "R_ediger søk"
 
-#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:43
+#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
 msgstr "_Ta med undermapper"
 
@@ -1642,161 +1641,169 @@ msgstr "<b>Miniatyrer</b>"
 
 #: data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-msgstr "<small><i><b>Merk</b>: jpeg-transformasjoner gjøres uten tap av kvalitet.</i></small>"
+msgstr ""
+"<small><i><b>Merk</b>: jpeg-transformasjoner gjøres uten tap av kvalitet.</"
+"i></small>"
 
 #: data/glade/gthumb_tools.glade.h:8
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
-msgstr "<small><i><b>Spesielle tegn:</b> # (enumerator), %f (orginalt filnavn), %d (bildedato), %s (bildestørrelse).</i></small>"
+msgstr ""
+"<small><i><b>Spesielle tegn:</b> # (enumerator), %f (orginalt filnavn), %d "
+"(bildedato), %s (bildestørrelse).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
+msgid "Adjust photo _orientation"
+msgstr "Juster _orientering for bilde"
+
+#: data/glade/gthumb_tools.glade.h:10
 msgid "Apply to _all images"
 msgstr "Bruk på _alle bilder"
 
-#: data/glade/gthumb_tools.glade.h:10
+#: data/glade/gthumb_tools.glade.h:11
 msgid "Backup Comments"
 msgstr "Sikkerhetskopier kommentarer"
 
-#: data/glade/gthumb_tools.glade.h:11
+#: data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "_Nåværende dato"
 
-#: data/glade/gthumb_tools.glade.h:12
+#: data/glade/gthumb_tools.glade.h:13
 msgid "Change Date"
 msgstr "Endre dato"
 
-#: data/glade/gthumb_tools.glade.h:13
+#: data/glade/gthumb_tools.glade.h:14
 msgid "Change the last modified date to:"
 msgstr "Endre endringsdato til:"
 
-#: data/glade/gthumb_tools.glade.h:14
+#: data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "Sjekk _alle"
 
-#: data/glade/gthumb_tools.glade.h:15
+#: data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "Ikke sjekk _noen"
 
-#: data/glade/gthumb_tools.glade.h:16
+#: data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "Sjekker bilde:"
 
-#: data/glade/gthumb_tools.glade.h:17
+#: data/glade/gthumb_tools.glade.h:18
 msgid "Delete ALL Comments"
 msgstr "Slett ALLE kommentarer"
 
-#: data/glade/gthumb_tools.glade.h:18
+#: data/glade/gthumb_tools.glade.h:19
 msgid "Delete ALL Thumbnails"
 msgstr "Slett ALLE miniatyrer"
 
-#: data/glade/gthumb_tools.glade.h:19
+#: data/glade/gthumb_tools.glade.h:20
 msgid "Delete Old Comments"
 msgstr "Slett gamle kommentarer"
 
-#: data/glade/gthumb_tools.glade.h:20
+#: data/glade/gthumb_tools.glade.h:21
 msgid "Delete Old Thumbnails"
 msgstr "Slett gamle miniatyrer"
 
-#: data/glade/gthumb_tools.glade.h:21
+#: data/glade/gthumb_tools.glade.h:22
 msgid "Delete comments of no more existing images"
 msgstr "Fjern kommentarer til ikke-eksisterende bilder"
 
-#: data/glade/gthumb_tools.glade.h:22
+#: data/glade/gthumb_tools.glade.h:23
 msgid "Delete thumbnails of no more existing images"
 msgstr "Slett miniatyrer av ikke-eksisterende bilder"
 
-#: data/glade/gthumb_tools.glade.h:23
+#: data/glade/gthumb_tools.glade.h:24
 msgid "Equal images:"
 msgstr "Like bilder:"
 
-#: data/glade/gthumb_tools.glade.h:24
+#: data/glade/gthumb_tools.glade.h:25
 msgid "Find Duplicates"
 msgstr "Finn duplikater"
 
-#: data/glade/gthumb_tools.glade.h:25
+#: data/glade/gthumb_tools.glade.h:26
 msgid "Found duplicates:"
 msgstr "Duplikater funnet:"
 
-#: data/glade/gthumb_tools.glade.h:26
+#: data/glade/gthumb_tools.glade.h:27
 msgid "Image c_reation date"
 msgstr "Bildets opp_rettelsesdato"
 
-#: data/glade/gthumb_tools.glade.h:27
+#: data/glade/gthumb_tools.glade.h:28
 msgid "Maintenance"
 msgstr "Vedlikehold"
 
-#: data/glade/gthumb_tools.glade.h:28
+#: data/glade/gthumb_tools.glade.h:29
 msgid "Mirror image horizontally (left-right)"
 msgstr "Speil bildet horisontalt (venstre-høyre)"
 
-#: data/glade/gthumb_tools.glade.h:29
+#: data/glade/gthumb_tools.glade.h:30
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Speil bildet vertikalt (topp-bunn)"
 
-#: data/glade/gthumb_tools.glade.h:30 data/gthumb-ui.xml.h:80
+#: data/glade/gthumb_tools.glade.h:31 data/gthumb-ui.xml.h:80
 msgid "Move to _Trash"
 msgstr "Flytt til _søppelkurven"
 
-#: data/glade/gthumb_tools.glade.h:31
+#: data/glade/gthumb_tools.glade.h:32
 msgid "New names _preview:"
 msgstr "_Forhåndsvisning av nye navn:"
 
-#: data/glade/gthumb_tools.glade.h:32
+#: data/glade/gthumb_tools.glade.h:33
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Dato for digitalisering av bilde (fra EXIF-data)"
 
-#: data/glade/gthumb_tools.glade.h:33
+#: data/glade/gthumb_tools.glade.h:34
 msgid "Re_verse Order"
 msgstr "Om_vendt rekkefølge"
 
-#: data/glade/gthumb_tools.glade.h:34
+#: data/glade/gthumb_tools.glade.h:35
 msgid "Rename Series"
 msgstr "Endre navn på serier"
 
-#: data/glade/gthumb_tools.glade.h:35
+#: data/glade/gthumb_tools.glade.h:36
 msgid "Restore Comments From a Backup File"
 msgstr "Gjenopprett kommentarer fra en sikkerhetskopi"
 
-#: data/glade/gthumb_tools.glade.h:36
+#: data/glade/gthumb_tools.glade.h:37
 msgid "Rotate Images"
 msgstr "Roter bilder"
 
-#: data/glade/gthumb_tools.glade.h:37
+#: data/glade/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Roter bildet 90 grader med klokken"
 
-#: data/glade/gthumb_tools.glade.h:38
+#: data/glade/gthumb_tools.glade.h:39
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Roter bildet 90 grader mot klokken"
 
-#: data/glade/gthumb_tools.glade.h:39
+#: data/glade/gthumb_tools.glade.h:40
 msgid "Search terminated, no duplicates found."
 msgstr "Søk avsluttet, ingen duplikater funnet."
 
-#: data/glade/gthumb_tools.glade.h:42
+#: data/glade/gthumb_tools.glade.h:43
 msgid "The _following date:"
 msgstr "_Følgende dato:"
 
-#: data/glade/gthumb_tools.glade.h:44 data/gthumb-ui.xml.h:244
+#: data/glade/gthumb_tools.glade.h:45 data/gthumb-ui.xml.h:244
 #: src/commands-impl.c:278 src/commands-impl.c:1052 src/commands-impl.c:1752
 msgid "_Rename"
 msgstr "End_re navn"
 
-#: data/glade/gthumb_tools.glade.h:46
+#: data/glade/gthumb_tools.glade.h:47
 msgid "_Sort:"
 msgstr "_Sorter:"
 
-#: data/glade/gthumb_tools.glade.h:49
+#: data/glade/gthumb_tools.glade.h:50
 msgid "by Modification date"
 msgstr "etter endringsdato"
 
-#: data/glade/gthumb_tools.glade.h:50
+#: data/glade/gthumb_tools.glade.h:51
 msgid "by Name"
 msgstr "etter navn"
 
-#: data/glade/gthumb_tools.glade.h:51
+#: data/glade/gthumb_tools.glade.h:52
 msgid "by Size"
 msgstr "etter størrelse"
 
@@ -2989,108 +2996,108 @@ msgstr "gThumb bildeviser"
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr ""
+msgstr "Bilder med størrelse over denne verdien (i bytes) vil det ikke vises miniatyrer for. Bruk 0 hvis du vil generere miniatyrer for alle bilder."
 
 #: data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr ""
+msgstr "Mulige verdier er: 1,2,3,4."
 
 #: data/gthumb.schemas.in.h:3
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr ""
+msgstr "Mulige verdier er: actual_size, fit, keep_prev, fit_if_larger."
 
 #: data/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
-msgstr ""
+msgstr "Mulige verdier er: ascending, descending."
 
 #: data/gthumb.schemas.in.h:5
 msgid "Possible values are: forward, backward, random."
-msgstr ""
+msgstr "Mulige verdier er: forward, backward, random."
 
 #: data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
-msgstr ""
+msgstr "Mulige verdier er: high, low."
 
 #: data/gthumb.schemas.in.h:7
 msgid "Possible values are: image, data, comment."
-msgstr ""
+msgstr "Mulige verdier er: image, data, comment."
 
 #: data/gthumb.schemas.in.h:8
 msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr ""
+msgstr "Mulige verdier er: jpeg, png, tga, tiff."
 
 #: data/gthumb.schemas.in.h:9
 msgid "Possible values are: light, midtone, dark."
-msgstr ""
+msgstr "Mulige verdier er: light, midtone, dark."
 
 #: data/gthumb.schemas.in.h:10
 msgid "Possible values are: list, thumbnails."
-msgstr ""
+msgstr "Mulige verdier er: list, thumbnails."
 
 #: data/gthumb.schemas.in.h:11
 msgid "Possible values are: mm, in."
-msgstr ""
+msgstr "Mulige verdier er: mm, in."
 
 #: data/gthumb.schemas.in.h:12
 msgid "Possible values are: name, path, size, time."
-msgstr ""
+msgstr "Mulige verdier er: name, path, size, time."
 
 #: data/gthumb.schemas.in.h:13
 msgid "Possible values are: name, size, time."
-msgstr ""
+msgstr "Mulige verdier er: name, size, time."
 
 #: data/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
-msgstr ""
+msgstr "Mulige verdier er: nautilus, single, double."
 
 #: data/gthumb.schemas.in.h:15
 msgid "Possible values are: none, deflate, jpeg."
-msgstr ""
+msgstr "Mulige verdier er: none, deflate, jpeg."
 
 #: data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, name, path, size, time."
-msgstr ""
+msgstr "Mulige verdier er: none, name, path, size, time."
 
 #: data/gthumb.schemas.in.h:17
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr ""
+msgstr "Mulige verdier er: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
 
 #: data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr ""
+msgstr "Mulige verdier er: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
 #: data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
-msgstr ""
+msgstr "Mulige verdier er: pixels, percentage."
 
 #: data/gthumb.schemas.in.h:20
 msgid "Possible values are: png, jpeg."
-msgstr ""
+msgstr "Mulige verdier er: png, jpeg."
 
 #: data/gthumb.schemas.in.h:21
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr ""
+msgstr "Mulige verdier er: skip, rename, ask, overwrite."
 
 #: data/gthumb.schemas.in.h:22
 msgid "Possible values are: small, medium, large."
-msgstr ""
+msgstr "Mulige verdier er: small, medium, large."
 
 #: data/gthumb.schemas.in.h:23
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
+msgstr "Mulige verdier er: system, text_below, text_beside, text_only, icons_only."
 
 #: data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
-msgstr ""
+msgstr "Mulige verdier er: white, black, checked, none."
 
 #: data/gthumb.schemas.in.h:25
 msgid "Whether to always use a black background."
-msgstr ""
+msgstr "Alltid bruk sort bakgrunn."
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
@@ -3139,7 +3146,7 @@ msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
 #: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:549
+#: src/dlg-jpegtran.c:748
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -3257,7 +3264,7 @@ msgstr "Skrift"
 msgid "Name"
 msgstr "Navn"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1546
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1547
 #, c-format
 msgid "Print %s"
 msgstr "Skriv ut %s"
@@ -3266,12 +3273,12 @@ msgstr "Skriv ut %s"
 msgid "Print Image"
 msgstr "Skriv ut bilde"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2029
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2030
 #, c-format
 msgid "Page %d of %d"
 msgstr "Side %d av %d"
 
-#: libgthumb/print-callbacks.c:3032 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3033 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Laster bilde: %s"
@@ -3498,7 +3505,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "Valgt katalog vil bli fjernet. Er du sikker?"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:785
+#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:997
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3824,16 +3831,16 @@ msgstr "Denne siden er endret. Vil du lagre den?"
 msgid "Do Not Save"
 msgstr "Ikke lagre"
 
-#: src/gthumb-window.c:6548
+#: src/gthumb-window.c:6552
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan ikke laste mappe «%s»: %s\n"
 
-#: src/gthumb-window.c:6817
+#: src/gthumb-window.c:6821
 msgid "The specified catalog does not exist."
 msgstr "Spesifisert katalog eksisterer ikke."
 
-#: src/gthumb-window.c:8430
+#: src/gthumb-window.c:8434
 msgid "Wait please..."
 msgstr "Vennligst vent..."
 
