@@ -323,8 +323,6 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->frame_delay = 0;
 	viewer->anim_id = 0;
 
-	viewer->iter = NULL;
-
 	viewer->loader = IMAGE_LOADER (image_loader_new (NULL, TRUE));
 	g_signal_connect (G_OBJECT (viewer->loader), 
 			  "done",
@@ -334,6 +332,9 @@ image_viewer_init (ImageViewer *viewer)
 			  "error",
 			  G_CALLBACK (image_error),
 			  viewer);
+
+	viewer->anim = NULL;
+	viewer->iter = NULL;
 
 	viewer->zoom_level = 1.0;
 	viewer->zoom_quality = ZOOM_QUALITY_HIGH;
@@ -370,9 +371,9 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->vadj = GTK_ADJUSTMENT (gtk_adjustment_new (0.0, 1.0, 0.0, 
 							   1.0, 1.0, 1.0));
 
-	g_object_ref (G_OBJECT (viewer->hadj));
+	g_object_ref (viewer->hadj);
 	gtk_object_sink (GTK_OBJECT (viewer->hadj));
-	g_object_ref (G_OBJECT (viewer->vadj));
+	g_object_ref (viewer->vadj);
 	gtk_object_sink (GTK_OBJECT (viewer->vadj));
 
 	g_signal_connect (G_OBJECT (viewer->hadj), 
@@ -421,7 +422,7 @@ paint (ImageViewer *viewer,
 	    || (viewer->area_bps != bits_per_sample)
 	    || (viewer->area_color_space != color_space)) {
 		if (viewer->area_pixbuf != NULL)
-			g_object_unref (G_OBJECT (viewer->area_pixbuf));
+			g_object_unref (viewer->area_pixbuf);
 		viewer->area_pixbuf = gdk_pixbuf_new (color_space,
 						      FALSE, 
 						      bits_per_sample,
@@ -1041,7 +1042,7 @@ create_first_pixbuf (ImageViewer *viewer)
 	viewer->frame_delay = 0;
 
 	if (viewer->iter != NULL)
-		g_object_unref (G_OBJECT (viewer->iter));
+		g_object_unref (viewer->iter);
 
 	g_get_current_time (&viewer->time);
 
@@ -1090,14 +1091,19 @@ image_viewer_finalize (GObject *object)
 		viewer->anim_id = 0;
 	}
 
-	if (viewer->iter != NULL) {
-		g_object_unref (G_OBJECT (viewer->iter));
-		viewer->iter = NULL;
+	if (viewer->loader != NULL) {
+		g_object_unref (viewer->loader);
+		viewer->loader = NULL;
 	}
 
-	if (viewer->loader != NULL) {
-		g_object_unref (G_OBJECT (viewer->loader));
-		viewer->loader = NULL;
+	if (viewer->anim != NULL) {
+		g_object_unref (viewer->anim);
+		viewer->anim = NULL;
+	}
+
+	if (viewer->iter != NULL) {
+		g_object_unref (viewer->iter);
+		viewer->iter = NULL;
 	}
 
 	if (viewer->cursor != NULL) {
@@ -1113,18 +1119,18 @@ image_viewer_finalize (GObject *object)
 	if (viewer->hadj != NULL) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (viewer->hadj),
 						      viewer);
-		g_object_unref (G_OBJECT (viewer->hadj));
+		g_object_unref (viewer->hadj);
 		viewer->hadj = NULL;
 	}
 	if (viewer->vadj != NULL) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (viewer->vadj),
 						      viewer);
-		g_object_unref (G_OBJECT (viewer->vadj));
+		g_object_unref (viewer->vadj);
 		viewer->vadj = NULL;
 	}
 	
 	if (viewer->area_pixbuf != NULL) {
-		g_object_unref (G_OBJECT (viewer->area_pixbuf));
+		g_object_unref (viewer->area_pixbuf);
 		viewer->area_pixbuf = NULL;
 	}
 
@@ -1726,6 +1732,9 @@ init_animation (ImageViewer *viewer)
 	if (! viewer->is_animation) 
 		return;
 
+	if (viewer->anim != NULL)
+		g_object_unref (viewer->anim);
+
 	viewer->anim = image_loader_get_animation (viewer->loader);
 	if (viewer->anim == NULL) {
 		viewer->is_animation = FALSE;
@@ -1819,9 +1828,14 @@ image_loaded (ImageLoader *il,
 
 	halt_animation (viewer);
 
-	viewer->anim = NULL;
+	if (viewer->anim != NULL) {
+		g_object_unref (viewer->anim);
+		viewer->anim = NULL;
+	}
+
 	anim = image_loader_get_animation (viewer->loader);
 	viewer->is_animation = (anim != NULL) && ! gdk_pixbuf_animation_is_static_image (anim);
+	g_object_unref (anim);
 
 	if (viewer->is_animation)
 		init_animation (viewer);
@@ -2239,7 +2253,7 @@ set_scroll_adjustments (GtkWidget *widget,
         if (viewer->hadj && viewer->hadj != hadj) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (viewer->hadj),
 						      viewer);
-		g_object_unref (G_OBJECT (viewer->hadj));
+		g_object_unref (viewer->hadj);
 
 		viewer->hadj = NULL;
         }
@@ -2247,13 +2261,13 @@ set_scroll_adjustments (GtkWidget *widget,
         if (viewer->vadj && viewer->vadj != vadj) {
 		g_signal_handlers_disconnect_by_data (G_OBJECT (viewer->vadj),
 						      viewer);
-		g_object_unref (G_OBJECT (viewer->vadj));
+		g_object_unref (viewer->vadj);
 		viewer->vadj = NULL;
         }
 
         if (viewer->hadj != hadj) {
                 viewer->hadj = hadj;
-                g_object_ref (G_OBJECT (viewer->hadj));
+                g_object_ref (viewer->hadj);
                 gtk_object_sink (GTK_OBJECT (viewer->hadj));
 
 		g_signal_connect (G_OBJECT (viewer->hadj), 
@@ -2264,7 +2278,7 @@ set_scroll_adjustments (GtkWidget *widget,
 
         if (viewer->vadj != vadj) {
 		viewer->vadj = vadj;
-		g_object_ref (G_OBJECT (viewer->vadj));
+		g_object_ref (viewer->vadj);
 		gtk_object_sink (GTK_OBJECT (viewer->vadj));
 
 		g_signal_connect (G_OBJECT (viewer->vadj), 

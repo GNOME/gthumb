@@ -1,3 +1,12 @@
+2002-12-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* README: updated.
+
+	* libgthumb/image-loader.c: added some missing locks.
+
+	* libgthumb/image-list.c (truncate_comment_if_needed): handle in a
+	special way the	common case in which the comment is void.
+
 2002-12-19  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-ui.xml: use a shorter label for the 'slide show'

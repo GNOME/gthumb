@@ -1,40 +1,124 @@
 This is the distribution of gThumb, an image viewer and browser utility
 for the GNOME environment. 
 
-* Features
+Notes:
 
-  gThumb lets you browse your hard disk, showing you thumbnails of image 
-  files.  It also lets you view single files (including GIF animations), add 
-  comments to images, organize images in catalogs, print images, view 
-  slideshows, set your desktop background, and more.
+ * more information about gthumb can be found at: 
+   http://gthumb.sourceforge.net
 
-* Licensing
+ * versions from 0.1 to 0.13 are for the GNOME 1.x environment.
+
+ * versions from 1.100 to 2.0 are for the GNOME 2.0 environment, though
+   they can be used even in the GNOME 2.2 environment but in this case
+   gThumb and Nautilus do not share the thumbnails database. 
+
+What is gThumb
+==============
+
+ * gThumb is a browser
+
+   + Browse your hard disk showing you thumbnails of image files.
+   + Thumbnails are saved in the same database used by Nautilus so you
+     don't waste disk space.
+   + Automatically update the content of a folder.
+   + Copy, move, delete images and folders.
+   + Bookmarks of folders and catalogs.
+
+ * gThumb is a viewer
+
+   + View single images (including GIF animations).  Supported image
+     types are: BMP, JPEG, GIF, PNG, TIFF, TGA, ICO, XPM.  
+   + View EXIF data attached to JPEG images.  
+   + View in fullscreen mode.
+   + View images rotated, flipped, mirrored.
+
+ * gThumb is an organizer
+
+   + Add comments to images.
+   + Organize images in catalogs, catalogs in libraries.
+   + Print images and comments.
+   + Search for images on you hard disk and save the result as a catalog.
+     Search criteria remain attached to the catalog so you can update it
+     when you want.
+
+ * gThumb is an image editor
+
+   + Change image hue, saturation, lightness, contrast and adjust colors. 
+   + Scale and rotate images.
+   + Save images in the following formats: JPEG, PNG, TIFF, TGA.
+
+ * gThumb is an advanced tool
+
+   + Slide Shows.
+   + Set an image as Desktop background.
+   + Create index image.
+   + Rename images in series.
+   + Convert image format.
+   + Change images date and time.
+   + JPEG lossless transformations.
+   + Find duplicated images.
+   + Maintenance tools: remove old comments; backup and restore comments;
+     remove old thumbnails.
+
+ * gThumb is a Bonobo component
+
+   + Image viewer component.  Differences with the EOG component:
+     display GIF animations, print the image and its comment.
+
+Licensing
+=========
 
   This program is released under the terms of the GNU General Public
   License (GNU GPL).  
 
   You can find a copy of the license in the file COPYING.
 
-* Dependencies
+Compiling
+=========
 
-  In order to use this program you need a working GNOME environment
-  version 2, with the development tools installed properly.  The following
-  is the detailed list of libraries you need:
+  In order to build this program you need a working GNOME environment
+  version 2 or greater, with the development tools installed properly.  
+  The following is the detailed list of libraries you need:
 
-	* glib	 		version 2.0.0
-	* gtk 			version 2.0.0 
-	* libxml 		version 2.4.0
-	* libgnome 		version 2.0.0 
-	* libgnomeui 		version 2.0.0 
-	* libgnomecanvas 	version 2.0.0 
-	* gnome-vfs 		version 2.0.0 
-	* libglade 		version 2.0.0 
-	* bonobo-activation 	version 1.0.0 
-	* libbonobo 		version 2.0.0 
-	* libbonoboui 		version 2.0.0 
-	* libgnomeprint 	version 1.110
-	* libgnomeprintui 	version 1.110
+	* glib	 		version >= 2.0.0
+	* gtk 			version >= 2.0.0 
+	* libxml 		version >= 2.4.0
+	* libgnome 		version >= 2.0.0 
+	* libgnomeui 		version >= 2.0.0 
+	* libgnomecanvas 	version >= 2.0.0 
+	* gnome-vfs 		version >= 2.0.0 
+	* libglade 		version >= 2.0.0 
+	* bonobo-activation 	version >= 1.0.0 
+	* libbonobo 		version >= 2.0.0 
+	* libbonoboui 		version >= 2.0.0 
+	* libgnomeprint 	version >= 1.110 and < 2.1.0
+	* libgnomeprintui 	version >= 1.110 and < 2.1.0
 
   If you want to view EXIF data attached to images, you need the libexif 
   library that can be found at this web site : http://libexif.sourceforge.net
 
+  If the libtiff library is present you can save images in TIFF
+  format.
+
+  If the libjpeg library is present you have more saving options for
+  the JPEG format and the 'rotate jpeg' tool is implemented internally
+  otherwise it is implemented calling the external command: jpegtran.
+
+Download
+========
+
+  * Tar archives can be found here: 
+
+    http://ftp.gnome.org/pub/GNOME/sources/gthumb
+
+    or here:
+
+    http://sourceforge.net/project/showfiles.php?group_id=23007
+
+  * If you know what the CVS is and how to use it, you can download the
+    latest development version using the following command:
+
+    cvs -d:pserver:anonymous@anoncvs.gnome.org:/cvs/gnome co gthumb
+
+
+20 December 2002

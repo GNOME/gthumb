@@ -1277,6 +1277,9 @@ truncate_comment_if_needed (ImageList  *gil,
 	if (comment == NULL)
 		return NULL;
 
+	if (*comment == 0)
+		return g_strdup ("");
+
 	max_len = (gil->priv->max_image_width / approx_char_width) * COMMENT_MAX_LINES;
 
 	truncated = g_string_new ("");
