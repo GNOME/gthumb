@@ -509,7 +509,7 @@
 		<widget class="GtkOptionMenu" id="date_optionmenu">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="history">3</property>
+		  <property name="history">6</property>
 
 		  <child>
 		    <widget class="GtkMenu" id="menu1">
@@ -565,6 +565,15 @@
 			  <property name="label" translatable="yes">Image creation date</property>
 			  <property name="use_underline">True</property>
 			  <signal name="activate" handler="on_image_creation_date1_activate" last_modification_time="Mon, 02 Jun 2003 19:35:05 GMT"/>
+			</widget>
+		      </child>
+
+		      <child>
+			<widget class="GtkMenuItem" id="no_change1">
+			  <property name="visible">True</property>
+			  <property name="label" translatable="yes">Do not modify</property>
+			  <property name="use_underline">True</property>
+			  <signal name="activate" handler="on_no_change1_activate" last_modification_time="Thu, 04 Mar 2004 15:30:10 GMT"/>
 			</widget>
 		      </child>
 		    </widget>

@@ -1,3 +1,11 @@
+version 2.3.2
+-------------
+        * Removed the destination manager in the Create Web Album dialog.
+	* Fix bug #136097 (gthumb 2.2.1 ignores "save only changed fields" 
+	  tickbox).
+	* Fix bug #135110 (An UTF8 string was not converted to the current 
+          locale (again)).
+
 version 2.3.1
 -------------
 	* Fix bug #133131 (exif orientation tag not updated).

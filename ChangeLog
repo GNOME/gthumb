@@ -1,3 +1,20 @@
+2004-03-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (image_requested_error_cb): use 
+	window_image_view_set_void.
+	(real_set_void): ask whether to save before setting the viewer to void.
+	(ask_whether_to_save): make the dialog not modal.
+
+	* src/dlg-web-exporter.c: remove the destination manager.
+
+	* data/glade/gthumb_comments.glade: 
+	* src/dlg-comment.c (ok_clicked_cb): 
+	* libgthumb/comments.c (comments_get_comment_as_string): init time_txt
+	to ""
+
+	Fix bug #136097 (gthumb 2.2.1 ignores "save only changed fields" 
+	tickbox).
+
 2004-02-24  Adam Weinberger  <adamw@FreeBSD.org>
 
 	* configure.in: Added 'en_CA' (Canadian English) to ALL_LINGUAS.
@@ -5,8 +22,11 @@
 2004-02-22  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-photo-importer.c (set_camera_model)
-	(set_camera_model): : use gtk_label_set_text instead of 
+	(set_camera_model): Use gtk_label_set_text instead of 
 	_gtk_label_set_locale_text.
+
+	Fix bug #135110 (An UTF8 string was not converted to 
+        the current locale (again)).
 
 2004-02-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 

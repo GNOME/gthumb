@@ -34,6 +34,7 @@
 #include "bookmarks.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-preloader.h"
+#include "dlg-save-image.h"
 
 #define GCONF_NOTIFICATIONS 18
 
@@ -151,6 +152,7 @@ typedef struct {
 	int                 activity_ref;       /* when > 0 some activity
 						 * is present. */
 	gboolean            image_modified;
+	ImageSavedFunc      image_saved_func;
 	gboolean            setting_file_list;
 	gboolean            can_set_file_list;
 	gboolean            changing_directory;

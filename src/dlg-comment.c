@@ -48,6 +48,7 @@ enum {
 	EXIF_DATE,
 	LAST_MODIFIED_DATE,
 	IMAGE_CREATION_DATE,
+	NO_CHANGE,
 	N_DATE_OPTIONS
 };
 
@@ -213,12 +214,19 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		const char *filename = scan->data;
+		int         option;
 
 		/* Date */
 
 		cdata->time = -1;
 
-		if (gtk_option_menu_get_history (GTK_OPTION_MENU (data->date_optionmenu)) != NO_DATE) {
+		option = gtk_option_menu_get_history (GTK_OPTION_MENU (data->date_optionmenu));
+
+		if (option == NO_DATE) 
+			cdata->time = 0;
+		else if (option == NO_CHANGE)
+			cdata->time = -1;
+		else {
 			time_t     t;
 			struct tm *tm_date;
 			
@@ -231,10 +239,11 @@ ok_clicked_cb (GtkWidget  *widget,
 			tm.tm_min = tm_date->tm_min;
 			tm.tm_sec = tm_date->tm_sec;
 			tm.tm_isdst = tm_date->tm_isdst;
+
+			cdata->time = mktime (&tm);
+			if (cdata->time <= 0)
+				cdata->time = 0;
 		}
-		cdata->time = mktime (&tm);
-		if (cdata->time <= 0)
-			cdata->time = 0;
 
 		/**/
 
@@ -295,6 +304,7 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 	switch (idx) {
 	case NO_DATE:
 	case FOLLOWING_DATE:
+	case NO_CHANGE:
 		break;
 	case CURRENT_DATE:
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
@@ -473,9 +483,10 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), FOLLOWING_DATE);
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), cdata->time);
 			gtk_widget_set_sensitive (data->date_dateedit, TRUE);
-		} else 
+		} else {
+			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_CHANGE);
 			gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
-
+		}
 	} else 
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), get_file_ctime (first_image));
 

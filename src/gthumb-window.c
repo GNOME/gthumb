@@ -1640,8 +1640,66 @@ make_image_visible (GThumbWindow *window,
 
 
 static void
-window_image_viewer_set_void (GThumbWindow *window)
+ask_whether_to_save__response_cb (GtkWidget    *dialog,
+				  int           response_id,
+				  GThumbWindow *window)
 {
+        gtk_widget_destroy (dialog);
+	
+        if (response_id == GTK_RESPONSE_YES) {
+		dlg_save_image (GTK_WINDOW (window->app),
+				window->image_path,
+				image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
+				window->image_saved_func,
+				window);
+		window->saving_modified_image = TRUE;
+
+	} else {
+		window->saving_modified_image = FALSE;
+		window->image_modified = FALSE;
+		if (window->image_saved_func != NULL)
+			(*window->image_saved_func) (NULL, window);
+	}
+}
+
+
+static gboolean
+ask_whether_to_save (GThumbWindow   *window,
+		     ImageSavedFunc  image_saved_func)
+{
+	int        r = GTK_RESPONSE_YES;
+	GtkWidget *d;
+
+	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
+		return FALSE;
+		
+	d = _gtk_yesno_dialog_with_checkbutton_new (
+			    GTK_WINDOW (window->app),
+			    GTK_DIALOG_MODAL,
+			    _("The current image has been modified, do you want to save it?"),
+			    _("Do Not Save"),
+			    GTK_STOCK_SAVE_AS,
+			    _("_Do not display this message again"),
+			    PREF_MSG_SAVE_MODIFIED_IMAGE);
+
+	window->saving_modified_image = TRUE;
+	window->image_saved_func = image_saved_func;
+	g_signal_connect (G_OBJECT (d), "response",
+			  G_CALLBACK (ask_whether_to_save__response_cb),
+			  window);
+
+	gtk_widget_show (d);
+
+	return TRUE;
+}
+
+
+static void
+real_set_void (char     *filename,
+	       gpointer  data)
+{
+	GThumbWindow *window = data;
+
 	g_free (window->image_path);
 	window->image_path = NULL;
 
@@ -1658,6 +1716,16 @@ window_image_viewer_set_void (GThumbWindow *window)
 
 	if (window->image_prop_dlg != NULL)
 		dlg_image_prop_update (window->image_prop_dlg);
+}
+
+
+static void
+window_image_viewer_set_void (GThumbWindow *window)
+{
+	if (window->image_modified)
+		if (ask_whether_to_save (window, real_set_void))
+			return;
+	real_set_void (NULL, window);
 }
 
 
@@ -2479,18 +2547,7 @@ static void
 image_requested_error_cb (GtkWidget    *widget, 
 			  GThumbWindow *window)
 {
-	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
-
-	window->image_mtime = get_file_mtime (window->image_path);
-	window->image_modified = FALSE;
-
-	window_update_image_info (window);
-	window_update_infobar (window);
-	window_update_title (window);
-	window_update_sensitivity (window);
-
-	if (window->image_prop_dlg != NULL)
-		dlg_image_prop_update (window->image_prop_dlg);
+	window_image_viewer_set_void (window);
 }
 
 
@@ -5699,41 +5756,6 @@ window_free (GThumbWindow *window)
 
 
 /* -- window_close -- */
-
-
-static gboolean
-ask_whether_to_save (GThumbWindow   *window,
-		     ImageSavedFunc  image_saved_func)
-{
-	int        r = GTK_RESPONSE_YES;
-	GtkWidget *d;
-
-	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
-		return FALSE;
-		
-	d = _gtk_yesno_dialog_with_checkbutton_new (
-			    GTK_WINDOW (window->app),
-			    GTK_DIALOG_MODAL,
-			    _("The current image has been modified, do you want to save it?"),
-			    _("Do Not Save"),
-			    GTK_STOCK_SAVE_AS,
-			    _("_Do not display this message again"),
-			    PREF_MSG_SAVE_MODIFIED_IMAGE);
-		
-	r = gtk_dialog_run (GTK_DIALOG (d));
-	gtk_widget_destroy (GTK_WIDGET (d));
-	
-	if (r == GTK_RESPONSE_YES) 
-		dlg_save_image (GTK_WINDOW (window->app),
-				window->image_path,
-				image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
-				image_saved_func,
-				window);
-
-	window->saving_modified_image = (r == GTK_RESPONSE_YES);
-
-	return window->saving_modified_image;
-}
 
 
 static void

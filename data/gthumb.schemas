@@ -213,6 +213,11 @@
 	  <long>Las imágenes mayores que este tamaño (en bytes) no serán miniaturizadas. Use 0 si quiere generar miniaturas para todas las imágenes</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Kuvista, jotka ovat tätä suurempia (tavuissa), ei luoda pienoiskuvia. Aseta luvuksi 0 jos haluat luoda pienoiskuvat kaikista kuvista.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les images plus grosse que cette taille (en octets) ne seront pas mise en vignette. Utiliser 0 si vous voulez que les vignettes soient générées pour toutes les images.</long>
@@ -319,6 +324,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="fr">
@@ -442,6 +452,11 @@
 	  <long>Los valores posibles son: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, name, path, size, time.</long>
@@ -550,6 +565,11 @@
 	  <long>Los valores posibles son: ascending, descending.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: ascending, descending.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : ascending, descending.</long>
@@ -656,6 +676,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: list, thumbnails.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: list, thumbnails.</long>
 	</locale>
 
 	<locale name="fr">
@@ -777,6 +802,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: image, data, comment.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: image, data, comment.</long>
 	</locale>
 
 	<locale name="fr">
@@ -902,6 +932,11 @@
 	  <long>Los valores posibles son: high, low.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: high, low.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : high, low.</long>
@@ -1011,6 +1046,11 @@
 	  <long>Los valores posibles son: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1112,6 +1152,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="fr">
@@ -1222,6 +1267,11 @@
 	  <long>Los valores posibles son: light, midtone, dark.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: light, midtone, dark.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : light, midtone, dark.</long>
@@ -1328,6 +1378,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: small, medium, large.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: small, medium, large.</long>
 	</locale>
 
 	<locale name="fr">
@@ -1438,6 +1493,11 @@
 	  <long>Indica si se debe usar siempre fondo negro.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Käytetäänkö aina mustaa taustaa</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Indique si il faut toujours utiliser un arrière-plan noir.</long>
@@ -1528,9 +1588,19 @@
 	  <long>Los valores posibles son: forward, backward, random.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: forward, backward, random.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: forward, backward, random.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: forward, backward, random</long>
 	</locale>
 
 	<locale name="nl">
@@ -1630,6 +1700,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son : 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: 1, 2, 3, 4.</long>
 	</locale>
 
 	<locale name="fr">
@@ -1738,6 +1813,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="fr">
@@ -1942,6 +2022,11 @@
 	  </long>
 	</locale>
 
+	<locale name="be">
+	  
+	  <long>Магчымыя значэньні: png, jpeg.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: png, jpeg.</long>
@@ -1965,6 +2050,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: png, jpeg.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: png, jpeg.</long>
 	</locale>
 
 	<locale name="fr">
@@ -2417,6 +2507,11 @@
 	  <long>Los valores posibles son: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -2643,6 +2738,11 @@
 	  <long>Los valores posibles son: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, deflate, jpeg.</long>
@@ -2779,6 +2879,11 @@
 	  <long>Los valores posibles son: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : jpeg, png, tga, tiff.</long>
@@ -2885,6 +2990,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="fr">
@@ -3036,6 +3146,11 @@
 	  <long>Los valores posibles son: name, size, time.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: name, size, time.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : name, size, time.</long>
@@ -3134,6 +3249,11 @@
 	  </long>
 	</locale>
 
+	<locale name="be">
+	  
+	  <long>Магчымыя значэньні: pixels (піксалі), percentage (адсоткі).</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: píxels, percentatge.</long>
@@ -3157,6 +3277,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: pixels, percentage.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: pixels, percentage.</long>
 	</locale>
 
 	<locale name="fr">
@@ -3271,20 +3396,6 @@
 	</locale>
       </schema>
 
-      <schema>
-	<key>/schemas/apps/gthumb/dialogs/web_album/destinations</key>
-	<applyto>/apps/gthumb/dialogs/web_album/destinations</applyto>
-	<owner>gthumb</owner>
-	<type>list</type>
-	<list_type>string</list_type>
-	<default>[]</default>
-	<locale name="C">
-	  <short></short>
-	  <long> 
-	  </long>
-	</locale>
-      </schema>
-      
       <schema>
 	<key>/schemas/apps/gthumb/dialogs/web_album/index_file</key>
 	<applyto>/apps/gthumb/dialogs/web_album/index_file</applyto>
@@ -3411,6 +3522,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: name, path, size, time.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: name, path, size, time.</long>
 	</locale>
 
 	<locale name="fr">
@@ -3655,6 +3771,11 @@
 	  <long>Los valores posibles son: mm, in.</long>
 	</locale>
 
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: mm, in.</long>
+	</locale>
+
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : mm, in.</long>
@@ -3874,6 +3995,11 @@
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="fi">
+	  
+	  <long>Sallittuja arvoja ovat: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="fr">

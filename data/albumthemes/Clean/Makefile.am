@@ -10,7 +10,8 @@ theme_DATA =			\
 	right.png		\
 	right_arrow.png		\
 	top.png			\
-	up_arrow.png
+	up_arrow.png		\
+	preview.png
 
 %.gthtml : %.xml %.xml.in
 	-mv -f $< $@

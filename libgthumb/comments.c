@@ -743,7 +743,7 @@ comments_get_comment_as_string (CommentData *data,
 				char        *sep2)
 {
 	char      *as_string = NULL;
-	char       time_txt[50];
+	char       time_txt[50] = "";
 	char      *utf8_time_txt = NULL;
 	struct tm *tm;
 

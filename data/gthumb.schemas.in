@@ -1257,20 +1257,6 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/web_album/destinations</key>
-	<applyto>/apps/gthumb/dialogs/web_album/destinations</applyto>
-	<owner>gthumb</owner>
-	<type>list</type>
-	<list_type>string</list_type>
-	<default>[]</default>
-	<locale name="C">
-	  <short></short>
-	  <long> 
-	  </long>
-	</locale>
-      </schema>
-      
-      <schema>
 	<key>/schemas/apps/gthumb/dialogs/web_album/index_file</key>
 	<applyto>/apps/gthumb/dialogs/web_album/index_file</applyto>
 	<owner>gthumb</owner>

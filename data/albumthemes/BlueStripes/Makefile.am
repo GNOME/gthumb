@@ -7,6 +7,7 @@ theme_DATA =			\
 	left.png		\
 	next.png		\
 	prev.png		\
+	preview.png		\
 	right.png		\
 	top.png			\
 	transparent.png		\

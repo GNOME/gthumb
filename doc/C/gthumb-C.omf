@@ -8,13 +8,13 @@
       Paolo Bacchilega (paolo.bacch@tin.it)
     </maintainer>
     <title>
-      gThumb Manual V2.0
+      gThumb Manual V2.2
     </title>
     <date>
-      2002-05-01
+      2004-03-01
     </date>
-    <version identifier="2.0" date="2002-04-30" 
-    description="Updated for GNOME 2.0, program version 1.100"/>
+    <version identifier="2.2" date="2002-04-30" 
+    description="Updated for GNOME 2.4, program version 2.2"/>
     <subject category="GNOME|Applications"/>
     <description>
       User manual for the gThumb image viewer. 
