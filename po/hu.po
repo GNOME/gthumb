@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zenity CVS\n"
 "POT-Creation-Date: 2003-09-10 17:02+0200\n"
-"PO-Revision-Date: 2003-09-11 17:21+0200\n"
+"PO-Revision-Date: 2003-09-12 13:29+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -239,7 +239,7 @@ msgstr "_Nagyítás minősége"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:526
 msgid "%d %b %Y, %H:%M"
-msgstr "%Y %d %B, %H:%M"
+msgstr "%Y. %B %d., %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:445 src/fullscreen.c:218 src/gthumb-window.c:388
@@ -379,28 +379,24 @@ msgid "Library not empty"
 msgstr "A könyvtár nem üres"
 
 #: libgthumb/catalog.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr ""
-"Nem sikerült eltávolítani a mappát:\n"
-"%s"
+msgstr "Nem sikerült eltávolítani a(z) \"%s\" könyvtárat: %s"
 
 #: libgthumb/catalog.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Nem sikerült betölteni a levelet: %s:  %s"
+msgstr "Nem sikerült eltávolítani a(z) \"%s\" katalógust: %s"
 
 #: libgthumb/catalog.c:250 libgthumb/catalog.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "Nem sikerült megnyitni a postaládát: %s: %s\n"
+msgstr "Nem sikerült megnyitni a(z) \"%s\" katalógust: %s"
 
 #: libgthumb/catalog.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr ""
-"Nem sikerült menteni: `%s'\n"
-"  %s"
+msgstr "Nem sikerült menteni a(z) \"%s\" katalógust: %s"
 
 #: libgthumb/comments.c:410
 msgid "Deleting all comments, wait please..."
@@ -759,29 +755,20 @@ msgstr "Folytatás"
 
 # src/file-manager/fm-directory-view.c:2594
 #: src/commands-impl.c:531
-#, fuzzy
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
-"A %d kijelölt elem akkor kerül áthelyezésre, ha kiválasztod a Fájl "
-"beillesztése parancsot a menüből"
+msgstr "A kijelölt képek a Kukába lesznek dobva. Ezt szeretnéd?"
 
 #: src/commands-impl.c:551
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "A kép a Kukába lesz dobva. Ezt szeretnéd?"
 
 #: src/commands-impl.c:786
-#, fuzzy
 msgid "The image will be removed from the catalog, are you sure?"
-msgstr ""
-"A szerkesztett kép törlődött a dokumentumból.\n"
-"A változtatásokat nem lehet alkalmazni."
+msgstr "A kép el lesz távolítva a katalógusból. Ezt szeretnéd?"
 
 #: src/commands-impl.c:828
-#, fuzzy
 msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr ""
-"A szerkesztett kép törlődött a dokumentumból.\n"
-"A változtatásokat nem lehet alkalmazni."
+msgstr "A kijelölt képek el lesznek távolítva a katalógusból. Ezt szeretnéd?"
 
 #: src/commands-impl.c:904 src/dlg-catalog.c:86 src/dlg-catalog.c:131
 #: src/dlg-categories.c:200 src/dlg-file-utils.c:90
@@ -791,9 +778,9 @@ msgstr "_Létrehozás"
 # src/file-manager/fm-error-reporting.c:89
 #: src/commands-impl.c:933 src/commands-impl.c:1059 src/commands-impl.c:1621
 #: src/commands-impl.c:1713
-#, fuzzy, c-format
+#, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "%s nevű elem már létezik ebben a mappában. Használj egy másik nevet."
+msgstr "\"%s\" nevű elem már létezik. Használj egy másik nevet."
 
 #: src/commands-impl.c:961
 msgid "New Folder"
@@ -844,26 +831,23 @@ msgstr "_Ne jelenjen meg többet ez az üzenet"
 
 # src/file-manager/fm-directory-view.c:2594
 #: src/commands-impl.c:1224
-#, fuzzy
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
-"A %d kijelölt elem akkor kerül áthelyezésre, ha kiválasztod a Fájl "
-"beillesztése parancsot a menüből"
+msgstr "A kijelölt mappa a Kukába lesz dobva. Ezt szeretnéd?"
 
 #: src/commands-impl.c:1226 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "Át_helyezés"
 
 #: src/commands-impl.c:1292 src/commands-impl.c:1347
-#, fuzzy, c-format
+#, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "Nem sikerült megnyitni a mappát: %s: %s"
+msgstr "Mappa másolása nem sikerült: \"%s\": %s"
 
 #: src/commands-impl.c:1347 src/dlg-file-utils.c:2428
 #: src/dlg-file-utils.c:2430
-#, fuzzy, c-format
+#, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "Nem sikerült megnyitni a mappát: %s: %s"
+msgstr "Mappa áthelyezése nem sikerült: \"%s\": %s"
 
 #: src/commands-impl.c:1368
 msgid "source contains destination"
@@ -902,11 +886,11 @@ msgstr "Nem sikerült létrehozni a(z) \"%s\" katalógust: %s"
 
 #: src/commands-impl.c:1788
 msgid "The selected library will be removed, are you sure?"
-msgstr "A kiválasztott könyvtár törölve lesz, biztos vagy benne?"
+msgstr "A kiválasztott könyvtár törölve lesz. Ezt szeretnéd?"
 
 #: src/commands-impl.c:1790
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "A kiválasztott katalógus törölve lesz, biztos vagy benne?"
+msgstr "A kiválasztott katalógus törölve lesz. Ezt szeretnéd?"
 
 #: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-comment.c:265
 #: src/dlg-jpegtran.c:638 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
@@ -956,10 +940,10 @@ msgid "Converting image: %s"
 msgstr "Kép átalakítása: %s"
 
 #: src/dlg-convert.c:177
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
-msgstr "Már létezik \"%s\" nevű mappa. Használj más nevet."
+msgstr "Már létezik \"%s\" nevű kép. Használj más nevet."
 
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
 # libnautilus-private/nautilus-file-operations.c:960
@@ -1003,11 +987,9 @@ msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "A célmappa nem létezik. Létrehozod?"
 
 #: src/dlg-file-utils.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr ""
-"Nem sikerült létrehozni a mappát: `%s':\n"
-"%s"
+msgstr "Nem sikerült létrehozni a mappát: \"%s\": %s"
 
 #: src/dlg-file-utils.c:118
 #, fuzzy, c-format
@@ -1203,11 +1185,11 @@ msgstr "%s tulajdonságai"
 
 #: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
-msgstr "Az összes megjegyzés törölve lesz, biztos vagy benne?"
+msgstr "Az összes megjegyzés törölve lesz. Ezt szeretnéd?"
 
 #: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
-msgstr "Az összes bélyegkép törölve lesz, biztos vagy benne?"
+msgstr "Az összes bélyegkép törölve lesz. Ezt szeretnéd?"
 
 #: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
@@ -1350,7 +1332,7 @@ msgstr "Az aktuális hely hozzáadása a könyvjelzőkhöz"
 
 #: src/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
-msgstr "Kijelölt képek hozzáadása a katalógushoz"
+msgstr "A kijelölt képek hozzáadása a katalógushoz"
 
 #: src/gthumb-ui.xml.h:7
 msgid "Adjust brightness and contrast"
@@ -1498,20 +1480,17 @@ msgstr "Ke_ttőzés"
 
 # src/nautilus-shell-ui.xml.h:30
 #: src/gthumb-ui.xml.h:41
-#, fuzzy
 msgid "Delete the list of visited locations"
-msgstr "A következő meglátogatott helyre ugrik"
+msgstr "A meglátogatott helyek listájának törlése"
 
 # src/file-manager/nautilus-directory-view-ui.xml.h:10
 #: src/gthumb-ui.xml.h:42
-#, fuzzy
 msgid "Duplicate selected image"
-msgstr "Minden kijelölt elem kettőzése"
+msgstr "A kijelölt kép megkettőzése"
 
 #: src/gthumb-ui.xml.h:43
-#, fuzzy
 msgid "Duplicate this image"
-msgstr "Útvonal kétszerezése"
+msgstr "A kép megkettőzése"
 
 #: src/gthumb-ui.xml.h:44
 msgid "E_xit"
@@ -1527,9 +1506,8 @@ msgstr "Könyvjelzők szerkesztése"
 
 # src/nautilus-shell-ui.xml.h:24
 #: src/gthumb-ui.xml.h:47
-#, fuzzy
 msgid "Edit various preferences"
-msgstr "A Nautilus beállításainak megváltoztatása"
+msgstr "Különféle beállítások megváltoztatása"
 
 #: src/gthumb-ui.xml.h:48
 msgid "Fi_nd Duplicates..."
@@ -1552,25 +1530,23 @@ msgid "Full Screen"
 msgstr "Teljes képernyő"
 
 #: src/gthumb-ui.xml.h:54
-#, fuzzy
 msgid "Go to the folder that contains the selected image"
-msgstr "A kategóriaadatokat tartalmazó GtkTreeModel"
+msgstr "Ugrás arra a mappába, amely a kijelölt képet tartalmazza"
 
 # libnautilus-private/nautilus-search-uri.c:257
 #: src/gthumb-ui.xml.h:55
-#, fuzzy
 msgid "Go to the home folder"
-msgstr "Ugrás a kuka mappájához"
+msgstr "Ugrás a kezdőmappába"
 
 # src/nautilus-shell-ui.xml.h:30
 #: src/gthumb-ui.xml.h:56
 msgid "Go to the next visited location"
-msgstr "A következő meglátogatott helyre ugrik"
+msgstr "Ugrás a következő meglátogatott helyre"
 
 # src/nautilus-shell-ui.xml.h:31
 #: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4096
 msgid "Go to the previous visited location"
-msgstr "Az előző meglátogatott helyre ugrik"
+msgstr "Ugrás az előző meglátogatott helyre"
 
 #: src/gthumb-ui.xml.h:58
 msgid "Go up one level"
@@ -1608,9 +1584,8 @@ msgid "Modify search criteria"
 msgstr "Keresési feltétel módosítása"
 
 #: src/gthumb-ui.xml.h:65
-#, fuzzy
 msgid "Move current catalog to another location"
-msgstr "Az aktuális archívum áthelyezése másik mappába"
+msgstr "Az aktuális katalógus áthelyezése máshová"
 
 #: src/gthumb-ui.xml.h:66
 msgid "Move current folder"
@@ -1655,9 +1630,8 @@ msgstr "Mappa áthelyezése máshová"
 # libnautilus-private/nautilus-file-operations.c:1802
 # libnautilus-private/nautilus-file-operations.c:2195
 #: src/gthumb-ui.xml.h:74
-#, fuzzy
 msgid "Move this image to the Trash"
-msgstr "Fájlok áthelyezése a kukába"
+msgstr "A kép áthelyezése a Kukába"
 
 #: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
@@ -1821,9 +1795,8 @@ msgstr "A jelenlegi szín"
 
 # src/file-manager/nautilus-icon-view-ui.xml.h:26
 #: src/gthumb-ui.xml.h:103
-#, fuzzy
 msgid "Remove selected catalog"
-msgstr "Kijelölt ikon átnevezése"
+msgstr "A kijelölt katalógus eltávolítása"
 
 #: src/gthumb-ui.xml.h:104
 #, fuzzy
@@ -1831,42 +1804,35 @@ msgid "Remove selected images from the catalog"
 msgstr "Eltávolítja a kiválasztott elemeket a mellékletlistáról"
 
 #: src/gthumb-ui.xml.h:105
-#, fuzzy
 msgid "Remove the comment"
-msgstr "Oszlop eltávolítása"
+msgstr "A megjegyzés eltávolítása"
 
 #: src/gthumb-ui.xml.h:106
-#, fuzzy
 msgid "Rename current catalog"
 msgstr "Az aktuális archívum átnevezése"
 
 #: src/gthumb-ui.xml.h:107
-#, fuzzy
 msgid "Rename current folder"
-msgstr "Az aktuális archívum átnevezése"
+msgstr "Az aktuális mappa átnevezése"
 
 # src/file-manager/nautilus-icon-view-ui.xml.h:26
 #: src/gthumb-ui.xml.h:108
-#, fuzzy
 msgid "Rename selected catalog"
-msgstr "Kijelölt ikon átnevezése"
+msgstr "A kijelölt katalógus átnevezése"
 
 # src/file-manager/nautilus-icon-view-ui.xml.h:26
 #: src/gthumb-ui.xml.h:109
-#, fuzzy
 msgid "Rename selected folder"
-msgstr "Kijelölt ikon átnevezése"
+msgstr "A kijelölt mappa átnevezése"
 
 # src/file-manager/nautilus-icon-view-ui.xml.h:26
 #: src/gthumb-ui.xml.h:110
-#, fuzzy
 msgid "Rename selected image"
-msgstr "Kijelölt ikon átnevezése"
+msgstr "A kijelölt kép átnevezése"
 
 #: src/gthumb-ui.xml.h:111
-#, fuzzy
 msgid "Rename this image"
-msgstr "Menüelem törlése"
+msgstr "A kép átnevezése"
 
 #: src/gthumb-ui.xml.h:112
 msgid "Resize image"
@@ -1992,7 +1958,7 @@ msgstr "A képek rendezése útvonal szerint"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Specify a location to visit"
-msgstr ""
+msgstr "Meglátogatandó hely megadása"
 
 #: src/gthumb-ui.xml.h:144
 msgid "Step A_nimation"
@@ -2005,9 +1971,8 @@ msgid "Stop loading current location"
 msgstr "Hely betöltésének leállítása"
 
 #: src/gthumb-ui.xml.h:146
-#, fuzzy
 msgid "Str_etched"
-msgstr "_Nyújtás"
+msgstr "_Kifeszített"
 
 # #-#-#-#-#  galeon.HEAD.hu.po-new.po (Galeon 1.2)  #-#-#-#-#
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
@@ -3629,7 +3594,7 @@ msgstr "Kon_traszt:"
 
 #: src/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr "Ciánkék-_Vörös:"
+msgstr "Ciánkék - _Vörös:"
 
 #: src/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -3757,7 +3722,7 @@ msgstr "<b>Háttérstílus</b>"
 
 #: src/gthumb_png_exporter.glade.h:15
 msgid "<b>Caption</b>"
-msgstr "<b>Felirat</b>"
+msgstr "<b>Képaláírás</b>"
 
 #: src/gthumb_png_exporter.glade.h:16
 msgid "<b>Destination folder</b>"
@@ -3828,7 +3793,7 @@ msgstr "Út_vonal"
 
 #: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
 msgid "File si_ze"
-msgstr "Fájl_méret:"
+msgstr "Fájl_méret"
 
 #: src/gthumb_png_exporter.glade.h:33
 msgid "Frame _style:"
@@ -3844,7 +3809,7 @@ msgstr "Élő_fej:"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Header/Footer"
-msgstr "Élőfej/élőláb"
+msgstr "Élőfej és élőláb"
 
 #: src/gthumb_png_exporter.glade.h:37
 msgid "Hei_ght:"
@@ -3883,28 +3848,24 @@ msgid "Select a color"
 msgstr "Szín kiválasztása"
 
 #: src/gthumb_png_exporter.glade.h:46
-#, fuzzy
 msgid "Shadow in"
-msgstr "Árnyék"
+msgstr "Bemélyedés"
 
 #: src/gthumb_png_exporter.glade.h:47
-#, fuzzy
 msgid "Shadow only"
-msgstr "Árnyék típusa"
+msgstr "Csak árnyékolás"
 
 #: src/gthumb_png_exporter.glade.h:48
-#, fuzzy
 msgid "Shadow out"
-msgstr "Árnyék típusa"
+msgstr "Kiemelkedés"
 
 #: src/gthumb_png_exporter.glade.h:49
 msgid "Simple"
 msgstr "Egyszerű"
 
 #: src/gthumb_png_exporter.glade.h:50
-#, fuzzy
 msgid "Simple with shadow"
-msgstr "Szél és füst"
+msgstr "Egyszerű és árnyékolás"
 
 #: src/gthumb_png_exporter.glade.h:51
 msgid "Slide"
@@ -3929,23 +3890,22 @@ msgstr "Stílus előnézete"
 
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Use #'s to specify positions used by numeric enumerator."
-msgstr ""
+msgstr "A # jel jelöli a sorszámok által felhasznált helyet."
 
 #: src/gthumb_png_exporter.glade.h:58
 #, no-c-format
 msgid ""
 "Use %p  to insert the page number, and %n to insert the total number of "
 "pages."
-msgstr ""
+msgstr "A %p jelöli az oldalszámot, és a %n jelöli az oldalak teljes számát."
 
 #: src/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
 msgstr "Szé_lesség:"
 
 #: src/gthumb_png_exporter.glade.h:60
-#, fuzzy
 msgid "_All pages with the same size"
-msgstr "Hibás képkockaméret."
+msgstr "_Mindel oldal azonos méretű"
 
 #: src/gthumb_png_exporter.glade.h:61
 msgid "_Draw frame"
@@ -4074,9 +4034,8 @@ msgstr "<b>Diavetítés</b>"
 
 # src/misc.c:529
 #: src/gthumb_preferences.glade.h:19
-#, fuzzy
 msgid "<b>View images as</b>"
-msgstr "<b>Új oldalon</b>"
+msgstr "<b>Képek megjelenítésének módja</b>"
 
 #: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
@@ -4088,25 +4047,21 @@ msgstr "<b>Nagyítás minősége</b>"
 
 # libnautilus-private/nautilus-global-preferences.c:105
 #: src/gthumb_preferences.glade.h:22
-#, fuzzy
 msgid "Activate items with a double click"
-msgstr "Elemek aktiválása _dupla kattintással"
+msgstr "Elemek aktiválása dupla kattintással"
 
 # libnautilus-private/nautilus-global-preferences.c:100
 #: src/gthumb_preferences.glade.h:23
-#, fuzzy
 msgid "Activate items with a single click"
-msgstr "Elemek aktiválása _egy kattintással"
+msgstr "Elemek aktiválása egy kattintással"
 
 #: src/gthumb_preferences.glade.h:24
-#, fuzzy
 msgid "After _loading an image:"
-msgstr "Képek letöltése"
+msgstr "A kép betöltése _után:"
 
 #: src/gthumb_preferences.glade.h:25
-#, fuzzy
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "_Megerősítés kérése elemek törlésekor"
+msgstr "_Megerősítés kérése képek vagy katalógusok törlésekor"
 
 # #-#-#-#-#  gnumeric.HEAD.hu.po-new.po (gnumeric 0.70)  #-#-#-#-#
 # #-#-#-#-#  nautilus.HEAD.hu.po-new.po (nautilus CVS-HEAD)  #-#-#-#-#
@@ -4177,15 +4132,13 @@ msgstr "Általános"
 
 # src/nautilus-shell-ui.xml.h:30
 #: src/gthumb_preferences.glade.h:40
-#, fuzzy
 msgid "Go to last _visited folder or catalog"
-msgstr "A következő meglátogatott helyre ugrik"
+msgstr "Ugrás az utoljára _meglátogatott mappába vagy katalógusba"
 
 # libnautilus-private/nautilus-search-uri.c:257
 #: src/gthumb_preferences.glade.h:41
-#, fuzzy
 msgid "Go to this _folder:"
-msgstr "Ugrás a kuka mappájához"
+msgstr "Ugrás a következő mappába:"
 
 #: src/gthumb_preferences.glade.h:42
 msgid "H_igh"
@@ -4334,6 +4287,8 @@ msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
+"<i>Ragadd meg a képet,\n"
+"és mozgasd a helyére.</i>"
 
 #: src/gthumb_print.glade.h:9
 msgid "A_4"
@@ -4457,12 +4412,11 @@ msgstr "Talált képek:"
 
 #: src/gthumb_search.glade.h:17
 msgid "Match a_ll selected categories"
-msgstr ""
+msgstr "Legyen benne _mindegyik kijelölt kategóriában"
 
 #: src/gthumb_search.glade.h:18
-#, fuzzy
 msgid "Match a_ny selected category"
-msgstr "Válassz ki egy fájlkategóriát"
+msgstr "Legyen benne _bármelyik kijelölt kategóriában"
 
 #: src/gthumb_search.glade.h:19
 msgid "New _Search..."
@@ -4498,7 +4452,7 @@ msgstr "<b>Fájllista rendezése</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
-msgstr ""
+msgstr "<b>Sablon megadása a képek átnevezéséhez</b>"
 
 # src/trans.h:115
 #: src/gthumb_tools.glade.h:7
@@ -4609,11 +4563,11 @@ msgstr "Változások visszavonása"
 
 #: src/gthumb_tools.glade.h:37
 msgid "Rotate image 90 degrees clockwise"
-msgstr "Kép elforgatása 90 fokkal jobbra"
+msgstr "A kép elforgatása 90 fokkal jobbra"
 
 #: src/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Kép elforgatása 90 fokkal balra"
+msgstr "A kép elforgatása 90 fokkal balra"
 
 #: src/gthumb_tools.glade.h:39
 msgid "Search terminated, no duplicates found."
@@ -4735,9 +4689,9 @@ msgid "Th_eme:"
 msgstr "_Téma:"
 
 #: src/gthumb_web_exporter.glade.h:35
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Use %d  to insert current date"
-msgstr "Nem tudtam generálni az aktuális dátumot!"
+msgstr "A %d jelenti az aktuális dátumot"
 
 #: src/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
