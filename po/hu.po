@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.1.6\n"
 "POT-Creation-Date: 2003-10-14 08:56+0200\n"
-"PO-Revision-Date: 2003-10-14 08:59+0200\n"
+"PO-Revision-Date: 2003-10-14 23:08+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgstr "_Nagyítás minősége"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr "%Y. %B %d., %H.%M"
+msgstr "%Y. %B %-d., %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:445 src/fullscreen.c:216
@@ -326,13 +326,13 @@ msgstr "A régi megjegyzések törlése folyamatban, várj..."
 
 #: libgthumb/comments.c:760
 msgid "%d %B %Y"
-msgstr "%Y. %B %d."
+msgstr "%Y. %B %-d."
 
 #: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
 #: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:388
 msgid "%d %B %Y, %H:%M"
-msgstr "%Y. %B %d., %H.%M"
+msgstr "%Y. %B %-d., %H.%M"
 
 #: libgthumb/comments.c:772
 msgid "(No Comment)"
