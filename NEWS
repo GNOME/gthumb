@@ -1,3 +1,7 @@
+version 2.6.0.1
+---------------
+	* Fixed bug #155958: Save as report incorrect write permissions issue.
+
 version 2.6.0
 -------------
 	* Check libraries version when configuring.
