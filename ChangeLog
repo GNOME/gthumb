@@ -1,3 +1,8 @@
+2003-08-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-web-exporter.c (thumb_loader_done): unref pixbuf
+	before changing its value.
+
 2003-08-18  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.1.5 released ]  

@@ -76,8 +76,6 @@ extern FILE         *yyin;
 #define DEFAULT_THUMB_SIZE 100
 #define DEFAULT_INDEX_FILE "index.html"
 #define SAVING_TIMEOUT 5
-#define DEFAULT_MAX_WIDTH 640
-#define DEFAULT_MAX_HEIGHT 480
 
 
 typedef struct {
@@ -315,9 +313,10 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->thumb_width = DEFAULT_THUMB_SIZE;
 	ce->thumb_height = DEFAULT_THUMB_SIZE;
 
+	ce->copy_images = FALSE;
 	ce->resize_images = FALSE;
-	ce->resize_max_width = DEFAULT_MAX_WIDTH;
-	ce->resize_max_height = DEFAULT_MAX_HEIGHT;
+	ce->resize_max_width = 0;
+	ce->resize_max_height = 0;
 
 	ce->preview_max_width = 0;
 	ce->preview_max_height = 0;
@@ -450,6 +449,9 @@ catalog_web_exporter_set_resize_images (CatalogWebExporter *ce,
 	if (resize) {
 		ce->resize_max_width = max_width;
 		ce->resize_max_height = max_height;
+	} else {
+		ce->resize_max_width = 0;
+		ce->resize_max_height = 0;
 	}
 }
 
@@ -494,7 +496,10 @@ catalog_web_exporter_set_preview_size (CatalogWebExporter *ce,
 {
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 
-	if ((ce->resize_max_width > 0) && (ce->resize_max_height > 0)) {
+	if (ce->copy_images 
+	    && ce->resize_images 
+	    && (ce->resize_max_width > 0) 
+	    && (ce->resize_max_height > 0)) {
 		if (width > ce->resize_max_width) 
 			width = ce->resize_max_width;
 		if (height > ce->resize_max_height) 
@@ -1770,8 +1775,6 @@ export__save_html_files (CatalogWebExporter *ce)
 static void
 load_next_file (CatalogWebExporter *ce)
 {
-	char *filename;
-
 	if (ce->interrupted) { 
 		if (ce->file_list != NULL) {
 			g_list_foreach (ce->file_list, 
@@ -1786,6 +1789,25 @@ load_next_file (CatalogWebExporter *ce)
 				   ce);
 		return;
 	}
+
+	/**/
+
+	if (ce->file_to_load != NULL) {
+		ImageData *idata = ce->file_to_load->data;
+		
+		if (idata->preview != NULL) {
+			g_object_unref (idata->preview);
+			idata->preview = NULL;
+		}
+
+		if (idata->image != NULL) {
+			g_object_unref (idata->image);
+			idata->image = NULL;
+		}
+	}
+
+
+	/**/
 
 	g_signal_emit (G_OBJECT (ce), 
 		       catalog_web_exporter_signals[PROGRESS],
@@ -1802,7 +1824,7 @@ load_next_file (CatalogWebExporter *ce)
 		export__save_html_files (ce);
 
 	} else {
-		filename = IMAGE_DATA (ce->file_to_load->data)->src_filename;
+		char *filename = IMAGE_DATA (ce->file_to_load->data)->src_filename;
 		thumb_loader_set_path (ce->tloader, filename);
 		thumb_loader_start (ce->tloader);
 	}
@@ -1834,9 +1856,6 @@ save_image_preview_cb (gpointer data)
 				ce->album_files = g_list_prepend (ce->album_files, filename);
 			else
 				g_free (filename);
-		
-			g_object_unref (idata->preview);
-			idata->preview = NULL;
 		}
 	}
 
@@ -1873,9 +1892,6 @@ save_resized_image_cb (gpointer data)
 				ce->album_files = g_list_prepend (ce->album_files, filename);
 			else
 				g_free (filename);
-		
-			g_object_unref (idata->image);
-			idata->image = NULL;
 		}
 	}
 
@@ -1926,6 +1942,7 @@ export__copy_image (CatalogWebExporter *ce)
 	exporter_set_info (ce, _("Saving images"));
 
 	idata = ce->file_to_load->data;
+
 	dest_filename = get_image_filename (ce, idata, ce->tmp_location);
 	src_list = g_list_append (src_list, new_uri_from_path (idata->src_filename));
 	dest_list = g_list_append (dest_list, new_uri_from_path (dest_filename));
@@ -1981,11 +1998,10 @@ thumb_loader_done (ThumbLoader *tloader,
 	/* image */
 
 	il = thumb_loader_get_image_loader (tloader);
-	pixbuf = image_loader_get_pixbuf (il);
-	idata->image_width = gdk_pixbuf_get_width (pixbuf);
-	idata->image_height = gdk_pixbuf_get_height (pixbuf);
+	idata->image = pixbuf = image_loader_get_pixbuf (il);
+	g_object_ref (idata->image);
 
-	if (ce->resize_images) {
+	if (ce->copy_images && ce->resize_images) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
 		if ((w > ce->resize_max_width) || (h > ce->resize_max_height)) {
@@ -1999,14 +2015,13 @@ thumb_loader_done (ThumbLoader *tloader,
 			new_w  = MAX ((int) (w * factor + 0.5), 1);
 			new_h  = MAX ((int) (h * factor + 0.5), 1);
 			scaled = gdk_pixbuf_scale_simple (pixbuf, new_w, new_h, GDK_INTERP_BILINEAR);
+			g_object_unref (idata->image);
 			idata->image = scaled;
-			idata->image_width = gdk_pixbuf_get_width (idata->image);
-			idata->image_height = gdk_pixbuf_get_height (idata->image);
-		} else {
-			idata->image = pixbuf;
-			g_object_ref (idata->image);
-		}
+		} 
 	}
+
+	idata->image_width = gdk_pixbuf_get_width (idata->image);
+	idata->image_height = gdk_pixbuf_get_height (idata->image);
 
 	/* preview */
 
@@ -2017,6 +2032,7 @@ thumb_loader_done (ThumbLoader *tloader,
 	if ((ce->preview_max_width > 0) && (ce->preview_max_height > 0)) {
 		int w = gdk_pixbuf_get_width (pixbuf);
 		int h = gdk_pixbuf_get_height (pixbuf);
+
 		if ((w > ce->preview_max_width) || (h > ce->preview_max_height)) {
 			float      max_w = ce->preview_max_width;
 			float      max_h = ce->preview_max_height;
@@ -2029,11 +2045,9 @@ thumb_loader_done (ThumbLoader *tloader,
 			new_h  = MAX ((int) (h * factor + 0.5), 1);
 
 			scaled = gdk_pixbuf_scale_simple (pixbuf, new_w, new_h, GDK_INTERP_BILINEAR);
+			g_object_unref (idata->preview);
 			idata->preview = scaled;
-		} else {
-			idata->preview = pixbuf;
-			g_object_ref (idata->preview);
-		}
+		} 
 	}
 
 	idata->preview_width = gdk_pixbuf_get_width (idata->preview);
@@ -2042,8 +2056,6 @@ thumb_loader_done (ThumbLoader *tloader,
 	idata->no_preview = ((idata->preview_width == idata->image_width) 
 			     && (idata->preview_height == idata->image_height));
 	
-	debug (DEBUG_INFO, "no preview: %d", idata->no_preview);
-
 	if (idata->no_preview) 
 		if (idata->preview != NULL) {
 			g_object_unref (idata->preview);
