@@ -4356,7 +4356,7 @@ add_listener_for_toggle_items (GThumbWindow *window)
 }
 
 
-void
+static void
 window_sync_menu_with_preferences (GThumbWindow *window)
 {
 	char *prop;

@@ -332,8 +332,6 @@ void            window_add_monitor                  (GThumbWindow *window);
 
 void            window_remove_monitor               (GThumbWindow *window);
 
-void            window_sync_menu_with_preferences   (GThumbWindow *window);
-
 void            window_exec_pixbuf_op               (GThumbWindow *window,
 						     GthPixbufOp  *pixop);
 

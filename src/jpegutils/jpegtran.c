@@ -46,8 +46,8 @@
 #include <setjmp.h>
 #include <jpeglib.h>
 #include <glib.h>
-#include "libgthumb/gthumb-error.h"
-#include "libgthumb/file-utils.h"
+#include "gthumb-error.h"
+#include "file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
 
 

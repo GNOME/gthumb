@@ -52,8 +52,6 @@ void all_windows_update_catalog_list           ();
 
 void all_windows_update_bookmark_list          ();
 
-void all_windows_update_viewer_options         ();
-
 void all_windows_update_browser_options        ();
 
 void all_windows_notify_files_created          (GList *list);

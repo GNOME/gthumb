@@ -459,31 +459,6 @@ all_windows_update_bookmark_list ()
 
 
 void 
-all_windows_update_viewer_options ()
-{
-	GList *scan;
-
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-
-		image_viewer_set_check_type   (IMAGE_VIEWER (window->viewer),
-					       pref_get_check_type ());
-		image_viewer_set_check_size   (IMAGE_VIEWER (window->viewer),
-					       pref_get_check_size ());
-		image_viewer_set_transp_type  (IMAGE_VIEWER (window->viewer),
-					       pref_get_transp_type ());
-		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
-					       pref_get_zoom_quality ());
-		image_viewer_set_zoom_change  (IMAGE_VIEWER (window->viewer),
-					       pref_get_zoom_change ());
-		image_viewer_update_view      (IMAGE_VIEWER (window->viewer));
-
-		window_sync_menu_with_preferences (window);
-	}
-}
-
-
-void 
 all_windows_update_browser_options ()
 {
 	GList *scan;
