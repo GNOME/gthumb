@@ -1,7 +1,7 @@
 2005-01-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/ui.h: 
-	* src/gthumb-window.c (key_press_cb): 
+	* src/gthumb-window.c (key_press_cb): removed GDK_f and GDK_s commands.
 
 	Fixes bug #156677:  - ctrl+S should be the save shortcut, not the 
 	Slide Show

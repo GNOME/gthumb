@@ -2756,7 +2756,6 @@ key_press_cb (GtkWidget   *widget,
 		return TRUE;
 
 		/* Full screen view. */
-	case GDK_f:
 	case GDK_v:
 	case GDK_F11:
 		if (window->image_path != NULL)
@@ -2802,14 +2801,6 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_x:
 		activate_action_view_zoom_fit (NULL, window);
 		return TRUE;
-
-		/* Start/Stop Slideshow. */
-        case GDK_s:
-		if (! window->slideshow)
-			window_start_slideshow (window);
-		else
-			window_stop_slideshow (window);
-                break;
 
 		/* Play animation */
 	case GDK_g:
