@@ -1,3 +1,8 @@
+2003-10-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* add-include-prefix: make the script portable (patch from Pav
+	Lucistnik <pav@oook.cz>)
+
 2003-10-13  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.1.7 released ]  
