@@ -2007,6 +2007,7 @@ static int catalog_cols[5] = {1, 1, 2, 2, 4};
 
 static double log2 (double x)
 {
+	g_print ("%f / %f\n", log(x), log(2));
 	return log(x) / log(2);
 }
 
@@ -2345,7 +2346,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	double            max_w, max_h;
 	GnomeCanvasGroup *root;
 	int               layout_width;
-	int               i, rows, cols, row, col, page = 0;
+	int               i, rows, cols, row, col, page = 0, idx;
 
 	g_free (pci->pages);
 
@@ -2370,8 +2371,9 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	max_w = w - lmargin - rmargin;
 	max_h = h - bmargin - tmargin;
 
-	rows = catalog_rows[(int) log2 (pci->images_per_page)];
-	cols = catalog_cols[(int) log2 (pci->images_per_page)];
+	idx = (int) floor (log2 (pci->images_per_page) + 0.5);
+	rows = catalog_rows[idx];
+	cols = catalog_cols[idx];
 
 	if (!orientation_is_portrait (data->pci->config)) {
 		int tmp = rows;
@@ -2985,6 +2987,9 @@ images_per_page_value_changed_cb (GtkOptionMenu           *option_menu,
 				  PrintCatalogDialogData  *data)
 {
 	data->pci->images_per_page = (int) pow (2, gtk_option_menu_get_history (option_menu));
+
+	g_print ("IPP: %d\n", data->pci->images_per_page);
+
 	catalog_update_page (data);
 }
 

@@ -1131,7 +1131,7 @@
 		      <property name="spacing">2</property>
 
 		      <child>
-			<widget class="GtkImage" id="image48">
+			<widget class="GtkImage" id="j_reset_image">
 			  <property name="visible">True</property>
 			  <property name="stock">gtk-undo</property>
 			  <property name="icon_size">4</property>

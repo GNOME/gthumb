@@ -45,6 +45,7 @@
 #include "icons/pixbufs.h"
 #include "jpegutils/jpegtran.h"
 #include "pixbuf-utils.h"
+#include "gthumb-stock.h"
 
 
 #define ROTATE_GLADE_FILE "gthumb_tools.glade"
@@ -785,6 +786,7 @@ dlg_jpegtran (GThumbWindow *window)
 	GtkWidget   *j_help_button;
 	GtkWidget   *j_cancel_button;
 	GtkWidget   *j_ok_button;
+	GtkWidget   *reset_image;
 	GList       *list;
 
 	list = gth_file_list_get_selection_as_fd (window->file_list);
@@ -830,6 +832,9 @@ dlg_jpegtran (GThumbWindow *window)
 	j_ok_button = glade_xml_get_widget (data->gui, "j_ok_button");
 
 	/* Set widgets data. */
+
+	reset_image = glade_xml_get_widget (data->gui, "j_reset_image");
+	gtk_image_set_from_stock (GTK_IMAGE (reset_image), GTHUMB_STOCK_RESET, GTK_ICON_SIZE_MENU);
 
 	add_image_to_button (j_rot_90_button, rotate_90_24_rgba);
 	add_image_to_button (j_rot_270_button, rotate_270_24_rgba);

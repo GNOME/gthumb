@@ -9,6 +9,15 @@ version 2.3.0
 	* Allow to save void searches.
 	* Update "View Next Images" and "View Prev Image" sensitivity.
 	* New search icon.
+	* When serching use the file mtime if no time is defined in the 
+          comment.
+        * Removed Exit from the File menu.
+        * Simplify the Index Image dialog.
+	* Check write permissions before saving an image.
+	* Use a faster loader for jpeg images when creating thumbnails.
+	* Do not launch Nautilus explicitly, use gnome_url_show instead.
+	* Added --import-photos option to automatically open the import 
+	  photos dialog.
 
 version 2.2.0
 -------------

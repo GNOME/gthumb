@@ -3691,6 +3691,11 @@
 	  <long>Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="de">
+	  
+	  <long>Zulässige Werte: none (keins), name, path (Pfad), size (Größe) sowie time (Datum).</long>
+	</locale>
+
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>

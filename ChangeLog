@@ -1,5 +1,12 @@
 2004-01-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	[ gthumb 2.3.0 released ]
+
+	* libgthumb/print-callbacks.c (add_catalog_preview): round result 
+	before converting it to integer.
+
+	* src/dlg-jpegtran.c (dlg_jpegtran): use the GTHUMB_STOCK_RESET icon.
+
 	* src/gthumb-window.c (get_image_to_preload): check dimensions before 
 	preloading an image.
 
