@@ -41,35 +41,31 @@
   <body background="background.png">
 
     <!-- Navigation Bar -->
-    <table width=95% align=center>
-      <tr>
-        <td align=left>
+    <p align=center>
+      <span class=title><gthumb:header/></span>
+    </p>
+    <p align=right>
+          <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+            <img align="middle" src="back.png" width="18" height="15" border="0"></a>
+
+          &nbsp;
+
           <gthumb:if images > 1 && image_idx > 1 />
             <a href="<gthumb:image_link idx_relative=-1/>">
-              <img src="prev.png" width=18 height=20 border=0></a>
+              <img align="middle" src="prev.png" width=18 height=20 border=0></a>
           <gthumb:else/>
-              <img src="transparent.png" width=18 height=20 border=0></a>
+              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
           <gthumb:end/>
 
-        <td align=center>
-          <a href="<gthumb:page_link idx_relative=0 image_idx/>">
-            <img src="back.png" width="18" height="15" border="0">
-            &nbsp;
-            <span class=title>
-              <gthumb:header/>
-            </span>
-          </a>
+          &nbsp;
 
-        <td align=right>
           <gthumb:if images > 1 && image_idx < images />
             <a href="<gthumb:image_link idx_relative=+1/>">
-              <img src="next.png" width=18 height=20 border=0></a>
+              <img align="middle" src="next.png" width=18 height=20 border=0></a>
           <gthumb:else/>
-              <img src="transparent.png" width=18 height=20 border=0></a>
+              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
           <gthumb:end/>
-    </table>
-
-    &nbsp;
+    </p>
 
     <!-- Image -->
     <table align=center border=0 cellpadding=0 width="95%">
@@ -259,8 +255,7 @@
     &nbsp;
 
     <center>
-      <img src="white-dot.png" width=85% height=2>
-      &nbsp;<br>
+      <img src="white-dot.png" width="100%" height=2>
       <span class=copyright>
          <gthumb:footer/>
       </span>

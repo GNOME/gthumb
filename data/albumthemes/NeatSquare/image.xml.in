@@ -29,7 +29,7 @@
 	}
 	span.copyright {
 		color: gray;
-		font-size: small;
+		font-size: x-small;
 		text-align: center;
 	}
     </style>
@@ -38,6 +38,13 @@
 	<!-- Navigation Bar -->
 
 	<table border=0 cellspacing=0 width="100%">
+          <tr>
+	    <td colspan=4 align="center" width="100%">
+	      <font color="#555555" size=+2>
+	        <b><gthumb:header/></b>
+	      </font>
+	    </td>
+	  </tr>
 	  <tr>
 	    <td align="left" width="88%">
 	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
@@ -307,13 +314,12 @@
 
 	<!-- Navigation Bar -->
 
-	<table align="center" border=0 cellspacing=0 width="90%">
+	<table align="center" border=0 cellspacing=0 width="100%">
 	  <tr>
 	    <td bgcolor="#969696">
 	      <img src="1.gif" height="1" border="0"></td></tr>
 	  <tr>
 	    <td align="center">
-	      &nbsp;<BR>
               <span class=copyright><gthumb:footer/></span></td></tr>
 	</table>
 </body>

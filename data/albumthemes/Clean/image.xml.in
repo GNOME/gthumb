@@ -20,6 +20,11 @@
   <body bgcolor=white>
     <!-- Navigation Bar -->
     <table align=center border=0  width="95%">
+      <tr bgcolor="white">
+        <td align=center colspan=2 width=88%>
+          &nbsp;<b><span class=titolo><gthumb:header/></span></b>
+        </td>
+      </tr>
       <tr>
         <td align=left>
           <tt>
@@ -46,11 +51,6 @@
             <gthumb:end/>
             </tt>
          <gthumb:end/>
-      </tr>
-      <tr bgcolor="white">
-        <td align=center colspan=2 width=88%>
-          &nbsp;<b><span class=titolo><gthumb:header/></span></b>
-        </td>
       </tr>
     </table>
 

@@ -1,5 +1,12 @@
 2003-10-05  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* data/albumthemes/*/*.xml.in: little changes.
+
+	* src/dlg-categories.c (dlg_categories): 
+	* src/dlg-comment.c (dlg_edit_comment): Set the transient for
+	window the window the viewer belongs to.  This is because comment
+	and categories dialogs can be used even in fullscreen mode.
+
 	* doc/C/gthumb.xml: updated.
 
 2003-10-04  Paolo Bacchilega  <paolo.bacch@tin.it>

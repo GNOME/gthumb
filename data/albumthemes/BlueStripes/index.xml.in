@@ -43,30 +43,26 @@
   <body background="background.png">
 
     <!-- Navigation Bar -->
-    <table width=95% align=center>
-      <tr>
-        <td align=left>
+    <p align="center">
+          <span class=title><gthumb:header/></span>     
+    </p>
+    <p align="right">
           <gthumb:if pages > 1 && page_idx > 1 />
             <a href="<gthumb:page_link idx_relative=-1/>">
-              <img src="prev.png" width=18 height=20 border=0></a>
+              <img align="middle" src="prev.png" width=18 height=20 border=0></a>
           <gthumb:else/>
-              <img src="transparent.png" width=18 height=20 border=0></a>
+              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
           <gthumb:end/>
-        <td align=center>
-          <span class=title>
-            <gthumb:header/>
-          </span>
 
-        <td align=right>
-          <gthumb:if pages > 1 && page_idx < pages />
+          &nbsp;
+
+	  <gthumb:if pages > 1 && page_idx < pages />
             <a href="<gthumb:page_link idx_relative=+1/>">
-              <img src="next.png" width=18 height=20 border=0></a>
+              <img align="middle" src="next.png" width=18 height=20 border=0></a>
           <gthumb:else/>
-              <img src="transparent.png" width=18 height=20 border=0></a>
+              <img align="middle" src="transparent.png" width=18 height=20 border=0></a>
           <gthumb:end/>
-    </table>
-
-    &nbsp;
+    </p>
 
     <!-- Table -->
     <table align=center border=0 cellpadding=5 width="95%">
@@ -76,8 +72,7 @@
     &nbsp;
 
     <center>
-      <img src="white-dot.png" width=95% height=2>
-      &nbsp;<br>
+      <img src="white-dot.png" width="100%" height=2>
       <span class=copyright>
          <gthumb:footer/>
       </span>

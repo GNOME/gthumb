@@ -28,7 +28,7 @@
 	}
 	span.copyright {
 		color: #969696;
-		font-size: small;
+		font-size: x-small;
 		text-align: center;
 	}
     </style>
@@ -37,6 +37,13 @@
 	<!-- Navigation Bar -->
 
 	<table border=0 cellspacing=0 width="100%">
+          <tr>
+	    <td colspan=4 align="center" width="100%">
+	      <font color="#555555" size=+2>
+	        <b><gthumb:header/></b>
+	      </font>
+	    </td>
+	  </tr>
 	  <tr>
             <td width="83%">
             </td>
@@ -71,13 +78,6 @@
 		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
 		<gthumb:end/>
 	    <gthumb:end/>
-          <tr>
-	    <td colspan=4 align="center" width="100%">
-	      <font color="#555555" size=+2>
-	        <b><gthumb:header/></b>
-	      </font>
-	    </td>
-	  </tr>
 	</table>
 
 	&nbsp;<BR>
@@ -91,13 +91,12 @@
 	
 	<!-- Navigation Bar -->
 
-	<table align=center border=0 cellspacing=0 width="90%">
+	<table align=center border=0 cellspacing=0 width="100%">
 	  <tr>
 	    <td bgcolor="#969696">
 	      <img src="1.gif" height="1" border="0"></td></tr>
 	  <tr>
 	    <td align="center">
-	      &nbsp;<BR>
               <span class=copyright><gthumb:footer/></span></td></tr>
 	</table>
   </body>
