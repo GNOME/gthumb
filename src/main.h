@@ -59,8 +59,11 @@ void all_windows_notify_files_deleted          (GList *list);
 
 void all_windows_notify_files_changed          (GList *list);
 
-void all_windows_notify_cat_files_deleted      (const gchar *catalog_path,
-						GList *list);
+void all_windows_notify_cat_files_added        (const char *catalog_path,
+						GList      *list);
+
+void all_windows_notify_cat_files_deleted      (const char *catalog_path,
+						GList      *list);
 
 void all_windows_notify_file_rename            (const gchar *oldname,
 						const gchar *newname);

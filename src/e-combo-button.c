@@ -22,8 +22,7 @@
  */
 
 /*
- * Ported to gtk 2 and modified a bit.
- * Author: Paolo bacchilega <paolo.bacch@tin.it> 
+ * Ported to gtk 2 and modified a bit by Paolo bacchilega <paolo.bacch@tin.it> 
  */
 
 

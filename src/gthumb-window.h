@@ -225,9 +225,13 @@ void            window_notify_files_deleted         (GThumbWindow *window,
 void            window_notify_files_changed         (GThumbWindow *window,
 						     GList *list);
 
+void            window_notify_cat_files_added       (GThumbWindow *window,
+						     const char   *catalog_name,
+						     GList        *list);
+
 void            window_notify_cat_files_deleted     (GThumbWindow *window,
-						     const gchar *catalog_name,
-						     GList *list);
+						     const char   *catalog_name,
+						     GList        *list);
 
 void            window_notify_file_rename           (GThumbWindow *window,
 						     const gchar *old_name,

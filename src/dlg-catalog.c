@@ -214,10 +214,12 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	}
 
 	for (scan = data->data.list; scan; scan = scan->next)
-		catalog_add_item (catalog, (gchar*) scan->data);
+		catalog_add_item (catalog, (char*) scan->data);
 
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
+	else
+		all_windows_notify_cat_files_added (cat_path, data->data.list);
 
 	catalog_free (catalog);
 	g_free (cat_path);

@@ -32,6 +32,7 @@
 #include <libgnomeui/gnome-font-picker.h>
 #include <glade/glade.h>
 #include "catalog-png-exporter.h"
+#include "dlg-file-utils.h"
 #include "file-utils.h"
 #include "gtk-utils.h"
 #include "image-list.h"
@@ -193,47 +194,11 @@ export (GtkWidget  *widget,
 	dir = remove_ending_separator (path);
 	g_free (path);
 
-	if (! path_is_dir (dir)) {
-		GtkWidget *d;
-		int        result;
-
-		d = _gtk_yesno_dialog_new (GTK_WINDOW (data->window->app),
-					   GTK_DIALOG_MODAL,
-					   _("Destination folder does not exits. " "Do you want to create it ?"),
-					   GTK_STOCK_CANCEL,
-					   _("C_reate"));
-
-		result = gtk_dialog_run (GTK_DIALOG (d));
-		gtk_widget_destroy (GTK_WIDGET (d));
-
-		if (result != GTK_RESPONSE_YES) {
-			g_free (dir);
-			return;
-		}
-
-		if (! ensure_dir_exists (dir, 0755)) {
-			char *utf8_path;
-			utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
-			_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-					       _("Could not create folder \"%s\": %s."),
-					       utf8_path,
-					       errno_to_string ());
-			g_free (utf8_path);
-			g_free (dir);
-			return;
-		}
-	}
-
-	if (access (dir, R_OK | W_OK | X_OK) != 0) {
-		char *utf8_path;
-		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-				       _("You don't have the right permissions to create images in the folder \"%s\""),
-				       utf8_path);
-		g_free (utf8_path);
+	if (! dlg_check_folder (data->window, dir)) {
 		g_free (dir);
 		return;
 	}
+
 	gtk_widget_hide (data->dialog);
 
 	catalog_png_exporter_set_directory (exporter, dir);

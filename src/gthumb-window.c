@@ -576,7 +576,6 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    is_catalog;
 	gboolean    is_search;
 	gboolean    not_fullscreen;
-	GList      *list, *scan;
 
 	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
@@ -766,15 +765,20 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Wallpaper_Stretched", ! image_is_void);
 
 	/* Rotate Tool */
-	
-	list = file_list_get_selection_as_fd (window->file_list);
-	for (scan = list; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		if (image_is_jpeg (fd->path)) 
-			break;
-	}
-	set_command_sensitive (window, "Tools_JPEGRotate", scan != NULL);
-	g_list_free (list);
+
+	if (! window->setting_file_list && ! window->changing_directory) {
+		GList *list, *scan;
+		list = file_list_get_selection_as_fd (window->file_list);
+		for (scan = list; scan; scan = scan->next) {
+			FileData *fd = scan->data;
+			if (image_is_jpeg (fd->path)) 
+				break;
+		}
+		g_list_free (list);
+		set_command_sensitive (window, "Tools_JPEGRotate", scan != NULL);
+
+	} else
+		set_command_sensitive (window, "Tools_JPEGRotate", FALSE);
 }
 
 
@@ -1645,10 +1649,10 @@ file_list_double_click_cb (GtkWidget  *widget,
 
 
 static void
-dir_activated_cb (GtkTreeView       *tree_view,
-                  GtkTreePath       *path,
-                  GtkTreeViewColumn *column,
-                  gpointer           data)
+dir_list_activated_cb (GtkTreeView       *tree_view,
+		       GtkTreePath       *path,
+		       GtkTreeViewColumn *column,
+		       gpointer           data)
 {
 	GThumbWindow *window = data;
 	char         *new_dir;
@@ -1660,9 +1664,9 @@ dir_activated_cb (GtkTreeView       *tree_view,
 
 
 static int
-dir_button_press_cb (GtkWidget      *widget,
-		     GdkEventButton *event,
-		     gpointer        data)
+dir_list_button_press_cb (GtkWidget      *widget,
+			  GdkEventButton *event,
+			  gpointer        data)
 {
 	GThumbWindow *window     = data;
 	GtkWidget    *treeview   = window->dir_list->list_view;
@@ -2656,15 +2660,6 @@ viewer_drag_data_get  (GtkWidget        *widget,
 }
 
 
-static void  
-viewer_drag_data_delete  (GtkWidget      *widget,
-			  GdkDragContext *context,
-			  gpointer        data)
-{
-	g_warning ("DragDataDelete called !!!");
-}
-
-
 static gint
 viewer_key_press_cb (GtkWidget   *widget, 
 		     GdkEventKey *event,
@@ -2839,6 +2834,20 @@ get_file_list_from_url_list (char *url_list)
 }
 
 
+static void
+move_items__continue (GnomeVFSResult result,
+		      gpointer       data)
+{
+	GThumbWindow *window = data;
+
+	if (result != GNOME_VFS_OK) 
+		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+				       "%s %s",
+				       _("Could not move the items:"), 
+				       gnome_vfs_result_to_string (result));
+}
+
+
 static void  
 image_list_drag_data_received  (GtkWidget          *widget,
 				GdkDragContext     *context,
@@ -2849,60 +2858,31 @@ image_list_drag_data_received  (GtkWidget          *widget,
 				guint               time,
 				gpointer            extra_data)
 {
-	GThumbWindow *window = extra_data;
-	Catalog      *catalog;
-	char         *catalog_path;
-	char         *catalog_name;
-	GList        *list;
-	GList        *scan;
-	GError       *gerror;
-
-	if (! ((data->length >= 0) && (data->format == 8))) {
+	GThumbWindow            *window = extra_data;
+	char                    *dest_dir = NULL;
+	
+	if (! ((data->length >= 0) && (data->format == 8))
+	    || (window->sidebar_content != DIR_LIST)) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
-	list = get_file_list_from_url_list ((gchar *)data->data);
-
-	/* Create a catalog with the Drag&Drop list. */
-
-	catalog = catalog_new ();
-	catalog_name = g_strconcat (_("Drag & Drop"),
-				    CATALOG_EXT,
-				    NULL);
-	catalog_path = get_catalog_full_path (catalog_name);
-	g_free (catalog_name);
-
-	catalog_set_path (catalog, catalog_path);
-
-	for (scan = list; scan; scan = scan->next) 
-		catalog_add_item (catalog, (char*) scan->data);
-
-	if (! catalog_write_to_disk (catalog, &gerror)) 
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-	else 
-		/* View the Drag&Drop catalog. */
-		window_go_to_catalog (window, catalog_path);
-
-	catalog_free (catalog);
-	path_list_free (list);
-	g_free (catalog_path);
-}
-
-
-static void
-copy_items__continue (GnomeVFSResult result,
-		      gpointer       data)
-{
-	GThumbWindow *window = data;
-
-	if (result != GNOME_VFS_OK) 
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       "%s %s",
-				       _("Could not delete the images:"), 
-				       gnome_vfs_result_to_string (result));
+	dest_dir = window->dir_list->path;
+	
+	if (dest_dir != NULL) {
+		GList *list;
+		list = get_file_list_from_url_list ((char*) data->data);
+		dlg_copy_items (window, 
+				list,
+				dest_dir,
+				TRUE,
+				TRUE,
+				move_items__continue,
+				window);
+		path_list_free (list);
+	}
 }
 
 
@@ -2916,8 +2896,12 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 			      guint               time,
 			      gpointer            extra_data)
 {
-	GThumbWindow *window = extra_data;
-	GList        *list;
+	GThumbWindow            *window = extra_data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	int                      pos;
+	char                    *dest_dir = NULL;
+	const char              *current_dir;
 
 	if (! ((data->length >= 0) && (data->format == 8))) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
@@ -2926,24 +2910,276 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
-	list = get_file_list_from_url_list ((char *)data->data);
+	g_return_if_fail (window->sidebar_content == DIR_LIST);
 
-	if (window->sidebar_content == DIR_LIST) {
-		const char *current_dir;
+	/**/
 
-		current_dir = window->dir_list->path;
+	if (gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (window->dir_list->list_view),
+					       x, y,
+					       &pos_path,
+					       &drop_pos)) {
+		pos = gtk_tree_path_get_indices (pos_path)[0];
+		gtk_tree_path_free (pos_path);
+	} else
+		pos = -1;
+	
+	current_dir = window->dir_list->path;
+	
+	if (pos == -1) {
+		if (current_dir != NULL)
+			dest_dir = g_strdup (current_dir);
+	} else
+		dest_dir = dir_list_get_path_from_row (window->dir_list,
+						       pos);
+	
+	/**/
+	
+	if (dest_dir != NULL) {
+		GList *list;
+		list = get_file_list_from_url_list ((char*)data->data);
+		dlg_copy_items (window, 
+				list,
+				dest_dir,
+				TRUE,
+				TRUE,
+				move_items__continue,
+				window);
+		path_list_free (list);
+	}
+	
+	g_free (dest_dir);
+}
 
-		if (current_dir != NULL) 
-			dlg_copy_items (window, 
-					list,
-					current_dir,
-					TRUE,
-					TRUE,
-					copy_items__continue,
-					window);
+
+static gboolean
+dir_list_drag_motion (GtkWidget          *widget,
+		      GdkDragContext     *context,
+		      gint                x,
+		      gint                y,
+		      guint               time,
+		      gpointer            extra_data)
+{
+	GThumbWindow            *window = extra_data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	GtkTreeView             *list_view;
+
+	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
+
+	if (! gtk_tree_view_get_dest_row_at_pos (list_view,
+						 x, y,
+						 &pos_path,
+						 &drop_pos)) 
+		pos_path = gtk_tree_path_new_first ();
+
+	switch (drop_pos) {
+	case GTK_TREE_VIEW_DROP_BEFORE:
+	case GTK_TREE_VIEW_DROP_INTO_OR_BEFORE:
+		drop_pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
+		break;
+
+	case GTK_TREE_VIEW_DROP_AFTER:
+	case GTK_TREE_VIEW_DROP_INTO_OR_AFTER:
+		drop_pos = GTK_TREE_VIEW_DROP_INTO_OR_AFTER;
+		break;
 	}
 
-	path_list_free (list);
+	gtk_tree_view_set_drag_dest_row  (list_view, pos_path, drop_pos);
+	gtk_tree_path_free (pos_path);
+
+	return TRUE;
+}
+
+
+static void
+dir_list_drag_leave (GtkWidget          *widget,
+		     GdkDragContext     *context,
+		     guint               time,
+		     gpointer            extra_data)
+{	
+	GThumbWindow            *window = extra_data;
+	GtkTreeView             *list_view;
+
+	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
+	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
+}
+
+
+static void  
+dir_list_drag_data_get  (GtkWidget        *widget,
+			 GdkDragContext   *context,
+			 GtkSelectionData *selection_data,
+			 guint             info,
+			 guint             time,
+			 gpointer          data)
+{
+	GThumbWindow     *window = data;
+        char             *target;
+	char             *path, *uri;
+	GtkTreeIter       iter;
+	GtkTreeSelection *selection;
+
+        target = gdk_atom_name (selection_data->target);
+        if (strcmp (target, "text/uri-list") != 0) {
+		g_free (target);
+		return;
+	}
+        g_free (target);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->dir_list->list_view));
+	if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
+
+	path = dir_list_get_path_from_iter (window->dir_list, &iter);
+	uri = g_strconcat ("file://", path, "\n", NULL);
+        gtk_selection_data_set (selection_data, 
+                                selection_data->target,
+                                8, 
+				path,
+                                strlen (uri));
+	g_free (path);
+	g_free (uri);
+}
+
+
+static void  
+catalog_list_drag_data_received  (GtkWidget          *widget,
+				  GdkDragContext     *context,
+				  int                 x,
+				  int                 y,
+				  GtkSelectionData   *data,
+				  guint               info,
+				  guint               time,
+				  gpointer            extra_data)
+{
+	GThumbWindow            *window = extra_data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	int                      pos;
+	char                    *dest_catalog = NULL;
+	const char              *current_catalog;
+
+	if (! ((data->length >= 0) && (data->format == 8))) {
+		gtk_drag_finish (context, FALSE, FALSE, time);
+		return;
+	}
+
+	gtk_drag_finish (context, TRUE, FALSE, time);
+
+	g_return_if_fail (window->sidebar_content == CATALOG_LIST);
+
+	/**/
+
+	if (gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (window->catalog_list->list_view),
+					       x, y,
+					       &pos_path,
+					       &drop_pos)) {
+		pos = gtk_tree_path_get_indices (pos_path)[0];
+		gtk_tree_path_free (pos_path);
+	} else
+		pos = -1;
+	
+	current_catalog = window->catalog_path;
+	
+	if (pos == -1) {
+		if (current_catalog != NULL)
+			dest_catalog = g_strdup (current_catalog);
+	} else
+		dest_catalog = catalog_list_get_path_from_row (window->catalog_list, pos);
+	
+	/**/
+	
+	if (path_is_file (dest_catalog)) {
+		GList   *list;
+		Catalog *catalog;
+		GError  *gerror;
+		
+		list = get_file_list_from_url_list ((char*)data->data);
+		
+		catalog = catalog_new ();
+		
+		if (! catalog_load_from_disk (catalog, dest_catalog, &gerror)) 
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
+		
+		else {
+			GList    *scan;
+			GList    *files_added = NULL;
+			
+			for (scan = list; scan; scan = scan->next) {
+				char *filename = scan->data;
+				if (path_is_file (filename)) {
+					catalog_add_item (catalog, filename);
+					files_added = g_list_prepend (files_added, filename);
+				}
+			}
+			
+			if (! catalog_write_to_disk (catalog, &gerror)) 
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
+			else 
+				all_windows_notify_cat_files_added (dest_catalog, files_added);
+			
+			g_list_free (files_added);
+		}
+
+		catalog_free (catalog);
+		path_list_free (list);
+	}
+	
+	g_free (dest_catalog);
+}
+
+
+static gboolean
+catalog_list_drag_motion (GtkWidget          *widget,
+			  GdkDragContext     *context,
+			  gint                x,
+			  gint                y,
+			  guint               time,
+			  gpointer            extra_data)
+{
+	GThumbWindow            *window = extra_data;
+	GtkTreePath             *pos_path;
+	GtkTreeViewDropPosition  drop_pos;
+	GtkTreeView             *list_view;
+
+	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
+
+	if (! gtk_tree_view_get_dest_row_at_pos (list_view,
+						 x, y,
+						 &pos_path,
+						 &drop_pos)) 
+		pos_path = gtk_tree_path_new_first ();
+
+	switch (drop_pos) {
+	case GTK_TREE_VIEW_DROP_BEFORE:
+	case GTK_TREE_VIEW_DROP_INTO_OR_BEFORE:
+		drop_pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
+		break;
+
+	case GTK_TREE_VIEW_DROP_AFTER:
+	case GTK_TREE_VIEW_DROP_INTO_OR_AFTER:
+		drop_pos = GTK_TREE_VIEW_DROP_INTO_OR_AFTER;
+		break;
+	}
+
+	gtk_tree_view_set_drag_dest_row  (list_view, pos_path, drop_pos);
+	gtk_tree_path_free (pos_path);
+
+	return TRUE;
+}
+
+
+static void
+catalog_list_drag_leave (GtkWidget          *widget,
+			 GdkDragContext     *context,
+			 guint               time,
+			 gpointer            extra_data)
+{	
+	GThumbWindow            *window = extra_data;
+	GtkTreeView             *list_view;
+
+	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
+	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
 }
 
 
@@ -3522,19 +3758,6 @@ window_new (void)
 				     PANE_MIN_SIZE);
 	file_list_set_progress_func (window->file_list, window_progress, window);
 
-	/*
-	gtk_drag_dest_set (window->app,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
-			   GDK_ACTION_COPY | GDK_ACTION_MOVE);
-	*/
-	/*
-	g_signal_connect (G_OBJECT (window->app), 
-			  "drag_data_received",
-			  G_CALLBACK (window_drag_data_received), 
-			  window);
-	*/
-
 	gtk_drag_dest_set (window->file_list->ilist,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
@@ -3548,16 +3771,47 @@ window_new (void)
 	/* Catalog/Folder list. */
 
 	window->dir_list = dir_list_new ();
-	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == CLICK_POLICY_SINGLE);
-
 	gtk_drag_dest_set (window->dir_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
 			   GDK_ACTION_MOVE);
-
 	g_signal_connect (G_OBJECT (window->dir_list->root_widget),
 			  "drag_data_received",
 			  G_CALLBACK (dir_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
+			  "drag_motion",
+			  G_CALLBACK (dir_list_drag_motion), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
+			  "drag_leave",
+			  G_CALLBACK (dir_list_drag_leave), 
+			  window);
+	gtk_drag_source_set (window->dir_list->list_view,
+			     GDK_BUTTON1_MASK,
+			     target_table, n_targets, 
+			     GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view),
+			  "drag_data_get",
+			  G_CALLBACK (dir_list_drag_data_get), 
+			  window);
+
+	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == CLICK_POLICY_SINGLE);
+	gtk_drag_dest_set (window->catalog_list->root_widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget),
+			  "drag_data_received",
+			  G_CALLBACK (catalog_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
+			  "drag_motion",
+			  G_CALLBACK (catalog_list_drag_motion), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
+			  "drag_leave",
+			  G_CALLBACK (catalog_list_drag_leave), 
 			  window);
 
 	window->notebook = gtk_notebook_new ();
@@ -3578,6 +3832,7 @@ window_new (void)
 			  "key_press_event",
 			  G_CALLBACK (location_entry_key_press_cb),
 			  window);
+
 	window->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
 
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
@@ -3625,11 +3880,11 @@ window_new (void)
 
 	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
 			  "button_press_event",
-			  G_CALLBACK (dir_button_press_cb), 
+			  G_CALLBACK (dir_list_button_press_cb), 
 			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->list_view),
                           "row_activated",
-                          G_CALLBACK (dir_activated_cb),
+                          G_CALLBACK (dir_list_activated_cb),
                           window);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->dir_list->list_view));
@@ -3752,10 +4007,6 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->viewer),
 			  "drag_data_get",
 			  G_CALLBACK (viewer_drag_data_get), 
-			  window);
-	g_signal_connect (G_OBJECT (window->viewer),
-			  "drag_data_delete",
-			  G_CALLBACK (viewer_drag_data_delete), 
 			  window);
 
 	g_signal_connect (G_OBJECT (window->viewer),
@@ -5712,6 +5963,24 @@ window_notify_files_changed (GThumbWindow *window,
 		if (pos != -1)
 			view_image_at_pos (window, pos);
 	}
+}
+
+
+void
+window_notify_cat_files_added (GThumbWindow *window,
+			       const char   *catalog_name,
+			       GList        *list)
+{
+	g_return_if_fail (window != NULL);
+
+	if (window->sidebar_content != CATALOG_LIST)
+		return;
+	if (window->catalog_path == NULL)
+		return;
+	if (strcmp (window->catalog_path, catalog_name) != 0)
+		return;
+
+	notify_files_added (window, list);
 }
 
 

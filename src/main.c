@@ -511,10 +511,29 @@ all_windows_notify_files_changed (GList *list)
 
 
 void 
-all_windows_notify_cat_files_deleted (const gchar *catalog_path,
-				      GList *list)
+all_windows_notify_cat_files_added (const char *catalog_path,
+				    GList      *list)
 {
 	GList *scan;
+
+	if (list == NULL)
+		return;
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+		window_notify_cat_files_added (window, catalog_path, list);
+	}
+}
+
+
+void 
+all_windows_notify_cat_files_deleted (const char *catalog_path,
+				      GList      *list)
+{
+	GList *scan;
+
+	if (list == NULL)
+		return;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;

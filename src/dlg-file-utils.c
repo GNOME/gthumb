@@ -67,6 +67,72 @@ typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
 				   gpointer         data);
 
 
+gboolean
+dlg_check_folder (GThumbWindow   *window,
+		  const char     *path)
+{
+	GtkWindow *parent = NULL;
+	GtkWidget *d;
+	char      *dir;
+	int        result;
+
+	if (window != NULL)
+		parent = GTK_WINDOW (window->app);
+		
+	dir = remove_ending_separator (path);
+
+	if (path_is_dir (dir)) {
+		g_free (dir);
+		return TRUE;
+	}
+
+	d = _gtk_yesno_dialog_new (parent,
+				   GTK_DIALOG_MODAL,
+				   _("The destination folder does not exits. " "Do you want to create it ?"),
+				   GTK_STOCK_CANCEL,
+				   _("C_reate"));
+		
+	result = gtk_dialog_run (GTK_DIALOG (d));
+	gtk_widget_destroy (GTK_WIDGET (d));
+
+	if (result != GTK_RESPONSE_YES) {
+		g_free (dir);
+		return FALSE;
+	}
+
+	if (! ensure_dir_exists (dir, 0755)) {
+		char *utf8_path;
+		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (parent,
+				       _("Could not create folder \"%s\": %s."),
+				       utf8_path,
+				       errno_to_string ());
+		g_free (utf8_path);
+		g_free (dir);
+		return FALSE;
+	}
+
+	/* check permissions */
+
+	if (access (dir, R_OK | W_OK | X_OK) != 0) {
+		char *utf8_path;
+		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
+		_gtk_error_dialog_run (parent,
+				       _("You don't have the right permissions to create images in the folder \"%s\""),
+				       utf8_path);
+		g_free (utf8_path);
+		g_free (dir);
+		return FALSE;
+	}
+
+	g_free (dir);
+
+	return TRUE;
+}
+
+
+/**/
+
 static void
 dlg_show_error (GThumbWindow *window,
 		const char   *first_line,
@@ -275,13 +341,17 @@ file_move_response_cb (GtkWidget *w,
 	if ((len > 1) && (path[len - 1] == '/'))
 		path[len - 1] = 0;
 
-	dlg_files_copy (window, 
-			file_list, 
-			path, 
-			TRUE, 
-			TRUE, 
-			file_move_ask__continue,
-			file_sel);
+	if (dlg_check_folder (window, path)) {
+		gtk_widget_hide (file_sel);
+
+		dlg_files_copy (window, 
+				file_list, 
+				path, 
+				TRUE, 
+				TRUE, 
+				file_move_ask__continue,
+				file_sel);
+	}
 
 	g_free (path);
 }
@@ -365,13 +435,17 @@ file_copy_response_cb (GtkWidget *w,
 	if ((len > 1) && (path[len - 1] == '/'))
 		path[len - 1] = 0;
 
-	dlg_files_copy (window, 
-			file_list, 
-			path, 
-			FALSE, 
-			TRUE, 
+	if (dlg_check_folder (window, path)) {
+		gtk_widget_hide (file_sel);
+
+		dlg_files_copy (window, 
+				file_list, 
+				path, 
+				FALSE, 
+				TRUE, 
 			file_copy_ask__continue,
-			file_sel);
+				file_sel);
+	}
 
 	g_free (path);
 }
@@ -1263,6 +1337,13 @@ copy_current_file (FileCopyData *fcdata)
 				  fcdata->destination, 
 				  file_name_from_path (src_file),
 				  NULL);
+
+	if (strcmp (src_file, dest_file) == 0) {
+		g_free (dest_file);
+		copy_next_file (fcdata);
+		return;
+	}
+
 	dest_uri = new_uri_from_path (dest_file);
 
 	if (gnome_vfs_uri_exists (dest_uri)) {

@@ -1,3 +1,22 @@
+2002-11-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (dir_list_drag_data_received) 
+	(dir_list_drag_motion, dir_list_drag_leave) 
+	(location_entry_drag_data_received) 
+	(catalog_list_drag_data_received, catalog_list_drag_motion) 
+	(catalog_list_drag_leave, window_new): implements moving files and
+	folder via drag & drop.
+
+	* src/dlg-file-utils.h: 
+	* src/dlg-file-utils.c (dlg_check_folder): new function to check
+	folder existence and permissions.  If the folder does not exists
+	the user is asked whether he wants to create it.
+
+	* src/dlg-png-exporter.c (export): 
+	* src/commands-impl.c (folder_copy__response_cb): 
+	* src/dlg-file-utils.c (file_move_response_cb, file_copy_response_cb): 
+	use the new function.
+
 2002-11-24  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/gthumb-histogram.c (gthumb_histogram_calculate):

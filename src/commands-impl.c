@@ -731,9 +731,9 @@ image_delete_from_catalog_command_impl (BonoboUIComponent *uic,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
-					_("The image will be deleted from the catalog, are you sure ?"),
+					_("The image will be removed from the catalog, are you sure ?"),
 					GTK_STOCK_CANCEL,
-					GTK_STOCK_DELETE);
+					GTK_STOCK_REMOVE);
 
 	r = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -773,9 +773,9 @@ edit_remove_from_catalog_command_impl (BonoboUIComponent *uic,
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,
-					_("The selected images will be deleted from the catalog, are you sure ?"),
+					_("The selected images will be removed from the catalog, are you sure ?"),
 					GTK_STOCK_CANCEL,
-					GTK_STOCK_DELETE);
+					GTK_STOCK_REMOVE);
 
 	r = gtk_dialog_run (GTK_DIALOG (dialog));
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -1085,58 +1085,6 @@ typedef struct {
 
 
 static void
-remove_dir_permanently (GThumbWindow *window,
-			const char   *path)
-{
-	GError           *gerror;
-	char             *utf8_name;
-	const char       *details;
-
-	if (rmdir_recursive (path) == 0) {
-		char *cache_path;
-
-		/* Thumbnail cache. */
-		
-		cache_path = cache_get_nautilus_cache_dir (path);
-		rmdir_recursive (cache_path);
-		g_free (cache_path);
-
-		/* Catalog cache. */
-		
-		cache_path = comments_get_comment_dir (path);
-		rmdir_recursive (cache_path);
-		g_free (cache_path);
-
-		all_windows_notify_directory_delete (path);
-		
-		return;
-	}
-
-	/* error */
-
-	utf8_name = g_locale_to_utf8 (path, -1, 0, 0, 0);
-
-	switch (gnome_vfs_result_from_errno ()) {
-	case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
-		details = _("Folder not empty");
-		break;
-	default:
-		details = errno_to_string ();
-		break;
-	}
-
-	gerror = g_error_new (GTHUMB_ERROR,
-			      errno,
-			      _("Cannot delete the folder \"%s\": %s"),
-			      utf8_name,
-			      details);
-	g_free (utf8_name);
-
-	_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
-}
-
-
-static void
 folder_delete__continue2 (GnomeVFSResult result,
 			  gpointer       data)
 {
@@ -1314,8 +1262,6 @@ folder_copy__response_cb (GObject *object,
 		return;
 	}
 
-	gtk_widget_hide (file_sel);
-
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	old_path = g_object_get_data (G_OBJECT (file_sel), "path");
 	dest_dir = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
@@ -1323,6 +1269,13 @@ folder_copy__response_cb (GObject *object,
 
 	if (dest_dir == NULL)
 		return;
+
+	if (! dlg_check_folder (window, dest_dir)) {
+		g_free (dest_dir);
+		return;
+	}
+
+	gtk_widget_hide (file_sel);
 
 	dir_name = file_name_from_path (old_path);
 	new_path = g_build_path ("/", dest_dir, dir_name, NULL);

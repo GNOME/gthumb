@@ -26,19 +26,22 @@
 #include "gthumb-window.h"
 
 
-gboolean dlg_file_delete__confirm (GThumbWindow   *window,
-				   GList          *list,
-				   const char     *message);
+gboolean dlg_file_delete__confirm   (GThumbWindow   *window,
+				     GList          *list,
+				     const char     *message);
 
-void     dlg_file_move__ask_dest  (GThumbWindow   *window,
-				   GList          *list);
+void     dlg_file_move__ask_dest    (GThumbWindow   *window,
+				     GList          *list);
 
-void     dlg_file_copy__ask_dest  (GThumbWindow   *window,
-				   GList          *list);
+void     dlg_file_copy__ask_dest    (GThumbWindow   *window,
+				     GList          *list);
 
-void     dlg_file_rename_series   (GThumbWindow   *window,
-				   GList          *old_names,
-				   GList          *new_names);
+void     dlg_file_rename_series     (GThumbWindow   *window,
+				     GList          *old_names,
+				     GList          *new_names);
+
+gboolean dlg_check_folder           (GThumbWindow   *window,
+				     const char     *path);
 
 /**/
 
