@@ -1,3 +1,17 @@
+version 2.2.1
+-------------
+	* Fix Drag and Drop.
+	* Fix bug #130823 (gthumb does not maintain permissions on files).
+	* Fix bug #130824 (gthumb does not complain about lack of permissions).
+	* Fix bug #130829 (gthumb ignores current directory when starting).
+	* Fix bug #131853 (Changing folders produces flicker in image viewer).
+	* Fix bug  #126292 (Date shows badly if locale charset is not utf8). 
+	  Patch by Egmont Koblinger.
+	* Fix bug #129858 (libgthumb-jpegutils.a isn't libtool library, 
+	  does not link on non-x86).  
+	* Fix bug #130382 (gthumb keyboard usability issue).
+	* Update the gnome-print-font-picker code from gedit.
+
 version 2.2.0
 -------------
 	* Bugfixes.

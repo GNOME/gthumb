@@ -1,3 +1,15 @@
+2004-01-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.2.1 released ]
+
+	* src/gthumb-window.c: fix dnd.
+	(key_press_cb): 	
+
+	Fix bug #130382 (gthumb keyboard usability issue).
+
+	* src/dlg-file-utils.c (folder_copy): remove old comment cache before 
+	copying.
+
 2004-01-21  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (dir_list_drag_leave): 

@@ -2215,9 +2215,12 @@ folder_copy (GThumbWindow   *window,
 			src_list = g_list_append (src_list, 
 						  new_uri_from_path (src_cache));
 
-			if (fcdata->file_op != FILE_OP_DELETE)
+			if (fcdata->file_op != FILE_OP_DELETE) {
+				if (path_is_dir (dest_cache) && !overwrite_all) 
+					rmdir_recursive (dest_cache);
 				dest_list = g_list_append (dest_list, 
 							   new_uri_from_path (dest_cache));
+			}
 		}
 
 		g_free (src_cache);
