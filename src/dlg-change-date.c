@@ -23,6 +23,7 @@
 #include <config.h>
 #include <time.h>
 #include <gtk/gtk.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 #include "file-data.h"

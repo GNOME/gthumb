@@ -104,7 +104,13 @@ static GtkTargetEntry target_table[] = {
 	{ "text/uri-list", 0, TARGET_URILIST },
 	{ "text/plain",    0, TARGET_PLAIN }
 };
-static guint n_targets = sizeof (target_table) / sizeof (target_table[0]);
+
+
+static GtkTargetEntry same_app_target_table[] = {
+	{ "text/uri-list", GTK_TARGET_SAME_APP, TARGET_URILIST },
+	{ "text/plain",    GTK_TARGET_SAME_APP, TARGET_PLAIN }
+};
+
 
 static GtkTreePath  *dir_list_tree_path = NULL;
 static GtkTreePath  *catalog_list_tree_path = NULL;
@@ -4553,8 +4559,25 @@ create_new_file_list (GThumbWindow *window)
 
 	gtk_drag_dest_set (file_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, 
+			   G_N_ELEMENTS(target_table),
+			   GDK_ACTION_COPY);
+	gtk_drag_source_set (file_list->root_widget,
+			     GDK_BUTTON1_MASK,
+			     target_table, 
+			     G_N_ELEMENTS(target_table),
+			     GDK_ACTION_COPY);
+	
+	gtk_drag_dest_set (file_list->root_widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   same_app_target_table, 
+			   G_N_ELEMENTS(same_app_target_table),
 			   GDK_ACTION_MOVE);
+	gtk_drag_source_set (file_list->root_widget,
+			     GDK_BUTTON1_MASK,
+			     same_app_target_table, 
+			     G_N_ELEMENTS(same_app_target_table),
+			     GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (file_list->view),
 			  "selection_changed",
@@ -4856,12 +4879,12 @@ window_new (void)
 	window->dir_list = dir_list_new ();
 	gtk_drag_dest_set (window->dir_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS(target_table),
 			   GDK_ACTION_MOVE);
 	gtk_drag_source_set (window->dir_list->list_view,
 			     GDK_BUTTON1_MASK,
-			     target_table, n_targets, 
-			     GDK_ACTION_MOVE);
+			     target_table, G_N_ELEMENTS(target_table),
+			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
 	g_signal_connect (G_OBJECT (window->dir_list->root_widget),
 			  "drag_data_received",
 			  G_CALLBACK (dir_list_drag_data_received), 
@@ -4906,7 +4929,7 @@ window_new (void)
 	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 	gtk_drag_dest_set (window->catalog_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS(target_table),
 			   GDK_ACTION_MOVE);
 	g_signal_connect (G_OBJECT (window->catalog_list->root_widget),
 			  "drag_data_received",
@@ -4971,13 +4994,13 @@ window_new (void)
 	/* FIXME 
 	gtk_drag_source_set (window->viewer,
 			     GDK_BUTTON2_MASK,
-			     target_table, n_targets, 
+			     target_table, G_N_ELEMENTS(target_table), 
 			     GDK_ACTION_MOVE);
 	*/
 
 	gtk_drag_dest_set (window->viewer,
 			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
+			   target_table, G_N_ELEMENTS(target_table),
 			   GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (window->viewer), 

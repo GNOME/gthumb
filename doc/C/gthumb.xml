@@ -2229,9 +2229,15 @@
     reference for all of the &gthumb; keyword shortcuts.  Look in the
     menus for other shortcuts.</para>  
   <para>
-    When the <guilabel>location</guilabel> entry is focused you can use 
-    <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo> to display a
-    list of possible location completions.
+      <note>
+        <title>NOTE</title>
+        <para>
+          When the <guilabel>location</guilabel> entry is focused you
+          can use
+          <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>
+          to display a list of possible location completions. 
+        </para>
+      </note>
       <note>
         <title>WARNING</title>
         <para>
@@ -2240,6 +2246,7 @@
         </para>
       </note>
   </para>
+  <para>
       <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
       <title>Keyboard shortcuts to navigate folders</title>
       <tgroup cols="3" colsep="1" rowsep="1">
@@ -2528,6 +2535,7 @@
 	</tbody>
       </tgroup>
       </table>
+  </para>
 
   <para>
   </para>
@@ -2793,7 +2801,7 @@
   <para>
   </para>
   <table id="gthumb-TBL-keyword-shortcuts-fullscreen" frame="topbot">
-    <title>Keyboard shortcuts available when in fullscreen mode</title>
+    <title>Keyboard shortcuts available exclusively in fullscreen mode</title>
     <tgroup cols="2" colsep="0" rowsep="0">
       	<colspec colwidth="20.00*"/>
 	<colspec colwidth="20.00*"/>

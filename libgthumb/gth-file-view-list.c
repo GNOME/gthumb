@@ -1610,7 +1610,7 @@ gth_file_view_list_new (guint image_width)
 	gtk_drag_source_set (GTK_WIDGET (priv->tree_view),
 			     GDK_BUTTON1_MASK,
 			     target_table, G_N_ELEMENTS (target_table),
-			     GDK_ACTION_MOVE);
+			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
 	/**/
 

@@ -1,3 +1,11 @@
+2003-10-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-change-date.c: 
+	* src/dlg-rename-series.c: include gnome-help.h
+
+	* src/gthumb-window.c (create_new_file_list): use ACTION_MOVE when
+	dragging in gthumb ACTON_COPY for all other apps.
+
 2003-10-19  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* add-include-prefix: make the script portable (patch from Pav

@@ -2604,7 +2604,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 			priv->drag_started = TRUE;
 			context = gtk_drag_begin (widget,
 						  priv->target_list,
-						  GDK_ACTION_MOVE,
+						  GDK_ACTION_COPY | GDK_ACTION_MOVE,
 						  1,
 						  (GdkEvent *) event);
 
