@@ -1,3 +1,7 @@
+2002-11-05  Stanislav Brabec  <sbrabec@suse.cz>
+
+	* configure.in: Added cs to ALL_LINGUAS.
+
 2002-11-03  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (add_bookmark_menu_item): 
