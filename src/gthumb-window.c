@@ -911,10 +911,10 @@ set_list_interrupted_cb (gpointer callback_data)
 
 	sli_data->window->setting_file_list = TRUE;
 	gth_file_list_set_list (sli_data->window->file_list, 
-			    sli_data->list, 
-			    window_set_file_list_continue, 
-			    sli_data->wsl_data);
-
+				sli_data->list, 
+				window_set_file_list_continue, 
+				sli_data->wsl_data);
+	
 	g_list_foreach (sli_data->list, (GFunc) g_free, NULL);
 	g_list_free (sli_data->list);
 	g_free (sli_data);
@@ -953,8 +953,8 @@ window_set_file_list (GThumbWindow *window,
 		}
 
 		gth_file_list_interrupt_set_list (window->file_list,
-					      set_list_interrupted_cb,
-					      sli_data);
+						  set_list_interrupted_cb,
+						  sli_data);
 		return;
 	}
 
@@ -4707,11 +4707,14 @@ close__step5 (GThumbWindow *window)
 
 	/* Destroy the main window. */
 
-	if (window->popup_menu != NULL)
-		gtk_widget_destroy (window->popup_menu);
+	if (window->image_prop_dlg != NULL) 
+		dlg_image_prop_close (window->image_prop_dlg);
 
-	if (window->image_prop_dlg != NULL)
-		gtk_widget_destroy (window->image_prop_dlg);
+	if (window->popup_menu != NULL) {
+		gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = NULL;
+	}
+
 	gtk_widget_destroy (window->app);
 
 	window_list = g_list_remove (window_list, window);
@@ -5967,7 +5970,7 @@ window_image_modified (GThumbWindow *window,
 
 	set_command_sensitive (window, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (window->viewer)) && window->image_modified);
 
-	if (window->image_prop_dlg != NULL)
+	if (modified && window->image_prop_dlg != NULL)
 		dlg_image_prop_update (window->image_prop_dlg);
 }
 

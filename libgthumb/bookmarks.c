@@ -294,8 +294,8 @@ bookmarks_remove_all_instances (Bookmarks   *bookmarks,
 
 	while (link != NULL) {
 		bookmarks->list = g_list_remove_link (bookmarks->list, link);
-		g_list_free (link);
 		g_free (link->data);
+		g_list_free (link);
 
 		link = get_link_from_path (bookmarks->list, path);
 	}

@@ -222,7 +222,7 @@ dir_list_refresh_continue (PathListData *pld,
 	if (dir_list->path == NULL)
 		dir_list->old_dir = NULL;
 	else {
-		gchar *previous_dir = remove_level_from_path (dir_list->path);
+		char *previous_dir = remove_level_from_path (dir_list->path);
 
 		if (strcmp (previous_dir, dir_list->try_path) == 0)
 			dir_list->old_dir = g_strdup (file_name_from_path (dir_list->path));
@@ -558,16 +558,19 @@ dir_list_get_row_from_path (DirList     *dir_list,
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
 		char *dir = scan->data;
 		if (strcmp (name, dir) == 0) {
+			g_free (dir);
 			return pos;
 		}
 		pos++;
 	}
 
+	g_free (dir);
+
 	return -1;
 }
 
 
-gchar *
+char *
 dir_list_get_path_from_tree_path (DirList     *dir_list,
 				  GtkTreePath *path)
 {

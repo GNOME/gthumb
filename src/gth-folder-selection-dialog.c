@@ -76,6 +76,17 @@ gth_folder_selection_destroy (GtkObject *object)
 			folder_sel->priv->bookmarks = NULL;
 		}
 
+
+		if (folder_sel->priv->recent_list != NULL) {
+			bookmark_list_free (folder_sel->priv->recent_list);
+			folder_sel->priv->recent_list = NULL;
+		}
+
+		if (folder_sel->priv->recents != NULL) {
+			bookmarks_free (folder_sel->priv->recents);
+			folder_sel->priv->recents = NULL;
+		}
+
 		g_free (folder_sel->priv);
 		folder_sel->priv = NULL;
 	}

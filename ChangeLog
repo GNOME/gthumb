@@ -1,4 +1,28 @@
+2002-12-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (copy_next_file): copy metadata correctly.
+
+	* libgthumb/catalog-png-exporter.c (image_data_free): 
+	* src/dir-list.c (dir_list_get_row_from_path): memory leaks fixed
+
 2002-12-03  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/comments.c (comments_save_comment) 
+	(comments_save_categories): 
+	(comments_save_comment, comments_save_comment_non_null): fix
+	memory leaks.
+
+	* src/gth-folder-selection-dialog.c
+	(gth_folder_selection_destroy): destroy recents data.
+
+	* src/dlg-image-prop.c (dlg_image_prop_close): new function used
+	to close the properties dialog.
+
+	* libgthumb/image-loader.c (image_loader_stop): emit a signal only
+	if there is an operation to stop.
+
+	* src/gthumb-window.c (close__step5): NULL-ify
+	window->image_prop_dlg and window->popup_menu after destroying them.
 
 	* src/gthumb_search.glade: use sentence capitalization where 
 	appropriate.

@@ -557,9 +557,12 @@ comments_save_comment (const char  *filename,
 
 	if (new_data == NULL) {
 		CommentData *data_without_categories;
+
 		data_without_categories = comment_data_dup (data);
 		comment_data_free_keywords (data_without_categories);
 		save_comment (filename, data_without_categories);
+		comment_data_free (data_without_categories);
+
 		return;
 	}
 
@@ -572,6 +575,7 @@ comments_save_comment (const char  *filename,
 		new_data->comment = g_strdup (data->comment);
 
 	save_comment (filename, new_data);
+	comment_data_free (new_data);
 }
 
 
@@ -619,9 +623,12 @@ comments_save_categories (const char  *filename,
 
 	if (new_data == NULL) {
 		CommentData *data_without_comment;
+
 		data_without_comment = comment_data_dup (data);
 		comment_data_free_comment (data_without_comment);
 		save_comment (filename, data_without_comment);
+		comment_data_free (data_without_comment);
+
 		return;
 	}
 
@@ -640,6 +647,7 @@ comments_save_categories (const char  *filename,
 	}
 
 	save_comment (filename, new_data);
+	comment_data_free (new_data);
 }
 
 

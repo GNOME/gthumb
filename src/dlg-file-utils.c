@@ -1177,6 +1177,19 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 }
 
 
+static void
+files_copy__done (FileCopyData *fcdata)
+{
+	if (fcdata->remove_source)
+		all_windows_notify_files_deleted (fcdata->copied_list);
+	all_windows_notify_files_created (fcdata->created_list);
+	
+	if (fcdata->done_func != NULL)
+		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
+	file_copy_data_free (fcdata);
+}
+
+
 static int
 file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 			 GnomeVFSXferProgressInfo *info,
@@ -1201,7 +1214,8 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 				fcdata->copied_list = g_list_prepend (fcdata->copied_list, src_file);
 				fcdata->created_list = g_list_prepend (fcdata->created_list, dest_file);
 				copy_next_file (fcdata);
-			}
+			} else
+				files_copy__done (fcdata);
 		} else
 			continue_or_abort_dialog (fcdata, info->vfs_status);
 	}
@@ -1383,19 +1397,6 @@ copy_current_file (FileCopyData *fcdata)
 
 
 static void
-files_copy__done (FileCopyData *fcdata)
-{
-	if (fcdata->remove_source)
-		all_windows_notify_files_deleted (fcdata->copied_list);
-	all_windows_notify_files_created (fcdata->created_list);
-	
-	if (fcdata->done_func != NULL)
-		(*fcdata->done_func) (fcdata->result, fcdata->done_data);
-	file_copy_data_free (fcdata);
-}
-
-
-static void
 copy_next_file (FileCopyData *fcdata)
 {
 	GList                     *src_list = NULL;
@@ -1426,45 +1427,52 @@ copy_next_file (FileCopyData *fcdata)
 	for (scan = fcdata->file_list; scan; scan = scan->next) {
 		char *src_file = scan->data;
 		char *dest_file;
-		char *src_cache;
-		char *dest_cache;
-		
+		char *src_cache_file;
+		char *dest_cache_file;
+		char *src_cache_dir;
+
 		dest_file = g_strconcat (fcdata->destination,
 					 "/", 
 					 file_name_from_path (src_file), 
 					 NULL);
 		
-		src_cache = comments_get_comment_dir (src_file);
-		dest_cache = comments_get_comment_dir (dest_file);
+		src_cache_file = comments_get_comment_filename (src_file);
+		dest_cache_file = comments_get_comment_filename (dest_file);
 
-		if (path_is_dir (src_cache)) {
-			char *parent_dir = remove_level_from_path (dest_cache);
+		src_cache_dir = remove_level_from_path (src_cache_file);
+
+		if (path_is_dir (src_cache_dir)) {
+			char *parent_dir = remove_level_from_path (dest_cache_file);
 			ensure_dir_exists (parent_dir, 0755);
 			g_free (parent_dir);
 			
-			src_list = g_list_append (src_list, new_uri_from_path (src_cache));
-			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache));
+			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
+			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
 
-		g_free (src_cache);
-		g_free (dest_cache);
+		g_free (src_cache_dir);
+		g_free (src_cache_file);
+		g_free (dest_cache_file);
 
 		/**/
 		
-		src_cache = cache_get_nautilus_cache_name (src_file);
-		dest_cache = cache_get_nautilus_cache_name (dest_file);
+		src_cache_file = cache_get_nautilus_cache_name (src_file);
+		dest_cache_file = cache_get_nautilus_cache_name (dest_file);
+
+		src_cache_dir = remove_level_from_path (src_cache_file);
 		
-		if (path_is_dir (src_cache)) {
-			char *parent_dir = remove_level_from_path (dest_cache);
+		if (path_is_dir (src_cache_dir)) {
+			char *parent_dir = remove_level_from_path (dest_cache_file);
 			ensure_dir_exists (parent_dir, 0755);
 			g_free (parent_dir);
 			
-			src_list = g_list_append (src_list, new_uri_from_path (src_cache));
-			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache));
+			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
+			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
 		
-		g_free (src_cache);
-		g_free (dest_cache);
+		g_free (src_cache_dir);
+		g_free (src_cache_file);
+		g_free (dest_cache_file);
 
 		g_free (dest_file);
 	}

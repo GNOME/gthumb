@@ -75,7 +75,7 @@ destroy_cb (GtkWidget  *widget,
 {
 	if (data->file_list != NULL) 
 		g_list_free (data->file_list);
-	g_object_unref (G_OBJECT (data->gui));
+	g_object_unref (data->gui);
 	g_free (data);
 }
 

@@ -102,6 +102,7 @@ typedef struct {
 	GthumbHistogram *histogram;
 
 	gboolean       page_updated[IPROP_NUM_PAGES];
+	gboolean       closing;
 } DialogData;
 
 
@@ -237,6 +238,26 @@ image_loaded_cb (GtkWidget    *widget,
 		 DialogData   *data)
 {
 	gtk_widget_queue_resize (data->viewer);
+}
+
+
+static void
+dialog_delete_event_cb (GtkWidget   *caller, 
+			GdkEvent    *event, 
+			DialogData  *data)
+{
+	data->closing = TRUE;
+	gtk_widget_destroy (data->dialog);
+	
+}
+
+
+static void
+i_close_button_clicked_cb (GtkWidget    *widget, 
+			   DialogData   *data)
+{
+	data->closing = TRUE;
+	gtk_widget_destroy (data->dialog);
 }
 
 
@@ -515,7 +536,12 @@ i_notebook_switch_page_cb (GtkWidget       *widget,
 			   gpointer         extra_data)
 {
 	DialogData *data = extra_data;
-	update_notebook_page (data, page_num);
+
+	if (data->closing)
+		return;
+
+	if ((page_num >= 0) && (page_num < IPROP_NUM_PAGES))
+		update_notebook_page (data, page_num);
 }
 
 
@@ -684,10 +710,14 @@ dlg_image_prop_new (GThumbWindow *window)
 			  G_CALLBACK (destroy_cb),
 			  data);
 
-	g_signal_connect_swapped (G_OBJECT (i_close_button), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (i_close_button), 
+			  "clicked",
+			  G_CALLBACK (i_close_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "delete_event",
+			  G_CALLBACK (dialog_delete_event_cb),
+			  data);
 	g_signal_connect (G_OBJECT (i_next_button), 
 			  "clicked",
 			  G_CALLBACK (next_image_cb),
@@ -747,4 +777,20 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		data->page_updated[i] = FALSE;
 
 	update_notebook_page (data, gtk_notebook_get_current_page (GTK_NOTEBOOK (data->i_notebook)));
+}
+
+
+void
+dlg_image_prop_close  (GtkWidget *image_prop_dlg)
+{
+	DialogData *data;
+
+	g_return_if_fail (image_prop_dlg != NULL);
+
+	data = g_object_get_data (G_OBJECT (image_prop_dlg), "dialog_data");
+	g_return_if_fail (data != NULL);
+
+	data->closing = TRUE;
+
+	gtk_widget_destroy (image_prop_dlg);
 }

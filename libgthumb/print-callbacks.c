@@ -943,10 +943,10 @@ print_image_dlg (GtkWindow   *parent,
 	notebook     = glade_xml_get_widget (data->gui, "notebook");
 
 	gtk_box_pack_start (GTK_BOX (printer_vbox),
-			    gnome_printer_selection_new (pi->config),
+			    gnome_printer_selection_new (pi->config), 
 			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (paper_vbox),
-			    gnome_paper_selector_new (pi->config),
+			    gnome_paper_selector_new (pi->config), /*FIXME*/
 			    FALSE, FALSE, 0);
 
 	pi->canvas = glade_xml_get_widget (data->gui, "canvas");

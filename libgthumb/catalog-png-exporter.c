@@ -151,8 +151,9 @@ image_data_free (ImageData *idata)
 {
 	int i;
 
-	if (idata->filename)
-		g_free (idata->filename);
+	g_free (idata->comment);
+	g_free (idata->filename);
+
 	if (idata->thumb)
 		g_object_unref (G_OBJECT (idata->thumb));
 

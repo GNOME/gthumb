@@ -713,6 +713,7 @@ image_loader_stop (ImageLoader *il,
 		   gpointer     done_func_data)
 {
 	ImageLoaderPrivateData *priv;
+	gboolean                emit_sig;
 
 	g_return_if_fail (il != NULL);
 
@@ -722,7 +723,10 @@ image_loader_stop (ImageLoader *il,
 	priv->error = FALSE;
 	g_mutex_unlock (priv->yes_or_no);
 
-	image_loader_stop_common (il, done_func, done_func_data, TRUE);
+	/* emit a signal only if there is an operation to stop */
+	emit_sig = priv->info_handle != NULL;
+
+	image_loader_stop_common (il, done_func, done_func_data, emit_sig);
 }
 
 
