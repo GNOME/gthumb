@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-05-02 20:12+0200\n"
-"PO-Revision-Date: 2003-05-03 01:26+0200\n"
+"POT-Creation-Date: 2003-05-20 12:57+0200\n"
+"PO-Revision-Date: 2003-05-20 15:11+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -276,9 +276,9 @@ msgid "Name"
 msgstr "Název"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
-#: src/gthumb-window.c:4824 src/gthumb_png_exporter.glade.h:75
-#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2805 src/gthumb-window.c:808
+#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
+#: src/gthumb_web_exporter.glade.h:32 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -309,24 +309,28 @@ msgstr "Načítá se obrázek: %s"
 msgid "Creating image: %s.%s"
 msgstr "Vytváří se obrázek: %s.%s"
 
-#: src/catalog-web-exporter.c:1102
+#: src/catalog-web-exporter.c:1153
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: src/catalog-web-exporter.c:1170
+#: src/catalog-web-exporter.c:1221
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: src/catalog-web-exporter.c:1247
+#: src/catalog-web-exporter.c:1298
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1552
+#: src/catalog-web-exporter.c:1382
+msgid "Saving images"
+msgstr "Ukládám obrázky"
+
+#: src/catalog-web-exporter.c:1696
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1591
+#: src/catalog-web-exporter.c:1735
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -498,18 +502,18 @@ msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
+#: src/commands-impl.c:2745 src/dlg-categories.c:321 src/dlg-comment.c:244
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:448
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
 
-#: src/commands-impl.c:2794
+#: src/commands-impl.c:2796
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2806
+#: src/commands-impl.c:2808
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
@@ -669,11 +673,11 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5273
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5283 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Hodnota"
 
@@ -726,7 +730,7 @@ msgstr "Název souboru"
 msgid "Folder"
 msgstr "Adresář"
 
-#: src/dlg-web-exporter.c:587
+#: src/dlg-web-exporter.c:661
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
@@ -738,7 +742,7 @@ msgstr "Obnovit normální pohled"
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4252
+#: src/fullscreen.c:840 src/gthumb-window.c:4253
 msgid "Back"
 msgstr "Zpět"
 
@@ -1781,36 +1785,36 @@ msgstr "1 vybraný (%s)"
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:3362
+#: src/gthumb-window.c:3363
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3556
+#: src/gthumb-window.c:3557
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5153
+#: src/gthumb-window.c:5170
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5167
+#: src/gthumb-window.c:5184
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5181
+#: src/gthumb-window.c:5198
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6439
+#: src/gthumb-window.c:6456
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6708
+#: src/gthumb-window.c:6725
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8054
+#: src/gthumb-window.c:8071
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2248,7 +2252,7 @@ msgstr "Šíř_ka:"
 msgid "_Yellow-Blue:"
 msgstr "Žl_utá - modrá:"
 
-#: src/gthumb_edit.glade.h:33
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:34
 msgid "pixels"
 msgstr "bodů"
 
@@ -2336,7 +2340,7 @@ msgstr "Vyberte cílový adresář"
 msgid "Co_mment"
 msgstr "Ko_mentář"
 
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:14
 msgid "Col_umns:"
 msgstr "Slo_upce:"
 
@@ -2408,7 +2412,7 @@ msgstr "Strana"
 msgid "Pi_xels"
 msgstr "Pi_xely"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:16
 msgid "Re_verse order"
 msgstr "Obrá_cené pořadí"
 
@@ -2444,7 +2448,7 @@ msgstr "Jednoduchý se stínem"
 msgid "Slide"
 msgstr "Snímek"
 
-#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
+#: src/gthumb_png_exporter.glade.h:52
 msgid "Sor_t images:"
 msgstr "_Třídit obrázky:"
 
@@ -2498,7 +2502,7 @@ msgstr "_Přechod"
 msgid "_Image size:"
 msgstr "Vel_ikost obrázku:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:26
 msgid "_Rows:"
 msgstr "Řád_ky:"
 
@@ -2510,15 +2514,15 @@ msgstr "_Jednolitá barva"
 msgid "_Template:"
 msgstr "Ša_blona:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:29
 msgid "by name"
 msgstr "podle názvu"
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:30
 msgid "by path"
 msgstr "podle cesty"
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:31
 msgid "by size"
 msgstr "podle velikosti"
 
@@ -2535,62 +2539,90 @@ msgid "png"
 msgstr "png"
 
 #: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 × 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 × 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 × 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 × 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 × 600"
+
+#: src/gthumb_web_exporter.glade.h:10
 msgid "<b>Album</b>"
 msgstr "<b>Album</b>"
 
-#: src/gthumb_web_exporter.glade.h:6
+#: src/gthumb_web_exporter.glade.h:11
 msgid "<b>Index Layout</b>"
 msgstr "<b>Rozložení indexu</b>"
 
-#: src/gthumb_web_exporter.glade.h:7
+#: src/gthumb_web_exporter.glade.h:12
 msgid "<b>Saving</b>"
 msgstr "<b>Ukládání</b>"
 
-#: src/gthumb_web_exporter.glade.h:8
+#: src/gthumb_web_exporter.glade.h:13
 msgid "<b>Theme</b>"
 msgstr "<b>Téma</b>"
 
-#: src/gthumb_web_exporter.glade.h:10
+#: src/gthumb_web_exporter.glade.h:15
 msgid "Inde_x file:"
 msgstr "Soubor s inde_xem:"
 
-#: src/gthumb_web_exporter.glade.h:13
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Resi_ze images if larger than:"
+msgstr "Z_menšit obrázky, pokud jsou větší než:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "Sor_t:"
+msgstr "_Třídění:"
+
+#: src/gthumb_web_exporter.glade.h:19
 msgid "Th_eme:"
 msgstr "_Téma:"
 
-#: src/gthumb_web_exporter.glade.h:14
+#: src/gthumb_web_exporter.glade.h:20
 msgid "Web Album"
 msgstr "Webové album"
 
-#: src/gthumb_web_exporter.glade.h:15
+#: src/gthumb_web_exporter.glade.h:21
 msgid "Web Album Theme"
 msgstr "Téma webového alba"
 
-#: src/gthumb_web_exporter.glade.h:16
+#: src/gthumb_web_exporter.glade.h:22
 msgid "_Copy images to destination"
 msgstr "_Kopírovat obrázky do cíle"
 
-#: src/gthumb_web_exporter.glade.h:17
+#: src/gthumb_web_exporter.glade.h:23
 msgid "_Destination:"
 msgstr "_Cíl:"
 
-#: src/gthumb_web_exporter.glade.h:18
+#: src/gthumb_web_exporter.glade.h:24
 msgid "_Go to Theme Folder"
 msgstr "Pře_jít do adresáře témat"
 
-#: src/gthumb_web_exporter.glade.h:19
+#: src/gthumb_web_exporter.glade.h:25
 msgid "_Install Theme..."
 msgstr "Na_instalovat téma..."
 
-#: src/gthumb_web_exporter.glade.h:21
+#: src/gthumb_web_exporter.glade.h:27
 msgid "_Title:"
 msgstr "_Titulek:"
 
-#: src/gthumb_web_exporter.glade.h:22
+#: src/gthumb_web_exporter.glade.h:28
 msgid "by modified time"
 msgstr "podle času změny"
 
-#: src/gthumb_web_exporter.glade.h:27
+#: src/gthumb_web_exporter.glade.h:33
 msgid "index.html"
 msgstr "index.html"
 
