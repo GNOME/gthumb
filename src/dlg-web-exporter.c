@@ -563,7 +563,11 @@ add_theme_dir (ThemeDialogData *tdata,
 static void
 load_themes (ThemeDialogData *tdata)
 {
-	char *theme_dir;
+	char             *theme_dir;
+	const char       *theme_name;
+	GtkTreeModel     *model;
+	GtkTreeSelection *selection;
+	GtkTreeIter       iter;
 
 	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
 				  g_get_home_dir (),
@@ -578,7 +582,24 @@ load_themes (ThemeDialogData *tdata)
 				  "gthumb/albumthemes",
 				  NULL);
 	add_theme_dir (tdata, theme_dir);
-	g_free (theme_dir);	
+	g_free (theme_dir);
+
+	/* Select the current theme */
+
+	model = GTK_TREE_MODEL (tdata->list_store);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview));
+	theme_name = gtk_entry_get_text (GTK_ENTRY (tdata->data->wa_theme_combo_entry));
+	if (! gtk_tree_model_get_iter_first (model, &iter)) 
+		return;
+
+	do {
+		char *utf8_name;
+		gtk_tree_model_get (model, &iter, 
+				    THEME_NAME_COLUMN, &utf8_name, 
+				    -1);
+		if (strcmp (utf8_name, theme_name) == 0)
+			gtk_tree_selection_select_iter (selection, &iter);
+	} while (gtk_tree_model_iter_next (model, &iter));
 }
 
 

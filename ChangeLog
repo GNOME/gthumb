@@ -1,3 +1,13 @@
+2004-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-web-exporter.c (load_themes): automatically select the 
+	current theme.
+
+	* data/glade/gthumb_web_exporter.glade: reorganized a bit.
+
+	* src/gthumb-window.c (dir_list_drag_data_received): 
+	(image_list_drag_data_received): fix drag & drop.
+
 2004-03-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/Clean/Makefile.am: 

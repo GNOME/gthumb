@@ -3478,8 +3478,8 @@ image_list_drag_data_received  (GtkWidget          *widget,
 
 	if (! ((data->length >= 0) && (data->format == 8))
 	    || (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
-	    || ((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
-	    || ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE)) {
+	    || (((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
+		&& ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE))) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}
@@ -3524,8 +3524,8 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 
 	if ((data->length < 0) 
 	    || (data->format != 8)
-	    || ((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
-	    || ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE)) {
+	    || (((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
+		&& ((context->action & GDK_ACTION_MOVE) != GDK_ACTION_MOVE))) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}

@@ -343,7 +343,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : nautilus, single, double.</long>
+	  <long>Les valeurs possible sont : nautilus, single et double.</long>
 	</locale>
 
 	<locale name="hr">
@@ -474,7 +474,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : none, name, path, size, time.</long>
+	  <long>Les valeurs possible sont : none, name, path, size et time.</long>
 	</locale>
 
 	<locale name="hr">
@@ -710,7 +710,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : list, thumbnails.</long>
+	  <long>Les valeurs possible sont : list et thumbnails.</long>
 	</locale>
 
 	<locale name="hr">
@@ -841,7 +841,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : image, data, comment.</long>
+	  <long>Les valeurs possible sont : image, data et comment.</long>
 	</locale>
 
 	<locale name="hr">
@@ -974,7 +974,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : high, low.</long>
+	  <long>Les valeurs possible sont : high et low.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1206,7 +1206,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : white, black, checked, none.</long>
+	  <long>Les valeurs possible sont : white, black, checked et none.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1324,7 +1324,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : light, midtone, dark.</long>
+	  <long>Les valeurs possible sont : light, midtone et dark.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1442,7 +1442,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : small, medium, large.</long>
+	  <long>Les valeurs possible sont : small, medium et large.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1907,7 +1907,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : system, text_below, text_beside, text_only, icons_only.</long>
+	  <long>Les valeurs possible sont : system, text_below, text_beside, text_only et icons_only.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2149,7 +2149,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : png, jpeg.</long>
+	  <long>Les valeurs possible sont : png et jpeg.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2609,7 +2609,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in et shadow_out.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2845,7 +2845,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : none, deflate, jpeg.</long>
+	  <long>Les valeurs possible sont : none, deflate et jpeg.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2991,7 +2991,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : jpeg, png, tga, tiff.</long>
+	  <long>Les valeurs possible sont : jpeg, png, tga et tiff.</long>
 	</locale>
 
 	<locale name="hr">
@@ -3109,7 +3109,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : skip, rename, ask, overwrite.</long>
+	  <long>Les valeurs possible sont : skip, rename, ask et overwrite.</long>
 	</locale>
 
 	<locale name="hr">
@@ -3268,7 +3268,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : name, size, time.</long>
+	  <long>Les valeurs possible sont : name, size et time.</long>
 	</locale>
 
 	<locale name="hr">
@@ -3406,7 +3406,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : pixels, percentage.</long>
+	  <long>Les valeurs possible sont : pixels et percentage.</long>
 	</locale>
 
 	<locale name="hr">
@@ -3656,7 +3656,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : name, path, size, time.</long>
+	  <long>Les valeurs possible sont : name, path, size et time.</long>
 	</locale>
 
 	<locale name="hr">
@@ -3908,7 +3908,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : mm, in.</long>
+	  <long>Les valeurs possible sont : mm et in.</long>
 	</locale>
 
 	<locale name="hr">
@@ -4144,7 +4144,7 @@
 
 	<locale name="fr">
 	  
-	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10 et custom.</long>
 	</locale>
 
 	<locale name="hr">
