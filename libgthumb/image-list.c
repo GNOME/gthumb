@@ -1667,6 +1667,7 @@ image_list_clear (ImageList *gil)
 
 	for (l = gil->priv->image_list; l; l = l->next)
 		image_destroy (l->data);
+	g_list_free (gil->priv->image_list);
 
 	gil_free_line_info (gil);
 
