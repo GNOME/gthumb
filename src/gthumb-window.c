@@ -83,7 +83,7 @@
 #define DEF_SIDEBAR_SIZE       255
 #define DEF_SIDEBAR_CONT_SIZE  190
 #define DEF_SLIDESHOW_DELAY    4
-#define PRELOADED_IMAGE_MAX_SIZE (1024*1024)
+#define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/menu/View/Go/HistoryList/"

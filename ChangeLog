@@ -1,3 +1,10 @@
+2003-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* Makefile.am (SUBDIRS): remove omf-install
+
+	* src/catalog-web-exporter.c (save_resized_image_cb): update the
+	image size if the original image is resized.
+
 2003-11-04  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/Makefile.am (libgthumbdir): install the library in

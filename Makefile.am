@@ -5,7 +5,6 @@ SUBDIRS =		\
 	src		\
 	components	\
 	doc		\
-	omf-install	\
 	data
 
 @INTLTOOL_DESKTOP_RULE@
@@ -43,8 +42,9 @@ EXTRA_DIST = 			\
 	$(icon_DATA)		\
 	$(man_MANS)
 
-DISTCLEANFILES =                \
-	$(desktop_DATA)		\
-	intltool-extract        \
-	intltool-merge          \
+DISTCLEANFILES =                	\
+	po/.intltool-merge-cache	\
+	$(desktop_DATA)			\
+	intltool-extract        	\
+	intltool-merge          	\
 	intltool-update

@@ -266,7 +266,6 @@ components/image-viewer/Makefile
 components/catalog-view/Makefile
 doc/Makefile
 doc/C/Makefile
-omf-install/Makefile
 data/Makefile
 data/albumthemes/Makefile
 data/albumthemes/BlueStripes/Makefile

@@ -1790,9 +1790,10 @@ save_resized_image_cb (gpointer data)
 			if (_gdk_pixbuf_save (idata->image,
 					      filename,
 					      "jpeg",
-					      NULL, NULL))
+					      NULL, NULL)) {
 				ce->album_files = g_list_prepend (ce->album_files, filename);
-			else
+				idata->file_size = get_file_size (filename);
+			} else
 				g_free (filename);
 		}
 	}

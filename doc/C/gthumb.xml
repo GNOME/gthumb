@@ -2795,6 +2795,19 @@
 	      <para>yes</para>
 	    </entry>
 	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>i</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Hide/Show the image comment and properties</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
 	</tbody>
      </tgroup>
   </table>

@@ -15,6 +15,9 @@
       font-size: x-small;
       text-align: center;
     }
+    td {
+      font-size: x-small;
+    }
   </style>
   </head>
   <body bgcolor=white>

@@ -35,6 +35,9 @@
       font-size: x-small;
       text-align: center;
     }
+    td {
+      font-size: x-small;
+    }
   </style>
   </head>
 
@@ -46,7 +49,7 @@
     </p>
     <p align=right>
           <a href="<gthumb:page_link idx_relative=0 image_idx/>">
-            <img align="middle" src="back.png" width="18" height="15" border="0"></a>
+            <img align="middle" src="back.png" width="18" height="20" border="0"></a>
 
           &nbsp;
 
