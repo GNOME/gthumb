@@ -240,7 +240,7 @@ thumb_loader_new (const char *path,
 	priv->max_w = width;
 	priv->max_h = height;
 
-	if (path) 
+	if (path != NULL) 
 		thumb_loader_set_path (tl, path);
 	else {
 		priv->uri = NULL;

@@ -1,3 +1,12 @@
+2003-10-13  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.7 released ]  
+
+2003-10-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_new): insert the preview buttons
+	outside the info bar.
+
 2003-10-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/gth-image-list.c (paint_item): draw the selection

@@ -299,15 +299,11 @@ image_loader_new (const gchar *path,
 
 void
 image_loader_set_path (ImageLoader *il,
-		       const gchar *path)
+		       const char  *path)
 {
 	ImageLoaderPrivateData *priv;
-	char                   *escaped_path;
 
 	g_return_if_fail (il != NULL);
-
-	if (path == NULL)
-		return;
 
 	priv = il->priv;
 
@@ -317,9 +313,13 @@ image_loader_set_path (ImageLoader *il,
 		gnome_vfs_uri_unref (priv->uri);
 		priv->uri = NULL;
 	}
-	escaped_path = gnome_vfs_escape_path_string (path);
-	priv->uri = gnome_vfs_uri_new (escaped_path);
-	g_free (escaped_path);
+
+	if (path != NULL) {
+		char *escaped_path;
+		escaped_path = gnome_vfs_escape_path_string (path);
+		priv->uri = gnome_vfs_uri_new (escaped_path);
+		g_free (escaped_path);
+	}
 
 	g_mutex_unlock (priv->yes_or_no);
 }
@@ -332,7 +332,6 @@ image_loader_set_uri (ImageLoader       *il,
 	ImageLoaderPrivateData *priv;
 
 	g_return_if_fail (il != NULL);
-	g_return_if_fail (uri != NULL);
 	
 	priv = il->priv;
 
@@ -978,9 +977,6 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	if (from->priv->uri != NULL)
 		to->priv->uri = gnome_vfs_uri_ref (from->priv->uri);
 
-	g_mutex_unlock (to->priv->yes_or_no);
-	g_mutex_unlock (from->priv->yes_or_no);
-
 	/**/
 
 	if (to->priv->pixbuf) {
@@ -994,9 +990,6 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	}
 
 	/**/
-
-	g_mutex_lock (to->priv->yes_or_no);
-	g_mutex_lock (from->priv->yes_or_no);
 
 	if (to->priv->animation) {
 		g_object_unref (to->priv->animation);

@@ -508,10 +508,10 @@
       be visualized in the viewer pane.  If the image doesn't fit the viewer
       pane you can give more space to the viewer hiding the browser, this can 
       be accomplished double-clicking on the thumbnails or pressing the
-      <keycombo><keycap>Return</keycap></keycombo> key, pressing it
+      <keycap>Return</keycap> key, pressing it
       again the browser will be displayed again.  
       Another way of viewing a big image is to view it in full screen
-      mode, type <keycombo> <keycap>F</keycap></keycombo> to
+      mode, type <keycombo><keycap>F</keycap></keycombo> to
       activate/disactivate the full screen mode.
     </para>
     <para>
@@ -594,7 +594,8 @@
            Select the image.
         </listitem>
         <listitem>
-           View the image pressing Return or double clicking on it.
+           View the image pressing <keycap>Return</keycap> or double
+           clicking on it.
         </listitem>
         <listitem>
            Choose
@@ -1142,7 +1143,8 @@
            Select the image.
         </listitem>
         <listitem>
-           View the image pressing Return or double clicking on it.
+           View the image pressing <keycap>Return</keycap> or double
+           clicking on it. 
         </listitem>
         <listitem>
            Choose

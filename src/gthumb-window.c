@@ -2640,7 +2640,6 @@ key_press_cb (GtkWidget   *widget,
 		if (event->keyval == GDK_space)
 			return FALSE;
 
-	/* FIXME: document this. */
 	if (window->sidebar_visible
 	    && (event->state & GDK_CONTROL_MASK)
 	    && ((event->keyval == GDK_1)
@@ -5131,7 +5130,7 @@ window_new (void)
 		window->preview_button_comment = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button), 
 				  "toggled",
 				  G_CALLBACK (preview_comment_button_cb), 
@@ -5145,7 +5144,7 @@ window_new (void)
 		window->preview_button_data = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button), 
 				  "toggled",
 				  G_CALLBACK (preview_data_button_cb), 
@@ -5159,7 +5158,7 @@ window_new (void)
 		window->preview_button_image = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
+		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button), 
 				  "toggled",
 				  G_CALLBACK (preview_image_button_cb), 
@@ -5169,7 +5168,6 @@ window_new (void)
 				      _("Image preview"),
 				      NULL);
 	}
-
 
 	/* image preview, comment, exif data. */
 
