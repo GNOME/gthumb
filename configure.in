@@ -27,6 +27,7 @@ LIBGNOMEPRINTUI_REQUIRED=1.110
 BONOBO_ACTIVATION_REQUIRED=1.0.0
 LIBBONOBO_REQUIRED=2.0.0
 LIBBONOBOUI_REQUIRED=2.0.0
+LIBEXIF_REQUIRED=0.5.8
 
 AC_SUBST(GLIB_REQUIRED)
 AC_SUBST(GTK_REQUIRED)
@@ -41,6 +42,7 @@ AC_SUBST(LIBGNOMEPRINTUI_REQUIRED)
 AC_SUBST(BONOBO_ACTIVATION_REQUIRED)
 AC_SUBST(LIBBONOBO_REQUIRED)
 AC_SUBST(LIBBONOBOUI_REQUIRED)
+AC_SUBST(LIBEXIF_REQUIRED)
 
 dnl ===========================================================================
 
@@ -186,7 +188,7 @@ AC_MSG_CHECKING(for libexif)
 have_libexif=no
 EXIF_LIBS=""
 EXIF_CFLAGS=""
-if pkg-config --exists libexif; then
+if pkg-config --atleast-version=$LIBEXIF_REQUIRED libexif; then
    have_libexif=yes
    EXIF_LIBS=`pkg-config --libs libexif`
    EXIF_CFLAGS=`pkg-config --cflags libexif`

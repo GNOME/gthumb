@@ -344,6 +344,7 @@ file_move_response_cb (GtkWidget *w,
 				path, 
 				TRUE, 
 				TRUE, 
+				FALSE,
 				file_move_ask__continue,
 				file_sel);
 	}
@@ -432,6 +433,7 @@ file_copy_response_cb (GtkWidget *w,
 				path, 
 				FALSE, 
 				TRUE, 
+				FALSE,
 				file_copy_ask__continue,
 				file_sel);
 	}
@@ -1516,6 +1518,7 @@ dlg_files_copy (GThumbWindow   *window,
 		const char     *dest_path,
 		gboolean        remove_source,
 		gboolean        copy_cache,
+		gboolean        overwrite_all,
 		FileOpDoneFunc  done_func,
 		gpointer        done_data)
 {
@@ -1540,7 +1543,10 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->done_func = done_func;
 	fcdata->done_data = done_data;
 
-	fcdata->overwrite_result = OVERWRITE_RESULT_NO;
+	if (overwrite_all)
+		fcdata->overwrite_result = OVERWRITE_RESULT_ALL;
+	else
+		fcdata->overwrite_result = OVERWRITE_RESULT_NO;
 	fcdata->cache_copied = FALSE;
 
 	fcdata->file_index = 1;
@@ -1604,6 +1610,7 @@ dlg_files_move_to_trash (GThumbWindow   *window,
 				trash_path,
 				TRUE, 
 				FALSE, 
+				TRUE,
 				done_func, 
 				done_data);
 
@@ -1978,6 +1985,7 @@ folder_copy (GThumbWindow   *window,
 	     const char     *dest_path,
 	     FileOp          file_op,
 	     gboolean        include_cache,
+	     gboolean        overwrite_all,
 	     FileOpDoneFunc  done_func,
 	     gpointer        done_data)
 {
@@ -2092,7 +2100,10 @@ folder_copy (GThumbWindow   *window,
 		xfer_options |= GNOME_VFS_XFER_DELETE_ITEMS;
 
 	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
-	overwrite_mode = GNOME_VFS_XFER_OVERWRITE_MODE_QUERY;
+	if (overwrite_all)
+		overwrite_mode = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
+	else
+		overwrite_mode = GNOME_VFS_XFER_OVERWRITE_MODE_QUERY;
 
 	result = gnome_vfs_async_xfer (&fcdata->handle,
 				       src_list,
@@ -2127,6 +2138,7 @@ dlg_folder_copy (GThumbWindow   *window,
 		 const char     *dest_path,
 		 gboolean        remove_source,
 		 gboolean        include_cache,
+		 gboolean        overwrite_all,
 		 FileOpDoneFunc  done_func,
 		 gpointer        done_data)
 {
@@ -2135,6 +2147,7 @@ dlg_folder_copy (GThumbWindow   *window,
 		     dest_path,
 		     remove_source ? FILE_OP_MOVE : FILE_OP_COPY,
 		     include_cache,
+		     overwrite_all,
 		     done_func,
 		     done_data);
 }
@@ -2173,6 +2186,7 @@ dlg_folder_move_to_trash (GThumbWindow   *window,
 			     dest_folder, 
 			     FILE_OP_MOVE, 
 			     FALSE, 
+			     TRUE,
 			     done_func, 
 			     done_data);
 
@@ -2200,6 +2214,7 @@ dlg_folder_delete (GThumbWindow   *window,
 		     NULL,
 		     FILE_OP_DELETE,
 		     TRUE, 
+		     FALSE,
 		     done_func, 
 		     done_data);
 }
@@ -2338,6 +2353,7 @@ copy_current_item (CopyItemsData *cidata)
 					cidata->destination,
 					cidata->remove_source,
 					TRUE,
+					FALSE,
 					copy_item__continue2,
 					cidata);
 
@@ -2356,6 +2372,7 @@ copy_current_item (CopyItemsData *cidata)
 				 dest_path,
 				 cidata->remove_source,
 				 cidata->include_cache,
+				 FALSE,
 				 copy_item__continue1,
 				 cidata);
 

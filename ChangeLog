@@ -1,3 +1,18 @@
+2003-01-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.h: 
+	* src/dlg-file-utils.c: when moving to trash overwrite without asking.
+
+	* configure.in: require libexif >= 0.5.8
+
+	* src/jpegutils/jpeg-marker.c: 
+	* src/jpegutils/jpeg-marker.h: 
+	* src/jpegutils/jpeg-data.c: 
+	* src/jpegutils/jpeg-data.h: new files, used to save jpeg data.
+
+	* src/dlg-jpegtran.c (swap_xy_exif_fields, swap_fields): update
+	exif information after rotating an image.
+
 2003-01-08  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-jpegtran.c (help_cb): add the help button.

@@ -281,8 +281,11 @@ next_image_cb (GtkWidget    *widget,
 #ifdef HAVE_LIBEXIF
 
 static ExifTag usefull_tags[] = {
+	/*
 	EXIF_TAG_RELATED_IMAGE_WIDTH,
 	EXIF_TAG_RELATED_IMAGE_LENGTH,
+	*/
+
 	EXIF_TAG_IMAGE_WIDTH,
 	EXIF_TAG_IMAGE_LENGTH,
 	EXIF_TAG_PIXEL_X_DIMENSION,
@@ -403,7 +406,7 @@ update_exif_data (DialogData *data)
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
+		if ((content == NULL) || (content->count == 0)) 
 			continue;
 
 		for (j = 0; j < content->count; j++) {

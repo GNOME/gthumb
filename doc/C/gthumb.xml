@@ -187,7 +187,8 @@
       access.  Just go the folder and press <keycombo action="simul">
       <keycap>Ctrl</keycap><keycap>D</keycap></keycombo> or use the command
       <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>.
-      For removing bookmarks use the <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command.
+      For removing or rearrange bookmarks in a different order use the 
+      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command.
     </para>
     <para>
       To sort the images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
@@ -451,8 +452,8 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <menuchoice><guimenu>View</guimenu>
-		<guimenuitem>Rotate Clockwise</guimenuitem>
+	        <menuchoice>
+		<guimenuitem>Rotate Right</guimenuitem>
 	        </menuchoice>
 	      </para>
 	    </entry>
@@ -465,21 +466,21 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <menuchoice><guimenu>View</guimenu>
-		<guimenuitem>Rotate 180 Degrees</guimenuitem>
+	        <menuchoice>
+		<guimenuitem>Rotate Left</guimenuitem>
 	        </menuchoice>
 	      </para>
 	    </entry>
             <entry>
 	      <para>
-	        Rotate the image 180 degrees clockwise.
+	        Rotate the image 90 degrees counter-clockwise.
 	      </para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <menuchoice><guimenu>View</guimenu>
+	        <menuchoice>
 		<guimenuitem>Flip</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -494,7 +495,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <menuchoice><guimenu>View</guimenu>
+	        <menuchoice>
 		<guimenuitem>Mirror</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -502,15 +503,71 @@
             <entry>
 	      <para>
 	        Create a mirror image by reflecting the image scanlines 
-		in the horizontal direction.
+		in the horizontal direction (as in a mirror).
 	      </para>
 	    </entry>
 	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <menuchoice><guimenu>View</guimenu>
-		<guimenuitem>Black and White</guimenuitem>
+	        <menuchoice>
+		<guimenuitem>Resize</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Change image size performing a zoom in or out.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Color Balance</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        ???
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Hue-Saturation</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        ???
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Brightness-Contrast</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        ???
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Desaturate</guimenuitem>
 	        </menuchoice>
 	      </para>
 	    </entry>
@@ -520,6 +577,63 @@
 	      </para>
 	    </entry>
 	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Negative</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        View the image negative.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Posterize</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Reduce the number of colors.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Equalize Histogram</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        ???
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Adjust Color Levels</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        ???
+	      </para>
+	    </entry>
+	  </row>
+
 	</tbody>
       </tgroup>
       </informaltable>
@@ -533,10 +647,12 @@
       <para>
         To save the modified image use the
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Save
-	As</guimenuitem></menuchoice> command.  Images can be save in JPEG, PNG,
-	TGA, TIFF formats.  Each image format have some option that
+	As</guimenuitem></menuchoice> command.  Images can be saved 
+	in JPEG, PNG, TGA, TIFF formats.  
+	Each image format have some option that
 	can be changed with a dialog that pops up after having
-	specified the image filename.
+	entered the image filename.  All the dialogs remember the
+	last specified options.
       </para>
     </sect2>      
 
@@ -766,7 +882,13 @@
   </para>
   <para>
     Image comments are displayed in the image list in italic text above the 
-    filename of the image.
+    image filename.  If the comment is too long the simbol "[..]" is
+    appended to the displayed part of the comment to signal you that not
+    all the comment is visible, to view the whole comment use the image
+    properties dialog that can be displayed using the
+    <menuchoice><guimenu>File</guimenu><guimenuitem>Properties
+    </guimenuitem></menuchoice> command or pressing
+    <keycombo><keycap>I</keycap></keycombo>.
   </para>
     <!-- ==== Figure ==== -->
     <figure id="comment-in-list-fig">
@@ -1213,8 +1335,8 @@
       </para>
       <para>
         If you select the <guilabel>Apply to all images</guilabel>
-        option the rotation is applyed to the
-        curretly displayed image as well as to all the remaining images,
+        option the rotation is applied to the
+        currently displayed image as well as to all the remaining images,
         otherwise, once the rotation has been performed on the current
         image, the next image in the selection is displayed, and you can
         choose another type of rotation.

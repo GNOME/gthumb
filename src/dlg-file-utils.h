@@ -53,6 +53,7 @@ void     dlg_files_copy           (GThumbWindow   *window,
 				   const char     *dest_path,
 				   gboolean        remove_source,
 				   gboolean        include_cache,
+				   gboolean        overwrite_all,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
 
@@ -71,6 +72,7 @@ void     dlg_folder_copy          (GThumbWindow   *window,
 				   const char     *dest_path,
 				   gboolean        remove_source,
 				   gboolean        include_cache,
+				   gboolean        overwrite_all,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
 
@@ -84,6 +86,7 @@ void     dlg_folder_delete        (GThumbWindow   *window,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
 
+/* items means files and folders. */
 void     dlg_copy_items           (GThumbWindow   *window,
 				   GList          *item_list,
 				   const char     *destination,

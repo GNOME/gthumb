@@ -1352,6 +1352,7 @@ folder_copy__response_cb (GObject *object,
 				 new_path, 
 				 move, 
 				 TRUE,
+				 FALSE,
 				 folder_copy__continue, 
 				 g_strdup (old_path));
 

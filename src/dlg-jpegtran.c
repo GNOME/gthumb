@@ -28,6 +28,14 @@
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
+
+#ifdef HAVE_LIBEXIF
+#include <exif-data.h>
+#include <exif-content.h>
+#include <exif-entry.h>
+#include "jpegutils/jpeg-data.h"
+#endif /* HAVE_LIBEXIF */
+
 #include "file-data.h"
 #include "gconf-utils.h"
 #include "gthumb-window.h"
@@ -131,6 +139,90 @@ load_next_image (DialogData *data)
 }
 
 
+#ifdef HAVE_LIBEXIF
+
+
+static gboolean
+swap_fields (ExifContent *content,
+	     ExifTag      tag1,
+	     ExifTag      tag2)
+{
+	ExifEntry     *entry1;
+	ExifEntry     *entry2;
+	unsigned char *data;
+	unsigned int   size;
+	
+	entry1 = exif_content_get_entry (content, tag1);
+	if (entry1 == NULL) 
+		return FALSE;
+	
+	entry2 = exif_content_get_entry (content, tag2);
+	if (entry2 == NULL)
+		return FALSE;
+
+	data = entry1->data;
+	size = entry1->size;
+	
+	entry1->data = entry2->data;
+	entry1->size = entry2->size;
+	
+	entry2->data = data;
+	entry2->size = size;
+
+	return TRUE;
+}
+
+
+static void
+swap_xy_exif_fields (const char *filename)
+{
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
+
+	jdata = jpeg_data_new_from_file (filename);
+	if (jdata == NULL)
+		return;
+
+	edata = jpeg_data_get_exif_data (jdata);
+	if (edata == NULL) {
+		jpeg_data_unref (jdata);
+		return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+		
+		swap_fields (content, 
+			     EXIF_TAG_RELATED_IMAGE_WIDTH,
+			     EXIF_TAG_RELATED_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_IMAGE_WIDTH,
+			     EXIF_TAG_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_PIXEL_X_DIMENSION,
+			     EXIF_TAG_PIXEL_Y_DIMENSION);
+		swap_fields (content, 
+			     EXIF_TAG_X_RESOLUTION,
+			     EXIF_TAG_Y_RESOLUTION);
+		swap_fields (content, 
+			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
+	}
+
+	jpeg_data_save_file (jdata, filename);
+
+	exif_data_unref (edata);
+	jpeg_data_unref (jdata);
+}
+
+
+#endif
+
+
 static void
 apply_tran (DialogData *data,
 	    GList      *current_image)
@@ -204,14 +296,11 @@ apply_tran (DialogData *data,
 		e2 = shell_escape (fd->path);
 	
 		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, 
-					e1, 
-					e2);
+					command, e1, e2);
+		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
 
 		g_free (e1);
 		g_free (e2);
-
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
 		g_free (line);
 
 		if (err != NULL) {
@@ -267,14 +356,11 @@ apply_tran (DialogData *data,
 		e2 = shell_escape (tmp1);
 
 		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, 
-					e1, 
-					e2);
+					command, e1, e2);
+		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
 
 		g_free (e1);
 		g_free (e2);
-
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
 		g_free (line);
 
 		if (err != NULL) {
@@ -290,25 +376,29 @@ apply_tran (DialogData *data,
 	e2 = shell_escape (fd->path);
 
 	line = g_strdup_printf ("mv -f %s %s", e1, e2);
-
-	g_free (e1);
-	g_free (e2);
-
 	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-	g_free (line);
-
-	g_free (tmp1);
-	g_free (tmp2);
 
 	if (err != NULL) {
 		_gtk_error_dialog_from_gerror_run (parent, &err);
+
 	} else {
 		GList *list;
+
+#ifdef HAVE_LIBEXIF
+		if ((rot_type == TRAN_ROTATE_90) || (rot_type == TRAN_ROTATE_270))
+			swap_xy_exif_fields (fd->path);
+#endif
 
 		list = g_list_prepend (NULL, fd->path);
 		all_windows_notify_files_changed (list);
 		g_list_free (list);
 	}
+
+	g_free (e1);
+	g_free (e2);
+	g_free (line);
+	g_free (tmp1);
+	g_free (tmp2);
 }
 
 
