@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-23 12:17+0200\n"
-"PO-Revision-Date: 2005-03-09 08:43+0200\n"
+"POT-Creation-Date: 2005-03-30 14:56+0200\n"
+"PO-Revision-Date: 2005-03-23 11:08+0200\n"
 "Last-Translator: Canonical Ltd <translations@canonical.com>\n"
 "Language-Team: Xhosa <xh-translate@ubuntu.com>\n"
 "MIME-Version: 1.0\n"
@@ -157,11 +157,9 @@ msgstr "_Okubonakalayo"
 msgid "_White"
 msgstr "_Mhlophe"
 
-# Capitalisation
-# < fuzzy
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_Zoom Quality"
-msgstr "_UmGangatho wokwandisa"
+msgstr "_UmGangatho Wokwandisa"
 
 #: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
@@ -245,9 +243,7 @@ msgstr "*"
 msgid "<b>Categories:</b>"
 msgstr "<b>Iindidi:</b>"
 
-# Check spacing
 #: ../data/glade/gthumb.glade.h:4
-#, fuzzy
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>Ulwazi olukwisiQhagamshelanisi:</b>"
 
@@ -315,11 +311,9 @@ msgstr "Yenza_phezu komfanekiso omdala"
 msgid "Overwrite Image"
 msgstr "Yenza phezu komFanekiso"
 
-# is phezu_kwayo 1 word?
 #: ../data/glade/gthumb.glade.h:21
-#, fuzzy
 msgid "Overwrite _all images"
-msgstr "Yenza phezu_kwayo yonke imifanekiso"
+msgstr "Bhala phezu kwayo _yonke imifanekiso"
 
 #: ../data/glade/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
@@ -747,17 +741,13 @@ msgstr "<b>Imilinganiso yokuqala</b>"
 msgid "<b>Scale ratio</b>"
 msgstr "<b>Ulwalamano lomlinganiselo</b>"
 
-# Capitalisation
 #: ../data/glade/gthumb_edit.glade.h:9
-#, fuzzy
 msgid "Brightness - Contrast"
-msgstr "Ukuchasana - kokukhanya"
+msgstr "Ukuchasana - kokuKhanya"
 
-# Capitalisation
 #: ../data/glade/gthumb_edit.glade.h:10
-#, fuzzy
 msgid "Color Balance"
-msgstr "Ungqinelwano lwemibala"
+msgstr "UNgqinelwano lweMibala"
 
 #: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
@@ -787,11 +777,9 @@ msgstr "Beka ngasemva"
 msgid "Preserve l_uminosity"
 msgstr "Gcina uku_khanya"
 
-# Capitalisation
 #: ../data/glade/gthumb_edit.glade.h:18
-#, fuzzy
 msgid "Scale Image"
-msgstr "Umfanekiso womlinganiselo"
+msgstr "UMfanekiso woMlinganiselo"
 
 #: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
@@ -817,11 +805,9 @@ msgstr "_Amanqanaba:"
 msgid "_Lightness:"
 msgstr "_Ukukhanya:"
 
-# Untranslated?
 #: ../data/glade/gthumb_edit.glade.h:26
-#, fuzzy
 msgid "_Magenta-Green:"
-msgstr "_Magenta-Green:"
+msgstr "_ULuhlaza-oMagenta:"
 
 #: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
@@ -839,11 +825,9 @@ msgstr "_Ukwanela:"
 msgid "_Scale"
 msgstr "_Umlinganiselo"
 
-# Capitalisation and punctuation inconsistent
 #: ../data/glade/gthumb_edit.glade.h:32
-#, fuzzy
 msgid "_Yellow-Blue:"
-msgstr "_Ubhlowu obumthubi"
+msgstr "_UBhlowu-obuMthubi:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:4
 msgid "112"
@@ -893,11 +877,9 @@ msgstr "<b>Isimbo sokungasemva</b>"
 msgid "<b>Caption</b>"
 msgstr "<b>Inkcazelo yomfanekiso</b>"
 
-# Check translation
 #: ../data/glade/gthumb_png_exporter.glade.h:16
-#, fuzzy
 msgid "<b>Footer</b>"
-msgstr "<b>Okubhalwe emazantsi ephepha n</b>"
+msgstr "<b>Okubhalwe emazantsi ephepha</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header and footer</b>"
@@ -1335,11 +1317,9 @@ msgstr "Misela umfanekiso kubungakanani obubobona"
 msgid "Set to C_urrent"
 msgstr "Misela kokuKh_oyo"
 
-# Capitalisation
 #: ../data/glade/gthumb_preferences.glade.h:54
-#, fuzzy
 msgid "Slide Show"
-msgstr "Umboniso weeslayidi"
+msgstr "UMboniso weSlayidi"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Switch to _full screen"
@@ -1361,11 +1341,9 @@ msgstr "Umbhalo osecaleni kwemifanekiso engumqondiso"
 msgid "Text only"
 msgstr "Umbhalo kuphela"
 
-# Is wokutyhila_okukhawulezileyo meant to be one word?
 #: ../data/glade/gthumb_preferences.glade.h:60
-#, fuzzy
 msgid "Th_umbnail size:"
-msgstr "Umbhalo wokutyhila_okukhawulezileyo:"
+msgstr "Ubungakanani bombhalo wokutyhi_la okukhawulezileyo:"
 
 #: ../data/glade/gthumb_preferences.glade.h:61
 msgid "Transparency _type:"
@@ -1561,11 +1539,9 @@ msgstr "Ngqamanisa z_onke iindidi ezikhethiweyo"
 msgid "Match a_ny selected category"
 msgstr "Ngqamanisa na_luphi na undidi olukhethiweyo"
 
-# Capitalisation
 #: ../data/glade/gthumb_search.glade.h:19
-#, fuzzy
 msgid "New _Search..."
-msgstr "_Ukhangelo olutsha..."
+msgstr "_UKhangelo oluTsha..."
 
 #: ../data/glade/gthumb_search.glade.h:20 ../src/dlg-photo-importer.c:809
 #: ../src/dlg-photo-importer.c:1429
@@ -1627,11 +1603,9 @@ msgstr ""
 msgid "Adjust photo _orientation"
 msgstr "Lungelelanisa _imbonakalo yefoto"
 
-# Is kuyo_yonke meant to be one word?
 #: ../data/glade/gthumb_tools.glade.h:11
-#, fuzzy
 msgid "Apply to _all images"
-msgstr "Faka kuyo_yonke imifanekiso"
+msgstr "Faka kuyo _yonke imifanekiso"
 
 #: ../data/glade/gthumb_tools.glade.h:12
 msgid "Backup Comments"
@@ -1645,11 +1619,9 @@ msgstr "Umhla wa_ngoku"
 msgid "Ca_talog"
 msgstr "I-Ca_talog"
 
-# Capitalisation
 #: ../data/glade/gthumb_tools.glade.h:15
-#, fuzzy
 msgid "Change Date"
-msgstr "Tshintsha umhla"
+msgstr "Tshintsha uMhla"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "Change the last modified date to:"
@@ -1671,11 +1643,9 @@ msgstr "Ukukhangela umfanekiso:"
 msgid "Current _Folder"
 msgstr "Isiqulathi zifayili _Esikhoyo ngoku"
 
-# Capitalisation
 #: ../data/glade/gthumb_tools.glade.h:21
-#, fuzzy
 msgid "Delete ALL Comments"
-msgstr "Cima Onke amaGqabantshintshi"
+msgstr "Cima ONKE amaGqabantshintshi"
 
 #: ../data/glade/gthumb_tools.glade.h:22
 msgid "Delete ALL Thumbnails"
@@ -2635,23 +2605,20 @@ msgstr "Kukotshwa ifayili %d of %d"
 msgid "Collecting images info"
 msgstr "Kuqokelelwa iinkcukacha zemifanekiso"
 
-# Please translate "of". Context is "Deleting file 1 of 5", for example
 #: ../src/dlg-file-utils.c:1766 ../src/dlg-file-utils.c:2004
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "Kucinywa ifayili %ld of %ld"
+msgstr "Kucinywa ifayili %ld ye %ld"
 
-# Please translate "of"
 #: ../src/dlg-file-utils.c:1994
-#, fuzzy, c-format
+#, c-format
 msgid "Copying file %ld of %ld"
-msgstr "Kukotshwa ifayili %ld of %ld"
+msgstr "Kukotshwa ifayili %ld ye %ld"
 
-# Please translate "of"
 #: ../src/dlg-file-utils.c:1999
-#, fuzzy, c-format
+#, c-format
 msgid "Moving file %ld of %ld"
-msgstr "Kushenxiswa ifayili %ld of %ld"
+msgstr "Kushenxiswa ifayili %ld ye %ld"
 
 #: ../src/dlg-image-prop.c:600 ../src/gth-exif-data-viewer.c:488
 msgid "Size"
@@ -2970,11 +2937,9 @@ msgstr "_Izinto zokuphawula"
 msgid "_Tools"
 msgstr "_Izixhobo"
 
-# Is njengo_Mhombiso meant to be one word?
 #: ../src/ui.h:49
-#, fuzzy
 msgid "Set Image as _Wallpaper"
-msgstr "Misela uMfanekiso njengo_Mhombiso weskrini"
+msgstr "Misela uMfanekiso njengo _Mhombiso weskrini"
 
 #: ../src/ui.h:50
 msgid "_Help"
@@ -3255,11 +3220,9 @@ msgstr "Vula isiqulathi seefayili esikhoyo ngomlawuli wefayili i-Nautilius"
 msgid "Rename current folder"
 msgstr "Thiya kwakhona isiqulathi seefayili esikhoyo"
 
-# Translation of "Trash" inconsistent with rest of file
 #: ../src/ui.h:294
-#, fuzzy
 msgid "Move the current folder to the Trash"
-msgstr "Shenxisela isiqulathi seefayili esikhoyo kwi-Trash"
+msgstr "Shenxisela isiqulathi seefayili esikhoyo emGqomeni"
 
 #: ../src/ui.h:299
 msgid "Copy current folder"
@@ -3571,11 +3534,9 @@ msgstr "_Buyisela"
 msgid "Restore the original desktop wallpaper"
 msgstr "Buyisela umhombiso we-desktop weskrini wokuqala"
 
-# Capitalisation
 #: ../src/ui.h:538
-#, fuzzy
 msgid "_Slide Show"
-msgstr "Umboniso we_silayidi"
+msgstr "Umboniso we_Silayidi"
 
 #: ../src/ui.h:539
 msgid "View as a slide show"
