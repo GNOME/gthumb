@@ -1,3 +1,11 @@
+version 2.5.1
+-------------
+	* Added supported mime types list to the .desktop file.
+	* Fixed bug #150729: Problems saving .JPEG images.
+	* Added a resize grip to the statubar.
+	* Added nautilus:required_directory_content_mime_types
+          attribute to the catalog view component.
+
 version 2.5.0
 -------------
 	* Use the Gtk+ UI Manager to handle menus and toolbar.

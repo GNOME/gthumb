@@ -67,7 +67,7 @@ file_data_update (FileData *fd)
 
 	g_return_if_fail (fd != NULL);
 
-	escaped = gnome_vfs_escape_host_and_path_string (fd->path);
+	escaped = escape_uri (fd->path);
 	info = gnome_vfs_file_info_new ();
 	result = gnome_vfs_get_file_info (escaped,
 					  info,

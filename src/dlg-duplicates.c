@@ -1568,7 +1568,7 @@ search_dir_async (DialogData *data, const char *path)
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
 
-	escaped = gnome_vfs_escape_host_and_path_string (path);
+	escaped = escape_uri (path);
 	data->uri = gnome_vfs_uri_new (escaped);
 	g_free (escaped);
 

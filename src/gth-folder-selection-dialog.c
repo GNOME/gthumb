@@ -284,6 +284,7 @@ browse_button_clicked_cb (GtkWidget *widget,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	
 	entry = folder_sel->priv->file_entry;
 

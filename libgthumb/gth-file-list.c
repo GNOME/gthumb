@@ -539,7 +539,7 @@ gth_file_list_set_list (GthFileList *file_list,
 		    || ! file_is_image (full_path, fast_file_type))
 			continue;
 
-		escaped = gnome_vfs_escape_host_and_path_string (full_path);
+		escaped = escape_uri (full_path);
 		uri = gnome_vfs_uri_new (escaped);
 		g_free (escaped);
 
@@ -782,7 +782,7 @@ gth_file_list_add_list (GthFileList *file_list,
 		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 			continue;
 		
-		escaped = gnome_vfs_escape_host_and_path_string (full_path);
+		escaped = escape_uri (full_path);
 		uri = gnome_vfs_uri_new (escaped);
 		g_free (escaped);
 

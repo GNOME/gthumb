@@ -1,3 +1,24 @@
+2004-09-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.5.1 released ]
+
+2004-09-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: updated required libraries versions. 
+
+	* src/fullscreen.c (create_popup_window): use stock icons for 
+	previous and next image buttons.
+
+2004-08-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-web-exporter.c (wa_destination_button_clicked_cb): 
+	(theme_dialog__install_theme_clicked): 
+	set the file chooser dialog modal.
+
+	* src/gthumb-window.c (_window_add_monitor_event): fire
+	a CREATED event if a CHANGED event happended on a file not present
+	in the file list.
+	
 2004-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/fullscreen.c (fullscreen_start): fixed fullscreen mode.

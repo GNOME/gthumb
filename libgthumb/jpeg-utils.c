@@ -41,6 +41,9 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
+#include "file-utils.h"
+
+
 #define BUFFER_SIZE 8192
 
 typedef struct {
@@ -198,7 +201,7 @@ do_load_internal (const char *path,
 	if (original_height_return != NULL)
 		*original_height_return = 0;
 
-	e_path = gnome_vfs_escape_host_and_path_string (path);
+	e_path = escape_uri (path);
 	if (e_path[0] == '/')
 		uri = g_strconcat ("file://", e_path, NULL);
 	else

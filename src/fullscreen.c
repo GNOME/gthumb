@@ -649,6 +649,7 @@ hide_mouse_pointer_cb (gpointer data)
 	gtk_widget_hide (popup_window);
 	if (! fullscreen->wm_state_fullscreen_support) 
 		grab_window (fullscreen->window);
+
 	image_viewer_hide_cursor (IMAGE_VIEWER (fullscreen->viewer));
 	fullscreen->mouse_hide_id = 0;
 
@@ -888,7 +889,7 @@ create_popup_window (void)
 
 	/* back */
 
-	button = create_button (GTK_STOCK_GO_BACK, _("Back"), FALSE);
+	button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Back"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
@@ -897,7 +898,7 @@ create_popup_window (void)
 
 	/* forward */
 
-	button = create_button (GTK_STOCK_GO_FORWARD, _("Forward"), FALSE);
+	button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Forward"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
@@ -1118,7 +1119,7 @@ fullscreen_stop (FullScreen *fullscreen)
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
 
-	gtk_window_unfullscreen (fullscreen->window);
+	gtk_window_unfullscreen (GTK_WINDOW (fullscreen->window));
 	gtk_widget_hide (fullscreen->window);
 
 	g_signal_handlers_disconnect_by_func (G_OBJECT (fullscreen->viewer),

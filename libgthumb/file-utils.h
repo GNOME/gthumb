@@ -168,6 +168,8 @@ char*               shell_escape                 (const char *filename);
 
 char *              escape_underscore            (const char *name);
 
+char *              escape_uri                   (const char *uri);
+
 char *              get_terminal                 (gboolean with_exec_flag);
 
 char *              application_get_command      (const GnomeVFSMimeApplication *app);

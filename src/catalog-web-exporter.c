@@ -1039,7 +1039,7 @@ gth_parsed_doc_print (GList              *document,
 
 			image_src_relative = get_path_relative_to_dir (image_src, 
 								       ce->location);
-			escaped_path = gnome_vfs_escape_host_and_path_string (image_src_relative);
+			escaped_path = escape_uri (image_src_relative);
 
 			line = g_strdup_printf ("<img src=\"%s\" alt=\"\" width=\"%d\" height=\"%d\"%s>",
 						escaped_path,
@@ -1059,7 +1059,7 @@ gth_parsed_doc_print (GList              *document,
 			line = g_strconcat (file_name_from_path (idata->dest_filename), 
 					    ".html",
 					    NULL);
-			escaped_path = gnome_vfs_escape_host_and_path_string (line);
+			escaped_path = escape_uri (line);
 			g_free (line);
 			line = escaped_path;
 
@@ -1107,7 +1107,7 @@ gth_parsed_doc_print (GList              *document,
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0) 
 				write_locale_line (line, fout);
 			else {
-				escaped_path = gnome_vfs_escape_host_and_path_string (line);
+				escaped_path = escape_uri (line);
 				g_free (line);
 				line = escaped_path;
 				write_line (line, fout);
@@ -1132,7 +1132,7 @@ gth_parsed_doc_print (GList              *document,
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0) 
 				write_locale_line (line, fout);
 			else {
-				escaped_path = gnome_vfs_escape_host_and_path_string (line);
+				escaped_path = escape_uri (line);
 				g_free (line);
 				line = escaped_path;
 				write_line (line, fout);

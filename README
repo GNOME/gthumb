@@ -3,9 +3,6 @@ for the GNOME environment.
 
 Notes:
 
- * more information about gthumb can be found at: 
-   http://gthumb.sourceforge.net
-
  * versions from 0.1 to 0.13 are for the GNOME 1.x environment.
 
  * versions from 1.100 to 2.0 are for the GNOME 2.0 environment, though
@@ -13,6 +10,9 @@ Notes:
    gThumb and Nautilus do not share the thumbnails database. 
 
  * versions 2.2.0 and higher are for GNOME 2.2 and GNOME 2.4.
+
+ * more information about gthumb can be found at: 
+   http://gthumb.sourceforge.net
 
 What is gThumb
 ==============
@@ -62,6 +62,7 @@ What is gThumb
    + Find duplicated images.
    + Maintenance tools: remove old comments; backup and restore comments;
      remove old thumbnails.
+   + Write images to CD/DVD.
 
  * gThumb is a Bonobo component
 

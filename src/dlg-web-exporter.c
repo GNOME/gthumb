@@ -298,7 +298,8 @@ wa_destination_button_clicked_cb (GtkWidget  *button,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, 
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
-	
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
+
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
 	g_signal_connect (G_OBJECT (file_sel),
 			  "response",
@@ -747,6 +748,7 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 
 	home = g_strconcat (g_get_home_dir (), "/", NULL);

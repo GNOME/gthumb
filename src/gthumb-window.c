@@ -6107,7 +6107,7 @@ _proc_monitor_events (gpointer data)
 	GList        *dir_created_list, *dir_deleted_list;
 	GList        *file_created_list, *file_deleted_list, *file_changed_list;
 	GList        *scan;
-		
+
 	dir_created_list = window->monitor_events[MONITOR_EVENT_DIR_CREATED];
 	window->monitor_events[MONITOR_EVENT_DIR_CREATED] = NULL;
 
@@ -6174,16 +6174,16 @@ _proc_monitor_events (gpointer data)
 
 
 static gboolean
-remove_if_present (GThumbWindow     *window,
-		   MonitorEventType  type,
-		   const char       *path)
+remove_if_present (GList            **monitor_events,
+		   MonitorEventType   type,
+		   const char        *path)
 {
 	GList *list, *link;
 
-	list = window->monitor_events[type];
+	list = monitor_events[type];
 	link = path_list_find_path (list, path);
 	if (link != NULL) {
-		window->monitor_events[type] = g_list_remove_link (list, link);
+		monitor_events[type] = g_list_remove_link (list, link);
 		path_list_free (link);
 		return TRUE;
 	}
@@ -6192,14 +6192,34 @@ remove_if_present (GThumbWindow     *window,
 }
 
 
+static gboolean
+add_if_not_present (GList            **monitor_events,
+		    MonitorEventType   type,
+		    MonitorEventType   add_type,
+		    const char        *path)
+{
+	GList *list, *link;
+
+	list = monitor_events[type];
+	link = path_list_find_path (list, path);
+	if (link == NULL) {
+		monitor_events[add_type] = g_list_append (list, g_strdup (path));
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+
 static void
-_window_add_monitor_event (GThumbWindow             *window,
-			   GnomeVFSMonitorEventType  event_type,
-			   char                     *path)
+_window_add_monitor_event (GThumbWindow              *window,
+			   GnomeVFSMonitorEventType   event_type,
+			   char                      *path,
+			   GList                    **monitor_events)
 {
 	MonitorEventType type;
 
-#ifdef DEBUG
+#ifdef DEBUG /* FIXME */
 	{
 		char *op;
 
@@ -6229,27 +6249,46 @@ _window_add_monitor_event (GThumbWindow             *window,
 	} else {
 		if (! path_is_dir (path))
 			type = MONITOR_EVENT_FILE_CHANGED;
-		else
+		else 
 			return;
 	}
 
 	if (type == MONITOR_EVENT_FILE_CREATED) {
-		if (remove_if_present (window, 
+		if (remove_if_present (monitor_events, 
 				       MONITOR_EVENT_FILE_DELETED, 
 				       path))
 			type = MONITOR_EVENT_FILE_CHANGED;
 		
 	} else if (type == MONITOR_EVENT_FILE_DELETED) {
-		remove_if_present (window, MONITOR_EVENT_FILE_CREATED, path);
-		remove_if_present (window, MONITOR_EVENT_FILE_CHANGED, path);
+		remove_if_present (monitor_events, 
+				   MONITOR_EVENT_FILE_CREATED, 
+				   path);
+		remove_if_present (monitor_events, 
+				   MONITOR_EVENT_FILE_CHANGED, 
+				   path);
+
+	} else if (type == MONITOR_EVENT_FILE_CHANGED) {
+		remove_if_present (monitor_events, 
+				   MONITOR_EVENT_FILE_CHANGED, 
+				   path);
+		
+		if (gth_file_list_pos_from_path (window->file_list, path) == -1)
+			add_if_not_present (monitor_events, 
+					    MONITOR_EVENT_FILE_CHANGED, 
+					    MONITOR_EVENT_FILE_CREATED, 
+					    path);
 
 	} else if (type == MONITOR_EVENT_DIR_CREATED) {
-		remove_if_present (window, MONITOR_EVENT_DIR_DELETED, path);
+		remove_if_present (monitor_events, 
+				   MONITOR_EVENT_DIR_DELETED,
+				   path);
 
 	} else if (type == MONITOR_EVENT_DIR_DELETED) 
-		remove_if_present (window, MONITOR_EVENT_DIR_CREATED, path);
+		remove_if_present (monitor_events, 
+				   MONITOR_EVENT_DIR_CREATED, 
+				   path);
 
-	window->monitor_events[type] = g_list_append (window->monitor_events[type], g_strdup (path));
+	monitor_events[type] = g_list_append (monitor_events[type], g_strdup (path));
 }
 
 
@@ -6266,11 +6305,11 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
-	if (window->update_changes_timeout != 0)
+	if (window->update_changes_timeout != 0) 
 		return;
 
 	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
-	_window_add_monitor_event (window, event_type, path);
+	_window_add_monitor_event (window, event_type, path, window->monitor_events);
 	g_free (path);
 
 	window->update_changes_timeout = g_timeout_add (UPDATE_DIR_DELAY,

@@ -187,7 +187,7 @@ comments_get_comment_filename__old (const char *source,
 			    NULL);
 
 	if (!unescape) {
-		char *escaped_path = gnome_vfs_escape_host_and_path_string (path);
+		char *escaped_path = escape_uri (path);
 		g_free (path);
 		path = escaped_path;
 	}
@@ -274,7 +274,7 @@ comments_get_comment_filename (const char *source,
 	path = g_build_filename (directory, ".comments", filename, NULL);
 
 	if (!unescape) {
-		char *escaped_path = gnome_vfs_escape_host_and_path_string (path);
+		char *escaped_path = escape_uri (path);
 		g_free (path);
 		path = escaped_path;
 	}

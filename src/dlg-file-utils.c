@@ -1638,7 +1638,7 @@ dlg_files_move_to_trash (GThumbWindow   *window,
 
 	g_return_if_fail (file_list != NULL);
 
-	e_path = gnome_vfs_escape_host_and_path_string (file_list->data);
+	e_path = escape_uri (file_list->data);
 	first_uri = gnome_vfs_uri_new (e_path);
 	g_free (e_path);
 	
@@ -2276,7 +2276,7 @@ dlg_folder_move_to_trash (GThumbWindow   *window,
 	GnomeVFSURI     *parent_uri, *trash_uri;
 
 	parent_dir = remove_level_from_path (folder);
-	e_parent_dir = gnome_vfs_escape_host_and_path_string (parent_dir);
+	e_parent_dir = escape_uri (parent_dir);
 	parent_uri = gnome_vfs_uri_new (e_parent_dir);
 	
 	gnome_vfs_find_directory (parent_uri, 
