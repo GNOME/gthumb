@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-26 20:29+0100\n"
-"PO-Revision-Date: 2003-12-27 00:54+0100\n"
+"POT-Creation-Date: 2003-12-29 15:31+0100\n"
+"PO-Revision-Date: 2003-12-29 19:22+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -712,72 +712,68 @@ msgid "dpi"
 msgstr "dpi"
 
 #: data/glade/gthumb_crop.glade.h:2
-msgid "1024x768 (Display)"
-msgstr "1024×768 (Displej)"
-
-#: data/glade/gthumb_crop.glade.h:3
 msgid "4x3 (Book, DVD)"
 msgstr "4×3 (Kniha, DVD)"
 
-#: data/glade/gthumb_crop.glade.h:4
+#: data/glade/gthumb_crop.glade.h:3
 msgid "4x6 (Postcard)"
 msgstr "4×6 (Pohlednice)"
 
-#: data/glade/gthumb_crop.glade.h:5
+#: data/glade/gthumb_crop.glade.h:4
 msgid "5x7"
 msgstr "5×7"
 
-#: data/glade/gthumb_crop.glade.h:6
+#: data/glade/gthumb_crop.glade.h:5
 msgid "8x10"
 msgstr "8×10"
 
-#: data/glade/gthumb_crop.glade.h:7
+#: data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Poměr stran</b>"
 
-#: data/glade/gthumb_crop.glade.h:8
+#: data/glade/gthumb_crop.glade.h:7
 msgid "<b>Selection</b>"
 msgstr "<b>Výběr</b>"
 
-#: data/glade/gthumb_crop.glade.h:9
+#: data/glade/gthumb_crop.glade.h:8
 msgid "Crop"
 msgstr "Oříznout"
 
-#: data/glade/gthumb_crop.glade.h:10
+#: data/glade/gthumb_crop.glade.h:9
 msgid "Custom"
 msgstr "Vlastní"
 
-#: data/glade/gthumb_crop.glade.h:11 data/glade/gthumb_preferences.glade.h:48
+#: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
 msgid "None"
 msgstr "Žádná"
 
-#: data/glade/gthumb_crop.glade.h:12
+#: data/glade/gthumb_crop.glade.h:11
 msgid "Square"
 msgstr "Čtverec"
 
-#: data/glade/gthumb_crop.glade.h:13 data/gthumb-ui.xml.h:203
+#: data/glade/gthumb_crop.glade.h:12 data/gthumb-ui.xml.h:203
 msgid "_Crop"
 msgstr "_Oříznout"
 
-#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:21
+#: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
 #: data/glade/gthumb_print.glade.h:29
 msgid "_Height:"
 msgstr "_Výška:"
 
-#: data/glade/gthumb_crop.glade.h:15 data/glade/gthumb_edit.glade.h:31
+#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
 #: data/glade/gthumb_print.glade.h:31
 msgid "_Width:"
 msgstr "Šíř_ka:"
 
-#: data/glade/gthumb_crop.glade.h:16
+#: data/glade/gthumb_crop.glade.h:15
 msgid "_X:"
 msgstr "_X:"
 
-#: data/glade/gthumb_crop.glade.h:17
+#: data/glade/gthumb_crop.glade.h:16
 msgid "_Y:"
 msgstr "_Y:"
 
-#: data/glade/gthumb_crop.glade.h:18
+#: data/glade/gthumb_crop.glade.h:17
 msgid "x"
 msgstr "x"
 
@@ -3069,32 +3065,38 @@ msgstr ""
 "shadow_in, shadow_out."
 
 #: data/gthumb.schemas.in.h:18
+msgid ""
+"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+msgstr "Možné hodnoty jsou: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+
+#: data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
 msgstr "Možné hodnoty jsou: pixels, percentage."
 
-#: data/gthumb.schemas.in.h:19
+#: data/gthumb.schemas.in.h:20
 msgid "Possible values are: png, jpeg."
 msgstr "Možné hodnoty jsou: png, jpeg."
 
-#: data/gthumb.schemas.in.h:20
+#: data/gthumb.schemas.in.h:21
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Možné hodnoty jsou: skip, rename, ask, overwrite."
 
-#: data/gthumb.schemas.in.h:21
+#: data/gthumb.schemas.in.h:22
 msgid "Possible values are: small, medium, large."
 msgstr "Možné hodnoty jsou: small, medium, large."
 
-#: data/gthumb.schemas.in.h:22
+#: data/gthumb.schemas.in.h:23
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
 
-#: data/gthumb.schemas.in.h:23
+#: data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
 msgstr "Možné hodnoty jsou: white, black, checked, none."
 
-#: data/gthumb.schemas.in.h:24
+#: data/gthumb.schemas.in.h:25
 msgid "Whether to always use a black background."
 msgstr "Jestli pokaždé používat černé pozadí."
 
@@ -3557,6 +3559,16 @@ msgstr "Převádím obrázek: %s"
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název."
+
+#: src/dlg-crop.c:333
+#, c-format
+msgid "%dx%d (Image)"
+msgstr "%d×%d (Obrázek)"
+
+#: src/dlg-crop.c:341
+#, c-format
+msgid "%dx%d (Display)"
+msgstr "%d×%d (Displej)"
 
 #: src/dlg-duplicates.c:278 src/dlg-duplicates.c:649
 msgid "Duplicates"
