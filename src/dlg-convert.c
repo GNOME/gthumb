@@ -26,7 +26,6 @@
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-sniff-buffer.h>
 #include <glade/glade.h>
 #include "file-data.h"
 #include "gconf-utils.h"

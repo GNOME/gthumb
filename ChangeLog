@@ -1,5 +1,22 @@
+2002-11-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/file-list.c: 
+	* src/dlg-scale-image.c: 
+	* src/dlg-posterize.c: 
+	* src/dlg-jpegtran.c: 
+	* src/dlg-image-prop.c: 
+	* src/dlg-hue-saturation.c: 
+	* src/dlg-convert.c: 
+	* src/dlg-color-balance.c: 
+	* src/dlg-brightness-contrast.c: do not include 
+	gnome-vfs-mime-sniff-buffer.h
+
 2002-11-14  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/bookmark-list.c (bookmark_list_new): set rules hint to false. 
+
+2002-11-14  Paolo Bacchilega  <paolo.bacch@tin.it>
+	
 	[ gthumb 1.105 released ]
 	
 2002-11-14  Paolo Bacchilega  <paolo.bacch@tin.it>

@@ -5,7 +5,7 @@
 <requires lib="canvas"/>
 
 <widget class="GtkDialog" id="page_setup_dialog">
-  <property name="title" translatable="yes">Print setup</property>
+  <property name="title" translatable="yes">Print Setup</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -15,17 +15,14 @@
 
   <child internal-child="vbox">
     <widget class="GtkVBox" id="dialog-vbox2">
-      <property name="border_width">2</property>
       <property name="visible">True</property>
       <property name="homogeneous">False</property>
       <property name="spacing">0</property>
 
       <child internal-child="action_area">
 	<widget class="GtkHButtonBox" id="dialog-action_area2">
-	  <property name="border_width">5</property>
 	  <property name="visible">True</property>
 	  <property name="layout_style">GTK_BUTTONBOX_END</property>
-	  <property name="spacing">10</property>
 
 	  <child>
 	    <widget class="GtkButton" id="btn_close">
@@ -126,8 +123,6 @@
 	      <property name="show_border">True</property>
 	      <property name="tab_pos">GTK_POS_TOP</property>
 	      <property name="scrollable">False</property>
-	      <property name="tab_hborder">2</property>
-	      <property name="tab_vborder">2</property>
 	      <property name="enable_popup">False</property>
 
 	      <child>

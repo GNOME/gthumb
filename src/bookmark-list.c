@@ -96,7 +96,7 @@ bookmark_list_new ()
 						    G_TYPE_STRING,
 						    G_TYPE_STRING);
 	list_view = (GtkTreeView*) gtk_tree_view_new_with_model (GTK_TREE_MODEL (book_list->list_store));
-        gtk_tree_view_set_rules_hint (list_view, TRUE);
+        gtk_tree_view_set_rules_hint (list_view, FALSE);
         add_columns (list_view);
 	gtk_tree_view_set_headers_visible (list_view, FALSE);
         gtk_tree_view_set_enable_search (list_view, TRUE);

@@ -37,7 +37,6 @@
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnomevfs/gnome-vfs-mime-sniff-buffer.h>
 #include <libgnomevfs/gnome-vfs-result.h>
 #include <gconf/gconf-client.h>
 #include "gthumb-init.h"
