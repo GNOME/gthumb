@@ -616,10 +616,10 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_command_sensitive (window,
 			       "Go_ToContainer",
-			       viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
+			       not_fullscreen && viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
 	set_command_sensitive (window,
 			       "Go_ToContainerPopup",
-			       viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
+			       not_fullscreen && viewing_catalog && ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist)));
 
 	set_command_sensitive (window, "Go_Stop", 
 			       ((window->activity_ref > 0) 
@@ -2329,7 +2329,6 @@ image_button_press_cb (GtkWidget      *widget,
 	case 1:
 		break;
 	case 2:
-		/* window_show_prev_image (window); FIXME */
 		break;
 	case 3:
 		menu = gtk_menu_new ();
@@ -2342,7 +2341,6 @@ image_button_press_cb (GtkWidget      *widget,
 			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
 						 GTK_MENU (menu), 
 						 "/popups/ImagePopup");
-		/*window_update_sensitivity (window); FIXME */
 		gtk_menu_popup (GTK_MENU (menu),
 				NULL,
 				NULL,
@@ -2413,25 +2411,6 @@ viewer_drag_data_get  (GtkWidget        *widget,
 				selection_data->target,
 				8, 
 				path, strlen (path));
-
-	/* FIXME
-	if (info == TARGET_URL) {
-		gchar *url;
-
-		url = g_strconcat ("file://",
-				   path,
-				   NULL);
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8, 
-					url, strlen (url));
-		g_free (url);
-	} else 
-		gtk_selection_data_set (selection_data,
-					selection_data->target,
-					8, 
-					path, strlen (path));
-	*/
 	g_free (path);
 }
 
@@ -2712,12 +2691,6 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 			transp_type = TRANSP_TYPE_CHECKED;
 
 		pref_set_transp_type (transp_type);
-
-		/* FIXME
-		image_viewer_set_transp_type (IMAGE_VIEWER (window->viewer), 
-					      transp_type);
-		image_viewer_update_view (IMAGE_VIEWER (window->viewer));
-		*/
 	}
 
 	if (strcmp (path, "View_PlayAnimation") == 0) {
@@ -2862,7 +2835,7 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 				      NULL);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/ImageToolbar",
-				      "hidden", "1", /* FIXME */
+				      "hidden", "1", 
 				      NULL);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/status",

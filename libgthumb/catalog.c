@@ -229,7 +229,7 @@ catalog_load_from_disk (Catalog     *catalog,
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
 					       errno,
-					       _("Cannot open file \"%s\" : %s"),
+					       _("Cannot open catalog \"%s\" : %s"),
 					       fullpath,
 					       errno_to_string ());
 		return FALSE;
@@ -374,7 +374,7 @@ error_on_saving (char    *path,
 	if (gerror != NULL)
 		*gerror = g_error_new (GTHUMB_ERROR,
 				       errno,
-				       _("Cannot save file \"%s\" : %s"),
+				       _("Cannot save catalog \"%s\" : %s"),
 				       path,
 				       errno_to_string ());
 }
@@ -397,7 +397,7 @@ catalog_write_to_disk (Catalog     *catalog,
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
 					       errno,
-					       _("Cannot open file \"%s\" : %s"),
+					       _("Cannot open catalog \"%s\" : %s"),
 					       path,
 					       errno_to_string ());
 		return FALSE;

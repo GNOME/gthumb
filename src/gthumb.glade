@@ -886,7 +886,7 @@
 			    <widget class="GtkCheckButton" id="toggle_show_hidden">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">Show hi_dden files</property>
+			      <property name="label" translatable="yes">Show hi_dden images</property>
 			      <property name="use_underline">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="active">False</property>
@@ -3280,7 +3280,7 @@
 <widget class="GtkDialog" id="open_with_dialog">
   <property name="width_request">370</property>
   <property name="height_request">450</property>
-  <property name="title" translatable="yes">Open selected files with an application</property>
+  <property name="title" translatable="yes">Open selected images with an application</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>

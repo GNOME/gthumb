@@ -131,6 +131,10 @@
 #define  PREF_RENAME_SERIES_SORT      "/apps/gthumb/dialogs/rename_series/sort_by"
 #define  PREF_RENAME_SERIES_REVERSE   "/apps/gthumb/dialogs/rename_series/reverse_order"
 
+#define  PREF_SCALE_UNIT              "/apps/gthumb/dialogs/scale_image/unit"
+#define  PREF_SCALE_KEEP_RATIO        "/apps/gthumb/dialogs/scale_image/keep_aspect_ratio"
+#define  PREF_SCALE_HIGH_QUALITY      "/apps/gthumb/dialogs/scale_image/high_quality"
+
 
 typedef struct {
 	Bookmarks   *bookmarks;

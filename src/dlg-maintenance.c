@@ -67,7 +67,7 @@ remove_all_comments_cb (GtkWidget  *widget,
 
 	d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),
 				   GTK_DIALOG_MODAL,
-				   _("All comments will be deleted, are you sure ?"),
+				   _("All comments will be removed, are you sure ?"),
 				   GTK_STOCK_NO,
 				   GTK_STOCK_DELETE);
 	r = gtk_dialog_run (GTK_DIALOG (d));

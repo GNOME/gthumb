@@ -138,9 +138,9 @@ real_file_delete (GThumbWindow *window,
 		char *msg;
 
 		if (g_list_length (error_list) == 1)
-			msg = _("Could not delete the file:");
+			msg = _("Could not delete the image:");
 		else
-			msg = _("Could not delete the following files:");
+			msg = _("Could not delete the following images:");
 
 		dlg_show_error (window,
 				msg,
@@ -288,9 +288,9 @@ file_move_ok_cb (GtkWidget *w,
 		char *msg;
 
 		if (g_list_length (error_list) == 1)
-			msg = _("Could not move the file:");
+			msg = _("Could not move the image:");
 		else
-			msg = _("Could not move the following files:");
+			msg = _("Could not move the following images:");
 		
 		dlg_show_error (window,
 				msg,
@@ -431,9 +431,9 @@ file_copy_ok_cb (GtkWidget *w,
 		char *msg;
 
 		if (g_list_length (error_list) == 1)
-			msg = _("Could not copy the file:");
+			msg = _("Could not copy the image:");
 		else
-			msg = _("Could not copy the following files:");
+			msg = _("Could not copy the following images:");
 
 		dlg_show_error (window,
 				msg,
@@ -806,9 +806,9 @@ dlg_file_rename_series (GThumbWindow *window,
 		char *msg;
 
 		if (g_list_length (error_list) == 1)
-			msg = _("Could not rename the file:");
+			msg = _("Could not rename the image:");
 		else
-			msg = _("Could not rename the following files:");
+			msg = _("Could not rename the following images:");
 		
 		dlg_show_error (window,
 				msg,

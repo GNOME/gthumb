@@ -272,7 +272,7 @@ rename_file (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not rename the file \"%s\" : %s"),
+				       _("Could not rename the image \"%s\" : %s"),
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
@@ -287,7 +287,7 @@ rename_file (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not rename the file \"%s\" : %s"),
+				       _("Could not rename the image \"%s\" : %s"),
 				       utf8_path,
 				       errno_to_string ());
 		g_free (utf8_path);
@@ -1109,7 +1109,7 @@ folder_delete (GThumbWindow *window,
 
 	gerror = g_error_new (GTHUMB_ERROR,
 			      errno,
-			      _("Cannot remove folder \"%s\" : %s"),
+			      _("Cannot delete the folder \"%s\" : %s"),
 			      path,
 			      errno_to_string ());
 
@@ -1551,7 +1551,7 @@ catalog_delete (GThumbWindow *window,
 	if (path_is_dir (catalog_path)) 
 		message = g_strdup (_("The selected folder will be deleted, are you sure ?"));
 	else
-		message = g_strdup (_("The selected catalog will be deleted, are you sure ?"));
+		message = g_strdup (_("The selected catalog will be removed, are you sure ?"));
 
 	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					GTK_DIALOG_MODAL,

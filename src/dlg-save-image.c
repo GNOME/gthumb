@@ -68,8 +68,6 @@ file_save_ok_cb (GtkWidget *w,
 	const char    *mime_type;
 	int            idx;
 
-	gtk_widget_hide (file_sel);
-
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
 	filename = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
@@ -81,10 +79,29 @@ file_save_ok_cb (GtkWidget *w,
 	
 	file_exists = path_is_file (filename);
 
-	if (file_exists) { /* FIXME */
-		g_free (filename);
-		return;
+	if (file_exists) { 
+		GtkWidget *d;
+		char      *message;
+		int        r;
+
+		message = g_strdup_printf (_("An image named \"%s\" is already present in this folder. Do you want to overwrite it ?"), file_name_from_path (filename));
+		d = _gtk_yesno_dialog_new (parent, 
+					   GTK_DIALOG_MODAL,
+					   message,
+					   GTK_STOCK_NO,
+					   GTK_STOCK_YES);
+		g_free (message);
+		
+		r = gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (d);
+
+		if (r != GTK_RESPONSE_YES) {
+			g_free (filename);
+			return;
+		}
 	}
+
+	gtk_widget_hide (file_sel);
 
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));

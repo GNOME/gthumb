@@ -1109,5 +1109,46 @@
 	</locale>
       </schema>
 
+      <!-- Scale Image -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/unit</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/unit</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>pixels</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values: pixels, percentage.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/keep_aspect_ratio</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/keep_aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_image/high_quality</key>
+	<applyto>/apps/gthumb/dialogs/scale_image/high_quality</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

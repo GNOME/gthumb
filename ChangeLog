@@ -1,6 +1,14 @@
 2002-10-31  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/dlg-scale-image.c: implement unit change.
+	(ok_cb): save options.
+
+	* src/dlg-save-image.c (file_save_ok_cb): handle overwrite.
+
+	* libgthumb/catalog.c (error_on_saving): s/file/catalog/g
+
 	* src/gthumb-ui.xml: Fixed duplicated mnemonics again.
+	Use 'delete' for files and 'remove' for comments and catalogs.
 
 	* src/dlg-rename-series.c: 
 	* src/dlg-convert.c: save options.

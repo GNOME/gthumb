@@ -32,12 +32,20 @@
 
 #include "gthumb-window.h"
 #include "pixbuf-utils.h"
+#include "gconf-utils.h"
+#include "preferences.h"
 
 
 #define DEFAULT_VALUE  2.0
 #define GLADE_FILE     "gthumb_edit.glade"
 #define PREVIEW_SIZE   200
 #define SCALE_SIZE     120
+
+
+enum {
+	UNIT_PIXEL,
+	UNIT_PERCENT
+};
 
 
 typedef struct {
@@ -47,6 +55,7 @@ typedef struct {
 
 	int           width, height;
 	double        ratio;
+	gboolean      percentage;
 
 	GtkWidget    *dialog;
 	GtkWidget    *s_new_width_spinbutton;
@@ -55,6 +64,7 @@ typedef struct {
 	GtkWidget    *s_width_ratio_label;
 	GtkWidget    *s_height_ratio_label;
 	GtkWidget    *s_keep_ratio_checkbutton;
+	GtkWidget    *s_unit_optionmenu;
 } DialogData;
 
 
@@ -75,16 +85,37 @@ ok_cb (GtkWidget  *widget,
 {
 	GdkPixbuf *orig_pixbuf;
 	GdkPixbuf *new_pixbuf;
+	double     d_width, d_height;
 	int        width, height;
 	gboolean   high_quality;
+
+	/* Save options */
+
+	if (data->percentage)
+		eel_gconf_set_string (PREF_SCALE_UNIT, "percentage");
+	else
+		eel_gconf_set_string (PREF_SCALE_UNIT, "pixels");
+
+	eel_gconf_set_boolean (PREF_SCALE_KEEP_RATIO, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_keep_ratio_checkbutton)));
+	eel_gconf_set_boolean (PREF_SCALE_HIGH_QUALITY, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_high_quality_checkbutton)));
+
+	/**/
 
 	orig_pixbuf = image_viewer_get_current_pixbuf (data->viewer);
 	g_return_if_fail (orig_pixbuf != NULL);
 	g_object_ref (orig_pixbuf);
 
 	high_quality = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_high_quality_checkbutton));
-	width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
-	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
+	d_width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
+	d_height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
+
+	if (data->percentage) {
+		d_width  = d_width / 100.0 * data->width;
+		d_height = d_height / 100.0 * data->height;
+	} 
+
+	width  = (int) d_width;
+	height = (int) d_height;
 
 	new_pixbuf = gdk_pixbuf_scale_simple (orig_pixbuf,
 					      width,
@@ -112,6 +143,11 @@ update_ratio (DialogData *data)
 	new_width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
 	new_height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
 
+	if (data->percentage) {
+		new_width = new_width / 100.0 * data->width;
+		new_height = new_height / 100.0 * data->height;
+	}
+
 	snprintf (ratio, sizeof (ratio), "%0.3f", new_width / data->width);
 	gtk_label_set_text (GTK_LABEL (data->s_width_ratio_label), ratio);
 
@@ -136,7 +172,11 @@ h_spinbutton_value_changed (GtkSpinButton *button,
 		double width, height;
 
 		height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
-		width = height * data->ratio;
+
+		if (data->percentage)
+			width = height;
+		else
+			width = height * data->ratio;
 
 		g_signal_handlers_block_by_func (data->s_new_width_spinbutton,
 						 w_spinbutton_value_changed,
@@ -165,7 +205,11 @@ w_spinbutton_value_changed (GtkSpinButton *button,
 		double width, height;
 
 		width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
-		height = width / data->ratio;
+
+		if (data->percentage)
+			height = width;
+		else
+			height = width / data->ratio;
 
 		g_signal_handlers_block_by_func (data->s_new_height_spinbutton,
 						 h_spinbutton_value_changed,
@@ -191,6 +235,47 @@ keep_aspect_ratio_toggled (GtkToggleButton *button,
 }
 
 
+static void
+unit_changed (GtkOptionMenu *option_menu,
+	      DialogData    *data)
+{
+	double w_value, width;
+	double h_value, height;
+
+	switch (gtk_option_menu_get_history (option_menu)) {
+	case UNIT_PIXEL:
+		if (! data->percentage)
+			return;
+		data->percentage = FALSE;
+
+		w_value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
+		h_value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
+
+		width = w_value * ((double) data->width / 100.0);
+		height = h_value * ((double) data->height / 100.0);
+
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), width);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), height);
+		break;
+		
+	case UNIT_PERCENT:
+		if (data->percentage)
+			return;
+		data->percentage = TRUE;
+
+		width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton));
+		height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton));
+		
+		w_value = width / data->width * 100.0;
+		h_value = height / data->height * 100.0;
+		
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), w_value);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), h_value);
+		break;
+	}
+}
+
+
 void
 dlg_scale_image (GThumbWindow *window)
 {
@@ -200,6 +285,7 @@ dlg_scale_image (GThumbWindow *window)
 	GtkWidget  *label;
 	GdkPixbuf  *pixbuf;
 	char        size[100];
+	char       *unit;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -221,6 +307,7 @@ dlg_scale_image (GThumbWindow *window)
 	data->s_width_ratio_label = glade_xml_get_widget (data->gui, "s_width_ratio_label");
 	data->s_height_ratio_label = glade_xml_get_widget (data->gui, "s_height_ratio_label");
 	data->s_keep_ratio_checkbutton = glade_xml_get_widget (data->gui, "s_keep_ratio_checkbutton");
+	data->s_unit_optionmenu = glade_xml_get_widget (data->gui, "s_unit_optionmenu");
 
 	ok_button = glade_xml_get_widget (data->gui, "s_ok_button");
 	cancel_button = glade_xml_get_widget (data->gui, "s_cancel_button");
@@ -245,8 +332,27 @@ dlg_scale_image (GThumbWindow *window)
 	label = glade_xml_get_widget (data->gui, "s_orig_height_label");
 	gtk_label_set_text (GTK_LABEL (label), size);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), data->width);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), data->height);
+	/**/
+
+	unit = eel_gconf_get_string (PREF_SCALE_UNIT);
+
+	data->percentage = strcmp (unit, "percentage") == 0;
+	if (data->percentage) {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (data->s_unit_optionmenu), 1);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), 100.0);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), 100.0);
+	} else {
+		gtk_option_menu_set_history (GTK_OPTION_MENU (data->s_unit_optionmenu), 0);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), data->width);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), data->height);
+	}
+
+	g_free (unit);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_keep_ratio_checkbutton),
+				      eel_gconf_get_boolean (PREF_SCALE_KEEP_RATIO));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_high_quality_checkbutton),
+				      eel_gconf_get_boolean (PREF_SCALE_HIGH_QUALITY));
 
 	/* Set the signals handlers. */
 	
@@ -278,6 +384,11 @@ dlg_scale_image (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->s_keep_ratio_checkbutton),
 			  "toggled",
 			  G_CALLBACK (keep_aspect_ratio_toggled),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->s_unit_optionmenu),
+			  "changed",
+			  G_CALLBACK (unit_changed),
 			  data);
 
 	/* Run dialog. */

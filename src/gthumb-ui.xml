@@ -11,7 +11,7 @@
 	<cmd name="File_OpenWith" _label="_Open With" 
 	     _tip="Open selected images with an application"
 	     pixtype="stock" pixname="gtk-open" accel="*Control*O"/>
-	<cmd name="File_OpenWithPopup" _label="_Open with..." 
+	<cmd name="File_OpenWithPopup" _label="_Open With" 
 	     _tip="Open selected images with an application"
 	     pixtype="stock" pixname="gtk-open"/>
 	<cmd name="File_Save" _label="Save _As..." 
@@ -25,7 +25,7 @@
 	     _tip="Close all windows and exit"
 	     pixtype="stock" pixname="gtk-quit" accel="*Control*Q"/>
 
-	<cmd name="Image_OpenWith" _label="Open with..." 
+	<cmd name="Image_OpenWith" _label="Open With" 
 	     _tip="Open this image with an application"
 	     pixtype="stock" pixname="gtk-open"/>
 	<cmd name="Image_Rename" _label="Rename" 
@@ -63,8 +63,8 @@
 	     accel="*Control*A"/>
 	<cmd name="Edit_EditComment" _label="Comm_ent" 
 	     _tip="Add a comment to selected images"/>
-	<cmd name="Edit_DeleteComment" _label="De_lete Comment" 
-	     _tip="Delete comments of selected images"/>
+	<cmd name="Edit_DeleteComment" _label="Rem_ove Comment" 
+	     _tip="Remove comments of selected images"/>
 	<cmd name="Edit_EditCategories" _label="Ca_tegories..." 
 	     _tip="Assign categories to selected images"
 	     pixtype="stock" pixname="gtk-index" />
@@ -75,8 +75,8 @@
 
 	<cmd name="EditCatalog_Rename" _label="Rename Catalog" 
 	     _tip="Rename selected catalog"/>
-	<cmd name="EditCatalog_Delete" _label="Delete Catalog" 
-	     _tip="Delete selected catalog"/>
+	<cmd name="EditCatalog_Delete" _label="Remove Catalog" 
+	     _tip="Remove selected catalog"/>
 	<cmd name="EditCatalog_Move" _label="Move Catalog..." 
 	     _tip="Move selected catalog to another location"/>
 	<cmd name="EditCatalog_EditSearch" _label="Edit Search" 
@@ -90,8 +90,8 @@
 	     _tip="Create a new catalog library"/>
 	<cmd name="EditCurrentCatalog_Rename" _label="_Rename" 
 	     _tip="Rename current catalog"/>
-	<cmd name="EditCurrentCatalog_Delete" _label="_Delete" 
-	     _tip="Delete current catalog"/>
+	<cmd name="EditCurrentCatalog_Delete" _label="Rem_ove" 
+	     _tip="Remove current catalog"/>
 	<cmd name="EditCurrentCatalog_Move" _label="_Move..." 
 	     _tip="Move current catalog to another location"/>
 	<cmd name="EditCurrentCatalog_EditSearch" _label="_Edit Search" 
@@ -472,8 +472,8 @@
 		<menuitem name="Go_Up" verb=""/>
 		<separator/>
 		<menuitem name="Go_Home" verb=""/>
-		<menuitem name="Go_Location" verb=""/>
 		<menuitem name="Go_ToContainer" verb=""/>
+		<menuitem name="Go_Location" verb=""/>
 		<separator/>
 		<menuitem name="Go_DeleteHistory" verb=""/>
 		<placeholder name="HistoryList" delimit="top"/>
@@ -673,6 +673,8 @@
 		<menuitem name="AlterImage_Mirror" verb=""/>
 		<menuitem name="AlterImage_Desaturate" verb=""/>
 		<menuitem name="AlterImage_Invert" verb=""/>
+		<separator/>
+		<menuitem name="Go_ToContainerPopup" verb=""/>
 	</popup>
 	<popup name="FullscreenImagePopup">
 		<menuitem name="View_ExitFullscreenPopup" verb=""/>
@@ -693,7 +695,7 @@
 		<menuitem name="EditCatalog_Rename" verb="" 
 		          _label="Rename"/>
 		<menuitem name="EditCatalog_Delete" verb=""
-		          _label="Delete"/>
+		          _label="Remove"/>
 		<menuitem name="EditCatalog_Move" verb=""
 		          _label="Move..."/>
 		<separator/>
