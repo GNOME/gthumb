@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2002-11-26 11:42+0100\n"
-"PO-Revision-Date: 2002-11-26 11:42+0100\n"
+"POT-Creation-Date: 2002-12-01 05:18+0100\n"
+"PO-Revision-Date: 2002-11-30 04:08+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -271,7 +271,7 @@ msgstr ""
 #: libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:211
 #: libgthumb/gtk-utils.c:313 src/commands-impl.c:2689 src/gthumb-window.c:434
 #: src/gthumb-window.c:448 src/gthumb-window.c:451 src/gthumb-window.c:468
-#: src/gthumb-window.c:474 src/gthumb-window.c:3871
+#: src/gthumb-window.c:474 src/gthumb-window.c:3918
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
@@ -305,7 +305,7 @@ msgstr ""
 
 #: src/commands-impl.c:261 src/dlg-convert.c:310 src/dlg-save-image.c:87
 #, c-format
-msgid "An image named \"%s\" is already present. Do you want to overwrite it ?"
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr ""
 "Es existiert bereits ein Bild mit Namen »%s«. Soll dieses überschrieben "
 "werden?"
@@ -329,19 +329,19 @@ msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Das Bild »%s« konnte nicht dupliziert werden: %s"
 
 #: src/commands-impl.c:450
-msgid "The selected images will be moved to the Trash, are you sure ?"
+msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Sollen die markierten Bilder wirklich in den Müll verschoben werden?"
 
 #: src/commands-impl.c:470
-msgid "The image will be moved to the Trash, are you sure ?"
+msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Soll das Bild wirklich in den Müll verschoben werden?"
 
 #: src/commands-impl.c:734
-msgid "The image will be removed from the catalog, are you sure ?"
+msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Soll das Bild wirklich aus dem Katalog entfernt werden?"
 
 #: src/commands-impl.c:776
-msgid "The selected images will be removed from the catalog, are you sure ?"
+msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 "Sollen die markierten Dateien wirklich aus dem Katalog entfernt werden?"
 
@@ -396,14 +396,14 @@ msgstr "Der Ordner »%s« konnte nicht gelöscht werden: %s"
 #: src/commands-impl.c:1126
 #, c-format
 msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently ?"
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
-"»%s« konnte nicht in den Müll verschoben werden. Wollen Sie die Datei "
-"dauerhaft löschen?"
+"»%s« konnte nicht in den Müll verschoben werden. Soll die Datei dauerhaft "
+"gelöscht werden?"
 
 #: src/commands-impl.c:1163
-msgid "The selected folder will be moved to the Trash, are you sure ?"
-msgstr "Soll der markierten Ordner wirklich in den Müll verschoben werden?"
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Soll der markierte Ordner wirklich in den Müll verschoben werden?"
 
 #: src/commands-impl.c:1165 src/dlg-file-utils.c:277
 msgid "_Move"
@@ -414,7 +414,8 @@ msgstr "_Verschieben"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht kopiert werden: %s"
 
-#: src/commands-impl.c:1286
+#: src/commands-impl.c:1286 src/dlg-file-utils.c:2269
+#: src/dlg-file-utils.c:2271
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht verschoben werden: %s"
@@ -455,11 +456,11 @@ msgid "Could not create the catalog \"%s\": %s"
 msgstr "Der Katalog »%s« konnte nicht angelegt werden: %s"
 
 #: src/commands-impl.c:1732
-msgid "The selected library will be removed, are you sure ?"
+msgid "The selected library will be removed, are you sure?"
 msgstr "Soll die markierte Bibliothek wirklich entfernt werden?"
 
 #: src/commands-impl.c:1734
-msgid "The selected catalog will be removed, are you sure ?"
+msgid "The selected catalog will be removed, are you sure?"
 msgstr "Solle der markierte Katalog wirklich entfernt werden?"
 
 #: src/commands-impl.c:2629 src/dlg-categories.c:325 src/dlg-comment.c:242
@@ -529,11 +530,11 @@ msgid "Location"
 msgstr "Speicherort"
 
 #: src/dlg-duplicates.c:716
-msgid "Checked images will be deleted, are you sure ?"
+msgid "Checked images will be deleted, are you sure?"
 msgstr "Sollen die markierten Bilder gelöscht werden?"
 
 #: src/dlg-file-utils.c:91
-msgid "The destination folder does not exits. Do you want to create it ?"
+msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Der Zielordner existiert nicht. Soll er angelegt werden?"
 
 #: src/dlg-file-utils.c:107
@@ -556,10 +557,10 @@ msgstr "Die Bilder konnte nicht gelöscht werden:"
 #: src/dlg-file-utils.c:223
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
-"permanently ?"
+"permanently?"
 msgstr ""
-"Die Bilder konnten nicht in den Müll verschoben werden. Wollen Sie die "
-"Dateien dauerhaft löschen?"
+"Die Bilder konnten nicht in den Müll verschoben werden. Sollen die Dateien "
+"dauerhaft gelöscht werden?"
 
 #: src/dlg-file-utils.c:752 src/dlg-file-utils.c:853
 msgid "You didn't enter the new name"
@@ -621,11 +622,6 @@ msgstr "Datei %ld von %ld wird kopiert"
 msgid "Moving file %ld of %ld"
 msgstr "Datei %ld von %ld wird verschoben"
 
-#: src/dlg-file-utils.c:2269 src/dlg-file-utils.c:2271
-#, c-format
-msgid "Could not move the folder \"%s\" : %s"
-msgstr "Der Ordner »%s« konnte nicht verschoben werden: %s"
-
 #: src/dlg-image-prop.c:318
 msgid "Image Dimensions"
 msgstr "Bildgröße"
@@ -660,11 +656,11 @@ msgid "%s Properties"
 msgstr "Eigenschaften von %s"
 
 #: src/dlg-maintenance.c:70
-msgid "All comments will be removed, are you sure ?"
+msgid "All comments will be removed, are you sure?"
 msgstr "Sollen alle Kommentare entfernt werden?"
 
 #: src/dlg-maintenance.c:101
-msgid "All thumbnails will be deleted, are you sure ?"
+msgid "All thumbnails will be deleted, are you sure?"
 msgstr "Sollen alle Minitatur-Vorschaubilder gelöscht werden?"
 
 #: src/dlg-maintenance.c:162 src/dlg-maintenance.c:232
@@ -716,7 +712,7 @@ msgstr "Suchergebnis"
 msgid "Filename"
 msgstr "Dateiname"
 
-#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:353
+#: src/dlg-search.c:833 src/gth-folder-selection-dialog.c:369
 msgid "Folder"
 msgstr "Ordner"
 
@@ -724,15 +720,15 @@ msgstr "Ordner"
 msgid "Restore Normal View"
 msgstr "Normale Ansicht wiederherstellen"
 
-#: src/gth-folder-selection-dialog.c:375
+#: src/gth-folder-selection-dialog.c:391
 msgid "_Browse..."
 msgstr "_Auswählen..."
 
-#: src/gth-folder-selection-dialog.c:384
+#: src/gth-folder-selection-dialog.c:400
 msgid "_Recents:"
 msgstr "_Zuletzt verwendet:"
 
-#: src/gth-folder-selection-dialog.c:415 src/gthumb.glade.h:27
+#: src/gth-folder-selection-dialog.c:431 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
 msgstr "_Lesezeichen:"
 
@@ -1704,24 +1700,24 @@ msgstr "1 markiert (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markiert (%s)"
 
-#: src/gthumb-window.c:2842
+#: src/gthumb-window.c:2865
 msgid "Dragged Images"
 msgstr "Abgelegte Bilder"
 
-#: src/gthumb-window.c:3015
+#: src/gthumb-window.c:3038
 msgid "Could not move the items:"
 msgstr "Die Objekte konnten nicht verschoben werden:"
 
-#: src/gthumb-window.c:3513
+#: src/gthumb-window.c:3560
 msgid "Back"
 msgstr "Zurück"
 
-#: src/gthumb-window.c:5169
+#: src/gthumb-window.c:5224
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Ordner »%s« konnte nicht geladen werden: %s\n"
 
-#: src/gthumb-window.c:5421
+#: src/gthumb-window.c:5476
 msgid "The specified catalog does not exist."
 msgstr "Der angegebene Katalog existiert nicht."
 
@@ -1748,7 +1744,7 @@ msgid "<b>Information on Channel:</b>"
 msgstr "<b>Kanal-Informationen:</b>"
 
 #: src/gthumb.glade.h:5
-msgid "<b>Overwrite the old image with the new one ?</b>"
+msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Das alte Bild mit dem neuen überschreiben?</b>"
 
 #: src/gthumb.glade.h:6
