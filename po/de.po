@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2002-10-30 17:44+0100\n"
-"PO-Revision-Date: 2002-10-30 19:07+0100\n"
+"POT-Creation-Date: 2002-10-31 22:11+0100\n"
+"PO-Revision-Date: 2002-10-31 22:29+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,28 +14,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gthumb.desktop.in.h:1
-msgid "Image Viewer"
-msgstr "Bildbetrachter"
-
-#: gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "Ihre Bilder betrachten und katalogisieren"
 
-#: gthumb.desktop.in.h:3
-#: libgthumb/gtk-utils.c:125
-#: libgthumb/gtk-utils.c:206
-#: libgthumb/gtk-utils.c:303
-#: src/commands-impl.c:2385
-#: src/gthumb_png_exporter.glade.h:75
-#: src/gthumb-window.c:1124
-#: src/gthumb-window.c:1138
-#: src/gthumb-window.c:1141
-#: src/gthumb-window.c:1158
-#: src/gthumb-window.c:1164
-#: src/gthumb-window.c:3115
-#: src/main.c:111
-msgid "gThumb"
-msgstr "gThumb"
+#: gthumb.desktop.in.h:2
+msgid "gThumb Image Viewer"
+msgstr "gThumb Bildbetrachter"
 
 #: libgthumb/catalog.c:85
 #, c-format
@@ -45,23 +29,23 @@ msgstr "Bibliothek »%s« konnte nicht gelöscht werden: %s"
 #: libgthumb/catalog.c:111
 #, c-format
 msgid "Cannot remove catalog \"%s\" : %s"
-msgstr "Katalog »%s« konnte nicht gelöscht werden: %s"
+msgstr "Katalog »%s« konnte nicht entfernt werden: %s"
 
 #: libgthumb/catalog.c:232
 #: libgthumb/catalog.c:400
 #, c-format
-msgid "Cannot open file \"%s\" : %s"
-msgstr "Datei »%s« konnte nicht geöffnet werden: %s"
+msgid "Cannot open catalog \"%s\" : %s"
+msgstr "Katalog »%s« konnte nicht geöffnet werden: %s"
 
 #: libgthumb/catalog.c:377
 #, c-format
-msgid "Cannot save file \"%s\" : %s"
-msgstr "Datei »%s« konnte nicht gespeichert werden: %s"
+msgid "Cannot save catalog \"%s\" : %s"
+msgstr "Katalog »%s« konnte nicht gespeichert werden: %s"
 
 #: libgthumb/catalog-png-exporter.c:793
 #: src/dlg-image-prop.c:479
 #: src/fullscreen.c:229
-#: src/gthumb-window.c:458
+#: src/gthumb-window.c:459
 #: components/image-viewer/viewer-stream.c:98
 #, c-format
 msgid "%d x %d pixels"
@@ -103,76 +87,92 @@ msgid "GConf error:\n"
 msgstr "GConf-Fehler:\n"
 "  %s"
 
+#: libgthumb/gtk-utils.c:125
+#: libgthumb/gtk-utils.c:206
+#: libgthumb/gtk-utils.c:303
+#: src/commands-impl.c:2459
+#: src/gthumb_png_exporter.glade.h:75
+#: src/gthumb-window.c:1127
+#: src/gthumb-window.c:1141
+#: src/gthumb-window.c:1144
+#: src/gthumb-window.c:1161
+#: src/gthumb-window.c:1167
+#: src/gthumb-window.c:3091
+#: src/main.c:111
+msgid "gThumb"
+msgstr "gThumb"
+
 #: libgthumb/thumb-cache.c:408
 #: libgthumb/thumb-cache.c:654
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten..."
 
-#: src/commands-impl.c:210
-#: src/commands-impl.c:935
-#: src/commands-impl.c:1345
+#: src/commands-impl.c:213
+#: src/commands-impl.c:938
+#: src/commands-impl.c:1348
 msgid "Enter the new name : "
 msgstr "Geben Sie den neuen Namen ein: "
 
-#: src/commands-impl.c:214
-#: src/commands-impl.c:939
-#: src/commands-impl.c:1349
-#: src/gthumb_tools.glade.h:78
-#: src/gthumb-ui.xml.h:225
+#: src/commands-impl.c:217
+#: src/commands-impl.c:942
+#: src/commands-impl.c:1352
+#: src/gthumb_tools.glade.h:64
+#: src/gthumb-ui.xml.h:231
 msgid "_Rename"
 msgstr "_Umbenennen"
 
-#: src/commands-impl.c:225
-#: src/commands-impl.c:839
-#: src/commands-impl.c:950
-#: src/commands-impl.c:1362
+#: src/commands-impl.c:228
+#: src/commands-impl.c:842
+#: src/commands-impl.c:953
+#: src/commands-impl.c:1365
+#: src/commands-impl.c:1456
 #, c-format
 msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
 msgstr "Der Name \"%s\" ist ungültig, da er das »/«-Zeichen enthält. Bitte verwenden Sie einen anderen Namen."
 
-#: src/commands-impl.c:246
+#: src/commands-impl.c:249
 #, c-format
 msgid "An image named \"%s\" is already present in this folder. Do you want to overwrite it ?"
 msgstr "In diesem Ordner exsitiert bereits ein Bild mit Namen \"%s\". Soll dieses überschrieben werden?"
 
-#: src/commands-impl.c:252
+#: src/commands-impl.c:255
 msgid "_Overwrite"
 msgstr "Ü_berschreiben"
 
-#: src/commands-impl.c:272
-#: src/commands-impl.c:287
+#: src/commands-impl.c:275
+#: src/commands-impl.c:290
 #, c-format
-msgid "Could not rename the file \"%s\" : %s"
-msgstr "Datei »%s« konnte nicht umbenannt werden: %s"
+msgid "Could not rename the image \"%s\" : %s"
+msgstr "Bild »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:274
-#: src/commands-impl.c:975
-#: src/commands-impl.c:1184
+#: src/commands-impl.c:277
+#: src/commands-impl.c:978
+#: src/commands-impl.c:1187
 msgid "source and destination are the same"
 msgstr "Quell- und und Zieldatei bzw. -ordner sind identisch"
 
-#: src/commands-impl.c:376
+#: src/commands-impl.c:379
 #, c-format
 msgid "Could not duplicate the image \"%s\" : %s"
 msgstr "Bild »%s« konnte nicht dupliziert werden: %s:"
 
-#: src/commands-impl.c:434
+#: src/commands-impl.c:437
 msgid "Selected images will be deleted, are you sure ?"
 msgstr "Die markierten Dateien wirklich löschen?"
 
-#: src/commands-impl.c:454
+#: src/commands-impl.c:457
 msgid "The image will be deleted, are you sure ?"
 msgstr "Soll das Bild wirklich gelöscht werden?"
 
-#: src/commands-impl.c:708
+#: src/commands-impl.c:711
 msgid "The image will be deleted from the catalog, are you sure ?"
 msgstr "Soll das Bild wirklich aus dem Katalog gelöscht werden?"
 
-#: src/commands-impl.c:750
+#: src/commands-impl.c:753
 msgid "The selected images will be deleted from the catalog, are you sure ?"
-msgstr "Die markierten Dateien wirklich aus dem Katalog löschen?"
+msgstr "Die markierten Dateien wirklich aus dem Katalog entfernen?"
 
-#: src/commands-impl.c:828
+#: src/commands-impl.c:831
 #: src/dlg-catalog.c:83
 #: src/dlg-catalog.c:124
 #: src/dlg-categories.c:199
@@ -180,99 +180,110 @@ msgstr "Die markierten Dateien wirklich aus dem Katalog löschen?"
 msgid "C_reate"
 msgstr "_Erstellen"
 
-#: src/commands-impl.c:858
-#: src/commands-impl.c:982
-#: src/commands-impl.c:1191
-#: src/commands-impl.c:1384
+#: src/commands-impl.c:861
+#: src/commands-impl.c:985
+#: src/commands-impl.c:1194
+#: src/commands-impl.c:1387
+#: src/commands-impl.c:1477
 #, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "In diesem Ordner exsitiert bereits ein Unterordner mit Namen \"%s\". Bitte verwenden Sie einen anderen Namen."
 
-#: src/commands-impl.c:886
+#: src/commands-impl.c:889
 msgid "New Folder"
 msgstr "Neuer Ordner"
 
-#: src/commands-impl.c:887
+#: src/commands-impl.c:890
 msgid "Enter the folder name : "
-msgstr "Geben Sie den Namen des Ordners ein: "
+msgstr "Geben Sie einen Namen für den Ordner ein: "
 
-#: src/commands-impl.c:888
+#: src/commands-impl.c:891
 #, c-format
 msgid "Could not create the folder \"%s\" : %s"
 msgstr "Der Ordner »%s« konnte nicht erzeugt werden: %s"
 
-#: src/commands-impl.c:899
+#: src/commands-impl.c:902
 msgid "New Library"
 msgstr "Neue Bibliothek"
 
-#: src/commands-impl.c:900
+#: src/commands-impl.c:903
 #: src/dlg-catalog.c:120
 msgid "Enter the library name : "
-msgstr "Geben Sie den Namen der Bibliothek ein: "
+msgstr "Geben Sie einen Namen für die Bibliothek ein: "
 
-#: src/commands-impl.c:901
+#: src/commands-impl.c:904
 #, c-format
 msgid "Could not create the library \"%s\" : %s"
 msgstr "Die Bibliothek »%s« konnte nicht erzeugt werden: %s"
 
-#: src/commands-impl.c:973
-#: src/commands-impl.c:1014
-#: src/commands-impl.c:1395
+#: src/commands-impl.c:976
+#: src/commands-impl.c:1017
+#: src/commands-impl.c:1398
 #, c-format
 msgid "Could not rename the folder \"%s\" : %s"
 msgstr "Der Ordner »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:1073
-#: src/commands-impl.c:1478
+#: src/commands-impl.c:1076
+#: src/commands-impl.c:1552
 msgid "The selected folder will be deleted, are you sure ?"
-msgstr "Den markierten Katalog wirklich löschen?"
+msgstr "Den markierten Ordner wirklich löschen?"
 
-#: src/commands-impl.c:1109
+#: src/commands-impl.c:1112
 #, c-format
-msgid "Cannot remove folder \"%s\" : %s"
+msgid "Cannot delete the folder \"%s\" : %s"
 msgstr "Ordner »%s« konnte nicht gelöscht werden: %s"
 
-#: src/commands-impl.c:1182
-#: src/commands-impl.c:1223
+#: src/commands-impl.c:1185
+#: src/commands-impl.c:1226
 #, c-format
 msgid "Could not move the folder \"%s\" : %s"
 msgstr "Ordner »%s« konnte nicht verschoben werden: %s"
 
-#: src/commands-impl.c:1255
+#: src/commands-impl.c:1258
 #: src/dlg-file-utils.c:316
 #: src/dlg-file-utils.c:459
 msgid "Choose the destination folder"
 msgstr "Wählen Sie ein Zielverzeichnis"
 
-#: src/commands-impl.c:1395
+#: src/commands-impl.c:1398
 #, c-format
 msgid "Could not rename the catalog \"%s\" : %s"
 msgstr "Katalog »%s« konnte nicht umbenannt werden: %s"
 
-#: src/commands-impl.c:1480
-msgid "The selected catalog will be deleted, are you sure ?"
-msgstr "Den markierten Katalog wirklich löschen?"
+#: src/commands-impl.c:1443
+#: src/dlg-catalog.c:79
+msgid "Enter the catalog name : "
+msgstr "Geben Sie den Katalognamen ein: "
 
-#: src/commands-impl.c:2325
+#: src/commands-impl.c:1444
+msgid "New Catalog"
+msgstr "Neuer Katalog"
+
+#: src/commands-impl.c:1488
+#, c-format
+msgid "Could not create the catalog \"%s\" : %s"
+msgstr "Katalog »%s« konnte nicht angelegt werden: %s"
+
+#: src/commands-impl.c:1554
+msgid "The selected catalog will be removed, are you sure ?"
+msgstr "Den markierten Katalog wirklich entfernen?"
+
+#: src/commands-impl.c:2399
 #: src/dlg-categories.c:323
 #: src/dlg-comment.c:240
-#: src/dlg-preferences.c:199
-#: src/dlg-search.c:472
+#: src/dlg-preferences.c:177
+#: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Hilfe konnte nicht angezeigt werden: %s"
 
-#: src/commands-impl.c:2376
+#: src/commands-impl.c:2450
 msgid "translator_credits"
 msgstr "Christian Neumair <chris@gnome-de.org>"
 
-#: src/commands-impl.c:2388
+#: src/commands-impl.c:2462
 msgid "An image viewer and browser for GNOME."
 msgstr "Ein Bildbetrachter und Browser für GNOME."
-
-#: src/dlg-catalog.c:79
-msgid "Enter the catalog name : "
-msgstr "Geben Sie den Katalognamen ein: "
 
 #: src/dlg-catalog.c:433
 msgid "Move Catalog to..."
@@ -290,7 +301,6 @@ msgstr "Es existiert bereits eine Kategorie mit Namen \"%s\". Bitte verwenden Si
 
 #: src/dlg-duplicates.c:265
 #: src/gthumb_print.glade.h:7
-#: src/gthumb_tools.glade.h:32
 msgid "Image"
 msgstr "Bild"
 
@@ -323,42 +333,42 @@ msgid "Checked images will be deleted, are you sure ?"
 msgstr "Sollen die markierten Bilder gelöscht werden?"
 
 #: src/dlg-file-utils.c:141
-msgid "Could not delete the file:"
-msgstr "Datei konnte nicht gelöscht werden:"
+msgid "Could not delete the image:"
+msgstr "Bild konnte nicht gelöscht werden:"
 
 #: src/dlg-file-utils.c:143
-msgid "Could not delete the following files:"
-msgstr "Die folgenden Dateien konnten nicht gelöscht werden"
+msgid "Could not delete the following images:"
+msgstr "Folgende Bilder konnten nicht gelöscht werden"
 
 #: src/dlg-file-utils.c:291
-msgid "Could not move the file:"
-msgstr "Datei konnte nicht verschoben werden:"
+msgid "Could not move the image:"
+msgstr "Bild konnte nicht verschoben werden:"
 
 #: src/dlg-file-utils.c:293
-msgid "Could not move the following files:"
-msgstr "Die folgenden Dateien konnten nicht verschoben werden:"
+msgid "Could not move the following images:"
+msgstr "Folgende Bilder konnten nicht verschoben werden:"
 
 #: src/dlg-file-utils.c:434
-msgid "Could not copy the file:"
-msgstr "Datei konnte nicht kopiert werden:"
+msgid "Could not copy the image:"
+msgstr "Bild konnte nicht kopiert werden:"
 
 #: src/dlg-file-utils.c:436
-msgid "Could not copy the following files:"
-msgstr "Die folgenden Dateien konnten nicht kopiert werden:"
+msgid "Could not copy the following images:"
+msgstr "Folgende Bilder konnten nicht kopiert werden:"
 
 #: src/dlg-file-utils.c:541
-#: src/gthumb-window.c:452
+#: src/gthumb-window.c:453
 #: components/image-viewer/viewer-stream.c:90
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: src/dlg-file-utils.c:809
-msgid "Could not rename the file:"
-msgstr "Die Datei konnte nicht umbenannt werden:"
+msgid "Could not rename the image:"
+msgstr "Bild konnte nicht umbenannt werden:"
 
 #: src/dlg-file-utils.c:811
-msgid "Could not rename the following files:"
-msgstr "Folgende Dateien konnten nicht umbenannt werden:"
+msgid "Could not rename the following images:"
+msgstr "Folgende Bilder konnten nicht umbenannt werden:"
 
 #: src/dlg-image-prop.c:187
 msgid "Type"
@@ -386,13 +396,18 @@ msgstr "Feld"
 msgid "Value"
 msgstr "Wert"
 
+#: src/dlg-image-prop.c:465
+#, c-format
+msgid "%s Properties"
+msgstr "Eigenschaften von %s"
+
 #: src/dlg-jpegtran.c:536
 msgid "No JPEG image selected"
 msgstr "Kein JPEG-Bild markiert"
 
 #: src/dlg-maintenance.c:70
-msgid "All comments will be deleted, are you sure ?"
-msgstr "Sollen alle Kommentare gelöscht werden?"
+msgid "All comments will be removed, are you sure ?"
+msgstr "Sollen alle Kommentare entfernt werden?"
 
 #: src/dlg-maintenance.c:100
 msgid "All thumbnails will be deleted, are you sure ?"
@@ -417,42 +432,41 @@ msgstr "Ordner »%s« konnte nicht erzeugt werden: %s"
 msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Sie haben nicht die nötigen Berechtigungen, um Bilder im Ordner »%s« zu erstellen"
 
-#: src/dlg-png-exporter.c:1047
+#: src/dlg-png-exporter.c:1025
 msgid "Image Caption"
 msgstr "Bildüberschrift"
 
-#: src/dlg-png-exporter.c:1100
+#: src/dlg-png-exporter.c:1078
 msgid "Header"
 msgstr "Kopfzeile"
 
-#: src/dlg-png-exporter.c:1113
-#: src/dlg-png-exporter.c:1119
+#: src/dlg-png-exporter.c:1091
+#: src/dlg-png-exporter.c:1097
 msgid "Footer"
 msgstr "Fußzeile"
 
-#: src/dlg-rename-series.c:297
+#: src/dlg-rename-series.c:319
 msgid "Old Name"
 msgstr "Alter Name"
 
-#: src/dlg-rename-series.c:305
+#: src/dlg-rename-series.c:327
 msgid "New Name"
 msgstr "Neuer Name"
 
-#: src/dlg-search.c:361
+#: src/dlg-search.c:339
 msgid "Search Result"
 msgstr "Suchergebnis"
 
-#: src/dlg-search.c:845
+#: src/dlg-search.c:823
 msgid "Filename"
 msgstr "Dateiname"
 
-#: src/dlg-search.c:854
-#: src/gthumb-ui.xml.h:53
+#: src/dlg-search.c:832
 msgid "Folder"
 msgstr "Ordner"
 
 #: src/fullscreen.c:699
-#: src/gthumb-ui.xml.h:121
+#: src/gthumb-ui.xml.h:120
 msgid "Restore Normal View"
 msgstr "Normale Ansicht wiederherstellen"
 
@@ -561,7 +575,7 @@ msgid "<b>Slide Show</b>"
 msgstr "<b>Diashow</b>"
 
 #: src/gthumb.glade.h:24
-#: src/gthumb_tools.glade.h:16
+#: src/gthumb_tools.glade.h:10
 msgid "<b>Thumbnails</b>"
 msgstr "<b>Miniatur-Vorschaubilder</b>"
 
@@ -570,8 +584,8 @@ msgid "<b>Viewer</b>"
 msgstr "<b>Betrachter</b>"
 
 #: src/gthumb.glade.h:26
-msgid "A_vailable applications:"
-msgstr "_Verfügbare Anwendungen"
+msgid "A_vailable Applications:"
+msgstr "_Verfügbare Anwendungen:"
 
 #: src/gthumb.glade.h:27
 msgid "Activate items with a double click"
@@ -724,7 +738,7 @@ msgid "New Image:"
 msgstr "Neues Bild:"
 
 #: src/gthumb.glade.h:67
-#: src/gthumb-ui.xml.h:83
+#: src/gthumb-ui.xml.h:76
 msgid "New _Library"
 msgstr "Neue _Bibliothek"
 
@@ -737,7 +751,8 @@ msgid "Old Image:"
 msgstr "Altes Bild"
 
 #: src/gthumb.glade.h:70
-msgid "Open selected files with an application"
+#: src/gthumb-ui.xml.h:81
+msgid "Open selected images with an application"
 msgstr "Die markierten Bilder mit einer Anwendung öffnen"
 
 #: src/gthumb.glade.h:71
@@ -753,152 +768,136 @@ msgid "Overwrite image"
 msgstr "Bild überschreiben"
 
 #: src/gthumb.glade.h:74
-msgid "Preferences"
-msgstr "Einstellungen"
-
-#: src/gthumb.glade.h:75
-msgid "Priority text beside icons"
-msgstr "Text geht vor Icons"
-
-#: src/gthumb.glade.h:76
-msgid "R_ecent applications:"
+msgid "R_ecent Applications:"
 msgstr "_Zuletzt verwendete Anwendungen:"
 
-#: src/gthumb.glade.h:77
+#: src/gthumb.glade.h:75
 msgid "Re_verse"
 msgstr "_Rückwärts"
 
-#: src/gthumb.glade.h:78
+#: src/gthumb.glade.h:76
 msgid "Resta_rt when finished"
 msgstr "Nach Ende der Vorführung _neu beginnen"
 
-#: src/gthumb.glade.h:79
+#: src/gthumb.glade.h:77
 msgid "Sa_ve thumbnails"
 msgstr "_Miniatur-Vorschaubilder speichern"
 
-#: src/gthumb.glade.h:80
+#: src/gthumb.glade.h:78
 msgid "Set image to actual size"
 msgstr "Bild auf die Originalgröße setzen"
 
-#: src/gthumb.glade.h:81
+#: src/gthumb.glade.h:79
 msgid "Set to C_urrent"
 msgstr "Auf _Aktuelles setzen"
 
-#: src/gthumb.glade.h:82
+#: src/gthumb.glade.h:80
 msgid "Show _thumbnails"
 msgstr "Miniatur-_Vorschaubilder zeigen"
 
-#: src/gthumb.glade.h:83
+#: src/gthumb.glade.h:81
 msgid "Show co_mments"
 msgstr "_Kommentare zeigen"
 
-#: src/gthumb.glade.h:84
-msgid "Show hi_dden files"
-msgstr "Vers_teckte Dateien zeigen"
+#: src/gthumb.glade.h:82
+msgid "Show hi_dden images"
+msgstr "Vers_teckte Bilder zeigen"
 
-#: src/gthumb.glade.h:85
+#: src/gthumb.glade.h:83
 msgid "Si_ze :"
 msgstr "_Größe:"
 
-#: src/gthumb.glade.h:86
+#: src/gthumb.glade.h:84
 msgid "Si_ze:"
 msgstr "_Größe:"
 
-#: src/gthumb.glade.h:87
+#: src/gthumb.glade.h:85
 msgid "Slide Show"
 msgstr "Diashow"
 
-#: src/gthumb.glade.h:88
+#: src/gthumb.glade.h:86
 msgid "Small"
 msgstr "Klein"
 
-#: src/gthumb.glade.h:89
+#: src/gthumb.glade.h:87
 msgid "Switch to _full screen"
 msgstr "In den Vo_llbildmodus wechseln"
 
-#: src/gthumb.glade.h:90
+#: src/gthumb.glade.h:88
 msgid "System settings"
 msgstr "System-Einstellungen"
 
-#: src/gthumb.glade.h:91
+#: src/gthumb.glade.h:89
 msgid "Text below icons"
 msgstr "Text unter Icons"
 
-#: src/gthumb.glade.h:92
+#: src/gthumb.glade.h:90
+msgid "Text beside icons"
+msgstr "Text neben Icons"
+
+#: src/gthumb.glade.h:91
 msgid "Text only"
 msgstr "Nur Text"
 
-#: src/gthumb.glade.h:93
+#: src/gthumb.glade.h:92
 msgid "Transparency _type:"
 msgstr "_Transparenzmodus:"
 
-#: src/gthumb.glade.h:94
+#: src/gthumb.glade.h:93
 msgid "Viewer"
 msgstr "Betrachter"
 
-#: src/gthumb.glade.h:95
+#: src/gthumb.glade.h:94
 msgid "White"
 msgstr "Weiß"
 
-#: src/gthumb.glade.h:96
+#: src/gthumb.glade.h:95
 msgid "Zoom _quality:"
 msgstr "Vergrößerungs_qualität:"
 
-#: src/gthumb.glade.h:97
+#: src/gthumb.glade.h:96
 msgid "_Application:"
 msgstr "_Anwendung:"
 
-#: src/gthumb.glade.h:98
+#: src/gthumb.glade.h:97
 msgid "_Bookmarks:"
 msgstr "_Lesezeichen:"
 
-#: src/gthumb.glade.h:99
+#: src/gthumb.glade.h:98
 msgid "_Do not overwrite any image"
 msgstr "_Kein Bild überschreiben"
 
-#: src/gthumb.glade.h:100
+#: src/gthumb.glade.h:99
 msgid "_General"
 msgstr "_Allgemein"
 
-#: src/gthumb.glade.h:101
+#: src/gthumb.glade.h:100
+#: src/gthumb-ui.xml.h:222
 msgid "_New Catalog"
 msgstr "_Neuer Katalog"
 
-#: src/gthumb.glade.h:102
+#: src/gthumb.glade.h:101
 msgid "_Next"
 msgstr "_Nächstes"
 
-#: src/gthumb.glade.h:103
+#: src/gthumb.glade.h:102
 msgid "_Previous"
 msgstr "_Vorheriges"
 
-#: src/gthumb.glade.h:104
+#: src/gthumb.glade.h:103
 msgid "_Toolbar style:"
 msgstr "_Werkzeugleisten-Stil:"
 
-#: src/gthumb.glade.h:105
-msgid ""
-"jhjghjghjhj\n"
-"jghj\n"
-"hg\n"
-"j\n"
-"hj\n"
-"ghj"
-msgstr ""
-"jhjghjghjhj\n"
-"jghj\n"
-"hg\n"
-"j\n"
-"hj\n"
-"ghj"
+#: src/gthumb.glade.h:104
+msgid "gThumb Preferences"
+msgstr "gThumb - Einstellungen"
 
-#: src/gthumb.glade.h:111
+#: src/gthumb.glade.h:105
 msgid "seconds"
 msgstr "Sekunden"
 
 #: src/gthumb_comments.glade.h:3
-#: src/gthumb_search.glade.h:6
-msgid "A_vailable categories:"
+msgid "A_vailable Categories:"
 msgstr "_Verfügbare Kategorien:"
 
 #: src/gthumb_comments.glade.h:4
@@ -956,9 +955,9 @@ msgstr "_Datum:"
 msgid "_Place:"
 msgstr "_Ort:"
 
+# CHECK
 #: src/gthumb_comments.glade.h:17
-#: src/gthumb_search.glade.h:31
-msgid "_Selected categories:"
+msgid "_Selected Categories:"
 msgstr "_Markierte Kategorien:"
 
 #: src/gthumb_comments.glade.h:18
@@ -1021,7 +1020,7 @@ msgid "Magenta-Green:"
 msgstr "Magenta-Grün:"
 
 #: src/gthumb_edit.glade.h:17
-#: src/gthumb-ui.xml.h:96
+#: src/gthumb-ui.xml.h:89
 msgid "Posterize"
 msgstr "Posterisieren"
 
@@ -1130,38 +1129,36 @@ msgid "95"
 msgstr "95"
 
 #: src/gthumb_png_exporter.glade.h:14
-msgid "<b>Background style</b>"
+msgid "<b>Background Style</b>"
 msgstr "<b>Hintergrundstil</b>"
 
 #: src/gthumb_png_exporter.glade.h:15
-#: src/gthumb_tools.glade.h:5
 msgid "<b>Caption</b>"
 msgstr "<b>Überschrift</b>"
 
 #: src/gthumb_png_exporter.glade.h:16
-msgid "<b>Destination folder</b>"
-msgstr "<b>Zielverzeichnis</b>"
+msgid "<b>Destination Folder</b>"
+msgstr "<b>Zielordner</b>"
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
 msgstr "<b>Fußzeile</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
+msgid "<b>Header and Footer</b>"
+msgstr "<b>Kopf- und Fußzeile</b>"
+
+#: src/gthumb_png_exporter.glade.h:19
 msgid "<b>Header</b>"
 msgstr "<b>Kopfzeile</b>"
 
-#: src/gthumb_png_exporter.glade.h:19
-#: src/gthumb_tools.glade.h:11
-msgid "<b>Page size</b>"
-msgstr "<b>Seitengröße</b>"
-
 #: src/gthumb_png_exporter.glade.h:20
-msgid "<b>Specify a template to use for creating index images</b>"
-msgstr "<b>Geben Sie eine Vorlage an, die für das Erzeugen von Indexbildern verwendet werden soll</b>"
+msgid "<b>Index Images</b>"
+msgstr "<b>Indexbilder</b>"
 
 #: src/gthumb_png_exporter.glade.h:21
-msgid "<b>Specify header and footer</b>"
-msgstr "<b>Geben Sie Kopf- und Fußzeile an</b>"
+msgid "<b>Page Size</b>"
+msgstr "<b>Seitengröße</b>"
 
 #: src/gthumb_png_exporter.glade.h:22
 msgid "<i>Examples:</i>"
@@ -1177,29 +1174,26 @@ msgstr "Wählen Sie einen Zielordner"
 
 #: src/gthumb_png_exporter.glade.h:25
 #: src/gthumb_print.glade.h:6
-#: src/gthumb_tools.glade.h:23
 msgid "Co_mment"
 msgstr "_Kommentar"
 
 #: src/gthumb_png_exporter.glade.h:26
-#: src/gthumb_tools.glade.h:24
 msgid "Col_umns:"
 msgstr "_Spalten:"
 
 #: src/gthumb_png_exporter.glade.h:28
-msgid "Create _HTML image map"
-msgstr "_HTML-Imagemap erzeugen"
+msgid "Create Index Image"
+msgstr "Indexbild erzeugen"
 
 #: src/gthumb_png_exporter.glade.h:29
-msgid "Create index image"
-msgstr "Indexbild erzeugen"
+msgid "Create _HTML image map"
+msgstr "_HTML-Imagemap erzeugen"
 
 #: src/gthumb_png_exporter.glade.h:30
 msgid "F_ooter:"
 msgstr "_Kopfzeile:"
 
 #: src/gthumb_png_exporter.glade.h:31
-#: src/gthumb_tools.glade.h:28
 msgid "File _name"
 msgstr "Datei_name"
 
@@ -1208,7 +1202,6 @@ msgid "File pa_th"
 msgstr "Datei_pfad"
 
 #: src/gthumb_png_exporter.glade.h:33
-#: src/gthumb_tools.glade.h:29
 msgid "File si_ze"
 msgstr "Datei_größe"
 
@@ -1241,7 +1234,6 @@ msgid "Horizontal:"
 msgstr "Horizontal:"
 
 #: src/gthumb_png_exporter.glade.h:41
-#: src/gthumb_tools.glade.h:33
 msgid "Image dim_ensions"
 msgstr "Bildgröß_e"
 
@@ -1250,7 +1242,7 @@ msgid "Images"
 msgstr "Bild"
 
 #: src/gthumb_png_exporter.glade.h:43
-msgid "Index image properties"
+msgid "Index Image Properties"
 msgstr "Eigenschaften des Indexbilds"
 
 #: src/gthumb_png_exporter.glade.h:44
@@ -1311,12 +1303,11 @@ msgstr "Sortieren"
 
 #: src/gthumb_png_exporter.glade.h:58
 #: src/gthumb_search.glade.h:24
-#: src/gthumb_tools.glade.h:61
+#: src/gthumb_tools.glade.h:50
 msgid "Start _at:"
 msgstr "_Beginnen in:"
 
 #: src/gthumb_png_exporter.glade.h:59
-#: src/gthumb_tools.glade.h:62
 msgid "Style Preview"
 msgstr "Stil-Vorschau"
 
@@ -1350,17 +1341,16 @@ msgid "_Image size:"
 msgstr "_Bildgröße:"
 
 #: src/gthumb_png_exporter.glade.h:68
-#: src/gthumb-ui.xml.h:221
+#: src/gthumb-ui.xml.h:227
 msgid "_Preferences"
 msgstr "_Einstellungen"
 
 #: src/gthumb_png_exporter.glade.h:69
-#: src/gthumb_tools.glade.h:79
 msgid "_Rows:"
 msgstr "_Zeilen:"
 
 #: src/gthumb_png_exporter.glade.h:70
-#: src/gthumb_tools.glade.h:84
+#: src/gthumb_tools.glade.h:68
 msgid "_Template:"
 msgstr "_Vorlage:"
 
@@ -1418,7 +1408,7 @@ msgid "Printer"
 msgstr "Drucker"
 
 #: src/gthumb_print.glade.h:12
-#: src/gthumb-ui.xml.h:222
+#: src/gthumb-ui.xml.h:228
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 msgid "_Print"
@@ -1429,7 +1419,6 @@ msgid "_Scale:"
 msgstr "_Skalieren"
 
 #: src/gthumb_search.glade.h:3
-#: src/gthumb_tools.glade.h:4
 msgid "..."
 msgstr "..."
 
@@ -1440,6 +1429,10 @@ msgstr "<b>Suchkriterien</b>"
 #: src/gthumb_search.glade.h:5
 msgid "<b>Search Scope</b>"
 msgstr "<b>Suchbereich</b>"
+
+#: src/gthumb_search.glade.h:6
+msgid "A_vailable categories:"
+msgstr "_Verfügbare Kategorien:"
 
 #: src/gthumb_search.glade.h:7
 msgid "After"
@@ -1494,25 +1487,25 @@ msgid "No images found"
 msgstr "Kei Bild gefunden"
 
 #: src/gthumb_search.glade.h:21
-msgid "Search for images"
-msgstr "Bilder suchen"
-
-#: src/gthumb_search.glade.h:22
-msgid "Search progress"
+msgid "Search Progress"
 msgstr "Fortschritt der Suche"
 
+#: src/gthumb_search.glade.h:22
+msgid "Search for Images"
+msgstr "Nach Bildern suchen"
+
 #: src/gthumb_search.glade.h:23
-#: src/gthumb_tools.glade.h:60
+#: src/gthumb_tools.glade.h:48
 msgid "Searching in:"
 msgstr "Suche in:"
 
 #: src/gthumb_search.glade.h:26
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:197
 msgid "_Edit Search"
 msgstr "Suche _bearbeiten"
 
 #: src/gthumb_search.glade.h:27
-#: src/gthumb_tools.glade.h:70
+#: src/gthumb_tools.glade.h:56
 msgid "_Include Sub-Folders"
 msgstr "_Unterverzeichnisse einbeziehen"
 
@@ -1524,306 +1517,279 @@ msgstr "_Speichern"
 msgid "_Search"
 msgstr "_Suchen"
 
+#: src/gthumb_search.glade.h:31
+msgid "_Selected categories:"
+msgstr "_Markierte Kategorien:"
+
 #: src/gthumb_search.glade.h:32
-#: src/gthumb_tools.glade.h:88
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb_tools.glade.h:71
+#: src/gthumb-ui.xml.h:247
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
 msgid "_View"
 msgstr "_Ansicht"
 
-#: src/gthumb_tools.glade.h:6
+#: src/gthumb_tools.glade.h:4
 msgid "<b>Comments</b>"
 msgstr "<b>Kommentare</b>"
 
-#: src/gthumb_tools.glade.h:7
+#: src/gthumb_tools.glade.h:5
 msgid "<b>Compression</b>"
 msgstr "<b>Kompression</b>"
 
-#: src/gthumb_tools.glade.h:8
-msgid "<b>Convert to type</b>"
-msgstr "<b>Umwandeln in Typ</b>"
-
-#: src/gthumb_tools.glade.h:9
+#: src/gthumb_tools.glade.h:6
 msgid "<b>File list</b>"
 msgstr "<b>Dateiliste</b>"
 
-#: src/gthumb_tools.glade.h:10
-msgid "<b>Overwrite mode</b>"
-msgstr "<b>Falls bereits vorhanden</b>"
+#: src/gthumb_tools.glade.h:7
+msgid "<b>Image Type</b>"
+msgstr "<b>Bildtyp</b>"
 
-#: src/gthumb_tools.glade.h:12
-msgid "<b>Pages</b>"
-msgstr "<b>Seiten</b>"
+#: src/gthumb_tools.glade.h:8
+msgid "<b>Resolution</b>"
+msgstr "<b>Auflösung</b>"
 
-#: src/gthumb_tools.glade.h:13
-msgid "<b>Saving</b>"
-msgstr "<b>Wird gespeichert</b>"
-
-#: src/gthumb_tools.glade.h:14
+#: src/gthumb_tools.glade.h:9
 msgid "<b>Specify a template to use for renaming images</b>"
 msgstr "<b>Geben Sie eine Vorlage an, die für das Umbenennen der Bilder verwendet werden soll</b>"
 
-#: src/gthumb_tools.glade.h:15
-msgid "<b>Style</b>"
-msgstr "<b>Stil</b>"
-
-#: src/gthumb_tools.glade.h:17
-msgid "A_sk"
-msgstr "_Nachfragen"
-
-#: src/gthumb_tools.glade.h:18
+#: src/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "Auf a_lle Bilder anwenden"
 
-#: src/gthumb_tools.glade.h:19
+#: src/gthumb_tools.glade.h:12
+msgid "Ask"
+msgstr "Nachfragen"
+
+#: src/gthumb_tools.glade.h:13
 msgid "Backup Comments"
 msgstr "Kommentare sichern"
 
-#: src/gthumb_tools.glade.h:20
+#: src/gthumb_tools.glade.h:14
 msgid "Check _All"
 msgstr "_Alle markieren"
 
-#: src/gthumb_tools.glade.h:21
+#: src/gthumb_tools.glade.h:15
 msgid "Check _None"
 msgstr "_Nichts markieren"
 
-#: src/gthumb_tools.glade.h:22
+#: src/gthumb_tools.glade.h:16
 msgid "Checking image:"
 msgstr "Bild wird überprüft:"
 
-#: src/gthumb_tools.glade.h:25
+#: src/gthumb_tools.glade.h:17
 msgid "Compression _level:"
 msgstr "Kompressions_grad:"
 
-#: src/gthumb_tools.glade.h:26
-msgid "Convert"
-msgstr "Umwandeln"
+#: src/gthumb_tools.glade.h:18
+msgid "Convert Format"
+msgstr "Format umwandeln"
 
-#: src/gthumb_tools.glade.h:27
+#: src/gthumb_tools.glade.h:19
+msgid "Delete ALL Comments"
+msgstr "Alle Kommentare entfernen"
+
+#: src/gthumb_tools.glade.h:20
+msgid "Delete Old Thumbnails"
+msgstr "Alte Miniatur-Vorschaubilder löschen"
+
+#: src/gthumb_tools.glade.h:21
+msgid "Delete thumbnails of no more existing images"
+msgstr "Miniatur-Vorschaubilder nicht mehr existierender Bilder löschen"
+
+#: src/gthumb_tools.glade.h:22
 msgid "Equal images:"
 msgstr "Gleiche Bilder:"
 
-#: src/gthumb_tools.glade.h:30
+#: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
 msgstr "Duplikate suchen"
 
-#: src/gthumb_tools.glade.h:31
+#: src/gthumb_tools.glade.h:24
 msgid "Found Duplicates:"
 msgstr "Duplikate gefunden:"
 
-#: src/gthumb_tools.glade.h:34
-msgid "Inde_x file:"
-msgstr "_Indexdatei:"
-
-#: src/gthumb_tools.glade.h:35
+#: src/gthumb_tools.glade.h:25
 msgid "JPEG Options"
 msgstr "JPEG-Optionen"
 
-#: src/gthumb_tools.glade.h:36
+#: src/gthumb_tools.glade.h:26
 msgid "JPEG Transform"
 msgstr "JPEG-Transformation"
 
-#: src/gthumb_tools.glade.h:37
-msgid "Lossy compression (_JPEG)"
-msgstr "Verlustbehaftete Kompression (_JPEG)"
-
-#: src/gthumb_tools.glade.h:38
+#: src/gthumb_tools.glade.h:27
 msgid "Maintenance"
 msgstr "Routineaufgaben"
 
-#: src/gthumb_tools.glade.h:39
+#: src/gthumb_tools.glade.h:28
 msgid "Mirror image horizontally (left-right)"
 msgstr "Das Bild horizontal spiegeln"
 
-#: src/gthumb_tools.glade.h:40
+#: src/gthumb_tools.glade.h:29
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Das Bild vertikal spiegeln"
 
-#: src/gthumb_tools.glade.h:41
+#: src/gthumb_tools.glade.h:30
 msgid "New names _preview:"
 msgstr "_Vorschau:"
 
-#: src/gthumb_tools.glade.h:42
-msgid "Normal (_Deflate)"
-msgstr "Normal (_Entpacken)"
+#: src/gthumb_tools.glade.h:31
+msgid "No_rmal (Deflate)"
+msgstr "_Normal (Entpacken)"
 
-#: src/gthumb_tools.glade.h:43
+#: src/gthumb_tools.glade.h:32
 msgid "Opti_mize"
 msgstr "_Optimieren"
 
-#: src/gthumb_tools.glade.h:44
-msgid "Over_write"
-msgstr "Über_schreiben"
+#: src/gthumb_tools.glade.h:33
+msgid "Overwrite"
+msgstr "Überschreiben"
 
-#: src/gthumb_tools.glade.h:45
-msgid "PNG options"
+#: src/gthumb_tools.glade.h:34
+msgid "Overwrite mode:"
+msgstr "Falls vorhanden:"
+
+#: src/gthumb_tools.glade.h:35
+msgid "PNG Options"
 msgstr "PNG-Optionen"
 
-#: src/gthumb_tools.glade.h:46
+#: src/gthumb_tools.glade.h:36
+msgid "R_emove original"
+msgstr "Ausgangsbild _entfernen"
+
+#: src/gthumb_tools.glade.h:37
 msgid "Re_verse Order"
 msgstr "_Umgekehrte Reihenfolge"
 
-#: src/gthumb_tools.glade.h:47
-msgid "Remove ALL Comments"
-msgstr "Alle Kommentare löschen"
-
-#: src/gthumb_tools.glade.h:48
+#: src/gthumb_tools.glade.h:38
 msgid "Remove ALL Thumbnails"
 msgstr "Alle Miniatur-Vorschaubilder löschen"
 
-#: src/gthumb_tools.glade.h:49
+#: src/gthumb_tools.glade.h:39
 msgid "Remove Old Comments"
-msgstr "Alte Kommentare löschen"
+msgstr "Alte Kommentare entfernen"
 
-#: src/gthumb_tools.glade.h:50
-msgid "Remove Old Thumbnails"
-msgstr "Alte Miniatur-Vorschaubilder löschen"
-
-#: src/gthumb_tools.glade.h:51
+#: src/gthumb_tools.glade.h:40
 msgid "Remove comments of no more existing images"
-msgstr "Kommentare nicht mehr existierender Bilder löschen"
+msgstr "Kommentare nicht mehr existierender Bilder entfernen"
 
-#: src/gthumb_tools.glade.h:52
-msgid "Remove thumbnails of no more existing images"
-msgstr "Miniatur-Vorschaubilder nicht mehr existierender Bilder löschen"
+#: src/gthumb_tools.glade.h:41
+#: src/gthumb-ui.xml.h:109
+msgid "Rename"
+msgstr "Umbenennen"
 
-#: src/gthumb_tools.glade.h:53
-msgid "Rename series"
+#: src/gthumb_tools.glade.h:42
+msgid "Rename Series"
 msgstr "Mehrfach-Umbenennen"
 
-#: src/gthumb_tools.glade.h:54
+#: src/gthumb_tools.glade.h:43
 msgid "Restore Comments from a Backup File"
-msgstr "Kommentare aus einer Sicherungsdatei wiederherstellen"
+msgstr "Kommentare aus Sicherungsdatei wiederherstellen"
 
-#: src/gthumb_tools.glade.h:55
+#: src/gthumb_tools.glade.h:44
 msgid "Revert changes"
 msgstr "Änderungen verwerfen"
 
-#: src/gthumb_tools.glade.h:56
+#: src/gthumb_tools.glade.h:45
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Das Bild um 90 Grad im Uhrzeigersinn drehen"
 
-#: src/gthumb_tools.glade.h:57
+#: src/gthumb_tools.glade.h:46
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Das Bild um 90 Grad gegen den Uhrzeigersinn drehen"
 
-#: src/gthumb_tools.glade.h:58
-msgid "S_kip"
-msgstr "Ü_bergehen"
-
-#: src/gthumb_tools.glade.h:59
+#: src/gthumb_tools.glade.h:47
 msgid "Search terminated, no duplicates found."
 msgstr "Suche abgebrochen, keine Duplikate gefunden"
 
-#: src/gthumb_tools.glade.h:63
+#: src/gthumb_tools.glade.h:49
+msgid "Skip"
+msgstr "Übergehen"
+
+#: src/gthumb_tools.glade.h:51
 msgid "TGA Options"
 msgstr "TGA-Optionen"
 
-#: src/gthumb_tools.glade.h:64
+#: src/gthumb_tools.glade.h:52
 msgid "TIFF Options"
 msgstr "TIFF-Optionen"
 
-#: src/gthumb_tools.glade.h:65
+#: src/gthumb_tools.glade.h:53
 msgid "T_GA"
 msgstr "T_GA"
 
-#: src/gthumb_tools.glade.h:66
+#: src/gthumb_tools.glade.h:54
 msgid "Use #'s to specify positions used by numeric enumerator. Use * to insert original filename."
 msgstr "Rauten (#) werden durch die Ziffern des numerischen Zählers ersetzt. * steht für den ursprünglichen Dateinamen."
 
-#: src/gthumb_tools.glade.h:67
-msgid "Web Album"
-msgstr "Web-Album"
+#: src/gthumb_tools.glade.h:55
+msgid "_Horizontal:"
+msgstr "_Horizontal:"
 
-#: src/gthumb_tools.glade.h:68
-msgid "Web Album Style"
-msgstr "Stil des Web-Albums"
-
-#: src/gthumb_tools.glade.h:69
-msgid "_HTML sub-folder:"
-msgstr "_HTML-Unterordner:"
-
-#: src/gthumb_tools.glade.h:71
+#: src/gthumb_tools.glade.h:57
 msgid "_JPEG"
 msgstr "_JPEG"
 
-#: src/gthumb_tools.glade.h:72
-msgid "_Location:"
-msgstr "_Speicherort:"
+#: src/gthumb_tools.glade.h:58
+msgid "_Loss compression (JPEG)"
+msgstr "_Verlustbehaftete Kompression (JPEG)"
 
-#: src/gthumb_tools.glade.h:73
-#: src/gthumb-ui.xml.h:218
+#: src/gthumb_tools.glade.h:59
+#: src/gthumb-ui.xml.h:224
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
 msgid "_None"
 msgstr "_Keiner"
 
-#: src/gthumb_tools.glade.h:74
+#: src/gthumb_tools.glade.h:60
 msgid "_PNG"
 msgstr "_PNG"
 
-#: src/gthumb_tools.glade.h:75
+#: src/gthumb_tools.glade.h:61
 msgid "_Progressive"
 msgstr "_Progressiv"
 
-#: src/gthumb_tools.glade.h:76
+#: src/gthumb_tools.glade.h:62
 msgid "_Quality:"
 msgstr "_Qualität:"
 
-#: src/gthumb_tools.glade.h:77
+#: src/gthumb_tools.glade.h:63
 msgid "_RLE compression"
 msgstr "_RLE-Kompression"
 
-#: src/gthumb_tools.glade.h:80
+#: src/gthumb_tools.glade.h:65
 msgid "_Smoothing:"
 msgstr "_Glätten:"
 
-#: src/gthumb_tools.glade.h:81
+#: src/gthumb_tools.glade.h:66
 msgid "_Sort Original List:"
 msgstr "Liste usprünglicher Dateien _sortieren:"
 
-#: src/gthumb_tools.glade.h:82
-msgid "_Style:"
-msgstr "_Stil:"
-
-#: src/gthumb_tools.glade.h:83
+#: src/gthumb_tools.glade.h:67
 msgid "_TIFF"
 msgstr "_TIFF"
 
-#: src/gthumb_tools.glade.h:85
-msgid "_Thumbnails sub-folder:"
-msgstr "Unterordner mit _Vorschaubildern:"
-
-#: src/gthumb_tools.glade.h:86
-msgid "_Title:"
-msgstr "_Titel:"
-
-#: src/gthumb_tools.glade.h:87
+#: src/gthumb_tools.glade.h:69
 msgid "_Transfrom"
 msgstr "_Transformieren"
 
-#: src/gthumb_tools.glade.h:89
+#: src/gthumb_tools.glade.h:70
+msgid "_Vertical:"
+msgstr "_Vertikal:"
+
+#: src/gthumb_tools.glade.h:72
 msgid "by Modification date"
 msgstr "nach Änderungsdatum"
 
-#: src/gthumb_tools.glade.h:90
+#: src/gthumb_tools.glade.h:73
 msgid "by Name"
 msgstr "nach Name"
 
-#: src/gthumb_tools.glade.h:91
+#: src/gthumb_tools.glade.h:74
 msgid "by Size"
 msgstr "nach Größe"
 
-#: src/gthumb_tools.glade.h:92
-msgid "html"
-msgstr "HTML"
-
-#: src/gthumb_tools.glade.h:93
-msgid "index.html"
-msgstr "index.html"
-
-#: src/gthumb_tools.glade.h:94
-msgid "thumbs"
-msgstr "Vorschaubilder"
+#: src/gthumb_tools.glade.h:75
+msgid "dpi"
+msgstr "DPI"
 
 #: src/gthumb-ui.xml.h:1
 msgid " "
@@ -1874,13 +1840,12 @@ msgid "Brightness-Contrast"
 msgstr "Helligkeit und Kontrast"
 
 #: src/gthumb-ui.xml.h:13
-msgid "Ca_tegories..."
-msgstr "Ka_tegorien..."
+msgid "Ca_talog"
+msgstr "_Katalog"
 
 #: src/gthumb-ui.xml.h:14
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
-msgid "Catalog"
-msgstr "Katalog"
+msgid "Ca_tegories..."
+msgstr "Ka_tegorien..."
 
 #: src/gthumb-ui.xml.h:15
 msgid "Catalogs"
@@ -1915,915 +1880,915 @@ msgid "Create _Index Image"
 msgstr "_Indexbild erzeugen"
 
 #: src/gthumb-ui.xml.h:25
+msgid "Create a new catalog"
+msgstr "Einen neuen Katalog anlegen"
+
+#: src/gthumb-ui.xml.h:26
 msgid "Create a new catalog library"
 msgstr "Eine neue Katalogbibliothek anlegen"
 
-#: src/gthumb-ui.xml.h:26
+#: src/gthumb-ui.xml.h:27
 msgid "Create a new folder"
 msgstr "Einen neuen Ordner anlegen"
 
-#: src/gthumb-ui.xml.h:27
+#: src/gthumb-ui.xml.h:28
 msgid "Create a new window"
 msgstr "Neues Fenster öffnen"
 
-#: src/gthumb-ui.xml.h:28
+#: src/gthumb-ui.xml.h:29
 msgid "D_uplicate"
 msgstr "_Duplizieren"
-
-#: src/gthumb-ui.xml.h:29
-msgid "De_lete Comment"
-msgstr "Kommentar _löschen"
 
 #: src/gthumb-ui.xml.h:30
 msgid "Delete"
 msgstr "Löschen"
 
 #: src/gthumb-ui.xml.h:31
-msgid "Delete Catalog"
-msgstr "Katalog löschen"
-
-#: src/gthumb-ui.xml.h:32
 msgid "Delete Folder"
 msgstr "Ordner löschen"
 
-#: src/gthumb-ui.xml.h:33
-msgid "Delete comments of selected images"
-msgstr "Die Kommentare der markierten Bilder löschen"
-
-#: src/gthumb-ui.xml.h:34
-msgid "Delete current catalog"
-msgstr "Den aktuellen Katalog löschen"
-
-#: src/gthumb-ui.xml.h:35
+#: src/gthumb-ui.xml.h:32
 msgid "Delete current folder"
 msgstr "Den aktuellen Ordner löschen"
 
-#: src/gthumb-ui.xml.h:36
-msgid "Delete selected catalog"
-msgstr "Den markierten Katalog löschen"
-
-#: src/gthumb-ui.xml.h:37
+#: src/gthumb-ui.xml.h:33
 msgid "Delete selected folder"
 msgstr "Den markierten Ordner löschen"
 
-#: src/gthumb-ui.xml.h:38
+#: src/gthumb-ui.xml.h:34
 msgid "Delete selected images from disk"
 msgstr "Die markierten Bilder von der Platte löschen"
 
-#: src/gthumb-ui.xml.h:39
+#: src/gthumb-ui.xml.h:35
 msgid "Delete the list of visited locations"
 msgstr "Die Liste besuchter Orte leeren"
 
-#: src/gthumb-ui.xml.h:40
+#: src/gthumb-ui.xml.h:36
 msgid "Delete this image from disk"
 msgstr "Dieses Bild von der Platte löschen"
 
-#: src/gthumb-ui.xml.h:41
+#: src/gthumb-ui.xml.h:37
 msgid "Desaturate"
 msgstr "Schwarz-Weiß"
 
-#: src/gthumb-ui.xml.h:42
-msgid "Display image information"
-msgstr "Bildinformationen anzeigen"
+#: src/gthumb-ui.xml.h:38
+msgid "Display image properties"
+msgstr "Die Eigenschaften dieses Bilds anzeigen"
 
-#: src/gthumb-ui.xml.h:43
+#: src/gthumb-ui.xml.h:39
 msgid "Duplicate"
 msgstr "Duplizieren"
 
-#: src/gthumb-ui.xml.h:44
+#: src/gthumb-ui.xml.h:40
 msgid "Duplicate selected image"
 msgstr "Das markierte Bild duplizieren"
 
-#: src/gthumb-ui.xml.h:45
+#: src/gthumb-ui.xml.h:41
 msgid "Duplicate this image"
 msgstr "Dieses Bild duplizieren"
 
-#: src/gthumb-ui.xml.h:46
+#: src/gthumb-ui.xml.h:42
 msgid "E_xit"
 msgstr "Beenden"
 
-#: src/gthumb-ui.xml.h:47
+#: src/gthumb-ui.xml.h:43
 msgid "Edit Search"
 msgstr "Suche bearbeiten"
 
-#: src/gthumb-ui.xml.h:48
+#: src/gthumb-ui.xml.h:44
 msgid "Edit bookmarks"
 msgstr "Die Lesezeichen bearbeiten"
 
-#: src/gthumb-ui.xml.h:49
+#: src/gthumb-ui.xml.h:45
 msgid "Edit various preferences"
 msgstr "Verschiedene Einstellungen bearbeiten"
 
-#: src/gthumb-ui.xml.h:50
-msgid "F_lip"
-msgstr "_Vertikal spiegeln"
+#: src/gthumb-ui.xml.h:46
+msgid "Fi_nd Duplicates"
+msgstr "Duplikate _suchen"
 
-#: src/gthumb-ui.xml.h:51
-msgid "Find _Duplicates"
-msgstr "Dupli_kate suchen"
-
-#: src/gthumb-ui.xml.h:52
+#: src/gthumb-ui.xml.h:47
 msgid "Fit"
 msgstr "Einpassen"
 
-#: src/gthumb-ui.xml.h:54
+#: src/gthumb-ui.xml.h:48
 msgid "Folders"
 msgstr "Ordner"
 
-#: src/gthumb-ui.xml.h:55
+#: src/gthumb-ui.xml.h:49
 msgid "Forward"
 msgstr "Vorwärts"
 
-#: src/gthumb-ui.xml.h:56
+#: src/gthumb-ui.xml.h:50
 msgid "Full Screen"
 msgstr "Vollbild"
 
-#: src/gthumb-ui.xml.h:57
+#: src/gthumb-ui.xml.h:51
 msgid "Full screen"
 msgstr "Vollbild"
 
-#: src/gthumb-ui.xml.h:58
+#: src/gthumb-ui.xml.h:52
 msgid "Go to the folder that contains the selected image"
 msgstr "Zum Ordner gehen, der das markierte Bild enthält"
 
-#: src/gthumb-ui.xml.h:59
+#: src/gthumb-ui.xml.h:53
 msgid "Go to the home folder"
 msgstr "Zum persönlichen Verzeichnis gehen"
 
-#: src/gthumb-ui.xml.h:60
+#: src/gthumb-ui.xml.h:54
 msgid "Go to the next visited location"
 msgstr "Zum nächsten besuchten Ort wechseln"
 
-#: src/gthumb-ui.xml.h:61
+#: src/gthumb-ui.xml.h:55
 msgid "Go to the previuos visited location"
 msgstr "Zum vorherigen besuchten Ort wechseln"
 
-#: src/gthumb-ui.xml.h:62
+#: src/gthumb-ui.xml.h:56
 msgid "Go up one level"
 msgstr "Eine Ebene höher gehen"
 
-#: src/gthumb-ui.xml.h:63
+#: src/gthumb-ui.xml.h:57
 msgid "Home"
 msgstr "Persönliches Verzeichnis"
 
-#: src/gthumb-ui.xml.h:64
+#: src/gthumb-ui.xml.h:58
 msgid "Hue-Saturation"
 msgstr "Farbton und Sättigung"
 
-#: src/gthumb-ui.xml.h:65
-msgid "Image Inf_ormation"
-msgstr "Bild_informationen"
-
-#: src/gthumb-ui.xml.h:66
+#: src/gthumb-ui.xml.h:59
 msgid "Image Toolbar"
 msgstr "Bild-Werkzeugleiste"
 
-#: src/gthumb-ui.xml.h:67
+#: src/gthumb-ui.xml.h:60
+msgid "Image _Properties"
+msgstr "_Eigenschaften des Bilds"
+
+#: src/gthumb-ui.xml.h:61
 msgid "In"
 msgstr "Vergrößern"
 
-#: src/gthumb-ui.xml.h:68
+#: src/gthumb-ui.xml.h:62
 msgid "Information"
 msgstr "Informationen"
 
-#: src/gthumb-ui.xml.h:69
+#: src/gthumb-ui.xml.h:63
 msgid "Main Toolbar"
 msgstr "Haupt-Werkzeugleiste"
 
-#: src/gthumb-ui.xml.h:70
+#: src/gthumb-ui.xml.h:64
 msgid "Modify search criteria"
 msgstr "Suchkriterien bearbeiten"
 
-#: src/gthumb-ui.xml.h:71
+#: src/gthumb-ui.xml.h:65
 msgid "Move"
 msgstr "Verschieben"
 
-#: src/gthumb-ui.xml.h:72
+#: src/gthumb-ui.xml.h:66
 msgid "Move Catalog..."
 msgstr "Katalog verschieben..."
 
-#: src/gthumb-ui.xml.h:73
+#: src/gthumb-ui.xml.h:67
 msgid "Move Folder"
 msgstr "Ordner verschieben"
 
-#: src/gthumb-ui.xml.h:74
+#: src/gthumb-ui.xml.h:68
 msgid "Move current catalog to another location"
 msgstr "Den aktuellen Katalog an einen anderen Speicherort verschieben"
 
-#: src/gthumb-ui.xml.h:75
+#: src/gthumb-ui.xml.h:69
 msgid "Move current folder"
 msgstr "Den aktuellen Ordner verschieben"
 
-#: src/gthumb-ui.xml.h:76
+#: src/gthumb-ui.xml.h:70
 msgid "Move selected catalog to another location"
 msgstr "Den markierten Katalog in ein anderes Verzeichnis verschieben"
 
-#: src/gthumb-ui.xml.h:77
+#: src/gthumb-ui.xml.h:71
 msgid "Move selected folder"
 msgstr "Den markierten Ordner verschieben"
 
-#: src/gthumb-ui.xml.h:78
+#: src/gthumb-ui.xml.h:72
 msgid "Move selected images to another location"
 msgstr "Die markierten Bilder an einen anderen Speicherort verschieben"
 
-#: src/gthumb-ui.xml.h:79
+#: src/gthumb-ui.xml.h:73
 msgid "Move this image to another location"
 msgstr "Dieses Bild an einen anderen Speicherort verschieben"
 
-#: src/gthumb-ui.xml.h:80
+#: src/gthumb-ui.xml.h:74
 msgid "Move..."
 msgstr "Verschieben..."
 
-#: src/gthumb-ui.xml.h:81
+#: src/gthumb-ui.xml.h:75
 msgid "Negative"
 msgstr "Negativ"
 
-#: src/gthumb-ui.xml.h:82
-msgid "New _Folder"
-msgstr "Neuer _Ordner"
-
-#: src/gthumb-ui.xml.h:84
+#: src/gthumb-ui.xml.h:77
 msgid "New _Window"
 msgstr "Neues _Fenster"
 
-#: src/gthumb-ui.xml.h:85
+#: src/gthumb-ui.xml.h:78
 msgid "Next"
 msgstr "Nächstes"
 
-#: src/gthumb-ui.xml.h:86
+#: src/gthumb-ui.xml.h:79
+msgid "Open With"
+msgstr "Öffnen mit"
+
+#: src/gthumb-ui.xml.h:80
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Den aktuellen Ordner mit dem Nautilus-Dateimanager öffnen"
 
-#: src/gthumb-ui.xml.h:87
-msgid "Open selected images with an application"
-msgstr "Die markierten Bilder mit einer Anwendung öffnen"
-
-#: src/gthumb-ui.xml.h:88
+#: src/gthumb-ui.xml.h:82
 msgid "Open the selected folder with the Nautilus file\n"
 "\t     manager"
 msgstr "Den markierten Ordner mit dem Nautilus-Dateimanager öffnen"
 
-#: src/gthumb-ui.xml.h:90
+#: src/gthumb-ui.xml.h:84
 msgid "Open this image with an application"
 msgstr "Dieses Bild mit einer Anwendung öffnen"
 
-#: src/gthumb-ui.xml.h:91
+#: src/gthumb-ui.xml.h:85
 msgid "Open with the File Manager"
 msgstr "Mit dem Dateimanager öffnen"
 
-#: src/gthumb-ui.xml.h:92
+#: src/gthumb-ui.xml.h:86
 msgid "Open with the _File Manager"
 msgstr "Mit dem _Dateimanager öffnen"
 
-#: src/gthumb-ui.xml.h:93
-msgid "Open with..."
-msgstr "Öffnen mit..."
-
-#: src/gthumb-ui.xml.h:94
+#: src/gthumb-ui.xml.h:87
 msgid "Out"
 msgstr "Verkleinern"
 
-#: src/gthumb-ui.xml.h:95
+#: src/gthumb-ui.xml.h:88
 msgid "Play _Animation"
 msgstr "_Animation abspielen"
 
-#: src/gthumb-ui.xml.h:97
+#: src/gthumb-ui.xml.h:90
 msgid "Previous"
 msgstr "Vorheriges"
 
-#: src/gthumb-ui.xml.h:98
+#: src/gthumb-ui.xml.h:91
 msgid "Print"
 msgstr "Drucken"
 
-#: src/gthumb-ui.xml.h:99
+#: src/gthumb-ui.xml.h:92
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 msgid "Print the current image"
 msgstr "Das aktuelle Bild drucken"
 
-#: src/gthumb-ui.xml.h:100
+#: src/gthumb-ui.xml.h:93
 msgid "Redo Search"
 msgstr "Suche wiederholen"
 
-#: src/gthumb-ui.xml.h:101
+#: src/gthumb-ui.xml.h:94
 msgid "Redo _Search"
 msgstr "_Suche wiederholen"
 
-#: src/gthumb-ui.xml.h:102
+#: src/gthumb-ui.xml.h:95
 msgid "Redo the search"
 msgstr "Die Suche widerholen"
 
-#: src/gthumb-ui.xml.h:103
-msgid "Reduce Colors"
-msgstr "Farbtiefe reduzieren"
-
-#: src/gthumb-ui.xml.h:104
+#: src/gthumb-ui.xml.h:96
 msgid "Reduce number of colors"
 msgstr "Die Anzahl der Farben vermindern"
 
-#: src/gthumb-ui.xml.h:105
+#: src/gthumb-ui.xml.h:97
 msgid "Reduce the number of colors"
 msgstr "Die Anzahl der Farben vermindern"
 
-#: src/gthumb-ui.xml.h:106
+#: src/gthumb-ui.xml.h:98
 msgid "Refresh"
 msgstr "Neu einlesen"
 
-#: src/gthumb-ui.xml.h:107
+#: src/gthumb-ui.xml.h:99
 msgid "Reload the current location"
 msgstr "Den aktuellen Speicherort neu einlesen"
 
-#: src/gthumb-ui.xml.h:108
-msgid "Remo_ve from Catalog"
-msgstr "Aus dem Katalog _entfernen"
+#: src/gthumb-ui.xml.h:100
+msgid "Rem_ove"
+msgstr "Entfe_rnen"
 
-#: src/gthumb-ui.xml.h:109
+#: src/gthumb-ui.xml.h:101
+msgid "Rem_ove Comment"
+msgstr "Kommentar entfe_rnen"
+
+#: src/gthumb-ui.xml.h:102
+msgid "Remo_ve from Catalog"
+msgstr "Aus dem Katalog entfe_rnen"
+
+#: src/gthumb-ui.xml.h:103
+msgid "Remove"
+msgstr "Entfernen"
+
+#: src/gthumb-ui.xml.h:104
+msgid "Remove Catalog"
+msgstr "Katalog entfernen"
+
+#: src/gthumb-ui.xml.h:105
+msgid "Remove comments of selected images"
+msgstr "Die Kommentare der markierten Bilder entfernen"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Remove current catalog"
+msgstr "Den aktuellen Katalog entfernen"
+
+#: src/gthumb-ui.xml.h:107
+msgid "Remove selected catalog"
+msgstr "Den markierten Katalog entfernen"
+
+#: src/gthumb-ui.xml.h:108
 msgid "Remove selected images from the catalog"
 msgstr "Die markierten Bilder aus dem Katalog entfernen"
 
 #: src/gthumb-ui.xml.h:110
-msgid "Rename"
-msgstr "Umbenennen"
-
-#: src/gthumb-ui.xml.h:111
 msgid "Rename Catalog"
 msgstr "Katalog umbenennen"
 
-#: src/gthumb-ui.xml.h:112
+#: src/gthumb-ui.xml.h:111
 msgid "Rename Folder"
 msgstr "Den Ordner umbenennen"
 
-#: src/gthumb-ui.xml.h:113
+#: src/gthumb-ui.xml.h:112
 msgid "Rename current catalog"
 msgstr "Den aktuellen Katalog umbenennen"
 
-#: src/gthumb-ui.xml.h:114
+#: src/gthumb-ui.xml.h:113
 msgid "Rename current folder"
 msgstr "Den aktuellen Ordner umbenennen"
 
-#: src/gthumb-ui.xml.h:115
+#: src/gthumb-ui.xml.h:114
 msgid "Rename selected catalog"
 msgstr "Den markierten Katalog umbenennen"
 
-#: src/gthumb-ui.xml.h:116
+#: src/gthumb-ui.xml.h:115
 msgid "Rename selected folder"
 msgstr "Den markierten Ordner umbenennen"
 
-#: src/gthumb-ui.xml.h:117
+#: src/gthumb-ui.xml.h:116
 msgid "Rename selected image"
 msgstr "Das markierte Bild umbenennen"
 
-#: src/gthumb-ui.xml.h:118
+#: src/gthumb-ui.xml.h:117
 msgid "Rename this image"
 msgstr "Dieses Bild umbenennen"
 
-#: src/gthumb-ui.xml.h:119
+#: src/gthumb-ui.xml.h:118
 msgid "Resize"
 msgstr "Größe ändern"
 
-#: src/gthumb-ui.xml.h:120
+#: src/gthumb-ui.xml.h:119
 msgid "Resize image"
 msgstr "Die Bildgröße ändern"
 
-#: src/gthumb-ui.xml.h:122
+#: src/gthumb-ui.xml.h:121
 msgid "Restore the original desktop wallpaper"
 msgstr "Den ursprünglichen Desktop-Hintergrund wiederherstellen"
 
-#: src/gthumb-ui.xml.h:123
+#: src/gthumb-ui.xml.h:122
 msgid "Reverse images order"
 msgstr "Bilder in umgekehrter Reihenfolge anzeigen"
 
+#: src/gthumb-ui.xml.h:123
+msgid "Rotate Ri_ght"
+msgstr "_Rechtsherum drehen"
+
 #: src/gthumb-ui.xml.h:124
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
-msgid "Rotate"
-msgstr "Drehen"
+msgid "Rotate _Left"
+msgstr "_Linksherum drehen"
 
 #: src/gthumb-ui.xml.h:125
 msgid "Rotate image"
 msgstr "Bild drehen"
 
 #: src/gthumb-ui.xml.h:126
+msgid "S_ort Images"
+msgstr "Bilder s_ortieren"
+
+#: src/gthumb-ui.xml.h:127
 msgid "Save"
 msgstr "Speichern"
 
-#: src/gthumb-ui.xml.h:127
+#: src/gthumb-ui.xml.h:128
+msgid "Save _As..."
+msgstr "Speichern _unter..."
+
+#: src/gthumb-ui.xml.h:129
 msgid "Save current image"
 msgstr "Das aktuelle Bild speichern"
 
-#: src/gthumb-ui.xml.h:128
+#: src/gthumb-ui.xml.h:130
 msgid "Select all images"
 msgstr "Alle Bilder markieren"
 
-#: src/gthumb-ui.xml.h:129
+#: src/gthumb-ui.xml.h:131
 msgid "Set Image as _Wallpaper"
 msgstr "Bild als Desktop-_Hintergrund verwenden"
 
-#: src/gthumb-ui.xml.h:130
+#: src/gthumb-ui.xml.h:132
 msgid "Set the image as desktop background (centered)"
 msgstr "Das Bild als Desktop-Hintergrund verwenden (zentriert)"
 
-#: src/gthumb-ui.xml.h:131
+#: src/gthumb-ui.xml.h:133
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "Das Bild als Desktop-Hintergrund verwenden (skaliert, Beibehalten des Ansichtsverhältnisses)"
 
-#: src/gthumb-ui.xml.h:132
+#: src/gthumb-ui.xml.h:134
 msgid "Set the image as desktop background (stretched)"
 msgstr "Das Bild als Desktop-Hintergrund verwenden (gestreckt)"
 
-#: src/gthumb-ui.xml.h:133
+#: src/gthumb-ui.xml.h:135
 msgid "Set the image as desktop background (tiled)"
 msgstr "Das Bild als Desktop-Hintergrund verwenden (gekachelt)"
 
-#: src/gthumb-ui.xml.h:134
+#: src/gthumb-ui.xml.h:136
 msgid "Show information about gThumb"
 msgstr "Informationen zu gThumb anzeigen"
 
-#: src/gthumb-ui.xml.h:135
+#: src/gthumb-ui.xml.h:137
 msgid "Show/_Hide"
 msgstr "_Zeigen/verbergen"
 
-#: src/gthumb-ui.xml.h:136
+#: src/gthumb-ui.xml.h:138
 msgid "Sort images by file size"
 msgstr "Bilder nach Dateigröße sortieren"
 
-#: src/gthumb-ui.xml.h:137
+#: src/gthumb-ui.xml.h:139
 msgid "Sort images by modifiction time"
 msgstr "Bilder nach Änderungsdatum sortieren"
 
-#: src/gthumb-ui.xml.h:138
+#: src/gthumb-ui.xml.h:140
 msgid "Sort images by name"
 msgstr "Bilder nach Name sortieren"
 
-#: src/gthumb-ui.xml.h:139
+#: src/gthumb-ui.xml.h:141
 msgid "Sort images by path"
 msgstr "Bilder nach Pfad sortieren"
 
-#: src/gthumb-ui.xml.h:140
+#: src/gthumb-ui.xml.h:142
 msgid "Specify a location to visit"
 msgstr "Geben Sie einen zu besuchenden Speicherort an"
 
-#: src/gthumb-ui.xml.h:141
+#: src/gthumb-ui.xml.h:143
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 msgid "Start or stop current animation"
 msgstr "Die aktuelle Animation starten oder anhalten"
 
-#: src/gthumb-ui.xml.h:142
+#: src/gthumb-ui.xml.h:144
 msgid "Step A_nimation"
 msgstr "Schrittweise a_nimieren"
 
-#: src/gthumb-ui.xml.h:143
+#: src/gthumb-ui.xml.h:145
 msgid "Stop loading current location"
 msgstr "Das Einlesen des aktuellen Ortes abbrechen"
 
-#: src/gthumb-ui.xml.h:144
+#: src/gthumb-ui.xml.h:146
 msgid "Str_erched"
 msgstr "Gest_reckt"
 
-#: src/gthumb-ui.xml.h:145
-msgid "Transparency typ_e"
-msgstr "_Transparenzmodus"
+#: src/gthumb-ui.xml.h:147
+msgid "Transparen_cy Type"
+msgstr "Transparenzt_yp"
 
-#: src/gthumb-ui.xml.h:146
+#: src/gthumb-ui.xml.h:148
 msgid "Up"
 msgstr "Rauf"
 
-#: src/gthumb-ui.xml.h:147
+#: src/gthumb-ui.xml.h:149
 msgid "Use black as transparency"
 msgstr "Schwarz für die transparenten Flächen verwenden"
 
-#: src/gthumb-ui.xml.h:148
+#: src/gthumb-ui.xml.h:150
 msgid "Use checks as transparency"
 msgstr "Karos für die transparenten Flächen verwenden"
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:151
 msgid "Use gray as transparency"
 msgstr "Grau für die transparenten Flächen verwenden"
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:152
 msgid "Use high quality zoom"
 msgstr "Vergrößerung mit hoher Qualität verwenden"
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:153
 msgid "Use low quality zoom"
 msgstr "Vergrößerung mit geringer Qualität verwenden"
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:154
 msgid "Use white as transparency"
 msgstr "Weiß für die transparenten Flächen verwenden"
 
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:155
 msgid "View image in fullscreen mode"
 msgstr "Dieses Bild im Vollbildmodus anzeigen"
 
-#: src/gthumb-ui.xml.h:154
+#: src/gthumb-ui.xml.h:156
 msgid "View images as a slideshow"
 msgstr "Die Bilder als Diashow anzeigen"
 
-#: src/gthumb-ui.xml.h:155
+#: src/gthumb-ui.xml.h:157
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 msgid "View next animation frame"
 msgstr "Das nächste Bild der Animation anzeigen"
 
-#: src/gthumb-ui.xml.h:156
+#: src/gthumb-ui.xml.h:158
 msgid "View next image"
 msgstr "Das nächste Bild anzeigen"
 
-#: src/gthumb-ui.xml.h:157
+#: src/gthumb-ui.xml.h:159
 msgid "View or hide the statusbar of this window"
 msgstr "Die Statusleiste dieses Fensters zeigen oder verbergen"
 
-#: src/gthumb-ui.xml.h:158
+#: src/gthumb-ui.xml.h:160
 msgid "View or hide the toolbar of this window"
 msgstr "Die Werkzeugleiste dieses Fensters zeigen oder verbergen"
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:161
 msgid "View previous image"
 msgstr "Das vorherige Bild anzeigen"
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:162
 msgid "View the catalogs"
 msgstr "Die Kataloge anzeigen"
 
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:163
 msgid "View the folders"
 msgstr "Die Ordner anzeigen"
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:164
 msgid "View the image"
 msgstr "Das Bild anzeigen"
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:165
 msgid "View the image flipped"
 msgstr "Das Bild vertikal gespiegelt anzeigen"
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:166
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "View the image in black and white"
 msgstr "Das Bild in Schwarz-Weiß anzeigen"
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:167
 msgid "View the image mirrored"
 msgstr "Das Bild horizontal gespiegelt anzeigen"
 
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:168
 msgid "View the image rotated clockwise"
 msgstr "Das Bild im Uhrzeigersinn gedreht anzeigen"
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:169
 msgid "View the image rotated counter-clockwise"
 msgstr "Das Bild gegen den Uhrzeigersinn gedreht anzeigen"
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:170
 msgid "View the image with negative colors"
 msgstr "Das Bild mit umgekehrten Farbtönen anzeigen"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:171
 msgid "View thumbnails"
 msgstr "Miniatur-Vorschaubilder anzeigen"
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:172
 msgid "Zoom _In"
 msgstr "Ver_größern"
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:173
 msgid "Zoom _Out"
 msgstr "Ver_kleinern"
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:174
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:175
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:176
 msgid "Zoom to _Fit"
 msgstr "_Einpassen"
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:177
 msgid "Zoom to fit window"
 msgstr "Größe dem Fenster anpassen"
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:178
 msgid "_About"
 msgstr "_Info"
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:179
 msgid "_Actual Size"
 msgstr "_Originalgröße"
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:180
 msgid "_Add Bookmark"
 msgstr "Lesezeichen _hinzufügen"
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:181
 msgid "_Add to Catalog..."
 msgstr "Zum Katalog _hinzufügen..."
 
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:182
 msgid "_Back"
 msgstr "_Zurück"
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:183
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 msgid "_Black"
 msgstr "_Schwarz"
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:184
 msgid "_Bookmarks"
 msgstr "_Lesezeichen"
 
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:185
 msgid "_Brightness-Contrast"
 msgstr "_Helligkeit und Kontrast"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:186
 msgid "_Catalogs"
 msgstr "_Kataloge"
 
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:187
 msgid "_Centered"
 msgstr "_Zentriert"
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:188
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 msgid "_Checked"
 msgstr "Karo_muster"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:189
 msgid "_Close Window"
 msgstr "Fenster s_chließen"
 
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:190
 msgid "_Color Balance"
 msgstr "_Farbbalance"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:191
 msgid "_Copy..."
 msgstr "_Kopieren..."
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:192
 msgid "_Delete"
 msgstr "_Löschen"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:193
 msgid "_Delete History"
 msgstr "Chronik _vergessen"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:194
 msgid "_Desaturate"
 msgstr "_Schwarz-Weiß"
 
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:195
 msgid "_Edit"
 msgstr "_Bearbeiten"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:196
 msgid "_Edit Bookmarks"
 msgstr "Lesezeichen _bearbeiten"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:198
 msgid "_File"
 msgstr "_Datei"
 
-#: src/gthumb-ui.xml.h:197
-msgid "_Find Images..."
-msgstr "Bilder _suchen..."
+#: src/gthumb-ui.xml.h:199
+msgid "_Find Images"
+msgstr "Bilder _suchen"
 
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:200
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+msgid "_Flip"
+msgstr "_Vertikal spiegeln"
+
+#: src/gthumb-ui.xml.h:201
+msgid "_Folder"
+msgstr "_Ordner"
+
+#: src/gthumb-ui.xml.h:202
 msgid "_Folders"
 msgstr "_Ordner"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:203
 msgid "_Forward"
 msgstr "_Vor"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:204
 msgid "_Full Screen"
 msgstr "_Vollbild"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:205
 msgid "_Go"
 msgstr "_Gehe zu"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:206
 msgid "_Go to the Image Folder"
 msgstr "Zum Bildordner _gehen"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:207
 msgid "_Help"
 msgstr "_Hilfe"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:208
 msgid "_High Quality"
 msgstr "_Hohe Qualität"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:209
 msgid "_Home"
 msgstr "_Persönliches Verzeichnis"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:210
 msgid "_Hue-Saturation"
 msgstr "_Farbton und Sättigung"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:211
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 msgid "_Image"
 msgstr "_Bild"
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:212
 msgid "_Image preview"
 msgstr "_Bildvorschau"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:213
 msgid "_JPEG Transform"
 msgstr "_JPEG-Transformation"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:214
 msgid "_Keyboard Shortcuts"
 msgstr "_Tastenkürzel"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:215
 msgid "_Location..."
 msgstr "_Ort..."
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:216
 msgid "_Low Quality"
 msgstr "_Niedrige Qualität"
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:217
 msgid "_Maintenance"
 msgstr "_Routineaufgaben"
 
-#: src/gthumb-ui.xml.h:214
+#: src/gthumb-ui.xml.h:218
 msgid "_Manual"
 msgstr "_Handbuch"
 
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:219
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_Mirror"
 msgstr "_Horizontal spiegeln"
 
-#: src/gthumb-ui.xml.h:216
+#: src/gthumb-ui.xml.h:220
 msgid "_Move..."
 msgstr "_Verschieben..."
 
-#: src/gthumb-ui.xml.h:217
+#: src/gthumb-ui.xml.h:221
 msgid "_Negative"
 msgstr "_Negativ"
 
-#: src/gthumb-ui.xml.h:219
-msgid "_Open with..."
-msgstr "Ö_ffnen mit..."
+#: src/gthumb-ui.xml.h:223
+msgid "_New Folder"
+msgstr "_Neuer Ordner"
 
-#: src/gthumb-ui.xml.h:220
+#: src/gthumb-ui.xml.h:225
+msgid "_Open With"
+msgstr "Ö_ffnen mit"
+
+#: src/gthumb-ui.xml.h:226
 msgid "_Posterize"
 msgstr "_Posterisieren"
 
-#: src/gthumb-ui.xml.h:223
+#: src/gthumb-ui.xml.h:229
 msgid "_Reduce Colors"
 msgstr "Farbtiefe _reduzieren"
 
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:230
 msgid "_Reload"
 msgstr "_Neu einlesen"
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:232
 msgid "_Rename Series"
 msgstr "Mehrfach-_Umbenennen"
 
-#: src/gthumb-ui.xml.h:227
+#: src/gthumb-ui.xml.h:233
 msgid "_Resize"
 msgstr "_Größe ändern"
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:234
 msgid "_Restore"
 msgstr "_Wiederherstellen"
 
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:235
 msgid "_Reversed Order"
 msgstr "_Umgekehrte Reihenfolge"
 
-#: src/gthumb-ui.xml.h:230
+#: src/gthumb-ui.xml.h:236
 msgid "_Rotate"
 msgstr "_Drehen"
 
-#: src/gthumb-ui.xml.h:231
-msgid "_Rotate Left"
-msgstr "_Linksherum drehen"
-
-#: src/gthumb-ui.xml.h:232
-msgid "_Rotate Right"
-msgstr "_Rechtsherum drehen"
-
-#: src/gthumb-ui.xml.h:233
-msgid "_Save as..."
-msgstr "Speichern _unter..."
-
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:237
 msgid "_Scaled"
 msgstr "_Skaliert"
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:238
 msgid "_Select All"
 msgstr "Alle _markieren"
 
-#: src/gthumb-ui.xml.h:236
+#: src/gthumb-ui.xml.h:239
 msgid "_Slideshow"
 msgstr "_Diashow"
 
-#: src/gthumb-ui.xml.h:237
-msgid "_Sort Images"
-msgstr "Bilder s_ortieren"
-
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:240
 msgid "_Statusbar"
 msgstr "_Statusleiste"
 
-#: src/gthumb-ui.xml.h:239
+#: src/gthumb-ui.xml.h:241
 msgid "_Stop"
 msgstr "_Stopp"
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:242
 msgid "_Thumbnails"
 msgstr "_Miniatur-Vorschaubilder"
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:243
 msgid "_Tiled"
 msgstr "Ge_kachelt"
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:244
 msgid "_Toolbar"
 msgstr "_Werkzeugleisten"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:245
 msgid "_Tools"
 msgstr "_Werkzeuge"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:246
 msgid "_Up"
 msgstr "_Rauf"
 
-#: src/gthumb-ui.xml.h:246
+#: src/gthumb-ui.xml.h:248
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_White"
 msgstr "_Weiß"
 
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:249
 msgid "_Zoom"
 msgstr "Ver_größerung"
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:250
 msgid "by _Name"
 msgstr "nach _Name"
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:251
 msgid "by _Path"
 msgstr "nach _Pfad"
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:252
 msgid "by _Size"
 msgstr "nach _Größe"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:253
 msgid "by _Time"
 msgstr "nach _Datum"
 
-#: src/gthumb-window.c:1209
+#: src/gthumb-window.c:1212
 msgid "No image"
 msgstr "Kein Bild"
 
-#: src/gthumb-window.c:1211
+#: src/gthumb-window.c:1214
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 Bild (%s)"
 
-#: src/gthumb-window.c:1214
+#: src/gthumb-window.c:1217
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d Bilder (%s)"
 
-#: src/gthumb-window.c:1221
+#: src/gthumb-window.c:1224
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 markiert (%s)"
 
-#: src/gthumb-window.c:1224
+#: src/gthumb-window.c:1227
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d markiert (%s)"
 
-#: src/gthumb-window.c:2618
+#: src/gthumb-window.c:2600
 msgid "Drag & Drop"
 msgstr "Drag & Drop"
 
-#: src/gthumb-window.c:4317
+#: src/gthumb-window.c:4293
 #, c-format
 msgid "Cannot load folder \"%s\" : %s\n"
 msgstr "Ordner »%s« konnte nicht geladen werden: %s\n"
 
-#: src/gthumb-window.c:4567
+#: src/gthumb-window.c:4543
 msgid "The specified catalog does not exist."
 msgstr "Der angegebene Katalog existiert nicht."
 
@@ -2886,7 +2851,7 @@ msgstr "Familie"
 #: src/main.c:263
 #: src/main.c:320
 msgid "Command Line"
-msgstr "Kommandozeile"
+msgstr "Befehlszeile"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
@@ -2932,6 +2897,10 @@ msgstr "Horizontal spiegeln"
 msgid "Mirror the image"
 msgstr "Das Bild horizontal spiegeln"
 
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate"
+msgstr "Drehen"
+
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate 180 _Degrees"
 msgstr "Rotiere um 180 Gra_d"
@@ -2952,10 +2921,6 @@ msgstr "_Animation starten/anhalten"
 msgid "Transparency T_ype"
 msgstr "Transparenzt_yp"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-msgid "_Flip"
-msgstr "_Vertikal spiegeln"
-
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_Rotate Clockwise"
 msgstr "Im Uhrzeigersinn _rotieren"
@@ -2967,6 +2932,10 @@ msgstr "_Schrittweise animieren"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:30
 msgid "_Zoom Quality"
 msgstr "_Zoomqualität"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "Katalog"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
