@@ -1,3 +1,8 @@
+2004-10-28  Åsmund Skjæveland  <aasmunds@fys.uio.no>
+
+	* configure.in: Added nn to ALL_LINGUAS.
+	* po/nn.po: Started Norwegian Nynorsk translation.
+
 2004-10-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.0.1 released ] 
