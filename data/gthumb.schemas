@@ -3552,5 +3552,46 @@
 	</locale>
       </schema>
 
+      <!-- Crop Dialog -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/crop/aspect_ratio</key>
+	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>image</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/crop/aspect_ratio_width</key>
+	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/crop/aspect_ratio_height</key>
+	<applyto>/apps/gthumb/dialogs/crop/aspect_ratio_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

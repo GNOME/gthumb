@@ -174,6 +174,9 @@
 #define  PREF_PHOTO_IMPORT_DESTINATION "/apps/gthumb/dialogs/photo_importer/destination"
 #define  PREF_PHOTO_IMPORT_DELETE      "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
+#define  PREF_CROP_ASPECT_RATIO        "/apps/gthumb/dialogs/crop/aspect_ratio"
+#define  PREF_CROP_ASPECT_RATIO_WIDTH  "/apps/gthumb/dialogs/crop/aspect_ratio_width"
+#define  PREF_CROP_ASPECT_RATIO_HEIGHT "/apps/gthumb/dialogs/crop/aspect_ratio_height"
 
 
 typedef struct {
@@ -309,5 +312,9 @@ GthViewMode        pref_get_view_mode              (void);
 void               pref_set_print_unit             (GthPrintUnit value);
 
 GthPrintUnit       pref_get_print_unit             (void);
+
+void               pref_set_crop_ratio             (GthCropRatio value);
+
+GthCropRatio       pref_get_crop_ratio             (void);
 
 #endif /* PREFERENCES_H */

@@ -1,3 +1,14 @@
+2003-12-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* data/gthumb.schemas.in: 
+	* libgthumb/typedefs.h: 
+	* libgthumb/preferences.h: 
+	* libgthumb/preferences.c: load and save crop aspect ratio.
+
+	* data/glade/gthumb_crop.glade: 
+	* src/dlg-crop.c: 
+	* src/gth-image-selector.c: more crop work.
+
 2003-12-27  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-crop.c (dlg_crop): more crop support.

@@ -32,21 +32,11 @@
 #include "preferences.h"
 #include "pixbuf-utils.h"
 #include "gth-image-selector.h"
+#include "typedefs.h"
 
 #define GLADE_FILE     "gthumb_crop.glade"
 #define PREVIEW_SIZE   300
 
-enum {
-	C_RATIO_NONE,
-	C_RATIO_SQUARE,
-	C_RATIO_IMAGE,
-	C_RATIO_DISPLAY,
-	C_RATIO_4_3,
-	C_RATIO_4_6,
-	C_RATIO_5_7,
-	C_RATIO_8_10,
-	C_RATIO_CUSTOM,
-};
 
 /**/
 
@@ -64,8 +54,8 @@ typedef struct {
 	GtkSpinButton *crop_width_spinbutton;
 	GtkSpinButton *crop_height_spinbutton;
 	GtkWidget     *ratio_optionmenu;
-	GtkWidget     *ratio_w_spinbutton;
-	GtkWidget     *ratio_h_spinbutton;
+	GtkSpinButton *ratio_w_spinbutton;
+	GtkSpinButton *ratio_h_spinbutton;
 	GtkWidget     *custom_ratio_box;
 } DialogData;
 
@@ -89,7 +79,11 @@ ok_cb (GtkWidget  *widget,
 	GdkPixbuf     *new_pixbuf;
 	GdkRectangle   selection;
 
-	/* FIXME: Save options */
+	/* Save options */
+
+	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_WIDTH, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_w_spinbutton)));
+	eel_gconf_set_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_h_spinbutton)));
+	pref_set_crop_ratio (gtk_option_menu_get_history (GTK_OPTION_MENU (data->ratio_optionmenu)));
 
 	/**/
 
@@ -142,11 +136,7 @@ selection_width_value_changed_cb (GtkSpinButton *spin,
 				  DialogData    *data)
 {
 	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
-	GdkRectangle selection;
-
-	gth_image_selector_get_selection (selector, &selection);
-	selection.width = gtk_spin_button_get_value_as_int (spin);
-	gth_image_selector_set_selection (selector, selection);
+	gth_image_selector_set_selection_width (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
 
@@ -155,11 +145,7 @@ selection_height_value_changed_cb (GtkSpinButton *spin,
 				   DialogData    *data)
 {
 	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
-	GdkRectangle selection;
-
-	gth_image_selector_get_selection (selector, &selection);
-	selection.height = gtk_spin_button_get_value_as_int (spin);
-	gth_image_selector_set_selection (selector, selection);
+	gth_image_selector_set_selection_height (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
 
@@ -209,62 +195,84 @@ selection_changed_cb (GthImageSelector *selector,
 
 
 static void
+set_spin_value (DialogData    *data,
+		GtkSpinButton *spin, 
+		int            x)
+{
+	g_signal_handlers_block_by_data (G_OBJECT (spin), data);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), x);
+	g_signal_handlers_unblock_by_data (G_OBJECT (spin), data);
+}
+
+
+static void
 ratio_optionmenu_changed_cb (GtkOptionMenu *optionmenu,
 			     DialogData    *data)
 {
 	int      idx = gtk_option_menu_get_history (optionmenu);
 	int      w = 1, h = 1;
 	gboolean use_ratio = TRUE;
-	double   ratio = 1.0;
 
 	switch (idx) {
-	case C_RATIO_NONE:
+	case GTH_CROP_RATIO_NONE:
 		use_ratio = FALSE;
 		break;
-	case C_RATIO_SQUARE:
+	case GTH_CROP_RATIO_SQUARE:
 		w = h = 1;
 		break;
-	case C_RATIO_IMAGE:
+	case GTH_CROP_RATIO_IMAGE:
 		w = data->image_width;
 		h = data->image_height;
 		break;
-	case C_RATIO_DISPLAY:
+	case GTH_CROP_RATIO_DISPLAY:
 		w = data->display_width;
 		h = data->display_height;
 		break;
-	case C_RATIO_4_3:
+	case GTH_CROP_RATIO_4_3:
 		w = 4;
 		h = 3;
 		break;
-	case C_RATIO_4_6:
+	case GTH_CROP_RATIO_4_6:
 		w = 4;
 		h = 6;
 		break;
-	case C_RATIO_5_7:
+	case GTH_CROP_RATIO_5_7:
 		w = 5;
 		h = 7;
 		break;
-	case C_RATIO_8_10:
+	case GTH_CROP_RATIO_8_10:
 		w = 8;
 		h = 10;
 		break;
-	case C_RATIO_CUSTOM:
+	case GTH_CROP_RATIO_CUSTOM:
 	default:
 		w = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_w_spinbutton));
 		h = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_h_spinbutton));
 		break;
 	}
 
-	gtk_widget_set_sensitive (data->custom_ratio_box, idx == C_RATIO_CUSTOM);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_w_spinbutton), w);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_h_spinbutton), h);
-
-	if (h > 0)
-		ratio = (double) w / h;
+	gtk_widget_set_sensitive (data->custom_ratio_box, idx == GTH_CROP_RATIO_CUSTOM);
+	set_spin_value (data, data->ratio_w_spinbutton, w);
+	set_spin_value (data, data->ratio_h_spinbutton, h);
 
 	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
 				      use_ratio,
-				      ratio);
+				      (double) w / h);
+}
+
+
+static void
+ratio_value_changed_cb (GtkSpinButton *spin,
+			DialogData    *data)
+{
+	int w, h;
+
+	w = gtk_spin_button_get_value_as_int (data->ratio_w_spinbutton);
+	h = gtk_spin_button_get_value_as_int (data->ratio_h_spinbutton);
+			
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+				      TRUE,
+				      (double) w / h);
 }
 
 
@@ -299,8 +307,8 @@ dlg_crop (GThumbWindow *window)
 	data->crop_width_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_width_spinbutton");
 	data->crop_height_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_height_spinbutton");
 	data->ratio_optionmenu = glade_xml_get_widget (data->gui, "ratio_optionmenu");
-	data->ratio_w_spinbutton = glade_xml_get_widget (data->gui, "ratio_w_spinbutton");
-	data->ratio_h_spinbutton = glade_xml_get_widget (data->gui, "ratio_h_spinbutton");
+	data->ratio_w_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "ratio_w_spinbutton");
+	data->ratio_h_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "ratio_h_spinbutton");
 	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
 
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
@@ -340,7 +348,8 @@ dlg_crop (GThumbWindow *window)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (data->ratio_optionmenu), menu);
 	g_object_unref (menu);
 
-	ratio_optionmenu_changed_cb (GTK_OPTION_MENU (data->ratio_optionmenu), data);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_w_spinbutton), eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_WIDTH, 1));
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_h_spinbutton), eel_gconf_get_integer (PREF_CROP_ASPECT_RATIO_HEIGHT, 1));
 
 	/* Set the signals handlers. */
 	
@@ -380,10 +389,21 @@ dlg_crop (GThumbWindow *window)
 			  "changed",
 			  G_CALLBACK (ratio_optionmenu_changed_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->ratio_w_spinbutton), 
+			  "value_changed",
+			  G_CALLBACK (ratio_value_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->ratio_h_spinbutton), 
+			  "value_changed",
+			  G_CALLBACK (ratio_value_changed_cb),
+			  data);
 
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window->app));
 	gtk_widget_show (data->dialog);
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->ratio_optionmenu),
+				     pref_get_crop_ratio ());
 }

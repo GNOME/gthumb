@@ -177,6 +177,20 @@ typedef enum { /*< skip >*/
 	GTH_PREVIEW_CONTENT_COMMENT,
 } GthPreviewContent;
 
+
+typedef enum { /*< skip >*/
+	GTH_CROP_RATIO_NONE,
+	GTH_CROP_RATIO_SQUARE,
+	GTH_CROP_RATIO_IMAGE,
+	GTH_CROP_RATIO_DISPLAY,
+	GTH_CROP_RATIO_4_3,
+	GTH_CROP_RATIO_4_6,
+	GTH_CROP_RATIO_5_7,
+	GTH_CROP_RATIO_8_10,
+	GTH_CROP_RATIO_CUSTOM,
+} GthCropRatio;
+
+
 typedef void (*ErrorFunc)      (gpointer data);
 
 typedef void (*DoneFunc)       (gpointer data);

@@ -581,6 +581,42 @@ get_semiplane_no (int x1,
 }
 
 
+static void
+check_and_select (GthImageSelector *selector,
+		  GdkRectangle      new_selection)
+{
+	GthImageSelectorPriv *priv = selector->priv;
+
+	if (((priv->current_area == NULL)
+	     || (priv->current_area->id != C_SELECTION_AREA))
+	    && priv->use_ratio) {
+		new_selection.x += priv->image_area.x;
+		new_selection.y += priv->image_area.y;
+		if (rectangle_in_rectangle (new_selection, priv->image_area)) {
+			new_selection.x -= priv->image_area.x;
+			new_selection.y -= priv->image_area.y;
+			set_selection (selector, new_selection);
+		}
+		return;
+	} 
+
+	if (new_selection.x < 0) 
+		new_selection.x = 0;
+	if (new_selection.y < 0)
+		new_selection.y = 0;
+	if (new_selection.width > priv->image_area.width) 
+		new_selection.width = priv->image_area.width;
+	if (new_selection.height > priv->image_area.height) 
+		new_selection.height = priv->image_area.height;
+	
+	if (new_selection.x + new_selection.width > priv->image_area.width)
+		new_selection.x = priv->image_area.width - new_selection.width;
+	if (new_selection.y + new_selection.height > priv->image_area.height)
+		new_selection.y = priv->image_area.height - new_selection.height;
+	set_selection (selector, new_selection);
+}
+
+
 static int
 motion_notify (GtkWidget      *widget, 
 	       GdkEventMotion *event)
@@ -744,36 +780,7 @@ motion_notify (GtkWidget      *widget,
 		break;
 	}
 
-	new_selection.x += priv->image_area.x;
-	new_selection.y += priv->image_area.y;
-	if ((priv->current_area->id != C_SELECTION_AREA)
-	    && priv->use_ratio) {
-		if (rectangle_in_rectangle (new_selection, priv->image_area)) {
-			new_selection.x -= priv->image_area.x;
-			new_selection.y -= priv->image_area.y;
-			set_selection (selector, new_selection);
-		}
-		return FALSE;
-	} 
-
-	new_selection.x -= priv->image_area.x;
-	new_selection.y -= priv->image_area.y;
-
-	if (new_selection.x < 0) 
-		new_selection.x = 0;
-	if (new_selection.y < 0)
-		new_selection.y = 0;
-	if (new_selection.width > priv->image_area.width) 
-		new_selection.width = priv->image_area.width;
-	if (new_selection.height > priv->image_area.height) 
-		new_selection.height = priv->image_area.height;
-	
-	if (new_selection.x + new_selection.width > priv->image_area.width)
-		new_selection.x = priv->image_area.width - new_selection.width;
-	if (new_selection.y + new_selection.height > priv->image_area.height)
-		new_selection.y = priv->image_area.height - new_selection.height;
-	set_selection (selector, new_selection);
-
+	check_and_select (selector, new_selection);
 	return FALSE;
 }
 
@@ -1136,6 +1143,36 @@ real_to_selector (GthImageSelector *selector,
 
 
 void
+gth_image_selector_set_selection_width (GthImageSelector *selector,
+					int               width)
+{
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          area;
+
+	area = priv->selection_area;
+	area.width = real_to_selector (selector, width);
+	if (priv->use_ratio)
+		area.height = area.width / priv->ratio;
+	check_and_select (selector, area);
+}
+
+
+void
+gth_image_selector_set_selection_height (GthImageSelector *selector,
+					 int               height)
+{
+	GthImageSelectorPriv *priv = selector->priv;
+	GdkRectangle          area;
+
+	area = priv->selection_area;
+	area.height = real_to_selector (selector, height);
+	if (priv->use_ratio)
+		area.width = area.height / priv->ratio;
+	check_and_select (selector, area);
+}
+
+
+void
 gth_image_selector_set_selection (GthImageSelector *selector,
 				  GdkRectangle      selection)
 {
@@ -1147,7 +1184,7 @@ gth_image_selector_set_selection (GthImageSelector *selector,
 	selection.height = real_to_selector (selector, selection.height);
 
 	if (! rectangle_equal (priv->selection_area, selection))
-		set_selection (selector, selection);
+		check_and_select (selector, selection);
 }
 
 
@@ -1201,7 +1238,7 @@ gth_image_selector_set_ratio (GthImageSelector *selector,
 
 	area.x = (priv->image_area.width - area.width) / 2.0;
 	area.y = (priv->image_area.height - area.height) / 2.0;
-	set_selection (selector, area);
+	check_and_select (selector, area);
 }
 
 

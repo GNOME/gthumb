@@ -1145,11 +1145,13 @@ search_dir_async (DialogData *data, char *dir)
 }
 
 
+/* FIXME
 static gboolean
 empty_pattern (const char *pattern)
 {
 	return (pattern == NULL) || (pattern[0] == 0);
 }
+*/
 
 
 static void 

@@ -200,6 +200,19 @@ static EnumStringTable print_unit_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable crop_ratio_table [] = {
+	{ GTH_CROP_RATIO_NONE,     "none" },
+	{ GTH_CROP_RATIO_SQUARE,   "square" },
+	{ GTH_CROP_RATIO_IMAGE,    "image" },
+	{ GTH_CROP_RATIO_DISPLAY,  "display" },
+	{ GTH_CROP_RATIO_4_3,      "4x3" },
+	{ GTH_CROP_RATIO_4_6,      "4x6" },
+	{ GTH_CROP_RATIO_5_7,      "5x7" },
+	{ GTH_CROP_RATIO_8_10,     "8x10" },
+	{ GTH_CROP_RATIO_CUSTOM,   "custom" },
+	{ 0, NULL }
+};
+
 /* --------------- */
 
 
@@ -503,6 +516,7 @@ GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
 GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)
 GET_SET_FUNC(preview_content,        PREF_PREVIEW_CONTENT,     GthPreviewContent)
 GET_SET_FUNC(print_unit,             PREF_PRINT_PAPER_UNIT,    GthPrintUnit)
+GET_SET_FUNC(crop_ratio,             PREF_CROP_ASPECT_RATIO,   GthCropRatio)
 
 
 GthViewMode
