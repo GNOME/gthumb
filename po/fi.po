@@ -1,0 +1,3944 @@
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: GThumb 2.3.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-02-21 14:24+0200\n"
+"PO-Revision-Date: 2004-01-29 01:49+0200\n"
+"Last-Translator: Ville Pohjanheimo <vpohjanheimo@hotmail.com>\n"
+"Language-Team: Finnish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "Albumi"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+msgid "GThumb Catalog View"
+msgstr "GThumb Albumi-näkymä"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+msgid "View as Catalog"
+msgstr "Näytä albumina"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+#: data/gthumb-ui.xml.h:99
+msgid "Print the current image"
+msgstr "Tulosta avattu kuva"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+msgid "_Print"
+msgstr "_Tulosta"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+msgid "GThumb Image"
+msgstr "GThumb-kuva"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+msgid "GThumb Viewer"
+msgstr "GThumb-kuvankatseluohjelma"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+msgid "View with GThumb"
+msgstr "Näytä GThumb-kuvankatseluohjelmalla"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+msgid "Flip"
+msgstr "Pyöräytä"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+msgid "Flip the image"
+msgstr "Pyöräytä kuva"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "High"
+msgstr "Korkea"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Low"
+msgstr "Matala"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "Mirror"
+msgstr "Peilaa"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Mirror the image"
+msgstr "Peilaa kuva"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: data/gthumb-ui.xml.h:128
+msgid "Rotate"
+msgstr "Kierrä"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+msgid "Rotate 180 _Degrees"
+msgstr "Kierrä 180 _astetta"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate the image clockwise"
+msgstr "Kierrä kuvaa myötäpäivään"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate the image of 180 degrees"
+msgstr "Kierrä kuvaa 180 astetta"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: data/gthumb-ui.xml.h:135
+msgid "Save _As..."
+msgstr "Tallenna _nimellä..."
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: data/gthumb-ui.xml.h:136
+msgid "Save current image"
+msgstr "Tallenna avoin kuva"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: data/gthumb-ui.xml.h:152
+msgid "Start or stop current animation"
+msgstr "Aloita tai pysäytä valittu animaatio"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr "Aloita/pysäytä _animaatio"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr "Läpinä_kyvä alue"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: data/gthumb-ui.xml.h:167
+msgid "View next animation frame"
+msgstr "Näytä animaation seuraava kuva"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: data/gthumb-ui.xml.h:193
+msgid "_Black"
+msgstr "_Musta"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: data/gthumb-ui.xml.h:198
+msgid "_Checked"
+msgstr "_Valittu"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: data/gthumb-ui.xml.h:213
+msgid "_Flip"
+msgstr "_Pyöräytä"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: data/gthumb-ui.xml.h:224
+msgid "_Image"
+msgstr "Ku_va"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: data/gthumb-ui.xml.h:231
+msgid "_Mirror"
+msgstr "_Peilaa"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: data/gthumb-ui.xml.h:236
+msgid "_None"
+msgstr "_Ei mitään"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+msgid "_Rotate Clockwise"
+msgstr "_Kierrä myötäpäivään"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+msgid "_Step Animation"
+msgstr "As_keltava animaatio"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:49
+#: data/gthumb-ui.xml.h:265
+msgid "_View"
+msgstr "_Näytä"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: data/gthumb-ui.xml.h:266
+msgid "_White"
+msgstr "_Valkoinen"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+msgid "_Zoom Quality"
+msgstr "_Suurennoksen laatu"
+
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
+
+#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
+#: src/dlg-image-prop.c:419 src/fullscreen.c:216
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:411
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d kuvapistettä"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:1
+#: data/albumthemes/Classic/image.xml.in.h:2
+#: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:2
+#: data/albumthemes/NeatSquare/image.xml.in.h:2
+msgid "Aperture value"
+msgstr "Välin koko"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:2
+#: data/albumthemes/Classic/image.xml.in.h:3
+#: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/NeatRound/image.xml.in.h:3
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
+#: src/gth-exif-data-viewer.c:479
+msgid "Bytes"
+msgstr "Tavua"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:3
+#: data/albumthemes/Classic/image.xml.in.h:4
+#: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/NeatRound/image.xml.in.h:4
+#: data/albumthemes/NeatSquare/image.xml.in.h:4
+msgid "Camera model"
+msgstr "Kameran malli"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:4
+#: data/albumthemes/Classic/image.xml.in.h:5
+#: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/NeatRound/image.xml.in.h:5
+#: data/albumthemes/NeatSquare/image.xml.in.h:5
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:5
+#: data/albumthemes/Classic/image.xml.in.h:6
+#: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/NeatRound/image.xml.in.h:6
+#: data/albumthemes/NeatSquare/image.xml.in.h:6
+msgid "Dimensions"
+msgstr "Ulottuvuudet"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:6
+#: data/albumthemes/Classic/image.xml.in.h:7
+#: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/NeatRound/image.xml.in.h:7
+#: data/albumthemes/NeatSquare/image.xml.in.h:7
+msgid "Exposure mode"
+msgstr "Valoitusohjelma"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:7
+#: data/albumthemes/Classic/image.xml.in.h:8
+#: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/NeatRound/image.xml.in.h:8
+#: data/albumthemes/NeatSquare/image.xml.in.h:8
+msgid "Exposure time"
+msgstr "Valotusaika"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:8
+#: data/albumthemes/Classic/image.xml.in.h:9
+#: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/NeatRound/image.xml.in.h:9
+#: data/albumthemes/NeatSquare/image.xml.in.h:9
+msgid "Flash"
+msgstr "Salama"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:9
+#: data/albumthemes/Classic/image.xml.in.h:10
+#: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/NeatRound/image.xml.in.h:10
+#: data/albumthemes/NeatSquare/image.xml.in.h:10
+msgid "Focal length"
+msgstr "Polttoväli"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:10
+#: data/albumthemes/Classic/image.xml.in.h:11
+#: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/NeatRound/image.xml.in.h:11
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:264
+msgid "Image"
+msgstr "Kuva"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:11
+#: data/albumthemes/Classic/image.xml.in.h:12
+#: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/NeatRound/image.xml.in.h:12
+#: data/albumthemes/NeatSquare/image.xml.in.h:12
+msgid "Shutter speed"
+msgstr "Sulkimen nopeus"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:12
+#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:33
+msgid "pixels"
+msgstr "kuvapistettä"
+
+#: data/albumthemes/Classic/image.xml.in.h:1
+#: data/albumthemes/ClassicClips/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:1
+#: data/albumthemes/NeatSquare/image.xml.in.h:1
+msgid "(click on the image to view it at original size)"
+msgstr "(napsauta kuvaa avataksesi se alkuperäisessä koossaan)"
+
+#: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
+#: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
+#: data/glade/gthumb_png_exporter.glade.h:1
+#: data/glade/gthumb_preferences.glade.h:1 data/glade/gthumb_print.glade.h:1
+#: data/glade/gthumb_tools.glade.h:1 data/glade/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: data/glade/gthumb.glade.h:2 data/glade/gthumb_camera.glade.h:1
+#: data/glade/gthumb_comments.glade.h:1 data/glade/gthumb_convert.glade.h:2
+#: data/glade/gthumb_png_exporter.glade.h:3
+#: data/glade/gthumb_preferences.glade.h:3 data/glade/gthumb_search.glade.h:1
+#: data/glade/gthumb_tools.glade.h:3 data/glade/gthumb_web_exporter.glade.h:3
+msgid "*"
+msgstr "*"
+
+#: data/glade/gthumb.glade.h:3
+msgid "<b>Categories:</b>"
+msgstr "<b>Luokat:</b>"
+
+#: data/glade/gthumb.glade.h:4
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>Tiedot kanavasta:</b>"
+
+#: data/glade/gthumb.glade.h:5
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>Korvataanko vanha kuva uudella?</b>"
+
+#: data/glade/gthumb.glade.h:6
+msgid "A_vailable applications:"
+msgstr "A_sennetut ohjelmat:"
+
+#: data/glade/gthumb.glade.h:7
+msgid "Alpha"
+msgstr "Peitto"
+
+#: data/glade/gthumb.glade.h:8
+msgid "Blue"
+msgstr "Sininen"
+
+#: data/glade/gthumb.glade.h:9
+msgid "Bookmarks"
+msgstr "Kirjanmerkit"
+
+#: data/glade/gthumb.glade.h:10
+msgid "C_atalogs:"
+msgstr "_Albumit:"
+
+#: data/glade/gthumb.glade.h:11
+msgid "Choose a Catalog"
+msgstr "Valitse albumi"
+
+#: data/glade/gthumb.glade.h:12 data/gthumb-ui.xml.h:28
+msgid "Comm_ent"
+msgstr "Komm_entti"
+
+#: data/glade/gthumb.glade.h:13
+msgid "Do not overwrite _the old image"
+msgstr "Älä korvaa _vanhaa kuvaa"
+
+#: data/glade/gthumb.glade.h:14
+msgid "Green"
+msgstr "Vihreä"
+
+#: data/glade/gthumb.glade.h:15
+msgid "New Image:"
+msgstr "Uusi kuva:"
+
+#: data/glade/gthumb.glade.h:16
+msgid "New _Library"
+msgstr "Uusi _kirjasto"
+
+#: data/glade/gthumb.glade.h:17
+msgid "Old Image:"
+msgstr "Vanha kuva:"
+
+#: data/glade/gthumb.glade.h:18
+msgid "Open Images"
+msgstr "Avaa kuvat"
+
+#: data/glade/gthumb.glade.h:19
+msgid "Over_write the old image"
+msgstr "_Korvaa vanha kuva"
+
+#: data/glade/gthumb.glade.h:20
+msgid "Overwrite Image"
+msgstr "Korvaa kuva"
+
+#: data/glade/gthumb.glade.h:21
+msgid "Overwrite _all images"
+msgstr "Korvaa k_aikki kuvat"
+
+#: data/glade/gthumb.glade.h:22
+msgid "Photo _Data (EXIF)"
+msgstr "Kuvan tiedot (EXIF)"
+
+#: data/glade/gthumb.glade.h:23
+msgid "R_ecent applications:"
+msgstr "Viim_eksi käytetyt ohjelmat"
+
+#: data/glade/gthumb.glade.h:24
+msgid "Red"
+msgstr "Punainen"
+
+#: data/glade/gthumb.glade.h:25
+msgid "Value"
+msgstr "Arvo"
+
+#: data/glade/gthumb.glade.h:26
+msgid "_Application:"
+msgstr "_Ohjelma:"
+
+#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:443
+msgid "_Bookmarks:"
+msgstr "_Kirjanmerkit:"
+
+#: data/glade/gthumb.glade.h:28
+msgid "_Do not overwrite any image"
+msgstr "_Älä korvaa yhtäkään kuvaan"
+
+#: data/glade/gthumb.glade.h:29
+msgid "_General"
+msgstr "_Yleiset"
+
+#: data/glade/gthumb.glade.h:30
+msgid "_Histogram"
+msgstr "_Histogrammi"
+
+#: data/glade/gthumb.glade.h:31
+msgid "_New Catalog"
+msgstr "_Uusi albumi"
+
+#: data/glade/gthumb.glade.h:32
+msgid "_Next"
+msgstr "_Seuraava"
+
+#: data/glade/gthumb.glade.h:33
+msgid "_Previous"
+msgstr "_Edellinen"
+
+#: data/glade/gthumb.glade.h:34
+msgid "_Remove"
+msgstr "Poi_sta"
+
+#: data/glade/gthumb.glade.h:35
+msgid "_Save the new image as:"
+msgstr "_Tallenna uusi kuva nimellä:"
+
+#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:2
+#: data/glade/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
+
+#: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
+msgid "Ca_tegories:"
+msgstr "Luo_kat:"
+
+#: data/glade/gthumb_camera.glade.h:4
+msgid "Camera Model"
+msgstr "Kameran malli"
+
+#: data/glade/gthumb_camera.glade.h:5
+#: data/glade/gthumb_png_exporter.glade.h:25
+msgid "Choose destination folder"
+msgstr "Valitse kohdekansio"
+
+#: data/glade/gthumb_camera.glade.h:6
+msgid "Delete selected images from the camera"
+msgstr "Poista valitut kuvat kameralta"
+
+#: data/glade/gthumb_camera.glade.h:7
+msgid "Import Photos"
+msgstr "Tuo valokuvat"
+
+#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:692
+#: src/dlg-photo-importer.c:727 src/dlg-photo-importer.c:1168
+msgid "No camera detected"
+msgstr "Kameraa ei löydy"
+
+#: data/glade/gthumb_camera.glade.h:9
+msgid "Select a camera model"
+msgstr "Valitse kameran malli"
+
+#: data/glade/gthumb_camera.glade.h:10
+msgid "Update previews"
+msgstr "Päivitä esikatselut"
+
+#: data/glade/gthumb_camera.glade.h:11
+msgid "_Auto Detect"
+msgstr "Tunnista _automaattisesti"
+
+#: data/glade/gthumb_camera.glade.h:12
+msgid "_Delete imported images from the camera"
+msgstr "_Poista tuodut kuvat kameralta"
+
+#: data/glade/gthumb_camera.glade.h:13
+#: data/glade/gthumb_png_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Destination:"
+msgstr "Ko_hdekansio:"
+
+# fuzzy
+#: data/glade/gthumb_camera.glade.h:14
+msgid "_Film:"
+msgstr "_Video:"
+
+#: data/glade/gthumb_camera.glade.h:15
+msgid "_Keep original filenames"
+msgstr "_Säilytä alkuperäiset tiedostonimet"
+
+#: data/glade/gthumb_camera.glade.h:16
+msgid "_Model:"
+msgstr "_Malli"
+
+#: data/glade/gthumb_camera.glade.h:17
+#: data/glade/gthumb_web_exporter.glade.h:55
+msgid "_Port:"
+msgstr "_Portti:"
+
+#: data/glade/gthumb_camera.glade.h:18
+msgid "_import"
+msgstr "_tuo"
+
+#: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
+msgid "A_vailable categories:"
+msgstr "Olemassa_olevat luokat:"
+
+#: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
+#: data/gthumb-ui.xml.h:23
+msgid "Categories"
+msgstr "Luokat"
+
+#: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
+msgid "Co_mment:"
+msgstr "Ko_mmentti:"
+
+#: data/glade/gthumb_comments.glade.h:5 data/gthumb-ui.xml.h:29
+#: libgthumb/gth-file-view-list.c:1368
+msgid "Comment"
+msgstr "Kommentti"
+
+#: data/glade/gthumb_comments.glade.h:6
+msgid "Create a new category"
+msgstr "Luo uusi luokka"
+
+#: data/glade/gthumb_comments.glade.h:7
+msgid "Current date"
+msgstr "Tämä päivämäärä"
+
+#: data/glade/gthumb_comments.glade.h:8
+msgid "Image creation date"
+msgstr "Kuvan luontipäivämäärä"
+
+#: data/glade/gthumb_comments.glade.h:9
+msgid "Last modified date"
+msgstr "Viimeisin muokkauspäivä"
+
+#: data/glade/gthumb_comments.glade.h:10
+msgid "No date"
+msgstr "Ei päivämäärää"
+
+#: data/glade/gthumb_comments.glade.h:11
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Valokuvan digitointipäivä (EXIF-tietojen mukaan)"
+
+#: data/glade/gthumb_comments.glade.h:12
+msgid "Remove selected category"
+msgstr "Poista valittu luokka"
+
+#: data/glade/gthumb_comments.glade.h:13
+msgid "Save only cha_nged fields"
+msgstr "Tallenna vain _muutokset kentissä"
+
+#: data/glade/gthumb_comments.glade.h:14
+msgid "The following date"
+msgstr "Seuraava päivämäärä"
+
+#: data/glade/gthumb_comments.glade.h:15 data/glade/gthumb_search.glade.h:24
+msgid "_Date:"
+msgstr "_Päivämäärä:"
+
+#: data/glade/gthumb_comments.glade.h:16
+msgid "_Delete"
+msgstr "_Poista"
+
+#: data/glade/gthumb_comments.glade.h:17
+msgid "_New"
+msgstr "_Uusi"
+
+#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:27
+msgid "_Place:"
+msgstr "_Sijainti:"
+
+#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:30
+msgid "_Selected categories:"
+msgstr "_Valitut luokat:"
+
+#: data/glade/gthumb_convert.glade.h:3
+msgid "<b>Compression</b>"
+msgstr "<b>Pakkaus</b>"
+
+#: data/glade/gthumb_convert.glade.h:4
+msgid "<b>Image type</b>"
+msgstr "<b>Kuvatyyppi</b>"
+
+#: data/glade/gthumb_convert.glade.h:5
+msgid "<b>Resolution</b>"
+msgstr "<b>Erottelutarkkuus</b>"
+
+#: data/glade/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr "Kysy"
+
+#: data/glade/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "Pakkaus_taso:"
+
+#: data/glade/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "Muunna tiedostotyyppi"
+
+#: data/glade/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG-asetukset"
+
+#: data/glade/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "No_rmaali (Pura)"
+
+#: data/glade/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "Opti_moi"
+
+#: data/glade/gthumb_convert.glade.h:12
+msgid "Overwrite"
+msgstr "Korvaa"
+
+#: data/glade/gthumb_convert.glade.h:13
+msgid "Overwrite mode:"
+msgstr "Korvaustila:"
+
+#: data/glade/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr "PNG-asetukset"
+
+#: data/glade/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr "_Poista alkuperäinen"
+
+#: data/glade/gthumb_convert.glade.h:16
+msgid "Rename"
+msgstr "Nimeä uudelleen"
+
+#: data/glade/gthumb_convert.glade.h:17 src/dlg-convert.c:313
+msgid "Skip"
+msgstr "Ohita"
+
+#: data/glade/gthumb_convert.glade.h:18
+msgid "TGA Options"
+msgstr "TGA-asetukset"
+
+#: data/glade/gthumb_convert.glade.h:19
+msgid "TIFF Options"
+msgstr "TIFF-asetukset"
+
+#: data/glade/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr "T_GA"
+
+#: data/glade/gthumb_convert.glade.h:21
+#: data/glade/gthumb_png_exporter.glade.h:65
+msgid "_Horizontal:"
+msgstr "_Vaakataso:"
+
+#: data/glade/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: data/glade/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr "_Laatua heikentävä pakkaus (JPEG)"
+
+#: data/glade/gthumb_convert.glade.h:24
+msgid "_No compression"
+msgstr "_Pakkaamaton"
+
+#: data/glade/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr "_PNG"
+
+#: data/glade/gthumb_convert.glade.h:26
+msgid "_Progressive"
+msgstr "_Progressiivinen"
+
+#: data/glade/gthumb_convert.glade.h:27
+msgid "_Quality:"
+msgstr "_Laatu:"
+
+#: data/glade/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr "_RLE-pakkaus"
+
+#: data/glade/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr "_Pehmennys:"
+
+#: data/glade/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: data/glade/gthumb_convert.glade.h:31
+#: data/glade/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "_Pystytaso:"
+
+#: data/glade/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr "dpi"
+
+#: data/glade/gthumb_crop.glade.h:2
+msgid "4 x 3 (Book, DVD)"
+msgstr "4 x 3 (Kirjat, DVD)"
+
+#: data/glade/gthumb_crop.glade.h:3
+msgid "4 x 6 (Postcard)"
+msgstr "4 x 6 (Postikortti)"
+
+#: data/glade/gthumb_crop.glade.h:4
+msgid "5 x 7"
+msgstr "5 x 7"
+
+#: data/glade/gthumb_crop.glade.h:5
+msgid "8 x 10"
+msgstr "8 x 10"
+
+#: data/glade/gthumb_crop.glade.h:6
+msgid "<b>Aspect ratio</b>"
+msgstr "<b>Kuvasuhde</b>"
+
+#: data/glade/gthumb_crop.glade.h:7
+msgid "<b>Selection</b>"
+msgstr "<b>Valinta</b>"
+
+#: data/glade/gthumb_crop.glade.h:8
+msgid "Crop"
+msgstr "Rajaa"
+
+#: data/glade/gthumb_crop.glade.h:9
+msgid "Custom"
+msgstr "Oma"
+
+#: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
+msgid "None"
+msgstr "Ei mitään"
+
+#: data/glade/gthumb_crop.glade.h:11
+msgid "Square"
+msgstr "Neliö"
+
+#: data/glade/gthumb_crop.glade.h:12 data/gthumb-ui.xml.h:203
+msgid "_Crop"
+msgstr "_Rajaa"
+
+#: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
+#: data/glade/gthumb_print.glade.h:29
+msgid "_Height:"
+msgstr "_Korkeus:"
+
+#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
+#: data/glade/gthumb_print.glade.h:31
+msgid "_Width:"
+msgstr "_Leveys:"
+
+#: data/glade/gthumb_crop.glade.h:15
+msgid "_X:"
+msgstr "_X:"
+
+#: data/glade/gthumb_crop.glade.h:16
+msgid "_Y:"
+msgstr "_Y:"
+
+#: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
+#: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
+#: data/glade/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr "     "
+
+#: data/glade/gthumb_edit.glade.h:4 data/glade/gthumb_print.glade.h:3
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: data/glade/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>Väritasot</b>"
+
+#: data/glade/gthumb_edit.glade.h:6
+msgid "<b>New dimensions</b>"
+msgstr "<b>Uudet ulottuvuudet</b>"
+
+#: data/glade/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>Alkuperäiset ulottuvuudet</b>"
+
+#: data/glade/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>Suurennuskerroin</b>"
+
+#: data/glade/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "Kirkkaus - Kontrasti"
+
+#: data/glade/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "Väritasapaino"
+
+#: data/glade/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "Kon_trasti:"
+
+#: data/glade/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "Syaani-_Punainen:"
+
+#: data/glade/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "Korkeus:"
+
+#: data/glade/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "Korkea_laatuinen"
+
+#: data/glade/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "Sävy - Kylläisyys"
+
+#: data/glade/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "Värien porrastus"
+
+#: data/glade/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "Säilytä va_loituus"
+
+#: data/glade/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "Muuta kuvan kokoa"
+
+#: data/glade/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "Leveys:"
+
+#: data/glade/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "_Kirkkaus:"
+
+#: data/glade/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "_Sävy:"
+
+#: data/glade/gthumb_edit.glade.h:23
+msgid "_Keep aspect ratio"
+msgstr "_Säilytä kuvasuhde"
+
+#: data/glade/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "Väri_tasot:"
+
+#: data/glade/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "_Vaaleus:"
+
+#: data/glade/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "_Magenta-Vihreä:"
+
+#: data/glade/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "_Esikatsele"
+
+#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:46
+msgid "_Reset"
+msgstr "_Palauta"
+
+#: data/glade/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "_Kylläisyys:"
+
+#: data/glade/gthumb_edit.glade.h:30
+msgid "_Scale"
+msgstr "_Muuta kokoa"
+
+#: data/glade/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "_Keltainen-Sininen:"
+
+#: data/glade/gthumb_png_exporter.glade.h:4
+msgid "112"
+msgstr "112"
+
+#: data/glade/gthumb_png_exporter.glade.h:5
+msgid "128"
+msgstr "128"
+
+#: data/glade/gthumb_png_exporter.glade.h:6
+msgid "164"
+msgstr "164"
+
+#: data/glade/gthumb_png_exporter.glade.h:7
+msgid "200"
+msgstr "200"
+
+#: data/glade/gthumb_png_exporter.glade.h:8
+msgid "256"
+msgstr "256"
+
+#: data/glade/gthumb_png_exporter.glade.h:9
+msgid "48"
+msgstr "48"
+
+#: data/glade/gthumb_png_exporter.glade.h:10
+msgid "64"
+msgstr "64"
+
+#: data/glade/gthumb_png_exporter.glade.h:11
+msgid "75"
+msgstr "75"
+
+#: data/glade/gthumb_png_exporter.glade.h:12
+msgid "85"
+msgstr "85"
+
+#: data/glade/gthumb_png_exporter.glade.h:13
+msgid "95"
+msgstr "95"
+
+#: data/glade/gthumb_png_exporter.glade.h:14
+msgid "<b>Background style</b>"
+msgstr "<b>Taustan tyyli</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:15
+msgid "<b>Caption</b>"
+msgstr "<b>Kuvateksti</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:16
+msgid "<b>Footer</b>"
+msgstr "<b>Alatunnista</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:17
+msgid "<b>Header and footer</b>"
+msgstr "<b>Ylä- ja alatunniste</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:18
+msgid "<b>Header</b>"
+msgstr "<b>Ylätunniste</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:19
+msgid "<b>Index images</b>"
+msgstr "<b>Tee kuvaluettelo</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:20
+msgid "<b>Page size</b>"
+msgstr "<b>Sivun koko</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:21
+#: data/glade/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Tallennetaan</b>"
+
+#: data/glade/gthumb_png_exporter.glade.h:22
+msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
+msgstr "<small><i><b>Huom:</b> # (järjestysluku)</i>.</small>"
+
+#: data/glade/gthumb_png_exporter.glade.h:24
+#, no-c-format
+msgid ""
+"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
+"small>"
+msgstr ""
+"<small><i><b>Huom:</b> %p (sivunumero), %n (kokonaissivumäärä)</i>.</small>"
+
+#: data/glade/gthumb_png_exporter.glade.h:26
+#: data/glade/gthumb_web_exporter.glade.h:20
+msgid "Co_mment"
+msgstr "Kommentti"
+
+#: data/glade/gthumb_png_exporter.glade.h:27
+msgid "Col_umns:"
+msgstr "_Saraketta:"
+
+#: data/glade/gthumb_png_exporter.glade.h:28
+msgid "Colo_r:"
+msgstr "Vä_ri:"
+
+#: data/glade/gthumb_png_exporter.glade.h:29
+msgid "Create Index Image"
+msgstr "Luo kuvaluettelokuva"
+
+#: data/glade/gthumb_png_exporter.glade.h:30
+msgid "Create _HTML image map"
+msgstr "Luo _HTML-linkkikartta"
+
+#: data/glade/gthumb_png_exporter.glade.h:31
+#: data/glade/gthumb_web_exporter.glade.h:26
+msgid "F_ooter:"
+msgstr "_Alatunniste:"
+
+#: data/glade/gthumb_png_exporter.glade.h:32
+#: data/glade/gthumb_web_exporter.glade.h:27
+msgid "File _name"
+msgstr "Tiedosto_nimi"
+
+#: data/glade/gthumb_png_exporter.glade.h:33
+msgid "File pa_th"
+msgstr "Tiedosto_polku"
+
+#: data/glade/gthumb_png_exporter.glade.h:34
+#: data/glade/gthumb_web_exporter.glade.h:28
+msgid "File si_ze"
+msgstr "Tiedosto_koko"
+
+#: data/glade/gthumb_png_exporter.glade.h:35
+msgid "Frame _style:"
+msgstr "Kehyksen _tyyli:"
+
+#: data/glade/gthumb_png_exporter.glade.h:36
+msgid "Frame co_lor:"
+msgstr "Kehyksen _väri:"
+
+#: data/glade/gthumb_png_exporter.glade.h:37
+#: data/glade/gthumb_web_exporter.glade.h:30
+msgid "H_eader:"
+msgstr "_Ylätunniste:"
+
+#: data/glade/gthumb_png_exporter.glade.h:38
+msgid "Header/Footer"
+msgstr "Ylä-/alatunniste"
+
+#: data/glade/gthumb_png_exporter.glade.h:39
+msgid "Hei_ght:"
+msgstr "Ko_rkeus:"
+
+#: data/glade/gthumb_png_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:32
+msgid "Image dim_ensions"
+msgstr "Kuvan _ulottuvuudet"
+
+#: data/glade/gthumb_png_exporter.glade.h:41
+msgid "Images"
+msgstr "Kuvat"
+
+#: data/glade/gthumb_png_exporter.glade.h:42
+msgid "Index Image Style"
+msgstr "Kuvaluettelokuvan tyyli"
+
+#: data/glade/gthumb_png_exporter.glade.h:43
+msgid "Page"
+msgstr "Sivu"
+
+#: data/glade/gthumb_png_exporter.glade.h:44
+msgid "Pi_xels"
+msgstr "Kuva_pistettä"
+
+#: data/glade/gthumb_png_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:35
+msgid "Re_verse order"
+msgstr "Kään_teinen järjestys"
+
+#: data/glade/gthumb_png_exporter.glade.h:46
+msgid "Rows a_nd columns"
+msgstr "Riviä ja _saraketta"
+
+#: data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a color"
+msgstr "Valitse väri"
+
+#: data/glade/gthumb_png_exporter.glade.h:48
+msgid "Shadow in"
+msgstr "Varjo sisäänpäin"
+
+#: data/glade/gthumb_png_exporter.glade.h:49
+msgid "Shadow only"
+msgstr "Vain varjo"
+
+#: data/glade/gthumb_png_exporter.glade.h:50
+msgid "Shadow out"
+msgstr "Varjo ulospäin"
+
+#: data/glade/gthumb_png_exporter.glade.h:51
+msgid "Simple"
+msgstr "Yksinkertainen"
+
+#: data/glade/gthumb_png_exporter.glade.h:52
+msgid "Simple with shadow"
+msgstr "Yksinkertainen varjolla"
+
+#: data/glade/gthumb_png_exporter.glade.h:53
+msgid "Slide"
+msgstr "Dia"
+
+#: data/glade/gthumb_png_exporter.glade.h:54
+#: data/glade/gthumb_web_exporter.glade.h:40
+msgid "Sor_t:"
+msgstr "Järjes_tä:"
+
+#: data/glade/gthumb_png_exporter.glade.h:55
+msgid "Sort"
+msgstr "Järjestä"
+
+#: data/glade/gthumb_png_exporter.glade.h:56
+msgid "St_yle"
+msgstr "T_yyli"
+
+#: data/glade/gthumb_png_exporter.glade.h:57
+#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:42
+msgid "Start _at:"
+msgstr "A_loita:"
+
+#: data/glade/gthumb_png_exporter.glade.h:58
+msgid "Style Preview"
+msgstr "Tyylin esikatselu"
+
+#: data/glade/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "Le_veys:"
+
+#: data/glade/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "_Kaikilla sivuilla samat ulottuvuudet"
+
+#: data/glade/gthumb_png_exporter.glade.h:62
+msgid "_Draw frame"
+msgstr "_Kuvilla on kehykset"
+
+#: data/glade/gthumb_png_exporter.glade.h:63
+msgid "_Font:"
+msgstr "_Kirjasin:"
+
+#: data/glade/gthumb_png_exporter.glade.h:64
+msgid "_Gradient"
+msgstr "_Väriliuku"
+
+#: data/glade/gthumb_png_exporter.glade.h:66
+msgid "_Image size:"
+msgstr "_Kuvan koko:"
+
+#: data/glade/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "_Riviä"
+
+#: data/glade/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "_Yksivärinen"
+
+#: data/glade/gthumb_png_exporter.glade.h:69
+#: data/glade/gthumb_tools.glade.h:48
+msgid "_Template:"
+msgstr "_Tiedostonimipohja:"
+
+#: data/glade/gthumb_png_exporter.glade.h:71
+#: data/glade/gthumb_web_exporter.glade.h:62
+msgid "by name"
+msgstr "nimen mukaan"
+
+#: data/glade/gthumb_png_exporter.glade.h:72
+#: data/glade/gthumb_web_exporter.glade.h:63
+msgid "by path"
+msgstr "polun mukaan"
+
+#: data/glade/gthumb_png_exporter.glade.h:73
+#: data/glade/gthumb_web_exporter.glade.h:64
+msgid "by size"
+msgstr "koon mukaan"
+
+#: data/glade/gthumb_png_exporter.glade.h:74
+msgid "by time"
+msgstr "ajan mukaan"
+
+#: data/glade/gthumb_png_exporter.glade.h:75
+msgid "jpeg"
+msgstr "jpeg"
+
+#: data/glade/gthumb_png_exporter.glade.h:76
+msgid "png"
+msgstr "png"
+
+#: data/glade/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: data/glade/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: data/glade/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: data/glade/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: data/glade/gthumb_preferences.glade.h:8
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: data/glade/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: data/glade/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: data/glade/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: data/glade/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: data/glade/gthumb_preferences.glade.h:13
+msgid "<b>Direction</b>"
+msgstr "<b>Suunta</b>"
+
+#: data/glade/gthumb_preferences.glade.h:14
+msgid "<b>Hide/Show</b>"
+msgstr "<b>Piilota/Näytä</b>"
+
+#: data/glade/gthumb_preferences.glade.h:15
+msgid "<b>Interface</b>"
+msgstr "<b>Käyttöliittymä</b>"
+
+#: data/glade/gthumb_preferences.glade.h:16
+msgid "<b>On startup:</b>"
+msgstr "<b>Käynnistettäessä:</b>"
+
+#: data/glade/gthumb_preferences.glade.h:17
+msgid "<b>Other</b>"
+msgstr "<b>Muut</b>"
+
+#: data/glade/gthumb_preferences.glade.h:18
+msgid "<b>Slide show</b>"
+msgstr "<b>Diaesitys</b>"
+
+#: data/glade/gthumb_preferences.glade.h:19
+msgid "<b>View images as</b>"
+msgstr "<b>Näytä kuvat</b>"
+
+#: data/glade/gthumb_preferences.glade.h:20
+msgid "<b>Viewer</b>"
+msgstr "<b>Kuvien näyttäjä</b>"
+
+#: data/glade/gthumb_preferences.glade.h:21
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Suurennoksen laatu</b>"
+
+#: data/glade/gthumb_preferences.glade.h:22
+msgid "Activate items with a double click"
+msgstr "Aktivoi kaksoisnapsautuksella"
+
+#: data/glade/gthumb_preferences.glade.h:23
+msgid "Activate items with a single click"
+msgstr "Aktivoi yhdellä napsautuksella"
+
+#: data/glade/gthumb_preferences.glade.h:24
+msgid "After _loading an image:"
+msgstr "Kun kuva on _ladattu:"
+
+#: data/glade/gthumb_preferences.glade.h:25
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "Kysy vahvistusta ennen kuin poistetaan kuvia tai albumeita"
+
+#: data/glade/gthumb_preferences.glade.h:26
+msgid "Ask whether to save _modified images"
+msgstr "Kysy tallennetaanko _muokattuja kuvia"
+
+#: data/glade/gthumb_preferences.glade.h:27
+msgid "Black"
+msgstr "Musta"
+
+#: data/glade/gthumb_preferences.glade.h:28
+msgid "Browser"
+msgstr "Selain"
+
+#: data/glade/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr "Napsautus_käytäntö:"
+
+#: data/glade/gthumb_preferences.glade.h:30
+msgid "Checked"
+msgstr "Ruudut"
+
+#: data/glade/gthumb_preferences.glade.h:31
+msgid "Choose startup folder"
+msgstr "Valitse käynnistyskansio"
+
+#: data/glade/gthumb_preferences.glade.h:32
+msgid "Co_mments"
+msgstr "Ko_mmentit"
+
+#: data/glade/gthumb_preferences.glade.h:33
+msgid "D_elay before changing image:"
+msgstr "_Viive ennen kuin kuva vaihtuu:"
+
+#: data/glade/gthumb_preferences.glade.h:34
+msgid "D_etermine image type from content (slower)"
+msgstr "S_elvitä kuvan muoto sisällöstä (hitaampaa)"
+
+#: data/glade/gthumb_preferences.glade.h:35
+msgid "Do _not change folder"
+msgstr "Älä _siirry kansiosta"
+
+#: data/glade/gthumb_preferences.glade.h:36
+msgid "Fit image to window"
+msgstr "Sovita ikkunaan"
+
+#: data/glade/gthumb_preferences.glade.h:37
+msgid "Fit to window if larger"
+msgstr "Sovita ikkunaan jos suurempi"
+
+#: data/glade/gthumb_preferences.glade.h:38
+msgid "Follow Nautilus behaviour"
+msgstr "Noudata Nautiluksen käytäntöä"
+
+#: data/glade/gthumb_preferences.glade.h:39
+msgid "For_ward"
+msgstr "_Eteenpäin"
+
+#: data/glade/gthumb_preferences.glade.h:40
+msgid "General"
+msgstr "Yleiset"
+
+#: data/glade/gthumb_preferences.glade.h:41
+msgid "Go to last _visited folder or catalog"
+msgstr "Siirry vii_meiseksi avattuun kansioon tai albumiin"
+
+#: data/glade/gthumb_preferences.glade.h:42
+msgid "Go to this _folder:"
+msgstr "Siirry tä_hän kansioon:"
+
+#: data/glade/gthumb_preferences.glade.h:43
+msgid "H_igh"
+msgstr "_Korkea"
+
+#: data/glade/gthumb_preferences.glade.h:44
+msgid "Icons only"
+msgstr "Vain kuvakkeet"
+
+#: data/glade/gthumb_preferences.glade.h:45
+msgid "Keep previous zoom"
+msgstr "Säilytä viimeisin suurennos"
+
+#: data/glade/gthumb_preferences.glade.h:46
+msgid "Layout:"
+msgstr "Asettelu:"
+
+#: data/glade/gthumb_preferences.glade.h:47
+msgid "Lo_w"
+msgstr "_Heikko"
+
+#: data/glade/gthumb_preferences.glade.h:49
+msgid "Ran_dom"
+msgstr "S_atunnainen"
+
+#: data/glade/gthumb_preferences.glade.h:50
+msgid "Re_verse"
+msgstr "Taak_sepäin"
+
+#: data/glade/gthumb_preferences.glade.h:51
+msgid "Resta_rt when finished"
+msgstr "Aloita alusta kun on päästy loppuun"
+
+#: data/glade/gthumb_preferences.glade.h:52
+msgid "Set image to actual size"
+msgstr "Näytä todellisessa koossa"
+
+#: data/glade/gthumb_preferences.glade.h:53
+msgid "Set to C_urrent"
+msgstr "Aseta avattuun"
+
+#: data/glade/gthumb_preferences.glade.h:54 data/gthumb-ui.xml.h:146
+msgid "Slide Show"
+msgstr "Diaesitys"
+
+#: data/glade/gthumb_preferences.glade.h:55
+msgid "Switch to _full screen"
+msgstr "Siirry koko_ruututilaan"
+
+#: data/glade/gthumb_preferences.glade.h:56
+msgid "System settings"
+msgstr "Järjestelmän asetukset"
+
+#: data/glade/gthumb_preferences.glade.h:57
+msgid "Text below icons"
+msgstr "Teksti kuvakkeiden alla"
+
+#: data/glade/gthumb_preferences.glade.h:58
+msgid "Text beside icons"
+msgstr "Teksti kuvakkeiden vierellä"
+
+#: data/glade/gthumb_preferences.glade.h:59
+msgid "Text only"
+msgstr "Vain teksti"
+
+#: data/glade/gthumb_preferences.glade.h:60
+msgid "Th_umbnail size:"
+msgstr "Pie_noiskuvien koko:"
+
+#: data/glade/gthumb_preferences.glade.h:61
+msgid "Transparency _type:"
+msgstr "Läpinäkyvä _alue:"
+
+#: data/glade/gthumb_preferences.glade.h:62
+msgid "Viewer"
+msgstr "Kuvien näyttäjä"
+
+#: data/glade/gthumb_preferences.glade.h:63
+msgid "White"
+msgstr "Valkoinen"
+
+#: data/glade/gthumb_preferences.glade.h:64
+msgid "_Filenames"
+msgstr "_Tiedostonimet"
+
+#: data/glade/gthumb_preferences.glade.h:65
+msgid "_List"
+msgstr "_Listana"
+
+#: data/glade/gthumb_preferences.glade.h:66
+msgid "_Slides"
+msgstr "_Dioina"
+
+#: data/glade/gthumb_preferences.glade.h:67 data/gthumb-ui.xml.h:259
+msgid "_Thumbnails"
+msgstr "_Pienoiskuvat"
+
+#: data/glade/gthumb_preferences.glade.h:68
+msgid "_Toolbar style:"
+msgstr "Työkalu_palkin muoto"
+
+#: data/glade/gthumb_preferences.glade.h:69
+msgid "gThumb Preferences"
+msgstr "gThumbin asetukset"
+
+#: data/glade/gthumb_preferences.glade.h:70
+msgid "seconds"
+msgstr "sekuntia"
+
+#: data/glade/gthumb_print.glade.h:4
+msgid "1"
+msgstr "1"
+
+#: data/glade/gthumb_print.glade.h:5
+msgid "16"
+msgstr "16"
+
+#: data/glade/gthumb_print.glade.h:6
+msgid "2"
+msgstr "2"
+
+#: data/glade/gthumb_print.glade.h:7
+msgid "4"
+msgstr "4"
+
+#: data/glade/gthumb_print.glade.h:8
+msgid "8"
+msgstr "8"
+
+#: data/glade/gthumb_print.glade.h:9
+msgid "<b>Orientation</b>"
+msgstr "<b>Suunta</b>"
+
+#: data/glade/gthumb_print.glade.h:10
+msgid "<b>Size</b>"
+msgstr "<b>Koko</b>"
+
+#: data/glade/gthumb_print.glade.h:11
+msgid ""
+"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
+"Click on an image to rotate it.</i></small>"
+msgstr ""
+"<small><i><b>Huom:</b> Raahaa kuvaa siirtääksesi sitä sivulla.\n"
+"Napsauta kuvaa kierittääksesi sitä.</i></small>"
+
+#: data/glade/gthumb_print.glade.h:13
+msgid "A_4"
+msgstr "A_4"
+
+#: data/glade/gthumb_print.glade.h:14
+msgid "C_ustom:"
+msgstr "_Oma:"
+
+#: data/glade/gthumb_print.glade.h:15
+msgid "Center _on Page"
+msgstr "_Keskitä sivulle"
+
+#: data/glade/gthumb_print.glade.h:16
+msgid "Comment _font:"
+msgstr "Kommentin kir_jasin:"
+
+#: data/glade/gthumb_print.glade.h:17
+msgid "I_nclude comment"
+msgstr "Tu_losta kommentti"
+
+#: data/glade/gthumb_print.glade.h:18
+msgid "Images per page:"
+msgstr "Kuvia sivulla:"
+
+#: data/glade/gthumb_print.glade.h:19
+msgid "Inches"
+msgstr "Tuumaa"
+
+#: data/glade/gthumb_print.glade.h:20
+msgid "Lan_dscape"
+msgstr "Vaa_ka"
+
+#: data/glade/gthumb_print.glade.h:21
+msgid "Layout"
+msgstr "Asettelu"
+
+#: data/glade/gthumb_print.glade.h:22
+msgid "Millimeters"
+msgstr "Millimetriä"
+
+#: data/glade/gthumb_print.glade.h:23
+msgid "P_ortrait"
+msgstr "Pys_ty"
+
+#: data/glade/gthumb_print.glade.h:24
+msgid "Paper Details"
+msgstr "Paperin asetukset"
+
+#.
+#: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
+#: libgthumb/print-callbacks.c:2960 libgthumb/print-callbacks.c:2974
+#: libgthumb/print-callbacks.c:3432
+msgid "Print"
+msgstr "Tulosta"
+
+#: data/glade/gthumb_print.glade.h:26
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: data/glade/gthumb_print.glade.h:27
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: data/glade/gthumb_print.glade.h:28
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: data/glade/gthumb_print.glade.h:30
+msgid "_Scale:"
+msgstr "_Koko:"
+
+#: data/glade/gthumb_search.glade.h:3
+msgid "<b>Search criteria</b>"
+msgstr "<b>Hakukriteeri</b>"
+
+#: data/glade/gthumb_search.glade.h:4
+msgid "<b>Search scope</b>"
+msgstr "<b>Haun laajuus</b>"
+
+#: data/glade/gthumb_search.glade.h:6
+msgid "After"
+msgstr "Jälkeen"
+
+#: data/glade/gthumb_search.glade.h:7
+msgid "Any"
+msgstr "Mikä vaan"
+
+#: data/glade/gthumb_search.glade.h:8
+msgid "Before"
+msgstr "Ennen"
+
+#: data/glade/gthumb_search.glade.h:11
+msgid "Choose categories from the saved list"
+msgstr "Valitse luokat listasta"
+
+#: data/glade/gthumb_search.glade.h:13
+msgid "Equal to"
+msgstr "Joka on"
+
+#: data/glade/gthumb_search.glade.h:14
+msgid "File _name:"
+msgstr "Tiedosto_nimi:"
+
+#: data/glade/gthumb_search.glade.h:15
+msgid "Find"
+msgstr "Etsi"
+
+#: data/glade/gthumb_search.glade.h:16
+msgid "Found images:"
+msgstr "Löydettiin kuvia:"
+
+#: data/glade/gthumb_search.glade.h:17
+msgid "Match a_ll selected categories"
+msgstr "Täytyy kuulua _kaikkiin valittuihin luokkiin"
+
+#: data/glade/gthumb_search.glade.h:18
+msgid "Match a_ny selected category"
+msgstr "Täytyy kuulua _johonkin valituista luokista"
+
+#: data/glade/gthumb_search.glade.h:19
+msgid "New _Search..."
+msgstr "Uusi _haku..."
+
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:663
+#: src/dlg-photo-importer.c:1213
+msgid "No images found"
+msgstr "Yhtään kuvaa ei löytynyt"
+
+#: data/glade/gthumb_search.glade.h:21
+msgid "Search Progress"
+msgstr "Haun eteneminen"
+
+#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:41
+msgid "Searching in:"
+msgstr "Haetaan kansiosta:"
+
+#: data/glade/gthumb_search.glade.h:25 data/gthumb-ui.xml.h:208
+msgid "_Edit Search"
+msgstr "_Muokkaa hakua"
+
+#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:44
+msgid "_Include sub-folders"
+msgstr "_Hae alikansioista"
+
+#: data/glade/gthumb_search.glade.h:28
+msgid "_Save"
+msgstr "_Tallenna"
+
+#: data/glade/gthumb_search.glade.h:29
+msgid "_Search"
+msgstr "_Etsi"
+
+#: data/glade/gthumb_tools.glade.h:4
+msgid "<b>Comments</b>"
+msgstr "<b>Kommentit</b>"
+
+#: data/glade/gthumb_tools.glade.h:5
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Pienoiskuvat</b>"
+
+#: data/glade/gthumb_tools.glade.h:6
+msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+msgstr ""
+"<small><i><b>Huom</b>: jpeg-muunnokset eivät heikennä kuvanlaatua.</i></"
+"small>"
+
+#: data/glade/gthumb_tools.glade.h:8
+#, no-c-format
+msgid ""
+"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
+"%d (image date), %s (image size).</i></small>"
+msgstr ""
+"<small><i><b>Erikoismerkit:</b> # (järjestysnumero), %f (alkuperäinen "
+"tiedostonimi), %d (kuvan päivämäärä), %s (tiedostokoko).</i></small>"
+
+#: data/glade/gthumb_tools.glade.h:9
+msgid "Adjust photo _orientation"
+msgstr "Säädä valokuvan asent_oa"
+
+#: data/glade/gthumb_tools.glade.h:10
+msgid "Apply to _all images"
+msgstr "Tee sama _kaikille kuville"
+
+#: data/glade/gthumb_tools.glade.h:11
+msgid "Backup Comments"
+msgstr "Varmuuskopioi kommentit"
+
+#: data/glade/gthumb_tools.glade.h:12
+msgid "C_urrent date"
+msgstr "T_ämä päivämäärä"
+
+#: data/glade/gthumb_tools.glade.h:13
+msgid "Change Date"
+msgstr "Muuta päivämäärää"
+
+#: data/glade/gthumb_tools.glade.h:14
+msgid "Change the last modified date to:"
+msgstr "Muuta viimeiseksi muokkauspäivämääräksi:"
+
+#: data/glade/gthumb_tools.glade.h:15
+msgid "Check _All"
+msgstr "Valitse _kaikki"
+
+#: data/glade/gthumb_tools.glade.h:16
+msgid "Check _None"
+msgstr "P_oista valinnat"
+
+#: data/glade/gthumb_tools.glade.h:17
+msgid "Checking image:"
+msgstr "Vertaillaan kuvaa:"
+
+#: data/glade/gthumb_tools.glade.h:18
+msgid "Delete ALL Comments"
+msgstr "Poista KAIKKI kommentit"
+
+#: data/glade/gthumb_tools.glade.h:19
+msgid "Delete ALL Thumbnails"
+msgstr "Poista KAIKKI pienoiskuvat"
+
+#: data/glade/gthumb_tools.glade.h:20
+msgid "Delete Old Comments"
+msgstr "Poista vanhat kommentit"
+
+#: data/glade/gthumb_tools.glade.h:21
+msgid "Delete Old Thumbnails"
+msgstr "Poista vanhat pienoiskuvat"
+
+#: data/glade/gthumb_tools.glade.h:22
+msgid "Delete comments of no more existing images"
+msgstr "Poista kommentit kuvista, joita ei enää ole"
+
+#: data/glade/gthumb_tools.glade.h:23
+msgid "Delete thumbnails of no more existing images"
+msgstr "Poista pienoiskuvat kuvista, joita ei enää ole"
+
+#: data/glade/gthumb_tools.glade.h:24
+msgid "Equal images:"
+msgstr "Identtiset kuvat:"
+
+#: data/glade/gthumb_tools.glade.h:25
+msgid "Find Duplicates"
+msgstr "Etsi kuvien toisia kopioita"
+
+#: data/glade/gthumb_tools.glade.h:26
+msgid "Found duplicates:"
+msgstr "Löydettiin identtisiä kopioita:"
+
+#: data/glade/gthumb_tools.glade.h:27
+msgid "Image c_reation date"
+msgstr "Kuvan _luontipäivämäärä"
+
+#: data/glade/gthumb_tools.glade.h:28
+msgid "Maintenance"
+msgstr "Huoltotyöt"
+
+#: data/glade/gthumb_tools.glade.h:29
+msgid "Mirror image horizontally (left-right)"
+msgstr "Peilaa kuva vaakatasossa (vasen-oikea)"
+
+#: data/glade/gthumb_tools.glade.h:30
+msgid "Mirror image vertically (top-bottom)"
+msgstr "Peilaa kuva pystytasossa (ylös-alas)"
+
+#: data/glade/gthumb_tools.glade.h:31 data/gthumb-ui.xml.h:80
+msgid "Move to _Trash"
+msgstr "Siirrä _roskakoriin"
+
+#: data/glade/gthumb_tools.glade.h:32
+msgid "New names _preview:"
+msgstr "Uusien tiedostonimien _esikatselu:"
+
+#: data/glade/gthumb_tools.glade.h:33
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "Valokuvan _digitointipäivä (EXIF-tietojen mukaan)"
+
+#: data/glade/gthumb_tools.glade.h:34
+msgid "Re_verse Order"
+msgstr "Kään_teinen järjestys"
+
+#: data/glade/gthumb_tools.glade.h:35
+msgid "Rename Series"
+msgstr "Nimeä uudelleen useita"
+
+#: data/glade/gthumb_tools.glade.h:36
+msgid "Restore Comments From a Backup File"
+msgstr "Palauta kommentit varmuuskopiosta"
+
+#: data/glade/gthumb_tools.glade.h:37
+msgid "Rotate Images"
+msgstr "Kierrä kuvia"
+
+#: data/glade/gthumb_tools.glade.h:38
+msgid "Rotate image 90 degrees clockwise"
+msgstr "Kierrä kuvaa 90 astetta myötäpäivään"
+
+#: data/glade/gthumb_tools.glade.h:39
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "Kierrä kuvaa 90 astetta vastapäivään"
+
+#: data/glade/gthumb_tools.glade.h:40
+msgid "Search terminated, no duplicates found."
+msgstr "Haku päättynyt. Yhtään toista kopiota ei löytynyt."
+
+#: data/glade/gthumb_tools.glade.h:43
+msgid "The _following date:"
+msgstr "Seuraa_va päivämäärä:"
+
+#: data/glade/gthumb_tools.glade.h:45 data/gthumb-ui.xml.h:244
+#: src/commands-impl.c:278 src/commands-impl.c:1052 src/commands-impl.c:1752
+msgid "_Rename"
+msgstr "_Nimeä uudelleen"
+
+#: data/glade/gthumb_tools.glade.h:47
+msgid "_Sort:"
+msgstr "_Järjestä:"
+
+#: data/glade/gthumb_tools.glade.h:50
+msgid "by Modification date"
+msgstr "Muokkauspäivän mukaan"
+
+#: data/glade/gthumb_tools.glade.h:51
+msgid "by Name"
+msgstr "Nimen mukaan"
+
+#: data/glade/gthumb_tools.glade.h:52
+msgid "by Size"
+msgstr "Koon mukaan"
+
+#: data/glade/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: data/glade/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: data/glade/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: data/glade/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: data/glade/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: data/glade/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Albumi</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Luettelon asettelu</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Mukauta teemaa</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Tietoja kuvasta</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Teema</b>"
+
+#: data/glade/gthumb_web_exporter.glade.h:17
+#, no-c-format
+msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
+msgstr "<small><i><b>Huom:</b> %d (tämä päivä).</i></small>"
+
+#: data/glade/gthumb_web_exporter.glade.h:18
+msgid "Came_ra Model"
+msgstr "Kame_ran malli"
+
+#: data/glade/gthumb_web_exporter.glade.h:19
+msgid "Caption"
+msgstr "Kuvateksti"
+
+#: data/glade/gthumb_web_exporter.glade.h:21
+msgid "Destination"
+msgstr "Kohde"
+
+#: data/glade/gthumb_web_exporter.glade.h:22
+msgid "Destinations"
+msgstr "Kohteet"
+
+#: data/glade/gthumb_web_exporter.glade.h:23
+msgid "E_xposure mode"
+msgstr "Valoit_tusohjelma"
+
+#: data/glade/gthumb_web_exporter.glade.h:24
+msgid "Exposure _time"
+msgstr "Valoitus_aika"
+
+#: data/glade/gthumb_web_exporter.glade.h:25
+msgid "FTP"
+msgstr "FTP"
+
+#: data/glade/gthumb_web_exporter.glade.h:29
+msgid "Focal _length"
+msgstr "Poltto_väli"
+
+#: data/glade/gthumb_web_exporter.glade.h:31
+msgid "I_mage Caption..."
+msgstr "Kuvan ku_vateksti..."
+
+#: data/glade/gthumb_web_exporter.glade.h:33
+msgid "Inde_x file:"
+msgstr "Luettelo-tiedosto:"
+
+#: data/glade/gthumb_web_exporter.glade.h:34
+msgid "Local Folder"
+msgstr "Paikallinen kansio"
+
+#: data/glade/gthumb_web_exporter.glade.h:36
+msgid "Resi_ze if larger than:"
+msgstr "Muuta kuvan kokoa jos se on suurempi kuin:"
+
+#: data/glade/gthumb_web_exporter.glade.h:37
+msgid "SSH"
+msgstr "SSH"
+
+#: data/glade/gthumb_web_exporter.glade.h:38
+msgid "Saved _Destinations:"
+msgstr "Tallennettuja _kohteita:"
+
+#: data/glade/gthumb_web_exporter.glade.h:39
+msgid "Si_ze :"
+msgstr "Ko_ko:"
+
+#: data/glade/gthumb_web_exporter.glade.h:41
+msgid "Th_eme:"
+msgstr "T_eema:"
+
+#: data/glade/gthumb_web_exporter.glade.h:42
+msgid "Web Album"
+msgstr "Verkkoalbumi"
+
+#: data/glade/gthumb_web_exporter.glade.h:43
+msgid "Web Album Theme"
+msgstr "Verkkoalbumin teema"
+
+#: data/glade/gthumb_web_exporter.glade.h:44
+msgid "_Aperture value"
+msgstr "_Välin koko"
+
+#: data/glade/gthumb_web_exporter.glade.h:45
+msgid "_Copy originals to destination"
+msgstr "_Kopioi alkuperäiset kuvat kohteeseen"
+
+#: data/glade/gthumb_web_exporter.glade.h:46
+msgid "_Date and Time"
+msgstr "_Päivämäärä ja aika"
+
+#: data/glade/gthumb_web_exporter.glade.h:48 data/gthumb-ui.xml.h:206
+msgid "_Edit"
+msgstr "_Muokkaa"
+
+#: data/glade/gthumb_web_exporter.glade.h:49
+msgid "_Flash"
+msgstr "_Salama"
+
+#: data/glade/gthumb_web_exporter.glade.h:50
+msgid "_Go to Theme Folder"
+msgstr "_Siirry teema-kansioon"
+
+#: data/glade/gthumb_web_exporter.glade.h:51
+msgid "_Host:"
+msgstr "_Isäntäkone:"
+
+#: data/glade/gthumb_web_exporter.glade.h:52
+msgid "_Install Theme..."
+msgstr "_Asenna teema..."
+
+#: data/glade/gthumb_web_exporter.glade.h:53
+msgid "_Password:"
+msgstr "_Salasana:"
+
+#: data/glade/gthumb_web_exporter.glade.h:54
+msgid "_Path:"
+msgstr "_Polku:"
+
+#: data/glade/gthumb_web_exporter.glade.h:56
+msgid "_Select"
+msgstr "_Valitse"
+
+#: data/glade/gthumb_web_exporter.glade.h:57
+msgid "_Shutter speed"
+msgstr "_Sulkimen nopeus"
+
+#: data/glade/gthumb_web_exporter.glade.h:58
+msgid "_Thumbnail Caption..."
+msgstr "_Pienoiskuvan kuvateksti..."
+
+#: data/glade/gthumb_web_exporter.glade.h:59
+msgid "_Type:"
+msgstr "_Tyyppi:"
+
+#: data/glade/gthumb_web_exporter.glade.h:60
+msgid "_User:"
+msgstr "_Käyttäjänimi:"
+
+#: data/glade/gthumb_web_exporter.glade.h:61
+msgid "by modified time"
+msgstr "muokkausajan mukaan"
+
+#: data/glade/gthumb_web_exporter.glade.h:65
+msgid "columns"
+msgstr "saraketta"
+
+#: data/glade/gthumb_web_exporter.glade.h:66
+msgid "index.html"
+msgstr "index.html"
+
+#: data/glade/gthumb_web_exporter.glade.h:67
+msgid "rows"
+msgstr "riviä"
+
+#: data/gthumb-ui.xml.h:1
+msgid "1:1"
+msgstr "1:1"
+
+#: data/gthumb-ui.xml.h:2
+msgid "Actual size"
+msgstr "Todellinen koko"
+
+#: data/gthumb-ui.xml.h:3
+msgid "Add a comment to selected images"
+msgstr "Lisää valittuihin kuviin kommentti"
+
+#: data/gthumb-ui.xml.h:4
+msgid "Add a comment to the image"
+msgstr "Lisää kuvalle kommentti"
+
+#: data/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "Lisää kirjanmerkki avattuun sijaintiin"
+
+#: data/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "Lisää valitut kuvat albumiin"
+
+#: data/gthumb-ui.xml.h:7
+msgid "Adjust brightness and contrast"
+msgstr "Säädä kirkkautta ja kontrastia"
+
+#: data/gthumb-ui.xml.h:8
+msgid "Adjust color balance"
+msgstr "Säädä väritasapainoa"
+
+#: data/gthumb-ui.xml.h:9
+msgid "Adjust hue and saturation"
+msgstr "Säädä sävyä ja kylläisyyttä"
+
+#: data/gthumb-ui.xml.h:10
+msgid "Apply threshold"
+msgstr "Aseta valkokynnys"
+
+#: data/gthumb-ui.xml.h:11
+msgid "Assign categories to selected images"
+msgstr "Määrää luokkia valituille kuville"
+
+#: data/gthumb-ui.xml.h:12
+msgid "Assign categories to the current folder"
+msgstr "Määrää luokkia avatulle kansiolle"
+
+#: data/gthumb-ui.xml.h:13
+msgid "Assign categories to the image"
+msgstr "Määrää luokkia avatulle kuvalle"
+
+#: data/gthumb-ui.xml.h:14
+msgid "Assign categories to the selected folder"
+msgstr "Määrää luokkia valitulle kansiolle"
+
+#: data/gthumb-ui.xml.h:15
+msgid "Auto"
+msgstr "Automaattinen"
+
+#: data/gthumb-ui.xml.h:16
+msgid "Automatically adjust the color levels"
+msgstr "Korjaa väritasapaino automaattisesti"
+
+#: data/gthumb-ui.xml.h:17
+msgid "Automatically equalize the image histogram"
+msgstr "Ekvalisoi kuvan histogrammi automaattisesti"
+
+#: data/gthumb-ui.xml.h:18
+msgid "Automatically normalize the contrast"
+msgstr "Normalisoi kuvan kontrasti automaattisesti"
+
+#: data/gthumb-ui.xml.h:19
+msgid "Automatically stretch the contrast"
+msgstr "Venytä kuvan kontrastia automaattisesti"
+
+#: data/gthumb-ui.xml.h:20
+msgid "Ca_talog"
+msgstr "Al_bumi"
+
+#: data/gthumb-ui.xml.h:21
+msgid "Ca_tegories"
+msgstr "Luo_kat"
+
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4275
+msgid "Catalogs"
+msgstr "Albumit"
+
+#: data/gthumb-ui.xml.h:24
+msgid "Change _Date"
+msgstr "Muuta _päivämäärää"
+
+#: data/gthumb-ui.xml.h:25
+msgid "Change images last modified date"
+msgstr "Muuta kuvan viimeistä muokkauspäivää"
+
+#: data/gthumb-ui.xml.h:26
+msgid "Close all windows and exit"
+msgstr "Sulje kaikki ikkunat ja lopeta"
+
+#: data/gthumb-ui.xml.h:27
+msgid "Close this window"
+msgstr "Sulje tämä ikkuna"
+
+#: data/gthumb-ui.xml.h:30
+msgid "Convert"
+msgstr "Muunna"
+
+#: data/gthumb-ui.xml.h:31
+msgid "Convert F_ormat"
+msgstr "Muunna tie_dostotyyppi"
+
+#: data/gthumb-ui.xml.h:32
+msgid "Convert image format"
+msgstr "Muunna kuvan tiedostotyyppi"
+
+#: data/gthumb-ui.xml.h:33
+msgid "Copy current folder"
+msgstr "Kopioi avattu kansio"
+
+#: data/gthumb-ui.xml.h:34
+msgid "Copy selected folder"
+msgstr "Kopioi valittu kansio"
+
+#: data/gthumb-ui.xml.h:35
+msgid "Copy selected images to another location"
+msgstr "Kopioi valitut kuvat toisaalle"
+
+#: data/gthumb-ui.xml.h:36
+msgid "Copy this image to another location"
+msgstr "Kopioi tämä kuva toisaalle"
+
+#: data/gthumb-ui.xml.h:37
+msgid "Create _Index Image"
+msgstr "Luo kuva_luettelokuva"
+
+#: data/gthumb-ui.xml.h:38
+msgid "Create _Web Album"
+msgstr "Luo _verkkoalbumi"
+
+#: data/gthumb-ui.xml.h:39
+msgid "Create a new catalog"
+msgstr "Luo uusi albumi"
+
+#: data/gthumb-ui.xml.h:40
+msgid "Create a new catalog library"
+msgstr "Luo uusi albumikirjasto"
+
+#: data/gthumb-ui.xml.h:41
+msgid "Create a new folder"
+msgstr "Luo uusi kansio"
+
+#: data/gthumb-ui.xml.h:42
+msgid "Create a new window"
+msgstr "Luo uusi ikkuna"
+
+#: data/gthumb-ui.xml.h:43
+msgid "Crop image"
+msgstr "Rajaa kuva"
+
+#: data/gthumb-ui.xml.h:44
+msgid "D_uplicate"
+msgstr "_Monista"
+
+#: data/gthumb-ui.xml.h:45
+msgid "Delete the list of visited locations"
+msgstr "Tyhjennä lista käydyistä sijainneista"
+
+#: data/gthumb-ui.xml.h:46
+msgid "Duplicate selected image"
+msgstr "Monista valittu kuva"
+
+#: data/gthumb-ui.xml.h:47
+msgid "Duplicate this image"
+msgstr "Monista tämä kuva"
+
+#: data/gthumb-ui.xml.h:48
+msgid "E_xit"
+msgstr "_Lopeta"
+
+#: data/gthumb-ui.xml.h:49
+msgid "Edit Search"
+msgstr "Muokkaa hakua"
+
+#: data/gthumb-ui.xml.h:50
+msgid "Edit bookmarks"
+msgstr "Muokkaa kirjanmerkkejä"
+
+#: data/gthumb-ui.xml.h:51
+msgid "Edit various preferences"
+msgstr "Muokkaa eri asetuksia"
+
+#: data/gthumb-ui.xml.h:52
+msgid "Fi_nd Duplicates..."
+msgstr "Etsi _toisia kopioita..."
+
+#: data/gthumb-ui.xml.h:53
+msgid "Find images"
+msgstr "Etsi kuvia"
+
+#: data/gthumb-ui.xml.h:54
+msgid "Fit"
+msgstr "Sovita"
+
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4225
+msgid "Folders"
+msgstr "Kansiot"
+
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
+msgid "Forward"
+msgstr "Seuraava"
+
+#: data/gthumb-ui.xml.h:57
+msgid "Full Screen"
+msgstr "Kokoruutu"
+
+#: data/gthumb-ui.xml.h:58
+msgid "Go to the folder that contains the selected image"
+msgstr "Siirry kansioon, jossa valittu kuva sijaitsee"
+
+#: data/gthumb-ui.xml.h:59
+msgid "Go to the home folder"
+msgstr "Siirry kotikansioon"
+
+#: data/gthumb-ui.xml.h:60
+msgid "Go to the next visited location"
+msgstr "Siirry seuraavaan sijaintiin"
+
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4193
+msgid "Go to the previous visited location"
+msgstr "Siirry edelliseen sijaintiin"
+
+#: data/gthumb-ui.xml.h:62
+msgid "Go up one level"
+msgstr "Siirry yksi taso ylöspäin"
+
+#: data/gthumb-ui.xml.h:63
+msgid "Home"
+msgstr "Koti"
+
+#: data/gthumb-ui.xml.h:64
+msgid "Image Toolbar"
+msgstr "Kuva-työkalupalkki"
+
+#: data/gthumb-ui.xml.h:65
+msgid "Image _Comment"
+msgstr "Kuvan _kommentit"
+
+#: data/gthumb-ui.xml.h:66
+msgid "Import photos from a digital camera"
+msgstr "Tuo valokuvia digitaalikamerasta"
+
+#: data/gthumb-ui.xml.h:67
+msgid "In"
+msgstr "Lähennä"
+
+#: data/gthumb-ui.xml.h:68
+msgid "Main Toolbar"
+msgstr "Päätyökalupalkki"
+
+#: data/gthumb-ui.xml.h:69
+msgid "Modify search criteria"
+msgstr "Muokkaa hakukriteerejä"
+
+#: data/gthumb-ui.xml.h:70
+msgid "Move current catalog to another location"
+msgstr "Siirrä avattu albumi toisaalle"
+
+#: data/gthumb-ui.xml.h:71
+msgid "Move current folder"
+msgstr "Siirrä avattu kansio"
+
+#: data/gthumb-ui.xml.h:72
+msgid "Move selected catalog to another location"
+msgstr "Siirrä valittu albumi toisaalle"
+
+#: data/gthumb-ui.xml.h:73
+msgid "Move selected folder"
+msgstr "Siirrä valittu kansio"
+
+#: data/gthumb-ui.xml.h:74
+msgid "Move selected images to another location"
+msgstr "Siirrä valitut kuvat toisaalle"
+
+#: data/gthumb-ui.xml.h:75
+msgid "Move the current folder to the Trash"
+msgstr "Siirrä avattu kansio roskakoriin"
+
+#: data/gthumb-ui.xml.h:76
+msgid "Move the selected folder to the Trash"
+msgstr "Siirrä valittu kansio roskakoriin"
+
+#: data/gthumb-ui.xml.h:77
+msgid "Move the selected images to the Trash"
+msgstr "Siirrä valitut kuvat roskakoriin"
+
+#: data/gthumb-ui.xml.h:78
+msgid "Move this image to another location"
+msgstr "Siirrä tämä kuva toisaalle"
+
+#: data/gthumb-ui.xml.h:79
+msgid "Move this image to the Trash"
+msgstr "Siirrä tämä kuva roskakoriin"
+
+#: data/gthumb-ui.xml.h:81
+msgid "New _Library..."
+msgstr "Uusi _kirjasto..."
+
+#: data/gthumb-ui.xml.h:82
+msgid "New _Window"
+msgstr "Uusi _ikkuna"
+
+#: data/gthumb-ui.xml.h:83
+msgid "Next"
+msgstr "Seuraava"
+
+#: data/gthumb-ui.xml.h:84
+msgid "Open"
+msgstr "Avaa"
+
+#: data/gthumb-ui.xml.h:85
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Avaa avoin kansio Nautilus-tiedostonhallintaohjelmalla"
+
+#: data/gthumb-ui.xml.h:86
+msgid "Open in New Window"
+msgstr "Avaa uu_dessa ikkunassa"
+
+#: data/gthumb-ui.xml.h:87
+msgid "Open selected images with an application"
+msgstr "Avaa valitut kuvat toisella ohjelmalla"
+
+#: data/gthumb-ui.xml.h:88
+msgid "Open the selected folder"
+msgstr "Avaa valittu kansio"
+
+#: data/gthumb-ui.xml.h:89
+msgid "Open the selected folder in a new window"
+msgstr "Avaa valittu kansio uudessa ikkunassa"
+
+#: data/gthumb-ui.xml.h:90
+msgid ""
+"Open the selected folder with the Nautilus file\n"
+"\t     manager"
+msgstr ""
+"Avaa valittu kansio Nautilus-tiedostonhallinta-\n"
+"\t     ohjelmalla"
+
+#: data/gthumb-ui.xml.h:92
+msgid "Open this image with an application"
+msgstr "Avaa tämä kuva toisella ohjelmalla"
+
+#: data/gthumb-ui.xml.h:93
+msgid "Open with the File Manager"
+msgstr "Avaa tiedostonhallintaohjelmalla"
+
+#: data/gthumb-ui.xml.h:94
+msgid "Open with the _File Manager"
+msgstr "Avaa _tiedostonhallintaohjelmalla"
+
+#: data/gthumb-ui.xml.h:95
+msgid "Out"
+msgstr "Loitonna"
+
+#: data/gthumb-ui.xml.h:96
+msgid "Play _Animation"
+msgstr "Näytä _animaatio"
+
+#: data/gthumb-ui.xml.h:97
+msgid "Previous"
+msgstr "Edellinen"
+
+#: data/gthumb-ui.xml.h:100
+msgid "Proper_ties"
+msgstr "Ominai_suudet"
+
+#: data/gthumb-ui.xml.h:101
+msgid "Redo Search"
+msgstr "Uusi haku"
+
+#: data/gthumb-ui.xml.h:102
+msgid "Redo _Search"
+msgstr "Uusi _haku"
+
+#: data/gthumb-ui.xml.h:103
+msgid "Redo the search"
+msgstr "Tee sama haku uudestaan"
+
+#: data/gthumb-ui.xml.h:104
+msgid "Reduce number of colors"
+msgstr "Vähennä ja porrasta kuvan värejä"
+
+#: data/gthumb-ui.xml.h:105
+msgid "Reduce the number of colors"
+msgstr "Vähennä ja porrasta kuvan värejä"
+
+#: data/gthumb-ui.xml.h:106
+msgid "Reload the current location"
+msgstr "Päivitä sijainnin sisältö"
+
+#: data/gthumb-ui.xml.h:107
+msgid "Rem_ove"
+msgstr "_Poista"
+
+#: data/gthumb-ui.xml.h:108
+msgid "Rem_ove Comment"
+msgstr "_Poista kommentti"
+
+#: data/gthumb-ui.xml.h:109
+msgid "Remo_ve from Catalog"
+msgstr "_Poista albumista"
+
+#: data/gthumb-ui.xml.h:110
+msgid "Remove comments of selected images"
+msgstr "Poista valittujen kuvien kommentit"
+
+#: data/gthumb-ui.xml.h:111
+msgid "Remove current catalog"
+msgstr "Poista avattu albumi"
+
+#: data/gthumb-ui.xml.h:112
+msgid "Remove selected catalog"
+msgstr "Poista valittu albumi"
+
+#: data/gthumb-ui.xml.h:113
+msgid "Remove selected images from the catalog"
+msgstr "Poista valitut kuvat albumista"
+
+#: data/gthumb-ui.xml.h:114
+msgid "Remove the comment"
+msgstr "Poista kommentti"
+
+#: data/gthumb-ui.xml.h:115
+msgid "Rename current catalog"
+msgstr "Nimeä avattu albumi uudelleen"
+
+#: data/gthumb-ui.xml.h:116
+msgid "Rename current folder"
+msgstr "Nimeä avattu kansio uudelleen"
+
+#: data/gthumb-ui.xml.h:117
+msgid "Rename selected catalog"
+msgstr "Nimeä valittu albumi uudelleen"
+
+#: data/gthumb-ui.xml.h:118
+msgid "Rename selected folder"
+msgstr "Nimeä valittu kansio uudelleen"
+
+#: data/gthumb-ui.xml.h:119
+msgid "Rename selected image"
+msgstr "Nimeä valittu kuva uudelleen"
+
+#: data/gthumb-ui.xml.h:120
+msgid "Rename this image"
+msgstr "Nimeä tämä kuva uudelleen"
+
+#: data/gthumb-ui.xml.h:121
+msgid "Resize image"
+msgstr "Muuta kokoa"
+
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
+msgid "Restore Normal View"
+msgstr "Palaa normaalinäkymään"
+
+#: data/gthumb-ui.xml.h:123
+msgid "Restore the original desktop wallpaper"
+msgstr "Palauta alkuperäinen taustakuva"
+
+#: data/gthumb-ui.xml.h:124
+msgid "Reverse images order"
+msgstr "Käänteinen kuvien järjestys"
+
+#: data/gthumb-ui.xml.h:125
+msgid "Revert"
+msgstr "Palauta"
+
+#: data/gthumb-ui.xml.h:126
+msgid "Revert to saved image"
+msgstr "Palauta tallennettu kuva"
+
+#: data/gthumb-ui.xml.h:127
+msgid "Ro_tate Images"
+msgstr "Kie_rrä kuvia"
+
+#: data/gthumb-ui.xml.h:129
+msgid "Rotate Ri_ght"
+msgstr "Kierrä _oikealle"
+
+#: data/gthumb-ui.xml.h:130
+msgid "Rotate _Left"
+msgstr "Kierrä _vasemmalle"
+
+#: data/gthumb-ui.xml.h:131
+msgid "Rotate image"
+msgstr "Kierrä kuvaa"
+
+#: data/gthumb-ui.xml.h:132
+msgid "Rotate images without loss of quality"
+msgstr "Kierrä kuvia ilman, että kuvanlaatu heikkenee"
+
+#: data/gthumb-ui.xml.h:133
+msgid "S_ort Images"
+msgstr "_Järjestä kuvat"
+
+#: data/gthumb-ui.xml.h:134
+msgid "Save"
+msgstr "Tallenna"
+
+#: data/gthumb-ui.xml.h:137
+msgid "Search"
+msgstr "Etsi"
+
+#: data/gthumb-ui.xml.h:138
+msgid "Select all images"
+msgstr "Valitse kaikki kuvat"
+
+#: data/gthumb-ui.xml.h:139
+msgid "Set Image as _Wallpaper"
+msgstr "Aseta kuva _taustakuvaksi"
+
+#: data/gthumb-ui.xml.h:140
+msgid "Set the image as desktop background (centered)"
+msgstr "Aseta kuva työpöydän taustakuvaksi (keskitetty)"
+
+#: data/gthumb-ui.xml.h:141
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "Aseta kuva työpöydän taustakuvaksi (sovitettu)"
+
+#: data/gthumb-ui.xml.h:142
+msgid "Set the image as desktop background (stretched)"
+msgstr "Aseta kuva työpöydän taustakuvaksi (venytetty)"
+
+#: data/gthumb-ui.xml.h:143
+msgid "Set the image as desktop background (tiled)"
+msgstr "Aseta kuva työpöydän taustakuvaksi (pinottu)"
+
+#: data/gthumb-ui.xml.h:144
+msgid "Show information about gThumb"
+msgstr "Näytä tietoja gThumbista"
+
+#: data/gthumb-ui.xml.h:145
+msgid "Show/_Hide"
+msgstr "Näytä/_Piilota"
+
+#: data/gthumb-ui.xml.h:147
+msgid "Sort images by file size"
+msgstr "Järjestä kuvat tiedostokoon mukaan"
+
+#: data/gthumb-ui.xml.h:148
+msgid "Sort images by modification time"
+msgstr "Järjestä kuvat muokkauspäivän mukaan"
+
+#: data/gthumb-ui.xml.h:149
+msgid "Sort images by name"
+msgstr "Järjestä kuvat tiedostonimen mukaan"
+
+#: data/gthumb-ui.xml.h:150
+msgid "Sort images by path"
+msgstr "Järjestä kuvat polun mukaan"
+
+#: data/gthumb-ui.xml.h:151
+msgid "Specify a location to visit"
+msgstr "Syötä vierailtava sijainti"
+
+#: data/gthumb-ui.xml.h:153
+msgid "Step A_nimation"
+msgstr "Askeltava a_nimaatio"
+
+#: data/gthumb-ui.xml.h:154
+msgid "Stop loading current location"
+msgstr "Lopeta sijainnin lataaminen"
+
+#: data/gthumb-ui.xml.h:155
+msgid "Str_etched"
+msgstr "_Venytetty"
+
+#: data/gthumb-ui.xml.h:156
+msgid "Up"
+msgstr "Ylös"
+
+#: data/gthumb-ui.xml.h:157
+msgid "Use black as transparency"
+msgstr "Näytä läpinäkyvä alue mustana"
+
+#: data/gthumb-ui.xml.h:158
+msgid "Use checks as transparency"
+msgstr "Näytä läpinäkyvä alue ruutuina"
+
+#: data/gthumb-ui.xml.h:159
+msgid "Use gray as transparency"
+msgstr "Näytä läpinäkyvä alue harmaana"
+
+#: data/gthumb-ui.xml.h:160
+msgid "Use high quality zoom"
+msgstr "Käytä korkealaatuista suurennosta"
+
+#: data/gthumb-ui.xml.h:161
+msgid "Use low quality zoom"
+msgstr "Käytä heikkolaatuista suurennosta"
+
+#: data/gthumb-ui.xml.h:162
+msgid "Use white as transparency"
+msgstr "Näytä läpinäkyvä alue valkoisena"
+
+#: data/gthumb-ui.xml.h:163
+msgid "View as a slide show"
+msgstr "Näytä diaesityksenä"
+
+#: data/gthumb-ui.xml.h:164
+msgid "View image comment"
+msgstr "Näytä kuvan kommentti"
+
+#: data/gthumb-ui.xml.h:165
+msgid "View image in fullscreen mode"
+msgstr "Näytä kuva kokoruututilassa"
+
+#: data/gthumb-ui.xml.h:166
+msgid "View image properties"
+msgstr "Näytä kuvan ominaisuudet"
+
+#: data/gthumb-ui.xml.h:168
+msgid "View next image"
+msgstr "Näytä seuraava kuva"
+
+#: data/gthumb-ui.xml.h:169
+msgid "View or hide the statusbar of this window"
+msgstr "Näytä tai piilota tämän ikkunan tilarivi"
+
+#: data/gthumb-ui.xml.h:170
+msgid "View or hide the toolbar of this window"
+msgstr "Näytä tai piilota tämän ikkunan työkalupalkki"
+
+#: data/gthumb-ui.xml.h:171
+msgid "View previous image"
+msgstr "Näytä edellinen kuva"
+
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4281
+msgid "View the catalogs"
+msgstr "Näytä albumit"
+
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4231
+msgid "View the folders"
+msgstr "Näytä kansiot"
+
+#: data/gthumb-ui.xml.h:174
+msgid "View the image"
+msgstr "Näytä kuva"
+
+#: data/gthumb-ui.xml.h:175
+msgid "View the image flipped"
+msgstr "Näytä kuva pyöräytettynä"
+
+#: data/gthumb-ui.xml.h:176
+msgid "View the image in black and white"
+msgstr "Näytä kuva mustavalkoisena"
+
+#: data/gthumb-ui.xml.h:177
+msgid "View the image mirrored"
+msgstr "Näytä kuva peilattuna"
+
+#: data/gthumb-ui.xml.h:178
+msgid "View the image rotated clockwise"
+msgstr "Näytä kuva kierrettynä myötäpäivään"
+
+#: data/gthumb-ui.xml.h:179
+msgid "View the image rotated counter-clockwise"
+msgstr "Näytä kuva kierrettynä vastapäivään"
+
+#: data/gthumb-ui.xml.h:180
+msgid "View the image with negative colors"
+msgstr "Näytä kuva negatiivina"
+
+#: data/gthumb-ui.xml.h:181
+msgid "View thumbnails"
+msgstr "Näytä pienoiskuvat"
+
+#: data/gthumb-ui.xml.h:182
+msgid "Zoom _In"
+msgstr "L_ähennä"
+
+#: data/gthumb-ui.xml.h:183
+msgid "Zoom _Out"
+msgstr "L_oitonna"
+
+#: data/gthumb-ui.xml.h:184
+msgid "Zoom in"
+msgstr "Lähennä"
+
+#: data/gthumb-ui.xml.h:185
+msgid "Zoom out"
+msgstr "Loitonna"
+
+#: data/gthumb-ui.xml.h:186
+msgid "Zoom to _Fit"
+msgstr "So_vitettu"
+
+#: data/gthumb-ui.xml.h:187
+msgid "Zoom to fit window"
+msgstr "Sovitettu ikkunaan"
+
+#: data/gthumb-ui.xml.h:188
+msgid "_About"
+msgstr "_Tietoja"
+
+#: data/gthumb-ui.xml.h:189
+msgid "_Actual Size"
+msgstr "_Todellinen koko"
+
+#: data/gthumb-ui.xml.h:190
+msgid "_Add Bookmark"
+msgstr "_Lisää kirjanmerkki"
+
+#: data/gthumb-ui.xml.h:191
+msgid "_Add to Catalog..."
+msgstr "Lisää albumiin"
+
+#: data/gthumb-ui.xml.h:192
+msgid "_Back"
+msgstr "_Edellinen"
+
+#: data/gthumb-ui.xml.h:194
+msgid "_Bookmarks"
+msgstr "_Kirjanmerkit"
+
+#: data/gthumb-ui.xml.h:195
+msgid "_Brightness-Contrast"
+msgstr "_Kirkkaus-Kontrasti"
+
+#: data/gthumb-ui.xml.h:196
+msgid "_Catalogs"
+msgstr "_Albumit"
+
+#: data/gthumb-ui.xml.h:197
+msgid "_Centered"
+msgstr "_Keskitetty"
+
+#: data/gthumb-ui.xml.h:199
+msgid "_Close"
+msgstr "_Sulje"
+
+#: data/gthumb-ui.xml.h:200
+msgid "_Color Balance"
+msgstr "_Väritasapaino"
+
+#: data/gthumb-ui.xml.h:201
+msgid "_Contents"
+msgstr "_Sisältö"
+
+#: data/gthumb-ui.xml.h:202
+msgid "_Copy..."
+msgstr "_Kopioi..."
+
+#: data/gthumb-ui.xml.h:204
+msgid "_Delete History"
+msgstr "_Tyhjennä historia"
+
+#: data/gthumb-ui.xml.h:205
+msgid "_Desaturate"
+msgstr "_Poista kylläisyys"
+
+#: data/gthumb-ui.xml.h:207
+msgid "_Edit Bookmarks"
+msgstr "_Muokkaa kirjanmerkkejä"
+
+#: data/gthumb-ui.xml.h:209
+msgid "_Enhance"
+msgstr "_Kohenna"
+
+#: data/gthumb-ui.xml.h:210
+msgid "_Equalize"
+msgstr "_Ekvalisoi"
+
+#: data/gthumb-ui.xml.h:211
+msgid "_File"
+msgstr "_Tiedosto"
+
+#: data/gthumb-ui.xml.h:212
+msgid "_Find..."
+msgstr "_Etsi..."
+
+#: data/gthumb-ui.xml.h:214
+msgid "_Folder"
+msgstr "_Kansio"
+
+#: data/gthumb-ui.xml.h:215
+msgid "_Folders"
+msgstr "_Kansiot"
+
+#: data/gthumb-ui.xml.h:216
+msgid "_Forward"
+msgstr "_Seuraava"
+
+#: data/gthumb-ui.xml.h:217
+msgid "_Full Screen"
+msgstr "Koko_ruutu"
+
+#: data/gthumb-ui.xml.h:218
+msgid "_Go"
+msgstr "_Siirry"
+
+#: data/gthumb-ui.xml.h:219
+msgid "_Go to the Image Folder"
+msgstr "_Siirry kuvakansioon"
+
+#: data/gthumb-ui.xml.h:220
+msgid "_Help"
+msgstr "_Ohje"
+
+#: data/gthumb-ui.xml.h:221
+msgid "_High Quality"
+msgstr "_Korkealaatuinen"
+
+#: data/gthumb-ui.xml.h:222
+msgid "_Home"
+msgstr "_Koti"
+
+#: data/gthumb-ui.xml.h:223
+msgid "_Hue-Saturation"
+msgstr "_Sävy-Kylläisyys"
+
+#: data/gthumb-ui.xml.h:225
+msgid "_Image Preview"
+msgstr "_Kuvan esikatselu"
+
+#: data/gthumb-ui.xml.h:226
+msgid "_Import Photos..."
+msgstr "_Tuo valokuvia..."
+
+#: data/gthumb-ui.xml.h:227
+msgid "_Keyboard Shortcuts"
+msgstr "_Pikanäppäimet"
+
+#: data/gthumb-ui.xml.h:228
+msgid "_Location..."
+msgstr "_Sijainti..."
+
+#: data/gthumb-ui.xml.h:229
+msgid "_Low Quality"
+msgstr "_Heikkolaatuinen"
+
+#: data/gthumb-ui.xml.h:230
+msgid "_Maintenance"
+msgstr "_Huoltotoimet"
+
+#: data/gthumb-ui.xml.h:232
+msgid "_Move..."
+msgstr "_Siirrä..."
+
+#: data/gthumb-ui.xml.h:233
+msgid "_Negative"
+msgstr "_Negatiivi"
+
+#: data/gthumb-ui.xml.h:234
+msgid "_New Catalog..."
+msgstr "_Uusi albumi"
+
+#: data/gthumb-ui.xml.h:235
+msgid "_New Folder..."
+msgstr "_Uusi kansio..."
+
+#: data/gthumb-ui.xml.h:237
+msgid "_Normalize"
+msgstr "_Normalisoi"
+
+#: data/gthumb-ui.xml.h:238
+msgid "_Open With"
+msgstr "_Avaa ohjelmalla"
+
+#: data/gthumb-ui.xml.h:239
+msgid "_Posterize"
+msgstr "Värien _porrastus"
+
+#: data/gthumb-ui.xml.h:240
+msgid "_Preferences"
+msgstr "_Asetukset"
+
+#: data/gthumb-ui.xml.h:241
+msgid "_Print..."
+msgstr "_Tulosta..."
+
+#: data/gthumb-ui.xml.h:242
+msgid "_Reduce Colors"
+msgstr "_Vähennä värejä"
+
+#: data/gthumb-ui.xml.h:243
+msgid "_Reload"
+msgstr "Päi_vitä"
+
+#: data/gthumb-ui.xml.h:245
+msgid "_Rename Series"
+msgstr "Nimeä uu_delleen useita"
+
+#: data/gthumb-ui.xml.h:246
+msgid "_Rename..."
+msgstr "_Nimeä uudelleen..."
+
+#: data/gthumb-ui.xml.h:247
+msgid "_Resize"
+msgstr "_Muuta kokoa"
+
+#: data/gthumb-ui.xml.h:248
+msgid "_Restore"
+msgstr "Pa_lauta"
+
+#: data/gthumb-ui.xml.h:249
+msgid "_Reversed Order"
+msgstr "_Käänteinen järjestys"
+
+#: data/gthumb-ui.xml.h:250
+msgid "_Revert"
+msgstr "Palau_ta"
+
+#: data/gthumb-ui.xml.h:251
+msgid "_Rotate"
+msgstr "_Kierrä"
+
+#: data/gthumb-ui.xml.h:252
+msgid "_Scaled"
+msgstr "_Sovitettu"
+
+#: data/gthumb-ui.xml.h:253
+msgid "_Select All"
+msgstr "Valitse _kaikki"
+
+#: data/gthumb-ui.xml.h:254
+msgid "_Slide Show"
+msgstr "Dia_esitys"
+
+#: data/gthumb-ui.xml.h:255
+msgid "_Statusbar"
+msgstr "_Tilarivi"
+
+#: data/gthumb-ui.xml.h:256
+msgid "_Stop"
+msgstr "_Pysäytä"
+
+#: data/gthumb-ui.xml.h:257
+msgid "_Stretch Contrast"
+msgstr "_Venytä kontrastia"
+
+#: data/gthumb-ui.xml.h:258
+msgid "_Threshold"
+msgstr "_Valkokynnys"
+
+#: data/gthumb-ui.xml.h:260
+msgid "_Tiled"
+msgstr "_Pinottu"
+
+#: data/gthumb-ui.xml.h:261
+msgid "_Toolbar"
+msgstr "Ty_ökalupalkki"
+
+#: data/gthumb-ui.xml.h:262
+msgid "_Tools"
+msgstr "Työka_lut"
+
+#: data/gthumb-ui.xml.h:263
+msgid "_Transform"
+msgstr "Muu_nna"
+
+#: data/gthumb-ui.xml.h:264
+msgid "_Up"
+msgstr "_Ylös"
+
+#: data/gthumb-ui.xml.h:267
+msgid "_Zoom"
+msgstr "_Suurennos"
+
+#: data/gthumb-ui.xml.h:268
+msgid "by _Name"
+msgstr "_Nimen mukaan"
+
+#: data/gthumb-ui.xml.h:269
+msgid "by _Path"
+msgstr "_Polun mukaan"
+
+#: data/gthumb-ui.xml.h:270
+msgid "by _Size"
+msgstr "_Koon mukaan"
+
+#: data/gthumb-ui.xml.h:271
+msgid "by _Time"
+msgstr "_Ajan mukaan"
+
+#: data/gthumb.desktop.in.h:1
+msgid "View and organize your images"
+msgstr "Katsele ja järjestele kuviasi"
+
+#: data/gthumb.desktop.in.h:2
+msgid "gThumb Image Viewer"
+msgstr "gThumb-kuvienkatseluohjelma"
+
+#: data/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Kuvista, jotka ovat tätä suurempia (tavuissa), ei luoda pienoiskuvia. Aseta "
+"luvuksi 0 jos haluat luoda pienoiskuvat kaikista kuvista."
+
+#: data/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Sallittuja arvoja ovat: 1, 2, 3, 4."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Sallittuja arvoja ovat: actual_size, fit, keep_prev, fit_if_larger."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Sallittuja arvoja ovat: ascending, descending."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward, random."
+msgstr "Sallittuja arvoja ovat: forward, backward, random."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Sallittuja arvoja ovat: high, low."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Sallittuja arvoja ovat: image, data, comment."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Sallittuja arvoja ovat: jpeg, png, tga, tiff."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Sallittuja arvoja ovat: light, midtone, dark."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Sallittuja arvoja ovat: list, thumbnails."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Sallittuja arvoja ovat: mm, in."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Sallittuja arvoja ovat: name, path, size, time."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Sallittuja arvoja ovat: name, size, time."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Sallittuja arvoja ovat: nautilus, single, double."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Sallittuja arvoja ovat: none, deflate, jpeg."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Sallittuja arvoja ovat: none, name, path, size, time."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Sallittuja arvoja ovat: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:18
+msgid ""
+"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+msgstr ""
+"Sallittuja arvoja ovat: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
+"custom."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:19
+msgid "Possible values are: pixels, percentage."
+msgstr "Sallittuja arvoja ovat: pixels, percentage."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:20
+msgid "Possible values are: png, jpeg."
+msgstr "Sallittuja arvoja ovat: png, jpeg."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:21
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Sallittuja arvoja ovat: skip, rename, ask, overwrite."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:22
+msgid "Possible values are: small, medium, large."
+msgstr "Sallittuja arvoja ovat: small, medium, large."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:23
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Sallittuja arvoja ovat: system, text_below, text_beside, text_only, "
+"icons_only."
+
+# fuzzy
+#: data/gthumb.schemas.in.h:24
+msgid "Possible values are: white, black, checked, none."
+msgstr "Sallittuja arvoja ovat: white, black, checked, none."
+
+#: data/gthumb.schemas.in.h:25
+msgid "Whether to always use a black background."
+msgstr "Käytetäänkö aina mustaa taustaa"
+
+#: libgthumb/catalog.c:89
+msgid "Library not empty"
+msgstr "Kirjasto ei ole tyhjä"
+
+#: libgthumb/catalog.c:98
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "Kirjaston \"%s\" poisto epäonnistui: %s"
+
+#: libgthumb/catalog.c:125
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "Albumin \"%s\" poisto epäonnistui: %s"
+
+#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "Albumia \"%s\" ei voida avata: %s"
+
+#: libgthumb/catalog.c:395
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr "Albumia \"%s\" ei voida tallentaa: %s"
+
+#: libgthumb/comments.c:392
+msgid "Deleting all comments, wait please..."
+msgstr "Poistetaan kaikki kommentit. Ole hyvä ja odota..."
+
+#: libgthumb/comments.c:394
+msgid "Deleting old comments, wait please..."
+msgstr "Poistetaan vanhat kommentit. Ole hyvä ja odota..."
+
+#: libgthumb/comments.c:756
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:407
+msgid "%d %B %Y, %H:%M"
+msgstr "%d %B %Y, %H:%M"
+
+#: libgthumb/comments.c:768
+msgid "(No Comment)"
+msgstr "(Ei kommenttia)"
+
+#: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
+#: src/dlg-jpegtran.c:763
+#, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Sinulla ei ole tarvittavia oikeuksia luoda kuvia kansioon \"%s\""
+
+#: libgthumb/dlg-save-image.c:130 src/commands-impl.c:312
+#: src/dlg-convert.c:308
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "\"%s\" niminen kuva on jo olemassa. Korvataanko se?"
+
+#: libgthumb/dlg-save-image.c:182
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "Kuvatyyppi ei ole tuettu: %s"
+
+#: libgthumb/dlg-save-image.c:209
+msgid "Determine by extension"
+msgstr "Tiedostopäätteen mukaan"
+
+#: libgthumb/dlg-save-image.c:244
+msgid "Save Image"
+msgstr "Tallenna kuva"
+
+#: libgthumb/dlg-save-image.c:258
+msgid "Image type:"
+msgstr "Kuvatyyppi"
+
+#: libgthumb/gnome-print-font-dialog.c:109
+msgid "_Insert a new preview phrase."
+msgstr "Kir_joita uusi esikatselulause"
+
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "Modify preview phrase..."
+msgstr "Muokkaa esikatselulausetta..."
+
+#: libgthumb/gnome-print-font-dialog.c:168
+msgid "Preview"
+msgstr "Esikatselu"
+
+#: libgthumb/gnome-print-font-dialog.c:181
+msgid "_Modify preview phrase..."
+msgstr "M_uokkaa esikatselulausetta..."
+
+#: libgthumb/gnome-print-font-dialog.c:237
+msgid "Font Selection"
+msgstr "Kirjasimen valinta"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Valitse kirjasin"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Nimi"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Valintaikkunan otsikko"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Kirjasimen nimi"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Valitun kirjasimen nimi"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Esikatseluteksti"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Ikkunassa näytetty esikatseluteksti"
+
+# fuzzy
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Käytä kirjasinta otsikossa"
+
+# fuzzy
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Käytä kirjasinta kirjasintietojen otsikossa"
+
+# fuzzy
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Otsikkokirjasimen koko"
+
+# fuzzy
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Kirjasintietojen otsikkokirjasimen koko"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Näytä koko"
+
+# fuzzy
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Näytä koko kirjasintiedoissa"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Kirjasin"
+
+#: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:465
+msgid "Name"
+msgstr "Nimi"
+
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1547
+#, c-format
+msgid "Print %s"
+msgstr "Tulosta %s"
+
+#: libgthumb/print-callbacks.c:942
+msgid "Print Image"
+msgstr "Tulosta kuva"
+
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2030
+#, c-format
+msgid "Page %d of %d"
+msgstr "Sivu %d / %d"
+
+#: libgthumb/print-callbacks.c:3033 src/catalog-png-exporter.c:1334
+#, c-format
+msgid "Loading image: %s"
+msgstr "Ladataan kuvaa: %s"
+
+#: libgthumb/thumb-cache.c:483
+msgid "Deleting all thumbnails, wait please..."
+msgstr "Poistetaan kaikki pienoiskuvat. Ole hyvä ja odota..."
+
+#: libgthumb/thumb-cache.c:485
+msgid "Deleting old thumbnails, wait please..."
+msgstr "Poistetaan vanhat pienoiskuvat. Ole hyvä ja odota..."
+
+#: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:560
+#: src/gthumb-window.c:1299 src/gthumb-window.c:1306 src/gthumb-window.c:1314
+msgid "(Invalid Name)"
+msgstr "(Virheellinen nimi)"
+
+#: src/catalog-png-exporter.c:1563
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "Luodaan kuvaa: %s.%s"
+
+#: src/catalog-web-exporter.c:1516
+msgid "Saving thumbnails"
+msgstr "Tallennetaan pienoiskuvia"
+
+#: src/catalog-web-exporter.c:1582
+msgid "Saving HTML pages: Images"
+msgstr "Tallennetaan HTML-sivuja: Kuvia"
+
+#: src/catalog-web-exporter.c:1657
+msgid "Saving HTML pages: Indexes"
+msgstr "Tallennetaan HTML-sivuja: Hakemistoja"
+
+#: src/catalog-web-exporter.c:1780 src/catalog-web-exporter.c:1839
+#: src/catalog-web-exporter.c:1974
+msgid "Saving images"
+msgstr "Tallennetaan kuvia"
+
+#: src/catalog-web-exporter.c:2183
+msgid "Could not create a temporary folder"
+msgstr "Väliaikaiskansion luonti ei onnistunut"
+
+#. Load thumbnails.
+#: src/catalog-web-exporter.c:2216
+msgid "Loading images"
+msgstr "Ladataan kuvia"
+
+#: src/commands-impl.c:274 src/commands-impl.c:1048 src/commands-impl.c:1748
+msgid "Enter the new name: "
+msgstr "Anna uusi nimi: "
+
+#: src/commands-impl.c:292 src/commands-impl.c:954 src/commands-impl.c:1066
+#: src/commands-impl.c:1768 src/commands-impl.c:1863
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr "Nimi \"%s\" ei käy, koska siinä on merkki \"/\". Käytä toista nimeä."
+
+#: src/commands-impl.c:319 src/dlg-convert.c:314
+msgid "_Overwrite"
+msgstr "_Korvaa"
+
+#: src/commands-impl.c:339 src/commands-impl.c:354
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Kuvan \"%s\" uudelleen nimeäminen ei onnistunut: %s"
+
+#: src/commands-impl.c:341 src/commands-impl.c:1088 src/commands-impl.c:1407
+msgid "source and destination are the same"
+msgstr "lähde ja kohde ovat samat"
+
+#: src/commands-impl.c:455
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Kuvan \"%s\" monistus ei onnistunut: %s"
+
+#: src/commands-impl.c:463
+msgid "Stop"
+msgstr "Pysäytä"
+
+#: src/commands-impl.c:464
+msgid "Continue"
+msgstr "Jatka"
+
+#: src/commands-impl.c:539
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Siirretäänkö valitut kuvat varmasti roskakoriin?"
+
+#: src/commands-impl.c:559
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "Siirretäänkö kuva varmasti roskakoriin?"
+
+#: src/commands-impl.c:794
+msgid "The image will be removed from the catalog, are you sure?"
+msgstr "Poistetaanko kuva varmasti albumista?"
+
+#: src/commands-impl.c:836
+msgid "The selected images will be removed from the catalog, are you sure?"
+msgstr "Poistetaanko valitut kuvat varmasti albumista?"
+
+#: src/commands-impl.c:941 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:205 src/dlg-file-utils.c:90
+msgid "C_reate"
+msgstr "_Luo"
+
+#: src/commands-impl.c:970 src/commands-impl.c:1096 src/commands-impl.c:1790
+#: src/commands-impl.c:1882
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "Nimi \"%s\" on jo käytössä. Ole hyvä ja käytä toista nimeä."
+
+#: src/commands-impl.c:998
+msgid "New Folder"
+msgstr "Uusi kansio"
+
+#: src/commands-impl.c:999
+msgid "Enter the folder name: "
+msgstr "Anna kansion nimi: "
+
+#: src/commands-impl.c:1000 src/dlg-photo-importer.c:1220
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Kansion \"%s\" luonti ei onnistunut: %s"
+
+#: src/commands-impl.c:1011
+msgid "New Library"
+msgstr "Uusi kirjasto"
+
+#: src/commands-impl.c:1012 src/dlg-catalog.c:127
+msgid "Enter the library name: "
+msgstr "Anna kirjaston nimi: "
+
+#: src/commands-impl.c:1013
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Kirjaston \"%s\" luonti ei onnistunut: %s"
+
+#: src/commands-impl.c:1086 src/commands-impl.c:1132
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Kansion \"%s\" uudelleen nimeäminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1202
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Kansion \"%s\" poistaminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1233
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" ei voida siirtää roskakoriin. Poistetaanko se pysyvästi?"
+
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:5720
+msgid "_Do not display this message again"
+msgstr "_Älä näytä tätä viestiä enää uudestaan"
+
+#: src/commands-impl.c:1274
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Siirretäänkö valittu kansio varmasti roskakoriin?"
+
+#: src/commands-impl.c:1276 src/dlg-file-utils.c:281
+msgid "_Move"
+msgstr "_Siirrä"
+
+#: src/commands-impl.c:1342 src/commands-impl.c:1397
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Kansion \"%s\" kopioiminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1397 src/dlg-file-utils.c:2454
+#: src/dlg-file-utils.c:2456
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Kansion \"%s\" siirtäminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1418
+msgid "source contains destination"
+msgstr "kohde sisältää lähteen"
+
+#: src/commands-impl.c:1429
+msgid "a folder with that name is already present."
+msgstr "samanniminen kansio on jo olemassa."
+
+#: src/commands-impl.c:1525 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+msgid "Choose the destination folder"
+msgstr "Valitse kohdekansio"
+
+#: src/commands-impl.c:1801
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Kirjaston \"%s\" uudelleen nimeäminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1801
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Albumin \"%s\" uudelleen nimeäminen ei onnistunut: %s"
+
+#: src/commands-impl.c:1847 src/dlg-catalog.c:82
+msgid "Enter the catalog name: "
+msgstr "Anna albumin nimi: "
+
+#: src/commands-impl.c:1848
+msgid "New Catalog"
+msgstr "Uusi albumi"
+
+#: src/commands-impl.c:1893
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Albumin \"%s\" luonti ei onnistunut: %s"
+
+#: src/commands-impl.c:1957
+msgid "The selected library will be removed, are you sure?"
+msgstr "Poistetaanko valittu kirjasto varmasti?"
+
+#: src/commands-impl.c:1959
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Poistetaanko valittu albumi varmasti?"
+
+#: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
+#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
+#: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
+#: src/dlg-rename-series.c:330 src/dlg-search.c:457
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Ohjeen näyttö ei onnistunut: %s"
+
+#: src/commands-impl.c:2952
+msgid "translator_credits"
+msgstr ""
+"Ville Pohjanheimo, 2004\n"
+"\n"
+"http://gnome-fi.org/"
+
+#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4910
+#: src/main.c:137
+msgid "gThumb"
+msgstr "gThumb"
+
+#: src/commands-impl.c:2964
+msgid "An image viewer and browser for GNOME."
+msgstr "Kuvien katselu- ja selausohjelma Gnome-ympäristöön"
+
+#: src/dlg-catalog.c:446
+msgid "Move Catalog to..."
+msgstr "Siirrä albumi..."
+
+#: src/dlg-categories.c:201
+msgid "Enter the new category name"
+msgstr "Anna uuden luokan nimi"
+
+#: src/dlg-categories.c:212
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+"Nimi \"%s\" on virheellinen, koska se sisältää merkin \",\". Ole hyvä ja "
+"käytä toista nimeä."
+
+#: src/dlg-categories.c:217
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "Luokka \"%s\" on jo olemassa. Ole hyvä ja käytä toista nimeä."
+
+#: src/dlg-convert.c:162
+#, c-format
+msgid "Converting image: %s"
+msgstr "Muunnetaan kuvaa: %s"
+
+#: src/dlg-convert.c:185
+#, c-format
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr ""
+"Nimellä \"%s\" on jo olemassa kuva. Ole hyvä ja anna toinen nimi kuvalle."
+
+#: src/dlg-crop.c:367
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (Kuva)"
+
+#: src/dlg-crop.c:375
+#, c-format
+msgid "%d x %d (Display)"
+msgstr "%d x %d (Näyttö)"
+
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
+msgid "Duplicates"
+msgstr "Kopioita"
+
+#: src/dlg-duplicates.c:293
+msgid "Duplicates Size"
+msgstr "Kopioiden koko"
+
+#: src/dlg-duplicates.c:399
+msgid "Last modified"
+msgstr "Muokkauspäivä"
+
+#: src/dlg-duplicates.c:414 src/dlg-image-prop.c:615
+msgid "Location"
+msgstr "Sijainti"
+
+#: src/dlg-duplicates.c:756
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "Haluatko varmasti siirtää valitut kuvat roskakoriin?"
+
+#: src/dlg-file-utils.c:88
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "Kohdekansiota ei ole. Luodaanko se?"
+
+#: src/dlg-file-utils.c:104
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "Kansion \"%s\" luominen ei onnistunut: %s"
+
+#: src/dlg-file-utils.c:201
+msgid "Could not delete the images:"
+msgstr "Kuvia ei voitu poistaa:"
+
+#: src/dlg-file-utils.c:224
+msgid ""
+"The images cannot be moved to the Trash. Do you want to delete them "
+"permanently?"
+msgstr "Kuvia ei voida siirtää roskakoriin. Poistetaanko ne pysyvästi?"
+
+#: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
+msgid "You didn't enter the new name"
+msgstr "Et antanut uutta nimeä"
+
+#: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+"Nimi \"%s\" on jo käytössä tässä hakemistossa. Ole hyvä ja käytä toista "
+"nimeä."
+
+#: src/dlg-file-utils.c:1010
+msgid "Could not rename the image:"
+msgstr "Kuvan nimeäminen uudelleen ei onnistunut"
+
+#: src/dlg-file-utils.c:1012
+msgid "Could not rename the following images:"
+msgstr "Seuraavien kuvien uudelleen nimeäminen ei onnistunut:"
+
+#: src/dlg-file-utils.c:1146
+msgid "Could not move the image:"
+msgstr "Kuvaa ei voitu siirtää:"
+
+#: src/dlg-file-utils.c:1148
+msgid "Could not copy the image:"
+msgstr "Kuvaa ei voitu kopioida:"
+
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2477
+msgid "_Abort"
+msgstr "_Hylkää"
+
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2478
+msgid "_Continue"
+msgstr "_Jatka"
+
+#: src/dlg-file-utils.c:1347
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "Kopioidaan tiedostoa %d / %d"
+
+#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2003
+msgid "Collecting images info"
+msgstr "Kerätään kuvien tietoja"
+
+#: src/dlg-file-utils.c:1778 src/dlg-file-utils.c:2016
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "Poistetaan tiedostoa %ld / %ld"
+
+#: src/dlg-file-utils.c:2006
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "Kopioidaan tiedostoa %ld / %ld"
+
+#: src/dlg-file-utils.c:2011
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "Siirretään tiedostoa %ld / %ld"
+
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:472
+msgid "Size"
+msgstr "Koko"
+
+#: src/dlg-image-prop.c:605
+msgid "Type"
+msgstr "Tyyppi"
+
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
+#: src/gthumb-window.c:423
+msgid "Modified"
+msgstr "Muokattu"
+
+#: src/dlg-image-prop.c:625
+msgid "Information on Channel"
+msgstr "Tiedot kanavasta"
+
+#: src/dlg-image-prop.c:744
+#, c-format
+msgid "%s Properties"
+msgstr "Kohteen %s ominaisuudet"
+
+#: src/dlg-maintenance.c:71
+msgid "All comments will be removed, are you sure?"
+msgstr "Poistetaanko kaikki kommentit varmasti?"
+
+#: src/dlg-maintenance.c:102
+msgid "All thumbnails will be deleted, are you sure?"
+msgstr "Poistetaanko kaikki pienoiskuvat varmasti?"
+
+#: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
+msgid "Specify the backup file"
+msgstr "Anna varmuuskopiotiedoston nimi"
+
+#: src/dlg-photo-importer.c:724 src/dlg-photo-importer.c:1167
+#: src/dlg-photo-importer.c:1212 src/dlg-photo-importer.c:1223
+msgid "Could not import photos"
+msgstr "Valokuvien tuonti ei onnistunut"
+
+# fuzzy
+#: src/dlg-photo-importer.c:1063 src/main.c:1002
+msgid "Film"
+msgstr "Video"
+
+#: src/dlg-png-exporter.c:923
+msgid "Image Caption"
+msgstr "Kuvan kuvateksti"
+
+#: src/dlg-png-exporter.c:976
+msgid "Header"
+msgstr "Ylätunniste"
+
+#: src/dlg-png-exporter.c:989 src/dlg-png-exporter.c:995
+msgid "Footer"
+msgstr "Alatunniste"
+
+#: src/dlg-rename-series.c:400
+msgid "Old Name"
+msgstr "Vanha nimi"
+
+#: src/dlg-rename-series.c:408
+msgid "New Name"
+msgstr "Uusi nimi"
+
+#: src/dlg-search.c:344
+msgid "Search Result"
+msgstr "Hakutulokset"
+
+#: src/dlg-search.c:639
+msgid "Filename"
+msgstr "Tiedostonimi"
+
+#: src/dlg-search.c:648 src/gth-folder-selection-dialog.c:381
+msgid "Folder"
+msgstr "Kansio"
+
+#: src/dlg-web-exporter.c:1185
+msgid "Select Album Theme"
+msgstr "Valitse verkkoalbumin teema"
+
+#: src/fullscreen.c:804
+msgid "Image Info"
+msgstr "Tietoja kuvasta"
+
+#: src/fullscreen.c:822 src/gthumb-window.c:4174
+msgid "Back"
+msgstr "Edellinen"
+
+#: src/gth-exif-data-viewer.c:127
+msgid "Field"
+msgstr "Kenttä"
+
+#: src/gth-exif-data-viewer.c:137
+msgid "Value "
+msgstr "Arvo"
+
+#: src/gth-folder-selection-dialog.c:403
+msgid "_Browse..."
+msgstr "_Selaa..."
+
+#: src/gth-folder-selection-dialog.c:412
+msgid "_Recents:"
+msgstr "_Viimeimmät:"
+
+#: src/gthumb-window.c:457
+msgid "[Press 'c' to add a comment]"
+msgstr "[Paina \"c\"-näppäintä lisätäksesi kommentin]"
+
+#: src/gthumb-window.c:531 src/gthumb-window.c:553
+msgid "[modified]"
+msgstr "[muokattu]"
+
+#: src/gthumb-window.c:637
+msgid "No image"
+msgstr "Ei kuvaa"
+
+#: src/gthumb-window.c:639
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 kuva (%s)"
+
+#: src/gthumb-window.c:642
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d kuvaa (%s)"
+
+#: src/gthumb-window.c:649
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 valittu (%s)"
+
+#: src/gthumb-window.c:652
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d valittua (%s)"
+
+#: src/gthumb-window.c:3191
+msgid "Dragged Images"
+msgstr "Raahatut kuvat"
+
+#: src/gthumb-window.c:3405
+msgid "Could not move the items:"
+msgstr "Objektien siirto ei onnistunut:"
+
+#: src/gthumb-window.c:5246
+msgid "Image comment"
+msgstr "Kuvan kommentti"
+
+#: src/gthumb-window.c:5260
+msgid "Image data"
+msgstr "Tietoja kuvasta"
+
+#: src/gthumb-window.c:5274
+msgid "Image preview"
+msgstr "Kuvan esikatselu"
+
+#: src/gthumb-window.c:5717
+msgid "The current image has been modified, do you want to save it?"
+msgstr "Valittua kuvaa on muokattu. Tallennetaanko muutokset?"
+
+#: src/gthumb-window.c:5718
+msgid "Do Not Save"
+msgstr "Älä tallenna"
+
+#: src/gthumb-window.c:6552
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "Kansion %s\" lataus ei onnistunut: %s\n"
+
+#: src/gthumb-window.c:6821
+msgid "The specified catalog does not exist."
+msgstr "Annettua albumia ei löydy."
+
+#: src/gthumb-window.c:8434
+msgid "Wait please..."
+msgstr "Ole hyvä ja odota..."
+
+#: src/main.c:85
+msgid "Start in fullscreen mode"
+msgstr "Aloita kokoruututilassa"
+
+#: src/main.c:89
+msgid "Automatically start a slideshow"
+msgstr "Käynnistä diaesitys automaattisesti"
+
+#: src/main.c:93
+msgid "Automatically import digital camera photos"
+msgstr "Tuo valokuvat digitaalikamerasta automaattisesti"
+
+#: src/main.c:173
+msgid "Holidays"
+msgstr "Loma"
+
+#: src/main.c:174
+msgid "Temporary"
+msgstr "Väliaikainen"
+
+#: src/main.c:175
+msgid "Screenshots"
+msgstr "Kuvankaappaus"
+
+#: src/main.c:176
+msgid "Science"
+msgstr "Tiede"
+
+#: src/main.c:177
+msgid "Favourite"
+msgstr "Suosikki"
+
+#: src/main.c:178
+msgid "Important"
+msgstr "Tärkeä"
+
+#: src/main.c:179
+msgid "GNOME"
+msgstr "Gnome"
+
+#: src/main.c:180
+msgid "Games"
+msgstr "Peli"
+
+#: src/main.c:181
+msgid "Party"
+msgstr "Juhla"
+
+#: src/main.c:182
+msgid "Birthday"
+msgstr "Syntymäpäivä"
+
+#: src/main.c:183
+msgid "Astronomy"
+msgstr "Astronomia"
+
+#: src/main.c:184
+msgid "Family"
+msgstr "Perhe"
+
+#: src/main.c:321 src/main.c:406
+msgid "Command Line"
+msgstr "Komentorivi"
