@@ -587,6 +587,7 @@ save_comment (const char  *filename,
 	char        *time_str;
 	char        *keywords_str;
 	char        *dest_dir;
+	char        *e_comment, *e_place, *e_keywords;
 
 	if (comment_data_is_void (data)) {
 		comment_delete (filename);
@@ -604,6 +605,18 @@ save_comment (const char  *filename,
 	} else
 		keywords_str = g_strdup ("");
 
+	/* Escape text */
+
+	if (data->comment != NULL)
+		e_comment = g_markup_escape_text (data->comment, -1);
+
+	if (data->place != NULL)
+		e_place = g_markup_escape_text (data->place, -1);
+
+	if (keywords_str != NULL)
+		e_keywords = g_markup_escape_text (keywords_str, -1);
+	g_free (keywords_str);
+
 	/* Create the xml tree. */
 
 	doc = xmlNewDoc ("1.0");
@@ -612,13 +625,15 @@ save_comment (const char  *filename,
 	xmlSetProp (doc->xmlRootNode, FORMAT_TAG, FORMAT_VER);
 
 	tree = doc->xmlRootNode;
-	subtree = xmlNewChild (tree, NULL, PLACE_TAG,    data->place);
+	subtree = xmlNewChild (tree, NULL, PLACE_TAG,    e_place);
 	subtree = xmlNewChild (tree, NULL, TIME_TAG,     time_str);
-	subtree = xmlNewChild (tree, NULL, NOTE_TAG,     data->comment);
-	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, keywords_str);
+	subtree = xmlNewChild (tree, NULL, NOTE_TAG,     e_comment);
+	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, e_keywords);
 
+	g_free (e_place);
 	g_free (time_str);
-	g_free (keywords_str);
+	g_free (e_comment);
+	g_free (e_keywords);
 
 	/* Write to disk. */
 

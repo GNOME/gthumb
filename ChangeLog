@@ -1,3 +1,11 @@
+2003-08-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb_preferences.glade: 
+	* src/gthumb_png_exporter.glade: fix bug #119546.
+
+	* libgthumb/comments.c (save_comment): escape text before saving
+	the comment (bug #119499).
+
 2003-08-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.1.4 released ]  

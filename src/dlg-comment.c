@@ -39,6 +39,7 @@
 
 #include "typedefs.h"
 #include "main.h"
+#include "glib-utils.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"
@@ -292,7 +293,7 @@ ok_clicked_cb (GtkWidget  *widget,
 		cdata->time = mktime (&tm);
 		if (cdata->time <= 0)
 			cdata->time = 0;
-		
+
 		/**/
 
 		if (save_changed)
