@@ -50,6 +50,7 @@
 enum {
 	NAME_COLUMN,
 	VALUE_COLUMN,
+	POS_COLUMN,
 	NUM_COLUMNS
 };
 
@@ -278,11 +279,119 @@ next_image_cb (GtkWidget    *widget,
 
 
 #ifdef HAVE_LIBEXIF
+
+static ExifTag usefull_tags[] = {
+	EXIF_TAG_RELATED_IMAGE_WIDTH,
+	EXIF_TAG_RELATED_IMAGE_LENGTH,
+	EXIF_TAG_IMAGE_WIDTH,
+	EXIF_TAG_IMAGE_LENGTH,
+	EXIF_TAG_PIXEL_X_DIMENSION,
+	EXIF_TAG_PIXEL_Y_DIMENSION,
+
+	EXIF_TAG_X_RESOLUTION,
+	EXIF_TAG_Y_RESOLUTION,
+	EXIF_TAG_RESOLUTION_UNIT,
+
+	EXIF_TAG_EXPOSURE_TIME,
+	EXIF_TAG_EXPOSURE_PROGRAM,
+	EXIF_TAG_EXPOSURE_MODE,
+	EXIF_TAG_EXPOSURE_BIAS_VALUE,
+	EXIF_TAG_SPECTRAL_SENSITIVITY,
+	EXIF_TAG_SHUTTER_SPEED_VALUE,
+	EXIF_TAG_APERTURE_VALUE,
+	EXIF_TAG_BRIGHTNESS_VALUE,
+	EXIF_TAG_LIGHT_SOURCE,
+	EXIF_TAG_FLASH,
+	EXIF_TAG_FLASH_ENERGY,
+	EXIF_TAG_FOCAL_LENGTH,
+	EXIF_TAG_WHITE_BALANCE,
+	EXIF_TAG_WHITE_POINT,
+	EXIF_TAG_DIGITAL_ZOOM_RATIO,
+	EXIF_TAG_CONTRAST,
+	EXIF_TAG_SATURATION,
+	EXIF_TAG_SHARPNESS,
+	EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
+	EXIF_TAG_SUBJECT_DISTANCE_RANGE,
+	EXIF_TAG_BATTERY_LEVEL,
+
+	EXIF_TAG_DATE_TIME,
+	EXIF_TAG_DATE_TIME_ORIGINAL,
+	EXIF_TAG_DATE_TIME_DIGITIZED,
+	EXIF_TAG_ORIENTATION,
+	EXIF_TAG_BITS_PER_SAMPLE,
+	EXIF_TAG_SAMPLES_PER_PIXEL,
+	EXIF_TAG_COMPRESSION,
+	EXIF_TAG_DOCUMENT_NAME,
+	EXIF_TAG_IMAGE_DESCRIPTION,
+
+	EXIF_TAG_ARTIST,
+	EXIF_TAG_COPYRIGHT,
+	EXIF_TAG_MAKER_NOTE,
+	EXIF_TAG_USER_COMMENT,
+	EXIF_TAG_SUBJECT_LOCATION,
+	EXIF_TAG_SCENE_TYPE,
+
+	EXIF_TAG_MAKE,
+	EXIF_TAG_MODEL,
+	EXIF_TAG_MAX_APERTURE_VALUE,
+	EXIF_TAG_SENSING_METHOD,
+	EXIF_TAG_EXIF_VERSION,
+	EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+	EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
+	EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT
+};
+
+
+static int
+get_tag_position (ExifTag tag)
+{
+	int i, n = G_N_ELEMENTS (usefull_tags);
+
+	for (i = 0; i < n; i++)
+		if (tag == usefull_tags[i])
+			return i;
+
+	return -1;
+}
+
+
+static gboolean
+tag_is_present (GtkTreeModel *model,
+		const char   *tag_name)
+{
+	GtkTreeIter  iter;
+
+	if (tag_name == NULL)
+		return FALSE;
+
+	if (! gtk_tree_model_get_iter_first (model, &iter))
+		return FALSE;
+
+	do {
+		char *tag_name2;
+
+		gtk_tree_model_get (model,
+				    &iter,
+				    NAME_COLUMN, &tag_name2,
+				    -1);
+		if ((tag_name2 != NULL) && (strcmp (tag_name, tag_name2) == 0)) {
+			g_free (tag_name2);
+			return TRUE;
+		}
+
+		g_free (tag_name2);
+	} while (gtk_tree_model_iter_next (model, &iter));
+
+	return FALSE;
+}
+
+
 static void
 update_exif_data (DialogData *data)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
+	gboolean      date_added = FALSE;
 
 	gtk_list_store_clear (data->i_exif_model);
 	
@@ -302,20 +411,40 @@ update_exif_data (DialogData *data)
 			GtkTreeIter  iter;
 			char        *utf8_name;
 			char        *utf8_value;
+			int          tag_pos;
 
 			if (! content->entries[j]) 
 				continue;
 
-			gtk_list_store_append (data->i_exif_model, &iter);
+			tag_pos = get_tag_position (e->tag);
+			if (tag_pos == -1)
+				continue;
 
 			utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
+			if (tag_is_present (GTK_TREE_MODEL (data->i_exif_model), utf8_name)) {
+				g_free (utf8_name);
+				continue;
+			}
+
+			if ((e->tag == EXIF_TAG_DATE_TIME)
+			    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
+			    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
+				if (date_added) {
+					g_free (utf8_name);
+					continue;
+				} else
+					date_added = TRUE;
+			}
+
+			gtk_list_store_append (data->i_exif_model, &iter);
+
 			utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
 
 			gtk_list_store_set (data->i_exif_model, &iter,
 					    NAME_COLUMN, utf8_name,
 					    VALUE_COLUMN, utf8_value,
+					    POS_COLUMN, tag_pos,
 					    -1);
-
 			g_free (utf8_name);
 			g_free (utf8_value);
 		}
@@ -323,6 +452,7 @@ update_exif_data (DialogData *data)
 
 	exif_data_unref (edata);
 }
+
 #endif /* HAVE_LIBEXIF */
 
 
@@ -715,7 +845,8 @@ dlg_image_prop_new (GThumbWindow *window)
 #ifdef HAVE_LIBEXIF
 	data->i_exif_model = gtk_list_store_new (NUM_COLUMNS,
 						 G_TYPE_STRING, 
-						 G_TYPE_STRING);
+						 G_TYPE_STRING,
+						 G_TYPE_INT);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->i_exif_treeview),
 				 GTK_TREE_MODEL (data->i_exif_model));
 	g_object_unref (data->i_exif_model);
@@ -727,7 +858,6 @@ dlg_image_prop_new (GThumbWindow *window)
 							   renderer,
 							   "text", NAME_COLUMN,
 							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, NAME_COLUMN);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
 				     column);
 
@@ -738,11 +868,11 @@ dlg_image_prop_new (GThumbWindow *window)
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, VALUE_COLUMN);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
 				     column);
+	
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->i_exif_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->i_exif_model), NAME_COLUMN, GTK_SORT_ASCENDING);
 #endif /* HAVE_LIBEXIF */
 
 	/* Set the signals handlers. */
