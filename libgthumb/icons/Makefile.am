@@ -17,6 +17,7 @@ IMAGES=					\
 	dir-24.png			\
 	edit-image-24.png		\
 	exit-fullscreen-24.png		\
+	film-19.png			\
 	flip-16.png			\
 	flip-24.png			\
 	fullscreen-16.png		\
@@ -80,6 +81,7 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list dir_24_rgba $(srcdir)/dir-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list edit_image_24_rgba $(srcdir)/edit-image-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list exit_fullscreen_24_rgba $(srcdir)/exit-fullscreen-24.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list film_19_rgba $(srcdir)/film-19.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list flip_16_rgba $(srcdir)/flip-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list flip_24_rgba $(srcdir)/flip-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list fullscreen_16_rgba $(srcdir)/fullscreen-16.png >> $(srcdir)/pixbufs.h

@@ -38,6 +38,7 @@ static struct {
 	{ GTHUMB_STOCK_CROP,                crop_16_rgba,                NULL },
 	{ GTHUMB_STOCK_DESATURATE,          desaturate_16_rgba,          NULL },
 	{ GTHUMB_STOCK_EDIT_IMAGE,          edit_image_24_rgba,          NULL },
+	{ GTHUMB_STOCK_FILM,                film_19_rgba,                NULL },
 	{ GTHUMB_STOCK_FLIP,                flip_24_rgba,                flip_16_rgba },
 	{ GTHUMB_STOCK_FULLSCREEN,          fullscreen_24_rgba,          fullscreen_16_rgba },
 	{ GTHUMB_STOCK_HISTOGRAM,           histogram_22_rgba,           histogram_16_rgba },

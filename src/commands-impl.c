@@ -75,7 +75,8 @@ typedef enum {
 	WALLPAPER_ALIGN_TILED     = 0,
 	WALLPAPER_ALIGN_CENTERED  = 1,
 	WALLPAPER_ALIGN_STRETCHED = 2,
-	WALLPAPER_ALIGN_SCALED    = 3
+	WALLPAPER_ALIGN_SCALED    = 3,
+	WALLPAPER_NONE            = 4
 } WallpaperAlign;
 
 
@@ -1058,6 +1059,7 @@ folder_rename (GThumbWindow *window,
 
 	} else {
 		char *old_cache_path = NULL;
+		char *old_folder_comment = NULL;
 		
 		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
 		if (! path_is_dir (old_cache_path)) {
@@ -1065,14 +1067,22 @@ folder_rename (GThumbWindow *window,
 			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
 
+		old_folder_comment = comments_get_comment_filename (old_path, TRUE, TRUE);
+
 		if (rename (old_path, new_path) == 0) { 
 			char *new_cache_path;
-			
+			char *new_folder_comment;
+
 			/* Comment cache. */
-			
+
 			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
+			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
+
 			rename (old_cache_path, new_cache_path);
+			rename (old_folder_comment, new_folder_comment);
+
 			g_free (new_cache_path);
+			g_free (new_folder_comment);
 			
 			all_windows_notify_directory_rename (old_path, new_path);
 
@@ -1087,6 +1097,7 @@ folder_rename (GThumbWindow *window,
 		}
 
 		g_free (old_cache_path);
+		g_free (old_folder_comment);
 	}
 
 	all_windows_add_monitor ();
@@ -1391,6 +1402,7 @@ folder_copy__response_cb (GObject *object,
 
 	} else {
 		char *old_cache_path = NULL;
+		char *old_folder_comment = NULL;
 
 		/* Comment cache. */
 			
@@ -1400,14 +1412,18 @@ folder_copy__response_cb (GObject *object,
 			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
 		}
 
+		old_folder_comment= comments_get_comment_filename (old_path, TRUE, TRUE);
+
 		if (rename (old_path, new_path) == 0) { 
 			char *new_cache_path;
+			char *new_folder_comment;
 
 			/* moving folders on the same file system can be implemeted 
 			 * with rename, which is faster. */
 
 			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
-			
+			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
+
 			if (path_is_dir (old_cache_path)) {
 				char *parent_dir;
 				
@@ -1418,8 +1434,10 @@ folder_copy__response_cb (GObject *object,
 				rename (old_cache_path, new_cache_path);
 			}
 
-			g_free (old_cache_path);
+			rename (old_folder_comment, new_folder_comment);
+
 			g_free (new_cache_path);
+			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
 
@@ -1435,6 +1453,7 @@ folder_copy__response_cb (GObject *object,
 		}
 
 		g_free (old_cache_path);
+		g_free (old_folder_comment);
 	}
 
 	g_free (dest_dir);
@@ -2479,28 +2498,35 @@ set_as_wallpaper (GThumbWindow   *window,
 	GConfClient *client;
 	char        *options;
 
-	if ((image_path == NULL) || ! path_is_file (image_path))
-		return;
-
 	client = gconf_client_get_default ();
-	gconf_client_set_string (client, 
-				 "/desktop/gnome/background/picture_filename",
-				 image_path,
-				 NULL);
-	switch (align) {
-	case WALLPAPER_ALIGN_TILED:
-		options = "wallpaper";
-		break;
-	case WALLPAPER_ALIGN_CENTERED:
-		options = "centered";
-		break;
-	case WALLPAPER_ALIGN_STRETCHED:
-		options = "stretched";
-		break;
-	case WALLPAPER_ALIGN_SCALED:
-		options = "scaled";
-		break;
+
+	if ((image_path == NULL) || ! path_is_file (image_path)) 
+		options = "none";
+
+	else {
+		gconf_client_set_string (client, 
+					 "/desktop/gnome/background/picture_filename",
+					 image_path,
+					 NULL);
+		switch (align) {
+		case WALLPAPER_ALIGN_TILED:
+			options = "wallpaper";
+			break;
+		case WALLPAPER_ALIGN_CENTERED:
+			options = "centered";
+			break;
+		case WALLPAPER_ALIGN_STRETCHED:
+			options = "stretched";
+			break;
+		case WALLPAPER_ALIGN_SCALED:
+			options = "scaled";
+			break;
+		case WALLPAPER_NONE:
+			options = "none";
+			break;
+		}
 	}
+
 	gconf_client_set_string (client, 
 				 "/desktop/gnome/background/picture_options", 
 				 options,
@@ -2565,6 +2591,8 @@ wallpaper_restore_command_impl (BonoboUIComponent *uic,
 		align_type = WALLPAPER_ALIGN_STRETCHED;
 	else if (strcmp (preferences.wallpaperAlign, "scaled") == 0)
 		align_type = WALLPAPER_ALIGN_SCALED;
+	else if (strcmp (preferences.wallpaperAlign, "none") == 0)
+		align_type = WALLPAPER_NONE;
 
 	set_as_wallpaper (window, 
 			  preferences.wallpaper,

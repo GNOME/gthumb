@@ -35,6 +35,9 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
+#include "gthumb-stock.h"
+#include "comments.h"
+
 
 #define DEF_SHOW_HIDDEN FALSE
 
@@ -188,11 +191,27 @@ dir_list_free (DirList *dir_list)
 }
 
 
+static gboolean
+is_a_film (DirList    *dir_list,
+	   const char *name)
+{
+	gboolean   film = FALSE;
+	char      *folder;
+
+	folder = g_build_filename (dir_list->path, name, NULL);
+	film = folder_is_film (folder);
+	g_free (folder);
+
+	return film;
+}
+
+
 static void
 dir_list_update_view (DirList *dir_list)
 {
 	GdkPixbuf *dir_pixbuf;
 	GdkPixbuf *up_pixbuf;
+	GdkPixbuf *film_pixbuf;
 	GList     *scan;
 
 	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
@@ -200,6 +219,11 @@ dir_list_update_view (DirList *dir_list)
 					    GTK_STOCK_GO_UP,
 					    GTK_ICON_SIZE_MENU,
 					    NULL);
+	film_pixbuf = gtk_widget_render_icon (dir_list->list_view,
+					      GTHUMB_STOCK_FILM,
+					      GTK_ICON_SIZE_MENU,
+					      NULL);
+
 	gtk_list_store_clear (dir_list->list_store);
 
 	for (scan = dir_list->list; scan; scan = scan->next) {
@@ -210,7 +234,11 @@ dir_list_update_view (DirList *dir_list)
 
 		if (strcmp (name, "..") == 0)
 			pixbuf = up_pixbuf;
-		else 
+
+		else if (is_a_film (dir_list, name))
+			pixbuf = film_pixbuf;
+
+		else
 			pixbuf = dir_pixbuf;
 
 		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
@@ -228,6 +256,7 @@ dir_list_update_view (DirList *dir_list)
 	}
 
 	g_object_unref (dir_pixbuf);
+	g_object_unref (film_pixbuf);
 	g_object_unref (up_pixbuf);
 }
 
@@ -421,6 +450,8 @@ dir_list_add_directory (DirList         *dir_list,
 	const char  *name_only;
 	GList       *scan;
 	GdkPixbuf   *dir_pixbuf;
+	GdkPixbuf   *film_pixbuf;
+	GdkPixbuf   *pixbuf;
 	char        *utf8_name;
 	GtkTreeIter  iter;
 	int          pos;
@@ -456,17 +487,25 @@ dir_list_add_directory (DirList         *dir_list,
 	/* insert dir in the list view */
 
 	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
+	film_pixbuf = gtk_widget_render_icon (dir_list->list_view, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
+
+	if (is_a_film (dir_list, name_only))
+		pixbuf = film_pixbuf;
+	else
+		pixbuf = dir_pixbuf;
+
 	utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
 	if (utf8_name == NULL)
 		utf8_name = g_strdup (_("(Invalid Name)"));
 	gtk_list_store_insert (dir_list->list_store, &iter, pos);
 	gtk_list_store_set (dir_list->list_store, &iter,
-			    DIR_LIST_COLUMN_ICON, dir_pixbuf,
+			    DIR_LIST_COLUMN_ICON, pixbuf,
 			    DIR_LIST_COLUMN_UTF_NAME, utf8_name,
 			    DIR_LIST_COLUMN_NAME, name_only,
 			    -1);
 	g_free (utf8_name);
-	g_object_unref (dir_pixbuf);	
+	g_object_unref (dir_pixbuf);
+	g_object_unref (film_pixbuf);
 }
 
 

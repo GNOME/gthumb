@@ -2198,6 +2198,8 @@ folder_copy (GThumbWindow   *window,
 	if (fcdata->include_cache) {
 		char *src_cache;
 		char *dest_cache;
+		char *src_folder_comment;
+		char *dest_folder_comment;
 
 		src_cache = comments_get_comment_dir (src_path, TRUE, TRUE);
 		if (! path_is_dir (src_cache)) {
@@ -2222,6 +2224,16 @@ folder_copy (GThumbWindow   *window,
 
 		g_free (src_cache);
 		g_free (dest_cache);
+
+		/**/
+
+		src_folder_comment = comments_get_comment_filename (src_path, TRUE, TRUE);
+		dest_folder_comment = comments_get_comment_filename (dest_path, TRUE, TRUE);
+		src_list = g_list_append (src_list, new_uri_from_path (src_folder_comment));
+		if (fcdata->file_op != FILE_OP_DELETE)
+			dest_list = g_list_append (dest_list, new_uri_from_path (dest_folder_comment));
+		g_free (src_folder_comment);
+		g_free (dest_folder_comment);
 	}
 
 	xfer_options = GNOME_VFS_XFER_RECURSIVE;

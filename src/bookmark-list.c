@@ -31,6 +31,7 @@
 #include "pixbuf-utils.h"
 #include "preferences.h"
 #include "file-utils.h"
+#include "gthumb-stock.h"
 
 #include "icons/pixbufs.h"
 
@@ -129,6 +130,7 @@ bookmark_list_set (BookmarkList *book_list,
 	GdkPixbuf *search_pixbuf;
 	GdkPixbuf *catalog_pixbuf;
 	GdkPixbuf *home_pixbuf;
+	GdkPixbuf *film_pixbuf;
 	GList     *scan;
 
 	g_return_if_fail (book_list != NULL);
@@ -137,6 +139,7 @@ bookmark_list_set (BookmarkList *book_list,
 	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
 	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
 	home_pixbuf = gtk_widget_render_icon (book_list->root_widget, GTK_STOCK_HOME, GTK_ICON_SIZE_MENU, NULL);
+	film_pixbuf = gtk_widget_render_icon (book_list->list_view, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
 
 	gtk_list_store_clear (book_list->list_store);
 
@@ -174,6 +177,8 @@ bookmark_list_set (BookmarkList *book_list,
 			pixbuf = search_pixbuf;
 		else if (strcmp (g_get_home_dir (), menu_name) == 0)
 			pixbuf = home_pixbuf;
+		else if (folder_is_film (name))
+			pixbuf = film_pixbuf;
 		else
 			pixbuf = dir_pixbuf;
 
@@ -191,6 +196,7 @@ bookmark_list_set (BookmarkList *book_list,
 	g_object_unref (search_pixbuf);
 	g_object_unref (catalog_pixbuf);
 	g_object_unref (home_pixbuf);
+	g_object_unref (film_pixbuf);
 }
 
 

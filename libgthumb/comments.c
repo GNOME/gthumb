@@ -162,22 +162,15 @@ comments_get_comment_filename (const char *source,
 	source_real = g_strdup (source);
 
 	if (resolve_symlinks) {
-		char           *parent;
-		char           *parent_resolved;
+		char           *source_resolved;
 		GnomeVFSResult  result;
 
-		parent = remove_level_from_path (source);
-		result = resolve_all_symlinks (parent, &parent_resolved);
-		g_free (parent);
+		result = resolve_all_symlinks (source, &source_resolved);
 
 		if (result == GNOME_VFS_OK) { 
 			g_free (source_real);
-			source_real = g_strconcat (parent_resolved, 
-						   "/",
-						   file_name_from_path (source),
-						   NULL);
-			g_free (parent_resolved);
-		} 
+			source_real = source_resolved;
+		}
 	}
 
 	directory = remove_level_from_path (source_real);
@@ -627,6 +620,7 @@ save_comment (const char  *filename,
 	/* Write to disk. */
 
 	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+
 	dest_dir = remove_level_from_path (comment_file);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);

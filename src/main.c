@@ -43,6 +43,7 @@
 #include "preferences.h"
 #include "icons/pixbufs.h"
 #include "typedefs.h"
+#include "comments.h"
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
@@ -137,14 +138,10 @@ main (int argc, char *argv[])
 			       GNOME_PARAM_POPT_CONTEXT,
 			       g_value_init (&value, G_TYPE_POINTER));
 	pctx = g_value_get_pointer (&value);
-
 	glade_gnome_init ();
-
 	gthumb_init ();
-
 	initialize_data (pctx);
 	poptFreeContext (pctx);
-
 	prepare_app ();
 
 	g_idle_add (check_whether_to_set_fullscreen, NULL);
@@ -974,4 +971,27 @@ get_default_folder_pixbuf_size (GtkWidget *widget)
                                            ICON_GTK_SIZE,
                                            &icon_width, &icon_height);
 	return MAX (icon_width, icon_height);
+}
+
+
+gboolean
+folder_is_film (const char *folder)
+{
+	CommentData *cdata;
+	gboolean     film = FALSE;
+
+	folder = pref_util_remove_prefix (folder);
+
+	cdata = comments_load_comment (folder);
+	if (cdata != NULL) {
+		int i;
+		for (i = 0; i < cdata->keywords_n; i++)
+			if (g_utf8_collate (cdata->keywords[i], _("Film")) == 0) {
+				film = TRUE;
+				break;
+			}
+		comment_data_free (cdata);
+	}
+
+	return film;
 }

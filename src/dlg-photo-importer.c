@@ -644,7 +644,7 @@ get_folder_name (DialogData *data)
 	if (! is_valid_filename (name)) {
 		time_t     now;
 		struct tm *tm;
-		char       time_txt[50];
+		char       time_txt[50 + 1];
 		
 		g_free (name);
 
@@ -786,6 +786,20 @@ save_image (DialogData *data,
 
 
 static void
+add_film_keyword (const char *folder)
+{
+	CommentData *cdata;
+
+	cdata = comments_load_comment (folder);
+	if (cdata == NULL)
+		cdata = comment_data_new ();
+	comment_data_add_keyword (cdata, _("Film"));
+	comments_save_categories (folder, cdata);
+	comment_data_free (cdata);
+}
+
+
+static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
@@ -832,6 +846,8 @@ ok_clicked_cb (GtkButton  *button,
 		g_free (local_folder);
 		return; 
 	}
+
+	add_film_keyword (local_folder);
 
 	for (scan = file_list; scan; scan = scan->next) {
 		const char *camera_path = scan->data;
@@ -981,7 +997,7 @@ dlg_photo_importer (GThumbWindow *window)
 			      200);
 	g_object_unref (mute_pixbuf);
 
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->camera_present_pixbuf);
+	gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->no_camera_pixbuf);
 
 	/* Set the signals handlers. */
 

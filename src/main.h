@@ -101,4 +101,6 @@ int        get_default_folder_pixbuf_size      (GtkWidget *widget);
 
 GdkPixbuf *get_folder_pixbuf                   (double icon_size);
 
+gboolean  folder_is_film                       (const char  *full_path);
+
 #endif /* __MAIN_H__ */

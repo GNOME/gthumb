@@ -30,6 +30,7 @@
 #define GTHUMB_STOCK_CROP                 "gthumb-crop"
 #define GTHUMB_STOCK_DESATURATE           "gthumb-desaturate"
 #define GTHUMB_STOCK_EDIT_IMAGE           "gthumb-edit-image"
+#define GTHUMB_STOCK_FILM                 "gthumb-film"
 #define GTHUMB_STOCK_FLIP                 "gthumb-flip"
 #define GTHUMB_STOCK_FULLSCREEN           "gthumb-fullscreen"
 #define GTHUMB_STOCK_HISTOGRAM            "gthumb-histogram"

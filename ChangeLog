@@ -1,8 +1,33 @@
+2003-12-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-photo-importer.c: add a 'Film' keyword to the created folder.
+
+	* src/dir-list.c: 
+	* src/main.c: 
+	* src/gthumb-window.c: 
+	* src/bookmark-list.c: use a specila icon for folders with the 'Film' 
+	keyword.
+
+	* libgthumb/file-utils.c (resolve_all_symlinks): handle nonexistent 
+	files.
+
+	* src/dlg-file-utils.c: 
+	* src/commands-impl.c (folder_copy__response_cb): update the folder 
+	comment when copying, moving and renaming a folder.
+
+	* libgthumb/comments.c (comments_get_comment_filename): resolve the 
+	full path.
+
 2003-12-15  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Added "hr" to ALL_LINGUAS.
 
 2003-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-duplicates.c (dlg_duplicates): rempve unused variable.
+
+	* src/commands-impl.c (wallpaper_restore_command_impl): restore 
+	wallpaper correctly when the picture_options value is 'none'.
 
 	* src/dlg-photo-importer.c: put config.h before #ifdef HAVE_LIBGPHOTO
 	

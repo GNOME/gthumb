@@ -1331,14 +1331,14 @@ add_bookmark_menu_item (GThumbWindow *window,
 						 GTK_STOCK_HOME,
 						 GTK_ICON_SIZE_MENU,
 						 NULL);
-	else {
-		if (pref_util_location_is_catalog (path)) 
-			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
-		else if (pref_util_location_is_search (path))
-			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
-		else
-			pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (window->app));
-	}
+	else if (pref_util_location_is_catalog (path)) 
+		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
+	else if (pref_util_location_is_search (path))
+		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
+	else if (folder_is_film (path))
+		pixbuf = gtk_widget_render_icon (window->app, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
+	else
+		pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (window->app));
 
 	bonobo_ui_util_set_pixbuf (ui_component, 
 				   full_cmd_name,
