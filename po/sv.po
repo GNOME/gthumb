@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-11-02 18:09+0100\n"
-"PO-Revision-Date: 2002-11-02 18:10+0100\n"
+"POT-Creation-Date: 2002-11-09 17:08+0100\n"
+"PO-Revision-Date: 2002-11-09 17:09+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,13 +30,13 @@ msgstr "Visa som album"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
-#: src/gthumb-ui.xml.h:92
+#: src/gthumb-ui.xml.h:94
 msgid "Print the current image"
 msgstr "Skriv ut den aktuella bilden"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
-#: src/gthumb-ui.xml.h:228 src/gthumb_print.glade.h:12
+#: src/gthumb-ui.xml.h:235 src/gthumb_print.glade.h:12
 msgid "_Print"
 msgstr "Skriv _ut"
 
@@ -101,7 +101,7 @@ msgid "Rotate the image of 180 degrees"
 msgstr "Rotera bilden 180 grader"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:143
+#: src/gthumb-ui.xml.h:150
 msgid "Start or stop current animation"
 msgstr "Starta eller stoppa aktuell animering"
 
@@ -114,42 +114,42 @@ msgid "Transparency T_ype"
 msgstr "_Transparenstyp"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:157
+#: src/gthumb-ui.xml.h:165
 msgid "View next animation frame"
 msgstr "Visa nästa ruta i animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:174
 msgid "View the image in black and white"
 msgstr "Visa bilden i svartvitt"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:191
 msgid "_Black"
 msgstr "_Svart"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:196
 msgid "_Checked"
 msgstr "_Rutor"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:208
 msgid "_Flip"
 msgstr "_Vänd"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:219
 msgid "_Image"
 msgstr "_Bild"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:219
+#: src/gthumb-ui.xml.h:226
 msgid "_Mirror"
 msgstr "_Spegla"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb-ui.xml.h:224 src/gthumb_tools.glade.h:59
+#: src/gthumb-ui.xml.h:231
 msgid "_None"
 msgstr "_Ingen"
 
@@ -162,13 +162,13 @@ msgid "_Step Animation"
 msgstr "_Stega igenom animering"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:247 src/gthumb_search.glade.h:32
-#: src/gthumb_tools.glade.h:71
+#: src/gthumb-ui.xml.h:256 src/gthumb_search.glade.h:32
+#: src/gthumb_tools.glade.h:47
 msgid "_View"
 msgstr "_Visa"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:257
 msgid "_White"
 msgstr "_Vit"
 
@@ -186,13 +186,13 @@ msgid "Could not open file %s"
 msgstr "Kunde inte öppna filen %s"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:541
-#: src/gthumb-window.c:453
+#: src/gthumb-window.c:457
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98
 #: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:479
-#: src/fullscreen.c:229 src/gthumb-window.c:459
+#: src/fullscreen.c:229 src/gthumb-window.c:463
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
@@ -205,32 +205,36 @@ msgstr "Visa och organisera dina bilder"
 msgid "gThumb Image Viewer"
 msgstr "Bildvisaren gThumb"
 
-#: libgthumb/catalog-png-exporter.c:1291
+#: libgthumb/catalog-png-exporter.c:1293
 #, c-format
 msgid "Loading image : %s"
 msgstr "Läser in bild: %s"
 
-#: libgthumb/catalog-png-exporter.c:1489
+#: libgthumb/catalog-png-exporter.c:1485
 #, c-format
 msgid "Creating image : %s.%s"
 msgstr "Skapar bild: %s.%s"
 
-#: libgthumb/catalog.c:85
+#: libgthumb/catalog.c:89
+msgid "Libray not empty"
+msgstr "Biblioteket är inte tomt"
+
+#: libgthumb/catalog.c:98
 #, c-format
 msgid "Cannot remove library \"%s\" : %s"
 msgstr "Kan inte ta bort biblioteket \"%s\": %s"
 
-#: libgthumb/catalog.c:111
+#: libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\" : %s"
 msgstr "Kan inte ta bort albumet \"%s\": %s"
 
-#: libgthumb/catalog.c:232 libgthumb/catalog.c:400
+#: libgthumb/catalog.c:246 libgthumb/catalog.c:414
 #, c-format
 msgid "Cannot open catalog \"%s\" : %s"
 msgstr "Kan inte öppna albumet \"%s\": %s"
 
-#: libgthumb/catalog.c:377
+#: libgthumb/catalog.c:391
 #, c-format
 msgid "Cannot save catalog \"%s\" : %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
@@ -262,28 +266,28 @@ msgstr ""
 "  %s"
 
 #: libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:206
-#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2459 src/gthumb-window.c:1127
-#: src/gthumb-window.c:1141 src/gthumb-window.c:1144 src/gthumb-window.c:1161
-#: src/gthumb-window.c:1167 src/gthumb-window.c:3091
-#: src/gthumb_png_exporter.glade.h:75 src/main.c:111
+#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2492 src/gthumb-window.c:1129
+#: src/gthumb-window.c:1143 src/gthumb-window.c:1146 src/gthumb-window.c:1163
+#: src/gthumb-window.c:1169 src/gthumb-window.c:3091
+#: src/gthumb_png_exporter.glade.h:75 src/main.c:116
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/thumb-cache.c:408 libgthumb/thumb-cache.c:654
+#: libgthumb/thumb-cache.c:669
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
-#: src/commands-impl.c:213 src/commands-impl.c:938 src/commands-impl.c:1348
+#: src/commands-impl.c:224 src/commands-impl.c:949 src/commands-impl.c:1373
 msgid "Enter the new name : "
 msgstr "Ange det nya namnet: "
 
-#: src/commands-impl.c:217 src/commands-impl.c:942 src/commands-impl.c:1352
-#: src/gthumb-ui.xml.h:231 src/gthumb_tools.glade.h:64
+#: src/commands-impl.c:228 src/commands-impl.c:953 src/commands-impl.c:1377
+#: src/gthumb-ui.xml.h:238 src/gthumb_tools.glade.h:44
 msgid "_Rename"
 msgstr "_Byt namn"
 
-#: src/commands-impl.c:228 src/commands-impl.c:842 src/commands-impl.c:953
-#: src/commands-impl.c:1365 src/commands-impl.c:1456
+#: src/commands-impl.c:239 src/commands-impl.c:853 src/commands-impl.c:964
+#: src/commands-impl.c:1390 src/commands-impl.c:1481
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -292,146 +296,154 @@ msgstr ""
 "Namnet \"%s\" är inte giltigt eftersom det innehåller tecknet \"/\". Använd "
 "ett annat namn."
 
-#: src/commands-impl.c:249 src/dlg-convert.c:301 src/dlg-save-image.c:87
+#: src/commands-impl.c:262 src/dlg-convert.c:301 src/dlg-save-image.c:87
 #, c-format
-msgid ""
-"An image named \"%s\" is already present in this folder. Do you want to "
-"overwrite it ?"
-msgstr ""
-"En bild med namnet \"%s\" finns redan i katalogen. Vill du skriva över det?"
+msgid "An image named \"%s\" is already present. Do you want to overwrite it ?"
+msgstr "En bild med namnet \"%s\" finns redan. Vill du skriva över den?"
 
-#: src/commands-impl.c:255 src/dlg-convert.c:307
+#: src/commands-impl.c:269 src/dlg-convert.c:307
 msgid "_Overwrite"
 msgstr "Skriv _över"
 
-#: src/commands-impl.c:275 src/commands-impl.c:290
+#: src/commands-impl.c:289 src/commands-impl.c:304
 #, c-format
 msgid "Could not rename the image \"%s\" : %s"
 msgstr "Kunde inte byta namn på bilden \"%s\": %s"
 
-#: src/commands-impl.c:277 src/commands-impl.c:978 src/commands-impl.c:1187
+#: src/commands-impl.c:291 src/commands-impl.c:989 src/commands-impl.c:1212
 msgid "source and destination are the same"
 msgstr "källan och målet är samma"
 
-#: src/commands-impl.c:379
+#: src/commands-impl.c:393
 #, c-format
 msgid "Could not duplicate the image \"%s\" : %s"
 msgstr "Kunde inte duplicera bilden \"%s\": %s"
 
-#: src/commands-impl.c:437
+#: src/commands-impl.c:451
 msgid "Selected images will be deleted, are you sure ?"
 msgstr "De valda bilderna kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:457
+#: src/commands-impl.c:471
 msgid "The image will be deleted, are you sure ?"
 msgstr "Bilden kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:711
+#: src/commands-impl.c:725
 msgid "The image will be deleted from the catalog, are you sure ?"
 msgstr "Bilden kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:753
+#: src/commands-impl.c:767
 msgid "The selected images will be deleted from the catalog, are you sure ?"
 msgstr "De valda bilderna kommer att tas bort från albumet, är du säker?"
 
-#: src/commands-impl.c:831 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:843 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:199 src/dlg-png-exporter.c:204
 msgid "C_reate"
 msgstr "S_kapa"
 
-#: src/commands-impl.c:861 src/commands-impl.c:985 src/commands-impl.c:1194
-#: src/commands-impl.c:1387 src/commands-impl.c:1477
+#: src/commands-impl.c:872 src/commands-impl.c:996 src/commands-impl.c:1219
+#: src/commands-impl.c:1412 src/commands-impl.c:1500
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
-msgstr "Namnet \"%s\" används redan i denna mapp. Använd ett annat namn."
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "Namnet \"%s\" används redan. Använd ett annat namn."
 
-#: src/commands-impl.c:889
+#: src/commands-impl.c:900
 msgid "New Folder"
 msgstr "Ny mapp"
 
-#: src/commands-impl.c:890
+#: src/commands-impl.c:901
 msgid "Enter the folder name : "
 msgstr "Ange mappnamnet: "
 
-#: src/commands-impl.c:891
+#: src/commands-impl.c:902
 #, c-format
 msgid "Could not create the folder \"%s\" : %s"
 msgstr "Kunde inte skapa mappen \"%s\": %s"
 
-#: src/commands-impl.c:902
+#: src/commands-impl.c:913
 msgid "New Library"
 msgstr "Nytt bibliotek"
 
-#: src/commands-impl.c:903 src/dlg-catalog.c:120
+#: src/commands-impl.c:914 src/dlg-catalog.c:120
 msgid "Enter the library name : "
 msgstr "Ange biblioteksnamnet: "
 
-#: src/commands-impl.c:904
+#: src/commands-impl.c:915
 #, c-format
 msgid "Could not create the library \"%s\" : %s"
 msgstr "Kunde inte skapa biblioteket \"%s\": %s"
 
-#: src/commands-impl.c:976 src/commands-impl.c:1017 src/commands-impl.c:1398
-#, fuzzy, c-format
+#: src/commands-impl.c:987 src/commands-impl.c:1028
+#, c-format
 msgid "Could not rename the folder \"%s\" : %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte byta namnet på mappen \"%s\": %s"
 
-#: src/commands-impl.c:1076 src/commands-impl.c:1552
-#, fuzzy
+#: src/commands-impl.c:1089
 msgid "The selected folder will be deleted, are you sure ?"
-msgstr "Det valda albumet kommer att tas bort, är du säker? "
+msgstr "Den valda mappen kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:1112
-#, fuzzy, c-format
+#: src/commands-impl.c:1127
+msgid "Folder not empty"
+msgstr "Mappen är inte tom"
+
+#: src/commands-impl.c:1136
+#, c-format
 msgid "Cannot delete the folder \"%s\" : %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kan inte ta bort mappen \"%s\": %s"
 
-#: src/commands-impl.c:1185 src/commands-impl.c:1226
-#, fuzzy, c-format
+#: src/commands-impl.c:1210 src/commands-impl.c:1251
+#, c-format
 msgid "Could not move the folder \"%s\" : %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte flytta mappen \"%s\": %s"
 
-#: src/commands-impl.c:1258 src/dlg-file-utils.c:316 src/dlg-file-utils.c:459
-#, fuzzy
+#: src/commands-impl.c:1283 src/dlg-file-utils.c:316 src/dlg-file-utils.c:459
 msgid "Choose the destination folder"
-msgstr "Välj målkatalog"
+msgstr "Välj målmappen"
 
-#: src/commands-impl.c:1398
-#, fuzzy, c-format
+#: src/commands-impl.c:1423
+#, c-format
+msgid "Could not rename the library \"%s\" : %s"
+msgstr "Kunde inte ta bort biblioteket \"%s\": %s"
+
+#: src/commands-impl.c:1423
+#, c-format
 msgid "Could not rename the catalog \"%s\" : %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte byta namn på albumet \"%s\": %s"
 
-#: src/commands-impl.c:1443 src/dlg-catalog.c:79
+#: src/commands-impl.c:1468 src/dlg-catalog.c:79
 msgid "Enter the catalog name : "
 msgstr "Ange albumnamnet: "
 
-#: src/commands-impl.c:1444
-#, fuzzy
+#: src/commands-impl.c:1469
 msgid "New Catalog"
-msgstr "Nytt album..."
+msgstr "Nytt album"
 
-#: src/commands-impl.c:1488
-#, fuzzy, c-format
+#: src/commands-impl.c:1511
+#, c-format
 msgid "Could not create the catalog \"%s\" : %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte skapa alumet \"%s\": %s"
 
-#: src/commands-impl.c:1554
-#, fuzzy
+#: src/commands-impl.c:1575
+msgid "The selected library will be removed, are you sure ?"
+msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
+
+#: src/commands-impl.c:1577
 msgid "The selected catalog will be removed, are you sure ?"
-msgstr "Det valda albumet kommer att tas bort, är du säker? "
+msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:2399 src/dlg-categories.c:323 src/dlg-comment.c:240
-#: src/dlg-preferences.c:177 src/dlg-search.c:450
-#, fuzzy, c-format
+#: src/commands-impl.c:2432 src/dlg-categories.c:323 src/dlg-comment.c:240
+#: src/dlg-preferences.c:179 src/dlg-search.c:450
+#, c-format
 msgid "Could not display help: %s"
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte visa hjälp: %s"
 
-#: src/commands-impl.c:2450
+#: src/commands-impl.c:2483
 msgid "translator_credits"
 msgstr ""
+"Christian Rose\n"
+"Bo Rosén\n"
+"Skicka synpunkter på översättningen till sv@li.org"
 
-#: src/commands-impl.c:2462
+#: src/commands-impl.c:2495
 msgid "An image viewer and browser for GNOME."
 msgstr "En bildvisare och bläddrare för GNOME."
 
@@ -440,209 +452,181 @@ msgid "Move Catalog to..."
 msgstr "Flytta albumet till..."
 
 #: src/dlg-categories.c:195
-#, fuzzy
 msgid "Enter the new category name"
-msgstr "Ange katalognamnet: "
+msgstr "Ange det nya kategorinamnet"
 
 #: src/dlg-categories.c:208 src/dlg-categories.c:373
-#, fuzzy, c-format
+#, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr ""
-"Namnet \"%s\" används redan i katalogen. Var vänlig och använd ett annat "
-"namn."
+msgstr "Kategorin \"%s\" finns redan. Använd ett annat namn."
 
 #: src/dlg-convert.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Converting image: %s"
-msgstr "Sortera fillistan:"
+msgstr "Konverterar bild: %s"
 
 #: src/dlg-convert.c:185
-#, fuzzy, c-format
+#, c-format
 msgid ""
-"An image named \"%s\" is already present in this folder. Please specify a "
-"different name."
-msgstr ""
-"Namnet \"%s\" används redan i katalogen. Var vänlig och använd ett annat "
-"namn."
+"An image named \"%s\" is already present. Please specify a different name."
+msgstr "En bild med namnet \"%s\" finns redan. Ange ett annat namn."
 
 #: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
 msgid "Image"
 msgstr "Bild"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:611
-#, fuzzy
 msgid "Duplicates"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Dubletter"
 
 #: src/dlg-duplicates.c:294
-#, fuzzy
 msgid "Duplicates Size"
-msgstr "gThumb - Skrivarinställningar"
+msgstr "Dublettstorlek"
 
-#: src/dlg-duplicates.c:337 src/dlg-image-prop.c:182 src/gthumb.glade.h:65
-#, fuzzy
+#: src/dlg-duplicates.c:337 src/dlg-image-prop.c:182 src/gthumb.glade.h:15
 msgid "Name"
-msgstr "efter _namn"
+msgstr "Namn"
 
 #: src/dlg-duplicates.c:365
 msgid "Last modified"
-msgstr ""
+msgstr "Senast ändrad"
 
 #: src/dlg-duplicates.c:380 src/dlg-image-prop.c:202
 msgid "Location"
-msgstr ""
+msgstr "Plats"
 
 #: src/dlg-duplicates.c:716
-#, fuzzy
 msgid "Checked images will be deleted, are you sure ?"
-msgstr "De valda filerna kommer att tas bort, är du säker?"
+msgstr "De valda bilderna kommer att tas bort, är du säker?"
 
 #: src/dlg-file-utils.c:141
-#, fuzzy
 msgid "Could not delete the image:"
-msgstr "Kunde inte ta bort följande filer:"
+msgstr "Kunde inte ta bort bilden:"
 
 #: src/dlg-file-utils.c:143
-#, fuzzy
 msgid "Could not delete the following images:"
-msgstr "Kunde inte ta bort följande filer:"
+msgstr "Kunde inte ta bort följande bilder:"
 
 #: src/dlg-file-utils.c:291
-#, fuzzy
 msgid "Could not move the image:"
-msgstr "Kunde inte flytta följande filer:"
+msgstr "Kunde inte flytta bilden:"
 
 #: src/dlg-file-utils.c:293
-#, fuzzy
 msgid "Could not move the following images:"
-msgstr "Kunde inte flytta följande filer:"
+msgstr "Kunde inte flytta följande bilder:"
 
 #: src/dlg-file-utils.c:434
-#, fuzzy
 msgid "Could not copy the image:"
-msgstr "Kunde inte kopiera följande filer:"
+msgstr "Kunde inte kopiera bilden:"
 
 #: src/dlg-file-utils.c:436
-#, fuzzy
 msgid "Could not copy the following images:"
-msgstr "Kunde inte kopiera följande filer:"
+msgstr "Kunde inte kopiera följande bilder:"
 
 #: src/dlg-file-utils.c:809
-#, fuzzy
 msgid "Could not rename the image:"
-msgstr "Kunde inte flytta följande filer:"
+msgstr "Kunde inte byta namn på bilden:"
 
 #: src/dlg-file-utils.c:811
-#, fuzzy
 msgid "Could not rename the following images:"
-msgstr "Kunde inte flytta följande filer:"
+msgstr "Kunde inte byta namn på följande bilder:"
 
 #: src/dlg-image-prop.c:187
-msgid "Type"
-msgstr ""
-
-#: src/dlg-image-prop.c:192
-#, fuzzy
 msgid "Image Dimensions"
 msgstr "Bilddimensioner"
 
-#: src/dlg-image-prop.c:197 src/gthumb.glade.h:46
-#, fuzzy
+#: src/dlg-image-prop.c:192
+msgid "Type"
+msgstr "Typ"
+
+#: src/dlg-image-prop.c:197 src/gthumb.glade.h:13
 msgid "File Size"
 msgstr "Filstorlek"
 
-#: src/dlg-image-prop.c:207 src/gthumb.glade.h:58
+#: src/dlg-image-prop.c:207 src/gthumb.glade.h:14
 msgid "Last Modified"
-msgstr ""
+msgstr "Senast ändrad"
 
 #: src/dlg-image-prop.c:254
-#, fuzzy
 msgid "Field"
-msgstr "_Sida vid sida"
+msgstr "Fält"
 
 #: src/dlg-image-prop.c:265
 msgid "Value"
-msgstr ""
+msgstr "Värde"
 
 #: src/dlg-image-prop.c:465
-#, fuzzy, c-format
+#, c-format
 msgid "%s Properties"
-msgstr "Bildalternativ"
+msgstr "Egenskaper för %s"
 
 #: src/dlg-jpegtran.c:536
 msgid "No JPEG image selected"
-msgstr ""
+msgstr "Ingen JPEG-bild vald"
 
 #: src/dlg-maintenance.c:70
-#, fuzzy
 msgid "All comments will be removed, are you sure ?"
-msgstr "De valda filerna kommer att tas bort, är du säker?"
+msgstr "Alla kommentarer kommer att tas bort, är du säker?"
 
 #: src/dlg-maintenance.c:100
-#, fuzzy
 msgid "All thumbnails will be deleted, are you sure ?"
-msgstr "De valda filerna kommer att tas bort, är du säker?"
+msgstr "Alla miniatyrbilder kommer att tas bort, är du säker?"
 
 #: src/dlg-maintenance.c:160 src/dlg-maintenance.c:230
 msgid "Specify the backup file"
-msgstr ""
+msgstr "Ange säkerhetskopiefilen"
 
 #: src/dlg-png-exporter.c:202
 msgid "Destination folder does not exits. Do you want to create it ?"
-msgstr ""
+msgstr "Målmappen finns inte. Vill du skapa den?"
 
 #: src/dlg-png-exporter.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder \"%s\" : %s."
-msgstr "Kunde inte ändra filnamn på:"
+msgstr "Kunde inte skapa mappen \"%s\": %s."
 
 #: src/dlg-png-exporter.c:231
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
+msgstr "Du har inte rätt rättigheter för att skapa bilder i mappen \"%s\""
 
 #: src/dlg-png-exporter.c:1025
-#, fuzzy
 msgid "Image Caption"
-msgstr "Bildalternativ"
+msgstr "Bildrubrik"
 
 #: src/dlg-png-exporter.c:1078
 msgid "Header"
-msgstr ""
+msgstr "Huvud"
 
 #: src/dlg-png-exporter.c:1091 src/dlg-png-exporter.c:1097
 msgid "Footer"
-msgstr ""
+msgstr "Fot"
 
 #: src/dlg-rename-series.c:319
-#, fuzzy
 msgid "Old Name"
-msgstr "Gammal bild:"
+msgstr "Gammalt namn"
 
 #: src/dlg-rename-series.c:327
-#, fuzzy
 msgid "New Name"
-msgstr "Ny bild:"
+msgstr "Nytt namn"
 
-#: src/dlg-save-image.c:139
+#: src/dlg-save-image.c:136
 #, c-format
 msgid "Image type not supported : %s"
-msgstr ""
+msgstr "Bildtypen stöds inte: %s"
 
-#: src/dlg-save-image.c:157
+#: src/dlg-save-image.c:154
 msgid "Determine by extension"
-msgstr ""
+msgstr "Avgör på filändelse"
 
-#: src/dlg-save-image.c:187
-#, fuzzy
+#: src/dlg-save-image.c:184
 msgid "Save Image"
-msgstr "Ny bild:"
+msgstr "Spara bild"
 
-#: src/dlg-save-image.c:201
-#, fuzzy
+#: src/dlg-save-image.c:198
 msgid "Image type :"
-msgstr "Storlek på miniatyrbilder:"
+msgstr "Bildtyp:"
 
 #: src/dlg-search.c:339
 msgid "Search Result"
@@ -654,1609 +638,1247 @@ msgstr "Filnamn"
 
 #: src/dlg-search.c:832
 msgid "Folder"
-msgstr ""
+msgstr "Mapp"
 
-#: src/fullscreen.c:699 src/gthumb-ui.xml.h:120
+#: src/fullscreen.c:705 src/gthumb-ui.xml.h:122
 msgid "Restore Normal View"
-msgstr ""
+msgstr "Återställ normal vy"
 
 #: src/gthumb-ui.xml.h:1
-msgid " "
-msgstr ""
+msgid "1:1"
+msgstr "1:1"
 
 #: src/gthumb-ui.xml.h:2
-msgid "1:1"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:3
-#, fuzzy
 msgid "Actual size"
 msgstr "Naturlig storlek"
 
-#: src/gthumb-ui.xml.h:4
-#, fuzzy
+#: src/gthumb-ui.xml.h:3
 msgid "Add a comment to selected images"
-msgstr "Lägg till kommentar till valda bilder"
+msgstr "Lägg till en kommentar till valda bilder"
 
-#: src/gthumb-ui.xml.h:5
+#: src/gthumb-ui.xml.h:4
 msgid "Add current location to bookmarks"
 msgstr "Lägg till aktuell plats i bokmärkena"
 
-#: src/gthumb-ui.xml.h:6
-#, fuzzy
+#: src/gthumb-ui.xml.h:5
 msgid "Add selected images to a catalog"
-msgstr "Lägg till valda filer till ett album"
+msgstr "Lägg till valda bilder till ett album"
+
+#: src/gthumb-ui.xml.h:6
+msgid "Adjust brightness and contrast"
+msgstr "Justera ljusstyrka och kontrast"
 
 #: src/gthumb-ui.xml.h:7
-msgid "Adjust brightness and contrast"
-msgstr ""
+msgid "Adjust color balance"
+msgstr "Justera färgbalans"
 
 #: src/gthumb-ui.xml.h:8
-msgid "Adjust color balance"
-msgstr ""
+msgid "Adjust hue and saturation"
+msgstr "Justera nyans och mättnad"
 
 #: src/gthumb-ui.xml.h:9
-msgid "Adjust hue and saturation"
-msgstr ""
+msgid "Assign categories to selected images"
+msgstr "Tilldela kategorier till valda bilder"
 
 #: src/gthumb-ui.xml.h:10
-#, fuzzy
-msgid "Assign categories to selected images"
-msgstr "Lägg till kommentar till valda bilder"
+msgid "Back"
+msgstr "Bakåt"
 
 #: src/gthumb-ui.xml.h:11
-#, fuzzy
-msgid "Back"
-msgstr "Svart"
+msgid "Brightness-Contrast"
+msgstr "Ljusstyrka-kontrast"
 
 #: src/gthumb-ui.xml.h:12
-msgid "Brightness-Contrast"
-msgstr ""
+msgid "Ca_talog"
+msgstr "Al_bum"
 
 #: src/gthumb-ui.xml.h:13
-#, fuzzy
-msgid "Ca_talog"
-msgstr "Album"
+msgid "Ca_tegories..."
+msgstr "Ka_tegorier..."
 
 #: src/gthumb-ui.xml.h:14
-msgid "Ca_tegories..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:15
 msgid "Catalogs"
 msgstr "Album"
 
+#: src/gthumb-ui.xml.h:15 src/gthumb_comments.glade.h:5
+msgid "Categories"
+msgstr "Kategorier"
+
 #: src/gthumb-ui.xml.h:16
+msgid "Change _Date"
+msgstr "Ändra _datum"
+
+#: src/gthumb-ui.xml.h:17
+msgid "Change images last modified date"
+msgstr "Ändra bildens senast ändrad-datum"
+
+#: src/gthumb-ui.xml.h:18
 msgid "Close all windows and exit"
 msgstr "Stäng alla fönster och avsluta"
 
-#: src/gthumb-ui.xml.h:17
+#: src/gthumb-ui.xml.h:19
 msgid "Close this window"
 msgstr "Stäng det här fönstret"
 
-#: src/gthumb-ui.xml.h:18 src/gthumb_edit.glade.h:10
+#: src/gthumb-ui.xml.h:20 src/gthumb_edit.glade.h:10
 msgid "Color Balance"
-msgstr ""
+msgstr "Färgbalans"
 
-#: src/gthumb-ui.xml.h:19 src/gthumb.glade.h:39
-#, fuzzy
+#: src/gthumb-ui.xml.h:21 src/gthumb.glade.h:10
 msgid "Comm_ent"
+msgstr "Komm_entar"
+
+#: src/gthumb-ui.xml.h:22 src/gthumb_comments.glade.h:7
+msgid "Comment"
 msgstr "Kommentar"
 
-#: src/gthumb-ui.xml.h:20
-msgid "Convert F_ormat"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:21
-#, fuzzy
-msgid "Copy selected images to another location"
-msgstr "Kopiera de valda filerna till en annan plats"
-
-#: src/gthumb-ui.xml.h:22
-#, fuzzy
-msgid "Copy this image to another location"
-msgstr "Kopiera de valda filerna till en annan plats"
-
 #: src/gthumb-ui.xml.h:23
-#, fuzzy
-msgid "Copy..."
-msgstr "_Kopiera filer till..."
+msgid "Convert F_ormat"
+msgstr "Konvertera f_ormat"
 
-#: src/gthumb-ui.xml.h:24
-#, fuzzy
-msgid "Create _Index Image"
-msgstr "gThumb - Sök efter bilder"
+#: src/gthumb-ui.xml.h:24 src/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "Konvertera format"
 
 #: src/gthumb-ui.xml.h:25
-#, fuzzy
-msgid "Create a new catalog"
-msgstr "Skapa ett nytt fönster"
+msgid "Copy selected images to another location"
+msgstr "Kopiera de valda bilderna till en annan plats"
 
 #: src/gthumb-ui.xml.h:26
-#, fuzzy
-msgid "Create a new catalog library"
-msgstr "Skapa ett nytt fönster"
+msgid "Copy this image to another location"
+msgstr "Kopiera denna bild till en annan plats"
 
 #: src/gthumb-ui.xml.h:27
-#, fuzzy
-msgid "Create a new folder"
-msgstr "Skapa ett nytt fönster"
+msgid "Copy..."
+msgstr "Kopiera..."
 
 #: src/gthumb-ui.xml.h:28
+msgid "Create _Index Image"
+msgstr "Skapa _indexbild"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Create a new catalog"
+msgstr "Skapa ett nytt album"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Create a new catalog library"
+msgstr "Skapa ett nytt albumbibliotek"
+
+#: src/gthumb-ui.xml.h:31
+msgid "Create a new folder"
+msgstr "Skapa en ny mapp"
+
+#: src/gthumb-ui.xml.h:32
 msgid "Create a new window"
 msgstr "Skapa ett nytt fönster"
 
-#: src/gthumb-ui.xml.h:29
-#, fuzzy
-msgid "D_uplicate"
-msgstr "gThumb - Skrivarinställningar"
-
-#: src/gthumb-ui.xml.h:30
-#, fuzzy
-msgid "Delete"
-msgstr "Vald"
-
-#: src/gthumb-ui.xml.h:31
-#, fuzzy
-msgid "Delete Folder"
-msgstr "_Ta bort kommentar"
-
-#: src/gthumb-ui.xml.h:32
-#, fuzzy
-msgid "Delete current folder"
-msgstr "_Ta bort kommentar"
-
 #: src/gthumb-ui.xml.h:33
-#, fuzzy
-msgid "Delete selected folder"
-msgstr "Ta bort valt album"
+msgid "D_uplicate"
+msgstr "_Duplicera"
 
 #: src/gthumb-ui.xml.h:34
-#, fuzzy
-msgid "Delete selected images from disk"
-msgstr "Ta bort de valda filerna från hårddisken"
+msgid "Delete"
+msgstr "Ta bort"
 
 #: src/gthumb-ui.xml.h:35
-msgid "Delete the list of visited locations"
-msgstr ""
+msgid "Delete Folder"
+msgstr "Ta bort mapp"
 
 #: src/gthumb-ui.xml.h:36
-#, fuzzy
-msgid "Delete this image from disk"
-msgstr "Ta bort de valda filerna från hårddisken"
+msgid "Delete current folder"
+msgstr "Ta bort aktuell mapp"
 
 #: src/gthumb-ui.xml.h:37
-msgid "Desaturate"
-msgstr ""
+msgid "Delete selected folder"
+msgstr "Ta bort vald mapp"
 
 #: src/gthumb-ui.xml.h:38
-#, fuzzy
-msgid "Display image properties"
-msgstr "gThumb - Sökförlopp"
+msgid "Delete selected images from disk"
+msgstr "Ta bort de valda bilderna från hårddisken"
 
 #: src/gthumb-ui.xml.h:39
-#, fuzzy
-msgid "Duplicate"
-msgstr "gThumb - Skrivarinställningar"
+msgid "Delete the list of visited locations"
+msgstr "Ta bort listan över besökta platser"
 
 #: src/gthumb-ui.xml.h:40
-#, fuzzy
-msgid "Duplicate selected image"
-msgstr "Ändra namn på vald fil"
+msgid "Delete this image from disk"
+msgstr "Ta bort denna bild från hårddisken"
 
 #: src/gthumb-ui.xml.h:41
-#, fuzzy
-msgid "Duplicate this image"
-msgstr "gThumb - Skrivarinställningar"
+msgid "Desaturate"
+msgstr "Avmätta"
 
 #: src/gthumb-ui.xml.h:42
+msgid "Duplicate"
+msgstr "Duplicera"
+
+#: src/gthumb-ui.xml.h:43
+msgid "Duplicate selected image"
+msgstr "Duplicera den valda bilden"
+
+#: src/gthumb-ui.xml.h:44
+msgid "Duplicate this image"
+msgstr "Duplicera denna bild"
+
+#: src/gthumb-ui.xml.h:45
 msgid "E_xit"
 msgstr "_Avsluta"
 
-#: src/gthumb-ui.xml.h:43
-#, fuzzy
+#: src/gthumb-ui.xml.h:46
 msgid "Edit Search"
-msgstr "Redigera sökning..."
+msgstr "Redigera sökning"
 
-#: src/gthumb-ui.xml.h:44
-#, fuzzy
+#: src/gthumb-ui.xml.h:47
 msgid "Edit bookmarks"
-msgstr "Redigera bokmärkeslistan"
+msgstr "Redigera bokmärken"
 
-#: src/gthumb-ui.xml.h:45
+#: src/gthumb-ui.xml.h:48
 msgid "Edit various preferences"
 msgstr "Redigera olika inställningar"
 
-#: src/gthumb-ui.xml.h:46
-#, fuzzy
-msgid "Fi_nd Duplicates"
-msgstr "gThumb - Skrivarinställningar"
-
-#: src/gthumb-ui.xml.h:47
-msgid "Fit"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:48
-msgid "Folders"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:49
+msgid "Fi_nd Duplicates"
+msgstr "S_ök dubletter"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Find Images"
+msgstr "Sök bilder"
+
+#: src/gthumb-ui.xml.h:51
+msgid "Fit"
+msgstr "Passa"
+
+#: src/gthumb-ui.xml.h:52
+msgid "Folders"
+msgstr "Mappar"
+
+#: src/gthumb-ui.xml.h:53
 msgid "Forward"
 msgstr "Framåt"
 
-#: src/gthumb-ui.xml.h:50
-#, fuzzy
-msgid "Full Screen"
-msgstr "_Helskärmsläge"
-
-#: src/gthumb-ui.xml.h:51
-#, fuzzy
-msgid "Full screen"
-msgstr "Helskärm"
-
-#: src/gthumb-ui.xml.h:52
-#, fuzzy
-msgid "Go to the folder that contains the selected image"
-msgstr "Ta bort kommentar från valda bilder"
-
-#: src/gthumb-ui.xml.h:53
-#, fuzzy
-msgid "Go to the home folder"
-msgstr "Gå till hemkatalogen"
-
 #: src/gthumb-ui.xml.h:54
-#, fuzzy
-msgid "Go to the next visited location"
-msgstr "Gå till senast besökta plats"
+msgid "Full Screen"
+msgstr "Helskärmsläge"
 
 #: src/gthumb-ui.xml.h:55
-#, fuzzy
-msgid "Go to the previuos visited location"
-msgstr "Gå till senast besökta plats"
+msgid "Go to the folder that contains the selected image"
+msgstr "Gå till mappen som innehåller den valda bilden"
 
 #: src/gthumb-ui.xml.h:56
+msgid "Go to the home folder"
+msgstr "Gå till hemmappen"
+
+#: src/gthumb-ui.xml.h:57
+msgid "Go to the next visited location"
+msgstr "Gå till nästa besökta plats"
+
+#: src/gthumb-ui.xml.h:58
+msgid "Go to the previuos visited location"
+msgstr "Gå till föregående besökta plats"
+
+#: src/gthumb-ui.xml.h:59
 msgid "Go up one level"
 msgstr "Gå upp en nivå"
 
-#: src/gthumb-ui.xml.h:57
-#, fuzzy
+#: src/gthumb-ui.xml.h:60
 msgid "Home"
 msgstr "Hem"
 
-#: src/gthumb-ui.xml.h:58
-msgid "Hue-Saturation"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:59
-#, fuzzy
-msgid "Image Toolbar"
-msgstr "_Verktyg"
-
-#: src/gthumb-ui.xml.h:60
-#, fuzzy
-msgid "Image _Properties"
-msgstr "Bildalternativ"
-
 #: src/gthumb-ui.xml.h:61
-msgid "In"
-msgstr ""
+msgid "Hue-Saturation"
+msgstr "Nyans-mättnad"
 
 #: src/gthumb-ui.xml.h:62
-#, fuzzy
-msgid "Information"
-msgstr "Bekräftelser"
+msgid "Image Toolbar"
+msgstr "Bildverktygsrad"
 
 #: src/gthumb-ui.xml.h:63
-#, fuzzy
-msgid "Main Toolbar"
-msgstr "_Verktyg"
+msgid "Image _Properties"
+msgstr "Bild_egenskaper"
 
+# Tror detta är i sammanhanget "zoom in"
 #: src/gthumb-ui.xml.h:64
-#, fuzzy
-msgid "Modify search criteria"
-msgstr "Sökkriterier"
+msgid "In"
+msgstr "In"
 
 #: src/gthumb-ui.xml.h:65
-#, fuzzy
-msgid "Move"
-msgstr "..."
+msgid "Information"
+msgstr "Information"
 
 #: src/gthumb-ui.xml.h:66
-#, fuzzy
-msgid "Move Catalog..."
-msgstr "Flytta albumet till..."
+msgid "Main Toolbar"
+msgstr "Huvudverktygsrad"
 
 #: src/gthumb-ui.xml.h:67
-#, fuzzy
-msgid "Move Folder"
-msgstr "Visa kataloger"
+msgid "Modify search criteria"
+msgstr "Ändra sökkriterium"
 
 #: src/gthumb-ui.xml.h:68
-#, fuzzy
-msgid "Move current catalog to another location"
-msgstr "Flytta det valda albmet till en annan plats"
+msgid "Move"
+msgstr "Flytta"
 
 #: src/gthumb-ui.xml.h:69
-#, fuzzy
-msgid "Move current folder"
-msgstr "_Ta bort kommentar"
+msgid "Move Catalog..."
+msgstr "Flytta album..."
 
 #: src/gthumb-ui.xml.h:70
-msgid "Move selected catalog to another location"
-msgstr "Flytta det valda albmet till en annan plats"
+msgid "Move Folder"
+msgstr "Flytta mapp"
 
 #: src/gthumb-ui.xml.h:71
-#, fuzzy
-msgid "Move selected folder"
-msgstr "Ta bort valt album"
+msgid "Move current catalog to another location"
+msgstr "Flytta aktuellt album till en annan plats"
 
 #: src/gthumb-ui.xml.h:72
-#, fuzzy
-msgid "Move selected images to another location"
-msgstr "Flytta de valda filerna till en annan plats"
+msgid "Move current folder"
+msgstr "Flytta aktuell mapp"
 
 #: src/gthumb-ui.xml.h:73
-#, fuzzy
-msgid "Move this image to another location"
-msgstr "Flytta de valda filerna till en annan plats"
+msgid "Move selected catalog to another location"
+msgstr "Flytta det valda albumet till en annan plats"
 
 #: src/gthumb-ui.xml.h:74
-#, fuzzy
-msgid "Move..."
-msgstr "..."
+msgid "Move selected folder"
+msgstr "Flytta aktuell mapp"
 
 #: src/gthumb-ui.xml.h:75
-msgid "Negative"
-msgstr ""
+msgid "Move selected images to another location"
+msgstr "Flytta de valda bilderna till en annan plats"
 
-#: src/gthumb-ui.xml.h:76 src/gthumb.glade.h:67
-#, fuzzy
-msgid "New _Library"
-msgstr "Ny sökning..."
+#: src/gthumb-ui.xml.h:76
+msgid "Move this image to another location"
+msgstr "Flytta denna bild till en annan plats"
 
 #: src/gthumb-ui.xml.h:77
-#, fuzzy
-msgid "New _Window"
-msgstr "_Nytt fönster"
+msgid "Move..."
+msgstr "Flytta..."
 
 #: src/gthumb-ui.xml.h:78
-msgid "Next"
-msgstr ""
+msgid "Negative"
+msgstr "Negativ"
 
-#: src/gthumb-ui.xml.h:79
-#, fuzzy
-msgid "Open With"
-msgstr "_Öppna med..."
+#: src/gthumb-ui.xml.h:79 src/gthumb.glade.h:17
+msgid "New _Library"
+msgstr "Nytt _bibliotek"
 
 #: src/gthumb-ui.xml.h:80
-msgid "Open current folder with the Nautilus file manager"
-msgstr ""
+msgid "New _Window"
+msgstr "Nytt _fönster"
 
-#: src/gthumb-ui.xml.h:81 src/gthumb.glade.h:70
-#, fuzzy
-msgid "Open selected images with an application"
-msgstr "Öppna valda filer med ett program"
+#: src/gthumb-ui.xml.h:81
+msgid "Next"
+msgstr "Nästa"
 
 #: src/gthumb-ui.xml.h:82
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Öppna aktuell mapp med filhanteraren Nautilus"
+
+#: src/gthumb-ui.xml.h:83 src/gthumb.glade.h:19
+msgid "Open selected images with an application"
+msgstr "Öppna valda bilder med ett program"
+
+#: src/gthumb-ui.xml.h:84
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:84
-#, fuzzy
-msgid "Open this image with an application"
-msgstr "Öppna valda filer med ett program"
-
-#: src/gthumb-ui.xml.h:85
-msgid "Open with the File Manager"
-msgstr ""
+msgstr "Öppna den valda mappen med filhanteraren Nautilus"
 
 #: src/gthumb-ui.xml.h:86
-msgid "Open with the _File Manager"
-msgstr ""
+msgid "Open this image with an application"
+msgstr "Öppna denna bild med ett program"
 
 #: src/gthumb-ui.xml.h:87
-msgid "Out"
-msgstr ""
+msgid "Open with the File Manager"
+msgstr "Öppna med filhanteraren"
 
 #: src/gthumb-ui.xml.h:88
-#, fuzzy
-msgid "Play _Animation"
-msgstr "Starta/stoppa _animering"
+msgid "Open with the _File Manager"
+msgstr "Öppna med _filhanteraren"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_edit.glade.h:17
-#, fuzzy
-msgid "Posterize"
-msgstr "Bildalternativ"
+#: src/gthumb-ui.xml.h:89
+msgid "Out"
+msgstr "Ut"
 
 #: src/gthumb-ui.xml.h:90
-#, fuzzy
-msgid "Previous"
-msgstr "Förhandsgranska"
+msgid "Play _Animation"
+msgstr "Spela _animering"
 
-#: src/gthumb-ui.xml.h:91
-#, fuzzy
+#: src/gthumb-ui.xml.h:91 src/gthumb_edit.glade.h:17
+msgid "Posterize"
+msgstr "Posterisera"
+
+#: src/gthumb-ui.xml.h:92
+msgid "Previous"
+msgstr "Föregående"
+
+#: src/gthumb-ui.xml.h:93
 msgid "Print"
 msgstr "Skriv ut"
 
-#: src/gthumb-ui.xml.h:93
-#, fuzzy
-msgid "Redo Search"
-msgstr "_Ny sökning"
-
-#: src/gthumb-ui.xml.h:94
-#, fuzzy
-msgid "Redo _Search"
-msgstr "_Ny sökning"
-
 #: src/gthumb-ui.xml.h:95
-#, fuzzy
-msgid "Redo the search"
-msgstr "_Ny sökning"
+msgid "Properties"
+msgstr "Egenskaper"
 
 #: src/gthumb-ui.xml.h:96
-#, fuzzy
-msgid "Reduce number of colors"
-msgstr "Antal kolumner:"
+msgid "Redo Search"
+msgstr "Gör om sökning"
 
 #: src/gthumb-ui.xml.h:97
-msgid "Reduce the number of colors"
-msgstr ""
+msgid "Redo _Search"
+msgstr "Gör om _sökning"
 
 #: src/gthumb-ui.xml.h:98
-#, fuzzy
-msgid "Refresh"
-msgstr "före"
+msgid "Redo the search"
+msgstr "Gör om sökningen"
 
 #: src/gthumb-ui.xml.h:99
+msgid "Reduce number of colors"
+msgstr "Reducera antalet färger"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Reduce the number of colors"
+msgstr "Reducera antalet färger"
+
+#: src/gthumb-ui.xml.h:101
 msgid "Reload the current location"
 msgstr "Läs in nuvarande plats igen"
 
-#: src/gthumb-ui.xml.h:100
-#, fuzzy
-msgid "Rem_ove"
-msgstr "Omvänd"
-
-#: src/gthumb-ui.xml.h:101
-#, fuzzy
-msgid "Rem_ove Comment"
-msgstr "Ta bort _gamla kommentarer"
-
 #: src/gthumb-ui.xml.h:102
-#, fuzzy
-msgid "Remo_ve from Catalog"
-msgstr "_Ta bort från album"
+msgid "Rem_ove"
+msgstr "Ta _bort"
 
 #: src/gthumb-ui.xml.h:103
-#, fuzzy
-msgid "Remove"
-msgstr "Filnamn"
+msgid "Rem_ove Comment"
+msgstr "Ta _bort kommentar"
 
 #: src/gthumb-ui.xml.h:104
-#, fuzzy
-msgid "Remove Catalog"
-msgstr "_Ändra albumnamn..."
+msgid "Remo_ve from Catalog"
+msgstr "Ta _bort från album"
 
 #: src/gthumb-ui.xml.h:105
+msgid "Remove"
+msgstr "Ta bort"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Remove Catalog"
+msgstr "Ta bort album"
+
+#: src/gthumb-ui.xml.h:107
 #, fuzzy
 msgid "Remove comments of selected images"
 msgstr "Ta bort kommentar från valda bilder"
 
-#: src/gthumb-ui.xml.h:106
+#: src/gthumb-ui.xml.h:108
 #, fuzzy
 msgid "Remove current catalog"
 msgstr "_Ändra albumnamn..."
 
-#: src/gthumb-ui.xml.h:107
+#: src/gthumb-ui.xml.h:109
 #, fuzzy
 msgid "Remove selected catalog"
 msgstr "Ändra namn på valt album"
 
-#: src/gthumb-ui.xml.h:108
+#: src/gthumb-ui.xml.h:110
 #, fuzzy
 msgid "Remove selected images from the catalog"
 msgstr "Ta bort de valda filerna från albumet"
 
-#: src/gthumb-ui.xml.h:109 src/gthumb_tools.glade.h:41
+#: src/gthumb-ui.xml.h:111 src/gthumb_convert.glade.h:16
 #, fuzzy
 msgid "Rename"
 msgstr "Filnamn"
 
-#: src/gthumb-ui.xml.h:110
+#: src/gthumb-ui.xml.h:112
 #, fuzzy
 msgid "Rename Catalog"
 msgstr "_Ändra albumnamn..."
 
-#: src/gthumb-ui.xml.h:111
+#: src/gthumb-ui.xml.h:113
 #, fuzzy
 msgid "Rename Folder"
 msgstr "_Ändra filnamn..."
 
-#: src/gthumb-ui.xml.h:112
+#: src/gthumb-ui.xml.h:114
 #, fuzzy
 msgid "Rename current catalog"
 msgstr "_Ändra albumnamn..."
 
-#: src/gthumb-ui.xml.h:113
+#: src/gthumb-ui.xml.h:115
 #, fuzzy
 msgid "Rename current folder"
 msgstr "_Ändra filnamn..."
 
-#: src/gthumb-ui.xml.h:114
+#: src/gthumb-ui.xml.h:116
 msgid "Rename selected catalog"
 msgstr "Ändra namn på valt album"
 
-#: src/gthumb-ui.xml.h:115
+#: src/gthumb-ui.xml.h:117
 #, fuzzy
 msgid "Rename selected folder"
 msgstr "Ändra namn på vald fil"
 
-#: src/gthumb-ui.xml.h:116
+#: src/gthumb-ui.xml.h:118
 #, fuzzy
 msgid "Rename selected image"
 msgstr "Ändra namn på vald fil"
 
-#: src/gthumb-ui.xml.h:117
+#: src/gthumb-ui.xml.h:119
 #, fuzzy
 msgid "Rename this image"
 msgstr "_Ändra filnamn..."
 
-#: src/gthumb-ui.xml.h:118
+#: src/gthumb-ui.xml.h:120
 #, fuzzy
 msgid "Resize"
 msgstr "Filstorlek"
 
-#: src/gthumb-ui.xml.h:119
+#: src/gthumb-ui.xml.h:121
 #, fuzzy
 msgid "Resize image"
 msgstr "Skriv över bild"
 
-#: src/gthumb-ui.xml.h:121
+#: src/gthumb-ui.xml.h:123
 msgid "Restore the original desktop wallpaper"
 msgstr "Återställ ursprunglig bakgrundsbild"
 
-#: src/gthumb-ui.xml.h:122
+#: src/gthumb-ui.xml.h:124
 #, fuzzy
 msgid "Reverse images order"
 msgstr "Omvänd ordning"
 
-#: src/gthumb-ui.xml.h:123
-msgid "Rotate Ri_ght"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:124
-msgid "Rotate _Left"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:125
 #, fuzzy
-msgid "Rotate image"
-msgstr "Hittade ingen bild"
+msgid "Revert"
+msgstr "Omvänd"
 
 #: src/gthumb-ui.xml.h:126
 #, fuzzy
-msgid "S_ort Images"
-msgstr "Sortera fillistan:"
+msgid "Revert to saved image"
+msgstr "Omvänd ordning"
 
 #: src/gthumb-ui.xml.h:127
 #, fuzzy
-msgid "Save"
-msgstr "Spara"
+msgid "Rotate Images"
+msgstr "Hittade ingen bild"
 
 #: src/gthumb-ui.xml.h:128
-msgid "Save _As..."
+msgid "Rotate Ri_ght"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:129
 #, fuzzy
+msgid "Rotate _JPEG"
+msgstr "Rotera"
+
+#: src/gthumb-ui.xml.h:130
+msgid "Rotate _Left"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:131
+#, fuzzy
+msgid "Rotate image"
+msgstr "Hittade ingen bild"
+
+#: src/gthumb-ui.xml.h:132
+#, fuzzy
+msgid "S_ort Images"
+msgstr "Sortera fillistan:"
+
+#: src/gthumb-ui.xml.h:133
+#, fuzzy
+msgid "Save"
+msgstr "Spara"
+
+#: src/gthumb-ui.xml.h:134
+msgid "Save _As..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:135
+#, fuzzy
 msgid "Save current image"
 msgstr "Skriv ut den aktuella bilden"
 
-#: src/gthumb-ui.xml.h:130
+#: src/gthumb-ui.xml.h:136
+#, fuzzy
+msgid "Search"
+msgstr "Sök"
+
+#: src/gthumb-ui.xml.h:137
 #, fuzzy
 msgid "Select all images"
 msgstr "_Välj alla filer"
 
-#: src/gthumb-ui.xml.h:131
+#: src/gthumb-ui.xml.h:138
 #, fuzzy
 msgid "Set Image as _Wallpaper"
 msgstr "Använd bild som _bakgrund"
 
-#: src/gthumb-ui.xml.h:132
+#: src/gthumb-ui.xml.h:139
 msgid "Set the image as desktop background (centered)"
 msgstr "Använd bilden som bakgrund på skrivbordet (centrerad)"
 
-#: src/gthumb-ui.xml.h:133
+#: src/gthumb-ui.xml.h:140
 #, fuzzy
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "Använd bilden som bakgrund på skrivbordet (sida vid sida)"
 
-#: src/gthumb-ui.xml.h:134
+#: src/gthumb-ui.xml.h:141
 #, fuzzy
 msgid "Set the image as desktop background (stretched)"
 msgstr "Använd bilden som bakgrund på skrivbordet (sida vid sida)"
 
-#: src/gthumb-ui.xml.h:135
+#: src/gthumb-ui.xml.h:142
 msgid "Set the image as desktop background (tiled)"
 msgstr "Använd bilden som bakgrund på skrivbordet (sida vid sida)"
 
-#: src/gthumb-ui.xml.h:136
+#: src/gthumb-ui.xml.h:143
 #, fuzzy
 msgid "Show information about gThumb"
 msgstr "Information om programmet"
 
-#: src/gthumb-ui.xml.h:137
+#: src/gthumb-ui.xml.h:144
 #, fuzzy
 msgid "Show/_Hide"
 msgstr "Visa/dölj _album"
 
-#: src/gthumb-ui.xml.h:138
+#: src/gthumb-ui.xml.h:145
 #, fuzzy
 msgid "Sort images by file size"
 msgstr "Sortera listan efter filstorlek"
 
-#: src/gthumb-ui.xml.h:139
+#: src/gthumb-ui.xml.h:146
 #, fuzzy
 msgid "Sort images by modifiction time"
 msgstr "Sortera fillistan efter tillkomstdatum"
 
-#: src/gthumb-ui.xml.h:140
+#: src/gthumb-ui.xml.h:147
 #, fuzzy
 msgid "Sort images by name"
 msgstr "Sortera fillistan:"
 
-#: src/gthumb-ui.xml.h:141
+#: src/gthumb-ui.xml.h:148
 #, fuzzy
 msgid "Sort images by path"
 msgstr "Sortera fillistan:"
 
-#: src/gthumb-ui.xml.h:142
+#: src/gthumb-ui.xml.h:149
 msgid "Specify a location to visit"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:144
+#: src/gthumb-ui.xml.h:151
 #, fuzzy
 msgid "Step A_nimation"
 msgstr "_Stega igenom animering"
 
-#: src/gthumb-ui.xml.h:145
+#: src/gthumb-ui.xml.h:152
 #, fuzzy
 msgid "Stop loading current location"
 msgstr "Läs in nuvarande plats igen"
 
-#: src/gthumb-ui.xml.h:146
+#: src/gthumb-ui.xml.h:153
 #, fuzzy
 msgid "Str_erched"
 msgstr "Sök"
 
-#: src/gthumb-ui.xml.h:147
+#: src/gthumb-ui.xml.h:154
 #, fuzzy
 msgid "Transparen_cy Type"
 msgstr "_Transparenstyp"
 
-#: src/gthumb-ui.xml.h:148
+#: src/gthumb-ui.xml.h:155
 #, fuzzy
 msgid "Up"
 msgstr "Upp"
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:156
 msgid "Use black as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:157
 msgid "Use checks as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:158
 msgid "Use gray as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:159
 msgid "Use high quality zoom"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:160
 msgid "Use low quality zoom"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:154
+#: src/gthumb-ui.xml.h:161
 msgid "Use white as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:155
+#: src/gthumb-ui.xml.h:162
+#, fuzzy
+msgid "View Properties"
+msgstr "Bildalternativ"
+
+#: src/gthumb-ui.xml.h:163
+#, fuzzy
+msgid "View Slide Show"
+msgstr "Bildspel"
+
+#: src/gthumb-ui.xml.h:164
 msgid "View image in fullscreen mode"
 msgstr "Visa bilden på hela skärmen"
 
-#: src/gthumb-ui.xml.h:156
-#, fuzzy
-msgid "View images as a slideshow"
-msgstr "Visa aktuell fillista som bildspel"
-
-#: src/gthumb-ui.xml.h:158
+#: src/gthumb-ui.xml.h:166
 #, fuzzy
 msgid "View next image"
 msgstr "Vänd bilden"
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:167
 msgid "View or hide the statusbar of this window"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:168
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:169
 #, fuzzy
 msgid "View previous image"
 msgstr "Vänd bilden"
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:170
 #, fuzzy
 msgid "View the catalogs"
 msgstr "Visa albumbläddraren"
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:171
 #, fuzzy
 msgid "View the folders"
 msgstr "Visa katalogbläddraren"
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:172
 #, fuzzy
 msgid "View the image"
 msgstr "Vänd bilden"
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:173
 #, fuzzy
 msgid "View the image flipped"
 msgstr "Vänd bilden"
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:175
 #, fuzzy
 msgid "View the image mirrored"
 msgstr "Vänd bilden"
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:176
 #, fuzzy
 msgid "View the image rotated clockwise"
 msgstr "Rotera bilden medsols"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:177
 #, fuzzy
 msgid "View the image rotated counter-clockwise"
 msgstr "Rotera bilden medsols"
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:178
 #, fuzzy
 msgid "View the image with negative colors"
 msgstr "Rotera bilden medsols"
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:179
 msgid "View thumbnails"
 msgstr "Visa miniatyrbilder"
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:180
 #, fuzzy
 msgid "Zoom _In"
 msgstr "Zooma in"
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:181
 #, fuzzy
 msgid "Zoom _Out"
 msgstr "Zooma ut"
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:182
 msgid "Zoom in"
 msgstr "Zomma in"
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:183
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:184
 #, fuzzy
 msgid "Zoom to _Fit"
 msgstr "Anpassa bilden till fönstret"
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:185
 msgid "Zoom to fit window"
 msgstr "Anpassa till fönster"
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:186
 #, fuzzy
 msgid "_About"
 msgstr "gThumb"
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:187
 #, fuzzy
 msgid "_Actual Size"
 msgstr "Naturlig storlek"
 
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:188
 #, fuzzy
 msgid "_Add Bookmark"
 msgstr "_Lägg till bokmärke"
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:189
 #, fuzzy
 msgid "_Add to Catalog..."
 msgstr "_Lägg till i album..."
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:190
 #, fuzzy
 msgid "_Back"
 msgstr "_Svart"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:192
 msgid "_Bookmarks"
 msgstr "_Bokmärken"
 
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:193
 msgid "_Brightness-Contrast"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:194
 #, fuzzy
 msgid "_Catalogs"
 msgstr "Album"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:195
 msgid "_Centered"
 msgstr "_Centrerad"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:197
 #, fuzzy
-msgid "_Close Window"
-msgstr "Stäng det här fönstret"
+msgid "_Close"
+msgstr "Album"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:198
 msgid "_Color Balance"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:199
 #, fuzzy
 msgid "_Copy..."
 msgstr "_Kopiera filer till..."
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:200
 #, fuzzy
 msgid "_Delete"
 msgstr "Vald"
 
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:201
 #, fuzzy
 msgid "_Delete History"
 msgstr "_Ta bort historiken"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:202
 #, fuzzy
 msgid "_Desaturate"
 msgstr "_Återställ"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:203
 msgid "_Edit"
 msgstr "_Redigera"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:204
 #, fuzzy
 msgid "_Edit Bookmarks"
 msgstr "_Redigera bokmärken..."
 
-#: src/gthumb-ui.xml.h:197 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:205 src/gthumb_search.glade.h:26
 #, fuzzy
 msgid "_Edit Search"
 msgstr "Redigera sökning..."
 
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:206
 #, fuzzy
 msgid "_File"
 msgstr "_Sida vid sida"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:207
 #, fuzzy
 msgid "_Find Images"
 msgstr "_Sök bilder"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:209
 #, fuzzy
 msgid "_Folder"
 msgstr "Visa kataloger"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:210
 #, fuzzy
 msgid "_Folders"
 msgstr "Visa kataloger"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:211
 #, fuzzy
 msgid "_Forward"
 msgstr "Framåt"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:212
 msgid "_Full Screen"
 msgstr "_Helskärmsläge"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:213
 msgid "_Go"
 msgstr "_Gå"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:214
 #, fuzzy
 msgid "_Go to the Image Folder"
 msgstr "Gå till den här katalogen:"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:215
 #, fuzzy
 msgid "_Help"
 msgstr "_Vänd"
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:216
 #, fuzzy
 msgid "_High Quality"
 msgstr "Högsta kvalitet"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:217
 #, fuzzy
 msgid "_Home"
 msgstr "Hem"
 
-#: src/gthumb-ui.xml.h:210
-msgid "_Hue-Saturation"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:212
-#, fuzzy
-msgid "_Image preview"
-msgstr "Bildalternativ"
-
-#: src/gthumb-ui.xml.h:213
-msgid "_JPEG Transform"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:214
-msgid "_Keyboard Shortcuts"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:215
-msgid "_Location..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:216
-#, fuzzy
-msgid "_Low Quality"
-msgstr "Lägsta kvalitet"
-
-#: src/gthumb-ui.xml.h:217
-#, fuzzy
-msgid "_Maintenance"
-msgstr "gThumb - Skrivarinställningar"
-
 #: src/gthumb-ui.xml.h:218
-msgid "_Manual"
+msgid "_Hue-Saturation"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:220
 #, fuzzy
+msgid "_Image preview"
+msgstr "Bildalternativ"
+
+#: src/gthumb-ui.xml.h:221
+msgid "_Keyboard Shortcuts"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:222
+msgid "_Location..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:223
+#, fuzzy
+msgid "_Low Quality"
+msgstr "Lägsta kvalitet"
+
+#: src/gthumb-ui.xml.h:224
+#, fuzzy
+msgid "_Maintenance"
+msgstr "gThumb - Skrivarinställningar"
+
+#: src/gthumb-ui.xml.h:225
+msgid "_Manual"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:227
+#, fuzzy
 msgid "_Move..."
 msgstr "..."
 
-#: src/gthumb-ui.xml.h:221
+#: src/gthumb-ui.xml.h:228
 msgid "_Negative"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:222 src/gthumb.glade.h:100
+#: src/gthumb-ui.xml.h:229 src/gthumb.glade.h:28
 #, fuzzy
 msgid "_New Catalog"
 msgstr "Nytt album..."
 
-#: src/gthumb-ui.xml.h:223
+#: src/gthumb-ui.xml.h:230
 #, fuzzy
 msgid "_New Folder"
 msgstr "Visa kataloger"
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:232
 #, fuzzy
 msgid "_Open With"
 msgstr "_Öppna med..."
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:233
 #, fuzzy
 msgid "_Posterize"
 msgstr "Bildalternativ"
 
-#: src/gthumb-ui.xml.h:227 src/gthumb_png_exporter.glade.h:68
+#: src/gthumb-ui.xml.h:234 src/gthumb_png_exporter.glade.h:68
 #, fuzzy
 msgid "_Preferences"
 msgstr "Inställningar..."
 
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:236
 msgid "_Reduce Colors"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:230
+#: src/gthumb-ui.xml.h:237
 msgid "_Reload"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:239
 #, fuzzy
 msgid "_Rename Series"
 msgstr "_Ändra filnamn..."
 
-#: src/gthumb-ui.xml.h:233
+#: src/gthumb-ui.xml.h:240
 #, fuzzy
 msgid "_Resize"
 msgstr "_Återställ"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:241
 msgid "_Restore"
 msgstr "_Återställ"
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:242
 #, fuzzy
 msgid "_Reversed Order"
 msgstr "_Omvänd ordning"
 
-#: src/gthumb-ui.xml.h:236
+#: src/gthumb-ui.xml.h:243
+#, fuzzy
+msgid "_Revert"
+msgstr "_Återställ"
+
+#: src/gthumb-ui.xml.h:244
 #, fuzzy
 msgid "_Rotate"
 msgstr "Datum:"
 
-#: src/gthumb-ui.xml.h:237
+#: src/gthumb-ui.xml.h:245
 #, fuzzy
 msgid "_Scaled"
 msgstr "Skala:"
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:30
+#, fuzzy
+msgid "_Search"
+msgstr "Sök"
+
+#: src/gthumb-ui.xml.h:247
 #, fuzzy
 msgid "_Select All"
 msgstr "_Välj alla filer"
 
-#: src/gthumb-ui.xml.h:239
-msgid "_Slideshow"
-msgstr "_Bildspel"
+#: src/gthumb-ui.xml.h:248
+#, fuzzy
+msgid "_Slide Show"
+msgstr "Bildspel"
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:249
 msgid "_Statusbar"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:250
 msgid "_Stop"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:251
 msgid "_Thumbnails"
 msgstr "_Miniatyrbilder"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:252
 msgid "_Tiled"
 msgstr "_Sida vid sida"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:253
 #, fuzzy
 msgid "_Toolbar"
 msgstr "_Verktyg"
 
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb-ui.xml.h:254
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: src/gthumb-ui.xml.h:246
+#: src/gthumb-ui.xml.h:255
 #, fuzzy
 msgid "_Up"
 msgstr "Upp"
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:258
 msgid "_Zoom"
 msgstr "_Zooma"
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:259
 #, fuzzy
 msgid "by _Name"
 msgstr "efter namn"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:260
 msgid "by _Path"
 msgstr "efter _sökväg"
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:261
 msgid "by _Size"
 msgstr "efter _filstorlek"
 
-#: src/gthumb-ui.xml.h:253
+#: src/gthumb-ui.xml.h:262
 msgid "by _Time"
 msgstr "efter _tid"
 
-#: src/gthumb-window.c:1212
+#: src/gthumb-window.c:1214
 #, fuzzy
 msgid "No image"
 msgstr "Hittade ingen bild"
 
-#: src/gthumb-window.c:1214
+#: src/gthumb-window.c:1216
 #, fuzzy, c-format
 msgid "1 image (%s)"
 msgstr "filer"
 
-#: src/gthumb-window.c:1217
+#: src/gthumb-window.c:1219
 #, fuzzy, c-format
 msgid "%d images (%s)"
 msgstr "filer"
 
-#: src/gthumb-window.c:1224
+#: src/gthumb-window.c:1226
 #, fuzzy, c-format
 msgid "1 selected (%s)"
 msgstr "filer"
 
-#: src/gthumb-window.c:1227
+#: src/gthumb-window.c:1229
 #, fuzzy, c-format
 msgid "%d selected (%s)"
 msgstr "filer"
 
-#: src/gthumb-window.c:2600
+#: src/gthumb-window.c:2602
 msgid "Drag & Drop"
 msgstr "Dra och släpp"
 
-#: src/gthumb-window.c:4293
+#: src/gthumb-window.c:4297
 #, fuzzy, c-format
 msgid "Cannot load folder \"%s\" : %s\n"
 msgstr "Kunde inte ändra filnamn på:"
 
-#: src/gthumb-window.c:4543
+#: src/gthumb-window.c:4547
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
 #: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
-#: src/gthumb_edit.glade.h:1 src/gthumb_png_exporter.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
 #: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr ""
 
-#: src/gthumb.glade.h:2 src/gthumb_edit.glade.h:2
-#: src/gthumb_png_exporter.glade.h:2 src/gthumb_tools.glade.h:2
-msgid "     "
-msgstr ""
-
-#: src/gthumb.glade.h:3 src/gthumb_comments.glade.h:2
-#: src/gthumb_png_exporter.glade.h:3 src/gthumb_search.glade.h:2
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
+#: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:2
 #: src/gthumb_tools.glade.h:3
 msgid "*"
 msgstr ""
 
-#: src/gthumb.glade.h:4
-msgid "112 x 112"
-msgstr "112 x 112"
-
-# Var tusan kommer jag åt gångertecknet? kolla!
-#: src/gthumb.glade.h:5
-msgid "128 x 128"
-msgstr "128 × 128"
-
-#: src/gthumb.glade.h:6
-#, fuzzy
-msgid "164 x 164"
-msgstr "64 × 64"
-
-#: src/gthumb.glade.h:7
-msgid "200 x 200"
-msgstr ""
-
-#: src/gthumb.glade.h:8
-#, fuzzy
-msgid "256 x 256"
-msgstr "64 × 64"
-
-# Var tusan kommer jag åt gångertecknet? kolla!
-#: src/gthumb.glade.h:9
-msgid "48 x 48"
-msgstr "48 × 48"
-
-#: src/gthumb.glade.h:10
-msgid "64 x 64"
-msgstr "64 × 64"
-
-#: src/gthumb.glade.h:11
-msgid "85 x 85"
-msgstr "85 × 85"
-
-#: src/gthumb.glade.h:12
-msgid "95 x 95"
-msgstr "95 × 95"
-
-#: src/gthumb.glade.h:13
+#: src/gthumb.glade.h:3
 msgid ":"
 msgstr ""
 
-#: src/gthumb.glade.h:14
+#: src/gthumb.glade.h:4
 #, fuzzy
 msgid "<b>Categories:</b>"
 msgstr "gThumb - Sökförlopp"
 
-#: src/gthumb.glade.h:15
-#, fuzzy
-msgid "<b>Checks</b>"
-msgstr "Rutor"
-
-#: src/gthumb.glade.h:16
-#, fuzzy
-msgid "<b>Direction</b>"
-msgstr "Riktning:"
-
-#: src/gthumb.glade.h:17
-#, fuzzy
-msgid "<b>Hide/Show</b>"
-msgstr "Bildspel"
-
-#: src/gthumb.glade.h:18
-#, fuzzy
-msgid "<b>History</b>"
-msgstr "Historik"
-
-#: src/gthumb.glade.h:19
-msgid "<b>Interface</b>"
-msgstr ""
-
-#: src/gthumb.glade.h:20
-#, fuzzy
-msgid "<b>On Startup:</b>"
-msgstr "Vid uppstart:"
-
-#: src/gthumb.glade.h:21
-msgid "<b>Other</b>"
-msgstr ""
-
-#: src/gthumb.glade.h:22
+#: src/gthumb.glade.h:5
 #, fuzzy
 msgid "<b>Overwrite the old image with the new one ?</b>"
 msgstr "Skriv över den gamla bilden med den nya?"
 
-#: src/gthumb.glade.h:23
-#, fuzzy
-msgid "<b>Slide Show</b>"
-msgstr "Bildspel"
-
-#: src/gthumb.glade.h:24 src/gthumb_tools.glade.h:10
-#, fuzzy
-msgid "<b>Thumbnails</b>"
-msgstr "Miniatyrbilder"
-
-#: src/gthumb.glade.h:25
-#, fuzzy
-msgid "<b>Viewer</b>"
-msgstr "Visare"
-
-#: src/gthumb.glade.h:26
+#: src/gthumb.glade.h:6
 #, fuzzy
 msgid "A_vailable Applications:"
 msgstr "Tillgängliga program"
 
-#: src/gthumb.glade.h:27
-msgid "Activate items with a double click"
-msgstr ""
-
-#: src/gthumb.glade.h:28
-msgid "Activate items with a single click"
-msgstr ""
-
-#: src/gthumb.glade.h:29
-#, fuzzy
-msgid "After _loading an image:"
-msgstr "När en bild är inläst:"
-
-#: src/gthumb.glade.h:30
-#, fuzzy
-msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Bekräfta innan ett album tas bort"
-
-#: src/gthumb.glade.h:31
-msgid "Black"
-msgstr "Svart"
-
-#: src/gthumb.glade.h:32
+#: src/gthumb.glade.h:7
 #, fuzzy
 msgid "Bookmarks"
 msgstr "_Bokmärken"
 
-#: src/gthumb.glade.h:33
-msgid "Browser"
-msgstr "Bläddrare"
-
-#: src/gthumb.glade.h:34
+#: src/gthumb.glade.h:8
 #, fuzzy
 msgid "C_atalogs:"
 msgstr "Album"
 
-#: src/gthumb.glade.h:35
-msgid "C_lick policy:"
-msgstr ""
-
-#: src/gthumb.glade.h:36
-msgid "Checked"
-msgstr "Rutor"
-
-#: src/gthumb.glade.h:37
+#: src/gthumb.glade.h:9
 #, fuzzy
 msgid "Choose a catalog"
 msgstr "Välj ett album..."
 
-#: src/gthumb.glade.h:38 src/gthumb_png_exporter.glade.h:27
-#, fuzzy
-msgid "Colo_r:"
-msgstr "Färg:"
-
-#: src/gthumb.glade.h:40
-msgid "D_elay before changing image:"
-msgstr ""
-
-#: src/gthumb.glade.h:41
-msgid "Dark"
-msgstr "Mörk"
-
-#: src/gthumb.glade.h:42
-msgid "Determine image type from co_ntent (slower)"
-msgstr ""
-
-#: src/gthumb.glade.h:43
-#, fuzzy
-msgid "Do _not change folder"
-msgstr "Byt inte katalog"
-
-#: src/gthumb.glade.h:44
+#: src/gthumb.glade.h:11
 #, fuzzy
 msgid "Do not overwrite _this image"
 msgstr "Skriv inte över denna bild"
 
-#: src/gthumb.glade.h:45
+#: src/gthumb.glade.h:12
 msgid "E_XIF"
 msgstr ""
 
-#: src/gthumb.glade.h:47
-msgid "Fit image to window"
-msgstr "Anpassa bild till fönster"
-
-#: src/gthumb.glade.h:48
-#, fuzzy
-msgid "Fit to window if larger"
-msgstr "Anpassa bild till fönster"
-
-#: src/gthumb.glade.h:49
-msgid "Follow Nautilus behaviour"
-msgstr ""
-
-#: src/gthumb.glade.h:50
-#, fuzzy
-msgid "For_ward"
-msgstr "Framåt"
-
-#: src/gthumb.glade.h:51
-msgid "General"
-msgstr "Allmänt"
-
-#: src/gthumb.glade.h:52
-#, fuzzy
-msgid "Go to last _visited folder or catalog"
-msgstr "Gå till senast besökta plats"
-
-#: src/gthumb.glade.h:53
-#, fuzzy
-msgid "Go to this _folder:"
-msgstr "Gå till den här katalogen:"
-
-#: src/gthumb.glade.h:54
-#, fuzzy
-msgid "H_igh"
-msgstr "Hög"
-
-#: src/gthumb.glade.h:55
-msgid "Icons only"
-msgstr ""
-
-# kanske zoomingsgrad- eller nivå? Zoomnivå?
-#: src/gthumb.glade.h:56
-msgid "Keep previous zoom"
-msgstr "Behåll föregående zoomning"
-
-#: src/gthumb.glade.h:57
-msgid "Large"
-msgstr "Stor"
-
-#: src/gthumb.glade.h:59
-#, fuzzy
-msgid "Layout:"
-msgstr "Layout"
-
-#: src/gthumb.glade.h:60
-msgid "Light"
-msgstr "Ljus"
-
-#: src/gthumb.glade.h:61
-#, fuzzy
-msgid "Lo_w"
-msgstr "Låg"
-
-#: src/gthumb.glade.h:62
-#, fuzzy
-msgid "Max _history length:"
-msgstr "Maxlängd på historik:"
-
-#: src/gthumb.glade.h:63
-msgid "Medium"
-msgstr "Medel"
-
-# Bör komma med ngt bättre.
-#: src/gthumb.glade.h:64
-#, fuzzy
-msgid "Mid tone"
-msgstr "Medelton"
-
-#: src/gthumb.glade.h:66
+#: src/gthumb.glade.h:16
 msgid "New Image:"
 msgstr "Ny bild:"
 
-#: src/gthumb.glade.h:68
-msgid "None"
-msgstr ""
-
-#: src/gthumb.glade.h:69
+#: src/gthumb.glade.h:18
 msgid "Old Image:"
 msgstr "Gammal bild:"
 
-#: src/gthumb.glade.h:71
+#: src/gthumb.glade.h:20
 #, fuzzy
 msgid "Over_write this image"
 msgstr "Skriv över denna bild"
 
-#: src/gthumb.glade.h:72
+#: src/gthumb.glade.h:21
 #, fuzzy
 msgid "Overwrite _all images"
 msgstr "Skriv över alla bilder"
 
-#: src/gthumb.glade.h:73
+#: src/gthumb.glade.h:22
 msgid "Overwrite image"
 msgstr "Skriv över bild"
 
-#: src/gthumb.glade.h:74
+#: src/gthumb.glade.h:23
 #, fuzzy
 msgid "R_ecent Applications:"
 msgstr "Tillgängliga program"
 
-#: src/gthumb.glade.h:75
-#, fuzzy
-msgid "Re_verse"
-msgstr "Omvänd"
-
-#: src/gthumb.glade.h:76
-msgid "Resta_rt when finished"
-msgstr ""
-
-#: src/gthumb.glade.h:77
-#, fuzzy
-msgid "Sa_ve thumbnails"
-msgstr "Spara miniatyrbilder"
-
-# Får duga så länge, bör nog ändras. Egentlig, riktig.
-#: src/gthumb.glade.h:78
-msgid "Set image to actual size"
-msgstr "Ställ in bilden till verklig storlek"
-
-#: src/gthumb.glade.h:79
-#, fuzzy
-msgid "Set to C_urrent"
-msgstr "Gör till aktuell"
-
-#: src/gthumb.glade.h:80
-#, fuzzy
-msgid "Show _thumbnails"
-msgstr "Visa miniatybilder"
-
-#: src/gthumb.glade.h:81
-#, fuzzy
-msgid "Show co_mments"
-msgstr "Visa kommentarer"
-
-#: src/gthumb.glade.h:82
-#, fuzzy
-msgid "Show hi_dden images"
-msgstr "Visa dolda filer"
-
-#: src/gthumb.glade.h:83
-#, fuzzy
-msgid "Si_ze :"
-msgstr "Storlek:"
-
-#: src/gthumb.glade.h:84
-#, fuzzy
-msgid "Si_ze:"
-msgstr "Storlek:"
-
-#: src/gthumb.glade.h:85
-msgid "Slide Show"
-msgstr "Bildspel"
-
-#: src/gthumb.glade.h:86
-msgid "Small"
-msgstr "Liten"
-
-#: src/gthumb.glade.h:87
-#, fuzzy
-msgid "Switch to _full screen"
-msgstr "Helskärmsläge"
-
-#: src/gthumb.glade.h:88
-msgid "System settings"
-msgstr ""
-
-#: src/gthumb.glade.h:89
-msgid "Text below icons"
-msgstr ""
-
-#: src/gthumb.glade.h:90
-msgid "Text beside icons"
-msgstr ""
-
-#: src/gthumb.glade.h:91
-msgid "Text only"
-msgstr ""
-
-#: src/gthumb.glade.h:92
-#, fuzzy
-msgid "Transparency _type:"
-msgstr "Transparenstyp:"
-
-#: src/gthumb.glade.h:93
-msgid "Viewer"
-msgstr "Visare"
-
-#: src/gthumb.glade.h:94
-msgid "White"
-msgstr "Vit"
-
-#: src/gthumb.glade.h:95
-#, fuzzy
-msgid "Zoom _quality:"
-msgstr "Zoomkvalitet:"
-
-#: src/gthumb.glade.h:96
+#: src/gthumb.glade.h:24
 #, fuzzy
 msgid "_Application:"
 msgstr "Tillgängliga program"
 
-#: src/gthumb.glade.h:97
+#: src/gthumb.glade.h:25
 #, fuzzy
 msgid "_Bookmarks:"
 msgstr "_Bokmärken"
 
-#: src/gthumb.glade.h:98
+#: src/gthumb.glade.h:26
 #, fuzzy
 msgid "_Do not overwrite any image"
 msgstr "Skriv inte över någon bild"
 
-#: src/gthumb.glade.h:99
+#: src/gthumb.glade.h:27
 #, fuzzy
 msgid "_General"
 msgstr "Allmänt"
 
-#: src/gthumb.glade.h:101
+#: src/gthumb.glade.h:29
 #, fuzzy
 msgid "_Next"
 msgstr "Hem"
 
-#: src/gthumb.glade.h:102
+#: src/gthumb.glade.h:30
 #, fuzzy
 msgid "_Previous"
 msgstr "Förhandsgranska"
-
-#: src/gthumb.glade.h:103
-#, fuzzy
-msgid "_Toolbar style:"
-msgstr "_Verktyg"
-
-#: src/gthumb.glade.h:104
-#, fuzzy
-msgid "gThumb Preferences"
-msgstr "Inställningar..."
-
-#: src/gthumb.glade.h:105
-msgid "seconds"
-msgstr ""
 
 #: src/gthumb_comments.glade.h:3
 #, fuzzy
@@ -2267,20 +1889,10 @@ msgstr "Tillgängliga program"
 msgid "Add a category"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:5
-#, fuzzy
-msgid "Categories"
-msgstr "gThumb - Sökförlopp"
-
 #: src/gthumb_comments.glade.h:6 src/gthumb_search.glade.h:15
 #, fuzzy
 msgid "Co_mment:"
 msgstr "Kommentar:"
-
-#: src/gthumb_comments.glade.h:7
-#, fuzzy
-msgid "Comment"
-msgstr "Kommentar"
 
 #: src/gthumb_comments.glade.h:8
 #, fuzzy
@@ -2329,6 +1941,134 @@ msgstr "Ändra namn på valt album"
 
 #: src/gthumb_comments.glade.h:18
 msgid "_Today"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:3
+#, fuzzy
+msgid "<b>Compression</b>"
+msgstr "Bildtext"
+
+#: src/gthumb_convert.glade.h:4
+#, fuzzy
+msgid "<b>Image Type</b>"
+msgstr "efter filstorlek"
+
+#: src/gthumb_convert.glade.h:5
+#, fuzzy
+msgid "<b>Resolution</b>"
+msgstr "Riktning:"
+
+#: src/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:12
+#, fuzzy
+msgid "Overwrite"
+msgstr "Skriv över bild"
+
+#: src/gthumb_convert.glade.h:13
+#, fuzzy
+msgid "Overwrite mode:"
+msgstr "Skriv över bild"
+
+#: src/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:17
+#, fuzzy
+msgid "Skip"
+msgstr "Enkel"
+
+#: src/gthumb_convert.glade.h:18
+#, fuzzy
+msgid "TGA Options"
+msgstr "gThumb - Bildalternativ"
+
+#: src/gthumb_convert.glade.h:19
+#, fuzzy
+msgid "TIFF Options"
+msgstr "gThumb - Bildalternativ"
+
+#: src/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:21
+msgid "_Horizontal:"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:24
+#, fuzzy
+msgid "_No compression"
+msgstr "Bildtext"
+
+#: src/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:26
+#, fuzzy
+msgid "_Progressive"
+msgstr "förlopp"
+
+#: src/gthumb_convert.glade.h:27
+#, fuzzy
+msgid "_Quality:"
+msgstr "Lägsta kvalitet"
+
+#: src/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:31
+msgid "_Vertical:"
+msgstr ""
+
+#: src/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr ""
+
+#: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+msgid "     "
 msgstr ""
 
 #: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
@@ -2563,6 +2303,11 @@ msgstr "Kommentar:"
 msgid "Col_umns:"
 msgstr "Kommentar:"
 
+#: src/gthumb_png_exporter.glade.h:27 src/gthumb_preferences.glade.h:31
+#, fuzzy
+msgid "Colo_r:"
+msgstr "Färg:"
+
 #: src/gthumb_png_exporter.glade.h:28
 #, fuzzy
 msgid "Create Index Image"
@@ -2704,7 +2449,7 @@ msgid "Sort"
 msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:58 src/gthumb_search.glade.h:24
-#: src/gthumb_tools.glade.h:50
+#: src/gthumb_tools.glade.h:39
 #, fuzzy
 msgid "Start _at:"
 msgstr "Starta från:"
@@ -2753,7 +2498,7 @@ msgstr "Storlek på miniatyrbilder:"
 msgid "_Rows:"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:70 src/gthumb_tools.glade.h:68
+#: src/gthumb_png_exporter.glade.h:70 src/gthumb_tools.glade.h:46
 #, fuzzy
 msgid "_Template:"
 msgstr "Datum:"
@@ -2786,6 +2531,338 @@ msgstr ""
 #, fuzzy
 msgid "png"
 msgstr ".png"
+
+#: src/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+# Var tusan kommer jag åt gångertecknet? kolla!
+#: src/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 × 128"
+
+#: src/gthumb_preferences.glade.h:6
+#, fuzzy
+msgid "164 x 164"
+msgstr "64 × 64"
+
+#: src/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:8
+#, fuzzy
+msgid "256 x 256"
+msgstr "64 × 64"
+
+# Var tusan kommer jag åt gångertecknet? kolla!
+#: src/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 × 48"
+
+#: src/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 × 64"
+
+#: src/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 × 85"
+
+#: src/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 × 95"
+
+#: src/gthumb_preferences.glade.h:13
+#, fuzzy
+msgid "<b>Checks</b>"
+msgstr "Rutor"
+
+#: src/gthumb_preferences.glade.h:14
+#, fuzzy
+msgid "<b>Direction</b>"
+msgstr "Riktning:"
+
+#: src/gthumb_preferences.glade.h:15
+#, fuzzy
+msgid "<b>Hide/Show</b>"
+msgstr "Bildspel"
+
+#: src/gthumb_preferences.glade.h:16
+#, fuzzy
+msgid "<b>History</b>"
+msgstr "Historik"
+
+#: src/gthumb_preferences.glade.h:17
+msgid "<b>Interface</b>"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:18
+#, fuzzy
+msgid "<b>On Startup:</b>"
+msgstr "Vid uppstart:"
+
+#: src/gthumb_preferences.glade.h:19
+msgid "<b>Other</b>"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:20
+#, fuzzy
+msgid "<b>Slide Show</b>"
+msgstr "Bildspel"
+
+#: src/gthumb_preferences.glade.h:21 src/gthumb_tools.glade.h:7
+#, fuzzy
+msgid "<b>Thumbnails</b>"
+msgstr "Miniatyrbilder"
+
+#: src/gthumb_preferences.glade.h:22
+#, fuzzy
+msgid "<b>Viewer</b>"
+msgstr "Visare"
+
+#: src/gthumb_preferences.glade.h:23
+msgid "Activate items with a double click"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:24
+msgid "Activate items with a single click"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:25
+#, fuzzy
+msgid "After _loading an image:"
+msgstr "När en bild är inläst:"
+
+#: src/gthumb_preferences.glade.h:26
+#, fuzzy
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "Bekräfta innan ett album tas bort"
+
+#: src/gthumb_preferences.glade.h:27
+msgid "Black"
+msgstr "Svart"
+
+#: src/gthumb_preferences.glade.h:28
+msgid "Browser"
+msgstr "Bläddrare"
+
+#: src/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:30
+msgid "Checked"
+msgstr "Rutor"
+
+#: src/gthumb_preferences.glade.h:32
+msgid "D_elay before changing image:"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:33
+msgid "Dark"
+msgstr "Mörk"
+
+#: src/gthumb_preferences.glade.h:34
+msgid "Determine image type from co_ntent (slower)"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:35
+#, fuzzy
+msgid "Do _not change folder"
+msgstr "Byt inte katalog"
+
+#: src/gthumb_preferences.glade.h:36
+msgid "Fit image to window"
+msgstr "Anpassa bild till fönster"
+
+#: src/gthumb_preferences.glade.h:37
+#, fuzzy
+msgid "Fit to window if larger"
+msgstr "Anpassa bild till fönster"
+
+#: src/gthumb_preferences.glade.h:38
+msgid "Follow Nautilus behaviour"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:39
+#, fuzzy
+msgid "For_ward"
+msgstr "Framåt"
+
+#: src/gthumb_preferences.glade.h:40
+msgid "General"
+msgstr "Allmänt"
+
+#: src/gthumb_preferences.glade.h:41
+#, fuzzy
+msgid "Go to last _visited folder or catalog"
+msgstr "Gå till senast besökta plats"
+
+#: src/gthumb_preferences.glade.h:42
+#, fuzzy
+msgid "Go to this _folder:"
+msgstr "Gå till den här katalogen:"
+
+#: src/gthumb_preferences.glade.h:43
+#, fuzzy
+msgid "H_igh"
+msgstr "Hög"
+
+#: src/gthumb_preferences.glade.h:44
+msgid "Icons only"
+msgstr ""
+
+# kanske zoomingsgrad- eller nivå? Zoomnivå?
+#: src/gthumb_preferences.glade.h:45
+msgid "Keep previous zoom"
+msgstr "Behåll föregående zoomning"
+
+#: src/gthumb_preferences.glade.h:46
+msgid "Large"
+msgstr "Stor"
+
+#: src/gthumb_preferences.glade.h:47
+#, fuzzy
+msgid "Layout:"
+msgstr "Layout"
+
+#: src/gthumb_preferences.glade.h:48
+msgid "Light"
+msgstr "Ljus"
+
+#: src/gthumb_preferences.glade.h:49
+#, fuzzy
+msgid "Lo_w"
+msgstr "Låg"
+
+#: src/gthumb_preferences.glade.h:50
+#, fuzzy
+msgid "Max _history length:"
+msgstr "Maxlängd på historik:"
+
+#: src/gthumb_preferences.glade.h:51
+msgid "Medium"
+msgstr "Medel"
+
+# Bör komma med ngt bättre.
+#: src/gthumb_preferences.glade.h:52
+#, fuzzy
+msgid "Mid tone"
+msgstr "Medelton"
+
+#: src/gthumb_preferences.glade.h:53
+msgid "None"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:54
+#, fuzzy
+msgid "Re_verse"
+msgstr "Omvänd"
+
+#: src/gthumb_preferences.glade.h:55
+msgid "Resta_rt when finished"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:56
+#, fuzzy
+msgid "Sa_ve thumbnails"
+msgstr "Spara miniatyrbilder"
+
+# Får duga så länge, bör nog ändras. Egentlig, riktig.
+#: src/gthumb_preferences.glade.h:57
+msgid "Set image to actual size"
+msgstr "Ställ in bilden till verklig storlek"
+
+#: src/gthumb_preferences.glade.h:58
+#, fuzzy
+msgid "Set to C_urrent"
+msgstr "Gör till aktuell"
+
+#: src/gthumb_preferences.glade.h:59
+#, fuzzy
+msgid "Show _thumbnails"
+msgstr "Visa miniatybilder"
+
+#: src/gthumb_preferences.glade.h:60
+#, fuzzy
+msgid "Show co_mments"
+msgstr "Visa kommentarer"
+
+#: src/gthumb_preferences.glade.h:61
+#, fuzzy
+msgid "Show hi_dden images"
+msgstr "Visa dolda filer"
+
+#: src/gthumb_preferences.glade.h:62
+#, fuzzy
+msgid "Si_ze :"
+msgstr "Storlek:"
+
+#: src/gthumb_preferences.glade.h:63
+#, fuzzy
+msgid "Si_ze:"
+msgstr "Storlek:"
+
+#: src/gthumb_preferences.glade.h:64
+msgid "Slide Show"
+msgstr "Bildspel"
+
+#: src/gthumb_preferences.glade.h:65
+msgid "Small"
+msgstr "Liten"
+
+#: src/gthumb_preferences.glade.h:66
+#, fuzzy
+msgid "Switch to _full screen"
+msgstr "Helskärmsläge"
+
+#: src/gthumb_preferences.glade.h:67
+msgid "System settings"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:68
+msgid "Text below icons"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:69
+msgid "Text beside icons"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:70
+msgid "Text only"
+msgstr ""
+
+#: src/gthumb_preferences.glade.h:71
+#, fuzzy
+msgid "Transparency _type:"
+msgstr "Transparenstyp:"
+
+#: src/gthumb_preferences.glade.h:72
+msgid "Viewer"
+msgstr "Visare"
+
+#: src/gthumb_preferences.glade.h:73
+msgid "White"
+msgstr "Vit"
+
+#: src/gthumb_preferences.glade.h:74
+#, fuzzy
+msgid "Zoom _quality:"
+msgstr "Zoomkvalitet:"
+
+#: src/gthumb_preferences.glade.h:75
+#, fuzzy
+msgid "_Toolbar style:"
+msgstr "_Verktyg"
+
+#: src/gthumb_preferences.glade.h:76
+#, fuzzy
+msgid "gThumb Preferences"
+msgstr "Inställningar..."
+
+#: src/gthumb_preferences.glade.h:77
+msgid "seconds"
+msgstr ""
 
 #: src/gthumb_print.glade.h:3
 msgid ""
@@ -2914,11 +2991,11 @@ msgstr "gThumb - Sökförlopp"
 msgid "Search for Images"
 msgstr "gThumb - Sök efter bilder"
 
-#: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:48
+#: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:38
 msgid "Searching in:"
 msgstr "Söker i:"
 
-#: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:56
+#: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:43
 #, fuzzy
 msgid "_Include Sub-Folders"
 msgstr "Ta med underkataloger"
@@ -2927,11 +3004,6 @@ msgstr "Ta med underkataloger"
 #, fuzzy
 msgid "_Save"
 msgstr "Spara"
-
-#: src/gthumb_search.glade.h:30
-#, fuzzy
-msgid "_Search"
-msgstr "Sök"
 
 #: src/gthumb_search.glade.h:31
 #, fuzzy
@@ -2945,350 +3017,289 @@ msgstr "Rutor"
 
 #: src/gthumb_tools.glade.h:5
 #, fuzzy
-msgid "<b>Compression</b>"
-msgstr "Bildtext"
-
-#: src/gthumb_tools.glade.h:6
-#, fuzzy
 msgid "<b>File list</b>"
 msgstr "Filstorlek"
 
-#: src/gthumb_tools.glade.h:7
-#, fuzzy
-msgid "<b>Image Type</b>"
-msgstr "efter filstorlek"
-
-#: src/gthumb_tools.glade.h:8
-#, fuzzy
-msgid "<b>Resolution</b>"
-msgstr "Riktning:"
-
-#: src/gthumb_tools.glade.h:9
+#: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:11
+#: src/gthumb_tools.glade.h:8
 #, fuzzy
 msgid "Apply to _all images"
 msgstr "_Välj alla filer"
 
-#: src/gthumb_tools.glade.h:12
-msgid "Ask"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:13
+#: src/gthumb_tools.glade.h:9
 #, fuzzy
 msgid "Backup Comments"
 msgstr "Kommentar"
 
-#: src/gthumb_tools.glade.h:14
+#: src/gthumb_tools.glade.h:10
+msgid "Change Date"
+msgstr ""
+
+#: src/gthumb_tools.glade.h:11
+msgid "Change the last modified date to:"
+msgstr ""
+
+#: src/gthumb_tools.glade.h:12
 #, fuzzy
 msgid "Check _All"
 msgstr "_Välj alla filer"
 
-#: src/gthumb_tools.glade.h:15
+#: src/gthumb_tools.glade.h:13
 #, fuzzy
 msgid "Check _None"
 msgstr "_Välj alla filer"
 
-#: src/gthumb_tools.glade.h:16
+#: src/gthumb_tools.glade.h:14
 msgid "Checking image:"
 msgstr ""
 
+#: src/gthumb_tools.glade.h:15
+#, fuzzy
+msgid "Current date"
+msgstr "S_kapa"
+
+#: src/gthumb_tools.glade.h:16
+#, fuzzy
+msgid "Date the image was created"
+msgstr "Rotera bilden 180 grader"
+
 #: src/gthumb_tools.glade.h:17
-msgid "Compression _level:"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:18
-msgid "Convert Format"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:19
 #, fuzzy
 msgid "Delete ALL Comments"
 msgstr "_Ta bort kommentar"
 
-#: src/gthumb_tools.glade.h:20
+#: src/gthumb_tools.glade.h:18
 #, fuzzy
 msgid "Delete Old Thumbnails"
 msgstr "_Ta bort gamla miniatybilder"
 
-#: src/gthumb_tools.glade.h:21
+#: src/gthumb_tools.glade.h:19
 #, fuzzy
 msgid "Delete thumbnails of no more existing images"
 msgstr "Ta bort gamla miniatybilder från cachen"
 
-#: src/gthumb_tools.glade.h:22
+#: src/gthumb_tools.glade.h:20
 #, fuzzy
 msgid "Equal images:"
 msgstr "Sortera fillistan:"
 
-#: src/gthumb_tools.glade.h:23
+#: src/gthumb_tools.glade.h:21
 #, fuzzy
 msgid "Find Duplicates"
 msgstr "gThumb - Skrivarinställningar"
 
-#: src/gthumb_tools.glade.h:24
+#: src/gthumb_tools.glade.h:22
 #, fuzzy
 msgid "Found Duplicates:"
 msgstr "gThumb - Skrivarinställningar"
 
-#: src/gthumb_tools.glade.h:25
-msgid "JPEG Options"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:26
+#: src/gthumb_tools.glade.h:23
 #, fuzzy
 msgid "JPEG Transform"
 msgstr "gThumb - Skrivarinställningar"
 
-#: src/gthumb_tools.glade.h:27
+#: src/gthumb_tools.glade.h:24
 #, fuzzy
 msgid "Maintenance"
 msgstr "gThumb - Skrivarinställningar"
 
-#: src/gthumb_tools.glade.h:28
+#: src/gthumb_tools.glade.h:25
 msgid "Mirror image horizontally (left-right)"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:29
+#: src/gthumb_tools.glade.h:26
 msgid "Mirror image vertically (top-bottom)"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:30
+#: src/gthumb_tools.glade.h:27
 #, fuzzy
 msgid "New names _preview:"
 msgstr "Bildalternativ"
 
-#: src/gthumb_tools.glade.h:31
-msgid "No_rmal (Deflate)"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:32
-msgid "Opti_mize"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:33
-#, fuzzy
-msgid "Overwrite"
-msgstr "Skriv över bild"
-
-#: src/gthumb_tools.glade.h:34
-#, fuzzy
-msgid "Overwrite mode:"
-msgstr "Skriv över bild"
-
-#: src/gthumb_tools.glade.h:35
-msgid "PNG Options"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:36
-msgid "R_emove original"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:37
+#: src/gthumb_tools.glade.h:28
 #, fuzzy
 msgid "Re_verse Order"
 msgstr "Omvänd ordning"
 
-#: src/gthumb_tools.glade.h:38
+#: src/gthumb_tools.glade.h:29
 #, fuzzy
 msgid "Remove ALL Thumbnails"
 msgstr "_Ta bort gamla miniatybilder"
 
-#: src/gthumb_tools.glade.h:39
+#: src/gthumb_tools.glade.h:30
 #, fuzzy
 msgid "Remove Old Comments"
 msgstr "Ta bort _gamla kommentarer"
 
-#: src/gthumb_tools.glade.h:40
+#: src/gthumb_tools.glade.h:31
 #, fuzzy
 msgid "Remove comments of no more existing images"
 msgstr "Ta bort kommentar från valda bilder"
 
-#: src/gthumb_tools.glade.h:42
+#: src/gthumb_tools.glade.h:32
 #, fuzzy
 msgid "Rename Series"
 msgstr "_Ändra filnamn..."
 
-#: src/gthumb_tools.glade.h:43
+#: src/gthumb_tools.glade.h:33
 msgid "Restore Comments from a Backup File"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:44
+#: src/gthumb_tools.glade.h:34
 msgid "Revert changes"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:45
+#: src/gthumb_tools.glade.h:35
 #, fuzzy
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Rotera bilden medsols"
 
-#: src/gthumb_tools.glade.h:46
+#: src/gthumb_tools.glade.h:36
 #, fuzzy
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Rotera bilden medsols"
 
-#: src/gthumb_tools.glade.h:47
+#: src/gthumb_tools.glade.h:37
 msgid "Search terminated, no duplicates found."
 msgstr ""
 
-#: src/gthumb_tools.glade.h:49
-#, fuzzy
-msgid "Skip"
-msgstr "Enkel"
-
-#: src/gthumb_tools.glade.h:51
-#, fuzzy
-msgid "TGA Options"
-msgstr "gThumb - Bildalternativ"
-
-#: src/gthumb_tools.glade.h:52
-#, fuzzy
-msgid "TIFF Options"
-msgstr "gThumb - Bildalternativ"
-
-#: src/gthumb_tools.glade.h:53
-msgid "T_GA"
+#: src/gthumb_tools.glade.h:40
+msgid "The EXIF date"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:54
+#: src/gthumb_tools.glade.h:41
+msgid "The following date:"
+msgstr ""
+
+#: src/gthumb_tools.glade.h:42
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
 "original filename."
 msgstr ""
 
-#: src/gthumb_tools.glade.h:55
-msgid "_Horizontal:"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:57
-msgid "_JPEG"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:58
-msgid "_Loss compression (JPEG)"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:60
-msgid "_PNG"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:61
-#, fuzzy
-msgid "_Progressive"
-msgstr "förlopp"
-
-#: src/gthumb_tools.glade.h:62
-#, fuzzy
-msgid "_Quality:"
-msgstr "Lägsta kvalitet"
-
-#: src/gthumb_tools.glade.h:63
-msgid "_RLE compression"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:65
-msgid "_Smoothing:"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:66
+#: src/gthumb_tools.glade.h:45
 msgid "_Sort Original List:"
 msgstr ""
 
-#: src/gthumb_tools.glade.h:67
-msgid "_TIFF"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:69
-msgid "_Transfrom"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:70
-msgid "_Vertical:"
-msgstr ""
-
-#: src/gthumb_tools.glade.h:72
+#: src/gthumb_tools.glade.h:48
 #, fuzzy
 msgid "by Modification date"
 msgstr "Sortera fillistan efter tillkomstdatum"
 
-#: src/gthumb_tools.glade.h:73
+#: src/gthumb_tools.glade.h:49
 #, fuzzy
 msgid "by Name"
 msgstr "efter namn"
 
-#: src/gthumb_tools.glade.h:74
+#: src/gthumb_tools.glade.h:50
 #, fuzzy
 msgid "by Size"
 msgstr "efter _filstorlek"
 
-#: src/gthumb_tools.glade.h:75
-msgid "dpi"
-msgstr ""
-
-#: src/main.c:65
+#: src/main.c:72
 #, fuzzy
 msgid "Start in fullscreen mode"
 msgstr "Visa bilden på hela skärmen"
 
-#: src/main.c:69
+#: src/main.c:76
 msgid "Automatically start a slideshow"
 msgstr ""
 
-#: src/main.c:152
+#: src/main.c:155
 msgid "Holidays"
 msgstr ""
 
-#: src/main.c:153
+#: src/main.c:156
 msgid "Temporary"
 msgstr ""
 
-#: src/main.c:154
+#: src/main.c:157
 msgid "Screenshots"
 msgstr ""
 
-#: src/main.c:155
+#: src/main.c:158
 msgid "Science"
 msgstr ""
 
-#: src/main.c:156
+#: src/main.c:159
 msgid "Favourite"
 msgstr ""
 
-#: src/main.c:157
+#: src/main.c:160
 msgid "Important"
 msgstr ""
 
-#: src/main.c:158
+#: src/main.c:161
 msgid "GNOME"
 msgstr ""
 
-#: src/main.c:159
+#: src/main.c:162
 #, fuzzy
 msgid "Games"
 msgstr "efter _namn"
 
-#: src/main.c:160
+#: src/main.c:163
 #, fuzzy
 msgid "Party"
 msgstr "Skriv ut"
 
-#: src/main.c:161
+#: src/main.c:164
 msgid "Birthday"
 msgstr ""
 
-#: src/main.c:162
+#: src/main.c:165
 msgid "Astronomy"
 msgstr ""
 
-#: src/main.c:163
+#: src/main.c:166
 msgid "Family"
 msgstr ""
 
-#: src/main.c:263 src/main.c:320
+#: src/main.c:271 src/main.c:333
 msgid "Command Line"
 msgstr "Kommandoraden"
+
+#~ msgid "Library not empty"
+#~ msgstr "Biblioteket är inte tomt"
+
+#~ msgid "New Catalog..."
+#~ msgstr "Nytt album..."
+
+#~ msgid "Could not create folder \"%s\" : %s"
+#~ msgstr "Kunde inte skapa mappen \"%s\": %s"
+
+#~ msgid "Go to the previous visited location"
+#~ msgstr "Gå till föregående besökta plats"
+
+#, fuzzy
+#~ msgid "Display image properties"
+#~ msgstr "gThumb - Sökförlopp"
+
+#, fuzzy
+#~ msgid "Full screen"
+#~ msgstr "Helskärm"
+
+#, fuzzy
+#~ msgid "Open With"
+#~ msgstr "_Öppna med..."
+
+#, fuzzy
+#~ msgid "Refresh"
+#~ msgstr "före"
+
+#, fuzzy
+#~ msgid "View images as a slideshow"
+#~ msgstr "Visa aktuell fillista som bildspel"
+
+#, fuzzy
+#~ msgid "_Close Window"
+#~ msgstr "Stäng det här fönstret"
+
+#~ msgid "_Slideshow"
+#~ msgstr "_Bildspel"
 
 #~ msgid "Image Viewer"
 #~ msgstr "Bildvisare"
@@ -3487,9 +3498,6 @@ msgstr "Kommandoraden"
 #, fuzzy
 #~ msgid "Edit Search..."
 #~ msgstr "_Redigera sökning..."
-
-#~ msgid "Rotate the image 180 degrees"
-#~ msgstr "Rotera bilden 180 grader"
 
 #~ msgid "_Gray"
 #~ msgstr "_Grå"
