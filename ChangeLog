@@ -1,8 +1,13 @@
 2004-11-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (resolve_all_symlinks): 
+
+	Fixes bug #159661: Symlinks in the root directory are incorrectly 
+	resolved.
+
 	* libgthumb/print-callbacks.c (log2): 
 
-	Fixes bug #159672: log2() function already defined under cygwin
+	Fixes bug #159672: log2() function already defined under cygwin.
 
 2004-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

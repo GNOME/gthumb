@@ -1639,6 +1639,7 @@ resolve_all_symlinks (const char  *text_uri,
 	GnomeVFSFileInfo *info;
 	const char       *p;
 	int               n_followed_symlinks = 0;
+	gboolean          first_level = TRUE;
 
 	*resolved_text_uri = NULL;
 
@@ -1674,6 +1675,7 @@ resolve_all_symlinks (const char  *text_uri,
 			   info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME) {
 			GnomeVFSURI *resolved_uri;
 			char        *tmp_resolved_text_uri = NULL;
+			char        *symbolic_link = NULL;
 
 			n_followed_symlinks++;
 			if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
@@ -1682,7 +1684,13 @@ resolve_all_symlinks (const char  *text_uri,
 				goto out;
 			}
 
-			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri, info->symlink_name);
+			if (first_level && (info->symlink_name[0] != '/')) 
+				symbolic_link = g_strconcat ("/", info->symlink_name);
+			else 
+				symbolic_link = g_strdup (info->symlink_name);
+			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri, symbolic_link);
+			g_free (symbolic_link);
+
 			tmp_resolved_text_uri = new_path_from_uri (resolved_uri);
 			gnome_vfs_uri_unref (resolved_uri);
 
@@ -1698,6 +1706,7 @@ resolve_all_symlinks (const char  *text_uri,
 
 			p = my_text_uri;
 		}
+		first_level = FALSE;
 
 		gnome_vfs_uri_unref (new_uri); 
 	}
