@@ -150,7 +150,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 GType
 gth_exif_data_viewer_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {

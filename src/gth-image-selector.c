@@ -1081,7 +1081,7 @@ init (GthImageSelector *selector)
 GType
 gth_image_selector_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 
         if (! type) {
                 GTypeInfo type_info = {

@@ -408,7 +408,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 GType
 catalog_png_exporter_get_type ()
 {
-	static guint type = 0;
+	static GType type = 0;
 
 	if (! type) {
 		GTypeInfo type_info = {

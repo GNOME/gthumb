@@ -222,7 +222,7 @@ gth_toggle_button_set_label (GthToggleButton *toggle_button,
 GType
 gth_toggle_button_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 	
         if (! type) {
                 GTypeInfo type_info = {

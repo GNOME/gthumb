@@ -600,7 +600,7 @@ e_combo_button_popup_menu (EComboButton *combo_button)
 GType
 e_combo_button_get_type ()
 {
-        static guint type = 0;
+        static GType type = 0;
 	
         if (! type) {
                 GTypeInfo type_info = {
