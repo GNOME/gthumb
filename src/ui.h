@@ -635,7 +635,7 @@ static GtkToggleActionEntry action_toggle_entries[] = {
 	  TRUE },
 	{ "SortReversed", NULL,
 	  N_("_Reversed Order"), NULL,
-	  N_("Reverse image order"),
+	  N_("Reverse images order"),
 	  G_CALLBACK (activate_action_sort_reversed), 
 	  FALSE },
 };
