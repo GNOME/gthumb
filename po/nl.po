@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-06 04:34+0200\n"
+"POT-Creation-Date: 2004-09-05 03:57+0200\n"
 "PO-Revision-Date: 2004-07-06 14:19+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -90,7 +90,7 @@ msgstr "Roteren"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr "180°_draaien"
+msgstr "180Â°_draaien"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
@@ -98,7 +98,7 @@ msgstr "Afbeelding met de klok mee draaien"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate the image of 180 degrees"
-msgstr "Afbeelding 180° draaien"
+msgstr "Afbeelding 180Â° draaien"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 src/ui.h:68
 msgid "Save _As..."
@@ -177,8 +177,8 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:217
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:260
+#: src/dlg-image-prop.c:419 src/fullscreen.c:214
+#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:261
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d beeldpunten"
@@ -197,7 +197,7 @@ msgstr "Afmetingen"
 
 # Meervoud van byte is byte zonder s
 #: data/albumthemes/text.h:30 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:483
+#: src/gth-exif-data-viewer.c:484
 msgid "Bytes"
 msgstr "Byte"
 
@@ -256,7 +256,7 @@ msgstr "*"
 
 #: data/glade/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr "<b>Categoriëen:</b>"
+msgstr "<b>CategoriÃ«en:</b>"
 
 #: data/glade/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
@@ -350,7 +350,7 @@ msgstr "Waarde"
 msgid "_Application:"
 msgstr "Toep_assing:"
 
-#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:443
+#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:444
 msgid "_Bookmarks:"
 msgstr "Blad_wijzers:"
 
@@ -393,14 +393,14 @@ msgstr "..."
 
 #: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
-msgstr "_Categoriëen:"
+msgstr "_CategoriÃ«en:"
 
 #: data/glade/gthumb_camera.glade.h:4
 msgid "Camera Model"
 msgstr "Camera model"
 
 #: data/glade/gthumb_camera.glade.h:5
-#: data/glade/gthumb_png_exporter.glade.h:25
+#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:295
 msgid "Choose destination folder"
 msgstr "Doelmap kiezen"
 
@@ -435,7 +435,7 @@ msgstr "Geimporteerde afbeeldingen _verwijderen uit de camera"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr "_Doel:"
 
@@ -461,11 +461,11 @@ msgstr "Poort:"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
-msgstr "_Beschikbare categoriëen:"
+msgstr "_Beschikbare categoriÃ«en:"
 
 #: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
 msgid "Categories"
-msgstr "Categorieën"
+msgstr "CategorieÃ«n"
 
 #: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
 msgid "Co_mment:"
@@ -534,7 +534,7 @@ msgstr "_Plaats:"
 
 #: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
-msgstr "Geselecteerde categoriëen:"
+msgstr "Geselecteerde categoriÃ«en:"
 
 #: data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
@@ -1041,7 +1041,7 @@ msgid "Slide"
 msgstr "Dia"
 
 #: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Sor_t:"
 msgstr "Sor_teren:"
 
@@ -1100,17 +1100,17 @@ msgid "_Template:"
 msgstr "_Sjabloon:"
 
 #: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "op naam"
 
 #: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:51
+#: data/glade/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr "op pad"
 
 #: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: data/glade/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "op grootte"
 
@@ -1538,11 +1538,11 @@ msgstr "Gevonden afbeeldingen:"
 
 #: data/glade/gthumb_search.glade.h:17
 msgid "Match a_ll selected categories"
-msgstr "Zoeken op _alle geselecteerde categoriëen"
+msgstr "Zoeken op _alle geselecteerde categoriÃ«en"
 
 #: data/glade/gthumb_search.glade.h:18
 msgid "Match a_ny selected category"
-msgstr "Zoeken op één _van de geselecteerde categoriëen"
+msgstr "Zoeken op Ã©Ã©n _van de geselecteerde categoriÃ«en"
 
 #: data/glade/gthumb_search.glade.h:19
 msgid "New _Search..."
@@ -1606,7 +1606,7 @@ msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:10
 msgid "Adjust photo _orientation"
-msgstr "Foto-_oriëntatie bijstellen"
+msgstr "Foto-_oriÃ«ntatie bijstellen"
 
 #: data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
@@ -1745,8 +1745,8 @@ msgstr "_Volgende datum:"
 msgid "Write To CD"
 msgstr "Op CD branden"
 
-#: data/glade/gthumb_tools.glade.h:48 src/actions.c:288 src/actions.c:793
-#: src/actions.c:1317
+#: data/glade/gthumb_tools.glade.h:48 src/actions.c:289 src/actions.c:797
+#: src/actions.c:1321
 msgid "_Rename"
 msgstr "_Hernoemen"
 
@@ -1848,74 +1848,70 @@ msgid "Resi_ze if larger than:"
 msgstr "Afbeeldingen ver_kleinen als ze groter zijn dan:"
 
 #: data/glade/gthumb_web_exporter.glade.h:33
-msgid "Select Destination"
-msgstr "Selecteer bestemming"
-
-#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
 msgstr "_Grootte:"
 
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: data/glade/gthumb_web_exporter.glade.h:35
 msgid "Th_eme:"
 msgstr "Th_ema:"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
+#: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
 msgstr "Internet album"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
+#: data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album Theme"
 msgstr "Webalbum thema"
 
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: data/glade/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr "_Arperture"
 
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Copy originals to destination"
-msgstr "_Geselecteerde bestanden naar bestemming kopiëren"
+msgstr "_Geselecteerde bestanden naar bestemming kopiÃ«ren"
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
 msgstr "_Datum en tijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
 msgstr "_Knipperen"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Go to Theme Folder"
 msgstr "_Ga naar de thema-map"
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
 msgstr "Thema _installeren..."
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Select"
 msgstr "_Selecteren"
 
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
 msgstr "Sluitertijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:48
+#: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
 msgstr "Voorbeeld _titel..."
 
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: data/glade/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
 msgstr "op wijzigingstijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:53
+#: data/glade/gthumb_web_exporter.glade.h:52
 msgid "columns"
 msgstr "kolommen"
 
-#: data/glade/gthumb_web_exporter.glade.h:54
+#: data/glade/gthumb_web_exporter.glade.h:53
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: data/glade/gthumb_web_exporter.glade.h:54
 msgid "rows"
 msgstr "rijen"
 
@@ -2079,8 +2075,8 @@ msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:790 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
-#: src/gth-exif-data-viewer.c:458 src/gthumb-window.c:256
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:225
+#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:257
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2089,7 +2085,7 @@ msgid "(No Comment)"
 msgstr "(Geen commentaar)"
 
 #: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:763
+#: src/dlg-jpegtran.c:769
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2097,7 +2093,7 @@ msgstr ""
 "U heeft niet de juiste toegangsrechten om afbeeldingen in de map \"%s\" aan "
 "te maken"
 
-#: libgthumb/dlg-save-image.c:135 src/actions.c:322 src/dlg-convert.c:308
+#: libgthumb/dlg-save-image.c:135 src/actions.c:323 src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Er is al een afbeelding met de naam \"%s\". Wilt u die overschrijven?"
@@ -2204,7 +2200,7 @@ msgid "Font"
 msgstr "Lettertype"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:469
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
 msgid "Name"
 msgstr "Naam"
 
@@ -2235,12 +2231,12 @@ msgstr "Alle voorbeelden aan het verwijderen, een ogenblik alstublieft..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 
-#: src/actions.c:284 src/actions.c:789 src/actions.c:1313
+#: src/actions.c:285 src/actions.c:793 src/actions.c:1317
 msgid "Enter the new name: "
 msgstr "Graag de nieuwe naam: "
 
-#: src/actions.c:302 src/actions.c:809 src/actions.c:1032 src/actions.c:1109
-#: src/actions.c:1331
+#: src/actions.c:303 src/actions.c:813 src/actions.c:1036 src/actions.c:1113
+#: src/actions.c:1335
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2249,113 +2245,113 @@ msgstr ""
 "De naam \"%s\" is ongeldig, want hij bevat het \"/\"-teken. Kies alstublieft "
 "een andere naam."
 
-#: src/actions.c:329 src/dlg-convert.c:314
+#: src/actions.c:330 src/dlg-convert.c:314
 msgid "_Overwrite"
 msgstr "_Overschrijven"
 
-#: src/actions.c:349 src/actions.c:364
+#: src/actions.c:350 src/actions.c:365
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Kon de afbeelding \"%s\" niet hernoemen : %s"
 
-#: src/actions.c:351 src/actions.c:1353 src/actions.c:1625
+#: src/actions.c:352 src/actions.c:1357 src/actions.c:1629
 msgid "source and destination are the same"
 msgstr "bron en doel zijn gelijk"
 
-#: src/actions.c:448
+#: src/actions.c:449
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Kon de afbeelding \"%s\" niet kopiëren : %s"
+msgstr "Kon de afbeelding \"%s\" niet kopiÃ«ren : %s"
 
-#: src/actions.c:456
+#: src/actions.c:457
 msgid "Stop"
 msgstr "Stoppen"
 
-#: src/actions.c:457
+#: src/actions.c:458
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: src/actions.c:517
+#: src/actions.c:518
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "De afbeelding zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: src/actions.c:597
+#: src/actions.c:598
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde afbeeldingen zullen naar de Prullenbak verhuizen. Weet u "
 "het zeker ?"
 
-#: src/actions.c:756
+#: src/actions.c:760
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 "De geselecteerde afbeeldingen zullen uit de catalogus worden verwijderd. "
 "Weet u het zeker ?"
 
-#: src/actions.c:831 src/actions.c:1051 src/actions.c:1125 src/actions.c:1361
+#: src/actions.c:835 src/actions.c:1055 src/actions.c:1129 src/actions.c:1365
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "De naam \"%s\" wordt al gebruikt. Kies alstublieft een andere naam."
 
-#: src/actions.c:842
+#: src/actions.c:846
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet hernoemen : %s"
 
-#: src/actions.c:842
+#: src/actions.c:846
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet hernoemen : %s"
 
-#: src/actions.c:911
+#: src/actions.c:915
 msgid "The selected library will be removed, are you sure?"
 msgstr "De geselecteerde bibliotheek zal worden verwijderd. Weet u het zeker ?"
 
-#: src/actions.c:913
+#: src/actions.c:917
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Zo verwijdert u de geselecteerde catalogus. Weet u het zeker ?"
 
-#: src/actions.c:1016 src/dlg-catalog.c:82
+#: src/actions.c:1020 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr "Catalogusnaam ingeven: "
 
-#: src/actions.c:1017
+#: src/actions.c:1021
 msgid "New Catalog"
 msgstr "Nieuwe catalogus"
 
-#: src/actions.c:1062
+#: src/actions.c:1066
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet aanmaken : %s"
 
-#: src/actions.c:1096 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:205 src/dlg-file-utils.c:90
+#: src/actions.c:1100 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:231 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "Aan_maken"
 
-#: src/actions.c:1152
+#: src/actions.c:1156
 msgid "New Library"
 msgstr "Nieuwe bibliotheek"
 
-#: src/actions.c:1153 src/dlg-catalog.c:127
+#: src/actions.c:1157 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr "Geef de naam van de bibliotheek: "
 
-#: src/actions.c:1154
+#: src/actions.c:1158
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet aanmaken : %s"
 
-#: src/actions.c:1351 src/actions.c:1385
+#: src/actions.c:1355 src/actions.c:1389
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet hernoemen : %s"
 
-#: src/actions.c:1437
+#: src/actions.c:1441
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verwijderen : %s"
 
-#: src/actions.c:1468
+#: src/actions.c:1472
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
@@ -2363,72 +2359,72 @@ msgstr ""
 "Kan \"%s\" niet naar de Prullenbak verplaatsen. Wil u het definitief "
 "verwijderen?"
 
-#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1477
+#: src/actions.c:1480 src/dlg-file-utils.c:227 src/gthumb-window.c:1478
 msgid "_Do not display this message again"
 msgstr "_Deze boodschap niet meer weergeven"
 
-#: src/actions.c:1509
+#: src/actions.c:1513
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde map zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: src/actions.c:1511 src/dlg-file-utils.c:281
+#: src/actions.c:1515 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Verplaatsen"
 
-#: src/actions.c:1560 src/actions.c:1615
+#: src/actions.c:1564 src/actions.c:1619
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet kopieren : %s"
 
-#: src/actions.c:1615 src/dlg-file-utils.c:2413 src/dlg-file-utils.c:2415
+#: src/actions.c:1619 src/dlg-file-utils.c:2414 src/dlg-file-utils.c:2416
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verplaatsen : %s"
 
-#: src/actions.c:1636
+#: src/actions.c:1640
 msgid "source contains destination"
 msgstr "bron bevat doel"
 
-#: src/actions.c:1647
+#: src/actions.c:1651
 msgid "a folder with that name is already present."
 msgstr "er is al een map met die naam."
 
-#: src/actions.c:1720 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/actions.c:1724 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr "Selecteer doelmap"
 
-#: src/actions.c:1967
+#: src/actions.c:1971
 msgid "New Folder"
 msgstr "Nieuwe map"
 
-#: src/actions.c:1968
+#: src/actions.c:1972
 msgid "Enter the folder name: "
 msgstr "Geef de mapnaam : "
 
-#: src/actions.c:1969 src/dlg-photo-importer.c:1314
+#: src/actions.c:1973 src/dlg-photo-importer.c:1314
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet aanmaken : %s"
 
-#: src/actions.c:2713
+#: src/actions.c:2717
 msgid "translator_credits"
 msgstr ""
 " Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 " Mark Van den Borre <mark@markvdb.be>\n"
 " Jeroen van der Vegt <A.J.vanderVegt@ITS.TUDelft.nl>"
 
-#: src/actions.c:2722 src/gthumb-window.c:427 src/gthumb-window.c:4581
+#: src/actions.c:2726 src/gthumb-window.c:428 src/gthumb-window.c:4630
 #: src/main.c:136
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/actions.c:2725
+#: src/actions.c:2729
 msgid "An image viewer and browser for GNOME."
 msgstr "Afbeeldingenbeheer voor GNOME."
 
-#: src/actions.c:2762 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1008
+#: src/actions.c:2766 src/dlg-categories.c:357 src/dlg-change-date.c:151
+#: src/dlg-comment.c:291 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
@@ -2436,8 +2432,8 @@ msgstr "Kon geen hulp weergeven: %s"
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:409
-#: src/gthumb-window.c:1104 src/gthumb-window.c:1110 src/gthumb-window.c:1116
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:410
+#: src/gthumb-window.c:1105 src/gthumb-window.c:1111 src/gthumb-window.c:1117
 msgid "(Invalid Name)"
 msgstr "(Ongeldige naam)"
 
@@ -2476,11 +2472,11 @@ msgstr "Afbeelding wordt geladen"
 msgid "Move Catalog to..."
 msgstr "Catalogus verplaatsen naar..."
 
-#: src/dlg-categories.c:201
+#: src/dlg-categories.c:227
 msgid "Enter the new category name"
 msgstr "Nieuwe categorienaam invoeren"
 
-#: src/dlg-categories.c:212
+#: src/dlg-categories.c:238
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
@@ -2489,7 +2485,7 @@ msgstr ""
 " De naam \"%s\" is ongeldig, want hij bevat het \"/\"-teken. Kies "
 "alstublieft  een andere naam."
 
-#: src/dlg-categories.c:217
+#: src/dlg-categories.c:243
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "De categorie \"%s\" bestaat al. Gebruik graag een andere naam."
@@ -2587,18 +2583,18 @@ msgstr "Kon afbeelding niet verplaatsen:"
 msgid "Could not copy the image:"
 msgstr "Kon afbeelding niet kopieren:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2436
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2437
 msgid "_Abort"
 msgstr "_Afbreken"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2437
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2438
 msgid "_Continue"
 msgstr "_Doorgaan"
 
 #: src/dlg-file-utils.c:1347
 #, c-format
 msgid "Copying file %d of %d"
-msgstr "Bestand %d van %d aan het kopiëren"
+msgstr "Bestand %d van %d aan het kopiÃ«ren"
 
 #: src/dlg-file-utils.c:1763 src/dlg-file-utils.c:1991
 msgid "Collecting images info"
@@ -2619,7 +2615,7 @@ msgstr "Bestand %ld van %ld wordt gekopieerd"
 msgid "Moving file %ld of %ld"
 msgstr "Bestand %ld van %ld wordt verplaatst"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:476
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
 msgid "Size"
 msgstr "Grootte"
 
@@ -2627,8 +2623,8 @@ msgstr "Grootte"
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:490
-#: src/gthumb-window.c:272
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
+#: src/gthumb-window.c:273
 msgid "Modified"
 msgstr "Laatst gewijzigd"
 
@@ -2678,55 +2674,55 @@ msgstr "Zoekresultaat"
 msgid "Filename"
 msgstr "Bestandsnaam"
 
-#: src/dlg-search.c:656 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:656 src/gth-folder-selection-dialog.c:382
 msgid "Folder"
 msgstr "Map"
 
-#: src/dlg-web-exporter.c:711
+#: src/dlg-web-exporter.c:746
 msgid "Select Album Theme"
 msgstr "Selecteer een album-thema"
 
-#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3240
+#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3282
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
 #. restore normal view
-#: src/fullscreen.c:862 src/ui.h:448
+#: src/fullscreen.c:874 src/ui.h:448
 msgid "Restore Normal View"
 msgstr "Diavoorstelling verlaten"
 
 #. image info
-#: src/fullscreen.c:871
+#: src/fullscreen.c:883
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
 #. back
-#: src/fullscreen.c:880 src/gthumb-window.c:3847
+#: src/fullscreen.c:892 src/gthumb-window.c:3891
 msgid "Back"
 msgstr "Terug"
 
 #. forward
-#: src/fullscreen.c:889
+#: src/fullscreen.c:901
 msgid "Forward"
 msgstr "Volgende"
 
 #. zoom in
-#: src/fullscreen.c:898 src/ui.h:418
+#: src/fullscreen.c:910 src/ui.h:418
 msgid "In"
 msgstr "In"
 
 #. zoom out
-#: src/fullscreen.c:907 src/ui.h:423
+#: src/fullscreen.c:919 src/ui.h:423
 msgid "Out"
 msgstr "Uit"
 
 #. zoom 100
-#: src/fullscreen.c:916 src/ui.h:428
+#: src/fullscreen.c:928 src/ui.h:428
 msgid "1:1"
 msgstr "1:1"
 
 #. zoom fit
-#: src/fullscreen.c:925 src/ui.h:433
+#: src/fullscreen.c:937 src/ui.h:433
 msgid "Fit"
 msgstr "Inpassen"
 
@@ -2738,100 +2734,100 @@ msgstr "Veld"
 msgid "Value "
 msgstr "Waarde "
 
-#: src/gth-folder-selection-dialog.c:403
+#: src/gth-folder-selection-dialog.c:404
 msgid "_Browse..."
 msgstr "_Bladeren..."
 
-#: src/gth-folder-selection-dialog.c:412
+#: src/gth-folder-selection-dialog.c:413
 msgid "_Recents:"
 msgstr "_Recente:"
 
-#: src/gthumb-window.c:306
+#: src/gthumb-window.c:307
 msgid "[Press 'c' to add a comment]"
 msgstr "[Tik 'c' om commentaar toe te voegen]"
 
-#: src/gthumb-window.c:380 src/gthumb-window.c:402
+#: src/gthumb-window.c:381 src/gthumb-window.c:403
 msgid "[modified]"
 msgstr "[gewijzigd]"
 
-#: src/gthumb-window.c:486
+#: src/gthumb-window.c:487
 msgid "No image"
 msgstr "Geen afbeelding"
 
-#: src/gthumb-window.c:488
+#: src/gthumb-window.c:489
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 afbeelding (%s)"
 
-#: src/gthumb-window.c:491
+#: src/gthumb-window.c:492
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d afbeeldingen (%s)"
 
-#: src/gthumb-window.c:498
+#: src/gthumb-window.c:499
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 geselecteerd (%s)"
 
-#: src/gthumb-window.c:501
+#: src/gthumb-window.c:502
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: src/gthumb-window.c:1474
+#: src/gthumb-window.c:1475
 msgid "The current image has been modified, do you want to save it?"
 msgstr "De huidige afbeelding is veranderd, wilt u hem opslaan?"
 
-#: src/gthumb-window.c:1475
+#: src/gthumb-window.c:1476
 msgid "Do Not Save"
 msgstr "Niet opslaan"
 
-#: src/gthumb-window.c:3032
+#: src/gthumb-window.c:3074
 msgid "Dragged Images"
 msgstr "Gesleepte afbeeldingen"
 
-#: src/gthumb-window.c:3862 src/ui.h:459
+#: src/gthumb-window.c:3906 src/ui.h:459
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
-#: src/gthumb-window.c:4798 src/ui.h:464
+#: src/gthumb-window.c:4847 src/ui.h:464
 msgid "Go to the next visited location"
 msgstr "Ga naar volgende bezochte locatie"
 
-#: src/gthumb-window.c:4805 src/ui.h:469
+#: src/gthumb-window.c:4854 src/ui.h:469
 msgid "Go up one level"
-msgstr "Eén niveau omhoog gaan"
+msgstr "EÃ©n niveau omhoog gaan"
 
-#: src/gthumb-window.c:4812 src/ui.h:484
+#: src/gthumb-window.c:4861 src/ui.h:484
 msgid "Go to the home folder"
 msgstr "Naar eigen map gaan"
 
-#: src/gthumb-window.c:5002
+#: src/gthumb-window.c:5055
 msgid "Close"
 msgstr "Sluiten"
 
-#: src/gthumb-window.c:5016
+#: src/gthumb-window.c:5069
 msgid "Image comment"
 msgstr "Afbeeldingcommentaar"
 
-#: src/gthumb-window.c:5030
+#: src/gthumb-window.c:5083
 msgid "Image data"
 msgstr "Afbeeldingsgegevens"
 
-#: src/gthumb-window.c:5044
+#: src/gthumb-window.c:5097
 msgid "Image preview"
 msgstr "Afbeeld_ingsvoorbeeld"
 
-#: src/gthumb-window.c:6273
+#: src/gthumb-window.c:6396
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6543
+#: src/gthumb-window.c:6666
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8165
+#: src/gthumb-window.c:8318
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -3042,7 +3038,7 @@ msgstr "Deze afbeelding naar prullenbak verplaatsen"
 
 #: src/ui.h:118 src/ui.h:143 src/ui.h:268 src/ui.h:298
 msgid "_Copy..."
-msgstr "_Kopiëren..."
+msgstr "_KopiÃ«ren..."
 
 #: src/ui.h:119
 msgid "Copy this image to another location"
@@ -3071,7 +3067,7 @@ msgstr "Geselecteerde afbeeldingen naar prullenbak verplaatsen"
 
 #: src/ui.h:144
 msgid "Copy selected images to another location"
-msgstr "Geselecteerde afbeeldingen naar andere locatie kopieëren"
+msgstr "Geselecteerde afbeeldingen naar andere locatie kopieÃ«ren"
 
 #: src/ui.h:149
 msgid "Move selected images to another location"
@@ -3099,11 +3095,11 @@ msgstr "Commentaren bij geselecteerde afbeeldingen verwijderen"
 
 #: src/ui.h:168 src/ui.h:278 src/ui.h:308
 msgid "Ca_tegories"
-msgstr "Ca_tegoriëen"
+msgstr "Ca_tegoriÃ«en"
 
 #: src/ui.h:169
 msgid "Assign categories to selected images"
-msgstr "Categoriëen toewijzen aan geselecteerde afbeeldingen "
+msgstr "CategoriÃ«en toewijzen aan geselecteerde afbeeldingen "
 
 #: src/ui.h:173
 msgid "_Add to Catalog..."
@@ -3219,7 +3215,7 @@ msgstr "Geselecteerde map verplaatsen"
 
 #: src/ui.h:279
 msgid "Assign categories to the selected folder"
-msgstr "Categoriëen aan geselecteerde map toewijzen "
+msgstr "CategoriÃ«en aan geselecteerde map toewijzen "
 
 #: src/ui.h:284
 msgid "Open current folder with the Nautilus file manager"
@@ -3235,7 +3231,7 @@ msgstr "Huidige map naarprullenbak verplaatsen"
 
 #: src/ui.h:299
 msgid "Copy current folder"
-msgstr "Huidige map kopiëren"
+msgstr "Huidige map kopiÃ«ren"
 
 #: src/ui.h:304
 msgid "Move current folder"
@@ -3243,7 +3239,7 @@ msgstr "Huidige map verplaatsen"
 
 #: src/ui.h:309
 msgid "Assign categories to the current folder"
-msgstr "Categoriëen aan de huidige map toewijzen"
+msgstr "CategoriÃ«en aan de huidige map toewijzen"
 
 #: src/ui.h:313
 msgid "_New Folder..."
@@ -3734,11 +3730,14 @@ msgstr "_Catalogi"
 msgid "View the catalogs"
 msgstr "De catalogi weergeven"
 
+#~ msgid "Select Destination"
+#~ msgstr "Selecteer bestemming"
+
 #~ msgid "Add a comment to the image"
 #~ msgstr "Commentaar aan afbeelding toevoegen"
 
 #~ msgid "Assign categories to the image"
-#~ msgstr "Categoriëen aan afbeelding toewijzen"
+#~ msgstr "CategoriÃ«en aan afbeelding toewijzen"
 
 #~ msgid "Catalogs"
 #~ msgstr "Catalogi"
