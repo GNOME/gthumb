@@ -1,3 +1,15 @@
+2005-02-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c (gth_parsed_doc_print): 
+
+	escape xml special characters.  Patch by Christophe Bisière
+
+	* libgthumb/comments.c (comments_get_comment_as_xml_string): new
+	function.
+
+	* data/albumthemes/*/*.gthtml: Added summary  to tables.
+	Patch by Christophe Bisière.
+	
 2005-02-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/BlueStripes/image.gthtml:

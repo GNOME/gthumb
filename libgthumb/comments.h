@@ -101,4 +101,8 @@ char *         comments_get_comment_as_string      (CommentData *data,
 						    char        *sep1,
 						    char        *sep2);
 
+char *         comments_get_comment_as_xml_string  (CommentData *data,
+						    char        *sep1,
+						    char        *sep2);
+
 #endif /* COMMENTS_H */

@@ -15,12 +15,12 @@
 </head>
 <body>
 
-<table class="full_size">
+<table class="full_size" summary="page body">
 <tr>
 <td class="title">
 
 <!-- Title -->
-<table class="title">
+<table class="title" summary="title bar">
 <tr>
   <td>
   <span class="title"><gthumb:header/></span>
@@ -34,7 +34,7 @@
 <td class="nav_bar">
 
 <!-- Navigation Bar -->
-<table class="full_size">
+<table class="full_size" summary="navigation bar">
 <tr>
   <td class="button">
     <a href="<gthumb:page_link idx_relative=0 image_idx/>"><img src="up_arrow.png" alt="Back" /></a>
@@ -72,7 +72,7 @@
 <td>
 
 <!-- Thumbnails and preview -->
-<table class="row">
+<table class="row" summary="preview">
 <tr>
   <td>
     <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview class="preview"/>
@@ -88,7 +88,7 @@
   <span class="comment"><gthumb:comment/></span><br />
 </div>
 <gthumb:end/>
-<table>
+<table summary="image properties">
 <gthumb:if file_name_visibility_image/>
 <tr>
   <td><span class="property"><gthumb:text>Image</gthumb:text></span></span></td>
@@ -164,7 +164,7 @@
 <td class="footer">
 
 <!-- Footer -->
-<table class="full_size">
+<table class="full_size" summary="copyright">
 <tr>
   <td>
   <span class="copyright"><gthumb:footer/></span>

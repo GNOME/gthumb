@@ -769,66 +769,6 @@ comments_save_categories (const char  *filename,
 }
 
 
-char *
-comments_get_comment_as_string (CommentData *data, 
-				char        *sep1, 
-				char        *sep2)
-{
-	char      *as_string = NULL;
-	char       time_txt[50] = "";
-	char      *utf8_time_txt = NULL;
-	struct tm *tm;
-
-	if (data == NULL)
-		return NULL;
- 
-	if (data->time != 0) {
-		tm = localtime (& data->time);
-		if (tm->tm_hour + tm->tm_min + tm->tm_sec == 0)
-			strftime (time_txt, 50, _("%d %B %Y"), tm);
-		else
-			strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
-		utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
-	} 
-
-	if ((data->comment == NULL) 
-	    && (data->place == NULL) 
-	    && (data->time == 0)) {
-		if (data->keywords_n > 0) 
-			as_string = NULL;
-		else
-			as_string = g_strdup (_("(No Comment)"));
-	} else {
-		GString *comment;
-
-		comment = g_string_new ("");
-
-		if (data->comment != NULL) 
-			g_string_append (comment, data->comment);
-
-		if ((data->comment != NULL)
-		    && ((data->place != NULL) || (*time_txt != 0)))
-			g_string_append (comment, sep1);
-		
-		if (data->place != NULL) 
-			g_string_append (comment, data->place);
-
-		if ((data->place != NULL) && (*time_txt != 0))
-			g_string_append (comment, sep2);
-
-		if (utf8_time_txt != NULL) 
-			g_string_append (comment, utf8_time_txt);
-
-		as_string = comment->str;
-		g_string_free (comment, FALSE);
-	}
-
-	g_free (utf8_time_txt);
-
-	return as_string;
-}
-
-
 void
 comment_data_remove_keyword (CommentData *data,
 			     const char  *keyword)
@@ -903,4 +843,105 @@ comment_data_is_void (CommentData *data)
 		return FALSE;
 
 	return TRUE;
+}
+
+
+static void
+_string_append (GString    *str,
+		const char *a,
+		gboolean    markup_escape) 
+{
+	char *aa = NULL;
+
+	if (markup_escape)
+		aa = g_markup_escape_text (a, -1);
+	else
+		aa = g_strdup (a);
+	
+	g_string_append (str, aa);
+
+	g_free (aa);
+}
+
+
+/* Note: separators are not escaped */
+static char *
+_get_comment_as_string_common (CommentData *data, 
+			       char        *sep1, 
+			       char        *sep2,
+			       gboolean     markup_escape)
+{
+	char      *as_string = NULL;
+	char       time_txt[50] = "";
+	char      *utf8_time_txt = NULL;
+	struct tm *tm;
+
+	if (data == NULL)
+		return NULL;
+ 
+	if (data->time != 0) {
+		tm = localtime (& data->time);
+		if (tm->tm_hour + tm->tm_min + tm->tm_sec == 0)
+			strftime (time_txt, 50, _("%d %B %Y"), tm);
+		else
+			strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+		utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
+	} 
+
+	if ((data->comment == NULL) 
+	    && (data->place == NULL) 
+	    && (data->time == 0)) {
+		if (data->keywords_n > 0) 
+			as_string = NULL;
+		else if (markup_escape)
+			as_string = g_markup_escape_text (_("(No Comment)"), -1);
+		else
+			as_string = g_strdup (_("(No Comment)"));
+		
+	} else {
+		GString *comment;
+
+		comment = g_string_new ("");
+
+		if (data->comment != NULL) 
+			_string_append (comment, data->comment, markup_escape);
+
+		if ((data->comment != NULL)
+		    && ((data->place != NULL) || (*time_txt != 0)))
+			g_string_append (comment, sep1);
+		
+		if (data->place != NULL) 
+			_string_append (comment, data->place, markup_escape);
+
+		if ((data->place != NULL) && (*time_txt != 0))
+			g_string_append (comment, sep2);
+		
+		if (utf8_time_txt != NULL) 
+			_string_append (comment, utf8_time_txt, markup_escape);
+		
+		as_string = comment->str;
+		g_string_free (comment, FALSE);
+	}
+	
+	g_free (utf8_time_txt);
+	
+	return as_string;
+}
+
+
+char *
+comments_get_comment_as_string (CommentData *data, 
+				char        *sep1, 
+				char        *sep2)
+{
+	return _get_comment_as_string_common (data, sep1, sep2, FALSE);
+}
+
+
+char *
+comments_get_comment_as_xml_string (CommentData *data, 
+				    char        *sep1, 
+				    char        *sep2)
+{
+	return _get_comment_as_string_common (data, sep1, sep2, TRUE);
 }

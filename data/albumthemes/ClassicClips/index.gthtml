@@ -17,12 +17,12 @@
 <gthumb:set_var preview_width="450" preview_height="400"/>
 <body>
 
-<table class="full_size">
+<table class="full_size" summary="page body">
 <tr>
 <td class="title">
 
 <!-- Title -->
-<table class="title">
+<table class="title" summary="title bar">
 <tr>
   <td>
   <span class="title"><gthumb:header/></span>
@@ -36,7 +36,7 @@
 <td class="nav_bar">
 
 <!-- Navigation Bar -->
-<table class="full_size">
+<table class="full_size" summary="navigation bar">
 <tr>
   <td>
     &nbsp;
@@ -72,7 +72,7 @@
 
 <!-- Photos -->
 <div class="thumbnails">
-<table>
+<table summary="thumbnails">
 <gthumb:table/>
 </table>
 </div>
@@ -83,7 +83,7 @@
 <td class="footer">
 
 <!-- Footer -->
-<table class="full_size">
+<table class="full_size" summary="copyright">
 <tr>
   <td>
   <span class="copyright"><gthumb:footer/></span>

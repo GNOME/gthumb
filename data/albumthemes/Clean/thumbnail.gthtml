@@ -1,4 +1,4 @@
-      <table class="photo" onclick="window.location.href='<gthumb:image_link/>'">
+      <table class="photo" onclick="window.location.href='<gthumb:image_link/>'" summary="photo">
       <tr>
         <td colspan="3"><img class="photo_top" src="top.png" alt="Top" /></td>
       </tr>

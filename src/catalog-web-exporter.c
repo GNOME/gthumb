@@ -120,7 +120,7 @@ image_data_new (const char *filename)
 	idata = g_new (ImageData, 1);
 
 	cdata = comments_load_comment (filename);
-	idata->comment = comments_get_comment_as_string (cdata, "&nbsp;<br />", "&nbsp;<br />");
+	idata->comment = comments_get_comment_as_xml_string (cdata, "&nbsp;<br />", "&nbsp;<br />");
 	if (cdata != NULL)
 		comment_data_free (cdata);
 
@@ -857,6 +857,17 @@ write_line (const char *line, FILE *fout)
 
 
 static void
+write_markup_escape_line (const char *line, FILE *fout) 
+{
+	char *e_line;
+
+	e_line = g_markup_escape_text (line, -1);
+	write_line (e_line, fout);
+	g_free (e_line);
+}
+
+
+static void
 write_locale_line (const char *line, FILE *fout) 
 {
 	char *utf8_line;
@@ -869,6 +880,17 @@ write_locale_line (const char *line, FILE *fout)
 	utf8_line = g_locale_to_utf8 (line, -1, 0, 0, 0);
 	write_line (utf8_line, fout);
 	g_free (utf8_line);
+}
+
+
+static void
+write_markup_escape_locale_line (const char *line, FILE *fout) 
+{
+	char *e_line;
+	
+	e_line = g_markup_escape_text(line, -1);
+	write_locale_line (e_line, fout);
+	g_free (e_line);
 }
 
 
@@ -1046,7 +1068,7 @@ gth_parsed_doc_print (GList              *document,
 		ImageData  *idata;
 		char       *line = NULL;
 		char       *image_src, *image_src_relative;
-		char       *escaped_path;
+		char       *escaped_path, *e_escaped_path;
 		int         idx;
 		int         image_width;
 		int         image_height;
@@ -1062,17 +1084,17 @@ gth_parsed_doc_print (GList              *document,
 		switch (tag->type) {
 		case GTH_TAG_HEADER:
 			line = get_hf_text (ce->header);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_FOOTER:
 			line = get_hf_text (ce->footer);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_LANGUAGE:
 			line = get_current_language ();
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_IMAGE:
@@ -1110,10 +1132,11 @@ gth_parsed_doc_print (GList              *document,
 			image_src_relative = get_path_relative_to_dir (image_src, 
 								       ce->location);
 			escaped_path = escape_uri (image_src_relative);
+			e_escaped_path = g_markup_escape_text (escaped_path, -1);
 
 			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s />",
-						escaped_path,
-						escaped_path,
+						e_escaped_path,
+						e_escaped_path,
 						image_width,
 						image_height,
 						class_attr);
@@ -1121,6 +1144,7 @@ gth_parsed_doc_print (GList              *document,
 			g_free (image_src);
 			g_free (image_src_relative);
 			g_free (escaped_path);
+			g_free (e_escaped_path);
 			write_line (line, fout);
 			break;
 
@@ -1134,7 +1158,7 @@ gth_parsed_doc_print (GList              *document,
 			g_free (line);
 			line = escaped_path;
 
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_IMAGE_IDX:
@@ -1176,12 +1200,12 @@ gth_parsed_doc_print (GList              *document,
 			}
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0) 
-				write_locale_line (line, fout);
+				write_markup_escape_locale_line (line, fout);
 			else {
 				escaped_path = escape_uri (line);
 				g_free (line);
 				line = escaped_path;
-				write_line (line, fout);
+				write_markup_escape_line (line, fout);
 			}
 
 			break;
@@ -1201,12 +1225,12 @@ gth_parsed_doc_print (GList              *document,
 			g_free (filename);
 
 			if  (gth_tag_get_var (ce, tag, "utf8") != 0) 
-				write_locale_line (line, fout);
+				write_markup_escape_locale_line (line, fout);
 			else {
 				escaped_path = escape_uri (line);
 				g_free (line);
 				line = escaped_path;
-				write_line (line, fout);
+				write_markup_escape_line (line, fout);
 			}
 	
 			break;
@@ -1215,7 +1239,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
 			line = gnome_vfs_format_file_size_for_display (idata->file_size);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_COMMENT:
@@ -1256,7 +1280,7 @@ gth_parsed_doc_print (GList              *document,
 						    zero_padded (idx + 1),
 						    ".html",
 						    NULL);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_PAGE_IDX:
@@ -1299,7 +1323,7 @@ gth_parsed_doc_print (GList              *document,
 
 		case GTH_TAG_DATE:
 			line = get_current_date ();
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_HTML:
@@ -1312,7 +1336,7 @@ gth_parsed_doc_print (GList              *document,
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_EXPOSURE_TIME);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1322,7 +1346,7 @@ gth_parsed_doc_print (GList              *document,
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_EXPOSURE_MODE);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1331,7 +1355,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, EXIF_TAG_FLASH);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1341,7 +1365,7 @@ gth_parsed_doc_print (GList              *document,
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_SHUTTER_SPEED_VALUE);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1350,7 +1374,7 @@ gth_parsed_doc_print (GList              *document,
 			idata = g_list_nth (ce->file_list, idx)->data;
 #ifdef HAVE_LIBEXIF
 			line = get_exif_aperture_value (idata->src_filename);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1360,7 +1384,7 @@ gth_parsed_doc_print (GList              *document,
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_FOCAL_LENGTH);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1378,7 +1402,7 @@ gth_parsed_doc_print (GList              *document,
 					tp = localtime (&t);
 					strftime (s, 99, DATE_FORMAT, tp);
 					line = g_locale_to_utf8 (s, -1, 0, 0, 0);
-					write_line (line, fout);
+					write_markup_escape_line (line, fout);
 				} else
 					write_line ("-", fout);
 
@@ -1392,14 +1416,14 @@ gth_parsed_doc_print (GList              *document,
 #ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_MAKE);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 			g_free (line);
 
 			write_line (" ", fout);
 
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_MODEL);
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
 
@@ -1436,7 +1460,7 @@ gth_parsed_doc_print (GList              *document,
 				if (child->type != GTH_TAG_HTML)
 					break;
 				line = g_strdup (_(child->value.html));
-				write_line (line, fout);
+				write_markup_escape_line (line, fout);
 			} 
 			break;
 
