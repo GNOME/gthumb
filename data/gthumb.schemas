@@ -195,7 +195,7 @@
 
 	<locale name="cs">
 	  
-	  <long>Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všechn obrázků.</long>
+	  <long>Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všech obrázků.</long>
 	</locale>
 
 	<locale name="de">
@@ -218,6 +218,11 @@
 	  <long>Les images plus grosse que cette taille (en octets) ne seront pas mise en vignette. Utiliser 0 si vous voulez que les vignettes soient générées pour toutes les images.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Slike preko ove veličine (u bajtovima) neće biti sičice (thumbnails). Koristite 0 ako želite generirati sličice (thumbnails) za sve slike.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 érték az jelenti, hogy minden képhez készüljön bélyegkép.</long>
@@ -236,6 +241,11 @@
 	<locale name="nl">
 	  
 	  <long>Van afbeeldingen groter dan dit (in bytes) zal geen voorbeeld worden gemaakt. Kies 0 als je voorbeelden voor alle afbeeldingen wilt laten maken.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Bilder med størrelse over denne verdien (i bytes) vil det ikke vises miniatyrer for. Bruk 0 hvis du vil generere miniatyrer for alle bilder.</long>
 	</locale>
 
 	<locale name="pl">
@@ -316,6 +326,11 @@
 	  <long>Les valeurs possible sont : nautilus, single, double.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: nautilus, jednostruko, dvostruko.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: nautilus, single, double.</long>
@@ -334,6 +349,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="pl">
@@ -427,6 +447,11 @@
 	  <long>Les valeurs possible sont : none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ništa, staza, veličina, vrijeme.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: none, name, path, size, time.</long>
@@ -445,6 +470,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: none, name, path, size, time.</long>
 	</locale>
 
 	<locale name="pl">
@@ -525,6 +555,11 @@
 	  <long>Les valeurs possible sont : ascending, descending.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: uzlazno, sliazno</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: ascending, descending.</long>
@@ -543,6 +578,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: ascending, descending.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: ascending, descending.</long>
 	</locale>
 
 	<locale name="pl">
@@ -623,6 +663,11 @@
 	  <long>Les valeurs possible sont : list, thumbnails.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: lista, sličice.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: list, thumbnails.</long>
@@ -641,6 +686,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: list, thumbnails.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: list, thumbnails.</long>
 	</locale>
 
 	<locale name="pl">
@@ -734,6 +784,11 @@
 	  <long>Les valeurs possible sont : image, data, comment.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: slika, podaci, komentar.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: image, data, comment.</long>
@@ -752,6 +807,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: image, data, comment</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: image, data, comment.</long>
 	</locale>
 
 	<locale name="pl">
@@ -847,6 +907,11 @@
 	  <long>Les valeurs possible sont : high, low.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: visoko, nisko.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: high, low.</long>
@@ -865,6 +930,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: high, low</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: high, low.</long>
 	</locale>
 
 	<locale name="pl">
@@ -946,6 +1016,11 @@
 	  <long>Les valeurs possible sont : actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: stvarna veličina, odgovarajuća, zadrži pregled, prilagodi ako je veća</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -964,6 +1039,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1039,6 +1119,11 @@
 	  <long>Les valeurs possible sont : white, black, checked, none.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: bijelo, crno, šrafirano, ništa.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: white, black, checked, none.</long>
@@ -1057,6 +1142,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1137,6 +1227,11 @@
 	  <long>Les valeurs possible sont : light, midtone, dark.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: svijetlo, srednji ton, tamno.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: light, midtone, dark.</long>
@@ -1155,6 +1250,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: light, midtone, dark.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1235,6 +1335,11 @@
 	  <long>Les valeurs possible sont : small, medium, large.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: malo, srednje, veliko.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: small, medium, large.</long>
@@ -1253,6 +1358,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: small, medium, large.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: small, medium, large.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1353,6 +1463,11 @@
 	  <long>Of er altijd een zwarte achtergrond moet worden gebruikt.</long>
 	</locale>
 
+	<locale name="no">
+	  
+	  <long>Alltid bruk sort bakgrunn.</long>
+	</locale>
+
 	<locale name="pl">
 	  
 	  <long>Określa czy zawsze należy używać czarnego tła.</long>
@@ -1416,6 +1531,16 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: forward, backward, random.</long>
+	</locale>
+
+	<locale name="nl">
+	  
+	  <long>Mogelijke waarden zijn: forward, backward, random.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: forward, backward, random.</long>
 	</locale>
 
 	<locale name="sr">
@@ -1512,6 +1637,11 @@
 	  <long>Les valeurs possible sont : 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: 1, 2, 3, 4.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: 1, 2, 3, 4.</long>
@@ -1530,6 +1660,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: 1, 2, 3 en 4.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: 1,2,3,4.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1610,6 +1745,11 @@
 	  <long>Les valeurs possible sont : system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: sustav, tekst ispod, itkst pokraj, samo text, samo ikone.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: system, text_below, text_beside, text_only, icons_only.</long>
@@ -1628,6 +1768,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="pl">
@@ -1827,6 +1972,11 @@
 	  <long>Les valeurs possible sont : png, jpeg.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: png, jpeg.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: png, jpeg.</long>
@@ -1845,6 +1995,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: png, jpeg.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: png, jpeg.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2267,6 +2422,11 @@
 	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ništa, jednostavno, jendostavno sa sjenom, sjena, niz, sjena u, sjena iz.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -2285,6 +2445,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2483,6 +2648,11 @@
 	  <long>Les valeurs possible sont : none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ništa, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: none, deflate, jpeg.</long>
@@ -2501,6 +2671,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: none, deflate, jpeg.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2609,6 +2784,11 @@
 	  <long>Les valeurs possible sont : jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: jpeg, png, tga, tiff.</long>
@@ -2627,6 +2807,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: jpeg, png, tga, tiff.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2707,6 +2892,11 @@
 	  <long>Les valeurs possible sont : skip, rename, ask, overwrite.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: preskoči, preimenuj, traži uputu, prebriši.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: skip, rename, ask, overwrite.</long>
@@ -2725,6 +2915,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2846,6 +3041,11 @@
 	  <long>Les valeurs possible sont : name, size, time.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ime, veličina, vrijeme.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: name, size, time.</long>
@@ -2864,6 +3064,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: name, size, time.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: name, size, time.</long>
 	</locale>
 
 	<locale name="pl">
@@ -2959,6 +3164,11 @@
 	  <long>Les valeurs possible sont : pixels, percentage.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: pikseli, postotak.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: pixels, percentage.</long>
@@ -2977,6 +3187,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: pixels, percentage.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: pixels, percentage.</long>
 	</locale>
 
 	<locale name="pl">
@@ -3203,6 +3418,11 @@
 	  <long>Les valeurs possible sont : name, path, size, time.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ime, staza, veličina, vrijeme.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: name, path, size, time.</long>
@@ -3221,6 +3441,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: name, path, size, time.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: name, path, size, time.</long>
 	</locale>
 
 	<locale name="pl">
@@ -3435,6 +3660,11 @@
 	  <long>Les valeurs possible sont : mm, in.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: mm, in.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: mm, in.</long>
@@ -3453,6 +3683,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: mm, in.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: mm, in.</long>
 	</locale>
 
 	<locale name="pl">
@@ -3646,6 +3881,11 @@
 	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: ništa, četvrtasto, slika, prikaz,  4x3, 4x6, 5x7, 8x10, po izboru korisnika.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
@@ -3659,6 +3899,11 @@
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="no">
+	  
+	  <long>Mulige verdier er: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="pt">

@@ -146,10 +146,11 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 
 
 static void
-update_rotation_from_exif_data (DialogData *data)
+update_rotation_from_exif_data (DialogData *data,
+				GList      *current_image)
 {
 #ifdef HAVE_LIBEXIF
-	FileData *fd = data->current_image->data;
+	FileData *fd = current_image->data;
 	char     *value = get_exif_tag (fd->path, EXIF_TAG_ORIENTATION);
 
 	if (value != NULL) {
@@ -201,7 +202,7 @@ update_from_exif_data (DialogData *data)
 	if (! from_exif)
 		return;
 	
-	update_rotation_from_exif_data (data);
+	update_rotation_from_exif_data (data, data->current_image);
 
 	src_pixbuf = data->original_preview;
 	
@@ -770,7 +771,7 @@ apply_transformation (DialogData *data,
 	/**/
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton)))
-		update_rotation_from_exif_data (data);
+		update_rotation_from_exif_data (data, current_image);
 
 	stat (fd->path, &buf);
 
@@ -861,6 +862,8 @@ revert_clicked (GtkWidget  *button,
 {
 	data->rot_type = TRAN_ROTATE_0;
 	data->tran_type = TRAN_NONE;
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton), FALSE);
 
 	if (data->original_preview != NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), data->original_preview);

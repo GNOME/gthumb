@@ -1,6 +1,7 @@
 2004-02-13  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-jpegtran.c: Fix orientation restoring.
+	(ok_clicked): Fix apply to all.
 
 2004-02-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 

@@ -1,5 +1,11 @@
 version 2.3.1
 -------------
+	* Fix bug #133131 (exif orientation tag not updated).
+	* Fix bug #132614 (Comment font option menu in print dialog is
+          not disabled by default).
+	* Fix bug #109016 (Searches should match directories too).
+	* Fix bug #112254 (status line shoudl use date from comment rather
+          than mtime).
 	* Fix bug #130473 ("add comment" dialog uses ctime instead of mtime).
 	* Fix bug #130382 (gthumb keyboard usability issue).
 	* Fix bug #112254 (Needs Randomize Option on Slide Show).
