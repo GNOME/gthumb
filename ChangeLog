@@ -1,3 +1,9 @@
+2004-05-20  Paolo Bacchilega  <paolo@localhost.localdomain>
+
+	* src/gthumb-window.c (notify_files_deleted__step2) 
+	(notify_files_added__step2): update sensitivity after adding or 
+	removing files.
+
 2004-05-18  Paolo Bacchilega  <paolo@localhost.localdomain>
 
 	* data/gthumb-ui.xml: added a popup menu for the dir list.

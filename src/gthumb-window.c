@@ -7772,6 +7772,7 @@ notify_files_added__step2 (gpointer data)
 
 	window_update_statusbar_list_info (window);
 	window_update_infobar (window);
+	window_update_sensitivity (window);
 }
 
 
@@ -7911,6 +7912,7 @@ notify_files_deleted__step2 (FilesDeletedData *data)
 	}
 
 	window_update_statusbar_list_info (window);
+	window_update_sensitivity (window);
 
 	if (data->restart_thumbs)
 		gth_file_list_restart_thumbs (data->window->file_list, TRUE);
