@@ -449,7 +449,7 @@
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
-		<separator/>
+		<separator name="File_CameraImpor_Sep"/>
 		<menuitem name="File_CameraImport" verb=""/>
 		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>

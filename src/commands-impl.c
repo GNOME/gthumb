@@ -219,11 +219,15 @@ file_camera_import_command_impl (BonoboUIComponent *uic,
 				 gpointer           user_data, 
 				 const gchar       *verbname)
 {
+#ifdef HAVE_LIBGPHOTO
+
 	GThumbWindow *window = user_data;
 	void (*module) (GThumbWindow *window);
 
 	if (gthumb_module_get ("dlg_photo_importer", (gpointer*) &module))
 		(*module) (window);
+
+#endif /*HAVE_LIBGPHOTO */
 }
 
 

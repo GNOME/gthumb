@@ -1,6 +1,18 @@
+2003-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-photo-importer.c: 
+	* src/commands-impl.c (file_camera_import_command_impl): 
+	* src/gthumb-window.c (window_new): do not compile camera support 
+	if libgphoto is not present.
+
+	* src/dlg-photo-importer.c (update_ui): add gdk_flush()
+
 2003-12-14  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* src/dlg-photo-importer.c (ok_clicked_cb): rempve old check.
+	* src/dlg-categories.c (add_category_cb): automatically use a  
+	created category.
+
+	* src/dlg-photo-importer.c (ok_clicked_cb): remove old check.
 
 2003-12-13  Paolo Bacchilega  <paolo.bacch@tin.it>
 

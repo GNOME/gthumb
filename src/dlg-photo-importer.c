@@ -20,6 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_LIBGPHOTO
+
 #include <config.h>
 #include <string.h>
 #include <time.h>
@@ -126,6 +128,7 @@ update_ui (void)
 {
 	while (gtk_events_pending())
 		gtk_main_iteration();
+	gdk_flush();
 }
 
 
@@ -1232,3 +1235,6 @@ dlg_select_camera_model_cb (GtkButton  *button,
 		gtk_entry_set_text (GTK_ENTRY (mdata->cm_model_combo_entry), a.model);
 	}
 }
+
+
+#endif /*HAVE_LIBGPHOTO */

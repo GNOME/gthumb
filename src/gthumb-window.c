@@ -5392,6 +5392,10 @@ window_new (void)
 
 	/**/
 
+#ifndef HAVE_LIBGPHOTO
+	set_command_sensitive (window, "File_CameraImport", FALSE);
+#endif /* HAVE_LIBGPHOTO */
+
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      "/Toolbar",
 				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE) ? "0" : "1",

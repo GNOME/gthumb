@@ -221,7 +221,7 @@ add_category_cb (GtkWidget  *widget,
 		gtk_list_store_append (data->keywords_list_model, &iter);
 		gtk_list_store_set (data->keywords_list_model, &iter,
 				    IS_EDITABLE_COLUMN, TRUE,
-				    USE_CATEGORY_COLUMN, 0,
+				    USE_CATEGORY_COLUMN, 1,
 				    CATEGORY_COLUMN, new_category,
 				    -1);
 		update_category_entry (data);
