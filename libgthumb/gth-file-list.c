@@ -83,6 +83,9 @@ load_thumb_error_cb (ThumbLoader *tl,
 	GthFileList *file_list = data;
 	float        percent;
 
+	if (file_list == NULL)
+		return;
+
 	gth_file_view_set_unknown_pixbuf (file_list->view,  file_list->thumb_pos);
 
 	file_list->thumb_fd->error = TRUE;
@@ -104,6 +107,9 @@ load_thumb_done_cb (ThumbLoader *tl,
 {
 	GthFileList *file_list = data;
 	float        percent;
+
+	if (file_list == NULL)
+		return;
 
 	update_thumb_in_clist (file_list);
 	file_list->thumb_fd->error = FALSE;
@@ -1412,13 +1418,6 @@ set_thumbs_size__step2 (InterruptThumbsData *it_data)
 			  file_list);
 
 	gth_file_view_set_image_width (file_list->view, size + THUMB_BORDER);
-
-	/* FIXME
-	if (it_data->restart_thumbs) {
-		file_list->doing_thumbs = TRUE;
-		gth_file_list_update_next_thumb (file_list);
-	}
-	*/
 
 	it_data_free (it_data);
 }

@@ -39,6 +39,7 @@ extern int               ViewFirstImage;
 extern int               HideSidebar;
 extern gboolean          ExitAll;
 extern char             *ImageToDisplay;
+extern gboolean          FirstStart;
 
 
 #define MENU_ICON_SIZE 20.0

@@ -57,6 +57,7 @@ int                  ViewFirstImage = FALSE;
 int                  HideSidebar = FALSE;
 gboolean             ExitAll = FALSE;
 char                *ImageToDisplay = NULL;
+gboolean             FirstStart = TRUE;
 
 
 static gboolean        view_comline_catalog = FALSE;

@@ -74,7 +74,7 @@
 #define BUSY_CURSOR_DELAY      200
 #define DISPLAY_PROGRESS_DELAY 750
 #define HIDE_SIDEBAR_DELAY     150
-#define LOAD_DIR_DELAY         25
+#define LOAD_DIR_DELAY         75
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
@@ -1235,6 +1235,9 @@ set_file_list__final_step_cb (gpointer data)
 		ViewFirstImage = FALSE;
 		window_show_first_image (window, FALSE);
 	}
+
+	if (FirstStart)
+		FirstStart = FALSE;
 
 	return FALSE;
 }
@@ -4253,15 +4256,11 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 		window_hide_sidebar (window);
 	}
 
-	/* FIXME */
-	if (strcmp (path, "View_ShowPreview") == 0) {
+	if (strcmp (path, "View_ShowPreview") == 0) 
 		toggle_image_preview_visibility (window);
-	}
 
-	/* FIXME */
-	if (strcmp (path, "View_ShowInfo") == 0) {
+	if (strcmp (path, "View_ShowInfo") == 0) 
 		toggle_image_data_visibility (window);
-	}
 
 	if ((strcmp (path, "View_AsList") == 0) && s) {
 		pref_set_view_as (GTH_VIEW_AS_LIST);
@@ -6811,7 +6810,6 @@ typedef struct {
 } GoToDir_SetListInterruptedData;
 
 
-/* FIXME
 static void
 go_to_dir_set_list_interrupted (gpointer callback_data)
 {
@@ -6824,7 +6822,7 @@ go_to_dir_set_list_interrupted (gpointer callback_data)
 	g_free (data->dir_path);
 	g_free (data);
 }
-*/
+/**/
 
 
 void
@@ -6836,10 +6834,13 @@ window_go_to_directory (GThumbWindow *window,
 	if (! window->can_change_directory)
 		return;
 
-	/* FIXME
+	if (window->setting_file_list && FirstStart)
+		return;
+
 	if (window->setting_file_list && ! window->can_set_file_list) 
 		return;
-	*/
+
+	/**/
 
 	if (window->slideshow)
 		window_stop_slideshow (window);
@@ -6852,7 +6853,6 @@ window_go_to_directory (GThumbWindow *window,
 	if (window->setting_file_list) 
 		window_stop_activity_mode (window);
 
-	/* FIXME
 	if (window->setting_file_list) {
 		GoToDir_SetListInterruptedData *sli_data;
 
@@ -6864,7 +6864,6 @@ window_go_to_directory (GThumbWindow *window,
 						  sli_data);
 		return;
 	}
-	*/
 
 	real_go_to_directory (window, dir_path);
 }
@@ -6887,7 +6886,7 @@ window_go_to_catalog_directory (GThumbWindow *window,
 	g_free (catalog_dir2);
 
 	if (catalog_dir3 == NULL)
-		return; /* FIXME */
+		return; /* FIXME: error dialog?  */
 
 	catalog_list_change_to (window->catalog_list, catalog_dir3);
 	set_location (window, catalog_dir3);
@@ -6979,6 +6978,9 @@ window_go_to_catalog (GThumbWindow *window,
 	GoToData *gt_data;
 
 	g_return_if_fail (window != NULL);
+
+	if (window->setting_file_list && FirstStart)
+		return;
 
 	gt_data = g_new (GoToData, 1);
 	gt_data->window = window;

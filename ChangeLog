@@ -1,3 +1,12 @@
+2003-08-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.5 released ]  
+	
+2003-08-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_go_to_directory): restore
+	interruption of the file list filling before changing folder.
+
 2003-08-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/catalog.c (file_is_search_result): check if the line
