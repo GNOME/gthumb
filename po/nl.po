@@ -11,13 +11,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-24 05:11+0100\n"
-"PO-Revision-Date: 2004-01-27 04:21+0100\n"
-"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
+"POT-Creation-Date: 2004-03-05 05:12+0100\n"
+"PO-Revision-Date: 2004-03-07 17:44+0100\n"
+"Last-Translator: Michiel Sikkes <michiel@sikkes.xs4all.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -504,7 +504,7 @@ msgstr "Geimporteerde afbeeldingen _verwijderen uit de camera"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "_Doel:"
 
@@ -513,21 +513,20 @@ msgid "_Film:"
 msgstr "_Rolletje:"
 
 #: data/glade/gthumb_camera.glade.h:15
+msgid "_Import"
+msgstr "_Importeren"
+
+#: data/glade/gthumb_camera.glade.h:16
 msgid "_Keep original filenames"
 msgstr "Originele bestandnamen be_houden"
 
-#: data/glade/gthumb_camera.glade.h:16
+#: data/glade/gthumb_camera.glade.h:17
 msgid "_Model:"
 msgstr "_Model:"
 
-#: data/glade/gthumb_camera.glade.h:17
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: data/glade/gthumb_camera.glade.h:18
 msgid "_Port:"
 msgstr "Poort:"
-
-#: data/glade/gthumb_camera.glade.h:18
-msgid "_import"
-msgstr "_Importeren"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -556,51 +555,55 @@ msgid "Current date"
 msgstr "Huidige datum"
 
 #: data/glade/gthumb_comments.glade.h:8
+msgid "Do not modify"
+msgstr "Niet veranderen"
+
+#: data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "Aanmaakdatum afbeelding"
 
 # datum kan hier weggelaten worden
-#: data/glade/gthumb_comments.glade.h:9
+#: data/glade/gthumb_comments.glade.h:10
 msgid "Last modified date"
 msgstr "Laatst gewijzigd"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: data/glade/gthumb_comments.glade.h:11
 msgid "No date"
 msgstr "Geen datum"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: data/glade/gthumb_comments.glade.h:12
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Datum digitaliseren foto (uit EXIF-data)"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: data/glade/gthumb_comments.glade.h:13
 msgid "Remove selected category"
 msgstr "Geselecteerde categorie verwijderen"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: data/glade/gthumb_comments.glade.h:14
 msgid "Save only cha_nged fields"
 msgstr "Enkel aa_ngepaste velden opslaan"
 
-#: data/glade/gthumb_comments.glade.h:14
+#: data/glade/gthumb_comments.glade.h:15
 msgid "The following date"
 msgstr "De volgende datum:"
 
-#: data/glade/gthumb_comments.glade.h:15 data/glade/gthumb_search.glade.h:24
+#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Datum:"
 
-#: data/glade/gthumb_comments.glade.h:16
+#: data/glade/gthumb_comments.glade.h:17
 msgid "_Delete"
 msgstr "_Verwijderen"
 
-#: data/glade/gthumb_comments.glade.h:17
+#: data/glade/gthumb_comments.glade.h:18
 msgid "_New"
 msgstr "_Nieuw"
 
-#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:27
+#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Plaats:"
 
-#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:30
+#: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "Geselecteerde categoriëen:"
 
@@ -1011,12 +1014,12 @@ msgid "Create _HTML image map"
 msgstr "_HTML-image map aanmaken"
 
 #: data/glade/gthumb_png_exporter.glade.h:31
-#: data/glade/gthumb_web_exporter.glade.h:26
+#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "V_oettekst:"
 
 #: data/glade/gthumb_png_exporter.glade.h:32
-#: data/glade/gthumb_web_exporter.glade.h:27
+#: data/glade/gthumb_web_exporter.glade.h:24
 msgid "File _name"
 msgstr "Bestands_naam"
 
@@ -1025,7 +1028,7 @@ msgid "File pa_th"
 msgstr "_Sorteer bestandenlijst volgens pad"
 
 #: data/glade/gthumb_png_exporter.glade.h:34
-#: data/glade/gthumb_web_exporter.glade.h:28
+#: data/glade/gthumb_web_exporter.glade.h:25
 msgid "File si_ze"
 msgstr "_Grootte bestand"
 
@@ -1038,7 +1041,7 @@ msgid "Frame co_lor:"
 msgstr "Framek_leur:"
 
 #: data/glade/gthumb_png_exporter.glade.h:37
-#: data/glade/gthumb_web_exporter.glade.h:30
+#: data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "_Kop:"
 
@@ -1051,7 +1054,7 @@ msgid "Hei_ght:"
 msgstr "Hoo_gte:"
 
 #: data/glade/gthumb_png_exporter.glade.h:40
-#: data/glade/gthumb_web_exporter.glade.h:32
+#: data/glade/gthumb_web_exporter.glade.h:29
 msgid "Image dim_ensions"
 msgstr "Afm_etingen afbeelding"
 
@@ -1072,7 +1075,7 @@ msgid "Pi_xels"
 msgstr "_Beeldpunten"
 
 #: data/glade/gthumb_png_exporter.glade.h:45
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: data/glade/gthumb_web_exporter.glade.h:31
 msgid "Re_verse order"
 msgstr "_Omgekeerde volgorde"
 
@@ -1109,7 +1112,7 @@ msgid "Slide"
 msgstr "Dia"
 
 #: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:35
 msgid "Sor_t:"
 msgstr "Sor_teren:"
 
@@ -1168,17 +1171,17 @@ msgid "_Template:"
 msgstr "_Sjabloon:"
 
 #: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:62
+#: data/glade/gthumb_web_exporter.glade.h:50
 msgid "by name"
 msgstr "op naam"
 
 #: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:63
+#: data/glade/gthumb_web_exporter.glade.h:51
 msgid "by path"
 msgstr "op pad"
 
 #: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:64
+#: data/glade/gthumb_web_exporter.glade.h:52
 msgid "by size"
 msgstr "op grootte"
 
@@ -1670,9 +1673,8 @@ msgstr ""
 "bestandsnaam), %d (afbeeldingsdatum), %s (afbeeldingsgrootte).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
-#, fuzzy
 msgid "Adjust photo _orientation"
-msgstr "Tint en verzadiging bijsturen"
+msgstr "Foto-_oriëntatie bijstellen"
 
 #: data/glade/gthumb_tools.glade.h:10
 msgid "Apply to _all images"
@@ -1877,142 +1879,98 @@ msgid "Caption"
 msgstr "Kop bij afbeelding"
 
 #: data/glade/gthumb_web_exporter.glade.h:21
-msgid "Destination"
-msgstr "Bestemming"
-
-#: data/glade/gthumb_web_exporter.glade.h:22
-msgid "Destinations"
-msgstr "Bestemmingen"
-
-#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "E_xposure mode"
 msgstr "_Belichtingsmethode"
 
-#: data/glade/gthumb_web_exporter.glade.h:24
+#: data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
 msgstr "Belichtings_tijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:25
-msgid "FTP"
-msgstr "FTP"
-
-#: data/glade/gthumb_web_exporter.glade.h:29
+#: data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr "Focusafstand"
 
-#: data/glade/gthumb_web_exporter.glade.h:31
+#: data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "Afbeeldingstitel"
 
-#: data/glade/gthumb_web_exporter.glade.h:33
+#: data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
 msgstr "_Bestand met inhoudsopgave:"
 
-#: data/glade/gthumb_web_exporter.glade.h:34
-msgid "Local Folder"
-msgstr "Lokale map"
-
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: data/glade/gthumb_web_exporter.glade.h:32
 msgid "Resi_ze if larger than:"
 msgstr "Afbeeldingen ver_kleinen als ze groter zijn dan:"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
-msgid "SSH"
-msgstr "SSH"
+#: data/glade/gthumb_web_exporter.glade.h:33
+msgid "Select Destination"
+msgstr "Selecteer bestemming"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
-msgid "Saved _Destinations:"
-msgstr "Opgeslagen _bestemmingen:"
-
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
 msgstr "_Grootte:"
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Th_eme:"
 msgstr "Th_ema:"
 
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album"
 msgstr "Internet album"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: data/glade/gthumb_web_exporter.glade.h:38
 msgid "Web Album Theme"
 msgstr "Webalbum thema"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Aperture value"
 msgstr "_Arperture"
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Copy originals to destination"
 msgstr "_Geselecteerde bestanden naar bestemming kopiëren"
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Date and Time"
 msgstr "_Datum en tijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:48 data/gthumb-ui.xml.h:206
-msgid "_Edit"
-msgstr "Be_werken"
-
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Flash"
 msgstr "_Knipperen"
 
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Go to Theme Folder"
 msgstr "_Ga naar de thema-map"
 
-#: data/glade/gthumb_web_exporter.glade.h:51
-msgid "_Host:"
-msgstr "_Computernaam:"
-
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Install Theme..."
 msgstr "Thema _installeren..."
 
-#: data/glade/gthumb_web_exporter.glade.h:53
-msgid "_Password:"
-msgstr "_Wachtwoord"
-
-#: data/glade/gthumb_web_exporter.glade.h:54
-msgid "_Path:"
-msgstr "Op _pad:"
-
-#: data/glade/gthumb_web_exporter.glade.h:56
+#: data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Select"
 msgstr "_Selecteren"
 
-#: data/glade/gthumb_web_exporter.glade.h:57
+#: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Shutter speed"
 msgstr "Sluitertijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:58
+#: data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Thumbnail Caption..."
 msgstr "Voorbeeld _titel..."
 
-#: data/glade/gthumb_web_exporter.glade.h:59
-msgid "_Type:"
-msgstr "_Type"
-
-#: data/glade/gthumb_web_exporter.glade.h:60
-msgid "_User:"
-msgstr "_Gebruikersnaam:"
-
-#: data/glade/gthumb_web_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:49
 msgid "by modified time"
 msgstr "op wijzigingstijd"
 
-#: data/glade/gthumb_web_exporter.glade.h:65
+#: data/glade/gthumb_web_exporter.glade.h:53
 msgid "columns"
 msgstr "kolommen"
 
-#: data/glade/gthumb_web_exporter.glade.h:66
+#: data/glade/gthumb_web_exporter.glade.h:54
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:67
+#: data/glade/gthumb_web_exporter.glade.h:55
 msgid "rows"
 msgstr "rijen"
 
@@ -2100,7 +2058,7 @@ msgstr "Ca_talogus"
 msgid "Ca_tegories"
 msgstr "Ca_tegoriëen"
 
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4275
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4332
 msgid "Catalogs"
 msgstr "Catalogi"
 
@@ -2220,7 +2178,7 @@ msgstr "Afbeeldingen zoeken"
 msgid "Fit"
 msgstr "Inpassen"
 
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4225
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4282
 msgid "Folders"
 msgstr "Mappen"
 
@@ -2244,7 +2202,7 @@ msgstr "Naar eigen map gaan"
 msgid "Go to the next visited location"
 msgstr "Ga naar volgende bezochte locatie"
 
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4193
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4250
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
@@ -2651,11 +2609,11 @@ msgstr "De werkbalk van dit venster tonen of verbergen"
 msgid "View previous image"
 msgstr "Vorige afbeelding weergeven"
 
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4281
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4338
 msgid "View the catalogs"
 msgstr "De catalogi weergeven"
 
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4231
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4288
 msgid "View the folders"
 msgstr "De mappen weergeven"
 
@@ -2717,7 +2675,6 @@ msgstr ""
 "Zoom tot in venster past\n"
 "tot venstergrootte"
 
-#. GRUT modified this item
 #: data/gthumb-ui.xml.h:188
 msgid "_About"
 msgstr "In_fo"
@@ -2777,6 +2734,10 @@ msgstr "_Geschiedenis wissen"
 #: data/gthumb-ui.xml.h:205
 msgid "_Desaturate"
 msgstr "_Desatureren"
+
+#: data/gthumb-ui.xml.h:206
+msgid "_Edit"
+msgstr "Be_werken"
 
 #: data/gthumb-ui.xml.h:207
 msgid "_Edit Bookmarks"
@@ -3253,7 +3214,6 @@ msgstr "Lettertypenaam"
 msgid "Name of the selected font"
 msgstr "Naam van het geselecteerde lettertype"
 
-#. GRUT modified this item
 #: libgthumb/gnome-print-font-picker.c:209
 msgid "Preview text"
 msgstr "Voorbeeldtekst"
@@ -3476,7 +3436,7 @@ msgstr ""
 "Kan \"%s\" niet naar de Prullenbak verplaatsen. Wil u het definitief "
 "verwijderen?"
 
-#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:5720
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1682
 msgid "_Do not display this message again"
 msgstr "_Deze boodschap niet meer weergeven"
 
@@ -3544,7 +3504,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "Zo verwijdert u de geselecteerde catalogus. Weet u het zeker ?"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
+#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3558,7 +3518,7 @@ msgstr ""
 " Mark Van den Borre <mark@markvdb.be>\n"
 " Jeroen van der Vegt <A.J.vanderVegt@ITS.TUDelft.nl>"
 
-#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4910
+#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4967
 #: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
@@ -3789,7 +3749,7 @@ msgstr "Bestandsnaam"
 msgid "Folder"
 msgstr "Map"
 
-#: src/dlg-web-exporter.c:1185
+#: src/dlg-web-exporter.c:666
 msgid "Select Album Theme"
 msgstr "Selecteer een album-thema"
 
@@ -3797,7 +3757,7 @@ msgstr "Selecteer een album-thema"
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
-#: src/fullscreen.c:822 src/gthumb-window.c:4174
+#: src/fullscreen.c:822 src/gthumb-window.c:4231
 msgid "Back"
 msgstr "Terug"
 
@@ -3849,44 +3809,44 @@ msgstr "1 geselecteerd (%s)"
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: src/gthumb-window.c:3191
-msgid "Dragged Images"
-msgstr "Gesleepte afbeeldingen"
-
-#: src/gthumb-window.c:3405
-msgid "Could not move the items:"
-msgstr "Kon items niet verplaatsen:"
-
-#: src/gthumb-window.c:5246
-msgid "Image comment"
-msgstr "Afbeeldingcommentaar"
-
-#: src/gthumb-window.c:5260
-msgid "Image data"
-msgstr "Afbeeldingsgegevens"
-
-#: src/gthumb-window.c:5274
-msgid "Image preview"
-msgstr "Afbeeld_ingsvoorbeeld"
-
-#: src/gthumb-window.c:5717
+#: src/gthumb-window.c:1679
 msgid "The current image has been modified, do you want to save it?"
 msgstr "De huidige afbeelding is veranderd, wilt u hem opslaan?"
 
-#: src/gthumb-window.c:5718
+#: src/gthumb-window.c:1680
 msgid "Do Not Save"
 msgstr "Niet opslaan"
 
-#: src/gthumb-window.c:6552
+#: src/gthumb-window.c:3248
+msgid "Dragged Images"
+msgstr "Gesleepte afbeeldingen"
+
+#: src/gthumb-window.c:3462
+msgid "Could not move the items:"
+msgstr "Kon items niet verplaatsen:"
+
+#: src/gthumb-window.c:5303
+msgid "Image comment"
+msgstr "Afbeeldingcommentaar"
+
+#: src/gthumb-window.c:5317
+msgid "Image data"
+msgstr "Afbeeldingsgegevens"
+
+#: src/gthumb-window.c:5331
+msgid "Image preview"
+msgstr "Afbeeld_ingsvoorbeeld"
+
+#: src/gthumb-window.c:6574
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6821
+#: src/gthumb-window.c:6843
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8434
+#: src/gthumb-window.c:8456
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -3953,6 +3913,36 @@ msgstr "Familie"
 #: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Opdrachtregel"
+
+#~ msgid "Destinations"
+#~ msgstr "Bestemmingen"
+
+#~ msgid "FTP"
+#~ msgstr "FTP"
+
+#~ msgid "Local Folder"
+#~ msgstr "Lokale map"
+
+#~ msgid "SSH"
+#~ msgstr "SSH"
+
+#~ msgid "Saved _Destinations:"
+#~ msgstr "Opgeslagen _bestemmingen:"
+
+#~ msgid "_Host:"
+#~ msgstr "_Computernaam:"
+
+#~ msgid "_Password:"
+#~ msgstr "_Wachtwoord"
+
+#~ msgid "_Path:"
+#~ msgstr "Op _pad:"
+
+#~ msgid "_Type:"
+#~ msgstr "_Type"
+
+#~ msgid "_User:"
+#~ msgstr "_Gebruikersnaam:"
 
 #~ msgid "Co_rrective"
 #~ msgstr "Co_rrigerend"
