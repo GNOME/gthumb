@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-05-25 23:20+0200\n"
-"PO-Revision-Date: 2003-05-25 23:21+0200\n"
+"POT-Creation-Date: 2003-06-09 20:26+0200\n"
+"PO-Revision-Date: 2003-06-09 20:26+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "_Zoomkvalitet"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
 #, c-format
 msgid "%d x %d pixels"
@@ -215,24 +215,24 @@ msgstr "Kan inte öppna albumet \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
 msgstr "Tar bort alla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
 msgstr "Tar bort gamla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:746
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
+#: libgthumb/comments.c:748 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
 #: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:758
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
@@ -267,6 +267,90 @@ msgstr ""
 "GConf-fel:\n"
 "  %s"
 
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Infoga en ny förhandsvisningsfras."
+
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Ändra förhandsvisningsfras..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Förhandsgranska"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Ändra förhandsvisningsfras..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Typsnittsval"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvXxYyZzÅåÄäÖö"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Välj ett typsnitt"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Titel"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Titeln på markeringsdialogrutan"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Typsnittsnamn"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Namn på det valda typsnittet"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Förhandsvisningstext"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Förhandsvisningstext som visas i dialogfönstret"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Använd typsnitt i etikett"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Använd typsnitt i etiketten i typsnittsinformationsläge"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Typsnittsstorlek för etikett"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Typsnittsstorlek för etikett i typsnittsinformationsläge"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Visa skugga"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Visa storlek i typsnittsinformationsläge"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Typsnitt"
+
 #: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
@@ -278,18 +362,18 @@ msgid "Name"
 msgstr "Namn"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2824 src/gthumb-window.c:808
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2812 src/gthumb-window.c:808
 #: src/gthumb-window.c:4843 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:32 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
+#: libgthumb/print-callbacks.c:917 libgthumb/print-callbacks.c:1497
 #, c-format
 msgid "Print %s"
 msgstr "Skriv ut %s"
 
-#: libgthumb/print-callbacks.c:786
+#: libgthumb/print-callbacks.c:920
 msgid "Print Image"
 msgstr "Skriv ut bild"
 
@@ -301,12 +385,12 @@ msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
 msgstr "Läser in bild: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
@@ -513,21 +597,21 @@ msgstr "Det valda biblioteket kommer att tas bort, är du säker?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
-#: src/commands-impl.c:2764 src/dlg-categories.c:321 src/dlg-comment.c:244
+#: src/commands-impl.c:2752 src/dlg-categories.c:321 src/dlg-comment.c:327
 #: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Kunde inte visa hjälp: %s"
 
-#: src/commands-impl.c:2815
+#: src/commands-impl.c:2803
 msgid "translator_credits"
 msgstr ""
 "Christian Rose\n"
 "Bo Rosén\n"
 "Skicka synpunkter på översättningen till sv@li.org"
 
-#: src/commands-impl.c:2827
+#: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
 msgstr "En bildvisare och bläddrare för GNOME."
 
@@ -1120,7 +1204,7 @@ msgstr "Spela _animering"
 msgid "Previous"
 msgstr "Föregående"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1831,17 +1915,18 @@ msgstr "Det angivna albumet finns inte."
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1965,11 +2050,6 @@ msgstr "_Ta bort"
 msgid "_Save the new image as:"
 msgstr "_Spara den nya bilden som:"
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
-#: src/gthumb_search.glade.h:2
-msgid "..."
-msgstr "..."
-
 # src/gthumb_search.glade.h:
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -1991,39 +2071,67 @@ msgstr "Ko_mmentar:"
 msgid "Create a new category"
 msgstr "Skapa en ny kategori"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Aktuellt datum"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Datum för s_kapande av bilden"
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Datum för skapande av bilden"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Inget datum"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Bild_digitaliseringsdatum (från EXIF-data)"
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Bilddigitaliseringsdatum (från EXIF-data)"
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr "Ta bort vald kategori"
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr "Spara endast _ändrade fält"
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "_Följande datum:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "Följande datum"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Datum:"
 
-#: src/gthumb_comments.glade.h:15
+#: src/gthumb_comments.glade.h:21
 msgid "_Delete"
 msgstr "_Ta bort"
 
-#: src/gthumb_comments.glade.h:16
+#: src/gthumb_comments.glade.h:22
 msgid "_New"
 msgstr "_Ny"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "I_nget datum"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Plats:"
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "_Valda kategorier:"
 
@@ -2144,8 +2252,8 @@ msgid "dpi"
 msgstr "punkter/tum"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
-#: src/gthumb_tools.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
@@ -2218,7 +2326,7 @@ msgstr "Bredd:"
 msgid "_Brightness:"
 msgstr "_Ljusstyrka:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "_Höjd:"
 
@@ -2258,7 +2366,7 @@ msgstr "_Mättnad:"
 msgid "_Scale"
 msgstr "_Skala"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "_Bredd:"
 
@@ -2553,94 +2661,6 @@ msgstr "jpeg"
 msgid "png"
 msgstr "png"
 
-#: src/gthumb_web_exporter.glade.h:5
-msgid "1024 x 768"
-msgstr "1024 × 768"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "1280 x 960"
-msgstr "1280 × 960"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "320 x 200"
-msgstr "320 × 200"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "640 x 480"
-msgstr "640 × 480"
-
-#: src/gthumb_web_exporter.glade.h:9
-msgid "800 x 600"
-msgstr "800 × 600"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "<b>Album</b>"
-msgstr "<b>Album</b>"
-
-#: src/gthumb_web_exporter.glade.h:11
-msgid "<b>Index Layout</b>"
-msgstr "<b>Indexlayout</b>"
-
-#: src/gthumb_web_exporter.glade.h:12
-msgid "<b>Saving</b>"
-msgstr "<b>Sparar</b>"
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "<b>Theme</b>"
-msgstr "<b>Tema</b>"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Inde_x file:"
-msgstr "Inde_xfil:"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "Resi_ze images if larger than:"
-msgstr "_Ändra storlek på bilder om de är större än:"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "Sor_t:"
-msgstr "Sor_tera:"
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "Th_eme:"
-msgstr "T_ema:"
-
-#: src/gthumb_web_exporter.glade.h:20
-msgid "Web Album"
-msgstr "Webbalbum"
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "Web Album Theme"
-msgstr "Webbalbumtema"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "_Copy images to destination"
-msgstr "_Kopiera bilder till mål"
-
-#: src/gthumb_web_exporter.glade.h:23
-msgid "_Destination:"
-msgstr "_Mål:"
-
-#: src/gthumb_web_exporter.glade.h:24
-msgid "_Go to Theme Folder"
-msgstr "_Gå till temamappen"
-
-#: src/gthumb_web_exporter.glade.h:25
-msgid "_Install Theme..."
-msgstr "_Installera tema..."
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "_Title:"
-msgstr "_Titel:"
-
-#: src/gthumb_web_exporter.glade.h:28
-msgid "by modified time"
-msgstr "efter ändringstid"
-
-#: src/gthumb_web_exporter.glade.h:33
-msgid "index.html"
-msgstr "index.html"
-
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 × 112"
@@ -2891,14 +2911,18 @@ msgid "seconds"
 msgstr "sekunder"
 
 #: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Bild</b>"
+
+#: src/gthumb_print.glade.h:5
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientering</b>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:6
 msgid "<b>Size</b>"
 msgstr "<b>Storlek</b>"
 
-#: src/gthumb_print.glade.h:6
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2906,33 +2930,29 @@ msgstr ""
 "<i>Dra bilden för att flytta\n"
 "den på sidan.</i>"
 
-#: src/gthumb_print.glade.h:8
-msgid "A_3 (297 x 420 mm)"
-msgstr "A_3 (297 × 420 mm)"
-
 #: src/gthumb_print.glade.h:9
-msgid "A_4 (210 x 297 mm)"
-msgstr "A_4 (210 × 297 mm)"
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "A_5 (148 x 210 mm)"
-msgstr "A_5 (148 × 210 mm)"
+msgid "C_ustom:"
+msgstr "An_passat:"
 
 #: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Centrera _på sidan"
 
 #: src/gthumb_print.glade.h:12
-msgid "E_xecutive (190 x 254 mm)"
-msgstr "E_xecutive (190 × 254 mm)"
+msgid "Comment _font:"
+msgstr "Kommentar_typsnitt:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
 msgstr "I_nkludera kommentar"
 
 #: src/gthumb_print.glade.h:14
-msgid "L_egal (216 x 356 mm)"
-msgstr "L_egal (216 × 356 mm)"
+msgid "Inches"
+msgstr "Tum"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
@@ -2943,20 +2963,36 @@ msgid "Layout"
 msgstr "Layout"
 
 #: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Millimeter"
+
+#: src/gthumb_print.glade.h:18
 msgid "P_ortrait"
 msgstr "St_ående"
 
-#: src/gthumb_print.glade.h:18
+#: src/gthumb_print.glade.h:19
 msgid "Paper Details"
 msgstr "Pappersdetaljer"
 
-#: src/gthumb_print.glade.h:20
-msgid "_Letter (216 x 279 mm)"
-msgstr "_Letter (216 × 279 mm)"
-
 #: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
 msgstr "_Skala:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -3162,10 +3198,6 @@ msgstr "Rotera bilden 90 grader motsols"
 msgid "Search terminated, no duplicates found."
 msgstr "Sökningen avslutad, inga dubletter hittades."
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "_Följande datum:"
-
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
@@ -3191,6 +3223,94 @@ msgstr "efter namn"
 #: src/gthumb_tools.glade.h:51
 msgid "by Size"
 msgstr "efter storlek"
+
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 × 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 × 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 × 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 × 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 × 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Indexlayout</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Saving</b>"
+msgstr "<b>Sparar</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Theme</b>"
+msgstr "<b>Tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "Inde_x file:"
+msgstr "Inde_xfil:"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Resi_ze images if larger than:"
+msgstr "_Ändra storlek på bilder om de är större än:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "Sor_t:"
+msgstr "Sor_tera:"
+
+#: src/gthumb_web_exporter.glade.h:19
+msgid "Th_eme:"
+msgstr "T_ema:"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "Web Album"
+msgstr "Webbalbum"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Web Album Theme"
+msgstr "Webbalbumtema"
+
+#: src/gthumb_web_exporter.glade.h:22
+msgid "_Copy images to destination"
+msgstr "_Kopiera bilder till mål"
+
+#: src/gthumb_web_exporter.glade.h:23
+msgid "_Destination:"
+msgstr "_Mål:"
+
+#: src/gthumb_web_exporter.glade.h:24
+msgid "_Go to Theme Folder"
+msgstr "_Gå till temamappen"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "_Install Theme..."
+msgstr "_Installera tema..."
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "_Title:"
+msgstr "_Titel:"
+
+#: src/gthumb_web_exporter.glade.h:28
+msgid "by modified time"
+msgstr "efter ändringstid"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "index.html"
+msgstr "index.html"
 
 #: src/main.c:78
 msgid "Start in fullscreen mode"
@@ -3251,6 +3371,36 @@ msgstr "Familj"
 #: src/main.c:308 src/main.c:374
 msgid "Command Line"
 msgstr "Kommandoraden"
+
+#~ msgid "Fonts"
+#~ msgstr "Typsnitt"
+
+#~ msgid "_Font"
+#~ msgstr "_Typsnitt"
+
+#~ msgid "The following date:"
+#~ msgstr "Följande datum:"
+
+#~ msgid "Custom:"
+#~ msgstr "Anpassat:"
+
+#~ msgid "A_3 (297 x 420 mm)"
+#~ msgstr "A_3 (297 × 420 mm)"
+
+#~ msgid "A_4 (210 x 297 mm)"
+#~ msgstr "A_4 (210 × 297 mm)"
+
+#~ msgid "A_5 (148 x 210 mm)"
+#~ msgstr "A_5 (148 × 210 mm)"
+
+#~ msgid "E_xecutive (190 x 254 mm)"
+#~ msgstr "E_xecutive (190 × 254 mm)"
+
+#~ msgid "L_egal (216 x 356 mm)"
+#~ msgstr "L_egal (216 × 356 mm)"
+
+#~ msgid "_Letter (216 x 279 mm)"
+#~ msgstr "_Letter (216 × 279 mm)"
 
 #~ msgid "Resize images if larger than:"
 #~ msgstr "Ändra storlek på bilder om de är större än:"
@@ -3314,9 +3464,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "Paper"
 #~ msgstr "Papper"
-
-#~ msgid "Preview"
-#~ msgstr "Förhandsgranska"
 
 #~ msgid "Apply threshold"
 #~ msgstr "Tillämpa tröskel"
@@ -3477,9 +3624,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "_Title"
 #~ msgstr "_Titel"
-
-#~ msgid "Title"
-#~ msgstr "Titel"
 
 #~ msgid "Component has no editable properties"
 #~ msgstr "Komponenten har inga redigerbara egenskaper"
@@ -3870,17 +4014,11 @@ msgstr "Kommandoraden"
 #~ msgid "Rotate image 270 degrees clockwise (or 90 ccw)"
 #~ msgstr "Rotera bilden 270 grader medsols (eller 90° motsols)"
 
-#~ msgid "C_omment:"
-#~ msgstr "K_ommentar:"
-
 #~ msgid "Caption color:"
 #~ msgstr "Rubrikfärg:"
 
 #~ msgid "Caption font:"
 #~ msgstr "Rubriktypsnitt:"
-
-#~ msgid "File name"
-#~ msgstr "Filnamn"
 
 #~ msgid "NNN"
 #~ msgstr "NNN"
