@@ -147,7 +147,7 @@ get_exif_time (const char *filename)
 			tm.tm_hour = atoi (data + 11);
 			tm.tm_min  = atoi (data + 14);
 			tm.tm_sec  = atoi (data + 17);
-			tm.tm_isdst = 1;
+			tm.tm_isdst = -1;
 			time = mktime (&tm);
 
 			g_free (data);

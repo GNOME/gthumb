@@ -16,6 +16,8 @@ version 2.6.3
 	  which is invalid filename under Windows.
 	* Fixed bug #156677:  - ctrl+S should be the save shortcut, not the 
 	  Slide Show
+	* Fixed bug #143102: gThumb SHOULD save sizes when window is maximized.
+	* Classic and ClassicClips album themes are now xhtml compliant.
 
 version 2.6.2
 -------------	
