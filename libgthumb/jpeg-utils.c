@@ -198,8 +198,11 @@ do_load_internal (const char *path,
 	if (original_height_return != NULL)
 		*original_height_return = 0;
 
-	e_path = gnome_vfs_escape_path_string (path);
-	uri = g_strconcat ("file://", e_path, NULL);
+	e_path = gnome_vfs_escape_host_and_path_string (path);
+	if (e_path[0] == '/')
+		uri = g_strconcat ("file://", e_path, NULL);
+	else
+		uri = g_strdup (e_path);
 	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 	g_free (uri);
 	g_free (e_path);

@@ -35,7 +35,7 @@ static GtkActionEntry action_entries[] = {
 	{ "FileFolderMenu", NULL, N_("_Folder") },
 	{ "FileCatalogMenu", NULL, N_("Ca_talog") },
 	{ "FileSearchMenu", NULL, N_("Ca_talog") },
-	{ "EditMenu", NULL, N_("Edit") },
+	{ "EditMenu", NULL, N_("_Edit") },
 	{ "ViewMenu", NULL, N_("_View") },
 	{ "ViewShowHideMenu", NULL, N_("Show/_Hide") },
 	{ "ViewSortMenu", NULL, N_("S_ort Images") },
@@ -89,20 +89,15 @@ static GtkActionEntry action_entries[] = {
 	  N_("Import photos from a digital camera"),
 	  G_CALLBACK (activate_action_file_camera_import) },
 
+	{ "File_WriteToCD", GTHUMB_STOCK_CDROM,
+	  N_("_Write To CD"), NULL,
+	  N_("Write selection to CD"),
+	  G_CALLBACK (activate_action_file_write_to_cd) },
+
 	{ "Image_OpenWith", GTK_STOCK_OPEN,
 	  N_("_Open With"), NULL,
 	  N_("Open this image with an application"),
 	  G_CALLBACK (activate_action_image_open_with) },
-
-	{ "Image_Save", GTK_STOCK_SAVE_AS,
-	  N_("Save _As..."), NULL,
-	  N_("Save current image"),
-	  G_CALLBACK (activate_action_image_save) },
-
-	{ "Image_Print", GTK_STOCK_PRINT,
-	  N_("_Print..."), NULL,
-	  N_("Print the current imagee"),
-	  G_CALLBACK (activate_action_image_print) },
 
 	{ "Image_Rename", NULL,
 	  N_("_Rename..."), NULL,
@@ -130,7 +125,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_image_move) },
 
 	{ "Edit_RenameFile", NULL,
-	  N_("_Rename..."), NULL,
+	  N_("_Rename..."), "F2",
 	  N_("Rename selected image"),
 	  G_CALLBACK (activate_action_edit_rename_file) },
 
@@ -504,7 +499,7 @@ static GtkActionEntry action_entries[] = {
 	  N_("Specify a location to visit"),
 	  G_CALLBACK (activate_action_go_location) },
 
-	{ "Bookmarks_Add", GTK_STOCK_ADD,
+	{ "Bookmarks_Add", GTHUMB_STOCK_BOOKMARK,
 	  N_("_Add Bookmark"), "<control>D",
 	  N_("Add current location to bookmarks"),
 	  G_CALLBACK (activate_action_bookmarks_add) },
@@ -704,6 +699,7 @@ static const gchar *main_ui_info =
 "      <placeholder name='ContentPlaceholder'/>"
 "      <separator name='sep03'/>"
 "      <menuitem action='File_CameraImport'/>"
+"      <menuitem action='File_WriteToCD'/>"
 "      <separator name='sep04'/>"
 "      <menuitem action='File_CloseWindow'/>"
 "    </menu>"
@@ -873,8 +869,8 @@ static const gchar *main_ui_info =
 "    <menuitem action='View_Fullscreen'/>"
 "    <separator/>"
 "    <menuitem action='Image_OpenWith'/>"
-"    <menuitem action='Image_Save'/>"
-"    <menuitem action='Image_Print'/>"
+"    <menuitem action='File_Save'/>"
+"    <menuitem action='File_Print'/>"
 "    <separator/>"
 "    <menu action='ToolsWallpaperMenu'>"
 "      <menuitem action='Wallpaper_Centered'/>"

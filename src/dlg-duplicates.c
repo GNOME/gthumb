@@ -767,8 +767,10 @@ dlg_duplicates (GThumbWindow *window)
 	GtkWidget         *ok_button;
 	GtkWidget         *close_button;
 	GtkTreeSelection  *selection;
+	GValue             value = {0, };
 
 	data = g_new0 (DialogData, 1);
+
 	data->window = window;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
@@ -807,6 +809,10 @@ dlg_duplicates (GThumbWindow *window)
 	close_button = glade_xml_get_widget (data->gui, "fd_close_button");
 
 	/* Set widgets data. */
+
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, TRUE);
+	g_object_set_property (G_OBJECT (data->fd_start_from_fileentry), "use_filechooser", &value);
 
 	if (window->dir_list->path != NULL)
 		_gtk_entry_set_filename_text (GTK_ENTRY (data->fd_start_from_entry), window->dir_list->path);
@@ -1562,7 +1568,7 @@ search_dir_async (DialogData *data, const char *path)
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
 
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
 	data->uri = gnome_vfs_uri_new (escaped);
 	g_free (escaped);
 

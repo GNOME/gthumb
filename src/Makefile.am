@@ -70,6 +70,8 @@ gthumb_SOURCES = 			\
 	dlg-rename-series.h		\
 	dlg-scale-image.c		\
 	dlg-scale-image.h		\
+	dlg-write-to-cd.c		\
+	dlg-write-to-cd.h		\
 	e-combo-button.c		\
 	e-combo-button.h		\
 	fullscreen.c			\

@@ -2,12 +2,14 @@ IMAGES=					\
 	add-comment-16.png		\
 	add-comment-24.png		\
 	add-to-catalog-16.png		\
+	bookmark-16.png			\
 	brightness-contrast-16.png	\
 	brightness-contrast-22.png	\
 	camera-24.png			\
 	catalog-16.png			\
 	catalog-24.png			\
 	catalog-search-16.png		\
+	cdrom-24.png			\
 	crop-16.png			\
 	change-date-16.png		\
 	color-balance-16.png		\
@@ -70,12 +72,14 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list add_comment_16_rgba $(srcdir)/add-comment-16.png > $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list add_comment_24_rgba $(srcdir)/add-comment-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list add_to_catalog_16_rgba $(srcdir)/add-to-catalog-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list bookmark_16_rgba $(srcdir)/bookmark-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list brightness_contrast_22_rgba $(srcdir)/brightness-contrast-22.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list brightness_contrast_16_rgba $(srcdir)/brightness-contrast-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list camera_24_rgba $(srcdir)/camera-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list catalog_16_rgba $(srcdir)/catalog-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list catalog_24_rgba $(srcdir)/catalog-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list catalog_search_16_rgba $(srcdir)/catalog-search-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list cdrom_24_rgba $(srcdir)/cdrom-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list change_date_16_rgba $(srcdir)/change-date-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list color_balance_16_rgba $(srcdir)/color-balance-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list color_balance_22_rgba $(srcdir)/color-balance-22.png >> $(srcdir)/pixbufs.h

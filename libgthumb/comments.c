@@ -147,9 +147,9 @@ comment_data_dup (CommentData *data)
 
 
 char *
-comments_get_comment_filename (const char *source,
-			       gboolean    resolve_symlinks,
-			       gboolean    unescape) 
+comments_get_comment_filename__old (const char *source,
+				    gboolean    resolve_symlinks,
+				    gboolean    unescape) 
 {
 	char        *source_real = NULL;
 	char        *directory = NULL;
@@ -187,7 +187,7 @@ comments_get_comment_filename (const char *source,
 			    NULL);
 
 	if (!unescape) {
-		char *escaped_path = gnome_vfs_escape_path_string (path);
+		char *escaped_path = gnome_vfs_escape_host_and_path_string (path);
 		g_free (path);
 		path = escaped_path;
 	}
@@ -200,9 +200,9 @@ comments_get_comment_filename (const char *source,
 
 
 char *
-comments_get_comment_dir (const char *directory,
-			  gboolean    resolve_symlinks,
-			  gboolean    unescape) 
+comments_get_comment_dir__old (const char *directory,
+			       gboolean    resolve_symlinks,
+			       gboolean    unescape) 
 {
 	char        *directory_resolved = NULL;
 	const char  *directory_real = directory;
@@ -240,6 +240,53 @@ comments_get_comment_dir (const char *directory,
 }
 
 
+char *
+comments_get_comment_filename (const char *source,
+			       gboolean    resolve_symlinks,
+			       gboolean    unescape) 
+{
+	char  *source_real = NULL;
+	char  *directory = NULL;
+	char  *filename = NULL;
+	char  *path = NULL;
+
+	if (source == NULL) 
+		return NULL;
+
+	source_real = g_strdup (source);
+
+	if (resolve_symlinks) {
+		char           *resolved = NULL;
+		GnomeVFSResult  result;
+
+		result = resolve_all_symlinks (source_real, &resolved);
+
+		if (result == GNOME_VFS_OK) { 
+			g_free (source_real);
+			source_real = resolved;
+		} else
+			g_free (resolved);
+	}
+
+	directory = remove_level_from_path (source_real);
+	filename = g_strconcat (file_name_from_path (source_real), COMMENT_EXT, NULL);
+
+	path = g_build_filename (directory, ".comments", filename, NULL);
+
+	if (!unescape) {
+		char *escaped_path = gnome_vfs_escape_host_and_path_string (path);
+		g_free (path);
+		path = escaped_path;
+	}
+
+	g_free (directory);
+	g_free (filename);
+	g_free (source_real);
+
+	return path;
+}
+
+
 void
 comment_copy (const char *src,
 	      const char *dest)
@@ -250,16 +297,13 @@ comment_copy (const char *src,
 	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
-		comment_src = comments_get_comment_filename (src, FALSE, TRUE);
-		if (! path_is_file (comment_src)) {
-			g_free (comment_src);
-			return;
-		}
+		return;
 	}
-	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 
+	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
+
 	file_copy (comment_src, comment_dest);
 
 	g_free (comment_src);
@@ -277,17 +321,13 @@ comment_move (const char *src,
 	comment_src = comments_get_comment_filename (src, TRUE, TRUE);
 	if (! path_is_file (comment_src)) {
 		g_free (comment_src);
-		comment_src = comments_get_comment_filename (src, FALSE, TRUE);
-		if (! path_is_file (comment_src)) {
-			g_free (comment_src);
-			return;
-		}
+		return;
 	}
 
 	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
-
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
+
 	file_move (comment_src, comment_dest);
 
 	g_free (comment_src);
@@ -299,10 +339,6 @@ void
 comment_delete (const char *filename)
 {
 	char *comment_name;
-
-	comment_name = comments_get_comment_filename (filename, FALSE, TRUE);
-	unlink (comment_name);
-	g_free (comment_name);
 
 	comment_name = comments_get_comment_filename (filename, TRUE, TRUE);
 	unlink (comment_name);
@@ -503,13 +539,7 @@ comments_load_comment (const char *filename)
 	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
-
-		comment_file = comments_get_comment_filename (filename, FALSE, TRUE);
-		if (! path_is_file (comment_file)) {
-			g_free (comment_file);
-
-			return NULL;
-		}
+		return NULL;
 	}
 
         doc = xmlParseFile (comment_file);

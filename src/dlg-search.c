@@ -139,7 +139,6 @@ typedef struct {
 	GList          *dirs;
 
 	char           *catalog_path;
-	gboolean        search_comments;
 
 	GHashTable     *folders_comment;
 } DialogData;
@@ -955,43 +954,6 @@ add_file_list (DialogData *data, GList *file_list)
 }
 
 
-static char *
-uri_from_comment_uri (const char *comment_uri,
-		      gboolean    is_file)
-{
-	char *base;
-	char *uri;
-	int   comment_uri_l;
-	int   base_l;
-
-	if (comment_uri == NULL)
-		return NULL;
-
-	comment_uri_l = strlen (comment_uri);
-
-	base = comments_get_comment_dir (NULL, TRUE, TRUE);
-	base_l = strlen (base);
-
-	if (comment_uri_l == base_l) 
-		uri = g_strdup ("/");
-
-	else if (comment_uri_l > base_l) {
-		uri = g_strdup (comment_uri + base_l);
-
-		if (is_file) { /* remove the comment extension. */
-			int uri_l = comment_uri_l - base_l;
-			uri [uri_l - strlen (COMMENT_EXT)] = 0;
-		}
-
-	} else
-		uri = NULL;
-	
-	g_free (base);
-
-	return uri;
-}
-
-
 static void search_dir_async (DialogData *data, gchar *dir);
 
 
@@ -1037,13 +999,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
-			if (data->search_comments) {
-				char *tmp;
-				tmp = uri_from_comment_uri (unesc_uri, TRUE);
-				g_free (unesc_uri);
-				unesc_uri = tmp;
-			}
-
 			if (file_respects_search_criteria (data, unesc_uri)) 
 				files = g_list_prepend (files, unesc_uri);
 			else
@@ -1059,13 +1014,6 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			full_uri = gnome_vfs_uri_append_path (data->uri, info->name);
 			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
-
-			if (data->search_comments) {
-				char *tmp;
-				tmp = uri_from_comment_uri (unesc_uri, FALSE);
-				g_free (unesc_uri);
-				unesc_uri = tmp;
-			}
 
 			data->dirs = g_list_prepend (data->dirs, unesc_uri);
 			g_free (str_uri);
@@ -1130,10 +1078,7 @@ search_dir_async (DialogData *data, char *dir)
 	char *escaped;
 	char *start_from;
 
-	if (data->search_comments) 
-		start_from = comments_get_comment_dir (dir, TRUE, TRUE);
-	else
-		start_from = g_strdup (dir);
+	start_from = g_strdup (dir);
 
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
 
@@ -1142,7 +1087,7 @@ search_dir_async (DialogData *data, char *dir)
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
 
-	escaped = gnome_vfs_escape_path_string (start_from);
+	escaped = gnome_vfs_escape_host_and_path_string (start_from);
 	data->uri = gnome_vfs_uri_new (escaped);
 
 	g_free (start_from);
@@ -1175,17 +1120,6 @@ search_images_async (DialogData *data)
 
 	free_search_results_data (data);
 	gtk_list_store_clear (data->p_progress_tree_model);
-
-	/* if the search criteria include comment data just search in
-	 * the comments tree */
-
-	/* FIXME 
-	data->search_comments = ! (empty_pattern (search_data->comment_pattern)
-				   && empty_pattern (search_data->place_pattern)
-				   && empty_pattern (search_data->keywords_pattern));
-	*/
-
-	data->search_comments = FALSE;
 
 	search_dir_async (data, search_data->start_from);
 }

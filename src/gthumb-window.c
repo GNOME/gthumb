@@ -612,10 +612,8 @@ window_update_sensitivity (GThumbWindow *window)
 	set_action_sensitive (window, "File_OpenWith", sel_not_null && not_fullscreen);
 
 	set_action_sensitive (window, "File_Save", ! image_is_void);
-	set_action_sensitive (window, "Image_Save", ! image_is_void);
 	set_action_sensitive (window, "File_Revert", ! image_is_void && window->image_modified);
 	set_action_sensitive (window, "File_Print", ! image_is_void || sel_not_null);
-	set_action_sensitive (window, "Image_Print", ! image_is_void || sel_not_null);
 
 	/* Edit menu. */
 
@@ -4307,14 +4305,34 @@ window_set_preview_content (GThumbWindow      *window,
 
 
 static void
+close_preview_image_button_cb (GtkToggleButton *button,
+			       GThumbWindow    *window)
+{
+	if (window->sidebar_visible) {
+		if (window->image_pane_visible)
+			window_hide_image_pane (window);
+	} else 
+		window_show_sidebar (window);
+}
+
+
+static void
+preview_button_cb (GThumbWindow      *window,
+		   GtkToggleButton   *button,
+		   GthPreviewContent  content)
+{
+	if (gtk_toggle_button_get_active (button)) 
+		window_set_preview_content (window, content);
+	else if (window->preview_content == content) 
+		gtk_toggle_button_set_active (button, TRUE);
+}
+
+
+static void
 preview_image_button_cb (GtkToggleButton *button,
 			 GThumbWindow    *window)
 {
-	if (! gtk_toggle_button_get_active (button)) {
-		if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) 
-			hide_image_preview (window);
-	} else
-		window_set_preview_content (window, GTH_PREVIEW_CONTENT_IMAGE);
+	preview_button_cb (window, button, GTH_PREVIEW_CONTENT_IMAGE);
 }
 
 
@@ -4323,15 +4341,9 @@ preview_data_button_cb (GtkToggleButton *button,
 			GThumbWindow    *window)
 {
 	if (window->sidebar_visible) {
-		if (! gtk_toggle_button_get_active (button)) {
-			if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) 
-				hide_image_preview (window);
-			return;
-		} else
-			window_set_preview_content (window, GTH_PREVIEW_CONTENT_DATA);
+		preview_button_cb (window, button, GTH_PREVIEW_CONTENT_DATA);
 	} else {
 		if (gtk_toggle_button_get_active (button))
-			
 			window_show_image_data (window);
 		else
 			window_hide_image_data (window);
@@ -4343,11 +4355,7 @@ static void
 preview_comment_button_cb (GtkToggleButton *button,
 			   GThumbWindow    *window)
 {
-	if (! gtk_toggle_button_get_active (button)) {
-		if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) 
-			hide_image_preview (window);
-	} else
-		window_set_preview_content (window, GTH_PREVIEW_CONTENT_COMMENT);
+	preview_button_cb (window, button, GTH_PREVIEW_CONTENT_COMMENT);
 }
 
 
@@ -4546,7 +4554,6 @@ window_new (void)
 	GtkWidget         *image_pane_paned1;
 	GtkWidget         *image_pane_paned2;
 	GtkWidget         *scrolled_win; 
-	GtkWidget         *nav_bar_box;
 	GtkTreeSelection  *selection;
 	int                i; 
 	GtkActionGroup    *actions;
@@ -4920,21 +4927,6 @@ window_new (void)
 
 	window->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
 
-	/* FIXME
-	nav_bar_box = gtk_hbox_new (FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_back_toolbar_button,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_fwd_toolbar_button,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_up_toolbar_button,
-			    FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (nav_bar_box), window->go_home_toolbar_button,
-			    FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (dir_list_vbox), nav_bar_box, FALSE, FALSE, 0);
-	*/
-
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
 			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->notebook, 
@@ -4976,6 +4968,20 @@ window_new (void)
 	{
 		GtkWidget *button;
 		GtkWidget *image;
+
+		button = gtk_button_new ();
+		image = gtk_image_new_from_stock (GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
+		gtk_container_add (GTK_CONTAINER (button), image);
+		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
+		gtk_box_pack_end (GTK_BOX (info_hbox), button, FALSE, FALSE, 0);
+		g_signal_connect (G_OBJECT (button), 
+				  "clicked",
+				  G_CALLBACK (close_preview_image_button_cb), 
+				  window);
+		gtk_tooltips_set_tip (window->tooltips,
+				      button,
+				      _("Close"),
+				      NULL);
 
 		image = _gtk_image_new_from_inline (preview_comment_16_rgba);
 		window->preview_button_comment = button = gtk_toggle_button_new ();
@@ -6012,6 +6018,12 @@ _proc_monitor_events (gpointer data)
 	scan = window->monitor_events[MONITOR_EVENT_DIR_CREATED];
 	for (; scan; scan = scan->next) {
 		char *path = scan->data;
+		const char *name = file_name_from_path (path);
+
+		/* ignore hidden directories. */
+		if (name[0] == '.')
+			continue;
+
 		dir_list_add_directory (window->dir_list, path);
 	}
 	path_list_free (window->monitor_events[MONITOR_EVENT_DIR_CREATED]);
@@ -8131,7 +8143,7 @@ window_exec_pixbuf_op (GThumbWindow *window,
 			  "pixbuf_op_progress",
 			  G_CALLBACK (pixbuf_op_progress_cb),
 			  window);
-
+	
 	if (window->progress_dialog != NULL)
 		window->progress_timeout = g_timeout_add (DISPLAY_PROGRESS_DELAY, window__display_progress_dialog, window);
 

@@ -52,6 +52,7 @@
 #include "dlg-rename-series.h"
 #include "dlg-scale-image.h"
 #include "dlg-crop.h"
+#include "dlg-write-to-cd.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"
@@ -223,58 +224,43 @@ activate_action_file_camera_import (GtkAction *action,
 
 
 void
+activate_action_file_write_to_cd (GtkAction *action,
+				  gpointer   data)
+{
+	GThumbWindow *window = data;
+	dlg_write_to_cd (window);
+
+	/*
+	GList        *list;
+
+	list = gth_file_list_get_selection (window->file_list);
+	if (list != NULL)
+		dlg_copy_items (window, 
+				list,
+				"burn:///",
+				FALSE,
+				TRUE,
+				write_to_cd__continue,
+				window);
+	path_list_free (list);
+	*/
+}
+
+
+void
 activate_action_image_open_with (GtkAction *action,
 				 gpointer   data)
 {
-}
+	GThumbWindow *window = data;
+	GList        *list;
 
+	if (window->image_path == NULL)
+		return;
 
-void
-activate_action_image_save (GtkAction *action,
-			    gpointer   data)
-{
-}
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
+	open_with_cb (window, list);
 
-
-void
-activate_action_image_print (GtkAction *action,
-			     gpointer   data)
-{
-}
-
-
-void
-activate_action_image_rename (GtkAction *action,
-			      gpointer   data)
-{
-}
-
-
-void
-activate_action_image_duplicate (GtkAction *action,
-				 gpointer   data)
-{
-}
-
-
-void
-activate_action_image_delete (GtkAction *action,
-			      gpointer   data)
-{
-}
-
-
-void
-activate_action_image_copy (GtkAction *action,
-			    gpointer   data)
-{
-}
-
-
-void
-activate_action_image_move (GtkAction *action,
-			    gpointer   data)
-{
+	/* the list is deallocated when the dialog is closed. */
 }
 
 
@@ -389,15 +375,16 @@ rename_file (GThumbWindow *window,
 
 
 void
-activate_action_edit_rename_file (GtkAction *action,
-				  gpointer   data)
+activate_action_image_rename (GtkAction *action,
+			      gpointer   data)
 {
 	GThumbWindow *window = data;
 	GList        *list;
 
-	list = gth_file_view_get_file_list_selection (window->file_list->view);
-	g_return_if_fail (list != NULL);
+	if (window->image_path == NULL)
+		return;
 
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
 	rename_file (window, list);
 	path_list_free (list);
 }
@@ -495,6 +482,90 @@ duplicate_file_list (GThumbWindow *window,
 		char *filename = scan->data;
 		duplicate_file (window, filename);
 	}
+}
+
+
+void
+activate_action_image_duplicate (GtkAction *action,
+				 gpointer   data)
+{
+	GThumbWindow *window = data;
+	GList        *list;
+
+	if (window->image_path == NULL)
+		return;
+
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
+	duplicate_file_list (window, list);
+	path_list_free (list);
+}
+
+
+void
+activate_action_image_delete (GtkAction *action,
+			      gpointer   data)
+{
+	GThumbWindow *window = data;
+	GList        *list;
+
+	if (window->image_path == NULL)
+		return;
+
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
+	dlg_file_delete__confirm (window, 
+				  list,
+				  _("The image will be moved to the Trash, are you sure?"));
+
+	/* the list is deallocated when the dialog is closed. */
+}
+
+
+void
+activate_action_image_copy (GtkAction *action,
+			    gpointer   data)
+{
+	GThumbWindow *window = data;
+	GList        *list;
+
+	if (window->image_path == NULL)
+		return;
+
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
+	dlg_file_copy__ask_dest (window, list);
+
+	/* the list is deallocated when the dialog is closed. */
+}
+
+
+void
+activate_action_image_move (GtkAction *action,
+			    gpointer   data)
+{
+	GThumbWindow *window = data;
+	GList        *list;
+
+	if (window->image_path == NULL)
+		return;
+
+	list = g_list_prepend (NULL, g_strdup (window->image_path));
+	dlg_file_move__ask_dest (window, list);
+
+	/* the list is deallocated when the dialog is closed. */
+}
+
+
+void
+activate_action_edit_rename_file (GtkAction *action,
+				  gpointer   data)
+{
+	GThumbWindow *window = data;
+	GList        *list;
+
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
+	g_return_if_fail (list != NULL);
+
+	rename_file (window, list);
+	path_list_free (list);
 }
 
 
@@ -1291,30 +1362,18 @@ folder_rename (GThumbWindow *window,
 		g_free (utf8_name);
 
 	} else {
-		char *old_cache_path = NULL;
-		char *old_folder_comment = NULL;
-		
-		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
-		if (! path_is_dir (old_cache_path)) {
-			g_free (old_cache_path);
-			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
-		}
+		char *old_folder_comment;
+
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE, TRUE);
 
 		if (rename (old_path, new_path) == 0) { 
-			char *new_cache_path;
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
-			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-
-			rename (old_cache_path, new_cache_path);
 			rename (old_folder_comment, new_folder_comment);
-
-			g_free (new_cache_path);
 			g_free (new_folder_comment);
 			
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1329,7 +1388,6 @@ folder_rename (GThumbWindow *window,
 			g_free (utf8_path);
 		}
 
-		g_free (old_cache_path);
 		g_free (old_folder_comment);
 	}
 
@@ -1600,42 +1658,20 @@ folder_copy__response_cb (GObject *object,
 				 g_strdup (old_path));
 
 	} else {
-		char *old_cache_path = NULL;
 		char *old_folder_comment = NULL;
 
 		/* Comment cache. */
 			
-		old_cache_path = comments_get_comment_dir (old_path, TRUE, TRUE);
-		if (! path_is_dir (old_cache_path)) {
-			g_free (old_cache_path);
-			old_cache_path = comments_get_comment_dir (old_path, FALSE, TRUE);
-		}
-
 		old_folder_comment= comments_get_comment_filename (old_path, TRUE, TRUE);
 
 		if (rename (old_path, new_path) == 0) { 
-			char *new_cache_path;
 			char *new_folder_comment;
 
-			/* moving folders on the same file system can be implemeted 
-			 * with rename, which is faster. */
+			/* moving folders on the same file system can be 
+			 * implemeted with rename, which is faster. */
 
-			new_cache_path = comments_get_comment_dir (new_path, TRUE, TRUE);
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-
-			if (path_is_dir (old_cache_path)) {
-				char *parent_dir;
-				
-				parent_dir = remove_level_from_path (new_cache_path);
-				ensure_dir_exists (parent_dir, 0755);
-				g_free (parent_dir);
-				
-				rename (old_cache_path, new_cache_path);
-			}
-
 			rename (old_folder_comment, new_folder_comment);
-
-			g_free (new_cache_path);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1651,7 +1687,6 @@ folder_copy__response_cb (GObject *object,
 			g_free (utf8_path);
 		}
 
-		g_free (old_cache_path);
 		g_free (old_folder_comment);
 	}
 

@@ -1443,7 +1443,6 @@ copy_next_file (FileCopyData *fcdata)
 		char *dest_file;
 		char *src_cache_file;
 		char *dest_cache_file;
-		char *src_cache_dir;
 
 		dest_file = g_strconcat (fcdata->destination,
 					 "/", 
@@ -1451,14 +1450,7 @@ copy_next_file (FileCopyData *fcdata)
 					 NULL);
 		
 		src_cache_file = comments_get_comment_filename (src_file, TRUE, TRUE);
-		if (! path_is_file (src_cache_file)) {
-			g_free (src_cache_file);
-			src_cache_file = comments_get_comment_filename (src_file, FALSE, TRUE);
-		}
-
 		dest_cache_file = comments_get_comment_filename (dest_file, TRUE, TRUE);
-
-		src_cache_dir = remove_level_from_path (src_cache_file);
 
 		if (path_is_file (src_cache_file)) {
 			char *parent_dir;
@@ -1471,7 +1463,6 @@ copy_next_file (FileCopyData *fcdata)
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
 
-		g_free (src_cache_dir);
 		g_free (src_cache_file);
 		g_free (dest_cache_file);
 
@@ -1480,8 +1471,6 @@ copy_next_file (FileCopyData *fcdata)
 		src_cache_file = cache_get_nautilus_cache_name (src_file);
 		dest_cache_file = cache_get_nautilus_cache_name (dest_file);
 
-		src_cache_dir = remove_level_from_path (src_cache_file);
-		
 		if (path_is_file (src_cache_file)) {
 			char *parent_dir = remove_level_from_path (dest_cache_file);
 			ensure_dir_exists (parent_dir, 0755);
@@ -1491,7 +1480,6 @@ copy_next_file (FileCopyData *fcdata)
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
 		
-		g_free (src_cache_dir);
 		g_free (src_cache_file);
 		g_free (dest_cache_file);
 
@@ -1650,7 +1638,7 @@ dlg_files_move_to_trash (GThumbWindow   *window,
 
 	g_return_if_fail (file_list != NULL);
 
-	e_path = gnome_vfs_escape_path_string (file_list->data);
+	e_path = gnome_vfs_escape_host_and_path_string (file_list->data);
 	first_uri = gnome_vfs_uri_new (e_path);
 	g_free (e_path);
 	
@@ -2197,39 +2185,7 @@ folder_copy (GThumbWindow   *window,
 		dest_list = g_list_append (dest_list, new_uri_from_path (dest_path));
 
 	if (fcdata->include_cache) {
-		char *src_cache;
-		char *dest_cache;
 		char *src_folder_comment;
-
-		src_cache = comments_get_comment_dir (src_path, TRUE, TRUE);
-		if (! path_is_dir (src_cache)) {
-			g_free (src_cache);
-			src_cache = comments_get_comment_dir (src_path, FALSE, TRUE);
-		}
-
-		dest_cache = comments_get_comment_dir (dest_path, TRUE, TRUE);
-
-		if (path_is_dir (src_cache)) {
-			char *parent_dir = remove_level_from_path (dest_cache);
-			ensure_dir_exists (parent_dir, 0755);
-			g_free (parent_dir);
-
-			src_list = g_list_append (src_list, 
-						  new_uri_from_path (src_cache));
-
-			if (fcdata->file_op != FILE_OP_DELETE) {
-				if (path_is_dir (dest_cache) && !overwrite_all)
-					rmdir_recursive (dest_cache);
-
-				dest_list = g_list_append (dest_list, 
-							   new_uri_from_path (dest_cache));
-			}
-		}
-
-		g_free (src_cache);
-		g_free (dest_cache);
-
-		/**/
 
 		src_folder_comment = comments_get_comment_filename (src_path, TRUE, TRUE);
 
@@ -2320,7 +2276,7 @@ dlg_folder_move_to_trash (GThumbWindow   *window,
 	GnomeVFSURI     *parent_uri, *trash_uri;
 
 	parent_dir = remove_level_from_path (folder);
-	e_parent_dir = gnome_vfs_escape_path_string (parent_dir);
+	e_parent_dir = gnome_vfs_escape_host_and_path_string (parent_dir);
 	parent_uri = gnome_vfs_uri_new (e_parent_dir);
 	
 	gnome_vfs_find_directory (parent_uri, 

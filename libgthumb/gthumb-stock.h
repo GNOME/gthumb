@@ -25,9 +25,11 @@
 
 #define GTHUMB_STOCK_ADD_COMMENT          "gthumb-add-comment"
 #define GTHUMB_STOCK_ADD_TO_CATALOG       "gthumb-add-to-catalog"
+#define GTHUMB_STOCK_BOOKMARK             "gthumb-bookmark"
 #define GTHUMB_STOCK_BRIGHTNESS_CONTRAST  "gthumb-brightness-contrast"
 #define GTHUMB_STOCK_CAMERA               "gthumb-camera"
 #define GTHUMB_STOCK_CATALOG              "gthumb-catalog"
+#define GTHUMB_STOCK_CDROM                "gthumb-cdrom"
 #define GTHUMB_STOCK_CHANGE_DATE          "gthumb-change-date"
 #define GTHUMB_STOCK_COLOR_BALANCE        "gthumb-color-balance"
 #define GTHUMB_STOCK_CROP                 "gthumb-crop"

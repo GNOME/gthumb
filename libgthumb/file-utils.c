@@ -191,7 +191,7 @@ path_list_async_new (const char       *uri,
 
 	pli = path_list_data_new ();
 
-	escaped = gnome_vfs_escape_path_string (uri);
+	escaped = gnome_vfs_escape_host_and_path_string (uri);
 	if (escaped == NULL) {
 		path_list_data_free (pli);
 		if (f != NULL)
@@ -536,7 +536,8 @@ path_is_file (const char *path)
 	if (! path || ! *path) return FALSE; 
 
 	info = gnome_vfs_file_info_new ();
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
+
 	result = gnome_vfs_get_file_info (escaped, 
 					  info, 
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -564,7 +565,8 @@ path_is_dir (const char *path)
 		return FALSE; 
 
 	info = gnome_vfs_file_info_new ();
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
+
 	result = gnome_vfs_get_file_info (escaped, 
 					  info, 
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -615,7 +617,7 @@ get_file_size (const char *path)
 	if (! path || ! *path) return 0; 
 
 	info = gnome_vfs_file_info_new ();
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
 	result = gnome_vfs_get_file_info (escaped, 
 					  info,
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -642,7 +644,7 @@ get_file_mtime (const char *path)
 	if (! path || ! *path) return 0; 
 
 	info = gnome_vfs_file_info_new ();
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
 	result = gnome_vfs_get_file_info (escaped, 
 					  info, 
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -670,7 +672,7 @@ get_file_ctime (const gchar *path)
 	if (! path || ! *path) return 0; 
 
 	info = gnome_vfs_file_info_new ();
-	escaped = gnome_vfs_escape_path_string (path);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
 	result = gnome_vfs_get_file_info (escaped, 
 					  info, 
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -698,7 +700,7 @@ set_file_mtime (const gchar *path,
 	file_info->mtime = mtime;
 	file_info->atime = mtime;
 
-	escaped_path = gnome_vfs_escape_path_string (path);
+	escaped_path = gnome_vfs_escape_host_and_path_string (path);
 	gnome_vfs_set_file_info (escaped_path,
 				 file_info,
 				 GNOME_VFS_SET_FILE_INFO_TIME);
@@ -1090,7 +1092,8 @@ ensure_dir_exists (const char *a_path,
 			}
 			
 			if (! path_is_dir (path)) {
-				if (mkdir (path, mode) < 0) {
+				GnomeVFSResult result = gnome_vfs_make_directory (path, mode);
+				if (result != GNOME_VFS_OK) {
 					g_warning ("directory creation failed: %s.", path);
 					g_free (path);
 					return FALSE;
@@ -1118,7 +1121,7 @@ dir_list_filter_and_sort (GList *dir_list,
 	filtered = NULL;
 	scan = dir_list;
 	while (scan) {
-		const gchar *name_only = file_name_from_path (scan->data);
+		const char *name_only = file_name_from_path (scan->data);
 
 		if (! (file_is_hidden (name_only) && ! show_dot_files) 
 		    && (strcmp (name_only, CACHE_DIR) != 0)) {
@@ -1434,9 +1437,14 @@ new_uri_from_path (const char *path)
 	char        *uri_txt;
 	GnomeVFSURI *uri;
 
-	escaped = gnome_vfs_escape_path_string (path);
-	uri_txt = g_strconcat ("file://", escaped, NULL);
+	escaped = gnome_vfs_escape_host_and_path_string (path);
+	if (escaped[0] == '/')
+		uri_txt = g_strconcat ("file://", escaped, NULL);
+	else
+		uri_txt = g_strdup (escaped);
+
 	uri = gnome_vfs_uri_new (uri_txt);
+
 	g_free (uri_txt);
 	g_free (escaped);
 

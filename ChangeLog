@@ -1,3 +1,18 @@
+2004-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (close_preview_image_button_cb): 
+	added a close button for the preview content bar, related to bug
+	#143023.
+
+	* src/dlg-write-to-cd.c: 
+	* src/dlg-write-to-cd.h: new files.  Added ability to write images
+	to CDs using nautilus.
+
+2004-06-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (_proc_monitor_events): ignore hidden 
+	directories.
+
 2004-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-folder-selection-dialog.c: 

@@ -33,9 +33,11 @@ static struct {
 } items[] = {
 	{ GTHUMB_STOCK_ADD_COMMENT,         add_comment_24_rgba,         add_comment_16_rgba },
 	{ GTHUMB_STOCK_ADD_TO_CATALOG,      add_to_catalog_16_rgba,      NULL },
+	{ GTHUMB_STOCK_BOOKMARK,            bookmark_16_rgba,            NULL },
 	{ GTHUMB_STOCK_BRIGHTNESS_CONTRAST, brightness_contrast_22_rgba, brightness_contrast_16_rgba },
 	{ GTHUMB_STOCK_CAMERA,              camera_24_rgba,              NULL },
 	{ GTHUMB_STOCK_CATALOG,             catalog_24_rgba,             catalog_16_rgba },
+	{ GTHUMB_STOCK_CDROM,               cdrom_24_rgba,               NULL },
 	{ GTHUMB_STOCK_CHANGE_DATE,         change_date_16_rgba,         NULL },
 	{ GTHUMB_STOCK_COLOR_BALANCE,       color_balance_22_rgba,       color_balance_16_rgba },
 	{ GTHUMB_STOCK_CROP,                crop_16_rgba,                NULL },
