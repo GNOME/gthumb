@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.1.0.99\n"
-"POT-Creation-Date: 2003-03-02 19:03+0100\n"
-"PO-Revision-Date: 2003-03-02 18:40+0100\n"
+"Project-Id-Version: gthumb 2.1.1\n"
+"POT-Creation-Date: 2003-03-23 21:26+0100\n"
+"PO-Revision-Date: 2003-03-23 21:11+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -173,12 +173,12 @@ msgid "_Zoom Quality"
 msgstr "Qualité du _zoom"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
-#: src/gthumb-window.c:351
+#: src/gthumb-window.c:355
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:357
+#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:361
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -278,9 +278,9 @@ msgid "Name"
 msgstr "Nom"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:436
-#: src/gthumb-window.c:450 src/gthumb-window.c:453 src/gthumb-window.c:470
-#: src/gthumb-window.c:476 src/gthumb-window.c:4097
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:440
+#: src/gthumb-window.c:454 src/gthumb-window.c:457 src/gthumb-window.c:474
+#: src/gthumb-window.c:480 src/gthumb-window.c:4198
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
 #: src/main.c:122
 msgid "gThumb"
@@ -295,11 +295,11 @@ msgstr "Imprimer %s"
 msgid "Print Image"
 msgstr "Imprimer l'image"
 
-#: libgthumb/thumb-cache.c:396
+#: libgthumb/thumb-cache.c:399
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Suppression de toutes les vignettes, veuillez patienter..."
 
-#: libgthumb/thumb-cache.c:398
+#: libgthumb/thumb-cache.c:401
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Suppression des anciennes vignettes, veuillez patienter..."
 
@@ -313,24 +313,24 @@ msgstr "Chargement de l'image : %s"
 msgid "Creating image: %s.%s"
 msgstr "Création de l'image : %s.%s"
 
-#: src/catalog-web-exporter.c:1100
+#: src/catalog-web-exporter.c:1102
 msgid "Saving thumbnails"
 msgstr "Enregistrement des vignettes"
 
-#: src/catalog-web-exporter.c:1168
+#: src/catalog-web-exporter.c:1170
 msgid "Saving HTML pages: Images"
 msgstr "Enregistrement des pages HTML : Images"
 
-#: src/catalog-web-exporter.c:1245
+#: src/catalog-web-exporter.c:1247
 msgid "Saving HTML pages: Indexes"
 msgstr "Enregistrement des pages HTML : Index"
 
-#: src/catalog-web-exporter.c:1550
+#: src/catalog-web-exporter.c:1552
 msgid "Could not create a temporary folder"
 msgstr "Ne peut créer un répertoire temporaire"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1589
+#: src/catalog-web-exporter.c:1591
 msgid "Loading images"
 msgstr "Chargement des images"
 
@@ -351,7 +351,7 @@ msgid ""
 "use a different name."
 msgstr ""
 "Le nom « %s » n'est pas valide car il contient le caractère « / ». Veuillez "
-"utiliser un différent nom."
+"utiliser un nom différent."
 
 #: src/commands-impl.c:307 src/dlg-convert.c:316
 msgid "_Overwrite"
@@ -524,8 +524,8 @@ msgstr ""
 "Stéphane Genaud <genaud@icps.u-strasbg.fr>"
 
 #: src/commands-impl.c:2744
-msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr "Copyright © 2001 Free Software Foundation, Inc."
+msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
+msgstr "Copyright © 2001-2003 Free Software Foundation, Inc."
 
 #: src/commands-impl.c:2745
 msgid "An image viewer and browser for GNOME."
@@ -731,11 +731,11 @@ msgstr "En-tête"
 msgid "Footer"
 msgstr "Pied de page"
 
-#: src/dlg-rename-series.c:318
+#: src/dlg-rename-series.c:410
 msgid "Old Name"
 msgstr "Ancien nom"
 
-#: src/dlg-rename-series.c:326
+#: src/dlg-rename-series.c:418
 msgid "New Name"
 msgstr "Nouveau nom"
 
@@ -745,7 +745,7 @@ msgstr "Résultat de la recherche :"
 
 #: src/dlg-search.c:801
 msgid "Filename"
-msgstr "Nom de fichier"
+msgstr "Nom du fichier"
 
 #: src/dlg-search.c:810 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
@@ -1061,7 +1061,7 @@ msgstr "Suivante"
 
 #: src/gthumb-ui.xml.h:74
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Ouvre le répertoire en cours avec le gestionnaire de fichier Nautilus"
+msgstr "Ouvre le répertoire en cours avec le gestionnaire de fichiers Nautilus"
 
 #: src/gthumb-ui.xml.h:75
 msgid "Open selected images with an application"
@@ -1723,52 +1723,52 @@ msgstr "par _taille"
 msgid "by _Time"
 msgstr "par _date"
 
-#: src/gthumb-window.c:521
+#: src/gthumb-window.c:525
 msgid "No image"
 msgstr "Pas d'image"
 
-#: src/gthumb-window.c:523
+#: src/gthumb-window.c:527
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 image (%s)"
 
-#: src/gthumb-window.c:526
+#: src/gthumb-window.c:530
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d images (%s)"
 
-#: src/gthumb-window.c:533
+#: src/gthumb-window.c:537
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 sélection (%s)"
 
-#: src/gthumb-window.c:536
+#: src/gthumb-window.c:540
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d sélectionés (%s)"
 
-#: src/gthumb-window.c:2847
+#: src/gthumb-window.c:2851
 msgid "Dragged Images"
 msgstr "Images glissées"
 
-#: src/gthumb-window.c:3017
+#: src/gthumb-window.c:3029
 msgid "Could not move the items:"
 msgstr "Ne peut déplacer les éléments :"
 
-#: src/gthumb-window.c:3625
+#: src/gthumb-window.c:3722
 msgid "Back"
 msgstr "Précédent"
 
-#: src/gthumb-window.c:5500
+#: src/gthumb-window.c:5607
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Impossible de charger le répertoire « %s » : %s\n"
 
-#: src/gthumb-window.c:5770
+#: src/gthumb-window.c:5877
 msgid "The specified catalog does not exist."
 msgstr "Le catalogue spécifié n'existe pas."
 
-#: src/gthumb-window.c:7102
+#: src/gthumb-window.c:7209
 msgid "Wait please..."
 msgstr "Veuillez patienter..."
 
@@ -2300,7 +2300,7 @@ msgstr "_Pied de page :"
 
 #: src/gthumb_png_exporter.glade.h:30
 msgid "File _name"
-msgstr "_Nom de fichier"
+msgstr "_Nom du fichier"
 
 #: src/gthumb_png_exporter.glade.h:31
 msgid "File pa_th"
@@ -2397,7 +2397,7 @@ msgstr "Tri"
 #: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:24
 #: src/gthumb_tools.glade.h:41
 msgid "Start _at:"
-msgstr "À _partir de :"
+msgstr "_Commencer à :"
 
 #: src/gthumb_png_exporter.glade.h:55
 msgid "Style Preview"
@@ -2406,7 +2406,7 @@ msgstr "Style d'aperçu"
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Use #'s to specify positions used by numeric enumerator."
 msgstr ""
-"Utiliser des # pour spécifier les positions utilisées par l'énumérateur "
+"Utilisez des # pour spécifier les positions utilisées par l'énumérateur "
 "numérique."
 
 #: src/gthumb_png_exporter.glade.h:58
@@ -2415,7 +2415,7 @@ msgid ""
 "Use %p  to insert the page number, and %n to insert the total number of "
 "pages."
 msgstr ""
-"Utiliser %p pour insérer le numéro de pages, et %n pour insérer le nombre "
+"Utilisez %p pour insérer le numéro de pages, et %n pour insérer le nombre "
 "total de pages."
 
 #: src/gthumb_png_exporter.glade.h:59
@@ -2452,7 +2452,7 @@ msgstr "Couleur _unie"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
-msgstr "_Patron :"
+msgstr "_Format :"
 
 #: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
 msgid "by name"
@@ -2864,7 +2864,7 @@ msgstr "Après"
 
 #: src/gthumb_search.glade.h:8
 msgid "All catego_ries"
-msgstr "Toutes les catégo_ries"
+msgstr "To_utes les catégories"
 
 #: src/gthumb_search.glade.h:9
 msgid "Any"
@@ -2896,7 +2896,7 @@ msgstr "Égale à"
 
 #: src/gthumb_search.glade.h:17
 msgid "File _name:"
-msgstr "_Nom de fichier :"
+msgstr "_Nom du fichier :"
 
 #: src/gthumb_search.glade.h:18
 msgid "Find"
@@ -2920,7 +2920,7 @@ msgstr "Progression de la recherche"
 
 #: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
-msgstr "Recherche dans :"
+msgstr "Rechercher dans :"
 
 #: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
@@ -2940,7 +2940,7 @@ msgstr "<b>Ordre de la liste des fichiers</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
-msgstr "<b>Spécifier un patron utilisé pour le renommage des images</b>"
+msgstr "<b>Format utilisé pour le renommage des images</b>"
 
 #: src/gthumb_tools.glade.h:8
 msgid "Apply to _all images"
@@ -3057,10 +3057,11 @@ msgstr "Recherche terminée, pas de doublons trouvé."
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
+"original filename. Use ? to insert image date."
 msgstr ""
-"Utiliser des # pour spécifier les positions utilisées par les énumérateurs "
-"numériques. Utiliser * pour insérer le nom du fichier original."
+"Utilisez des # pour spécifier les positions utilisées par les énumérateurs "
+"numériques. Utilisez * pour insérer le nom du fichier original. Utilisez ? "
+"pour insérer la date de l'image."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3209,7 +3210,7 @@ msgstr "Ligne de commande"
 #~ msgstr "Imprimante"
 
 #~ msgid "File _Name:"
-#~ msgstr "_Nom de fichier :"
+#~ msgstr "_Nom du fichier :"
 
 #, fuzzy
 #~ msgid "Search for Images"
