@@ -353,12 +353,12 @@ ok_cb (GtkWidget  *widget,
 	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
 
 	g_signal_connect (G_OBJECT (data->loader),
-			  "done",
+			  "image_done",
 			  G_CALLBACK (loader_done),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->loader),
-			  "error",
+			  "image_error",
 			  G_CALLBACK (loader_error),
 			  data);
 

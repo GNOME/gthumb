@@ -66,10 +66,10 @@ struct _GthPixbufOpClass {
 
 	/* -- signals -- */
 
-	void (*progress) (GthPixbufOp *pixbuf,
-			  float        percentage);
-	void (*done)     (GthPixbufOp *pixbuf_op,
-			  gboolean     completed);
+	void (*pixbuf_op_progress) (GthPixbufOp *pixbuf,
+				    float        percentage);
+	void (*pixbuf_op_done)     (GthPixbufOp *pixbuf_op,
+				    gboolean     completed);
 };
 
 GType         gth_pixbuf_op_get_type   (void);

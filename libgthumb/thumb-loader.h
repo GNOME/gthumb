@@ -52,12 +52,12 @@ struct _ThumbLoaderClass
 
 	/* -- Signals -- */
 
-	void (* error)       (ThumbLoader *il);
+	void (* thumb_error)       (ThumbLoader *il);
 
-	void (* done)        (ThumbLoader *il);
+	void (* thumb_done)        (ThumbLoader *il);
 
-	void (* progress)    (ThumbLoader *il, 
-			      gfloat percent);
+	void (* thumb_progress)    (ThumbLoader *il, 
+				    float        percent);
 };
 
 

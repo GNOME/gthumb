@@ -45,8 +45,6 @@
  * Codes for supported types of image transformations.
  */
 
-#include <config.h>
-
 #ifdef HAVE_LIBJPEG
 
 

@@ -350,21 +350,21 @@ visit_rc_dir_data_free (VisitRCDirData *rcd)
 }
 
 
-static void visit_dir_async (const gchar *dir,
+static void visit_dir_async (const char     *dir,
 			     VisitRCDirData *rcd);
 
 
 static void
 rc_path_list_done_cb (PathListData *pld, 
-		      gpointer data)
+		      gpointer      data)
 {
 	VisitRCDirData *rcd = data;
-	GList *scan;
-	gchar *rc_file, *real_file;
-	gchar *sub_dir;
+	GList          *scan;
+	char           *rc_file, *real_file;
+	char           *sub_dir;
 
 	if (pld->result != GNOME_VFS_ERROR_EOF) {
-		gchar *path;
+		char *path;
 
 		path = gnome_vfs_uri_to_string (pld->uri,
 						GNOME_VFS_URI_HIDE_NONE);
@@ -526,12 +526,12 @@ rmdir_recursive (const gchar *directory)
 
 
 gboolean
-path_is_file (const gchar *path)
+path_is_file (const char *path)
 {
 	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	gboolean is_file;
-	gchar *escaped;
+	GnomeVFSResult    result;
+	gboolean          is_file;
+	char             *escaped;
 
 	if (! path || ! *path) return FALSE; 
 
@@ -739,13 +739,21 @@ file_copy (const char *from,
 		return FALSE;
 	}
 
-	while ((n = fread (buf, sizeof (char), BUF_SIZE, fin)) != 0) 
+ retry_read:
+	while ((n = fread (buf, sizeof (char), BUF_SIZE, fin)) != 0) {
+	retry_write:
 		if (fwrite (buf, sizeof (char), n, fout) != n) {
+			if (errno == EINTR)
+				goto retry_write;
 			g_free (dest_dir);
 			fclose (fin);
 			fclose (fout);
 			return FALSE;
 		}
+	}
+	
+	if ((n < 0) && (errno == EINTR))
+		goto retry_read;
 
 	g_free (dest_dir);
 	fclose (fin);
@@ -934,8 +942,8 @@ checksum_simple (const gchar *path)
 
 /* like g_basename but does not warns about NULL and does not
  * alloc a new string. */
-G_CONST_RETURN gchar *
-file_name_from_path (const gchar *file_name)
+G_CONST_RETURN char *
+file_name_from_path (const char *file_name)
 {
 	register gssize base;
         register gssize last_char;
@@ -959,12 +967,12 @@ file_name_from_path (const gchar *file_name)
 }
 
 
-gchar *
-remove_level_from_path (const gchar *path)
+char *
+remove_level_from_path (const char *path)
 {
-	gchar *new_path;
-	const gchar *ptr = path;
-	gint p;
+	int         p;
+	const char *ptr = path;
+	char       *new_path;
 
 	if (! path) 
 		return NULL;
@@ -983,22 +991,24 @@ remove_level_from_path (const gchar *path)
 }
 
 
-gchar *
-remove_extension_from_path (const gchar *path)
+char *
+remove_extension_from_path (const char *path)
 {
-	gchar *new_path;
-	gint len;
-	const gchar *ptr = path;
-	gint p;
+	int         len;
+	int         p;
+	const char *ptr = path;
+	char       *new_path;
 
 	if (! path) 
 		return NULL;
+
 	len = strlen (path);
 	if (len == 1) 
 		return g_strdup (path);
 
 	p = len - 1;
-	while ((ptr[p] != '.') && (p > 0)) p--;
+	while ((ptr[p] != '.') && (p > 0)) 
+		p--;
 	if (p == 0) 
 		p = len;
 	new_path = g_strndup (path, (guint) p);
@@ -1010,7 +1020,7 @@ remove_extension_from_path (const gchar *path)
 gchar * 
 remove_ending_separator (const gchar *path)
 {
-	gint len, copy_len;
+	int len, copy_len;
 
 	if (path == NULL)
 		return NULL;
@@ -1024,37 +1034,42 @@ remove_ending_separator (const gchar *path)
 
 
 gboolean 
-ensure_dir_exists (const gchar *a_path, 
-		   mode_t mode)
+ensure_dir_exists (const char *a_path, 
+		   mode_t      mode)
 {
+	char *path;
+	char *p;
+
 	if (! a_path) return FALSE;
 
-	if (! path_is_dir (a_path)) {
-		gchar *path = g_strdup (a_path);
-		gchar *p = path;
+	if (path_is_dir (a_path))
+		return TRUE;
 
-		while (*p != '\0') {
-			p++;
-			if ((*p == '/') || (*p == '\0')) {
-				gboolean end = TRUE;
-
-				if (*p != '\0') {
-					*p = '\0';
-					end = FALSE;
-				}
-
-			if (! path_is_dir (path)) {
-					if (mkdir (path, mode) < 0) {
-						g_warning ("directory creation failed: %s.", path);
-						g_free (path);
-						return FALSE;
-					}
-				}
-				if (! end) *p = '/';
+	path = g_strdup (a_path);
+	p = path;
+	
+	while (*p != '\0') {
+		p++;
+		if ((*p == '/') || (*p == '\0')) {
+			gboolean end = TRUE;
+			
+			if (*p != '\0') {
+				*p = '\0';
+				end = FALSE;
 			}
+			
+			if (! path_is_dir (path)) {
+				if (mkdir (path, mode) < 0) {
+					g_warning ("directory creation failed: %s.", path);
+					g_free (path);
+					return FALSE;
+				}
+			}
+			if (! end) *p = '/';
 		}
-		g_free (path);
 	}
+
+	g_free (path);
 
 	return TRUE;
 }
@@ -1076,8 +1091,8 @@ dir_list_filter_and_sort (GList *dir_list,
 
 		if (! (file_is_hidden (name_only) && ! show_dot_files) 
 		    && (strcmp (name_only, CACHE_DIR) != 0)) {
-			gchar *s;
-			gchar *path = (gchar*) scan->data;
+			char *s;
+			char *path = (char*) scan->data;
 			
 			s = g_strdup (names_only ? name_only : path);
 			filtered = g_list_prepend (filtered, s);
@@ -1447,8 +1462,9 @@ resolve_all_symlinks_uri (GnomeVFSURI  *uri,
 			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri,
 								       info->symlink_name);
 			if (*p != 0) {
-				gnome_vfs_uri_unref (uri);
+				GnomeVFSURI *old_uri = uri;
 				uri = gnome_vfs_uri_append_string (resolved_uri, p);
+				gnome_vfs_uri_unref (old_uri);
 				gnome_vfs_uri_unref (resolved_uri);
 			} else {
 				gnome_vfs_uri_unref (uri);

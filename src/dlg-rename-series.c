@@ -29,16 +29,10 @@
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
+#include "exif-utils.h"
 #include "file-utils.h"
 #include "dlg-file-utils.h"
 #include "preferences.h"
-
-#ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#endif /* HAVE_LIBEXIF */
-
 
 enum {
 	RS_OLDNAME_COLUMN,
@@ -178,64 +172,6 @@ get_compare_func_from_idx (int column_index)
 
 	return compare_funcs [column_index % 3];
 }
-
-
-#ifdef HAVE_LIBEXIF
-
-static time_t
-get_exif_time (const char *filename)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
-	struct tm     tm = { 0, };
-
-	edata = exif_data_new_from_file (filename);
-
-	if (edata == NULL) 
-                return (time_t)0;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			char        *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			data = g_strdup (e->data);
-			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = atoi (data + 11);
-			tm.tm_min  = atoi (data + 14);
-			tm.tm_sec  = atoi (data + 17);
-			time = mktime (&tm);
-
-			g_free (data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return time;
-}
-
-#endif /* HAVE_LIBEXIF */
 
 
 static char *

@@ -111,7 +111,7 @@ apply_changes (DialogData *data,
 
 	if (preview) {
 		g_signal_connect (G_OBJECT (pixop),
-				  "done",
+				  "pixbuf_op_done",
 				  G_CALLBACK (preview_done_cb),
 				  data);
 		gth_pixbuf_op_start (pixop);

@@ -448,15 +448,15 @@ dlg_exporter (GThumbWindow *window)
 			  data);
 
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "done",
+			  "png_exporter_done",
 			  G_CALLBACK (export_done),
 			  data);
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "progress",
+			  "png_exporter_progress",
 			  G_CALLBACK (export_progress),
 			  data);
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "info",
+			  "png_exporter_info",
 			  G_CALLBACK (export_info),
 			  data);
 

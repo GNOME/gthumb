@@ -346,8 +346,8 @@ move_to_catalog_dir__activated_cb (GtkTreeView *tree_view,
 				   GtkTreeViewColumn *column,
 				   gpointer p)
 {
-	DialogData *  data = p;
-	gchar *       cat_path;
+	DialogData *data = p;
+	char       *cat_path;
 
 	cat_path = catalog_list_get_path_from_tree_path (data->cat_list, path);
 
@@ -364,10 +364,10 @@ move_to_catalog_dir__activated_cb (GtkTreeView *tree_view,
 
 /* called when the "ok" button is clicked. */
 static void
-move_to_catalog_dir__ok_cb (GtkWidget *widget, 
+move_to_catalog_dir__ok_cb (GtkWidget  *widget, 
 			    DialogData *data)
 {
-	gchar *new_path;
+	char *new_path;
 
 	new_path = g_strconcat (data->cat_list->path,
 				"/",

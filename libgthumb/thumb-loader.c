@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -77,9 +77,9 @@ typedef struct
 
 
 enum {
-	ERROR,
-	DONE,
-	PROGRESS,
+	THUMB_ERROR,
+	THUMB_DONE,
+	THUMB_PROGRESS,
 	LAST_SIGNAL
 };
 
@@ -142,29 +142,29 @@ thumb_loader_class_init (ThumbLoaderClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	thumb_loader_signals[ERROR] =
-		g_signal_new ("error",
+	thumb_loader_signals[THUMB_ERROR] =
+		g_signal_new ("thumb_error",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ThumbLoaderClass, error),
+			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_error),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
-	thumb_loader_signals[DONE] =
-		g_signal_new ("done",
+	thumb_loader_signals[THUMB_DONE] =
+		g_signal_new ("thumb_done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ThumbLoaderClass, done),
+			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
-	thumb_loader_signals[PROGRESS] =
-		g_signal_new ("progress",
+	thumb_loader_signals[THUMB_PROGRESS] =
+		g_signal_new ("thumb_progress",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ThumbLoaderClass, progress),
+			      G_STRUCT_OFFSET (ThumbLoaderClass, thumb_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
 			      G_TYPE_NONE, 
@@ -172,9 +172,9 @@ thumb_loader_class_init (ThumbLoaderClass *class)
 
 	object_class->finalize = thumb_loader_finalize;
 
-	class->error = NULL;
-	class->done = NULL;
-	class->progress = NULL;
+	class->thumb_error = NULL;
+	class->thumb_done = NULL;
+	class->thumb_progress = NULL;
 }
 
 
@@ -240,8 +240,6 @@ thumb_loader_new (const char *path,
 	priv->max_w = width;
 	priv->max_h = height;
 
-	priv->il = IMAGE_LOADER (image_loader_new (path, FALSE));
-
 	if (path) 
 		thumb_loader_set_path (tl, path);
 	else {
@@ -249,12 +247,14 @@ thumb_loader_new (const char *path,
 		priv->path = NULL;
 	}
 
+	priv->il = IMAGE_LOADER (image_loader_new (path, FALSE));
+
 	g_signal_connect (G_OBJECT (priv->il), 
-			  "done", 
+			  "image_done", 
 			  G_CALLBACK (thumb_loader_done_cb),
 			  tl);
 	g_signal_connect (G_OBJECT (priv->il), 
-			  "error", 
+			  "image_error", 
 			  G_CALLBACK (thumb_loader_error_cb),
 			  tl);
 
@@ -427,7 +427,7 @@ thumb_loader_start (ThumbLoader *tl)
 		mtime = get_file_mtime (priv->path);
 		if (gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory, priv->uri, mtime)) {
 			g_signal_emit (G_OBJECT (tl),
-				       thumb_loader_signals[ERROR],
+				       thumb_loader_signals[THUMB_ERROR],
 				       0);
 			return;
 		}
@@ -453,7 +453,7 @@ thumb_loader_start (ThumbLoader *tl)
 				priv->pixbuf = NULL;
 			}
 			g_signal_emit (G_OBJECT (tl), 
-				       thumb_loader_signals[DONE], 
+				       thumb_loader_signals[THUMB_DONE], 
 				       0);
 			return;
 		}
@@ -552,7 +552,7 @@ thumb_loader_save_to_cache (ThumbLoader *tl)
 
 static void 
 thumb_loader_done_cb (ImageLoader *il,
-		      gpointer data)
+		      gpointer     data)
 {
 	ThumbLoader            *tl = data;
 	ThumbLoaderPrivateData *priv = tl->priv;
@@ -571,7 +571,7 @@ thumb_loader_done_cb (ImageLoader *il,
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory,
 								 priv->uri,
 								 get_file_mtime (priv->path));
-		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[ERROR], 0);
+		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 		return;
 	}
 
@@ -625,13 +625,13 @@ thumb_loader_done_cb (ImageLoader *il,
 		}
 	}
 
-	g_signal_emit (G_OBJECT (tl), thumb_loader_signals[DONE], 0);
+	g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_DONE], 0);
 }
 
 
 static void 
 thumb_loader_error_cb (ImageLoader *il,
-		       gpointer data)
+		       gpointer     data)
 {
 	ThumbLoader            *tl = data;
 	ThumbLoaderPrivateData *priv = tl->priv;
@@ -643,7 +643,7 @@ thumb_loader_error_cb (ImageLoader *il,
 		}
 
 		gnome_thumbnail_factory_create_failed_thumbnail (priv->thumb_factory, priv->uri, get_file_mtime (priv->path));
-		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[ERROR], 0);
+		g_signal_emit (G_OBJECT (tl), thumb_loader_signals[THUMB_ERROR], 0);
 
 		return;
 	}

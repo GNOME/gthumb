@@ -36,12 +36,6 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libbonoboui.h>
 
-#ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#endif /* HAVE_LIBEXIF */
-
 #include "auto-completion.h"
 #include "catalog.h"
 #include "catalog-list.h"
@@ -61,6 +55,7 @@
 #include "gthumb-stock.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"
+#include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
 #include "main.h"
 #include "nav-window.h"
@@ -305,26 +300,11 @@ set_command_state_if_different (GThumbWindow *window,
 
 	/**/
 
-	if (old_value != NULL)
-		g_free (old_value);
-
+	g_free (old_value);
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      cname, 
 				      "state", new_value,
 				      NULL);
-}
-
-
-static void
-set_command_state_without_notifing (GThumbWindow *window,
-				    char         *cname,
-				    gboolean      state)
-{
-	char *full_cname;
-
-	full_cname = g_strconcat ("/commands/", cname, NULL);
-	set_command_state_if_different (window, full_cname, state);
-	g_free (full_cname);
 }
 
 
@@ -378,9 +358,6 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	time_t       timer;
 	struct tm   *tm;
 	gdouble      sec;
-	GtkTreeIter  iter;
-
-	gtk_list_store_clear (window->image_exif_model);
 
 	path = window->image_path;
 
@@ -421,250 +398,11 @@ window_update_statusbar_image_info (GThumbWindow *window)
 
 	/**/
 
-	gtk_list_store_append (window->image_exif_model, &iter);
-	gtk_list_store_set (window->image_exif_model, &iter,
-			    NAME_COLUMN, _("Name"), 
-			    VALUE_COLUMN, utf8_name,
-			    POS_COLUMN, -4,
-			    -1);
-	
-	gtk_list_store_append (window->image_exif_model, &iter);
-	gtk_list_store_set (window->image_exif_model, &iter,
-			    NAME_COLUMN, _("Size"), 
-			    VALUE_COLUMN, size_txt,
-			    POS_COLUMN, -3,
-			    -1);
-	
-	gtk_list_store_append (window->image_exif_model, &iter);
-	gtk_list_store_set (window->image_exif_model, &iter,
-			    NAME_COLUMN, _("Bytes"), 
-			    VALUE_COLUMN, file_size_txt,
-			    POS_COLUMN, -2,
-			    -1);
-	
-	gtk_list_store_append (window->image_exif_model, &iter);
-	gtk_list_store_set (window->image_exif_model, &iter,
-			    NAME_COLUMN, _("Modified"),
-			    VALUE_COLUMN, time_txt,
-			    POS_COLUMN, -1,
-			    -1);
-
-	/**/
-
 	g_free (utf8_name);
 	g_free (size_txt);
 	g_free (file_size_txt);
 	g_free (text);
 }
-
-
-#ifdef HAVE_LIBEXIF
-
-static ExifTag usefull_tags[] = {
-	0,
-
-	EXIF_TAG_EXPOSURE_TIME,
-	EXIF_TAG_EXPOSURE_PROGRAM,
-	EXIF_TAG_EXPOSURE_MODE,
-	EXIF_TAG_EXPOSURE_BIAS_VALUE,
-	EXIF_TAG_FLASH,
-	EXIF_TAG_FLASH_ENERGY,
-	EXIF_TAG_SPECTRAL_SENSITIVITY,
-	EXIF_TAG_SHUTTER_SPEED_VALUE,
-	EXIF_TAG_APERTURE_VALUE,
-	EXIF_TAG_BRIGHTNESS_VALUE,
-	EXIF_TAG_LIGHT_SOURCE,
-	EXIF_TAG_FOCAL_LENGTH,
-	EXIF_TAG_WHITE_BALANCE,
-	EXIF_TAG_WHITE_POINT,
-	EXIF_TAG_DIGITAL_ZOOM_RATIO,
-	EXIF_TAG_SUBJECT_DISTANCE,
-	EXIF_TAG_SUBJECT_DISTANCE_RANGE,
-	EXIF_TAG_METERING_MODE,
-	EXIF_TAG_CONTRAST,
-	EXIF_TAG_SATURATION,
-	EXIF_TAG_SHARPNESS,
-	EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
-	EXIF_TAG_BATTERY_LEVEL,
-
-	0,
-
-	EXIF_TAG_DATE_TIME,
-	EXIF_TAG_DATE_TIME_ORIGINAL,
-	EXIF_TAG_DATE_TIME_DIGITIZED,
-	EXIF_TAG_ORIENTATION,
-	EXIF_TAG_BITS_PER_SAMPLE,
-	EXIF_TAG_SAMPLES_PER_PIXEL,
-	EXIF_TAG_COMPRESSION,
-	EXIF_TAG_DOCUMENT_NAME,
-	EXIF_TAG_IMAGE_DESCRIPTION,
-
-	0,
-
-	/*
-	EXIF_TAG_RELATED_IMAGE_WIDTH,
-	EXIF_TAG_RELATED_IMAGE_LENGTH,
-	*/
-	EXIF_TAG_IMAGE_WIDTH,
-	EXIF_TAG_IMAGE_LENGTH,
-	EXIF_TAG_PIXEL_X_DIMENSION,
-	EXIF_TAG_PIXEL_Y_DIMENSION,
-	EXIF_TAG_X_RESOLUTION,
-	EXIF_TAG_Y_RESOLUTION,
-	EXIF_TAG_RESOLUTION_UNIT,
-
-	0,
-
-	EXIF_TAG_ARTIST,
-	EXIF_TAG_COPYRIGHT,
-	/*
-	EXIF_TAG_MAKER_NOTE,
-	EXIF_TAG_USER_COMMENT,
-	*/
-	EXIF_TAG_SUBJECT_LOCATION,
-	EXIF_TAG_SCENE_TYPE,
-
-	0,
-
-	EXIF_TAG_MAKE,
-	EXIF_TAG_MODEL,
-	EXIF_TAG_MAX_APERTURE_VALUE,
-	EXIF_TAG_SENSING_METHOD,
-	EXIF_TAG_EXIF_VERSION,
-	EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
-	EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
-	EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT
-};
-
-
-static gboolean
-tag_is_present (GtkTreeModel *model,
-		const char   *tag_name)
-{
-	GtkTreeIter  iter;
-
-	if (tag_name == NULL)
-		return FALSE;
-
-	if (! gtk_tree_model_get_iter_first (model, &iter))
-		return FALSE;
-
-	do {
-		char *tag_name2;
-
-		gtk_tree_model_get (model,
-				    &iter,
-				    NAME_COLUMN, &tag_name2,
-				    -1);
-		if ((tag_name2 != NULL) 
-		    && (strcmp (tag_name, tag_name2) == 0)) {
-			g_free (tag_name2);
-			return TRUE;
-		}
-
-		g_free (tag_name2);
-	} while (gtk_tree_model_iter_next (model, &iter));
-
-	return FALSE;
-}
-
-
-static ExifEntry *
-get_entry_from_tag (ExifData *edata,
-		    int       tag)
-{
-	int i, j;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if ((content == NULL) || (content->count == 0)) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-
-			if (! content->entries[j]) 
-				continue;
-
-			if (e->tag == tag)
-				return e;
-		}
-	}
-
-	return NULL;
-}
-
-
-static void
-update_exif_data (GThumbWindow *window)
-{
-	ExifData     *edata;
-	unsigned int  i;
-	gboolean      date_added = FALSE;
-	gboolean      last_entry_is_void = FALSE;
-	gboolean      list_is_empty = TRUE;
-
-	edata = exif_data_new_from_file (window->image_path);
-
-	if (edata == NULL) 
-                return;
-
-	for (i = 0; i < G_N_ELEMENTS (usefull_tags); i++) {
-		ExifEntry   *e;
-		GtkTreeIter  iter;
-		char        *utf8_name;
-		char        *utf8_value;
-		
-		if ((usefull_tags[i] == 0) && ! last_entry_is_void) {
-			gtk_list_store_append (window->image_exif_model, &iter);
-			gtk_list_store_set (window->image_exif_model, &iter,
-					    NAME_COLUMN, "",
-					    VALUE_COLUMN, "",
-					    POS_COLUMN, i,
-					    -1);
-			last_entry_is_void = TRUE;
-			continue;
-		}
-
-		e = get_entry_from_tag (edata, usefull_tags[i]);
-		if (e == NULL)
-			continue;
-
-		utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
-		if (tag_is_present (GTK_TREE_MODEL (window->image_exif_model), utf8_name)) {
-			g_free (utf8_name);
-			continue;
-		}
-
-		if ((e->tag == EXIF_TAG_DATE_TIME)
-		    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
-		    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
-			if (date_added) {
-				g_free (utf8_name);
-				continue;
-			} else
-				date_added = TRUE;
-		}
-
-		gtk_list_store_append (window->image_exif_model, &iter);
-		utf8_value = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
-		gtk_list_store_set (window->image_exif_model, &iter,
-				    NAME_COLUMN, utf8_name,
-				    VALUE_COLUMN, utf8_value,
-				    POS_COLUMN, i,
-				    -1);
-		g_free (utf8_name);
-		g_free (utf8_value);
-
-		last_entry_is_void = FALSE;
-		list_is_empty = FALSE;
-	}
-
-	exif_data_unref (edata);
-}
-
-#endif /* HAVE_LIBEXIF */
 
 
 static void
@@ -727,9 +465,9 @@ window_update_image_info (GThumbWindow *window)
 {
 	window_update_statusbar_image_info (window);
 	window_update_statusbar_zoom_info (window);
-#ifdef HAVE_LIBEXIF
-	update_exif_data (window);
-#endif /* HAVE_LIBEXIF */
+	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer), 
+				     IMAGE_VIEWER (window->viewer),
+				     window->image_path);
 	update_image_comment (window);
 }
 
@@ -2778,7 +2516,7 @@ show_image_data (GThumbWindow *window)
 	set_button_active_no_notify (window, window->preview_button_data, TRUE);
 
 	window->image_data_visible = TRUE;
-	set_command_state_without_notifing (window, "View_ShowInfo", TRUE);
+	set_command_state_if_different (window, "/commands/View_ShowInfo", TRUE);
 }
 
 
@@ -2788,7 +2526,7 @@ hide_image_data (GThumbWindow *window)
 	gtk_widget_hide (window->preview_widget_data_comment);
 	set_button_active_no_notify (window, window->preview_button_data, FALSE);
 	window->image_data_visible = FALSE;
-	set_command_state_without_notifing (window, "View_ShowInfo", FALSE);
+	set_command_state_if_different (window, "/commands/View_ShowInfo", FALSE);
 }
 
 
@@ -3301,7 +3039,7 @@ image_focus_changed_cb (GtkWidget     *widget,
 					     GTK_WIDGET_HAS_FOCUS (window->viewer));
 	else if (data_visible)
 		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
-					     GTK_WIDGET_HAS_FOCUS (window->image_exif_view));
+					     GTK_WIDGET_HAS_FOCUS (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer))));
 	else if (comment_visible)
 		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
 					     GTK_WIDGET_HAS_FOCUS (window->image_comment));
@@ -3507,7 +3245,7 @@ info_bar_clicked_cb (GtkWidget      *widget,
 			widget_to_focus = window->viewer;
 			break;
 		case GTH_PREVIEW_CONTENT_DATA:
-			widget_to_focus = window->image_exif_view;
+			widget_to_focus = gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer));
 			break;
 		case GTH_PREVIEW_CONTENT_COMMENT:
 			widget_to_focus = window->image_comment;
@@ -4941,7 +4679,7 @@ window_set_preview_content (GThumbWindow      *window,
 		widget_to_focus = window->viewer;
 		break;
 	case GTH_PREVIEW_CONTENT_DATA:
-		widget_to_focus = window->image_exif_view;
+		widget_to_focus = gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer));
 		break;
 	case GTH_PREVIEW_CONTENT_COMMENT:
 		widget_to_focus = window->image_comment;
@@ -5053,8 +4791,6 @@ window_new (void)
 	BonoboWindow      *win;
 	GtkTreeSelection  *selection;
 	int                i; 
-	GtkCellRenderer   *renderer;
-	GtkTreeViewColumn *column;
 
 	window = g_new0 (GThumbWindow, 1);
 
@@ -5282,15 +5018,15 @@ window_new (void)
 			  window);
 
 	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
-			  "progress",
+			  "image_progress",
 			  G_CALLBACK (image_loader_progress_cb), 
 			  window);
 	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
-			  "done",
+			  "image_done",
 			  G_CALLBACK (image_loader_done_cb), 
 			  window);
 	g_signal_connect (G_OBJECT (IMAGE_VIEWER (window->viewer)->loader), 
-			  "error",
+			  "image_error",
 			  G_CALLBACK (image_loader_done_cb), 
 			  window);
 
@@ -5479,54 +5215,17 @@ window_new (void)
 
 	/* exif data */
 
-	window->preview_widget_data = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_win), GTK_SHADOW_ETCHED_IN);
+	window->preview_widget_data = window->exif_data_viewer = gth_exif_data_viewer_new (TRUE);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned2), window->exif_data_viewer, FALSE, FALSE);
 
-	window->image_exif_view = gtk_tree_view_new ();
-	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (window->image_exif_view), FALSE);
-	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (window->image_exif_view), TRUE);
-	window->image_exif_model = gtk_list_store_new (3,
-						       G_TYPE_STRING, 
-						       G_TYPE_STRING,
-						       G_TYPE_INT);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (window->image_exif_view),
-				 GTK_TREE_MODEL (window->image_exif_model));
-	g_object_unref (window->image_exif_model);
-
-	gtk_container_add (GTK_CONTAINER (scrolled_win), window->image_exif_view);
-	gtk_paned_pack1 (GTK_PANED (image_pane_paned2), scrolled_win, FALSE, FALSE);
-
-	g_signal_connect (G_OBJECT (window->image_exif_view), 
+	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer))), 
 			  "focus_in_event",
 			  G_CALLBACK (image_focus_changed_cb), 
 			  window);
-	g_signal_connect (G_OBJECT (window->image_exif_view), 
+	g_signal_connect (G_OBJECT (gth_exif_data_viewer_get_view (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer))), 
 			  "focus_out_event",
 			  G_CALLBACK (image_focus_changed_cb), 
 			  window);
-
-	/**/
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Field"),
-							   renderer,
-							   "text", NAME_COLUMN,
-							   NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
-				     column);
-
-	/**/
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value "),
-							   renderer,
-							   "text", VALUE_COLUMN,
-							   NULL);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (window->image_exif_view),
-				     column);
-
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (window->image_exif_model), POS_COLUMN, GTK_SORT_ASCENDING);
 
 	/* Progress bar. */
 
@@ -6822,8 +6521,8 @@ go_to_dir_set_list_interrupted (gpointer callback_data)
 	g_free (data->dir_path);
 	g_free (data);
 }
-/**/
 
+/**/
 
 void
 window_go_to_directory (GThumbWindow *window,
@@ -7420,7 +7119,14 @@ load_timeout_cb (gpointer data)
 		window->view_image_timeout = 0;
 	}
 
+	if (window->image_path == NULL)
+		return FALSE;
+
 	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+
+	if (pos == -1)
+		return FALSE;
+
 	prev1 = gth_file_list_path_from_pos (window->file_list, pos - 1);
 	next1 = gth_file_list_path_from_pos (window->file_list, pos + 1);
 	next2 = gth_file_list_path_from_pos (window->file_list, pos + 2);
@@ -8307,11 +8013,11 @@ window_exec_pixbuf_op (GThumbWindow *window,
 			    _("Wait please..."));
 
 	g_signal_connect (G_OBJECT (pixop),
-			  "done",
+			  "pixbuf_op_done",
 			  G_CALLBACK (pixbuf_op_done_cb),
 			  window);
 	g_signal_connect (G_OBJECT (pixop),
-			  "progress",
+			  "pixbuf_op_progress",
 			  G_CALLBACK (pixbuf_op_progress_cb),
 			  window);
 

@@ -33,6 +33,7 @@
 #include "catalog-web-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "exif-utils.h"
 #include "dlg-file-utils.h"
 #include "gthumb-init.h"
 #include "gthumb-marshal.h"
@@ -42,13 +43,6 @@
 #include "image-loader.h"
 #include "glib-utils.h"
 #include "albumtheme-private.h"
-
-#ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#endif /* HAVE_LIBEXIF */
-
 
 #define DATE_FORMAT _("%d %B %Y, %H:%M")
 
@@ -60,10 +54,10 @@ typedef enum {
 } GthTagVisibility;
 
 enum {
-	DONE,
-	PROGRESS,
-	INFO,
-	START_COPYING,
+	WEB_EXPORTER_DONE,
+	WEB_EXPORTER_PROGRESS,
+	WEB_EXPORTER_INFO,
+	WEB_EXPORTER_START_COPYING,
 	LAST_SIGNAL
 };
 
@@ -253,41 +247,41 @@ catalog_web_exporter_class_init (CatalogWebExporterClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	catalog_web_exporter_signals[DONE] =
-		g_signal_new ("done",
+	catalog_web_exporter_signals[WEB_EXPORTER_DONE] =
+		g_signal_new ("web_exporter_done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogWebExporterClass, done),
+			      G_STRUCT_OFFSET (CatalogWebExporterClass, web_exporter_done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
 
-	catalog_web_exporter_signals[PROGRESS] =
-		g_signal_new ("progress",
+	catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS] =
+		g_signal_new ("web_exporter_progress",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogWebExporterClass, progress),
+			      G_STRUCT_OFFSET (CatalogWebExporterClass, web_exporter_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
 			      G_TYPE_NONE, 
 			      1, G_TYPE_FLOAT);
 
-	catalog_web_exporter_signals[INFO] =
-		g_signal_new ("info",
+	catalog_web_exporter_signals[WEB_EXPORTER_INFO] =
+		g_signal_new ("web_exporter_info",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogWebExporterClass, info),
+			      G_STRUCT_OFFSET (CatalogWebExporterClass, web_exporter_info),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING,
 			      G_TYPE_NONE, 
 			      1, G_TYPE_STRING);
 
-	catalog_web_exporter_signals[START_COPYING] =
-		g_signal_new ("start_copying",
+	catalog_web_exporter_signals[WEB_EXPORTER_START_COPYING] =
+		g_signal_new ("web_exporter_start_copying",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogWebExporterClass, start_copying),
+			      G_STRUCT_OFFSET (CatalogWebExporterClass, web_exporter_start_copying),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
@@ -876,101 +870,6 @@ get_preview_filename (CatalogWebExporter *ce,
 }
 
 
-#ifdef HAVE_LIBEXIF
-
-static time_t
-get_exif_time (const char *filename)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-	time_t        time = 0;
-	struct tm     tm = { 0, };
-
-	edata = exif_data_new_from_file (filename);
-
-	if (edata == NULL) 
-                return (time_t)0;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry   *e = content->entries[j];
-			char        *data;
-
-			if (! content->entries[j]) 
-				continue;
-
-			if ((e->tag != EXIF_TAG_DATE_TIME) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
-			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
-				continue;
-
-			data = g_strdup (e->data);
-			data[4] = data[7] = data[10] = data[13] = data[16] = '\0';
-
-			tm.tm_year = atoi (data) - 1900;
-			tm.tm_mon  = atoi (data + 5) - 1;
-			tm.tm_mday = atoi (data + 8);
-			tm.tm_hour = atoi (data + 11);
-			tm.tm_min  = atoi (data + 14);
-			tm.tm_sec  = atoi (data + 17);
-			time = mktime (&tm);
-
-			g_free (data);
-
-			break;
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return time;
-}
-
-
-static char *
-get_exif_tag (const char *filename, ExifTag etag)
-{
-	ExifData     *edata;
-	unsigned int  i, j;
-
-	edata = exif_data_new_from_file (filename);
-
-	if (edata == NULL) 
-		return g_strdup ("-");
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if (! edata->ifd[i] || ! edata->ifd[i]->count) 
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-
-			if (! content->entries[j]) 
-				continue;
-
-			if (e->tag == etag) {
-				char *retval = g_locale_to_utf8 (exif_entry_get_value (e), -1, 0, 0, 0);
-				exif_data_unref (edata);
-				return retval;
-			}
-		}
-	}
-
-	exif_data_unref (edata);
-
-	return g_strdup ("-");
-}
-
-#endif /* HAVE_LIBEXIF */
-
-
 static char*
 get_current_date (void)
 {
@@ -1340,8 +1239,7 @@ gth_parsed_doc_print (GList              *document,
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
 #ifdef HAVE_LIBEXIF
-			line = get_exif_tag (idata->src_filename, 
-					     EXIF_TAG_APERTURE_VALUE);
+			line = get_exif_aperture_value (idata->src_filename);
 			write_line (line, fout);
 #endif /* HAVE_LIBEXIF */
 			break;
@@ -1436,7 +1334,7 @@ exporter_set_info (CatalogWebExporter *ce,
 {
 	g_free (ce->info);
 	ce->info = g_strdup (info);
-	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[INFO], 
+	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_INFO], 
 		       0,
 		       ce->info);
 }
@@ -1448,7 +1346,7 @@ export__final_step (GnomeVFSResult  result,
 {
 	CatalogWebExporter *ce = data;
 	free_parsed_docs (ce);
-	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[DONE], 0);
+	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 }
 
 
@@ -1470,7 +1368,7 @@ export__copy_to_destination__step2 (GnomeVFSResult  result,
 static void
 export__copy_to_destination (CatalogWebExporter *ce)
 {
-	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[START_COPYING], 0);
+	g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_START_COPYING], 0);
 
 	dlg_files_copy (ce->window,
 			ce->album_files,
@@ -1580,7 +1478,7 @@ save_thumbnail_cb (gpointer data)
 			char *filename;
 			
 			g_signal_emit (G_OBJECT (ce), 
-				       catalog_web_exporter_signals[PROGRESS],
+				       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
 				       0,
 				       (float) ce->image / ce->n_images);
 			
@@ -1646,7 +1544,7 @@ save_html_image_cb (gpointer data)
 		FILE      *fout;
 
 		g_signal_emit (G_OBJECT (ce), 
-			       catalog_web_exporter_signals[PROGRESS],
+			       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
 			       0,
 			       (float) ce->image / ce->n_images);
 
@@ -1711,7 +1609,7 @@ save_html_index_cb (gpointer data)
 		FILE *fout;
 
 		g_signal_emit (G_OBJECT (ce), 
-			       catalog_web_exporter_signals[PROGRESS],
+			       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
 			       0,
 			       (float) ce->page / ce->n_pages);
 
@@ -1810,7 +1708,7 @@ load_next_file (CatalogWebExporter *ce)
 	/**/
 
 	g_signal_emit (G_OBJECT (ce), 
-		       catalog_web_exporter_signals[PROGRESS],
+		       catalog_web_exporter_signals[WEB_EXPORTER_PROGRESS],
 		       0,
 		       (float) ++ce->n_images_done / ce->n_images);
 
@@ -2288,7 +2186,7 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 
 	if (ce->tmp_location == NULL) {
 		_gtk_error_dialog_run (GTK_WINDOW (ce->window->app), _("Could not create a temporary folder"));
-		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[DONE], 0);
+		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 		return;
 	}
 
@@ -2314,11 +2212,11 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	thumb_loader_use_cache (ce->tloader, FALSE);
 
 	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "done",
+			  "thumb_done",
 			  G_CALLBACK (thumb_loader_done),
 			  ce);
 	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "error",
+			  "thumb_error",
 			  G_CALLBACK (thumb_loader_error),
 			  ce);
 

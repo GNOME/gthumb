@@ -109,15 +109,15 @@ struct _CatalogWebExporterClass {
 
 	/* -- signals -- */
 	
-	void (*done)             (CatalogWebExporter *ce);
+	void (*web_exporter_done)             (CatalogWebExporter *ce);
 
-	void (*progress)         (CatalogWebExporter *ce,
-				  float               percent);
+	void (*web_exporter_progress)         (CatalogWebExporter *ce,
+					       float               percent);
 
-	void (*info)             (CatalogWebExporter *ce,
-				  const char         *info);
+	void (*web_exporter_info)             (CatalogWebExporter *ce,
+					       const char         *info);
 
-	void (*start_copying)    (CatalogWebExporter *ce);
+	void (*web_exporter_start_copying)    (CatalogWebExporter *ce);
 };
 
 

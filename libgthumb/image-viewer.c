@@ -325,11 +325,11 @@ image_viewer_init (ImageViewer *viewer)
 
 	viewer->loader = IMAGE_LOADER (image_loader_new (NULL, TRUE));
 	g_signal_connect (G_OBJECT (viewer->loader), 
-			  "done",
+			  "image_done",
 			  G_CALLBACK (image_loaded),
 			  viewer);
 	g_signal_connect (G_OBJECT (viewer->loader), 
-			  "error",
+			  "image_error",
 			  G_CALLBACK (image_error),
 			  viewer);
 

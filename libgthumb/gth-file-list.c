@@ -266,11 +266,11 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->starting_update   = FALSE;
 
 	g_signal_connect (G_OBJECT (file_list->thumb_loader), 
-			  "done",
+			  "thumb_done",
 			  G_CALLBACK (load_thumb_done_cb), 
 			  file_list);
 	g_signal_connect (G_OBJECT (file_list->thumb_loader), 
-			  "error",
+			  "thumb_error",
 			  G_CALLBACK (load_thumb_error_cb), 
 			  file_list);
 	
@@ -1409,11 +1409,11 @@ set_thumbs_size__step2 (InterruptThumbsData *it_data)
 	g_object_unref (G_OBJECT (file_list->thumb_loader));
 	file_list->thumb_loader = THUMB_LOADER (thumb_loader_new (NULL, size, size));
 	g_signal_connect (G_OBJECT (file_list->thumb_loader), 
-			  "done",
+			  "thumb_done",
 			  G_CALLBACK (load_thumb_done_cb), 
 			  file_list);
 	g_signal_connect (G_OBJECT (file_list->thumb_loader), 
-			  "error",
+			  "thumb_error",
 			  G_CALLBACK (load_thumb_error_cb), 
 			  file_list);
 

@@ -1,3 +1,29 @@
+2003-08-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/exif-utils.c: 
+	* src/exif-utils.h: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-exif-data-viewer.h: new files.
+
+2003-08-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/file-utils.c (resolve_all_symlinks_uri): unref uri
+	after appending the resolved uri.
+
+2003-08-21  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* configure.in: add BlueStripes theme, remove Simple theme.
+
+	* src/jpegutils/transupp.h: do not include config.h
+
+2003-08-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-png-exporter.c (catalog_png_exporter_init): use
+	PANGO_WRAP_WORD_CHAR instead of PANGO_WRAP_CHAR
+
+	* libgthumb/preferences.c (pref_util_get_int_value) 
+	(pref_util_get_rgb_values): fix warning.
+
 2003-08-19  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/catalog-web-exporter.c (thumb_loader_done): unref pixbuf

@@ -52,12 +52,12 @@ struct _ImageLoaderClass
 
 	/* -- Signals -- */
 
-	void (* error)       (ImageLoader *il);
+	void (* image_error)       (ImageLoader *il);
 
-	void (* done)        (ImageLoader *il);
+	void (* image_done)        (ImageLoader *il);
 
-	void (* progress)    (ImageLoader *il, 
-			      gfloat percent);
+	void (* image_progress)    (ImageLoader *il, 
+				    float        percent);
 };
 
 GType                image_loader_get_type           (void);

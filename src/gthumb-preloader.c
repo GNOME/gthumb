@@ -94,11 +94,11 @@ preloader_new (GThumbPreloader *gploader)
 	ploader->gploader = gploader;
 
 	g_signal_connect (G_OBJECT (ploader->loader),
-			  "done",
+			  "image_done",
 			  G_CALLBACK (loader_done_cb),
 			  ploader);
 	g_signal_connect (G_OBJECT (ploader->loader),
-			  "error",
+			  "image_error",
 			  G_CALLBACK (loader_error_cb),
 			  ploader);
 
@@ -293,7 +293,7 @@ sp_data_new (GThumbPreloader  *gploader,
 {
 	SetPathData *sp_data;
 
-	sp_data = g_new (SetPathData, 1);
+	sp_data = g_new0 (SetPathData, 1);
 
 	sp_data->gploader = gploader;
 	sp_data->requested = g_strdup (requested);
@@ -332,6 +332,9 @@ set_paths__step2 (SetPathData *sp_data)
 	gboolean         path_assigned[N_LOADERS];
 	gboolean         loader_assigned[N_LOADERS];
 	int              i, j;
+
+	if (requested == NULL)
+		return;
 
 	paths[0] = requested;
 	paths[1] = next1;
@@ -408,6 +411,9 @@ set_paths__step2 (SetPathData *sp_data)
 		if (loader_assigned[i]) {
 			PreLoader *ploader = gploader->loader[i];
 			int        priority;
+
+			if (ploader->path == NULL)
+				continue;
 			
 			if (strcmp (ploader->path, requested) == 0)
 				priority = GNOME_VFS_PRIORITY_MAX;

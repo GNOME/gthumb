@@ -1,11 +1,15 @@
 <gthumb:set_var thumbnail_width=120 thumbnail_height=100/>
-<gthumb:set_var preview_width=600 preview_height=600/>
+<gthumb:set_var preview_width=600 preview_height=400/>
 
 <html>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="Generator" content="gThumb Image Viewer">
   <head>
-  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+    <gthumb:if pages > 1 />
+      <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+    <gthumb:else/>
+      <title><gthumb:header/></title>
+    <gthumb:end/>
   <style>
     span.titolo { 
       color: black; 

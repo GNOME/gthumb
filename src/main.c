@@ -47,17 +47,17 @@
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
 
-GList               *window_list = NULL;
-FullScreen          *fullscreen;
-char               **file_urls, **dir_urls;
-int                  n_file_urls, n_dir_urls;
-int                  StartInFullscreen;
-int                  StartSlideshow;
-int                  ViewFirstImage = FALSE;
-int                  HideSidebar = FALSE;
-gboolean             ExitAll = FALSE;
-char                *ImageToDisplay = NULL;
-gboolean             FirstStart = TRUE;
+GList          *window_list = NULL;
+FullScreen     *fullscreen;
+char          **file_urls, **dir_urls;
+int             n_file_urls, n_dir_urls;
+int             StartInFullscreen;
+int             StartSlideshow;
+int             ViewFirstImage = FALSE;
+int             HideSidebar = FALSE;
+gboolean        ExitAll = FALSE;
+char           *ImageToDisplay = NULL;
+gboolean        FirstStart = TRUE;
 
 
 static gboolean        view_comline_catalog = FALSE;

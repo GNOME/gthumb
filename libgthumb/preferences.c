@@ -392,17 +392,15 @@ pref_util_get_rgb_values (const char *hex,
 		*g = 0;
 		*b = 0;
 
-	} else if (g_utf8_strlen (hex, -1) != 7) {
+	} else if (strlen (hex) != 7) {
 		*r = 0;
 		*g = 0;
 		*b = 0;
 
 	} else {
-		int i = 1;
-
-		*r = dec (hex[i++]) * 16 + dec (hex[i++]);
-		*g = dec (hex[i++]) * 16 + dec (hex[i++]);
-		*b = dec (hex[i++]) * 16 + dec (hex[i++]);
+		*r = dec (hex[1]) * 16 + dec (hex[2]);
+		*g = dec (hex[3]) * 16 + dec (hex[4]);
+		*b = dec (hex[5]) * 16 + dec (hex[6]);
 		
 		*r = UNSCALE (*r / 255.);
 		*g = UNSCALE (*g / 255.);
@@ -445,14 +443,13 @@ guint32
 pref_util_get_int_value (const char *hex)
 {
 	guint8  r, g, b;
-	int     i = 1;
 
 	g_return_val_if_fail (hex != NULL, 0);
-	g_return_val_if_fail (g_utf8_strlen (hex, -1) == 7, 0);
+	g_return_val_if_fail (strlen (hex) == 7, 0);
 
-	r = dec (hex[i++]) * 16 + dec (hex[i++]);
-	g = dec (hex[i++]) * 16 + dec (hex[i++]);
-	b = dec (hex[i++]) * 16 + dec (hex[i++]);
+	r = dec (hex[1]) * 16 + dec (hex[2]);
+	g = dec (hex[3]) * 16 + dec (hex[4]);
+	b = dec (hex[5]) * 16 + dec (hex[6]);
 
 	return (r << 24) + (g << 16) + (b << 8) + 0xFF;
 }

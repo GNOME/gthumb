@@ -1055,11 +1055,11 @@ queue_image_to_load (DialogData *data,
 		data->loader = THUMB_LOADER (thumb_loader_new (NULL, MINI_IMAGE_SIZE, MINI_IMAGE_SIZE));
 		thumb_loader_use_cache (data->loader, TRUE);
 		g_signal_connect (G_OBJECT (data->loader), 
-				  "done",
+				  "thumb_done",
 				  G_CALLBACK (image_loader_done),
 				  data);
 		g_signal_connect (G_OBJECT (data->loader), 
-				  "error",
+				  "thumb_error",
 				  G_CALLBACK (image_loader_error),
 				  data);
 	}

@@ -408,19 +408,19 @@ dlg_web_exporter (GThumbWindow *window)
 			  data);
 
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "done",
+			  "web_exporter_done",
 			  G_CALLBACK (export_done),
 			  data);
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "progress",
+			  "web_exporter_progress",
 			  G_CALLBACK (export_progress),
 			  data);
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "info",
+			  "web_exporter_info",
 			  G_CALLBACK (export_info),
 			  data);
 	g_signal_connect (G_OBJECT (data->exporter), 
-			  "start_copying",
+			  "web_exporter_start_copying",
 			  G_CALLBACK (export_start_copying),
 			  data);
 

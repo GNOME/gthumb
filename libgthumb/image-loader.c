@@ -79,9 +79,9 @@ struct _ImageLoaderPrivateData {
 
 
 enum {
-	ERROR,
-	DONE,
-	PROGRESS,
+	IMAGE_ERROR,
+	IMAGE_DONE,
+	IMAGE_PROGRESS,
 	LAST_SIGNAL
 };
 
@@ -168,29 +168,29 @@ image_loader_class_init (ImageLoaderClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	image_loader_signals[ERROR] =
-		g_signal_new ("error",
+	image_loader_signals[IMAGE_ERROR] =
+		g_signal_new ("image_error",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ImageLoaderClass, error),
+			      G_STRUCT_OFFSET (ImageLoaderClass, image_error),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
-	image_loader_signals[DONE] =
-		g_signal_new ("done",
+	image_loader_signals[IMAGE_DONE] =
+		g_signal_new ("image_done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ImageLoaderClass, done),
+			      G_STRUCT_OFFSET (ImageLoaderClass, image_done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
-	image_loader_signals[PROGRESS] =
-		g_signal_new ("progress",
+	image_loader_signals[IMAGE_PROGRESS] =
+		g_signal_new ("image_progress",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (ImageLoaderClass, progress),
+			      G_STRUCT_OFFSET (ImageLoaderClass, image_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
 			      G_TYPE_NONE, 
@@ -198,9 +198,9 @@ image_loader_class_init (ImageLoaderClass *class)
 
 	object_class->finalize = image_loader_finalize;
 
-	class->error = NULL;
-	class->done = NULL;
-	class->progress = NULL;
+	class->image_error = NULL;
+	class->image_done = NULL;
+	class->image_progress = NULL;
 }
 
 static void * load_image_thread (void *thread_data);
@@ -549,10 +549,10 @@ image_loader_stop__final_step (ImageLoader *il)
 		
 	if (error)
 		g_signal_emit (G_OBJECT (il), 
-			       image_loader_signals[ERROR], 0);
+			       image_loader_signals[IMAGE_ERROR], 0);
 	else
 		g_signal_emit (G_OBJECT (il), 
-			       image_loader_signals[DONE], 0);
+			       image_loader_signals[IMAGE_DONE], 0);
 }
 
 
@@ -915,9 +915,9 @@ image_loader_load_from_pixbuf_loader (ImageLoader *il,
 	g_mutex_unlock (il->priv->yes_or_no);
 
 	if (error)
-		g_signal_emit (G_OBJECT (il), image_loader_signals[ERROR], 0);
+		g_signal_emit (G_OBJECT (il), image_loader_signals[IMAGE_ERROR], 0);
 	else
-		g_signal_emit (G_OBJECT (il), image_loader_signals[DONE], 0);
+		g_signal_emit (G_OBJECT (il), image_loader_signals[IMAGE_DONE], 0);
 }
 
 
@@ -977,8 +977,8 @@ image_loader_load_from_image_loader (ImageLoader *to,
 	g_mutex_unlock (from->priv->yes_or_no);
 
 	if (error)
-		g_signal_emit (G_OBJECT (to), image_loader_signals[ERROR], 0);
+		g_signal_emit (G_OBJECT (to), image_loader_signals[IMAGE_ERROR], 0);
 	else
-		g_signal_emit (G_OBJECT (to), image_loader_signals[DONE], 0);
+		g_signal_emit (G_OBJECT (to), image_loader_signals[IMAGE_DONE], 0);
 }
 

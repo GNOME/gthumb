@@ -1,0 +1,87 @@
+<gthumb:set_var thumbnail_width=185 thumbnail_height=146/>
+<gthumb:set_var preview_width=600 preview_height=400/>
+
+<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="Generator" content="gThumb Image Viewer">
+  <head>
+    <gthumb:if pages > 1 />
+      <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+    <gthumb:else/>
+      <title><gthumb:header/></title>
+    <gthumb:end/>
+    <style>
+      a:link {
+        font-weight: bold;
+        text-decoration: none;
+        color: white
+      }
+      a:visited {
+        font-weight: bold;
+        text-decoration: none;
+        color: white
+      }
+      a:hover {
+        font-weight: bold;
+        text-decoration: none;
+        color: white
+      }
+      span.title { 
+        color: white; 
+        font-weight: bold;
+        font-size: x-large;
+        text-transform: uppercase; 
+      }
+      span.copyright {
+        color: white;
+        font-weight: bold;
+        font-size: x-small;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body background="background.png">
+
+    <!-- Navigation Bar -->
+    <table width=95% align=center>
+      <tr>
+        <td align=left>
+          <gthumb:if pages > 1 && page_idx > 1 />
+            <a href="<gthumb:page_link idx_relative=-1/>">
+              <img src="prev.png" width=18 height=20 border=0></a>
+          <gthumb:else/>
+              <img src="transparent.png" width=18 height=20 border=0></a>
+          <gthumb:end/>
+        <td align=center>
+          <span class=title>
+            <gthumb:header/>
+          </span>
+
+        <td align=right>
+          <gthumb:if pages > 1 && page_idx < pages />
+            <a href="<gthumb:page_link idx_relative=+1/>">
+              <img src="next.png" width=18 height=20 border=0></a>
+          <gthumb:else/>
+              <img src="transparent.png" width=18 height=20 border=0></a>
+          <gthumb:end/>
+    </table>
+
+    &nbsp;
+
+    <!-- Table -->
+    <table align=center border=0 cellpadding=5 width="95%">
+      <gthumb:table/>
+    </table>
+
+    &nbsp;
+
+    <center>
+      <img src="white-dot.png" width=95% height=2>
+      &nbsp;<br>
+      <span class=copyright>
+         <gthumb:footer/>
+      </span>
+    </center>
+
+  </body>
+</html>

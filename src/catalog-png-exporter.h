@@ -139,13 +139,13 @@ struct _CatalogPngExporterClass {
 
 	/* -- signals -- */
 	
-	void (*done)             (CatalogPngExporter *ce);
+	void (*png_exporter_done)             (CatalogPngExporter *ce);
 
-	void (*progress)         (CatalogPngExporter *ce,
-				  gfloat              percent);
+	void (*png_exporter_progress)         (CatalogPngExporter *ce,
+					       float               percent);
 
-	void (*info)             (CatalogPngExporter *ce,
-				  const char         *info);
+	void (*png_exporter_info)             (CatalogPngExporter *ce,
+					       const char         *info);
 };
 
 

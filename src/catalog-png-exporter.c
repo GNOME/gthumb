@@ -166,9 +166,9 @@ image_data_free (ImageData *idata)
 
 
 enum {
-	DONE,
-	PROGRESS,
-	INFO,
+	PNG_EXPORTER_DONE,
+	PNG_EXPORTER_PROGRESS,
+	PNG_EXPORTER_INFO,
 	LAST_SIGNAL
 };
 
@@ -274,31 +274,31 @@ catalog_png_exporter_class_init (CatalogPngExporterClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	catalog_png_exporter_signals[DONE] =
-		g_signal_new ("done",
+	catalog_png_exporter_signals[PNG_EXPORTER_DONE] =
+		g_signal_new ("png_exporter_done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogPngExporterClass, done),
+			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
 
-	catalog_png_exporter_signals[PROGRESS] =
-		g_signal_new ("progress",
+	catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS] =
+		g_signal_new ("png_exporter_progress",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogPngExporterClass, progress),
+			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
 			      G_TYPE_NONE, 
 			      1, G_TYPE_FLOAT);
 
-	catalog_png_exporter_signals[INFO] =
-		g_signal_new ("info",
+	catalog_png_exporter_signals[PNG_EXPORTER_INFO] =
+		g_signal_new ("png_exporter_info",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (CatalogPngExporterClass, info),
+			      G_STRUCT_OFFSET (CatalogPngExporterClass, png_exporter_info),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__STRING,
 			      G_TYPE_NONE, 
@@ -385,7 +385,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 
 	ce->layout = pango_layout_new (ce->context);
 	pango_layout_set_alignment (ce->layout, PANGO_ALIGN_CENTER);
-	pango_layout_set_wrap (ce->layout, PANGO_WRAP_CHAR);
+	pango_layout_set_wrap (ce->layout, PANGO_WRAP_WORD_CHAR);
 
 	font_desc = pango_font_description_from_string (DEFAULT_FONT);
 	pango_layout_set_font_description (ce->layout, font_desc);
@@ -864,7 +864,7 @@ export (CatalogPngExporter *ce)
 				g_list_free (ce->file_list);
 				ce->file_list = NULL;
 			}
-			g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[DONE], 0);
+			g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 			goto label_end;
 		}
  
@@ -1008,7 +1008,7 @@ export (CatalogPngExporter *ce)
 
  label_end:
 	end_export (ce);
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[DONE], 0);
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 }
 
 
@@ -1288,12 +1288,12 @@ load_next_file (CatalogPngExporter *ce)
 			g_list_free (ce->file_list);
 			ce->file_list = NULL;
 		}
-		g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[DONE], 0);
+		g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_DONE], 0);
 		return;
 	}
 
 	g_signal_emit (G_OBJECT (ce), 
-		       catalog_png_exporter_signals[PROGRESS],
+		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
 		       0,
 		       ((float) ++ce->n_images_done) / ce->n_images);
 
@@ -1327,7 +1327,7 @@ load_next_file (CatalogPngExporter *ce)
 	ce->info = g_strdup_printf (_("Loading image: %s"), utf8_name);
 	g_free (utf8_name);
 
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[INFO], 
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO], 
 		       0,
 		       ce->info);
 }
@@ -1399,11 +1399,11 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 						      ce->thumb_height));
 	thumb_loader_use_cache (ce->tloader, FALSE);
 	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "done",
+			  "thumb_done",
 			  G_CALLBACK (thumb_loader_done),
 			  ce);
 	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "error",
+			  "thumb_error",
 			  G_CALLBACK (thumb_loader_error),
 			  ce);
 
@@ -1517,7 +1517,7 @@ begin_page (CatalogPngExporter *ce,
 	char             *utf8_name;
 
 	g_signal_emit (G_OBJECT (ce), 
-		       catalog_png_exporter_signals[PROGRESS],
+		       catalog_png_exporter_signals[PNG_EXPORTER_PROGRESS],
 		       0,
 		       ((float) page_n) / ce->pages_n);
 
@@ -1538,7 +1538,7 @@ begin_page (CatalogPngExporter *ce,
 	g_free (utf8_name);
 	g_free (filename);
 
-	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[INFO], 
+	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[PNG_EXPORTER_INFO], 
 		       0,
 		       ce->info);
 

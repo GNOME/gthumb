@@ -32,8 +32,8 @@
 
 
 enum {
-	PROGRESS,
-	DONE,
+	PIXBUF_OP_PROGRESS,
+	PIXBUF_OP_DONE,
 	LAST_SIGNAL
 };
 
@@ -76,21 +76,21 @@ gth_pixbuf_op_class_init (GthPixbufOpClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	gth_pixbuf_op_signals[PROGRESS] =
-		g_signal_new ("progress",
+	gth_pixbuf_op_signals[PIXBUF_OP_PROGRESS] =
+		g_signal_new ("pixbuf_op_progress",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthPixbufOpClass, progress),
+			      G_STRUCT_OFFSET (GthPixbufOpClass, pixbuf_op_progress),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__FLOAT,
 			      G_TYPE_NONE, 
 			      1,
 			      G_TYPE_FLOAT);
-	gth_pixbuf_op_signals[DONE] =
-		g_signal_new ("done",
+	gth_pixbuf_op_signals[PIXBUF_OP_DONE] =
+		g_signal_new ("pixbuf_op_done",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (GthPixbufOpClass, done),
+			      G_STRUCT_OFFSET (GthPixbufOpClass, pixbuf_op_done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__BOOLEAN,
 			      G_TYPE_NONE, 
@@ -210,7 +210,7 @@ one_step (gpointer data)
 			(*pixbuf_op->release_func) (pixbuf_op);
 
 		g_signal_emit (G_OBJECT (pixbuf_op),
-			       gth_pixbuf_op_signals[DONE],
+			       gth_pixbuf_op_signals[PIXBUF_OP_DONE],
 			       0,
 			       ! pixbuf_op->interrupt);
 
@@ -225,7 +225,7 @@ one_step (gpointer data)
 	
 	if (pixbuf_op->line % PROGRESS_STEP == 0) 
 		g_signal_emit (G_OBJECT (pixbuf_op),
-			       gth_pixbuf_op_signals[PROGRESS],
+			       gth_pixbuf_op_signals[PIXBUF_OP_PROGRESS],
 			       0,
 			       (float) pixbuf_op->line / pixbuf_op->height);
 

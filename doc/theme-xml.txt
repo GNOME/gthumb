@@ -1,6 +1,8 @@
 EXPR: 
   EXPR + EXPR
   EXPR - EXPR
+  EXPR && EXPR
+  EXPR || EXPR
   - EXPR
   + EXPR
   ! EXPR

@@ -81,8 +81,7 @@ typedef struct {
 	GtkWidget          *popup_menu;
 
 	GtkWidget          *image_comment;
-	GtkWidget          *image_exif_view;
-	GtkListStore       *image_exif_model;
+	GtkWidget          *exif_data_viewer;
 
 	GtkWidget          *progress;              /* statusbar widgets. */
 	GtkWidget          *image_info;
