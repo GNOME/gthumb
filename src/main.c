@@ -98,8 +98,8 @@ check_whether_to_set_fullscreen (gpointer data)
 }
 
 
-gint 
-main (gint argc, char *argv[])
+int 
+main (int argc, char *argv[])
 {
 	GnomeProgram *program;
 	GValue        value = { 0 };
@@ -108,8 +108,6 @@ main (gint argc, char *argv[])
 	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
-
-	/* init threads */
 
 	program = gnome_program_init ("gthumb", VERSION,
 				      LIBGNOMEUI_MODULE, 
@@ -124,7 +122,6 @@ main (gint argc, char *argv[])
 
 	if (! g_thread_supported ())
 		g_thread_init (NULL);
-
 	gdk_threads_init ();
 
 	g_object_get_property (G_OBJECT (program),
@@ -201,6 +198,7 @@ initialize_data (poptContext pctx)
 	int          i;
 
 	create_default_categories_if_needed ();
+
 	eel_gconf_monitor_add ("/apps/gthumb");
 
 	fullscreen = fullscreen_new ();
@@ -265,8 +263,8 @@ initialize_data (poptContext pctx)
 	if (n_file_urls > 0) {
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
-		gchar *catalog_path;
-		gchar *catalog_name;
+		char    *catalog_path;
+		char    *catalog_name;
 
 		catalog = catalog_new ();
 

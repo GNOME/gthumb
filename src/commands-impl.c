@@ -164,6 +164,16 @@ file_save_command_impl (BonoboUIComponent *uic,
 
 
 void 
+file_revert_command_impl (BonoboUIComponent *uic, 
+			  gpointer           user_data, 
+			  const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	window_reload_image (window);
+}
+
+
+void 
 file_print_command_impl (BonoboUIComponent *uic, 
 			 gpointer           user_data, 
 			 const gchar       *verbname)
@@ -245,9 +255,12 @@ rename_file (GThumbWindow *window,
 	if (path_is_file (new_path)) {
 		GtkWidget *d;
 		char      *message;
+		char      *utf8_name;
 		int        r;
 
-		message = g_strdup_printf (_("An image named \"%s\" is already present in this folder. " "Do you want to overwrite it ?"), new_name);
+		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
+		message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it ?"), utf8_name);
+		g_free (utf8_name);
 
 		d = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 					   GTK_DIALOG_MODAL,
@@ -811,7 +824,6 @@ create_new_folder_or_library (GThumbWindow *window,
 			      char         *str_error)
 {
 	const char   *current_path;
-	char         *old_name_utf8;
 	char         *new_name;
 	char         *new_path;
 
@@ -822,15 +834,13 @@ create_new_folder_or_library (GThumbWindow *window,
 	else
 		return;
 
-	old_name_utf8 = g_locale_to_utf8 (str_old_name, -1, NULL, NULL, NULL);
 	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 					    GTK_DIALOG_MODAL,
 					    str_prompt,
-					    old_name_utf8,
+					    str_old_name,
 					    MAX_NAME_LEN,
 					    GTK_STOCK_CANCEL,
 					    _("C_reate"));
-	g_free (old_name_utf8);
 	
 	if (new_name == NULL) 
 		return;
@@ -859,7 +869,7 @@ create_new_folder_or_library (GThumbWindow *window,
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if (mkdir (new_path, 0755) == 0) { 
@@ -983,7 +993,7 @@ folder_rename (GThumbWindow *window,
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if (rename (old_path, new_path) == 0) { 
@@ -1068,6 +1078,8 @@ folder_delete (GThumbWindow *window,
 {
 	GtkWidget    *dialog;
 	GError       *gerror;
+	char         *utf8_name;
+	const char   *details;
 	int           r;
 
 	/* Always ask before deleting folders. */
@@ -1108,11 +1120,23 @@ folder_delete (GThumbWindow *window,
 		return;
 	}
 
+	utf8_name = g_locale_to_utf8 (path, -1, 0, 0, 0);
+
+	switch (gnome_vfs_result_from_errno ()) {
+	case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
+		details = _("Folder not empty");
+		break;
+	default:
+		details = errno_to_string ();
+		break;
+	}
+
 	gerror = g_error_new (GTHUMB_ERROR,
 			      errno,
 			      _("Cannot delete the folder \"%s\" : %s"),
-			      path,
-			      errno_to_string ());
+			      utf8_name,
+			      details);
+	g_free (utf8_name);
 
 	_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
 	all_windows_update_file_list ();
@@ -1192,7 +1216,7 @@ folder_move__ok_cb (GObject *object,
 
 		utf8_name = g_locale_to_utf8 (dir_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if (rename (old_path, new_path) == 0) { 
@@ -1385,7 +1409,7 @@ catalog_rename (GThumbWindow *window,
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
-				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if (! rename (catalog_path, new_catalog_path)) {
@@ -1396,7 +1420,7 @@ catalog_rename (GThumbWindow *window,
 
 		utf8_name = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
-                                       is_dir ? _("Could not rename the folder \"%s\" : %s") : _("Could not rename the catalog \"%s\" : %s"),
+                                       is_dir ? _("Could not rename the library \"%s\" : %s") : _("Could not rename the catalog \"%s\" : %s"),
                                        utf8_name,
                                        errno_to_string ());
 		g_free (utf8_name);
@@ -1468,14 +1492,12 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 					CATALOG_EXT,
 					NULL);
 
-	g_print ("create %s\n", new_catalog_path);
-
 	if (path_is_file (new_catalog_path)) {
 		char *utf8_name;
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
-				       _("The name \"%s\" is already used in this folder. " "Please use a different name."), utf8_name);
+				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
 	} else if ((fd = creat (new_catalog_path, 0660)) != -1) {
@@ -1550,7 +1572,7 @@ catalog_delete (GThumbWindow *window,
 	}
 
 	if (path_is_dir (catalog_path)) 
-		message = g_strdup (_("The selected folder will be deleted, are you sure ?"));
+		message = g_strdup (_("The selected library will be removed, are you sure ?"));
 	else
 		message = g_strdup (_("The selected catalog will be removed, are you sure ?"));
 
@@ -1558,7 +1580,7 @@ catalog_delete (GThumbWindow *window,
 					GTK_DIALOG_MODAL,
 					message,
 					GTK_STOCK_CANCEL,
-					GTK_STOCK_DELETE);
+					GTK_STOCK_REMOVE);
 	g_free (message);
 
 	r = gtk_dialog_run (GTK_DIALOG (dialog));

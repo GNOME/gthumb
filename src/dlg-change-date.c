@@ -147,10 +147,8 @@ ok_clicked (GtkWidget  *button,
 		if (is_active (data->cd_created_radiobutton)) 
 			mtime = get_file_ctime (fdata->path);
 #ifdef HAVE_LIBEXIF
-		else if (is_active (data->cd_exif_radiobutton)) {
+		else if (is_active (data->cd_exif_radiobutton)) 
 			mtime = get_exif_time (fdata->path);
-			/* FIXME */
-		}
 #endif /* HAVE_LIBEXIF */
 		
 		if (mtime > 0) 

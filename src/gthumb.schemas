@@ -69,6 +69,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/general/migrate_directories</key>
+	<applyto>/apps/gthumb/general/migrate_directories</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Broswer -->
 
       <schema>

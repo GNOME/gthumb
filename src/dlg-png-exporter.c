@@ -385,7 +385,7 @@ export_info (GtkObject  *object,
 	     const char *info,
 	     DialogData *data)
 {
-	_gtk_label_set_locale_text (GTK_LABEL (data->progress_info), info);
+	gtk_label_set_text (GTK_LABEL (data->progress_info), info);
 }
 
 

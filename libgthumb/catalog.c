@@ -75,16 +75,30 @@ delete_catalog_dir (const char  *full_path,
 	if (gerror != NULL) {
 		const char *rel_path;
 		char       *base_path;
+		char       *utf8_path;
+		const char *details;
 
 		base_path = get_catalog_full_path (NULL);
 		rel_path = full_path + strlen (base_path) + 1;
 		g_free (base_path);
 
+		utf8_path = g_locale_to_utf8 (rel_path, -1, 0, 0, 0);
+
+		switch (gnome_vfs_result_from_errno ()) {
+		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
+			details = _("Libray not empty");
+			break;
+		default:
+			details = errno_to_string ();
+			break;
+		}
+
 		*gerror = g_error_new (GTHUMB_ERROR,
 				       errno,
 				       _("Cannot remove library \"%s\" : %s"),
-				       rel_path,
-				       errno_to_string ());
+				       utf8_path,
+				       details);
+		g_free (utf8_path);
 	}
 
 	return FALSE;

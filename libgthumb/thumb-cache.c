@@ -183,6 +183,7 @@ cache_get_nautilus_thumbnail_file (const gchar *source)
 }
 
 
+/* FIXME
 gchar *
 cache_get_gthumb_cache_name (const gchar *source) 
 {
@@ -208,6 +209,7 @@ cache_get_gthumb_cache_name (const gchar *source)
 
 	return path;
 }
+*/
 
 
 gchar *
@@ -249,7 +251,8 @@ cache_copy (const gchar *src,
 {
 	char   *cache_src;
 	time_t  dest_mtime = get_file_mtime (dest);
-	
+
+	/* FIXME
 	cache_src = cache_get_gthumb_cache_name (src);
 	if (path_is_file (cache_src)) {
 		char *cache_dest = cache_get_gthumb_cache_name (dest);
@@ -262,6 +265,7 @@ cache_copy (const gchar *src,
 		g_free (cache_dest);
 	}
 	g_free (cache_src);
+	*/
 
 	cache_src = cache_get_nautilus_cache_name (src);
 	if (path_is_file (cache_src)) {
@@ -285,6 +289,7 @@ cache_move (const char *src,
 	char   *cache_src;
 	time_t  dest_mtime = get_file_mtime (dest);
 
+	/*
 	cache_src = cache_get_gthumb_cache_name (src);
 	if (path_is_file (cache_src)) {
 		char *cache_dest = cache_get_gthumb_cache_name (dest);
@@ -297,6 +302,7 @@ cache_move (const char *src,
 		g_free (cache_dest);
 	}
 	g_free (cache_src);
+	*/
 
 	cache_src = cache_get_nautilus_cache_name (src);
 
@@ -319,9 +325,11 @@ cache_delete (const gchar *filename)
 {
 	char *cache_name;
 
+	/*
 	cache_name = cache_get_gthumb_cache_name (filename);
 	unlink (cache_name);
 	g_free (cache_name);
+	*/
 
 	cache_name = cache_get_nautilus_cache_name (filename);
 	unlink (cache_name);
@@ -329,6 +337,7 @@ cache_delete (const gchar *filename)
 }
 
 
+/*
 void
 cache_remove_old_previews (const gchar *dir,
 			   gboolean recursive,
@@ -340,6 +349,7 @@ cache_remove_old_previews (const gchar *dir,
 			    recursive,
 			    clear_all);
 }
+*/
 
 
 /* ----- cache_remove_old_previews_async implememtation. ------ */
@@ -355,7 +365,7 @@ typedef struct {
 static void nautilus_cache_remove_old_previews_async (gboolean recursive,
 						      gboolean clear_all);
 
-
+/* FIXME 
 static void
 cache_remove_done (const GList *dir_list,
 		   gpointer     data)
@@ -390,6 +400,7 @@ check_cache_file (gchar *real_file,
 			g_warning ("Cannot delete %s\n", rc_file);
 	}
 }
+*/
 
 
 void
@@ -397,6 +408,9 @@ cache_remove_old_previews_async (const gchar *dir,
 				 gboolean recursive,
 				 gboolean clear_all)
 {
+	nautilus_cache_remove_old_previews_async (recursive, clear_all);
+
+	/* FIXME
 	CacheRemoveData *crd;
 
 	crd = g_new (CacheRemoveData, 1);
@@ -421,6 +435,7 @@ cache_remove_old_previews_async (const gchar *dir,
 				  check_cache_file,
 				  cache_remove_done,
 				  crd);
+	*/
 }
 
 

@@ -30,12 +30,12 @@
 #include "typedefs.h"
 #include "image-viewer.h"
 
-
 #define  PREF_GO_TO_LAST_LOCATION    "/apps/gthumb/general/go_to_last_location"
 #define  PREF_USE_STARTUP_LOCATION   "/apps/gthumb/general/use_startup_location"
 #define  PREF_STARTUP_LOCATION       "/apps/gthumb/general/startup_location"
 #define  PREF_MAX_HISTORY_LENGTH     "/apps/gthumb/general/max_history_length"
 #define  PREF_EDITORS                "/apps/gthumb/general/editors"
+#define  PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
 #define  PREF_SHOW_COMMENTS          "/apps/gthumb/browser/show_comments"

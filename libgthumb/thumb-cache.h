@@ -31,7 +31,7 @@
 
 gchar *  cache_get_nautilus_thumbnail_file (const gchar *source);
 
-gchar *  cache_get_gthumb_cache_name       (const gchar *source);
+/*gchar *  cache_get_gthumb_cache_name       (const gchar *source);*/
 
 gchar *  cache_get_nautilus_cache_name     (const gchar *source);
 
@@ -45,9 +45,11 @@ void     cache_move                        (const gchar *src,
 
 void     cache_delete                      (const gchar *filename);
 
+/*
 void     cache_remove_old_previews         (const gchar *dir, 
 					    gboolean recursive, 
 					    gboolean clear_all);
+*/
 
 void     cache_remove_old_previews_async   (const gchar *dir, 
 					    gboolean recursive, 

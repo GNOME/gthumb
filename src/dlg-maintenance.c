@@ -201,7 +201,7 @@ restore__ok_cb (GObject  *object,
 
 	/**/
 
-	extract_dir = g_strconcat (g_get_home_dir(), "/.gqview", NULL);
+	extract_dir = g_strconcat (g_get_home_dir(), "/", RC_DIR, NULL);
 	command_line = g_strconcat ("file-roller",
 				    " --extract-to=", extract_dir, 
 				    " --force",

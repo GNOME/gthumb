@@ -182,7 +182,7 @@ show_rename_dialog (DialogData *data)
 
 	utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 
-	message = g_strdup_printf (_("An image named \"%s\" is already present in this folder. " "Please specify a different name."), utf8_name);
+	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
 	
 	_gtk_label_set_locale_text (GTK_LABEL (data->conv_ren_message_label), message);
 	g_free (message);
@@ -298,7 +298,7 @@ loader_done (ImageLoader *il,
 
 		case OVERWRITE_ASK:
 			utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
-			message = g_strdup_printf (_("An image named \"%s\" is already present in this folder. " "Do you want to overwrite it ?"), utf8_name);
+			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it ?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),
 						   GTK_DIALOG_MODAL,

@@ -1256,6 +1256,7 @@ static void
 load_next_file (CatalogPngExporter *ce)
 {
 	char *filename;
+	char *utf8_name;
 
 	g_signal_emit (G_OBJECT (ce), 
 		       catalog_png_exporter_signals[PROGRESS],
@@ -1288,7 +1289,10 @@ load_next_file (CatalogPngExporter *ce)
 
 	g_free (ce->info);
 
-	ce->info = g_strdup_printf (_("Loading image : %s"), file_name_from_path (filename));
+	utf8_name = g_locale_to_utf8 (file_name_from_path (filename), -1, 0, 0, 0);
+	ce->info = g_strdup_printf (_("Loading image : %s"), utf8_name);
+	g_free (utf8_name);
+
 	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[INFO], 
 		       0,
 		       ce->info);
@@ -1460,6 +1464,7 @@ begin_page (CatalogPngExporter *ce,
 	char             *path;
 	char             *filename;
 	char             *line;
+	char             *utf8_name;
 
 	g_signal_emit (G_OBJECT (ce), 
 		       catalog_png_exporter_signals[PROGRESS],
@@ -1471,24 +1476,16 @@ begin_page (CatalogPngExporter *ce,
 
 	paint_background (ce, width, height);
 
-	/*
-	gdk_gc_set_rgb_fg_color (ce->gc, &ce->page_color); 
-	gdk_draw_rectangle (ce->pixmap,
-			    ce->gc,
-			    TRUE,
-			    0, 0,
-			    width,
-			    height);
-	*/
-
 	/* info */
 
 	g_free (ce->info);
 
 	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
+	utf8_name = g_locale_to_utf8 (filename, -1, 0, 0, 0);
 	ce->info = g_strdup_printf (_("Creating image : %s.%s"), 
-				    filename, 
+				    utf8_name, 
 				    ce->file_type);
+	g_free (utf8_name);
 	g_free (filename);
 
 	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[INFO], 

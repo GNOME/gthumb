@@ -3,6 +3,7 @@ version 1.105
 	* New tools: edit image (hue, brightness, contrast, saturation, 
 	  color balance, etc.), convert format, change timestamp.
 	* Use gconf as configuration system instead of gnome-config.
+	* Added session management support.
 
 version 1.104
 -------------

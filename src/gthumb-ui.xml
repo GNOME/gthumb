@@ -18,6 +18,9 @@
 	     _tip="Save current image"
 	     pixtype="stock" pixname="gtk-save-as" 
 	     accel="*Shift**Control*S"/>
+	<cmd name="File_Revert" _label="_Revert" 
+	     _tip="Revert to saved image"
+	     pixtype="stock" pixname="gtk-revert-to-saved" />
 	<cmd name="File_Print" _label="_Print" 
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print" accel="*Control*P"/>
@@ -356,6 +359,7 @@
 		<menuitem name="File_NewWindow" verb=""/>
 		<menuitem name="File_OpenWith" verb=""/>
 		<menuitem name="File_Save" verb=""/>
+		<menuitem name="File_Revert" verb=""/>
 		<separator/>
 		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
@@ -587,6 +591,8 @@
 	<separator/>
 
   	<toolitem name="File_Save" verb="" _label="Save"
+  	          priority="0"/>
+  	<toolitem name="File_Revert" verb="" _label="Revert"
   	          priority="0"/>
 
   	<toolitem name="File_Print" verb="" _label="Print"

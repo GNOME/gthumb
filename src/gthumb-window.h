@@ -196,6 +196,8 @@ gboolean        window_show_last_image              (GThumbWindow *window);
 void            window_load_image                   (GThumbWindow *window, 
 						     const gchar *filename);
 
+void            window_reload_image                 (GThumbWindow *window);
+
 void            window_start_slideshow              (GThumbWindow *window);
 
 void            window_stop_slideshow               (GThumbWindow *window);

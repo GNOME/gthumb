@@ -36,12 +36,22 @@
 
 #define GLADE_FILE             "gthumb.glade"
 
-#define RC_THUMBS_DIR          ".gqview/thumbnails"
-#define RC_CATALOG_DIR         ".gqview/collections"
-#define RC_COMMENTS_DIR        ".gqview/comments"
-#define RC_BOOKMARKS_FILE      ".gqview/bookmarks"
-#define RC_HISTORY_FILE        ".gqview/history"
-#define RC_CATEGORIES_FILE     ".gqview/categories"
+/*#define RC_THUMBS_DIR          ".gqview/thumbnails"*/
+
+#define RC_DIR                 ".gnome2/gthumb"
+
+#define RC_CATALOG_DIR         ".gnome2/gthumb/collections"
+#define RC_COMMENTS_DIR        ".gnome2/gthumb/comments"
+#define RC_BOOKMARKS_FILE      ".gnome2/gthumb/bookmarks"
+#define RC_HISTORY_FILE        ".gnome2/gthumb/history"
+#define RC_CATEGORIES_FILE     ".gnome2/gthumb/categories"
+
+#define OLD_RC_CATALOG_DIR     ".gqview/collections"
+#define OLD_RC_COMMENTS_DIR    ".gqview/comments"
+#define OLD_RC_BOOKMARKS_FILE  ".gqview/bookmarks"
+#define OLD_RC_HISTORY_FILE    ".gqview/history"
+#define OLD_RC_CATEGORIES_FILE ".gqview/categories"
+
 
 #define CACHE_DIR              ".thumbnails"
 

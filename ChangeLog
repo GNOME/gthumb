@@ -1,5 +1,17 @@
 2002-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* libgthumb/gthumb-init.c (gthumb_init): use functions to
+	migrate to the new directories.
+	(migrate_to_new_directories, migrate_file_from_to) 
+	(migrate_dir_from_to): new functions
+
+	* src/dlg-convert.c:
+	* src/commands-impl.c:
+	* src/gthumb-window.c: Fixed some unicode/i18n bugs.
+	
+	* src/dlg-save-image.c (dlg_save_image): use image filename as
+	default value.
+
 	* src/dlg-change-date.c: added "change date" tool.
 
 2002-11-06  Paolo Bacchilega  <paolo.bacch@tin.it>

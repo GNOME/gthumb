@@ -84,6 +84,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_OpenWithPopup", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_Print", file_print_command_impl),
 	BONOBO_UI_VERB ("File_Save", file_save_command_impl),
+	BONOBO_UI_VERB ("File_Revert", file_revert_command_impl),
 	BONOBO_UI_VERB ("File_Exit", file_exit_command_impl),
 	BONOBO_UI_VERB ("Image_OpenWith", image_open_with_command_impl),
 	BONOBO_UI_VERB ("Image_Rename", image_rename_command_impl),
@@ -573,6 +574,7 @@ window_update_sensitivity (GThumbWindow *window)
 			       sel_not_null && not_fullscreen);
 
 	set_command_sensitive (window, "File_Save", ! image_is_void);
+	set_command_sensitive (window, "File_Revert", ! image_is_void && window->image_modified);
 	set_command_sensitive (window, "File_Print", ! image_is_void);
 
 	/* Edit menu. */
@@ -1095,15 +1097,6 @@ view_image_at_pos (GThumbWindow *window,
 	path = file_list_path_from_pos (window->file_list, pos);
 	if (path == NULL) 
 		return;
-
-	if (! window->image_modified
-	    && (window->image_path != NULL) 
-	    && (strcmp (path, window->image_path) == 0)
-	    && (window->image_mtime == get_file_mtime (window->image_path))) {
-		g_free (path);
-		return;
-	}
-
 	window_load_image (window, path);
 	g_free (path);
 }
@@ -2711,9 +2704,15 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 					&& ! image_viewer_is_playing_animation (viewer)));
 	}
 
-	if (strcmp (path, "View_Thumbnails") == 0) 
+	if (strcmp (path, "View_Thumbnails") == 0) {
 		file_list_enable_thumbs (window->file_list,
 					 ! (window->file_list->enable_thumbs));
+		set_command_sensitive (window, "Go_Stop", 
+				       ((window->activity_ref > 0) 
+					|| window->setting_file_list
+					|| window->changing_directory
+					|| window->file_list->doing_thumbs));
+	}
 
 	if (strcmp (path, "View_ShowImage") == 0) 
 		toggle_image_preview_visibility (window);
@@ -4943,6 +4942,8 @@ window_image_modified (GThumbWindow *window,
 	window->image_modified = modified;
 	window_update_infobar (window);
 	window_update_title (window);
+
+	set_command_sensitive (window, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (window->viewer)) && window->image_modified);
 }
 
 
@@ -4959,8 +4960,10 @@ view_timeout_cb (gpointer data)
 	char         *next2;
 	int           pos;
 
-	g_source_remove (window->view_image_timer);
-	window->view_image_timer = 0;
+	if (window->view_image_timer != 0) {
+		g_source_remove (window->view_image_timer);
+		window->view_image_timer = 0;
+	}
 
 	pos = file_list_pos_from_path (window->file_list, window->image_path);
 	prev1 = file_list_path_from_pos (window->file_list, pos - 1);
@@ -4982,10 +4985,27 @@ view_timeout_cb (gpointer data)
 
 
 void
-window_load_image (GThumbWindow *window, 
-		   const gchar  *filename)
+window_reload_image (GThumbWindow *window)
 {
 	g_return_if_fail (window != NULL);
+	
+	if (window->image_path != NULL)
+		view_timeout_cb (window);
+}
+
+
+
+void
+window_load_image (GThumbWindow *window, 
+		   const char   *filename)
+{
+	g_return_if_fail (window != NULL);
+
+	if (! window->image_modified
+	    && (window->image_path != NULL) 
+	    && (strcmp (filename, window->image_path) == 0)
+	    && (window->image_mtime == get_file_mtime (window->image_path))) 
+		return;
 
 	if (window->view_image_timer != 0) {
 		g_source_remove (window->view_image_timer);
