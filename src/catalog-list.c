@@ -333,7 +333,7 @@ catalog_list_update_underline (CatalogList *cat_list)
 
 	g_value_init (&value, PANGO_TYPE_UNDERLINE);
 
-	cat_list->use_underline = pref_get_real_click_policy () == CLICK_POLICY_SINGLE;
+	cat_list->use_underline = pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE;
 
 	if (cat_list->use_underline) 
 		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);

@@ -26,7 +26,6 @@
 
 #include <glib.h>
 #include "bookmarks.h"
-#include "catalog-png-exporter.h"
 #include "typedefs.h"
 #include "image-viewer.h"
 
@@ -48,12 +47,14 @@
 #define  PREF_CONFIRM_DELETION       "/apps/gthumb/browser/confirm_deletion"
 #define  PREF_ARRANGE_IMAGES         "/apps/gthumb/browser/arrange_images"
 #define  PREF_SORT_IMAGES            "/apps/gthumb/browser/sort_images"
+#define  PREF_VIEW_AS                "/apps/gthumb/browser/view_as"
 
 #define  PREF_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
 #define  PREF_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
 #define  PREF_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
 #define  PREF_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
 #define  PREF_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
+#define  PREF_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
 
 #define  PREF_SLIDESHOW_DIR          "/apps/gthumb/slideshow/direction"
 #define  PREF_SLIDESHOW_DELAY        "/apps/gthumb/slideshow/delay"
@@ -135,6 +136,16 @@
 #define  PREF_SCALE_KEEP_RATIO        "/apps/gthumb/dialogs/scale_image/keep_aspect_ratio"
 #define  PREF_SCALE_HIGH_QUALITY      "/apps/gthumb/dialogs/scale_image/high_quality"
 
+#define  PREF_WEB_ALBUM_DESTINATION   "/apps/gthumb/dialogs/web_album/destination"
+#define  PREF_WEB_ALBUM_INDEX_FILE    "/apps/gthumb/dialogs/web_album/index_file"
+#define  PREF_WEB_ALBUM_COPY_IMAGES   "/apps/gthumb/dialogs/web_album/copy_images"
+#define  PREF_WEB_ALBUM_ROWS          "/apps/gthumb/dialogs/web_album/rows"
+#define  PREF_WEB_ALBUM_COLUMNS       "/apps/gthumb/dialogs/web_album/columns"
+#define  PREF_WEB_ALBUM_SORT          "/apps/gthumb/dialogs/web_album/sort_by"
+#define  PREF_WEB_ALBUM_REVERSE       "/apps/gthumb/dialogs/web_album/reverse_order"
+#define  PREF_WEB_ALBUM_TITLE         "/apps/gthumb/dialogs/web_album/title"
+#define  PREF_WEB_ALBUM_THEME         "/apps/gthumb/dialogs/web_album/theme"
+
 
 typedef struct {
 	Bookmarks   *bookmarks;
@@ -144,7 +155,7 @@ typedef struct {
 	gboolean     menus_have_tearoff;
 	gboolean     menus_have_icons;
 	gboolean     toolbar_detachable;
-	ClickPolicy  nautilus_click_policy;
+	GthClickPolicy  nautilus_click_policy;
 	char        *nautilus_theme;
 
 	/* Wallpaper options. */
@@ -183,69 +194,76 @@ const char     *pref_util_get_hex_value               (guint16     r,
 
 guint32         pref_util_get_int_value               (const char *hex);
 
-ClickPolicy     pref_get_real_click_policy            ();
+GthClickPolicy  pref_get_real_click_policy            ();
 
 /* ------- */
 
-ClickPolicy     pref_get_click_policy         ();
+GthClickPolicy     pref_get_click_policy           ();
 
-void            pref_set_click_policy         (ClickPolicy value);
+void               pref_set_click_policy           (GthClickPolicy value);
 
-SortMethod      pref_get_arrange_type         ();
+GthSortMethod      pref_get_arrange_type           ();
 
-void            pref_set_arrange_type         (SortMethod value);
+void               pref_set_arrange_type           (GthSortMethod value);
 
-GtkSortType     pref_get_sort_order           ();
+GtkSortType        pref_get_sort_order             ();
 
-void            pref_set_sort_order           (GtkSortType value);
+void               pref_set_sort_order             (GtkSortType value);
 
-ZoomQuality     pref_get_zoom_quality         ();
+GthZoomQuality     pref_get_zoom_quality           ();
 
-void            pref_set_zoom_quality         (ZoomQuality value);
+void               pref_set_zoom_quality           (GthZoomQuality value);
 
-ZoomChange      pref_get_zoom_change          ();
+GthZoomChange      pref_get_zoom_change            ();
 
-void            pref_set_zoom_change          (ZoomChange value);
+void               pref_set_zoom_change            (GthZoomChange value);
 
-TranspType      pref_get_transp_type          ();
+GthTranspType      pref_get_transp_type            ();
 
-void            pref_set_transp_type          (TranspType value);
+void               pref_set_transp_type            (GthTranspType value);
 
-CheckType       pref_get_check_type           ();
+GthCheckType       pref_get_check_type             ();
 
-void            pref_set_check_type           (CheckType value);
+void               pref_set_check_type             (GthCheckType value);
 
-CheckSize       pref_get_check_size           ();
+GthCheckSize       pref_get_check_size             ();
 
-void            pref_set_check_size           (CheckSize value);
+void               pref_set_check_size             (GthCheckSize value);
 
-DirectionType   pref_get_slideshow_direction  ();
+GthDirectionType   pref_get_slideshow_direction    ();
 
-void            pref_set_slideshow_direction  (DirectionType value);
+void               pref_set_slideshow_direction    (GthDirectionType value);
 
-ToolbarStyle    pref_get_toolbar_style        ();
+GthToolbarStyle    pref_get_toolbar_style          ();
 
-void            pref_set_toolbar_style        (ToolbarStyle value);
+void               pref_set_toolbar_style          (GthToolbarStyle value);
 
-SortMethod      pref_get_exp_arrange_type     ();
+GthSortMethod      pref_get_exp_arrange_type       ();
 
-void            pref_set_exp_arrange_type     (SortMethod value);
+void               pref_set_exp_arrange_type       (GthSortMethod value);
 
-GtkSortType     pref_get_exp_sort_order       ();
+GtkSortType        pref_get_exp_sort_order         ();
 
-void            pref_set_exp_sort_order       (GtkSortType value);
+void               pref_set_exp_sort_order         (GtkSortType value);
 
-FrameStyle      pref_get_exporter_frame_style ();
+GthFrameStyle      pref_get_exporter_frame_style   ();
 
-void            pref_set_exporter_frame_style (FrameStyle value);
+void               pref_set_exporter_frame_style   (GthFrameStyle value);
 
-OverwriteMode   pref_get_convert_overwrite_mode ();
+GthOverwriteMode   pref_get_convert_overwrite_mode ();
 
-void            pref_set_convert_overwrite_mode (OverwriteMode value);
+void               pref_set_convert_overwrite_mode (GthOverwriteMode value);
 
-GtkSortType     pref_get_rename_sort_order      ();
+GthSortMethod      pref_get_rename_sort_order      ();
 
-void            pref_set_rename_sort_order      (GtkSortType value);
+void               pref_set_rename_sort_order      (GthSortMethod value);
 
+GthSortMethod      pref_get_web_album_sort_order   ();
+
+void               pref_set_web_album_sort_order   (GthSortMethod value);
+
+GthViewAs          pref_get_view_as                (void);
+
+void               pref_set_view_as                (GthViewAs value);
 
 #endif /* PREFERENCES_H */

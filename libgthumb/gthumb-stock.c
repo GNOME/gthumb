@@ -96,8 +96,9 @@ gthumb_stock_init (void)
 		gtk_icon_source_set_size (source, GTK_ICON_SIZE_LARGE_TOOLBAR);
 		gtk_icon_set_add_source (set, source);
 
-
 		gtk_icon_source_set_size_wildcarded (source, TRUE);
+		gtk_icon_source_set_state_wildcarded (source, TRUE);
+		gtk_icon_source_set_direction_wildcarded (source, TRUE);
 		gtk_icon_set_add_source (set, source);
 
 		gtk_icon_factory_add (factory, items[i].stock_id, set);

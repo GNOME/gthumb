@@ -2,12 +2,14 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 2.0.1)
+AC_INIT(gthumb, 2.1.0)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 AM_CONFIG_HEADER(config.h)
 
 AC_PROG_LIBTOOL
+AM_PROG_LEX
+AC_PROG_YACC
 
 dnl ==========================================================================
 dnl
@@ -16,16 +18,16 @@ dnl it too, or it will never make it into the spec file!
 dnl
 dnl ==========================================================================
 
-GLIB_REQUIRED=2.0.0
-GTK_REQUIRED=2.0.0
+GLIB_REQUIRED=2.2.0
+GTK_REQUIRED=2.2.0
 LIBXML_REQUIRED=2.4.0
-LIBGNOME_REQUIRED=2.0.0
-LIBGNOMEUI_REQUIRED=2.0.0
+LIBGNOME_REQUIRED=2.2.0
+LIBGNOMEUI_REQUIRED=2.2.0
 LIBGNOMECANVAS_REQUIRED=2.0.0
 GNOME_VFS_REQUIRED=2.0.0
 LIBGLADE_REQUIRED=2.0.0
-LIBGNOMEPRINT_REQUIRED=1.110
-LIBGNOMEPRINTUI_REQUIRED=1.110
+LIBGNOMEPRINT_REQUIRED=2.1.0
+LIBGNOMEPRINTUI_REQUIRED=2.1.0
 BONOBO_ACTIVATION_REQUIRED=1.0.0
 LIBBONOBO_REQUIRED=2.0.0
 LIBBONOBOUI_REQUIRED=2.0.0
@@ -53,6 +55,7 @@ AM_PATH_ORBIT2
 PKG_CHECK_MODULES(GTHUMB,	\
 	glib-2.0		\
 	gthread-2.0		\
+	gmodule-2.0		\
 	gtk+-2.0		\
 	libgnome-2.0		\
 	libgnomeui-2.0		\
@@ -61,8 +64,8 @@ PKG_CHECK_MODULES(GTHUMB,	\
 	gnome-vfs-module-2.0	\
 	libxml-2.0		\
 	libglade-2.0		\
-	libgnomeprint-2.0	\
-	libgnomeprintui-2.0	\
+	libgnomeprint-2.2	\
+	libgnomeprintui-2.2	\
 	bonobo-activation-2.0)
 AC_SUBST(GTHUMB_LIBS)
 AC_SUBST(GTHUMB_CFLAGS)
@@ -70,6 +73,7 @@ AC_SUBST(GTHUMB_CFLAGS)
 PKG_CHECK_MODULES(COMPONENT,	\
 	glib-2.0		\
 	gthread-2.0		\
+	gmodule-2.0		\
 	gtk+-2.0		\
 	libgnome-2.0		\
 	libgnomeui-2.0		\
@@ -78,8 +82,8 @@ PKG_CHECK_MODULES(COMPONENT,	\
 	gnome-vfs-module-2.0	\
 	libxml-2.0		\
 	libglade-2.0		\
-	libgnomeprint-2.0	\
-	libgnomeprintui-2.0	\
+	libgnomeprint-2.2	\
+	libgnomeprintui-2.2	\
 	bonobo-activation-2.0	\
 	libbonobo-2.0		\
 	libbonoboui-2.0)
@@ -242,6 +246,8 @@ AM_GCONF_SOURCE_2
 
 dnl ******************************
 
+MODULE_LIBTOOL_FLAGS="-module -avoid-version"
+AC_SUBST(MODULE_LIBTOOL_FLAGS)
 
 AC_OUTPUT([
 Makefile
@@ -259,6 +265,13 @@ components/catalog-view/Makefile
 doc/Makefile
 doc/C/Makefile
 omf-install/Makefile
+data/Makefile
+data/albumthemes/Makefile
+data/albumthemes/Classic/Makefile
+data/albumthemes/ClassicClips/Makefile
+data/albumthemes/NeatRound/Makefile
+data/albumthemes/NeatSquare/Makefile
+data/albumthemes/Simple/Makefile
 ])
 
 echo "

@@ -29,31 +29,18 @@
 #include "typedefs.h"
 
 
-gchar *  cache_get_nautilus_thumbnail_file (const gchar *source);
+char *   cache_get_nautilus_cache_name      (const char *source);
 
-/*gchar *  cache_get_gthumb_cache_name       (const gchar *source);*/
+void     cache_copy                         (const char *src,
+					     const char *dest);
 
-gchar *  cache_get_nautilus_cache_name     (const gchar *source);
+void     cache_move                         (const char *src,
+					     const char *dest);
 
-gchar *  cache_get_nautilus_cache_dir      (const gchar *source);
+void     cache_delete                       (const char *filename);
 
-void     cache_copy                        (const gchar *src,
-					    const gchar *dest);
-
-void     cache_move                        (const gchar *src,
-					    const gchar *dest);
-
-void     cache_delete                      (const gchar *filename);
-
-/*
-void     cache_remove_old_previews         (const gchar *dir, 
-					    gboolean recursive, 
-					    gboolean clear_all);
-*/
-
-void     cache_remove_old_previews_async   (const gchar *dir, 
-					    gboolean recursive, 
-					    gboolean clear_all);
-
+void     cache_remove_old_previews_async    (const char *dir,
+					     gboolean    recursive,
+					     gboolean    clear_all);
 
 #endif /* THUMB_CACHE_H */

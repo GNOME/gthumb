@@ -44,40 +44,40 @@ typedef struct _ImageViewerClass  ImageViewerClass;
 #define FRAME_BORDER2   2    /* FRAME_BORDER * 2 */
 
 typedef enum { /*< skip >*/
-	ZOOM_QUALITY_HIGH = 0,
-	ZOOM_QUALITY_LOW 
-} ZoomQuality;
+	GTH_ZOOM_QUALITY_HIGH = 0,
+	GTH_ZOOM_QUALITY_LOW 
+} GthZoomQuality;
 
 
 typedef enum { /*< skip >*/
-	ZOOM_CHANGE_ACTUAL_SIZE = 0,
-	ZOOM_CHANGE_FIT,
-	ZOOM_CHANGE_KEEP_PREV,
-	ZOOM_CHANGE_FIT_IF_LARGER
-} ZoomChange;
+	GTH_ZOOM_CHANGE_ACTUAL_SIZE = 0,
+	GTH_ZOOM_CHANGE_FIT,
+	GTH_ZOOM_CHANGE_KEEP_PREV,
+	GTH_ZOOM_CHANGE_FIT_IF_LARGER
+} GthZoomChange;
 
 
 /* transparenty type. */
 typedef enum { /*< skip >*/
-        TRANSP_TYPE_WHITE,
-        TRANSP_TYPE_NONE,
-        TRANSP_TYPE_BLACK,
-	TRANSP_TYPE_CHECKED
-} TranspType;
+	GTH_TRANSP_TYPE_WHITE,
+	GTH_TRANSP_TYPE_NONE,
+	GTH_TRANSP_TYPE_BLACK,
+	GTH_TRANSP_TYPE_CHECKED
+} GthTranspType;
 
 
 typedef enum { /*< skip >*/
-        CHECK_TYPE_LIGHT,
-        CHECK_TYPE_MIDTONE,
-        CHECK_TYPE_DARK
-} CheckType;
+	GTH_CHECK_TYPE_LIGHT,
+	GTH_CHECK_TYPE_MIDTONE,
+	GTH_CHECK_TYPE_DARK
+} GthCheckType;
 
 
 typedef enum { /*< skip >*/
-        CHECK_SIZE_SMALL  = 4,
-        CHECK_SIZE_MEDIUM = 8,
-        CHECK_SIZE_LARGE  = 16
-} CheckSize;
+	GTH_CHECK_SIZE_SMALL  = 4,
+        GTH_CHECK_SIZE_MEDIUM = 8,
+	GTH_CHECK_SIZE_LARGE  = 16
+} GthCheckSize;
 
 
 struct _ImageViewer
@@ -91,8 +91,8 @@ struct _ImageViewer
 	gboolean         rendering;
 	gboolean         cursor_visible;
 
-	TranspType       transp_type;
-	CheckType        check_type;
+	GthTranspType    transp_type;
+	GthCheckType     check_type;
 	gint             check_size;
 	guint32          check_color1;
 	guint32          check_color2;
@@ -232,14 +232,14 @@ void           image_viewer_set_zoom           (ImageViewer *viewer,
 gdouble        image_viewer_get_zoom           (ImageViewer *viewer); 
 
 void           image_viewer_set_zoom_quality   (ImageViewer *viewer,
-						ZoomQuality quality);
+						GthZoomQuality quality);
 
-ZoomQuality    image_viewer_get_zoom_quality   (ImageViewer *viewer);
+GthZoomQuality image_viewer_get_zoom_quality   (ImageViewer *viewer);
 
 void           image_viewer_set_zoom_change    (ImageViewer *viewer,
-						ZoomChange zoom_change);
+						GthZoomChange zoom_change);
 
-ZoomChange     image_viewer_get_zoom_change    (ImageViewer *viewer);
+GthZoomChange  image_viewer_get_zoom_change    (ImageViewer *viewer);
 
 void           image_viewer_zoom_in            (ImageViewer *viewer);
 
@@ -255,19 +255,19 @@ gboolean       image_viewer_is_zoom_to_fit_if_larger (ImageViewer *viewer);
 
 /* visualization options. */
 void           image_viewer_set_transp_type    (ImageViewer *viewer, 
-						TranspType transp_type);
+						GthTranspType transp_type);
 
-TranspType     image_viewer_get_transp_type    (ImageViewer *viewer);
+GthTranspType  image_viewer_get_transp_type    (ImageViewer *viewer);
 
 void           image_viewer_set_check_type     (ImageViewer *viewer, 
-						CheckType check_type);
+						GthCheckType check_type);
 
-CheckType      image_viewer_get_check_type     (ImageViewer *viewer);
+GthCheckType   image_viewer_get_check_type     (ImageViewer *viewer);
 
 void           image_viewer_set_check_size     (ImageViewer *view, 
-						CheckSize check_size);
+						GthCheckSize check_size);
 
-CheckSize      image_viewer_get_check_size     (ImageViewer *viewer);
+GthCheckSize   image_viewer_get_check_size     (ImageViewer *viewer);
 
 /* misc. */
 void           image_viewer_clicked            (ImageViewer *viewer);

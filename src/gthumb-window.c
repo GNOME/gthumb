@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -45,14 +45,14 @@
 #include "dlg-file-utils.h"
 #include "e-combo-button.h"
 #include "file-utils.h"
-#include "file-list.h"
+#include "gth-file-list.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
 #include "gthumb-window.h"
 #include "gthumb-info-bar.h"
 #include "gthumb-stock.h"
 #include "gtk-utils.h"
-#include "image-list-utils.h"
+#include "gth-file-view.h"
 #include "image-viewer.h"
 #include "main.h"
 #include "nav-window.h"
@@ -193,6 +193,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("Wallpaper_Restore", wallpaper_restore_command_impl),
 	BONOBO_UI_VERB ("Tools_FindImages", tools_find_images_command_impl),
 	BONOBO_UI_VERB ("Tools_IndexImage", tools_index_image_command_impl),
+	BONOBO_UI_VERB ("Tools_WebExporter", tools_web_exporter_command_impl),
 	BONOBO_UI_VERB ("Tools_Maintenance", tools_maintenance_command_impl),
 	BONOBO_UI_VERB ("Tools_RenameSeries", tools_rename_series_command_impl),
 	BONOBO_UI_VERB ("Tools_Preferences", tools_preferences_command_impl),
@@ -242,44 +243,11 @@ set_command_visible (GThumbWindow *window,
 
 
 static void
-set_command_state_without_notifing (GThumbWindow *window,
-				    char         *cname,
-				    gboolean      state)
-{
-	char *full_cname;
-	char *new_value;
-	char *old_value;
-
-	full_cname = g_strconcat ("/commands/", cname, NULL);
-	new_value = state ? "1" : "0";
-	old_value = bonobo_ui_component_get_prop (window->ui_component, 
-						  full_cname,
-						  "state",
-						  NULL);
-
-	if ((old_value != NULL) && (strcmp (old_value, new_value) == 0)) {
-		g_free (full_cname);
-		g_free (old_value);
-		return;
-	}
-
-	if (old_value != NULL)
-		g_free (old_value);
-
-	window->freeze_toggle_handler = 1;
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      full_cname, 
-				      "state", new_value,
-				      NULL);
-	g_free (full_cname);
-}
-
-
-static void
 set_command_state_if_different (GThumbWindow *window,
 				char         *cname,
 				gboolean      setted,
-				gboolean      notify)
+				gboolean      notify,
+				gboolean      radio)
 {
 	char *old_value;
 	char *new_value;
@@ -295,15 +263,46 @@ set_command_state_if_different (GThumbWindow *window,
 		g_free (old_value);
 		return;
 	}
+
+	if (! notify && (old_value != NULL)) {
+		window->freeze_toggle_handler++;
+		if (radio)
+			window->freeze_toggle_handler++;
+	}
+
 	if (old_value != NULL)
 		g_free (old_value);
 
-	if (! notify)
-		window->freeze_toggle_handler = 1;
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      cname, 
 				      "state", new_value,
 				      NULL);
+}
+
+
+static void
+set_command_state_without_notifing (GThumbWindow *window,
+				    char         *cname,
+				    gboolean      state)
+{
+	char *full_cname;
+
+	full_cname = g_strconcat ("/commands/", cname, NULL);
+	set_command_state_if_different (window, full_cname, state, FALSE, FALSE);
+	g_free (full_cname);
+}
+
+
+static void
+set_radio_state_without_notifing (GThumbWindow *window,
+				  char         *cname,
+				  gboolean      state)
+{
+	char *full_cname;
+
+	full_cname = g_strconcat ("/commands/", cname, NULL);
+	set_command_state_if_different (window, full_cname, state, FALSE, TRUE);
+	g_free (full_cname);
 }
 
 
@@ -428,14 +427,14 @@ window_update_title (GThumbWindow *window)
 	modified = window->image_modified ? "*" : "";
 
 	if (path == NULL) {
-		if ((window->sidebar_content == DIR_LIST)
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
 
 			info_txt = g_strdup_printf ("%s%s - %s",
 						    window->dir_list->path,
 						    modified,
 						    _("gThumb"));
-		} else if ((window->sidebar_content == CATALOG_LIST)
+		} else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			   && (window->catalog_path != NULL)) {
 			const char *cat_name;
 			char       *cat_name_no_ext;
@@ -584,13 +583,13 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    is_search;
 	gboolean    not_fullscreen;
 
-	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
-	only_one_is_selected = ilist_utils_only_one_is_selected (IMAGE_LIST (window->file_list->ilist));
+	sel_not_null = gth_file_view_selection_not_null (window->file_list->view);
+	only_one_is_selected = gth_file_view_only_one_is_selected (window->file_list->view);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (window->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (window->viewer));
-	viewing_dir = sidebar_content == DIR_LIST;
-	viewing_catalog = sidebar_content == CATALOG_LIST; 
+	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
+	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
 	not_fullscreen = ! window->fullscreen;
 
 	window_update_go_sensitivity (window);
@@ -639,6 +638,8 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "AlterImage_Equalize", ! image_is_void && ! image_is_ani);
 	set_command_sensitive (window, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani);
 
+	set_command_sensitive (window, "View_Thumbnails", ! window->setting_file_list);
+
 	set_command_sensitive (window, "View_ZoomIn", ! image_is_void);
 	set_command_sensitive (window, "View_ZoomOut", ! image_is_void);
 	set_command_sensitive (window, "View_Zoom100", ! image_is_void);
@@ -668,7 +669,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* Edit Catalog menu. */
 
-	if (window->sidebar_content == CATALOG_LIST) { 
+	if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) { 
 		char *view_catalog;
 		char *view_search;
 
@@ -750,6 +751,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_command_sensitive (window, "Tools_Slideshow", window->file_list->list != NULL);
 	set_command_sensitive (window, "Tools_IndexImage", sel_not_null);
+	set_command_sensitive (window, "Tools_WebExporter", sel_not_null);
 	set_command_sensitive (window, "Tools_RenameSeries", sel_not_null);
 	set_command_sensitive (window, "Tools_ConvertFormat", sel_not_null);
 	set_command_sensitive (window, "Tools_ChangeDate", sel_not_null);
@@ -872,7 +874,7 @@ window_set_file_list_continue (gpointer callback_data)
 
 	if (ViewFirstImage) {
 		ViewFirstImage = FALSE;
-		window_show_first_image (window);
+		window_show_first_image (window, FALSE);
 	}
 
 	window_update_sensitivity (window);
@@ -946,6 +948,8 @@ window_set_file_list (GThumbWindow *window,
 
 	window->setting_file_list = TRUE;
 	window_start_activity_mode (window);
+	window_update_sensitivity (window);
+
 	gth_file_list_set_list (window->file_list, list, 
 				window_set_file_list_continue, data);
 }
@@ -957,10 +961,10 @@ window_set_file_list (GThumbWindow *window,
 void
 window_update_file_list (GThumbWindow *window)
 {
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (window, window->dir_list->path);
 
-	else if (window->sidebar_content == CATALOG_LIST) {
+	else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		char *catalog_path;
 
 		catalog_path = catalog_list_get_selected_path (window->catalog_list);
@@ -979,7 +983,7 @@ window_update_catalog_list (GThumbWindow *window)
 	char *catalog_dir;
 	char *base_dir;
 
-	if (window->sidebar_content != CATALOG_LIST) 
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
 		return;
 
 	/* If the catalog still exists, show the directory it belongs to. */
@@ -1098,7 +1102,7 @@ bookmark_cb (BonoboUIComponent *uic,
 	BookmarkData *data = user_data;	
 	GThumbWindow *window = data->window;
 	const char   *path = data->path;
-	const char  *no_prefix_path;
+	const char   *no_prefix_path;
 
 	no_prefix_path = pref_util_remove_prefix (path);
 	
@@ -1207,7 +1211,7 @@ add_bookmark_menu_item (GThumbWindow *window,
 		else if (pref_util_location_is_search (path))
 			pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
 		else
-			pixbuf = get_folder_pixbuf (MENU_ICON_SIZE);
+			pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (window->app));
 	}
 
 	bonobo_ui_util_set_pixbuf (ui_component, 
@@ -1376,9 +1380,9 @@ static char *
 get_command_name_from_sidebar_content (GThumbWindow *window)
 {
 	switch (window->sidebar_content) {
-	case DIR_LIST:
+	case GTH_SIDEBAR_DIR_LIST:
 		return "/commands/View_ShowFolders";
-	case CATALOG_LIST:
+	case GTH_SIDEBAR_CATALOG_LIST:
 		return "/commands/View_ShowCatalogs";
 	default:
 		return NULL;
@@ -1396,13 +1400,13 @@ _window_set_sidebar (GThumbWindow *window,
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL) 
-		set_command_state_if_different (window, cname, FALSE, FALSE);
+		set_command_state_if_different (window, cname, FALSE, FALSE, FALSE);
 
 	window->sidebar_content = sidebar_content;
 
 	cname = get_command_name_from_sidebar_content (window);
 	if ((cname != NULL) && window->sidebar_visible)
-		set_command_state_if_different (window, cname, TRUE, FALSE);
+		set_command_state_if_different (window, cname, TRUE, FALSE, FALSE);
 
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (window->notebook), 
 				       sidebar_content - 1);
@@ -1415,33 +1419,32 @@ static void
 make_image_visible (GThumbWindow *window, 
 		    int           pos)
 {
-	GthumbVisibility  visibility;
-	ImageList        *ilist = IMAGE_LIST (window->file_list->ilist);
+	GthVisibility  visibility;
 
-	if ((pos < 0) || (pos >= ilist->images))
+	if ((pos < 0) || (pos >= gth_file_view_get_images (window->file_list->view)))
 		return;
 
-	visibility = image_list_image_is_visible (ilist, pos);
-	if (visibility != GTHUMB_VISIBILITY_FULL) {
+	visibility = gth_file_view_image_is_visible (window->file_list->view, pos);
+	if (visibility != GTH_VISIBILITY_FULL) {
 		double offset;
 		
 		switch (visibility) {
-		case GTHUMB_VISIBILITY_NONE:
+		case GTH_VISIBILITY_NONE:
 			offset = 0.5; 
 			break;
-		case GTHUMB_VISIBILITY_PARTIAL_TOP:
+		case GTH_VISIBILITY_PARTIAL_TOP:
 			offset = 0.0; 
 			break;
-		case GTHUMB_VISIBILITY_PARTIAL_BOTTOM:
+		case GTH_VISIBILITY_PARTIAL_BOTTOM:
 			offset = 1.0; 
 			break;
-		case GTHUMB_VISIBILITY_PARTIAL:
-		case GTHUMB_VISIBILITY_FULL:
+		case GTH_VISIBILITY_PARTIAL:
+		case GTH_VISIBILITY_FULL:
 			offset = -1.0;
 			break;
 		}
 		if (offset > -1.0)
-			image_list_moveto (ilist, pos, offset);
+			gth_file_view_moveto (window->file_list->view, pos, offset);
 	}
 }
 
@@ -1499,8 +1502,6 @@ sel_change_update_cb (gpointer data)
 
 static int
 file_selection_changed_cb (GtkWidget *widget, 
-			   gint       pos, 
-			   GdkEvent  *event,
 			   gpointer   data)
 {
 	GThumbWindow *window = data;
@@ -1517,9 +1518,9 @@ file_selection_changed_cb (GtkWidget *widget,
 
 
 static void
-gth_file_list_focus_image_cb (GtkWidget *widget,
-			  int        pos,
-			  gpointer   data)
+gth_file_list_cursor_changed_cb (GtkWidget *widget,
+				 int        pos,
+				 gpointer   data)
 {
 	GThumbWindow *window = data;	
 	char         *focused_image;
@@ -1532,13 +1533,8 @@ gth_file_list_focus_image_cb (GtkWidget *widget,
 	if (focused_image == NULL)
 		return;
 
-	if (window->image_path == NULL) {
-		g_free (focused_image);
-		return;
-	}
-
-	if ((window->image_path != NULL) 
-	    && (strcmp (focused_image, window->image_path) != 0))
+	if ((window->image_path == NULL) 
+	    || (strcmp (focused_image, window->image_path) != 0))
 		view_image_at_pos (window, pos);
 
 	g_free (focused_image);
@@ -1547,8 +1543,8 @@ gth_file_list_focus_image_cb (GtkWidget *widget,
 
 static int
 gth_file_list_button_press_cb (GtkWidget      *widget, 
-			   GdkEventButton *event,
-			   gpointer        data)
+			       GdkEventButton *event,
+			       gpointer        data)
 {
 	GThumbWindow *window = data;
 
@@ -1563,34 +1559,32 @@ gth_file_list_button_press_cb (GtkWidget      *widget,
 		return FALSE;
 
 	if (event->button == 1) {
-		ImageList *ilist = IMAGE_LIST (window->file_list->ilist);
-		int        pos;
+		int pos;
 
-		pos = image_list_get_image_at (ilist, event->x, event->y);
+		pos = gth_file_view_get_image_at (window->file_list->view, event->x, event->y);
+
 		if (pos == -1)
 			return FALSE;
 
-		if (event->type == GDK_2BUTTON_PRESS) {
-			return TRUE;
-		}
+		if (event->type == GDK_2BUTTON_PRESS) 
+			return FALSE;
 
 		if (event->type == GDK_BUTTON_PRESS) {
 			make_image_visible (window, pos);
 			view_image_at_pos (window, pos);
-			return TRUE;
+			return FALSE;
 		}
 
 	} else if (event->button == 3) {
-		ImageList *ilist = IMAGE_LIST (window->file_list->ilist);
-		GtkWidget *popup_menu;
-		int        pos;
+		GtkWidget  *popup_menu;
+		int         pos;
 
 		if (window->popup_menu != NULL)
 			gtk_widget_destroy (window->popup_menu);
 		window->popup_menu = popup_menu = gtk_menu_new ();
 
-		pos = image_list_get_image_at (ilist, event->x, event->y);
-		
+		pos = gth_file_view_get_image_at (window->file_list->view, event->x, event->y);
+
 		if (pos != -1) {
 			if (! gth_file_list_is_selected (window->file_list, pos))
 				gth_file_list_select_image_by_pos (window->file_list, pos);
@@ -1628,9 +1622,9 @@ hide_sidebar_idle (gpointer data)
 
 
 static int 
-gth_file_list_double_click_cb (GtkWidget  *widget, 
-			   int         idx,
-			   gpointer    data)
+gth_file_list_item_activated_cb (GtkWidget  *widget, 
+				 int         idx,
+				 gpointer    data)
 {
 	GThumbWindow *window = data;
 
@@ -1741,7 +1735,7 @@ dir_list_button_release_cb (GtkWidget      *widget,
 	gtk_tree_path_free (path);
 
 	if ((event->button == 1) 
-	    && (pref_get_real_click_policy () == CLICK_POLICY_SINGLE)) {
+	    && (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE)) {
 		char *new_dir;
 
 		new_dir = dir_list_get_path_from_iter (window->dir_list, 
@@ -2000,7 +1994,7 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 	/**/
 
 	if ((event->button == 1) && 
-	    (pref_get_real_click_policy () == CLICK_POLICY_SINGLE)) {
+	    (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE)) {
 		char *cat_path;
 
 		cat_path = catalog_list_get_path_from_iter (window->catalog_list, &iter);
@@ -2086,7 +2080,7 @@ get_location (GThumbWindow *window)
 	if (text2 == NULL)
 		return NULL;
 
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		l = g_strdup (text2);
 	else {
 		if (strcmp (text2, "/") == 0) {
@@ -2117,7 +2111,7 @@ set_location (GThumbWindow *window,
 	if (abs_location == NULL)
 		return;
 
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		l = abs_location;
 	else {
 		char *base = get_catalog_full_path (NULL);
@@ -2146,7 +2140,7 @@ static gboolean
 location_is_new (GThumbWindow *window, 
 		 const char   *text)
 {
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		return (window->dir_list->path != NULL)
 			&& strcmp (window->dir_list->path, text);
 	else
@@ -2159,7 +2153,7 @@ static void
 go_to_location (GThumbWindow *window, 
 		const char   *text)
 {
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (window, text);
 	else {
 		window_go_to_catalog (window, NULL);
@@ -2349,6 +2343,7 @@ toggle_image_preview_visibility (GThumbWindow *window)
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
 						window->image_preview_visible, 
+						FALSE,
 						FALSE);
 	}
 }
@@ -2378,16 +2373,13 @@ key_press_cb (GtkWidget   *widget,
 	gboolean      sel_not_null;
 	gboolean      image_is_void;
 
-	if (image_list_editing (IMAGE_LIST (window->file_list->ilist)))
-		return FALSE;
-
 	if (GTK_WIDGET_HAS_FOCUS (window->location_entry))
 		return FALSE;
 
 	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
 		return FALSE;
 
-	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
+	sel_not_null = gth_file_view_selection_not_null (window->file_list->view);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
 
 	switch (event->keyval) {
@@ -2454,7 +2446,8 @@ key_press_cb (GtkWidget   *widget,
 		set_command_state_if_different (window, 
 						"/commands/View_PlayAnimation",
 						! viewer->play_animation,
-						TRUE);
+						TRUE,
+						FALSE);
 		return TRUE;
 
 		/* Step animation */
@@ -2466,18 +2459,18 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_p:
 	case GDK_b:
 	case GDK_BackSpace:
-		window_show_prev_image (window);
+		window_show_prev_image (window, FALSE);
 		return TRUE;
 
 		/* Show next image. */
 	case GDK_n:
-		window_show_next_image (window);
+		window_show_next_image (window, FALSE);
 		return TRUE;
 
 	case GDK_space:
 		if (! GTK_WIDGET_HAS_FOCUS (window->dir_list->list_view)
 		    && ! GTK_WIDGET_HAS_FOCUS (window->catalog_list->list_view)) {
-			window_show_next_image (window);
+			window_show_next_image (window, FALSE);
 			return TRUE;
 		}
 		break;
@@ -2509,9 +2502,9 @@ key_press_cb (GtkWidget   *widget,
 		if (! sel_not_null)
 			break;
 		
-		if (window->sidebar_content == DIR_LIST)
+		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 			edit_delete_files_command_impl (NULL, window, NULL);
-		else if (window->sidebar_content == CATALOG_LIST)
+		else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			edit_remove_from_catalog_command_impl (NULL, window, NULL);
 		return TRUE;
 
@@ -2564,7 +2557,7 @@ key_press_cb (GtkWidget   *widget,
 	if ((event->keyval == GDK_F10) 
 	    && (event->state & GDK_SHIFT_MASK)) {
 
-		if ((window->sidebar_content == CATALOG_LIST)
+		if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		    && GTK_WIDGET_HAS_FOCUS (window->catalog_list->list_view)) {
 			GtkTreeSelection *selection;
 			GtkTreeIter       iter;
@@ -2605,7 +2598,7 @@ key_press_cb (GtkWidget   *widget,
 			
 			return TRUE;
 			
-		} else if ((window->sidebar_content == DIR_LIST)
+		} else if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 			   && GTK_WIDGET_HAS_FOCUS (window->dir_list->list_view)) {
 			GtkTreeSelection *selection;
 			GtkTreeIter       iter;
@@ -2640,7 +2633,7 @@ key_press_cb (GtkWidget   *widget,
 					event->time);
 			
 			return TRUE;
-		} else if (GTK_WIDGET_HAS_FOCUS (window->file_list->ilist)) {
+		} else if (GTK_WIDGET_HAS_FOCUS (gth_file_view_get_widget (window->file_list->view))) {
 			GtkWidget *popup_menu;
 			
 			if (window->popup_menu != NULL)
@@ -2654,8 +2647,8 @@ key_press_cb (GtkWidget   *widget,
 						 "/popups/FilePopup");
 
 			gtk_menu_popup (GTK_MENU (popup_menu),
-					NULL,                                   
-					NULL,                                   
+					NULL,
+					NULL,
 					NULL,
 					NULL,
 					3,                               
@@ -2673,7 +2666,7 @@ static gboolean
 image_clicked_cb (GtkWidget    *widget, 
 		  GThumbWindow *window)
 {
-	window_show_next_image (window);
+	window_show_next_image (window, FALSE);
 	return TRUE;
 }
 
@@ -2727,7 +2720,7 @@ image_button_release_cb (GtkWidget      *widget,
 
 	switch (event->button) {
 	case 2:
-		window_show_prev_image (window);
+		window_show_prev_image (window, FALSE);
 		return TRUE;
 	default:
 		break;
@@ -2892,19 +2885,19 @@ viewer_key_press_cb (GtkWidget   *widget,
 
 	switch (event->keyval) {
 	case GDK_Page_Up:
-		window_show_prev_image (window);
+		window_show_prev_image (window, FALSE);
 		return TRUE;
 
 	case GDK_Page_Down:
-		window_show_next_image (window);
+		window_show_next_image (window, FALSE);
 		return TRUE;
 
 	case GDK_Home:
-		window_show_first_image (window);
+		window_show_first_image (window, FALSE);
 		return TRUE;
 
 	case GDK_End:
-		window_show_last_image (window);
+		window_show_last_image (window, FALSE);
 		return TRUE;
 
 	case GDK_F10:
@@ -2983,13 +2976,10 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 			      gpointer          data)
 {
 	GThumbWindow *window = data;
-	ImageList    *ilist;
 	GList        *list;
 	GString      *url_list;
 	char         *target;
 	int           target_id;
-
-	ilist = IMAGE_LIST (window->file_list->ilist);
 
 	target = gdk_atom_name (selection_data->target);
 	if (strcmp (target, "text/uri-list") == 0)
@@ -2998,7 +2988,7 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 		target_id = TARGET_PLAIN;
 	g_free (target);
 
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	url_list = make_url_list (list, target_id);
 	path_list_free (list);
 
@@ -3043,7 +3033,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 	char         *dest_dir = NULL;
 	
 	if (! ((data->length >= 0) && (data->format == 8))
-	    || (window->sidebar_content != DIR_LIST)) {
+	    || (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)) {
 		gtk_drag_finish (context, FALSE, FALSE, time);
 		return;
 	}
@@ -3091,7 +3081,7 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
-	g_return_if_fail (window->sidebar_content == DIR_LIST);
+	g_return_if_fail (window->sidebar_content == GTH_SIDEBAR_DIR_LIST);
 
 	/**/
 
@@ -3259,7 +3249,7 @@ catalog_list_drag_data_received  (GtkWidget          *widget,
 
 	gtk_drag_finish (context, TRUE, FALSE, time);
 
-	g_return_if_fail (window->sidebar_content == CATALOG_LIST);
+	g_return_if_fail (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST);
 
 	/**/
 
@@ -3481,7 +3471,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
         gboolean      s;
 
 	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler = 0;
+		window->freeze_toggle_handler--;
 		return;
 	}
 
@@ -3495,24 +3485,24 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 
 	if ((strcmp (path, "View_ZoomQualityHigh") == 0) && s) {
 		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
-					       ZOOM_QUALITY_HIGH);
+					       GTH_ZOOM_QUALITY_HIGH);
 		image_viewer_update_view (IMAGE_VIEWER (window->viewer));
 	}
 
 	if ((strcmp (path, "View_ZoomQualityLow") == 0) && s) {
 		image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
-					       ZOOM_QUALITY_LOW);
+					       GTH_ZOOM_QUALITY_LOW);
 		image_viewer_update_view (IMAGE_VIEWER (window->viewer));
 	}
 
 	if ((strcmp (path, "SortByName") == 0) && s) 
-		gth_file_list_set_sort_method (window->file_list, SORT_BY_NAME);
+		gth_file_list_set_sort_method (window->file_list, GTH_SORT_METHOD_BY_NAME);
 	if ((strcmp (path, "SortBySize") == 0) && s) 
-		gth_file_list_set_sort_method (window->file_list, SORT_BY_SIZE);
+		gth_file_list_set_sort_method (window->file_list, GTH_SORT_METHOD_BY_SIZE);
 	if ((strcmp (path, "SortByTime") == 0) && s) 
-		gth_file_list_set_sort_method (window->file_list, SORT_BY_TIME);
+		gth_file_list_set_sort_method (window->file_list, GTH_SORT_METHOD_BY_TIME);
 	if ((strcmp (path, "SortByPath") == 0) && s) 
-		gth_file_list_set_sort_method (window->file_list, SORT_BY_PATH);
+		gth_file_list_set_sort_method (window->file_list, GTH_SORT_METHOD_BY_PATH);
 
 	if (strcmp (path, "SortReversed") == 0) {
 		GtkSortType new_type;
@@ -3525,16 +3515,16 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	}
 
 	if ((strncmp (path, "TranspType", 10) == 0) && s) {
-		TranspType transp_type;
+		GthTranspType transp_type;
 
 		if (strcmp (path, "TranspTypeWhite") == 0)
-			transp_type = TRANSP_TYPE_WHITE;
+			transp_type = GTH_TRANSP_TYPE_WHITE;
 		else if (strcmp (path, "TranspTypeNone") == 0)
-			transp_type = TRANSP_TYPE_NONE;
+			transp_type = GTH_TRANSP_TYPE_NONE;
 		else if (strcmp (path, "TranspTypeBlack") == 0)
-			transp_type = TRANSP_TYPE_BLACK;
+			transp_type = GTH_TRANSP_TYPE_BLACK;
 		else if (strcmp (path, "TranspTypeChecked") == 0)
-			transp_type = TRANSP_TYPE_CHECKED;
+			transp_type = GTH_TRANSP_TYPE_CHECKED;
 
 		pref_set_transp_type (transp_type);
 	}
@@ -3557,6 +3547,13 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 
 	if (strcmp (path, "View_ShowPreview") == 0) 
 		toggle_image_preview_visibility (window);
+
+	if ((strcmp (path, "View_AsList") == 0) && s) {
+		pref_set_view_as (GTH_VIEW_AS_LIST);
+
+	} else if ((strcmp (path, "View_AsThumbnails") == 0) && s) {
+		pref_set_view_as (GTH_VIEW_AS_THUMBNAILS);
+	}
 }
 
 
@@ -3667,6 +3664,8 @@ add_listener_for_toggle_items (GThumbWindow *window)
 		"View_Toolbar",
 		"View_Statusbar",
 		"View_ShowPreview",
+		"View_AsList",
+		"View_AsThumbnails",
 		"Tools_Slideshow"
 	};
 	int i, n = sizeof (toggle_commands) / sizeof (char*);
@@ -3689,28 +3688,20 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 					    eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS));
 
 	set_command_state_without_notifing (window, "View_PlayAnimation", 1);
-	set_command_state_without_notifing (window, "View_Toolbar", 1);
-	set_command_state_without_notifing (window, "View_Statusbar", 1);
 
 	switch (pref_get_transp_type ()) {
-	case TRANSP_TYPE_WHITE:   prop = "TranspTypeWhite"; break;
-	case TRANSP_TYPE_NONE:    prop = "TranspTypeNone"; break;
-	case TRANSP_TYPE_BLACK:   prop = "TranspTypeBlack"; break;
-	case TRANSP_TYPE_CHECKED: prop = "TranspTypeChecked"; break;
+	case GTH_TRANSP_TYPE_WHITE:   prop = "TranspTypeWhite"; break;
+	case GTH_TRANSP_TYPE_NONE:    prop = "TranspTypeNone"; break;
+	case GTH_TRANSP_TYPE_BLACK:   prop = "TranspTypeBlack"; break;
+	case GTH_TRANSP_TYPE_CHECKED: prop = "TranspTypeChecked"; break;
 	}
-	set_command_state_without_notifing (window, prop, TRUE);
+	set_radio_state_without_notifing (window, prop, TRUE);
 
 	switch (pref_get_zoom_quality ()) {
-	case ZOOM_QUALITY_HIGH: prop = "View_ZoomQualityHigh"; break;
-	case ZOOM_QUALITY_LOW:  prop = "View_ZoomQualityLow"; break;
+	case GTH_ZOOM_QUALITY_HIGH: prop = "View_ZoomQualityHigh"; break;
+	case GTH_ZOOM_QUALITY_LOW:  prop = "View_ZoomQualityLow"; break;
 	}
-	set_command_state_without_notifing (window, prop, TRUE);
-
-	set_command_state_without_notifing (window, 
-					    "View_ShowPreview",
-					    eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE));
-
-	/* Toolbar & Statusbar */
+	set_radio_state_without_notifing (window, prop, TRUE);
 
 	set_command_state_without_notifing (window, 
 					    "View_Toolbar",
@@ -3718,29 +3709,20 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	set_command_state_without_notifing (window, 
 					    "View_Statusbar",
 					    eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE));
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      "/Toolbar",
-				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE) ? "0" : "1",
-				      NULL);
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      "/ImageToolbar",
-				      "hidden", "1", 
-				      NULL);
-	bonobo_ui_component_set_prop (window->ui_component, 
-				      "/status",
-				      "hidden", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE) ? "0" : "1",
-				      NULL);
+
+	set_command_state_without_notifing (window, "View_ShowFolders", FALSE);
+	set_command_state_without_notifing (window, "View_ShowCatalogs", FALSE);
 
 	/* Sort type item. */
 
 	switch (window->file_list->sort_method) {
-	case SORT_BY_NAME: prop = "SortByName"; break;
-	case SORT_BY_PATH: prop = "SortByPath"; break;
-	case SORT_BY_SIZE: prop = "SortBySize"; break;
-	case SORT_BY_TIME: prop = "SortByTime"; break;
+	case GTH_SORT_METHOD_BY_NAME: prop = "SortByName"; break;
+	case GTH_SORT_METHOD_BY_PATH: prop = "SortByPath"; break;
+	case GTH_SORT_METHOD_BY_SIZE: prop = "SortBySize"; break;
+	case GTH_SORT_METHOD_BY_TIME: prop = "SortByTime"; break;
 	default: prop = "X"; break;
 	}
-	set_command_state_without_notifing (window, prop, TRUE);
+	set_radio_state_without_notifing (window, prop, TRUE);
 
 	/* 'reversed' item. */
 
@@ -3748,6 +3730,15 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	set_command_state_without_notifing (window, 
 					    "SortReversed",
 					    (window->file_list->sort_type != GTK_SORT_ASCENDING));
+
+	/**/
+
+	switch (pref_get_view_as ()) {
+	case GTH_VIEW_AS_LIST: prop = "View_AsList"; break;
+	case GTH_VIEW_AS_THUMBNAILS: prop = "View_AsThumbnails"; break;
+	default: prop = "X"; break;
+	}
+	set_radio_state_without_notifing (window, prop, TRUE);
 }
 
 
@@ -3836,16 +3827,15 @@ pref_show_comments_changed (GConfClient *client,
 			    GConfEntry  *entry,
 			    gpointer     user_data)
 {
-	GThumbWindow      *window = user_data;
-	ImageListViewMode  view_mode;
+	GThumbWindow  *window = user_data;
+	GthViewMode    view_mode;
 
 	if (eel_gconf_get_boolean (PREF_SHOW_COMMENTS))
-		view_mode = IMAGE_LIST_VIEW_ALL;
+		view_mode = GTH_VIEW_MODE_ALL;
 	else
-		view_mode = IMAGE_LIST_VIEW_TEXT;
+		view_mode = GTH_VIEW_MODE_LABEL;
 
-	image_list_set_view_mode (IMAGE_LIST (window->file_list->ilist),
-				  view_mode);
+	gth_file_view_set_view_mode (window->file_list->view, view_mode);
 	window_update_file_list (window);
 }
 
@@ -3956,6 +3946,131 @@ pref_check_size_changed (GConfClient *client,
 }
 
 
+static void
+pref_black_background_changed (GConfClient *client,
+			       guint        cnxn_id,
+			       GConfEntry  *entry,
+			       gpointer     user_data)
+{
+	GThumbWindow *window = user_data;
+
+	image_viewer_set_black_background (IMAGE_VIEWER (window->viewer),
+					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND));
+}
+
+
+static GthFileList *
+create_new_file_list (GThumbWindow *window)
+{
+	GthFileList *file_list;
+	GtkWidget   *view_widget;
+
+	file_list = gth_file_list_new ();
+	view_widget = gth_file_view_get_widget (file_list->view);
+
+	gtk_widget_set_size_request (file_list->root_widget,
+				     PANE_MIN_SIZE,
+				     PANE_MIN_SIZE);
+	gth_file_list_set_progress_func (file_list, window_progress, window);
+
+	gtk_drag_dest_set (file_list->root_widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
+
+	g_signal_connect (G_OBJECT (file_list->view),
+			  "selection_changed",
+			  G_CALLBACK (file_selection_changed_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (file_list->view),
+			  "cursor_changed",
+			  G_CALLBACK (gth_file_list_cursor_changed_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (file_list->view),
+			  "item_activated",
+			  G_CALLBACK (gth_file_list_item_activated_cb), 
+			  window);
+
+	/* FIXME
+	g_signal_connect_after (G_OBJECT (view_widget),
+				"button_press_event",
+				G_CALLBACK (gth_file_list_button_press_cb), 
+				window);
+	*/
+
+	g_signal_connect (G_OBJECT (view_widget),
+			  "button_press_event",
+			  G_CALLBACK (gth_file_list_button_press_cb), 
+			  window);
+
+	g_signal_connect (G_OBJECT (file_list->root_widget),
+			  "drag_data_received",
+			  G_CALLBACK (image_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (view_widget),
+			  "drag_data_get",
+			  G_CALLBACK (gth_file_list_drag_data_get), 
+			  window);
+
+	g_signal_connect (G_OBJECT (file_list),
+			  "busy",
+			  G_CALLBACK (file_list_busy_cb),
+			  window);
+	g_signal_connect (G_OBJECT (file_list),
+			  "idle",
+			  G_CALLBACK (file_list_idle_cb),
+			  window);
+
+	return file_list;
+}
+
+
+static void
+pref_view_as_changed (GConfClient *client,
+		      guint        cnxn_id,
+		      GConfEntry  *entry,
+		      gpointer     user_data)
+{
+	GThumbWindow  *window = user_data;
+	GthFileList   *file_list;
+	GthSortMethod  sort_method;
+	GtkSortType    sort_type;
+	gboolean       enable_thumbs;
+
+	sort_method = window->file_list->sort_method;
+	sort_type = window->file_list->sort_type;
+	enable_thumbs = window->file_list->enable_thumbs;
+
+	/**/
+
+	file_list = create_new_file_list (window);
+
+	if (window->layout_type <= 1) {
+		gtk_widget_destroy (GTK_PANED (window->content_pane)->child2);
+		GTK_PANED (window->content_pane)->child2 = NULL;
+		gtk_paned_pack2 (GTK_PANED (window->content_pane), file_list->root_widget, TRUE, FALSE);
+	} else if (window->layout_type == 2) {
+		gtk_widget_destroy (GTK_PANED (window->main_pane)->child2);
+		GTK_PANED (window->main_pane)->child2 = NULL;
+		gtk_paned_pack2 (GTK_PANED (window->main_pane), file_list->root_widget, TRUE, FALSE);
+	} else if (window->layout_type == 3) {
+		gtk_widget_destroy (GTK_PANED (window->content_pane)->child1);
+		GTK_PANED (window->content_pane)->child1 = NULL;
+		gtk_paned_pack1 (GTK_PANED (window->content_pane), file_list->root_widget, TRUE, FALSE);
+	}
+
+	gth_file_list_set_sort_method (file_list, sort_method);
+	gth_file_list_set_sort_type (file_list, sort_type);
+	gth_file_list_enable_thumbs (file_list, enable_thumbs);
+
+	g_object_unref (window->file_list);
+	window->file_list = file_list;
+
+	gtk_widget_show_all (window->file_list->root_widget);
+	window_update_file_list (window);
+}
+
+
 
 
 
@@ -3980,6 +4095,7 @@ window_new (void)
 	window = g_new0 (GThumbWindow, 1);
 
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
+
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
 					  "/apps/gthumb/UIConfig/kvps");
@@ -3988,23 +4104,25 @@ window_new (void)
 	bonobo_ui_component_set_container (window->ui_component, 
 					   BONOBO_OBJREF (ui_container), 
 					   NULL);
+
 	bonobo_ui_util_set_ui (window->ui_component, 
 			       GTHUMB_DATADIR,
 			       BONOBO_UIDIR "gthumb-ui.xml", 
 			       "gthumb", 
 			       NULL);
+
 	bonobo_ui_component_add_verb_list_with_data (window->ui_component, 
 						     gthumb_verbs,
 						     window);
 
 	setup_commands_pixbufs (window->ui_component);
 	setup_toolbar_combo_button (window);
-	add_listener_for_toggle_items (window);
 
 	gnome_window_icon_set_from_default (GTK_WINDOW (window->app));
 	gtk_window_set_default_size (GTK_WINDOW (window->app), 
 				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH),
 				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT));
+
 	g_signal_connect (G_OBJECT (window->app), 
 			  "delete_event",
 			  G_CALLBACK (close_window_cb),
@@ -4016,55 +4134,7 @@ window_new (void)
 
 	/* Create the widgets. */
 
-	/* File list. */
-
-	window->file_list = gth_file_list_new ();
-	gtk_widget_set_size_request (window->file_list->ilist, 
-				     PANE_MIN_SIZE,
-				     PANE_MIN_SIZE);
-	gth_file_list_set_progress_func (window->file_list, window_progress, window);
-
-	gtk_drag_dest_set (window->file_list->ilist,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
-			   GDK_ACTION_MOVE);
-
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "drag_data_received",
-			  G_CALLBACK (image_list_drag_data_received), 
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "select_image",
-			  G_CALLBACK (file_selection_changed_cb), 
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "unselect_image",
-			  G_CALLBACK (file_selection_changed_cb), 
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "focus_image",
-			  G_CALLBACK (gth_file_list_focus_image_cb), 
-			  window);
-	g_signal_connect_after (G_OBJECT (window->file_list->ilist), 
-				"button_press_event",
-				G_CALLBACK (gth_file_list_button_press_cb), 
-				window);
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "double_click",
-			  G_CALLBACK (gth_file_list_double_click_cb), 
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list->ilist), 
-			  "drag_data_get",
-			  G_CALLBACK (gth_file_list_drag_data_get), 
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list),
-			  "busy",
-			  G_CALLBACK (file_list_busy_cb),
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list),
-			  "idle",
-			  G_CALLBACK (file_list_idle_cb),
-			  window);
+	window->file_list = create_new_file_list (window);
 
 	/* Dir list. */
 
@@ -4118,7 +4188,7 @@ window_new (void)
 
 	/* Catalog list. */
 
-	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == CLICK_POLICY_SINGLE);
+	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 	gtk_drag_dest_set (window->catalog_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
@@ -4409,7 +4479,10 @@ window_new (void)
 
 	/* Update data. */
 
-	window->sidebar_content = NO_LIST;
+	window->sidebar_content = GTH_SIDEBAR_NO_LIST;
+	window->sidebar_visible = TRUE;
+	window->image_preview_visible = eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE);
+	window->image_pane_visible = window->image_preview_visible;
 	window->catalog_path = NULL;
 	window->image_path = NULL;
 	window->image_mtime = 0;
@@ -4418,6 +4491,7 @@ window_new (void)
 
 	window->fullscreen = FALSE;
 	window->slideshow = FALSE;
+	window->slideshow_only_selected = FALSE;
 	window->slideshow_timeout = 0;
 
 	window->bookmarks_length = 0;
@@ -4465,24 +4539,6 @@ window_new (void)
 			  G_CALLBACK (image_requested_error_cb), 
 			  window);
 
-	/* FIXME 
-	for (i = 0; i < N_LOADERS; i++) {
-		PreLoader *ploader = window->preloader->loader[i];
-		g_signal_connect (G_OBJECT (ploader->loader), 
-				  "progress",
-				  G_CALLBACK (image_loader_progress_cb), 
-				  window);
-		g_signal_connect (G_OBJECT (ploader->loader), 
-				  "done",
-				  G_CALLBACK (image_loader_done_cb), 
-				  window);
-		g_signal_connect (G_OBJECT (ploader->loader), 
-				  "error",
-				  G_CALLBACK (image_loader_done_cb), 
-				  window);
-	}
-	*/
-
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 		window->cnxn_id[i] = -1;
 
@@ -4492,9 +4548,27 @@ window_new (void)
 
 	gtk_widget_realize (window->app);
 
-	window_sync_menu_with_preferences (window);
+	/**/
 
-	window->sidebar_visible = TRUE;
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/Toolbar",
+				      "hidden", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE) ? "0" : "1",
+				      NULL);
+
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/ImageToolbar",
+				      "hidden", "1", 
+				      NULL);
+	bonobo_ui_component_set_prop (window->ui_component, 
+				      "/status",
+				      "hidden", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE) ? "0" : "1",
+				      NULL);
+
+	window_sync_menu_with_preferences (window);
+	window->freeze_toggle_handler = 0;
+
+	/**/
+
 	window->sidebar_width = eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE);
 	gtk_paned_set_position (GTK_PANED (paned1), eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE));
 	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE));
@@ -4519,6 +4593,8 @@ window_new (void)
 				       pref_get_check_size ());
 	image_viewer_set_transp_type  (IMAGE_VIEWER (window->viewer),
 				       pref_get_transp_type ());
+	image_viewer_set_black_background (IMAGE_VIEWER (window->viewer),
+					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND));
 
 	/* Add the window to the window's list */
 
@@ -4598,17 +4674,30 @@ window_new (void)
 					   pref_check_size_changed,
 					   window);
 
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_BLACK_BACKGROUND,
+					   pref_black_background_changed,
+					   window);
+
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_VIEW_AS,
+					   pref_view_as_changed,
+					   window);
+
+	add_listener_for_toggle_items (window);
+
 	/* Initial location. */
 
 	starting_location = eel_gconf_get_locale_string (PREF_STARTUP_LOCATION);
 
-	if (pref_util_location_is_catalog (starting_location)) 
+	if (pref_util_location_is_catalog (starting_location)) {
 		window_go_to_catalog (window, pref_util_get_catalog_location (starting_location));
-	else {
+	} else {
 		const char *path;
-		
+
 		if (pref_util_location_is_file (starting_location))
 			path = pref_util_get_file_location (starting_location);
+
 		else {  /* we suppose it is a directory name without prefix. */
 			path = starting_location;
 			if (! path_is_dir (path))
@@ -4620,7 +4709,7 @@ window_new (void)
 
 	g_free (starting_location);
 
-	gtk_widget_grab_focus (window->file_list->ilist);
+	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
 
 	return window;
 }
@@ -4633,8 +4722,8 @@ window_free (GThumbWindow *window)
 
 	g_return_if_fail (window != NULL);
 
-	g_object_unref (G_OBJECT (window->file_list));
-	dir_list_free     (window->dir_list);
+	g_object_unref (window->file_list);
+	dir_list_free (window->dir_list);
 	catalog_list_free (window->catalog_list);
 
 	if (window->catalog_path) {
@@ -4714,11 +4803,11 @@ close__step5 (GThumbWindow *window)
 	if (eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION)) {
 		char *location = NULL;
 
-		if (window->sidebar_content == DIR_LIST) 
+		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
 			location = g_strconcat ("file://",
 						window->dir_list->path,
 						NULL);
-		else if ((window->sidebar_content == CATALOG_LIST) 
+		else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 			 && (window->catalog_path != NULL))
 			location = g_strconcat ("catalog://",
 						window->catalog_path,
@@ -4745,26 +4834,32 @@ close__step5 (GThumbWindow *window)
 		g_source_remove (window->progress_timeout);
 		window->progress_timeout = 0;
 	}
+
 	if (window->activity_timeout != 0) {
 		g_source_remove (window->activity_timeout);
 		window->activity_timeout = 0;
 	}
+
 	if (window->load_dir_timeout != 0) {
 		g_source_remove (window->load_dir_timeout);
 		window->load_dir_timeout = 0;
 	}
+
 	if (window->sel_change_timeout != 0) {
 		g_source_remove (window->sel_change_timeout);
 		window->sel_change_timeout = 0;
 	}
+
 	if (window->busy_cursor_timeout != 0) {
 		g_source_remove (window->busy_cursor_timeout);
 		window->busy_cursor_timeout = 0;
 	}
+
 	if (window->view_image_timeout != 0) {
  		g_source_remove (window->view_image_timeout);
 		window->view_image_timeout = 0;
 	}
+
 	if (window->update_changes_timeout != 0) {
 		g_source_remove (window->update_changes_timeout);
 		window->update_changes_timeout = 0;
@@ -4782,7 +4877,6 @@ close__step5 (GThumbWindow *window)
 	}
 
 	gtk_widget_destroy (window->app);
-
 	window_list = g_list_remove (window_list, window);
 	window_free (window);
 
@@ -4823,8 +4917,8 @@ close__step3 (GThumbWindow *window)
 	window->setting_file_list = FALSE;
 	if (window->file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (window->file_list, 
-					    (DoneFunc) close__step4, 
-					    window);
+						(DoneFunc) close__step4, 
+						window);
 	else
 		close__step4 (window);
 }
@@ -4836,8 +4930,8 @@ close__step2 (GThumbWindow *window)
 	window->changing_directory = FALSE;
 	if (window->setting_file_list) 
 		gth_file_list_interrupt_set_list (window->file_list,
-					      (DoneFunc) close__step3,
-					      window);
+						  (DoneFunc) close__step3,
+						  window);
 	else
 		close__step3 (window);
 }
@@ -4882,14 +4976,14 @@ window_set_sidebar_content (GThumbWindow *window,
 		return;
 
 	switch (sidebar_content) {
-	case DIR_LIST: 
+	case GTH_SIDEBAR_DIR_LIST: 
 		if (window->dir_list->path == NULL) 
 			window_go_to_directory (window, g_get_home_dir ());
 		else 
 			window_go_to_directory (window, window->dir_list->path);
 		break;
 
-	case CATALOG_LIST:
+	case GTH_SIDEBAR_CATALOG_LIST:
 		if (window->catalog_path == NULL)
 			path = get_catalog_full_path (NULL);
 		else 
@@ -4933,9 +5027,11 @@ window_hide_sidebar (GThumbWindow *window)
 
 	if (window->layout_type <= 1)
 		gtk_widget_hide (GTK_PANED (window->main_pane)->child1);
+
 	else if (window->layout_type == 2) {
 		gtk_widget_hide (GTK_PANED (window->main_pane)->child2);
 		gtk_widget_hide (GTK_PANED (window->content_pane)->child1);
+
 	} else if (window->layout_type == 3) {
 		gtk_widget_hide (GTK_PANED (window->main_pane)->child1);
 		gtk_widget_hide (GTK_PANED (window->content_pane)->child1);
@@ -4947,7 +5043,7 @@ window_hide_sidebar (GThumbWindow *window)
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL)
-		set_command_state_if_different (window, cname, FALSE, FALSE);
+		set_command_state_if_different (window, cname, FALSE, FALSE, FALSE);
 
 	/**/
 
@@ -4961,13 +5057,13 @@ window_hide_sidebar (GThumbWindow *window)
 					      "hidden", "0",
 					      NULL);
 
-		set_command_visible (window, "View_Sidebar_Catalogs", window->sidebar_content == CATALOG_LIST);
-		set_command_visible (window, "View_Sidebar_Folders", window->sidebar_content == DIR_LIST);
+		set_command_visible (window, "View_Sidebar_Catalogs", window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST);
+		set_command_visible (window, "View_Sidebar_Folders", window->sidebar_content == GTH_SIDEBAR_DIR_LIST);
 	}
 
 	/**/
 
-	if (! window->image_pane_visible)
+	if (! window->image_pane_visible) 
 		window_show_image_pane (window);
 }
 
@@ -4986,9 +5082,11 @@ window_show_sidebar (GThumbWindow *window)
 
 	if (window->layout_type < 2)
 		gtk_widget_show (GTK_PANED (window->main_pane)->child1);
+
 	else if (window->layout_type == 2) {
 		gtk_widget_show (GTK_PANED (window->main_pane)->child2);
 		gtk_widget_show (GTK_PANED (window->content_pane)->child1);
+
 	} else if (window->layout_type == 3) {
 		gtk_widget_show (GTK_PANED (window->main_pane)->child1);
 		gtk_widget_show (GTK_PANED (window->content_pane)->child1);
@@ -4998,7 +5096,7 @@ window_show_sidebar (GThumbWindow *window)
 
 	cname = get_command_name_from_sidebar_content (window);
 	if (cname != NULL)
-		set_command_state_if_different (window, cname, TRUE, FALSE);
+		set_command_state_if_different (window, cname, TRUE, FALSE, FALSE);
 
 	/**/
 
@@ -5020,7 +5118,7 @@ window_show_sidebar (GThumbWindow *window)
 	else
 		window_hide_image_pane (window);
 
-	gtk_widget_grab_focus (window->file_list->ilist);
+	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
 }
 
 
@@ -5030,7 +5128,7 @@ window_hide_image_pane (GThumbWindow *window)
 	window->image_pane_visible = FALSE;
 	gtk_widget_hide (window->image_pane);
 
-	gtk_widget_grab_focus (window->file_list->ilist);
+	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
 
 	/**/
 
@@ -5042,6 +5140,7 @@ window_hide_image_pane (GThumbWindow *window)
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
 						FALSE, 
+						FALSE,
 						FALSE);
 	}
 }
@@ -5058,14 +5157,13 @@ window_show_image_pane (GThumbWindow *window)
 		set_command_state_if_different (window, 
 						"/commands/View_ShowPreview", 
 						TRUE, 
+						FALSE,
 						FALSE);
 	}
 
 	gtk_widget_show (window->image_pane);
 
 	gtk_widget_grab_focus (window->viewer);
-
-
 }
 
 
@@ -5310,7 +5408,7 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	GThumbWindow *window = user_data; 
 	char         *path;
 
-	if (window->sidebar_content != DIR_LIST)
+	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
 	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
@@ -5335,7 +5433,7 @@ window_add_monitor (GThumbWindow *window)
 	GnomeVFSResult  result;
 	char           *uri;
 
-	if (window->sidebar_content != DIR_LIST)
+	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
 	if (window->dir_list->path == NULL)
@@ -5450,6 +5548,16 @@ go_to_directory__step4 (GoToData *gt_data)
 	if (window->slideshow)
 		window_stop_slideshow (window);
 
+	/* Select the directory view. */
+
+	_window_set_sidebar (window, GTH_SIDEBAR_DIR_LIST);
+	if (! window->refreshing)
+		window_show_sidebar (window);
+	else
+		window->refreshing = FALSE;
+
+	/**/
+
 	path = remove_ending_separator (dir_path);
 
 	window_start_activity_mode (window);
@@ -5471,22 +5579,14 @@ go_to_directory__step3 (GoToData *gt_data)
 
 	window->setting_file_list = FALSE;
 
-	/* Select the directory view. */
-
-	_window_set_sidebar (window, DIR_LIST);
-	if (! window->refreshing)
-		window_show_sidebar (window);
-	else
-		window->refreshing = FALSE;
-
 	/**/
 
 	window->changing_directory = TRUE;
 
 	if (window->file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (window->file_list, 
-					    (DoneFunc) go_to_directory__step4,
-					    gt_data);
+						(DoneFunc) go_to_directory__step4,
+						gt_data);
 	else
 		go_to_directory__step4 (gt_data);
 }
@@ -5593,8 +5693,8 @@ window_go_to_directory (GThumbWindow *window,
 		sli_data->window = window;
 		sli_data->dir_path = g_strdup (dir_path);
 		gth_file_list_interrupt_set_list (window->file_list,
-					      go_to_dir_set_list_interrupted,
-					      sli_data);
+						  go_to_dir_set_list_interrupted,
+						  sli_data);
 		return;
 	}
 
@@ -5678,7 +5778,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		window->catalog_path = g_strdup (catalog_path);
 	}
 
-	_window_set_sidebar (window, CATALOG_LIST); 
+	_window_set_sidebar (window, GTH_SIDEBAR_CATALOG_LIST); 
 	if (! window->refreshing && ! ViewFirstImage)
 		window_show_sidebar (window);
 	else
@@ -5718,8 +5818,8 @@ window_go_to_catalog (GThumbWindow *window,
 	
 	if (window->file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (window->file_list, 
-					    (DoneFunc) go_to_catalog__step2,
-					    gt_data);
+						(DoneFunc) go_to_catalog__step2,
+						gt_data);
 	else
 		go_to_catalog__step2 (gt_data);
 }
@@ -5732,7 +5832,7 @@ window_go_up__is_base_dir (GThumbWindow *window,
 	if (dir == NULL)
 		return FALSE;
 
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		return (strcmp (dir, "/") == 0);
 	else {
 		char *catalog_base = get_catalog_full_path (NULL);
@@ -5755,7 +5855,7 @@ window_go_up (GThumbWindow *window)
 
 	g_return_if_fail (window != NULL);
 
-	if (window->sidebar_content == DIR_LIST) 
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
 		current_path = window->dir_list->path;
 	else 
 		current_path = window->catalog_list->path;
@@ -5774,7 +5874,7 @@ window_go_up (GThumbWindow *window)
 	} while (! window_go_up__is_base_dir (window, up_dir) 
 		 && ! path_is_dir (up_dir));
 
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (window, up_dir);
 	else {
 		window_go_to_catalog (window, NULL);
@@ -5852,7 +5952,7 @@ view_focused_image (GThumbWindow *window)
 	char     *focused;
 	gboolean  not_focused;
 
-	pos = image_list_get_focus_image (IMAGE_LIST (window->file_list->ilist));
+	pos = gth_file_view_get_cursor (window->file_list->view);
 	if (pos == -1)
 		return FALSE;
 
@@ -5868,7 +5968,8 @@ view_focused_image (GThumbWindow *window)
 
 
 gboolean
-window_show_next_image (GThumbWindow *window)
+window_show_next_image (GThumbWindow *window,
+			gboolean      only_selected)
 {
 	int pos;
 
@@ -5878,30 +5979,33 @@ window_show_next_image (GThumbWindow *window)
 		return FALSE;
 
 	if (window->image_path == NULL) {
-		pos = gth_file_list_next_image (window->file_list, -1, TRUE);
+		pos = gth_file_list_next_image (window->file_list, -1, TRUE, only_selected);
 
 	} else if (view_focused_image (window)) {
-		pos = image_list_get_focus_image (IMAGE_LIST (window->file_list->ilist));
+		pos = gth_file_view_get_cursor (window->file_list->view);
 		if (pos == -1)
-			pos = gth_file_list_next_image (window->file_list, pos, TRUE);
+			pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
 
 	} else {
 		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_next_image (window->file_list, pos, TRUE);
+		pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
 	}
 
 	if (pos == -1) 
 		return FALSE;
 
-	gth_file_list_select_image_by_pos (window->file_list, pos); 
-	view_image_at_pos (window, pos); 
+	if (! only_selected)
+		gth_file_list_select_image_by_pos (window->file_list, pos); 
+
+	gth_file_view_set_cursor (window->file_list->view, pos);
 
 	return TRUE;
 }
 
 
 gboolean
-window_show_prev_image (GThumbWindow *window)
+window_show_prev_image (GThumbWindow *window,
+			gboolean      only_selected)
 {
 	int pos;
 
@@ -5911,35 +6015,38 @@ window_show_prev_image (GThumbWindow *window)
 		return FALSE;
 	
 	if (window->image_path == NULL) {
-		pos = IMAGE_LIST (window->file_list->ilist)->images;
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE);
+		pos = gth_file_view_get_images (window->file_list->view);
+		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
 			
 	} else if (view_focused_image (window)) {
-		pos = image_list_get_focus_image (IMAGE_LIST (window->file_list->ilist));
+		pos = gth_file_view_get_cursor (window->file_list->view);
 		if (pos == -1) {
-			pos = IMAGE_LIST (window->file_list->ilist)->images;
-			pos = gth_file_list_prev_image (window->file_list, pos, TRUE);
+			pos = gth_file_view_get_images (window->file_list->view);
+			pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
 		}
 
 	} else {
 		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE);
+		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
 	}
 
 	if (pos == -1)
 		return FALSE;
 
-	gth_file_list_select_image_by_pos (window->file_list, pos); 
-	view_image_at_pos (window, pos); 
+	if (! only_selected)
+		gth_file_list_select_image_by_pos (window->file_list, pos); 
+
+	gth_file_view_set_cursor (window->file_list->view, pos);
 
 	return TRUE;
 }
 
 
 gboolean
-window_show_first_image (GThumbWindow *window)
+window_show_first_image (GThumbWindow *window, 
+			 gboolean      only_selected)
 {
-	if (IMAGE_LIST (window->file_list->ilist)->images == 0)
+	if (gth_file_view_get_images (window->file_list->view) == 0)
 		return FALSE;
 
 	if (window->image_path) {
@@ -5947,14 +6054,15 @@ window_show_first_image (GThumbWindow *window)
 		window->image_path = NULL;
 	}
 
-	return window_show_next_image (window);
+	return window_show_next_image (window, only_selected);
 }
 
 
 gboolean
-window_show_last_image (GThumbWindow *window)
+window_show_last_image (GThumbWindow *window, 
+			gboolean      only_selected)
 {
-	if (IMAGE_LIST (window->file_list->ilist)->images == 0)
+	if (gth_file_view_get_images (window->file_list->view) == 0)
 		return FALSE;
 
 	if (window->image_path) {
@@ -5962,7 +6070,7 @@ window_show_last_image (GThumbWindow *window)
 		window->image_path = NULL;
 	}
 
-	return window_show_prev_image (window);
+	return window_show_prev_image (window, only_selected);
 }
 
 
@@ -5980,19 +6088,19 @@ slideshow_timeout_cb (gpointer data)
 		window->slideshow_timeout = 0;
 	}
 
-	if (pref_get_slideshow_direction () == DIRECTION_FORWARD)
-		go_on = window_show_next_image (window);
+	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
+		go_on = window_show_next_image (window, window->slideshow_only_selected);
 	else
-		go_on = window_show_prev_image (window);
+		go_on = window_show_prev_image (window, window->slideshow_only_selected);
 
 	if (! go_on) {
 		if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND)) 
 			window_stop_slideshow (window);
 		else {
-			if (pref_get_slideshow_direction () == DIRECTION_FORWARD) {
-				go_on = window_show_first_image (window);
+			if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
+				go_on = window_show_first_image (window, window->slideshow_only_selected);
 			} else
-				go_on = window_show_last_image (window);
+				go_on = window_show_last_image (window, window->slideshow_only_selected);
 			
 			if (! go_on) 
 				/* No image to show, stop. */
@@ -6022,16 +6130,26 @@ window_start_slideshow (GThumbWindow *window)
 		return;
 
 	window->slideshow = TRUE;
+	window->slideshow_only_selected = gth_file_view_selection_not_null (window->file_list->view) && ! gth_file_view_only_one_is_selected (window->file_list->view);
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN))
 		fullscreen_start (fullscreen, window);
 
-	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-	if (pos == -1) {
-		if (pref_get_slideshow_direction () == DIRECTION_FORWARD)
-			go_on = window_show_next_image (window);
+	if (window->slideshow_only_selected) {
+		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
+			pos = gth_file_view_get_first_selected (window->file_list->view);
 		else
-			go_on = window_show_prev_image (window);
+			pos = gth_file_view_get_last_selected (window->file_list->view);
+	} else
+		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+
+	if (pos != -1)
+		gth_file_view_set_cursor (window->file_list->view, pos);
+	else {
+		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
+			go_on = window_show_next_image (window, window->slideshow_only_selected);
+		else
+			go_on = window_show_prev_image (window, window->slideshow_only_selected);
 	}
 
 	if (! go_on) {
@@ -6162,7 +6280,7 @@ window_load_image (GThumbWindow *window,
 		g_free (window->image_catalog);
 		window->image_catalog = NULL;
 	}
-	if (window->sidebar_content == CATALOG_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		window->image_catalog = g_strdup (window->catalog_path);
 
 	/**/
@@ -6204,13 +6322,10 @@ static void
 notify_files_added (GThumbWindow *window,
 		    GList        *list)
 {
-	ImageList *ilist;
-
-	ilist = IMAGE_LIST (window->file_list->ilist);
 	gth_file_list_add_list (window->file_list, 
-			    list, 
-			    notify_files_added__step2,
-			    window);
+				list, 
+				notify_files_added__step2,
+				window);
 }
 
 
@@ -6222,7 +6337,7 @@ window_notify_files_created (GThumbWindow *window,
 	GList *created_in_current_dir = NULL;
 	char  *current_dir;
 
-	if (window->sidebar_content != DIR_LIST)
+	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
 	current_dir = window->dir_list->path;
@@ -6265,17 +6380,15 @@ notify_files_deleted__step2 (FilesDeletedData *data)
 	int           pos, smallest_pos, image_pos;
 	gboolean      current_image_deleted = FALSE;
 	gboolean      no_image_viewed;
-	ImageList    *ilist;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-	image_list_freeze (ilist);
+	gth_file_view_freeze (window->file_list->view);
 
 	pos = -1;
 	smallest_pos = -1;
 	image_pos = -1;
 	if (window->image_path)
 		image_pos = gth_file_list_pos_from_path (window->file_list, 
-						     window->image_path);
+							 window->image_path);
 	no_image_viewed = (image_pos == -1);
 
 	for (scan = list; scan; scan = scan->next) {
@@ -6289,6 +6402,7 @@ notify_files_deleted__step2 (FilesDeletedData *data)
 			/* the current image will be deleted. */
 			image_pos = -1;
 			current_image_deleted = TRUE;
+
 		} else if (image_pos > pos)
 			/* a previous image will be deleted, so image_pos 
 			 * decrements its value. */
@@ -6301,30 +6415,34 @@ notify_files_deleted__step2 (FilesDeletedData *data)
 
 		gth_file_list_delete_pos (window->file_list, pos);
 	}
-	image_list_thaw (ilist);
+	gth_file_view_thaw (window->file_list->view);
 
 	/* Try to visualize the smallest pos. */
 	if (smallest_pos != -1) {
+		int images = gth_file_view_get_images (window->file_list->view);
+
 		pos = smallest_pos;
 
-		if (pos > ilist->images - 1)
-			pos = ilist->images - 1;
+		if (pos > images - 1)
+			pos = images - 1;
 		if (pos < 0)
 			pos = 0;
 
-		image_list_moveto (ilist, pos, 0.5);
+		gth_file_view_moveto (window->file_list->view, pos, 0.5);
 	}
 
 	if (! no_image_viewed) {
 		if (current_image_deleted) {
+			int images = gth_file_view_get_images (window->file_list->view);
+
 			/* delete the image from the viewer. */
 			window_load_image (window, NULL);
 
-			if ((ilist->images > 0) && (smallest_pos != -1)) {
+			if ((images > 0) && (smallest_pos != -1)) {
 				pos = smallest_pos;
 				
-				if (pos > ilist->images - 1)
-					pos = ilist->images - 1;
+				if (pos > images - 1)
+					pos = images - 1;
 				if (pos < 0)
 					pos = 0;
 				
@@ -6360,8 +6478,8 @@ notify_files_deleted (GThumbWindow *window,
 	data->restart_thumbs = window->file_list->doing_thumbs;
 	
 	gth_file_list_interrupt_thumbs (window->file_list,
-				    (DoneFunc) notify_files_deleted__step2,
-				    data);
+					(DoneFunc) notify_files_deleted__step2,
+					data);
 }
 
 
@@ -6371,7 +6489,7 @@ window_notify_files_deleted (GThumbWindow *window,
 {
 	g_return_if_fail (window != NULL);
 
-	if ((window->sidebar_content == CATALOG_LIST)
+	if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 	    && (window->catalog_path != NULL)) { /* update the catalog. */
 		Catalog *catalog;
 		GList   *scan;
@@ -6400,7 +6518,7 @@ window_notify_files_changed (GThumbWindow *window,
 	if (window->image_path != NULL) {
 		int pos;
 		pos = gth_file_list_pos_from_path (window->file_list,
-					       window->image_path);
+						   window->image_path);
 		if (pos != -1)
 			view_image_at_pos (window, pos);
 	}
@@ -6414,7 +6532,7 @@ window_notify_cat_files_added (GThumbWindow *window,
 {
 	g_return_if_fail (window != NULL);
 
-	if (window->sidebar_content != CATALOG_LIST)
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
 		return;
 	if (window->catalog_path == NULL)
 		return;
@@ -6432,7 +6550,7 @@ window_notify_cat_files_deleted (GThumbWindow *window,
 {
 	g_return_if_fail (window != NULL);
 
-	if (window->sidebar_content != CATALOG_LIST)
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
 		return;
 	if (window->catalog_path == NULL)
 		return;
@@ -6454,7 +6572,7 @@ window_notify_file_rename (GThumbWindow *window,
 	if ((old_name == NULL) || (new_name == NULL))
 		return;
 
-	if ((window->sidebar_content == CATALOG_LIST)
+	if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 	    && (window->catalog_path != NULL)) { /* update the catalog. */
 		Catalog  *catalog;
 		GList    *scan;
@@ -6516,7 +6634,7 @@ window_notify_directory_rename (GThumbWindow *window,
 				const char  *old_name,
 				const char  *new_name)
 {
-	if (window->sidebar_content == DIR_LIST) {
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
 		if (strcmp (window->dir_list->path, old_name) == 0) 
 			window_go_to_directory (window, new_name);
 		else {
@@ -6531,7 +6649,7 @@ window_notify_directory_rename (GThumbWindow *window,
 			}
 		}
 		
-	} else if (window->sidebar_content == CATALOG_LIST) {
+	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		if (strcmp (window->catalog_list->path, old_name) == 0) 
 			window_go_to_catalog_directory (window, new_name);
 		else {
@@ -6542,7 +6660,7 @@ window_notify_directory_rename (GThumbWindow *window,
 	}
 
 	if ((window->image_path != NULL) 
-	    && (window->sidebar_content == DIR_LIST)
+	    && (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 	    && (strncmp (window->image_path, 
 			 old_name,
 			 strlen (old_name)) == 0)) {
@@ -6563,7 +6681,7 @@ void
 window_notify_directory_delete (GThumbWindow *window,
 				const char   *path)
 {
-	if (window->sidebar_content == DIR_LIST) {
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
 		if (strcmp (window->dir_list->path, path) == 0) 
 			window_go_up (window);
 		else {
@@ -6573,7 +6691,7 @@ window_notify_directory_delete (GThumbWindow *window,
 							   file_name_from_path (path));
 		}
 
-	} else if (window->sidebar_content == CATALOG_LIST) {
+	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		if (strcmp (window->catalog_list->path, path) == 0) 
 			window_go_up (window);
 		else {
@@ -6601,13 +6719,13 @@ void
 window_notify_directory_new (GThumbWindow *window,
 			     const char  *path)
 {
-	if (window->sidebar_content == DIR_LIST) {
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
 		const char *current = window->dir_list->path;
 		if (first_level_sub_directory (window, current, path))
 			dir_list_add_directory (window->dir_list, 
 						file_name_from_path (path));
 
-	} else if (window->sidebar_content == CATALOG_LIST) {
+	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		const char *current = window->catalog_list->path;
 		if (strncmp (current, path, strlen (current)) == 0)
 			/* a sub directory was created, refresh. */
@@ -6626,7 +6744,7 @@ window_notify_catalog_rename (GThumbWindow *window,
 	gboolean  current_cat_renamed;
 	gboolean  renamed_cat_is_in_current_dir;
 
-	if (window->sidebar_content != CATALOG_LIST) 
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
 		return;
 
 	if (window->catalog_list->path == NULL)
@@ -6670,7 +6788,7 @@ window_notify_catalog_new (GThumbWindow *window,
 	gboolean  viewing_a_catalog;
 	gboolean  created_cat_is_in_current_dir;
 
-	if (window->sidebar_content != CATALOG_LIST) 
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
 		return;
 
 	if (window->catalog_list->path == NULL)
@@ -6710,7 +6828,7 @@ window_notify_catalog_delete (GThumbWindow *window,
 	gboolean  current_cat_deleted;
 	gboolean  deleted_cat_is_in_current_dir;
 
-	if (window->sidebar_content != CATALOG_LIST) 
+	if (window->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
 		return;
 
 	if (window->catalog_list->path == NULL)
@@ -6845,27 +6963,54 @@ window_notify_update_layout (GThumbWindow *window)
 void
 window_notify_update_toolbar_style (GThumbWindow *window)
 {
-	ToolbarStyle  toolbar_style;
-	char         *prop;
+	GthToolbarStyle  toolbar_style;
+	char            *prop;
 
 	toolbar_style = pref_get_toolbar_style ();
 
 	switch (toolbar_style) {
-	case TOOLBAR_STYLE_SYSTEM:
+	case GTH_TOOLBAR_STYLE_SYSTEM:
 		prop = "system"; break;
-	case TOOLBAR_STYLE_TEXT_BELOW:
+	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
 		prop = "both"; break;
-	case TOOLBAR_STYLE_TEXT_BESIDE:
+	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
 		prop = "both_horiz"; break;
-	case TOOLBAR_STYLE_ICONS:
+	case GTH_TOOLBAR_STYLE_ICONS:
 		prop = "icon"; break;
-	case TOOLBAR_STYLE_TEXT:
+	case GTH_TOOLBAR_STYLE_TEXT:
 		prop = "text"; break;
 	}
 
 	bonobo_ui_component_set_prop (window->ui_component, "/Toolbar", "look", prop, NULL);
 	bonobo_ui_component_set_prop (window->ui_component, "/ImageToolbar", "look", prop, NULL);
 	e_combo_button_set_style (E_COMBO_BUTTON (window->go_back_combo_button), toolbar_style); 
+}
+
+
+void
+window_notify_update_icon_theme (GThumbWindow *window)
+{
+	GdkPixbuf *icon;
+
+	gth_file_view_update_icon_theme (window->file_list->view);
+	dir_list_update_icon_theme (window->dir_list);
+
+	window_update_bookmark_list (window);
+	window_update_history_list (window);
+	window_update_file_list (window);
+
+	if (window->bookmarks_dlg != NULL)
+		dlg_edit_bookmarks_update (window->bookmarks_dlg);
+
+	/**/
+
+	icon = gtk_widget_render_icon (window->app,
+				       GTK_STOCK_GO_BACK,
+				       GTK_ICON_SIZE_LARGE_TOOLBAR,
+				       "");
+	e_combo_button_set_icon (E_COMBO_BUTTON (window->go_back_combo_button),
+				 icon);
+	g_object_unref (icon);
 }
 
 

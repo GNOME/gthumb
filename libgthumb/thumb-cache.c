@@ -29,7 +29,9 @@
 #include <dirent.h>
 #include <string.h>
 
+#include <png.h>
 #include <libgnome/libgnome.h>
+#include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -43,182 +45,41 @@
 #include "gtk-utils.h"
 
 
-static gboolean
-has_png_extension (const char *filename)
+char *
+cache_get_nautilus_cache_name (const char *path) 
 {
-	int l;
+	char           *escaped_path;
+	char           *resolved_path;
+	GnomeVFSResult  result;
+	GnomeVFSURI    *uri;
+	char           *uri_txt;
+	char           *retval;
 
-	if (filename == NULL)
-		return FALSE;
+	escaped_path = gnome_vfs_escape_path_string (path);
+	result = resolve_all_symlinks (escaped_path, &resolved_path);
+	g_free (escaped_path);
 
-	l = strlen (filename);
-	if (l <= 4)
-		return FALSE;
+	g_return_val_if_fail (result == GNOME_VFS_OK, NULL); 
 
-	return (strncmp (filename + l - 4, ".png", 4) == 0);
-}
+	uri = gnome_vfs_uri_new (resolved_path);
+	g_free (resolved_path);
 
+	escaped_path = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
+	gnome_vfs_uri_unref (uri);
 
-static gchar *
-get_aa_name (gchar *filename)
-{
-	gchar *dot_pos;
-	gchar *old_name;
+	uri_txt = gnome_vfs_unescape_string (escaped_path, NULL);
+	g_free (escaped_path);
 
-	old_name = filename;
-	dot_pos = strrchr (filename, '.');
-	if (dot_pos) {
-		*dot_pos = '\0';
-		filename = g_strdup_printf ("%s.aa.%s", old_name, dot_pos + 1);
-	} else 
-		filename = g_strconcat (old_name, ".aa", NULL);
-	g_free (old_name);
+	retval = gnome_thumbnail_path_for_uri (uri_txt, GNOME_THUMBNAIL_SIZE_NORMAL);
+	g_free (uri_txt);
 
-	return filename;
-}
-
-
-static gchar*
-get_escaped_dir_name (const char *dir_path)
-{
-	const char *dir_name;
-	char *dir_container;
-	char *e_name;
-	char *e_path;
-	char *result;
-
-	if (dir_path == NULL)
-		return NULL;
-
-	dir_name = file_name_from_path (dir_path);
-	dir_container = remove_level_from_path (dir_path);
-	
-	if (strcmp (dir_container, "/") != 0) {
-		char *tmp;
-		char *e_name_tmp;
-		
-		tmp = g_strconcat (dir_container, "/", NULL);
-		g_free (dir_container);
-		dir_container = tmp;
-		
-		e_name_tmp = gnome_vfs_escape_string (dir_name);
-		e_name = gnome_vfs_escape_slashes (e_name_tmp);
-		g_free (e_name_tmp);
-		
-		e_path = gnome_vfs_escape_slashes (dir_container);
-	} else {
-		e_name = NULL;
-		e_path = NULL;
-	}
-	g_free (dir_container);
-	
-	result = g_strconcat (g_get_home_dir (),
-			      "/.nautilus/thumbnails/",
-			      "file:%2F%2F",
-			      e_path,
-			      e_name,
-			      NULL);
-	
-	g_free (e_name);
-	g_free (e_path);
-	
-	return result;
-}
-
-
-gchar *
-cache_get_nautilus_thumbnail_file (const gchar *source) 
-{
-	gint try;
-
-	if (! source) return NULL;
-
-	for (try = 0; try < 4; try++) {
-		gchar *path;
-		gchar *directory = NULL;
-		gchar *filename = NULL;
-		gchar *filedir = NULL;
-
-		switch (try) {
-		case 0: /* not aa image in .nautilus/thumbnails dir. */
-		case 1: /* aa image in .nautilus/thumbnails dir. */
-			filename = g_strdup (file_name_from_path (source));
-			if (try == 1)
-				filename = get_aa_name (filename);
-			filedir = remove_level_from_path (source);
-			directory = get_escaped_dir_name (filedir);
-			g_free (filedir);
-			break;
-
-		case 2: /* not aa image in .thumbnails dir. */
-		case 3: /* aa image in .thumbnails dir. */
-			filename = g_strdup (file_name_from_path (source));
-			if (try == 3)
-				filename = get_aa_name (filename);
-			filedir = remove_level_from_path (source);
-			directory = g_strconcat (filedir,
-						 "/", 
-						 CACHE_DIR, 
-						 NULL);
-			g_free (filedir);
-			break;
-		}
-
-		path = g_strconcat (directory,
-				    "/",
-				    filename,
-				    has_png_extension (filename)? NULL: ".png",
-				    NULL);
-
-		g_free (directory);
-		g_free (filename);
-
-		if (path_is_file (path))  /* found. */
-			return path;
-
-		g_free (path);
-	}
-
-	return NULL;
-}
-
-
-gchar *
-cache_get_nautilus_cache_name (const gchar *source) 
-{
-	char *dir;
-	char *escaped_dir;
-	char *nautilus_name;
-
-	if (! source) return NULL;
-
-	/* get the Nautilus cache file name. */
-
-	dir = remove_level_from_path (source);
-	escaped_dir = get_escaped_dir_name (dir);
-	nautilus_name = g_strconcat (escaped_dir,
-				     "/",
-				     file_name_from_path (source),
-				     has_png_extension (source) ? NULL : ".png",
-				     NULL);
-
-	g_free (dir);
-	g_free (escaped_dir);
-
-	return nautilus_name;
-}
-
-
-gchar *
-cache_get_nautilus_cache_dir (const gchar *source) 
-{
-	return get_escaped_dir_name (source);
+	return retval;
 }
 
 
 void
-cache_copy (const gchar *src,
-	    const gchar *dest)
+cache_copy (const char *src,
+	    const char *dest)
 {
 	char   *cache_src;
 	time_t  dest_mtime = get_file_mtime (dest);
@@ -262,7 +123,7 @@ cache_move (const char *src,
 
 
 void
-cache_delete (const gchar *filename)
+cache_delete (const char *filename)
 {
 	char *cache_name;
 
@@ -280,7 +141,7 @@ typedef struct {
 	gboolean   clear_all;
 	GList     *dirs;
 	GList     *visited_dirs;
-	gchar     *nautilus_thumb_dir;
+	char      *nautilus_thumb_dir;
 	int        nautilus_thumb_dir_l;
 	GtkWidget *dialog;
 } NautilusCacheRemoveData;
@@ -311,88 +172,136 @@ nautilus_cache_data_free (NautilusCacheRemoveData *ncrd)
 }
 
 
-static void visit_dir_async (const gchar *dir,
+static void visit_dir_async (const char              *dir,
 			     NautilusCacheRemoveData *ncrd);
 
 
-#define ESC_FILE_PREFIX    "file:%2F%2F"
-#define ESC_FILE_PREFIX_L  11
-#define ESC_SLASH          "%2F"
-#define ESC_SLASH_L        3
+/**/
 
-
-static gchar *
-get_real_name_from_nautilus_cache (NautilusCacheRemoveData *ncrd,
-				   const char *cache_name_full_path)
+static gboolean
+png_text_to_pixbuf_option (png_text   text_ptr,
+                           char     **key,
+                           char     **value)
 {
-	const char *cache_path;
-	const char *cache_name;
-	char *cache_dir;
-	char *e_cache_dir;
-	int   cache_path_l, real_name_l;
-	char *real_name;
-	char *tmp;
+        if (text_ptr.text_length > 0) {
+                *value = g_convert (text_ptr.text, -1,
+				    "UTF-8", "ISO-8859-1",
+				    NULL, NULL, NULL);
+        } else {
+                *value = g_strdup (text_ptr.text);
+        }
 
-	if (strlen (cache_name_full_path) < ncrd->nautilus_thumb_dir_l + 1)
-		return NULL;
+        if (*value) {
+                *key = g_strconcat ("tEXt::", text_ptr.key, NULL);
+                return TRUE;
+        } else {
+                g_warning ("Couldn't convert text chunk value to UTF-8.");
+                *key = NULL;
+                return FALSE;
+        }
+}
 
-	cache_path = cache_name_full_path + ncrd->nautilus_thumb_dir_l + 1;
-	cache_path_l = strlen (cache_path);
 
-	if (cache_path_l < ESC_FILE_PREFIX_L)
-		return NULL;
-
-	if (strncmp (cache_path, ESC_FILE_PREFIX, ESC_FILE_PREFIX_L) != 0)
-		return NULL;
-
-	cache_path = cache_path + ESC_FILE_PREFIX_L;
-	cache_dir = remove_level_from_path (cache_path);
-	cache_name = file_name_from_path (cache_path);
-
-	tmp = gnome_vfs_unescape_string (cache_dir, NULL);
-	e_cache_dir = gnome_vfs_unescape_string (tmp, NULL);
-	g_free (tmp);
-	g_free (cache_dir);
-
-	real_name = g_strconcat (e_cache_dir, "/", cache_name, NULL);
-	g_free (e_cache_dir);
-
-#if 0
-	/* --- 8< --- */
-
-	{
-		char *test_file;
-		char *test_dir;
-		char *test_e_dir;	
-		char *test;
-
-		test_file = g_strdup (file_name_from_path (real_name));
-		test_dir = remove_level_from_path (real_name);
-		test_e_dir = get_escaped_dir_name (test_dir);
-		test = g_strconcat (test_e_dir, "/", test_file, NULL);
-		
-		if (strcmp (test, cache_name_full_path) != 0) {
-			g_error ("%s --> %s --> %s\n", cache_name_full_path, real_name, test);
-		}
-
-		g_free (test_file);
-		g_free (test_dir);
-		g_free (test_e_dir);
-		g_free (test);
+static void
+png_simple_error_callback(png_structp     png_save_ptr,
+                          png_const_charp error_msg)
+{
+	GError **error;
+	
+	error = png_get_error_ptr(png_save_ptr);
+	
+	/* I don't trust libpng to call the error callback only once,
+	 * so check for already-set error
+	 */
+	if (error && *error == NULL) {
+		g_set_error (error,
+			     GDK_PIXBUF_ERROR,
+			     GDK_PIXBUF_ERROR_FAILED,
+			     "Fatal error in PNG image file: %s",
+			     error_msg);
 	}
 
-	/* --- 8< --- */
-#endif
-
-	/* Remove the png extension. */
-
-	real_name_l = strlen (real_name);
-        real_name[real_name_l - 4] = 0; /* 4 = strlen (".png") */
-        if (! file_is_image (real_name, TRUE))
-                real_name[real_name_l - 4] = '.';
-
-	return real_name;
+	longjmp (png_save_ptr->jmpbuf, 1);
 }
+
+
+static void
+png_simple_warning_callback(png_structp     png_save_ptr,
+                            png_const_charp warning_msg)
+{
+	/* Don't print anything; we should not be dumping junk to
+	 * stderr, since that may be bad for some apps. If it's
+	 * important enough to display, we need to add a GError
+	 * **warning return location wherever we have an error return
+	 * location.
+	 */
+}
+
+
+static char *
+get_real_name_from_nautilus_cache (const char *cache_path)
+{
+	FILE        *f;
+	char        *result = NULL;
+	png_structp  png_ptr;
+	png_infop    info_ptr;
+	png_textp    text_ptr;
+	int          num_texts;
+	
+	f = fopen (cache_path, "r");
+	
+	if (f == NULL)
+		return NULL;
+	
+	png_ptr = png_create_read_struct (PNG_LIBPNG_VER_STRING,
+					  NULL,
+					  png_simple_error_callback,
+					  png_simple_warning_callback);
+	
+        if (!png_ptr) {
+		fclose (f);
+		return NULL;
+	}
+	
+	info_ptr = png_create_info_struct (png_ptr);
+	if (!info_ptr) {
+		png_destroy_read_struct (&png_ptr, NULL, NULL);
+		fclose (f);
+		return NULL;
+	}
+	
+	png_init_io (png_ptr, f);
+	png_read_info (png_ptr, info_ptr);
+	
+	if (png_get_text (png_ptr, info_ptr, &text_ptr, &num_texts)) {
+		int    i;
+		char  *key;
+		char  *value;
+
+		for (i = 0; i < num_texts; i++) {
+			png_text_to_pixbuf_option (text_ptr[i], &key, &value);
+			if ((key != NULL)
+			    && (strcmp (key, "tEXt::Thumb::URI") == 0)
+			    && (value != NULL)) {
+				int ofs = 0;
+				if (strncmp (value, "file://", 7) == 0)
+					ofs = 7;
+				result = g_strdup (value + ofs);
+			}
+                        g_free (key);
+			g_free (value);
+		}
+	}
+	
+	png_destroy_read_struct (&png_ptr, &info_ptr, NULL);
+	
+	fclose (f);
+	
+	return result;
+}
+
+                                                                                
+/**/
 
 
 static void
@@ -401,11 +310,11 @@ path_list_done_cb (PathListData *pld,
 {
 	NautilusCacheRemoveData *ncrd = data;
 	GList *scan;
-	gchar *rc_file, *real_file;
-	gchar *sub_dir;
+	char  *rc_file, *real_file;
+	char  *sub_dir;
 
 	if (pld->result != GNOME_VFS_ERROR_EOF) {
-		gchar *path;
+		char *path;
 
 		path = gnome_vfs_uri_to_string (pld->uri,
 						GNOME_VFS_URI_HIDE_NONE);
@@ -418,7 +327,7 @@ path_list_done_cb (PathListData *pld,
 
 	for (scan = pld->files; scan; scan = scan->next) {
 		rc_file = (char*) scan->data;
-		real_file = get_real_name_from_nautilus_cache (ncrd, rc_file);
+		real_file = get_real_name_from_nautilus_cache (rc_file);
 
 		if (real_file == NULL)
 			continue;
@@ -446,7 +355,7 @@ path_list_done_cb (PathListData *pld,
 			const GList *scan = ncrd->visited_dirs;
 
 			for (; scan; scan = scan->next) {
-				gchar *dir = scan->data;
+				char *dir = scan->data;
 				rmdir (dir);
 			}
 		}
@@ -496,7 +405,7 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 	ncrd->visited_dirs = NULL;
 
 	ncrd->nautilus_thumb_dir = g_strconcat (g_get_home_dir (),
-						"/.nautilus/thumbnails",
+						"/.thumbnails",
 						NULL);
 	ncrd->nautilus_thumb_dir_l = strlen (ncrd->nautilus_thumb_dir);
 

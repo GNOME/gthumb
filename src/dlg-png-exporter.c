@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -35,8 +35,7 @@
 #include "dlg-file-utils.h"
 #include "file-utils.h"
 #include "gtk-utils.h"
-#include "image-list.h"
-#include "image-list-utils.h"
+#include "gth-file-view.h"
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "gconf-utils.h"
@@ -288,15 +287,15 @@ export (GtkWidget  *widget,
 
 	caption = 0;
 	if (eel_gconf_get_boolean (PREF_EXP_SHOW_COMMENT))
-		caption |= CAPTION_COMMENT;
+		caption |= GTH_CAPTION_COMMENT;
 	if (eel_gconf_get_boolean (PREF_EXP_SHOW_PATH))
-		caption |= CAPTION_FILE_PATH;
+		caption |= GTH_CAPTION_FILE_PATH;
 	if (eel_gconf_get_boolean (PREF_EXP_SHOW_NAME))
-		caption |= CAPTION_FILE_NAME;
+		caption |= GTH_CAPTION_FILE_NAME;
 	if (eel_gconf_get_boolean (PREF_EXP_SHOW_SIZE))
-		caption |= CAPTION_FILE_SIZE;
+		caption |= GTH_CAPTION_FILE_SIZE;
 	if (eel_gconf_get_boolean (PREF_EXP_SHOW_IMAGE_DIM))
-		caption |= CAPTION_IMAGE_DIM;
+		caption |= GTH_CAPTION_IMAGE_DIM;
 
 	catalog_png_exporter_set_caption (exporter, caption);
 	catalog_png_exporter_set_frame_style (exporter, pref_get_exporter_frame_style ());
@@ -370,20 +369,18 @@ popup_pref_dialog (GtkWidget  *widget,
 void
 dlg_exporter (GThumbWindow *window)
 {
-	DialogData *data;
-	GtkWidget  *btn_cancel;
-	GtkWidget  *btn_pref;
-	ImageList  *ilist;
-	GList      *list;
-	char       *template;
-	char       *s;
+	DialogData   *data;
+	GtkWidget    *btn_cancel;
+	GtkWidget    *btn_pref;
+	GList        *list;
+	char         *template;
+	char         *s;
 
 	data = g_new (DialogData, 1);
 
 	data->window = window;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		g_free (data);
@@ -646,47 +643,47 @@ get_size_from_idx (gint idx)
 
 /* get the option menu index from the frame style. */
 static gint
-get_idx_from_style (FrameStyle style)
+get_idx_from_style (GthFrameStyle style)
 {
 	switch (style) {
-	case FRAME_STYLE_NONE: return 0;
-	case FRAME_STYLE_SIMPLE: return 0;
-	case FRAME_STYLE_SIMPLE_WITH_SHADOW: return 1;
-	case FRAME_STYLE_SHADOW: return 2;
-	case FRAME_STYLE_SLIDE: return 3;
-	case FRAME_STYLE_SHADOW_IN: return 4;
-	case FRAME_STYLE_SHADOW_OUT: return 5;
+	case GTH_FRAME_STYLE_NONE: return 0;
+	case GTH_FRAME_STYLE_SIMPLE: return 0;
+	case GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW: return 1;
+	case GTH_FRAME_STYLE_SHADOW: return 2;
+	case GTH_FRAME_STYLE_SLIDE: return 3;
+	case GTH_FRAME_STYLE_SHADOW_IN: return 4;
+	case GTH_FRAME_STYLE_SHADOW_OUT: return 5;
 	}
 
 	return -1;
 }
 
 
-static FrameStyle
+static GthFrameStyle
 get_style_from_idx (gint idx)
 {
 	switch (idx) {
-	case 0: return FRAME_STYLE_SIMPLE;
-	case 1: return FRAME_STYLE_SIMPLE_WITH_SHADOW;
-	case 2: return FRAME_STYLE_SHADOW;
-	case 3: return FRAME_STYLE_SLIDE;
-	case 4: return FRAME_STYLE_SHADOW_IN;
-	case 5: return FRAME_STYLE_SHADOW_OUT;
+	case 0: return GTH_FRAME_STYLE_SIMPLE;
+	case 1: return GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW;
+	case 2: return GTH_FRAME_STYLE_SHADOW;
+	case 3: return GTH_FRAME_STYLE_SLIDE;
+	case 4: return GTH_FRAME_STYLE_SHADOW_IN;
+	case 5: return GTH_FRAME_STYLE_SHADOW_OUT;
 	}
 
-	return FRAME_STYLE_NONE;
+	return GTH_FRAME_STYLE_NONE;
 }
 
 
 /* get the option menu index from the sort method. */
 static gint
-get_idx_from_sort_method (SortMethod style)
+get_idx_from_sort_method (GthSortMethod style)
 {
 	switch (style) {
-	case SORT_BY_NAME: return 0;
-	case SORT_BY_PATH: return 1;
-	case SORT_BY_SIZE: return 2;
-	case SORT_BY_TIME: return 3;
+	case GTH_SORT_METHOD_BY_NAME: return 0;
+	case GTH_SORT_METHOD_BY_PATH: return 1;
+	case GTH_SORT_METHOD_BY_SIZE: return 2;
+	case GTH_SORT_METHOD_BY_TIME: return 3;
 	default: return -1;
 	}
 
@@ -694,17 +691,17 @@ get_idx_from_sort_method (SortMethod style)
 }
 
 
-static SortMethod
+static GthSortMethod
 get_sort_method_from_idx (gint idx)
 {
 	switch (idx) {
-	case 0: return SORT_BY_NAME;
-	case 1: return SORT_BY_PATH;
-	case 2: return SORT_BY_SIZE;
-	case 3: return SORT_BY_TIME;
+	case 0: return GTH_SORT_METHOD_BY_NAME;
+	case 1: return GTH_SORT_METHOD_BY_PATH;
+	case 2: return GTH_SORT_METHOD_BY_SIZE;
+	case 3: return GTH_SORT_METHOD_BY_TIME;
 	}
 
-	return SORT_NONE;
+	return GTH_SORT_METHOD_NONE;
 }
 
 
@@ -856,7 +853,7 @@ update_thumb_preview (PrefDialogData *data,
 		      gboolean        recalc)
 {
 	GtkWidget            *drawable = data->prop_thumb_preview;
-	FrameStyle            frame_style;
+	GthFrameStyle         frame_style;
 	GdkColor              frame_color;
 	GdkColor              bg_color;
 	GdkColor              text_color;
@@ -895,7 +892,7 @@ update_thumb_preview (PrefDialogData *data,
 
 	frame_style = get_style_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->frame_style_optionmenu)));
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton)))
-		frame_style = FRAME_STYLE_NONE;
+		frame_style = GTH_FRAME_STYLE_NONE;
 
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), &frame_color.red, &frame_color.green, &frame_color.blue, NULL);
 	
@@ -934,10 +931,10 @@ update_thumb_preview (PrefDialogData *data,
 	image_y = frame_y + (frame_size - image_height) / 2 + 1;
 
 	switch (frame_style) {
-	case FRAME_STYLE_NONE:
+	case GTH_FRAME_STYLE_NONE:
 		break;
 
-	case FRAME_STYLE_SLIDE:
+	case GTH_FRAME_STYLE_SLIDE:
 		gdk_gc_set_rgb_fg_color (gc, &frame_color);
 		gthumb_draw_slide_with_colors (frame_x, frame_y,
 					       frame_size, frame_size,
@@ -950,21 +947,21 @@ update_thumb_preview (PrefDialogData *data,
 					       &white);
 		break;
 
-	case FRAME_STYLE_SIMPLE:
-	case FRAME_STYLE_SIMPLE_WITH_SHADOW:
-	case FRAME_STYLE_SHADOW:
-		if (frame_style == FRAME_STYLE_SHADOW)
+	case GTH_FRAME_STYLE_SIMPLE:
+	case GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW:
+	case GTH_FRAME_STYLE_SHADOW:
+		if (frame_style == GTH_FRAME_STYLE_SHADOW)
 			gthumb_draw_image_shadow (image_x, image_y, 
 						  image_width, image_height,
 						  data->pixmap);
 
-		if (frame_style == FRAME_STYLE_SIMPLE_WITH_SHADOW)
+		if (frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)
 			gthumb_draw_frame_shadow (image_x, image_y, 
 						  image_width, image_height,
 						  data->pixmap);
 		
-		if ((frame_style == FRAME_STYLE_SIMPLE)
-		    || (frame_style == FRAME_STYLE_SIMPLE_WITH_SHADOW)) {
+		if ((frame_style == GTH_FRAME_STYLE_SIMPLE)
+		    || (frame_style == GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW)) {
 			gthumb_draw_frame (image_x, image_y, 
 					   image_width, image_height,
 					   data->pixmap,
@@ -972,7 +969,7 @@ update_thumb_preview (PrefDialogData *data,
 		}
 		break;
 
-	case FRAME_STYLE_SHADOW_IN:
+	case GTH_FRAME_STYLE_SHADOW_IN:
 		gthumb_draw_image_shadow_in (image_x,
 					     image_y, 
 					     image_width, 
@@ -980,7 +977,7 @@ update_thumb_preview (PrefDialogData *data,
 					     data->pixmap);
 		break;
 
-	case FRAME_STYLE_SHADOW_OUT:
+	case GTH_FRAME_STYLE_SHADOW_OUT:
 		gthumb_draw_image_shadow_out (image_x,
 					      image_y, 
 					      image_width, 
@@ -1021,7 +1018,7 @@ update_thumb_preview (PrefDialogData *data,
 			    height);
 
 	gdk_gc_set_rgb_fg_color (gc, &text_color);
-	if (frame_style == FRAME_STYLE_NONE)
+	if (frame_style == GTH_FRAME_STYLE_NONE)
 		gdk_draw_rectangle (data->pixmap,
 				    gc,
 				    FALSE,
@@ -1238,7 +1235,7 @@ ok_cb (GtkWidget *widget,
 	eel_gconf_set_string (PREF_EXP_FRAME_COLOR, pref_util_get_hex_value (red, green, blue));
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton)))
-		pref_set_exporter_frame_style (FRAME_STYLE_NONE);
+		pref_set_exporter_frame_style (GTH_FRAME_STYLE_NONE);
 
 	/* ** Others */
 
@@ -1690,7 +1687,7 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), r, g, b, 65535);
 	g_free (v);
 
-	b = pref_get_exporter_frame_style () != FRAME_STYLE_NONE;
+	b = pref_get_exporter_frame_style () != GTH_FRAME_STYLE_NONE;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton), b);
 	gtk_widget_set_sensitive (data->prop_frame_table, b);
 

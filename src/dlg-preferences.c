@@ -145,7 +145,7 @@ apply_cb (GtkWidget  *widget,
 
 	eel_gconf_set_integer (PREF_SLIDESHOW_DELAY, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->spin_ss_delay)));
 
-	pref_set_slideshow_direction (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward)) ? DIRECTION_FORWARD : DIRECTION_REVERSE);
+	pref_set_slideshow_direction (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward)) ? GTH_DIRECTION_FORWARD : GTH_DIRECTION_REVERSE);
 }
 
 
@@ -330,7 +330,7 @@ zoom_quality_high_cb (GtkToggleButton *button,
 {
 	if (! gtk_toggle_button_get_active (button))
 		return;
-	pref_set_zoom_quality (ZOOM_QUALITY_HIGH);
+	pref_set_zoom_quality (GTH_ZOOM_QUALITY_HIGH);
 }
 
 
@@ -340,7 +340,7 @@ zoom_quality_low_cb (GtkToggleButton *button,
 {
 	if (! gtk_toggle_button_get_active (button))
 		return;
-	pref_set_zoom_quality (ZOOM_QUALITY_LOW);
+	pref_set_zoom_quality (GTH_ZOOM_QUALITY_LOW);
 }
 
 
@@ -372,12 +372,12 @@ static void
 check_size_changed_cb (GtkOptionMenu *option_menu, 
 		       DialogData    *data)
 {
-	CheckSize check_size;
+	GthCheckSize check_size;
 
 	switch (gtk_option_menu_get_history (GTK_OPTION_MENU (data->opt_check_size))) {
-	case 0: check_size = CHECK_SIZE_SMALL; break;
-	case 1: check_size = CHECK_SIZE_MEDIUM; break;
-	case 2: check_size = CHECK_SIZE_LARGE; break;
+	case 0: check_size = GTH_CHECK_SIZE_SMALL; break;
+	case 1: check_size = GTH_CHECK_SIZE_MEDIUM; break;
+	case 2: check_size = GTH_CHECK_SIZE_LARGE; break;
 	}
 
 	pref_set_check_size (check_size);
@@ -517,7 +517,7 @@ dlg_preferences (GThumbWindow *window)
 
 	/* * viewer */
 
-	if (pref_get_zoom_quality () == ZOOM_QUALITY_HIGH)
+	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_zoom_quality_high), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_zoom_quality_low), TRUE);
@@ -527,15 +527,15 @@ dlg_preferences (GThumbWindow *window)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_check_type), pref_get_check_type ());
 
 	switch (pref_get_check_size ()) {
-	case CHECK_SIZE_SMALL:   i = 0; break;
-	case CHECK_SIZE_MEDIUM:  i = 1; break;
-	case CHECK_SIZE_LARGE:   i = 2; break;
+	case GTH_CHECK_SIZE_SMALL:   i = 0; break;
+	case GTH_CHECK_SIZE_MEDIUM:  i = 1; break;
+	case GTH_CHECK_SIZE_LARGE:   i = 2; break;
 	}
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_check_size), i);
 
 	/* * slide show */
 
-	if (pref_get_slideshow_direction () == DIRECTION_FORWARD)
+	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_reverse), TRUE);

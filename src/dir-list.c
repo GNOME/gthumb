@@ -28,7 +28,7 @@
 
 #include "typedefs.h"
 #include "dir-list.h"
-#include "file-list.h"
+#include "gth-file-list.h"
 #include "file-data.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -64,7 +64,7 @@ add_columns (DirList     *dir_list,
 	
 	dir_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
 	
-	if (pref_get_real_click_policy () == CLICK_POLICY_SINGLE) {
+	if (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE) {
 		g_value_init (&value, PANGO_TYPE_UNDERLINE);
 		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
 		g_object_set_property (G_OBJECT (renderer), "underline", &value);
@@ -140,7 +140,7 @@ dir_list_update_underline (DirList *dir_list)
 
 	g_value_init (&value, PANGO_TYPE_UNDERLINE);
 
-	if (pref_get_real_click_policy () == CLICK_POLICY_SINGLE) 
+	if (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE) 
 		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
 	else
 		g_value_set_enum (&value, PANGO_UNDERLINE_NONE);
@@ -185,16 +185,60 @@ dir_list_free (DirList *dir_list)
 
 
 static void
+dir_list_update_view (DirList *dir_list)
+{
+	GdkPixbuf *dir_pixbuf;
+	GdkPixbuf *up_pixbuf;
+	GList     *scan;
+
+	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (dir_list->list_view));
+	up_pixbuf = gtk_widget_render_icon (dir_list->list_view,
+					    GTK_STOCK_GO_UP,
+					    GTK_ICON_SIZE_MENU,
+					    NULL);
+	gtk_list_store_clear (dir_list->list_store);
+
+	for (scan = dir_list->list; scan; scan = scan->next) {
+		char        *name = scan->data;
+		char        *utf8_name;
+		GtkTreeIter  iter;
+		GdkPixbuf   *pixbuf;
+
+		if (strcmp (name, "..") == 0)
+			pixbuf = up_pixbuf;
+		else 
+			pixbuf = dir_pixbuf;
+
+		utf8_name = g_locale_to_utf8 (name, -1, NULL, NULL, NULL);
+		gtk_list_store_append (dir_list->list_store, &iter);
+		gtk_list_store_set (dir_list->list_store, &iter,
+				    DIR_LIST_COLUMN_ICON, pixbuf,
+				    DIR_LIST_COLUMN_NAME, utf8_name,
+				    -1);
+
+		g_free (utf8_name);
+	}
+
+	g_object_unref (dir_pixbuf);
+	g_object_unref (up_pixbuf);
+}
+
+
+void
+dir_list_update_icon_theme (DirList *dir_list)
+{
+	dir_list_update_view (dir_list);
+}
+
+
+static void
 dir_list_refresh_continue (PathListData *pld, 
 			   gpointer data)
 {
-	GList     *scan;
+	DirList   *dir_list;
 	GList     *new_dir_list = NULL;
 	GList     *new_file_list = NULL;
 	GList     *filtered;
-	DirList   *dir_list;
-	GdkPixbuf *dir_pixbuf;
-	GdkPixbuf *up_pixbuf;
 
 	dir_list = data;
 	dir_list->result = pld->result;
@@ -279,36 +323,7 @@ dir_list_refresh_continue (PathListData *pld,
 
 	/* Update the view. */
 
-	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
-	up_pixbuf = gtk_widget_render_icon (dir_list->list_view,
-					    GTK_STOCK_GO_UP,
-					    GTK_ICON_SIZE_MENU,
-					    NULL);
-	gtk_list_store_clear (dir_list->list_store);
-
-	for (scan = dir_list->list; scan; scan = scan->next) {
-		char        *name = scan->data;
-		char        *utf8_name;
-		GtkTreeIter  iter;
-		GdkPixbuf   *pixbuf;
-
-		if (strcmp (name, "..") == 0)
-			pixbuf = up_pixbuf;
-		else 
-			pixbuf = dir_pixbuf;
-
-		utf8_name = g_locale_to_utf8 (name, -1, NULL, NULL, NULL);
-		gtk_list_store_append (dir_list->list_store, &iter);
-		gtk_list_store_set (dir_list->list_store, &iter,
-				    DIR_LIST_COLUMN_ICON, pixbuf,
-				    DIR_LIST_COLUMN_NAME, utf8_name,
-				    -1);
-
-		g_free (utf8_name);
-	}
-
-	g_object_unref (dir_pixbuf);
-	g_object_unref (up_pixbuf);
+	dir_list_update_view (dir_list);
 
 	/* Make past dir visible in the list. */
 

@@ -70,11 +70,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/applications/gthumb.desktop
 %{_datadir}/gnome-2.0/ui/*.xml
 %{_datadir}/gthumb/glade/*.glade
-%{_datadir}/gthumb/icons/*.xpm
-%{_datadir}/gthumb/icons/*.png
+%{_datadir}/gthumb/icons/*
+%{_datadir}/gthumb/albumthemes/*
 %{_datadir}/locale/*/LC_MESSAGES/gthumb.mo
 %{_datadir}/application-registry/gthumb.applications
 %{_libdir}/bonobo/servers/*.server
+%{_libdir}/gthumb/modules/*
 %{_datadir}/pixmaps/gthumb.png
 %{_sysconfdir}/gconf/schemas/*.schemas
 %doc AUTHORS NEWS README COPYING

@@ -42,6 +42,7 @@ extern gboolean          ExitAll;
 
 #define MENU_ICON_SIZE 20.0
 #define LIST_ICON_SIZE 20.0
+#define ICON_GTK_SIZE  GTK_ICON_SIZE_LARGE_TOOLBAR
 
 
 void all_windows_update_file_list              ();
@@ -90,9 +91,13 @@ void all_windows_notify_update_comment         (const gchar *filename);
 
 void all_windows_notify_update_directory       (const gchar *dir_path);
 
+void all_windows_notify_update_icon_theme      ();
+
 void all_windows_remove_monitor                ();
 
 void all_windows_add_monitor                   ();
+
+int        get_default_folder_pixbuf_size      (GtkWidget *widget);
 
 GdkPixbuf *get_folder_pixbuf                   (double icon_size);
 

@@ -202,20 +202,20 @@ viewer_control_init (ViewerControl *control)
 BONOBO_TYPE_FUNC (ViewerControl, BONOBO_TYPE_CONTROL, viewer_control);
 
 
-static TranspType
+static GthTranspType
 get_transp_type_from_arg (guint arg_id)
 {
-	TranspType transp_type = TRANSP_TYPE_CHECKED;
+	GthTranspType transp_type = GTH_TRANSP_TYPE_CHECKED;
 
 	switch (arg_id) {
 	case ARG_TRANSP_TYPE_WHITE:
-		transp_type = TRANSP_TYPE_WHITE; break;
+		transp_type = GTH_TRANSP_TYPE_WHITE; break;
 	case ARG_TRANSP_TYPE_NONE:
-		transp_type = TRANSP_TYPE_NONE; break;
+		transp_type = GTH_TRANSP_TYPE_NONE; break;
 	case ARG_TRANSP_TYPE_BLACK:
-		transp_type = TRANSP_TYPE_BLACK; break;
+		transp_type = GTH_TRANSP_TYPE_BLACK; break;
 	case ARG_TRANSP_TYPE_CHECKED:
-		transp_type = TRANSP_TYPE_CHECKED; break;
+		transp_type = GTH_TRANSP_TYPE_CHECKED; break;
 	default: break;
 	}
 
@@ -223,18 +223,18 @@ get_transp_type_from_arg (guint arg_id)
 }
 
 
-static CheckType
+static GthCheckType
 get_check_type_from_arg (guint arg_id)
 {
-	CheckType check_type = CHECK_TYPE_MIDTONE;
+	GthCheckType check_type = GTH_CHECK_TYPE_MIDTONE;
 
 	switch (arg_id) {
 	case ARG_CHECK_TYPE_LIGHT:
-		check_type = CHECK_TYPE_LIGHT; break;
+		check_type = GTH_CHECK_TYPE_LIGHT; break;
 	case ARG_CHECK_TYPE_MIDTONE:
-		check_type = CHECK_TYPE_MIDTONE; break;
+		check_type = GTH_CHECK_TYPE_MIDTONE; break;
 	case ARG_CHECK_TYPE_DARK:
-		check_type = CHECK_TYPE_DARK; break;
+		check_type = GTH_CHECK_TYPE_DARK; break;
 	default: break;
 	}
 
@@ -242,18 +242,18 @@ get_check_type_from_arg (guint arg_id)
 }
 
 
-static CheckSize
+static GthCheckSize
 get_check_size_from_arg (guint arg_id)
 {
-	CheckSize check_size = CHECK_SIZE_MEDIUM;
+	GthCheckSize check_size = GTH_CHECK_SIZE_MEDIUM;
 
 	switch (arg_id) {
 	case ARG_CHECK_SIZE_SMALL:
-		check_size = CHECK_SIZE_SMALL; break;
+		check_size = GTH_CHECK_SIZE_SMALL; break;
 	case ARG_CHECK_SIZE_MEDIUM:
-		check_size = CHECK_SIZE_MEDIUM; break;
+		check_size = GTH_CHECK_SIZE_MEDIUM; break;
 	case ARG_CHECK_SIZE_LARGE:
-		check_size = CHECK_SIZE_LARGE; break;
+		check_size = GTH_CHECK_SIZE_LARGE; break;
 	default: break;
 	}
 
@@ -270,9 +270,9 @@ get_prop (BonoboPropertyBag *bag,
 {
 	ViewerControl *control = VIEWER_CONTROL (data);
 	ImageViewer   *viewer = control->priv->viewer;
-	TranspType     transp_type;
-	CheckType      check_type;
-	CheckSize      check_size;
+	GthTranspType  transp_type;
+	GthCheckType   check_type;
+	GthCheckSize   check_size;
 	int            int_val;
 	gboolean       bool_val;
 	double         double_val;
@@ -316,19 +316,19 @@ get_prop (BonoboPropertyBag *bag,
 		break;
 	case ARG_ZOOM_QUALITY_HIGH:
 		int_val = image_viewer_get_zoom_quality (viewer);
-		BONOBO_ARG_SET_BOOLEAN (arg, int_val == ZOOM_QUALITY_HIGH);
+		BONOBO_ARG_SET_BOOLEAN (arg, int_val == GTH_ZOOM_QUALITY_HIGH);
 		break;
 	case ARG_ZOOM_CHANGE_ACTUAL_SIZE:
 		int_val = image_viewer_get_zoom_change (viewer);
-		BONOBO_ARG_SET_BOOLEAN (arg, int_val == ZOOM_CHANGE_ACTUAL_SIZE);
+		BONOBO_ARG_SET_BOOLEAN (arg, int_val == GTH_ZOOM_CHANGE_ACTUAL_SIZE);
 		break;
 	case ARG_ZOOM_CHANGE_FIT:
 		int_val = image_viewer_get_zoom_change (viewer);
-		BONOBO_ARG_SET_BOOLEAN (arg, int_val == ZOOM_CHANGE_FIT);
+		BONOBO_ARG_SET_BOOLEAN (arg, int_val == GTH_ZOOM_CHANGE_FIT);
 		break;
 	case ARG_ZOOM_CHANGE_KEEP_PREV:
 		int_val = image_viewer_get_zoom_change (viewer);
-		BONOBO_ARG_SET_BOOLEAN (arg, int_val == ZOOM_CHANGE_KEEP_PREV);
+		BONOBO_ARG_SET_BOOLEAN (arg, int_val == GTH_ZOOM_CHANGE_KEEP_PREV);
 		break;
 	case ARG_ZOOM_FIT:
 		bool_val = image_viewer_is_zoom_to_fit (viewer);
@@ -386,9 +386,9 @@ set_prop (BonoboPropertyBag *bag,
 	ImageViewer   *viewer = control->priv->viewer;
 	gboolean       bool_val;
 	double         double_val;
-	TranspType     transp_type;
-	CheckType      check_type;
-	CheckSize      check_size;
+	GthTranspType  transp_type;
+	GthCheckType   check_type;
+	GthCheckSize   check_size;
 
         switch (arg_id) {
         case ARG_IS_VOID:
@@ -409,17 +409,17 @@ set_prop (BonoboPropertyBag *bag,
 		break;
 	case ARG_ZOOM_QUALITY_HIGH:
 		bool_val = BONOBO_ARG_GET_BOOLEAN (arg);
-		image_viewer_set_zoom_quality (viewer, bool_val ? ZOOM_QUALITY_HIGH : ZOOM_QUALITY_LOW);
+		image_viewer_set_zoom_quality (viewer, bool_val ? GTH_ZOOM_QUALITY_HIGH : GTH_ZOOM_QUALITY_LOW);
 		image_viewer_update_view (viewer);
 		break;
 	case ARG_ZOOM_CHANGE_ACTUAL_SIZE:
-		image_viewer_set_zoom_change (viewer, ZOOM_CHANGE_ACTUAL_SIZE);
+		image_viewer_set_zoom_change (viewer, GTH_ZOOM_CHANGE_ACTUAL_SIZE);
 		break;
 	case ARG_ZOOM_CHANGE_FIT:
-		image_viewer_set_zoom_change (viewer, ZOOM_CHANGE_FIT);
+		image_viewer_set_zoom_change (viewer, GTH_ZOOM_CHANGE_FIT);
 		break;
 	case ARG_ZOOM_CHANGE_KEEP_PREV:
-		image_viewer_set_zoom_change (viewer, ZOOM_CHANGE_KEEP_PREV);
+		image_viewer_set_zoom_change (viewer, GTH_ZOOM_CHANGE_KEEP_PREV);
 		break;
 	case ARG_ZOOM_FIT:
 		bool_val = BONOBO_ARG_GET_BOOLEAN (arg);

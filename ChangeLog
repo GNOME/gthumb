@@ -1,3 +1,99 @@
+2003-02-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* many files: added ability to change image list view.
+
+2003-02-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/file-utils.c (resolve_all_symlinks): unref uri
+
+2003-02-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* data/albumthemes/*: added some web album themes.
+
+	* src/albumtheme.y: 
+	* src/albumtheme.l: 
+	* src/albumtheme-private.c: 
+	* src/albumtheme-private.h: 
+	* src/catalog-web-exporter.c: 
+	* src/catalog-web-exporter.h: 
+	* src/dlg-web-exporter.c: 
+	* src/gthumb-window.c: implement a web album exporter.
+	
+2003-02-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (file_progress_update_cb) 
+	(file_delete_progress_update_cb, folder_progress_update_cb) 
+	(real_files_delete__continue2): return FALSE on error, do not
+	display the error dialog when the operation is interrupted.
+
+	* src/dlg-convert.c (loader_done): use GTK_STOCK_NO instead of 
+	GTK_STOCK_CANCEL.
+
+2003-02-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dir-list.c (dir_list_update_icon_theme): 
+	* src/gthumb-window.c (window_notify_update_icon_theme): 
+	* src/main.c: 
+	(theme_changed_cb, initialize_data, release_data): update the icon
+	theme on the fly.
+
+2003-02-03  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-file-list.c (gth_file_list_prev_image) 
+	(gth_file_list_next_image): 
+	* src/gthumb-window.c (window_show_next_image) 
+	(window_show_prev_image): slideshow include only selected images
+	when more than one image is selected (bug #99093).
+
+	* src/gthumb.schemas: 
+	* src/gthumb-window.c (window_new, pref_black_background_changed) 
+	* src/fullscreen.c (fullscreen_stop, fullscreen_start): added a
+	black_background option to always use a black background for the
+	image viewer.
+
+2003-02-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c (gth_image_list_realize): use italic
+	style for comments.
+
+	* libgthumb/catalog-png-exporter.[ch]: moved to src/
+	
+	* libgthumb/gthumb-module.c: 
+	* libgthumb/gthumb-module.h: 
+	* src/Makefile.am: 
+	* src/commands-impl.c: compile some tools as dynamic modules, and
+	load them only when needed.
+
+2003-01-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c (paint_item): do not paint the item
+	if the position is not computed yet.
+
+	* libgthumb/print-callbacks.c (print_image_dlg): ported to
+	libgnomeprint 2.2
+	
+2003-01-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c: 
+	* libgthumb/gth-image-list.h: new super fast widget.
+
+	* src/auto-completion.c (auto_compl_show_alternatives): 
+	* src/bookmark-list.c (bookmark_list_set): 
+	* src/main.c (get_default_folder_pixbuf_size): 
+	* src/dir-list.c (dir_list_refresh_continue): 
+	* src/main.h: do not hardcode the icon size, use the theme setting
+	instead.
+
+	* src/main.c (get_folder_pixbuf, get_folder_icon_path): use a
+	gnome_icon_theme object to get the folder icon.
+
+	* src/dlg-file-utils.c (folder_copy): 
+	* src/commands-impl.c (folder_rename, folder_copy__response_cb): cannot
+        update the thumbnail cache any more.
+
+	* libgthumb/thumb-cache.h:
+	* libgthumb/thumb-cache.c: use the new thumbnail system.
+
 2003-02-21  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
 	* configure.in: Added Catalan (ca) to ALL_LINGUAS

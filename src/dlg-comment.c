@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,8 +41,7 @@
 #include "main.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
-#include "image-list.h"
-#include "image-list-utils.h"
+#include "gth-file-view.h"
 #include "comments.h"
 
 
@@ -355,7 +354,6 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 {
 	GThumbWindow      *window = wdata;
 	DialogData        *data;
-	ImageList         *ilist;
 	GtkWidget         *btn_ok;
 	GtkWidget         *btn_cancel;
 	GtkWidget         *btn_help;
@@ -378,8 +376,7 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
                 return;
         }
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-	data->file_list = ilist_utils_get_file_list_selection (ilist);
+	data->file_list = gth_file_view_get_file_list_selection (window->file_list->view);
 	if (data->file_list == NULL) {
 		g_free (data);
 		return;

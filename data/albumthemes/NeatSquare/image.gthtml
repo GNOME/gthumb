@@ -1,0 +1,225 @@
+<html>
+<head>
+    <title><gthumb:file_name/></title>
+    <style type="text/css">
+        a:link { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: #969696       
+	}
+	a:visited { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: #969696
+	}
+        a:hover { 
+		font-weight: bold; 
+		text-decoration: none; 
+		color: gold 
+	}
+    </style>
+</head>
+<body bgcolor="#ffffff">
+	<!-- Navigation Bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+            <gthumb:if images == 1 />
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+            <gthumb:end/>
+            <gthumb:if images > 1 />
+	      <td align="left" width="1%">
+                <gthumb:if image_idx == 1 />
+		  <img src="background.gif" width="40" height="30" border="0"></td>
+	        <gthumb:end/>
+                <gthumb:if image_idx > 1 />
+		  <a href="<gthumb:image_link idx_relative=-1/>">
+		    <img src="prev.png" align="center" width="40" height="30" border="0"></a> </td>
+	        <gthumb:end/>
+	      <td valign="center" align="center" width="15%" bgcolor="#969696">
+		<font style=bold color="white">
+		<b><gthumb:image_idx/> / <gthumb:images/></b>
+		</font>
+	      </td>
+	      <td align="left" width="1%">
+                <gthumb:if image_idx == images />
+		  <img src="background.gif" width="40" height="30" border="0">
+	        <gthumb:end/>
+                <gthumb:if image_idx < images />
+		  <a href="<gthumb:image_link idx_relative=+1/>">
+		    <img src="next.png" align="center" width="40" height="30" border="0"> </a>
+	        <gthumb:end/>
+	      </td>
+            <gthumb:end/>
+	    <td align="right" width="83%">
+	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+		<img src="back.png" width="30" height="30" border="0"></a>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan=4 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td>
+	  </tr>
+	</table>
+
+	&nbsp;<BR>
+
+        <table width="100%" border="0" align="center">
+          <tr align="left">
+
+            <gthumb:if image_idx == 1 />
+	      <td>
+		<img src="background.gif" width="100" height="100" border="0"></td>
+	    <gthumb:end/>
+
+            <gthumb:if image_idx > 1 />	
+	      <td>
+	        <a href="<gthumb:image_link idx_relative="-1"/>">
+	          <gthumb:image thumbnail max_size=100 idx_relative="-1" border="2"/></a>
+	      </td>
+	    <gthumb:end/>
+
+            <td align="center" colspan="2">
+              <a href="<gthumb:file_name with_relative_path/>"><gthumb:image max_size=400 border=2/></a><BR>
+            </td>
+
+            <gthumb:if image_idx == images />
+	      <td>
+		<img src="background.gif" width="100" height="100" border="0">
+	      </td>
+	    <gthumb:end/>
+
+            <gthumb:if image_idx < images />	
+    	      <td align="right">
+	        <a href="<gthumb:image_link idx_relative="+1"/>">
+		  <gthumb:image thumbnail max_size=100 idx_relative="+1" border="2"/></a>
+	      </td>
+	    <gthumb:end/>
+
+          </tr>
+          <tr align="left">
+	    <td>&nbsp;</td>
+            <td align="right" colspan="2">
+              <font color="#969696">(click on the image to view it at original size)</font>
+	    </td>
+	    <td>&nbsp;</td>
+	  </tr>
+          <tr>
+            <td colspan="4">
+              &nbsp;
+	    </td>
+          </tr>
+          <tr align="left">
+	    <td>&nbsp;</td>
+            <td colspan="2">
+	      <font color="black">
+		 <gthumb:comment/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              &nbsp;
+	    </td>
+          </tr>
+          <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><b>Image:</b></font>
+	    </td>
+	    <td width="100%">
+      	      <font color="black">
+		 <gthumb:file_name/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+          </tr>
+          <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><b>Dimensions:</b></font>
+	    </td>
+	    <td width="100%">
+	      <font color="black">
+		 <gthumb:image_dim/> pixels
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+          </tr>
+          <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><b>Bytes:</b></font>
+	    </td>
+	    <td width="100%">
+	      <font color="black">
+		 <gthumb:file_size/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+          </tr>
+        </table>
+
+	&nbsp;<BR>
+
+	<!-- Navigation Bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td colspan=4 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td>
+	  </tr>
+	  <tr>
+            <gthumb:if images == 1 />
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+	      <td align="left" width="1%">
+		&nbsp;
+	      </td>
+            <gthumb:end/>
+            <gthumb:if images > 1 />
+	      <td align="left" width="1%">
+                <gthumb:if image_idx == 1 />
+		  <img src="background.gif" width="40" height="30" border="0">
+	        <gthumb:end/>
+                <gthumb:if image_idx > 1 />
+		  <a href="<gthumb:image_link idx_relative=-1/>">
+		    <img src="prev.png" align="center" width="40" height="30" border="0"></a>
+	        <gthumb:end/>
+	      </td>
+	      <td valign="center" align="center" width="15%" bgcolor="#969696">
+		<font style=bold color="white">
+		<b><gthumb:image_idx/> / <gthumb:images/></b>
+		</font>
+	      </td>
+	      <td align="left" width="1%">
+                <gthumb:if image_idx == images />
+		  <img src="background.gif" width="40" height="30" border="0">
+	        <gthumb:end/>
+                <gthumb:if image_idx < images />
+		  <a href="<gthumb:image_link idx_relative=+1/>">
+		    <img src="next.png" align="center" width="40" height="30" border="0"> </a>
+	        <gthumb:end/>
+	      </td>
+            <gthumb:end/>
+	    <td align="right" width="83%">
+	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+		<img src="back.png" width="30" height="30" border="0"></a>
+	    </td>
+	  </tr>
+	</table>
+</body>
+</html>

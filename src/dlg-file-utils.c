@@ -68,17 +68,13 @@ typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
 
 
 gboolean
-dlg_check_folder (GThumbWindow   *window,
-		  const char     *path)
+dlg_check_folder (GThumbWindow *window,
+		  const char   *path)
 {
-	GtkWindow *parent = NULL;
 	GtkWidget *d;
 	char      *dir;
 	int        result;
 
-	if (window != NULL)
-		parent = GTK_WINDOW (window->app);
-		
 	dir = remove_ending_separator (path);
 
 	if (path_is_dir (dir)) {
@@ -86,7 +82,7 @@ dlg_check_folder (GThumbWindow   *window,
 		return TRUE;
 	}
 
-	d = _gtk_yesno_dialog_new (parent,
+	d = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
 				   GTK_DIALOG_MODAL,
 				   _("The destination folder does not exist. " "Do you want to create it?"),
 				   GTK_STOCK_CANCEL,
@@ -103,7 +99,7 @@ dlg_check_folder (GThumbWindow   *window,
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
 		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (parent,
+		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
 				       errno_to_string ());
@@ -117,7 +113,7 @@ dlg_check_folder (GThumbWindow   *window,
 	if (access (dir, R_OK | W_OK | X_OK) != 0) {
 		char *utf8_path;
 		utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (parent,
+		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
 		g_free (utf8_path);
@@ -197,7 +193,7 @@ real_files_delete__continue2 (GnomeVFSResult result,
 {
 	ConfirmFileDeleteData *cfddata = data;
 
-	if (result != GNOME_VFS_OK) 
+	if ((result != GNOME_VFS_OK) && (result != GNOME_VFS_ERROR_INTERRUPTED))
 		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window->app),
 				       "%s %s",
 				       _("Could not delete the images:"), 
@@ -258,7 +254,7 @@ real_files_delete (GThumbWindow *window,
 
 
 gboolean 
-dlg_file_delete__confirm (GThumbWindow *window, 
+dlg_file_delete__confirm (GThumbWindow *window,
 			  GList        *list,
 			  const char   *message)
 {
@@ -354,7 +350,7 @@ file_move_response_cb (GtkWidget *w,
 
 
 void 
-dlg_file_move__ask_dest (GThumbWindow *window, 
+dlg_file_move__ask_dest (GThumbWindow *window,
 			 GList        *list)
 {
 	GtkWidget   *file_sel;
@@ -1048,6 +1044,7 @@ typedef struct {
 	GnomeVFSResult       result;
 	OverwriteResult      overwrite_result;
 	gboolean             cache_copied;
+	gboolean             copying_cache;
 
 	int                  file_index;
 	int                  files_total;
@@ -1201,10 +1198,11 @@ file_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fcdata->result = info->vfs_status;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COMPLETED) {
 		if (fcdata->result == GNOME_VFS_OK) {
-			if (! fcdata->cache_copied) { /* do not notify cache data. */
+			if (! fcdata->copying_cache) { /* do not notify cache data. */
 				char *src_file;
 				char *dest_file;
 
@@ -1416,7 +1414,7 @@ copy_next_file (FileCopyData *fcdata)
 		copy_current_file (fcdata);
 		return;
 	}
-	
+
 	if (! fcdata->copy_cache || fcdata->cache_copied) {
 		files_copy__done (fcdata);
 		return;
@@ -1424,6 +1422,7 @@ copy_next_file (FileCopyData *fcdata)
 
 	/* copy cache */
 
+	fcdata->copying_cache = TRUE;
 	fcdata->cache_copied = TRUE;
 
 	for (scan = fcdata->file_list; scan; scan = scan->next) {
@@ -1443,11 +1442,13 @@ copy_next_file (FileCopyData *fcdata)
 
 		src_cache_dir = remove_level_from_path (src_cache_file);
 
-		if (path_is_dir (src_cache_dir)) {
-			char *parent_dir = remove_level_from_path (dest_cache_file);
+		if (path_is_file (src_cache_file)) {
+			char *parent_dir;
+
+			parent_dir = remove_level_from_path (dest_cache_file);
 			ensure_dir_exists (parent_dir, 0755);
 			g_free (parent_dir);
-			
+
 			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
@@ -1457,17 +1458,17 @@ copy_next_file (FileCopyData *fcdata)
 		g_free (dest_cache_file);
 
 		/**/
-		
+
 		src_cache_file = cache_get_nautilus_cache_name (src_file);
 		dest_cache_file = cache_get_nautilus_cache_name (dest_file);
 
 		src_cache_dir = remove_level_from_path (src_cache_file);
 		
-		if (path_is_dir (src_cache_dir)) {
+		if (path_is_file (src_cache_file)) {
 			char *parent_dir = remove_level_from_path (dest_cache_file);
 			ensure_dir_exists (parent_dir, 0755);
 			g_free (parent_dir);
-			
+
 			src_list = g_list_append (src_list, new_uri_from_path (src_cache_file));
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache_file));
 		}
@@ -1485,7 +1486,7 @@ copy_next_file (FileCopyData *fcdata)
 	}
 
 	xfer_options    = fcdata->remove_source ? GNOME_VFS_XFER_REMOVESOURCE : 0;
-	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
 	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
 
 	result = gnome_vfs_async_xfer (&fcdata->handle,
@@ -1530,13 +1531,15 @@ dlg_files_copy (GThumbWindow   *window,
 	if (file_list == NULL)
 		return;
 
+	g_return_if_fail (window != NULL);
+
 	fcdata = g_new0 (FileCopyData, 1);
 
 	fcdata->window = window;
 	fcdata->file_list = path_list_dup (file_list);
 	fcdata->copied_list = NULL;
 	fcdata->created_list = NULL;
-	fcdata->current_file = file_list;
+	fcdata->current_file = fcdata->file_list;
 	fcdata->destination = g_strdup (dest_path);
 	fcdata->remove_source = remove_source;
 	fcdata->copy_cache = copy_cache;
@@ -1548,6 +1551,7 @@ dlg_files_copy (GThumbWindow   *window,
 	else
 		fcdata->overwrite_result = OVERWRITE_RESULT_NO;
 	fcdata->cache_copied = FALSE;
+	fcdata->copying_cache = FALSE;
 
 	fcdata->file_index = 1;
 	fcdata->files_total = g_list_length (file_list);
@@ -1566,7 +1570,7 @@ dlg_files_copy (GThumbWindow   *window,
 	fcdata->progress_dialog = glade_xml_get_widget (fcdata->gui, "progress_dialog");
 	fcdata->progress_progressbar = glade_xml_get_widget (fcdata->gui, "progress_progressbar");
 	fcdata->progress_info = glade_xml_get_widget (fcdata->gui, "progress_info");
-	
+
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
 				      GTK_WINDOW (fcdata->window->app));
 	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
@@ -1703,6 +1707,7 @@ file_delete_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fddata->result = info->vfs_status;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_COLLECTING) {
 		message = g_strdup (_("Collecting images info"));
@@ -1885,7 +1890,7 @@ folder_progress_update_cb (GnomeVFSAsyncHandle      *handle,
 
 	if (info->status != GNOME_VFS_XFER_PROGRESS_STATUS_OK) {
 		fcdata->result = info->vfs_status;
-		return TRUE;
+		return FALSE;
 
 	} else if (info->phase == GNOME_VFS_XFER_PHASE_INITIAL) {
 		/**/
@@ -2067,27 +2072,6 @@ folder_copy (GThumbWindow   *window,
 							   new_uri_from_path (dest_cache));
 		}
 
-		g_free (src_cache);
-		g_free (dest_cache);
-
-		/**/
-		
-		src_cache = cache_get_nautilus_cache_dir (src_path);
-		dest_cache = cache_get_nautilus_cache_dir (dest_path);
-		
-		if (path_is_dir (src_cache)) {
-			char *parent_dir = remove_level_from_path (dest_cache);
-			ensure_dir_exists (parent_dir, 0755);
-			g_free (parent_dir);
-			
-			src_list = g_list_append (src_list, 
-						  new_uri_from_path (src_cache));
-			
-			if (fcdata->file_op != FILE_OP_DELETE)
-				dest_list = g_list_append (dest_list, 
-							   new_uri_from_path (dest_cache));
-		}
-		
 		g_free (src_cache);
 		g_free (dest_cache);
 	}

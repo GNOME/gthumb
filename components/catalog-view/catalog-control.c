@@ -28,8 +28,8 @@
 #include <libbonobo.h>
 #include <libbonoboui.h>
 
-#include "image-list.h"
-#include "file-list.h"
+#include "gth-image-list.h"
+#include "gth-file-list.h"
 #include "gthumb-init.h"
 #include "catalog-control.h"
 #include "catalog-nautilus-view.h"
@@ -216,10 +216,9 @@ file_button_press_cb (GtkWidget      *widget,
 		return FALSE;
 
 	if (event->button == 1) {
-		ImageList *ilist = IMAGE_LIST (control->file_list->ilist);
-		int        pos;
+		int pos;
 
-		pos = image_list_get_image_at (ilist, event->x, event->y);
+		pos = gth_file_view_get_image_at (control->file_list->view, event->x, event->y);
 		if (pos == -1)
 			return FALSE;
 
@@ -251,6 +250,8 @@ static void
 construct_control (CatalogControl *control,
 		   GthFileList    *file_list)
 {
+	GtkWidget *view_widget;
+
 	g_return_if_fail (control != NULL);
 	g_return_if_fail (file_list != NULL);
 
@@ -267,17 +268,18 @@ construct_control (CatalogControl *control,
 
 	/* add signal handlers */
 
-	g_signal_connect (G_OBJECT (file_list->ilist), 
+	view_widget = gth_file_view_get_widget (file_list->view);
+	g_signal_connect (G_OBJECT (view_widget), 
 			  "select_image",
 			  G_CALLBACK (file_selection_changed_cb), 
 			  control);
 
-	g_signal_connect (G_OBJECT (file_list->ilist), 
+	g_signal_connect (G_OBJECT (view_widget), 
 			  "unselect_image",
 			  G_CALLBACK (file_selection_changed_cb), 
 			  control);
 
-	g_signal_connect_after (G_OBJECT (file_list->ilist), 
+	g_signal_connect_after (G_OBJECT (view_widget), 
 				"button_press_event",
 				G_CALLBACK (file_button_press_cb), 
 				control);

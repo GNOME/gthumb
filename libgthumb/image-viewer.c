@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -309,8 +309,8 @@ image_viewer_init (ImageViewer *viewer)
 
 	/* Initialize data. */
 
-	viewer->check_type = CHECK_TYPE_MIDTONE;
-	viewer->check_size = CHECK_SIZE_LARGE;
+	viewer->check_type = GTH_CHECK_TYPE_MIDTONE;
+	viewer->check_size = GTH_CHECK_SIZE_LARGE;
 	viewer->check_color1 = COLOR_GRAY_66;
 	viewer->check_color2 = COLOR_GRAY_99;
 
@@ -337,8 +337,8 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->iter = NULL;
 
 	viewer->zoom_level = 1.0;
-	viewer->zoom_quality = ZOOM_QUALITY_HIGH;
-	viewer->zoom_change = ZOOM_CHANGE_KEEP_PREV;
+	viewer->zoom_quality = GTH_ZOOM_QUALITY_HIGH;
+	viewer->zoom_change = GTH_ZOOM_CHANGE_KEEP_PREV;
 	viewer->zoom_fit = FALSE;
 	viewer->doing_zoom_fit = FALSE;
 
@@ -670,7 +670,7 @@ image_viewer_expose (GtkWidget      *widget,
 					&paint_area)) {
 		int interp_type;
 
-		if (viewer->zoom_quality == ZOOM_QUALITY_LOW)
+		if (viewer->zoom_quality == GTH_ZOOM_QUALITY_LOW)
 			interp_type = GDK_INTERP_NEAREST;
 		else
 			interp_type = GDK_INTERP_BILINEAR;
@@ -966,6 +966,7 @@ image_viewer_button_release  (GtkWidget *widget,
 		g_signal_emit (G_OBJECT (viewer), 
 			       image_viewer_signals[CLICKED],
 			       0);
+
 	}
 
 	viewer->just_focused = FALSE;
@@ -1184,7 +1185,7 @@ image_viewer_realize (GtkWidget *widget)
 	viewer->cursor_void = cursor_get (widget->window, CURSOR_VOID);
 	gdk_window_set_cursor (widget->window, viewer->cursor);
 
-	if (viewer->transp_type == TRANSP_TYPE_NONE) {
+	if (viewer->transp_type == GTH_TRANSP_TYPE_NONE) {
 		GdkColor color;
 		guint    base_color;
 
@@ -1841,21 +1842,21 @@ image_loaded (ImageLoader *il,
 		init_animation (viewer);
 
 	switch (viewer->zoom_change) {
-	case ZOOM_CHANGE_ACTUAL_SIZE:
+	case GTH_ZOOM_CHANGE_ACTUAL_SIZE:
 		image_viewer_set_zoom (viewer, 1.0);
 		add_change_frame_timeout (viewer);
 		break;
 		
-	case ZOOM_CHANGE_FIT:
+	case GTH_ZOOM_CHANGE_FIT:
 		image_viewer_zoom_to_fit (viewer);
 		add_change_frame_timeout (viewer);
 		break;
 		
-	case ZOOM_CHANGE_KEEP_PREV:
+	case GTH_ZOOM_CHANGE_KEEP_PREV:
 		image_viewer_update_view (viewer);
 		break;
 		
-	case ZOOM_CHANGE_FIT_IF_LARGER:
+	case GTH_ZOOM_CHANGE_FIT_IF_LARGER:
 		image_viewer_zoom_to_fit_if_larger (viewer);
 		add_change_frame_timeout (viewer);
 		break;
@@ -1919,15 +1920,15 @@ image_viewer_get_zoom (ImageViewer *viewer)
 
 
 void
-image_viewer_set_zoom_quality (ImageViewer *viewer,
-			       ZoomQuality quality)
+image_viewer_set_zoom_quality (ImageViewer    *viewer,
+			       GthZoomQuality  quality)
 {
 	g_return_if_fail (viewer != NULL);
 	viewer->zoom_quality = quality;
 }
 
 
-ZoomQuality
+GthZoomQuality
 image_viewer_get_zoom_quality (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, -1);
@@ -1936,8 +1937,8 @@ image_viewer_get_zoom_quality (ImageViewer *viewer)
 
 
 void
-image_viewer_set_zoom_change (ImageViewer *viewer,
-			      ZoomChange zoom_change)
+image_viewer_set_zoom_change (ImageViewer   *viewer,
+			      GthZoomChange  zoom_change)
 {
 	g_return_if_fail (viewer != NULL);
 
@@ -1948,7 +1949,7 @@ image_viewer_set_zoom_change (ImageViewer *viewer,
 }
 
 
-ZoomChange
+GthZoomChange
 image_viewer_get_zoom_change (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, -1);
@@ -2082,7 +2083,7 @@ image_viewer_style_set (GtkWidget *widget,
 
 	GTK_WIDGET_CLASS (parent_class)->style_set (widget, previous_style);
 
-	if (viewer->transp_type == TRANSP_TYPE_NONE) {
+	if (viewer->transp_type == GTH_TRANSP_TYPE_NONE) {
 		GdkColor color;
 		guint    base_color;
 
@@ -2099,8 +2100,8 @@ image_viewer_style_set (GtkWidget *widget,
 
 
 void           
-image_viewer_set_transp_type (ImageViewer *viewer, 
-			      TranspType transp_type)
+image_viewer_set_transp_type (ImageViewer   *viewer, 
+			      GthTranspType  transp_type)
 {
 	GdkColor color;
 	guint    base_color;
@@ -2116,34 +2117,34 @@ image_viewer_set_transp_type (ImageViewer *viewer,
 		      | (to_255 (color.blue) << 0));
 
 	switch (transp_type) {
-        case TRANSP_TYPE_BLACK:
+	case GTH_TRANSP_TYPE_BLACK:
 		viewer->check_color1 = COLOR_GRAY_00;
 		viewer->check_color2 = COLOR_GRAY_00;
 		break;
 
-        case TRANSP_TYPE_NONE:
+	case GTH_TRANSP_TYPE_NONE:
 		viewer->check_color1 = base_color;
 		viewer->check_color2 = base_color;
 		break;
 
-        case TRANSP_TYPE_WHITE:
+	case GTH_TRANSP_TYPE_WHITE:
 		viewer->check_color1 = COLOR_GRAY_FF;
 		viewer->check_color2 = COLOR_GRAY_FF;
 		break;
 
-        case TRANSP_TYPE_CHECKED:
+	case GTH_TRANSP_TYPE_CHECKED:
 		switch (viewer->check_type) {
-		case CHECK_TYPE_DARK:
+		case GTH_CHECK_TYPE_DARK:
 			viewer->check_color1 = COLOR_GRAY_00;
 			viewer->check_color2 = COLOR_GRAY_33;
 			break;
 			
-		case CHECK_TYPE_MIDTONE:
+		case GTH_CHECK_TYPE_MIDTONE:
 			viewer->check_color1 = COLOR_GRAY_66;
 			viewer->check_color2 = COLOR_GRAY_99;
 			break;
 			
-		case CHECK_TYPE_LIGHT:
+		case GTH_CHECK_TYPE_LIGHT:
 			viewer->check_color1 = COLOR_GRAY_CC;
 			viewer->check_color2 = COLOR_GRAY_FF;
 			break;
@@ -2153,7 +2154,7 @@ image_viewer_set_transp_type (ImageViewer *viewer,
 }
 
 
-TranspType
+GthTranspType
 image_viewer_get_transp_type (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, FALSE);
@@ -2162,15 +2163,15 @@ image_viewer_get_transp_type (ImageViewer *viewer)
 
 
 void           
-image_viewer_set_check_type (ImageViewer *viewer, 
-			     CheckType check_type)
+image_viewer_set_check_type (ImageViewer  *viewer, 
+			     GthCheckType  check_type)
 {
 	g_return_if_fail (viewer != NULL);
 	viewer->check_type = check_type;
 }
 
 
-CheckType
+GthCheckType
 image_viewer_get_check_type (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, FALSE);
@@ -2179,15 +2180,15 @@ image_viewer_get_check_type (ImageViewer *viewer)
 
 
 void
-image_viewer_set_check_size (ImageViewer *viewer, 
-			     CheckSize check_size)
+image_viewer_set_check_size (ImageViewer  *viewer, 
+			     GthCheckSize  check_size)
 {
 	g_return_if_fail (viewer != NULL);
 	viewer->check_size = check_size;
 }
 
 
-CheckSize
+GthCheckSize
 image_viewer_get_check_size (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, FALSE);

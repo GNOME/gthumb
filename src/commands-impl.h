@@ -125,6 +125,7 @@ DEFINE_VERB(wallpaper_restore_command_impl);
 DEFINE_VERB(tools_slideshow_command_impl);
 DEFINE_VERB(tools_find_images_command_impl);
 DEFINE_VERB(tools_index_image_command_impl);
+DEFINE_VERB(tools_web_exporter_command_impl);
 DEFINE_VERB(tools_maintenance_command_impl);
 DEFINE_VERB(tools_rename_series_command_impl);
 DEFINE_VERB(tools_preferences_command_impl);

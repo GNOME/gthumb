@@ -28,14 +28,14 @@
 #include <glade/glade.h>
 
 #include "image-viewer.h"
-#include "file-list.h"
+#include "gth-file-list.h"
 #include "dir-list.h"
 #include "catalog-list.h"
 #include "bookmarks.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-preloader.h"
 
-#define GCONF_NOTIFICATIONS 14
+#define GCONF_NOTIFICATIONS 16
 
 
 typedef enum {
@@ -121,7 +121,7 @@ typedef struct {
 						 * the image is not from a 
 						 * catalog. */
 
-	guint               freeze_toggle_handler;
+	int                 freeze_toggle_handler;
 	gfloat              dir_load_progress;
 	int                 activity_ref;       /* when > 0 some activity
 						 * is present. */
@@ -150,6 +150,7 @@ typedef struct {
 	guint               slideshow_timeout;  /* slideshow timer. */
 	gboolean            slideshow;          /* whether the slideshow is 
 						 * active. */
+	gboolean            slideshow_only_selected;
 
 	/* monitor stuff */
 
@@ -207,13 +208,17 @@ void            window_go_forward                   (GThumbWindow *window);
 
 void            window_delete_history               (GThumbWindow *window);
 
-gboolean        window_show_next_image              (GThumbWindow *window);
+gboolean        window_show_next_image              (GThumbWindow *window,
+						     gboolean      only_selected);
 
-gboolean        window_show_prev_image              (GThumbWindow *window);
+gboolean        window_show_prev_image              (GThumbWindow *window,
+						     gboolean      only_selected);
 
-gboolean        window_show_first_image             (GThumbWindow *window);
+gboolean        window_show_first_image             (GThumbWindow *window,
+						     gboolean      only_selected);
 
-gboolean        window_show_last_image              (GThumbWindow *window);
+gboolean        window_show_last_image              (GThumbWindow *window,
+						     gboolean      only_selected);
 
 void            window_load_image                   (GThumbWindow *window, 
 						     const gchar *filename);
@@ -281,6 +286,8 @@ void            window_notify_update_directory      (GThumbWindow *window,
 void            window_notify_update_layout         (GThumbWindow *window);
 
 void            window_notify_update_toolbar_style  (GThumbWindow *window);
+
+void            window_notify_update_icon_theme     (GThumbWindow *window);
 
 void            window_update_file_list             (GThumbWindow *window);
 

@@ -5,6 +5,7 @@ SUBDIRS =		\
 	components	\
 	doc		\
 	omf-install	\
+	data		\
 	po
 
 @INTLTOOL_DESKTOP_RULE@

@@ -296,6 +296,11 @@
 	<cmd name="View_Sidebar_Folders"/>
 	<cmd name="View_Sidebar_Catalogs"/>
 
+	<cmd name="View_AsList" 
+	     type="radio" group="view_as"/>
+	<cmd name="View_AsThumbnails" 
+	     type="radio" group="view_as"/>
+
 	<cmd name="View_ImageProp" _label="Proper_ties"
 	     _tip="View image properties"
 	     pixtype="stock" pixname="gthumb-properties"/>
@@ -363,6 +368,7 @@
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
 	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
+	<cmd name="Tools_WebExporter" _label="Create _Web Album" />
 	<cmd name="Tools_RenameSeries" _label="_Rename Series" />
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"
@@ -466,10 +472,6 @@
 		<menuitem name="Go_Stop" verb=""/>
 		<menuitem name="Go_Refresh" verb=""/>
 		<separator/>
-                <menuitem name="Tools_Slideshow" verb=""/>
-		<menuitem name="View_Fullscreen" verb=""
-			  _label="_Full Screen"/>
-		<separator/>
 		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
 			<menuitem name="SortByPath" verb=""/>
@@ -479,6 +481,15 @@
 			<menuitem name="SortReversed" verb=""/>
 		</submenu>
 		<menuitem name="View_Thumbnails" verb=""/>
+		<separator/>
+		<menuitem name="View_AsList" verb=""
+		          _label="View as List"/>
+		<menuitem name="View_AsThumbnails" verb=""
+		          _label="View as Thumbnails"/>
+		<separator/>
+                <menuitem name="Tools_Slideshow" verb=""/>
+		<menuitem name="View_Fullscreen" verb=""
+			  _label="_Full Screen"/>
 		<separator/>
 		<submenu name="ZoomType" _label="_Zoom">
 			<menuitem name="View_ZoomIn" verb="" 
@@ -555,6 +566,7 @@
 		<menuitem name="Tools_ChangeDate" verb=""/>
 		<separator/>
 		<menuitem name="Tools_IndexImage" verb=""/>
+		<menuitem name="Tools_WebExporter" verb=""/>
 		<separator/>
 		<menuitem name="Tools_Maintenance" verb=""/>
 	</submenu>

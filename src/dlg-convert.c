@@ -69,11 +69,11 @@ typedef struct {
 	GList        *file_list;
 	GList        *current_image;
 
-	int           images;
-	int           image;
-	gboolean      remove_original;
-	gboolean      stop_convertion;
-	OverwriteMode overwrite_mode;
+	int              images;
+	int              image;
+	gboolean         remove_original;
+	gboolean         stop_convertion;
+	GthOverwriteMode overwrite_mode;
 
 	ImageLoader  *loader;
 	GdkPixbuf    *pixbuf;
@@ -297,22 +297,22 @@ loader_done (ImageLoader *il,
 		char      *utf8_name;
 
 		switch (data->overwrite_mode) {
-		case OVERWRITE_SKIP:
+		case GTH_OVERWRITE_SKIP:
 			save_image = FALSE;
 			break;
 
-		case OVERWRITE_OVERWRITE:
+		case GTH_OVERWRITE_OVERWRITE:
 			save_image = TRUE;
 			break;
 
-		case OVERWRITE_ASK:
+		case GTH_OVERWRITE_ASK:
 			utf8_name = g_locale_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
 			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),
 						   GTK_DIALOG_MODAL,
 						   message,
-						   GTK_STOCK_CANCEL,
+						   _("Skip"),
 						   _("_Overwrite"));
 
 			g_signal_connect (G_OBJECT (d), "response",
@@ -325,7 +325,7 @@ loader_done (ImageLoader *il,
 			gtk_widget_show (d);
 			return;
 			
-		case OVERWRITE_RENAME:
+		case GTH_OVERWRITE_RENAME:
 			show_rename_dialog (data);
 			return;
 		}

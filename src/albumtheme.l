@@ -1,0 +1,210 @@
+%{
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <glib.h>
+
+%}
+
+number           [0-9]+
+name             [a-zA-Z_]+
+
+%x TAG
+
+%%
+
+"<gthumb:title"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_TITLE;
+					return TITLE;
+				}
+"<gthumb:image"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGE;
+					return IMAGE;
+				}
+"<gthumb:image_link"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGE_LINK;
+					return IMAGE_LINK;
+				}
+"<gthumb:image_idx"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGE_IDX;
+					return IMAGE_IDX;
+				}
+"<gthumb:image_dim"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGE_DIM;
+					return IMAGE_DIM;
+				}
+"<gthumb:images"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_IMAGES;
+					return IMAGES;
+				}
+"<gthumb:file_name"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILENAME;
+					return FILENAME;
+				}
+"<gthumb:file_path"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILEPATH;
+					return FILEPATH;
+				}
+"<gthumb:file_size"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FILESIZE;
+					return FILESIZE;
+				}
+"<gthumb:comment"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_COMMENT;
+					return COMMENT;
+				}
+"<gthumb:page_link"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_LINK;
+					return PAGE_LINK;
+				}
+"<gthumb:page_idx"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGE_IDX;
+					return PAGE_IDX;
+				}
+"<gthumb:pages"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PAGES;
+					return PAGES;
+				}
+"<gthumb:table"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_TABLE;
+					return TABLE;
+				}
+"<gthumb:date"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_DATE;
+					return DATE;
+				}
+"<gthumb:set_var"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_SET_VAR;
+					return SET_VAR;
+				}
+"<gthumb:if"			{ 
+					BEGIN (TAG);
+					return IF;
+				}
+"<gthumb:else"			{ 
+					BEGIN (TAG);
+					return ELSE;
+				}
+"<gthumb:else_if"		{ 
+					BEGIN (TAG);
+					return ELSE_IF;
+				}
+"<gthumb:end"			{ 
+					BEGIN (TAG);
+					return END;
+				}
+<TAG>{number}			{
+					yylval.ivalue = atoi (yytext);
+					return NUMBER;
+				}
+<TAG>{name}			{
+					yylval.text = g_strdup (yytext);
+					return NAME;
+				}
+<TAG>"="			{
+					return '=';
+				}
+<TAG>"<"			{
+					yylval.ivalue = GTH_OP_CMP_LT;
+					return COMPARE;
+				}
+<TAG>">"			{
+					yylval.ivalue = GTH_OP_CMP_GT;
+					return COMPARE;
+				}
+<TAG>"+"			{
+					return '+';
+				}
+<TAG>"-"			{
+					return '-';
+				}
+<TAG>"!"			{
+					return '!';
+				}
+<TAG>"("			{
+					return '(';
+				}
+<TAG>")"			{
+					return ')';
+				}
+<TAG>\"				{
+					return '"';
+				}
+<TAG>"&&"			{
+					yylval.ivalue = GTH_OP_AND;
+					return BOOL_OP;
+				}
+<TAG>"||"			{
+					yylval.ivalue = GTH_OP_OR;
+					return BOOL_OP;
+				}
+<TAG>"=="			{
+					yylval.ivalue = GTH_OP_CMP_EQ;
+					return COMPARE;
+				}
+<TAG>"!="			{
+					yylval.ivalue = GTH_OP_CMP_NE;
+					return COMPARE;
+				}
+<TAG>"<="			{
+					yylval.ivalue = GTH_OP_CMP_LE;
+					return COMPARE;
+				}
+<TAG>">="			{
+					yylval.ivalue = GTH_OP_CMP_GE;
+					return COMPARE;
+				}
+<TAG>[ \t\n]			{
+					/* Eat spaces inside tag. */
+				}
+<TAG>"/>"			{
+					BEGIN (INITIAL);
+					return END_TAG;
+				}
+"<"				{
+					yylval.text = g_strdup (yytext);
+					return TEXT;
+				}
+[^<]{1,100}			{
+					yylval.text = g_strdup (yytext);
+					return TEXT;
+				}
+<<EOF>>				{
+					return 0;
+				}
+
+%%
+

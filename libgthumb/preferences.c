@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -26,7 +26,6 @@
 #include <libgnome/libgnome.h>
 #include "typedefs.h"
 #include "bookmarks.h"
-#include "catalog-png-exporter.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "image-viewer.h"
@@ -83,24 +82,26 @@ get_string_from_enum (EnumStringTable *table,
 
 
 static EnumStringTable click_policy_table [] = {
-	{ CLICK_POLICY_FOLLOW_NAUTILUS, "nautilus" },
-	{ CLICK_POLICY_SINGLE, "single" },
-        { CLICK_POLICY_DOUBLE, "double" },
+	{ GTH_CLICK_POLICY_FOLLOW_NAUTILUS, "nautilus" },
+	{ GTH_CLICK_POLICY_SINGLE, "single" },
+        { GTH_CLICK_POLICY_DOUBLE, "double" },
 	{ 0, NULL }
 };
 
 static EnumStringTable arrange_type_table [] = {
-	{ SORT_NONE, "none" },
-	{ SORT_BY_NAME, "name" },
-        { SORT_BY_PATH, "path" },
-        { SORT_BY_SIZE, "size" },
-        { SORT_BY_TIME, "time" },
+	{ GTH_SORT_METHOD_NONE, "none" },
+	{ GTH_SORT_METHOD_BY_NAME, "name" },
+        { GTH_SORT_METHOD_BY_PATH, "path" },
+        { GTH_SORT_METHOD_BY_SIZE, "size" },
+        { GTH_SORT_METHOD_BY_TIME, "time" },
 	{ 0, NULL }
 };
 
 static EnumStringTable *rename_sort_order_table = arrange_type_table;
 
 static EnumStringTable *exp_arrange_type_table = arrange_type_table;
+
+static EnumStringTable *web_album_sort_order_table = arrange_type_table;
 
 static EnumStringTable sort_order_table [] = {
 	{ GTK_SORT_ASCENDING, "ascending" },
@@ -111,72 +112,78 @@ static EnumStringTable sort_order_table [] = {
 static EnumStringTable *exp_sort_order_table = sort_order_table;
 
 static EnumStringTable zoom_quality_table [] = {
-	{ ZOOM_QUALITY_HIGH, "high" },
-	{ ZOOM_QUALITY_LOW, "low" },
+	{ GTH_ZOOM_QUALITY_HIGH, "high" },
+	{ GTH_ZOOM_QUALITY_LOW, "low" },
 	{ 0, NULL }
 };
 
 static EnumStringTable zoom_change_table [] = {
-	{ ZOOM_CHANGE_ACTUAL_SIZE, "actual_size" },
-	{ ZOOM_CHANGE_FIT, "fit" },
-	{ ZOOM_CHANGE_KEEP_PREV, "keep_prev" },
-	{ ZOOM_CHANGE_FIT_IF_LARGER, "fit_if_larger" },
+	{ GTH_ZOOM_CHANGE_ACTUAL_SIZE, "actual_size" },
+	{ GTH_ZOOM_CHANGE_FIT, "fit" },
+	{ GTH_ZOOM_CHANGE_KEEP_PREV, "keep_prev" },
+	{ GTH_ZOOM_CHANGE_FIT_IF_LARGER, "fit_if_larger" },
 	{ 0, NULL }
 };
 
 static EnumStringTable transp_type_table [] = {
-	{ TRANSP_TYPE_WHITE, "white" },
-	{ TRANSP_TYPE_BLACK, "black" },
-	{ TRANSP_TYPE_CHECKED, "checked" },
-	{ TRANSP_TYPE_NONE, "none" },
+	{ GTH_TRANSP_TYPE_WHITE, "white" },
+	{ GTH_TRANSP_TYPE_BLACK, "black" },
+	{ GTH_TRANSP_TYPE_CHECKED, "checked" },
+	{ GTH_TRANSP_TYPE_NONE, "none" },
 	{ 0, NULL }
 };
 
 static EnumStringTable check_type_table [] = {
-	{ CHECK_TYPE_LIGHT, "light" },
-	{ CHECK_TYPE_MIDTONE, "midtone" },
-	{ CHECK_TYPE_DARK, "dark" },
+	{ GTH_CHECK_TYPE_LIGHT, "light" },
+	{ GTH_CHECK_TYPE_MIDTONE, "midtone" },
+	{ GTH_CHECK_TYPE_DARK, "dark" },
 	{ 0, NULL }
 };
 
 static EnumStringTable check_size_table [] = {
-	{ CHECK_SIZE_SMALL, "small" },
-	{ CHECK_SIZE_MEDIUM, "medium" },
-	{ CHECK_SIZE_LARGE, "large" },
+	{ GTH_CHECK_SIZE_SMALL, "small" },
+	{ GTH_CHECK_SIZE_MEDIUM, "medium" },
+	{ GTH_CHECK_SIZE_LARGE, "large" },
 	{ 0, NULL }
 };
 
 static EnumStringTable slideshow_direction_table [] = {
-	{ DIRECTION_FORWARD, "forward" },
-	{ DIRECTION_REVERSE, "backward" },
+	{ GTH_DIRECTION_FORWARD, "forward" },
+	{ GTH_DIRECTION_REVERSE, "backward" },
 	{ 0, NULL }
 };
 
 static EnumStringTable toolbar_style_table [] = {
-	{ TOOLBAR_STYLE_SYSTEM, "system" },
-	{ TOOLBAR_STYLE_TEXT_BELOW, "text_below" },
-	{ TOOLBAR_STYLE_TEXT_BESIDE, "text_beside" },
-	{ TOOLBAR_STYLE_ICONS, "icons" },
-	{ TOOLBAR_STYLE_TEXT, "text" },
+	{ GTH_TOOLBAR_STYLE_SYSTEM, "system" },
+	{ GTH_TOOLBAR_STYLE_TEXT_BELOW, "text_below" },
+	{ GTH_TOOLBAR_STYLE_TEXT_BESIDE, "text_beside" },
+	{ GTH_TOOLBAR_STYLE_ICONS, "icons" },
+	{ GTH_TOOLBAR_STYLE_TEXT, "text" },
 	{ 0, NULL }
 };
 
 static EnumStringTable exporter_frame_style_table [] = {
-	{ FRAME_STYLE_NONE, "none" },
-	{ FRAME_STYLE_SIMPLE, "simple" },
-	{ FRAME_STYLE_SIMPLE_WITH_SHADOW, "simple_with_shadow" },
-	{ FRAME_STYLE_SHADOW, "shadow" },
-	{ FRAME_STYLE_SLIDE, "slide" },
-	{ FRAME_STYLE_SHADOW_IN, "shadow_in" },
-	{ FRAME_STYLE_SHADOW_OUT, "shadow_out" },
+	{ GTH_FRAME_STYLE_NONE, "none" },
+	{ GTH_FRAME_STYLE_SIMPLE, "simple" },
+	{ GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW, "simple_with_shadow" },
+	{ GTH_FRAME_STYLE_SHADOW, "shadow" },
+	{ GTH_FRAME_STYLE_SLIDE, "slide" },
+	{ GTH_FRAME_STYLE_SHADOW_IN, "shadow_in" },
+	{ GTH_FRAME_STYLE_SHADOW_OUT, "shadow_out" },
 	{ 0, NULL }
 };
 
 static EnumStringTable convert_overwrite_mode_table [] = {
-	{ OVERWRITE_SKIP,      "skip" },
-	{ OVERWRITE_RENAME,    "rename" },
-	{ OVERWRITE_ASK,       "ask" },
-	{ OVERWRITE_OVERWRITE, "overwrite" },
+	{ GTH_OVERWRITE_SKIP,      "skip" },
+	{ GTH_OVERWRITE_RENAME,    "rename" },
+	{ GTH_OVERWRITE_ASK,       "ask" },
+	{ GTH_OVERWRITE_OVERWRITE, "overwrite" },
+	{ 0, NULL }
+};
+
+static EnumStringTable view_as_table [] = {
+	{ GTH_VIEW_AS_LIST,       "list" },
+	{ GTH_VIEW_AS_THUMBNAILS, "thumbnails" },
 	{ 0, NULL }
 };
 
@@ -196,7 +203,7 @@ preferences_init ()
 	preferences.wallpaper = gconf_client_get_string (client, "/desktop/gnome/background/picture_filename", NULL);
 	preferences.wallpaperAlign = gconf_client_get_string (client, "/desktop/gnome/background/picture_options", NULL);
 	click_policy = gconf_client_get_string (client, "/apps/nautilus/preferences/click_policy", NULL);
-	preferences.nautilus_click_policy = ((click_policy != NULL) && (strcmp (click_policy, "single") == 0)) ? CLICK_POLICY_SINGLE : CLICK_POLICY_DOUBLE;
+	preferences.nautilus_click_policy = ((click_policy != NULL) && (strcmp (click_policy, "single") == 0)) ? GTH_CLICK_POLICY_SINGLE : GTH_CLICK_POLICY_DOUBLE;
 	g_free (click_policy);
 
         preferences.menus_have_tearoff = gconf_client_get_bool (client, "/desktop/gnome/interface/menus_have_tearoff", NULL);
@@ -306,10 +313,10 @@ pref_util_remove_prefix (const char *location)
 }
 
 
-ClickPolicy
+GthClickPolicy
 pref_get_real_click_policy ()
 {
-	if (pref_get_click_policy () == CLICK_POLICY_FOLLOW_NAUTILUS)
+	if (pref_get_click_policy () == GTH_CLICK_POLICY_FOLLOW_NAUTILUS)
 		return preferences.nautilus_click_policy;
 	else
 		return pref_get_click_policy ();
@@ -430,18 +437,20 @@ pref_set_##func_name (type i_value)					\
 }
 
 
-GET_SET_FUNC(click_policy,           PREF_CLICK_POLICY,        ClickPolicy)
-GET_SET_FUNC(arrange_type,           PREF_ARRANGE_IMAGES,      SortMethod)
+GET_SET_FUNC(click_policy,           PREF_CLICK_POLICY,        GthClickPolicy)
+GET_SET_FUNC(arrange_type,           PREF_ARRANGE_IMAGES,      GthSortMethod)
 GET_SET_FUNC(sort_order,             PREF_SORT_IMAGES,         GtkSortType)
-GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,        ZoomQuality)
-GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,         ZoomChange)
-GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,         TranspType)
-GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,          CheckType)
-GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,          CheckSize)
-GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,       DirectionType)
-GET_SET_FUNC(toolbar_style,          PREF_UI_TOOLBAR_STYLE,    ToolbarStyle)
-GET_SET_FUNC(exp_arrange_type,       PREF_EXP_ARRANGE_IMAGES,  SortMethod)
+GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,        GthZoomQuality)
+GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,         GthZoomChange)
+GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,         GthTranspType)
+GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,          GthCheckType)
+GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,          GthCheckSize)
+GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,       GthDirectionType)
+GET_SET_FUNC(toolbar_style,          PREF_UI_TOOLBAR_STYLE,    GthToolbarStyle)
+GET_SET_FUNC(exp_arrange_type,       PREF_EXP_ARRANGE_IMAGES,  GthSortMethod)
 GET_SET_FUNC(exp_sort_order,         PREF_EXP_SORT_IMAGES,     GtkSortType)
-GET_SET_FUNC(exporter_frame_style,   PREF_EXP_FRAME_STYLE,     FrameStyle)
-GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   OverwriteMode)
-GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  SortMethod)
+GET_SET_FUNC(exporter_frame_style,   PREF_EXP_FRAME_STYLE,     GthFrameStyle)
+GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   GthOverwriteMode)
+GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  GthSortMethod)
+GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
+GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)

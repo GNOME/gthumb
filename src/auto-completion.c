@@ -303,7 +303,7 @@ ac_list_row_activated_cb (GtkTreeView       *tree_view,
 
 	auto_compl_hide_alternatives ();
 
-	if (gthumb_window->sidebar_content == DIR_LIST)
+	if (gthumb_window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		window_go_to_directory (gthumb_window, full_path);
 	else
 		window_go_to_catalog_directory (gthumb_window, full_path);
@@ -452,7 +452,7 @@ auto_compl_show_alternatives (GThumbWindow *window,
 	width = 0;
 	n = 0;
 
-	pixbuf = (window->sidebar_content == DIR_LIST) ? get_folder_pixbuf (LIST_ICON_SIZE) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
+	pixbuf = (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) ? get_folder_pixbuf (get_default_folder_pixbuf_size (window->app)) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 
 	gtk_list_store_clear (ac_list_store);
 	for (scan = ac_alternatives; scan; scan = scan->next) {

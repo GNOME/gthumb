@@ -133,7 +133,7 @@ bookmark_list_set (BookmarkList *book_list,
 
 	g_return_if_fail (book_list != NULL);
 
-	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
+	dir_pixbuf = get_folder_pixbuf (get_default_folder_pixbuf_size (book_list->list_view));
 	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_19_rgba, FALSE, NULL);
 	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_17_rgba, FALSE, NULL);
 	home_pixbuf = gtk_widget_render_icon (book_list->root_widget, GTK_STOCK_HOME, GTK_ICON_SIZE_MENU, NULL);

@@ -20,6 +20,8 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
+/* Modified by Paolo Bacchilega <paolo.bacch@tin.it> */
+
 #ifndef _E_COMBO_BUTTON_H_
 #define _E_COMBO_BUTTON_H_
 
@@ -75,8 +77,8 @@ void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
 void       e_combo_button_popup_menu (EComboButton *combo_button);
 
-void       e_combo_button_set_style  (EComboButton *combo_button,
-				      ToolbarStyle  toolbar_style);
+void       e_combo_button_set_style  (EComboButton    *combo_button,
+				      GthToolbarStyle  toolbar_style);
 
 
 #ifdef __cplusplus

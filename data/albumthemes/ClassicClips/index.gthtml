@@ -1,0 +1,131 @@
+<gthumb:set_var thumbnail_width=159 thumbnail_height=120/>
+
+<html>
+  <head>
+    <title><gthumb:title/></title>
+    <style type="text/css">
+        a:link { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: white       
+	}
+	a:visited { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: white
+	}
+        a:hover { 
+		font-weight: bold; 
+		text-decoration: none; 
+		color: yellow 
+	}
+    </style>
+  </head>
+  <body bgcolor="#4b4b4b">
+	<!-- Navigation Bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <gthumb:if pages == 1 />
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	    <gthumb:end/>
+	    <gthumb:if pages > 1 />
+	      <td align="left" width="1%">
+	        <gthumb:if page_idx == 1 />
+		  <img src="background.gif" width="40" height="30" border="0"></td>
+		<gthumb:end/>
+	        <gthumb:if page_idx > 1 />
+	          <a href="<gthumb:page_link idx_relative=-1/>">
+		    <img src="prev.png" align="center" width="40" height="30" border="0"></a></td>
+	        <gthumb:end/>
+	      <td valign="center" align="center" width="15%" bgcolor="#969696">
+		<font style=bold color="white">
+		  <b><gthumb:page_idx/> / <gthumb:pages/></b>
+		</font>
+	      </td>
+	      <td align="left" width="1%">
+		<gthumb:if page_idx == pages />
+		  <img src="background.gif" width="40" height="30" border="0"></td>
+		<gthumb:end/>
+		<gthumb:if page_idx < pages />
+		  <a href="<gthumb:page_link idx_relative=+1/>">
+		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
+		<gthumb:end/>
+	    <gthumb:end/>
+	    <td align="right" width="83%">
+	      <font color="#FFFFFF" size=+2>
+	        <b><gthumb:title/></b>
+	      </font>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td colspan=4 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	</table>
+
+	&nbsp;<BR>
+
+	<table bgcolor="#4b4b4b" border="0" align="center">
+	<gthumb:table/>
+	</table>
+
+	&nbsp;<BR>
+	
+	<!-- Navigation Bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td colspan=4 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	  <tr>
+	    <gthumb:if pages == 1 />
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	      <td align="left" width="1%">
+	        &nbsp;
+	      </td>
+	    <gthumb:end/>
+	    <gthumb:if pages > 1 />
+	      <td align="left" width="1%">
+	        <gthumb:if page_idx == 1 />
+		  <img src="background.gif" width="40" height="30" border="0"></td>
+		<gthumb:end/>
+	        <gthumb:if page_idx > 1 />
+	          <a href="<gthumb:page_link idx_relative=-1/>">
+		    <img src="prev.png" align="center" width="40" height="30" border="0"></a></td>
+	        <gthumb:end/>
+	      <td valign="center" align="center" width="15%" bgcolor="#969696">
+		<font style=bold color="white">
+		  <b><gthumb:page_idx/> / <gthumb:pages/></b>
+		</font>
+	      </td>
+	      <td align="left" width="1%">
+		<gthumb:if page_idx == pages />
+		  <img src="background.gif" width="40" height="30" border="0"></td>
+		<gthumb:end/>
+		<gthumb:if page_idx < pages />
+		  <a href="<gthumb:page_link idx_relative=+1/>">
+		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
+		<gthumb:end/>
+	    <gthumb:end/>
+	    <td align="right" width="83%">
+	      <font color="#FFFFFF">
+	        <b><gthumb:date/></b>
+	      </font>
+	    </td>
+	  </tr>
+	</table>
+  </body>
+</html>

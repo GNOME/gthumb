@@ -41,7 +41,8 @@ gthumb_draw_slide (int          slide_x,
 		   GdkGC       *black_gc,
 		   GdkGC       *dark_gc,
 		   GdkGC       *mid_gc,
-		   GdkGC       *light_gc)
+		   GdkGC       *light_gc,
+		   gboolean     draw_inner_border)
 {
 	GdkGC    *white_gc;
 	GdkColor  white_color;
@@ -92,70 +93,73 @@ gthumb_draw_slide (int          slide_x,
 				    image_x - slide_x,
 				    slide_h);
 
+
 		/* Inner border. */
 
-		image_x2 = image_x + image_w + 1;
-		image_y2 = image_y + image_h + 1;
-		image_x--;
-		image_y--;
-
-		gdk_draw_rectangle (drawable,
-				    white_gc,
-				    TRUE,
-				    image_x,
-				    image_y,
-				    image_w,
-				    image_h);
-
-		gdk_draw_line (drawable,
-			       black_gc,
-			       image_x,
-			       image_y,
-			       image_x2 - 1,
-			       image_y);
-		gdk_draw_line (drawable,
-			       black_gc,
-			       image_x,
-			       image_y,
-			       image_x,
-			       image_y2 - 1);
-		gdk_draw_line (drawable,
-			       mid_gc,
-			       image_x2 - 1,
-			       image_y,
-			       image_x2 - 1,
-			       image_y2 - 1);
-		gdk_draw_line (drawable,
-			       mid_gc,
-			       image_x,
-			       image_y2 - 1,
-			       image_x2 - 1,
-			       image_y2 - 1);
-
-		gdk_draw_line (drawable,
-			       dark_gc,
-			       image_x - 1,
-			       image_y - 1,
-			       image_x2 - 1,
-			       image_y - 1);
-		gdk_draw_line (drawable,
-			       dark_gc,
-			       image_x - 1,
-			       image_y - 1,
-			       image_x - 1,
-			       image_y2 - 1);
-		gdk_draw_line (drawable,
-			       light_gc,
-			       image_x2,
-			       image_y - 1,
-			       image_x2,
-			       image_y2);
-		gdk_draw_line (drawable,
-			       light_gc,
-			       image_x - 1,
-			       image_y2,
-			       image_x2,
-			       image_y2);
+		if (draw_inner_border) {
+			image_x2 = image_x + image_w + 1;
+			image_y2 = image_y + image_h + 1;
+			image_x--;
+			image_y--;
+			
+			gdk_draw_rectangle (drawable,
+					    white_gc,
+					    TRUE,
+					    image_x,
+					    image_y,
+					    image_w,
+					    image_h);
+			
+			gdk_draw_line (drawable,
+				       black_gc,
+				       image_x,
+				       image_y,
+				       image_x2 - 1,
+				       image_y);
+			gdk_draw_line (drawable,
+				       black_gc,
+				       image_x,
+				       image_y,
+				       image_x,
+				       image_y2 - 1);
+			gdk_draw_line (drawable,
+				       mid_gc,
+				       image_x2 - 1,
+				       image_y,
+				       image_x2 - 1,
+				       image_y2 - 1);
+			gdk_draw_line (drawable,
+				       mid_gc,
+				       image_x,
+				       image_y2 - 1,
+				       image_x2 - 1,
+				       image_y2 - 1);
+			
+			gdk_draw_line (drawable,
+				       dark_gc,
+				       image_x - 1,
+				       image_y - 1,
+				       image_x2 - 1,
+				       image_y - 1);
+			gdk_draw_line (drawable,
+				       dark_gc,
+				       image_x - 1,
+				       image_y - 1,
+				       image_x - 1,
+				       image_y2 - 1);
+			gdk_draw_line (drawable,
+				       light_gc,
+				       image_x2,
+				       image_y - 1,
+				       image_x2,
+				       image_y2);
+			gdk_draw_line (drawable,
+				       light_gc,
+				       image_x - 1,
+				       image_y2,
+				       image_x2,
+				       image_y2);
+		}
 	} else
 		gdk_draw_rectangle (drawable,
 				    gc,
@@ -261,7 +265,8 @@ gthumb_draw_slide_with_colors (int          slide_x,
 			   black_gc,
 			   dark_gc,
 			   mid_gc,
-			   light_gc);	
+			   light_gc,
+			   TRUE);	
 
 	g_object_unref (slide_gc);
 	g_object_unref (black_gc);

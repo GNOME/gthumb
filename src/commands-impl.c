@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -44,27 +44,23 @@
 #include "dlg-change-date.h"
 #include "dlg-comment.h"
 #include "dlg-convert.h"
-#include "dlg-duplicates.h"
 #include "dlg-file-utils.h"
-#include "dlg-jpegtran.h"
 #include "dlg-maintenance.h"
 #include "dlg-open-with.h"
-#include "dlg-png-exporter.h"
 #include "dlg-posterize.h"
 #include "dlg-color-balance.h"
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
 #include "dlg-save-image.h"
 #include "dlg-scale-image.h"
-#include "dlg-search.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-error.h"
+#include "gthumb-module.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
-#include "image-list.h"
-#include "image-list-utils.h"
+#include "gth-file-view.h"
 #include "image-viewer.h"
 #include "main.h"
 #include "pixbuf-utils.h"
@@ -86,18 +82,20 @@ typedef enum {
 void 
 file_new_window_command_impl (BonoboUIComponent *uic, 
 			      gpointer           user_data, 
-			      const gchar       *verbname)
+			      const char        *verbname)
 {
 	GThumbWindow *window = user_data;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GThumbWindow *new_window;
 	char         *location = NULL;
+	int           width, height;
 
-	if ((window->sidebar_content == DIR_LIST) 
+	if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
 	    && (window->dir_list->path != NULL))
 		location = g_strconcat ("file://",
 					window->dir_list->path,
 					NULL);
-	else if ((window->sidebar_content == CATALOG_LIST) 
+	else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 		 && (window->catalog_path != NULL))
 		location = g_strconcat ("catalog://",
 					window->catalog_path,
@@ -108,6 +106,27 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 		g_free (location);
 	}
 
+	/* Save visualization options. */
+
+	gdk_drawable_get_size (window->app->window, &width, &height);
+	eel_gconf_set_integer (PREF_UI_WINDOW_WIDTH, width);
+	eel_gconf_set_integer (PREF_UI_WINDOW_HEIGHT, height);
+
+	eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, window->file_list->enable_thumbs);
+
+	pref_set_arrange_type (window->file_list->sort_method);
+	pref_set_sort_order (window->file_list->sort_type);
+
+	pref_set_zoom_quality (image_viewer_get_zoom_quality (viewer));
+	pref_set_transp_type (image_viewer_get_transp_type (viewer));
+
+	pref_set_check_type (image_viewer_get_check_type (viewer));
+	pref_set_check_size (image_viewer_get_check_size (viewer));
+
+	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->image_preview_visible);
+
+	/**/
+
 	new_window = window_new ();
 	gtk_widget_show (new_window->app);
 }
@@ -116,7 +135,7 @@ file_new_window_command_impl (BonoboUIComponent *uic,
 void 
 file_close_window_command_impl (BonoboUIComponent *uic, 
 				gpointer           user_data, 
-				const gchar       *verbname)
+				const char        *verbname)
 {
 	GThumbWindow *window = user_data;
 	window_close (window);
@@ -126,12 +145,12 @@ file_close_window_command_impl (BonoboUIComponent *uic,
 void 
 file_open_with_command_impl (BonoboUIComponent *uic, 
 			     gpointer           user_data, 
-			     const gchar       *verbname)
+			     const char        *verbname)
 {
 	GThumbWindow *window = user_data;
 	GList        *list;
 
-	list = ilist_utils_get_file_list_selection (IMAGE_LIST (window->file_list->ilist));
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	g_return_if_fail (list != NULL);
 
 	open_with_cb (window, list);
@@ -341,7 +360,7 @@ edit_rename_file_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	GList        *list;
 
-	list = ilist_utils_get_file_list_selection (IMAGE_LIST (window->file_list->ilist));
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	g_return_if_fail (list != NULL);
 
 	rename_file (window, list);
@@ -441,7 +460,7 @@ edit_duplicate_file_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	GList        *list;
 
-	list = ilist_utils_get_file_list_selection (IMAGE_LIST (window->file_list->ilist));
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	g_return_if_fail (list != NULL);
 
 	duplicate_file_list (window, list);
@@ -473,11 +492,8 @@ edit_delete_files_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	GList        *list;
-	ImageList    *ilist;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	dlg_file_delete__confirm (window, 
 				  list, 
 				  _("The selected images will be moved to the Trash, are you sure?"));
@@ -513,11 +529,8 @@ edit_copy_files_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	GList        *list;
-	ImageList    *ilist;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	dlg_file_copy__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
@@ -547,13 +560,10 @@ edit_move_files_command_impl (BonoboUIComponent *uic,
 			      gpointer           user_data, 
 			      const gchar       *verbname)
 {
-	GThumbWindow *window = user_data;
-	GList        *list;
-	ImageList    *ilist;
+	GThumbWindow  *window = user_data;
+	GList         *list;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	dlg_file_move__ask_dest (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
@@ -584,7 +594,7 @@ edit_select_all_command_impl (BonoboUIComponent *uic,
 			      const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	image_list_select_all (IMAGE_LIST (window->file_list->ilist));
+	gth_file_view_select_all (window->file_list->view);
 }
 
 
@@ -623,11 +633,9 @@ edit_delete_comment_command_impl (BonoboUIComponent *uic,
 				  const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	ImageList *ilist;
-	GList *list, *scan;
+	GList        *list, *scan;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-	list = ilist_utils_get_file_list_selection (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	for (scan = list; scan; scan = scan->next) {
 		char        *filename = scan->data;
 		CommentData *cdata;
@@ -675,25 +683,6 @@ edit_current_edit_categories_command_impl (BonoboUIComponent *uic,
 }
 
 
-static GList *
-get_selection_list (ImageList *ilist)
-{
-	gint row;
-	FileData *fd;
-	GList *scan, *file_list;
-
-	file_list = NULL;
-	for (scan = ilist->selection; scan; scan = scan->next) {
-		row = GPOINTER_TO_INT (scan->data);
-		fd = image_list_get_image_data (ilist, row);
-		file_list = g_list_prepend (file_list, g_strdup (fd->path));
-	}
-	file_list = g_list_reverse (file_list);
-
-	return file_list;
-}
-
-
 void 
 edit_add_to_catalog_command_impl (BonoboUIComponent *uic, 
 				  gpointer           user_data, 
@@ -701,11 +690,8 @@ edit_add_to_catalog_command_impl (BonoboUIComponent *uic,
 {
 	GThumbWindow *window = user_data;
 	GList        *list;
-	ImageList    *ilist;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-
-	list = get_selection_list (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	dlg_add_to_catalog (window, list);
 
 	/* the list is deallocated when the dialog is closed. */
@@ -784,7 +770,7 @@ remove_selection_from_catalog (GThumbWindow *window)
 {
 	GList     *list;
 
-	list = get_selection_list (IMAGE_LIST (window->file_list->ilist));
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 	real_remove_from_catalog (window, list);
 
 	/* the list is deallocated in real_remove_from_catalog. */
@@ -870,9 +856,9 @@ create_new_folder_or_library (GThumbWindow *window,
 	char         *new_name, *new_name_utf8;
 	char         *new_path;
 
-	if (window->sidebar_content == DIR_LIST)
+	if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		current_path = window->dir_list->path;
-	else if (window->sidebar_content == CATALOG_LIST)
+	else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 		current_path = window->catalog_list->path;
 	else
 		return;
@@ -1032,6 +1018,7 @@ folder_rename (GThumbWindow *window,
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
+
 	} else if (path_is_dir (new_path)) {
 		char *utf8_name;
 
@@ -1045,15 +1032,6 @@ folder_rename (GThumbWindow *window,
 
 		/* Update cache info. */
 
-		/* Thumbnail cache. */
-
-		old_cache_path = cache_get_nautilus_cache_dir (old_path);
-		new_cache_path = cache_get_nautilus_cache_dir (new_path);
-		rename (old_cache_path, new_cache_path);
-
-		g_free (old_cache_path);
-		g_free (new_cache_path);
-
 		/* Comment cache. */
 
 		old_cache_path = comments_get_comment_dir (old_path);
@@ -1064,6 +1042,7 @@ folder_rename (GThumbWindow *window,
 		g_free (new_cache_path);
 
 		all_windows_notify_directory_rename (old_path, new_path);
+
 	} else {
 		char *utf8_path;
 
@@ -1374,24 +1353,6 @@ folder_copy__response_cb (GObject *object,
 
 		/* moving folders on the same file system can be implemeted 
 		 * with rename, which is faster. */
-
-		/* Thumbnail cache. */
-
-		old_cache_path = cache_get_nautilus_cache_dir (old_path);
-		new_cache_path = cache_get_nautilus_cache_dir (new_path);
-
-		if (path_is_dir (old_cache_path)) {
-			char *parent_dir;
-
-			parent_dir = remove_level_from_path (new_cache_path);
-			ensure_dir_exists (parent_dir, 0755);
-			g_free (parent_dir);
-
-			rename (old_cache_path, new_cache_path);
-		}
-
-		g_free (old_cache_path);
-		g_free (new_cache_path);
 
 		/* Comment cache. */
 
@@ -1870,13 +1831,15 @@ edit_catalog_edit_search_command_impl (BonoboUIComponent *uic,
 				       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	gchar        *catalog_path;
+	char         *catalog_path;
+	void (*module) (GThumbWindow *window, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (window->catalog_list);
 	if (catalog_path == NULL)
 		return;
 
-	dlg_catalog_edit_search (window, catalog_path);
+	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
+		(*module) (window, catalog_path);
 
 	g_free (catalog_path);
 }
@@ -1888,10 +1851,13 @@ edit_current_catalog_edit_search_command_impl (BonoboUIComponent *uic,
 					       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
+	void (*module) (GThumbWindow *window, const char *catalog_path);
 
 	if (window->catalog_path == NULL)
 		return;	
-	dlg_catalog_edit_search (window, window->catalog_path);
+
+	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
+		(*module) (window, window->catalog_path);
 }
 
 
@@ -1901,13 +1867,15 @@ edit_catalog_redo_search_command_impl (BonoboUIComponent *uic,
 				       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	gchar        *catalog_path;
+	char         *catalog_path;
+	void (*module) (GThumbWindow *window, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (window->catalog_list);
 	if (catalog_path == NULL)
 		return;
 
-	dlg_catalog_search (window, catalog_path);
+	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
+		(*module) (window, catalog_path);
 
 	g_free (catalog_path);
 }
@@ -1919,10 +1887,13 @@ edit_current_catalog_redo_search_command_impl (BonoboUIComponent *uic,
 					       const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
+	void (*module) (GThumbWindow *window, const char *catalog_path);
 
 	if (window->catalog_path == NULL)
 		return;	
-	dlg_catalog_search (window, window->catalog_path);
+
+	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
+		(*module) (window, window->catalog_path);
 }
 
 
@@ -2175,7 +2146,7 @@ view_zoom_fit_command_impl (BonoboUIComponent *uic,
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 
 	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler = 0;
+		window->freeze_toggle_handler--;
 		return;
 	}
 
@@ -2209,15 +2180,18 @@ view_show_folders_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	
 	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler = 0;
+		window->freeze_toggle_handler--;
 		return;
 	}
+	
+	if (! GTK_WIDGET_VISIBLE (window->app))
+		return;
 
 	if ((window->sidebar_visible) 
-	    && (window->sidebar_content == DIR_LIST))
+	    && (window->sidebar_content == GTH_SIDEBAR_DIR_LIST))
 		window_hide_sidebar (window);
 	else
-		window_set_sidebar_content (window, DIR_LIST);
+		window_set_sidebar_content (window, GTH_SIDEBAR_DIR_LIST);
 }
 
 
@@ -2229,15 +2203,18 @@ view_show_catalogs_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 
 	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler = 0;
+		window->freeze_toggle_handler--;
 		return;
 	}
 
+	if (! GTK_WIDGET_VISIBLE (window->app))
+		return;
+
 	if ((window->sidebar_visible) 
-	    && (window->sidebar_content == CATALOG_LIST))
+	    && (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST))
 		window_hide_sidebar (window);
 	else
-		window_set_sidebar_content (window, CATALOG_LIST);
+		window_set_sidebar_content (window, GTH_SIDEBAR_CATALOG_LIST);
 }
 
 
@@ -2249,7 +2226,7 @@ view_fullscreen_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 
 	if (window->freeze_toggle_handler > 0) {
-		window->freeze_toggle_handler = 0;
+		window->freeze_toggle_handler--;
 		return;
 	}
 
@@ -2266,7 +2243,7 @@ view_prev_image_command_impl (BonoboUIComponent *uic,
 			      const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	window_show_prev_image (window);
+	window_show_prev_image (window, FALSE);
 	
 }
 
@@ -2277,8 +2254,7 @@ view_next_image_command_impl (BonoboUIComponent *uic,
 			      const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	window_show_next_image (window);
-	
+	window_show_next_image (window, FALSE);	
 }
 
 
@@ -2368,12 +2344,10 @@ go_to_container_command_impl (BonoboUIComponent *uic,
 			      const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	ImageList *ilist;
-	GList *list;
-	gchar *path;
+	GList        *list;
+	char         *path;
 
-	ilist = IMAGE_LIST (window->file_list->ilist);
-	list = get_selection_list (ilist);
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
 
 	g_return_if_fail (list != NULL);
 
@@ -2414,9 +2388,9 @@ bookmarks_add_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	char         *path = NULL;
 
-	if (window->sidebar_content == CATALOG_LIST) {
-		GtkTreeIter iter;
-		gchar *prefix, *catalog_path;
+	if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		GtkTreeIter  iter;
+		char        *prefix, *catalog_path;
 
 		if (! catalog_list_get_selected_iter (window->catalog_list,
 						      &iter))
@@ -2580,7 +2554,10 @@ tools_find_images_command_impl (BonoboUIComponent *uic,
 				const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	dlg_search (NULL, window);
+	void (*module) (GtkWidget *widget, GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_search", (gpointer*) &module))
+		(*module) (NULL, window);
 }
 
 
@@ -2590,7 +2567,23 @@ tools_index_image_command_impl (BonoboUIComponent *uic,
 				const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	dlg_exporter (window);
+	void (*module) (GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_exporter", (gpointer*) &module))
+		(*module) (window);
+}
+
+
+void 
+tools_web_exporter_command_impl (BonoboUIComponent *uic, 
+				gpointer           user_data, 
+				const gchar       *verbname)
+{
+	GThumbWindow *window = user_data;
+	void (*module) (GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_web_exporter", (gpointer*) &module))
+		(*module) (window);
 }
 
 
@@ -2630,7 +2623,10 @@ tools_jpeg_rotate_command_impl (BonoboUIComponent *uic,
 				const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	dlg_jpegtran (window);
+	void (*module) (GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_jpegtran", (gpointer*) &module))
+		(*module) (window);
 }
 
 
@@ -2640,7 +2636,10 @@ tools_duplicates_command_impl (BonoboUIComponent *uic,
                                const gchar       *verbname)
 {
         GThumbWindow *window = user_data;
-        dlg_duplicates (window);
+	void (*module) (GThumbWindow *window);
+
+	if (gthumb_module_get ("dlg_duplicates", (gpointer*) &module))
+		(*module) (window);
 }
 
 

@@ -337,8 +337,10 @@ gtk_cell_renderer_three_states_render (GtkCellRenderer *cell,
 
   if (cell_3states->state == 1)
     shadow = GTK_SHADOW_IN;
-  else 
+  else  if (cell_3states->state == 0)
     shadow = GTK_SHADOW_OUT;
+  else  if (cell_3states->state == 2)
+    shadow = GTK_SHADOW_ETCHED_IN;
 
   if ((flags & GTK_CELL_RENDERER_SELECTED) == GTK_CELL_RENDERER_SELECTED)
     {
@@ -366,45 +368,13 @@ gtk_cell_renderer_three_states_render (GtkCellRenderer *cell,
                         width - 1, height - 1);
     }
   else
-    {
-      if (cell_3states->state == 2) {
-	int x, y;
-	int xofs, yofs;
-	int rw, rh;
-
-	x = cell_area->x + x_offset + cell->xpad;
-	y = cell_area->y + y_offset + cell->ypad;
-	gdk_draw_rectangle (window,
-			    widget->style->bg_gc[GTK_STATE_NORMAL],
-			    TRUE,
-			    x, y, width - 1, height - 1);
-	gdk_draw_rectangle (window,
-			    widget->style->black_gc,
-			    FALSE,
-			    x, y, width - 1, height - 1);
-
-	rw = (width - 6);
-	rh = 2;
-	xofs = (width - rw) / 2;
-	yofs = (height - rh) / 2;
-	x += xofs;
-	y += yofs;
-	width -= xofs * 2;
-	height -= yofs * 2;
-
-	gdk_draw_rectangle (window,
-			    widget->style->black_gc,
-			    TRUE,
-			    x, y, width, height);
-      } else
-	gtk_paint_check (widget->style,
-			 window,
-			 state, shadow,
-			 cell_area, widget, "cellcheck",
-			 cell_area->x + x_offset + cell->xpad,
-			 cell_area->y + y_offset + cell->ypad,
-			 width - 1, height - 1);
-    }
+    gtk_paint_check (widget->style,
+		     window,
+		     state, shadow,
+		     cell_area, widget, "cellcheck",
+		     cell_area->x + x_offset + cell->xpad,
+		     cell_area->y + y_offset + cell->ypad,
+		     width - 1, height - 1);
 }
 
 static gint

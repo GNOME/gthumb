@@ -25,7 +25,6 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include "gthumb-window.h"
-#include "image-list-utils.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
@@ -40,8 +39,8 @@ enum {
 	RS_NUM_COLUMNS
 };
 
-int         sort_method_to_idx[] = { -1, 0, -1, 1, 2 };
-SortMethod  idx_to_sort_method[] = { SORT_BY_NAME, SORT_BY_SIZE, SORT_BY_TIME };
+int            sort_method_to_idx[] = { -1, 0, -1, 1, 2 };
+GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME };
 
 
 #define COMMENT_GLADE_FILE "gthumb_tools.glade"

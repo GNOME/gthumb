@@ -1,0 +1,22 @@
+<table width=154 height=102 border=0 cellspacing=0 cellpadding=0 align="center" bgcolor="white">
+  <tr>
+    <td width=154 height=14 valign="bottom" colspan=3>
+      <img src="top.png" width=154 height=14 border=0></td>
+  </tr>
+  <tr>
+    <td width=14 height=102 align="left">
+      <img src="left.png" width=14 height=102 border=0></td>
+    <td width=154 height=102 align="center" valign="middle">
+      <a href="<gthumb:image_link/>">
+        <gthumb:image thumbnail border=0/></a></td>
+    <td width=18 height=102 align="right">
+      <img src="right.png" width=18 height=102 border=0></td>
+  </tr>
+  <tr>
+    <td width=154 height=18 valign="top" colspan=3>
+      <img src="bot.png" width=154 height=18 border=0></td>
+  </tr>
+</table>
+<font color="#969696" size=-1>
+  <b><gthumb:image_dim/></b> (<gthumb:file_size/>)
+</font>

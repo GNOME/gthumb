@@ -5,14 +5,15 @@ DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBU
 
 gladedir = $(datadir)/gthumb/glade
 
-INCLUDES =					\
-	$(GTHUMB_CFLAGS)			\
-	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
+INCLUDES =							\
+	$(GTHUMB_CFLAGS)					\
+	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
+	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(DISABLE_DEPRECATED)
 
-
-noinst_LIBRARIES = libgthumb.a
-
+libgthumbdir = $(libdir)
+libgthumb_LTLIBRARIES = libgthumb.la
+libgthumb_la_LDFLAGS = -avoid-version
 
 EEL_CANVAS_RECT =		\
 	eel-canvas-rect.c	\
@@ -30,27 +31,27 @@ HEADER_FILES =			\
 	async-pixbuf-ops.h	\
 	bookmarks.h		\
 	catalog.h		\
-	catalog-png-exporter.h	\
 	comments.h		\
 	dlg-save-image.h	\
 	file-data.h		\
-	file-list.h		\
 	file-utils.h		\
 	gconf-utils.h		\
 	glib-utils.h		\
-	gnome-canvas-thumb.h	\
+	gth-image-list.h	\
+	gth-file-list.h		\
+	gth-file-view.h		\
+	gth-file-view-list.h	\
+	gth-file-view-thumbs.h	\
 	gth-pixbuf-op.h		\
 	gthumb-canvas-text.h	\
 	gthumb-error.h		\
 	gthumb-histogram.h	\
 	gthumb-init.h		\
 	gthumb-info-bar.h	\
+	gthumb-module.h		\
 	gthumb-slide.h		\
 	gthumb-stock.h		\
-	gthumb-text-item.h	\
 	gtk-utils.h		\
-	image-list.h		\
-	image-list-utils.h	\
 	image-loader.h		\
 	image-viewer.h		\
 	nav-window.h		\
@@ -71,7 +72,7 @@ MD5 = 				\
 	md5.c			\
 	md5.h
 
-libgthumb_a_SOURCES =		\
+libgthumb_la_SOURCES =		\
 	$(EEL_CANVAS_RECT)	\
 	$(ENUMS)		\
 	$(EOG_CURSORS)		\
@@ -81,27 +82,27 @@ libgthumb_a_SOURCES =		\
 	async-pixbuf-ops.c	\
 	bookmarks.c		\
 	catalog.c		\
-	catalog-png-exporter.c	\
 	comments.c		\
 	dlg-save-image.c	\
 	file-data.c		\
-	file-list.c		\
 	file-utils.c		\
 	gconf-utils.c		\
 	glib-utils.c		\
-	gnome-canvas-thumb.c	\
-	gthumb-canvas-text.c	\
 	gth-pixbuf-op.c		\
+	gth-image-list.c	\
+	gth-file-list.c		\
+	gth-file-view.c		\
+	gth-file-view-list.c	\
+	gth-file-view-thumbs.c	\
+	gthumb-canvas-text.c	\
 	gthumb-error.c		\
 	gthumb-histogram.c	\
 	gthumb-init.c		\
 	gthumb-info-bar.c	\
+	gthumb-module.c		\
 	gthumb-slide.c		\
 	gthumb-stock.c		\
-	gthumb-text-item.c	\
 	gtk-utils.c		\
-	image-list.c		\
-	image-list-utils.c	\
 	image-loader.c		\
 	image-viewer.c		\
 	nav-window.c		\
@@ -123,7 +124,7 @@ gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
 	$(GLIB_MKENUMS) \
 		--fhead "#ifndef GTHUMB_ENUM__TYPES_H\n#define GTHUMB_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
 		--fprod "/* enumerations from \"@filename@\" */\n" \
-		--vhead "GType @enum_name@_get_type (void);\n#define GTHUMB_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
+		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTHUMB_ENUM_TYPES_H */" \
                 $(HEADER_FILES) > xgen-geth \
         && (cmp -s xgen-geth $(srcdir)/gthumb-enum-types.h || cp xgen-geth $(srcdir)/gthumb-enum-types.h ) \
@@ -139,7 +140,6 @@ gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) $(srcdir)/gthumb-enum-types
                 $(HEADER_FILES) > xgen-getc \
 	&& cp xgen-getc $(srcdir)/gthumb-enum-types.c  \
         && rm -f xgen-getc
-
 
 CLEANFILES = $(MARSHALLERS) $(ENUMS)
 EXTRA_DIST = gthumb-marshal.list

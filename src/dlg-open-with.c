@@ -32,8 +32,6 @@
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
-#include "image-list.h"
-#include "image-list-utils.h"
 #include "typedefs.h"
 #include "main.h"
 #include "gthumb-window.h"

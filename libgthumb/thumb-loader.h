@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -96,10 +96,10 @@ void           thumb_loader_stop               (ThumbLoader *tl,
 						DoneFunc     done_func,
 						gpointer     done_func_data);
 
-gint           thumb_from_xpm_d                (const char **data, 
-						gint max_w, 
-						gint max_h, 
-						GdkPixmap **pixmap, 
-						GdkBitmap **mask);
+int            thumb_from_xpm_d                (const char **data, 
+						int          max_w, 
+						int          max_h, 
+						GdkPixmap  **pixmap, 
+						GdkBitmap  **mask);
 
 #endif /* THUMB_LOADER_H */

@@ -20,8 +20,8 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef __MAIN_H__
-#define __MAIN_H__
+#ifndef __GTHUMB_INIT_H__
+#define __GTHUMB_INIT_H__
 
 #include "image-viewer.h"
 #include "preferences.h"
@@ -33,4 +33,4 @@ void  gthumb_init    ();
 void  gthumb_release ();
 
 
-#endif /* __MAIN_H__ */
+#endif /* __GTHUMB_INIT_H__ */

@@ -45,6 +45,8 @@
 
 
 #define BUF_SIZE 4096
+#define MAX_SYMLINKS_FOLLOWED 32
+
 
 /* -- path_list_async_new implementation -- */
 
@@ -1373,5 +1375,112 @@ new_uri_from_path (const char *path)
 	uri = gnome_vfs_uri_new (escaped);
 	g_free (escaped);
 
+	g_return_val_if_fail (uri != NULL, NULL);
+
 	return uri;
+}
+
+
+/* taken from gnome-vfs-utils.c,
+     Copyright (C) 1999 Free Software Foundation
+     Copyright (C) 2000, 2001 Eazel, Inc.
+*/
+GnomeVFSResult
+resolve_all_symlinks_uri (GnomeVFSURI  *uri,
+			  GnomeVFSURI **result_uri)
+{
+	GnomeVFSURI      *new_uri, *resolved_uri;
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    res;
+	char             *p;
+	int               n_followed_symlinks;
+
+	/* Ref the original uri so we don't lose it */
+	uri = gnome_vfs_uri_ref (uri);
+
+	*result_uri = NULL;
+
+	info = gnome_vfs_file_info_new ();
+
+	p = uri->text;
+	n_followed_symlinks = 0;
+	while (*p != 0) {
+		while (*p == GNOME_VFS_URI_PATH_CHR)
+			p++;
+		while (*p != 0 && *p != GNOME_VFS_URI_PATH_CHR)
+			p++;
+
+		new_uri = gnome_vfs_uri_dup (uri);
+		g_free (new_uri->text);
+		new_uri->text = g_strndup (uri->text, p - uri->text);
+
+		gnome_vfs_file_info_clear (info);
+		res = gnome_vfs_get_file_info_uri (new_uri, info, GNOME_VFS_FILE_INFO_DEFAULT);
+		if (res != GNOME_VFS_OK) {
+			gnome_vfs_uri_unref (new_uri);
+			goto out;
+		}
+		if (info->type == GNOME_VFS_FILE_TYPE_SYMBOLIC_LINK &&
+		    info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_SYMLINK_NAME) {
+			n_followed_symlinks++;
+			if (n_followed_symlinks > MAX_SYMLINKS_FOLLOWED) {
+				res = GNOME_VFS_ERROR_TOO_MANY_LINKS;
+				gnome_vfs_uri_unref (new_uri);
+				goto out;
+			}
+			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri,
+								       info->symlink_name);
+			if (*p != 0) {
+				gnome_vfs_uri_unref (uri);
+				uri = gnome_vfs_uri_append_string (resolved_uri, p);
+				gnome_vfs_uri_unref (resolved_uri);
+			} else {
+				gnome_vfs_uri_unref (uri);
+				uri = resolved_uri;
+			}
+
+			p = uri->text;
+		} 
+		gnome_vfs_uri_unref (new_uri);
+	}
+
+	res = GNOME_VFS_OK;
+	*result_uri = gnome_vfs_uri_dup (uri);
+ out:
+	gnome_vfs_file_info_unref (info);
+	gnome_vfs_uri_unref (uri);
+	return res;
+}
+
+
+/* taken from gnome-vfs-utils.c,
+     Copyright (C) 1999 Free Software Foundation
+     Copyright (C) 2000, 2001 Eazel, Inc.
+*/
+GnomeVFSResult
+resolve_all_symlinks (const char  *text_uri,
+		      char       **resolved_text_uri)
+{
+	GnomeVFSURI    *uri, *resolved_uri;
+	GnomeVFSResult  res;
+
+	*resolved_text_uri = NULL;
+
+	uri = gnome_vfs_uri_new (text_uri);
+	if (uri == NULL || uri->text == NULL) {
+		if (uri != NULL)
+			gnome_vfs_uri_unref (uri);
+		return GNOME_VFS_ERROR_NOT_SUPPORTED;
+	}
+
+	res = resolve_all_symlinks_uri (uri, &resolved_uri);
+
+	if (res == GNOME_VFS_OK) {
+		*resolved_text_uri = gnome_vfs_uri_to_string (resolved_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		gnome_vfs_uri_unref (resolved_uri);
+	}
+
+	gnome_vfs_uri_unref (uri);
+
+	return res;
 }

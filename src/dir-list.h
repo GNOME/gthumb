@@ -64,6 +64,8 @@ DirList *      dir_list_new                      ();
 
 void           dir_list_update_underline         (DirList         *dir_list);
 
+void           dir_list_update_icon_theme        (DirList         *dir_list);
+
 void           dir_list_free                     (DirList         *dir_list);
 
 void           dir_list_change_to                (DirList         *dir_list, 

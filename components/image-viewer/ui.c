@@ -176,13 +176,13 @@ verb_save_image (BonoboUIComponent *component,
 
 
 static struct {
-	TranspType transp_type;
+	GthTranspType transp_type;
 	const gchar *verb;
 } transp_type_assoc[] = {
-	{TRANSP_TYPE_WHITE,   "TransparencyWhite"},
-	{TRANSP_TYPE_NONE,    "TransparencyNone"},
-	{TRANSP_TYPE_BLACK,   "TransparencyBlack"},
-	{TRANSP_TYPE_CHECKED, "TransparencyChecked"},
+	{GTH_TRANSP_TYPE_WHITE,   "TransparencyWhite"},
+	{GTH_TRANSP_TYPE_NONE,    "TransparencyNone"},
+	{GTH_TRANSP_TYPE_BLACK,   "TransparencyBlack"},
+	{GTH_TRANSP_TYPE_CHECKED, "TransparencyChecked"},
 	{0, NULL}
 };
 #define TRANSPARENCY_MENU_ITEMS 4
@@ -203,7 +203,7 @@ transp_type_cb (BonoboUIComponent *component,
                 return; 
 
 	for (i = 0; transp_type_assoc[i].verb != NULL; i++) {
-		TranspType transp_type;
+		GthTranspType transp_type;
 
                 if (strcmp (path, transp_type_assoc[i].verb) != 0) 
 			continue;
@@ -224,7 +224,7 @@ setup_transparency_menu (ViewerControl *control)
 {
 	ImageViewer *viewer = control->priv->viewer;
 	BonoboUIComponent *ui_component;
-	TranspType transp_type;
+	GthTranspType transp_type;
 	CORBA_Environment ev;
 	char *full_path;
 	gint i;
@@ -259,11 +259,11 @@ setup_transparency_menu (ViewerControl *control)
 
 
 static struct {
-	ZoomQuality zoom_quality;
+	GthZoomQuality zoom_quality;
 	const gchar *verb;
 } zoom_quality_assoc[] = {
-	{ZOOM_QUALITY_HIGH,   "ZoomQualityHigh"},
-	{ZOOM_QUALITY_LOW,    "ZoomQualityLow"},
+	{GTH_ZOOM_QUALITY_HIGH,   "ZoomQualityHigh"},
+	{GTH_ZOOM_QUALITY_LOW,    "ZoomQualityLow"},
 	{0, NULL}
 };
 #define ZOOM_QUALITY_MENU_ITEMS 2
@@ -284,7 +284,7 @@ zoom_quality_cb (BonoboUIComponent *component,
                 return; 
 
 	for (i = 0; zoom_quality_assoc[i].verb != NULL; i++) {
-		ZoomQuality zoom_quality;
+		GthZoomQuality zoom_quality;
 
                 if (strcmp (path, zoom_quality_assoc[i].verb) != 0)
 			continue;
@@ -306,7 +306,7 @@ setup_zoom_quality_menu (ViewerControl *control)
 {
 	ImageViewer *viewer = control->priv->viewer;
 	BonoboUIComponent *ui_component;
-	ZoomQuality zoom_quality;
+	GthZoomQuality zoom_quality;
 	CORBA_Environment ev;
 	char *full_path;
 	gint i;

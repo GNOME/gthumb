@@ -1,3 +1,18 @@
+version 2.1.0
+-------------
+	* New (faster) icon list widget.
+	* Use the new thumbnail system (share thumbnails with Nautilus 2.2).
+	* Print dialog ported to libgnomeprint 2.2.
+	* New tool: Create Web Album.
+	* Added ability to change list view (list or thumbnails).
+	* Compile some tools as dynamic modules, and load them only 
+	  when needed.
+	* Slideshow includes only selected images when more than one 
+	  image is selected.
+	* Update the icon theme on the fly.
+	* Added a black_background option to always use a black 
+	  background for the image viewer (only settable via gconf).
+
 version 2.0.1
 -------------
 	* Bugfixes.

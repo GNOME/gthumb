@@ -29,6 +29,7 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
+#include "main.h"
 #include "auto-completion.h"
 #include "catalog.h"
 #include "dir-list.h"
@@ -38,11 +39,12 @@
 #include "gthumb-init.h"
 #include "gthumb-window.h"
 #include "image-viewer.h"
-#include "image-list.h"
-#include "main.h"
+#include "gth-image-list.h"
 #include "preferences.h"
 #include "icons/pixbufs.h"
 #include "typedefs.h"
+
+#define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
 
 GList               *window_list = NULL;
@@ -56,9 +58,10 @@ int                  HideSidebar = FALSE;
 gboolean             ExitAll = FALSE;
 
 
-static gboolean      view_comline_catalog = FALSE;
-static GdkPixbuf    *folder_pixbuf = NULL;
-static GThumbWindow *first_window = NULL;
+static gboolean        view_comline_catalog = FALSE;
+static GdkPixbuf      *folder_pixbuf = NULL;
+static GThumbWindow   *first_window = NULL;
+static GnomeIconTheme *icon_theme = NULL;
 
 
 static void     prepare_app         ();
@@ -189,6 +192,18 @@ create_default_categories_if_needed ()
 }
 
 
+static void
+theme_changed_cb (GnomeIconTheme *theme, 
+		  gpointer        data)
+{
+	if (folder_pixbuf != NULL) {
+		g_object_unref (folder_pixbuf);
+		folder_pixbuf = NULL;
+	}
+	all_windows_notify_update_icon_theme ();
+}
+
+
 /* Initialize application data. */
 static void 
 initialize_data (poptContext pctx)
@@ -209,6 +224,13 @@ initialize_data (poptContext pctx)
 	pixmap_file = PIXMAPSDIR "gthumb.png";
 	if (g_file_test (pixmap_file, G_FILE_TEST_EXISTS))
 		gnome_window_icon_set_default_from_file (pixmap_file);
+
+	icon_theme = gnome_icon_theme_new ();
+	gnome_icon_theme_set_allow_svg (icon_theme, TRUE);
+	g_signal_connect (icon_theme,
+			  "changed",
+			  G_CALLBACK (theme_changed_cb),
+			  NULL);
 
 	init_session ("gthumb");
 	if (session_is_restored ()) 
@@ -309,8 +331,10 @@ initialize_data (poptContext pctx)
 static void 
 release_data ()
 {
-	if (folder_pixbuf)
+	if (folder_pixbuf != NULL)
 		g_object_unref (folder_pixbuf);
+
+	g_object_unref (icon_theme);
 
 	fullscreen_close (fullscreen);
 	preferences_release ();
@@ -444,17 +468,17 @@ all_windows_update_browser_options ()
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		ImageListViewMode view_mode;
+		GThumbWindow  *window = scan->data;
+		GthViewMode    view_mode;
 		
 		window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
 		gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE));
 		if (eel_gconf_get_boolean (PREF_SHOW_COMMENTS))
-			view_mode = IMAGE_LIST_VIEW_ALL;
+			view_mode = GTH_VIEW_MODE_ALL;
 		else
-			view_mode = IMAGE_LIST_VIEW_TEXT;
-		image_list_set_view_mode (IMAGE_LIST(window->file_list->ilist),
-					  view_mode);
+			view_mode = GTH_VIEW_MODE_LABEL;
+		gth_file_view_set_view_mode (window->file_list->view,
+					     view_mode);
 		window_update_file_list (window);
 		dir_list_update_underline (window->dir_list);
 	}
@@ -469,7 +493,7 @@ all_windows_notify_files_created (GList *list)
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
-		if ((window->sidebar_content == DIR_LIST) &&
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
 
@@ -486,7 +510,7 @@ all_windows_notify_files_deleted (GList *list)
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
-		if ((window->sidebar_content == DIR_LIST) &&
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
 
@@ -503,7 +527,7 @@ all_windows_notify_files_changed (GList *list)
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
-		if ((window->sidebar_content == DIR_LIST) &&
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
 
@@ -553,7 +577,7 @@ all_windows_notify_file_rename (const gchar *old_name,
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
-		if ((window->sidebar_content == DIR_LIST) &&
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
 
@@ -674,11 +698,23 @@ all_windows_notify_update_directory (const gchar *dir_path)
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
-		if ((window->sidebar_content == DIR_LIST) &&
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
 
 		window_notify_update_directory (window, dir_path);
+	}
+}
+
+
+void
+all_windows_notify_update_icon_theme ()
+{
+	GList *scan;
+
+	for (scan = window_list; scan; scan = scan->next) {
+		GThumbWindow *window = scan->data;
+		window_notify_update_icon_theme (window);
 	}
 }
 
@@ -707,68 +743,20 @@ all_windows_add_monitor ()
 }
 
 
-#define ICON_TYPE_DIRECTORY "i-directory"
-
-
-static gchar *
-get_icon_path_from_name (const gchar *icon_name)
-{
-	gchar *name_with_ext;
-	gchar *icon_path = NULL;
-	gchar *tmp;
-
-	if (! file_extension_is (icon_name, ".png"))
-		name_with_ext = g_strconcat (icon_name, ".png", NULL);
-	else
-		name_with_ext = g_strdup (icon_name);
-
-        if (icon_path == NULL) {
-                tmp = g_strconcat ("nautilus/", 
-				   preferences.nautilus_theme, 
-				   "/", 
-				   name_with_ext, 
-				   NULL);
-		icon_path = gnome_vfs_icon_path_from_filename (tmp);
-		g_free (tmp);
-        }
-
-	if (icon_path == NULL) {
-                tmp = g_strconcat ("document-icons/", 
-				   name_with_ext, 
-				   NULL);
-                icon_path = gnome_vfs_icon_path_from_filename (tmp);
-                g_free (tmp);
-	}
-
-	if (icon_path == NULL) {
-		tmp = g_strconcat (g_get_home_dir (),
-				   "/.nautilus/themes/",
-				   preferences.nautilus_theme, 
-				   "/", 
-				   name_with_ext, 
-				   NULL);
-		icon_path = gnome_vfs_icon_path_from_filename (tmp);
-		g_free (tmp);
-	}
-
-        if (icon_path == NULL) 
-		icon_path = gnome_vfs_icon_path_from_filename (name_with_ext);
-	g_free (name_with_ext);
-
-	return icon_path;
-}
-
-
 GdkPixbuf *
 get_folder_pixbuf (double icon_size)
 {
-	GdkPixbuf *pixbuf = NULL;
-	static gboolean scale = TRUE;
+	GdkPixbuf       *pixbuf = NULL;
+	static gboolean  scale = TRUE;
 
 	if (folder_pixbuf == NULL) {
 		char *icon_path;
 		
-		icon_path = get_icon_path_from_name (ICON_TYPE_DIRECTORY);
+		icon_path = gnome_icon_theme_lookup_icon (icon_theme,
+							  ICON_NAME_DIRECTORY,
+							  icon_size,
+							  NULL,
+							  NULL);
 
 		if (icon_path == NULL) {
 			folder_pixbuf = gdk_pixbuf_new_from_inline (-1, 
@@ -776,6 +764,7 @@ get_folder_pixbuf (double icon_size)
 								    FALSE, 
 								    NULL);
 			scale = FALSE;
+
 		} else {
 			folder_pixbuf = gdk_pixbuf_new_from_file (icon_path, 
 								  NULL);
@@ -791,9 +780,9 @@ get_folder_pixbuf (double icon_size)
 	}
 	
 	if (folder_pixbuf != NULL) {
-		gint       new_w, new_h;
-		gint       w, h;
-		gdouble    factor;
+		int       new_w, new_h;
+		int       w, h;
+		double    factor;
 		
 		w = gdk_pixbuf_get_width (folder_pixbuf);
 		h = gdk_pixbuf_get_height (folder_pixbuf);
@@ -838,13 +827,13 @@ save_session (GnomeClient *client)
 		char         *location = NULL;
 		char         *key;
 
-		if ((window->sidebar_content == DIR_LIST) 
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
 		    && (window->dir_list != NULL)
 		    && (window->dir_list->path != NULL))
 			location = g_strconcat ("file://",
 						window->dir_list->path,
 						NULL);
-		else if ((window->sidebar_content == CATALOG_LIST) 
+		else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 			 && (window->catalog_path != NULL))
 			location = g_strconcat ("catalog://",
 						window->catalog_path,
@@ -979,4 +968,16 @@ load_session (void)
 	gnome_config_pop_prefix ();
 
 	return TRUE;
+}
+
+
+int
+get_default_folder_pixbuf_size (GtkWidget *widget)
+{
+	int icon_width, icon_height;
+
+	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
+                                           ICON_GTK_SIZE,
+                                           &icon_width, &icon_height);
+	return MAX (icon_width, icon_height);
 }

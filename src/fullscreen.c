@@ -73,8 +73,10 @@ set_state_if_different (GThumbWindow *window,
 	if (old_value != NULL)
 		g_free (old_value);
 
-	if (! notify)
-		window->freeze_toggle_handler = 1;
+	if (! notify) {
+		g_print ("++\n");
+		window->freeze_toggle_handler++;
+	}
 	bonobo_ui_component_set_prop (window->ui_component, 
 				      cname, 
 				      "state", new_value,
@@ -440,7 +442,7 @@ image_key_press_cb (GtkWidget *widget,
 	case GDK_n:
 	case GDK_space:
 	case GDK_Page_Down:
-		window_show_next_image (window);
+		window_show_next_image (window, FALSE);
 		break;
 
 		/* Previous image. */
@@ -448,19 +450,19 @@ image_key_press_cb (GtkWidget *widget,
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:
-		window_show_prev_image (window);
+		window_show_prev_image (window, FALSE);
 		break;
 
 		/* Show first image. */
 	case GDK_Home: 
 	case GDK_KP_Home:
-		window_show_first_image (window);
+		window_show_first_image (window, FALSE);
 		break;
 		
 		/* Show last image. */
 	case GDK_End: 
 	case GDK_KP_End:
-		window_show_last_image (window);
+		window_show_last_image (window, FALSE);
 		break;
 
 		/* Zoom in. */
@@ -523,9 +525,9 @@ image_key_press_cb (GtkWidget *widget,
 
 		/* Delete. */
 
-		if (window->sidebar_content == DIR_LIST)
+		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 			image_delete_command_impl (NULL, window, NULL);
-		else if (window->sidebar_content == CATALOG_LIST)
+		else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			image_delete_from_catalog_command_impl (NULL, window, NULL);
 		break;
 
@@ -835,8 +837,8 @@ fullscreen_start (FullScreen *fullscreen,
 	fullscreen->viewer = window->viewer;
 	gtk_widget_reparent (window->viewer, fullscreen->window); 
 
-	image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer),
-					   TRUE);
+	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND))
+		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
 
 	wmspec_change_state (TRUE,
 			     fullscreen->window->window,
@@ -902,8 +904,8 @@ fullscreen_stop (FullScreen *fullscreen)
 	if (fullscreen->mouse_hide_id)
 		g_source_remove (fullscreen->mouse_hide_id);
 
-	image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer),
-					   FALSE);
+	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND))
+		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
 
 	wmspec_change_state (FALSE,
 			     fullscreen->window->window,

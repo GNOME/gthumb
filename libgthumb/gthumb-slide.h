@@ -36,7 +36,8 @@ void  gthumb_draw_slide             (int          slide_x,
 				     GdkGC       *black_gc,
 				     GdkGC       *dark_gc,
 				     GdkGC       *mid_gc,
-				     GdkGC       *light_gc);
+				     GdkGC       *light_gc,
+				     gboolean     draw_inner_border);
 
 void gthumb_draw_slide_with_colors  (int          slide_x, 
 				     int          slide_y,

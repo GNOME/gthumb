@@ -66,53 +66,96 @@
 #define HISTORY_LIST_MAX_LENGTH   35
 
 typedef enum { /*< skip >*/
-	DIRECTION_FORWARD = 0,
-	DIRECTION_REVERSE = 1
-} DirectionType;
+	GTH_DIRECTION_FORWARD = 0,
+	GTH_DIRECTION_REVERSE = 1
+} GthDirectionType;
 
 
 typedef enum { /*< skip >*/
-	TOOLBAR_STYLE_SYSTEM = 0,
-	TOOLBAR_STYLE_TEXT_BELOW,
-	TOOLBAR_STYLE_TEXT_BESIDE,
-	TOOLBAR_STYLE_ICONS,
-	TOOLBAR_STYLE_TEXT
-} ToolbarStyle;
+	GTH_TOOLBAR_STYLE_SYSTEM = 0,
+	GTH_TOOLBAR_STYLE_TEXT_BELOW,
+	GTH_TOOLBAR_STYLE_TEXT_BESIDE,
+	GTH_TOOLBAR_STYLE_ICONS,
+	GTH_TOOLBAR_STYLE_TEXT
+} GthToolbarStyle;
 
 
 typedef enum { /*< skip >*/
-	NO_LIST = 0,
-	DIR_LIST,
-	CATALOG_LIST,
-	CANCEL_BTN,
-	NUM_CONTENT_TYPES
-} SidebarContent;
+	GTH_SIDEBAR_NO_LIST = 0,
+	GTH_SIDEBAR_DIR_LIST,
+	GTH_SIDEBAR_CATALOG_LIST,
+	GTH_SIDEBAR_NUM_CONTENT_TYPES
+} GthSidebarContent;
+
+
+typedef enum { /*< skip >*/
+	GTH_VIEW_MODE_LABEL,              /* Display label. */
+	GTH_VIEW_MODE_COMMENTS,           /* Display comment. */
+ 	GTH_VIEW_MODE_COMMENTS_OR_TEXT,   /* When a comment is present do
+					   * not display text. */
+	GTH_VIEW_MODE_ALL                 /* Display comment and text. */
+} GthViewMode;
+
+
+typedef enum { /*< skip >*/
+	GTH_VIEW_AS_LIST = 0,
+	GTH_VIEW_AS_THUMBNAILS
+} GthViewAs;
+
+
+typedef enum { /*< skip >*/
+	GTH_VISIBILITY_NONE = 0,
+	GTH_VISIBILITY_FULL,
+	GTH_VISIBILITY_PARTIAL,
+	GTH_VISIBILITY_PARTIAL_TOP,
+	GTH_VISIBILITY_PARTIAL_BOTTOM
+} GthVisibility;
 
 
 /* keep the order of the items in sync with the order of the 
  * sort_by_radio_list structure in the file menu.h */
 typedef enum { /*< skip >*/
-	SORT_NONE,
-	SORT_BY_NAME,
-	SORT_BY_PATH,
-	SORT_BY_SIZE,
-	SORT_BY_TIME
-} SortMethod;
+	GTH_SORT_METHOD_NONE,
+	GTH_SORT_METHOD_BY_NAME,
+	GTH_SORT_METHOD_BY_PATH,
+	GTH_SORT_METHOD_BY_SIZE,
+	GTH_SORT_METHOD_BY_TIME
+} GthSortMethod;
 
 
 typedef enum { /*< skip >*/
-	CLICK_POLICY_FOLLOW_NAUTILUS = 0,
-	CLICK_POLICY_SINGLE,
-	CLICK_POLICY_DOUBLE
-} ClickPolicy;
+	GTH_CLICK_POLICY_FOLLOW_NAUTILUS = 0,
+	GTH_CLICK_POLICY_SINGLE,
+	GTH_CLICK_POLICY_DOUBLE
+} GthClickPolicy;
 
 
 typedef enum { /*< skip >*/
-	OVERWRITE_SKIP,
-	OVERWRITE_RENAME,
-	OVERWRITE_ASK,
-	OVERWRITE_OVERWRITE,
-} OverwriteMode;
+	GTH_OVERWRITE_SKIP,
+	GTH_OVERWRITE_RENAME,
+	GTH_OVERWRITE_ASK,
+	GTH_OVERWRITE_OVERWRITE,
+} GthOverwriteMode;
+
+
+typedef enum { /*< skip >*/
+	GTH_CAPTION_COMMENT    = 1 << 0,
+	GTH_CAPTION_FILE_PATH  = 1 << 1,
+	GTH_CAPTION_FILE_NAME  = 1 << 2,
+	GTH_CAPTION_FILE_SIZE  = 1 << 3,
+	GTH_CAPTION_IMAGE_DIM  = 1 << 4
+} GthCaptionFields;
+
+ 
+typedef enum { /*< skip >*/
+	GTH_FRAME_STYLE_NONE               = 1 << 0,
+	GTH_FRAME_STYLE_SIMPLE             = 1 << 1,
+	GTH_FRAME_STYLE_SIMPLE_WITH_SHADOW = 1 << 2,
+	GTH_FRAME_STYLE_SHADOW             = 1 << 3,
+	GTH_FRAME_STYLE_SLIDE              = 1 << 4,
+	GTH_FRAME_STYLE_SHADOW_IN          = 1 << 5,
+	GTH_FRAME_STYLE_SHADOW_OUT         = 1 << 6
+} GthFrameStyle;
 
 
 typedef void (*ErrorFunc)      (gpointer data);

@@ -22,7 +22,7 @@
  */
 
 /*
- * Ported to gtk 2 and modified a bit by Paolo bacchilega <paolo.bacch@tin.it> 
+ * Ported to gtk 2 and modified by Paolo Bacchilega <paolo.bacch@tin.it> 
  */
 
 
@@ -56,7 +56,7 @@ struct _EComboButtonPrivate {
 
 	gboolean menu_popped_up;
 
-	ToolbarStyle toolbar_style;
+	GthToolbarStyle toolbar_style;
 };
 
 
@@ -608,8 +608,8 @@ e_combo_button_get_type ()
 
 
 void
-e_combo_button_set_style  (EComboButton *combo_button,
-			   ToolbarStyle  toolbar_style)
+e_combo_button_set_style  (EComboButton    *combo_button,
+			   GthToolbarStyle  toolbar_style)
 {
 	EComboButtonPrivate *priv;
 
@@ -618,22 +618,22 @@ e_combo_button_set_style  (EComboButton *combo_button,
 
 	priv = combo_button->priv;
 
-	if (toolbar_style == TOOLBAR_STYLE_SYSTEM) {
+	if (toolbar_style == GTH_TOOLBAR_STYLE_SYSTEM) {
 		char *system_style;
 
 		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style");
 		if (system_style == NULL)
-			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 		else if (strcmp (system_style, "both") == 0)
-			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 		else if (strcmp (system_style, "both_horiz") == 0)
-			toolbar_style = TOOLBAR_STYLE_TEXT_BESIDE;
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BESIDE;
 		else if (strcmp (system_style, "icon") == 0)
-			toolbar_style = TOOLBAR_STYLE_ICONS;
+			toolbar_style = GTH_TOOLBAR_STYLE_ICONS;
 		else if (strcmp (system_style, "text") == 0)
-			toolbar_style = TOOLBAR_STYLE_TEXT;
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT;
 		else
-			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 
 		g_free (system_style);
 	}
@@ -641,21 +641,21 @@ e_combo_button_set_style  (EComboButton *combo_button,
 	priv->toolbar_style = toolbar_style;
 
 	switch (toolbar_style) {
-	case TOOLBAR_STYLE_TEXT_BELOW:
+	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
 		gtk_widget_show (priv->label);
 		gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_VERTICAL);
 		break;
 
-	case TOOLBAR_STYLE_TEXT_BESIDE:
+	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
 		gtk_widget_show (priv->label);
 		gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
 						GTK_ORIENTATION_HORIZONTAL);
 		break;
 
-	case TOOLBAR_STYLE_ICONS:
+	case GTH_TOOLBAR_STYLE_ICONS:
 		gtk_widget_hide (priv->label);
 		gtk_widget_show (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
@@ -663,7 +663,7 @@ e_combo_button_set_style  (EComboButton *combo_button,
 		break;
 		break;
 
-	case TOOLBAR_STYLE_TEXT:
+	case GTH_TOOLBAR_STYLE_TEXT:
 		gtk_widget_show (priv->label);
 		gtk_widget_hide (priv->icon_image);
 		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),

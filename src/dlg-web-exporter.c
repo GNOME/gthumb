@@ -1,0 +1,727 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <config.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-file-entry.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-color-picker.h>
+#include <libgnomeui/gnome-font-picker.h>
+#include <libgnomevfs/gnome-vfs-directory.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
+#include <glade/glade.h>
+#include "catalog-web-exporter.h"
+#include "dlg-file-utils.h"
+#include "file-utils.h"
+#include "gtk-utils.h"
+#include "gth-file-view.h"
+#include "main.h"
+#include "pixbuf-utils.h"
+#include "gconf-utils.h"
+#include "gthumb-window.h"
+#include "glib-utils.h"
+
+int           sort_method_to_idx[] = { -1, 0, 1, 2, 3 };
+GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_PATH, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME };
+
+
+#define GLADE_EXPORTER_FILE "gthumb_web_exporter.glade"
+
+
+typedef struct {
+	GThumbWindow       *window;
+
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+
+	GtkWidget          *progress_dialog;
+	GtkWidget          *progress_progressbar;
+	GtkWidget          *progress_info;
+	GtkWidget          *progress_cancel;
+
+	GtkWidget          *btn_ok;
+
+	GtkWidget          *wa_dest_fileentry;
+	GtkWidget          *dest_fileentry_entry;
+	GtkWidget          *wa_index_file_entry;
+	GtkWidget          *wa_copy_images_checkbutton;
+
+	GtkWidget          *wa_rows_spinbutton;
+	GtkWidget          *wa_cols_spinbutton;
+	GtkWidget          *wa_sort_images_optionmenu;
+	GtkWidget          *wa_reverse_order_checkbutton;
+
+	GtkWidget          *wa_title_entry;
+	GtkWidget          *wa_theme_entry;
+	GtkWidget          *wa_select_theme_button;
+
+	/**/
+
+	GtkWidget          *wat_dialog;
+	GtkWidget          *wat_theme_treeview;
+	GtkWidget          *wat_ok_button;
+	GtkWidget          *wat_cancel_button;
+	GtkWidget          *wat_install_button;
+	GtkWidget          *wat_go_to_folder_button;
+
+	/**/
+
+	CatalogWebExporter *exporter;
+} DialogData;
+
+
+/* called when the main dialog is closed. */
+static void
+destroy_cb (GtkWidget  *widget, 
+	    DialogData *data)
+{
+	g_object_unref (data->gui);
+	if (data->exporter)
+		g_object_unref (data->exporter);
+	g_free (data);
+}
+
+
+static void
+export (GtkWidget  *widget,
+	DialogData *data)
+{
+	CatalogWebExporter *exporter = data->exporter;
+	char               *location;
+	char               *path;
+	char               *title, *theme, *index_file;
+
+	/* Save options. */
+
+	path = _gtk_entry_get_locale_text (GTK_ENTRY (data->dest_fileentry_entry));
+	location = remove_ending_separator (path);
+	g_free (path);
+	eel_gconf_set_string (PREF_WEB_ALBUM_DESTINATION, location);
+
+	index_file = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_index_file_entry));
+	eel_gconf_set_string (PREF_WEB_ALBUM_INDEX_FILE, index_file);
+
+	eel_gconf_set_boolean (PREF_WEB_ALBUM_COPY_IMAGES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton)));
+
+	eel_gconf_set_integer (PREF_WEB_ALBUM_ROWS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_rows_spinbutton)));
+
+	eel_gconf_set_integer (PREF_WEB_ALBUM_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_cols_spinbutton)));
+
+	pref_set_web_album_sort_order (idx_to_sort_method [gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu))]);
+
+	eel_gconf_set_boolean (PREF_WEB_ALBUM_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton)));
+
+	title = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_title_entry));
+	eel_gconf_set_string (PREF_WEB_ALBUM_TITLE, title);
+
+	theme = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_theme_entry));
+	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
+
+	/**/
+
+	if (! dlg_check_folder (data->window, location)) {
+		g_free (location);
+		return;
+	}
+
+	gtk_widget_hide (data->dialog);
+
+	/* Set options. */
+
+	catalog_web_exporter_set_location (exporter, location);
+	catalog_web_exporter_set_index_file (exporter, index_file);
+
+	catalog_web_exporter_set_copy_images (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
+	
+	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
+	catalog_web_exporter_set_title (exporter, title);
+	catalog_web_exporter_set_style (exporter, theme);
+
+	g_free (location);
+	g_free (title);
+	g_free (theme);
+	g_free (index_file);
+	
+	/* Export. */
+
+	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
+				      GTK_WINDOW (data->window->app));
+	gtk_window_set_modal (GTK_WINDOW (data->progress_dialog), TRUE);
+	gtk_widget_show_all (data->progress_dialog);
+
+	catalog_web_exporter_export (exporter);
+}
+
+
+static void
+export_done (GtkObject  *object,
+	     DialogData *data)
+{
+	gtk_widget_destroy (data->progress_dialog);
+	gtk_widget_destroy (data->dialog);
+}
+
+
+static void
+export_progress (GtkObject  *object,
+		 float       percent,
+		 DialogData *data)
+{
+	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (data->progress_progressbar), percent);
+}
+
+
+static void
+export_info (GtkObject  *object,
+	     const char *info,
+	     DialogData *data)
+{
+	gtk_label_set_text (GTK_LABEL (data->progress_info), info);
+}
+
+
+static void
+export_start_copying (GtkObject  *object,
+		      DialogData *data)
+{
+	gtk_widget_hide (data->progress_dialog);
+}
+
+
+static void show_album_theme_cb (GtkWidget *widget, DialogData *data);
+
+
+/* create the main dialog. */
+void
+dlg_web_exporter (GThumbWindow *window)
+{
+	DialogData   *data;
+	GtkWidget    *btn_cancel;
+	GtkWidget    *btn_help;
+	GList        *list;
+	char         *svalue;
+
+	data = g_new (DialogData, 1);
+
+	data->window = window;
+
+	list = gth_file_view_get_file_list_selection (window->file_list->view);
+	if (list == NULL) {
+		g_warning ("No file selected.");
+		g_free (data);
+		return;
+	}
+
+	data->exporter = catalog_web_exporter_new (window, list);
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+        if (!data->gui) {
+		g_object_unref (data->exporter);
+		g_free (data);
+                g_warning ("Could not find " GLADE_FILE "\n");
+                return;
+        }
+
+	/* Get the widgets. */
+
+	data->dialog = glade_xml_get_widget (data->gui, "web_album_dialog");
+	data->wa_dest_fileentry = glade_xml_get_widget (data->gui, "wa_dest_fileentry");
+	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
+	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
+
+	data->wa_rows_spinbutton = glade_xml_get_widget (data->gui, "wa_rows_spinbutton");
+	data->wa_cols_spinbutton = glade_xml_get_widget (data->gui, "wa_cols_spinbutton");
+	data->wa_sort_images_optionmenu = glade_xml_get_widget (data->gui, "wa_sort_images_optionmenu");
+	data->wa_reverse_order_checkbutton = glade_xml_get_widget (data->gui, "wa_reverse_order_checkbutton");
+
+	data->wa_title_entry = glade_xml_get_widget (data->gui, "wa_title_entry");
+	data->wa_theme_entry = glade_xml_get_widget (data->gui, "wa_theme_entry");
+	data->wa_select_theme_button = glade_xml_get_widget (data->gui, "wa_select_theme_button");
+
+
+	data->progress_dialog = glade_xml_get_widget (data->gui, "progress_dialog");
+	data->progress_progressbar = glade_xml_get_widget (data->gui, "progress_progressbar");
+	data->progress_info = glade_xml_get_widget (data->gui, "progress_info");
+	data->progress_cancel = glade_xml_get_widget (data->gui, "progress_cancel");
+
+	btn_cancel = glade_xml_get_widget (data->gui, "wa_cancel_button");
+	data->btn_ok = glade_xml_get_widget (data->gui, "wa_ok_button");
+	btn_help = glade_xml_get_widget (data->gui, "wa_help_button");
+
+	data->dest_fileentry_entry = gnome_entry_gtk_entry (GNOME_ENTRY (gnome_file_entry_gnome_entry (GNOME_FILE_ENTRY (data->wa_dest_fileentry))));
+
+	/* Signals. */
+
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "destroy",
+			  G_CALLBACK (destroy_cb),
+			  data);
+	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (data->btn_ok), 
+			  "clicked",
+			  G_CALLBACK (export),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->wa_select_theme_button), 
+			  "clicked",
+			  G_CALLBACK (show_album_theme_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->exporter), 
+			  "done",
+			  G_CALLBACK (export_done),
+			  data);
+	g_signal_connect (G_OBJECT (data->exporter), 
+			  "progress",
+			  G_CALLBACK (export_progress),
+			  data);
+	g_signal_connect (G_OBJECT (data->exporter), 
+			  "info",
+			  G_CALLBACK (export_info),
+			  data);
+	g_signal_connect (G_OBJECT (data->exporter), 
+			  "start_copying",
+			  G_CALLBACK (export_start_copying),
+			  data);
+
+	g_signal_connect_swapped (G_OBJECT (data->progress_dialog), 
+				  "delete_event",
+				  G_CALLBACK (catalog_web_exporter_interrupt),
+				  data->exporter);
+	g_signal_connect_swapped (G_OBJECT (data->progress_cancel), 
+				  "clicked",
+				  G_CALLBACK (catalog_web_exporter_interrupt),
+				  data->exporter);
+
+	/* Set widgets data. */
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->dest_fileentry_entry),
+				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
+	g_free (svalue);
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_INDEX_FILE);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_index_file_entry), svalue);
+	g_free (svalue);
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_copy_images_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_COPY_IMAGES));
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS));
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
+
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu), sort_method_to_idx [pref_get_web_album_sort_order ()]);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_TITLE);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_title_entry), svalue);
+	g_free (svalue);
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_theme_entry), svalue);
+	g_free (svalue);
+
+	/* Run dialog. */
+
+	gtk_widget_grab_focus (data->wa_dest_fileentry); 
+
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
+	gtk_widget_show_all (data->dialog);
+}
+
+
+
+
+typedef struct {
+	DialogData         *data;
+	GThumbWindow       *window;
+
+	GladeXML           *gui;
+	GtkWidget          *dialog;
+
+	GtkWidget          *wat_dialog;
+	GtkWidget          *wat_theme_treeview;
+	GtkWidget          *wat_ok_button;
+	GtkWidget          *wat_cancel_button;
+	GtkWidget          *wat_install_button;
+	GtkWidget          *wat_go_to_folder_button;
+
+	GtkListStore       *list_store;
+} ThemeDialogData;
+
+
+enum {
+	THEME_NAME_COLUMN,
+	NUM_OF_COLUMNS
+};
+
+
+/* called when the main dialog is closed. */
+static void
+theme_dialog_destroy_cb (GtkWidget       *widget, 
+			 ThemeDialogData *tdata)
+{
+	g_object_unref (tdata->gui);
+	g_free (tdata);
+}
+
+
+static void
+theme_dialog__ok_clicked (GtkWidget       *widget, 
+			  ThemeDialogData *tdata)
+{
+	GtkTreeSelection *selection;
+	gboolean          theme_selected;
+	GtkTreeIter       iter;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview));
+	theme_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+
+	if (theme_selected) {
+		char *utf8_name;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (tdata->list_store),
+				    &iter,
+				    THEME_NAME_COLUMN, &utf8_name,
+				    -1);
+		gtk_entry_set_text (GTK_ENTRY (tdata->data->wa_theme_entry), utf8_name);
+		g_free (utf8_name);
+	}
+
+	gtk_widget_destroy (tdata->dialog);
+}
+
+
+static void
+add_theme_dir (ThemeDialogData *tdata,
+	       char            *theme_dir)
+{
+	GnomeVFSResult  result;
+	GList          *file_list = NULL;
+	GList          *scan;
+
+	g_print ("theme dir: %s\n", theme_dir);
+
+	if (theme_dir != NULL)
+		result = gnome_vfs_directory_list_load (&file_list, 
+							theme_dir, 
+							GNOME_VFS_FILE_INFO_DEFAULT);
+	else
+		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
+	
+	if (result == GNOME_VFS_OK) 
+		for (scan = file_list; scan; scan = scan->next) {
+			GnomeVFSFileInfo *info = scan->data;
+			char             *utf8_name;
+			GtkTreeIter       iter;
+
+			if (info->type != GNOME_VFS_FILE_TYPE_DIRECTORY)
+				continue;
+
+			if ((strcmp (info->name, ".") == 0)
+			    || (strcmp (info->name, "..") == 0))
+				continue;
+
+			utf8_name = g_locale_to_utf8 (info->name, -1, NULL, NULL, NULL);
+			
+			gtk_list_store_append (tdata->list_store, &iter);
+			gtk_list_store_set (tdata->list_store, &iter,
+					    THEME_NAME_COLUMN, utf8_name,
+					    -1);
+			
+			g_free (utf8_name);
+		}
+
+	if (file_list != NULL)
+		gnome_vfs_file_info_list_free (file_list);
+}
+
+
+static void
+load_themes (ThemeDialogData *tdata)
+{
+	char *theme_dir;
+
+	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+				  g_get_home_dir (),
+				  ".gnome2",
+				  "gthumb/albumthemes",
+				  NULL);
+	add_theme_dir (tdata, theme_dir);
+	g_free (theme_dir);
+
+	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+				  GTHUMB_DATADIR,
+				  "gthumb/albumthemes",
+				  NULL);
+	add_theme_dir (tdata, theme_dir);
+	g_free (theme_dir);	
+}
+
+
+static void
+theme_dialog__sel_changed_cb (GtkTreeSelection *selection,
+			      ThemeDialogData  *tdata)
+{
+	gboolean     theme_selected;
+	GtkTreeIter  iter;
+
+	theme_selected = gtk_tree_selection_get_selected (selection, NULL, &iter);
+	gtk_widget_set_sensitive (tdata->wat_ok_button, theme_selected);
+}
+
+
+static void
+theme_dialog__row_activated_cb (GtkTreeView       *tree_view,
+				GtkTreePath       *path,
+				GtkTreeViewColumn *column,
+				ThemeDialogData   *tdata)
+{
+	theme_dialog__ok_clicked (NULL, tdata);
+}
+
+
+static void
+ensure_local_theme_dir_exists (void)
+{
+	char *theme_dir;
+
+	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+				  g_get_home_dir (),
+				  ".gnome2",
+				  "gthumb/albumthemes",
+				  NULL);
+	mkdir (theme_dir, 0700);
+	g_free (theme_dir);
+}
+
+
+static void
+install_theme__ok_cb (GObject  *object,
+		      gpointer  data)
+{
+	ThemeDialogData  *tdata;
+	GtkWidget        *file_sel = data;
+	char             *theme_archive;
+	char             *command_line;
+	GError           *err = NULL;
+
+	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");
+	theme_archive = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
+	gtk_widget_destroy (file_sel);
+
+	if (theme_archive == NULL)
+		return;
+
+	/**/
+
+	ensure_local_theme_dir_exists ();
+            
+	if (file_extension_is (theme_archive, ".tar.gz")
+	    || file_extension_is (theme_archive, ".tgz"))
+		command_line = g_strdup_printf ("tar -C %s%s -zxf %s",
+						g_get_home_dir (),
+						"/.gnome2/gthumb/albumthemes",
+						theme_archive);
+	
+	else if (file_extension_is (theme_archive, ".tar.bz2"))
+		command_line = g_strdup_printf ("tar -C %s%s -xf %s --use-compress-program bzip2",
+						g_get_home_dir (),
+						"/.gnome2/gthumb/albumthemes",
+						theme_archive);
+	
+	if ((command_line != NULL) 
+	    && ! g_spawn_command_line_sync (command_line, NULL, NULL, NULL, &err)
+	    && (err != NULL))
+		_gtk_error_dialog_from_gerror_run (NULL, &err);
+	
+	g_free (command_line);
+	g_free (theme_archive);
+
+	/**/
+
+	gtk_list_store_clear (tdata->list_store);
+	load_themes (tdata);
+}
+
+
+static void
+theme_dialog__install_theme_clicked (GtkWidget       *widget, 
+				     ThemeDialogData *tdata)
+{
+	GtkWidget *file_sel;
+	char      *home;
+
+	file_sel = gtk_file_selection_new (_("Select Album Theme"));
+	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
+
+	home = g_strconcat (g_get_home_dir (), "/", NULL);
+	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), home);
+	g_free (home);
+
+	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
+			  "clicked",
+			  G_CALLBACK (install_theme__ok_cb),
+			  file_sel);
+
+	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (file_sel));
+
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel),
+				      GTK_WINDOW (tdata->dialog));
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
+	gtk_widget_show (file_sel);
+}
+
+
+static void
+theme_dialog__go_to_folder_clicked (GtkWidget       *widget, 
+				    ThemeDialogData *tdata)
+{
+	char        *path, *command;
+        GnomeVFSURI *uri;
+ 
+	path = g_strdup_printf ("%s/.gnome2/gthumb/albumthemes", 
+			       g_get_home_dir ());
+
+	uri = gnome_vfs_uri_new (path);
+	if (! gnome_vfs_uri_exists (uri)) 
+		gnome_vfs_make_directory_for_uri (uri, 0775);
+        gnome_vfs_uri_unref (uri);
+ 
+        command = g_strdup_printf ("nautilus --no-desktop %s", path);
+        g_free (path);
+ 
+        g_spawn_command_line_async (command, NULL);
+        g_free (command);
+}
+
+
+static void
+show_album_theme_cb (GtkWidget  *widget,
+		     DialogData *data)
+{
+	ThemeDialogData   *tdata;
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+
+	tdata = g_new (ThemeDialogData, 1);
+
+	tdata->data = data;
+	tdata->window = data->window;
+
+	tdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+        if (!tdata->gui) {
+		g_free (tdata);
+                g_warning ("Could not find " GLADE_FILE "\n");
+                return;
+        }
+
+	/* Get the widgets. */
+
+	tdata->dialog = glade_xml_get_widget (tdata->gui, "web_album_theme_dialog");
+	tdata->wat_theme_treeview = glade_xml_get_widget (tdata->gui, "wat_theme_treeview");
+	tdata->wat_ok_button = glade_xml_get_widget (tdata->gui, "wat_ok_button");
+	tdata->wat_cancel_button = glade_xml_get_widget (tdata->gui, "wat_cancel_button");
+	tdata->wat_install_button = glade_xml_get_widget (tdata->gui, "wat_install_button");
+	tdata->wat_go_to_folder_button = glade_xml_get_widget (tdata->gui, "wat_go_to_folder_button");
+
+	/* Signals. */
+
+	g_signal_connect (G_OBJECT (tdata->dialog), 
+			  "destroy",
+			  G_CALLBACK (theme_dialog_destroy_cb),
+			  tdata);
+	g_signal_connect_swapped (G_OBJECT (tdata->wat_cancel_button), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (tdata->dialog));
+	g_signal_connect (G_OBJECT (tdata->wat_ok_button), 
+			  "clicked",
+			  G_CALLBACK (theme_dialog__ok_clicked),
+			  tdata);
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (GTK_TREE_VIEW (tdata->wat_theme_treeview))),
+			  "changed",
+			  G_CALLBACK (theme_dialog__sel_changed_cb),
+			  tdata);
+	g_signal_connect (G_OBJECT (tdata->wat_theme_treeview),
+			  "row_activated",
+			  G_CALLBACK (theme_dialog__row_activated_cb),
+			  tdata);
+
+	g_signal_connect (G_OBJECT (tdata->wat_install_button),
+			  "clicked",
+			  G_CALLBACK (theme_dialog__install_theme_clicked),
+			  tdata);
+	g_signal_connect (G_OBJECT (tdata->wat_go_to_folder_button), 
+			  "clicked",
+			  G_CALLBACK (theme_dialog__go_to_folder_clicked),
+			  tdata);
+
+	/* Set widgets data. */
+
+	tdata->list_store = gtk_list_store_new (NUM_OF_COLUMNS, G_TYPE_STRING);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (tdata->wat_theme_treeview), GTK_TREE_MODEL (tdata->list_store));
+	g_object_unref (tdata->list_store);
+
+	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (tdata->wat_theme_treeview), FALSE);
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tdata->wat_theme_treeview), FALSE);
+
+	column = gtk_tree_view_column_new ();
+	renderer = gtk_cell_renderer_text_new ();
+        gtk_tree_view_column_pack_start (column, renderer, TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", THEME_NAME_COLUMN,
+                                             NULL);
+
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+	gtk_tree_view_column_set_sort_column_id (column, THEME_NAME_COLUMN);
+        gtk_tree_view_append_column (GTK_TREE_VIEW (tdata->wat_theme_treeview), column);
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (tdata->list_store), THEME_NAME_COLUMN, GTK_SORT_ASCENDING);
+
+	load_themes (tdata);
+
+	gtk_widget_set_sensitive (tdata->wat_ok_button, FALSE);
+
+	/* Run dialog. */
+
+	gtk_widget_grab_focus (tdata->wat_theme_treeview); 
+
+	gtk_window_set_transient_for (GTK_WINDOW (tdata->dialog), GTK_WINDOW (data->dialog));
+	gtk_window_set_modal (GTK_WINDOW (tdata->dialog), FALSE);
+	gtk_widget_show_all (tdata->dialog);
+}

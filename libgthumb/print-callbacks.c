@@ -25,11 +25,10 @@
 
 #include <libgnome/libgnome.h>
 #include <libgnomeprint/gnome-print.h>
-#include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprintui/gnome-print-preview.h>
-#include <libgnomeprintui/gnome-print-master-preview.h>
+#include <libgnomeprintui/gnome-print-job-preview.h>
 #include <libgnomeprintui/gnome-print-dialog.h>
-#include <libgnomeprintui/gnome-printer-dialog.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -40,6 +39,7 @@
 #include <pango/pango-layout.h>
 
 #include "glib-utils.h"
+#include "file-utils.h"
 #include "image-viewer.h"
 #include "pixbuf-utils.h"
 #include "comments.h"
@@ -47,7 +47,11 @@
 
 #define GLADE_PRINT_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
-#define CANVAS_ZOOM 0.30 /*0.25*/
+#define CANVAS_ZOOM 0.25 /*0.30*/
+
+#define COMMENT_FONT_NAME "Sans Serif"
+#define COMMENT_FONT_SIZE 10
+
 
 typedef struct {
 	int                  ref_count;
@@ -68,12 +72,14 @@ typedef struct {
 	double               paper_bmargin;
 
 	GnomePrintConfig    *config;
-	GnomePrintMaster    *gpm;
+	GnomePrintJob       *gpj;
 
 	gboolean             print_comment;
 	gboolean             portrait;
 
 	/* Image Information. */
+
+	char                *image_path;
 
 	GdkPixbuf           *pixbuf;
 	
@@ -117,9 +123,10 @@ print_info_unref (PrintInfo *pi)
 	pi->ref_count--;
 
 	if (pi->ref_count == 0) {
-		if (pi->gpm != NULL)
-			g_object_unref (pi->gpm);
+		if (pi->gpj != NULL)
+			g_object_unref (pi->gpj);
 		gnome_print_config_unref (pi->config);
+		g_free (pi->image_path);
 		g_object_unref (pi->pixbuf);
 		g_object_unref (pi->font_comment);
 		g_free (pi->comment);
@@ -297,6 +304,8 @@ print_comment (GnomePrintContext *pc,
 	int         paragraph_delimiter_index;
 	int         next_paragraph_start;
 	char       *text_end;
+
+	gnome_print_setfont (pc, pi->font_comment);
 
 	p = pi->comment;
 	text_end = pi->comment + strlen (pi->comment);
@@ -548,6 +557,10 @@ add_image_preview (PrintInfo *pi,
 	layout_width = (int) ((pi->paper_width - lmargin - rmargin) * CANVAS_ZOOM);
 
 	if (pi->print_comment && (pi->comment != NULL)) {
+		const char *font_name;
+
+		font_name = gnome_font_get_name (pi->font_comment);
+
 		pi->ci_comment = gnome_canvas_item_new (
 					group,
 					gthumb_canvas_text_get_type (),
@@ -556,8 +569,8 @@ add_image_preview (PrintInfo *pi,
 					"y",             pi->paper_height - bmargin,
 					"layout_width",  layout_width,
 					"wrap_mode",     PANGO_WRAP_CHAR,
-					"font",          "Sans 12",
-					"size_points",   CANVAS_ZOOM * 12,
+					"font",          font_name,
+					"size_points",   CANVAS_ZOOM * COMMENT_FONT_SIZE,
 					"anchor",        GTK_ANCHOR_S,
 					"justification", GTK_JUSTIFY_LEFT,
 					"clip_width",    pi->paper_width - lmargin - rmargin,
@@ -709,7 +722,10 @@ print_cb (GtkWidget *widget,
 {
 	PrintInfo         *pi = data->pi;
 	GnomePrintContext *gp_ctx;
-	gdouble            x, y;
+	double             x, y;
+	char              *title;
+	GtkWidget         *dialog;
+	int                response;
 
 	g_object_get (G_OBJECT (pi->ci_image),
 		      "x", &x,
@@ -725,13 +741,38 @@ print_cb (GtkWidget *widget,
 	pi->ref_count++;
 	gtk_widget_destroy (data->dialog); 
 
-	/* Print !! */
+	/* Gnome Print Dialog */
 
-	pi->gpm = gnome_print_master_new_from_config (pi->config);
-	gp_ctx = gnome_print_master_get_context (pi->gpm);
+	pi->gpj = gnome_print_job_new (pi->config);
+
+	if (pi->image_path != NULL)
+		title = g_strdup_printf (_("Print %s"), 
+					 file_name_from_path (pi->image_path));
+	else
+		title = g_strdup (_("Print Image"));
+	dialog = gnome_print_dialog_new (pi->gpj, title, 0);
+        response = gtk_dialog_run (GTK_DIALOG (dialog));
+        gtk_widget_destroy (dialog);
+
+	gp_ctx = gnome_print_job_get_context (pi->gpj);
 	print_image (gp_ctx, pi, FALSE);
-	gnome_print_master_close (pi->gpm);
-	gnome_print_master_print (pi->gpm);	
+	gnome_print_job_close (pi->gpj);
+
+        switch (response) {
+        case GNOME_PRINT_DIALOG_RESPONSE_PRINT:
+		gnome_print_job_print (pi->gpj);	
+                break;
+
+        case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
+		gtk_widget_show (gnome_print_job_preview_new (pi->gpj, title));
+                break;
+
+        default:
+		break;
+        }
+ 
+	g_free (title);
+
 	print_info_unref (pi);
 }
 
@@ -866,9 +907,11 @@ print_image_dlg (GtkWindow   *parent,
 {
 	PrintInfo    *pi;
 	DialogData   *data;
-	GtkWidget    *paper_vbox, *printer_vbox;
+	GtkWidget    *paper_vbox;
 	GtkWidget    *notebook;
+	GtkWidget    *paper_selector;
 	CommentData  *cdata = NULL;
+	char         *title = NULL;
 
 	if (image_viewer_is_void (viewer))
 		return;
@@ -881,11 +924,8 @@ print_image_dlg (GtkWindow   *parent,
 		GnomeVFSURI  *uri = gnome_vfs_uri_new (location);
 
 		if (gnome_vfs_uri_is_local (uri)) {
-			char *path;
-
-			path = gnome_vfs_get_local_path_from_uri (location);
-			cdata = comments_load_comment (path);
-			g_free (path);
+			pi->image_path = gnome_vfs_get_local_path_from_uri (location);
+			cdata = comments_load_comment (pi->image_path);
 		}
 
 		gnome_vfs_uri_unref (uri);
@@ -906,13 +946,12 @@ print_image_dlg (GtkWindow   *parent,
 	}
 	g_object_ref (pi->pixbuf);
 
-	pi->image_w = (gdouble) gdk_pixbuf_get_width (pi->pixbuf);
-	pi->image_h = (gdouble) gdk_pixbuf_get_height (pi->pixbuf);
+	pi->image_w = (double) gdk_pixbuf_get_width (pi->pixbuf);
+	pi->image_h = (double) gdk_pixbuf_get_height (pi->pixbuf);
 	pi->portrait = TRUE;
 	pi->use_colors = TRUE;
 
-	/* FIXME */
-	pi->font_comment = gnome_font_find_closest_from_full_name ("Sans 12"); 
+	pi->font_comment = gnome_font_find_closest (COMMENT_FONT_NAME, COMMENT_FONT_SIZE);
 
 	data = g_new (DialogData, 1);
 	data->pi = pi;
@@ -933,15 +972,13 @@ print_image_dlg (GtkWindow   *parent,
 	data->btn_center = glade_xml_get_widget (data->gui, "btn_center");
 	data->btn_print = glade_xml_get_widget (data->gui, "btn_print");
 
-	printer_vbox = glade_xml_get_widget (data->gui, "printer_vbox");
 	paper_vbox   = glade_xml_get_widget (data->gui, "paper_vbox");
 	notebook     = glade_xml_get_widget (data->gui, "notebook");
 
-	gtk_box_pack_start (GTK_BOX (printer_vbox),
-			    gnome_printer_selection_new (pi->config), 
-			    FALSE, FALSE, 0);
+	paper_selector = gnome_paper_selector_new_with_flags (pi->config, 0);
+	gtk_widget_show (paper_selector);
 	gtk_box_pack_start (GTK_BOX (paper_vbox),
-			    gnome_paper_selector_new (pi->config), /*FIXME*/
+			    paper_selector,
 			    FALSE, FALSE, 0);
 
 	pi->canvas = glade_xml_get_widget (data->gui, "canvas");
@@ -985,11 +1022,17 @@ print_image_dlg (GtkWindow   *parent,
 
 	/**/
 
+	if (pi->image_path != NULL)
+		title = g_strdup_printf (_("Print %s"), 
+					 file_name_from_path (pi->image_path));
+	gtk_window_set_title (GTK_WINDOW (data->dialog), title); 
+	g_free (title);
+
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), parent);
 
 	gnome_canvas_set_pixels_per_unit (GNOME_CANVAS (pi->canvas), 
 					  CANVAS_ZOOM);
 	page_update (data);
 
-	gtk_widget_show_all (data->dialog);
+	gtk_widget_show (data->dialog);
 }

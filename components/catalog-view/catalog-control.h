@@ -24,7 +24,7 @@
 #define VIEWER_CONTROL
 
 #include <libbonoboui.h>
-#include "file-list.h"
+#include "gth-file-list.h"
 
 #define CATALOG_TYPE_CONTROL            (catalog_control_get_type ())
 #define CATALOG_CONTROL(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), CATALOG_TYPE_CONTROL, CatalogControl))

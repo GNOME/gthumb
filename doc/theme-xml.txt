@@ -1,0 +1,106 @@
+EXPR: 
+  EXPR + EXPR
+  EXPR - EXPR
+  - EXPR
+  + EXPR
+  ! EXPR
+  ( EXPR )
+  EXPR == EXPR
+  EXPR != EXPR
+  EXPR <= EXPR
+  EXPR >= EXPR
+  EXPR < EXPR
+  EXPR > EXPR
+  NUMBER
+  RVAR
+
+NUMBER:
+  unsigned integer number
+
+RVAR (Readable Variables):	
+  images
+  image_idx
+  pages
+  page_idx
+
+WVAR (Writable Variables):
+  thumbnail_width
+  thumbnail_height
+
+---
+
+<gthumb:title/>
+
+<gthumb:image/>
+  idx=EXPR
+  idx_relative=EXPR
+  thumbnail="0/1"
+  max_size=EXPR
+  border=EXPR
+
+<gthumb:image_link/>
+  idx=EXPR
+  idx_relative=EXPR
+  thumbnail="0/1"
+
+<gthumb:image_idx/>
+  idx_relative=EXPR
+
+<gthumb:image_dim/>
+  idx=EXPR
+  idx_relative=EXPR
+
+<gthumb:images/>
+
+<gthumb:file_name/>
+  idx=EXPR
+  idx_relative=EXPR
+  with_path="0/1"
+  with_relative_path="0/1"
+
+<gthumb:file_path/>
+  idx=EXPR
+  idx_relative=EXPR
+  relative_path="0/1"
+
+<gthumb:file_size/>
+  idx=EXPR
+  idx_relative=EXPR
+
+<gthumb:comment/>
+  idx=EXPR
+  idx_relative=EXPR
+  max_size=EXPR
+
+<gthumb:page_link/>
+  idx=EXPR
+  idx_relative=EXPR
+  image_idx="0/1"
+
+<gthumb:page_idx/>
+  idx_relative=EXPR
+
+<gthumb:pages/>
+
+<gthumb:table/>
+
+<gthumb:date/>
+
+<gthumb:set_var WVAR=EXPR WVAR=EXPR [..] />
+
+---
+
+<gthumb:if EXPR/> 
+ [HTML]
+<gthumb:else_if EXPR/> 
+ [HTML]
+<gthumb:else_if EXPR/> 
+ [HTML]
+.
+.
+.
+<gthumb:else_if EXPR/> 
+ [HTML]
+<gthumb:else/> 
+ [HTML]
+<gthumb:end/>

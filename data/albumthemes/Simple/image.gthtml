@@ -1,0 +1,99 @@
+<html>
+  <head>
+    <title><gthumb:file_name/></title>
+    <style type="text/css">
+        a:link {
+                font-weight: bold;
+                text-decoration: none;
+                color: #555555
+        }
+        a:visited {
+                font-weight: bold;
+                text-decoration: none;
+                color: #555555
+        }
+        a:hover {
+                font-weight: bold;
+                text-decoration: none;
+                color: white
+        }
+    </style>
+  </head>
+<body bgcolor="#CCCCCC">
+	<!-- navigation bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td valign="center" align="center" bgcolor="#969696">
+	      <font style=bold color="white">
+	        <b><gthumb:image_idx/> / <gthumb:images/></b>
+	      </font>
+	    </td>
+
+	    <td valign="center" align="left">
+	      &nbsp;
+	      <a href="<gthumb:image_link idx=1/>">
+		<img src="first.gif" align="center" width="16" height="16" border="0">&nbsp; first</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:image_link idx_relative=-1/>">
+		<img src="prev.gif" align="center" width="16" height="16" border="0">&nbsp; prev</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:image_link idx_relative=+1/>">
+		<img src="next.gif" align="center" width="16" height="16" border="0">&nbsp; next</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:image_link idx=images/>">
+		<img src="last.gif" align="center" width="16" height="16" border="0">&nbsp; last</a></td>
+	    <td valign="center" align="right">
+	      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+		<img src="up.gif" align="center" width="16" height="16" border="0">&nbsp; index</a></td>
+	  </tr>
+	  <tr>
+	    <td colspan=6 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	</table>
+
+	&nbsp;<BR>
+
+	<table cellspacing=10>
+	  <tr>
+	    <td valign="top" align="left" rowspan=2>
+              <a href="<gthumb:file_name with_relative_path/>">
+	        <gthumb:image max_size=400 border=2/>
+              </a>
+	    </td>
+	    <td valign="top" align="left">
+	      <gthumb:comment/><BR>
+	    </td>
+	  </tr>
+	  <tr>
+	    <td valign="bottom" align="left">
+	      <font color="#555555">
+	        <b>Image Dimensions:</b>
+	        <gthumb:image_dim/> pixels
+	      </font><BR>
+
+	      <font color="#555555">
+	        <b>Size:</b>
+	        <gthumb:file_size/> 
+	      </font><BR>
+	    </td>
+	  </tr>
+	</table>
+
+	&nbsp;<BR>
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td colspan=2 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	  <tr>
+	    <td nowrap align="left" bgcolor="#969696">
+	      <font color="white">
+	        <b>&nbsp;<gthumb:title/>: <gthumb:file_name/>&nbsp;</b>
+	      </font>
+	    </td>
+	    <td width="100%">&nbsp;</td>
+	  </tr>
+	</table>
+</body>
+</html>

@@ -34,7 +34,7 @@ gthumb_image_viewer_LDADD = 			\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
-	$(top_builddir)/libgthumb/libgthumb.a
+	$(top_builddir)/libgthumb/libgthumb.la
 
 $(nautilus_view_component_idl_sources): nautilus_view_component_idl_stamp
 nautilus_view_component_idl_stamp: nautilus-view-component.idl $(ORBIT_IDL)

@@ -31,7 +31,7 @@
 #include "gthumb-stock.h"
 #include "preferences.h"
 #include "image-viewer.h"
-#include "image-list.h"
+#include "gth-image-list.h"
 #include "typedefs.h"
 
 Preferences preferences;
@@ -53,6 +53,7 @@ ensure_directories_exist (void)
         path = get_home_relative_dir (RC_DIR);
         if (path_is_file (path))
                 unlink (path);
+	g_free (path);
 
 	path = get_home_relative_dir (RC_CATALOG_DIR);
 	ensure_dir_exists (path, 0700);

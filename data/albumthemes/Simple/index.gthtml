@@ -1,0 +1,77 @@
+<gthumb:set_var thumbnail_width=120 thumbnail_height=100/>
+
+<html>
+  <head>
+    <title><gthumb:title/></title>
+    <style type="text/css">
+        a:link { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: #555555       
+	}
+	a:visited { 
+		font-weight: bold; 
+		text-decoration: none;
+		color: #555555
+	}
+        a:hover { 
+		font-weight: bold; 
+		text-decoration: none; 
+		color: white
+	}
+    </style>
+  </head>
+  <body bgcolor="#CCCCCC">
+
+	<!-- navigation bar -->
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td valign="center" align="center" bgcolor="#969696">
+	      <font color="white">
+	        <b><gthumb:page_idx/> / <gthumb:pages/></b>
+	      </font>
+	    </td>
+
+	    <td valign="center" align="left">
+	      &nbsp;
+	      <a href="<gthumb:page_link idx=1/>">
+		<img src="first.gif" align="center" width="16" height="16" border="0">&nbsp; first</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:page_link idx_relative=-1/>">
+		<img src="prev.gif" align="center" width="16" height="16" border="0">&nbsp; prev</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:page_link idx_relative=+1/>">
+		<img src="next.gif" align="center" width="16" height="16" border="0">&nbsp; next</a></td>
+	    <td valign="center" align="left">
+	      <a href="<gthumb:page_link idx=pages/>">
+		<img src="last.gif" align="center" width="16" height="16" border="0">&nbsp; last</a></td>
+	  </tr>
+	  <tr>
+	    <td colspan=5 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	</table>
+
+	&nbsp;<BR>
+
+	<table cellspacing=10 bgcolor="#CCCCCC" border="0" align="center">
+	<gthumb:table/>
+	</table>
+
+	&nbsp;<BR>
+
+	<table border=0 cellspacing=0 width="100%">
+	  <tr>
+	    <td colspan=2 width="100%" bgcolor="#969696">
+	      <img src="1.gif" height="1" border="0"></td></tr>
+	  <tr>
+	    <td nowrap align="left" bgcolor="#969696">
+	      <font color="white">
+	        <b>&nbsp;<gthumb:title/>&nbsp;</b>
+	      </font>
+	    </td>
+	    <td width="100%">&nbsp;</td>
+	  </tr>
+	</table>
+  </body>
+</html>

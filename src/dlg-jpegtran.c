@@ -724,7 +724,7 @@ dlg_jpegtran (GThumbWindow *window)
 	data->viewer = image_viewer_new ();
 	image_viewer_size (IMAGE_VIEWER (data->viewer), PREVIEW_SIZE, PREVIEW_SIZE);
 	gtk_container_add (GTK_CONTAINER (j_image_vbox), data->viewer);
-	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), ZOOM_CHANGE_FIT_IF_LARGER);
+	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), GTH_ZOOM_CHANGE_FIT_IF_LARGER);
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (data->viewer),
 				       pref_get_zoom_quality ());
 	image_viewer_set_check_type (IMAGE_VIEWER (data->viewer),

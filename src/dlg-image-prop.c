@@ -266,7 +266,7 @@ static void
 prev_image_cb (GtkWidget    *widget, 
 	       DialogData   *data)
 {
-	window_show_prev_image (data->window);
+	window_show_prev_image (data->window, FALSE);
 }
 
 
@@ -274,7 +274,7 @@ static void
 next_image_cb (GtkWidget    *widget, 
 	       DialogData   *data)
 {
-	window_show_next_image (data->window);
+	window_show_next_image (data->window, FALSE);
 }
 
 
