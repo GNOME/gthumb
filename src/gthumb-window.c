@@ -1446,6 +1446,127 @@ make_image_visible (GThumbWindow *window,
 }
 
 
+/* -- window_save_pixbuf -- */
+
+
+void
+save_pixbuf__image_saved_step2 (gpointer data)
+{
+	GThumbWindow *window = data;
+	int pos;
+
+	if (window->image_path == NULL)
+		return;
+
+	window->image_modified = FALSE;
+	window->saving_modified_image = FALSE;
+
+	pos = gth_file_list_pos_from_path (window->file_list, 
+					   window->image_path);
+	if (pos != -1) {
+		view_image_at_pos (window, pos);
+		gth_file_list_select_image_by_pos (window->file_list, pos);
+	}
+}
+
+
+static void
+save_pixbuf__image_saved_cb (char     *filename,
+			     gpointer  data)
+{
+	GThumbWindow *window = data;
+	GList        *file_list;
+	int           pos;
+
+	if (filename == NULL) 
+		return;
+
+#ifdef HAVE_LIBEXIF
+	if (window->exif_data != NULL) {
+		JPEGData *jdata;
+
+		jdata = jpeg_data_new_from_file (filename);
+		if (jdata != NULL) {
+			jpeg_data_set_exif_data (jdata, window->exif_data);
+			jpeg_data_save_file (jdata, filename);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
+
+	/**/
+
+	if ((window->image_path != NULL)
+	    && (strcmp (window->image_path, filename) == 0))
+		window->image_modified = FALSE;
+
+	file_list = g_list_prepend (NULL, filename);
+
+	pos = gth_file_list_pos_from_path (window->file_list, filename);
+	if (pos == -1) {
+		char *destination = remove_level_from_path (filename);
+
+		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+		    && (window->dir_list->path != NULL) 
+		    && (strcmp (window->dir_list->path, destination) == 0)) {
+			g_free (window->image_path);
+			window->image_path = g_strdup (filename);
+			gth_file_list_add_list (window->file_list, 
+						file_list, 
+						save_pixbuf__image_saved_step2,
+						window);
+		} else
+			save_pixbuf__image_saved_step2 (window);
+		g_free (destination);
+
+		all_windows_notify_files_created (file_list);
+
+	} else {
+		view_image_at_pos (window, pos);
+		all_windows_notify_files_changed (file_list);
+	}
+
+	g_list_free (file_list);
+}
+
+
+void
+window_save_pixbuf (GThumbWindow *window,
+		    GdkPixbuf    *pixbuf)
+{
+	char *current_folder = NULL;
+
+	if (window->image_path != NULL)
+		current_folder = g_strdup (window->image_path);
+
+	else if (window->dir_list->path != NULL)
+		current_folder = g_strconcat (window->dir_list->path,
+					      "/", 
+					      NULL);
+
+	dlg_save_image (GTK_WINDOW (window->app), 
+			current_folder,
+			pixbuf,
+			save_pixbuf__image_saved_cb,
+			window);
+
+	g_free (current_folder);
+}
+
+
+static void
+ask_whether_to_save__image_saved_cb (char     *filename,
+				     gpointer  data)
+{
+	GThumbWindow *window = data;
+
+	save_pixbuf__image_saved_cb (filename, data);
+
+	if (window->image_saved_func != NULL)
+		(*window->image_saved_func) (NULL, window);
+}
+
+
 static void
 ask_whether_to_save__response_cb (GtkWidget    *dialog,
 				  int           response_id,
@@ -1457,7 +1578,7 @@ ask_whether_to_save__response_cb (GtkWidget    *dialog,
 		dlg_save_image (GTK_WINDOW (window->app),
 				window->image_path,
 				image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
-				window->image_saved_func,
+				ask_whether_to_save__image_saved_cb,
 				window);
 		window->saving_modified_image = TRUE;
 
@@ -7275,114 +7396,6 @@ gboolean
 window_image_get_modified (GThumbWindow *window)
 {
 	return window->image_modified;
-}
-
-
-/* -- window_save_pixbuf -- */
-
-
-void
-save_pixbuf__image_saved_step2 (gpointer data)
-{
-	GThumbWindow *window = data;
-	int pos;
-
-	if (window->image_path == NULL)
-		return;
-
-	window->image_modified = FALSE;
-	window->saving_modified_image = FALSE;
-
-	pos = gth_file_list_pos_from_path (window->file_list, 
-					   window->image_path);
-	if (pos != -1) {
-		view_image_at_pos (window, pos);
-		gth_file_list_select_image_by_pos (window->file_list, pos);
-	}
-}
-
-
-static void
-save_pixbuf__image_saved_cb (char     *filename,
-			     gpointer  data)
-{
-	GThumbWindow *window = data;
-	GList        *file_list;
-	int           pos;
-
-	if (filename == NULL) 
-		return;
-
-#ifdef HAVE_LIBEXIF
-	if (window->exif_data != NULL) {
-		JPEGData *jdata;
-
-		jdata = jpeg_data_new_from_file (filename);
-		if (jdata != NULL) {
-			jpeg_data_set_exif_data (jdata, window->exif_data);
-			jpeg_data_save_file (jdata, filename);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
-
-	/**/
-
-	if ((window->image_path != NULL)
-	    && (strcmp (window->image_path, filename) == 0))
-		window->image_modified = FALSE;
-
-	file_list = g_list_prepend (NULL, filename);
-
-	pos = gth_file_list_pos_from_path (window->file_list, filename);
-	if (pos == -1) {
-		char *destination = remove_level_from_path (filename);
-
-		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-		    && (window->dir_list->path != NULL) 
-		    && (strcmp (window->dir_list->path, destination) == 0)) {
-			g_free (window->image_path);
-			window->image_path = g_strdup (filename);
-			gth_file_list_add_list (window->file_list, 
-						file_list, 
-						save_pixbuf__image_saved_step2,
-						window);
-		} else
-			save_pixbuf__image_saved_step2 (window);
-		g_free (destination);
-
-		all_windows_notify_files_created (file_list);
-
-	} else {
-		view_image_at_pos (window, pos);
-		all_windows_notify_files_changed (file_list);
-	}
-
-	g_list_free (file_list);
-}
-
-
-void
-window_save_pixbuf (GThumbWindow *window,
-		    GdkPixbuf    *pixbuf)
-{
-	char *current_folder = NULL;
-
-	if (window->image_path != NULL)
-		current_folder = g_strdup (window->image_path);
-
-	else if (window->dir_list->path != NULL)
-		current_folder = g_strconcat (window->dir_list->path,
-					      "/", 
-					      NULL);
-
-	dlg_save_image (GTK_WINDOW (window->app), 
-			current_folder,
-			pixbuf,
-			save_pixbuf__image_saved_cb,
-			window);
-
-	g_free (current_folder);
 }
 
 

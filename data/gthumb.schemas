@@ -389,6 +389,11 @@
 	  <long>Mümkün qiymətlər: nautilus, single, double.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: наутилус, единичен, двоен.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: nautilus, individual, doble.</long>
@@ -592,7 +597,7 @@
 
 	<locale name="bg">
 	  
-	  <long>Възможни стойности са: нищо, име, път, размер, време.</long>
+	  <long>Възможни стойности са: без, име, път, размер, време.</long>
 	</locale>
 
 	<locale name="ca">
@@ -1774,7 +1779,7 @@
 
 	<locale name="bg">
 	  
-	  <long>Възможни стойности са: бяло, черно, маркирано, нищо.</long>
+	  <long>Възможни стойности са: бяло, черно, маркирано, без.</long>
 	</locale>
 
 	<locale name="ca">
@@ -3790,6 +3795,11 @@
 	  <long>Mümkün qiymətlər: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: без, обикновен_със_сянка, сянка, кадър, вътрешна_сянка, външна_сянка.</long>
+	</locale>
+
 	<locale name="ca">
 	  
 	  <long>Els valors possibles són: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -4094,6 +4104,11 @@
 	<locale name="az">
 	  
 	  <long>Mümkün qiymətlər: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="bg">
+	  
+	  <long>Възможни стойности са: без, deflate, jpeg.</long>
 	</locale>
 
 	<locale name="ca">
@@ -5920,7 +5935,7 @@
 
 	<locale name="bg">
 	  
-	  <long>Възможни стойности са: нищо, квадрат, изображение, показване, 4x3, 4x6, 5x7, 8x10, друго.</long>
+	  <long>Възможни стойности са: без, квадрат, изображение, показване, 4x3, 4x6, 5x7, 8x10, друго.</long>
 	</locale>
 
 	<locale name="ca">

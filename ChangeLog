@@ -1,3 +1,11 @@
+2004-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (ask_whether_to_save__image_saved_cb): always 
+	save the exif data.
+
+	Fixed bug #158682: Modified image auto-saved through confirmation 
+	dialog loses EXIF data.
+
 2004-11-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c (cancel_clicked_cb): interrupt the current 
