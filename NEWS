@@ -1,3 +1,13 @@
+version 2.6.3
+-------------	
+	* Fixed bug #161635: Scrollbar doesn't reset when viewing with next and 
+	  previous.
+	* Fixed bug #156870: Duplicates allowed in catalogues.
+	* Fixed bug #149883: Saving pictures with files extensions in uppercase 
+	  doesn't work.
+	* Fixed bug #142897: Selected Categories area of Categories window 
+	  appears to be directly editable, but it is not.
+
 version 2.6.2
 -------------	
 	* Fixed bug #159492: freezes when trying to create thumbnail for a JPEG

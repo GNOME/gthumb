@@ -1008,6 +1008,44 @@ file_is_hidden (const gchar *name)
 }
 
 
+static const char *
+get_extension (const char *path)
+{
+	int         len;
+	int         p;
+	const char *ptr = path;
+
+	if (! path) 
+		return NULL;
+
+	len = strlen (path);
+	if (len <= 1) 
+		return NULL;
+
+	p = len - 1;
+	while ((ptr[p] != '.') && (p >= 0)) 
+		p--;
+
+	if (p < 0)
+		return NULL;
+
+	return path + p;
+}
+
+
+static char*
+get_sample_name (const char *filename)
+{
+	const char *ext;
+	
+	ext = get_extension (filename);
+	if (ext == NULL)
+		return NULL;
+
+	return g_strconcat ("a", get_extension (filename), NULL);
+}
+
+
 gboolean
 file_is_image (const gchar *name,
 	       gboolean     fast_file_type)
@@ -1016,13 +1054,21 @@ file_is_image (const gchar *name,
 	gboolean    is_an_image;
 
 	if (fast_file_type) {
-		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
+		char *filename, *n1;
+
+		filename = get_sample_name (name);
+		if (filename == NULL)
+			return FALSE;
+
+		n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
 		if (n1 != NULL) {
 			char *n2, *n3;
 			n2 = g_utf8_strdown (n1, -1);
 			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+
 			if (n3 != NULL)
 				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+
 			g_free (n3);
 			g_free (n2);
 			g_free (n1);
@@ -1054,7 +1100,7 @@ image_is_type (const char *name,
 			char *n2 = g_utf8_strdown (n1, -1);
 			char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
 			if (n3 != NULL)
-				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+				result = gnome_vfs_mime_type_from_name_or_default (file_name_from_path (n3), NULL);
 			g_free (n3);
 			g_free (n2);
 			g_free (n1);

@@ -118,15 +118,17 @@ enum {
 
 static GtkTargetEntry target_table[] = {
 	{ "text/uri-list", 0, TARGET_URILIST },
-	{ "text/plain;charset=UTF-8",    0, TARGET_PLAIN_UTF8 },
-	{ "text/plain",    0, TARGET_PLAIN }
+	/*
+	  { "text/plain;charset=UTF-8",    0, TARGET_PLAIN_UTF8 },
+	  { "text/plain",    0, TARGET_PLAIN }
+	*/
 };
 
 /* FIXME
-static GtkTargetEntry same_app_target_table[] = {
-	{ "text/uri-list", GTK_TARGET_SAME_APP, TARGET_URILIST },
-	{ "text/plain",    GTK_TARGET_SAME_APP, TARGET_PLAIN }
-};
+   static GtkTargetEntry same_app_target_table[] = {
+   { "text/uri-list", GTK_TARGET_SAME_APP, TARGET_URILIST },
+   { "text/plain",    GTK_TARGET_SAME_APP, TARGET_PLAIN }
+   };
 */
 
 

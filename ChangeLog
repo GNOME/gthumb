@@ -1,3 +1,12 @@
+2004-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c: use "text/uri-list" only as dnd target type.
+
+2004-12-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (file_is_image): simplify the function to get
+	the mime type from the filename.
+
 2004-12-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_comments.glade: 
