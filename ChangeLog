@@ -1,3 +1,10 @@
+2004-07-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (save_pixbuf__image_saved_cb): 
+
+	Fixed bug #146522: reset sequence after save. 
+	Patch by G Sunil Tukrel.
+	
 2004-07-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (save_pixbuf__image_saved_cb) 

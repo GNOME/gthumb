@@ -7246,17 +7246,16 @@ save_pixbuf__image_saved_cb (char     *filename,
 	if (pos == -1) {
 		char *destination = remove_level_from_path (filename);
 
-		g_free (window->image_path);
-		window->image_path = g_strdup (filename);
-
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL) 
-		    && (strcmp (window->dir_list->path, destination) == 0))
+		    && (strcmp (window->dir_list->path, destination) == 0)) {
+			g_free (window->image_path);
+			window->image_path = g_strdup (filename);
 			gth_file_list_add_list (window->file_list, 
 						file_list, 
 						save_pixbuf__image_saved_step2,
 						window);
-		else
+		} else
 			save_pixbuf__image_saved_step2 (window);
 		g_free (destination);
 
