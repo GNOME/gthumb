@@ -139,14 +139,25 @@ int       gth_expr_eval              (GthExpr *e);
 
 /* GthVar */
 
+typedef enum {
+	GTH_VAR_EXPR,
+	GTH_VAR_STRING
+} GthVarType;
+
 typedef struct {
-	char     *name;
-	GthExpr  *expr;
+	char       *name;
+	GthVarType  type;
+	union {
+		GthExpr *expr;
+		char    *string;
+	} value;
 } GthVar;
 
 GthVar*  gth_var_new_constant   (int value);
 
 GthVar*  gth_var_new_expression (const char *name, GthExpr *e);
+
+GthVar*  gth_var_new_string     (const char *name, const char *string);
 
 void     gth_var_free           (GthVar *var);
 
@@ -154,20 +165,21 @@ void     gth_var_free           (GthVar *var);
 
 typedef struct {
 	GthExpr *expr;
-	GList   *parsed_doc;
+	GList   *document; /* GthTag list */
 } GthCondition;
 
-GthCondition * gth_condition_new      (GthExpr      *expr);
+GthCondition * gth_condition_new           (GthExpr      *expr);
 
-void           gth_condition_free     (GthCondition *cond);
+void           gth_condition_free          (GthCondition *cond);
 
-void           gth_condition_add_doc  (GthCondition *cond,
-				       GList        *parsed_doc);
+void           gth_condition_add_document  (GthCondition *cond,
+					    GList        *document);
 
 /* GthTag */
 
 typedef enum {
-	GTH_TAG_TITLE,
+	GTH_TAG_HEADER,
+	GTH_TAG_FOOTER,
 	GTH_TAG_IMAGE,
 	GTH_TAG_IMAGE_LINK,
 	GTH_TAG_IMAGE_IDX,
@@ -183,6 +195,7 @@ typedef enum {
 	GTH_TAG_TABLE,
 	GTH_TAG_DATE,
 	GTH_TAG_TEXT,
+	GTH_TAG_HTML,
 	GTH_TAG_SET_VAR,
 	GTH_TAG_IF,
 	GTH_TAG_EXIF_EXPOSURE_TIME,
@@ -199,17 +212,21 @@ typedef struct {
 	GthTagType type;
 	union {
 		GList *arg_list;    /* GthVar list */ 
-		char  *text;        /* text */
+		char  *html;        /* html */
 		GList *cond_list;   /* GthCondition list */
 	} value;
+	GList *document; /* GthTag list */
 } GthTag;
 
 GthTag * gth_tag_new                 (GthTagType    type, 
 				      GList        *arg_list);
 
-GthTag * gth_tag_new_text            (const char   *text);
+GthTag * gth_tag_new_html            (const char   *html);
 
 GthTag * gth_tag_new_condition       (GList        *cond_list);
+
+void     gth_tag_add_document        (GthTag       *tag,
+				      GList        *document);
 
 void     gth_tag_free                (GthTag       *tag);
 

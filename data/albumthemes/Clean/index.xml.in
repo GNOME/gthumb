@@ -1,10 +1,11 @@
 <gthumb:set_var thumbnail_width=120 thumbnail_height=100/>
+<gthumb:set_var preview_width=600 preview_height=600/>
 
 <html>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="Generator" content="gThumb Image Viewer">
   <head>
-  <title><gthumb:title/></title>
+  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
   <style>
     span.titolo { 
       color: black; 
@@ -14,8 +15,7 @@
     }
     span.copyright {
       color: gray;
-      font-family: sans-serif;
-      font-size: xx-small;
+      font-size: x-small;
       text-align: center;
     }
   </style>
@@ -47,7 +47,7 @@
       <gthumb:end/>
       <tr bgcolor="white">
         <td align=center colspan=2 width=88%>
-          &nbsp;<b><span class=titolo><gthumb:title/></span></b>
+          &nbsp;<b><span class=titolo><gthumb:header/></span></b>
         </td>
       </tr>
     </table>
@@ -64,7 +64,9 @@
     <!-- Copyright -->
     <hr noshade size=1 width=95%>
     <center>
-      <span class=copyright>Album created on <gthumb:date/></span>
+      <span class=copyright>
+         <gthumb:footer/>
+      </span>
     </center>
   </body>
 </html>

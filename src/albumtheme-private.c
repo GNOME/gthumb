@@ -488,8 +488,9 @@ gth_var_new_constant (int value)
 
 	var = g_new0 (GthVar, 1);
 	var->name = NULL;
-	var->expr = gth_expr_new ();
-	gth_expr_push_constant (var->expr, value);
+	var->type = GTH_VAR_EXPR;
+	var->value.expr = gth_expr_new ();
+	gth_expr_push_constant (var->value.expr, value);
 
 	return var;
 }
@@ -504,9 +505,27 @@ gth_var_new_expression (const char *name,
 	g_return_val_if_fail (name != NULL, NULL);
 
 	var = g_new0 (GthVar, 1);
-	if (name != NULL)
-		var->name = g_strdup (name);
-	var->expr = gth_expr_ref (e);
+	var->type = GTH_VAR_EXPR;
+	var->name = g_strdup (name);
+	var->value.expr = gth_expr_ref (e);
+
+	return var;
+}
+
+
+GthVar*
+gth_var_new_string (const char *name,
+		    const char *string)
+{
+	GthVar *var;
+
+	g_return_val_if_fail (name != NULL, NULL);
+
+	var = g_new0 (GthVar, 1);
+	var->type = GTH_VAR_STRING;
+	var->name = g_strdup (name);
+	if (string != NULL)
+		var->value.string = g_strdup (string);
 
 	return var;
 }
@@ -516,7 +535,10 @@ void
 gth_var_free (GthVar *var)
 {
 	g_free (var->name);
-	gth_expr_unref (var->expr);
+	if (var->type == GTH_VAR_EXPR)
+		gth_expr_unref (var->value.expr);
+	if (var->type == GTH_VAR_STRING)
+		g_free (var->value.string);
 	g_free (var);
 }
 
@@ -542,18 +564,18 @@ gth_condition_free (GthCondition *cond)
 	if (cond == NULL)
 		return;
 	gth_expr_unref (cond->expr);
-	gth_parsed_doc_free (cond->parsed_doc);
+	gth_parsed_doc_free (cond->document);
 	g_free (cond);
 }
 
 
 void
-gth_condition_add_doc  (GthCondition *cond,
-			GList        *parsed_doc)
+gth_condition_add_document  (GthCondition *cond,
+			     GList        *document)
 {
-	if (cond->parsed_doc != NULL)
-		gth_parsed_doc_free (cond->parsed_doc);
-	cond->parsed_doc = parsed_doc;
+	if (cond->document != NULL)
+		gth_parsed_doc_free (cond->document);
+	cond->document = document;
 }
 
 
@@ -575,13 +597,13 @@ gth_tag_new (GthTagType  type,
 
 
 GthTag *
-gth_tag_new_text (const char *text)
+gth_tag_new_html (const char *html)
 {
 	GthTag *tag;
 
 	tag = g_new0 (GthTag, 1);
-	tag->type = GTH_TAG_TEXT;
-	tag->value.text = g_strdup (text);
+	tag->type = GTH_TAG_HTML;
+	tag->value.html = g_strdup (html);
 
 	return tag;	
 }
@@ -601,10 +623,20 @@ gth_tag_new_condition (GList *cond_list)
 
 
 void
+gth_tag_add_document (GthTag *tag,
+		      GList  *document)
+{
+	if (tag->document != NULL)
+		gth_parsed_doc_free (tag->document);
+	tag->document = document;
+}
+
+
+void
 gth_tag_free (GthTag *tag)
 {
-	if (tag->type == GTH_TAG_TEXT) 
-		g_free (tag->value.text);
+	if (tag->type == GTH_TAG_HTML) 
+		g_free (tag->value.html);
 
 	else if (tag->type == GTH_TAG_IF) {
 		g_list_foreach (tag->value.cond_list, 
@@ -618,6 +650,9 @@ gth_tag_free (GthTag *tag)
 				NULL);
 		g_list_free (tag->value.arg_list);
 	}
+
+	if (tag->document != NULL)
+		gth_parsed_doc_free (tag->document);
 
 	g_free (tag);
 }

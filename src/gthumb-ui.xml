@@ -293,15 +293,12 @@
 	<cmd name="View_ShowFolders" 
 	     type="toggle"
 	     _tip="View the folders"
-	     pixtype="pixbuf"
 	     accel="*Alt*1"/>
 	<cmd name="View_ShowCatalogs" type="toggle"
 	     _tip="View the catalogs"
-	     pixtype="pixbuf"
 	     accel="*Alt*2"/>
 	<cmd name="View_ShowCatalogs" type="toggle"
 	     _tip="View the catalogs"
-	     pixtype="pixbuf"
 	     accel="*Alt*2"/>
 
 	<cmd name="View_ShowPreview" type="toggle"

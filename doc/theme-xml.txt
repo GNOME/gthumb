@@ -38,7 +38,8 @@ WVAR (Writable Variables):
 <gthumb:image/>                     Display the image.
   idx=EXPR
   idx_relative=EXPR
-  thumbnail="0/1"                   Display the image thumbnail
+  thumbnail="0/1"                   Display the image thumbnail (the
+                                    image used in the index.html file).
   preview="0/1"                     Display the image preview (the
                                     image in the image.html file).
   max_size=EXPR
@@ -94,11 +95,14 @@ WVAR (Writable Variables):
 				            regardless of what the user 
 					    chosen to display.
 
+  utf8="0/1"                        Write in utf-8 format
+
 <gthumb:file_path/>
   idx=EXPR
   idx_relative=EXPR
   relative_path="0/1"
   visibility="index/image/always"
+  utf8="0/1"
 
 <gthumb:file_size/>
   idx=EXPR
@@ -166,6 +170,13 @@ WVAR (Writable Variables):
 <gthumb:date/>
 
 <gthumb:set_var WVAR=EXPR WVAR=EXPR [..] />
+
+
+--
+
+<gthumb:text xml:lang="am">
+ [TEXT]
+</gthumb:text>
 
 ---
 

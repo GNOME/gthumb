@@ -51,7 +51,7 @@
 /* -- path_list_async_new implementation -- */
 
 
-static PathListData * 
+PathListData * 
 path_list_data_new ()
 {
 	PathListData *pli;

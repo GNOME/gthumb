@@ -24,11 +24,9 @@
 #include <string.h>
 #include <glib.h>
 #include "file-utils.h"
+#include "glib-utils.h"
 #include "gthumb-preloader.h"
 #include "gthumb-marshal.h"
-
-
-#undef DEBUG
 
 
 enum {
@@ -59,10 +57,7 @@ loader_error_cb (ImageLoader  *il,
 	if (ploader == requested_preloader (ploader->gploader)) {
 		g_signal_emit (G_OBJECT (ploader->gploader), 
 			       gthumb_preloader_signals[REQUESTED_ERROR], 0);
-
-#ifdef DEBUG
-		g_print ("[requested] error\n");
-#endif
+		debug (DEBUG_INFO, "[requested] error");
 	}
 	
 	start_next_loader (ploader->gploader);
@@ -79,10 +74,7 @@ loader_done_cb (ImageLoader  *il,
 	if (ploader == requested_preloader (ploader->gploader)) {
 		g_signal_emit (G_OBJECT (ploader->gploader), 
 			       gthumb_preloader_signals[REQUESTED_DONE], 0);
-
-#ifdef DEBUG
-		g_print ("[requested] done\n");
-#endif
+		debug (DEBUG_INFO, "[requested] done");
 	}
 
 	start_next_loader (ploader->gploader);
@@ -375,13 +367,9 @@ set_paths__step2 (SetPathData *sp_data)
 				if (strcmp (path, requested) == 0) {
 					gploader->requested = i;
 					g_signal_emit (G_OBJECT (gploader), gthumb_preloader_signals[REQUESTED_DONE], 0);
-#ifdef DEBUG			
-					g_print ("[requested] preloaded\n");
-#endif
+					debug (DEBUG_INFO, "[requested] preloaded");
 				}
-#ifdef DEBUG
-				g_print ("[=] [%d] <- %s\n", i, path);
-#endif
+				debug (DEBUG_INFO, "[=] [%d] <- %s", i, path);
 			}
 		}
 	}
@@ -410,14 +398,10 @@ set_paths__step2 (SetPathData *sp_data)
 
 		if (strcmp (path, requested) == 0) {
 			gploader->requested = k;
-#ifdef DEBUG
-			g_print ("[requested] %s\n", path);
-#endif
+			debug (DEBUG_INFO, "[requested] %s", path);
 		}
 
-#ifdef DEBUG
-		g_print ("[+] [%d] <- %s\n", k, path);
-#endif
+		debug (DEBUG_INFO, "[+] [%d] <- %s", k, path);
 	}
 
 	for (i = 0; i < N_LOADERS; i++) 
@@ -489,9 +473,7 @@ start_next_loader (GThumbPreloader *gploader)
 		gploader->current = -1;
 		gploader->stopped = FALSE;
 
-#ifdef DEBUG
-		g_print ("stopped\n");
-#endif
+		debug (DEBUG_INFO, "stopped");
 
 		if (gploader->done_func != NULL)
 			(*gploader->done_func) (gploader->done_func_data);
@@ -528,9 +510,7 @@ start_next_loader (GThumbPreloader *gploader)
 
 		if (n >= N_LOADERS) {
 			gploader->current = -1;
-#ifdef DEBUG
-			g_print ("done\n");
-#endif
+			debug (DEBUG_INFO, "done");
 			return;
 		}
 	}
@@ -539,9 +519,7 @@ start_next_loader (GThumbPreloader *gploader)
 	ploader = current_preloader (gploader);
 
 	image_loader_start (ploader->loader);
-#ifdef DEBUG
-	g_print ("load %s\n", ploader->path);
-#endif
+	debug (DEBUG_INFO, "load %s", ploader->path);
 }
 
 
@@ -551,9 +529,7 @@ gthumb_preloader_stop (GThumbPreloader *gploader,
 		       gpointer         done_func_data)
 {
 	if (gploader->current == -1) {
-#ifdef DEBUG
-		g_print ("stopped\n");
-#endif
+		debug (DEBUG_INFO, "stopped");
 		if (done_func != NULL)
 			(*done_func) (done_func_data);	
 		return;

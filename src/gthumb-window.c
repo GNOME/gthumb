@@ -4117,9 +4117,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	GThumbWindow *window = user_data;
         gboolean      s;
 
-#ifdef DEBUG
-	g_print ("%s: %s\n", path, state);
-#endif /* DEBUG */
+	debug (DEBUG_INFO, "%s: %s", path, state);
 
 	if (window->freeze_toggle_handler > 0) {
 		window->freeze_toggle_handler--;
@@ -4885,7 +4883,7 @@ window_new (void)
 
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
-					  "/apps/gthumb/UIConfig/kvps");
+					  "/apps/gthumb/ui/kvps");
 	ui_container = bonobo_window_get_ui_container (win);
 	window->ui_component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (window->ui_component, 
@@ -5954,9 +5952,7 @@ window_set_sidebar_content (GThumbWindow *window,
 		
 		g_free (path);
 
-#ifdef DEBUG
-		g_print ("catalog path: %s\n", window->catalog_path);
-#endif /* DEBUG */
+		debug (DEBUG_INFO, "catalog path: %s", window->catalog_path);
 
 		if (window->catalog_path != NULL) {
 			GtkTreeIter iter;
@@ -6343,7 +6339,7 @@ _window_add_monitor_event (GThumbWindow             *window,
 		else 
 			op = "CHANGED";
 
-		g_print ("[%s] %s\n", op, path);
+		debug (DEBUG_INFO, "[%s] %s", op, path);
 	}
 #endif
 

@@ -83,7 +83,8 @@ typedef struct {
 	GtkWidget          *wa_sort_images_optionmenu;
 	GtkWidget          *wa_reverse_order_checkbutton;
 
-	GtkWidget          *wa_title_entry;
+	GtkWidget          *wa_header_entry;
+	GtkWidget          *wa_footer_entry;
 	GtkWidget          *wa_theme_entry;
 	GtkWidget          *wa_select_theme_button;
 
@@ -113,7 +114,8 @@ export (GtkWidget  *widget,
 	char               *location;
 	char               *path;
 	char               *theme, *index_file;
-	const char         *title;
+	const char         *header;
+	const char         *footer;
 
 	/* Save options. */
 
@@ -141,8 +143,11 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton)));
 
-	title = gtk_entry_get_text (GTK_ENTRY (data->wa_title_entry));
-	eel_gconf_set_string (PREF_WEB_ALBUM_TITLE, title);
+	header = gtk_entry_get_text (GTK_ENTRY (data->wa_header_entry));
+	eel_gconf_set_string (PREF_WEB_ALBUM_HEADER, header);
+
+	footer = gtk_entry_get_text (GTK_ENTRY (data->wa_footer_entry));
+	eel_gconf_set_string (PREF_WEB_ALBUM_FOOTER, footer);
 
 	theme = _gtk_entry_get_locale_text (GTK_ENTRY (data->wa_theme_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
@@ -171,7 +176,8 @@ export (GtkWidget  *widget,
 	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS));
 	
 	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
-	catalog_web_exporter_set_title (exporter, title);
+	catalog_web_exporter_set_header (exporter, header);
+	catalog_web_exporter_set_footer (exporter, footer);
 	catalog_web_exporter_set_style (exporter, theme);
 
 	g_free (location);
@@ -311,7 +317,8 @@ dlg_web_exporter (GThumbWindow *window)
 	data->wa_sort_images_optionmenu = glade_xml_get_widget (data->gui, "wa_sort_images_optionmenu");
 	data->wa_reverse_order_checkbutton = glade_xml_get_widget (data->gui, "wa_reverse_order_checkbutton");
 
-	data->wa_title_entry = glade_xml_get_widget (data->gui, "wa_title_entry");
+	data->wa_header_entry = glade_xml_get_widget (data->gui, "wa_header_entry");
+	data->wa_footer_entry = glade_xml_get_widget (data->gui, "wa_footer_entry");
 	data->wa_theme_entry = glade_xml_get_widget (data->gui, "wa_theme_entry");
 	data->wa_select_theme_button = glade_xml_get_widget (data->gui, "wa_select_theme_button");
 
@@ -356,8 +363,12 @@ dlg_web_exporter (GThumbWindow *window)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE));
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_TITLE);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->wa_title_entry), svalue);
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_HEADER);
+	gtk_entry_set_text (GTK_ENTRY (data->wa_header_entry), svalue);
+	g_free (svalue);
+
+	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_FOOTER);
+	gtk_entry_set_text (GTK_ENTRY (data->wa_footer_entry), svalue);
 	g_free (svalue);
 
 	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME);
@@ -504,9 +515,7 @@ add_theme_dir (ThemeDialogData *tdata,
 	GList          *file_list = NULL;
 	GList          *scan;
 
-#ifdef DEBUG
-	g_print ("theme dir: %s\n", theme_dir);
-#endif
+	debug (DEBUG_INFO, "theme dir: %s", theme_dir);
 
 	if (theme_dir != NULL)
 		result = gnome_vfs_directory_list_load (&file_list, 

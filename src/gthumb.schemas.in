@@ -1374,8 +1374,21 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/web_album/title</key>
-	<applyto>/apps/gthumb/dialogs/web_album/title</applyto>
+	<key>/schemas/apps/gthumb/dialogs/web_album/header</key>
+	<applyto>/apps/gthumb/dialogs/web_album/header</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/web_album/footer</key>
+	<applyto>/apps/gthumb/dialogs/web_album/footer</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default></default>

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,7 +21,9 @@
  */
 
 #include <string.h>
+#include <stdio.h>
 #include <glib.h>
+#include <glib/gprintf.h>
 #include "glib-utils.h"
 
 
@@ -271,4 +273,28 @@ _g_utf8_strstrip (const char *str)
 	} while (*t != 0);
 
 	return g_strndup (s, t - s);
+}
+
+
+void
+debug (const char *file,
+       int         line,
+       const char *function,
+       const char *format, ...)
+{
+#ifdef DEBUG
+	va_list  args;
+	char    *str;
+
+	g_return_if_fail (format != NULL);
+	
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	g_fprintf (stderr, "[GTHUMB] %s:%d (%s):\n\t%s\n", file, line, function, str);
+
+	g_free (str);
+#else /* ! DEBUG */
+#endif
 }

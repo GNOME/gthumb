@@ -163,7 +163,7 @@ AC_MSG_CHECKING(for libtiff)
       [AC_CHECK_HEADER(tiffio.h,
         tiff_ok=yes,
         tiff_ok=no)],
-      AC_MSG_WARN([*** (TIFF library not found) ***]), -lm)
+      AC_MSG_WARN([*** (TIFF library not found) ***]), -lm -lz)
     if test "$tiff_ok" = yes; then
       TIFF_LIBS='-ltiff -ljpeg -lz'
       AC_DEFINE(HAVE_LIBTIFF)

@@ -50,7 +50,8 @@ struct _CatalogWebExporter {
 	GList        *file_list;              /* char* elements. */
 	GList        *album_files;
 
-	char         *title;
+	char         *header;
+	char         *footer;
 	char         *style;
 
 	int           page_rows;              /* Number of rows and columns
@@ -74,6 +75,9 @@ struct _CatalogWebExporter {
 	gboolean      resize_images;
 	int           resize_max_width;
 	int           resize_max_height;
+
+	int           preview_max_width;
+	int           preview_max_height;
 
 	guint16       index_caption_mask;
 	guint16       image_caption_mask;
@@ -122,8 +126,11 @@ GType      catalog_web_exporter_get_type              (void);
 CatalogWebExporter *  catalog_web_exporter_new        (GThumbWindow       *window,
 						       GList              *file_list);
 
-void       catalog_web_exporter_set_title             (CatalogWebExporter *ce,
-						       const char         *title);
+void       catalog_web_exporter_set_header            (CatalogWebExporter *ce,
+						       const char         *header);
+
+void       catalog_web_exporter_set_footer            (CatalogWebExporter *ce,
+						       const char         *footer);
 
 void       catalog_web_exporter_set_style             (CatalogWebExporter *ce,
 						       const char         *style);
@@ -139,6 +146,10 @@ void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 cols);
 
 void       catalog_web_exporter_set_thumb_size        (CatalogWebExporter *ce,
+						       int                 width,
+						       int                 height);
+
+void       catalog_web_exporter_set_preview_size      (CatalogWebExporter *ce,
 						       int                 width,
 						       int                 height);
 

@@ -1,12 +1,12 @@
 ## Process this file with automake to produce Makefile.in.
 SUBDIRS =		\
+	po		\
 	libgthumb	\
 	src		\
 	components	\
 	doc		\
 	omf-install	\
-	data		\
-	po
+	data
 
 @INTLTOOL_DESKTOP_RULE@
 

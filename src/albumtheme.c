@@ -12,34 +12,37 @@
 #define	NAME	262
 #define	STRING	263
 #define	NUMBER	264
-#define	TITLE	265
-#define	IMAGE	266
-#define	IMAGE_LINK	267
-#define	IMAGE_IDX	268
-#define	IMAGE_DIM	269
-#define	IMAGES	270
-#define	FILENAME	271
-#define	FILEPATH	272
-#define	FILESIZE	273
-#define	COMMENT	274
-#define	PAGE_LINK	275
-#define	PAGE_IDX	276
-#define	PAGES	277
-#define	TABLE	278
-#define	DATE	279
-#define	EXIF_EXPOSURE_TIME	280
-#define	EXIF_EXPOSURE_MODE	281
-#define	EXIF_FLASH	282
-#define	EXIF_SHUTTER_SPEED	283
-#define	EXIF_APERTURE_VALUE	284
-#define	EXIF_FOCAL_LENGTH	285
-#define	EXIF_DATE_TIME	286
-#define	EXIF_CAMERA_MODEL	287
-#define	SET_VAR	288
-#define	TEXT	289
-#define	BOOL_OP	290
-#define	COMPARE	291
-#define	UNARY_OP	292
+#define	HEADER	265
+#define	FOOTER	266
+#define	IMAGE	267
+#define	IMAGE_LINK	268
+#define	IMAGE_IDX	269
+#define	IMAGE_DIM	270
+#define	IMAGES	271
+#define	FILENAME	272
+#define	FILEPATH	273
+#define	FILESIZE	274
+#define	COMMENT	275
+#define	PAGE_LINK	276
+#define	PAGE_IDX	277
+#define	PAGES	278
+#define	TABLE	279
+#define	DATE	280
+#define	TEXT	281
+#define	TEXT_END	282
+#define	EXIF_EXPOSURE_TIME	283
+#define	EXIF_EXPOSURE_MODE	284
+#define	EXIF_FLASH	285
+#define	EXIF_SHUTTER_SPEED	286
+#define	EXIF_APERTURE_VALUE	287
+#define	EXIF_FOCAL_LENGTH	288
+#define	EXIF_DATE_TIME	289
+#define	EXIF_CAMERA_MODEL	290
+#define	SET_VAR	291
+#define	HTML	292
+#define	BOOL_OP	293
+#define	COMPARE	294
+#define	UNARY_OP	295
 
 #line 1 "albumtheme.y"
 
@@ -96,20 +99,20 @@ YYSTYPE;
 
 
 
-#define	YYFINAL		85
+#define	YYFINAL		93
 #define	YYFLAG		-32768
-#define	YYNTBASE	46
+#define	YYNTBASE	49
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 292 ? yytranslate[x] : 59)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 295 ? yytranslate[x] : 63)
 
 static const char yytranslate[] = { 0,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  2, 2, 40, 45, 2, 2, 2, 2, 2, 42,
-  43, 2, 38, 2, 39, 2, 2, 2, 2, 2,
+  2, 2, 43, 48, 2, 2, 2, 2, 2, 45,
+  46, 2, 41, 2, 42, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-  44, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+  47, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
   2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -132,47 +135,48 @@ static const char yytranslate[] = { 0,
   7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
   17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
   27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-  37, 41
+  37, 38, 39, 40, 44
 };
 
 #if YYDEBUG != 0
 static const short yyprhs[] = { 0,
-  0, 2, 5, 8, 15, 16, 19, 23, 27, 28,
-  32, 35, 36, 39, 42, 46, 50, 54, 58, 62,
-  65, 68, 71, 73, 75, 79, 81, 83, 85, 87,
-  89, 91, 93, 95, 97, 99, 101, 103, 105, 107,
-  109, 111, 113, 115, 117, 119, 121, 123, 125, 127,
-  130, 131, 135, 141
+  0, 2, 5, 8, 15, 20, 21, 24, 28, 32,
+  33, 37, 40, 41, 44, 47, 51, 55, 59, 63,
+  67, 70, 73, 76, 78, 80, 84, 88, 90, 92,
+  94, 96, 98, 100, 102, 104, 106, 108, 110, 112,
+  114, 116, 118, 120, 122, 124, 126, 128, 130, 132,
+  134, 136, 138, 141, 142, 146, 152
 };
 
-static const short yyrhs[] = { 47,
-  0, 35, 47, 0, 55, 47, 0, 48, 47, 49,
-  51, 53, 47, 0, 0, 1, 47, 0, 3, 54,
-  7, 0, 50, 47, 49, 0, 0, 5, 54, 7,
-  0, 52, 47, 0, 0, 4, 7, 0, 6, 7,
-  0, 42, 54, 43, 0, 54, 37, 54, 0, 54,
-  38, 54, 0, 54, 39, 54, 0, 54, 36, 54,
-  0, 38, 54, 0, 39, 54, 0, 40, 54, 0,
-  8, 0, 10, 0, 56, 57, 7, 0, 11, 0,
-  12, 0, 13, 0, 14, 0, 15, 0, 16, 0,
-  17, 0, 18, 0, 19, 0, 20, 0, 21, 0,
-  22, 0, 23, 0, 24, 0, 25, 0, 26, 0,
-  27, 0, 28, 0, 29, 0, 30, 0, 31, 0,
-  32, 0, 33, 0, 34, 0, 58, 57, 0, 0,
-  8, 44, 54, 0, 8, 44, 45, 54, 45, 0,
-  8, 0
+static const short yyrhs[] = { 50,
+  0, 38, 50, 0, 59, 50, 0, 51, 50, 52,
+  54, 56, 50, 0, 58, 38, 28, 50, 0, 0,
+  1, 50, 0, 3, 57, 7, 0, 53, 50, 52,
+  0, 0, 5, 57, 7, 0, 55, 50, 0, 0,
+  4, 7, 0, 6, 7, 0, 45, 57, 46, 0,
+  57, 40, 57, 0, 57, 41, 57, 0, 57, 42,
+  57, 0, 57, 39, 57, 0, 41, 57, 0, 42,
+  57, 0, 43, 57, 0, 8, 0, 10, 0, 27,
+  61, 7, 0, 60, 61, 7, 0, 11, 0, 12,
+  0, 13, 0, 14, 0, 15, 0, 16, 0, 17,
+  0, 18, 0, 19, 0, 20, 0, 21, 0, 22,
+  0, 23, 0, 24, 0, 25, 0, 26, 0, 29,
+  0, 30, 0, 31, 0, 32, 0, 33, 0, 34,
+  0, 35, 0, 36, 0, 37, 0, 62, 61, 0,
+  0, 8, 47, 57, 0, 8, 47, 48, 57, 48,
+  0, 8, 0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-  94, 104, 109, 113, 126, 130, 137, 142, 147, 152,
-  157, 169, 173, 176, 179, 183, 196, 209, 222, 235,
-  239, 244, 249, 256, 263, 268, 269, 270, 271, 272,
-  273, 274, 275, 276, 277, 278, 279, 280, 281, 282,
-  283, 284, 285, 286, 287, 288, 289, 290, 291, 294,
-  298, 303, 308, 313
+  96, 106, 111, 115, 128, 136, 140, 147, 152, 157,
+  162, 167, 179, 183, 186, 189, 193, 206, 219, 232,
+  245, 249, 254, 259, 266, 273, 278, 283, 284, 285,
+  286, 287, 288, 289, 290, 291, 292, 293, 294, 295,
+  296, 297, 298, 299, 300, 301, 302, 303, 304, 305,
+  306, 307, 310, 314, 319, 324, 329
 };
 #endif
 
@@ -181,129 +185,132 @@ static const short yyrline[] = { 0,
 
 static const char *const yytname[] =
   { "$", "error", "$undefined.", "IF", "ELSE",
-  "ELSE_IF", "END", "END_TAG", "NAME", "STRING", "NUMBER", "TITLE", "IMAGE",
-    "IMAGE_LINK",
-  "IMAGE_IDX", "IMAGE_DIM", "IMAGES", "FILENAME", "FILEPATH", "FILESIZE",
-    "COMMENT",
-  "PAGE_LINK", "PAGE_IDX", "PAGES", "TABLE", "DATE", "EXIF_EXPOSURE_TIME",
-    "EXIF_EXPOSURE_MODE",
-  "EXIF_FLASH", "EXIF_SHUTTER_SPEED", "EXIF_APERTURE_VALUE",
-    "EXIF_FOCAL_LENGTH",
-  "EXIF_DATE_TIME", "EXIF_CAMERA_MODEL", "SET_VAR", "TEXT", "BOOL_OP",
-    "COMPARE", "'+'",
-  "'-'", "'!'", "UNARY_OP", "'('", "')'", "'='", "'\\\"'", "all", "document",
-    "gthumb_if",
-  "opt_if_list", "gthumb_else_if", "opt_else", "gthumb_else", "gthumb_end",
-    "expr",
-  "gthumb_tag", "tag_name", "arg_list", "arg", NULL
+  "ELSE_IF", "END", "END_TAG", "NAME", "STRING", "NUMBER", "HEADER", "FOOTER",
+    "IMAGE",
+  "IMAGE_LINK", "IMAGE_IDX", "IMAGE_DIM", "IMAGES", "FILENAME", "FILEPATH",
+    "FILESIZE",
+  "COMMENT", "PAGE_LINK", "PAGE_IDX", "PAGES", "TABLE", "DATE", "TEXT",
+    "TEXT_END", "EXIF_EXPOSURE_TIME",
+  "EXIF_EXPOSURE_MODE", "EXIF_FLASH", "EXIF_SHUTTER_SPEED",
+    "EXIF_APERTURE_VALUE",
+  "EXIF_FOCAL_LENGTH", "EXIF_DATE_TIME", "EXIF_CAMERA_MODEL", "SET_VAR",
+    "HTML", "BOOL_OP",
+  "COMPARE", "'+'", "'-'", "'!'", "UNARY_OP", "'('", "')'", "'='", "'\\\"'",
+    "all", "document",
+  "gthumb_if", "opt_if_list", "gthumb_else_if", "opt_else", "gthumb_else",
+    "gthumb_end",
+  "expr", "gthumb_text_tag", "gthumb_tag", "tag_name", "arg_list", "arg", NULL
 };
 #endif
 
 static const short yyr1[] = { 0,
-  46, 47, 47, 47, 47, 47, 48, 49, 49, 50,
-  51, 51, 52, 53, 54, 54, 54, 54, 54, 54,
-  54, 54, 54, 54, 55, 56, 56, 56, 56, 56,
-  56, 56, 56, 56, 56, 56, 56, 56, 56, 56,
-  56, 56, 56, 56, 56, 56, 56, 56, 56, 57,
-  57, 58, 58, 58
+  49, 50, 50, 50, 50, 50, 50, 51, 52, 52,
+  53, 54, 54, 55, 56, 57, 57, 57, 57, 57,
+  57, 57, 57, 57, 57, 58, 59, 60, 60, 60,
+  60, 60, 60, 60, 60, 60, 60, 60, 60, 60,
+  60, 60, 60, 60, 60, 60, 60, 60, 60, 60,
+  60, 60, 61, 61, 62, 62, 62
 };
 
 static const short yyr2[] = { 0,
-  1, 2, 2, 6, 0, 2, 3, 3, 0, 3,
-  2, 0, 2, 2, 3, 3, 3, 3, 3, 2,
-  2, 2, 1, 1, 3, 1, 1, 1, 1, 1,
+  1, 2, 2, 6, 4, 0, 2, 3, 3, 0,
+  3, 2, 0, 2, 2, 3, 3, 3, 3, 3,
+  2, 2, 2, 1, 1, 3, 3, 1, 1, 1,
   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1, 1, 2,
-  0, 3, 5, 1
+  1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  1, 1, 2, 0, 3, 5, 1
 };
 
 static const short yydefact[] = { 0,
-  0, 0, 26, 27, 28, 29, 30, 31, 32, 33,
-  34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
-  44, 45, 46, 47, 48, 49, 0, 1, 0, 0,
-  51, 6, 23, 24, 0, 0, 0, 0, 0, 2,
-  9, 3, 54, 0, 51, 20, 21, 22, 0, 7,
-  0, 0, 0, 0, 0, 12, 0, 0, 25, 50,
-  15, 19, 16, 17, 18, 0, 0, 0, 0, 9,
-  0, 52, 10, 13, 0, 0, 11, 8, 0, 14,
-  4, 53, 0, 0, 0
+  0, 0, 28, 29, 30, 31, 32, 33, 34, 35,
+  36, 37, 38, 39, 40, 41, 42, 43, 54, 44,
+  45, 46, 47, 48, 49, 50, 51, 52, 0, 1,
+  0, 0, 0, 54, 7, 24, 25, 0, 0, 0,
+  0, 0, 57, 0, 54, 2, 10, 0, 3, 0,
+  21, 22, 23, 0, 8, 0, 0, 0, 0, 0,
+  26, 53, 0, 13, 0, 0, 27, 16, 20, 17,
+  18, 19, 0, 55, 0, 0, 0, 0, 10, 5,
+  0, 11, 14, 0, 0, 12, 9, 56, 15, 4,
+  0, 0, 0
 };
 
-static const short yydefgoto[] = { 83,
-  28, 29, 56, 57, 68, 69, 76, 39, 30, 31,
-  44, 45
+static const short yydefgoto[] = { 91,
+  30, 31, 64, 65, 77, 78, 85, 42, 32, 33,
+  34, 44, 45
 };
 
-static const short yypact[] = { 102,
-  66, 3, -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768,
-  -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768,
-    -32768,
-  -32768, -32768, -32768, -32768, -32768, -32768, 66, -32768, 137, 66,
-  -6, -32768, -32768, -32768, 3, 3, 3, 3, 10, -32768,
-  7, -32768, -28, 11, -6, -32768, -32768, -32768, 14, -32768,
-  3, 3, 3, 3, 3, 15, 137, -7, -32768, -32768,
-  -32768, -29, -24, -32768, -32768, 23, 18, 28, 172, 7,
-  3, 70, -32768, -32768, 29, 66, -32768, -32768, 173, -32768,
-  -32768, -32768, 37, 39, -32768
+static const short yypact[] = { 114,
+  75, 1, -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768,
+  -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768, 0, -32768,
+  -32768, -32768, -32768, -32768, -32768, -32768, -32768, -32768, 75, -32768,
+  152, -28, 75, 0, -32768, -32768, -32768, 1, 1, 1,
+  1, 8, -35, 7, 0, -32768, 22, 3, -32768, 26,
+  -32768, -32768, -32768, 28, -32768, 1, 1, 1, 1, -7,
+  -32768, -32768, 1, 33, 152, 75, -32768, -32768, -24, -21,
+  -32768, -32768, 1, 79, 12, 38, 34, 190, 22, -32768,
+  18, -32768, -32768, 48, 75, -32768, -32768, -32768, -32768, -32768,
+  56, 61, -32768
 };
 
 static const short yypgoto[] = { -32768,
-  -1, -32768, -26, -32768, -32768, -32768, -32768, -31, -32768, -32768,
-  9, -32768
+  -1, -32768, -17, -32768, -32768, -32768, -32768, -34, -32768, -32768,
+  -32768, -32, -32768
 };
 
 
-#define	YYLAST		218
+#define	YYLAST		228
 
 
-static const short yytable[] = { 32,
-  33, 43, 34, 46, 47, 48, 49, 52, 53, 54,
-  33, 55, 34, 53, 54, 58, 50, 59, 67, 62,
-  63, 64, 65, 66, 74, 40, 72, 41, 42, 73,
-  35, 36, 37, 75, 38, 80, 84, 71, 85, 79,
-  35, 36, 37, 78, 38, 51, 52, 53, 54, 51,
-  52, 53, 54, 60, 0, 70, 61, 0, 51, 52,
-  53, 54, 0, 0, 0, -5, 1, 77, 2, -5,
-  -5, -5, 0, 0, 81, 0, 3, 4, 5, 6,
-  7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-  17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
-  27, -5, 1, 0, 2, 51, 52, 53, 54, 0,
+static const short yytable[] = { 35,
+  36, 50, 37, 51, 52, 53, 54, 43, 36, 48,
+  37, 60, 62, 61, 55, 57, 58, 59, 82, 58,
+  59, 69, 70, 71, 72, 74, 63, 46, 75, 47,
+  66, 49, 67, 38, 39, 40, 76, 41, 81, 84,
+  73, 38, 39, 40, 83, 41, 56, 57, 58, 59,
+  56, 57, 58, 59, 89, 92, 56, 57, 58, 59,
+  93, 87, 0, 79, 80, 88, 56, 57, 58, 59,
+  0, 0, 0, 68, -6, 1, 86, 2, -6, -6,
+  -6, 0, 0, 90, 0, 3, 4, 5, 6, 7,
+  8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+  18, 19, 0, 20, 21, 22, 23, 24, 25, 26,
+  27, 28, 29, -6, 1, 0, 2, 56, 57, 58,
+  59, 0, 0, 0, 3, 4, 5, 6, 7, 8,
+  9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  19, 0, 20, 21, 22, 23, 24, 25, 26, 27,
+  28, 29, 1, 0, 2, -6, -6, -6, 0, 0,
   0, 0, 3, 4, 5, 6, 7, 8, 9, 10,
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  21, 22, 23, 24, 25, 26, 27, 1, 0, 2,
-  -5, -5, -5, 0, 0, 0, 0, 3, 4, 5,
-  6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-  16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-  26, 27, 1, 0, 2, 0, 0, -5, 0, 0,
-  0, 0, 3, 4, 5, 6, 7, 8, 9, 10,
-  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  21, 22, 23, 24, 25, 26, 27, 0, 51, 52,
-  53, 54, 0, 0, 0, 0, 0, 82
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 0,
+  20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+  1, 0, 2, 0, 0, -6, 0, 0, 0, 0,
+  3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
+  13, 14, 15, 16, 17, 18, 19, 0, 20, 21,
+  22, 23, 24, 25, 26, 27, 28, 29
 };
 
 static const short yycheck[] = { 1,
-  8, 8, 10, 35, 36, 37, 38, 37, 38, 39,
-  8, 5, 10, 38, 39, 44, 7, 7, 4, 51,
-  52, 53, 54, 55, 7, 27, 58, 29, 30, 7,
-  38, 39, 40, 6, 42, 7, 0, 45, 0, 71,
-  38, 39, 40, 70, 42, 36, 37, 38, 39, 36,
-  37, 38, 39, 45, -1, 57, 43, -1, 36, 37,
-  38, 39, -1, -1, -1, 0, 1, 69, 3, 4,
-  5, 6, -1, -1, 76, -1, 11, 12, 13, 14,
-  15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-  25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-  35, 0, 1, -1, 3, 36, 37, 38, 39, -1,
+  8, 34, 10, 38, 39, 40, 41, 8, 8, 38,
+  10, 47, 45, 7, 7, 40, 41, 42, 7, 41,
+  42, 56, 57, 58, 59, 60, 5, 29, 63, 31,
+  28, 33, 7, 41, 42, 43, 4, 45, 73, 6,
+  48, 41, 42, 43, 7, 45, 39, 40, 41, 42,
+  39, 40, 41, 42, 7, 0, 39, 40, 41, 42,
+  0, 79, -1, 65, 66, 48, 39, 40, 41, 42,
+  -1, -1, -1, 46, 0, 1, 78, 3, 4, 5,
+  6, -1, -1, 85, -1, 11, 12, 13, 14, 15,
+  16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+  26, 27, -1, 29, 30, 31, 32, 33, 34, 35,
+  36, 37, 38, 0, 1, -1, 3, 39, 40, 41,
+  42, -1, -1, -1, 11, 12, 13, 14, 15, 16,
+  17, 18, 19, 20, 21, 22, 23, 24, 25, 26,
+  27, -1, 29, 30, 31, 32, 33, 34, 35, 36,
+  37, 38, 1, -1, 3, 4, 5, 6, -1, -1,
   -1, -1, 11, 12, 13, 14, 15, 16, 17, 18,
-  19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-  29, 30, 31, 32, 33, 34, 35, 1, -1, 3,
-  4, 5, 6, -1, -1, -1, -1, 11, 12, 13,
-  14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
-  24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
-  34, 35, 1, -1, 3, -1, -1, 6, -1, -1,
-  -1, -1, 11, 12, 13, 14, 15, 16, 17, 18,
-  19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
-  29, 30, 31, 32, 33, 34, 35, -1, 36, 37,
-  38, 39, -1, -1, -1, -1, -1, 45
+  19, 20, 21, 22, 23, 24, 25, 26, 27, -1,
+  29, 30, 31, 32, 33, 34, 35, 36, 37, 38,
+  1, -1, 3, -1, -1, 6, -1, -1, -1, -1,
+  11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 26, 27, -1, 29, 30,
+  31, 32, 33, 34, 35, 36, 37, 38
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
@@ -849,7 +856,7 @@ yyreduce:
     {
 
     case 1:
-#line 94 "albumtheme.y"
+#line 96 "albumtheme.y"
       {
 	yy_parsed_doc = yyvsp[0].list;
 
@@ -861,28 +868,28 @@ yyreduce:
 	break;
       }
     case 2:
-#line 104 "albumtheme.y"
+#line 106 "albumtheme.y"
       {
 	yyval.list =
-	  g_list_prepend (yyvsp[0].list, gth_tag_new_text (yyvsp[-1].text));
+	  g_list_prepend (yyvsp[0].list, gth_tag_new_html (yyvsp[-1].text));
 	g_free (yyvsp[-1].text);
 	;
 	break;
       }
     case 3:
-#line 109 "albumtheme.y"
+#line 111 "albumtheme.y"
       {
 	yyval.list = g_list_prepend (yyvsp[0].list, yyvsp[-1].tag);
 	;
 	break;
       }
     case 4:
-#line 113 "albumtheme.y"
+#line 115 "albumtheme.y"
       {
 	GList *cond_list;
 	GthTag *tag;
 
-	gth_condition_add_doc (yyvsp[-5].cond, yyvsp[-4].list);
+	gth_condition_add_document (yyvsp[-5].cond, yyvsp[-4].list);
 	cond_list = g_list_prepend (yyvsp[-3].list, yyvsp[-5].cond);
 	if (yyvsp[-2].cond != NULL)
 	  cond_list = g_list_append (cond_list, yyvsp[-2].cond);
@@ -893,14 +900,25 @@ yyreduce:
 	break;
       }
     case 5:
-#line 126 "albumtheme.y"
+#line 128 "albumtheme.y"
+      {
+	GthTag *tag = gth_tag_new_html (yyvsp[-2].text);
+	GList *child_doc = g_list_append (NULL, tag);
+	gth_tag_add_document (yyvsp[-3].tag, child_doc);
+	yyval.list = g_list_prepend (yyvsp[0].list, yyvsp[-3].tag);
+	g_free (yyvsp[-2].text);
+	;
+	break;
+      }
+    case 6:
+#line 136 "albumtheme.y"
       {
 	yyval.list = NULL;
 	;
 	break;
       }
-    case 6:
-#line 130 "albumtheme.y"
+    case 7:
+#line 140 "albumtheme.y"
       {
 	if (yyvsp[0].list != NULL)
 	  gth_parsed_doc_free (yyvsp[0].list);
@@ -908,37 +926,37 @@ yyreduce:
 	;
 	break;
       }
-    case 7:
-#line 137 "albumtheme.y"
+    case 8:
+#line 147 "albumtheme.y"
       {
 	yyval.cond = gth_condition_new (yyvsp[-1].expr);
 	;
 	break;
       }
-    case 8:
-#line 142 "albumtheme.y"
+    case 9:
+#line 152 "albumtheme.y"
       {
-	gth_condition_add_doc (yyvsp[-2].cond, yyvsp[-1].list);
+	gth_condition_add_document (yyvsp[-2].cond, yyvsp[-1].list);
 	yyval.list = g_list_prepend (yyvsp[0].list, yyvsp[-2].cond);
 	;
 	break;
       }
-    case 9:
-#line 147 "albumtheme.y"
+    case 10:
+#line 157 "albumtheme.y"
       {
 	yyval.list = NULL;
 	;
 	break;
       }
-    case 10:
-#line 152 "albumtheme.y"
+    case 11:
+#line 162 "albumtheme.y"
       {
 	yyval.cond = gth_condition_new (yyvsp[-1].expr);
 	;
 	break;
       }
-    case 11:
-#line 157 "albumtheme.y"
+    case 12:
+#line 167 "albumtheme.y"
       {
 	GthExpr *else_expr;
 	GthCondition *cond;
@@ -946,28 +964,28 @@ yyreduce:
 	else_expr = gth_expr_new ();
 	gth_expr_push_constant (else_expr, 1);
 	cond = gth_condition_new (else_expr);
-	gth_condition_add_doc (cond, yyvsp[0].list);
+	gth_condition_add_document (cond, yyvsp[0].list);
 
 	yyval.cond = cond;
 	;
 	break;
       }
-    case 12:
-#line 169 "albumtheme.y"
+    case 13:
+#line 179 "albumtheme.y"
       {
 	yyval.cond = NULL;
 	;
 	break;
       }
-    case 15:
-#line 179 "albumtheme.y"
+    case 16:
+#line 189 "albumtheme.y"
       {
 	yyval.expr = yyvsp[-1].expr;
 	;
 	break;
       }
-    case 16:
-#line 183 "albumtheme.y"
+    case 17:
+#line 193 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -982,8 +1000,8 @@ yyreduce:
 	;
 	break;
       }
-    case 17:
-#line 196 "albumtheme.y"
+    case 18:
+#line 206 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -998,8 +1016,8 @@ yyreduce:
 	;
 	break;
       }
-    case 18:
-#line 209 "albumtheme.y"
+    case 19:
+#line 219 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1014,8 +1032,8 @@ yyreduce:
 	;
 	break;
       }
-    case 19:
-#line 222 "albumtheme.y"
+    case 20:
+#line 232 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 
@@ -1030,31 +1048,31 @@ yyreduce:
 	;
 	break;
       }
-    case 20:
-#line 235 "albumtheme.y"
+    case 21:
+#line 245 "albumtheme.y"
       {
 	yyval.expr = yyvsp[0].expr;
 	;
 	break;
       }
-    case 21:
-#line 239 "albumtheme.y"
+    case 22:
+#line 249 "albumtheme.y"
       {
 	gth_expr_push_op (yyvsp[0].expr, GTH_OP_NEG);
 	yyval.expr = yyvsp[0].expr;
 	;
 	break;
       }
-    case 22:
-#line 244 "albumtheme.y"
+    case 23:
+#line 254 "albumtheme.y"
       {
 	gth_expr_push_op (yyvsp[0].expr, GTH_OP_NOT);
 	yyval.expr = yyvsp[0].expr;
 	;
 	break;
       }
-    case 23:
-#line 249 "albumtheme.y"
+    case 24:
+#line 259 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_var (e, yyvsp[0].text);
@@ -1063,8 +1081,8 @@ yyreduce:
 	;
 	break;
       }
-    case 24:
-#line 256 "albumtheme.y"
+    case 25:
+#line 266 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, yyvsp[0].ivalue);
@@ -1072,189 +1090,202 @@ yyreduce:
 	;
 	break;
       }
-    case 25:
-#line 263 "albumtheme.y"
+    case 26:
+#line 273 "albumtheme.y"
       {
 	yyval.tag = gth_tag_new (yyvsp[-2].ivalue, yyvsp[-1].list);
 	;
 	break;
       }
-    case 26:
-#line 268 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
     case 27:
-#line 269 "albumtheme.y"
+#line 278 "albumtheme.y"
       {
-	yyval.ivalue = yyvsp[0].ivalue;;
+	yyval.tag = gth_tag_new (yyvsp[-2].ivalue, yyvsp[-1].list);
+	;
 	break;
       }
     case 28:
-#line 270 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 29:
-#line 271 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 30:
-#line 272 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 31:
-#line 273 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 32:
-#line 274 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 33:
-#line 275 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 34:
-#line 276 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 35:
-#line 277 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 36:
-#line 278 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 37:
-#line 279 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 38:
-#line 280 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 39:
-#line 281 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 40:
-#line 282 "albumtheme.y"
-      {
-	yyval.ivalue = yyvsp[0].ivalue;;
-	break;
-      }
-    case 41:
 #line 283 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 42:
+    case 29:
 #line 284 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 43:
+    case 30:
 #line 285 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 44:
+    case 31:
 #line 286 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 45:
+    case 32:
 #line 287 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 46:
+    case 33:
 #line 288 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 47:
+    case 34:
 #line 289 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 48:
+    case 35:
 #line 290 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 49:
+    case 36:
 #line 291 "albumtheme.y"
       {
 	yyval.ivalue = yyvsp[0].ivalue;;
 	break;
       }
-    case 50:
+    case 37:
+#line 292 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 38:
+#line 293 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 39:
 #line 294 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 40:
+#line 295 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 41:
+#line 296 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 42:
+#line 297 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 43:
+#line 298 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 44:
+#line 299 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 45:
+#line 300 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 46:
+#line 301 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 47:
+#line 302 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 48:
+#line 303 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 49:
+#line 304 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 50:
+#line 305 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 51:
+#line 306 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 52:
+#line 307 "albumtheme.y"
+      {
+	yyval.ivalue = yyvsp[0].ivalue;;
+	break;
+      }
+    case 53:
+#line 310 "albumtheme.y"
       {
 	yyval.list = g_list_prepend (yyvsp[0].list, yyvsp[-1].var);
 	;
 	break;
       }
-    case 51:
-#line 298 "albumtheme.y"
+    case 54:
+#line 314 "albumtheme.y"
       {
 	yyval.list = NULL;
 	;
 	break;
       }
-    case 52:
-#line 303 "albumtheme.y"
+    case 55:
+#line 319 "albumtheme.y"
       {
 	yyval.var = gth_var_new_expression (yyvsp[-2].text, yyvsp[0].expr);
 	g_free (yyvsp[-2].text);
 	;
 	break;
       }
-    case 53:
-#line 308 "albumtheme.y"
+    case 56:
+#line 324 "albumtheme.y"
       {
 	yyval.var = gth_var_new_expression (yyvsp[-4].text, yyvsp[-1].expr);
 	g_free (yyvsp[-4].text);
 	;
 	break;
       }
-    case 54:
-#line 313 "albumtheme.y"
+    case 57:
+#line 329 "albumtheme.y"
       {
 	GthExpr *e = gth_expr_new ();
 	gth_expr_push_constant (e, 1);
@@ -1489,7 +1520,7 @@ yyabortlab:
   return 1;
 }
 
-#line 321 "albumtheme.y"
+#line 337 "albumtheme.y"
 
 
 int

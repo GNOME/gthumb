@@ -45,7 +45,7 @@
 #include "gtk-utils.h"
 
 #define PROCESS_DELAY 25
-#define PROCESS_MAX_FILES 100
+#define PROCESS_MAX_FILES 33
 
 
 char *
@@ -404,7 +404,6 @@ process_files_cb (gpointer data)
 
 		rc_file = (char*) scan->data;
 		real_file = get_real_name_from_nautilus_cache (rc_file);
-
 
 		if (real_file == NULL)
 			continue;

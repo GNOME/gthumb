@@ -1,4 +1,46 @@
+2003-08-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-web-exporter.c (gth_parsed_doc_print, get_exif_tag):
+	print a "-" when no exif data is available.
+	(get_preview_filename): do not save the preview if it has the same
+	dimensions of the image.
+
+	* src/gthumb.schemas.in: add album header and footer, remove title.
+
+2003-08-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-web-exporter.c: create a medium sized image preview
+	to be used in the image.hml files (bug #117668).
+
+	* src/gthumb_web_exporter.glade: 
+	* libgthumb/preferences.h: 
+	* src/dlg-web-exporter.c: Add header and footer for web albums,
+	remove the album title.
+
+	* src/albumtheme-private.c: 
+	* src/albumtheme-private.h: 
+	* src/albumtheme.y: 
+	* src/albumtheme.l: 
+	* src/catalog-web-exporter.c (gth_parsed_doc_print): allow
+	to translate the text in the album files.
+
+	* src/gthumb-ui.xml: remove the pixbuf arg.
+
+	* src/catalog-png-exporter.c (get_hf_text): handle text in utf-8
+	format.
+
+2003-08-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* configure.in: fix bug #119135.
+
 2003-08-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/albumtheme.l: allow names to contain numbers.
+
+	* src/catalog-web-exporter.c (load_next_file, thumb_loader_done) 
+	(export__copy_image, export__copy_image__progress_update_cb) 
+	(save_resized_image_cb): load and save images one at a time,
+	instead of loading them all and then saving.
 
 	* data/albumthemes/Clean/index.gthtml: 
 	* data/albumthemes/Clean/image.gthtml: 

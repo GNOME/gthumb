@@ -1983,27 +1983,32 @@ get_footer_height_with_spacing (CatalogPngExporter *ce)
 
 
 static char *
-get_hf_text (const char *text, int n, int p)
+get_hf_text (const char *utf8_text, int n, int p)
 {
 	const char *s;
 	GString    *r;
 	char       *r_str;
 
-	if (text == NULL)
+	if (utf8_text == NULL)
 		return NULL;
 
-	if (strchr (text, '%') == NULL)
-		return g_strdup (text);
+	if (g_utf8_strchr (utf8_text, -1, '%') == NULL)
+		return g_strdup (utf8_text);
 
 	r = g_string_new (NULL);
-	for (s = text; *s != 0; s++)
+	for (s = utf8_text; *s != 0; s = g_utf8_next_char (s)) {
+		gunichar ch = g_utf8_get_char (s);
+
 		if (*s == '%') {
-			s++;
+			s = g_utf8_next_char (s);
 			
-			if (*s == 0)
+			if (*s == 0) {
+				g_string_append_unichar (r, ch);
 				break;
-			
-			switch (*s) {
+			}
+
+			ch = g_utf8_get_char (s);
+			switch (ch) {
 				char *t;
 				
 			case '%':
@@ -2023,7 +2028,8 @@ get_hf_text (const char *text, int n, int p)
 				break;
 			}
 		} else
-			g_string_append_c (r, *s);
+			g_string_append_unichar (r, ch);
+	}
 
 	r_str = r->str;
 	g_string_free (r, FALSE);

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -56,5 +56,17 @@ char **  _g_utf8_strsplit          (const char *str,
 
 char *   _g_utf8_strstrip          (const char *str);
 
+/**/
+
+#ifndef __GNUC__
+#define __FUNCTION__ ""
+#endif
+
+#define DEBUG_INFO __FILE__, __LINE__, __FUNCTION__
+
+void     debug                     (const char *file,
+				    int         line,
+				    const char *function,
+				    const char *format, ...);
 
 #endif /* _GLIB_UTILS_H */

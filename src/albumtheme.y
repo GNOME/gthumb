@@ -45,7 +45,7 @@ int   yylex   (void);
 %token          END_TAG
 %token <text>   NAME STRING
 %token <ivalue> NUMBER
-%token <ivalue> TITLE 
+%token <ivalue> HEADER FOOTER 
 %token <ivalue> IMAGE 
 %token <ivalue> IMAGE_LINK 
 %token <ivalue> IMAGE_IDX 
@@ -60,6 +60,7 @@ int   yylex   (void);
 %token <ivalue> PAGES 
 %token <ivalue> TABLE 
 %token <ivalue> DATE 
+%token <ivalue> TEXT TEXT_END
 %token <ivalue> EXIF_EXPOSURE_TIME
 %token <ivalue> EXIF_EXPOSURE_MODE,
 %token <ivalue> EXIF_FLASH,
@@ -71,10 +72,11 @@ int   yylex   (void);
 
 %token <ivalue> SET_VAR 
 
-%token <text> TEXT
+%token <text> HTML
 
 %type <list>   document
 %type <tag>    gthumb_tag
+%type <tag>    gthumb_text_tag
 %type <cond>   gthumb_if
 %type <cond>   gthumb_else_if
 %type <cond>   opt_else
@@ -101,8 +103,8 @@ all		: document {
 		}
 		;
 
-document	: TEXT document { 
-			$$ = g_list_prepend ($2, gth_tag_new_text ($1));
+document	: HTML document { 
+			$$ = g_list_prepend ($2, gth_tag_new_html ($1));
 			g_free ($1);
 		}
 
@@ -114,13 +116,21 @@ document	: TEXT document {
 			GList  *cond_list;
 			GthTag *tag;
 
-			gth_condition_add_doc ($1, $2);
+			gth_condition_add_document ($1, $2);
 			cond_list = g_list_prepend ($3, $1);
 			if ($4 != NULL)
 				cond_list = g_list_append (cond_list, $4);
 			
 			tag = gth_tag_new_condition (cond_list);
 			$$ = g_list_prepend ($6, tag);
+		}
+
+		| gthumb_text_tag HTML TEXT_END document {
+			GthTag *tag = gth_tag_new_html ($2);
+			GList *child_doc = g_list_append (NULL, tag);
+			gth_tag_add_document ($1, child_doc);
+			$$ = g_list_prepend ($4, $1);
+			g_free ($2);
 		}
 
 		| /* empty */ {
@@ -140,7 +150,7 @@ gthumb_if	: IF expr END_TAG {
 		;
 
 opt_if_list     : gthumb_else_if document opt_if_list {
-			gth_condition_add_doc ($1, $2);
+			gth_condition_add_document ($1, $2);
 			$$ = g_list_prepend ($3, $1);
 		}
 		
@@ -161,7 +171,7 @@ opt_else        : gthumb_else document {
 			else_expr = gth_expr_new ();
 			gth_expr_push_constant (else_expr, 1);
 			cond = gth_condition_new (else_expr);
-			gth_condition_add_doc (cond, $2);
+			gth_condition_add_document (cond, $2);
 
 			$$ = cond;
 		}
@@ -260,12 +270,18 @@ expr		: '(' expr ')' {
 		}
 		;
 
+gthumb_text_tag	: TEXT arg_list END_TAG {
+			$$ = gth_tag_new ($1, $2);
+		}
+		;
+
 gthumb_tag 	: tag_name arg_list END_TAG {
 			$$ = gth_tag_new ($1, $2);
 		}
 		;
 
-tag_name	: TITLE               { $$ = $1; }
+tag_name	: HEADER              { $$ = $1; }
+		| FOOTER              { $$ = $1; }
 		| IMAGE               { $$ = $1; }
 		| IMAGE_LINK          { $$ = $1; }
 		| IMAGE_IDX           { $$ = $1; }

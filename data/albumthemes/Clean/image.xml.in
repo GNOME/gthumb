@@ -2,7 +2,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="Generator" content="gThumb Image Viewer">
   <head>
-  <title><gthumb:title/></title>
+  <title><gthumb:header/> (<gthumb:image_idx/>/<gthumb:images/>)</title>
   <style>
     span.titolo { 
       color: black; 
@@ -12,12 +12,8 @@
     }
     span.copyright {
       color: gray;
-      font-family: sans-serif;
-      font-size: xx-small;
+      font-size: x-small;
       text-align: center;
-    }
-    span.disabled {
-      color: white;
     }
   </style>
   </head>
@@ -53,7 +49,7 @@
       </tr>
       <tr bgcolor="white">
         <td align=center colspan=2 width=88%>
-          &nbsp;<b><span class=titolo><gthumb:title/></span></b>
+          &nbsp;<b><span class=titolo><gthumb:header/></span></b>
         </td>
       </tr>
     </table>
@@ -65,7 +61,7 @@
       <tr>
         <td colspan=2 align=center>
           <a href="<gthumb:file_name with_relative_path/>">
-            <gthumb:image max_size=600 border=2/>
+            <gthumb:image preview border=2/>
           </a>
       </tr>
 
@@ -79,9 +75,7 @@
           <tr align="left">
             <td colspan="2">
 	      <font color="black">
-                <gthumb:if comment_visibility_image/>
-		  <gthumb:comment/>
-                <gthumb:end/>
+	        <gthumb:comment/>
 	      </font>
 	    </td>
           </tr>
@@ -94,7 +88,9 @@
           <gthumb:if file_name_visibility_image/>
           <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Image:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Image</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
       	      <font color="black">
@@ -106,11 +102,13 @@
           <gthumb:if image_dim_visibility_image/>
           <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Dimensions:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Dimensions</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
-		 <gthumb:image_dim/> pixels
+		 <gthumb:image_dim/> <_gthumb:text>pixels</_gthumb:text>
 	      </font>
 	    </td>
           </tr>
@@ -118,7 +116,9 @@
 	  <gthumb:if file_size_visibility_image/>
           <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Bytes:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Bytes</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -130,7 +130,9 @@
           <gthumb:if exif_date_time_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Date:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Date</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -142,7 +144,9 @@
           <gthumb:if exif_exposure_time_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Exposure time:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Exposure time</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -154,7 +158,9 @@
           <gthumb:if exif_exposure_mode_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Exposure mode:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Exposure mode</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -166,7 +172,9 @@
           <gthumb:if exif_flash_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Flash:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Flash</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -178,7 +186,9 @@
           <gthumb:if exif_shutter_speed_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Shutter speed:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Shutter speed</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -190,7 +200,9 @@
           <gthumb:if exif_aperture_value_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Aperture value:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Aperture value</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -202,7 +214,9 @@
           <gthumb:if exif_focal_length_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Focal length:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Focal length</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -214,7 +228,9 @@
           <gthumb:if exif_camera_model_visibility_image/>
             <tr align="left">
             <td>
-              <font color="#969696"><nobr><b>Camera model:</b></nobr></font>
+              <font color="#969696"><nobr><b>
+                <_gthumb:text>Camera model</_gthumb:text>
+              </b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="black">
@@ -230,7 +246,7 @@
     <!-- Copyright -->
     <hr noshade size=1 width=95%>
     <center>
-      <span class=copyright> Album created on <gthumb:date/> </span>
+      <span class=copyright> <gthumb:footer/> </span>
     </center>
   </body>
 </html>

@@ -24,16 +24,21 @@
 %}
 
 number           [0-9]+
-name             [a-zA-Z_]+
+name             [a-zA-Z_][0-9a-zA-Z_:@]*
 
-%x TAG
+%x TAG STAG
 
 %%
 
-"<gthumb:title"			{ 
+"<gthumb:header"		{ 
 					BEGIN (TAG);
-					yylval.ivalue = GTH_TAG_TITLE;
-					return TITLE;
+					yylval.ivalue = GTH_TAG_HEADER;
+					return HEADER;
+				}
+"<gthumb:footer"		{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_FOOTER;
+					return FOOTER;
 				}
 "<gthumb:image"			{ 
 					BEGIN (TAG);
@@ -105,6 +110,15 @@ name             [a-zA-Z_]+
 					yylval.ivalue = GTH_TAG_DATE;
 					return DATE;
 				}
+"<gthumb:text"			{ 
+					BEGIN (STAG);
+					yylval.ivalue = GTH_TAG_TEXT;
+					return TEXT;
+				}
+"</gthumb:text>"		{
+					BEGIN (INITIAL);
+					return TEXT_END;
+				}
 "<gthumb:exif:exposure_time"	{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_EXIF_EXPOSURE_TIME;
@@ -166,18 +180,18 @@ name             [a-zA-Z_]+
 					BEGIN (TAG);
 					return END;
 				}
-<TAG>{number}			{
+<TAG,STAG>{number}			{
 					yylval.ivalue = atoi (yytext);
 					return NUMBER;
 				}
-<TAG>{name}			{
+<TAG,STAG>{name}		{
 					yylval.text = g_strdup (yytext);
 					return NAME;
 				}
-<TAG>"="			{
+<TAG,STAG>"="			{
 					return '=';
 				}
-<TAG>"<"			{
+<TAG,STAG>"<"			{
 					yylval.ivalue = GTH_OP_CMP_LT;
 					return COMPARE;
 				}
@@ -185,49 +199,53 @@ name             [a-zA-Z_]+
 					yylval.ivalue = GTH_OP_CMP_GT;
 					return COMPARE;
 				}
-<TAG>"+"			{
+<STAG>">"			{
+					BEGIN (INITIAL);
+					return END_TAG;
+				}
+<TAG,STAG>"+"			{
 					return '+';
 				}
-<TAG>"-"			{
+<TAG,STAG>"-"			{
 					return '-';
 				}
-<TAG>"!"			{
+<TAG,STAG>"!"			{
 					return '!';
 				}
-<TAG>"("			{
+<TAG,STAG>"("			{
 					return '(';
 				}
-<TAG>")"			{
+<TAG,STAG>")"			{
 					return ')';
 				}
-<TAG>\"				{
+<TAG,STAG>\"			{
 					return '"';
 				}
-<TAG>"&&"			{
+<TAG,STAG>"&&"			{
 					yylval.ivalue = GTH_OP_AND;
 					return BOOL_OP;
 				}
-<TAG>"||"			{
+<TAG,STAG>"||"			{
 					yylval.ivalue = GTH_OP_OR;
 					return BOOL_OP;
 				}
-<TAG>"=="			{
+<TAG,STAG>"=="			{
 					yylval.ivalue = GTH_OP_CMP_EQ;
 					return COMPARE;
 				}
-<TAG>"!="			{
+<TAG,STAG>"!="			{
 					yylval.ivalue = GTH_OP_CMP_NE;
 					return COMPARE;
 				}
-<TAG>"<="			{
+<TAG,STAG>"<="			{
 					yylval.ivalue = GTH_OP_CMP_LE;
 					return COMPARE;
 				}
-<TAG>">="			{
+<TAG,STAG>">="			{
 					yylval.ivalue = GTH_OP_CMP_GE;
 					return COMPARE;
 				}
-<TAG>[ \t\n]			{
+<TAG,STAG>[ \t\n]		{
 					/* Eat spaces inside tag. */
 				}
 <TAG>"/>"			{
@@ -236,11 +254,11 @@ name             [a-zA-Z_]+
 				}
 "<"				{
 					yylval.text = g_strdup (yytext);
-					return TEXT;
+					return HTML;
 				}
 [^<]{1,100}			{
 					yylval.text = g_strdup (yytext);
-					return TEXT;
+					return HTML;
 				}
 <<EOF>>				{
 					return 0;

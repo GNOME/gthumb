@@ -19,7 +19,7 @@
 </table>
 <gthumb:if file_name_visibility_index/>
   <font color="#969696">
-    <tt><gthumb:file_name/></tt> <br>
+    <tt><gthumb:file_name utf8/></tt> <br>
   </font>
 <gthumb:end/>
 <font color="#969696" size=-1>

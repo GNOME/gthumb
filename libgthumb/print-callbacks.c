@@ -790,9 +790,9 @@ update_comment_font (DialogData *data)
 		g_object_unref (pi->font_comment);		
 
 	font_name = gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker));
-#ifdef DEBUG
-	g_print ("Find closest: %s\n", font_name);
-#endif
+
+	debug (DEBUG_INFO, "Find closest: %s", font_name);
+
 	pi->font_comment = gnome_font_find_closest_from_full_name (font_name);
 
 	if (pi->font_comment == NULL)
