@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2002-11-24 18:23+0100\n"
-"PO-Revision-Date: 2002-11-24 18:24+0100\n"
+"POT-Creation-Date: 2002-11-25 13:30+0100\n"
+"PO-Revision-Date: 2002-11-25 13:32+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -193,7 +193,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:655
+#: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:662
 #: src/fullscreen.c:231 src/gthumb-window.c:352
 #, c-format
 msgid "%d x %d pixels"
@@ -209,12 +209,12 @@ msgstr "Bildvisaren gThumb"
 
 #: libgthumb/catalog-png-exporter.c:1294
 #, c-format
-msgid "Loading image : %s"
+msgid "Loading image: %s"
 msgstr "Läser in bild: %s"
 
 #: libgthumb/catalog-png-exporter.c:1486
 #, c-format
-msgid "Creating image : %s.%s"
+msgid "Creating image: %s.%s"
 msgstr "Skapar bild: %s.%s"
 
 #: libgthumb/catalog.c:89
@@ -223,38 +223,42 @@ msgstr "Biblioteket är inte tomt"
 
 #: libgthumb/catalog.c:98
 #, c-format
-msgid "Cannot remove library \"%s\" : %s"
+msgid "Cannot remove library \"%s\": %s"
 msgstr "Kan inte ta bort biblioteket \"%s\": %s"
 
 #: libgthumb/catalog.c:125
 #, c-format
-msgid "Cannot remove catalog \"%s\" : %s"
+msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Kan inte ta bort albumet \"%s\": %s"
 
 #: libgthumb/catalog.c:246 libgthumb/catalog.c:414
 #, c-format
-msgid "Cannot open catalog \"%s\" : %s"
+msgid "Cannot open catalog \"%s\": %s"
 msgstr "Kan inte öppna albumet \"%s\": %s"
 
 #: libgthumb/catalog.c:391
 #, c-format
-msgid "Cannot save catalog \"%s\" : %s"
+msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
 
-#: libgthumb/comments.c:321
+#: libgthumb/comments.c:317
+msgid "Deleting all comments, wait please..."
+msgstr "Tar bort alla kommentarer, var vänlig vänta..."
+
+#: libgthumb/comments.c:319
 msgid "Deleting old comments, wait please..."
 msgstr "Tar bort gamla kommentarer, var vänlig vänta..."
 
-#: libgthumb/comments.c:651
+#: libgthumb/comments.c:657
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:653 src/dlg-duplicates.c:516 src/dlg-image-prop.c:675
+#: libgthumb/comments.c:659 src/dlg-duplicates.c:516 src/dlg-image-prop.c:682
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: libgthumb/comments.c:663
+#: libgthumb/comments.c:669
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
@@ -270,17 +274,21 @@ msgstr ""
 #: libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:211
 #: libgthumb/gtk-utils.c:313 src/commands-impl.c:2736 src/gthumb-window.c:431
 #: src/gthumb-window.c:445 src/gthumb-window.c:448 src/gthumb-window.c:465
-#: src/gthumb-window.c:471 src/gthumb-window.c:3454
+#: src/gthumb-window.c:471 src/gthumb-window.c:3466
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:118
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/thumb-cache.c:522
+#: libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr "Tar bort alla miniatyrbilder, var vänlig vänta..."
+
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
 #: src/commands-impl.c:226 src/commands-impl.c:955 src/commands-impl.c:1577
-msgid "Enter the new name : "
+msgid "Enter the new name: "
 msgstr "Ange det nya namnet: "
 
 #: src/commands-impl.c:230 src/commands-impl.c:959 src/commands-impl.c:1581
@@ -309,7 +317,7 @@ msgstr "Skriv _över"
 
 #: src/commands-impl.c:288 src/commands-impl.c:303
 #, c-format
-msgid "Could not rename the image \"%s\" : %s"
+msgid "Could not rename the image \"%s\": %s"
 msgstr "Kunde inte byta namn på bilden \"%s\": %s"
 
 #: src/commands-impl.c:290 src/commands-impl.c:992 src/commands-impl.c:1343
@@ -318,11 +326,11 @@ msgstr "källan och målet är samma"
 
 #: src/commands-impl.c:392
 #, c-format
-msgid "Could not duplicate the image \"%s\" : %s"
+msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kunde inte duplicera bilden \"%s\": %s"
 
 #: src/commands-impl.c:450
-msgid "Selected images will be moved to the Trash, are you sure ?"
+msgid "The selected images will be moved to the Trash, are you sure ?"
 msgstr "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
 
 #: src/commands-impl.c:470
@@ -353,12 +361,12 @@ msgid "New Folder"
 msgstr "Ny mapp"
 
 #: src/commands-impl.c:907
-msgid "Enter the folder name : "
+msgid "Enter the folder name: "
 msgstr "Ange mappnamnet: "
 
 #: src/commands-impl.c:908
 #, c-format
-msgid "Could not create the folder \"%s\" : %s"
+msgid "Could not create the folder \"%s\": %s"
 msgstr "Kunde inte skapa mappen \"%s\": %s"
 
 #: src/commands-impl.c:919
@@ -366,18 +374,18 @@ msgid "New Library"
 msgstr "Nytt bibliotek"
 
 #: src/commands-impl.c:920 src/dlg-catalog.c:120
-msgid "Enter the library name : "
+msgid "Enter the library name: "
 msgstr "Ange biblioteksnamnet: "
 
 #: src/commands-impl.c:921
 #, c-format
-msgid "Could not create the library \"%s\" : %s"
+msgid "Could not create the library \"%s\": %s"
 msgstr "Kunde inte skapa biblioteket \"%s\": %s"
 
 #: src/commands-impl.c:990 src/commands-impl.c:1031
 #, c-format
-msgid "Could not rename the folder \"%s\" : %s"
-msgstr "Kunde inte byta namnet på mappen \"%s\": %s"
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Kunde inte byta namn på mappen \"%s\": %s"
 
 #: src/commands-impl.c:1121
 msgid "Folder not empty"
@@ -385,12 +393,12 @@ msgstr "Mappen är inte tom"
 
 #: src/commands-impl.c:1130
 #, c-format
-msgid "Cannot delete the folder \"%s\" : %s"
+msgid "Cannot delete the folder \"%s\": %s"
 msgstr "Kan inte ta bort mappen \"%s\": %s"
 
 #: src/commands-impl.c:1149
 #, c-format
-msgid "Could not delete the folder \"%s\" : %s"
+msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kunde inte ta bort mappen \"%s\": %s"
 
 #: src/commands-impl.c:1178
@@ -410,12 +418,12 @@ msgstr "_Flytta"
 
 #: src/commands-impl.c:1283 src/commands-impl.c:1333
 #, c-format
-msgid "Could not copy the folder \"%s\" : %s"
+msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kunde inte kopiera mappen \"%s\": %s"
 
 #: src/commands-impl.c:1333
 #, c-format
-msgid "Could not move the folder \"%s\" : %s"
+msgid "Could not move the folder \"%s\": %s"
 msgstr "Kunde inte flytta mappen \"%s\": %s"
 
 #: src/commands-impl.c:1354
@@ -432,16 +440,16 @@ msgstr "Välj målmappen"
 
 #: src/commands-impl.c:1627
 #, c-format
-msgid "Could not rename the library \"%s\" : %s"
-msgstr "Kunde inte ta bort biblioteket \"%s\": %s"
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Kunde inte byta namn på biblioteket \"%s\": %s"
 
 #: src/commands-impl.c:1627
 #, c-format
-msgid "Could not rename the catalog \"%s\" : %s"
+msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kunde inte byta namn på albumet \"%s\": %s"
 
 #: src/commands-impl.c:1672 src/dlg-catalog.c:79
-msgid "Enter the catalog name : "
+msgid "Enter the catalog name: "
 msgstr "Ange albumnamnet: "
 
 #: src/commands-impl.c:1673
@@ -450,7 +458,7 @@ msgstr "Nytt album"
 
 #: src/commands-impl.c:1715
 #, c-format
-msgid "Could not create the catalog \"%s\" : %s"
+msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kunde inte skapa alumet \"%s\": %s"
 
 #: src/commands-impl.c:1779
@@ -530,13 +538,13 @@ msgstr "Plats"
 msgid "Checked images will be deleted, are you sure ?"
 msgstr "De valda bilderna kommer att tas bort, är du säker?"
 
-#: src/dlg-file-utils.c:137 src/gthumb-window.c:2893
+#: src/dlg-file-utils.c:137 src/gthumb-window.c:2904
 msgid "Could not delete the images:"
 msgstr "Kunde inte ta bort bilderna:"
 
 #: src/dlg-file-utils.c:157
 msgid ""
-"The images cannot be moved to the Trash. Do you want to delete it "
+"The images cannot be moved to the Trash. Do you want to delete them "
 "permanently ?"
 msgstr ""
 "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem permanent?"
@@ -631,7 +639,7 @@ msgstr "Fält"
 msgid "Value"
 msgstr "Värde"
 
-#: src/dlg-image-prop.c:641
+#: src/dlg-image-prop.c:642
 #, c-format
 msgid "%s Properties"
 msgstr "Egenskaper för %s"
@@ -654,7 +662,7 @@ msgstr "Målmappen finns inte. Vill du skapa den?"
 
 #: src/dlg-png-exporter.c:218
 #, c-format
-msgid "Could not create folder \"%s\" : %s."
+msgid "Could not create folder \"%s\": %s."
 msgstr "Kunde inte skapa mappen \"%s\": %s."
 
 #: src/dlg-png-exporter.c:231
@@ -685,7 +693,7 @@ msgstr "Nytt namn"
 
 #: src/dlg-save-image.c:137
 #, c-format
-msgid "Image type not supported : %s"
+msgid "Image type not supported: %s"
 msgstr "Bildtypen stöds inte: %s"
 
 #: src/dlg-save-image.c:155
@@ -697,7 +705,7 @@ msgid "Save Image"
 msgstr "Spara bild"
 
 #: src/dlg-save-image.c:199
-msgid "Image type :"
+msgid "Image type:"
 msgstr "Bildtyp:"
 
 #: src/dlg-search.c:340
@@ -768,7 +776,7 @@ msgstr "Tilldela kategorier till valda bilder"
 msgid "Assign categories to the image"
 msgstr "Tilldela kategorier till bilden"
 
-#: src/gthumb-ui.xml.h:12 src/gthumb-window.c:3097
+#: src/gthumb-ui.xml.h:12 src/gthumb-window.c:3108
 msgid "Back"
 msgstr "Bakåt"
 
@@ -1245,7 +1253,7 @@ msgstr "Visa information om gThumb"
 msgid "Show/_Hide"
 msgstr "Visa/_dölj"
 
-#: src/gthumb-ui.xml.h:134 src/gthumb_preferences.glade.h:64
+#: src/gthumb-ui.xml.h:134 src/gthumb_preferences.glade.h:63
 msgid "Slide Show"
 msgstr "Bildspel"
 
@@ -1418,7 +1426,7 @@ msgid "_Add to Catalog..."
 msgstr "_Lägg till i album..."
 
 #: src/gthumb-ui.xml.h:180
-msgid "_Adjust Colors Levels"
+msgid "_Adjust Color Levels"
 msgstr "_Justera färgbalans"
 
 #: src/gthumb-ui.xml.h:181
@@ -1701,16 +1709,16 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:2861
+#: src/gthumb-window.c:2872
 msgid "Drag & Drop"
 msgstr "Dra och släpp"
 
-#: src/gthumb-window.c:4709
+#: src/gthumb-window.c:4721
 #, c-format
-msgid "Cannot load folder \"%s\" : %s\n"
+msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:4961
+#: src/gthumb-window.c:4973
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
@@ -2660,62 +2668,58 @@ msgid "Show hi_dden images"
 msgstr "Visa _dolda bilder"
 
 #: src/gthumb_preferences.glade.h:62
-msgid "Si_ze :"
-msgstr "Sto_rlek:"
-
-#: src/gthumb_preferences.glade.h:63
 msgid "Si_ze:"
 msgstr "Sto_rlek:"
 
-#: src/gthumb_preferences.glade.h:65
+#: src/gthumb_preferences.glade.h:64
 msgid "Small"
 msgstr "Liten"
 
-#: src/gthumb_preferences.glade.h:66
+#: src/gthumb_preferences.glade.h:65
 msgid "Switch to _full screen"
 msgstr "Växla till _helskärmsläge"
 
-#: src/gthumb_preferences.glade.h:67
+#: src/gthumb_preferences.glade.h:66
 msgid "System settings"
 msgstr "Systeminställningar"
 
-#: src/gthumb_preferences.glade.h:68
+#: src/gthumb_preferences.glade.h:67
 msgid "Text below icons"
 msgstr "Text under ikoner"
 
-#: src/gthumb_preferences.glade.h:69
+#: src/gthumb_preferences.glade.h:68
 msgid "Text beside icons"
 msgstr "Text bredvid ikoner"
 
-#: src/gthumb_preferences.glade.h:70
+#: src/gthumb_preferences.glade.h:69
 msgid "Text only"
 msgstr "Endast text"
 
-#: src/gthumb_preferences.glade.h:71
+#: src/gthumb_preferences.glade.h:70
 msgid "Transparency _type:"
 msgstr "Transparens_typ:"
 
-#: src/gthumb_preferences.glade.h:72
+#: src/gthumb_preferences.glade.h:71
 msgid "Viewer"
 msgstr "Visare"
 
-#: src/gthumb_preferences.glade.h:73
+#: src/gthumb_preferences.glade.h:72
 msgid "White"
 msgstr "Vit"
 
-#: src/gthumb_preferences.glade.h:74
+#: src/gthumb_preferences.glade.h:73
 msgid "Zoom _quality:"
 msgstr "Zoom_kvalitet:"
 
-#: src/gthumb_preferences.glade.h:75
+#: src/gthumb_preferences.glade.h:74
 msgid "_Toolbar style:"
 msgstr "_Verktygsradsstil:"
 
-#: src/gthumb_preferences.glade.h:76
+#: src/gthumb_preferences.glade.h:75
 msgid "gThumb Preferences"
 msgstr "Inställningar för gThumb"
 
-#: src/gthumb_preferences.glade.h:77
+#: src/gthumb_preferences.glade.h:76
 msgid "seconds"
 msgstr "sekunder"
 
@@ -3068,19 +3072,22 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
-#~ msgid "The selected images will be moved to the Trash, are you sure ?"
+#~ msgid "Selected images will be moved to the Trash, are you sure ?"
 #~ msgstr ""
 #~ "De valda bilderna kommer att flyttas till papperskorgen, är du säker?"
 
 #~ msgid ""
-#~ "The images cannot be moved to the Trash. Do you want to delete them "
+#~ "The images cannot be moved to the Trash. Do you want to delete it "
 #~ "permanently ?"
 #~ msgstr ""
 #~ "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem "
 #~ "permanent?"
 
-#~ msgid "_Adjust Color Levels"
+#~ msgid "_Adjust Colors Levels"
 #~ msgstr "_Justera färgbalans"
+
+#~ msgid "Si_ze :"
+#~ msgstr "Sto_rlek:"
 
 #~ msgid "Information on Channel:"
 #~ msgstr "Information om kanal:"
