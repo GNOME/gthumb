@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-18 03:58+0200\n"
+"POT-Creation-Date: 2004-08-19 11:58+0200\n"
 "PO-Revision-Date: 2004-07-01 18:17+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -114,9 +114,10 @@ msgstr "Ll_oji i tejdukshmërisë"
 msgid "View next animation frame"
 msgstr "Shiko frame në vazhdim të animacionit"
 
+#. GRUT modified this item
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "_Black"
-msgstr "_Zi"
+msgstr "_I zi"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 msgid "_Checked"
@@ -153,9 +154,10 @@ msgstr ""
 msgid "_View"
 msgstr "_Shfaq"
 
+#. GRUT modified this item
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
 msgid "_White"
-msgstr "_Bardhë"
+msgstr "_E bardhë"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_Zoom Quality"
@@ -1031,9 +1033,10 @@ msgstr ""
 msgid "Sor_t:"
 msgstr "Ren_dit:"
 
+#. GRUT modified this item
 #: data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
-msgstr "Rendit"
+msgstr "Renditja"
 
 #: data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
@@ -1316,9 +1319,10 @@ msgstr "Diapozitivë"
 msgid "Switch to _full screen"
 msgstr ""
 
+#. GRUT modified this item
 #: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
-msgstr ""
+msgstr "Rregullimet e sistemit"
 
 #: data/glade/gthumb_preferences.glade.h:57
 msgid "Text below icons"
@@ -1898,9 +1902,10 @@ msgstr ""
 msgid "rows"
 msgstr "rreshta"
 
+#. GRUT modified this item
 #: data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr ""
+msgstr "Shfaq dhe organizon imazhet tuaja"
 
 #: data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
@@ -2236,9 +2241,10 @@ msgstr ""
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr ""
 
+#. GRUT modified this item
 #: src/actions.c:456
 msgid "Stop"
-msgstr "Ndalo"
+msgstr "Ndal"
 
 #: src/actions.c:457
 msgid "Continue"
@@ -2334,9 +2340,10 @@ msgstr ""
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 
+#. GRUT modified this item
 #: src/actions.c:1514 src/dlg-file-utils.c:281
 msgid "_Move"
-msgstr "_Lëvize"
+msgstr "_Lëviz"
 
 #: src/actions.c:1563 src/actions.c:1618
 #, c-format
@@ -2386,12 +2393,13 @@ msgstr ""
 msgid "An image viewer and browser for GNOME."
 msgstr ""
 
+#. GRUT modified this item
 #: src/actions.c:2765 src/dlg-categories.c:357 src/dlg-change-date.c:151
 #: src/dlg-comment.c:290 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
-msgstr "Nuk arrij të shfaq ndihmën: %s"
+msgstr "E pamundur shfaqja e ndihmës: %s"
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
@@ -2618,7 +2626,6 @@ msgstr "Fund faqe"
 msgid "Old Name"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dlg-rename-series.c:408
 msgid "New Name"
 msgstr "Emër i ri"
@@ -2812,7 +2819,6 @@ msgstr ""
 msgid "Screenshots"
 msgstr ""
 
-#. GRUT modified this item
 #: src/main.c:176
 msgid "Science"
 msgstr "Shkencë"
@@ -2837,14 +2843,15 @@ msgstr "Lojra"
 msgid "Party"
 msgstr ""
 
+#. GRUT modified this item
 #: src/main.c:182
 msgid "Birthday"
-msgstr "Ditlindja"
+msgstr "Ditëlindja"
 
 #. GRUT modified this item
 #: src/main.c:183
 msgid "Astronomy"
-msgstr "Astronomi"
+msgstr "Astronomia"
 
 #: src/main.c:184
 msgid "Family"
@@ -2878,7 +2885,6 @@ msgstr ""
 msgid "S_ort Images"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:42
 msgid "_Zoom"
 msgstr "_Zmadhimi"
@@ -2935,7 +2941,6 @@ msgstr ""
 msgid "Open selected images with an application"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:73
 msgid "_Revert"
 msgstr "_Kthe mbrapa"
@@ -2944,12 +2949,10 @@ msgstr "_Kthe mbrapa"
 msgid "Revert to saved image"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:78
 msgid "_Print..."
 msgstr "_Printim..."
 
-#. GRUT modified this item
 #: src/ui.h:83 src/ui.h:453
 msgid "Proper_ties"
 msgstr "Pronësi_të"
@@ -3324,9 +3327,10 @@ msgstr ""
 msgid "Apply threshold"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:393
 msgid "_Resize"
-msgstr "_Ridimensiono"
+msgstr "_Ripërmaso"
 
 #: src/ui.h:394
 msgid "Resize image"
@@ -3584,9 +3588,10 @@ msgstr "_Paneli i instrumentëve"
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:612
 msgid "_Statusbar"
-msgstr "_Paneli i gjëndjes"
+msgstr "_Shtylla e gjëndjes"
 
 #: src/ui.h:613
 msgid "View or hide the statusbar of this window"
