@@ -1,3 +1,12 @@
+2003-05-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.2 released ]  
+
+2003-05-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (key_press_cb): use control-1/2/3 to set the
+	preview content.
+
 2003-05-01  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb_print.glade: display size in millimeters

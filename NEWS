@@ -1,3 +1,17 @@
+version 2.1.2
+-------------
+	* Auto load a folder when hovering on it during a 
+	  'drag & drop' operation.
+	* Added normilize and stretch contrast.
+	* Added ability to change the preview content, now you can
+	  view the image itself (old behaviour), the image data
+          (including exif data if present), or the comment.
+	* Added ability to insert the image size in the 'rename
+          series' tool.
+	* Search is case insensitive now.
+	* Added prev, next buttons to the fullscreen toolbar.
+	* New print dialog, easier, prettier and saves the preferences.
+
 version 2.1.1
 -------------
 	* Added ability to insert image date in the 'rename series' tool.

@@ -2757,8 +2757,6 @@ toggle_image_data_visibility (GThumbWindow *window)
 static void
 change_image_preview_content (GThumbWindow *window)
 {
-	GtkWidget *widget_to_focus;
-
 	if (! window->sidebar_visible) 
 		return;
 
@@ -2767,41 +2765,14 @@ change_image_preview_content (GThumbWindow *window)
 		return;
 	}
 
-	if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) {
-		gtk_widget_hide (window->preview_widget_image);
-		gtk_widget_show (window->preview_widget_data_comment);
-		gtk_widget_show (window->preview_widget_data);
-		gtk_widget_hide (window->preview_widget_comment);
-		window->preview_content = GTH_PREVIEW_CONTENT_DATA;
-		
-	} else if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) {
-		gtk_widget_hide (window->preview_widget_image);
-		gtk_widget_show (window->preview_widget_data_comment);
-		gtk_widget_show (window->preview_widget_comment);
-		gtk_widget_hide (window->preview_widget_data);
-		window->preview_content = GTH_PREVIEW_CONTENT_COMMENT;
-		
-	} else if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) {
-		gtk_widget_hide (window->preview_widget_data_comment);
-		gtk_widget_show (window->preview_widget_image);
-		window->preview_content = GTH_PREVIEW_CONTENT_IMAGE;
-	}
-
-	/**/
-
-	switch (window->preview_content) {
-	case GTH_PREVIEW_CONTENT_IMAGE:
-		widget_to_focus = window->viewer;
-		break;
-	case GTH_PREVIEW_CONTENT_DATA:
-		widget_to_focus = window->image_exif_view;
-		break;
-	case GTH_PREVIEW_CONTENT_COMMENT:
-		widget_to_focus = window->image_comment;
-		break;
-	}
-
-	gtk_widget_grab_focus (widget_to_focus);
+	if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) 
+		window_set_preview_content (window, GTH_PREVIEW_CONTENT_DATA);
+	
+	else if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) 
+		window_set_preview_content (window, GTH_PREVIEW_CONTENT_COMMENT);
+	
+	else if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) 
+		window_set_preview_content (window, GTH_PREVIEW_CONTENT_IMAGE);
 }
 
 
@@ -2866,6 +2837,36 @@ key_press_cb (GtkWidget   *widget,
 	    || GTK_WIDGET_HAS_FOCUS (window->preview_button_comment))
 		if (event->keyval == GDK_space)
 			return FALSE;
+
+	/* FIXME: document this. */
+	if (window->sidebar_visible
+	    && (event->state & GDK_CONTROL_MASK)
+	    && ((event->keyval == GDK_1)
+		|| (event->keyval == GDK_2)
+		|| (event->keyval == GDK_3))) {
+		GthPreviewContent content;
+
+		switch (event->keyval) {
+		case GDK_1:
+			content = GTH_PREVIEW_CONTENT_IMAGE;
+			break;
+		case GDK_2:
+			content = GTH_PREVIEW_CONTENT_DATA;
+			break;
+		case GDK_3:
+		default:
+			content = GTH_PREVIEW_CONTENT_COMMENT;
+			break;
+		}
+
+		if (window->preview_content == content) 
+			toggle_image_preview_visibility (window);
+		 else {
+			if (! window->preview_visible)
+				show_image_preview (window);
+			window_set_preview_content (window, content);
+		}
+	}
 
 	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
 		return FALSE;
@@ -4715,6 +4716,8 @@ void
 window_set_preview_content (GThumbWindow      *window,
 			    GthPreviewContent  content)
 {
+	GtkWidget *widget_to_focus;
+
 	window->preview_content = content;
 
 	gtk_widget_hide (window->preview_widget_image);
@@ -4740,6 +4743,20 @@ window_set_preview_content (GThumbWindow      *window,
 		gtk_widget_show (window->preview_widget_data_comment);
 		set_button_active_no_notify (window, window->preview_button_comment, TRUE);
 	}
+
+	switch (window->preview_content) {
+	case GTH_PREVIEW_CONTENT_IMAGE:
+		widget_to_focus = window->viewer;
+		break;
+	case GTH_PREVIEW_CONTENT_DATA:
+		widget_to_focus = window->image_exif_view;
+		break;
+	case GTH_PREVIEW_CONTENT_COMMENT:
+		widget_to_focus = window->image_comment;
+		break;
+	}
+
+	gtk_widget_grab_focus (widget_to_focus);
 
 	window_update_statusbar_zoom_info (window);
 	window_update_sensitivity (window);
