@@ -254,7 +254,7 @@ search_clicked_cb (GtkWidget  *widget,
 	entry = gtk_entry_get_text (GTK_ENTRY (data->s_filename_entry));
 	search_data_set_file_pattern (data->search_data, entry);
 	if (entry != NULL) 
-		data->file_patterns = search_util_get_patterns (entry);
+		data->file_patterns = search_util_get_file_patterns (entry);
 
 	/* * comment pattern */
 
@@ -759,7 +759,7 @@ match_patterns (char       **patterns,
 	for (i = 0; patterns[i] != NULL; i++) 
 		if (g_utf8_fnmatch (patterns[i], string, FNM_CASEFOLD) == 0)
 			return TRUE;
-
+	
 	return FALSE;
 }
 

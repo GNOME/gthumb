@@ -192,9 +192,9 @@ save_clicked_cb (GtkWidget  *widget,
 				    &start_iter, 
 				    &end_iter);
 	comment_text = gtk_text_buffer_get_text (data->note_text_buffer, 
-					 &start_iter, 
-					 &end_iter, 
-					 FALSE);
+						 &start_iter, 
+						 &end_iter, 
+						 FALSE);
 	if (comment_text)
 		cdata->comment = comment_text;
 
@@ -219,7 +219,7 @@ save_clicked_cb (GtkWidget  *widget,
 		}
 	}
 
-	/* Save and close. */
+	/* Save */
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		const char *filename = scan->data;
@@ -262,6 +262,9 @@ save_clicked_cb (GtkWidget  *widget,
 			comments_save_comment (filename, cdata);
 		all_windows_notify_update_comment (filename); 
 	}
+
+	if ((data->window != NULL) && (data->window->image_prop_dlg != NULL))
+		dlg_image_prop_update (data->window->image_prop_dlg);
 
 	comment_data_free (cdata);
 }
@@ -334,6 +337,16 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 #endif
 		break;
 	}
+
+	gtk_widget_set_sensitive (data->save_button, TRUE);
+}
+
+
+static void
+editabled_changed_cb (GtkEditable *editable,
+		      DialogData  *data)
+{
+	gtk_widget_set_sensitive (data->save_button, TRUE);
 }
 
 
@@ -421,6 +434,15 @@ dlg_comment_new (GThumbWindow *window)
 			  G_CALLBACK (date_optionmenu_changed_cb),
 			  data);
 
+	g_signal_connect (G_OBJECT (data->place_entry), 
+			  "changed",
+			  G_CALLBACK (editabled_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->note_text_buffer), 
+			  "changed",
+			  G_CALLBACK (editabled_changed_cb),
+			  data);
+
 	/* run dialog. */
 
 	gtk_widget_grab_focus (data->note_text_view);
@@ -461,13 +483,11 @@ dlg_comment_update (GtkWidget *dlg)
 	data->file_list = gth_file_view_get_file_list_selection (data->window->file_list->view);
 
 	if (data->file_list == NULL) {
-		gtk_widget_set_sensitive (data->comment_main_box, FALSE);
 		gtk_widget_set_sensitive (data->save_button, FALSE);
+		gtk_widget_set_sensitive (data->comment_main_box, FALSE);
 		return;
-	} else {
+	} else 
 		gtk_widget_set_sensitive (data->comment_main_box, TRUE);
-		gtk_widget_set_sensitive (data->save_button, TRUE);
-	}
 
 	/* Set widgets data. */
 	
@@ -498,7 +518,7 @@ dlg_comment_update (GtkWidget *dlg)
 	
 	first_image = data->file_list->data;
 	data->original_cdata = cdata = comments_load_comment (first_image);
-	
+
 	if (cdata != NULL) {
 		comment_data_free_keywords (cdata);
 
@@ -574,13 +594,11 @@ dlg_comment_update (GtkWidget *dlg)
 		}
 	} else {
 		time_t ctime = get_file_ctime (first_image);
-
-		if (ctime == 0)
-			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
-		else
-			gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), FOLLOWING_DATE);
+		gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), ctime);
 	}
+
+	gtk_widget_set_sensitive (data->save_button, FALSE);
 }
 
 

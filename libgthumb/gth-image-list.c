@@ -388,6 +388,8 @@ struct _GthImageListPrivate {
 	PangoLayout      *comment_layout;
 	guint             layout_timeout;
 
+	int               approx_char_width;
+
 #ifdef HAVE_RENDER
 	gboolean           use_render;
 	XRenderPictFormat *format;
@@ -1009,6 +1011,9 @@ gth_image_list_realize (GtkWidget *widget)
 	int                  event_base, error_base;
 #endif
 	PangoFontDescription *font_desc;
+	PangoContext         *context;
+	PangoFontMetrics     *metrics;
+
 
 	g_return_if_fail (GTH_IS_IMAGE_LIST (widget));
 
@@ -1100,6 +1105,15 @@ gth_image_list_realize (GtkWidget *widget)
 	font_desc = pango_font_description_copy (pango_context_get_font_description (pango_layout_get_context (priv->comment_layout)));
 	pango_font_description_set_style (font_desc, PANGO_STYLE_ITALIC);
 	pango_layout_set_font_description (priv->comment_layout, font_desc);
+
+	/**/
+
+	context = pango_layout_get_context (priv->comment_layout);
+	metrics = pango_context_get_metrics (context, font_desc, NULL);
+	priv->approx_char_width = PANGO_PIXELS (pango_font_metrics_get_approximate_char_width (metrics));
+	pango_font_metrics_unref (metrics);
+
+	/**/
 
 	pango_font_description_free (font_desc);
 
@@ -1582,7 +1596,7 @@ paint_rubberband (GthImageList *image_list,
 		g_object_unref (pixbuf);
 
 #ifdef HAVE_RENDER
-		}
+	}
 #endif
 
 	/* Paint outline */
@@ -3531,15 +3545,15 @@ truncate_comment_if_needed (GthImageList  *image_list,
                             const char    *comment)
 {
 	char *result;
-	int   max_len, approx_char_width = 6; /* FIXME */
+	int   max_len;
 	int   comment_len;
 
 	if (comment == NULL)
 		return NULL;
-	
+
         if (*comment == 0)
 		return g_strdup ("");
-	max_len = (image_list->priv->max_item_width / approx_char_width) * COMMENT_MAX_LINES;
+	max_len = (image_list->priv->max_item_width / image_list->priv->approx_char_width) * COMMENT_MAX_LINES;
 	comment_len = g_utf8_strlen (comment, -1);
 	
 	if (comment_len > max_len) {
@@ -3647,7 +3661,7 @@ gth_image_list_remove (GthImageList *image_list,
 		switch (priv->selection_mode) {
 		case GTK_SELECTION_SINGLE:
 		case GTK_SELECTION_MULTIPLE:
-			 gth_image_list_unselect_image (image_list, pos);
+			gth_image_list_unselect_image (image_list, pos);
 			break;
 
 		default:

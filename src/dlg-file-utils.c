@@ -2344,6 +2344,7 @@ typedef struct {
 	char           *destination;
 	gboolean        remove_source;
 	gboolean        include_cache;
+	gboolean        overwrite_all;
 	FileOpDoneFunc  done_func;
 	gpointer        done_data;
 } CopyItemsData;
@@ -2465,8 +2466,8 @@ copy_current_item (CopyItemsData *cidata)
 					cidata->file_list,
 					cidata->destination,
 					cidata->remove_source,
-					TRUE,
-					FALSE,
+					cidata->include_cache,
+					cidata->overwrite_all,
 					copy_item__continue2,
 					cidata);
 
@@ -2485,7 +2486,7 @@ copy_current_item (CopyItemsData *cidata)
 				 dest_path,
 				 cidata->remove_source,
 				 cidata->include_cache,
-				 FALSE,
+				 cidata->overwrite_all,
 				 copy_item__continue1,
 				 cidata);
 
@@ -2500,6 +2501,7 @@ dlg_copy_items (GThumbWindow   *window,
 		const char     *destination,
 		gboolean        remove_source,
 		gboolean        include_cache,
+		gboolean        overwrite_all,
 		FileOpDoneFunc  done_func,
 		gpointer        done_data)
 {
@@ -2519,6 +2521,7 @@ dlg_copy_items (GThumbWindow   *window,
 	cidata->destination = g_strdup (destination);
 	cidata->remove_source = remove_source;
 	cidata->include_cache = include_cache;
+	cidata->overwrite_all = overwrite_all;
 
 	for (scan = cidata->item_list; scan; scan = scan->next) {
 		char *path = scan->data;

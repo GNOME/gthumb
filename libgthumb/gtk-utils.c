@@ -120,7 +120,7 @@ _gtk_message_dialog_new (GtkWindow        *parent,
 	int           response_id;
 	char         *escaped_message, *markup_text;
 
-	g_return_val_if_fail (NULL, message != NULL);
+	g_return_val_if_fail (message != NULL, NULL);
 
 	if (stock_id == NULL)
 		stock_id = GTK_STOCK_DIALOG_INFO;
@@ -467,6 +467,7 @@ _gtk_error_dialog_from_gerror_run (GtkWindow        *parent,
 	GtkWidget *d;
 
 	g_return_if_fail (*gerror != NULL);
+	g_return_if_fail ((*gerror)->message != NULL);
 
 	if ((*gerror)->message != NULL) {
 		d = _gtk_message_dialog_new (parent,

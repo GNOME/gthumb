@@ -105,7 +105,7 @@ typedef struct {
 					      GtkAdjustment *hadj,
 					      GtkAdjustment *vadj);
 
-	void     (* selection_changed)       (GthImageList  *image_list) ;
+	void     (* selection_changed)       (GthImageList  *image_list);
 
 	void     (* item_activated)          (GthImageList  *image_list, 
 					      int            pos);
@@ -221,7 +221,7 @@ gboolean       gth_image_list_pos_is_selected     (GthImageList     *image_list,
 
 int            gth_image_list_get_first_selected  (GthImageList *image_list);
 
-int            gth_image_list_get_last_selected  (GthImageList *image_list);
+int            gth_image_list_get_last_selected   (GthImageList *image_list);
 
 /* Setting spacing values */
 

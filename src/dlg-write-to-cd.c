@@ -96,6 +96,7 @@ ok_clicked_cb (GtkWidget  *widget,
 				"burn:///",
 				FALSE,
 				TRUE,
+				TRUE,
 				write_to_cd__continue,
 				data);
 	else {

@@ -2928,6 +2928,19 @@ image_button_release_cb (GtkWidget      *widget,
 }
 
 
+static int
+image_comment_button_press_cb (GtkWidget      *widget, 
+			       GdkEventButton *event,
+			       gpointer        data)
+{
+	GThumbWindow *window = data;
+
+	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) 
+		if (gth_file_view_selection_not_null (window->file_list->view))
+			activate_action_edit_edit_comment (NULL, window);
+}
+
+
 static gboolean
 image_focus_changed_cb (GtkWidget     *widget,
 			GdkEventFocus *event,
@@ -3347,6 +3360,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 					dest_dir,
 					((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
 					TRUE,
+					FALSE,
 					move_items__continue,
 					window);
 			path_list_free (list);
@@ -3424,6 +3438,7 @@ dir_list_drag_data_received  (GtkWidget          *widget,
 				dest_dir,
 				((context->action & GDK_ACTION_MOVE) == GDK_ACTION_MOVE),
 				TRUE,
+				FALSE,
 				move_items__continue,
 				window);
 		path_list_free (list);
@@ -5140,6 +5155,11 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->image_comment), 
 			  "focus_out_event",
 			  G_CALLBACK (image_focus_changed_cb), 
+			  window);
+
+	g_signal_connect (G_OBJECT (window->image_comment), 
+			  "button_press_event",
+			  G_CALLBACK (image_comment_button_press_cb), 
 			  window);
 
 	/* exif data */

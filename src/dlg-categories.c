@@ -70,6 +70,7 @@ typedef struct {
 	GThumbWindow  *window;
 	GtkWidget     *dialog;
 
+	GtkWidget     *c_ok_button;
 	GtkWidget     *keyword_entry;
 	GtkWidget     *add_key_button;
 	GtkWidget     *remove_key_button;
@@ -250,6 +251,7 @@ add_category_cb (GtkWidget  *widget,
 				    CATEGORY_COLUMN, new_category,
 				    -1);
 		update_category_entry (data);
+		gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 	}
 
 	g_free (new_category);
@@ -270,6 +272,7 @@ remove_category_cb (GtkWidget *widget,
 
 	gtk_list_store_remove (data->keywords_list_model, &iter);
 	update_category_entry (data);
+	gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 }
 
 
@@ -324,9 +327,12 @@ ok_clicked_cb (GtkWidget  *widget,
 		*(data->remove_list) = get_categories (data->keywords_list_model, 0);
 	}
 
-	if (data->save_func)
+	if (data->save_func) {
 		(*data->save_func) (data->file_list, data->save_data);
-	else
+		gtk_widget_set_sensitive (data->c_ok_button, FALSE);
+		if (data->window != NULL)
+			window_reload_image (data->window);
+	} else
 		gtk_widget_destroy (data->dialog);
 }
 
@@ -381,6 +387,7 @@ use_category_toggled (GtkCellRendererThreeStates *cell,
 	
 	gtk_tree_path_free (path);
 	update_category_entry (data);
+	gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 }
 
 
@@ -517,7 +524,7 @@ dlg_categories_common (GtkWindow     *parent,
 	data->remove_key_button = glade_xml_get_widget (data->gui, "c_remove_key_button");
 	data->keywords_list_view = glade_xml_get_widget (data->gui, "c_keywords_treeview");
 
-	btn_ok = glade_xml_get_widget (data->gui, "c_ok_button");
+	data->c_ok_button = btn_ok = glade_xml_get_widget (data->gui, "c_ok_button");
 	btn_cancel = glade_xml_get_widget (data->gui, "c_cancel_button");
 	btn_help = glade_xml_get_widget (data->gui, "c_help_button");
 
@@ -705,6 +712,11 @@ dlg_categories_new (GThumbWindow *window)
 	GtkWidget         *parent_win = window->viewer;
 	DlgCategoriesData *dcdata;
 
+	if (window->categories_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (window->categories_dlg));
+		return;
+	}
+
 	dcdata = g_new0 (DlgCategoriesData, 1);
 	dcdata->window = window;
 	dcdata->add_list = NULL;
@@ -878,6 +890,7 @@ dlg_categories_update (GtkWidget *dlg)
 
 	add_saved_categories (data);
 	update_category_entry (data);
+	gtk_widget_set_sensitive (data->c_ok_button, FALSE);
 }
 
 

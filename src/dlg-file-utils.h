@@ -92,6 +92,7 @@ void     dlg_copy_items           (GThumbWindow   *window,
 				   const char     *destination,
 				   gboolean        remove_source,
 				   gboolean        include_cache,
+				   gboolean        overwrite_all,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
 

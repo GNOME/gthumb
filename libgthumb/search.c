@@ -210,3 +210,34 @@ search_util_get_patterns (const char *pattern_string)
 
 	return patterns;
 }
+
+
+char **
+search_util_get_file_patterns (const char *pattern_string)
+{
+	char **patterns;
+	int    i;
+
+	patterns = _g_utf8_strsplit (pattern_string, ';');
+
+	for (i = 0; patterns[i] != NULL; i++) {
+		char *stripped = _g_utf8_strstrip (patterns[i]);
+
+		if (stripped == NULL)
+			continue;
+		
+		if (g_utf8_strchr (stripped, -1, '*') == NULL) {
+			char *temp = patterns[i];
+			patterns[i] = g_strconcat ("*", stripped, "*", NULL);
+			g_free (temp);
+		} else {
+			char *temp = patterns[i];
+			patterns[i] = g_strconcat ("*/", stripped, NULL);
+			g_free (temp);
+		}
+
+		g_free (stripped);
+	}
+
+	return patterns;
+}

@@ -1,3 +1,38 @@
+2004-07-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-search.c (search_clicked_cb): 
+	* libgthumb/search.c (search_util_get_file_patterns): new function
+
+	Fixes bug #148571: Problem with regular expressio	
+
+2004-07-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-file-utils.c (dlg_copy_items): 
+	* src/dlg-file-utils.h (dlg_copy_items): added overwrite_all option.
+
+2004-07-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (image_comment_button_press_cb): show the
+	comment dialog when double-clicking on the comment pane.
+
+2004-07-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-image-list.c (gth_image_list_realize): 
+	(truncate_comment_if_needed): 
+	
+	calculate the approximate char width and use that value when
+	truncating a comment.
+
+2004-07-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-categories.c (ok_clicked_cb): reload the image after 
+	saving the categories.
+
+2004-07-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-categories.c (dlg_categories_new): do not create more than
+	one categories dialog.
+
 2004-07-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (save_pixbuf__image_saved_cb): 

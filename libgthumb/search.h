@@ -80,5 +80,6 @@ void        search_data_copy                 (SearchData  *dest,
 
 gchar **    search_util_get_patterns         (const char  *pattern_string);
 
+gchar **    search_util_get_file_patterns    (const char  *pattern_string);
 
 #endif /* SEARCH_H */

@@ -669,6 +669,9 @@ activate_action_edit_delete_comment (GtkAction *action,
 		all_windows_notify_update_comment (filename);
 	}
 	path_list_free (list);
+
+	if (window->image_prop_dlg != NULL)
+		dlg_image_prop_update (window->image_prop_dlg);
 }
 
 
