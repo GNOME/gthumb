@@ -1,6 +1,20 @@
+2004-05-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.schemas.in: fixes bug #143020 : gthumb should default to 
+	Folders view on first load.
+
+	* data/gthumb-ui.xml: fixes bug #143024 : gthumb-ui.xml error prevents 
+	Slideshow accelerator from working.
+
+2004-05-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* doc/C/gthumb.xml: 
+	* src/commands-impl.c (help_about_command_impl): changed email
+	address.
+
 2004-05-24  Stanislav Visnovsky  <visnovsky@nenya.ms.mff.cuni.cz>
 
-        * configure.in: Added "sk" (Slovak) to ALL_LINGUAS.
+	* configure.in: Added "sk" (Slovak) to ALL_LINGUAS.
 
 2004-05-22  Paolo Bacchilega  <paolo@localhost.localdomain>
 

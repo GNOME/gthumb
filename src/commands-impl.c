@@ -2943,7 +2943,7 @@ help_about_command_impl (BonoboUIComponent *uic,
 	static GtkWidget  *about;
 	GdkPixbuf         *logo;
 	const char        *authors[] = {
-		"Paolo Bacchilega <paolo.bacch@tin.it>",
+		"Paolo Bacchilega <paolo.bacchilega@libero.it>",
 		NULL
 	};
 	const char       *documenters [] = {

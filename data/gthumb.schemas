@@ -34,7 +34,7 @@
 	<applyto>/apps/gthumb/general/startup_location</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default></default>
+	<default>file://~</default>
 	<locale name="C">
 	  <short></short>
 	  <long>

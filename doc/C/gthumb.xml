@@ -2,8 +2,8 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY gthumb-version "2.2">
-  <!ENTITY manual-version "2.2">
+  <!ENTITY gthumb-version "2.4">
+  <!ENTITY manual-version "2.4">
   <!ENTITY date "September 2003">
   <!ENTITY gthumb "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
@@ -20,6 +20,7 @@
       <year>2001</year>
       <year>2002</year>
       <year>2003</year>
+      <year>2004</year>
       <holder>Paolo Bacchilega</holder>
     </copyright>
 
@@ -46,7 +47,7 @@
         <firstname>Paolo</firstname>
 	<surname>Bacchilega</surname>
 	<affiliation>
-	  <address> <email>paolo.bacch@tin.it</email> </address>
+	  <address> <email>paolo.bacchilega@libero.it</email> </address>
         </affiliation>
       </author>
       <author> 

@@ -386,7 +386,7 @@
 
 	<cmd name="Tools_Slideshow" _label="_Slide Show" 
 	     _tip="View as a slide show"
-	     pixtype="stock" pixname="gthumb-slideshow"/>
+	     pixtype="stock" pixname="gthumb-slideshow"
 	     accel="*Control*S"/>
 	<cmd name="Tools_FindImages" _label="_Find..." 
 	     _tip="Find images"
