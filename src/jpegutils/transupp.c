@@ -41,6 +41,8 @@
 
 #ifdef HAVE_LIBJPEG
 
+#define SAVE_MARKERS_SUPPORTED 1
+
 #include <stdio.h>
 #include <jpeglib.h>
 #include "transupp.h"		/* My own external interface */
@@ -970,6 +972,7 @@ jcopy_markers_execute (j_decompress_ptr srcinfo, j_compress_ptr dstinfo,
 	GETJOCTET(marker->data[3]) == 0x62 &&
 	GETJOCTET(marker->data[4]) == 0x65)
       continue;			/* reject duplicate Adobe */
+
 #ifdef NEED_FAR_POINTERS
     /* We could use jpeg_write_marker if the data weren't FAR... */
     {

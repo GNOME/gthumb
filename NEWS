@@ -4,7 +4,7 @@ version 1.106
 	* Added an histogram tab to the image properties dialog.
 	* Delete operations now move files and folders to the Trash. 
 	* Added ability to copy, move and delete recursively folders.
-	* Drag & Drop.
+	* Better Drag & Drop support.
 	* Added a rename option to the overwrite dialog.
 	* Use a folder selector dialog to select the destination folder when
 	  copying or moving files.

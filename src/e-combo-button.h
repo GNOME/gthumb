@@ -31,6 +31,7 @@
 #include <gtk/gtkmenu.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include "typedefs.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -73,6 +74,9 @@ void       e_combo_button_set_label  (EComboButton *combo_button,
 void       e_combo_button_set_menu   (EComboButton *combo_button,
 				      GtkMenu      *menu);
 void       e_combo_button_popup_menu (EComboButton *combo_button);
+
+void       e_combo_button_set_style  (EComboButton *combo_button,
+				      ToolbarStyle  toolbar_style);
 
 
 #ifdef __cplusplus

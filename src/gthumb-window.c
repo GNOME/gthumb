@@ -6634,9 +6634,12 @@ window_notify_update_layout (GThumbWindow *window)
 void
 window_notify_update_toolbar_style (GThumbWindow *window)
 {
-	char *prop;
+	ToolbarStyle  toolbar_style;
+	char         *prop;
 
-	switch (pref_get_toolbar_style ()) {
+	toolbar_style = pref_get_toolbar_style ();
+
+	switch (toolbar_style) {
 	case TOOLBAR_STYLE_SYSTEM:
 		prop = "system"; break;
 	case TOOLBAR_STYLE_TEXT_BELOW:
@@ -6651,4 +6654,5 @@ window_notify_update_toolbar_style (GThumbWindow *window)
 
 	bonobo_ui_component_set_prop (window->ui_component, "/Toolbar", "look", prop, NULL);
 	bonobo_ui_component_set_prop (window->ui_component, "/ImageToolbar", "look", prop, NULL);
+	e_combo_button_set_style (E_COMBO_BUTTON (window->go_back_combo_button), toolbar_style); 
 }

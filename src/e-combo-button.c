@@ -30,12 +30,15 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <glib-object.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
+#include "gconf-utils.h"
 #include "e-combo-button.h"
+#include "gtkorientationbox.h"
 #include "glib-utils.h"
 #include "gthumb-marshal.h"
 
@@ -46,11 +49,14 @@ struct _EComboButtonPrivate {
 	GtkWidget *icon_image;
 	GtkWidget *label;
 	GtkWidget *arrow_image;
+	GtkWidget *orient_box;
 	GtkWidget *hbox;
 
 	GtkMenu *menu;
 
 	gboolean menu_popped_up;
+
+	ToolbarStyle toolbar_style;
 };
 
 
@@ -151,9 +157,9 @@ paint (EComboButton *combo_button,
 	    && GTK_WIDGET_STATE (combo_button) != GTK_STATE_ACTIVE)
 		return;
 
-	separator_x = (priv->label->allocation.width
-		       + priv->label->allocation.x
-		       + priv->arrow_image->allocation.x) / 2;
+	separator_x = (priv->hbox->allocation.width 
+		       - priv->arrow_image->allocation.width
+		       - (priv->hbox->style->xthickness * 2));
 
 	if (GTK_WIDGET_STATE (combo_button) == GTK_STATE_ACTIVE)
 		shadow_type = GTK_SHADOW_IN;
@@ -282,7 +288,8 @@ impl_button_press_event (GtkWidget *widget,
 		GTK_BUTTON (widget)->button_down = TRUE;
 
 		if (event->button == 3 || 
-		    event->x >= priv->arrow_image->allocation.x) {
+		    event->x >= (priv->arrow_image->allocation.x 
+				 - (priv->arrow_image->style->xthickness * 2))) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 
@@ -427,19 +434,32 @@ init (EComboButton *combo_button)
 	priv = g_new (EComboButtonPrivate, 1);
 	combo_button->priv = priv;
 
-	priv->hbox = gtk_hbox_new (FALSE, SPACING);
+	priv->hbox = gtk_hbox_new (FALSE, SPACING * 2);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->hbox), 0);
 	gtk_container_add (GTK_CONTAINER (combo_button), priv->hbox);
 	gtk_widget_show (priv->hbox);
 
+	/**/
+
+	priv->orient_box = gtk_orientation_box_new (FALSE, SPACING, GTK_ORIENTATION_VERTICAL);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->orient_box), 0);
+	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->orient_box, TRUE, TRUE, 0);
+	gtk_widget_show (priv->orient_box);
+
+	/**/
+
 	priv->icon_image = create_empty_image_widget ();
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->icon_image, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (priv->orient_box), priv->icon_image, TRUE, TRUE, 0);
 	gtk_widget_show (priv->icon_image);
+
+	/**/
 
 	priv->label = gtk_label_new ("");
 	gtk_label_set_use_underline (GTK_LABEL (priv->label), TRUE);
-	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->label, TRUE, TRUE,
-			    2 * GTK_WIDGET (combo_button)->style->xthickness);
+	gtk_box_pack_start (GTK_BOX (priv->orient_box), priv->label, FALSE, TRUE, 0);
 	gtk_widget_show (priv->label);
+
+	/**/
 
 	priv->arrow_image = create_arrow_image_widget ();
 	gtk_box_pack_start (GTK_BOX (priv->hbox), priv->arrow_image, TRUE, TRUE,
@@ -583,4 +603,73 @@ e_combo_button_get_type ()
 	}
 
         return type;
+}
+
+
+void
+e_combo_button_set_style  (EComboButton *combo_button,
+			   ToolbarStyle  toolbar_style)
+{
+	EComboButtonPrivate *priv;
+
+	g_return_if_fail (combo_button != NULL);
+	g_return_if_fail (E_IS_COMBO_BUTTON (combo_button));
+
+	priv = combo_button->priv;
+
+	if (toolbar_style == TOOLBAR_STYLE_SYSTEM) {
+		char *system_style;
+
+		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style");
+		if (system_style == NULL)
+			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+		else if (strcmp (system_style, "both") == 0)
+			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+		else if (strcmp (system_style, "both_horiz") == 0)
+			toolbar_style = TOOLBAR_STYLE_TEXT_BESIDE;
+		else if (strcmp (system_style, "icon") == 0)
+			toolbar_style = TOOLBAR_STYLE_ICONS;
+		else if (strcmp (system_style, "text") == 0)
+			toolbar_style = TOOLBAR_STYLE_TEXT;
+		else
+			toolbar_style = TOOLBAR_STYLE_TEXT_BELOW;
+
+		g_free (system_style);
+	}
+
+	priv->toolbar_style = toolbar_style;
+
+	switch (toolbar_style) {
+	case TOOLBAR_STYLE_TEXT_BELOW:
+		gtk_widget_show (priv->label);
+		gtk_widget_show (priv->icon_image);
+		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
+						GTK_ORIENTATION_VERTICAL);
+		break;
+
+	case TOOLBAR_STYLE_TEXT_BESIDE:
+		gtk_widget_show (priv->label);
+		gtk_widget_show (priv->icon_image);
+		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
+						GTK_ORIENTATION_HORIZONTAL);
+		break;
+
+	case TOOLBAR_STYLE_ICONS:
+		gtk_widget_hide (priv->label);
+		gtk_widget_show (priv->icon_image);
+		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
+						GTK_ORIENTATION_HORIZONTAL);
+		break;
+		break;
+
+	case TOOLBAR_STYLE_TEXT:
+		gtk_widget_show (priv->label);
+		gtk_widget_hide (priv->icon_image);
+		gtk_orientation_box_set_orient (GTK_ORIENTATION_BOX (priv->orient_box),
+						GTK_ORIENTATION_HORIZONTAL);
+		break;
+
+	default:
+		break;
+	}
 }

@@ -55,16 +55,13 @@ jpegtran (char        *input_filename,
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
 	struct jpeg_error_mgr          jsrcerr, jdsterr;
-	JCOPY_OPTION                   copyoption;    
 	jpeg_transform_info            transformoption; 
 	jvirt_barray_ptr              *src_coef_arrays;
 	jvirt_barray_ptr              *dst_coef_arrays;
 	FILE                          *input_file;
 	FILE                          *output_file;
 
-	copyoption = JCOPYOPT_ALL;
-
-	transformoption.transform = JXFORM_NONE;
+	transformoption.transform = transformation;
 	transformoption.trim = FALSE;
 	transformoption.force_grayscale = FALSE;
 	
@@ -81,8 +78,6 @@ jpegtran (char        *input_filename,
 	dstinfo.err->trace_level = 0;
 	dstinfo.arith_code = FALSE;
 	dstinfo.optimize_coding = FALSE;
-
-	transformoption.transform = transformation;
 
 	jsrcerr.trace_level = jdsterr.trace_level;
 	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
@@ -102,7 +97,7 @@ jpegtran (char        *input_filename,
 	jpeg_stdio_src (&srcinfo, input_file);
 
 	/* Enable saving of extra markers that we want to copy */
-	jcopy_markers_setup (&srcinfo, copyoption);
+	jcopy_markers_setup (&srcinfo, JCOPYOPT_ALL);
 
 	/* Read file header */
 	(void) jpeg_read_header (&srcinfo, TRUE);
@@ -125,7 +120,7 @@ jpegtran (char        *input_filename,
 							&dstinfo,
 							src_coef_arrays,
 							&transformoption);
-	
+
 	/* Specify data destination for compression */
 	jpeg_stdio_dest (&dstinfo, output_file);
 
@@ -134,14 +129,14 @@ jpegtran (char        *input_filename,
 
 	/* Copy to the output file any extra markers that we want to 
 	 * preserve */
-	jcopy_markers_execute (&srcinfo, &dstinfo, copyoption);
+	jcopy_markers_execute (&srcinfo, &dstinfo, JCOPYOPT_ALL);
 
 	/* Execute image transformation, if any */
 	jtransform_execute_transformation (&srcinfo, 
 					   &dstinfo,
 					   src_coef_arrays,
 					   &transformoption);
-	
+
 	/* Finish compression and release memory */
 	jpeg_finish_compress (&dstinfo);
 	jpeg_destroy_compress (&dstinfo);

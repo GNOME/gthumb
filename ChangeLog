@@ -1,3 +1,13 @@
+2002-11-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/jpegutils/transupp.c (SAVE_MARKERS_SUPPORTED): save markers.
+
+	* src/gtkorientationbox.c: 
+	* src/gtkorientationbox.h: 
+	* src/gthumb-window.c (window_notify_update_toolbar_style): 
+	* src/e-combo-button.c (e_combo_button_set_style): keep the
+	combo button style in sync with the toolbar style.
+
 2002-11-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-file-utils.c (copy_item__continue1): arifixed #99430

@@ -95,6 +95,8 @@ gthumb_SOURCES = 			\
 	fullscreen.h			\
 	gth-folder-selection-dialog.c	\
 	gth-folder-selection-dialog.h	\
+	gtkorientationbox.c		\
+	gtkorientationbox.h		\
 	gthumb-preloader.c		\
 	gthumb-preloader.h		\
 	gthumb-window.c			\
