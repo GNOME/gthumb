@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-05-02 22:05+0100\n"
-"PO-Revision-Date: 2003-05-02 22:10+0000\n"
+"Project-Id-Version: 2.4\n"
+"POT-Creation-Date: 2003-05-20 01:29+0000\n"
+"PO-Revision-Date: 2003-05-20 02:00+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -276,9 +276,9 @@ msgid "Name"
 msgstr "Nome"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:808
-#: src/gthumb-window.c:4824 src/gthumb_png_exporter.glade.h:75
-#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2805 src/gthumb-window.c:808
+#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
+#: src/gthumb_web_exporter.glade.h:32 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -309,24 +309,28 @@ msgstr "A ler imagem: %s"
 msgid "Creating image: %s.%s"
 msgstr "A criar imagem: %s.%s"
 
-#: src/catalog-web-exporter.c:1102
+#: src/catalog-web-exporter.c:1153
 msgid "Saving thumbnails"
 msgstr "A gravar imagens referência"
 
-#: src/catalog-web-exporter.c:1170
+#: src/catalog-web-exporter.c:1221
 msgid "Saving HTML pages: Images"
 msgstr "A gravar páginas HTML: Imagens"
 
-#: src/catalog-web-exporter.c:1247
+#: src/catalog-web-exporter.c:1298
 msgid "Saving HTML pages: Indexes"
 msgstr "A gravar páginas HTML: Índices"
 
-#: src/catalog-web-exporter.c:1552
+#: src/catalog-web-exporter.c:1382
+msgid "Saving images"
+msgstr "A gravar imagens"
+
+#: src/catalog-web-exporter.c:1696
 msgid "Could not create a temporary folder"
 msgstr "Incapaz de criar uma pasta temporária"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1591
+#: src/catalog-web-exporter.c:1735
 msgid "Loading images"
 msgstr "A ler imagens"
 
@@ -499,18 +503,18 @@ msgstr "A biblioteca seleccionada será removida, tem a certeza?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "O catálogo seleccionado será removido, tem a certeza?"
 
-#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
+#: src/commands-impl.c:2745 src/dlg-categories.c:321 src/dlg-comment.c:244
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
 #: src/dlg-search.c:448
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Incapaz de mostrar ajuda: %s"
 
-#: src/commands-impl.c:2794
+#: src/commands-impl.c:2796
 msgid "translator_credits"
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/commands-impl.c:2806
+#: src/commands-impl.c:2808
 msgid "An image viewer and browser for GNOME."
 msgstr "Um visualizador e navegador de imagens para o GNOME."
 
@@ -671,11 +675,11 @@ msgstr "Modificado"
 msgid "Information on Channel"
 msgstr "Informação no Canal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5273
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
 msgid "Field"
 msgstr "Campo"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5283 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Valor"
 
@@ -728,7 +732,7 @@ msgstr "Nome Ficheiro"
 msgid "Folder"
 msgstr "Pasta"
 
-#: src/dlg-web-exporter.c:587
+#: src/dlg-web-exporter.c:661
 msgid "Select Album Theme"
 msgstr "Seleccionar Tema Álbum"
 
@@ -740,7 +744,7 @@ msgstr "Repor Vista Normal"
 msgid "Image Info"
 msgstr "Info Imagem"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4252
+#: src/fullscreen.c:840 src/gthumb-window.c:4253
 msgid "Back"
 msgstr "Atrás"
 
@@ -1782,36 +1786,36 @@ msgstr "1 seleccionada (%s)"
 msgid "%d selected (%s)"
 msgstr "%d seleccionadas (%s)"
 
-#: src/gthumb-window.c:3362
+#: src/gthumb-window.c:3363
 msgid "Dragged Images"
 msgstr "Imagens Arrastadas"
 
-#: src/gthumb-window.c:3556
+#: src/gthumb-window.c:3557
 msgid "Could not move the items:"
 msgstr "Incapaz de mover os itens:"
 
-#: src/gthumb-window.c:5153
+#: src/gthumb-window.c:5170
 msgid "Image comment"
 msgstr "Comentário da imagem"
 
-#: src/gthumb-window.c:5167
+#: src/gthumb-window.c:5184
 msgid "Image data"
 msgstr "Dados da imagem"
 
-#: src/gthumb-window.c:5181
+#: src/gthumb-window.c:5198
 msgid "Image preview"
 msgstr "Antevisão da imagem"
 
-#: src/gthumb-window.c:6439
+#: src/gthumb-window.c:6456
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Incapaz de ler pasta \"%s\": %s\n"
 
-#: src/gthumb-window.c:6708
+#: src/gthumb-window.c:6725
 msgid "The specified catalog does not exist."
 msgstr "O catálogo especificado não existe."
 
-#: src/gthumb-window.c:8054
+#: src/gthumb-window.c:8071
 msgid "Wait please..."
 msgstr "Aguarde..."
 
@@ -2249,7 +2253,7 @@ msgstr "_Largura:"
 msgid "_Yellow-Blue:"
 msgstr "Amarelo-A_zul:"
 
-#: src/gthumb_edit.glade.h:33
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:34
 msgid "pixels"
 msgstr "pixeis"
 
@@ -2337,7 +2341,7 @@ msgstr "Seleccionar pasta destino"
 msgid "Co_mment"
 msgstr "Co_mentário"
 
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:14
 msgid "Col_umns:"
 msgstr "Col_unas:"
 
@@ -2409,7 +2413,7 @@ msgstr "Página"
 msgid "Pi_xels"
 msgstr "Pi_xels"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:16
 msgid "Re_verse order"
 msgstr "Ordem inversa"
 
@@ -2445,7 +2449,7 @@ msgstr "Simples com sombra"
 msgid "Slide"
 msgstr "Slide"
 
-#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
+#: src/gthumb_png_exporter.glade.h:52
 msgid "Sor_t images:"
 msgstr "_Ordenar imagens:"
 
@@ -2500,7 +2504,7 @@ msgstr "_Gradiente"
 msgid "_Image size:"
 msgstr "Tamanho _imagem:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:26
 msgid "_Rows:"
 msgstr "_Linhas:"
 
@@ -2512,15 +2516,15 @@ msgstr "Cor _sólida"
 msgid "_Template:"
 msgstr "_Modelo:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:29
 msgid "by name"
 msgstr "por nome"
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:30
 msgid "by path"
 msgstr "por caminho"
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:31
 msgid "by size"
 msgstr "por tamanho"
 
@@ -2537,62 +2541,90 @@ msgid "png"
 msgstr "png"
 
 #: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
 msgid "<b>Album</b>"
 msgstr "<b>Álbum</b>"
 
-#: src/gthumb_web_exporter.glade.h:6
+#: src/gthumb_web_exporter.glade.h:11
 msgid "<b>Index Layout</b>"
 msgstr "<b>Disposição Índice</b>"
 
-#: src/gthumb_web_exporter.glade.h:7
+#: src/gthumb_web_exporter.glade.h:12
 msgid "<b>Saving</b>"
 msgstr "<b>A Gravar</b>"
 
-#: src/gthumb_web_exporter.glade.h:8
+#: src/gthumb_web_exporter.glade.h:13
 msgid "<b>Theme</b>"
 msgstr "<b>Tema</b>"
 
-#: src/gthumb_web_exporter.glade.h:10
+#: src/gthumb_web_exporter.glade.h:15
 msgid "Inde_x file:"
 msgstr "Fic_heiro índice:"
 
-#: src/gthumb_web_exporter.glade.h:13
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Resi_ze images if larger than:"
+msgstr "Redimensionar imagens se maiores do que:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "Sor_t:"
+msgstr "Or_denar:"
+
+#: src/gthumb_web_exporter.glade.h:19
 msgid "Th_eme:"
 msgstr "T_ema:"
 
-#: src/gthumb_web_exporter.glade.h:14
+#: src/gthumb_web_exporter.glade.h:20
 msgid "Web Album"
 msgstr "Álbum Web"
 
-#: src/gthumb_web_exporter.glade.h:15
+#: src/gthumb_web_exporter.glade.h:21
 msgid "Web Album Theme"
 msgstr "Tema Álbum Web"
 
-#: src/gthumb_web_exporter.glade.h:16
+#: src/gthumb_web_exporter.glade.h:22
 msgid "_Copy images to destination"
 msgstr "_Copiar imagens para o destino"
 
-#: src/gthumb_web_exporter.glade.h:17
+#: src/gthumb_web_exporter.glade.h:23
 msgid "_Destination:"
 msgstr "_Destino:"
 
-#: src/gthumb_web_exporter.glade.h:18
+#: src/gthumb_web_exporter.glade.h:24
 msgid "_Go to Theme Folder"
 msgstr "_Ir para Pasta Tema"
 
-#: src/gthumb_web_exporter.glade.h:19
+#: src/gthumb_web_exporter.glade.h:25
 msgid "_Install Theme..."
 msgstr "_Instalar Tema..."
 
-#: src/gthumb_web_exporter.glade.h:21
+#: src/gthumb_web_exporter.glade.h:27
 msgid "_Title:"
 msgstr "_Título:"
 
-#: src/gthumb_web_exporter.glade.h:22
+#: src/gthumb_web_exporter.glade.h:28
 msgid "by modified time"
 msgstr "por data alteração"
 
-#: src/gthumb_web_exporter.glade.h:27
+#: src/gthumb_web_exporter.glade.h:33
 msgid "index.html"
 msgstr "index.html"
 
