@@ -76,7 +76,7 @@
 	     pixtype="stock" pixname="gthumb-add-comment"/>
 	<cmd name="Edit_DeleteComment" _label="Rem_ove Comment" 
 	     _tip="Remove comments of selected images"/>
-	<cmd name="Edit_EditCategories" _label="Ca_tegories..." 
+	<cmd name="Edit_EditCategories" _label="Ca_tegories" 
 	     _tip="Assign categories to selected images"
 	     pixtype="stock" pixname="gtk-index" />
 	<cmd name="Edit_AddToCatalog" _label="_Add to Catalog..." 
@@ -433,8 +433,8 @@
 		</submenu>
 		<separator/>
 		<menuitem name="Edit_EditComment" verb=""/>
-		<menuitem name="Edit_DeleteComment" verb=""/>
 		<menuitem name="Edit_EditCategories" verb=""/>
+		<menuitem name="Edit_DeleteComment" verb=""/>
 		<separator/>
 		<menuitem name="Edit_AddToCatalog" verb=""/>
 		<menuitem name="Edit_RemoveFromCatalog" verb=""/>
@@ -571,7 +571,7 @@
 	<separator/>
 
   	<toolitem name="Tools_Slideshow" verb=""
-	          label="Slide Show"/>
+	          _label="Slide Show"/>
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
@@ -581,10 +581,10 @@
 	<separator/>
 
   	<toolitem name="Tools_JPEGRotate" verb=""
-	          label="Rotate"/>
+	          _label="Rotate"/>
 
   	<toolitem name="Tools_ConvertFormat" verb=""
-	          label="Convert"/>
+	          _label="Convert"/>
 
 </dockitem>
 
@@ -682,8 +682,8 @@
 		<menuitem name="Edit_MoveFiles" verb=""/>
 		<separator/>
 		<menuitem name="Edit_EditComment" verb=""/>
-		<menuitem name="Edit_DeleteComment" verb=""/>
 		<menuitem name="Edit_EditCategories" verb=""/>
+		<menuitem name="Edit_DeleteComment" verb=""/>
 		<separator/>
 		<menuitem name="Edit_AddToCatalog" verb=""/>
 		<menuitem name="Edit_RemoveFromCatalog" verb=""/>

@@ -91,6 +91,8 @@ gthumb_SOURCES = 			\
 	dlg-search.h			\
 	fullscreen.c			\
 	fullscreen.h			\
+	gth-folder-selection-dialog.c	\
+	gth-folder-selection-dialog.h	\
 	gthumb-preloader.c		\
 	gthumb-preloader.h		\
 	gthumb-window.c			\

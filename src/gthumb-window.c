@@ -717,6 +717,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	/* Tools menu. */
 
+	set_command_sensitive (window, "Tools_Slideshow", window->file_list->list != NULL);
 	set_command_sensitive (window, "Tools_IndexImage", sel_not_null);
 	set_command_sensitive (window, "Tools_RenameSeries", sel_not_null);
 	set_command_sensitive (window, "Tools_ConvertFormat", sel_not_null);
@@ -4915,8 +4916,12 @@ window_start_slideshow (GThumbWindow *window)
 
 	g_return_if_fail (window != NULL);
 
+	if (window->file_list->list == NULL)
+		return;
+
 	if (window->slideshow)
 		return;
+
 	window->slideshow = TRUE;
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN))

@@ -67,6 +67,7 @@
 #include "print-callbacks.h"
 #include "thumb-cache.h"
 #include "typedefs.h"
+#include "gth-folder-selection-dialog.h"
 
 #define MAX_NAME_LEN 1024
 
@@ -597,8 +598,17 @@ edit_delete_comment_command_impl (BonoboUIComponent *uic,
 	ilist = IMAGE_LIST (window->file_list->ilist);
 	list = ilist_utils_get_file_list_selection (ilist);
 	for (scan = list; scan; scan = scan->next) {
-		comment_delete (scan->data);
-		all_windows_notify_update_comment (scan->data);
+		char        *filename = scan->data;
+		CommentData *cdata;
+
+		cdata = comments_load_comment (filename);
+		comment_data_free_comment (cdata);
+		if (! comment_data_is_void (cdata))
+			comments_save_comment (filename, cdata);
+		else
+			comment_delete (filename);
+
+		all_windows_notify_update_comment (filename);
 	}
 	path_list_free (list);
 }
@@ -1178,8 +1188,9 @@ edit_current_folder_delete_command_impl (BonoboUIComponent *uic,
 
 
 static void
-folder_move__ok_cb (GObject *object,
-		    gpointer data)
+folder_move__response_cb (GObject *object,
+			  int      response_id,
+			  gpointer data)
 {
 	GtkWidget    *file_sel = data;
 	GThumbWindow *window;
@@ -1188,11 +1199,16 @@ folder_move__ok_cb (GObject *object,
 	char         *new_path;
 	const char   *dir_name;
 
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (file_sel);
+		return;
+	}
+
 	gtk_widget_hide (file_sel);
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	old_path = g_object_get_data (G_OBJECT (file_sel), "path");
-	dest_dir = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
+	dest_dir = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
 
 	if (dest_dir == NULL)
 		return;
@@ -1280,37 +1296,30 @@ folder_move (GThumbWindow *window,
 	char      *parent;
 	char      *start_from;
 
-	file_sel = gtk_file_selection_new (_("Choose the destination folder"));
+	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
 
 	parent = remove_level_from_path (path);
 	start_from = g_strconcat (parent, "/", NULL);
 	g_free (parent);
 
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), start_from);
+	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), start_from);
 	g_free (start_from);
 
 	g_object_set_data (G_OBJECT (file_sel), "path", g_strdup (path));
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked", 
-			  G_CALLBACK (folder_move__ok_cb), 
-			  file_sel);
 
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-			    "clicked", 
-			    G_CALLBACK (gtk_widget_destroy),
-			    G_OBJECT (file_sel));
+	g_signal_connect (G_OBJECT (file_sel),
+			  "response", 
+			  G_CALLBACK (folder_move__response_cb), 
+			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 
 			  G_CALLBACK (folder_move__destroy_cb),
 			  file_sel);
-    
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel), 
-				      GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 
-	gtk_widget_set_sensitive (GTK_WIDGET (GTK_FILE_SELECTION (file_sel)->file_list)->parent, FALSE);
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
 }
 

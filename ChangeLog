@@ -1,4 +1,22 @@
+2002-11-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (edit_delete_comment_command_impl): remove
+	only the comment not the keywords.
+
+	* src/gthumb-window.c (window_update_sensitivity): disable the
+	slideshow if no image is present.
+
+	* src/gthumb-ui.xml: make all labels translatable.
+
 2002-11-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gth-folder-selection-dialog.c: 
+	* src/gth-folder-selection-dialog.h: A folder selection widget.
+
+	* src/commands-impl.c (folder_move_response_cb): 
+	* src/commands-impl.c (folder_move): 
+	* src/dlg-file-utils.c (file_move_response_cb, dlg_file_move) 
+	(file_copy_response_cb, dlg_file_copy): Use the new widget.
 
 	* libgthumb/file-list.c: 
 	* src/dlg-scale-image.c: 

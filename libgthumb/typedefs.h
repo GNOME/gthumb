@@ -34,36 +34,33 @@
 #define CATALOG_PREFIX_L 10
 #define SEARCH_PREFIX_L  9
 
-#define GLADE_FILE             "gthumb.glade"
+#define GLADE_FILE                "gthumb.glade"
 
-/*#define RC_THUMBS_DIR          ".gqview/thumbnails"*/
+#define RC_DIR                    ".gnome2/gthumb"
 
-#define RC_DIR                 ".gnome2/gthumb"
+#define RC_CATALOG_DIR            ".gnome2/gthumb/collections"
+#define RC_COMMENTS_DIR           ".gnome2/gthumb/comments"
+#define RC_BOOKMARKS_FILE         ".gnome2/gthumb/bookmarks"
+#define RC_HISTORY_FILE           ".gnome2/gthumb/history"
+#define RC_CATEGORIES_FILE        ".gnome2/gthumb/categories"
 
-#define RC_CATALOG_DIR         ".gnome2/gthumb/collections"
-#define RC_COMMENTS_DIR        ".gnome2/gthumb/comments"
-#define RC_BOOKMARKS_FILE      ".gnome2/gthumb/bookmarks"
-#define RC_HISTORY_FILE        ".gnome2/gthumb/history"
-#define RC_CATEGORIES_FILE     ".gnome2/gthumb/categories"
+#define OLD_RC_CATALOG_DIR        ".gqview/collections"
+#define OLD_RC_COMMENTS_DIR       ".gqview/comments"
+#define OLD_RC_BOOKMARKS_FILE     ".gqview/bookmarks"
+#define OLD_RC_HISTORY_FILE       ".gqview/history"
+#define OLD_RC_CATEGORIES_FILE    ".gqview/categories"
 
-#define OLD_RC_CATALOG_DIR     ".gqview/collections"
-#define OLD_RC_COMMENTS_DIR    ".gqview/comments"
-#define OLD_RC_BOOKMARKS_FILE  ".gqview/bookmarks"
-#define OLD_RC_HISTORY_FILE    ".gqview/history"
-#define OLD_RC_CATEGORIES_FILE ".gqview/categories"
+#define CACHE_DIR                 ".thumbnails"
 
+#define CACHE_THUMB_EXT           ".png"
+#define CATALOG_EXT               ".gqv"
+#define COMMENT_EXT               ".xml"
 
-#define CACHE_DIR              ".thumbnails"
+#define CLIST_WIDTH_DEFAULT       100
+#define CLIST_HEIGHT_DEFAULT      100
 
-#define CACHE_THUMB_EXT        ".png"
-#define CATALOG_EXT            ".gqv"
-#define COMMENT_EXT            ".xml"
-
-#define CLIST_WIDTH_DEFAULT    100
-#define CLIST_HEIGHT_DEFAULT   100
-
-#define CLIST_ROW_PAD          5
-#define CLIST_IMAGE_ROW_PAD    2
+#define CLIST_ROW_PAD             5
+#define CLIST_IMAGE_ROW_PAD       2
 
 #define BOOKMARKS_MENU_MAX_LENGTH 35
 #define HISTORY_LIST_MAX_LENGTH   35

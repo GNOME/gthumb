@@ -38,6 +38,7 @@
 #include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "gthumb-window.h"
+#include "gth-folder-selection-dialog.h"
 
 
 #define FILE_NAME_MAX_LENGTH 30
@@ -197,8 +198,9 @@ destroy_cb (GtkWidget *w,
 
 
 static void 
-file_move_ok_cb (GtkWidget *w,
-		 GtkWidget *file_sel)
+file_move_response_cb (GtkWidget *w,
+		       int        response_id,
+		       GtkWidget *file_sel)
 {
 	char         *path;
 	GList        *file_list, *scan;
@@ -209,13 +211,16 @@ file_move_ok_cb (GtkWidget *w,
 	gboolean      error = FALSE;
 	char         *new_name;
 
-	gtk_widget_hide (file_sel);
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (file_sel);
+		return;
+	}
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
-	path = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
+	path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
 
-	if (path == NULL)
+	if (path == NULL) 
 		return;
 
 	/* ignore ending slash. */
@@ -228,6 +233,8 @@ file_move_ok_cb (GtkWidget *w,
 		g_free (path);
 		return;
 	}
+
+	gtk_widget_hide (file_sel);
 
 	show_ow_all_none = g_list_length (file_list) > 1;
 	overwrite_result = OVERWRITE_NO;
@@ -310,45 +317,33 @@ void
 dlg_file_move (GThumbWindow *window, 
 	       GList        *list)
 {
-	char      *path;
-	GtkWidget *file_sel;
+	GtkWidget   *file_sel;
+	const char  *path;
 
-	file_sel = gtk_file_selection_new (_("Choose the destination folder"));
-	
+	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
+
 	if (window->dir_list->path != NULL)
-		path = g_strconcat (window->dir_list->path,
-				    "/",
-				    NULL);
+		path = window->dir_list->path;
 	else
-		path = g_strconcat (g_get_home_dir (),
-				    "/",
-				    NULL);
+		path = g_get_home_dir ();
 
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), path);
-	g_free (path);
+	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), path);
 
 	g_object_set_data (G_OBJECT (file_sel), "list", list);
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked", 
-			  G_CALLBACK (file_move_ok_cb), 
-			  file_sel);
 
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-			    "clicked", 
-			    G_CALLBACK (gtk_widget_destroy),
-			    G_OBJECT (file_sel));
+	g_signal_connect (G_OBJECT (file_sel),
+			  "response", 
+			  G_CALLBACK (file_move_response_cb), 
+			  file_sel);
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
     
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel), 
-				      GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (GTK_FILE_SELECTION (file_sel)->file_list)->parent, FALSE);
 	gtk_widget_show (file_sel);
 }
 
@@ -357,8 +352,9 @@ dlg_file_move (GThumbWindow *window,
 
 
 static void 
-file_copy_ok_cb (GtkWidget *w,
-		 GtkWidget *file_sel)
+file_copy_response_cb (GtkWidget *w,
+		       int        response_id,
+		       GtkWidget *file_sel)
 {
 	char         *path;
 	GList        *file_list, *scan;
@@ -369,11 +365,16 @@ file_copy_ok_cb (GtkWidget *w,
 	gboolean      error = FALSE;
 	GThumbWindow *window;
 
+	if (response_id != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (file_sel);
+		return;
+	}
+
 	gtk_widget_hide (file_sel);
 
 	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
 	file_list = g_object_get_data (G_OBJECT (file_sel), "list");
-	path = g_strdup (gtk_file_selection_get_filename (GTK_FILE_SELECTION (file_sel)));
+	path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
 
 	/* ignore ending slash. */
 	len = strlen (path);
@@ -453,35 +454,25 @@ void
 dlg_file_copy (GThumbWindow *window,
 	       GList        *list)
 {
-	GtkWidget *file_sel;
-	char      *path;
+	GtkWidget  *file_sel;
+	const char *path;
 
-	file_sel = gtk_file_selection_new (_("Choose the destination folder"));
+	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
 
 	if (window->dir_list->path != NULL)
-		path = g_strconcat (window->dir_list->path,
-				    "/",
-				    NULL);
+		path = window->dir_list->path;
 	else
-		path = g_strconcat (g_get_home_dir (),
-				    "/",
-				    NULL);
+		path = g_get_home_dir ();
 
-	gtk_file_selection_set_filename (GTK_FILE_SELECTION (file_sel), path);
-	g_free (path);
+	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (file_sel), path);
 
 	g_object_set_data (G_OBJECT (file_sel), "list", list);
 	g_object_set_data (G_OBJECT (file_sel), "gthumb_window", window);
 
-	g_signal_connect (G_OBJECT (GTK_FILE_SELECTION (file_sel)->ok_button),
-			  "clicked", 
-			  G_CALLBACK (file_copy_ok_cb), 
+	g_signal_connect (G_OBJECT (file_sel),
+			  "response", 
+			  G_CALLBACK (file_copy_response_cb), 
 			  file_sel);
-
-	g_signal_connect_swapped (G_OBJECT (GTK_FILE_SELECTION (file_sel)->cancel_button),
-				  "clicked", 
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (file_sel));
 
 	g_signal_connect (G_OBJECT (file_sel),
 			  "destroy", 
@@ -490,7 +481,6 @@ dlg_file_copy (GThumbWindow *window,
     
 	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (file_sel),TRUE);
-	gtk_widget_set_sensitive (GTK_WIDGET (GTK_FILE_SELECTION (file_sel)->file_list)->parent, FALSE);
 	gtk_widget_show (file_sel);
 }
 
