@@ -121,8 +121,6 @@ src/catalog-png-exporter.c
 src/catalog-png-exporter.h
 src/catalog-web-exporter.c
 src/catalog-web-exporter.h
-src/commands-impl.c
-src/commands-impl.h
 src/dir-list.c
 src/dir-list.h
 src/dlg-bookmarks.c
@@ -152,8 +150,6 @@ src/dlg-image-prop.c
 src/dlg-image-prop.h
 src/dlg-jpegtran.c
 src/dlg-jpegtran.h
-src/dlg-maintenance.c
-src/dlg-maintenance.h
 src/dlg-open-with.c
 src/dlg-open-with.h
 src/dlg-photo-importer.c
