@@ -1,3 +1,9 @@
+2004-11-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c (log2): 
+
+	Fixes bug #159672: log2() function already defined under cygwin
+
 2004-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (image_is_gif): new function.

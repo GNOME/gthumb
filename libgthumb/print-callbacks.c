@@ -2014,11 +2014,13 @@ static int catalog_cols[5] = {1, 1, 2, 2, 4};
 #define IMAGE_SPACE 36
 
 
-static double log2 (double x)
+#ifndef log2
+static double 
+log2 (double x)
 {
-	g_print ("%f / %f\n", log(x), log(2));
 	return log(x) / log(2);
 }
+#endif
 
 
 static void
@@ -2991,7 +2993,7 @@ images_per_page_value_changed_cb (GtkOptionMenu           *option_menu,
 {
 	data->pci->images_per_page = (int) pow (2, gtk_option_menu_get_history (option_menu));
 
-	g_print ("IPP: %d\n", data->pci->images_per_page);
+	debug (DEBUG_INFO, "IPP: %d\n", data->pci->images_per_page);
 
 	catalog_update_page (data);
 }

@@ -1041,7 +1041,8 @@ gth_parsed_doc_print (GList              *document,
 								       ce->location);
 			escaped_path = escape_uri (image_src_relative);
 
-			line = g_strdup_printf ("<img src=\"%s\" alt=\"\" width=\"%d\" height=\"%d\"%s>",
+			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s/>",
+						escaped_path,
 						escaped_path,
 						image_width,
 						image_height,
