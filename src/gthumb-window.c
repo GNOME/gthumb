@@ -179,6 +179,18 @@ set_action_active_if_different (GThumbWindow *window,
 }
 
 
+static void
+set_action_important (GThumbWindow *window,
+		      char         *action_name,
+		      gboolean      is_important)
+{
+	GtkAction *action;
+	action = gtk_ui_manager_get_action (window->ui, action_name);
+	g_object_set (action, "is_important", is_important, NULL);
+	g_object_unref (action);
+}
+
+
 
 
 
@@ -4668,7 +4680,6 @@ content_radio_action (GtkAction      *action,
 {
 	GThumbWindow      *window = data;
 	GthSidebarContent  content = gtk_radio_action_get_current_value (current);
-	const gchar       *ui_info;
 
 	if (window->toolbar_merge_id != 0)
 		gtk_ui_manager_remove_ui (window->ui, window->toolbar_merge_id);
@@ -4676,13 +4687,15 @@ content_radio_action (GtkAction      *action,
 
 	if (content != GTH_SIDEBAR_NO_LIST) {
 		window_set_sidebar_content (window, content);
-		ui_info = browser_ui_info;
+		window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
+		set_action_important (window, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
+
 	} else {
 		window_hide_sidebar (window);
-		ui_info = viewer_ui_info;
+		window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, viewer_ui_info, -1, NULL);
+		set_action_important (window, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
 	}
 
-	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, ui_info, -1, NULL);
 	gtk_ui_manager_ensure_update (window->ui);
 	gtk_widget_queue_resize (window->toolbar->parent);
 }
@@ -4836,7 +4849,11 @@ window_new (void)
 
 	window->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
-	
+
+	set_action_important (window, "/ToolBar/View_ShowFolders", TRUE);
+	set_action_important (window, "/ToolBar/View_ShowCatalogs", TRUE);
+	set_action_important (window, "/ToolBar/View_ShowImage", TRUE);
+
 	gnome_app_add_docked (GNOME_APP (window->app),
 			      toolbar,
 			      "ToolBar",
@@ -5583,6 +5600,8 @@ window_new (void)
 					   window);
 
 	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
+	set_action_important (window, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
+
 	gtk_ui_manager_ensure_update (window->ui);	
 
 	/* Initial location. */

@@ -1,5 +1,11 @@
 2005-01-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gthumb-window.c (content_radio_action, window_new)
+	(set_action_important): 
+
+	Fixed bug #160003: gthumb toolbar horizontal icons + text only shows 
+	icons.
+
 	* src/dlg-photo-importer.c (check_thread, set_camera_model): 
 
 	Fixed bug #162323: Doesn't remember settings for serial port cameras.
