@@ -50,7 +50,7 @@ static GdkPixmap      *buffer = NULL;
 static GdkPixmap      *original_buffer = NULL;
 static PangoRectangle  bounds;
 static GtkWidget      *popup_window = NULL, *grabbed_window = NULL;
-static GtkWidget      *prop_button = NULL;
+static GtkWidget      *prop_button = NULL, *back_button = NULL, *forward_button = NULL;
 static FullScreen     *current_fullscreen;
 
 
@@ -889,7 +889,7 @@ create_popup_window (void)
 
 	/* back */
 
-	button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Back"), FALSE);
+	back_button = button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Back"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
@@ -898,7 +898,7 @@ create_popup_window (void)
 
 	/* forward */
 
-	button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Forward"), FALSE);
+	forward_button = button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Forward"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
@@ -1041,6 +1041,14 @@ fullscreen_start (FullScreen   *fullscreen,
 	window->fullscreen = TRUE;
 	fullscreen->related_win = window;
 	fullscreen->viewer = window->viewer;
+
+	if (window->slideshow) {
+		gtk_widget_hide (back_button);
+		gtk_widget_hide (forward_button);
+	} else {
+		gtk_widget_show (back_button);
+		gtk_widget_show (forward_button);
+	}
 
 	/* FIXME
 	   fullscreen->msg_save_modified_image = eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE);
