@@ -784,78 +784,75 @@ static void
 ok_clicked_cb (GtkButton  *button,
 	       DialogData *data)
 {
-	int r;
+	GList *file_list = NULL, *scan;
+	char  *local_folder;
+	int    n = 1;
+	GList *sel_list;
 
 	data->keep_original_filename = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton));
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
-
-	if (r >= 0) {
-		GList *file_list = NULL, *scan;
-		char  *local_folder;
-		int    n = 1;
-		GList *sel_list;
 		
-		sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-		if (sel_list != NULL) {
-			for (scan = sel_list; scan; scan = scan->next) {
-				FileData   *fdata = scan->data;
-				const char *filename = fdata->path;
-				file_list = g_list_prepend (file_list, g_strdup (filename));
-			}
-			if (file_list != NULL)
-				file_list = g_list_reverse (file_list);
-			file_data_list_free (sel_list);
-
-		} else
-			file_list = get_all_files (data, "/");
-
-		if (file_list == NULL) {
-			display_error_dialog (data,
-					      _("Could not import photos"), 
-					      _("No images found"));
-			return;
+	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
+	if (sel_list != NULL) {
+		for (scan = sel_list; scan; scan = scan->next) {
+			FileData   *fdata = scan->data;
+			const char *filename = fdata->path;
+			file_list = g_list_prepend (file_list, g_strdup (filename));
 		}
-
-		local_folder = get_folder_name (data);
-		if (! ensure_dir_exists (local_folder, 0755)) {
-			char *msg;
-
-			msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
-					       local_folder,
-					       errno_to_string());
-			display_error_dialog (data, _("Could not import photos"), msg);
-			g_free (msg);
-
-			g_free (local_folder);
-			return; 
-		}
-
-		for (scan = file_list; scan; scan = scan->next) {
-			const char *camera_path = scan->data;
-			save_image (data, camera_path, local_folder, n++);
-			update_ui ();
-		}
-		path_list_free (file_list);
-
-		for (scan = data->delete_list; scan; scan = scan->next) {
-			const char *camera_path = scan->data;
-			char       *camera_folder;
-			const char *camera_filename;
-
-			camera_folder = remove_level_from_path (camera_path);
-			camera_filename = file_name_from_path (camera_path);
-
-			gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
-			update_ui ();
-		}
-
-		task_terminated (data);
-		update_ui ();
-
-		window_go_to_directory (data->window, local_folder);
-		g_free (local_folder);
+		if (file_list != NULL)
+			file_list = g_list_reverse (file_list);
+		file_data_list_free (sel_list);
+		
+	} else
+		file_list = get_all_files (data, "/");
+	
+	if (file_list == NULL) {
+		display_error_dialog (data,
+				      _("Could not import photos"), 
+				      _("No images found"));
+		return;
 	}
 	
+	local_folder = get_folder_name (data);
+	
+	if (! ensure_dir_exists (local_folder, 0755)) {
+		char *msg;
+		
+		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
+				       local_folder,
+				       errno_to_string());
+		display_error_dialog (data, _("Could not import photos"), msg);
+		g_free (msg);
+		
+		g_free (local_folder);
+		return; 
+	}
+
+	for (scan = file_list; scan; scan = scan->next) {
+		const char *camera_path = scan->data;
+		save_image (data, camera_path, local_folder, n++);
+		update_ui ();
+	}
+	path_list_free (file_list);
+	
+	for (scan = data->delete_list; scan; scan = scan->next) {
+		const char *camera_path = scan->data;
+		char       *camera_folder;
+		const char *camera_filename;
+		
+		camera_folder = remove_level_from_path (camera_path);
+		camera_filename = file_name_from_path (camera_path);
+		
+		gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
+		update_ui ();
+	}
+	
+	task_terminated (data);
+	update_ui ();
+	
+	window_go_to_directory (data->window, local_folder);
+	g_free (local_folder);
+
 	gtk_widget_destroy (data->dialog);
 }
 
