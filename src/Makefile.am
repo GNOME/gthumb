@@ -129,7 +129,7 @@ libduplicates_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 libjpegtran_la_SOURCES = dlg-jpegtran.c dlg-jpegtran.h
 libjpegtran_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libjpegtran_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.a
+libjpegtran_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
 
 libpngexporter_la_SOURCES = 	\
 	catalog-png-exporter.c	\
