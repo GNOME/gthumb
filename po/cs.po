@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-28 20:29+0200\n"
-"PO-Revision-Date: 2003-07-28 22:40+0200\n"
+"POT-Creation-Date: 2003-08-06 20:42+0200\n"
+"PO-Revision-Date: 2003-08-07 15:07+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -387,28 +387,28 @@ msgstr "Načítám obrázek: %s"
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: src/catalog-web-exporter.c:1453
+#: src/catalog-web-exporter.c:1456
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: src/catalog-web-exporter.c:1521
+#: src/catalog-web-exporter.c:1524
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: src/catalog-web-exporter.c:1598
+#: src/catalog-web-exporter.c:1601
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1682
+#: src/catalog-web-exporter.c:1701 src/catalog-web-exporter.c:1747
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: src/catalog-web-exporter.c:1996
+#: src/catalog-web-exporter.c:2061
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2035
+#: src/catalog-web-exporter.c:2100
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -599,7 +599,7 @@ msgstr "Nelze zobrazit nápovědu: %s"
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4881
+#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4884
 #: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
@@ -777,11 +777,11 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5330
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5333
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5340
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5343
 msgid "Value "
 msgstr "Hodnota "
 
@@ -846,7 +846,7 @@ msgstr "Obnovit normální pohled"
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4274
+#: src/fullscreen.c:818 src/gthumb-window.c:4277
 msgid "Back"
 msgstr "Zpět"
 
@@ -1893,32 +1893,32 @@ msgstr "vybráno: %d (%s)"
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3576
+#: src/gthumb-window.c:3579
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5211
+#: src/gthumb-window.c:5214
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5225
+#: src/gthumb-window.c:5228
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5239
+#: src/gthumb-window.c:5242
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6481
+#: src/gthumb-window.c:6484
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6750
+#: src/gthumb-window.c:6753
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8120
+#: src/gthumb-window.c:8123
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2065,7 +2065,9 @@ msgstr "_Uložit nový obrázek jako: "
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr "Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všechn obrázků."
+msgstr ""
+"Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. "
+"Použijte 0, pokud chcete generovat miniatury všechn obrázků."
 
 #: src/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2108,55 +2110,58 @@ msgid "Possible values are: mm, in."
 msgstr "Možné hodnoty jsou: mm, in."
 
 #: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Možné hodnoty jsou: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Možné hodnoty jsou: name, size, time."
+
+#: src/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
 msgstr "Možné hodnoty jsou: nautilus, single, double."
 
-#: src/gthumb.schemas.in.h:13
+#: src/gthumb.schemas.in.h:15
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Možné hodnoty jsou: none, deflate, jpeg."
 
-#: src/gthumb.schemas.in.h:14
+#: src/gthumb.schemas.in.h:16
 msgid "Possible values are: none, name, path, size, time."
 msgstr "Možné hodnoty jsou: none, name, path, size, time."
 
-#: src/gthumb.schemas.in.h:15
+#: src/gthumb.schemas.in.h:17
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr "Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr ""
+"Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
 
-#: src/gthumb.schemas.in.h:16
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Možné hodnoty jsou: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:19
 msgid "Possible values are: png, jpeg."
 msgstr "Možné hodnoty jsou: png, jpeg."
 
-#: src/gthumb.schemas.in.h:17
+#: src/gthumb.schemas.in.h:20
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Možné hodnoty jsou: skip, rename, ask, overwrite."
 
-#: src/gthumb.schemas.in.h:18
+#: src/gthumb.schemas.in.h:21
 msgid "Possible values are: small, medium, large."
 msgstr "Možné hodnoty jsou: small, medium, large."
 
-#: src/gthumb.schemas.in.h:19
+#: src/gthumb.schemas.in.h:22
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
-
-#: src/gthumb.schemas.in.h:20
-msgid "Possible values are: white, black, checked, none."
-msgstr "Možné hodnoty jsou: white, black, checked, none."
-
-#: src/gthumb.schemas.in.h:21
-msgid "Possible values: name, path, size, time."
-msgstr "Možné hodnoty: name, path, size, time."
-
-#: src/gthumb.schemas.in.h:22
-msgid "Possible values: name, size, time."
-msgstr "Možné hodnoty: name, size, time."
+msgstr ""
+"Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
 
 #: src/gthumb.schemas.in.h:23
-msgid "Possible values: pixels, percentage."
-msgstr "Možné hodnoty: pixels, percentage."
+msgid "Possible values are: white, black, checked, none."
+msgstr "Možné hodnoty jsou: white, black, checked, none."
 
 #: src/gthumb.schemas.in.h:24
 msgid "Whether to always use a black background."
@@ -2485,7 +2490,7 @@ msgstr "Šíř_ka:"
 msgid "_Yellow-Blue:"
 msgstr "Žl_utá - modrá:"
 
-#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:50
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:49
 msgid "pixels"
 msgstr "bodů"
 
@@ -3468,10 +3473,6 @@ msgstr "_Titulek:"
 #: src/gthumb_web_exporter.glade.h:45
 msgid "by modified time"
 msgstr "podle času změny"
-
-#: src/gthumb_web_exporter.glade.h:49
-msgid "index.html"
-msgstr "index.html"
 
 #: src/main.c:80
 msgid "Start in fullscreen mode"
