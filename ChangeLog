@@ -1,3 +1,8 @@
+2004-08-11  Mohammad DAMT  <mdamt@bisnisweb.com>
+	
+	* configure.in: Added "id" (Indonesian) in ALL_LINGUAS
+	* po/id.po: Added Indonesian translation done by Abdul Hamid.A.N <hameed@linuxmail.org>
+ 
 2004-08-9  Amanpreet Singh Alam <aalam@redhat.com>
 	*configure.in +punjabi locale
 2004-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
