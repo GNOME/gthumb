@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-06 16:54+0200\n"
+"POT-Creation-Date: 2003-09-28 22:01+0200\n"
 "PO-Revision-Date: 2003-06-28 09:52--100\n"
 "Last-Translator: Gnome PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -432,12 +432,11 @@ msgstr "Rozmiar czcionki dla etykiety"
 
 #: libgthumb/gnome-print-font-picker.c:228
 msgid "Font size for label in font info mode"
-msgstr ""
+msgstr "Rozmiar czcionki dla etykiety w trybie informacyjnym czcionki"
 
 #: libgthumb/gnome-print-font-picker.c:238
-#, fuzzy
 msgid "Show size"
-msgstr "według rozmiaru"
+msgstr ""
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
@@ -726,12 +725,12 @@ msgid "Enter the new category name"
 msgstr "Wprowadź nazwę nowej kategorii"
 
 #: src/dlg-categories.c:207
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"Nazwa \"%s\" nie jest poprawna ponieważ zawiera znak \"/\". Użyj innej nazwy."
+"Nazwa \"%s\" nie jest poprawna ponieważ zawiera znak \",\". Użyj innej nazwy."
 
 #: src/dlg-categories.c:212
 #, c-format
@@ -1011,9 +1010,8 @@ msgid "Automatically normalize the contrast"
 msgstr "Automatyczne normalizuje kontrast"
 
 #: src/gthumb-ui.xml.h:15
-#, fuzzy
 msgid "Automatically stretch the contrast"
-msgstr "Automatyczne uruchomienie pokazu slajdów"
+msgstr "Automatyczne rozciąganie kontrastu"
 
 #: src/gthumb-ui.xml.h:16
 msgid "Ca_talog"
@@ -1105,9 +1103,8 @@ msgid "Create a new window"
 msgstr "Utworzenie nowego okna"
 
 #: src/gthumb-ui.xml.h:39
-#, fuzzy
 msgid "Crop image"
-msgstr "Brak obrazów"
+msgstr ""
 
 #: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
@@ -1750,11 +1747,11 @@ msgstr "_Pełny ekran"
 
 #: src/gthumb-ui.xml.h:209
 msgid "_Go"
-msgstr ""
+msgstr "_Przejdź"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Go to the Image Folder"
-msgstr ""
+msgstr "_Przejdź do folderu obrazów"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Help"
@@ -1770,7 +1767,7 @@ msgstr "_Początek"
 
 #: src/gthumb-ui.xml.h:214
 msgid "_Hue-Saturation"
-msgstr ""
+msgstr "_Odcień-Nasycenie"
 
 #: src/gthumb-ui.xml.h:216
 msgid "_Image Preview"
@@ -1818,7 +1815,7 @@ msgstr "_Otwórz za pomocą"
 
 #: src/gthumb-ui.xml.h:229
 msgid "_Posterize"
-msgstr ""
+msgstr "_Pasteryzuj"
 
 #: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
@@ -1858,7 +1855,7 @@ msgstr "_Odwrócony porządek"
 
 #: src/gthumb-ui.xml.h:240
 msgid "_Revert"
-msgstr ""
+msgstr "_Przywróć"
 
 #: src/gthumb-ui.xml.h:241
 msgid "_Rotate"
@@ -1870,7 +1867,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:243 src/gthumb_search.glade.h:29
 msgid "_Search"
-msgstr ""
+msgstr "_Znajdź"
 
 #: src/gthumb-ui.xml.h:244
 msgid "_Select All"
@@ -1878,7 +1875,7 @@ msgstr "_Wybierz wszystko"
 
 #: src/gthumb-ui.xml.h:245
 msgid "_Slide Show"
-msgstr ""
+msgstr "_Pokaz slajdów"
 
 #: src/gthumb-ui.xml.h:246
 msgid "_Statusbar"
@@ -1890,7 +1887,7 @@ msgstr "_Zatrzymaj"
 
 #: src/gthumb-ui.xml.h:248
 msgid "_Stretch Contrast"
-msgstr ""
+msgstr "_Rozciągnij kontrast"
 
 #: src/gthumb-ui.xml.h:249
 msgid "_Threshold"
@@ -1965,12 +1962,12 @@ msgstr "%d obrazów (%s)"
 #: src/gthumb-window.c:620
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 wybrano (%s)"
 
 #: src/gthumb-window.c:623
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d wybrano (%s)"
 
 #: src/gthumb-window.c:3151
 msgid "Dragged Images"
@@ -2094,7 +2091,7 @@ msgstr "Nadpisz _wszystkie obrazy"
 
 #: src/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
-msgstr ""
+msgstr "Dane _fotograficzne (EXIF)"
 
 #: src/gthumb.glade.h:23
 msgid "R_ecent applications:"
@@ -2114,7 +2111,7 @@ msgstr "_Aplikacja:"
 
 #: src/gthumb.glade.h:28
 msgid "_Do not overwrite any image"
-msgstr ""
+msgstr "_Bez nadpisywania żadnych obrazów"
 
 #: src/gthumb.glade.h:29
 msgid "_General"
@@ -2149,101 +2146,107 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
+"Obrazy powyżej tego rozmiaru (w bajtach) nie zostaną zminiaturyzowane. Użyj "
+"0 jeśli chesz wygenerować miniatury dla wszystkich obrazów."
 
 #: src/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
-msgstr ""
+msgstr "Możliwymi wartościami są: 1, 2, 3, 4."
 
 #: src/gthumb.schemas.in.h:3
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr ""
+msgstr "Możliwymi wartościami są: actual_size, fit, keep_prev, fit_if_larger."
 
 #: src/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
-msgstr ""
+msgstr "Możliwymi wartościami są: ascending, descending."
 
 #: src/gthumb.schemas.in.h:5
 msgid "Possible values are: forward, backward."
-msgstr ""
+msgstr "Możliwymi wartościami są: forward, backward."
 
 #: src/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
-msgstr ""
+msgstr "Możliwymi wartościami są: high, low."
 
 #: src/gthumb.schemas.in.h:7
 msgid "Possible values are: image, data, comment."
-msgstr ""
+msgstr "Możliwymi wartościami są: image, data, comment."
 
 #: src/gthumb.schemas.in.h:8
 msgid "Possible values are: jpeg, png, tga, tiff."
-msgstr ""
+msgstr "Możliwymi wartościami są: jpeg, png, tga, tiff."
 
 #: src/gthumb.schemas.in.h:9
 msgid "Possible values are: light, midtone, dark."
-msgstr ""
+msgstr "Możliwymi wartościami są: light, midtone, dark."
 
 #: src/gthumb.schemas.in.h:10
 msgid "Possible values are: list, thumbnails."
-msgstr ""
+msgstr "Możliwymi wartościami są: list, thumbnails."
 
 #: src/gthumb.schemas.in.h:11
 msgid "Possible values are: mm, in."
-msgstr ""
+msgstr "Możliwymi wartościami są: mm, in."
 
 #: src/gthumb.schemas.in.h:12
 msgid "Possible values are: name, path, size, time."
-msgstr ""
+msgstr "Możliwymi wartościami są: name, path, size, time."
 
 #: src/gthumb.schemas.in.h:13
 msgid "Possible values are: name, size, time."
-msgstr ""
+msgstr "Możliwymi wartościami są: name, size, time."
 
 #: src/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
-msgstr ""
+msgstr "Możliwymi wartościami są: nautilus, single, double."
 
 #: src/gthumb.schemas.in.h:15
 msgid "Possible values are: none, deflate, jpeg."
-msgstr ""
+msgstr "Możliwymi wartościami są: none, deflate, jpeg."
 
 #: src/gthumb.schemas.in.h:16
 msgid "Possible values are: none, name, path, size, time."
-msgstr ""
+msgstr "Możliwymi wartościami są: none, name, path, size, time."
 
 #: src/gthumb.schemas.in.h:17
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
 msgstr ""
+"Możliwymi wartościami są: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
 
 #: src/gthumb.schemas.in.h:18
 msgid "Possible values are: pixels, percentage."
-msgstr ""
+msgstr "Możliwymi wartościami są: pixels, percentage."
 
 #: src/gthumb.schemas.in.h:19
 msgid "Possible values are: png, jpeg."
-msgstr ""
+msgstr "Możliwymi wartościami są: png, jpeg."
 
 #: src/gthumb.schemas.in.h:20
 msgid "Possible values are: skip, rename, ask, overwrite."
-msgstr ""
+msgstr "Możliwymi wartościami są: skip, rename, ask, overwrite."
 
 #: src/gthumb.schemas.in.h:21
 msgid "Possible values are: small, medium, large."
-msgstr ""
+msgstr "Możliwymi wartościami są: small, medium, large."
 
 #: src/gthumb.schemas.in.h:22
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
+"Możliwymi wartościami są: system, text_below, text_beside, text_only, "
+"icons_only."
 
 #: src/gthumb.schemas.in.h:23
 msgid "Possible values are: white, black, checked, none."
-msgstr ""
+msgstr "Możliwymi wartościami są: white, black, checked, none."
 
 #: src/gthumb.schemas.in.h:24
 msgid "Whether to always use a black background."
-msgstr ""
+msgstr "Określa czy zawsze należy używać czarnego tła."
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -2254,45 +2257,40 @@ msgid "C_urrent date"
 msgstr "B_ieżąca data"
 
 #: src/gthumb_comments.glade.h:6
-#, fuzzy
 msgid "Choose Date"
-msgstr "Zmiana daty"
+msgstr ""
 
 #: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
 msgid "Co_mment:"
 msgstr "Ko_mentarz:"
 
 #: src/gthumb_comments.glade.h:9
-#, fuzzy
 msgid "Create a new category"
-msgstr "Utworzenie nowego katalogu"
+msgstr "Utworzenie nowego kategorii"
 
 #: src/gthumb_comments.glade.h:10
-#, fuzzy
 msgid "Current date"
-msgstr "B_ieżąca data"
+msgstr "Bieżąca data"
 
 #: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "_Data utworzenia obrazu"
 
 #: src/gthumb_comments.glade.h:12
-#, fuzzy
 msgid "Image creation date"
-msgstr "_Data utworzenia obrazu"
+msgstr "Data utworzenia obrazu"
 
 #: src/gthumb_comments.glade.h:13
-#, fuzzy
 msgid "No date"
-msgstr "Brak obrazów"
+msgstr "Brak daty"
 
 #: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr ""
+msgstr "Data zapisu z_djęcia do postaci cyfrowej (z danych EXIF)"
 
 #: src/gthumb_comments.glade.h:15
 msgid "Photo digitalization date (From EXIF data)"
-msgstr ""
+msgstr "Data zapisu zdjęcia do postaci cyfrowej (z danych EXIF)"
 
 #: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
@@ -2350,7 +2348,7 @@ msgstr "<b>Rozdzielczość</b>"
 
 #: src/gthumb_convert.glade.h:6
 msgid "Ask"
-msgstr ""
+msgstr "Zapytaj"
 
 #: src/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -2406,7 +2404,7 @@ msgstr "T_GA"
 
 #: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Poziomo:"
 
 #: src/gthumb_convert.glade.h:22
 msgid "_JPEG"
@@ -2446,7 +2444,7 @@ msgstr "_TIFF"
 
 #: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
-msgstr ""
+msgstr "P_ionowo:"
 
 #: src/gthumb_convert.glade.h:32
 msgid "dpi"
@@ -2525,7 +2523,7 @@ msgstr "Szerokość:"
 
 #: src/gthumb_edit.glade.h:20
 msgid "_Brightness:"
-msgstr ""
+msgstr "_Jasność:"
 
 #: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
@@ -2533,7 +2531,7 @@ msgstr "_Wysokość:"
 
 #: src/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr ""
+msgstr "_Odcień:"
 
 #: src/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
@@ -2573,7 +2571,7 @@ msgstr "_Szerokość"
 
 #: src/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
-msgstr ""
+msgstr "Żół_ty-Niebieski:"
 
 #: src/gthumb_png_exporter.glade.h:4
 msgid "112"
@@ -2799,15 +2797,15 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
-msgstr ""
+msgstr "Sz_erokość:"
 
 #: src/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr ""
+msgstr "_Wszystkie strony tego samego rozmiaru"
 
 #: src/gthumb_png_exporter.glade.h:61
 msgid "_Draw frame"
-msgstr ""
+msgstr "_Rysowanie ramki"
 
 #: src/gthumb_png_exporter.glade.h:62
 msgid "_Font:"
@@ -2819,7 +2817,7 @@ msgstr "_Gradient"
 
 #: src/gthumb_png_exporter.glade.h:65
 msgid "_Image size:"
-msgstr ""
+msgstr "_Rozmiar obrazu:"
 
 #: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
@@ -2827,7 +2825,7 @@ msgstr "_Wiersze:"
 
 #: src/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr ""
+msgstr "Je_dnolity kolor"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
@@ -2919,7 +2917,7 @@ msgstr "<b>Pokaz slajdów</b>"
 
 #: src/gthumb_preferences.glade.h:19
 msgid "<b>View images as</b>"
-msgstr ""
+msgstr "<b>Wyświetlanie obrazów jako</b>"
 
 #: src/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
@@ -3096,9 +3094,8 @@ msgid "_List"
 msgstr "_Lista"
 
 #: src/gthumb_preferences.glade.h:64
-#, fuzzy
 msgid "_Slides"
-msgstr "_Foldery"
+msgstr "_Slajdy"
 
 #: src/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
@@ -3146,7 +3143,7 @@ msgstr "Wycentruj na str_onie"
 
 #: src/gthumb_print.glade.h:12
 msgid "Comment _font:"
-msgstr "_Czcionka omentarza"
+msgstr "_Czcionka komentarza"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
@@ -3268,7 +3265,7 @@ msgstr "Wyszukiwanie w:"
 
 #: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
-msgstr ""
+msgstr "_Dołączanie podkatalogów"
 
 #: src/gthumb_search.glade.h:28
 msgid "_Save"
@@ -3477,20 +3474,19 @@ msgstr "<b>Motyw</b>"
 
 #: src/gthumb_web_exporter.glade.h:16
 msgid "Came_ra Model"
-msgstr ""
+msgstr "Model _aparatu"
 
 #: src/gthumb_web_exporter.glade.h:17
-#, fuzzy
 msgid "Caption"
-msgstr "Opis obrazu"
+msgstr ""
 
 #: src/gthumb_web_exporter.glade.h:20
 msgid "E_xposure mode"
-msgstr ""
+msgstr "Tryb _naświetlania"
 
 #: src/gthumb_web_exporter.glade.h:21
 msgid "Exposure _time"
-msgstr ""
+msgstr "Czas naś_wietlania"
 
 #: src/gthumb_web_exporter.glade.h:25
 msgid "Focal _length"
@@ -3541,7 +3537,7 @@ msgstr "_Skopiuj obrazy do katalogu docelowego"
 
 #: src/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
-msgstr ""
+msgstr "_Data i czas"
 
 #: src/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
