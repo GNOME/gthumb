@@ -1,21 +1,20 @@
-# GThumb Hungarian po.
-# Copyright (C) 2003, Free Software Foundation Inc.
+# Hungarian translation of gthumb.
+# Copyright (C) 2003-2004 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
-# Andras Timar <timar@gnome.hu>, 2003.
-# Andras Timar <timar@fsf.hu>, 2004.
+# Andras Timar <timar@gnome.hu>, 2003-2004.
+# Laszlo Dvornik <dvornikl@mailbox.hu>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.1.6\n"
+"Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-03 03:58+0200\n"
-"PO-Revision-Date: 2004-04-03 13:27+0100\n"
-"Last-Translator: Andras Timar <timar@fsf.hu>\n"
+"POT-Creation-Date: 2004-03-28 20:14+0200\n"
+"PO-Revision-Date: 2004-04-14 16:03+0200\n"
+"Last-Translator: Laszlo Dvornik <dvornikl@mailbox.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.2\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -33,7 +32,7 @@ msgstr "Katalógusnézet"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 #: data/gthumb-ui.xml.h:99
 msgid "Print the current image"
-msgstr "Az aktuális kép nyomtatása"
+msgstr "A jelenlegi kép nyomtatása"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
@@ -101,12 +100,12 @@ msgstr "Men_tés másként..."
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
 #: data/gthumb-ui.xml.h:136
 msgid "Save current image"
-msgstr "Az aktuális kép mentése"
+msgstr "A jelenlegi kép mentése"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 #: data/gthumb-ui.xml.h:152
 msgid "Start or stop current animation"
-msgstr "Az aktuális animáció elindítása, illetve megállítása"
+msgstr "A jelenlegi animáció elindítása, illetve megállítása"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
@@ -176,7 +175,7 @@ msgstr "_Nagyítás minősége"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr "%Y. %B %e., %H.%M"
+msgstr "%Y. %b %e., %H.%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:217
@@ -487,7 +486,7 @@ msgstr "Mai dátum"
 
 #: data/glade/gthumb_comments.glade.h:8
 msgid "Do not modify"
-msgstr "Nincs módosítás"
+msgstr "Nem módosítható"
 
 #: data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
@@ -918,8 +917,7 @@ msgstr "<small><i><b>Megjegyzés:</b> # (sorszám)</i>.</small>"
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr ""
-"<small><i><b>Megjegyzés:</b> %p (oldalszám), %n (oldalak száma)</i>.</small>"
+msgstr "<small><i><b>Megjegyzés:</b> %p (oldalszám), %n (oldalak száma)</i>.</small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:26
 #: data/glade/gthumb_web_exporter.glade.h:20
@@ -928,7 +926,7 @@ msgstr "Meg_jegyzés"
 
 #: data/glade/gthumb_png_exporter.glade.h:27
 msgid "Col_umns:"
-msgstr "Oszlopok:"
+msgstr "_Oszlopok:"
 
 #: data/glade/gthumb_png_exporter.glade.h:28
 msgid "Colo_r:"
@@ -1010,7 +1008,7 @@ msgstr "_Fordított sorrend"
 
 #: data/glade/gthumb_png_exporter.glade.h:46
 msgid "Rows a_nd columns"
-msgstr "Sorok és oszlopok"
+msgstr "_Sorok és oszlopok"
 
 #: data/glade/gthumb_png_exporter.glade.h:47
 msgid "Select a color"
@@ -1056,7 +1054,7 @@ msgstr "_Stílus:"
 #: data/glade/gthumb_png_exporter.glade.h:57
 #: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:42
 msgid "Start _at:"
-msgstr "Kezdés itt:"
+msgstr "Kezdés _itt:"
 
 #: data/glade/gthumb_png_exporter.glade.h:58
 msgid "Style Preview"
@@ -1280,7 +1278,7 @@ msgstr "Ugrás az utoljára _meglátogatott mappába vagy katalógusba"
 
 #: data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
-msgstr "Ugrás a következő mappába:"
+msgstr "Ugrás a következő _mappába:"
 
 #: data/glade/gthumb_preferences.glade.h:43
 msgid "H_igh"
@@ -1312,7 +1310,7 @@ msgstr "F_ordított"
 
 #: data/glade/gthumb_preferences.glade.h:51
 msgid "Resta_rt when finished"
-msgstr "Automatikus újrakezdés"
+msgstr "Automatikus új_rakezdés"
 
 #: data/glade/gthumb_preferences.glade.h:52
 msgid "Set image to actual size"
@@ -1320,7 +1318,7 @@ msgstr "Kép megjelenítése a tényleges méretében"
 
 #: data/glade/gthumb_preferences.glade.h:53
 msgid "Set to C_urrent"
-msgstr "Beállítás az _aktuálisra"
+msgstr "Beállítás _a jelenlegire"
 
 #: data/glade/gthumb_preferences.glade.h:54 data/gthumb-ui.xml.h:146
 msgid "Slide Show"
@@ -1833,7 +1831,7 @@ msgstr "Át_méretezés, ha nagyobb mint:"
 
 #: data/glade/gthumb_web_exporter.glade.h:33
 msgid "Select Destination"
-msgstr "Célhely választása"
+msgstr "Cél kiválasztásay"
 
 #: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
@@ -1921,7 +1919,7 @@ msgstr "Megjegyzés hozzáadása a képhez"
 
 #: data/gthumb-ui.xml.h:5
 msgid "Add current location to bookmarks"
-msgstr "Az aktuális hely hozzáadása a könyvjelzőkhöz"
+msgstr "A jelenlegi hely hozzáadása a könyvjelzőkhöz"
 
 #: data/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
@@ -1949,7 +1947,7 @@ msgstr "Kategóriák hozzárendelése a kijelölt képekhez"
 
 #: data/gthumb-ui.xml.h:12
 msgid "Assign categories to the current folder"
-msgstr "Kategóriák hozzárendelése az aktuális mappához"
+msgstr "Kategóriák hozzárendelése a jelenlegi mappához"
 
 #: data/gthumb-ui.xml.h:13
 msgid "Assign categories to the image"
@@ -2005,7 +2003,7 @@ msgstr "Az összes ablak bezárása és kilépés"
 
 #: data/gthumb-ui.xml.h:27
 msgid "Close this window"
-msgstr "Az aktuális ablak bezárása"
+msgstr "A jelenlegi ablak bezárása"
 
 #: data/gthumb-ui.xml.h:30
 msgid "Convert"
@@ -2021,7 +2019,7 @@ msgstr "A kép átalakítása más képformátumba"
 
 #: data/gthumb-ui.xml.h:33
 msgid "Copy current folder"
-msgstr "Az aktuális mappa másolása"
+msgstr "A jelenlegi mappa másolása"
 
 #: data/gthumb-ui.xml.h:34
 msgid "Copy selected folder"
@@ -2169,11 +2167,11 @@ msgstr "Keresési feltétel módosítása"
 
 #: data/gthumb-ui.xml.h:70
 msgid "Move current catalog to another location"
-msgstr "Az aktuális katalógus áthelyezése máshová"
+msgstr "A jelenlegi katalógus áthelyezése máshová"
 
 #: data/gthumb-ui.xml.h:71
 msgid "Move current folder"
-msgstr "Az aktuális mappa áthelyezése"
+msgstr "A jelenlegi mappa áthelyezése"
 
 #: data/gthumb-ui.xml.h:72
 msgid "Move selected catalog to another location"
@@ -2189,7 +2187,7 @@ msgstr "A kijelölt képek áthelyezése máshová"
 
 #: data/gthumb-ui.xml.h:75
 msgid "Move the current folder to the Trash"
-msgstr "Az aktuális mappa áthelyezése a Kukába"
+msgstr "A jelenlegi mappa áthelyezése a Kukába"
 
 #: data/gthumb-ui.xml.h:76
 msgid "Move the selected folder to the Trash"
@@ -2225,7 +2223,7 @@ msgstr "Megnyitás"
 
 #: data/gthumb-ui.xml.h:85
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Az aktuális mappa megnyitása a Nautilus fájlkezelőben"
+msgstr "A jelenlegi mappa megnyitása a Nautilus fájlkezelőben"
 
 #: data/gthumb-ui.xml.h:86
 msgid "Open in New Window"
@@ -2299,7 +2297,7 @@ msgstr "A színek számának csökkentése"
 
 #: data/gthumb-ui.xml.h:106
 msgid "Reload the current location"
-msgstr "Az aktuális hely újrabetöltése"
+msgstr "A jelenlegi hely újrabetöltése"
 
 #: data/gthumb-ui.xml.h:107
 msgid "Rem_ove"
@@ -2319,7 +2317,7 @@ msgstr "A kijelölt képek megjegyzéseinek törlése"
 
 #: data/gthumb-ui.xml.h:111
 msgid "Remove current catalog"
-msgstr "Az aktuális katalógus eltávolítása"
+msgstr "A jelenlegi katalógus eltávolítása"
 
 #: data/gthumb-ui.xml.h:112
 msgid "Remove selected catalog"
@@ -2335,11 +2333,11 @@ msgstr "A megjegyzés eltávolítása"
 
 #: data/gthumb-ui.xml.h:115
 msgid "Rename current catalog"
-msgstr "Az aktuális archívum átnevezése"
+msgstr "A jelenlegi archívum átnevezése"
 
 #: data/gthumb-ui.xml.h:116
 msgid "Rename current folder"
-msgstr "Az aktuális mappa átnevezése"
+msgstr "A jelenlegi mappa átnevezése"
 
 #: data/gthumb-ui.xml.h:117
 msgid "Rename selected catalog"
@@ -2615,7 +2613,7 @@ msgstr "_Könyvjelző hozzáadása"
 
 #: data/gthumb-ui.xml.h:191
 msgid "_Add to Catalog..."
-msgstr "_Hozzáadás katalógushoz..."
+msgstr "Hozzá_adás katalógushoz..."
 
 #: data/gthumb-ui.xml.h:192
 msgid "_Back"
@@ -2739,7 +2737,7 @@ msgstr "_Gyorsbillentyűk"
 
 #: data/gthumb-ui.xml.h:228
 msgid "_Location..."
-msgstr "_Hely..."
+msgstr "He_ly..."
 
 #: data/gthumb-ui.xml.h:229
 msgid "_Low Quality"
@@ -2998,10 +2996,8 @@ msgid "Possible values are: small, medium, large."
 msgstr "Lehetséges értékek: small, medium, large."
 
 #: data/gthumb.schemas.in.h:23
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr ""
-"Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
 
 #: data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
@@ -3060,10 +3056,8 @@ msgstr "(Nincs megjegyzés)"
 #: libgthumb/dlg-save-image.c:114 src/dlg-file-utils.c:118
 #: src/dlg-jpegtran.c:763
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"Nincs megfelelő jogosultsága képek létrehozásához ebben a mappában: \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Nincs megfelelő jogosultsága képek létrehozásához ebben a mappában: \"%s\""
 
 #: libgthumb/dlg-save-image.c:130 src/commands-impl.c:312
 #: src/dlg-convert.c:308
@@ -3347,8 +3341,7 @@ msgstr "Nem sikerült törölni a mappát: \"%s\": %s"
 
 #: src/commands-impl.c:1233
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" nem helyezhető át a Kukába. Szeretné véglegesen törölni?"
 
 #: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1718
@@ -3467,8 +3460,7 @@ msgstr "Kép átalakítása: %s"
 
 #: src/dlg-convert.c:185
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Már létezik \"%s\" nevű kép. Használjon másik nevet."
 
 #: src/dlg-crop.c:367
@@ -3528,8 +3520,7 @@ msgstr "Nem adott meg új nevet"
 
 #: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "%s nevű elem már létezik ebben a mappában. Használjon másik nevet."
 
 #: src/dlg-file-utils.c:1010
@@ -3717,7 +3708,7 @@ msgstr "%d kijelölve (%s)"
 
 #: src/gthumb-window.c:1715
 msgid "The current image has been modified, do you want to save it?"
-msgstr "Az aktuális kép megváltozott. Szeretné menteni?"
+msgstr "A jelenlegi kép megváltozott. Szeretné menteni?"
 
 #: src/gthumb-window.c:1716
 msgid "Do Not Save"
@@ -3819,100 +3810,3 @@ msgstr "Család"
 #: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Parancssor"
-
-#~ msgid "Destinations"
-#~ msgstr "Célhelyek"
-
-#~ msgid "FTP"
-#~ msgstr "FTP"
-
-#~ msgid "Local Folder"
-#~ msgstr "Helyi mappa"
-
-#~ msgid "SSH"
-#~ msgstr "SSH"
-
-#~ msgid "Saved _Destinations:"
-#~ msgstr "Mentett _célhelyek:"
-
-#~ msgid "_Host:"
-#~ msgstr "_Gép:"
-
-#~ msgid "_Password:"
-#~ msgstr "_Jelszó:"
-
-#~ msgid "_Path:"
-#~ msgstr "Ú_tvonal:"
-
-#~ msgid "_Type:"
-#~ msgstr "_Típus:"
-
-#~ msgid "_User:"
-#~ msgstr "_Felhasználó:"
-
-#~ msgid "Rotate _JPEG"
-#~ msgstr "_JPEG forgatása"
-
-#~ msgid "_Adjust Color Levels"
-#~ msgstr "_Színszintek beállítása"
-
-#~ msgid "Choose Date"
-#~ msgstr "Dátum kiválasztása"
-
-#~ msgid "_No date"
-#~ msgstr "_Nincs dátum"
-
-#~ msgid "<b>Destination folder</b>"
-#~ msgstr "<b>Célmappa</b>"
-
-#~ msgid "<i>Examples:</i>"
-#~ msgstr "<i>Példák:</i>"
-
-#~ msgid "Sor_t images:"
-#~ msgstr "Képek _rendezése:"
-
-#~ msgid "Use #'s to specify positions used by numeric enumerator."
-#~ msgstr "A # jel jelöli a sorszámok által felhasznált helyet."
-
-#~ msgid ""
-#~ "Use %p  to insert the page number, and %n to insert the total number of "
-#~ "pages."
-#~ msgstr ""
-#~ "A %p jelöli az oldalszámot, és a %n jelöli az oldalak teljes számát."
-
-#~ msgid "<b>Image</b>"
-#~ msgstr "<b>Kép</b>"
-
-#~ msgid ""
-#~ "<i>Drag the image to move\n"
-#~ "it in the page.</i>"
-#~ msgstr ""
-#~ "<i>Ragadd meg a képet,\n"
-#~ "és mozgasd a helyére.</i>"
-
-#~ msgid "<b>File list order</b>"
-#~ msgstr "<b>Fájllista rendezése</b>"
-
-#~ msgid "<b>Specify a template to use for renaming images</b>"
-#~ msgstr "<b>Sablon megadása a képek átnevezéséhez</b>"
-
-#~ msgid "JPEG Lossless Transformation"
-#~ msgstr "Veszteségmentes JPEG-átalakítás"
-
-#~ msgid "Revert changes"
-#~ msgstr "Változások visszavonása"
-
-#~ msgid ""
-#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-#~ "the original filename. Use ? to insert the image date. Use ! to insert "
-#~ "the image size"
-#~ msgstr ""
-#~ "A # jel jelöli a sorszámok által felhasznált helyet. A * jel jelöli az "
-#~ "eredeti fájlnevet. A ? jel jelöli a kép dátumát. A ! jel jelöli a kép "
-#~ "méretét."
-
-#~ msgid "_Sort original list:"
-#~ msgstr "_Eredeti lista rendezése:"
-
-#~ msgid "Use %d  to insert current date"
-#~ msgstr "A %d jelenti az aktuális dátumot"
