@@ -262,9 +262,9 @@ catalog_png_exporter_finalize (GObject *object)
 		ce->footer_font_name = NULL;
 	}
 	
-	if (ce->tloader != NULL) {
-		g_object_unref (G_OBJECT (ce->tloader));
-		ce->tloader = NULL;
+	if (ce->iloader != NULL) {
+		g_object_unref (ce->iloader);
+		ce->iloader = NULL;
 	}
 
 	/* Chain up */
@@ -335,7 +335,7 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 	ce->footer = NULL;
 	ce->footer_font_name = NULL;
 
-	ce->tloader = NULL;
+	ce->iloader = NULL;
 	ce->file_to_load = NULL;
 
 	ce->caption_fields = GTH_CAPTION_FILE_NAME;
@@ -1323,8 +1323,8 @@ load_next_file (CatalogPngExporter *ce)
 	}
 
 	filename = IMAGE_DATA (ce->file_to_load->data)->filename;
-	thumb_loader_set_path (ce->tloader, filename);
-	thumb_loader_start (ce->tloader);
+	image_loader_set_path (ce->iloader, filename);
+	image_loader_start (ce->iloader);
 
 	/* info */
 
@@ -1341,24 +1341,17 @@ load_next_file (CatalogPngExporter *ce)
 
 
 static void
-thumb_loader_done (ThumbLoader *tloader, 
+image_loader_done (ImageLoader *iloader, 
 		   gpointer     data)
 {
 	CatalogPngExporter *ce = data;
-	ImageLoader        *il;
 	GdkPixbuf          *pixbuf;
 	ImageData          *idata;
 
 	idata = (ImageData*) ce->file_to_load->data;
 
-	/* thumbnail. */
-	pixbuf = thumb_loader_get_pixbuf (tloader);
-	g_object_ref (pixbuf);
-	idata->thumb = pixbuf;
-	
 	/* image width and height. */
-	il = thumb_loader_get_image_loader (tloader);
-	pixbuf = image_loader_get_pixbuf (il);
+	pixbuf = image_loader_get_pixbuf (iloader);
 	idata->image_width = gdk_pixbuf_get_width (pixbuf);
 	idata->image_height = gdk_pixbuf_get_height (pixbuf);
 
@@ -1368,12 +1361,30 @@ thumb_loader_done (ThumbLoader *tloader,
 	/* file time. */
 	idata->file_time = get_file_mtime (idata->filename);
 
+	/* thumbnail. */
+	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);
+	g_object_ref (idata->thumb);
+
+	if ((ce->thumb_width > 0) && (ce->thumb_height > 0)) {
+		int w = gdk_pixbuf_get_width (pixbuf);
+		int h = gdk_pixbuf_get_height (pixbuf);
+		
+		if (scale_keepping_ratio (&w, &h, 
+					  ce->thumb_width,
+					  ce->thumb_height)) {
+			GdkPixbuf *scaled;
+			scaled = gdk_pixbuf_scale_simple (pixbuf, w, h, GDK_INTERP_BILINEAR);
+			g_object_unref (idata->thumb);
+			idata->thumb = scaled;
+		}
+	}
+
 	load_next_file (ce);
 }
 
 
 static void
-thumb_loader_error (ThumbLoader *tloader, 
+image_loader_error (ImageLoader *iloader, 
 		    gpointer     data)
 {
 	CatalogPngExporter *ce = data;
@@ -1398,34 +1409,31 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 
 	ce->exporting = TRUE;
 
-	if (ce->tloader != NULL)
-		g_object_unref (G_OBJECT (ce->tloader));
+	if (ce->iloader != NULL)
+		g_object_unref (ce->iloader);
 
 	if (ce->created_list != NULL) {
 		path_list_free (ce->created_list);
 		ce->created_list = NULL;
 	}
 
-	ce->tloader = THUMB_LOADER (thumb_loader_new (NULL, 
-						      ce->thumb_width,
-						      ce->thumb_height));
-	thumb_loader_use_cache (ce->tloader, FALSE);
-	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "thumb_done",
-			  G_CALLBACK (thumb_loader_done),
+	ce->iloader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
+	g_signal_connect (G_OBJECT (ce->iloader), 
+			  "image_done",
+			  G_CALLBACK (image_loader_done),
 			  ce);
-	g_signal_connect (G_OBJECT (ce->tloader), 
-			  "thumb_error",
-			  G_CALLBACK (thumb_loader_error),
+	g_signal_connect (G_OBJECT (ce->iloader), 
+			  "image_error",
+			  G_CALLBACK (image_loader_error),
 			  ce);
 
 	ce->n_images = g_list_length (ce->file_list);
 	ce->n_images_done = 0;
 		
 	ce->file_to_load = ce->file_list;
-	thumb_loader_set_path (ce->tloader, 
+	image_loader_set_path (ce->iloader, 
 			       IMAGE_DATA (ce->file_to_load->data)->filename);
-	thumb_loader_start (ce->tloader);
+	image_loader_start (ce->iloader);
 }
 
 

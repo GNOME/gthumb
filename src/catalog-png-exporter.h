@@ -28,7 +28,7 @@
 #include <gtk/gtkenums.h> /* for GtkSortType */
 #include <libgnomevfs/gnome-vfs-file-size.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
-#include "thumb-loader.h"
+#include "image-loader.h"
 #include "typedefs.h"
 
 #define CATALOG_PNG_EXPORTER_TYPE            (catalog_png_exporter_get_type ())
@@ -114,7 +114,7 @@ struct _CatalogPngExporter {
 
 	GdkColormap  *colormap;
 
-	ThumbLoader  *tloader;
+	ImageLoader  *iloader;
 	GList        *file_to_load;          /* Next file to be loaded. */
 
 	gint          n_images;              /* Used for the progress signal.*/
