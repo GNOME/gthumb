@@ -6447,10 +6447,8 @@ _proc_monitor_events (gpointer data)
 	GThumbWindow *window = data;
 	GList        *scan;
 		
-	if (window->update_changes_timeout != 0) {
+	if (window->update_changes_timeout != 0) 
 		g_source_remove (window->update_changes_timeout);
-		window->update_changes_timeout = 0;
-	}
 
 	/**/
 
@@ -6503,6 +6501,8 @@ _proc_monitor_events (gpointer data)
 	}
 
 	/**/
+
+	window->update_changes_timeout = 0;
 
 	return FALSE;
 }
@@ -6601,13 +6601,13 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	if (window->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
+	if (window->update_changes_timeout != 0) 
+		return;
+
 	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
 	_window_add_monitor_event (window, event_type, path);
 	g_free (path);
 
-	if (window->update_changes_timeout != 0) 
-		g_source_remove (window->update_changes_timeout);
-	
 	window->update_changes_timeout = g_timeout_add (UPDATE_DIR_DELAY,
 							_proc_monitor_events,
 							window);
@@ -7158,12 +7158,9 @@ get_slideshow_random_image (GThumbWindow *window)
 	}
 
 	n = g_list_length (window->slideshow_random_set);
-	g_print ("N: %d\n", n);
 	if (n == 0)
 		return NULL;
 	i = g_random_int_range (0, n - 1);
-
-	g_print ("RANDOM: %d\n", i);
 
 	item = g_list_nth (window->slideshow_random_set, i);
 	if (item != NULL)

@@ -339,7 +339,7 @@ get_type_from_name (const char *name)
 	int i;
 
 	for (i = 0; types_table[i].name != NULL; i++)
-		if (strcmp (types_table[i].name, name) == 0) 
+		if (strcasecmp (types_table[i].name, name) == 0) 
 			return types_table + i;
 	
 	return NULL;

@@ -1,3 +1,20 @@
+2004-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (fullscreen_stop): fixed fullscreen mode.
+
+2004-08-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (_proc_monitor_events): process monitor
+	events sequentially.
+
+	* libgthumb/dlg-save-image.c (get_type_from_name): use strcasecmp
+	instead of strcmp.
+
+	Fixes bug #150729: Problems handling JPEG.
+
+	* src/gthumb-window.c (get_slideshow_random_image): 
+	removed debugging code.
+
 2004-06-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.4.1 released ]
