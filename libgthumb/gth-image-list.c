@@ -2332,7 +2332,9 @@ gth_image_list_button_press (GtkWidget      *widget,
 	if ((pos != -1)
 	    && (event->button == 1)
 	    && (event->type == GDK_2BUTTON_PRESS)) {
-		g_signal_emit (image_list, image_list_signals[ITEM_ACTIVATED], 0, pos);
+		if (((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+		    && ((event->state & GDK_SHIFT_MASK) != GDK_SHIFT_MASK))
+			g_signal_emit (image_list, image_list_signals[ITEM_ACTIVATED], 0, pos);
 		return TRUE;
 	}
 

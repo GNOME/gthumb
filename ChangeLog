@@ -1,5 +1,21 @@
 2004-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (file_is_image): work around for bug in 
+	gnome_vfs_mime_type_from_name_or_default.
+
+	Fix bug #136168 (Images with capitalized extensions (.JPG) are not 
+	found by the image search/browser).
+
+	* libgthumb/gth-image-list.c (gth_image_list_button_press): do not emit
+	the ITEM_ACTIVATED signal if Control of Shift is pressed.
+
+	Fix bug #136451 (Quick multiple selection problem).
+
+	* src/gthumb-window.c: 
+
+	Fix bug #133452 (thumbnail-pane is resized when the application window 
+	is resized).
+
 	* libgthumb/gnome-print-font-picker.c: 
 	* libgthumb/gnome-print-font-dialog.c: updated from gedit.
 

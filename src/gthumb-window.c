@@ -4831,7 +4831,7 @@ pref_view_as_changed (GConfClient *client,
 	} else if (window->layout_type == 3) {
 		gtk_widget_destroy (GTK_PANED (window->content_pane)->child1);
 		GTK_PANED (window->content_pane)->child1 = NULL;
-		gtk_paned_pack1 (GTK_PANED (window->content_pane), file_list->root_widget, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (window->content_pane), file_list->root_widget, FALSE, FALSE);
 	}
 
 	gth_file_list_set_sort_method (file_list, sort_method);
@@ -5268,7 +5268,7 @@ window_new (void)
 	if (window->layout_type == 3)
 		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
 	else
-		gtk_paned_pack1 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
 
 	window->notebook = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (window->notebook), FALSE);
@@ -5289,16 +5289,16 @@ window_new (void)
 			    TRUE, TRUE, 0);
 
 	if (window->layout_type == 3) 
-		gtk_paned_pack1 (GTK_PANED (paned1), dir_list_vbox, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned1), dir_list_vbox, FALSE, FALSE);
 	else 
-		gtk_paned_pack1 (GTK_PANED (paned2), dir_list_vbox, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned2), dir_list_vbox, FALSE, FALSE);
 
 	if (window->layout_type <= 1) 
 		gtk_paned_pack2 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
 	else if (window->layout_type == 2)
 		gtk_paned_pack2 (GTK_PANED (paned1), window->file_list->root_widget, TRUE, FALSE);
 	else if (window->layout_type == 3)
-		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list->root_widget, FALSE, FALSE);
 
 	/**/
 
@@ -5380,7 +5380,7 @@ window_new (void)
 	gtk_container_add (GTK_CONTAINER (frame), window->viewer);
 
 	window->preview_widget_image = table = gtk_table_new (2, 2, FALSE);
-	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), table, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), table, FALSE, FALSE);
 
 	gtk_table_attach (GTK_TABLE (table), frame, 0, 1, 0, 1,
 			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -5398,7 +5398,7 @@ window_new (void)
 	/**/
 
 	window->preview_widget_data_comment = image_pane_paned2 = gtk_hpaned_new ();
-	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (image_pane_paned1), image_pane_paned2, TRUE, FALSE);
 
 	window->preview_widget_comment = scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
@@ -5411,7 +5411,7 @@ window_new (void)
 	gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (window->image_comment), TRUE);
 	gtk_container_add (GTK_CONTAINER (scrolled_win), window->image_comment);
 
-	gtk_paned_pack2 (GTK_PANED (image_pane_paned2), scrolled_win, FALSE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (image_pane_paned2), scrolled_win, TRUE, FALSE);
 
 	g_signal_connect (G_OBJECT (window->image_comment), 
 			  "focus_in_event",
@@ -8326,7 +8326,7 @@ window_notify_update_layout_cb (gpointer data)
 	if (window->layout_type == 3)
 		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
 	else
-		gtk_paned_pack1 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
 
 	if (window->layout_type == 3)
 		gtk_widget_reparent (window->dir_list_pane, paned1);

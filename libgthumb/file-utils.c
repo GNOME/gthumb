@@ -881,9 +881,15 @@ file_is_image (const gchar *name,
 	const char *result;
 	gboolean    is_an_image;
 
-	if (fast_file_type)
-		result = gnome_vfs_mime_type_from_name_or_default (name, NULL);
-	else 
+	if (fast_file_type) {
+		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
+		char *n2 = g_utf8_strdown (n1, -1);
+		char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+		result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+		g_free (n3);
+		g_free (n2);
+		g_free (n1);
+	} else 
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
 
 	/* Unknown file type. */
