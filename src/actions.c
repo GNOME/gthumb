@@ -2825,10 +2825,7 @@ set_action_sensitive (GThumbWindow *window,
 {
 	GtkAction *action;
 	action = gtk_action_group_get_action (window->actions, action_name);
-	if (action == NULL) 
-		g_print ("%s NON ESISTE\n", action_name);
-	else
-		g_object_set (action, "sensitive", sensitive, NULL);
+	g_object_set (action, "sensitive", sensitive, NULL);
 }
 
 

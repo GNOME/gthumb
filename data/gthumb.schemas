@@ -263,7 +263,7 @@
 
 	<locale name="hu">
 	  
-	  <long>Az ennél nagyobb képekhez (byte-ban) nem készít a program bélyegképet. A 0 érték az jelenti, hogy minden képhez készüljön bélyegkép.</long>
+	  <long>Az ennél nagyobb képekhez (bájtban) nem készül bélyegkép. Használjon 0-t, ha azt akarja, hogy minden képhez készüljön bélyegkép.</long>
 	</locale>
 
 	<locale name="it">
@@ -279,6 +279,11 @@
 	<locale name="lt">
 	  
 	  <long>Paveikslėlių viršijančių šį dydį (baitais) minivaizdai nebus rodomi. Naudokit 0 jeigu norite matyti visų paveikslėlių minivaizdus.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Bilder med størrelse over denne verdien (i bytes) vil det ikke vises miniatyrer for. Bruk 0 hvis du vil generere miniatyrer for alle bilder.</long>
 	</locale>
 
 	<locale name="nl">
@@ -401,7 +406,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: nautilus, single, double.</long>
+	  <long>Sallittuja arvoja ovat: &quot;nautilus&quot; (nautilus-käytäntö), &quot;single&quot; (yksi napsautus), &quot;double&quot; (tuplanapsautus).</long>
 	</locale>
 
 	<locale name="fr">
@@ -437,6 +442,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="nl">
@@ -577,7 +587,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: none, name, path, size, time.</long>
+	  <long>Sallittuja arvoja ovat: &quot;none&quot; (ei mitään), &quot;name&quot; (nimi), &quot;path&quot; (polku), &quot;size&quot; (koko), &quot;time&quot; (aika).</long>
 	</locale>
 
 	<locale name="fr">
@@ -613,6 +623,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: none, name, path, size, time.</long>
 	</locale>
 
 	<locale name="nl">
@@ -740,7 +755,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: ascending, descending.</long>
+	  <long>Sallittuja arvoja ovat: &quot;ascending&quot; (nouseva), &quot;descending&quot; (laskeva).</long>
 	</locale>
 
 	<locale name="fr">
@@ -776,6 +791,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: ascending, descending.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: ascending, descending.</long>
 	</locale>
 
 	<locale name="nl">
@@ -903,7 +923,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: list, thumbnails.</long>
+	  <long>Sallittuja arvoja ovat: &quot;list&quot; (lista), &quot;thumbnails&quot; (pienoiskuvat).</long>
 	</locale>
 
 	<locale name="fr">
@@ -939,6 +959,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: list, thumbnails.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: list, thumbnails.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1074,7 +1099,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: image, data, comment.</long>
+	  <long>Sallittuja arvoja ovat: &quot;image&quot; (kuva), &quot;data&quot; (data), &quot;comment&quot; (kommentti).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1110,6 +1135,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: image, data, comment.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: image, data, comment.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1252,7 +1282,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: high, low.</long>
+	  <long>Sallittuja arvoja ovat: &quot;high&quot; (korkea), &quot;low&quot; (heikko).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1268,6 +1298,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: high, low.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin adalah: tinggi, rendah</long>
 	</locale>
 
 	<locale name="it">
@@ -1288,6 +1323,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: high, low.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: high, low.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1416,7 +1456,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: actual_size, fit, keep_prev, fit_if_larger.</long>
+	  <long>Sallittuja arvoja ovat: &quot;actual_size&quot; (todellinen koko), &quot;fit&quot; (sovita), &quot;keep_prev&quot; (säilytä aikaisempi asetus), &quot;fit_if_larger&quot; (sovita jos suurempi).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1452,6 +1492,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1579,7 +1624,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: white, black, checked, none.</long>
+	  <long>Sallittuja arvoja ovat: &quot;white&quot; (valkoinen), &quot;black&quot; (musta), &quot;checked&quot; (ruudut), &quot;none&quot; (ei mitään).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1615,6 +1660,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1737,7 +1787,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: light, midtone, dark.</long>
+	  <long>Sallittuja arvoja ovat: &quot;light&quot; (vaaleat sävyt), &quot;midtone&quot; (keskisävyt), &quot;dark&quot; (tummat sävyt).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1773,6 +1823,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: light, midtone, dark.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1895,7 +1950,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: small, medium, large.</long>
+	  <long>Sallittuja arvoja ovat: &quot;small&quot; (pieni), &quot;medium&quot; (keskikokoinen), &quot;large&quot; (suuri).</long>
 	</locale>
 
 	<locale name="fr">
@@ -1931,6 +1986,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: small, medium, large.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: small, medium, large.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2058,7 +2118,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Käytetäänkö aina mustaa taustaa</long>
+	  <long>Käytetäänkö aina mustaa taustaa.</long>
 	</locale>
 
 	<locale name="fr">
@@ -2073,7 +2133,7 @@
 
 	<locale name="hu">
 	  
-	  <long>Mindig fekete legyen-e a háttér?</long>
+	  <long>Mindig fekete legyen-e a háttér.</long>
 	</locale>
 
 	<locale name="it">
@@ -2089,6 +2149,11 @@
 	<locale name="lt">
 	  
 	  <long>Ar visada naudoti juodą foną.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Alltid bruk sort bakgrunn.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2203,7 +2268,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: forward, backward, random.</long>
+	  <long>Sallittuja arvoja ovat: &quot;forward&quot; (eteenpäin), &quot;backward&quot; (taaksepäin), &quot;random&quot; (satunnainen).</long>
 	</locale>
 
 	<locale name="fr">
@@ -2239,6 +2304,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: forward, backward, random.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: forward, backward, random.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2289,6 +2359,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: forward, backward, random.</long>
+	</locale>
+
+	<locale name="tr">
+	  
+	  <long>Mümkün değerler: ileri, geri, rastgele.</long>
 	</locale>
 
 	<locale name="uk">
@@ -2420,6 +2495,11 @@
 	  <long>Lehetséges értékek: 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang Mungkin adalah: 1, 2, 3, 4 </long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: 1, 2, 3, 4.</long>
@@ -2438,6 +2518,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: 1,2,3,4.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2565,7 +2650,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: system, text_below, text_beside, text_only, icons_only.</long>
+	  <long>Sallittuja arvoja ovat: &quot;system&quot; (järjestelmän asetus), &quot;text_below&quot; (teksti alla), &quot;text_beside&quot; (teksti vieressä), &quot;text_only&quot; (vain teksti), &quot;icons_only&quot; (vain kuvakkeet).</long>
 	</locale>
 
 	<locale name="fr">
@@ -2601,6 +2686,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2847,7 +2937,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: png, jpeg.</long>
+	  <long>Sallittuja arvoja ovat: &quot;png&quot;, &quot;jpeg&quot;.</long>
 	</locale>
 
 	<locale name="fr">
@@ -2883,6 +2973,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: png, jpeg.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: png, jpeg.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3352,7 +3447,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	  <long>Sallittuja arvoja ovat: &quot;none&quot; (ei mitään), &quot;simple&quot; (yksinkertainen), &quot;simple_with_shadow&quot; (yksinkertainen varjolla), &quot;shadow&quot; (varjo), &quot;slide&quot; (dia), &quot;shadow_in&quot; (varjo sisäänpäin), &quot;shadow_out&quot; (varjo ulospäin).</long>
 	</locale>
 
 	<locale name="fr">
@@ -3388,6 +3483,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: none, simple, simple_with_shadow, shadow, slide,shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3633,7 +3733,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: none, deflate, jpeg.</long>
+	  <long>Sallittuja arvoja ovat: &quot;none&quot; (ei mitään), &quot;deflate&quot; (pura), &quot;jpeg&quot;.</long>
 	</locale>
 
 	<locale name="fr">
@@ -3669,6 +3769,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: none, deflate, jpeg.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3819,7 +3924,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: jpeg, png, tga, tiff.</long>
+	  <long>Sallittuja arvoja ovat: &quot;jpeg&quot;, &quot;png&quot;, &quot;tga&quot;, &quot;tiff&quot;.</long>
 	</locale>
 
 	<locale name="fr">
@@ -3855,6 +3960,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: jpeg, png, tga, tiff.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3982,7 +4092,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: skip, rename, ask, overwrite.</long>
+	  <long>Sallittuja arvoja ovat: &quot;skip&quot; (ohita), &quot;rename&quot; (muuta nimeä), &quot;ask&quot; (kysy), &quot;overwrite&quot; (korvaa).</long>
 	</locale>
 
 	<locale name="fr">
@@ -4018,6 +4128,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4181,7 +4296,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: name, size, time.</long>
+	  <long>Sallittuja arvoja ovat: &quot;name&quot; (nimi), &quot;size&quot; (koko), &quot;time&quot; (aika).</long>
 	</locale>
 
 	<locale name="fr">
@@ -4217,6 +4332,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: name, size, time:</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: name, size, time.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4364,7 +4484,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: pixels, percentage.</long>
+	  <long>Sallittuja arvoja ovat: &quot;pixels&quot; (kuvapistettä), &quot;percentage&quot; (prosenttia).</long>
 	</locale>
 
 	<locale name="fr">
@@ -4400,6 +4520,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: pixels, percentage.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: pixels, percentage.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4659,7 +4784,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: name, path, size, time.</long>
+	  <long>Sallittuja arvoja ovat: &quot;name&quot; (nimi), &quot;path&quot; (polku), &quot;size&quot; (koko), &quot;time&quot; (aika).</long>
 	</locale>
 
 	<locale name="fr">
@@ -4695,6 +4820,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: name, path, size, time.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: name, path, size, time.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4956,7 +5086,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: mm, in.</long>
+	  <long>Sallittuja arvoja ovat: &quot;mm&quot; (millimetrit), &quot;in&quot; (tuumat).</long>
 	</locale>
 
 	<locale name="fr">
@@ -4992,6 +5122,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: mm, in.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: mm, in.</long>
 	</locale>
 
 	<locale name="nl">
@@ -5250,7 +5385,7 @@
 
 	<locale name="fi">
 	  
-	  <long>Sallittuja arvoja ovat: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	  <long>Sallittuja arvoja ovat: &quot;none&quot; (ei mitään), &quot;square&quot; (neliö), &quot;image&quot; (kuva), &quot;display&quot; (näyttö), &quot;4x3&quot;, &quot;4x6&quot;, &quot;5x7&quot;, &quot;8x10&quot;, &quot;custom&quot; (oma).</long>
 	</locale>
 
 	<locale name="fr">
@@ -5286,6 +5421,11 @@
 	<locale name="lt">
 	  
 	  <long>Galimos vertės yra: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="nb">
+	  
+	  <long>Mulige verdier er: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="nl">

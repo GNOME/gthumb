@@ -1,14 +1,42 @@
+2004-08-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* components/catalog-view/GNOME_GThumb_CatalogView.server.in.in:
+        added nautilus:required_directory_content_mime_types
+        attribute.  Suggested by Alexander Larsson.
+
+2004-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/dlg-save-image.c (get_type_from_name): use strcasecmp
+	instead of strcmp.
+
+	Fixes bug #150729: Problems handling JPEG.
+
 2004-08-21  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Add «nb» to ALL_LINGUAS.
 
+2004-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (window_update_statusbar_image_info)
+	(window_new): added the resize grip to the statubar.
+
+2004-08-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (set_action_active):
+	* src/actions.c (set_action_sensitive):
+	* src/gthumb-window.c (set_action_sensitive):
+	(get_slideshow_random_image): removed debugging code.
+
 2004-08-11  Mohammad DAMT  <mdamt@bisnisweb.com>
 	
 	* configure.in: Added "id" (Indonesian) in ALL_LINGUAS
-	* po/id.po: Added Indonesian translation done by Abdul Hamid.A.N <hameed@linuxmail.org>
+	* po/id.po: Added Indonesian translation done by Abdul Hamid.A.N 
+	<hameed@linuxmail.org>
  
-2004-08-9  Amanpreet Singh Alam <aalam@redhat.com>
-	*configure.in +punjabi locale
+2004-08-09  Amanpreet Singh Alam <aalam@redhat.com>
+	
+	* configure.in: +punjabi locale
+
 2004-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.5.0 released ]

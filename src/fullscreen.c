@@ -61,10 +61,7 @@ set_action_active (GThumbWindow *window,
 {
 	GtkAction *action;
 	action = gtk_action_group_get_action (window->actions, action_name);
-	if (action == NULL) 
-		g_print ("%s NON ESISTE\n", action_name);
-	else
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
 }
 
 

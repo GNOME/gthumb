@@ -146,10 +146,7 @@ set_action_sensitive (GThumbWindow *window,
 {
 	GtkAction *action;
 	action = gtk_action_group_get_action (window->actions, action_name);
-	if (action == NULL) 
-		g_print ("%s NON ESISTE\n", action_name);
-	else
-		g_object_set (action, "sensitive", sensitive, NULL);
+	g_object_set (action, "sensitive", sensitive, NULL);
 }
 
 
@@ -160,10 +157,7 @@ set_action_active (GThumbWindow *window,
 {
 	GtkAction *action;
 	action = gtk_action_group_get_action (window->actions, action_name);
-	if (action == NULL) 
-		g_print ("%s NON ESISTE\n", action_name);
-	else
-		gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
 }
 
 
@@ -270,12 +264,12 @@ window_update_statusbar_image_info (GThumbWindow *window)
 	/**/
 
 	if (! window->image_modified)
-		text = g_strdup_printf (" %s - %s - %s ",
+		text = g_strdup_printf (" %s - %s - %s     ",
 					size_txt,
 					file_size_txt,
 					utf8_time_txt);
 	else
-		text = g_strdup_printf (" %s - %s ", 
+		text = g_strdup_printf (" %s - %s     ", 
 					_("Modified"),
 					size_txt);
 
@@ -4711,7 +4705,7 @@ window_new (void)
 	window->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "help_message");
 	window->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "list_info");
 	gnome_app_set_statusbar (GNOME_APP (window->app), window->statusbar);
-	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (window->statusbar), FALSE);
+	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (window->statusbar), TRUE);
 
 	g_signal_connect (G_OBJECT (window->app), 
 			  "delete_event",
@@ -6825,12 +6819,9 @@ get_slideshow_random_image (GThumbWindow *window)
 	}
 
 	n = g_list_length (window->slideshow_random_set);
-	g_print ("N: %d\n", n);
 	if (n == 0)
 		return NULL;
 	i = g_random_int_range (0, n - 1);
-
-	g_print ("RANDOM: %d\n", i);
 
 	item = g_list_nth (window->slideshow_random_set, i);
 	if (item != NULL)
