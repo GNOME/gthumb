@@ -1,0 +1,955 @@
+# Copyright (C) 2001 Free Software Foundation, Inc.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Scrollkeeper\n"
+"POT-Creation-Date: 2002-07-24 21:27-0500\n"
+"PO-Revision-Date: 2002-10-23 00:31GMT+2\n"
+"Last-Translator: Vital Khilko <dojlid@mova.org>\n"
+"Language-Team: belarusian <i18n@mova.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.9.5\n"
+
+#: cl/src/scrollkeeper-install.c:34
+msgid "Usage: scrollkeeper-install [-v] [-q] [-p <SCROLLKEEPER_DB_DIR>] <OMF FILE>\n"
+msgstr ""
+"Выкарыстаньне: scrollkeeper_install [-v] [-q] [-p <SCROLLKEEPER_DB_DIR>] "
+"<OMF ФАЙЛ>\n"
+
+#: cl/src/scrollkeeper-install.c:95
+msgid "Could not create database.  Aborting install.\n"
+msgstr "Ня атрымалася стварыць базу даньняў. Усталёўка перарываецца.\n"
+
+#: cl/src/scrollkeeper-install.c:99 cl/src/update.c:524
+#, c-format
+msgid "Registering %s\n"
+msgstr "Адбываецца рэгістрацыя %s\n"
+
+#: cl/src/scrollkeeper-install.c:101 cl/src/update.c:521
+#, c-format
+msgid "Unable to register %s\n"
+msgstr "Немагчыма зарэгістраваць %s\n"
+
+#: cl/src/preinstall.c:35
+msgid "Usage: scrollkeeper-preinstall <DOC FILE> <OMF FILE> <NEW OMF FILE>\n"
+msgstr ""
+"Выкарыстаньне: scrollkeeper_preinstall <DOC ФАЙЛ> <OMF ФАЙЛ> <НОВЫ OMF "
+"ФАЙЛ>\n"
+
+#: cl/src/preinstall.c:68
+#, c-format
+msgid "Unable to update URL in OMF file %s.  Copying OMF file unchanged.\n"
+msgstr "Немагчыма абнавіць URL у файле OMF %s. Файл OMF капуецца нязьмененым.\n"
+
+#: cl/src/scrollkeeper-uninstall.c:32
+msgid ""
+"Usage: scrollkeeper-uninstall [-v] [-q] [-p <SCROLLKEEPER_DB_DIR>] <OMF "
+"FILE>\n"
+msgstr ""
+"Выкарыстаньне: scrollkeeper_uninstall [-v] -q] [-p <SCROLLKEEPER_DB_DIR>] "
+"<OMF ФАЙЛ>\n"
+
+#: cl/src/scrollkeeper-uninstall.c:86 cl/src/update.c:539
+#, c-format
+msgid "Unregistering %s\n"
+msgstr "Адбываецца адмена рэгістрацыі %s\n"
+
+#: cl/src/update.c:108
+#, c-format
+msgid "Usage: %s [-v] [-q] [-p <SCROLLKEEPER_DB_DIR>] [-o <OMF_DIR>]\n"
+msgstr "Выкарыстаньне: %s [-v] [-q] [-p <SCROLLKEEPER_DB_DIR>] [-o <OMF_DIR>]\n"
+
+#: cl/src/update.c:220
+#, c-format
+msgid "%s: warning: %s overrides %s\n"
+msgstr "%s: увага: %s перазапісвае %s\n"
+
+#: cl/src/update.c:410
+msgid "Could not create database.  Aborting update.\n"
+msgstr "Ня атрымалася стварыць базу даньняў. Абнаўленьне перарываецца.\n"
+
+#: cl/src/update.c:505
+#, c-format
+msgid "%s: %s: is not a directory\n"
+msgstr "%s: %s: ня зьяўляецца каталёгам\n"
+
+#: cl/src/update.c:530
+#, c-format
+msgid "Updating %s\n"
+msgstr "Ідзе абнаўленьне %s\n"
+
+#: cl/src/update.c:533
+#, c-format
+msgid "Unable to complete update.  Could not register %s\n"
+msgstr "Немагчыма цалкам выканаць абнаўленьне. ня атрымалася зарэгістраваць %s\n"
+
+#: cl/src/get-cl.c:55
+msgid "Cannot open temporary file.\n"
+msgstr "Немагчыма адчыніць часовы файл.\n"
+
+#: cl/src/get-cl.c:93
+#, c-format
+msgid "Usage: %s [-v] <LOCALE> <CATEGORY TREE FILE NAME>\n"
+msgstr "Выкарыстаньне: %s [-v] <ЛЯКАЛЬ> <ІМЯ ФАЙЛУ З ДРЭВАМ КАТЭГОРЫЯЎ>\n"
+
+#: cl/src/get-cl.c:133
+msgid "No Content List for this locale!!!\n"
+msgstr "Няма сьпісу зьместу для гэтае лякалі!!!\n"
+
+#: libs/error.c:114
+#, c-format
+msgid "%s: out of memory: %s\n"
+msgstr "%s: ня хапае памяці: %s\n"
+
+#: libs/error.c:262
+#, c-format
+msgid "OMF validation error: %s"
+msgstr "Памылка праверкі OMF на дапушчальнасьць: %s"
+
+#: libs/install.c:132
+#, c-format
+msgid "TOC file does not exist, is not readable, or is not well-formed XML: %s\n"
+msgstr "Файл TOC ня існуе, ня чытаецца ці ня зьяўляецца правільным дакумэнтам XML: %s\n"
+
+#: libs/install.c:173
+#, c-format
+msgid "OMF file does not exist, is not readable, or is not well-formed XML: %s\n"
+msgstr "Файл OMF ня існуе, ня чытаецца ці ня зьяўляецца правільным дакумэнтам XML: %s\n"
+
+#: libs/install.c:182
+#, c-format
+msgid "Could not parse ScrollKeeper-OMF DTD: %s\n"
+msgstr "Ня атрымалася разабраць ScrollKeeper-OMF DTD: %s\n"
+
+#: libs/install.c:190
+#, c-format
+msgid "OMF file [%s] does not validate against ScrollKeeper-OMF DTD: %s\n"
+msgstr "Файл OMF [%s] ня зьяўляецца дапушчальным з пункту погляду ScrollKeeper-OMF DTD: %s\n"
+
+#. This should not happen
+#: libs/install.c:207
+msgid "Failed to locate an <OMF> element.\n"
+msgstr "Збой падчас чытаньня перайсьці на элемэнт <OMF>.\n"
+
+#. This should not happen
+#: libs/install.c:212
+msgid "<OMF> node has no children.\n"
+msgstr "Вузел <OMF> ня мае нашчадкаў.\n"
+
+#: libs/install.c:236
+#, c-format
+msgid ""
+"Content list file does not exist, is not readable, or is not well-formed "
+"XML: %s\n"
+msgstr ""
+"Файл сьпісу зьместу ня існе, ня чытаецца ці ня зьяўляецца правільным "
+"дакумэнтам XML: %s\n"
+
+#: libs/install.c:243
+#, c-format
+msgid ""
+"Extended content list file does not exist, is not readable, or is not well-"
+"formed XML: %s\n"
+msgstr ""
+"Пашыраны файл сьпісу зьместу ня існуе, ня чытаецца ці ня зьяўляецца "
+"правільным дакумэнтам XML: %s\n"
+
+#: libs/uninstall.c:97
+#, c-format
+msgid "wrong content list file %s\n"
+msgstr "памылковы файлу сьпісу зьместу %s\n"
+
+#: libs/uninstall.c:104
+#, c-format
+msgid "wrong extended content list file %s\n"
+msgstr "памылковы файлу сьпісу зьместу %s\n"
+
+#: libs/uninstall.c:201
+#, c-format
+msgid "%s missing\n"
+msgstr "%s адсутнічае\n"
+
+#: libs/database.c:41
+#, c-format
+msgid "Could not create directory %s : %s\n"
+msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
+
+#: libs/update-url.c:40
+msgid "OMF file was not well-formed.\n"
+msgstr "Файл OMF ня зьяўляецца правільным.\n"
+
+#: libs/update-url.c:48
+msgid "Could not find root element of OMF file.\n"
+msgstr "Ня атрымалася адшукаць карэнны элемэнт у файле OMF.\n"
+
+#: libs/update-url.c:52
+msgid "Root element of OMF file is not <omf>.\n"
+msgstr "Карэнны элемэнт у файле OMF ня зьяўляецца <omf>.\n"
+
+#: libs/update-url.c:64
+msgid "OMF file does not have <resource> element.\n"
+msgstr "Файл OMF ня мае элемэнту <resource>.\n"
+
+#: extract/src/scrollkeeper-extract.c:30
+msgid ""
+"Usage: scrollkeeper-extract <xml file> <stylesheet 1> <output file 1> "
+"<stylesheet 2> <output file 2> ...\n"
+msgstr ""
+"Выкарыстаньне: scrollkeeper-extract <файл xml> <файл 1> <выхадны "
+"файл 1> <файл 2> <выхадны файл 2> ...\n"
+
+#: extract/src/scrollkeeper-extract.c:61
+#, c-format
+msgid "Unrecognized file type: %s\n"
+msgstr "Нявызначаны тып файлу: %s\n"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:1
+msgid "3D Modelling"
+msgstr "3D мадэляваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:2
+msgid "3D Rendering"
+msgstr "Трохмэрны рэндэрынг"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:3
+msgid "ADA"
+msgstr "ADA"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:4
+msgid "Accessibility"
+msgstr "Зручнасьці"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:5
+msgid "Accessories"
+msgstr "Акцэсуары"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:6
+msgid "Administration"
+msgstr "Адміністраваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:7
+msgid "Amusement"
+msgstr "Забавы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:8
+msgid "Analysis"
+msgstr "Аналіз"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:9
+msgid "AppleTalk"
+msgstr "AppleTalk"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:10
+msgid "Applets"
+msgstr "Аплеты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:11
+msgid "Applications"
+msgstr "Дастасаваньні"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:12
+msgid "Arcade"
+msgstr "Аркада"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:13
+msgid "Archiving"
+msgstr "Архіваваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:14
+msgid "Arts"
+msgstr "Мастацтва"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:15
+msgid "Astronomy"
+msgstr "Астрыномія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:16
+msgid "Astrophysics"
+msgstr "Астрафізыка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:17
+msgid "BIND"
+msgstr "BIND"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:18
+msgid "Backups"
+msgstr "Рэзэрвовае капіяваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:19
+msgid "Biology"
+msgstr "Біялёгія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:20
+msgid "Board"
+msgstr "Настольныя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:21
+msgid "Build Tools"
+msgstr "Срадкі распрацоўкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:22
+msgid "C"
+msgstr "C"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:23
+msgid "C++"
+msgstr "C++"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:24
+msgid "CAD"
+msgstr "CAD"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:25
+msgid "CD Mastering"
+msgstr "Стварэньне CD"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:26
+msgid "CDE"
+msgstr "CDE"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:27
+msgid "CLI"
+msgstr "CLI"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:28
+msgid "Calculating"
+msgstr "Вылічэньні"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:29
+msgid "Caldera"
+msgstr "Caldera"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:30
+msgid "Calendar"
+msgstr "Каляндар"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:31
+msgid "Capture"
+msgstr "Здымак"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:32
+msgid "Chat"
+msgstr "Чат"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:33
+msgid "Chemistry"
+msgstr "Хімія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:34
+msgid "Clock"
+msgstr "Гадзіньнік"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:35
+msgid "Clocks"
+msgstr "Гадзіньнікі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:36
+msgid "Code Generators"
+msgstr "Генератары коду"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:37
+msgid "Compression"
+msgstr "Сьцісканьне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:38
+msgid "Computer Science"
+msgstr "Кампутаровая навука"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:39
+msgid "Config Files"
+msgstr "Файлы канфігураваньня"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:40
+msgid "Configuration"
+msgstr "Канфігураваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:41
+msgid "Configuration Tools"
+msgstr "Сродкі канфігураваньня"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:42
+msgid "Conversion"
+msgstr "Пераўтварэньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:43
+msgid "Core Desktop"
+msgstr "Ядро стальца"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:44
+msgid "Cryptography"
+msgstr "Крыптаграфія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:45
+msgid "DNS"
+msgstr "DNS"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:46
+msgid "Data Processing"
+msgstr "Апрацоўка даньняў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:47
+msgid "Database"
+msgstr "База даньняў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:48
+msgid "Databases"
+msgstr "Базы даньняў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:49
+msgid "Debian"
+msgstr "Debian"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:50
+msgid "Debuggers"
+msgstr "Атладчыкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:51
+msgid "Desktop"
+msgstr "Сталец"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:52
+msgid "Desktop Preferences"
+msgstr "Уласьцівасьці стальца"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:53
+msgid "Development"
+msgstr "Распрацоўка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:54
+msgid "Development Tools"
+msgstr "Інструмэнты распрацоўкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:55
+msgid "Display"
+msgstr "Адлюстраваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:56
+msgid "Distributions"
+msgstr "Распаўсюд"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:57
+msgid "Drawing"
+msgstr "Рысаваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:58
+msgid "EDA"
+msgstr "EDA"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:59
+msgid "Editing"
+msgstr "Рэдагаваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:60
+msgid "Education"
+msgstr "Навучаньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:61
+msgid "Email"
+msgstr "Пошта"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:62
+msgid "English"
+msgstr "Ангельская"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:63
+msgid "Environments"
+msgstr "Асяродьдзі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:64
+msgid "FTP"
+msgstr "FTP"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:65
+msgid "Fax"
+msgstr "Факс"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:66
+msgid "Fighting"
+msgstr "Бойка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:67
+msgid "File Sharing"
+msgstr "Сумесны доступ да файлаў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:68
+msgid "File Utilities"
+msgstr "Файлавыя уціліты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:69
+msgid "Filesystems"
+msgstr "Файлавыя сыстэмы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:70
+msgid "Financial"
+msgstr "Фінансы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:71
+msgid "Firewall"
+msgstr "Брандмаўэр"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:72
+msgid "First Person Shooters"
+msgstr "Баевікі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:73
+msgid "Fonts"
+msgstr "Шрыфты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:74
+msgid "FreeBSD"
+msgstr "FreeBSD"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:75
+msgid "GNOME"
+msgstr "GNOME"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:76
+msgid "GTK+"
+msgstr "GTK+"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:77
+msgid "GUI"
+msgstr "GUI"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:78
+msgid "Games"
+msgstr "Гульні"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:79
+msgid "General"
+msgstr "Агульнае"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:80
+msgid "Genetics"
+msgstr "Генэтыка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:81
+msgid "Graphics"
+msgstr "Графіка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:82
+msgid "HTTP"
+msgstr "HTTP"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:83
+msgid "Hardware"
+msgstr "Абсталяваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:84
+msgid "IDEs"
+msgstr "Інтэграваныя асяродьдзі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:85
+msgid "Input Devices"
+msgstr "Прылады ўводу"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:86
+msgid "Internet"
+msgstr "Інтэрнэт"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:87
+msgid "Internet Phone"
+msgstr "Інтэрнэт-тэлефанія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:88
+msgid "Introductory"
+msgstr "Азнаямленьне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:89
+msgid "Intrusion Detection"
+msgstr "Вызначэньне пранікненьня"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:90
+msgid "Java"
+msgstr "Java"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:91
+msgid "KDE"
+msgstr "KDE"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:92
+msgid "Kernels"
+msgstr "Ядры"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:93
+msgid "Language"
+msgstr "Мова"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:94
+msgid "Libraries"
+msgstr "Бібліятэкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:95
+msgid "Licenses"
+msgstr "Ліцэнзыі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:96
+msgid "Linux"
+msgstr "Linux"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:97
+msgid "Local"
+msgstr "Лякальнае"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:98
+msgid "Login Managers"
+msgstr "Мэнаджары ўваходу"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:99
+msgid "MIDI"
+msgstr "MIDI"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:100
+msgid "Mandrake"
+msgstr "Mandrake"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:101
+msgid "Math"
+msgstr "Матэматыка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:102
+msgid "Maths"
+msgstr "Матэматычнае"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:103
+msgid "Messaging"
+msgstr "Паведамленьні"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:104
+msgid "Mixers"
+msgstr "Мікшары"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:105
+msgid "Monitors"
+msgstr "Маніторы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:106
+msgid "Multimedia"
+msgstr "Мульцімедыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:107
+msgid "Music"
+msgstr "Музыка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:108
+msgid "NetBSD"
+msgstr "NetBSD"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:109
+msgid "Network"
+msgstr "Сетка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:110
+msgid "Networking"
+msgstr "Прагляд сеткі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:111
+msgid "News"
+msgstr "Навіны"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:112
+msgid "Office"
+msgstr "Офіс"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:113
+msgid "Other"
+msgstr "Іншае"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:114
+msgid "PCI/ISA/PCMCIA"
+msgstr "PCI/ISA/PCMCIA"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:115
+msgid "PIM"
+msgstr "Пэрсанальны інфармацыйны мэнаджар"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:116
+msgid "PPP"
+msgstr "PPP"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:117
+msgid "Package Management"
+msgstr "Кіраваньне пакетамі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:118
+msgid "Packaging"
+msgstr "Сыстэмы пакетаў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:119
+msgid "Perl"
+msgstr "Perl"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:120
+msgid "Physics"
+msgstr "Фізыка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:121
+msgid "Players"
+msgstr "Прайгравальнікі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:122
+msgid "Plotting"
+msgstr "Рысаваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:123
+msgid "Preferences"
+msgstr "Уласьцівасьці"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:124
+msgid "Presentation"
+msgstr "Прэзэнтацыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:125
+msgid "Printing"
+msgstr "Друк"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:126
+msgid "Processor"
+msgstr "Працэсар"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:127
+msgid "Profiling"
+msgstr "Прафіляваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:128
+msgid "Programming"
+msgstr "Праграмаваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:129
+msgid "Programs"
+msgstr "Праграмы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:130
+msgid "Publishing"
+msgstr "Выдавецтва"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:131
+msgid "Puzzles"
+msgstr "Мазайкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:132
+msgid "Python"
+msgstr "Python"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:133
+msgid "Qt"
+msgstr "Qt"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:134
+msgid "RAD"
+msgstr "Хуткая распрацоўка дастасаваньняў (RAD)"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:135
+msgid "Recording"
+msgstr "Запіс"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:136
+msgid "Red Flag"
+msgstr "Red Flag"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:137
+msgid "Red Hat"
+msgstr "Red Hat"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:138
+msgid "Remote"
+msgstr "Аддаленыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:139
+msgid "Role-Playing"
+msgstr "Ролевыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:140
+msgid "SMB"
+msgstr "SMB"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:141
+msgid "SSH"
+msgstr "SSH"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:142
+msgid "Science"
+msgstr "Навука"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:143
+msgid "Scientific"
+msgstr "Навуковыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:144
+msgid "Screensavers"
+msgstr "Ахоўнікі экрану"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:145
+msgid "Security"
+msgstr "Бясьпека"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:146
+msgid "Services"
+msgstr "Паслугі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:147
+msgid "Settings"
+msgstr "Наладкі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:148
+msgid "Simulation"
+msgstr "Сымулятары"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:149
+msgid "Slackware"
+msgstr "Slackware"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:150
+msgid "Sound"
+msgstr "Гук"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:151
+msgid "Sound and Video"
+msgstr "Гук і відэа"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:152
+msgid "Speech"
+msgstr "Размова"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:153
+msgid "Storage"
+msgstr "Сховішча"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:154
+msgid "Strategy"
+msgstr "Стратэгія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:155
+msgid "SuSE"
+msgstr "SuSE"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:156
+msgid "Syslog"
+msgstr "Сыстэмны лог"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:157
+msgid "System"
+msgstr "Сыстэма"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:158
+msgid "System Administration"
+msgstr "Сыстэмнае адміністраваньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:159
+msgid "System Calls"
+msgstr "Сыстэмныя выклікі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:160
+msgid "System Tools"
+msgstr "Сыстэмныя інструмэнты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:161
+msgid "TCP/IP"
+msgstr "TCP/IP"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:162
+msgid "Tcl/Tk"
+msgstr "Tcl/Tk"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:163
+msgid "Technology"
+msgstr "Тэхналёгія"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:164
+msgid "Telnet"
+msgstr "Telnet"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:165
+msgid "Terminals"
+msgstr "Тэрміналы"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:166
+msgid "Testing"
+msgstr "Тэставаньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:167
+msgid "Text Editors"
+msgstr "Тэкставыя рэдактары"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:168
+msgid "Text Utilities"
+msgstr "Тэкставыя уціліты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:169
+msgid "Tutorials"
+msgstr "Навучаньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:170
+msgid "User Guides"
+msgstr "Кіраўніцтвы карыстальніка"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:171
+msgid "Users"
+msgstr "Карыстальнікі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:172
+msgid "Utilities"
+msgstr "Уціліты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:173
+msgid "Utility"
+msgstr "Уціліта"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:174
+msgid "Version Control"
+msgstr "Кантроль версыяў"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:175
+msgid "Video"
+msgstr "Відэа"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:176
+msgid "Video Conferencing"
+msgstr "Відэаканфэрэнцыі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:177
+msgid "Viewing"
+msgstr "Прагляд"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:178
+msgid "Virus"
+msgstr "Вірус"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:179
+msgid "Visualisation"
+msgstr "Візуялізацыя"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:180
+msgid "Web"
+msgstr "Павуціньне"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:181
+msgid "Web Publishing"
+msgstr "Web-публікацыі"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:182
+msgid "WebML"
+msgstr "WebML"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:183
+msgid "White Papers"
+msgstr "Стандарты"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:184
+msgid "Window Managers"
+msgstr "Ваконныя мэнаджары"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:185
+msgid "Word Processing"
+msgstr "Апрацоўка тэксту"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:186
+msgid "X"
+msgstr "X"
+
+#: cl/templates/scrollkeeper_cl.xml.in.h:187
+msgid "gtk++"
+msgstr "Пакет gtk++"
+
