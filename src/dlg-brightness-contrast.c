@@ -29,6 +29,8 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
+#include "async-pixbuf-ops.h"
+#include "gth-pixbuf-op.h"
 #include "gthumb-window.h"
 #include "pixbuf-utils.h"
 
@@ -69,26 +71,45 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
+static gboolean
+preview_done_cb (GthPixbufOp *pixop,
+		 gboolean     completed,
+		 DialogData  *data)
+{
+	gtk_widget_queue_draw (data->bc_preview_image);
+	g_object_unref (pixop);
+	return FALSE;
+}
+
+
 static void
 apply_changes (DialogData *data, 
 	       GdkPixbuf  *src, 
 	       GdkPixbuf  *dest, 
 	       gboolean    preview)
 {
-	double brightness;
-	double contrast;
+	double       brightness;
+	double       contrast;
+	GthPixbufOp *pixop;
 
 	brightness = gtk_range_get_value (GTK_RANGE (data->bc_brightness_hscale));
 	contrast   = gtk_range_get_value (GTK_RANGE (data->bc_contrast_hscale));
 
-	_gdk_pixbuf_brightness_contrast (src,
-					 dest,
-					 brightness / 127.0,
-					 contrast / 127.0);
+	pixop = _gdk_pixbuf_brightness_contrast (src,
+						 dest,
+						 brightness / 127.0,
+						 contrast / 127.0);
 
-	if (preview)
-		gtk_image_set_from_pixbuf (GTK_IMAGE (data->bc_preview_image),
-					   dest);
+	if (preview) {
+		g_signal_connect (G_OBJECT (pixop),
+				  "done",
+				  G_CALLBACK (preview_done_cb),
+				  data);
+		gth_pixbuf_op_start (pixop);
+	} else {
+		window_exec_pixbuf_op (data->window, pixop);
+		g_object_unref (pixop);
+	}		
 }
 
 
@@ -109,8 +130,10 @@ static void
 cancel_cb (GtkWidget  *widget, 
 	   DialogData *data)
 {
-	if (data->modified)
+	if (data->modified) {
 		image_viewer_set_pixbuf (data->viewer, data->image);
+		window_image_modified (data->window, FALSE);
+	}
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -124,7 +147,6 @@ preview_cb (GtkWidget  *widget,
 
 	preview = gdk_pixbuf_copy (data->image);
 	apply_changes (data, preview, preview, FALSE);
-	image_viewer_set_pixbuf (data->viewer, preview);
 	g_object_unref (preview);
 
 	data->modified = TRUE;

@@ -248,7 +248,6 @@ dialog_delete_event_cb (GtkWidget   *caller,
 {
 	data->closing = TRUE;
 	gtk_widget_destroy (data->dialog);
-	
 }
 
 
@@ -791,6 +790,5 @@ dlg_image_prop_close  (GtkWidget *image_prop_dlg)
 	g_return_if_fail (data != NULL);
 
 	data->closing = TRUE;
-
 	gtk_widget_destroy (image_prop_dlg);
 }

@@ -25,6 +25,7 @@
 #include <libgnome/libgnome.h>
 #include <libbonobo.h>
 
+#include "async-pixbuf-ops.h"
 #include "gthumb-init.h"
 #include "image-viewer.h"
 #include "viewer-control.h"

@@ -27,6 +27,7 @@ EOG_CURSORS =			\
 	cursors.h
 
 HEADER_FILES =			\
+	async-pixbuf-ops.h	\
 	bookmarks.h		\
 	catalog.h		\
 	catalog-png-exporter.h	\
@@ -36,8 +37,9 @@ HEADER_FILES =			\
 	file-utils.h		\
 	gconf-utils.h		\
 	glib-utils.h		\
-	gthumb-canvas-text.h	\
 	gnome-canvas-thumb.h	\
+	gth-pixbuf-op.h		\
+	gthumb-canvas-text.h	\
 	gthumb-error.h		\
 	gthumb-histogram.h	\
 	gthumb-init.h		\
@@ -75,6 +77,7 @@ libgthumb_a_SOURCES =		\
 	$(HEADER_FILES)		\
 	$(MARSHALLERS)		\
 	$(MD5)			\
+	async-pixbuf-ops.c	\
 	bookmarks.c		\
 	catalog.c		\
 	catalog-png-exporter.c	\
@@ -84,8 +87,9 @@ libgthumb_a_SOURCES =		\
 	file-utils.c		\
 	gconf-utils.c		\
 	glib-utils.c		\
-	gthumb-canvas-text.c	\
 	gnome-canvas-thumb.c	\
+	gthumb-canvas-text.c	\
+	gth-pixbuf-op.c		\
 	gthumb-error.c		\
 	gthumb-histogram.c	\
 	gthumb-init.c		\

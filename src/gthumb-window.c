@@ -62,18 +62,20 @@
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
 
-#define ACTIVITY_DELAY        200
-#define LOAD_DIR_DELAY        25
-#define VIEW_IMAGE_DELAY      25
-#define UPDATE_DIR_DELAY      250
-#define SEL_CHANGED_DELAY     150
-#define HIDE_SIDEBAR_DELAY    150
-#define BUSY_CURSOR_DELAY     200
-#define PROGRESS_BAR_WIDTH    60
-#define PANE_MIN_SIZE         60
+#define ACTIVITY_DELAY         200
+#define BUSY_CURSOR_DELAY      200
+#define DISPLAY_PROGRESS_DELAY 1000
+#define HIDE_SIDEBAR_DELAY     150
+#define LOAD_DIR_DELAY         25
+#define PANE_MIN_SIZE          60
+#define PROGRESS_BAR_WIDTH     60
+#define SEL_CHANGED_DELAY      150
+#define UPDATE_DIR_DELAY       250
+#define VIEW_IMAGE_DELAY       25
 
-#define HISTORY_LIST_MENU  "/menu/Go/HistoryList/"
-#define HISTORY_LIST_POPUP "/popups/HistoryListPopup/"
+#define GLADE_EXPORTER_FILE   "gthumb_png_exporter.glade"
+#define HISTORY_LIST_MENU     "/menu/Go/HistoryList/"
+#define HISTORY_LIST_POPUP    "/popups/HistoryListPopup/"
 
 enum {
 	TARGET_PLAIN,
@@ -821,9 +823,9 @@ window_start_activity_mode (GThumbWindow *window)
 	if (window->activity_ref++ > 0)
 		return;
 
-	window->dir_load_timeout_handle = g_timeout_add (ACTIVITY_DELAY, 
-							 load_progress, 
-							 window);
+	window->activity_timeout = g_timeout_add (ACTIVITY_DELAY, 
+						  load_progress, 
+						  window);
 }
 
 
@@ -835,11 +837,11 @@ window_stop_activity_mode (GThumbWindow *window)
 	if (--window->activity_ref > 0)
 		return;
 
-	if (window->dir_load_timeout_handle == 0)
+	if (window->activity_timeout == 0)
 		return;
 
-	g_source_remove (window->dir_load_timeout_handle);
-	window->dir_load_timeout_handle = 0;
+	g_source_remove (window->activity_timeout);
+	window->activity_timeout = 0;
 	window_progress (0.0, window);
 }
 
@@ -1501,8 +1503,8 @@ sel_change_update_cb (gpointer data)
 {
 	GThumbWindow *window = data;
 
-	g_source_remove (window->sel_change_timer);
-	window->sel_change_timer = 0;
+	g_source_remove (window->sel_change_timeout);
+	window->sel_change_timeout = 0;
 
 	window_update_sensitivity (window);
 	window_update_statusbar_list_info (window);
@@ -1519,12 +1521,12 @@ file_selection_changed_cb (GtkWidget *widget,
 {
 	GThumbWindow *window = data;
 
-	if (window->sel_change_timer != 0)
-		g_source_remove (window->sel_change_timer);
+	if (window->sel_change_timeout != 0)
+		g_source_remove (window->sel_change_timeout);
 
-	window->sel_change_timer = g_timeout_add (SEL_CHANGED_DELAY,
-						  sel_change_update_cb,
-						  window);
+	window->sel_change_timeout = g_timeout_add (SEL_CHANGED_DELAY,
+						    sel_change_update_cb,
+						    window);
 
 	return TRUE;
 }
@@ -2336,11 +2338,11 @@ size_changed_cb (GtkWidget    *widget,
 	if (hide_vscr && hide_hscr) {
 		gtk_widget_hide (window->viewer_vscr); 
 		gtk_widget_hide (window->viewer_hscr); 
-		gtk_widget_hide (window->viewer_nav_btn);
+		gtk_widget_hide (window->viewer_event_box);
 	} else {
 		gtk_widget_show (window->viewer_vscr); 
 		gtk_widget_show (window->viewer_hscr); 
-		gtk_widget_show (window->viewer_nav_btn);
+		gtk_widget_show (window->viewer_event_box);
 	}
 
 	return TRUE;	
@@ -3458,6 +3460,27 @@ file_list_idle_cb (GthFileList  *file_list,
 }
 
 
+static gboolean
+progress_cancel_cb (GtkButton    *button,
+		    GThumbWindow *window)
+{
+	if (window->pixop != NULL)
+		gth_pixbuf_op_stop (window->pixop);
+	return TRUE;
+}
+
+
+static gboolean
+progress_delete_cb (GtkWidget    *caller, 
+		    GdkEvent     *event,
+		    GThumbWindow *window)
+{
+	if (window->pixop != NULL)
+		gth_pixbuf_op_stop (window->pixop);
+	return TRUE;
+}
+
+
 /* -- */
 
 
@@ -3957,10 +3980,6 @@ window_new (void)
 	GtkWidget         *paned1;      /* Main paned widget. */
 	GtkWidget         *paned2;      /* Secondary paned widget. */
 	GtkWidget         *table;
-	GtkWidget         *vscrollbar;
-	GtkWidget         *hscrollbar;
-	GtkWidget         *event_box;
-	GtkWidget         *pixmap;
 	GtkWidget         *frame;
 	GtkWidget         *image_vbox;
 	GtkWidget         *dir_list_vbox;
@@ -3997,33 +4016,19 @@ window_new (void)
 	add_listener_for_toggle_items (window);
 
 	gnome_window_icon_set_from_default (GTK_WINDOW (window->app));
+	gtk_window_set_default_size (GTK_WINDOW (window->app), 
+				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH),
+				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT));
 	g_signal_connect (G_OBJECT (window->app), 
 			  "delete_event",
 			  G_CALLBACK (close_window_cb),
 			  window);
-	gtk_window_set_default_size (GTK_WINDOW (window->app), 
-				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH),
-				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT));
+	g_signal_connect (G_OBJECT (window->app), 
+			  "key_press_event",
+			  G_CALLBACK (key_press_cb), 
+			  window);
 
 	/* Create the widgets. */
-
-	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT);
-
-	if (window->layout_type == 1) {
-		window->main_pane = paned1 = gtk_vpaned_new (); 
-		window->content_pane = paned2 = gtk_hpaned_new ();
-	} else {
-		window->main_pane = paned1 = gtk_hpaned_new (); 
-		window->content_pane = paned2 = gtk_vpaned_new (); 
-	}
-
-	bonobo_window_set_contents (BONOBO_WINDOW (window->app), 
-				    window->main_pane);
-
-	if (window->layout_type == 3)
-		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
-	else
-		gtk_paned_pack1 (GTK_PANED (paned1), paned2, TRUE, FALSE);
 
 	/* File list. */
 
@@ -4042,109 +4047,6 @@ window_new (void)
 			  "drag_data_received",
 			  G_CALLBACK (image_list_drag_data_received), 
 			  window);
-
-	g_signal_connect (G_OBJECT (window->file_list),
-			  "busy",
-			  G_CALLBACK (file_list_busy_cb),
-			  window);
-	g_signal_connect (G_OBJECT (window->file_list),
-			  "idle",
-			  G_CALLBACK (file_list_idle_cb),
-			  window);
-
-	/* catalog/Folder list. */
-
-	window->dir_list = dir_list_new ();
-	gtk_drag_dest_set (window->dir_list->root_widget,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
-			   GDK_ACTION_MOVE);
-	g_signal_connect (G_OBJECT (window->dir_list->root_widget),
-			  "drag_data_received",
-			  G_CALLBACK (dir_list_drag_data_received), 
-			  window);
-	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
-			  "drag_begin",
-			  G_CALLBACK (dir_list_drag_begin), 
-			  window);
-	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
-			  "drag_motion",
-			  G_CALLBACK (dir_list_drag_motion), 
-			  window);
-	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
-			  "drag_leave",
-			  G_CALLBACK (dir_list_drag_leave), 
-			  window);
-	gtk_drag_source_set (window->dir_list->list_view,
-			     GDK_BUTTON1_MASK,
-			     target_table, n_targets, 
-			     GDK_ACTION_MOVE);
-	g_signal_connect (G_OBJECT (window->dir_list->list_view),
-			  "drag_data_get",
-			  G_CALLBACK (dir_list_drag_data_get), 
-			  window);
-
-	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == CLICK_POLICY_SINGLE);
-	gtk_drag_dest_set (window->catalog_list->root_widget,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
-			   GDK_ACTION_MOVE);
-	g_signal_connect (G_OBJECT (window->catalog_list->root_widget),
-			  "drag_data_received",
-			  G_CALLBACK (catalog_list_drag_data_received), 
-			  window);
-	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
-			  "drag_begin",
-			  G_CALLBACK (catalog_list_drag_begin), 
-			  window);
-	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
-			  "drag_motion",
-			  G_CALLBACK (catalog_list_drag_motion), 
-			  window);
-	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
-			  "drag_leave",
-			  G_CALLBACK (catalog_list_drag_leave), 
-			  window);
-
-	window->notebook = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (window->notebook), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (window->notebook), FALSE);
-	gtk_notebook_append_page (GTK_NOTEBOOK (window->notebook), 
-				  window->dir_list->root_widget,
-				  NULL);
-	gtk_notebook_append_page (GTK_NOTEBOOK (window->notebook), 
-				  window->catalog_list->root_widget,
-				  NULL);
-
-	/* Location entry. */
-
-	window->location_entry = gtk_entry_new ();
-
-	g_signal_connect (G_OBJECT (window->location_entry),
-			  "key_press_event",
-			  G_CALLBACK (location_entry_key_press_cb),
-			  window);
-
-	window->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
-
-	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
-			    FALSE, FALSE, 0);
-
-	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->notebook, 
-			    TRUE, TRUE, 0);
-
-	if (window->layout_type == 3) 
-		gtk_paned_pack1 (GTK_PANED (paned1), dir_list_vbox, TRUE, FALSE);
-	else 
-		gtk_paned_pack1 (GTK_PANED (paned2), dir_list_vbox, TRUE, FALSE);
-
-	if (window->layout_type <= 1) 
-		gtk_paned_pack2 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
-	else if (window->layout_type == 2)
-		gtk_paned_pack2 (GTK_PANED (paned1), window->file_list->root_widget, TRUE, FALSE);
-	else if (window->layout_type == 3)
-		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
-
 	g_signal_connect (G_OBJECT (window->file_list->ilist), 
 			  "select_image",
 			  G_CALLBACK (file_selection_changed_cb), 
@@ -4169,7 +4071,46 @@ window_new (void)
 			  "drag_data_get",
 			  G_CALLBACK (gth_file_list_drag_data_get), 
 			  window);
+	g_signal_connect (G_OBJECT (window->file_list),
+			  "busy",
+			  G_CALLBACK (file_list_busy_cb),
+			  window);
+	g_signal_connect (G_OBJECT (window->file_list),
+			  "idle",
+			  G_CALLBACK (file_list_idle_cb),
+			  window);
 
+	/* Dir list. */
+
+	window->dir_list = dir_list_new ();
+	gtk_drag_dest_set (window->dir_list->root_widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
+	gtk_drag_source_set (window->dir_list->list_view,
+			     GDK_BUTTON1_MASK,
+			     target_table, n_targets, 
+			     GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (window->dir_list->root_widget),
+			  "drag_data_received",
+			  G_CALLBACK (dir_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
+			  "drag_begin",
+			  G_CALLBACK (dir_list_drag_begin), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
+			  "drag_motion",
+			  G_CALLBACK (dir_list_drag_motion), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
+			  "drag_leave",
+			  G_CALLBACK (dir_list_drag_leave), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view),
+			  "drag_data_get",
+			  G_CALLBACK (dir_list_drag_data_get), 
+			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
 			  "button_press_event",
 			  G_CALLBACK (dir_list_button_press_cb), 
@@ -4189,6 +4130,29 @@ window_new (void)
                           G_CALLBACK (dir_or_catalog_sel_changed_cb),
                           window);
 
+	/* Catalog list. */
+
+	window->catalog_list = catalog_list_new (pref_get_real_click_policy () == CLICK_POLICY_SINGLE);
+	gtk_drag_dest_set (window->catalog_list->root_widget,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget),
+			  "drag_data_received",
+			  G_CALLBACK (catalog_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
+			  "drag_begin",
+			  G_CALLBACK (catalog_list_drag_begin), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
+			  "drag_motion",
+			  G_CALLBACK (catalog_list_drag_motion), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
+			  "drag_leave",
+			  G_CALLBACK (catalog_list_drag_leave), 
+			  window);
 	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
 			  "button_press_event",
 			  G_CALLBACK (catalog_list_button_press_cb), 
@@ -4208,25 +4172,19 @@ window_new (void)
                           G_CALLBACK (dir_or_catalog_sel_changed_cb),
                           window);
 
-	/**/
+	/* Location entry. */
 
-	image_vbox = window->image_pane = gtk_vbox_new (FALSE, 0);
-	if (window->layout_type <= 1)
-		gtk_paned_pack2 (GTK_PANED (paned1), image_vbox, TRUE, FALSE);
-	else
-		gtk_paned_pack2 (GTK_PANED (paned2), image_vbox, TRUE, FALSE);
+	window->location_entry = gtk_entry_new ();
+
+	g_signal_connect (G_OBJECT (window->location_entry),
+			  "key_press_event",
+			  G_CALLBACK (location_entry_key_press_cb),
+			  window);
 
 	/* Info bar. */
 
 	window->info_bar = gthumb_info_bar_new ();
 	gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar), FALSE);
-
-	info_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
-	gtk_container_add (GTK_CONTAINER (info_frame), window->info_bar);
-
-	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
-
 	g_signal_connect (G_OBJECT (window->info_bar), 
 			  "button_press_event",
 			  G_CALLBACK (info_bar_clicked_cb), 
@@ -4245,31 +4203,10 @@ window_new (void)
 			     target_table, n_targets, 
 			     GDK_ACTION_MOVE);
 	*/
-
-	window->viewer_container = frame = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (frame), window->viewer);
-
-	table = gtk_table_new (2, 2, FALSE);
-	window->viewer_vscr = vscrollbar = gtk_vscrollbar_new (IMAGE_VIEWER (window->viewer)->vadj);
-	window->viewer_hscr = hscrollbar = gtk_hscrollbar_new (IMAGE_VIEWER (window->viewer)->hadj);
-	window->viewer_nav_btn = event_box = gtk_event_box_new ();
-	pixmap = _gtk_image_new_from_xpm_data (nav_button_xpm);
-	gtk_container_add (GTK_CONTAINER (event_box), pixmap);
-
-	gtk_table_attach (GTK_TABLE (table), frame, 0, 1, 0, 1,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), vscrollbar, 1, 2, 0, 1,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), hscrollbar, 0, 1, 1, 2,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), event_box, 1, 2, 1, 2,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-
-	gtk_box_pack_start (GTK_BOX (image_vbox), table, TRUE, TRUE, 0);
+	gtk_drag_dest_set (window->viewer,
+			   GTK_DEST_DEFAULT_ALL,
+			   target_table, n_targets,
+			   GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (window->viewer), 
 			  "image_loaded",
@@ -4309,10 +4246,6 @@ window_new (void)
 			  G_CALLBACK (viewer_drag_data_get), 
 			  window);
 
-	gtk_drag_dest_set (window->viewer,
-			   GTK_DEST_DEFAULT_ALL,
-			   target_table, n_targets,
-			   GDK_ACTION_MOVE);
 	g_signal_connect (G_OBJECT (window->viewer), 
 			  "drag_data_received",
 			  G_CALLBACK (viewer_drag_data_received), 
@@ -4336,15 +4269,103 @@ window_new (void)
 			  G_CALLBACK (image_loader_done_cb), 
 			  window);
 
-	g_signal_connect (G_OBJECT (window->app), 
-			  "key_press_event",
-			  G_CALLBACK (key_press_cb), 
-			  window);
+	window->viewer_vscr = gtk_vscrollbar_new (IMAGE_VIEWER (window->viewer)->vadj);
+	window->viewer_hscr = gtk_hscrollbar_new (IMAGE_VIEWER (window->viewer)->hadj);
+	window->viewer_event_box = gtk_event_box_new ();
+	gtk_container_add (GTK_CONTAINER (window->viewer_event_box), _gtk_image_new_from_xpm_data (nav_button_xpm));
 
-	g_signal_connect (G_OBJECT (event_box), 
+	g_signal_connect (G_OBJECT (window->viewer_event_box), 
 			  "button_press_event",
 			  G_CALLBACK (nav_button_clicked_cb), 
 			  window->viewer);
+
+	/* Pack the widgets */
+
+	window->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT);
+
+	if (window->layout_type == 1) {
+		window->main_pane = paned1 = gtk_vpaned_new (); 
+		window->content_pane = paned2 = gtk_hpaned_new ();
+	} else {
+		window->main_pane = paned1 = gtk_hpaned_new (); 
+		window->content_pane = paned2 = gtk_vpaned_new (); 
+	}
+
+	bonobo_window_set_contents (BONOBO_WINDOW (window->app), 
+				    window->main_pane);
+
+	if (window->layout_type == 3)
+		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+	else
+		gtk_paned_pack1 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+
+	window->notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (window->notebook), FALSE);
+	gtk_notebook_set_show_border (GTK_NOTEBOOK (window->notebook), FALSE);
+	gtk_notebook_append_page (GTK_NOTEBOOK (window->notebook), 
+				  window->dir_list->root_widget,
+				  NULL);
+	gtk_notebook_append_page (GTK_NOTEBOOK (window->notebook), 
+				  window->catalog_list->root_widget,
+				  NULL);
+
+	window->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
+
+	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->location_entry, 
+			    FALSE, FALSE, 0);
+
+	gtk_box_pack_start (GTK_BOX (dir_list_vbox), window->notebook, 
+			    TRUE, TRUE, 0);
+
+	if (window->layout_type == 3) 
+		gtk_paned_pack1 (GTK_PANED (paned1), dir_list_vbox, TRUE, FALSE);
+	else 
+		gtk_paned_pack1 (GTK_PANED (paned2), dir_list_vbox, TRUE, FALSE);
+
+	if (window->layout_type <= 1) 
+		gtk_paned_pack2 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
+	else if (window->layout_type == 2)
+		gtk_paned_pack2 (GTK_PANED (paned1), window->file_list->root_widget, TRUE, FALSE);
+	else if (window->layout_type == 3)
+		gtk_paned_pack1 (GTK_PANED (paned2), window->file_list->root_widget, TRUE, FALSE);
+
+	/**/
+
+	image_vbox = window->image_pane = gtk_vbox_new (FALSE, 0);
+	if (window->layout_type <= 1)
+		gtk_paned_pack2 (GTK_PANED (paned1), image_vbox, TRUE, FALSE);
+	else
+		gtk_paned_pack2 (GTK_PANED (paned2), image_vbox, TRUE, FALSE);
+
+	/**/
+
+	info_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_NONE);
+	gtk_container_add (GTK_CONTAINER (info_frame), window->info_bar);
+
+	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
+
+	/**/
+
+	window->viewer_container = frame = gtk_hbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (frame), window->viewer);
+
+	table = gtk_table_new (2, 2, FALSE);
+
+	gtk_table_attach (GTK_TABLE (table), frame, 0, 1, 0, 1,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), window->viewer_vscr, 1, 2, 0, 1,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), window->viewer_hscr, 0, 1, 1, 2,
+			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	gtk_table_attach (GTK_TABLE (table), window->viewer_event_box, 1, 2, 1, 2,
+			  (GtkAttachOptions) (GTK_FILL),
+			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+
+	gtk_box_pack_start (GTK_BOX (image_vbox), table, TRUE, TRUE, 0);
 
 	/* Progress bar. */
 
@@ -4372,10 +4393,35 @@ window_new (void)
                                         NULL);
         bonobo_object_unref (BONOBO_OBJECT (control));
 
-	/* Update data. */
+	/* Progress dialog */
 
-	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		window->cnxn_id[i] = -1;
+	window->progress_gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
+	if (! window->progress_gui) {
+		window->progress_dialog = NULL;
+		window->progress_progressbar = NULL;
+		window->progress_info = NULL;
+	} else {
+		GtkWidget *cancel_button;
+
+		window->progress_dialog = glade_xml_get_widget (window->progress_gui, "progress_dialog");
+		window->progress_progressbar = glade_xml_get_widget (window->progress_gui, "progress_progressbar");
+		window->progress_info = glade_xml_get_widget (window->progress_gui, "progress_info");
+		cancel_button = glade_xml_get_widget (window->progress_gui, "progress_cancel");
+
+		gtk_window_set_transient_for (GTK_WINDOW (window->progress_dialog), GTK_WINDOW (window->app));
+		gtk_window_set_modal (GTK_WINDOW (window->progress_dialog), FALSE);
+
+		g_signal_connect (G_OBJECT (cancel_button), 
+				  "clicked",
+				  G_CALLBACK (progress_cancel_cb), 
+				  window);
+		g_signal_connect (G_OBJECT (window->progress_dialog), 
+				  "delete_event",
+				  G_CALLBACK (progress_delete_cb),
+				  window);
+	}
+
+	/* Update data. */
 
 	window->sidebar_content = NO_LIST;
 	window->catalog_path = NULL;
@@ -4386,7 +4432,7 @@ window_new (void)
 
 	window->fullscreen = FALSE;
 	window->slideshow = FALSE;
-	window->timer = 0;
+	window->slideshow_timeout = 0;
 
 	window->bookmarks_length = 0;
 	window_update_bookmark_list (window);
@@ -4397,20 +4443,27 @@ window_new (void)
 	window->go_op = WINDOW_GO_TO;
 	window_update_history_list (window);
 
-	window->dir_load_timeout_handle = 0;
+	window->activity_timeout = 0;
 	window->activity_ref = 0;
 	window->setting_file_list = FALSE;
 	window->changing_directory = FALSE;
 
 	window->monitor_handle = NULL;
 	window->monitor_enabled = FALSE;
-	window->update_changes_timer = 0;
+	window->update_changes_timeout = 0;
 	for (i = 0; i < MONITOR_EVENT_NUM; i++)
 		window->monitor_events[i] = NULL;
 
 	window->image_prop_dlg = NULL;
 
 	window->busy_cursor_timeout = 0;
+
+	window->view_image_timeout = 0;
+	window->load_dir_timeout = 0;
+
+	window->freeze_toggle_handler = 0;
+
+	window->sel_change_timeout = 0;
 
 	/* preloader */
 
@@ -4444,14 +4497,10 @@ window_new (void)
 	}
 	*/
 
-	/**/
+	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
+		window->cnxn_id[i] = -1;
 
-	window->view_image_timer = 0;
-	window->load_dir_timer = 0;
-
-	window->freeze_toggle_handler = 0;
-
-	window->sel_change_timer = 0;
+	window->pixop = NULL;
 
 	/* Sync widgets and visualization options. */
 
@@ -4474,10 +4523,6 @@ window_new (void)
 	window_notify_update_toolbar_style (window);
 	window_update_statusbar_image_info (window);
 
-	/* Add the window to the window's list */
-
-	window_list = g_list_prepend (window_list, window);
-
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (window->viewer),
 				       pref_get_zoom_quality ());
 	image_viewer_set_zoom_change  (IMAGE_VIEWER (window->viewer),
@@ -4489,6 +4534,9 @@ window_new (void)
 	image_viewer_set_transp_type  (IMAGE_VIEWER (window->viewer),
 				       pref_get_transp_type ());
 
+	/* Add the window to the window's list */
+
+	window_list = g_list_prepend (window_list, window);
 
 	/* Add notification callbacks. */
 
@@ -4707,8 +4755,17 @@ close__step5 (GThumbWindow *window)
 
 	/* Destroy the main window. */
 
+	if (window->progress_timeout != 0) 
+		g_source_remove (window->progress_timeout);
+
 	if (window->image_prop_dlg != NULL) 
 		dlg_image_prop_close (window->image_prop_dlg);
+
+	if (window->pixop != NULL) 
+		g_object_unref (window->pixop);
+
+	if (window->progress_gui != NULL)
+		g_object_unref (window->progress_gui);
 
 	if (window->popup_menu != NULL) {
 		gtk_widget_destroy (window->popup_menu);
@@ -5092,9 +5149,9 @@ _proc_monitor_events (gpointer data)
 	GThumbWindow       *window = data;
 	GList              *scan;
 		
-	if (window->update_changes_timer != 0) {
-		g_source_remove (window->update_changes_timer);
-		window->update_changes_timer = 0;
+	if (window->update_changes_timeout != 0) {
+		g_source_remove (window->update_changes_timeout);
+		window->update_changes_timeout = 0;
 	}
 
 	/**/
@@ -5222,12 +5279,12 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	_window_add_monitor_event (window, event_type, path);
 	g_free (path);
 
-	if (window->update_changes_timer != 0) 
-		g_source_remove (window->update_changes_timer);
+	if (window->update_changes_timeout != 0) 
+		g_source_remove (window->update_changes_timeout);
 	
-	window->update_changes_timer = g_timeout_add (UPDATE_DIR_DELAY,
-						      _proc_monitor_events,
-						      window);
+	window->update_changes_timeout = g_timeout_add (UPDATE_DIR_DELAY,
+							_proc_monitor_events,
+							window);
 }
 
 
@@ -5417,8 +5474,8 @@ go_to_directory_cb (gpointer data)
 	GoToData     *gt_data = data;
 	GThumbWindow *window = gt_data->window;
 
-	g_source_remove (window->load_dir_timer);
-	window->load_dir_timer = 0;
+	g_source_remove (window->load_dir_timeout);
+	window->load_dir_timeout = 0;
 
 	if (window->changing_directory) {
 		window_stop_activity_mode (window);
@@ -5443,14 +5500,14 @@ real_go_to_directory (GThumbWindow *window,
 	gt_data->window = window;
 	gt_data->path = g_strdup (dir_path);
 
-	if (window->load_dir_timer != 0) {
-		g_source_remove (window->load_dir_timer);
-		window->load_dir_timer = 0;
+	if (window->load_dir_timeout != 0) {
+		g_source_remove (window->load_dir_timeout);
+		window->load_dir_timeout = 0;
 	}
 
-	window->load_dir_timer = g_timeout_add (LOAD_DIR_DELAY,
-						go_to_directory_cb, 
-						gt_data);
+	window->load_dir_timeout = g_timeout_add (LOAD_DIR_DELAY,
+						  go_to_directory_cb, 
+						  gt_data);
 
 	/**/
 
@@ -5881,9 +5938,9 @@ slideshow_timeout_cb (gpointer data)
 	GThumbWindow *window = data;
 	gboolean      go_on;
 
-	if (window->timer != 0) {
-		g_source_remove (window->timer);
-		window->timer = 0;
+	if (window->slideshow_timeout != 0) {
+		g_source_remove (window->slideshow_timeout);
+		window->slideshow_timeout = 0;
 	}
 
 	if (pref_get_slideshow_direction () == DIRECTION_FORWARD)
@@ -5907,7 +5964,7 @@ slideshow_timeout_cb (gpointer data)
 	}
 
 	if (go_on)
-		window->timer = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 
 	return FALSE;
 }
@@ -5945,7 +6002,7 @@ window_start_slideshow (GThumbWindow *window)
 		return;
 	}
 
-	window->timer = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+	window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 }
 
 
@@ -5956,9 +6013,9 @@ window_stop_slideshow (GThumbWindow *window)
 		return;
 
 	window->slideshow = FALSE;
-	if (window->timer != 0) {
-		g_source_remove (window->timer);
-		window->timer = 0;
+	if (window->slideshow_timeout != 0) {
+		g_source_remove (window->slideshow_timeout);
+		window->slideshow_timeout = 0;
 	}
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN) && window->fullscreen)
@@ -6004,9 +6061,9 @@ view_timeout_cb (gpointer data)
 	char         *next2;
 	int           pos;
 
-	if (window->view_image_timer != 0) {
-		g_source_remove (window->view_image_timer);
-		window->view_image_timer = 0;
+	if (window->view_image_timeout != 0) {
+		g_source_remove (window->view_image_timeout);
+		window->view_image_timeout = 0;
 	}
 
 	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
@@ -6057,9 +6114,9 @@ window_load_image (GThumbWindow *window,
 	    && (window->image_mtime == get_file_mtime (window->image_path))) 
 		return;
 
-	if (window->view_image_timer != 0) {
-		g_source_remove (window->view_image_timer);
-		window->view_image_timer = 0;
+	if (window->view_image_timeout != 0) {
+		g_source_remove (window->view_image_timeout);
+		window->view_image_timeout = 0;
 	}
 	
 	/* If the image is from a catalog remember the catalog name. */
@@ -6088,9 +6145,9 @@ window_load_image (GThumbWindow *window,
 		
 	window->image_path = g_strdup (filename);
 
-	window->view_image_timer = g_timeout_add (VIEW_IMAGE_DELAY,
-						  view_timeout_cb, 
-						  window);
+	window->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
+						    view_timeout_cb, 
+						    window);
 }
 
 
@@ -6772,4 +6829,80 @@ window_notify_update_toolbar_style (GThumbWindow *window)
 	bonobo_ui_component_set_prop (window->ui_component, "/Toolbar", "look", prop, NULL);
 	bonobo_ui_component_set_prop (window->ui_component, "/ImageToolbar", "look", prop, NULL);
 	e_combo_button_set_style (E_COMBO_BUTTON (window->go_back_combo_button), toolbar_style); 
+}
+
+
+/**/
+
+
+static void
+pixbuf_op_done_cb (GthPixbufOp   *pixop,
+		   gboolean       completed,
+		   GThumbWindow  *window)
+{
+	ImageViewer *viewer = IMAGE_VIEWER (window->viewer);
+
+	if (completed) {
+		image_viewer_set_pixbuf (viewer, window->pixop->dest);
+		window_image_modified (window, TRUE);
+	}
+
+	g_object_unref (window->pixop);
+	window->pixop = NULL;
+
+	if (window->progress_dialog != NULL) 
+		gtk_widget_hide (window->progress_dialog);
+}
+
+
+static void
+pixbuf_op_progress_cb (GthPixbufOp  *pixop,
+		       float         p, 
+		       GThumbWindow *window)
+{
+	if (window->progress_dialog != NULL) 
+		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (window->progress_progressbar), p);
+}
+
+
+static int
+window__display_progress_dialog (gpointer data)
+{
+	GThumbWindow *window = data;
+
+	if (window->progress_timeout != 0) {
+		g_source_remove (window->progress_timeout);
+		window->progress_timeout = 0;
+	}
+
+	if (window->pixop != NULL)
+		gtk_widget_show (window->progress_dialog);
+
+	return FALSE;
+}
+
+
+void
+window_exec_pixbuf_op (GThumbWindow *window,
+		       GthPixbufOp  *pixop)
+{
+	window->pixop = pixop;
+	g_object_ref (window->pixop);
+
+	gtk_label_set_text (GTK_LABEL (window->progress_info),
+			    _("Wait please..."));
+
+	g_signal_connect (G_OBJECT (pixop),
+			  "done",
+			  G_CALLBACK (pixbuf_op_done_cb),
+			  window);
+	g_signal_connect (G_OBJECT (pixop),
+			  "progress",
+			  G_CALLBACK (pixbuf_op_progress_cb),
+			  window);
+
+	if (window->progress_dialog != NULL)
+		window->progress_timeout = g_timeout_add (DISPLAY_PROGRESS_DELAY, window__display_progress_dialog, window);
+
+	gth_pixbuf_op_start (window->pixop);
 }

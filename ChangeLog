@@ -1,4 +1,22 @@
+2002-12-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c: 
+	* src/gthumb-window.h: 
+	* src/commands-impl.c: 
+	* src/dlg-posterize.c: 
+	* src/dlg-brightness-contrast.c: 
+	* src/dlg-color-balance.c: 
+	* src/dlg-hue-saturation.c: 
+	* libgthumb/async-pixbuf-ops.c: 
+	* libgthumb/async-pixbuf-ops.h: 
+	* libgthumb/gth-pixbuf-op.h: 
+	* libgthumb/gth-pixbuf-op.c: make image operations asynchronous
+	and cancellable (bug #99543).
+
 2002-12-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c (all_windows_update_browser_options): check
+	PREF_SHOW_COMMENTS not PREF_SHOW_THUMBNAILS.
 
 	* src/commands-impl.c (help_about_command_impl): make copyright 
 	translatable.

@@ -25,12 +25,14 @@
 
 #include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-monitor.h>
+#include <glade/glade.h>
 
 #include "image-viewer.h"
 #include "file-list.h"
 #include "dir-list.h"
 #include "catalog-list.h"
 #include "bookmarks.h"
+#include "gth-pixbuf-op.h"
 #include "gthumb-preloader.h"
 
 #define GCONF_NOTIFICATIONS 14
@@ -54,8 +56,55 @@ typedef enum {
 
 
 typedef struct {
+	/* layout */
+
 	GtkWidget          *app;                /* The main window. */
 	BonoboUIComponent  *ui_component;
+
+	GtkWidget          *viewer;
+	GtkWidget          *viewer_container;  /* Container widget for the 
+						* viewer.  Used by fullscreen 
+						* in order to reparent the 
+						* viewer.*/
+	GtkWidget          *main_pane;
+	GtkWidget          *content_pane;
+	GtkWidget          *image_pane;
+	GtkWidget          *dir_list_pane;
+	GtkWidget          *notebook;
+	GtkWidget          *location_entry;
+	GtkWidget          *viewer_vscr;
+	GtkWidget          *viewer_hscr;
+	GtkWidget          *viewer_event_box;
+	GtkWidget          *info_bar;
+	GtkWidget          *go_back_combo_button;
+	GtkWidget          *popup_menu;
+
+	GtkWidget          *progress;              /* statusbar widgets. */
+	GtkWidget          *image_info;
+	GtkWidget          *image_info_frame;
+
+	GtkWidget          *image_prop_dlg;        /* no-modal dialogs. */
+	GtkWidget          *comments_dlg;
+	GtkWidget          *categories_dlg;
+	GtkWidget          *bookmarks_dlg;
+
+	char                sidebar_content;       /* SidebarContent values. */
+	int                 sidebar_width;
+	gboolean            sidebar_visible;
+	guint               layout_type : 2;
+	gboolean            image_pane_visible;
+	gboolean            image_preview_visible;
+
+	/* bookmarks & history */
+
+	int                 bookmarks_length;
+	Bookmarks          *history;
+	GList              *history_current;
+	int                 history_length;
+	WindowGoOp          go_op;
+
+	/* browser stuff */
+
 	GthFileList        *file_list;
 	DirList            *dir_list;
 	CatalogList        *catalog_list;
@@ -71,89 +120,54 @@ typedef struct {
 						 * image belongs to, NULL if 
 						 * the image is not from a 
 						 * catalog. */
-	gboolean            image_modified;
 
-	/* bookmarks & history */
-
-	int                 bookmarks_length;
-	Bookmarks          *history;
-	GList              *history_current;
-	int                 history_length;
-	WindowGoOp          go_op;
-
-	/* layout */
-
-	GtkWidget          *viewer;
-	GtkWidget          *viewer_container;  /* Container widget for the 
-						* viewer.  Used by fullscreen 
-						* in order to reparent the 
-						* viewer.*/
-	GtkWidget          *main_pane;
-	GtkWidget          *content_pane;
-	GtkWidget          *image_pane;
-	GtkWidget          *dir_list_pane;
-	GtkWidget          *notebook;
-	GtkWidget          *location_entry;
-	GtkWidget          *viewer_vscr;
-	GtkWidget          *viewer_hscr;
-	GtkWidget          *viewer_nav_btn;
-	GtkWidget          *progress;              /* statusbar widgets. */
-	GtkWidget          *image_info;
-	GtkWidget          *image_info_frame;
-	GtkWidget          *info_bar;
-	GtkWidget          *go_back_combo_button;
-	GtkWidget          *popup_menu;
-
-	char                sidebar_content;       /* SidebarContent values. */
-	int                 sidebar_width;
-	gboolean            sidebar_visible;
-	guint               layout_type : 2;
-	gboolean            image_pane_visible;
-	gboolean            image_preview_visible;
-
-	GtkWidget          *image_prop_dlg;
-	GtkWidget          *comments_dlg;
-	GtkWidget          *categories_dlg;
-	GtkWidget          *bookmarks_dlg;
-
-	/**/
-
-	guint               dir_load_timeout_handle; /* activity timeout 
-						      * handle. */
+	guint               freeze_toggle_handler;
 	gfloat              dir_load_progress;
-	int                 activity_ref;            /* when > 0 some activity
-						      * is present. */
+	int                 activity_ref;       /* when > 0 some activity
+						 * is present. */
+	gboolean            image_modified;
 	gboolean            setting_file_list;
 	gboolean            changing_directory;
-	GThumbPreloader    *preloader;
-
-	/**/
-
-	guint               timer;              /* slideshow timer. */
-	gboolean            slideshow;          /* whether the slideshow is 
-						 * active. */
-	gboolean            fullscreen;         /* whether the fullscreen mode
-						 * is active. */
 	gboolean            refreshing;         /* true if we are refreshing
 						 * the file list.  Used to 
 						 * handle the refreshing case 
 						 * in a special way. */
-	guint               view_image_timer;   /* timer for the 
-						 * view_image_at_pos function.
-						 */
-	guint               load_dir_timer;
-	guint               freeze_toggle_handler;
-	guint               sel_change_timer;
+
+	guint               activity_timeout;   /* activity timeout handle. */
+	guint               load_dir_timeout;
+	guint               sel_change_timeout;
 	guint               busy_cursor_timeout;
 
-	/* Monitor stuff */
+	GThumbPreloader    *preloader;
+
+	/* viewer stuff */
+
+	gboolean            fullscreen;         /* whether the fullscreen mode
+						 * is active. */
+	guint               view_image_timeout; /* timer for the 
+						 * view_image_at_pos function.
+						 */
+	guint               slideshow_timeout;  /* slideshow timer. */
+	gboolean            slideshow;          /* whether the slideshow is 
+						 * active. */
+
+	/* monitor stuff */
 
 	GnomeVFSMonitorHandle *monitor_handle;
 	guint                  monitor_enabled : 1;
-	guint                  update_changes_timer;
+	guint                  update_changes_timeout;
 	GList                 *monitor_events[MONITOR_EVENT_NUM]; /* char * lists */
 
+	/* misc */
+
 	guint                  cnxn_id[GCONF_NOTIFICATIONS];
+	GthPixbufOp           *pixop;
+	
+	GladeXML              *progress_gui;
+	GtkWidget             *progress_dialog;
+	GtkWidget             *progress_progressbar;
+	GtkWidget             *progress_info;
+	guint                  progress_timeout;
 } GThumbWindow;
 
 
@@ -279,5 +293,8 @@ void            window_add_monitor                  (GThumbWindow *window);
 void            window_remove_monitor               (GThumbWindow *window);
 
 void            window_sync_menu_with_preferences   (GThumbWindow *window);
+
+void            window_exec_pixbuf_op               (GThumbWindow *window,
+						     GthPixbufOp  *pixop);
 
 #endif /*  GTHUMB_WINDOW_H */

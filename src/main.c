@@ -449,7 +449,7 @@ all_windows_update_browser_options ()
 		
 		window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
 		gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE));
-		if (eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS))
+		if (eel_gconf_get_boolean (PREF_SHOW_COMMENTS))
 			view_mode = IMAGE_LIST_VIEW_ALL;
 		else
 			view_mode = IMAGE_LIST_VIEW_TEXT;

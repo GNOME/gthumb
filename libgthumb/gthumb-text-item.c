@@ -197,6 +197,17 @@ update_text (GThumbTextItem  *iti,
 
 	g_free (utf8_text);
 
+
+	if (iti->text != NULL) {
+		g_free (iti->text);
+		iti->text = NULL;
+	}
+
+	if (priv->parsed_text != NULL) {
+		g_free (priv->parsed_text);
+		priv->parsed_text = NULL;
+	}
+
 	if (! pango_parse_markup (marked_text, -1,
 				  0,
 				  &attr_list, 
@@ -208,14 +219,10 @@ update_text (GThumbTextItem  *iti,
 		g_free (marked_text);
 		return;
 	}
+
 	g_free (marked_text);
 
-	if (iti->text != NULL)
-		g_free (iti->text);
 	iti->text = g_strdup (new_text);
-
-	if (priv->parsed_text != NULL)
-		g_free (priv->parsed_text);
 	priv->parsed_text = parsed_text;
 
 	pango_layout_set_attributes (priv->layout, attr_list);

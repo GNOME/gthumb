@@ -32,6 +32,8 @@
 #include <libgnomeui/libgnomeui.h>
 #include <libbonoboui.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+
+#include "async-pixbuf-ops.h"
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-bookmarks.h"
@@ -57,6 +59,7 @@
 #include "dlg-search.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
+#include "gth-pixbuf-op.h"
 #include "gthumb-error.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
@@ -1961,14 +1964,15 @@ alter_image_desaturate_command_impl (BonoboUIComponent *uic,
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GdkPixbuf    *src_pixbuf;
 	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
 	
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	_gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	pixop = _gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
 }
 
 
@@ -1981,14 +1985,15 @@ alter_image_invert_command_impl (BonoboUIComponent *uic,
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GdkPixbuf    *src_pixbuf;
 	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
 
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	_gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	pixop = _gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
 }
 
 
@@ -2001,14 +2006,15 @@ alter_image_equalize_command_impl (BonoboUIComponent *uic,
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GdkPixbuf    *src_pixbuf;
 	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
 
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	_gdk_pixbuf_eq_histogram (dest_pixbuf, dest_pixbuf);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	pixop = _gdk_pixbuf_eq_histogram (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
 }
 
 
@@ -2021,14 +2027,15 @@ alter_image_adjust_levels_command_impl (BonoboUIComponent *uic,
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 	GdkPixbuf    *src_pixbuf;
 	GdkPixbuf    *dest_pixbuf;
+	GthPixbufOp  *pixop;
 
 	src_pixbuf = image_viewer_get_current_pixbuf (viewer);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	_gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
-	image_viewer_set_pixbuf (viewer, dest_pixbuf);
+	pixop = _gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_exec_pixbuf_op (window, pixop);
+	g_object_unref (pixop);
 }
 
 
