@@ -147,10 +147,10 @@
       <listitem>
         <para>
 	  The <guilabel>status bar</guilabel>, where you can read the 
-	  total number of images
-	  contained in the current folder, and the total size of all these 
-	  images;
-	  the number of the selected images and the total size of these images.
+	  total number of images contained in the current folder and 
+	  their size;
+	  the number of the selected images and their size;
+	  some properties of the current image.
 	</para>
       </listitem>
     </orderedlist>
@@ -191,7 +191,7 @@
       <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command.
     </para>
     <para>
-      To sort the images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
+      To sort images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
       use <menuchoice><guimenu>View</guimenu><guimenuitem>Refresh</guimenuitem></menuchoice> to reload the current folder,  click on
       <menuchoice><guimenu>View</guimenu><guimenuitem>Thumbnails</guimenuitem></menuchoice> to view or hide the thumbnails in the images list.
     </para>
@@ -531,7 +531,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        ???
+	        Change color balancement.
 	      </para>
 	    </entry>
 	  </row>
@@ -545,7 +545,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        ???
+	        Change the image hue, lightness and saturation level.
 	      </para>
 	    </entry>
 	  </row>
@@ -559,7 +559,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        ???
+	        Change image brightness and contrast.
 	      </para>
 	    </entry>
 	  </row>
@@ -615,7 +615,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        ???
+	        Enhance the image equalizing its histogram.
 	      </para>
 	    </entry>
 	  </row>
@@ -629,7 +629,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        ???
+	        Enhance the image adjusting color levels.
 	      </para>
 	    </entry>
 	  </row>
@@ -861,13 +861,6 @@
 	  <guilabel>Date</guilabel>: the date the picture was taken.
         </para>
       </listitem>
-      <listitem>
-        <para>
-	  <guilabel>Categories</guilabel>: a series of categories the image
-	  belongs to. Categories are usefull for doing complex searches, 
-	  as described in <xref linkend="find"/>.
-        </para>
-      </listitem>
     </itemizedlist>
     <!-- ==== Figure ==== -->
     <figure id="dlg-comment-fig">
@@ -881,20 +874,29 @@
     <!-- ==== End of Figure ==== -->
   </para>
   <para>
+    You can even add a comment to multiple images, in this case the comment 
+    dialog will fill in the fields that are the same for all images leaving 
+    all other fields empty.  When adding a comment to multiple images
+    you can active the <guilabel>Save only changed fields
+    </guilabel> option (which is active by default) which let you  
+    change one or more fields of the comment of many images leaving all other
+    fields unchanged.
+  </para>
+  <para>
     Image comments are displayed in the image list in italic text above the 
     image filename.  If the comment is too long the simbol "[..]" is
-    appended to the displayed part of the comment to signal you that not
-    all the comment is visible, to view the whole comment use the image
-    properties dialog that can be displayed using the
+    appended to the displayed part of the comment to signal you that
+    the comment is not entirely visible, to view the whole comment use
+    the image properties dialog that can be displayed using the
     <menuchoice><guimenu>File</guimenu><guimenuitem>Properties
     </guimenuitem></menuchoice> command or pressing
     <keycombo><keycap>I</keycap></keycombo>.
   </para>
     <!-- ==== Figure ==== -->
     <figure id="comment-in-list-fig">
-      <title>As the comment is displayed</title> 
+      <title>An image comment</title> 
       <screenshot>
-        <screeninfo>As the comment is displayed</screeninfo> 
+        <screeninfo>An image comment</screeninfo> 
         <graphic format="png" fileref="figures/comment.png" srccredit="Me">
         </graphic>
       </screenshot>
@@ -902,14 +904,6 @@
     <!-- ==== End of Figure ==== -->
   <para>
     To delete a comment use the command : <menuchoice><guimenu>Edit</guimenu><guimenuitem>Delete comment</guimenuitem></menuchoice>.
-  </para>
-  <para>
-    You can even add a comment to multiple images, in this case the comment 
-    dialog will fill in the fields that are the same for all images leaving 
-    all other fields empty, and the <guilabel>Save only changed fields
-    </guilabel> option is enabled.  If this option is active (default) you can 
-    change one or more fields of the comment of many images leaving all other
-    fields unchanged.
   </para>
   <para>
     Comments are not embedded in image files they are saved separately, this
@@ -968,139 +962,58 @@
   <para>
     Catalogs are not updated when you move images, if you want a more flexible
     catalog you can use the searches described in <xref linkend="find"/>, 
-    searches are catalogs with search data attached, after moving images you 
-    can redo the search to get the catalog updated.  Catalogs are saved in the
+    searches are catalogs with search criteria attached, after moving
+    images you can redo the search to get the catalog updated.
+  </para>
+  <para>
+    Catalogs are saved in the
     folder <filename>$(HOME)/.gnome2/gthumb/collections</filename>.
   </para>
   </sect1>
 
+  <!-- ============= Find ================================== -->
 
-  <!-- ============= Tools ================================== -->
-  <sect1 id="tools">
-  <title>Advanced Tools</title>
-    <!-- Create Index Image -->
-
-    <sect2 id="slideshow">
-      <title>Slide Show</title>
-      <para>
-        You can start a slide show of the images in the current folder by
-	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
-	selecting the <menuchoice><guimenu>View
-	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
-        To stop the Slideshow press <keycombo action="simul">
-	<keycap>S</keycap></keycombo> again.
-      </para>
-      <para>
-        Switching on/off the full screen mode does not stop the
-      slide show.  If the <guilabel>Switch to full screen</guilabel> option
-      is on then the slide show is started in
-      fullscreen mode and exiting from the fullscreen mode stops the slide show.
-      </para>
-      <para>
-        The slideshow is interrupted when changing folder or re-loading the
-	current one.
-      </para>
-      <para>
-        If you want to do a presentation with images you do not need this 
-	tool, instead you can simply set the 
-	fullscreen mode and press <keycombo><keycap>Space</keycap></keycombo>
-	or <keycombo><keycap>Page Down</keycap></keycombo> to view the next
-	image, and <keycombo><keycap>b</keycap></keycombo> or <keycombo>
-	<keycap>Page Up</keycap></keycombo> to view the previous image.
-      </para>
-    </sect2>
-
-    <!-- Create Index Image -->
-
-    <sect2 id="wallpaper">
-      <title>Wallpaper</title>
-      <para>
-        If you want to set the selected image as desktop wallpaper select the
-	menu <guimenuitem>Set Image as Wallpaper</guimenuitem> from the 
-	<guimenu>Tools</guimenu> menu.  The menu contains four ways of setting
-	the wallpaper :
-        <itemizedlist>
-	  <listitem>
-	    <para>
-	      <guilabel>Centered</guilabel> : the image will be centered on
-	      the desktop.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Tiled</guilabel> : the image will be duplicated on
-	      the desktop as tiles on the floor.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Stretched</guilabel> : the image will be scaled to 
-	      fill the desktop changing proportions if needed.
-	    </para>
-	  </listitem>
-
-	  <listitem>
-	    <para>
-	      <guilabel>Scaled</guilabel> : the image will be scaled to fill 
-	      the desktop mantaining the aspect ratio.
-	    </para>
-	  </listitem>
-	</itemizedlist>
-      </para>
-      <para>
-         If you want to restore the old wallpaper use the 
-	 <menuchoice>
-	   <guimenu>Tools</guimenu>
-           <guisubmenu>Set Image as Wallpaper</guisubmenu> 
-           <guimenuitem>Restore</guimenuitem>
-         </menuchoice> item.
-       </para>
-    </sect2>
-
-    <!-- Find Images -->
-
-    <sect2 id="find">
-      <title>Find Images</title>
-      <para>The <interface>Find Images</interface> tool lets you find images on 
+  <sect1 id="find">
+    <title>Finding Images</title>
+      <para>The <interface>Find Images</interface> tool lets you find
+        images on
 	you hard disk and save the result as a catalog.
         To use this tool select the <guimenuitem>Find...</guimenuitem>
 	item from the <guimenu>Edit</guimenu> menu.
       </para>
 
-        <!-- ==== Figure ==== -->
-        <figure id="find-images-fig">
-        <title>The "Find" dialog </title> 
-        <screenshot>
-          <screeninfo>The Find dialog </screeninfo> 
-          <graphic format="png" fileref="figures/find-images.png" srccredit="Me">
-          </graphic>
-        </screenshot>
-        </figure>with an image editor
-        <!-- ==== End of Figure ==== -->
-        <para>
-	  When the dialog pops up,
-	  you can specify a file name or a pattern in the <guilabel>File name
-	  </guilabel> entry, for example : 
-	  <itemizedlist>
-	    <listitem>
-	      <para>
-	        <userinput>foo.jpg</userinput> : will search for files
-		named foo.jpg
+      <!-- ==== Figure ==== -->
+      <figure id="find-images-fig">
+      <title>The "Find" dialog </title> 
+      <screenshot>
+        <screeninfo>The Find dialog </screeninfo> 
+        <graphic format="png" fileref="figures/find-images.png" srccredit="Me">
+        </graphic>
+      </screenshot>
+      </figure>
+      <!-- ==== End of Figure ==== -->
+      <para>
+	When the dialog pops up,
+	you can specify a file name or a pattern in the <guilabel>File name
+	</guilabel> entry, for example : 
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      <userinput>foo.jpg</userinput>: will search for files
+	      named foo.jpg
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-	        <userinput>*.png</userinput> : will search for files
+	        <userinput>*.png</userinput>: will search for files
 		with the png extension.
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-	        <userinput>*.gif; *.jpg</userinput> : will search for
+	        <userinput>*.gif; *.jpg</userinput>: will search for
 		files with the gif or jpg extension.
 	      </para>with an image editor
 	    </listitem>
@@ -1114,7 +1027,7 @@
 	    <!-- -->
 	    <listitem>
 	      <para>
-	        <guilabel>Start at</guilabel> : The folder the
+	        <guilabel>Start at</guilabel>: The folder the
 		search will start from.
 	      </para>
 	    </listitem>
@@ -1122,7 +1035,7 @@
 	    <!-- -->
 	    <listitem>
 	      <para>
-	        <guilabel>Include sub-folder</guilabel> :  Whether
+	        <guilabel>Include sub-folder</guilabel>:  Whether
 		to search even in the sub folders.
 	      </para>
 	    </listitem>
@@ -1130,35 +1043,35 @@
 	    <!-- -->
 	    <listitem>
 	     <para>
-	      <guilabel>Comment</guilabel> : A list of phrases the 
+	      <guilabel>Comment</guilabel>: A list of phrases the 
 	      comment of the image must contain, for example:
 
 	      <itemizedlist>
 	        <listitem>
 	          <para>
-	            <userinput>paolo</userinput> : will search for 
+	            <userinput>paolo</userinput>: will search for 
 		    images that have "paolo" in the comment.
 	          </para>
 	        </listitem>
 
 	        <listitem>
 	          <para>
-	            <userinput>my birthday</userinput> : will search for 
+	            <userinput>my birthday</userinput>: will search for 
 		    images that have "my birthday" in the comment.
 	          </para>
 	        </listitem>
 
 	        <listitem>
 	          <para>
-	            <userinput>holiday ; rome</userinput> : will search
+	            <userinput>holiday ; rome</userinput>: will search
 		    for images that have "holiday" OR "rome" in the comment.
 	          </para>
                 </listitem>
 
 	        <listitem>
 	          <para>
-	            <userinput>holiday in rome ; my birthday</userinput>
-		    : will search for images that have "holiday in rome"
+	            <userinput>holiday in rome ; my birthday</userinput>:
+		    will search for images that have "holiday in rome"
 		    OR "my birthday" in the comment.
 	          </para>
                 </listitem>
@@ -1169,20 +1082,20 @@
 	    <!-- -->
 	    <listitem>
 	    <para>
-	    <guilabel>Place</guilabel> : A list of phrases the place field of
+	    <guilabel>Place</guilabel>: A list of phrases the place field of
 	    the comment must contain, for example:
 
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-	        <userinput>rome</userinput> :
+	        <userinput>rome</userinput>:
 	        will search for images that have "rome" in the place field.
 	        </para>
               </listitem>
 
 	      <listitem>
 	        <para>
-	        <userinput>paris ; rome ; london</userinput> :
+	        <userinput>paris ; rome ; london</userinput>:
 	        will search for images that have "paris" OR "rome" OR "london" in the place field.
 	        </para>
               </listitem>
@@ -1194,19 +1107,19 @@
 	    <!-- -->
 	    <listitem>
 	    <para>
-	    <guilabel>Date</guilabel> : 
+	    <guilabel>Date</guilabel>: 
 	    The criteria the date field of the comment must respect:
 
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-	        <guilabel>any</guilabel> : the date field is ignored.
+	        <guilabel>any</guilabel>: the date field is ignored.
 	        </para>
               </listitem>
 
 	      <listitem>
 	        <para>
-	        <guilabel>before, equal to, after</guilabel> : the date must be  less recent, equal to or more recent than the date specified.
+	        <guilabel>before, equal to, after</guilabel>: the date must be  less recent, equal to or more recent than the date specified.
 	        </para>
               </listitem>
 
@@ -1218,19 +1131,23 @@
 	    <!-- -->
 	    <listitem>
 	    <para>
-	    <guilabel>Categories</guilabel> : 
-	    The list of categories an images must belong to, for example :
+	    <guilabel>Categories</guilabel>: 
+	    The list of categories an images must belong to. 
+	    Categories can be added to images using the
+	    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories</guimenuitem></menuchoice>
+	    command or pressing <keycombo><keycap>K</keycap></keycombo>. 
+	    Examples:
 
 	    <itemizedlist>
 	      <listitem>
 	        <para>
-	        <userinput>family</userinput> : images must have "family" has one of their keywords.
+	        <userinput>family</userinput>: images must have "family" has one of their keywords.
 	        </para>
               </listitem>
 
 	      <listitem>
 	        <para>
-	        <userinput>me, family</userinput> : images must have "family" and/or "me" in the keywords list.
+	        <userinput>me, family</userinput>: images must have "family" and/or "me" in the keywords list.
 	        </para>
               </listitem>
 	    </itemizedlist>
@@ -1267,8 +1184,17 @@
 	  that matches your search, if you want to see these files press the 
 	  <guibutton>View</guibutton> button, if you want to make another 
 	  search press the <guibutton>New Search</guibutton> button.
-        </para>
-        <para>
+	</para>
+	<para>
+          <!-- ==== End of Figure ==== -->
+	  If you choose to view the files, a catalog named <interface>Search 
+	  Results</interface> will be created and visualized automatically.  
+	  A catalog created in this way has a special icon, a magnifier, this
+	  is
+	  because on this type of catalog you can perform two more operations :
+	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
+	  </guibutton>.
+
           <!-- ==== Figure ==== -->
           <figure id="search-result-fig">
           <title>The "Search Result" catalog</title> 
@@ -1279,14 +1205,7 @@
             </graphic>
           </screenshot>
           </figure>
-          <!-- ==== End of Figure ==== -->
-	  If you choose to view the files, a catalog named <interface>Search 
-	  Results</interface> will be created and visualized automatically.  
-	  A catalog created in this way has a special icon, a magnifier, this
-	  is
-	  because on this type of catalog you can perform two more operations :
-	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
-	  </guibutton>.
+
         </para>
         <para>
 	  These operations can be selected from the <menuchoice><guimenu>File</guimenu>
@@ -1296,11 +1215,94 @@
 	  name.
         </para>
         <para>
-	  The <guibutton>Edit Search</guibutton> command lets you re-edit 
-	  the search rules, while <guibutton>Redo Search</guibutton> lets
+	  The <guilabel>Edit Search</guilabel> command lets you re-edit 
+	  the search rules, while <guilabel>Redo Search</guilabel> lets
 	  you restart the search, at the end of the search you can decide whether
 	  to save the result in the catalog or not.
         </para>
+  </sect1>
+
+  <!-- ============= Slideshow ================================== -->
+
+    <sect1 id="slideshow">
+      <title>Slide Show</title>
+      <para>
+        You can start a slide show of the images in the current folder by
+	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
+	selecting the <menuchoice><guimenu>View
+	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
+        To stop the Slideshow press <keycombo action="simul">
+	<keycap>S</keycap></keycombo> again.
+      </para>
+      <para>
+        Switching on/off the full screen mode does not stop the
+      slide show.  If the <guilabel>Switch to full screen</guilabel> option
+      is on then the slide show is started in
+      fullscreen mode and exiting from the fullscreen mode stops the slide show.
+      </para>
+      <para>
+        The slideshow is interrupted when changing folder or re-loading the
+	current one.
+      </para>
+      <para>
+        If you want to do a presentation with images you do not need this 
+	tool, instead you can simply set the 
+	fullscreen mode and press <keycombo><keycap>Space</keycap></keycombo>
+	or <keycombo><keycap>Page Down</keycap></keycombo> to view the next
+	image, and <keycombo><keycap>b</keycap></keycombo> or <keycombo>
+	<keycap>Page Up</keycap></keycombo> to view the previous image.
+      </para>
+    </sect1>
+
+  <!-- ============= Tools ================================== -->
+  <sect1 id="tools">
+  <title>Advanced Tools</title>
+
+    <sect2 id="wallpaper">
+      <title>Wallpaper</title>
+      <para>
+        If you want to set the selected image as desktop wallpaper select the
+	menu <guimenuitem>Set Image as Wallpaper</guimenuitem> from the 
+	<guimenu>Tools</guimenu> menu.  The menu contains four items
+        each of which let you set the wallpaper in a different way:
+        <itemizedlist>
+	  <listitem>
+	    <para>
+	      <guilabel>Centered</guilabel> -- The image will be centered on
+	      the screen.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Tiled</guilabel> -- The image will be duplicated on
+	      the screen as tiles on the floor.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Stretched</guilabel> -- The image will be scaled to 
+	      fill the screen changing proportions if needed.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Scaled</guilabel> -- The image will be scaled to fill 
+	      the screen mantaining the aspect ratio.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para>
+         If you want to restore the old wallpaper use the 
+	 <menuchoice>
+	   <guimenu>Tools</guimenu>
+           <guisubmenu>Set Image as Wallpaper</guisubmenu> 
+           <guimenuitem>Restore</guimenuitem>
+         </menuchoice> item.
+       </para>
     </sect2>
 
     <sect2 id="rotate-jpeg">
@@ -1379,12 +1381,54 @@
     <sect2 id="rename-series">
       <title>Rename Series</title>
       <para>
+        With this tool you can change a series of image filenames
+        specifing a name template.  In order to use it
+        select the images you want to rename, and select the 
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Rename
+        Series</guimenuitem></menuchoice> command.
+      </para>
+      <para>
+        The name template is simply a name that must be used for all
+        of the images,  furthermore you can use two special characters
+        to make the new names different each other:
+      <itemizedlist>
+        <listitem>
+          <para>
+	    # -- This symbol will be replaced with
+            the value of a counter that increments itself by 1
+	    passing from one image to another.  If you specify 
+	    this symbols in sequence you'll get leading zeros if the
+	    counter value has a lesser number of digits, for example ###
+	    will produce the sequence: 001, 002, 003, etc.. 
+	  </para>
+        </listitem>
+        <listitem>
+          <para>
+	    * -- This symbol will be replaced
+            with the image original name.
+	  </para>
+        </listitem>
+      </itemizedlist>
+      </para>
+      <para>
+        The list at the bottom of the dialog display how the filenames
+        will be renamed.
+      </para>
+      <para>
+        If the renaming of an image can overwrite an already existing
+        image you will be asked how to proceed,  five options are
+        available: overwrite the image, do not overwrite the image,
+        always overwrite, never overwrite, specify a new name. 
       </para>
     </sect2>
 
     <sect2 id="change-date">
       <title>Change Date</title>
       <para>
+        If you want to change the last modified date of a series of
+        images,  select the images and use the <menuchoice><guimenu>
+        Tools</guimenu><guimenuitem>Change Date</guimenuitem></menuchoice> 
+        command.
       </para>
     </sect2>
 
@@ -1396,10 +1440,6 @@
 	want
 	to insert in the index and then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice> command.
       </para>
-
-      <para>
-        [..]
-      </para>
     </sect2>
 
     <sect2 id="maintenance">
@@ -1410,7 +1450,7 @@
 	</guimenuitem></menuchoice> menu item.
       </para>
       <para>
-        <guilabel>Backup Comments</guilabel>.  With this command you
+        <guilabel>Backup Comments</guilabel> --  With this command you
         can create an archive of all the comments you have writed.
         After pressing the button you have to enter the archive name,
         for example: <filename>comments.tgz</filename>, or 
@@ -1418,7 +1458,7 @@
         using the application <application>File Roller</application>.
       </para>
       <para>
-        <guilabel>Restore Comments From a Backup File</guilabel>.  Use
+        <guilabel>Restore Comments From a Backup File</guilabel> --  Use
         this command if
         you want to restore comments previously saved in an archive.
 	After pressing the button you have to
@@ -1427,7 +1467,7 @@
         Roller</application>.
       </para>
       <para>
-        <guilabel>Delete Old Comments</guilabel>.  If you use
+        <guilabel>Delete Old Comments</guilabel> --  If you use
         <application>gThumb</application> to delete or move images,
         comments are deleted and moved accordingly.  Other
         applications do not handle image comments so it can happen that
@@ -1435,7 +1475,7 @@
         anymore. This command lets you delete such comments.
       </para>
       <para>
-        <guilabel>Delete ALL Comments</guilabel>.  This command will
+        <guilabel>Delete ALL Comments</guilabel> --  This command will
         delete all the comments you have written.
       </para>
       <para>
@@ -1469,32 +1509,24 @@
       </screenshot>
     </figure>
   <para>
-    This dialog contains four tabs described in detail below. At the
-    bottom of the dialog window, you'll find the following buttons:
+    This dialog contains four tabs described in detail below.  
+    At the bottom of the dialog window, you'll find the following buttons:
   </para>
   <itemizedlist>
-    <listitem>
-      <para><guibutton>OK</guibutton>: saves the settings and closes
-      the dialog.
-      </para>
-    </listitem>
-    <listitem>
-      <para><guibutton>Apply</guibutton>: saves the settings without
-      closing the dialog, so that you can see the effect of your
-      changes. If you are not satisfied with the results, you can
-      continue editing the settings.
-      </para>
-    </listitem>
-    <listitem>
-      <para><guibutton>Close</guibutton>: closes the dialog without
-      saving the changes.
-      </para>
-    </listitem>
     <listitem>
       <para><guibutton>Help</guibutton>: shows this manual.
       </para>
     </listitem>
+    <listitem>
+      <para><guibutton>Close</guibutton>: closes the dialog.
+      </para>
+    </listitem>
   </itemizedlist>
+  <para>
+    Keep in mind that when you change an option it will automatically 
+    applied,  this is why there is no <guibutton>Ok</guibutton> or
+    <guibutton>Apply</guibutton> button.
+  </para>
 
 <!-- ########### General Tab ################## -->    
     <sect2 id="preferences-general">

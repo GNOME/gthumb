@@ -1,3 +1,9 @@
+2003-01-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* doc/C/ficures/*.png: updated images.
+	
+	* doc/C/gthumb.xml: updated manual.
+
 2003-01-12  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-jpegtran.c (load_current_image): make rotation buttons
