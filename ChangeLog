@@ -1,3 +1,7 @@
+2004-10-28  Alexander Shopov  <ash@contact.bg>
+
+	* configure.in (ALL_LINGUAS): Added "bg" (Bulgarian)
+
 2004-10-28  Åsmund Skjæveland  <aasmunds@fys.uio.no>
 
 	* configure.in: Added nn to ALL_LINGUAS.
