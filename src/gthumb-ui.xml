@@ -382,7 +382,7 @@
 	<cmd name="Help_About" _label="_About"
 	     _tip="Show information about gThumb"
 	     pixtype="stock" pixname="gnome-stock-about"/>
-	<cmd name="Help_Help" _label="_Manual"
+	<cmd name="Help_Help" _label="_Contents"
 	     accel="F1"
 	     pixtype="stock" pixname="gtk-help"/>
 	<cmd name="Help_Shortcuts" _label="_Keyboard Shortcuts"/>

@@ -442,7 +442,7 @@ update_general_info (DialogData *data)
 {
 	GThumbWindow *window;
 	ImageViewer  *viewer;
-	GdkPixbuf    *pixbuf = image_viewer_get_current_pixbuf (viewer);
+	GdkPixbuf    *pixbuf;
 	int           width, height;
 	char         *file_size_txt;
 	char         *size_txt;
@@ -454,6 +454,7 @@ update_general_info (DialogData *data)
 
 	window = data->window;
 	viewer = data->window_viewer;
+	pixbuf = image_viewer_get_current_pixbuf (viewer);
 
 	if (window->image_path == NULL) {
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), "");

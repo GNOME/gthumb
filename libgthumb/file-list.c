@@ -45,7 +45,7 @@
 #define COL_SPACING    14
 #define ADD_LIST_DELAY 75
 #define ADD_LIST_CHUNK 333
-#define SCROLL_DELAY   120
+#define SCROLL_DELAY   20
 
 enum {
 	BUSY,
@@ -431,12 +431,11 @@ gth_file_list_init (GthFileList *file_list)
 				G_CALLBACK (file_list_adj_value_changed),
 				file_list);
 
-	/* FIXME
-	  g_signal_connect_after (G_OBJECT (adj), 
+	/* FIXME */
+	g_signal_connect_after (G_OBJECT (adj), 
 				"changed",
 				G_CALLBACK (file_list_adj_value_changed), 
 				file_list);
-	*/
 }
 
 
@@ -487,6 +486,7 @@ typedef struct {
 	gpointer     done_func_data;
 	guint        timeout_id;
 	gboolean     doing_thumbs;
+	gboolean     enable_thumbs;
 } GetFileInfoData;
 
 
@@ -504,7 +504,8 @@ get_file_info_data_new (GthFileList *file_list,
 	data->done_func = done_func;
 	data->done_func_data = done_func_data;
 	data->timeout_id = 0;
-	data->doing_thumbs = FALSE;
+	data->doing_thumbs = file_list->doing_thumbs;
+	data->enable_thumbs = file_list->enable_thumbs;
 
 	return data;
 }
@@ -683,7 +684,7 @@ static gboolean
 add_list_in_chunks (gpointer callback_data)
 {
 	GetFileInfoData *gfi_data = callback_data;
-	GthFileList        *file_list = gfi_data->file_list;
+	GthFileList     *file_list = gfi_data->file_list;
 	GtkWidget       *ilist = file_list->ilist;
 	GList           *scan, *chunk;
 	DoneFunc         done_func;
@@ -708,6 +709,8 @@ add_list_in_chunks (gpointer callback_data)
 	if (gfi_data->filtered == NULL) {
 		image_list_sort (IMAGE_LIST (ilist));
 
+		file_list->enable_thumbs = gfi_data->enable_thumbs;
+
 		if ((file_list->list != NULL) && file_list->enable_thumbs) { 
 			file_list->doing_thumbs = TRUE;
 			gth_file_list_update_next_thumb (file_list);
@@ -723,7 +726,10 @@ add_list_in_chunks (gpointer callback_data)
 		
 		return FALSE;
 	}
-	
+
+	if (file_list->enable_thumbs)
+		file_list->enable_thumbs = FALSE;
+
 	/**/
 
 	image_list_freeze (IMAGE_LIST (ilist));
@@ -739,7 +745,7 @@ add_list_in_chunks (gpointer callback_data)
 		
 		image_list_set_image_data (IMAGE_LIST (ilist), pos, fd);
 	}
-	
+
 	image_list_thaw (IMAGE_LIST (ilist));
 	
 	if ((scan != NULL) && (scan->prev != NULL)) {
@@ -797,13 +803,6 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		file_data_update_comment (fd);
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
-
-	if (! gfi_data->doing_thumbs)
-		for (scan = file_list->list; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			fd->thumb = TRUE;
-			fd->error = FALSE;
-		}
 
 	add_list_in_chunks (gfi_data);
 
@@ -879,8 +878,6 @@ gth_file_list_add_list (GthFileList *file_list,
 			(*done_func) (done_func_data);
 		return;
 	}
-
-	gfi_data->doing_thumbs = file_list->doing_thumbs;
 
 	if (file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (file_list, 
@@ -1636,12 +1633,6 @@ gth_file_list_update_thumb_list (GthFileList  *file_list,
 	if (! file_list->enable_thumbs)
 		return;
 
-	for (scan = file_list->list; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		fd->thumb = TRUE;
-		fd->error = FALSE;
-	}
-
 	ilist = IMAGE_LIST (file_list->ilist);
 	for (scan = list; scan; scan = scan->next) {
 		char      *path = scan->data;
@@ -1685,8 +1676,10 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 {
 	ImageList *ilist;
 	FileData  *fd = NULL;
-	int        new_pos = -1;
+	int        first_pos, last_pos;
 	int        pos = -1;
+	GList     *scan;
+	int        new_pos = -1;
 
 	if (! file_list->doing_thumbs) {
 		interrupt_thumbs__part2 (file_list);
@@ -1697,23 +1690,28 @@ gth_file_list_update_next_thumb (GthFileList *file_list)
 
 	/* Find first visible undone. */
 
-	pos = image_list_get_first_visible (ilist);
-	if (pos != -1) { 
-		GList *scan; 
-		int n = ilist->images;
+	first_pos = image_list_get_first_visible (ilist);
+	last_pos = image_list_get_last_visible (ilist);
 
-		scan = image_list_get_list (ilist);
-		scan = g_list_nth (scan, pos);
-		while ((pos < n) && image_list_image_is_visible (ilist, pos)) {
-			Image *image = scan->data;			
-			fd = image->data;
-			if (! fd->thumb && ! fd->error) {
-				new_pos = pos;
-				break;
-			} else {
-				pos++;
-				scan = scan->next;
-			}
+	pos = first_pos;
+
+	if ((pos == -1) || (last_pos < first_pos)) {
+		gth_file_list_thumb_cleanup (file_list);
+		return;
+	}
+
+	scan = image_list_get_list (ilist);
+	scan = g_list_nth (scan, pos);
+	
+	while (pos <= last_pos) {
+		Image *image = scan->data;			
+		fd = image->data;
+		if (! fd->thumb && ! fd->error) {
+			new_pos = pos;
+			break;
+		} else {
+			pos++;
+			scan = scan->next;
 		}
 	}
 

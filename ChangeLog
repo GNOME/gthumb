@@ -1,3 +1,12 @@
+2002-12-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: s/Manual/Content/
+
+2002-12-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-image-prop.c (update_general_info): fixed bug, patch
+	from Jason Tackaberry <tack@auc.ca>
+
 2002-12-23  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/fnmatch.[ch]: removed.
