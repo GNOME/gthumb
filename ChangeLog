@@ -1,5 +1,8 @@
 2003-12-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-window.c (close__step5): ask whether to save a modified 
+	image before exiting.
+
 	* data/gthumb-ui.xml: 
 	* src/commands-impl.c (edit_current_folder_categories__done): add
 	a command to edit folder categories.
