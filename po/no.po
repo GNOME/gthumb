@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-15 16:25+0100\n"
+"POT-Creation-Date: 2004-05-02 20:53+0200\n"
 "PO-Revision-Date: 2004-03-15 16:25+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian (bokmål) <i18n-nb@lister.ping.uio.no>\n"
@@ -176,8 +176,8 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:411
+#: src/dlg-image-prop.c:419 src/fullscreen.c:218
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:420
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d piksler"
@@ -1473,8 +1473,8 @@ msgstr "Detaljer for papir"
 
 #.
 #: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2960 libgthumb/print-callbacks.c:2974
-#: libgthumb/print-callbacks.c:3432
+#: libgthumb/print-callbacks.c:2968 libgthumb/print-callbacks.c:2982
+#: libgthumb/print-callbacks.c:3448
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1900,7 +1900,8 @@ msgstr "index.html"
 msgid "rows"
 msgstr "rader"
 
-#: data/gthumb-ui.xml.h:1
+#. zoom 100
+#: data/gthumb-ui.xml.h:1 src/fullscreen.c:918
 msgid "1:1"
 msgstr "1:1"
 
@@ -1984,7 +1985,7 @@ msgstr "Ka_talog"
 msgid "Ca_tegories"
 msgstr "Ka_tegorier"
 
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4331
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4383
 msgid "Catalogs"
 msgstr "Kataloger"
 
@@ -2100,15 +2101,17 @@ msgstr "Fi_nn duplikater..."
 msgid "Find images"
 msgstr "Finn bilder"
 
-#: data/gthumb-ui.xml.h:54
+#. zoom fit
+#: data/gthumb-ui.xml.h:54 src/fullscreen.c:927
 msgid "Fit"
 msgstr "Tilpass"
 
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4281
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4333
 msgid "Folders"
 msgstr "Mapper"
 
-#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
+#. forward
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:891
 msgid "Forward"
 msgstr "Fremover"
 
@@ -2128,7 +2131,7 @@ msgstr "Gå til hjemmemappen"
 msgid "Go to the next visited location"
 msgstr "Gå til neste besøkte lokasjon"
 
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4249
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4301
 msgid "Go to the previous visited location"
 msgstr "Gå til sist besøkte lokasjon"
 
@@ -2152,7 +2155,8 @@ msgstr "_Kommentar for bilde"
 msgid "Import photos from a digital camera"
 msgstr "Importer bilder fra et digitalt kamera"
 
-#: data/gthumb-ui.xml.h:67
+#. zoom in
+#: data/gthumb-ui.xml.h:67 src/fullscreen.c:900
 msgid "In"
 msgstr "Inn"
 
@@ -2260,7 +2264,8 @@ msgstr "Åpne med filhåndtereren"
 msgid "Open with the _File Manager"
 msgstr "Åpne med _filhåndtereren"
 
-#: data/gthumb-ui.xml.h:95
+#. zoom out
+#: data/gthumb-ui.xml.h:95 src/fullscreen.c:909
 msgid "Out"
 msgstr "Ut"
 
@@ -2360,7 +2365,8 @@ msgstr "Endre navn på dette bildet"
 msgid "Resize image"
 msgstr "Endre størrelse på bildet"
 
-#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
+#. restore normal view
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:864
 msgid "Restore Normal View"
 msgstr "Gjenopprett normal visning"
 
@@ -2536,11 +2542,11 @@ msgstr "Vis eller skjul verktøylinjen i dette vinduet"
 msgid "View previous image"
 msgstr "Vis forrige bilde"
 
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4337
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4389
 msgid "View the catalogs"
 msgstr "Vis kataloger"
 
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4287
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4339
 msgid "View the folders"
 msgstr "Vis mapper"
 
@@ -3033,25 +3039,25 @@ msgstr "Kan ikke åpne katalog «%s»: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan ikke lagre katalog «%s»: %s"
 
-#: libgthumb/comments.c:392
+#: libgthumb/comments.c:393
 msgid "Deleting all comments, wait please..."
 msgstr "Sletter alle kommentarer. Vennligst vent..."
 
-#: libgthumb/comments.c:394
+#: libgthumb/comments.c:395
 msgid "Deleting old comments, wait please..."
 msgstr "Sletter gamle kommentarer. Vennligst vent..."
 
-#: libgthumb/comments.c:756
+#: libgthumb/comments.c:758
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:407
+#: libgthumb/comments.c:760 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:229
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:416
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:768
+#: libgthumb/comments.c:770
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
@@ -3085,23 +3091,23 @@ msgstr "Lagre bilde"
 msgid "Image type:"
 msgstr "Bildetype:"
 
-#: libgthumb/gnome-print-font-dialog.c:109
+#: libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
 msgstr "Sett _inn en ny forhåndsvisningsfrase."
 
-#: libgthumb/gnome-print-font-dialog.c:114
+#: libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
 msgstr "Endre forhåndsvisningsfrase..."
 
-#: libgthumb/gnome-print-font-dialog.c:168
+#: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: libgthumb/gnome-print-font-dialog.c:181
+#: libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
 msgstr "_Endre forhåndsvisningsfrase..."
 
-#: libgthumb/gnome-print-font-dialog.c:237
+#: libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
 msgstr "Skriftvalg"
 
@@ -3174,7 +3180,7 @@ msgstr "Skrift"
 msgid "Name"
 msgstr "Navn"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1547
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1555
 #, c-format
 msgid "Print %s"
 msgstr "Skriv ut %s"
@@ -3183,28 +3189,28 @@ msgstr "Skriv ut %s"
 msgid "Print Image"
 msgstr "Skriv ut bilde"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2030
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2038
 #, c-format
 msgid "Page %d of %d"
 msgstr "Side %d av %d"
 
-#: libgthumb/print-callbacks.c:3033 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3041 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "Laster bilde: %s"
 
-#: libgthumb/thumb-cache.c:483
+#: libgthumb/thumb-cache.c:485
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Sletter alle miniatyrer. Vennligst vent..."
 
-#: libgthumb/thumb-cache.c:485
+#: libgthumb/thumb-cache.c:487
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Sletter gamle miniatyrer. Vennligst vent..."
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:560
-#: src/gthumb-window.c:1299 src/gthumb-window.c:1306 src/gthumb-window.c:1314
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:569
+#: src/gthumb-window.c:1338 src/gthumb-window.c:1345 src/gthumb-window.c:1353
 msgid "(Invalid Name)"
 msgstr "(Ugyldig navn)"
 
@@ -3213,29 +3219,29 @@ msgstr "(Ugyldig navn)"
 msgid "Creating image: %s.%s"
 msgstr "Oppretter bilde: %s.%s"
 
-#: src/catalog-web-exporter.c:1516
+#: src/catalog-web-exporter.c:1572
 msgid "Saving thumbnails"
 msgstr "Lagrer miniatyrer"
 
-#: src/catalog-web-exporter.c:1582
+#: src/catalog-web-exporter.c:1638
 msgid "Saving HTML pages: Images"
 msgstr "Lagrer HTML-sider: bilder"
 
-#: src/catalog-web-exporter.c:1657
+#: src/catalog-web-exporter.c:1713
 msgid "Saving HTML pages: Indexes"
 msgstr "Lagrer HTML-sider: indekser"
 
-#: src/catalog-web-exporter.c:1780 src/catalog-web-exporter.c:1839
-#: src/catalog-web-exporter.c:1974
+#: src/catalog-web-exporter.c:1836 src/catalog-web-exporter.c:1895
+#: src/catalog-web-exporter.c:2030
 msgid "Saving images"
 msgstr "Lagrer bilder"
 
-#: src/catalog-web-exporter.c:2183
+#: src/catalog-web-exporter.c:2239
 msgid "Could not create a temporary folder"
 msgstr "Kunne ikke finne midlertidig mappe"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2216
+#: src/catalog-web-exporter.c:2272
 msgid "Loading images"
 msgstr "Laster bilder"
 
@@ -3348,7 +3354,7 @@ msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "«%s» kan ikke flyttes til søppelkurven. Vil du slette det permanent?"
 
-#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1681
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1720
 msgid "_Do not display this message again"
 msgstr "_Ikke vis denne meldingen igjen"
 
@@ -3415,7 +3421,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "Valgt katalog vil bli fjernet. Er du sikker?"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
+#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1008
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3426,7 +3432,7 @@ msgstr "Kunne ikke vise hjelp: %s"
 msgid "translator_credits"
 msgstr "Kjartan Maraas <kmaraas@gnome.org>"
 
-#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4966
+#: src/commands-impl.c:2961 src/gthumb-window.c:587 src/gthumb-window.c:5018
 #: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
@@ -3587,7 +3593,7 @@ msgid "Type"
 msgstr "Type"
 
 #: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
-#: src/gthumb-window.c:423
+#: src/gthumb-window.c:432
 msgid "Modified"
 msgstr "Endret"
 
@@ -3617,19 +3623,19 @@ msgstr "Spesifiser fil for sikkerhetskopi"
 msgid "Could not import photos"
 msgstr "Kunne ikke importere bilder"
 
-#: src/dlg-photo-importer.c:1063 src/main.c:1002
+#: src/dlg-photo-importer.c:1063 src/main.c:1014
 msgid "Film"
 msgstr "Film"
 
-#: src/dlg-png-exporter.c:923
+#: src/dlg-png-exporter.c:926
 msgid "Image Caption"
 msgstr "Bildetekst"
 
-#: src/dlg-png-exporter.c:976
+#: src/dlg-png-exporter.c:979
 msgid "Header"
 msgstr "Topptekst"
 
-#: src/dlg-png-exporter.c:989 src/dlg-png-exporter.c:995
+#: src/dlg-png-exporter.c:992 src/dlg-png-exporter.c:998
 msgid "Footer"
 msgstr "Bunntekst"
 
@@ -3653,15 +3659,17 @@ msgstr "Filnavn"
 msgid "Folder"
 msgstr "Mappe"
 
-#: src/dlg-web-exporter.c:666
+#: src/dlg-web-exporter.c:687
 msgid "Select Album Theme"
 msgstr "Velg tema for album"
 
-#: src/fullscreen.c:804
+#. image info
+#: src/fullscreen.c:873
 msgid "Image Info"
 msgstr "Bildeinformasjon"
 
-#: src/fullscreen.c:822 src/gthumb-window.c:4230
+#. back
+#: src/fullscreen.c:882 src/gthumb-window.c:4282
 msgid "Back"
 msgstr "Tilbake"
 
@@ -3681,76 +3689,76 @@ msgstr "_Bla gjennom..."
 msgid "_Recents:"
 msgstr "_Siste:"
 
-#: src/gthumb-window.c:457
+#: src/gthumb-window.c:466
 msgid "[Press 'c' to add a comment]"
 msgstr "[Trykk «c» for å legge til en kommentar]"
 
-#: src/gthumb-window.c:531 src/gthumb-window.c:553
+#: src/gthumb-window.c:540 src/gthumb-window.c:562
 msgid "[modified]"
 msgstr "[endret]"
 
-#: src/gthumb-window.c:637
+#: src/gthumb-window.c:646
 msgid "No image"
 msgstr "Ingen bilder"
 
-#: src/gthumb-window.c:639
+#: src/gthumb-window.c:648
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 bilde (%s)"
 
-#: src/gthumb-window.c:642
+#: src/gthumb-window.c:651
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d bilder (%s)"
 
-#: src/gthumb-window.c:649
+#: src/gthumb-window.c:658
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 valgt (%s)"
 
-#: src/gthumb-window.c:652
+#: src/gthumb-window.c:661
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d valgt (%s)"
 
-#: src/gthumb-window.c:1678
+#: src/gthumb-window.c:1717
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Denne siden er endret. Vil du lagre den?"
 
-#: src/gthumb-window.c:1679
+#: src/gthumb-window.c:1718
 msgid "Do Not Save"
 msgstr "Ikke lagre"
 
-#: src/gthumb-window.c:3247
+#: src/gthumb-window.c:3296
 msgid "Dragged Images"
 msgstr "Bilder som ble dradd"
 
-#: src/gthumb-window.c:3461
+#: src/gthumb-window.c:3513
 msgid "Could not move the items:"
 msgstr "Kunne ikke flytte oppføringene:"
 
-#: src/gthumb-window.c:5302
+#: src/gthumb-window.c:5354
 msgid "Image comment"
 msgstr "Bildekommentar"
 
-#: src/gthumb-window.c:5316
+#: src/gthumb-window.c:5368
 msgid "Image data"
 msgstr "Bildedata"
 
-#: src/gthumb-window.c:5330
+#: src/gthumb-window.c:5382
 msgid "Image preview"
 msgstr "Forhåndsvisning av bilde"
 
-#: src/gthumb-window.c:6573
+#: src/gthumb-window.c:6625
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan ikke laste mappe «%s»: %s\n"
 
-#: src/gthumb-window.c:6842
+#: src/gthumb-window.c:6894
 msgid "The specified catalog does not exist."
 msgstr "Spesifisert katalog eksisterer ikke."
 
-#: src/gthumb-window.c:8455
+#: src/gthumb-window.c:8509
 msgid "Wait please..."
 msgstr "Vennligst vent..."
 
