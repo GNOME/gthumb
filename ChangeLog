@@ -1,5 +1,9 @@
 2004-06-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/ui.h: fix tooltip text.
+
+	* data/gthumb.desktop.in (Categories): Added Viewer.
+
 	* configure.in: require at least libexif 0.6.9 now
 
 	* src/gth-exif-data-viewer.c (update_exif_data): 

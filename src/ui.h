@@ -161,7 +161,7 @@ static GtkActionEntry action_entries[] = {
 
 	{ "Edit_DeleteComment", NULL,
 	  N_("Rem_ove Comment"), NULL,
-	  N_("Remove comments from selected images"),
+	  N_("Remove comments of selected images"),
 	  G_CALLBACK (activate_action_edit_delete_comment) },
 
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
