@@ -1,801 +1,1001 @@
-# Copyright (C) 2001 Free Software Foundation, Inc.
+# Беларускі пераклад gthumb.HEAD.
+# Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
+# Ales Nyakhaychyk <nab@mail.by>, 2003, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Scrollkeeper\n"
-"POT-Creation-Date: 2003-05-01 12:18+0200\n"
-"PO-Revision-Date: 2002-10-23 00:31GMT+2\n"
-"Last-Translator: Vital Khilko <dojlid@mova.org>\n"
-"Language-Team: belarusian <i18n@mova.org>\n"
+"Project-Id-Version: gthumb.HEAD\n"
+"POT-Creation-Date: 2003-12-19 10:15+0100\n"
+"PO-Revision-Date: 2004-01-07 15:38+0200\n"
+"Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
+"Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"Report-Msgid-Bugs-To: \n"
+"X-Generator: KBabel 1.0.2\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
-msgstr ""
+msgstr "Каталёг"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr ""
+msgstr "Каталёг GThumb"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr ""
+msgstr "Выгляд каталёга відарысаў"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 #: src/gthumb-ui.xml.h:90
 msgid "Print the current image"
-msgstr ""
+msgstr "Надрукаваць бягучы відарыс"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#, fuzzy
 msgid "_Print"
-msgstr "Друк"
+msgstr "Над_рукаваць"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr ""
+msgstr "Відарыс Джы-Самб"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "Праглядальнік Джы-Самб"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr ""
+msgstr "Прагляд з Джы-Самб"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
-msgstr ""
+msgstr "Дагары нагамі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
-msgstr ""
+msgstr "Павярнуць відарыс дагары нагамі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
-msgstr ""
+msgstr "Высокі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
 msgid "Low"
-msgstr ""
+msgstr "Нізкі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
-msgstr ""
+msgstr "Люстэрка"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
-msgstr ""
+msgstr "Люстраны адбітак відарыса"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:118
-#, fuzzy
 msgid "Rotate"
-msgstr "Аддаленыя"
+msgstr "Перавярнуць"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr ""
+msgstr "Павянуць на 1_80°"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Павярнуць відарыс па-гадзіньніку"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate the image of 180 degrees"
-msgstr ""
+msgstr "Павянуць відарыс на 180°"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
 #: src/gthumb-ui.xml.h:126
 msgid "Save _As..."
-msgstr ""
+msgstr "Захаваць _як..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
 #: src/gthumb-ui.xml.h:127
 msgid "Save current image"
-msgstr ""
+msgstr "Захаваць бягучы відарыс"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 #: src/gthumb-ui.xml.h:143
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "Пачаць ці спыніць бягучую анімацыю"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
-msgstr ""
+msgstr "Пачаць/Спыніць _анімацыю"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
 msgid "Transparency T_ype"
-msgstr ""
+msgstr "Від пра_зрыстасьці"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:158
 msgid "View next animation frame"
-msgstr ""
+msgstr "Паглядзець наступны кадар анімацыі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:188
-#, fuzzy
+#: src/gthumb-ui.xml.h:185
 msgid "_Black"
-msgstr "Рэзэрвовае капіяваньне"
+msgstr "Ч_орны"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:190
 msgid "_Checked"
-msgstr ""
+msgstr "Пазна_чаны"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:204
 msgid "_Flip"
-msgstr ""
+msgstr "Да_гары нагамі"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:218
+#: src/gthumb-ui.xml.h:215
 msgid "_Image"
-msgstr ""
+msgstr "В_ідарыс"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:221
 msgid "_Mirror"
-msgstr ""
+msgstr "_Люстэрка"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:226
 msgid "_None"
-msgstr ""
+msgstr "Н_яма"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
-msgstr ""
+msgstr "Павярнуць па-гадз_іньніку"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
-#, fuzzy
 msgid "_Step Animation"
-msgstr "Сыстэмнае адміністраваньне"
+msgstr "Па_крокавая анімацыя"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:259 src/gthumb_search.glade.h:31
+#: src/gthumb-ui.xml.h:255 src/gthumb_search.glade.h:31
 #: src/gthumb_tools.glade.h:48
-#, fuzzy
 msgid "_View"
-msgstr "Прагляд"
+msgstr "_Прагляд"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:260
+#: src/gthumb-ui.xml.h:256
 msgid "_White"
-msgstr ""
+msgstr "Б_елы"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_Zoom Quality"
-msgstr ""
+msgstr "_Якасьць павелічэньня"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr ""
+msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:406
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:813
+#: src/dlg-image-prop.c:445 src/fullscreen.c:216
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:395
 #, c-format
 msgid "%d x %d pixels"
+msgstr "%d x %d піксаляў"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:1
+#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/Classic/image.xml.in.h:2
+#: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/NeatRound/image.xml.in.h:2
+#: data/albumthemes/NeatSquare/image.xml.in.h:2
+msgid "Aperture value"
+msgstr "Значэньне дзіркі"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:2
+#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/Classic/image.xml.in.h:3
+#: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/NeatRound/image.xml.in.h:3
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
+#: src/gth-exif-data-viewer.c:478
+msgid "Bytes"
+msgstr "Байтаў"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:3
+#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/Classic/image.xml.in.h:4
+#: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/NeatRound/image.xml.in.h:4
+#: data/albumthemes/NeatSquare/image.xml.in.h:4
+msgid "Camera model"
+msgstr "Мадэль камэры"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:4
+#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/Classic/image.xml.in.h:5
+#: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/NeatRound/image.xml.in.h:5
+#: data/albumthemes/NeatSquare/image.xml.in.h:5
+msgid "Date"
+msgstr "Дата"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:5
+#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/Classic/image.xml.in.h:6
+#: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/NeatRound/image.xml.in.h:6
+#: data/albumthemes/NeatSquare/image.xml.in.h:6
+msgid "Dimensions"
+msgstr "Памеры"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:6
+#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/Classic/image.xml.in.h:7
+#: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/NeatRound/image.xml.in.h:7
+#: data/albumthemes/NeatSquare/image.xml.in.h:7
+msgid "Exposure mode"
+msgstr "Рэжым экспазыцыі"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:7
+#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/Classic/image.xml.in.h:8
+#: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/NeatRound/image.xml.in.h:8
+#: data/albumthemes/NeatSquare/image.xml.in.h:8
+msgid "Exposure time"
+msgstr "Час экспазыцыі"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:8
+#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/Classic/image.xml.in.h:9
+#: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/NeatRound/image.xml.in.h:9
+#: data/albumthemes/NeatSquare/image.xml.in.h:9
+msgid "Flash"
+msgstr "Маланка"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:9
+#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/Classic/image.xml.in.h:10
+#: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/NeatRound/image.xml.in.h:10
+#: data/albumthemes/NeatSquare/image.xml.in.h:10
+msgid "Focal length"
 msgstr ""
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:10
+#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/Classic/image.xml.in.h:11
+#: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/NeatRound/image.xml.in.h:11
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:264
+msgid "Image"
+msgstr "Відарыс"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:11
+#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/Classic/image.xml.in.h:12
+#: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/NeatRound/image.xml.in.h:12
+#: data/albumthemes/NeatSquare/image.xml.in.h:12
+msgid "Shutter speed"
+msgstr "Хуткасьць затвора"
+
+#: data/albumthemes/BlueStripes/image.xml.in.h:12
+#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
+#: src/gthumb_web_exporter.glade.h:53
+msgid "pixels"
+msgstr "піксалі"
+
+#: data/albumthemes/Classic/image.xml.in.h:1
+#: data/albumthemes/ClassicClips/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:1
+#: data/albumthemes/NeatSquare/image.xml.in.h:1
+msgid "(click on the image to view it at original size)"
+msgstr "(пстрыкніце па відарысу, каб пабачыць яго зыходны памер)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr ""
+msgstr "Дазваляе праглядаць і ўтвараць зборы відарысаў"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr ""
+msgstr "Зьбіральнік відарысаў"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
-msgstr ""
+msgstr "Бібліятэка не пустая"
 
 #: libgthumb/catalog.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
+msgstr "Немагчыма выдаліць бібліятэку \"%s\": %s"
 
 #: libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr ""
+msgstr "Немагчыма выдаліць каталёг \"%s\": %s"
 
-#: libgthumb/catalog.c:246 libgthumb/catalog.c:414
+#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr ""
+msgstr "Немагчыма адчыніць каталёг \"%s\": %s"
 
-#: libgthumb/catalog.c:391
+#: libgthumb/catalog.c:395
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr ""
+msgstr "Немагчыма захаваць каталёг \"%s\": %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:402
 msgid "Deleting all comments, wait please..."
-msgstr ""
+msgstr "Выдаленьне ўсіх камэнтараў, калі ласка, пачакайце..."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:404
 msgid "Deleting old comments, wait please..."
-msgstr ""
+msgstr "Выдаленьне старых камэнтараў, калі ласка, пачакайце..."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:763
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:244 src/gthumb-window.c:403
+#: libgthumb/comments.c:765 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:465 src/fullscreen.c:223
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:392
 msgid "%d %B %Y, %H:%M"
-msgstr ""
+msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:775
 msgid "(No Comment)"
-msgstr ""
+msgstr "(без камэнтару)"
 
-#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:119 src/commands-impl.c:289
+#: src/dlg-convert.c:308
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr ""
+msgstr "Відарыс пад назвай \"%s\" ужо йснуе. Ці жадаеце вы перазапісаць яго?"
 
-#: libgthumb/dlg-save-image.c:154
+#: libgthumb/dlg-save-image.c:175
 #, c-format
 msgid "Image type not supported: %s"
-msgstr ""
+msgstr "Від відарыса не падтрымліваецца: %s"
 
-#: libgthumb/dlg-save-image.c:172
+#: libgthumb/dlg-save-image.c:193
 msgid "Determine by extension"
-msgstr ""
+msgstr "Вызначаць па канчатках"
 
-#: libgthumb/dlg-save-image.c:207
+#: libgthumb/dlg-save-image.c:228
 msgid "Save Image"
-msgstr ""
+msgstr "Захаваць відарыс"
 
-#: libgthumb/dlg-save-image.c:221
+#: libgthumb/dlg-save-image.c:242
 msgid "Image type:"
+msgstr "Від відарыса:"
+
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
 msgstr ""
 
-#: libgthumb/gconf-utils.c:98
-#, c-format
-msgid ""
-"GConf error:\n"
-"  %s"
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
 msgstr ""
 
-#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:25
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Перадпрагляд"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr ""
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Вылучэньне шрыфта"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Захапіць шрыфт"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Загаловак"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "Загаловак дыялёга выбару"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Назва шрыфта"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Назва вылучанага шрыфта"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Прыклад тэксту"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Тэкст прыкладу, які паказаны ў дыялёгу"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Выкарыстоўваць шрыфт у адмеціне"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr ""
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Шрыфт"
+
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
-#, fuzzy
 msgid "Comment"
-msgstr "Забавы"
+msgstr "Камэнтар"
 
-#: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:421
-#, fuzzy
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:371
+#: src/dlg-image-prop.c:623 src/gth-exif-data-viewer.c:464
 msgid "Name"
-msgstr "Гульні"
+msgstr "Назва"
 
-#: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:805
-#: src/gthumb-window.c:4821 src/gthumb_png_exporter.glade.h:75
-#: src/gthumb_web_exporter.glade.h:26 src/main.c:122
-msgid "gThumb"
-msgstr ""
-
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1169
-#, fuzzy, c-format
+#: libgthumb/print-callbacks.c:933 libgthumb/print-callbacks.c:1514
+#, c-format
 msgid "Print %s"
-msgstr "Друк"
+msgstr "Друк %s"
 
-#: libgthumb/print-callbacks.c:786
-#, fuzzy
+#: libgthumb/print-callbacks.c:936
 msgid "Print Image"
-msgstr "Друк"
+msgstr "Друк відарыса"
 
-#: libgthumb/thumb-cache.c:409
+#: libgthumb/thumb-cache.c:483
 msgid "Deleting all thumbnails, wait please..."
-msgstr ""
+msgstr "Выдаленьне ўсіх мініяцюр, калі ласка, пачакайце..."
 
-#: libgthumb/thumb-cache.c:411
+#: libgthumb/thumb-cache.c:485
 msgid "Deleting old thumbnails, wait please..."
-msgstr ""
+msgstr "Выдаленьне старых мініяцюр, калі ласка, пачакайце..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/bookmark-list.c:169 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:295
+#: src/dlg-rename-series.c:299 src/gthumb-window.c:539
+#: src/gthumb-window.c:1283 src/gthumb-window.c:1290 src/gthumb-window.c:1298
+msgid "(Invalid Name)"
+msgstr "(нерэчаісная назва)"
+
+#: src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
-msgstr ""
+msgstr "Загрузка відарыса: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1555
 #, c-format
 msgid "Creating image: %s.%s"
-msgstr ""
+msgstr "Стварэньне відарыса: %s.%s"
 
-#: src/catalog-web-exporter.c:1102
+#: src/catalog-web-exporter.c:1522
 msgid "Saving thumbnails"
-msgstr ""
+msgstr "Захаваньне мініяцюр"
 
-#: src/catalog-web-exporter.c:1170
+#: src/catalog-web-exporter.c:1588
 msgid "Saving HTML pages: Images"
-msgstr ""
+msgstr "Захаваньне HTML старонак: відарысы"
 
-#: src/catalog-web-exporter.c:1247
+#: src/catalog-web-exporter.c:1663
 msgid "Saving HTML pages: Indexes"
-msgstr ""
+msgstr "Захаваньне HTML старонак: індэксы"
 
-#: src/catalog-web-exporter.c:1552
-#, fuzzy
+#: src/catalog-web-exporter.c:1786 src/catalog-web-exporter.c:1845
+#: src/catalog-web-exporter.c:1984
+msgid "Saving images"
+msgstr "Захаваньне відарысаў"
+
+#: src/catalog-web-exporter.c:2193
 msgid "Could not create a temporary folder"
-msgstr "Немагчыма адчыніць часовы файл.\n"
+msgstr "Немагчыма стварыць часовы каталёг"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:1591
-#, fuzzy
+#: src/catalog-web-exporter.c:2230
 msgid "Loading images"
-msgstr "Мэнаджары ўваходу"
+msgstr "Загрузка відарысаў"
 
-#: src/commands-impl.c:274 src/commands-impl.c:991 src/commands-impl.c:1553
+#: src/commands-impl.c:251 src/commands-impl.c:996 src/commands-impl.c:1573
 msgid "Enter the new name: "
-msgstr ""
+msgstr "Увядзіце новую назву:"
 
-#: src/commands-impl.c:278 src/commands-impl.c:995 src/commands-impl.c:1557
-#: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
-#, fuzzy
+#: src/commands-impl.c:255 src/commands-impl.c:1000 src/commands-impl.c:1577
+#: src/gthumb-ui.xml.h:234 src/gthumb_tools.glade.h:45
 msgid "_Rename"
-msgstr "Аддаленыя"
+msgstr "_Перайменаваць"
 
-#: src/commands-impl.c:292 src/commands-impl.c:897 src/commands-impl.c:1009
-#: src/commands-impl.c:1573 src/commands-impl.c:1668
+#: src/commands-impl.c:269 src/commands-impl.c:902 src/commands-impl.c:1014
+#: src/commands-impl.c:1593 src/commands-impl.c:1688
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
+"Назва \"%s\" зьяўляецца нерэчаіснай, бо яна ўтрымлівае знак \"/\". Калі "
+"ласка, задайце іншую назву."
 
-#: src/commands-impl.c:319 src/dlg-convert.c:316
+#: src/commands-impl.c:296 src/dlg-convert.c:314
 msgid "_Overwrite"
-msgstr ""
+msgstr "_Перазапісаць"
 
-#: src/commands-impl.c:339 src/commands-impl.c:354
-#, fuzzy, c-format
+#: src/commands-impl.c:316 src/commands-impl.c:331
+#, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
+msgstr "Немагчыма перайменаваць відарыс \"%s\": %s"
 
-#: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
+#: src/commands-impl.c:318 src/commands-impl.c:1036 src/commands-impl.c:1345
 msgid "source and destination are the same"
-msgstr ""
+msgstr "зыходны пункт і пункт прызначэньне аднолькавыя"
 
-#: src/commands-impl.c:443
+#: src/commands-impl.c:432
 #, fuzzy, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:511
+#: src/commands-impl.c:440
+msgid "Stop"
+msgstr "Спыніць"
+
+#: src/commands-impl.c:441
+msgid "Continue"
+msgstr "Працягнуць"
+
+#: src/commands-impl.c:516
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Вылучаныя відарысы будуць перанесены ў сьметніцу; вы ўпэўненыя?"
 
-#: src/commands-impl.c:531
+#: src/commands-impl.c:536
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Відарыс будзе перанесены ў сьметніцу; вы ўпэўненыя?"
 
-#: src/commands-impl.c:766
+#: src/commands-impl.c:771
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr ""
 
-#: src/commands-impl.c:808
+#: src/commands-impl.c:813
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 
-#: src/commands-impl.c:884 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:190 src/dlg-file-utils.c:89
+#: src/commands-impl.c:889 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr ""
 
-#: src/commands-impl.c:913 src/commands-impl.c:1039 src/commands-impl.c:1595
-#: src/commands-impl.c:1687
+#: src/commands-impl.c:918 src/commands-impl.c:1044 src/commands-impl.c:1615
+#: src/commands-impl.c:1707
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr ""
 
-#: src/commands-impl.c:941
+#: src/commands-impl.c:946
 msgid "New Folder"
 msgstr ""
 
-#: src/commands-impl.c:942
+#: src/commands-impl.c:947
 msgid "Enter the folder name: "
 msgstr ""
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:948
 #, fuzzy, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:954
+#: src/commands-impl.c:959
 #, fuzzy
 msgid "New Library"
 msgstr "Бібліятэкі"
 
-#: src/commands-impl.c:955 src/dlg-catalog.c:120
+#: src/commands-impl.c:960 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr ""
 
-#: src/commands-impl.c:956
+#: src/commands-impl.c:961
 #, fuzzy, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1029 src/commands-impl.c:1066
+#: src/commands-impl.c:1034 src/commands-impl.c:1071
 #, fuzzy, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1132
+#: src/commands-impl.c:1140
 #, fuzzy, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1161
+#: src/commands-impl.c:1171
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 
-#: src/commands-impl.c:1198
+#: src/commands-impl.c:1179 src/dlg-file-utils.c:227
+msgid "_Do not display this message again"
+msgstr ""
+
+#: src/commands-impl.c:1212
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 
-#: src/commands-impl.c:1200 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1214 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr ""
 
-#: src/commands-impl.c:1266 src/commands-impl.c:1321
+#: src/commands-impl.c:1280 src/commands-impl.c:1335
 #, fuzzy, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1321 src/dlg-file-utils.c:2295
-#: src/dlg-file-utils.c:2297
+#: src/commands-impl.c:1335 src/dlg-file-utils.c:2433
+#: src/dlg-file-utils.c:2435
 #, fuzzy, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1342
+#: src/commands-impl.c:1356
 msgid "source contains destination"
 msgstr ""
 
-#: src/commands-impl.c:1353
+#: src/commands-impl.c:1367
 msgid "a folder with that name is already present."
 msgstr ""
 
-#: src/commands-impl.c:1434 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
+#: src/commands-impl.c:1454 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr ""
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1626
 #, fuzzy, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1626
 #, fuzzy, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1652 src/dlg-catalog.c:79
+#: src/commands-impl.c:1672 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr ""
 
-#: src/commands-impl.c:1653
+#: src/commands-impl.c:1673
 msgid "New Catalog"
 msgstr ""
 
-#: src/commands-impl.c:1698
+#: src/commands-impl.c:1718
 #, fuzzy, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
 
-#: src/commands-impl.c:1762
+#: src/commands-impl.c:1782
 msgid "The selected library will be removed, are you sure?"
 msgstr ""
 
-#: src/commands-impl.c:1764
+#: src/commands-impl.c:1784
 msgid "The selected catalog will be removed, are you sure?"
 msgstr ""
 
-#: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:448
+#: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-change-date.c:151
+#: src/dlg-comment.c:265 src/dlg-convert.c:434 src/dlg-jpegtran.c:638
+#: src/dlg-maintenance.c:273 src/dlg-preferences.c:175
+#: src/dlg-rename-series.c:338 src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
-msgstr ""
+msgstr "Немагчыма адлюстраваць даведку: %s"
 
-#: src/commands-impl.c:2794
+#: src/commands-impl.c:2764
 msgid "translator_credits"
-msgstr ""
+msgstr "Алесь Няхайчык <nab@mail.by>"
 
-#: src/commands-impl.c:2806
+#: src/commands-impl.c:2773 src/gthumb-window.c:557 src/gthumb-window.c:4830
+#: src/main.c:125
+msgid "gThumb"
+msgstr "gThumb"
+
+#: src/commands-impl.c:2776
 msgid "An image viewer and browser for GNOME."
-msgstr ""
+msgstr "Вандроўнік і праглядальнік відарысаў для GNOME."
 
-#: src/dlg-catalog.c:435
+#: src/dlg-catalog.c:446
 msgid "Move Catalog to..."
-msgstr ""
+msgstr "Перамясьціць каталёг у..."
 
-#: src/dlg-categories.c:186
+#: src/dlg-categories.c:196
 msgid "Enter the new category name"
-msgstr ""
+msgstr "Увядзіце назву новае катэгорыі"
 
-#: src/dlg-categories.c:197
-#, c-format
-msgid "The category \"%s\" is already present. Please use a different name."
-msgstr ""
-
-#: src/dlg-convert.c:161
-#, c-format
-msgid "Converting image: %s"
-msgstr ""
-
-#: src/dlg-convert.c:184
+#: src/dlg-categories.c:207
 #, c-format
 msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
 msgstr ""
+"Назва \"%s\" не зьяўляецца рэчаіснай, бо яна ўтрымлівае знак \",\". Калі ласка, "
+"скарыстайце іншую назву."
 
-#: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
+#: src/dlg-categories.c:212
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "Катэгорыя \"%s\" ужо прысутнічае. Калі ласка, скарыстайце іншую назву."
+
+#: src/dlg-convert.c:162
+#, c-format
+msgid "Converting image: %s"
+msgstr "Пераўтварэньне відарыса: %s"
+
+#: src/dlg-convert.c:185
+#, c-format
+msgid "An image named \"%s\" is already present. Please specify a different name."
+msgstr "Відарыс з назвай \"%s\" ужо прысутнічае. Калі ласка, задайце іншую назву."
+
+#: src/dlg-convert.c:313 src/gthumb_convert.glade.h:17
 msgid "Skip"
-msgstr ""
+msgstr "Прапусцiць"
 
-#: src/dlg-duplicates.c:265
-msgid "Image"
-msgstr ""
-
-#: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
+#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:649
 #, fuzzy
 msgid "Duplicates"
 msgstr "Дастасаваньні"
 
-#: src/dlg-duplicates.c:294
+#: src/dlg-duplicates.c:293
 msgid "Duplicates Size"
 msgstr ""
 
-#: src/dlg-duplicates.c:400
+#: src/dlg-duplicates.c:399
 msgid "Last modified"
-msgstr ""
+msgstr "Апошняе зьмяненьне"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:856
-#, fuzzy
+#: src/dlg-duplicates.c:414 src/dlg-image-prop.c:643
 msgid "Location"
-msgstr "Навучаньне"
+msgstr "Знаходжаньне"
 
-#: src/dlg-duplicates.c:755
+#: src/dlg-duplicates.c:754
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Пазначаныя відарысы будуць перанесены ў сьметніцу, вы ўпэўнены?"
 
-#: src/dlg-file-utils.c:87
+#: src/dlg-file-utils.c:88
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr ""
+msgstr "Тэчка прызначаэньня не йснуе. Жадаеце стварыць яе?"
 
-#: src/dlg-file-utils.c:103
-#, fuzzy, c-format
-msgid "Could not create folder \"%s\": %s."
-msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
-
-#: src/dlg-file-utils.c:117
+#: src/dlg-file-utils.c:104
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
+msgid "Could not create folder \"%s\": %s."
+msgstr "Немагчыма стварыць тэчку \"%s\": %s."
 
-#: src/dlg-file-utils.c:199
+#: src/dlg-file-utils.c:118
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Вы ня маеце неабходных правоў на стварэньне відарысаў у гэтае тэчцы \"%s\""
+
+#: src/dlg-file-utils.c:201
 msgid "Could not delete the images:"
-msgstr ""
+msgstr "Немагчыма выдаліць відарысы:"
 
-#: src/dlg-file-utils.c:219
+#: src/dlg-file-utils.c:224
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr ""
+msgstr "Немагчыма перанесьці відарысы ў сьметніцу. Жадаеце выдаліць іх назусім?"
 
-#: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
+#: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
 msgid "You didn't enter the new name"
-msgstr ""
+msgstr "Вы не ўвялі новую назву"
 
-#: src/dlg-file-utils.c:762 src/dlg-file-utils.c:863
+#: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
+"Назва \"%s\" ужо выкарыстоўваецца у гэтае тэчцы. Калі ласка, скарыстайце іншую "
+"назву."
 
-#: src/dlg-file-utils.c:1002
-#, fuzzy
+#: src/dlg-file-utils.c:1010
 msgid "Could not rename the image:"
-msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
+msgstr "Немагчыма перайменаваць відарыс:"
 
-#: src/dlg-file-utils.c:1004
-#, fuzzy
+#: src/dlg-file-utils.c:1012
 msgid "Could not rename the following images:"
-msgstr "Ня атрымалася стварыць базу даньняў. Абнаўленьне перарываецца.\n"
+msgstr "Немагчыма перайменаваць наступныя відарысы:"
 
-#: src/dlg-file-utils.c:1137
+#: src/dlg-file-utils.c:1146
 msgid "Could not move the image:"
-msgstr ""
+msgstr "Немагчыма перанесьці відарыс:"
 
-#: src/dlg-file-utils.c:1139
+#: src/dlg-file-utils.c:1148
 msgid "Could not copy the image:"
-msgstr ""
+msgstr "Немагчыма скапіяваць відарыс:"
 
-#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2317
-#, fuzzy
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2456
 msgid "_Abort"
-msgstr "Мастацтва"
+msgstr "_Пра"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2318
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2457
 msgid "_Continue"
-msgstr ""
+msgstr "_Працяг"
 
-#: src/dlg-file-utils.c:1335
+#: src/dlg-file-utils.c:1347
 #, c-format
 msgid "Copying file %d of %d"
-msgstr ""
+msgstr "Капіяваньне файла %d з %d"
 
-#: src/dlg-file-utils.c:1718 src/dlg-file-utils.c:1904
+#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2003
 msgid "Collecting images info"
-msgstr ""
+msgstr "Збор зьвестак відарысаў"
 
-#: src/dlg-file-utils.c:1721 src/dlg-file-utils.c:1917
+#: src/dlg-file-utils.c:1778 src/dlg-file-utils.c:2016
 #, c-format
 msgid "Deleting file %ld of %ld"
-msgstr ""
+msgstr "Выдаленьне файла %ld з %ld"
 
-#: src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:2006
 #, c-format
 msgid "Copying file %ld of %ld"
-msgstr ""
+msgstr "Капіяваньне файла %ld з %ld"
 
-#: src/dlg-file-utils.c:1912
+#: src/dlg-file-utils.c:2011
 #, c-format
 msgid "Moving file %ld of %ld"
-msgstr ""
+msgstr "Перамяшчэньне файла %ld з %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:428
+#: src/dlg-image-prop.c:628 src/gth-exif-data-viewer.c:471
 msgid "Size"
-msgstr ""
+msgstr "Памер"
 
-#: src/dlg-image-prop.c:846
+#: src/dlg-image-prop.c:633
 msgid "Type"
-msgstr ""
+msgstr "Від"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:435
-msgid "Bytes"
-msgstr ""
-
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:442
+#: src/dlg-image-prop.c:648 src/gth-exif-data-viewer.c:485
 msgid "Modified"
-msgstr ""
+msgstr "Зьменены"
 
-#: src/dlg-image-prop.c:866
+#: src/dlg-image-prop.c:653
 msgid "Information on Channel"
-msgstr ""
+msgstr "Зьвесткі канала"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5270
-#, fuzzy
-msgid "Field"
-msgstr "Брандмаўэр"
-
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5280 src/gthumb.glade.h:25
-msgid "Value"
-msgstr ""
-
-#: src/dlg-image-prop.c:991
+#: src/dlg-image-prop.c:751
 #, c-format
 msgid "%s Properties"
-msgstr ""
+msgstr "Уласьцівасьці %s"
 
 #: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
-msgstr ""
+msgstr "Усе камэнтары будуць выдаленыя. Вы ўпэўненыя?"
 
 #: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
-msgstr ""
+msgstr "Усе мініяцюры будуць выдаленыя. Вы ўпэўненыя?"
 
 #: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
-msgstr ""
+msgstr "Задайце запасны файл"
 
-#: src/dlg-png-exporter.c:997
+#: src/dlg-png-exporter.c:999
 msgid "Image Caption"
 msgstr ""
 
-#: src/dlg-png-exporter.c:1050
-#, fuzzy
+#: src/dlg-png-exporter.c:1052
 msgid "Header"
-msgstr "Caldera"
+msgstr "Загаловак"
 
-#: src/dlg-png-exporter.c:1063 src/dlg-png-exporter.c:1069
+#: src/dlg-png-exporter.c:1065 src/dlg-png-exporter.c:1071
 msgid "Footer"
-msgstr ""
+msgstr "Падвал"
 
-#: src/dlg-rename-series.c:419
+#: src/dlg-rename-series.c:408
 msgid "Old Name"
-msgstr ""
+msgstr "Старая назва"
 
-#: src/dlg-rename-series.c:427
+#: src/dlg-rename-series.c:416
 msgid "New Name"
-msgstr ""
+msgstr "Новая назва"
 
-#: src/dlg-search.c:337
+#: src/dlg-search.c:330
 msgid "Search Result"
-msgstr ""
+msgstr "Вынік пошуку"
 
-#: src/dlg-search.c:808
+#: src/dlg-search.c:625
 msgid "Filename"
-msgstr ""
+msgstr "Назва файла"
 
-#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
-#, fuzzy
+#: src/dlg-search.c:634 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
-msgstr "Caldera"
+msgstr "Тэчка"
 
-#: src/dlg-web-exporter.c:587
+#: src/dlg-web-exporter.c:658
 msgid "Select Album Theme"
-msgstr ""
+msgstr "Вылучыце тэму альбома"
 
-#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:783 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
-msgstr ""
+msgstr "Вярнуць звычайны выгляд"
 
-#: src/fullscreen.c:822
+#: src/fullscreen.c:801
 msgid "Image Info"
-msgstr ""
+msgstr "Зьвесткі"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4249
-#, fuzzy
+#: src/fullscreen.c:819 src/gthumb-window.c:4096
 msgid "Back"
-msgstr "Рэзэрвовае капіяваньне"
+msgstr "Назад"
 
-#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
-#, fuzzy
+#: src/fullscreen.c:837 src/gthumb-ui.xml.h:52
 msgid "Forward"
-msgstr "Настольныя"
+msgstr "Наперад"
+
+#: src/gth-exif-data-viewer.c:127
+msgid "Field"
+msgstr "Поле"
+
+#: src/gth-exif-data-viewer.c:137
+msgid "Value "
+msgstr "Значэньне"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
-msgstr ""
+msgstr "Аг_ледзіць..."
 
 #: src/gth-folder-selection-dialog.c:412
 msgid "_Recents:"
-msgstr ""
+msgstr "Апо_шнія:"
 
 #: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
-msgstr ""
+msgstr "_Закладкі:"
 
 #: src/gthumb-ui.xml.h:1
 msgid "1:1"
-msgstr ""
+msgstr "1:1"
 
 #: src/gthumb-ui.xml.h:2
 msgid "Actual size"
-msgstr ""
+msgstr "Сапраўдны памер"
 
 #: src/gthumb-ui.xml.h:3
 msgid "Add a comment to selected images"
-msgstr ""
+msgstr "Дадаць камэнтар да вылучанага відарыса"
 
 #: src/gthumb-ui.xml.h:4
 msgid "Add a comment to the image"
-msgstr ""
+msgstr "Дадаць камэнтар да відарыса"
 
 #: src/gthumb-ui.xml.h:5
 msgid "Add current location to bookmarks"
-msgstr ""
+msgstr "Дадаць бягучае знаходжаньне ў закладкі"
 
 #: src/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
-msgstr ""
+msgstr "Дадаць вылучаныя відарысы ў каталёг"
 
 #: src/gthumb-ui.xml.h:7
 msgid "Adjust brightness and contrast"
@@ -810,7 +1010,7 @@ msgid "Adjust hue and saturation"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:10
-msgid "Aply threshold"
+msgid "Apply threshold"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:11
@@ -841,7 +1041,7 @@ msgstr ""
 msgid "Ca_tegories"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:18
+#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4197
 msgid "Catalogs"
 msgstr ""
 
@@ -871,9 +1071,8 @@ msgid "Comm_ent"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:26
-#, fuzzy
 msgid "Convert"
-msgstr "Пераўтварэньне"
+msgstr "Пераўтварыць"
 
 #: src/gthumb-ui.xml.h:27
 msgid "Convert F_ormat"
@@ -953,33 +1152,31 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:46
 msgid "Edit bookmarks"
-msgstr ""
+msgstr "Рэдагаваць закладкі"
 
 #: src/gthumb-ui.xml.h:47
-#, fuzzy
 msgid "Edit various preferences"
-msgstr "Уласьцівасьці стальца"
+msgstr "Рэдагаваньне розныя перавагі"
 
 #: src/gthumb-ui.xml.h:48
 msgid "Fi_nd Duplicates..."
 msgstr ""
 
 #: src/gthumb-ui.xml.h:49
-#, fuzzy
 msgid "Find images"
-msgstr "Ваконныя мэнаджары"
+msgstr "Пошук відарысаў"
 
 #: src/gthumb-ui.xml.h:50
 msgid "Fit"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:51
+#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4147
 msgid "Folders"
-msgstr ""
+msgstr "Каталёгі"
 
 #: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
-msgstr ""
+msgstr "На ўвесь экран"
 
 #: src/gthumb-ui.xml.h:54
 msgid "Go to the folder that contains the selected image"
@@ -987,13 +1184,13 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:55
 msgid "Go to the home folder"
-msgstr ""
+msgstr "Перайсьці ў свойскі каталёг"
 
 #: src/gthumb-ui.xml.h:56
 msgid "Go to the next visited location"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:57
+#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4115
 msgid "Go to the previous visited location"
 msgstr ""
 
@@ -1120,7 +1317,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:17
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 #, fuzzy
 msgid "Print"
 msgstr "Друк"
@@ -1173,31 +1370,31 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:102
 msgid "Remove current catalog"
-msgstr ""
+msgstr "Выдаліць бягучы каталёг"
 
 #: src/gthumb-ui.xml.h:103
 msgid "Remove selected catalog"
-msgstr ""
+msgstr "Выдаліць вылучаны каталёг"
 
 #: src/gthumb-ui.xml.h:104
 msgid "Remove selected images from the catalog"
-msgstr ""
+msgstr "Выдаліць вылучаныя відарысы з каталёга"
 
 #: src/gthumb-ui.xml.h:105
 msgid "Remove the comment"
-msgstr ""
+msgstr "Выдаліць камэнтар"
 
 #: src/gthumb-ui.xml.h:106
 msgid "Rename current catalog"
-msgstr ""
+msgstr "Перайменаваць бягучы каталёг"
 
 #: src/gthumb-ui.xml.h:107
 msgid "Rename current folder"
-msgstr ""
+msgstr "Перайменаваць бягучы каталёг"
 
 #: src/gthumb-ui.xml.h:108
 msgid "Rename selected catalog"
-msgstr ""
+msgstr "Перайменаваць вылучаны каталёг"
 
 #: src/gthumb-ui.xml.h:109
 msgid "Rename selected folder"
@@ -1213,7 +1410,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:112
 msgid "Resize image"
-msgstr ""
+msgstr "Зьмяніць памеры відарыса"
 
 #: src/gthumb-ui.xml.h:114
 msgid "Restore the original desktop wallpaper"
@@ -1297,570 +1494,552 @@ msgstr ""
 msgid "Show/_Hide"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:51
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
 msgid "Slide Show"
-msgstr ""
+msgstr "Фотапаказ"
 
 #: src/gthumb-ui.xml.h:138
 msgid "Sort images by file size"
-msgstr ""
+msgstr "Упарадкоўваць відарысы па памерах"
 
 #: src/gthumb-ui.xml.h:139
 msgid "Sort images by modification time"
-msgstr ""
+msgstr "Упарадкоўваць відарысы па часу зьмяненьня"
 
 #: src/gthumb-ui.xml.h:140
 msgid "Sort images by name"
-msgstr ""
+msgstr "Упарадкоўваць відарысы па назвах"
 
 #: src/gthumb-ui.xml.h:141
 msgid "Sort images by path"
-msgstr ""
+msgstr "Упарадкоўваць відарысы па шляхах"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Specify a location to visit"
-msgstr ""
+msgstr "Задайце знаходжаньне для наведваньня"
 
 #: src/gthumb-ui.xml.h:144
-#, fuzzy
 msgid "Step A_nimation"
-msgstr "Сыстэмнае адміністраваньне"
+msgstr "Пакр_окавая анімацыя"
 
 #: src/gthumb-ui.xml.h:145
 msgid "Stop loading current location"
-msgstr ""
+msgstr "Спыніць загрузку бягучага знаходжаньня"
 
 #: src/gthumb-ui.xml.h:146
 msgid "Str_etched"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:147
-msgid "Transparen_cy Type"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:148
 msgid "Up"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:148
 msgid "Use black as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:149
 msgid "Use checks as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:150
 msgid "Use gray as transparency"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:151
 msgid "Use high quality zoom"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:152
 msgid "Use low quality zoom"
-msgstr ""
+msgstr "Выкарыстоўваць нізкаякаснае маштабаваньне"
+
+#: src/gthumb-ui.xml.h:153
+msgid "Use white as transparency"
+msgstr "Выкарыстоўваць белы колер як празрыстасьць"
 
 #: src/gthumb-ui.xml.h:154
-msgid "Use white as transparency"
-msgstr ""
+msgid "View as a slide show"
+msgstr "Выгляд фотапаказа"
 
 #: src/gthumb-ui.xml.h:155
-msgid "View as List"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:156
-msgid "View as Thumbnails"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:157
-msgid "View as a slide show"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:158
 msgid "View image comment"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:156
 msgid "View image in fullscreen mode"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:157
 msgid "View image properties"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:159
 msgid "View next image"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:160
 msgid "View or hide the statusbar of this window"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:161
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:162
 msgid "View previous image"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4203
 msgid "View the catalogs"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4153
 msgid "View the folders"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:165
 msgid "View the image"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:166
 msgid "View the image flipped"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:167
 msgid "View the image in black and white"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:168
 msgid "View the image mirrored"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:169
 msgid "View the image rotated clockwise"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:170
 msgid "View the image rotated counter-clockwise"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:171
 msgid "View the image with negative colors"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:172
 msgid "View thumbnails"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:173
 msgid "Zoom _In"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:174
 msgid "Zoom _Out"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:175
 msgid "Zoom in"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:176
 msgid "Zoom out"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:177
 msgid "Zoom to _Fit"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:178
 msgid "Zoom to fit window"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:179
 msgid "_About"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:180
 msgid "_Actual Size"
-msgstr ""
+msgstr "_Сапраўдны памер"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:181
 msgid "_Add Bookmark"
-msgstr ""
+msgstr "_Дадаць закладку"
 
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:182
 msgid "_Add to Catalog..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:183
 msgid "_Adjust Color Levels"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:184
 #, fuzzy
 msgid "_Back"
 msgstr "Рэзэрвовае капіяваньне"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:186
 msgid "_Bookmarks"
-msgstr ""
+msgstr "_Закладкі"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:187
 msgid "_Brightness-Contrast"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:188
 msgid "_Catalogs"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:189
 msgid "_Centered"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:191
 #, fuzzy
 msgid "_Close"
 msgstr "Гадзіньнікі"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:192
 msgid "_Color Balance"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:193
 msgid "_Contents"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:194
 msgid "_Copy..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:195
 msgid "_Crop"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:196
 msgid "_Delete History"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:197
 msgid "_Desaturate"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:198
 #, fuzzy
 msgid "_Edit"
 msgstr "Рэдагаваньне"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:199
 msgid "_Edit Bookmarks"
-msgstr ""
+msgstr "Рэдагаваць за_кладкі"
 
-#: src/gthumb-ui.xml.h:203 src/gthumb_search.glade.h:25
+#: src/gthumb-ui.xml.h:200 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:201
 msgid "_Equalize"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:202
 msgid "_File"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:203
 msgid "_Find..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:205
 msgid "_Folder"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:206
 msgid "_Folders"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:207
 #, fuzzy
 msgid "_Forward"
 msgstr "Настольныя"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:208
 msgid "_Full Screen"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:209
 msgid "_Go"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:210
 msgid "_Go to the Image Folder"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:214
+#: src/gthumb-ui.xml.h:211
 msgid "_Help"
-msgstr ""
+msgstr "_Даведка"
 
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:212
 msgid "_High Quality"
-msgstr ""
+msgstr "_Высокая якасьць"
 
-#: src/gthumb-ui.xml.h:216
+#: src/gthumb-ui.xml.h:213
 msgid "_Home"
-msgstr ""
+msgstr "_Свойскую тэчку"
 
-#: src/gthumb-ui.xml.h:217
+#: src/gthumb-ui.xml.h:214
 msgid "_Hue-Saturation"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:219
+#: src/gthumb-ui.xml.h:216
 msgid "_Image Preview"
-msgstr ""
+msgstr "Перадпра_гляд відарыса"
+
+#: src/gthumb-ui.xml.h:217
+msgid "_Keyboard Shortcuts"
+msgstr "Га_рачыя клявішы"
+
+#: src/gthumb-ui.xml.h:218
+msgid "_Location..."
+msgstr "_Знаходжаньне..."
+
+#: src/gthumb-ui.xml.h:219
+msgid "_Low Quality"
+msgstr "_Нізкая якасьць"
 
 #: src/gthumb-ui.xml.h:220
-msgid "_Keyboard Shortcuts"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:221
-msgid "_Location..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:222
-msgid "_Low Quality"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:223
 msgid "_Maintenance"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:222
 msgid "_Move..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:223
 msgid "_Negative"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:227
+#: src/gthumb-ui.xml.h:224
 msgid "_New Catalog..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:225
 msgid "_New Folder..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:230
+#: src/gthumb-ui.xml.h:227
 msgid "_Normalize"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:231
+#: src/gthumb-ui.xml.h:228
 msgid "_Open With"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:229
 msgid "_Posterize"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:233 src/gthumb_png_exporter.glade.h:66
+#: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
 #, fuzzy
 msgid "_Preferences"
 msgstr "Уласьцівасьці"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:231
 msgid "_Print..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:232
 msgid "_Reduce Colors"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:236
+#: src/gthumb-ui.xml.h:233
 msgid "_Reload"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:235
 msgid "_Rename Series"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:239
+#: src/gthumb-ui.xml.h:236
 msgid "_Rename..."
 msgstr ""
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:237
 msgid "_Resize"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:238
 msgid "_Restore"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:239
 msgid "_Reversed Order"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:240
 msgid "_Revert"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:241
 #, fuzzy
 msgid "_Rotate"
 msgstr "Аддаленыя"
 
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb-ui.xml.h:242
 msgid "_Scaled"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:29
-#, fuzzy
-msgid "_Search"
-msgstr "Размова"
-
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:243
 msgid "_Select All"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:244
 msgid "_Slide Show"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:245
 msgid "_Statusbar"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:246
 msgid "_Stop"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:247
 msgid "_Stretch Contrast"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:248
 msgid "_Threshold"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:64
+#: src/gthumb-ui.xml.h:249 src/gthumb_preferences.glade.h:65
 #, fuzzy
 msgid "_Thumbnails"
 msgstr "Тэрміналы"
 
-#: src/gthumb-ui.xml.h:254
+#: src/gthumb-ui.xml.h:250
 msgid "_Tiled"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:255
+#: src/gthumb-ui.xml.h:251
 msgid "_Toolbar"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:256
+#: src/gthumb-ui.xml.h:252
 msgid "_Tools"
-msgstr ""
+msgstr "_Сродкі"
+
+#: src/gthumb-ui.xml.h:253
+msgid "_Transform"
+msgstr "_Трансфармаваньне"
+
+#: src/gthumb-ui.xml.h:254
+msgid "_Up"
+msgstr "У_гору"
 
 #: src/gthumb-ui.xml.h:257
-msgid "_Transform"
-msgstr ""
+msgid "_Zoom"
+msgstr "Ма_штаб"
 
 #: src/gthumb-ui.xml.h:258
-msgid "_Up"
-msgstr ""
+msgid "by _Name"
+msgstr "Па _назвах"
+
+#: src/gthumb-ui.xml.h:259
+msgid "by _Path"
+msgstr "Па _шляхах"
+
+#: src/gthumb-ui.xml.h:260
+msgid "by _Size"
+msgstr "Па па_мерах"
 
 #: src/gthumb-ui.xml.h:261
-msgid "_Zoom"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:262
-msgid "by _Name"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:263
-msgid "by _Path"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:264
-msgid "by _Size"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:265
 msgid "by _Time"
-msgstr ""
+msgstr "Па _часу"
 
-#: src/gthumb-window.c:684
+#: src/gthumb-window.c:436
 msgid "[Press 'c' to add a comment]"
-msgstr ""
+msgstr "[Націсьніце \"c\", каб дадаць камэнтар]"
 
-#: src/gthumb-window.c:759 src/gthumb-window.c:782
+#: src/gthumb-window.c:510 src/gthumb-window.c:532
 msgid "[modified]"
-msgstr ""
+msgstr "[зьменены]"
 
-#: src/gthumb-window.c:866
+#: src/gthumb-window.c:616
 msgid "No image"
-msgstr ""
+msgstr "Відарыс адсутнічае"
 
-#: src/gthumb-window.c:868
+#: src/gthumb-window.c:618
 #, c-format
 msgid "1 image (%s)"
-msgstr ""
+msgstr "1 відарыс (%s)"
 
-#: src/gthumb-window.c:871
+#: src/gthumb-window.c:621
 #, c-format
 msgid "%d images (%s)"
-msgstr ""
+msgstr "%d відарысаў (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:628
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 вылучаны (%s)"
 
-#: src/gthumb-window.c:881
+#: src/gthumb-window.c:631
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d вылучана (%s)"
 
-#: src/gthumb-window.c:3359
+#: src/gthumb-window.c:3170
 msgid "Dragged Images"
-msgstr ""
+msgstr "Перацягнутыя відарысы"
 
-#: src/gthumb-window.c:3553
-#, fuzzy
+#: src/gthumb-window.c:3369
 msgid "Could not move the items:"
-msgstr "Ня атрымалася стварыць каталёг %s : %s\n"
+msgstr "Немагчыма перамясьціць элемэнты:"
 
-#: src/gthumb-window.c:5150
+#: src/gthumb-window.c:5162
 msgid "Image comment"
-msgstr ""
+msgstr "Камэнтар відарыса"
 
-#: src/gthumb-window.c:5164
+#: src/gthumb-window.c:5176
 msgid "Image data"
-msgstr ""
+msgstr "Даньні відарыса"
 
-#: src/gthumb-window.c:5178
+#: src/gthumb-window.c:5190
 msgid "Image preview"
-msgstr ""
+msgstr "Перадпрагляд відарыса"
 
-#: src/gthumb-window.c:6436
+#: src/gthumb-window.c:6395
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr ""
+msgstr "Немагчыма загрузіць тэчку \"%s\": %s\n"
 
-#: src/gthumb-window.c:6705
+#: src/gthumb-window.c:6664
 msgid "The specified catalog does not exist."
-msgstr ""
+msgstr "Пазначаны каталёг не йснуе."
 
-#: src/gthumb-window.c:8051
+#: src/gthumb-window.c:8141
 msgid "Wait please..."
-msgstr ""
+msgstr "Пачакайце, калі ласка..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr ""
+msgstr "<b>Катэгорыі:</b>"
 
 #: src/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
@@ -1885,7 +2064,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:9
 msgid "Bookmarks"
-msgstr ""
+msgstr "Закладкі"
 
 #: src/gthumb.glade.h:10
 msgid "C_atalogs:"
@@ -1945,6 +2124,10 @@ msgstr "Дастасаваньні"
 msgid "Red"
 msgstr "Red Hat"
 
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr ""
+
 #: src/gthumb.glade.h:26
 #, fuzzy
 msgid "_Application:"
@@ -1984,9 +2167,104 @@ msgstr "Аддаленыя"
 msgid "_Save the new image as:"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
-#: src/gthumb_search.glade.h:2
-msgid "..."
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Магчымыя значэньні: pixels (піксалі), percentage (адсоткі)."
+
+#: src/gthumb.schemas.in.h:19
+msgid "Possible values are: png, jpeg."
+msgstr "Магчымыя значэньні: png, jpeg."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values are: small, medium, large."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:22
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values are: white, black, checked, none."
+msgstr ""
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
 msgstr ""
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
@@ -2009,41 +2287,72 @@ msgstr ""
 msgid "Create a new category"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr ""
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+#, fuzzy
+msgid "Image creation date"
+msgstr "па часу зьмяненьня"
+
+#: src/gthumb_comments.glade.h:13
+#, fuzzy
+msgid "No date"
+msgstr "Аддаленыя"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr ""
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr ""
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr ""
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:15
+#: src/gthumb_comments.glade.h:21
 #, fuzzy
 msgid "_Delete"
 msgstr "Telnet"
 
-#: src/gthumb_comments.glade.h:16
+#: src/gthumb_comments.glade.h:22
 #, fuzzy
 msgid "_New"
 msgstr "Навіны"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+#, fuzzy
+msgid "_No date"
+msgstr "Аддаленыя"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr ""
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr ""
 
@@ -2171,8 +2480,8 @@ msgid "dpi"
 msgstr ""
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
-#: src/gthumb_tools.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr ""
 
@@ -2245,7 +2554,7 @@ msgstr ""
 msgid "_Brightness:"
 msgstr ""
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr ""
 
@@ -2286,18 +2595,13 @@ msgstr "Сымулятары"
 msgid "_Scale"
 msgstr ""
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr ""
 
 #: src/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
 msgstr ""
-
-#: src/gthumb_edit.glade.h:33
-#, fuzzy
-msgid "pixels"
-msgstr "Мікшары"
 
 #: src/gthumb_png_exporter.glade.h:4
 msgid "112"
@@ -2369,7 +2673,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:21
 msgid "<b>Page size</b>"
-msgstr ""
+msgstr "<b>Памер аркуша</b>"
 
 #: src/gthumb_png_exporter.glade.h:22
 msgid "<i>Examples:</i>"
@@ -2379,11 +2683,11 @@ msgstr ""
 msgid "Choose destination folder"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
 msgid "Col_umns:"
 msgstr ""
 
@@ -2399,11 +2703,11 @@ msgstr ""
 msgid "Create _HTML image map"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:29
+#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
 msgid "F_ooter:"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:30
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
 msgid "File _name"
 msgstr ""
 
@@ -2411,7 +2715,7 @@ msgstr ""
 msgid "File pa_th"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:32
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
 msgid "File si_ze"
 msgstr ""
 
@@ -2423,7 +2727,7 @@ msgstr ""
 msgid "Frame co_lor:"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:35
+#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
 msgid "H_eader:"
 msgstr ""
 
@@ -2435,7 +2739,7 @@ msgstr ""
 msgid "Hei_ght:"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:38
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
 msgid "Image dim_ensions"
 msgstr ""
 
@@ -2456,7 +2760,7 @@ msgstr ""
 msgid "Pi_xels"
 msgstr "Мікшары"
 
-#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
 msgid "Re_verse order"
 msgstr ""
 
@@ -2493,7 +2797,7 @@ msgstr ""
 msgid "Slide"
 msgstr "Відэа"
 
-#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
+#: src/gthumb_png_exporter.glade.h:52
 #, fuzzy
 msgid "Sor_t images:"
 msgstr "Сховішча"
@@ -2545,29 +2849,29 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:65
 msgid "_Image size:"
-msgstr ""
+msgstr "Па_мер відарыса:"
 
-#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
-msgstr ""
+msgstr "_Радкі:"
 
 #: src/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr ""
+msgstr "Су_цэльны колер"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
-msgstr ""
+msgstr "_Узор:"
 
-#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr ""
 
@@ -2575,130 +2879,69 @@ msgstr ""
 msgid "by time"
 msgstr ""
 
-#: src/gthumb_png_exporter.glade.h:76
+#: src/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
-msgstr ""
+msgstr "jpeg"
 
-#: src/gthumb_png_exporter.glade.h:77
+#: src/gthumb_png_exporter.glade.h:76
 msgid "png"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:5
-msgid "<b>Album</b>"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "<b>Index Layout</b>"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "<b>Saving</b>"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "<b>Theme</b>"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "Inde_x file:"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "Th_eme:"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:14
-msgid "Web Album"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Web Album Theme"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:16
-msgid "_Copy images to destination"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:17
-#, fuzzy
-msgid "_Destination:"
-msgstr "Прэзэнтацыя"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "_Go to Theme Folder"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "_Install Theme..."
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "_Title:"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "by modified time"
-msgstr ""
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "index.html"
-msgstr ""
+msgstr "png"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
-msgstr ""
+msgstr "112 x 112"
 
 #: src/gthumb_preferences.glade.h:5
 msgid "128 x 128"
-msgstr ""
+msgstr "128 x 128"
 
 #: src/gthumb_preferences.glade.h:6
 msgid "164 x 164"
-msgstr ""
+msgstr "164 x 164"
 
 #: src/gthumb_preferences.glade.h:7
 msgid "200 x 200"
-msgstr ""
+msgstr "200 x 200"
 
 #: src/gthumb_preferences.glade.h:8
 msgid "256 x 256"
-msgstr ""
+msgstr "256 x 256"
 
 #: src/gthumb_preferences.glade.h:9
 msgid "48 x 48"
-msgstr ""
+msgstr "48 x 48"
 
 #: src/gthumb_preferences.glade.h:10
 msgid "64 x 64"
-msgstr ""
+msgstr "64 x 64"
 
 #: src/gthumb_preferences.glade.h:11
 msgid "85 x 85"
-msgstr ""
+msgstr "85 x 85"
 
 #: src/gthumb_preferences.glade.h:12
 msgid "95 x 95"
-msgstr ""
+msgstr "95 x 95"
 
 #: src/gthumb_preferences.glade.h:13
 msgid "<b>Direction</b>"
-msgstr ""
+msgstr "<b>Накірунак</b>"
 
 #: src/gthumb_preferences.glade.h:14
 msgid "<b>Hide/Show</b>"
-msgstr ""
+msgstr "<b>Схаваць/Паказаць</b>"
 
 #: src/gthumb_preferences.glade.h:15
 msgid "<b>Interface</b>"
-msgstr ""
+msgstr "<b>Спалучэньне</b>"
 
 #: src/gthumb_preferences.glade.h:16
 msgid "<b>On startup:</b>"
-msgstr ""
+msgstr "<b>Пад час запуску:</b>"
 
 #: src/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
-msgstr ""
+msgstr "<b>Іншае</b>"
 
 #: src/gthumb_preferences.glade.h:18
 msgid "<b>Slide show</b>"
@@ -2733,9 +2976,8 @@ msgid "As_k confirmation before deleting images or catalogs"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:26
-#, fuzzy
 msgid "Black"
-msgstr "Рэзэрвовае капіяваньне"
+msgstr "Чорны"
 
 #: src/gthumb_preferences.glade.h:27
 msgid "Browser"
@@ -2750,209 +2992,233 @@ msgid "Checked"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:30
-msgid "Co_mments"
+msgid "Choose startup folder"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:31
-msgid "D_elay before changing image:"
+msgid "Co_mments"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:32
-msgid "D_etermine image type from content (slower)"
+msgid "D_elay before changing image:"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:33
-msgid "Do _not change folder"
+msgid "D_etermine image type from content (slower)"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:34
-msgid "Fit image to window"
+msgid "Do _not change folder"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:35
-msgid "Fit to window if larger"
+msgid "Fit image to window"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:36
-msgid "Follow Nautilus behaviour"
+msgid "Fit to window if larger"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:37
-#, fuzzy
-msgid "For_ward"
-msgstr "Настольныя"
+msgid "Follow Nautilus behaviour"
+msgstr ""
 
 #: src/gthumb_preferences.glade.h:38
-msgid "General"
-msgstr "Агульнае"
+msgid "For_ward"
+msgstr "На_перад"
 
 #: src/gthumb_preferences.glade.h:39
-msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgid "General"
+msgstr "Агульныя"
 
 #: src/gthumb_preferences.glade.h:40
-msgid "Go to this _folder:"
-msgstr ""
+msgid "Go to last _visited folder or catalog"
+msgstr "Ісьці да ап_ошняе наведанае тэчкі ці каталёга"
 
 #: src/gthumb_preferences.glade.h:41
-msgid "H_igh"
-msgstr ""
+msgid "Go to this _folder:"
+msgstr "Ісьці да _гэтае тэчкі:"
 
 #: src/gthumb_preferences.glade.h:42
-msgid "Icons only"
-msgstr ""
+msgid "H_igh"
+msgstr "В_ысокая"
 
 #: src/gthumb_preferences.glade.h:43
-msgid "Keep previous zoom"
-msgstr ""
+msgid "Icons only"
+msgstr "толькі значкі"
 
 #: src/gthumb_preferences.glade.h:44
-msgid "Layout:"
-msgstr ""
+msgid "Keep previous zoom"
+msgstr "пакінуць ранейшае павелічэньне"
 
 #: src/gthumb_preferences.glade.h:45
-msgid "Lo_w"
-msgstr ""
+msgid "Layout:"
+msgstr "Разьмеркаваньне:"
 
 #: src/gthumb_preferences.glade.h:46
-msgid "None"
-msgstr ""
+msgid "Lo_w"
+msgstr "Н_ізкая"
 
 #: src/gthumb_preferences.glade.h:47
-msgid "Re_verse"
-msgstr ""
+msgid "None"
+msgstr "няма"
 
 #: src/gthumb_preferences.glade.h:48
-msgid "Resta_rt when finished"
-msgstr ""
+msgid "Re_verse"
+msgstr "На_зад"
 
 #: src/gthumb_preferences.glade.h:49
-msgid "Set image to actual size"
-msgstr ""
+msgid "Resta_rt when finished"
+msgstr "Перазап_усьціць пасьля завяршэньня"
 
 #: src/gthumb_preferences.glade.h:50
-msgid "Set to C_urrent"
-msgstr ""
+msgid "Set image to actual size"
+msgstr "усталяваць відарыс у сапраўдны памер"
 
-#: src/gthumb_preferences.glade.h:52
-msgid "Switch to _full screen"
-msgstr ""
+#: src/gthumb_preferences.glade.h:51
+msgid "Set to C_urrent"
+msgstr "Бяг_учая тэчка"
 
 #: src/gthumb_preferences.glade.h:53
-#, fuzzy
-msgid "System settings"
-msgstr "Наладкі"
+msgid "Switch to _full screen"
+msgstr "Пераключыцца ў п_оўнаэкранны рэжым"
 
 #: src/gthumb_preferences.glade.h:54
-msgid "Text below icons"
-msgstr ""
+msgid "System settings"
+msgstr "сыстэмныя ўсталёўкі"
 
 #: src/gthumb_preferences.glade.h:55
-#, fuzzy
-msgid "Text beside icons"
-msgstr "Тэкставыя рэдактары"
+msgid "Text below icons"
+msgstr "тэкст пад значкамі"
 
 #: src/gthumb_preferences.glade.h:56
-msgid "Text only"
-msgstr ""
+msgid "Text beside icons"
+msgstr "тэкст побач са значкамі"
 
 #: src/gthumb_preferences.glade.h:57
-msgid "Th_umbnail size:"
-msgstr ""
+msgid "Text only"
+msgstr "толькі тэкст"
 
 #: src/gthumb_preferences.glade.h:58
-msgid "Transparency _type:"
-msgstr ""
+msgid "Th_umbnail size:"
+msgstr "Памер мініяц_юр:"
 
 #: src/gthumb_preferences.glade.h:59
+msgid "Transparency _type:"
+msgstr "Від пра_зрыстасьці:"
+
+#: src/gthumb_preferences.glade.h:60
 msgid "Viewer"
 msgstr "Праглядальнік"
 
-#: src/gthumb_preferences.glade.h:60
-msgid "White"
-msgstr ""
-
 #: src/gthumb_preferences.glade.h:61
-msgid "_Filenames"
-msgstr ""
+msgid "White"
+msgstr "Белы"
 
 #: src/gthumb_preferences.glade.h:62
-msgid "_List"
-msgstr ""
+msgid "_Filenames"
+msgstr "_Назвы файлаў"
 
 #: src/gthumb_preferences.glade.h:63
+msgid "_List"
+msgstr "_Сьпіс"
+
+#: src/gthumb_preferences.glade.h:64
 msgid "_Slides"
 msgstr ""
 
-#: src/gthumb_preferences.glade.h:65
-msgid "_Toolbar style:"
-msgstr ""
-
 #: src/gthumb_preferences.glade.h:66
+msgid "_Toolbar style:"
+msgstr "Від панэлі _сродкаў:"
+
+#: src/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
 msgstr "Перавагі gThumb"
 
-#: src/gthumb_preferences.glade.h:67
+#: src/gthumb_preferences.glade.h:68
 msgid "seconds"
-msgstr ""
+msgstr "сэкунды"
 
 #: src/gthumb_print.glade.h:4
-#, fuzzy
-msgid "<b>Orientation</b>"
-msgstr "Прэзэнтацыя"
+msgid "<b>Image</b>"
+msgstr "<b>Відарыс</b>"
 
 #: src/gthumb_print.glade.h:5
-msgid "<b>Size</b>"
-msgstr ""
+msgid "<b>Orientation</b>"
+msgstr "<b>Спагляданьне</b>"
 
 #: src/gthumb_print.glade.h:6
+msgid "<b>Size</b>"
+msgstr "<b>Памер</b>"
+
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
 
-#: src/gthumb_print.glade.h:8
-msgid "A_4 (8.27\" x 11.69\")"
-msgstr ""
-
 #: src/gthumb_print.glade.h:9
-msgid "Center _on Page"
-msgstr ""
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "E_xecutive (7.25\" x 10.5\")"
+msgid "C_ustom:"
 msgstr ""
 
 #: src/gthumb_print.glade.h:11
-msgid "I_nclude comment"
+msgid "Center _on Page"
 msgstr ""
 
 #: src/gthumb_print.glade.h:12
-msgid "L_egal (8.5\" x 14\")"
-msgstr ""
+msgid "Comment _font:"
+msgstr "Шрыфт ка_мэнтару:"
 
 #: src/gthumb_print.glade.h:13
-msgid "Lan_dscape"
+msgid "I_nclude comment"
 msgstr ""
 
 #: src/gthumb_print.glade.h:14
-msgid "Layout"
-msgstr ""
+msgid "Inches"
+msgstr "Цалі"
 
 #: src/gthumb_print.glade.h:15
-msgid "P_ortrait"
-msgstr ""
+msgid "Lan_dscape"
+msgstr "_Гарызантальнае"
 
 #: src/gthumb_print.glade.h:16
+msgid "Layout"
+msgstr "Разьмеркаваньне"
+
+#: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Мілімэтры"
+
+#: src/gthumb_print.glade.h:18
+msgid "P_ortrait"
+msgstr "_Вэртыкальнае"
+
+#: src/gthumb_print.glade.h:19
 msgid "Paper Details"
 msgstr ""
 
-#: src/gthumb_print.glade.h:18
-msgid "_Letter (8.5\" x 11\")"
+#: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
 msgstr ""
 
-#: src/gthumb_print.glade.h:19
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr ""
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr ""
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
+msgstr ""
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
 msgstr ""
 
 #: src/gthumb_search.glade.h:3
@@ -2964,25 +3230,24 @@ msgid "<b>Search scope</b>"
 msgstr ""
 
 #: src/gthumb_search.glade.h:6
-#, fuzzy
 msgid "After"
-msgstr "Іншае"
+msgstr "Пасьля"
 
 #: src/gthumb_search.glade.h:7
 msgid "Any"
-msgstr ""
+msgstr "Любы"
 
 #: src/gthumb_search.glade.h:8
 msgid "Before"
-msgstr ""
+msgstr "Перад"
 
 #: src/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
-msgstr ""
+msgstr "Са_тэгорыі:"
 
 #: src/gthumb_search.glade.h:11
 msgid "Choose categories from the saved list"
-msgstr ""
+msgstr "Абярыце катэгорыі з захаванага сьпіса"
 
 #: src/gthumb_search.glade.h:13
 msgid "Equal to"
@@ -2990,15 +3255,15 @@ msgstr ""
 
 #: src/gthumb_search.glade.h:14
 msgid "File _name:"
-msgstr ""
+msgstr "Наз_ва файла:"
 
 #: src/gthumb_search.glade.h:15
 msgid "Find"
-msgstr ""
+msgstr "Шукаць"
 
 #: src/gthumb_search.glade.h:16
 msgid "Found images:"
-msgstr ""
+msgstr "Пошук відарысаў:"
 
 #: src/gthumb_search.glade.h:17
 msgid "Match a_ll selected categories"
@@ -3031,6 +3296,11 @@ msgstr ""
 #: src/gthumb_search.glade.h:28
 msgid "_Save"
 msgstr "_Захаваць"
+
+#: src/gthumb_search.glade.h:29
+#, fuzzy
+msgid "_Search"
+msgstr "Размова"
 
 #: src/gthumb_tools.glade.h:4
 msgid "<b>Comments</b>"
@@ -3161,10 +3431,6 @@ msgstr ""
 msgid "Search terminated, no duplicates found."
 msgstr ""
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr ""
-
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
@@ -3188,63 +3454,206 @@ msgstr "па назвах"
 msgid "by Size"
 msgstr "па памерах"
 
-#: src/main.c:78
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Альбом</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Фота даньні</b>"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>Захаваньне</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Тэма</b>"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "Came_ra Model"
+msgstr "Мадэля кам_эры"
+
+#: src/gthumb_web_exporter.glade.h:17
+#, fuzzy
+msgid "Caption"
+msgstr "Навучаньне"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Exposure _time"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "Focal _length"
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "I_mage Caption..."
+msgstr ""
+
+#: src/gthumb_web_exporter.glade.h:29
+msgid "Inde_x file:"
+msgstr "Файл кл_ючоў:"
+
+#: src/gthumb_web_exporter.glade.h:31
+msgid "Resi_ze images if larger than:"
+msgstr "Зьмяняць па_меры відарысаў, калі яны большыя за:"
+
+#: src/gthumb_web_exporter.glade.h:32
+msgid "Sor_t:"
+msgstr "Упар_адкаваньне:"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "Th_eme:"
+msgstr "Т_эма:"
+
+#: src/gthumb_web_exporter.glade.h:35
+#, no-c-format
+msgid "Use %d  to insert current date"
+msgstr "Скарыстаць %d  каб уставіць бягучую дату"
+
+#: src/gthumb_web_exporter.glade.h:36
+msgid "Web Album"
+msgstr "Альбом для павуціньня"
+
+#: src/gthumb_web_exporter.glade.h:37
+msgid "Web Album Theme"
+msgstr "Тэма альбома для павуціньня"
+
+#: src/gthumb_web_exporter.glade.h:38
+msgid "_Aperture value"
+msgstr "Значэньне дзі_ркі"
+
+#: src/gthumb_web_exporter.glade.h:39
+msgid "_Copy images to destination"
+msgstr "_Капіяваць відарысы ў пункт прызначэньня"
+
+#: src/gthumb_web_exporter.glade.h:40
+msgid "_Date and Time"
+msgstr "_Дата ды час"
+
+#: src/gthumb_web_exporter.glade.h:41
+msgid "_Destination:"
+msgstr "П_рызначэньне:"
+
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Flash"
+msgstr "_Маланка"
+
+#: src/gthumb_web_exporter.glade.h:43
+msgid "_Go to Theme Folder"
+msgstr "Перай_сьці ў каталёг тэмы"
+
+#: src/gthumb_web_exporter.glade.h:44
+msgid "_Install Theme..."
+msgstr "Ус_таляваць тэму..."
+
+#: src/gthumb_web_exporter.glade.h:46
+msgid "_Shutter speed"
+msgstr "Хуткасьць за_твора"
+
+#: src/gthumb_web_exporter.glade.h:47
+#, fuzzy
+msgid "_Thumbnail Caption..."
+msgstr "Тэрміналы"
+
+#: src/gthumb_web_exporter.glade.h:48
+msgid "by modified time"
+msgstr "па часе зьмяненьня"
+
+#: src/gthumb_web_exporter.glade.h:52
+msgid "index.html"
+msgstr "index.html"
+
+#: src/main.c:81
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Пачынаць працу ў поўнаэкранным рэжыме"
 
-#: src/main.c:82
+#: src/main.c:85
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "Аўтаматычна пачынаць фотапаказ"
 
-#: src/main.c:161
+#: src/main.c:164
 msgid "Holidays"
 msgstr "Адпачынак"
 
-#: src/main.c:162
+#: src/main.c:165
 msgid "Temporary"
 msgstr "Часовае"
 
-#: src/main.c:163
+#: src/main.c:166
 msgid "Screenshots"
 msgstr "Здымкі экрана"
 
-#: src/main.c:164
+#: src/main.c:167
 msgid "Science"
 msgstr "Навука"
 
-#: src/main.c:165
+#: src/main.c:168
 msgid "Favourite"
 msgstr "Аблюбаванае"
 
-#: src/main.c:166
+#: src/main.c:169
 msgid "Important"
 msgstr "Важнае"
 
-#: src/main.c:167
+#: src/main.c:170
 msgid "GNOME"
-msgstr "Гном"
+msgstr "GNOME"
 
-#: src/main.c:168
+#: src/main.c:171
 msgid "Games"
 msgstr "Гульні"
 
-#: src/main.c:169
+#: src/main.c:172
 msgid "Party"
 msgstr "Вечарына"
 
-#: src/main.c:170
+#: src/main.c:173
 msgid "Birthday"
 msgstr "Дзень народзінаў"
 
-#: src/main.c:171
+#: src/main.c:174
 msgid "Astronomy"
-msgstr "Зораведаньне"
+msgstr "Астраномія"
 
-#: src/main.c:172
+#: src/main.c:175
 msgid "Family"
 msgstr "Сям'я"
 
-#: src/main.c:308 src/main.c:372
+#: src/main.c:312 src/main.c:394
 msgid "Command Line"
 msgstr "Загадны радок"
 
