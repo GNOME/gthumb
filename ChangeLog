@@ -1,3 +1,7 @@
+2003-03-28  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
+
+	* configure.in: Added Belarusian to ALL_LINGUAS.
+
 2003-03-25  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-file-utils.c (copy_next_file, folder_copy): 
