@@ -28,9 +28,16 @@
 	     _tip="Close all windows and exit"
 	     pixtype="stock" pixname="gtk-quit" accel="*Control*Q"/>
 
-	<cmd name="Image_OpenWith" _label="Open With" 
+	<cmd name="Image_OpenWith" _label="_Open With" 
 	     _tip="Open this image with an application"
 	     pixtype="stock" pixname="gtk-open"/>
+	<cmd name="Image_Save" _label="Save _As..." 
+	     _tip="Save current image"
+	     pixtype="stock" pixname="gtk-save-as"/>
+	<cmd name="Image_Print" _label="_Print" 
+	     _tip="Print the current image"
+	     pixtype="stock" pixname="gtk-print"/>
+
 	<cmd name="Image_Rename" _label="Rename" 
 	     _tip="Rename this image"
 	     accel="F2"/>
@@ -246,7 +253,9 @@
 	<cmd name="View_ExitFullscreenPopup" _label="Restore Normal View"
 	     _tip="View image in fullscreen mode"
 	     pixtype="stock" pixname="gthumb-normal-view"/>
-	<cmd name="View_ShowFolders" type="toggle"
+
+	<cmd name="View_ShowFolders" 
+	     type="toggle"
 	     _tip="View the folders"
 	     pixtype="pixbuf"
 	     accel="*Alt*1"/>
@@ -254,7 +263,12 @@
 	     _tip="View the catalogs"
 	     pixtype="pixbuf"
 	     accel="*Alt*2"/>
-	<cmd name="View_ShowImage" type="toggle"
+	<cmd name="View_ShowCatalogs" type="toggle"
+	     _tip="View the catalogs"
+	     pixtype="pixbuf"
+	     accel="*Alt*2"/>
+
+	<cmd name="View_ShowPreview" type="toggle"
 	     _tip="View the image"/>
 
 	<cmd name="View_Sidebar_Folders"/>
@@ -476,7 +490,8 @@
 				  _label="_Folders"/>
 			<menuitem name="View_ShowCatalogs" verb=""
 				  _label="_Catalogs"/>
-			<menuitem name="View_ShowImage" verb=""
+			<separator/>
+			<menuitem name="View_ShowPreview" verb=""
 			  	  _label="_Image preview"/>
 			<separator/>
 			<menuitem name="View_Toolbar" verb=""/>
@@ -648,6 +663,7 @@
 <popups>
 	<popup name="FilePopup">
 		<menuitem name="File_OpenWithPopup" verb=""/>
+		<separator/>		
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
 			<menuitem name="Wallpaper_Tiled" verb=""/>
@@ -659,7 +675,9 @@
 		<separator/>
 		<menuitem name="Edit_RenameFilePopup" verb=""/>
 		<menuitem name="Edit_DuplicateFile" verb=""/>
+		<separator/>
 		<menuitem name="Edit_DeleteFiles" verb=""/>
+		<separator/>
 		<menuitem name="Edit_CopyFiles" verb=""/>
 		<menuitem name="Edit_MoveFiles" verb=""/>
 		<separator/>
@@ -675,7 +693,6 @@
 	<popup name="ImagePopup">
 		<menuitem name="View_FullscreenPopup" verb=""/>
 		<separator/>
-		<menuitem name="Image_OpenWith" verb=""/>
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
 			<menuitem name="Wallpaper_Tiled" verb=""/>
@@ -685,18 +702,17 @@
 			<menuitem name="Wallpaper_Restore" verb=""/>
 		</submenu>
 		<separator/>
+		<menuitem name="Image_OpenWith" verb=""/>
+		<menuitem name="Image_Save" verb=""/>
+		<menuitem name="Image_Print" verb=""/>
+		<separator/>
 		<menuitem name="Image_RenamePopup" verb=""/>
 		<menuitem name="Image_Duplicate" verb=""/>
+		<separator/>
 		<menuitem name="Image_Delete" verb=""/>
+		<separator/>
 		<menuitem name="Image_Copy" verb=""/>
 		<menuitem name="Image_Move" verb=""/>
-		<separator/>
-		<menuitem name="AlterImage_Rotate90" verb=""/>
-		<menuitem name="AlterImage_Rotate90CC" verb=""/>
-		<menuitem name="AlterImage_Flip" verb=""/>
-		<menuitem name="AlterImage_Mirror" verb=""/>
-		<menuitem name="AlterImage_Desaturate" verb=""/>
-		<menuitem name="AlterImage_Invert" verb=""/>
 		<separator/>
 		<menuitem name="Go_ToContainerPopup" verb=""/>
 	</popup>

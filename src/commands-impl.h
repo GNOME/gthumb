@@ -40,7 +40,6 @@ DEFINE_VERB(edit_duplicate_file_command_impl);
 DEFINE_VERB(edit_delete_files_command_impl);
 DEFINE_VERB(edit_copy_files_command_impl);
 DEFINE_VERB(edit_move_files_command_impl);
-
 DEFINE_VERB(image_open_with_command_impl);
 DEFINE_VERB(image_rename_command_impl);
 DEFINE_VERB(image_duplicate_command_impl);

@@ -1,3 +1,8 @@
+2002-11-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_load_image): check whether 
+	filename == window->image_path
+
 2002-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/gthumb-init.c (gthumb_init): use functions to

@@ -83,7 +83,9 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("File_OpenWith", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_OpenWithPopup", file_open_with_command_impl),
 	BONOBO_UI_VERB ("File_Print", file_print_command_impl),
+	BONOBO_UI_VERB ("Image_Print", file_print_command_impl),
 	BONOBO_UI_VERB ("File_Save", file_save_command_impl),
+	BONOBO_UI_VERB ("Image_Save", file_save_command_impl),
 	BONOBO_UI_VERB ("File_Revert", file_revert_command_impl),
 	BONOBO_UI_VERB ("File_Exit", file_exit_command_impl),
 	BONOBO_UI_VERB ("Image_OpenWith", image_open_with_command_impl),
@@ -574,8 +576,10 @@ window_update_sensitivity (GThumbWindow *window)
 			       sel_not_null && not_fullscreen);
 
 	set_command_sensitive (window, "File_Save", ! image_is_void);
+	set_command_sensitive (window, "Image_Save", ! image_is_void);
 	set_command_sensitive (window, "File_Revert", ! image_is_void && window->image_modified);
 	set_command_sensitive (window, "File_Print", ! image_is_void);
+	set_command_sensitive (window, "Image_Print", ! image_is_void);
 
 	/* Edit menu. */
 
@@ -2122,7 +2126,7 @@ toggle_image_preview_visibility (GThumbWindow *window)
 		window->image_preview_visible = ! window->image_preview_visible;
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
-						"/commands/View_ShowImage", 
+						"/commands/View_ShowPreview", 
 						window->image_preview_visible, 
 						FALSE);
 	}
@@ -2714,7 +2718,7 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 					|| window->file_list->doing_thumbs));
 	}
 
-	if (strcmp (path, "View_ShowImage") == 0) 
+	if (strcmp (path, "View_ShowPreview") == 0) 
 		toggle_image_preview_visibility (window);
 }
 
@@ -2773,7 +2777,7 @@ add_listener_for_toggle_items (GThumbWindow *window)
 		"View_PlayAnimation",
 		"View_Toolbar",
 		"View_Statusbar",
-		"View_ShowImage",
+		"View_ShowPreview",
 		"Tools_Slideshow"
 	};
 	int i, n = sizeof (toggle_commands) / sizeof (char*);
@@ -2814,7 +2818,7 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	set_command_state_without_notifing (window, prop, TRUE);
 
 	set_command_state_without_notifing (window, 
-					    "View_ShowImage",
+					    "View_ShowPreview",
 					    eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE));
 
 	/* Toolbar & Statusbar */
@@ -3964,7 +3968,7 @@ window_hide_image_pane (GThumbWindow *window)
 		window->image_preview_visible = FALSE;
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
-						"/commands/View_ShowImage", 
+						"/commands/View_ShowPreview", 
 						FALSE, 
 						FALSE);
 	}
@@ -3980,7 +3984,7 @@ window_show_image_pane (GThumbWindow *window)
 		window->image_preview_visible = TRUE;
 		/* Sync menu and toolbar. */
 		set_command_state_if_different (window, 
-						"/commands/View_ShowImage", 
+						"/commands/View_ShowPreview", 
 						TRUE, 
 						FALSE);
 	}
@@ -5001,8 +5005,14 @@ window_load_image (GThumbWindow *window,
 {
 	g_return_if_fail (window != NULL);
 
+	if (filename == window->image_path) {
+		window_reload_image (window);
+		return;
+	}
+
 	if (! window->image_modified
 	    && (window->image_path != NULL) 
+	    && (filename != NULL)
 	    && (strcmp (filename, window->image_path) == 0)
 	    && (window->image_mtime == get_file_mtime (window->image_path))) 
 		return;
