@@ -55,8 +55,16 @@ get_exif_tag (const char *filename,
 				continue;
 
 			if (e->tag == etag) {
-				char *retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
+				const char *value;
+				char *retval = NULL;
+
+				value = get_exif_entry_value (e);
+				if (value != NULL)
+					retval = g_locale_to_utf8 (value, -1, 0, 0, 0);
+				else
+					retval = g_strdup ("-");
 				exif_data_unref (edata);
+
 				return retval;
 			}
 		}
@@ -93,9 +101,14 @@ get_exif_tag_short (const char *filename,
 				continue;
 
 			if (e->tag == etag) {
-				ExifByteOrder o = exif_data_get_byte_order (e->parent->parent);
-				ExifShort retval = exif_get_short (e->data, o);
+				ExifByteOrder o;
+				ExifShort retval = 0;
+
+				o = exif_data_get_byte_order (e->parent->parent);
+				if (e->data != NULL)
+					retval = exif_get_short (e->data, o);
 				exif_data_unref (edata);
+
 				return retval;
 			}
 		}
@@ -136,6 +149,9 @@ get_exif_time (const char *filename)
 			if ((e->tag != EXIF_TAG_DATE_TIME) &&
 			    (e->tag != EXIF_TAG_DATE_TIME_ORIGINAL) &&
 			    (e->tag != EXIF_TAG_DATE_TIME_DIGITIZED))
+				continue;
+
+			if (e->data == NULL)
 				continue;
 
 			data = g_strdup (e->data);
@@ -180,8 +196,9 @@ get_exif_aperture_value (const char *filename)
 			continue;
 
 		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-			char      *retval;
+			ExifEntry   *e = content->entries[j];
+			const char  *value = NULL;
+			char        *retval = NULL;
 
 			if (! content->entries[j]) 
 				continue;
@@ -190,7 +207,11 @@ get_exif_aperture_value (const char *filename)
 			    (e->tag != EXIF_TAG_FNUMBER))
 				continue;
 
-			retval = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
+			value = get_exif_entry_value (e);
+			if (value)
+				retval = g_locale_to_utf8 (value, -1, 0, 0, 0);
+			else
+				retval = g_strdup ("-");
 			exif_data_unref (edata);
 
 			return retval;

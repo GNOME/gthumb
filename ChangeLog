@@ -1,3 +1,9 @@
+2005-03-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-utils.c (get_exif_tag): check that data pointer != NULL
+
+	Fixes bug #168938: Crash when loading a photo.
+	
 2005-02-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/albumthemes/*/style.css: justify comments.
