@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -1429,6 +1429,11 @@ static void
 gth_file_list_update_current_thumb (GthFileList *file_list)
 {
 	gboolean error = TRUE;
+
+	if (! file_list->doing_thumbs) {
+		interrupt_thumbs__part2 (file_list);
+		return;
+	}
 
 	if (path_is_file (file_list->thumb_fd->path)) {
 		char *escaped_path;

@@ -1,3 +1,12 @@
+2003-03-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-file-utils.c (copy_next_file, folder_copy): 
+	* src/commands-impl.c (folder_rename, folder_copy__response_cb): 
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c (comments_get_comment_filename) 
+	(comments_get_comment_dir): save comments dereferencing symbolic
+	links. (bug #109018)
+
 2003-03-21  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (auto_load_library_cb,

@@ -1437,8 +1437,13 @@ copy_next_file (FileCopyData *fcdata)
 					 file_name_from_path (src_file), 
 					 NULL);
 		
-		src_cache_file = comments_get_comment_filename (src_file);
-		dest_cache_file = comments_get_comment_filename (dest_file);
+		src_cache_file = comments_get_comment_filename (src_file, TRUE);
+		if (! path_is_file (src_cache_file)) {
+			g_free (src_cache_file);
+			src_cache_file = comments_get_comment_filename (src_file, FALSE);
+		}
+
+		dest_cache_file = comments_get_comment_filename (dest_file, TRUE);
 
 		src_cache_dir = remove_level_from_path (src_cache_file);
 
@@ -2056,8 +2061,13 @@ folder_copy (GThumbWindow   *window,
 		char *src_cache;
 		char *dest_cache;
 
-		src_cache = comments_get_comment_dir (src_path);
-		dest_cache = comments_get_comment_dir (dest_path);
+		src_cache = comments_get_comment_dir (src_path, TRUE);
+		if (! path_is_dir (src_cache)) {
+			g_free (src_cache);
+			src_cache = comments_get_comment_dir (src_path, FALSE);
+		}
+
+		dest_cache = comments_get_comment_dir (dest_path, TRUE);
 
 		if (path_is_dir (src_cache)) {
 			char *parent_dir = remove_level_from_path (dest_cache);

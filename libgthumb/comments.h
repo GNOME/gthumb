@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -60,9 +60,11 @@ gboolean       comment_data_is_void                (CommentData *data);
 
 /* -- */
 
-char *         comments_get_comment_filename       (const char  *source);
+char *         comments_get_comment_filename       (const char  *source,
+						    gboolean     resolve_symlinks);
 
-char *         comments_get_comment_dir            (const char  *directory);
+char *         comments_get_comment_dir            (const char  *directory,
+						    gboolean     resolve_symlinks);
 
 void           comment_copy                        (const char  *src,
 						    const char  *dest);

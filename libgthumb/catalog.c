@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -137,8 +137,8 @@ delete_catalog (const char  *full_path,
 gboolean
 file_is_search_result (const char *fullpath)
 {
-	char      line[MAX_LINE_LENGTH];
-	FILE     *f;
+	char   line[MAX_LINE_LENGTH];
+	FILE  *f;
 
 	f = fopen (fullpath, "r");
 	if (!f)	{

@@ -1104,7 +1104,7 @@ uri_from_comment_uri (const char *comment_uri,
 
 	comment_uri_l = strlen (comment_uri);
 
-	base = comments_get_comment_dir (NULL);
+	base = comments_get_comment_dir (NULL, TRUE);
 	base_l = strlen (base);
 
 	if (comment_uri_l == base_l) 
@@ -1266,7 +1266,7 @@ search_dir_async (DialogData *data, char *dir)
 	char *start_from;
 
 	if (data->search_comments) 
-		start_from = comments_get_comment_dir (dir);
+		start_from = comments_get_comment_dir (dir, TRUE);
 	else
 		start_from = g_strdup (dir);
 

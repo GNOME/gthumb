@@ -2670,7 +2670,8 @@ static gboolean
 image_clicked_cb (GtkWidget    *widget, 
 		  GThumbWindow *window)
 {
-	window_show_next_image (window, FALSE);
+	if (! window->setting_file_list && ! window->changing_directory)
+		window_show_next_image (window, FALSE);
 	return TRUE;
 }
 

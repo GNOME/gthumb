@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
@@ -146,16 +147,35 @@ comment_data_dup (CommentData *data)
 
 
 char *
-comments_get_comment_filename (const char *source) 
+comments_get_comment_filename (const char *source,
+			       gboolean    resolve_symlinks) 
 {
-	char       *directory;
-	const char *filename;
-	char       *path;
+	char        *source_resolved = NULL;
+	const char  *source_real = source;
+	char        *directory;
+	const char  *filename;
+	char        *path;
 
-	if (!source) return NULL;
+	if (source == NULL) 
+		return NULL;
 
-	directory = remove_level_from_path (source);
-	filename = file_name_from_path (source);
+	if (resolve_symlinks) {
+		char           *source_escaped;
+		GnomeVFSResult  result;
+
+		source_escaped = gnome_vfs_escape_path_string (source);
+		result = resolve_all_symlinks (source_escaped, 
+					       &source_resolved);
+		g_free (source_escaped);
+
+		if (result != GNOME_VFS_OK) 
+			return NULL;
+		
+		source_real = source_resolved;
+	}
+	
+	directory = remove_level_from_path (source_real);
+	filename = file_name_from_path (source_real);
 
 	path = g_strconcat (g_get_home_dir(), 
 			    "/", 
@@ -167,28 +187,49 @@ comments_get_comment_filename (const char *source)
 			    NULL);
 
 	g_free (directory);
+	g_free (source_resolved);
 
 	return path;
 }
 
 
 char *
-comments_get_comment_dir (const char *directory) 
+comments_get_comment_dir (const char *directory,
+			  gboolean    resolve_symlinks) 
 {
-	char *separator;
-	char *path;
+	char        *directory_resolved = NULL;
+	const char  *directory_real = directory;
+	const char  *separator;
+	char        *path;
 
-	if (directory == NULL)
+	if (resolve_symlinks && (directory != NULL)) {
+		char           *directory_escaped;
+		GnomeVFSResult  result;
+
+		directory_escaped = gnome_vfs_escape_path_string (directory);
+		result = resolve_all_symlinks (directory_escaped, 
+					       &directory_resolved);
+		g_free (directory_escaped);
+
+		if (result != GNOME_VFS_OK) 
+			return NULL;
+		
+		directory_real = directory_resolved;
+	}
+
+	if (directory_real == NULL)
 		separator = NULL;
 	else
-		separator = (directory[0] == '/') ? "" : "/";
+		separator = (directory_real[0] == '/') ? "" : "/";
 
 	path = g_strconcat (g_get_home_dir(), 
 			    "/", 
 			    RC_COMMENTS_DIR, 
 			    separator,
-			    directory,
+			    directory_real,
 			    NULL);
+
+	g_free (directory_resolved);
 
 	return path;
 }
@@ -201,8 +242,16 @@ comment_copy (const char *src,
 	char *comment_src;
 	char *comment_dest;
 
-	comment_src = comments_get_comment_filename (src);
-	comment_dest = comments_get_comment_filename (dest);
+	comment_src = comments_get_comment_filename (src, TRUE);
+	if (! path_is_file (comment_src)) {
+		g_free (comment_src);
+		comment_src = comments_get_comment_filename (src, FALSE);
+		if (! path_is_file (comment_src)) {
+			g_free (comment_src);
+			return;
+		}
+	}
+	comment_dest = comments_get_comment_filename (dest, TRUE);
 
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
@@ -220,8 +269,17 @@ comment_move (const char *src,
 	char *comment_src;
 	char *comment_dest;
 
-	comment_src = comments_get_comment_filename (src);
-	comment_dest = comments_get_comment_filename (dest);
+	comment_src = comments_get_comment_filename (src, TRUE);
+	if (! path_is_file (comment_src)) {
+		g_free (comment_src);
+		comment_src = comments_get_comment_filename (src, FALSE);
+		if (! path_is_file (comment_src)) {
+			g_free (comment_src);
+			return;
+		}
+	}
+
+	comment_dest = comments_get_comment_filename (dest, TRUE);
 
 	if (path_is_file (comment_dest)) 
 		unlink (comment_dest);
@@ -237,7 +295,11 @@ comment_delete (const char *filename)
 {
 	char *comment_name;
 
-	comment_name = comments_get_comment_filename (filename);
+	comment_name = comments_get_comment_filename (filename, FALSE);
+	unlink (comment_name);
+	g_free (comment_name);
+
+	comment_name = comments_get_comment_filename (filename, TRUE);
 	unlink (comment_name);
 	g_free (comment_name);
 }
@@ -423,10 +485,16 @@ comments_load_comment (const char *filename)
 	if (filename == NULL)
 		return NULL;
 
-	comment_file = comments_get_comment_filename (filename);
+	comment_file = comments_get_comment_filename (filename, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
-		return NULL;
+
+		comment_file = comments_get_comment_filename (filename, FALSE);
+		if (! path_is_file (comment_file)) {
+			g_free (comment_file);
+
+			return NULL;
+		}
 	}
 
         doc = xmlParseFile (comment_file);
@@ -522,7 +590,7 @@ save_comment (const char  *filename,
 
 	/* Write to disk. */
 
-	comment_file = comments_get_comment_filename (filename);
+	comment_file = comments_get_comment_filename (filename, TRUE);
 	dest_dir = remove_level_from_path (comment_file);
 	if (ensure_dir_exists (dest_dir, 0700)) {
 		xmlSetDocCompressMode (doc, 3);

@@ -1034,10 +1034,13 @@ folder_rename (GThumbWindow *window,
 
 		/* Comment cache. */
 
-		old_cache_path = comments_get_comment_dir (old_path);
-		new_cache_path = comments_get_comment_dir (new_path);
+		old_cache_path = comments_get_comment_dir (old_path, TRUE);
+		if (! path_is_dir (old_cache_path)) {
+			g_free (old_cache_path);
+			old_cache_path = comments_get_comment_dir (old_path, FALSE);
+		}
+		new_cache_path = comments_get_comment_dir (new_path, TRUE);
 		rename (old_cache_path, new_cache_path);
-
 		g_free (old_cache_path);
 		g_free (new_cache_path);
 
@@ -1356,8 +1359,12 @@ folder_copy__response_cb (GObject *object,
 
 		/* Comment cache. */
 
-		old_cache_path = comments_get_comment_dir (old_path);
-		new_cache_path = comments_get_comment_dir (new_path);
+		old_cache_path = comments_get_comment_dir (old_path, TRUE);
+		if (! path_is_dir (old_cache_path)) {
+			g_free (old_cache_path);
+			old_cache_path = comments_get_comment_dir (old_path, FALSE);
+		}
+		new_cache_path = comments_get_comment_dir (new_path, TRUE);
 
 		if (path_is_dir (old_cache_path)) {
 			char *parent_dir;
