@@ -97,7 +97,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 	char          *filename = NULL;
 	char          *dir;
 	gboolean       file_exists;
-	const char    *mime_type;
+	const char    *mime_type = NULL;
 	int            idx;
 	gboolean       image_saved = FALSE;
 	SaveImageData *data;	
@@ -154,9 +154,20 @@ file_save_ok_cb (GtkDialog *file_sel,
 	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
 	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
 
-	if (idx == IMAGE_TYPE_AUTOMATIC)
-		mime_type = gnome_vfs_mime_type_from_name (filename);
-	else
+	if (idx == IMAGE_TYPE_AUTOMATIC) {
+		char *n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
+		if (n1 != NULL) {
+			char *n2, *n3;
+			n2 = g_utf8_strdown (n1, -1);
+			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+			if (n3 != NULL)
+				mime_type = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+			g_free (n3);
+			g_free (n2);
+			g_free (n1);
+		}
+
+	} else
 		mime_type = mime_types [idx - 2];
 
 	if ((mime_type != NULL)

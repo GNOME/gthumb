@@ -1,5 +1,10 @@
 2004-12-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): 
+
+	Fixes bug #149883: Saving pictures with files extensions in uppercase 
+	doesn't work.
+
 	* src/dlg-catalog.c (add_to_catalog__activated_cb): change to library 
 	only if a library was activated.
 
