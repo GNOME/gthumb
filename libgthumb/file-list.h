@@ -47,27 +47,27 @@ struct _GthFileList {
 
 	GtkWidget   *root_widget;         /* The widget that contains all. */
 	GtkWidget   *ilist;               /* The image-list that contains the 
-					   * list of files. */
+					   * file list. */
 
 	gboolean     show_dot_files;      /* Whether to show files that starts
 					   * with a dot (hidden files).*/
 	gboolean     enable_thumbs;       /* Whether to show the thumbnails. */
 
-	int          thumb_size;          /* The max size of the thumbnails. */
+	int          thumb_size;          /* Thumbnails max size. */
 
 	ProgressFunc progress_func;
 	gpointer     progress_data;
 
-	gboolean     interrupt_set_list;  /* whether to interrupt the set_list
+	gboolean     interrupt_set_list;  /* Whether to interrupt the set_list
 					   * process. */
-	DoneFunc     interrupt_done_func; /* function to call when the
+	DoneFunc     interrupt_done_func; /* Function to call when the
 					   * interruption has completed. */
 	gpointer     interrupt_done_data;
 
 	/* -- thumbs update data -- */
 
 	ThumbLoader *thumb_loader;
-	gboolean     doing_thumbs;        /* thumbs creation process is 
+	gboolean     doing_thumbs;        /* Thumbs creation process is 
 					   * active. */
 	int          thumbs_num;
 	FileData    *thumb_fd;

@@ -69,6 +69,7 @@ typedef struct {
 	GtkWidget          *progress_dialog;
 	GtkWidget          *progress_progressbar;
 	GtkWidget          *progress_info;
+	GtkWidget          *progress_cancel;
 
 	GtkWidget          *btn_ok;
 
@@ -414,6 +415,7 @@ dlg_exporter (GThumbWindow *window)
 	data->progress_dialog = glade_xml_get_widget (data->gui, "progress_dialog");
 	data->progress_progressbar = glade_xml_get_widget (data->gui, "progress_progressbar");
 	data->progress_info = glade_xml_get_widget (data->gui, "progress_info");
+	data->progress_cancel = glade_xml_get_widget (data->gui, "progress_cancel");
 
 	data->image_map_checkbutton = glade_xml_get_widget (data->gui, "image_map_checkbutton");
 	data->start_at_spinbutton = glade_xml_get_widget (data->gui, "start_at_spinbutton");
@@ -471,6 +473,14 @@ dlg_exporter (GThumbWindow *window)
 			  "changed",
 			  G_CALLBACK (update_example_labels_cb),
 			  data);
+	g_signal_connect_swapped (G_OBJECT (data->progress_dialog), 
+				  "delete_event",
+				  G_CALLBACK (catalog_png_exporter_interrupt),
+				  data->exporter);
+	g_signal_connect_swapped (G_OBJECT (data->progress_cancel), 
+				  "clicked",
+				  G_CALLBACK (catalog_png_exporter_interrupt),
+				  data->exporter);
 
 	/* Set widgets data. */
 

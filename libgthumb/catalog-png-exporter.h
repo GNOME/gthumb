@@ -146,6 +146,9 @@ struct _CatalogPngExporter {
 
 	GnomeVFSHandle *imap_handle;         /* handle to write image map 
 					      * files. */
+
+	gboolean exporting;
+	gboolean interrupted;
 };
 
 
@@ -252,6 +255,8 @@ void       catalog_png_exporter_set_sort_type         (CatalogPngExporter *ce,
 						       GtkSortType sort_type);
 
 void       catalog_png_exporter_export                (CatalogPngExporter *ce);
+
+void       catalog_png_exporter_interrupt             (CatalogPngExporter *ce);
 
 
 #endif /* CATALOG_PNG_EXPORTER_H */

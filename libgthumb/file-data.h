@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 
 typedef struct {
-	int                 ref;
+	guint               ref : 8;
 
 	char               *path;          /* Full path name. */
 	const char         *name;          /* File name only. */

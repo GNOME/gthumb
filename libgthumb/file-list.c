@@ -43,8 +43,8 @@
 #define THUMB_BORDER   13
 #define ROW_SPACING    14
 #define COL_SPACING    14
-#define ADD_LIST_DELAY 75
-#define ADD_LIST_CHUNK 333
+#define ADD_LIST_DELAY 50
+#define ADD_LIST_CHUNK 250
 #define SCROLL_DELAY   20
 
 enum {
@@ -571,6 +571,8 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 	GList           *scan;
 	DoneFunc         done_func;
 
+	g_print ("GetFileInfo [DONE]\n");
+
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
 	if (file_list->interrupt_set_list) {
@@ -598,11 +600,15 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		fd = file_data_new (full_path, info_result->file_info);
 		g_free (full_path);
 
-		file_data_update_comment (fd);
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
 
+	g_print ("FileDataNew [DONE]\n");
+
 	image_list_clear (IMAGE_LIST (file_list->ilist));
+
+	g_print ("ImageListClear [DONE]\n");
+
 	add_list_in_chunks (gfi_data);
 }
 
@@ -624,6 +630,8 @@ set_list__step2 (GetFileInfoData *gfi_data)
 	}
 
  	gth_file_list_free_list (file_list);
+
+	g_print ("GetFileInfo -->\n");
 
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
@@ -710,6 +718,8 @@ add_list_in_chunks (gpointer callback_data)
 	DoneFunc         done_func;
 	int              i, n = ADD_LIST_CHUNK;
 
+	g_print ("AddListInChunk -->\n");
+
 	if (gfi_data->timeout_id != 0) {
 		g_source_remove (gfi_data->timeout_id);
 		gfi_data->timeout_id = 0;
@@ -724,6 +734,8 @@ add_list_in_chunks (gpointer callback_data)
 			(*done_func) (file_list->interrupt_done_data);
 
 		get_file_info_data_free (gfi_data);
+
+		g_print ("AddListInChunk [DONE]\n");
 
 		return FALSE;
 	}
@@ -745,6 +757,8 @@ add_list_in_chunks (gpointer callback_data)
 			(*done_func) (gfi_data->done_func_data);
 		
 		get_file_info_data_free (gfi_data);
+
+		g_print ("AddListInChunk [DONE]\n");
 		
 		return FALSE;
 	}
@@ -759,6 +773,8 @@ add_list_in_chunks (gpointer callback_data)
 	for (i = 0, scan = gfi_data->filtered; (i < n) && scan; i++, scan = scan->next) {
 		FileData *fd = scan->data;
 		int       pos;
+
+		file_data_update_comment (fd);
 		
 		pos = image_list_append (IMAGE_LIST (ilist),
 					 unknown_pixbuf,
@@ -782,6 +798,8 @@ add_list_in_chunks (gpointer callback_data)
 	gfi_data->timeout_id = g_timeout_add (ADD_LIST_DELAY, 
 					      add_list_in_chunks, 
 					      gfi_data);
+
+	g_print ("AddListInChunk [DONE]\n");
 	
 	return FALSE;
 }
@@ -822,7 +840,6 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		fd = file_data_new (full_path, info_result->file_info);
 		g_free (full_path);
 
-		file_data_update_comment (fd);
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
 

@@ -637,13 +637,16 @@
 	</tbody>
       </tgroup>
       </informaltable>
-      <para>
-        Note that this modifications do not change the image file,
-	and if you want to view the original image just click on its 
-	thumbnail again or use the
-	<menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
-	</menuchoice> command.
-      </para>
+      <note>
+        <title>WARNING</title>
+        <para>
+          Please note that this modifications do not change the image file,
+	  and if you want to view the original image just click on its 
+	  thumbnail again or use the
+	  <menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
+	 </menuchoice> command.
+        </para>
+      </note>
       <para>
         To save the modified image use the
 	<menuchoice><guimenu>File</guimenu><guimenuitem>Save
@@ -1394,7 +1397,7 @@
       <itemizedlist>
         <listitem>
           <para>
-	    # -- This symbol will be replaced with
+	    <keycap>#</ketcap> -- This symbol will be replaced with
             the value of a counter that increments itself by 1
 	    passing from one image to another.  If you specify 
 	    this symbols in sequence you'll get leading zeros if the
@@ -1404,7 +1407,7 @@
         </listitem>
         <listitem>
           <para>
-	    * -- This symbol will be replaced
+	    <keycap>*</keycap> -- This symbol will be replaced
             with the image original name.
 	  </para>
         </listitem>
@@ -1727,7 +1730,7 @@
   </para>
 
   <table frame="topbot">
-    <title>Keyboard shortcuts available when the location entry is NOT focused</title>
+    <title>Keyboard shortcuts available when the location entry is <emphasis>NOT</emphasis> focused</title>
     <tgroup cols="2" colsep="0" rowsep="0">
       	<colspec colwidth="20.00*"/>
 	<colspec colwidth="20.00*"/>

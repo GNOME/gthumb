@@ -873,15 +873,10 @@ window_set_file_list_continue (gpointer callback_data)
 	if (ViewFirstImage) {
 		ViewFirstImage = FALSE;
 		window_show_first_image (window);
-		window_update_sensitivity (window);
 	}
 
-	set_command_sensitive (window, "Go_Stop", 
-			       ((window->activity_ref > 0) 
-				|| window->setting_file_list
-				|| window->changing_directory
-				|| window->file_list->doing_thumbs));
-
+	window_update_sensitivity (window);
+		
 	if (data->done_func != NULL)
 		(*data->done_func) (data->done_func_data);
 	g_free (data);
@@ -4913,10 +4908,12 @@ window_set_sidebar_content (GThumbWindow *window,
 				return;
 			catalog_list_select_iter (window->catalog_list, &iter);
 			catalog_activate (window, window->catalog_path);
-		} else
+		} else 
 			window_set_file_list (window, NULL, NULL, NULL);
+
 		window_update_title (window);
 		break;
+
 	default:
 		break;
 	}

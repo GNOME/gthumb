@@ -1,3 +1,12 @@
+2003-01-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/catalog-png-exporter.c (catalog_png_exporter_interrupt) 
+	(catalog_png_exporter_init, load_next_file): 
+	* src/dlg-png-exporter.c (dlg_exporter): fix #103825 and #103826
+
+	* src/gthumb-window.c (window_set_file_list_continue): update
+	sensitivity after setting the file list (fix #103819).
+
 2003-01-15  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* doc/C/ficures/*.png: updated images.

@@ -390,6 +390,11 @@ catalog_png_exporter_init (CatalogPngExporter *ce)
 	font_desc = pango_font_description_from_string (DEFAULT_FONT);
 	pango_layout_set_font_description (ce->layout, font_desc);
 	pango_font_description_free (font_desc); 
+
+	/**/
+
+	ce->exporting = FALSE;
+	ce->interrupted = FALSE;
 }
 
 
@@ -846,6 +851,16 @@ export (CatalogPngExporter *ce)
 	do {
 		int row_height;
 
+		if (ce->interrupted) {
+			if (ce->file_list != NULL) {
+				g_list_foreach (ce->file_list, (GFunc) image_data_free, NULL);
+				g_list_free (ce->file_list);
+				ce->file_list = NULL;
+			}
+			g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[DONE], 0);
+			goto label_end;
+		}
+ 
 		/* get items to paint. */
 
 		row_first_item = scan_file;
@@ -1260,6 +1275,16 @@ load_next_file (CatalogPngExporter *ce)
 	char *filename;
 	char *utf8_name;
 
+	if (ce->interrupted) {
+		if (ce->file_list != NULL) {
+			g_list_foreach (ce->file_list, (GFunc) image_data_free, NULL);
+			g_list_free (ce->file_list);
+			ce->file_list = NULL;
+		}
+		g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[DONE], 0);
+		return;
+	}
+
 	g_signal_emit (G_OBJECT (ce), 
 		       catalog_png_exporter_signals[PROGRESS],
 		       0,
@@ -1351,6 +1376,10 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	g_return_if_fail (ce->thumb_width != 0);
 	g_return_if_fail (ce->thumb_height != 0);
 
+	if (ce->exporting)
+		return;
+	ce->exporting = TRUE;
+
 	if (ce->tloader != NULL)
 		g_object_unref (G_OBJECT (ce->tloader));
 
@@ -1377,6 +1406,17 @@ catalog_png_exporter_export (CatalogPngExporter *ce)
 	thumb_loader_set_path (ce->tloader, 
 			       IMAGE_DATA (ce->file_to_load->data)->filename);
 	thumb_loader_start (ce->tloader);
+}
+
+
+void
+catalog_png_exporter_interrupt (CatalogPngExporter *ce)
+{
+	g_return_if_fail (IS_CATALOG_PNG_EXPORTER (ce));
+
+	if (! ce->exporting)
+		return;
+	ce->interrupted = TRUE;
 }
 
 
