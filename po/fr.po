@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 1.107\n"
-"POT-Creation-Date: 2002-12-24 01:24+0100\n"
-"PO-Revision-Date: 2002-12-24 01:24+0100\n"
+"Project-Id-Version: gthumb 1.107.1\n"
+"POT-Creation-Date: 2002-12-27 03:43+0100\n"
+"PO-Revision-Date: 2002-12-27 03:32+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -130,12 +130,12 @@ msgid "_Checked"
 msgstr "_Damier"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:198
 msgid "_Flip"
 msgstr "_Retourner"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:209
 msgid "_Image"
 msgstr "_Image"
 
@@ -187,7 +187,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:485
+#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:486
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -247,7 +247,7 @@ msgstr "Suppression des anciens commentaires, veuillez patienter..."
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:505
+#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:506
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
@@ -536,7 +536,7 @@ msgstr "Réplications"
 msgid "Duplicates Size"
 msgstr "Réplication de la taille"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:659
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:663
 msgid "Name"
 msgstr "Nom"
 
@@ -544,7 +544,7 @@ msgstr "Nom"
 msgid "Last modified"
 msgstr "Dernière modification"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:679
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:683
 msgid "Location"
 msgstr "Emplacement"
 
@@ -642,35 +642,35 @@ msgstr "Copie du fichier %ld sur %ld"
 msgid "Moving file %ld of %ld"
 msgstr "Déplacement du fichier %ld sur %ld"
 
-#: src/dlg-image-prop.c:664
+#: src/dlg-image-prop.c:668
 msgid "Image Dimensions"
 msgstr "Dimensions de l'image"
 
-#: src/dlg-image-prop.c:669
+#: src/dlg-image-prop.c:673
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:674
+#: src/dlg-image-prop.c:678
 msgid "File Size"
 msgstr "Taille du fichier"
 
-#: src/dlg-image-prop.c:684
+#: src/dlg-image-prop.c:688
 msgid "Last Modified"
 msgstr "Dernière modification"
 
-#: src/dlg-image-prop.c:689
+#: src/dlg-image-prop.c:693
 msgid "Information on Channel"
 msgstr "Information sur le canal"
 
-#: src/dlg-image-prop.c:722
+#: src/dlg-image-prop.c:726
 msgid "Field"
 msgstr "Champ"
 
-#: src/dlg-image-prop.c:733 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:737 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Valeur"
 
-#: src/dlg-image-prop.c:814
+#: src/dlg-image-prop.c:818
 #, c-format
 msgid "%s Properties"
 msgstr "Propriétés %s"
@@ -753,7 +753,7 @@ msgstr "Ajoute un commentaire à l'image"
 
 #: src/gthumb-ui.xml.h:5
 msgid "Add current location to bookmarks"
-msgstr "Ajoute l'adresse courante aux signets"
+msgstr "Ajoute l'emplacement courant aux signets"
 
 #: src/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
@@ -841,11 +841,11 @@ msgstr "Copier le répertoire sélectionné"
 
 #: src/gthumb-ui.xml.h:27
 msgid "Copy selected images to another location"
-msgstr "Copie les images sélectionnées vers un autre endroit"
+msgstr "Copie les images sélectionnées à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:28
 msgid "Copy this image to another location"
-msgstr "Copier cette image vers un autre endroit"
+msgstr "Copie cette image à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:29
 msgid "Create _Index Image"
@@ -933,11 +933,11 @@ msgstr "Va au répertoire personnel"
 
 #: src/gthumb-ui.xml.h:50
 msgid "Go to the next visited location"
-msgstr "Va à l'adresse visitée suivante"
+msgstr "Va au suivant emplacement visité"
 
 #: src/gthumb-ui.xml.h:51
 msgid "Go to the previous visited location"
-msgstr "Va au dernier emplacement visité"
+msgstr "Va au précédent emplacement visité"
 
 #: src/gthumb-ui.xml.h:52
 msgid "Go up one level"
@@ -969,7 +969,7 @@ msgstr "Modifier critère de recherche"
 
 #: src/gthumb-ui.xml.h:59
 msgid "Move current catalog to another location"
-msgstr "Déplacer le catalogue courant vers un autre endroit"
+msgstr "Déplacer le catalogue courant à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:60
 msgid "Move current folder"
@@ -977,7 +977,7 @@ msgstr "Déplace le répertoire en cours"
 
 #: src/gthumb-ui.xml.h:61
 msgid "Move selected catalog to another location"
-msgstr "Déplacer le catalogue sélectionné vers un autre endroit"
+msgstr "Déplacer le catalogue sélectionné à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:62
 msgid "Move selected folder"
@@ -985,7 +985,7 @@ msgstr "Déplace le répertoire sélectionné"
 
 #: src/gthumb-ui.xml.h:63
 msgid "Move selected images to another location"
-msgstr "Déplace les images sélectionnées vers un autre endroit"
+msgstr "Déplace les images sélectionnées à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:64
 msgid "Move the current folder to the Trash"
@@ -997,11 +997,11 @@ msgstr "Déplace le répertoire sélectionné à la corbeille"
 
 #: src/gthumb-ui.xml.h:66
 msgid "Move the selected images to the Trash"
-msgstr "Déplacer les images sélectionnées à la corbeille"
+msgstr "Déplace les images sélectionnées à la corbeille"
 
 #: src/gthumb-ui.xml.h:67
 msgid "Move this image to another location"
-msgstr "Déplacer cette image vers un autre endroit"
+msgstr "Déplace cette image à un autre emplacement"
 
 #: src/gthumb-ui.xml.h:68
 msgid "Move this image to the Trash"
@@ -1021,7 +1021,7 @@ msgstr "Nouvelle _fenêtre"
 
 #: src/gthumb-ui.xml.h:72
 msgid "Next"
-msgstr "Suivant"
+msgstr "Suivante"
 
 #: src/gthumb-ui.xml.h:73
 msgid "Open current folder with the Nautilus file manager"
@@ -1061,7 +1061,7 @@ msgstr "Jouer l'_animation"
 
 #: src/gthumb-ui.xml.h:82
 msgid "Previous"
-msgstr "Suivant"
+msgstr "Précédente"
 
 #: src/gthumb-ui.xml.h:83
 msgid "Print"
@@ -1097,7 +1097,7 @@ msgstr "Réduit le nombre de couleurs"
 
 #: src/gthumb-ui.xml.h:92
 msgid "Reload the current location"
-msgstr "Recharger l'adresse courante"
+msgstr "Recharger l'emplacement courant"
 
 #: src/gthumb-ui.xml.h:93
 msgid "Rem_ove"
@@ -1261,7 +1261,7 @@ msgstr "Trier les images par chemin"
 
 #: src/gthumb-ui.xml.h:137
 msgid "Specify a location to visit"
-msgstr "Spécifier un emplacement où aller"
+msgstr "Spécifie un emplacement où aller"
 
 #: src/gthumb-ui.xml.h:139
 msgid "Step A_nimation"
@@ -1269,7 +1269,7 @@ msgstr "A_nimation pas par pas"
 
 #: src/gthumb-ui.xml.h:140
 msgid "Stop loading current location"
-msgstr "Arrêt du chargement adresse en cours"
+msgstr "Arrêt du chargement de l'emplacement en cours"
 
 #: src/gthumb-ui.xml.h:141
 msgid "Str_etched"
@@ -1421,7 +1421,7 @@ msgstr "A_juster les niveaux de couleurs"
 
 #: src/gthumb-ui.xml.h:179
 msgid "_Back"
-msgstr "Précédent"
+msgstr "_Précédent"
 
 #: src/gthumb-ui.xml.h:181
 msgid "_Bookmarks"
@@ -1448,104 +1448,104 @@ msgid "_Color Balance"
 msgstr "Balance de _couleurs"
 
 #: src/gthumb-ui.xml.h:188
+msgid "_Contents"
+msgstr "_Contenu"
+
+#: src/gthumb-ui.xml.h:189
 msgid "_Copy..."
 msgstr "_Copier..."
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:190
 msgid "_Delete History"
 msgstr "_Supprimer l'historique"
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:191
 msgid "_Desaturate"
 msgstr "_Désaturer"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:192
 msgid "_Edit"
 msgstr "_Édition"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:193
 msgid "_Edit Bookmarks"
 msgstr "_Éditer les signets"
 
-#: src/gthumb-ui.xml.h:193 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
 msgstr "_Éditer la requête de recherche"
 
-#: src/gthumb-ui.xml.h:194
+#: src/gthumb-ui.xml.h:195
 msgid "_Equalize Histogram"
 msgstr "É_galiser l'histogramme"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:196
 msgid "_File"
 msgstr "_Fichier"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:197
 msgid "_Find..."
 msgstr "_Rechercher..."
 
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:199
 msgid "_Folder"
 msgstr "_Répertoire"
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:200
 msgid "_Folders"
 msgstr "_Répertoires"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:201
 msgid "_Forward"
 msgstr "_Avance"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:202
 msgid "_Full Screen"
 msgstr "_Plein écran"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:203
 msgid "_Go"
 msgstr "A_ller à"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:204
 msgid "_Go to the Image Folder"
 msgstr "A_ller dans ce répertoire d'images"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:205
 msgid "_Help"
 msgstr "_Aide"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:206
 msgid "_High Quality"
 msgstr "_Haute qualité"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:207
 msgid "_Home"
 msgstr "_Accueil"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:208
 msgid "_Hue-Saturation"
 msgstr "_Teinte-Saturation"
 
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:210
 msgid "_Image preview"
 msgstr "Aperçu de l'_image"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:211
 msgid "_Keyboard Shortcuts"
 msgstr "Raccourcis _clavier"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:212
 msgid "_Location..."
 msgstr "_Emplacement..."
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:213
 msgid "_Low Quality"
 msgstr "_Faible qualité"
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:214
 msgid "_Maintenance"
 msgstr "_Maintenance"
-
-#: src/gthumb-ui.xml.h:214
-msgid "_Manual"
-msgstr "_Manuel"
 
 #: src/gthumb-ui.xml.h:216
 msgid "_Move..."
@@ -1715,16 +1715,16 @@ msgstr "Ne peut déplacer les éléments :"
 msgid "Back"
 msgstr "Précédent"
 
-#: src/gthumb-window.c:5399
+#: src/gthumb-window.c:5401
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Impossible de charger le répertoire « %s » : %s\n"
 
-#: src/gthumb-window.c:5667
+#: src/gthumb-window.c:5669
 msgid "The specified catalog does not exist."
 msgstr "Le catalogue spécifié n'existe pas."
 
-#: src/gthumb-window.c:6931
+#: src/gthumb-window.c:6933
 msgid "Wait please..."
 msgstr "Veuillez patienter..."
 
@@ -1892,7 +1892,7 @@ msgstr "Enregistrer uniqueme_nt les champs modifiés"
 
 #: src/gthumb_comments.glade.h:13 src/gthumb_tools.glade.h:42
 msgid "The _following date:"
-msgstr "la date _suivante :"
+msgstr "La date _suivante :"
 
 #: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:25
 msgid "_Date:"
@@ -3043,6 +3043,9 @@ msgstr "Famille"
 #: src/main.c:286 src/main.c:348
 msgid "Command Line"
 msgstr "Ligne de commande"
+
+#~ msgid "_Manual"
+#~ msgstr "_Manuel"
 
 #, fuzzy
 #~ msgid "Cannot delete the folder \"%s\": %s"
