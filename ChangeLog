@@ -1,3 +1,7 @@
+2004-09-07  Ankit Patel <ankit@redhat.com>
+
+	* configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
+
 2004-09-06  Tomasz Kłoczko <kloczek@pld.org.pl>
 
 	* components/image-viewer/Makefile.am: fixed paralel build ("make -j<N>").
