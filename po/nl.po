@@ -9,13 +9,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-23 12:36+0200\n"
-"PO-Revision-Date: 2003-09-17 23:17+0200\n"
+"POT-Creation-Date: 2003-10-02 12:22+0200\n"
+"PO-Revision-Date: 2003-10-02 21:40+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -185,7 +185,8 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
-#: src/dlg-image-prop.c:445 src/fullscreen.c:218 src/gthumb-window.c:388
+#: src/dlg-image-prop.c:445 src/fullscreen.c:216
+#: src/gth-exif-data-viewer.c:445 src/gthumb-window.c:388
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d beeldpunten"
@@ -205,6 +206,7 @@ msgstr "Diafragmawaarde"
 #: data/albumthemes/ClassicClips/image.xml.in.h:3
 #: data/albumthemes/NeatRound/image.xml.in.h:3
 #: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
+#: src/gth-exif-data-viewer.c:473
 msgid "Bytes"
 msgstr "Byte"
 
@@ -324,47 +326,48 @@ msgstr "Kan catalogus \"%s\" niet openen : %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan catalogus \"%s\" niet opslaan : %s"
 
-#: libgthumb/comments.c:410
+#: libgthumb/comments.c:399
 msgid "Deleting all comments, wait please..."
 msgstr "Alle commentaren worden verwijderd, een ogenblik alstublieft"
 
-#: libgthumb/comments.c:412
+#: libgthumb/comments.c:401
 msgid "Deleting old comments, wait please..."
 msgstr "Oude commentaren worden verwijderd, een ogenblik alstublieft..."
 
-#: libgthumb/comments.c:771
+#: libgthumb/comments.c:760
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:773 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:225
-#: src/gthumb-window.c:385
+#: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
+#: src/gth-exif-data-viewer.c:449 src/gthumb-window.c:385
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:783
+#: libgthumb/comments.c:772
 msgid "(No Comment)"
 msgstr "(Geen commentaar)"
 
-#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:313 src/dlg-convert.c:307
+#: libgthumb/dlg-save-image.c:119 src/commands-impl.c:313
+#: src/dlg-convert.c:307
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Er is al een afbeelding met de naam \"%s\". Wilt u die overschrijven?"
 
-#: libgthumb/dlg-save-image.c:154
+#: libgthumb/dlg-save-image.c:175
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Type afbeelding niet ondersteund: %s"
 
-#: libgthumb/dlg-save-image.c:172
+#: libgthumb/dlg-save-image.c:193
 msgid "Determine by extension"
 msgstr "Bepalen aan hand van extensie"
 
-#: libgthumb/dlg-save-image.c:207
+#: libgthumb/dlg-save-image.c:228
 msgid "Save Image"
 msgstr "Afbeelding opslaan"
 
-#: libgthumb/dlg-save-image.c:221
+#: libgthumb/dlg-save-image.c:242
 msgid "Image type:"
 msgstr "Type afbeelding:"
 
@@ -458,7 +461,7 @@ msgid "Comment"
 msgstr "Opmerking"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:623
+#: src/dlg-image-prop.c:623 src/gth-exif-data-viewer.c:459
 msgid "Name"
 msgstr "Naam"
 
@@ -471,11 +474,11 @@ msgstr "Afdrukken van %s"
 msgid "Print Image"
 msgstr "Afbeelding afdrukken"
 
-#: libgthumb/thumb-cache.c:487
+#: libgthumb/thumb-cache.c:483
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Alle voorbeelden aan het verwijderen, een ogenblik alstublieft..."
 
-#: libgthumb/thumb-cache.c:489
+#: libgthumb/thumb-cache.c:485
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 
@@ -724,7 +727,7 @@ msgstr ""
 " Mark Van den Borre <mark@markvdb.be>\n"
 " Jeroen van der Vegt <A.J.vanderVegt@ITS.TUDelft.nl>"
 
-#: src/commands-impl.c:2773 src/gthumb-window.c:549 src/gthumb-window.c:4797
+#: src/commands-impl.c:2773 src/gthumb-window.c:549 src/gthumb-window.c:4794
 #: src/main.c:125
 msgid "gThumb"
 msgstr "gThumb"
@@ -882,7 +885,7 @@ msgstr "Bestand %ld van %ld wordt gekopieerd"
 msgid "Moving file %ld of %ld"
 msgstr "Bestand %ld van %ld wordt verplaatst"
 
-#: src/dlg-image-prop.c:628
+#: src/dlg-image-prop.c:628 src/gth-exif-data-viewer.c:466
 msgid "Size"
 msgstr "Grootte"
 
@@ -890,7 +893,7 @@ msgstr "Grootte"
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:648
+#: src/dlg-image-prop.c:648 src/gth-exif-data-viewer.c:480
 msgid "Modified"
 msgstr "Laatst gewijzigd"
 
@@ -951,21 +954,29 @@ msgstr "Map"
 msgid "Select Album Theme"
 msgstr "Selecteer een album-thema"
 
-#: src/fullscreen.c:782 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:780 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Diavoorstelling verlaten"
 
-#: src/fullscreen.c:800
+#: src/fullscreen.c:798
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4077
+#: src/fullscreen.c:816 src/gthumb-window.c:4077
 msgid "Back"
 msgstr "Vorige"
 
-#: src/fullscreen.c:836 src/gthumb-ui.xml.h:52
+#: src/fullscreen.c:834 src/gthumb-ui.xml.h:52
 msgid "Forward"
 msgstr "Volgende"
+
+#: src/gth-exif-data-viewer.c:127
+msgid "Field"
+msgstr "Veld"
+
+#: src/gth-exif-data-viewer.c:137
+msgid "Value "
+msgstr "Waarde "
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
@@ -1997,28 +2008,28 @@ msgstr "Gesleepte afbeeldingen"
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
-#: src/gthumb-window.c:5129
+#: src/gthumb-window.c:5126
 msgid "Image comment"
 msgstr "Afbeeldingcommentaar"
 
-#: src/gthumb-window.c:5143
+#: src/gthumb-window.c:5140
 msgid "Image data"
 msgstr "Afbeeldingsgegevens"
 
-#: src/gthumb-window.c:5157
+#: src/gthumb-window.c:5154
 msgid "Image preview"
 msgstr "Afbeeld_ingsvoorbeeld"
 
-#: src/gthumb-window.c:6363
+#: src/gthumb-window.c:6360
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: src/gthumb-window.c:6632
+#: src/gthumb-window.c:6629
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: src/gthumb-window.c:8013
+#: src/gthumb-window.c:8010
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
@@ -3640,34 +3651,26 @@ msgstr "Familie"
 msgid "Command Line"
 msgstr "Opdrachtregel"
 
-msgid ""
-"GConf error:\n"
-"  %s"
-msgstr ""
-"GConf fout:\n"
-"  %s"
+#~ msgid ""
+#~ "GConf error:\n"
+#~ "  %s"
+#~ msgstr ""
+#~ "GConf fout:\n"
+#~ "  %s"
 
 #, fuzzy
-msgid "Field"
-msgstr "Zoeken"
-
-#, fuzzy
-msgid "Value "
-msgstr "Waarde"
-
-#, fuzzy
-msgid "Transparen_cy Type"
-msgstr "T_ype transparantie"
+#~ msgid "Transparen_cy Type"
+#~ msgstr "T_ype transparantie"
 
 # weergeven als catalogus
 #, fuzzy
-msgid "View as List"
-msgstr "Bekijken als catalogus"
+#~ msgid "View as List"
+#~ msgstr "Bekijken als catalogus"
 
 #, fuzzy
-msgid "View as Thumbnails"
-msgstr "Voorbeelden bekijken"
+#~ msgid "View as Thumbnails"
+#~ msgstr "Voorbeelden bekijken"
 
 #, fuzzy
-msgid "_Title:"
-msgstr "Titel"
+#~ msgid "_Title:"
+#~ msgstr "Titel"
