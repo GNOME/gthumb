@@ -1347,7 +1347,7 @@ paint_item (GthImageList     *image_list,
 	    GdkRectangle     *expose_area)
 {
 	GtkWidget    *widget = (GtkWidget*) image_list;
-	GtkStateType  state, text_state;
+	GtkStateType  state, text_state, focus_state;
 	GdkRectangle  item_rectangle, rect;
 	gboolean      view_label, view_comment;
 	gboolean      focused;
@@ -1361,14 +1361,19 @@ paint_item (GthImageList     *image_list,
 
 	focused = GTK_WIDGET_HAS_FOCUS (widget) && item->focused;
 	if (item->selected) 
-		state = (focused)? GTK_STATE_SELECTED: GTK_STATE_ACTIVE;
+		state = (GTK_WIDGET_HAS_FOCUS (widget))? GTK_STATE_SELECTED: GTK_STATE_ACTIVE;
 	else 
 		state = (focused)? GTK_STATE_ACTIVE: GTK_STATE_NORMAL;
 
-	if (! item->selected && focused)
-		text_state = GTK_STATE_NORMAL;
-	else
+	if (item->selected)
 		text_state = state;
+	else
+		text_state = GTK_STATE_NORMAL;
+
+	if (item->selected && focused)
+		focus_state = GTK_STATE_NORMAL;
+	else
+		focus_state = state;
 
 	/* Slide */
 
@@ -1390,7 +1395,7 @@ paint_item (GthImageList     *image_list,
                 GdkGC *sel_gc;
  
 		sel_gc = gdk_gc_new (image_list->priv->bin_window);
-		gdk_gc_copy (sel_gc, widget->style->bg_gc[state]);
+		gdk_gc_copy (sel_gc, widget->style->base_gc[state]);
 		gdk_gc_set_line_attributes (sel_gc, FRAME_SELECTION_BORDER, 0, 0, 0);
  
 		gdk_draw_rectangle (image_list->priv->bin_window,
@@ -1471,28 +1476,16 @@ paint_item (GthImageList     *image_list,
 	/* Focus */
 
 	if (focused) {
-		if (view_label)
-			gtk_paint_focus (widget->style, 
-					 image_list->priv->bin_window, 
-					 text_state, 
-					 expose_area,
-					 widget, 
-					 "icon_list",
-					 item->label_area.x - 1,
-					 item->label_area.y - 1,
-					 item->label_area.width + 2,
-					 item->label_area.height + 2);
-		else
-			gtk_paint_focus (widget->style, 
-					 image_list->priv->bin_window, 
-					 text_state, 
-					 expose_area,
-					 widget, 
-					 "button",
-					 item->slide_area.x + 2,
-					 item->slide_area.y + 2,
-					 image_list->priv->max_item_width - 4,
-					 image_list->priv->max_item_width - 4);
+		gtk_paint_focus (widget->style, 
+				 image_list->priv->bin_window, 
+				 focus_state, 
+				 expose_area,
+				 widget, 
+				 "button",
+				 item->slide_area.x + 2,
+				 item->slide_area.y + 2,
+				 image_list->priv->max_item_width - 4,
+				 image_list->priv->max_item_width - 4);
 	}
 }
 	    

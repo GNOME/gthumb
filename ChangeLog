@@ -1,4 +1,15 @@
+2003-12-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_save_pixbuf): new function.
+
 2003-11-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gth-image-list.c (paint_item): paint all selected 
+	thumbnails with the same color, always paint the focus for the focused 
+	thumbnail.
+
+	* src/gthumb-window.c (load_timeout_cb): do not preload the (pos + 2) 
+	image.
 
 	* src/gthumb-ui.xml: remove "exit".
 

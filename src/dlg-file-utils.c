@@ -1748,10 +1748,12 @@ files_delete__done (FileDeleteData *fddata)
 		all_windows_notify_files_deleted (fddata->file_list);
 	else
 		all_windows_notify_files_changed (fddata->file_list);
-	all_windows_add_monitor ();
-	
+
+	/*all_windows_add_monitor (); FIXME*/
+
 	if (fddata->done_func != NULL)
 		(*fddata->done_func) (fddata->result, fddata->done_data);
+
 	file_delete_data_free (fddata);
 }
 
@@ -1881,7 +1883,7 @@ dlg_files_delete (GThumbWindow   *window,
 
 	/**/
 
-	all_windows_remove_monitor ();
+	/*all_windows_remove_monitor (); FIXME*/
 
 	for (scan = fddata->file_list; scan; scan = scan->next) {
 		const char  *path = scan->data;

@@ -31,11 +31,11 @@ typedef void (*ImageSavedFunc)       (char     *filename,
 				      gpointer  data);
 
 
-void       dlg_save_image   (GtkWindow      *parent,
-			     const char     *current_folder,
-			     GdkPixbuf      *pixbuf,
-			     ImageSavedFunc  done_func,
-			     gpointer        done_data);
+void       dlg_save_image   (GtkWindow       *parent,
+			     const char      *current_folder,
+			     GdkPixbuf       *pixbuf,
+			     ImageSavedFunc   done_func,
+			     gpointer         done_data);
 
 gboolean   dlg_save_options (GtkWindow    *parent,
 			     const char   *image_type,

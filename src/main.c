@@ -502,9 +502,11 @@ all_windows_notify_files_deleted (GList *list)
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 
+		/* FIXME
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
 		    window->monitor_enabled)
 			continue;
+		*/
 
 		window_notify_files_deleted (window, list);
 	}

@@ -209,11 +209,11 @@ build_file_type_menu (void)
 
 
 void
-dlg_save_image (GtkWindow      *parent,
-		const char     *current_folder,
-		GdkPixbuf      *pixbuf,
-		ImageSavedFunc  done_func,
-		gpointer        done_data)
+dlg_save_image (GtkWindow       *parent,
+		const char      *current_folder,
+		GdkPixbuf       *pixbuf,
+		ImageSavedFunc   done_func,
+		gpointer         done_data)
 {
 	SaveImageData *data;
 	GtkWidget *file_sel;

@@ -51,7 +51,6 @@
 #include "dlg-color-balance.h"
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
-#include "dlg-save-image.h"
 #include "dlg-scale-image.h"
 #include "fullscreen.h"
 #include "gconf-utils.h"
@@ -178,39 +177,15 @@ image_open_with_command_impl (BonoboUIComponent *uic,
 }
 
 
-static void
-image_saved_func (char     *filename,
-		  gpointer  data)
-{
-	GThumbWindow *window = data;
-	if (filename != NULL) 
-		window_load_image (window, filename);
-}
-
-
 void 
 file_save_command_impl (BonoboUIComponent *uic, 
 			gpointer           user_data, 
 			const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	char         *current_folder = NULL;
+	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
 
-	if (window->image_path != NULL)
-		current_folder = g_strdup (window->image_path);
-
-	else if (window->dir_list->path != NULL)
-		current_folder = g_strconcat (window->dir_list->path,
-					      "/", 
-					      NULL);
-
-	dlg_save_image (GTK_WINDOW (window->app), 
-			current_folder,
-			image_viewer_get_current_pixbuf (IMAGE_VIEWER (window->viewer)),
-			image_saved_func,
-			window);
-
-	g_free (current_folder);
+	window_save_pixbuf (window, image_viewer_get_current_pixbuf (viewer));
 }
 
 
@@ -433,8 +408,18 @@ duplicate_file (GThumbWindow *window,
 	g_free (old_name_no_ext);
 
 	if (file_copy (old_path, new_path)) {
+		GList *file_list;
+
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
+
+		all_windows_remove_monitor ();
+
+		file_list = g_list_prepend (NULL, new_path);
+		all_windows_notify_files_created (file_list);
+		g_list_free (file_list);
+
+		all_windows_add_monitor ();
 
 	} else {
 		char      *utf8_path;
@@ -463,7 +448,6 @@ duplicate_file (GThumbWindow *window,
 			g_free (new_name);
 			return;
 		}
-					   
 	}
 
 	g_free (new_name);

@@ -44,6 +44,7 @@
 #include "dlg-image-prop.h"
 #include "dlg-bookmarks.h"
 #include "dlg-file-utils.h"
+#include "dlg-save-image.h"
 #include "e-combo-button.h"
 #include "file-utils.h"
 #include "gth-file-list.h"
@@ -73,7 +74,7 @@
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
-#define UPDATE_DIR_DELAY       1000
+#define UPDATE_DIR_DELAY       500
 #define VIEW_IMAGE_DELAY       25
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
@@ -7136,6 +7137,84 @@ window_image_get_modified (GThumbWindow *window)
 }
 
 
+/* -- window_save_pixbuf -- */
+
+
+void
+image_saved__step2 (gpointer data)
+{
+	GThumbWindow *window = data;
+	int pos;
+
+	if (window->image_path == NULL)
+		return;
+
+	pos = gth_file_list_pos_from_path (window->file_list, 
+					   window->image_path);
+	if (pos != -1) {
+		view_image_at_pos (window, pos);
+		gth_file_list_select_image_by_pos (window->file_list, pos);
+	}
+}
+
+
+static void
+image_saved_func (char     *filename,
+		  gpointer  data)
+{
+	GThumbWindow *window = data;
+	GList        *file_list;
+	int           pos;
+
+	if (filename == NULL) 
+		return;
+
+	/**/
+
+	file_list = g_list_prepend (NULL, filename);
+
+	pos = gth_file_list_pos_from_path (window->file_list, filename);
+	if (pos == -1) {
+		g_free (window->image_path);
+		window->image_path = g_strdup (filename);
+		gth_file_list_add_list (window->file_list, 
+					file_list, 
+					image_saved__step2,
+					window);
+		all_windows_notify_files_created (file_list);
+	} else {
+		view_image_at_pos (window, pos);
+		all_windows_notify_files_changed (file_list);
+	}
+
+	g_list_free (file_list);
+}
+
+
+void
+window_save_pixbuf (GThumbWindow *window,
+		    GdkPixbuf    *pixbuf)
+{
+	char *current_folder = NULL;
+
+	if (window->image_path != NULL)
+		current_folder = g_strdup (window->image_path);
+
+	else if (window->dir_list->path != NULL)
+		current_folder = g_strconcat (window->dir_list->path,
+					      "/", 
+					      NULL);
+
+	dlg_save_image (GTK_WINDOW (window->app), 
+			current_folder,
+			pixbuf,
+			image_saved_func,
+			window);
+
+	g_free (current_folder);
+}
+
+
 /* -- load image -- */
 
 
@@ -7154,7 +7233,7 @@ get_image_to_preload (GThumbWindow *window,
 	if (fdata == NULL)
 		return NULL;
 
-	debug (DEBUG_INFO, "%ld <-> %d\n", (long int) fdata->size, PRELOADED_IMAGE_MAX_SIZE);
+	debug (DEBUG_INFO, "%ld <-> %ld\n", (long int) fdata->size, (long int)PRELOADED_IMAGE_MAX_SIZE);
 
 	if (fdata->size > PRELOADED_IMAGE_MAX_SIZE) {
 		debug (DEBUG_INFO, "image %s too large for preloading", gth_file_list_path_from_pos (window->file_list, pos));
@@ -7173,7 +7252,7 @@ load_timeout_cb (gpointer data)
 	GThumbWindow *window = data;
 	char         *prev1;
 	char         *next1;
-	char         *next2;
+	/*char         *next2;*/
 	int           pos;
 
 	if (window->view_image_timeout != 0) {
@@ -7189,17 +7268,17 @@ load_timeout_cb (gpointer data)
 
 	prev1 = get_image_to_preload (window, pos - 1);
 	next1 = get_image_to_preload (window, pos + 1);
-	next2 = get_image_to_preload (window, pos + 2);
+	/*next2 = get_image_to_preload (window, pos + 2);*/
 
 	gthumb_preloader_start (window->preloader, 
 				window->image_path, 
 				next1, 
 				prev1, 
-				next2);
+				NULL/*next2*/);
 
 	g_free (prev1);
 	g_free (next1);
-	g_free (next2);
+	/*g_free (next2);*/
 
 	return FALSE;
 }
@@ -7274,20 +7353,6 @@ notify_files_added__step2 (gpointer data)
 
 	window_update_statusbar_list_info (window);
 	window_update_infobar (window);
-
-	/* select the current image. FIXME
-
-	if (window->image_path != NULL) {
-		int pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		if (pos != -1) {
-			gth_file_view_unselect_all (window->file_list->view);
-			gth_file_view_select_image (window->file_list->view, pos);
-			gth_file_view_set_cursor (window->file_list->view, pos);
-			window_make_current_image_visible (window);
-		}
-	}
-
-	*/
 }
 
 
@@ -7388,6 +7453,7 @@ notify_files_deleted__step2 (FilesDeletedData *data)
 
 		gth_file_list_delete_pos (window->file_list, pos);
 	}
+
 	gth_file_view_thaw (window->file_list->view);
 
 	/* Try to visualize the smallest pos. */
@@ -7474,8 +7540,7 @@ window_notify_files_deleted (GThumbWindow *window,
 			catalog_write_to_disk (catalog, NULL);
 		}
 		catalog_free (catalog);
-	} else if (window->monitor_enabled)
-		return;
+	} 
 
 	notify_files_deleted (window, list);
 }

@@ -43,7 +43,7 @@
 
 #define THUMB_BORDER   14
 #define ADD_LIST_DELAY 30
-#define ADD_LIST_CHUNK 400
+#define ADD_LIST_CHUNK 500
 #define SCROLL_DELAY   20
 #define DEF_THUMB_SIZE 128
 

@@ -267,6 +267,9 @@ void            window_image_set_modified           (GThumbWindow *window,
 
 gboolean        window_image_get_modified           (GThumbWindow *window);
 
+void            window_save_pixbuf                  (GThumbWindow *window,
+						     GdkPixbuf    *pixbuf);
+
 /* functions used to notify a change. */
 
 void            window_notify_files_created         (GThumbWindow *window,
