@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2003-01-08 05:12+0100\n"
-"PO-Revision-Date: 2003-01-09 21:48+EDT\n"
+"PO-Revision-Date: 2003-01-14 11:02+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -706,7 +706,7 @@ msgstr "የተለመደ ዕይታ አከማች"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
-msgstr "መቃኛ... (_B)"
+msgstr "ቃኛ... (_B)"
 
 #: src/gth-folder-selection-dialog.c:412
 msgid "_Recents:"
@@ -918,7 +918,7 @@ msgstr "ወደሚቀጥለው የሚጎበኘው አቅጣጫ ሂድ"
 
 #: src/gthumb-ui.xml.h:51
 msgid "Go to the previous visited location"
-msgstr "ወደሚቀጥለው የሚጎበኘው አቅጣጫ ሂድ"
+msgstr "ወደቀድሞው የተጎበኘው አቅጣጫ ሂድ"
 
 #: src/gthumb-ui.xml.h:52
 msgid "Go up one level"
@@ -1372,11 +1372,11 @@ msgstr "ከርቀት ዕይታ"
 
 #: src/gthumb-ui.xml.h:172
 msgid "Zoom to _Fit"
-msgstr "በመስኮቱ _ልክ አጉላ (_F)"
+msgstr "በመስኮቱ ልክ አጉላ (_F)"
 
 #: src/gthumb-ui.xml.h:173
 msgid "Zoom to fit window"
-msgstr "በመስኮቱ _ልክ አጉላ"
+msgstr "በመስኮቱ ልክ አጉላ"
 
 #: src/gthumb-ui.xml.h:174
 msgid "_About"
@@ -1404,7 +1404,7 @@ msgstr "ወደኋላ (_B)"
 
 #: src/gthumb-ui.xml.h:181
 msgid "_Bookmarks"
-msgstr "መለያ ምልክት (_B)"
+msgstr "መለያ ምልክቶች (_B)"
 
 #: src/gthumb-ui.xml.h:182
 msgid "_Brightness-Contrast"
@@ -1448,7 +1448,7 @@ msgstr "አስተካክል (_E)"
 
 #: src/gthumb-ui.xml.h:193
 msgid "_Edit Bookmarks"
-msgstr "መለያ ምልክት ያስተካክሉ (_E)"
+msgstr "መለያ ምልክቶች ያስተካክሉ (_E)"
 
 #: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
@@ -1644,7 +1644,7 @@ msgstr "በቅርበት አሳይ (_Z)"
 
 #: src/gthumb-ui.xml.h:249
 msgid "by _Name"
-msgstr "በስሙ (_ኝ)"
+msgstr "በስሙ (_N)"
 
 #: src/gthumb-ui.xml.h:250
 msgid "by _Path"
@@ -2189,7 +2189,7 @@ msgstr "<b>የገጽ ግርጌ</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
 msgid "<b>Header and footer</b>"
-msgstr "<b>የገጽ አናት እና ግርጌ</b>"
+msgstr "<b>የገጽ አናት እና የገጽ ግርጌ</b>"
 
 #: src/gthumb_png_exporter.glade.h:19
 msgid "<b>Header</b>"
@@ -2289,7 +2289,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:43
 msgid "Re_verse order"
-msgstr ""
+msgstr "የተቀያየረ ቅደም ተከተል (_V)"
 
 #: src/gthumb_png_exporter.glade.h:44
 msgid "Rows a_nd columns"
@@ -2397,7 +2397,7 @@ msgstr "በመንገዱ"
 
 #: src/gthumb_png_exporter.glade.h:73
 msgid "by size"
-msgstr "በመጠን"
+msgstr "በመጠኑ"
 
 #: src/gthumb_png_exporter.glade.h:74
 msgid "by time"
@@ -2953,7 +2953,7 @@ msgstr "በስሙ"
 
 #: src/gthumb_tools.glade.h:51
 msgid "by Size"
-msgstr "በመጠን"
+msgstr "በመጠኑ"
 
 #: src/main.c:75
 msgid "Start in fullscreen mode"
@@ -3127,7 +3127,7 @@ msgstr ""
 #~ msgstr "ቀለሞች ቀንስ"
 
 #~ msgid "Refresh"
-#~ msgstr "አድስ"
+#~ msgstr "በድጋሚ ጀምር"
 
 #~ msgid "Rename Catalog"
 #~ msgstr "ማውጫን እንደገና ሰይም"
