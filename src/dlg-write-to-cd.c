@@ -71,13 +71,13 @@ write_to_cd__continue (GnomeVFSResult  result,
 	DialogData   *data = user_data;
 	GThumbWindow *window = data->window;
 	
-	if (result != GNOME_VFS_OK) 
+	if (result != GNOME_VFS_OK) {
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
 				       "%s %s",
 				       _("Could not move the items:"), 
 				       gnome_vfs_result_to_string (result));
 
-	else {
+	} else {
 		exec_command ("nautilus --no-default-window --no-desktop --browser burn://", NULL);
 		/*
 		  GError *err = NULL;
@@ -95,7 +95,7 @@ static void
 ok_clicked_cb (GtkWidget  *widget, 
 	       DialogData *data)
 {
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton))) {
 		dlg_copy_items (data->window, 
 				data->file_list,
 				"burn:///",
@@ -105,7 +105,7 @@ ok_clicked_cb (GtkWidget  *widget,
 				write_to_cd__continue,
 				data);
 
-	else if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+	} else if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		GList *file_list = gth_file_list_get_all (data->window->file_list);
 		dlg_copy_items (data->window, 
 				file_list,

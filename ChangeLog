@@ -1,3 +1,14 @@
+2004-10-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.6.0 released ]
+
+2004-10-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-file-utils.c (dlg_check_folder): 
+	* src/dlg-jpegtran.c (apply_transformation): 
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): use check_permissions
+	instead of access
+
 2004-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* configure.in: check libraries version.

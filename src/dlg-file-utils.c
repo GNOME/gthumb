@@ -111,7 +111,7 @@ dlg_check_folder (GThumbWindow *window,
 
 	/* check permissions */
 
-	if (access (dir, R_OK | W_OK | X_OK) != 0) {
+	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
 		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),

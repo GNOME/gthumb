@@ -60,8 +60,6 @@ What is gThumb
    + Change images date and time.
    + JPEG lossless transformations.
    + Find duplicated images.
-   + Maintenance tools: remove old comments; backup and restore comments;
-     remove old thumbnails.
    + Write images to CD/DVD.
 
  * gThumb is a Bonobo component
