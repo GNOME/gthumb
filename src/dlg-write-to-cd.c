@@ -178,8 +178,10 @@ dlg_write_to_cd (GThumbWindow *window)
 
 	if (data->file_list != NULL)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton), TRUE);
-	else
+	else if (data->window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_folder_radiobutton), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_catalog_radiobutton), TRUE);
 
 	/* Set the signals handlers. */
 	
