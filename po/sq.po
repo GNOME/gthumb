@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-05 05:01+0200\n"
+"POT-Creation-Date: 2004-07-10 04:39+0200\n"
 "PO-Revision-Date: 2004-07-01 18:17+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -2762,7 +2762,6 @@ msgstr "Ngjitu një nivel më lart"
 msgid "Go to the home folder"
 msgstr ""
 
-#. GRUT modified this item
 #: src/gthumb-window.c:5002
 msgid "Close"
 msgstr "Mbylle"
@@ -2860,9 +2859,10 @@ msgstr "Rreshti i komandës"
 msgid "_File"
 msgstr "_File"
 
+#. GRUT modified this item
 #: src/ui.h:35
 msgid "_Folder"
-msgstr ""
+msgstr "_Kartela"
 
 #: src/ui.h:36 src/ui.h:37
 msgid "Ca_talog"
@@ -3034,9 +3034,10 @@ msgstr ""
 msgid "Move selected images to another location"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:153
 msgid "_Select All"
-msgstr ""
+msgstr "_Zgjidh gjithçka"
 
 #: src/ui.h:154
 msgid "Select all images"
@@ -3506,7 +3507,6 @@ msgstr ""
 msgid "View as a slide show"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:543
 msgid "_Find"
 msgstr "_Gjej"
