@@ -462,6 +462,9 @@ update_comment (DialogData *data)
 	CommentData *cdata;
 	char        *comment;
 
+	g_return_if_fail (GTK_IS_WIDGET (data->i_categories_label));
+	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
+
 	cdata = comments_load_comment (data->window->image_path);
 
 	if (cdata == NULL) {
@@ -671,10 +674,10 @@ static void
 update_notebook_page (DialogData *data,
 		      int         page_num)
 {
-	if (data->page_updated[page_num]) 
+	if (data->closing)
 		return;
 
-	if (data->closing)
+	if (data->page_updated[page_num]) 
 		return;
 
 	switch (page_num) {
@@ -699,11 +702,12 @@ update_notebook_page (DialogData *data,
 	default:
 		return;
 	}
+
 	data->page_updated[page_num] = TRUE;
 }
 
 
-static void
+static gboolean
 i_notebook_switch_page_cb (GtkWidget       *widget,
 			   GtkNotebookPage *page,
 			   guint            page_num,
@@ -712,10 +716,12 @@ i_notebook_switch_page_cb (GtkWidget       *widget,
 	DialogData *data = extra_data;
 
 	if (data->closing)
-		return;
+		return TRUE;
 
 	if ((page_num >= 0) && (page_num < IPROP_NUM_PAGES))
 		update_notebook_page (data, page_num);
+
+	return FALSE;
 }
 
 
