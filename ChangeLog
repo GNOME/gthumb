@@ -1,11 +1,15 @@
 2004-09-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/fullscreen.c (fullscreen_start): 
+	* libgthumb/image-viewer.c (image_viewer_show_frame) 
+	(image_viewer_hide_frame, image_viewer_is_frame_visible): new functions.
+	* libgthumb/image-viewer.h (struct _ImageViewer): 
+
+	fixes bug #134671: `Zoom to Fit' needlessly scales down image
+
 	* libgthumb/gth-image-list.c (gth_image_list_set_no_image_text): 
-
 	* libgthumb/gth-file-view-thumbs.c (gfv_set_no_image_text): 
-
 	* libgthumb/gth-file-view.c (gfv_set_no_image_text): 
-
 	* libgthumb/gth-file-list.c (gth_file_list_set_list) 
 	(add_list_in_chunks, add_list_in_chunks): 
 
@@ -15,7 +19,7 @@
 
 	* configure.in: Added "gu" (Gujarati) to ALL_LINGUAS.
 
-2004-09-06  Tomasz Kłoczko <kloczek@pld.org.pl>
+2004-09-06  Tomasz KÅoczko <kloczek@pld.org.pl>
 
 	* components/image-viewer/Makefile.am: fixed paralel build ("make -j<N>").
 
@@ -89,7 +93,7 @@
 
 2004-08-21  Kjartan Maraas  <kmaraas@gnome.org>
 
-	* configure.in: Add �nb� to ALL_LINGUAS.
+	* configure.in: Add «nb» to ALL_LINGUAS.
 
 2004-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
@@ -389,7 +393,7 @@
 	whether the modified folder is in the folder list before updating
 	the folder view.
 
-2004-05-08  I�aki Larra�aga  <dooteo@euskalgnu.org>
+2004-05-08  Iñaki Larrañaga  <dooteo@euskalgnu.org>
 
 	* configure.in: Added "eu" (Basque) to ALL_LINGUAS.
 
@@ -1030,7 +1034,7 @@
 2003-11-04  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/Makefile.am (libgthumbdir): install the library in
-	$(libdir)/gthumb (patch by G�tz Waschk
+	$(libdir)/gthumb (patch by Götz Waschk
 	<waschk@informatik.uni-rostock.de>)
 
 2003-11-03  Bastien Nocera  <hadess@hadess.net>
@@ -1560,7 +1564,7 @@
 	* data/albumthemes/*/image.gthtml: added Content-Type and
 	Generator meta tags.
 
-2003-05-06  Danilo Šegan  <dsegan@gmx.net>
+2003-05-06  Danilo Å egan  <dsegan@gmx.net>
 
 	* configure.in: Added "sr" and "sr@Latn" to ALL_LINGUAS.
 

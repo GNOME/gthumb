@@ -319,6 +319,10 @@ image_viewer_init (ImageViewer *viewer)
 	viewer->rendering = FALSE;
 	viewer->cursor_visible = TRUE;
 
+	viewer->frame_visible = TRUE;
+	viewer->frame_border = FRAME_BORDER;
+	viewer->frame_border2 = FRAME_BORDER2;
+
 	viewer->frame_pixbuf = NULL;
 	viewer->frame_delay = 0;
 	viewer->anim_id = 0;
@@ -531,18 +535,18 @@ image_viewer_expose (GtkWidget      *widget,
 	src_y        = viewer->y_offset;
 	alloc_width  = widget->allocation.width;
 	alloc_height = widget->allocation.height;
-	gdk_width    = alloc_width - FRAME_BORDER2;
-	gdk_height   = alloc_height - FRAME_BORDER2;
+	gdk_width    = alloc_width - viewer->frame_border2;
+	gdk_height   = alloc_height - viewer->frame_border2;
 
-	image_area.x      = MAX (FRAME_BORDER, (gdk_width - pixbuf_width) / 2);
-	image_area.y      = MAX (FRAME_BORDER, (gdk_height - pixbuf_height) / 2);
+	image_area.x      = MAX (viewer->frame_border, (gdk_width - pixbuf_width) / 2);
+	image_area.y      = MAX (viewer->frame_border, (gdk_height - pixbuf_height) / 2);
 	image_area.width  = MIN (pixbuf_width, gdk_width);
 	image_area.height = MIN (pixbuf_height, gdk_height);
 
 	/* Draw the background. */
 
-	if ((image_area.x > FRAME_BORDER) 
-	    || (image_area.y > FRAME_BORDER) 
+	if ((image_area.x > viewer->frame_border) 
+	    || (image_area.y > viewer->frame_border) 
 	    || (image_area.width < gdk_width)
 	    || (image_area.height < gdk_height)) {
 		int    rx, ry, rw, rh;
@@ -785,8 +789,8 @@ scroll_to (ImageViewer *viewer,
 	get_zoomed_size (viewer, &width, &height, viewer->zoom_level);
 
 	drawable = GTK_WIDGET (viewer)->window;
-	gdk_width = GTK_WIDGET (viewer)->allocation.width - FRAME_BORDER2;
-	gdk_height = GTK_WIDGET (viewer)->allocation.height - FRAME_BORDER2;
+	gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
+	gdk_height = GTK_WIDGET (viewer)->allocation.height - viewer->frame_border2;
 
 	if (width > gdk_width) 
 		*x_offset = CLAMP (*x_offset, 0, width - gdk_width);
@@ -845,10 +849,10 @@ scroll_to (ImageViewer *viewer,
 		gc = gdk_gc_new (drawable);
 		gdk_gc_set_exposures (gc, TRUE);
 
-		dest_x += FRAME_BORDER;
-		dest_y += FRAME_BORDER;
-		src_x += FRAME_BORDER;
-		src_y += FRAME_BORDER;
+		dest_x += viewer->frame_border;
+		dest_y += viewer->frame_border;
+		src_x += viewer->frame_border;
+		src_y += viewer->frame_border;
 
 		gdk_draw_drawable (drawable,
 				   gc,
@@ -865,14 +869,14 @@ scroll_to (ImageViewer *viewer,
 	viewer->y_offset = *y_offset;
 
 	expose_area (viewer, 
-		     FRAME_BORDER,
-		     (delta_y < 0) ? FRAME_BORDER : FRAME_BORDER + gdk_height - abs (delta_y),
+		     viewer->frame_border,
+		     (delta_y < 0) ? viewer->frame_border : viewer->frame_border + gdk_height - abs (delta_y),
 		     gdk_width,
 		     abs (delta_y));
 
 	expose_area (viewer, 
-		     (delta_x < 0) ? FRAME_BORDER : FRAME_BORDER + gdk_width - abs (delta_x),
-		     FRAME_BORDER,
+		     (delta_x < 0) ? viewer->frame_border : viewer->frame_border + gdk_width - abs (delta_x),
+		     viewer->frame_border,
 		     abs (delta_x),
 		     gdk_height);
 
@@ -1249,8 +1253,8 @@ zoom_to_fit (ImageViewer *viewer)
 
 	buf = image_viewer_get_current_pixbuf (viewer);
 
-	gdk_width = GTK_WIDGET (viewer)->allocation.width - FRAME_BORDER2;
-	gdk_height = GTK_WIDGET (viewer)->allocation.height - FRAME_BORDER2;
+	gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
+	gdk_height = GTK_WIDGET (viewer)->allocation.height - viewer->frame_border2;
 	x_level = (double) gdk_width / gdk_pixbuf_get_width (buf);
 	y_level = (double) gdk_height / gdk_pixbuf_get_height (buf);
 
@@ -1274,8 +1278,8 @@ image_viewer_size_allocate (GtkWidget       *widget,
 	viewer = IMAGE_VIEWER (widget);
 
 	widget->allocation = *allocation;
-	gdk_width = allocation->width - FRAME_BORDER2; 
-	gdk_height = allocation->height - FRAME_BORDER2;
+	gdk_width = allocation->width - viewer->frame_border2; 
+	gdk_height = allocation->height - viewer->frame_border2;
 
 	current_pixbuf = image_viewer_get_current_pixbuf (viewer);
 
@@ -1879,8 +1883,8 @@ image_viewer_set_zoom (ImageViewer *viewer,
 	g_return_if_fail (viewer != NULL);
 	g_return_if_fail (viewer->loader != NULL);
 
-	gdk_width = GTK_WIDGET (viewer)->allocation.width - FRAME_BORDER2;
-	gdk_height = GTK_WIDGET (viewer)->allocation.height - FRAME_BORDER2;
+	gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
+	gdk_height = GTK_WIDGET (viewer)->allocation.height - viewer->frame_border2;
 
 	/* try to keep the center of the view visible. */
 	zoom_ratio = zoom_level / viewer->zoom_level;
@@ -2452,4 +2456,34 @@ image_viewer_is_black_background (ImageViewer *viewer)
 {
 	g_return_val_if_fail (viewer != NULL, FALSE);
 	return viewer->black_bg;
+}
+
+
+void
+image_viewer_show_frame (ImageViewer *viewer)
+{
+	g_return_if_fail (viewer != NULL);
+	viewer->frame_visible = TRUE;
+	viewer->frame_border = FRAME_BORDER;
+	viewer->frame_border2 = FRAME_BORDER2;
+	gtk_widget_queue_draw (GTK_WIDGET (viewer));
+}
+
+
+void
+image_viewer_hide_frame (ImageViewer *viewer)
+{
+	g_return_if_fail (viewer != NULL);
+	viewer->frame_visible = FALSE;
+	viewer->frame_border = 0;
+	viewer->frame_border2 = 0;
+	gtk_widget_queue_draw (GTK_WIDGET (viewer));
+}
+
+
+gboolean
+image_viewer_is_frame_visible (ImageViewer *viewer)
+{
+	g_return_val_if_fail (viewer != NULL, FALSE);
+	return viewer->frame_visible;
 }

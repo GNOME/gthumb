@@ -91,6 +91,10 @@ struct _ImageViewer
 	gboolean         rendering;
 	gboolean         cursor_visible;
 
+	gboolean         frame_visible;
+	int              frame_border;
+	int              frame_border2;
+
 	GthTranspType    transp_type;
 	GthCheckType     check_type;
 	gint             check_size;
@@ -305,6 +309,13 @@ void           image_viewer_show_cursor        (ImageViewer *viewer);
 void           image_viewer_hide_cursor        (ImageViewer *viewer);
 
 gboolean       image_viewer_is_cursor_visible  (ImageViewer *viewer);
+
+/* Frame. */
+void           image_viewer_show_frame         (ImageViewer *viewer);
+
+void           image_viewer_hide_frame         (ImageViewer *viewer);
+
+gboolean       image_viewer_is_frame_visible   (ImageViewer *viewer);
 
 G_END_DECLS
 

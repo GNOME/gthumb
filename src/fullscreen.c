@@ -1054,6 +1054,7 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
+	image_viewer_hide_frame (IMAGE_VIEWER (fullscreen->viewer));
 
 	gtk_widget_set_sensitive (fullscreen->related_win->app, FALSE);
 
@@ -1118,6 +1119,7 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
+	image_viewer_show_frame (IMAGE_VIEWER (fullscreen->viewer));
 
 	gtk_window_unfullscreen (GTK_WINDOW (fullscreen->window));
 	gtk_widget_hide (fullscreen->window);

@@ -256,6 +256,11 @@
 	  <long>Les images plus grosse que cette taille (en octets) ne seront pas mise en vignette. Utiliser 0 si vous voulez que les vignettes soient générées pour toutes les images.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>આ માપ (બાઈટમાં) કરતાં મોટી ઈમેજો થમ્બનેઈલ થતી નથી. જો તમે બધી ઈમેજો માટે થમ્બનેઈલ વાપરવા માંગતા હોય તો ૦ વાપરો.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Slike preko ove veličine (u bajtovima) neće biti sličice (thumbnails). Koristite 0 ako želite generirati sličice (thumbnails) za sve slike.</long>
@@ -350,6 +355,11 @@
 	  
 	  <long>图像如果超过了这个大小(以字节计算)将不能生成缩略图。如果您想为所有图像创建缩略图，请使用 0。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>過大的圖像（以位元組計算）不能將其縮小成縮圖。使用 0 如果您要所有的圖像都建立縮圖。</long>
+	</locale>
       </schema>
 
       <schema>
@@ -417,6 +427,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : nautilus, single et double.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: નોટિલસ, એક, દ્વિ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -523,6 +538,11 @@
 	  
 	  <long>可能的取值是：nautilus、单、双。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：nautilus, single, double.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -603,6 +623,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, name, path, size et time.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: કંઈ નહિં, નામ, પથ, માપ, સમય.</long>
 	</locale>
 
 	<locale name="hr">
@@ -709,6 +734,11 @@
 	  
 	  <long>可能的取值是：无、名称、路径、大小、时间。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：none, name, path, size, time.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -776,6 +806,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : ascending, descending.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: ચઢતો ક્રમ, ઉતરતો ક્રમ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -882,6 +917,11 @@
 	  
 	  <long>可能的取值是：升序、降序。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：ascending, descending.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -949,6 +989,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : list et thumbnails.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: યાદી, થમ્બનેઈલ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1050,6 +1095,11 @@
 	  
 	  <long>可能的取值是：列表、缩略图。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：list, thumbnails.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -1130,6 +1180,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : image, data et comment.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: ઈમેજ, માહિતી, ટિપ્પળી.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1236,6 +1291,11 @@
 	  
 	  <long>可能的取值是：图像、数据、备注。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：image, data, comment.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -1318,6 +1378,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : high et low.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: ઊંચુ, નીચું.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1424,6 +1489,11 @@
 	  
 	  <long>可能的取值是：高、低。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：high, low.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -1492,6 +1562,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: વાસ્તવિક માપ, બંધબેસતું, પહેલાનું રાખો, જો મોટું હોય તો બંધબેસાડો.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1598,6 +1673,11 @@
 	  
 	  <long>可能的取值是：实际大小(_Z)、自动适应、保持预览(_P)、如果大于则自动适应(_I)。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -1665,6 +1745,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : white, black, checked et none.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: સફેદ, કાળુ, ચકાસાયેલ, કંઈ નહિં.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1766,6 +1851,11 @@
 	  
 	  <long>可能的取值是：白、黑、网格、无。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：white, black, checked, none.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -1833,6 +1923,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : light, midtone et dark.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: ડાબુ, મિડટોન, ઘાટુ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -1934,6 +2029,11 @@
 	  
 	  <long>可能的取值是：亮、中、暗。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：light, midtone, dark.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -2001,6 +2101,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : small, medium et large.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: નાનું, મધ્યમ, વિશાળ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2107,6 +2212,11 @@
 	  
 	  <long>可能的取值是：小、中、大。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：small, medium, large.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -2174,6 +2284,11 @@
 	<locale name="fr">
 	  
 	  <long>Indique si il faut toujours utiliser un arrière-plan noir.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શું હંમેશા કાળા રંગને જ પાશ્વ ભાગના રંગ તરીકે વાપરવો.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2270,6 +2385,11 @@
 	  
 	  <long>是否总是使用黑色背景。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>是否永遠使用黑色背景。</long>
+	</locale>
       </schema>
 
       <!-- Slide Show -->
@@ -2329,6 +2449,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : forward, backward et random.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છ: આગળ ધપાવો, પાછળ જાઓ, રેન્ડમ.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2434,6 +2559,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：前进、后退、随机。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：forward, backward, random.</long>
 	</locale>
       </schema>
 
@@ -2545,6 +2675,11 @@
 	  <long>Les valeurs possible sont : 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: ૧, ૨, ૩, ૪.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: 1, 2, 3, 4.</long>
@@ -2649,6 +2784,11 @@
 	  
 	  <long>可能的取值是：1、2、3、4。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：1, 2, 3, 4.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -2716,6 +2856,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : system, text_below, text_beside, text_only et icons_only.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: સિસ્ટમ, લખાણની નીચે, લખાણની પાછળ, માત્ર લખાણ, માત્ર ચિહ્નો.</long>
 	</locale>
 
 	<locale name="hr">
@@ -2816,6 +2961,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：系统、下方文字(_B)、侧方文字(_B)、只有文字(_O)、只有图标(_O)。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
       </schema>
 
@@ -3010,6 +3160,11 @@
 	  <long>Les valeurs possible sont : png et jpeg.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: png, jpeg.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: png, jpeg.</long>
@@ -3113,6 +3268,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：png、jpeg。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：png, jpeg.</long>
 	</locale>
       </schema>
 
@@ -3525,6 +3685,11 @@
 	  <long>Les valeurs possible sont : none, simple, simple_with_shadow, shadow, slide, shadow_in et shadow_out.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: કંઈ નહિ, સરળ, છાયાવાળી સરળ, છાયા, તકતી, છાયામા, છાયાબહાર.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: ništa, jednostavno, jednostavno sa sjenom, sjena, niz, sjena u, sjena iz.</long>
@@ -3623,6 +3788,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：无、普通边框、普通边框带阴影(_W)、阴影、幻灯片、凹陷(_I)、凸起(_O)。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
       </schema>
 
@@ -3816,6 +3986,11 @@
 	  <long>Les valeurs possible sont : none, deflate et jpeg.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: કંઈ નહિં, નીચલુ, jpeg.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: ništa, deflate, jpeg.</long>
@@ -3915,6 +4090,11 @@
 	  
 	  <long>可能的取值是：无、缩减、jpeg。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：none, deflate, jpeg.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -4010,6 +4190,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : jpeg, png, tga et tiff.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: jpeg, png, tga, tiff.</long>
 	</locale>
 
 	<locale name="hr">
@@ -4116,6 +4301,11 @@
 	  
 	  <long>可能的取值是：jpeg、png、tga、tiff。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：jpeg, png, tga, tiff.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -4183,6 +4373,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : skip, rename, ask et overwrite.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: અવગણો, નામ બદલો, પૂછો, પર ફરીથી લખો.</long>
 	</locale>
 
 	<locale name="hr">
@@ -4283,6 +4478,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：跳过、重命名、询问、覆盖。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：skip, rename, ask, overwrite.</long>
 	</locale>
       </schema>
 
@@ -4394,6 +4594,11 @@
 	  <long>Les valeurs possible sont : name, size et time.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: નામ, માપ, સમય.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: ime, veličina, vrijeme.</long>
@@ -4498,6 +4703,11 @@
 	  
 	  <long>可能的取值是：名称、大小、时间。</long>
 	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：name, size, time.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -4585,6 +4795,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : pixels et percentage.</long>
+	</locale>
+
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: પિક્સેલો, ટકાવારી.</long>
 	</locale>
 
 	<locale name="hr">
@@ -4690,6 +4905,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：像素、百分比。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：pixels, percentage.</long>
 	</locale>
       </schema>
 
@@ -4892,6 +5112,11 @@
 	  <long>Les valeurs possible sont : name, path, size et time.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: નામ, પથ, માપ, સમય.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: ime, staza, veličina, vrijeme.</long>
@@ -4995,6 +5220,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：名称、路径、大小、时间。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：name, path, size, time.</long>
 	</locale>
       </schema>
 
@@ -5199,6 +5429,11 @@
 	  <long>Les valeurs possible sont : mm et in.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: mm, in.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: mm, in.</long>
@@ -5302,6 +5537,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：毫米、英寸。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：mm, in.</long>
 	</locale>
       </schema>
 
@@ -5503,6 +5743,11 @@
 	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10 et custom.</long>
 	</locale>
 
+	<locale name="gu">
+	  
+	  <long>શક્ય કિંમતો છે: કંઈ નહિં, ચોરસ, ઈમેજ, ડિસ્પ્લે, 4x3, 4x6, 5x7, 8x10, કસ્ટમ.</long>
+	</locale>
+
 	<locale name="hr">
 	  
 	  <long>Moguće vrijednosti su: ništa, četvrtasto, slika, prikaz,  4x3, 4x6, 5x7, 8x10, po izboru korisnika.</long>
@@ -5601,6 +5846,11 @@
 	<locale name="zh_CN">
 	  
 	  <long>可能的取值是：无、正方、图像、陈列、4x3、4x6、5x7、8x10、自定义。</long>
+	</locale>
+
+	<locale name="zh_TW">
+	  
+	  <long>適用的數值有：none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
       </schema>
 
