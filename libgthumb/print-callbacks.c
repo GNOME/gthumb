@@ -55,7 +55,7 @@
 #define GLADE_FILE "gthumb_print.glade"
 #define PARAGRAPH_SEPARATOR 0x2029	
 #define CANVAS_ZOOM 0.25
-#define DEF_COMMENT_FONT "Serif 12"
+#define DEF_COMMENT_FONT "Serif Regular 12"
 #define DEF_PAPER_WIDTH  0.0
 #define DEF_PAPER_HEIGHT 0.0
 #define DEF_PAPER_SIZE   "A4"
@@ -1369,10 +1369,10 @@ print_image_dlg (GtkWindow   *parent,
 
 	data->comment_fontpicker = gnome_print_font_picker_new ();
 	gnome_print_font_picker_set_mode (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker),
-				    GNOME_FONT_PICKER_MODE_FONT_INFO);
+					  GNOME_FONT_PICKER_MODE_FONT_INFO);
 	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
 	gnome_print_font_picker_fi_set_show_size (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE);
-
+	
 	gtk_widget_show (data->comment_fontpicker);
 	gtk_container_add (GTK_CONTAINER (comment_fontpicker_hbox), data->comment_fontpicker);
 
@@ -1401,10 +1401,16 @@ print_image_dlg (GtkWindow   *parent,
 	gtk_widget_set_sensitive (data->comment_font_hbox, pi->print_comment);
 
 	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT);
-	if ((value != NULL) && (*value != 0))
-		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), value);
-	else
+	
+	if ((value != NULL) && (*value != 0)) 
+		if (!gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), PREF_PRINT_COMMENT_FONT)) {
+			g_free (value);
+			value = NULL;
+		} 
+
+	if ((value == NULL) || (*value == 0)) 
 		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEF_COMMENT_FONT);
+
 	g_free (value);
 
 	gnome_print_font_picker_fi_set_use_font_in_label (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), TRUE, get_desktop_default_font_size ());
@@ -3312,10 +3318,16 @@ print_catalog_dlg (GtkWindow *parent,
 	/**/
 
 	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT);
-	if ((value != NULL) && (*value != 0))
-		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), value);
-	else
+
+	if ((value != NULL) && (*value != 0)) 
+		if (!gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), PREF_PRINT_COMMENT_FONT)) {
+			g_free (value);
+			value = NULL;
+		}
+	
+	if ((value == NULL) || (*value == 0)) 
 		gnome_print_font_picker_set_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker), DEF_COMMENT_FONT);
+	
 	g_free (value);
 
 	/**/

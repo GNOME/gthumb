@@ -230,7 +230,7 @@
 
 	<locale name="hr">
 	  
-	  <long>Slike preko ove veličine (u bajtovima) neće biti sičice (thumbnails). Koristite 0 ako želite generirati sličice (thumbnails) za sve slike.</long>
+	  <long>Slike preko ove veličine (u bajtovima) neće biti sličice (thumbnails). Koristite 0 ako želite generirati sličice (thumbnails) za sve slike.</long>
 	</locale>
 
 	<locale name="hu">
@@ -286,6 +286,11 @@
 	<locale name="sv">
 	  
 	  <long>Bilder över denna storlek (i byte) kommer det inte att skapas miniatyrbilder för. Använd 0 om du vill generera miniatyrbilder för alla bilder.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>З зображень цього розміру (у байтах) не будуть створюватись мініатюри. Вкажіть 0, якщо бажаєте створювати мініатюри для будь-яких зображень.</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -366,6 +371,11 @@
 	  <long>設定可能な値: nautilus, single, double</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: nautilus, single, double.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: nautilus, single, double.</long>
@@ -404,6 +414,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: nautilus(як у Наутілусі), single(одиночним), double(подвійним).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -497,6 +512,11 @@
 	  <long>設定可能な値: none, name, path, size, time</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, name, path, size, time.</long>
@@ -535,6 +555,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: none, name, path, size, time.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення:  none(не впорядковувати), name(за назвою), path(за шляхом), size(за розміром), time(за часом).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -597,7 +622,7 @@
 
 	<locale name="hr">
 	  
-	  <long>Moguće vrijednosti su: uzlazno, sliazno</long>
+	  <long>Moguće vrijednosti su: uzlazno, silazno</long>
 	</locale>
 
 	<locale name="hu">
@@ -613,6 +638,11 @@
 	<locale name="ja">
 	  
 	  <long>設定可能な値: ascending, descending</long>
+	</locale>
+
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: ascending, descending.</long>
 	</locale>
 
 	<locale name="nl">
@@ -653,6 +683,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: ascending, descending.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: ascending(зростаючий), descending(спадаючий).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -733,6 +768,11 @@
 	  <long>設定可能な値: list, thumbnails</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: list, thumbnails.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: list, thumbnails.</long>
@@ -771,6 +811,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: list, thumbnails.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: list(список), thumbnails(мініатюри).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -864,6 +909,11 @@
 	  <long>設定可能な値: image, data, comment</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: image, data, comment.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: image, data, comment</long>
@@ -902,6 +952,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: image, data, comment.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: image(зображення), data(дані), comment(коментарі).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -997,6 +1052,11 @@
 	  <long>設定可能な値: high, low</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: high, low.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: high, low</long>
@@ -1035,6 +1095,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: high, low.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: high(висока), low(низька).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -1116,6 +1181,11 @@
 	  <long>設定可能な値: actual_size, fit, keep_prev, fit_if_larger</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1154,6 +1224,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: actual_size(не масштабувати), fit(масштабувати), keep_prev(попередній масштаб), fit_if_larger(зменшувати великі).</long>
 	</locale>
       </schema>
 
@@ -1211,7 +1286,7 @@
 
 	<locale name="hr">
 	  
-	  <long>Moguće vrijednosti su: bijelo, crno, šrafirano, ništa.</long>
+	  <long>Moguće vrijednosti su: bijelo, crno, šahahovnica, ništa.</long>
 	</locale>
 
 	<locale name="hu">
@@ -1227,6 +1302,11 @@
 	<locale name="ja">
 	  
 	  <long>設定可能な値: white, black, checked, none</long>
+	</locale>
+
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1267,6 +1347,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: white(білий), black(чорний), checked(клітинки), none(немає).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -1347,6 +1432,11 @@
 	  <long>設定可能な値: light, midtone, dark</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: light, midtone, dark.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: light, midtone, dark.</long>
@@ -1385,6 +1475,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: light, midtone, dark.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: light(світлий), midtone(півтони), dark(темний).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -1465,6 +1560,11 @@
 	  <long>設定可能な値: small, medium, large</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: small, medium, large.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: small, medium, large.</long>
@@ -1503,6 +1603,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: small, medium, large.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: small(маленький), medium(середній), large(великий).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -1563,6 +1668,11 @@
 	  <long>Indique si il faut toujours utiliser un arrière-plan noir.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Da li se uvijek koristi crna pozadina?</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Mindig fekete legyen-e a háttér?</long>
@@ -1618,6 +1728,11 @@
 	  <long>Huruvida en svart bakgrund alltid ska användas.</long>
 	</locale>
 
+	<locale name="uk">
+	  
+	  <long>Чи завжди використовувати чорне тло.</long>
+	</locale>
+
 	<locale name="zh_CN">
 	  
 	  <long>是否总是使用黑色背景。</long>
@@ -1668,14 +1783,29 @@
 	  <long>Les valeurs possible sont : forward, backward et random.</long>
 	</locale>
 
+	<locale name="hr">
+	  
+	  <long>Moguće vrijednosti su: naprijed, nazad, slučajno.</long>
+	</locale>
+
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: forward, backward, random.</long>
 	</locale>
 
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: forward, backward, random.</long>
+	</locale>
+
 	<locale name="ja">
 	  
 	  <long>設定可能な値: forward, backward, random</long>
+	</locale>
+
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: forward, backward, random.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1696,6 +1826,11 @@
 	<locale name="sr@Latn">
 	  
 	  <long>Dozvoljene vrednosti su: forward, backward, random.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: forward(прямий), backward(зворотний), random(випадково).</long>
 	</locale>
       </schema>
 
@@ -1812,6 +1947,11 @@
 	  <long>設定可能な値: 1, 2, 3, 4</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: 1, 2, 3, 4.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: 1, 2, 3 en 4.</long>
@@ -1850,6 +1990,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: 1, 2, 3, 4.</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -1930,6 +2075,11 @@
 	  <long>設定可能な値: system, text_below, text_beside, text_only, icons_only</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: system, text_below, text_beside, text_only, icons_only.</long>
@@ -1968,6 +2118,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: system(як у системі), text_below(текст під значками), text_beside(текст поруч), text_only(лише текст), icons_only(лише значки).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -2172,6 +2327,11 @@
 	  <long>設定可能な値: png, jpeg</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: png, jpeg.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: png, jpeg.</long>
@@ -2210,6 +2370,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: png, jpeg.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: png, jpeg.</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -2614,7 +2779,7 @@
 
 	<locale name="hr">
 	  
-	  <long>Moguće vrijednosti su: ništa, jednostavno, jendostavno sa sjenom, sjena, niz, sjena u, sjena iz.</long>
+	  <long>Moguće vrijednosti su: ništa, jednostavno, jednostavno sa sjenom, sjena, niz, sjena u, sjena iz.</long>
 	</locale>
 
 	<locale name="hu">
@@ -2630,6 +2795,11 @@
 	<locale name="ja">
 	  
 	  <long>設定可能な値: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out</long>
+	</locale>
+
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2670,6 +2840,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: none(без рамки), simple(рамка), simple_with_shadow(рамка з тінню), shadow(лише тінь), slide(слайд), shadow_in(витиснутий), shadow_out(випуклий).</long>
 	</locale>
       </schema>
 
@@ -2868,6 +3043,11 @@
 	  <long>設定可能な値: none, deflate, jpeg</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, deflate, jpeg.</long>
@@ -2906,6 +3086,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: none, deflate, jpeg.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: none(без стиснення), deflate(стискати без втрат), jpeg.</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3014,6 +3199,11 @@
 	  <long>設定可能な値: jpeg, png, tga, tiff</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: jpeg, png, tga, tiff.</long>
@@ -3052,6 +3242,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: jpeg, png, tga, tiff.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: jpeg, png, tga, tiff.</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3132,6 +3327,11 @@
 	  <long>設定可能な値: skip, rename, ask, overwrite</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: skip, rename, ask, overwrite.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: skip, rename, ask, overwrite.</long>
@@ -3170,6 +3370,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: skip(пропускати), rename(перейменовувати), ask(питати), overwrite(переписувати).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3291,6 +3496,11 @@
 	  <long>設定可能な値: name, size, time</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: name, size, time.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: name, size, time.</long>
@@ -3329,6 +3539,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: name, size, time.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: name(назва), size(розмір), time(час).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3429,6 +3644,11 @@
 	  <long>設定可能な値: pixels, percentage</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: pixels, percentage.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: pixels, percentage.</long>
@@ -3467,6 +3687,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: pixels, percentage.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: pixels(точок), percentage(відсоток).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3679,6 +3904,11 @@
 	  <long>設定可能な値: name, path, size, time</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: name, path, size, time.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: name, path, size, time.</long>
@@ -3717,6 +3947,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: name, path, size, time.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: name(назва), path(шлях), size(розмір), time(час).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -3931,6 +4166,11 @@
 	  <long>設定可能な値: mm, in</long>
 	</locale>
 
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: mm, in.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: mm, in.</long>
@@ -3969,6 +4209,11 @@
 	<locale name="sv">
 	  
 	  <long>Möjliga värden är: mm, in.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: mm(міліметри), in(дюйми).</long>
 	</locale>
 
 	<locale name="zh_CN">
@@ -4157,9 +4402,19 @@
 	  <long>Lehetséges értékek: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="it">
+	  
+	  <long>I valori possibili sono: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="ja">
 	  
 	  <long>設定可能な値: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom</long>
+	</locale>
+
+	<locale name="ko">
+	  
+	  <long>쓸 수 있는 값: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4190,6 +4445,11 @@
 	<locale name="sr@Latn">
 	  
 	  <long>Dozvoljene vrednosti su: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="uk">
+	  
+	  <long>Можливі значення: none(немає), square(квадрат), image(зображення), display(дисплей), 4x3, 4x6, 5x7, 8x10, </long>
 	</locale>
       </schema>
 

@@ -328,6 +328,9 @@ set_command_state_if_different (GThumbWindow *window,
 
 
 
+static void window_update_zoom_sensitivity (GThumbWindow *window);
+
+
 static void
 window_update_statusbar_zoom_info (GThumbWindow *window)
 {
@@ -335,6 +338,10 @@ window_update_statusbar_zoom_info (GThumbWindow *window)
 	gboolean    image_is_visible;
 	int         zoom;
 	char       *text;
+
+	window_update_zoom_sensitivity (window);
+
+	/**/
 
 	path = window->image_path;
 
@@ -684,6 +691,34 @@ window_update_go_sensitivity (GThumbWindow *window)
 
 
 static void
+window_update_zoom_sensitivity (GThumbWindow *window)
+{
+	gboolean    image_is_visible;
+	gboolean    image_is_void;
+	gboolean    fit;
+	int         zoom;
+
+	image_is_visible = (window->image_path != NULL) && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
+	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
+	zoom = (int) (IMAGE_VIEWER (window->viewer)->zoom_level * 100.0);
+	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (window->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (window->viewer));
+
+	set_command_sensitive (window, 
+			       "View_Zoom100",
+			       image_is_visible && !image_is_void && (zoom != 100));
+	set_command_sensitive (window, 
+			       "View_ZoomIn",
+			       image_is_visible && !image_is_void && (zoom != 10000));
+	set_command_sensitive (window, 
+			       "View_ZoomOut",
+			       image_is_visible && !image_is_void && (zoom != 5));
+	set_command_sensitive (window, 
+			       "View_ZoomFit",
+			       image_is_visible && !image_is_void && !fit);
+}
+
+
+static void
 window_update_sensitivity (GThumbWindow *window)
 {
 	GtkTreeIter iter;
@@ -891,6 +926,8 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Wallpaper_Stretched", ! image_is_void);
 
 	set_command_sensitive (window, "Tools_JPEGRotate", sel_not_null);
+
+	window_update_zoom_sensitivity (window);
 }
 
 

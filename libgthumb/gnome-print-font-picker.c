@@ -77,7 +77,7 @@ struct _GnomePrintFontPickerPrivate {
 
         int           use_font_in_label_size;
 
-        GnomePrintFontPickerMode mode : 2;
+        guint         mode : 2;
 
         /* Only for GNOME_PRINT_FONT_PICKER_MODE_FONT_INFO */
         gboolean      use_font_in_label : 1;

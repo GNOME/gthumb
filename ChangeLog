@@ -1,5 +1,15 @@
 2004-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gnome-print-font-picker.c: 
+	* libgthumb/gnome-print-font-dialog.c: updated from gedit.
+
+	* src/gthumb-window.c (window_update_zoom_sensitivity): update the zoom
+	commands sensitivity.
+
+	* libgthumb/print-callbacks.c (DEF_COMMENT_FONT): Change default font.
+	(print_catalog_dlg, print_image_dlg): Use the default font if the 
+	current one does not exist.
+
 	* src/dlg-web-exporter.c (load_themes): automatically select the 
 	current theme.
 
