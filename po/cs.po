@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-02-06 11:25+0100\n"
-"PO-Revision-Date: 2003-02-07 05:41+0100\n"
+"POT-Creation-Date: 2003-03-03 20:13+0100\n"
+"PO-Revision-Date: 2003-03-03 23:59+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -28,13 +28,13 @@ msgstr "Zobrazit jako katalog"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#: src/gthumb-ui.xml.h:84
+#: src/gthumb-ui.xml.h:85
 msgid "Print the current image"
 msgstr "Tisknout aktuální obrázek"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb_print.glade.h:12
+#: src/gthumb_print.glade.h:11
 msgid "_Print"
 msgstr "_Tisk"
 
@@ -75,7 +75,7 @@ msgid "Mirror the image"
 msgstr "Zrcadlit obrázek"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: src/gthumb-ui.xml.h:113
+#: src/gthumb-ui.xml.h:114
 msgid "Rotate"
 msgstr "Otočit"
 
@@ -92,17 +92,17 @@ msgid "Rotate the image of 180 degrees"
 msgstr "Otočit obrázek o 180°"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: src/gthumb-ui.xml.h:121
+#: src/gthumb-ui.xml.h:122
 msgid "Save _As..."
 msgstr "Uložit j_ako..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: src/gthumb-ui.xml.h:122
+#: src/gthumb-ui.xml.h:123
 msgid "Save current image"
 msgstr "Uložit aktuální obrázek"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:138
+#: src/gthumb-ui.xml.h:139
 msgid "Start or stop current animation"
 msgstr "Začít nebo zastavit aktuální animaci"
 
@@ -115,37 +115,37 @@ msgid "Transparency T_ype"
 msgstr "T_yp průhlednosti"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:156
 msgid "View next animation frame"
 msgstr "Zobrazit další snímek animace"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:183
 msgid "_Black"
 msgstr "Če_rná"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:188
 msgid "_Checked"
 msgstr "Čtver_ce"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:201
 msgid "_Flip"
 msgstr "O_brátit"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:212
 msgid "_Image"
 msgstr "O_brázek"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:218
 msgid "_Mirror"
 msgstr "Zr_cadlo"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:220
+#: src/gthumb-ui.xml.h:223
 msgid "_None"
 msgstr "_Nic"
 
@@ -158,13 +158,13 @@ msgid "_Step Animation"
 msgstr "_Krokovat animaci"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:32
+#: src/gthumb-ui.xml.h:249 src/gthumb_search.glade.h:32
 #: src/gthumb_tools.glade.h:48
 msgid "_View"
 msgstr "Zo_brazit"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:250
 msgid "_White"
 msgstr "_Bílá"
 
@@ -172,23 +172,13 @@ msgstr "_Bílá"
 msgid "_Zoom Quality"
 msgstr "Kvalita _zvětšení"
 
-#: components/image-viewer/test-component.c:235
-msgid "Component has no editable properties"
-msgstr "Komponenta nemá upravitelné vlastnosti"
-
-#: components/image-viewer/test-component.c:373
-#, c-format
-msgid "Could not open file %s"
-msgstr "Nelze otevřít soubor %s"
-
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:520
-#: src/gthumb-window.c:352
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
+#: src/gthumb-window.c:351
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:799 src/dlg-image-prop.c:624
-#: src/fullscreen.c:231 src/gthumb-window.c:358
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
+#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:357
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
@@ -200,16 +190,6 @@ msgstr "Prohlížení a uspořádání vašich obrázků"
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
 msgstr "Prohlížeč obrázků gThumb"
-
-#: libgthumb/catalog-png-exporter.c:1320
-#, c-format
-msgid "Loading image: %s"
-msgstr "Načítá se obrázek: %s"
-
-#: libgthumb/catalog-png-exporter.c:1527
-#, c-format
-msgid "Creating image: %s.%s"
-msgstr "Vytváří se obrázek: %s.%s"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
@@ -248,7 +228,7 @@ msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
 #: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:644
-#: src/fullscreen.c:238
+#: src/fullscreen.c:240
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
@@ -256,16 +236,7 @@ msgstr "%d. %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
-#: libgthumb/gconf-utils.c:98
-#, c-format
-msgid ""
-"GConf error:\n"
-"  %s"
-msgstr ""
-"Chyba GConf:\n"
-" %s"
-
-#: libgthumb/dlg-save-image.c:86 src/commands-impl.c:281 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:86 src/commands-impl.c:300 src/dlg-convert.c:310
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Obrázek pojmenovaný \"%s\" je již přítomen. Chcete jej přepsat?"
@@ -287,33 +258,93 @@ msgstr "Uložit obrázek"
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
+#: libgthumb/gconf-utils.c:98
+#, c-format
+msgid ""
+"GConf error:\n"
+"  %s"
+msgstr ""
+"Chyba GConf:\n"
+" %s"
+
+#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:21
+#: src/gthumb_comments.glade.h:8
+msgid "Comment"
+msgstr "Komentář"
+
+#: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:804
+msgid "Name"
+msgstr "Název"
+
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2743 src/gthumb-window.c:437
-#: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
-#: src/gthumb-window.c:477 src/gthumb-window.c:3982
-#: src/gthumb_png_exporter.glade.h:75 src/main.c:119
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:436
+#: src/gthumb-window.c:450 src/gthumb-window.c:453 src/gthumb-window.c:470
+#: src/gthumb-window.c:476 src/gthumb-window.c:4097
+#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
+#: src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/thumb-cache.c:487
+#: libgthumb/print-callbacks.c:749 libgthumb/print-callbacks.c:1026
+#, c-format
+msgid "Print %s"
+msgstr "Tisk %s"
+
+#: libgthumb/print-callbacks.c:752 src/gthumb_print.glade.h:10
+msgid "Print Image"
+msgstr "Tisknout obrázek"
+
+#: libgthumb/thumb-cache.c:396
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Odstraňují se všechny miniatury, prosím počkejte..."
 
-#: libgthumb/thumb-cache.c:489
+#: libgthumb/thumb-cache.c:398
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňují se staré miniatury, prosím počkejte..."
 
-#: src/commands-impl.c:243 src/commands-impl.c:993 src/commands-impl.c:1573
+#: src/catalog-png-exporter.c:1320
+#, c-format
+msgid "Loading image: %s"
+msgstr "Načítá se obrázek: %s"
+
+#: src/catalog-png-exporter.c:1528
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "Vytváří se obrázek: %s.%s"
+
+#: src/catalog-web-exporter.c:1100
+msgid "Saving thumbnails"
+msgstr "Ukládám miniatury"
+
+#: src/catalog-web-exporter.c:1168
+msgid "Saving HTML pages: Images"
+msgstr "Ukládám stránky HTML: Obrázky"
+
+#: src/catalog-web-exporter.c:1245
+msgid "Saving HTML pages: Indexes"
+msgstr "Ukládám stránky HTML: Indexy"
+
+#: src/catalog-web-exporter.c:1550
+msgid "Could not create a temporary folder"
+msgstr "Nelze vytvořit dočasný adresář"
+
+#. Load thumbnails.
+#: src/catalog-web-exporter.c:1589
+msgid "Loading images"
+msgstr "Načítám obrázky"
+
+#: src/commands-impl.c:262 src/commands-impl.c:979 src/commands-impl.c:1534
 msgid "Enter the new name: "
 msgstr "Zadejte nový název: "
 
-#: src/commands-impl.c:247 src/commands-impl.c:997 src/commands-impl.c:1577
-#: src/gthumb-ui.xml.h:227 src/gthumb_tools.glade.h:45
+#: src/commands-impl.c:266 src/commands-impl.c:983 src/commands-impl.c:1538
+#: src/gthumb-ui.xml.h:230 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "Přej_menovat"
 
-#: src/commands-impl.c:261 src/commands-impl.c:899 src/commands-impl.c:1011
-#: src/commands-impl.c:1593 src/commands-impl.c:1688
+#: src/commands-impl.c:280 src/commands-impl.c:885 src/commands-impl.c:997
+#: src/commands-impl.c:1554 src/commands-impl.c:1649
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -322,171 +353,171 @@ msgstr ""
 "Název \"%s\" není platný, jelikož obsahuje znak \"/\". Použijte prosím jiný "
 "název."
 
-#: src/commands-impl.c:288 src/dlg-convert.c:316
+#: src/commands-impl.c:307 src/dlg-convert.c:316
 msgid "_Overwrite"
 msgstr "_Přepsat"
 
-#: src/commands-impl.c:308 src/commands-impl.c:323
+#: src/commands-impl.c:327 src/commands-impl.c:342
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Nelze přejmenovat obrázek \"%s\": %s"
 
-#: src/commands-impl.c:310 src/commands-impl.c:1033 src/commands-impl.c:1337
+#: src/commands-impl.c:329 src/commands-impl.c:1019 src/commands-impl.c:1316
 msgid "source and destination are the same"
 msgstr "zdroj a cíl jsou shodné"
 
-#: src/commands-impl.c:412
+#: src/commands-impl.c:431
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Nelze duplikovat obrázek \"%s\": %s"
 
-#: src/commands-impl.c:483
+#: src/commands-impl.c:499
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
 
-#: src/commands-impl.c:503
+#: src/commands-impl.c:519
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
 
-#: src/commands-impl.c:768
+#: src/commands-impl.c:754
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Obrázek bude z katalogu odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:810
+#: src/commands-impl.c:796
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Vybrané obrázky budou z katalogu odstraněny, jste si jisti?"
 
-#: src/commands-impl.c:886 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:191 src/dlg-file-utils.c:93
+#: src/commands-impl.c:872 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/dlg-categories.c:190 src/dlg-file-utils.c:89
 msgid "C_reate"
 msgstr "_Vytvořit"
 
-#: src/commands-impl.c:915 src/commands-impl.c:1040 src/commands-impl.c:1615
-#: src/commands-impl.c:1707
+#: src/commands-impl.c:901 src/commands-impl.c:1027 src/commands-impl.c:1576
+#: src/commands-impl.c:1668
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Název \"%s\" je již použit. Použijte prosím jiný název."
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:929
 msgid "New Folder"
 msgstr "Nový adresář"
 
-#: src/commands-impl.c:944
+#: src/commands-impl.c:930
 msgid "Enter the folder name: "
 msgstr "Zadejte název adresáře: "
 
-#: src/commands-impl.c:945
+#: src/commands-impl.c:931
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: src/commands-impl.c:956
+#: src/commands-impl.c:942
 msgid "New Library"
 msgstr "Nová knihovna"
 
-#: src/commands-impl.c:957 src/dlg-catalog.c:120
+#: src/commands-impl.c:943 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Zadejte název knihovny: "
 
-#: src/commands-impl.c:958
+#: src/commands-impl.c:944
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Nelze vytvořit knihovnu \"%s\": %s"
 
-#: src/commands-impl.c:1031 src/commands-impl.c:1072
+#: src/commands-impl.c:1017 src/commands-impl.c:1051
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Nelze přejmenovat adresář \"%s\": %s"
 
-#: src/commands-impl.c:1138
+#: src/commands-impl.c:1117
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Nelze odstranit adresář \"%s\": %s"
 
-#: src/commands-impl.c:1167
+#: src/commands-impl.c:1146
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
 
-#: src/commands-impl.c:1204
+#: src/commands-impl.c:1183
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
 
-#: src/commands-impl.c:1206 src/dlg-file-utils.c:277
+#: src/commands-impl.c:1185 src/dlg-file-utils.c:273
 msgid "_Move"
 msgstr "_Přesunout"
 
-#: src/commands-impl.c:1272 src/commands-impl.c:1327
+#: src/commands-impl.c:1251 src/commands-impl.c:1306
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Nelze kopírovat adresář \"%s\": %s"
 
-#: src/commands-impl.c:1327 src/dlg-file-utils.c:2301
-#: src/dlg-file-utils.c:2303
+#: src/commands-impl.c:1306 src/dlg-file-utils.c:2285
+#: src/dlg-file-utils.c:2287
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Nelze přesunout adresář \"%s\": %s"
 
-#: src/commands-impl.c:1348
+#: src/commands-impl.c:1327
 msgid "source contains destination"
 msgstr "zdroj obsahuje cíl"
 
-#: src/commands-impl.c:1359
+#: src/commands-impl.c:1338
 msgid "a folder with that name is already present."
 msgstr "adresář s tímto názvem již existuje."
 
-#: src/commands-impl.c:1454 src/dlg-file-utils.c:363 src/dlg-file-utils.c:452
+#: src/commands-impl.c:1415 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
 msgid "Choose the destination folder"
 msgstr "Vyberte cílový adresář"
 
-#: src/commands-impl.c:1626
+#: src/commands-impl.c:1587
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Nelze přejmenovat knihovnu \"%s\": %s"
 
-#: src/commands-impl.c:1626
+#: src/commands-impl.c:1587
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Nelze přejmenovat katalog \"%s\": %s"
 
-#: src/commands-impl.c:1672 src/dlg-catalog.c:79
+#: src/commands-impl.c:1633 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Zadejte název katalogu: "
 
-#: src/commands-impl.c:1673
+#: src/commands-impl.c:1634
 msgid "New Catalog"
 msgstr "Nový katalog"
 
-#: src/commands-impl.c:1718
+#: src/commands-impl.c:1679
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Nelze vytvořit katalog \"%s\": %s"
 
-#: src/commands-impl.c:1782
+#: src/commands-impl.c:1743
 msgid "The selected library will be removed, are you sure?"
 msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 
-#: src/commands-impl.c:1784
+#: src/commands-impl.c:1745
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2683 src/dlg-categories.c:312 src/dlg-comment.c:237
+#: src/commands-impl.c:2682 src/dlg-categories.c:311 src/dlg-comment.c:236
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:179
 #: src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
 
-#: src/commands-impl.c:2734
+#: src/commands-impl.c:2733
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2745
+#: src/commands-impl.c:2744
 msgid "Copyright (C) 2001 Free Software Foundation, Inc."
 msgstr "Copyright ©2001 Free Software Foundation, Inc."
 
-#: src/commands-impl.c:2746
+#: src/commands-impl.c:2745
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
@@ -494,11 +525,11 @@ msgstr "Prohlížeč obrázků pro prostředí GNOME"
 msgid "Move Catalog to..."
 msgstr "Přesunout katalog do..."
 
-#: src/dlg-categories.c:187
+#: src/dlg-categories.c:186
 msgid "Enter the new category name"
 msgstr "Zadejte název nové kategorie"
 
-#: src/dlg-categories.c:198
+#: src/dlg-categories.c:197
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
@@ -514,6 +545,10 @@ msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název."
 
+#: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
+msgid "Skip"
+msgstr "Přeskočit"
+
 #: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
 msgid "Image"
 msgstr "Obrázek"
@@ -525,10 +560,6 @@ msgstr "Duplikáty"
 #: src/dlg-duplicates.c:294
 msgid "Duplicates Size"
 msgstr "Velikost duplikátů"
-
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:804
-msgid "Name"
-msgstr "Název"
 
 #: src/dlg-duplicates.c:400
 msgid "Last modified"
@@ -542,86 +573,86 @@ msgstr "Umístění"
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
 
-#: src/dlg-file-utils.c:91
+#: src/dlg-file-utils.c:87
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Cílový adresář neexistuje. Chcete jej vytvořit?"
 
-#: src/dlg-file-utils.c:107
+#: src/dlg-file-utils.c:103
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: src/dlg-file-utils.c:121
+#: src/dlg-file-utils.c:117
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři \"%s\""
 
-#: src/dlg-file-utils.c:203
+#: src/dlg-file-utils.c:199
 msgid "Could not delete the images:"
 msgstr "Nelze odstranit obrázky:"
 
-#: src/dlg-file-utils.c:223
+#: src/dlg-file-utils.c:219
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
-#: src/dlg-file-utils.c:754 src/dlg-file-utils.c:855
+#: src/dlg-file-utils.c:750 src/dlg-file-utils.c:851
 msgid "You didn't enter the new name"
 msgstr "Nezadali jste nový název"
 
-#: src/dlg-file-utils.c:766 src/dlg-file-utils.c:867
+#: src/dlg-file-utils.c:762 src/dlg-file-utils.c:863
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
-#: src/dlg-file-utils.c:1006
+#: src/dlg-file-utils.c:1002
 msgid "Could not rename the image:"
 msgstr "Nelze přejmenovat obrázek:"
 
-#: src/dlg-file-utils.c:1008
+#: src/dlg-file-utils.c:1004
 msgid "Could not rename the following images:"
 msgstr "Nelze přejmenovat následující obrázky:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1137
 msgid "Could not move the image:"
 msgstr "Nelze přesunout obrázek:"
 
-#: src/dlg-file-utils.c:1142
+#: src/dlg-file-utils.c:1139
 msgid "Could not copy the image:"
 msgstr "Nelze kopírovat obrázek:"
 
-#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2323
+#: src/dlg-file-utils.c:1162 src/dlg-file-utils.c:2307
 msgid "_Abort"
 msgstr "Přer_ušit"
 
-#: src/dlg-file-utils.c:1166 src/dlg-file-utils.c:2324
+#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: src/dlg-file-utils.c:1337
+#: src/dlg-file-utils.c:1335
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopíruje se %d. soubor ze %d"
 
-#: src/dlg-file-utils.c:1708 src/dlg-file-utils.c:1894
+#: src/dlg-file-utils.c:1713 src/dlg-file-utils.c:1899
 msgid "Collecting images info"
 msgstr "Zjišťují se informace o obrázcích"
 
-#: src/dlg-file-utils.c:1711 src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:1716 src/dlg-file-utils.c:1912
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Odstraňuje se %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1897
+#: src/dlg-file-utils.c:1902
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopíruje se %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1902
+#: src/dlg-file-utils.c:1907
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Přesunuje se %ld. soubor ze %ld"
@@ -671,23 +702,23 @@ msgstr "Všechny miniatury budou odstraněny, jste si jisti?"
 msgid "Specify the backup file"
 msgstr "Zadejte záložní soubor"
 
-#: src/dlg-png-exporter.c:1000
+#: src/dlg-png-exporter.c:997
 msgid "Image Caption"
 msgstr "Titulek obrázku"
 
-#: src/dlg-png-exporter.c:1053
+#: src/dlg-png-exporter.c:1050
 msgid "Header"
 msgstr "Záhlaví"
 
-#: src/dlg-png-exporter.c:1066 src/dlg-png-exporter.c:1072
+#: src/dlg-png-exporter.c:1063 src/dlg-png-exporter.c:1069
 msgid "Footer"
 msgstr "Zápatí"
 
-#: src/dlg-rename-series.c:319
+#: src/dlg-rename-series.c:318
 msgid "Old Name"
 msgstr "Starý název"
 
-#: src/dlg-rename-series.c:327
+#: src/dlg-rename-series.c:326
 msgid "New Name"
 msgstr "Nový název"
 
@@ -703,7 +734,11 @@ msgstr "Název souboru"
 msgid "Folder"
 msgstr "Adresář"
 
-#: src/fullscreen.c:707 src/gthumb-ui.xml.h:108
+#: src/dlg-web-exporter.c:587
+msgid "Select Album Theme"
+msgstr "Vyberte téma alba"
+
+#: src/fullscreen.c:709 src/gthumb-ui.xml.h:109
 msgid "Restore Normal View"
 msgstr "Obnovit normální pohled"
 
@@ -799,10 +834,6 @@ msgstr "Zavřít toto okno"
 msgid "Comm_ent"
 msgstr "Kom_entář"
 
-#: src/gthumb-ui.xml.h:21 src/gthumb_comments.glade.h:8
-msgid "Comment"
-msgstr "Komentář"
-
 #: src/gthumb-ui.xml.h:22
 msgid "Convert"
 msgstr "Převést"
@@ -836,186 +867,190 @@ msgid "Create _Index Image"
 msgstr "Vytvořit obrázek s _indexem"
 
 #: src/gthumb-ui.xml.h:30
+msgid "Create _Web Album"
+msgstr "Vytvořit _webové album"
+
+#: src/gthumb-ui.xml.h:31
 msgid "Create a new catalog"
 msgstr "Vytvořit nový katalog"
 
-#: src/gthumb-ui.xml.h:31
+#: src/gthumb-ui.xml.h:32
 msgid "Create a new catalog library"
 msgstr "Vytvořit novou knihovnu katalogů"
 
-#: src/gthumb-ui.xml.h:32
+#: src/gthumb-ui.xml.h:33
 msgid "Create a new folder"
 msgstr "Vytvořit nový adresář"
 
-#: src/gthumb-ui.xml.h:33
+#: src/gthumb-ui.xml.h:34
 msgid "Create a new window"
 msgstr "Vytvořit nové okno"
 
-#: src/gthumb-ui.xml.h:34
+#: src/gthumb-ui.xml.h:35
 msgid "D_uplicate"
 msgstr "D_uplikovat"
 
-#: src/gthumb-ui.xml.h:35
+#: src/gthumb-ui.xml.h:36
 msgid "Delete the list of visited locations"
 msgstr "Vymazat seznam navštívených míst"
 
-#: src/gthumb-ui.xml.h:36
+#: src/gthumb-ui.xml.h:37
 msgid "Duplicate selected image"
 msgstr "Duplikovat vybraný obrázek"
 
-#: src/gthumb-ui.xml.h:37
+#: src/gthumb-ui.xml.h:38
 msgid "Duplicate this image"
 msgstr "Duplikovat tento obrázek"
 
-#: src/gthumb-ui.xml.h:38
+#: src/gthumb-ui.xml.h:39
 msgid "E_xit"
 msgstr "U_končit"
 
-#: src/gthumb-ui.xml.h:39
+#: src/gthumb-ui.xml.h:40
 msgid "Edit Search"
 msgstr "Upravit hledání"
 
-#: src/gthumb-ui.xml.h:40
+#: src/gthumb-ui.xml.h:41
 msgid "Edit bookmarks"
 msgstr "Upravit záložky"
 
-#: src/gthumb-ui.xml.h:41
+#: src/gthumb-ui.xml.h:42
 msgid "Edit various preferences"
 msgstr "Upravit různá nastavení"
 
-#: src/gthumb-ui.xml.h:42
+#: src/gthumb-ui.xml.h:43
 msgid "Fi_nd Duplicates..."
 msgstr "_Najít duplikáty..."
 
-#: src/gthumb-ui.xml.h:43
+#: src/gthumb-ui.xml.h:44
 msgid "Find images"
 msgstr "Najít obrázky"
 
-#: src/gthumb-ui.xml.h:44
+#: src/gthumb-ui.xml.h:45
 msgid "Fit"
 msgstr "Přizpůsobit"
 
-#: src/gthumb-ui.xml.h:45
+#: src/gthumb-ui.xml.h:46
 msgid "Folders"
 msgstr "Adresáře"
 
-#: src/gthumb-ui.xml.h:46
+#: src/gthumb-ui.xml.h:47
 msgid "Forward"
 msgstr "Dopředu"
 
-#: src/gthumb-ui.xml.h:47
+#: src/gthumb-ui.xml.h:48
 msgid "Full Screen"
 msgstr "Celá obrazovka"
 
-#: src/gthumb-ui.xml.h:48
+#: src/gthumb-ui.xml.h:49
 msgid "Go to the folder that contains the selected image"
 msgstr "Přejít do adresáře obsahujícího vybraný obrázek"
 
-#: src/gthumb-ui.xml.h:49
+#: src/gthumb-ui.xml.h:50
 msgid "Go to the home folder"
 msgstr "Přejít do domovského adresáře"
 
-#: src/gthumb-ui.xml.h:50
+#: src/gthumb-ui.xml.h:51
 msgid "Go to the next visited location"
 msgstr "Přejít na další navštívené místo"
 
-#: src/gthumb-ui.xml.h:51
+#: src/gthumb-ui.xml.h:52
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
-#: src/gthumb-ui.xml.h:52
+#: src/gthumb-ui.xml.h:53
 msgid "Go up one level"
 msgstr "Přejít o úroveň výše"
 
-#: src/gthumb-ui.xml.h:53
+#: src/gthumb-ui.xml.h:54
 msgid "Home"
 msgstr "Domů"
 
-#: src/gthumb-ui.xml.h:54
+#: src/gthumb-ui.xml.h:55
 msgid "Image Toolbar"
 msgstr "Nástrojová lišta obrázku"
 
-#: src/gthumb-ui.xml.h:55
+#: src/gthumb-ui.xml.h:56
 msgid "In"
 msgstr "Zvětšit"
 
-#: src/gthumb-ui.xml.h:56
+#: src/gthumb-ui.xml.h:57
 msgid "Information"
 msgstr "Informace"
 
-#: src/gthumb-ui.xml.h:57
+#: src/gthumb-ui.xml.h:58
 msgid "Main Toolbar"
 msgstr "Hlavní nástrojová lišta"
 
-#: src/gthumb-ui.xml.h:58
+#: src/gthumb-ui.xml.h:59
 msgid "Modify search criteria"
 msgstr "Upravit podmínky vyhledávání"
 
-#: src/gthumb-ui.xml.h:59
+#: src/gthumb-ui.xml.h:60
 msgid "Move current catalog to another location"
 msgstr "Přesunout aktuální katalog na jiné místo"
 
-#: src/gthumb-ui.xml.h:60
+#: src/gthumb-ui.xml.h:61
 msgid "Move current folder"
 msgstr "Přesunout aktuální adresář"
 
-#: src/gthumb-ui.xml.h:61
+#: src/gthumb-ui.xml.h:62
 msgid "Move selected catalog to another location"
 msgstr "Přesunout vybraný katalog na jiné místo"
 
-#: src/gthumb-ui.xml.h:62
+#: src/gthumb-ui.xml.h:63
 msgid "Move selected folder"
 msgstr "Přesunout vybraný adresář"
 
-#: src/gthumb-ui.xml.h:63
+#: src/gthumb-ui.xml.h:64
 msgid "Move selected images to another location"
 msgstr "Přesunout vybrané obrázky na jiné místo"
 
-#: src/gthumb-ui.xml.h:64
+#: src/gthumb-ui.xml.h:65
 msgid "Move the current folder to the Trash"
 msgstr "Přesunout aktuální adresář do Koše"
 
-#: src/gthumb-ui.xml.h:65
+#: src/gthumb-ui.xml.h:66
 msgid "Move the selected folder to the Trash"
 msgstr "Přesunout vybraný adresář do Koše"
 
-#: src/gthumb-ui.xml.h:66
+#: src/gthumb-ui.xml.h:67
 msgid "Move the selected images to the Trash"
 msgstr "Přesunout vybrané obrázky do Koše"
 
-#: src/gthumb-ui.xml.h:67
+#: src/gthumb-ui.xml.h:68
 msgid "Move this image to another location"
 msgstr "Přesunout tento obrázek na jiné místo"
 
-#: src/gthumb-ui.xml.h:68
+#: src/gthumb-ui.xml.h:69
 msgid "Move this image to the Trash"
 msgstr "Přesunout tento obrázek do Koše"
 
-#: src/gthumb-ui.xml.h:69 src/gthumb_tools.glade.h:30
+#: src/gthumb-ui.xml.h:70 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
 msgstr "Přesunout do _Koše"
 
-#: src/gthumb-ui.xml.h:70
+#: src/gthumb-ui.xml.h:71
 msgid "New _Library..."
 msgstr "Nová _knihovna..."
 
-#: src/gthumb-ui.xml.h:71
+#: src/gthumb-ui.xml.h:72
 msgid "New _Window"
 msgstr "No_vé okno"
 
-#: src/gthumb-ui.xml.h:72
+#: src/gthumb-ui.xml.h:73
 msgid "Next"
 msgstr "Následující"
 
-#: src/gthumb-ui.xml.h:73
+#: src/gthumb-ui.xml.h:74
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Otevřít aktuální adresář správcem souborů Nautilus"
 
-#: src/gthumb-ui.xml.h:74
+#: src/gthumb-ui.xml.h:75
 msgid "Open selected images with an application"
 msgstr "Otevřít vybrané obrázky pomocí aplikace"
 
-#: src/gthumb-ui.xml.h:75
+#: src/gthumb-ui.xml.h:76
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
@@ -1023,708 +1058,717 @@ msgstr ""
 "Otevřít vybraný adresář správcem souborů\n"
 "\t     Nautilus"
 
-#: src/gthumb-ui.xml.h:77
+#: src/gthumb-ui.xml.h:78
 msgid "Open this image with an application"
 msgstr "Otevřít tento obrázek pomocí aplikace"
 
-#: src/gthumb-ui.xml.h:78
+#: src/gthumb-ui.xml.h:79
 msgid "Open with the File Manager"
 msgstr "Otevřít ve správci souborů"
 
-#: src/gthumb-ui.xml.h:79
+#: src/gthumb-ui.xml.h:80
 msgid "Open with the _File Manager"
 msgstr "Otevřít ve _správci souborů"
 
-#: src/gthumb-ui.xml.h:80
+#: src/gthumb-ui.xml.h:81
 msgid "Out"
 msgstr "Zmenšit"
 
-#: src/gthumb-ui.xml.h:81
+#: src/gthumb-ui.xml.h:82
 msgid "Play _Animation"
 msgstr "Přehrát _animaci"
 
-#: src/gthumb-ui.xml.h:82
+#: src/gthumb-ui.xml.h:83
 msgid "Previous"
 msgstr "Předchozí"
 
-#: src/gthumb-ui.xml.h:83
+#: src/gthumb-ui.xml.h:84
 msgid "Print"
 msgstr "Tisk"
 
-#: src/gthumb-ui.xml.h:85
+#: src/gthumb-ui.xml.h:86
 msgid "Proper_ties"
 msgstr "Vlas_tnosti"
 
-#: src/gthumb-ui.xml.h:86
+#: src/gthumb-ui.xml.h:87
 msgid "Properties"
 msgstr "Vlastnosti"
 
-#: src/gthumb-ui.xml.h:87
+#: src/gthumb-ui.xml.h:88
 msgid "Redo Search"
 msgstr "Znovu provést hledání"
 
-#: src/gthumb-ui.xml.h:88
+#: src/gthumb-ui.xml.h:89
 msgid "Redo _Search"
 msgstr "Znovu prové_st hledání"
 
-#: src/gthumb-ui.xml.h:89
+#: src/gthumb-ui.xml.h:90
 msgid "Redo the search"
 msgstr "Znovu provést hledání"
 
-#: src/gthumb-ui.xml.h:90
+#: src/gthumb-ui.xml.h:91
 msgid "Reduce number of colors"
 msgstr "Redukovat počet barev"
 
-#: src/gthumb-ui.xml.h:91
+#: src/gthumb-ui.xml.h:92
 msgid "Reduce the number of colors"
 msgstr "Redukovat počet barev"
 
-#: src/gthumb-ui.xml.h:92
+#: src/gthumb-ui.xml.h:93
 msgid "Reload the current location"
 msgstr "Znovu načíst současné umístění"
 
-#: src/gthumb-ui.xml.h:93
+#: src/gthumb-ui.xml.h:94
 msgid "Rem_ove"
 msgstr "_Odstranit"
 
-#: src/gthumb-ui.xml.h:94
+#: src/gthumb-ui.xml.h:95
 msgid "Rem_ove Comment"
 msgstr "_Odstranit komentář"
 
-#: src/gthumb-ui.xml.h:95
+#: src/gthumb-ui.xml.h:96
 msgid "Remo_ve from Catalog"
 msgstr "Odstranit z katalo_gu"
 
-#: src/gthumb-ui.xml.h:96
+#: src/gthumb-ui.xml.h:97
 msgid "Remove comments of selected images"
 msgstr "Odstranit komentáře vybraných obrázků"
 
-#: src/gthumb-ui.xml.h:97
+#: src/gthumb-ui.xml.h:98
 msgid "Remove current catalog"
 msgstr "Odstranit aktuální katalog"
 
-#: src/gthumb-ui.xml.h:98
+#: src/gthumb-ui.xml.h:99
 msgid "Remove selected catalog"
 msgstr "Odstranit vybraný katalog"
 
-#: src/gthumb-ui.xml.h:99
+#: src/gthumb-ui.xml.h:100
 msgid "Remove selected images from the catalog"
 msgstr "Odstranit vybrané obrázky z katalogu"
 
-#: src/gthumb-ui.xml.h:100
+#: src/gthumb-ui.xml.h:101
 msgid "Remove the comment"
 msgstr "Odstranit komentář"
 
-#: src/gthumb-ui.xml.h:101
+#: src/gthumb-ui.xml.h:102
 msgid "Rename current catalog"
 msgstr "Přejmenovat aktuální katalog"
 
-#: src/gthumb-ui.xml.h:102
+#: src/gthumb-ui.xml.h:103
 msgid "Rename current folder"
 msgstr "Přejmenovat aktuální adresář"
 
-#: src/gthumb-ui.xml.h:103
+#: src/gthumb-ui.xml.h:104
 msgid "Rename selected catalog"
 msgstr "Přejmenovat vybraný katalog"
 
-#: src/gthumb-ui.xml.h:104
+#: src/gthumb-ui.xml.h:105
 msgid "Rename selected folder"
 msgstr "Přejmenovat vybraný adresář"
 
-#: src/gthumb-ui.xml.h:105
+#: src/gthumb-ui.xml.h:106
 msgid "Rename selected image"
 msgstr "Přejmenovat vybraný obrázek"
 
-#: src/gthumb-ui.xml.h:106
+#: src/gthumb-ui.xml.h:107
 msgid "Rename this image"
 msgstr "Přejmenovat tento obrázek"
 
-#: src/gthumb-ui.xml.h:107
+#: src/gthumb-ui.xml.h:108
 msgid "Resize image"
 msgstr "Změnit velikost obrázku"
 
-#: src/gthumb-ui.xml.h:109
+#: src/gthumb-ui.xml.h:110
 msgid "Restore the original desktop wallpaper"
 msgstr "Obnovit původní tapetu pracovní plochy"
 
-#: src/gthumb-ui.xml.h:110
+#: src/gthumb-ui.xml.h:111
 msgid "Reverse images order"
 msgstr "Obrátit pořadí obrázků"
 
-#: src/gthumb-ui.xml.h:111
+#: src/gthumb-ui.xml.h:112
 msgid "Revert"
 msgstr "Vrátit"
 
-#: src/gthumb-ui.xml.h:112
+#: src/gthumb-ui.xml.h:113
 msgid "Revert to saved image"
 msgstr "Návrat k uložené verzi obrázku"
 
-#: src/gthumb-ui.xml.h:114
+#: src/gthumb-ui.xml.h:115
 msgid "Rotate Ri_ght"
 msgstr "Otočit dop_rava"
 
-#: src/gthumb-ui.xml.h:115
+#: src/gthumb-ui.xml.h:116
 msgid "Rotate _JPEG"
 msgstr "Otočit _JPEG"
 
-#: src/gthumb-ui.xml.h:116
+#: src/gthumb-ui.xml.h:117
 msgid "Rotate _Left"
 msgstr "Otočit do_leva"
 
-#: src/gthumb-ui.xml.h:117
+#: src/gthumb-ui.xml.h:118
 msgid "Rotate image"
 msgstr "Otočit obrázek"
 
-#: src/gthumb-ui.xml.h:118
+#: src/gthumb-ui.xml.h:119
 msgid "Rotate jpeg images without loss of quality"
 msgstr "Otočit obrázky JPEG beze ztráty kvality"
 
-#: src/gthumb-ui.xml.h:119
+#: src/gthumb-ui.xml.h:120
 msgid "S_ort Images"
 msgstr "Třídit _obrázky"
 
-#: src/gthumb-ui.xml.h:120
+#: src/gthumb-ui.xml.h:121
 msgid "Save"
 msgstr "Uložit"
 
-#: src/gthumb-ui.xml.h:123
+#: src/gthumb-ui.xml.h:124
 msgid "Search"
 msgstr "Hledat"
 
-#: src/gthumb-ui.xml.h:124
+#: src/gthumb-ui.xml.h:125
 msgid "Select all images"
 msgstr "Vybrat všechny obrázky"
 
-#: src/gthumb-ui.xml.h:125
+#: src/gthumb-ui.xml.h:126
 msgid "Set Image as _Wallpaper"
 msgstr "Nasta_vit obrázek jako pozadí"
 
-#: src/gthumb-ui.xml.h:126
+#: src/gthumb-ui.xml.h:127
 msgid "Set the image as desktop background (centered)"
 msgstr "Nastavení obrázku jako pozadí pracovní plochy (na střed)"
 
-#: src/gthumb-ui.xml.h:127
+#: src/gthumb-ui.xml.h:128
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
 "Nastavení obrázku jako pozadí pracovní plochy (zvětšený při zachování poměru "
 "stran)"
 
-#: src/gthumb-ui.xml.h:128
+#: src/gthumb-ui.xml.h:129
 msgid "Set the image as desktop background (stretched)"
 msgstr "Nastavení obrázku jako pozadí pracovní plochy (roztažený)"
 
-#: src/gthumb-ui.xml.h:129
+#: src/gthumb-ui.xml.h:130
 msgid "Set the image as desktop background (tiled)"
 msgstr "Nastavení obrázku jako pozadí pracovní plochy (dlaždice)"
 
-#: src/gthumb-ui.xml.h:130
+#: src/gthumb-ui.xml.h:131
 msgid "Show information about gThumb"
 msgstr "Zobrazení informací o aplikaci gThumb"
 
-#: src/gthumb-ui.xml.h:131
+#: src/gthumb-ui.xml.h:132
 msgid "Show/_Hide"
 msgstr "Zobrazit/S_krýt"
 
-#: src/gthumb-ui.xml.h:132 src/gthumb_preferences.glade.h:63
+#: src/gthumb-ui.xml.h:133 src/gthumb_preferences.glade.h:63
 msgid "Slide Show"
 msgstr "Promítání snímků"
 
-#: src/gthumb-ui.xml.h:133
+#: src/gthumb-ui.xml.h:134
 msgid "Sort images by file size"
 msgstr "Třídit obrázky podle velikosti souboru"
 
-#: src/gthumb-ui.xml.h:134
+#: src/gthumb-ui.xml.h:135
 msgid "Sort images by modification time"
 msgstr "Třídit obrázky podle času poslední úpravy"
 
-#: src/gthumb-ui.xml.h:135
+#: src/gthumb-ui.xml.h:136
 msgid "Sort images by name"
 msgstr "Třídit obrázky podle názvu"
 
-#: src/gthumb-ui.xml.h:136
+#: src/gthumb-ui.xml.h:137
 msgid "Sort images by path"
 msgstr "Třídit obrázky podle cesty"
 
-#: src/gthumb-ui.xml.h:137
+#: src/gthumb-ui.xml.h:138
 msgid "Specify a location to visit"
 msgstr "Které místo chcete navštívit"
 
-#: src/gthumb-ui.xml.h:139
+#: src/gthumb-ui.xml.h:140
 msgid "Step A_nimation"
 msgstr "Krokovat a_nimaci"
 
-#: src/gthumb-ui.xml.h:140
+#: src/gthumb-ui.xml.h:141
 msgid "Stop loading current location"
 msgstr "Přestat s načítáním tohoto místa"
 
-#: src/gthumb-ui.xml.h:141
+#: src/gthumb-ui.xml.h:142
 msgid "Str_etched"
 msgstr "Roztaž_ený"
 
-#: src/gthumb-ui.xml.h:142
+#: src/gthumb-ui.xml.h:143
 msgid "Transparen_cy Type"
 msgstr "T_yp průhlednosti"
 
-#: src/gthumb-ui.xml.h:143
+#: src/gthumb-ui.xml.h:144
 msgid "Up"
 msgstr "Nahoru"
 
-#: src/gthumb-ui.xml.h:144
+#: src/gthumb-ui.xml.h:145
 msgid "Use black as transparency"
 msgstr "Použít černou na průhledné oblasti"
 
-#: src/gthumb-ui.xml.h:145
+#: src/gthumb-ui.xml.h:146
 msgid "Use checks as transparency"
 msgstr "Použít čtverce na průhledné oblasti"
 
-#: src/gthumb-ui.xml.h:146
+#: src/gthumb-ui.xml.h:147
 msgid "Use gray as transparency"
 msgstr "Použít šedou na průhledné oblasti"
 
-#: src/gthumb-ui.xml.h:147
+#: src/gthumb-ui.xml.h:148
 msgid "Use high quality zoom"
 msgstr "Použít vysoce kvalitní zvětšení"
 
-#: src/gthumb-ui.xml.h:148
+#: src/gthumb-ui.xml.h:149
 msgid "Use low quality zoom"
 msgstr "Použít málo kvalitní zvětšení"
 
-#: src/gthumb-ui.xml.h:149
+#: src/gthumb-ui.xml.h:150
 msgid "Use white as transparency"
 msgstr "Použít bílou na průhledné oblasti"
 
-#: src/gthumb-ui.xml.h:150
+#: src/gthumb-ui.xml.h:151
+msgid "View as List"
+msgstr "Zobrazit jako seznam"
+
+#: src/gthumb-ui.xml.h:152
+msgid "View as Thumbnails"
+msgstr "Zobrazit jako miniatury"
+
+#: src/gthumb-ui.xml.h:153
 msgid "View as a slide show"
 msgstr "Zobrazit jako promítání snímků"
 
-#: src/gthumb-ui.xml.h:151
+#: src/gthumb-ui.xml.h:154
 msgid "View image in fullscreen mode"
 msgstr "Zobrazit obrázek v celoobrazovkovém režimu"
 
-#: src/gthumb-ui.xml.h:152
+#: src/gthumb-ui.xml.h:155
 msgid "View image properties"
 msgstr "Zobrazit vlastnosti obrázku"
 
-#: src/gthumb-ui.xml.h:154
+#: src/gthumb-ui.xml.h:157
 msgid "View next image"
 msgstr "Zobrazit další obrázek"
 
-#: src/gthumb-ui.xml.h:155
+#: src/gthumb-ui.xml.h:158
 msgid "View or hide the statusbar of this window"
 msgstr "Zobrazit nebo skrýt stavovou lištu tohoto okna"
 
-#: src/gthumb-ui.xml.h:156
+#: src/gthumb-ui.xml.h:159
 msgid "View or hide the toolbar of this window"
 msgstr "Zobrazit nebo skrýt nástrojovou lištu tohoto okna"
 
-#: src/gthumb-ui.xml.h:157
+#: src/gthumb-ui.xml.h:160
 msgid "View previous image"
 msgstr "Zobrazit předchozí obrázek"
 
-#: src/gthumb-ui.xml.h:158
+#: src/gthumb-ui.xml.h:161
 msgid "View the catalogs"
 msgstr "Zobrazit katalogy"
 
-#: src/gthumb-ui.xml.h:159
+#: src/gthumb-ui.xml.h:162
 msgid "View the folders"
 msgstr "Zobrazit adresáře"
 
-#: src/gthumb-ui.xml.h:160
+#: src/gthumb-ui.xml.h:163
 msgid "View the image"
 msgstr "Zobrazit obrázek"
 
-#: src/gthumb-ui.xml.h:161
+#: src/gthumb-ui.xml.h:164
 msgid "View the image flipped"
 msgstr "Zobrazit obrázek obráceně"
 
-#: src/gthumb-ui.xml.h:162
+#: src/gthumb-ui.xml.h:165
 msgid "View the image in black and white"
 msgstr "Zobrazit obrázek černobíle"
 
-#: src/gthumb-ui.xml.h:163
+#: src/gthumb-ui.xml.h:166
 msgid "View the image mirrored"
 msgstr "Zobrazit obrázek zrcadlený"
 
-#: src/gthumb-ui.xml.h:164
+#: src/gthumb-ui.xml.h:167
 msgid "View the image rotated clockwise"
 msgstr "Zobrazit obrázek otočený po směru hodinových ručiček"
 
-#: src/gthumb-ui.xml.h:165
+#: src/gthumb-ui.xml.h:168
 msgid "View the image rotated counter-clockwise"
 msgstr "Zobrazit obrázek otočený proti směru hodinových ručiček"
 
-#: src/gthumb-ui.xml.h:166
+#: src/gthumb-ui.xml.h:169
 msgid "View the image with negative colors"
 msgstr "Zobrazit obrázek v barvách negativu"
 
-#: src/gthumb-ui.xml.h:167
+#: src/gthumb-ui.xml.h:170
 msgid "View thumbnails"
 msgstr "Zobrazit miniatury"
 
-#: src/gthumb-ui.xml.h:168
+#: src/gthumb-ui.xml.h:171
 msgid "Zoom _In"
 msgstr "Zvětš_it"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:172
 msgid "Zoom _Out"
 msgstr "Z_menšit"
 
-#: src/gthumb-ui.xml.h:170
+#: src/gthumb-ui.xml.h:173
 msgid "Zoom in"
 msgstr "Zvětšit"
 
-#: src/gthumb-ui.xml.h:171
+#: src/gthumb-ui.xml.h:174
 msgid "Zoom out"
 msgstr "Zmenšit"
 
-#: src/gthumb-ui.xml.h:172
+#: src/gthumb-ui.xml.h:175
 msgid "Zoom to _Fit"
 msgstr "Při_způsobit"
 
-#: src/gthumb-ui.xml.h:173
+#: src/gthumb-ui.xml.h:176
 msgid "Zoom to fit window"
 msgstr "Přizpůsobit velikosti okna"
 
-#: src/gthumb-ui.xml.h:174
+#: src/gthumb-ui.xml.h:177
 msgid "_About"
 msgstr "O _aplikaci"
 
-#: src/gthumb-ui.xml.h:175
+#: src/gthumb-ui.xml.h:178
 msgid "_Actual Size"
 msgstr "_Skutečná velikost"
 
-#: src/gthumb-ui.xml.h:176
+#: src/gthumb-ui.xml.h:179
 msgid "_Add Bookmark"
 msgstr "Přid_at záložku"
 
-#: src/gthumb-ui.xml.h:177
+#: src/gthumb-ui.xml.h:180
 msgid "_Add to Catalog..."
 msgstr "Přid_at do katalogu..."
 
-#: src/gthumb-ui.xml.h:178
+#: src/gthumb-ui.xml.h:181
 msgid "_Adjust Color Levels"
 msgstr "Upr_avit barevné vyvážení"
 
-#: src/gthumb-ui.xml.h:179
+#: src/gthumb-ui.xml.h:182
 msgid "_Back"
 msgstr "_Zpět"
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:184
 msgid "_Bookmarks"
 msgstr "_Záložky"
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:185
 msgid "_Brightness-Contrast"
 msgstr "_Jas - Kontrast"
 
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:186
 msgid "_Catalogs"
 msgstr "Katalo_gy"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:187
 msgid "_Centered"
 msgstr "Na stře_d"
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:189
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:190
 msgid "_Color Balance"
 msgstr "_Barevné vyvážení"
 
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:191
 msgid "_Contents"
 msgstr "O_bsah"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:192
 msgid "_Copy..."
 msgstr "_Kopírovat..."
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:193
 msgid "_Delete History"
 msgstr "O_dstranit historii"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:194
 msgid "_Desaturate"
 msgstr "O_dsytit"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:195
 msgid "_Edit"
 msgstr "Ú_pravy"
 
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:196
 msgid "_Edit Bookmarks"
 msgstr "U_pravit záložky"
 
-#: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:197 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
 msgstr "Upravit hl_edání"
 
-#: src/gthumb-ui.xml.h:195
+#: src/gthumb-ui.xml.h:198
 msgid "_Equalize Histogram"
 msgstr "_Vyrovnat histogram"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:199
 msgid "_File"
 msgstr "_Soubor"
 
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:200
 msgid "_Find..."
 msgstr "_Najít..."
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:202
 msgid "_Folder"
 msgstr "_Adresář"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:203
 msgid "_Folders"
 msgstr "_Adresáře"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:204
 msgid "_Forward"
 msgstr "_Dopředu"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:205
 msgid "_Full Screen"
 msgstr "_Celá obrazovka"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:206
 msgid "_Go"
 msgstr "Pře_jít"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:207
 msgid "_Go to the Image Folder"
 msgstr "Pře_jít do adresáře obrázku"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:208
 msgid "_Help"
 msgstr "Nápo_věda"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:209
 msgid "_High Quality"
 msgstr "_Vysoká kvalita"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:210
 msgid "_Home"
 msgstr "_Domů"
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:211
 msgid "_Hue-Saturation"
 msgstr "_Odstín - Sytost"
 
-#: src/gthumb-ui.xml.h:210
+#: src/gthumb-ui.xml.h:213
 msgid "_Image preview"
 msgstr "Náhled o_brázku"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:214
 msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:215
 msgid "_Location..."
 msgstr "_Umístění..."
 
-#: src/gthumb-ui.xml.h:213
+#: src/gthumb-ui.xml.h:216
 msgid "_Low Quality"
 msgstr "Nízká kva_lita"
 
-#: src/gthumb-ui.xml.h:214
+#: src/gthumb-ui.xml.h:217
 msgid "_Maintenance"
 msgstr "Údrž_ba"
 
-#: src/gthumb-ui.xml.h:216
+#: src/gthumb-ui.xml.h:219
 msgid "_Move..."
 msgstr "_Přesunout..."
 
-#: src/gthumb-ui.xml.h:217
+#: src/gthumb-ui.xml.h:220
 msgid "_Negative"
 msgstr "_Negativ"
 
-#: src/gthumb-ui.xml.h:218
+#: src/gthumb-ui.xml.h:221
 msgid "_New Catalog..."
 msgstr "_Nový katalog..."
 
-#: src/gthumb-ui.xml.h:219
+#: src/gthumb-ui.xml.h:222
 msgid "_New Folder..."
 msgstr "_Nový adresář..."
 
-#: src/gthumb-ui.xml.h:221
+#: src/gthumb-ui.xml.h:224
 msgid "_Open With"
 msgstr "_Otevřít pomocí"
 
-#: src/gthumb-ui.xml.h:222
+#: src/gthumb-ui.xml.h:225
 msgid "_Posterize"
 msgstr "_Posterizace"
 
-#: src/gthumb-ui.xml.h:223 src/gthumb_png_exporter.glade.h:66
+#: src/gthumb-ui.xml.h:226 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
 msgstr "Nastav_ení"
 
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:227
 msgid "_Print..."
 msgstr "_Tisk..."
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:228
 msgid "_Reduce Colors"
 msgstr "_Redukce barev"
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:229
 msgid "_Reload"
 msgstr "_Znovu načíst"
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:231
 msgid "_Rename Series"
 msgstr "Přej_menovat řadu"
 
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:232
 msgid "_Rename..."
 msgstr "Přej_menovat..."
 
-#: src/gthumb-ui.xml.h:230
+#: src/gthumb-ui.xml.h:233
 msgid "_Resize"
 msgstr "Z_měnit velikost"
 
-#: src/gthumb-ui.xml.h:231
+#: src/gthumb-ui.xml.h:234
 msgid "_Restore"
 msgstr "O_bnovit"
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:235
 msgid "_Reversed Order"
 msgstr "O_brácené pořadí"
 
-#: src/gthumb-ui.xml.h:233
+#: src/gthumb-ui.xml.h:236
 msgid "_Revert"
 msgstr "V_rátit"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:237
 msgid "_Rotate"
 msgstr "_Otočit"
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:238
 msgid "_Scaled"
 msgstr "Přizpů_sobený"
 
-#: src/gthumb-ui.xml.h:236 src/gthumb_search.glade.h:30
+#: src/gthumb-ui.xml.h:239 src/gthumb_search.glade.h:30
 msgid "_Search"
 msgstr "_Hledat"
 
-#: src/gthumb-ui.xml.h:237
+#: src/gthumb-ui.xml.h:240
 msgid "_Select All"
 msgstr "Vybrat vš_e"
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:241
 msgid "_Slide Show"
 msgstr "Promítání _snímků"
 
-#: src/gthumb-ui.xml.h:239
+#: src/gthumb-ui.xml.h:242
 msgid "_Statusbar"
 msgstr "_Stavová lišta"
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:243
 msgid "_Stop"
 msgstr "_Stop"
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:244
 msgid "_Thumbnails"
 msgstr "Minia_tury"
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:245
 msgid "_Tiled"
 msgstr "_Dlaždice"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:246
 msgid "_Toolbar"
 msgstr "Nás_trojová lišta"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:247
 msgid "_Tools"
 msgstr "Nás_troje"
 
-#: src/gthumb-ui.xml.h:245
+#: src/gthumb-ui.xml.h:248
 msgid "_Up"
 msgstr "Nahor_u"
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:251
 msgid "_Zoom"
 msgstr "_Zvětšit"
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:252
 msgid "by _Name"
 msgstr "podle _názvu"
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:253
 msgid "by _Path"
 msgstr "podle _cesty"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:254
 msgid "by _Size"
 msgstr "podle _velikosti"
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:255
 msgid "by _Time"
 msgstr "podle č_asu"
 
-#: src/gthumb-window.c:522
+#: src/gthumb-window.c:521
 msgid "No image"
 msgstr "Žádný obrázek"
 
-#: src/gthumb-window.c:524
+#: src/gthumb-window.c:523
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 obrázek (%s)"
 
-#: src/gthumb-window.c:527
+#: src/gthumb-window.c:526
 #, c-format
 msgid "%d images (%s)"
 msgstr "obrázků: %d (%s)"
 
-#: src/gthumb-window.c:534
+#: src/gthumb-window.c:533
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 vybraný (%s)"
 
-#: src/gthumb-window.c:537
+#: src/gthumb-window.c:536
 #, c-format
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:2854
+#: src/gthumb-window.c:2847
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3027
+#: src/gthumb-window.c:3017
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:3628
+#: src/gthumb-window.c:3625
 msgid "Back"
 msgstr "Zpět"
 
-#: src/gthumb-window.c:5398
+#: src/gthumb-window.c:5500
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:5666
+#: src/gthumb-window.c:5770
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:6930
+#: src/gthumb-window.c:7102
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
 #: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
 #: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
+#: src/gthumb_preferences.glade.h:1 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr "    "
 
 #: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:2
-#: src/gthumb_tools.glade.h:3
+#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
+#: src/gthumb_search.glade.h:2 src/gthumb_tools.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1948,10 +1992,6 @@ msgstr "Odstr_anit originál"
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: src/gthumb_convert.glade.h:17
-msgid "Skip"
-msgstr "Přeskočit"
-
 #: src/gthumb_convert.glade.h:18
 msgid "TGA Options"
 msgstr "Volby TGA"
@@ -2013,7 +2053,8 @@ msgid "dpi"
 msgstr "dpi"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
+#: src/gthumb_tools.glade.h:2
 msgid "     "
 msgstr "     "
 
@@ -2222,7 +2263,7 @@ msgstr "Vyberte cílový adresář"
 msgid "Co_mment"
 msgstr "Ko_mentář"
 
-#: src/gthumb_png_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:9
 msgid "Col_umns:"
 msgstr "Slo_upce:"
 
@@ -2294,7 +2335,7 @@ msgstr "Strana"
 msgid "Pi_xels"
 msgstr "Pi_xely"
 
-#: src/gthumb_png_exporter.glade.h:43
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:11
 msgid "Re_verse order"
 msgstr "Obrá_cené pořadí"
 
@@ -2330,7 +2371,7 @@ msgstr "Jednoduchý se stínem"
 msgid "Slide"
 msgstr "Snímek"
 
-#: src/gthumb_png_exporter.glade.h:52
+#: src/gthumb_png_exporter.glade.h:52 src/gthumb_web_exporter.glade.h:12
 msgid "Sor_t images:"
 msgstr "_Třídit obrázky:"
 
@@ -2384,7 +2425,7 @@ msgstr "_Přechod"
 msgid "_Image size:"
 msgstr "Vel_ikost obrázku:"
 
-#: src/gthumb_png_exporter.glade.h:67
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:20
 msgid "_Rows:"
 msgstr "Řád_ky:"
 
@@ -2396,15 +2437,15 @@ msgstr "_Jednolitá barva"
 msgid "_Template:"
 msgstr "Ša_blona:"
 
-#: src/gthumb_png_exporter.glade.h:71
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:23
 msgid "by name"
 msgstr "podle názvu"
 
-#: src/gthumb_png_exporter.glade.h:72
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:24
 msgid "by path"
 msgstr "podle cesty"
 
-#: src/gthumb_png_exporter.glade.h:73
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:25
 msgid "by size"
 msgstr "podle velikosti"
 
@@ -2419,6 +2460,70 @@ msgstr "jpeg"
 #: src/gthumb_png_exporter.glade.h:77
 msgid "png"
 msgstr "png"
+
+#: src/gthumb_web_exporter.glade.h:4 src/gthumb_search.glade.h:3
+msgid "..."
+msgstr "..."
+
+#: src/gthumb_web_exporter.glade.h:5
+msgid "<b>Album</b>"
+msgstr "<b>Album</b>"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "<b>Index Layout</b>"
+msgstr "<b>Rozložení indexu</b>"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "<b>Saving</b>"
+msgstr "<b>Ukládání</b>"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "<b>Theme</b>"
+msgstr "<b>Téma</b>"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "Inde_x file:"
+msgstr "Soubor s inde_xem:"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "Th_eme:"
+msgstr "_Téma:"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "Web Album"
+msgstr "Webové album"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "Web Album Theme"
+msgstr "Téma webového alba"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "_Copy images to destination"
+msgstr "_Kopírovat obrázky do cíle"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "_Destination:"
+msgstr "_Cíl:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "_Go to Theme Folder"
+msgstr "Pře_jít do adresáře témat"
+
+#: src/gthumb_web_exporter.glade.h:19
+msgid "_Install Theme..."
+msgstr "Na_instalovat téma..."
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "_Title:"
+msgstr "_Titulek:"
+
+#: src/gthumb_web_exporter.glade.h:22
+msgid "by modified time"
+msgstr "podle času změny"
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "index.html"
+msgstr "index.html"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
@@ -2724,21 +2829,9 @@ msgstr "Papír"
 msgid "Preview"
 msgstr "Náhled"
 
-#: src/gthumb_print.glade.h:10
-msgid "Print Image"
-msgstr "Tisknout obrázek"
-
-#: src/gthumb_print.glade.h:11
-msgid "Printer"
-msgstr "Tiskárna"
-
-#: src/gthumb_print.glade.h:13
+#: src/gthumb_print.glade.h:12
 msgid "_Scale:"
 msgstr "_Zvětšení:"
-
-#: src/gthumb_search.glade.h:3
-msgid "..."
-msgstr "..."
 
 #: src/gthumb_search.glade.h:4
 msgid "<b>Search criteria</b>"
@@ -2968,65 +3061,74 @@ msgstr "podle názvu"
 msgid "by Size"
 msgstr "podle velikosti"
 
-#: src/main.c:75
+#: src/main.c:78
 msgid "Start in fullscreen mode"
 msgstr "Začít v celoobrazovkovém režimu"
 
-#: src/main.c:79
+#: src/main.c:82
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít s promítáním snímků"
 
-#: src/main.c:158
+#: src/main.c:161
 msgid "Holidays"
 msgstr "Dovolená"
 
-#: src/main.c:159
+#: src/main.c:162
 msgid "Temporary"
 msgstr "Dočasný"
 
-#: src/main.c:160
+#: src/main.c:163
 msgid "Screenshots"
 msgstr "Sejmuté obrazovky"
 
-#: src/main.c:161
+#: src/main.c:164
 msgid "Science"
 msgstr "Věda"
 
-#: src/main.c:162
+#: src/main.c:165
 msgid "Favourite"
 msgstr "Oblíbené"
 
-#: src/main.c:163
+#: src/main.c:166
 msgid "Important"
 msgstr "Důležité"
 
-#: src/main.c:164
+#: src/main.c:167
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:165
+#: src/main.c:168
 msgid "Games"
 msgstr "Hry"
 
-#: src/main.c:166
+#: src/main.c:169
 msgid "Party"
 msgstr "Večírek"
 
-#: src/main.c:167
+#: src/main.c:170
 msgid "Birthday"
 msgstr "Narozeniny"
 
-#: src/main.c:168
+#: src/main.c:171
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: src/main.c:169
+#: src/main.c:172
 msgid "Family"
 msgstr "Rodina"
 
-#: src/main.c:286 src/main.c:348
+#: src/main.c:308 src/main.c:372
 msgid "Command Line"
 msgstr "Příkazový řádek"
+
+#~ msgid "Component has no editable properties"
+#~ msgstr "Komponenta nemá upravitelné vlastnosti"
+
+#~ msgid "Could not open file %s"
+#~ msgstr "Nelze otevřít soubor %s"
+
+#~ msgid "Printer"
+#~ msgstr "Tiskárna"
 
 #~ msgid "Desaturate"
 #~ msgstr "Odsytit"
@@ -3223,23 +3325,11 @@ msgstr "Příkazový řádek"
 #~ msgid "<b>Overwrite mode</b>"
 #~ msgstr "<b>Přepisovací režim</b>"
 
-#~ msgid "<b>Saving</b>"
-#~ msgstr "<b>Ukládání</b>"
-
-#~ msgid "<b>Style</b>"
-#~ msgstr "<b>Styl</b>"
-
-#~ msgid "Inde_x file:"
-#~ msgstr "Soubor s inde_xem:"
-
 #~ msgid "Remove ALL Comments"
 #~ msgstr "Odstranit VŠECHNY komentáře"
 
 #~ msgid "Rename series"
 #~ msgstr "Přejmenovat řadu"
-
-#~ msgid "Web Album"
-#~ msgstr "Webové album"
 
 #~ msgid "Web Album Style"
 #~ msgstr "Styl webového alba"
@@ -3255,9 +3345,6 @@ msgstr "Příkazový řádek"
 
 #~ msgid "_Thumbnails sub-folder:"
 #~ msgstr "Podadresář minia_tur:"
-
-#~ msgid "_Title:"
-#~ msgstr "_Titulek:"
 
 #~ msgid "_Transfrom"
 #~ msgstr "_Transformovat"
