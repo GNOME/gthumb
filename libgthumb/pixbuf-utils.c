@@ -1369,8 +1369,8 @@ scale_keepping_ratio (int *width,
 		return FALSE;
 
 	factor = MIN (max_w / w, max_h / h);
-	new_width  = MAX ((int) (w * factor - 0.5), 1);
-	new_height = MAX ((int) (h * factor - 0.5), 1);
+	new_width  = MAX ((int) floor (w * factor + 0.50), 1);
+	new_height = MAX ((int) floor (h * factor + 0.50), 1);
 	
 	modified = (new_width != *width) || (new_height != *height);
 

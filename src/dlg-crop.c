@@ -31,22 +31,31 @@
 #include "gconf-utils.h"
 #include "preferences.h"
 #include "pixbuf-utils.h"
-
+#include "gth-image-selector.h"
 
 #define GLADE_FILE     "gthumb_crop.glade"
 #define PREVIEW_SIZE   300
 
+enum {
+	C_RATIO_NONE,
+	C_RATIO_SQUARE,
+	C_RATIO_IMAGE,
+	C_RATIO_DISPLAY,
+	C_RATIO_4_3,
+	C_RATIO_4_6,
+	C_RATIO_5_7,
+	C_RATIO_8_10,
+	C_RATIO_CUSTOM,
+};
+
+/**/
 
 typedef struct {
 	GThumbWindow  *window;
 	GladeXML      *gui;
 
-	double         zoom;
-
-	double         image_x, image_y;
-	double         image_width, image_height;
-	GdkGC         *selection_gc;
-	GdkRectangle   selection_area;
+	int            image_width, image_height;
+	int            display_width, display_height;
 
 	GtkWidget     *dialog;
 	GtkWidget     *crop_image;
@@ -54,6 +63,10 @@ typedef struct {
 	GtkSpinButton *crop_y_spinbutton;
 	GtkSpinButton *crop_width_spinbutton;
 	GtkSpinButton *crop_height_spinbutton;
+	GtkWidget     *ratio_optionmenu;
+	GtkWidget     *ratio_w_spinbutton;
+	GtkWidget     *ratio_h_spinbutton;
+	GtkWidget     *custom_ratio_box;
 } DialogData;
 
 
@@ -62,7 +75,6 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	g_object_unref (data->selection_gc);
 	g_object_unref (data->gui);
 	g_free (data);
 }
@@ -73,85 +85,29 @@ static void
 ok_cb (GtkWidget  *widget, 
        DialogData *data)
 {
-	GdkPixbuf *old_pixbuf;
-	GdkPixbuf *new_pixbuf;
-	int        src_x, src_y, width, height;
+	GdkPixbuf     *old_pixbuf;
+	GdkPixbuf     *new_pixbuf;
+	GdkRectangle   selection;
 
 	/* Save options */
 
 	/**/
 
-	g_print ("ZOOM: %f\n", data->zoom);
-
 	old_pixbuf = image_viewer_get_current_pixbuf (IMAGE_VIEWER (data->window->viewer));
-
-	src_x = MAX (0, ((double)data->selection_area.x - data->image_x) / data->zoom);
-	src_y = MAX (0, ((double)data->selection_area.y - data->image_y) / data->zoom);
-	width = MIN ((double)data->selection_area.width / data->zoom, gdk_pixbuf_get_width (old_pixbuf) - src_x);
-	height = MIN ((double)data->selection_area.height / data->zoom, gdk_pixbuf_get_height (old_pixbuf) - src_y);
-
-	new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, src_x, src_y, width, height);
+	g_object_ref (old_pixbuf);
+	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
+	new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, 
+					       selection.x, 
+					       selection.y, 
+					       selection.width, 
+					       selection.height);
 	image_viewer_set_pixbuf (IMAGE_VIEWER (data->window->viewer), new_pixbuf);
 	g_object_unref (new_pixbuf);
+	g_object_unref (old_pixbuf);
+
 	window_image_set_modified (data->window, TRUE);
 
 	gtk_widget_destroy (data->dialog);
-}
-
-
-static int
-to_255 (int v)
-{
-	return v * 255 / 65535;
-}
-
-
-static void
-paint_rubberband (DialogData   *data,
-		  GtkWidget    *widget,
-		  GdkRectangle *selection_area,
-		  GdkRectangle *expose_area)
-{
-	GdkColor      color;
-	guint32       rgba;
-	GdkRectangle  rect;
-	GdkPixbuf    *pixbuf;
-
-	color = widget->style->base[GTK_STATE_SELECTED];
-	rgba = ((to_255 (color.red) << 24) 
-		| (to_255 (color.green) << 16) 
-		| (to_255 (color.blue) << 8)
-		| 0x00000040);
-
-	if (! gdk_rectangle_intersect (expose_area, selection_area, &rect))
-		return;
-
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8, rect.width, rect.height);
-	gdk_pixbuf_fill (pixbuf, rgba);
-	gdk_pixbuf_render_to_drawable_alpha (pixbuf,
-					     widget->window,
-					     0, 0,
-					     rect.x, rect.y,
-					     rect.width, rect.height,
-					     GDK_PIXBUF_ALPHA_FULL,
-					     0,
-					     GDK_RGB_DITHER_NONE,
-					     0, 0);
-	g_object_unref (pixbuf);
-
-	/* Paint outline */
-
-	gdk_gc_set_clip_rectangle (data->selection_gc, &rect);
-	
-	if ((selection_area->width > 1)
-	    && (selection_area->height > 1)) 
-		gdk_draw_rectangle (widget->window,
-				    data->selection_gc,
-				    FALSE,
-				    selection_area->x + 1,
-				    selection_area->y + 1,
-				    selection_area->width - 2,
-				    selection_area->height - 2);
 }
 
 
@@ -159,17 +115,12 @@ static void
 selection_x_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
-	int value;
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GdkRectangle selection;
 
-	value = gtk_spin_button_get_value_as_int (spin);
-	value = CLAMP (value, 
-		       0, 
-		       data->image_width - data->selection_area.width);
-	data->selection_area.x = value + data->image_x;
-
-	gtk_spin_button_set_range (data->crop_width_spinbutton, 0.0, (double) data->image_width - value);
-
-	gtk_widget_queue_draw (data->crop_image);
+	gth_image_selector_get_selection (selector, &selection);
+	selection.x = gtk_spin_button_get_value_as_int (spin);
+	gth_image_selector_set_selection (selector, selection);
 }
 
 
@@ -177,17 +128,12 @@ static void
 selection_y_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
-	int value;
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GdkRectangle selection;
 
-	value = gtk_spin_button_get_value_as_int (spin);
-	value = CLAMP (value, 
-		       0, 
-		       data->image_height - data->selection_area.height);
-	data->selection_area.y = value + data->image_y;
-
-	gtk_spin_button_set_range (data->crop_height_spinbutton, 0.0, (double) data->image_height - value);
-
-	gtk_widget_queue_draw (data->crop_image);
+	gth_image_selector_get_selection (selector, &selection);
+	selection.y = gtk_spin_button_get_value_as_int (spin);
+	gth_image_selector_set_selection (selector, selection);
 }
 
 
@@ -195,11 +141,12 @@ static void
 selection_width_value_changed_cb (GtkSpinButton *spin,
 				  DialogData    *data)
 {
-	data->selection_area.width = gtk_spin_button_get_value_as_int (spin);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GdkRectangle selection;
 
-	gtk_spin_button_set_range (data->crop_x_spinbutton, 0.0, (double) data->image_width - data->selection_area.width);
-
-	gtk_widget_queue_draw (data->crop_image);
+	gth_image_selector_get_selection (selector, &selection);
+	selection.width = gtk_spin_button_get_value_as_int (spin);
+	gth_image_selector_set_selection (selector, selection);
 }
 
 
@@ -207,34 +154,117 @@ static void
 selection_height_value_changed_cb (GtkSpinButton *spin,
 				   DialogData    *data)
 {
-	data->selection_area.height = gtk_spin_button_get_value_as_int (spin);
+	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
+	GdkRectangle selection;
 
-	gtk_spin_button_set_range (data->crop_y_spinbutton, 0.0, (double) data->image_height - data->selection_area.height);
-
-	gtk_widget_queue_draw (data->crop_image);
+	gth_image_selector_get_selection (selector, &selection);
+	selection.height = gtk_spin_button_get_value_as_int (spin);
+	gth_image_selector_set_selection (selector, selection);
 }
 
 
-/* FIXME
 static void
-set_spin_value (DialogData *data,
-		GtkWidget  *spin, 
-		int         x)
+set_spin_range_value (DialogData    *data,
+		      GtkSpinButton *spin, 
+		      int            min,
+		      int            max,
+		      int            x)
 {
 	g_signal_handlers_block_by_data (G_OBJECT (spin), data);
+	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), min, max);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), x);
 	g_signal_handlers_unblock_by_data (G_OBJECT (spin), data);
 }
-*/
 
 
-static gboolean
-image_expose_cb (GtkWidget      *widget,
-		 GdkEventExpose *event,
-		 DialogData     *data)
+static void
+selection_changed_cb (GthImageSelector *selector,
+		      DialogData       *data)
 {
-	paint_rubberband (data, widget, &data->selection_area, &event->area);
-	return FALSE;
+	GdkRectangle selection;
+	int          min, max;
+
+	gth_image_selector_get_selection (selector, &selection);
+
+	min = 0;
+	max = data->image_width - selection.width;
+	set_spin_range_value (data, data->crop_x_spinbutton, 
+			      min, max, selection.x);
+
+	min = 0;
+	max = data->image_height - selection.height;
+	set_spin_range_value (data, data->crop_y_spinbutton, 
+			      min, max, selection.y);
+
+	min = 0;
+	max = data->image_width - selection.x;
+	set_spin_range_value (data, data->crop_width_spinbutton, 
+			      min, max, selection.width);
+
+	min = 0;
+	max = data->image_height - selection.y;
+	set_spin_range_value (data, data->crop_height_spinbutton, 
+			      min, max, selection.height);
+}
+
+
+static void
+ratio_optionmenu_changed_cb (GtkOptionMenu *optionmenu,
+			     DialogData    *data)
+{
+	int      idx = gtk_option_menu_get_history (optionmenu);
+	int      w = 1, h = 1;
+	gboolean use_ratio = TRUE;
+	double   ratio = 1.0;
+
+	switch (idx) {
+	case C_RATIO_NONE:
+		use_ratio = FALSE;
+		break;
+	case C_RATIO_SQUARE:
+		w = h = 1;
+		break;
+	case C_RATIO_IMAGE:
+		w = data->image_width;
+		h = data->image_height;
+		break;
+	case C_RATIO_DISPLAY:
+		w = data->display_width;
+		h = data->display_height;
+		break;
+	case C_RATIO_4_3:
+		w = 4;
+		h = 3;
+		break;
+	case C_RATIO_4_6:
+		w = 4;
+		h = 6;
+		break;
+	case C_RATIO_5_7:
+		w = 5;
+		h = 7;
+		break;
+	case C_RATIO_8_10:
+		w = 8;
+		h = 10;
+		break;
+	case C_RATIO_CUSTOM:
+	default:
+		w = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_w_spinbutton));
+		h = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->ratio_h_spinbutton));
+		break;
+	}
+
+	gtk_widget_set_sensitive (data->custom_ratio_box, idx == C_RATIO_CUSTOM);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_w_spinbutton), w);
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->ratio_h_spinbutton), h);
+
+	if (h > 0)
+		ratio = (double) w / h;
+
+	gth_image_selector_set_ratio (GTH_IMAGE_SELECTOR (data->crop_image),
+				      use_ratio,
+				      ratio);
 }
 
 
@@ -242,10 +272,12 @@ void
 dlg_crop (GThumbWindow *window)
 {
 	DialogData *data;
+	GtkWidget  *crop_frame;
 	GtkWidget  *ok_button;
 	GtkWidget  *cancel_button;
 	GdkPixbuf  *pixbuf;	
-	int         width, height;
+	GtkWidget  *menu, *item;
+	char       *label;
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -261,63 +293,49 @@ dlg_crop (GThumbWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "crop_dialog");
-	data->crop_image = glade_xml_get_widget (data->gui, "crop_image");
+	crop_frame = glade_xml_get_widget (data->gui, "crop_frame");
 	data->crop_x_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_x_spinbutton");
 	data->crop_y_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_y_spinbutton");
 	data->crop_width_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_width_spinbutton");
 	data->crop_height_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_height_spinbutton");
+	data->ratio_optionmenu = glade_xml_get_widget (data->gui, "ratio_optionmenu");
+	data->ratio_w_spinbutton = glade_xml_get_widget (data->gui, "ratio_w_spinbutton");
+	data->ratio_h_spinbutton = glade_xml_get_widget (data->gui, "ratio_h_spinbutton");
+	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
 
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
 
-	g_return_if_fail (pixbuf != NULL);
+	data->crop_image = gth_image_selector_new (NULL);
+	gtk_container_add (GTK_CONTAINER (crop_frame), data->crop_image);
 
 	/* Set widgets data. */
 
-	gtk_widget_realize (data->dialog);
-
-	data->selection_gc = gdk_gc_new (data->dialog->window);
-	gdk_gc_copy (data->selection_gc, data->dialog->style->bg_gc[GTK_STATE_SELECTED]);
-
-	/**/
-
 	pixbuf = image_viewer_get_current_pixbuf (IMAGE_VIEWER (data->window->viewer));
-
-	width = gdk_pixbuf_get_width (pixbuf);
-	height = gdk_pixbuf_get_height (pixbuf);
-	if (scale_keepping_ratio (&width, &height, PREVIEW_SIZE, PREVIEW_SIZE))
-		data->zoom = MIN ((double)PREVIEW_SIZE / gdk_pixbuf_get_width (pixbuf), (double)PREVIEW_SIZE / gdk_pixbuf_get_height (pixbuf));
-	else
-		data->zoom = 1.0;
-
-	data->image_width = width;
-	data->image_height = height;
-	data->image_x = data->crop_image->allocation.x + ((double) data->crop_image->allocation.width - width) / 2.0;
-	data->image_y = data->crop_image->allocation.y + ((double) data->crop_image->allocation.height - height) / 2.0;
-
-	pixbuf = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->crop_image), pixbuf);
-	g_object_unref (pixbuf);
+	data->image_width = gdk_pixbuf_get_width (pixbuf);
+	data->image_height = gdk_pixbuf_get_height (pixbuf);
+	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), pixbuf);
+	gtk_widget_show_all (data->crop_image);
 
 	/**/
 
-	data->selection_area.x = data->image_width * 0.25;
-	data->selection_area.y = data->image_height * 0.25;
-	data->selection_area.width = data->image_width * 0.50;
-	data->selection_area.height = data->image_height * 0.50;
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (data->ratio_optionmenu));
 
-	gtk_spin_button_set_range (data->crop_x_spinbutton, 0.0, data->image_width - data->selection_area.width);
-	gtk_spin_button_set_range (data->crop_y_spinbutton, 0.0, data->image_height - data->selection_area.height);
-	gtk_spin_button_set_range (data->crop_width_spinbutton, 0.0, data->image_width - data->selection_area.x);
-	gtk_spin_button_set_range (data->crop_height_spinbutton, 0.0, data->image_height - data->selection_area.y);
+	label = g_strdup_printf (_("%dx%d (Image)"), data->image_width, data->image_height);
+	item = gtk_menu_item_new_with_label (label);
+	gtk_widget_show (item);
+	g_free (label);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 2);
 
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->crop_x_spinbutton), data->selection_area.x);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->crop_y_spinbutton), data->selection_area.y);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->crop_width_spinbutton), data->selection_area.width);
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->crop_height_spinbutton), data->selection_area.height);
+	data->display_width = gdk_screen_get_width (gdk_screen_get_default ());
+	data->display_height = gdk_screen_get_height (gdk_screen_get_default ());
+	label = g_strdup_printf (_("%dx%d (Display)"), data->display_width, data->display_height);
+	item = gtk_menu_item_new_with_label (label);
+	gtk_widget_show (item);
+	g_free (label);
+	gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 3);
 
-	data->selection_area.x += data->image_x;
-	data->selection_area.y += data->image_y;
+	selection_changed_cb (GTH_IMAGE_SELECTOR (data->crop_image), data);
 
 	/* Set the signals handlers. */
 	
@@ -333,10 +351,6 @@ dlg_crop (GThumbWindow *window)
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
-	g_signal_connect_after (G_OBJECT (data->crop_image), 
-				"expose_event",
-				G_CALLBACK (image_expose_cb),
-				data);
 	g_signal_connect (G_OBJECT (data->crop_x_spinbutton), 
 			  "value_changed",
 			  G_CALLBACK (selection_x_value_changed_cb),
@@ -352,6 +366,14 @@ dlg_crop (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->crop_height_spinbutton), 
 			  "value_changed",
 			  G_CALLBACK (selection_height_value_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->crop_image), 
+			  "selection_changed",
+			  G_CALLBACK (selection_changed_cb),
+			  data);
+	g_signal_connect (G_OBJECT (data->ratio_optionmenu), 
+			  "changed",
+			  G_CALLBACK (ratio_optionmenu_changed_cb),
 			  data);
 
 	/* Run dialog. */

@@ -1,3 +1,7 @@
+2003-12-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-crop.c (dlg_crop): more crop support.
+
 2003-12-25  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-crop.h: 

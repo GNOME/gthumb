@@ -78,6 +78,8 @@ gthumb_SOURCES = 			\
 	exif-utils.h			\
 	fullscreen.c			\
 	fullscreen.h			\
+	gth-image-selector.c		\
+	gth-image-selector.h		\
 	gth-exif-data-viewer.c		\
 	gth-exif-data-viewer.h		\
 	gth-folder-selection-dialog.c	\

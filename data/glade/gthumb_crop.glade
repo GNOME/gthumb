@@ -120,14 +120,15 @@
 	  <property name="spacing">12</property>
 
 	  <child>
-	    <widget class="GtkImage" id="crop_image">
-	      <property name="width_request">300</property>
-	      <property name="height_request">300</property>
+	    <widget class="GtkFrame" id="crop_frame">
 	      <property name="visible">True</property>
-	      <property name="xalign">0.5</property>
-	      <property name="yalign">0.5</property>
-	      <property name="xpad">0</property>
-	      <property name="ypad">0</property>
+	      <property name="label_xalign">0</property>
+	      <property name="label_yalign">0.5</property>
+	      <property name="shadow_type">GTK_SHADOW_NONE</property>
+
+	      <child>
+		<placeholder/>
+	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -317,7 +318,7 @@
 				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				  <property name="snap_to_ticks">False</property>
 				  <property name="wrap">False</property>
-				  <property name="adjustment">1 0 300 1 5 1</property>
+				  <property name="adjustment">1 0 300 1 10 1</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -352,7 +353,7 @@
 				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				  <property name="snap_to_ticks">False</property>
 				  <property name="wrap">False</property>
-				  <property name="adjustment">1 0 300 1 5 1</property>
+				  <property name="adjustment">1 0 300 1 10 1</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -387,7 +388,7 @@
 				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				  <property name="snap_to_ticks">False</property>
 				  <property name="wrap">False</property>
-				  <property name="adjustment">1 0 300 1 5 1</property>
+				  <property name="adjustment">1 0 300 1 10 1</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -422,7 +423,7 @@
 				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				  <property name="snap_to_ticks">False</property>
 				  <property name="wrap">False</property>
-				  <property name="adjustment">1 0 300 1 5 1</property>
+				  <property name="adjustment">1 0 300 1 10 1</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -532,13 +533,13 @@
 			      <property name="spacing">6</property>
 
 			      <child>
-				<widget class="GtkHBox" id="hbox4">
+				<widget class="GtkHBox" id="custom_ratio_box">
 				  <property name="visible">True</property>
 				  <property name="homogeneous">False</property>
 				  <property name="spacing">6</property>
 
 				  <child>
-				    <widget class="GtkSpinButton" id="spinbutton5">
+				    <widget class="GtkSpinButton" id="ratio_w_spinbutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="climb_rate">1</property>
@@ -547,7 +548,7 @@
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 1 10000 1 10 10</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -578,16 +579,16 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkSpinButton" id="spinbutton6">
+				    <widget class="GtkSpinButton" id="ratio_h_spinbutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
 				      <property name="climb_rate">1</property>
 				      <property name="digits">0</property>
 				      <property name="numeric">False</property>
-				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+				      <property name="update_policy">GTK_UPDATE_IF_VALID</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 1 10000 1 10 10</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -613,7 +614,7 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu1">
+			    <widget class="GtkOptionMenu" id="ratio_optionmenu">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
 			      <property name="history">0</property>
@@ -636,15 +637,6 @@
 				      <property name="label" translatable="yes">Square</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_square1_activate" last_modification_time="Wed, 24 Dec 2003 11:59:49 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="1024x768_(display)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">1024x768 (Display)</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_1024x768_(display)1_activate" last_modification_time="Wed, 24 Dec 2003 11:59:49 GMT"/>
 				    </widget>
 				  </child>
 

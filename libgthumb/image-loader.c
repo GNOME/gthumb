@@ -414,11 +414,11 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		g_mutex_unlock (priv->yes_or_no);
 		return;
 	}
-		
-	if (pixbuf != NULL) 
-		g_object_ref (pixbuf);
+
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
+	if (pixbuf != NULL) 
+		g_object_ref (pixbuf);
      	priv->pixbuf = pixbuf;
 
 	g_mutex_unlock (priv->yes_or_no);
@@ -458,11 +458,11 @@ image_loader_sync_pixbuf_from_loader (ImageLoader     *il,
 		g_mutex_unlock (priv->yes_or_no);
 		return;
 	}
-		
-	if (pixbuf != NULL) 
-		g_object_ref (pixbuf);
+
 	if (priv->pixbuf != NULL) 
 		g_object_unref (priv->pixbuf);
+	if (pixbuf != NULL) 
+		g_object_ref (pixbuf);
      	priv->pixbuf = pixbuf;
 
 	g_mutex_unlock (priv->yes_or_no);
