@@ -1,3 +1,7 @@
+2004-04-18  Sami Pesonen  <sampeson@iki.fi>
+
+	* configure.in: Added "fi" (Finnish) to ALL_LINGUAS.
+
 2004-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (image_is_jpeg): added workaround for bug in 
