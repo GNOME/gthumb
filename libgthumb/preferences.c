@@ -150,6 +150,7 @@ static EnumStringTable check_size_table [] = {
 static EnumStringTable slideshow_direction_table [] = {
 	{ GTH_DIRECTION_FORWARD, "forward" },
 	{ GTH_DIRECTION_REVERSE, "backward" },
+	{ GTH_DIRECTION_RANDOM,  "random" },
 	{ 0, NULL }
 };
 

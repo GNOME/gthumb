@@ -1,3 +1,14 @@
+2004-01-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-preferences.c (apply_cb): 
+	* src/gthumb-window.c (get_next_slideshow_image): 
+	* libgthumb/typedefs.h: 
+	* data/gthumb.schemas.in: 
+	* libgthumb/preferences.h (PREF_SLIDESHOW_DIR): 
+	* libgthumb/preferences.c: 
+
+	Fix bug #112254 (Needs Randomize Option on Slide Show).
+
 2004-01-21  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-jpegtran.c (apply_transformation): 

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -4610,7 +4610,7 @@ create_new_file_list (GThumbWindow *window)
 	gtk_drag_dest_set (file_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, G_N_ELEMENTS (target_table),
-			   GDK_ACTION_MOVE);
+			   GDK_ACTION_COPY);
 	gtk_drag_source_set (file_list->root_widget,
 			     GDK_BUTTON1_MASK,
 			     target_table, G_N_ELEMENTS (target_table),
@@ -5398,7 +5398,10 @@ window_new (void)
 
 	window->fullscreen = FALSE;
 	window->slideshow = FALSE;
-	window->slideshow_only_selected = FALSE;
+	window->slideshow_set = NULL;
+	window->slideshow_random_set = NULL;
+	window->slideshow_first = NULL;
+	window->slideshow_current = NULL;
 	window->slideshow_timeout = 0;
 
 	window->bookmarks_length = 0;
@@ -5839,6 +5842,11 @@ close__step6 (char     *filename,
 		path_list_free (gth_file_list_drag_data);
 		gth_file_list_drag_data = NULL;
 	}
+
+	if (window->slideshow_set != NULL)
+		g_list_free (window->slideshow_set);
+	if (window->slideshow_random_set != NULL)
+		g_list_free (window->slideshow_random_set);
 
 	gtk_object_destroy (GTK_OBJECT (window->tooltips));
 
@@ -6958,38 +6966,111 @@ window_delete_history (GThumbWindow *window)
 /* -- slideshow -- */
 
 
+static GList *
+get_slideshow_random_image (GThumbWindow *window)
+{
+	int    n, i;
+	GList *item;
+
+	if (window->slideshow_current != NULL) {
+		g_list_free (window->slideshow_current);
+		window->slideshow_current = NULL;
+	}
+
+	n = g_list_length (window->slideshow_random_set);
+	g_print ("N: %d\n", n);
+	if (n == 0)
+		return NULL;
+	i = g_random_int_range (0, n - 1);
+
+	g_print ("RANDOM: %d\n", i);
+
+	item = g_list_nth (window->slideshow_random_set, i);
+	if (item != NULL)
+		window->slideshow_random_set = g_list_remove_link (window->slideshow_random_set, item);
+
+	window->slideshow_current = item;
+
+	return item;
+}
+
+
+static GList *
+get_next_slideshow_image (GThumbWindow *window)
+{
+	GList    *current;
+	FileData *fd;
+
+	current = window->slideshow_current;
+	if (current == NULL) {
+		if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM)
+			current = get_slideshow_random_image (window);
+		else
+			current = window->slideshow_first;
+		fd = current->data;
+		if (! fd->error) 
+			return current;
+	}
+
+	do {
+		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
+			current = current->next;
+			if (current == NULL)
+				current = window->slideshow_set;
+			if ((current == window->slideshow_first) && ! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
+				return NULL;
+
+		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_REVERSE) {
+			current = current->prev;
+			if (current == NULL)
+				current = g_list_last (window->slideshow_set);
+			if ((current == window->slideshow_first) && ! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
+				return NULL;
+
+		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM) {
+			current = get_slideshow_random_image (window);
+			if (current == NULL) {
+				if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) {
+					return NULL;
+				} else {
+					window->slideshow_random_set = g_list_copy (window->slideshow_set);
+					current = get_slideshow_random_image (window);
+				}
+			}
+		}
+
+		fd = current->data;
+	} while (fd->error);
+
+	return current;
+}
+
+
 static gboolean
 slideshow_timeout_cb (gpointer data)
 {
 	GThumbWindow *window = data;
-	gboolean      go_on;
+	gboolean      go_on = FALSE;
 
 	if (window->slideshow_timeout != 0) {
 		g_source_remove (window->slideshow_timeout);
 		window->slideshow_timeout = 0;
 	}
 
-	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
-		go_on = window_show_next_image (window, window->slideshow_only_selected);
-	else
-		go_on = window_show_prev_image (window, window->slideshow_only_selected);
+	window->slideshow_current = get_next_slideshow_image (window);
 
-	if (! go_on) {
-		if (! eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE)) 
-			window_stop_slideshow (window);
-		else {
-			if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
-				go_on = window_show_first_image (window, window->slideshow_only_selected);
-			} else
-				go_on = window_show_last_image (window, window->slideshow_only_selected);
-			
-			if (! go_on) 
-				/* No image to show, stop. */
-				window_stop_slideshow (window);
+	if (window->slideshow_current != NULL) {
+		FileData *fd = window->slideshow_current->data;
+		int       pos = gth_file_list_pos_from_path (window->file_list, fd->path);
+		if (pos != -1) {
+			gth_file_view_set_cursor (window->file_list->view, pos);
+			go_on = TRUE;
 		}
 	}
 
-	if (go_on)
+	if (! go_on) 
+		window_stop_slideshow (window);
+	else
 		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 
 	return FALSE;
@@ -6999,8 +7080,8 @@ slideshow_timeout_cb (gpointer data)
 void
 window_start_slideshow (GThumbWindow *window)
 {
-	gboolean go_on = TRUE;
-	int      pos;
+	gboolean  only_selected;
+	gboolean  go_on = FALSE;
 
 	g_return_if_fail (window != NULL);
 
@@ -7011,34 +7092,50 @@ window_start_slideshow (GThumbWindow *window)
 		return;
 
 	window->slideshow = TRUE;
-	window->slideshow_only_selected = gth_file_view_selection_not_null (window->file_list->view) && ! gth_file_view_only_one_is_selected (window->file_list->view);
 
-	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
-		fullscreen_start (fullscreen, window);
+	if (window->slideshow_set != NULL) {
+		g_list_free (window->slideshow_set);
+		window->slideshow_set = NULL;
+	}
+	if (window->slideshow_random_set != NULL) {
+		g_list_free (window->slideshow_random_set);
+		window->slideshow_random_set = NULL;
+	}
+	window->slideshow_first = NULL;
+	window->slideshow_current = NULL;
 
-	if (window->slideshow_only_selected) {
-		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
-			pos = gth_file_view_get_first_selected (window->file_list->view);
-		else
-			pos = gth_file_view_get_last_selected (window->file_list->view);
-	} else
-		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+	only_selected = gth_file_view_selection_not_null (window->file_list->view) && ! gth_file_view_only_one_is_selected (window->file_list->view);
 
-	if (pos != -1)
-		gth_file_view_set_cursor (window->file_list->view, pos);
-	else {
-		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
-			go_on = window_show_next_image (window, window->slideshow_only_selected);
-		else
-			go_on = window_show_prev_image (window, window->slideshow_only_selected);
+	if (only_selected)
+		window->slideshow_set = gth_file_view_get_selection (window->file_list->view);
+	else
+		window->slideshow_set = gth_file_view_get_list (window->file_list->view);
+	window->slideshow_random_set = g_list_copy (window->slideshow_set);
+
+	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
+		window->slideshow_first = g_list_first (window->slideshow_set);
+	else if (pref_get_slideshow_direction () == GTH_DIRECTION_REVERSE)
+		window->slideshow_first = g_list_last (window->slideshow_set);
+	else if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM) 
+		window->slideshow_first = NULL;
+
+	window->slideshow_current = get_next_slideshow_image (window);
+
+	if (window->slideshow_current != NULL) {
+		FileData *fd = window->slideshow_current->data;
+		int       pos = gth_file_list_pos_from_path (window->file_list, fd->path);
+		if (pos != -1) {
+			if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
+				fullscreen_start (fullscreen, window);
+			gth_file_view_set_cursor (window->file_list->view, pos);
+			go_on = TRUE;
+		}
 	}
 
-	if (! go_on) {
+	if (! go_on) 
 		window_stop_slideshow (window);
-		return;
-	}
-
-	window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+	else
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 }
 
 
@@ -7052,6 +7149,22 @@ window_stop_slideshow (GThumbWindow *window)
 	if (window->slideshow_timeout != 0) {
 		g_source_remove (window->slideshow_timeout);
 		window->slideshow_timeout = 0;
+	}
+
+	if ((pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM)
+	    && (window->slideshow_current != NULL)) {
+		g_list_free (window->slideshow_current);
+		window->slideshow_current = NULL;
+	}
+
+	if (window->slideshow_set != NULL) {
+		g_list_free (window->slideshow_set);
+		window->slideshow_set = NULL;
+	}
+
+	if (window->slideshow_random_set != NULL) {
+		g_list_free (window->slideshow_random_set);
+		window->slideshow_random_set = NULL;
 	}
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE) && window->fullscreen)
@@ -7088,21 +7201,15 @@ gboolean
 window_show_next_image (GThumbWindow *window,
 			gboolean      only_selected)
 {
-	gboolean stop_and_restart_slideshow;
-	int      pos;
-
+	int pos;
+	
 	g_return_val_if_fail (window != NULL, FALSE);
-
-	stop_and_restart_slideshow = window->slideshow_timeout != 0;
-
-	if (stop_and_restart_slideshow) {
-		g_source_remove (window->slideshow_timeout);
-		window->slideshow_timeout = 0;
-	}
-
-	if ((window->setting_file_list) || (window->changing_directory)) 
+	
+	if (window->slideshow 
+	    || window->setting_file_list 
+	    || window->changing_directory) 
 		return FALSE;
-
+	
 	if (window->image_path == NULL) {
 		pos = gth_file_list_next_image (window->file_list, -1, TRUE, only_selected);
 
@@ -7122,10 +7229,6 @@ window_show_next_image (GThumbWindow *window,
 		gth_file_view_set_cursor (window->file_list->view, pos);
 	}
 
-	if (stop_and_restart_slideshow) {
-		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
-	}
-
 	return (pos != -1);
 }
 
@@ -7134,19 +7237,13 @@ gboolean
 window_show_prev_image (GThumbWindow *window,
 			gboolean      only_selected)
 {
-	gboolean stop_and_restart_slideshow;
-	int      pos;
+	int pos;
 
 	g_return_val_if_fail (window != NULL, FALSE);
-
-	stop_and_restart_slideshow = window->slideshow_timeout != 0;
-
-	if (stop_and_restart_slideshow) {
-		g_source_remove (window->slideshow_timeout);
-		window->slideshow_timeout = 0;
-	}
-
-	if ((window->setting_file_list) || (window->changing_directory))
+	
+	if (window->slideshow 
+	    || window->setting_file_list 
+	    || window->changing_directory)
 		return FALSE;
 	
 	if (window->image_path == NULL) {
@@ -7169,10 +7266,6 @@ window_show_prev_image (GThumbWindow *window,
 		if (! only_selected)
 			gth_file_list_select_image_by_pos (window->file_list, pos); 
 		gth_file_view_set_cursor (window->file_list->view, pos);
-	}
-
-	if (stop_and_restart_slideshow) {
-		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
 	}
 
 	return (pos != -1);

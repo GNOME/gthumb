@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -180,7 +180,12 @@ typedef struct {
 	guint               slideshow_timeout;  /* slideshow timer. */
 	gboolean            slideshow;          /* whether the slideshow is 
 						 * active. */
-	gboolean            slideshow_only_selected;
+	GList              *slideshow_set;      /* FileData list of the 
+						 * images to display in the 
+						 * slideshow. */
+	GList              *slideshow_random_set;
+	GList              *slideshow_first;
+	GList              *slideshow_current;
 
 	/* monitor stuff */
 

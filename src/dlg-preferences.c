@@ -91,6 +91,7 @@ typedef struct {
 
 	GtkWidget *radio_ss_direction_forward;
 	GtkWidget *radio_ss_direction_reverse;
+	GtkWidget *radio_ss_direction_random;
 	GtkWidget *spin_ss_delay;
 	GtkWidget *toggle_ss_wrap_around;
 	GtkWidget *toggle_ss_fullscreen;
@@ -112,6 +113,8 @@ static void
 apply_cb (GtkWidget  *widget, 
 	  DialogData *data)
 {
+	GthDirectionType direction = GTH_DIRECTION_FORWARD;
+
 	/* Startup dir. */
 
 	eel_gconf_set_boolean (PREF_GO_TO_LAST_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_last_location)));
@@ -142,7 +145,16 @@ apply_cb (GtkWidget  *widget,
 
 	eel_gconf_set_integer (PREF_SLIDESHOW_DELAY, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->spin_ss_delay)));
 
-	pref_set_slideshow_direction (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward)) ? GTH_DIRECTION_FORWARD : GTH_DIRECTION_REVERSE);
+	/**/
+
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward)))
+		direction = GTH_DIRECTION_FORWARD;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_reverse)))
+		direction = GTH_DIRECTION_REVERSE;
+	else if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_random)))
+		direction = GTH_DIRECTION_RANDOM;
+
+	pref_set_slideshow_direction (direction);
 }
 
 
@@ -278,16 +290,6 @@ show_comments_toggled_cb (GtkToggleButton *button,
 }
 
 
-/* FIXME
-static void
-show_hidden_toggled_cb (GtkToggleButton *button, 
-			DialogData      *data)
-{
-	eel_gconf_set_boolean (PREF_SHOW_HIDDEN_FILES, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden)));
-}
-*/
-
-
 static void
 view_as_slides_toggled_cb (GtkToggleButton *button, 
 			   DialogData      *data)
@@ -397,9 +399,9 @@ dlg_preferences (GThumbWindow *window)
 	DialogData *data;
 	GtkWidget  *btn_close;
 	GtkWidget  *btn_help;
-	/*	int         i = 0;*/
 	int         layout_type;
 	char       *startup_location;
+	GthDirectionType direction;
 
 	data = g_new (DialogData, 1);
 	data->window = window;
@@ -435,10 +437,6 @@ dlg_preferences (GThumbWindow *window)
 	data->view_as_slides_radiobutton = glade_xml_get_widget (data->gui, "view_as_slides_radiobutton");
 	data->view_as_list_radiobutton = glade_xml_get_widget (data->gui, "view_as_list_radiobutton");
 
-	/* FIXME
-        data->toggle_show_hidden = glade_xml_get_widget (data->gui, "toggle_show_hidden");
-	*/
-
         data->toggle_show_filenames = glade_xml_get_widget (data->gui, "toggle_show_filenames");
         data->toggle_show_comments = glade_xml_get_widget (data->gui, "toggle_show_comments");
 
@@ -455,6 +453,7 @@ dlg_preferences (GThumbWindow *window)
 
         data->radio_ss_direction_forward = glade_xml_get_widget (data->gui, "radio_ss_direction_forward");
         data->radio_ss_direction_reverse = glade_xml_get_widget (data->gui, "radio_ss_direction_reverse");
+        data->radio_ss_direction_random = glade_xml_get_widget (data->gui, "radio_ss_direction_random");
         data->spin_ss_delay = glade_xml_get_widget (data->gui, "spin_ss_delay");
         data->toggle_ss_wrap_around = glade_xml_get_widget (data->gui, "toggle_ss_wrap_around");
         data->toggle_ss_fullscreen = glade_xml_get_widget (data->gui, "toggle_ss_fullscreen");
@@ -520,9 +519,6 @@ dlg_preferences (GThumbWindow *window)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_list_radiobutton), TRUE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
-	/* FIXME
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_hidden), eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, FALSE));
-	*/
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_comments), eel_gconf_get_boolean (PREF_SHOW_COMMENTS, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_thumbs), eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS, TRUE));
@@ -541,10 +537,13 @@ dlg_preferences (GThumbWindow *window)
 
 	/* * slide show */
 
-	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
+	direction = pref_get_slideshow_direction ();
+	if (direction == GTH_DIRECTION_FORWARD)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_forward), TRUE);
-	else
+	else if (direction == GTH_DIRECTION_REVERSE)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_reverse), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_ss_direction_random), TRUE);
 		
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->spin_ss_delay),
 				   (gfloat) eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, 4));
@@ -611,12 +610,6 @@ dlg_preferences (GThumbWindow *window)
 			  "toggled",
 			  G_CALLBACK (show_comments_toggled_cb),
 			  data);
-	/* FIXME
-	g_signal_connect (G_OBJECT (data->toggle_show_hidden), 
-			  "toggled",
-			  G_CALLBACK (show_hidden_toggled_cb),
-			  data);
-	*/
 
 	g_signal_connect (G_OBJECT (data->view_as_slides_radiobutton), 
 			  "toggled",

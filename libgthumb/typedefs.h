@@ -65,7 +65,8 @@
 
 typedef enum { /*< skip >*/
 	GTH_DIRECTION_FORWARD = 0,
-	GTH_DIRECTION_REVERSE = 1
+	GTH_DIRECTION_REVERSE = 1,
+	GTH_DIRECTION_RANDOM  = 2,
 } GthDirectionType;
 
 

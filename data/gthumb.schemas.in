@@ -384,7 +384,7 @@
 	<default>forward</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: forward, backward.
+	  <long> Possible values are: forward, backward, random.
 	  </long>
 	</locale>
       </schema>

@@ -1399,93 +1399,8 @@
 	<default>forward</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: forward, backward.
+	  <long> Possible values are: forward, backward, random.
 	  </long>
-	</locale>
-
-	<locale name="ca">
-	  
-	  <long>Els valors possibles són: endavant, enrere.</long>
-	</locale>
-
-	<locale name="cs">
-	  
-	  <long>Možné hodnoty jsou: forward, backward.</long>
-	</locale>
-
-	<locale name="de">
-	  
-	  <long>Zulässige Werte: forward (vor), backward (zurück).</long>
-	</locale>
-
-	<locale name="en_GB">
-	  
-	  <long>Possible values are: forward, backward.</long>
-	</locale>
-
-	<locale name="es">
-	  
-	  <long>Los valores posibles son: forward, backward.</long>
-	</locale>
-
-	<locale name="fr">
-	  
-	  <long>Les valeurs possible sont : forward, backward.</long>
-	</locale>
-
-	<locale name="hu">
-	  
-	  <long>Lehetséges értékek: forward, backward.</long>
-	</locale>
-
-	<locale name="it">
-	  
-	  <long>I valori possibili sono: forward, backward.</long>
-	</locale>
-
-	<locale name="ja">
-	  
-	  <long>設定可能な値: forward, backward</long>
-	</locale>
-
-	<locale name="nl">
-	  
-	  <long>Mogelijke waarden zijn: forward, backward</long>
-	</locale>
-
-	<locale name="pl">
-	  
-	  <long>Możliwymi wartościami są: forward, backward.</long>
-	</locale>
-
-	<locale name="pt">
-	  
-	  <long>Valores possíveis são: forward, backward.</long>
-	</locale>
-
-	<locale name="pt_BR">
-	  
-	  <long>Valores possíveis são: para frente, para trás.</long>
-	</locale>
-
-	<locale name="sr">
-	  
-	  <long>Дозвољене вредности су: forward, backward.</long>
-	</locale>
-
-	<locale name="sr@Latn">
-	  
-	  <long>Dozvoljene vrednosti su: forward, backward.</long>
-	</locale>
-
-	<locale name="sv">
-	  
-	  <long>Möjliga värden är: forward, backward.</long>
-	</locale>
-
-	<locale name="zh_CN">
-	  
-	  <long>可能的取值是：前进、后退。</long>
 	</locale>
       </schema>
 
@@ -3704,6 +3619,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="ja">
+	  
+	  <long>設定可能な値: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom</long>
 	</locale>
 
 	<locale name="nl">
