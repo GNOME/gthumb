@@ -83,7 +83,6 @@ typedef struct {
 
 #endif /* HAVE_LIBEXIF */
 
-	GtkWidget     *i_histogram_channel_label;
 	GtkWidget     *i_histogram_channel;
 	GtkWidget     *i_histogram_channel_alpha;
 	GtkWidget     *i_histogram_graph;
@@ -303,7 +302,6 @@ dlg_image_prop_new (GThumbWindow *window)
 
 	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
 
-	data->i_histogram_channel_label = glade_xml_get_widget (data->gui, "i_histogram_channel_label");
 	data->i_histogram_channel_alpha = glade_xml_get_widget (data->gui, "i_histogram_channel_alpha");
 	data->i_histogram_channel = glade_xml_get_widget (data->gui, "i_histogram_channel");
 	data->i_histogram_graph = glade_xml_get_widget (data->gui, "i_histogram_graph");

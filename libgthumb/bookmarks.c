@@ -32,6 +32,9 @@
 #include "preferences.h"
 
 
+#define MAX_LINES 100
+
+
 Bookmarks *
 bookmarks_new (char *rc_filename)
 {
@@ -41,6 +44,7 @@ bookmarks_new (char *rc_filename)
 	bookmarks->list = NULL;
 	bookmarks->names = g_hash_table_new (g_str_hash, g_str_equal);
 	bookmarks->tips = g_hash_table_new (g_str_hash, g_str_equal);
+	bookmarks->max_lines = MAX_LINES;
 
 	if (rc_filename != NULL)
 		bookmarks->rc_filename = g_strdup (rc_filename);
@@ -385,7 +389,6 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 #undef MAX_LINE_LENGTH	
 
 
-#define MAX_LINES 100
 void
 bookmarks_write_to_disk (Bookmarks *bookmarks)
 {
@@ -414,7 +417,7 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	/* write the file list. */
 	lines = 0;
 	scan = bookmarks->list; 
-	while ((lines < MAX_LINES) && scan) {
+	while ((lines < bookmarks->max_lines) && scan) {
 		if (! fprintf (f, "\"%s\"\n", (gchar*) scan->data)) {
 			g_print ("ERROR saving to bookmark file\n");
 			fclose (f);
@@ -443,4 +446,19 @@ bookmarks_get_menu_tip (Bookmarks *bookmarks,
 			const gchar *path)
 {
 	return g_hash_table_lookup (bookmarks->tips, path);
+}
+
+
+void
+bookmarks_set_max_lines (Bookmarks   *bookmarks,
+			 int          max_lines)
+{
+	bookmarks->max_lines = max_lines;
+}
+
+
+int
+bookmarks_get_max_lines (Bookmarks   *bookmarks)
+{
+	return bookmarks->max_lines;
 }

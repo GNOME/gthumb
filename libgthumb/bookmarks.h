@@ -26,10 +26,11 @@
 #include <glib.h>
 
 typedef struct {
-	gchar      * rc_filename;
-	GList      * list; 
-	GHashTable * names;
-	GHashTable * tips;
+	char       *rc_filename;
+	int         max_lines;
+	GList      *list; 
+	GHashTable *names;
+	GHashTable *tips;
 } Bookmarks;	
 
 
@@ -65,6 +66,10 @@ const char *       bookmarks_get_menu_name     (Bookmarks   *bookmarks,
 const char *       bookmarks_get_menu_tip      (Bookmarks   *bookmarks,
 						const char  *path);
 
+void               bookmarks_set_max_lines     (Bookmarks   *bookmarks,
+						int          max_lines);
+
+int                bookmarks_get_max_lines     (Bookmarks   *bookmarks);
 
 char *             bookmarks_utils__get_menu_item_name  (const char *path);
 

@@ -1,5 +1,7 @@
 2002-11-25  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gth-folder-selection-dialog.c: added a recent folders list. 
+
 	* src/gthumb-window.c (dir_list_drag_data_received) 
 	(dir_list_drag_motion, dir_list_drag_leave) 
 	(location_entry_drag_data_received) 

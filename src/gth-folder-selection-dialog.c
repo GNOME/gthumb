@@ -32,6 +32,13 @@
 #include "typedefs.h"
 #include "preferences.h"
 #include "gtk-utils.h"
+#include "file-utils.h"
+
+
+#define RC_RECENT_FILE      ".gnome2/gthumb/recents"
+#define DEFAULT_LIST_WIDTH  300 
+#define DEFAULT_LIST_HEIGHT 120 
+#define MAX_RECENT_LIST     20
 
 
 struct _GthFolderSelectionPrivate
@@ -39,6 +46,8 @@ struct _GthFolderSelectionPrivate
 	char         *title;
 	BookmarkList *bookmark_list;
 	Bookmarks    *bookmarks;
+	BookmarkList *recent_list;
+	Bookmarks    *recents;
 	GtkWidget    *file_entry;
 };
 
@@ -94,16 +103,14 @@ gth_folder_selection_init (GthFolderSelection *folder_sel)
 }
 
 
-static int
-bookmark_button_press_cb (GtkWidget      *widget,
-			  GdkEventButton *event,
-			  gpointer        callback_data)
+static gboolean
+list_view_button_press_cb (GdkEventButton     *event,
+			   GthFolderSelection *folder_sel,
+			   BookmarkList       *bookmark_list)
 {
-	GthFolderSelection *folder_sel = callback_data;
-	BookmarkList       *bookmark_list = folder_sel->priv->bookmark_list;
-        GtkTreePath        *path;
-        GtkTreeIter         iter;
-        char               *folder_path, *utf8_folder_path;
+        GtkTreePath *path;
+        GtkTreeIter  iter;
+        char        *folder_path, *utf8_folder_path;
 
         if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (bookmark_list->list_view),
                                              event->x, event->y,
@@ -133,16 +140,37 @@ bookmark_button_press_cb (GtkWidget      *widget,
 }
 
 
-static void
-bookmark_activated_cb (GtkTreeView       *tree_view,
-		       GtkTreePath       *path,
-		       GtkTreeViewColumn *column,
-		       gpointer           callback_data)
+static int
+bookmark_button_press_cb (GtkWidget      *widget,
+			  GdkEventButton *event,
+			  gpointer        callback_data)
 {
 	GthFolderSelection *folder_sel = callback_data;
-	BookmarkList       *bookmark_list = folder_sel->priv->bookmark_list;
-	GtkTreeIter         iter;
-	char               *folder_path, *utf8_folder_path;
+	return list_view_button_press_cb (event,
+					  folder_sel,
+					  folder_sel->priv->bookmark_list);
+}
+
+
+static int
+recent_button_press_cb (GtkWidget      *widget,
+			GdkEventButton *event,
+			gpointer        callback_data)
+{
+	GthFolderSelection *folder_sel = callback_data;
+	return list_view_button_press_cb (event,
+					  folder_sel,
+					  folder_sel->priv->recent_list);
+}
+
+
+static void
+list_view_activated_cb (GtkTreePath        *path,
+			GthFolderSelection *folder_sel,
+			BookmarkList       *bookmark_list)
+{
+	GtkTreeIter  iter;
+	char        *folder_path, *utf8_folder_path;
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
 				       &iter, 
@@ -161,6 +189,32 @@ bookmark_activated_cb (GtkTreeView       *tree_view,
         g_free (folder_path);
 
 	gtk_dialog_response (GTK_DIALOG (folder_sel), GTK_RESPONSE_OK);
+}
+
+
+static void
+bookmark_activated_cb (GtkTreeView       *tree_view,
+		       GtkTreePath       *path,
+		       GtkTreeViewColumn *column,
+		       gpointer           callback_data)
+{
+	GthFolderSelection *folder_sel = callback_data;
+	list_view_activated_cb (path,
+				folder_sel,
+				folder_sel->priv->bookmark_list);
+}
+
+
+static void
+recent_activated_cb (GtkTreeView       *tree_view,
+		     GtkTreePath       *path,
+		     GtkTreeViewColumn *column,
+		     gpointer           callback_data)
+{
+	GthFolderSelection *folder_sel = callback_data;
+	list_view_activated_cb (path,
+				folder_sel,
+				folder_sel->priv->recent_list);
 }
 
 
@@ -198,7 +252,8 @@ browse_button_clicked_cb (GtkWidget *widget,
 	
 	file_sel = gtk_file_selection_new (folder_sel->priv->title);
 	
-	entry = gnome_entry_gtk_entry (GNOME_ENTRY (folder_sel->priv->file_entry));
+	entry = folder_sel->priv->file_entry;
+
 	utf8_folder = gtk_entry_get_text (GTK_ENTRY (entry));
 	folder = g_locale_from_utf8 (utf8_folder, -1, 0, 0, 0);
 	if (folder[strlen (folder) - 1] != '/') {
@@ -232,6 +287,32 @@ browse_button_clicked_cb (GtkWidget *widget,
 
 
 static void
+folder_sel__response_cb (GObject *object,
+			 int      response_id,
+			 gpointer data)
+{
+	GthFolderSelection *folder_sel = data;
+	char               *folder, *dir;	
+
+	if (response_id != GTK_RESPONSE_OK) 
+		return;
+
+	folder = gth_folder_selection_get_folder (folder_sel);
+	if (folder == NULL) 
+		return;
+
+	dir = remove_ending_separator (folder);
+
+	bookmarks_add (folder_sel->priv->recents, dir, TRUE, FALSE);
+	bookmarks_set_max_lines (folder_sel->priv->recents, MAX_RECENT_LIST);
+	bookmarks_write_to_disk (folder_sel->priv->recents);
+
+	g_free (dir);
+	g_free (folder);
+}
+
+
+static void
 gth_folder_selection_construct (GthFolderSelection *folder_sel,
 				const char         *title)
 {
@@ -255,7 +336,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
 	main_box = gtk_vbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (dialog->vbox), main_box, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), main_box, TRUE, TRUE, 0);
 	gtk_container_set_border_width (GTK_CONTAINER (main_box), 6);
 
 	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
@@ -286,18 +367,49 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	hbox2 = gtk_hbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
 
-	folder_sel->priv->file_entry = gnome_entry_new ("file_ops_ID");
-	gtk_entry_set_activates_default (GTK_ENTRY (gnome_entry_gtk_entry (GNOME_ENTRY (folder_sel->priv->file_entry))), TRUE);
+	folder_sel->priv->file_entry = gtk_entry_new ();
+	gtk_entry_set_activates_default (GTK_ENTRY (folder_sel->priv->file_entry), TRUE);
 
 	gtk_box_pack_start (GTK_BOX (hbox2), folder_sel->priv->file_entry, TRUE, TRUE, 0);
 
 	browse_button = gtk_button_new_with_mnemonic (_("_Browse..."));
 	gtk_box_pack_start (GTK_BOX (hbox2), browse_button, FALSE, FALSE, 0);
 
+	/* Recents */
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (main_box), vbox, TRUE, TRUE, 0);
+
+	label = gtk_label_new (NULL);
+	label_txt = g_strdup_printf ("<b>%s</b>", _("_Recents:"));
+	gtk_label_set_markup (GTK_LABEL (label), label_txt);
+	gtk_label_set_use_underline(GTK_LABEL (label), TRUE);
+	g_free (label_txt);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+
+	label = gtk_label_new ("    ");
+	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+
+	vbox2 = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
+
+	folder_sel->priv->recent_list = bookmark_list_new ();
+	gtk_widget_set_size_request (folder_sel->priv->recent_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
+	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->recent_list->root_widget, TRUE, TRUE, 0);
+
+	folder_sel->priv->recents = bookmarks_new (RC_RECENT_FILE);
+	bookmarks_load_from_disk (folder_sel->priv->recents);
+	bookmark_list_set (folder_sel->priv->recent_list, 
+			   folder_sel->priv->recents->list);
+
 	/* Bookmarks */
 
 	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (main_box), vbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (main_box), vbox, TRUE, TRUE, 0);
 
 	label = gtk_label_new (NULL);
 	label_txt = g_strdup_printf ("<b>%s</b>", _("_Bookmarks:"));
@@ -308,7 +420,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	label = gtk_label_new ("    ");
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
@@ -317,8 +429,8 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
 
 	folder_sel->priv->bookmark_list = bookmark_list_new ();
-	gtk_widget_set_size_request (folder_sel->priv->bookmark_list->root_widget, 300, 200);
-	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->bookmark_list->root_widget, FALSE, FALSE, 0);
+	gtk_widget_set_size_request (folder_sel->priv->bookmark_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
+	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->bookmark_list->root_widget, TRUE, TRUE, 0);
 
 	folder_sel->priv->bookmarks = bookmarks_new (RC_BOOKMARKS_FILE);
 	bookmarks = folder_sel->priv->bookmarks;
@@ -352,10 +464,25 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
                           G_CALLBACK (bookmark_activated_cb),
                           folder_sel);
 
+	g_signal_connect (G_OBJECT (folder_sel->priv->recent_list->list_view),
+                          "button_press_event",
+                          G_CALLBACK (recent_button_press_cb),
+                          folder_sel);
+
+	g_signal_connect (G_OBJECT (folder_sel->priv->recent_list->list_view),
+                          "row_activated",
+                          G_CALLBACK (recent_activated_cb),
+                          folder_sel);
+
 	g_signal_connect (G_OBJECT (browse_button),
                           "clicked",
                           G_CALLBACK (browse_button_clicked_cb),
                           folder_sel);
+
+	g_signal_connect (G_OBJECT (folder_sel),
+			  "response", 
+			  G_CALLBACK (folder_sel__response_cb), 
+			  folder_sel);
 }
 
 
@@ -403,18 +530,11 @@ void
 gth_folder_selection_set_folder (GthFolderSelection *fsel,
 				 const char         *folder)
 {
-	GtkWidget *entry;
-
-	entry = gnome_entry_gtk_entry (GNOME_ENTRY (fsel->priv->file_entry));
-	_gtk_entry_set_locale_text (GTK_ENTRY (entry), folder);
-}
+	_gtk_entry_set_locale_text (GTK_ENTRY (fsel->priv->file_entry), folder);}
 
 
 char *
 gth_folder_selection_get_folder (GthFolderSelection *fsel)
 {
-	GtkWidget *entry;
-
-	entry = gnome_entry_gtk_entry (GNOME_ENTRY (fsel->priv->file_entry));
-	return _gtk_entry_get_locale_text (GTK_ENTRY (entry));
+	return _gtk_entry_get_locale_text (GTK_ENTRY (fsel->priv->file_entry));
 }
