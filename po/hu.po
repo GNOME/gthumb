@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.1.6\n"
-"POT-Creation-Date: 2003-10-07 17:02+0200\n"
-"PO-Revision-Date: 2003-10-08 12:09+0200\n"
+"POT-Creation-Date: 2003-10-14 08:56+0200\n"
+"PO-Revision-Date: 2003-10-14 08:59+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -174,14 +174,14 @@ msgstr "_Nagyítás minősége"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr "%Y. %B %d., %H:%M"
+msgstr "%Y. %B %d., %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:445 src/fullscreen.c:216
 #: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:391
 #, c-format
 msgid "%d x %d pixels"
-msgstr "%d x %d képpont"
+msgstr "%d × %d képpont"
 
 #: data/albumthemes/Clean/image.xml.in.h:1
 #: data/albumthemes/Classic/image.xml.in.h:2
@@ -326,13 +326,13 @@ msgstr "A régi megjegyzések törlése folyamatban, várj..."
 
 #: libgthumb/comments.c:760
 msgid "%d %B %Y"
-msgstr "%Y %B %d"
+msgstr "%Y. %B %d."
 
 #: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
 #: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:388
 msgid "%d %B %Y, %H:%M"
-msgstr "%Y %d %B, %H:%M"
+msgstr "%Y. %B %d., %H.%M"
 
 #: libgthumb/comments.c:772
 msgid "(No Comment)"
@@ -455,7 +455,7 @@ msgstr "Megjegyzés"
 msgid "Name"
 msgstr "Név"
 
-#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1504
+#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1506
 #, c-format
 msgid "Print %s"
 msgstr "%s nyomtatása"
@@ -646,8 +646,8 @@ msgstr "Át_helyezés"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Mappa másolása nem sikerült: \"%s\": %s"
 
-#: src/commands-impl.c:1347 src/dlg-file-utils.c:2426
-#: src/dlg-file-utils.c:2428
+#: src/commands-impl.c:1347 src/dlg-file-utils.c:2427
+#: src/dlg-file-utils.c:2429
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Mappa áthelyezése nem sikerült: \"%s\": %s"
@@ -707,7 +707,7 @@ msgstr "A súgó megjelenítése nem sikerült: %s"
 msgid "translator_credits"
 msgstr "Tímár András  <timar@gnome.hu>"
 
-#: src/commands-impl.c:2773 src/gthumb-window.c:552 src/gthumb-window.c:4809
+#: src/commands-impl.c:2773 src/gthumb-window.c:552 src/gthumb-window.c:4808
 #: src/main.c:125
 msgid "gThumb"
 msgstr "gThumb"
@@ -825,34 +825,34 @@ msgstr "A kép áthelyezése nem sikerült:"
 msgid "Could not copy the image:"
 msgstr "A kép másolása nem sikerült:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2449
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2450
 msgid "_Abort"
 msgstr "_Megszakítás"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2450
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2451
 msgid "_Continue"
 msgstr "_Folytatás"
 
-#: src/dlg-file-utils.c:1346
+#: src/dlg-file-utils.c:1347
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "%d. / %d kép másolása"
 
-#: src/dlg-file-utils.c:1771 src/dlg-file-utils.c:1998
+#: src/dlg-file-utils.c:1772 src/dlg-file-utils.c:1999
 msgid "Collecting images info"
 msgstr "Képadatok összegyűjtése"
 
-#: src/dlg-file-utils.c:1774 src/dlg-file-utils.c:2011
+#: src/dlg-file-utils.c:1775 src/dlg-file-utils.c:2012
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "%ld. / %ld kép törlése"
 
-#: src/dlg-file-utils.c:2001
+#: src/dlg-file-utils.c:2002
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "%ld. / %ld kép másolása"
 
-#: src/dlg-file-utils.c:2006
+#: src/dlg-file-utils.c:2007
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "%ld. / %ld kép áthelyezése"
@@ -926,19 +926,19 @@ msgstr "Mappa"
 msgid "Select Album Theme"
 msgstr "Albumtéma választása"
 
-#: src/fullscreen.c:781 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:783 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Normál nézet visszaállítása"
 
-#: src/fullscreen.c:799
+#: src/fullscreen.c:801
 msgid "Image Info"
 msgstr "Kép adatai"
 
-#: src/fullscreen.c:817 src/gthumb-window.c:4092
+#: src/fullscreen.c:819 src/gthumb-window.c:4091
 msgid "Back"
 msgstr "Vissza"
 
-#: src/fullscreen.c:835 src/gthumb-ui.xml.h:52
+#: src/fullscreen.c:837 src/gthumb-ui.xml.h:52
 msgid "Forward"
 msgstr "Előre"
 
@@ -1030,7 +1030,7 @@ msgstr "Ka_talógus"
 msgid "Ca_tegories"
 msgstr "Ka_tegóriák"
 
-#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4193
+#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4192
 msgid "Catalogs"
 msgstr "Katalógusok"
 
@@ -1159,7 +1159,7 @@ msgstr "Képek keresése"
 msgid "Fit"
 msgstr "Ablakhoz"
 
-#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4143
+#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4142
 msgid "Folders"
 msgstr "Mappák"
 
@@ -1179,7 +1179,7 @@ msgstr "Ugrás a kezdőmappába"
 msgid "Go to the next visited location"
 msgstr "Ugrás a következő meglátogatott helyre"
 
-#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4111
+#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4110
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
@@ -1573,11 +1573,11 @@ msgstr "Az ablak eszköztárának megjelenítése vagy elrejtése"
 msgid "View previous image"
 msgstr "Az előző kép megtekintése"
 
-#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4199
+#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4198
 msgid "View the catalogs"
 msgstr "A katalógusok megtekintése"
 
-#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4149
+#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4148
 msgid "View the folders"
 msgstr "A mappák megtekintése"
 
@@ -1965,36 +1965,36 @@ msgstr "1 kijelölve (%s)"
 msgid "%d selected (%s)"
 msgstr "%d kijelölve (%s)"
 
-#: src/gthumb-window.c:3166
+#: src/gthumb-window.c:3165
 msgid "Dragged Images"
 msgstr "Behúzott képek"
 
-#: src/gthumb-window.c:3365
+#: src/gthumb-window.c:3364
 msgid "Could not move the items:"
 msgstr "Az elemek áthelyezése nem sikerült:"
 
-#: src/gthumb-window.c:5141
+#: src/gthumb-window.c:5140
 msgid "Image comment"
 msgstr "Megjegyzés a képhez"
 
-#: src/gthumb-window.c:5155
+#: src/gthumb-window.c:5154
 msgid "Image data"
 msgstr "Kép adatai"
 
-#: src/gthumb-window.c:5169
+#: src/gthumb-window.c:5168
 msgid "Image preview"
 msgstr "Előnézeti kép"
 
-#: src/gthumb-window.c:6375
+#: src/gthumb-window.c:6373
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nem sikerült betölteni a mappát: \"%s\": %s\n"
 
-#: src/gthumb-window.c:6644
+#: src/gthumb-window.c:6642
 msgid "The specified catalog does not exist."
 msgstr "A megadott katalógus nem létezik."
 
-#: src/gthumb-window.c:8025
+#: src/gthumb-window.c:8023
 msgid "Wait please..."
 msgstr "Várj..."
 
