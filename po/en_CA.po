@@ -3523,7 +3523,7 @@ msgstr "Could not display help: %s"
 
 #: src/commands-impl.c:2952
 msgid "translator_credits"
-msgstr "translator_credits"
+msgstr "Adam Weinberger <adamw@FreeBSD.org>"
 
 #: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4910
 #: src/main.c:137
