@@ -338,7 +338,7 @@ window_update_statusbar_zoom_info (GThumbWindow *window)
 
 	path = window->image_path;
 
-	if (path == NULL) {
+	if ((path == NULL) || ! ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) && ! window->sidebar_visible)) {
 		if (! GTK_WIDGET_VISIBLE (window->zoom_info_frame))
 			return;
 		bonobo_ui_component_set_prop (window->ui_component, 
@@ -681,7 +681,7 @@ update_image_comment (GThumbWindow *window)
 
 	if (cdata == NULL) {
 		GtkTextIter  iter;
-		const char  *click_here = _("Press 'c' to add a comment");
+		const char  *click_here = _("[Press 'c' to add a comment]");
 		GtkTextIter  start, end;
 		GtkTextTag  *tag;
 
@@ -752,11 +752,11 @@ window_update_infobar (GThumbWindow *window)
 	utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 	escaped_name = g_markup_escape_text (utf8_name, -1);
 
-	text = g_strdup_printf ("%d/%d - <b>%s</b>%s", 
+	text = g_strdup_printf ("%d/%d - <b>%s</b> %s", 
 				current, 
 				images, 
 				escaped_name,
-				window->image_modified ? "*" : "");
+				window->image_modified ? _("[modified]") : "");
 
 	gthumb_info_bar_set_text (GTHUMB_INFO_BAR (window->info_bar), 
 				  text, 
@@ -779,13 +779,13 @@ window_update_title (GThumbWindow *window)
 	g_return_if_fail (window != NULL);
 
 	path = window->image_path;
-	modified = window->image_modified ? "*" : "";
+	modified = window->image_modified ? _("[modified]") : "";
 
 	if (path == NULL) {
 		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (window->dir_list->path != NULL)) {
 
-			info_txt = g_strdup_printf ("%s%s",
+			info_txt = g_strdup_printf ("%s %s",
 						    window->dir_list->path,
 						    modified);
 		} else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
@@ -815,10 +815,10 @@ window_update_title (GThumbWindow *window)
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
 			
-			info_txt = g_strdup_printf ("%s%s - %s", image_name, modified, cat_name);
+			info_txt = g_strdup_printf ("%s %s - %s", image_name, modified, cat_name);
 			g_free (cat_name);
 		} else 
-			info_txt = g_strdup_printf ("%s%s", image_name, modified);
+			info_txt = g_strdup_printf ("%s %s", image_name, modified);
 	}
 
 	info_txt_utf8 = g_locale_to_utf8 (info_txt, -1, NULL, NULL, NULL);
@@ -927,6 +927,7 @@ window_update_sensitivity (GThumbWindow *window)
 	gboolean    is_catalog;
 	gboolean    is_search;
 	gboolean    not_fullscreen;
+	gboolean    image_is_visible;
 
 	sel_not_null = gth_file_view_selection_not_null (window->file_list->view);
 	only_one_is_selected = gth_file_view_only_one_is_selected (window->file_list->view);
@@ -936,6 +937,7 @@ window_update_sensitivity (GThumbWindow *window)
 	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
 	not_fullscreen = ! window->fullscreen;
+	image_is_visible = ! image_is_void && ((window->sidebar_visible && window->image_pane_visible && window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! window->sidebar_visible);
 
 	window_update_go_sensitivity (window);
 
@@ -969,19 +971,21 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Edit_CopyFiles", sel_not_null && not_fullscreen);
 	set_command_sensitive (window, "Edit_MoveFiles", sel_not_null && not_fullscreen);
 
-	set_command_sensitive (window, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Flip", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Mirror", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Desaturate", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Resize", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_ColorBalance", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_HueSaturation", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_BrightnessContrast", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Invert", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Posterize", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_Equalize", ! image_is_void && ! image_is_ani);
-	set_command_sensitive (window, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani);
+	set_command_sensitive (window, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Flip", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Mirror", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Desaturate", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Resize", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_ColorBalance", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_HueSaturation", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_BrightnessContrast", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Invert", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Posterize", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Equalize", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_command_sensitive (window, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
 
 	set_command_sensitive (window, "View_Thumbnails", ! window->setting_file_list);
 
@@ -1253,6 +1257,8 @@ set_list_interrupted_cb (gpointer callback_data)
 				sli_data->list, 
 				window_set_file_list_continue, 
 				sli_data->wsl_data);
+
+	sli_data->window->can_set_file_list = TRUE;
 	
 	g_list_foreach (sli_data->list, (GFunc) g_free, NULL);
 	g_list_free (sli_data->list);
@@ -1267,6 +1273,11 @@ window_set_file_list (GThumbWindow *window,
 		      gpointer      done_func_data)
 {
 	WindowSetListData *data;
+
+	if (! window->can_set_file_list)
+		return;
+
+	window->can_set_file_list = FALSE;
 
 	if (window->slideshow)
 		window_stop_slideshow (window);
@@ -1303,6 +1314,8 @@ window_set_file_list (GThumbWindow *window,
 
 	gth_file_list_set_list (window->file_list, list, 
 				window_set_file_list_continue, data);
+
+	window->can_set_file_list = TRUE;
 }
 
 
@@ -2692,13 +2705,26 @@ size_changed_cb (GtkWidget    *widget,
 
 
 static void
+set_button_active_no_notify (GThumbWindow *window,
+			     GtkWidget    *button,
+			     gboolean      active)
+{
+	g_signal_handlers_block_by_data (button, window);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), active);
+	g_signal_handlers_unblock_by_data (button, window);
+}
+
+
+static void
 show_image_data (GThumbWindow *window)
 {
 	gtk_widget_show (window->preview_widget_data);
 	gtk_widget_show (window->preview_widget_comment);
 	gtk_widget_show (window->preview_widget_data_comment);
+	set_button_active_no_notify (window, window->preview_button_data, TRUE);
 
 	window->image_data_visible = TRUE;
+	set_command_state_without_notifing (window, "View_ShowInfo", TRUE);
 }
 
 
@@ -2706,7 +2732,9 @@ static void
 hide_image_data (GThumbWindow *window)
 {
 	gtk_widget_hide (window->preview_widget_data_comment);
+	set_button_active_no_notify (window, window->preview_button_data, FALSE);
 	window->image_data_visible = FALSE;
+	set_command_state_without_notifing (window, "View_ShowInfo", FALSE);
 }
 
 
@@ -2736,36 +2764,36 @@ change_image_preview_content (GThumbWindow *window)
 		return;
 	}
 
-	if (window->preview_content == PREVIEW_CONTENT_IMAGE) {
+	if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) {
 		gtk_widget_hide (window->preview_widget_image);
 		gtk_widget_show (window->preview_widget_data_comment);
 		gtk_widget_show (window->preview_widget_data);
 		gtk_widget_hide (window->preview_widget_comment);
-		window->preview_content = PREVIEW_CONTENT_DATA;
+		window->preview_content = GTH_PREVIEW_CONTENT_DATA;
 		
-	} else if (window->preview_content == PREVIEW_CONTENT_DATA) {
+	} else if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) {
 		gtk_widget_hide (window->preview_widget_image);
 		gtk_widget_show (window->preview_widget_data_comment);
 		gtk_widget_show (window->preview_widget_comment);
 		gtk_widget_hide (window->preview_widget_data);
-		window->preview_content = PREVIEW_CONTENT_COMMENT;
+		window->preview_content = GTH_PREVIEW_CONTENT_COMMENT;
 		
-	} else if (window->preview_content == PREVIEW_CONTENT_COMMENT) {
+	} else if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) {
 		gtk_widget_hide (window->preview_widget_data_comment);
 		gtk_widget_show (window->preview_widget_image);
-		window->preview_content = PREVIEW_CONTENT_IMAGE;
+		window->preview_content = GTH_PREVIEW_CONTENT_IMAGE;
 	}
 
 	/**/
 
 	switch (window->preview_content) {
-	case PREVIEW_CONTENT_IMAGE:
+	case GTH_PREVIEW_CONTENT_IMAGE:
 		widget_to_focus = window->viewer;
 		break;
-	case PREVIEW_CONTENT_DATA:
+	case GTH_PREVIEW_CONTENT_DATA:
 		widget_to_focus = window->image_exif_view;
 		break;
-	case PREVIEW_CONTENT_COMMENT:
+	case GTH_PREVIEW_CONTENT_COMMENT:
 		widget_to_focus = window->image_comment;
 		break;
 	}
@@ -2775,18 +2803,31 @@ change_image_preview_content (GThumbWindow *window)
 
 
 static void
+show_image_preview (GThumbWindow *window)
+{
+	window->preview_visible = TRUE;
+	window_show_image_pane (window);
+}
+
+
+static void
+hide_image_preview (GThumbWindow *window)
+{
+	window->preview_visible = FALSE;
+	window_hide_image_pane (window);
+}
+
+
+static void
 toggle_image_preview_visibility (GThumbWindow *window)
 {
 	if (! window->sidebar_visible) 
 		return;
 
-	if (window->preview_visible) {
-		window->preview_visible = FALSE;
-		window_hide_image_pane (window);
-	} else {
-		window->preview_visible = TRUE;
-		window_show_image_pane (window);
-	}
+	if (window->preview_visible) 
+		hide_image_preview (window);
+	 else 
+		show_image_preview (window);
 }
 
 
@@ -2841,7 +2882,6 @@ key_press_cb (GtkWidget   *widget,
 
 		/* Change image pane content. */
 	case GDK_i:
-	case GDK_a: /* FIXME */
 		toggle_image_data_visibility (window);
 		return TRUE;
 
@@ -2857,7 +2897,8 @@ key_press_cb (GtkWidget   *widget,
 		/* Full screen view. */
 	case GDK_v:
 	case GDK_F11:
-		fullscreen_start (fullscreen, window);
+		if (! image_viewer_is_void (IMAGE_VIEWER (window->viewer)))
+			fullscreen_start (fullscreen, window);
 		return TRUE;
 
 		/* View/hide thumbnails. */
@@ -3192,14 +3233,14 @@ image_focus_changed_cb (GtkWidget     *widget,
 
 	viewer_visible  = ((window->sidebar_visible 
 			    && window->preview_visible 
-			    && (window->preview_content == PREVIEW_CONTENT_IMAGE))
+			    && (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE))
 			   || ! window->sidebar_visible);
 	data_visible    = (window->sidebar_visible 
 			   && window->preview_visible 
-			   && (window->preview_content == PREVIEW_CONTENT_DATA));
+			   && (window->preview_content == GTH_PREVIEW_CONTENT_DATA));
 	comment_visible = (window->sidebar_visible 
 			   && window->preview_visible 
-			   && (window->preview_content == PREVIEW_CONTENT_COMMENT));
+			   && (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT));
 
 	if (viewer_visible)
 		gthumb_info_bar_set_focused (GTHUMB_INFO_BAR (window->info_bar),
@@ -3402,19 +3443,20 @@ info_bar_clicked_cb (GtkWidget      *widget,
 		     GdkEventButton *event,
 		     GThumbWindow   *window)
 {
-	GtkWidget *widget_to_focus = NULL;
+	GtkWidget *widget_to_focus = window->viewer;
 
-	switch (window->preview_content) {
-	case PREVIEW_CONTENT_IMAGE:
-		widget_to_focus = window->viewer;
-		break;
-	case PREVIEW_CONTENT_DATA:
-		widget_to_focus = window->image_exif_view;
-		break;
-	case PREVIEW_CONTENT_COMMENT:
-		widget_to_focus = window->image_comment;
-		break;
-	}
+	if (window->sidebar_visible)
+		switch (window->preview_content) {
+		case GTH_PREVIEW_CONTENT_IMAGE:
+			widget_to_focus = window->viewer;
+			break;
+		case GTH_PREVIEW_CONTENT_DATA:
+			widget_to_focus = window->image_exif_view;
+			break;
+		case GTH_PREVIEW_CONTENT_COMMENT:
+			widget_to_focus = window->image_comment;
+			break;
+		}
 
 	gtk_widget_grab_focus (widget_to_focus);
 
@@ -4296,6 +4338,9 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	set_command_state_without_notifing (window, "View_ShowFolders", FALSE);
 	set_command_state_without_notifing (window, "View_ShowCatalogs", FALSE);
 
+	set_command_state_without_notifing (window, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW));
+	set_command_state_without_notifing (window, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA));
+
 	/* Sort type item. */
 
 	switch (window->file_list->sort_method) {
@@ -4663,9 +4708,9 @@ pref_view_as_changed (GConfClient *client,
 }
 
 
-static void
-set_preview_content (GThumbWindow   *window,
-		     PreviewContent  content)
+void
+window_set_preview_content (GThumbWindow      *window,
+			    GthPreviewContent  content)
 {
 	window->preview_content = content;
 
@@ -4674,45 +4719,71 @@ set_preview_content (GThumbWindow   *window,
 	gtk_widget_hide (window->preview_widget_comment);
 	gtk_widget_hide (window->preview_widget_data_comment);
 
-	if (window->preview_content == PREVIEW_CONTENT_IMAGE)
+	set_button_active_no_notify (window, window->preview_button_image, FALSE);
+	set_button_active_no_notify (window, window->preview_button_data, FALSE);
+	set_button_active_no_notify (window, window->preview_button_comment, FALSE);
+
+	if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) {
 		gtk_widget_show (window->preview_widget_image);
+		set_button_active_no_notify (window, window->preview_button_image, TRUE);
 
-	if (window->preview_content == PREVIEW_CONTENT_DATA) {
+	} else if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) {
 		gtk_widget_show (window->preview_widget_data);
-		gtk_widget_show(window->preview_widget_data_comment);
-	}
+		gtk_widget_show (window->preview_widget_data_comment);
+		set_button_active_no_notify (window, window->preview_button_data, TRUE);
 
-	if (window->preview_content == PREVIEW_CONTENT_COMMENT) {
+	} else if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) {
 		gtk_widget_show (window->preview_widget_comment);
-		gtk_widget_show(window->preview_widget_data_comment);
+		gtk_widget_show (window->preview_widget_data_comment);
+		set_button_active_no_notify (window, window->preview_button_comment, TRUE);
+	}
+
+	window_update_statusbar_zoom_info (window);
+	window_update_sensitivity (window);
+}
+
+
+static void
+preview_image_button_cb (GtkToggleButton *button,
+			 GThumbWindow    *window)
+{
+	if (! gtk_toggle_button_get_active (button)) {
+		if (window->preview_content == GTH_PREVIEW_CONTENT_IMAGE) 
+			hide_image_preview (window);
+	} else
+		window_set_preview_content (window, GTH_PREVIEW_CONTENT_IMAGE);
+}
+
+
+static void
+preview_data_button_cb (GtkToggleButton *button,
+			GThumbWindow    *window)
+{
+	if (window->sidebar_visible) {
+		if (! gtk_toggle_button_get_active (button)) {
+			if (window->preview_content == GTH_PREVIEW_CONTENT_DATA) 
+				hide_image_preview (window);
+			return;
+		} else
+			window_set_preview_content (window, GTH_PREVIEW_CONTENT_DATA);
+	} else {
+		if (gtk_toggle_button_get_active (button))
+			show_image_data (window);
+		else
+			hide_image_data (window);
 	}
 }
 
 
 static void
-preview_image_button_cb (GtkWidget    *widget,
-			 GThumbWindow *window)
+preview_comment_button_cb (GtkToggleButton *button,
+			   GThumbWindow    *window)
 {
-	set_preview_content (window, PREVIEW_CONTENT_IMAGE);
-}
-
-
-static void
-preview_data_button_cb (GtkWidget    *widget,
-			GThumbWindow *window)
-{
-	if (window->sidebar_visible)
-		set_preview_content (window, PREVIEW_CONTENT_DATA);
-	else
-		toggle_image_data_visibility (window);
-}
-
-
-static void
-preview_comment_button_cb (GtkWidget    *widget,
-			   GThumbWindow *window)
-{
-	set_preview_content (window, PREVIEW_CONTENT_COMMENT);
+	if (! gtk_toggle_button_get_active (button)) {
+		if (window->preview_content == GTH_PREVIEW_CONTENT_COMMENT) 
+			hide_image_preview (window);
+	} else
+		window_set_preview_content (window, GTH_PREVIEW_CONTENT_COMMENT);
 }
 
 
@@ -5066,12 +5137,12 @@ window_new (void)
 		GtkWidget *image;
 
 		image = _gtk_image_new_from_inline (preview_comment_16_rgba);
-		window->preview_button_comment = button = gtk_button_new ();
+		window->preview_button_comment = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
 		g_signal_connect (G_OBJECT (button), 
-				  "clicked",
+				  "toggled",
 				  G_CALLBACK (preview_comment_button_cb), 
 				  window);
 		gtk_tooltips_set_tip (window->tooltips,
@@ -5080,12 +5151,12 @@ window_new (void)
 				      NULL);
 
 		image = _gtk_image_new_from_inline (preview_data_16_rgba);
-		window->preview_button_data = button = gtk_button_new ();
+		window->preview_button_data = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
 		g_signal_connect (G_OBJECT (button), 
-				  "clicked",
+				  "toggled",
 				  G_CALLBACK (preview_data_button_cb), 
 				  window);
 		gtk_tooltips_set_tip (window->tooltips,
@@ -5094,12 +5165,12 @@ window_new (void)
 				      NULL);
 
 		image = _gtk_image_new_from_inline (preview_image_16_rgba);
-		window->preview_button_image = button = gtk_button_new ();
+		window->preview_button_image = button = gtk_toggle_button_new ();
 		gtk_container_add (GTK_CONTAINER (button), image);
 		gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 		gthumb_info_bar_add_button (GTHUMB_INFO_BAR (window->info_bar), button, 0);
 		g_signal_connect (G_OBJECT (button), 
-				  "clicked",
+				  "toggled",
 				  G_CALLBACK (preview_image_button_cb), 
 				  window);
 		gtk_tooltips_set_tip (window->tooltips,
@@ -5291,9 +5362,9 @@ window_new (void)
 
 	window->sidebar_content = GTH_SIDEBAR_NO_LIST;
 	window->sidebar_visible = TRUE;
-	window->preview_visible = eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE);
+	window->preview_visible = eel_gconf_get_boolean (PREF_SHOW_PREVIEW);
 	window->image_pane_visible = window->preview_visible;
-	window->image_data_visible = FALSE;
+	window->image_data_visible = eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA);
 	window->catalog_path = NULL;
 	window->image_path = NULL;
 	window->image_mtime = 0;
@@ -5317,7 +5388,9 @@ window_new (void)
 	window->activity_timeout = 0;
 	window->activity_ref = 0;
 	window->setting_file_list = FALSE;
+	window->can_set_file_list = TRUE;
 	window->changing_directory = FALSE;
+	window->can_change_directory = TRUE;
 
 	window->monitor_handle = NULL;
 	window->monitor_enabled = FALSE;
@@ -5387,14 +5460,11 @@ window_new (void)
 
 	gtk_widget_show_all (window->main_pane);
 
-	if (eel_gconf_get_boolean (PREF_UI_IMAGE_PANE_VISIBLE))
+	if (window->preview_visible)
 		window_show_image_pane (window);
 	else 
 		window_hide_image_pane (window);
-
-	window->preview_content = PREVIEW_CONTENT_IMAGE;
-	gtk_widget_show (window->preview_widget_image);
-	gtk_widget_hide (window->preview_widget_data_comment);
+	window_set_preview_content (window, pref_get_preview_content ());
 
 	window_notify_update_toolbar_style (window);
 	window_update_statusbar_image_info (window);
@@ -5653,7 +5723,10 @@ close__step5 (GThumbWindow *window)
 	pref_set_check_type (image_viewer_get_check_type (viewer));
 	pref_set_check_size (image_viewer_get_check_size (viewer));
 
-	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->preview_visible);
+	eel_gconf_set_boolean (PREF_UI_IMAGE_PANE_VISIBLE, window->image_pane_visible);
+	eel_gconf_set_boolean (PREF_SHOW_PREVIEW, window->preview_visible);
+	eel_gconf_set_boolean (PREF_SHOW_IMAGE_DATA, window->image_data_visible);
+	pref_set_preview_content (window->preview_content);
 
 	/* Destroy the main window. */
 
@@ -5861,9 +5934,6 @@ window_hide_sidebar (GThumbWindow *window)
 {
 	char *cname;
 
-	if (! window->sidebar_visible)
-		return;
-
 	window->sidebar_visible = FALSE;
 	window->sidebar_width = gtk_paned_get_position (GTK_PANED (window->main_pane));
 
@@ -5927,12 +5997,11 @@ window_show_sidebar (GThumbWindow *window)
 {
 	char *cname;
 
-	if (window->sidebar_visible)
-		return;
+	if (! window->sidebar_visible)
+		gtk_paned_set_position (GTK_PANED (window->main_pane), 
+					window->sidebar_width); 
 
 	window->sidebar_visible = TRUE;
-	gtk_paned_set_position (GTK_PANED (window->main_pane), 
-				window->sidebar_width); 
 
 	if (window->layout_type < 2)
 		gtk_widget_show (GTK_PANED (window->main_pane)->child1);
@@ -5948,7 +6017,7 @@ window_show_sidebar (GThumbWindow *window)
 
 	/**/
 
-	set_preview_content (window, window->preview_content);
+	window_set_preview_content (window, window->preview_content);
 
 	if (window->preview_visible) 
 		gtk_widget_show (window->image_pane);
@@ -6011,6 +6080,8 @@ window_hide_image_pane (GThumbWindow *window)
 						FALSE,
 						FALSE);
 	}
+
+	window_update_statusbar_zoom_info (window);
 }
 
 
@@ -6030,8 +6101,9 @@ window_show_image_pane (GThumbWindow *window)
 	}
 
 	gtk_widget_show (window->image_pane);
-
 	gtk_widget_grab_focus (window->viewer);
+
+	window_update_statusbar_zoom_info (window);
 }
 
 
@@ -6413,8 +6485,8 @@ go_to_directory__step4 (GoToData *gt_data)
 	char         *dir_path = gt_data->path;
 	char         *path;
 
-	if (window->slideshow)
-		window_stop_slideshow (window);
+	window->setting_file_list = FALSE;
+	window->changing_directory = TRUE;
 
 	/* Select the directory view. */
 
@@ -6437,40 +6509,8 @@ go_to_directory__step4 (GoToData *gt_data)
 
 	g_free (gt_data->path);
 	g_free (gt_data);
-}
 
-
-void
-go_to_directory__step3 (GoToData *gt_data)
-{
-	GThumbWindow *window = gt_data->window;
-
-	window->setting_file_list = FALSE;
-
-	/**/
-
-	window->changing_directory = TRUE;
-
-	if (window->file_list->doing_thumbs)
-		gth_file_list_interrupt_thumbs (window->file_list, 
-						(DoneFunc) go_to_directory__step4,
-						gt_data);
-	else
-		go_to_directory__step4 (gt_data);
-}
-
-
-void
-go_to_directory__step2 (GoToData *gt_data)
-{
-	GThumbWindow *window = gt_data->window;
-
-	if (window->setting_file_list)
-		gth_file_list_interrupt_set_list (window->file_list,
-						  (DoneFunc) go_to_directory__step3,
-						  gt_data);
-	else
-		go_to_directory__step3 (gt_data);
+	window->can_change_directory = TRUE;
 }
 
 
@@ -6480,16 +6520,32 @@ go_to_directory_cb (gpointer data)
 	GoToData     *gt_data = data;
 	GThumbWindow *window = gt_data->window;
 
+	window->can_change_directory = FALSE;
+
 	g_source_remove (window->load_dir_timeout);
 	window->load_dir_timeout = 0;
+
+	if (window->slideshow)
+		window_stop_slideshow (window);
 
 	if (window->changing_directory) {
 		window_stop_activity_mode (window);
 		dir_list_interrupt_change_to (window->dir_list,
-					      (DoneFunc)go_to_directory__step2,
+					      (DoneFunc)go_to_directory__step4,
 					      gt_data);
+
+	} else if (window->setting_file_list) {
+		gth_file_list_interrupt_set_list (window->file_list,
+						  (DoneFunc) go_to_directory__step4,
+						  gt_data);
+
+	} else if (window->file_list->doing_thumbs) {
+		gth_file_list_interrupt_thumbs (window->file_list, 
+						(DoneFunc) go_to_directory__step4,
+						gt_data);
+
 	} else
-		go_to_directory__step2 (gt_data);
+		go_to_directory__step4 (gt_data);
 
 	return FALSE;
 }
@@ -6501,6 +6557,9 @@ real_go_to_directory (GThumbWindow *window,
 		      const char   *dir_path)
 {
 	GoToData *gt_data;
+
+	if (! window->can_change_directory)
+		return;
 
 	gt_data = g_new (GoToData, 1);
 	gt_data->window = window;
@@ -6514,9 +6573,6 @@ real_go_to_directory (GThumbWindow *window,
 	window->load_dir_timeout = g_timeout_add (LOAD_DIR_DELAY,
 						  go_to_directory_cb, 
 						  gt_data);
-
-	/**/
-
 }
 
 
@@ -6526,6 +6582,7 @@ typedef struct {
 } GoToDir_SetListInterruptedData;
 
 
+/* FIXME
 static void
 go_to_dir_set_list_interrupted (gpointer callback_data)
 {
@@ -6538,6 +6595,7 @@ go_to_dir_set_list_interrupted (gpointer callback_data)
 	g_free (data->dir_path);
 	g_free (data);
 }
+*/
 
 
 void
@@ -6545,6 +6603,14 @@ window_go_to_directory (GThumbWindow *window,
 			const char   *dir_path)
 {
 	g_return_if_fail (window != NULL);
+
+	if (! window->can_change_directory)
+		return;
+
+	/* FIXME
+	if (window->setting_file_list && ! window->can_set_file_list) 
+		return;
+	*/
 
 	if (window->slideshow)
 		window_stop_slideshow (window);
@@ -6554,6 +6620,10 @@ window_go_to_directory (GThumbWindow *window,
 		window->monitor_handle = NULL;
 	}
 
+	if (window->setting_file_list) 
+		window_stop_activity_mode (window);
+
+	/* FIXME
 	if (window->setting_file_list) {
 		GoToDir_SetListInterruptedData *sli_data;
 
@@ -6565,6 +6635,7 @@ window_go_to_directory (GThumbWindow *window,
 						  sli_data);
 		return;
 	}
+	*/
 
 	real_go_to_directory (window, dir_path);
 }
@@ -7080,8 +7151,8 @@ window_show_image_prop (GThumbWindow *window)
 
 
 void
-window_image_modified (GThumbWindow *window,
-		       gboolean      modified)
+window_image_set_modified (GThumbWindow *window,
+			   gboolean      modified)
 {
 	window->image_modified = modified;
 	window_update_infobar (window);
@@ -7093,6 +7164,12 @@ window_image_modified (GThumbWindow *window,
 		dlg_image_prop_update (window->image_prop_dlg);
 }
 
+
+gboolean
+window_image_get_modified (GThumbWindow *window)
+{
+	return window->image_modified;
+}
 
 
 /* -- load image -- */
@@ -7197,8 +7274,21 @@ void
 notify_files_added__step2 (gpointer data)
 {
 	GThumbWindow *window = data;
+
 	window_update_statusbar_list_info (window);
 	window_update_infobar (window);
+
+	/* select the current image. FIXME */
+
+	if (window->image_path != NULL) {
+		int pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+		if (pos != -1) {
+			gth_file_view_unselect_all (window->file_list->view);
+			gth_file_view_select_image (window->file_list->view, pos);
+			gth_file_view_set_cursor (window->file_list->view, pos);
+			window_make_current_image_visible (window);
+		}
+	}
 }
 
 
@@ -7912,7 +8002,7 @@ pixbuf_op_done_cb (GthPixbufOp   *pixop,
 
 	if (completed) {
 		image_viewer_set_pixbuf (viewer, window->pixop->dest);
-		window_image_modified (window, TRUE);
+		window_image_set_modified (window, TRUE);
 	}
 
 	g_object_unref (window->pixop);

@@ -673,16 +673,20 @@ image_loader_start (ImageLoader *il)
 /* -- image_loader_stop -- */
 
 
+
 static void
 close_info_cb (GnomeVFSAsyncHandle *handle,
 	       GnomeVFSResult       result,
 	       gpointer             data)
 {
+	/* FIXME */
+
+	/*
 	ImageLoader            *il = data;
 	ImageLoaderPrivateData *priv = il->priv;
-
 	priv->info_handle = NULL;
 	image_loader_stop__final_step (il);
+	*/
 }
 
 
@@ -705,8 +709,9 @@ image_loader_stop_common (ImageLoader *il,
 
 	if (priv->info_handle != NULL) 
 		gnome_vfs_async_close (priv->info_handle, close_info_cb, il);
-	else 
-		image_loader_stop__final_step (il);
+
+	priv->info_handle = NULL;
+	image_loader_stop__final_step (il);
 }
 
 

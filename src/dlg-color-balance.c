@@ -47,6 +47,7 @@ typedef struct {
 	GdkPixbuf    *orig_pixbuf;
 	GdkPixbuf    *new_pixbuf;
 
+	gboolean      original_modified;
 	gboolean      modified;
 
 	GladeXML     *gui;
@@ -128,7 +129,7 @@ ok_cb (GtkWidget  *widget,
 {
 	apply_changes (data, data->image, data->image, FALSE);
 	image_viewer_set_pixbuf (data->viewer, data->image);
-	window_image_modified (data->window, TRUE);
+	window_image_set_modified (data->window, TRUE);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -140,7 +141,7 @@ cancel_cb (GtkWidget  *widget,
 {
 	if (data->modified) {
 		image_viewer_set_pixbuf (data->viewer, data->image);
-		window_image_modified (data->window, FALSE);
+		window_image_set_modified (data->window, data->original_modified);
 	}
 	gtk_widget_destroy (data->dialog);
 }
@@ -238,6 +239,7 @@ dlg_color_balance (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
+	data->original_modified = window_image_get_modified (window);
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 

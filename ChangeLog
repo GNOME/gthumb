@@ -1,9 +1,73 @@
+2003-04-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fullscreen.c (fs_motion_notify_cb): do not show the toolbar
+	if the mouse is moved "slowly".
+
+	* libgthumb/gth-image-list.c (gth_image_list_motion_notify):
+	ignore kinky event->y values (a gtk bug ?).
+
+2003-04-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_update_statusbar_zoom_info): hide
+	the zoom info frame when the image is not visible.
+	(window_update_sensitivity): do not allow to edit the image if the
+	image is not visible.
+
+	* src/gthumb.schemas: 
+	* libgthumb/preferences.h (PREF_SEARCH_RECURSIVE): 
+	* src/dlg-search.c (search_clicked_cb, dlg_search_ui): save the
+	'Include sub-folders' option.
+
+	* src/fullscreen.c (hide_mouse_pointer_cb): do not hide the
+	toolbar if the mouse pointer is over it.
+
+	* libgthumb/gth-image-list.c (gth_image_list_set_image_comment):
+	(gth_image_list_set_image_text): 
+	recalc text/comment size.
+
+	* src/fullscreen.c (fullscreen_stop): restore correct visibility.
+	(image_key_press_cb): keep in sync comment visibility in
+	fullscreen and window mode.
+
+2003-04-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/utf8-fnmatch.c (g_utf8_fnmatch): added a utf8 compatible
+	fnmatch function.
+
+	* src/dlg-search.c (pattern_matched_by_keywords, match_patterns): 
+	use utf8_fnmatch.
+	
+	* src/dlg-rename-series.c (update_list): substitute ! with image
+	size.
+
 2003-04-29  Kang Jeong-Hee  <Keizi@mail.co.kr>
 
 	* src/gthumb-window.c (window_new): #ifdef HAVE_LIBEXIF added.
 
 2003-04-24  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-window.c (window_update_infobar)
+	(window_update_title): use "[modified]" instead of "*"
+	
+	* src/dlg-posterize.c (dlg_posterize): 
+	* src/dlg-color-balance.c (dlg_color_balance): 
+	* src/dlg-hue-saturation.c (dlg_hue_saturation): 
+	* src/dlg-brightness-contrast.c (dlg_brightness_contrast):
+	remember whether the image was modified or not before calling the
+	filter.
+
+	* libgthumb/preferences.h: 
+	* src/gthumb.schemas: added preview state keys.
+	* src/gthumb-window.c (window_new, close__step5): load and save
+	the preview state.
+	(set_button_active_no_notify, preview_image_button_cb) 
+	(preview_data_button_cb, preview_comment_button_cb, window_new):
+	use toggle buttons and keep the buttons state in sync with the
+	preview content.
+	(info_bar_clicked_cb): fix the widget_to_focus logic.
+
+	--
+	
 	* src/gthumb-window.c (set_preview_content) 
 	(preview_image_button_cb, preview_data_button_cb) 
 	(preview_comment_button_cb): added ability to change the preview
@@ -44,6 +108,15 @@
 	* libgthumb/file-utils.c (application_get_command): do not escape
 	the command (bug #109619).
 
+2003-04-06  Paul Duffy <dubhthach@frink.nuigalway.ie>
+
+        * configure.in: Added ga (irish) to ALL_LINGUAS
+
+2003-04-06  Christian Neumair  <chris@gnome-de.org>
+
+	* .cvsignore: Updated.
+	* src/commands-impl.c: UTF-8 escaped Copyright entry in about window.
+
 2003-04-03  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-comment.c (dlg_edit_comment): 
@@ -66,15 +139,6 @@
 
 	* libgthumb/gth-file-list.c (gth_file_list_prev_image) 
 	(gth_file_list_next_image): skip broken images correctly.
-
-2003-04-06  Paul Duffy <dubhthach@frink.nuigalway.ie>
-
-        * configure.in: Added ga (irish) to ALL_LINGUAS
-
-2003-04-06  Christian Neumair  <chris@gnome-de.org>
-
-	* .cvsignore: Updated.
-	* src/commands-impl.c: UTF-8 escaped Copyright entry in about window.
 
 2003-03-28  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 

@@ -553,9 +553,8 @@
 	</submenu>
 	<submenu name="Image" _label="_Image">
 		<menuitem name="AlterImage_Resize" verb=""/>
-		<menuitem name="AlterImage_Rotate" verb=""/>
-		<menuitem name="AlterImage_Crop" verb=""/>
-		<separator/>
+<!--		<menuitem name="AlterImage_Rotate" verb=""/> -->
+<!--		<menuitem name="AlterImage_Crop" verb=""/> -->
 		<submenu name="Transform" _label="_Transform">
 			<menuitem name="AlterImage_Rotate90" verb=""/>
 			<menuitem name="AlterImage_Rotate90CC" verb=""/>
@@ -566,7 +565,7 @@
 		<menuitem name="AlterImage_ColorBalance" verb=""/>
 		<menuitem name="AlterImage_HueSaturation" verb=""/>
 		<menuitem name="AlterImage_BrightnessContrast" verb=""/>
-		<menuitem name="AlterImage_Threshold" verb=""/>
+<!--		<menuitem name="AlterImage_Threshold" verb=""/> -->
 		<menuitem name="AlterImage_Posterize" verb=""/>
 		<separator/>
 		<menuitem name="AlterImage_Desaturate" verb=""/>

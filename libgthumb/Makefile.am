@@ -62,7 +62,8 @@ HEADER_FILES =			\
 	search.h		\
 	thumb-cache.h		\
 	thumb-loader.h		\
-	typedefs.h
+	typedefs.h		\
+	utf8-fnmatch.h
 
 MARSHALLERS =			\
 	gthumb-marshal.c	\
@@ -110,7 +111,8 @@ libgthumb_la_SOURCES =		\
 	preferences.c		\
 	search.c		\
 	thumb-cache.c		\
-	thumb-loader.c
+	thumb-loader.c		\
+	utf8-fnmatch.c
 
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)

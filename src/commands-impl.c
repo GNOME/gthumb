@@ -1931,7 +1931,7 @@ alter_image_rotate_command_impl (BonoboUIComponent *uic,
 	image_viewer_set_pixbuf (viewer, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_image_set_modified (window, TRUE);
 }
 
 
@@ -1950,7 +1950,7 @@ alter_image_rotate_cc_command_impl (BonoboUIComponent *uic,
 	image_viewer_set_pixbuf (viewer, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_image_set_modified (window, TRUE);
 }
 
 
@@ -1969,7 +1969,7 @@ alter_image_flip_command_impl (BonoboUIComponent *uic,
 	image_viewer_set_pixbuf (viewer, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_image_set_modified (window, TRUE);
 }
 
 
@@ -1988,7 +1988,7 @@ alter_image_mirror_command_impl (BonoboUIComponent *uic,
 	image_viewer_set_pixbuf (viewer, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
 
-	window_image_modified (window, TRUE);
+	window_image_set_modified (window, TRUE);
 }
 
 

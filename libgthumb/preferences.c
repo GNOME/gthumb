@@ -187,11 +187,18 @@ static EnumStringTable view_as_table [] = {
 	{ 0, NULL }
 };
 
+static EnumStringTable preview_content_table [] = {
+	{ GTH_PREVIEW_CONTENT_IMAGE,     "image" },
+	{ GTH_PREVIEW_CONTENT_DATA,      "data" },
+	{ GTH_PREVIEW_CONTENT_COMMENT,   "comment" },
+	{ 0, NULL }
+};
+
 /* --------------- */
 
 
 void 
-preferences_init ()
+preferences_init (void)
 {
 	GConfClient *client;
 	char        *click_policy;
@@ -216,7 +223,7 @@ preferences_init ()
 
 
 void
-preferences_release ()
+preferences_release (void)
 {
 	if (preferences.bookmarks) {
 		bookmarks_write_to_disk (preferences.bookmarks);
@@ -314,7 +321,7 @@ pref_util_remove_prefix (const char *location)
 
 
 GthClickPolicy
-pref_get_real_click_policy ()
+pref_get_real_click_policy (void)
 {
 	if (pref_get_click_policy () == GTH_CLICK_POLICY_FOLLOW_NAUTILUS)
 		return preferences.nautilus_click_policy;
@@ -414,7 +421,7 @@ pref_util_get_int_value (const char *hex)
 
 #define GET_SET_FUNC(func_name, pref_name, type) 			\
 type									\
-pref_get_##func_name ()							\
+pref_get_##func_name (void)						\
 {									\
 	char *s_value;							\
 	char  i_value;							\
@@ -454,6 +461,7 @@ GET_SET_FUNC(convert_overwrite_mode, PREF_CONVERT_OVERWRITE,   GthOverwriteMode)
 GET_SET_FUNC(rename_sort_order,      PREF_RENAME_SERIES_SORT,  GthSortMethod)
 GET_SET_FUNC(web_album_sort_order,   PREF_WEB_ALBUM_SORT,      GthSortMethod)
 GET_SET_FUNC(view_as,                PREF_VIEW_AS,             GthViewAs)
+GET_SET_FUNC(preview_content,        PREF_PREVIEW_CONTENT,     GthPreviewContent)
 
 
 GthViewMode

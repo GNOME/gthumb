@@ -24,6 +24,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "gthumb-window.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
@@ -298,6 +299,8 @@ update_list (DialogData *data)
 		char     *name2;
 		char     *image_date;
 		char     *name3;
+		char     *image_size;
+		char     *name4;
 		char     *extension;
 		char     *new_name;
 
@@ -306,15 +309,21 @@ update_list (DialogData *data)
 		name2       = _g_substitute (name1, '*', name_wo_ext);
 		image_date  = get_image_date (fdata->path);
 		name3       = _g_substitute (name2, '?', image_date);
+		image_size  = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
+		name4       = _g_substitute (name3, '!', image_size);
+
 		extension   = strrchr (fdata->name, '.');
-		new_name    = g_strconcat (name3, extension, NULL);
+		new_name    = g_strconcat (name4, extension, NULL);
 
 		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
 
 		g_free (name_wo_ext);
+		g_free (image_date);
+		g_free (image_size);
 		g_free (name1);
 		g_free (name2);
 		g_free (name3);
+		g_free (name4);
 	}
 	data->new_names_list = g_list_reverse (data->new_names_list);
 	g_strfreev (template);

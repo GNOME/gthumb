@@ -159,6 +159,12 @@ typedef enum { /*< skip >*/
 } GthFrameStyle;
 
 
+typedef enum { /*< skip >*/
+	GTH_PREVIEW_CONTENT_IMAGE,
+	GTH_PREVIEW_CONTENT_DATA,
+	GTH_PREVIEW_CONTENT_COMMENT,
+} GthPreviewContent;
+
 typedef void (*ErrorFunc)      (gpointer data);
 
 typedef void (*DoneFunc)       (gpointer data);

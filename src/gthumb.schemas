@@ -254,6 +254,45 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_preview</key>
+	<applyto>/apps/gthumb/browser/show_preview</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/preview_content</key>
+	<applyto>/apps/gthumb/browser/preview_content</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>data</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are: image, data, comment.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_image_data</key>
+	<applyto>/apps/gthumb/browser/show_image_data</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Viewer -->
 
       <schema>
@@ -1314,6 +1353,21 @@
 	<owner>gthumb</owner>
 	<type>string</type>
 	<default>Plain</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Search -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/search/recursive</key>
+	<applyto>/apps/gthumb/dialogs/search/recursive</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
 	<locale name="C">
 	  <short></short>
 	  <long> 

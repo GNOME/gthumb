@@ -49,6 +49,9 @@
 #define  PREF_ARRANGE_IMAGES         "/apps/gthumb/browser/arrange_images"
 #define  PREF_SORT_IMAGES            "/apps/gthumb/browser/sort_images"
 #define  PREF_VIEW_AS                "/apps/gthumb/browser/view_as"
+#define  PREF_SHOW_PREVIEW           "/apps/gthumb/browser/show_preview"
+#define  PREF_PREVIEW_CONTENT        "/apps/gthumb/browser/preview_content"
+#define  PREF_SHOW_IMAGE_DATA        "/apps/gthumb/browser/show_image_data"
 
 #define  PREF_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
 #define  PREF_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
@@ -146,6 +149,7 @@
 #define  PREF_WEB_ALBUM_REVERSE       "/apps/gthumb/dialogs/web_album/reverse_order"
 #define  PREF_WEB_ALBUM_TITLE         "/apps/gthumb/dialogs/web_album/title"
 #define  PREF_WEB_ALBUM_THEME         "/apps/gthumb/dialogs/web_album/theme"
+#define  PREF_SEARCH_RECURSIVE        "/apps/gthumb/dialogs/search/recursive"
 
 
 typedef struct {
@@ -166,9 +170,9 @@ typedef struct {
 } Preferences;
 
 
-void            preferences_init                      ();
+void            preferences_init                      (void);
 
-void            preferences_release                   ();
+void            preferences_release                   (void);
 
 const  char    *pref_util_get_file_location           (const char *location);
 
@@ -195,77 +199,81 @@ const char     *pref_util_get_hex_value               (guint16     r,
 
 guint32         pref_util_get_int_value               (const char *hex);
 
-GthClickPolicy  pref_get_real_click_policy            ();
+GthClickPolicy  pref_get_real_click_policy            (void);
 
 /* ------- */
 
-GthClickPolicy     pref_get_click_policy           ();
+GthClickPolicy     pref_get_click_policy           (void);
 
 void               pref_set_click_policy           (GthClickPolicy value);
 
-GthSortMethod      pref_get_arrange_type           ();
+GthSortMethod      pref_get_arrange_type           (void);
 
 void               pref_set_arrange_type           (GthSortMethod value);
 
-GtkSortType        pref_get_sort_order             ();
+GtkSortType        pref_get_sort_order             (void);
 
 void               pref_set_sort_order             (GtkSortType value);
 
-GthZoomQuality     pref_get_zoom_quality           ();
+GthZoomQuality     pref_get_zoom_quality           (void);
 
 void               pref_set_zoom_quality           (GthZoomQuality value);
 
-GthZoomChange      pref_get_zoom_change            ();
+GthZoomChange      pref_get_zoom_change            (void);
 
 void               pref_set_zoom_change            (GthZoomChange value);
 
-GthTranspType      pref_get_transp_type            ();
+GthTranspType      pref_get_transp_type            (void);
 
 void               pref_set_transp_type            (GthTranspType value);
 
-GthCheckType       pref_get_check_type             ();
+GthCheckType       pref_get_check_type             (void);
 
 void               pref_set_check_type             (GthCheckType value);
 
-GthCheckSize       pref_get_check_size             ();
+GthCheckSize       pref_get_check_size             (void);
 
 void               pref_set_check_size             (GthCheckSize value);
 
-GthDirectionType   pref_get_slideshow_direction    ();
+GthDirectionType   pref_get_slideshow_direction    (void);
 
 void               pref_set_slideshow_direction    (GthDirectionType value);
 
-GthToolbarStyle    pref_get_toolbar_style          ();
+GthToolbarStyle    pref_get_toolbar_style          (void);
 
 void               pref_set_toolbar_style          (GthToolbarStyle value);
 
-GthSortMethod      pref_get_exp_arrange_type       ();
+GthSortMethod      pref_get_exp_arrange_type       (void);
 
 void               pref_set_exp_arrange_type       (GthSortMethod value);
 
-GtkSortType        pref_get_exp_sort_order         ();
+GtkSortType        pref_get_exp_sort_order         (void);
 
 void               pref_set_exp_sort_order         (GtkSortType value);
 
-GthFrameStyle      pref_get_exporter_frame_style   ();
+GthFrameStyle      pref_get_exporter_frame_style   (void);
 
 void               pref_set_exporter_frame_style   (GthFrameStyle value);
 
-GthOverwriteMode   pref_get_convert_overwrite_mode ();
+GthOverwriteMode   pref_get_convert_overwrite_mode (void);
 
 void               pref_set_convert_overwrite_mode (GthOverwriteMode value);
 
-GthSortMethod      pref_get_rename_sort_order      ();
+GthSortMethod      pref_get_rename_sort_order      (void);
 
 void               pref_set_rename_sort_order      (GthSortMethod value);
 
-GthSortMethod      pref_get_web_album_sort_order   ();
+GthSortMethod      pref_get_web_album_sort_order   (void);
 
 void               pref_set_web_album_sort_order   (GthSortMethod value);
 
 GthViewAs          pref_get_view_as                (void);
 
 void               pref_set_view_as                (GthViewAs value);
+
+void               pref_set_preview_content        (GthPreviewContent value);
+
+GthPreviewContent  pref_get_preview_content        (void);
 
 GthViewMode        pref_get_view_mode              (void);
 

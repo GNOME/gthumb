@@ -312,7 +312,7 @@
 			      <child>
 				<widget class="GtkEventBox" id="eventbox1">
 				  <property name="visible">True</property>
-				  <property name="tooltip" translatable="yes">Use #'s to specify positions used by numeric enumerator. Use * to insert original filename. Use ? to insert image date.</property>
+				  <property name="tooltip" translatable="yes">Use #'s to specify positions used by numeric enumerator. Use * to insert the original filename. Use ? to insert the image date. Use ! to insert the image size</property>
 
 				  <child>
 				    <widget class="GtkImage" id="image45">

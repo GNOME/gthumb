@@ -21,6 +21,7 @@
  */
 
 #include <string.h>
+#include <math.h>
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkbindings.h>
@@ -58,6 +59,8 @@
 
 #define COLOR_WHITE 0x00ffffff
 #define CHECK_SIZE 50
+
+#define MAX_DIFF 1024.0
 
 #define STRING_IS_VOID(s) ((s == NULL) || (*s == 0))
 #define IMAGE_LINE_HEIGHT(gil, il) \
@@ -352,13 +355,13 @@ struct _GthImageListPrivate {
 
 	guint             timer_tag; 	       /* Timeout ID for 
 						* autoscrolling */
-	int               value_diff;          /* Change the adjustment value 
+	double            value_diff;          /* Change the adjustment value 
 						* by this 
 						* amount when autoscrolling */
 
-	int               event_last_x;        /* Mouse position for 
+	double            event_last_x;        /* Mouse position for 
 						* autoscrolling */
-	int               event_last_y;
+	double            event_last_y;
 
 	int               sel_start_x;         /* The point where the mouse 
 						* selection started. */
@@ -2541,17 +2544,19 @@ autoscroll_cb (gpointer data)
 {
 	GthImageList        *image_list = data;
 	GthImageListPrivate *priv = image_list->priv;
-	int                  value;
+	double               max_value;
+	double               value;
 
 	GDK_THREADS_ENTER ();
 
+	max_value = priv->vadjustment->upper - priv->vadjustment->page_size;
 	value = priv->vadjustment->value + priv->value_diff;
-	if (value > priv->vadjustment->upper - priv->vadjustment->page_size)
-		value = priv->vadjustment->upper - priv->vadjustment->page_size;
+
+	if (value > max_value)
+		value = max_value;
+
 	gtk_adjustment_set_value (priv->vadjustment, value);
-
 	priv->event_last_y = priv->event_last_y + priv->value_diff;
-
 	update_mouse_selection (image_list, priv->event_last_x,	priv->event_last_y);
 
 	GDK_THREADS_LEAVE();
@@ -2607,7 +2612,10 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 	}
 	
 	if (priv->selecting) {
-		int absolute_y;
+		double absolute_y;
+
+		if (fabs (event->y - priv->vadjustment->value) > MAX_DIFF)
+			event->y = priv->vadjustment->upper;
 
 		update_mouse_selection (image_list, event->x, event->y);
 
@@ -2615,7 +2623,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 		 * scrolling */
 
 		absolute_y = event->y - priv->vadjustment->value;
-		if (absolute_y < 0 || absolute_y > widget->allocation.height) {
+		if ((absolute_y < 0) || (absolute_y > widget->allocation.height)) {
 			priv->event_last_x = event->x;
 			priv->event_last_y = event->y;
 			
@@ -3752,6 +3760,9 @@ gth_image_list_set_image_text (GthImageList  *image_list,
 	if (label != NULL)
 		item->label = g_strdup (label);
 
+	item->label_area.width = -1;
+	item->label_area.height = -1;
+
 	if (image_list->priv->frozen) {
 		image_list->priv->dirty = TRUE;
 		return;
@@ -3779,6 +3790,8 @@ gth_image_list_set_image_comment (GthImageList  *image_list,
 	item->comment = NULL;
 	if (comment != NULL)
 		item->comment = truncate_comment_if_needed (image_list, comment);
+	item->comment_area.width = -1;
+	item->comment_area.height = -1;
 
 	if (image_list->priv->frozen) {
 		image_list->priv->dirty = TRUE;

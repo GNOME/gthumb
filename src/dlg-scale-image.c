@@ -126,7 +126,7 @@ ok_cb (GtkWidget  *widget,
 	g_object_unref (orig_pixbuf);
 	g_object_unref (new_pixbuf);
 
-	window_image_modified (data->window, TRUE);
+	window_image_set_modified (data->window, TRUE);
 
 	gtk_widget_destroy (data->dialog);
 }

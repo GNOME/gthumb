@@ -241,7 +241,6 @@ gth_file_list_init (GthFileList *file_list)
 {
 	GtkAdjustment  *adj;
 	GtkWidget      *scrolled_window;
-	GthViewMode     view_mode;
 
 	/* set the default values. */
 
@@ -427,11 +426,15 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 	GetFileInfoData *gfi_data = callback_data;
 	GthFileList     *file_list = gfi_data->file_list;
 	GList           *scan;
-	DoneFunc         done_func;
 
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
 	if (file_list->interrupt_set_list) {
+		DoneFunc done_func;
+
+		g_print ("[1]\n");
+
+		file_list->interrupt_set_list = FALSE;
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
@@ -470,11 +473,17 @@ set_list__step2 (GetFileInfoData *gfi_data)
 	GthFileList         *file_list = gfi_data->file_list;
 
 	if (file_list->interrupt_set_list) {
+		DoneFunc done_func;
+
+		g_print ("[2]\n");
+
 		g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
-		if (file_list->interrupt_done_func != NULL)
-			(*file_list->interrupt_done_func) (file_list->interrupt_done_data);
+		file_list->interrupt_set_list = FALSE;
+		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
+		if (done_func != NULL)
+			(*done_func) (file_list->interrupt_done_data);
 		get_file_info_data_free (gfi_data);
 		return;
 	}
@@ -549,6 +558,14 @@ gth_file_list_interrupt_set_list (GthFileList *file_list,
 {
 	g_return_if_fail (file_list != NULL);
 
+	g_print ("[0]\n");
+
+	if (file_list->interrupt_set_list) {
+		if (done_func != NULL)
+			(*done_func) (done_data);
+		return;
+	}
+
 	file_list->interrupt_set_list = TRUE;
 	file_list->interrupt_done_func = done_func;
 	file_list->interrupt_done_data = done_data;
@@ -564,7 +581,6 @@ add_list_in_chunks (gpointer callback_data)
 	GetFileInfoData *gfi_data = callback_data;
 	GthFileList     *file_list = gfi_data->file_list;
 	GList           *scan, *chunk;
-	DoneFunc         done_func;
 	int              i, n = ADD_LIST_CHUNK;
 
 	if (gfi_data->timeout_id != 0) {
@@ -573,8 +589,13 @@ add_list_in_chunks (gpointer callback_data)
 	}
 
 	if (file_list->interrupt_set_list) {
+		DoneFunc  done_func;
+
+		g_print ("[3]\n");
+
 		file_list->enable_thumbs = gfi_data->enable_thumbs;
 
+		file_list->interrupt_set_list = FALSE;
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
@@ -586,6 +607,8 @@ add_list_in_chunks (gpointer callback_data)
 	}
 
 	if (gfi_data->filtered == NULL) {
+		DoneFunc  done_func;
+
 		file_list->enable_thumbs = gfi_data->enable_thumbs;
 
 		if ((file_list->list != NULL) && file_list->enable_thumbs) { 
@@ -655,11 +678,14 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 				 gpointer callback_data)
 {
 	GetFileInfoData *gfi_data = callback_data;
-	GthFileList        *file_list = gfi_data->file_list;
+	GthFileList     *file_list = gfi_data->file_list;
 	GList           *scan;
-	DoneFunc         done_func;
 
 	if (file_list->interrupt_set_list) {
+		DoneFunc done_func;
+	
+		g_print ("[4]\n");
+
 		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
@@ -700,9 +726,14 @@ add_list__step2 (GetFileInfoData *gfi_data)
 	GthFileList            *file_list = gfi_data->file_list;
 
 	if (file_list->interrupt_set_list) {
-		if (file_list->interrupt_done_func != NULL)
-			(*file_list->interrupt_done_func) (file_list->interrupt_done_data);
+		DoneFunc done_func;
+
+		g_print ("[5]\n");
+
+		done_func = file_list->interrupt_done_func;
 		file_list->interrupt_done_func = NULL;
+		if (done_func != NULL)
+			(*done_func) (file_list->interrupt_done_data);
 		get_file_info_data_free (gfi_data);
 		return;
 	}
@@ -911,10 +942,13 @@ static void gth_file_list_thumb_cleanup (GthFileList *file_list);
 static void
 interrupt_thumbs__part2 (GthFileList *file_list)
 {
-	DoneFunc done_func = file_list->interrupt_done_func;
+	DoneFunc done_func;
 
 	gth_file_list_thumb_cleanup (file_list);
+
+	done_func = file_list->interrupt_done_func;
 	file_list->interrupt_done_func = NULL;
+
 	if (done_func != NULL)
 		(*done_func) (file_list->interrupt_done_data);
 }
@@ -931,9 +965,9 @@ gth_file_list_interrupt_thumbs (GthFileList *file_list,
 		file_list->interrupt_done_func = done_func;
 		file_list->interrupt_done_data = done_func_data;
 		file_list->doing_thumbs = FALSE;
+
 	} else if (done_func != NULL)
 		(*done_func) (done_func_data);
-		
 }
 
 

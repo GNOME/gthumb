@@ -42,6 +42,7 @@
 #include "gthumb-window.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
+#include "utf8-fnmatch.h"
 
 
 enum {
@@ -194,6 +195,10 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
+	eel_gconf_set_boolean (PREF_SEARCH_RECURSIVE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton)));
+
+	/**/
+
 	g_object_unref (G_OBJECT (data->gui));
 	free_search_criteria_data (data);
 	free_search_results_data (data);
@@ -753,6 +758,8 @@ dlg_search_ui (GThumbWindow *window,
 			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), data->window->dir_list->path);
 		else
 			_gtk_entry_set_locale_text (GTK_ENTRY (data->s_start_from_entry), g_get_home_dir ());
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE));
+
 	} else {
 		Catalog    *catalog;
 		SearchData *search_data;
@@ -920,15 +927,11 @@ dlg_search_ui (GThumbWindow *window,
 /* --------------------------- */
 
 
-#define CASE_INSENSITIVE (1 << 4)
-
-
 static gboolean
 pattern_matched_by_keywords (char  *pattern,
 			     char **keywords)
 {
-	GPatternSpec * pspec;
-	int            match, i;
+	int i;
 
 	if (pattern == NULL)
 		return TRUE;
@@ -936,18 +939,11 @@ pattern_matched_by_keywords (char  *pattern,
 	if ((keywords == NULL) || (keywords[0] == NULL))
 		return FALSE;
 
-	pspec = g_pattern_spec_new (pattern);
+	for (i = 0; keywords[i] != NULL; i++) 
+		if (g_utf8_fnmatch (pattern, keywords[i], FNM_CASEFOLD) == 0)
+			return TRUE;
 
-	match = FALSE;
-	i = 0;
-	while (! match && (keywords[i] != NULL)) {
-		match = g_pattern_match_string (pspec, keywords[i]);
-		i++;
-	}
-
-	g_pattern_spec_free (pspec);
-
-	return match;
+	return FALSE;
 }
 
 
@@ -956,7 +952,6 @@ match_patterns (char       **patterns,
 		const char  *string)
 {
 	int i;
-	int match;
 
 	if (patterns[0] == NULL)
 		return TRUE;
@@ -964,14 +959,12 @@ match_patterns (char       **patterns,
 	if (string == NULL)
 		return FALSE;
 
-	match = FALSE;
-	i = 0;
-	while (! match && (patterns[i] != NULL)) {
-		match = g_pattern_match_simple (patterns[i], string);
-		i++;
-	}
 
-	return match;
+	for (i = 0; patterns[i] != NULL; i++) 
+		if (g_utf8_fnmatch (patterns[i], string, FNM_CASEFOLD) == 0)
+			return TRUE;
+
+	return FALSE;
 }
 
 

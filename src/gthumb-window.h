@@ -55,13 +55,6 @@ typedef enum {
 } MonitorEventType;
 
 
-typedef enum {
-	PREVIEW_CONTENT_IMAGE,
-	PREVIEW_CONTENT_DATA,
-	PREVIEW_CONTENT_COMMENT,
-} PreviewContent;
-
-
 typedef struct {
 	/* layout */
 
@@ -121,7 +114,7 @@ typedef struct {
 	GtkWidget          *preview_button_comment;
 
 	gboolean            preview_visible;
-	PreviewContent      preview_content;
+	GthPreviewContent   preview_content;
 	gboolean            image_data_visible;
 
 	/* bookmarks & history */
@@ -156,7 +149,9 @@ typedef struct {
 						 * is present. */
 	gboolean            image_modified;
 	gboolean            setting_file_list;
+	gboolean            can_set_file_list;
 	gboolean            changing_directory;
+	gboolean            can_change_directory;
 	gboolean            refreshing;         /* true if we are refreshing
 						 * the file list.  Used to 
 						 * handle the refreshing case 
@@ -219,6 +214,9 @@ void            window_hide_image_pane              (GThumbWindow *window);
 
 void            window_show_image_pane              (GThumbWindow *window);
 
+void            window_set_preview_content          (GThumbWindow      *window,
+						     GthPreviewContent  content);
+
 void            window_stop_loading                 (GThumbWindow *window);
 
 void            window_refresh                      (GThumbWindow *window);
@@ -263,8 +261,10 @@ void            window_stop_slideshow               (GThumbWindow *window);
 
 void            window_show_image_prop              (GThumbWindow *window);
 
-void            window_image_modified               (GThumbWindow *window,
+void            window_image_set_modified           (GThumbWindow *window,
 						     gboolean      modified);
+
+gboolean        window_image_get_modified           (GThumbWindow *window);
 
 /* functions used to notify a change. */
 
