@@ -1,3 +1,16 @@
+2004-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (image_is_gif): new function.
+
+	* libgthumb/image-loader.c (load_image_thread): 
+	* libgthumb/thumb-loader.c (thumb_loader): 
+
+	Load the image as an animation only if the image type is gif.
+
+	* libgthumb/jpeg-utils.c (do_load_internal): 
+
+	Fix loading of jpegs with 4 channels.  Bug #159492.
+
 2004-11-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.1 released ] 

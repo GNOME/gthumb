@@ -245,30 +245,28 @@ do_load_internal (const char *path,
 		jpeg_start_decompress (&cinfo);
 
 		pixels = g_malloc (cinfo.output_width *	cinfo.output_height * 3);
-
 		ptr = pixels;
-		if (cinfo.num_components == 1) {
-			/* Allocate extra buffer for grayscale data */
-			buffer = g_malloc (cinfo.output_width);
-			lines[0] = buffer;
-		} else {
-			lines[0] = pixels;
-		}
-	
+
+		buffer = g_malloc (cinfo.output_width * cinfo.num_components);
+		lines[0] = buffer;
 		while (cinfo.output_scanline < cinfo.output_height) {
-			jpeg_read_scanlines (&cinfo, lines, 1);
+			jpeg_read_scanlines (&cinfo,lines, 1);
 		
-			if (cinfo.num_components == 1) {
-				/* Convert grayscale to rgb */
-				for (i = 0; i < cinfo.output_width; i++) {
-					ptr[i*3] = buffer[i];
-					ptr[i*3+1] = buffer[i];
-					ptr[i*3+2] = buffer[i];
-				}
-				ptr += cinfo.output_width * 3;
-			} else {
-				lines[0] += cinfo.output_width * 3;
+			for (i = 0; i < cinfo.output_width; i++) {
+				int ofs = 0;
+				
+				ptr[i*3] = buffer[i*cinfo.num_components];
+
+				if (cinfo.num_components >= 3)
+					ofs++;
+				ptr[i*3+1] = buffer[i*cinfo.num_components+ofs];
+
+				if (cinfo.num_components >= 3)
+					ofs++;
+				ptr[i*3+2] = buffer[i*cinfo.num_components+ofs];
 			}
+			
+			ptr += cinfo.output_width * 3;
 		}
 
 		g_free (buffer);
@@ -289,6 +287,9 @@ do_load_internal (const char *path,
 		*original_height_return = cinfo.image_height;
 
 	if (target_width == 0 || target_height == 0) 
+		return NULL;
+
+	if (pixels == NULL)
 		return NULL;
 
 	return gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, FALSE, 8,

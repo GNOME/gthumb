@@ -1042,19 +1042,23 @@ file_is_image (const gchar *name,
 }
 
 
-gboolean 
-image_is_jpeg (const char *name)
+static gboolean 
+image_is_type (const char *name,
+	       const char *type)
 {
-	const char *result;
+	const char *result = NULL;
 
 	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)) {
 		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
-		char *n2 = g_utf8_strdown (n1, -1);
-		char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-		result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-		g_free (n3);
-		g_free (n2);
-		g_free (n1);
+		if (n1 != NULL) {
+			char *n2 = g_utf8_strdown (n1, -1);
+			char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+			if (n3 != NULL)
+				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+			g_free (n3);
+			g_free (n2);
+			g_free (n1);
+		}
 	} else 
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
 	
@@ -1062,7 +1066,21 @@ image_is_jpeg (const char *name)
 	if (result == NULL)
 		return FALSE;
 
-	return (strcmp (result, "image/jpeg") == 0);
+	return (strcmp (result, type) == 0);
+}
+
+
+gboolean 
+image_is_jpeg (const char *name)
+{
+	return image_is_type (name, "image/jpeg");
+}
+
+
+gboolean 
+image_is_gif (const char *name)
+{
+	return image_is_type (name, "image/gif");
 }
 
 

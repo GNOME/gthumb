@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#define GDK_PIXBUF_ENABLE_BACKEND
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
@@ -30,9 +31,11 @@
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <gdk-pixbuf/gdk-pixbuf-animation.h>
 #include <sys/stat.h>
 #include "image-loader.h"
 #include "gthumb-marshal.h"
+#include "file-utils.h"
 
 
 #define REFRESH_RATE 5
@@ -531,7 +534,7 @@ load_image_thread (void *thread_data)
 {
 	ImageLoader            *il = thread_data;
 	ImageLoaderPrivateData *priv = il->priv;
-	GdkPixbufAnimation     *animation;
+	GdkPixbufAnimation     *animation = NULL;
 	GError                 *error = NULL;
 
 	for (;;) {
@@ -556,13 +559,25 @@ load_image_thread (void *thread_data)
 		g_mutex_lock (priv->yes_or_no);
 
 		G_LOCK (pixbuf_loader_lock);
+
+		animation = NULL;
 		if (path != NULL) {
-			if (priv->loader != NULL)
+			if (priv->loader != NULL) 
 				animation = (*priv->loader) (path, &error, priv->loader_data);
-			else
-				animation = gdk_pixbuf_animation_new_from_file (path, &error);
-		} else 
-			animation = NULL;
+			else {
+				if (image_is_gif (path))
+					animation = gdk_pixbuf_animation_new_from_file (path, &error);
+				else {
+					GdkPixbuf *pixbuf;
+					pixbuf = gdk_pixbuf_new_from_file (path, &error);
+					if (pixbuf != NULL) {
+						animation = gdk_pixbuf_non_anim_new (pixbuf);
+						g_object_unref (pixbuf);
+					}
+				}
+			}
+		} 
+		
 		G_UNLOCK (pixbuf_loader_lock);
 
 		priv->loader_done = TRUE;

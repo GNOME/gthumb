@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#define GDK_PIXBUF_ENABLE_BACKEND
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -30,7 +31,6 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#define GDK_PIXBUF_ENABLE_BACKEND
 #include <gdk-pixbuf/gdk-pixbuf-animation.h>
 
 #include "gthumb-init.h"
@@ -41,6 +41,7 @@
 #include "pixbuf-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "glib-utils.h"
 #include "jpeg-utils.h"
 #include "gthumb-marshal.h"
 
@@ -241,20 +242,32 @@ thumb_loader (const char  *path,
 					     priv->max_w, 
 					     priv->max_h, 
 					     NULL, NULL);
+
 		if (pixbuf != NULL) {
 			animation = gdk_pixbuf_non_anim_new (pixbuf);
 			g_object_unref (pixbuf);
 
 			if (animation == NULL)
-				g_print ("ANIMATION == NULL\n");
+				debug (DEBUG_INFO, "ANIMATION == NULL\n");
 
 		} else
-			g_print ("PIXBUF == NULL\n");
+			debug (DEBUG_INFO, "PIXBUF == NULL\n");
 
 	} else
 #endif
-		animation = gdk_pixbuf_animation_new_from_file (path, error);
-
+		{
+			if (image_is_gif (path))
+				animation = gdk_pixbuf_animation_new_from_file (path, error);
+			else {
+				GdkPixbuf *pixbuf;
+				pixbuf = gdk_pixbuf_new_from_file (path, error);
+				if (pixbuf != NULL) {
+					animation = gdk_pixbuf_non_anim_new (pixbuf);
+					g_object_unref (pixbuf);
+				}
+			}
+		}
+	
 	return animation;
 }
 
