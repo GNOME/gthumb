@@ -1359,7 +1359,7 @@ export__copy_to_destination__step2 (GnomeVFSResult  result,
 	debug (DEBUG_INFO, "result: %s", gnome_vfs_result_to_string (result));
 
 	if (result != GNOME_VFS_OK) 
-		_gtk_error_dialog_run (ce->window, 
+		_gtk_error_dialog_run (GTK_WINDOW (ce->window->app), 
 				       gnome_vfs_result_to_string (result));
 
 	dlg_folder_delete (ce->window,
