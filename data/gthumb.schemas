@@ -1893,6 +1893,11 @@
 	  <long>Mulige verdier er: forward, backward, random.</long>
 	</locale>
 
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: forward, backward, random</long>
+	</locale>
+
 	<locale name="pt">
 	  
 	  <long>Valores possíveis são: forward, backward, random.</long>
@@ -4590,6 +4595,11 @@
 	<locale name="no">
 	  
 	  <long>Mulige verdier er: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="pl">
+	  
+	  <long>Możliwymi wartościami są: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="pt">

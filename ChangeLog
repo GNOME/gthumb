@@ -1,3 +1,7 @@
+2004-04-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.3.3 released ]
+
 2004-04-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (path_is_dir): remove the warning.

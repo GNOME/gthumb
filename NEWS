@@ -1,6 +1,7 @@
 version 2.3.3
 -------------
 	* Fixed bug #138979: DnD for non-Latin1 filenames fails.
+	* Fixed comment saving in folders with spacial characters.
 	* Recognize .JPG or .JPEG files as images.
 	* Added zoom buttons to the fullscreen toolbar.
 	* Updated the manual.
