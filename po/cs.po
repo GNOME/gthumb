@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-07-21 12:33+0200\n"
-"PO-Revision-Date: 2003-07-21 22:57+0200\n"
+"POT-Creation-Date: 2003-07-28 20:29+0200\n"
+"PO-Revision-Date: 2003-07-28 22:40+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -172,12 +172,12 @@ msgstr "_Bílá"
 msgid "_Zoom Quality"
 msgstr "Kvalita _zvětšení"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:517
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:662
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
-#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:414
+#: src/dlg-image-prop.c:656 src/fullscreen.c:218 src/gthumb-window.c:415
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
@@ -227,7 +227,7 @@ msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
 #: libgthumb/comments.c:749 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:225 src/gthumb-window.c:411
+#: src/fullscreen.c:225 src/gthumb-window.c:412
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
@@ -356,7 +356,7 @@ msgid "Comment"
 msgstr "Komentář"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
-#: src/dlg-image-prop.c:836 src/gthumb-window.c:429
+#: src/dlg-image-prop.c:836 src/gthumb-window.c:430
 msgid "Name"
 msgstr "Název"
 
@@ -369,11 +369,11 @@ msgstr "Tisk %s"
 msgid "Print Image"
 msgstr "Tisknout obrázek"
 
-#: libgthumb/thumb-cache.c:486
+#: libgthumb/thumb-cache.c:489
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 
-#: libgthumb/thumb-cache.c:488
+#: libgthumb/thumb-cache.c:491
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
@@ -427,7 +427,9 @@ msgstr "_Přejmenovat"
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
-msgstr "Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím jiný název."
+msgstr ""
+"Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím jiný "
+"název."
 
 #: src/commands-impl.c:319 src/dlg-convert.c:313
 msgid "_Overwrite"
@@ -528,7 +530,7 @@ msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
 
-#: src/commands-impl.c:1219 src/dlg-file-utils.c:274
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:419
 msgid "_Move"
 msgstr "_Přesunout"
 
@@ -537,8 +539,8 @@ msgstr "_Přesunout"
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Nelze kopírovat adresář \"%s\": %s"
 
-#: src/commands-impl.c:1340 src/dlg-file-utils.c:2297
-#: src/dlg-file-utils.c:2299
+#: src/commands-impl.c:1340 src/dlg-file-utils.c:2453
+#: src/dlg-file-utils.c:2455
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Nelze přesunout adresář \"%s\": %s"
@@ -551,7 +553,7 @@ msgstr "zdroj obsahuje cíl"
 msgid "a folder with that name is already present."
 msgstr "adresář s tímto názvem již existuje."
 
-#: src/commands-impl.c:1453 src/dlg-file-utils.c:360 src/dlg-file-utils.c:449
+#: src/commands-impl.c:1453 src/dlg-file-utils.c:505 src/dlg-file-utils.c:594
 msgid "Choose the destination folder"
 msgstr "Vyberte cílový adresář"
 
@@ -597,8 +599,7 @@ msgstr "Nelze zobrazit nápovědu: %s"
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2812 src/gthumb-window.c:812 src/gthumb-window.c:4880
-#: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:49
+#: src/commands-impl.c:2812 src/gthumb-window.c:813 src/gthumb-window.c:4881
 #: src/main.c:124
 msgid "gThumb"
 msgstr "gThumb"
@@ -620,7 +621,9 @@ msgstr "Zadejte název nové kategorie"
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr "Název \"%s\" není platný, protože obsahuje znak \",\". Použijte prosím jiný název."
+msgstr ""
+"Název \"%s\" není platný, protože obsahuje znak \",\". Použijte prosím jiný "
+"název."
 
 #: src/dlg-categories.c:212
 #, c-format
@@ -685,72 +688,76 @@ msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři 
 msgid "Could not delete the images:"
 msgstr "Nelze odstranit obrázky:"
 
-#: src/dlg-file-utils.c:220
+#: src/dlg-file-utils.c:362
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
-#: src/dlg-file-utils.c:751 src/dlg-file-utils.c:852
+#: src/dlg-file-utils.c:365
+msgid "_Do not display this message again"
+msgstr "_Příště tuto zprávu nezobrazovat"
+
+#: src/dlg-file-utils.c:896 src/dlg-file-utils.c:997
 msgid "You didn't enter the new name"
 msgstr "Nezadali jste nový název"
 
-#: src/dlg-file-utils.c:763 src/dlg-file-utils.c:864
+#: src/dlg-file-utils.c:908 src/dlg-file-utils.c:1009
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
-#: src/dlg-file-utils.c:1003
+#: src/dlg-file-utils.c:1148
 msgid "Could not rename the image:"
 msgstr "Nelze přejmenovat obrázek:"
 
-#: src/dlg-file-utils.c:1005
+#: src/dlg-file-utils.c:1150
 msgid "Could not rename the following images:"
 msgstr "Nelze přejmenovat následující obrázky:"
 
-#: src/dlg-file-utils.c:1138
+#: src/dlg-file-utils.c:1283
 msgid "Could not move the image:"
 msgstr "Nelze přesunout obrázek:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1285
 msgid "Could not copy the image:"
 msgstr "Nelze kopírovat obrázek:"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2320
+#: src/dlg-file-utils.c:1309 src/dlg-file-utils.c:2476
 msgid "_Abort"
 msgstr "Přer_ušit"
 
-#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2321
+#: src/dlg-file-utils.c:1310 src/dlg-file-utils.c:2477
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: src/dlg-file-utils.c:1337
+#: src/dlg-file-utils.c:1483
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopíruji %d. soubor ze %d"
 
-#: src/dlg-file-utils.c:1720 src/dlg-file-utils.c:1906
+#: src/dlg-file-utils.c:1870 src/dlg-file-utils.c:2060
 msgid "Collecting images info"
 msgstr "Zjišťuji informace o obrázcích"
 
-#: src/dlg-file-utils.c:1723 src/dlg-file-utils.c:1919
+#: src/dlg-file-utils.c:1873 src/dlg-file-utils.c:2073
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Odstraňuji %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1909
+#: src/dlg-file-utils.c:2063
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopíruji %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1914
+#: src/dlg-file-utils.c:2068
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Přesouvám %ld. soubor ze %ld"
 
-#: src/dlg-image-prop.c:841 src/gthumb-window.c:436
+#: src/dlg-image-prop.c:841 src/gthumb-window.c:437
 msgid "Size"
 msgstr "Velikost"
 
@@ -758,11 +765,11 @@ msgstr "Velikost"
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:851 src/gthumb-window.c:443
+#: src/dlg-image-prop.c:851 src/gthumb-window.c:444
 msgid "Bytes"
 msgstr "Bajtů"
 
-#: src/dlg-image-prop.c:861 src/gthumb-window.c:450
+#: src/dlg-image-prop.c:861 src/gthumb-window.c:451
 msgid "Modified"
 msgstr "Změněn"
 
@@ -770,11 +777,11 @@ msgstr "Změněn"
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5329
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5330
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5339
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5340
 msgid "Value "
 msgstr "Hodnota "
 
@@ -839,7 +846,7 @@ msgstr "Obnovit normální pohled"
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
-#: src/fullscreen.c:818 src/gthumb-window.c:4273
+#: src/fullscreen.c:818 src/gthumb-window.c:4274
 msgid "Back"
 msgstr "Zpět"
 
@@ -1850,68 +1857,68 @@ msgstr "podle _velikosti"
 msgid "by _Time"
 msgstr "podle č_asu"
 
-#: src/gthumb-window.c:692
+#: src/gthumb-window.c:693
 msgid "[Press 'c' to add a comment]"
 msgstr "[Pro přidání komentáře stiskněte 'c']"
 
-#: src/gthumb-window.c:766 src/gthumb-window.c:789
+#: src/gthumb-window.c:767 src/gthumb-window.c:790
 msgid "[modified]"
 msgstr "[změněn]"
 
-#: src/gthumb-window.c:873
+#: src/gthumb-window.c:874
 msgid "No image"
 msgstr "Žádný obrázek"
 
-#: src/gthumb-window.c:875
+#: src/gthumb-window.c:876
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 obrázek (%s)"
 
-#: src/gthumb-window.c:878
+#: src/gthumb-window.c:879
 #, c-format
 msgid "%d images (%s)"
 msgstr "obrázků: %d (%s)"
 
-#: src/gthumb-window.c:885
+#: src/gthumb-window.c:886
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 vybraný (%s)"
 
-#: src/gthumb-window.c:888
+#: src/gthumb-window.c:889
 #, c-format
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:3379
+#: src/gthumb-window.c:3380
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3575
+#: src/gthumb-window.c:3576
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:5210
+#: src/gthumb-window.c:5211
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: src/gthumb-window.c:5224
+#: src/gthumb-window.c:5225
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: src/gthumb-window.c:5238
+#: src/gthumb-window.c:5239
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: src/gthumb-window.c:6468
+#: src/gthumb-window.c:6481
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:6737
+#: src/gthumb-window.c:6750
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:8083
+#: src/gthumb-window.c:8120
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -2053,6 +2060,107 @@ msgstr "_Odstranit"
 #: src/gthumb.glade.h:35
 msgid "_Save the new image as:"
 msgstr "_Uložit nový obrázek jako: "
+
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr "Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všechn obrázků."
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Možné hodnoty jsou: 1, 2, 3, 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Možné hodnoty jsou: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Možné hodnoty jsou: ascending, descending."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Možné hodnoty jsou: forward, backward."
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Možné hodnoty jsou: high, low."
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Možné hodnoty jsou: image, data, comment."
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Možné hodnoty jsou: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Možné hodnoty jsou: light, midtone, dark."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Možné hodnoty jsou: list, thumbnails."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Možné hodnoty jsou: mm, in."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: nautilus, single, double."
+msgstr "Možné hodnoty jsou: nautilus, single, double."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Možné hodnoty jsou: none, deflate, jpeg."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Možné hodnoty jsou: none, name, path, size, time."
+
+#: src/gthumb.schemas.in.h:15
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr "Možné hodnoty jsou: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: png, jpeg."
+msgstr "Možné hodnoty jsou: png, jpeg."
+
+#: src/gthumb.schemas.in.h:17
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "Možné hodnoty jsou: skip, rename, ask, overwrite."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: small, medium, large."
+msgstr "Možné hodnoty jsou: small, medium, large."
+
+#: src/gthumb.schemas.in.h:19
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "Možné hodnoty jsou: system, text_below, text_beside, text_only, icons_only."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: white, black, checked, none."
+msgstr "Možné hodnoty jsou: white, black, checked, none."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values: name, path, size, time."
+msgstr "Možné hodnoty: name, path, size, time."
+
+#: src/gthumb.schemas.in.h:22
+msgid "Possible values: name, size, time."
+msgstr "Možné hodnoty: name, size, time."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values: pixels, percentage."
+msgstr "Možné hodnoty: pixels, percentage."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Jestli pokaždé používat černé pozadí."
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -2377,7 +2485,7 @@ msgstr "Šíř_ka:"
 msgid "_Yellow-Blue:"
 msgstr "Žl_utá - modrá:"
 
-#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:51
+#: src/gthumb_edit.glade.h:33 src/gthumb_web_exporter.glade.h:50
 msgid "pixels"
 msgstr "bodů"
 
@@ -2655,11 +2763,11 @@ msgstr "podle velikosti"
 msgid "by time"
 msgstr "podle času"
 
-#: src/gthumb_png_exporter.glade.h:76
+#: src/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: src/gthumb_png_exporter.glade.h:77
+#: src/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
 
@@ -3361,7 +3469,7 @@ msgstr "_Titulek:"
 msgid "by modified time"
 msgstr "podle času změny"
 
-#: src/gthumb_web_exporter.glade.h:50
+#: src/gthumb_web_exporter.glade.h:49
 msgid "index.html"
 msgstr "index.html"
 
