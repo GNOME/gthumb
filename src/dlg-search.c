@@ -889,7 +889,7 @@ file_respects_search_criteria (DialogData *data,
 		match_date = TRUE;
 
 	home_dir = g_get_home_dir ();
-	if (strncmp (home_dir, filename, strlen (home_dir)) == 0)
+	if (path_in_path (home_dir, filename))
 		name_only = filename + strlen (home_dir);
 	else
 		name_only = filename;

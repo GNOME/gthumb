@@ -968,8 +968,10 @@ fullscreen_start (FullScreen   *fullscreen,
 	window->fullscreen = TRUE;
 	fullscreen->related_win = window;
 	fullscreen->viewer = window->viewer;
+
+	/* FIXME
 	fullscreen->msg_save_modified_image = eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE);
-	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, FALSE);
+	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, FALSE);*/
 
 	wmspec_change_state (TRUE,
 			     fullscreen->window->window,
@@ -1067,7 +1069,9 @@ fullscreen_stop (FullScreen *fullscreen)
 	fullscreen->related_win = NULL;
 	comment_visible = FALSE;
 
+	/* FIXME
 	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, fullscreen->msg_save_modified_image);
+	*/
 
 	/* release keyboard focus. */ 
 

@@ -198,7 +198,7 @@
       <varlistentry> <term>Menubar</term>
         <listitem>
           <para>The menus on the menubar contain all of the commands
-          that you can use &gthumb;</para> 
+          that you can use in &gthumb;</para> 
         </listitem>
       </varlistentry>
       <varlistentry> <term>Toolbar</term>
@@ -272,6 +272,8 @@
 	  <para>type the folder name in the location entry.</para>
         </listitem>
       </orderedlist>
+    </para>
+    <para>
       When using the location entry you can press 
       <keycombo><keycap>Ctrl</keycap><keycap>TAB</keycap></keycombo> to
       try to automatically complete the folder name,  this simplify the 
@@ -324,11 +326,11 @@
       Working with Folders
     </title>
     <para>
-      &gthumb; offers the all functionalities to manage folders.
+      &gthumb; offers the functionalities to manage folders.
       <note>
         <title>WARNING</title>
         <para>
-          It's higly suggested to move and copy image folders with
+          It's highly suggested to move and copy image folders with
           &gthumb;.  This is because if you move or copy folders with
           &gthumb; image comments will remain attached to images as
           you expect, but if you move or copy folders with the file
@@ -373,7 +375,7 @@
       <listitem>
         <para>Choose
         <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Open
-        with the _File Manager</guimenuitem></menuchoice>. &gthumb;
+        with the File Manager</guimenuitem></menuchoice>. &gthumb;
         opens the folder with the file manager.
         </para>
       </listitem>
@@ -627,6 +629,49 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guimenuitem>Enhance</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Enhance the image adjusting the color levels.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Resize</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Change the image size performing a zoom in or out.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Crop</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Crop the image.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guisubmenu>Transform</guisubmenu>
 		<guimenuitem>Rotate Right</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -641,6 +686,7 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guisubmenu>Transform</guisubmenu>
 		<guimenuitem>Rotate Left</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -655,6 +701,7 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guisubmenu>Transform</guisubmenu>
 		<guimenuitem>Flip</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -670,6 +717,7 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guisubmenu>Transform</guisubmenu>
 		<guimenuitem>Mirror</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -685,13 +733,27 @@
             <entry>
 	      <para>
 	        <menuchoice>
-		<guimenuitem>Resize</guimenuitem>
+		<guimenuitem>Desaturate</guimenuitem>
 	        </menuchoice>
 	      </para>
 	    </entry>
             <entry>
 	      <para>
-	        Change the image size performing a zoom in or out.
+	        View the image in black and white.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guimenuitem>Negative</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        View the image negative.
 	      </para>
 	    </entry>
 	  </row>
@@ -741,34 +803,6 @@
             <entry>
 	      <para>
 	        <menuchoice>
-		<guimenuitem>Desaturate</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        View the image in black and white.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
-		<guimenuitem>Negative</guimenuitem>
-	        </menuchoice>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>
-	        View the image negative.
-	      </para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
-	        <menuchoice>
 		<guimenuitem>Posterize</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -783,6 +817,7 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guisubmenu>Auto</guisubmenu>
 		<guimenuitem>Equalize Histogram</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -797,17 +832,32 @@
             <entry>
 	      <para>
 	        <menuchoice>
-		<guimenuitem>Adjust Color Levels</guimenuitem>
+		<guisubmenu>Auto</guisubmenu>
+		<guimenuitem>Normalize</guimenuitem>
 	        </menuchoice>
 	      </para>
 	    </entry>
             <entry>
 	      <para>
-	        Enhance the image adjusting color levels.
+	        Automatically normalize the contrast.
 	      </para>
 	    </entry>
 	  </row>
-
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
+		<guisubmenu>Auto</guisubmenu>
+		<guimenuitem>Stretch Contrast</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Automatically stretch the contrast.
+	      </para>
+	    </entry>
+	  </row>
 	</tbody>
       </tgroup>
       </informaltable>
@@ -838,7 +888,7 @@
         </listitem>
         <listitem>
            <para>Modify the image (described in <xref
-           linkend="gthumb-alter-images"/>).  This step is
+           linkend="gthumb-alter-images"/>).  Of course this step is
            optional.</para> 
         </listitem>
         <listitem>
@@ -861,7 +911,7 @@
     </sect2>      
 
   <sect2 id="gthumb-image-open">
-  <title>To Open an Image with Another Program</title>
+  <title>To Open a Series of Images with Another Program</title>
   <para>
     To open a series of images with another program, perform the
     following steps:
@@ -889,7 +939,7 @@
   </sect2>
 
   <sect2 id="gthumb-image-rename">
-  <title>To Rename Images</title>
+  <title>To Rename an Image</title>
   <para>
     To rename an image filename, perform the following steps:
     <orderedlist>
@@ -910,7 +960,7 @@
   </sect2>
 
   <sect2 id="gthumb-image-delete">
-  <title>To Delete Images</title>
+  <title>To Delete a Series of Images</title>
   <para>
     To delete a series of images, perform the
     following steps:
@@ -929,7 +979,7 @@
   </sect2>
 
   <sect2 id="gthumb-image-copy">
-  <title>To Copy Images</title>
+  <title>To Copy a Series of Images</title>
   <para>
     To copy a series of images, perform the following steps:
     <orderedlist>
@@ -957,7 +1007,7 @@
   </sect2>
 
   <sect2 id="gthumb-image-move">
-  <title>To Move Images</title>
+  <title>To Move a Series of Images</title>
   <para>
     To move a series of images, perform the following steps:
     <orderedlist>
@@ -986,29 +1036,37 @@
 
   <!-- ============= Print ================================== -->
   <sect2 id="gthumb-print-images">
-  <title>To Print an Image</title>
+  <title>To Print a Series of Images</title>
   <para>
-    To print an image, perform the following steps:
+    To print a series of images, perform the following steps:
     <orderedlist>
       <listitem>
-        <para>Go to the folder or catalog where the image is.</para>
+        <para>Go to the folder or catalog where the images are.</para>
       </listitem>
       <listitem>
-        <para>Select the image and choose <menuchoice><guimenu>File</guimenu><guimenuitem>Print</guimenuitem></menuchoice>.</para>
+        <para>Select the images and choose <menuchoice><guimenu>File</guimenu><guimenuitem>Print</guimenuitem></menuchoice>.</para>
       </listitem>
       <listitem>
-        <para> From the <guilabel>Print</guilabel> dialog you can
+        <para> In the <guilabel>Print</guilabel> dialog there are two tags:
+        <guilabel>Layout</guilabel> and <guilabel>Paper Details</guilabel>.
+        </para>
+        <para> From the <guilabel>Layout</guilabel> tag you can
         <itemizedlist>
         <listitem>
-          <para>Choose the paper format and orientation from the
-          <guilabel>Paper Details</guilabel> tag.</para>
+          <para>Choose the number of images per page.</para>
         </listitem>
         <listitem>
-          <para>Choose the size of the image.</para>
+          <para>Include the image comment.</para>
         </listitem>
         <listitem>
-          <para>Move the image clicking on it with the left mouse
+          <para>Rotate an image by clicking on it.</para>
+        </listitem>
+        <listitem>
+          <para>Move an image by clicking on it with the left mouse
           button and dragging it.</para>
+        </listitem>
+        <listitem>
+          <para>Resize the image.</para>
         </listitem>
         <listitem>
           <para> Recenter the image on the page using the <guibutton>Center on 
@@ -1016,11 +1074,21 @@
         </listitem>
         </itemizedlist>
         </para>
+        <para> From the <guilabel>Paper Details</guilabel> tag you can
+        <itemizedlist>
+        <listitem>
+          <para>Choose the paper format.</para>
+        </listitem>
+        <listitem>
+          <para>Choose the paper orientation.</para>
+        </listitem>
+        </itemizedlist>
+        </para>
       </listitem>
       <listitem>
         <para>When you are ready to print click on
         <guibutton>Print</guibutton>. &gthumb; prints the
-        image.</para>
+        images.</para>
       </listitem>
     </orderedlist>
     </para>
@@ -1153,6 +1221,95 @@
            <keycap>I</keycap>. &gthumb; displays the image comment.
         </listitem>
      </orderedlist>
+  </para>
+  </sect2>
+  </sect1>
+
+  <!-- ============= Categories ================================== -->
+  <sect1 id="gthumb-categories">
+  <title>Categories</title>
+  <para>
+    Categories are keywords assigned to images and can be used to perform fine 
+    grained searches as described in <xref linkend="gthumb-finding"/>.
+    <note>
+      <title>WARNING</title>
+      <para>Categories are not embedded in image files, they are saved
+      separately.  This means that if you move images or 
+      folders with other programs you will lose the comments.
+      </para>
+    </note>
+    <note>
+      <title>FOR EXPERTS</title>
+      <para>Categories are saved in the folder
+      <filename>$(HOME)/.gnome2/gthumb/comments</filename>. 
+      </para>
+    </note>
+  </para>
+  <sect2 id="gthumb-categories-add">
+  <title>To Assign Categories to a Series of Images</title>
+  <para>
+    To add categories to a series of images, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories
+        </guimenuitem></menuchoice>. &gthumb; shows the
+        <guilabel>Categories</guilabel> dialog.</para>
+      </listitem>
+      <listitem>
+	<para>Check the categories in the <guilabel>Available Categories
+        </guilabel> List.  You can create new categories clicking on the
+        <guilabel>New</guilabel> button, and delete categories from the
+	list clicking on the <guilabel>Remove</guilabel> button. </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; assigns
+        the catories to the images.
+        </para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+  <sect2 id="gthumb-categories-add-to-folder">
+  <title>To Assign Categories to a Folder</title>
+  <para>
+    Instead of assigning categories to single images you can assign them
+    to a folder, this is equivalent to assign the categories to all the images
+    contained in the folder and in all of its sub-folders.
+  </para>
+  <para>
+    To add categories to a folder, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the parent folder in order to visualize the folder name 
+	in the folder list pane, right-click on the folder name and
+	select the <menuchoice><guimenuitem>Categories</guimenuitem>
+        </menuchoice> command; alternatively go to the folder and select
+	the <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu>
+        <guimenuitem>Categories</guimenuitem></menuchoice> commands.  In both
+        cases &gthumb; shows the <guilabel>Categories</guilabel> dialog.</para>
+      </listitem>
+      <listitem>
+	<para>Check the categories in the <guilabel>Available Categories
+        </guilabel> List.  You can create new categories clicking on the
+        <guilabel>New</guilabel> button, and delete categories from the
+	list clicking on the <guilabel>Remove</guilabel> button. </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; assigns
+        the catories to the folder.
+        </para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+  <sect2 id="gthumb-categories-remove">
+  <title>To Remove Categories from an Image or a Folder</title>
+  <para>
+    To remove categories from a series of images or a folder perform the 
+    same steps as described above an uncheck the categories you want
+    to remove, the click on <guibutton>Ok</guibutton> to confirm the
+    operation.
   </para>
   </sect2>
   </sect1>
@@ -1803,7 +1960,7 @@
        </para>
     </sect2>
     <sect2 id="gthumb-rotate-jpeg">
-      <title>To Rotate JPEG Images Without Loss of Quality</title>
+      <title>To Rotate Images Without Loss of Quality</title>
       <para>
         Usually if you want to rotate an image you have to open the image with
         an editor, rotate the image and save it.  This works good for
@@ -1814,11 +1971,18 @@
         If you want to rotate JPEG images without losing image quality,
 	select the images you want to rotate and choose 
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
-	JPEG</guimenuitem></menuchoice>.  &gthumb; displays the <guilabel>Rotate
-	JPEG</guilabel> dialog.
+	Images</guimenuitem></menuchoice>.  &gthumb; displays the 
+	<guilabel>Rotate Images</guilabel> dialog.
       </para>
       <para>
-        Click on <guibutton>Save</guibutton> to save the changes.
+        Click on <guibutton>Apply</guibutton> to apply the changes.
+      </para>
+      <para>
+        If you check the <guilabel>Adjust photo orientation</guilabel>
+        option, an attempt is done to read the current orientation from
+        the photo data embedded in the image, if the orientation data is
+	found an automatic rotation is applied to the image in order to
+	visualize the image in the right orientation.
       </para>
       <para>
         If you check the <guilabel>Apply to all images</guilabel>
@@ -1831,8 +1995,16 @@
       <note>
         <title>NOTE</title>
         <para>
+          If you check both the <guilabel>Adjust photo orientation</guilabel>
+	  and the <guilabel>Apply to all images</guilabel> options, all the
+	  images will be rotated by the value in the photo orientation data.
+        </para>
+      </note>
+      <note>
+        <title>NOTE</title>
+        <para>
           If the selection contains some non-JPEG images, they are
-          simply ignored.
+          rotated as well.
         </para>
       </note>
       </para>
@@ -1861,7 +2033,7 @@
 	    same name of the original image except for the extension which is
 	    determined by the new format, an image with the new name
 	    can already exist in the destination folder, this option lets you
-	    decide what to do when such a case occurs.  If use choose
+	    decide what to do when such a case occurs.  If you choose
 	    <guilabel>skip</guilabel> the new image won't be created;
 	    <guilabel>rename</guilabel> will ask you to specify a new name;
 	    <guilabel>ask</guilabel> will ask you whether to overwrite the
@@ -1891,7 +2063,7 @@
       </para>
       <para>
         The name template is simply a name that must be used for all
-        of the images,  furthermore you can use two special characters
+        of the images,  furthermore you can use some special characters
         to make the new names differ each other:
       </para>
         <informaltable frame="all">
@@ -1920,21 +2092,21 @@
             </row>
             <row valign="top">
               <entry>
-                <para><keycap>*</keycap></para></entry>
+                <para><keycap>%f</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
                 original name.</para></entry>
             </row>
             <row valign="top">
               <entry>
-                <para><keycap>?</keycap></para></entry>
+                <para><keycap>%d</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
                 modified date.</para></entry> 
             </row>
             <row valign="top">
               <entry>
-                <para><keycap>!</keycap></para></entry>
+                <para><keycap>%s</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
                 dimesions.</para></entry> 
@@ -1952,8 +2124,8 @@
       <para>
         If the renaming of an image can overwrite an already existing
         image you will be asked how to proceed,  five options are
-        available: overwrite the image, do not overwrite the image,
-        always overwrite, never overwrite, specify a new name. 
+        available: overwrite the image; do not overwrite the image;
+        always overwrite; never overwrite; specify a new name. 
       </para>
     </sect2>
     <sect2 id="gthumb-change-date">
@@ -1985,6 +2157,14 @@
        <para>
          To create a web album, choose
          <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Web Album
+         </guimenuitem></menuchoice>.
+       </para>
+    </sect2>
+    <sect2 id="gthumb-photo">
+      <title>To Import Photos from a Digital Camera</title>
+       <para>
+         To import photos from a digital camera, choose
+         <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
          </guimenuitem></menuchoice>.
        </para>
     </sect2>
@@ -2095,7 +2275,10 @@
 	</listitem>
 	<listitem>
 	  <para>Whether to ask confirmation when an image or a catalog
-	  will be deleted</para>.
+	  will be deleted.</para>
+	</listitem>
+	<listitem>
+	  <para>Whether to ask to save a modified image.</para>
 	</listitem>
       </itemizedlist>
     </sect2>
@@ -2169,17 +2352,6 @@
       <variablelist>
         <!-- ########### --> 
 	<varlistentry>
-	  <term><guilabel>Zoom quality</guilabel></term>
-	  <listitem>
-	    <para>This controls the method used for showing rescaled 
-	    image. Possible choices are high quality (slow on old
-	    machines or when viewing big images) and low
-	    quality (always fast).
-	    </para>
-	  </listitem>
-	</varlistentry>
-        <!-- ########### --> 
-	<varlistentry>
 	  <term><guilabel>After loading an image</guilabel></term>
 	  <listitem>
 	    <para>Controls initial zoom level to use for an
@@ -2198,6 +2370,17 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Zoom quality</guilabel></term>
+	  <listitem>
+	    <para>This controls the method used for showing rescaled 
+	    image. Possible choices are high quality (slow on old
+	    machines or when viewing big images) and low
+	    quality (always fast).
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
 
     </sect2>
@@ -2210,7 +2393,7 @@
 	<menuchoice><guimenu>Tools</guimenu>
 	<guisubmenu>Slide Show</guisubmenu></menuchoice> or by using
 	<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo> 
-	shortcut). The options include direction (forward/backwards),
+	shortcut). The options include direction (forward/backwards/random),
 	and delay between images. You can also specify whether the
 	slide show should wrap around (i.e., after showing the last
 	image start again form the beginning) and automatically switch

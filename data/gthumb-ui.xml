@@ -435,6 +435,7 @@
 		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
 		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
+			<separator/>
 			<menuitem name="EditCurrentDir_Rename" verb=""/>
 			<menuitem name="EditCurrentDir_Delete" verb=""/>
 			<menuitem name="EditCurrentDir_Copy" verb=""/>

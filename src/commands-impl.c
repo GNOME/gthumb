@@ -1407,7 +1407,7 @@ folder_copy__response_cb (GObject *object,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
 
-	} else if (strncmp (old_path, new_path, strlen (old_path)) == 0) {
+	} else if (path_in_path (old_path, new_path)) {
 		char *utf8_path;
 		
 		utf8_path = g_filename_to_utf8 (old_path, -1, NULL, NULL, NULL);

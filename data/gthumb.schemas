@@ -248,6 +248,11 @@
 	  <long>このサイズ (バイト単位) より大きい画像はサムネイル表示されません。全ての画像をサムネイル表示する場合は 0 を指定して下さい。</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Paveikslėlių viršijančių šį dydį (baitais) minivaizdai nebus rodomi. Naudokit 0 jeigu norite matyti visų paveikslėlių minivaizdus.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Van afbeeldingen groter dan dit (in bytes) zal geen voorbeeld worden gemaakt. Kies 0 als je voorbeelden voor alle afbeeldingen wilt laten maken.</long>
@@ -374,6 +379,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="nl">
@@ -517,6 +527,11 @@
 	  <long>쓸 수 있는 값: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, name, path, size, time.</long>
@@ -645,6 +660,11 @@
 	  <long>쓸 수 있는 값: ascending, descending.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: ascending, descending.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: ascending, descending.</long>
@@ -771,6 +791,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: list, thumbnails.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: list, thumbnails.</long>
 	</locale>
 
 	<locale name="nl">
@@ -912,6 +937,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: image, data, comment.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: image, data, comment.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1057,6 +1087,11 @@
 	  <long>쓸 수 있는 값: high, low.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: high, low.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: high, low</long>
@@ -1186,6 +1221,11 @@
 	  <long>쓸 수 있는 값: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: actual_size, fit, keep_prev, fit_if_larger.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1229,6 +1269,11 @@
 	<locale name="uk">
 	  
 	  <long>Можливі значення: actual_size(не масштабувати), fit(масштабувати), keep_prev(попередній масштаб), fit_if_larger(зменшувати великі).</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：实际大小(_Z)、自动适应、保持预览(_P)、如果大于则自动适应(_I)。</long>
 	</locale>
       </schema>
 
@@ -1307,6 +1352,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: white, black, checked, none.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: white, black, checked, none.</long>
 	</locale>
 
 	<locale name="nl">
@@ -1437,6 +1487,11 @@
 	  <long>쓸 수 있는 값: light, midtone, dark.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: light, midtone, dark.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: light, midtone, dark.</long>
@@ -1565,6 +1620,11 @@
 	  <long>쓸 수 있는 값: small, medium, large.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: small, medium, large.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: small, medium, large.</long>
@@ -1688,6 +1748,11 @@
 	  <long>常に背景を黒色にするかどうかを設定します。</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Ar visada naudoti juodą foną.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Of er altijd een zwarte achtergrond moet worden gebruikt.</long>
@@ -1768,6 +1833,11 @@
 	  <long>Possible values are: forward, backward, random.</long>
 	</locale>
 
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: forward, backward, random.</long>
+	</locale>
+
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: forward, backward, random.</long>
@@ -1808,6 +1878,11 @@
 	  <long>쓸 수 있는 값: forward, backward, random.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: forward, backward, random.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: forward, backward, random.</long>
@@ -1833,9 +1908,19 @@
 	  <long>Dozvoljene vrednosti su: forward, backward, random.</long>
 	</locale>
 
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: forward, backward, random.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: forward(прямий), backward(зворотний), random(випадково).</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：前进、后退、随机。</long>
 	</locale>
       </schema>
 
@@ -1955,6 +2040,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: 1, 2, 3, 4.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: 1, 2, 3, 4.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2083,6 +2173,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: system, text_below, text_beside, text_only, icons_only.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2335,6 +2430,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: png, jpeg.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: png, jpeg.</long>
 	</locale>
 
 	<locale name="nl">
@@ -2807,6 +2907,11 @@
 	  <long>쓸 수 있는 값: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: none, simple, simple_with_shadow, shadow, slide,shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -2850,6 +2955,11 @@
 	<locale name="uk">
 	  
 	  <long>Можливі значення: none(без рамки), simple(рамка), simple_with_shadow(рамка з тінню), shadow(лише тінь), slide(слайд), shadow_in(витиснутий), shadow_out(випуклий).</long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：无、普通边框、普通边框带阴影(_W)、阴影、幻灯片、凹陷(_I)、凸起(_O)。</long>
 	</locale>
       </schema>
 
@@ -3053,6 +3163,11 @@
 	  <long>쓸 수 있는 값: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, deflate, jpeg.</long>
@@ -3209,6 +3324,11 @@
 	  <long>쓸 수 있는 값: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: jpeg, png, tga, tiff.</long>
@@ -3335,6 +3455,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3506,6 +3631,11 @@
 	  <long>쓸 수 있는 값: name, size, time.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: name, size, time:</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: name, size, time.</long>
@@ -3652,6 +3782,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: pixels, percentage.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: pixels, percentage.</long>
 	</locale>
 
 	<locale name="nl">
@@ -3912,6 +4047,11 @@
 	<locale name="ko">
 	  
 	  <long>쓸 수 있는 값: name, path, size, time.</long>
+	</locale>
+
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: name, path, size, time.</long>
 	</locale>
 
 	<locale name="nl">
@@ -4176,6 +4316,11 @@
 	  <long>쓸 수 있는 값: mm, in.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: mm, in.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: mm, in.</long>
@@ -4382,6 +4527,11 @@
 	  <long>Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="en_GB">
+	  
+	  <long>Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="es">
 	  
 	  <long>Los valores posibles son: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
@@ -4422,6 +4572,11 @@
 	  <long>쓸 수 있는 값: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="lt">
+	  
+	  <long>Galimos vertės yra: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="nl">
 	  
 	  <long>Mogelijke waarden zijn: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
@@ -4452,9 +4607,19 @@
 	  <long>Dozvoljene vrednosti su: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
+	<locale name="sv">
+	  
+	  <long>Möjliga värden är: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
 	<locale name="uk">
 	  
 	  <long>Можливі значення: none(немає), square(квадрат), image(зображення), display(дисплей), 4x3, 4x6, 5x7, 8x10, </long>
+	</locale>
+
+	<locale name="zh_CN">
+	  
+	  <long>可能的取值是：无、正方、图象、陈列、4x3、4x6、5x7、8x10、自定义。</long>
 	</locale>
       </schema>
 

@@ -1,3 +1,31 @@
+2004-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (image_is_jpeg): added workaround for bug in 
+	gnome_vfs_mime_type_from_name_or_default.
+
+2004-04-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (path_in_path): new function, used to find
+	a path contained in another path.
+
+	* src/dlg-search.c (file_respects_search_criteria): 
+	* src/gthumb-window.c (window_notify_directory_new)
+	(window_notify_directory_delete): 
+	* src/dlg-file-utils.c (folder_copy): 
+	* src/commands-impl.c (folder_copy__response_cb): use the above
+	function.
+
+	* doc/C/gthumb.xml: Updated the manual.
+
+	* data/gthumb-ui.xml: added a separator in the File->Folder menu.
+
+2004-04-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (make_url_list): 
+
+	Fixes bug #138979: DnD for non-Latin1 filenames fails.
+	Patch by Ilya Konstantinov (gnome-bugzilla@future.shiny.co.il)
+
 2004-03-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (save_pixbuf__image_saved_cb): set 
@@ -31,7 +59,7 @@
 	Fixes bug #137860 (New - full screen image info date is not from exif 
 	data).
 
-	* libgthumb/file-utils.c (file_is_image): work around for bug in 
+	* libgthumb/file-utils.c (file_is_image): workaround for bug in 
 	gnome_vfs_mime_type_from_name_or_default.
 
 	Fix bug #136168 (Images with capitalized extensions (.JPG) are not 

@@ -102,12 +102,14 @@ enum {
 
 enum {
 	TARGET_PLAIN,
+	TARGET_PLAIN_UTF8,
 	TARGET_URILIST,
 };
 
 
 static GtkTargetEntry target_table[] = {
 	{ "text/uri-list", 0, TARGET_URILIST },
+	{ "text/plain;charset=UTF-8",    0, TARGET_PLAIN_UTF8 },
 	{ "text/plain",    0, TARGET_PLAIN }
 };
 
@@ -3397,27 +3399,39 @@ make_url_list (GList    *list,
 {
 	GList      *scan;
 	GString    *result;
-	const char *url_sep;
-	const char *prefix;
 
 	if (list == NULL)
 		return NULL;
 
-	switch (target) {
-	case TARGET_PLAIN:
-	case TARGET_URILIST:
-		prefix = "file://";
-		url_sep = "\r\n"; 
-		break;
-	}
-
 	result = g_string_new (NULL);
 	for (scan = list; scan; scan = scan->next) {
-		g_string_append (result, prefix);
-		g_string_append (result, scan->data);
-		g_string_append (result, url_sep);
-	}
+		char *url;
 
+		switch (target) {
+		case TARGET_PLAIN:
+			url = g_locale_from_utf8 (scan->data, -1, NULL, NULL, NULL);
+			if (url == NULL) 
+				continue;
+			g_string_append (result, url);
+			g_free (url);
+			break;
+
+		case TARGET_PLAIN_UTF8:
+			g_string_append (result, scan->data);
+			break;
+			
+		case TARGET_URILIST:
+			url = gnome_vfs_get_uri_from_local_path (scan->data);
+			if (url == NULL) 
+				continue;
+			g_string_append (result, url);
+			g_free (url);
+			break;
+		}
+
+		g_string_append (result, "\r\n");
+	}
+	
 	return result;
 }
 
@@ -3459,19 +3473,10 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 			      gpointer          data)
 {
 	GString *url_list;
-	char    *target;
-	int      target_id;
 
 	debug (DEBUG_INFO, "Gth::FileList::DragDataGet");
 
-	target = gdk_atom_name (selection_data->target);
-	if (strcmp (target, "text/uri-list") == 0)
-		target_id = TARGET_URILIST;
-	else if (strcmp (target, "text/plain") == 0)
-		target_id = TARGET_PLAIN;
-	g_free (target);
-
-	url_list = make_url_list (gth_file_list_drag_data, target_id);
+	url_list = make_url_list (gth_file_list_drag_data, info);
 
 	if (url_list == NULL) 
 		return;
@@ -8090,16 +8095,14 @@ window_notify_directory_delete (GThumbWindow *window,
 			window_go_up (window);
 		else {
 			const char *current = window->catalog_list->path;
-			if (strncmp (current, path, strlen (current)) == 0)
+			if (path_in_path (current, path))
 				/* a sub directory got deleted, refresh. */
 				window_update_catalog_list (window);
 		}
 	}
 
 	if ((window->image_path != NULL) 
-	    && (strncmp (window->image_path, 
-			 path,
-			 strlen (path)) == 0)) {
+	    && (path_in_path (window->image_path, path))) {
 		GList *list;
 		
 		list = g_list_append (NULL, window->image_path);
@@ -8121,7 +8124,7 @@ window_notify_directory_new (GThumbWindow *window,
 
 	} else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
 		const char *current = window->catalog_list->path;
-		if (strncmp (current, path, strlen (current)) == 0)
+		if (path_in_path (current, path))
 			/* a sub directory was created, refresh. */
 			window_update_catalog_list (window);
 	}
@@ -8147,7 +8150,7 @@ window_notify_catalog_rename (GThumbWindow *window,
 	catalog_dir = remove_level_from_path (window->catalog_list->path);
 	viewing_a_catalog = (window->catalog_path != NULL);
 	current_cat_renamed = ((window->catalog_path != NULL) && (strcmp (window->catalog_path, old_path) == 0));
-	renamed_cat_is_in_current_dir = strncmp (catalog_dir, new_path, strlen (catalog_dir)) == 0;
+	renamed_cat_is_in_current_dir = path_in_path (catalog_dir, new_path);
 
 	if (! renamed_cat_is_in_current_dir) {
 		g_free (catalog_dir);
@@ -8190,7 +8193,7 @@ window_notify_catalog_new (GThumbWindow *window,
 
 	viewing_a_catalog = (window->catalog_path != NULL);
 	catalog_dir = remove_level_from_path (window->catalog_list->path);
-	created_cat_is_in_current_dir = strncmp (catalog_dir, path, strlen (catalog_dir)) == 0;
+	created_cat_is_in_current_dir = path_in_path (catalog_dir, path);
 
 	if (! created_cat_is_in_current_dir) {
 		g_free (catalog_dir);
@@ -8231,7 +8234,7 @@ window_notify_catalog_delete (GThumbWindow *window,
 	catalog_dir = remove_level_from_path (window->catalog_list->path);
 	viewing_a_catalog = (window->catalog_path != NULL);
 	current_cat_deleted = ((window->catalog_path != NULL) && (strcmp (window->catalog_path, path) == 0));
-	deleted_cat_is_in_current_dir = strncmp (catalog_dir, path, strlen (catalog_dir)) == 0;
+	deleted_cat_is_in_current_dir = path_in_path (catalog_dir, path);
 
 	if (! deleted_cat_is_in_current_dir) {
 		g_free (catalog_dir);

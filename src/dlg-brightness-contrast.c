@@ -282,7 +282,7 @@ dlg_brightness_contrast (GThumbWindow *window)
 
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->bc_preview_image), 
 				   data->new_pixbuf);
-	
+
 	/* Set widgets data. */
 
 	/* Set the signals handlers. */

@@ -764,6 +764,7 @@ apply_transformation (DialogData *data,
 				       utf8_path);
 		g_free (utf8_path);
 		g_free (dir);
+
 		return;
 	} 
 	g_free (dir);

@@ -965,6 +965,8 @@ size_request (GtkWidget      *widget,
 		widget->requisition.height = gdk_pixbuf_get_height (priv->pixbuf);
 	}
 
+	widget->requisition.width = MAX (widget->requisition.width, PREVIEW_SIZE);
+
 	/* Chain up to default that simply reads current requisition */
 	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
 }

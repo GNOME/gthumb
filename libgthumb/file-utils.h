@@ -85,8 +85,6 @@ gboolean            file_copy                    (const gchar *from,
 gboolean            file_move                    (const gchar *from, 
 						  const gchar *to);
 
-gint                file_in_path                 (const gchar *name);
-
 gboolean            ensure_dir_exists            (const gchar *a_path,
 						  mode_t mode);
 
@@ -100,6 +98,8 @@ gchar *             remove_extension_from_path   (const gchar *path);
 
 gchar *             remove_ending_separator      (const gchar *path);
 
+gboolean            path_in_path                 (const char  *path_src,
+						  const char  *path_dest);
 
 /* Return TRUE on success, it is up to you to free
  * the lists with path_list_free()

@@ -2137,7 +2137,7 @@ folder_copy (GThumbWindow   *window,
 	if (file_op != FILE_OP_DELETE) {
 		if ((src_path == NULL) || (dest_path == NULL))
 			return;
-		if (strncmp (src_path, dest_path, strlen (src_path)) == 0)
+		if (path_in_path (src_path, dest_path))
 			return;
 	}
 

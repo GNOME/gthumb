@@ -909,9 +909,15 @@ image_is_jpeg (const char *name)
 {
 	const char *result;
 
-	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE))
-		result = gnome_vfs_mime_type_from_name_or_default (name, NULL);
-	else 
+	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)) {
+		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
+		char *n2 = g_utf8_strdown (n1, -1);
+		char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+		result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+		g_free (n3);
+		g_free (n2);
+		g_free (n1);
+	} else 
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
 	
 	/* Unknown file type. */
@@ -1038,6 +1044,25 @@ remove_ending_separator (const gchar *path)
 		copy_len--;
 
 	return g_strndup (path, copy_len);
+}
+
+
+/* Check whether the path_src is contained in path_dest */
+gboolean
+path_in_path (const char  *path_src,
+	      const char  *path_dest)
+{
+	int path_src_l, path_dest_l;
+
+	if ((path_src == NULL) || (path_dest == NULL))
+		return FALSE;
+	
+	path_src_l = strlen (path_src);
+	path_dest_l = strlen (path_dest);
+	
+	return ((path_dest_l > path_src_l)
+		&& (strncmp (path_src, path_dest, path_src_l) == 0)
+		&& (path_dest[path_src_l] == '/'));
 }
 
 
