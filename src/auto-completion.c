@@ -334,8 +334,8 @@ ac_window_key_press_cb (GtkWidget   *widget,
 
 	if (event->keyval == GDK_Return) {
 		GtkTreeSelection *selection;
-		GtkTreeIter iter;
-		GtkTreePath *path;
+		GtkTreeIter       iter;
+		GtkTreePath      *path;
 
 		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ac_list_view));
 		if (!gtk_tree_selection_get_selected (selection, NULL, &iter))

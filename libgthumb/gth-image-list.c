@@ -33,6 +33,7 @@
 #include <X11/extensions/Xrender.h>
 #endif
 
+#include "file-data.h"
 #include "glib-utils.h"
 #include "gth-image-list.h"
 #include "gthumb-marshal.h"
@@ -3870,8 +3871,11 @@ gth_image_list_get_selection (GthImageList  *image_list)
 
 	for (scan = image_list->priv->image_list; scan; scan = scan->next) {
 		GthImageListItem *item = scan->data;
-		if (item->selected && (item->data != NULL))
-			list = g_list_prepend (list, item->data);
+		if (item->selected && (item->data != NULL)) {
+			FileData *fdata = item->data;
+			file_data_ref (fdata);
+			list = g_list_prepend (list, fdata);
+		}
 	}
 
 	return g_list_reverse (list);
@@ -3966,13 +3970,16 @@ gth_image_list_get_image_data (GthImageList    *image_list,
 			       int              pos)
 {
 	GthImageListItem *item;
+	FileData         *fdata;
 
 	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), NULL);
 	g_return_val_if_fail ((pos >= 0) && (pos < image_list->priv->images), NULL);
 
 	item = g_list_nth (image_list->priv->image_list, pos)->data;
+	fdata = item->data;
+	file_data_ref (fdata);
 
-	return item->data;
+	return fdata;
 }
 
 

@@ -96,10 +96,7 @@ destroy_cb (GtkWidget  *widget,
 	if (data->loader != NULL)
 		g_object_unref (data->loader);
 
-	if (data->file_list != NULL) {
-		g_list_foreach (data->file_list, (GFunc) file_data_unref, NULL);
-		g_list_free (data->file_list);
-	}
+	file_data_list_free (data->file_list);
 
 	g_strfreev (data->keys);
 	g_strfreev (data->values);	
@@ -435,7 +432,6 @@ dlg_convert (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 
-	g_list_foreach (list, (GFunc) file_data_ref, NULL);
 	data->file_list = list;
 	data->current_image = list;
 

@@ -860,7 +860,7 @@ window_update_statusbar_list_info (GThumbWindow *window)
 		sel_size += fd->size;
 	}
 
-	g_list_free (selection);
+	file_data_list_free (selection);
 
 	size_txt = gnome_vfs_format_file_size_for_display (tot_size);
 	sel_size_txt = gnome_vfs_format_file_size_for_display (sel_size);
@@ -1125,7 +1125,7 @@ window_update_sensitivity (GThumbWindow *window)
 			if (image_is_jpeg (fd->path)) 
 				break;
 		}
-		g_list_free (list);
+		file_data_list_free (list);
 		set_command_sensitive (window, "Tools_JPEGRotate", scan != NULL);
 
 	} else
@@ -3342,7 +3342,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	GThumbWindow *window = extra_data;
 	Catalog      *catalog;
 	char         *catalog_path;
-	char         *catalog_name;
+	char         *catalog_name, *catalog_name_utf8;
 	GList        *list;
 	GList        *scan;
 	GError       *gerror;
@@ -3360,11 +3360,13 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	/* Create a catalog with the Drag&Drop list. */
 
 	catalog = catalog_new ();
-	catalog_name = g_strconcat (_("Dragged Images"),
-				    CATALOG_EXT,
-				    NULL);
+	catalog_name_utf8 = g_strconcat (_("Dragged Images"),
+					 CATALOG_EXT,
+					 NULL);
+	catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
+	g_free (catalog_name_utf8);
 
 	catalog_set_path (catalog, catalog_path);
 

@@ -153,3 +153,12 @@ file_data_unref (FileData *fd)
 	}
 }
 
+
+void
+file_data_list_free (GList *list)
+{
+	if (list != NULL) {
+		g_list_foreach (list, (GFunc) file_data_unref, NULL);
+		g_list_free (list);
+	}
+}

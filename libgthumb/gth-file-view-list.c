@@ -604,9 +604,9 @@ gfv_get_file_list_selection (GthFileView *file_view)
 
 		pos = gtk_tree_path_get_indices (path)[0];
 		fd = gth_file_view_get_image_data (file_view, pos);
-
 		if ((fd != NULL) && (fd->path != NULL))
 			list = g_list_prepend (list, g_strdup (fd->path));
+		file_data_unref (fd);
 	}
 
 	g_list_foreach (sel_rows, (GFunc) gtk_tree_path_free, NULL);
@@ -843,6 +843,7 @@ gfv_get_image_data (GthFileView     *file_view,
 	gtk_tree_model_get (GTK_TREE_MODEL (gfv_list->priv->list_store), &iter,
                             COLUMN_FILE_DATA, &fdata,
                             -1);
+	file_data_ref (fdata);
 
 	return fdata;
 }

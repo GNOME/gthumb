@@ -301,15 +301,17 @@ initialize_data (poptContext pctx)
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
 		char    *catalog_path;
-		char    *catalog_name;
+		char    *catalog_name, *catalog_name_utf8;
 
 		catalog = catalog_new ();
 
-		catalog_name = g_strconcat (_("Command Line"),
-					    CATALOG_EXT,
-					    NULL);
+		catalog_name_utf8 = g_strconcat (_("Command Line"),
+						 CATALOG_EXT,
+						 NULL);
+		catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 		catalog_path = get_catalog_full_path (catalog_name);
 		g_free (catalog_name);
+		g_free (catalog_name_utf8);
 
 		catalog_set_path (catalog, catalog_path);
 		g_free (catalog_path);

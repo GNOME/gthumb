@@ -1,3 +1,10 @@
+2003-05-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (viewer_drag_data_received): 
+	* src/dlg-search.c (view_result_cb): 
+	* src/main.c (initialize_data): translate the catalog name to the
+	locale encoding before saving it.
+
 2003-05-18  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/catalog-web-exporter.c: 

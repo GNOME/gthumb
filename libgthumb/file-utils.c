@@ -689,13 +689,13 @@ set_file_mtime (const gchar *path,
 
 
 gboolean 
-file_copy (const gchar *from, 
-	   const gchar *to)
+file_copy (const char *from, 
+	   const char *to)
 {
 	FILE *fin, *fout;
-	gchar buf[BUF_SIZE];
-	gchar *dest_dir;
-	gint  n;
+	char  buf[BUF_SIZE];
+	char *dest_dir;
+	int   n;
 
 	if (strcmp (from, to) == 0) {
 		g_warning ("cannot copy file %s: source and destination are the same\n", from);

@@ -60,8 +60,6 @@ void         file_data_update            (FileData         *fd);
 
 void         file_data_update_comment    (FileData         *fd);
 
-/*
-void         file_data_free              (FileData         *fd);
-*/
+void         file_data_list_free         (GList            *list);
 
 #endif /* FILE_DATA_H */

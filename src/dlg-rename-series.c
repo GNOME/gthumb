@@ -74,8 +74,7 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	if (data->file_list != NULL) 
-		g_list_free (data->file_list);
+	file_data_list_free (data->file_list); 
 	if (data->new_names_list != NULL) {
 		g_list_foreach (data->new_names_list, (GFunc) g_free, NULL);
 		g_list_free (data->new_names_list);
@@ -294,32 +293,41 @@ update_list (DialogData *data)
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
-		char     *name1;
-		char     *name_wo_ext;
+		char     *name1 = NULL;
 		char     *name2;
-		char     *image_date;
 		char     *name3;
-		char     *image_size;
 		char     *name4;
 		char     *extension;
 		char     *new_name;
 
 		name1       = _g_get_name_from_template (template, start_at++);
-		name_wo_ext = remove_extension_from_path (fdata->name);
-		name2       = _g_substitute (name1, '*', name_wo_ext);
-		image_date  = get_image_date (fdata->path);
-		name3       = _g_substitute (name2, '?', image_date);
-		image_size  = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
-		name4       = _g_substitute (name3, '!', image_size);
 
-		extension   = strrchr (fdata->name, '.');
-		new_name    = g_strconcat (name4, extension, NULL);
+		if (strchr (name1, '*') != NULL) {
+			char *name_wo_ext = remove_extension_from_path (fdata->name);
+			name2 = _g_substitute (name1, '*', name_wo_ext);
+			g_free (name_wo_ext);
+		} else
+			name2 = g_strdup (name1);
+
+		if (strchr (name2, '?') != NULL) {
+			char *image_date  = get_image_date (fdata->path);
+			name3 = _g_substitute (name2, '?', image_date);
+			g_free (image_date);
+		} else
+			name3 = g_strdup (name2);
+
+		if (strchr (name3, '!') != NULL) {
+			char *image_size = gnome_vfs_format_file_size_for_display (get_file_size (fdata->path));
+			name4 = _g_substitute (name3, '!', image_size);
+			g_free (image_size);
+		} else
+			name4 = g_strdup (name3);
+
+		extension = strrchr (fdata->name, '.');
+		new_name = g_strconcat (name4, extension, NULL);
 
 		data->new_names_list = g_list_prepend (data->new_names_list, new_name);
 
-		g_free (name_wo_ext);
-		g_free (image_date);
-		g_free (image_size);
 		g_free (name1);
 		g_free (name2);
 		g_free (name3);

@@ -83,8 +83,7 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	if (data->file_list != NULL) 
-		g_list_free (data->file_list);
+	file_data_list_free (data->file_list);
 	g_object_unref (data->gui);
 	g_free (data);
 }
@@ -675,6 +674,7 @@ dlg_jpegtran (GThumbWindow *window)
 		if (! image_is_jpeg (fd->path)) {
 			list = g_list_remove_link (list, scan);
 			g_list_free (scan);
+			file_data_unref (fd);
 		}
 
 		scan = next;

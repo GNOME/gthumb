@@ -436,14 +436,33 @@ duplicate_file (GThumbWindow *window,
 		comment_copy (old_path, new_path);
 
 	} else {
-		char *utf8_path;
+		char      *utf8_path;
+		char      *msg;
+		GtkWidget *d;
+		int        r;
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not duplicate the image \"%s\": %s"),
+		msg = g_strdup_printf (_("Could not duplicate the image \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
 		g_free (utf8_path);
+
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
+					   GTK_DIALOG_MODAL,
+					   msg,
+					   _("Stop"),
+					   _("Continue"));
+		g_free (msg);
+
+		r = gtk_dialog_run (GTK_DIALOG (d));
+		gtk_widget_destroy (GTK_WIDGET (d));
+
+		if (r != GTK_RESPONSE_YES) {
+			g_free (new_path);
+			g_free (new_name);
+			return;
+		}
+					   
 	}
 
 	g_free (new_name);

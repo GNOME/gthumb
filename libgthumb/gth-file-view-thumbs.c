@@ -368,7 +368,7 @@ gfv_get_file_list_selection (GthFileView *file_view)
 			file_list = g_list_prepend (file_list, 
 						    g_strdup (fd->path));
 	}
-	g_list_free (list);
+	file_data_list_free (list);
 
 	return g_list_reverse (file_list);
 }
@@ -394,7 +394,7 @@ gfv_only_one_is_selected (GthFileView    *file_view)
 	gboolean           ret_val = FALSE;
 
 	ret_val = (sel_list != NULL) && (sel_list->next == NULL);
-	g_list_free (sel_list);
+	file_data_list_free (sel_list);
 
 	return ret_val;
 }
@@ -409,7 +409,7 @@ gfv_selection_not_null (GthFileView    *file_view)
 	gboolean           ret_val;
 
 	ret_val = (sel_list != NULL);
-	g_list_free (sel_list);
+	file_data_list_free (sel_list);
 
 	return ret_val;
 }

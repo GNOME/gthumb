@@ -325,7 +325,7 @@ view_result_cb (GtkWidget  *widget,
 {
 	GThumbWindow *window = data->window;
 	Catalog      *catalog;
-	gchar        *catalog_name, *catalog_path;
+	char         *catalog_name, *catalog_path, *catalog_name_utf8;
 	GList        *scan;
 	GError       *gerror;
 
@@ -334,11 +334,13 @@ view_result_cb (GtkWidget  *widget,
 
 	catalog = catalog_new ();
 
-	catalog_name = g_strconcat (_("Search Result"),
-				    CATALOG_EXT,
-				    NULL);
+	catalog_name_utf8 = g_strconcat (_("Search Result"),
+					 CATALOG_EXT,
+					 NULL);
+	catalog_name = g_locale_from_utf8 (catalog_name_utf8, -1, 0, 0, 0);
 	catalog_path = get_catalog_full_path (catalog_name);
 	g_free (catalog_name);
+	g_free (catalog_name_utf8);
 
 	catalog_set_path (catalog, catalog_path);
 	catalog_set_search_data (catalog, data->search_data);

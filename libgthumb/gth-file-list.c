@@ -119,21 +119,11 @@ load_thumb_done_cb (ThumbLoader *tl,
 
 
 static void
-free_file_data_list (GList *list)
-{
-	GList *scan;
-	for (scan = list; scan; scan = scan->next) 
-		file_data_unref (scan->data);
-	g_list_free (list);
-}
-
-
-static void
 gth_file_list_free_list (GthFileList *file_list)
 {
 	g_return_if_fail (file_list != NULL);
 
-	free_file_data_list (file_list->list);
+	file_data_list_free (file_list->list);
 	file_list->list = NULL;
 }
 
@@ -401,12 +391,7 @@ get_file_info_data_free (GetFileInfoData *data)
 		g_list_free (data->uri_list);
 	}
 
-	if (data->filtered != NULL) {
-		g_list_foreach (data->filtered, 
-				(GFunc) file_data_unref, 
-				NULL);
-		g_list_free (data->filtered);
-	}
+	file_data_list_free (data->filtered);
 
 	g_free (data);
 }
@@ -1048,7 +1033,7 @@ gth_file_list_get_selection_length (GthFileList *file_list)
 
 	sel_list = gth_file_view_get_selection (file_list->view);
 	len = g_list_length (sel_list);
-	g_list_free (sel_list);
+	file_data_list_free (sel_list);
 
 	return len;
 }
@@ -1059,6 +1044,7 @@ gth_file_list_path_from_pos (GthFileList *file_list,
 			     int          pos)
 {
 	FileData *fd;
+	char     *retval = NULL;
 
 	g_return_val_if_fail (file_list != NULL, NULL);
 
@@ -1066,11 +1052,11 @@ gth_file_list_path_from_pos (GthFileList *file_list,
 		return NULL;
 
 	fd = gth_file_view_get_image_data (file_list->view, pos);
-
 	if ((fd != NULL) && (fd->path != NULL))
-		return g_strdup (fd->path);
+		retval = g_strdup (fd->path);
+	file_data_unref (fd);
 
-	return NULL;
+	return retval;
 }
 
 
@@ -1198,8 +1184,11 @@ gth_file_list_next_image (GthFileList *file_list,
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
 
-		if (without_error && fd->error)
+		if (without_error && fd->error) {
+			file_data_unref (fd);
 			continue;
+		}
+		file_data_unref (fd);
 
 		if (only_selected && ! gth_file_view_pos_is_selected (file_list->view, pos))
 			continue;
@@ -1228,8 +1217,11 @@ gth_file_list_prev_image (GthFileList *file_list,
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
 
-		if (without_error && fd->error)
+		if (without_error && fd->error) {
+			file_data_unref (fd);
 			continue;
+		}
+		file_data_unref (fd);
 
 		if (only_selected && ! gth_file_view_pos_is_selected (file_list->view, pos))
 			continue;
@@ -1258,6 +1250,7 @@ delete_pos__step2 (InterruptThumbsData *it_data)
 
 	g_return_if_fail (fd != NULL);
 
+	file_data_unref (fd);
 	file_list->list = g_list_remove (file_list->list, fd);
 	file_data_unref (fd);
 
@@ -1313,6 +1306,7 @@ rename_pos__step2 (InterruptThumbsData *it_data)
 
 	/* Set the new name. */
 	gth_file_view_set_image_text (file_list->view, pos, fd->utf8_name);
+	file_data_unref (fd);
 
 	gth_file_view_sorted (file_list->view,
 			      file_list->sort_method,
@@ -1367,6 +1361,7 @@ update_comment__step2 (InterruptThumbsData *it_data)
 
 	/* Set the new name. */
 	gth_file_view_set_image_comment (file_list->view, pos, fd->comment);
+	file_data_unref (fd);
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
@@ -1528,7 +1523,8 @@ gth_file_list_update_thumb (GthFileList  *file_list,
 
 	file_list->thumb_pos = pos;
 	file_list->thumb_fd = fd;
-	
+	file_data_unref (fd);
+
 	gth_file_list_update_current_thumb (file_list);
 }
 
@@ -1553,10 +1549,10 @@ gth_file_list_update_thumb_list (GthFileList  *file_list,
 			continue;
 
 		fd = gth_file_view_get_image_data (file_list->view, pos);
-
 		file_data_update (fd);
 		fd->error = FALSE;
 		fd->thumb = FALSE;
+		file_data_unref (fd);
 	}
 	
 	file_list->doing_thumbs = TRUE;

@@ -204,7 +204,7 @@ catalog_list_get_path_from_row (CatalogList *cat_list,
 				gint row)
 {
 	GtkTreePath *path;
-	gchar *result;
+	char        *result;
 
 	g_return_val_if_fail (cat_list != NULL, NULL);
 
@@ -244,7 +244,7 @@ gboolean
 catalog_list_is_catalog (CatalogList *cat_list,
 			 GtkTreeIter *iter)
 {
-	gint type;
+	int type;
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 
@@ -260,7 +260,7 @@ gboolean
 catalog_list_is_dir (CatalogList *cat_list,
 		     GtkTreeIter *iter)
 {
-	gint type;
+	int type;
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 
@@ -276,7 +276,7 @@ gboolean
 catalog_list_is_search (CatalogList *cat_list,
 			GtkTreeIter *iter)
 {
-	gint type;
+	int type;
 
 	g_return_val_if_fail (cat_list != NULL, FALSE);
 

@@ -60,12 +60,8 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	if (data->file_list != NULL) {
-		g_list_foreach (data->file_list, (GFunc) file_data_unref, 0);
-		g_list_free (data->file_list);
-	}
-
-	g_object_unref (G_OBJECT (data->gui));
+	file_data_list_free (data->file_list);
+	g_object_unref (data->gui);
 	g_free (data);
 }
 
@@ -180,8 +176,6 @@ dlg_change_date (GThumbWindow *window)
 		g_warning ("No file selected.");
 		return;
 	}
-
-	g_list_foreach (list, (GFunc) file_data_ref, NULL);
 
 	/**/
 
