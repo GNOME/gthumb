@@ -1207,15 +1207,10 @@ typedef struct {
 } WindowSetListData;
 
 
-static void
-window_set_file_list_continue (gpointer callback_data)
+static gboolean
+set_file_list__final_step_cb (gpointer data)
 {
-	WindowSetListData *data = callback_data;
-	GThumbWindow      *window = data->window;
-
-	window_stop_activity_mode (window);
-	window_update_statusbar_list_info (window);
-	window->setting_file_list = FALSE;
+	GThumbWindow *window = data;
 
 	if (StartInFullscreen) {
 		StartInFullscreen = FALSE;
@@ -1232,16 +1227,39 @@ window_set_file_list_continue (gpointer callback_data)
 		window_hide_sidebar (window);
 	}
 
-	if (ViewFirstImage) {
+	if (ImageToDisplay != NULL) {
+		int pos = gth_file_list_pos_from_path (window->file_list, ImageToDisplay);
+		if (pos != -1)
+			gth_file_list_select_image_by_pos (window->file_list, pos);
+		g_free (ImageToDisplay);
+		ImageToDisplay = NULL;
+
+	} else if (ViewFirstImage) {
 		ViewFirstImage = FALSE;
 		window_show_first_image (window, FALSE);
 	}
+
+	return FALSE;
+}
+
+
+static void
+window_set_file_list_continue (gpointer callback_data)
+{
+	WindowSetListData *data = callback_data;
+	GThumbWindow      *window = data->window;
+
+	window_stop_activity_mode (window);
+	window_update_statusbar_list_info (window);
+	window->setting_file_list = FALSE;
 
 	window_update_sensitivity (window);
 		
 	if (data->done_func != NULL)
 		(*data->done_func) (data->done_func_data);
 	g_free (data);
+
+	g_idle_add (set_file_list__final_step_cb, window);
 }
 
 

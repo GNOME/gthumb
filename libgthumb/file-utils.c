@@ -116,6 +116,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 	pli->result = result;
 
 	if (pli->interrupted) {
+		pli->interrupted = FALSE;
 		if (pli->interrupt_func) 
 			pli->interrupt_func (pli->interrupt_data);
 		path_list_data_free (pli);

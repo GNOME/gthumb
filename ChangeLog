@@ -1,3 +1,12 @@
+2003-07-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c (prepare_app): 
+	* src/gthumb-window.c (set_file_list__final_step_cb): do not
+	create the "Command Line" catalog if the user specifies only one
+	image, go to the image folder instead.
+
+	* libgthumb/print-callbacks.c (print_info_unref): check null pointers.
+
 2003-07-09  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* src/gthumb.schemas:

@@ -56,9 +56,11 @@ int                  StartSlideshow;
 int                  ViewFirstImage = FALSE;
 int                  HideSidebar = FALSE;
 gboolean             ExitAll = FALSE;
+char                *ImageToDisplay = NULL;
 
 
 static gboolean        view_comline_catalog = FALSE;
+static gboolean        view_single_image = FALSE;
 static GdkPixbuf      *folder_pixbuf = NULL;
 static GThumbWindow   *first_window = NULL;
 static GnomeIconTheme *icon_theme = NULL;
@@ -279,10 +281,8 @@ initialize_data (poptContext pctx)
 
 		if (path_is_dir (path))
 			is_dir = TRUE;
-
 		else if (path_is_file (path))
 			is_dir = FALSE;
-
 		else {
 			g_free (path);
 			continue;
@@ -297,7 +297,10 @@ initialize_data (poptContext pctx)
 			file_urls[n_file_urls++] = path;
 	}
 
-	if (n_file_urls > 0) {
+	if ((n_file_urls == 1) && (file_urls[0] != NULL)) {
+		view_single_image = TRUE;
+
+	} else if (n_file_urls > 1) {
 		/* Create a catalog with the command line list. */
 		Catalog *catalog;
 		char    *catalog_path;
@@ -366,7 +369,23 @@ prepare_app ()
 			first_window = current_window;
 	}
 
-	if (view_comline_catalog) {
+	if (view_single_image) {
+		char *image_folder;
+
+		ImageToDisplay = g_strdup (file_urls[0]);
+		HideSidebar = TRUE;
+
+		image_folder = remove_level_from_path (ImageToDisplay);
+		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, image_folder);
+		g_free (image_folder);
+
+		current_window = window_new ();
+		gtk_widget_show (current_window->app);
+
+		if (first_window == NULL)
+			first_window = current_window;
+
+	} else if (view_comline_catalog) {
 		char *catalog_uri;
 		char *catalog_path;
 		char *catalog_name;
@@ -379,11 +398,11 @@ prepare_app ()
 		g_free (catalog_path);
 
 		eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, catalog_uri);
-
 		g_free (catalog_uri);
 
 		ViewFirstImage = TRUE;
 		HideSidebar = TRUE;
+
 		current_window = window_new ();
 		gtk_widget_show (current_window->app);
 

@@ -152,8 +152,10 @@ print_info_unref (PrintInfo *pi)
 			g_object_unref (pi->gpj);
 		gnome_print_config_unref (pi->config);
 		g_free (pi->image_path);
-		g_object_unref (pi->pixbuf);
-		g_object_unref (pi->font_comment);
+		if (pi->pixbuf != NULL)
+			g_object_unref (pi->pixbuf);
+		if (pi->font_comment != NULL)
+			g_object_unref (pi->font_comment);
 		g_free (pi->comment);
 		g_free (pi);
 	}
