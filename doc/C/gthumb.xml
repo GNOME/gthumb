@@ -1397,7 +1397,7 @@
       <itemizedlist>
         <listitem>
           <para>
-	    <keycap>#</ketcap> -- This symbol will be replaced with
+	    <keycap>#</keycap> -- This symbol will be replaced with
             the value of a counter that increments itself by 1
 	    passing from one image to another.  If you specify 
 	    this symbols in sequence you'll get leading zeros if the

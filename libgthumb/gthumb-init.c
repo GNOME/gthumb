@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <unistd.h>
 #include <libgnome/libgnome.h>
 
 #include "catalog.h"

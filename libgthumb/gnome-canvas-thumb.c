@@ -141,7 +141,7 @@ gnome_canvas_thumb_class_init (GnomeCanvasThumbClass *class)
                  PROP_PIXBUF,
                  g_param_spec_object ("pixbuf", NULL, NULL,
                                       GDK_TYPE_PIXBUF,
-                                      (G_PARAM_READABLE | G_PARAM_WRITABLE)));
+                                      G_PARAM_WRITABLE));
 	g_object_class_install_property
                 (gobject_class,
                  PROP_X,
@@ -182,7 +182,6 @@ gnome_canvas_thumb_class_init (GnomeCanvasThumbClass *class)
 static void
 gnome_canvas_thumb_init (GnomeCanvasThumb *image)
 {
-	image->pixbuf = NULL;
 	image->x = 0.0;
 	image->y = 0.0;
 	image->width = DEFAULT_WIDTH;
@@ -221,11 +220,6 @@ gnome_canvas_thumb_destroy (GtkObject *object)
 
 	free_pixmap_and_mask (image);
 
-	if (image->pixbuf != NULL) {
-		g_object_unref (G_OBJECT (image->pixbuf));
-		image->pixbuf = NULL;
-	}
-
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
@@ -235,16 +229,13 @@ static void
 render_to_pixmap (GnomeCanvasThumb *image,
 		  GdkPixbuf *pixbuf)
 {
-	if (image->pixbuf != NULL) {
-		g_object_unref (G_OBJECT (image->pixbuf));
-		image->pixbuf = NULL;
-	}
+	GdkPixbuf *tmp;
 
 	image->iwidth = gdk_pixbuf_get_width (pixbuf);
 	image->iheight = gdk_pixbuf_get_height (pixbuf);
 
 	if (gdk_pixbuf_get_has_alpha (pixbuf))
-		image->pixbuf = gdk_pixbuf_composite_color_simple (
+		tmp = gdk_pixbuf_composite_color_simple (
 					   pixbuf, 
 					   image->iwidth,
 					   image->iheight, 
@@ -254,15 +245,17 @@ render_to_pixmap (GnomeCanvasThumb *image,
 					   COLOR_WHITE, 
 					   COLOR_WHITE);
 	else {
-		image->pixbuf = pixbuf;
-		g_object_ref (G_OBJECT (image->pixbuf));
+		tmp = pixbuf;
+		g_object_ref (tmp);
 	}
 	
 	free_pixmap_and_mask (image);
-	gdk_pixbuf_render_pixmap_and_mask (image->pixbuf, 
+	gdk_pixbuf_render_pixmap_and_mask (tmp,
 					   &(image->pixmap), 
 					   &(image->mask), 
 					   112);
+
+	g_object_unref (tmp);
 }
 
 
@@ -287,8 +280,6 @@ gnome_canvas_thumb_set_property (GObject       *object,
         case PROP_PIXBUF:
 		pixbuf = GDK_PIXBUF (g_value_get_object (value));
 		g_return_if_fail (pixbuf != NULL);
-		if (pixbuf == image->pixbuf) 
-			return;
 
 		render_to_pixmap (image, pixbuf);
 
@@ -335,10 +326,6 @@ gnome_canvas_thumb_get_property (GObject       *object,
 	GnomeCanvasThumb *image = (GnomeCanvasThumb*) object;
 
         switch (param_id) {
-        case PROP_PIXBUF:
-                g_value_set_object (value, G_OBJECT (image->pixbuf));
-                break;
-
         case PROP_X:
                 g_value_set_double (value, image->x);
                 break;

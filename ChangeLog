@@ -1,3 +1,15 @@
+2003-01-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.0.0 released ]  
+
+2003-01-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gnome-canvas-thumb.c: 
+	* libgthumb/gnome-canvas-thumb.h: 
+	* libgthumb/image-list.c: 
+	* libgthumb/image-list.h: use only the pixmap and remove the
+	pixbuf field.
+
 2003-01-19  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* libgthumb/catalog-png-exporter.c (catalog_png_exporter_interrupt) 

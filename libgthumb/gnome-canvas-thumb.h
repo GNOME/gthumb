@@ -61,7 +61,6 @@ struct _GnomeCanvasThumb {
 
 	/*< private >*/
 
-	GdkPixbuf *pixbuf;
 	GdkPixmap *pixmap;		/* Pixmap rendered from the image */
 	GdkBitmap *mask;		/* Mask rendered from the image */
 

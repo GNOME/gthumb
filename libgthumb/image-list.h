@@ -232,8 +232,6 @@ void           image_list_set_image_comment   (ImageList *gil,
 					       gint pos,
 					       const gchar *comment);
 
-GdkPixbuf*     image_list_get_image_pixbuf    (ImageList *gil,
-					       gint pos);
 const gchar*   image_list_get_image_text      (ImageList *gil,
 					       gint pos);
 const gchar*   image_list_get_image_comment   (ImageList *gil,

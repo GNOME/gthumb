@@ -4073,21 +4073,6 @@ image_list_set_image_comment (ImageList  *gil,
 }
 
 
-GdkPixbuf*
-image_list_get_image_pixbuf (ImageList *gil,
-			     int        pos)
-{
-	Image *image;
-
-	g_return_val_if_fail (gil != NULL, NULL);
-	g_return_val_if_fail (pos >= 0 && pos < gil->images, NULL);
-	
-	image = g_list_nth (gil->priv->image_list, pos)->data;
-
-	return image->image->pixbuf;
-}
-
-
 const char*
 image_list_get_image_text (ImageList *gil,
 			   int        pos)
