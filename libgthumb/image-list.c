@@ -99,6 +99,14 @@ typedef enum {
 
 #define SELECTION_BORDER 10
 
+#define STRING_IS_VOID(s) ((s == NULL) || (*s == 0))
+#define IMAGE_LINE_HEIGHT(gil, il) \
+ ((il)->image_height \
+  + (((il)->comment_height > 0 || (il)->text_height > 0) ? (gil)->priv->text_spacing : 0) \
+  + (il)->comment_height \
+  + (((il)->comment_height > 0 && (il)->text_height > 0) ? TEXT_COMMENT_SPACE : 0) \
+  + (il)->text_height \
+  + (gil)->priv->row_spacing) 
 
 static guint gil_signals[LAST_SIGNAL] = { 0 };
 static GnomeCanvasClass *parent_class;
@@ -236,18 +244,6 @@ struct _ImageListPrivate {
 };
 
 
-static int
-image_line_height (ImageList *gil, ImageLine *il)
-{
-	return (il->image_height 
-		+ ((il->comment_height > 0 || il->text_height > 0) ? gil->priv->text_spacing : 0)
-		+ il->comment_height
-		+ ((il->comment_height > 0 && il->text_height > 0) ? TEXT_COMMENT_SPACE : 0)
-		+ il->text_height
-		+ gil->priv->row_spacing);
-}
-
-
 static void
 get_text_item_size (GThumbTextItem *text_item, 
 		    int *width, 
@@ -267,13 +263,6 @@ get_text_item_size (GThumbTextItem *text_item,
 }
 
 
-static gboolean
-string_void (const char *s)
-{
-	return (s == NULL) || (*s == 0);
-}
-
-
 static void
 image_get_view_mode (ImageList *gil,
 		     Image *image,
@@ -288,12 +277,12 @@ image_get_view_mode (ImageList *gil,
 	if (gil->priv->view_mode == IMAGE_LIST_VIEW_COMMENTS)
 		*view_text = FALSE;
 	if ((gil->priv->view_mode == IMAGE_LIST_VIEW_COMMENTS_OR_TEXT)
-	    && ! string_void (image->comment->text))
+	    && ! STRING_IS_VOID (image->comment->text))
 		*view_text = FALSE;
 
-	if (string_void (image->comment->text))
+	if (STRING_IS_VOID (image->comment->text))
 		*view_comment = FALSE;
-	if (string_void (image->text->text))
+	if (STRING_IS_VOID (image->text->text))
 		*view_text = FALSE;
 }
 
@@ -596,7 +585,7 @@ gil_layout_from_line (ImageList *gil,
 	height = gil->priv->row_spacing;
 	for (l = gil->priv->lines; l; l = l->next) {
 		ImageLine *il = l->data;
-		height += image_line_height (gil, il);
+		height += IMAGE_LINE_HEIGHT (gil, il);
 	}
 
 	gil_relayout_images_at (gil, 
@@ -650,7 +639,7 @@ gil_scrollbar_adjust (ImageList *gil)
 	for (l = gil->priv->lines; l; l = l->next) {
 		ImageLine *il = l->data;
 
-		height += image_line_height (gil, il);
+		height += IMAGE_LINE_HEIGHT (gil, il);
 
 		if (l == gil->priv->lines)
 			step_increment = height / 3;
@@ -1110,17 +1099,17 @@ selection_many_image_event (ImageList *gil,
 /* Event handler for images in the image list */
 static gint
 image_event (GnomeCanvasItem *item,
-	     GdkEvent *event, 
-	     gpointer data)
+	     GdkEvent        *event, 
+	     gpointer         data)
 {
-	Image *image;
+	Image     *image;
 	ImageList *gil;
-	gint idx;
-	gint on_text;
+	int        idx;
+	int        on_text;
 
 	image = data;
-	gil = IMAGE_LIST (item->canvas);
-	idx = gil_image_to_index (gil, image);
+	gil   = (ImageList*) (item->canvas);
+	idx   = gil_image_to_index (gil, image);
 	g_assert (idx != -1);
 
 	on_text = item == GNOME_CANVAS_ITEM (image->text); 
@@ -1161,7 +1150,7 @@ editing_started (GThumbTextItem *iti,
 		 gpointer data)
 {
 	ImageListPrivate *priv;
-	Image *image;
+	Image            *image;
 
 	image = data;
 	g_signal_handler_block (iti, image->text_event_id);
@@ -1199,13 +1188,13 @@ editing_stopped (GThumbTextItem *iti,
 
 static gboolean
 text_changed (GnomeCanvasItem *item, 
-	      Image *image)
+	      Image           *image)
 {
 	ImageList *gil;
-	gboolean accept;
-	gint idx;
+	gboolean   accept;
+	int        idx;
 
-	gil = IMAGE_LIST (item->canvas);
+	gil = (ImageList*) (item->canvas);
 	accept = TRUE;
 
 	idx = gil_image_to_index (gil, image);
@@ -1225,9 +1214,9 @@ height_changed (GnomeCanvasItem *item,
 		Image *image)
 {
 	ImageList *gil;
-	gint n;
+	int        n;
 
-	gil = IMAGE_LIST (item->canvas);
+	gil = (ImageList*) (item->canvas);
 
 	if (! GTK_WIDGET_REALIZED (gil))
 		return;
@@ -1251,7 +1240,7 @@ width_changed (GnomeCanvasItem *item,
 	ImageList *gil;
 	int old_image_width;
 
-	gil = IMAGE_LIST (item->canvas);
+	gil = (ImageList*) (item->canvas);
 
 	if (! GTK_WIDGET_REALIZED (gil))
 		return FALSE;
@@ -1315,8 +1304,8 @@ image_new_from_pixbuf (ImageList *gil,
 	double             width, height;
 	char              *c;
 
-	canvas = GNOME_CANVAS (gil);
-	group = GNOME_CANVAS_GROUP (canvas->root);
+	canvas = (GnomeCanvas*) gil;
+	group  = (GnomeCanvasGroup*) (canvas->root);
 
 	image = g_new0 (Image, 1);
 
@@ -1508,7 +1497,7 @@ image_list_insert (ImageList *gil,
 {
 	Image *image;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pixbuf != NULL);
 
 	image = image_new_from_pixbuf (gil, pixbuf, text, comment);
@@ -1534,7 +1523,7 @@ image_list_append (ImageList  *gil,
 {
 	Image *image;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), -1);
+	g_return_val_if_fail (gil != NULL, -1);
 	g_return_val_if_fail (pixbuf != NULL, -1);
 
 	image = image_new_from_pixbuf (gil, pixbuf, text, comment);
@@ -1586,7 +1575,7 @@ image_list_remove (ImageList *gil, gint pos)
 	Image * image;
 	int     was_selected;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pos >= 0 && pos < gil->images);
 
 	was_selected = FALSE;
@@ -1667,7 +1656,7 @@ image_list_clear (ImageList *gil)
 {
 	GList *l;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 
 	for (l = gil->priv->image_list; l; l = l->next)
 		image_destroy (l->data);
@@ -2156,7 +2145,7 @@ get_page_distance_image (ImageList *gil,
 		int        line_height;
 
 		image_line = (ImageLine *) line->data;
-		line_height = image_line_height (gil, image_line);
+		line_height = IMAGE_LINE_HEIGHT (gil, image_line);
 		h -= line_height;
 
 		if (h > 0) {
@@ -2691,7 +2680,7 @@ gil_motion_notify (GtkWidget      *widget,
 	gint           absolute_y;
 	GtkAdjustment *adj;
 
-	gil = IMAGE_LIST (widget);
+	gil = (ImageList*) widget;
 
 	if (! gil->priv->selecting && ! gil->priv->dragging)
 		return (* GTK_WIDGET_CLASS (parent_class)->motion_notify_event) (widget, event);
@@ -2886,7 +2875,7 @@ gil_set_scroll_adjustments (GtkLayout *layout,
 			    GtkAdjustment *hadjustment,
 			    GtkAdjustment *vadjustment)
 {
-	ImageList *gil = IMAGE_LIST (layout);
+	ImageList *gil = (ImageList*) layout;
 
 	image_list_set_hadjustment (gil, hadjustment);
 	image_list_set_vadjustment (gil, vadjustment);
@@ -2904,7 +2893,7 @@ gil_scroll (GtkWidget *widget,
 	    event->direction != GDK_SCROLL_DOWN)
 		return FALSE;
 
-	adj = IMAGE_LIST (widget)->adj;
+	adj = ((ImageList*) widget)->adj;
 
 	if (event->direction == GDK_SCROLL_UP)
 		new_value = adj->value - adj->page_increment / 2;
@@ -3749,15 +3738,15 @@ image_list_set_separators (ImageList *gil,
  */
 void
 image_list_moveto (ImageList *gil, 
-		   gint pos, 
-		   gdouble yalign)
+		   int        pos, 
+		   double     yalign)
 {
 	ImageLine *il;
-	GList *l;
-	gint i, y, uh, line;
-	gfloat value;
+	GList     *l;
+	int        i, y, uh, line;
+	float      value;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pos >= 0 && pos < gil->images);
 	g_return_if_fail (yalign >= 0.0 && yalign <= 1.0);
 
@@ -3769,12 +3758,12 @@ image_list_moveto (ImageList *gil,
 	y = gil->priv->row_spacing;
 	for (i = 0, l = gil->priv->lines; l && i < line; l = l->next, i++) {
 		il = l->data;
-		y += image_line_height (gil, il);
+		y += IMAGE_LINE_HEIGHT (gil, il);
 	}
 
 	il = l->data;
 
-	uh = GTK_WIDGET (gil)->allocation.height - image_line_height (gil,il);
+	uh = GTK_WIDGET (gil)->allocation.height - IMAGE_LINE_HEIGHT (gil,il);
 	value = CLAMP ((y 
 			- uh * yalign 
 			- (1.0 - yalign) * gil->priv->row_spacing), 
@@ -3796,7 +3785,7 @@ image_list_moveto (ImageList *gil,
  */
 GthumbVisibility
 image_list_image_is_visible (ImageList *gil, 
-			     gint pos)
+			     int        pos)
 {
 	ImageLine *il;
 	GList     *l;
@@ -3804,7 +3793,7 @@ image_list_image_is_visible (ImageList *gil,
 	int        image_top, image_bottom;
 	int        window_top, window_bottom;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), GTHUMB_VISIBILITY_NONE);
+	g_return_val_if_fail (gil != NULL, GTHUMB_VISIBILITY_NONE);
 	g_return_val_if_fail (pos >= 0 && pos < gil->images, GTHUMB_VISIBILITY_NONE);
 
 	if (gil->priv->lines == NULL)
@@ -3814,9 +3803,9 @@ image_list_image_is_visible (ImageList *gil,
 	image_top = gil->priv->row_spacing;
 	for (i = 0, l = gil->priv->lines; l && i < line; l = l->next, i++) {
 		il = l->data;
-		image_top += image_line_height (gil, il);
+		image_top += IMAGE_LINE_HEIGHT (gil, il);
 	}
-	image_bottom = image_top + image_line_height (gil, (ImageLine *) l->data);
+	image_bottom = image_top + IMAGE_LINE_HEIGHT (gil, (ImageLine *) l->data);
 
 	window_top = gil->adj->value;
 	window_bottom = gil->adj->value + GTK_WIDGET (gil)->allocation.height;
@@ -3853,18 +3842,18 @@ image_list_image_is_visible (ImageList *gil,
  */
 gint
 image_list_get_image_at (ImageList *gil, 
-			 gint x, 
-			 gint y)
+			 int        x, 
+			 int        y)
 {
-	GList *l;
-	gdouble wx, wy;
-	gdouble dx, dy;
-	gint cx, cy;
-	gint n;
+	GList           *l;
+	double           wx, wy;
+	double           dx, dy;
+	int              cx, cy;
+	int              n;
 	GnomeCanvasItem *item;
-	gdouble dist;
+	double           dist;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), -1);
+	g_return_val_if_fail (gil != NULL, -1);
 
 	dx = x;
 	dy = y;
@@ -3873,11 +3862,11 @@ image_list_get_image_at (ImageList *gil,
 	gnome_canvas_w2c (GNOME_CANVAS (gil), wx, wy, &cx, &cy);
 
 	for (n = 0, l = gil->priv->image_list; l; l = l->next, n++) {
-		Image *image = l->data;
+		Image           *image = l->data;
 		GnomeCanvasItem *cimage = GNOME_CANVAS_ITEM (image->image);
 		GnomeCanvasItem *text = GNOME_CANVAS_ITEM (image->text);
 		GnomeCanvasItem *comment = GNOME_CANVAS_ITEM (image->comment);
-		gboolean view_text, view_comment;
+		gboolean         view_text, view_comment;
 
 		image_get_view_mode (gil, image, &view_text, &view_comment);
 
@@ -3938,9 +3927,9 @@ image_list_sort (ImageList *gil)
 {
 	Image *focused_image = NULL;
 	GList *scan;
-	gint num;
+	int    num;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 
 	if (gil->priv->focus_image > -1) 
 		focused_image = g_list_nth (gil->priv->image_list, 
@@ -3983,12 +3972,12 @@ image_list_sort (ImageList *gil)
 
 void
 image_list_set_image_pixbuf (ImageList *gil,
-			     gint pos,
+			     int        pos,
 			     GdkPixbuf *pixbuf)
 {
 	Image *image;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pos >= 0 && pos < gil->images);
 	g_return_if_fail (pixbuf != NULL);
 	
@@ -4001,13 +3990,13 @@ image_list_set_image_pixbuf (ImageList *gil,
 
 
 void
-image_list_set_image_text (ImageList *gil,
-			   gint pos,
-			   const gchar *text)
+image_list_set_image_text (ImageList  *gil,
+			   int         pos,
+			   const char *text)
 {
 	Image *image;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pos >= 0 && pos < gil->images);
 
 	if (!GTK_WIDGET_REALIZED (gil))
@@ -4034,14 +4023,14 @@ image_list_set_image_text (ImageList *gil,
 
 
 void
-image_list_set_image_comment (ImageList *gil,
-			      gint pos,
-			      const gchar *comment)
+image_list_set_image_comment (ImageList  *gil,
+			      int         pos,
+			      const char *comment)
 {
 	Image *image;
 	char  *c;
 
-	g_return_if_fail (IS_IMAGE_LIST (gil));
+	g_return_if_fail (gil != NULL);
 	g_return_if_fail (pos >= 0 && pos < gil->images);
 
 	if (!GTK_WIDGET_REALIZED (gil))
@@ -4072,11 +4061,11 @@ image_list_set_image_comment (ImageList *gil,
 
 GdkPixbuf*
 image_list_get_image_pixbuf (ImageList *gil,
-			     gint pos)
+			     int        pos)
 {
 	Image *image;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), NULL);
+	g_return_val_if_fail (gil != NULL, NULL);
 	g_return_val_if_fail (pos >= 0 && pos < gil->images, NULL);
 	
 	image = g_list_nth (gil->priv->image_list, pos)->data;
@@ -4085,13 +4074,13 @@ image_list_get_image_pixbuf (ImageList *gil,
 }
 
 
-const gchar*
+const char*
 image_list_get_image_text (ImageList *gil,
-			   gint pos)
+			   int        pos)
 {
 	Image *image;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), NULL);
+	g_return_val_if_fail (gil != NULL, NULL);
 	g_return_val_if_fail (pos >= 0 && pos < gil->images, NULL);
 	
 	image = g_list_nth (gil->priv->image_list, pos)->data;
@@ -4100,13 +4089,13 @@ image_list_get_image_text (ImageList *gil,
 }
 
 
-const gchar*
+const char*
 image_list_get_image_comment (ImageList *gil,
-			      gint pos)
+			      int        pos)
 {
 	Image *image;
 
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), NULL);
+	g_return_val_if_fail (gil != NULL, NULL);
 	g_return_val_if_fail (pos >= 0 && pos < gil->images, NULL);
 	
 	image = g_list_nth (gil->priv->image_list, pos)->data;
@@ -4115,7 +4104,7 @@ image_list_get_image_comment (ImageList *gil,
 }
 
 
-gchar*
+char*
 image_list_get_old_text (ImageList *gil)
 {
 	g_return_val_if_fail (IS_IMAGE_LIST (gil), NULL);
@@ -4126,7 +4115,7 @@ image_list_get_old_text (ImageList *gil)
 GList*
 image_list_get_list (ImageList *gil)
 {
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), NULL);
+	g_return_val_if_fail (gil != NULL, NULL);
 	return gil->priv->image_list;
 }
 
@@ -4134,15 +4123,16 @@ image_list_get_list (ImageList *gil)
 static int
 get_first_visible_at_offset (ImageList *gil, gdouble ofs)
 {
-	gint   pos, line;
 	GList *l;
+	int    pos, line;
 
 	if (gil->images == 0)
 		return -1;
 
 	line = 0;
 	for (l = gil->priv->lines; l && (ofs > 0.0); l = l->next) {
-		ofs -= image_line_height (gil, l->data);
+		ImageLine *il = l->data;
+		ofs -= IMAGE_LINE_HEIGHT (gil, il);
 		line++;
 	}
 	
@@ -4176,7 +4166,8 @@ get_last_visible_at_offset (ImageList *gil, double ofs)
 
 	line = 0;
 	for (l = gil->priv->lines; l && (ofs > 0.0); l = l->next) {
-		ofs -= image_line_height (gil, l->data);
+		ImageLine *il = l->data;
+		ofs -= IMAGE_LINE_HEIGHT (gil, il);
 		line++;
 	}
 	
@@ -4194,7 +4185,7 @@ get_last_visible_at_offset (ImageList *gil, double ofs)
 int
 image_list_get_last_visible (ImageList *gil)
 {
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), -1);
+	g_return_val_if_fail (gil != NULL, -1);
 	return get_last_visible_at_offset (gil, (gil->adj->value 
 						 + gil->adj->page_size));
 }
@@ -4203,7 +4194,7 @@ image_list_get_last_visible (ImageList *gil)
 gboolean
 image_list_has_focus (ImageList *gil)
 {
-	g_return_val_if_fail (IS_IMAGE_LIST (gil), FALSE);
+	g_return_val_if_fail (gil != NULL, FALSE);
 	return ((ImageListPrivate*) gil->priv)->has_focus;
 }
 

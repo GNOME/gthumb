@@ -44,9 +44,9 @@
 
 
 static gboolean
-has_png_extension (const gchar *filename)
+has_png_extension (const char *filename)
 {
-	gint l;
+	int l;
 
 	if (filename == NULL)
 		return FALSE;

@@ -270,7 +270,7 @@ iti_ensure_focus (GnomeCanvasItem *item)
 static void
 iti_entry_activate (GtkObject *widget, gpointer data)
 {
-	GThumbTextItem *item = GTHUMB_TEXT_ITEM (data);
+	GThumbTextItem        *item = data;
 	GThumbTextItemPrivate *priv=item->_priv;
 
 	gtk_widget_hide (priv->entry_win);
@@ -281,7 +281,6 @@ iti_entry_activate (GtkObject *widget, gpointer data)
 static void
 gthumb_text_item_realize (GnomeCanvasItem *item)
 {
-  /*GThumbTextItem *iti = GTHUMB_TEXT_ITEM (item);*/
 	GNOME_CALL_PARENT (GNOME_CANVAS_ITEM_CLASS, realize, (item));
 }
 
@@ -289,7 +288,6 @@ gthumb_text_item_realize (GnomeCanvasItem *item)
 static void
 gthumb_text_item_unrealize (GnomeCanvasItem *item)
 {
-  /*	GThumbTextItem *iti = GTHUMB_TEXT_ITEM (item);*/
 	GNOME_CALL_PARENT (GNOME_CANVAS_ITEM_CLASS, unrealize, (item));
 }
 
@@ -373,10 +371,10 @@ gthumb_text_item_update (GnomeCanvasItem *item,
 			 ArtSVP *clip_path, 
 			 int flags)
 {
-	GThumbTextItem *iti;
+	GThumbTextItem        *iti;
 	GThumbTextItemPrivate *priv;
 
-	iti = GTHUMB_TEXT_ITEM (item);
+	iti = (GThumbTextItem*) item;
 	priv = iti->_priv;
  
 	GNOME_CALL_PARENT (GNOME_CANVAS_ITEM_CLASS, update, (item, affine, clip_path, flags));
@@ -420,11 +418,11 @@ gthumb_text_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GThumbTextItemPrivate *priv;
 	GtkStateType state;
 
-	widget = GTK_WIDGET (item->canvas);
-	iti = GTHUMB_TEXT_ITEM (item);
-	priv = iti->_priv;
+	iti    = (GThumbTextItem*) item;
+	priv   = iti->_priv;
 
-	style = GTK_WIDGET (GNOME_CANVAS_ITEM (iti)->canvas)->style;
+	widget = (GtkWidget*) (item->canvas);
+	style = widget->style;
 
 	gc = style->fg_gc [GTK_STATE_NORMAL];
 	bgc = style->bg_gc [GTK_STATE_NORMAL];
@@ -571,11 +569,11 @@ gthumb_text_item_render (GnomeCanvasItem *item, GnomeCanvasBuf *buffer)
 static void
 gthumb_text_item_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
 {
-	GThumbTextItem *iti;
+	GThumbTextItem        *iti;
 	GThumbTextItemPrivate *priv;
-	int width, height;
+	int                    width, height;
 
-	iti = GTHUMB_TEXT_ITEM (item);
+	iti = (GThumbTextItem*) item;
 	priv = iti->_priv;
 
 	width = priv->layout_width + 2 * MARGIN_X;
@@ -620,7 +618,7 @@ gthumb_text_item_event (GnomeCanvasItem *item, GdkEvent *event)
 	GThumbTextItem *iti;
 	GThumbTextItemPrivate *priv;
 
-	iti = GTHUMB_TEXT_ITEM (item);
+	iti = (GThumbTextItem*) item;
 	priv = iti->_priv;
 
 	switch (event->type) {
@@ -646,8 +644,8 @@ gthumb_text_item_event (GnomeCanvasItem *item, GdkEvent *event)
 static void
 gthumb_text_item_destroy (GtkObject *object)
 {
-	GThumbTextItem  *iti = GTHUMB_TEXT_ITEM (object);
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (object);
+	GThumbTextItem  *iti  = (GThumbTextItem*) object;
+	GnomeCanvasItem *item = (GnomeCanvasItem*) object;
 
 	gnome_canvas_request_redraw (item->canvas,
 				     ROUND (item->x1),

@@ -1,4 +1,16 @@
+2002-12-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (help_about_command_impl): make copyright 
+	translatable.
+
 2002-12-04  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (go_to_directory__step2): interrupt thumb
+	list setting before changing directory.
+
+	* libgthumb/gnome-canvas-thumb.c (RECALC_BOUNDS): 
+	* libgthumb/image-list.c (IMAGE_LINE_HEIGHT, STRING_IS_VOID): make
+	some functions 'inline' functions.
 
 	* src/dlg-file-utils.c (copy_next_file): copy metadata correctly.
 

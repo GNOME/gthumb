@@ -44,6 +44,10 @@ enum {
 #define COLOR_WHITE   0x00ffffff
 #define CHECK_SIZE    50
 
+#define RECALC_BOUNDS(image, item) \
+get_bounds ((image), &(item)->x1, &(item)->y1, &(item)->x2, &(item)->y2)
+
+
 static void gnome_canvas_thumb_class_init    (GnomeCanvasThumbClass *class);
 static void gnome_canvas_thumb_init          (GnomeCanvasThumb      *image);
 static void gnome_canvas_thumb_destroy       (GtkObject             *object);
@@ -269,13 +273,13 @@ gnome_canvas_thumb_set_property (GObject       *object,
 				 const GValue  *value,
 				 GParamSpec    *pspec)
 {
-	GnomeCanvasItem *item;
+	GnomeCanvasItem  *item;
 	GnomeCanvasThumb *image;
-	gint update;
-	GdkPixbuf *pixbuf;
+	int               update;
+	GdkPixbuf        *pixbuf;
 
-	item = GNOME_CANVAS_ITEM (object);
-	image = GNOME_CANVAS_THUMB (object);
+	item = (GnomeCanvasItem*) object;
+	image = (GnomeCanvasThumb*) object;
 
 	update = FALSE;
 
@@ -328,9 +332,7 @@ gnome_canvas_thumb_get_property (GObject       *object,
 				 GValue        *value,
 				 GParamSpec    *pspec)
 {
-	GnomeCanvasThumb *image;
-
-	image = GNOME_CANVAS_THUMB (object);
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) object;
 
         switch (param_id) {
         case PROP_PIXBUF:
@@ -363,9 +365,7 @@ gnome_canvas_thumb_get_property (GObject       *object,
 static void
 gnome_canvas_thumb_realize (GnomeCanvasItem *item)
 {
-	GnomeCanvasThumb *image;
-
-	image = GNOME_CANVAS_THUMB (item);
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
 
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
@@ -378,9 +378,7 @@ gnome_canvas_thumb_realize (GnomeCanvasItem *item)
 static void
 gnome_canvas_thumb_unrealize (GnomeCanvasItem *item)
 {
-	GnomeCanvasThumb *image;
-
-	image = GNOME_CANVAS_THUMB (item);
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
 
 	if (! item->canvas->aa) {
 		g_object_unref (image->gc);
@@ -397,11 +395,9 @@ get_bounds (GnomeCanvasThumb *image,
 	    double *px1, double *py1, 
 	    double *px2, double *py2)
 {
-        GnomeCanvasItem *item;
-	double i2c[6];
-	ArtDRect i_bbox, c_bbox;
-
-        item = GNOME_CANVAS_ITEM (image);
+        GnomeCanvasItem *item = (GnomeCanvasItem*) image;
+	double           i2c[6];
+	ArtDRect         i_bbox, c_bbox;
 
         i_bbox.x0 = image->x;
         i_bbox.y0 = image->y;
@@ -419,35 +415,14 @@ get_bounds (GnomeCanvasThumb *image,
 }
 
 
-/* Get's the image bounds expressed as item-relative coordinates. */
-static void
-get_bounds_item_relative (GnomeCanvasThumb *image, 
-			  double *px1, double *py1, 
-			  double *px2, double *py2)
-{
-	*px1 = image->x;
-	*py1 = image->y;
-	*px2 = image->x + image->width;
-	*py2 = image->y + image->height;
-}
-
-
-static void
-recalc_bounds (GnomeCanvasThumb *image)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (image);
-	get_bounds (image, &item->x1, &item->y1, &item->x2, &item->y2);
-}
-
-
 static void
 gnome_canvas_thumb_update (GnomeCanvasItem *item, 
-			   double *affine, 
-			   ArtSVP *clip_path, 
-			   int flags)
+			   double          *affine, 
+			   ArtSVP          *clip_path, 
+			   int              flags)
 {
-	GnomeCanvasThumb *image = GNOME_CANVAS_THUMB (item);
-	ArtDRect i_bbox, c_bbox;
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
+	ArtDRect          i_bbox, c_bbox;
 
 	if (parent_class->update)
 		(* parent_class->update) (item, affine, clip_path, flags);
@@ -457,25 +432,29 @@ gnome_canvas_thumb_update (GnomeCanvasItem *item,
 				     image->cy, 
 				     image->cx + image->cwidth + 1, 
 				     image->cy + image->cheight + 1);
-	
-	recalc_bounds (image);
-	get_bounds_item_relative (image, 
-				  &i_bbox.x0, &i_bbox.y0, 
-				  &i_bbox.x1, &i_bbox.y1);
+
+	RECALC_BOUNDS (image, item);
+
+	/* get the image bounds expressed as item-relative coordinates. */
+
+	i_bbox.x0 = image->x;
+	i_bbox.y0 = image->y;
+	i_bbox.x1 = image->x + image->width;
+	i_bbox.y1 = image->y + image->height;
+
+	/**/
+
 	art_drect_affine_transform (&c_bbox, &i_bbox, affine);
 	
-	image->cx = c_bbox.x0;
-	image->cy = c_bbox.y0;
-	image->cwidth = (int) (c_bbox.x1 - c_bbox.x0);
+	image->cx      = c_bbox.x0;
+	image->cy      = c_bbox.y0;
+	image->cwidth  = (int) (c_bbox.x1 - c_bbox.x0);
 	image->cheight = (int) (c_bbox.y1 - c_bbox.y0);
 	
 	c_bbox.x0--;
 	c_bbox.y0--;
-	c_bbox.x1++;
-	c_bbox.y1++;
-	
-	c_bbox.x1++;
-	c_bbox.y1++;
+	c_bbox.x1 += 2;
+	c_bbox.y1 += 2;
 	
 	gnome_canvas_request_redraw (item->canvas, c_bbox.x0, c_bbox.y0, c_bbox.x1, c_bbox.y1);
 }
@@ -484,11 +463,14 @@ gnome_canvas_thumb_update (GnomeCanvasItem *item,
 static void
 recalc_if_needed (GnomeCanvasThumb *image)
 {
+	GnomeCanvasItem *item = (GnomeCanvasItem*) image;
+
 	if (! image->need_recalc)
 		return;
 	image->need_recalc = FALSE;
 
-	recalc_bounds (image);
+	RECALC_BOUNDS (image, item);
+
 	if (image->gc)
 		gdk_gc_set_clip_mask (image->gc, image->mask);
 }
@@ -498,15 +480,13 @@ static void
 gnome_canvas_thumb_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			  int x, int y, int width, int height)
 {
-	GnomeCanvasThumb *image;
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
 	GtkStyle         *style;
         int               x1, y1;
 
-	image = GNOME_CANVAS_THUMB (item);
-
 	recalc_if_needed (image);
 
-	style = GTK_WIDGET (item->canvas)->style;
+	style = ((GtkWidget *) (item->canvas))->style;
 
 	x1 = image->cx - x;
 	y1 = image->cy - y;
@@ -567,11 +547,9 @@ gnome_canvas_thumb_point (GnomeCanvasItem *item,
 			   int cx, int cy, 
 			   GnomeCanvasItem **actual_item)
 {
-	GnomeCanvasThumb *image;
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
 	double x1, y1, x2, y2;
 	double dx, dy;
-
-	image = GNOME_CANVAS_THUMB (item);
 
 	*actual_item = item;
 
@@ -610,9 +588,7 @@ gnome_canvas_thumb_bounds (GnomeCanvasItem *item,
 			    double *x1, double *y1, 
 			    double *x2, double *y2)
 {
-	GnomeCanvasThumb *image;
-
-	image = GNOME_CANVAS_THUMB (item);
+	GnomeCanvasThumb *image = (GnomeCanvasThumb*) item;
 
 	*x1 = image->x;
 	*y1 = image->y;
@@ -629,7 +605,7 @@ gnome_canvas_thumb_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 
 void
 gnome_canvas_thumb_select (GnomeCanvasThumb *image,
-			    gboolean select)
+			    gboolean         select)
 {
 	g_return_if_fail (image != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS_THUMB (image));

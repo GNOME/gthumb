@@ -5346,7 +5346,7 @@ typedef struct {
 
 
 void
-go_to_directory__step3 (GoToData *gt_data)
+go_to_directory__step4 (GoToData *gt_data)
 {
 	GThumbWindow *window = gt_data->window;
 	char         *dir_path = gt_data->path;
@@ -5370,9 +5370,11 @@ go_to_directory__step3 (GoToData *gt_data)
 
 
 void
-go_to_directory__step2 (GoToData *gt_data)
+go_to_directory__step3 (GoToData *gt_data)
 {
 	GThumbWindow *window = gt_data->window;
+
+	window->setting_file_list = FALSE;
 
 	/* Select the directory view. */
 
@@ -5388,8 +5390,22 @@ go_to_directory__step2 (GoToData *gt_data)
 
 	if (window->file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (window->file_list, 
-					    (DoneFunc) go_to_directory__step3,
+					    (DoneFunc) go_to_directory__step4,
 					    gt_data);
+	else
+		go_to_directory__step4 (gt_data);
+}
+
+
+void
+go_to_directory__step2 (GoToData *gt_data)
+{
+	GThumbWindow *window = gt_data->window;
+
+	if (window->setting_file_list)
+		gth_file_list_interrupt_set_list (window->file_list,
+						  (DoneFunc) go_to_directory__step3,
+						  gt_data);
 	else
 		go_to_directory__step3 (gt_data);
 }
