@@ -1,23 +1,19 @@
-# translation of el.po to 
-# translation of el.po to
-# translation of gthumb.HEAD.po to
-# This file is distributed under the same license as the PACKAGE package.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
+# gthumb in Greek
+# 
 # Nikos Charonitakis <charosn@her.forthnet.gr>, 2005.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-26 00:55+0200\n"
-"PO-Revision-Date: 2005-01-26 01:16+0200\n"
+"POT-Creation-Date: 2005-04-03 19:16+0300\n"
+"PO-Revision-Date: 2005-04-03 19:36+0300\n"
 "Last-Translator: Nikos Charonitakis <charosn@her.forthnet.gr>\n"
 "Language-Team:  <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"X-Generator: KBabel 1.9.1\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -26,7 +22,7 @@ msgstr "Κατάλογος"
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 #, fuzzy
 msgid "GThumb Catalog View"
-msgstr "Προβολή"
+msgstr "Εικόνα GThumb"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
@@ -47,8 +43,9 @@ msgid "GThumb Image"
 msgstr "Εικόνα GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+#, fuzzy
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "Εικόνα GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
@@ -59,9 +56,8 @@ msgid "Flip"
 msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
-#, fuzzy
 msgid "Flip the image"
-msgstr "εικόνα "
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
@@ -73,12 +69,11 @@ msgstr "Χαμηλή"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
-msgstr ""
+msgstr "Σύστημα καθεπτρισμού"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
-#, fuzzy
 msgid "Mirror the image"
-msgstr "εικόνα "
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 msgid "Rotate"
@@ -87,17 +82,16 @@ msgstr "Περιστροφή"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 #, fuzzy
 msgid "Rotate 180 _Degrees"
-msgstr "Περιστροφή"
+msgstr "Περιστροφή Εικόνων"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 #, fuzzy
 msgid "Rotate the image clockwise"
-msgstr "Περιστροφή εικόνα "
+msgstr "Ω_ρολογιακή Περιστροφή"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
-#, fuzzy
 msgid "Rotate the image of 180 degrees"
-msgstr "Περιστροφή εικόνα  από"
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 src/ui.h:68
 msgid "Save _As..."
@@ -108,28 +102,20 @@ msgid "Save current image"
 msgstr "Αποθήκευση τρέχουσας εικόνας"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14 src/ui.h:623
-#, fuzzy
 msgid "Start or stop current animation"
-msgstr "Έναρξη διακοπή κινούμενο σχέδιο"
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
-#, fuzzy
 msgid "Start/Stop _Animation"
 msgstr ""
-"Έναρξη Διακοπή #-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση κινήσεων\n"
-"#-#-#-#-#  gtk+-properties.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Κίνηση"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#, fuzzy
 msgid "Transparency T_ype"
-msgstr "T"
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17 src/ui.h:439
-#, fuzzy
 msgid "View next animation frame"
-msgstr "Προβολή κινούμενο σχέδιο πλαίσιο"
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "_Black"
@@ -139,18 +125,21 @@ msgstr "_Μαύρο"
 msgid "_Checked"
 msgstr ""
 
+#
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 src/ui.h:328
+#, fuzzy
 msgid "_Flip"
-msgstr ""
+msgstr "_Βοήθεια"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 src/ui.h:44
 #: src/ui.h:681
 msgid "_Image"
 msgstr "_Εικόνα"
 
+#
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22 src/ui.h:333
 msgid "_Mirror"
-msgstr ""
+msgstr "_Καθρέπτης"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_None"
@@ -158,16 +147,11 @@ msgstr "_Κανένα"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
-msgstr "Ω_ρολογιακή Περιστροφή"
+msgstr "_Περιστροφή Δεξιά"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
-#, fuzzy
 msgid "_Step Animation"
 msgstr ""
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση κινήσεων\n"
-"#-#-#-#-#  gtk+-properties.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Κίνηση"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 #: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:54
@@ -184,23 +168,12 @@ msgid "_Zoom Quality"
 msgstr "Ποιότητα _Μεγέθυνσης"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
-#, fuzzy
 msgid "%d %b %Y, %H:%M"
 msgstr ""
-"#-#-#-#-#  eel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  libgnomecanvas.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ψ H M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:419 src/fullscreen.c:214
-#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:277
+#: src/gth-exif-data-viewer.c:466 src/gthumb-window.c:277
 #, fuzzy, c-format
 msgid "%d x %d pixels"
 msgstr "εικονοστοιχεία"
@@ -214,7 +187,7 @@ msgid "Dimensions"
 msgstr "Διαστάσεις"
 
 #: data/albumthemes/text.h:29 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:484
+#: src/gth-exif-data-viewer.c:495
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -229,16 +202,15 @@ msgstr "Χρόνος έκθεσης"
 #: data/albumthemes/text.h:32
 #, fuzzy
 msgid "Exposure mode"
-msgstr "λειτουργία"
+msgstr "Χρόνος έκθεσης"
 
 #: data/albumthemes/text.h:33
 msgid "Flash"
 msgstr "Flash"
 
 #: data/albumthemes/text.h:34
-#, fuzzy
 msgid "Shutter speed"
-msgstr "Ταχύτητα κλείστρου"
+msgstr ""
 
 #: data/albumthemes/text.h:35
 msgid "Aperture value"
@@ -249,17 +221,8 @@ msgid "Focal length"
 msgstr ""
 
 #: data/albumthemes/text.h:37
-#, fuzzy
 msgid "Camera model"
 msgstr ""
-"#-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κάμερα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Φωτογραφική μηχανή\n"
-"#-#-#-#-#  gnome-vfs.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Φωτογραφική μηχανή\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Φωτογραφική μηχανή"
 
 #: data/albumthemes/text.h:38 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
@@ -285,36 +248,19 @@ msgid "<b>Categories:</b>"
 msgstr "<b> Κατηγορίες:</b>"
 
 #: data/glade/gthumb.glade.h:4
-#, fuzzy
 msgid "<b>Information on Channel:</b>"
 msgstr ""
-"<b> #-#-#-#-#  gnome-mime-data.HEAD.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gucharmap.HEAD.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορία\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  zenity.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες στο</b>"
 
 #: data/glade/gthumb.glade.h:5
-#, fuzzy
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b> Αντικατάσταση εικόνα  με νέο</b>"
+msgstr ""
 
 #: data/glade/gthumb.glade.h:6
 #, fuzzy
 msgid "A_vailable applications:"
-msgstr "A:"
+msgstr "_Εφαρμογή:"
 
 #: data/glade/gthumb.glade.h:7
-#, fuzzy
 msgid "Alpha"
 msgstr "Alpha"
 
@@ -327,23 +273,21 @@ msgid "Bookmarks"
 msgstr "Σελιδοδείκτες"
 
 #: data/glade/gthumb.glade.h:10
-#, fuzzy
 msgid "C_atalogs:"
-msgstr "C:"
+msgstr "Κ_ατάλογοι:"
 
 #: data/glade/gthumb.glade.h:11
 #, fuzzy
 msgid "Choose a Catalog"
-msgstr "a"
+msgstr "Προβολή ως Κατάλογος"
 
 #: data/glade/gthumb.glade.h:12 src/ui.h:158
 msgid "Comm_ent"
-msgstr ""
+msgstr "_Σχόλιο"
 
 #: data/glade/gthumb.glade.h:13
-#, fuzzy
 msgid "Do not overwrite _the old image"
-msgstr "not εικόνα "
+msgstr ""
 
 #: data/glade/gthumb.glade.h:14
 msgid "Green"
@@ -364,12 +308,12 @@ msgstr "Παλιά Εικόνα:"
 #: data/glade/gthumb.glade.h:18
 #, fuzzy
 msgid "Open Images"
-msgstr "Άνοιγμα Εικόνες"
+msgstr "Εικόνες"
 
 #: data/glade/gthumb.glade.h:19
 #, fuzzy
 msgid "Over_write the old image"
-msgstr "εικόνα "
+msgstr "Αντικατάσταση Εικόνας"
 
 #: data/glade/gthumb.glade.h:20
 msgid "Overwrite Image"
@@ -378,15 +322,13 @@ msgstr "Αντικατάσταση Εικόνας"
 #: data/glade/gthumb.glade.h:21
 #, fuzzy
 msgid "Overwrite _all images"
-msgstr "Αντικατάσταση"
+msgstr "Αντικατάσταση Εικόνας"
 
 #: data/glade/gthumb.glade.h:22
-#, fuzzy
 msgid "Photo _Data (EXIF)"
-msgstr "Φωτογραφία EXIF"
+msgstr ""
 
 #: data/glade/gthumb.glade.h:23
-#, fuzzy
 msgid "R_ecent applications:"
 msgstr "Πρό_σφατες εφαρμογές:"
 
@@ -409,7 +351,7 @@ msgstr "Σελιδοδείκτες:"
 #: data/glade/gthumb.glade.h:28
 #, fuzzy
 msgid "_Do not overwrite any image"
-msgstr "not εικόνα "
+msgstr "Αντικατάσταση Εικόνας"
 
 #: data/glade/gthumb.glade.h:29
 msgid "_General"
@@ -436,9 +378,8 @@ msgid "_Remove"
 msgstr "_Απομάκρυνση"
 
 #: data/glade/gthumb.glade.h:35
-#, fuzzy
 msgid "_Save the new image as:"
-msgstr "Αποθήκευση νέο εικόνα :"
+msgstr "Απο_θήκευση της νέας εικόνας ως:"
 
 #: data/glade/gthumb_camera.glade.h:1 data/glade/gthumb_search.glade.h:2
 #: data/glade/gthumb_web_exporter.glade.h:4
@@ -447,52 +388,45 @@ msgstr "..."
 
 #: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
-msgstr ""
+msgstr "Κα_τηγορίες:"
 
 #: data/glade/gthumb_camera.glade.h:3
-#, fuzzy
 msgid "Camera Model"
 msgstr "Μοντέλο Φωτογραφικής Μηχανής"
 
 #: data/glade/gthumb_camera.glade.h:4
-#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:295
+#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:299
 msgid "Choose destination folder"
-msgstr "Επιλογή φάκελου προορισμού"
+msgstr "Επιλογή φακέλου προορισμού"
 
 #: data/glade/gthumb_camera.glade.h:5
-#, fuzzy
 msgid "Delete selected images from the camera"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:6
 msgid "Import Photos"
 msgstr "Εισαγωγή Φωτογραφιών"
 
-#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:810
-#: src/dlg-photo-importer.c:849 src/dlg-photo-importer.c:1318
-#, fuzzy
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:840
+#: src/dlg-photo-importer.c:879 src/dlg-photo-importer.c:1380
 msgid "No camera detected"
-msgstr "Όχι"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:8
-#, fuzzy
 msgid "Select a camera model"
-msgstr "Επιλογή a"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:9
-#, fuzzy
 msgid "Update previews"
-msgstr "Ενημέρωση"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:10
-#, fuzzy
 msgid "_Auto Detect"
-msgstr "Αυτόματο"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:11
-#, fuzzy
 msgid "_Delete imported images from the camera"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: data/glade/gthumb_camera.glade.h:12
 #: data/glade/gthumb_png_exporter.glade.h:61
@@ -500,9 +434,11 @@ msgstr "Διαγραφή"
 msgid "_Destination:"
 msgstr "_Προορισμός:"
 
+#
 #: data/glade/gthumb_camera.glade.h:13
+#, fuzzy
 msgid "_Film:"
-msgstr ""
+msgstr "_Αρχείο"
 
 #: data/glade/gthumb_camera.glade.h:14
 msgid "_Import"
@@ -521,9 +457,8 @@ msgid "_Port:"
 msgstr "_Θύρα:"
 
 #: data/glade/gthumb_comments.glade.h:1 data/glade/gthumb_search.glade.h:5
-#, fuzzy
 msgid "A_vailable categories:"
-msgstr "A κατηγορίες:"
+msgstr "_Διαθέσιμες κατηγορίες:"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:10
 msgid "Categories"
@@ -546,52 +481,39 @@ msgid "Current date"
 msgstr "Τρέχουσα ημερομηνία"
 
 #: data/glade/gthumb_comments.glade.h:7
-#, fuzzy
 msgid "Do not modify"
-msgstr "not"
+msgstr ""
 
 #: data/glade/gthumb_comments.glade.h:8
-#, fuzzy
 msgid "Image creation date"
-msgstr "Εικόνα Ημερομηνία"
+msgstr ""
 
 #: data/glade/gthumb_comments.glade.h:9
-#, fuzzy
 msgid "Last modified date"
 msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τελευταία\n"
-"#-#-#-#-#  gdm2.HEAD.el.po (el)  #-#-#-#-#\n"
-"Τελευταίο\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Τελευταία\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τελευταία Ημερομηνία"
 
 #: data/glade/gthumb_comments.glade.h:10
 msgid "No date"
 msgstr "Όχι Ημερομηνία"
 
 #: data/glade/gthumb_comments.glade.h:11
-#, fuzzy
 msgid "Photo digitalization date (From EXIF data)"
-msgstr "Φωτογραφία Ημερομηνία Από EXIF"
+msgstr ""
 
 #: data/glade/gthumb_comments.glade.h:12
 #, fuzzy
 msgid "Remove selected category"
-msgstr "Αφαίρεση"
+msgstr "_Επιλεγμένες κατηγορίες:"
 
 #: data/glade/gthumb_comments.glade.h:13
-#, fuzzy
 msgid "Save only cha_nged fields"
-msgstr "Αποθήκευση"
+msgstr ""
 
 #: data/glade/gthumb_comments.glade.h:14
-#, fuzzy
 msgid "The following date"
-msgstr "Ημερομηνία"
+msgstr ""
 
+#
 #: data/glade/gthumb_comments.glade.h:15 data/glade/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Ημερομηνία:"
@@ -605,8 +527,9 @@ msgid "_New"
 msgstr "_Νέο"
 
 #: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:27
+#, fuzzy
 msgid "_Place:"
-msgstr ""
+msgstr "_Μαύρο"
 
 #: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
@@ -614,12 +537,12 @@ msgstr "_Επιλεγμένες κατηγορίες:"
 
 #: data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
-msgstr ""
+msgstr "<b>Συμπίεση</b>"
 
 #: data/glade/gthumb_convert.glade.h:4
 #, fuzzy
 msgid "<b>Image type</b>"
-msgstr "<b> Εικόνα είδος</b>"
+msgstr "<b>Μέγεθος σελίδας</b>"
 
 #: data/glade/gthumb_convert.glade.h:5
 msgid "<b>Resolution</b>"
@@ -634,23 +557,16 @@ msgid "Compression _level:"
 msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:8
-#, fuzzy
 msgid "Convert Format"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μορφοποίηση\n"
-"#-#-#-#-#  gtksourceview.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μορφή"
 
 #: data/glade/gthumb_convert.glade.h:9
-#, fuzzy
 msgid "JPEG Options"
-msgstr "Επιλογές"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:10
-#, fuzzy
 msgid "No_rmal (Deflate)"
-msgstr "Όχι"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
@@ -663,17 +579,15 @@ msgstr "Αντικατάσταση"
 #: data/glade/gthumb_convert.glade.h:13
 #, fuzzy
 msgid "Overwrite mode:"
-msgstr "Αντικατάσταση λειτουργία:"
+msgstr "Αντικατάσταση Εικόνας"
 
 #: data/glade/gthumb_convert.glade.h:14
-#, fuzzy
 msgid "PNG Options"
-msgstr "Επιλογές"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:15
-#, fuzzy
 msgid "R_emove original"
-msgstr "R"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:16
 msgid "Rename"
@@ -681,27 +595,24 @@ msgstr "Μετονομασία"
 
 #: data/glade/gthumb_convert.glade.h:17 src/dlg-convert.c:313
 msgid "Skip"
-msgstr "Προσπέραση"
+msgstr "Παράλειψη"
 
 #: data/glade/gthumb_convert.glade.h:18
-#, fuzzy
 msgid "TGA Options"
-msgstr "Επιλογές"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:19
-#, fuzzy
 msgid "TIFF Options"
-msgstr "TIFF Επιλογές"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:20
-#, fuzzy
 msgid "T_GA"
-msgstr "T"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:21
 #: data/glade/gthumb_png_exporter.glade.h:65
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Οριζόντια:"
 
 #: data/glade/gthumb_convert.glade.h:22
 msgid "_JPEG"
@@ -712,17 +623,17 @@ msgid "_Loss compression (JPEG)"
 msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:24
-#, fuzzy
 msgid "_No compression"
-msgstr "Όχι"
+msgstr ""
 
 #: data/glade/gthumb_convert.glade.h:25
 msgid "_PNG"
 msgstr "_PNG"
 
 #: data/glade/gthumb_convert.glade.h:26
+#, fuzzy
 msgid "_Progressive"
-msgstr ""
+msgstr "_Προεπισκόπηση"
 
 #: data/glade/gthumb_convert.glade.h:27
 msgid "_Quality:"
@@ -743,16 +654,15 @@ msgstr "_TIFF"
 #: data/glade/gthumb_convert.glade.h:31
 #: data/glade/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
-msgstr ""
+msgstr "_Κατακόρυφα:"
 
 #: data/glade/gthumb_convert.glade.h:32
 msgid "dpi"
 msgstr "dpi"
 
 #: data/glade/gthumb_crop.glade.h:2
-#, fuzzy
 msgid "4 x 3 (Book, DVD)"
-msgstr "Βιβλίο DVD"
+msgstr ""
 
 #: data/glade/gthumb_crop.glade.h:3
 msgid "4 x 6 (Postcard)"
@@ -767,75 +677,40 @@ msgid "8 x 10"
 msgstr "8 x 10"
 
 #: data/glade/gthumb_crop.glade.h:6
+#, fuzzy
 msgid "<b>Aspect ratio</b>"
-msgstr ""
+msgstr "<b>Προσανατολισμός</b>"
 
 #: data/glade/gthumb_crop.glade.h:7
 msgid "<b>Selection</b>"
 msgstr "<b>Επιλογή</b>"
 
+#
 #: data/glade/gthumb_crop.glade.h:8
 msgid "Crop"
-msgstr ""
+msgstr "Κόψιμο"
 
 #: data/glade/gthumb_crop.glade.h:9
-#, fuzzy
 msgid "Custom"
-msgstr ""
-"#-#-#-#-#  evolution-exchange.gnome-2-8.el.po (evolution-exchange.gnome-2-"
-"8)  #-#-#-#-#\n"
-"Προσαρμοσμένο\n"
-"#-#-#-#-#  gnome-applets.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσαρμοσμένο\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Παραμετροποιημένο\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσαρμοσμένο\n"
-"#-#-#-#-#  gnome-media.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσαρμοσμένο\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Παραμετροποιημένο\n"
-"#-#-#-#-#  libgnomeprint.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσαρμοσμένο"
+msgstr "Προσαρμοσμένο"
 
 #: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
-#, fuzzy
 msgid "None"
-msgstr ""
-"#-#-#-#-#  evolution-exchange.gnome-2-8.el.po (evolution-exchange.gnome-2-"
-"8)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Καμμία\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"κανένα\n"
-"#-#-#-#-#  nautilus-media.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κανένα"
+msgstr "Κανένα"
 
 #: data/glade/gthumb_crop.glade.h:11
 msgid "Square"
-msgstr "Τετράγωνο"
+msgstr "Square"
 
 #: data/glade/gthumb_crop.glade.h:12 src/ui.h:403
+#, fuzzy
 msgid "_Crop"
-msgstr ""
+msgstr "_Διακοπή"
 
 #: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
 #: data/glade/gthumb_print.glade.h:29
 msgid "_Height:"
-msgstr "_Ύψος:"
+msgstr "Ύ_ψος:"
 
 #: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
 #: data/glade/gthumb_print.glade.h:31
@@ -843,34 +718,12 @@ msgid "_Width:"
 msgstr "_Πλάτος:"
 
 #: data/glade/gthumb_crop.glade.h:15
-#, fuzzy
 msgid "_X:"
-msgstr ""
-"#-#-#-#-#  eel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"X\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"X\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"X\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"X\n"
-"#-#-#-#-#  libgnomecanvas.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χ:"
+msgstr "_Χ:"
 
 #: data/glade/gthumb_crop.glade.h:16
-#, fuzzy
 msgid "_Y:"
-msgstr ""
-"#-#-#-#-#  eel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Y\n"
-"#-#-#-#-#  libgnomecanvas.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ψ:"
+msgstr "_Ψ:"
 
 #: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
 #: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
@@ -886,61 +739,49 @@ msgstr "%"
 #: data/glade/gthumb_edit.glade.h:5
 #, fuzzy
 msgid "<b>Color levels</b>"
-msgstr "<b> Χρώμα</b>"
+msgstr "<b> Κατηγορίες:</b>"
 
 #: data/glade/gthumb_edit.glade.h:6
-#, fuzzy
 msgid "<b>New dimensions</b>"
-msgstr "<b> Νέο</b>"
+msgstr "<b>Νέες διαστάσεις</b>"
 
 #: data/glade/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
-msgstr ""
+msgstr "<b>Αρχικές διαστάσεις</b>"
 
 #: data/glade/gthumb_edit.glade.h:8
 #, fuzzy
 msgid "<b>Scale ratio</b>"
-msgstr "<b> Κλίμακα</b>"
+msgstr "<b>Επιλογή</b>"
 
 #: data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
 msgstr ""
 
 #: data/glade/gthumb_edit.glade.h:10
-#, fuzzy
 msgid "Color Balance"
-msgstr "Χρώμα"
+msgstr "Εξισορρόπηση Χρώματος"
 
 #: data/glade/gthumb_edit.glade.h:11
-#, fuzzy
 msgid "Con_trast:"
-msgstr "Con:"
+msgstr "Αντί_θεση:"
 
 #: data/glade/gthumb_edit.glade.h:12
-#, fuzzy
 msgid "Cyan-_Red:"
-msgstr "Κυανό Κόκκινο:"
+msgstr ""
 
 #: data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
 msgstr "Ύψος:"
 
 #: data/glade/gthumb_edit.glade.h:14
-#, fuzzy
 msgid "High _quality"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  evolution-data-server.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Υψηλό"
+msgstr "Υψηλή _ποιότητα:"
 
 #: data/glade/gthumb_edit.glade.h:15
+#, fuzzy
 msgid "Hue - Saturation"
-msgstr ""
+msgstr "_Κορεσμός:"
 
 #: data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -951,9 +792,8 @@ msgid "Preserve l_uminosity"
 msgstr ""
 
 #: data/glade/gthumb_edit.glade.h:18
-#, fuzzy
 msgid "Scale Image"
-msgstr "Κλίμακα Εικόνα"
+msgstr "Μεγέθυνση/Σμίκρυνση Εικόνας"
 
 #: data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
@@ -961,7 +801,7 @@ msgstr "Πλάτος:"
 
 #: data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
-msgstr ""
+msgstr "_Φωτεινότητα:"
 
 #: data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
@@ -976,44 +816,33 @@ msgid "_Levels:"
 msgstr "_Επίπεδα:"
 
 #: data/glade/gthumb_edit.glade.h:25
+#, fuzzy
 msgid "_Lightness:"
-msgstr ""
+msgstr "_Ύψος:"
 
 #: data/glade/gthumb_edit.glade.h:26
-#, fuzzy
 msgid "_Magenta-Green:"
-msgstr "Πράσινο:"
+msgstr ""
 
 #: data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
 msgstr "_Προεπισκόπηση"
 
 #: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:50
-#, fuzzy
 msgid "_Reset"
-msgstr ""
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επανα_φορά\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Αρχικοποίηση"
+msgstr "Επανα_φορά"
 
 #: data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
 msgstr "_Κορεσμός:"
 
 #: data/glade/gthumb_edit.glade.h:30
-#, fuzzy
 msgid "_Scale"
 msgstr "Κλί_μακα"
 
 #: data/glade/gthumb_edit.glade.h:32
-#, fuzzy
 msgid "_Yellow-Blue:"
 msgstr ""
-"Κίτρινο #-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μπλε\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μπλέ:"
 
 #: data/glade/gthumb_png_exporter.glade.h:4
 msgid "112"
@@ -1058,20 +887,22 @@ msgstr "95"
 #: data/glade/gthumb_png_exporter.glade.h:14
 #, fuzzy
 msgid "<b>Background style</b>"
-msgstr "<b> Παρασκήνιο</b>"
+msgstr "<b>Μέγεθος σελίδας</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:15
+#, fuzzy
 msgid "<b>Caption</b>"
-msgstr ""
+msgstr "<b>Προσανατολισμός</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:16
+#, fuzzy
 msgid "<b>Footer</b>"
-msgstr ""
+msgstr "<b>Άλλο</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:17
 #, fuzzy
 msgid "<b>Header and footer</b>"
-msgstr "<b> Κεφαλίδα και υποσέλιδο</b>"
+msgstr "<b>Κεφαλίδα</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Header</b>"
@@ -1080,7 +911,7 @@ msgstr "<b>Κεφαλίδα</b>"
 #: data/glade/gthumb_png_exporter.glade.h:19
 #, fuzzy
 msgid "<b>Index images</b>"
-msgstr "<b> Ευρετήριο</b>"
+msgstr "<b>Θέμα</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:20
 msgid "<b>Page size</b>"
@@ -1090,104 +921,94 @@ msgstr "<b>Μέγεθος σελίδας</b>"
 #: data/glade/gthumb_web_exporter.glade.h:14
 #, fuzzy
 msgid "<b>Saving</b>"
-msgstr "<b> Αποθηκεύεται</b>"
+msgstr "<b>Μέγεθος</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:22
-#, fuzzy
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr "<small><i><b> Σημείωση</b></i></small>"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:24
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b> Σημείωση</b> ο από</i></small>"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:26
 #: data/glade/gthumb_web_exporter.glade.h:20
 msgid "Co_mment"
-msgstr ""
+msgstr "Σ_χόλιο"
 
 #: data/glade/gthumb_png_exporter.glade.h:27
 msgid "Col_umns:"
-msgstr ""
+msgstr "Σ_τήλες:"
 
 #: data/glade/gthumb_png_exporter.glade.h:28
 msgid "Colo_r:"
-msgstr ""
+msgstr "χρ_ώμα:"
 
 #: data/glade/gthumb_png_exporter.glade.h:29
 #, fuzzy
 msgid "Create Index Image"
-msgstr "Δημιουργία Ευρετήριο Εικόνα"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #: data/glade/gthumb_png_exporter.glade.h:30
-#, fuzzy
 msgid "Create _HTML image map"
-msgstr "Δημιουργία HTML εικόνα  χάρτης"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:31
 #: data/glade/gthumb_web_exporter.glade.h:23
-#, fuzzy
 msgid "F_ooter:"
-msgstr "F:"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:32
 #: data/glade/gthumb_web_exporter.glade.h:24
-#, fuzzy
 msgid "File _name"
-msgstr "Αρχείο"
+msgstr "_Όνομα αρχείου"
 
 #: data/glade/gthumb_png_exporter.glade.h:33
-#, fuzzy
 msgid "File pa_th"
-msgstr "Αρχείο"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:34
 #: data/glade/gthumb_web_exporter.glade.h:25
-#, fuzzy
 msgid "File si_ze"
-msgstr "Αρχείο"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:35
-#, fuzzy
 msgid "Frame _style:"
-msgstr "βαρεία:"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:36
-#, fuzzy
 msgid "Frame co_lor:"
-msgstr "βαρεία:"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:37
 #: data/glade/gthumb_web_exporter.glade.h:27
-#, fuzzy
 msgid "H_eader:"
-msgstr "H:"
+msgstr "_Κεφαλίδα:"
 
 #: data/glade/gthumb_png_exporter.glade.h:38
 msgid "Header/Footer"
-msgstr "Κεφαλίδα/Υποσέλιδο:"
+msgstr "Κεφαλίδα/Υποσέλιδο"
 
 #: data/glade/gthumb_png_exporter.glade.h:39
 msgid "Hei_ght:"
-msgstr ""
+msgstr "_Ύψος:"
 
 #: data/glade/gthumb_png_exporter.glade.h:40
 #: data/glade/gthumb_web_exporter.glade.h:29
 #, fuzzy
 msgid "Image dim_ensions"
-msgstr "Εικόνα"
+msgstr "Διαστάσεις"
 
 #: data/glade/gthumb_png_exporter.glade.h:41
 msgid "Images"
 msgstr "Εικόνες"
 
 #: data/glade/gthumb_png_exporter.glade.h:42
-#, fuzzy
 msgid "Index Image Style"
-msgstr "Ευρετήριο Εικόνα Στυλ"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:43
 msgid "Page"
@@ -1195,7 +1016,7 @@ msgstr "Σελίδα"
 
 #: data/glade/gthumb_png_exporter.glade.h:44
 msgid "Pi_xels"
-msgstr ""
+msgstr "Εικο_νοστοιχεία"
 
 #: data/glade/gthumb_png_exporter.glade.h:45
 #: data/glade/gthumb_web_exporter.glade.h:31
@@ -1203,19 +1024,17 @@ msgid "Re_verse order"
 msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:46
-#, fuzzy
 msgid "Rows a_nd columns"
-msgstr "Γραμμές a στήλες"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:47
 #, fuzzy
 msgid "Select a color"
-msgstr "Επιλογή a χρώμα"
+msgstr "_Επιλογή Όλων"
 
 #: data/glade/gthumb_png_exporter.glade.h:48
-#, fuzzy
 msgid "Shadow in"
-msgstr "in"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
@@ -1230,18 +1049,19 @@ msgid "Simple"
 msgstr "Απλό"
 
 #: data/glade/gthumb_png_exporter.glade.h:52
-#, fuzzy
 msgid "Simple with shadow"
-msgstr "Απλό με"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:53
+#, fuzzy
 msgid "Slide"
-msgstr ""
+msgstr "Μέγεθος"
 
 #: data/glade/gthumb_png_exporter.glade.h:54
 #: data/glade/gthumb_web_exporter.glade.h:34
+#, fuzzy
 msgid "Sor_t:"
-msgstr ""
+msgstr "Ταξινόμηση"
 
 #: data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
@@ -1253,50 +1073,48 @@ msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:57
 #: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:45
-#, fuzzy
 msgid "Start _at:"
-msgstr "Έναρξη:"
+msgstr ""
 
+#
 #: data/glade/gthumb_png_exporter.glade.h:58
 #, fuzzy
 msgid "Style Preview"
-msgstr "Στυλ Προεπισκόπηση"
+msgstr "Προεπισκόπηση"
 
 #: data/glade/gthumb_png_exporter.glade.h:59
+#, fuzzy
 msgid "Wi_dth:"
-msgstr ""
+msgstr "Πλάτος:"
 
 #: data/glade/gthumb_png_exporter.glade.h:60
-#, fuzzy
 msgid "_All pages with the same size"
-msgstr "Όλα με μέγεθος"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:62
-#, fuzzy
 msgid "_Draw frame"
-msgstr "Σχεδίαση πλαίσιο"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
 msgstr "_Γραμματοσειρά:"
 
 #: data/glade/gthumb_png_exporter.glade.h:64
+#, fuzzy
 msgid "_Gradient"
-msgstr ""
+msgstr "_Εκτύπωση"
 
 #: data/glade/gthumb_png_exporter.glade.h:66
-#, fuzzy
 msgid "_Image size:"
-msgstr "Εικόνα μέγεθος:"
+msgstr "Μέγεθος ει_κόνας:"
 
 #: data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
 msgstr "_Γραμμές:"
 
 #: data/glade/gthumb_png_exporter.glade.h:68
-#, fuzzy
 msgid "_Solid color"
-msgstr "χρώμα"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:69
 #: data/glade/gthumb_tools.glade.h:53
@@ -1310,9 +1128,8 @@ msgstr "κατά όνομα"
 
 #: data/glade/gthumb_png_exporter.glade.h:72
 #: data/glade/gthumb_web_exporter.glade.h:50
-#, fuzzy
 msgid "by path"
-msgstr "από"
+msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:73
 #: data/glade/gthumb_web_exporter.glade.h:51
@@ -1322,7 +1139,7 @@ msgstr "κατά μέγεθος"
 #: data/glade/gthumb_png_exporter.glade.h:74
 #, fuzzy
 msgid "by time"
-msgstr "από"
+msgstr "κατά όνομα"
 
 #: data/glade/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
@@ -1379,141 +1196,127 @@ msgstr "<b>Απόκρυψη/Εμφάνιση</b>"
 #: data/glade/gthumb_preferences.glade.h:15
 #, fuzzy
 msgid "<b>Interface</b>"
-msgstr "<b> Διεπαφή</b>"
+msgstr "<b>Άλλο</b>"
 
 #: data/glade/gthumb_preferences.glade.h:16
+#, fuzzy
 msgid "<b>On startup:</b>"
-msgstr ""
+msgstr "<b>Προσανατολισμός</b>"
 
 #: data/glade/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
 msgstr "<b>Άλλο</b>"
 
 #: data/glade/gthumb_preferences.glade.h:18
+#, fuzzy
 msgid "<b>Slide show</b>"
-msgstr ""
+msgstr "<b>Απόκρυψη/Εμφάνιση</b>"
 
 #: data/glade/gthumb_preferences.glade.h:19
 #, fuzzy
 msgid "<b>View images as</b>"
-msgstr "<b> Προβολή</b>"
+msgstr "<b>Εφαρμογή προβολής</b>"
 
 #: data/glade/gthumb_preferences.glade.h:20
 msgid "<b>Viewer</b>"
-msgstr ""
+msgstr "<b>Εφαρμογή προβολής</b>"
 
 #: data/glade/gthumb_preferences.glade.h:21
 #, fuzzy
 msgid "<b>Zoom quality</b>"
-msgstr ""
-"<b> #-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μεγέθυνση \n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μεγέθυνση</b>"
+msgstr "Ποιότητα _Μεγέθυνσης"
 
 #: data/glade/gthumb_preferences.glade.h:22
-#, fuzzy
 msgid "Activate items with a double click"
-msgstr "Ενεργοποίηση αντικείμενα με a"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:23
-#, fuzzy
 msgid "Activate items with a single click"
-msgstr "Ενεργοποίηση αντικείμενα με a"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:24
-#, fuzzy
 msgid "After _loading an image:"
-msgstr "εικόνα :"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:25
-#, fuzzy
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "πριν"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:26
-#, fuzzy
 msgid "Ask whether to save _modified images"
-msgstr "αποθήκευση"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:27
 msgid "Black"
 msgstr "Μαύρο"
 
 #: data/glade/gthumb_preferences.glade.h:28
-#, fuzzy
 msgid "Browser"
 msgstr "Εξερεύνηση"
 
 #: data/glade/gthumb_preferences.glade.h:29
-#, fuzzy
 msgid "C_lick policy:"
-msgstr "C:"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:30
 msgid "Checked"
 msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:31
+#, fuzzy
 msgid "Choose startup folder"
-msgstr ""
+msgstr "Επιλέξτε φάκελο προορισμού"
 
 #: data/glade/gthumb_preferences.glade.h:32
 msgid "Co_mments"
-msgstr ""
+msgstr "Σχό_λια"
 
 #: data/glade/gthumb_preferences.glade.h:33
-#, fuzzy
 msgid "D_elay before changing image:"
-msgstr "D πριν εικόνα :"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:34
-#, fuzzy
 msgid "D_etermine image type from content (slower)"
-msgstr "D εικόνα  είδος"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:35
-#, fuzzy
 msgid "Do _not change folder"
-msgstr "not"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:36
-#, fuzzy
 msgid "Fit image to window"
-msgstr "Ταίριασμα εικόνα  παράθυρο"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:37
-#, fuzzy
 msgid "Fit to window if larger"
-msgstr "Ταίριασμα παράθυρο"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:38
-#, fuzzy
 msgid "Follow Nautilus behaviour"
-msgstr "Ναυτίλος"
-
-#: data/glade/gthumb_preferences.glade.h:39
-msgid "For_ward"
 msgstr ""
+
+#
+#: data/glade/gthumb_preferences.glade.h:39
+#, fuzzy
+msgid "For_ward"
+msgstr "Προώθηση"
 
 #: data/glade/gthumb_preferences.glade.h:40
 msgid "General"
 msgstr "Γενικά"
 
 #: data/glade/gthumb_preferences.glade.h:41
-#, fuzzy
 msgid "Go to last _visited folder or catalog"
-msgstr "Μετάβαση τελευταία"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:42
-#, fuzzy
 msgid "Go to this _folder:"
-msgstr "Μετάβαση:"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:43
 #, fuzzy
 msgid "H_igh"
-msgstr "H"
+msgstr "Υψηλή"
 
 #: data/glade/gthumb_preferences.glade.h:44
 msgid "Icons only"
@@ -1528,41 +1331,39 @@ msgid "Layout:"
 msgstr "Διάταξη:"
 
 #: data/glade/gthumb_preferences.glade.h:47
+#, fuzzy
 msgid "Lo_w"
-msgstr ""
+msgstr "Χαμηλή"
 
 #: data/glade/gthumb_preferences.glade.h:49
 msgid "Ran_dom"
 msgstr ""
 
+#
 #: data/glade/gthumb_preferences.glade.h:50
+#, fuzzy
 msgid "Re_verse"
-msgstr ""
+msgstr "Επανα_φορά"
 
 #: data/glade/gthumb_preferences.glade.h:51
-#, fuzzy
 msgid "Resta_rt when finished"
-msgstr "ολοκληρώθηκε"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:52
-#, fuzzy
 msgid "Set image to actual size"
-msgstr "εικόνα  μέγεθος"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:53
-#, fuzzy
 msgid "Set to C_urrent"
-msgstr "C"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:54
-#, fuzzy
 msgid "Slide Show"
-msgstr "Εμφάνιση"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:55
-#, fuzzy
 msgid "Switch to _full screen"
-msgstr "Αλλαγή"
+msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
@@ -1570,37 +1371,36 @@ msgstr "Ρυθμίσεις συστήματος"
 
 #: data/glade/gthumb_preferences.glade.h:57
 msgid "Text below icons"
-msgstr "Κείμενο κάτω από τα εικονίδια"
+msgstr "Κείμενο κάτω από τα Εικονίδια"
 
 #: data/glade/gthumb_preferences.glade.h:58
 msgid "Text beside icons"
-msgstr "Κείμενο δίπλα από τα εικονίδια"
+msgstr "Κείμενο δίπλα από τα Εικονίδια"
 
 #: data/glade/gthumb_preferences.glade.h:59
 msgid "Text only"
-msgstr "Κείμενο μόνο"
+msgstr "Κείμενο Μόνο"
 
 #: data/glade/gthumb_preferences.glade.h:60
-#, fuzzy
 msgid "Th_umbnail size:"
-msgstr "Πε μέγεθος:"
+msgstr "_Μέγεθος μικρογραφίας:"
 
 #: data/glade/gthumb_preferences.glade.h:61
-#, fuzzy
 msgid "Transparency _type:"
-msgstr "είδος:"
+msgstr "_Τύπος διαφάνειας:"
 
 #: data/glade/gthumb_preferences.glade.h:62
 msgid "Viewer"
-msgstr ""
+msgstr "Εφαρμογή προβολής"
 
 #: data/glade/gthumb_preferences.glade.h:63
 msgid "White"
-msgstr "Λευκό"
+msgstr "Λευκά"
 
 #: data/glade/gthumb_preferences.glade.h:64
+#, fuzzy
 msgid "_Filenames"
-msgstr ""
+msgstr "Όνομα αρχείου"
 
 #: data/glade/gthumb_preferences.glade.h:65
 msgid "_List"
@@ -1655,65 +1455,43 @@ msgid "<b>Size</b>"
 msgstr "<b>Μέγεθος</b>"
 
 #: data/glade/gthumb_print.glade.h:11
-#, fuzzy
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
-msgstr "<small><i><b> Σημείωση</b> εικόνα  in στο εικόνα </i></small>"
+msgstr ""
 
 #: data/glade/gthumb_print.glade.h:13
 msgid "A_4"
 msgstr "A_4"
 
 #: data/glade/gthumb_print.glade.h:14
-#, fuzzy
 msgid "C_ustom:"
-msgstr "C:"
+msgstr "Παραμετροποιη_μένο:"
 
 #: data/glade/gthumb_print.glade.h:15
-#, fuzzy
 msgid "Center _on Page"
 msgstr ""
-"Κέντρο στο #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σελίδα\n"
-"#-#-#-#-#  gnome-applets-locations.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Page\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σελίδα\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σελίδα\n"
-"#-#-#-#-#  gtk+-properties.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Σελίδα\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σελίδα"
 
 #: data/glade/gthumb_print.glade.h:16
 #, fuzzy
 msgid "Comment _font:"
-msgstr "Σχόλιο:"
+msgstr "Σ_χόλιο:"
 
 #: data/glade/gthumb_print.glade.h:17
-#, fuzzy
 msgid "I_nclude comment"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ι\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"I"
 
 #: data/glade/gthumb_print.glade.h:18
-#, fuzzy
 msgid "Images per page:"
-msgstr "Εικόνες:"
+msgstr ""
 
 #: data/glade/gthumb_print.glade.h:19
 msgid "Inches"
 msgstr "Ίντσες"
 
 #: data/glade/gthumb_print.glade.h:20
-#, fuzzy
 msgid "Lan_dscape"
-msgstr "Κατα_κόρυφη"
+msgstr "Οριζ_όντια"
 
 #: data/glade/gthumb_print.glade.h:21
 msgid "Layout"
@@ -1724,14 +1502,12 @@ msgid "Millimeters"
 msgstr "Χιλιοστά"
 
 #: data/glade/gthumb_print.glade.h:23
-#, fuzzy
 msgid "P_ortrait"
-msgstr "Οριζό_ντια"
+msgstr "Κα_τακόρυφα"
 
 #: data/glade/gthumb_print.glade.h:24
-#, fuzzy
 msgid "Paper Details"
-msgstr "Χαρτί Λεπτομέρειες"
+msgstr ""
 
 #.
 #: data/glade/gthumb_print.glade.h:25 libgthumb/print-callbacks.c:2964
@@ -1740,32 +1516,22 @@ msgid "Print"
 msgstr "Εκτύπωση"
 
 #: data/glade/gthumb_print.glade.h:26
-#, fuzzy
 msgid "US E_xecutive"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Α\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"E\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"E\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Α"
 
 #: data/glade/gthumb_print.glade.h:27
-#, fuzzy
 msgid "US L_egal"
-msgstr "L"
+msgstr ""
 
 #: data/glade/gthumb_print.glade.h:28
-#, fuzzy
 msgid "US _Letter"
-msgstr "Letter"
+msgstr ""
 
+#
 #: data/glade/gthumb_print.glade.h:30
 #, fuzzy
 msgid "_Scale:"
-msgstr "Κλίμακα:"
+msgstr "_Αποθήκευση"
 
 #: data/glade/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -1774,7 +1540,7 @@ msgstr "<b>Κριτήρια αναζήτησης</b>"
 #: data/glade/gthumb_search.glade.h:4
 #, fuzzy
 msgid "<b>Search scope</b>"
-msgstr "<b> Αναζήτηση</b>"
+msgstr "<b>Κριτήρια αναζήτησης</b>"
 
 #: data/glade/gthumb_search.glade.h:6
 msgid "After"
@@ -1782,26 +1548,23 @@ msgstr "Μετά"
 
 #: data/glade/gthumb_search.glade.h:7
 msgid "Any"
-msgstr ""
+msgstr "Οποιοδήποτε"
 
 #: data/glade/gthumb_search.glade.h:8
 msgid "Before"
 msgstr "Πριν"
 
 #: data/glade/gthumb_search.glade.h:11
-#, fuzzy
 msgid "Choose categories from the saved list"
-msgstr "κατηγορίες λίστα"
+msgstr ""
 
 #: data/glade/gthumb_search.glade.h:13
-#, fuzzy
 msgid "Equal to"
-msgstr "Ίσον"
+msgstr "Ίσο με"
 
 #: data/glade/gthumb_search.glade.h:14
-#, fuzzy
 msgid "File _name:"
-msgstr "Αρχείο:"
+msgstr "Όνομα αρ_χείου:"
 
 #: data/glade/gthumb_search.glade.h:15
 msgid "Find"
@@ -1809,27 +1572,27 @@ msgstr "Εύρεση"
 
 #: data/glade/gthumb_search.glade.h:16
 msgid "Found images:"
-msgstr ""
+msgstr "Βρέθηκαν εικόνες:"
 
 #: data/glade/gthumb_search.glade.h:17
 #, fuzzy
 msgid "Match a_ll selected categories"
-msgstr "a κατηγορίες"
+msgstr "_Επιλεγμένες κατηγορίες:"
 
 #: data/glade/gthumb_search.glade.h:18
 #, fuzzy
 msgid "Match a_ny selected category"
-msgstr "a"
+msgstr "_Επιλεγμένες κατηγορίες:"
 
 #: data/glade/gthumb_search.glade.h:19
 msgid "New _Search..."
 msgstr "Νέα _Αναζήτηση..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:779
-#: src/dlg-photo-importer.c:1367
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:809
+#: src/dlg-photo-importer.c:1429
 #, fuzzy
 msgid "No images found"
-msgstr "Όχι"
+msgstr "Χωρίς εικόνα"
 
 #: data/glade/gthumb_search.glade.h:21
 msgid "Search Progress"
@@ -1838,17 +1601,17 @@ msgstr "Πρόοδος Αναζήτησης"
 #: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:44
 #, fuzzy
 msgid "Searching in:"
-msgstr "in:"
+msgstr "Ανα_ζήτηση"
 
 #: data/glade/gthumb_search.glade.h:25 src/ui.h:198 src/ui.h:233
 msgid "_Edit Search"
 msgstr "_Επεξεργασία Αναζήτησης"
 
 #: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:48
-#, fuzzy
 msgid "_Include sub-folders"
-msgstr "Περιέχει"
+msgstr ""
 
+#
 #: data/glade/gthumb_search.glade.h:28
 msgid "_Save"
 msgstr "Απο_θήκευση"
@@ -1870,16 +1633,15 @@ msgid "<b>Write to CD</b>"
 msgstr "<b>Εγγραφή σε CD</b>"
 
 #: data/glade/gthumb_tools.glade.h:7
-#, fuzzy
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-msgstr "<small><i><b> Σημείωση</b></i></small>"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:9
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
-msgstr "<small><i><b> Ειδικό</b> εικόνα  Ημερομηνία εικόνα  μέγεθος</i></small>"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:10
 msgid "Adjust photo _orientation"
@@ -1892,150 +1654,114 @@ msgstr ""
 #: data/glade/gthumb_tools.glade.h:12
 #, fuzzy
 msgid "Backup Comments"
-msgstr "Αντίγραφο ασφαλείας"
+msgstr "Σχόλιο"
 
 #: data/glade/gthumb_tools.glade.h:13
 #, fuzzy
 msgid "C_urrent date"
-msgstr "C Ημερομηνία"
+msgstr "Τρέχουσα ημερομηνία"
 
 #: data/glade/gthumb_tools.glade.h:14 src/ui.h:36 src/ui.h:37
+#, fuzzy
 msgid "Ca_talog"
-msgstr ""
+msgstr "Κατάλογος"
 
 #: data/glade/gthumb_tools.glade.h:15
-#, fuzzy
 msgid "Change Date"
-msgstr "Ημερομηνία"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:16
-#, fuzzy
 msgid "Change the last modified date to:"
-msgstr "τελευταία Ημερομηνία:"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:17
-#, fuzzy
 msgid "Check _All"
-msgstr "Όλα"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:18
 #, fuzzy
 msgid "Check _None"
-msgstr ""
-"#-#-#-#-#  evolution-exchange.gnome-2-8.el.po (evolution-exchange.gnome-2-"
-"8)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Καμμία\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανένα\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"κανένα\n"
-"#-#-#-#-#  nautilus-media.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κανένα"
+msgstr "_Κανένα"
 
 #: data/glade/gthumb_tools.glade.h:19
-#, fuzzy
 msgid "Checking image:"
-msgstr "εικόνα :"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:20
 msgid "Current _Folder"
 msgstr "Τρέχων _Φάκελος"
 
 #: data/glade/gthumb_tools.glade.h:21
-#, fuzzy
 msgid "Delete ALL Comments"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:22
 #, fuzzy
 msgid "Delete ALL Thumbnails"
-msgstr "Διαγραφή"
+msgstr "_Μικρογραφίες"
 
 #: data/glade/gthumb_tools.glade.h:23
-#, fuzzy
 msgid "Delete Old Comments"
-msgstr "Διαγραφή"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:24
 #, fuzzy
 msgid "Delete Old Thumbnails"
-msgstr "Διαγραφή"
+msgstr "_Μικρογραφίες"
 
 #: data/glade/gthumb_tools.glade.h:25
-#, fuzzy
 msgid "Delete comments of no more existing images"
-msgstr "Διαγραφή από όχι"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:26
-#, fuzzy
 msgid "Delete thumbnails of no more existing images"
-msgstr "Διαγραφή από όχι"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:27
 #, fuzzy
 msgid "Equal images:"
-msgstr "Ίσον:"
+msgstr "Παλιά Εικόνα:"
 
 #: data/glade/gthumb_tools.glade.h:28
-#, fuzzy
 msgid "Find Duplicates"
-msgstr "Εύρεση"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:29
 msgid "Found duplicates:"
 msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:30
-#, fuzzy
 msgid "Image c_reation date"
-msgstr "Εικόνα Ημερομηνία"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:31
 msgid "Maintenance"
 msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:32
-#, fuzzy
 msgid "Mirror image horizontally (left-right)"
-msgstr "εικόνα  αριστερά δεξιά"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:33
-#, fuzzy
 msgid "Mirror image vertically (top-bottom)"
-msgstr "εικόνα  επάνω κάτω"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:34 src/ui.h:113 src/ui.h:138 src/ui.h:263
 #: src/ui.h:293
-#, fuzzy
 msgid "Move to _Trash"
 msgstr "Μετακίνηση στα Απορρίμα_τα"
 
 #: data/glade/gthumb_tools.glade.h:35
-#, fuzzy
 msgid "New names _preview:"
-msgstr "Νέο:"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:36
-#, fuzzy
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "P Ημερομηνία Από EXIF"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:37
-#, fuzzy
 msgid "Re_verse Order"
-msgstr "Σειρά"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:38
 #, fuzzy
@@ -2043,9 +1769,8 @@ msgid "Rename Series"
 msgstr "Μετονομασία"
 
 #: data/glade/gthumb_tools.glade.h:39
-#, fuzzy
 msgid "Restore Comments From a Backup File"
-msgstr "Από a Αντίγραφο ασφαλείας Αρχείο"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:40
 msgid "Rotate Images"
@@ -2054,22 +1779,19 @@ msgstr "Περιστροφή Εικόνων"
 #: data/glade/gthumb_tools.glade.h:41
 #, fuzzy
 msgid "Rotate image 90 degrees clockwise"
-msgstr "Περιστροφή εικόνα "
+msgstr "Ω_ρολογιακή Περιστροφή"
 
 #: data/glade/gthumb_tools.glade.h:42
-#, fuzzy
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr "Περιστροφή εικόνα "
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:43
-#, fuzzy
 msgid "Search terminated, no duplicates found."
-msgstr "Αναζήτηση όχι."
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:46
-#, fuzzy
 msgid "The _following date:"
-msgstr "Ημερομηνία:"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:47
 msgid "Write To CD"
@@ -2087,108 +1809,94 @@ msgstr "_Επιλεγμένες Εικόνες"
 #: data/glade/gthumb_tools.glade.h:52
 #, fuzzy
 msgid "_Sort:"
-msgstr "Ταξινόμηση:"
+msgstr "_Θύρα:"
 
 #: data/glade/gthumb_tools.glade.h:55
-#, fuzzy
 msgid "by Modification date"
-msgstr "από Ημερομηνία"
+msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:56
-#, fuzzy
 msgid "by Name"
-msgstr "από Όνομα"
+msgstr "κατά Όνομα"
 
 #: data/glade/gthumb_tools.glade.h:57
-#, fuzzy
 msgid "by Size"
-msgstr "από Μέγεθος"
+msgstr "κατά Μέγεθος"
 
 #: data/glade/gthumb_web_exporter.glade.h:5
 msgid "1024 x 768"
-msgstr ""
+msgstr "1024 x 768"
 
 #: data/glade/gthumb_web_exporter.glade.h:6
 msgid "1280 x 960"
-msgstr ""
+msgstr "1280 x 960"
 
 #: data/glade/gthumb_web_exporter.glade.h:7
 msgid "320 x 200"
-msgstr ""
+msgstr "320 x 200"
 
 #: data/glade/gthumb_web_exporter.glade.h:8
 msgid "640 x 480"
-msgstr ""
+msgstr "640 x 480"
 
 #: data/glade/gthumb_web_exporter.glade.h:9
 msgid "800 x 600"
-msgstr ""
+msgstr "800 x 600"
 
 #: data/glade/gthumb_web_exporter.glade.h:10
+#, fuzzy
 msgid "<b>Album</b>"
-msgstr ""
+msgstr "<b>Θέμα</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:11
 #, fuzzy
 msgid "<b>Index Layout</b>"
-msgstr "<b> Ευρετήριο Διάταξη</b>"
+msgstr "<b>Ανάλυση</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:12
+#, fuzzy
 msgid "<b>Personalize theme</b>"
-msgstr ""
+msgstr "<b>Μέγεθος σελίδας</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:13
-#, fuzzy
 msgid "<b>Photo data</b>"
-msgstr "<b> Φωτογραφία</b>"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:15
 msgid "<b>Theme</b>"
 msgstr "<b>Θέμα</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:17
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr "<small><i><b> Σημείωση</b> Ημερομηνία</i></small>"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:18
 #, fuzzy
 msgid "Came_ra Model"
-msgstr "Μοντέλο"
+msgstr "_Μοντέλο:"
 
 #: data/glade/gthumb_web_exporter.glade.h:19
 msgid "Caption"
-msgstr ""
+msgstr "Λεζάντα"
 
 #: data/glade/gthumb_web_exporter.glade.h:21
 #, fuzzy
 msgid "E_xposure mode"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Α\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"E\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"E\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Α λειτουργία"
+msgstr "Χρόνος έκθεσης"
 
 #: data/glade/gthumb_web_exporter.glade.h:22
+#, fuzzy
 msgid "Exposure _time"
-msgstr ""
+msgstr "Χρόνος έκθεσης"
 
 #: data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:28
-#, fuzzy
 msgid "I_mage Caption..."
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ι\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"I."
 
 #: data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
@@ -2199,75 +1907,48 @@ msgid "Resi_ze if larger than:"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:33
+#, fuzzy
 msgid "Si_ze :"
-msgstr ""
+msgstr "Μέγεθος"
 
 #: data/glade/gthumb_web_exporter.glade.h:35
-#, fuzzy
 msgid "Th_eme:"
-msgstr "Πε:"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:36
-#, fuzzy
 msgid "Web Album"
-msgstr "Δικτυακός Ιστός"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:37
-#, fuzzy
 msgid "Web Album Theme"
 msgstr ""
-"Δικτυακός Ιστός #-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-"
-"#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-mime-data.HEAD.el.po (el)  #-#-#-#-#\n"
-"θέμα"
 
 #: data/glade/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:39
-#, fuzzy
 msgid "_Copy originals to destination"
-msgstr "Αντιγραφή"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:40
-#, fuzzy
 msgid "_Date and Time"
 msgstr ""
-"Ημερομηνία και #-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ώρα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρόνος\n"
-"#-#-#-#-#  gnome-nettool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρόνος\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ώρα"
 
 #: data/glade/gthumb_web_exporter.glade.h:42
+#, fuzzy
 msgid "_Flash"
-msgstr ""
+msgstr "Flash"
 
 #: data/glade/gthumb_web_exporter.glade.h:43
-#, fuzzy
 msgid "_Go to Theme Folder"
 msgstr ""
-"Μετάβαση #-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-mime-data.HEAD.el.po (el)  #-#-#-#-#\n"
-"θέμα Φάκελος"
 
 #: data/glade/gthumb_web_exporter.glade.h:44
-#, fuzzy
 msgid "_Install Theme..."
 msgstr "_Εγκατάσταση Θέματος..."
 
 #: data/glade/gthumb_web_exporter.glade.h:45
-#, fuzzy
 msgid "_Select"
 msgstr "Επιλο_γή"
 
@@ -2276,13 +1957,13 @@ msgid "_Shutter speed"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:47
+#, fuzzy
 msgid "_Thumbnail Caption..."
-msgstr ""
+msgstr "_Μικρογραφίες"
 
 #: data/glade/gthumb_web_exporter.glade.h:48
-#, fuzzy
 msgid "by modified time"
-msgstr "από"
+msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:52
 msgid "columns"
@@ -2297,30 +1978,27 @@ msgid "rows"
 msgstr "γραμμές"
 
 #: data/gthumb.desktop.in.h:1
-#, fuzzy
 msgid "View and organize your images"
-msgstr "Προβολή και"
+msgstr ""
 
 #: data/gthumb.desktop.in.h:2
 #, fuzzy
 msgid "gThumb Image Viewer"
-msgstr "Εικόνα"
+msgstr "Εικόνα GThumb"
 
 #: data/gthumb.schemas.in.h:1
-#, fuzzy
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr "Εικόνες μέγεθος in not για."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
 msgstr ""
 
 #: data/gthumb.schemas.in.h:3
-#, fuzzy
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
-msgstr "μέγεθος."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
@@ -2331,14 +2009,12 @@ msgid "Possible values are: forward, backward, random."
 msgstr ""
 
 #: data/gthumb.schemas.in.h:6
-#, fuzzy
 msgid "Possible values are: high, low."
-msgstr "υψηλό χαμηλό."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:7
-#, fuzzy
 msgid "Possible values are: image, data, comment."
-msgstr "εικόνα ."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:8
 msgid "Possible values are: jpeg, png, tga, tiff."
@@ -2349,57 +2025,48 @@ msgid "Possible values are: light, midtone, dark."
 msgstr ""
 
 #: data/gthumb.schemas.in.h:10
-#, fuzzy
 msgid "Possible values are: list, thumbnails."
-msgstr "λίστα."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:11
-#, fuzzy
 msgid "Possible values are: mm, in."
-msgstr "mm in."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:12
-#, fuzzy
 msgid "Possible values are: name, path, size, time."
-msgstr "μέγεθος."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:13
-#, fuzzy
 msgid "Possible values are: name, size, time."
-msgstr "μέγεθος."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
 msgstr ""
 
 #: data/gthumb.schemas.in.h:15
-#, fuzzy
 msgid "Possible values are: none, deflate, jpeg."
-msgstr "κανένα."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:16
-#, fuzzy
 msgid "Possible values are: none, name, path, size, time."
-msgstr "κανένα μέγεθος."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:17
-#, fuzzy
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr "κανένα με in."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:18
-#, fuzzy
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr "κανένα εικόνα  προσαρμοσμένο."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:19
-#, fuzzy
 msgid "Possible values are: pixels, percentage."
-msgstr "εικονοστοιχεία."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:20
 msgid "Possible values are: png, jpeg."
@@ -2414,93 +2081,87 @@ msgid "Possible values are: small, medium, large."
 msgstr ""
 
 #: data/gthumb.schemas.in.h:23
-#, fuzzy
 msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "κείμενο κείμενο κείμενο."
+msgstr ""
+"Πιθανές τιμές είναι: συστήματος, κείμενο από κάτω, κείμενο απο δίπλα, μόνο "
+"κείμενο, μόνο εικονίδια."
 
 #: data/gthumb.schemas.in.h:24
-#, fuzzy
 msgid "Possible values are: white, black, checked, none."
-msgstr "λευκό μαύρο κανένα."
+msgstr ""
 
 #: data/gthumb.schemas.in.h:25
-#, fuzzy
 msgid "Whether to always use a black background."
-msgstr "a μαύρο."
+msgstr ""
 
 #: libgthumb/catalog.c:89
-#, fuzzy
 msgid "Library not empty"
-msgstr "not"
+msgstr ""
 
 #: libgthumb/catalog.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "απομάκρυνση"
+msgstr ""
 
 #: libgthumb/catalog.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "απομάκρυνση"
+msgstr ""
 
 #: libgthumb/catalog.c:250 libgthumb/catalog.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "άνοιγμα"
+msgstr ""
 
 #: libgthumb/catalog.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "αποθήκευση"
+msgstr ""
 
 #: libgthumb/comments.c:429
-#, fuzzy
 msgid "Deleting all comments, wait please..."
-msgstr "Διαγράφονται."
+msgstr ""
 
 #: libgthumb/comments.c:431
-#, fuzzy
 msgid "Deleting old comments, wait please..."
-msgstr "Διαγράφονται."
+msgstr ""
 
-#: libgthumb/comments.c:788
-#, fuzzy
+#: libgthumb/comments.c:942
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:790 src/catalog-web-exporter.c:49
+#: libgthumb/comments.c:944 src/catalog-web-exporter.c:49
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:439 src/fullscreen.c:225
-#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:273
-#, fuzzy
+#: src/gth-exif-data-viewer.c:470 src/gthumb-window.c:273
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:800
+#: libgthumb/comments.c:954 libgthumb/comments.c:956
 #, fuzzy
 msgid "(No Comment)"
-msgstr "Όχι Σχόλιο"
+msgstr "Σχόλιο"
 
 #: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:769 src/dlg-photo-importer.c:1392
-#, fuzzy, c-format
+#: src/dlg-jpegtran.c:769 src/dlg-photo-importer.c:1454
+#, c-format
 msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "Εσύ δεξιά δικαιώματα in"
+msgstr ""
 
 #: libgthumb/dlg-save-image.c:135 src/actions.c:323 src/dlg-convert.c:308
-#, fuzzy, c-format
+#, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "εικόνα  είναι?"
+msgstr ""
 
 #: libgthumb/dlg-save-image.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Image type not supported: %s"
-msgstr "Εικόνα είδος not"
+msgstr ""
 
 #: libgthumb/dlg-save-image.c:237
-#, fuzzy
 msgid "Determine by extension"
-msgstr "από"
+msgstr ""
 
+#
 #: libgthumb/dlg-save-image.c:272
 msgid "Save Image"
 msgstr "Αποθήκευση Εικόνας"
@@ -2508,26 +2169,23 @@ msgstr "Αποθήκευση Εικόνας"
 #: libgthumb/dlg-save-image.c:289
 #, fuzzy
 msgid "Image type:"
-msgstr "Εικόνα είδος:"
+msgstr "Εικόνα"
 
 #: libgthumb/gnome-print-font-dialog.c:113
-#, fuzzy
 msgid "_Insert a new preview phrase."
-msgstr "_Εισαγωγή μια νέας φράσης προεπισκόπησης."
+msgstr ""
 
 #: libgthumb/gnome-print-font-dialog.c:119
-#, fuzzy
 msgid "Modify preview phrase..."
-msgstr "Τροποποίηση φράσης προεπισκόπησης..."
+msgstr ""
 
 #: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "Προεπισκόπηση"
 
 #: libgthumb/gnome-print-font-dialog.c:186
-#, fuzzy
 msgid "_Modify preview phrase..."
-msgstr "_Τροποποίηση φράσης προεπισκόπησης..."
+msgstr ""
 
 #: libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
@@ -2538,31 +2196,18 @@ msgid "Sans Regular 12"
 msgstr "Sans Regular 12"
 
 #: libgthumb/gnome-print-font-picker.c:93
-#, fuzzy
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"ΑαΒβΓγΔδΕεΖζΗηΘθΙιΚκΛλΜμΝνΞξΟοΠπΡρΣσΤτΥυΦφΧχΨψΩω\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"ΆΑάαΒβΓγΔδΈΕέεΖζΉΗήηΘθΊΙίϊΐιΚκΛλΜμΝνΞξΌΟόοΠπΡρΣσΤτΦφΧχΨψΏΩώω"
+msgstr "ΆΑάαΒβΓγΔδΈΕέεΖζΉΗήηΘθΊΙίϊΐιΚκΛλΜμΝνΞξΌΟόοΠπΡρΣσΤτΦφΧχΨψΏΩώω"
 
 #: libgthumb/gnome-print-font-picker.c:94
-#, fuzzy
 msgid "Pick a Font"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Επιλογή μιας Γραμματοσειράς\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Επιλογή μιας Γραμματοσειράς\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επιλογή Γραμματοσειράς"
+msgstr "Επιλογή μιας γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:179
 msgid "Title"
 msgstr "Τίτλος"
 
 #: libgthumb/gnome-print-font-picker.c:180
-#, fuzzy
 msgid "The title of the selection dialog box"
 msgstr "Ο τίτλος του κουτιού διαλόγου επιλογής"
 
@@ -2571,84 +2216,48 @@ msgid "Font name"
 msgstr "Όνομα γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:201
-#, fuzzy
 msgid "Name of the selected font"
 msgstr "Το όνομα της επιλεγμένης γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:209
-#, fuzzy
 msgid "Preview text"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Προεπισκόπηση κειμένου\n"
-"#-#-#-#-#  gtk+-properties.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Προεπισκόπηση κειμένου\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κειμένο προεπισκόπησης"
+msgstr "Προεπισκόπηση κειμένου"
 
 #: libgthumb/gnome-print-font-picker.c:210
-#, fuzzy
 msgid "Preview text shown in the dialog"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Προεπισκόπηση κειμένου που προβάλλεται στο κουτί διαλόγου\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κειμένο προεπισκόπησης που προβάλλεται στο διάλογο"
+msgstr "Κειμένο προεπισκόπησης που προβάλλεται στο διάλογο"
 
 #: libgthumb/gnome-print-font-picker.c:218
-#, fuzzy
 msgid "Use font in label"
 msgstr "Χρήση γραμματοσειράς στην ετικέτα"
 
 #: libgthumb/gnome-print-font-picker.c:219
-#, fuzzy
 msgid "Use font in the label in font info mode"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρήση γραμματοσειράς στην ετικέτα σε λειτουργία πληροφ. γραμματοσειράς\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρήση γραμματοσειράς στην ετικέτα σε κατάσταση πληροφ. γραμματοσειράς"
+msgstr "Χρήση γραμματοσειράς στην ετικέτα σε κατάσταση πληροφ. γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:227
-#, fuzzy
 msgid "Font size for label"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Μέγεθος γραμματοσειράς για ετικέτα\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μέγεθος γραμματοσειράς για την ετικέτα"
+msgstr "Μέγεθος γραμματοσειράς για την ετικέτα"
 
 #: libgthumb/gnome-print-font-picker.c:228
-#, fuzzy
 msgid "Font size for label in font info mode"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Μέγεθος γραμματοσειράς για ετικέτα σε λειτουργία πληροφ. γραμματοσειράς.\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μέγεθος γραμματοσειράς για την ετικέτα σε κατάσταση πληροφ. γραμματοσειράς"
+msgstr "Μέγεθος γραμματοσειράς για την ετικέτα σε κατάσταση πληροφ. γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:238
-#, fuzzy
 msgid "Show size"
 msgstr "Προβολή μεγέθους"
 
 #: libgthumb/gnome-print-font-picker.c:239
-#, fuzzy
 msgid "Show size in font info mode"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Προβολή μεγέθους σε λειτουργία πληροφ. γραμματοσειράς.\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προβολή μεγέθους σε κατάσταση πληροφ. γραμματοσειράς"
+msgstr "Προβολή μεγέθους σε κατάσταση πληροφ. γραμματοσειράς"
 
 #: libgthumb/gnome-print-font-picker.c:1018
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
-#: libgthumb/gth-file-list.c:522 src/gthumb-window.c:8384
-#, fuzzy
+#: libgthumb/gth-file-list.c:522 src/gthumb-window.c:8388
 msgid "Wait please..."
-msgstr "Αναμονή."
+msgstr ""
 
 #: libgthumb/gth-file-list.c:616 libgthumb/gth-file-list.c:637
 #: libgthumb/gth-image-list.c:3443 src/gthumb-window.c:503
@@ -2656,7 +2265,7 @@ msgid "No image"
 msgstr "Χωρίς εικόνα"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
+#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:481
 msgid "Name"
 msgstr "Όνομα"
 
@@ -2665,19 +2274,18 @@ msgstr "Όνομα"
 #: src/dir-list.c:498 src/dlg-rename-series.c:287 src/dlg-rename-series.c:291
 #: src/gthumb-window.c:426 src/gthumb-window.c:1107 src/gthumb-window.c:1113
 #: src/gthumb-window.c:1119
-#, fuzzy
 msgid "(Invalid Name)"
-msgstr "Μη έγκυρο Όνομα"
+msgstr ""
 
+#
 #: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1555
-#, fuzzy, c-format
+#, c-format
 msgid "Print %s"
-msgstr "Εκτύπωση"
+msgstr "Εκτύπωση %s"
 
 #: libgthumb/print-callbacks.c:942
-#, fuzzy
 msgid "Print Image"
-msgstr "Εκτύπωση Εικόνα"
+msgstr "Εκτύπωση Εικόνας"
 
 #: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2040
 #, c-format
@@ -2685,28 +2293,25 @@ msgid "Page %d of %d"
 msgstr "Σελίδα %d από %d"
 
 #: libgthumb/print-callbacks.c:3037 src/catalog-png-exporter.c:1334
-#, fuzzy, c-format
+#, c-format
 msgid "Loading image: %s"
-msgstr "εικόνα "
+msgstr ""
 
 #: libgthumb/thumb-cache.c:485
-#, fuzzy
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Διαγράφονται."
+msgstr ""
 
 #: libgthumb/thumb-cache.c:487
-#, fuzzy
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Διαγράφονται."
+msgstr ""
 
 #: src/actions.c:285 src/actions.c:793 src/actions.c:1317
-#, fuzzy
 msgid "Enter the new name: "
-msgstr "Enter νέο "
+msgstr ""
 
 #: src/actions.c:303 src/actions.c:813 src/actions.c:1036 src/actions.c:1113
 #: src/actions.c:1335
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
@@ -2715,32 +2320,22 @@ msgstr ""
 "χρησιμοποιήστε διαφορετικό όνομα."
 
 #: src/actions.c:330 src/dlg-convert.c:314
-#, fuzzy
 msgid "_Overwrite"
-msgstr ""
-"#-#-#-#-#  bug-buddy.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Αντικατάσταση\n"
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Αντικατάσταση\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Αντι_κατάσταση\n"
-"#-#-#-#-#  nautilus-cd-burner.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Αντι_κατάσταση"
+msgstr "_Αντικατάσταση"
 
 #: src/actions.c:350 src/actions.c:365
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "not εικόνα "
+msgstr ""
 
 #: src/actions.c:352 src/actions.c:1357 src/actions.c:1629
-#, fuzzy
 msgid "source and destination are the same"
-msgstr "και"
+msgstr ""
 
 #: src/actions.c:449
-#, fuzzy, c-format
+#, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "not εικόνα "
+msgstr ""
 
 #: src/actions.c:457
 msgid "Stop"
@@ -2751,49 +2346,31 @@ msgid "Continue"
 msgstr "Συνέχεια"
 
 #: src/actions.c:518
-#, fuzzy
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr ""
-"εικόνα  #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα?"
 
 #: src/actions.c:598
-#, fuzzy
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα?"
 
 #: src/actions.c:760
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 
 #: src/actions.c:835 src/actions.c:1055 src/actions.c:1129 src/actions.c:1365
-#, fuzzy, c-format
+#, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "είναι a."
+msgstr ""
 
 #: src/actions.c:846
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:846
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:915
 msgid "The selected library will be removed, are you sure?"
@@ -2804,133 +2381,85 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr ""
 
 #: src/actions.c:1020 src/dlg-catalog.c:84
-#, fuzzy
 msgid "Enter the catalog name: "
-msgstr "Enter "
+msgstr ""
 
 #: src/actions.c:1021
-#, fuzzy
 msgid "New Catalog"
-msgstr "Νέο"
+msgstr "Νέος Κατάλογος"
 
 #: src/actions.c:1066
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:1100 src/dlg-catalog.c:88 src/dlg-catalog.c:139
 #: src/dlg-categories.c:242 src/dlg-file-utils.c:90
-#, fuzzy
 msgid "C_reate"
-msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Δημιουργία\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Δη_μιουργία"
+msgstr "_Δημιουργία"
 
 #: src/actions.c:1156
-#, fuzzy
 msgid "New Library"
-msgstr "Νέο"
+msgstr "Νέα Βιβλιοθήκη"
 
 #: src/actions.c:1157 src/dlg-catalog.c:135
-#, fuzzy
 msgid "Enter the library name: "
-msgstr "Enter "
+msgstr ""
 
 #: src/actions.c:1158
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:1355 src/actions.c:1389
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:1441
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr ""
-"not #-#-#-#-#  gail.HEAD.el.po (el)  #-#-#-#-#\n"
-"διαγραφή\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"delete"
 
 #: src/actions.c:1472
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα #-#-#-#-#  gail.HEAD.el.po (el)  #-#-#-#-#\n"
-"διαγραφή\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"delete?"
 
 #: src/actions.c:1480 src/dlg-file-utils.c:227 src/gthumb-window.c:1625
-#, fuzzy
 msgid "_Do not display this message again"
-msgstr "not μήνυμα"
+msgstr ""
 
 #: src/actions.c:1513
-#, fuzzy
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα?"
 
 #: src/actions.c:1515 src/dlg-file-utils.c:281
-#, fuzzy
 msgid "_Move"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετακίνηση\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετα_κίνηση\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετακ_ίνηση\n"
-"#-#-#-#-#  gnome-panel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετακίνηση\n"
-"#-#-#-#-#  libwnck.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετακίνηση\n"
-"#-#-#-#-#  metacity.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετακίνηση"
+msgstr "_Μετακίνηση"
 
 #: src/actions.c:1564 src/actions.c:1619
-#, fuzzy, c-format
+#, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "not αντιγραφή"
+msgstr ""
 
 #: src/actions.c:1619 src/dlg-file-utils.c:2414 src/dlg-file-utils.c:2416
-#, fuzzy, c-format
+#, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:1640
-#, fuzzy
 msgid "source contains destination"
-msgstr "περιέχει"
+msgstr ""
 
 #: src/actions.c:1651
-#, fuzzy
 msgid "a folder with that name is already present."
-msgstr "a με είναι."
+msgstr ""
 
 #: src/actions.c:1724 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#, fuzzy
 msgid "Choose the destination folder"
-msgstr ""
+msgstr "Επιλέξτε φάκελο προορισμού"
 
 #: src/actions.c:1971
 msgid "New Folder"
@@ -2939,283 +2468,179 @@ msgstr "Νέος Φάκελος"
 #: src/actions.c:1972
 #, fuzzy
 msgid "Enter the folder name: "
-msgstr "Enter "
+msgstr "_Προβολή"
 
-#: src/actions.c:1973 src/dlg-photo-importer.c:1375
-#, fuzzy, c-format
+#: src/actions.c:1973 src/dlg-photo-importer.c:1437
+#, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "not"
+msgstr ""
 
 #: src/actions.c:2717
-#, fuzzy
 msgid "translator_credits"
-msgstr ""
-"#-#-#-#-#  dasher.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>\n"
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Σπύρος Παπαδημητρίου <spapadim+@cs.cmu.edu>\n"
-"Συμεών (σίμος) Ξενιτέλλης <simos@hellug.gr>\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gnome-applets.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σπύρος Παπαδημητρίου <spapadim+@cs.cmu.edu>\n"
-"Συμεών (σίμος) Ξενιτέλλης (simos@hellug.gr)\n"
-"Σαράντης Πασχάλης <paskalis@di.uoa.gr>\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σίμος Ξενιτέλλης <simos@hellug.gr>\n"
-"Σπύρος Παπαδημητρίου <spapadim+@cs.smu,edu>\n"
-"Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gnome-netstatus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gnome-nettool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gnome.org>\n"
-"#-#-#-#-#  gnome-panel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>, 2002, 2003\n"
-"Συμεών (σίμος) Ξενιτέλλης <simos@hellug.gr>, 2000, 2001, 2002\n"
-"Σαράντης Πασχάλης <paskalis@di.uoa.gr>, 2000\n"
-"Σπύρος Παπαδημητρίου <spapadim+@cs.cmu.edu>, 1999\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Συμεών (σίμος) Ξενιτέλλης <simos@hellug.gr>\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>\n"
-"Νίκος Χαρωνιτάκης <charosn@her.forthnet.gr>\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>\n"
-"#-#-#-#-#  gucharmap.HEAD.el.po (el)  #-#-#-#-#\n"
-"Αλέξανδρος Διαμαντίδης <adia@hellug.gr>\n"
-"#-#-#-#-#  procman.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Συμεών (σίμος) Ξενιτέλλης <simos74@gmx.net>\n"
-"#-#-#-#-#  yelp.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Συμεών (σίμος) Ξενιτέλλης <simos@hellug.gr>\n"
-"Κώστας Παπαδήμας <pkst@gmx.net>"
+msgstr "Κώστας Παπαδήμας <pkst@gnome.org>"
 
-#: src/actions.c:2726 src/gthumb-window.c:444 src/gthumb-window.c:4787
+#: src/actions.c:2726 src/gthumb-window.c:444 src/gthumb-window.c:4790
 #: src/main.c:136
 msgid "gThumb"
 msgstr ""
 
 #: src/actions.c:2729
-#, fuzzy
 msgid "An image viewer and browser for GNOME."
-msgstr "εικόνα  και για GNOME."
+msgstr ""
 
 #: src/actions.c:2766 src/dlg-categories.c:368 src/dlg-change-date.c:151
 #: src/dlg-comment.c:303 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "Could not display help: %s"
 msgstr "Αδύνατη ή προβολή βοήθειας: %s"
 
 #: src/catalog-png-exporter.c:1563
-#, fuzzy, c-format
+#, c-format
 msgid "Creating image: %s.%s"
-msgstr "εικόνα "
+msgstr ""
 
-#: src/catalog-web-exporter.c:1643
+#: src/catalog-web-exporter.c:1667
 #, fuzzy
 msgid "Saving thumbnails"
-msgstr "Αποθηκεύεται"
+msgstr "_Μικρογραφίες"
 
-#: src/catalog-web-exporter.c:1709
-#, fuzzy
+#: src/catalog-web-exporter.c:1733
 msgid "Saving HTML pages: Images"
-msgstr "Αποθηκεύεται HTML Εικόνες"
+msgstr ""
 
-#: src/catalog-web-exporter.c:1784
-#, fuzzy
+#: src/catalog-web-exporter.c:1808
 msgid "Saving HTML pages: Indexes"
-msgstr "Αποθηκεύεται HTML"
+msgstr ""
 
-#: src/catalog-web-exporter.c:1907 src/catalog-web-exporter.c:1966
-#: src/catalog-web-exporter.c:2136
+#: src/catalog-web-exporter.c:1931 src/catalog-web-exporter.c:1990
+#: src/catalog-web-exporter.c:2160
 #, fuzzy
 msgid "Saving images"
-msgstr "Αποθηκεύεται"
+msgstr "Αποθήκευση Εικόνας"
 
-#: src/catalog-web-exporter.c:2345
-#, fuzzy
+#: src/catalog-web-exporter.c:2369
 msgid "Could not create a temporary folder"
-msgstr "not a"
+msgstr ""
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2378
+#: src/catalog-web-exporter.c:2402
 msgid "Loading images"
-msgstr ""
+msgstr "Φόρτωση εικόνων"
 
 #: src/dlg-catalog.c:476
 #, fuzzy
 msgid "Move Catalog to..."
-msgstr "Μετακίνηση."
+msgstr "_Νέος Κατάλογος"
 
 #: src/dlg-categories.c:238
 #, fuzzy
 msgid "Enter the new category name"
-msgstr "Enter νέο"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #: src/dlg-categories.c:249
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
-msgstr "είναι not περιέχει a."
+msgstr ""
 
 #: src/dlg-categories.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "είναι a."
+msgstr ""
 
 #: src/dlg-convert.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Converting image: %s"
-msgstr "εικόνα "
+msgstr ""
 
 #: src/dlg-convert.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "An image named \"%s\" is already present. Please specify a different name."
-msgstr "εικόνα  είναι a."
+msgstr ""
 
 #: src/dlg-crop.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Image)"
-msgstr "Εικόνα"
+msgstr ""
 
 #: src/dlg-crop.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Display)"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση\n"
-"#-#-#-#-#  gdm2.HEAD.el.po (el)  #-#-#-#-#\n"
-"Οθόνη\n"
-"#-#-#-#-#  gnome-applets.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση"
 
 #: src/dlg-duplicates.c:278 src/dlg-duplicates.c:652
 msgid "Duplicates"
 msgstr ""
 
 #: src/dlg-duplicates.c:293
-#, fuzzy
 msgid "Duplicates Size"
-msgstr "Μέγεθος"
+msgstr ""
 
 #: src/dlg-duplicates.c:400
 #, fuzzy
 msgid "Last modified"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τελευταία\n"
-"#-#-#-#-#  gdm2.HEAD.el.po (el)  #-#-#-#-#\n"
-"Τελευταίο\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Τελευταία\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τελευταία"
+msgstr "Τροποποιήθηκε"
 
 #: src/dlg-duplicates.c:415 src/dlg-image-prop.c:615
 msgid "Location"
 msgstr "Τοποθεσία"
 
 #: src/dlg-duplicates.c:757
-#, fuzzy
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα?"
 
 #: src/dlg-file-utils.c:88
-#, fuzzy
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr "not?"
+msgstr ""
 
 #: src/dlg-file-utils.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "not."
+msgstr ""
 
 #: src/dlg-file-utils.c:201
-#, fuzzy
 msgid "Could not delete the images:"
 msgstr ""
-"not #-#-#-#-#  gail.HEAD.el.po (el)  #-#-#-#-#\n"
-"διαγραφή\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"delete:"
 
 #: src/dlg-file-utils.c:224
-#, fuzzy
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα #-#-#-#-#  gail.HEAD.el.po (el)  #-#-#-#-#\n"
-"διαγραφή\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"delete?"
 
 #: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
-#, fuzzy
 msgid "You didn't enter the new name"
-msgstr "Εσύ κεντραρισμένο νέο"
+msgstr ""
 
 #: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
-#, fuzzy, c-format
+#, c-format
 msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Το όνομα \"%s\" χρησιμοποιείται ήδη σε αυτόν τον φάκελο. Παρακαλώ δοκιμάστε "
 "άλλο όνομα."
 
 #: src/dlg-file-utils.c:1010
-#, fuzzy
 msgid "Could not rename the image:"
-msgstr "not εικόνα :"
+msgstr ""
 
 #: src/dlg-file-utils.c:1012
-#, fuzzy
 msgid "Could not rename the following images:"
-msgstr "not:"
+msgstr ""
 
 #: src/dlg-file-utils.c:1146
-#, fuzzy
 msgid "Could not move the image:"
-msgstr "not εικόνα :"
+msgstr ""
 
 #: src/dlg-file-utils.c:1148
-#, fuzzy
 msgid "Could not copy the image:"
-msgstr "not αντιγραφή εικόνα :"
+msgstr ""
 
 #: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2437
 #, fuzzy
 msgid "_Abort"
-msgstr "Αποβολή"
+msgstr "Πε_ρί"
 
 #: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2438
 msgid "_Continue"
@@ -3224,124 +2649,86 @@ msgstr "_Συνέχεια"
 #: src/dlg-file-utils.c:1347
 #, fuzzy, c-format
 msgid "Copying file %d of %d"
-msgstr "Αντιγραφή από"
+msgstr "Σελίδα %d από %d"
 
 #: src/dlg-file-utils.c:1763 src/dlg-file-utils.c:1991
 msgid "Collecting images info"
 msgstr ""
 
 #: src/dlg-file-utils.c:1766 src/dlg-file-utils.c:2004
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting file %ld of %ld"
-msgstr "Διαγράφονται από"
+msgstr ""
 
 #: src/dlg-file-utils.c:1994
 #, fuzzy, c-format
 msgid "Copying file %ld of %ld"
-msgstr "Αντιγραφή από"
+msgstr "Σελίδα %d από %d"
 
 #: src/dlg-file-utils.c:1999
 #, fuzzy, c-format
 msgid "Moving file %ld of %ld"
-msgstr "Γίνετε μετακίνηση από"
+msgstr "Σελίδα %d από %d"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
+#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:488
 msgid "Size"
 msgstr "Μέγεθος"
 
 #: src/dlg-image-prop.c:605
-#, fuzzy
 msgid "Type"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  gnome-system-tools.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  gnome-utils.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  nautilus-media.HEAD.el.po (el)  #-#-#-#-#\n"
-"Τύπος\n"
-"#-#-#-#-#  procman.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Είδος"
+msgstr "Τύπος"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
+#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:502
 #: src/gthumb-window.c:289
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
 #: src/dlg-image-prop.c:625
-#, fuzzy
 msgid "Information on Channel"
 msgstr ""
-"#-#-#-#-#  gnome-mime-data.HEAD.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  gucharmap.HEAD.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορία\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες\n"
-"#-#-#-#-#  zenity.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πληροφορίες στο"
 
 #: src/dlg-image-prop.c:743
-#, fuzzy, c-format
+#, c-format
 msgid "%s Properties"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ιδιότητες %s\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ιδιότητες %s \n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ιδιότητες %s"
+msgstr "Ιδιότητες %s"
 
-#: src/dlg-photo-importer.c:846 src/dlg-photo-importer.c:1317
-#: src/dlg-photo-importer.c:1366 src/dlg-photo-importer.c:1378
-#: src/dlg-photo-importer.c:1394 src/dlg-photo-importer.c:1423
+#: src/dlg-photo-importer.c:876 src/dlg-photo-importer.c:1379
+#: src/dlg-photo-importer.c:1428 src/dlg-photo-importer.c:1440
+#: src/dlg-photo-importer.c:1456 src/dlg-photo-importer.c:1485
 #, fuzzy
 msgid "Could not import photos"
-msgstr "not"
+msgstr "Εισαγωγή Φωτογραφιών"
 
-#: src/dlg-photo-importer.c:1191 src/main.c:1054
+#
+#: src/dlg-photo-importer.c:1221 src/main.c:1054
 msgid "Film"
-msgstr ""
+msgstr "Φιλμ"
 
 #: src/dlg-png-exporter.c:935
-#, fuzzy
 msgid "Image Caption"
-msgstr "Εικόνα"
+msgstr ""
 
 #: src/dlg-png-exporter.c:988
 msgid "Header"
 msgstr "Κεφαλίδα"
 
 #: src/dlg-png-exporter.c:1001 src/dlg-png-exporter.c:1007
-msgid "Footer"
-msgstr ""
-
-#: src/dlg-rename-series.c:400
 #, fuzzy
+msgid "Footer"
+msgstr "Φάκελος"
+
+#
+#: src/dlg-rename-series.c:400
 msgid "Old Name"
-msgstr "Όνομα"
+msgstr "Παλιό Όνομα"
 
 #: src/dlg-rename-series.c:408
 msgid "New Name"
 msgstr "Νέο Όνομα"
 
 #: src/dlg-search.c:343
-#, fuzzy
 msgid "Search Result"
-msgstr "Αναζήτηση"
+msgstr "Αποτέλεσμα Αναζήτησης"
 
 #: src/dlg-search.c:647
 msgid "Filename"
@@ -3351,78 +2738,42 @@ msgstr "Όνομα αρχείου"
 msgid "Folder"
 msgstr "Φάκελος"
 
-#: src/dlg-web-exporter.c:746
+#: src/dlg-web-exporter.c:750
 #, fuzzy
 msgid "Select Album Theme"
-msgstr ""
-"Επιλογή #-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Θέμα\n"
-"#-#-#-#-#  gnome-mime-data.HEAD.el.po (el)  #-#-#-#-#\n"
-"θέμα"
+msgstr "_Επιλογή Όλων"
 
-#: src/dlg-write-to-cd.c:77 src/gthumb-window.c:3437
-#, fuzzy
+#: src/dlg-write-to-cd.c:77 src/gthumb-window.c:3440
 msgid "Could not move the items:"
-msgstr "not αντικείμενα:"
+msgstr ""
 
 #. restore normal view
 #: src/fullscreen.c:874 src/ui.h:448
-#, fuzzy
 msgid "Restore Normal View"
 msgstr ""
-"#-#-#-#-#  dasher.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κανονικό\n"
-"#-#-#-#-#  evolution-data-server.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονική\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονική\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονικό\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονικό\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονικό\n"
-"#-#-#-#-#  gtkhtml.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κανονικό Προβολή"
 
 #. image info
 #: src/fullscreen.c:883
-#, fuzzy
 msgid "Image Info"
-msgstr "Εικόνα Πληροφορίες"
+msgstr "Πληροφορίες Εικόνας"
 
 #. back
-#: src/fullscreen.c:892 src/gthumb-window.c:4046
+#: src/fullscreen.c:892 src/gthumb-window.c:4049
 msgid "Back"
-msgstr "Πίσω"
+msgstr "Προηγούμενο"
 
 #. forward
 #: src/fullscreen.c:901
-#, fuzzy
 msgid "Forward"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μπροστά\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προώθηση\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μπροστά\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μπροστά\n"
-"#-#-#-#-#  yelp.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Μπροστά"
+msgstr "Μπροστά"
 
 #. zoom in
 #: src/fullscreen.c:910 src/ui.h:418
-#, fuzzy
 msgid "In"
 msgstr "Μέσα"
 
 #. zoom out
 #: src/fullscreen.c:919 src/ui.h:423
-#, fuzzy
 msgid "Out"
 msgstr "Έξω"
 
@@ -3433,7 +2784,6 @@ msgstr "1:1"
 
 #. zoom fit
 #: src/fullscreen.c:937 src/ui.h:433
-#, fuzzy
 msgid "Fit"
 msgstr "Ταίριασμα"
 
@@ -3446,40 +2796,32 @@ msgid "Value "
 msgstr "Τιμή "
 
 #: src/gth-folder-selection-dialog.c:404
-#, fuzzy
 msgid "_Browse..."
-msgstr ""
-"#-#-#-#-#  eel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιήγηση\n"
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιήγηση...\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιήγηση...\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιήγηση..."
+msgstr "_Περιήγηση..."
 
+#
 #: src/gth-folder-selection-dialog.c:413
+#, fuzzy
 msgid "_Recents:"
-msgstr ""
+msgstr "Επανα_φορά"
 
 #: src/gthumb-window.c:323
-#, fuzzy
 msgid "[Press 'c' to add a comment]"
-msgstr "Πάτημα προσθήκη a"
+msgstr ""
 
 #: src/gthumb-window.c:397 src/gthumb-window.c:419
 msgid "[modified]"
-msgstr ""
+msgstr "[τροποιήθηκε]"
 
 #: src/gthumb-window.c:505
 #, fuzzy, c-format
 msgid "1 image (%s)"
-msgstr "εικόνα "
+msgstr "Χωρίς εικόνα"
 
 #: src/gthumb-window.c:508
 #, c-format
 msgid "%d images (%s)"
-msgstr ""
+msgstr "%d εικόνες (%s)"
 
 #: src/gthumb-window.c:515
 #, c-format
@@ -3492,89 +2834,67 @@ msgid "%d selected (%s)"
 msgstr ""
 
 #: src/gthumb-window.c:1622
-#, fuzzy
 msgid "The current image has been modified, do you want to save it?"
-msgstr "εικόνα  αποθήκευση?"
+msgstr ""
 
 #: src/gthumb-window.c:1623
 msgid "Do Not Save"
 msgstr "Όχι Αποθήκευση"
 
-#: src/gthumb-window.c:3229
+#: src/gthumb-window.c:3232
 #, fuzzy
 msgid "Dragged Images"
-msgstr "Εικόνες"
+msgstr "Αποθήκευση Εικόνας"
 
-#: src/gthumb-window.c:4061 src/ui.h:459
-#, fuzzy
+#: src/gthumb-window.c:4064 src/ui.h:459
 msgid "Go to the previous visited location"
-msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετάβαση στην προηγούμενη τοποθεσία\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετάβαση στην προηγούμενη τοποθεσία της λίστα ιστορικού"
+msgstr "Μετάβαση στην προηγούμενη τοποθεσία"
 
-#: src/gthumb-window.c:5012 src/ui.h:464
-#, fuzzy
+#: src/gthumb-window.c:5015 src/ui.h:464
 msgid "Go to the next visited location"
-msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετάβαση στην επόμενη τοποθεσία\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετάβαση στην επόμενη τοποθεσία της λίστας ιστορικού"
+msgstr "Μετάβαση στην επόμενη τοποθεσία"
 
-#: src/gthumb-window.c:5019 src/ui.h:469
-#, fuzzy
+#: src/gthumb-window.c:5022 src/ui.h:469
 msgid "Go up one level"
 msgstr "Μετάβαση ένα επίπεδο επάνω"
 
-#: src/gthumb-window.c:5026 src/ui.h:484
-#, fuzzy
+#: src/gthumb-window.c:5029 src/ui.h:484
 msgid "Go to the home folder"
-msgstr ""
-"Μετάβαση #-#-#-#-#  gail.HEAD.el.po (el)  #-#-#-#-#\n"
-"αρχικός κατάλογος\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"home"
+msgstr "Μετάβαση στον αρχικό κατάλογο"
 
-#: src/gthumb-window.c:5220
+#: src/gthumb-window.c:5223
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: src/gthumb-window.c:5234
-#, fuzzy
+#: src/gthumb-window.c:5237
 msgid "Image comment"
-msgstr "Εικόνα"
+msgstr "Σχόλιο εικόνας"
 
-#: src/gthumb-window.c:5248
-#, fuzzy
+#: src/gthumb-window.c:5251
 msgid "Image data"
-msgstr "Εικόνα"
+msgstr "Δεδομένα εικόνας"
 
-#: src/gthumb-window.c:5262
-#, fuzzy
+#
+#: src/gthumb-window.c:5265
 msgid "Image preview"
-msgstr "Εικόνα"
+msgstr "Προεπισκόπηση εικόνας"
 
-#: src/gthumb-window.c:6562
-#, fuzzy, c-format
+#: src/gthumb-window.c:6568
+#, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "ο"
+msgstr ""
 
-#: src/gthumb-window.c:6832
-#, fuzzy
+#: src/gthumb-window.c:6838
 msgid "The specified catalog does not exist."
-msgstr "not."
+msgstr ""
 
 #: src/main.c:84
-#, fuzzy
 msgid "Start in fullscreen mode"
-msgstr "Έναρξη in λειτουργία"
+msgstr ""
 
 #: src/main.c:88
-#, fuzzy
 msgid "Automatically start a slideshow"
-msgstr "a"
+msgstr ""
 
 #: src/main.c:92
 msgid "Automatically import digital camera photos"
@@ -3586,7 +2906,7 @@ msgstr ""
 
 #: src/main.c:174
 msgid "Temporary"
-msgstr ""
+msgstr "Προσωρινό"
 
 #: src/main.c:175
 msgid "Screenshots"
@@ -3594,14 +2914,13 @@ msgstr ""
 
 #: src/main.c:176
 msgid "Science"
-msgstr ""
+msgstr "Επιστημονικά"
 
 #: src/main.c:177
 msgid "Favourite"
 msgstr ""
 
 #: src/main.c:178
-#, fuzzy
 msgid "Important"
 msgstr "Σημαντικό"
 
@@ -3613,9 +2932,11 @@ msgstr "GNOME"
 msgid "Games"
 msgstr "Παιχνίδια"
 
+#
 #: src/main.c:181
+#, fuzzy
 msgid "Party"
-msgstr ""
+msgstr "Εκτύπωση"
 
 #: src/main.c:182
 msgid "Birthday"
@@ -3646,25 +2967,15 @@ msgid "_Edit"
 msgstr "_Επεξεργασία"
 
 #: src/ui.h:40
-#, fuzzy
 msgid "Show/_Hide"
-msgstr "Εμφάνιση Απόκρυψη"
+msgstr ""
 
 #: src/ui.h:41
 #, fuzzy
 msgid "S_ort Images"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ν\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"S\n"
-"#-#-#-#-#  gnopernicus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"S\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ν Εικόνες"
+msgstr "Περιστροφή Εικόνων"
 
 #: src/ui.h:42
-#, fuzzy
 msgid "_Zoom"
 msgstr "Μεγέ_θυνση"
 
@@ -3674,241 +2985,157 @@ msgstr "_Μετάβαση"
 
 #: src/ui.h:45
 msgid "_Transform"
-msgstr ""
+msgstr "_Μετασχηματισμός"
 
 #: src/ui.h:46
 msgid "Auto"
-msgstr "Αυτόματο"
+msgstr "Αυτόματα"
 
 #: src/ui.h:47
 msgid "_Bookmarks"
 msgstr "_Σελιδοδείκτες"
 
 #: src/ui.h:48
-#, fuzzy
 msgid "_Tools"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εργα_λεία\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Ε_ργαλεία\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"_Εργαλεία"
+msgstr "Εργα_λεία"
 
 #: src/ui.h:49
-#, fuzzy
 msgid "Set Image as _Wallpaper"
-msgstr "Εικόνα"
+msgstr ""
 
 #: src/ui.h:50
 msgid "_Help"
-msgstr "_Βοήθεια"
+msgstr "Βοήθεια"
 
 #: src/ui.h:53
-#, fuzzy
 msgid "New _Window"
 msgstr "Νέο Παρά_θυρο"
 
+# #-#-#-#-#  galeon-el.po (galeon 1.0)  #-#-#-#-#
+#
+# #-#-#-#-#  gnome-libs-el.po (gnome-libs 1.2.12)  #-#-#-#-#
+#
 #: src/ui.h:54
 msgid "Create a new window"
 msgstr "Δημιουργία νέου παραθύρου"
 
+#
 #: src/ui.h:58
 msgid "_Close"
 msgstr "_Κλείσιμο"
 
 #: src/ui.h:59
-#, fuzzy
 msgid "Close this window"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κλείσιμο αυτού του παραθύρου\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κλείσιμο αυτού του παραθύρου\n"
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κλείσιμο παραθύρου\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Κλείσιμο αυτού του παραθύρου\n"
-"#-#-#-#-#  gnome-media.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Κλείσιμο αυτού του παραθύρου"
+msgstr "Κλείσιμο αυτού του παραθύρου"
 
 #: src/ui.h:63 src/ui.h:98
-#, fuzzy
 msgid "_Open With"
-msgstr "Άνοιγμα"
+msgstr ""
 
 #: src/ui.h:64
-#, fuzzy
 msgid "Open selected images with an application"
-msgstr "Άνοιγμα με εφαρμογή"
+msgstr ""
 
 #: src/ui.h:73
-#, fuzzy
 msgid "_Revert"
-msgstr ""
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Επανα_φορά\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Επαναφορά\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"_Επαναφορά\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επανα_φορά"
+msgstr "Επανα_φορά"
 
 #: src/ui.h:74
-#, fuzzy
 msgid "Revert to saved image"
-msgstr "Επαναφορά εικόνα "
+msgstr ""
 
 #: src/ui.h:78
-#, fuzzy
 msgid "_Print..."
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εκτύπωση...\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εκτύπωση...\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εκτύπωση...\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εκτύ_πωση...\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εκτύπωση..."
+msgstr "_Εκτύπωση..."
 
 #: src/ui.h:83 src/ui.h:453
-#, fuzzy
 msgid "Proper_ties"
 msgstr "Ιδιό_τητες"
 
 #: src/ui.h:84 src/ui.h:454
-#, fuzzy
 msgid "View image properties"
-msgstr "Προβολή εικόνα  ιδιότητες"
+msgstr ""
 
 #: src/ui.h:88
-#, fuzzy
 msgid "_Import Photos..."
-msgstr "Εισαγωγή."
+msgstr "Ει_σαγωγή Φωτογραφιών..."
 
 #: src/ui.h:89
-#, fuzzy
 msgid "Import photos from a digital camera"
-msgstr "Εισαγωγή a"
+msgstr ""
 
 #: src/ui.h:93
-#, fuzzy
 msgid "_Write To CD"
-msgstr "Προς CD"
+msgstr "Εγγρα_φή σε CD"
 
 #: src/ui.h:94
 #, fuzzy
 msgid "Write selection to CD"
-msgstr "CD"
+msgstr "Εγγραφή σε CD"
 
 #: src/ui.h:99
-#, fuzzy
 msgid "Open this image with an application"
-msgstr "Άνοιγμα εικόνα  με εφαρμογή"
+msgstr ""
 
 #: src/ui.h:103 src/ui.h:128 src/ui.h:183 src/ui.h:218 src/ui.h:258
 #: src/ui.h:288
-#, fuzzy
 msgid "_Rename..."
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετονομασία...\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετονομασία...\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετονομασία...\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετο_νομασία..."
+msgstr "_Μετονομασία..."
 
 #: src/ui.h:104
-#, fuzzy
 msgid "Rename this image"
-msgstr "Μετονομασία εικόνα "
+msgstr ""
 
 #: src/ui.h:108 src/ui.h:133
-#, fuzzy
 msgid "D_uplicate"
 msgstr "Δημιουργία Αντι_γράφου"
 
 #: src/ui.h:109
-#, fuzzy
 msgid "Duplicate this image"
-msgstr "Αντίγραφο εικόνα "
+msgstr ""
 
 #: src/ui.h:114
-#, fuzzy
 msgid "Move this image to the Trash"
 msgstr ""
-"Μετακίνηση εικόνα  #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα"
 
 #: src/ui.h:118 src/ui.h:143 src/ui.h:268 src/ui.h:298
-#, fuzzy
 msgid "_Copy..."
 msgstr "Αντι_γραφή..."
 
 #: src/ui.h:119
-#, fuzzy
 msgid "Copy this image to another location"
-msgstr "Αντιγραφή εικόνα "
+msgstr ""
 
 #: src/ui.h:123 src/ui.h:148 src/ui.h:193 src/ui.h:228 src/ui.h:273
 #: src/ui.h:303
-#, fuzzy
 msgid "_Move..."
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μετακίνηση...\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μετα_κίνηση..."
+msgstr "_Μετακίνηση..."
 
 #: src/ui.h:124
-#, fuzzy
 msgid "Move this image to another location"
-msgstr "Μετακίνηση εικόνα "
+msgstr ""
 
 #: src/ui.h:129
 #, fuzzy
 msgid "Rename selected image"
-msgstr "Μετονομασία εικόνα "
+msgstr "_Επιλεγμένες Εικόνες"
 
 #: src/ui.h:134
 #, fuzzy
 msgid "Duplicate selected image"
-msgstr "Αντίγραφο εικόνα "
+msgstr "_Επιλεγμένες Εικόνες"
 
 #: src/ui.h:139
-#, fuzzy
 msgid "Move the selected images to the Trash"
 msgstr ""
-"Μετακίνηση #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα"
 
 #: src/ui.h:144
-#, fuzzy
 msgid "Copy selected images to another location"
-msgstr "Αντιγραφή"
+msgstr ""
 
 #: src/ui.h:149
-#, fuzzy
 msgid "Move selected images to another location"
-msgstr "Μετακίνηση"
+msgstr ""
 
 #: src/ui.h:153
 msgid "_Select All"
@@ -3917,18 +3144,11 @@ msgstr "_Επιλογή Όλων"
 #: src/ui.h:154
 #, fuzzy
 msgid "Select all images"
-msgstr "Επιλογή"
+msgstr "_Επιλεγμένες Εικόνες"
 
 #: src/ui.h:159
-#, fuzzy
 msgid "Add a comment to selected images"
 msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πρόσθεση\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη a"
 
 #: src/ui.h:163
 #, fuzzy
@@ -3936,117 +3156,96 @@ msgid "Rem_ove Comment"
 msgstr "Σχόλιο"
 
 #: src/ui.h:164
-#, fuzzy
 msgid "Remove comments of selected images"
-msgstr "Αφαίρεση από"
+msgstr ""
 
 #: src/ui.h:168 src/ui.h:278 src/ui.h:308
 msgid "Ca_tegories"
-msgstr ""
+msgstr "Κα_τηγορίες"
 
 #: src/ui.h:169
-#, fuzzy
 msgid "Assign categories to selected images"
-msgstr "κατηγορίες"
+msgstr ""
 
 #: src/ui.h:173
-#, fuzzy
 msgid "_Add to Catalog..."
-msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πρόσθεση\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη."
+msgstr "_Προσθήκη στον Κατάλογο..."
 
 #: src/ui.h:174
-#, fuzzy
 msgid "Add selected images to a catalog"
 msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πρόσθεση\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη a"
 
 #: src/ui.h:178
+#, fuzzy
 msgid "Remo_ve from Catalog"
-msgstr ""
+msgstr "_Νέος Κατάλογος"
 
 #: src/ui.h:179
-#, fuzzy
 msgid "Remove selected images from the catalog"
-msgstr "Αφαίρεση"
+msgstr ""
 
 #: src/ui.h:184
-#, fuzzy
 msgid "Rename selected catalog"
-msgstr "Μετονομασία"
-
-#: src/ui.h:188 src/ui.h:223
-msgid "Rem_ove"
 msgstr ""
+
+#
+#: src/ui.h:188 src/ui.h:223
+#, fuzzy
+msgid "Rem_ove"
+msgstr "Διαγραφή"
 
 #: src/ui.h:189
-#, fuzzy
 msgid "Remove selected catalog"
-msgstr "Αφαίρεση"
+msgstr ""
 
 #: src/ui.h:194
-#, fuzzy
 msgid "Move selected catalog to another location"
-msgstr "Μετακίνηση"
+msgstr ""
 
 #: src/ui.h:199 src/ui.h:234
+#, fuzzy
 msgid "Modify search criteria"
-msgstr ""
+msgstr "<b>Κριτήρια αναζήτησης</b>"
 
 #: src/ui.h:203 src/ui.h:238
 #, fuzzy
 msgid "Redo _Search"
-msgstr "Ακύρωση αναίρεσης Αναζήτηση"
+msgstr "Ανα_ζήτηση"
 
 #: src/ui.h:204 src/ui.h:239
-#, fuzzy
 msgid "Redo the search"
-msgstr "Ακύρωση αναίρεσης"
+msgstr ""
 
 #: src/ui.h:208
-#, fuzzy
 msgid "_New Catalog..."
-msgstr "Νέο."
+msgstr "_Νέος Κατάλογος..."
 
 #: src/ui.h:209
-#, fuzzy
 msgid "Create a new catalog"
-msgstr "Δημιουργία a νέο"
+msgstr "Δημιουργία ενός νέου καταλόγου"
 
 #: src/ui.h:213
-#, fuzzy
 msgid "New _Library..."
-msgstr "Νέο."
+msgstr "Νέα _Βιβλιοθήκη..."
 
 #: src/ui.h:214
 #, fuzzy
 msgid "Create a new catalog library"
-msgstr "Δημιουργία a νέο"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #: src/ui.h:219
 #, fuzzy
 msgid "Rename current catalog"
-msgstr "Μετονομασία"
+msgstr "Αποθήκευση τρέχουσας εικόνας"
 
 #: src/ui.h:224
 #, fuzzy
 msgid "Remove current catalog"
-msgstr "Αφαίρεση"
+msgstr "Αποθήκευση τρέχουσας εικόνας"
 
 #: src/ui.h:229
-#, fuzzy
 msgid "Move current catalog to another location"
-msgstr "Μετακίνηση"
+msgstr ""
 
 #: src/ui.h:243
 msgid "Open"
@@ -4055,98 +3254,71 @@ msgstr "Άνοιγμα"
 #: src/ui.h:244
 #, fuzzy
 msgid "Open the selected folder"
-msgstr "Άνοιγμα"
+msgstr "_Προβολή"
 
 #: src/ui.h:248
-#, fuzzy
 msgid "Open in New Window"
-msgstr "Άνοιγμα σε %d Νέο Παράθυρο"
+msgstr "Άνοιγμα σε Νέο Παράθυρο"
 
 #: src/ui.h:249
-#, fuzzy
 msgid "Open the selected folder in a new window"
-msgstr "Άνοιγμα in a νέο παράθυρο"
+msgstr ""
 
 #: src/ui.h:253 src/ui.h:283
-#, fuzzy
 msgid "Open with the _File Manager"
-msgstr "Άνοιγμα με Αρχείο Διευθυντής"
+msgstr ""
 
 #: src/ui.h:254
-#, fuzzy
 msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Άνοιγμα με Ναυτίλος"
+msgstr ""
 
 #: src/ui.h:259
-#, fuzzy
 msgid "Rename selected folder"
-msgstr "Μετονομασία"
+msgstr ""
 
 #: src/ui.h:264
-#, fuzzy
 msgid "Move the selected folder to the Trash"
 msgstr ""
-"Μετακίνηση #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα"
 
 #: src/ui.h:269
-#, fuzzy
 msgid "Copy selected folder"
-msgstr "Αντιγραφή"
+msgstr ""
 
 #: src/ui.h:274
 #, fuzzy
 msgid "Move selected folder"
-msgstr "Μετακίνηση"
+msgstr "_Προβολή"
 
 #: src/ui.h:279
-#, fuzzy
 msgid "Assign categories to the selected folder"
-msgstr "κατηγορίες"
+msgstr ""
 
 #: src/ui.h:284
-#, fuzzy
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Άνοιγμα με Ναυτίλος"
+msgstr ""
 
 #: src/ui.h:289
 #, fuzzy
 msgid "Rename current folder"
-msgstr "Μετονομασία"
+msgstr "Τρέχων _Φάκελος"
 
 #: src/ui.h:294
-#, fuzzy
 msgid "Move the current folder to the Trash"
 msgstr ""
-"Μετακίνηση #-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα\n"
-"#-#-#-#-#  gnome-icon-theme.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίματα\n"
-"#-#-#-#-#  gnome-session.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Σκουπίδια\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Απορρίμματα"
 
 #: src/ui.h:299
 #, fuzzy
 msgid "Copy current folder"
-msgstr "Αντιγραφή"
+msgstr "Τρέχων _Φάκελος"
 
 #: src/ui.h:304
 #, fuzzy
 msgid "Move current folder"
-msgstr "Μετακίνηση"
+msgstr "Τρέχων _Φάκελος"
 
 #: src/ui.h:309
-#, fuzzy
 msgid "Assign categories to the current folder"
-msgstr "κατηγορίες"
+msgstr ""
 
 #: src/ui.h:313
 msgid "_New Folder..."
@@ -4155,73 +3327,65 @@ msgstr "_Νέος Φάκελος..."
 #: src/ui.h:314
 #, fuzzy
 msgid "Create a new folder"
-msgstr "Δημιουργία a νέο"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #: src/ui.h:318
-#, fuzzy
 msgid "Rotate Ri_ght"
-msgstr "Περιστροφή"
+msgstr "Περιστροφή _Δεξιά"
 
 #: src/ui.h:319
-#, fuzzy
 msgid "View the image rotated clockwise"
-msgstr "Προβολή εικόνα "
+msgstr ""
 
 #: src/ui.h:323
-#, fuzzy
 msgid "Rotate _Left"
-msgstr "Περιστροφή Αριστερά"
+msgstr "Περιστροφή _Αριστερά"
 
 #: src/ui.h:324
-#, fuzzy
 msgid "View the image rotated counter-clockwise"
-msgstr "Προβολή εικόνα "
+msgstr ""
 
 #: src/ui.h:329
 #, fuzzy
 msgid "View the image flipped"
-msgstr "Προβολή εικόνα "
+msgstr "_Προβολή"
 
 #: src/ui.h:334
-#, fuzzy
 msgid "View the image mirrored"
-msgstr "Προβολή εικόνα "
-
-#: src/ui.h:338
-msgid "_Desaturate"
 msgstr ""
 
-#: src/ui.h:339
+#: src/ui.h:338
 #, fuzzy
+msgid "_Desaturate"
+msgstr "_Κορεσμός:"
+
+#: src/ui.h:339
 msgid "View the image in black and white"
-msgstr "Προβολή εικόνα  in μαύρο και λευκό"
+msgstr ""
 
 #: src/ui.h:343
 msgid "_Negative"
 msgstr ""
 
 #: src/ui.h:344
-#, fuzzy
 msgid "View the image with negative colors"
-msgstr "Προβολή εικόνα  με"
+msgstr ""
 
 #: src/ui.h:348
 msgid "_Enhance"
 msgstr ""
 
 #: src/ui.h:349
-#, fuzzy
 msgid "Automatically adjust the color levels"
-msgstr "χρώμα"
+msgstr ""
 
 #: src/ui.h:353
 msgid "_Equalize"
-msgstr ""
+msgstr "_Ισοστάθμιση"
 
 #: src/ui.h:354
-#, fuzzy
 msgid "Automatically equalize the image histogram"
-msgstr "εικόνα "
+msgstr ""
 
 #: src/ui.h:358
 msgid "_Normalize"
@@ -4244,37 +3408,33 @@ msgid "_Posterize"
 msgstr ""
 
 #: src/ui.h:369
-#, fuzzy
 msgid "Reduce the number of colors"
-msgstr "από"
+msgstr ""
 
 #: src/ui.h:373
 msgid "_Brightness-Contrast"
 msgstr ""
 
 #: src/ui.h:374
-#, fuzzy
 msgid "Adjust brightness and contrast"
-msgstr "και"
-
-#: src/ui.h:378
-msgid "_Hue-Saturation"
 msgstr ""
 
-#: src/ui.h:379
+#: src/ui.h:378
 #, fuzzy
+msgid "_Hue-Saturation"
+msgstr "_Κορεσμός:"
+
+#: src/ui.h:379
 msgid "Adjust hue and saturation"
-msgstr "και"
+msgstr ""
 
 #: src/ui.h:383
-#, fuzzy
 msgid "_Color Balance"
-msgstr "Χρώμα"
+msgstr ""
 
 #: src/ui.h:384
-#, fuzzy
 msgid "Adjust color balance"
-msgstr "χρώμα"
+msgstr ""
 
 #: src/ui.h:388
 msgid "_Threshold"
@@ -4285,70 +3445,42 @@ msgid "Apply threshold"
 msgstr ""
 
 #: src/ui.h:393
-#, fuzzy
 msgid "_Resize"
-msgstr ""
-"#-#-#-#-#  libwnck.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Αλλαγή με_γέθους\n"
-"#-#-#-#-#  metacity.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Αλλαγή Με_γέθους"
+msgstr "Αλλαγή με_γέθους"
 
 #: src/ui.h:394
 #, fuzzy
 msgid "Resize image"
-msgstr "Αλλαγή μεγέθους εικόνα "
+msgstr "Χωρίς εικόνα"
 
 #: src/ui.h:398
 msgid "_Rotate"
 msgstr "_Περιστροφή"
 
 #: src/ui.h:399
-#, fuzzy
 msgid "Rotate image"
-msgstr "Περιστροφή εικόνα "
+msgstr "Περιστροφή εικόνας"
 
 #: src/ui.h:404
 #, fuzzy
 msgid "Crop image"
-msgstr "εικόνα "
+msgstr "Χωρίς εικόνα"
 
 #: src/ui.h:408
-#, fuzzy
 msgid "Next"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επόμενο\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επόμενο\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Επόμενη\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επόμενο\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επόμενη"
+msgstr "Επόμενο"
 
 #: src/ui.h:409
-#, fuzzy
 msgid "View next image"
-msgstr "Προβολή εικόνα "
+msgstr "Προβολή επόμενης εικόνας"
 
 #: src/ui.h:413
-#, fuzzy
 msgid "Previous"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προηγούμενο\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προηγούμενο\n"
-"#-#-#-#-#  gnome-media.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προηγούμενο\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προηγούμενη"
+msgstr "Προηγούμενο"
 
 #: src/ui.h:414
-#, fuzzy
 msgid "View previous image"
-msgstr "Προβολή εικόνα "
+msgstr ""
 
 #: src/ui.h:419
 msgid "Zoom in"
@@ -4359,267 +3491,177 @@ msgid "Zoom out"
 msgstr "Σμίκρυνση"
 
 #: src/ui.h:429
-#, fuzzy
 msgid "Actual size"
-msgstr "μέγεθος"
+msgstr ""
 
 #: src/ui.h:434
-#, fuzzy
 msgid "Zoom to fit window"
 msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μεγέθυνση \n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Μεγέθυνση παράθυρο"
 
 #: src/ui.h:438
-#, fuzzy
 msgid "Step A_nimation"
-msgstr "A"
+msgstr ""
 
 #: src/ui.h:443
-#, fuzzy
 msgid "_Full Screen"
-msgstr ""
-"#-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Πλήρης Οθόνη\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"_Πλήρης Οθόνη\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Πλήρης Οθόνη\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_λήρης Οθόνη"
+msgstr "_Πλήρης Οθόνη"
 
 #: src/ui.h:444 src/ui.h:449
-#, fuzzy
 msgid "View image in fullscreen mode"
-msgstr "Προβολή εικόνα  in λειτουργία"
+msgstr ""
 
 #: src/ui.h:458
 msgid "_Back"
 msgstr "_Πίσω"
 
 #: src/ui.h:463
-#, fuzzy
 msgid "_Forward"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μπροστά\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Προώθηση\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Προώ_θηση\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"_Μπροστά\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Μπροστά"
+msgstr "_Μπροστά"
 
 #: src/ui.h:468
 msgid "_Up"
 msgstr "_Επάνω"
 
 #: src/ui.h:473
-#, fuzzy
 msgid "_Reload"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Α_νανέωση\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Ανανέωση\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Επα_ναφόρτωση\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Επαναφόρτωση"
+msgstr "Α_νανέωση"
 
 #: src/ui.h:474
-#, fuzzy
 msgid "Reload the current location"
-msgstr "Επαναφόρτωση"
+msgstr ""
 
 #: src/ui.h:478
 msgid "_Stop"
 msgstr "_Διακοπή"
 
 #: src/ui.h:479
-#, fuzzy
 msgid "Stop loading current location"
-msgstr "Διακοπή"
+msgstr ""
 
 #: src/ui.h:483
-#, fuzzy
 msgid "_Home"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Αρχική Σελίδα\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"_Αρχική\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Αρχική Σελίδα"
+msgstr "_Αρχική Σελίδα"
 
 #: src/ui.h:488
-#, fuzzy
 msgid "_Go to the Image Folder"
-msgstr "Μετάβαση Εικόνα Φάκελος"
+msgstr ""
 
 #: src/ui.h:489
-#, fuzzy
 msgid "Go to the folder that contains the selected image"
-msgstr "Μετάβαση περιέχει εικόνα "
+msgstr ""
 
+#
 #: src/ui.h:493
-#, fuzzy
 msgid "_Delete History"
-msgstr "Διαγραφή Ιστορικό"
+msgstr "_Διαγραφή Ιστορικού"
 
 #: src/ui.h:494
-#, fuzzy
 msgid "Delete the list of visited locations"
-msgstr "Διαγραφή λίστα από"
+msgstr ""
 
 #: src/ui.h:498
-#, fuzzy
 msgid "_Location..."
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Τοποθεσία...\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Τοποθε_σία..."
+msgstr "_Τοποθεσία..."
 
 #: src/ui.h:499
-#, fuzzy
 msgid "Specify a location to visit"
-msgstr "a"
+msgstr ""
 
 #: src/ui.h:503
-#, fuzzy
 msgid "_Add Bookmark"
-msgstr ""
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσ_θήκη σελιδοδείκτη\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Προσθήκη Σελιδοδείκτη"
+msgstr "Προσ_θήκη σελιδοδείκτη"
 
 #: src/ui.h:504
-#, fuzzy
 msgid "Add current location to bookmarks"
 msgstr ""
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Πρόσθεση\n"
-"#-#-#-#-#  gok.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Προσθήκη"
 
 #: src/ui.h:508
-#, fuzzy
 msgid "_Edit Bookmarks"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Επεξεργασία Σελιδοδεικτών\n"
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Επε_ξεργασία σελιδοδεικτών\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Επεξεργασία Σελιδοδεικτών"
+msgstr "_Επεξεργασία Σελιδοδεικτών"
 
 #: src/ui.h:509
-#, fuzzy
 msgid "Edit bookmarks"
-msgstr "Επεξεργασία"
+msgstr "Επεξεργασία Σελιδοδεικτών"
 
 #: src/ui.h:513
-#, fuzzy
 msgid "_Centered"
-msgstr "Κεντραρισμένη"
+msgstr ""
 
 #: src/ui.h:514
-#, fuzzy
 msgid "Set the image as desktop background (centered)"
-msgstr "εικόνα  κεντραρισμένο"
+msgstr ""
 
 #: src/ui.h:518
 #, fuzzy
 msgid "_Tiled"
-msgstr "Πλακίδιο"
+msgstr "Τίτλος"
 
 #: src/ui.h:519
-#, fuzzy
 msgid "Set the image as desktop background (tiled)"
-msgstr "εικόνα "
+msgstr ""
 
+#
 #: src/ui.h:523
 #, fuzzy
 msgid "_Scaled"
-msgstr "Σε κλίμακα"
+msgstr "_Αποθήκευση"
 
 #: src/ui.h:524
-#, fuzzy
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr "εικόνα "
+msgstr ""
 
 #: src/ui.h:528
 msgid "Str_etched"
 msgstr ""
 
 #: src/ui.h:529
-#, fuzzy
 msgid "Set the image as desktop background (stretched)"
-msgstr "εικόνα "
-
-#: src/ui.h:533
-msgid "_Restore"
 msgstr ""
+
+#
+#: src/ui.h:533
+#, fuzzy
+msgid "_Restore"
+msgstr "Διαγραφή"
 
 #: src/ui.h:534
 msgid "Restore the original desktop wallpaper"
 msgstr ""
 
 #: src/ui.h:538
-#, fuzzy
 msgid "_Slide Show"
-msgstr "Εμφάνιση"
+msgstr ""
 
 #: src/ui.h:539
 #, fuzzy
 msgid "View as a slide show"
-msgstr "Προβολή a"
+msgstr "Προβολή ως Κατάλογος"
 
 #: src/ui.h:543
-#, fuzzy
 msgid "_Find"
-msgstr ""
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εύ_ρεση\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"_Εύρεση\n"
-"#-#-#-#-#  gnome-utils.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εύρεση\n"
-"#-#-#-#-#  gtk+.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"_Εύρεση"
+msgstr "_Εύρεση"
 
 #: src/ui.h:544
-#, fuzzy
 msgid "Find images"
-msgstr "Εύρεση"
+msgstr "Εύρεση εικόνων"
 
 #: src/ui.h:548
 #, fuzzy
 msgid "Create _Index Image"
-msgstr "Δημιουργία Ευρετήριο Εικόνα"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #: src/ui.h:553
-#, fuzzy
 msgid "Create _Web Album"
-msgstr "Δημιουργία Δικτυακός Ιστός"
+msgstr ""
 
 #: src/ui.h:558
 #, fuzzy
 msgid "_Rename Series"
-msgstr "Μετονομασία"
+msgstr "_Μετονομασία"
 
 #: src/ui.h:563
-#, fuzzy
 msgid "Convert F_ormat"
-msgstr "F"
+msgstr ""
 
 #: src/ui.h:568
 msgid "Fi_nd Duplicates..."
@@ -4628,186 +3670,86 @@ msgstr ""
 #: src/ui.h:573
 #, fuzzy
 msgid "Ro_tate Images"
-msgstr "Εικόνες"
+msgstr "Περιστροφή Εικόνων"
 
 #: src/ui.h:574
-#, fuzzy
 msgid "Rotate images without loss of quality"
-msgstr "Περιστροφή από"
+msgstr ""
 
 #: src/ui.h:578
 msgid "_Preferences"
 msgstr "_Προτιμήσεις"
 
 #: src/ui.h:579
-#, fuzzy
 msgid "Edit various preferences"
-msgstr "Επεξεργασία προτιμήσεις"
+msgstr "Επεξεργασία διάφορων προτιμήσεων"
 
 #: src/ui.h:583
-#, fuzzy
 msgid "Change _Date"
-msgstr "Ημερομηνία"
+msgstr ""
 
 #: src/ui.h:584
-#, fuzzy
 msgid "Change images last modified date"
-msgstr "τελευταία Ημερομηνία"
+msgstr ""
 
 #: src/ui.h:588
-#, fuzzy
 msgid "_About"
-msgstr ""
-"#-#-#-#-#  dasher.HEAD.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gnome-applets.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί...\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gnome-media.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Πε_ρί\n"
-"#-#-#-#-#  gnome-netstatus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gnome-panel.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  gnome-utils.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περί\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Π_ερί"
+msgstr "Π_ερί"
 
 #: src/ui.h:589
-#, fuzzy
 msgid "Show information about gThumb"
-msgstr "Εμφάνιση περί"
+msgstr ""
 
 #: src/ui.h:593
-#, fuzzy
 msgid "_Contents"
-msgstr ""
-"#-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Περιε_χόμενα\n"
-"#-#-#-#-#  gcalctool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  gconf-editor.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Περιε_χόμενα\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  ggv.HEAD.el.po (el)  #-#-#-#-#\n"
-"Περιε_χόμενα\n"
-"#-#-#-#-#  gnome-control-center.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  gnome-media.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  gnome-terminal.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  gpdf.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Περιε_χόμενα\n"
-"#-#-#-#-#  libbonoboui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Περιε_χόμενα\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα\n"
-"#-#-#-#-#  nautilus.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Περιεχόμενα"
+msgstr "_Περιεχόμενα"
 
 #: src/ui.h:598
-#, fuzzy
 msgid "_Keyboard Shortcuts"
-msgstr "Πληκτρολόγιο Συντομεύσεις"
+msgstr ""
 
 #: src/ui.h:607
-#, fuzzy
 msgid "_Toolbar"
-msgstr ""
-"#-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ερ_γαλειοθήκη\n"
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εργαλειοθήκη\n"
-"#-#-#-#-#  file-roller.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εργαλειοθήκη\n"
-"#-#-#-#-#  gedit.gedit-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εργαλειοθήκη\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"_Εργαλειοθήκη"
+msgstr "Ερ_γαλειοθήκη"
 
 #: src/ui.h:608
-#, fuzzy
 msgid "View or hide the toolbar of this window"
-msgstr "Προβολή από παράθυρο"
+msgstr ""
 
 #: src/ui.h:612
-#, fuzzy
 msgid "_Statusbar"
 msgstr "_Γραμμή Κατάστασης"
 
 #: src/ui.h:613
-#, fuzzy
 msgid "View or hide the statusbar of this window"
-msgstr "Προβολή γραμμή κατάστασης από παράθυρο"
+msgstr ""
 
 #: src/ui.h:618
-#, fuzzy
 msgid "View thumbnails"
-msgstr "Προβολή"
+msgstr "Προβολή μικρογραφιών"
 
 #: src/ui.h:622
-#, fuzzy
 msgid "Play _Animation"
 msgstr ""
-"Αναπαραγωγή #-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Εμφάνιση κινήσεων\n"
-"#-#-#-#-#  gtk+-properties.gtk-2-4.el.po (el)  #-#-#-#-#\n"
-"Κίνηση"
 
 #: src/ui.h:627
-#, fuzzy
 msgid "_Image Preview"
-msgstr "Εικόνα Προεπισκόπηση"
+msgstr "Προεπισκόπηση Ει_κόνας"
 
 #: src/ui.h:628 src/ui.h:682
-#, fuzzy
 msgid "View the image"
-msgstr "Προβολή εικόνα "
+msgstr "Προβολή της εικόνας"
 
 #: src/ui.h:632
 #, fuzzy
 msgid "Image _Comment"
-msgstr "Εικόνα Σχόλιο"
+msgstr "Σχόλιο"
 
 #: src/ui.h:633
-#, fuzzy
 msgid "View image comment"
-msgstr "Προβολή εικόνα "
+msgstr ""
 
 #: src/ui.h:637
-#, fuzzy
 msgid "_Reversed Order"
 msgstr "Αντίστροφη _Σειρά"
 
@@ -4816,106 +3758,70 @@ msgid "Reverse images order"
 msgstr ""
 
 #: src/ui.h:647
-#, fuzzy
 msgid "by _Name"
 msgstr "κατά _Όνομα"
 
 #: src/ui.h:648
-#, fuzzy
 msgid "Sort images by name"
-msgstr "Ταξινόμηση από"
+msgstr ""
 
 #: src/ui.h:650
-#, fuzzy
 msgid "by _Path"
-msgstr "από Διαδρομή"
+msgstr ""
 
 #: src/ui.h:651
-#, fuzzy
 msgid "Sort images by path"
-msgstr "Ταξινόμηση από"
+msgstr ""
 
 #: src/ui.h:653
-#, fuzzy
 msgid "by _Size"
 msgstr "κατά _Μέγεθος"
 
 #: src/ui.h:654
-#, fuzzy
 msgid "Sort images by file size"
-msgstr "Ταξινόμηση από μέγεθος"
+msgstr ""
 
 #: src/ui.h:656
 #, fuzzy
 msgid "by _Time"
-msgstr ""
-"από #-#-#-#-#  eog.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ώρα\n"
-"#-#-#-#-#  gnome-games.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρόνος\n"
-"#-#-#-#-#  gnome-nettool.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χρόνος\n"
-"#-#-#-#-#  libgnomeui.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Ώρα"
+msgstr "κατά μέγεθος"
 
 #: src/ui.h:657
-#, fuzzy
 msgid "Sort images by modification time"
-msgstr "Ταξινόμηση από"
+msgstr ""
 
 #: src/ui.h:664
 #, fuzzy
 msgid "_High Quality"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  evolution-data-server.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Υψηλή\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Υψηλό"
+msgstr "_Ποιότητα:"
 
 #: src/ui.h:665
-#, fuzzy
 msgid "Use high quality zoom"
-msgstr "υψηλό"
+msgstr ""
 
 #: src/ui.h:667
 #, fuzzy
 msgid "_Low Quality"
-msgstr ""
-"#-#-#-#-#  epiphany.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χαμηλή\n"
-"#-#-#-#-#  evolution-data-server.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χαμηλή\n"
-"#-#-#-#-#  evolution.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χαμηλή\n"
-"#-#-#-#-#  gnomemeeting.gnome-2-6.el.po (el)  #-#-#-#-#\n"
-"Χαμηλό\n"
-"#-#-#-#-#  gnome-system-tools.gnome-2-8.el.po (el)  #-#-#-#-#\n"
-"Χαμηλή"
+msgstr "Ποιότητα _Μεγέθυνσης"
 
 #: src/ui.h:668
-#, fuzzy
 msgid "Use low quality zoom"
-msgstr "χαμηλό"
+msgstr ""
 
 #: src/ui.h:675
-#, fuzzy
 msgid "_Folders"
-msgstr "Φάκελοι"
+msgstr "_Φάκελοι"
 
 #: src/ui.h:676
 msgid "View the folders"
 msgstr "_Προβολή"
 
 #: src/ui.h:678
+#, fuzzy
 msgid "_Catalogs"
-msgstr ""
+msgstr "Κατάλογος"
 
 #: src/ui.h:679
-#, fuzzy
 msgid "View the catalogs"
-msgstr "Προβολή"
+msgstr "Προβολή των Καταλόγων"
 
