@@ -1,5 +1,12 @@
 2003-07-06  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	[ gthumb 2.1.3 released ]  
+	
+2003-07-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* data/albumthemes/*/*.gthtml: updated to allow the user to
+	personalize the captions.
+
 	* src/gthumb-ui.xml: fix bug #116386.
 
 	* libgthumb/gthumb-init.c (gthumb_init): preload some gconf dirs.

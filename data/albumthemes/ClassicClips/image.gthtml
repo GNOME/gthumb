@@ -12,12 +12,12 @@
 	a:visited { 
 		font-weight: bold; 
 		text-decoration: none;
-		color:white
+		color: white
 	}
         a:hover { 
 		font-weight: bold; 
 		text-decoration: none; 
-		color: yellow 
+		color: gold 
 	}
     </style>
 </head>
@@ -123,7 +123,9 @@
 	    <td>&nbsp;</td>
             <td colspan="2">
 	      <font color="white">
-		 <gthumb:comment/>
+                <gthumb:if comment_visibility_image/>
+		  <gthumb:comment/>
+                <gthumb:end/>
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
@@ -133,22 +135,25 @@
               &nbsp;
 	    </td>
           </tr>
-          <tr align="left">
+          <gthumb:if file_name_visibility_image/>
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><b>Image:</b></font>
+              <font color="#969696"><nobr><b>Image:</b></nobr></font>
 	    </td>
 	    <td width="100%">
       	      <font color="white">
-		 <gthumb:file_name/>
+	        <tt><gthumb:file_name/></tt>
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
-          <tr align="left">
+            </tr>
+          <gthumb:end/>
+          <gthumb:if image_dim_visibility_image/>
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><b>Dimensions:</b></font>
+              <font color="#969696"><nobr><b>Dimensions:</b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="white">
@@ -156,11 +161,13 @@
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
-          <tr align="left">
+            </tr>
+          <gthumb:end/>
+          <gthumb:if file_size_visibility_image/>
+            <tr align="left">
 	    <td>&nbsp;</td>
             <td>
-              <font color="#969696"><b>Bytes:</b></font>
+              <font color="#969696"><nobr><b>Bytes:</b></nobr></font>
 	    </td>
 	    <td width="100%">
 	      <font color="white">
@@ -168,7 +175,120 @@
 	      </font>
 	    </td>
 	    <td>&nbsp;</td>
-          </tr>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_date_time_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Date:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:date_time/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_exposure_time_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Exposure time:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:exposure_time/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_exposure_mode_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Exposure mode:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:exposure_mode/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_flash_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Flash:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:flash/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_shutter_speed_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Shutter speed:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:shutter_speed/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_aperture_value_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Aperture value:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:aperture_value/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_focal_length_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Focal length:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:focal_length/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
+          <gthumb:if exif_camera_model_visibility_image/>
+            <tr align="left">
+	    <td>&nbsp;</td>
+            <td>
+              <font color="#969696"><nobr><b>Camera model:</b></nobr></font>
+	    </td>
+	    <td width="100%">
+	      <font color="white">
+		 <gthumb:exif:camera_model/>
+	      </font>
+	    </td>
+	    <td>&nbsp;</td>
+            </tr>
+          <gthumb:end/>
         </table>
 
 	&nbsp;<BR>

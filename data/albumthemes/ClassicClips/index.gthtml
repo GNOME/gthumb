@@ -19,7 +19,7 @@
         a:hover { 
 		font-weight: bold; 
 		text-decoration: none; 
-		color: yellow 
+		color: gold 
 	}
     </style>
   </head>
@@ -38,13 +38,11 @@
 	      <td align="left" width="1%">
 	        &nbsp;
 	      </td>
-	    <gthumb:end/>
-	    <gthumb:if pages > 1 />
+	    <gthumb:else/>
 	      <td align="left" width="1%">
 	        <gthumb:if page_idx == 1 />
 		  <img src="background.gif" width="40" height="30" border="0"></td>
-		<gthumb:end/>
-	        <gthumb:if page_idx > 1 />
+		<gthumb:else_if page_idx > 1 />
 	          <a href="<gthumb:page_link idx_relative=-1/>">
 		    <img src="prev.png" align="center" width="40" height="30" border="0"></a></td>
 	        <gthumb:end/>
@@ -56,8 +54,7 @@
 	      <td align="left" width="1%">
 		<gthumb:if page_idx == pages />
 		  <img src="background.gif" width="40" height="30" border="0"></td>
-		<gthumb:end/>
-		<gthumb:if page_idx < pages />
+		<gthumb:else_if page_idx < pages />
 		  <a href="<gthumb:page_link idx_relative=+1/>">
 		    <img src="next.png" align="center" width="40" height="30" border="0"></a></td>
 		<gthumb:end/>

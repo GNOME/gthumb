@@ -1,7 +1,12 @@
 version 2.1.3
 -------------
-	* Web Album: Added ability to resize images before copying them 
-	  to the destination.
+	* Web Album: added ability to resize images before copying them 
+	  to the destination, and to personalize the theme choosing the 
+          image caption.
+	* Print dialog: the user can choose the comment font; 
+          better preview; remember all settings; allow to set a custom 
+          paper size. 
+	* Bugfixes.
 
 version 2.1.2
 -------------
