@@ -48,7 +48,6 @@ typedef struct {
 	GtkWidget     *dialog;
 	GtkWidget     *wtc_folder_radiobutton;
 	GtkWidget     *wtc_selection_radiobutton;
-	GtkWidget     *wtc_recursive_checkbutton;
 } DialogData;
 
 
@@ -114,14 +113,6 @@ ok_clicked_cb (GtkWidget  *widget,
 }
 
 
-static void
-folder_radiobutton_toggled_cb (GtkToggleButton *button,
-			       DialogData      *data)
-{
-	gtk_widget_set_sensitive (data->wtc_recursive_checkbutton, gtk_toggle_button_get_active (button));
-}
-
-
 
 void
 dlg_write_to_cd (GThumbWindow *window)
@@ -147,7 +138,6 @@ dlg_write_to_cd (GThumbWindow *window)
 	data->dialog = glade_xml_get_widget (data->gui, "write_to_cd_dialog");
 	data->wtc_folder_radiobutton = glade_xml_get_widget (data->gui, "wtc_folder_radiobutton");
 	data->wtc_selection_radiobutton = glade_xml_get_widget (data->gui, "wtc_selection_radiobutton");
-	data->wtc_recursive_checkbutton = glade_xml_get_widget (data->gui, "wtc_recursive_checkbutton");
 
         btn_ok = glade_xml_get_widget (data->gui, "wtc_okbutton");
         btn_cancel = glade_xml_get_widget (data->gui, "wtc_cancelbutton");
@@ -155,6 +145,11 @@ dlg_write_to_cd (GThumbWindow *window)
 	/* Set widgets data. */
 
 	gtk_widget_set_sensitive (data->wtc_selection_radiobutton, data->file_list != NULL);
+
+	if (data->file_list != NULL)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton), TRUE);
+	else
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_folder_radiobutton), TRUE);
 
 	/* Set the signals handlers. */
 	
@@ -171,17 +166,7 @@ dlg_write_to_cd (GThumbWindow *window)
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
 
-	g_signal_connect (G_OBJECT (data->wtc_folder_radiobutton),
-			  "toggled",
-			  G_CALLBACK (folder_radiobutton_toggled_cb),
-			  data);
-
 	/* run dialog. */
-
-	if (data->file_list != NULL)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton), TRUE);
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_folder_radiobutton), TRUE);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));

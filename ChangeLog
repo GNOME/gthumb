@@ -1,5 +1,8 @@
 2004-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/glade/gthumb_tools.glade: 
+	* src/dlg-write-to-cd.c (dlg_write_to_cd): remove recursive option.
+
 	* src/main.c (convert_to_new_comment_system): automatically migrate to
 	the new comment system.
 
