@@ -61,6 +61,7 @@
 #define ACTIVITY_DELAY        200
 #define LOAD_DIR_DELAY        25
 #define UPDATE_DIR_DELAY      250
+#define SEL_CHANGED_DELAY     150
 #define HIDE_SIDEBAR_DELAY    150
 #define PROGRESS_BAR_WIDTH    60
 #define PANE_MIN_SIZE         60
@@ -1435,6 +1436,21 @@ close_window_cb (GtkWidget    *caller,
 }
 
 
+static gboolean
+sel_change_update_cb (gpointer data)
+{
+	GThumbWindow *window = data;
+
+	g_source_remove (window->sel_change_timer);
+	window->sel_change_timer = 0;
+
+	window_update_sensitivity (window);
+	window_update_statusbar_list_info (window);
+
+	return FALSE;
+}
+
+
 static int
 file_selection_changed_cb (GtkWidget *widget, 
 			   gint       pos, 
@@ -1443,8 +1459,12 @@ file_selection_changed_cb (GtkWidget *widget,
 {
 	GThumbWindow *window = data;
 
-	window_update_sensitivity (window);
-	window_update_statusbar_list_info (window);
+	if (window->sel_change_timer != 0)
+		g_source_remove (window->sel_change_timer);
+
+	window->sel_change_timer = g_timeout_add (SEL_CHANGED_DELAY,
+						  sel_change_update_cb,
+						  window);
 
 	return TRUE;
 }
@@ -2133,6 +2153,19 @@ toggle_image_preview_visibility (GThumbWindow *window)
 }
 
 
+static void
+window_enable_thumbs (GThumbWindow *window,
+		      gboolean      enable)
+{
+	file_list_enable_thumbs (window->file_list, enable);
+	set_command_sensitive (window, "Go_Stop", 
+			       ((window->activity_ref > 0) 
+				|| window->setting_file_list
+				|| window->changing_directory
+				|| window->file_list->doing_thumbs));
+}
+
+
 static gint
 key_press_cb (GtkWidget   *widget, 
 	      GdkEventKey *event,
@@ -2173,8 +2206,7 @@ key_press_cb (GtkWidget   *widget,
 
 		/* View/hide thumbnails. */
 	case GDK_t:
-		file_list_enable_thumbs (window->file_list, 
-					 ! (window->file_list->enable_thumbs));
+		window_enable_thumbs (window, ! window->file_list->enable_thumbs);
 		return TRUE;
 
 		/* Zoom in. */
@@ -2708,15 +2740,8 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 					&& ! image_viewer_is_playing_animation (viewer)));
 	}
 
-	if (strcmp (path, "View_Thumbnails") == 0) {
-		file_list_enable_thumbs (window->file_list,
-					 ! (window->file_list->enable_thumbs));
-		set_command_sensitive (window, "Go_Stop", 
-				       ((window->activity_ref > 0) 
-					|| window->setting_file_list
-					|| window->changing_directory
-					|| window->file_list->doing_thumbs));
-	}
+	if (strcmp (path, "View_Thumbnails") == 0) 
+		window_enable_thumbs (window, ! window->file_list->enable_thumbs);
 
 	if (strcmp (path, "View_ShowPreview") == 0) 
 		toggle_image_preview_visibility (window);
@@ -2934,7 +2959,7 @@ pref_show_thumbnails_changed (GConfClient *client,
 	GThumbWindow *window = user_data;
 
 	window->file_list->enable_thumbs = eel_gconf_get_boolean (PREF_SHOW_THUMBNAILS);
-	file_list_enable_thumbs (window->file_list, window->file_list->enable_thumbs);
+	window_enable_thumbs (window->file_list, window->file_list->enable_thumbs);
 }
 
 
@@ -3091,7 +3116,7 @@ window_new (void)
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
 	win = BONOBO_WINDOW (window->app);
 	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (win), 
-					  "/apps/gthumb/UIConfig/kvps");
+					  "/apps/gthumb/ui/kvps");
 	ui_container = bonobo_window_get_ui_container (win);
 	window->ui_component = bonobo_ui_component_new_default ();
 	bonobo_ui_component_set_container (window->ui_component, 
@@ -3479,6 +3504,8 @@ window_new (void)
 	window->load_dir_timer = 0;
 
 	window->freeze_toggle_handler = 0;
+
+	window->sel_change_timer = 0;
 
 	/* Sync widgets and visualization options. */
 

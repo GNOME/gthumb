@@ -102,7 +102,7 @@
 			          _label="_Mirror"/>
 			<menuitem name="BlackWhite" 
 				  verb="" 
-			          _label="Black and _White"/>
+			          _label="_Desaturate"/>
 		</submenu>
 		<separator/>
 		<menuitem name="StartStopAnimation"
@@ -128,7 +128,7 @@
 	<toolitem name="ImageMirror" verb="" _label="Mirror"
 		  pixtype="filename"
 		  pixname="@ICONSDIR@/mirror.png"/>
-	<toolitem name="BlackWhite" verb="" _label="Black and White"
+	<toolitem name="BlackWhite" verb="" _label="Desaturate"
 		  pixtype="filename"
 		  pixname="@ICONSDIR@/black-white.png"/>
     </placeholder>

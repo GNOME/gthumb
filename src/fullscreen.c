@@ -46,6 +46,8 @@ static GdkPixmap      *original_buffer = NULL;
 static PangoRectangle  bounds;
 static GtkWidget      *popup_window = NULL;
 static FullScreen     *current_fullscreen;
+static int             main_window_x;
+static int             main_window_y;
 
 
 static void
@@ -821,7 +823,11 @@ fullscreen_start (FullScreen *fullscreen,
 
 	current_fullscreen = fullscreen;
 
-	gtk_widget_hide (window->app); /* FIXME*/
+	gtk_window_get_position (GTK_WINDOW (window->app),
+				 &main_window_x,
+				 &main_window_y);
+	gtk_widget_hide (window->app);
+
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
 	window->fullscreen = TRUE;
@@ -940,5 +946,9 @@ fullscreen_stop (FullScreen *fullscreen)
 		window_stop_slideshow (window);
 
 	gtk_widget_hide (fullscreen->window);
-	gtk_widget_show (window->app); /* FIXME*/
+	gtk_widget_show (window->app);
+	gtk_window_move (GTK_WINDOW (window->app),
+			 main_window_x,
+			 main_window_y);
+	gtk_window_present (GTK_WINDOW (window->app));
 }

@@ -137,6 +137,7 @@ typedef struct {
 						 */
 	guint               load_dir_timer;
 	guint               freeze_toggle_handler;
+	guint               sel_change_timer;
 
 	/* Monitor stuff */
 
