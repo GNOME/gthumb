@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-28 03:54+0200\n"
+"POT-Creation-Date: 2004-08-18 03:58+0200\n"
 "PO-Revision-Date: 2004-07-01 18:17+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -139,7 +139,6 @@ msgstr "_Pasqyrë"
 msgid "_None"
 msgstr "_Asnjë"
 
-#. GRUT modified this item
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
 msgstr "_Rrotullim Orar"
@@ -222,7 +221,6 @@ msgstr "Gjatësia e fokusit"
 msgid "Camera model"
 msgstr "Modeli i kamerës"
 
-#. GRUT modified this item
 #: data/albumthemes/text.h:39 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "pixels"
@@ -367,7 +365,6 @@ msgstr "_Pasardhëse"
 msgid "_Previous"
 msgstr "_Paraardhësja"
 
-#. GRUT modified this item
 #: data/glade/gthumb.glade.h:34
 msgid "_Remove"
 msgstr "_Hiq"
@@ -390,7 +387,7 @@ msgid "Camera Model"
 msgstr "Modeli i kamerës"
 
 #: data/glade/gthumb_camera.glade.h:5
-#: data/glade/gthumb_png_exporter.glade.h:25
+#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:296
 msgid "Choose destination folder"
 msgstr "Zgjidh kartelën e destinuar"
 
@@ -425,7 +422,7 @@ msgstr "_Elemino fotot e importuara nga kamera"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr "_Destinimi:"
 
@@ -1030,7 +1027,7 @@ msgid "Slide"
 msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Sor_t:"
 msgstr "Ren_dit:"
 
@@ -1089,17 +1086,17 @@ msgid "_Template:"
 msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:51
+#: data/glade/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr ""
 
 #: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: data/glade/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr ""
 
@@ -1730,8 +1727,8 @@ msgstr ""
 msgid "Write To CD"
 msgstr ""
 
-#: data/glade/gthumb_tools.glade.h:48 src/actions.c:288 src/actions.c:793
-#: src/actions.c:1317
+#: data/glade/gthumb_tools.glade.h:48 src/actions.c:288 src/actions.c:796
+#: src/actions.c:1320
 msgid "_Rename"
 msgstr "_Riemërto"
 
@@ -1834,74 +1831,70 @@ msgid "Resi_ze if larger than:"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:33
-msgid "Select Destination"
-msgstr ""
-
-#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: data/glade/gthumb_web_exporter.glade.h:35
 msgid "Th_eme:"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:37
+#: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:38
+#: data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album Theme"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: data/glade/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Copy originals to destination"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Go to Theme Folder"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
 msgstr "_Instalo Temën..."
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Select"
 msgstr "_Zgjidh"
 
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:48
+#: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: data/glade/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:53
+#: data/glade/gthumb_web_exporter.glade.h:52
 msgid "columns"
 msgstr "kollonat"
 
-#: data/glade/gthumb_web_exporter.glade.h:54
+#: data/glade/gthumb_web_exporter.glade.h:53
 msgid "index.html"
 msgstr ""
 
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: data/glade/gthumb_web_exporter.glade.h:54
 msgid "rows"
 msgstr "rreshta"
 
@@ -2087,7 +2080,6 @@ msgstr ""
 msgid "Determine by extension"
 msgstr ""
 
-#. GRUT modified this item
 #: libgthumb/dlg-save-image.c:261
 msgid "Save Image"
 msgstr "Ruaj figurën"
@@ -2168,7 +2160,6 @@ msgstr "Madhësia e gërmave për etiketën"
 msgid "Font size for label in font info mode"
 msgstr "Madhësia e gërmave për etiketën në modalitetin informacione mbi gërmat"
 
-#. GRUT modified this item
 #: libgthumb/gnome-print-font-picker.c:238
 msgid "Show size"
 msgstr "Shfaq madhësinë"
@@ -2213,12 +2204,12 @@ msgstr ""
 msgid "Deleting old thumbnails, wait please..."
 msgstr ""
 
-#: src/actions.c:284 src/actions.c:789 src/actions.c:1313
+#: src/actions.c:284 src/actions.c:792 src/actions.c:1316
 msgid "Enter the new name: "
 msgstr ""
 
-#: src/actions.c:302 src/actions.c:809 src/actions.c:1032 src/actions.c:1109
-#: src/actions.c:1331
+#: src/actions.c:302 src/actions.c:812 src/actions.c:1035 src/actions.c:1112
+#: src/actions.c:1334
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2236,7 +2227,7 @@ msgstr "_Mbishkruaj"
 msgid "Could not rename the image \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:351 src/actions.c:1353 src/actions.c:1625
+#: src/actions.c:351 src/actions.c:1356 src/actions.c:1628
 msgid "source and destination are the same"
 msgstr ""
 
@@ -2261,142 +2252,142 @@ msgstr ""
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
 
-#: src/actions.c:756
+#: src/actions.c:759
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr ""
 
-#: src/actions.c:831 src/actions.c:1051 src/actions.c:1125 src/actions.c:1361
+#: src/actions.c:834 src/actions.c:1054 src/actions.c:1128 src/actions.c:1364
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr ""
 
-#: src/actions.c:842
+#: src/actions.c:845
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:842
+#: src/actions.c:845
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:911
+#: src/actions.c:914
 msgid "The selected library will be removed, are you sure?"
 msgstr ""
 
-#: src/actions.c:913
+#: src/actions.c:916
 msgid "The selected catalog will be removed, are you sure?"
 msgstr ""
 
-#: src/actions.c:1016 src/dlg-catalog.c:82
+#: src/actions.c:1019 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
 msgstr ""
 
-#: src/actions.c:1017
+#: src/actions.c:1020
 msgid "New Catalog"
 msgstr ""
 
-#: src/actions.c:1062
+#: src/actions.c:1065
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1096 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:230 src/dlg-file-utils.c:90
+#: src/actions.c:1099 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:231 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "K_rijo"
 
-#: src/actions.c:1152
+#: src/actions.c:1155
 msgid "New Library"
 msgstr ""
 
-#: src/actions.c:1153 src/dlg-catalog.c:127
+#: src/actions.c:1156 src/dlg-catalog.c:127
 msgid "Enter the library name: "
 msgstr ""
 
-#: src/actions.c:1154
+#: src/actions.c:1157
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1351 src/actions.c:1385
+#: src/actions.c:1354 src/actions.c:1388
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1437
+#: src/actions.c:1440
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1468
+#: src/actions.c:1471
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 
-#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1484
+#: src/actions.c:1479 src/dlg-file-utils.c:227 src/gthumb-window.c:1484
 msgid "_Do not display this message again"
 msgstr ""
 
-#: src/actions.c:1509
+#: src/actions.c:1512
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 
-#: src/actions.c:1511 src/dlg-file-utils.c:281
+#: src/actions.c:1514 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Lëvize"
 
-#: src/actions.c:1560 src/actions.c:1615
+#: src/actions.c:1563 src/actions.c:1618
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1615 src/dlg-file-utils.c:2413 src/dlg-file-utils.c:2415
+#: src/actions.c:1618 src/dlg-file-utils.c:2414 src/dlg-file-utils.c:2416
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:1636
+#: src/actions.c:1639
 msgid "source contains destination"
 msgstr ""
 
-#: src/actions.c:1647
+#: src/actions.c:1650
 msgid "a folder with that name is already present."
 msgstr ""
 
-#: src/actions.c:1720 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
+#: src/actions.c:1723 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
 msgid "Choose the destination folder"
 msgstr ""
 
-#: src/actions.c:1967
+#: src/actions.c:1970
 msgid "New Folder"
 msgstr "Kartelë e Re"
 
-#: src/actions.c:1968
+#: src/actions.c:1971
 msgid "Enter the folder name: "
 msgstr ""
 
-#: src/actions.c:1969 src/dlg-photo-importer.c:1314
+#: src/actions.c:1972 src/dlg-photo-importer.c:1314
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr ""
 
-#: src/actions.c:2713
+#: src/actions.c:2716
 msgid "translator_credits"
 msgstr ""
 
-#: src/actions.c:2722 src/gthumb-window.c:434 src/gthumb-window.c:4620
+#: src/actions.c:2725 src/gthumb-window.c:434 src/gthumb-window.c:4635
 #: src/main.c:136
 msgid "gThumb"
 msgstr ""
 
-#: src/actions.c:2725
+#: src/actions.c:2728
 msgid "An image viewer and browser for GNOME."
 msgstr ""
 
-#: src/actions.c:2762 src/dlg-categories.c:351 src/dlg-change-date.c:151
-#: src/dlg-comment.c:287 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
+#: src/actions.c:2765 src/dlg-categories.c:357 src/dlg-change-date.c:151
+#: src/dlg-comment.c:290 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
@@ -2444,18 +2435,18 @@ msgstr ""
 msgid "Move Catalog to..."
 msgstr ""
 
-#: src/dlg-categories.c:226
+#: src/dlg-categories.c:227
 msgid "Enter the new category name"
 msgstr ""
 
-#: src/dlg-categories.c:237
+#: src/dlg-categories.c:238
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
 
-#: src/dlg-categories.c:242
+#: src/dlg-categories.c:243
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr ""
@@ -2548,11 +2539,11 @@ msgstr ""
 msgid "Could not copy the image:"
 msgstr ""
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2436
+#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2437
 msgid "_Abort"
 msgstr ""
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2437
+#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2438
 msgid "_Continue"
 msgstr "_Vazhdo"
 
@@ -2627,9 +2618,10 @@ msgstr "Fund faqe"
 msgid "Old Name"
 msgstr ""
 
+#. GRUT modified this item
 #: src/dlg-rename-series.c:408
 msgid "New Name"
-msgstr ""
+msgstr "Emër i ri"
 
 #: src/dlg-search.c:343
 msgid "Search Result"
@@ -2643,11 +2635,11 @@ msgstr "Emri i file"
 msgid "Folder"
 msgstr "Kartelë"
 
-#: src/dlg-web-exporter.c:711
+#: src/dlg-web-exporter.c:743
 msgid "Select Album Theme"
 msgstr ""
 
-#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3274
+#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3287
 msgid "Could not move the items:"
 msgstr ""
 
@@ -2662,7 +2654,7 @@ msgid "Image Info"
 msgstr ""
 
 #. back
-#: src/fullscreen.c:880 src/gthumb-window.c:3881
+#: src/fullscreen.c:880 src/gthumb-window.c:3896
 msgid "Back"
 msgstr "Mbrapa"
 
@@ -2747,53 +2739,52 @@ msgstr ""
 msgid "Do Not Save"
 msgstr ""
 
-#: src/gthumb-window.c:3066
+#: src/gthumb-window.c:3079
 msgid "Dragged Images"
 msgstr ""
 
-#: src/gthumb-window.c:3896 src/ui.h:459
+#: src/gthumb-window.c:3911 src/ui.h:459
 msgid "Go to the previous visited location"
 msgstr "Shko tek pozicioni paraardhës i vizituar"
 
-#: src/gthumb-window.c:4837 src/ui.h:464
+#: src/gthumb-window.c:4852 src/ui.h:464
 msgid "Go to the next visited location"
 msgstr "Shko tek pozicioni në vazhdim i vizituar"
 
-#: src/gthumb-window.c:4844 src/ui.h:469
+#: src/gthumb-window.c:4859 src/ui.h:469
 msgid "Go up one level"
 msgstr "Ngjitu një nivel më lart"
 
-#: src/gthumb-window.c:4851 src/ui.h:484
+#: src/gthumb-window.c:4866 src/ui.h:484
 msgid "Go to the home folder"
 msgstr ""
 
-#. GRUT modified this item
-#: src/gthumb-window.c:5045
+#: src/gthumb-window.c:5060
 msgid "Close"
 msgstr "Mbyll"
 
-#: src/gthumb-window.c:5059
+#: src/gthumb-window.c:5074
 msgid "Image comment"
 msgstr ""
 
-#: src/gthumb-window.c:5073
+#: src/gthumb-window.c:5088
 msgid "Image data"
 msgstr ""
 
-#: src/gthumb-window.c:5087
+#: src/gthumb-window.c:5102
 msgid "Image preview"
 msgstr ""
 
-#: src/gthumb-window.c:6338
+#: src/gthumb-window.c:6356
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr ""
 
-#: src/gthumb-window.c:6608
+#: src/gthumb-window.c:6626
 msgid "The specified catalog does not exist."
 msgstr ""
 
-#: src/gthumb-window.c:8262
+#: src/gthumb-window.c:8280
 msgid "Wait please..."
 msgstr ""
 
@@ -2821,9 +2812,10 @@ msgstr ""
 msgid "Screenshots"
 msgstr ""
 
+#. GRUT modified this item
 #: src/main.c:176
 msgid "Science"
-msgstr ""
+msgstr "Shkencë"
 
 #: src/main.c:177
 msgid "Favourite"
@@ -2849,9 +2841,10 @@ msgstr ""
 msgid "Birthday"
 msgstr "Ditlindja"
 
+#. GRUT modified this item
 #: src/main.c:183
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomi"
 
 #: src/main.c:184
 msgid "Family"
@@ -2885,9 +2878,10 @@ msgstr ""
 msgid "S_ort Images"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:42
 msgid "_Zoom"
-msgstr "_Shkalla zmadhimit"
+msgstr "_Zmadhimi"
 
 #: src/ui.h:43
 msgid "_Go"
@@ -2917,7 +2911,6 @@ msgstr ""
 msgid "_Help"
 msgstr "_Ndihmë"
 
-#. GRUT modified this item
 #: src/ui.h:53
 msgid "New _Window"
 msgstr "_Dritare e Re"
@@ -2926,12 +2919,10 @@ msgstr "_Dritare e Re"
 msgid "Create a new window"
 msgstr "Krijo një dritare të re"
 
-#. GRUT modified this item
 #: src/ui.h:58
 msgid "_Close"
 msgstr "_Mbyll"
 
-#. GRUT modified this item
 #: src/ui.h:59
 msgid "Close this window"
 msgstr "Mbyll këtë dritare"
@@ -2944,21 +2935,24 @@ msgstr ""
 msgid "Open selected images with an application"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:73
 msgid "_Revert"
-msgstr "_Rikthe"
+msgstr "_Kthe mbrapa"
 
 #: src/ui.h:74
 msgid "Revert to saved image"
 msgstr ""
 
+#. GRUT modified this item
 #: src/ui.h:78
 msgid "_Print..."
-msgstr "_Printo..."
+msgstr "_Printim..."
 
+#. GRUT modified this item
 #: src/ui.h:83 src/ui.h:453
 msgid "Proper_ties"
-msgstr "Pro_nësitë"
+msgstr "Pronësi_të"
 
 #: src/ui.h:84 src/ui.h:454
 msgid "View image properties"
@@ -3590,7 +3584,6 @@ msgstr "_Paneli i instrumentëve"
 msgid "View or hide the toolbar of this window"
 msgstr ""
 
-#. GRUT modified this item
 #: src/ui.h:612
 msgid "_Statusbar"
 msgstr "_Paneli i gjëndjes"
