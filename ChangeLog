@@ -1,3 +1,7 @@
+2004-02-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.3.1 released ]
+
 2004-02-13  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/dlg-jpegtran.c: Fix orientation restoring.
