@@ -1,3 +1,7 @@
+2005-01-23  Hendrik Richter  <hendrik@gnome-de.org>
+
+	* de.po: Updated German translation.
+
 2005-01-22  Changwoo Ryu  <cwryu@debian.org>
 
 	* ko.po: Updated Korean translation.
@@ -1577,4 +1581,3 @@
 	* Makefile.in.in: Upgrade to gettext-0.10.38.
 	* cat-id-tbl.c: Remove file.
 	* stamp-cat-id: Remove file.
-
