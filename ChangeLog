@@ -1,3 +1,7 @@
+2004-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: check libraries version.
+
 2004-10-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/ui.h: 
