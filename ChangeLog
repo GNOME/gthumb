@@ -1,3 +1,18 @@
+2004-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/*.gthtml: make pages fit the browser window.
+
+	* src/gthumb-window.c (_proc_monitor_events): ignore hidden 
+	directories.
+
+	* src/dlg-photo-importer.c (get_folder_name): use "%Y-%m-%d--%H.%M.%S"
+	instead of "%Y-%m-%d--%H:%M:%S" as the default film name.
+
+	* libgthumb/print-callbacks.c (print_catalog): do not scale images
+	before printing.
+
+	* src/gth-exif-utils.c (get_exif_time): set daylight saving time to 1.
+
 2004-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c (main): call gdk_threads_init only if necessary.

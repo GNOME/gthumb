@@ -995,7 +995,7 @@ get_folder_name (DialogData *data)
 
 		time (&now);
 		tm = localtime (&now);
-		strftime (time_txt, 50, "%Y-%m-%d--%H:%M:%S", tm);
+		strftime (time_txt, 50, "%Y-%m-%d--%H.%M.%S", tm);
 	
 		film_name = g_strdup (time_txt);
 	} else

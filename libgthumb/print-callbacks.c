@@ -2825,25 +2825,19 @@ print_catalog (GnomePrintContext *pc,
 		g_object_unref (image_pixbuf);
 
 		if (pixbuf != NULL) {
-			GdkPixbuf *scaled;
 			guchar    *p;
 			int        pw, ph, rs;
-			
-			pw = (int) ceil (image->scale_x);
-			ph = (int) ceil (image->scale_y);
-			scaled = gdk_pixbuf_scale_simple (pixbuf, pw, ph, GDK_INTERP_BILINEAR);
-			g_object_unref (pixbuf);
 
-			p = gdk_pixbuf_get_pixels (scaled);
-			pw = gdk_pixbuf_get_width (scaled);
-			ph = gdk_pixbuf_get_height (scaled);
-			rs = gdk_pixbuf_get_rowstride (scaled);
+			p = gdk_pixbuf_get_pixels (pixbuf);
+			pw = gdk_pixbuf_get_width (pixbuf);
+			ph = gdk_pixbuf_get_height (pixbuf);
+			rs = gdk_pixbuf_get_rowstride (pixbuf);
 
 			gnome_print_gsave (pc);
 			gnome_print_scale (pc, image->scale_x, image->scale_y);
 			gnome_print_translate (pc, image->trans_x, image->trans_y);
 			if (pci->use_colors) {
-				if (gdk_pixbuf_get_has_alpha (scaled)) 
+				if (gdk_pixbuf_get_has_alpha (pixbuf)) 
 					gnome_print_rgbaimage (pc, p, pw, ph, rs);
 				else 
 					gnome_print_rgbimage  (pc, p, pw, ph, rs);
@@ -2851,7 +2845,7 @@ print_catalog (GnomePrintContext *pc,
 				gnome_print_grayimage (pc, p, pw, ph, rs);
 			gnome_print_grestore (pc);
 			
-			g_object_unref (scaled);
+			g_object_unref (pixbuf);
 		}
 
 		if ((i + 1 < pci->n_images) && ((i + 1) % pci->images_per_page == 0)) {

@@ -6455,6 +6455,12 @@ _proc_monitor_events (gpointer data)
 	scan = window->monitor_events[MONITOR_EVENT_DIR_CREATED];
 	for (; scan; scan = scan->next) {
 		char *path = scan->data;
+		const char *name = file_name_from_path (path);
+
+		/* ignore hidden directories. */
+		if (name[0] == '.')
+			continue;
+
 		dir_list_add_directory (window->dir_list, path);
 	}
 	path_list_free (window->monitor_events[MONITOR_EVENT_DIR_CREATED]);
