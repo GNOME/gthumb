@@ -250,7 +250,7 @@ msgstr "Ditentukan dengan penghujungan"
 
 #: libgthumb/dlg-save-image.c:207
 msgid "Save Image"
-msgstr "SImpan Imej"
+msgstr "Simpan Imej"
 
 #: libgthumb/dlg-save-image.c:221
 msgid "Image type:"
@@ -608,7 +608,7 @@ msgstr "gThumb"
 
 #: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
-msgstr "Pelungsur dan pelihat imej untuk GNOME"
+msgstr "Pelungsur dan pelihat imej bagi GNOME."
 
 #: src/dlg-catalog.c:435
 msgid "Move Catalog to..."
@@ -908,7 +908,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:11
 msgid "Assign categories to selected images"
-msgstr ""
+msgstr "Beri kategori kepada imej dipilih"
 
 #: src/gthumb-ui.xml.h:12
 msgid "Assign categories to the image"
@@ -919,9 +919,8 @@ msgid "Auto"
 msgstr "Auto"
 
 #: src/gthumb-ui.xml.h:14
-#, fuzzy
 msgid "Automatically normalize the contrast"
-msgstr "Automatik mula paparan slaid"
+msgstr "Automatik normalkan kontras"
 
 #: src/gthumb-ui.xml.h:15
 msgid "Automatically stretch the contrast"
@@ -1729,7 +1728,7 @@ msgstr "Folder Ba_ru..."
 
 #: src/gthumb-ui.xml.h:230
 msgid "_Normalize"
-msgstr ""
+msgstr "_Normalkan"
 
 #: src/gthumb-ui.xml.h:231
 msgid "_Open With"
@@ -1737,11 +1736,11 @@ msgstr "_Buka dengan"
 
 #: src/gthumb-ui.xml.h:232
 msgid "_Posterize"
-msgstr ""
+msgstr "_Posterkan"
 
 #: src/gthumb-ui.xml.h:233 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
-msgstr "_Keutamaan"
+msgstr "Ke_utamaan"
 
 #: src/gthumb-ui.xml.h:234
 msgid "_Print..."
@@ -1809,7 +1808,7 @@ msgstr "_Henti"
 
 #: src/gthumb-ui.xml.h:251
 msgid "_Stretch Contrast"
-msgstr ""
+msgstr "_Regangkan Kontras"
 
 #: src/gthumb-ui.xml.h:252
 msgid "_Threshold"
@@ -1817,7 +1816,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:64
 msgid "_Thumbnails"
-msgstr ""
+msgstr "_Ibujari"
 
 #: src/gthumb-ui.xml.h:254
 msgid "_Tiled"
@@ -1841,7 +1840,7 @@ msgstr "_Naik"
 
 #: src/gthumb-ui.xml.h:261
 msgid "_Zoom"
-msgstr "_Zoom"
+msgstr "_Zum"
 
 #: src/gthumb-ui.xml.h:262
 msgid "by _Name"
@@ -1849,7 +1848,7 @@ msgstr "mengikut _Nama"
 
 #: src/gthumb-ui.xml.h:263
 msgid "by _Path"
-msgstr "mengikut _Path"
+msgstr "mengikut _Laluan"
 
 #: src/gthumb-ui.xml.h:264
 msgid "by _Size"
@@ -1941,7 +1940,7 @@ msgstr "*"
 
 #: src/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr "<b>Kategorii:</b>"
+msgstr "<b>Kategori:</b>"
 
 #: src/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
@@ -2009,7 +2008,7 @@ msgstr "TiIndih Imej"
 
 #: src/gthumb.glade.h:21
 msgid "Overwrite _all images"
-msgstr "Tindih semua imej"
+msgstr "Tindih _semua imej"
 
 #: src/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
@@ -2021,7 +2020,7 @@ msgstr "Aplikasi Ke_belakangan:"
 
 #: src/gthumb.glade.h:24
 msgid "Red"
-msgstr "merah"
+msgstr "Merah"
 
 #: src/gthumb.glade.h:25
 msgid "Value"
@@ -2101,11 +2100,11 @@ msgstr "Tiada tarikh"
 
 #: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr ""
+msgstr "Tarikh pendigitalan _foto (Drpd data EXIF)"
 
 #: src/gthumb_comments.glade.h:15
 msgid "Photo digitalization date (From EXIF data)"
-msgstr ""
+msgstr "Tarikh pendigitalan foto (Drpd data EXIF)"
 
 #: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
@@ -2113,7 +2112,7 @@ msgstr "Buang kategori yang dipilih"
 
 #: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
-msgstr ""
+msgstr "Simpan hanya medan yg ber_ubah"
 
 #: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
 msgid "The _following date:"
@@ -2125,7 +2124,7 @@ msgstr "Tarikh berikut"
 
 #: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
-msgstr "Tarikh:"
+msgstr "_Tarikh:"
 
 #: src/gthumb_comments.glade.h:21
 msgid "_Delete"
@@ -2197,7 +2196,7 @@ msgstr "Opsyen PNG"
 
 #: src/gthumb_convert.glade.h:15
 msgid "R_emove original"
-msgstr ""
+msgstr "_Buang original"
 
 #: src/gthumb_convert.glade.h:16
 msgid "Rename"
@@ -2225,7 +2224,7 @@ msgstr "_JPEG"
 
 #: src/gthumb_convert.glade.h:23
 msgid "_Loss compression (JPEG)"
-msgstr ""
+msgstr "Mampatan _Hilang (JPEG)"
 
 #: src/gthumb_convert.glade.h:24
 msgid "_No compression"
@@ -2304,7 +2303,7 @@ msgstr "Kon_tras:"
 
 #: src/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr ""
+msgstr "Sian-_Merah:"
 
 #: src/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -2320,11 +2319,11 @@ msgstr "Hue - Ketepuan"
 
 #: src/gthumb_edit.glade.h:16
 msgid "Posterize"
-msgstr ""
+msgstr "Posterkan"
 
 #: src/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
-msgstr ""
+msgstr "Kekalkan kel_uminasian"
 
 #: src/gthumb_edit.glade.h:18
 msgid "Scale Image"
@@ -2720,7 +2719,7 @@ msgstr "<b>Antaramuka</b>"
 
 #: src/gthumb_preferences.glade.h:16
 msgid "<b>On startup:</b>"
-msgstr "</b>Pada Permulaan:</b>"
+msgstr "<b>Pada Permulaan:</b>"
 
 #: src/gthumb_preferences.glade.h:17
 msgid "<b>Other</b>"
@@ -2772,7 +2771,7 @@ msgstr "Polisi k_lik:"
 
 #: src/gthumb_preferences.glade.h:29
 msgid "Checked"
-msgstr "Disemak"
+msgstr "Dam"
 
 #: src/gthumb_preferences.glade.h:30
 msgid "Co_mments"
@@ -2872,7 +2871,7 @@ msgstr "Teks di bawah ikon"
 
 #: src/gthumb_preferences.glade.h:55
 msgid "Text beside icons"
-msgstr "Teks sebelah ikon"
+msgstr "Teks di sebelah ikon"
 
 #: src/gthumb_preferences.glade.h:56
 msgid "Text only"
@@ -3162,7 +3161,7 @@ msgstr "Duakan"
 
 #: src/gthumb_tools.glade.h:26
 msgid "JPEG Lossless Transformation"
-msgstr ""
+msgstr "Transformasi Tidakhilang JPEG"
 
 #: src/gthumb_tools.glade.h:27
 msgid "Maintenance"
