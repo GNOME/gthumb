@@ -1,3 +1,7 @@
+2004-08-21  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Add «nb» to ALL_LINGUAS.
+
 2004-08-11  Mohammad DAMT  <mdamt@bisnisweb.com>
 	
 	* configure.in: Added "id" (Indonesian) in ALL_LINGUAS
