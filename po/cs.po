@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-03-15 12:10+0100\n"
-"PO-Revision-Date: 2003-03-15 17:10+0100\n"
+"POT-Creation-Date: 2003-03-23 12:34+0100\n"
+"PO-Revision-Date: 2003-03-23 17:27+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -173,12 +173,12 @@ msgid "_Zoom Quality"
 msgstr "Kvalita _zvětšení"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:516
-#: src/gthumb-window.c:351
+#: src/gthumb-window.c:355
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:357
+#: src/dlg-image-prop.c:624 src/fullscreen.c:233 src/gthumb-window.c:361
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
@@ -278,9 +278,9 @@ msgid "Name"
 msgstr "Název"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:436
-#: src/gthumb-window.c:450 src/gthumb-window.c:453 src/gthumb-window.c:470
-#: src/gthumb-window.c:476 src/gthumb-window.c:4097
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2742 src/gthumb-window.c:440
+#: src/gthumb-window.c:454 src/gthumb-window.c:457 src/gthumb-window.c:474
+#: src/gthumb-window.c:480 src/gthumb-window.c:4198
 #: src/gthumb_png_exporter.glade.h:75 src/gthumb_web_exporter.glade.h:26
 #: src/main.c:122
 msgid "gThumb"
@@ -514,8 +514,8 @@ msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
 #: src/commands-impl.c:2744
-msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr "Copyright ©2001 Free Software Foundation, Inc."
+msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
+msgstr "Copyright (C) 2001-2003 Free Software Foundation, Inc."
 
 #: src/commands-impl.c:2745
 msgid "An image viewer and browser for GNOME."
@@ -1708,52 +1708,52 @@ msgstr "podle _velikosti"
 msgid "by _Time"
 msgstr "podle č_asu"
 
-#: src/gthumb-window.c:521
+#: src/gthumb-window.c:525
 msgid "No image"
 msgstr "Žádný obrázek"
 
-#: src/gthumb-window.c:523
+#: src/gthumb-window.c:527
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 obrázek (%s)"
 
-#: src/gthumb-window.c:526
+#: src/gthumb-window.c:530
 #, c-format
 msgid "%d images (%s)"
 msgstr "obrázků: %d (%s)"
 
-#: src/gthumb-window.c:533
+#: src/gthumb-window.c:537
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 vybraný (%s)"
 
-#: src/gthumb-window.c:536
+#: src/gthumb-window.c:540
 #, c-format
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:2847
+#: src/gthumb-window.c:2851
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3017
+#: src/gthumb-window.c:3029
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:3625
+#: src/gthumb-window.c:3722
 msgid "Back"
 msgstr "Zpět"
 
-#: src/gthumb-window.c:5500
+#: src/gthumb-window.c:5607
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:5770
+#: src/gthumb-window.c:5877
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:7102
+#: src/gthumb-window.c:7209
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -3041,7 +3041,9 @@ msgstr "Hledání ukončeno, nebyly nalezeny žádné duplikáty."
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert "
 "original filename. Use ? to insert image date."
-msgstr "Použijte znaky # pro určení pozic používaných číslováním. Použijte * pro vložení původního názvu souboru. Použijte ? pro vložení data obrázku."
+msgstr ""
+"Použijte znaky # pro určení pozic používaných číslováním. Použijte * pro "
+"vložení původního názvu souboru. Použijte ? pro vložení data obrázku."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3119,275 +3121,275 @@ msgstr "Rodina"
 msgid "Command Line"
 msgstr "Příkazový řádek"
 
-#~ msgid "Component has no editable properties"
-#~ msgstr "Komponenta nemá upravitelné vlastnosti"
+msgid "Component has no editable properties"
+msgstr "Komponenta nemá upravitelné vlastnosti"
 
-#~ msgid "Could not open file %s"
-#~ msgstr "Nelze otevřít soubor %s"
+msgid "Could not open file %s"
+msgstr "Nelze otevřít soubor %s"
 
-#~ msgid "Printer"
-#~ msgstr "Tiskárna"
+msgid "Printer"
+msgstr "Tiskárna"
 
-#~ msgid "Desaturate"
-#~ msgstr "Odsytit"
+msgid "Desaturate"
+msgstr "Odsytit"
 
-#~ msgid "Folder not empty"
-#~ msgstr "Adresář není prázdný"
+msgid "Folder not empty"
+msgstr "Adresář není prázdný"
 
-#~ msgid "Cannot delete the folder \"%s\" : %s"
-#~ msgstr "Nelze odstranit adresář \"%s\": %s"
+msgid "Cannot delete the folder \"%s\" : %s"
+msgstr "Nelze odstranit adresář \"%s\": %s"
 
-#~ msgid "Checked images will be deleted, are you sure ?"
-#~ msgstr "Označené obrázky budou odstraněny, jste si jisti?"
+msgid "Checked images will be deleted, are you sure ?"
+msgstr "Vybrané obrázky budou odstraněny, jste si jisti?"
 
-#~ msgid "Image _Properties"
-#~ msgstr "V_lastnosti obrázku"
+msgid "Image _Properties"
+msgstr "V_lastnosti obrázku"
 
-#~ msgid "View Slide Show"
-#~ msgstr "Zobrazit promítání snímků"
+msgid "View Slide Show"
+msgstr "Zobrazit promítání snímků"
 
-#~ msgid "_Find Images..."
-#~ msgstr "_Najít obrázky..."
+msgid "_Find Images..."
+msgstr "_Najít obrázky..."
 
-#~ msgid "A_vailable Categories:"
-#~ msgstr "_Dostupné kategorie:"
+msgid "A_vailable Categories:"
+msgstr "_Dostupné kategorie:"
 
-#~ msgid "Import date from attached EXIF data"
-#~ msgstr "Importovat datum z připojených dat EXIF"
+msgid "Import date from attached EXIF data"
+msgstr "Importovat datum z připojených dat EXIF"
 
-#~ msgid "Import from E_XIF Data"
-#~ msgstr "Importovat z dat E_XIF"
+msgid "Import from E_XIF Data"
+msgstr "Importovat z dat E_XIF"
 
-#~ msgid "Set date to image creation date"
-#~ msgstr "Nastavit datum na datum vytvoření obrázku"
+msgid "Set date to image creation date"
+msgstr "Nastavit datum na datum vytvoření obrázku"
 
-#~ msgid "Set date to today"
-#~ msgstr "Nastavit datum na dnešek"
+msgid "Set date to today"
+msgstr "Nastavit datum na dnešek"
 
-#~ msgid "_Selected Categories:"
-#~ msgstr "_Vybrané kategorie:"
+msgid "_Selected Categories:"
+msgstr "_Vybrané kategorie:"
 
-#~ msgid "_Today"
-#~ msgstr "_Dnes"
+msgid "_Today"
+msgstr "_Dnes"
 
-#~ msgid "Horizontal:"
-#~ msgstr "Vodorovně:"
+msgid "Horizontal:"
+msgstr "Vodorovně:"
 
-#~ msgid "Vertical:"
-#~ msgstr "Svisle:"
+msgid "Vertical:"
+msgstr "Svisle:"
 
-#~ msgid "Si_ze :"
-#~ msgstr "Vel_ikost:"
+msgid "Si_ze :"
+msgstr "Vel_ikost :"
 
-#~ msgid "Print Setup"
-#~ msgstr "Nastavení tisku"
+msgid "Print Setup"
+msgstr "Nastavení tisku"
 
-#~ msgid "File _Name:"
-#~ msgstr "_Název souboru:"
+msgid "File _Name:"
+msgstr "_Název souboru:"
 
-#~ msgid "Search for Images"
-#~ msgstr "Hledat obrázky"
+msgid "Search for Images"
+msgstr "Hledat obrázky"
 
-#~ msgid "Date the image was created"
-#~ msgstr "Datum vytvoření obrázku"
+msgid "Date the image was created"
+msgstr "Datum vytvoření obrázku"
 
-#~ msgid "The EXIF date"
-#~ msgstr "Datum EXIF"
+msgid "The EXIF date"
+msgstr "Datum EXIF"
 
-#~ msgid "The image will be deleted, are you sure ?"
-#~ msgstr "Obrázek bude smazán, jste si jisti?"
+msgid "The image will be deleted, are you sure ?"
+msgstr "Obrázek bude odstraněn, jste si jisti?"
 
-#~ msgid "Could not delete the following images:"
-#~ msgstr "Nelze odstranit následující obrázky:"
+msgid "Could not delete the following images:"
+msgstr "Nelze odstranit následující obrázky:"
 
-#~ msgid "Could not move the following images:"
-#~ msgstr "Nelze přesunout následující obrázky:"
+msgid "Could not move the following images:"
+msgstr "Nelze přesunout následující obrázky:"
 
-#~ msgid "Could not copy the following images:"
-#~ msgstr "Nelze kopírovat následující obrázky:"
+msgid "Could not copy the following images:"
+msgstr "Nelze kopírovat následující obrázky:"
 
-#~ msgid "Could not move folder \"%s\" : %s"
-#~ msgstr "Nelze přesunout adresář \"%s\": %s"
+msgid "Could not move folder \"%s\" : %s"
+msgstr "Nelze přesunout adresář \"%s\": %s"
 
-#~ msgid "Could not copy folder \"%s\" : %s"
-#~ msgstr "Nelze kopírovat adresář \"%s\": %s"
+msgid "Could not copy folder \"%s\" : %s"
+msgstr "Nelze kopírovat adresář \"%s\": %s"
 
-#~ msgid "Delete current folder"
-#~ msgstr "Odstranit aktuální adresář"
+msgid "Delete current folder"
+msgstr "Odstranit aktuální adresář"
 
-#~ msgid "Delete selected folder"
-#~ msgstr "Odstranit vybraný adresář"
+msgid "Delete selected folder"
+msgstr "Odstranit vybraný adresář"
 
-#~ msgid "Delete selected images from disk"
-#~ msgstr "Odstranit vybrané obrázky z disku"
+msgid "Delete selected images from disk"
+msgstr "Odstranit vybrané obrázky z disku"
 
-#~ msgid "Delete this image from disk"
-#~ msgstr "Odstranit tento obrázek z disku"
+msgid "Delete this image from disk"
+msgstr "Odstranit tento obrázek z disku"
 
-#~ msgid "_Delete"
-#~ msgstr "O_dstranit"
+msgid "_Delete"
+msgstr "O_dstranit"
 
-#~ msgid "Edit"
-#~ msgstr "Upravit"
+msgid "Edit"
+msgstr "Upravit"
 
-#~ msgid "Remove ALL Thumbnails"
-#~ msgstr "Odstranit VŠECHNY miniatury"
+msgid "Remove ALL Thumbnails"
+msgstr "Odstranit VŠECHNY miniatury"
 
-#~ msgid "Remove Old Comments"
-#~ msgstr "Odstranit staré komentáře"
+msgid "Remove Old Comments"
+msgstr "Odstranit staré komentáře"
 
-#~ msgid "Black and White"
-#~ msgstr "Černobíle"
+msgid "Black and White"
+msgstr "Černobíle"
 
-#~ msgid "Black and _White"
-#~ msgstr "Černo_bíle"
+msgid "Black and _White"
+msgstr "Černo_bíle"
 
-#~ msgid "No JPEG image selected"
-#~ msgstr "Není vybrán žádný obrázek JPEG"
+msgid "No JPEG image selected"
+msgstr "Není vybrán žádný obrázek JPEG"
 
-#~ msgid "Brightness-Contrast"
-#~ msgstr "Jas - Kontrast"
+msgid "Brightness-Contrast"
+msgstr "Jas - Kontrast"
 
-#~ msgid "Ca_tegories..."
-#~ msgstr "Ka_tegorie..."
+msgid "Ca_tegories..."
+msgstr "Ka_tegorie..."
 
-#~ msgid "Copy..."
-#~ msgstr "Kopírovat..."
+msgid "Copy..."
+msgstr "Kopírovat..."
 
-#~ msgid "Delete"
-#~ msgstr "Odstranit"
+msgid "Delete"
+msgstr "Odstranit"
 
-#~ msgid "Delete Folder"
-#~ msgstr "Odstranit adresář"
+msgid "Delete Folder"
+msgstr "Odstranit adresář"
 
-#~ msgid "Duplicate"
-#~ msgstr "Duplikovat"
+msgid "Duplicate"
+msgstr "Duplikovat"
 
-#~ msgid "Hue-Saturation"
-#~ msgstr "Odstín - Sytost"
+msgid "Hue-Saturation"
+msgstr "Odstín - Sytost"
 
-#~ msgid "Move Catalog..."
-#~ msgstr "Přesunout katalog..."
+msgid "Move Catalog..."
+msgstr "Přesunout katalog..."
 
-#~ msgid "Move Folder"
-#~ msgstr "Přesunout adresář"
+msgid "Move Folder"
+msgstr "Přesunout adresář"
 
-#~ msgid "Move..."
-#~ msgstr "Přesunout..."
+msgid "Move..."
+msgstr "Přesunout..."
 
-#~ msgid "Negative"
-#~ msgstr "Negativ"
+msgid "Negative"
+msgstr "Negativ"
 
-#~ msgid "Remove"
-#~ msgstr "Odstranit"
+msgid "Remove"
+msgstr "Odstranit"
 
-#~ msgid "Remove Catalog"
-#~ msgstr "Odstranit katalog"
+msgid "Remove Catalog"
+msgstr "Odstranit katalog"
 
-#~ msgid "Rename Catalog"
-#~ msgstr "Přejmenovat katalog"
+msgid "Rename Catalog"
+msgstr "Přejmenovat katalog"
 
-#~ msgid "Rename Folder"
-#~ msgstr "Přejmenovat adresář"
+msgid "Rename Folder"
+msgstr "Přejmenovat adresář"
 
-#~ msgid "Resize"
-#~ msgstr "Změnit velikost"
+msgid "Resize"
+msgstr "Změnit velikost"
 
-#~ msgid "View Properties"
-#~ msgstr "Zobrazit vlastnosti"
+msgid "View Properties"
+msgstr "Zobrazit vlastnosti"
 
-#~ msgid "Cannot open file \"%s\" : %s"
-#~ msgstr "Nelze otevřít soubor \"%s\" : %s"
+msgid "Cannot open file \"%s\" : %s"
+msgstr "Nelze otevřít soubor \"%s\" : %s"
 
-#~ msgid "Cannot save file \"%s\" : %s"
-#~ msgstr "Nelze uložit soubor \"%s\" : %s"
+msgid "Cannot save file \"%s\" : %s"
+msgstr "Nelze uložit soubor \"%s\" : %s"
 
-#~ msgid "Cannot remove folder \"%s\" : %s"
-#~ msgstr "Nelze odstranit adresář \"%s\": %s"
+msgid "Cannot remove folder \"%s\" : %s"
+msgstr "Nelze odstranit adresář \"%s\": %s"
 
-#~ msgid "Open selected files with an application"
-#~ msgstr "Otevřít vybrané soubory aplikací"
+msgid "Open selected files with an application"
+msgstr "Otevřít vybrané soubory aplikací"
 
-#~ msgid "Priority text beside icons"
-#~ msgstr "Podstatný text vedle ikon"
+msgid "Priority text beside icons"
+msgstr "Podstatný text vedle ikon"
 
-#~ msgid "<b>Specify a template to use for creating index images</b>"
-#~ msgstr "<b>Vyberte šablonu pro vytvoření obrázku s indexem</b>"
+msgid "<b>Specify a template to use for creating index images</b>"
+msgstr "<b>Vyberte šablonu pro vytvoření obrázku s indexem</b>"
 
-#~ msgid "Create index image"
-#~ msgstr "Vytvořit obrázek s indexem"
+msgid "Create index image"
+msgstr "Vytvořit obrázek s indexem"
 
-#~ msgid "<b>Convert to type</b>"
-#~ msgstr "<b>Převést na typ</b>"
+msgid "<b>Convert to type</b>"
+msgstr "<b>Převést na typ</b>"
 
-#~ msgid "<b>Overwrite mode</b>"
-#~ msgstr "<b>Přepisovací režim</b>"
+msgid "<b>Overwrite mode</b>"
+msgstr "<b>Přepisovací režim</b>"
 
-#~ msgid "Remove ALL Comments"
-#~ msgstr "Odstranit VŠECHNY komentáře"
+msgid "Remove ALL Comments"
+msgstr "Odstranit VŠECHNY komentáře"
 
-#~ msgid "Rename series"
-#~ msgstr "Přejmenovat řadu"
+msgid "Rename series"
+msgstr "Přejmenovat řadu"
 
-#~ msgid "Web Album Style"
-#~ msgstr "Styl webového alba"
+msgid "Web Album Style"
+msgstr "Styl webového alba"
 
-#~ msgid "_HTML sub-folder:"
-#~ msgstr "Podadresář _HTML:"
+msgid "_HTML sub-folder:"
+msgstr "Podadresář _HTML:"
 
-#~ msgid "_Location:"
-#~ msgstr "_Umístění:"
+msgid "_Location:"
+msgstr "_Umístění:"
 
-#~ msgid "_Style:"
-#~ msgstr "_Styl:"
+msgid "_Style:"
+msgstr "_Styl:"
 
-#~ msgid "_Thumbnails sub-folder:"
-#~ msgstr "Podadresář minia_tur:"
+msgid "_Thumbnails sub-folder:"
+msgstr "Podadresář minia_tur:"
 
-#~ msgid "_Transfrom"
-#~ msgstr "_Transformovat"
+msgid "_Transfrom"
+msgstr "_Transformovat"
 
-#~ msgid "Delete Catalog"
-#~ msgstr "Odstranit katalog"
+msgid "Delete Catalog"
+msgstr "Odstranit katalog"
 
-#~ msgid "Delete current catalog"
-#~ msgstr "Odstranit aktuální katalog"
+msgid "Delete current catalog"
+msgstr "Odstranit aktuální katalog"
 
-#~ msgid "Delete selected catalog"
-#~ msgstr "Odstranit vybraný katalog"
+msgid "Delete selected catalog"
+msgstr "Odstranit vybraný katalog"
 
-#~ msgid "Display image information"
-#~ msgstr "Zobrazit informace o obrázku"
+msgid "Display image information"
+msgstr "Zobrazit informace o obrázku"
 
-#~ msgid "Find _Duplicates"
-#~ msgstr "Najít _duplikáty"
+msgid "Find _Duplicates"
+msgstr "Najít _duplikáty"
 
-#~ msgid "Full screen"
-#~ msgstr "Celá obrazovka"
+msgid "Full screen"
+msgstr "Celá obrazovka"
 
-#~ msgid "Image Inf_ormation"
-#~ msgstr "Informace o _obrázku"
+msgid "Image Inf_ormation"
+msgstr "Informace o _obrázku"
 
-#~ msgid "New _Folder"
-#~ msgstr "Nový _adresář"
+msgid "New _Folder"
+msgstr "Nový _adresář"
 
-#~ msgid "Open with..."
-#~ msgstr "Otevřít pomocí..."
+msgid "Open with..."
+msgstr "Otevřít pomocí..."
 
-#~ msgid "Reduce Colors"
-#~ msgstr "Redukovat barvy"
+msgid "Reduce Colors"
+msgstr "Redukovat barvy"
 
-#~ msgid "Refresh"
-#~ msgstr "Obnovit"
+msgid "Refresh"
+msgstr "Obnovit"
 
-#~ msgid "Transparency typ_e"
-#~ msgstr "Typ průhl_ednosti"
+msgid "Transparency typ_e"
+msgstr "Typ průhl_ednosti"
 
-#~ msgid "_Close Window"
-#~ msgstr "_Zavřít okno"
+msgid "_Close Window"
+msgstr "_Zavřít okno"
 
-#~ msgid "_JPEG Transform"
-#~ msgstr "Transformace _JPEG"
+msgid "_JPEG Transform"
+msgstr "Transformace _JPEG"
 
-#~ msgid "_Slideshow"
-#~ msgstr "Promítání _snímků"
+msgid "_Slideshow"
+msgstr "Promítání _snímků"
