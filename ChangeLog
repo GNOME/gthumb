@@ -1,5 +1,8 @@
 2004-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gthumb-window.c (window_show_cb): restore saved toolbar and
+	statusbar visibility.
+
 	* data/glade/gthumb_tools.glade: 
 	* src/dlg-write-to-cd.c (dlg_write_to_cd): remove recursive option.
 

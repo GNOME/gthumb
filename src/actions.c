@@ -2795,11 +2795,7 @@ void
 activate_action_view_toolbar (GtkAction *action,
 			      gpointer   data)
 {
-	GThumbWindow *window = data;
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_widget_show (window->toolbar->parent);
-	else
-		gtk_widget_hide (window->toolbar->parent);
+	eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 
@@ -2807,11 +2803,7 @@ void
 activate_action_view_statusbar (GtkAction *action,
 				gpointer   data)
 {
-	GThumbWindow *window = data;
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		gtk_widget_show (window->statusbar);
-	else
-		gtk_widget_hide (window->statusbar);
+	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 

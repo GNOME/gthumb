@@ -3876,9 +3876,6 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	}
 	set_action_active (window, prop, TRUE);
 
-	set_action_active (window, "View_Toolbar", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
-	set_action_active (window, "View_Statusbar", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
-
 	set_action_active (window, "View_ShowFolders", FALSE);
 	set_action_active (window, "View_ShowCatalogs", FALSE);
 
@@ -3935,24 +3932,24 @@ pref_ui_toolbar_visible_changed (GConfClient *client,
 				 gpointer     user_data)
 {
 	GThumbWindow *window = user_data;
-	gboolean      visible;
-
-	visible = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE);
-	set_action_active_if_different (window, "View_Toolbar", visible);
+	if (gconf_value_get_bool (gconf_entry_get_value (entry)))
+		gtk_widget_show (window->toolbar->parent);
+	else
+		gtk_widget_hide (window->toolbar->parent);
 }
 
 
 static void
 pref_ui_statusbar_visible_changed (GConfClient *client,
-				 guint        cnxn_id,
-				 GConfEntry  *entry,
-				 gpointer     user_data)
+				   guint        cnxn_id,
+				   GConfEntry  *entry,
+				   gpointer     user_data)
 {
 	GThumbWindow *window = user_data;
-	gboolean      visible;
-
-	visible = eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE);
-	set_action_active_if_different (window, "View_Statusbar", visible);
+	if (gconf_value_get_bool (gconf_entry_get_value (entry)))
+		gtk_widget_show (window->statusbar);
+	else
+		gtk_widget_hide (window->statusbar);
 }
 
 
@@ -4365,8 +4362,6 @@ initial_location_cb (gpointer data)
 	GThumbWindow *window = data;
 	const char   *starting_location = preferences_get_startup_location ();
 
-	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
-
 	if (pref_util_location_is_catalog (starting_location)) 
 		window_go_to_catalog (window, pref_util_get_catalog_location (starting_location));
 
@@ -4536,6 +4531,26 @@ create_locationbar_button (const char *stock_id,
 }
 
 
+static gboolean 
+window_show_cb (GtkWidget    *widget,
+		GThumbWindow *window)
+{
+	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE))
+		gtk_widget_show (window->toolbar->parent);
+	else
+		gtk_widget_hide (window->toolbar->parent);
+	set_action_active (window, "View_Toolbar", eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
+
+	if (eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE))
+		gtk_widget_show (window->statusbar);
+	else
+		gtk_widget_hide (window->statusbar);
+	set_action_active (window, "View_Statusbar", eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
+
+	return TRUE;
+}
+
+
 
 
 
@@ -4651,6 +4666,10 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->app), 
 			  "key_press_event",
 			  G_CALLBACK (key_press_cb), 
+			  window);
+	g_signal_connect (G_OBJECT (window->app), 
+			  "show",
+			  G_CALLBACK (window_show_cb),
 			  window);
 
 	/* Popup menus */
@@ -5230,8 +5249,6 @@ window_new (void)
 	set_action_sensitive (window, "File_CameraImport", FALSE);
 #endif /* HAVE_LIBGPHOTO */
 
-	window_sync_menu_with_preferences (window); 
-
 	/**/
 
 	window->sidebar_width = eel_gconf_get_integer (PREF_UI_SIDEBAR_SIZE, DEF_SIDEBAR_SIZE);
@@ -5239,6 +5256,8 @@ window_new (void)
 	gtk_paned_set_position (GTK_PANED (paned2), eel_gconf_get_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, DEF_SIDEBAR_CONT_SIZE));
 
 	gtk_widget_show_all (window->main_pane);
+
+	window_sync_menu_with_preferences (window); 
 
 	if (window->preview_visible) 
 		window_show_image_pane (window);
@@ -5360,6 +5379,8 @@ window_new (void)
 					   PREF_VIEW_AS,
 					   pref_view_as_changed,
 					   window);
+
+	window->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (window->ui, browser_ui_info, -1, NULL);
 
 	/* Initial location. */
 	g_idle_add (initial_location_cb, window);
