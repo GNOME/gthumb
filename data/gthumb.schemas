@@ -283,6 +283,11 @@
 	  <long>Imagens além deste tamanho (em bytes) não irão ser miniaturas. Use 0 se você quer gerar miniaturas para todas as imagens.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Pre obrázky presahujúce túto veľkosť (v bajtoch) nebudú vytvorenéé náhľady. Použite hodnotu 0, ah chcete vytvárať náhľady pre všetky obrázky.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Слике преко ове величине (у бајтовима) неће имати умањени приказ. Користите 0 уколико желите да видите умањени приказ за све слике.</long>
@@ -419,6 +424,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: nautilus, simples, duplo.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="sr">
@@ -572,6 +582,11 @@
 	  <long>Valores possíveis são: nenhum, nome, caminho, tamanho, hora.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: none, name, path, size, time.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: none, name, path, size, time.</long>
@@ -710,6 +725,11 @@
 	  <long>Valores possíveis são: ascender, descender.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: ascending, descending.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: ascending, descending.</long>
@@ -846,6 +866,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: lista, miniaturas.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: list, thumbnails.</long>
 	</locale>
 
 	<locale name="sr">
@@ -997,6 +1022,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: imagem, data, comentário.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: image, data, comment.</long>
 	</locale>
 
 	<locale name="sr">
@@ -1152,6 +1182,11 @@
 	  <long>Valores possíveis são: alta, baixa</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: high, low.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: high, low.</long>
@@ -1289,6 +1324,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: tamanho_atual, ajustar, conservar_anterior, ajustar_se_larga.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
 	<locale name="sr">
@@ -1429,6 +1469,11 @@
 	  <long>Valores possíveis são: branco preto marcado nenhum.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: white, black, checked, none.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: white, black, checked, none.</long>
@@ -1565,6 +1610,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: claro, meio tom, escuro.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: light, midtone, dark.</long>
 	</locale>
 
 	<locale name="sr">
@@ -1705,6 +1755,11 @@
 	  <long>Valores possíveis são: pequeno, médio, grande.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: small, medium, large.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: small, medium, large.</long>
@@ -1836,6 +1891,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Sempre usar fundo preto</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Či sa má vždy použiť čierne pozadie.</long>
 	</locale>
 
 	<locale name="sr">
@@ -1971,6 +2031,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Possíveis valores são: para frente, para trás, aleatório.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: forward, backward, random.</long>
 	</locale>
 
 	<locale name="sr">
@@ -2152,6 +2217,11 @@
 	  <long>Valores possíveis são: 1, 2, 3, 4.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: 1, 2, 3, 4.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: 1, 2, 3, 4.</long>
@@ -2288,6 +2358,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: sistema, texto_abaixo, texto_ao_lado, apenas_texto, apenas_ícones.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
 	<locale name="sr">
@@ -2550,6 +2625,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: png, jpeg.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: png, jpeg.</long>
 	</locale>
 
 	<locale name="sr">
@@ -3032,6 +3112,11 @@
 	  <long>Valores possíveis são: nenhum, simples, simples_com_sombra, sombra, slide, sombra_dentro, sombra_fora.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -3293,6 +3378,11 @@
 	  <long>Valores possíveis são: nenhum, esvaziar, jpeg.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: none, deflate, jpeg.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: none, deflate, jpeg.</long>
@@ -3459,6 +3549,11 @@
 	  <long>Valores possíveis são: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: jpeg, png, tga, tiff.</long>
@@ -3595,6 +3690,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: pular, renomear, perguntar, sobrescrever.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: skip, rename, ask, overwrite.</long>
 	</locale>
 
 	<locale name="sr">
@@ -3776,6 +3876,11 @@
 	  <long>Valores possíveis são: nome, tamanho, hora</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: name, size, time.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: name, size, time.</long>
@@ -3932,6 +4037,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: pixels, percentagem.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: pixels, percentage.</long>
 	</locale>
 
 	<locale name="sr">
@@ -4202,6 +4312,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: nome, caminho, tamanho, hora</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: name, path, size, time.</long>
 	</locale>
 
 	<locale name="sr">
@@ -4476,6 +4591,11 @@
 	  <long>Valores possíveis são: mm, in.</long>
 	</locale>
 
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: mm, in.</long>
+	</locale>
+
 	<locale name="sr">
 	  
 	  <long>Дозвољене вредности су: mm, in.</long>
@@ -4748,6 +4868,11 @@
 	<locale name="pt_BR">
 	  
 	  <long>Valores possíveis são: nenhum, quadrado, imagem, exibição, 4x3, 4x6, 5x7, 8x10, habitual.</long>
+	</locale>
+
+	<locale name="sk">
+	  
+	  <long>Prípustné hodnoty sú: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="sr">
