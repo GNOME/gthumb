@@ -1,0 +1,3109 @@
+# gthumb for Latvian.
+# Copyright (C) 2002 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the gthumb package.
+# Artis Trops  <hornet@navigator.lv>, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb\n"
+"POT-Creation-Date: 2002-12-23 05:17+0100\n"
+"PO-Revision-Date: 2003-01-01 15:12+0200\n"
+"Last-Translator: Artis Trops <hornet@navigators.lv>\n"
+"Language-Team: Latvian <ll10nt@os.lv>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "Katalogs"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+msgid "GThumb Catalog View"
+msgstr "GThumb Kataloga Skats"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+msgid "View as Catalog"
+msgstr "Skatīt kā Katalogu"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+#: src/gthumb-ui.xml.h:84
+msgid "Print the current image"
+msgstr "Drukāt pašreizējo attēlu"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: src/gthumb_print.glade.h:12
+msgid "_Print"
+msgstr "_Drukāt"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+msgid "GThumb Image"
+msgstr "GThumb Attēls"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+msgid "GThumb Viewer"
+msgstr "GThumb Skatītājs"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+msgid "View with GThumb"
+msgstr "Skatīt ar GThumb"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+msgid "Flip"
+msgstr "Apmest"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+msgid "Flip the image"
+msgstr "Apmest attēlu"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "High"
+msgstr "Augsts"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Low"
+msgstr "Zems"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "Mirror"
+msgstr "Spogulis"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Mirror the image"
+msgstr "Spogulēt attēlu"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: src/gthumb-ui.xml.h:113
+msgid "Rotate"
+msgstr "Rotēt"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+msgid "Rotate 180 _Degrees"
+msgstr "Rotēt pa 180 _Grādiem"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate the image clockwise"
+msgstr "Rotēt attēlu pulksteņrādītāja virzienā"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate the image of 180 degrees"
+msgstr "Rotēt attēlu pa 180 grādiem"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: src/gthumb-ui.xml.h:121
+msgid "Save _As..."
+msgstr "Saglabāt _Kā..."
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: src/gthumb-ui.xml.h:122
+msgid "Save current image"
+msgstr "Saglabāt pašreizējo attēlu"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: src/gthumb-ui.xml.h:138
+msgid "Start or stop current animation"
+msgstr "Sāknēt vai apturēt pašreizējo animāciju"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr "Sākt/Apturēt _Animāciju"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr "Caurspīdīguma Ti_ps"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: src/gthumb-ui.xml.h:153
+msgid "View next animation frame"
+msgstr "Skatīt nākamo animācijas kadru"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: src/gthumb-ui.xml.h:180
+msgid "_Black"
+msgstr "_Melns"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: src/gthumb-ui.xml.h:185
+msgid "_Checked"
+msgstr "_Atķeksēts"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:197
+msgid "_Flip"
+msgstr "_Apmest"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: src/gthumb-ui.xml.h:208
+msgid "_Image"
+msgstr "_Attēls"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gthumb-ui.xml.h:215
+msgid "_Mirror"
+msgstr "_Spogulis"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: src/gthumb-ui.xml.h:220
+msgid "_None"
+msgstr "_Nekas"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+msgid "_Rotate Clockwise"
+msgstr "_Rotēt Pulksteņrādītāja virzienā"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+msgid "_Step Animation"
+msgstr "_Soļa Animācija"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+#: src/gthumb-ui.xml.h:246
+#: src/gthumb_search.glade.h:32
+#: src/gthumb_tools.glade.h:48
+msgid "_View"
+msgstr "_Skatīt"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: src/gthumb-ui.xml.h:247
+msgid "_White"
+msgstr "_Balts"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+msgid "_Zoom Quality"
+msgstr "_Tālummaiņas Kvalitāte"
+
+#: components/image-viewer/test-component.c:235
+msgid "Component has no editable properties"
+msgstr "Komponentam nav rediģējamu rekvizītu"
+
+#: components/image-viewer/test-component.c:373
+#, c-format
+msgid "Could not open file %s"
+msgstr "Nevarēju atvērt failu %s"
+
+#: components/image-viewer/viewer-stream.c:90
+#: src/dlg-file-utils.c:518
+#: src/gthumb-window.c:352
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
+
+#: components/image-viewer/viewer-stream.c:98
+#: libgthumb/catalog-png-exporter.c:794
+#: src/dlg-image-prop.c:492
+#: src/fullscreen.c:231
+#: src/gthumb-window.c:358
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d pikseļi"
+
+#: gthumb.desktop.in.h:1
+msgid "View and organize your images"
+msgstr "Skatīt un organizēt savus attēlus"
+
+#: gthumb.desktop.in.h:2
+msgid "gThumb Image Viewer"
+msgstr "gThumb Attēlu Skatītājs"
+
+#: libgthumb/catalog-png-exporter.c:1295
+#, c-format
+msgid "Loading image: %s"
+msgstr "Lādāju attēlu: %s"
+
+#: libgthumb/catalog-png-exporter.c:1487
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "Veidoju attēlu: %s.%s"
+
+#: libgthumb/catalog.c:89
+msgid "Library not empty"
+msgstr "Bibliotēka nav tukša"
+
+#: libgthumb/catalog.c:98
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "Nevaru izņemt bibliotēku \"%s\": %s"
+
+#: libgthumb/catalog.c:125
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "Nevaru izņemt katalogu \"%s\": %s"
+
+#: libgthumb/catalog.c:246
+#: libgthumb/catalog.c:414
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "Nevaru atvērt katalogu \"%s\": %s"
+
+#: libgthumb/catalog.c:391
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr "Nevaru saglabāt katalogu \"%s\": %s"
+
+#: libgthumb/comments.c:317
+msgid "Deleting all comments, wait please..."
+msgstr "Dzēšu visus komentārus, lūdzu uzgaidiet..."
+
+#: libgthumb/comments.c:319
+msgid "Deleting old comments, wait please..."
+msgstr "Dzēšu vecos komentārus, lūdzu uzgaidiet..."
+
+#: libgthumb/comments.c:668
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: libgthumb/comments.c:670
+#: src/dlg-duplicates.c:551
+#: src/dlg-image-prop.c:512
+#: src/fullscreen.c:238
+msgid "%d %B %Y, %H:%M"
+msgstr "%d %B %Y, %H:%M"
+
+#: libgthumb/comments.c:680
+msgid "(No Comment)"
+msgstr "(Nav Komentāra)"
+
+#: libgthumb/gconf-utils.c:98
+#, c-format
+msgid ""
+"GConf error:\n"
+"  %s"
+msgstr ""
+"GConf kļūda:\n"
+"  %s"
+
+#: libgthumb/dlg-save-image.c:86
+#: src/commands-impl.c:278
+#: src/dlg-convert.c:310
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "Attēls ar nosaukumu \"%s\" jau ir. Vai vēlaties to pārrakstīt?"
+
+#: libgthumb/dlg-save-image.c:136
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "Neatbalstīts attēla tips: %s"
+
+#: libgthumb/dlg-save-image.c:154
+msgid "Determine by extension"
+msgstr "Noteikt pēc paplašinājuma"
+
+#: libgthumb/dlg-save-image.c:186
+msgid "Save Image"
+msgstr "Saglabāt Attēlu"
+
+#: libgthumb/dlg-save-image.c:200
+msgid "Image type:"
+msgstr "Attēla tips:"
+
+#: libgthumb/gtk-utils.c:128
+#: libgthumb/gtk-utils.c:214
+#: libgthumb/gtk-utils.c:319
+#: src/commands-impl.c:2711
+#: src/gthumb-window.c:437
+#: src/gthumb-window.c:451
+#: src/gthumb-window.c:454
+#: src/gthumb-window.c:471
+#: src/gthumb-window.c:477
+#: src/gthumb-window.c:3987
+#: src/gthumb_png_exporter.glade.h:75
+#: src/main.c:119
+msgid "gThumb"
+msgstr "gThumb"
+
+#: libgthumb/thumb-cache.c:487
+msgid "Deleting all thumbnails, wait please..."
+msgstr "Dzēšu visus sīkattēlus, lūdzu uzgaidiet..."
+
+#: libgthumb/thumb-cache.c:489
+msgid "Deleting old thumbnails, wait please..."
+msgstr "Dzēšu vecos sīkattēlus, lūdzu uzgaidiet..."
+
+#: src/commands-impl.c:243
+#: src/commands-impl.c:973
+#: src/commands-impl.c:1548
+msgid "Enter the new name: "
+msgstr "Ievadiet jaunu nosaukumu: "
+
+#: src/commands-impl.c:247
+#: src/commands-impl.c:977
+#: src/commands-impl.c:1552
+#: src/gthumb-ui.xml.h:227
+#: src/gthumb_tools.glade.h:45
+msgid "_Rename"
+msgstr "_Pārsaukt"
+
+#: src/commands-impl.c:258
+#: src/commands-impl.c:880
+#: src/commands-impl.c:988
+#: src/commands-impl.c:1565
+#: src/commands-impl.c:1656
+#, c-format
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
+msgstr "Nosaukums \"%s\" nav derīgs, jo tas satur rakstzīmi \"/\". Lūdzu lietojiet citu nosaukumu."
+
+#: src/commands-impl.c:285
+#: src/dlg-convert.c:316
+msgid "_Overwrite"
+msgstr "_Pārrakstīt"
+
+#: src/commands-impl.c:305
+#: src/commands-impl.c:320
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Nevarēju pārsaukt attēlu \"%s\": %s"
+
+#: src/commands-impl.c:307
+#: src/commands-impl.c:1010
+#: src/commands-impl.c:1314
+msgid "source and destination are the same"
+msgstr "avot un mērķis ir viens un tas pats"
+
+#: src/commands-impl.c:409
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Nevarēju dublicēt attēlu \"%s\": %s"
+
+#: src/commands-impl.c:467
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Izvēlētie attēli tiks pārvietoti uz Atkritumkasti, vai esat pārliecināts?"
+
+#: src/commands-impl.c:487
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "Attēls tiks pārvietots uz Atkritumkasti, vai esat pārliecināts?"
+
+#: src/commands-impl.c:752
+msgid "The image will be removed from the catalog, are you sure?"
+msgstr "Attēls tiks izņemts no kataloga, vai esat pārliecināts?"
+
+#: src/commands-impl.c:794
+msgid "The selected images will be removed from the catalog, are you sure?"
+msgstr "Izvēlētie attēli tiks izņemti no kataloga, vai esat pārliecināts?"
+
+#: src/commands-impl.c:870
+#: src/dlg-catalog.c:83
+#: src/dlg-catalog.c:124
+#: src/dlg-categories.c:201
+#: src/dlg-file-utils.c:93
+msgid "C_reate"
+msgstr "I_zveidot"
+
+#: src/commands-impl.c:896
+#: src/commands-impl.c:1017
+#: src/commands-impl.c:1587
+#: src/commands-impl.c:1675
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "Nosaukums \"%s\" jau ir lietošanā. Lūdzu izvēlaties citu nosaukumu."
+
+#: src/commands-impl.c:924
+msgid "New Folder"
+msgstr "Jauna Mape"
+
+#: src/commands-impl.c:925
+msgid "Enter the folder name: "
+msgstr "Ievadiet mapes nosaukumu: "
+
+#: src/commands-impl.c:926
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Nevarēju izveidot mapi \"%s\": %s"
+
+#: src/commands-impl.c:937
+msgid "New Library"
+msgstr "Jauna Bibiotēka"
+
+#: src/commands-impl.c:938
+#: src/dlg-catalog.c:120
+msgid "Enter the library name: "
+msgstr "Ievadiet bibliotēkas nosaukumu: "
+
+#: src/commands-impl.c:939
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Nevarēju izveidot bibliotēku \"%s\": %s"
+
+#: src/commands-impl.c:1008
+#: src/commands-impl.c:1049
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Nevarēju pārsaukt mapi \"%s\": %s"
+
+#: src/commands-impl.c:1115
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Nevarēju izdzēst mapi \"%s\": %s"
+
+#: src/commands-impl.c:1144
+#, c-format
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" Nevar tikt pārvietots uz Atkritumkasti. Vai vēlaties to dzēst pavisam?"
+
+#: src/commands-impl.c:1181
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Izvēlētā mape tiks pārvietota uz Atkritumkasti, vai esat pārliecināts?"
+
+#: src/commands-impl.c:1183
+#: src/dlg-file-utils.c:277
+msgid "_Move"
+msgstr "_Pārvietot"
+
+#: src/commands-impl.c:1249
+#: src/commands-impl.c:1304
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Nevarēju kopēt mapi \"%s\": %s"
+
+#: src/commands-impl.c:1304
+#: src/dlg-file-utils.c:2286
+#: src/dlg-file-utils.c:2288
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Nevarēju pārvietot mapi \"%s\": %s"
+
+#: src/commands-impl.c:1325
+msgid "source contains destination"
+msgstr "avots satur mēķi"
+
+#: src/commands-impl.c:1336
+msgid "a folder with that name is already present."
+msgstr "mape ar tādu nosaukumu jau ir."
+
+#: src/commands-impl.c:1430
+#: src/dlg-file-utils.c:362
+#: src/dlg-file-utils.c:450
+msgid "Choose the destination folder"
+msgstr "Izvēlies mērķa mapi"
+
+#: src/commands-impl.c:1598
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Nevarēju pārsaukt bibliotēku \"%s\": %s"
+
+#: src/commands-impl.c:1598
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Nevarēju pārsaukt katalogu \"%s\": %s"
+
+#: src/commands-impl.c:1643
+#: src/dlg-catalog.c:79
+msgid "Enter the catalog name: "
+msgstr "Ievadiet kataloga nosaukumu: "
+
+#: src/commands-impl.c:1644
+msgid "New Catalog"
+msgstr "Jauns Katalogs"
+
+#: src/commands-impl.c:1686
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Nevarēju izveidot katalogu \"%s\": %s"
+
+#: src/commands-impl.c:1750
+msgid "The selected library will be removed, are you sure?"
+msgstr "Izvēlētā bibliotēka tiks izņemta, vai esat pārliecināts?"
+
+#: src/commands-impl.c:1752
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Izvēlētais katalogs tiks izņemts, vai esat pārliecināts?"
+
+#: src/commands-impl.c:2651
+#: src/dlg-categories.c:325
+#: src/dlg-comment.c:239
+#: src/dlg-preferences.c:179
+#: src/dlg-search.c:451
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Nevarēju parādīt palīdzību: %s"
+
+#: src/commands-impl.c:2702
+msgid "translator_credits"
+msgstr "Artis Trops <hornet@navigator.lv>"
+
+#: src/commands-impl.c:2713
+msgid "Copyright (C) 2001 Free Software Foundation, Inc."
+msgstr "Autortiesības © 2001 Free Software Foundation, Inc."
+
+#: src/commands-impl.c:2714
+msgid "An image viewer and browser for GNOME."
+msgstr "Attēlu skatītājs un pārlūks priekš GNOME."
+
+#: src/dlg-catalog.c:435
+msgid "Move Catalog to..."
+msgstr "Pārvietot Katalogu uz..."
+
+#: src/dlg-categories.c:197
+msgid "Enter the new category name"
+msgstr "Ievadiet jaunu kataloga nosaukumu"
+
+#: src/dlg-categories.c:210
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "Kategorija \"%s\" jau ir. Lūdzu lietojiet citu nosaukumu."
+
+#: src/dlg-convert.c:161
+#, c-format
+msgid "Converting image: %s"
+msgstr "Konvertēju attēlu: %s"
+
+#: src/dlg-convert.c:184
+#, c-format
+msgid "An image named \"%s\" is already present. Please specify a different name."
+msgstr "Attēls ar nosaukumu \"%s\" jau ir. Lūdzu norādiet citu nosaukumu."
+
+#: src/dlg-duplicates.c:265
+#: src/gthumb_print.glade.h:7
+msgid "Image"
+msgstr "Attēls"
+
+#: src/dlg-duplicates.c:279
+#: src/dlg-duplicates.c:650
+msgid "Duplicates"
+msgstr "Dubikāti"
+
+#: src/dlg-duplicates.c:294
+msgid "Duplicates Size"
+msgstr "Dubikātu Izmērs"
+
+#: src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:666
+msgid "Name"
+msgstr "Nosaukums"
+
+#: src/dlg-duplicates.c:400
+msgid "Last modified"
+msgstr "Pēdējoreiz modificēts"
+
+#: src/dlg-duplicates.c:415
+#: src/dlg-image-prop.c:686
+msgid "Location"
+msgstr "Lokācija"
+
+#: src/dlg-duplicates.c:755
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "Atķeksētie attēli tiks pārvietoti uz Atkritumkasti, vai esat pārliecināts?"
+
+#: src/dlg-file-utils.c:91
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "Mērķa mape neeksistē. Vēlaties tādu izveidot?"
+
+#: src/dlg-file-utils.c:107
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "Nevarēju izveidot mapi \"%s\": %s."
+
+#: src/dlg-file-utils.c:121
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Jums nav nepieciešamo atļauju, lai izveidotu attēlus mapē \"%s\""
+
+#: src/dlg-file-utils.c:203
+msgid "Could not delete the images:"
+msgstr "Nevarēju izdzēst attēlus:"
+
+#: src/dlg-file-utils.c:223
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "Attēls nevar tikt pārvietots uz Atkritumkasti. Vai vēlaties to izdzēst pavisam?"
+
+#: src/dlg-file-utils.c:752
+#: src/dlg-file-utils.c:853
+msgid "You didn't enter the new name"
+msgstr "Jūs neievadījāt jaunu nosaukumu"
+
+#: src/dlg-file-utils.c:764
+#: src/dlg-file-utils.c:865
+#, c-format
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr "Nosaukums \"%s\" jau tiek lietots šajā mapē. Lūdzu lietojiet citu nosaukumu."
+
+#: src/dlg-file-utils.c:1004
+msgid "Could not rename the image:"
+msgstr "Nevarēju pārsaukt attēlu:"
+
+#: src/dlg-file-utils.c:1006
+msgid "Could not rename the following images:"
+msgstr "Nevarēju pārsaukt sekojošos attēlus:"
+
+#: src/dlg-file-utils.c:1138
+msgid "Could not move the image:"
+msgstr "Nevarēju pārvietot attēlu:"
+
+#: src/dlg-file-utils.c:1140
+msgid "Could not copy the image:"
+msgstr "Nevarēju kopēt attēlu:"
+
+#: src/dlg-file-utils.c:1163
+#: src/dlg-file-utils.c:2308
+msgid "_Abort"
+msgstr "_Pārtraukt"
+
+#: src/dlg-file-utils.c:1164
+#: src/dlg-file-utils.c:2309
+msgid "_Continue"
+msgstr "_Turpināt"
+
+#: src/dlg-file-utils.c:1335
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "Kopēju failu %d no %d"
+
+#: src/dlg-file-utils.c:1701
+#: src/dlg-file-utils.c:1887
+msgid "Collecting images info"
+msgstr "Savācu attēlu info"
+
+#: src/dlg-file-utils.c:1704
+#: src/dlg-file-utils.c:1900
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "Dzēšu failu %ld no %ld"
+
+#: src/dlg-file-utils.c:1890
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "Kopēju failu %ld no %ld"
+
+#: src/dlg-file-utils.c:1895
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "Dzēšu failu %ld no %ld"
+
+#: src/dlg-image-prop.c:671
+msgid "Image Dimensions"
+msgstr "Attēla Dimensijas"
+
+#: src/dlg-image-prop.c:676
+msgid "Type"
+msgstr "Tips"
+
+#: src/dlg-image-prop.c:681
+msgid "File Size"
+msgstr "Faila Izmērs"
+
+#: src/dlg-image-prop.c:691
+msgid "Last Modified"
+msgstr "Pēdējoreiz Modificēts"
+
+#: src/dlg-image-prop.c:696
+msgid "Information on Channel"
+msgstr "Informācija par Kanālu"
+
+#: src/dlg-image-prop.c:729
+msgid "Field"
+msgstr "Lauks"
+
+#: src/dlg-image-prop.c:740
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Vērtība"
+
+#: src/dlg-image-prop.c:821
+#, c-format
+msgid "%s Properties"
+msgstr "%s Rekvizīti"
+
+#: src/dlg-maintenance.c:70
+msgid "All comments will be removed, are you sure?"
+msgstr "Visi komentāri tiks izņemti, vai esat pārliecināts?"
+
+#: src/dlg-maintenance.c:101
+msgid "All thumbnails will be deleted, are you sure?"
+msgstr "Visi sīkattēli tiks izdzēsti, vai esat pārliecināts?"
+
+#: src/dlg-maintenance.c:162
+#: src/dlg-maintenance.c:232
+msgid "Specify the backup file"
+msgstr "Nosakiet dublējumkopijas failu"
+
+#: src/dlg-png-exporter.c:990
+msgid "Image Caption"
+msgstr "Attēla Uzraksts"
+
+#: src/dlg-png-exporter.c:1043
+msgid "Header"
+msgstr "Galvene"
+
+#: src/dlg-png-exporter.c:1056
+#: src/dlg-png-exporter.c:1062
+msgid "Footer"
+msgstr "Kājene"
+
+#: src/dlg-rename-series.c:319
+msgid "Old Name"
+msgstr "Vecais Nosaukums"
+
+#: src/dlg-rename-series.c:327
+msgid "New Name"
+msgstr "Jauns Nosaukums"
+
+#: src/dlg-search.c:340
+msgid "Search Result"
+msgstr "Meklēšanas Rezultāts"
+
+#: src/dlg-search.c:824
+msgid "Filename"
+msgstr "Faila nosaukums"
+
+#: src/dlg-search.c:833
+#: src/gth-folder-selection-dialog.c:381
+msgid "Folder"
+msgstr "Mape"
+
+#: src/fullscreen.c:707
+#: src/gthumb-ui.xml.h:108
+msgid "Restore Normal View"
+msgstr "Atjaunot Normālu Skatu"
+
+#: src/gth-folder-selection-dialog.c:403
+msgid "_Browse..."
+msgstr "_Pārlūkot..."
+
+#: src/gth-folder-selection-dialog.c:412
+msgid "_Recents:"
+msgstr "_Nesenie:"
+
+#: src/gth-folder-selection-dialog.c:443
+#: src/gthumb.glade.h:27
+msgid "_Bookmarks:"
+msgstr "_Grāmatzīmes:"
+
+#: src/gthumb-ui.xml.h:1
+msgid "1:1"
+msgstr "1:1"
+
+#: src/gthumb-ui.xml.h:2
+msgid "Actual size"
+msgstr "Patiesais izmērs"
+
+#: src/gthumb-ui.xml.h:3
+msgid "Add a comment to selected images"
+msgstr "Pievienot komentāru izvēlētajiem attēliem"
+
+#: src/gthumb-ui.xml.h:4
+msgid "Add a comment to the image"
+msgstr "Pievienot komentāru attēlam"
+
+#: src/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "Pievienot pašreizējo lokāciju pie grāmatzīmēm"
+
+#: src/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "Pievienot izvēlēto attēlu katalogam"
+
+#: src/gthumb-ui.xml.h:7
+msgid "Adjust brightness and contrast"
+msgstr "Pieregulēt spilgtumu un kontrastu"
+
+#: src/gthumb-ui.xml.h:8
+msgid "Adjust color balance"
+msgstr "Pieregulēt krāsu balansu"
+
+#: src/gthumb-ui.xml.h:9
+msgid "Adjust hue and saturation"
+msgstr "Pieregulēt nokrāsu un piesātinātību"
+
+#: src/gthumb-ui.xml.h:10
+msgid "Assign categories to selected images"
+msgstr "Piešķirt kategorijas izvēlētajiem attēliem"
+
+#: src/gthumb-ui.xml.h:11
+msgid "Assign categories to the image"
+msgstr "Piešķirt kategoriju izvēlētajam attēlam"
+
+#: src/gthumb-ui.xml.h:12
+msgid "Ca_talog"
+msgstr "_Katalogs"
+
+#: src/gthumb-ui.xml.h:13
+msgid "Ca_tegories"
+msgstr "Ka_tegorijas"
+
+#: src/gthumb-ui.xml.h:14
+msgid "Catalogs"
+msgstr "Katalogi"
+
+#: src/gthumb-ui.xml.h:15
+#: src/gthumb_comments.glade.h:6
+msgid "Categories"
+msgstr "Kategorijas"
+
+#: src/gthumb-ui.xml.h:16
+msgid "Change _Date"
+msgstr "Ma_inīt Datumu"
+
+#: src/gthumb-ui.xml.h:17
+msgid "Change images last modified date"
+msgstr "Mainīt attēla pēdējās modifikācijas datumu"
+
+#: src/gthumb-ui.xml.h:18
+msgid "Close all windows and exit"
+msgstr "Aizvērt visus logus pie iziešanas"
+
+#: src/gthumb-ui.xml.h:19
+msgid "Close this window"
+msgstr "Aizvērt šo logu"
+
+#: src/gthumb-ui.xml.h:20
+#: src/gthumb.glade.h:12
+msgid "Comm_ent"
+msgstr "Kom_entēt"
+
+#: src/gthumb-ui.xml.h:21
+#: src/gthumb_comments.glade.h:8
+msgid "Comment"
+msgstr "Komentēt"
+
+#: src/gthumb-ui.xml.h:22
+msgid "Convert"
+msgstr "Konvertēt"
+
+#: src/gthumb-ui.xml.h:23
+msgid "Convert F_ormat"
+msgstr "Konvertēšanas F_ormāts"
+
+#: src/gthumb-ui.xml.h:24
+msgid "Convert image format"
+msgstr "Konvetējamais attēla formāts"
+
+#: src/gthumb-ui.xml.h:25
+msgid "Copy current folder"
+msgstr "Kopēt pašreizējo mapi"
+
+#: src/gthumb-ui.xml.h:26
+msgid "Copy selected folder"
+msgstr "Kopēt izvēlēto mapi"
+
+#: src/gthumb-ui.xml.h:27
+msgid "Copy selected images to another location"
+msgstr "Kopēt izvēlētos attēlus uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:28
+msgid "Copy this image to another location"
+msgstr "Kopēt šo attēlu uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Create _Index Image"
+msgstr "Izveidot _Index Attēlu"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Create a new catalog"
+msgstr "Izveidot jaunu katalogu"
+
+#: src/gthumb-ui.xml.h:31
+msgid "Create a new catalog library"
+msgstr "Izveidot jaunu kataloga bibliotēku"
+
+#: src/gthumb-ui.xml.h:32
+msgid "Create a new folder"
+msgstr "Izveidot jaunu mapi"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Create a new window"
+msgstr "Izveidot jaunu logu"
+
+#: src/gthumb-ui.xml.h:34
+msgid "D_uplicate"
+msgstr "D_ubultot"
+
+#: src/gthumb-ui.xml.h:35
+msgid "Delete the list of visited locations"
+msgstr "Dzēst redzamo lokāciju sarakstu"
+
+#: src/gthumb-ui.xml.h:36
+msgid "Duplicate selected image"
+msgstr "Dubultot izvēlēto attēlu"
+
+#: src/gthumb-ui.xml.h:37
+msgid "Duplicate this image"
+msgstr "Dubultot šo attēlu"
+
+#: src/gthumb-ui.xml.h:38
+msgid "E_xit"
+msgstr "I_ziet"
+
+#: src/gthumb-ui.xml.h:39
+msgid "Edit Search"
+msgstr "Rediģēt Meklēšanu"
+
+#: src/gthumb-ui.xml.h:40
+msgid "Edit bookmarks"
+msgstr "Rediģēt grāmatzīmes"
+
+#: src/gthumb-ui.xml.h:41
+msgid "Edit various preferences"
+msgstr "Drediģēt dažādas preferences"
+
+#: src/gthumb-ui.xml.h:42
+msgid "Fi_nd Duplicates..."
+msgstr "At_rast Dublikātus..."
+
+#: src/gthumb-ui.xml.h:43
+msgid "Find images"
+msgstr "Atrast attēlus"
+
+#: src/gthumb-ui.xml.h:44
+msgid "Fit"
+msgstr "Iederas"
+
+#: src/gthumb-ui.xml.h:45
+msgid "Folders"
+msgstr "Mapes"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Forward"
+msgstr "Uz Priekšu"
+
+#: src/gthumb-ui.xml.h:47
+msgid "Full Screen"
+msgstr "Pilnā Ekrānā"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Go to the folder that contains the selected image"
+msgstr "Iet uz mapi, kas satur izvēlēto attēlu"
+
+#: src/gthumb-ui.xml.h:49
+msgid "Go to the home folder"
+msgstr "Iet uz mājas mapi"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Go to the next visited location"
+msgstr "Iet uz nākamo apmeklēto lokāciju"
+
+#: src/gthumb-ui.xml.h:51
+msgid "Go to the previous visited location"
+msgstr "Iet uz iepriekšējo apmeklēto lokāciju"
+
+#: src/gthumb-ui.xml.h:52
+msgid "Go up one level"
+msgstr "Iet vienu līmeni augstāk"
+
+#: src/gthumb-ui.xml.h:53
+msgid "Home"
+msgstr "Mājas"
+
+#: src/gthumb-ui.xml.h:54
+msgid "Image Toolbar"
+msgstr "Attēla Rīkjosla"
+
+#: src/gthumb-ui.xml.h:55
+msgid "In"
+msgstr "Iekš"
+
+#: src/gthumb-ui.xml.h:56
+msgid "Information"
+msgstr "Informācija"
+
+#: src/gthumb-ui.xml.h:57
+msgid "Main Toolbar"
+msgstr "Galvenā Rīkjosla"
+
+#: src/gthumb-ui.xml.h:58
+msgid "Modify search criteria"
+msgstr "Modificēt meklēšanas kritērijus"
+
+#: src/gthumb-ui.xml.h:59
+msgid "Move current catalog to another location"
+msgstr "Pārvietot pašreizējo katalogu uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:60
+msgid "Move current folder"
+msgstr "Pārvietot pašreizējo mapi"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Move selected catalog to another location"
+msgstr "Pārvietot izvēlēto katalogu uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:62
+msgid "Move selected folder"
+msgstr "Pārvietot izvēlēto mapi"
+
+#: src/gthumb-ui.xml.h:63
+msgid "Move selected images to another location"
+msgstr "Pārvietot izvēlētos attēlus uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:64
+msgid "Move the current folder to the Trash"
+msgstr "Pārvietot pašreizējo mapi uz Atkritumkasti"
+
+#: src/gthumb-ui.xml.h:65
+msgid "Move the selected folder to the Trash"
+msgstr "Pārvietot izvēlēto mapi uz Atkritumkasti"
+
+#: src/gthumb-ui.xml.h:66
+msgid "Move the selected images to the Trash"
+msgstr "Pārvietot izvēlētos attēlus uz Atkritumkasti"
+
+#: src/gthumb-ui.xml.h:67
+msgid "Move this image to another location"
+msgstr "Pārvietot šo attēlu uz citu lokāciju"
+
+#: src/gthumb-ui.xml.h:68
+msgid "Move this image to the Trash"
+msgstr "Pārvietot šo attēlu uz Atkritumkasti"
+
+#: src/gthumb-ui.xml.h:69
+#: src/gthumb_tools.glade.h:30
+msgid "Move to _Trash"
+msgstr "Pārvietot uz _Atkritumkasti"
+
+#: src/gthumb-ui.xml.h:70
+msgid "New _Library..."
+msgstr "Jauna _Bibliotēka..."
+
+#: src/gthumb-ui.xml.h:71
+msgid "New _Window"
+msgstr "Jauns _Logs"
+
+#: src/gthumb-ui.xml.h:72
+msgid "Next"
+msgstr "Nākošais"
+
+#: src/gthumb-ui.xml.h:73
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Atvērt pašreizējo logu Nautilus failu pārvaldniekā"
+
+#: src/gthumb-ui.xml.h:74
+msgid "Open selected images with an application"
+msgstr "Atvērt izvēlētos attēlus ar aplikāciju"
+
+#: src/gthumb-ui.xml.h:75
+msgid ""
+"Open the selected folder with the Nautilus file\n"
+"\t     manager"
+msgstr ""
+"Atvērt izvēlēto mapi ar Nautilus failu\n"
+"\t     pārvaldnieku"
+
+#: src/gthumb-ui.xml.h:77
+msgid "Open this image with an application"
+msgstr "Atvērt šo attēlu ar aplikāciju"
+
+#: src/gthumb-ui.xml.h:78
+msgid "Open with the File Manager"
+msgstr "Atvērt ar Failu Pārvaldnieku"
+
+#: src/gthumb-ui.xml.h:79
+msgid "Open with the _File Manager"
+msgstr "Atvērt ar _Failu Pārvaldnieku"
+
+#: src/gthumb-ui.xml.h:80
+msgid "Out"
+msgstr "Ārā"
+
+#: src/gthumb-ui.xml.h:81
+msgid "Play _Animation"
+msgstr "Parādīt _Animāciju"
+
+#: src/gthumb-ui.xml.h:82
+msgid "Previous"
+msgstr "Iepriekšējais"
+
+#: src/gthumb-ui.xml.h:83
+msgid "Print"
+msgstr "Drukāt"
+
+#: src/gthumb-ui.xml.h:85
+msgid "Proper_ties"
+msgstr "Re_kvizīti"
+
+#: src/gthumb-ui.xml.h:86
+msgid "Properties"
+msgstr "Rekvizīti"
+
+#: src/gthumb-ui.xml.h:87
+msgid "Redo Search"
+msgstr "Pāratsaukt Meklēšanu"
+
+#: src/gthumb-ui.xml.h:88
+msgid "Redo _Search"
+msgstr "Pāratsaukt _Meklēšanu"
+
+#: src/gthumb-ui.xml.h:89
+msgid "Redo the search"
+msgstr "Pāratsaukt meklēšanu"
+
+#: src/gthumb-ui.xml.h:90
+msgid "Reduce number of colors"
+msgstr "Samazināt krāsu skaitu"
+
+#: src/gthumb-ui.xml.h:91
+msgid "Reduce the number of colors"
+msgstr "Samazināt krāsu skaitu"
+
+#: src/gthumb-ui.xml.h:92
+msgid "Reload the current location"
+msgstr "Pārlādēt pašreizējo lokāciju"
+
+#: src/gthumb-ui.xml.h:93
+msgid "Rem_ove"
+msgstr "Izņe_mt"
+
+#: src/gthumb-ui.xml.h:94
+msgid "Rem_ove Comment"
+msgstr "Izņe_mt Komentāru"
+
+#: src/gthumb-ui.xml.h:95
+msgid "Remo_ve from Catalog"
+msgstr "Izņem_t no Kataloga"
+
+#: src/gthumb-ui.xml.h:96
+msgid "Remove comments of selected images"
+msgstr "Izņemt komentārus no izvēlētajiem attēliem"
+
+#: src/gthumb-ui.xml.h:97
+msgid "Remove current catalog"
+msgstr "Izņemt pašreizējo katalogu"
+
+#: src/gthumb-ui.xml.h:98
+msgid "Remove selected catalog"
+msgstr "Izņemt izvēlēto katalogu"
+
+#: src/gthumb-ui.xml.h:99
+msgid "Remove selected images from the catalog"
+msgstr "Izņemt izvēlētos attēlus no kataloga"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Remove the comment"
+msgstr "Izņemt komantāru"
+
+#: src/gthumb-ui.xml.h:101
+msgid "Rename current catalog"
+msgstr "Pārsaukt pašreizējo katalogu"
+
+#: src/gthumb-ui.xml.h:102
+msgid "Rename current folder"
+msgstr "Pārsaukt pašreizējo mapi"
+
+#: src/gthumb-ui.xml.h:103
+msgid "Rename selected catalog"
+msgstr "Pārsaukt izvēlēto katalogu"
+
+#: src/gthumb-ui.xml.h:104
+msgid "Rename selected folder"
+msgstr "Pārsaukt izvēlēto mapi"
+
+#: src/gthumb-ui.xml.h:105
+msgid "Rename selected image"
+msgstr "Pārsaukt izvēlēto attēlu"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Rename this image"
+msgstr "Pārsaukt šo attēlu"
+
+#: src/gthumb-ui.xml.h:107
+msgid "Resize image"
+msgstr "Mainīt attēla izmēru"
+
+#: src/gthumb-ui.xml.h:109
+msgid "Restore the original desktop wallpaper"
+msgstr "Atjaunot oriģinālo darba virsmas fona attēlu"
+
+#: src/gthumb-ui.xml.h:110
+msgid "Reverse images order"
+msgstr "Apgriezt attēlu secību"
+
+#: src/gthumb-ui.xml.h:111
+msgid "Revert"
+msgstr "Atgriezt"
+
+#: src/gthumb-ui.xml.h:112
+msgid "Revert to saved image"
+msgstr "Atgriezt uz saglabāto attēlu"
+
+#: src/gthumb-ui.xml.h:114
+msgid "Rotate Ri_ght"
+msgstr "Rotēt pa _Labi"
+
+#: src/gthumb-ui.xml.h:115
+msgid "Rotate _JPEG"
+msgstr "Rotēt _JPEG"
+
+#: src/gthumb-ui.xml.h:116
+msgid "Rotate _Left"
+msgstr "Rotēt pa _Kreisi"
+
+#: src/gthumb-ui.xml.h:117
+msgid "Rotate image"
+msgstr "Rotēt attēlu"
+
+#: src/gthumb-ui.xml.h:118
+msgid "Rotate jpeg images without loss of quality"
+msgstr "Rotēt jpeg attēlus bez kvalitātes zudumiem"
+
+#: src/gthumb-ui.xml.h:119
+msgid "S_ort Images"
+msgstr "_Kārtot Attēlus"
+
+#: src/gthumb-ui.xml.h:120
+msgid "Save"
+msgstr "Saglabāt"
+
+#: src/gthumb-ui.xml.h:123
+msgid "Search"
+msgstr "Maklēt"
+
+#: src/gthumb-ui.xml.h:124
+msgid "Select all images"
+msgstr "Izvēlēties visus attēlus"
+
+#: src/gthumb-ui.xml.h:125
+msgid "Set Image as _Wallpaper"
+msgstr "Iestatīt Attēlu kā _Fonu"
+
+#: src/gthumb-ui.xml.h:126
+msgid "Set the image as desktop background (centered)"
+msgstr "Iestatīt attēlu kā darba virsmas fonu (centrēts)"
+
+#: src/gthumb-ui.xml.h:127
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "Iestatīt attēlu kā darba virsmas fonu (mērogots, saglabājot izskata proporcijas)"
+
+#: src/gthumb-ui.xml.h:128
+msgid "Set the image as desktop background (stretched)"
+msgstr "Iestatīt attēlu kā darba virsmas fonu (izstiepts)"
+
+#: src/gthumb-ui.xml.h:129
+msgid "Set the image as desktop background (tiled)"
+msgstr "Iestatīt attēlu kā darba virsmas fonu (dakstiņklājums)"
+
+#: src/gthumb-ui.xml.h:130
+msgid "Show information about gThumb"
+msgstr "Parādīt informāciju par gThumb"
+
+#: src/gthumb-ui.xml.h:131
+msgid "Show/_Hide"
+msgstr "Parādīt/_Paslēpt"
+
+#: src/gthumb-ui.xml.h:132
+#: src/gthumb_preferences.glade.h:63
+msgid "Slide Show"
+msgstr "Slīdrāde"
+
+#: src/gthumb-ui.xml.h:133
+msgid "Sort images by file size"
+msgstr "Kārtot attēlus pēc faila izmēra"
+
+#: src/gthumb-ui.xml.h:134
+msgid "Sort images by modification time"
+msgstr "Kārtot attēlus pēc modifikācijas laika"
+
+#: src/gthumb-ui.xml.h:135
+msgid "Sort images by name"
+msgstr "Kārtot attēlus pēc nosaukuma"
+
+#: src/gthumb-ui.xml.h:136
+msgid "Sort images by path"
+msgstr "Kārtot attēlus pēc ceļa"
+
+#: src/gthumb-ui.xml.h:137
+msgid "Specify a location to visit"
+msgstr "Norādiet apmeklējamo lokāciju"
+
+#: src/gthumb-ui.xml.h:139
+msgid "Step A_nimation"
+msgstr "Soļa A_nimācija"
+
+#: src/gthumb-ui.xml.h:140
+msgid "Stop loading current location"
+msgstr "Pārtraukt pašreizējās lokācijas ielādi"
+
+#: src/gthumb-ui.xml.h:141
+msgid "Str_etched"
+msgstr "Iz_stiepts"
+
+#: src/gthumb-ui.xml.h:142
+msgid "Transparen_cy Type"
+msgstr "_Caurspīdīguma Tips"
+
+#: src/gthumb-ui.xml.h:143
+msgid "Up"
+msgstr "Augšup"
+
+#: src/gthumb-ui.xml.h:144
+msgid "Use black as transparency"
+msgstr "Lietot melnu kā caurspīdīgumu"
+
+#: src/gthumb-ui.xml.h:145
+msgid "Use checks as transparency"
+msgstr "Lietot rūtis kā caurspīdīgumu"
+
+#: src/gthumb-ui.xml.h:146
+msgid "Use gray as transparency"
+msgstr "Lietot pelēku kā caurspīdīgumu"
+
+#: src/gthumb-ui.xml.h:147
+msgid "Use high quality zoom"
+msgstr "Lietot augstas kvalitātes tālummaiņu"
+
+#: src/gthumb-ui.xml.h:148
+msgid "Use low quality zoom"
+msgstr "Lietot zemas kvalitātes tālummaiņu"
+
+#: src/gthumb-ui.xml.h:149
+msgid "Use white as transparency"
+msgstr "Lietot baltu kā caurspīdīgumu"
+
+#: src/gthumb-ui.xml.h:150
+msgid "View as a slide show"
+msgstr "Skatīt kā slīdrādi"
+
+#: src/gthumb-ui.xml.h:151
+msgid "View image in fullscreen mode"
+msgstr "Skatīt attēlu pilnekrāna režīmā"
+
+#: src/gthumb-ui.xml.h:152
+msgid "View image properties"
+msgstr "Skatīt attēla rekvizītus"
+
+#: src/gthumb-ui.xml.h:154
+msgid "View next image"
+msgstr "Skatīt nākamo attēlu"
+
+#: src/gthumb-ui.xml.h:155
+msgid "View or hide the statusbar of this window"
+msgstr "Parādīt vai paslēpt šī loga statusjoslu"
+
+#: src/gthumb-ui.xml.h:156
+msgid "View or hide the toolbar of this window"
+msgstr "Parādīt vai paslēpt šī loga rīkjoslu"
+
+#: src/gthumb-ui.xml.h:157
+msgid "View previous image"
+msgstr "Skatīt iepriekšējo attēlu"
+
+#: src/gthumb-ui.xml.h:158
+msgid "View the catalogs"
+msgstr "Skatīt katalogus"
+
+#: src/gthumb-ui.xml.h:159
+msgid "View the folders"
+msgstr "Skatīt mapes"
+
+#: src/gthumb-ui.xml.h:160
+msgid "View the image"
+msgstr "Skatīt attēlu"
+
+#: src/gthumb-ui.xml.h:161
+msgid "View the image flipped"
+msgstr "Skatīt attēlu apmestu"
+
+#: src/gthumb-ui.xml.h:162
+msgid "View the image in black and white"
+msgstr "Skatīt attēlu melnbaltu"
+
+#: src/gthumb-ui.xml.h:163
+msgid "View the image mirrored"
+msgstr "Skatīt attēlu spoguļskatā"
+
+#: src/gthumb-ui.xml.h:164
+msgid "View the image rotated clockwise"
+msgstr "Skatīt attēlu rotētu pulksteņrādītāja virzienā"
+
+#: src/gthumb-ui.xml.h:165
+msgid "View the image rotated counter-clockwise"
+msgstr "Skatīt attēlu rotētu pretēji pulksteņrādītāja virzienam"
+
+#: src/gthumb-ui.xml.h:166
+msgid "View the image with negative colors"
+msgstr "Skatīt attēlu negatīvās krāsās"
+
+#: src/gthumb-ui.xml.h:167
+msgid "View thumbnails"
+msgstr "Skatīt sīkattēlus"
+
+#: src/gthumb-ui.xml.h:168
+msgid "Zoom _In"
+msgstr "Tu_vināt"
+
+#: src/gthumb-ui.xml.h:169
+msgid "Zoom _Out"
+msgstr "Tā_lināt"
+
+#: src/gthumb-ui.xml.h:170
+msgid "Zoom in"
+msgstr "Tuvināt"
+
+#: src/gthumb-ui.xml.h:171
+msgid "Zoom out"
+msgstr "Tālināt"
+
+#: src/gthumb-ui.xml.h:172
+msgid "Zoom to _Fit"
+msgstr "Tālummaiņa _Iederas"
+
+#: src/gthumb-ui.xml.h:173
+msgid "Zoom to fit window"
+msgstr "Tālummaiņa iederas logā"
+
+#: src/gthumb-ui.xml.h:174
+msgid "_About"
+msgstr "_Par"
+
+#: src/gthumb-ui.xml.h:175
+msgid "_Actual Size"
+msgstr "Īs_tenais Izmērs"
+
+#: src/gthumb-ui.xml.h:176
+msgid "_Add Bookmark"
+msgstr "_Pievienot Grāmatzīmi"
+
+#: src/gthumb-ui.xml.h:177
+msgid "_Add to Catalog..."
+msgstr "_Pievienot Katalogam..."
+
+#: src/gthumb-ui.xml.h:178
+msgid "_Adjust Color Levels"
+msgstr "_Pieregulēt Krāsu Līmeņus"
+
+#: src/gthumb-ui.xml.h:179
+msgid "_Back"
+msgstr "_Atpakaļ"
+
+#: src/gthumb-ui.xml.h:181
+msgid "_Bookmarks"
+msgstr "_Grāmatzīmes"
+
+#: src/gthumb-ui.xml.h:182
+msgid "_Brightness-Contrast"
+msgstr "_Spilgtums-Kontrasts"
+
+#: src/gthumb-ui.xml.h:183
+msgid "_Catalogs"
+msgstr "_Katalogi"
+
+#: src/gthumb-ui.xml.h:184
+msgid "_Centered"
+msgstr "_Centrēts"
+
+#: src/gthumb-ui.xml.h:186
+msgid "_Close"
+msgstr "_Aizvērt"
+
+#: src/gthumb-ui.xml.h:187
+msgid "_Color Balance"
+msgstr "_Krāsas Balanss"
+
+#: src/gthumb-ui.xml.h:188
+msgid "_Copy..."
+msgstr "_Kopēt..."
+
+#: src/gthumb-ui.xml.h:189
+msgid "_Delete History"
+msgstr "_Dzēst Vēsturi"
+
+#: src/gthumb-ui.xml.h:190
+msgid "_Desaturate"
+msgstr "_Nepiesātināts"
+
+#: src/gthumb-ui.xml.h:191
+msgid "_Edit"
+msgstr "_Rediģēt"
+
+#: src/gthumb-ui.xml.h:192
+msgid "_Edit Bookmarks"
+msgstr "_Rediģēt Grāmatzīmes"
+
+#: src/gthumb-ui.xml.h:193
+#: src/gthumb_search.glade.h:26
+msgid "_Edit Search"
+msgstr "_Rediģēt Meklēšanu"
+
+#: src/gthumb-ui.xml.h:194
+msgid "_Equalize Histogram"
+msgstr "_Vienādot Historigrammu"
+
+#: src/gthumb-ui.xml.h:195
+msgid "_File"
+msgstr "_Fails"
+
+#: src/gthumb-ui.xml.h:196
+msgid "_Find..."
+msgstr "_Atrast..."
+
+#: src/gthumb-ui.xml.h:198
+msgid "_Folder"
+msgstr "_Mape"
+
+#: src/gthumb-ui.xml.h:199
+msgid "_Folders"
+msgstr "_Mapes"
+
+#: src/gthumb-ui.xml.h:200
+msgid "_Forward"
+msgstr "Uz _Priekšu"
+
+#: src/gthumb-ui.xml.h:201
+msgid "_Full Screen"
+msgstr "_Pilnā Ekrānā"
+
+#: src/gthumb-ui.xml.h:202
+msgid "_Go"
+msgstr "_Iet"
+
+#: src/gthumb-ui.xml.h:203
+msgid "_Go to the Image Folder"
+msgstr "_Iet uz Attēla Mapi"
+
+#: src/gthumb-ui.xml.h:204
+msgid "_Help"
+msgstr "_Palīdzība"
+
+#: src/gthumb-ui.xml.h:205
+msgid "_High Quality"
+msgstr "_Augsta Kvalitāte"
+
+#: src/gthumb-ui.xml.h:206
+msgid "_Home"
+msgstr "_Mājas"
+
+#: src/gthumb-ui.xml.h:207
+msgid "_Hue-Saturation"
+msgstr "_Nokrāsa-Piesātinātība"
+
+#: src/gthumb-ui.xml.h:209
+msgid "_Image preview"
+msgstr "_Attēla priekšapskate"
+
+#: src/gthumb-ui.xml.h:210
+msgid "_Keyboard Shortcuts"
+msgstr "_Tastatūras Saīsnes"
+
+#: src/gthumb-ui.xml.h:211
+msgid "_Location..."
+msgstr "_Lokācija..."
+
+#: src/gthumb-ui.xml.h:212
+msgid "_Low Quality"
+msgstr "_Zema Kvalitāte"
+
+#: src/gthumb-ui.xml.h:213
+msgid "_Maintenance"
+msgstr "_Uzturēšana"
+
+#: src/gthumb-ui.xml.h:214
+msgid "_Manual"
+msgstr "_Pašrocīgs"
+
+#: src/gthumb-ui.xml.h:216
+msgid "_Move..."
+msgstr "_Pārvietot..."
+
+#: src/gthumb-ui.xml.h:217
+msgid "_Negative"
+msgstr "_Negatīvs"
+
+#: src/gthumb-ui.xml.h:218
+msgid "_New Catalog..."
+msgstr "_Jauns Katalogs..."
+
+#: src/gthumb-ui.xml.h:219
+msgid "_New Folder..."
+msgstr "_Jauna Mape..."
+
+#: src/gthumb-ui.xml.h:221
+msgid "_Open With"
+msgstr "_Atvērt Ar"
+
+#: src/gthumb-ui.xml.h:222
+msgid "_Posterize"
+msgstr "_Afišēt"
+
+#: src/gthumb-ui.xml.h:223
+#: src/gthumb_png_exporter.glade.h:66
+msgid "_Preferences"
+msgstr "_Preferences"
+
+#: src/gthumb-ui.xml.h:224
+msgid "_Print..."
+msgstr "_Drukāt..."
+
+#: src/gthumb-ui.xml.h:225
+msgid "_Reduce Colors"
+msgstr "_Samazināt Krāsas"
+
+#: src/gthumb-ui.xml.h:226
+msgid "_Reload"
+msgstr "_Pārlādēt"
+
+#: src/gthumb-ui.xml.h:228
+msgid "_Rename Series"
+msgstr "_Pārsaukšanas Sērijas"
+
+#: src/gthumb-ui.xml.h:229
+msgid "_Rename..."
+msgstr "_Pārsaukt..."
+
+#: src/gthumb-ui.xml.h:230
+msgid "_Resize"
+msgstr "_Mainīt izmēru"
+
+#: src/gthumb-ui.xml.h:231
+msgid "_Restore"
+msgstr "_Atjaunot"
+
+#: src/gthumb-ui.xml.h:232
+msgid "_Reversed Order"
+msgstr "_Apgriezta Secība"
+
+#: src/gthumb-ui.xml.h:233
+msgid "_Revert"
+msgstr "_Atgriezt"
+
+#: src/gthumb-ui.xml.h:234
+msgid "_Rotate"
+msgstr "_Rotēt"
+
+#: src/gthumb-ui.xml.h:235
+msgid "_Scaled"
+msgstr "_Mērogots"
+
+#: src/gthumb-ui.xml.h:236
+#: src/gthumb_search.glade.h:30
+msgid "_Search"
+msgstr "_Meklēt"
+
+#: src/gthumb-ui.xml.h:237
+msgid "_Select All"
+msgstr "_Izvēlēties Visu"
+
+#: src/gthumb-ui.xml.h:238
+msgid "_Slide Show"
+msgstr "_Slīdrāde"
+
+#: src/gthumb-ui.xml.h:239
+msgid "_Statusbar"
+msgstr "_Statusjosla"
+
+#: src/gthumb-ui.xml.h:240
+msgid "_Stop"
+msgstr "_Apturēt"
+
+#: src/gthumb-ui.xml.h:241
+msgid "_Thumbnails"
+msgstr "_Sīkattēli"
+
+#: src/gthumb-ui.xml.h:242
+msgid "_Tiled"
+msgstr "_Dakstiņklājums"
+
+#: src/gthumb-ui.xml.h:243
+msgid "_Toolbar"
+msgstr "_Rīkjosla"
+
+#: src/gthumb-ui.xml.h:244
+msgid "_Tools"
+msgstr "_Rīki"
+
+#: src/gthumb-ui.xml.h:245
+msgid "_Up"
+msgstr "_Augšup"
+
+#: src/gthumb-ui.xml.h:248
+msgid "_Zoom"
+msgstr "_Tālummaiņa"
+
+#: src/gthumb-ui.xml.h:249
+msgid "by _Name"
+msgstr "pēc _Nosaukuma"
+
+#: src/gthumb-ui.xml.h:250
+msgid "by _Path"
+msgstr "pēc _Ceļa"
+
+#: src/gthumb-ui.xml.h:251
+msgid "by _Size"
+msgstr "pēc _Izmēra"
+
+#: src/gthumb-ui.xml.h:252
+msgid "by _Time"
+msgstr "pēc _Laika"
+
+#: src/gthumb-window.c:522
+msgid "No image"
+msgstr "Nav attēla"
+
+#: src/gthumb-window.c:524
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 attēls (%s)"
+
+#: src/gthumb-window.c:527
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d attēli (%s)"
+
+#: src/gthumb-window.c:534
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 izvēlēts (%s)"
+
+#: src/gthumb-window.c:537
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d izvēlēti (%s)"
+
+#: src/gthumb-window.c:2859
+msgid "Dragged Images"
+msgstr "Vilktie Attēli"
+
+#: src/gthumb-window.c:3032
+msgid "Could not move the items:"
+msgstr "Nevarēju pārvietot priekšmetus:"
+
+#: src/gthumb-window.c:3633
+msgid "Back"
+msgstr "Atpakaļ"
+
+#: src/gthumb-window.c:5399
+#, c-format
+msgid ""
+"Cannot load folder \"%s\": %s\n"
+""
+msgstr ""
+"Nevaru ielādēt mapi \"%s\": %s\n"
+""
+
+#: src/gthumb-window.c:5667
+msgid "The specified catalog does not exist."
+msgstr "Izvēlētais katalogs neeksistē."
+
+#: src/gthumb-window.c:6931
+msgid "Wait please..."
+msgstr "Lūdzu uzgaidiet..."
+
+#: src/gthumb.glade.h:1
+#: src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1
+#: src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1
+#: src/gthumb_preferences.glade.h:1
+#: src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: src/gthumb.glade.h:2
+#: src/gthumb_comments.glade.h:2
+#: src/gthumb_convert.glade.h:2
+#: src/gthumb_png_exporter.glade.h:3
+#: src/gthumb_preferences.glade.h:3
+#: src/gthumb_search.glade.h:2
+#: src/gthumb_tools.glade.h:3
+msgid "*"
+msgstr "*"
+
+#: src/gthumb.glade.h:3
+msgid "<b>Categories:</b>"
+msgstr "<b>Kategorijas:</b>"
+
+#: src/gthumb.glade.h:4
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>Informācija par Kanālu:</b>"
+
+#: src/gthumb.glade.h:5
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>Pārrakstīt veco attēlu ar jauno?</b>"
+
+#: src/gthumb.glade.h:6
+msgid "A_vailable applications:"
+msgstr "_Pieejamās aplikācijas:"
+
+#: src/gthumb.glade.h:7
+msgid "Alpha"
+msgstr "Alfa"
+
+#: src/gthumb.glade.h:8
+msgid "Blue"
+msgstr "Zils"
+
+#: src/gthumb.glade.h:9
+msgid "Bookmarks"
+msgstr "Grāmatzīmes"
+
+#: src/gthumb.glade.h:10
+msgid "C_atalogs:"
+msgstr "_Katalagi:"
+
+#: src/gthumb.glade.h:11
+msgid "Choose a Catalog"
+msgstr "Iezvēlieties Katalogu"
+
+#: src/gthumb.glade.h:13
+msgid "Do not overwrite _the old image"
+msgstr "Nepārrakstīt _veco attēlu"
+
+#: src/gthumb.glade.h:14
+msgid "Green"
+msgstr "Zaļš"
+
+#: src/gthumb.glade.h:15
+msgid "New Image:"
+msgstr "Jauns Attēls:"
+
+#: src/gthumb.glade.h:16
+msgid "New _Library"
+msgstr "Jauna _Bibliotēka"
+
+#: src/gthumb.glade.h:17
+msgid "Old Image:"
+msgstr "Vecais Attēls:"
+
+#: src/gthumb.glade.h:18
+msgid "Open Images"
+msgstr "Atvērt Attēlus"
+
+#: src/gthumb.glade.h:19
+msgid "Over_write the old image"
+msgstr "Pārra_kstīt veco attēlu"
+
+#: src/gthumb.glade.h:20
+msgid "Overwrite Image"
+msgstr "Pārrakstīt Attēlu"
+
+#: src/gthumb.glade.h:21
+msgid "Overwrite _all images"
+msgstr "Pārrakstīt vi_sus attēlus"
+
+#: src/gthumb.glade.h:22
+msgid "Photo _Data (EXIF)"
+msgstr "Foto _Dati (EXIF)"
+
+#: src/gthumb.glade.h:23
+msgid "R_ecent applications:"
+msgstr "Ne_senās aplikācijas:"
+
+#: src/gthumb.glade.h:24
+msgid "Red"
+msgstr "Sarkans"
+
+#: src/gthumb.glade.h:26
+msgid "_Application:"
+msgstr "_Aplikācija:"
+
+#: src/gthumb.glade.h:28
+msgid "_Do not overwrite any image"
+msgstr "_Nepārrakstīt nevienu attēlu"
+
+#: src/gthumb.glade.h:29
+msgid "_General"
+msgstr "_Vispārīgi"
+
+#: src/gthumb.glade.h:30
+msgid "_Histogram"
+msgstr "_Histogramma"
+
+#: src/gthumb.glade.h:31
+msgid "_New Catalog"
+msgstr "_Jauns Katalogs"
+
+#: src/gthumb.glade.h:32
+msgid "_Next"
+msgstr "_Nakošais"
+
+#: src/gthumb.glade.h:33
+msgid "_Previous"
+msgstr "_Iepriekšējais"
+
+#: src/gthumb.glade.h:34
+msgid "_Save the new image as:"
+msgstr "_Saglabāt jauno attēlu kā:"
+
+#: src/gthumb_comments.glade.h:3
+#: src/gthumb_search.glade.h:6
+msgid "A_vailable categories:"
+msgstr "Pieeja_mās kategorijas:"
+
+#: src/gthumb_comments.glade.h:4
+msgid "Add a category"
+msgstr "Pievienot kategoriju"
+
+#: src/gthumb_comments.glade.h:5
+#: src/gthumb_tools.glade.h:10
+msgid "C_urrent date"
+msgstr "Paš_reizējais datums"
+
+#: src/gthumb_comments.glade.h:7
+#: src/gthumb_search.glade.h:15
+msgid "Co_mment:"
+msgstr "Ko_mentārs:"
+
+#: src/gthumb_comments.glade.h:9
+#: src/gthumb_tools.glade.h:25
+msgid "Image c_reation date"
+msgstr "Attēla i_zveidošanas datums"
+
+#: src/gthumb_comments.glade.h:10
+#: src/gthumb_tools.glade.h:32
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "F_oto ciparošanas datums (No EXIF datiem)"
+
+#: src/gthumb_comments.glade.h:11
+msgid "Remove selected category"
+msgstr "Izņemt izvēlēto kategoriju"
+
+#: src/gthumb_comments.glade.h:12
+msgid "Save only cha_nged fields"
+msgstr "Saglabāt tikai iz_mainītos laukus"
+
+#: src/gthumb_comments.glade.h:13
+#: src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "Se_kojošais datums:"
+
+#: src/gthumb_comments.glade.h:14
+#: src/gthumb_search.glade.h:25
+msgid "_Date:"
+msgstr "_Datums:"
+
+#: src/gthumb_comments.glade.h:15
+#: src/gthumb_search.glade.h:28
+msgid "_Place:"
+msgstr "_Vieta:"
+
+#: src/gthumb_comments.glade.h:16
+#: src/gthumb_search.glade.h:31
+msgid "_Selected categories:"
+msgstr "_Izvēlētās kategorijas:"
+
+#: src/gthumb_convert.glade.h:3
+msgid "<b>Compression</b>"
+msgstr "<b>Kompresija</b>"
+
+#: src/gthumb_convert.glade.h:4
+msgid "<b>Image type</b>"
+msgstr "<b>Attēla tips</b>"
+
+#: src/gthumb_convert.glade.h:5
+msgid "<b>Resolution</b>"
+msgstr "<b>Izšķirtspēja</b>"
+
+#: src/gthumb_convert.glade.h:6
+msgid "Ask"
+msgstr "Vaicāt"
+
+#: src/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "Kompresijas _līmenis:"
+
+#: src/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "Konvertācijas Formāts"
+
+#: src/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "JPEG Opcijas"
+
+#: src/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "No_rmāls (Deflēts)"
+
+#: src/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "Opti_mizēt"
+
+#: src/gthumb_convert.glade.h:12
+msgid "Overwrite"
+msgstr "Pārrakstīt"
+
+#: src/gthumb_convert.glade.h:13
+msgid "Overwrite mode:"
+msgstr "Pārrakstīšanas režīms:"
+
+#: src/gthumb_convert.glade.h:14
+msgid "PNG Options"
+msgstr "PNG Opcijas"
+
+#: src/gthumb_convert.glade.h:15
+msgid "R_emove original"
+msgstr "Izņ_emt oriģinālu"
+
+#: src/gthumb_convert.glade.h:16
+msgid "Rename"
+msgstr "Pārsaukt"
+
+#: src/gthumb_convert.glade.h:17
+msgid "Skip"
+msgstr "Izlaist"
+
+#: src/gthumb_convert.glade.h:18
+msgid "TGA Options"
+msgstr "TGA Opcijas"
+
+#: src/gthumb_convert.glade.h:19
+msgid "TIFF Options"
+msgstr "TIFF Opcijas"
+
+#: src/gthumb_convert.glade.h:20
+msgid "T_GA"
+msgstr "T_GA"
+
+#: src/gthumb_convert.glade.h:21
+#: src/gthumb_png_exporter.glade.h:64
+msgid "_Horizontal:"
+msgstr "_Horizontāli:"
+
+#: src/gthumb_convert.glade.h:22
+msgid "_JPEG"
+msgstr "_JPEG"
+
+#: src/gthumb_convert.glade.h:23
+msgid "_Loss compression (JPEG)"
+msgstr "_Zudumradošā kompresija (JPEG)"
+
+#: src/gthumb_convert.glade.h:24
+msgid "_No compression"
+msgstr "_Nav kompresijas"
+
+#: src/gthumb_convert.glade.h:25
+msgid "_PNG"
+msgstr "_PNG"
+
+#: src/gthumb_convert.glade.h:26
+msgid "_Progressive"
+msgstr "_Progresīvs"
+
+#: src/gthumb_convert.glade.h:27
+msgid "_Quality:"
+msgstr "_Kvalitāte:"
+
+#: src/gthumb_convert.glade.h:28
+msgid "_RLE compression"
+msgstr "_RLE kompresija"
+
+#: src/gthumb_convert.glade.h:29
+msgid "_Smoothing:"
+msgstr "_Gludināšana:"
+
+#: src/gthumb_convert.glade.h:30
+msgid "_TIFF"
+msgstr "_TIFF"
+
+#: src/gthumb_convert.glade.h:31
+#: src/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "_Vertikāli:"
+
+#: src/gthumb_convert.glade.h:32
+msgid "dpi"
+msgstr "dpi"
+
+#: src/gthumb_edit.glade.h:2
+#: src/gthumb_png_exporter.glade.h:2
+#: src/gthumb_preferences.glade.h:2
+#: src/gthumb_tools.glade.h:2
+msgid "     "
+msgstr "     "
+
+#: src/gthumb_edit.glade.h:4
+#: src/gthumb_print.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>Krāsu līmeņi</b>"
+
+#: src/gthumb_edit.glade.h:6
+msgid "<b>New dimensions</b>"
+msgstr "<b>Jaunas dimensijas</b>"
+
+#: src/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>Oriģināla dimensijas</b>"
+
+#: src/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>Mēroga proporcija</b>"
+
+#: src/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "Spilgtums - Kontrasts"
+
+#: src/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "Krāsu Balanss"
+
+#: src/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "Kon_trasts:"
+
+#: src/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "Ciāna-_Sarkans:"
+
+#: src/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "Augstums:"
+
+#: src/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "Augsta _kvalitāte"
+
+#: src/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "Nokrāsa - Piesātinātība"
+
+#: src/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "Afišēt"
+
+#: src/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "Paturēt _spīdumu"
+
+#: src/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "Mērogot Attēlu"
+
+#: src/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "Platums:"
+
+#: src/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "_Spilgtums:"
+
+#: src/gthumb_edit.glade.h:21
+msgid "_Height:"
+msgstr "_Augstums:"
+
+#: src/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "_Nokrāsa:"
+
+#: src/gthumb_edit.glade.h:23
+msgid "_Keep aspect ratio"
+msgstr "_Paturēt izskata proporcijas"
+
+#: src/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "_Līmeņi:"
+
+#: src/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "_Gaišums:"
+
+#: src/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "_Fuksīns-Zaļš:"
+
+#: src/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "_Pirmsapskate"
+
+#: src/gthumb_edit.glade.h:28
+msgid "_Reset"
+msgstr "_Pārstatīt"
+
+#: src/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "_Piesātinātība:"
+
+#: src/gthumb_edit.glade.h:30
+msgid "_Scale"
+msgstr "_Mērogs"
+
+#: src/gthumb_edit.glade.h:31
+msgid "_Width:"
+msgstr "_Platums:"
+
+#: src/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "_Dzeltens-Zils:"
+
+#: src/gthumb_edit.glade.h:33
+msgid "pixels"
+msgstr "pikseļi"
+
+#: src/gthumb_png_exporter.glade.h:4
+msgid "112"
+msgstr "112"
+
+#: src/gthumb_png_exporter.glade.h:5
+msgid "128"
+msgstr "128"
+
+#: src/gthumb_png_exporter.glade.h:6
+msgid "164"
+msgstr "164"
+
+#: src/gthumb_png_exporter.glade.h:7
+msgid "200"
+msgstr "200"
+
+#: src/gthumb_png_exporter.glade.h:8
+msgid "256"
+msgstr "256"
+
+#: src/gthumb_png_exporter.glade.h:9
+msgid "48"
+msgstr "48"
+
+#: src/gthumb_png_exporter.glade.h:10
+msgid "64"
+msgstr "64"
+
+#: src/gthumb_png_exporter.glade.h:11
+msgid "75"
+msgstr "75"
+
+#: src/gthumb_png_exporter.glade.h:12
+msgid "85"
+msgstr "85"
+
+#: src/gthumb_png_exporter.glade.h:13
+msgid "95"
+msgstr "95"
+
+#: src/gthumb_png_exporter.glade.h:14
+msgid "<b>Background style</b>"
+msgstr "<b>Fona stils</b>"
+
+#: src/gthumb_png_exporter.glade.h:15
+msgid "<b>Caption</b>"
+msgstr "<b>Uzraksts</b>"
+
+#: src/gthumb_png_exporter.glade.h:16
+msgid "<b>Destination folder</b>"
+msgstr "<b>Mērķa mape</b>"
+
+#: src/gthumb_png_exporter.glade.h:17
+msgid "<b>Footer</b>"
+msgstr "<b>Kājene</b>"
+
+#: src/gthumb_png_exporter.glade.h:18
+msgid "<b>Header and footer</b>"
+msgstr "<b>Galvene un kājene</b>"
+
+#: src/gthumb_png_exporter.glade.h:19
+msgid "<b>Header</b>"
+msgstr "<b>Galvene</b>"
+
+#: src/gthumb_png_exporter.glade.h:20
+msgid "<b>Index images</b>"
+msgstr "<b>Indeksa attēli</b>"
+
+#: src/gthumb_png_exporter.glade.h:21
+msgid "<b>Page size</b>"
+msgstr "<b>Lapas izmērs</b>"
+
+#: src/gthumb_png_exporter.glade.h:22
+msgid "<i>Examples:</i>"
+msgstr "<i>Piemēri:</i>"
+
+#: src/gthumb_png_exporter.glade.h:23
+msgid "Choose destination folder"
+msgstr "Izvēlaties mērķa mapi"
+
+#: src/gthumb_png_exporter.glade.h:24
+#: src/gthumb_print.glade.h:6
+msgid "Co_mment"
+msgstr "_Komentēt"
+
+#: src/gthumb_png_exporter.glade.h:25
+msgid "Col_umns:"
+msgstr "Ko_lonnas:"
+
+#: src/gthumb_png_exporter.glade.h:26
+#: src/gthumb_preferences.glade.h:31
+msgid "Colo_r:"
+msgstr "Krā_sa:"
+
+#: src/gthumb_png_exporter.glade.h:27
+msgid "Create Index Image"
+msgstr "Izveidot Indeksa Attēlu"
+
+#: src/gthumb_png_exporter.glade.h:28
+msgid "Create _HTML image map"
+msgstr "Izveidot _HTML attēla karti"
+
+#: src/gthumb_png_exporter.glade.h:29
+msgid "F_ooter:"
+msgstr "_Kājene:"
+
+#: src/gthumb_png_exporter.glade.h:30
+msgid "File _name"
+msgstr "Faila _nosaukums"
+
+#: src/gthumb_png_exporter.glade.h:31
+msgid "File pa_th"
+msgstr "Faila c_eļš"
+
+#: src/gthumb_png_exporter.glade.h:32
+msgid "File si_ze"
+msgstr "Faila _izmērs"
+
+#: src/gthumb_png_exporter.glade.h:33
+msgid "Frame _style:"
+msgstr "Rāmja _stils:"
+
+#: src/gthumb_png_exporter.glade.h:34
+msgid "Frame co_lor:"
+msgstr "Rāmja krā_sa:"
+
+#: src/gthumb_png_exporter.glade.h:35
+msgid "H_eader:"
+msgstr "Ga_lvene:"
+
+#: src/gthumb_png_exporter.glade.h:36
+msgid "Header/Footer"
+msgstr "Galvene/Kājene"
+
+#: src/gthumb_png_exporter.glade.h:37
+msgid "Hei_ght:"
+msgstr "Au_gstums:"
+
+#: src/gthumb_png_exporter.glade.h:38
+msgid "Image dim_ensions"
+msgstr "Attēla di_mensijas"
+
+#: src/gthumb_png_exporter.glade.h:39
+msgid "Images"
+msgstr "Attēli"
+
+#: src/gthumb_png_exporter.glade.h:40
+msgid "Index Image Properties"
+msgstr "Indeksa Attēla Rekvizīti"
+
+#: src/gthumb_png_exporter.glade.h:41
+msgid "Page"
+msgstr "Lapa"
+
+#: src/gthumb_png_exporter.glade.h:42
+msgid "Pi_xels"
+msgstr "Pis_eļi"
+
+#: src/gthumb_png_exporter.glade.h:43
+msgid "Re_verse order"
+msgstr "Ap_griezta secība"
+
+#: src/gthumb_png_exporter.glade.h:44
+msgid "Rows a_nd columns"
+msgstr "Rindas _un kolonnas"
+
+#: src/gthumb_png_exporter.glade.h:45
+msgid "Select a color"
+msgstr "Izvēlieties krāsu"
+
+#: src/gthumb_png_exporter.glade.h:46
+msgid "Shadow in"
+msgstr "Ieēnot"
+
+#: src/gthumb_png_exporter.glade.h:47
+msgid "Shadow only"
+msgstr "Tikai ēnojums"
+
+#: src/gthumb_png_exporter.glade.h:48
+msgid "Shadow out"
+msgstr "Izēnot"
+
+#: src/gthumb_png_exporter.glade.h:49
+msgid "Simple"
+msgstr "Vienkāršs"
+
+#: src/gthumb_png_exporter.glade.h:50
+msgid "Simple with shadow"
+msgstr "Vienkārši ar ēnu"
+
+#: src/gthumb_png_exporter.glade.h:51
+msgid "Slide"
+msgstr "Slīdnis"
+
+#: src/gthumb_png_exporter.glade.h:52
+msgid "Sor_t images:"
+msgstr "Kārtot _attēlus:"
+
+#: src/gthumb_png_exporter.glade.h:53
+msgid "Sort"
+msgstr "Kārtot"
+
+#: src/gthumb_png_exporter.glade.h:54
+#: src/gthumb_search.glade.h:24
+#: src/gthumb_tools.glade.h:41
+msgid "Start _at:"
+msgstr "Sākt _ar:"
+
+#: src/gthumb_png_exporter.glade.h:55
+msgid "Style Preview"
+msgstr "Stila Priekšapskate"
+
+#: src/gthumb_png_exporter.glade.h:56
+msgid "Use #'s to specify positions used by numeric enumerator."
+msgstr "Lietojiet #us, lai norādītu skaitliskā uzskaitītāja lietojamo pozīciju."
+
+#: src/gthumb_png_exporter.glade.h:58
+#, no-c-format
+msgid "Use %p  to insert the page number, and %n to insert the total number of pages."
+msgstr "Lietojiet %p, lai ievietotu lapas numuru, un %n, lai ievietotu  kopējo lappušu skaitu."
+
+#: src/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "Pla_tums:"
+
+#: src/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "_Visas lapas ar vienādu izmēru"
+
+#: src/gthumb_png_exporter.glade.h:61
+msgid "_Draw frame"
+msgstr "_Zīmēt rāmi"
+
+#: src/gthumb_png_exporter.glade.h:62
+msgid "_Font:"
+msgstr "_Fonts:"
+
+#: src/gthumb_png_exporter.glade.h:63
+msgid "_Gradient"
+msgstr "_Slīpums"
+
+#: src/gthumb_png_exporter.glade.h:65
+msgid "_Image size:"
+msgstr "_Attēla izmērs:"
+
+#: src/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "_Rindas:"
+
+#: src/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "Vie_ndabīga krāsa"
+
+#: src/gthumb_png_exporter.glade.h:69
+#: src/gthumb_tools.glade.h:47
+msgid "_Template:"
+msgstr "_Veidne:"
+
+#: src/gthumb_png_exporter.glade.h:71
+msgid "by name"
+msgstr "pēc nosaukuma"
+
+#: src/gthumb_png_exporter.glade.h:72
+msgid "by path"
+msgstr "pēc ceļa"
+
+#: src/gthumb_png_exporter.glade.h:73
+msgid "by size"
+msgstr "pēc izmēra"
+
+#: src/gthumb_png_exporter.glade.h:74
+msgid "by time"
+msgstr "pēc laika"
+
+#: src/gthumb_png_exporter.glade.h:76
+msgid "jpeg"
+msgstr "jpeg"
+
+#: src/gthumb_png_exporter.glade.h:77
+msgid "png"
+msgstr "png"
+
+#: src/gthumb_preferences.glade.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: src/gthumb_preferences.glade.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: src/gthumb_preferences.glade.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: src/gthumb_preferences.glade.h:7
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: src/gthumb_preferences.glade.h:8
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: src/gthumb_preferences.glade.h:9
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: src/gthumb_preferences.glade.h:10
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: src/gthumb_preferences.glade.h:11
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: src/gthumb_preferences.glade.h:12
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: src/gthumb_preferences.glade.h:13
+msgid "<b>Checks</b>"
+msgstr "<b>Pārbaudes</b>"
+
+#: src/gthumb_preferences.glade.h:14
+msgid "<b>Direction</b>"
+msgstr "<b>Virziens</b>"
+
+#: src/gthumb_preferences.glade.h:15
+msgid "<b>Hide/Show</b>"
+msgstr "<b>Parādīt/Paslēpt</b>"
+
+#: src/gthumb_preferences.glade.h:16
+msgid "<b>History</b>"
+msgstr "<b>Vēsture</b>"
+
+#: src/gthumb_preferences.glade.h:17
+msgid "<b>Interface</b>"
+msgstr "<b>Saskarne</b>"
+
+#: src/gthumb_preferences.glade.h:18
+msgid "<b>On startup:</b>"
+msgstr "<b>Pie sāknēšanas:</b>"
+
+#: src/gthumb_preferences.glade.h:19
+msgid "<b>Other</b>"
+msgstr "<b>Cits</b>"
+
+#: src/gthumb_preferences.glade.h:20
+msgid "<b>Slide show</b>"
+msgstr "<b>Slīdrāde</b>"
+
+#: src/gthumb_preferences.glade.h:21
+#: src/gthumb_tools.glade.h:7
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Sīkattēli</b>"
+
+#: src/gthumb_preferences.glade.h:22
+msgid "<b>Viewer</b>"
+msgstr "<b>Skatītājs</b>"
+
+#: src/gthumb_preferences.glade.h:23
+msgid "Activate items with a double click"
+msgstr "Aktivēt priekšmetus ar dubultklikšķi"
+
+#: src/gthumb_preferences.glade.h:24
+msgid "Activate items with a single click"
+msgstr "Aktivēt priekšmetus ar vienu klikšķi"
+
+#: src/gthumb_preferences.glade.h:25
+msgid "After _loading an image:"
+msgstr "Pēc attēla ie_lādes:"
+
+#: src/gthumb_preferences.glade.h:26
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "_Vaicāt apstiprinājumu pirms attēlu vai katalogu dzēšanas"
+
+#: src/gthumb_preferences.glade.h:27
+msgid "Black"
+msgstr "Melns"
+
+#: src/gthumb_preferences.glade.h:28
+msgid "Browser"
+msgstr "Pārlūks"
+
+#: src/gthumb_preferences.glade.h:29
+msgid "C_lick policy:"
+msgstr "_Klikšķu palitika:"
+
+#: src/gthumb_preferences.glade.h:30
+msgid "Checked"
+msgstr "Atķeksēts"
+
+#: src/gthumb_preferences.glade.h:32
+msgid "D_elay before changing image:"
+msgstr "Ai_zture pirms attēla nomaiņas:"
+
+#: src/gthumb_preferences.glade.h:33
+msgid "Dark"
+msgstr "Tumšs"
+
+#: src/gthumb_preferences.glade.h:34
+msgid "Determine image type from co_ntent (slower)"
+msgstr "Noteikt attēla saturu pēc satu_ra (lēnāk)"
+
+#: src/gthumb_preferences.glade.h:35
+msgid "Do _not change folder"
+msgstr "Ne_mainīt mapi"
+
+#: src/gthumb_preferences.glade.h:36
+msgid "Fit image to window"
+msgstr "Attēls iederas logā"
+
+#: src/gthumb_preferences.glade.h:37
+msgid "Fit to window if larger"
+msgstr "Iederas logā, ja lielāks"
+
+#: src/gthumb_preferences.glade.h:38
+msgid "Follow Nautilus behaviour"
+msgstr "Sekot Nautilus uzvedībai"
+
+#: src/gthumb_preferences.glade.h:39
+msgid "For_ward"
+msgstr "Uz P_riekšu"
+
+#: src/gthumb_preferences.glade.h:40
+msgid "General"
+msgstr "Vispārīgi"
+
+#: src/gthumb_preferences.glade.h:41
+msgid "Go to last _visited folder or catalog"
+msgstr "Iet uz pēdējoreiz ap_meklēto mapi vai katalogu"
+
+#: src/gthumb_preferences.glade.h:42
+msgid "Go to this _folder:"
+msgstr "Iet uz šo _mapi:"
+
+#: src/gthumb_preferences.glade.h:43
+msgid "H_igh"
+msgstr "A_ugsts"
+
+#: src/gthumb_preferences.glade.h:44
+msgid "Icons only"
+msgstr "Tikai ikonas"
+
+#: src/gthumb_preferences.glade.h:45
+msgid "Keep previous zoom"
+msgstr "Paturēt iepriekšējo tālummaiņu"
+
+#: src/gthumb_preferences.glade.h:46
+msgid "Large"
+msgstr "Liels"
+
+#: src/gthumb_preferences.glade.h:47
+msgid "Layout:"
+msgstr "Izkārtojums:"
+
+#: src/gthumb_preferences.glade.h:48
+msgid "Light"
+msgstr "Viegls"
+
+#: src/gthumb_preferences.glade.h:49
+msgid "Lo_w"
+msgstr "_Zems"
+
+#: src/gthumb_preferences.glade.h:50
+msgid "Max _history length:"
+msgstr "Maks _vēstures garums:"
+
+#: src/gthumb_preferences.glade.h:51
+msgid "Medium"
+msgstr "Vidējs"
+
+#: src/gthumb_preferences.glade.h:52
+msgid "Mid tone"
+msgstr "Vidus tonis"
+
+#: src/gthumb_preferences.glade.h:53
+msgid "None"
+msgstr "Nekas"
+
+#: src/gthumb_preferences.glade.h:54
+msgid "Re_verse"
+msgstr "Ap_griezta"
+
+#: src/gthumb_preferences.glade.h:55
+msgid "Resta_rt when finished"
+msgstr "Pārsā_knēt, kad pabeigts"
+
+#: src/gthumb_preferences.glade.h:56
+msgid "Sa_ve thumbnails"
+msgstr "Sa_glābāt sīkattēlus"
+
+#: src/gthumb_preferences.glade.h:57
+msgid "Set image to actual size"
+msgstr "Iestatīt attēlu uz patieso lielumu"
+
+#: src/gthumb_preferences.glade.h:58
+msgid "Set to C_urrent"
+msgstr "Iestatīt uz _Pašreizējo"
+
+#: src/gthumb_preferences.glade.h:59
+msgid "Show _thumbnails"
+msgstr "Parādīt _sīkattēlus"
+
+#: src/gthumb_preferences.glade.h:60
+msgid "Show co_mments"
+msgstr "Parādīt ko_mentārus"
+
+#: src/gthumb_preferences.glade.h:61
+msgid "Show hi_dden images"
+msgstr "Parādīt p_aslēptos attēlus"
+
+#: src/gthumb_preferences.glade.h:62
+msgid "Si_ze:"
+msgstr "Iz_mērs:"
+
+#: src/gthumb_preferences.glade.h:64
+msgid "Small"
+msgstr "Mazs"
+
+#: src/gthumb_preferences.glade.h:65
+msgid "Switch to _full screen"
+msgstr "Pārslēgties uz pilnekrānu"
+
+#: src/gthumb_preferences.glade.h:66
+msgid "System settings"
+msgstr "Sistēmas uzstādījumi"
+
+#: src/gthumb_preferences.glade.h:67
+msgid "Text below icons"
+msgstr "Teksts zem ikonām"
+
+#: src/gthumb_preferences.glade.h:68
+msgid "Text beside icons"
+msgstr "Teksts blakus ikonām"
+
+#: src/gthumb_preferences.glade.h:69
+msgid "Text only"
+msgstr "Tikai teksts"
+
+#: src/gthumb_preferences.glade.h:70
+msgid "Transparency _type:"
+msgstr "Caurspīdīguma _tips:"
+
+#: src/gthumb_preferences.glade.h:71
+msgid "Viewer"
+msgstr "Skatītājs"
+
+#: src/gthumb_preferences.glade.h:72
+msgid "White"
+msgstr "Balts"
+
+#: src/gthumb_preferences.glade.h:73
+msgid "Zoom _quality:"
+msgstr "Tālummaiņas _kvalitāte:"
+
+#: src/gthumb_preferences.glade.h:74
+msgid "_Toolbar style:"
+msgstr "_Rīkjoslas stils:"
+
+#: src/gthumb_preferences.glade.h:75
+msgid "gThumb Preferences"
+msgstr "gThumb Preferences"
+
+#: src/gthumb_preferences.glade.h:76
+msgid "seconds"
+msgstr "sekundes"
+
+#: src/gthumb_print.glade.h:3
+msgid ""
+"<i>Drag the image to move\n"
+"it in the page.</i>"
+msgstr ""
+"<i>Velciet attēlu, lai ievietotu\n"
+"to lappusē.</i>"
+
+#: src/gthumb_print.glade.h:5
+msgid "Center _on Page"
+msgstr "Centrēt _Lapā"
+
+#: src/gthumb_print.glade.h:8
+msgid "Paper"
+msgstr "Papīrs"
+
+#: src/gthumb_print.glade.h:9
+msgid "Preview"
+msgstr "Priekšapskate"
+
+#: src/gthumb_print.glade.h:10
+msgid "Print Image"
+msgstr "Drukāt Attēlu"
+
+#: src/gthumb_print.glade.h:11
+msgid "Printer"
+msgstr "Printeris"
+
+#: src/gthumb_print.glade.h:13
+msgid "_Scale:"
+msgstr "_Mērogot:"
+
+#: src/gthumb_search.glade.h:3
+msgid "..."
+msgstr "..."
+
+#: src/gthumb_search.glade.h:4
+msgid "<b>Search criteria</b>"
+msgstr "<b>Meklēšanas kritērijs</b>"
+
+#: src/gthumb_search.glade.h:5
+msgid "<b>Search scope</b>"
+msgstr "<b>Meklēšanas mērķis</b>"
+
+#: src/gthumb_search.glade.h:7
+msgid "After"
+msgstr "Pēc"
+
+#: src/gthumb_search.glade.h:8
+msgid "All catego_ries"
+msgstr "Visas katego_rijas"
+
+#: src/gthumb_search.glade.h:9
+msgid "Any"
+msgstr "Jebkas"
+
+#: src/gthumb_search.glade.h:10
+msgid "At _least a category"
+msgstr "_Vismaz kategorija"
+
+#: src/gthumb_search.glade.h:11
+msgid "Before"
+msgstr "Pirms"
+
+#: src/gthumb_search.glade.h:12
+msgid "Ca_tegories:"
+msgstr "Ka_tegorijas:"
+
+#: src/gthumb_search.glade.h:13
+msgid "Choose Categories"
+msgstr "Izvēlietes Kategorijas"
+
+#: src/gthumb_search.glade.h:14
+msgid "Choose categories from the saved list"
+msgstr "Izvēlieties kategorijas no saglabāto saraksta"
+
+#: src/gthumb_search.glade.h:16
+msgid "Equal to"
+msgstr "Vienāds ar"
+
+#: src/gthumb_search.glade.h:17
+msgid "File _name:"
+msgstr "Faila _nosaukums:"
+
+#: src/gthumb_search.glade.h:18
+msgid "Find"
+msgstr "Atrast"
+
+#: src/gthumb_search.glade.h:19
+msgid "Found images:"
+msgstr "Atrasti attēli:"
+
+#: src/gthumb_search.glade.h:20
+msgid "New _Search..."
+msgstr "Jauna _Meklēšana..."
+
+#: src/gthumb_search.glade.h:21
+msgid "No images found"
+msgstr "Neviens attēls nav atrasts"
+
+#: src/gthumb_search.glade.h:22
+msgid "Search Progress"
+msgstr "Meklēšanas Progress"
+
+#: src/gthumb_search.glade.h:23
+#: src/gthumb_tools.glade.h:40
+msgid "Searching in:"
+msgstr "Meklēju iekš:"
+
+#: src/gthumb_search.glade.h:27
+#: src/gthumb_tools.glade.h:44
+msgid "_Include sub-folders"
+msgstr "_Iekļaut apakšmapes"
+
+#: src/gthumb_search.glade.h:29
+msgid "_Save"
+msgstr "_Saglabāt"
+
+#: src/gthumb_tools.glade.h:4
+msgid "<b>Comments</b>"
+msgstr "<b>Komentāri</b>"
+
+#: src/gthumb_tools.glade.h:5
+msgid "<b>File list order</b>"
+msgstr "<b>Failu saraksta secība</b>"
+
+#: src/gthumb_tools.glade.h:6
+msgid "<b>Specify a template to use for renaming images</b>"
+msgstr "<b>Norādiet veidni, ko lietot pārsaucot attēlus</b>"
+
+#: src/gthumb_tools.glade.h:8
+msgid "Apply to _all images"
+msgstr "Pielietot _visiem attēliem"
+
+#: src/gthumb_tools.glade.h:9
+msgid "Backup Comments"
+msgstr "Dubējumkopijas Komentāri"
+
+#: src/gthumb_tools.glade.h:11
+msgid "Change Date"
+msgstr "Izmaiņas Datums"
+
+#: src/gthumb_tools.glade.h:12
+msgid "Change the last modified date to:"
+msgstr "Izmainīt vismaz modifikācijas datumu uz:"
+
+#: src/gthumb_tools.glade.h:13
+msgid "Check _All"
+msgstr "Pārbaudīt _Visus"
+
+#: src/gthumb_tools.glade.h:14
+msgid "Check _None"
+msgstr "Nepārbaudīt _Nevienu"
+
+#: src/gthumb_tools.glade.h:15
+msgid "Checking image:"
+msgstr "Pārbaudu attēlu:"
+
+#: src/gthumb_tools.glade.h:16
+msgid "Delete ALL Comments"
+msgstr "Dzēst VISUS Komentārus"
+
+#: src/gthumb_tools.glade.h:17
+msgid "Delete ALL Thumbnails"
+msgstr "Dzēst VISUS Sīkattēlus"
+
+#: src/gthumb_tools.glade.h:18
+msgid "Delete Old Comments"
+msgstr "Dzēst Vecos Komentārus"
+
+#: src/gthumb_tools.glade.h:19
+msgid "Delete Old Thumbnails"
+msgstr "Dzēst Vecos Sīkattēlus"
+
+#: src/gthumb_tools.glade.h:20
+msgid "Delete comments of no more existing images"
+msgstr "Dzēst komentārus vairs neeksistējošiem attēliem"
+
+#: src/gthumb_tools.glade.h:21
+msgid "Delete thumbnails of no more existing images"
+msgstr "Dzēst sīkattēlus vairs neeksistējošiem attēliem"
+
+#: src/gthumb_tools.glade.h:22
+msgid "Equal images:"
+msgstr "Vienādi attēli:"
+
+#: src/gthumb_tools.glade.h:23
+msgid "Find Duplicates"
+msgstr "Atrast Dublikātus"
+
+#: src/gthumb_tools.glade.h:24
+msgid "Found duplicates:"
+msgstr "Atrasti dublikāti"
+
+#: src/gthumb_tools.glade.h:26
+msgid "JPEG Lossless Transformation"
+msgstr "JPEG Bezzudumu Transformācija"
+
+#: src/gthumb_tools.glade.h:27
+msgid "Maintenance"
+msgstr "Uzturēšana"
+
+#: src/gthumb_tools.glade.h:28
+msgid "Mirror image horizontally (left-right)"
+msgstr "Spogulēt attēlu horizontāli (kreisā-labā)"
+
+#: src/gthumb_tools.glade.h:29
+msgid "Mirror image vertically (top-bottom)"
+msgstr "Spogulēt attēlu vertikāli (augša-apakša)"
+
+#: src/gthumb_tools.glade.h:31
+msgid "New names _preview:"
+msgstr "Jaunu nosaukumu _priekšapskate:"
+
+#: src/gthumb_tools.glade.h:33
+msgid "Re_verse Order"
+msgstr "Ap_griezta Secība"
+
+#: src/gthumb_tools.glade.h:34
+msgid "Rename Series"
+msgstr "Pārsaukšanas Sērijas"
+
+#: src/gthumb_tools.glade.h:35
+msgid "Restore Comments From a Backup File"
+msgstr "Atjaunot Komentārus No Dublējumkopijas Faila"
+
+#: src/gthumb_tools.glade.h:36
+msgid "Revert changes"
+msgstr "Atgriezt izmaiņas"
+
+#: src/gthumb_tools.glade.h:37
+msgid "Rotate image 90 degrees clockwise"
+msgstr "Rotēt attēlu 90 grādus pulksteņrādītāja virzienā"
+
+#: src/gthumb_tools.glade.h:38
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "Rotēt attēlu 90 grādus pretēji pulksteņrādītāja virzienam"
+
+#: src/gthumb_tools.glade.h:39
+msgid "Search terminated, no duplicates found."
+msgstr "Meklēšana pārtraukta, dublikāti nav atrasti."
+
+#: src/gthumb_tools.glade.h:43
+msgid "Use #'s to specify positions used by numeric enumerator. Use * to insert original filename."
+msgstr "Lietojiet #us, lai norādītu skaitliskā uzskaitītāja lietojamo pozīciju. Lietojiet *, lai ievietotu oriģināla faila nosaukumu."
+
+#: src/gthumb_tools.glade.h:46
+msgid "_Sort original list:"
+msgstr "_Kārtot oriģinālo sarakstu:"
+
+#: src/gthumb_tools.glade.h:49
+msgid "by Modification date"
+msgstr "pēc Modifikācijas datuma"
+
+#: src/gthumb_tools.glade.h:50
+msgid "by Name"
+msgstr "pēc Nosaukuma"
+
+#: src/gthumb_tools.glade.h:51
+msgid "by Size"
+msgstr "pēc Izmēra"
+
+#: src/main.c:75
+msgid "Start in fullscreen mode"
+msgstr "Sāknēt pilnekrāna režīma"
+
+#: src/main.c:79
+msgid "Automatically start a slideshow"
+msgstr "Automātiski sāknēt slīdrādi"
+
+#: src/main.c:158
+msgid "Holidays"
+msgstr "Brīvdienas"
+
+#: src/main.c:159
+msgid "Temporary"
+msgstr "Īslaicīgi"
+
+#: src/main.c:160
+msgid "Screenshots"
+msgstr "Ekrānattēli"
+
+#: src/main.c:161
+msgid "Science"
+msgstr "Zinātne"
+
+#: src/main.c:162
+msgid "Favourite"
+msgstr "Iecienīts"
+
+#: src/main.c:163
+msgid "Important"
+msgstr "Svarīgi"
+
+#: src/main.c:164
+msgid "GNOME"
+msgstr "GNOME"
+
+#: src/main.c:165
+msgid "Games"
+msgstr "Spēles"
+
+#: src/main.c:166
+msgid "Party"
+msgstr "Tusiņš"
+
+#: src/main.c:167
+msgid "Birthday"
+msgstr "Dzimšanas diena"
+
+#: src/main.c:168
+msgid "Astronomy"
+msgstr "Astranomija"
+
+#: src/main.c:169
+msgid "Family"
+msgstr "Ģimene"
+
+#: src/main.c:286
+#: src/main.c:348
+msgid "Command Line"
+msgstr "Komandrinda"
+
