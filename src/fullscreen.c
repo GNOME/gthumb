@@ -49,7 +49,7 @@ static gboolean        comment_visible = FALSE;
 static GdkPixmap      *buffer = NULL;
 static GdkPixmap      *original_buffer = NULL;
 static PangoRectangle  bounds;
-static GtkWidget      *popup_window = NULL;
+static GtkWidget      *popup_window = NULL, *grabbed_window = NULL;
 static GtkWidget      *prop_button = NULL;
 static FullScreen     *current_fullscreen;
 
@@ -624,6 +624,16 @@ image_key_press_cb (GtkWidget   *widget,
 }
 
 
+static void
+grab_window (GtkWidget *window)
+{
+	if (grabbed_window != NULL)
+		gtk_grab_remove (grabbed_window);
+	gtk_grab_add (window);
+	grabbed_window = window;
+}
+
+
 static gboolean
 hide_mouse_pointer_cb (gpointer data)
 {
@@ -637,6 +647,8 @@ hide_mouse_pointer_cb (gpointer data)
 		return TRUE;
 
 	gtk_widget_hide (popup_window);
+	if (! fullscreen->wm_state_fullscreen_support) 
+		grab_window (fullscreen->window);
 	image_viewer_hide_cursor (IMAGE_VIEWER (fullscreen->viewer));
 	fullscreen->mouse_hide_id = 0;
 
@@ -670,6 +682,8 @@ fs_motion_notify_cb (GtkWidget      *widget,
 		if (! GTK_WIDGET_VISIBLE (popup_window)) {
 			gtk_widget_show (popup_window);
 			image_viewer_show_cursor (IMAGE_VIEWER (fullscreen->viewer));
+			if (! fullscreen->wm_state_fullscreen_support) 
+				grab_window (popup_window);
 		}
 
 	if (fullscreen->mouse_hide_id != 0)
@@ -934,39 +948,6 @@ create_popup_window (void)
 }
 
 
-/* Stolen from profterm, Copyright (C) 2001 Havoc Pennington */
-
-
-static void
-wmspec_change_state (gboolean   add,
-                     GdkWindow *window,
-                     GdkAtom    state1,
-                     GdkAtom    state2)
-{
-  XEvent xev;
-
-#define _NET_WM_STATE_REMOVE        0    /* remove/unset property */
-#define _NET_WM_STATE_ADD           1    /* add/set property */
-#define _NET_WM_STATE_TOGGLE        2    /* toggle property  */  
-  
-  xev.xclient.type = ClientMessage;
-  xev.xclient.serial = 0;
-  xev.xclient.send_event = True;
-  xev.xclient.display = gdk_display;
-  xev.xclient.window = GDK_WINDOW_XID (window);
-  xev.xclient.message_type = gdk_x11_get_xatom_by_name ("_NET_WM_STATE");
-  xev.xclient.format = 32;
-  xev.xclient.data.l[0] = add ? _NET_WM_STATE_ADD : _NET_WM_STATE_REMOVE;
-  xev.xclient.data.l[1] = gdk_x11_atom_to_xatom (state1);
-  xev.xclient.data.l[2] = gdk_x11_atom_to_xatom (state2);
-  
-  XSendEvent (gdk_display, GDK_WINDOW_XID (gdk_get_default_root_window ()),
-              False,
-              SubstructureRedirectMask | SubstructureNotifyMask,
-              &xev);
-}
-
-
 static void
 close_fullscreen_window_cb (GtkWidget    *caller, 
 			    GdkEvent     *event, 
@@ -997,9 +978,6 @@ fullscreen_new (void)
 		gtk_widget_destroy (fullscreen->window);
 		fullscreen->window = gtk_window_new (GTK_WINDOW_POPUP);
 	}
-
-	gtk_window_set_wmclass (GTK_WINDOW (fullscreen->window), "",
-				"gthumb_fullscreen");
 
 	fullscreen->related_win = NULL;
 	fullscreen->viewer = NULL;
@@ -1064,14 +1042,12 @@ fullscreen_start (FullScreen   *fullscreen,
 	fullscreen->viewer = window->viewer;
 
 	/* FIXME
-	fullscreen->msg_save_modified_image = eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE);
-	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, FALSE);*/
+	   fullscreen->msg_save_modified_image = eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE);
+	   eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, FALSE);
+	*/
 
-	wmspec_change_state (TRUE,
-			     fullscreen->window->window,
-			     gdk_atom_intern ("_NET_WM_STATE_FULLSCREEN", 
-					      FALSE),
-			     GDK_NONE);
+	gtk_window_fullscreen (GTK_WINDOW (fullscreen->window));
+	gtk_window_present (GTK_WINDOW (fullscreen->window));	
 
 	gtk_widget_reparent (window->viewer, fullscreen->window); 
 
@@ -1084,9 +1060,9 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	if (! fullscreen->wm_state_fullscreen_support) {
 		gdk_keyboard_grab (fullscreen->window->window, TRUE, GDK_CURRENT_TIME);
-		gtk_grab_add (fullscreen->window);
-		gtk_widget_grab_focus (fullscreen->window);
+		grab_window (fullscreen->window);
 	}
+	gtk_widget_grab_focus (fullscreen->window);
 
 	/* hide mouse pointer. */
 
@@ -1142,12 +1118,8 @@ fullscreen_stop (FullScreen *fullscreen)
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
 
+	gtk_window_unfullscreen (fullscreen->window);
 	gtk_widget_hide (fullscreen->window);
-	wmspec_change_state (FALSE,
-			     fullscreen->window->window,
-			     gdk_atom_intern ("_NET_WM_STATE_FULLSCREEN", 
-					      FALSE),
-			     GDK_NONE);
 
 	g_signal_handlers_disconnect_by_func (G_OBJECT (fullscreen->viewer),
 					      fs_expose_event_cb,
@@ -1164,14 +1136,17 @@ fullscreen_stop (FullScreen *fullscreen)
 	comment_visible = FALSE;
 
 	/* FIXME
-	eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, fullscreen->msg_save_modified_image);
+	   eel_gconf_set_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, fullscreen->msg_save_modified_image);
 	*/
 
 	/* release keyboard focus. */ 
 
 	if (! fullscreen->wm_state_fullscreen_support) {
 		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
-		gtk_grab_remove (fullscreen->window);
+		if (grab_window != NULL) {
+			gtk_grab_remove (grabbed_window);
+			grabbed_window = NULL;
+		}
 	}
 
 	/* stop the slideshow if the user wants so. */

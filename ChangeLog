@@ -1,3 +1,7 @@
+2004-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (fullscreen_start): fixed fullscreen mode.
+
 2004-08-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (directory_changed): process monitor

@@ -266,6 +266,11 @@
 	  <long>Az ennél nagyobb képekhez (bájtban) nem készül bélyegkép. Használjon 0-t, ha azt akarja, hogy minden képhez készüljön bélyegkép.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Gambar melebihi ukuran ini (dalam byte) tidak akan disketsakan. Gunakan 0 jika anda ingin menghasilkan sketsa untuk seluruh gambar</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>Le immagini superiori a questa dimensione (in byte) non verranno miniate. Usare 0 se si vuole che vengano generate le miniature per tutte le immagini.</long>
@@ -422,6 +427,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: nautilus, single, double.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: nautilus, single, double.</long>
 	</locale>
 
 	<locale name="it">
@@ -605,6 +615,11 @@
 	  <long>Lehetséges értékek: none, name, path, size, time.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: tidak_samasekali, nama, path, ukuran, waktu.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: none, name, path, size, time.</long>
@@ -773,6 +788,11 @@
 	  <long>Lehetséges értékek: ascending, descending.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: kecil-besar, besar-kecil</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: ascending, descending.</long>
@@ -939,6 +959,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: list, thumbnails.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: daftar, sketsa.</long>
 	</locale>
 
 	<locale name="it">
@@ -1115,6 +1140,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: image, data, comment.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: gambar, data, komentar </long>
 	</locale>
 
 	<locale name="it">
@@ -1474,6 +1504,11 @@
 	  <long>Lehetséges értékek: actual_size, fit, keep_prev, fit_if_larger.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: ukuran_sebenarnya, sesuaikan, keep_prev, sesuaikan_jika_lebih_besar.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: actual_size, fit, keep_prev, fit_if_larger.</long>
@@ -1642,6 +1677,11 @@
 	  <long>Lehetséges értékek: white, black, checked, none.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: putih, hitam, dicek, tidak_samasekali.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili: white, black, checked, none.</long>
@@ -1805,6 +1845,11 @@
 	  <long>Lehetséges értékek: light, midtone, dark.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: terang, sedang, gelap.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: light, midtone, dark.</long>
@@ -1966,6 +2011,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: small, medium, large.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: kecil, sedang, besar.</long>
 	</locale>
 
 	<locale name="it">
@@ -2136,6 +2186,11 @@
 	  <long>Mindig fekete legyen-e a háttér.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Apakah selalu menggunakan latar belakang warna hitam</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>Indica se unsare sempre uno sfondo nero.</long>
@@ -2284,6 +2339,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: forward, backward, random.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: maju, mundur, acak.</long>
 	</locale>
 
 	<locale name="it">
@@ -2668,6 +2728,11 @@
 	  <long>Lehetséges értékek: system, text_below, text_beside, text_only, icons_only.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: sistem, teks_dibawah, teks_disamping, hanya_teks, hanya_icon.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: system, text_below, text_beside, text_only, icons_only.</long>
@@ -2953,6 +3018,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: png, jpeg.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: png, jpeg.</long>
 	</locale>
 
 	<locale name="it">
@@ -3465,6 +3535,11 @@
 	  <long>Lehetséges értékek: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: tidak_samasekali, sederhana, sederhana_dengan_bayangan, bayangan, slide, bayangan_dalam, bayangan_luar.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.</long>
@@ -3751,6 +3826,11 @@
 	  <long>Lehetséges értékek: none, deflate, jpeg.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: tidak_samasekali, turunkan, jpeg.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: none, deflate, jpeg.</long>
@@ -3942,6 +4022,11 @@
 	  <long>Lehetséges értékek: jpeg, png, tga, tiff.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: jpeg, png, tga, tiff.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: jpeg, png, tga, tiff.</long>
@@ -4108,6 +4193,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: skip, rename, ask, overwrite.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: lewatkan, ganti_nama, tanya, tulis_ulang.</long>
 	</locale>
 
 	<locale name="it">
@@ -4314,6 +4404,11 @@
 	  <long>Lehetséges értékek: name, size, time.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: nama, ukuran, waktu.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: name, size, time.</long>
@@ -4500,6 +4595,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: pixels, percentage.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: piksel, persentase.</long>
 	</locale>
 
 	<locale name="it">
@@ -4800,6 +4900,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: name, path, size, time.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: nama, path, ukuran, waktu.</long>
 	</locale>
 
 	<locale name="it">
@@ -5104,6 +5209,11 @@
 	  <long>Lehetséges értékek: mm, in.</long>
 	</locale>
 
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: mm, inci.</long>
+	</locale>
+
 	<locale name="it">
 	  
 	  <long>I valori possibili sono: mm, in.</long>
@@ -5401,6 +5511,11 @@
 	<locale name="hu">
 	  
 	  <long>Lehetséges értékek: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="id">
+	  
+	  <long>Nilai yang mungkin: tidak_samasekali, kwadrat, gambar, tampilan, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="it">
