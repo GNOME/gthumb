@@ -75,6 +75,8 @@ struct _GthFileList {
 					   * genereting a thumbnail. */
 
 	guint        scroll_timer;
+
+	gboolean     starting_update;
 };
 
 

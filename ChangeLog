@@ -1,3 +1,18 @@
+2003-01-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c (help_cb): add the help button.
+
+	* doc/C/gthumb.xml: updated.
+
+2003-01-06  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* gthumb.desktop.in: added StartupNotify, X-GNOME-Bugzilla-* and 
+	X-GNOME-DocPath fields.
+
+	* libgthumb/file-list.h: 
+	* libgthumb/file-list.c (update_thumbnails_cb): interrupt
+	thumbnails creation before starting it again.
+
 2003-01-04  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 1.108 released ] 

@@ -308,6 +308,16 @@ gth_file_list_class_init (GthFileListClass *class)
 }
 
 
+static void
+update_thumbnails__step2 (gpointer data)
+{
+	GthFileList *file_list = data;
+
+	file_list->starting_update = FALSE;
+	gth_file_list_restart_thumbs (file_list, TRUE);
+}
+
+
 static gboolean
 update_thumbnails_cb (gpointer data)
 {
@@ -315,10 +325,11 @@ update_thumbnails_cb (gpointer data)
 
 	if (file_list->scroll_timer != 0)
 		g_source_remove (file_list->scroll_timer);
-
-	gth_file_list_restart_thumbs (file_list, TRUE);
-
 	file_list->scroll_timer = 0;
+
+	gth_file_list_interrupt_thumbs (file_list,
+					update_thumbnails__step2,
+					file_list);
 
 	return FALSE;
 }
@@ -328,13 +339,18 @@ static gboolean
 file_list_adj_value_changed (GtkAdjustment *adj, 
 			     GthFileList   *file_list)
 {	
+	if (image_list_is_frozen (IMAGE_LIST (file_list->ilist)))
+		return FALSE;
+
+	if (file_list->starting_update)
+		return FALSE;
+
+	file_list->starting_update = TRUE;
+
 	if (file_list->scroll_timer != 0) {
 		g_source_remove (file_list->scroll_timer);
 		file_list->scroll_timer = 0;
 	}
-
-	if (image_list_is_frozen (IMAGE_LIST (file_list->ilist)))
-		return FALSE;
 
 	file_list->scroll_timer = g_timeout_add (SCROLL_DELAY,
 						 update_thumbnails_cb,
@@ -371,6 +387,8 @@ gth_file_list_init (GthFileList *file_list)
 	file_list->interrupt_done_func = NULL;
 	file_list->interrupt_done_data = NULL;
 	file_list->scroll_timer      = 0;
+
+	file_list->starting_update   = FALSE;
 
 	if (unknown_pixbuf == NULL)
 		unknown_pixbuf = gdk_pixbuf_new_from_inline (-1, unknown_48_rgba, FALSE, NULL);

@@ -2,8 +2,8 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY gthumb-version "1.101">
-  <!ENTITY manual-version "1.101">
+  <!ENTITY gthumb-version "2.0">
+  <!ENTITY manual-version "2.0">
   <!ENTITY gthumb "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
 <!--  Template Version: 1.0.1  (do not remove this line) -->
@@ -440,9 +440,8 @@
     <sect2>
       <title>Altering images</title>
       <para>
-        There are a set of commands, located in the <guimenu>View</guimenu> 
-	menu, that let you modify the way an image is 
-	displayed
+        There are a set of commands, located in the <guimenu>Image</guimenu> 
+	menu, that let you modify the current image.
       </para>
       <informaltable frame="topbot">
         <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
@@ -527,9 +526,19 @@
       <para>
         Note that this modifications do not change the image file,
 	and if you want to view the original image just click on its 
-	thumbnail again.
+	thumbnail again or use the
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
+	</menuchoice> command.
       </para>
-    </sect2>
+      <para>
+        To save the modified image use the
+	<menuchoice><guimenu>File</guimenu><guimenuitem>Save
+	As</guimenuitem></menuchoice> command.  Images can be save in JPEG, PNG,
+	TGA, TIFF formats.  Each image format have some option that
+	can be changed with a dialog that pops up after having
+	specified the image filename.
+      </para>
+    </sect2>      
 
     <table frame="topbot">
     <title>Some keyboard shortcuts</title>
@@ -699,14 +708,14 @@
       </listitem>
       <listitem>
         <para>
-	Recentre the image on the page use the <interface>Center on 
-	Page</interface> button.
+	Recentre the image on the page use the <guibutton>Center on 
+	Page</guibutton> button.
         </para>
       </listitem>
     </itemizedlist>
   </para>
   <para>
-    When you are ready to print press the <interface>Print</interface> button.
+    When you are ready to print press the <guibutton>Print</guibutton> button.
   </para>
   </sect1>
 
@@ -775,8 +784,8 @@
   <para>
     You can even add a comment to multiple images, in this case the comment 
     dialog will fill in the fields that are the same for all images leaving 
-    all other fields empty, and the option <guilabel>save only changed fields
-    </guilabel> is enabled.  If this option is active (default) you can 
+    all other fields empty, and the <guilabel>Save only changed fields
+    </guilabel> option is enabled.  If this option is active (default) you can 
     change one or more fields of the comment of many images leaving all other
     fields unchanged.
   </para>
@@ -784,7 +793,7 @@
     Comments are not embedded in image files they are saved separately, this
     means that if you move the images or the folders images are in with other 
     programs you will lose the comments.  Comments are saved in the folder
-    <filename>$(HOME)/.gqview/comments</filename>.
+    <filename>$(HOME)/.gnome2/gthumb/comments</filename>.
   </para>
   </sect1>
 
@@ -839,39 +848,39 @@
     catalog you can use the searches described in <xref linkend="find"/>, 
     searches are catalogs with search data attached, after moving images you 
     can redo the search to get the catalog updated.  Catalogs are saved in the
-    folder <filename>$(HOME)/.gqview/collections</filename>.
+    folder <filename>$(HOME)/.gnome2/gthumb/collections</filename>.
   </para>
   </sect1>
 
 
   <!-- ============= Tools ================================== -->
   <sect1 id="tools">
-  <title>Other Tools</title>
-    <para>
-      All the tools described in this chapter are located in the 
-      <guimenu>Tools</guimenu> menu.
-    </para>
-
+  <title>Advanced Tools</title>
     <!-- Create Index Image -->
 
     <sect2 id="slideshow">
-      <title>SlideShow</title>
+      <title>Slide Show</title>
       <para>
         You can start a slide show of the images in the current folder by
 	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
-	selecting the <menuchoice><guimenu>Tools
-	</guimenu><guimenuitem>Slideshow</guimenuitem></menuchoice> menu item.
+	selecting the <menuchoice><guimenu>View
+	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
         To stop the Slideshow press <keycombo action="simul">
 	<keycap>S</keycap></keycombo> again.
       </para>
       <para>
-        Switching on/off the full screen mode does not stop a slideshow.
+        Switching on/off the full screen mode does not stop the
+      slide show.  If the <guilabel>Switch to full screen</guilabel> option
+      is on then the slide show is started in
+      fullscreen mode and exiting from the fullscreen mode stops the slide show.
+      </para>
+      <para>
         The slideshow is interrupted when changing folder or re-loading the
 	current one.
       </para>
       <para>
-        If you want to do a presentation with images you do not need the 
-	<interface>SlideShow</interface> tool, you can simply set the 
+        If you want to do a presentation with images you do not need this 
+	tool, instead you can simply set the 
 	fullscreen mode and press <keycombo><keycap>Space</keycap></keycombo>
 	or <keycombo><keycap>Page Down</keycap></keycombo> to view the next
 	image, and <keycombo><keycap>b</keycap></keycombo> or <keycombo>
@@ -906,7 +915,7 @@
 	  <listitem>
 	    <para>
 	      <guilabel>Stretched</guilabel> : the image will be scaled to 
-	      fill the desktop.
+	      fill the desktop changing proportions if needed.
 	    </para>
 	  </listitem>
 
@@ -932,26 +941,25 @@
 
     <sect2 id="find">
       <title>Find Images</title>
-      <para>
-        The <interface>Find Images</interface> tool lets you find images on 
+      <para>The <interface>Find Images</interface> tool lets you find images on 
 	you hard disk and save the result as a catalog.
-        To use this tool select the <guimenuitem>Find Images...</guimenuitem>
-	item from the <guimenu>Tools</guimenu> menu.
+        To use this tool select the <guimenuitem>Find...</guimenuitem>
+	item from the <guimenu>Edit</guimenu> menu.
       </para>
 
         <!-- ==== Figure ==== -->
         <figure id="find-images-fig">
-        <title>The "Find Images" dialog </title> 
+        <title>The "Find" dialog </title> 
         <screenshot>
-          <screeninfo>The Find Images dialog </screeninfo> 
+          <screeninfo>The Find dialog </screeninfo> 
           <graphic format="png" fileref="figures/find-images.png" srccredit="Me">
           </graphic>
         </screenshot>
-        </figure>
+        </figure>with an image editor
         <!-- ==== End of Figure ==== -->
         <para>
 	  When the dialog pops up,
-	  you can specify a file name or a pattern in the <guilabel>File Name
+	  you can specify a file name or a pattern in the <guilabel>File name
 	  </guilabel> entry, for example : 
 	  <itemizedlist>
 	    <listitem>
@@ -972,7 +980,7 @@
 	      <para>
 	        <userinput>*.gif; *.jpg</userinput> : will search for
 		files with the gif or jpg extension.
-	      </para>
+	      </para>with an image editor
 	    </listitem>
 	  </itemizedlist>
 	</para>
@@ -984,7 +992,7 @@
 	    <!-- -->
 	    <listitem>
 	      <para>
-	        <guilabel>Start from</guilabel> : The folder the
+	        <guilabel>Start at</guilabel> : The folder the
 		search will start from.
 	      </para>
 	    </listitem>
@@ -992,7 +1000,7 @@
 	    <!-- -->
 	    <listitem>
 	      <para>
-	        <guilabel>Include sub-folders</guilabel> :  Whether
+	        <guilabel>Include sub-folder</guilabel> :  Whether
 		to search even in the sub folders.
 	      </para>
 	    </listitem>
@@ -1088,8 +1096,8 @@
 	    <!-- -->
 	    <listitem>
 	    <para>
-	    <guilabel>Keywords</guilabel> : 
-	    The list of keywords an images must have, for example :
+	    <guilabel>Categories</guilabel> : 
+	    The list of categories an images must belong to, for example :
 
 	    <itemizedlist>
 	      <listitem>
@@ -1100,18 +1108,23 @@
 
 	      <listitem>
 	        <para>
-	        <userinput>me, family</userinput> : images must have "family" OR "me" in the keywords list.
+	        <userinput>me, family</userinput> : images must have "family" and/or "me" in the keywords list.
 	        </para>
               </listitem>
-
 	    </itemizedlist>
-
+	    </para>
+	    <para>
+	      You can choose to search for images that belongs to all
+	      the specified categories or at least to one of them,
+	      checking the corresponding option.
 	    </para>
 	    </listitem>
 	  </itemizedlist> 
         </para>
         <para>
           If you use more than one criteria images must respect all of them.  
+        </para>
+        <para>
 	  The search is always case insensitive.
         </para>
 
@@ -1131,7 +1144,7 @@
 	  start. Once the search has finished you will see the list of files 
 	  that matches your search, if you want to see these files press the 
 	  <guibutton>View</guibutton> button, if you want to make another 
-	  search press the <guibutton>New search...</guibutton> button.
+	  search press the <guibutton>New Search</guibutton> button.
         </para>
         <para>
           <!-- ==== Figure ==== -->
@@ -1150,19 +1163,20 @@
 	  A catalog created in this way has a special icon, a magnifier, this
 	  is
 	  because on this type of catalog you can perform two more operations :
-	  <guibutton>Edit Search...</guibutton> and <guibutton>Redo Search
+	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
 	  </guibutton>.
         </para>
         <para>
-	  These operations can be selected from the <guimenu>File</guimenu> 
+	  These operations can be selected from the <menuchoice><guimenu>File</guimenu>
+	<guisubmenu>Search</guisubmenu></menuchoice> 
 	  menu, or from the 
 	  menu that pops up when pressing the right mouse button on the catalog
 	  name.
         </para>
         <para>
-	  The <guibutton>Edit Search...</guibutton> command lets you re-edit 
-	  the search rules, while the <guibutton>Redo Search</guibutton> lets
-	  you redo the search, at the end of the search you can decide whether
+	  The <guibutton>Edit Search</guibutton> command lets you re-edit 
+	  the search rules, while <guibutton>Redo Search</guibutton> lets
+	  you restart the search, at the end of the search you can decide whether
 	  to save the result in the catalog or not.
         </para>
     </sect2>
@@ -1180,6 +1194,57 @@
 
       <para>
         [...]
+      </para>
+    </sect2>
+
+    <sect2 id="rotate-jpeg">
+      <title>Rotate JPEG</title>
+      <para>
+        Usually if you want to rotate an image you have to open the image with
+        an editor, rotate the image and save it.  This works good for
+        image formats such as PNG or GIF, but results in a loss of
+        quality for JPEG images.
+      </para>
+      <para>
+        If you want to rotate JPEG images without losing quality you
+        can select the images you want to rotate and use the 
+	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
+	JPEG</guimenuitem></menuchoice> command.
+      </para>
+      <para>
+        If you select the <guilabel>Apply to all images</guilabel>
+        option the rotation is applyed to the
+        curretly displayed image as well as to all the remaining images,
+        otherwise, once the rotation has been performed on the current
+        image, the next image in the selection is displayed, and you can
+        choose another type of rotation.
+      </para>
+      <para>
+        If the selection contains some non-JPEG images, they are simply ignored.
+      </para>
+    </sect2>
+
+    <sect2 id="convert-format">
+      <title>Convert Format</title>
+      <para>
+      </para>
+    </sect2>
+
+    <sect2 id="rename-series">
+      <title>Rename Series</title>
+      <para>
+      </para>
+    </sect2>
+
+    <sect2 id="change-date">
+      <title>Change Date</title>
+      <para>
+      </para>
+    </sect2>
+
+    <sect2 id="maintenance">
+      <title>Maintenance</title>
+      <para>
       </para>
     </sect2>
 
@@ -1247,6 +1312,10 @@
 	  </para>
 	</listitem>
 	<listitem>
+	  <para>The toolbar style
+	  </para>
+	</listitem>
+	<listitem>
 	  <para>Directory to show on startup
 	  </para>
 	</listitem>
@@ -1308,11 +1377,11 @@
 	  <listitem>
 	    <para>Here you can select the thumbnails size to your taste. By
 	    default, <application>gThumb</application> display
-	    thumbnails of size 85x85 pixels.  If you like to view as much
+	    thumbnails of size 95x95 pixels.  If you like to view as much
 	    thumbnails as possible select a small thumbnail size, if you
 	    want to view detailed thumbnails select a big size.  The other 
 	    option lets you decide whether to save the thumbnails or not,
-	    saving thumbnails is high recommended because this let you speed
+	    saving thumbnails is highly recommended because this let you speed
 	    up browsing of folders you already visited, the drawback is that
 	    thumbnails occupy disk space so if your free space is limited you
 	    may prefer to disable this option but in most cases you should
@@ -1324,7 +1393,12 @@
 	<varlistentry>
 	  <term><guilabel>Other</guilabel></term>
 	  <listitem>
-	    <para>Here you can select whether
+	    <para>Here you can choose whether to change folder by
+	    doing a single or a double click on the folder name.  The
+	    single click can be usefull if you are used to quickly browse your
+	    hard disk searching for images.  The default behaviour is to
+	    follow the Nautilus file manager policy.
+	    Furthermore you can select whether
 	    <application>gThumb</application> should ask
 	    for confirmation before deleting an image or a catalog,
 	    and whether
@@ -1352,8 +1426,9 @@
 	  <term><guilabel>Zoom quality</guilabel></term>
 	  <listitem>
 	    <para>This controls the method used for showing rescaled 
-	    image. Possible choices are high quality (slow) and low
-	    quality (fast).
+	    image. Possible choices are high quality (slow on old
+	    machines or when viewing big images) and low
+	    quality (always fast).
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -1371,8 +1446,9 @@
 	  <term><guilabel>Transparency type</guilabel></term>
 	  <listitem>
 	    <para>Controls the background used for partly transparent
-	    images. By default, checker board pattern
-	    (<guilabel>checked</guilabel>)  is used. 
+	    images. By default the transparent part of the image is
+	    replaced the window background color,that is the
+	    <guilabel>none</guilabel> option. 
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -1397,7 +1473,7 @@
 	This tab contains the options controlling slide show mode
 	(which you can start by selecting
 	<menuchoice><guimenu>Tools</guimenu>
-	<guisubmenu>Slideshow</guisubmenu></menuchoice> or by using
+	<guisubmenu>Slide Show</guisubmenu></menuchoice> or by using
 	<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo> 
 	shortcut). The options include direction (forward/backwards),
 	and delay between images. You can also specify whether the
