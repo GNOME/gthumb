@@ -404,65 +404,72 @@ gth_expr_eval (GthExpr *e)
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = a + b;
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_SUB:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = a - b;
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_AND:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a != 0) && (b != 0);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_OR:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a != 0) || (b != 0);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_EQ:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a == b);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_NE:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a != b);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_LT:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a < b);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_GT:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a > b);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_LE:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a <= b);
+				gth_mem_push (mem, c);
 				break;
 
 			case GTH_OP_CMP_GE:
 				b = gth_mem_pop (mem);
 				a = gth_mem_pop (mem);
 				c = (a >= b);
+				gth_mem_push (mem, c);
 				break;
 			}
-
-			gth_mem_push (mem, c);
-
 			break;
 		}
 	}

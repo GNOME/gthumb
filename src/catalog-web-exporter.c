@@ -554,7 +554,9 @@ gth_tag_get_idx (GthTag             *tag,
 		GthVar *var = scan->data;
 
 		if (strcmp (var->name, "idx_relative") == 0) {
+			g_print ("default value: %d\n", default_value);
 			retval = default_value + expression_value (ce, var->expr);
+			g_print ("return value: %d\n", retval);
 			break;
 
 		} else if (strcmp (var->name, "idx") == 0) {
