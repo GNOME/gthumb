@@ -1,3 +1,8 @@
+2003-07-23  Christian Neumair  <chris@gnome-de.org>
+
+	* POTFILES.skip: Added missing files.
+	* de.po: Updated German translation.
+
 2003-07-23  Vincent van Adrighem  <V.vanAdrighem@dirck.mine.nu>
 
 	* nl.po: Dutch translation updated by Mark Van den Borre.
