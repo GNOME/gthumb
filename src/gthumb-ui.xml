@@ -484,6 +484,10 @@
 			<menuitem name="View_Statusbar" verb=""/>
 		</submenu>
 		<separator/>
+		<menuitem name="View_Fullscreen" verb=""
+			  _label="_Full Screen"/>
+                <menuitem name="Tools_Slideshow" verb=""/>
+		<separator/>
 		<menuitem name="View_ShowFolders" verb=""
  			  _label="_Folders"/>
 		<menuitem name="View_ShowCatalogs" verb=""
@@ -515,10 +519,6 @@
 		</submenu>
 		<menuitem name="View_PlayAnimation" verb=""/>
 		<menuitem name="View_StepAnimation" verb=""/>
-		<separator/>
-                <menuitem name="Tools_Slideshow" verb=""/>
-		<menuitem name="View_Fullscreen" verb=""
-			  _label="_Full Screen"/>
 		<separator/>
 		<submenu name="Go" _label="_Go">
 			<menuitem name="Go_Back" verb=""/>

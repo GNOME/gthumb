@@ -145,7 +145,6 @@ typedef struct {
 						 * the image is not from a 
 						 * catalog. */
 
-	int                 freeze_toggle_handler;
 	gfloat              dir_load_progress;
 	int                 activity_ref;       /* when > 0 some activity
 						 * is present. */

@@ -953,12 +953,12 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	current_fullscreen = fullscreen;
 
+	gtk_widget_hide (window->app);
+	gtk_window_present (GTK_WINDOW (fullscreen->window));
+
 	gtk_window_get_position (GTK_WINDOW (window->app),
 				 &main_window_x,
 				 &main_window_y);
-
-	gtk_widget_hide (window->app);
-	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
 	window->fullscreen = TRUE;
 	fullscreen->related_win = window;
@@ -970,9 +970,10 @@ fullscreen_start (FullScreen   *fullscreen,
 					      FALSE),
 			     GDK_NONE);
 
+	gtk_widget_reparent (window->viewer, fullscreen->window); 
+
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
-	gtk_widget_reparent (window->viewer, fullscreen->window); 
 
 	/* capture keyboard events. */
 
