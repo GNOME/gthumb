@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2003-01-08 05:12+0100\n"
-"PO-Revision-Date: 2002-12-10 19:37+EDT\n"
+"PO-Revision-Date: 2003-01-09 21:48+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr "ማውጫ"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr ""
+msgstr "የGThumb ማውጫ ዕይታ"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
@@ -41,15 +41,15 @@ msgstr "አትም (_P)"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr ""
+msgstr "የGThumb ምስል"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "የGThumb ተመልካች"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr ""
+msgstr "በGThumb አሳይ"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
@@ -178,14 +178,14 @@ msgid "Component has no editable properties"
 msgstr ""
 
 #: components/image-viewer/test-component.c:373
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:518
 #: src/gthumb-window.c:352
 msgid "%d %b %Y, %H:%M"
-msgstr "%d %b %Y, %H:%M"
+msgstr "%d %b %Y፣ %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
 #: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:619
@@ -203,38 +203,38 @@ msgid "gThumb Image Viewer"
 msgstr "የgThumb ምስል ተመልካች"
 
 #: libgthumb/catalog-png-exporter.c:1295
-#, fuzzy, c-format
+#, c-format
 msgid "Loading image: %s"
-msgstr "ምስልን በመጫን ላይ ፦ %s"
+msgstr "ምስልን በመጫን ላይ፦ %s"
 
 #: libgthumb/catalog-png-exporter.c:1487
-#, fuzzy, c-format
+#, c-format
 msgid "Creating image: %s.%s"
-msgstr "ምስልን በመጫን ላይ ፦ %s"
+msgstr ""
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
 msgstr ""
 
 #: libgthumb/catalog.c:98
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ቤተ መጸሕፍት \"%s\"ን ማስወግድ አልተቻለም፦ %s"
 
 #: libgthumb/catalog.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ማውጫ \"%s\"ን ማስወግድ አልተቻለም፦ %s"
 
 #: libgthumb/catalog.c:246 libgthumb/catalog.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ማውጫ \"%s\"ን መክፈት አልተቻለም፦ %s"
 
 #: libgthumb/catalog.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
+msgstr "ማውጫ \"%s\"ን ማስቀመጥ አልተቻለም፦ %s"
 
 #: libgthumb/comments.c:317
 msgid "Deleting all comments, wait please..."
@@ -251,7 +251,7 @@ msgstr "%d %B %Y"
 #: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:639
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
-msgstr "%d %B %Y, %H:%M"
+msgstr "%d %B %Y፣ %H:%M"
 
 #: libgthumb/comments.c:668
 msgid "(No Comment)"
@@ -326,9 +326,9 @@ msgid "_Overwrite"
 msgstr "በላዩ ላይ ይጻፍ (_O)"
 
 #: src/commands-impl.c:308 src/commands-impl.c:323
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ምስሉ \"%s\"ን እንደገና ሰይም አልተቻለም፦ %s"
 
 #: src/commands-impl.c:310 src/commands-impl.c:1020 src/commands-impl.c:1324
 msgid "source and destination are the same"
@@ -375,9 +375,9 @@ msgid "Enter the folder name: "
 msgstr "የዶሴ ስም አስገባ፦ "
 
 #: src/commands-impl.c:932
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
+msgstr "ዶሴው \"%s\"ን ማስፈጠር አልተቻለም፦ %s"
 
 #: src/commands-impl.c:943
 msgid "New Library"
@@ -390,17 +390,17 @@ msgstr "የቤተ መጸሕፍት ስም አስገባ፦ "
 #: src/commands-impl.c:945
 #, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr ""
+msgstr "ቤተ መጸሕፍቱ \"%s\"ን ማስፈጠር አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1018 src/commands-impl.c:1059
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
+msgstr "ዶሴው \"%s\"ን መሰይም አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1125
-#, fuzzy, c-format
+#, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ዶሴው \"%s\"ን መጠፍ አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1154
 #, c-format
@@ -417,15 +417,15 @@ msgid "_Move"
 msgstr "መንቀሳቅስ (_M)"
 
 #: src/commands-impl.c:1259 src/commands-impl.c:1314
-#, fuzzy, c-format
+#, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ዶሴው \"%s\"ን መቅጃ አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1314 src/dlg-file-utils.c:2286
 #: src/dlg-file-utils.c:2288
-#, fuzzy, c-format
+#, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
+msgstr "ዶሴው \"%s\"ን መንቀሳቅስ አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1335
 msgid "source contains destination"
@@ -442,12 +442,12 @@ msgstr ""
 #: src/commands-impl.c:1612
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr ""
+msgstr "የቤተ መጸሕፍቱ \"%s\"ን መሰይም አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1612
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr ""
+msgstr "ማውጫው \"%s\"ን መሰይም አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1658 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
@@ -460,7 +460,7 @@ msgstr "አዲስ ማውጫ"
 #: src/commands-impl.c:1704
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr ""
+msgstr "ማውጫው \"%s\"ን ማስፈጠር አልተቻለም፦ %s"
 
 #: src/commands-impl.c:1768
 msgid "The selected library will be removed, are you sure?"
@@ -474,7 +474,7 @@ msgstr ""
 #: src/dlg-preferences.c:179 src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
-msgstr ""
+msgstr "መረጃ ማሳየት አልተቻለም፦ %s"
 
 #: src/commands-impl.c:2720
 msgid "translator_credits"
@@ -482,7 +482,7 @@ msgstr "ዘግዕዝ Frontier Foundation"
 
 #: src/commands-impl.c:2731
 msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr ""
+msgstr "የቅጂው መብት (ም) 2001 የነፃው ሶፍትዌር Foundation, Inc."
 
 #: src/commands-impl.c:2732
 msgid "An image viewer and browser for GNOME."
@@ -545,9 +545,9 @@ msgid "The destination folder does not exist. Do you want to create it?"
 msgstr ""
 
 #: src/dlg-file-utils.c:107
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
+msgstr "ዶሴ \"%s\"ን ማስፈጠር አልተቻለም፦ %s"
 
 #: src/dlg-file-utils.c:121
 #, c-format
@@ -557,7 +557,7 @@ msgstr ""
 
 #: src/dlg-file-utils.c:203
 msgid "Could not delete the images:"
-msgstr ""
+msgstr "ምስሎቹን መጠፍ አልተቻለም፦"
 
 #: src/dlg-file-utils.c:223
 msgid ""
@@ -577,7 +577,7 @@ msgstr ""
 
 #: src/dlg-file-utils.c:1004
 msgid "Could not rename the image:"
-msgstr ""
+msgstr "ምስሉን መሰይም አልተቻለም፦"
 
 #: src/dlg-file-utils.c:1006
 msgid "Could not rename the following images:"
@@ -585,11 +585,11 @@ msgstr ""
 
 #: src/dlg-file-utils.c:1138
 msgid "Could not move the image:"
-msgstr ""
+msgstr "ምስሉ \"%s\"ን መንቀሳቅስ አልተቻለም፦ %s"
 
 #: src/dlg-file-utils.c:1140
 msgid "Could not copy the image:"
-msgstr ""
+msgstr "ምስሉን መቅጃ አልተቻለም፦"
 
 #: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
 msgid "_Abort"
@@ -917,7 +917,6 @@ msgid "Go to the next visited location"
 msgstr "ወደሚቀጥለው የሚጎበኘው አቅጣጫ ሂድ"
 
 #: src/gthumb-ui.xml.h:51
-#, fuzzy
 msgid "Go to the previous visited location"
 msgstr "ወደሚቀጥለው የሚጎበኘው አቅጣጫ ሂድ"
 
@@ -951,7 +950,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:59
 msgid "Move current catalog to another location"
-msgstr ""
+msgstr "አሁን ያለው ማውጫ ወደሌላ ቦታ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:60
 msgid "Move current folder"
@@ -959,7 +958,7 @@ msgstr "የአሁኑን ዶሴ አንቀሳቅስ"
 
 #: src/gthumb-ui.xml.h:61
 msgid "Move selected catalog to another location"
-msgstr ""
+msgstr "የተመረጠው ማውጫ ወደሌላ ቦታ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:62
 msgid "Move selected folder"
@@ -967,29 +966,27 @@ msgstr "የተመረጠው ዶሴ አንቀሳቅስ"
 
 #: src/gthumb-ui.xml.h:63
 msgid "Move selected images to another location"
-msgstr ""
+msgstr "የተመረጠው ምስሎች ወደሌላ ቦታ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:64
-#, fuzzy
 msgid "Move the current folder to the Trash"
-msgstr "የአሁኑን ዶሴ አንቀሳቅስ"
+msgstr "አሁን ያለው ዶሴ ወደማይፈለገው ማድረጊያ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:65
-#, fuzzy
 msgid "Move the selected folder to the Trash"
-msgstr "የተመረጠው ዶሴ አንቀሳቅስ"
+msgstr "የተመረጠው ዶሴ ወደማይፈለገው ማድረጊያ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:66
 msgid "Move the selected images to the Trash"
-msgstr ""
+msgstr "የተመረጠው ምስሎች ወደማይፈለገው ማድረጊያ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:67
 msgid "Move this image to another location"
-msgstr ""
+msgstr "ይህንን ምስል ወደሌላ ቦታ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:68
 msgid "Move this image to the Trash"
-msgstr ""
+msgstr "ይህንን ምስል ወደማይፈለገው ማድረጊያ ተሸጋገር"
 
 #: src/gthumb-ui.xml.h:69 src/gthumb_tools.glade.h:30
 msgid "Move to _Trash"
@@ -1051,11 +1048,11 @@ msgstr "አትም"
 
 #: src/gthumb-ui.xml.h:85
 msgid "Proper_ties"
-msgstr ""
+msgstr "ምርጫዎች (_T)"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Properties"
-msgstr ""
+msgstr "ምርጫዎች"
 
 #: src/gthumb-ui.xml.h:87
 msgid "Redo Search"
@@ -1083,7 +1080,7 @@ msgstr "አሁን ያለውን ቦታ እንደገና ይጫን"
 
 #: src/gthumb-ui.xml.h:93
 msgid "Rem_ove"
-msgstr "አስወግድ"
+msgstr "_አስወግድ"
 
 #: src/gthumb-ui.xml.h:94
 msgid "Rem_ove Comment"
@@ -1094,19 +1091,16 @@ msgid "Remo_ve from Catalog"
 msgstr "ከማውጫን አስወግድ (_V)"
 
 #: src/gthumb-ui.xml.h:96
-#, fuzzy
 msgid "Remove comments of selected images"
-msgstr "የተመረጠው ን እንደገና ሰይም"
+msgstr ""
 
 #: src/gthumb-ui.xml.h:97
-#, fuzzy
 msgid "Remove current catalog"
-msgstr "የአሁኑን ማውጫ እንደገና ሰይም"
+msgstr "የአሁኑን ማውጫ አስወግድ"
 
 #: src/gthumb-ui.xml.h:98
-#, fuzzy
 msgid "Remove selected catalog"
-msgstr "የተመረጠውን ማውጫ እንደገና ሰይም"
+msgstr "የተመረጠውን ማውጫ አስወግድ"
 
 #: src/gthumb-ui.xml.h:99
 msgid "Remove selected images from the catalog"
@@ -1134,7 +1128,7 @@ msgstr "የተመረጠውን ዶሴ እንደገና ሰይም"
 
 #: src/gthumb-ui.xml.h:105
 msgid "Rename selected image"
-msgstr "የተመረጠው ን እንደገና ሰይም"
+msgstr "የተመረጠውን እንደገና ሰይም"
 
 #: src/gthumb-ui.xml.h:106
 msgid "Rename this image"
@@ -1157,18 +1151,16 @@ msgid "Revert"
 msgstr "ወደ ነበረበት መልስ"
 
 #: src/gthumb-ui.xml.h:112
-#, fuzzy
 msgid "Revert to saved image"
-msgstr "ይህ ምስልን እንደገና ሰይም"
+msgstr "ወደ ተቀመጠው ምስል ይመለስ"
 
 #: src/gthumb-ui.xml.h:114
 msgid "Rotate Ri_ght"
 msgstr "በስታቀኝ ያሽከርክሩ (_R)"
 
 #: src/gthumb-ui.xml.h:115
-#, fuzzy
 msgid "Rotate _JPEG"
-msgstr "በስተግራ ያሽከርክሩ (_L)"
+msgstr "_JPEG ያሽከርክሩ"
 
 #: src/gthumb-ui.xml.h:116
 msgid "Rotate _Left"
@@ -1183,7 +1175,6 @@ msgid "Rotate jpeg images without loss of quality"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:119
-#, fuzzy
 msgid "S_ort Images"
 msgstr "ምስሎች ቅደም ተከተል አስይዝ (_S)"
 
@@ -1192,9 +1183,8 @@ msgid "Save"
 msgstr "አስቀምጥ"
 
 #: src/gthumb-ui.xml.h:123
-#, fuzzy
 msgid "Search"
-msgstr "ፈልግ... (_S)"
+msgstr "ፈልግ..."
 
 #: src/gthumb-ui.xml.h:124
 msgid "Select all images"
@@ -1237,9 +1227,8 @@ msgid "Sort images by file size"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:134
-#, fuzzy
 msgid "Sort images by modification time"
-msgstr "በተለወጠበት ቀን"
+msgstr ""
 
 #: src/gthumb-ui.xml.h:135
 msgid "Sort images by name"
@@ -1263,7 +1252,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:141
 msgid "Str_etched"
-msgstr ""
+msgstr "የተዘረጋ (_E)"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Transparen_cy Type"
@@ -1298,9 +1287,8 @@ msgid "Use white as transparency"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:150
-#, fuzzy
 msgid "View as a slide show"
-msgstr "እንደ ማውጫ አሳይ"
+msgstr ""
 
 #: src/gthumb-ui.xml.h:151
 msgid "View image in fullscreen mode"
@@ -1431,18 +1419,16 @@ msgid "_Centered"
 msgstr "መሀከል (_C)"
 
 #: src/gthumb-ui.xml.h:186
-#, fuzzy
 msgid "_Close"
-msgstr "ማውጫዎች (_C)"
+msgstr "ዝጋ (_C)"
 
 #: src/gthumb-ui.xml.h:187
 msgid "_Color Balance"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:188
-#, fuzzy
 msgid "_Contents"
-msgstr "አስተያየት"
+msgstr "ይዞታዎች (_C)"
 
 #: src/gthumb-ui.xml.h:189
 msgid "_Copy..."
@@ -1477,14 +1463,12 @@ msgid "_File"
 msgstr "_ፋይል (_F)"
 
 #: src/gthumb-ui.xml.h:197
-#, fuzzy
 msgid "_Find..."
-msgstr "ሥዕሎችን ፈልግ... (_F)"
+msgstr "ፈልግ... (_F)"
 
 #: src/gthumb-ui.xml.h:199
-#, fuzzy
 msgid "_Folder"
-msgstr "ዶሴዎች (_F)"
+msgstr "ዶሴ (_F)"
 
 #: src/gthumb-ui.xml.h:200
 msgid "_Folders"
@@ -1551,17 +1535,14 @@ msgid "_Negative"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:218
-#, fuzzy
 msgid "_New Catalog..."
-msgstr "አዲስ ማውጫ (_N)"
+msgstr "አዲስ ማውጫ... (_N)"
 
 #: src/gthumb-ui.xml.h:219
-#, fuzzy
 msgid "_New Folder..."
-msgstr "አዲስ ዶሴ"
+msgstr "አዲስ ዶሴ... (_N)"
 
 #: src/gthumb-ui.xml.h:221
-#, fuzzy
 msgid "_Open With"
 msgstr "በ... ክፈት (_O)"
 
@@ -1574,9 +1555,8 @@ msgid "_Preferences"
 msgstr "ምርጫዎች (_P)"
 
 #: src/gthumb-ui.xml.h:224
-#, fuzzy
 msgid "_Print..."
-msgstr "አትም (_P)"
+msgstr "አትም... (_P)"
 
 #: src/gthumb-ui.xml.h:225
 msgid "_Reduce Colors"
@@ -1708,16 +1688,16 @@ msgstr ""
 
 #: src/gthumb-window.c:3032
 msgid "Could not move the items:"
-msgstr ""
+msgstr "ዕቃዎቹ \"%s\"ን መንቀሳቅስ አልተቻለም፦ %s"
 
 #: src/gthumb-window.c:3633
 msgid "Back"
 msgstr "ወደኋላ"
 
 #: src/gthumb-window.c:5401
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
+msgstr "ዶሴ \"%s\"ን መጫን አልተቻለም፦ %s\n"
 
 #: src/gthumb-window.c:5669
 msgid "The specified catalog does not exist."
@@ -1798,17 +1778,14 @@ msgid "Old Image:"
 msgstr "አሮጌ ምስል፦"
 
 #: src/gthumb.glade.h:18
-#, fuzzy
 msgid "Open Images"
-msgstr "ምስሎች"
+msgstr "ምስሎች ክፈት"
 
 #: src/gthumb.glade.h:19
-#, fuzzy
 msgid "Over_write the old image"
-msgstr "ምስልን በላዩ ላይ ይጻፍ"
+msgstr "የአሮጌ ምስልን በላዩ ላይ _ይጻፍ"
 
 #: src/gthumb.glade.h:20
-#, fuzzy
 msgid "Overwrite Image"
 msgstr "ምስልን በላዩ ላይ ይጻፍ"
 
@@ -1857,9 +1834,8 @@ msgid "_Previous"
 msgstr "የቀድሞው (_P)"
 
 #: src/gthumb.glade.h:34
-#, fuzzy
 msgid "_Save the new image as:"
-msgstr "አዲስ ስም አስገቡ ፦ "
+msgstr "አዲስ ምስሉን በሌላ ስም አስቀምጥ፦"
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
 msgid "A_vailable categories:"
@@ -1870,18 +1846,16 @@ msgid "Add a category"
 msgstr "ምድብ ጨምር"
 
 #: src/gthumb_comments.glade.h:5 src/gthumb_tools.glade.h:10
-#, fuzzy
 msgid "C_urrent date"
-msgstr "ፍጠር (_R)"
+msgstr " የዛሬው ቀን (_U)"
 
 #: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:15
 msgid "Co_mment:"
 msgstr "አስተያየት፦ (_M)"
 
 #: src/gthumb_comments.glade.h:9 src/gthumb_tools.glade.h:25
-#, fuzzy
 msgid "Image c_reation date"
-msgstr "የምስል መረጃ (_O)"
+msgstr ""
 
 #: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
@@ -1916,14 +1890,12 @@ msgid "<b>Compression</b>"
 msgstr ""
 
 #: src/gthumb_convert.glade.h:4
-#, fuzzy
 msgid "<b>Image type</b>"
-msgstr "<b>የገጽ መጠን</b>"
+msgstr "<b>የምስል ዓይነት</b>"
 
 #: src/gthumb_convert.glade.h:5
-#, fuzzy
 msgid "<b>Resolution</b>"
-msgstr "<b>አቅጣጫ</b>"
+msgstr ""
 
 #: src/gthumb_convert.glade.h:6
 msgid "Ask"
@@ -1934,9 +1906,8 @@ msgid "Compression _level:"
 msgstr ""
 
 #: src/gthumb_convert.glade.h:8
-#, fuzzy
 msgid "Convert Format"
-msgstr "ለዋጭ"
+msgstr "ዓይነትን ለዋጭ"
 
 #: src/gthumb_convert.glade.h:9
 msgid "JPEG Options"
@@ -1951,17 +1922,14 @@ msgid "Opti_mize"
 msgstr ""
 
 #: src/gthumb_convert.glade.h:12
-#, fuzzy
 msgid "Overwrite"
-msgstr "በላዩ ላይ ይጻፍ (_w)"
+msgstr "በላዩ ላይ ይጻፍ"
 
 #: src/gthumb_convert.glade.h:13
-#, fuzzy
 msgid "Overwrite mode:"
-msgstr "ምስልን በላዩ ላይ ይጻፍ"
+msgstr "በላዩ ላይ ይጻፍ ዘዴ፦"
 
 #: src/gthumb_convert.glade.h:14
-#, fuzzy
 msgid "PNG Options"
 msgstr "የPNG ምርጫዎች"
 
@@ -1970,14 +1938,12 @@ msgid "R_emove original"
 msgstr ""
 
 #: src/gthumb_convert.glade.h:16
-#, fuzzy
 msgid "Rename"
-msgstr "እንደገና ሰይም (_R)"
+msgstr "እንደገና ሰይም"
 
 #: src/gthumb_convert.glade.h:17
-#, fuzzy
 msgid "Skip"
-msgstr "ዝለል (_K)"
+msgstr "ዝለል"
 
 #: src/gthumb_convert.glade.h:18
 msgid "TGA Options"
@@ -1992,9 +1958,8 @@ msgid "T_GA"
 msgstr "T_GA"
 
 #: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
-#, fuzzy
 msgid "_Horizontal:"
-msgstr "አግድም፦"
+msgstr "አግድም፦ (_H)"
 
 #: src/gthumb_convert.glade.h:22
 msgid "_JPEG"
@@ -2033,9 +1998,8 @@ msgid "_TIFF"
 msgstr "_TIFF"
 
 #: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
-#, fuzzy
 msgid "_Vertical:"
-msgstr "ቁመት፦"
+msgstr "ቁመት፦ (_V)"
 
 #: src/gthumb_convert.glade.h:32
 msgid "dpi"
@@ -2056,18 +2020,16 @@ msgid "<b>Color levels</b>"
 msgstr "<b>የቀለም ደረጃዎች</b>"
 
 #: src/gthumb_edit.glade.h:6
-#, fuzzy
 msgid "<b>New dimensions</b>"
-msgstr "<b>አቅጣጫ</b>"
+msgstr ""
 
 #: src/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
 msgstr ""
 
 #: src/gthumb_edit.glade.h:8
-#, fuzzy
 msgid "<b>Scale ratio</b>"
-msgstr "<b>አርእስት</b>"
+msgstr ""
 
 #: src/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
@@ -2162,9 +2124,8 @@ msgid "_Width:"
 msgstr "ስፋት፦ (_W)"
 
 #: src/gthumb_edit.glade.h:32
-#, fuzzy
 msgid "_Yellow-Blue:"
-msgstr "ብጫ-ሰማያዊ፦"
+msgstr "ብጫ-ሰማያዊ፦ (_Y)"
 
 #: src/gthumb_edit.glade.h:33
 msgid "pixels"
@@ -2227,18 +2188,16 @@ msgid "<b>Footer</b>"
 msgstr "<b>የገጽ ግርጌ</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
-#, fuzzy
 msgid "<b>Header and footer</b>"
-msgstr "<b>የገጽ አናት</b>"
+msgstr "<b>የገጽ አናት እና ግርጌ</b>"
 
 #: src/gthumb_png_exporter.glade.h:19
 msgid "<b>Header</b>"
 msgstr "<b>የገጽ አናት</b>"
 
 #: src/gthumb_png_exporter.glade.h:20
-#, fuzzy
 msgid "<b>Index images</b>"
-msgstr "<b>ገጾች</b>"
+msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:21
 msgid "<b>Page size</b>"
@@ -2265,9 +2224,8 @@ msgid "Colo_r:"
 msgstr "ቀለም፦ (_r)"
 
 #: src/gthumb_png_exporter.glade.h:27
-#, fuzzy
 msgid "Create Index Image"
-msgstr "የሚቀጥለውን ምስል አሳይ"
+msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:28
 msgid "Create _HTML image map"
@@ -2410,9 +2368,8 @@ msgid "_Font:"
 msgstr "የፊደል ቅርጽ፦"
 
 #: src/gthumb_png_exporter.glade.h:63
-#, fuzzy
 msgid "_Gradient"
-msgstr "አትም (_P)"
+msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:65
 msgid "_Image size:"
@@ -2423,9 +2380,8 @@ msgid "_Rows:"
 msgstr "ረድፎች፦ (_R)"
 
 #: src/gthumb_png_exporter.glade.h:68
-#, fuzzy
 msgid "_Solid color"
-msgstr "ቀጣይ ቀለም"
+msgstr "ቀጣይ ቀለም (_S)"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
@@ -2512,18 +2468,16 @@ msgid "<b>Interface</b>"
 msgstr ""
 
 #: src/gthumb_preferences.glade.h:18
-#, fuzzy
 msgid "<b>On startup:</b>"
-msgstr "<b>ሌላ</b>"
+msgstr ""
 
 #: src/gthumb_preferences.glade.h:19
 msgid "<b>Other</b>"
 msgstr "<b>ሌላ</b>"
 
 #: src/gthumb_preferences.glade.h:20
-#, fuzzy
 msgid "<b>Slide show</b>"
-msgstr "<b>ደብቅ/አሳይ</b>"
+msgstr ""
 
 #: src/gthumb_preferences.glade.h:21 src/gthumb_tools.glade.h:7
 msgid "<b>Thumbnails</b>"
@@ -2682,13 +2636,12 @@ msgid "Show co_mments"
 msgstr "አስተያየቶች አሳይ (_M)"
 
 #: src/gthumb_preferences.glade.h:61
-#, fuzzy
 msgid "Show hi_dden images"
-msgstr "ምስሎች ቅደም ተከተል አስይዝ፦"
+msgstr "የተደበቀው ምስሎችን አሳይ (_D)"
 
 #: src/gthumb_preferences.glade.h:62
 msgid "Si_ze:"
-msgstr "መጠን፦ (_x)"
+msgstr "መጠን፦ (_Z)"
 
 #: src/gthumb_preferences.glade.h:64
 msgid "Small"
@@ -2707,9 +2660,8 @@ msgid "Text below icons"
 msgstr "ጽሑፍ ከምልክቶቹ ስር"
 
 #: src/gthumb_preferences.glade.h:68
-#, fuzzy
 msgid "Text beside icons"
-msgstr "ጽሑፍ ከምልክቶቹ ስር"
+msgstr "ጽሑፍ ከምልክቶቹ ጐን"
 
 #: src/gthumb_preferences.glade.h:69
 msgid "Text only"
@@ -2736,9 +2688,8 @@ msgid "_Toolbar style:"
 msgstr "የቱልባር ዓይነት፦ (_T)"
 
 #: src/gthumb_preferences.glade.h:75
-#, fuzzy
 msgid "gThumb Preferences"
-msgstr "ምርጫዎች"
+msgstr "የgThumb ምርጫዎች"
 
 #: src/gthumb_preferences.glade.h:76
 msgid "seconds"
@@ -2763,9 +2714,8 @@ msgid "Preview"
 msgstr "ቅድመ ዕይታ"
 
 #: src/gthumb_print.glade.h:10
-#, fuzzy
 msgid "Print Image"
-msgstr "ምስሎች ቅደም ተከተል አስይዝ (_S)"
+msgstr "ምስሉ ይታተም"
 
 #: src/gthumb_print.glade.h:11
 msgid "Printer"
@@ -2780,32 +2730,28 @@ msgid "..."
 msgstr "..."
 
 #: src/gthumb_search.glade.h:4
-#, fuzzy
 msgid "<b>Search criteria</b>"
-msgstr "<b>የገጽ አናት</b>"
+msgstr ""
 
 #: src/gthumb_search.glade.h:5
-#, fuzzy
 msgid "<b>Search scope</b>"
-msgstr "<b>የገጽ መጠን</b>"
+msgstr ""
 
 #: src/gthumb_search.glade.h:7
 msgid "After"
 msgstr "በኋላ"
 
 #: src/gthumb_search.glade.h:8
-#, fuzzy
 msgid "All catego_ries"
-msgstr "የሚገኙ ምድቦች፦ (_A)"
+msgstr "ሁሉንም ምድቦች (_R)"
 
 #: src/gthumb_search.glade.h:9
 msgid "Any"
 msgstr "ማነኛውም"
 
 #: src/gthumb_search.glade.h:10
-#, fuzzy
 msgid "At _least a category"
-msgstr "ምድብ ጨምር"
+msgstr ""
 
 #: src/gthumb_search.glade.h:11
 msgid "Before"
@@ -2813,11 +2759,11 @@ msgstr "ቀድሞ"
 
 #: src/gthumb_search.glade.h:12
 msgid "Ca_tegories:"
-msgstr "ምድብ፦ (_t)"
+msgstr "ምድቦች፦ (_T)"
 
 #: src/gthumb_search.glade.h:13
 msgid "Choose Categories"
-msgstr ""
+msgstr "ምድቦችን ምረጡ"
 
 #: src/gthumb_search.glade.h:14
 msgid "Choose categories from the saved list"
@@ -2828,19 +2774,16 @@ msgid "Equal to"
 msgstr ""
 
 #: src/gthumb_search.glade.h:17
-#, fuzzy
 msgid "File _name:"
-msgstr "የፋይል ስም (_N)"
+msgstr "የፋይል ስም፦ (_N)"
 
 #: src/gthumb_search.glade.h:18
-#, fuzzy
 msgid "Find"
-msgstr "መጻፊያ ሳጥን"
+msgstr "ፈልግ"
 
 #: src/gthumb_search.glade.h:19
-#, fuzzy
 msgid "Found images:"
-msgstr "ምስሎች ቅደም ተከተል አስይዝ፦"
+msgstr ""
 
 #: src/gthumb_search.glade.h:20
 msgid "New _Search..."
@@ -2848,12 +2791,11 @@ msgstr ""
 
 #: src/gthumb_search.glade.h:21
 msgid "No images found"
-msgstr ""
+msgstr "ምንም ምስሎች አልተገኘም"
 
 #: src/gthumb_search.glade.h:22
-#, fuzzy
 msgid "Search Progress"
-msgstr "ምስሎችን አስስ"
+msgstr "የአሰሳ ይሻሻል"
 
 #: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
@@ -2872,9 +2814,8 @@ msgid "<b>Comments</b>"
 msgstr "<b>አስተያየቶች</b>"
 
 #: src/gthumb_tools.glade.h:5
-#, fuzzy
 msgid "<b>File list order</b>"
-msgstr "<b>የፋይል ዝርዝር</b>"
+msgstr ""
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
@@ -2890,7 +2831,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:11
 msgid "Change Date"
-msgstr ""
+msgstr "ቀንን ለውጥ"
 
 #: src/gthumb_tools.glade.h:12
 msgid "Change the last modified date to:"
@@ -2909,18 +2850,16 @@ msgid "Checking image:"
 msgstr ""
 
 #: src/gthumb_tools.glade.h:16
-#, fuzzy
 msgid "Delete ALL Comments"
-msgstr "አስተያየት ሰረዝ"
+msgstr "ሁሉንም አስተያየቶች አጥፉ"
 
 #: src/gthumb_tools.glade.h:17
 msgid "Delete ALL Thumbnails"
 msgstr ""
 
 #: src/gthumb_tools.glade.h:18
-#, fuzzy
 msgid "Delete Old Comments"
-msgstr "አስተያየት ሰረዝ"
+msgstr "የአሮጌ አስተያየቶች አጥፉ"
 
 #: src/gthumb_tools.glade.h:19
 msgid "Delete Old Thumbnails"
@@ -2940,12 +2879,11 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
-msgstr ""
+msgstr "አባዛዎች ፈልግ"
 
 #: src/gthumb_tools.glade.h:24
-#, fuzzy
 msgid "Found duplicates:"
-msgstr "አባዛዎች"
+msgstr ""
 
 #: src/gthumb_tools.glade.h:26
 msgid "JPEG Lossless Transformation"
