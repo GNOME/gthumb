@@ -1,8 +1,19 @@
+2004-09-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-comment.c (dlg_comment_new): 
+	* src/dlg-categories.c (dlg_categories_common): 
+	* libgthumb/preferences.h: 
+	* libgthumb/preferences.c (pref_util_restore_window_geometry) 
+	(pref_util_save_window_geometry): 
+
+	Save the geometry of the comment and categories dialogs.
+	
 2004-09-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/fullscreen.c (fullscreen_start): 
 	* libgthumb/image-viewer.c (image_viewer_show_frame) 
-	(image_viewer_hide_frame, image_viewer_is_frame_visible): new functions.
+	(image_viewer_hide_frame, image_viewer_is_frame_visible): new 
+	functions.
 	* libgthumb/image-viewer.h (struct _ImageViewer): 
 
 	fixes bug #134671: `Zoom to Fit' needlessly scales down image

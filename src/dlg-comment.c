@@ -32,6 +32,7 @@
 #include <glade/glade.h>
 
 #include "typedefs.h"
+#include "preferences.h"
 #include "main.h"
 #include "glib-utils.h"
 #include "gthumb-window.h"
@@ -55,7 +56,9 @@ enum {
 };
 
 
+#define DIALOG_NAME "comment"
 #define GLADE_FILE "gthumb_comments.glade"
+
 
 typedef struct {
 	GThumbWindow  *window;
@@ -103,6 +106,15 @@ destroy_cb (GtkWidget  *widget,
 	g_object_unref (data->gui);
 	free_dialog_data (data);
 	g_free (data);
+}
+
+
+static gboolean
+unrealize_cb (GtkWidget  *widget, 
+	  DialogData *data)
+{
+	pref_util_save_window_geometry (GTK_WINDOW (widget), DIALOG_NAME);
+	return FALSE;
 }
 
 
@@ -417,6 +429,10 @@ dlg_comment_new (GThumbWindow *window)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "unrealize",
+			  G_CALLBACK (unrealize_cb),
+			  data);
 	g_signal_connect (G_OBJECT (data->save_button), 
 			  "clicked",
 			  G_CALLBACK (save_clicked_cb),
@@ -457,7 +473,7 @@ dlg_comment_new (GThumbWindow *window)
 	}
 
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
-	gtk_widget_show (data->dialog);
+	pref_util_restore_window_geometry (GTK_WINDOW (data->dialog), DIALOG_NAME);
 	dlg_comment_update (data->dialog);
 
 	return data->dialog;

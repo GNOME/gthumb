@@ -25,6 +25,7 @@
 
 
 #include <glib.h>
+#include <gtk/gtkwindow.h>
 #include "bookmarks.h"
 #include "typedefs.h"
 #include "image-viewer.h"
@@ -243,6 +244,11 @@ GthClickPolicy  pref_get_real_click_policy            (void);
 
 GthToolbarStyle pref_get_real_toolbar_style           (void);
 
+void            pref_util_save_window_geometry        (GtkWindow  *window,
+						       const char *dialog);
+
+void            pref_util_restore_window_geometry     (GtkWindow  *window,
+						       const char *dialog);
 
 /* ------- */
 

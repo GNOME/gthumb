@@ -33,6 +33,7 @@
 #include "preferences.h"
 
 
+#define DIALOG_PREFIX "/apps/gthumb/dialogs/"
 #define SCALE(i) (((double) i) / 65535.0)
 #define UNSCALE(d) ((guint16) (65535.0 * d + 0.5))
 
@@ -581,3 +582,69 @@ pref_get_real_toolbar_style (void)
 	return toolbar_style;
 }
 
+
+static void
+set_dialog_property_int (const char *dialog, 
+			 const char *property, 
+			 int         value)
+{
+	char *key;
+
+	key = g_strconcat (DIALOG_PREFIX, dialog, "/", property, NULL);
+	eel_gconf_set_integer (key, value);
+	g_free (key);
+}
+
+
+void
+pref_util_save_window_geometry (GtkWindow  *window,
+				const char *dialog)
+{
+	int x, y, width, height;
+
+	gtk_window_get_position (window, &x, &y);
+	set_dialog_property_int (dialog, "x", x); 
+	set_dialog_property_int (dialog, "y", y); 
+
+	gtk_window_get_size (window, &width, &height);
+	set_dialog_property_int (dialog, "width", width); 
+	set_dialog_property_int (dialog, "height", height); 
+}
+
+
+static int
+get_dialog_property_int (const char *dialog, 
+			 const char *property)
+{
+	char *key;
+	int   value;
+
+	key = g_strconcat (DIALOG_PREFIX, dialog, "/", property, NULL);
+	value = eel_gconf_get_integer (key, -1);
+	g_free (key);
+
+	return value;
+}
+
+
+void
+pref_util_restore_window_geometry (GtkWindow  *window,
+				   const char *dialog)
+{
+	int x, y, width, height;
+
+	x = get_dialog_property_int (dialog, "x");
+	y = get_dialog_property_int (dialog, "y");
+	width = get_dialog_property_int (dialog, "width");
+	height = get_dialog_property_int (dialog, "height");
+
+	if (width != -1 && height != 1) 
+		gtk_window_set_default_size (window, width, height);
+
+	gtk_window_present (window);
+
+	if (x != -1 && y != 1)
+		gtk_window_move (window, x, y);
+
+	gtk_window_present (window);
+}

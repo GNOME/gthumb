@@ -31,6 +31,7 @@
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 #include "typedefs.h"
+#include "preferences.h"
 #include "main.h"
 #include "gthumb-window.h"
 #include "gtk-utils.h"
@@ -43,6 +44,7 @@
 typedef void (*SaveFunc) (GList *file_list, gpointer data);
 
 
+#define DIALOG_NAME "categories"
 #define GLADE_FILE "gthumb_comments.glade"
 #define CATEGORY_SEPARATOR ";"
 
@@ -113,6 +115,15 @@ destroy_cb (GtkWidget  *widget,
 		(*data->done_func) (data->done_data);
 
 	g_free (data);
+}
+
+
+static gboolean
+unrealize_cb (GtkWidget  *widget, 
+	  DialogData *data)
+{
+	pref_util_save_window_geometry (GTK_WINDOW (widget), DIALOG_NAME);
+	return FALSE;
 }
 
 
@@ -578,6 +589,10 @@ dlg_categories_common (GtkWindow     *parent,
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
+	g_signal_connect (G_OBJECT (data->dialog), 
+			  "unrealize",
+			  G_CALLBACK (unrealize_cb),
+			  data);
 	g_signal_connect (G_OBJECT (btn_ok), 
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
@@ -606,7 +621,7 @@ dlg_categories_common (GtkWindow     *parent,
 		gtk_window_set_transient_for (GTK_WINDOW (data->dialog), parent);
 
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), modal);
-	gtk_widget_show (data->dialog);
+	pref_util_restore_window_geometry (GTK_WINDOW (data->dialog), DIALOG_NAME);
 	dlg_categories_update (data->dialog);
 
 	gtk_widget_grab_focus (data->keywords_list_view);
