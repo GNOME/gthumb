@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"POT-Creation-Date: 2003-05-20 01:29+0000\n"
-"PO-Revision-Date: 2003-05-20 02:00+0000\n"
+"POT-Creation-Date: 2003-06-28 01:05+0100\n"
+"PO-Revision-Date: 2003-06-28 01:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,7 @@ msgstr "Qualidade _Zoom"
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
 #: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:409
 #, c-format
 msgid "%d x %d pixels"
@@ -213,28 +213,28 @@ msgstr "Incapaz de abrir catálogo \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Incapaz de gravar catálogo \"%s\": %s"
 
-#: libgthumb/comments.c:387
+#: libgthumb/comments.c:401
 msgid "Deleting all comments, wait please..."
 msgstr "A apagar todos os comentários, aguarde..."
 
-#: libgthumb/comments.c:389
+#: libgthumb/comments.c:403
 msgid "Deleting old comments, wait please..."
 msgstr "A apagar comentários antigos, aguarde..."
 
-#: libgthumb/comments.c:732
+#: libgthumb/comments.c:746
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
+#: libgthumb/comments.c:748 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
 #: src/fullscreen.c:244 src/gthumb-window.c:406
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:744
+#: libgthumb/comments.c:758
 msgid "(No Comment)"
 msgstr "(Sem Comentário)"
 
-#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:97 src/commands-impl.c:312 src/dlg-convert.c:307
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Uma imagem de nome \"%s\" já existe. Deseja sobrepo-la?"
@@ -265,29 +265,113 @@ msgstr ""
 "Erro GConf:\n"
 "  %s"
 
-#: libgthumb/gth-file-view-list.c:1375 src/gthumb-ui.xml.h:25
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Inserir uma nova frase de antevisão."
+
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Modificar frase de antevisão..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Antever"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Modificar frase de antevisão..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Selecção de Fonte"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Seleccione uma Fonte"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Título"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "O título da caixa de diálogo de selecção"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "_Nome fonte"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Nome da fonte seleccionada"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Texto de antevisão"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Texto de antevisão apresentado no diálogo"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Utilizar fonte na etiqueta"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Utilizar fonte na etiqueta no modo de info de fonte"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Tamanho da fonte para a etiqueta"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Tamanho da fonte para a etiqueta no modo de info de fonte"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Mostrar tamanho"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Mostrar tamanho no modo de info de fonte"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Fonte"
+
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
 msgstr "Comentário"
 
-#: libgthumb/gth-file-view-list.c:1382 src/dlg-duplicates.c:372
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
 #: src/dlg-image-prop.c:836 src/gthumb-window.c:424
 msgid "Name"
 msgstr "Nome"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2805 src/gthumb-window.c:808
-#: src/gthumb-window.c:4841 src/gthumb_png_exporter.glade.h:75
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2812 src/gthumb-window.c:808
+#: src/gthumb-window.c:4843 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:32 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1207
+#: libgthumb/print-callbacks.c:917 libgthumb/print-callbacks.c:1497
 #, c-format
 msgid "Print %s"
 msgstr "Imprimir %s"
 
-#: libgthumb/print-callbacks.c:786
+#: libgthumb/print-callbacks.c:920
 msgid "Print Image"
 msgstr "Imprimir Imagem"
 
@@ -299,12 +383,12 @@ msgstr "A apagar todas as imagens de referência, aguarde..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "A apagar imagens de referência antigas, aguarde..."
 
-#: src/catalog-png-exporter.c:1320
+#: src/catalog-png-exporter.c:1327
 #, c-format
 msgid "Loading image: %s"
 msgstr "A ler imagem: %s"
 
-#: src/catalog-png-exporter.c:1528
+#: src/catalog-png-exporter.c:1535
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "A criar imagem: %s.%s"
@@ -334,17 +418,17 @@ msgstr "Incapaz de criar uma pasta temporária"
 msgid "Loading images"
 msgstr "A ler imagens"
 
-#: src/commands-impl.c:274 src/commands-impl.c:991 src/commands-impl.c:1553
+#: src/commands-impl.c:274 src/commands-impl.c:1010 src/commands-impl.c:1572
 msgid "Enter the new name: "
 msgstr "Introduza o novo nome: "
 
-#: src/commands-impl.c:278 src/commands-impl.c:995 src/commands-impl.c:1557
+#: src/commands-impl.c:278 src/commands-impl.c:1014 src/commands-impl.c:1576
 #: src/gthumb-ui.xml.h:237 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Renomear"
 
-#: src/commands-impl.c:292 src/commands-impl.c:897 src/commands-impl.c:1009
-#: src/commands-impl.c:1573 src/commands-impl.c:1668
+#: src/commands-impl.c:292 src/commands-impl.c:916 src/commands-impl.c:1028
+#: src/commands-impl.c:1592 src/commands-impl.c:1687
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -353,7 +437,7 @@ msgstr ""
 "O nome \"%s\" não é válido porque contém o caracter \"/\". Utilize um nome "
 "diferente."
 
-#: src/commands-impl.c:319 src/dlg-convert.c:316
+#: src/commands-impl.c:319 src/dlg-convert.c:313
 msgid "_Overwrite"
 msgstr "S_obrepor"
 
@@ -362,159 +446,167 @@ msgstr "S_obrepor"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Incapaz de renomear a imagem \"%s\": %s"
 
-#: src/commands-impl.c:341 src/commands-impl.c:1031 src/commands-impl.c:1331
+#: src/commands-impl.c:341 src/commands-impl.c:1050 src/commands-impl.c:1350
 msgid "source and destination are the same"
 msgstr "origem e destino são o mesmo"
 
-#: src/commands-impl.c:443
+#: src/commands-impl.c:445
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Incapaz de duplicar a imagem \"%s\": %s"
 
-#: src/commands-impl.c:511
+#: src/commands-impl.c:453
+msgid "Stop"
+msgstr "Parar"
+
+#: src/commands-impl.c:454
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/commands-impl.c:530
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "As imagens seleccionadas serão movidas para o Lixo, tem a certeza?"
 
-#: src/commands-impl.c:531
+#: src/commands-impl.c:550
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "A imagem será movida para o Lixo, tem a certeza?"
 
-#: src/commands-impl.c:766
+#: src/commands-impl.c:785
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "A imagem será removida do catálogo, tem a certeza?"
 
-#: src/commands-impl.c:808
+#: src/commands-impl.c:827
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "As imagens seleccionadas serão removidas do catálogo, tem a certeza?"
 
-#: src/commands-impl.c:884 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:903 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:190 src/dlg-file-utils.c:89
 msgid "C_reate"
 msgstr "C_riar"
 
-#: src/commands-impl.c:913 src/commands-impl.c:1039 src/commands-impl.c:1595
-#: src/commands-impl.c:1687
+#: src/commands-impl.c:932 src/commands-impl.c:1058 src/commands-impl.c:1614
+#: src/commands-impl.c:1706
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "O nome \"%s\" já está a ser utilizado. utilize um nome diferente."
 
-#: src/commands-impl.c:941
+#: src/commands-impl.c:960
 msgid "New Folder"
 msgstr "Nova Pasta"
 
-#: src/commands-impl.c:942
+#: src/commands-impl.c:961
 msgid "Enter the folder name: "
 msgstr "Introduza o nome da pasta: "
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:962
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Incapaz de criar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:954
+#: src/commands-impl.c:973
 msgid "New Library"
 msgstr "Nova Biblioteca"
 
-#: src/commands-impl.c:955 src/dlg-catalog.c:120
+#: src/commands-impl.c:974 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Introduza o nome da biblioteca: "
 
-#: src/commands-impl.c:956
+#: src/commands-impl.c:975
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Incapaz de criar a biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1029 src/commands-impl.c:1066
+#: src/commands-impl.c:1048 src/commands-impl.c:1085
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Incapaz de renomear a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1132
+#: src/commands-impl.c:1151
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Incapaz de apagar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1161
+#: src/commands-impl.c:1180
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" não pode ser movida para o Lixo. Deseja apaga-la definitivamente?"
 
-#: src/commands-impl.c:1198
+#: src/commands-impl.c:1217
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "A pasta seleccionada será movida para o Lixo, tem a certeza?"
 
-#: src/commands-impl.c:1200 src/dlg-file-utils.c:273
+#: src/commands-impl.c:1219 src/dlg-file-utils.c:273
 msgid "_Move"
 msgstr "_Mover"
 
-#: src/commands-impl.c:1266 src/commands-impl.c:1321
+#: src/commands-impl.c:1285 src/commands-impl.c:1340
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Incapaz de copiar a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1321 src/dlg-file-utils.c:2295
+#: src/commands-impl.c:1340 src/dlg-file-utils.c:2295
 #: src/dlg-file-utils.c:2297
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Incapaz de mover a pasta \"%s\": %s"
 
-#: src/commands-impl.c:1342
+#: src/commands-impl.c:1361
 msgid "source contains destination"
 msgstr "origem contém o destino"
 
-#: src/commands-impl.c:1353
+#: src/commands-impl.c:1372
 msgid "a folder with that name is already present."
 msgstr "já existe uma pasta com esse nome."
 
-#: src/commands-impl.c:1434 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
+#: src/commands-impl.c:1453 src/dlg-file-utils.c:359 src/dlg-file-utils.c:448
 msgid "Choose the destination folder"
 msgstr "Seleccione a pasta de destino"
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1625
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Incapaz de renomear a biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1606
+#: src/commands-impl.c:1625
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Incapaz de renomear o catálogo \"%s\": %s"
 
-#: src/commands-impl.c:1652 src/dlg-catalog.c:79
+#: src/commands-impl.c:1671 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Introduza o nome do catálogo: "
 
-#: src/commands-impl.c:1653
+#: src/commands-impl.c:1672
 msgid "New Catalog"
 msgstr "Novo Catálogo"
 
-#: src/commands-impl.c:1698
+#: src/commands-impl.c:1717
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Incapaz de criar o catálogo \"%s\": %s"
 
-#: src/commands-impl.c:1762
+#: src/commands-impl.c:1781
 msgid "The selected library will be removed, are you sure?"
 msgstr "A biblioteca seleccionada será removida, tem a certeza?"
 
-#: src/commands-impl.c:1764
+#: src/commands-impl.c:1783
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "O catálogo seleccionado será removido, tem a certeza?"
 
-#: src/commands-impl.c:2745 src/dlg-categories.c:321 src/dlg-comment.c:244
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:448
+#: src/commands-impl.c:2752 src/dlg-categories.c:321 src/dlg-comment.c:327
+#: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
+#: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Incapaz de mostrar ajuda: %s"
 
-#: src/commands-impl.c:2796
+#: src/commands-impl.c:2803
 msgid "translator_credits"
 msgstr "Duarte Loreto <happyguy_pt@hotmail.com>"
 
-#: src/commands-impl.c:2808
+#: src/commands-impl.c:2815
 msgid "An image viewer and browser for GNOME."
 msgstr "Um visualizador e navegador de imagens para o GNOME."
 
@@ -531,18 +623,18 @@ msgstr "Introduza o novo nome de categoria"
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "A categoria \"%s\" já existe. Utilize um nome diferente."
 
-#: src/dlg-convert.c:161
+#: src/dlg-convert.c:158
 #, c-format
 msgid "Converting image: %s"
 msgstr "A converter imagem: %s"
 
-#: src/dlg-convert.c:184
+#: src/dlg-convert.c:181
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Uma imagem de nome \"%s\" já existe. Especifique um nome diferente."
 
-#: src/dlg-convert.c:315 src/gthumb_convert.glade.h:17
+#: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
 msgid "Skip"
 msgstr "Saltar"
 
@@ -675,11 +767,11 @@ msgstr "Modificado"
 msgid "Information on Channel"
 msgstr "Informação no Canal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5290
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5292
 msgid "Field"
 msgstr "Campo"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5300 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5302 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Valor"
 
@@ -712,11 +804,11 @@ msgstr "Cabeçalho"
 msgid "Footer"
 msgstr "Rodapé"
 
-#: src/dlg-rename-series.c:419
+#: src/dlg-rename-series.c:427
 msgid "Old Name"
 msgstr "Nome Antigo"
 
-#: src/dlg-rename-series.c:427
+#: src/dlg-rename-series.c:435
 msgid "New Name"
 msgstr "Novo Nome"
 
@@ -724,11 +816,11 @@ msgstr "Novo Nome"
 msgid "Search Result"
 msgstr "Resultado Procura"
 
-#: src/dlg-search.c:808
+#: src/dlg-search.c:810
 msgid "Filename"
 msgstr "Nome Ficheiro"
 
-#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Pasta"
 
@@ -744,7 +836,7 @@ msgstr "Repor Vista Normal"
 msgid "Image Info"
 msgstr "Info Imagem"
 
-#: src/fullscreen.c:840 src/gthumb-window.c:4253
+#: src/fullscreen.c:840 src/gthumb-window.c:4255
 msgid "Back"
 msgstr "Atrás"
 
@@ -1109,7 +1201,7 @@ msgstr "Reproduzir _Animação"
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:19
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
 msgstr "Imprimir"
 
@@ -1790,46 +1882,47 @@ msgstr "%d seleccionadas (%s)"
 msgid "Dragged Images"
 msgstr "Imagens Arrastadas"
 
-#: src/gthumb-window.c:3557
+#: src/gthumb-window.c:3559
 msgid "Could not move the items:"
 msgstr "Incapaz de mover os itens:"
 
-#: src/gthumb-window.c:5170
+#: src/gthumb-window.c:5172
 msgid "Image comment"
 msgstr "Comentário da imagem"
 
-#: src/gthumb-window.c:5184
+#: src/gthumb-window.c:5186
 msgid "Image data"
 msgstr "Dados da imagem"
 
-#: src/gthumb-window.c:5198
+#: src/gthumb-window.c:5200
 msgid "Image preview"
 msgstr "Antevisão da imagem"
 
-#: src/gthumb-window.c:6456
+#: src/gthumb-window.c:6458
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Incapaz de ler pasta \"%s\": %s\n"
 
-#: src/gthumb-window.c:6725
+#: src/gthumb-window.c:6727
 msgid "The specified catalog does not exist."
 msgstr "O catálogo especificado não existe."
 
-#: src/gthumb-window.c:8071
+#: src/gthumb-window.c:8073
 msgid "Wait please..."
 msgstr "Aguarde..."
 
-#: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
-#: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
-#: src/gthumb_tools.glade.h:1
+#: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
+#: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
+#: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:1
+#: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_web_exporter.glade.h:3 src/gthumb_preferences.glade.h:3
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -1953,11 +2046,6 @@ msgstr "_Remover"
 msgid "_Save the new image as:"
 msgstr "_Gravar a nova imagem como:"
 
-#: src/gthumb_comments.glade.h:2 src/gthumb_web_exporter.glade.h:4
-#: src/gthumb_search.glade.h:2
-msgid "..."
-msgstr "..."
-
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
 msgstr "Categorias disponí_veis:"
@@ -1978,39 +2066,67 @@ msgstr "Co_mentário:"
 msgid "Create a new category"
 msgstr "Criar uma nova categoria"
 
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Data actual"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
 msgstr "Data c_riação imagem"
 
-#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:32
+#: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Data criação imagem"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Nenhuma data"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Data digitalização fotografia (Dos dados EXIF)"
 
-#: src/gthumb_comments.glade.h:12
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Data digitalização fotografia (Dos dados EXIF)"
+
+#: src/gthumb_comments.glade.h:16
 msgid "Remove selected category"
 msgstr "Remover categoria seleccionada"
 
-#: src/gthumb_comments.glade.h:13
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
 msgstr "Gravar ape_nas campos alterados"
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:24
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
+msgid "The _following date:"
+msgstr "A data se_guinte:"
+
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "A seguinte data"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "_Data:"
 
-#: src/gthumb_comments.glade.h:15
+#: src/gthumb_comments.glade.h:21
 msgid "_Delete"
 msgstr "_Apagar"
 
-#: src/gthumb_comments.glade.h:16
+#: src/gthumb_comments.glade.h:22
 msgid "_New"
 msgstr "_Nova"
 
-#: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:27
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Nenhuma data"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "_Local:"
 
-#: src/gthumb_comments.glade.h:18 src/gthumb_search.glade.h:30
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
 msgstr "Categorias _seleccionadas:"
 
@@ -2131,8 +2247,8 @@ msgid "dpi"
 msgstr "ppp"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
-#: src/gthumb_web_exporter.glade.h:2 src/gthumb_preferences.glade.h:2
-#: src/gthumb_tools.glade.h:2
+#: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
@@ -2205,7 +2321,7 @@ msgstr "Largura:"
 msgid "_Brightness:"
 msgstr "_Brilho:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "_Altura:"
 
@@ -2245,7 +2361,7 @@ msgstr "_Saturação:"
 msgid "_Scale"
 msgstr "E_scala"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "_Largura:"
 
@@ -2540,94 +2656,6 @@ msgstr "jpeg"
 msgid "png"
 msgstr "png"
 
-#: src/gthumb_web_exporter.glade.h:5
-msgid "1024 x 768"
-msgstr "1024 x 768"
-
-#: src/gthumb_web_exporter.glade.h:6
-msgid "1280 x 960"
-msgstr "1280 x 960"
-
-#: src/gthumb_web_exporter.glade.h:7
-msgid "320 x 200"
-msgstr "320 x 200"
-
-#: src/gthumb_web_exporter.glade.h:8
-msgid "640 x 480"
-msgstr "640 x 480"
-
-#: src/gthumb_web_exporter.glade.h:9
-msgid "800 x 600"
-msgstr "800 x 600"
-
-#: src/gthumb_web_exporter.glade.h:10
-msgid "<b>Album</b>"
-msgstr "<b>Álbum</b>"
-
-#: src/gthumb_web_exporter.glade.h:11
-msgid "<b>Index Layout</b>"
-msgstr "<b>Disposição Índice</b>"
-
-#: src/gthumb_web_exporter.glade.h:12
-msgid "<b>Saving</b>"
-msgstr "<b>A Gravar</b>"
-
-#: src/gthumb_web_exporter.glade.h:13
-msgid "<b>Theme</b>"
-msgstr "<b>Tema</b>"
-
-#: src/gthumb_web_exporter.glade.h:15
-msgid "Inde_x file:"
-msgstr "Fic_heiro índice:"
-
-#: src/gthumb_web_exporter.glade.h:17
-msgid "Resi_ze images if larger than:"
-msgstr "Redimensionar imagens se maiores do que:"
-
-#: src/gthumb_web_exporter.glade.h:18
-msgid "Sor_t:"
-msgstr "Or_denar:"
-
-#: src/gthumb_web_exporter.glade.h:19
-msgid "Th_eme:"
-msgstr "T_ema:"
-
-#: src/gthumb_web_exporter.glade.h:20
-msgid "Web Album"
-msgstr "Álbum Web"
-
-#: src/gthumb_web_exporter.glade.h:21
-msgid "Web Album Theme"
-msgstr "Tema Álbum Web"
-
-#: src/gthumb_web_exporter.glade.h:22
-msgid "_Copy images to destination"
-msgstr "_Copiar imagens para o destino"
-
-#: src/gthumb_web_exporter.glade.h:23
-msgid "_Destination:"
-msgstr "_Destino:"
-
-#: src/gthumb_web_exporter.glade.h:24
-msgid "_Go to Theme Folder"
-msgstr "_Ir para Pasta Tema"
-
-#: src/gthumb_web_exporter.glade.h:25
-msgid "_Install Theme..."
-msgstr "_Instalar Tema..."
-
-#: src/gthumb_web_exporter.glade.h:27
-msgid "_Title:"
-msgstr "_Título:"
-
-#: src/gthumb_web_exporter.glade.h:28
-msgid "by modified time"
-msgstr "por data alteração"
-
-#: src/gthumb_web_exporter.glade.h:33
-msgid "index.html"
-msgstr "index.html"
-
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
 msgstr "112 x 112"
@@ -2877,14 +2905,18 @@ msgid "seconds"
 msgstr "segundos"
 
 #: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Imagem</b>"
+
+#: src/gthumb_print.glade.h:5
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientação</b>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:6
 msgid "<b>Size</b>"
 msgstr "<b>Tamanho</b>"
 
-#: src/gthumb_print.glade.h:6
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2892,33 +2924,29 @@ msgstr ""
 "<i>Arraste a imagem a mover\n"
 "para a página.</i>"
 
-#: src/gthumb_print.glade.h:8
-msgid "A_3 (297 x 420 mm)"
-msgstr "A_3 (297 x 420 mm)"
-
 #: src/gthumb_print.glade.h:9
-msgid "A_4 (210 x 297 mm)"
-msgstr "A_4 (210 x 297 mm)"
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "A_5 (148 x 210 mm)"
-msgstr "A_5 (148 x 210 mm)"
+msgid "C_ustom:"
+msgstr "Cost_umizada:"
 
 #: src/gthumb_print.glade.h:11
 msgid "Center _on Page"
 msgstr "Centrar _na Página"
 
 #: src/gthumb_print.glade.h:12
-msgid "E_xecutive (190 x 254 mm)"
-msgstr "E_xecutive (190 x 254 mm)"
+msgid "Comment _font:"
+msgstr "Comentário _fonte:"
 
 #: src/gthumb_print.glade.h:13
 msgid "I_nclude comment"
 msgstr "I_ncluir comentário"
 
 #: src/gthumb_print.glade.h:14
-msgid "L_egal (216 x 356 mm)"
-msgstr "L_egal (216 x 356 mm)"
+msgid "Inches"
+msgstr "Polegadas"
 
 #: src/gthumb_print.glade.h:15
 msgid "Lan_dscape"
@@ -2929,20 +2957,36 @@ msgid "Layout"
 msgstr "Disposição"
 
 #: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Milímetros"
+
+#: src/gthumb_print.glade.h:18
 msgid "P_ortrait"
 msgstr "Retrat_o"
 
-#: src/gthumb_print.glade.h:18
+#: src/gthumb_print.glade.h:19
 msgid "Paper Details"
 msgstr "Detalhes Papel"
 
-#: src/gthumb_print.glade.h:20
-msgid "_Letter (216 x 279 mm)"
-msgstr "_Letter (216 x 279 mm)"
-
 #: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_xecutive"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "US _Letter"
+
+#: src/gthumb_print.glade.h:25
 msgid "_Scale:"
 msgstr "E_scala:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
+msgid "..."
+msgstr "..."
 
 #: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
@@ -3148,10 +3192,6 @@ msgstr "Rodar imagem 90 graus contra sentido ponteiros"
 msgid "Search terminated, no duplicates found."
 msgstr "Procura terminou, nenhum duplicado encontrado."
 
-#: src/gthumb_tools.glade.h:42
-msgid "The _following date:"
-msgstr "A data se_guinte:"
-
 #: src/gthumb_tools.glade.h:43
 msgid ""
 "Use #'s to specify positions used by numeric enumerator. Use * to insert the "
@@ -3177,6 +3217,94 @@ msgstr "por Nome"
 #: src/gthumb_tools.glade.h:51
 msgid "by Size"
 msgstr "por Tamanho"
+
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Álbum</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Disposição Índice</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Saving</b>"
+msgstr "<b>A Gravar</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Theme</b>"
+msgstr "<b>Tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "Inde_x file:"
+msgstr "Fic_heiro índice:"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Resi_ze images if larger than:"
+msgstr "Redimensionar imagens se maiores do que:"
+
+#: src/gthumb_web_exporter.glade.h:18
+msgid "Sor_t:"
+msgstr "Or_denar:"
+
+#: src/gthumb_web_exporter.glade.h:19
+msgid "Th_eme:"
+msgstr "T_ema:"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "Web Album"
+msgstr "Álbum Web"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Web Album Theme"
+msgstr "Tema Álbum Web"
+
+#: src/gthumb_web_exporter.glade.h:22
+msgid "_Copy images to destination"
+msgstr "_Copiar imagens para o destino"
+
+#: src/gthumb_web_exporter.glade.h:23
+msgid "_Destination:"
+msgstr "_Destino:"
+
+#: src/gthumb_web_exporter.glade.h:24
+msgid "_Go to Theme Folder"
+msgstr "_Ir para Pasta Tema"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "_Install Theme..."
+msgstr "_Instalar Tema..."
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "_Title:"
+msgstr "_Título:"
+
+#: src/gthumb_web_exporter.glade.h:28
+msgid "by modified time"
+msgstr "por data alteração"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "index.html"
+msgstr "index.html"
 
 #: src/main.c:78
 msgid "Start in fullscreen mode"
@@ -3234,15 +3362,30 @@ msgstr "Astronomia"
 msgid "Family"
 msgstr "Família"
 
-#: src/main.c:308 src/main.c:372
+#: src/main.c:308 src/main.c:374
 msgid "Command Line"
 msgstr "Linha Comando"
 
+#~ msgid "A_3 (297 x 420 mm)"
+#~ msgstr "A_3 (297 x 420 mm)"
+
+#~ msgid "A_4 (210 x 297 mm)"
+#~ msgstr "A_4 (210 x 297 mm)"
+
+#~ msgid "A_5 (148 x 210 mm)"
+#~ msgstr "A_5 (148 x 210 mm)"
+
+#~ msgid "E_xecutive (190 x 254 mm)"
+#~ msgstr "E_xecutive (190 x 254 mm)"
+
+#~ msgid "L_egal (216 x 356 mm)"
+#~ msgstr "L_egal (216 x 356 mm)"
+
+#~ msgid "_Letter (216 x 279 mm)"
+#~ msgstr "_Letter (216 x 279 mm)"
+
 #~ msgid "Paper"
 #~ msgstr "Papel"
-
-#~ msgid "Preview"
-#~ msgstr "Antever"
 
 #~ msgid "Copyright (C) 2001-2003 Free Software Foundation, Inc."
 #~ msgstr "Copyright (C) 2001-2003 Free Software Foundation, Inc."
