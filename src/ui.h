@@ -65,7 +65,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_file_open_with) },
 
 	{ "File_Save", GTK_STOCK_SAVE_AS,
-	  N_("Save _As..."), "<shift><control>S",
+	  N_("Save _As..."), "<control>S",
 	  N_("Save current image"),
 	  G_CALLBACK (activate_action_file_save) },
 
@@ -440,7 +440,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_view_step_animation) },
 
 	{ "View_Fullscreen", GTHUMB_STOCK_FULLSCREEN,
-	  N_("_Full Screen"), "<control>V",
+	  N_("_Full Screen"), "F",
 	  N_("View image in fullscreen mode"),
 	  G_CALLBACK (activate_action_view_fullscreen) },
 
@@ -535,7 +535,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (activate_action_wallpaper_restore) },
 
 	{ "Tools_Slideshow", GTHUMB_STOCK_SLIDESHOW,
-	  N_("_Slide Show"), "<control>S",
+	  N_("_Slide Show"), "S",
 	  N_("View as a slide show"),
 	  G_CALLBACK (activate_action_tools_slideshow) },
 

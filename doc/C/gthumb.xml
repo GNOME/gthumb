@@ -1827,7 +1827,7 @@
       <title>Slide Shows</title>
       <para>
         You can start a slide show of the images in the current folder by
-	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
+	pressing <keycombo action="simul"><keycap>s</keycap></keycombo> or 
 	selecting the <menuchoice><guimenu>View
 	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
         To stop the slide show press <keycombo action="simul">
@@ -2384,7 +2384,7 @@
 	(which you can start by selecting
 	<menuchoice><guimenu>Tools</guimenu>
 	<guisubmenu>Slide Show</guisubmenu></menuchoice> or by using
-	<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo> 
+	<keycombo><keycap>S</keycap></keycombo> 
 	shortcut). The options include direction (forward/backwards/random),
 	and delay between images. You can also specify whether the
 	slide show should wrap around (i.e., after showing the last

@@ -1,4 +1,5 @@
 *.tar.gz
+*.patch
 ABOUT-NLS
 COPYING
 Compile.sh
@@ -18,6 +19,7 @@ config.status
 config.sub
 configure
 configure.scan
+depcomp
 diff
 gthumb.spec
 gthumb.desktop

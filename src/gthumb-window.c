@@ -2685,8 +2685,10 @@ key_press_cb (GtkWidget   *widget,
 	gboolean      sel_not_null;
 	gboolean      image_is_void;
 
-	if (GTK_WIDGET_HAS_FOCUS (window->location_entry))
-		return FALSE;
+	if (GTK_WIDGET_HAS_FOCUS (window->location_entry)) {
+		gtk_widget_event (window->location_entry, (GdkEvent*) event);
+		return TRUE;
+	}
 
 	if (GTK_WIDGET_HAS_FOCUS (window->preview_button_image)
 	    || GTK_WIDGET_HAS_FOCUS (window->preview_button_data)
