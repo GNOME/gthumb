@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "POT-Creation-Date: 2003-03-11 13:39+0200\n"
-"PO-Revision-Date: 2003-03-11 07:45--500\n"
+"PO-Revision-Date: 2003-03-11 11:52--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -77,19 +77,19 @@ msgstr ""
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:114
 msgid "Rotate"
-msgstr ""
+msgstr "Обернути"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr ""
+msgstr "Обернути на _180°"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Обернути зображення за годинниковою стрілкою"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate the image of 180 degrees"
-msgstr ""
+msgstr "Обернути зображення на 180°"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
 #: src/gthumb-ui.xml.h:122
@@ -613,7 +613,7 @@ msgstr "Остання модифікація"
 #: src/dlg-duplicates.c:415
 #: src/dlg-image-prop.c:824
 msgid "Location"
-msgstr ""
+msgstr "Положення"
 
 #: src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
@@ -943,19 +943,19 @@ msgstr "Створити нове вікно"
 
 #: src/gthumb-ui.xml.h:35
 msgid "D_uplicate"
-msgstr ""
+msgstr "Про_дублювати"
 
 #: src/gthumb-ui.xml.h:36
 msgid "Delete the list of visited locations"
-msgstr ""
+msgstr "Стерти список відвіданих місць"
 
 #: src/gthumb-ui.xml.h:37
 msgid "Duplicate selected image"
-msgstr ""
+msgstr "Продублювати вибране зображення"
 
 #: src/gthumb-ui.xml.h:38
 msgid "Duplicate this image"
-msgstr ""
+msgstr "Продублювати це зображення"
 
 #: src/gthumb-ui.xml.h:39
 msgid "E_xit"
@@ -963,19 +963,19 @@ msgstr "Ви_йти"
 
 #: src/gthumb-ui.xml.h:40
 msgid "Edit Search"
-msgstr ""
+msgstr "Змінити пошук"
 
 #: src/gthumb-ui.xml.h:41
 msgid "Edit bookmarks"
-msgstr ""
+msgstr "Змінити закладки"
 
 #: src/gthumb-ui.xml.h:42
 msgid "Edit various preferences"
-msgstr ""
+msgstr "Змінити різні властивості"
 
 #: src/gthumb-ui.xml.h:43
 msgid "Fi_nd Duplicates..."
-msgstr ""
+msgstr "З_найти копії..."
 
 #: src/gthumb-ui.xml.h:44
 msgid "Find images"
@@ -995,11 +995,11 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:48
 msgid "Full Screen"
-msgstr ""
+msgstr "На весь екран"
 
 #: src/gthumb-ui.xml.h:49
 msgid "Go to the folder that contains the selected image"
-msgstr ""
+msgstr "Перейти в теку, що містить вибране зображення"
 
 #: src/gthumb-ui.xml.h:50
 msgid "Go to the home folder"
@@ -1250,23 +1250,23 @@ msgstr "Повернутись до збереженого зображення"
 
 #: src/gthumb-ui.xml.h:115
 msgid "Rotate Ri_ght"
-msgstr ""
+msgstr "Обернути _ліворуч"
 
 #: src/gthumb-ui.xml.h:116
 msgid "Rotate _JPEG"
-msgstr ""
+msgstr "Обернути _JPEG"
 
 #: src/gthumb-ui.xml.h:117
 msgid "Rotate _Left"
-msgstr ""
+msgstr "Обернути _праворуч"
 
 #: src/gthumb-ui.xml.h:118
 msgid "Rotate image"
-msgstr ""
+msgstr "Оьернути зображення"
 
 #: src/gthumb-ui.xml.h:119
 msgid "Rotate jpeg images without loss of quality"
-msgstr ""
+msgstr "Обернути зображення у форматі JPEG без втрати якості"
 
 #: src/gthumb-ui.xml.h:120
 msgid "S_ort Images"
@@ -1278,7 +1278,7 @@ msgstr "Зберегти"
 
 #: src/gthumb-ui.xml.h:124
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: src/gthumb-ui.xml.h:125
 msgid "Select all images"
@@ -1858,7 +1858,7 @@ msgstr "Альфа"
 
 #: src/gthumb.glade.h:8
 msgid "Blue"
-msgstr ""
+msgstr "Синій"
 
 #: src/gthumb.glade.h:9
 msgid "Bookmarks"
@@ -1878,7 +1878,7 @@ msgstr "Не переписатути _старі зображення"
 
 #: src/gthumb.glade.h:14
 msgid "Green"
-msgstr ""
+msgstr "Зелений"
 
 #: src/gthumb.glade.h:15
 msgid "New Image:"
@@ -1918,7 +1918,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:24
 msgid "Red"
-msgstr ""
+msgstr "Червоний"
 
 #: src/gthumb.glade.h:26
 msgid "_Application:"
@@ -2007,7 +2007,7 @@ msgstr ""
 #: src/gthumb_comments.glade.h:16
 #: src/gthumb_search.glade.h:31
 msgid "_Selected categories:"
-msgstr ""
+msgstr "_Вибрані категорії:"
 
 #: src/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
@@ -2031,7 +2031,7 @@ msgstr "_Рівень стиснення:"
 
 #: src/gthumb_convert.glade.h:8
 msgid "Convert Format"
-msgstr ""
+msgstr "Перетворити формат"
 
 #: src/gthumb_convert.glade.h:9
 msgid "JPEG Options"
@@ -2323,7 +2323,7 @@ msgstr "</b>Верхній колонтитул</b>"
 
 #: src/gthumb_png_exporter.glade.h:20
 msgid "<b>Index images</b>"
-msgstr ""
+msgstr "<b>Зображення-покажчика</b>"
 
 #: src/gthumb_png_exporter.glade.h:21
 msgid "<b>Page size</b>"
@@ -2335,7 +2335,7 @@ msgstr "<i>Приклади:</i>"
 
 #: src/gthumb_png_exporter.glade.h:23
 msgid "Choose destination folder"
-msgstr ""
+msgstr "Виберіть каталог призначення"
 
 #: src/gthumb_png_exporter.glade.h:24
 #: src/gthumb_print.glade.h:6
@@ -2354,11 +2354,11 @@ msgstr "_Колір:"
 
 #: src/gthumb_png_exporter.glade.h:27
 msgid "Create Index Image"
-msgstr ""
+msgstr "Створити зображення-покажчик"
 
 #: src/gthumb_png_exporter.glade.h:28
 msgid "Create _HTML image map"
-msgstr ""
+msgstr "Створити зображення-мапу для _HTML"
 
 #: src/gthumb_png_exporter.glade.h:29
 msgid "F_ooter:"
@@ -2406,7 +2406,7 @@ msgstr "Зображення"
 
 #: src/gthumb_png_exporter.glade.h:40
 msgid "Index Image Properties"
-msgstr ""
+msgstr "Властивості зображення-покажчика"
 
 #: src/gthumb_png_exporter.glade.h:41
 msgid "Page"
@@ -3081,7 +3081,7 @@ msgstr ""
 
 #: src/gthumb_tools.glade.h:27
 msgid "Maintenance"
-msgstr ""
+msgstr "Службові функції"
 
 #: src/gthumb_tools.glade.h:28
 msgid "Mirror image horizontally (left-right)"
@@ -3113,11 +3113,11 @@ msgstr "Скасувати зміни"
 
 #: src/gthumb_tools.glade.h:37
 msgid "Rotate image 90 degrees clockwise"
-msgstr ""
+msgstr "Обернути зображення на 90° за годинниковою стрілкою"
 
 #: src/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr ""
+msgstr "Обернути зображення на 90° проти годинникової стрілки"
 
 #: src/gthumb_tools.glade.h:39
 msgid "Search terminated, no duplicates found."
