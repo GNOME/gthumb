@@ -73,27 +73,30 @@ new_catalog_cb (GtkWidget *widget,
 		gpointer   p)
 {
 	DialogData *data = p;
-	char       *string;
+	char       *name_utf8, *name;
 	char       *path;
 	int         fd;
 
-	string = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
-					  GTK_DIALOG_MODAL,
-					  _("Enter the catalog name: "),
-					  "",
-					  1024,
-					  GTK_STOCK_CANCEL,
-					  _("C_reate"));
-
-	if (string == NULL)
+	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
+					     GTK_DIALOG_MODAL,
+					     _("Enter the catalog name: "),
+					     "",
+					     1024,
+					     GTK_STOCK_CANCEL,
+					     _("C_reate"));
+	
+	if (name_utf8 == NULL)
 		return;
+
+	name = g_filename_from_utf8 (name_utf8, -1, 0, 0, 0);
+	g_free (name_utf8);
 
 	path = g_strconcat (data->current_dir,
 			    "/",
-			    string,
+			    name,
 			    CATALOG_EXT,
 			    NULL);
-	g_free (string);
+	g_free (name);
 
 	fd = creat (path, 0644);
 	close (fd);
@@ -115,25 +118,30 @@ static void
 new_dir_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
-	char *string;
+	char *utf8_name;
+	char *name;
 	char *path;
 
-	string = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
-					  GTK_DIALOG_MODAL,
-					  _("Enter the library name: "),
-					  "",
-					  1024,
-					  GTK_STOCK_CANCEL,
-					  _("C_reate"));
+	utf8_name = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
+					     GTK_DIALOG_MODAL,
+					     _("Enter the library name: "),
+					     "",
+					     1024,
+					     GTK_STOCK_CANCEL,
+					     _("C_reate"));
 
-	if (string == NULL)
+	if (utf8_name == NULL)
+		return;
+
+	name = g_filename_from_utf8 (utf8_name, -1, 0, 0, 0);
+	if (name == NULL)
 		return;
 
 	path = g_strconcat (data->current_dir,
 			    "/",
-			    string,
+			    name,
 			    NULL);
-	g_free (string);
+	g_free (name);
 
 	mkdir (path, 0775);
 	g_free (path);

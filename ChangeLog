@@ -1,5 +1,12 @@
 2003-08-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* libgthumb/catalog.c (file_is_search_result): check if the line
+	is void.
+
+	* src/dlg-catalog.c (new_dir_cb): handle utf8 names.
+
+	* src/catalog-web-exporter.c (save_image_preview_cb): fix condition
+
 	* src/dlg-jpegtran.c (dlg_jpegtran, destroy_cb): update images
 	manually instead of hoping that the monitor will work correctly.
 

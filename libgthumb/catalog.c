@@ -147,8 +147,12 @@ file_is_search_result (const char *fullpath)
 		return FALSE;
 	}
 
+	line[0] = 0;
 	fgets (line, sizeof (line), f);
 	fclose (f);
+
+	if (line[0] == 0)
+		return FALSE;
 
 	return strncmp (line, SEARCH_HEADER, strlen (SEARCH_HEADER)) == 0;
 }
