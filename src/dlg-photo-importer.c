@@ -458,6 +458,8 @@ update_info (DialogData *data)
 
 			gtk_widget_show (data->progress_info_box);
 		} 
+
+		gdk_flush ();
 	}
 }
 
