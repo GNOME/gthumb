@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zenity CVS\n"
 "POT-Creation-Date: 2003-09-10 17:02+0200\n"
-"PO-Revision-Date: 2003-09-12 21:49+0200\n"
+"PO-Revision-Date: 2003-09-12 22:23+0200\n"
 "Last-Translator: Andras Timar <timar@gnome.hu>\n"
 "Language-Team: Hungarian <hu@gnome.hu>\n"
 "MIME-Version: 1.0\n"
@@ -1427,11 +1427,11 @@ msgstr "A kép átalakítása más képformátumba"
 
 #: src/gthumb-ui.xml.h:29
 msgid "Copy current folder"
-msgstr "Aktuális mappa másolása"
+msgstr "Az aktuális mappa másolása"
 
 #: src/gthumb-ui.xml.h:30
 msgid "Copy selected folder"
-msgstr "Kijelölt mappa másolása"
+msgstr "A kijelölt mappa másolása"
 
 #: src/gthumb-ui.xml.h:31
 msgid "Copy selected images to another location"
