@@ -1,6 +1,8 @@
 2003-12-15  Paolo Bacchilega  <paolo.bacch@tin.it>
 
-	* src/dlg-photo-importer.c: 
+	* src/dlg-photo-importer.c: put config.h before #ifdef HAVE_LIBGPHOTO
+	
+
 	* src/commands-impl.c (file_camera_import_command_impl): 
 	* src/gthumb-window.c (window_new): do not compile camera support 
 	if libgphoto is not present.

@@ -20,9 +20,11 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_LIBGPHOTO
 
 #include <config.h>
+
+#ifdef HAVE_LIBGPHOTO
+
 #include <string.h>
 #include <time.h>
 

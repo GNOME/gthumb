@@ -28,13 +28,15 @@
 
 
 typedef struct {
-	char      *place;           /* All strings contain text in utf8 format. */
+	char      *place;           /* All strings contain text in utf8 
+				     * format. */
 	time_t     time;
 	char      *comment;
 	char     **keywords;
 	int        keywords_n;
-	gboolean   utf8_format;     /* TRUE if text is saved in UTF8 format. gthumb for
-				     * GNOME 1.x saved text in locale format, gthumb for
+	gboolean   utf8_format;     /* TRUE if text is saved in UTF8 format. 
+				     * gthumb for GNOME 1.x saved text in 
+				     * locale format, gthumb for
 				     * GNOME 2.x saves in utf8 format. */
 } CommentData;
 
