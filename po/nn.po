@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-28 10:04+0200\n"
-"PO-Revision-Date: 2004-10-28 10:04+0200\n"
+"POT-Creation-Date: 2004-11-03 19:38+0100\n"
+"PO-Revision-Date: 2004-11-03 19:38+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -235,8 +235,8 @@ msgstr "pikslar"
 msgid "    "
 msgstr "    "
 
-#: data/glade/gthumb.glade.h:2 data/glade/gthumb_camera.glade.h:1
-#: data/glade/gthumb_comments.glade.h:1 data/glade/gthumb_convert.glade.h:2
+#: data/glade/gthumb.glade.h:2 data/glade/gthumb_comments.glade.h:1
+#: data/glade/gthumb_convert.glade.h:2
 #: data/glade/gthumb_png_exporter.glade.h:3
 #: data/glade/gthumb_preferences.glade.h:3 data/glade/gthumb_search.glade.h:1
 #: data/glade/gthumb_tools.glade.h:3 data/glade/gthumb_web_exporter.glade.h:3
@@ -375,76 +375,76 @@ msgstr "Fje_rn"
 msgid "_Save the new image as:"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:2
+#: data/glade/gthumb_camera.glade.h:1 data/glade/gthumb_search.glade.h:2
 #: data/glade/gthumb_web_exporter.glade.h:4
 msgid "..."
 msgstr "..."
 
-#: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
+#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:4
+#: data/glade/gthumb_camera.glade.h:3
 msgid "Camera Model"
 msgstr "Kameramodell"
 
-#: data/glade/gthumb_camera.glade.h:5
+#: data/glade/gthumb_camera.glade.h:4
 #: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:295
 msgid "Choose destination folder"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:6
+#: data/glade/gthumb_camera.glade.h:5
 msgid "Delete selected images from the camera"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:7
+#: data/glade/gthumb_camera.glade.h:6
 msgid "Import Photos"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:785
-#: src/dlg-photo-importer.c:820 src/dlg-photo-importer.c:1262
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:787
+#: src/dlg-photo-importer.c:823 src/dlg-photo-importer.c:1265
 msgid "No camera detected"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:9
+#: data/glade/gthumb_camera.glade.h:8
 msgid "Select a camera model"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:10
+#: data/glade/gthumb_camera.glade.h:9
 msgid "Update previews"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:11
+#: data/glade/gthumb_camera.glade.h:10
 msgid "_Auto Detect"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:12
+#: data/glade/gthumb_camera.glade.h:11
 msgid "_Delete imported images from the camera"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:13
+#: data/glade/gthumb_camera.glade.h:12
 #: data/glade/gthumb_png_exporter.glade.h:61
 #: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:14
+#: data/glade/gthumb_camera.glade.h:13
 msgid "_Film:"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:15
+#: data/glade/gthumb_camera.glade.h:14
 msgid "_Import"
 msgstr "_Importer"
 
-#: data/glade/gthumb_camera.glade.h:16
+#: data/glade/gthumb_camera.glade.h:15
 msgid "_Keep original filenames"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:17
+#: data/glade/gthumb_camera.glade.h:16
 msgid "_Model:"
 msgstr ""
 
-#: data/glade/gthumb_camera.glade.h:18
+#: data/glade/gthumb_camera.glade.h:17
 msgid "_Port:"
 msgstr "_Port:"
 
@@ -1205,14 +1205,12 @@ msgid "Ask whether to save _modified images"
 msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:27
-#, fuzzy
 msgid "Black"
 msgstr "Svart"
 
 #: data/glade/gthumb_preferences.glade.h:28
-#, fuzzy
 msgid "Browser"
-msgstr "Nettlesar"
+msgstr "Filvisar"
 
 #: data/glade/gthumb_preferences.glade.h:29
 msgid "C_lick policy:"
@@ -1259,30 +1257,28 @@ msgid "For_ward"
 msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:40
-#, fuzzy
 msgid "General"
-msgstr "Generelt"
+msgstr "Allmennt"
 
 #: data/glade/gthumb_preferences.glade.h:41
 msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgstr "Gå til sist _vitja mappe eller katalog"
 
 #: data/glade/gthumb_preferences.glade.h:42
 msgid "Go to this _folder:"
-msgstr ""
+msgstr "Gå til denne _mappa:"
 
 #: data/glade/gthumb_preferences.glade.h:43
 msgid "H_igh"
-msgstr ""
+msgstr "_Høg"
 
 #: data/glade/gthumb_preferences.glade.h:44
-#, fuzzy
 msgid "Icons only"
 msgstr "Berre ikon"
 
 #: data/glade/gthumb_preferences.glade.h:45
 msgid "Keep previous zoom"
-msgstr ""
+msgstr "Som førre bilete"
 
 #: data/glade/gthumb_preferences.glade.h:46
 msgid "Layout:"
@@ -1290,19 +1286,19 @@ msgstr ""
 
 #: data/glade/gthumb_preferences.glade.h:47
 msgid "Lo_w"
-msgstr ""
+msgstr "Lå_g"
 
 #: data/glade/gthumb_preferences.glade.h:49
 msgid "Ran_dom"
-msgstr ""
+msgstr "Tilfel_dig"
 
 #: data/glade/gthumb_preferences.glade.h:50
 msgid "Re_verse"
-msgstr ""
+msgstr "Ba_klengs"
 
 #: data/glade/gthumb_preferences.glade.h:51
 msgid "Resta_rt when finished"
-msgstr ""
+msgstr "Start på nytt når fe_rdig"
 
 #: data/glade/gthumb_preferences.glade.h:52
 msgid "Set image to actual size"
@@ -1315,100 +1311,89 @@ msgstr ""
 #: data/glade/gthumb_preferences.glade.h:54
 #, fuzzy
 msgid "Slide Show"
-msgstr "Lysbiletvising"
+msgstr "Lysbiletevising"
 
 #: data/glade/gthumb_preferences.glade.h:55
 msgid "Switch to _full screen"
-msgstr ""
+msgstr "Byt til _fullskjerm"
 
 #: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
-msgstr ""
+msgstr "Systeminnstillingar"
 
 #: data/glade/gthumb_preferences.glade.h:57
-#, fuzzy
 msgid "Text below icons"
 msgstr "Tekst under ikon"
 
 #: data/glade/gthumb_preferences.glade.h:58
-#, fuzzy
 msgid "Text beside icons"
 msgstr "Tekst attmed ikon"
 
 #: data/glade/gthumb_preferences.glade.h:59
-#, fuzzy
 msgid "Text only"
 msgstr "Berre tekst"
 
 #: data/glade/gthumb_preferences.glade.h:60
 msgid "Th_umbnail size:"
-msgstr ""
+msgstr "_Storleik på miniatyrar:"
 
 #: data/glade/gthumb_preferences.glade.h:61
 msgid "Transparency _type:"
-msgstr ""
+msgstr "_Type gjennomskin:"
 
 #: data/glade/gthumb_preferences.glade.h:62
-#, fuzzy
 msgid "Viewer"
-msgstr "Framvising"
+msgstr "Framvisar"
 
 #: data/glade/gthumb_preferences.glade.h:63
-#, fuzzy
 msgid "White"
 msgstr "Kvit"
 
 #: data/glade/gthumb_preferences.glade.h:64
 msgid "_Filenames"
-msgstr ""
+msgstr "_Filnamn"
 
 #: data/glade/gthumb_preferences.glade.h:65
 msgid "_List"
-msgstr ""
+msgstr "_Liste"
 
 #: data/glade/gthumb_preferences.glade.h:66
 msgid "_Slides"
-msgstr ""
+msgstr "Ly_sbilete"
 
 #: data/glade/gthumb_preferences.glade.h:67 src/ui.h:617
 msgid "_Thumbnails"
-msgstr ""
+msgstr "Minia_tyrar"
 
 #: data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
-msgstr ""
+msgstr "U_tsjånad på verktøylinja:"
 
 #: data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
-msgstr ""
+msgstr "Brukarval for gThumb"
 
 #: data/glade/gthumb_preferences.glade.h:70
-#, fuzzy
 msgid "seconds"
 msgstr "sekund"
 
 #: data/glade/gthumb_print.glade.h:4
-#, fuzzy
 msgid "1"
 msgstr "1"
 
 #: data/glade/gthumb_print.glade.h:5
-#, fuzzy
 msgid "16"
 msgstr "16"
 
 #: data/glade/gthumb_print.glade.h:6
-#, fuzzy
 msgid "2"
 msgstr "2"
 
 #: data/glade/gthumb_print.glade.h:7
-#, fuzzy
 msgid "4"
 msgstr "4"
 
 #: data/glade/gthumb_print.glade.h:8
-#, fuzzy
 msgid "8"
 msgstr "8"
 
@@ -1418,7 +1403,6 @@ msgid "<b>Orientation</b>"
 msgstr "<b>Retning</b>"
 
 #: data/glade/gthumb_print.glade.h:10
-#, fuzzy
 msgid "<b>Size</b>"
 msgstr "<b>Storleik</b>"
 
@@ -1429,7 +1413,6 @@ msgid ""
 msgstr ""
 
 #: data/glade/gthumb_print.glade.h:13
-#, fuzzy
 msgid "A_4"
 msgstr "A_4"
 
@@ -1454,12 +1437,10 @@ msgid "Images per page:"
 msgstr ""
 
 #: data/glade/gthumb_print.glade.h:19
-#, fuzzy
 msgid "Inches"
-msgstr "tommar"
+msgstr "Tommar"
 
 #: data/glade/gthumb_print.glade.h:20
-#, fuzzy
 msgid "Lan_dscape"
 msgstr "Lan_dskap"
 
@@ -1469,12 +1450,10 @@ msgid "Layout"
 msgstr "Oppsett"
 
 #: data/glade/gthumb_print.glade.h:22
-#, fuzzy
 msgid "Millimeters"
-msgstr "millimeter"
+msgstr "Millimeter"
 
 #: data/glade/gthumb_print.glade.h:23
-#, fuzzy
 msgid "P_ortrait"
 msgstr "P_ortrett"
 
@@ -1485,7 +1464,6 @@ msgstr ""
 #.
 #: data/glade/gthumb_print.glade.h:25 libgthumb/print-callbacks.c:2962
 #: libgthumb/print-callbacks.c:2976 libgthumb/print-callbacks.c:3442
-#, fuzzy
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1514,17 +1492,14 @@ msgid "<b>Search scope</b>"
 msgstr ""
 
 #: data/glade/gthumb_search.glade.h:6
-#, fuzzy
 msgid "After"
 msgstr "Etter"
 
 #: data/glade/gthumb_search.glade.h:7
-#, fuzzy
 msgid "Any"
 msgstr "Vilkårleg"
 
 #: data/glade/gthumb_search.glade.h:8
-#, fuzzy
 msgid "Before"
 msgstr "Før"
 
@@ -1541,7 +1516,6 @@ msgid "File _name:"
 msgstr ""
 
 #: data/glade/gthumb_search.glade.h:15
-#, fuzzy
 msgid "Find"
 msgstr "Finn"
 
@@ -1562,8 +1536,7 @@ msgid "New _Search..."
 msgstr ""
 
 #: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:756
-#: src/dlg-photo-importer.c:1307
-#, fuzzy
+#: src/dlg-photo-importer.c:1310
 msgid "No images found"
 msgstr "Fann ingen bilete"
 
@@ -1584,12 +1557,10 @@ msgid "_Include sub-folders"
 msgstr ""
 
 #: data/glade/gthumb_search.glade.h:28
-#, fuzzy
 msgid "_Save"
 msgstr "_Lagra"
 
 #: data/glade/gthumb_search.glade.h:29
-#, fuzzy
 msgid "_Search"
 msgstr "_Søk"
 
@@ -1714,7 +1685,6 @@ msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:34 src/ui.h:113 src/ui.h:138 src/ui.h:263
 #: src/ui.h:293
-#, fuzzy
 msgid "Move to _Trash"
 msgstr "Flytt til _papirkorga"
 
@@ -1764,7 +1734,6 @@ msgstr ""
 
 #: data/glade/gthumb_tools.glade.h:49 src/actions.c:289 src/actions.c:797
 #: src/actions.c:1321
-#, fuzzy
 msgid "_Rename"
 msgstr "_Gje nytt namn"
 
@@ -1838,7 +1807,6 @@ msgid "Came_ra Model"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:19
-#, fuzzy
 msgid "Caption"
 msgstr "Bilettekst"
 
@@ -1903,12 +1871,10 @@ msgid "_Go to Theme Folder"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:44
-#, fuzzy
 msgid "_Install Theme..."
 msgstr "_Installer drakt ..."
 
 #: data/glade/gthumb_web_exporter.glade.h:45
-#, fuzzy
 msgid "_Select"
 msgstr "_Vel"
 
@@ -1925,16 +1891,14 @@ msgid "by modified time"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:52
-#, fuzzy
 msgid "columns"
-msgstr "kolonnar"
+msgstr "kolonner"
 
 #: data/glade/gthumb_web_exporter.glade.h:53
 msgid "index.html"
 msgstr ""
 
 #: data/glade/gthumb_web_exporter.glade.h:54
-#, fuzzy
 msgid "rows"
 msgstr "rader"
 
@@ -2122,7 +2086,6 @@ msgid "Determine by extension"
 msgstr ""
 
 #: libgthumb/dlg-save-image.c:261
-#, fuzzy
 msgid "Save Image"
 msgstr "Lagra bilete"
 
@@ -2131,107 +2094,86 @@ msgid "Image type:"
 msgstr ""
 
 #: libgthumb/gnome-print-font-dialog.c:113
-#, fuzzy
 msgid "_Insert a new preview phrase."
 msgstr "Sett _inn ein førehandsvisingsfrase."
 
 #: libgthumb/gnome-print-font-dialog.c:119
-#, fuzzy
 msgid "Modify preview phrase..."
 msgstr "Endra førehandsvisingsfrase ..."
 
 #: libgthumb/gnome-print-font-dialog.c:173
-#, fuzzy
 msgid "Preview"
 msgstr "Førehandsvising"
 
 #: libgthumb/gnome-print-font-dialog.c:186
-#, fuzzy
 msgid "_Modify preview phrase..."
 msgstr "_Endra førehandsvisingsfrase ..."
 
 #: libgthumb/gnome-print-font-dialog.c:247
-#, fuzzy
 msgid "Font Selection"
 msgstr "Skrifttypeveljar"
 
 #: libgthumb/gnome-print-font-picker.c:92
-#, fuzzy
 msgid "Sans Regular 12"
 msgstr "Sans Regular 12"
 
 #: libgthumb/gnome-print-font-picker.c:93
-#, fuzzy
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÆæØøÅå"
 
 #: libgthumb/gnome-print-font-picker.c:94
-#, fuzzy
 msgid "Pick a Font"
 msgstr "Vel ein skrifttype"
 
 #: libgthumb/gnome-print-font-picker.c:179
-#, fuzzy
 msgid "Title"
 msgstr "Tittel"
 
 #: libgthumb/gnome-print-font-picker.c:180
-#, fuzzy
 msgid "The title of the selection dialog box"
 msgstr "Tittelen på valdialogboksen"
 
 #: libgthumb/gnome-print-font-picker.c:200
-#, fuzzy
 msgid "Font name"
 msgstr "Skriftnamn"
 
 #: libgthumb/gnome-print-font-picker.c:201
-#, fuzzy
 msgid "Name of the selected font"
 msgstr "Namnet på den valde skrifttypen"
 
 #: libgthumb/gnome-print-font-picker.c:209
-#, fuzzy
 msgid "Preview text"
 msgstr "Førehandsvist tekst"
 
 #: libgthumb/gnome-print-font-picker.c:210
-#, fuzzy
 msgid "Preview text shown in the dialog"
 msgstr "Førehandsvist tekst vist i dialogen"
 
 #: libgthumb/gnome-print-font-picker.c:218
-#, fuzzy
 msgid "Use font in label"
 msgstr "Bruk skrifttype i merkelapp"
 
 #: libgthumb/gnome-print-font-picker.c:219
-#, fuzzy
 msgid "Use font in the label in font info mode"
 msgstr "Bruk skrifttype i merkelapp i skrifttype-informasjonsmodus"
 
 #: libgthumb/gnome-print-font-picker.c:227
-#, fuzzy
 msgid "Font size for label"
 msgstr "Skriftstorleik i merkelapp"
 
 #: libgthumb/gnome-print-font-picker.c:228
-#, fuzzy
 msgid "Font size for label in font info mode"
 msgstr "Skriftstorleik i merkelapp i skrifttype-informasjonsmodus"
 
 #: libgthumb/gnome-print-font-picker.c:238
-#, fuzzy
 msgid "Show size"
 msgstr "Vis storleik"
 
 #: libgthumb/gnome-print-font-picker.c:239
-#, fuzzy
 msgid "Show size in font info mode"
 msgstr "Vis storleik i skrifttype-informasjonsmodus"
 
 #: libgthumb/gnome-print-font-picker.c:1018
-#, fuzzy
 msgid "Font"
 msgstr "Skrifttype"
 
@@ -2241,13 +2183,11 @@ msgstr ""
 
 #: libgthumb/gth-file-list.c:616 libgthumb/gth-file-list.c:637
 #: libgthumb/gth-image-list.c:3442 src/gthumb-window.c:487
-#, fuzzy
 msgid "No image"
 msgstr "Ikkje noko bilete"
 
 #: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
 #: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
-#, fuzzy
 msgid "Name"
 msgstr "Namn"
 
@@ -2284,7 +2224,7 @@ msgstr ""
 
 #: src/actions.c:303 src/actions.c:813 src/actions.c:1036 src/actions.c:1113
 #: src/actions.c:1335
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
@@ -2292,7 +2232,6 @@ msgstr ""
 "Namnet «%s» er ikkje gyldig. Det inneheld teiknet «/». Bruk eit anna namn."
 
 #: src/actions.c:330 src/dlg-convert.c:314
-#, fuzzy
 msgid "_Overwrite"
 msgstr "Skriv _over"
 
@@ -2311,12 +2250,10 @@ msgid "Could not duplicate the image \"%s\": %s"
 msgstr ""
 
 #: src/actions.c:457
-#, fuzzy
 msgid "Stop"
 msgstr "Stopp"
 
 #: src/actions.c:458
-#, fuzzy
 msgid "Continue"
 msgstr "Hald fram"
 
@@ -2370,12 +2307,10 @@ msgstr ""
 
 #: src/actions.c:1100 src/dlg-catalog.c:86 src/dlg-catalog.c:131
 #: src/dlg-categories.c:242 src/dlg-file-utils.c:90
-#, fuzzy
 msgid "C_reate"
 msgstr "_Lag"
 
 #: src/actions.c:1156
-#, fuzzy
 msgid "New Library"
 msgstr "Nytt bibliotek"
 
@@ -2413,7 +2348,6 @@ msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 
 #: src/actions.c:1515 src/dlg-file-utils.c:281
-#, fuzzy
 msgid "_Move"
 msgstr "_Flytt"
 
@@ -2440,7 +2374,6 @@ msgid "Choose the destination folder"
 msgstr ""
 
 #: src/actions.c:1971
-#, fuzzy
 msgid "New Folder"
 msgstr "Ny mappe"
 
@@ -2448,7 +2381,7 @@ msgstr "Ny mappe"
 msgid "Enter the folder name: "
 msgstr ""
 
-#: src/actions.c:1973 src/dlg-photo-importer.c:1314
+#: src/actions.c:1973 src/dlg-photo-importer.c:1317
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr ""
@@ -2469,7 +2402,7 @@ msgstr ""
 #: src/actions.c:2766 src/dlg-categories.c:368 src/dlg-change-date.c:151
 #: src/dlg-comment.c:303 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
 #: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "Could not display help: %s"
 msgstr "Klarte ikkje visa hjelp: %s"
 
@@ -2597,7 +2530,7 @@ msgid "You didn't enter the new name"
 msgstr ""
 
 #: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "Namnet «%s» er allereie i bruk i denne mappa. Vel eit anna namn."
@@ -2676,12 +2609,12 @@ msgstr ""
 msgid "%s Properties"
 msgstr "Eigenskapar for %s"
 
-#: src/dlg-photo-importer.c:817 src/dlg-photo-importer.c:1261
-#: src/dlg-photo-importer.c:1306 src/dlg-photo-importer.c:1317
+#: src/dlg-photo-importer.c:820 src/dlg-photo-importer.c:1264
+#: src/dlg-photo-importer.c:1309 src/dlg-photo-importer.c:1320
 msgid "Could not import photos"
 msgstr ""
 
-#: src/dlg-photo-importer.c:1157 src/main.c:1054
+#: src/dlg-photo-importer.c:1160 src/main.c:1054
 msgid "Film"
 msgstr ""
 
