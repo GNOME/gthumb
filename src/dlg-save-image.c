@@ -248,7 +248,7 @@ dlg_save_image (GThumbWindow *window,
 
 
 
-#define GLADE_FILE     "gthumb_tools.glade"
+#define GLADE_FILE     "gthumb_convert.glade"
 
 
 typedef struct {

@@ -1,5 +1,10 @@
 2002-11-09  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* libgthumb/file-list.c (add_list_in_chunks) 
+	(add_list__get_file_info_done_cb) 
+	(set_list__get_file_info_done_cb): Add images in chunks to make
+	the list more responsive.
+
 	* src/gthumb-window.c (window_load_image): check whether 
 	filename == window->image_path
 

@@ -396,16 +396,9 @@ thumb_loader_start (ThumbLoader *tl)
 	g_return_if_fail (path != NULL);
 
 	if (priv->use_cache) {
-		/* Try to load the thumbnail from the nautilus cache ... */
+		/* Try to load the thumbnail from the nautilus cache */
 		cache_path = cache_get_nautilus_thumbnail_file (path);
 		priv->from_nautilus_cache = cache_path != NULL;
-
-		/* ... or from the gqview cache. */
-
-		/* FIXME
-		if (cache_path == NULL) 
-			cache_path = cache_get_gthumb_cache_name (path);
-		*/
 
 		if (path_is_file (cache_path)) {
 			if (get_file_mtime (cache_path) != get_file_mtime (path)) {
@@ -421,18 +414,6 @@ thumb_loader_start (ThumbLoader *tl)
 	}
 
 	if (cache_path) {
-		/* FIXME
-		if (priv->from_nautilus_cache) {
-			/ * Delete the gqview thumbnail if it exists. * /
-			char *gthumb_file;
-
-			gthumb_file = cache_get_gthumb_cache_name (path);
-			if (path_is_file (gthumb_file))
-				unlink (gthumb_file);
-			g_free (gthumb_file);
-		}
-		*/
-
 		priv->from_cache = TRUE;
 		image_loader_set_path (priv->il, cache_path);
 		g_free (cache_path);

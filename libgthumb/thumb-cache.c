@@ -183,35 +183,6 @@ cache_get_nautilus_thumbnail_file (const gchar *source)
 }
 
 
-/* FIXME
-gchar *
-cache_get_gthumb_cache_name (const gchar *source) 
-{
-	gchar *path;
-	gchar *directory;
-	const gchar *filename;
-
-	if (!source) return NULL;
-
-	directory = remove_level_from_path (source);
-	filename = file_name_from_path (source);
-
-	path = g_strconcat (g_get_home_dir(), 
-			    "/", 
-			    RC_THUMBS_DIR, 
-			    directory,
-			    "/",
-			    filename, 
-			    CACHE_THUMB_EXT, 
-			    NULL);
-
-	g_free (directory);
-
-	return path;
-}
-*/
-
-
 gchar *
 cache_get_nautilus_cache_name (const gchar *source) 
 {
@@ -252,21 +223,6 @@ cache_copy (const gchar *src,
 	char   *cache_src;
 	time_t  dest_mtime = get_file_mtime (dest);
 
-	/* FIXME
-	cache_src = cache_get_gthumb_cache_name (src);
-	if (path_is_file (cache_src)) {
-		char *cache_dest = cache_get_gthumb_cache_name (dest);
-
-		if (path_is_file (cache_dest)) 
-			unlink (cache_dest);
-		if (file_copy (cache_src, cache_dest))
-			set_file_mtime (cache_dest, dest_mtime);
-
-		g_free (cache_dest);
-	}
-	g_free (cache_src);
-	*/
-
 	cache_src = cache_get_nautilus_cache_name (src);
 	if (path_is_file (cache_src)) {
 		char *cache_dest = cache_get_nautilus_cache_name (dest);
@@ -289,21 +245,6 @@ cache_move (const char *src,
 	char   *cache_src;
 	time_t  dest_mtime = get_file_mtime (dest);
 
-	/*
-	cache_src = cache_get_gthumb_cache_name (src);
-	if (path_is_file (cache_src)) {
-		char *cache_dest = cache_get_gthumb_cache_name (dest);
-
-		if (path_is_file (cache_dest)) 
-			unlink (cache_dest);
-		if (file_move (cache_src, cache_dest))
-			set_file_mtime (cache_dest, dest_mtime);
-
-		g_free (cache_dest);
-	}
-	g_free (cache_src);
-	*/
-
 	cache_src = cache_get_nautilus_cache_name (src);
 
 	if (path_is_file (cache_src)) {
@@ -325,31 +266,10 @@ cache_delete (const gchar *filename)
 {
 	char *cache_name;
 
-	/*
-	cache_name = cache_get_gthumb_cache_name (filename);
-	unlink (cache_name);
-	g_free (cache_name);
-	*/
-
 	cache_name = cache_get_nautilus_cache_name (filename);
 	unlink (cache_name);
 	g_free (cache_name);
 }
-
-
-/*
-void
-cache_remove_old_previews (const gchar *dir,
-			   gboolean recursive,
-			   gboolean clear_all)
-{
-	visit_rc_directory (RC_THUMBS_DIR,
-			    CACHE_THUMB_EXT,
-			    dir,
-			    recursive,
-			    clear_all);
-}
-*/
 
 
 /* ----- cache_remove_old_previews_async implememtation. ------ */
@@ -365,77 +285,12 @@ typedef struct {
 static void nautilus_cache_remove_old_previews_async (gboolean recursive,
 						      gboolean clear_all);
 
-/* FIXME 
-static void
-cache_remove_done (const GList *dir_list,
-		   gpointer     data)
-{
-	CacheRemoveData *crd = data;
-
-	if (crd->clear_all) {
-		const GList *scan;
-		for (scan = dir_list; scan; scan = scan->next) {
-			gchar *dir = scan->data;
-			rmdir (dir);
-		}
-	}
-
-	gtk_widget_destroy (crd->dialog);
-
-	nautilus_cache_remove_old_previews_async (crd->recursive,
-						  crd->clear_all);
-	g_free (crd);
-}
-
-
-static void 
-check_cache_file (gchar *real_file, 
-		  gchar *rc_file, 
-		  gpointer data)
-{
-	CacheRemoveData *crd = data;
-
-	if (crd->clear_all || ! path_is_file (real_file)) {
-		if ((unlink (rc_file) < 0))
-			g_warning ("Cannot delete %s\n", rc_file);
-	}
-}
-*/
-
-
 void
-cache_remove_old_previews_async (const gchar *dir,
-				 gboolean recursive,
-				 gboolean clear_all)
+cache_remove_old_previews_async (const char *dir,
+				 gboolean    recursive,
+				 gboolean    clear_all)
 {
 	nautilus_cache_remove_old_previews_async (recursive, clear_all);
-
-	/* FIXME
-	CacheRemoveData *crd;
-
-	crd = g_new (CacheRemoveData, 1);
-	crd->recursive = recursive;
-	crd->clear_all = clear_all;
-	crd->dialog = _gtk_message_dialog_new (NULL,
-					       GTK_DIALOG_MODAL,
-					       GTK_MESSAGE_INFO,
-					       _("Deleting old thumbnails, wait please..."),
-					       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-					       NULL);
-	g_signal_connect_swapped (G_OBJECT (crd->dialog),
-				  "response",
-				  G_CALLBACK (gtk_widget_hide),
-				  crd->dialog);
-	gtk_widget_show (crd->dialog);
-
-	visit_rc_directory_async (RC_THUMBS_DIR,
-				  CACHE_THUMB_EXT,
-				  dir,
-				  recursive,
-				  check_cache_file,
-				  cache_remove_done,
-				  crd);
-	*/
 }
 
 
@@ -523,8 +378,6 @@ get_real_name_from_nautilus_cache (NautilusCacheRemoveData *ncrd,
 
 	real_name = g_strconcat (e_cache_dir, "/", cache_name, NULL);
 	g_free (e_cache_dir);
-
-	/* FIXME : delete this code */
 
 #if 0
 	/* --- 8< --- */

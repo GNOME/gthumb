@@ -467,7 +467,6 @@ gthumb_text_item_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	if (iti->editing) {
-		/* FIXME: are these the right graphics contexts? */
 		gdk_draw_rectangle (drawable,
 				    style->base_gc[GTK_STATE_NORMAL],
 				    TRUE,

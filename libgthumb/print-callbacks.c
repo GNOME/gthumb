@@ -814,17 +814,6 @@ page_update (DialogData *data)
 		paper_bmargin = lmargin;
 	}
 
-	/* FIXME 
-	if ((pi->portrait == portrait)
-	    && (pi->paper_width == paper_width)
-	    && (pi->paper_height == paper_height)
-	    && (pi->paper_lmargin == paper_lmargin)
-	    && (pi->paper_tmargin == paper_tmargin)
-	    && (pi->paper_rmargin == paper_rmargin)
-	    && (pi->paper_bmargin == paper_bmargin))
-		return;
-	*/
-
 	pi->portrait = portrait;
 	pi->paper_width   = paper_width;
 	pi->paper_height  = paper_height;

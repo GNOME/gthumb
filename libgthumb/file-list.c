@@ -39,9 +39,11 @@
 #include "typedefs.h"
 #include "icons/pixbufs.h"
 
-#define THUMB_BORDER 13
-#define ROW_SPACING  14
-#define COL_SPACING  14
+#define THUMB_BORDER   13
+#define ROW_SPACING    14
+#define COL_SPACING    14
+#define ADD_LIST_DELAY 75
+#define ADD_LIST_CHUNK 333
 
 static GdkPixbuf *unknown_pixbuf = NULL;
 
@@ -335,50 +337,6 @@ file_list_free (FileList *file_list)
 }
 
 
-/* used by file_list_update_list. */
-static void file_list_update_thumbs (FileList *file_list);
-
-
-/* -- file_list_update_list -- */
-
-
-void
-update_list__step2 (FileList *file_list)
-{
-	GtkWidget *ilist;
-	int        pos;
-	GList     *scan;
-
-	ilist = file_list->ilist;
-	image_list_freeze (IMAGE_LIST (ilist));
-	image_list_clear (IMAGE_LIST (ilist));
-
-	for (scan = file_list->list; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-
-		pos = image_list_append (IMAGE_LIST (ilist),
-					 unknown_pixbuf,
-					 fd->name,
-					 fd->comment);
-
-		image_list_set_image_data (IMAGE_LIST (ilist), pos, fd);
-	}
-
-	image_list_sort (IMAGE_LIST (ilist));
-	image_list_thaw (IMAGE_LIST (ilist));
-
-	if ((file_list->list != NULL) && file_list->enable_thumbs)
-		file_list_update_thumbs (file_list);
-}
-
-
-static void
-file_list_update_list (FileList *file_list)
-{
-	file_list_interrupt_thumbs (file_list, (DoneFunc) update_list__step2, file_list);
-}
-
-
 
 /* ----- file_list_set_list help functions ----- */
 
@@ -389,6 +347,8 @@ typedef struct {
 	GList    *uri_list;
 	DoneFunc  done_func;
 	gpointer  done_func_data;
+	guint     timeout_id;
+	gboolean  doing_thumbs;
 } GetFileInfoData;
 
 
@@ -405,6 +365,8 @@ get_file_info_data_new (FileList *file_list,
 	data->uri_list = NULL;
 	data->done_func = done_func;
 	data->done_func_data = done_func_data;
+	data->timeout_id = 0;
+	data->doing_thumbs = FALSE;
 
 	return data;
 }
@@ -435,6 +397,9 @@ get_file_info_data_free (GetFileInfoData *data)
 
 
 /* -- file_list_set_list -- */
+
+
+static gboolean add_list_in_chunks (gpointer callback_data);
 
 
 static void 
@@ -476,19 +441,8 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
 
-	/**/
-
-	file_list->list = gfi_data->filtered;
-	gfi_data->filtered = NULL;
-	file_list_update_list (file_list);
-
-	done_func = gfi_data->done_func;
-	gfi_data->done_func = NULL;
-	file_list->interrupt_done_func = NULL;
-	if (done_func != NULL)
-		(*done_func) (gfi_data->done_func_data);
-
-	get_file_info_data_free (gfi_data);
+	image_list_clear (IMAGE_LIST (file_list->ilist));
+	add_list_in_chunks (gfi_data);
 }
 
 
@@ -507,6 +461,7 @@ set_list__step2 (GetFileInfoData *gfi_data)
 	}
 
  	file_list_free_list (file_list);
+
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -577,6 +532,86 @@ file_list_interrupt_set_list (FileList *file_list,
 /* -- file_list_add_list -- */
 
 
+static gboolean
+add_list_in_chunks (gpointer callback_data)
+{
+	GetFileInfoData *gfi_data = callback_data;
+	FileList        *file_list = gfi_data->file_list;
+	GtkWidget       *ilist = file_list->ilist;
+	GList           *scan, *chunk;
+	DoneFunc         done_func;
+	int              i, n = ADD_LIST_CHUNK;
+
+	if (gfi_data->timeout_id != 0) {
+		g_source_remove (gfi_data->timeout_id);
+		gfi_data->timeout_id = 0;
+	}
+
+	if (file_list->interrupt_set_list) {
+		done_func = file_list->interrupt_done_func;
+		file_list->interrupt_done_func = NULL;
+
+		if (done_func != NULL)
+			(*done_func) (file_list->interrupt_done_data);
+		get_file_info_data_free (gfi_data);
+
+		return FALSE;
+	}
+
+	if (gfi_data->filtered == NULL) {
+		image_list_sort (IMAGE_LIST (ilist));
+
+		if ((file_list->list != NULL) && file_list->enable_thumbs) { 
+			file_list->doing_thumbs = TRUE;
+			file_list_update_next_thumb (file_list);
+		}
+
+		done_func = gfi_data->done_func;
+		gfi_data->done_func = NULL;
+		file_list->interrupt_done_func = NULL;
+		if (done_func != NULL)
+			(*done_func) (gfi_data->done_func_data);
+		
+		get_file_info_data_free (gfi_data);
+		
+		return FALSE;
+	}
+	
+	/**/
+
+	image_list_freeze (IMAGE_LIST (ilist));
+
+	for (i = 0, scan = gfi_data->filtered; (i < n) && scan; i++, scan = scan->next) {
+		FileData *fd = scan->data;
+		int       pos;
+		
+		pos = image_list_append (IMAGE_LIST (ilist),
+					 unknown_pixbuf,
+					 fd->name,
+					 fd->comment);
+		
+		image_list_set_image_data (IMAGE_LIST (ilist), pos, fd);
+	}
+	
+	image_list_thaw (IMAGE_LIST (ilist));
+	
+	if ((scan != NULL) && (scan->prev != NULL)) {
+		scan->prev->next = NULL;
+		scan->prev = NULL;
+	}
+
+	chunk = gfi_data->filtered;
+	gfi_data->filtered = scan;
+	file_list->list = g_list_concat (file_list->list, chunk);
+	
+	gfi_data->timeout_id = g_timeout_add (ADD_LIST_DELAY, 
+					      add_list_in_chunks, 
+					      gfi_data);
+	
+	return TRUE;
+}
+
+
 static void 
 add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 				 GList *results, /* GnomeVFSGetFileInfoResult* items */
@@ -584,7 +619,6 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 {
 	GetFileInfoData *gfi_data = callback_data;
 	FileList        *file_list = gfi_data->file_list;
-	GtkWidget       *ilist = file_list->ilist;
 	GList           *scan;
 	DoneFunc         done_func;
 
@@ -617,48 +651,16 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		gfi_data->filtered = g_list_prepend (gfi_data->filtered, fd);
 	}
 
-	if (gfi_data->filtered != NULL) {
-		image_list_freeze (IMAGE_LIST (ilist));
-
+	if (! gfi_data->doing_thumbs)
 		for (scan = file_list->list; scan; scan = scan->next) {
 			FileData *fd = scan->data;
 			fd->thumb = TRUE;
 			fd->error = FALSE;
 		}
 
-		for (scan = gfi_data->filtered; scan; scan = scan->next) {
-			FileData *fd = scan->data;
-			int       pos;
-			
-			pos = image_list_append (IMAGE_LIST (ilist),
-						 unknown_pixbuf,
-						 fd->name,
-						 fd->comment);
-			
-			image_list_set_image_data (IMAGE_LIST (ilist), pos, fd);
-		}
-		image_list_sort (IMAGE_LIST (ilist));
-		image_list_thaw (IMAGE_LIST (ilist));
-		
-		file_list->list = g_list_concat (file_list->list, 
-						 gfi_data->filtered);
-		gfi_data->filtered = NULL;
+	add_list_in_chunks (gfi_data);
 
-		if ((file_list->list != NULL) && file_list->enable_thumbs) {
-			file_list->doing_thumbs = TRUE;
-			file_list_update_next_thumb (file_list);
-		}
-	}
-
-	/**/
-
-	done_func = gfi_data->done_func;
-	gfi_data->done_func = NULL;
-	file_list->interrupt_done_func = NULL;
-	if (done_func != NULL)
-		(*done_func) (gfi_data->done_func_data);
-
-	get_file_info_data_free (gfi_data);
+	return;
 }
 
 
@@ -676,7 +678,6 @@ add_list__step2 (GetFileInfoData *gfi_data)
 		return;
 	}
 
-	/* file_list_free_list (file_list); FIXME */
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -731,6 +732,8 @@ file_list_add_list (FileList *file_list,
 			(*done_func) (done_func_data);
 		return;
 	}
+
+	gfi_data->doing_thumbs = file_list->doing_thumbs;
 
 	if (file_list->doing_thumbs)
 		file_list_interrupt_thumbs (file_list, 
@@ -1104,6 +1107,9 @@ enable_thumbs__step2 (FileList *file_list)
 }
 
 
+static void file_list_update_thumbs (FileList *file_list);
+
+
 void
 file_list_enable_thumbs (FileList *file_list,
 			 gboolean  enable)
@@ -1465,10 +1471,8 @@ file_list_update_thumb (FileList     *file_list,
 	fd->thumb = FALSE;
 
 	file_list->thumb_pos = pos;
-	/* file_list->thumbs_num++; */
 	file_list->thumb_fd = fd;
 	
-	/* file_list->doing_thumbs = FALSE; FIXME */
 	file_list_update_current_thumb (file_list);
 }
 
@@ -1596,21 +1600,6 @@ file_list_update_next_thumb (FileList *file_list)
 	file_list->thumb_fd = fd;
 
 	file_list_update_current_thumb (file_list);
-
-	/* FIXME */
-
-#if 0
-	if (path_is_file (file_list->thumb_fd->path)) {
-		thumb_loader_set_path (file_list->thumb_loader, 
-				       file_list->thumb_fd->path);
-		thumb_loader_start (file_list->thumb_loader);
-
-	} else /* Error: the file does not exists. */
-		g_signal_emit_by_name (G_OBJECT (file_list->thumb_loader),
-				       "error",
-				       0,
-				       file_list);
-#endif
 }
 
 
