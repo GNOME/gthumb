@@ -1,3 +1,8 @@
+2004-06-24  Gustavo Noronha Silva  <kov@debian.org>
+
+	* pt_BR.po: fixed bad translation for 'data'
+	  on two messages
+
 2004-06-22  Metin Amiroff  <metin@karegen.com>
 
 	* az.po: Translation updated.

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: gthumb 0.9.4-1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-03-21 20:30+0100\n"
-"PO-Revision-Date: 2004-03-21 21:30-0300\n"
+"PO-Revision-Date: 2004-06-24 01:21-0300\n"
 "Last-Translator: Viviani Ap. dos Santos <vivi_olivetti@brfree.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -1786,7 +1786,7 @@ msgstr "<b>Personalize o tema</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Photo data</b>"
-msgstr "<b>Data da foto</b>"
+msgstr "<b>Dados da foto</b>"
 
 #: data/glade/gthumb_web_exporter.glade.h:15
 msgid "<b>Theme</b>"
@@ -3748,7 +3748,7 @@ msgstr "Comentário da imagem"
 
 #: src/gthumb-window.c:5353
 msgid "Image data"
-msgstr "Data da imagem"
+msgstr "Dados da imagem"
 
 #: src/gthumb-window.c:5367
 msgid "Image preview"
