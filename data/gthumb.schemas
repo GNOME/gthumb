@@ -1402,6 +1402,31 @@
 	  <long> Possible values are: forward, backward, random.
 	  </long>
 	</locale>
+
+	<locale name="cs">
+	  
+	  <long>Možné hodnoty jsou: forward, backward, random.</long>
+	</locale>
+
+	<locale name="es">
+	  
+	  <long>Los valores posibles son: forward, backward, random.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: forward, backward, random.</long>
+	</locale>
+
+	<locale name="sr">
+	  
+	  <long>Дозвољене вредности су: forward, backward, random.</long>
+	</locale>
+
+	<locale name="sr@Latn">
+	  
+	  <long>Dozvoljene vrednosti su: forward, backward, random.</long>
+	</locale>
       </schema>
 
       <schema>
@@ -3619,6 +3644,11 @@
 	<locale name="fr">
 	  
 	  <long>Les valeurs possible sont : none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
+	</locale>
+
+	<locale name="hu">
+	  
+	  <long>Lehetséges értékek: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom.</long>
 	</locale>
 
 	<locale name="ja">

@@ -33,7 +33,7 @@
 #include "catalog-web-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
-#include "exif-utils.h"
+#include "gth-exif-utils.h"
 #include "dlg-file-utils.h"
 #include "gthumb-init.h"
 #include "gthumb-marshal.h"

@@ -1397,6 +1397,7 @@ print_image_dlg (GtkWindow   *parent,
 		gtk_toggle_button_set_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), TRUE);
 		pi->print_comment = FALSE;
 	}
+
 	gtk_widget_set_sensitive (data->comment_font_hbox, pi->print_comment);
 
 	value = eel_gconf_get_string (PREF_PRINT_COMMENT_FONT, DEF_COMMENT_FONT);
@@ -3321,6 +3322,7 @@ print_catalog_dlg (GtkWindow *parent,
 
 	pci->print_comments = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), pci->print_comments);
+	gtk_widget_set_sensitive (data->comment_font_hbox, pci->print_comments);
 
 	pci_update_comment_font (data);
 

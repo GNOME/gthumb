@@ -27,7 +27,7 @@
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 #include "file-data.h"
-#include "exif-utils.h"
+#include "gth-exif-utils.h"
 #include "file-utils.h"
 #include "gthumb-window.h"
 #include "main.h"

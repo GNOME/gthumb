@@ -74,14 +74,14 @@ gthumb_SOURCES = 			\
 	dlg-scale-image.h		\
 	e-combo-button.c		\
 	e-combo-button.h		\
-	exif-utils.c			\
-	exif-utils.h			\
 	fullscreen.c			\
 	fullscreen.h			\
 	gth-image-selector.c		\
 	gth-image-selector.h		\
 	gth-exif-data-viewer.c		\
 	gth-exif-data-viewer.h		\
+	gth-exif-utils.c		\
+	gth-exif-utils.h		\
 	gth-folder-selection-dialog.c	\
 	gth-folder-selection-dialog.h	\
 	gth-toggle-button.c		\

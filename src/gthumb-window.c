@@ -63,7 +63,7 @@
 #include "nav-window.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
-#include "exif-utils.h"
+#include "gth-exif-utils.h"
 
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
@@ -6121,14 +6121,6 @@ window_show_sidebar (GThumbWindow *window)
 
 	/**/
 
-	gtk_widget_show (window->preview_button_image);
-	gtk_widget_show (window->preview_button_comment);
-
-	if (window->preview_visible)
-		window_show_image_pane (window);
-	else
-		window_hide_image_pane (window);
-
 	if (window->layout_type < 2)
 		gtk_widget_show (GTK_PANED (window->main_pane)->child1);
 
@@ -6166,6 +6158,18 @@ window_show_sidebar (GThumbWindow *window)
 					      "hidden", "1",
 					      NULL);
 	}
+
+	/**/
+
+	gtk_widget_show (window->preview_button_image);
+	gtk_widget_show (window->preview_button_comment);
+
+	if (window->preview_visible)
+		window_show_image_pane (window);
+	else
+		window_hide_image_pane (window);
+
+	/**/
 
 	gtk_widget_grab_focus (gth_file_view_get_widget (window->file_list->view));
 

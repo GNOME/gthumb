@@ -1,3 +1,24 @@
+2004-02-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gth-exif-utils.c: 
+
+	Fix bug #133131 (exif orientation tag not updated).
+
+	* src/gth-exif-utils.h: 
+
+	Rename exif-utils.[ch] to gth-exif-utils.[ch]
+
+	* src/dlg-jpegtran.c (update_rotation_from_exif_data): 
+
+	Handle the 8 possible values of the orientation tag.
+
+2004-01-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/print-callbacks.c (print_catalog_dlg): 
+
+	Fix bug #132614 (Comment font option menu in print dialog is 
+	not disabled by default).
+
 2004-01-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb-window.c (window_update_statusbar_image_info): 

@@ -38,7 +38,7 @@
 #include "gtk-utils.h"
 #include "gth-file-view.h"
 #include "comments.h"
-#include "exif-utils.h"
+#include "gth-exif-utils.h"
 
 
 enum {

@@ -30,7 +30,7 @@
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
-#include "exif-utils.h"
+#include "gth-exif-utils.h"
 #include "file-utils.h"
 #include "dlg-file-utils.h"
 #include "preferences.h"
