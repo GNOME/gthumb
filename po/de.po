@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "POT-Creation-Date: 2002-10-30 17:44+0100\n"
-"PO-Revision-Date: 2002-10-30 17:52+0100\n"
+"PO-Revision-Date: 2002-10-30 19:07+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -178,7 +178,7 @@ msgstr "Die markierten Dateien wirklich aus dem Katalog löschen?"
 #: src/dlg-categories.c:199
 #: src/dlg-png-exporter.c:204
 msgid "C_reate"
-msgstr "E_rstellen"
+msgstr "_Erstellen"
 
 #: src/commands-impl.c:858
 #: src/commands-impl.c:982
@@ -251,7 +251,7 @@ msgstr "Katalog »%s« konnte nicht umbenannt werden: %s"
 
 #: src/commands-impl.c:1480
 msgid "The selected catalog will be deleted, are you sure ?"
-msgstr "Den ausgewählten Katalog wirklich löschen?"
+msgstr "Den markierten Katalog wirklich löschen?"
 
 #: src/commands-impl.c:2325
 #: src/dlg-categories.c:323
@@ -932,7 +932,7 @@ msgstr "Aus E_XIF-Daten importieren"
 
 #: src/gthumb_comments.glade.h:11
 msgid "Remove selected category"
-msgstr "Die gewählte Kategorie entfernen"
+msgstr "Die markierte Kategorie entfernen"
 
 #: src/gthumb_comments.glade.h:12
 msgid "Save only cha_nged fields"
@@ -959,7 +959,7 @@ msgstr "_Ort:"
 #: src/gthumb_comments.glade.h:17
 #: src/gthumb_search.glade.h:31
 msgid "_Selected categories:"
-msgstr "_Gewählte Kategorien:"
+msgstr "_Markierte Kategorien:"
 
 #: src/gthumb_comments.glade.h:18
 msgid "_Today"
@@ -1843,7 +1843,7 @@ msgstr "Den markierten Bildern einen Kommentar hinzufügen"
 
 #: src/gthumb-ui.xml.h:5
 msgid "Add current location to bookmarks"
-msgstr "Aktuelles Verzeichnis den Lesezeichen beifügen"
+msgstr "Den aktuellen Speicherort zu den Lesezeichen hinzufügen"
 
 #: src/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
@@ -1888,7 +1888,7 @@ msgstr "Kataloge"
 
 #: src/gthumb-ui.xml.h:16
 msgid "Close all windows and exit"
-msgstr "Alle Fenster schließen und beenden"
+msgstr "Alle Fenster schließen und gThumb beenden"
 
 #: src/gthumb-ui.xml.h:17
 msgid "Close this window"
@@ -1920,7 +1920,7 @@ msgstr "Eine neue Katalogbibliothek anlegen"
 
 #: src/gthumb-ui.xml.h:26
 msgid "Create a new folder"
-msgstr "Einen neuen Ordner erzeugen"
+msgstr "Einen neuen Ordner anlegen"
 
 #: src/gthumb-ui.xml.h:27
 msgid "Create a new window"
@@ -1960,7 +1960,7 @@ msgstr "Den aktuellen Ordner löschen"
 
 #: src/gthumb-ui.xml.h:36
 msgid "Delete selected catalog"
-msgstr "Ausgewählten Katalog löschen"
+msgstr "Den markierten Katalog löschen"
 
 #: src/gthumb-ui.xml.h:37
 msgid "Delete selected folder"
@@ -1992,7 +1992,7 @@ msgstr "Duplizieren"
 
 #: src/gthumb-ui.xml.h:44
 msgid "Duplicate selected image"
-msgstr "Markiertes Bild duplizieren"
+msgstr "Das markierte Bild duplizieren"
 
 #: src/gthumb-ui.xml.h:45
 msgid "Duplicate this image"
@@ -2008,7 +2008,7 @@ msgstr "Suche bearbeiten"
 
 #: src/gthumb-ui.xml.h:48
 msgid "Edit bookmarks"
-msgstr "Lesezseichen bearbeiten"
+msgstr "Die Lesezeichen bearbeiten"
 
 #: src/gthumb-ui.xml.h:49
 msgid "Edit various preferences"
@@ -2108,7 +2108,7 @@ msgstr "Ordner verschieben"
 
 #: src/gthumb-ui.xml.h:74
 msgid "Move current catalog to another location"
-msgstr "Aktuellen Katalog an einen anderen Speicherort verschieben"
+msgstr "Den aktuellen Katalog an einen anderen Speicherort verschieben"
 
 #: src/gthumb-ui.xml.h:75
 msgid "Move current folder"
@@ -2116,7 +2116,7 @@ msgstr "Den aktuellen Ordner verschieben"
 
 #: src/gthumb-ui.xml.h:76
 msgid "Move selected catalog to another location"
-msgstr "Ausgewählten Katalog in ein anderes Verzeichnis verschieben"
+msgstr "Den markierten Katalog in ein anderes Verzeichnis verschieben"
 
 #: src/gthumb-ui.xml.h:77
 msgid "Move selected folder"
@@ -2152,7 +2152,7 @@ msgstr "Nächstes"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Open current folder with the Nautilus file manager"
-msgstr "Aktuellen Ordner mit dem Nautilus-Dateimanager öffnen"
+msgstr "Den aktuellen Ordner mit dem Nautilus-Dateimanager öffnen"
 
 #: src/gthumb-ui.xml.h:87
 msgid "Open selected images with an application"
@@ -2161,8 +2161,7 @@ msgstr "Die markierten Bilder mit einer Anwendung öffnen"
 #: src/gthumb-ui.xml.h:88
 msgid "Open the selected folder with the Nautilus file\n"
 "\t     manager"
-msgstr "Den markierten Ordner mti dem Nautilus-\n"
-"\t      Dateimanager öffnen"
+msgstr "Den markierten Ordner mit dem Nautilus-Dateimanager öffnen"
 
 #: src/gthumb-ui.xml.h:90
 msgid "Open this image with an application"
@@ -2200,7 +2199,7 @@ msgstr "Drucken"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 msgid "Print the current image"
-msgstr "Aktuelles Bild drucken"
+msgstr "Das aktuelle Bild drucken"
 
 #: src/gthumb-ui.xml.h:100
 msgid "Redo Search"
@@ -2232,7 +2231,7 @@ msgstr "Neu einlesen"
 
 #: src/gthumb-ui.xml.h:107
 msgid "Reload the current location"
-msgstr "Aktuelles Verzeichnis neu laden"
+msgstr "Den aktuellen Speicherort neu einlesen"
 
 #: src/gthumb-ui.xml.h:108
 msgid "Remo_ve from Catalog"
@@ -2264,15 +2263,15 @@ msgstr "Den aktuellen Ordner umbenennen"
 
 #: src/gthumb-ui.xml.h:115
 msgid "Rename selected catalog"
-msgstr "Den gewählten Katalog umbenennen"
+msgstr "Den markierten Katalog umbenennen"
 
 #: src/gthumb-ui.xml.h:116
 msgid "Rename selected folder"
-msgstr "Den gewählten Ordner umbenennen"
+msgstr "Den markierten Ordner umbenennen"
 
 #: src/gthumb-ui.xml.h:117
 msgid "Rename selected image"
-msgstr "Das Markierte Bild umbenennen"
+msgstr "Das markierte Bild umbenennen"
 
 #: src/gthumb-ui.xml.h:118
 msgid "Rename this image"
@@ -2309,7 +2308,7 @@ msgstr "Speichern"
 
 #: src/gthumb-ui.xml.h:127
 msgid "Save current image"
-msgstr "Aktuelles Bild speichern"
+msgstr "Das aktuelle Bild speichern"
 
 #: src/gthumb-ui.xml.h:128
 msgid "Select all images"
@@ -2370,11 +2369,11 @@ msgstr "Die aktuelle Animation starten oder anhalten"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Step A_nimation"
-msgstr "Schrittweise A_nimation"
+msgstr "Schrittweise a_nimieren"
 
 #: src/gthumb-ui.xml.h:143
 msgid "Stop loading current location"
-msgstr "Aktuelles Verzeichnis neu einlesen"
+msgstr "Das Einlesen des aktuellen Ortes abbrechen"
 
 #: src/gthumb-ui.xml.h:144
 msgid "Str_erched"
@@ -2414,20 +2413,20 @@ msgstr "Weiß für die transparenten Flächen verwenden"
 
 #: src/gthumb-ui.xml.h:153
 msgid "View image in fullscreen mode"
-msgstr "Bild im Vollbildmodus anzeigen"
+msgstr "Dieses Bild im Vollbildmodus anzeigen"
 
 #: src/gthumb-ui.xml.h:154
 msgid "View images as a slideshow"
-msgstr "Bilder als Diashow anzeigen"
+msgstr "Die Bilder als Diashow anzeigen"
 
 #: src/gthumb-ui.xml.h:155
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 msgid "View next animation frame"
-msgstr "Nächstes Bild der Animation anzeigen"
+msgstr "Das nächste Bild der Animation anzeigen"
 
 #: src/gthumb-ui.xml.h:156
 msgid "View next image"
-msgstr "Nächstes Bild anzeigen"
+msgstr "Das nächste Bild anzeigen"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View or hide the statusbar of this window"
@@ -2439,7 +2438,7 @@ msgstr "Die Werkzeugleiste dieses Fensters zeigen oder verbergen"
 
 #: src/gthumb-ui.xml.h:159
 msgid "View previous image"
-msgstr "Vorheriges Bild anzeigen"
+msgstr "Das vorherige Bild anzeigen"
 
 #: src/gthumb-ui.xml.h:160
 msgid "View the catalogs"
@@ -2773,7 +2772,7 @@ msgstr "_Weiß"
 
 #: src/gthumb-ui.xml.h:247
 msgid "_Zoom"
-msgstr "Vergrößerung"
+msgstr "Ver_größerung"
 
 #: src/gthumb-ui.xml.h:248
 msgid "by _Name"
@@ -2963,7 +2962,7 @@ msgstr "Im Uhrzeigersinn _rotieren"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 msgid "_Step Animation"
-msgstr "_Schrittweise Animation"
+msgstr "_Schrittweise animieren"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:30
 msgid "_Zoom Quality"
