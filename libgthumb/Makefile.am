@@ -1,0 +1,135 @@
+SUBDIRS = icons cursors
+DIST_SUBDIRS = icons cursors
+
+DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED
+
+gladedir = $(datadir)/gthumb/glade
+
+INCLUDES =					\
+	$(GTHUMB_CFLAGS)			\
+	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
+	$(DISABLE_DEPRECATED)
+
+
+noinst_LIBRARIES = libgthumb.a
+
+
+EEL_CANVAS_RECT =		\
+	eel-canvas-rect.c	\
+	eel-canvas-rect.h
+
+ENUMS =				\
+	gthumb-enum-types.h	\
+	gthumb-enum-types.c
+
+EOG_CURSORS =			\
+	cursors.c		\
+	cursors.h
+
+HEADER_FILES =			\
+	bookmarks.h		\
+	catalog.h		\
+	catalog-png-exporter.h	\
+	comments.h		\
+	file-data.h		\
+	file-list.h		\
+	file-utils.h		\
+	gconf-utils.h		\
+	glib-utils.h		\
+	gthumb-canvas-text.h	\
+	gnome-canvas-thumb.h	\
+	gthumb-error.h		\
+	gthumb-init.h		\
+	gthumb-info-bar.h	\
+	gthumb-slide.h		\
+	gthumb-text-item.h	\
+	gtk-utils.h		\
+	image-list.h		\
+	image-list-utils.h	\
+	image-loader.h		\
+	image-viewer.h		\
+	nav-window.h		\
+	pixbuf-utils.h		\
+	preferences.h		\
+	print-callbacks.c	\
+	print-callbacks.h	\
+	search.h		\
+	thumb-cache.h		\
+	thumb-loader.h		\
+	typedefs.h
+
+MARSHALLERS =			\
+	gthumb-marshal.c	\
+	gthumb-marshal.h
+
+MD5 = 				\
+	md5.c			\
+	md5.h
+
+libgthumb_a_SOURCES =		\
+	$(EEL_CANVAS_RECT)	\
+	$(ENUMS)		\
+	$(EOG_CURSORS)		\
+	$(HEADER_FILES)		\
+	$(MARSHALLERS)		\
+	$(MD5)			\
+	bookmarks.c		\
+	catalog.c		\
+	catalog-png-exporter.c	\
+	comments.c		\
+	file-data.c		\
+	file-list.c		\
+	file-utils.c		\
+	gconf-utils.c		\
+	glib-utils.c		\
+	gthumb-canvas-text.c	\
+	gnome-canvas-thumb.c	\
+	gthumb-error.c		\
+	gthumb-init.c		\
+	gthumb-info-bar.c	\
+	gthumb-slide.c		\
+	gthumb-text-item.c	\
+	gtk-utils.c		\
+	image-list.c		\
+	image-list-utils.c	\
+	image-loader.c		\
+	image-viewer.c		\
+	nav-window.c		\
+	pixbuf-utils.c		\
+	preferences.c		\
+	search.c		\
+	thumb-cache.c		\
+	thumb-loader.c
+
+
+gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
+	$(GLIB_GENMARSHAL) gthumb-marshal.list --header --prefix=gthumb_marshal > $@
+
+gthumb-marshal.c: gthumb-marshal.h gthumb-marshal.list $(GLIB_GENMARSHAL)
+	echo "#include \"gthumb-marshal.h\"" > $@ && \
+	$(GLIB_GENMARSHAL) gthumb-marshal.list --body --prefix=gthumb_marshal >> $@
+
+gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
+	$(GLIB_MKENUMS) \
+		--fhead "#ifndef GTHUMB_ENUM__TYPES_H\n#define GTHUMB_ENUM_TYPES_H\n\n#include <glib-object.h>\n\nG_BEGIN_DECLS\n" \
+		--fprod "/* enumerations from \"@filename@\" */\n" \
+		--vhead "GType @enum_name@_get_type (void);\n#define GTHUMB_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
+		--ftail "G_END_DECLS\n\n#endif /* GTHUMB_ENUM_TYPES_H */" \
+                $(HEADER_FILES) > xgen-geth \
+        && (cmp -s xgen-geth $(srcdir)/gthumb-enum-types.h || cp xgen-geth $(srcdir)/gthumb-enum-types.h ) \
+        && rm -f xgen-geth
+
+gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) $(srcdir)/gthumb-enum-types.h
+	$(GLIB_MKENUMS) \
+		--fhead "#include <glib-object.h>\n" \
+		--fprod "\n/* enumerations from \"@filename@\" */\n#include \"@filename@\"" \
+		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {" \
+		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
+		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
+                $(HEADER_FILES) > xgen-getc \
+	&& cp xgen-getc $(srcdir)/gthumb-enum-types.c  \
+        && rm -f xgen-getc
+
+
+CLEANFILES = $(MARSHALLERS) $(ENUMS)
+EXTRA_DIST = gthumb-marshal.list

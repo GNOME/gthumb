@@ -1,0 +1,2689 @@
+# gThumb, best image tool for GNOME.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Kang, JeongHee <Keizi@mail.co.kr>, 2001, 2002.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gThumb 1.100.1\n"
+"POT-Creation-Date: 2002-09-13 18:18+0200\n"
+"PO-Revision-Date: 2002-06-23 20:10+0900\n"
+"Last-Translator: Kang, JeongHee <Keizi@mail.co.kr>\n"
+"Language-Team: Korean <ko@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=EUC-KR\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "gThumb"
+
+#: gthumb.desktop.in.h:2
+msgid "View and organize your images"
+msgstr "그림을 보고 관리도 하세요"
+
+#: gthumb.desktop.in.h:3 libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:206
+#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2121 src/gthumb-window.c:1076
+#: src/gthumb-window.c:1078 src/gthumb-window.c:1089 src/gthumb-window.c:1094
+#: src/gthumb-window.c:2828 src/gthumb_png_exporter.glade2.h:71 src/main.c:106
+msgid "gThumb"
+msgstr "gThumb"
+
+#: libgthumb/catalog.c:85
+#, c-format
+msgid "Cannot remove library \"%s\" : %s"
+msgstr "\"%s\" 라이브러리를 못 지우겠습니다 : %s"
+
+#: libgthumb/catalog.c:111
+#, c-format
+msgid "Cannot remove catalog \"%s\" : %s"
+msgstr "\"%s\" 카탈로그를 못 지우겠습니다 : %s"
+
+#: libgthumb/catalog.c:232 libgthumb/catalog.c:400
+#, c-format
+msgid "Cannot open file \"%s\" : %s"
+msgstr "\"%s\" 파일을 못 열겠습니다 : %s"
+
+#: libgthumb/catalog.c:377
+#, c-format
+msgid "Cannot save file \"%s\" : %s"
+msgstr "\"%s\" 파일을 못 쓰겠습니다 : %s"
+
+#: components/image-viewer/viewer-stream.c:98
+#: libgthumb/catalog-png-exporter.c:763 src/dlg-image-prop.c:526
+#: src/fullscreen.c:225 src/gthumb-window.c:434
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d 픽셀"
+
+#: libgthumb/comments.c:321
+msgid "Deleting old comments, wait please..."
+msgstr "전에 있던 설명을 지우고 있습니다. 기다려주세요..."
+
+#: libgthumb/comments.c:651
+msgid "%d %B %Y"
+msgstr ""
+
+#: libgthumb/comments.c:653 src/dlg-duplicates.c:511 src/dlg-image-prop.c:544
+#: src/fullscreen.c:232
+msgid "%d %B %Y, %H:%M"
+msgstr ""
+
+#: libgthumb/comments.c:663
+msgid "(No Comment)"
+msgstr "(설명 없음)"
+
+#: libgthumb/file-utils.c:1147
+msgid "Cannot find a terminal, using xterm, even if it may not work"
+msgstr ""
+"터미널을 찾을 수 없어 xterm을 대신 씁니다. 이것도 동작하지 않을 수 있습니다."
+
+#: libgthumb/thumb-cache.c:408 libgthumb/thumb-cache.c:654
+msgid "Deleting old thumbnails, wait please..."
+msgstr "전에 있던 작은그림을 지우고 있습니다. 기다려주세요..."
+
+#: src/commands-impl.c:191 src/commands-impl.c:818 src/commands-impl.c:1224
+msgid "Enter the new name : "
+msgstr "이름을 뭘로 바꿀까요?"
+
+#: src/commands-impl.c:195 src/commands-impl.c:822 src/commands-impl.c:1228
+#: src/gthumb-ui.xml.h:195 src/gthumb_tools.glade2.h:34
+msgid "_Rename"
+msgstr "이름 바꾸기(_R)"
+
+#: src/commands-impl.c:206 src/commands-impl.c:721 src/commands-impl.c:833
+#: src/commands-impl.c:1241
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+
+#: src/commands-impl.c:227
+#, c-format
+msgid ""
+"An image named \"%s\" is already present in this folder. Do you want to "
+"overwrite it ?"
+msgstr "\"%s\"라는 파일이 폴더에 이미 있습니다.덮어쓰라구요?"
+
+#: src/commands-impl.c:233
+msgid "_Overwrite"
+msgstr "그래(_O)"
+
+#: src/commands-impl.c:253 src/commands-impl.c:266
+#, c-format
+msgid "Could not rename the file \"%s\" : %s"
+msgstr "\"%s\" 파일의 이름을 못 바꾸겠습니다 : %s"
+
+#: src/commands-impl.c:255 src/commands-impl.c:856 src/commands-impl.c:1063
+msgid "source and destination are the same"
+msgstr "같은 파일입니다"
+
+#: src/commands-impl.c:326
+#, fuzzy
+msgid "Selected images will be deleted, are you sure ?"
+msgstr "선택한 카탈로그를 지울 겁니다. 맞나요?"
+
+#: src/commands-impl.c:346
+#, fuzzy
+msgid "The image will be deleted, are you sure ?"
+msgstr "선택한 폴더를 지울 겁니다. 맞나요?"
+
+#: src/commands-impl.c:597
+#, fuzzy
+msgid "The image will be deleted from the catalog, are you sure ?"
+msgstr "선택한 그림들이 카탈로그에서 지워질 겁니다. 맞습니까?"
+
+#: src/commands-impl.c:639
+msgid "The selected images will be deleted from the catalog, are you sure ?"
+msgstr "선택한 그림들이 카탈로그에서 지워질 겁니다. 맞습니까?"
+
+#: src/commands-impl.c:710 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/dlg-categories.c:199 src/dlg-png-exporter.c:190
+msgid "C_reate"
+msgstr "만들어(_C)"
+
+#: src/commands-impl.c:740 src/commands-impl.c:863 src/commands-impl.c:1070
+#: src/commands-impl.c:1263
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+
+#: src/commands-impl.c:768
+msgid "New Folder"
+msgstr "새 폴더"
+
+#: src/commands-impl.c:769
+msgid "Enter the folder name : "
+msgstr "폴더 이름을 뭘로 할까요?"
+
+#: src/commands-impl.c:770
+#, c-format
+msgid "Could not create the folder \"%s\" : %s"
+msgstr "\"%s\" 폴더를 못 만들겠습니다 : %s"
+
+#: src/commands-impl.c:781
+msgid "New Library"
+msgstr ""
+
+#: src/commands-impl.c:782 src/dlg-catalog.c:120
+msgid "Enter the library name : "
+msgstr "라이브러리 이름을 뭘로 할까요?"
+
+#: src/commands-impl.c:783
+#, c-format
+msgid "Could not create the library \"%s\" : %s"
+msgstr "\"%s\" 라이브러리를 못 만들겠습니다 : %s"
+
+#: src/commands-impl.c:854 src/commands-impl.c:895 src/commands-impl.c:1274
+#, c-format
+msgid "Could not rename the folder \"%s\" : %s"
+msgstr "\"%s\" 폴더 이름을 못 바꾸겠습니다 : %s"
+
+#: src/commands-impl.c:952 src/commands-impl.c:1357
+msgid "The selected folder will be deleted, are you sure ?"
+msgstr "선택한 폴더를 지울 겁니다. 맞나요?"
+
+#: src/commands-impl.c:988
+#, c-format
+msgid "Cannot remove folder \"%s\" : %s"
+msgstr "\"%s\" 폴더를 못 지우겠습니다 : %s"
+
+#: src/commands-impl.c:1061 src/commands-impl.c:1102
+#, fuzzy, c-format
+msgid "Could not move the folder \"%s\" : %s"
+msgstr "\"%s\" 폴더 이름을 못 바꾸겠습니다 : %s"
+
+#: src/commands-impl.c:1134 src/dlg-file-utils.c:313 src/dlg-file-utils.c:456
+msgid "Choose the destination folder"
+msgstr ""
+
+#: src/commands-impl.c:1274
+#, c-format
+msgid "Could not rename the catalog \"%s\" : %s"
+msgstr "\"%s\" 카탈로그 이름을 못 바꾸겠습니다 : %s"
+
+#: src/commands-impl.c:1359
+msgid "The selected catalog will be deleted, are you sure ?"
+msgstr "선택한 카탈로그를 지울 겁니다. 맞나요?"
+
+#: src/commands-impl.c:2061 src/dlg-categories.c:323 src/dlg-comment.c:240
+#: src/dlg-preferences.c:290 src/dlg-search.c:467
+#, c-format
+msgid "Could not display help: %s"
+msgstr ""
+
+#: src/commands-impl.c:2112
+msgid "translator_credits"
+msgstr ""
+
+#: src/commands-impl.c:2124
+msgid "An image viewer and browser for GNOME."
+msgstr "그놈용 이미지 뷰어 및 브라우저. (한글은 어디에 -_-;;)"
+
+#: src/dlg-catalog.c:79
+msgid "Enter the catalog name : "
+msgstr "카탈로그 이름을 뭘로 할까요?"
+
+#: src/dlg-catalog.c:432
+msgid "Move Catalog to..."
+msgstr ""
+
+#: src/dlg-categories.c:195
+msgid "Enter the new category name"
+msgstr "새 카탈로그 이름을 넣으세요"
+
+#: src/dlg-categories.c:208 src/dlg-categories.c:373
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "\"%s\"라는 카탈로그는 있습니다. 다른 이름으로 해주세요."
+
+#: src/dlg-duplicates.c:260 src/gthumb_print.glade2.h:7
+#: src/gthumb_tools.glade2.h:15
+msgid "Image"
+msgstr ""
+
+#: src/dlg-duplicates.c:274 src/dlg-duplicates.c:606
+#, fuzzy
+msgid "Duplicates"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/dlg-duplicates.c:289
+#, fuzzy
+msgid "Duplicates Size"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/dlg-duplicates.c:332 src/dlg-image-prop.c:153 src/gthumb.glade2.h:61
+msgid "Name"
+msgstr "이름"
+
+#: src/dlg-duplicates.c:360
+msgid "Last modified"
+msgstr ""
+
+#: src/dlg-duplicates.c:375 src/dlg-image-prop.c:173
+#, fuzzy
+msgid "Location"
+msgstr "...로 옮기기"
+
+#: src/dlg-duplicates.c:711
+#, fuzzy
+msgid "Checked images will be deleted, are you sure ?"
+msgstr "선택한 카탈로그를 지울 겁니다. 맞나요?"
+
+#: src/dlg-duplicates.c:757
+msgid ""
+"In order to use the \"Find Duplicates\" tool you have to have one of the "
+"following commands: sha1sum, md5sum.\n"
+"None of them could be found, so this tool is disabled."
+msgstr ""
+
+#: src/dlg-file-utils.c:138
+msgid "Could not delete the file:"
+msgstr ""
+
+#: src/dlg-file-utils.c:140
+msgid "Could not delete the following files:"
+msgstr ""
+
+#: src/dlg-file-utils.c:288
+msgid "Could not move the file:"
+msgstr ""
+
+#: src/dlg-file-utils.c:290
+msgid "Could not move the following files:"
+msgstr ""
+
+#: src/dlg-file-utils.c:431
+msgid "Could not copy the file:"
+msgstr ""
+
+#: src/dlg-file-utils.c:433
+msgid "Could not copy the following files:"
+msgstr ""
+
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:538
+#: src/gthumb-window.c:428
+msgid "%d %b %Y, %H:%M"
+msgstr ""
+
+#: src/dlg-file-utils.c:806
+#, fuzzy
+msgid "Could not rename the file:"
+msgstr "\"%s\" 파일의 이름을 못 바꾸겠습니다 : %s"
+
+#: src/dlg-file-utils.c:808
+#, fuzzy
+msgid "Could not rename the following files:"
+msgstr "\"%s\" 파일의 이름을 못 바꾸겠습니다 : %s"
+
+#: src/dlg-image-prop.c:158
+msgid "Type"
+msgstr ""
+
+#: src/dlg-image-prop.c:163
+#, fuzzy
+msgid "Image Dimensions"
+msgstr "이미지 크기"
+
+#: src/dlg-image-prop.c:168 src/gthumb.glade2.h:42
+msgid "File Size"
+msgstr "파일 크기"
+
+#: src/dlg-image-prop.c:178 src/gthumb.glade2.h:54
+msgid "Last Modified"
+msgstr ""
+
+#: src/dlg-image-prop.c:197 src/gthumb-ui.xml.h:14
+msgid "Comm_ent"
+msgstr "설명(_E)"
+
+#: src/dlg-image-prop.c:220
+msgid "E_XIF"
+msgstr ""
+
+#: src/dlg-image-prop.c:461
+#, fuzzy
+msgid "Categories"
+msgstr "카테고리(_T):"
+
+#: src/dlg-image-prop.c:512
+#, fuzzy, c-format
+msgid "%s properties"
+msgstr "그림 미리보기(_I)"
+
+#: src/dlg-jpegtran.c:387
+msgid "No JPEG image selected"
+msgstr ""
+
+#: src/dlg-maintenance.c:70
+#, fuzzy
+msgid "All comments will be deleted, are you sure ?"
+msgstr "선택한 폴더를 지울 겁니다. 맞나요?"
+
+#: src/dlg-maintenance.c:100
+#, fuzzy
+msgid "All thumbnails will be deleted, are you sure ?"
+msgstr "선택한 카탈로그를 지울 겁니다. 맞나요?"
+
+#: src/dlg-maintenance.c:160 src/dlg-maintenance.c:230
+msgid "Specify the backup file"
+msgstr ""
+
+#: src/dlg-png-exporter.c:188
+msgid "Destination folder does not exits. Do you want to create it ?"
+msgstr ""
+
+#: src/dlg-png-exporter.c:204
+#, c-format
+msgid "Could not create folder \"%s\" : %s."
+msgstr "\"%s\" 폴더를 못 만들겠습니다 : %s."
+
+#: src/dlg-png-exporter.c:217
+#, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr ""
+
+#: src/dlg-png-exporter.c:846
+msgid "Image Caption"
+msgstr ""
+
+#: src/dlg-png-exporter.c:898
+msgid "Header"
+msgstr "머리말"
+
+#: src/dlg-png-exporter.c:911 src/dlg-png-exporter.c:916
+msgid "Footer"
+msgstr "꼬리말"
+
+#: src/dlg-rename-series.c:297
+#, fuzzy
+msgid "Old Name"
+msgstr "이름"
+
+#: src/dlg-rename-series.c:305
+#, fuzzy
+msgid "New Name"
+msgstr "이름"
+
+#: src/dlg-search.c:356
+msgid "Search Result"
+msgstr ""
+
+#: src/dlg-search.c:840
+msgid "Filename"
+msgstr ""
+
+#: src/dlg-search.c:849
+msgid "Folder"
+msgstr ""
+
+#: src/gthumb.glade2.h:1 src/gthumb_comments.glade2.h:1
+#: src/gthumb_png_exporter.glade2.h:1 src/gthumb_search.glade2.h:1
+#: src/gthumb_tools.glade2.h:1
+msgid "    "
+msgstr ""
+
+#: src/gthumb.glade2.h:2 src/gthumb_tools.glade2.h:2
+msgid "     "
+msgstr ""
+
+#: src/gthumb.glade2.h:3 src/gthumb_comments.glade2.h:2
+#: src/gthumb_png_exporter.glade2.h:2 src/gthumb_search.glade2.h:2
+#: src/gthumb_tools.glade2.h:3
+msgid "*"
+msgstr ""
+
+#: src/gthumb.glade2.h:4
+msgid "112 x 112"
+msgstr ""
+
+#: src/gthumb.glade2.h:5
+msgid "128 x 128"
+msgstr ""
+
+#: src/gthumb.glade2.h:6
+msgid "164 x 164"
+msgstr ""
+
+#: src/gthumb.glade2.h:7
+msgid "200 x 200"
+msgstr ""
+
+#: src/gthumb.glade2.h:8
+msgid "256 x 256"
+msgstr ""
+
+#: src/gthumb.glade2.h:9
+msgid "48 x 48"
+msgstr ""
+
+#: src/gthumb.glade2.h:10
+msgid "64 x 64"
+msgstr ""
+
+#: src/gthumb.glade2.h:11
+msgid "85 x 85"
+msgstr ""
+
+#: src/gthumb.glade2.h:12
+msgid "95 x 95"
+msgstr ""
+
+#: src/gthumb.glade2.h:13
+msgid ":"
+msgstr ""
+
+#: src/gthumb.glade2.h:14
+msgid "<b>Checks</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:15
+#, fuzzy
+msgid "<b>Direction</b>"
+msgstr "진행 순서"
+
+#: src/gthumb.glade2.h:16
+msgid "<b>Hide/Show</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:17
+msgid "<b>History</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:18
+#, fuzzy
+msgid "<b>Interface</b>"
+msgstr "인터페이스"
+
+#: src/gthumb.glade2.h:19
+msgid "<b>On Startup:</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:20
+msgid "<b>Other</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:21
+msgid "<b>Overwrite the old image with the new one ?</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:22
+#, fuzzy
+msgid "<b>Slide Show</b>"
+msgstr "슬라이드"
+
+#: src/gthumb.glade2.h:23
+msgid "<b>Thumbnails</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:24
+msgid "<b>Viewer</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:25
+msgid "A_vailable applications:"
+msgstr ""
+
+#: src/gthumb.glade2.h:26
+msgid "Activate items with a double click"
+msgstr ""
+
+#: src/gthumb.glade2.h:27
+msgid "Activate items with a single click"
+msgstr ""
+
+#: src/gthumb.glade2.h:28
+msgid "After _loading an image:"
+msgstr ""
+
+#: src/gthumb.glade2.h:29
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr ""
+
+#: src/gthumb.glade2.h:30
+msgid "Black"
+msgstr "검정"
+
+#: src/gthumb.glade2.h:31
+msgid "Browser"
+msgstr ""
+
+#: src/gthumb.glade2.h:32
+#, fuzzy
+msgid "C_atalogs:"
+msgstr "카탈로그"
+
+#: src/gthumb.glade2.h:33
+msgid "C_lick policy:"
+msgstr ""
+
+#: src/gthumb.glade2.h:34
+msgid "Checked"
+msgstr ""
+
+#: src/gthumb.glade2.h:35
+#, fuzzy
+msgid "Choose a catalog"
+msgstr "카탈로그 보기"
+
+#: src/gthumb.glade2.h:36 src/gthumb_png_exporter.glade2.h:30
+msgid "Colo_r:"
+msgstr ""
+
+#: src/gthumb.glade2.h:37
+#, fuzzy
+msgid "D_elay before changing image:"
+msgstr "그림 사이의 간격 (초 단위):"
+
+#: src/gthumb.glade2.h:38
+msgid "Dark"
+msgstr ""
+
+#: src/gthumb.glade2.h:39
+#, fuzzy
+msgid "Determine image type from co_ntent (slower)"
+msgstr "파일 내용으로 파일 형식 판단 (느립니다)"
+
+#: src/gthumb.glade2.h:40
+#, fuzzy
+msgid "Do _not change folder"
+msgstr "홈 폴더로 갑니다"
+
+#: src/gthumb.glade2.h:41
+msgid "Do not overwrite _this image"
+msgstr ""
+
+#: src/gthumb.glade2.h:43
+msgid "Fit image to window"
+msgstr "창 크기에 맞추기"
+
+#: src/gthumb.glade2.h:44
+msgid "Fit to window if larger"
+msgstr "창보다 크면 줄여서 맞추기"
+
+#: src/gthumb.glade2.h:45
+msgid "Follow Nautilus behaviour"
+msgstr ""
+
+#: src/gthumb.glade2.h:46
+#, fuzzy
+msgid "For_ward"
+msgstr "앞으로"
+
+#: src/gthumb.glade2.h:47
+msgid "General"
+msgstr "일반"
+
+#: src/gthumb.glade2.h:48
+msgid "Go to last _visited folder or catalog"
+msgstr ""
+
+#: src/gthumb.glade2.h:49
+#, fuzzy
+msgid "Go to this _folder:"
+msgstr "홈 폴더로 갑니다"
+
+#: src/gthumb.glade2.h:50
+msgid "H_igh"
+msgstr ""
+
+#: src/gthumb.glade2.h:51
+msgid "Icons only"
+msgstr "그림만"
+
+#: src/gthumb.glade2.h:52
+msgid "Keep previous zoom"
+msgstr "이전 비율 유지"
+
+#: src/gthumb.glade2.h:53
+msgid "Large"
+msgstr ""
+
+#: src/gthumb.glade2.h:55
+msgid "Layout:"
+msgstr ""
+
+#: src/gthumb.glade2.h:56
+msgid "Light"
+msgstr ""
+
+#: src/gthumb.glade2.h:57
+msgid "Lo_w"
+msgstr ""
+
+#: src/gthumb.glade2.h:58
+msgid "Max _history length:"
+msgstr ""
+
+#: src/gthumb.glade2.h:59
+msgid "Medium"
+msgstr ""
+
+#: src/gthumb.glade2.h:60
+msgid "Mid tone"
+msgstr ""
+
+#: src/gthumb.glade2.h:62
+msgid "New Image:"
+msgstr ""
+
+#: src/gthumb.glade2.h:63
+msgid "New _Library..."
+msgstr ""
+
+#: src/gthumb.glade2.h:64
+msgid "None"
+msgstr ""
+
+#: src/gthumb.glade2.h:65
+msgid "Old Image:"
+msgstr ""
+
+#: src/gthumb.glade2.h:66
+msgid "Over_write this image"
+msgstr "이 파일 덮어쓰기"
+
+#: src/gthumb.glade2.h:67
+msgid "Overwrite _all images"
+msgstr "모든 파일 덮어쓰기"
+
+#: src/gthumb.glade2.h:68
+msgid "Overwrite image"
+msgstr ""
+
+#: src/gthumb.glade2.h:69
+msgid "Priority text beside icons"
+msgstr "그림 옆에 글자"
+
+#: src/gthumb.glade2.h:70
+msgid "R_ecent applications:"
+msgstr ""
+
+#: src/gthumb.glade2.h:71
+#, fuzzy
+msgid "Re_verse"
+msgstr "반대로"
+
+#: src/gthumb.glade2.h:72
+#, fuzzy
+msgid "Resta_rt when finished"
+msgstr "끝나면 다시 처음부터 다시 (패닉 만세! -o-/)"
+
+#: src/gthumb.glade2.h:73
+msgid "Sa_ve thumbnails"
+msgstr ""
+
+#: src/gthumb.glade2.h:74
+msgid "Set image to actual size"
+msgstr "실제 크기로"
+
+#: src/gthumb.glade2.h:75
+msgid "Set to C_urrent"
+msgstr ""
+
+#: src/gthumb.glade2.h:76
+msgid "Show _thumbnails"
+msgstr ""
+
+#: src/gthumb.glade2.h:77
+#, fuzzy
+msgid "Show co_mments"
+msgstr "(설명 없음)"
+
+#: src/gthumb.glade2.h:78
+msgid "Show hi_dden files"
+msgstr ""
+
+#: src/gthumb.glade2.h:79
+#, fuzzy
+msgid "Si_ze :"
+msgstr "크기 :"
+
+#: src/gthumb.glade2.h:80
+#, fuzzy
+msgid "Si_ze:"
+msgstr "크기:"
+
+#: src/gthumb.glade2.h:81
+msgid "Slide Show"
+msgstr "슬라이드"
+
+#: src/gthumb.glade2.h:82
+msgid "Small"
+msgstr ""
+
+#: src/gthumb.glade2.h:83
+#, fuzzy
+msgid "Switch to _full screen"
+msgstr "전체 화면으로"
+
+#: src/gthumb.glade2.h:84
+msgid "System settings"
+msgstr "전체 설정을 따름"
+
+#: src/gthumb.glade2.h:85
+msgid "Text below icons"
+msgstr "그림 밑에 글자"
+
+#: src/gthumb.glade2.h:86
+msgid "Text only"
+msgstr "글자만"
+
+#: src/gthumb.glade2.h:87
+#, fuzzy
+msgid "Transparency _type:"
+msgstr "투명 배경:"
+
+#: src/gthumb.glade2.h:88
+msgid "Viewer"
+msgstr ""
+
+#: src/gthumb.glade2.h:89
+msgid "White"
+msgstr ""
+
+#: src/gthumb.glade2.h:90
+#, fuzzy
+msgid "Zoom _quality:"
+msgstr "축소(_O)"
+
+#: src/gthumb.glade2.h:91
+msgid "_Application:"
+msgstr ""
+
+#: src/gthumb.glade2.h:92
+#, fuzzy
+msgid "_Bookmarks:"
+msgstr "책갈피(_B)"
+
+#: src/gthumb.glade2.h:93
+msgid "_Do not overwrite any image"
+msgstr ""
+
+#: src/gthumb.glade2.h:94
+#, fuzzy
+msgid "_General"
+msgstr "일반"
+
+#: src/gthumb.glade2.h:95
+msgid "_New Catalog..."
+msgstr "새 카탈로그(_N)..."
+
+#: src/gthumb.glade2.h:96
+#, fuzzy
+msgid "_Next"
+msgstr "다음"
+
+#: src/gthumb.glade2.h:97
+#, fuzzy
+msgid "_Previous"
+msgstr "이전"
+
+#: src/gthumb.glade2.h:98
+#, fuzzy
+msgid "_Toolbar style:"
+msgstr "툴바 형식:"
+
+#: src/gthumb.glade2.h:99
+msgid "gThumb - Bookmarks"
+msgstr ""
+
+#: src/gthumb.glade2.h:100
+msgid "gThumb - Open selected files with an application"
+msgstr ""
+
+#: src/gthumb.glade2.h:101
+#, fuzzy
+msgid "gThumb - Preferences"
+msgstr "선택사항(_P)"
+
+#: src/gthumb.glade2.h:102
+msgid "seconds"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:3 src/gthumb_search.glade2.h:4
+#, fuzzy
+msgid "A_vailable categories:"
+msgstr "카테고리"
+
+#: src/gthumb_comments.glade2.h:4
+msgid "Add a category"
+msgstr "카테고리를 새로 만듭니다"
+
+#: src/gthumb_comments.glade2.h:5 src/gthumb_search.glade2.h:13
+msgid "Co_mment:"
+msgstr "설명(_M):"
+
+#: src/gthumb_comments.glade2.h:6
+#, fuzzy
+msgid "Image C_reation Date"
+msgstr "파일 생성 날짜"
+
+#: src/gthumb_comments.glade2.h:7
+msgid "Import date from attached EXIF data"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:8
+msgid "Import from E_XIF Data"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:9
+msgid "Remove selected category"
+msgstr "선택한 카테고리를 지웁니다"
+
+#: src/gthumb_comments.glade2.h:10
+msgid "Save only cha_nged fields"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:11
+msgid "Set date to image creation date"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:12
+msgid "Set date to today"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:13 src/gthumb_search.glade2.h:23
+msgid "_Date:"
+msgstr "날짜(_D):"
+
+#: src/gthumb_comments.glade2.h:14 src/gthumb_search.glade2.h:26
+msgid "_Place:"
+msgstr "장소(_P):"
+
+#: src/gthumb_comments.glade2.h:15 src/gthumb_search.glade2.h:29
+#, fuzzy
+msgid "_Selected categories:"
+msgstr "카테고리"
+
+#: src/gthumb_comments.glade2.h:16
+#, fuzzy
+msgid "_Today"
+msgstr "오늘(_T)"
+
+#: src/gthumb_comments.glade2.h:17
+#, fuzzy
+msgid "gThumb - Categories"
+msgstr "한꺼번에 이름 바꾸기"
+
+#: src/gthumb_comments.glade2.h:18
+msgid "gThumb - Comment"
+msgstr "gThumb - 설명"
+
+#: src/gthumb_png_exporter.glade2.h:3
+msgid "112"
+msgstr "112"
+
+#: src/gthumb_png_exporter.glade2.h:4
+msgid "128"
+msgstr "128"
+
+#: src/gthumb_png_exporter.glade2.h:5
+msgid "164"
+msgstr "164"
+
+#: src/gthumb_png_exporter.glade2.h:6
+msgid "200"
+msgstr "200"
+
+#: src/gthumb_png_exporter.glade2.h:7
+msgid "256"
+msgstr "256"
+
+#: src/gthumb_png_exporter.glade2.h:8
+msgid "48"
+msgstr "48"
+
+#: src/gthumb_png_exporter.glade2.h:9
+msgid "64"
+msgstr "64"
+
+#: src/gthumb_png_exporter.glade2.h:10
+msgid "75"
+msgstr "75"
+
+#: src/gthumb_png_exporter.glade2.h:11
+msgid "85"
+msgstr "85"
+
+#: src/gthumb_png_exporter.glade2.h:12
+msgid "95"
+msgstr "95"
+
+#: src/gthumb_png_exporter.glade2.h:13
+msgid "<b>Caption</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:14
+#, fuzzy
+msgid "<b>Destination folder</b>"
+msgstr "대상 폴더:"
+
+#: src/gthumb_png_exporter.glade2.h:15
+#, fuzzy
+msgid "<b>Footer</b>"
+msgstr "꼬리말"
+
+#: src/gthumb_png_exporter.glade2.h:16
+#, fuzzy
+msgid "<b>Header</b>"
+msgstr "머리말"
+
+#: src/gthumb_png_exporter.glade2.h:17
+msgid "<b>Page size</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:18
+msgid "<b>Specify a template to use for creating index images</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:19
+msgid "<b>Specify header and footer</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:20
+msgid "<i>Examples:</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:21 src/gthumb_tools.glade2.h:6
+msgid "<i>Use #'s to specify positions used by numeric enumerator.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:23
+#, no-c-format
+msgid "<i>Use %n to insert total number of pages.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:25
+#, no-c-format
+msgid "<i>Use %p to insert page number.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:26
+msgid "All pages with the _same size"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:27
+msgid "Choose destination folder"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:28
+msgid "Co_lor:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:29 src/gthumb_print.glade2.h:6
+#, fuzzy
+msgid "Co_mment"
+msgstr "설명(_M):"
+
+#: src/gthumb_png_exporter.glade2.h:31
+msgid "Create _HTML image map"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:32
+#, fuzzy
+msgid "F_ooter:"
+msgstr "꼬리말"
+
+#: src/gthumb_png_exporter.glade2.h:33
+#, fuzzy
+msgid "File _name"
+msgstr "파일 이름(_N):"
+
+#: src/gthumb_png_exporter.glade2.h:34
+#, fuzzy
+msgid "File pa_th"
+msgstr "파일 위치"
+
+#: src/gthumb_png_exporter.glade2.h:35
+#, fuzzy
+msgid "File si_ze"
+msgstr "파일 크기"
+
+#: src/gthumb_png_exporter.glade2.h:36
+#, fuzzy
+msgid "Fo_nt:"
+msgstr "설명(_M):"
+
+#: src/gthumb_png_exporter.glade2.h:37
+msgid "Frame _style:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:38
+msgid "Frame co_lor:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:39
+#, fuzzy
+msgid "H_eader:"
+msgstr "머리말"
+
+#: src/gthumb_png_exporter.glade2.h:40
+msgid "Header/Footer"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:41
+msgid "Hei_ght:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:42
+#, fuzzy
+msgid "Image dim_ensions"
+msgstr "이미지 크기"
+
+#: src/gthumb_png_exporter.glade2.h:43
+msgid "Images"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:44
+msgid "Number of _rows:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:45
+msgid "Number of col_umns:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:46
+msgid "Page"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:47
+msgid "Pi_xels"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:48
+#, fuzzy
+msgid "Re_verse order"
+msgstr "반대 순서로"
+
+#: src/gthumb_png_exporter.glade2.h:49
+msgid "Rows a_nd columns"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:50
+msgid "Shadow in"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:51
+msgid "Shadow only"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:52
+msgid "Shadow out"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:53
+msgid "Simple"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:54
+msgid "Simple with shadow"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:55
+msgid "Slide"
+msgstr "슬라이드"
+
+#: src/gthumb_png_exporter.glade2.h:56
+#, fuzzy
+msgid "Sor_t images:"
+msgstr "그림 정렬(_S)"
+
+#: src/gthumb_png_exporter.glade2.h:57 src/gthumb_search.glade2.h:22
+#: src/gthumb_tools.glade2.h:31
+msgid "Start _at:"
+msgstr "찾을 경로(_A):"
+
+#: src/gthumb_png_exporter.glade2.h:58
+msgid "Style Preview"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:59
+msgid "Wait please..."
+msgstr "잠시만요..."
+
+#: src/gthumb_png_exporter.glade2.h:60
+msgid "Wi_dth:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:61
+msgid "_Background color:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:62
+msgid "_Draw frame"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:63
+#, fuzzy
+msgid "_Font:"
+msgstr "설명(_O):"
+
+#: src/gthumb_png_exporter.glade2.h:64
+#, fuzzy
+msgid "_Image size:"
+msgstr "그림 미리보기(_I)"
+
+#: src/gthumb-ui.xml.h:191 src/gthumb_png_exporter.glade2.h:65
+msgid "_Preferences"
+msgstr "선택사항(_P)"
+
+#: src/gthumb_png_exporter.glade2.h:66 src/gthumb_tools.glade2.h:36
+msgid "_Template:"
+msgstr "형식(_T):"
+
+#: src/gthumb_png_exporter.glade2.h:67
+msgid "by name"
+msgstr "이름으로"
+
+#: src/gthumb_png_exporter.glade2.h:68
+msgid "by path"
+msgstr "위치로"
+
+#: src/gthumb_png_exporter.glade2.h:69
+msgid "by size"
+msgstr "크기로"
+
+#: src/gthumb_png_exporter.glade2.h:70
+msgid "by time"
+msgstr "시각으로"
+
+#: src/gthumb_png_exporter.glade2.h:72
+msgid "gThumb - Create index image"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:73
+msgid "gThumb - Index image properties"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:74
+msgid "jpeg"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:75
+msgid "png"
+msgstr "png"
+
+#: src/gthumb_print.glade2.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/gthumb_print.glade2.h:3
+msgid ""
+"<i>Drag the image to move\n"
+"it in the page.</i>"
+msgstr ""
+
+#: src/gthumb_print.glade2.h:5
+msgid "Center _on page"
+msgstr "페이지 가운데에(_O)"
+
+#: src/gthumb_print.glade2.h:8
+msgid "Paper"
+msgstr ""
+
+#: src/gthumb_print.glade2.h:9
+msgid "Preview"
+msgstr "미리보기"
+
+#: src/gthumb_print.glade2.h:10
+msgid "Printer"
+msgstr "인쇄기"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: src/gthumb-ui.xml.h:192 src/gthumb_print.glade2.h:11
+msgid "_Print"
+msgstr "인쇄(_P)"
+
+#: src/gthumb_print.glade2.h:12
+msgid "_Scale:"
+msgstr ""
+
+#: src/gthumb_print.glade2.h:13
+msgid "gThumb - Print setup"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb_search.glade2.h:3
+msgid "..."
+msgstr "..."
+
+#: src/gthumb_search.glade2.h:5
+msgid "After"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:6
+#, fuzzy
+msgid "All Catego_ries"
+msgstr "카테고리"
+
+#: src/gthumb_search.glade2.h:7
+msgid "Any"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:8
+#, fuzzy
+msgid "At _Least a Category"
+msgstr "카테고리를 새로 만듭니다"
+
+#: src/gthumb_search.glade2.h:9
+#, fuzzy
+msgid "Before"
+msgstr "새로 고침"
+
+#: src/gthumb_search.glade2.h:10
+msgid "Ca_tegories:"
+msgstr "카테고리(_T):"
+
+#: src/gthumb_search.glade2.h:11
+#, fuzzy
+msgid "Choose Categories"
+msgstr "카테고리"
+
+#: src/gthumb_search.glade2.h:12
+msgid "Choose categories from the saved list"
+msgstr "카테고리 목록에서 고릅니다"
+
+#: src/gthumb_search.glade2.h:14
+msgid "Equal to"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:15
+#, fuzzy
+msgid "File _Name:"
+msgstr "파일 이름(_N):"
+
+#: src/gthumb_search.glade2.h:16
+#, fuzzy
+msgid "Found Images:"
+msgstr "이미지 찾기...(_F)"
+
+#: src/gthumb_search.glade2.h:17
+msgid "New _Search..."
+msgstr ""
+
+#: src/gthumb_search.glade2.h:18
+msgid "No image found"
+msgstr "그런 거 없수."
+
+#: src/gthumb_search.glade2.h:19
+msgid "Search Criteria"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:20
+#, fuzzy
+msgid "Search Scope"
+msgstr "검색 범위"
+
+#: src/gthumb_search.glade2.h:21 src/gthumb_tools.glade2.h:30
+msgid "Searching in:"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:166 src/gthumb_search.glade2.h:24
+msgid "_Edit Search"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:25 src/gthumb_tools.glade2.h:33
+#, fuzzy
+msgid "_Include Sub-Folders"
+msgstr "하위 폴더도(_I)"
+
+#: src/gthumb_search.glade2.h:27
+msgid "_Save"
+msgstr "저장(_S)"
+
+#: src/gthumb_search.glade2.h:28
+msgid "_Search"
+msgstr "검색(_S)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: src/gthumb-ui.xml.h:213 src/gthumb_search.glade2.h:30
+#: src/gthumb_tools.glade2.h:38
+msgid "_View"
+msgstr "보기(_V)"
+
+#: src/gthumb_search.glade2.h:31
+msgid "gThumb - Search for images"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:32
+msgid "gThumb - Search progress"
+msgstr "gThumb - 검색 진행중"
+
+#: src/gthumb_search.glade2.h:33
+msgid "progress"
+msgstr ""
+
+#: src/gthumb_search.glade2.h:34
+msgid "result"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:4
+#, fuzzy
+msgid "<b>File list</b>"
+msgstr "파일 크기"
+
+#: src/gthumb_tools.glade2.h:5
+msgid "<b>Specify a template to use for renaming images</b>"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:7
+msgid "<i>Use * to insert original filename.</i>"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:8
+#, fuzzy
+msgid "Apply to _all images"
+msgstr "모든 파일 선택"
+
+#: src/gthumb_tools.glade2.h:9
+#, fuzzy
+msgid "Backup Comments"
+msgstr "설명"
+
+#: src/gthumb_tools.glade2.h:10
+#, fuzzy
+msgid "Check _All"
+msgstr "전체 선택(_S)"
+
+#: src/gthumb_tools.glade2.h:11
+#, fuzzy
+msgid "Check _None"
+msgstr "전체 선택(_S)"
+
+#: src/gthumb_tools.glade2.h:12
+msgid "Checking image:"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:13
+#, fuzzy
+msgid "Comments"
+msgstr "설명"
+
+#: src/gthumb_tools.glade2.h:14
+#, fuzzy
+msgid "Found Duplicates:"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb_tools.glade2.h:16
+msgid "Mirror image horizontally (left-right)"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:17
+msgid "Mirror image vertically (top-bottom)"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:18
+#, fuzzy
+msgid "New names _preview:"
+msgstr "그림 미리보기(_I)"
+
+#: src/gthumb_tools.glade2.h:19
+#, fuzzy
+msgid "Re_verse Order"
+msgstr "반대 순서로(_R)"
+
+#: src/gthumb_tools.glade2.h:20
+msgid "Remove ALL Comments"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:21
+msgid "Remove ALL Thumbnails"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:22
+msgid "Remove Old Comments"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:23
+msgid "Remove Old Thumbnails"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:24
+#, fuzzy
+msgid "Remove comments of no more existing images"
+msgstr "지우거나 옮긴 파일에 대한 설명을 지웁니다"
+
+#: src/gthumb_tools.glade2.h:25
+#, fuzzy
+msgid "Remove thumbnails of no more existing images"
+msgstr "지우거나 옮긴 파일에 대한 설명을 지웁니다"
+
+#: src/gthumb_tools.glade2.h:26
+msgid "Restore Comments from a Backup File"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:27
+msgid "Revert changes"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:28
+#, fuzzy
+msgid "Rotate image 90 degrees clockwise"
+msgstr "시계방향 돌리기(_R)"
+
+#: src/gthumb_tools.glade2.h:29
+#, fuzzy
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "시계방향 돌리기(_R)"
+
+#: src/gthumb_tools.glade2.h:32
+msgid "Thumbnails"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:35
+#, fuzzy
+msgid "_Sort Original List:"
+msgstr "파일 목록 정렬"
+
+#: src/gthumb_tools.glade2.h:37
+msgid "_Transfrom"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:39
+#, fuzzy
+msgid "by Modification date"
+msgstr "목록을 파일 시각에 따라 정렬합니다"
+
+#: src/gthumb_tools.glade2.h:40
+#, fuzzy
+msgid "by Name"
+msgstr "이름으로(_N)"
+
+#: src/gthumb_tools.glade2.h:41
+#, fuzzy
+msgid "by Size"
+msgstr "크기로(_S)"
+
+#: src/gthumb_tools.glade2.h:42
+#, fuzzy
+msgid "gThumb - Find Duplicates"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb_tools.glade2.h:43
+#, fuzzy
+msgid "gThumb - JPEG Transform"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb_tools.glade2.h:44
+#, fuzzy
+msgid "gThumb - Maintenance"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb_tools.glade2.h:45
+#, fuzzy
+msgid "gThumb - Rename series"
+msgstr "한꺼번에 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:1
+msgid " "
+msgstr " "
+
+#: src/gthumb-ui.xml.h:2
+msgid "1:1"
+msgstr "1:1"
+
+#: src/gthumb-ui.xml.h:3
+msgid "Actual size"
+msgstr "실제 크기"
+
+#: src/gthumb-ui.xml.h:4
+msgid "Add a comment to selected images"
+msgstr "선택한 그림에 설명을 붙입니다"
+
+#: src/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "책갈피에 현재 위치를 넣습니다"
+
+#: src/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "선택한 그림을 카탈로그에 추가합니다"
+
+#: src/gthumb-ui.xml.h:7
+#, fuzzy
+msgid "Assign categories to selected images"
+msgstr "선택한 그림에 설명을 붙입니다"
+
+#: src/gthumb-ui.xml.h:8
+msgid "Back"
+msgstr "뒤로"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+#: src/gthumb-ui.xml.h:9
+msgid "Black and _White"
+msgstr "흑백으로(_W)"
+
+#: src/gthumb-ui.xml.h:10
+#, fuzzy
+msgid "Ca_tegories..."
+msgstr "카테고리(_T):"
+
+#: src/gthumb-ui.xml.h:11
+msgid "Catalogs"
+msgstr "카탈로그"
+
+#: src/gthumb-ui.xml.h:12
+msgid "Close all windows and exit"
+msgstr "모든 창을 닫고 마칩니다"
+
+#: src/gthumb-ui.xml.h:13
+msgid "Close this window"
+msgstr "이 창을 닫습니다"
+
+#: src/gthumb-ui.xml.h:15
+msgid "Convert F_ormat"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:16
+msgid "Copy selected images to another location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:17
+msgid "Copy this image to another location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:18
+msgid "Copy..."
+msgstr "...로 복사"
+
+#: src/gthumb-ui.xml.h:19
+msgid "Create _Index Image"
+msgstr "인덱스 이미지 만들기(_I)"
+
+#: src/gthumb-ui.xml.h:20
+msgid "Create a new catalog library"
+msgstr "새 카탈로그 라이브러리를 만듭니다"
+
+#: src/gthumb-ui.xml.h:21
+msgid "Create a new folder"
+msgstr "새 폴더를 만듭니다"
+
+#: src/gthumb-ui.xml.h:22
+msgid "Create a new window"
+msgstr "새 창을 만듭니다"
+
+#: src/gthumb-ui.xml.h:23
+msgid "De_lete Comment"
+msgstr "설명 지우기(_L)"
+
+#: src/gthumb-ui.xml.h:24
+msgid "Delete"
+msgstr "지우기"
+
+#: src/gthumb-ui.xml.h:25
+msgid "Delete Catalog"
+msgstr "카탈로그 지우기"
+
+#: src/gthumb-ui.xml.h:26
+msgid "Delete Folder"
+msgstr "폴더 지우기"
+
+#: src/gthumb-ui.xml.h:27
+msgid "Delete comments of selected images"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:28
+msgid "Delete current catalog"
+msgstr "현재 카탈로그 지우기"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Delete current folder"
+msgstr "현재 폴더 지우기"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Delete selected catalog"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:31
+msgid "Delete selected folder"
+msgstr "선택한 폴더를 지웁니다"
+
+#: src/gthumb-ui.xml.h:32
+msgid "Delete selected images from disk"
+msgstr "선택한 파일을 디스크에서 지웁니다"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Delete the list of visited locations"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:34
+msgid "Delete this image from disk"
+msgstr "이 그림을 디스크에서 지웁니다"
+
+#: src/gthumb-ui.xml.h:35
+msgid "Display image properties"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:36
+msgid "E_xit"
+msgstr "마치기(_X)"
+
+#: src/gthumb-ui.xml.h:37
+msgid "Edit Search"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:38
+msgid "Edit bookmarks"
+msgstr "책갈피를 편집합니다"
+
+#: src/gthumb-ui.xml.h:39
+msgid "Edit various preferences"
+msgstr "여러 선택사항을 고칩니다"
+
+#: src/gthumb-ui.xml.h:40
+msgid "F_lip"
+msgstr "상하 뒤집기(_L)"
+
+#: src/gthumb-ui.xml.h:41
+#, fuzzy
+msgid "Find _Duplicates"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb-ui.xml.h:42
+msgid "Fit"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:43
+msgid "Folders"
+msgstr "폴더"
+
+#: src/gthumb-ui.xml.h:44
+msgid "Forward"
+msgstr "앞으로"
+
+#: src/gthumb-ui.xml.h:45
+msgid "Full Screen"
+msgstr "전체 화면"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Full screen"
+msgstr "전체 화면"
+
+#: src/gthumb-ui.xml.h:47
+msgid "Go to the folder that contains the selected image"
+msgstr "선택한 파일이 있는 폴더로 갑니다"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Go to the home folder"
+msgstr "홈 폴더로 갑니다"
+
+#: src/gthumb-ui.xml.h:49
+msgid "Go to the next visited location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:50
+msgid "Go to the previuos visited location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:51
+msgid "Go up one level"
+msgstr "한 단계 위 폴더로 갑니다"
+
+#: src/gthumb-ui.xml.h:52
+msgid "Home"
+msgstr "홈"
+
+#: src/gthumb-ui.xml.h:53
+msgid "In"
+msgstr "확대"
+
+#: src/gthumb-ui.xml.h:54
+msgid "Main Toolbar"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:55
+msgid "Modify search criteria"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:56
+#, fuzzy
+msgid "Move"
+msgstr "...로 옮기기"
+
+#: src/gthumb-ui.xml.h:57
+msgid "Move Catalog..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:58
+#, fuzzy
+msgid "Move Folder"
+msgstr "새 폴더"
+
+#: src/gthumb-ui.xml.h:59
+msgid "Move current catalog to another location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:60
+#, fuzzy
+msgid "Move current folder"
+msgstr "현재 폴더 지우기"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Move selected catalog to another location"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:62
+#, fuzzy
+msgid "Move selected folder"
+msgstr "선택한 폴더를 지웁니다"
+
+#: src/gthumb-ui.xml.h:63
+msgid "Move selected images to another location"
+msgstr "선택한 그림을 다른 데로 옮깁니다"
+
+#: src/gthumb-ui.xml.h:64
+msgid "Move this image to another location"
+msgstr "이 그림을 다른 데로 옮깁니다"
+
+#: src/gthumb-ui.xml.h:65
+msgid "Move..."
+msgstr "...로 옮기기"
+
+#: src/gthumb-ui.xml.h:66
+msgid "New _Folder"
+msgstr "새 폴더(_F)"
+
+#: src/gthumb-ui.xml.h:67
+msgid "New _Library"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:68
+msgid "New _Window"
+msgstr "새 창(_W)"
+
+#: src/gthumb-ui.xml.h:69
+msgid "Next"
+msgstr "다음"
+
+#: src/gthumb-ui.xml.h:70
+msgid "Open Folder with _Nautilus"
+msgstr "노틸러스로 이 폴더 열기(_N)"
+
+#: src/gthumb-ui.xml.h:71
+msgid "Open current folder with the Nautilus file manager"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:72
+msgid "Open selected images with an application"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:73
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:74
+msgid "Open this image with an application"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:75
+msgid "Open with Nautilus"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:76
+msgid "Open with..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:77
+msgid "Out"
+msgstr "축소"
+
+#: src/gthumb-ui.xml.h:78
+msgid "Play _Animation"
+msgstr "애니메이션 움직이기(_A)"
+
+#: src/gthumb-ui.xml.h:79
+msgid "Previous"
+msgstr "이전"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: src/gthumb-ui.xml.h:80
+msgid "Print the current image"
+msgstr "현재 이미지 인쇄"
+
+#: src/gthumb-ui.xml.h:81
+#, fuzzy
+msgid "Properties"
+msgstr "그림 미리보기(_I)"
+
+#: src/gthumb-ui.xml.h:82
+msgid "R_otate 180 Degrees"
+msgstr "반바퀴 돌리기(_O)"
+
+#: src/gthumb-ui.xml.h:83
+msgid "Redo Search"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:84
+msgid "Redo _Search"
+msgstr "다시 찾기(_S)"
+
+#: src/gthumb-ui.xml.h:85
+msgid "Redo the search"
+msgstr "같은 조건으로 한 번 더 찾아봅니다"
+
+#: src/gthumb-ui.xml.h:86
+msgid "Refresh"
+msgstr "새로 고침"
+
+#: src/gthumb-ui.xml.h:87
+msgid "Reload the current location"
+msgstr "현재 위치를 다시 읽습니다"
+
+#: src/gthumb-ui.xml.h:88
+msgid "Remo_ve from Catalog"
+msgstr "카탈로그에서 지우기(_V)"
+
+#: src/gthumb-ui.xml.h:89
+msgid "Remove selected images from the catalog"
+msgstr "선택한 이미지를 카탈로그에서 뺍니다"
+
+#: src/gthumb-ui.xml.h:90
+msgid "Rename"
+msgstr "이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:91
+msgid "Rename Catalog"
+msgstr "카탈로그 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:92
+msgid "Rename Folder"
+msgstr "폴더 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:93
+msgid "Rename current catalog"
+msgstr "현재 카탈로그 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:94
+msgid "Rename current folder"
+msgstr "현재 폴더 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:95
+msgid "Rename selected catalog"
+msgstr "선택한 카탈로그 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:96
+msgid "Rename selected folder"
+msgstr "선택한 폴더 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:97
+msgid "Rename selected image"
+msgstr "선택한 그림 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:98
+msgid "Rename this image"
+msgstr "이 그림 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:99
+msgid "Restore the original desktop wallpaper"
+msgstr "원래 있던 바탕화면으로 되돌립니다"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Reverse images order"
+msgstr "그림의 순서를 반대로 합니다"
+
+#: src/gthumb-ui.xml.h:101
+msgid "Select all images"
+msgstr "모든 파일 선택"
+
+#: src/gthumb-ui.xml.h:102
+msgid "Set Image as _Wallpaper"
+msgstr "바탕화면으로(_W)"
+
+#: src/gthumb-ui.xml.h:103
+msgid "Set the image as desktop background (centered)"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:104
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:105
+msgid "Set the image as desktop background (stretched)"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:106
+msgid "Set the image as desktop background (tiled)"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:107
+msgid "Show information about gThumb"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:108
+msgid "Show/_Hide"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:109
+msgid "Sort images by file size"
+msgstr "목록을 파일 크기에 따라 정렬합니다"
+
+#: src/gthumb-ui.xml.h:110
+msgid "Sort images by modifiction time"
+msgstr "목록을 파일 시각에 따라 정렬합니다"
+
+#: src/gthumb-ui.xml.h:111
+msgid "Sort images by name"
+msgstr "목록을 파일 이름에 따라 정렬합니다"
+
+#: src/gthumb-ui.xml.h:112
+msgid "Sort images by path"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:113
+msgid "Specify a location to visit"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: src/gthumb-ui.xml.h:114
+msgid "Start or stop current animation"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:115
+msgid "Step A_nimation"
+msgstr "한 프레임씩 보기(_N)"
+
+#: src/gthumb-ui.xml.h:116
+#, fuzzy
+msgid "Stop loading current location"
+msgstr "현재 위치를 다시 읽습니다"
+
+#: src/gthumb-ui.xml.h:117
+msgid "Str_erched"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:118
+msgid "Transparency typ_e"
+msgstr "투명 배경(_E)"
+
+#: src/gthumb-ui.xml.h:119
+msgid "Up"
+msgstr "위로"
+
+#: src/gthumb-ui.xml.h:120
+msgid "Use black as transparency"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:121
+msgid "Use checks as transparency"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:122
+msgid "Use gray as transparency"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:123
+msgid "Use high quality zoom"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:124
+msgid "Use low quality zoom"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:125
+msgid "Use white as transparency"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:126
+msgid "View image in fullscreen mode"
+msgstr "전체화면에서 그림을 봅니다"
+
+#: src/gthumb-ui.xml.h:127
+msgid "View images as a slideshow"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: src/gthumb-ui.xml.h:128
+msgid "View next animation frame"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:129
+msgid "View next image"
+msgstr "다음 그림으로 넘깁니다"
+
+#: src/gthumb-ui.xml.h:130
+msgid "View or hide the statusbar of this window"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:131
+msgid "View or hide the toolbar of this window"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:132
+msgid "View previous image"
+msgstr "이전 그림으로 넘깁니다"
+
+#: src/gthumb-ui.xml.h:133
+msgid "View the catalogs"
+msgstr "카탈로그 보기"
+
+#: src/gthumb-ui.xml.h:134
+msgid "View the folders"
+msgstr "폴더 보기"
+
+#: src/gthumb-ui.xml.h:135
+msgid "View the image"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:136
+msgid "View the image flipped"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: src/gthumb-ui.xml.h:137
+msgid "View the image in black and white"
+msgstr "그림을 흑백으로 봅니다"
+
+#: src/gthumb-ui.xml.h:138
+msgid "View the image mirrored"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:139
+msgid "View the image rotated clockwise"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:140
+msgid "View the image rotated of 180 degrees"
+msgstr "이 그림을 반 바퀴 돌려서 봅니다"
+
+#: src/gthumb-ui.xml.h:141
+msgid "View thumbnails"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:142
+msgid "Zoom _In"
+msgstr "확대(_I)"
+
+#: src/gthumb-ui.xml.h:143
+msgid "Zoom _Out"
+msgstr "축소(_O)"
+
+#: src/gthumb-ui.xml.h:144
+msgid "Zoom in"
+msgstr "확대"
+
+#: src/gthumb-ui.xml.h:145
+msgid "Zoom out"
+msgstr "축소"
+
+#: src/gthumb-ui.xml.h:146
+msgid "Zoom to _Fit"
+msgstr "맞추기(_F)"
+
+#: src/gthumb-ui.xml.h:147
+msgid "Zoom to fit window"
+msgstr "창 크기에 맞춤"
+
+#: src/gthumb-ui.xml.h:148
+msgid "_About..."
+msgstr "정보(_A)..."
+
+#: src/gthumb-ui.xml.h:149
+msgid "_Actual Size"
+msgstr "실제 크기(_A)"
+
+#: src/gthumb-ui.xml.h:150
+msgid "_Add Bookmark"
+msgstr "책갈피에 넣기(_A)"
+
+#: src/gthumb-ui.xml.h:151
+msgid "_Add to Catalog..."
+msgstr "... 카탈로그에 추가"
+
+#: src/gthumb-ui.xml.h:152
+msgid "_Back"
+msgstr "뒤로(_B)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: src/gthumb-ui.xml.h:153
+msgid "_Black"
+msgstr "검정(_B)"
+
+#: src/gthumb-ui.xml.h:154
+msgid "_Bookmarks"
+msgstr "책갈피(_B)"
+
+#: src/gthumb-ui.xml.h:155
+msgid "_Catalogs"
+msgstr "카탈로그(_C)"
+
+#: src/gthumb-ui.xml.h:156
+msgid "_Centered"
+msgstr "가운데(_C)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:157
+msgid "_Checked"
+msgstr "바둑판(_C)"
+
+#: src/gthumb-ui.xml.h:158
+msgid "_Close Window"
+msgstr "창 닫기(_C)"
+
+#: src/gthumb-ui.xml.h:159
+msgid "_Copy..."
+msgstr "...로 복사(_C)"
+
+#: src/gthumb-ui.xml.h:160
+msgid "_Delete"
+msgstr "지우기(_D)"
+
+#: src/gthumb-ui.xml.h:161
+msgid "_Delete Catalog"
+msgstr "카탈로그 지우기(_D)"
+
+#: src/gthumb-ui.xml.h:162
+msgid "_Delete Folder"
+msgstr "폴더 지우기(_D)"
+
+#: src/gthumb-ui.xml.h:163
+msgid "_Delete History"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:164
+msgid "_Edit"
+msgstr "편집(_E)"
+
+#: src/gthumb-ui.xml.h:165
+msgid "_Edit Bookmarks"
+msgstr "책갈피 편집(_E)"
+
+#: src/gthumb-ui.xml.h:167
+msgid "_File"
+msgstr "파일(_F)"
+
+#: src/gthumb-ui.xml.h:168
+msgid "_Find Images..."
+msgstr "이미지 찾기...(_F)"
+
+#: src/gthumb-ui.xml.h:169
+msgid "_Folders"
+msgstr "폴더(_F)"
+
+#: src/gthumb-ui.xml.h:170
+msgid "_Forward"
+msgstr "앞으로(_F)"
+
+#: src/gthumb-ui.xml.h:171
+msgid "_Full Screen"
+msgstr "전체 화면(_F)"
+
+#: src/gthumb-ui.xml.h:172
+msgid "_Go"
+msgstr "가기(_G)"
+
+#: src/gthumb-ui.xml.h:173
+msgid "_Go to the Image Folder"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:174
+msgid "_Help"
+msgstr "도움말(_H)"
+
+#: src/gthumb-ui.xml.h:175
+msgid "_High Quality"
+msgstr "고품질(_H)"
+
+#: src/gthumb-ui.xml.h:176
+msgid "_Home"
+msgstr "홈(_H)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gthumb-ui.xml.h:177
+#, fuzzy
+msgid "_Image"
+msgstr "그림 정렬(_S)"
+
+#: src/gthumb-ui.xml.h:178
+msgid "_Image preview"
+msgstr "그림 미리보기(_I)"
+
+#: src/gthumb-ui.xml.h:179
+msgid "_JPEG Transform"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:180
+msgid "_Keyboard Shortcuts"
+msgstr "단축기 안내(_K)"
+
+#: src/gthumb-ui.xml.h:181
+#, fuzzy
+msgid "_Location..."
+msgstr "...로 옮기기"
+
+#: src/gthumb-ui.xml.h:182
+msgid "_Low Quality"
+msgstr "저품질(_L)"
+
+#: src/gthumb-ui.xml.h:183
+#, fuzzy
+msgid "_Maintenance"
+msgstr "gThumb - 인쇄 설정"
+
+#: src/gthumb-ui.xml.h:184
+msgid "_Manual"
+msgstr "설명서(_M)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: src/gthumb-ui.xml.h:185
+msgid "_Mirror"
+msgstr "좌우 뒤집기(_M)"
+
+#: src/gthumb-ui.xml.h:186
+msgid "_Move Catalog..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:187
+#, fuzzy
+msgid "_Move Folder..."
+msgstr "...로 옮기기"
+
+#: src/gthumb-ui.xml.h:188
+msgid "_Move..."
+msgstr "...로 옮기기(_M)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: src/gthumb-ui.xml.h:189
+msgid "_None"
+msgstr "없음(_N)"
+
+#: src/gthumb-ui.xml.h:190
+msgid "_Open with..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:193
+#, fuzzy
+msgid "_Properties"
+msgstr "그림 미리보기(_I)"
+
+#: src/gthumb-ui.xml.h:194
+msgid "_Reload"
+msgstr "다시 읽기(_R)"
+
+#: src/gthumb-ui.xml.h:196
+msgid "_Rename Catalog"
+msgstr "카탈로그 이름 바꾸기(_R)"
+
+#: src/gthumb-ui.xml.h:197
+msgid "_Rename Folder"
+msgstr "풀더 이름 바꾸기(_R)"
+
+#: src/gthumb-ui.xml.h:198
+#, fuzzy
+msgid "_Rename Series"
+msgstr "한꺼번에 이름 바꾸기"
+
+#: src/gthumb-ui.xml.h:199
+msgid "_Restore"
+msgstr "복구(_R)"
+
+#: src/gthumb-ui.xml.h:200
+msgid "_Reversed Order"
+msgstr "반대 순서로(_R)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+#: src/gthumb-ui.xml.h:201
+msgid "_Rotate Clockwise"
+msgstr "시계방향 돌리기(_R)"
+
+#: src/gthumb-ui.xml.h:202
+msgid "_Scaled"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:203
+msgid "_Select All"
+msgstr "전체 선택(_S)"
+
+#: src/gthumb-ui.xml.h:204
+msgid "_Slideshow"
+msgstr "슬라이드(_S)"
+
+#: src/gthumb-ui.xml.h:205
+msgid "_Sort Images"
+msgstr "그림 정렬(_S)"
+
+#: src/gthumb-ui.xml.h:206
+msgid "_Statusbar"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:207
+msgid "_Stop"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:208
+msgid "_Thumbnails"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:209
+msgid "_Tiled"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:210
+msgid "_Toolbar"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:211
+msgid "_Tools"
+msgstr "기능(_T)"
+
+#: src/gthumb-ui.xml.h:212
+msgid "_Up"
+msgstr "위로(_U)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+#: src/gthumb-ui.xml.h:214
+msgid "_White"
+msgstr "흰색(_W)"
+
+#: src/gthumb-ui.xml.h:215
+msgid "_Zoom"
+msgstr "확대(_Z)"
+
+#: src/gthumb-ui.xml.h:216
+msgid "by _Name"
+msgstr "이름으로(_N)"
+
+#: src/gthumb-ui.xml.h:217
+msgid "by _Path"
+msgstr "위치로(_P)"
+
+#: src/gthumb-ui.xml.h:218
+msgid "by _Size"
+msgstr "크기로(_S)"
+
+#: src/gthumb-ui.xml.h:219
+msgid "by _Time"
+msgstr "시각으로(_T)"
+
+#: src/gthumb-window.c:1139
+msgid "No image"
+msgstr ""
+
+#: src/gthumb-window.c:1141
+#, c-format
+msgid "1 image (%s)"
+msgstr ""
+
+#: src/gthumb-window.c:1144
+#, c-format
+msgid "%d images (%s)"
+msgstr ""
+
+#: src/gthumb-window.c:1151
+#, c-format
+msgid "1 selected (%s)"
+msgstr ""
+
+#: src/gthumb-window.c:1154
+#, c-format
+msgid "%d selected (%s)"
+msgstr ""
+
+#: src/gthumb-window.c:2513
+msgid "Drag & Drop"
+msgstr ""
+
+#: src/gthumb-window.c:3893
+#, c-format
+msgid "Cannot load folder \"%s\" : %s\n"
+msgstr "\"%s\" 폴더를 못 읽겠습니다 : %s\n"
+
+#: src/gthumb-window.c:4142
+msgid "The specified catalog does not exist."
+msgstr ""
+
+#: src/main.c:62
+msgid "Start in fullscreen mode"
+msgstr "전체화면으로 시작합니다"
+
+#: src/main.c:66
+msgid "Automatically start a slideshow"
+msgstr "자동으로 슬라이드를 시작합니다"
+
+#: src/main.c:159
+msgid "Holidays"
+msgstr ""
+
+#: src/main.c:160
+msgid "Temporary"
+msgstr ""
+
+#: src/main.c:161
+msgid "Screenshots"
+msgstr ""
+
+#: src/main.c:162
+msgid "Science"
+msgstr ""
+
+#: src/main.c:163
+msgid "Favourite"
+msgstr ""
+
+#: src/main.c:164
+msgid "Important"
+msgstr ""
+
+#: src/main.c:165
+msgid "GNOME"
+msgstr ""
+
+#: src/main.c:166
+#, fuzzy
+msgid "Games"
+msgstr "이름"
+
+#: src/main.c:167
+msgid "Party"
+msgstr ""
+
+#: src/main.c:168
+msgid "Birthday"
+msgstr ""
+
+#: src/main.c:169
+msgid "Astronomy"
+msgstr ""
+
+#: src/main.c:170
+msgid "Family"
+msgstr ""
+
+#: src/main.c:275 src/main.c:332
+msgid "Command Line"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:1
+msgid "GThumb Image"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:2
+msgid "GThumb Viewer"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:3
+msgid "View with GThumb"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+#, fuzzy
+msgid "Black and White"
+msgstr "흑백으로(_W)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "Flip"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Flip the image"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "High"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Low"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+msgid "Mirror"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+msgid "Mirror the image"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate 180 _Degrees"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+msgid "Rotate the image clockwise"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+msgid "Rotate the image of 180 degrees"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+msgid "_Flip"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+msgid "_Step Animation"
+msgstr "한 프레임씩 보기(_S)"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:30
+msgid "_Zoom Quality"
+msgstr ""
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:1
+#, fuzzy
+msgid "Catalog"
+msgstr "카탈로그"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:2
+#, fuzzy
+msgid "GThumb Catalog View"
+msgstr "한꺼번에 이름 바꾸기"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:3
+#, fuzzy
+msgid "View as Catalog"
+msgstr "카탈로그 보기"
+
+#, fuzzy
+#~ msgid "Dimensions"
+#~ msgstr "이미지 크기"
+
+#~ msgid "Start _from:"
+#~ msgstr "찾을 경로(_F):"
+
+#~ msgid "C_omment:"
+#~ msgstr "설명(_O):"
+
+#~ msgid "File name"
+#~ msgstr "파일 이름"
+
+#~ msgid "File name:"
+#~ msgstr "파일 이름:"
+
+#~ msgid "Zoom to fit"
+#~ msgstr "맞추기"
+
+#~ msgid "Preferences..."
+#~ msgstr "선택사항..."
+
+#~ msgid "_Copy Images..."
+#~ msgstr "...로 복사"
+
+#~ msgid "_Delete Images"
+#~ msgstr "... 지우기"
+
+#~ msgid "_Move Images..."
+#~ msgstr "...로 옮기기"
+
+#~ msgid "_Rename Image"
+#~ msgstr "... 이름 바꾸기"
+
+#~ msgid "Full Scree_n"
+#~ msgstr "전체 화면(_F)"
+
+#~ msgid "Edit search..."
+#~ msgstr "책갈피에 넣기"
+
+#~ msgid "Full scree_n"
+#~ msgstr "전체 화면(_F)"
+
+#~ msgid "New folder"
+#~ msgstr "... 이름 바꾸기"
+
+#~ msgid "by _path"
+#~ msgstr "위치로"
+
+#~ msgid "by _size"
+#~ msgstr "크기로"
+
+#~ msgid "by _time"
+#~ msgstr "시각으로"
+
+#~ msgid "Delete the curret history"
+#~ msgstr "현재 목록에 있는 파일을 다 고릅니다"
+
+#~ msgid "Size"
+#~ msgstr "크기로"
+
+#~ msgid "Remove"
+#~ msgstr "반대로"
+
+#~ msgid "_Close"
+#~ msgstr "닫기(_C)"
+
+#~ msgid "_Move Catalog To..."
+#~ msgstr "...로 옮기기"
+
+#~ msgid "Select all the files in the current list"
+#~ msgstr "현재 목록에 있는 파일을 다 고릅니다"
+
+#~ msgid "Reverse the list order"
+#~ msgstr "목록 순서를 바꿉니다"
+
+#~ msgid "_Preferences..."
+#~ msgstr "선택사항..."
+
+#~ msgid "_View Full Screen"
+#~ msgstr "전체 화면(_F)"
+
+#~ msgid "_Open Selected Files With"
+#~ msgstr "고른 파일을 디스크에서 지웁니다"
+
+#~ msgid "ERROR"
+#~ msgstr "오류"
+
+#~ msgid "WARNING"
+#~ msgstr "경고"
+
+#~ msgid "INFO"
+#~ msgstr "정보"
+
+#~ msgid "Copyright (C) 2001 The Free Software Foundation"
+#~ msgstr "저작권 (C) 2001 자유 소프트웨어 재단"
+
+#~ msgid "Are you sure ?"
+#~ msgstr "진짜로 ?"

@@ -1,0 +1,169 @@
+version 1.105
+-------------
+	* Use gconf as configuration system instead of gnome-config.
+
+version 1.104
+-------------
+	* New tool: find duplicates.
+	* Added an image properties dialog that displays various image
+	  properties and EXIF data if present (you need the libexif).
+	* Added ability to print the comment alongside the image.
+	* Added option to choose the click policy.
+	* Added "duplicate image" operation.
+	* Better handling of long comments.
+	* The image view component now supports printing, so you can print 
+	  an image (and its comment) using Nautilus.
+
+version 1.103
+-------------
+	* New tool: jpeg lossless transformations.
+	* The user can edit/view comments and delete images in fullscreen 
+	  mode.
+	* Changed the fourth layout type to something more usefull.
+	* Automatically update the content of a folder.
+
+version 1.102
+-------------
+	* New tool: rename series of images.
+	* Added a maintenance dialog where the user can delete old/all 
+	  comments/thumbnails, and backup and restore comments.
+	* Added header and footer support to the "Index Image" tool.
+	* Re-added the "Toolbar Style" option.
+	* Added Next/Prev Image buttons on toolbar.
+	* Click on an image to view the next one.
+	* Minor usability improvements.
+	* Bugfixes.
+
+version 1.101
+-------------
+	* Changed arrangement of menus.
+	* Preload next 2 images and previous one when browsing.
+	* Added ability to view an image in black and white.
+	* Bugfixes.
+	* Removed a few memleaks.
+
+version 1.100
+-------------
+	* Ported to GNOME 2.
+	* Added ability to go back and forward in history.
+	* Added ability to rename and delete folders.
+	* Better error reporting.
+	* Removed redundant options.
+
+version 0.10
+-------------
+	* Improved usability of the "Open with" dialog.
+
+version 0.9.9
+-------------
+	* View fullscreen directly from the contextual menu of a thumbnail.
+	* Option to switch automatically to full screen mode when the 
+	  slideshow starts.
+	* The user can specify an editor different from the ones associated 
+	  with images.
+	* Bugfixes.
+
+version 0.9.8
+-------------
+	* Minor features added.
+	* Bugfixes.
+
+version 0.9.7
+-------------
+	* Bugfixes.
+
+version 0.9.6
+-------------
+	* Selection works better when directories contain a lot of files.
+	* The location entry can stay on a separate toolbar.
+	* More keyboard shortcuts.
+	* Added "fit image to window only if larger" mode.
+	* Bugfixes.
+
+version 0.9.5
+-------------
+	* Added a search tool.
+	* Made an image viewer component.
+	* New icon.
+	* Bugfixes.
+
+version 0.9.4
+-------------
+	* Bugfixes.
+
+version 0.9.3
+-------------
+	* New feature: Add comments to images.
+	* Ask what to do when trying to overwrite a file.
+	* Bugfixes.
+	
+version 0.9.2
+---------------
+	* Fixed RPM build.
+	* Added 2 more layouts (Josua Groeger).
+
+version 0.9.1
+-------------
+	* New feature: Save thumbnails as single image.
+	* Various usability improvements.
+	* Mouse wheel support.
+
+version 0.9
+----------
+	* Faster zooming.
+	* Added a navigation window ala GIMP.
+	* Fully usable with the keyboard.
+	* Added a little manual.
+	* Can accept multiple directories at command line.
+
+version 0.8
+-----------
+	* Uses Gnome-VFS.
+	* Bugfixes.
+
+version 0.7.2
+-------------
+	* Added print support (optional).
+	* Fixed gdk-pixbuf detection.
+
+version 0.7.1
+-------------
+	* Translations: French, Japanese.
+
+version 0.7
+-----------
+	* New option: Thumbnails size.
+	* Added history menu.
+	
+version 0.6.4
+-------------
+	* Bookmarks are in a menu now (ala Nautilus).
+	* Bugfixes.
+
+version 0.6
+-----------
+	* New thumbnails view.
+	* New option: change window layout.
+
+version 0.5
+-----------
+	* New options: transparency type, checks color and size (ala Gimp).
+	* Rotate, Flip and Mirror image (not for animations).
+	* Faster image scrolling.
+
+version 0.4
+-----------
+	* Play GIF animations.
+	* Drag & Drop.
+	* Use Nautilus thumbnails (read only).
+
+version 0.3
+-----------
+	* Options dialog.
+	* TAB completion in location entry.
+	* More keyboard shortcuts.
+	* Translations: Dutch, Korean.
+
+version 0.2
+-----------
+	* First public version. 

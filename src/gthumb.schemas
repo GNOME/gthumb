@@ -1,0 +1,894 @@
+<gconfschemafile>
+    <schemalist>
+
+      <!-- General -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/go_to_last_location</key>
+	<applyto>/apps/gthumb/general/go_to_last_location</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/use_startup_location</key>
+	<applyto>/apps/gthumb/general/use_startup_location</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/startup_location</key>
+	<applyto>/apps/gthumb/general/startup_location</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/max_history_length</key>
+	<applyto>/apps/gthumb/general/max_history_length</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>15</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/general/editors</key>
+	<applyto>/apps/gthumb/general/editors</applyto>
+	<owner>gthumb</owner>
+	<type>list</type>
+	<list_type>string</list_type>
+	<default>[]</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Broswer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_hidden_files</key>
+	<applyto>/apps/gthumb/browser/show_hidden_files</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_comments</key>
+	<applyto>/apps/gthumb/browser/show_comments</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/show_thumbnails</key>
+	<applyto>/apps/gthumb/browser/show_thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/fast_file_type</key>
+	<applyto>/apps/gthumb/browser/fast_file_type</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/save_thumbnails</key>
+	<applyto>/apps/gthumb/browser/save_thumbnails</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/thumbnail_size</key>
+	<applyto>/apps/gthumb/browser/thumbnail_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>95</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/click_policy</key>
+	<applyto>/apps/gthumb/browser/click_policy</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>nautilus</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : nautilus, single, double.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/confirm_deletion</key>
+	<applyto>/apps/gthumb/browser/confirm_deletion</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/arrange_images</key>
+	<applyto>/apps/gthumb/browser/arrange_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>name</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : none, name, path, size, time.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/browser/sort_images</key>
+	<applyto>/apps/gthumb/browser/sort_images</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>ascending</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : ascending, descending.
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Viewer -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_quality</key>
+	<applyto>/apps/gthumb/viewer/zoom_quality</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>high</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : high, low.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/zoom_change</key>
+	<applyto>/apps/gthumb/viewer/zoom_change</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>fit_if_larger</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : actual_size, fit, keep_prev, 
+	    fit_if_larger.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/transparency_type</key>
+	<applyto>/apps/gthumb/viewer/transparency_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>none</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : white, black, checked, none.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_type</key>
+	<applyto>/apps/gthumb/viewer/check_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>midtone</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : light, midtone, dark.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/check_size</key>
+	<applyto>/apps/gthumb/viewer/check_size</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>medium</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : small, medium, large.
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Slide Show -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/direction</key>
+	<applyto>/apps/gthumb/slideshow/direction</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>forward</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : forward, backward.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/delay</key>
+	<applyto>/apps/gthumb/slideshow/delay</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/wrap_around</key>
+	<applyto>/apps/gthumb/slideshow/wrap_around</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/slideshow/fullscreen</key>
+	<applyto>/apps/gthumb/slideshow/fullscreen</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- UI -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/layout</key>
+	<applyto>/apps/gthumb/ui/layout</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>2</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : 1, 2, 3, 4.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/toolbar_style</key>
+	<applyto>/apps/gthumb/ui/toolbar_style</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>text_beside</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : system, text_below, text_beside, text_only, icons_only.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/window_width</key>
+	<applyto>/apps/gthumb/ui/window_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>690</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/window_height</key>
+	<applyto>/apps/gthumb/ui/window_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>460</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/image_pane_visible</key>
+	<applyto>/apps/gthumb/ui/image_pane_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/toolbar_visible</key>
+	<applyto>/apps/gthumb/ui/toolbar_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/statusbar_visible</key>
+	<applyto>/apps/gthumb/ui/statusbar_visible</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/sidebar_size</key>
+	<applyto>/apps/gthumb/ui/sidebar_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>255</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/sidebar_content_size</key>
+	<applyto>/apps/gthumb/ui/sidebar_content_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>190</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/General -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/name_template</key>
+	<applyto>/apps/gthumb/exporter/general/name_template</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>###</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/start_from</key>
+	<applyto>/apps/gthumb/exporter/general/start_from</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>1</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/file_type</key>
+	<applyto>/apps/gthumb/exporter/general/file_type</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>jpeg</default>
+	<locale name="C">
+	  <short></short>
+	  <long> Possible values are : png, jpeg.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/general/write_image_map</key>
+	<applyto>/apps/gthumb/exporter/general/write_image_map</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/Page -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/width</key>
+	<applyto>/apps/gthumb/exporter/page/width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>400</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/height</key>
+	<applyto>/apps/gthumb/exporter/page/height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>400</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/size_use_row_col</key>
+	<applyto>/apps/gthumb/exporter/page/size_use_row_col</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/rows</key>
+	<applyto>/apps/gthumb/exporter/page/rows</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>3</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/cols</key>
+	<applyto>/apps/gthumb/exporter/page/cols</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>4</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/all_pages_same_size</key>
+	<applyto>/apps/gthumb/exporter/page/all_pages_same_size</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/background_color</key>
+	<applyto>/apps/gthumb/exporter/page/background_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#62757b</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/hgrad_color1</key>
+	<applyto>/apps/gthumb/exporter/page/hgrad_color1</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#e0d3c0</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/hgrad_color2</key>
+	<applyto>/apps/gthumb/exporter/page/hgrad_color2</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#b1c3ad</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/vgrad_color1</key>
+	<applyto>/apps/gthumb/exporter/page/vgrad_color1</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#e8e8ea</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/vgrad_color2</key>
+	<applyto>/apps/gthumb/exporter/page/vgrad_color2</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#bad8d8</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_solid_color</key>
+	<applyto>/apps/gthumb/exporter/page/use_solid_color</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_hgradient</key>
+	<applyto>/apps/gthumb/exporter/page/use_hgradient</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/use_vgradient</key>
+	<applyto>/apps/gthumb/exporter/page/use_vgradient</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_text</key>
+	<applyto>/apps/gthumb/exporter/page/header_text</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_color</key>
+	<applyto>/apps/gthumb/exporter/page/header_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#d5504a</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/header_font</key>
+	<applyto>/apps/gthumb/exporter/page/header_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial 22</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_text</key>
+	<applyto>/apps/gthumb/exporter/page/footer_text</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_color</key>
+	<applyto>/apps/gthumb/exporter/page/footer_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#394083</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/page/footer_font</key>
+	<applyto>/apps/gthumb/exporter/page/footer_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial Bold Italic 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Exporter/Thumbnail -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_comment</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_comment</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_path</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_path</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_name</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_name</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>true</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_size</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_size</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/show_image_dim</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/show_image_dim</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/frame_style</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/frame_style</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>simple_with_shadow</default>
+	<locale name="C">
+	  <short></short>
+	  <long>Possible values are : none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out.
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/frame_color</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/frame_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#94d6cd</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/thumb_size</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/thumb_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>128</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/text_color</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/text_color</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>#414141</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/exporter/thumbnail/text_font</key>
+	<applyto>/apps/gthumb/exporter/thumbnail/text_font</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default>Arial Bold 12</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+    </schemalist>
+</gconfschemafile>

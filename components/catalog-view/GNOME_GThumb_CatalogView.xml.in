@@ -1,0 +1,17 @@
+<Root>
+
+<commands>
+	<cmd name="PrintImage" _label="_Print"
+	     _tip="Print the current image" pixtype="stock"
+             pixname="Print" accel="*Control*p"/>
+</commands>
+
+<menu>
+	<submenu name="File">
+      		<placeholder name="File Items Placeholder">
+	       	<menuitem name="PrintImage" verb=""/>
+      		</placeholder>
+    	</submenu>
+</menu>
+
+</Root>

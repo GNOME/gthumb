@@ -1,0 +1,40 @@
+This is the distribution of gThumb, an image viewer and browser utility
+for the GNOME environment. 
+
+* Features
+
+  gThumb lets you browse your hard disk, showing you thumbnails of image 
+  files.  It also lets you view single files (including GIF animations), add 
+  comments to images, organize images in catalogs, print images, view 
+  slideshows, set your desktop background, and more.
+
+* Licensing
+
+  This program is released under the terms of the GNU General Public
+  License (GNU GPL).  
+
+  You can find a copy of the license in the file COPYING.
+
+* Dependencies
+
+  In order to use this program you need a working GNOME environment
+  version 2, with the development tools installed properly.  The following
+  is the detailed list of libraries you need:
+
+	* glib	 		version 2.0.0
+	* gtk 			version 2.0.0 
+	* libxml 		version 2.4.0
+	* libgnome 		version 2.0.0 
+	* libgnomeui 		version 2.0.0 
+	* libgnomecanvas 	version 2.0.0 
+	* gnome-vfs 		version 2.0.0 
+	* libglade 		version 2.0.0 
+	* bonobo-activation 	version 1.0.0 
+	* libbonobo 		version 2.0.0 
+	* libbonoboui 		version 2.0.0 
+	* libgnomeprint 	version 1.110
+	* libgnomeprintui 	version 1.110
+
+  If you want to view EXIF data attached to images, you need the libexif 
+  library that can be found at this web site : http://libexif.sourceforge.net
+

@@ -1,0 +1,72 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <config.h>
+#include <libgnome/libgnome.h>
+
+#include "catalog.h"
+#include "file-utils.h"
+#include "gthumb-init.h"
+#include "preferences.h"
+#include "image-viewer.h"
+#include "image-list.h"
+#include "typedefs.h"
+
+
+Preferences       preferences;
+
+
+static void
+ensure_directories_exist ()
+{
+	gchar *path;
+
+	path = g_strconcat (g_get_home_dir (),
+			    "/",
+			    RC_THUMBS_DIR,
+			    NULL);
+	ensure_dir_exists (path, 0700);
+	g_free (path);
+
+	path = g_strconcat (g_get_home_dir (),
+			    "/",
+			    RC_CATALOG_DIR,
+			    NULL);
+	ensure_dir_exists (path, 0700);
+	g_free (path);
+}
+
+
+void
+gthumb_init ()
+{
+	/* initialize preferences. */
+	ensure_directories_exist ();
+	preferences_init ();
+}
+
+
+void
+gthumb_release ()
+{
+	preferences_release ();
+}

@@ -1,0 +1,9 @@
+.deps
+.libs
+Makefile
+Makefile.in
+gthumb-marshal.c
+gthumb-marshal.h
+gthumb-enum-types.c
+gthumb-enum-types.h
+libgthumb.a

@@ -1,0 +1,640 @@
+2002-10-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* Ported to gconf.
+
+2002-10-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/jpegutils/*: New files. Implement an internal jpegtran if
+	we have libjpeg.
+	
+	* src/dlg-jpegtran.c (apply_tran): use the internal jpegtran if
+	available.
+
+2002-10-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+	
+	[ gthumb 1.104 released ]
+
+2002-09-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c (apply_tran): escape image path.
+
+	* src/gthumb-ui.xml: use a different popup menu when in fullscreen 
+	mode.
+
+	* libgthumb/gthumb-slide.c (draw_shadow): make the shadow shaded.
+
+2002-09-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-loader.c (load_image_thread): Use a single
+	thread for loading images instead of creating a thread each time
+	an image must be loaded.
+
+2002-09-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c: Added "duplicate image" operation.
+
+2002-09-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-loader.c: Use a thread to load images with the
+	gdk_pixbuf_animation_new_from_file function, this let us getting
+	rid of the gdk_pixbuf_loader which is slower and buggy.
+
+2002-09-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/md5.c: 
+	* libgthumb/md5.h: new files, taken from textutils.
+
+	* src/dlg-duplicates.c: do not use the md5sum external command,
+	use the internal implementation instead.
+
+2002-09-14  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/catalog-png-exporter.c (load_next_file): 
+	* src/dlg-png-exporter.c (export_info): display some usefull info 
+	while making the index.
+
+2002-09-13  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c (date_exif_clicked_cb): added ability to
+	import the date from the EXIF data.
+
+	* src/dlg-duplicates.c (find_checksum_command): check whether the
+	user have sha1sum or md5sum.
+
+2002-09-12  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* components/catalog-view/*: catalog viewer.
+	
+	* src/dlg-duplicates.c: 
+	* src/dlg-duplicates.h: implements the "find duplicates" tool.
+
+2002-09-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-image-prop.c (dlg_image_prop_new): always define
+	scrolled_window and i_notebook.
+
+2002-08-31  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* components/image-viewer/viewer-nautilus-view.c (viewer_nautilus_view_load_location): unescape the location before asking the Stream.
+
+2002-08-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* components/image-viewer/viewer-control.c: 
+	* components/image-viewer/viewer-control.h: 
+	* components/image-viewer/viewer-nautilus-view.c: 
+	* components/image-viewer/viewer-nautilus-view.h: 
+	* components/image-viewer/ui.c:	Added "Print" command to the control.
+
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/print-callbacks.h: moved here so the control can use it.
+
+	* src/fullscreen.c (fullscreen_new): Use the old way of doing 
+	fullscreens if the WM do not support WM_STATE_FULLSCREEN, and if this
+	is the case disable the ability of deleting images and editing 
+	comments.
+
+2002-08-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_update_infobar): remove useless tooltip.
+
+	* libgthumb/image-viewer.c (image_viewer_size_allocate): skip 
+	size_changed signal emition when changing frame.
+
+	* src/dlg-comment.c (ok_clicked_cb): store even hour:min:sec
+
+	* src/fullscreen.c (get_file_info): add misc file information.
+	(show_comment_on_image): improve comment layout.
+
+	* libgthumb/gthumb-canvas-text.c: 
+	* libgthumb/gthumb-canvas-text.h: 
+	* src/print-callbacks.c: 
+	* src/gthumb_print.glade2: Optionally print the comment.
+
+2002-08-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-list.c: 
+	* libgthumb/image-viewer.c: s/uint/guint/g
+
+	* src/commands-impl.c (view_image_prop_command_impl): 
+	* src/commands-impl.h: 
+	* src/gthumb-window.c (image_loaded_cb): 
+	* src/gthumb-window.h: 
+	* src/dlg-image-prop.c: Image properties dialog.  Display image
+	properties and EXIF data.
+
+2002-08-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/preferences.c (preferences_load): changed default 
+	transparency type to TRANSP_TYPE_NONE.
+
+	* src/gthumb-window.c (window_sync_menu_with_preferences): new 
+	function.
+
+	* src/main.c (all_windows_update_viewer_options): sync menu with
+	preferences.
+
+	* src/gthumb-window.c (window_update_title): make the title HIG
+	compliant.
+
+2002-08-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fullscreen.c (fullscreen_start): hide the main window.
+	(fullscreen_stop): show the main window.
+
+2002-08-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fnmatch.c: 
+	* src/fnmatch.h: 
+	* src/dlg-search.c:
+	* configure.in: 
+	* acinclude.m4:
+	* Makefile.am : Cope with systems that do not have FNM_CASEFOLD 
+	defined.
+
+	* src/dir-list.c (dir_list_interrupt_change_to): 
+	* libgthumb/file-utils.c (path_list_async_interrupt): Added a DoneFunc
+	argument.
+	* src/gthumb-window.c: Use the new argument.
+
+2002-08-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/catalog-list.c (catalog_list_refresh): 
+	* src/dir-list.c (dir_list_refresh_continue): Use an upward arrow for
+	the ".." entry.
+
+	* src/dir-list.c (add_columns): 
+	* src/gthumb-window.c (dir_button_press_cb): 
+	(catalog_button_press_cb): 
+	* libgthumb/preferences.c (preferences_init): Follow the same button
+	click policy of Nautilus.
+
+2002-07-31  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (make_url_list): prepend "file://" for the 
+	uri-list target.
+
+2002-07-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* components/image-viewer/Makefile.am (libexec_PROGRAMS): install
+	in libexec.
+
+2002-07-26  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-jpegtran.c: 
+	* src/dlg-jpegtran.h: JPEG lossless transformations tool.
+
+2002-07-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fullscreen.c (show_comment_on_image): Show even the filename.
+
+	* libgthumb/file-list.c (file_list_update_thumb): 
+	* src/gthumb-window.c (directory_changed): 
+	(_window_sync_changes): New functions.
+	(set_dir_list_continue): Add a monitor on the directory.
+
+2002-07-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_new): 
+	(window_notify_update_layout): Changed layout number four.
+
+2002-07-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-preloader.c: rename gthumb_preloader_set_paths to
+	gthumb_preloader_start and remove the old gthumb_preloader_start. This
+	fix a bug when interrupting the loader.
+
+2002-07-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/fullscreen.c (show_comment_on_image): New function.
+	(image_key_press_cb): Use it when the user press 'c'.
+
+	* configure.in (RENDER_LIBS): Checks for Xft/XRender
+
+2002-07-14  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (file_new_window_command_impl): Open the new
+	window in the same location of the old window.
+
+2002-07-12  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-open-with.c (open_cb): re-display the dialog if an error
+	occurred.
+
+2002-07-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-open-with.c (exec_command): Use g_spawn instead of 
+	gnome_exec, and display an error message if needed.
+
+	* src/dlg-maintenance.c: 
+	* src/dlg-maintenance.h: New files.  Put all maintenance functions in
+	a dialog.
+
+	* src/gtkcellrendererthreestates.h: 
+	* src/gtkcellrendererthreestates.c: 
+	* src/dlg-comment.c: 
+	* src/dlg-categories.c: Comments and categories have separate dialogs
+	now.  Better handling of categories when many images have been
+	selected.
+	
+2002-07-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c (ok_clicked_cb): Delete empty comments.
+
+2002-07-09  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb_comments.glade2: added "save only changed fields" option.
+	
+	* src/dlg-comment.c (ok_clicked_cb): Implement the "save only changed
+	fields" option.
+
+	* libgthumb/comments.c (comments_get_comment_as_string): changed 
+	comment layout.
+	(comments_save_comment_non_null): New function save only non-empty 
+	fields.
+
+2002-07-08  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-list.c (image_list_remove): Do not update the width
+	after deleting images.
+
+	* src/commands-impl.c (view_zoom_fit_command_impl):
+	* src/gthumb-ui.xml: make zoom_fit a stateless command.
+
+2002-07-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* README: Updated to GNOME 2.
+	* configure.in: Updated required lib versions.
+
+2002-07-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-viewer.c (image_viewer_button_release): Do not emit
+	the click signal if the viewer was not focused before the button press
+	event.
+
+	* libgthumb/file-list.c (file_list_select_image_by_pos): 
+	* libgthumb/image-list.c (image_list_image_is_visible): 
+	* libgthumb/image-list.h: Define a more fine grained visibility type.
+
+	* libgthumb/bookmarks.c (bookmarks_remove_from): 
+	(bookmarks_remove): remove the path from the hash tables only when 
+	it is no more present in the list.
+
+	* src/gthumb-window.c (notify_files_deleted): freeze the list before
+	deleting.
+
+	* configure.in: Add AC_PREREQ(2.52)
+
+2002-06-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (folder_rename): check whether new_path and 
+	old_path are the same.
+	(edit_folder_move_command_impl): 
+	(edit_current_folder_move_command_impl): 
+	(folder_move): 
+	(folder_move__destroy_cb): Implement the "Move Folder" command.
+
+2002-06-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c (create_default_categories_if_needed): Add default 
+	categories.
+
+2002-06-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (image_clicked_cb): New function : show next
+	image when left click on an image.
+
+2002-06-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/thumb-cache.c (cache_copy): 
+	(cache_move): Set the mtime of the new thumbnail to the mtime of the
+	destination.
+
+	* src/gthumb_png_exporter.glade2:
+	* libgthumb/catalog-png-exporter.c (get_footer_text): 
+	(get_header_text): 
+	(get_hf_text): 
+	(export): 
+	(paint_footer): Use %p to insert page number and %n to insert the 
+	total number of pages.
+
+2002-06-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_new): use gtk_paned_pack insted of 
+	gtk_paned_add, and set a size request for the image viewer and image 
+	list.
+
+	* src/main.c (all_windows_notify_files_rename): 
+	* src/dlg-rename-series.c: 
+	* src/dlg-file-utils.c (dlg_file_rename_series): Implements rename 
+	series.
+
+	* libgthumb/gthumb-slide.c (gthumb_draw_image_shadow_out): 
+	(gthumb_draw_image_shadow_in): Implements SHADOWN_IN and SHADOW_OUT 
+	styles.
+
+	* libgthumb/glib-utils.c (_g_substitute): new function.
+
+	* libgthumb/catalog-png-exporter.c (catalog_png_exporter_set_header): 
+	(catalog_png_exporter_set_footer): allow NULL values.
+	(paint_frame): added SHADOW_IN and SHADOW_OUT styles.
+
+	* gthumb.desktop.in: make entries specification compliant.
+
+2002-06-20  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml
+	* libgthumb/catalog-png-exporter.c: 
+	* libgthumb/catalog-png-exporter.h: 
+	* src/dlg-png-exporter.h:
+	* src/dlg-png-exporter.c: Implemented header and footer support. 
+
+2002-06-18  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-preferences.c: add the toolbar style option.
+
+	* src/gthumb-window.c (window_notify_update_toolbar_style): New 
+	function, update toolbar style according to preferences.
+
+2002-06-16  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-search.c: Remove MAX_CATEGORIES.
+
+	* doc/C/gthumb.xml: Sync manual with UI changes.  Added the preferences
+	dialog documentation.
+
+	* src/dlg-preferences.c (dlg_preferences): Add the help button.
+
+2002-06-15  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gtk-utils.c (_gtk_error_dialog_run): 
+	(_gtk_info_dialog_run): Set the parent window.
+
+	* src/gthumb-window.c (view_image_at_pos): reload the image if the
+	mtime changed.
+
+	* src/dlg-png-exporter.c: Use the new name template functions.
+
+	* src/commands-impl.c (alter_image_rotate_command_impl): Set mtime to 0
+	after altering an image so when clicking on the thumbnail the image
+	get reloaded.
+
+	* src/auto-completion.c (auto_compl_show_alternatives): Use the library
+	icon if we are navigating the catalogs.
+
+	* libgthumb/pixbf-utils.c: remove pixbuf_to_file_as_png, use 
+	gdk_pixbuf_save instead.
+	
+	* libgthumb/nav-window.c (NAV_WIN_MAX_WIDTH): change the max window
+	size from 128 to 112.
+
+	* libgthumb/gthumb-slide.c (gthumb_draw_frame_shadow): 
+	(gthumb_draw_image_shadow): New functions.
+
+	* libgthumb/glib-utils.c (_g_get_template_from_text): New function.
+	(_g_get_name_from_template): New function.
+
+	* libgthumb/file-utils.c (get_path_relative_to_dir): New function.
+	(remove_special_dirs_from_path): New Function.
+
+	* libgthumb/catalog-png-exporter.h: Added new frame style :
+	FRAME_STYLE_SIMPLE_WITH_SHADOW.
+
+	* libgthumb/catalog-png-exporter.c (paint_comment): New function to
+	paint comments with italic font.
+	(catalog_png_exporter_set_name_template): New function.
+	(catalog_png_exporter_set_start_at): New function.
+	(catalog_png_exporter_set_header): 
+	(catalog_png_exporter_set_header_font): 
+	(catalog_png_exporter_set_header_color): 
+	(catalog_png_exporter_set_footer): 
+	(catalog_png_exporter_set_footer_font): 
+	(catalog_png_exporter_set_footer_color): New functions, not implemented
+	yet.
+	(export): Do not try to paint an image when the pixbuf is NULL.
+	(begin_page): Use _g_get_name_from_template to get filename.
+
+	* configure.in: remove the libpng check we use gdk_pixbuf_save to save
+	png images now.
+
+2002-06-03  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/gthumb-slide.h: 
+	* libgthumb/gthumb-slide.c: New file. 
+
+	* libgthumb/catalog-png-exporter.c (get_relative_path): New function.
+	(paint_frame): use get_relative_path to set the image path in the HTML
+	area.
+
+	* src/dlg-png-exporter.c (export): If the destination directory does
+	not exist ask the user whether to create it.
+
+	* libgthumb/gtk-utils.c (_gtk_info_dialog_run): New function.
+
+	* src/dlg-search.c (update_list_from_entry): New function to set the
+	category list from the content of the category entry.
+	(choose_categories_cb): 
+	(dlg_search_ui): Use update_list_from_entry.
+
+	* libgthumb/preferences.c (preferences_load): Set 
+	ZOOM_CHANGE_FIT_IF_LARGER as the default zoom change.
+
+2002-06-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (rename_file): Do not rename a file if source and
+	destination are the same.
+	(help_about_command_impl): Do not allow more than one about dialog.
+
+	* libgthumb/gtk-utils.c (_gtk_yesno_dialog_new): New function.
+
+	* src/dlg-file-utils.c (dlg_file_delete): 
+	* src/commands-impl.c (rename_file): 
+	(edit_remove_from_catalog_command_impl): 
+	(folder_delete): 
+	(catalog_delete): Use _gtk_yesno_dialog_new when appropriate.
+
+2002-06-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/preferences.c: 
+	* src/gthumb-window.c: Save and restore toolbar and statusbar 
+	visibility.
+
+2002-05-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb_search.glade2:
+	* src/dlg-search.c: Added "Choose Categories" dialog.
+
+	* libgthumb/preferences.c (preferences_load): Set go_to_last_localtion
+	the default behaviour.
+
+	* src/gthumb-preloader.c (gthumb_preloader_set_paths): Use MAX priority
+	for the requested image, DEFAULT priority for other images.
+
+	* libgthumb/image-loader.c (image_loader_set_priority): New function.
+
+	* src/gthumb-preloader.c: 
+	* src/gthumb-windowr.c: Load even current image with the preloader,
+	this let us avoid a redundant loading that occured with the previous 
+	implementation.
+
+	* libgthumb/gthumb-text-item.c (gthumb_text_item_destroy): 
+	* src/gthumb-window.c (window_update_statusbar_list_info): plug a few
+	memleaks. 
+
+2002-05-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: Added the entry : View->Black and White.
+	
+	* libgthumb/image-viewer.c (image_viewer_alter): ALTER_GRAY added.
+	
+	* libgthumb/pixbuf-utils.c (pixbuf_copy_gray): The function that
+	implements the desaturation.
+
+	* libgthumb/image-loader.c (image_loader_load_from_image_loader): 
+	* libgthumb/image-viewer.c (image_viewer_load_from_image_loader): New
+	functions used by the preloader.
+
+	* src/gthumb-window.c: Use the preloader.
+
+	* src/gthumb-preloader.c: 
+	* src/gthumb-preloader.h: Added an image preloader.
+	
+
+2002-05-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/thumb-cache.c (cache_move): 
+	(cache_copy): overwrite destination.
+
+	* libgthumb/comments.c (comment_copy): 
+	(comment_move): overwrite destination.
+
+	* src/dlg-file-utils.c (dlg_show_error): translate message to utf8.
+
+2002-05-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-preferences.c: 
+	* libgthumb/preferences.h: Added "fast file type" option. 
+
+	* libgthumb/image-viewer.c (image_viewer_style_set): Added 
+	TRANSP_TYPE_NONE which uses the gtk theme color to paint transparency.
+
+	* src/gthumb-window.c: Added EditCurrentDir_* and EditCurrentCatalog_*
+	commands.  These are the commands displayed in the main menu
+	and work a bit different from the commands in the context menus.
+	Added Image_* commands displayed in the viewer context menu.
+	Display image name in the "Info Bar" and other information in the
+	status bar.  Activate progress bar when loading an image.
+	Fixed double-click in the file list.  Use Page Down/Up to view the
+	next/prev image when the viewer is focused.  Focus the image when
+	click on the Info Bar.  Removed custom icons for zoom buttons, use gtk
+	stock icons instead.  Stopping the slideshow exit from fullscreen mode.
+	Minor usability enhancements.
+
+	* src/gthumb-window.c (window_notify_directory_rename): 
+	(window_notify_directory_delete): 
+	(window_notify_directory_new): 
+	(window_notify_catalog_rename): 
+	(window_notify_catalog_delete): new functions.
+
+	* src/dlg-comment.c (update_category_entry): use categories 
+	instead of keywords.  Added a category list. 
+
+	* src/dlg-search.c: removed the gthumb_search_edit.glade2 file, the
+	progress dialog for "Edit search" is is gthumb_search.glade2 now. 
+
+	* src/gthumb-ui.xml: changed arrangement of menus.
+
+2002-05-11  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.c (window_show_image_pane): 
+	(window_hide_image_pane): new functions.
+
+	* libgthumb/preferences.c (preferences_set_default_values): changed
+	some default values.
+
+	* libgthumb/gthumb-text-item.c (gthumb_text_item_draw): use paint_focus
+	instead of draw_focus.
+
+	* libgthumb/gthumb-info-bar.c: removed useless variables.
+	(gthumb_info_bar_set_text): show a tootip when the labelis not full 
+	visible.
+
+	* configure.in (GETTEXT_PACKAGE): changed GETTEXT_PACKAGE to gthumb-2.0
+
+	* Makefile.am: added doc and omf-install directories.
+
+2002-05-05  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/main.c (get_icon_path_from_name): Add .nautilus/themes to the
+	search path.
+
+	* src/gthumb-ui.xml: Removed ellipsis where not needed.
+
+	* components/image-viewer/GNOME_GThumb_Viewer.xml.in: Add a toolbar
+	with the rotate, flip and mirror commands.
+
+2002-05-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/catalog-png-exporter.c: 
+	* src/dlg-png-exporter.c: Added the image preview.
+
+2002-04-30  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (edit_folder_delete_command_impl): update cache
+	when deleting a folder.
+	(edit_folder_open_command_impl): Added "open with Naulitus" command, 
+	deleted "Move folder" command.
+
+	* libgthumb/comments.c (comments_remove_old_comments_async): 
+	* libgthumb/thumb-cache.c (cache_remove_old_previews_async): Show a 
+	dialog while deleting old thumbnails and old comments.
+
+	* src/commands-impl.c (edit_folder_rename_command_impl): Update cache 
+	when renaming a folder.
+
+2002-04-27  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* all files: Removed deprecated functions.
+
+2002-04-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-viewer.c (image_viewer_expose): Draw the frame in 
+	black color when the black background is on.  Fixed animation start up
+	when using zoom changes different from "Keep previous zoom".
+
+	* src/main.[ch]:
+	* src/gthumb-window.c: 
+	* src/icons/*.png: Use the nautilus folder icon for folders. Changed 
+	some toolbar icons. 
+
+	* libgthumb/gtk-utils.c (_gtk_image_new_from_inline): New function.
+	
+	* libgthumb/file-utils.c (file_extension_is): New function.
+
+2002-04-24  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/commands-impl.c (edit_folder_rename_command_impl): Implemented.
+	(edit_folder_delete_command_impl): Implemented.
+
+	* libgthumb/gtk-utils.c (_gtk_error_dialog_run): New function.
+	(_gtk_error_dialog_from_gerror_run): New function.
+
+	* src/commands-impl.c: Use above functions to show error dialogs.
+
+2002-04-23  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	*libgthumb/gthumb-error.[ch]: new file.
+	
+	* libgthumb/catalog.c: 
+	* libgthumb/catalog.h: Added GError argument to some functions.
+
+	* src/commands-impl.c:  
+	* src/dlg-preferences.c:  
+	* libgthumb/preferences.[hc]: Removed redundant options. 
+
+2002-04-22  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-open-with.c (delete_recent_cb): Compare the strings not the 
+	pointers.
+
+	* Imported all files.
+

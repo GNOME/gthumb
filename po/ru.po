@@ -1,0 +1,2788 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# Sergey Volozhanin <svo@asplinux.ru>, 2002
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb-0.10\n"
+"POT-Creation-Date: 2002-09-13 18:18+0200\n"
+"PO-Revision-Date: 2002-06-24 15:55+0300\n"
+"Last-Translator: Nail Abdrahmanov <nail@gella.com.ru>\n"
+"Language-Team: RUSSIAN <RU@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Просмотрщик изображений"
+
+#: gthumb.desktop.in.h:2
+msgid "View and organize your images"
+msgstr "Просмотр и навигация ваших изображений"
+
+#: gthumb.desktop.in.h:3 libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:206
+#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2121 src/gthumb-window.c:1076
+#: src/gthumb-window.c:1078 src/gthumb-window.c:1089 src/gthumb-window.c:1094
+#: src/gthumb-window.c:2828 src/gthumb_png_exporter.glade2.h:71 src/main.c:106
+msgid "gThumb"
+msgstr "gThumb"
+
+#: libgthumb/catalog.c:85
+#, c-format
+msgid "Cannot remove library \"%s\" : %s"
+msgstr "Не могу удалить библиотеку \"%s\" : %s"
+
+#: libgthumb/catalog.c:111
+#, c-format
+msgid "Cannot remove catalog \"%s\" : %s"
+msgstr "Не могу удалить каталог \"%s\" : %s"
+
+#: libgthumb/catalog.c:232 libgthumb/catalog.c:400
+#, c-format
+msgid "Cannot open file \"%s\" : %s"
+msgstr "Не могу открыть файл \"%s\" : %s"
+
+#: libgthumb/catalog.c:377
+#, c-format
+msgid "Cannot save file \"%s\" : %s"
+msgstr "Не могу сохранить файл \"%s\" : %s"
+
+#: components/image-viewer/viewer-stream.c:98
+#: libgthumb/catalog-png-exporter.c:763 src/dlg-image-prop.c:526
+#: src/fullscreen.c:225 src/gthumb-window.c:434
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d % %d пикселей"
+
+#: libgthumb/comments.c:321
+msgid "Deleting old comments, wait please..."
+msgstr "Удаление старых комментариев, пожалуйста подождите..."
+
+#: libgthumb/comments.c:651
+msgid "%d %B %Y"
+msgstr ""
+
+#: libgthumb/comments.c:653 src/dlg-duplicates.c:511 src/dlg-image-prop.c:544
+#: src/fullscreen.c:232
+msgid "%d %B %Y, %H:%M"
+msgstr ""
+
+#: libgthumb/comments.c:663
+msgid "(No Comment)"
+msgstr "(Без комментариев)"
+
+#: libgthumb/file-utils.c:1147
+msgid "Cannot find a terminal, using xterm, even if it may not work"
+msgstr "Не могу найти терминал, использую xterm, возможна нестабильная работа"
+
+#: libgthumb/thumb-cache.c:408 libgthumb/thumb-cache.c:654
+#, fuzzy
+msgid "Deleting old thumbnails, wait please..."
+msgstr "Удаление старых миниатюр, пожалуйста подождите..."
+
+#: src/commands-impl.c:191 src/commands-impl.c:818 src/commands-impl.c:1224
+msgid "Enter the new name : "
+msgstr "Введите новое имя : "
+
+#: src/commands-impl.c:195 src/commands-impl.c:822 src/commands-impl.c:1228
+#: src/gthumb-ui.xml.h:195 src/gthumb_tools.glade2.h:34
+msgid "_Rename"
+msgstr "_Переименовать"
+
+#: src/commands-impl.c:206 src/commands-impl.c:721 src/commands-impl.c:833
+#: src/commands-impl.c:1241
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"Неправильное имя файла \"%s\", потому что содержит символ \"/\". Введите, "
+"пожалуйста, уникальное другое имя."
+
+#: src/commands-impl.c:227
+#, c-format
+msgid ""
+"An image named \"%s\" is already present in this folder. Do you want to "
+"overwrite it ?"
+msgstr ""
+"Имя файла \"%s\" уже существует в данном каталоге. Вы хотите переписать его ?"
+
+#: src/commands-impl.c:233
+msgid "_Overwrite"
+msgstr "_Переписать"
+
+#: src/commands-impl.c:253 src/commands-impl.c:266
+#, c-format
+msgid "Could not rename the file \"%s\" : %s"
+msgstr "Не могу переименовать файл \"%s\" : %s"
+
+#: src/commands-impl.c:255 src/commands-impl.c:856 src/commands-impl.c:1063
+msgid "source and destination are the same"
+msgstr "адреса источника и назначения идентичны"
+
+#: src/commands-impl.c:326
+#, fuzzy
+msgid "Selected images will be deleted, are you sure ?"
+msgstr "Выбранные файлы будут удалены. Вы уверены?"
+
+#: src/commands-impl.c:346
+#, fuzzy
+msgid "The image will be deleted, are you sure ?"
+msgstr "Выбранные файлы будут удалены. Вы уверены?"
+
+#: src/commands-impl.c:597
+#, fuzzy
+msgid "The image will be deleted from the catalog, are you sure ?"
+msgstr "Выбранные файлы будут удалены из альбома.Вы уверены ?"
+
+#: src/commands-impl.c:639
+msgid "The selected images will be deleted from the catalog, are you sure ?"
+msgstr "Выбранные файлы будут удалены из альбома.Вы уверены ?"
+
+#: src/commands-impl.c:710 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/dlg-categories.c:199 src/dlg-png-exporter.c:190
+msgid "C_reate"
+msgstr "_Создать"
+
+#: src/commands-impl.c:740 src/commands-impl.c:863 src/commands-impl.c:1070
+#: src/commands-impl.c:1263
+#, c-format
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
+msgstr ""
+"Имя \"%s\" в данном каталоге уже существует. Введите, пожалуйста, другое имя."
+
+#: src/commands-impl.c:768
+msgid "New Folder"
+msgstr "Новая папка"
+
+#: src/commands-impl.c:769
+msgid "Enter the folder name : "
+msgstr "Введите имя папки : "
+
+#: src/commands-impl.c:770
+#, c-format
+msgid "Could not create the folder \"%s\" : %s"
+msgstr "Не могу создать каталог \"%s\" : %s"
+
+#: src/commands-impl.c:781
+#, fuzzy
+msgid "New Library"
+msgstr "Новая библиотека ..."
+
+#: src/commands-impl.c:782 src/dlg-catalog.c:120
+msgid "Enter the library name : "
+msgstr "Введите имя библиотеки:"
+
+#: src/commands-impl.c:783
+#, fuzzy, c-format
+msgid "Could not create the library \"%s\" : %s"
+msgstr "Не могу создать каталог \"%s\" : %s"
+
+#: src/commands-impl.c:854 src/commands-impl.c:895 src/commands-impl.c:1274
+#, c-format
+msgid "Could not rename the folder \"%s\" : %s"
+msgstr "Не могу переименовать каталог \"%s\" : %s"
+
+#: src/commands-impl.c:952 src/commands-impl.c:1357
+msgid "The selected folder will be deleted, are you sure ?"
+msgstr "Выбранный каталог будет удален. Вы уверены?"
+
+#: src/commands-impl.c:988
+#, c-format
+msgid "Cannot remove folder \"%s\" : %s"
+msgstr "Не могу удалить каталог \"%s\" : %s"
+
+#: src/commands-impl.c:1061 src/commands-impl.c:1102
+#, fuzzy, c-format
+msgid "Could not move the folder \"%s\" : %s"
+msgstr "Не могу переименовать каталог \"%s\" : %s"
+
+#: src/commands-impl.c:1134 src/dlg-file-utils.c:313 src/dlg-file-utils.c:456
+msgid "Choose the destination folder"
+msgstr "Выберите каталог назначения"
+
+#: src/commands-impl.c:1274
+#, c-format
+msgid "Could not rename the catalog \"%s\" : %s"
+msgstr "Не могу переименовать альбом \"%s\" : %s"
+
+#: src/commands-impl.c:1359
+msgid "The selected catalog will be deleted, are you sure ?"
+msgstr "Выбранный альбом будет удален. Вы уверены?"
+
+#: src/commands-impl.c:2061 src/dlg-categories.c:323 src/dlg-comment.c:240
+#: src/dlg-preferences.c:290 src/dlg-search.c:467
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Не могу отобразить помощь: %s"
+
+#: src/commands-impl.c:2112
+msgid "translator_credits"
+msgstr ""
+
+#: src/commands-impl.c:2124
+msgid "An image viewer and browser for GNOME."
+msgstr "Просмотрщик и навигатор  изображений для GNOME."
+
+#: src/dlg-catalog.c:79
+msgid "Enter the catalog name : "
+msgstr "Введите имя альбома:"
+
+#: src/dlg-catalog.c:432
+msgid "Move Catalog to..."
+msgstr "Переместить альбом..."
+
+#: src/dlg-categories.c:195
+msgid "Enter the new category name"
+msgstr "Введите имя новой категории:"
+
+#: src/dlg-categories.c:208 src/dlg-categories.c:373
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "Имя категории \"%s\"  уже существует. Введите, пожалуйста, другое имя."
+
+#: src/dlg-duplicates.c:260 src/gthumb_print.glade2.h:7
+#: src/gthumb_tools.glade2.h:15
+msgid "Image"
+msgstr "Изображение"
+
+#: src/dlg-duplicates.c:274 src/dlg-duplicates.c:606
+#, fuzzy
+msgid "Duplicates"
+msgstr "gThumb - Настройка печати"
+
+#: src/dlg-duplicates.c:289
+#, fuzzy
+msgid "Duplicates Size"
+msgstr "gThumb - Настройка печати"
+
+#: src/dlg-duplicates.c:332 src/dlg-image-prop.c:153 src/gthumb.glade2.h:61
+msgid "Name"
+msgstr "Имя"
+
+#: src/dlg-duplicates.c:360
+#, fuzzy
+msgid "Last modified"
+msgstr "Дата модификации"
+
+#: src/dlg-duplicates.c:375 src/dlg-image-prop.c:173
+msgid "Location"
+msgstr ""
+
+#: src/dlg-duplicates.c:711
+#, fuzzy
+msgid "Checked images will be deleted, are you sure ?"
+msgstr "Выбранные файлы будут удалены. Вы уверены?"
+
+#: src/dlg-duplicates.c:757
+msgid ""
+"In order to use the \"Find Duplicates\" tool you have to have one of the "
+"following commands: sha1sum, md5sum.\n"
+"None of them could be found, so this tool is disabled."
+msgstr ""
+
+#: src/dlg-file-utils.c:138
+msgid "Could not delete the file:"
+msgstr "Не могу удалить файл: "
+
+#: src/dlg-file-utils.c:140
+msgid "Could not delete the following files:"
+msgstr "Не могу удалить следующие файлы: "
+
+#: src/dlg-file-utils.c:288
+msgid "Could not move the file:"
+msgstr "Не могу переместить файл: "
+
+#: src/dlg-file-utils.c:290
+msgid "Could not move the following files:"
+msgstr "Не могу переместить следующие файлы: "
+
+#: src/dlg-file-utils.c:431
+msgid "Could not copy the file:"
+msgstr "Не могу скопировать файл:"
+
+#: src/dlg-file-utils.c:433
+msgid "Could not copy the following files:"
+msgstr "Не могу скопировать следующие файлы:"
+
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:538
+#: src/gthumb-window.c:428
+msgid "%d %b %Y, %H:%M"
+msgstr ""
+
+#: src/dlg-file-utils.c:806
+#, fuzzy
+msgid "Could not rename the file:"
+msgstr "Не могу переместить файл: "
+
+#: src/dlg-file-utils.c:808
+#, fuzzy
+msgid "Could not rename the following files:"
+msgstr "Не могу переместить следующие файлы: "
+
+#: src/dlg-image-prop.c:158
+msgid "Type"
+msgstr ""
+
+#: src/dlg-image-prop.c:163
+#, fuzzy
+msgid "Image Dimensions"
+msgstr "Размеры изображения"
+
+#: src/dlg-image-prop.c:168 src/gthumb.glade2.h:42
+msgid "File Size"
+msgstr "Размер файла"
+
+#: src/dlg-image-prop.c:178 src/gthumb.glade2.h:54
+msgid "Last Modified"
+msgstr "Дата модификации"
+
+#: src/dlg-image-prop.c:197 src/gthumb-ui.xml.h:14
+msgid "Comm_ent"
+msgstr "Комментарий"
+
+#: src/dlg-image-prop.c:220
+msgid "E_XIF"
+msgstr ""
+
+#: src/dlg-image-prop.c:461
+#, fuzzy
+msgid "Categories"
+msgstr "Категориий:"
+
+#: src/dlg-image-prop.c:512
+#, fuzzy, c-format
+msgid "%s properties"
+msgstr "Свойства изображения"
+
+#: src/dlg-jpegtran.c:387
+msgid "No JPEG image selected"
+msgstr ""
+
+#: src/dlg-maintenance.c:70
+#, fuzzy
+msgid "All comments will be deleted, are you sure ?"
+msgstr "Выбранные файлы будут удалены. Вы уверены?"
+
+#: src/dlg-maintenance.c:100
+#, fuzzy
+msgid "All thumbnails will be deleted, are you sure ?"
+msgstr "Выбранные файлы будут удалены. Вы уверены?"
+
+#: src/dlg-maintenance.c:160 src/dlg-maintenance.c:230
+msgid "Specify the backup file"
+msgstr ""
+
+#: src/dlg-png-exporter.c:188
+msgid "Destination folder does not exits. Do you want to create it ?"
+msgstr "Каталог назначения не существует. Создать ?"
+
+#: src/dlg-png-exporter.c:204
+#, c-format
+msgid "Could not create folder \"%s\" : %s."
+msgstr "Не могу создать каталог \"%s\" : %s"
+
+#: src/dlg-png-exporter.c:217
+#, c-format
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr "Вы не имеете прав для создания изображений в каталоге \"%s\""
+
+#: src/dlg-png-exporter.c:846
+msgid "Image Caption"
+msgstr "Заголовок изображения"
+
+#: src/dlg-png-exporter.c:898
+msgid "Header"
+msgstr ""
+
+#: src/dlg-png-exporter.c:911 src/dlg-png-exporter.c:916
+#, fuzzy
+msgid "Footer"
+msgstr "Каталог"
+
+#: src/dlg-rename-series.c:297
+#, fuzzy
+msgid "Old Name"
+msgstr "Старое изображение:"
+
+#: src/dlg-rename-series.c:305
+#, fuzzy
+msgid "New Name"
+msgstr "Новое изображение:"
+
+#: src/dlg-search.c:356
+msgid "Search Result"
+msgstr "Результат поиска"
+
+#: src/dlg-search.c:840
+msgid "Filename"
+msgstr "Имя файла"
+
+#: src/dlg-search.c:849
+msgid "Folder"
+msgstr "Каталог"
+
+#: src/gthumb.glade2.h:1 src/gthumb_comments.glade2.h:1
+#: src/gthumb_png_exporter.glade2.h:1 src/gthumb_search.glade2.h:1
+#: src/gthumb_tools.glade2.h:1
+msgid "    "
+msgstr ""
+
+#: src/gthumb.glade2.h:2 src/gthumb_tools.glade2.h:2
+msgid "     "
+msgstr ""
+
+#: src/gthumb.glade2.h:3 src/gthumb_comments.glade2.h:2
+#: src/gthumb_png_exporter.glade2.h:2 src/gthumb_search.glade2.h:2
+#: src/gthumb_tools.glade2.h:3
+msgid "*"
+msgstr ""
+
+#: src/gthumb.glade2.h:4
+msgid "112 x 112"
+msgstr "112 x 112"
+
+#: src/gthumb.glade2.h:5
+msgid "128 x 128"
+msgstr "128 x 128"
+
+#: src/gthumb.glade2.h:6
+msgid "164 x 164"
+msgstr "164 x 164"
+
+#: src/gthumb.glade2.h:7
+msgid "200 x 200"
+msgstr "200 x 200"
+
+#: src/gthumb.glade2.h:8
+msgid "256 x 256"
+msgstr "256 x 256"
+
+#: src/gthumb.glade2.h:9
+msgid "48 x 48"
+msgstr "48 x 48"
+
+#: src/gthumb.glade2.h:10
+msgid "64 x 64"
+msgstr "64 x 64"
+
+#: src/gthumb.glade2.h:11
+msgid "85 x 85"
+msgstr "85 x 85"
+
+#: src/gthumb.glade2.h:12
+msgid "95 x 95"
+msgstr "95 x 95"
+
+#: src/gthumb.glade2.h:13
+msgid ":"
+msgstr ""
+
+#: src/gthumb.glade2.h:14
+#, fuzzy
+msgid "<b>Checks</b>"
+msgstr "Шахматные поля"
+
+#: src/gthumb.glade2.h:15
+#, fuzzy
+msgid "<b>Direction</b>"
+msgstr "Направление:"
+
+#: src/gthumb.glade2.h:16
+#, fuzzy
+msgid "<b>Hide/Show</b>"
+msgstr "Спрятать/Показать"
+
+#: src/gthumb.glade2.h:17
+#, fuzzy
+msgid "<b>History</b>"
+msgstr "История"
+
+#: src/gthumb.glade2.h:18
+msgid "<b>Interface</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:19
+#, fuzzy
+msgid "<b>On Startup:</b>"
+msgstr "При запуске:"
+
+#: src/gthumb.glade2.h:20
+msgid "<b>Other</b>"
+msgstr ""
+
+#: src/gthumb.glade2.h:21
+msgid "<b>Overwrite the old image with the new one ?</b>"
+msgstr "<b>Заменить старое изображение ?</b>"
+
+#: src/gthumb.glade2.h:22
+#, fuzzy
+msgid "<b>Slide Show</b>"
+msgstr "Слайд-шоу"
+
+#: src/gthumb.glade2.h:23
+#, fuzzy
+msgid "<b>Thumbnails</b>"
+msgstr "Миниатюры"
+
+#: src/gthumb.glade2.h:24
+#, fuzzy
+msgid "<b>Viewer</b>"
+msgstr "Просмотрщик"
+
+#: src/gthumb.glade2.h:25
+#, fuzzy
+msgid "A_vailable applications:"
+msgstr "Доступные приложения"
+
+#: src/gthumb.glade2.h:26
+msgid "Activate items with a double click"
+msgstr ""
+
+#: src/gthumb.glade2.h:27
+msgid "Activate items with a single click"
+msgstr ""
+
+#: src/gthumb.glade2.h:28
+#, fuzzy
+msgid "After _loading an image:"
+msgstr "Размер изображения после загрузки:"
+
+#: src/gthumb.glade2.h:29
+#, fuzzy
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "Запрашивать подтверждение перед удалением альбома или изображения"
+
+#: src/gthumb.glade2.h:30
+msgid "Black"
+msgstr "Черный"
+
+#: src/gthumb.glade2.h:31
+msgid "Browser"
+msgstr "Навигатор"
+
+#: src/gthumb.glade2.h:32
+#, fuzzy
+msgid "C_atalogs:"
+msgstr "Альбомы"
+
+#: src/gthumb.glade2.h:33
+msgid "C_lick policy:"
+msgstr ""
+
+#: src/gthumb.glade2.h:34
+msgid "Checked"
+msgstr "Шахматное поле"
+
+#: src/gthumb.glade2.h:35
+#, fuzzy
+msgid "Choose a catalog"
+msgstr "Выбор альбома..."
+
+#: src/gthumb.glade2.h:36 src/gthumb_png_exporter.glade2.h:30
+#, fuzzy
+msgid "Colo_r:"
+msgstr "Цвет:"
+
+#: src/gthumb.glade2.h:37
+#, fuzzy
+msgid "D_elay before changing image:"
+msgstr "Задержка перед сменой изображения (в секундах):"
+
+#: src/gthumb.glade2.h:38
+msgid "Dark"
+msgstr "Темный"
+
+#: src/gthumb.glade2.h:39
+#, fuzzy
+msgid "Determine image type from co_ntent (slower)"
+msgstr "Определение типа изображения по содержимому (медленно)"
+
+#: src/gthumb.glade2.h:40
+#, fuzzy
+msgid "Do _not change folder"
+msgstr "Не изменять каталог"
+
+#: src/gthumb.glade2.h:41
+msgid "Do not overwrite _this image"
+msgstr "Не переписывать данное изображение"
+
+#: src/gthumb.glade2.h:43
+msgid "Fit image to window"
+msgstr "Растянуть изображенеие по размерам окна"
+
+#: src/gthumb.glade2.h:44
+msgid "Fit to window if larger"
+msgstr "Растянуть изображение, если оно больше, по размерам окна"
+
+#: src/gthumb.glade2.h:45
+msgid "Follow Nautilus behaviour"
+msgstr ""
+
+#: src/gthumb.glade2.h:46
+#, fuzzy
+msgid "For_ward"
+msgstr "Прямое"
+
+#: src/gthumb.glade2.h:47
+msgid "General"
+msgstr "Общие"
+
+#: src/gthumb.glade2.h:48
+#, fuzzy
+msgid "Go to last _visited folder or catalog"
+msgstr "Перейти к последнему посещенному каталогу или альбому"
+
+#: src/gthumb.glade2.h:49
+#, fuzzy
+msgid "Go to this _folder:"
+msgstr "Перейти к  каталогу:"
+
+#: src/gthumb.glade2.h:50
+#, fuzzy
+msgid "H_igh"
+msgstr "Высокое"
+
+#: src/gthumb.glade2.h:51
+msgid "Icons only"
+msgstr ""
+
+#: src/gthumb.glade2.h:52
+msgid "Keep previous zoom"
+msgstr "Сохранять предыдущий масштаб"
+
+#: src/gthumb.glade2.h:53
+msgid "Large"
+msgstr "Большой"
+
+#: src/gthumb.glade2.h:55
+#, fuzzy
+msgid "Layout:"
+msgstr "Расположение"
+
+#: src/gthumb.glade2.h:56
+msgid "Light"
+msgstr "Светлый"
+
+#: src/gthumb.glade2.h:57
+#, fuzzy
+msgid "Lo_w"
+msgstr "Низкое"
+
+#: src/gthumb.glade2.h:58
+#, fuzzy
+msgid "Max _history length:"
+msgstr "Максимальное число записей:"
+
+#: src/gthumb.glade2.h:59
+msgid "Medium"
+msgstr "Средний"
+
+#: src/gthumb.glade2.h:60
+msgid "Mid tone"
+msgstr "В полутонах"
+
+#: src/gthumb.glade2.h:62
+msgid "New Image:"
+msgstr "Новое изображение:"
+
+#: src/gthumb.glade2.h:63
+msgid "New _Library..."
+msgstr "Новая библиотека ..."
+
+#: src/gthumb.glade2.h:64
+msgid "None"
+msgstr "Нет"
+
+#: src/gthumb.glade2.h:65
+msgid "Old Image:"
+msgstr "Старое изображение:"
+
+#: src/gthumb.glade2.h:66
+msgid "Over_write this image"
+msgstr "Переписать изображение"
+
+#: src/gthumb.glade2.h:67
+msgid "Overwrite _all images"
+msgstr "Переписать все изображения"
+
+#: src/gthumb.glade2.h:68
+msgid "Overwrite image"
+msgstr "Переписать изображение"
+
+#: src/gthumb.glade2.h:69
+msgid "Priority text beside icons"
+msgstr ""
+
+#: src/gthumb.glade2.h:70
+#, fuzzy
+msgid "R_ecent applications:"
+msgstr "Часто используемые приложения"
+
+#: src/gthumb.glade2.h:71
+#, fuzzy
+msgid "Re_verse"
+msgstr "Обратное"
+
+#: src/gthumb.glade2.h:72
+#, fuzzy
+msgid "Resta_rt when finished"
+msgstr "Рестартовать когда закончит"
+
+#: src/gthumb.glade2.h:73
+#, fuzzy
+msgid "Sa_ve thumbnails"
+msgstr "Сохранять миниатюры"
+
+#: src/gthumb.glade2.h:74
+msgid "Set image to actual size"
+msgstr "Установить действительный размер изображения"
+
+#: src/gthumb.glade2.h:75
+msgid "Set to C_urrent"
+msgstr "Текущий"
+
+#: src/gthumb.glade2.h:76
+#, fuzzy
+msgid "Show _thumbnails"
+msgstr "Показать миниатюры"
+
+#: src/gthumb.glade2.h:77
+#, fuzzy
+msgid "Show co_mments"
+msgstr "Показать комментарии"
+
+#: src/gthumb.glade2.h:78
+#, fuzzy
+msgid "Show hi_dden files"
+msgstr "Показать скрытые файлы"
+
+#: src/gthumb.glade2.h:79
+#, fuzzy
+msgid "Si_ze :"
+msgstr "Размер:"
+
+#: src/gthumb.glade2.h:80
+#, fuzzy
+msgid "Si_ze:"
+msgstr "Размер:"
+
+#: src/gthumb.glade2.h:81
+msgid "Slide Show"
+msgstr "Слайд-шоу"
+
+#: src/gthumb.glade2.h:82
+msgid "Small"
+msgstr "Маленький"
+
+#: src/gthumb.glade2.h:83
+#, fuzzy
+msgid "Switch to _full screen"
+msgstr "На весь экран"
+
+#: src/gthumb.glade2.h:84
+msgid "System settings"
+msgstr ""
+
+#: src/gthumb.glade2.h:85
+msgid "Text below icons"
+msgstr ""
+
+#: src/gthumb.glade2.h:86
+msgid "Text only"
+msgstr ""
+
+#: src/gthumb.glade2.h:87
+#, fuzzy
+msgid "Transparency _type:"
+msgstr "Тип прозрачности:"
+
+#: src/gthumb.glade2.h:88
+msgid "Viewer"
+msgstr "Просмотрщик"
+
+#: src/gthumb.glade2.h:89
+msgid "White"
+msgstr "Белый"
+
+#: src/gthumb.glade2.h:90
+#, fuzzy
+msgid "Zoom _quality:"
+msgstr "Качество изображения при масштабировании"
+
+#: src/gthumb.glade2.h:91
+msgid "_Application:"
+msgstr "_Приложение:"
+
+#: src/gthumb.glade2.h:92
+#, fuzzy
+msgid "_Bookmarks:"
+msgstr "_Закладки"
+
+#: src/gthumb.glade2.h:93
+msgid "_Do not overwrite any image"
+msgstr "Не переписывать любое изображение"
+
+#: src/gthumb.glade2.h:94
+#, fuzzy
+msgid "_General"
+msgstr "Общие"
+
+#: src/gthumb.glade2.h:95
+msgid "_New Catalog..."
+msgstr "Новый альбом..."
+
+#: src/gthumb.glade2.h:96
+#, fuzzy
+msgid "_Next"
+msgstr "Нет"
+
+#: src/gthumb.glade2.h:97
+#, fuzzy
+msgid "_Previous"
+msgstr "Предварительный просмотр"
+
+#: src/gthumb.glade2.h:98
+#, fuzzy
+msgid "_Toolbar style:"
+msgstr "Панель инструментов"
+
+#: src/gthumb.glade2.h:99
+msgid "gThumb - Bookmarks"
+msgstr "gThumb - Закладки"
+
+#: src/gthumb.glade2.h:100
+msgid "gThumb - Open selected files with an application"
+msgstr "gThumb - Открыть выбранные файлы с помощью"
+
+#: src/gthumb.glade2.h:101
+#, fuzzy
+msgid "gThumb - Preferences"
+msgstr "_Настройки..."
+
+#: src/gthumb.glade2.h:102
+msgid "seconds"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:3 src/gthumb_search.glade2.h:4
+#, fuzzy
+msgid "A_vailable categories:"
+msgstr "Категории"
+
+#: src/gthumb_comments.glade2.h:4
+msgid "Add a category"
+msgstr "Добавить категорию"
+
+#: src/gthumb_comments.glade2.h:5 src/gthumb_search.glade2.h:13
+msgid "Co_mment:"
+msgstr "Комментарий:"
+
+#: src/gthumb_comments.glade2.h:6
+#, fuzzy
+msgid "Image C_reation Date"
+msgstr "Дата создания изображения"
+
+#: src/gthumb_comments.glade2.h:7
+msgid "Import date from attached EXIF data"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:8
+msgid "Import from E_XIF Data"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:9
+msgid "Remove selected category"
+msgstr "Удалить выбранные категории"
+
+#: src/gthumb_comments.glade2.h:10
+msgid "Save only cha_nged fields"
+msgstr ""
+
+#: src/gthumb_comments.glade2.h:11
+msgid "Set date to image creation date"
+msgstr "Установить дату по дате создания изображения"
+
+#: src/gthumb_comments.glade2.h:12
+msgid "Set date to today"
+msgstr "Установить текущую дату"
+
+#: src/gthumb_comments.glade2.h:13 src/gthumb_search.glade2.h:23
+msgid "_Date:"
+msgstr "Дата:"
+
+#: src/gthumb_comments.glade2.h:14 src/gthumb_search.glade2.h:26
+msgid "_Place:"
+msgstr "Расположение:"
+
+#: src/gthumb_comments.glade2.h:15 src/gthumb_search.glade2.h:29
+#, fuzzy
+msgid "_Selected categories:"
+msgstr "Категории"
+
+#: src/gthumb_comments.glade2.h:16
+#, fuzzy
+msgid "_Today"
+msgstr "_Сегодня"
+
+#: src/gthumb_comments.glade2.h:17
+#, fuzzy
+msgid "gThumb - Categories"
+msgstr "gThumb - Свойства выборки"
+
+#: src/gthumb_comments.glade2.h:18
+msgid "gThumb - Comment"
+msgstr "gThumb - Комментарий"
+
+#: src/gthumb_png_exporter.glade2.h:3
+msgid "112"
+msgstr "112"
+
+#: src/gthumb_png_exporter.glade2.h:4
+msgid "128"
+msgstr "128"
+
+#: src/gthumb_png_exporter.glade2.h:5
+msgid "164"
+msgstr "164"
+
+#: src/gthumb_png_exporter.glade2.h:6
+msgid "200"
+msgstr "200"
+
+#: src/gthumb_png_exporter.glade2.h:7
+msgid "256"
+msgstr "256"
+
+#: src/gthumb_png_exporter.glade2.h:8
+msgid "48"
+msgstr "48"
+
+#: src/gthumb_png_exporter.glade2.h:9
+msgid "64"
+msgstr "64"
+
+#: src/gthumb_png_exporter.glade2.h:10
+msgid "75"
+msgstr "75"
+
+#: src/gthumb_png_exporter.glade2.h:11
+msgid "85"
+msgstr "85"
+
+#: src/gthumb_png_exporter.glade2.h:12
+msgid "95"
+msgstr "95"
+
+#: src/gthumb_png_exporter.glade2.h:13
+#, fuzzy
+msgid "<b>Caption</b>"
+msgstr "Заголовок"
+
+#: src/gthumb_png_exporter.glade2.h:14
+#, fuzzy
+msgid "<b>Destination folder</b>"
+msgstr "Каталог назначения:"
+
+#: src/gthumb_png_exporter.glade2.h:15
+#, fuzzy
+msgid "<b>Footer</b>"
+msgstr "Каталог"
+
+#: src/gthumb_png_exporter.glade2.h:16
+msgid "<b>Header</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:17
+#, fuzzy
+msgid "<b>Page size</b>"
+msgstr "Размер страницы"
+
+#: src/gthumb_png_exporter.glade2.h:18
+msgid "<b>Specify a template to use for creating index images</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:19
+msgid "<b>Specify header and footer</b>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:20
+#, fuzzy
+msgid "<i>Examples:</i>"
+msgstr "Пример:"
+
+#: src/gthumb_png_exporter.glade2.h:21 src/gthumb_tools.glade2.h:6
+msgid "<i>Use #'s to specify positions used by numeric enumerator.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:23
+#, no-c-format
+msgid "<i>Use %n to insert total number of pages.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:25
+#, no-c-format
+msgid "<i>Use %p to insert page number.</i>"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:26
+#, fuzzy
+msgid "All pages with the _same size"
+msgstr "Все страницы с этим размером"
+
+#: src/gthumb_png_exporter.glade2.h:27
+msgid "Choose destination folder"
+msgstr "Выбрать каталог назанчения"
+
+#: src/gthumb_png_exporter.glade2.h:28
+#, fuzzy
+msgid "Co_lor:"
+msgstr "Цвет:"
+
+#: src/gthumb_png_exporter.glade2.h:29 src/gthumb_print.glade2.h:6
+#, fuzzy
+msgid "Co_mment"
+msgstr "Комментарий:"
+
+#: src/gthumb_png_exporter.glade2.h:31
+msgid "Create _HTML image map"
+msgstr "Создать HTML карту изображения"
+
+#: src/gthumb_png_exporter.glade2.h:32
+msgid "F_ooter:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:33
+#, fuzzy
+msgid "File _name"
+msgstr "Имя файла"
+
+#: src/gthumb_png_exporter.glade2.h:34
+#, fuzzy
+msgid "File pa_th"
+msgstr "Путь"
+
+#: src/gthumb_png_exporter.glade2.h:35
+#, fuzzy
+msgid "File si_ze"
+msgstr "Размер файла"
+
+#: src/gthumb_png_exporter.glade2.h:36
+#, fuzzy
+msgid "Fo_nt:"
+msgstr "Комментарий:"
+
+#: src/gthumb_png_exporter.glade2.h:37
+#, fuzzy
+msgid "Frame _style:"
+msgstr "Стиль обрамления:"
+
+#: src/gthumb_png_exporter.glade2.h:38
+#, fuzzy
+msgid "Frame co_lor:"
+msgstr "Цвет обрамления:"
+
+#: src/gthumb_png_exporter.glade2.h:39
+msgid "H_eader:"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:40
+msgid "Header/Footer"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:41
+#, fuzzy
+msgid "Hei_ght:"
+msgstr "Высота:"
+
+#: src/gthumb_png_exporter.glade2.h:42
+#, fuzzy
+msgid "Image dim_ensions"
+msgstr "Размеры изображения"
+
+#: src/gthumb_png_exporter.glade2.h:43
+msgid "Images"
+msgstr "Изображения"
+
+#: src/gthumb_png_exporter.glade2.h:44
+#, fuzzy
+msgid "Number of _rows:"
+msgstr "Количество строк:"
+
+#: src/gthumb_png_exporter.glade2.h:45
+#, fuzzy
+msgid "Number of col_umns:"
+msgstr "Количество столбцов:"
+
+#: src/gthumb_png_exporter.glade2.h:46
+msgid "Page"
+msgstr "Страница"
+
+#: src/gthumb_png_exporter.glade2.h:47
+#, fuzzy
+msgid "Pi_xels"
+msgstr "Пикселы"
+
+#: src/gthumb_png_exporter.glade2.h:48
+#, fuzzy
+msgid "Re_verse order"
+msgstr "Обратный порядок"
+
+#: src/gthumb_png_exporter.glade2.h:49
+#, fuzzy
+msgid "Rows a_nd columns"
+msgstr "Строки и столбцы"
+
+#: src/gthumb_png_exporter.glade2.h:50
+#, fuzzy
+msgid "Shadow in"
+msgstr "Тень"
+
+#: src/gthumb_png_exporter.glade2.h:51
+#, fuzzy
+msgid "Shadow only"
+msgstr "Тень"
+
+#: src/gthumb_png_exporter.glade2.h:52
+#, fuzzy
+msgid "Shadow out"
+msgstr "Тень"
+
+#: src/gthumb_png_exporter.glade2.h:53
+msgid "Simple"
+msgstr "Простой"
+
+#: src/gthumb_png_exporter.glade2.h:54
+msgid "Simple with shadow"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:55
+msgid "Slide"
+msgstr "Слайд"
+
+#: src/gthumb_png_exporter.glade2.h:56
+#, fuzzy
+msgid "Sor_t images:"
+msgstr "Сортировать изображения:"
+
+#: src/gthumb_png_exporter.glade2.h:57 src/gthumb_search.glade2.h:22
+#: src/gthumb_tools.glade2.h:31
+#, fuzzy
+msgid "Start _at:"
+msgstr "Начать с:"
+
+#: src/gthumb_png_exporter.glade2.h:58
+#, fuzzy
+msgid "Style Preview"
+msgstr "Предварительный просмотр"
+
+#: src/gthumb_png_exporter.glade2.h:59
+msgid "Wait please..."
+msgstr "Пожалуйста, подождите..."
+
+#: src/gthumb_png_exporter.glade2.h:60
+#, fuzzy
+msgid "Wi_dth:"
+msgstr "Ширина:"
+
+#: src/gthumb_png_exporter.glade2.h:61
+#, fuzzy
+msgid "_Background color:"
+msgstr "Цвет фона:"
+
+#: src/gthumb_png_exporter.glade2.h:62
+#, fuzzy
+msgid "_Draw frame"
+msgstr "Показать обрамление"
+
+#: src/gthumb_png_exporter.glade2.h:63
+#, fuzzy
+msgid "_Font:"
+msgstr "Комментарий:"
+
+#: src/gthumb_png_exporter.glade2.h:64
+#, fuzzy
+msgid "_Image size:"
+msgstr "Размер изображения:"
+
+#: src/gthumb-ui.xml.h:191 src/gthumb_png_exporter.glade2.h:65
+msgid "_Preferences"
+msgstr "_Настройки..."
+
+#: src/gthumb_png_exporter.glade2.h:66 src/gthumb_tools.glade2.h:36
+#, fuzzy
+msgid "_Template:"
+msgstr "Дата:"
+
+#: src/gthumb_png_exporter.glade2.h:67
+msgid "by name"
+msgstr "по имени"
+
+#: src/gthumb_png_exporter.glade2.h:68
+msgid "by path"
+msgstr "по расположению"
+
+#: src/gthumb_png_exporter.glade2.h:69
+msgid "by size"
+msgstr "по размеру"
+
+#: src/gthumb_png_exporter.glade2.h:70
+msgid "by time"
+msgstr "по времени "
+
+#: src/gthumb_png_exporter.glade2.h:72
+msgid "gThumb - Create index image"
+msgstr "gThumb - Создание выборки изображений"
+
+#: src/gthumb_png_exporter.glade2.h:73
+msgid "gThumb - Index image properties"
+msgstr "gThumb - Свойства выборки"
+
+#: src/gthumb_png_exporter.glade2.h:74
+msgid "jpeg"
+msgstr ""
+
+#: src/gthumb_png_exporter.glade2.h:75
+#, fuzzy
+msgid "png"
+msgstr ".png"
+
+#: src/gthumb_print.glade2.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/gthumb_print.glade2.h:3
+#, fuzzy
+msgid ""
+"<i>Drag the image to move\n"
+"it in the page.</i>"
+msgstr ""
+"Перетащите изображение\n"
+" для помещения его на этот лист."
+
+#: src/gthumb_print.glade2.h:5
+msgid "Center _on page"
+msgstr "По центру листа"
+
+#: src/gthumb_print.glade2.h:8
+msgid "Paper"
+msgstr "Страница"
+
+#: src/gthumb_print.glade2.h:9
+msgid "Preview"
+msgstr "Предварительный просмотр"
+
+#: src/gthumb_print.glade2.h:10
+msgid "Printer"
+msgstr "Принтер"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: src/gthumb-ui.xml.h:192 src/gthumb_print.glade2.h:11
+msgid "_Print"
+msgstr "Печать"
+
+#: src/gthumb_print.glade2.h:12
+msgid "_Scale:"
+msgstr "Масштаб:"
+
+#: src/gthumb_print.glade2.h:13
+msgid "gThumb - Print setup"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb_search.glade2.h:3
+msgid "..."
+msgstr "..."
+
+#: src/gthumb_search.glade2.h:5
+#, fuzzy
+msgid "After"
+msgstr "позднее"
+
+#: src/gthumb_search.glade2.h:6
+#, fuzzy
+msgid "All Catego_ries"
+msgstr "Категории"
+
+#: src/gthumb_search.glade2.h:7
+#, fuzzy
+msgid "Any"
+msgstr "любое"
+
+#: src/gthumb_search.glade2.h:8
+#, fuzzy
+msgid "At _Least a Category"
+msgstr "Добавить категорию"
+
+#: src/gthumb_search.glade2.h:9
+#, fuzzy
+msgid "Before"
+msgstr "ранее"
+
+#: src/gthumb_search.glade2.h:10
+msgid "Ca_tegories:"
+msgstr "Категориий:"
+
+#: src/gthumb_search.glade2.h:11
+#, fuzzy
+msgid "Choose Categories"
+msgstr "Категории"
+
+#: src/gthumb_search.glade2.h:12
+msgid "Choose categories from the saved list"
+msgstr "Выбрать категории из сохранненого списка "
+
+#: src/gthumb_search.glade2.h:14
+#, fuzzy
+msgid "Equal to"
+msgstr "данное"
+
+#: src/gthumb_search.glade2.h:15
+#, fuzzy
+msgid "File _Name:"
+msgstr "Имя файла"
+
+#: src/gthumb_search.glade2.h:16
+#, fuzzy
+msgid "Found Images:"
+msgstr "_Поиск изображения..."
+
+#: src/gthumb_search.glade2.h:17
+msgid "New _Search..."
+msgstr "Новый поиск..."
+
+#: src/gthumb_search.glade2.h:18
+msgid "No image found"
+msgstr "Изображений не найдено"
+
+#: src/gthumb_search.glade2.h:19
+#, fuzzy
+msgid "Search Criteria"
+msgstr "Критерии поиска"
+
+#: src/gthumb_search.glade2.h:20
+#, fuzzy
+msgid "Search Scope"
+msgstr "Область поиска"
+
+#: src/gthumb_search.glade2.h:21 src/gthumb_tools.glade2.h:30
+msgid "Searching in:"
+msgstr "Искать в:"
+
+#: src/gthumb-ui.xml.h:166 src/gthumb_search.glade2.h:24
+msgid "_Edit Search"
+msgstr "Редактирование параметров поиска..."
+
+#: src/gthumb_search.glade2.h:25 src/gthumb_tools.glade2.h:33
+#, fuzzy
+msgid "_Include Sub-Folders"
+msgstr "Включая подкаталоги"
+
+#: src/gthumb_search.glade2.h:27
+msgid "_Save"
+msgstr "Сохранить"
+
+#: src/gthumb_search.glade2.h:28
+msgid "_Search"
+msgstr "_Найти"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: src/gthumb-ui.xml.h:213 src/gthumb_search.glade2.h:30
+#: src/gthumb_tools.glade2.h:38
+msgid "_View"
+msgstr "_Просмотр"
+
+#: src/gthumb_search.glade2.h:31
+msgid "gThumb - Search for images"
+msgstr "gThumb - Поиск изображения"
+
+#: src/gthumb_search.glade2.h:32
+msgid "gThumb - Search progress"
+msgstr "gThumb - Прогресс поиска"
+
+#: src/gthumb_search.glade2.h:33
+msgid "progress"
+msgstr "прогресс"
+
+#: src/gthumb_search.glade2.h:34
+msgid "result"
+msgstr "результат"
+
+#: src/gthumb_tools.glade2.h:4
+#, fuzzy
+msgid "<b>File list</b>"
+msgstr "Размер файла"
+
+#: src/gthumb_tools.glade2.h:5
+msgid "<b>Specify a template to use for renaming images</b>"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:7
+msgid "<i>Use * to insert original filename.</i>"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:8
+#, fuzzy
+msgid "Apply to _all images"
+msgstr "_Выбрать все изображения"
+
+#: src/gthumb_tools.glade2.h:9
+#, fuzzy
+msgid "Backup Comments"
+msgstr "Комментарий"
+
+#: src/gthumb_tools.glade2.h:10
+#, fuzzy
+msgid "Check _All"
+msgstr "_Выбрать все"
+
+#: src/gthumb_tools.glade2.h:11
+#, fuzzy
+msgid "Check _None"
+msgstr "_Выбрать все"
+
+#: src/gthumb_tools.glade2.h:12
+msgid "Checking image:"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:13
+#, fuzzy
+msgid "Comments"
+msgstr "Комментарий"
+
+#: src/gthumb_tools.glade2.h:14
+#, fuzzy
+msgid "Found Duplicates:"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb_tools.glade2.h:16
+msgid "Mirror image horizontally (left-right)"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:17
+msgid "Mirror image vertically (top-bottom)"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:18
+#, fuzzy
+msgid "New names _preview:"
+msgstr "Предпросмотр изображения"
+
+#: src/gthumb_tools.glade2.h:19
+#, fuzzy
+msgid "Re_verse Order"
+msgstr "Обратный порядок"
+
+#: src/gthumb_tools.glade2.h:20
+#, fuzzy
+msgid "Remove ALL Comments"
+msgstr "_Удалить старые комментарии"
+
+#: src/gthumb_tools.glade2.h:21
+#, fuzzy
+msgid "Remove ALL Thumbnails"
+msgstr "_Удалить старые миниатюры"
+
+#: src/gthumb_tools.glade2.h:22
+#, fuzzy
+msgid "Remove Old Comments"
+msgstr "_Удалить старые комментарии"
+
+#: src/gthumb_tools.glade2.h:23
+#, fuzzy
+msgid "Remove Old Thumbnails"
+msgstr "_Удалить старые миниатюры"
+
+#: src/gthumb_tools.glade2.h:24
+#, fuzzy
+msgid "Remove comments of no more existing images"
+msgstr "Удалить комментарий удаленных изображений"
+
+#: src/gthumb_tools.glade2.h:25
+#, fuzzy
+msgid "Remove thumbnails of no more existing images"
+msgstr "Удалить старые миниатюры из кэша"
+
+#: src/gthumb_tools.glade2.h:26
+msgid "Restore Comments from a Backup File"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:27
+msgid "Revert changes"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:28
+#, fuzzy
+msgid "Rotate image 90 degrees clockwise"
+msgstr "По часовой стрелке"
+
+#: src/gthumb_tools.glade2.h:29
+#, fuzzy
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "По часовой стрелке"
+
+#: src/gthumb_tools.glade2.h:32
+msgid "Thumbnails"
+msgstr "Миниатюры"
+
+#: src/gthumb_tools.glade2.h:35
+msgid "_Sort Original List:"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:37
+msgid "_Transfrom"
+msgstr ""
+
+#: src/gthumb_tools.glade2.h:39
+#, fuzzy
+msgid "by Modification date"
+msgstr "Сортировать изображения по времени создания"
+
+#: src/gthumb_tools.glade2.h:40
+#, fuzzy
+msgid "by Name"
+msgstr "по имени"
+
+#: src/gthumb_tools.glade2.h:41
+#, fuzzy
+msgid "by Size"
+msgstr "по размеру"
+
+#: src/gthumb_tools.glade2.h:42
+#, fuzzy
+msgid "gThumb - Find Duplicates"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb_tools.glade2.h:43
+#, fuzzy
+msgid "gThumb - JPEG Transform"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb_tools.glade2.h:44
+#, fuzzy
+msgid "gThumb - Maintenance"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb_tools.glade2.h:45
+#, fuzzy
+msgid "gThumb - Rename series"
+msgstr "gThumb - Свойства выборки"
+
+#: src/gthumb-ui.xml.h:1
+msgid " "
+msgstr ""
+
+#: src/gthumb-ui.xml.h:2
+#, fuzzy
+msgid "1:1"
+msgstr "112"
+
+#: src/gthumb-ui.xml.h:3
+msgid "Actual size"
+msgstr "Действительный размер"
+
+#: src/gthumb-ui.xml.h:4
+msgid "Add a comment to selected images"
+msgstr "Добавить комментарий к выбранным изображениям"
+
+#: src/gthumb-ui.xml.h:5
+msgid "Add current location to bookmarks"
+msgstr "Добавить текущий каталог в закладки "
+
+#: src/gthumb-ui.xml.h:6
+msgid "Add selected images to a catalog"
+msgstr "Добавить выбранные файлы в альбом"
+
+#: src/gthumb-ui.xml.h:7
+#, fuzzy
+msgid "Assign categories to selected images"
+msgstr "Добавить комментарий к выбранным изображениям"
+
+#: src/gthumb-ui.xml.h:8
+msgid "Back"
+msgstr "Черный"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+#: src/gthumb-ui.xml.h:9
+msgid "Black and _White"
+msgstr "Черно-белый"
+
+#: src/gthumb-ui.xml.h:10
+#, fuzzy
+msgid "Ca_tegories..."
+msgstr "Категориий:"
+
+#: src/gthumb-ui.xml.h:11
+msgid "Catalogs"
+msgstr "Альбомы"
+
+#: src/gthumb-ui.xml.h:12
+msgid "Close all windows and exit"
+msgstr "Закрыть все окна и выйти"
+
+#: src/gthumb-ui.xml.h:13
+msgid "Close this window"
+msgstr "Закрыть текущее окно"
+
+#: src/gthumb-ui.xml.h:15
+msgid "Convert F_ormat"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:16
+msgid "Copy selected images to another location"
+msgstr "Копировать выбранные файлы в другое место"
+
+#: src/gthumb-ui.xml.h:17
+msgid "Copy this image to another location"
+msgstr "Копировать выбранные файлы в другое место"
+
+#: src/gthumb-ui.xml.h:18
+msgid "Copy..."
+msgstr "_Копировать файлы..."
+
+#: src/gthumb-ui.xml.h:19
+msgid "Create _Index Image"
+msgstr "Создать выборку изображений..."
+
+#: src/gthumb-ui.xml.h:20
+#, fuzzy
+msgid "Create a new catalog library"
+msgstr "Создать новый каталог"
+
+#: src/gthumb-ui.xml.h:21
+msgid "Create a new folder"
+msgstr "Создать новый каталог"
+
+#: src/gthumb-ui.xml.h:22
+msgid "Create a new window"
+msgstr "Создать новое окно"
+
+#: src/gthumb-ui.xml.h:23
+msgid "De_lete Comment"
+msgstr "_Удалить комментарий"
+
+#: src/gthumb-ui.xml.h:24
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/gthumb-ui.xml.h:25
+msgid "Delete Catalog"
+msgstr "_Удалть альбом..."
+
+#: src/gthumb-ui.xml.h:26
+msgid "Delete Folder"
+msgstr "_Удалить каталог"
+
+#: src/gthumb-ui.xml.h:27
+msgid "Delete comments of selected images"
+msgstr "Удалить комментарий выбранных изображений"
+
+#: src/gthumb-ui.xml.h:28
+msgid "Delete current catalog"
+msgstr "_Удалть текущий альбом"
+
+#: src/gthumb-ui.xml.h:29
+msgid "Delete current folder"
+msgstr "_Удалить текущий каталог"
+
+#: src/gthumb-ui.xml.h:30
+msgid "Delete selected catalog"
+msgstr "Удалить выбранные альбомы"
+
+#: src/gthumb-ui.xml.h:31
+msgid "Delete selected folder"
+msgstr "Удалить выбранные каталоги"
+
+#: src/gthumb-ui.xml.h:32
+msgid "Delete selected images from disk"
+msgstr "Удалить выбранные изображения с диска"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Delete the list of visited locations"
+msgstr "Очистить список посещенных каталогов"
+
+#: src/gthumb-ui.xml.h:34
+msgid "Delete this image from disk"
+msgstr "Удалить это изображение с диска"
+
+#: src/gthumb-ui.xml.h:35
+#, fuzzy
+msgid "Display image properties"
+msgstr "gThumb - Свойства выборки"
+
+#: src/gthumb-ui.xml.h:36
+msgid "E_xit"
+msgstr "В_ыход"
+
+#: src/gthumb-ui.xml.h:37
+msgid "Edit Search"
+msgstr "Редактирование параметров поиска..."
+
+#: src/gthumb-ui.xml.h:38
+msgid "Edit bookmarks"
+msgstr "Редактировать список закладок"
+
+#: src/gthumb-ui.xml.h:39
+msgid "Edit various preferences"
+msgstr "Редактирование настроек"
+
+#: src/gthumb-ui.xml.h:40
+msgid "F_lip"
+msgstr "Отразить сверху вниз"
+
+#: src/gthumb-ui.xml.h:41
+#, fuzzy
+msgid "Find _Duplicates"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb-ui.xml.h:42
+msgid "Fit"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:43
+msgid "Folders"
+msgstr "Каталоги"
+
+#: src/gthumb-ui.xml.h:44
+msgid "Forward"
+msgstr "Прямое"
+
+#: src/gthumb-ui.xml.h:45
+#, fuzzy
+msgid "Full Screen"
+msgstr "На _весь экран"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Full screen"
+msgstr "На весь экран"
+
+#: src/gthumb-ui.xml.h:47
+msgid "Go to the folder that contains the selected image"
+msgstr "Перейти в каталог содержащий выбранные изображения"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Go to the home folder"
+msgstr "Перейти в домашний каталог"
+
+#: src/gthumb-ui.xml.h:49
+msgid "Go to the next visited location"
+msgstr "Перейти к следующему посещенному каталогу"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Go to the previuos visited location"
+msgstr "Перейти к предыдущему посещенному каталогу"
+
+#: src/gthumb-ui.xml.h:51
+msgid "Go up one level"
+msgstr "На уровень вверх"
+
+#: src/gthumb-ui.xml.h:52
+#, fuzzy
+msgid "Home"
+msgstr "Домой"
+
+#: src/gthumb-ui.xml.h:53
+msgid "In"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:54
+msgid "Main Toolbar"
+msgstr "Панель инструментов"
+
+#: src/gthumb-ui.xml.h:55
+msgid "Modify search criteria"
+msgstr "Критерии поиска"
+
+#: src/gthumb-ui.xml.h:56
+#, fuzzy
+msgid "Move"
+msgstr "Перемещаю..."
+
+#: src/gthumb-ui.xml.h:57
+msgid "Move Catalog..."
+msgstr "Переместить альбом..."
+
+#: src/gthumb-ui.xml.h:58
+#, fuzzy
+msgid "Move Folder"
+msgstr "Новая папка"
+
+#: src/gthumb-ui.xml.h:59
+msgid "Move current catalog to another location"
+msgstr "Переместить текущий альбом в другое место"
+
+#: src/gthumb-ui.xml.h:60
+#, fuzzy
+msgid "Move current folder"
+msgstr "_Удалить текущий каталог"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Move selected catalog to another location"
+msgstr "Переместить выбранный альбом в другое место"
+
+#: src/gthumb-ui.xml.h:62
+#, fuzzy
+msgid "Move selected folder"
+msgstr "Удалить выбранные каталоги"
+
+#: src/gthumb-ui.xml.h:63
+msgid "Move selected images to another location"
+msgstr "Переместить выбранные файлы в другое место"
+
+#: src/gthumb-ui.xml.h:64
+msgid "Move this image to another location"
+msgstr "Переместить это изображение в другое место"
+
+#: src/gthumb-ui.xml.h:65
+msgid "Move..."
+msgstr "Перемещаю..."
+
+#: src/gthumb-ui.xml.h:66
+msgid "New _Folder"
+msgstr "Новый каталог"
+
+#: src/gthumb-ui.xml.h:67
+#, fuzzy
+msgid "New _Library"
+msgstr "Новая библиотека ..."
+
+#: src/gthumb-ui.xml.h:68
+msgid "New _Window"
+msgstr "_Новое окно"
+
+#: src/gthumb-ui.xml.h:69
+msgid "Next"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:70
+msgid "Open Folder with _Nautilus"
+msgstr "Открыть каталог с помощью _Nautilus"
+
+#: src/gthumb-ui.xml.h:71
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Открыть текущий каталог с помощью Nautilus"
+
+#: src/gthumb-ui.xml.h:72
+msgid "Open selected images with an application"
+msgstr "Открыть выбранные файлы с помощью"
+
+#: src/gthumb-ui.xml.h:73
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Открыть выделенный каталог с помощью Nautilus"
+
+#: src/gthumb-ui.xml.h:74
+msgid "Open this image with an application"
+msgstr "Открыть это изображение с помощью"
+
+#: src/gthumb-ui.xml.h:75
+msgid "Open with Nautilus"
+msgstr "Открыть с помощью Nautilus"
+
+#: src/gthumb-ui.xml.h:76
+msgid "Open with..."
+msgstr "Открыть с помощью..."
+
+#: src/gthumb-ui.xml.h:77
+msgid "Out"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:78
+msgid "Play _Animation"
+msgstr "Начать/Остановить _Анимацию"
+
+#: src/gthumb-ui.xml.h:79
+#, fuzzy
+msgid "Previous"
+msgstr "Предварительный просмотр"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: src/gthumb-ui.xml.h:80
+msgid "Print the current image"
+msgstr "Печать текущего изображения"
+
+#: src/gthumb-ui.xml.h:81
+#, fuzzy
+msgid "Properties"
+msgstr "Свойства изображения"
+
+#: src/gthumb-ui.xml.h:82
+msgid "R_otate 180 Degrees"
+msgstr "Повернуть на 180 градусов"
+
+#: src/gthumb-ui.xml.h:83
+msgid "Redo Search"
+msgstr "Повторить поиск..."
+
+#: src/gthumb-ui.xml.h:84
+msgid "Redo _Search"
+msgstr "Повторить поиск..."
+
+#: src/gthumb-ui.xml.h:85
+msgid "Redo the search"
+msgstr "Повторить поиск..."
+
+#: src/gthumb-ui.xml.h:86
+#, fuzzy
+msgid "Refresh"
+msgstr "ранее"
+
+#: src/gthumb-ui.xml.h:87
+msgid "Reload the current location"
+msgstr "Перезагрузка текущего каталога"
+
+#: src/gthumb-ui.xml.h:88
+msgid "Remo_ve from Catalog"
+msgstr "Удалить из альбома"
+
+#: src/gthumb-ui.xml.h:89
+msgid "Remove selected images from the catalog"
+msgstr "Удалить выбранные файлы из альбома"
+
+#: src/gthumb-ui.xml.h:90
+msgid "Rename"
+msgstr "Переименовать"
+
+#: src/gthumb-ui.xml.h:91
+msgid "Rename Catalog"
+msgstr "_Переименовать альбом..."
+
+#: src/gthumb-ui.xml.h:92
+msgid "Rename Folder"
+msgstr "_Переименовать каталог..."
+
+#: src/gthumb-ui.xml.h:93
+msgid "Rename current catalog"
+msgstr "_Переименовать текущий альбом"
+
+#: src/gthumb-ui.xml.h:94
+msgid "Rename current folder"
+msgstr "_Переименовать текущий каталог"
+
+#: src/gthumb-ui.xml.h:95
+msgid "Rename selected catalog"
+msgstr "Переименовать выбранный альбом"
+
+#: src/gthumb-ui.xml.h:96
+msgid "Rename selected folder"
+msgstr "Переименовать выбранный каталог"
+
+#: src/gthumb-ui.xml.h:97
+msgid "Rename selected image"
+msgstr "Переименовать выбранное изображение"
+
+#: src/gthumb-ui.xml.h:98
+msgid "Rename this image"
+msgstr "_Переименовать изображение"
+
+#: src/gthumb-ui.xml.h:99
+msgid "Restore the original desktop wallpaper"
+msgstr "Восстановить оригинальный рисунок рабочего стола"
+
+#: src/gthumb-ui.xml.h:100
+msgid "Reverse images order"
+msgstr "Обратный порядок изображений"
+
+#: src/gthumb-ui.xml.h:101
+msgid "Select all images"
+msgstr "_Выбрать все изображения"
+
+#: src/gthumb-ui.xml.h:102
+msgid "Set Image as _Wallpaper"
+msgstr "Сделать рисунком рабочего стола"
+
+#: src/gthumb-ui.xml.h:103
+msgid "Set the image as desktop background (centered)"
+msgstr "Сделать рисунком рабочего стола (по центру)"
+
+#: src/gthumb-ui.xml.h:104
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "Сделать рисунком рабочего стола (пропороционально)"
+
+#: src/gthumb-ui.xml.h:105
+msgid "Set the image as desktop background (stretched)"
+msgstr "Сделать рисунком рабочего стола (растянуть)"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Set the image as desktop background (tiled)"
+msgstr "Сделать рисунком рабочего стола (черепицей)"
+
+#: src/gthumb-ui.xml.h:107
+msgid "Show information about gThumb"
+msgstr "Информация о программе gThumb"
+
+#: src/gthumb-ui.xml.h:108
+msgid "Show/_Hide"
+msgstr "Показать/Скрыть"
+
+#: src/gthumb-ui.xml.h:109
+msgid "Sort images by file size"
+msgstr "Сортировать изображения по размеру файлов"
+
+#: src/gthumb-ui.xml.h:110
+msgid "Sort images by modifiction time"
+msgstr "Сортировать изображения по времени создания"
+
+#: src/gthumb-ui.xml.h:111
+msgid "Sort images by name"
+msgstr "Сортировать изображения по имени"
+
+#: src/gthumb-ui.xml.h:112
+msgid "Sort images by path"
+msgstr "Сортировать изображения по пути"
+
+#: src/gthumb-ui.xml.h:113
+msgid "Specify a location to visit"
+msgstr ""
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+#: src/gthumb-ui.xml.h:114
+msgid "Start or stop current animation"
+msgstr "Запуск или остановка анимации"
+
+#: src/gthumb-ui.xml.h:115
+msgid "Step A_nimation"
+msgstr "Пошаговая анимация"
+
+#: src/gthumb-ui.xml.h:116
+#, fuzzy
+msgid "Stop loading current location"
+msgstr "Перезагрузка текущего каталога"
+
+#: src/gthumb-ui.xml.h:117
+msgid "Str_erched"
+msgstr "Растянуть"
+
+#: src/gthumb-ui.xml.h:118
+msgid "Transparency typ_e"
+msgstr "Тип прозрачности"
+
+#: src/gthumb-ui.xml.h:119
+#, fuzzy
+msgid "Up"
+msgstr "Вверх"
+
+#: src/gthumb-ui.xml.h:120
+msgid "Use black as transparency"
+msgstr "Использовать черный как прозрачный цвет"
+
+#: src/gthumb-ui.xml.h:121
+msgid "Use checks as transparency"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:122
+msgid "Use gray as transparency"
+msgstr "Использовать серый как прозрачный цвет"
+
+#: src/gthumb-ui.xml.h:123
+msgid "Use high quality zoom"
+msgstr "Использовать увеличение с хорошим качеством"
+
+#: src/gthumb-ui.xml.h:124
+msgid "Use low quality zoom"
+msgstr "Использовать увеличение с плохим качеством"
+
+#: src/gthumb-ui.xml.h:125
+msgid "Use white as transparency"
+msgstr "Использовать белый как прозрачный цвет"
+
+#: src/gthumb-ui.xml.h:126
+msgid "View image in fullscreen mode"
+msgstr "На весь экран"
+
+#: src/gthumb-ui.xml.h:127
+msgid "View images as a slideshow"
+msgstr "Просмотр изображений как слайд-шоу"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+#: src/gthumb-ui.xml.h:128
+msgid "View next animation frame"
+msgstr "Просмотр следующего анимационного фрэйма"
+
+#: src/gthumb-ui.xml.h:129
+#, fuzzy
+msgid "View next image"
+msgstr "Просмотреть изображение"
+
+#: src/gthumb-ui.xml.h:130
+msgid "View or hide the statusbar of this window"
+msgstr "Показать или спрятать строку состояния текущего окна"
+
+#: src/gthumb-ui.xml.h:131
+msgid "View or hide the toolbar of this window"
+msgstr "Показать или спрятать панель инструментов текущего окна"
+
+#: src/gthumb-ui.xml.h:132
+#, fuzzy
+msgid "View previous image"
+msgstr "Просмотреть изображение"
+
+#: src/gthumb-ui.xml.h:133
+msgid "View the catalogs"
+msgstr "Показать альбомы"
+
+#: src/gthumb-ui.xml.h:134
+msgid "View the folders"
+msgstr "Показать каталоги"
+
+#: src/gthumb-ui.xml.h:135
+msgid "View the image"
+msgstr "Просмотреть изображение"
+
+#: src/gthumb-ui.xml.h:136
+msgid "View the image flipped"
+msgstr "Перевернутое изображение"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: src/gthumb-ui.xml.h:137
+msgid "View the image in black and white"
+msgstr "Изображение как черно-белое"
+
+#: src/gthumb-ui.xml.h:138
+msgid "View the image mirrored"
+msgstr "Отраженное изображение"
+
+#: src/gthumb-ui.xml.h:139
+msgid "View the image rotated clockwise"
+msgstr "Повернутое по часовой стрелке"
+
+#: src/gthumb-ui.xml.h:140
+msgid "View the image rotated of 180 degrees"
+msgstr "Повернуть на 180 градусов"
+
+#: src/gthumb-ui.xml.h:141
+msgid "View thumbnails"
+msgstr "Просмотр миниатюр"
+
+#: src/gthumb-ui.xml.h:142
+msgid "Zoom _In"
+msgstr "Крупнее"
+
+#: src/gthumb-ui.xml.h:143
+msgid "Zoom _Out"
+msgstr "Мельче"
+
+#: src/gthumb-ui.xml.h:144
+msgid "Zoom in"
+msgstr "Крупнее"
+
+#: src/gthumb-ui.xml.h:145
+msgid "Zoom out"
+msgstr "Мельче"
+
+#: src/gthumb-ui.xml.h:146
+msgid "Zoom to _Fit"
+msgstr "Оптимальный"
+
+#: src/gthumb-ui.xml.h:147
+msgid "Zoom to fit window"
+msgstr "По размерам окна"
+
+#: src/gthumb-ui.xml.h:148
+msgid "_About..."
+msgstr "О программе..."
+
+#: src/gthumb-ui.xml.h:149
+msgid "_Actual Size"
+msgstr "Действительный размер"
+
+#: src/gthumb-ui.xml.h:150
+msgid "_Add Bookmark"
+msgstr "_Добавить закладку"
+
+#: src/gthumb-ui.xml.h:151
+msgid "_Add to Catalog..."
+msgstr "_Добавить в альбом..."
+
+#: src/gthumb-ui.xml.h:152
+msgid "_Back"
+msgstr "_Назад"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: src/gthumb-ui.xml.h:153
+msgid "_Black"
+msgstr "_Черный"
+
+#: src/gthumb-ui.xml.h:154
+msgid "_Bookmarks"
+msgstr "_Закладки"
+
+#: src/gthumb-ui.xml.h:155
+msgid "_Catalogs"
+msgstr "Альбомы"
+
+#: src/gthumb-ui.xml.h:156
+msgid "_Centered"
+msgstr "По центру"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:157
+msgid "_Checked"
+msgstr "_Шахматы"
+
+#: src/gthumb-ui.xml.h:158
+msgid "_Close Window"
+msgstr "Закрыть окно"
+
+#: src/gthumb-ui.xml.h:159
+msgid "_Copy..."
+msgstr "_Копировать..."
+
+#: src/gthumb-ui.xml.h:160
+msgid "_Delete"
+msgstr "У_далить"
+
+#: src/gthumb-ui.xml.h:161
+msgid "_Delete Catalog"
+msgstr "_Удалть альбом..."
+
+#: src/gthumb-ui.xml.h:162
+msgid "_Delete Folder"
+msgstr "_Удалить каталог"
+
+#: src/gthumb-ui.xml.h:163
+msgid "_Delete History"
+msgstr "_Удалить историю"
+
+#: src/gthumb-ui.xml.h:164
+msgid "_Edit"
+msgstr "_Редактировать"
+
+#: src/gthumb-ui.xml.h:165
+msgid "_Edit Bookmarks"
+msgstr "_Редактировать закладки..."
+
+#: src/gthumb-ui.xml.h:167
+msgid "_File"
+msgstr "_Файл"
+
+#: src/gthumb-ui.xml.h:168
+msgid "_Find Images..."
+msgstr "_Поиск изображения..."
+
+#: src/gthumb-ui.xml.h:169
+msgid "_Folders"
+msgstr "Каталоги"
+
+#: src/gthumb-ui.xml.h:170
+msgid "_Forward"
+msgstr "Прямое"
+
+#: src/gthumb-ui.xml.h:171
+msgid "_Full Screen"
+msgstr "На _весь экран"
+
+#: src/gthumb-ui.xml.h:172
+msgid "_Go"
+msgstr "П_ерейти"
+
+#: src/gthumb-ui.xml.h:173
+msgid "_Go to the Image Folder"
+msgstr "Перейти к  каталогу:"
+
+#: src/gthumb-ui.xml.h:174
+msgid "_Help"
+msgstr "Помощь"
+
+#: src/gthumb-ui.xml.h:175
+msgid "_High Quality"
+msgstr "Высокое качество:"
+
+#: src/gthumb-ui.xml.h:176
+msgid "_Home"
+msgstr "Домой"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gthumb-ui.xml.h:177
+#, fuzzy
+msgid "_Image"
+msgstr "Изображение"
+
+#: src/gthumb-ui.xml.h:178
+msgid "_Image preview"
+msgstr "Предпросмотр изображения"
+
+#: src/gthumb-ui.xml.h:179
+msgid "_JPEG Transform"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:180
+msgid "_Keyboard Shortcuts"
+msgstr "Клавиатурные комбинации"
+
+#: src/gthumb-ui.xml.h:181
+msgid "_Location..."
+msgstr ""
+
+#: src/gthumb-ui.xml.h:182
+msgid "_Low Quality"
+msgstr "Низкое качество:"
+
+#: src/gthumb-ui.xml.h:183
+#, fuzzy
+msgid "_Maintenance"
+msgstr "gThumb - Настройка печати"
+
+#: src/gthumb-ui.xml.h:184
+msgid "_Manual"
+msgstr "Помощь"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: src/gthumb-ui.xml.h:185
+msgid "_Mirror"
+msgstr "Отразить"
+
+#: src/gthumb-ui.xml.h:186
+msgid "_Move Catalog..."
+msgstr "Переместить альбом..."
+
+#: src/gthumb-ui.xml.h:187
+#, fuzzy
+msgid "_Move Folder..."
+msgstr "Показать папки"
+
+#: src/gthumb-ui.xml.h:188
+msgid "_Move..."
+msgstr "Переместить..."
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: src/gthumb-ui.xml.h:189
+msgid "_None"
+msgstr "Нет"
+
+#: src/gthumb-ui.xml.h:190
+msgid "_Open with..."
+msgstr "Открыть с помощью..."
+
+#: src/gthumb-ui.xml.h:193
+#, fuzzy
+msgid "_Properties"
+msgstr "Свойства изображения"
+
+#: src/gthumb-ui.xml.h:194
+msgid "_Reload"
+msgstr "Перезагрузить"
+
+#: src/gthumb-ui.xml.h:196
+msgid "_Rename Catalog"
+msgstr "_Переименовать альбом"
+
+#: src/gthumb-ui.xml.h:197
+msgid "_Rename Folder"
+msgstr "_Переименовать каталог..."
+
+#: src/gthumb-ui.xml.h:198
+#, fuzzy
+msgid "_Rename Series"
+msgstr "_Переименовать каталог..."
+
+#: src/gthumb-ui.xml.h:199
+msgid "_Restore"
+msgstr "Восстановить"
+
+#: src/gthumb-ui.xml.h:200
+msgid "_Reversed Order"
+msgstr "Обратный порядок"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+#: src/gthumb-ui.xml.h:201
+msgid "_Rotate Clockwise"
+msgstr "По часовой стрелке"
+
+#: src/gthumb-ui.xml.h:202
+msgid "_Scaled"
+msgstr "Пропорционально"
+
+#: src/gthumb-ui.xml.h:203
+msgid "_Select All"
+msgstr "_Выбрать все"
+
+#: src/gthumb-ui.xml.h:204
+msgid "_Slideshow"
+msgstr "_Слайд-шоу"
+
+#: src/gthumb-ui.xml.h:205
+msgid "_Sort Images"
+msgstr "Сортировать изображения"
+
+#: src/gthumb-ui.xml.h:206
+msgid "_Statusbar"
+msgstr "_Строка состояния"
+
+#: src/gthumb-ui.xml.h:207
+msgid "_Stop"
+msgstr ""
+
+#: src/gthumb-ui.xml.h:208
+msgid "_Thumbnails"
+msgstr "_Миниатюры"
+
+#: src/gthumb-ui.xml.h:209
+msgid "_Tiled"
+msgstr "Черепицей"
+
+#: src/gthumb-ui.xml.h:210
+msgid "_Toolbar"
+msgstr "Панель инструментов"
+
+#: src/gthumb-ui.xml.h:211
+msgid "_Tools"
+msgstr "_Инструменты"
+
+#: src/gthumb-ui.xml.h:212
+msgid "_Up"
+msgstr "Вверх"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+#: src/gthumb-ui.xml.h:214
+msgid "_White"
+msgstr "_Белый"
+
+#: src/gthumb-ui.xml.h:215
+msgid "_Zoom"
+msgstr "_Масштаб"
+
+#: src/gthumb-ui.xml.h:216
+msgid "by _Name"
+msgstr "по имени"
+
+#: src/gthumb-ui.xml.h:217
+msgid "by _Path"
+msgstr "по расположению"
+
+#: src/gthumb-ui.xml.h:218
+msgid "by _Size"
+msgstr "по размеру"
+
+#: src/gthumb-ui.xml.h:219
+msgid "by _Time"
+msgstr "по времени "
+
+#: src/gthumb-window.c:1139
+#, fuzzy
+msgid "No image"
+msgstr "Изображений не найдено"
+
+#: src/gthumb-window.c:1141
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 изображение (%s)"
+
+#: src/gthumb-window.c:1144
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d изображений (%s)"
+
+#: src/gthumb-window.c:1151
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 выбрано (%s)"
+
+#: src/gthumb-window.c:1154
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d выбрано (%s)"
+
+#: src/gthumb-window.c:2513
+msgid "Drag & Drop"
+msgstr "Drag & Drop"
+
+#: src/gthumb-window.c:3893
+#, c-format
+msgid "Cannot load folder \"%s\" : %s\n"
+msgstr "Не могу загрузить каталог \"%s\" : %s\n"
+
+#: src/gthumb-window.c:4142
+msgid "The specified catalog does not exist."
+msgstr "Заданный альбом не существует."
+
+#: src/main.c:62
+msgid "Start in fullscreen mode"
+msgstr "На весь экран"
+
+#: src/main.c:66
+msgid "Automatically start a slideshow"
+msgstr "Автоматически запускать слайд-шоу"
+
+#: src/main.c:159
+msgid "Holidays"
+msgstr ""
+
+#: src/main.c:160
+msgid "Temporary"
+msgstr ""
+
+#: src/main.c:161
+msgid "Screenshots"
+msgstr ""
+
+#: src/main.c:162
+msgid "Science"
+msgstr ""
+
+#: src/main.c:163
+msgid "Favourite"
+msgstr ""
+
+#: src/main.c:164
+msgid "Important"
+msgstr ""
+
+#: src/main.c:165
+msgid "GNOME"
+msgstr ""
+
+#: src/main.c:166
+#, fuzzy
+msgid "Games"
+msgstr "Имя"
+
+#: src/main.c:167
+#, fuzzy
+msgid "Party"
+msgstr "Печать"
+
+#: src/main.c:168
+msgid "Birthday"
+msgstr ""
+
+#: src/main.c:169
+msgid "Astronomy"
+msgstr ""
+
+#: src/main.c:170
+msgid "Family"
+msgstr ""
+
+#: src/main.c:275 src/main.c:332
+msgid "Command Line"
+msgstr "Командная строка"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:1
+msgid "GThumb Image"
+msgstr "GThumb Image"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:2
+msgid "GThumb Viewer"
+msgstr "Просмотрщик gThumb"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.server.in.h:3
+msgid "View with GThumb"
+msgstr "Просмотр с помощью GThumb"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+#, fuzzy
+msgid "Black and White"
+msgstr "Черно-белый"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "Flip"
+msgstr "Отразить"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Flip the image"
+msgstr "Отразить изображение"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "High"
+msgstr "Высокое"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Low"
+msgstr "Низкое"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+msgid "Mirror"
+msgstr "Отразить слева направо"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+msgid "Mirror the image"
+msgstr "Отобразить изображение слева направо"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate"
+msgstr "Повернуть"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Rotate 180 _Degrees"
+msgstr "Повернуть на 180 градусов"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+msgid "Rotate the image clockwise"
+msgstr "По часовой стрелке"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+msgid "Rotate the image of 180 degrees"
+msgstr "Повернуть на 180 градусов"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Start/Stop _Animation"
+msgstr "Начать/Остановить _Анимацию"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+msgid "Transparency T_ype"
+msgstr "_Тип прозрачности"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+msgid "_Flip"
+msgstr "Отразить сверху вниз"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+msgid "_Step Animation"
+msgstr "Пошаговая анимация"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:30
+msgid "_Zoom Quality"
+msgstr "Качество изображения при масштабировании"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:1
+#, fuzzy
+msgid "Catalog"
+msgstr "Альбомы"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:2
+#, fuzzy
+msgid "GThumb Catalog View"
+msgstr "Просмотрщик gThumb"
+
+#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.h:3
+#, fuzzy
+msgid "View as Catalog"
+msgstr "Показать альбомы"
+
+#~ msgid "Other"
+#~ msgstr "Другие"
+
+#~ msgid "Image options"
+#~ msgstr "Свойства изображения"
+
+#, fuzzy
+#~ msgid "Dimensions"
+#~ msgstr "Размеры изображения"
+
+#~ msgid "A_lter Image"
+#~ msgstr "_Работа с изображением"
+
+#~ msgid "gThumb - Options"
+#~ msgstr "gThumb - Свойства изображения"
+
+#~ msgid "Start _from:"
+#~ msgstr "Начать с:"
+
+#, fuzzy
+#~ msgid "Rotate image 270 degrees clockwise (or 90 ccw)"
+#~ msgstr "По часовой стрелке"
+
+#, fuzzy
+#~ msgid "_JPEG Rotate"
+#~ msgstr "Повернуть"
+
+#~ msgid "C_omment:"
+#~ msgstr "Комментарий:"
+
+#~ msgid "Caption color:"
+#~ msgstr "Цвет заголовка"
+
+#~ msgid "Caption font:"
+#~ msgstr "Шрифт заголовка"
+
+#~ msgid "File name"
+#~ msgstr "Имя файла"
+
+#~ msgid "File name:"
+#~ msgstr "Имя файла:"
+
+#~ msgid "NNN"
+#~ msgstr "NNN"
+
+#~ msgid "No zoom"
+#~ msgstr "Без масштабирования"
+
+#~ msgid "Zoom to fit"
+#~ msgstr "Оптимальный"
+
+#~ msgid "Confirmations"
+#~ msgstr "Подтверждения"
+
+#, fuzzy
+#~ msgid "Image to overwrite:"
+#~ msgstr "Файл для перезаписи:"
+
+#~ msgid "Preferences..."
+#~ msgstr "Настройки..."
+
+#~ msgid "Keywords:"
+#~ msgstr "По ключевым словам:"
+
+#~ msgid "View"
+#~ msgstr "Просмотр"
+
+#, fuzzy
+#~ msgid "Edit Search..."
+#~ msgstr "Редактирование параметров поиска..."
+
+#~ msgid "Rotate the image 180 degrees"
+#~ msgstr "Повернуть на 180 градусов"
+
+#~ msgid "_Gray"
+#~ msgstr "_Серый"
+
+#~ msgid "Gray"
+#~ msgstr "Серый"
+
+#, fuzzy
+#~ msgid "_Edit Comment"
+#~ msgstr "_Редактировать комментарий..."
+
+#~ msgid "+"
+#~ msgstr "+"
+
+#~ msgid "-"
+#~ msgstr "-"
+
+#, fuzzy
+#~ msgid "Search data"
+#~ msgstr "Поиск данных"
+
+#, fuzzy
+#~ msgid "_Copy Images..."
+#~ msgstr "_Копировать файлы..."
+
+#, fuzzy
+#~ msgid "_Delete Images"
+#~ msgstr "_Удалить файлы..."
+
+#, fuzzy
+#~ msgid "_Move Images..."
+#~ msgstr "П_ереместить файлы..."
+
+#, fuzzy
+#~ msgid "_Rename Image"
+#~ msgstr "_Переименовать файлы..."
+
+#, fuzzy
+#~ msgid "_About gThumb"
+#~ msgstr "gThumb"
+
+#, fuzzy
+#~ msgid "Full Scree_n"
+#~ msgstr "На _весь экран"
+
+#, fuzzy
+#~ msgid "Zoom _in"
+#~ msgstr "Крупнее"
+
+#, fuzzy
+#~ msgid "Zoom _out"
+#~ msgstr "Мельче"
+
+#, fuzzy
+#~ msgid "Zoom to _fit"
+#~ msgstr "Оптимальный"
+
+#, fuzzy
+#~ msgid "_Actual size"
+#~ msgstr "Действительный размер"

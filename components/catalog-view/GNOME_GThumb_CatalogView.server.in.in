@@ -1,0 +1,47 @@
+<oaf_info>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_CatalogView_Factory" type="exe" 
+	    location="@LIBEXECDIR@/gthumb-catalog-view">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Catalog View Factory"/>
+
+	<oaf_attribute name="description" type="string" 
+		       value="Factory for the GThumb catalog view control"/>
+</oaf_server>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_CatalogView" type="factory" 
+	    location="OAFIID:GNOME_GThumb_CatalogView_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Catalog View control"/>
+	<oaf_attribute name="description" type="string" 
+		       value="GThumb Catalog View control"/>
+
+	<oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+                <item value="x-directory/*"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="nautilus:view_as_name" type="string"
+		       _value="Catalog"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string"
+		       _value="View as Catalog"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string"
+		       _value="GThumb Catalog View"/>
+</oaf_server>
+
+
+</oaf_info>

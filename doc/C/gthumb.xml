@@ -1,0 +1,2039 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+"http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
+  <!ENTITY legal SYSTEM "legal.xml">
+  <!ENTITY gthumb-version "1.101">
+  <!ENTITY manual-version "1.101">
+  <!ENTITY gthumb "<application>gThumb</application>">
+<!-- replace version above with actual application version number -->
+<!--  Template Version: 1.0.1  (do not remove this line) -->
+]>
+
+<!-- =============Document Header ============================= -->
+
+<article id="index" lang="en"> <!-- please do not change the id -->
+
+  <articleinfo>
+    <title>gThumb User Guide</title>
+    <copyright>
+      <year>2001</year>
+      <year>2002</year>
+      <holder>Paolo Bacchilega</holder>
+    </copyright>
+
+    <!-- translators: uncomment this:
+
+    <copyright>
+     <year>2000</year>
+     <holder>ME-THE-TRANSLATOR (Latin translation)</holder>
+    </copyright>
+
+    -->
+
+    &legal; 
+
+    <authorgroup>
+      <author>
+        <firstname>Paolo</firstname>
+	<surname>Bacchilega</surname>
+	<affiliation>
+          <address><email>paolo.bacch@tin.it</email></address>
+        </affiliation>
+      </author>
+      <author> 
+	<firstname>Alexander</firstname> 
+	<surname>Kirillov</surname> 
+	<affiliation> 
+	  <orgname>GNOME Documentation Project</orgname> 
+	  <address> <email>kirillov@math.sunysb.edu</email> </address> 
+	</affiliation> 
+      </author> 
+    </authorgroup>
+
+    <!-- do not put authorname in the header except in copyright - use
+         section "authors" below -->
+
+    <!-- this is version of manual, not application --> 
+    <releaseinfo>
+      This is version &manual-version; of the gThumb manual, describing 
+      version &gthumb-version; of gThumb.
+    </releaseinfo>
+  </articleinfo>
+
+  <indexterm> 
+    <primary>gThumb</primary> 
+  </indexterm> 
+  <indexterm> 
+    <primary>image viewer</primary> 
+  </indexterm> 
+  <indexterm> 
+    <secondary>viewer</secondary> 
+  </indexterm> 
+
+  <!-- ============= Document Body ============================= -->
+
+  <!-- ============= Introduction ============================== -->
+
+  <sect1 id="intro">
+    <title>Introduction</title>
+    <para>
+      <application>gThumb</application> is an image viewer and browser 
+      written for the GNOME environment.  It lets you browse your hard disk, 
+      showing you thumbnails of image files.  It also lets you view single 
+      files (including GIF animations), add comments to images, organize 
+      images in catalogs, print images, view slideshows, set your desktop 
+      background, and more. 
+    </para>
+    <para>
+      To run <application>gThumb</application>, select its entry from the
+      <guisubmenu>Graphics</guisubmenu> submenu of the <guimenu>Applications
+      </guimenu> menu, or type <command>gthumb</command> on the
+      command line.  If you start <application>gThumb</application> from the
+      command line you can specify a starting folder : 
+    </para>
+    <para>
+      <command>gthumb <replaceable>foldername</replaceable></command>
+    </para>
+    <para>  
+      or a list of files to view : 
+    </para>  
+    <para>
+      <command>gthumb <replaceable>*.jpg</replaceable></command>
+    </para>
+    <para>
+      you can even do a combination of the two :
+    </para>
+    <para>
+      <command>gthumb <replaceable>*.jpg folder1 folder2</replaceable></command>
+    </para>
+    <para>
+      The above example will pop up three windows, one shows you the files 
+      with a <filename>jpg</filename> extension in the current folder, 
+      and the others two will show you respectively
+      the content of <filename>folder1</filename> and 
+      <filename>folder2</filename>.
+    </para>
+  </sect1>
+
+
+  <!-- ============= Browsing ================================== -->
+  <sect1 id="browsing">
+  <title>Browsing folders</title>
+  <para>
+    When you first launch <application>gThumb</application> the main window
+    pops up,  four areas give you information about the current folder :
+    <orderedlist>
+      <listitem>
+        <para>
+	  The <guilabel>location bar</guilabel>, which contains the 
+	  current folder name. 
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  The <guilabel>folder list</guilabel>, which shows you the
+	  sub-folders contained in the current folder.
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  The <guilabel>image list</guilabel>, which shows you the images 
+	  in the current folder.
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  The <guilabel>status bar</guilabel>, where you can read the 
+	  total number of images
+	  contained in the current folder, and the total size of all these 
+	  images;
+	  the number of the selected images and the total size of these images.
+	</para>
+      </listitem>
+    </orderedlist>
+    <!-- ==== Figure ==== -->
+    <figure id="main-win-fig">
+    <title>The main window</title> 
+    <screenshot>
+      <screeninfo>The main window</screeninfo> 
+      <graphic format="png" fileref="figures/main-win.png" srccredit="Me">
+      </graphic>
+    </screenshot>
+    </figure>
+    <!-- ==== End of Figure ==== -->
+  </para>
+
+    <para>
+      If you want to change folder you have two options,  clicking on the 
+      folder name in the folder list, or typing the folder name in 
+      the location entry.  When using the location entry you can press 
+      <keycombo><keycap>Ctrl</keycap><keycap>TAB</keycap></keycombo> to
+      try to automatically complete the folder name,  this simplify the 
+      typing of long names.
+    </para>
+    <para>
+      To go to a previously visited folder you can use the 
+      <menuchoice><guimenu>Go</guimenu><guimenuitem>Back</guimenuitem>
+      </menuchoice> command or click on the
+      <guimenu>Go</guimenu> menu that contains a list of the most recently
+      visited ones.  In this menu keeping the pointer on a folder name will
+      display the full path of the folder in the statusbar.
+    </para>
+    <para>
+      Frequently used folders can be added to the bookmark list for rapid
+      access.  Just go the folder and press <keycombo action="simul">
+      <keycap>Ctrl</keycap><keycap>D</keycap></keycombo> or use the command
+      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>.
+      For removing bookmarks use the <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command.
+    </para>
+    <para>
+      To sort the images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
+      use <menuchoice><guimenu>Go</guimenu><guimenuitem>Refresh</guimenuitem></menuchoice> to reload the current folder,  click on
+      <menuchoice><guimenu>View</guimenu><guimenuitem>Thumbnails</guimenuitem></menuchoice> to view or hide the thumbnails in the images list.
+    </para>
+
+    <para>
+      To move, copy and rename images, select the images and use the corresponding command in the <guimenu>Edit</guimenu> menu.
+    </para>
+    <para>
+      To open an image, or a series of images, with an external program 
+      select the image and use
+      the <menuchoice><guimenu>File</guimenu><guimenuitem>Open images with</guimenuitem></menuchoice> command.
+    </para>
+      <table frame="topbot">
+      <title>Keyboard shortcuts to navigate your folders</title>
+      <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>N</keycap></keycombo> ,
+	        <keycombo action="simul"><keycap>Space</keycap></keycombo> or
+		<keycombo action="simul"><keycap>Page Down</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View next image.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>B</keycap></keycombo> ,
+		<keycombo><keycap>P</keycap></keycombo> ,
+		<keycombo><keycap>Backspace</keycap></keycombo> ,
+		<keycombo action="simul"><keycap>Page Up</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View previous image.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Home</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View first image.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>End</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View last image.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Home
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Go to your Home folder.</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Left
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Go to the previously visited folder.</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Alt</keycap><keycap>Up
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Go to up one level.</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Ctrl</keycap><keycap>D
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Add bookmark.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Return</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide the browser.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Q</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide the image preview.</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>T</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide thumbnails.</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>F2</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rename current image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>O</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Open selected files with an application</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Delete</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Delete seleceted files</para>
+	    </entry>
+	  </row>
+	</tbody>
+      </tgroup>
+      </table>
+
+    <para>
+      Other options for the browser can be found in the <interface>Browser</interface> tag of the <guilabel>Preferences</guilabel> dialog.
+    </para>
+  </sect1>
+
+
+  <!-- ============= Viewing ================================== -->
+  <sect1 id="viewing">
+  <title>Viewing images</title>
+    <para>
+      In order to view an image just click on its thumbnail and the image will
+      be visualized in the viewer pane.  If the image doesn't fit the viewer
+      pane you can give more space to the viewer hiding the browser, this can 
+      be accoplished pressing the <keycombo><keycap>Return</keycap></keycombo>
+      key, pressing it again the browser will be re-displayed.  Another way of
+      viewing a big image is to view it in full screen mode, type <keycombo>
+      <keycap>V</keycap></keycombo> to activate/disactivate the full screen 
+      mode.
+    </para>
+    <para>
+      Mouse operations :
+    </para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
+                colwidth="30.65*"/>
+        <colspec colname="COLSPEC1" colwidth="69.35*"/>
+        <tbody>
+          <row>
+            <entry>
+              <para>Holding down the left button and moving the mouse</para></entry>
+            <entry>
+              <para>move the image.</para></entry>
+          </row>
+          <row>
+            <entry>
+              <para>Left-click</para></entry>
+            <entry>
+              <para>Show next image.</para></entry>
+          </row>
+          <row>
+            <entry>
+              <para>Middle-click</para></entry>
+            <entry>
+              <para>Show previous image.</para></entry>
+          </row>
+          <row>
+            <entry>
+              <para>Right-click</para></entry>
+            <entry>
+              <para>Pop up the image menu.</para></entry>
+          </row>
+        </tbody>
+        </tgroup>
+      </informaltable>
+    <para>
+      Another way of moving the image is by the navigation button :
+      <screenshot> 
+        <mediaobject> 
+          <imageobject>
+            <imagedata fileref="figures/nav-button.png" format="PNG"/>
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+      located in the
+      right bottom corner of the viewer window when the images does not fit
+      in the window.  Clicking and holding this 
+      button will show you a preview of the image.  Moving the mouse you will 
+      move the image to the desired position.
+    </para>
+    <sect2>
+      <title>Altering images</title>
+      <para>
+        There are a set of commands, located in the <guimenu>View</guimenu> 
+	menu, that let you modify the way an image is 
+	displayed
+      </para>
+      <informaltable frame="topbot">
+        <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
+                colwidth="30.65*"/>
+        <colspec colname="COLSPEC1" colwidth="69.35*"/>
+        <tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice><guimenu>View</guimenu>
+		<guimenuitem>Rotate Clockwise</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Rotate the image 90 degrees clockwise.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice><guimenu>View</guimenu>
+		<guimenuitem>Rotate 180 Degrees</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Rotate the image 180 degrees clockwise.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice><guimenu>View</guimenu>
+		<guimenuitem>Flip</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Create a mirror image by reflecting the image scanlines 
+		in the vertical direction.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice><guimenu>View</guimenu>
+		<guimenuitem>Mirror</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Create a mirror image by reflecting the image scanlines 
+		in the horizontal direction.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice><guimenu>View</guimenu>
+		<guimenuitem>Black and White</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        View the image in black and white.
+	      </para>
+	    </entry>
+	  </row>
+	</tbody>
+      </tgroup>
+      </informaltable>
+      <para>
+        Note that this modifications do not change the image file,
+	and if you want to view the original image just click on its 
+	thumbnail again.
+      </para>
+    </sect2>
+
+    <table frame="topbot">
+    <title>Some keyboard shortcuts</title>
+    <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>V</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Full screen</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>+</keycap></keycombo> ,
+		<keycombo><keycap>=</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom in</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>-</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom out</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>1</keycap></keycombo> ,
+		<keycombo><keycap>Z</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Actual size</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>X</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>F</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Flip the image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>M</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Mirror the image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>R</keycap></keycombo> ,
+	        <keycombo><keycap>]</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>[</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image counter-clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>G</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop the current animation</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>J</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View the next frame of the current animation</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+  </table>
+
+
+  </sect1>
+
+
+  <!-- ============= Printing ================================== -->
+  <sect1 id="printing">
+  <title>Printing images</title>
+  <para>
+    Click on the image you want to print, then select the <menuchoice>
+    <guimenu>File</guimenu><guimenuitem>Print image</guimenuitem></menuchoice>
+    command.
+  </para>
+  <para>
+    The <interface>Print setup</interface> dialog lets you 
+
+    <itemizedlist>
+      <listitem>
+        <para>
+	Choose the paper format and orientation, 
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	Choose the printer to use, 
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	Choose the size of the image, 
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	Move the image clicking on it with the left mouse  button and dragging
+	the image where you want to put it.  
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	Recentre the image on the page use the <interface>Center on 
+	Page</interface> button.
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>
+    When you are ready to print press the <interface>Print</interface> button.
+  </para>
+  </sect1>
+
+  <!-- ============= Comments ================================== -->
+  <sect1 id="comments">
+  <title>Adding comments to images</title>
+  <para>
+    In order to add a comment to an image select the image and use the 
+    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit comment</guimenuitem>
+    </menuchoice> command or type <keycombo><keycap>C</keycap></keycombo>.
+  </para>
+  <para>
+    Comments are structured in various parts :
+    <itemizedlist>
+      <listitem>
+        <para>
+	  <guilabel>Comment</guilabel>: a free text describing the picture.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	  <guilabel>Place</guilabel>: the place the picture represents. 
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	  <guilabel>Date</guilabel>: the date the picture was taken.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+	  <guilabel>Categories</guilabel>: a series of categories the image
+	  belongs to. Categories are usefull for doing complex searches, 
+	  as described in <xref linkend="find"/>.
+        </para>
+      </listitem>
+    </itemizedlist>
+    <!-- ==== Figure ==== -->
+    <figure id="dlg-comment-fig">
+      <title>The "Edit Comment" dialog </title> 
+      <screenshot>
+        <screeninfo>The Edit Comment dialog </screeninfo> 
+        <graphic format="png" fileref="figures/dlg-comment.png" srccredit="Me">
+        </graphic>
+      </screenshot>
+    </figure>
+    <!-- ==== End of Figure ==== -->
+  </para>
+  <para>
+    Image comments are displayed in the image list in italic text above the 
+    filename of the image.
+  </para>
+    <!-- ==== Figure ==== -->
+    <figure id="comment-in-list-fig">
+      <title>As the comment is displayed</title> 
+      <screenshot>
+        <screeninfo>As the comment is displayed</screeninfo> 
+        <graphic format="png" fileref="figures/comment.png" srccredit="Me">
+        </graphic>
+      </screenshot>
+    </figure>
+    <!-- ==== End of Figure ==== -->
+  <para>
+    To delete a comment use the command : <menuchoice><guimenu>Edit</guimenu><guimenuitem>Delete comment</guimenuitem></menuchoice>.
+  </para>
+  <para>
+    You can even add a comment to multiple images, in this case the comment 
+    dialog will fill in the fields that are the same for all images leaving 
+    all other fields empty, and the option <guilabel>save only changed fields
+    </guilabel> is enabled.  If this option is active (default) you can 
+    change one or more fields of the comment of many images leaving all other
+    fields unchanged.
+  </para>
+  <para>
+    Comments are not embedded in image files they are saved separately, this
+    means that if you move the images or the folders images are in with other 
+    programs you will lose the comments.  Comments are saved in the folder
+    <filename>$(HOME)/.gqview/comments</filename>.
+  </para>
+  </sect1>
+
+  <!-- ============= Catalogs ================================== -->
+  <sect1 id="catalogs">
+  <title>Organizing images in catalogs</title>
+  <para>
+    Catalogs lets you organize images without moving them from a folder to
+    another, think of them as "playlists" for images.
+    The following is the list of operations you can perform with a catalog :
+  </para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>
+	 Viewing the list of catalogs : Press <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> or select the <menuchoice><guimenu>View</guimenu><guisubmenu>Show/Hide</guisubmenu><guimenuitem>Catalogs</guimenuitem></menuchoice> command. 
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Adding images to a catalog : Select the images you want to add to a
+	  catalog and use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
+	  Add to Catalog</guimenuitem></menuchoice> command to select or 
+	  create a catalog.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	 Deleting images from a catalog : Select the images you want to delete
+	 then use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
+	  Delete from Catalog</guimenuitem></menuchoice> command.
+	</para>
+      </listitem>
+      <listitem>
+        <para>
+	  Renaming, Deleting or Moving catalogs : Select the catalog and use 
+	  the corrisponding command in the <guimenu>File</guimenu> menu, or 
+	  use the context menu pressing the right mouse
+	  button on the name of the catalog in the catalog list.
+	</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>
+    If you want to go to the folder that contains an image, select
+    the image and use the
+    <menuchoice><guimenu>Go</guimenu><guimenuitem>Go to the image folder
+    </guimenuitem></menuchoice> command or press <keycombo action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>.
+  </para>
+  <para>
+    Catalogs are not updated when you move images, if you want a more flexible
+    catalog you can use the searches described in <xref linkend="find"/>, 
+    searches are catalogs with search data attached, after moving images you 
+    can redo the search to get the catalog updated.  Catalogs are saved in the
+    folder <filename>$(HOME)/.gqview/collections</filename>.
+  </para>
+  </sect1>
+
+
+  <!-- ============= Tools ================================== -->
+  <sect1 id="tools">
+  <title>Other Tools</title>
+    <para>
+      All the tools described in this chapter are located in the 
+      <guimenu>Tools</guimenu> menu.
+    </para>
+
+    <!-- Create Index Image -->
+
+    <sect2 id="slideshow">
+      <title>SlideShow</title>
+      <para>
+        You can start a slide show of the images in the current folder by
+	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
+	selecting the <menuchoice><guimenu>Tools
+	</guimenu><guimenuitem>Slideshow</guimenuitem></menuchoice> menu item.
+        To stop the Slideshow press <keycombo action="simul">
+	<keycap>S</keycap></keycombo> again.
+      </para>
+      <para>
+        Switching on/off the full screen mode does not stop a slideshow.
+        The slideshow is interrupted when changing folder or re-loading the
+	current one.
+      </para>
+      <para>
+        If you want to do a presentation with images you do not need the 
+	<interface>SlideShow</interface> tool, you can simply set the 
+	fullscreen mode and press <keycombo><keycap>Space</keycap></keycombo>
+	or <keycombo><keycap>Page Down</keycap></keycombo> to view the next
+	image, and <keycombo><keycap>b</keycap></keycombo> or <keycombo>
+	<keycap>Page Up</keycap></keycombo> to view the previous image.
+      </para>
+    </sect2>
+
+    <!-- Create Index Image -->
+
+    <sect2 id="wallpaper">
+      <title>Wallpaper</title>
+      <para>
+        If you want to set the selected image as desktop wallpaper select the
+	menu <guimenuitem>Set Image as Wallpaper</guimenuitem> from the 
+	<guimenu>Tools</guimenu> menu.  The menu contains four ways of setting
+	the wallpaper :
+        <itemizedlist>
+	  <listitem>
+	    <para>
+	      <guilabel>Centered</guilabel> : the image will be centered on
+	      the desktop.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Tiled</guilabel> : the image will be duplicated on
+	      the desktop as tiles on the floor.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Stretched</guilabel> : the image will be scaled to 
+	      fill the desktop.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      <guilabel>Scaled</guilabel> : the image will be scaled to fill 
+	      the desktop mantaining the aspect ratio.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </para>
+      <para>
+         If you want to restore the old wallpaper use the 
+	 <menuchoice>
+	   <guimenu>Tools</guimenu>
+           <guisubmenu>Set Image as Wallpaper</guisubmenu> 
+           <guimenuitem>Restore</guimenuitem>
+         </menuchoice> item.
+       </para>
+    </sect2>
+
+    <!-- Find Images -->
+
+    <sect2 id="find">
+      <title>Find Images</title>
+      <para>
+        The <interface>Find Images</interface> tool lets you find images on 
+	you hard disk and save the result as a catalog.
+        To use this tool select the <guimenuitem>Find Images...</guimenuitem>
+	item from the <guimenu>Tools</guimenu> menu.
+      </para>
+
+        <!-- ==== Figure ==== -->
+        <figure id="find-images-fig">
+        <title>The "Find Images" dialog </title> 
+        <screenshot>
+          <screeninfo>The Find Images dialog </screeninfo> 
+          <graphic format="png" fileref="figures/find-images.png" srccredit="Me">
+          </graphic>
+        </screenshot>
+        </figure>
+        <!-- ==== End of Figure ==== -->
+        <para>
+	  When the dialog pops up,
+	  you can specify a file name or a pattern in the <guilabel>File Name
+	  </guilabel> entry, for example : 
+	  <itemizedlist>
+	    <listitem>
+	      <para>
+	        <userinput>foo.jpg</userinput> : will search for files
+		named foo.jpg
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+	        <userinput>*.png</userinput> : will search for files
+		with the png extension.
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+	        <userinput>*.gif; *.jpg</userinput> : will search for
+		files with the gif or jpg extension.
+	      </para>
+	    </listitem>
+	  </itemizedlist>
+	</para>
+
+        <para>	  
+	  Other search rules:	
+	  <itemizedlist>
+
+	    <!-- -->
+	    <listitem>
+	      <para>
+	        <guilabel>Start from</guilabel> : The folder the
+		search will start from.
+	      </para>
+	    </listitem>
+
+	    <!-- -->
+	    <listitem>
+	      <para>
+	        <guilabel>Include sub-folders</guilabel> :  Whether
+		to search even in the sub folders.
+	      </para>
+	    </listitem>
+
+	    <!-- -->
+	    <listitem>
+	     <para>
+	      <guilabel>Comment</guilabel> : A list of phrases the 
+	      comment of the image must contain, for example:
+
+	      <itemizedlist>
+	        <listitem>
+	          <para>
+	            <userinput>paolo</userinput> : will search for 
+		    images that have "paolo" in the comment.
+	          </para>
+	        </listitem>
+
+	        <listitem>
+	          <para>
+	            <userinput>my birthday</userinput> : will search for 
+		    images that have "my birthday" in the comment.
+	          </para>
+	        </listitem>
+
+	        <listitem>
+	          <para>
+	            <userinput>holiday ; rome</userinput> : will search
+		    for images that have "holiday" OR "rome" in the comment.
+	          </para>
+                </listitem>
+
+	        <listitem>
+	          <para>
+	            <userinput>holiday in rome ; my birthday</userinput>
+		    : will search for images that have "holiday in rome"
+		    OR "my birthday" in the comment.
+	          </para>
+                </listitem>
+	      </itemizedlist>
+	     </para>
+	    </listitem>
+
+	    <!-- -->
+	    <listitem>
+	    <para>
+	    <guilabel>Place</guilabel> : A list of phrases the place field of
+	    the comment must contain, for example:
+
+	    <itemizedlist>
+	      <listitem>
+	        <para>
+	        <userinput>rome</userinput> :
+	        will search for images that have "rome" in the place field.
+	        </para>
+              </listitem>
+
+	      <listitem>
+	        <para>
+	        <userinput>paris ; rome ; london</userinput> :
+	        will search for images that have "paris" OR "rome" OR "london" in the place field.
+	        </para>
+              </listitem>
+	    </itemizedlist>
+
+	    </para>
+	    </listitem>
+
+	    <!-- -->
+	    <listitem>
+	    <para>
+	    <guilabel>Date</guilabel> : 
+	    The criteria the date field of the comment must respect:
+
+	    <itemizedlist>
+	      <listitem>
+	        <para>
+	        <guilabel>any</guilabel> : the date field is ignored.
+	        </para>
+              </listitem>
+
+	      <listitem>
+	        <para>
+	        <guilabel>before, equal to, after</guilabel> : the date must be  less recent, equal to or more recent than the date specified.
+	        </para>
+              </listitem>
+
+	    </itemizedlist>
+
+	    </para>
+	    </listitem>
+
+	    <!-- -->
+	    <listitem>
+	    <para>
+	    <guilabel>Keywords</guilabel> : 
+	    The list of keywords an images must have, for example :
+
+	    <itemizedlist>
+	      <listitem>
+	        <para>
+	        <userinput>family</userinput> : images must have "family" has one of their keywords.
+	        </para>
+              </listitem>
+
+	      <listitem>
+	        <para>
+	        <userinput>me, family</userinput> : images must have "family" OR "me" in the keywords list.
+	        </para>
+              </listitem>
+
+	    </itemizedlist>
+
+	    </para>
+	    </listitem>
+	  </itemizedlist> 
+        </para>
+        <para>
+          If you use more than one criteria images must respect all of them.  
+	  The search is always case insensitive.
+        </para>
+
+        <!-- ==== Figure ==== -->
+        <figure id="search-progress-fig">
+        <title>The "Search Progress" dialog</title> 
+        <screenshot>
+          <screeninfo>The Search Progress dialog</screeninfo> 
+          <graphic fileref="figures/search-progress.png" format="png" 
+	           srccredit="Me">
+          </graphic>
+        </screenshot>
+        </figure>
+        <!-- ==== End of Figure ==== -->
+        <para>
+          Pressing the <guibutton>Search</guibutton> button the search will 
+	  start. Once the search has finished you will see the list of files 
+	  that matches your search, if you want to see these files press the 
+	  <guibutton>View</guibutton> button, if you want to make another 
+	  search press the <guibutton>New search...</guibutton> button.
+        </para>
+        <para>
+          <!-- ==== Figure ==== -->
+          <figure id="search-result-fig">
+          <title>The "Search Result" catalog</title> 
+          <screenshot>
+            <screeninfo>The "Search Result" catalog</screeninfo> 
+            <graphic fileref="figures/search-result.png" format="png" 
+	           srccredit="Me">
+            </graphic>
+          </screenshot>
+          </figure>
+          <!-- ==== End of Figure ==== -->
+	  If you choose to view the files, a catalog named <interface>Search 
+	  Results</interface> will be created and visualized automatically.  
+	  A catalog created in this way has a special icon, a magnifier, this
+	  is
+	  because on this type of catalog you can perform two more operations :
+	  <guibutton>Edit Search...</guibutton> and <guibutton>Redo Search
+	  </guibutton>.
+        </para>
+        <para>
+	  These operations can be selected from the <guimenu>File</guimenu> 
+	  menu, or from the 
+	  menu that pops up when pressing the right mouse button on the catalog
+	  name.
+        </para>
+        <para>
+	  The <guibutton>Edit Search...</guibutton> command lets you re-edit 
+	  the search rules, while the <guibutton>Redo Search</guibutton> lets
+	  you redo the search, at the end of the search you can decide whether
+	  to save the result in the catalog or not.
+        </para>
+    </sect2>
+
+    <!-- Create Index Image -->
+
+    <sect2 id="create-index-image">
+      <title>Index Image</title>
+      <para>
+        An index image is an image that contains small previews of a series of 
+	images.  If you want to create an index image select the images you 
+	want
+	to insert in the index and then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice> command.
+      </para>
+
+      <para>
+        [...]
+      </para>
+    </sect2>
+
+  </sect1>
+
+ <!-- ============= Preferences ================================== -->
+ <sect1 id="preferences">
+  <title>Preferences</title>
+  <para>
+    To configure <application>gThumb</application>, open
+    <guilabel>Preferences</guilabel> dialog by selecting
+    <menuchoice><guimenu>Edit</guimenu><guisubmenu>Preferences</guisubmenu>
+    </menuchoice>.
+  </para>
+    <figure>
+      <title>Preferences Dialog</title>
+      <screenshot>	    
+      <screeninfo>gThumb Preferences Dialog</screeninfo>
+      <graphic fileref="figures/preferences.png" format="png"
+      srccredit="Sasha Kirillov">
+      </graphic>
+      </screenshot>
+    </figure>
+  <para>
+    This dialog contains four tabs described in detail below. At the
+    bottom of the dialog window, you'll find the following buttons:
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para><guibutton>OK</guibutton>: saves the settings and closes
+      the dialog.
+      </para>
+    </listitem>
+    <listitem>
+      <para><guibutton>Apply</guibutton>: saves the settings without
+      closing the dialog, so that you can see the effect of your
+      changes. If you are not satisfied with the results, you can
+      continue editing the settings.
+      </para>
+    </listitem>
+    <listitem>
+      <para><guibutton>Close</guibutton>: closes the dialog without
+      saving the changes.
+      </para>
+    </listitem>
+    <listitem>
+      <para><guibutton>Help</guibutton>: shows this manual.
+      </para>
+    </listitem>
+  </itemizedlist>
+
+<!-- ########### General Tab ################## -->    
+    <sect2 id="preferences-general">
+      <title>General Tab</title>
+      <para>
+	This tab allows you to set the following 
+	options:
+	</para>
+      <itemizedlist>
+	<listitem>
+	<para>Select the layout of
+	  <application>gThumb</application> main window, i.e. the
+	  positions of directory list window, the image (thumbnail) list
+	  window, and the main image viewer window.
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>Directory to show on startup
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>The history length, that is the maximal number of locations 
+	  to show in <guimenu>Go</guimenu>  menu. The default is 15.
+	  </para>
+	</listitem>
+      </itemizedlist>
+    </sect2>
+
+<!-- ########### Browser Tab ################## -->    
+    <sect2 id="preferences-browser">
+      <title>Browser Tab</title>
+      <para>
+	In this tab, you can configure the following options:
+      </para>
+      <variablelist>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Show thumbnails</guilabel></term>
+	  <listitem>
+	    <para>This option (which you can activate simply pressing 
+	    <keycombo><keycap>T</keycap></keycombo>) controls whether
+	    <application>gThumb</application> should show thumbnails.
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Show comments</guilabel></term>
+	  <listitem>
+	    <para>This option controls whether
+	    <application>gThumb</application> should show comments
+	    (including date and place) in the image list. By default,
+	    &gthumb; shows the comment as a caption under the
+	    thumbnail.
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Show hidden files</guilabel></term>
+	  <listitem>
+	    <para>This option controls whether
+	    <application>gThumb</application> should show files with
+	    the names starting with dot (.). These files usually
+	    contain system information or applications settings. Since
+	    these files almost never contain user data, by default
+	    they are not shown by file manager and other
+	    applications. In most cases, you should leave this option
+	    unselected.
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Thumbnails</guilabel></term>
+	  <listitem>
+	    <para>Here you can select the thumbnails size to your taste. By
+	    default, <application>gThumb</application> display
+	    thumbnails of size 85x85 pixels.  If you like to view as much
+	    thumbnails as possible select a small thumbnail size, if you
+	    want to view detailed thumbnails select a big size.  The other 
+	    option lets you decide whether to save the thumbnails or not,
+	    saving thumbnails is high recommended because this let you speed
+	    up browsing of folders you already visited, the drawback is that
+	    thumbnails occupy disk space so if your free space is limited you
+	    may prefer to disable this option but in most cases you should
+	    leave this option selected.
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Other</guilabel></term>
+	  <listitem>
+	    <para>Here you can select whether
+	    <application>gThumb</application> should ask
+	    for confirmation before deleting an image or a catalog,
+	    and whether
+	    <application>gThumb</application> should determine image
+	    type by looking at the file extension or by looking at the
+	    file content. Determining file type from the content is
+	    more reliable (some applications may create files with
+	    extension not matching the actual file type) but
+	    slower. If you have a fast system, select <guilabel>Determine
+	    image type from content</guilabel>.
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+    </sect2>
+<!-- ########### Viewer Tab ################## -->    
+    <sect2 id="preferences-viewer">
+      <title>Viewer Tab</title>
+      <para>This tab contains options for viewer window:
+      </para>
+      <variablelist>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Zoom quality</guilabel></term>
+	  <listitem>
+	    <para>This controls the method used for showing rescaled 
+	    image. Possible choices are high quality (slow) and low
+	    quality (fast).
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>After loading an image</guilabel></term>
+	  <listitem>
+	    <para>Controls initial zoom level to use for an
+	    image.   
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Transparency type</guilabel></term>
+	  <listitem>
+	    <para>Controls the background used for partly transparent
+	    images. By default, checker board pattern
+	    (<guilabel>checked</guilabel>)  is used. 
+	    </para>
+	  </listitem>
+	</varlistentry>
+        <!-- ########### --> 
+	<varlistentry>
+	  <term><guilabel>Checks</guilabel></term>
+	  <listitem>
+	    <para>This option only has effect for partly transparent
+	    images and only if <guilabel>checked</guilabel>
+	    transparency type was selected. It controls the size and
+	    colors of checker board pattern used for the background.  
+	    </para>
+	  </listitem>
+	</varlistentry>
+      </variablelist>
+
+    </sect2>
+<!-- ########### Slide Show Tab ################## -->    
+    <sect2 id="preferences-slideshow">
+      <title>Slide Show Tab</title>
+      <para>
+	This tab contains the options controlling slide show mode
+	(which you can start by selecting
+	<menuchoice><guimenu>Tools</guimenu>
+	<guisubmenu>Slideshow</guisubmenu></menuchoice> or by using
+	<keycombo><keycap>Ctrl</keycap><keycap>S</keycap></keycombo> 
+	shortcut). The options include direction (forward/backwards),
+	and delay between images. You can also specify whether the
+	slide show should wrap around (i.e., after showing the last
+	image start again form the beginning) and automatically switch
+	to fullscreen mode. 
+      </para>
+     </sect2>
+  </sect1>
+
+  <!-- ============= Keyboard Shortcuts ================================== -->
+  <sect1 id="shortcuts">
+  <title>Keyboard Shortcuts</title>
+
+  <para>
+    When the location entry is focused you can use 
+    <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo> to display a
+    list of possible location completions.
+  </para>
+
+  <table frame="topbot">
+    <title>Keyboard shortcuts available when the location entry is NOT focused</title>
+    <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>+</keycap></keycombo> ,
+		<keycombo><keycap>=</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom in</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>-</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom out</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>1</keycap></keycombo> ,
+		<keycombo><keycap>Z</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Actual size</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>X</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>F</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Flip image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>R</keycap></keycombo> ,
+		<keycombo><keycap>]</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate image clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>[</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate image counter-clockwise</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>M</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Mirror image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>G</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop animation</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>J</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Step animation</para>
+	    </entry>
+	  </row>
+	  <row rowsep="1">
+            <entry>
+	      <para>
+		<keycombo><keycap>B</keycap></keycombo> ,
+		<keycombo><keycap>P</keycap></keycombo> ,
+		<keycombo><keycap>Backspace</keycap></keycombo> ,
+		<keycombo><keycap>Page Up</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show previous image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>N</keycap></keycombo> ,
+		<keycombo><keycap>Space</keycap></keycombo> ,
+		<keycombo><keycap>Page Down</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show next image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Home</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show first image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>End</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show last image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>U</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Go up one level</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>H</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Go to the home folder</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>T</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide thumbnails</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Esc</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Interrupt thumbnails creation</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>S</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop slideshow</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>V</keycap></keycombo> ,
+		<keycombo><keycap>F11</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Full screen mode</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Return</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide browser</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Q</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide image preview</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>F2</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rename current image</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>O</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Open selected files with an application</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Delete</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Delete seleceted files</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>C</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Add a comment to selected images</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>K</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Assign categories to selected images</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>I</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View image properties (image name, size, EXIF data, etc.)</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+  </table>
+
+  <para></para>
+
+  <table frame="topbot">
+    <title>Keyboard shortcuts available when the image is focused</title>
+    <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>Arrows</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Scroll the image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo action="simul"><keycap>Shift</keycap><keycap>Arrows
+		</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Scroll the image faster</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+  </table>
+
+  <para></para>
+
+  <table frame="topbot">
+    <title>Keyboard shortcuts available when in fullscreen mode</title>
+    <tgroup cols="2" colsep="0" rowsep="0">
+      	<colspec colwidth="20.00*"/>
+	<colspec colwidth="20.00*"/>
+	<thead>
+	  <row rowsep="1">
+	    <entry><para>Shortcut</para></entry>
+	    <entry><para>Description</para></entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>Escape</keycap></keycombo> ,
+	      	<keycombo><keycap>V</keycap></keycombo> ,
+		<keycombo><keycap>F11</keycap></keycombo> ,
+		<keycombo><keycap>Q</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Exit fullscreen mode</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo><keycap>B</keycap></keycombo> ,
+		<keycombo><keycap>P</keycap></keycombo> ,
+		<keycombo><keycap>Backspace</keycap></keycombo> ,
+		<keycombo><keycap>Page Up</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show previous image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+	        <keycombo><keycap>Space</keycap></keycombo> ,
+		<keycombo><keycap>N</keycap></keycombo> ,
+		<keycombo><keycap>Page Down</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show next image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>Home</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show first image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>End</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Show last image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>+</keycap></keycombo> ,
+		<keycombo><keycap>=</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom in</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>-</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom out</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>Z</keycap></keycombo> ,
+		<keycombo><keycap>1</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Actual size</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>X</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Zoom to fit</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>S</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop slideshow</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>G</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Start/Stop animation</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>J</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Step animation</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>F</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Flip image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>R</keycap></keycombo> ,
+		<keycombo><keycap>]</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate image clockwise</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>[</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate image counter-clockwise</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>M</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Mirror image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>C</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Edit current image comment</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>K</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Assign categories to current image</para>
+	    </entry>
+	  </row>
+	  <row>
+            <entry>
+	      <para>
+		<keycombo><keycap>I</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>View/Hide image comment</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>Delete</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Delete current image</para>
+	    </entry>
+	  </row>
+	</tbody>
+     </tgroup>
+  </table>
+
+  <para>
+    Look in the menus for other shortcuts.
+  </para>
+
+  </sect1>
+
+
+<!-- ============= Authors ================================ -->
+ <sect1 id="authors">
+   <title>Developers</title>
+   <sect1info>
+     <authorgroup>
+       <author>
+         <firstname>Paolo</firstname>
+           <surname>Bacchilega</surname>
+           <affiliation>
+             <address><email>paolo.bacch@tin.it</email></address>
+           </affiliation>
+       </author>
+     </authorgroup>
+   </sect1info>
+   <para>
+     To find more information about
+     <application>gThumb</application>, please visit the <ulink
+     url="http://gthumb.sourceforge.net/" type="http">gThumb Web
+     site</ulink>.  
+   </para>
+   <para>
+     Send all comments, suggestions, and bug reports to 
+     Paolo Bacchilega (<email>paolo.bacch@tin.it</email>).
+   </para>
+
+   <!-- For translations: uncomment this:
+
+   <para>
+     Latin translation was done by ME
+     (<email>MYNAME@MYADDRESS</email>). Please send all  comments  and
+     suggestions regarding this translation to SOMEWHERE.
+   </para>
+
+   -->
+
+ </sect1>
+</article>
+
+

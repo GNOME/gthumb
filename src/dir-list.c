@@ -1,0 +1,633 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#include <config.h>
+#include <string.h>
+#include <libgnome/libgnome.h>
+#include <libgnomevfs/gnome-vfs-types.h>
+#include <libgnomevfs/gnome-vfs-async-ops.h>
+
+#include "typedefs.h"
+#include "dir-list.h"
+#include "file-list.h"
+#include "file-data.h"
+#include "file-utils.h"
+#include "gconf-utils.h"
+#include "main.h"
+#include "pixbuf-utils.h"
+#include "icons/pixbufs.h"
+
+
+enum {
+	DIR_LIST_COLUMN_ICON,
+	DIR_LIST_COLUMN_NAME,
+	DIR_LIST_NUM_COLUMNS
+};
+
+
+static void
+add_columns (DirList     *dir_list,
+	     GtkTreeView *treeview)
+{
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+	GValue             value = { 0, };
+
+	/* The Name column. */
+
+	column = gtk_tree_view_column_new ();
+	
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "pixbuf", DIR_LIST_COLUMN_ICON,
+					     NULL);
+	
+	dir_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
+	
+	if (pref_get_real_click_policy () == CLICK_POLICY_SINGLE) {
+		g_value_init (&value, PANGO_TYPE_UNDERLINE);
+		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
+		g_object_set_property (G_OBJECT (renderer), "underline", &value);
+		g_value_unset (&value);
+	}
+
+        gtk_tree_view_column_pack_start (column,
+                                         renderer,
+                                         TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", DIR_LIST_COLUMN_NAME,
+                                             NULL);
+
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_NAME);
+        gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+}
+
+
+DirList *
+dir_list_new ()
+{
+	DirList     *dir_list = NULL;
+	GtkTreeView *list_view;
+	GtkWidget   *scrolled;
+
+	dir_list = g_new (DirList, 1);
+
+	/* Set default values. */
+
+	dir_list->path = NULL;
+	dir_list->try_path = NULL;
+	dir_list->list = NULL;
+	dir_list->file_list = NULL;
+	dir_list->show_dot_files = eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES);
+	dir_list->old_dir = NULL;
+	dir_list->dir_load_handle = NULL;
+	dir_list->result = GNOME_VFS_OK;
+
+	/* Create the widgets. */
+
+	scrolled = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
+					GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
+                                             GTK_SHADOW_ETCHED_IN);
+
+	dir_list->list_store = gtk_list_store_new (DIR_LIST_NUM_COLUMNS,
+						   GDK_TYPE_PIXBUF,
+						   G_TYPE_STRING);
+	list_view = (GtkTreeView*) gtk_tree_view_new_with_model (GTK_TREE_MODEL (dir_list->list_store));
+        gtk_tree_view_set_rules_hint (list_view, FALSE);
+        add_columns (dir_list, list_view);
+	gtk_tree_view_set_headers_visible (list_view, FALSE);
+        gtk_tree_view_set_enable_search (list_view, TRUE);
+        gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_NAME);
+
+	/**/
+
+	dir_list->list_view = (GtkWidget*) list_view;
+	gtk_container_add (GTK_CONTAINER (scrolled), dir_list->list_view);
+	dir_list->root_widget = scrolled;
+
+	return dir_list;
+}
+
+
+void
+dir_list_update_underline (DirList *dir_list)
+{
+	GValue value = { 0, };
+
+	g_value_init (&value, PANGO_TYPE_UNDERLINE);
+
+	if (pref_get_real_click_policy () == CLICK_POLICY_SINGLE) 
+		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
+	else
+		g_value_set_enum (&value, PANGO_UNDERLINE_NONE);
+
+	g_object_set_property (G_OBJECT (dir_list->text_renderer), 
+			       "underline", &value);
+	g_value_unset (&value);
+
+	gtk_widget_queue_draw (dir_list->root_widget);
+}
+
+
+void
+dir_list_free (DirList *dir_list)
+{
+	g_return_if_fail (dir_list != NULL);
+
+	if (dir_list->path != NULL)
+		g_free (dir_list->path);
+
+	if (dir_list->try_path != NULL)
+		g_free (dir_list->try_path);
+
+	if (dir_list->old_dir != NULL)
+		g_free (dir_list->old_dir);
+
+	if (dir_list->file_list != NULL) {
+		g_list_foreach (dir_list->file_list, (GFunc) g_free, NULL);
+		g_list_free (dir_list->file_list);
+	}
+
+	if (dir_list->list != NULL) {
+		g_list_foreach (dir_list->list, (GFunc) g_free, NULL);
+		g_list_free (dir_list->list);
+	}
+
+	if (dir_list->dir_load_handle != NULL)
+		g_free (dir_list->dir_load_handle);
+
+	g_free (dir_list);
+}
+
+
+static void
+dir_list_refresh_continue (PathListData *pld, 
+			   gpointer data)
+{
+	GList     *scan;
+	GList     *new_dir_list = NULL;
+	GList     *new_file_list = NULL;
+	GList     *filtered;
+	DirList   *dir_list;
+	GdkPixbuf *dir_pixbuf;
+	GdkPixbuf *up_pixbuf;
+
+	dir_list = data;
+	dir_list->result = pld->result;
+
+	if (dir_list->dir_load_handle != NULL) {
+		g_free (dir_list->dir_load_handle);
+		dir_list->dir_load_handle = NULL;
+	}
+
+	if (pld->result != GNOME_VFS_ERROR_EOF) {
+		path_list_data_free (pld);
+		if (dir_list->done_func) 
+			dir_list->done_func (dir_list, dir_list->done_data);
+		dir_list->done_func = NULL;
+		return;
+	}
+
+	/* Update path data. */
+
+	if (dir_list->old_dir != NULL) {
+		g_free (dir_list->old_dir);
+		dir_list->old_dir = NULL;
+	}
+
+	if (dir_list->path == NULL)
+		dir_list->old_dir = NULL;
+	else {
+		gchar *previous_dir = remove_level_from_path (dir_list->path);
+
+		if (strcmp (previous_dir, dir_list->try_path) == 0)
+			dir_list->old_dir = g_strdup (file_name_from_path (dir_list->path));
+		else
+			dir_list->old_dir = NULL;
+		g_free (previous_dir);
+	}
+
+	if (dir_list->path != NULL) 
+		g_free (dir_list->path);
+	dir_list->path = dir_list->try_path;
+	dir_list->try_path = NULL;
+
+	/**/
+
+	new_file_list = pld->files;
+	new_dir_list = pld->dirs;
+
+	pld->files = NULL;
+	pld->dirs = NULL;
+	path_list_data_free (pld);
+
+	/* Delete the old dir list. */
+
+	if (dir_list->list != NULL) {
+		g_list_foreach (dir_list->list, (GFunc) g_free, NULL);
+		g_list_free (dir_list->list);
+		dir_list->list = NULL;
+	}
+
+	/* Set the new file list. */
+
+	if (dir_list->file_list != NULL) {
+		g_list_foreach (dir_list->file_list, (GFunc) g_free, NULL);
+		g_list_free (dir_list->file_list);
+	}
+	dir_list->file_list = new_file_list;
+
+	/* Set the new dir list */
+
+	filtered = dir_list_filter_and_sort (new_dir_list, TRUE, 
+					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES));
+
+	/* * Add the ".." entry if the current path is not "/". 
+	 * path_list_new does not include the "." and ".." elements. */
+
+	if (strcmp (dir_list->path, "/") != 0)
+		filtered = g_list_prepend (filtered, g_strdup (".."));
+
+	dir_list->list = filtered;
+
+	g_list_foreach (new_dir_list, (GFunc) g_free, NULL);
+	g_list_free (new_dir_list);
+
+	/* Update the view. */
+
+	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
+	up_pixbuf = gtk_widget_render_icon (dir_list->list_view,
+					    GTK_STOCK_GO_UP,
+					    GTK_ICON_SIZE_MENU,
+					    NULL);
+	gtk_list_store_clear (dir_list->list_store);
+
+	for (scan = dir_list->list; scan; scan = scan->next) {
+		char        *name = scan->data;
+		char        *utf8_name;
+		GtkTreeIter  iter;
+		GdkPixbuf   *pixbuf;
+
+		if (strcmp (name, "..") == 0)
+			pixbuf = up_pixbuf;
+		else 
+			pixbuf = dir_pixbuf;
+
+		utf8_name = g_locale_to_utf8 (name, -1, NULL, NULL, NULL);
+		gtk_list_store_append (dir_list->list_store, &iter);
+		gtk_list_store_set (dir_list->list_store, &iter,
+				    DIR_LIST_COLUMN_ICON, pixbuf,
+				    DIR_LIST_COLUMN_NAME, utf8_name,
+				    -1);
+
+		g_free (utf8_name);
+	}
+
+	g_object_unref (dir_pixbuf);
+	g_object_unref (up_pixbuf);
+
+	/* Make past dir visible in the list. */
+
+	if (dir_list->old_dir) {
+		GList *scan;
+		gint   row;
+		gint   found = FALSE;
+
+		row = -1;
+		scan = dir_list->list;
+		while (scan && !found) {
+			if (strcmp (dir_list->old_dir, scan->data) == 0) 
+				found = TRUE;
+			scan = scan->next;
+			row++;
+		}
+
+		if (found) {
+			GtkTreePath *path;
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, row);
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (dir_list->list_view),
+						      path,
+						      NULL,
+						      TRUE,
+						      0.5,
+						      0.0);
+			gtk_tree_path_free (path);
+		}
+		g_free (dir_list->old_dir);
+		dir_list->old_dir = NULL;
+	}
+
+	if (dir_list->done_func) 
+		dir_list->done_func (dir_list, dir_list->done_data);
+	dir_list->done_func = NULL;
+}
+
+
+void
+dir_list_change_to (DirList         *dir_list,
+		    const gchar     *path,
+		    DirListDoneFunc  func,
+		    gpointer         data)
+{
+	g_return_if_fail (dir_list != NULL);
+
+	dir_list->done_func = func;
+	dir_list->done_data = data;
+
+	if ((path != dir_list->try_path) && (dir_list->try_path != NULL)) 
+		g_free (dir_list->try_path);
+	dir_list->try_path = g_strdup (path);
+
+	if (dir_list->dir_load_handle != NULL)
+		path_list_handle_free (dir_list->dir_load_handle);
+
+	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, dir_list_refresh_continue, dir_list);
+}
+
+
+void
+dir_list_interrupt_change_to (DirList  *dir_list,
+			      DoneFunc  f,
+			      gpointer  data)
+{
+	g_return_if_fail (dir_list != NULL);
+
+	if (dir_list->dir_load_handle != NULL) {
+		path_list_async_interrupt (dir_list->dir_load_handle, f, data);
+		dir_list->dir_load_handle = NULL;
+	}
+}
+
+
+void
+dir_list_add_directory (DirList         *dir_list,
+			const char      *path)
+{
+	const char  *name_only;
+	GList       *scan;
+	GdkPixbuf   *dir_pixbuf;
+	char        *utf8_name;
+	GtkTreeIter  iter;
+	int          pos;
+
+	if (path == NULL)
+		return;
+	name_only = file_name_from_path (path);
+
+	/* check whether dir is already present */
+
+	for (scan = dir_list->list; scan; scan = scan->next) {
+		char *dir = scan->data;
+		if (strcmp (name_only, dir) == 0)
+			return;
+	}
+
+	/* insert dir in the list */
+	
+	if (! (file_is_hidden (name_only) && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES))
+	    && (strcmp (name_only, CACHE_DIR) != 0)) 
+		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
+	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);
+
+	/* get the dir position */
+
+	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
+		char *dir = scan->data;
+		if (strcmp (name_only, dir) == 0)
+			break;
+		pos++;
+	}
+
+	/* insert dir in the list view */
+
+	dir_pixbuf = get_folder_pixbuf (LIST_ICON_SIZE);
+	utf8_name = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
+	gtk_list_store_insert (dir_list->list_store, &iter, pos);
+	gtk_list_store_set (dir_list->list_store, &iter,
+			    DIR_LIST_COLUMN_ICON, dir_pixbuf,
+			    DIR_LIST_COLUMN_NAME, utf8_name,
+			    -1);
+	g_free (utf8_name);
+	g_object_unref (dir_pixbuf);	
+}
+
+
+void
+dir_list_remove_directory (DirList         *dir_list,
+			   const char      *path)
+{
+	GList       *scan, *link = NULL;
+	const char  *name_only;
+	GtkTreeIter  iter;
+	GtkTreePath *tpath;
+	int          pos;
+
+	if (path == NULL)
+		return;
+	name_only = file_name_from_path (path);
+
+	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
+		char *dir = scan->data;
+		if (strcmp (name_only, dir) == 0) {
+			link = scan;
+			break;
+		}
+		pos++;
+	}
+	if (link == NULL)
+		return;
+
+	/**/
+	
+	g_list_remove_link (dir_list->list, link);
+	g_list_free (link);
+
+	/**/
+
+	tpath = gtk_tree_path_new ();
+	gtk_tree_path_append_index (tpath, pos);
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
+                                       &iter,
+                                       tpath)) 
+                return;
+	gtk_tree_path_free (tpath);
+	
+	gtk_list_store_remove (dir_list->list_store, &iter);
+}
+
+
+char *
+dir_list_get_name_from_iter (DirList     *dir_list,
+			     GtkTreeIter *iter)
+{
+	char *utf8_name;
+
+	g_return_val_if_fail (dir_list != NULL, NULL);
+
+	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
+			    iter,
+			    DIR_LIST_COLUMN_NAME, &utf8_name,
+			    -1);
+
+	return utf8_name;
+}
+
+
+gchar *
+dir_list_get_path_from_iter (DirList     *dir_list,
+			     GtkTreeIter *iter)
+{
+	gchar *utf8_name;
+	gchar *name;
+	gchar *new_path;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
+			    iter,
+			    DIR_LIST_COLUMN_NAME, &utf8_name,
+			    -1);
+
+	if (utf8_name == NULL) 
+		return NULL;
+
+	name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+	g_free (utf8_name);
+
+	if (strcmp (name, ".") == 0)
+		new_path = g_strdup (dir_list->path);
+	else if (strcmp (name, "..") == 0)
+		new_path = remove_level_from_path (dir_list->path);
+	else {
+		if (strcmp (dir_list->path, "/") == 0)
+			new_path = g_strconcat (dir_list->path, 
+						name, 
+						NULL);
+		else
+			new_path = g_strconcat (dir_list->path, 
+						"/", 
+						name, 
+						NULL);
+	}
+	g_free (name);
+
+	return new_path;	
+}
+
+
+int
+dir_list_get_row_from_path (DirList     *dir_list,
+			    const char  *path)
+{
+	GList      *scan;
+	const char *name;
+	char       *dir;
+	int         pos;
+
+	dir = remove_level_from_path (path);
+	if (strcmp (dir_list->path, dir) != 0) {
+		g_free (dir);
+		return -1;
+	}
+
+	name = file_name_from_path (path);
+
+	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
+		char *dir = scan->data;
+		if (strcmp (name, dir) == 0) {
+			return pos;
+		}
+		pos++;
+	}
+
+	return -1;
+}
+
+
+gchar *
+dir_list_get_path_from_tree_path (DirList     *dir_list,
+				  GtkTreePath *path)
+{
+	GtkTreeIter iter;
+
+	g_return_val_if_fail (dir_list != NULL, NULL);
+
+	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
+                                       &iter,
+                                       path)) 
+                return NULL;
+	
+	return dir_list_get_path_from_iter (dir_list, &iter);
+}
+
+
+gchar *
+dir_list_get_path_from_row (DirList *dir_list,
+			    int      row)
+{
+	GtkTreePath *path;
+	gchar       *result;
+
+	g_return_val_if_fail (dir_list != NULL, NULL);
+
+	path = gtk_tree_path_new ();
+	gtk_tree_path_append_index (path, row);
+	result = dir_list_get_path_from_tree_path (dir_list, path);
+	gtk_tree_path_free (path);
+
+	return result;
+}
+
+
+gboolean
+dir_list_get_selected_iter (DirList     *dir_list, 
+			    GtkTreeIter *iter)
+{
+	GtkTreeView      *tree_view;
+	GtkTreeSelection *selection;
+
+	tree_view = GTK_TREE_VIEW (dir_list->list_view);
+	selection = gtk_tree_view_get_selection (tree_view);
+	return gtk_tree_selection_get_selected (selection, NULL, iter);
+}
+
+
+gchar *
+dir_list_get_selected_path (DirList *dir_list)
+{
+	GtkTreeIter iter;
+	if (! dir_list_get_selected_iter (dir_list, &iter))
+		return NULL;
+	return dir_list_get_path_from_iter (dir_list, &iter);
+}
+
+
+GList *
+dir_list_get_file_list (DirList *dir_list)
+{
+	g_return_val_if_fail (dir_list != NULL, NULL);
+	return g_list_copy (dir_list->file_list);
+}

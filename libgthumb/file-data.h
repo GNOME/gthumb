@@ -1,0 +1,60 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#ifndef FILE_DATA_H
+#define FILE_DATA_H
+
+#include <glib.h>
+#include <libgnomevfs/gnome-vfs-file-size.h>
+#include <libgnomevfs/gnome-vfs-file-info.h>
+#include <time.h>
+#include <sys/stat.h>
+
+typedef struct {
+	gchar *             path;          /* Full path name. */
+	gchar *             name;          /* File name only. */
+	GnomeVFSFileSize    size;
+	time_t              ctime;
+	time_t              mtime;
+	guint               error : 1;     /* Whether an error occurred loading
+					    * this file. */
+	guint               thumb : 1;     /* Whether we have a thumb of this
+					    * image. */
+
+	gchar *             comment;
+} FileData;
+
+
+FileData *   file_data_new               (const gchar *path, 
+					  GnomeVFSFileInfo *info);
+
+void         file_data_set_path          (FileData *fd,
+					  const gchar *path);
+
+void         file_data_update            (FileData *fd);
+
+void         file_data_update_comment    (FileData *fd);
+
+void         file_data_free              (FileData *fd);
+
+
+#endif /* FILE_DATA_H */

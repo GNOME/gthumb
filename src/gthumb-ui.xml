@@ -1,0 +1,595 @@
+<Root>
+
+<commands>
+	<cmd name="File_NewWindow" _label="New _Window" 
+	     _tip="Create a new window"
+	     accel="*Control*N"/>
+	<cmd name="File_CloseWindow" _label="_Close Window"
+	     _tip="Close this window"
+	     pixtype="stock" pixname="gtk-close" accel="*Control*W"/>
+	<cmd name="File_OpenWith" _label="_Open with..." 
+	     _tip="Open selected images with an application"
+	     pixtype="stock" pixname="gtk-open" accel="*Control*O"/>
+	<cmd name="File_OpenWithPopup" _label="_Open with..." 
+	     _tip="Open selected images with an application"
+	     pixtype="stock" pixname="gtk-open"/>
+	<cmd name="File_Print" _label="_Print" 
+	     _tip="Print the current image"
+	     pixtype="stock" pixname="gtk-print" accel="*Control*P"/>
+	<cmd name="File_Exit" _label="E_xit" 
+	     _tip="Close all windows and exit"
+	     pixtype="stock" pixname="gtk-quit" accel="*Control*Q"/>
+
+	<cmd name="Image_OpenWith" _label="Open with..." 
+	     _tip="Open this image with an application"
+	     pixtype="stock" pixname="gtk-open"/>
+	<cmd name="Image_Rename" _label="Rename" 
+	     _tip="Rename this image"
+	     accel="F2"/>
+	<cmd name="Image_RenamePopup" _label="Rename" 
+	     _tip="Rename this image"/>
+	<cmd name="Image_Duplicate" _label="Duplicate" 
+	     _tip="Duplicate this image"/>
+	<cmd name="Image_Delete" _label="Delete" 
+	     _tip="Delete this image from disk"
+	     pixtype="stock" pixname="gtk-delete"/>
+	<cmd name="Image_Copy" _label="Copy..." 
+	     _tip="Copy this image to another location"/>
+	<cmd name="Image_Move" _label="Move..." 
+	     _tip="Move this image to another location"/>
+
+	<cmd name="Edit_RenameFile" _label="_Rename" 
+	     _tip="Rename selected image"
+	     accel="F2"/>
+	<cmd name="Edit_RenameFilePopup" _label="_Rename" 
+	     _tip="Rename selected image"/>
+	<cmd name="Edit_DuplicateFile" _label="D_uplicate" 
+	     _tip="Duplicate selected image"/>
+	<cmd name="Edit_DeleteFiles" _label="_Delete" 
+	     _tip="Delete selected images from disk"
+	     pixtype="stock" pixname="gtk-delete"/>
+	<cmd name="Edit_CopyFiles" _label="_Copy..." 
+	     _tip="Copy selected images to another location"/>
+	<cmd name="Edit_MoveFiles" _label="_Move..." 
+	     _tip="Move selected images to another location"/>
+
+	<cmd name="Edit_SelectAll" _label="_Select All" 
+	     _tip="Select all images"
+	     accel="*Control*A"/>
+	<cmd name="Edit_EditComment" _label="Comm_ent" 
+	     _tip="Add a comment to selected images"/>
+	<cmd name="Edit_DeleteComment" _label="De_lete Comment" 
+	     _tip="Delete comments of selected images"/>
+	<cmd name="Edit_EditCategories" _label="Ca_tegories..." 
+	     _tip="Assign categories to selected images"/>
+	<cmd name="Edit_AddToCatalog" _label="_Add to Catalog..." 
+	     _tip="Add selected images to a catalog"/>
+	<cmd name="Edit_RemoveFromCatalog" _label="Remo_ve from Catalog" 
+	     _tip="Remove selected images from the catalog"/>
+
+	<cmd name="EditCatalog_Rename" _label="Rename Catalog" 
+	     _tip="Rename selected catalog"/>
+	<cmd name="EditCatalog_Delete" _label="Delete Catalog" 
+	     _tip="Delete selected catalog"/>
+	<cmd name="EditCatalog_Move" _label="Move Catalog..." 
+	     _tip="Move selected catalog to another location"/>
+	<cmd name="EditCatalog_EditSearch" _label="Edit Search" 
+	     _tip="Modify search criteria"/>
+	<cmd name="EditCatalog_RedoSearch" _label="Redo Search" 
+	     _tip="Redo the search"/>
+
+	<cmd name="EditCurrentCatalog_New" _label="New _Library" 
+	     _tip="Create a new catalog library"
+	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
+	<cmd name="EditCurrentCatalog_Rename" _label="_Rename" 
+	     _tip="Rename current catalog"/>
+	<cmd name="EditCurrentCatalog_Delete" _label="_Delete" 
+	     _tip="Delete current catalog"/>
+	<cmd name="EditCurrentCatalog_Move" _label="_Move..." 
+	     _tip="Move current catalog to another location"/>
+	<cmd name="EditCurrentCatalog_EditSearch" _label="_Edit Search" 
+	     _tip="Modify search criteria"/>
+	<cmd name="EditCurrentCatalog_RedoSearch" _label="Redo _Search" 
+	     _tip="Redo the search"/>
+
+	<cmd name="EditDir_Open" _label="Open with the File Manager" 
+	     _tip="Open the selected folder with the Nautilus file
+	     manager"/>
+	<cmd name="EditDir_Rename" _label="Rename Folder" 
+	     _tip="Rename selected folder"/>
+	<cmd name="EditDir_Delete" _label="Delete Folder" 
+	     _tip="Delete selected folder"/>
+	<cmd name="EditDir_Move" _label="Move Folder" 
+	     _tip="Move selected folder"/>
+
+	<cmd name="EditCurrentDir_Open" _label="Open with the _File Manager" 
+	     _tip="Open current folder with the Nautilus file manager"/>
+	<cmd name="EditCurrentDir_Rename" _label="_Rename" 
+	     _tip="Rename current folder"/>
+	<cmd name="EditCurrentDir_Delete" _label="_Delete" 
+	     _tip="Delete current folder"/>
+	<cmd name="EditCurrentDir_Move" _label="_Move..." 
+	     _tip="Move current folder"/>
+	<cmd name="EditCurrentDir_New" _label="New _Folder" 
+	     _tip="Create a new folder"
+	     pixtype="stock" pixname="gtk-new" accel="*Shift**Control*N"/>
+
+	<cmd name="AlterImage_Rotate" _label="_Rotate Clockwise" 
+	     _tip="View the image rotated clockwise"/>
+	<cmd name="AlterImage_Rotate180" _label="R_otate 180 Degrees" 
+	     _tip="View the image rotated of 180 degrees"/>
+	<cmd name="AlterImage_Flip" _label="F_lip" 
+	     _tip="View the image flipped"/>
+	<cmd name="AlterImage_Mirror" _label="_Mirror" 
+	     _tip="View the image mirrored"/>
+	<cmd name="AlterImage_Gray" _label="Black and _White" 
+	     _tip="View the image in black and white"/>
+
+	<cmd name="SortByName" _label="by _Name" 
+	     _tip="Sort images by name"
+	     type="radio" group="sort_type"/>
+	<cmd name="SortByPath" _label="by _Path" 
+	     _tip="Sort images by path"
+	     type="radio" group="sort_type"/>
+	<cmd name="SortBySize" _label="by _Size" 
+	     _tip="Sort images by file size"
+	     type="radio" group="sort_type"/>
+	<cmd name="SortByTime" _label="by _Time" 
+	     _tip="Sort images by modifiction time"
+	     type="radio" group="sort_type"/>
+	<cmd name="SortReversed" _label="_Reversed Order" 
+	     _tip="Reverse images order"
+	     type="toggle"/>
+
+	<cmd name="TranspTypeWhite" _label="_White" 
+	     _tip="Use white as transparency"
+	     type="radio" group="transp_type"/>
+	<cmd name="TranspTypeNone" _label="_None" 
+	     _tip="Use gray as transparency"
+	     type="radio" group="transp_type"/>
+	<cmd name="TranspTypeBlack" _label="_Black" 
+	     _tip="Use black as transparency"
+	     type="radio" group="transp_type"/>
+	<cmd name="TranspTypeChecked" _label="_Checked" 
+	     _tip="Use checks as transparency"
+	     type="radio" group="transp_type"/>
+
+ 	<cmd name="View_NextImage"
+	     _tip="View next image"/>
+	<cmd name="View_PrevImage"
+	     _tip="View previous image"/>
+
+	<cmd name="View_ZoomIn"
+	     _tip="Zoom in"
+	     pixtype="stock" pixname="gtk-zoom-in"/>
+	<cmd name="View_ZoomOut"
+	     _tip="Zoom out"
+	     pixtype="stock" pixname="gtk-zoom-out"/>
+	<cmd name="View_Zoom100"
+	     _tip="Actual size"
+	     pixtype="stock" pixname="gtk-zoom-100"/>
+	<cmd name="View_ZoomFit"
+	     _tip="Zoom to fit window"
+	     pixtype="stock" pixname="gtk-zoom-fit"/>
+	<cmd name="View_ZoomQualityHigh" _label="_High Quality" 
+	     _tip="Use high quality zoom"
+	     type="radio" group="zoom_quality"/>
+	<cmd name="View_ZoomQualityLow" _label="_Low Quality" 
+	     _tip="Use low quality zoom"
+	     type="radio" group="zoom_quality"/>
+
+     	<cmd name="View_Toolbar" _label="_Toolbar" 
+	     _tip="View or hide the toolbar of this window"
+	     type="toggle"/>
+     	<cmd name="View_Statusbar" _label="_Statusbar" 
+	     _tip="View or hide the statusbar of this window"
+	     type="toggle"/>
+     	<cmd name="View_Thumbnails" _label="_Thumbnails" 
+	     _tip="View thumbnails"
+	     type="toggle" accel="*Control*T"/>
+     	<cmd name="View_PlayAnimation" type="toggle"
+	     _label="Play _Animation" 
+	     _tip="Start or stop current animation"/>
+     	<cmd name="View_StepAnimation" _label="Step A_nimation" 
+	     _tip="View next animation frame"/>
+	<cmd name="View_Fullscreen" _label="Full screen"
+	     _tip="View image in fullscreen mode"
+	     pixtype="pixbuf"
+	     accel="*Control*V"/>
+	<cmd name="View_FullscreenPopup" _label="Full screen"
+	     _tip="View image in fullscreen mode"/>
+	<cmd name="View_ExitFullscreenPopup" _label="Restore Normal View"
+	     _tip="View image in fullscreen mode"/>
+	<cmd name="View_ShowFolders" type="toggle"
+	     _tip="View the folders"
+	     pixtype="pixbuf"
+	     accel="*Alt*1"/>
+	<cmd name="View_ShowCatalogs" type="toggle"
+	     _tip="View the catalogs"
+	     pixtype="pixbuf"
+	     accel="*Alt*2"/>
+	<cmd name="View_ShowImage" type="toggle"
+	     _tip="View the image"/>
+
+	<cmd name="View_ImageProp" _label="Image Inf_ormation"
+	     _tip="Display image information"
+	     accel="*Control*I"/>
+
+	<cmd name="Go_Back" _label="_Back" 
+	     _tip="Go to the previuos visited location"
+	     pixtype="stock" pixname="gtk-go-back"
+	     accel="*Alt*Left"/>
+	<cmd name="Go_Forward" _label="_Forward" 
+	     _tip="Go to the next visited location"
+	     pixtype="stock" pixname="gtk-go-forward"
+	     accel="*Alt*Right"/>
+	<cmd name="Go_Up" _label="_Up" 
+	     _tip="Go up one level"
+	     pixtype="stock" pixname="gtk-go-up"
+	     accel="*Alt*Up"/>
+	<cmd name="Go_Refresh" _label="_Reload" 
+	     _tip="Reload the current location"
+	     pixtype="stock" pixname="gtk-refresh"
+	     accel="*Control*R"/>
+	<cmd name="Go_Stop" _label="_Stop" 
+	     _tip="Stop loading current location"
+	     accel="Escape"/>
+	<cmd name="Go_Home" _label="_Home" 
+	     _tip="Go to the home folder"
+	     pixtype="stock" pixname="gtk-home"
+	     accel="*Alt*Home"/>
+	<cmd name="Go_ToContainer" _label="_Go to the Image Folder" 
+	     _tip="Go to the folder that contains the selected image"
+	     pixtype="stock" pixname="gtk-jump-to"
+	     accel="*Alt*End"/>
+	<cmd name="Go_ToContainerPopup" _label="_Go to the Image Folder" 
+	     _tip="Go to the folder that contains the selected image"
+	     pixtype="stock" pixname="gtk-jump-to"/>
+	<cmd name="Go_DeleteHistory" _label="_Delete History" 
+	     _tip="Delete the list of visited locations"/>
+	<cmd name="Go_Location" _label="_Location..." 
+	     _tip="Specify a location to visit"
+	     accel="*Control*L"/>
+
+	<cmd name="Bookmarks_Add" _label="_Add Bookmark" 
+	     _tip="Add current location to bookmarks"
+	     pixtype="stock" pixname="gtk-add" accel="*Control*D"/>
+	<cmd name="Bookmarks_Edit" _label="_Edit Bookmarks" 
+	     _tip="Edit bookmarks" accel="*Control*B"/>
+
+	<cmd name="Wallpaper_Centered" _label="_Centered" 
+	     _tip="Set the image as desktop background (centered)"/>
+	<cmd name="Wallpaper_Tiled" _label="_Tiled" 
+	     _tip="Set the image as desktop background (tiled)"/>
+	<cmd name="Wallpaper_Scaled" _label="_Scaled" 
+	     _tip="Set the image as desktop background (scaled keeping aspect ratio)"/>
+	<cmd name="Wallpaper_Stretched" _label="Str_erched" 
+	     _tip="Set the image as desktop background (stretched)"/>
+	<cmd name="Wallpaper_Restore" _label="_Restore" 
+	     _tip="Restore the original desktop wallpaper"/>
+
+	<cmd name="Tools_Slideshow" _label="_Slideshow" 
+	     _tip="View images as a slideshow"
+	     type="toggle" accel="*Control*S"/>
+	<cmd name="Tools_FindImages" _label="_Find Images..." 
+	     _tip=" "
+	     accel="*Control*F"
+	     pixtype="stock" pixname="gtk-find"/>
+	<cmd name="Tools_IndexImage" _label="Create _Index Image" 
+	     _tip=" "/>
+	<cmd name="Tools_RenameSeries" _label="_Rename Series" 
+	     _tip=" "/>
+	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
+	     _tip=" "/>
+     	<cmd name="Tools_FindDuplicates" _label="Find _Duplicates" 
+	     _tip=" "/>
+	<cmd name="Tools_JPEGRotate" _label="_JPEG Transform" 
+	     _tip=" "/>
+	<cmd name="Tools_Maintenance" _label="_Maintenance" 
+	     _tip=" "/>
+	<cmd name="Tools_Preferences" _label="_Preferences" 
+	     _tip="Edit various preferences"
+	     pixtype="stock" pixname="gtk-preferences"/>
+
+	<cmd name="Help_About" _label="_About"
+	     _tip="Show information about gThumb"/>
+	<cmd name="Help_Help" _label="_Manual"
+	     accel="F1"
+	     pixtype="stock" pixname="gtk-help"/>
+	<cmd name="Help_Shortcuts" _label="_Keyboard Shortcuts"/>
+
+</commands>
+
+<menu>
+	<submenu name="File" _label="_File">
+		<menuitem name="File_NewWindow" verb=""/>
+		<menuitem name="EditCurrentDir_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_New" verb=""/>
+		<separator/>
+		<menuitem name="File_OpenWith" verb=""/>
+		<menuitem name="File_Print" verb=""/>
+		<separator/>
+		<submenu name="Folder" _label="Folder">
+			<menuitem name="EditCurrentDir_Open" verb=""/>
+			<menuitem name="EditCurrentDir_Rename" verb=""/>
+			<menuitem name="EditCurrentDir_Delete" verb=""/>
+			<menuitem name="EditCurrentDir_Move" verb=""/>
+		</submenu>
+		<submenu name="Catalog" _label="Catalog">
+			<menuitem name="EditCurrentCatalog_Rename" verb=""/>
+			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
+			<menuitem name="EditCurrentCatalog_Move" verb=""/>
+			<separator name="EditCurrentCatalog_Sep"/>
+			<menuitem name="EditCurrentCatalog_EditSearch" verb=""/>
+			<menuitem name="EditCurrentCatalog_RedoSearch" verb=""/>
+		</submenu>
+		<separator/>
+		<menuitem name="File_CloseWindow" verb=""/>
+		<menuitem name="File_Exit" verb=""/>
+	</submenu>
+
+	<submenu name="Edit" _label="_Edit">
+		<menuitem name="Edit_RenameFile" verb=""/>
+		<menuitem name="Edit_DuplicateFile" verb=""/>
+		<menuitem name="Edit_DeleteFiles" verb=""/>
+		<menuitem name="Edit_CopyFiles" verb=""/>
+		<menuitem name="Edit_MoveFiles" verb=""/>
+		<separator/>
+		<menuitem name="Edit_SelectAll" verb=""/>
+		<separator/>
+		<menuitem name="Edit_EditComment" verb=""/>
+		<menuitem name="Edit_DeleteComment" verb=""/>
+		<menuitem name="Edit_EditCategories" verb=""/>
+		<separator/>
+		<menuitem name="Edit_AddToCatalog" verb=""/>
+		<menuitem name="Edit_RemoveFromCatalog" verb=""/>
+		<separator/>
+		<menuitem name="Tools_Preferences" verb=""/>
+	</submenu>
+
+	<submenu name="View" _label="_View">
+		<submenu name="ShowHide" _label="Show/_Hide">
+			<menuitem name="View_ShowFolders" verb=""
+				  _label="_Folders"/>
+			<menuitem name="View_ShowCatalogs" verb=""
+				  _label="_Catalogs"/>
+			<menuitem name="View_ShowImage" verb=""
+			  	  _label="_Image preview"/>
+			<separator/>
+			<menuitem name="View_Toolbar" verb=""/>
+			<menuitem name="View_Statusbar" verb=""/>
+		</submenu>
+		<menuitem name="View_Fullscreen" verb=""
+			  _label="_Full Screen"
+			  pixtype=""/>
+		<separator/>
+		<menuitem name="Go_Stop" verb=""/>
+		<menuitem name="Go_Refresh" verb=""/>
+		<separator/>
+		<submenu name="ViewSort" _label="_Sort Images">
+			<menuitem name="SortByName" verb=""/>
+			<menuitem name="SortByPath" verb=""/>
+			<menuitem name="SortBySize" verb=""/>
+			<menuitem name="SortByTime" verb=""/>
+			<separator/>
+			<menuitem name="SortReversed" verb=""/>
+		</submenu>
+		<menuitem name="View_Thumbnails" verb=""/>
+		<separator/>
+		<menuitem name="View_ImageProp" verb=""/>
+		<separator/>
+		<submenu name="ZoomType" _label="_Zoom">
+			<menuitem name="View_ZoomIn" verb="" 
+			  	  _label="Zoom _In"/>
+			<menuitem name="View_ZoomOut" verb="" 
+			          _label="Zoom _Out"/>
+			<menuitem name="View_Zoom100" verb="" 
+			          _label="_Actual Size"/>
+			<menuitem name="View_ZoomFit" verb="" 
+			          _label="Zoom to _Fit"/>
+			<separator/>
+			<menuitem name="View_ZoomQualityHigh" verb=""/>
+			<menuitem name="View_ZoomQualityLow" verb=""/>
+		</submenu>
+		<submenu name="ViewTranspType" _label="Transparency typ_e">
+			<menuitem name="TranspTypeNone" verb=""/>
+			<menuitem name="TranspTypeWhite" verb=""/>
+			<menuitem name="TranspTypeBlack" verb=""/>
+			<menuitem name="TranspTypeChecked" verb=""/>
+		</submenu>
+		<submenu name="ViewImage" _label="_Image">
+			<menuitem name="AlterImage_Rotate" verb=""/>
+			<menuitem name="AlterImage_Rotate180" verb=""/>
+			<menuitem name="AlterImage_Flip" verb=""/>
+			<menuitem name="AlterImage_Mirror" verb=""/>
+			<menuitem name="AlterImage_Gray" verb=""/>
+		</submenu>
+		<separator/>
+		<menuitem name="View_PlayAnimation" verb=""/>
+		<menuitem name="View_StepAnimation" verb=""/>
+	</submenu>
+	<submenu name="Go" _label="_Go">
+		<menuitem name="Go_Back" verb=""/>
+		<menuitem name="Go_Forward" verb=""/>
+		<menuitem name="Go_Up" verb=""/>
+		<separator/>
+		<menuitem name="Go_Home" verb=""/>
+		<menuitem name="Go_Location" verb=""/>
+		<menuitem name="Go_ToContainer" verb=""/>
+		<separator/>
+		<menuitem name="Go_DeleteHistory" verb=""/>
+		<placeholder name="HistoryList" delimit="top"/>
+	</submenu>
+	<submenu name="Bookmarks" _label="_Bookmarks">
+		<menuitem name="Bookmarks_Add" verb=""/>
+		<menuitem name="Bookmarks_Edit" verb=""/>
+		<placeholder name="BookmarkList" delimit="top"/>
+	</submenu>
+	<submenu name="Tools" _label="_Tools">
+		<menuitem name="Tools_Slideshow" verb=""/>
+		<menuitem name="Tools_FindImages" verb=""/>
+		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
+			<menuitem name="Wallpaper_Centered" verb=""/>
+			<menuitem name="Wallpaper_Tiled" verb=""/>
+			<menuitem name="Wallpaper_Scaled" verb=""/>
+			<menuitem name="Wallpaper_Stretched" verb=""/>
+			<separator/>
+			<menuitem name="Wallpaper_Restore" verb=""/>
+		</submenu>
+		<separator/>
+		<menuitem name="Tools_IndexImage" verb=""/>
+		<menuitem name="Tools_RenameSeries" verb=""/>
+<!--
+		<menuitem name="Tools_ConvertFormat" verb=""/>
+-->
+		<menuitem name="Tools_JPEGRotate" verb=""/>
+		<menuitem name="Tools_FindDuplicates" verb=""/>
+		<separator/>
+		<menuitem name="Tools_Maintenance" verb=""/>
+	</submenu>
+	<submenu name="Help" _label="_Help">
+		<menuitem name="Help_Help" verb=""/>
+		<menuitem name="Help_Shortcuts" verb=""/>
+		<separator/>
+		<menuitem name="Help_About" verb=""/>
+	</submenu>
+</menu>
+
+<dockitem name="Toolbar" _tip="Main Toolbar" config="0"
+	behavior="exclusive" in_new_band="1" band_num="1"  
+	hlook="system" vlook="system">
+
+	<toolitem name="Go_Back" verb="" _label="Back" priority="1"/>
+	<toolitem name="Go_Forward" verb="" _label="Forward"/>
+	<toolitem name="Go_Up" verb="" _label="Up"/>
+	<toolitem name="Go_Refresh" verb=""  _label="Refresh"/>
+  	<toolitem name="Go_Home" verb="" _label="Home"/>
+	<separator/>
+  	<toolitem name="View_ShowFolders" verb="" priority="1" 
+	          _label="Folders"/>
+  	<toolitem name="View_ShowCatalogs" verb="" priority="1"
+	          _label="Catalogs"/>
+
+	<separator/>
+
+  	<toolitem name="View_ZoomIn" verb=""
+	          _label="In"/>
+  	<toolitem name="View_ZoomOut" verb=""
+	          _label="Out"/>
+  	<toolitem name="View_Zoom100" verb=""
+	          _label="1:1"/>
+  	<toolitem name="View_ZoomFit" verb=""
+	          _label="Fit"/>
+
+	<separator/>
+
+  	<toolitem name="View_ImageProp" verb="" _label="Information" />
+
+	<separator/>
+
+  	<toolitem name="View_PrevImage" verb="" _label="Previous"/>
+  	<toolitem name="View_NextImage" verb="" _label="Next"/>
+
+	<separator/>
+
+  	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
+		priority="0"/>
+</dockitem>
+
+<status resize_grip="1">
+	<item name="main"/>
+	<control name="dummy" hidden="1"/>
+	<control name="ActivityProgress"/>
+	<control name="ImageInfo"/>
+</status>
+
+<popups>
+	<popup name="FilePopup">
+		<menuitem name="File_OpenWithPopup" verb=""/>
+		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
+			<menuitem name="Wallpaper_Centered" verb=""/>
+			<menuitem name="Wallpaper_Tiled" verb=""/>
+			<menuitem name="Wallpaper_Scaled" verb=""/>
+			<menuitem name="Wallpaper_Stretched" verb=""/>
+			<separator/>
+			<menuitem name="Wallpaper_Restore" verb=""/>
+		</submenu>
+		<separator/>
+		<menuitem name="Edit_RenameFilePopup" verb=""/>
+		<menuitem name="Edit_DuplicateFile" verb=""/>
+		<menuitem name="Edit_DeleteFiles" verb=""/>
+		<menuitem name="Edit_CopyFiles" verb=""/>
+		<menuitem name="Edit_MoveFiles" verb=""/>
+		<separator/>
+		<menuitem name="Edit_EditComment" verb=""/>
+		<menuitem name="Edit_DeleteComment" verb=""/>
+		<menuitem name="Edit_EditCategories" verb=""/>
+		<separator/>
+		<menuitem name="Edit_AddToCatalog" verb=""/>
+		<menuitem name="Edit_RemoveFromCatalog" verb=""/>
+		<separator/>
+		<menuitem name="Go_ToContainerPopup" verb=""/>
+	</popup>
+	<popup name="ImagePopup">
+		<menuitem name="View_FullscreenPopup" verb=""/>
+		<separator/>
+		<menuitem name="Image_OpenWith" verb=""/>
+		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
+			<menuitem name="Wallpaper_Centered" verb=""/>
+			<menuitem name="Wallpaper_Tiled" verb=""/>
+			<menuitem name="Wallpaper_Scaled" verb=""/>
+			<menuitem name="Wallpaper_Stretched" verb=""/>
+			<separator/>
+			<menuitem name="Wallpaper_Restore" verb=""/>
+		</submenu>
+		<separator/>
+		<menuitem name="Image_RenamePopup" verb=""/>
+		<menuitem name="Image_Duplicate" verb=""/>
+		<menuitem name="Image_Delete" verb=""/>
+		<menuitem name="Image_Copy" verb=""/>
+		<menuitem name="Image_Move" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_Rotate" verb=""/>
+		<menuitem name="AlterImage_Rotate180" verb=""/>
+		<menuitem name="AlterImage_Flip" verb=""/>
+		<menuitem name="AlterImage_Mirror" verb=""/>
+		<menuitem name="AlterImage_Gray" verb=""/>
+	</popup>
+	<popup name="FullscreenImagePopup">
+		<menuitem name="View_ExitFullscreenPopup" verb=""/>
+		<separator/>
+		<menuitem name="AlterImage_Rotate" verb=""/>
+		<menuitem name="AlterImage_Rotate180" verb=""/>
+		<menuitem name="AlterImage_Flip" verb=""/>
+		<menuitem name="AlterImage_Mirror" verb=""/>
+		<menuitem name="AlterImage_Gray" verb=""/>
+		<separator/>
+		<menuitem name="View_ZoomIn" verb="" _label="Zoom _In"/>
+		<menuitem name="View_ZoomOut" verb="" _label="Zoom _Out"/>
+		<menuitem name="View_Zoom100" verb="" _label="_Actual Size"/>
+		<menuitem name="View_ZoomFit" verb="" _label="Zoom to _Fit"/>
+	</popup>
+	<popup name="CatalogPopup">
+		<menuitem name="EditCatalog_Rename" verb="" 
+		          _label="Rename"/>
+		<menuitem name="EditCatalog_Delete" verb=""
+		          _label="Delete"/>
+		<menuitem name="EditCatalog_Move" verb=""
+		          _label="Move..."/>
+		<separator/>
+		<menuitem name="EditCatalog_EditSearch" verb=""/>
+		<menuitem name="EditCatalog_RedoSearch" verb=""/>
+	</popup>
+	<popup name="DirPopup">
+		<menuitem name="EditDir_Open" verb=""
+		          _label="Open with the File Manager"/>
+		<menuitem name="EditDir_Rename" verb=""
+		          _label="Rename"/>
+		<menuitem name="EditDir_Delete" verb=""
+			  _label="Delete"/>
+		<menuitem name="EditDir_Move" verb=""
+			  _label="Move"/>
+	</popup>
+</popups>
+
+</Root>

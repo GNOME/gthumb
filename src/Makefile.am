@@ -1,0 +1,110 @@
+SUBDIRS = icons jpegutils
+DIST_SUBDIRS = icons 
+
+glade_DATA = 				\
+	gthumb.glade 			\
+	gthumb_comments.glade		\
+	gthumb_png_exporter.glade 	\
+	gthumb_print.glade		\
+	gthumb_search.glade		\
+	gthumb_tools.glade
+
+gladedir = $(datadir)/gthumb/glade
+
+uidir = $(datadir)/gnome-2.0/ui
+ui_DATA = gthumb-ui.xml 
+
+DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED
+
+INCLUDES =					\
+	$(GTHUMB_CFLAGS)			\
+	$(EXIF_CFLAGS)				\
+	$(DISABLE_DEPRECATED)			\
+	-DGTHUMB_PREFIX=\"$(prefix)\"		\
+	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
+	-DGTHUMB_DATADIR=\"$(datadir)\"		\
+	-DGTHUMB_LIBDIR=\"$(libdir)\"		\
+	-DPIXMAPSDIR=\""$(datadir)/pixmaps/"\"	\
+	-DBONOBO_UIDIR=\""$(uidir)/"\"		\
+	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
+	-I$(top_srcdir)/libgthumb
+
+bin_PROGRAMS = gthumb
+
+gthumb_SOURCES = 			\
+	auto-completion.c		\
+	auto-completion.h		\
+	bookmark-list.c			\
+	bookmark-list.h			\
+	catalog-list.c			\
+	catalog-list.h			\
+	commands-impl.c			\
+	commands-impl.h			\
+	dir-list.c			\
+	dir-list.h			\
+	dlg-bookmarks.c			\
+	dlg-bookmarks.h			\
+	dlg-catalog.c			\
+	dlg-catalog.h			\
+	dlg-categories.c		\
+	dlg-categories.h		\
+	dlg-comment.c			\
+	dlg-comment.h			\
+	dlg-duplicates.c		\
+	dlg-duplicates.h		\
+	dlg-file-utils.c		\
+	dlg-file-utils.h		\
+	dlg-image-prop.c		\
+	dlg-image-prop.h		\
+	dlg-jpegtran.c			\
+	dlg-jpegtran.h			\
+	dlg-maintenance.c		\
+	dlg-maintenance.h		\
+	dlg-open-with.c			\
+	dlg-open-with.h			\
+	dlg-png-exporter.c		\
+	dlg-png-exporter.h		\
+	dlg-preferences.c		\
+	dlg-preferences.h		\
+	dlg-rename-series.c		\
+	dlg-rename-series.h		\
+	dlg-search.c			\
+	dlg-search.h			\
+	fullscreen.c			\
+	fullscreen.h			\
+	gthumb-preloader.c		\
+	gthumb-preloader.h		\
+	gthumb-window.c			\
+	gthumb-window.h			\
+	gtkcellrendererthreestates.h	\
+	gtkcellrendererthreestates.c	\
+	main.c				\
+	main.h
+
+gthumb_LDADD = 							\
+	@LIBOBJS@						\
+	$(EXIF_LIBS)						\
+	$(GTHUMB_LIBS)						\
+	$(JPEG_LIBS)						\
+	$(PNG_LIBS)						\
+	$(RENDER_LIBS)						\
+	$(top_builddir)/libgthumb/libgthumb.a			\
+	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.a
+
+
+schemadir = @GCONF_SCHEMA_FILE_DIR@
+schema_DATA = gthumb.schemas
+
+if SCHEMAS_INSTALL
+install-data-local:
+	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
+endif
+
+
+EXTRA_DIST = 		\
+	$(glade_DATA)	\
+	$(ui_DATA)	\
+	$(schema_DATA)	\
+	fnmatch.c       \
+        fnmatch.h
+

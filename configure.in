@@ -1,0 +1,249 @@
+dnl Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.52)
+
+AC_INIT(gthumb, 1.104.1)
+AC_CONFIG_SRCDIR(src/main.c)
+AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+AM_CONFIG_HEADER(config.h)
+
+dnl ==========================================================================
+dnl
+dnl If you add a version number here, you *must* add an AC_SUBST line for
+dnl it too, or it will never make it into the spec file!
+dnl
+dnl ==========================================================================
+
+GLIB_REQUIRED=2.0.0
+GTK_REQUIRED=2.0.0
+LIBXML_REQUIRED=2.4.0
+LIBGNOME_REQUIRED=2.0.0
+LIBGNOMEUI_REQUIRED=2.0.0
+LIBGNOMECANVAS_REQUIRED=2.0.0
+GNOME_VFS_REQUIRED=2.0.0
+LIBGLADE_REQUIRED=2.0.0
+LIBGNOMEPRINT_REQUIRED=1.110
+LIBGNOMEPRINTUI_REQUIRED=1.110
+BONOBO_ACTIVATION_REQUIRED=1.0.0
+LIBBONOBO_REQUIRED=2.0.0
+LIBBONOBOUI_REQUIRED=2.0.0
+
+AC_SUBST(GLIB_REQUIRED)
+AC_SUBST(GTK_REQUIRED)
+AC_SUBST(LIBXML_REQUIRED)
+AC_SUBST(LIBGNOME_REQUIRED)
+AC_SUBST(LIBGNOMEUI_REQUIRED)
+AC_SUBST(LIBGNOMECANVAS_REQUIRED)
+AC_SUBST(GNOME_VFS_REQUIRED)
+AC_SUBST(LIBGLADE_REQUIRED)
+AC_SUBST(LIBGNOMEPRINT_REQUIRED)
+AC_SUBST(LIBGNOMEPRINTUI_REQUIRED)
+AC_SUBST(BONOBO_ACTIVATION_REQUIRED)
+AC_SUBST(LIBBONOBO_REQUIRED)
+AC_SUBST(LIBBONOBOUI_REQUIRED)
+
+dnl ===========================================================================
+
+AM_PATH_ORBIT2
+
+PKG_CHECK_MODULES(GTHUMB,	\
+	glib-2.0		\
+	gthread-2.0		\
+	gtk+-2.0		\
+	libgnome-2.0		\
+	libgnomeui-2.0		\
+	libgnomecanvas-2.0	\
+	gnome-vfs-2.0		\
+	gnome-vfs-module-2.0	\
+	libxml-2.0		\
+	libglade-2.0		\
+	libgnomeprint-2.0	\
+	libgnomeprintui-2.0	\
+	bonobo-activation-2.0)
+AC_SUBST(GTHUMB_LIBS)
+AC_SUBST(GTHUMB_CFLAGS)
+
+PKG_CHECK_MODULES(COMPONENT,	\
+	glib-2.0		\
+	gthread-2.0		\
+	gtk+-2.0		\
+	libgnome-2.0		\
+	libgnomeui-2.0		\
+	libgnomecanvas-2.0	\
+	gnome-vfs-2.0		\
+	gnome-vfs-module-2.0	\
+	libxml-2.0		\
+	libglade-2.0		\
+	libgnomeprint-2.0	\
+	libgnomeprintui-2.0	\
+	bonobo-activation-2.0	\
+	libbonobo-2.0		\
+	libbonoboui-2.0)
+AC_SUBST(COMPONENT_LIBS)
+AC_SUBST(COMPONENT_CFLAGS)
+
+AC_C_BIGENDIAN
+AC_PROG_CPP
+
+
+dnl ###############################################
+
+# 
+# Checks for libpng
+# 
+AC_MSG_CHECKING(for libpng)
+  if test -z "$PNG_LIBS"; then
+    AC_CHECK_LIB(png, png_read_info,
+      [AC_CHECK_HEADER(png.h,
+        png_ok=yes,
+        png_ok=no)],
+      AC_MSG_ERROR(*** PNG library (libpng) not found ***), -lz -lm)
+    if test "$png_ok" = yes; then
+      AC_MSG_CHECKING([for png_structp in png.h])
+      AC_TRY_COMPILE([#include <png.h>],
+        [png_structp pp; png_infop info; png_colorp cmap; png_create_read_struct;],
+        png_ok=yes,
+        png_ok=no)
+      AC_MSG_RESULT($png_ok)
+      if test "$png_ok" = yes; then
+        PNG_LIBS='-lpng -lz'
+      else
+        AC_MSG_ERROR(*** PNG library (libpng) is too old ***)
+      fi
+    else
+     AC_MSG_ERROR(*** PNG header file not found ***)
+    fi
+  fi
+
+AC_SUBST(PNG_LIBS)
+
+
+# 
+# Checks for libjpeg
+# 
+jpeg_ok=no
+AC_MSG_CHECKING(for libjpeg)
+  if test -z "$JPEG_LIBS"; then
+    AC_CHECK_LIB(jpeg, jpeg_destroy_decompress,
+      [AC_CHECK_HEADER(jpeglib.h,
+        jpeg_ok=yes,
+        jpeg_ok=no)],
+      AC_MSG_WARN([*** Internal jpegtran will not be built (JPEG library not found) ***]), -lm)
+    if test "$jpeg_ok" = yes; then
+      JPEG_LIBS='-ljpeg'
+      AC_DEFINE(HAVE_LIBJPEG)
+    else
+      AC_MSG_WARN([*** Internal jpegtran will not be built (JPEG library not found) ***])
+    fi
+  fi
+
+AC_SUBST(JPEG_LIBS)
+
+
+#
+# Checks for Xft/XRender
+#
+have_render=false
+RENDER_LIBS=""
+AC_CHECK_LIB(Xrender, XRenderFindFormat, 
+    have_render=true,:,-lXext $GTHUMB_LIBS)
+if $have_render ; then
+   RENDER_LIBS="-lXrender -lXext"
+   AC_DEFINE(HAVE_RENDER)
+fi
+AC_SUBST(RENDER_LIBS)
+
+#
+# Checks for fnmatch
+#
+FUNC_FNMATCH(AC_DEFINE(HAVE_FNMATCH, 1, [Define if you have the `fnmatch' function.]), AC_LIBOBJ(fnmatch))
+
+#
+# Checks for libexif
+#
+AC_MSG_CHECKING(for libexif)
+have_libexif=no
+EXIF_LIBS=""
+EXIF_CFLAGS=""
+if pkg-config --exists libexif; then
+   have_libexif=yes
+   EXIF_LIBS=`pkg-config --libs libexif`
+   EXIF_CFLAGS=`pkg-config --cflags libexif`
+   AC_DEFINE(HAVE_LIBEXIF)
+fi
+AC_MSG_RESULT($have_libexif)
+AC_SUBST(EXIF_LIBS)
+AC_SUBST(EXIF_CFLAGS)
+
+dnl ###############################################
+
+IDL_MODULES="bonobo-activation-2.0 libbonobo-2.0 libbonoboui-2.0"
+VIEWER_IDL_INCLUDES="`$PKG_CONFIG --variable=idldir $IDL_MODULES | $srcdir/add-include-prefix`"
+AC_SUBST(VIEWER_IDL_INCLUDES)
+
+dnl ###############################################
+
+AC_PATH_PROG(GLIB_GENMARSHAL, glib-genmarshal)
+AC_PATH_PROG(GLIB_MKENUMS, glib-mkenums)
+
+ALL_LINGUAS="de es fr it ja ko nl pt_BR ru sv"
+GETTEXT_PACKAGE=gthumb-2.0
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE")
+AM_GLIB_GNU_GETTEXT
+
+AC_PROG_INTLTOOL
+
+if test "x${prefix}" = "xNONE"; then
+  AC_DEFINE_UNQUOTED(LOCALEDIR, "${ac_default_prefix}/${DATADIRNAME}/locale")
+else
+  AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale")
+fi
+
+dnl ******************************
+
+AC_ARG_ENABLE(schemas-install,AC_HELP_STRING([--disable-schemas-install],
+                                             [Disable installation of the gconf
+schemas]))
+
+AM_CONDITIONAL(SCHEMAS_INSTALL, test x$enable_schemas_install != xno)
+
+AC_PATH_PROG(GCONFTOOL, gconftool-2, no)
+if test x"$GCONFTOOL" = xno; then
+        AC_MSG_ERROR([gconftool-2 executable not found in your path - should be
+installed with GConf])
+fi
+AM_GCONF_SOURCE_2
+
+dnl ******************************
+
+
+AC_OUTPUT([
+Makefile
+gthumb.spec
+po/Makefile.in
+libgthumb/Makefile
+libgthumb/cursors/Makefile
+libgthumb/icons/Makefile
+src/Makefile
+src/icons/Makefile
+src/jpegutils/Makefile
+components/Makefile
+components/image-viewer/Makefile
+components/catalog-view/Makefile
+doc/Makefile
+doc/C/Makefile
+omf-install/Makefile
+])
+
+echo "
+
+Configuration:
+
+        Source code location:   ${srcdir}
+        Compiler:               ${CC}
+    	Have Render:            ${have_render}
+    	Have EXIF:              ${have_libexif}
+	Internal JPEGTRAN:      ${jpeg_ok}
+
+"

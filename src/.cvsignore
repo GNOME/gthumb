@@ -1,0 +1,9 @@
+.deps
+.libs
+*.gladep
+*.gz
+diff
+Makefile
+Makefile.in
+glade1
+gthumb

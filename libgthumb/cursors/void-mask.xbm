@@ -1,0 +1,5 @@
+/* Created with The GIMP */
+#define void_mask_width 1
+#define void_mask_height 1
+static unsigned char void_mask_bits[] = {
+   0x00 };

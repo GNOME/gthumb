@@ -1,0 +1,65 @@
+<oaf_info>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_Viewer_Factory" type="exe" 
+	    location="@LIBEXECDIR@/gthumb-image-viewer">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Image Viewer Factory"/>
+
+	<oaf_attribute name="description" type="string" 
+		       value="Factory for the GThumb image viewer control"/>
+</oaf_server>
+
+
+<oaf_server iid="OAFIID:GNOME_GThumb_Viewer" type="factory" 
+	    location="OAFIID:GNOME_GThumb_Viewer_Factory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Bonobo/Unknown:1.0"/>
+		<item value="IDL:Bonobo/Control:1.0"/>
+		<item value="IDL:Bonobo/Persist:1.0"/>
+		<item value="IDL:Bonobo/PersistStream:1.0"/>
+		<item value="IDL:Bonobo/PropertyBag:1.0"/>
+		<item value="IDL:Bonobo/Zoomable:1.0"/>
+		<item value="IDL:Nautilus/View:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="name" type="string" 
+		       value="GThumb Image Viewer control"/>
+	<oaf_attribute name="description" type="string" 
+		       value="GThumb Image Viewer control"/>
+
+	<oaf_attribute name="bonobo:editable" type="boolean" value="false"/>
+	<oaf_attribute name="bonobo:supported_mime_types" type="stringv">
+                <item value="image/bmp"/>
+		<item value="image/jpeg"/>
+		<item value="image/gif"/>
+		<item value="image/png"/>
+		<item value="image/tiff"/>
+                <item value="image/x-bmp"/>
+                <item value="image/x-cmu-raster"/>
+                <item value="image/x-ico"/>
+                <item value="image/x-png"/>
+                <item value="image/x-portable-anymap"/>
+                <item value="image/x-portable-bitmap"/>
+                <item value="image/x-portable-graymap"/>
+                <item value="image/x-portable-pixmap"/>
+                <item value="image/x-xpixmap"/>
+                <item value="image/xpm"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="nautilus:view_as_name" type="string"
+		       _value="GThumb Image"/>
+	<oaf_attribute name="nautilus:view_as_label" type="string"
+		       _value="View with GThumb"/>
+	<oaf_attribute name="nautilus:viewer_label" type="string"
+		       _value="GThumb Viewer"/>
+</oaf_server>
+
+
+</oaf_info>
