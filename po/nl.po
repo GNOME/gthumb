@@ -77,7 +77,7 @@ msgstr "De afbeelding spiegelen"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:118
 msgid "Rotate"
-msgstr "Draaien"
+msgstr "Roteren"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
@@ -308,7 +308,7 @@ msgstr "De titel van het selectievenster"
 
 #: libgthumb/gnome-print-font-picker.c:200
 msgid "Font name"
-msgstr "Lettertype"
+msgstr "Lettertypenaam"
 
 #: libgthumb/gnome-print-font-picker.c:201
 msgid "Name of the selected font"
@@ -353,7 +353,7 @@ msgstr "Lettertype"
 #: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
 #: src/gthumb_comments.glade.h:8
 msgid "Comment"
-msgstr "Commentaar"
+msgstr "Opmerking"
 
 #: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
 #: src/dlg-image-prop.c:836 src/gthumb-window.c:430
@@ -2065,11 +2065,11 @@ msgstr "_Nieuwecatalogus"
 
 #: src/gthumb.glade.h:32
 msgid "_Next"
-msgstr "V_olgende"
+msgstr "_Volgende"
 
 #: src/gthumb.glade.h:33
 msgid "_Previous"
-msgstr "_Vorige"
+msgstr "V_orige"
 
 #: src/gthumb.glade.h:34
 msgid "_Remove"
