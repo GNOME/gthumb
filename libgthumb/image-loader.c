@@ -487,7 +487,10 @@ load_image_thread (void *thread_data)
 			break;
 
 		path = image_loader_get_path (il);
-		animation = gdk_pixbuf_animation_new_from_file (path, &error);
+		if (path != NULL)
+			animation = gdk_pixbuf_animation_new_from_file (path, &error);
+		else 
+			animation = NULL;
 
 		g_mutex_lock (priv->yes_or_no);
 		

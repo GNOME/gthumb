@@ -35,7 +35,7 @@
 #include "gth-pixbuf-op.h"
 #include "gthumb-preloader.h"
 
-#define GCONF_NOTIFICATIONS 16
+#define GCONF_NOTIFICATIONS 17
 
 
 typedef enum {

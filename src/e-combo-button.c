@@ -622,13 +622,14 @@ e_combo_button_set_style  (EComboButton    *combo_button,
 		char *system_style;
 
 		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style");
+
 		if (system_style == NULL)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 		else if (strcmp (system_style, "both") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
 		else if (strcmp (system_style, "both_horiz") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BESIDE;
-		else if (strcmp (system_style, "icon") == 0)
+		else if (strcmp (system_style, "icons") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_ICONS;
 		else if (strcmp (system_style, "text") == 0)
 			toolbar_style = GTH_TOOLBAR_STYLE_TEXT;

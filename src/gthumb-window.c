@@ -4613,6 +4613,10 @@ window_new (void)
 					   PREF_UI_TOOLBAR_STYLE,
 					   pref_ui_toolbar_style_changed,
 					   window);
+	window->cnxn_id[i++] = eel_gconf_notification_add (
+					   "/desktop/gnome/interface/toolbar_style",
+					   pref_ui_toolbar_style_changed,
+					   window);
 
 	window->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_UI_TOOLBAR_VISIBLE,
@@ -5945,135 +5949,6 @@ window_delete_history (GThumbWindow *window)
 }
 
 
-static gboolean
-view_focused_image (GThumbWindow *window)
-{
-	int       pos;
-	char     *focused;
-	gboolean  not_focused;
-
-	pos = gth_file_view_get_cursor (window->file_list->view);
-	if (pos == -1)
-		return FALSE;
-
-	focused = gth_file_list_path_from_pos (window->file_list, pos);
-	if (focused == NULL)
-		return FALSE;
-
-	not_focused = strcmp (window->image_path, focused) != 0;
-	g_free (focused);
-
-	return not_focused;
-}
-
-
-gboolean
-window_show_next_image (GThumbWindow *window,
-			gboolean      only_selected)
-{
-	int pos;
-
-	g_return_val_if_fail (window != NULL, FALSE);
-
-	if ((window->setting_file_list) || (window->changing_directory)) 
-		return FALSE;
-
-	if (window->image_path == NULL) {
-		pos = gth_file_list_next_image (window->file_list, -1, TRUE, only_selected);
-
-	} else if (view_focused_image (window)) {
-		pos = gth_file_view_get_cursor (window->file_list->view);
-		if (pos == -1)
-			pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
-
-	} else {
-		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
-	}
-
-	if (pos == -1) 
-		return FALSE;
-
-	if (! only_selected)
-		gth_file_list_select_image_by_pos (window->file_list, pos); 
-
-	gth_file_view_set_cursor (window->file_list->view, pos);
-
-	return TRUE;
-}
-
-
-gboolean
-window_show_prev_image (GThumbWindow *window,
-			gboolean      only_selected)
-{
-	int pos;
-
-	g_return_val_if_fail (window != NULL, FALSE);
-
-	if ((window->setting_file_list) || (window->changing_directory))
-		return FALSE;
-	
-	if (window->image_path == NULL) {
-		pos = gth_file_view_get_images (window->file_list->view);
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
-			
-	} else if (view_focused_image (window)) {
-		pos = gth_file_view_get_cursor (window->file_list->view);
-		if (pos == -1) {
-			pos = gth_file_view_get_images (window->file_list->view);
-			pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
-		}
-
-	} else {
-		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
-		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
-	}
-
-	if (pos == -1)
-		return FALSE;
-
-	if (! only_selected)
-		gth_file_list_select_image_by_pos (window->file_list, pos); 
-
-	gth_file_view_set_cursor (window->file_list->view, pos);
-
-	return TRUE;
-}
-
-
-gboolean
-window_show_first_image (GThumbWindow *window, 
-			 gboolean      only_selected)
-{
-	if (gth_file_view_get_images (window->file_list->view) == 0)
-		return FALSE;
-
-	if (window->image_path) {
-		g_free (window->image_path);
-		window->image_path = NULL;
-	}
-
-	return window_show_next_image (window, only_selected);
-}
-
-
-gboolean
-window_show_last_image (GThumbWindow *window, 
-			gboolean      only_selected)
-{
-	if (gth_file_view_get_images (window->file_list->view) == 0)
-		return FALSE;
-
-	if (window->image_path) {
-		g_free (window->image_path);
-		window->image_path = NULL;
-	}
-
-	return window_show_prev_image (window, only_selected);
-}
-
-
 /* -- slideshow -- */
 
 
@@ -6175,6 +6050,158 @@ window_stop_slideshow (GThumbWindow *window)
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN) && window->fullscreen)
 		fullscreen_stop (fullscreen);
+}
+
+
+/**/
+
+
+static gboolean
+view_focused_image (GThumbWindow *window)
+{
+	int       pos;
+	char     *focused;
+	gboolean  not_focused;
+
+	pos = gth_file_view_get_cursor (window->file_list->view);
+	if (pos == -1)
+		return FALSE;
+
+	focused = gth_file_list_path_from_pos (window->file_list, pos);
+	if (focused == NULL)
+		return FALSE;
+
+	not_focused = strcmp (window->image_path, focused) != 0;
+	g_free (focused);
+
+	return not_focused;
+}
+
+
+gboolean
+window_show_next_image (GThumbWindow *window,
+			gboolean      only_selected)
+{
+	gboolean stop_and_restart_slideshow;
+	int      pos;
+
+	g_return_val_if_fail (window != NULL, FALSE);
+
+	stop_and_restart_slideshow = window->slideshow_timeout != 0;
+
+	if (stop_and_restart_slideshow) {
+		g_source_remove (window->slideshow_timeout);
+		window->slideshow_timeout = 0;
+	}
+
+	if ((window->setting_file_list) || (window->changing_directory)) 
+		return FALSE;
+
+	if (window->image_path == NULL) {
+		pos = gth_file_list_next_image (window->file_list, -1, TRUE, only_selected);
+
+	} else if (view_focused_image (window)) {
+		pos = gth_file_view_get_cursor (window->file_list->view);
+		if (pos == -1)
+			pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
+
+	} else {
+		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+		pos = gth_file_list_next_image (window->file_list, pos, TRUE, only_selected);
+	}
+
+	if (pos != -1) {
+		if (! only_selected)
+			gth_file_list_select_image_by_pos (window->file_list, pos); 
+		gth_file_view_set_cursor (window->file_list->view, pos);
+	}
+
+	if (stop_and_restart_slideshow) {
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+	}
+
+	return (pos != -1);
+}
+
+
+gboolean
+window_show_prev_image (GThumbWindow *window,
+			gboolean      only_selected)
+{
+	gboolean stop_and_restart_slideshow;
+	int      pos;
+
+	g_return_val_if_fail (window != NULL, FALSE);
+
+	stop_and_restart_slideshow = window->slideshow_timeout != 0;
+
+	if (stop_and_restart_slideshow) {
+		g_source_remove (window->slideshow_timeout);
+		window->slideshow_timeout = 0;
+	}
+
+	if ((window->setting_file_list) || (window->changing_directory))
+		return FALSE;
+	
+	if (window->image_path == NULL) {
+		pos = gth_file_view_get_images (window->file_list->view);
+		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+			
+	} else if (view_focused_image (window)) {
+		pos = gth_file_view_get_cursor (window->file_list->view);
+		if (pos == -1) {
+			pos = gth_file_view_get_images (window->file_list->view);
+			pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+		}
+
+	} else {
+		pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
+		pos = gth_file_list_prev_image (window->file_list, pos, TRUE, only_selected);
+	}
+
+	if (pos != -1) {
+		if (! only_selected)
+			gth_file_list_select_image_by_pos (window->file_list, pos); 
+		gth_file_view_set_cursor (window->file_list->view, pos);
+	}
+
+	if (stop_and_restart_slideshow) {
+		window->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, window);
+	}
+
+	return (pos != -1);
+}
+
+
+gboolean
+window_show_first_image (GThumbWindow *window, 
+			 gboolean      only_selected)
+{
+	if (gth_file_view_get_images (window->file_list->view) == 0)
+		return FALSE;
+
+	if (window->image_path) {
+		g_free (window->image_path);
+		window->image_path = NULL;
+	}
+
+	return window_show_next_image (window, only_selected);
+}
+
+
+gboolean
+window_show_last_image (GThumbWindow *window, 
+			gboolean      only_selected)
+{
+	if (gth_file_view_get_images (window->file_list->view) == 0)
+		return FALSE;
+
+	if (window->image_path) {
+		g_free (window->image_path);
+		window->image_path = NULL;
+	}
+
+	return window_show_prev_image (window, only_selected);
 }
 
 

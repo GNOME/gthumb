@@ -1,3 +1,23 @@
+2003-03-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-window.h (GCONF_NOTIFICATIONS): 
+	* src/gthumb-window.c (window_new): update back button style on
+	the fly.
+
+	* src/e-combo-button.c (e_combo_button_set_style): s/icon/icons/
+
+2003-02-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	[ gthumb 2.1.0 released ]  
+
+2003-02-25  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/image-loader.c (load_image_thread): check if path != NULL
+
+	* src/gthumb-window.c (window_show_prev_image) 
+	(window_show_next_image): reinitialize the slideshow timer when
+	the user manually move to another image.
+
 2003-02-24  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* many files: added ability to change image list view.

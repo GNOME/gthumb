@@ -43,10 +43,14 @@ libgthumb/glib-utils.c
 libgthumb/glib-utils.h
 libgthumb/gth-file-list.c
 libgthumb/gth-file-list.h
+libgthumb/gth-file-view.c
+libgthumb/gth-file-view.h
+libgthumb/gth-file-view-list.c
+libgthumb/gth-file-view-list.h
+libgthumb/gth-file-view-thumbs.c
+libgthumb/gth-file-view-thumbs.h
 libgthumb/gth-image-list.c
 libgthumb/gth-image-list.h
-libgthumb/gth-image-list-utils.c
-libgthumb/gth-image-list-utils.h
 libgthumb/gth-pixbuf-op.c
 libgthumb/gth-pixbuf-op.h
 libgthumb/gthumb-canvas-text.c
@@ -86,6 +90,9 @@ libgthumb/thumb-cache.h
 libgthumb/thumb-loader.c
 libgthumb/thumb-loader.h
 libgthumb/typedefs.h
+src/albumtheme.c
+src/albumtheme-private.c
+src/albumtheme-private.h
 src/auto-completion.c
 src/auto-completion.h
 src/bookmark-list.c
@@ -94,6 +101,8 @@ src/catalog-list.c
 src/catalog-list.h
 src/catalog-png-exporter.c
 src/catalog-png-exporter.h
+src/catalog-web-exporter.c
+src/catalog-web-exporter.h
 src/commands-impl.c
 src/commands-impl.h
 src/dir-list.c
@@ -139,6 +148,8 @@ src/dlg-scale-image.c
 src/dlg-scale-image.h
 src/dlg-search.c
 src/dlg-search.h
+src/dlg-web-exporter.c
+src/dlg-web-exporter.h
 src/e-combo-button.c
 src/e-combo-button.h
 src/fullscreen.c
@@ -164,5 +175,6 @@ src/gtkcellrendererthreestates.c
 src/gtkcellrendererthreestates.h
 src/gtkorientationbox.c
 src/gtkorientationbox.h
+src/lex.albumtheme.c
 src/main.c
 src/main.h
