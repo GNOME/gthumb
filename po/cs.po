@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-09 12:21+0200\n"
-"PO-Revision-Date: 2003-08-09 18:42+0200\n"
+"POT-Creation-Date: 2003-08-14 20:39+0200\n"
+"PO-Revision-Date: 2003-08-14 23:00+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -323,17 +323,17 @@ msgstr "Odstraňuji všechny komentáře, prosím počkejte..."
 msgid "Deleting old comments, wait please..."
 msgstr "Odstraňuji staré komentáře, prosím počkejte..."
 
-#: libgthumb/comments.c:756
+#: libgthumb/comments.c:771
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:758 src/catalog-web-exporter.c:53
+#: libgthumb/comments.c:773 src/catalog-web-exporter.c:53
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:676 src/fullscreen.c:225
 #: src/gthumb-window.c:414
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
-#: libgthumb/comments.c:768
+#: libgthumb/comments.c:783
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
@@ -492,16 +492,17 @@ msgstr "Ukládám stránky HTML: Obrázky"
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: src/catalog-web-exporter.c:1899 src/catalog-web-exporter.c:2034
+#: src/catalog-web-exporter.c:1865 src/catalog-web-exporter.c:1926
+#: src/catalog-web-exporter.c:2069
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: src/catalog-web-exporter.c:2243
+#: src/catalog-web-exporter.c:2278
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2280
+#: src/catalog-web-exporter.c:2315
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
@@ -685,7 +686,7 @@ msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2759 src/dlg-categories.c:337 src/dlg-comment.c:327
+#: src/commands-impl.c:2759 src/dlg-categories.c:337 src/dlg-comment.c:328
 #: src/dlg-jpegtran.c:631 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
 #: src/dlg-search.c:450
 #, c-format
@@ -1470,7 +1471,7 @@ msgstr "Zobrazení informací o aplikaci gThumb"
 msgid "Show/_Hide"
 msgstr "Zobrazit/S_krýt"
 
-#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:51
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
 msgid "Slide Show"
 msgstr "Promítání snímků"
 
@@ -1898,7 +1899,7 @@ msgstr "_Rozložit kontrast"
 msgid "_Threshold"
 msgstr "_Práh"
 
-#: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:64
+#: src/gthumb-ui.xml.h:253 src/gthumb_preferences.glade.h:65
 msgid "_Thumbnails"
 msgstr "Minia_tury"
 
@@ -2962,146 +2963,150 @@ msgid "Checked"
 msgstr "Čtverce"
 
 #: src/gthumb_preferences.glade.h:30
+msgid "Choose startup folder"
+msgstr "Vyberte počáteční adresář"
+
+#: src/gthumb_preferences.glade.h:31
 msgid "Co_mments"
 msgstr "Ko_mentáře"
 
-#: src/gthumb_preferences.glade.h:31
+#: src/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
 msgstr "_Prodleva před změnou obrázku:"
 
-#: src/gthumb_preferences.glade.h:32
+#: src/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
 msgstr "Určit typ obrázku podle jeho _obsahu (pomalejší)"
 
-#: src/gthumb_preferences.glade.h:33
+#: src/gthumb_preferences.glade.h:34
 msgid "Do _not change folder"
 msgstr "_Neměnit adresář"
 
-#: src/gthumb_preferences.glade.h:34
+#: src/gthumb_preferences.glade.h:35
 msgid "Fit image to window"
 msgstr "Přizpůsobit obrázek oknu"
 
-#: src/gthumb_preferences.glade.h:35
+#: src/gthumb_preferences.glade.h:36
 msgid "Fit to window if larger"
 msgstr "Přizpůsobit oknu, pokud je větší"
 
-#: src/gthumb_preferences.glade.h:36
+#: src/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
 msgstr "Převzít chování prohlížeče Nautilus"
 
-#: src/gthumb_preferences.glade.h:37
+#: src/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "_Vpřed"
 
-#: src/gthumb_preferences.glade.h:38
+#: src/gthumb_preferences.glade.h:39
 msgid "General"
 msgstr "Obecné"
 
-#: src/gthumb_preferences.glade.h:39
+#: src/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
 msgstr "Přejít do posledního na_vštíveného adresáře nebo katalogu"
 
-#: src/gthumb_preferences.glade.h:40
+#: src/gthumb_preferences.glade.h:41
 msgid "Go to this _folder:"
 msgstr "Pře_jít do tohoto adresáře:"
 
-#: src/gthumb_preferences.glade.h:41
+#: src/gthumb_preferences.glade.h:42
 msgid "H_igh"
 msgstr "_Vysoká"
 
-#: src/gthumb_preferences.glade.h:42
+#: src/gthumb_preferences.glade.h:43
 msgid "Icons only"
 msgstr "Pouze ikony"
 
-#: src/gthumb_preferences.glade.h:43
+#: src/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
 msgstr "Ponechat předchozí zvětšení"
 
-#: src/gthumb_preferences.glade.h:44
+#: src/gthumb_preferences.glade.h:45
 msgid "Layout:"
 msgstr "Rozvržení:"
 
-#: src/gthumb_preferences.glade.h:45
+#: src/gthumb_preferences.glade.h:46
 msgid "Lo_w"
 msgstr "Níz_ká"
 
-#: src/gthumb_preferences.glade.h:46
+#: src/gthumb_preferences.glade.h:47
 msgid "None"
 msgstr "Žádná"
 
-#: src/gthumb_preferences.glade.h:47
+#: src/gthumb_preferences.glade.h:48
 msgid "Re_verse"
 msgstr "_Obráceně"
 
-#: src/gthumb_preferences.glade.h:48
+#: src/gthumb_preferences.glade.h:49
 msgid "Resta_rt when finished"
 msgstr "Po _skončení znovu spustit"
 
-#: src/gthumb_preferences.glade.h:49
+#: src/gthumb_preferences.glade.h:50
 msgid "Set image to actual size"
 msgstr "Nastavit obrázek na skutečnou velikost"
 
-#: src/gthumb_preferences.glade.h:50
+#: src/gthumb_preferences.glade.h:51
 msgid "Set to C_urrent"
 msgstr "Nastavit na akt_uální"
 
-#: src/gthumb_preferences.glade.h:52
+#: src/gthumb_preferences.glade.h:53
 msgid "Switch to _full screen"
 msgstr "Zobrazit na _celé obrazovce"
 
-#: src/gthumb_preferences.glade.h:53
+#: src/gthumb_preferences.glade.h:54
 msgid "System settings"
 msgstr "Nastavení systému"
 
-#: src/gthumb_preferences.glade.h:54
+#: src/gthumb_preferences.glade.h:55
 msgid "Text below icons"
 msgstr "Text pod ikonami"
 
-#: src/gthumb_preferences.glade.h:55
+#: src/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
 msgstr "Text vedle ikon"
 
-#: src/gthumb_preferences.glade.h:56
+#: src/gthumb_preferences.glade.h:57
 msgid "Text only"
 msgstr "Pouze text"
 
-#: src/gthumb_preferences.glade.h:57
+#: src/gthumb_preferences.glade.h:58
 msgid "Th_umbnail size:"
 msgstr "Velikost minia_tury:"
 
-#: src/gthumb_preferences.glade.h:58
+#: src/gthumb_preferences.glade.h:59
 msgid "Transparency _type:"
 msgstr "_Typ průhlednosti:"
 
-#: src/gthumb_preferences.glade.h:59
+#: src/gthumb_preferences.glade.h:60
 msgid "Viewer"
 msgstr "Prohlížeč"
 
-#: src/gthumb_preferences.glade.h:60
+#: src/gthumb_preferences.glade.h:61
 msgid "White"
 msgstr "Bílá"
 
-#: src/gthumb_preferences.glade.h:61
+#: src/gthumb_preferences.glade.h:62
 msgid "_Filenames"
 msgstr "_Názvy souborů"
 
-#: src/gthumb_preferences.glade.h:62
+#: src/gthumb_preferences.glade.h:63
 msgid "_List"
 msgstr "S_eznam"
 
-#: src/gthumb_preferences.glade.h:63
+#: src/gthumb_preferences.glade.h:64
 msgid "_Slides"
 msgstr "Sním_ky"
 
-#: src/gthumb_preferences.glade.h:65
+#: src/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
 msgstr "_Styl lišty:"
 
-#: src/gthumb_preferences.glade.h:66
+#: src/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
 msgstr "Nastavení programu gThumb"
 
-#: src/gthumb_preferences.glade.h:67
+#: src/gthumb_preferences.glade.h:68
 msgid "seconds"
 msgstr "sekund(y)"
 
