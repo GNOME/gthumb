@@ -233,6 +233,9 @@ guint32         pref_util_get_int_value               (const char *hex);
 
 GthClickPolicy  pref_get_real_click_policy            (void);
 
+GthToolbarStyle pref_get_real_toolbar_style           (void);
+
+
 /* ------- */
 
 GthClickPolicy     pref_get_click_policy           (void);

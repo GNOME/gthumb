@@ -548,3 +548,36 @@ pref_get_view_mode (void)
 
 	return GTH_VIEW_MODE_VOID;
 }
+
+
+GthToolbarStyle
+pref_get_real_toolbar_style (void)
+{
+	GthToolbarStyle toolbar_style;
+
+	toolbar_style = pref_get_toolbar_style();
+
+	if (toolbar_style == GTH_TOOLBAR_STYLE_SYSTEM) {
+		char *system_style;
+
+		system_style = eel_gconf_get_string ("/desktop/gnome/interface/toolbar_style", "system");
+
+		if (system_style == NULL)
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
+		else if (strcmp (system_style, "both") == 0)
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
+		else if (strcmp (system_style, "both_horiz") == 0)
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BESIDE;
+		else if (strcmp (system_style, "icons") == 0)
+			toolbar_style = GTH_TOOLBAR_STYLE_ICONS;
+		else if (strcmp (system_style, "text") == 0)
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT;
+		else
+			toolbar_style = GTH_TOOLBAR_STYLE_TEXT_BELOW;
+
+		g_free (system_style);
+	}
+
+	return toolbar_style;
+}
+

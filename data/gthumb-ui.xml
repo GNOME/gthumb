@@ -737,6 +737,8 @@
 	</popup>
 
 	<popup name="ImagePopup">
+	        <menuitem name="View_FullscreenPopup" verb=""/>
+		<separator/>
 		<menuitem name="Image_OpenWith" verb=""/>
 		<menuitem name="Image_Save" verb=""/>
 		<menuitem name="Image_Print" verb=""/>

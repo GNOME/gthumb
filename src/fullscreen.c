@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "gth-exif-utils.h"
+#include "preferences.h"
 
 #include "icons/pixbufs.h"
 
@@ -716,7 +717,7 @@ fs_repainted_cb (GtkWidget        *widget,
 
 
 static void
-exif_fs_clicked_cb (GtkWidget *button)
+exit_fs_clicked_cb (GtkWidget *button)
 {
 	if (current_fullscreen != NULL)
 		fullscreen_stop (current_fullscreen);
@@ -758,14 +759,85 @@ image_comment_toggled_cb (GtkToggleButton  *button)
 
 
 static void
+zoom_in_cb (GtkWidget  *button)
+{
+	GThumbWindow *window = current_fullscreen->related_win;
+        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	if (window->image_data_visible)
+		comment_visible = TRUE;
+	image_viewer_zoom_in (viewer);
+}
+
+
+static void
+zoom_out_cb (GtkWidget  *button)
+{
+	GThumbWindow *window = current_fullscreen->related_win;
+        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	if (window->image_data_visible)
+		comment_visible = TRUE;
+	image_viewer_zoom_out (viewer);
+}
+
+
+static void
+zoom_100_cb (GtkWidget  *button)
+{
+	GThumbWindow *window = current_fullscreen->related_win;
+        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	if (window->image_data_visible)
+		comment_visible = TRUE;
+	image_viewer_set_zoom (viewer, 1.0);
+}
+
+
+static void
+zoom_fit_cb (GtkWidget  *button)
+{
+	GThumbWindow *window = current_fullscreen->related_win;
+        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	if (window->image_data_visible)
+		comment_visible = TRUE;
+	image_viewer_zoom_to_fit (viewer);
+}
+
+
+static GtkWidget*
+create_button (const char *stock_icon,
+	       const char *label,
+	       gboolean    toggle)
+{
+	GtkWidget *button;
+	GtkWidget *image;
+	GtkWidget *button_box;
+
+	if (toggle)
+		button = gtk_toggle_button_new ();
+	else
+		button = gtk_button_new ();
+	if (pref_get_real_toolbar_style() == GTH_TOOLBAR_STYLE_TEXT_BELOW)
+		button_box = gtk_vbox_new (FALSE, 5);
+	else
+		button_box = gtk_hbox_new (FALSE, 5);
+	gtk_container_add (GTK_CONTAINER (button), button_box);
+
+	image = gtk_image_new_from_stock (stock_icon, GTK_ICON_SIZE_BUTTON);
+	gtk_box_pack_start (GTK_BOX (button_box), image, FALSE, FALSE, 0);
+
+	if (label != NULL)
+		gtk_box_pack_start (GTK_BOX (button_box), gtk_label_new (label), FALSE, FALSE, 0);
+
+	return button;
+}
+
+
+static void
 create_popup_window (void)
 {
 	GtkWidget *button;
 	GtkWidget *frame;
 	GtkWidget *hbox;
-	GtkWidget *button_hbox;
-	GtkWidget *image;
-	GdkPixbuf *icon;
+
 
 	popup_window = gtk_window_new (GTK_WINDOW_POPUP);
 
@@ -779,37 +851,17 @@ create_popup_window (void)
 
 	/* restore normal view */
 
-	button = gtk_button_new ();
-
-	icon = gdk_pixbuf_new_from_inline (-1, exit_fullscreen_24_rgba, FALSE, NULL);
-	image = gtk_image_new_from_pixbuf (icon);
-	g_object_unref (icon);
-
-	button_hbox = gtk_hbox_new (FALSE, 5);
-
-	gtk_box_pack_start (GTK_BOX (button_hbox), image, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_hbox), gtk_label_new (_("Restore Normal View")), FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_hbox);
+	button = create_button (GTHUMB_STOCK_FULLSCREEN, _("Restore Normal View"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
-			  G_CALLBACK (exif_fs_clicked_cb),
+			  G_CALLBACK (exit_fs_clicked_cb),
 			  NULL);
 
 	/* image info */
 
-	prop_button = button = gtk_toggle_button_new ();
-
-	image = gtk_image_new_from_stock ("gthumb-properties", GTK_ICON_SIZE_BUTTON);
-
-	button_hbox = gtk_hbox_new (FALSE, 5);
-
-	gtk_box_pack_start (GTK_BOX (button_hbox), image, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_hbox), gtk_label_new (_("Image Info")), FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_hbox);
+	prop_button = button = create_button (GTHUMB_STOCK_PROPERTIES, _("Image Info"), TRUE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
 	g_signal_connect (G_OBJECT (button),
 			  "toggled",
 			  G_CALLBACK (image_comment_toggled_cb),
@@ -817,17 +869,8 @@ create_popup_window (void)
 
 	/* back */
 
-	button = gtk_button_new ();
-
-	image = gtk_image_new_from_stock (GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON);
-
-	button_hbox = gtk_hbox_new (FALSE, 5);
-
-	gtk_box_pack_start (GTK_BOX (button_hbox), image, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_hbox), gtk_label_new (_("Back")), FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_hbox);
+	button = create_button (GTK_STOCK_GO_BACK, _("Back"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
 			  G_CALLBACK (show_prev_image_cb),
@@ -835,20 +878,47 @@ create_popup_window (void)
 
 	/* forward */
 
-	button = gtk_button_new ();
-
-	image = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);
-
-	button_hbox = gtk_hbox_new (FALSE, 5);
-
-	gtk_box_pack_start (GTK_BOX (button_hbox), image, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (button_hbox), gtk_label_new (_("Forward")), FALSE, FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (button), button_hbox);
+	button = create_button (GTK_STOCK_GO_FORWARD, _("Forward"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-
 	g_signal_connect (G_OBJECT (button),
 			  "clicked",
 			  G_CALLBACK (show_next_image_cb),
+			  fullscreen);
+
+	/* zoom in */
+
+	button = create_button (GTK_STOCK_ZOOM_IN, _("In"), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (button),
+			  "clicked",
+			  G_CALLBACK (zoom_in_cb),
+			  fullscreen);
+
+	/* zoom out */
+
+	button = create_button (GTK_STOCK_ZOOM_OUT, _("Out"), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (button),
+			  "clicked",
+			  G_CALLBACK (zoom_out_cb),
+			  fullscreen);
+
+	/* zoom 100 */
+
+	button = create_button (GTK_STOCK_ZOOM_100, _("1:1"), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (button),
+			  "clicked",
+			  G_CALLBACK (zoom_100_cb),
+			  fullscreen);
+
+	/* zoom fit */
+
+	button = create_button (GTK_STOCK_ZOOM_FIT, _("Fit"), FALSE);
+	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+	g_signal_connect (G_OBJECT (button),
+			  "clicked",
+			  G_CALLBACK (zoom_fit_cb),
 			  fullscreen);
 
 	/**/

@@ -1,3 +1,8 @@
+2004-04-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/fullscreen.c (create_popup_window): added zoom buttons to the 
+	toolbar.
+
 2004-04-18  Sami Pesonen  <sampeson@iki.fi>
 
 	* configure.in: Added "fi" (Finnish) to ALL_LINGUAS.

@@ -270,7 +270,7 @@
 
 	<locale name="pt">
 	  
-	  <long>Imagens maiores do que este valor (em bytes) não serão amostradas. Utilize 0 se desejar criar amostras para todas as imagens.</long>
+	  <long>Para imagens maiores do que este valor (em bytes) não serão geradas imagens de referência. Utilize 0 se desejar criar imagens de referência para todas as imagens.</long>
 	</locale>
 
 	<locale name="pt_BR">
@@ -1770,7 +1770,7 @@
 
 	<locale name="pt">
 	  
-	  <long>Se utilizar sempre ou não um fundo preto.</long>
+	  <long>Se utilizar ou não sempre um fundo preto.</long>
 	</locale>
 
 	<locale name="pt_BR">
@@ -1891,6 +1891,11 @@
 	<locale name="no">
 	  
 	  <long>Mulige verdier er: forward, backward, random.</long>
+	</locale>
+
+	<locale name="pt">
+	  
+	  <long>Valores possíveis são: forward, backward, random.</long>
 	</locale>
 
 	<locale name="pt_BR">
