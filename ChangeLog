@@ -1,3 +1,13 @@
+2004-06-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (catalog_activate_continue) 
+	(catalog_activate_continue, catalog_activate) 
+	(window_set_sidebar_content): set image viewer void if the current 
+	image is not present in the image list.
+
+	* src/fullscreen.c (fullscreen_stop): use gtk_widget_show instead of
+	gtk_widget_show_all.
+
 2004-06-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/ui.h: fix tooltip text.

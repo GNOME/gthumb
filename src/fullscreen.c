@@ -1182,7 +1182,7 @@ fullscreen_stop (FullScreen *fullscreen)
 	fullscreen->viewer = NULL;
 
 	gtk_widget_set_sensitive (window->app, TRUE);
-	gtk_widget_show_all (window->app);
+	gtk_widget_show (window->app);
 
 	/* restore widgets visiblity */
 

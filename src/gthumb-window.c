@@ -558,7 +558,7 @@ window_update_zoom_sensitivity (GThumbWindow *window)
 			      image_is_visible && !image_is_void && (zoom != 5));
 	set_action_sensitive (window, 
 			      "View_ZoomFit",
-			      image_is_visible && !image_is_void && !fit);
+			      image_is_visible && !image_is_void);
 }
 
 
@@ -640,10 +640,7 @@ window_update_sensitivity (GThumbWindow *window)
 	set_action_sensitive (window, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (window, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
 
-	set_action_sensitive (window, "View_ZoomIn", ! image_is_void);
-	set_action_sensitive (window, "View_ZoomOut", ! image_is_void);
-	set_action_sensitive (window, "View_Zoom100", ! image_is_void);
-	set_action_sensitive (window, "View_ZoomFit", ! image_is_void);
+	window_update_zoom_sensitivity(window);
 	set_action_sensitive (window, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (window, "View_StepAnimation", image_is_ani && ! playing);
 
@@ -1917,8 +1914,10 @@ catalog_activate_continue (gpointer data)
 
 		if (! catalog_list_get_iter_from_path (window->catalog_list,
 						       window->catalog_path,
-						       &iter)) 
+						       &iter)) { 
+			window_image_viewer_set_void (window);
 			return;
+		}
 		is_search = catalog_list_is_search (window->catalog_list, &iter);
 		add_history_item (window,
 				  window->catalog_path,
@@ -1928,6 +1927,7 @@ catalog_activate_continue (gpointer data)
 
 	window_update_history_list (window);
 	window_update_title (window);
+	window_make_current_image_visible (window);
 }
 
 
@@ -1946,7 +1946,7 @@ catalog_activate (GThumbWindow *window,
 		if (! catalog_load_from_disk (catalog, cat_path, &gerror)) {
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &gerror);
 			catalog_free (catalog);
-
+			window_image_viewer_set_void (window);
 			return;
 		}
 
@@ -5738,12 +5738,16 @@ window_set_sidebar_content (GThumbWindow *window,
 			if (window->slideshow)
 				window_stop_slideshow (window);
 			
-			if (! catalog_list_get_iter_from_path (window->catalog_list, window->catalog_path, &iter))
+			if (! catalog_list_get_iter_from_path (window->catalog_list, window->catalog_path, &iter)) {
+				window_image_viewer_set_void (window);
 				return;
+			}
 			catalog_list_select_iter (window->catalog_list, &iter);
 			catalog_activate (window, window->catalog_path);
-		} else 
+		} else {
 			window_set_file_list (window, NULL, NULL, NULL);
+			window_image_viewer_set_void (window);
+		}
 
 		window_update_title (window);
 		break;
@@ -6530,6 +6534,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		g_free (gt_data->path);
 		g_free (gt_data);
 		window_update_title (window);
+		window_image_viewer_set_void (window);
 		return;
 	}
 
@@ -6541,6 +6546,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		g_free (gt_data->path);
 		g_free (gt_data);
 		window_update_title (window);
+		window_image_viewer_set_void (window);
 		return;
 	}
 
@@ -6565,6 +6571,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 					       &iter)) {
 		g_free (gt_data->path);
 		g_free (gt_data);
+		window_image_viewer_set_void (window);
 		return;
 	}
 
