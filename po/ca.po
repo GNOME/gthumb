@@ -1,61 +1,63 @@
-#
-# (c)2003 Softcatal�, recuperat de la mem�ria de traducci�
+# Catalan translation of Gthumb.
+# Copyright © 2003 Free Software Foundation, Inc.
+# This file is distributed under the same license as the gthumb package.
+# Aleix Badia i Bosch <abadia@ica.es>, 2003.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Ghumb\n"
-"POT-Creation-Date: 2003-02-21 12:14+0100\n"
-"PO-Revision-Date: 2003-02-21 17:17+0100\n"
-"Last-Translator: <tradgnome@softcatala.org>\n"
-"Language-Team:  <tradgnome@softcatala.org>\n"
+"Project-Id-Version: ghumb\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-01 18:26+0200\n"
+"PO-Revision-Date: 2003-10-01 18:40+0200\n"
+"Last-Translator: Aleix Badia i Bosch <abadia@ica.es>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 0.9.5\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
-msgstr ""
+msgstr "Catàleg"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
-msgstr ""
+msgstr "Visualització del catàleg del GThumb"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr ""
+msgstr "Visualitza com a catàleg"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
-#: src/gthumb-ui.xml.h:84
+#: src/gthumb-ui.xml.h:90
 msgid "Print the current image"
-msgstr ""
+msgstr "Imprimeix la imatge actual"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb_print.glade.h:12
 msgid "_Print"
 msgstr "_Imprimeix"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr ""
+msgstr "Imatge del GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "Visualitzador del GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr ""
+msgstr "Visualitza amb el GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
-msgstr ""
+msgstr "Inverteix"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
-msgstr ""
+msgstr "Inverteix la imatge"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
@@ -67,252 +69,464 @@ msgstr "Baixa"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
-msgstr ""
+msgstr "Reflexa en un mirall"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
-msgstr ""
+msgstr "Reflexa la imatge en un mirall"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
-#: src/gthumb-ui.xml.h:113
+#: src/gthumb-ui.xml.h:118
 msgid "Rotate"
 msgstr "Gira"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate 180 _Degrees"
-msgstr ""
+msgstr "Gira 180 _graus"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Gira la imatge en el sentit horari"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Rotate the image of 180 degrees"
-msgstr ""
+msgstr "Gira la imatge 180 graus"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: src/gthumb-ui.xml.h:121
+#: src/gthumb-ui.xml.h:126
 msgid "Save _As..."
 msgstr "Desa _com..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: src/gthumb-ui.xml.h:122
+#: src/gthumb-ui.xml.h:127
 msgid "Save current image"
-msgstr ""
+msgstr "Desa la imatge actual"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
-#: src/gthumb-ui.xml.h:138
+#: src/gthumb-ui.xml.h:143
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "Inicia o atura l'animació actual"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Start/Stop _Animation"
-msgstr ""
+msgstr "Inicia/atura l'_animació"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
 msgid "Transparency T_ype"
-msgstr ""
+msgstr "Ti_pus de transparència"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
-#: src/gthumb-ui.xml.h:153
+#: src/gthumb-ui.xml.h:158
 msgid "View next animation frame"
-msgstr ""
+msgstr "Visualitza el següent fotograma de l'animació"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
-#: src/gthumb-ui.xml.h:180
+#: src/gthumb-ui.xml.h:185
 msgid "_Black"
 msgstr "N_egre"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gthumb-ui.xml.h:185
+#: src/gthumb-ui.xml.h:190
 msgid "_Checked"
-msgstr ""
+msgstr "A_ctivat"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gthumb-ui.xml.h:198
+#: src/gthumb-ui.xml.h:204
 msgid "_Flip"
-msgstr ""
+msgstr "_Inverteix"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gthumb-ui.xml.h:209
+#: src/gthumb-ui.xml.h:215
 msgid "_Image"
 msgstr "_Imatge"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: src/gthumb-ui.xml.h:215
+#: src/gthumb-ui.xml.h:221
 msgid "_Mirror"
-msgstr ""
+msgstr "_Reflexa en un mirall"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
-#: src/gthumb-ui.xml.h:220
+#: src/gthumb-ui.xml.h:226
 msgid "_None"
-msgstr "Cap"
+msgstr "_Cap"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 msgid "_Rotate Clockwise"
-msgstr ""
+msgstr "Gi_ra en el sentit horari"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_Step Animation"
-msgstr ""
+msgstr "Animació _pas a pas"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: src/gthumb-ui.xml.h:246 src/gthumb_search.glade.h:32
+#: src/gthumb-ui.xml.h:256 src/gthumb_search.glade.h:31
 #: src/gthumb_tools.glade.h:48
 msgid "_View"
 msgstr "_Visualitza"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
-#: src/gthumb-ui.xml.h:247
+#: src/gthumb-ui.xml.h:257
 msgid "_White"
 msgstr "_Blanc"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
 msgid "_Zoom Quality"
-msgstr ""
+msgstr "Qualitat del _zoom"
 
-#: components/image-viewer/test-component.c:235
-msgid "Component has no editable properties"
-msgstr ""
-
-#: components/image-viewer/test-component.c:373
-#, c-format
-msgid "Could not open file %s"
-msgstr "No s'ha pogut obrir el fitxer %s"
-
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:520
-#: src/gthumb-window.c:352
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:526
 msgid "%d %b %Y, %H:%M"
-msgstr ""
+msgstr "%d %b %Y, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:799 src/dlg-image-prop.c:624
-#: src/fullscreen.c:231 src/gthumb-window.c:358
+#: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:806
+#: src/dlg-image-prop.c:445 src/fullscreen.c:216
+#: src/gth-exif-data-viewer.c:445 src/gthumb-window.c:388
 #, c-format
 msgid "%d x %d pixels"
-msgstr ""
+msgstr "%d x %d píxels"
+
+#: data/albumthemes/Clean/image.xml.in.h:1
+#: data/albumthemes/Classic/image.xml.in.h:2
+#: data/albumthemes/ClassicClips/image.xml.in.h:2
+#: data/albumthemes/NeatRound/image.xml.in.h:2
+#: data/albumthemes/NeatSquare/image.xml.in.h:2
+msgid "Aperture value"
+msgstr "Valor de l'obertura"
+
+#: data/albumthemes/Clean/image.xml.in.h:2
+#: data/albumthemes/Classic/image.xml.in.h:3
+#: data/albumthemes/ClassicClips/image.xml.in.h:3
+#: data/albumthemes/NeatRound/image.xml.in.h:3
+#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:638
+#: src/gth-exif-data-viewer.c:473
+msgid "Bytes"
+msgstr "Bytes"
+
+#: data/albumthemes/Clean/image.xml.in.h:3
+#: data/albumthemes/Classic/image.xml.in.h:4
+#: data/albumthemes/ClassicClips/image.xml.in.h:4
+#: data/albumthemes/NeatRound/image.xml.in.h:4
+#: data/albumthemes/NeatSquare/image.xml.in.h:4
+msgid "Camera model"
+msgstr "Model de la càmera"
+
+#: data/albumthemes/Clean/image.xml.in.h:4
+#: data/albumthemes/Classic/image.xml.in.h:5
+#: data/albumthemes/ClassicClips/image.xml.in.h:5
+#: data/albumthemes/NeatRound/image.xml.in.h:5
+#: data/albumthemes/NeatSquare/image.xml.in.h:5
+msgid "Date"
+msgstr "Data"
+
+#: data/albumthemes/Clean/image.xml.in.h:5
+#: data/albumthemes/Classic/image.xml.in.h:6
+#: data/albumthemes/ClassicClips/image.xml.in.h:6
+#: data/albumthemes/NeatRound/image.xml.in.h:6
+#: data/albumthemes/NeatSquare/image.xml.in.h:6
+msgid "Dimensions"
+msgstr "Dimensions"
+
+#: data/albumthemes/Clean/image.xml.in.h:6
+#: data/albumthemes/Classic/image.xml.in.h:7
+#: data/albumthemes/ClassicClips/image.xml.in.h:7
+#: data/albumthemes/NeatRound/image.xml.in.h:7
+#: data/albumthemes/NeatSquare/image.xml.in.h:7
+msgid "Exposure mode"
+msgstr "Mode d'exposició"
+
+#: data/albumthemes/Clean/image.xml.in.h:7
+#: data/albumthemes/Classic/image.xml.in.h:8
+#: data/albumthemes/ClassicClips/image.xml.in.h:8
+#: data/albumthemes/NeatRound/image.xml.in.h:8
+#: data/albumthemes/NeatSquare/image.xml.in.h:8
+msgid "Exposure time"
+msgstr "Temps d'exposició"
+
+#: data/albumthemes/Clean/image.xml.in.h:8
+#: data/albumthemes/Classic/image.xml.in.h:9
+#: data/albumthemes/ClassicClips/image.xml.in.h:9
+#: data/albumthemes/NeatRound/image.xml.in.h:9
+#: data/albumthemes/NeatSquare/image.xml.in.h:9
+msgid "Flash"
+msgstr "Flaix"
+
+#: data/albumthemes/Clean/image.xml.in.h:9
+#: data/albumthemes/Classic/image.xml.in.h:10
+#: data/albumthemes/ClassicClips/image.xml.in.h:10
+#: data/albumthemes/NeatRound/image.xml.in.h:10
+#: data/albumthemes/NeatSquare/image.xml.in.h:10
+msgid "Focal length"
+msgstr "Longitud del focal"
+
+#: data/albumthemes/Clean/image.xml.in.h:10
+#: data/albumthemes/Classic/image.xml.in.h:11
+#: data/albumthemes/ClassicClips/image.xml.in.h:11
+#: data/albumthemes/NeatRound/image.xml.in.h:11
+#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:265
+msgid "Image"
+msgstr "Imatge"
+
+#: data/albumthemes/Clean/image.xml.in.h:11
+#: data/albumthemes/Classic/image.xml.in.h:12
+#: data/albumthemes/ClassicClips/image.xml.in.h:12
+#: data/albumthemes/NeatRound/image.xml.in.h:12
+#: data/albumthemes/NeatSquare/image.xml.in.h:12
+msgid "Shutter speed"
+msgstr "Velocitat de l'obturador"
+
+#: data/albumthemes/Clean/image.xml.in.h:12 src/gthumb_edit.glade.h:33
+#: src/gthumb_web_exporter.glade.h:53
+msgid "pixels"
+msgstr "píxels"
+
+#: data/albumthemes/Classic/image.xml.in.h:1
+#: data/albumthemes/ClassicClips/image.xml.in.h:1
+#: data/albumthemes/NeatRound/image.xml.in.h:1
+#: data/albumthemes/NeatSquare/image.xml.in.h:1
+msgid "(click on the image to view it at original size)"
+msgstr "(Feu-hi clic per visualitzar la imatge amb la seva mida original)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr ""
+msgstr "Visualitzeu i organitzeu les vostres imatges"
 
 #: gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr ""
-
-#: libgthumb/catalog-png-exporter.c:1320
-#, c-format
-msgid "Loading image: %s"
-msgstr ""
-
-#: libgthumb/catalog-png-exporter.c:1527
-#, c-format
-msgid "Creating image: %s.%s"
-msgstr ""
+msgstr "Visualitzador d'imatges gThumb"
 
 #: libgthumb/catalog.c:89
 msgid "Library not empty"
-msgstr ""
+msgstr "La biblioteca no està buida"
 
 #: libgthumb/catalog.c:98
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr ""
+msgstr "No es pot suprimir la biblioteca \"%s\": %s"
 
 #: libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr ""
+msgstr "No es pot suprimir el catàleg \"%s\": %s"
 
-#: libgthumb/catalog.c:246 libgthumb/catalog.c:414
+#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr ""
+msgstr "No es pot obrir el catàleg \"%s\": %s"
 
-#: libgthumb/catalog.c:391
+#: libgthumb/catalog.c:395
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr ""
+msgstr "No es pot desar el catàleg \"%s\": %s"
 
-#: libgthumb/comments.c:317
+#: libgthumb/comments.c:399
 msgid "Deleting all comments, wait please..."
-msgstr ""
+msgstr "S'estan suprimint tots els comentaris, espereu si us plau..."
 
-#: libgthumb/comments.c:319
+#: libgthumb/comments.c:401
 msgid "Deleting old comments, wait please..."
-msgstr ""
+msgstr "S'estan suprimint tots els comentaris vells, espereu si us plau..."
 
-#: libgthumb/comments.c:656
+#: libgthumb/comments.c:760
 msgid "%d %B %Y"
-msgstr ""
+msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:644
-#: src/fullscreen.c:238
+#: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
+#: src/gth-exif-data-viewer.c:449 src/gthumb-window.c:385
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:668
+#: libgthumb/comments.c:772
 msgid "(No Comment)"
-msgstr ""
+msgstr "(Cap comentari)"
 
-#: libgthumb/gconf-utils.c:98
-#, c-format
-msgid ""
-"GConf error:\n"
-"  %s"
-msgstr ""
-"S'ha produït un error Gconf:\n"
-"  %s"
-
-#: libgthumb/dlg-save-image.c:86 src/commands-impl.c:281 src/dlg-convert.c:310
+#: libgthumb/dlg-save-image.c:119 src/commands-impl.c:313
+#: src/dlg-convert.c:307
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr ""
+msgstr "Ja hi ha una imatge amb el nom \"%s\". La voleu sobreescriure?"
 
-#: libgthumb/dlg-save-image.c:136
+#: libgthumb/dlg-save-image.c:175
 #, c-format
 msgid "Image type not supported: %s"
-msgstr ""
+msgstr "El tipus de la imatge no està suportat: %s"
 
-#: libgthumb/dlg-save-image.c:154
+#: libgthumb/dlg-save-image.c:193
 msgid "Determine by extension"
-msgstr ""
+msgstr "Determina per l'extensió"
 
-#: libgthumb/dlg-save-image.c:186
+#: libgthumb/dlg-save-image.c:228
 msgid "Save Image"
-msgstr ""
+msgstr "Desa la imatge"
 
-#: libgthumb/dlg-save-image.c:200
+#: libgthumb/dlg-save-image.c:242
 msgid "Image type:"
-msgstr ""
+msgstr "Tipus de la imatge:"
 
-#: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2743 src/gthumb-window.c:437
-#: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
-#: src/gthumb-window.c:477 src/gthumb-window.c:3982
-#: src/gthumb_png_exporter.glade.h:75 src/main.c:119
-msgid "gThumb"
-msgstr ""
+#: libgthumb/gnome-print-font-dialog.c:114
+msgid "_Insert a new preview phrase."
+msgstr "_Introdueix una nova frase de previsualització."
 
-#: libgthumb/thumb-cache.c:487
+#: libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "Modifica la frase de previsualització..."
+
+#: libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "Previsualització"
+
+#: libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "_Modifica la frase de previsualització..."
+
+#: libgthumb/gnome-print-font-dialog.c:244
+msgid "Font Selection"
+msgstr "Selecció del tipus de lletra"
+
+#: libgthumb/gnome-print-font-picker.c:92
+msgid "Sans Regular 12"
+msgstr "Sans Regular 12"
+
+#: libgthumb/gnome-print-font-picker.c:93
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+
+#: libgthumb/gnome-print-font-picker.c:94
+msgid "Pick a Font"
+msgstr "Tria una font"
+
+#: libgthumb/gnome-print-font-picker.c:179
+msgid "Title"
+msgstr "Títol"
+
+#: libgthumb/gnome-print-font-picker.c:180
+msgid "The title of the selection dialog box"
+msgstr "El títol de la caixa de diàleg de selecció"
+
+#: libgthumb/gnome-print-font-picker.c:200
+msgid "Font name"
+msgstr "Nom de la font"
+
+#: libgthumb/gnome-print-font-picker.c:201
+msgid "Name of the selected font"
+msgstr "Nom de la font seleccionada"
+
+#: libgthumb/gnome-print-font-picker.c:209
+msgid "Preview text"
+msgstr "Previsualitza el text"
+
+#: libgthumb/gnome-print-font-picker.c:210
+msgid "Preview text shown in the dialog"
+msgstr "Previsualitza el text que es mostra al diàleg"
+
+#: libgthumb/gnome-print-font-picker.c:218
+msgid "Use font in label"
+msgstr "Utilitza la font a l'etiqueta"
+
+#: libgthumb/gnome-print-font-picker.c:219
+msgid "Use font in the label in font info mode"
+msgstr "Utilitza la font a l'etiqueta del mode d'informació de la font"
+
+#: libgthumb/gnome-print-font-picker.c:227
+msgid "Font size for label"
+msgstr "Mida de la font per l'etiqueta"
+
+#: libgthumb/gnome-print-font-picker.c:228
+msgid "Font size for label in font info mode"
+msgstr "Mida de la font de l'etiqueta del mode d'informació de font"
+
+#: libgthumb/gnome-print-font-picker.c:238
+msgid "Show size"
+msgstr "Mostra la mida"
+
+#: libgthumb/gnome-print-font-picker.c:239
+msgid "Show size in font info mode"
+msgstr "Mostra la mida en el mode d'informació de la font"
+
+#: libgthumb/gnome-print-font-picker.c:1018
+msgid "Font"
+msgstr "Font"
+
+#: libgthumb/gth-file-view-list.c:1376 src/gthumb-ui.xml.h:25
+#: src/gthumb_comments.glade.h:8
+msgid "Comment"
+msgstr "Comentari"
+
+#: libgthumb/gth-file-view-list.c:1383 src/dlg-duplicates.c:372
+#: src/dlg-image-prop.c:623 src/gth-exif-data-viewer.c:459
+msgid "Name"
+msgstr "Nom"
+
+#: libgthumb/print-callbacks.c:925 libgthumb/print-callbacks.c:1504
+#, c-format
+msgid "Print %s"
+msgstr "Imprimeix %s"
+
+#: libgthumb/print-callbacks.c:928
+msgid "Print Image"
+msgstr "Imprimeix la imatge"
+
+#: libgthumb/thumb-cache.c:483
 msgid "Deleting all thumbnails, wait please..."
-msgstr ""
+msgstr "S'estan suprimint les miniatures, espereu si us plau..."
 
-#: libgthumb/thumb-cache.c:489
+#: libgthumb/thumb-cache.c:485
 msgid "Deleting old thumbnails, wait please..."
-msgstr ""
+msgstr "S'estan suprimint les miniatures antigues, espereu si us plau..."
 
-#: src/commands-impl.c:243 src/commands-impl.c:993 src/commands-impl.c:1573
+#: src/bookmark-list.c:169 src/catalog-list.c:436 src/catalog-list.c:468
+#: src/dir-list.c:218 src/dir-list.c:461 src/dlg-rename-series.c:294
+#: src/dlg-rename-series.c:298 src/gthumb-window.c:531
+#: src/gthumb-window.c:1275 src/gthumb-window.c:1282 src/gthumb-window.c:1290
+msgid "(Invalid Name)"
+msgstr "(Nom invàlid)"
+
+#: src/catalog-png-exporter.c:1327
+#, c-format
+msgid "Loading image: %s"
+msgstr "S'està carregant la imatge: %s"
+
+#: src/catalog-png-exporter.c:1535
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "S'està creant la imatge: %s.%s"
+
+#: src/catalog-web-exporter.c:1518
+msgid "Saving thumbnails"
+msgstr "S'estan desant les miniatures"
+
+#: src/catalog-web-exporter.c:1584
+msgid "Saving HTML pages: Images"
+msgstr "S'estan desant les pàgines HTML: Imatges"
+
+#: src/catalog-web-exporter.c:1659
+msgid "Saving HTML pages: Indexes"
+msgstr "S'estan desant les pàgines HTML: Índexs"
+
+#: src/catalog-web-exporter.c:1782 src/catalog-web-exporter.c:1840
+#: src/catalog-web-exporter.c:1979
+msgid "Saving images"
+msgstr "S'estan desant les imatges"
+
+#: src/catalog-web-exporter.c:2188
+msgid "Could not create a temporary folder"
+msgstr "No s'ha pogut crear una carpeta temporal"
+
+#. Load thumbnails.
+#: src/catalog-web-exporter.c:2225
+msgid "Loading images"
+msgstr "S'estan carregant les imatges"
+
+#: src/commands-impl.c:275 src/commands-impl.c:1011 src/commands-impl.c:1579
 msgid "Enter the new name: "
-msgstr ""
+msgstr "Introduïu el nou nom: "
 
-#: src/commands-impl.c:247 src/commands-impl.c:997 src/commands-impl.c:1577
-#: src/gthumb-ui.xml.h:227 src/gthumb_tools.glade.h:45
+#: src/commands-impl.c:279 src/commands-impl.c:1015 src/commands-impl.c:1583
+#: src/gthumb-ui.xml.h:234 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "_Canvia el nom"
 
-#: src/commands-impl.c:261 src/commands-impl.c:899 src/commands-impl.c:1011
-#: src/commands-impl.c:1593 src/commands-impl.c:1688
+#: src/commands-impl.c:293 src/commands-impl.c:917 src/commands-impl.c:1029
+#: src/commands-impl.c:1599 src/commands-impl.c:1694
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -321,399 +535,438 @@ msgstr ""
 "El nom \"%s\" no és vàlid perquè conté el caràcter \"/\". Utilitzeu un nom "
 "diferent."
 
-#: src/commands-impl.c:288 src/dlg-convert.c:316
+#: src/commands-impl.c:320 src/dlg-convert.c:313
 msgid "_Overwrite"
-msgstr ""
+msgstr "S_obreescriu"
 
-#: src/commands-impl.c:308 src/commands-impl.c:323
+#: src/commands-impl.c:340 src/commands-impl.c:355
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la imatge \"%s\": %s"
 
-#: src/commands-impl.c:310 src/commands-impl.c:1033 src/commands-impl.c:1337
+#: src/commands-impl.c:342 src/commands-impl.c:1051 src/commands-impl.c:1357
 msgid "source and destination are the same"
-msgstr ""
+msgstr "l'origen i el destí coincideixen"
 
-#: src/commands-impl.c:412
+#: src/commands-impl.c:446
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut duplicar la imatge \"%s\": %s"
 
-#: src/commands-impl.c:483
+#: src/commands-impl.c:454
+msgid "Stop"
+msgstr "Atura"
+
+#: src/commands-impl.c:455
+msgid "Continue"
+msgstr "Continua"
+
+#: src/commands-impl.c:531
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Les imatges seleccionades es mouran a la paperera, n'esteu segur?"
 
-#: src/commands-impl.c:503
+#: src/commands-impl.c:551
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "La imatge es mourà a la paperera, n'esteu segur?"
 
-#: src/commands-impl.c:768
+#: src/commands-impl.c:786
 msgid "The image will be removed from the catalog, are you sure?"
-msgstr ""
+msgstr "La imatge se suprimirà del catàleg, n'esteu segur?"
 
-#: src/commands-impl.c:810
+#: src/commands-impl.c:828
 msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr ""
+msgstr "Les imatges seleccionades se suprimiran del catàleg, n'esteu segur?"
 
-#: src/commands-impl.c:886 src/dlg-catalog.c:83 src/dlg-catalog.c:124
-#: src/dlg-categories.c:191 src/dlg-file-utils.c:93
+#: src/commands-impl.c:904 src/dlg-catalog.c:86 src/dlg-catalog.c:131
+#: src/dlg-categories.c:200 src/dlg-file-utils.c:90
 msgid "C_reate"
 msgstr "C_rea"
 
-#: src/commands-impl.c:915 src/commands-impl.c:1040 src/commands-impl.c:1615
-#: src/commands-impl.c:1707
+#: src/commands-impl.c:933 src/commands-impl.c:1059 src/commands-impl.c:1621
+#: src/commands-impl.c:1713
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr ""
+msgstr "Ja s'utilitza el nom \"%s\". Utilitzeu un nom diferent, si us plau."
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:961
 msgid "New Folder"
-msgstr ""
+msgstr "Nova carpeta"
 
-#: src/commands-impl.c:944
+#: src/commands-impl.c:962
 msgid "Enter the folder name: "
-msgstr ""
+msgstr "Introduïu el nom de la carpeta: "
 
-#: src/commands-impl.c:945
+#: src/commands-impl.c:963
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut crear la carpeta \"%s\": %s"
 
-#: src/commands-impl.c:956
+#: src/commands-impl.c:974
 msgid "New Library"
-msgstr ""
+msgstr "Nova biblioteca"
 
-#: src/commands-impl.c:957 src/dlg-catalog.c:120
+#: src/commands-impl.c:975 src/dlg-catalog.c:127
 msgid "Enter the library name: "
-msgstr ""
+msgstr "Introduïu el nom de la biblioteca: "
 
-#: src/commands-impl.c:958
+#: src/commands-impl.c:976
 #, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut crear la biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1031 src/commands-impl.c:1072
+#: src/commands-impl.c:1049 src/commands-impl.c:1086
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la carpeta \"%s\": %s"
 
-#: src/commands-impl.c:1138
+#: src/commands-impl.c:1152
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut suprimir la carpeta \"%s\": %s"
 
-#: src/commands-impl.c:1167
+#: src/commands-impl.c:1183
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "%s no es pot moure a la paperera. Ho voleu suprimir permanentment?"
 
-#: src/commands-impl.c:1204
+#: src/commands-impl.c:1191 src/dlg-file-utils.c:227
+msgid "_Do not display this message again"
+msgstr "No _tornis a mostrar aquest missatge"
+
+#: src/commands-impl.c:1224
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "La carpeta seleccionada es mourà a la paperera, n'esteu segur?"
 
-#: src/commands-impl.c:1206 src/dlg-file-utils.c:277
+#: src/commands-impl.c:1226 src/dlg-file-utils.c:281
 msgid "_Move"
 msgstr "_Mou"
 
-#: src/commands-impl.c:1272 src/commands-impl.c:1327
+#: src/commands-impl.c:1292 src/commands-impl.c:1347
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut copiar la carpeta \"%s\": %s"
 
-#: src/commands-impl.c:1327 src/dlg-file-utils.c:2301
-#: src/dlg-file-utils.c:2303
+#: src/commands-impl.c:1347 src/dlg-file-utils.c:2428
+#: src/dlg-file-utils.c:2430
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut moure la carpeta \"%s\": %s"
 
-#: src/commands-impl.c:1348
+#: src/commands-impl.c:1368
 msgid "source contains destination"
-msgstr ""
+msgstr "l'origen conté el destí"
 
-#: src/commands-impl.c:1359
+#: src/commands-impl.c:1379
 msgid "a folder with that name is already present."
-msgstr ""
+msgstr "ja hi ha una carpeta amb aquest nom."
 
-#: src/commands-impl.c:1454 src/dlg-file-utils.c:363 src/dlg-file-utils.c:452
+#: src/commands-impl.c:1460 src/dlg-file-utils.c:369 src/dlg-file-utils.c:458
 msgid "Choose the destination folder"
-msgstr ""
+msgstr "Seleccioneu la carpeta destí"
 
-#: src/commands-impl.c:1626
+#: src/commands-impl.c:1632
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la biblioteca \"%s\": %s"
 
-#: src/commands-impl.c:1626
+#: src/commands-impl.c:1632
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom del catàleg \"%s\": %s"
 
-#: src/commands-impl.c:1672 src/dlg-catalog.c:79
+#: src/commands-impl.c:1678 src/dlg-catalog.c:82
 msgid "Enter the catalog name: "
-msgstr ""
+msgstr "Introduïu el nom del catàleg: "
 
-#: src/commands-impl.c:1673
+#: src/commands-impl.c:1679
 msgid "New Catalog"
-msgstr ""
+msgstr "Nou catàleg"
 
-#: src/commands-impl.c:1718
+#: src/commands-impl.c:1724
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr ""
+msgstr "No s'ha pogut crear el catàleg \"%s\": %s"
 
-#: src/commands-impl.c:1782
+#: src/commands-impl.c:1788
 msgid "The selected library will be removed, are you sure?"
-msgstr ""
+msgstr "Se suprimirà la biblioteca seleccionada, n'esteu segur?"
 
-#: src/commands-impl.c:1784
+#: src/commands-impl.c:1790
 msgid "The selected catalog will be removed, are you sure?"
-msgstr ""
+msgstr "Se suprimirà el catàleg seleccionat, n'esteu segur?"
 
-#: src/commands-impl.c:2683 src/dlg-categories.c:312 src/dlg-comment.c:237
-#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:179
-#: src/dlg-search.c:443
+#: src/commands-impl.c:2713 src/dlg-categories.c:337 src/dlg-comment.c:265
+#: src/dlg-jpegtran.c:638 src/dlg-maintenance.c:273 src/dlg-preferences.c:175
+#: src/dlg-search.c:450
 #, c-format
 msgid "Could not display help: %s"
 msgstr "No es pot mostrar l'ajuda: %s"
 
-#: src/commands-impl.c:2734
+#: src/commands-impl.c:2764
 msgid "translator_credits"
-msgstr "Softcatalà <info@softcatala.org>"
+msgstr "Softcatalà <gnome@softcatala.net>"
 
-#: src/commands-impl.c:2745
-msgid "Copyright (C) 2001 Free Software Foundation, Inc."
-msgstr ""
+#: src/commands-impl.c:2773 src/gthumb-window.c:549 src/gthumb-window.c:4794
+#: src/main.c:125
+msgid "gThumb"
+msgstr "gThumb"
 
-#: src/commands-impl.c:2746
+#: src/commands-impl.c:2776
 msgid "An image viewer and browser for GNOME."
-msgstr ""
+msgstr "Un visualitzador i navegador d'imatges pel GNOME."
 
-#: src/dlg-catalog.c:435
+#: src/dlg-catalog.c:446
 msgid "Move Catalog to..."
-msgstr ""
+msgstr "Mou el catàleg a..."
 
-#: src/dlg-categories.c:187
+#: src/dlg-categories.c:196
 msgid "Enter the new category name"
-msgstr ""
+msgstr "Introduïu el nom de la nova categoria"
 
-#: src/dlg-categories.c:198
+#: src/dlg-categories.c:207
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \",\". Please "
+"use a different name."
+msgstr ""
+"El nom \"%s\" no és vàlid perquè conté el caràcter \",\". Utilitzeu un nom "
+"diferent, si us plau."
+
+#: src/dlg-categories.c:212
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr ""
+"La categoria \"%s\" ja existeix. Utilitzeu un nom diferent, si us plau."
 
-#: src/dlg-convert.c:161
+#: src/dlg-convert.c:154
 #, c-format
 msgid "Converting image: %s"
-msgstr ""
+msgstr "S'està convertint la imatge: %s"
 
-#: src/dlg-convert.c:184
+#: src/dlg-convert.c:177
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
+"Ja existeix una imatge amb el nom \"%s\". Especifiqueu un nom diferent, si "
+"us plau."
 
-#: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
-msgid "Image"
-msgstr ""
+#: src/dlg-convert.c:312 src/gthumb_convert.glade.h:17
+msgid "Skip"
+msgstr "Omet"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:650
 msgid "Duplicates"
-msgstr ""
+msgstr "Còpia"
 
 #: src/dlg-duplicates.c:294
 msgid "Duplicates Size"
-msgstr ""
-
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:804
-msgid "Name"
-msgstr ""
+msgstr "Mida de la còpia"
 
 #: src/dlg-duplicates.c:400
 msgid "Last modified"
-msgstr ""
+msgstr "Ultima modificació"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:824
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:643
 msgid "Location"
-msgstr ""
+msgstr "Ubicació "
 
 #: src/dlg-duplicates.c:755
 msgid "Checked images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Les imatges activades es mouran a la paperera, n'esteu segur?"
 
-#: src/dlg-file-utils.c:91
+#: src/dlg-file-utils.c:88
 msgid "The destination folder does not exist. Do you want to create it?"
-msgstr ""
+msgstr "La carpeta destí no existeix. La voleu crear?"
 
-#: src/dlg-file-utils.c:107
+#: src/dlg-file-utils.c:104
 #, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr ""
+msgstr "No s'ha pogut crear la carpeta \"%s\": %s."
 
-#: src/dlg-file-utils.c:121
+#: src/dlg-file-utils.c:118
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
+msgstr "No teniu els permissos necessaris per crear imatge a la carpeta \"%s\""
 
-#: src/dlg-file-utils.c:203
+#: src/dlg-file-utils.c:201
 msgid "Could not delete the images:"
-msgstr ""
+msgstr "No s'han pogut suprimir les imatges:"
 
-#: src/dlg-file-utils.c:223
+#: src/dlg-file-utils.c:224
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
+"Les imatges no s'han pogut moure a la paperera. Les voleu eliminar "
+"permanentment?"
 
-#: src/dlg-file-utils.c:754 src/dlg-file-utils.c:855
+#: src/dlg-file-utils.c:760 src/dlg-file-utils.c:861
 msgid "You didn't enter the new name"
-msgstr ""
+msgstr "No heu introduït el nou nom"
 
-#: src/dlg-file-utils.c:766 src/dlg-file-utils.c:867
+#: src/dlg-file-utils.c:772 src/dlg-file-utils.c:873
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "El nom \"%s\" ja està utilitzat en aquest directori. Utilitzeu un nom "
 "diferent."
 
-#: src/dlg-file-utils.c:1006
+#: src/dlg-file-utils.c:1012
 msgid "Could not rename the image:"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de la imatge:"
 
-#: src/dlg-file-utils.c:1008
+#: src/dlg-file-utils.c:1014
 msgid "Could not rename the following images:"
-msgstr ""
+msgstr "No s'ha pogut canviar el nom de les següents imatges:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1148
 msgid "Could not move the image:"
-msgstr ""
+msgstr "No s'ha pogut moure la imatge:"
 
-#: src/dlg-file-utils.c:1142
+#: src/dlg-file-utils.c:1150
 msgid "Could not copy the image:"
-msgstr ""
+msgstr "No s'ha pogut copiar la imatge:"
 
-#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2323
+#: src/dlg-file-utils.c:1174 src/dlg-file-utils.c:2451
 msgid "_Abort"
-msgstr ""
+msgstr "_Anul·la"
 
-#: src/dlg-file-utils.c:1166 src/dlg-file-utils.c:2324
+#: src/dlg-file-utils.c:1175 src/dlg-file-utils.c:2452
 msgid "_Continue"
 msgstr "_Continua"
 
-#: src/dlg-file-utils.c:1337
+#: src/dlg-file-utils.c:1348
 #, c-format
 msgid "Copying file %d of %d"
-msgstr ""
+msgstr "S'està copiant el fitxer %d de %d"
 
-#: src/dlg-file-utils.c:1708 src/dlg-file-utils.c:1894
+#: src/dlg-file-utils.c:1773 src/dlg-file-utils.c:2000
 msgid "Collecting images info"
-msgstr ""
+msgstr "S'està recollint la informació de les imatges"
 
-#: src/dlg-file-utils.c:1711 src/dlg-file-utils.c:1907
+#: src/dlg-file-utils.c:1776 src/dlg-file-utils.c:2013
 #, c-format
 msgid "Deleting file %ld of %ld"
-msgstr ""
+msgstr "S'està suprimint el fitxer %ld de %ld"
 
-#: src/dlg-file-utils.c:1897
+#: src/dlg-file-utils.c:2003
 #, c-format
 msgid "Copying file %ld of %ld"
-msgstr ""
+msgstr "S'està copiant el fitxer %ld de %ld"
 
-#: src/dlg-file-utils.c:1902
+#: src/dlg-file-utils.c:2008
 #, c-format
 msgid "Moving file %ld of %ld"
-msgstr ""
+msgstr "S'està movent el fitxer %ld de %ld"
 
-#: src/dlg-image-prop.c:809
-msgid "Image Dimensions"
-msgstr ""
+#: src/dlg-image-prop.c:628 src/gth-exif-data-viewer.c:466
+msgid "Size"
+msgstr "Mida"
 
-#: src/dlg-image-prop.c:814
+#: src/dlg-image-prop.c:633
 msgid "Type"
 msgstr "Tipus"
 
-#: src/dlg-image-prop.c:819
-msgid "File Size"
-msgstr ""
+#: src/dlg-image-prop.c:648 src/gth-exif-data-viewer.c:480
+msgid "Modified"
+msgstr "Modificat"
 
-#: src/dlg-image-prop.c:829
-msgid "Last Modified"
-msgstr ""
-
-#: src/dlg-image-prop.c:834
+#: src/dlg-image-prop.c:653
 msgid "Information on Channel"
-msgstr ""
+msgstr "Informació al canal"
 
-#: src/dlg-image-prop.c:868
-msgid "Field"
-msgstr "Camp"
-
-#: src/dlg-image-prop.c:878 src/gthumb.glade.h:25
-msgid "Value"
-msgstr "Valor"
-
-#: src/dlg-image-prop.c:959
+#: src/dlg-image-prop.c:751
 #, c-format
 msgid "%s Properties"
-msgstr "%s propietats"
+msgstr "Propietats de %s"
 
 #: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
-msgstr ""
+msgstr "Se suprimiran tots els comentaris, n'esteu segur?"
 
 #: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
-msgstr ""
+msgstr "Se suprimiran totes les miniatures, n'esteu segur?"
 
 #: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
-msgstr ""
+msgstr "Especifica el fitxer de còpia de seguretat"
 
-#: src/dlg-png-exporter.c:1000
+#: src/dlg-png-exporter.c:999
 msgid "Image Caption"
-msgstr ""
+msgstr "Títol de la imatge"
 
-#: src/dlg-png-exporter.c:1053
+#: src/dlg-png-exporter.c:1052
 msgid "Header"
 msgstr "Capçalera"
 
-#: src/dlg-png-exporter.c:1066 src/dlg-png-exporter.c:1072
+#: src/dlg-png-exporter.c:1065 src/dlg-png-exporter.c:1071
 msgid "Footer"
 msgstr "Peu de pàgina"
 
-#: src/dlg-rename-series.c:319
+#: src/dlg-rename-series.c:372
 msgid "Old Name"
-msgstr ""
+msgstr "Nom antic"
 
-#: src/dlg-rename-series.c:327
+#: src/dlg-rename-series.c:380
 msgid "New Name"
-msgstr "Nom Nou"
+msgstr "Nom nou"
 
-#: src/dlg-search.c:332
+#: src/dlg-search.c:337
 msgid "Search Result"
-msgstr ""
+msgstr "Resultat de la cerca"
 
-#: src/dlg-search.c:801
+#: src/dlg-search.c:810
 msgid "Filename"
 msgstr "Nom de fitxer"
 
-#: src/dlg-search.c:810 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:819 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Carpeta"
 
-#: src/fullscreen.c:707 src/gthumb-ui.xml.h:108
+#: src/dlg-web-exporter.c:658
+msgid "Select Album Theme"
+msgstr "Selecciona el tema de l'àlbum"
+
+#: src/fullscreen.c:780 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
-msgstr ""
+msgstr "Restaura la visualització normal"
+
+#: src/fullscreen.c:798
+msgid "Image Info"
+msgstr "Informació de la imatge"
+
+#: src/fullscreen.c:816 src/gthumb-window.c:4077
+msgid "Back"
+msgstr "Enrere"
+
+#: src/fullscreen.c:834 src/gthumb-ui.xml.h:52
+msgid "Forward"
+msgstr "Endavant"
+
+#: src/gth-exif-data-viewer.c:127
+msgid "Field"
+msgstr "Camp"
+
+#: src/gth-exif-data-viewer.c:137
+msgid "Value "
+msgstr "Valor "
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
-msgstr "_Vés a..."
+msgstr "_Navega..."
 
 #: src/gth-folder-selection-dialog.c:412
 msgid "_Recents:"
-msgstr ""
+msgstr "_Recents:"
 
 #: src/gth-folder-selection-dialog.c:443 src/gthumb.glade.h:27
 msgid "_Bookmarks:"
-msgstr ""
+msgstr "_Adreces d'interès:"
 
 #: src/gthumb-ui.xml.h:1
 msgid "1:1"
@@ -721,1024 +974,1078 @@ msgstr "1:1"
 
 #: src/gthumb-ui.xml.h:2
 msgid "Actual size"
-msgstr ""
+msgstr "Mida actual"
 
 #: src/gthumb-ui.xml.h:3
 msgid "Add a comment to selected images"
-msgstr ""
+msgstr "Afegeix un comentari a les imatges seleccionades"
 
 #: src/gthumb-ui.xml.h:4
 msgid "Add a comment to the image"
-msgstr ""
+msgstr "Afegeix un comentari a la imatge"
 
 #: src/gthumb-ui.xml.h:5
 msgid "Add current location to bookmarks"
-msgstr ""
+msgstr "Afegeix la ubicació actual a la llista d'adreces"
 
 #: src/gthumb-ui.xml.h:6
 msgid "Add selected images to a catalog"
-msgstr ""
+msgstr "Afegeix les imatges seleccionades a un catàleg"
 
 #: src/gthumb-ui.xml.h:7
 msgid "Adjust brightness and contrast"
-msgstr ""
+msgstr "Ajusta la lluminositat i el contrast"
 
 #: src/gthumb-ui.xml.h:8
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Ajusta el balanç de color"
 
 #: src/gthumb-ui.xml.h:9
 msgid "Adjust hue and saturation"
-msgstr ""
+msgstr "Ajusta el to i la saturació"
 
 #: src/gthumb-ui.xml.h:10
-msgid "Assign categories to selected images"
-msgstr ""
+msgid "Apply threshold"
+msgstr "Aplica el llindar"
 
 #: src/gthumb-ui.xml.h:11
-msgid "Assign categories to the image"
-msgstr ""
+msgid "Assign categories to selected images"
+msgstr "Assigna categories a les imatges seleccionades"
 
 #: src/gthumb-ui.xml.h:12
-msgid "Ca_talog"
-msgstr ""
+msgid "Assign categories to the image"
+msgstr "Assigna categories a la imatge"
 
 #: src/gthumb-ui.xml.h:13
-msgid "Ca_tegories"
-msgstr ""
+msgid "Auto"
+msgstr "Automàtic"
 
 #: src/gthumb-ui.xml.h:14
-msgid "Catalogs"
-msgstr ""
+msgid "Automatically normalize the contrast"
+msgstr "Normalitza el contrast automàticament"
 
-#: src/gthumb-ui.xml.h:15 src/gthumb_comments.glade.h:6
-msgid "Categories"
-msgstr ""
+#: src/gthumb-ui.xml.h:15
+msgid "Automatically stretch the contrast"
+msgstr "Amplia el contrast automàticament"
 
 #: src/gthumb-ui.xml.h:16
-msgid "Change _Date"
-msgstr ""
+msgid "Ca_talog"
+msgstr "Ca_tàleg"
 
 #: src/gthumb-ui.xml.h:17
+msgid "Ca_tegories"
+msgstr "Ca_tegories"
+
+#: src/gthumb-ui.xml.h:18 src/gthumb-window.c:4178
+msgid "Catalogs"
+msgstr "Catàlegs"
+
+#: src/gthumb-ui.xml.h:19 src/gthumb_comments.glade.h:5
+#: src/gthumb_search.glade.h:10
+msgid "Categories"
+msgstr "Categories"
+
+#: src/gthumb-ui.xml.h:20
+msgid "Change _Date"
+msgstr "Canvia la _data"
+
+#: src/gthumb-ui.xml.h:21
 msgid "Change images last modified date"
-msgstr ""
+msgstr "Canvia la data de l'última modificació de les imatges"
 
-#: src/gthumb-ui.xml.h:18
+#: src/gthumb-ui.xml.h:22
 msgid "Close all windows and exit"
-msgstr ""
+msgstr "Tanca totes les finestres i surt"
 
-#: src/gthumb-ui.xml.h:19
+#: src/gthumb-ui.xml.h:23
 msgid "Close this window"
 msgstr "Tanca aquesta finestra"
 
-#: src/gthumb-ui.xml.h:20 src/gthumb.glade.h:12
+#: src/gthumb-ui.xml.h:24 src/gthumb.glade.h:12
 msgid "Comm_ent"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:21 src/gthumb_comments.glade.h:8
-msgid "Comment"
-msgstr "Comentari"
-
-#: src/gthumb-ui.xml.h:22
-msgid "Convert"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:23
-msgid "Convert F_ormat"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:24
-msgid "Convert image format"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:25
-msgid "Copy current folder"
-msgstr ""
+msgstr "Com_entari"
 
 #: src/gthumb-ui.xml.h:26
-msgid "Copy selected folder"
-msgstr ""
+msgid "Convert"
+msgstr "Converteix"
 
 #: src/gthumb-ui.xml.h:27
-msgid "Copy selected images to another location"
-msgstr ""
+msgid "Convert F_ormat"
+msgstr "Converteix el f_ormat"
 
 #: src/gthumb-ui.xml.h:28
-msgid "Copy this image to another location"
-msgstr ""
+msgid "Convert image format"
+msgstr "Converteix el format de la imatge"
 
 #: src/gthumb-ui.xml.h:29
-msgid "Create _Index Image"
-msgstr ""
+msgid "Copy current folder"
+msgstr "Copia la carpeta actual"
 
 #: src/gthumb-ui.xml.h:30
-msgid "Create a new catalog"
-msgstr ""
+msgid "Copy selected folder"
+msgstr "Copia la carpeta seleccionada"
 
 #: src/gthumb-ui.xml.h:31
-msgid "Create a new catalog library"
-msgstr ""
+msgid "Copy selected images to another location"
+msgstr "Copia les imatges seleccionades a una altra ubicació"
 
 #: src/gthumb-ui.xml.h:32
+msgid "Copy this image to another location"
+msgstr "Copia aquesta imatge a una altra ubicació"
+
+#: src/gthumb-ui.xml.h:33
+msgid "Create _Index Image"
+msgstr "Crear l'_índex d'imatges"
+
+#: src/gthumb-ui.xml.h:34
+msgid "Create _Web Album"
+msgstr "Crea l'àlbum _web"
+
+#: src/gthumb-ui.xml.h:35
+msgid "Create a new catalog"
+msgstr "Crea un nou catàleg"
+
+#: src/gthumb-ui.xml.h:36
+msgid "Create a new catalog library"
+msgstr "Crea una nova biblioteca de catàleg"
+
+#: src/gthumb-ui.xml.h:37
 msgid "Create a new folder"
 msgstr "Crea una nova carpeta"
 
-#: src/gthumb-ui.xml.h:33
+#: src/gthumb-ui.xml.h:38
 msgid "Create a new window"
 msgstr "Crea una nova finestra"
 
-#: src/gthumb-ui.xml.h:34
+#: src/gthumb-ui.xml.h:39
+msgid "Crop image"
+msgstr "Escapça la imatge"
+
+#: src/gthumb-ui.xml.h:40
 msgid "D_uplicate"
 msgstr "D_uplica"
 
-#: src/gthumb-ui.xml.h:35
+#: src/gthumb-ui.xml.h:41
 msgid "Delete the list of visited locations"
-msgstr ""
+msgstr "Suprimeix la llista d'ubicacions visitades"
 
-#: src/gthumb-ui.xml.h:36
+#: src/gthumb-ui.xml.h:42
 msgid "Duplicate selected image"
-msgstr ""
+msgstr "Duplica la imatge seleccionada"
 
-#: src/gthumb-ui.xml.h:37
+#: src/gthumb-ui.xml.h:43
 msgid "Duplicate this image"
-msgstr ""
+msgstr "Duplica aquesta imatge"
 
-#: src/gthumb-ui.xml.h:38
+#: src/gthumb-ui.xml.h:44
 msgid "E_xit"
 msgstr "S_urt"
 
-#: src/gthumb-ui.xml.h:39
-msgid "Edit Search"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:40
-msgid "Edit bookmarks"
-msgstr "Edita favorits"
-
-#: src/gthumb-ui.xml.h:41
-msgid "Edit various preferences"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:42
-msgid "Fi_nd Duplicates..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:43
-msgid "Find images"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:44
-msgid "Fit"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:45
+msgid "Edit Search"
+msgstr "Edita la cerca"
+
+#: src/gthumb-ui.xml.h:46
+msgid "Edit bookmarks"
+msgstr "Edita la llista d'adreces d'interès"
+
+#: src/gthumb-ui.xml.h:47
+msgid "Edit various preferences"
+msgstr "Edita les preferències"
+
+#: src/gthumb-ui.xml.h:48
+msgid "Fi_nd Duplicates..."
+msgstr "T_roba els duplicats..."
+
+#: src/gthumb-ui.xml.h:49
+msgid "Find images"
+msgstr "Troba les imatges"
+
+#: src/gthumb-ui.xml.h:50
+msgid "Fit"
+msgstr "Ajusta"
+
+#: src/gthumb-ui.xml.h:51 src/gthumb-window.c:4128
 msgid "Folders"
 msgstr "Carpetes"
 
-#: src/gthumb-ui.xml.h:46
-msgid "Forward"
-msgstr "Endavant"
-
-#: src/gthumb-ui.xml.h:47
+#: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: src/gthumb-ui.xml.h:48
-msgid "Go to the folder that contains the selected image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:49
-msgid "Go to the home folder"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:50
-msgid "Go to the next visited location"
-msgstr "Va a la ubicació visitada anteriorment"
-
-#: src/gthumb-ui.xml.h:51
-msgid "Go to the previous visited location"
-msgstr "Va a la ubicació visitada anteriorment"
-
-#: src/gthumb-ui.xml.h:52
-msgid "Go up one level"
-msgstr "Pujar un nivell"
-
-#: src/gthumb-ui.xml.h:53
-msgid "Home"
-msgstr "Home"
-
 #: src/gthumb-ui.xml.h:54
-msgid "Image Toolbar"
-msgstr ""
+msgid "Go to the folder that contains the selected image"
+msgstr "Vés a la carpeta que conté la imatge seleccionada"
 
 #: src/gthumb-ui.xml.h:55
-msgid "In"
-msgstr ""
+msgid "Go to the home folder"
+msgstr "Vés a la carpeta personal"
 
 #: src/gthumb-ui.xml.h:56
-msgid "Information"
-msgstr "Informació"
+msgid "Go to the next visited location"
+msgstr "Vés a la ubicació visitada anteriorment"
 
-#: src/gthumb-ui.xml.h:57
+#: src/gthumb-ui.xml.h:57 src/gthumb-window.c:4096
+msgid "Go to the previous visited location"
+msgstr "Vés a la ubicació visitada anteriorment"
+
+#: src/gthumb-ui.xml.h:58
+msgid "Go up one level"
+msgstr "Puja un nivell"
+
+#: src/gthumb-ui.xml.h:59
+msgid "Home"
+msgstr "Carpeta personal"
+
+#: src/gthumb-ui.xml.h:60
+msgid "Image Toolbar"
+msgstr "Barra d'eines d'imatge"
+
+#: src/gthumb-ui.xml.h:61
+msgid "Image _Comment"
+msgstr "_Comentari de la imatge"
+
+#: src/gthumb-ui.xml.h:62
+msgid "In"
+msgstr "A dins"
+
+#: src/gthumb-ui.xml.h:63
 msgid "Main Toolbar"
 msgstr "Barra d'eines principal"
 
-#: src/gthumb-ui.xml.h:58
-msgid "Modify search criteria"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:59
-msgid "Move current catalog to another location"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:60
-msgid "Move current folder"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:61
-msgid "Move selected catalog to another location"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:62
-msgid "Move selected folder"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:63
-msgid "Move selected images to another location"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:64
-msgid "Move the current folder to the Trash"
-msgstr ""
+msgid "Modify search criteria"
+msgstr "Modificar els criteris de cerca"
 
 #: src/gthumb-ui.xml.h:65
-msgid "Move the selected folder to the Trash"
-msgstr ""
+msgid "Move current catalog to another location"
+msgstr "Mou el catàleg actual a una altra ubicació"
 
 #: src/gthumb-ui.xml.h:66
-msgid "Move the selected images to the Trash"
-msgstr ""
+msgid "Move current folder"
+msgstr "Mou la carpeta actual"
 
 #: src/gthumb-ui.xml.h:67
-msgid "Move this image to another location"
-msgstr ""
+msgid "Move selected catalog to another location"
+msgstr "Mou el catàleg seleccionar a una altra ubicació"
 
 #: src/gthumb-ui.xml.h:68
-msgid "Move this image to the Trash"
-msgstr ""
+msgid "Move selected folder"
+msgstr "Mou la carpeta seleccionada"
 
-#: src/gthumb-ui.xml.h:69 src/gthumb_tools.glade.h:30
-msgid "Move to _Trash"
-msgstr ""
+#: src/gthumb-ui.xml.h:69
+msgid "Move selected images to another location"
+msgstr "Mou les imatges seleccionades a una altra ubicació"
 
 #: src/gthumb-ui.xml.h:70
-msgid "New _Library..."
-msgstr ""
+msgid "Move the current folder to the Trash"
+msgstr "Mou la carpeta actual a la paperera"
 
 #: src/gthumb-ui.xml.h:71
+msgid "Move the selected folder to the Trash"
+msgstr "Mou la carpeta seleccionada a la paperera"
+
+#: src/gthumb-ui.xml.h:72
+msgid "Move the selected images to the Trash"
+msgstr "Mou les imatges seleccionades a la paperera"
+
+#: src/gthumb-ui.xml.h:73
+msgid "Move this image to another location"
+msgstr "Mou aquesta imatge a una altra ubicació"
+
+#: src/gthumb-ui.xml.h:74
+msgid "Move this image to the Trash"
+msgstr "Mou aquesta imatge a la paperera"
+
+#: src/gthumb-ui.xml.h:75 src/gthumb_tools.glade.h:30
+msgid "Move to _Trash"
+msgstr "Mou a la _paperera"
+
+#: src/gthumb-ui.xml.h:76
+msgid "New _Library..."
+msgstr "Nova bib_lioteca..."
+
+#: src/gthumb-ui.xml.h:77
 msgid "New _Window"
 msgstr "Nova _finestra"
 
-#: src/gthumb-ui.xml.h:72
+#: src/gthumb-ui.xml.h:78
 msgid "Next"
 msgstr "Següent"
 
-#: src/gthumb-ui.xml.h:73
+#: src/gthumb-ui.xml.h:79
 msgid "Open current folder with the Nautilus file manager"
-msgstr ""
+msgstr "Obre la carpeta actual amb gestor de fitxers Nautilus"
 
-#: src/gthumb-ui.xml.h:74
+#: src/gthumb-ui.xml.h:80
 msgid "Open selected images with an application"
-msgstr ""
+msgstr "Obres les imatges seleccionades amb una aplicació"
 
-#: src/gthumb-ui.xml.h:75
+#: src/gthumb-ui.xml.h:81
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
 msgstr ""
+"Obre la carpeta seleccionada amb el gestor de\n"
+"\t     fitxer Nautilus"
 
-#: src/gthumb-ui.xml.h:77
+#: src/gthumb-ui.xml.h:83
 msgid "Open this image with an application"
-msgstr ""
+msgstr "Obre aquesta imatge amb una aplicació"
 
-#: src/gthumb-ui.xml.h:78
+#: src/gthumb-ui.xml.h:84
 msgid "Open with the File Manager"
-msgstr ""
+msgstr "Obre amb el gestor de fitxers"
 
-#: src/gthumb-ui.xml.h:79
+#: src/gthumb-ui.xml.h:85
 msgid "Open with the _File Manager"
-msgstr ""
+msgstr "Obre amb el gestor de _fitxers"
 
-#: src/gthumb-ui.xml.h:80
+#: src/gthumb-ui.xml.h:86
 msgid "Out"
-msgstr ""
+msgstr "Fora"
 
-#: src/gthumb-ui.xml.h:81
+#: src/gthumb-ui.xml.h:87
 msgid "Play _Animation"
-msgstr ""
+msgstr "Reprodueix l'_animació"
 
-#: src/gthumb-ui.xml.h:82
+#: src/gthumb-ui.xml.h:88
 msgid "Previous"
 msgstr "Anterior"
 
-#: src/gthumb-ui.xml.h:83
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:20
 msgid "Print"
-msgstr "Imprimir"
-
-#: src/gthumb-ui.xml.h:85
-msgid "Proper_ties"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:86
-msgid "Properties"
-msgstr "Propietats"
-
-#: src/gthumb-ui.xml.h:87
-msgid "Redo Search"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:88
-msgid "Redo _Search"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:89
-msgid "Redo the search"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:90
-msgid "Reduce number of colors"
-msgstr ""
+msgstr "Imprimeix"
 
 #: src/gthumb-ui.xml.h:91
-msgid "Reduce the number of colors"
-msgstr ""
+msgid "Proper_ties"
+msgstr "Propie_tats"
 
 #: src/gthumb-ui.xml.h:92
-msgid "Reload the current location"
-msgstr ""
+msgid "Redo Search"
+msgstr "Repeteix la cerca"
 
 #: src/gthumb-ui.xml.h:93
-msgid "Rem_ove"
-msgstr ""
+msgid "Redo _Search"
+msgstr "Repeteix la _cerca"
 
 #: src/gthumb-ui.xml.h:94
-msgid "Rem_ove Comment"
-msgstr ""
+msgid "Redo the search"
+msgstr "Repeteix la cerca"
 
 #: src/gthumb-ui.xml.h:95
-msgid "Remo_ve from Catalog"
-msgstr ""
+msgid "Reduce number of colors"
+msgstr "Redueix el nombre de colors"
 
 #: src/gthumb-ui.xml.h:96
-msgid "Remove comments of selected images"
-msgstr ""
+msgid "Reduce the number of colors"
+msgstr "Redueix el nombre de colors"
 
 #: src/gthumb-ui.xml.h:97
-msgid "Remove current catalog"
-msgstr ""
+msgid "Reload the current location"
+msgstr "Actualitza l'actual ubicació"
 
 #: src/gthumb-ui.xml.h:98
-msgid "Remove selected catalog"
-msgstr ""
+msgid "Rem_ove"
+msgstr "Sup_rimeix"
 
 #: src/gthumb-ui.xml.h:99
-msgid "Remove selected images from the catalog"
-msgstr ""
+msgid "Rem_ove Comment"
+msgstr "Sup_rimeix el comentari"
 
 #: src/gthumb-ui.xml.h:100
-msgid "Remove the comment"
-msgstr ""
+msgid "Remo_ve from Catalog"
+msgstr "Sup_rimeix del catàleg"
 
 #: src/gthumb-ui.xml.h:101
-msgid "Rename current catalog"
-msgstr ""
+msgid "Remove comments of selected images"
+msgstr "Suprimeix els comentaris de les imatges seleccionades"
 
 #: src/gthumb-ui.xml.h:102
-msgid "Rename current folder"
-msgstr ""
+msgid "Remove current catalog"
+msgstr "Suprimeix el catàleg actual"
 
 #: src/gthumb-ui.xml.h:103
-msgid "Rename selected catalog"
-msgstr ""
+msgid "Remove selected catalog"
+msgstr "Suprimeix el catàleg seleccionat"
 
 #: src/gthumb-ui.xml.h:104
+msgid "Remove selected images from the catalog"
+msgstr "Supremeix del catàleg les imatges seleccionades"
+
+#: src/gthumb-ui.xml.h:105
+msgid "Remove the comment"
+msgstr "Suprimeix el comentari"
+
+#: src/gthumb-ui.xml.h:106
+msgid "Rename current catalog"
+msgstr "Canvia el nom del catàleg actual"
+
+#: src/gthumb-ui.xml.h:107
+msgid "Rename current folder"
+msgstr "Canvia el nom de la carpeta actual"
+
+#: src/gthumb-ui.xml.h:108
+msgid "Rename selected catalog"
+msgstr "Canvia el nom del catàleg seleccionat"
+
+#: src/gthumb-ui.xml.h:109
 msgid "Rename selected folder"
 msgstr "Canvia el nom de la carpeta seleccionada"
 
-#: src/gthumb-ui.xml.h:105
-msgid "Rename selected image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:106
-msgid "Rename this image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:107
-msgid "Resize image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:109
-msgid "Restore the original desktop wallpaper"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:110
-msgid "Reverse images order"
-msgstr ""
+msgid "Rename selected image"
+msgstr "Canvia el nom de la imatge seleccionada"
 
 #: src/gthumb-ui.xml.h:111
-msgid "Revert"
-msgstr ""
+msgid "Rename this image"
+msgstr "Canvia el nom d'aquesta imatge"
 
 #: src/gthumb-ui.xml.h:112
-msgid "Revert to saved image"
-msgstr ""
+msgid "Resize image"
+msgstr "Canvia la mida de la imatge"
 
 #: src/gthumb-ui.xml.h:114
-msgid "Rotate Ri_ght"
-msgstr ""
+msgid "Restore the original desktop wallpaper"
+msgstr "Restaura el fons de pantalla original de l'escriptori"
 
 #: src/gthumb-ui.xml.h:115
-msgid "Rotate _JPEG"
-msgstr ""
+msgid "Reverse images order"
+msgstr "Inverteix l'ordre de les imatges"
 
 #: src/gthumb-ui.xml.h:116
-msgid "Rotate _Left"
-msgstr ""
+msgid "Revert"
+msgstr "Reverteix"
 
 #: src/gthumb-ui.xml.h:117
-msgid "Rotate image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:118
-msgid "Rotate jpeg images without loss of quality"
-msgstr ""
+msgid "Revert to saved image"
+msgstr "Reverteix a la imatge desada"
 
 #: src/gthumb-ui.xml.h:119
-msgid "S_ort Images"
-msgstr ""
+msgid "Rotate Ri_ght"
+msgstr "Gira a la dr_eta"
 
 #: src/gthumb-ui.xml.h:120
+msgid "Rotate _JPEG"
+msgstr "Gira el _JPEG"
+
+#: src/gthumb-ui.xml.h:121
+msgid "Rotate _Left"
+msgstr "Gira a l'_esquerra"
+
+#: src/gthumb-ui.xml.h:122
+msgid "Rotate image"
+msgstr "Gira la imatge"
+
+#: src/gthumb-ui.xml.h:123
+msgid "Rotate jpeg images without loss of quality"
+msgstr "Gira les imatges jpeg sense pèrdua de qualitat"
+
+#: src/gthumb-ui.xml.h:124
+msgid "S_ort Images"
+msgstr "_Ordena les imatges"
+
+#: src/gthumb-ui.xml.h:125
 msgid "Save"
 msgstr "Guardar"
 
-#: src/gthumb-ui.xml.h:123
+#: src/gthumb-ui.xml.h:128
 msgid "Search"
 msgstr "Cerca"
 
-#: src/gthumb-ui.xml.h:124
-msgid "Select all images"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:125
-msgid "Set Image as _Wallpaper"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:126
-msgid "Set the image as desktop background (centered)"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:127
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:128
-msgid "Set the image as desktop background (stretched)"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:129
-msgid "Set the image as desktop background (tiled)"
-msgstr ""
+msgid "Select all images"
+msgstr "Selecciona totes les imatges"
 
 #: src/gthumb-ui.xml.h:130
-msgid "Show information about gThumb"
-msgstr ""
+msgid "Set Image as _Wallpaper"
+msgstr "Utilitza la imatge com _fons de pantalla"
 
 #: src/gthumb-ui.xml.h:131
-msgid "Show/_Hide"
-msgstr ""
+msgid "Set the image as desktop background (centered)"
+msgstr "Utilitza la imatge com a fons de l'escriptori (centrada)"
 
-#: src/gthumb-ui.xml.h:132 src/gthumb_preferences.glade.h:63
+#: src/gthumb-ui.xml.h:132
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr ""
+"Utilitza la imatge com a fons de l'escriptori (relació d'aspecte mantenint "
+"l'escala)"
+
+#: src/gthumb-ui.xml.h:133
+msgid "Set the image as desktop background (stretched)"
+msgstr "Utilitza la imatge com a fons d'escriptori (ampliat)"
+
+#: src/gthumb-ui.xml.h:134
+msgid "Set the image as desktop background (tiled)"
+msgstr "Utilitza la imatge com a fons d'escriptori (en forma de mosaic)"
+
+#: src/gthumb-ui.xml.h:135
+msgid "Show information about gThumb"
+msgstr "Mostra la informació sobre el gThumb"
+
+#: src/gthumb-ui.xml.h:136
+msgid "Show/_Hide"
+msgstr "Mostra/ama_ga"
+
+#: src/gthumb-ui.xml.h:137 src/gthumb_preferences.glade.h:52
 msgid "Slide Show"
 msgstr "Exposició de diapositives"
 
-#: src/gthumb-ui.xml.h:133
+#: src/gthumb-ui.xml.h:138
 msgid "Sort images by file size"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:134
-msgid "Sort images by modification time"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:135
-msgid "Sort images by name"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:136
-msgid "Sort images by path"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:137
-msgid "Specify a location to visit"
-msgstr ""
+msgstr "Ordena les imatges per la mida del fitxer"
 
 #: src/gthumb-ui.xml.h:139
-msgid "Step A_nimation"
-msgstr ""
+msgid "Sort images by modification time"
+msgstr "Ordena les imatges per la data de modificació"
 
 #: src/gthumb-ui.xml.h:140
-msgid "Stop loading current location"
-msgstr ""
+msgid "Sort images by name"
+msgstr "Ordena les imatges pel nom"
 
 #: src/gthumb-ui.xml.h:141
-msgid "Str_etched"
-msgstr ""
+msgid "Sort images by path"
+msgstr "Ordena les imatges pel camí"
 
 #: src/gthumb-ui.xml.h:142
-msgid "Transparen_cy Type"
-msgstr ""
+msgid "Specify a location to visit"
+msgstr "Especifiqueu la ubicació a visitar"
 
-#: src/gthumb-ui.xml.h:143
+#: src/gthumb-ui.xml.h:144
+msgid "Step A_nimation"
+msgstr "A_nimació pas a pas"
+
+#: src/gthumb-ui.xml.h:145
+msgid "Stop loading current location"
+msgstr "Atura la càrrega de la ubicació actual"
+
+#: src/gthumb-ui.xml.h:146
+msgid "Str_etched"
+msgstr "Am_pliat"
+
+#: src/gthumb-ui.xml.h:147
 msgid "Up"
 msgstr "Amunt"
 
-#: src/gthumb-ui.xml.h:144
-msgid "Use black as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:145
-msgid "Use checks as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:146
-msgid "Use gray as transparency"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:147
-msgid "Use high quality zoom"
-msgstr ""
-
 #: src/gthumb-ui.xml.h:148
-msgid "Use low quality zoom"
-msgstr ""
+msgid "Use black as transparency"
+msgstr "Utilitza el negre com a transparència"
 
 #: src/gthumb-ui.xml.h:149
-msgid "Use white as transparency"
-msgstr ""
+msgid "Use checks as transparency"
+msgstr "Utilitza els quadres com a transparència"
 
 #: src/gthumb-ui.xml.h:150
-msgid "View as a slide show"
-msgstr ""
+msgid "Use gray as transparency"
+msgstr "Utilitza el gris com a transparència"
 
 #: src/gthumb-ui.xml.h:151
-msgid "View image in fullscreen mode"
-msgstr ""
+msgid "Use high quality zoom"
+msgstr "Utilitza el zoom d'alta qualitat"
 
 #: src/gthumb-ui.xml.h:152
-msgid "View image properties"
-msgstr ""
+msgid "Use low quality zoom"
+msgstr "Utilitza el zoom de baixa qualitat"
+
+#: src/gthumb-ui.xml.h:153
+msgid "Use white as transparency"
+msgstr "Utilitza el blanc com a transparència"
 
 #: src/gthumb-ui.xml.h:154
-msgid "View next image"
-msgstr ""
+msgid "View as a slide show"
+msgstr "Visualitza com una exposició de transparències"
 
 #: src/gthumb-ui.xml.h:155
-msgid "View or hide the statusbar of this window"
-msgstr ""
+msgid "View image comment"
+msgstr "Visualitza el comentari de la imatge"
 
 #: src/gthumb-ui.xml.h:156
-msgid "View or hide the toolbar of this window"
-msgstr ""
+msgid "View image in fullscreen mode"
+msgstr "Visualitza la imatge en mode de pantalla completa"
 
 #: src/gthumb-ui.xml.h:157
-msgid "View previous image"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:158
-msgid "View the catalogs"
-msgstr ""
+msgid "View image properties"
+msgstr "Visualitza les propietats de la imatge"
 
 #: src/gthumb-ui.xml.h:159
-msgid "View the folders"
-msgstr ""
+msgid "View next image"
+msgstr "Visualitza la imatge següent"
 
 #: src/gthumb-ui.xml.h:160
-msgid "View the image"
-msgstr ""
+msgid "View or hide the statusbar of this window"
+msgstr "Visualitza o amaga la barra d'estat d'aquesta finestra"
 
 #: src/gthumb-ui.xml.h:161
-msgid "View the image flipped"
-msgstr ""
+msgid "View or hide the toolbar of this window"
+msgstr "Visualitza o amaga la barra d'eines d'aquesta finestra"
 
 #: src/gthumb-ui.xml.h:162
-msgid "View the image in black and white"
-msgstr ""
+msgid "View previous image"
+msgstr "Visualitza la imatge anterior"
 
-#: src/gthumb-ui.xml.h:163
-msgid "View the image mirrored"
-msgstr ""
+#: src/gthumb-ui.xml.h:163 src/gthumb-window.c:4184
+msgid "View the catalogs"
+msgstr "Visualitza els catàlegs"
 
-#: src/gthumb-ui.xml.h:164
-msgid "View the image rotated clockwise"
-msgstr ""
+#: src/gthumb-ui.xml.h:164 src/gthumb-window.c:4134
+msgid "View the folders"
+msgstr "Visualitza les carpetes"
 
 #: src/gthumb-ui.xml.h:165
-msgid "View the image rotated counter-clockwise"
-msgstr ""
+msgid "View the image"
+msgstr "Visualitza la imatge"
 
 #: src/gthumb-ui.xml.h:166
-msgid "View the image with negative colors"
-msgstr ""
+msgid "View the image flipped"
+msgstr "Visualitza la imatge invertida"
 
 #: src/gthumb-ui.xml.h:167
-msgid "View thumbnails"
-msgstr ""
+msgid "View the image in black and white"
+msgstr "Visualitza la imatge en blanc i negre"
 
 #: src/gthumb-ui.xml.h:168
+msgid "View the image mirrored"
+msgstr "Visualitza la imatge reflexada en un mirall"
+
+#: src/gthumb-ui.xml.h:169
+msgid "View the image rotated clockwise"
+msgstr "Visualitza la imatge girada en sentit horari"
+
+#: src/gthumb-ui.xml.h:170
+msgid "View the image rotated counter-clockwise"
+msgstr "Visualitza la imatge girada en sentit horari"
+
+#: src/gthumb-ui.xml.h:171
+msgid "View the image with negative colors"
+msgstr "Visualitza la imatge amb negatiu"
+
+#: src/gthumb-ui.xml.h:172
+msgid "View thumbnails"
+msgstr "Visualitza les miniatures"
+
+#: src/gthumb-ui.xml.h:173
 msgid "Zoom _In"
 msgstr "_Amplia el Zoom"
 
-#: src/gthumb-ui.xml.h:169
+#: src/gthumb-ui.xml.h:174
 msgid "Zoom _Out"
 msgstr "_Redueix el Zoom"
 
-#: src/gthumb-ui.xml.h:170
-msgid "Zoom in"
-msgstr "Apropar"
-
-#: src/gthumb-ui.xml.h:171
-msgid "Zoom out"
-msgstr "Allunyar"
-
-#: src/gthumb-ui.xml.h:172
-msgid "Zoom to _Fit"
-msgstr "Augments a _ajustar"
-
-#: src/gthumb-ui.xml.h:173
-msgid "Zoom to fit window"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:174
-msgid "_About"
-msgstr "_Quant al constructor de temes del Sawfish"
-
 #: src/gthumb-ui.xml.h:175
-msgid "_Actual Size"
-msgstr ""
+msgid "Zoom in"
+msgstr "Apropa"
 
 #: src/gthumb-ui.xml.h:176
-msgid "_Add Bookmark"
-msgstr "_Afegeix l'adreça d'interès"
+msgid "Zoom out"
+msgstr "Allunya"
 
 #: src/gthumb-ui.xml.h:177
-msgid "_Add to Catalog..."
-msgstr ""
+msgid "Zoom to _Fit"
+msgstr "Zoom per _ajustar"
 
 #: src/gthumb-ui.xml.h:178
-msgid "_Adjust Color Levels"
-msgstr ""
+msgid "Zoom to fit window"
+msgstr "Fés un zoom per ajustar la finestra"
 
 #: src/gthumb-ui.xml.h:179
+msgid "_About"
+msgstr "_Quant a"
+
+#: src/gthumb-ui.xml.h:180
+msgid "_Actual Size"
+msgstr "Mid_a actual"
+
+#: src/gthumb-ui.xml.h:181
+msgid "_Add Bookmark"
+msgstr "_Afegeix a la llista d'adreces d'interès"
+
+#: src/gthumb-ui.xml.h:182
+msgid "_Add to Catalog..."
+msgstr "_Afegeix a un catàleg..."
+
+#: src/gthumb-ui.xml.h:183
+msgid "_Adjust Color Levels"
+msgstr "_Ajusta el nivell dels colors"
+
+#: src/gthumb-ui.xml.h:184
 msgid "_Back"
 msgstr "_Endarrere"
 
-#: src/gthumb-ui.xml.h:181
+#: src/gthumb-ui.xml.h:186
 msgid "_Bookmarks"
 msgstr "_Adreces d'interès"
 
-#: src/gthumb-ui.xml.h:182
+#: src/gthumb-ui.xml.h:187
 msgid "_Brightness-Contrast"
-msgstr ""
+msgstr "_Lluminositat-contrast"
 
-#: src/gthumb-ui.xml.h:183
+#: src/gthumb-ui.xml.h:188
 msgid "_Catalogs"
-msgstr ""
+msgstr "_Catàlegs"
 
-#: src/gthumb-ui.xml.h:184
+#: src/gthumb-ui.xml.h:189
 msgid "_Centered"
-msgstr ""
+msgstr "_Centrat"
 
-#: src/gthumb-ui.xml.h:186
+#: src/gthumb-ui.xml.h:191
 msgid "_Close"
 msgstr "_Tanca"
 
-#: src/gthumb-ui.xml.h:187
+#: src/gthumb-ui.xml.h:192
 msgid "_Color Balance"
-msgstr ""
+msgstr "Balanç del _color"
 
-#: src/gthumb-ui.xml.h:188
+#: src/gthumb-ui.xml.h:193
 msgid "_Contents"
 msgstr "_Continguts"
 
-#: src/gthumb-ui.xml.h:189
+#: src/gthumb-ui.xml.h:194
 msgid "_Copy..."
-msgstr ""
+msgstr "_Copia..."
 
-#: src/gthumb-ui.xml.h:190
+#: src/gthumb-ui.xml.h:195
+msgid "_Crop"
+msgstr "_Escapça"
+
+#: src/gthumb-ui.xml.h:196
 msgid "_Delete History"
-msgstr ""
+msgstr "_Suprimeix l'històric"
 
-#: src/gthumb-ui.xml.h:191
+#: src/gthumb-ui.xml.h:197
 msgid "_Desaturate"
-msgstr ""
+msgstr "_Desatura"
 
-#: src/gthumb-ui.xml.h:192
+#: src/gthumb-ui.xml.h:198
 msgid "_Edit"
 msgstr "_Edita"
 
-#: src/gthumb-ui.xml.h:193
+#: src/gthumb-ui.xml.h:199
 msgid "_Edit Bookmarks"
 msgstr "_Edita les adreces d'interès"
 
-#: src/gthumb-ui.xml.h:194 src/gthumb_search.glade.h:26
+#: src/gthumb-ui.xml.h:200 src/gthumb_search.glade.h:25
 msgid "_Edit Search"
-msgstr ""
+msgstr "_Edita la cerca"
 
-#: src/gthumb-ui.xml.h:195
-msgid "_Equalize Histogram"
-msgstr ""
+#: src/gthumb-ui.xml.h:201
+msgid "_Equalize"
+msgstr "_Equalitza"
 
-#: src/gthumb-ui.xml.h:196
+#: src/gthumb-ui.xml.h:202
 msgid "_File"
 msgstr "_Fitxer"
 
-#: src/gthumb-ui.xml.h:197
+#: src/gthumb-ui.xml.h:203
 msgid "_Find..."
 msgstr "_Busca..."
 
-#: src/gthumb-ui.xml.h:199
+#: src/gthumb-ui.xml.h:205
 msgid "_Folder"
-msgstr ""
+msgstr "_Carpeta"
 
-#: src/gthumb-ui.xml.h:200
+#: src/gthumb-ui.xml.h:206
 msgid "_Folders"
-msgstr ""
+msgstr "_Carpetes"
 
-#: src/gthumb-ui.xml.h:201
+#: src/gthumb-ui.xml.h:207
 msgid "_Forward"
 msgstr "_Endavant"
 
-#: src/gthumb-ui.xml.h:202
+#: src/gthumb-ui.xml.h:208
 msgid "_Full Screen"
 msgstr "_Pantalla completa"
 
-#: src/gthumb-ui.xml.h:203
+#: src/gthumb-ui.xml.h:209
 msgid "_Go"
 msgstr "_Vés"
 
-#: src/gthumb-ui.xml.h:204
+#: src/gthumb-ui.xml.h:210
 msgid "_Go to the Image Folder"
-msgstr ""
+msgstr "_Vés a la carpeta de la imatge"
 
-#: src/gthumb-ui.xml.h:205
+#: src/gthumb-ui.xml.h:211
 msgid "_Help"
 msgstr "_Ajuda"
 
-#: src/gthumb-ui.xml.h:206
+#: src/gthumb-ui.xml.h:212
 msgid "_High Quality"
-msgstr ""
+msgstr "Qualitat _alta"
 
-#: src/gthumb-ui.xml.h:207
+#: src/gthumb-ui.xml.h:213
 msgid "_Home"
 msgstr "_Inici"
 
-#: src/gthumb-ui.xml.h:208
+#: src/gthumb-ui.xml.h:214
 msgid "_Hue-Saturation"
-msgstr ""
+msgstr "_To-saturació"
 
-#: src/gthumb-ui.xml.h:210
-msgid "_Image preview"
-msgstr ""
+#: src/gthumb-ui.xml.h:216
+msgid "_Image Preview"
+msgstr "_Previsualitza la imatge"
 
-#: src/gthumb-ui.xml.h:211
+#: src/gthumb-ui.xml.h:217
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Dreceres del _teclat"
 
-#: src/gthumb-ui.xml.h:212
+#: src/gthumb-ui.xml.h:218
 msgid "_Location..."
 msgstr "_Ubicació..."
 
-#: src/gthumb-ui.xml.h:213
-msgid "_Low Quality"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:214
-msgid "_Maintenance"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:216
-msgid "_Move..."
-msgstr ""
-
-#: src/gthumb-ui.xml.h:217
-msgid "_Negative"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:218
-msgid "_New Catalog..."
-msgstr ""
-
 #: src/gthumb-ui.xml.h:219
-msgid "_New Folder..."
-msgstr ""
+msgid "_Low Quality"
+msgstr "Qualitat _baixa"
 
-#: src/gthumb-ui.xml.h:221
-msgid "_Open With"
-msgstr ""
+#: src/gthumb-ui.xml.h:220
+msgid "_Maintenance"
+msgstr "_Manteniment"
 
 #: src/gthumb-ui.xml.h:222
+msgid "_Move..."
+msgstr "_Mou..."
+
+#: src/gthumb-ui.xml.h:223
+msgid "_Negative"
+msgstr "_Negatiu"
+
+#: src/gthumb-ui.xml.h:224
+msgid "_New Catalog..."
+msgstr "_Nou catàleg..."
+
+#: src/gthumb-ui.xml.h:225
+msgid "_New Folder..."
+msgstr "_Nova carpeta..."
+
+#: src/gthumb-ui.xml.h:227
+msgid "_Normalize"
+msgstr "_Normalitza"
+
+#: src/gthumb-ui.xml.h:228
+msgid "_Open With"
+msgstr "_Obre amb"
+
+#: src/gthumb-ui.xml.h:229
 msgid "_Posterize"
 msgstr ""
 
-#: src/gthumb-ui.xml.h:223 src/gthumb_png_exporter.glade.h:66
+#: src/gthumb-ui.xml.h:230 src/gthumb_png_exporter.glade.h:66
 msgid "_Preferences"
 msgstr "_Preferències"
 
-#: src/gthumb-ui.xml.h:224
+#: src/gthumb-ui.xml.h:231
 msgid "_Print..."
 msgstr "_Imprimeix..."
 
-#: src/gthumb-ui.xml.h:225
+#: src/gthumb-ui.xml.h:232
 msgid "_Reduce Colors"
-msgstr ""
+msgstr "_Redueix els colors"
 
-#: src/gthumb-ui.xml.h:226
+#: src/gthumb-ui.xml.h:233
 msgid "_Reload"
 msgstr "Ac_tualitza"
 
-#: src/gthumb-ui.xml.h:228
+#: src/gthumb-ui.xml.h:235
 msgid "_Rename Series"
-msgstr ""
+msgstr "_Canvia el nom de les sèries"
 
-#: src/gthumb-ui.xml.h:229
+#: src/gthumb-ui.xml.h:236
 msgid "_Rename..."
-msgstr "_Reanomena..."
+msgstr "_Canvia el nom..."
 
-#: src/gthumb-ui.xml.h:230
+#: src/gthumb-ui.xml.h:237
 msgid "_Resize"
 msgstr "_Redimensiona"
 
-#: src/gthumb-ui.xml.h:231
+#: src/gthumb-ui.xml.h:238
 msgid "_Restore"
-msgstr ""
+msgstr "_Restaura"
 
-#: src/gthumb-ui.xml.h:232
+#: src/gthumb-ui.xml.h:239
 msgid "_Reversed Order"
 msgstr "Ordre inve_rs"
 
-#: src/gthumb-ui.xml.h:233
+#: src/gthumb-ui.xml.h:240
 msgid "_Revert"
 msgstr "_Reverteix"
 
-#: src/gthumb-ui.xml.h:234
+#: src/gthumb-ui.xml.h:241
 msgid "_Rotate"
-msgstr ""
+msgstr "Gi_ra"
 
-#: src/gthumb-ui.xml.h:235
+#: src/gthumb-ui.xml.h:242
 msgid "_Scaled"
 msgstr "_Escalat"
 
-#: src/gthumb-ui.xml.h:236 src/gthumb_search.glade.h:30
+#: src/gthumb-ui.xml.h:243 src/gthumb_search.glade.h:29
 msgid "_Search"
 msgstr "_Cerca"
 
-#: src/gthumb-ui.xml.h:237
+#: src/gthumb-ui.xml.h:244
 msgid "_Select All"
-msgstr ""
+msgstr "_Selecciona-ho tot"
 
-#: src/gthumb-ui.xml.h:238
+#: src/gthumb-ui.xml.h:245
 msgid "_Slide Show"
-msgstr ""
+msgstr "_Projecció de les diapositives"
 
-#: src/gthumb-ui.xml.h:239
+#: src/gthumb-ui.xml.h:246
 msgid "_Statusbar"
-msgstr ""
+msgstr "Barra d'e_stat"
 
-#: src/gthumb-ui.xml.h:240
+#: src/gthumb-ui.xml.h:247
 msgid "_Stop"
 msgstr "A_tura"
 
-#: src/gthumb-ui.xml.h:241
+#: src/gthumb-ui.xml.h:248
+msgid "_Stretch Contrast"
+msgstr "_Amplia el contrast"
+
+#: src/gthumb-ui.xml.h:249
+msgid "_Threshold"
+msgstr "_Llindar"
+
+#: src/gthumb-ui.xml.h:250 src/gthumb_preferences.glade.h:65
 msgid "_Thumbnails"
-msgstr ""
+msgstr "_Miniatures"
 
-#: src/gthumb-ui.xml.h:242
+#: src/gthumb-ui.xml.h:251
 msgid "_Tiled"
-msgstr ""
+msgstr "Format _mosaic"
 
-#: src/gthumb-ui.xml.h:243
+#: src/gthumb-ui.xml.h:252
 msgid "_Toolbar"
 msgstr "Barra d'_eines"
 
-#: src/gthumb-ui.xml.h:244
+#: src/gthumb-ui.xml.h:253
 msgid "_Tools"
 msgstr "_Eines"
 
-#: src/gthumb-ui.xml.h:245
-msgid "_Up"
-msgstr ""
+#: src/gthumb-ui.xml.h:254
+msgid "_Transform"
+msgstr "_Transforma"
 
-#: src/gthumb-ui.xml.h:248
+#: src/gthumb-ui.xml.h:255
+msgid "_Up"
+msgstr "Am_unt"
+
+#: src/gthumb-ui.xml.h:258
 msgid "_Zoom"
 msgstr "_Zoom"
 
-#: src/gthumb-ui.xml.h:249
+#: src/gthumb-ui.xml.h:259
 msgid "by _Name"
 msgstr "per _nom"
 
-#: src/gthumb-ui.xml.h:250
+#: src/gthumb-ui.xml.h:260
 msgid "by _Path"
 msgstr "per _Camí"
 
-#: src/gthumb-ui.xml.h:251
+#: src/gthumb-ui.xml.h:261
 msgid "by _Size"
 msgstr "per _mida"
 
-#: src/gthumb-ui.xml.h:252
+#: src/gthumb-ui.xml.h:262
 msgid "by _Time"
 msgstr "per _Hora"
 
-#: src/gthumb-window.c:522
-msgid "No image"
-msgstr ""
+#: src/gthumb-window.c:428
+msgid "[Press 'c' to add a comment]"
+msgstr "[Per afegir un comentari premeu 'c']"
 
-#: src/gthumb-window.c:524
+#: src/gthumb-window.c:502 src/gthumb-window.c:524
+msgid "[modified]"
+msgstr "[modificat]"
+
+#: src/gthumb-window.c:608
+msgid "No image"
+msgstr "Cap imatge"
+
+#: src/gthumb-window.c:610
 #, c-format
 msgid "1 image (%s)"
-msgstr ""
+msgstr "1 imatge (%s)"
 
-#: src/gthumb-window.c:527
+#: src/gthumb-window.c:613
 #, c-format
 msgid "%d images (%s)"
-msgstr ""
+msgstr "%d imatges (%s)"
 
-#: src/gthumb-window.c:534
+#: src/gthumb-window.c:620
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 sel·leccionada (%s)"
 
-#: src/gthumb-window.c:537
+#: src/gthumb-window.c:623
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d seleccionades (%s)"
 
-#: src/gthumb-window.c:2854
+#: src/gthumb-window.c:3151
 msgid "Dragged Images"
-msgstr ""
+msgstr "Imatges arrossegades"
 
-#: src/gthumb-window.c:3027
+#: src/gthumb-window.c:3350
 msgid "Could not move the items:"
-msgstr ""
+msgstr "No s'han pogut moure els elements:"
 
-#: src/gthumb-window.c:3628
-msgid "Back"
-msgstr "Enrere"
+#: src/gthumb-window.c:5126
+msgid "Image comment"
+msgstr "Comentari de la imatge"
 
-#: src/gthumb-window.c:5398
+#: src/gthumb-window.c:5140
+msgid "Image data"
+msgstr "Dades de la imatge"
+
+#: src/gthumb-window.c:5154
+msgid "Image preview"
+msgstr "Previsualització de la imatge"
+
+#: src/gthumb-window.c:6360
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr ""
+msgstr "No s'ha pogut carregar la carpeta \"%s\": %s\n"
 
-#: src/gthumb-window.c:5666
+#: src/gthumb-window.c:6629
 msgid "The specified catalog does not exist."
-msgstr ""
+msgstr "El catàleg especificat no existeix."
 
-#: src/gthumb-window.c:6930
+#: src/gthumb-window.c:8010
 msgid "Wait please..."
-msgstr ""
+msgstr "Espereu si us plau..."
 
 #: src/gthumb.glade.h:1 src/gthumb_comments.glade.h:1
 #: src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_preferences.glade.h:1
-#: src/gthumb_search.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_print.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
 #: src/gthumb.glade.h:2 src/gthumb_comments.glade.h:2
 #: src/gthumb_convert.glade.h:2 src/gthumb_png_exporter.glade.h:3
-#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:2
-#: src/gthumb_tools.glade.h:3
+#: src/gthumb_preferences.glade.h:3 src/gthumb_search.glade.h:1
+#: src/gthumb_tools.glade.h:3 src/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
 #: src/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr ""
+msgstr "<b>Categories:</b>"
 
 #: src/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
-msgstr ""
+msgstr "<b>Informació al canal:</b>"
 
 #: src/gthumb.glade.h:5
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr ""
+msgstr "<b>Sobreescriu la imatge antiga per la nova?</b>"
 
 #: src/gthumb.glade.h:6
 msgid "A_vailable applications:"
-msgstr ""
+msgstr "Aplicacions d_isponibles:"
 
 #: src/gthumb.glade.h:7
 msgid "Alpha"
-msgstr ""
+msgstr "Alfa"
 
 #: src/gthumb.glade.h:8
 msgid "Blue"
@@ -1746,19 +2053,19 @@ msgstr "Blau"
 
 #: src/gthumb.glade.h:9
 msgid "Bookmarks"
-msgstr ""
+msgstr "Adreces d'interès"
 
 #: src/gthumb.glade.h:10
 msgid "C_atalogs:"
-msgstr ""
+msgstr "C_atàlegs:"
 
 #: src/gthumb.glade.h:11
 msgid "Choose a Catalog"
-msgstr ""
+msgstr "Selecciona un catàleg"
 
 #: src/gthumb.glade.h:13
 msgid "Do not overwrite _the old image"
-msgstr ""
+msgstr "No sobreescriguis _les imatges velles"
 
 #: src/gthumb.glade.h:14
 msgid "Green"
@@ -1766,35 +2073,35 @@ msgstr "Verd"
 
 #: src/gthumb.glade.h:15
 msgid "New Image:"
-msgstr ""
+msgstr "Nova imatge:"
 
 #: src/gthumb.glade.h:16
 msgid "New _Library"
-msgstr ""
+msgstr "Nova bib_lioteca"
 
 #: src/gthumb.glade.h:17
 msgid "Old Image:"
-msgstr ""
+msgstr "Imatge antiga:"
 
 #: src/gthumb.glade.h:18
 msgid "Open Images"
-msgstr ""
+msgstr "Obre imatges"
 
 #: src/gthumb.glade.h:19
 msgid "Over_write the old image"
-msgstr ""
+msgstr "Sobr_eescriu la imatge antiga"
 
 #: src/gthumb.glade.h:20
 msgid "Overwrite Image"
-msgstr ""
+msgstr "Sobreescriu la imatge"
 
 #: src/gthumb.glade.h:21
 msgid "Overwrite _all images"
-msgstr ""
+msgstr "Sobreescriu _totes les imatges"
 
 #: src/gthumb.glade.h:22
 msgid "Photo _Data (EXIF)"
-msgstr ""
+msgstr "_Dades de la foto (EXIF)"
 
 #: src/gthumb.glade.h:23
 msgid "R_ecent applications:"
@@ -1804,13 +2111,17 @@ msgstr "Aplicacions r_ecents:"
 msgid "Red"
 msgstr "Vermell"
 
+#: src/gthumb.glade.h:25
+msgid "Value"
+msgstr "Valor"
+
 #: src/gthumb.glade.h:26
 msgid "_Application:"
 msgstr "_Aplicació:"
 
 #: src/gthumb.glade.h:28
 msgid "_Do not overwrite any image"
-msgstr ""
+msgstr "_No sobreescriguis cap imatge"
 
 #: src/gthumb.glade.h:29
 msgid "_General"
@@ -1822,7 +2133,7 @@ msgstr "_Histograma"
 
 #: src/gthumb.glade.h:31
 msgid "_New Catalog"
-msgstr ""
+msgstr "_Nou catàleg"
 
 #: src/gthumb.glade.h:32
 msgid "_Next"
@@ -1833,68 +2144,216 @@ msgid "_Previous"
 msgstr "_Previ"
 
 #: src/gthumb.glade.h:34
+msgid "_Remove"
+msgstr "_Suprimeix"
+
+#: src/gthumb.glade.h:35
 msgid "_Save the new image as:"
-msgstr ""
+msgstr "_Desa la imatge com a:"
 
-#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
+#: src/gthumb.schemas.in.h:1
+msgid ""
+"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
+"to generate thumbnails for all images."
+msgstr ""
+"Les imatge d'una mida superior (en bytes) no es convertiran a miniatures. Si "
+"voleu generar les miniatures de totes les imatges utilitzeu 0."
+
+#: src/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "Els valors possibles són: 1, 2, 3 4."
+
+#: src/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "Els valors possibles són: actual_size, fit, keep_prev, fit_if_larger."
+
+#: src/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "Els valors possibles són: ascendent; descendent."
+
+#: src/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward."
+msgstr "Els valors possibles són: endavant, enrere."
+
+#: src/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "Els valors possibles són: alt, baix."
+
+#: src/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "Els valors possibles són: imatge, data, comentari."
+
+#: src/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "Els valors possibles són: jpeg, png, tga, tiff."
+
+#: src/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "Els valors possibles són: clar, atenuat, fosc."
+
+#: src/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "Els valor possibles són: llista, miniatures."
+
+#: src/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "Els valors possibles són: mm, polzades."
+
+#: src/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "Els valor possibles són: nom, camí, mida, hora."
+
+#: src/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "Els valors possibles són: nom, mida, hora."
+
+#: src/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "Els valors possibles són: nautilus, individual, doble."
+
+#: src/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "Els valors possibles són: cap, rebaixar, jpeg."
+
+#: src/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "Els valors possibles són: none, nom, camí, mida, hora."
+
+#: src/gthumb.schemas.in.h:17
+msgid ""
+"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+msgstr ""
+"Els valors possibles són: none, simple, simple_with_shadow, shadow, slide, "
+"shadow_in, shadow_out."
+
+#: src/gthumb.schemas.in.h:18
+msgid "Possible values are: pixels, percentage."
+msgstr "Els valors possibles són: píxels, percentatge."
+
+#: src/gthumb.schemas.in.h:19
+msgid "Possible values are: png, jpeg."
+msgstr "Els valors possibles són: png, jpeg."
+
+#: src/gthumb.schemas.in.h:20
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr ""
+"Els valors possibles són: ometre, canviar el nom, preguntar, sobreesciure."
+
+#: src/gthumb.schemas.in.h:21
+msgid "Possible values are: small, medium, large."
+msgstr "Els valors possibles són: petit, mitjà, gran."
+
+#: src/gthumb.schemas.in.h:22
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Els valors possibles són: system, text_below, text_beside, text_only, "
+"icons_only."
+
+#: src/gthumb.schemas.in.h:23
+msgid "Possible values are: white, black, checked, none."
+msgstr "Els valors possibles són: blanc, negre, activat, cap."
+
+#: src/gthumb.schemas.in.h:24
+msgid "Whether to always use a black background."
+msgstr "Si s'ha d'utilitzar sempre el negre com a color de fons."
+
+#: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
-msgstr ""
+msgstr "Categories dis_ponibles:"
 
-#: src/gthumb_comments.glade.h:4
-msgid "Add a category"
-msgstr "Afegeix una categoria"
-
-#: src/gthumb_comments.glade.h:5 src/gthumb_tools.glade.h:10
+#: src/gthumb_comments.glade.h:4 src/gthumb_tools.glade.h:10
 msgid "C_urrent date"
-msgstr ""
+msgstr "Data act_ual:"
 
-#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:15
+#: src/gthumb_comments.glade.h:6
+msgid "Choose Date"
+msgstr "Escull data"
+
+#: src/gthumb_comments.glade.h:7 src/gthumb_search.glade.h:12
 msgid "Co_mment:"
-msgstr ""
+msgstr "Co_mentari:"
 
-#: src/gthumb_comments.glade.h:9 src/gthumb_tools.glade.h:25
+#: src/gthumb_comments.glade.h:9
+msgid "Create a new category"
+msgstr "Crea una nova categoria"
+
+#: src/gthumb_comments.glade.h:10
+msgid "Current date"
+msgstr "Data actual"
+
+#: src/gthumb_comments.glade.h:11 src/gthumb_tools.glade.h:25
 msgid "Image c_reation date"
-msgstr ""
-
-#: src/gthumb_comments.glade.h:10 src/gthumb_tools.glade.h:32
-msgid "P_hoto digitalization date (From EXIF data)"
-msgstr ""
-
-#: src/gthumb_comments.glade.h:11
-msgid "Remove selected category"
-msgstr ""
+msgstr "Data de c_reació de la imatge"
 
 #: src/gthumb_comments.glade.h:12
+msgid "Image creation date"
+msgstr "Data de creació de la imatge"
+
+#: src/gthumb_comments.glade.h:13
+msgid "No date"
+msgstr "Sense data"
+
+#: src/gthumb_comments.glade.h:14 src/gthumb_tools.glade.h:32
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "Data de la digitalització de la _foto (de les dades EXIF)"
+
+#: src/gthumb_comments.glade.h:15
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "Data de la digitalització de la foto (de les dades de EXIF)"
+
+#: src/gthumb_comments.glade.h:16
+msgid "Remove selected category"
+msgstr "Suprimeix la categoria seleccionada"
+
+#: src/gthumb_comments.glade.h:17
 msgid "Save only cha_nged fields"
-msgstr ""
+msgstr "Desa únicament els camps mod_ificats"
 
-#: src/gthumb_comments.glade.h:13 src/gthumb_tools.glade.h:42
+#: src/gthumb_comments.glade.h:18 src/gthumb_tools.glade.h:42
 msgid "The _following date:"
-msgstr ""
+msgstr "La data _següent:"
 
-#: src/gthumb_comments.glade.h:14 src/gthumb_search.glade.h:25
+#: src/gthumb_comments.glade.h:19
+msgid "The following date"
+msgstr "La data següent"
+
+#: src/gthumb_comments.glade.h:20 src/gthumb_search.glade.h:24
 msgid "_Date:"
-msgstr ""
+msgstr "_Data:"
 
-#: src/gthumb_comments.glade.h:15 src/gthumb_search.glade.h:28
+#: src/gthumb_comments.glade.h:21
+msgid "_Delete"
+msgstr "_Suprimeix"
+
+#: src/gthumb_comments.glade.h:22
+msgid "_New"
+msgstr "_Nou"
+
+#: src/gthumb_comments.glade.h:23
+msgid "_No date"
+msgstr "_Sense data"
+
+#: src/gthumb_comments.glade.h:24 src/gthumb_search.glade.h:27
 msgid "_Place:"
-msgstr ""
+msgstr "Em_plaçament:"
 
-#: src/gthumb_comments.glade.h:16 src/gthumb_search.glade.h:31
+#: src/gthumb_comments.glade.h:25 src/gthumb_search.glade.h:30
 msgid "_Selected categories:"
-msgstr ""
+msgstr "Categories _seleccionades:"
 
 #: src/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
-msgstr ""
+msgstr "<b>Compressió</b>"
 
 #: src/gthumb_convert.glade.h:4
 msgid "<b>Image type</b>"
-msgstr ""
+msgstr "<b>Tipus d'imatge</b>"
 
 #: src/gthumb_convert.glade.h:5
 msgid "<b>Resolution</b>"
-msgstr ""
+msgstr "<b>Resolució</b>"
 
 #: src/gthumb_convert.glade.h:6
 msgid "Ask"
@@ -1906,19 +2365,19 @@ msgstr "Nive_ll de compressió:"
 
 #: src/gthumb_convert.glade.h:8
 msgid "Convert Format"
-msgstr ""
+msgstr "Converteix el format"
 
 #: src/gthumb_convert.glade.h:9
 msgid "JPEG Options"
-msgstr ""
+msgstr "Opcions de JPEG"
 
 #: src/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
-msgstr ""
+msgstr "No_rmal (desinflar)"
 
 #: src/gthumb_convert.glade.h:11
 msgid "Opti_mize"
-msgstr ""
+msgstr "Opti_mitza"
 
 #: src/gthumb_convert.glade.h:12
 msgid "Overwrite"
@@ -1926,113 +2385,110 @@ msgstr "Sobreescriu"
 
 #: src/gthumb_convert.glade.h:13
 msgid "Overwrite mode:"
-msgstr ""
+msgstr "Mode de sobreescriptura:"
 
 #: src/gthumb_convert.glade.h:14
 msgid "PNG Options"
-msgstr ""
+msgstr "Opcions del PNG"
 
 #: src/gthumb_convert.glade.h:15
 msgid "R_emove original"
-msgstr ""
+msgstr "Suprim_eix l'original"
 
 #: src/gthumb_convert.glade.h:16
 msgid "Rename"
-msgstr ""
-
-#: src/gthumb_convert.glade.h:17
-msgid "Skip"
-msgstr ""
+msgstr "Canvia el nom"
 
 #: src/gthumb_convert.glade.h:18
 msgid "TGA Options"
-msgstr ""
+msgstr "Opcions de TGA"
 
 #: src/gthumb_convert.glade.h:19
 msgid "TIFF Options"
-msgstr ""
+msgstr "Opcions de TIFF"
 
 #: src/gthumb_convert.glade.h:20
 msgid "T_GA"
-msgstr ""
+msgstr "T_GA"
 
 #: src/gthumb_convert.glade.h:21 src/gthumb_png_exporter.glade.h:64
 msgid "_Horizontal:"
-msgstr ""
+msgstr "_Horitzontal:"
 
 #: src/gthumb_convert.glade.h:22
 msgid "_JPEG"
-msgstr ""
+msgstr "_JPEG"
 
 #: src/gthumb_convert.glade.h:23
 msgid "_Loss compression (JPEG)"
-msgstr ""
+msgstr "_Compressió amb pèrdua(JPEG)"
 
 #: src/gthumb_convert.glade.h:24
 msgid "_No compression"
-msgstr ""
+msgstr "_Sense compressió"
 
 #: src/gthumb_convert.glade.h:25
 msgid "_PNG"
-msgstr ""
+msgstr "_PNG"
 
 #: src/gthumb_convert.glade.h:26
 msgid "_Progressive"
-msgstr ""
+msgstr "_Progressiu"
 
 #: src/gthumb_convert.glade.h:27
 msgid "_Quality:"
-msgstr ""
+msgstr "_Qualitat:"
 
 #: src/gthumb_convert.glade.h:28
 msgid "_RLE compression"
-msgstr ""
+msgstr "Compressió _RLE"
 
 #: src/gthumb_convert.glade.h:29
 msgid "_Smoothing:"
-msgstr ""
+msgstr "_Suau:"
 
 #: src/gthumb_convert.glade.h:30
 msgid "_TIFF"
-msgstr ""
+msgstr "_TIFF"
 
 #: src/gthumb_convert.glade.h:31 src/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
-msgstr ""
+msgstr "_Vertical:"
 
 #: src/gthumb_convert.glade.h:32
 msgid "dpi"
-msgstr ""
+msgstr "punts per polzada"
 
 #: src/gthumb_edit.glade.h:2 src/gthumb_png_exporter.glade.h:2
 #: src/gthumb_preferences.glade.h:2 src/gthumb_tools.glade.h:2
+#: src/gthumb_web_exporter.glade.h:2
 msgid "     "
-msgstr ""
+msgstr "     "
 
-#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
 
 #: src/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr ""
+msgstr "<b>Nivells del color</b>"
 
 #: src/gthumb_edit.glade.h:6
 msgid "<b>New dimensions</b>"
-msgstr ""
+msgstr "<b>Noves dimensions</b>"
 
 #: src/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
-msgstr ""
+msgstr "<b>Dimensions originals</b>"
 
 #: src/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
-msgstr ""
+msgstr "<b>Ratio d'escala</b>"
 
 #: src/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
-msgstr ""
+msgstr "Lluminositat - Contrast"
 
 #: src/gthumb_edit.glade.h:10
 msgid "Color Balance"
@@ -2040,11 +2496,11 @@ msgstr "Balanç de color"
 
 #: src/gthumb_edit.glade.h:11
 msgid "Con_trast:"
-msgstr ""
+msgstr "Con_trast:"
 
 #: src/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr ""
+msgstr "Cian-ve_rmell"
 
 #: src/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -2052,11 +2508,11 @@ msgstr "Alçada:"
 
 #: src/gthumb_edit.glade.h:14
 msgid "High _quality"
-msgstr ""
+msgstr "Qualitat _alta"
 
 #: src/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
-msgstr ""
+msgstr "To - saturació"
 
 #: src/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -2064,21 +2520,21 @@ msgstr ""
 
 #: src/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
-msgstr ""
+msgstr "Preservar la _lluminositat"
 
 #: src/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr ""
+msgstr "Canvia l'escala de la imatge"
 
 #: src/gthumb_edit.glade.h:19
 msgid "Width:"
-msgstr ""
+msgstr "Amplada:"
 
 #: src/gthumb_edit.glade.h:20
 msgid "_Brightness:"
-msgstr ""
+msgstr "_Lluminositat:"
 
-#: src/gthumb_edit.glade.h:21
+#: src/gthumb_edit.glade.h:21 src/gthumb_print.glade.h:24
 msgid "_Height:"
 msgstr "A_lçada:"
 
@@ -2088,19 +2544,19 @@ msgstr "_Matís:"
 
 #: src/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
-msgstr ""
+msgstr "_Conserva la relació d'aspecte"
 
 #: src/gthumb_edit.glade.h:24
 msgid "_Levels:"
-msgstr ""
+msgstr "Nive_lls:"
 
 #: src/gthumb_edit.glade.h:25
 msgid "_Lightness:"
-msgstr ""
+msgstr "_Lluminositat:"
 
 #: src/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
-msgstr ""
+msgstr "_Magenta-verd:"
 
 #: src/gthumb_edit.glade.h:27
 msgid "_Preview"
@@ -2116,31 +2572,27 @@ msgstr "_Saturació:"
 
 #: src/gthumb_edit.glade.h:30
 msgid "_Scale"
-msgstr ""
+msgstr "_Escala"
 
-#: src/gthumb_edit.glade.h:31
+#: src/gthumb_edit.glade.h:31 src/gthumb_print.glade.h:26
 msgid "_Width:"
 msgstr "_Amplada:"
 
 #: src/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
-msgstr ""
-
-#: src/gthumb_edit.glade.h:33
-msgid "pixels"
-msgstr "píxels"
+msgstr "_Groc-blau:"
 
 #: src/gthumb_png_exporter.glade.h:4
 msgid "112"
-msgstr ""
+msgstr "112"
 
 #: src/gthumb_png_exporter.glade.h:5
 msgid "128"
-msgstr ""
+msgstr "128"
 
 #: src/gthumb_png_exporter.glade.h:6
 msgid "164"
-msgstr ""
+msgstr "164"
 
 #: src/gthumb_png_exporter.glade.h:7
 msgid "200"
@@ -2148,127 +2600,127 @@ msgstr "200"
 
 #: src/gthumb_png_exporter.glade.h:8
 msgid "256"
-msgstr ""
+msgstr "256"
 
 #: src/gthumb_png_exporter.glade.h:9
 msgid "48"
-msgstr ""
+msgstr "48"
 
 #: src/gthumb_png_exporter.glade.h:10
 msgid "64"
-msgstr ""
+msgstr "64"
 
 #: src/gthumb_png_exporter.glade.h:11
 msgid "75"
-msgstr ""
+msgstr "75"
 
 #: src/gthumb_png_exporter.glade.h:12
 msgid "85"
-msgstr ""
+msgstr "85"
 
 #: src/gthumb_png_exporter.glade.h:13
 msgid "95"
-msgstr ""
+msgstr "95"
 
 #: src/gthumb_png_exporter.glade.h:14
 msgid "<b>Background style</b>"
-msgstr ""
+msgstr "<b>Estil del fons</b>"
 
 #: src/gthumb_png_exporter.glade.h:15
 msgid "<b>Caption</b>"
-msgstr ""
+msgstr "<b>Títol</b>"
 
 #: src/gthumb_png_exporter.glade.h:16
 msgid "<b>Destination folder</b>"
-msgstr ""
+msgstr "<b>Carpeta destí</b>"
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
-msgstr ""
+msgstr "<b>Peu</b>"
 
 #: src/gthumb_png_exporter.glade.h:18
 msgid "<b>Header and footer</b>"
-msgstr ""
+msgstr "<b>Capçalera i peu</b>"
 
 #: src/gthumb_png_exporter.glade.h:19
 msgid "<b>Header</b>"
-msgstr ""
+msgstr "<b>Capçalera</b>"
 
 #: src/gthumb_png_exporter.glade.h:20
 msgid "<b>Index images</b>"
-msgstr ""
+msgstr "<b>Indexar les imatges</b>"
 
 #: src/gthumb_png_exporter.glade.h:21
 msgid "<b>Page size</b>"
-msgstr ""
+msgstr "<b>Mida de la pàgina</b>"
 
 #: src/gthumb_png_exporter.glade.h:22
 msgid "<i>Examples:</i>"
-msgstr ""
+msgstr "<i>Exemples:</i>"
 
 #: src/gthumb_png_exporter.glade.h:23
 msgid "Choose destination folder"
 msgstr "Escolliu la carpeta de destinació"
 
-#: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
+#: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
-msgstr ""
+msgstr "Co_mentari"
 
-#: src/gthumb_png_exporter.glade.h:25
+#: src/gthumb_png_exporter.glade.h:25 src/gthumb_web_exporter.glade.h:19
 msgid "Col_umns:"
-msgstr ""
+msgstr "Col_umnes:"
 
-#: src/gthumb_png_exporter.glade.h:26 src/gthumb_preferences.glade.h:31
+#: src/gthumb_png_exporter.glade.h:26
 msgid "Colo_r:"
-msgstr ""
+msgstr "Colo_r:"
 
 #: src/gthumb_png_exporter.glade.h:27
 msgid "Create Index Image"
-msgstr ""
+msgstr "Crea l'índex d'imatges"
 
 #: src/gthumb_png_exporter.glade.h:28
 msgid "Create _HTML image map"
-msgstr ""
+msgstr "Crear un mapa de la imatge _HTML"
 
-#: src/gthumb_png_exporter.glade.h:29
+#: src/gthumb_png_exporter.glade.h:29 src/gthumb_web_exporter.glade.h:22
 msgid "F_ooter:"
-msgstr ""
+msgstr "_Peu de pàgina:"
 
-#: src/gthumb_png_exporter.glade.h:30
+#: src/gthumb_png_exporter.glade.h:30 src/gthumb_web_exporter.glade.h:23
 msgid "File _name"
-msgstr ""
+msgstr "_Nom del fitxer"
 
 #: src/gthumb_png_exporter.glade.h:31
 msgid "File pa_th"
-msgstr ""
+msgstr "Ca_mí del fitxer"
 
-#: src/gthumb_png_exporter.glade.h:32
+#: src/gthumb_png_exporter.glade.h:32 src/gthumb_web_exporter.glade.h:24
 msgid "File si_ze"
-msgstr ""
+msgstr "Mi_da del fitxer"
 
 #: src/gthumb_png_exporter.glade.h:33
 msgid "Frame _style:"
-msgstr ""
+msgstr "E_stil del marc:"
 
 #: src/gthumb_png_exporter.glade.h:34
 msgid "Frame co_lor:"
-msgstr ""
+msgstr "Co_lor del marc:"
 
-#: src/gthumb_png_exporter.glade.h:35
+#: src/gthumb_png_exporter.glade.h:35 src/gthumb_web_exporter.glade.h:26
 msgid "H_eader:"
-msgstr ""
+msgstr "Ca_pçalera:"
 
 #: src/gthumb_png_exporter.glade.h:36
 msgid "Header/Footer"
-msgstr ""
+msgstr "Capçalera/peu"
 
 #: src/gthumb_png_exporter.glade.h:37
 msgid "Hei_ght:"
-msgstr ""
+msgstr "A_lçada."
 
-#: src/gthumb_png_exporter.glade.h:38
+#: src/gthumb_png_exporter.glade.h:38 src/gthumb_web_exporter.glade.h:28
 msgid "Image dim_ensions"
-msgstr ""
+msgstr "Dim_ensions de la imatge"
 
 #: src/gthumb_png_exporter.glade.h:39
 msgid "Images"
@@ -2276,7 +2728,7 @@ msgstr "Imatges"
 
 #: src/gthumb_png_exporter.glade.h:40
 msgid "Index Image Properties"
-msgstr ""
+msgstr "Propietats de l'índex d'imatge"
 
 #: src/gthumb_png_exporter.glade.h:41
 msgid "Page"
@@ -2284,31 +2736,31 @@ msgstr "Pàgina"
 
 #: src/gthumb_png_exporter.glade.h:42
 msgid "Pi_xels"
-msgstr ""
+msgstr "Pí_xels"
 
-#: src/gthumb_png_exporter.glade.h:43
+#: src/gthumb_png_exporter.glade.h:43 src/gthumb_web_exporter.glade.h:30
 msgid "Re_verse order"
-msgstr ""
+msgstr "In_verteix l'ordre"
 
 #: src/gthumb_png_exporter.glade.h:44
 msgid "Rows a_nd columns"
-msgstr ""
+msgstr "Files i _columnes"
 
 #: src/gthumb_png_exporter.glade.h:45
 msgid "Select a color"
-msgstr ""
+msgstr "Selecciona un color"
 
 #: src/gthumb_png_exporter.glade.h:46
 msgid "Shadow in"
-msgstr ""
+msgstr "Posa-hi ombra"
 
 #: src/gthumb_png_exporter.glade.h:47
 msgid "Shadow only"
-msgstr ""
+msgstr "Només ombra"
 
 #: src/gthumb_png_exporter.glade.h:48
 msgid "Shadow out"
-msgstr ""
+msgstr "Sense ombra"
 
 #: src/gthumb_png_exporter.glade.h:49
 msgid "Simple"
@@ -2316,7 +2768,7 @@ msgstr "Simple"
 
 #: src/gthumb_png_exporter.glade.h:50
 msgid "Simple with shadow"
-msgstr ""
+msgstr "Simple amb ombra"
 
 #: src/gthumb_png_exporter.glade.h:51
 msgid "Slide"
@@ -2324,24 +2776,26 @@ msgstr "Diapositiva"
 
 #: src/gthumb_png_exporter.glade.h:52
 msgid "Sor_t images:"
-msgstr ""
+msgstr "Orde_na les imatges:"
 
 #: src/gthumb_png_exporter.glade.h:53
 msgid "Sort"
 msgstr "Ordena"
 
-#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:24
+#: src/gthumb_png_exporter.glade.h:54 src/gthumb_search.glade.h:23
 #: src/gthumb_tools.glade.h:41
 msgid "Start _at:"
-msgstr ""
+msgstr "Comença _a:"
 
 #: src/gthumb_png_exporter.glade.h:55
 msgid "Style Preview"
-msgstr ""
+msgstr "Estil de la previsualització"
 
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Use #'s to specify positions used by numeric enumerator."
 msgstr ""
+"Utilitzeu el símbol # per especificar les posicions utilitzades per "
+"l'enumerador."
 
 #: src/gthumb_png_exporter.glade.h:58
 #, no-c-format
@@ -2349,18 +2803,20 @@ msgid ""
 "Use %p  to insert the page number, and %n to insert the total number of "
 "pages."
 msgstr ""
+"Per introduir el número de pàgina utilitzeu %p .., i %n per introduir el "
+"nombre total de pàgines."
 
 #: src/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
-msgstr ""
+msgstr "Am_plada:"
 
 #: src/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
-msgstr ""
+msgstr "_Totes les pàgines amb la mateixa mida"
 
 #: src/gthumb_png_exporter.glade.h:61
 msgid "_Draw frame"
-msgstr ""
+msgstr "_Dibuixa el marc"
 
 #: src/gthumb_png_exporter.glade.h:62
 msgid "_Font:"
@@ -2368,649 +2824,815 @@ msgstr "_Font:"
 
 #: src/gthumb_png_exporter.glade.h:63
 msgid "_Gradient"
-msgstr ""
+msgstr "_Gradient"
 
 #: src/gthumb_png_exporter.glade.h:65
 msgid "_Image size:"
-msgstr ""
+msgstr "M_ida de la imatge:"
 
-#: src/gthumb_png_exporter.glade.h:67
+#: src/gthumb_png_exporter.glade.h:67 src/gthumb_web_exporter.glade.h:45
 msgid "_Rows:"
-msgstr ""
+msgstr "_Files:"
 
 #: src/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
-msgstr ""
+msgstr "Color _sòlid"
 
 #: src/gthumb_png_exporter.glade.h:69 src/gthumb_tools.glade.h:47
 msgid "_Template:"
-msgstr ""
+msgstr "Plan_tilla:"
 
-#: src/gthumb_png_exporter.glade.h:71
+#: src/gthumb_png_exporter.glade.h:71 src/gthumb_web_exporter.glade.h:49
 msgid "by name"
-msgstr ""
+msgstr "pel nom"
 
-#: src/gthumb_png_exporter.glade.h:72
+#: src/gthumb_png_exporter.glade.h:72 src/gthumb_web_exporter.glade.h:50
 msgid "by path"
-msgstr ""
+msgstr "pel camí"
 
-#: src/gthumb_png_exporter.glade.h:73
+#: src/gthumb_png_exporter.glade.h:73 src/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "per mida"
 
 #: src/gthumb_png_exporter.glade.h:74
 msgid "by time"
-msgstr ""
+msgstr "per l'hora"
+
+#: src/gthumb_png_exporter.glade.h:75
+msgid "jpeg"
+msgstr "jpeg"
 
 #: src/gthumb_png_exporter.glade.h:76
-msgid "jpeg"
-msgstr ""
-
-#: src/gthumb_png_exporter.glade.h:77
 msgid "png"
-msgstr ""
+msgstr "png"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
-msgstr ""
+msgstr "112 x 112"
 
 #: src/gthumb_preferences.glade.h:5
 msgid "128 x 128"
-msgstr ""
+msgstr "128 x 128"
 
 #: src/gthumb_preferences.glade.h:6
 msgid "164 x 164"
-msgstr ""
+msgstr "164 x 164"
 
 #: src/gthumb_preferences.glade.h:7
 msgid "200 x 200"
-msgstr ""
+msgstr "200 x 200"
 
 #: src/gthumb_preferences.glade.h:8
 msgid "256 x 256"
-msgstr ""
+msgstr "256 x 256"
 
 #: src/gthumb_preferences.glade.h:9
 msgid "48 x 48"
-msgstr ""
+msgstr "48 x 48"
 
 #: src/gthumb_preferences.glade.h:10
 msgid "64 x 64"
-msgstr ""
+msgstr "64 x 64"
 
 #: src/gthumb_preferences.glade.h:11
 msgid "85 x 85"
-msgstr ""
+msgstr "85 x 85"
 
 #: src/gthumb_preferences.glade.h:12
 msgid "95 x 95"
-msgstr ""
+msgstr "95 x 95"
 
 #: src/gthumb_preferences.glade.h:13
-msgid "<b>Checks</b>"
-msgstr ""
+msgid "<b>Direction</b>"
+msgstr "<b>Direcció</b>"
 
 #: src/gthumb_preferences.glade.h:14
-msgid "<b>Direction</b>"
-msgstr ""
+msgid "<b>Hide/Show</b>"
+msgstr "<b>Amaga/mostra</b>"
 
 #: src/gthumb_preferences.glade.h:15
-msgid "<b>Hide/Show</b>"
-msgstr ""
+msgid "<b>Interface</b>"
+msgstr "<b>Interfície</b>"
 
 #: src/gthumb_preferences.glade.h:16
-msgid "<b>History</b>"
-msgstr ""
+msgid "<b>On startup:</b>"
+msgstr "<b>A l'inici:</b>"
 
 #: src/gthumb_preferences.glade.h:17
-msgid "<b>Interface</b>"
-msgstr ""
+msgid "<b>Other</b>"
+msgstr "<b>Altres</b>"
 
 #: src/gthumb_preferences.glade.h:18
-msgid "<b>On startup:</b>"
-msgstr ""
+msgid "<b>Slide show</b>"
+msgstr "<b>Projecció de diapositives</b>"
 
 #: src/gthumb_preferences.glade.h:19
-msgid "<b>Other</b>"
-msgstr ""
+msgid "<b>View images as</b>"
+msgstr "<b>Visualitza les imatges com</b>"
 
 #: src/gthumb_preferences.glade.h:20
-msgid "<b>Slide show</b>"
-msgstr ""
+msgid "<b>Viewer</b>"
+msgstr "<b>Visualitzador</b>"
 
-#: src/gthumb_preferences.glade.h:21 src/gthumb_tools.glade.h:7
-msgid "<b>Thumbnails</b>"
-msgstr ""
+#: src/gthumb_preferences.glade.h:21
+msgid "<b>Zoom quality</b>"
+msgstr "<b>Qualitat del zoom</b>"
 
 #: src/gthumb_preferences.glade.h:22
-msgid "<b>Viewer</b>"
-msgstr ""
+msgid "Activate items with a double click"
+msgstr "Activa els elements fent dos clics"
 
 #: src/gthumb_preferences.glade.h:23
-msgid "Activate items with a double click"
-msgstr ""
+msgid "Activate items with a single click"
+msgstr "Activa els elements fent un clic"
 
 #: src/gthumb_preferences.glade.h:24
-msgid "Activate items with a single click"
-msgstr ""
+msgid "After _loading an image:"
+msgstr "Després de ca_rregar una imatge:"
 
 #: src/gthumb_preferences.glade.h:25
-msgid "After _loading an image:"
-msgstr ""
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "Es_pera la confirmació abans d'eliminar imatges o catàlegs"
 
 #: src/gthumb_preferences.glade.h:26
-msgid "As_k confirmation before deleting images or catalogs"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:27
 msgid "Black"
 msgstr "Negre"
 
-#: src/gthumb_preferences.glade.h:28
+#: src/gthumb_preferences.glade.h:27
 msgid "Browser"
-msgstr ""
+msgstr "Navegador"
+
+#: src/gthumb_preferences.glade.h:28
+msgid "C_lick policy:"
+msgstr "Política del c_lic:"
 
 #: src/gthumb_preferences.glade.h:29
-msgid "C_lick policy:"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:30
 msgid "Checked"
 msgstr "Verificat"
 
+#: src/gthumb_preferences.glade.h:30
+msgid "Choose startup folder"
+msgstr "Selecciona la carpeta que es mostra al començament"
+
+#: src/gthumb_preferences.glade.h:31
+msgid "Co_mments"
+msgstr "Co_mentaris"
+
 #: src/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
-msgstr ""
+msgstr "Re_tard abans de canviar la imatge:"
 
 #: src/gthumb_preferences.glade.h:33
-msgid "Dark"
-msgstr "Negres"
+msgid "D_etermine image type from content (slower)"
+msgstr "D_etermina el tipus de la imatge en funció dels continguts (més lent)"
 
 #: src/gthumb_preferences.glade.h:34
-msgid "Determine image type from co_ntent (slower)"
-msgstr ""
+msgid "Do _not change folder"
+msgstr "No _canviïs de carpeta"
 
 #: src/gthumb_preferences.glade.h:35
-msgid "Do _not change folder"
-msgstr ""
+msgid "Fit image to window"
+msgstr "Ajusta la imatge a la finestra"
 
 #: src/gthumb_preferences.glade.h:36
-msgid "Fit image to window"
-msgstr ""
+msgid "Fit to window if larger"
+msgstr "Si és més gran ajusta a la finestra"
 
 #: src/gthumb_preferences.glade.h:37
-msgid "Fit to window if larger"
-msgstr ""
+msgid "Follow Nautilus behaviour"
+msgstr "Segueix el comportament del Nautilus"
 
 #: src/gthumb_preferences.glade.h:38
-msgid "Follow Nautilus behaviour"
-msgstr ""
+msgid "For_ward"
+msgstr "En_davant"
 
 #: src/gthumb_preferences.glade.h:39
-msgid "For_ward"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:40
 msgid "General"
 msgstr "General"
 
-#: src/gthumb_preferences.glade.h:41
+#: src/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
-msgstr ""
+msgstr "Vés a l'última carpeta o catàleg _visitat"
+
+#: src/gthumb_preferences.glade.h:41
+msgid "Go to this _folder:"
+msgstr "Vés a aquesta _carpeta"
 
 #: src/gthumb_preferences.glade.h:42
-msgid "Go to this _folder:"
-msgstr ""
+msgid "H_igh"
+msgstr "_Alt"
 
 #: src/gthumb_preferences.glade.h:43
-msgid "H_igh"
-msgstr ""
+msgid "Icons only"
+msgstr "Només icones"
 
 #: src/gthumb_preferences.glade.h:44
-msgid "Icons only"
-msgstr ""
+msgid "Keep previous zoom"
+msgstr "Conserva el zoom anterior"
 
 #: src/gthumb_preferences.glade.h:45
-msgid "Keep previous zoom"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:46
-msgid "Large"
-msgstr "Gran"
-
-#: src/gthumb_preferences.glade.h:47
 msgid "Layout:"
 msgstr "Esquema"
 
-#: src/gthumb_preferences.glade.h:48
-msgid "Light"
-msgstr "Blanques"
-
-#: src/gthumb_preferences.glade.h:49
+#: src/gthumb_preferences.glade.h:46
 msgid "Lo_w"
-msgstr ""
+msgstr "_Baix"
 
-#: src/gthumb_preferences.glade.h:50
-msgid "Max _history length:"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:51
-msgid "Medium"
-msgstr "Mitjà"
-
-#: src/gthumb_preferences.glade.h:52
-msgid "Mid tone"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:53
+#: src/gthumb_preferences.glade.h:47
 msgid "None"
 msgstr "Cap"
 
-#: src/gthumb_preferences.glade.h:54
+#: src/gthumb_preferences.glade.h:48
 msgid "Re_verse"
-msgstr ""
+msgstr "In_verteix"
+
+#: src/gthumb_preferences.glade.h:49
+msgid "Resta_rt when finished"
+msgstr "_Reinicia quan s'acabi"
+
+#: src/gthumb_preferences.glade.h:50
+msgid "Set image to actual size"
+msgstr "Ajusta la imatge a la mida actual"
+
+#: src/gthumb_preferences.glade.h:51
+msgid "Set to C_urrent"
+msgstr "Ajusta a l'act_ual"
+
+#: src/gthumb_preferences.glade.h:53
+msgid "Switch to _full screen"
+msgstr "Canvia a mode pantalla completa"
+
+#: src/gthumb_preferences.glade.h:54
+msgid "System settings"
+msgstr "Paràmetres de configuració del sistema"
 
 #: src/gthumb_preferences.glade.h:55
-msgid "Resta_rt when finished"
-msgstr ""
+msgid "Text below icons"
+msgstr "Text sota les icones"
 
 #: src/gthumb_preferences.glade.h:56
-msgid "Sa_ve thumbnails"
-msgstr ""
+msgid "Text beside icons"
+msgstr "Text al costat de les icones"
 
 #: src/gthumb_preferences.glade.h:57
-msgid "Set image to actual size"
-msgstr ""
+msgid "Text only"
+msgstr "Només text"
 
 #: src/gthumb_preferences.glade.h:58
-msgid "Set to C_urrent"
-msgstr ""
+msgid "Th_umbnail size:"
+msgstr "Mida de la dia_positiva:"
 
 #: src/gthumb_preferences.glade.h:59
-msgid "Show _thumbnails"
-msgstr ""
+msgid "Transparency _type:"
+msgstr "_Tipus transparent:"
 
 #: src/gthumb_preferences.glade.h:60
-msgid "Show co_mments"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:61
-msgid "Show hi_dden images"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:62
-msgid "Si_ze:"
-msgstr "Mida:"
-
-#: src/gthumb_preferences.glade.h:64
-msgid "Small"
-msgstr "Petit"
-
-#: src/gthumb_preferences.glade.h:65
-msgid "Switch to _full screen"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:66
-msgid "System settings"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:67
-msgid "Text below icons"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:68
-msgid "Text beside icons"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:69
-msgid "Text only"
-msgstr "_Text i icona"
-
-#: src/gthumb_preferences.glade.h:70
-msgid "Transparency _type:"
-msgstr ""
-
-#: src/gthumb_preferences.glade.h:71
 msgid "Viewer"
 msgstr "Visualitzador"
 
-#: src/gthumb_preferences.glade.h:72
+#: src/gthumb_preferences.glade.h:61
 msgid "White"
 msgstr "Blanc"
 
-#: src/gthumb_preferences.glade.h:73
-msgid "Zoom _quality:"
-msgstr ""
+#: src/gthumb_preferences.glade.h:62
+msgid "_Filenames"
+msgstr "Nom dels _fitxers"
 
-#: src/gthumb_preferences.glade.h:74
+#: src/gthumb_preferences.glade.h:63
+msgid "_List"
+msgstr "_Llista"
+
+#: src/gthumb_preferences.glade.h:64
+msgid "_Slides"
+msgstr "_Diapositives"
+
+#: src/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
-msgstr ""
+msgstr "Estil de la _barra d'eines:"
 
-#: src/gthumb_preferences.glade.h:75
+#: src/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
-msgstr ""
+msgstr "Preferències del gThumb"
 
-#: src/gthumb_preferences.glade.h:76
+#: src/gthumb_preferences.glade.h:68
 msgid "seconds"
 msgstr "segons"
 
-#: src/gthumb_print.glade.h:3
+#: src/gthumb_print.glade.h:4
+msgid "<b>Image</b>"
+msgstr "<b>Imatge</b>"
+
+#: src/gthumb_print.glade.h:5
+msgid "<b>Orientation</b>"
+msgstr "<b>Orientació</b>"
+
+#: src/gthumb_print.glade.h:6
+msgid "<b>Size</b>"
+msgstr "<b>Mida</b>"
+
+#: src/gthumb_print.glade.h:7
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
 msgstr ""
-
-#: src/gthumb_print.glade.h:5
-msgid "Center _on Page"
-msgstr ""
-
-#: src/gthumb_print.glade.h:8
-msgid "Paper"
-msgstr ""
+"<i>Arrossegueu la imatge per moure-la\n"
+"per la pàgina.</i>"
 
 #: src/gthumb_print.glade.h:9
-msgid "Preview"
-msgstr "Previsualització"
+msgid "A_4"
+msgstr "A_4"
 
 #: src/gthumb_print.glade.h:10
-msgid "Print Image"
-msgstr "Imprimeix la imatge"
+msgid "C_ustom:"
+msgstr "Pe_rsonalitzat:"
 
 #: src/gthumb_print.glade.h:11
-msgid "Printer"
-msgstr ""
+msgid "Center _on Page"
+msgstr "Centra a la _pàgina"
+
+#: src/gthumb_print.glade.h:12
+msgid "Comment _font:"
+msgstr "_Font del comentari:"
 
 #: src/gthumb_print.glade.h:13
-msgid "_Scale:"
-msgstr ""
+msgid "I_nclude comment"
+msgstr "I_nclou comentari"
 
-#: src/gthumb_search.glade.h:3
+#: src/gthumb_print.glade.h:14
+msgid "Inches"
+msgstr "Polzades"
+
+#: src/gthumb_print.glade.h:15
+msgid "Lan_dscape"
+msgstr "A_paisat"
+
+#: src/gthumb_print.glade.h:16
+msgid "Layout"
+msgstr "Format"
+
+#: src/gthumb_print.glade.h:17
+msgid "Millimeters"
+msgstr "Milímetres"
+
+#: src/gthumb_print.glade.h:18
+msgid "P_ortrait"
+msgstr "R_etrat"
+
+#: src/gthumb_print.glade.h:19
+msgid "Paper Details"
+msgstr "Detalls del paper"
+
+#: src/gthumb_print.glade.h:21
+msgid "US E_xecutive"
+msgstr "US E_xecutiu"
+
+#: src/gthumb_print.glade.h:22
+msgid "US L_egal"
+msgstr "US L_egal"
+
+#: src/gthumb_print.glade.h:23
+msgid "US _Letter"
+msgstr "US Car_ta"
+
+#: src/gthumb_print.glade.h:25
+msgid "_Scale:"
+msgstr "_Escala:"
+
+#: src/gthumb_search.glade.h:2 src/gthumb_web_exporter.glade.h:4
 msgid "..."
 msgstr "..."
 
-#: src/gthumb_search.glade.h:4
+#: src/gthumb_search.glade.h:3
 msgid "<b>Search criteria</b>"
-msgstr ""
+msgstr "<b>Criteri de cerca</b>"
 
-#: src/gthumb_search.glade.h:5
+#: src/gthumb_search.glade.h:4
 msgid "<b>Search scope</b>"
-msgstr ""
+msgstr "<b>Abast de la cerca</b>"
 
-#: src/gthumb_search.glade.h:7
+#: src/gthumb_search.glade.h:6
 msgid "After"
 msgstr "Després"
 
-#: src/gthumb_search.glade.h:8
-msgid "All catego_ries"
-msgstr ""
-
-#: src/gthumb_search.glade.h:9
+#: src/gthumb_search.glade.h:7
 msgid "Any"
 msgstr "Qualsevol"
 
-#: src/gthumb_search.glade.h:10
-msgid "At _least a category"
-msgstr ""
-
-#: src/gthumb_search.glade.h:11
+#: src/gthumb_search.glade.h:8
 msgid "Before"
 msgstr "Abans de"
 
-#: src/gthumb_search.glade.h:12
+#: src/gthumb_search.glade.h:9
 msgid "Ca_tegories:"
-msgstr ""
+msgstr "Ca_tegories:"
+
+#: src/gthumb_search.glade.h:11
+msgid "Choose categories from the saved list"
+msgstr "Esculliu les categories de la llista desada"
 
 #: src/gthumb_search.glade.h:13
-msgid "Choose Categories"
-msgstr ""
-
-#: src/gthumb_search.glade.h:14
-msgid "Choose categories from the saved list"
-msgstr ""
-
-#: src/gthumb_search.glade.h:16
 msgid "Equal to"
 msgstr "Igual a"
 
-#: src/gthumb_search.glade.h:17
+#: src/gthumb_search.glade.h:14
 msgid "File _name:"
-msgstr ""
+msgstr "_Nom del fitxer:"
 
-#: src/gthumb_search.glade.h:18
+#: src/gthumb_search.glade.h:15
 msgid "Find"
 msgstr "Troba"
 
-#: src/gthumb_search.glade.h:19
+#: src/gthumb_search.glade.h:16
 msgid "Found images:"
-msgstr ""
+msgstr "Imatges trobades:"
+
+#: src/gthumb_search.glade.h:17
+msgid "Match a_ll selected categories"
+msgstr "Coincideixin _totes les categories seleccionades"
+
+#: src/gthumb_search.glade.h:18
+msgid "Match a_ny selected category"
+msgstr "Coincideixin _qualsevol de les categories seleccionades"
+
+#: src/gthumb_search.glade.h:19
+msgid "New _Search..."
+msgstr "Nova _cerca..."
 
 #: src/gthumb_search.glade.h:20
-msgid "New _Search..."
-msgstr ""
+msgid "No images found"
+msgstr "No s'ha trobat cap imatge"
 
 #: src/gthumb_search.glade.h:21
-msgid "No images found"
-msgstr ""
-
-#: src/gthumb_search.glade.h:22
 msgid "Search Progress"
-msgstr ""
+msgstr "Progrés de la cerca"
 
-#: src/gthumb_search.glade.h:23 src/gthumb_tools.glade.h:40
+#: src/gthumb_search.glade.h:22 src/gthumb_tools.glade.h:40
 msgid "Searching in:"
-msgstr ""
+msgstr "S'està cercant a:"
 
-#: src/gthumb_search.glade.h:27 src/gthumb_tools.glade.h:44
+#: src/gthumb_search.glade.h:26 src/gthumb_tools.glade.h:44
 msgid "_Include sub-folders"
 msgstr "_Inclou les subcarpetes"
 
-#: src/gthumb_search.glade.h:29
+#: src/gthumb_search.glade.h:28
 msgid "_Save"
 msgstr "_Desa"
 
 #: src/gthumb_tools.glade.h:4
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>Comentaris</b>"
 
 #: src/gthumb_tools.glade.h:5
 msgid "<b>File list order</b>"
-msgstr ""
+msgstr "<b>Ordre de la llista de fitxers</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
 msgstr ""
+"<b>Especifica el patró a utilitzar per canviar el nom de les imatges</b>"
+
+#: src/gthumb_tools.glade.h:7
+msgid "<b>Thumbnails</b>"
+msgstr "<b>Diapositives</b>"
 
 #: src/gthumb_tools.glade.h:8
 msgid "Apply to _all images"
-msgstr ""
+msgstr "Aplica-ho a totes les im_atges"
 
 #: src/gthumb_tools.glade.h:9
 msgid "Backup Comments"
-msgstr ""
+msgstr "Comentari de la còpia de seguretat"
 
 #: src/gthumb_tools.glade.h:11
 msgid "Change Date"
-msgstr ""
+msgstr "Canvia la data"
 
 #: src/gthumb_tools.glade.h:12
 msgid "Change the last modified date to:"
-msgstr ""
+msgstr "Canvia la data d'última modificació:"
 
 #: src/gthumb_tools.glade.h:13
 msgid "Check _All"
-msgstr ""
+msgstr "Comprov_a-ho tot"
 
 #: src/gthumb_tools.glade.h:14
 msgid "Check _None"
-msgstr ""
+msgstr "_No comprovis res"
 
 #: src/gthumb_tools.glade.h:15
 msgid "Checking image:"
-msgstr ""
+msgstr "S'està comprovant la imatge:"
 
 #: src/gthumb_tools.glade.h:16
 msgid "Delete ALL Comments"
-msgstr ""
+msgstr "Suprimeix TOTS els comentaris"
 
 #: src/gthumb_tools.glade.h:17
 msgid "Delete ALL Thumbnails"
-msgstr ""
+msgstr "Suprimeix TOTES les miniatures"
 
 #: src/gthumb_tools.glade.h:18
 msgid "Delete Old Comments"
-msgstr ""
+msgstr "Suprimeix els comentaris antics"
 
 #: src/gthumb_tools.glade.h:19
 msgid "Delete Old Thumbnails"
-msgstr ""
+msgstr "Suprimeix les diapositives antigues"
 
 #: src/gthumb_tools.glade.h:20
 msgid "Delete comments of no more existing images"
-msgstr ""
+msgstr "Suprimeix els comentaris de les imatges que no existeixen"
 
 #: src/gthumb_tools.glade.h:21
 msgid "Delete thumbnails of no more existing images"
-msgstr ""
+msgstr "Suprimeix les miniatures de les imatges que no existeixen"
 
 #: src/gthumb_tools.glade.h:22
 msgid "Equal images:"
-msgstr ""
+msgstr "Imatges iguals:"
 
 #: src/gthumb_tools.glade.h:23
 msgid "Find Duplicates"
-msgstr ""
+msgstr "Troba duplicats"
 
 #: src/gthumb_tools.glade.h:24
 msgid "Found duplicates:"
-msgstr ""
+msgstr "Duplicats trobats:"
 
 #: src/gthumb_tools.glade.h:26
 msgid "JPEG Lossless Transformation"
-msgstr ""
+msgstr "Transformació amb menys pèrdua JPEG"
 
 #: src/gthumb_tools.glade.h:27
 msgid "Maintenance"
-msgstr ""
+msgstr "Manteniment"
 
 #: src/gthumb_tools.glade.h:28
 msgid "Mirror image horizontally (left-right)"
 msgstr ""
+"Reflexa la imatge horitzontalment en un mirall(part esquerra- part dreta)"
 
 #: src/gthumb_tools.glade.h:29
 msgid "Mirror image vertically (top-bottom)"
 msgstr ""
+"Reflexa la imatge verticalment en un mirall(part superior- part inferior)"
 
 #: src/gthumb_tools.glade.h:31
 msgid "New names _preview:"
-msgstr ""
+msgstr "_Previsualització dels nous noms:"
 
 #: src/gthumb_tools.glade.h:33
 msgid "Re_verse Order"
-msgstr ""
+msgstr "In_verteix ordre"
 
 #: src/gthumb_tools.glade.h:34
 msgid "Rename Series"
-msgstr ""
+msgstr "Canvia el nom de les sèries"
 
 #: src/gthumb_tools.glade.h:35
 msgid "Restore Comments From a Backup File"
-msgstr ""
+msgstr "Restaura els comntaris d'un fitxer de còpia de seguretat"
 
 #: src/gthumb_tools.glade.h:36
 msgid "Revert changes"
-msgstr ""
+msgstr "Reverteix els canvis"
 
 #: src/gthumb_tools.glade.h:37
 msgid "Rotate image 90 degrees clockwise"
-msgstr ""
+msgstr "Gira la imatge 90 graus en sentit horari"
 
 #: src/gthumb_tools.glade.h:38
 msgid "Rotate image 90 degrees counter-clockwise"
-msgstr ""
+msgstr "Gira la imatge 90 grauns en sentit horari"
 
 #: src/gthumb_tools.glade.h:39
 msgid "Search terminated, no duplicates found."
-msgstr ""
+msgstr "Ha finalizat la cerca, no s'ha trobat cap duplicat"
 
 #: src/gthumb_tools.glade.h:43
 msgid ""
-"Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename."
+"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
+"original filename. Use ? to insert the image date. Use ! to insert the image "
+"size"
 msgstr ""
+"Per especificar les posicions utilitzades pel numerador numèric utilitzeu "
+"#'s. Per introduir el nom de fitxer original utilitzeu *. Per introduir la "
+"data de la imatge utilitzeu ?. Per introduir la mida de la imatge "
+"utilitzeu !."
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
-msgstr ""
+msgstr "Ordena la lli_sta original:"
 
 #: src/gthumb_tools.glade.h:49
 msgid "by Modification date"
-msgstr ""
+msgstr "per la data de modificació "
 
 #: src/gthumb_tools.glade.h:50
 msgid "by Name"
-msgstr ""
+msgstr "pel nom"
 
 #: src/gthumb_tools.glade.h:51
 msgid "by Size"
-msgstr ""
+msgstr "per la mida"
 
-#: src/main.c:75
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 768"
+msgstr "1024 x 768"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 960"
+msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 200"
+msgstr "320 x 200"
+
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 480"
+msgstr "640 x 480"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 600"
+msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:10
+msgid "<b>Album</b>"
+msgstr "<b>Àlbum</b>"
+
+#: src/gthumb_web_exporter.glade.h:11
+msgid "<b>Index Layout</b>"
+msgstr "<b>Format de l'índex</b>"
+
+#: src/gthumb_web_exporter.glade.h:12
+msgid "<b>Personalize theme</b>"
+msgstr "<b>Personalitza el tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:13
+msgid "<b>Photo data</b>"
+msgstr "<b>Dades de la foto</b>"
+
+#: src/gthumb_web_exporter.glade.h:14
+msgid "<b>Saving</b>"
+msgstr "<b>S'està desant</b>"
+
+#: src/gthumb_web_exporter.glade.h:15
+msgid "<b>Theme</b>"
+msgstr "<b>Tema</b>"
+
+#: src/gthumb_web_exporter.glade.h:16
+msgid "Came_ra Model"
+msgstr "Model de la càme_ra"
+
+#: src/gthumb_web_exporter.glade.h:17
+msgid "Caption"
+msgstr "Títol"
+
+#: src/gthumb_web_exporter.glade.h:20
+msgid "E_xposure mode"
+msgstr "Mode d'e_xposició"
+
+#: src/gthumb_web_exporter.glade.h:21
+msgid "Exposure _time"
+msgstr "_Temps d'exposició"
+
+#: src/gthumb_web_exporter.glade.h:25
+msgid "Focal _length"
+msgstr "_Longitud del focal"
+
+#: src/gthumb_web_exporter.glade.h:27
+msgid "I_mage Caption..."
+msgstr "Títol de la i_matge"
+
+#: src/gthumb_web_exporter.glade.h:29
+msgid "Inde_x file:"
+msgstr "Fitxer inde_x:"
+
+#: src/gthumb_web_exporter.glade.h:31
+msgid "Resi_ze images if larger than:"
+msgstr "Redimen_siona les imatges si són més grans de:"
+
+#: src/gthumb_web_exporter.glade.h:32
+msgid "Sor_t:"
+msgstr "O_rdena:"
+
+#: src/gthumb_web_exporter.glade.h:33
+msgid "Th_eme:"
+msgstr "T_ema:"
+
+#: src/gthumb_web_exporter.glade.h:35
+#, no-c-format
+msgid "Use %d  to insert current date"
+msgstr "Per introduir la data actual utilitza %d"
+
+#: src/gthumb_web_exporter.glade.h:36
+msgid "Web Album"
+msgstr "Àlbum web"
+
+#: src/gthumb_web_exporter.glade.h:37
+msgid "Web Album Theme"
+msgstr "Tema de l'àlbum web"
+
+#: src/gthumb_web_exporter.glade.h:38
+msgid "_Aperture value"
+msgstr "Valor de l'_obertura"
+
+#: src/gthumb_web_exporter.glade.h:39
+msgid "_Copy images to destination"
+msgstr "_Copia les imatges al destí"
+
+#: src/gthumb_web_exporter.glade.h:40
+msgid "_Date and Time"
+msgstr "_Data i hora"
+
+#: src/gthumb_web_exporter.glade.h:41
+msgid "_Destination:"
+msgstr "_Destí:"
+
+#: src/gthumb_web_exporter.glade.h:42
+msgid "_Flash"
+msgstr "_Flaix"
+
+#: src/gthumb_web_exporter.glade.h:43
+msgid "_Go to Theme Folder"
+msgstr "_Vés a la carpeta de temes"
+
+#: src/gthumb_web_exporter.glade.h:44
+msgid "_Install Theme..."
+msgstr "_Instal·la un tema..."
+
+#: src/gthumb_web_exporter.glade.h:46
+msgid "_Shutter speed"
+msgstr "Velocitat de l'ob_turador"
+
+#: src/gthumb_web_exporter.glade.h:47
+msgid "_Thumbnail Caption..."
+msgstr "Títol de la mina_tura"
+
+#: src/gthumb_web_exporter.glade.h:48
+msgid "by modified time"
+msgstr "per la data de modificació"
+
+#: src/gthumb_web_exporter.glade.h:52
+msgid "index.html"
+msgstr "index.html"
+
+#: src/main.c:81
 msgid "Start in fullscreen mode"
-msgstr ""
+msgstr "Inicia en mode de pantalla completa"
 
-#: src/main.c:79
+#: src/main.c:85
 msgid "Automatically start a slideshow"
-msgstr ""
+msgstr "Iniciar automàticament la projecció de diapositives"
 
-#: src/main.c:158
+#: src/main.c:164
 msgid "Holidays"
-msgstr "vacances"
+msgstr "Vacances"
 
-#: src/main.c:159
+#: src/main.c:165
 msgid "Temporary"
 msgstr "Temporal"
 
-#: src/main.c:160
+#: src/main.c:166
 msgid "Screenshots"
-msgstr ""
+msgstr "Captura de pantalla"
 
-#: src/main.c:161
+#: src/main.c:167
 msgid "Science"
 msgstr "Ciència"
 
-#: src/main.c:162
+#: src/main.c:168
 msgid "Favourite"
-msgstr ""
+msgstr "Preferits"
 
-#: src/main.c:163
+#: src/main.c:169
 msgid "Important"
 msgstr "Important"
 
-#: src/main.c:164
+#: src/main.c:170
 msgid "GNOME"
 msgstr "GNOME"
 
-#: src/main.c:165
+#: src/main.c:171
 msgid "Games"
 msgstr "Jocs"
 
-#: src/main.c:166
+#: src/main.c:172
 msgid "Party"
-msgstr ""
+msgstr "Festa"
 
-#: src/main.c:167
+#: src/main.c:173
 msgid "Birthday"
 msgstr "Aniversari"
 
-#: src/main.c:168
+#: src/main.c:174
 msgid "Astronomy"
 msgstr "Astronomia"
 
-#: src/main.c:169
+#: src/main.c:175
 msgid "Family"
-msgstr ""
+msgstr "Família"
 
-#: src/main.c:286 src/main.c:348
+#: src/main.c:312 src/main.c:394
 msgid "Command Line"
-msgstr ""
-
+msgstr "Línia d'ordres"

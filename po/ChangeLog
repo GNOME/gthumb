@@ -1,3 +1,8 @@
+2003-10-01  Jordi Mallach  <jordi@sindominio.net>
+
+	* ca.po: Updated Catalan translation by
+	Aleix Badia i Bosch <abadia@ica.es>.
+
 2003-09-15  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* POTFILES.in: added src/gth-exif-data-viewer.[ch]
