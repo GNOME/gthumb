@@ -389,6 +389,9 @@
 		<menuitem name="File_Save" verb=""/>
 		<menuitem name="File_Revert" verb=""/>
 		<separator/>
+		<menuitem name="EditCurrentDir_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_New" verb=""/>
+		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
 		<submenu name="Folder" _label="_Folder">
 			<menuitem name="EditCurrentDir_Open" verb=""/>
 			<separator/>
@@ -410,9 +413,6 @@
 			<menuitem name="EditCurrentCatalog_Delete" verb=""/>
 			<menuitem name="EditCurrentCatalog_Move" verb=""/>
 		</submenu>
-		<menuitem name="EditCurrentDir_New" verb=""/>
-		<menuitem name="EditCurrentCatalog_New" verb=""/>
-		<menuitem name="EditCurrentCatalog_NewLibrary" verb=""/>
 		<separator/>
 		<menuitem name="File_Print" verb=""/>
 		<separator/>
@@ -747,6 +747,15 @@
 		<menuitem name="EditCatalog_RedoSearch" verb=""/>
 		<menuitem name="EditCatalog_EditSearch" verb=""/>
 		<separator/>
+		<menuitem name="EditCatalog_Rename" verb="" 
+		          _label="_Rename"/>
+		<menuitem name="EditCatalog_Delete" verb=""
+		          _label="Rem_ove"/>
+		<menuitem name="EditCatalog_Move" verb=""
+		          _label="_Move..."/>
+	</popup>
+
+	<popup name="LibraryPopup">
 		<menuitem name="EditCatalog_Rename" verb="" 
 		          _label="_Rename"/>
 		<menuitem name="EditCatalog_Delete" verb=""

@@ -39,6 +39,7 @@
 	  <child>
 	    <widget class="GtkButton" id="p_close_button">
 	      <property name="visible">True</property>
+	      <property name="can_default">True</property>
 	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-close</property>

@@ -875,7 +875,6 @@
 	  <child>
 	    <widget class="GtkButton" id="progress_cancel">
 	      <property name="visible">True</property>
-	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-cancel</property>
 	      <property name="use_stock">True</property>
@@ -981,6 +980,7 @@
 	    <widget class="GtkButton" id="prop_ok_button">
 	      <property name="visible">True</property>
 	      <property name="can_default">True</property>
+	      <property name="has_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>

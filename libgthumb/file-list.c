@@ -217,6 +217,7 @@ get_compfunc_from_method (SortMethod sort_method)
 		break;
 	default:
 		func = comp_func_none;
+		break;
 	}
 
 	return func;

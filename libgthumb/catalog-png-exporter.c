@@ -1246,6 +1246,7 @@ get_sortfunc (CatalogPngExporter *ce)
 		break;
 	default:
 		func = comp_func_none;
+		break;
 	}
 
 	return func;

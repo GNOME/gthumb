@@ -1558,8 +1558,12 @@ file_list_button_press_cb (GtkWidget      *widget,
 
 	} else if (event->button == 3) {
 		ImageList *ilist = IMAGE_LIST (window->file_list->ilist);
-		GtkWidget *menu  = gtk_menu_new ();
+		GtkWidget *popup_menu;
 		int        pos;
+
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
 
 		pos = image_list_get_image_at (ilist, event->x, event->y);
 		
@@ -1572,10 +1576,10 @@ file_list_button_press_cb (GtkWidget      *widget,
 		window_update_sensitivity (window);
 
 		bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
-					 GTK_MENU (menu), 
+					 GTK_MENU (popup_menu), 
 					 "/popups/FilePopup");
 
-		gtk_menu_popup (GTK_MENU (menu),
+		gtk_menu_popup (GTK_MENU (popup_menu),
 				NULL,                                   
 				NULL,                                   
 				NULL,
@@ -1674,7 +1678,7 @@ dir_button_press_cb (GtkWidget      *widget,
 
 	} else if (event->button == 3) {
 		GtkTreeSelection *selection;
-		GtkWidget        *menu = gtk_menu_new ();
+		GtkWidget        *popup_menu;
 		char             *utf8_name;
 		char             *name;
 
@@ -1701,11 +1705,15 @@ dir_button_press_cb (GtkWidget      *widget,
 
 		/* Popup menu. */
 
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
+
 		window_update_sensitivity (window);
 		bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
-					 GTK_MENU (menu), 
+					 GTK_MENU (popup_menu), 
 					 "/popups/DirPopup");
-		gtk_menu_popup (GTK_MENU (menu),
+		gtk_menu_popup (GTK_MENU (popup_menu),
 				NULL,
 				NULL,
 				NULL,
@@ -1878,7 +1886,7 @@ catalog_button_press_cb (GtkWidget      *widget,
 
 	} else if (event->button == 3) {
 		GtkTreeSelection *selection;
-		GtkWidget        *menu = gtk_menu_new ();
+		GtkWidget        *popup_menu;
 		char             *utf8_name;
 		char             *name;
 
@@ -1904,18 +1912,30 @@ catalog_button_press_cb (GtkWidget      *widget,
                 }
 
 		/* Popup menu. */
+		
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
 
 		window_update_sensitivity (window);
-		bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
-					 GTK_MENU (menu), 
-					 "/popups/CatalogPopup");
-		gtk_menu_popup (GTK_MENU (menu),
+
+		if (catalog_list_is_dir (window->catalog_list, &iter))
+			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+						 GTK_MENU (popup_menu), 
+						 "/popups/LibraryPopup");
+		else
+			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+						 GTK_MENU (popup_menu), 
+						 "/popups/CatalogPopup");
+
+		gtk_menu_popup (GTK_MENU (popup_menu),
 				NULL,
 				NULL,
 				NULL,
 				NULL,
 				3,
 				event->time);
+		
 		return TRUE;
 	}
 
@@ -2210,6 +2230,8 @@ key_press_cb (GtkWidget   *widget,
 {
 	GThumbWindow *window = data;
 	ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	gboolean      sel_not_null;
+	gboolean      image_is_void;
 
 	if (image_list_editing (IMAGE_LIST (window->file_list->ilist)))
 		return FALSE;
@@ -2219,6 +2241,9 @@ key_press_cb (GtkWidget   *widget,
 
 	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
 		return FALSE;
+
+	sel_not_null = ilist_utils_selection_not_null (IMAGE_LIST (window->file_list->ilist));
+	image_is_void = image_viewer_is_void (IMAGE_VIEWER (window->viewer));
 
 	switch (event->keyval) {
 		/* Hide/Show sidebar. */
@@ -2336,6 +2361,9 @@ key_press_cb (GtkWidget   *widget,
 		/* Delete selection. */
 	case GDK_Delete: 
 	case GDK_KP_Delete:
+		if (! sel_not_null)
+			break;
+		
 		if (window->sidebar_content == DIR_LIST)
 			edit_delete_files_command_impl (NULL, window, NULL);
 		else if (window->sidebar_content == CATALOG_LIST)
@@ -2344,6 +2372,9 @@ key_press_cb (GtkWidget   *widget,
 
 		/* Open images. */
 	case GDK_o:
+		if (! sel_not_null)
+			break;
+
 		file_open_with_command_impl  (NULL, window, NULL);
 		return TRUE;
 
@@ -2359,20 +2390,112 @@ key_press_cb (GtkWidget   *widget,
 
 		/* Edit comment */
 	case GDK_c:
+		if (! sel_not_null)
+			break;
+
 		edit_edit_comment_command_impl (NULL, window, NULL);
 		return TRUE;
 
 		/* Edit categories */
 	case GDK_k:
+		if (! sel_not_null)
+			break;
+
 		edit_edit_categories_command_impl (NULL, window, NULL);
 		return TRUE;
 
 		/* Image Properties */
 	case GDK_i:
+		if (image_is_void)
+			break;
+
 		window_show_image_prop (window);
 		return TRUE;
 
 	default:
+		break;
+	}
+
+	if ((event->keyval == GDK_F10) 
+	    && (event->state & GDK_SHIFT_MASK)) {
+
+		if ((window->sidebar_content == CATALOG_LIST)
+		    && GTK_WIDGET_HAS_FOCUS (window->catalog_list->list_view)) {
+			GtkTreeSelection *selection;
+			GtkTreeIter       iter;
+			GtkWidget        *popup_menu;
+			char             *name, *utf8_name;
+
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->catalog_list->list_view));
+			if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+				return FALSE;
+
+			utf8_name = catalog_list_get_name_from_iter (window->catalog_list, &iter);
+			name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			g_free (utf8_name);
+
+			if (strcmp (name, "..") == 0) 
+				return FALSE;
+
+			if (window->popup_menu != NULL)
+				gtk_widget_destroy (window->popup_menu);
+			window->popup_menu = popup_menu = gtk_menu_new ();
+			
+			if (catalog_list_is_dir (window->catalog_list, &iter))
+				bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+							 GTK_MENU (popup_menu), 
+							 "/popups/LibraryPopup");
+			else
+				bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+							 GTK_MENU (popup_menu), 
+							 "/popups/CatalogPopup");
+			
+			gtk_menu_popup (GTK_MENU (popup_menu),
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					3,
+					event->time);
+			
+			return TRUE;
+			
+		} else if ((window->sidebar_content == DIR_LIST)
+			   && GTK_WIDGET_HAS_FOCUS (window->dir_list->list_view)) {
+			GtkTreeSelection *selection;
+			GtkTreeIter       iter;
+			GtkWidget        *popup_menu;
+			char             *name, *utf8_name;
+
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (window->dir_list->list_view));
+			if (! gtk_tree_selection_get_selected (selection, NULL, &iter))
+				return FALSE;
+
+			utf8_name = dir_list_get_name_from_iter (window->dir_list, &iter);
+			name = g_locale_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+			g_free (utf8_name);
+
+			if (strcmp (name, "..") == 0) 
+				return FALSE;
+
+			if (window->popup_menu != NULL)
+				gtk_widget_destroy (window->popup_menu);
+			window->popup_menu = popup_menu = gtk_menu_new ();
+
+			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+						 GTK_MENU (popup_menu), 
+						 "/popups/DirPopup");
+			
+			gtk_menu_popup (GTK_MENU (popup_menu),
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					3,
+					event->time);
+			
+			return TRUE;
+		}
 	}
 
 	return FALSE;
@@ -2394,7 +2517,7 @@ image_button_press_cb (GtkWidget      *widget,
 		       gpointer        data)
 {
 	GThumbWindow *window = data;
-	GtkWidget    *menu;
+	GtkWidget    *popup_menu;
 
 	switch (event->button) {
 	case 1:
@@ -2402,17 +2525,19 @@ image_button_press_cb (GtkWidget      *widget,
 	case 2:
 		break;
 	case 3:
-		menu = gtk_menu_new ();
+		if (window->popup_menu != NULL)
+			gtk_widget_destroy (window->popup_menu);
+		window->popup_menu = popup_menu = gtk_menu_new ();
 
 		if (window->fullscreen)
 			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
-						 GTK_MENU (menu), 
+						 GTK_MENU (popup_menu), 
 						 "/popups/FullscreenImagePopup");
 		else
 			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
-						 GTK_MENU (menu), 
+						 GTK_MENU (popup_menu), 
 						 "/popups/ImagePopup");
-		gtk_menu_popup (GTK_MENU (menu),
+		gtk_menu_popup (GTK_MENU (popup_menu),
 				NULL,
 				NULL,
 				NULL,
@@ -2518,8 +2643,29 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_End:
 		window_show_last_image (window);
 		return TRUE;
-	}
 
+	case GDK_F10:
+		if (event->state & GDK_SHIFT_MASK) {
+			GtkWidget *popup_menu;
+
+			if (window->popup_menu != NULL)
+				gtk_widget_destroy (window->popup_menu);
+			window->popup_menu = popup_menu = gtk_menu_new ();
+
+			bonobo_window_add_popup (BONOBO_WINDOW (window->app), 
+						 GTK_MENU (popup_menu), 
+						 "/popups/ImagePopup");
+			gtk_menu_popup (GTK_MENU (popup_menu),
+					NULL,
+					NULL,
+					NULL,
+					NULL,
+					3,
+					event->time);
+			return TRUE;
+		}
+	}
+	
 	return FALSE;
 }
 
@@ -2962,7 +3108,7 @@ window_sync_menu_with_preferences (GThumbWindow *window)
 	case SORT_BY_PATH: prop = "SortByPath"; break;
 	case SORT_BY_SIZE: prop = "SortBySize"; break;
 	case SORT_BY_TIME: prop = "SortByTime"; break;
-	default: prop = "X";
+	default: prop = "X"; break;
 	}
 	set_command_state_without_notifing (window, prop, TRUE);
 
@@ -3204,7 +3350,7 @@ window_new (void)
 	int                i; 
 	char              *starting_location;
 
-	window = g_new (GThumbWindow, 1);
+	window = g_new0 (GThumbWindow, 1);
 
 	window->app = bonobo_window_new (GETTEXT_PACKAGE, _("gThumb"));
 	win = BONOBO_WINDOW (window->app);
@@ -3859,6 +4005,9 @@ close__step5 (GThumbWindow *window)
 
 	/* Destroy the main window. */
 
+	if (window->popup_menu != NULL)
+		gtk_widget_destroy (window->popup_menu);
+
 	if (window->image_prop_dlg != NULL)
 		gtk_widget_destroy (window->image_prop_dlg);
 	gtk_widget_destroy (window->app);
@@ -3972,6 +4121,7 @@ window_set_sidebar_content (GThumbWindow *window,
 		window_update_title (window);
 		break;
 	default:
+		break;
 	}
 }
 
@@ -5437,37 +5587,24 @@ window_notify_file_rename (GThumbWindow *window,
 }
 
 
-static void
-rename_subdir (GThumbWindow *window,
-	       const char   *current,
-	       const char   *old_path,
-	       const char   *new_path)
+static gboolean
+first_level_sub_directory (GThumbWindow *window,
+			   const char   *current,
+			   const char   *old_path)
 {
 	const char *old_name;
-	const char *new_name;
 	int         current_l;
 	int         old_path_l;
-	int         new_path_l;
 
 	current_l = strlen (current);
 	old_path_l = strlen (old_path);
-	new_path_l = strlen (new_path);
 
 	if (old_path_l <= current_l + 1)
-		return;
-
-	if (new_path_l <= current_l + 1)
-		return;
+		return FALSE;
 
 	old_name = old_path + current_l + 1;
-	new_name = new_path + current_l + 1;
 
-	if (strchr (old_name, '/') != NULL)
-		/* a sub-sub directory got renamed, we don't care. */
-		return;
-
-	dir_list_remove_directory (window->dir_list, old_name);
-	dir_list_add_directory (window->dir_list, new_name);
+	return (strchr (old_name, '/') == NULL);
 }
 
 
@@ -5481,19 +5618,23 @@ window_notify_directory_rename (GThumbWindow *window,
 			window_go_to_directory (window, new_name);
 		else {
 			const char *current = window->dir_list->path;
-			if (strncmp (current, old_name, strlen (current)) == 0)
-				/* a sub directory got renamed, refresh. */
-				rename_subdir (window, current, old_name, new_name);
-		}
 
+			/* a sub directory got renamed, refresh. */
+			if (first_level_sub_directory (window, current, old_name))  {
+				dir_list_remove_directory (window->dir_list, 
+							   file_name_from_path (old_name));
+				dir_list_add_directory (window->dir_list, 
+							file_name_from_path (new_name));
+			}
+		}
+		
 	} else if (window->sidebar_content == CATALOG_LIST) {
 		if (strcmp (window->catalog_list->path, old_name) == 0) 
 			window_go_to_catalog_directory (window, new_name);
 		else {
 			const char *current = window->catalog_list->path;
-			if (strncmp (current, old_name, strlen (current)) == 0)
-				/* a sub directory got renamed, refresh. */
-				rename_subdir (window, current, old_name, new_name);
+			if (first_level_sub_directory (window, current, old_name))  
+				window_update_catalog_list (window);
 		}
 	}
 
@@ -5524,9 +5665,9 @@ window_notify_directory_delete (GThumbWindow *window,
 			window_go_up (window);
 		else {
 			const char *current = window->dir_list->path;
-			if (strncmp (current, path, strlen (current)) == 0)
-				/* a sub directory got deleted, refresh. */
-				window_refresh (window);
+			if (first_level_sub_directory (window, current, path))
+				dir_list_remove_directory (window->dir_list, 
+							   file_name_from_path (path));
 		}
 
 	} else if (window->sidebar_content == CATALOG_LIST) {
@@ -5559,9 +5700,9 @@ window_notify_directory_new (GThumbWindow *window,
 {
 	if (window->sidebar_content == DIR_LIST) {
 		const char *current = window->dir_list->path;
-		if (strncmp (current, path, strlen (current)) == 0)
-			/* a sub directory was created, refresh. */
-			window_refresh (window);
+		if (first_level_sub_directory (window, current, path))
+			dir_list_add_directory (window->dir_list, 
+						file_name_from_path (path));
 
 	} else if (window->sidebar_content == CATALOG_LIST) {
 		const char *current = window->catalog_list->path;

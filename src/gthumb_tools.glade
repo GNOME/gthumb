@@ -40,7 +40,6 @@
 	  <child>
 	    <widget class="GtkButton" id="rs_ok_button">
 	      <property name="visible">True</property>
-	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="relief">GTK_RELIEF_NORMAL</property>
 	      <property name="response_id">-5</property>
@@ -1655,7 +1654,6 @@
 	  <child>
 	    <widget class="GtkButton" id="fdr_close_button">
 	      <property name="visible">True</property>
-	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-close</property>
 	      <property name="use_stock">True</property>
@@ -2285,7 +2283,6 @@
 	  <child>
 	    <widget class="GtkButton" id="cd_ok_button">
 	      <property name="visible">True</property>
-	      <property name="can_default">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-ok</property>
 	      <property name="use_stock">True</property>

@@ -2311,6 +2311,7 @@ scroll_signal (GtkWidget     *widget,
 		break;
 	default:
 		xstep = 0;
+		break;
 	}
 
 	switch (yscroll_type) {
@@ -2328,6 +2329,7 @@ scroll_signal (GtkWidget     *widget,
 		break;
 	default:
 		ystep = 0;
+		break;
 	}
 
 	scroll_relative (viewer, xstep, ystep);

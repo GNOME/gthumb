@@ -223,6 +223,7 @@ gthumb_canvas_text_set_property (GObject            *object,
 
 	default:
 		(* G_OBJECT_CLASS (parent_class)->set_property) (object, param_id, value, pspec);
+		break;
 	}
 
 	/* Calculate text dimensions */

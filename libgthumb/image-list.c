@@ -762,6 +762,7 @@ sync_selection (ImageList *gil,
 
 			default:
 				g_assert_not_reached ();
+				break;
 			}
 		}
 	}
@@ -2242,6 +2243,7 @@ real_move_cursor (ImageList             *gil,
 			break;
 			
 		default:
+			break;
 		}
 	}
 	

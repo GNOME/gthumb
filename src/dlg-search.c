@@ -1207,6 +1207,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			break;
 
 		default:
+			break;
 		}
 
 		if (full_uri)

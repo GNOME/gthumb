@@ -325,11 +325,14 @@ nav_window_events (GtkWidget *widget,
 					     nav_win->sqr_x, 
 					     nav_win->sqr_y);
 			break;
+
 		default:
+			break;
 		}
 		return TRUE;
 
 	default:
+		break;
 	}
 
 	return FALSE;

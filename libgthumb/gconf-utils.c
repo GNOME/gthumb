@@ -565,6 +565,7 @@ simple_value_is_equal (const GConfValue *a,
 		break;
 	default:
 		g_assert_not_reached ();
+		break;
 	}
 	
 	return FALSE;
@@ -630,6 +631,7 @@ eel_gconf_value_is_equal (const GConfValue *a,
 	default:
 		/* FIXME: pair ? */
 		g_assert (0);
+		break;
 	}
 	
 	g_assert_not_reached ();

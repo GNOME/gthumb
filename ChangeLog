@@ -1,5 +1,8 @@
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-window.c (key_press_cb, viewer_key_press_cb): popup a
+	context menu when the user press Shift-F10.
+
 	* src/gthumb-ui.xml: add ellipses to "Rename"
 
 	* src/gth-folder-selection-dialog.c (file_sel_ok_clicked_cb): do

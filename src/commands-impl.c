@@ -1241,6 +1241,17 @@ folder_copy__response_cb (GObject *object,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
 
+	} else if (strncmp (old_path, new_path, strlen (old_path)) == 0) {
+		char *utf8_path;
+		
+		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
+
+		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+				       message,
+				       utf8_path,
+				       _("source containes destination"));
+		g_free (utf8_path);
+
 	} else if (path_is_dir (new_path)) {
 		char *utf8_name;
 

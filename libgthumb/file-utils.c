@@ -40,6 +40,7 @@
 #include <libgnomevfs/gnome-vfs-result.h>
 #include <gconf/gconf-client.h>
 #include "gthumb-init.h"
+#include "gconf-utils.h"
 #include "file-utils.h"
 
 
@@ -148,6 +149,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			break;
 
 		default:
+			break;
 		}
 
 		if (full_uri)
