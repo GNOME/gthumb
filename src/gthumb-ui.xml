@@ -21,7 +21,7 @@
 	<cmd name="File_Revert" _label="_Revert" 
 	     _tip="Revert to saved image"
 	     pixtype="stock" pixname="gtk-revert-to-saved" />
-	<cmd name="File_Print" _label="_Print" 
+	<cmd name="File_Print" _label="_Print..." 
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print" accel="*Control*P"/>
 	<cmd name="File_Exit" _label="E_xit" 
@@ -34,23 +34,23 @@
 	<cmd name="Image_Save" _label="Save _As..." 
 	     _tip="Save current image"
 	     pixtype="stock" pixname="gtk-save-as"/>
-	<cmd name="Image_Print" _label="_Print" 
+	<cmd name="Image_Print" _label="_Print..." 
 	     _tip="Print the current image"
 	     pixtype="stock" pixname="gtk-print"/>
 
-	<cmd name="Image_Rename" _label="Rename" 
+	<cmd name="Image_Rename" _label="_Rename" 
 	     _tip="Rename this image"
 	     accel="F2"/>
-	<cmd name="Image_RenamePopup" _label="Rename" 
+	<cmd name="Image_RenamePopup" _label="_Rename" 
 	     _tip="Rename this image"/>
-	<cmd name="Image_Duplicate" _label="Duplicate" 
+	<cmd name="Image_Duplicate" _label="D_uplicate" 
 	     _tip="Duplicate this image"/>
-	<cmd name="Image_Delete" _label="Delete" 
+	<cmd name="Image_Delete" _label="_Delete" 
 	     _tip="Delete this image from disk"
 	     pixtype="stock" pixname="gtk-delete"/>
-	<cmd name="Image_Copy" _label="Copy..." 
+	<cmd name="Image_Copy" _label="_Copy..." 
 	     _tip="Copy this image to another location"/>
-	<cmd name="Image_Move" _label="Move..." 
+	<cmd name="Image_Move" _label="_Move..." 
 	     _tip="Move this image to another location"/>
 
 	<cmd name="Edit_RenameFile" _label="_Rename" 
@@ -94,22 +94,22 @@
 	<cmd name="Edit_RemoveFromCatalog" _label="Remo_ve from Catalog" 
 	     _tip="Remove selected images from the catalog"/>
 
-	<cmd name="EditCatalog_Rename" _label="Rename Catalog" 
+	<cmd name="EditCatalog_Rename" _label="_Rename..." 
 	     _tip="Rename selected catalog"/>
-	<cmd name="EditCatalog_Delete" _label="Remove Catalog" 
+	<cmd name="EditCatalog_Delete" _label="Rem_ove" 
 	     _tip="Remove selected catalog"/>
-	<cmd name="EditCatalog_Move" _label="Move Catalog..." 
+	<cmd name="EditCatalog_Move" _label="_Move..." 
 	     _tip="Move selected catalog to another location"/>
 	<cmd name="EditCatalog_EditSearch" _label="Edit Search" 
 	     _tip="Modify search criteria"/>
 	<cmd name="EditCatalog_RedoSearch" _label="Redo Search" 
 	     _tip="Redo the search"/>
 
-	<cmd name="EditCurrentCatalog_New" _label="_New Catalog" 
+	<cmd name="EditCurrentCatalog_New" _label="_New Catalog..." 
 	     _tip="Create a new catalog"/>
-	<cmd name="EditCurrentCatalog_NewLibrary" _label="New _Library" 
+	<cmd name="EditCurrentCatalog_NewLibrary" _label="New _Library..." 
 	     _tip="Create a new catalog library"/>
-	<cmd name="EditCurrentCatalog_Rename" _label="_Rename" 
+	<cmd name="EditCurrentCatalog_Rename" _label="_Rename..." 
 	     _tip="Rename current catalog"/>
 	<cmd name="EditCurrentCatalog_Delete" _label="Rem_ove" 
 	     _tip="Remove current catalog"/>
@@ -123,11 +123,11 @@
 	<cmd name="EditDir_Open" _label="Open with the File Manager" 
 	     _tip="Open the selected folder with the Nautilus file
 	     manager"/>
-	<cmd name="EditDir_Rename" _label="Rename Folder" 
+	<cmd name="EditDir_Rename" _label="_Rename..." 
 	     _tip="Rename selected folder"/>
-	<cmd name="EditDir_Delete" _label="Delete Folder" 
+	<cmd name="EditDir_Delete" _label="_Delete" 
 	     _tip="Delete selected folder"/>
-	<cmd name="EditDir_Move" _label="Move Folder" 
+	<cmd name="EditDir_Move" _label="_Move..." 
 	     _tip="Move selected folder"/>
 
 	<cmd name="EditCurrentDir_Open" _label="Open with the _File Manager" 
@@ -138,7 +138,7 @@
 	     _tip="Delete current folder"/>
 	<cmd name="EditCurrentDir_Move" _label="_Move..." 
 	     _tip="Move current folder"/>
-	<cmd name="EditCurrentDir_New" _label="_New Folder" 
+	<cmd name="EditCurrentDir_New" _label="_New Folder..." 
 	     _tip="Create a new folder"/>
 
 	<cmd name="AlterImage_Rotate90" _label="Rotate Ri_ght" 
@@ -347,7 +347,7 @@
 	     _tip="View Slide Show"
 	     pixtype="stock" pixname="gthumb-slideshow"/>
 	     accel="*Control*S"/>
-	<cmd name="Tools_FindImages" _label="_Find Images" 
+	<cmd name="Tools_FindImages" _label="_Find Images..." 
 	     _tip="Find Images"
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
@@ -356,7 +356,7 @@
 	<cmd name="Tools_ConvertFormat" _label="Convert F_ormat" 
 	     pixtype="stock" pixname="gtk-convert"
 	     _tip="Convert Format"/>
-     	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates" />
+     	<cmd name="Tools_FindDuplicates" _label="Fi_nd Duplicates..."/>
 	<cmd name="Tools_JPEGRotate" _label="Rotate _JPEG" 
 	     pixtype="stock" pixname="gthumb-transform"
 	     _tip="Rotate Images"/>
@@ -743,22 +743,22 @@
 		<menuitem name="EditCatalog_EditSearch" verb=""/>
 		<separator/>
 		<menuitem name="EditCatalog_Rename" verb="" 
-		          _label="Rename"/>
+		          _label="_Rename"/>
 		<menuitem name="EditCatalog_Delete" verb=""
-		          _label="Remove"/>
+		          _label="Rem_ove"/>
 		<menuitem name="EditCatalog_Move" verb=""
-		          _label="Move..."/>
+		          _label="_Move..."/>
 	</popup>
 
 	<popup name="DirPopup">
 		<menuitem name="EditDir_Open" verb=""
 		          _label="Open with the File Manager"/>
 		<menuitem name="EditDir_Rename" verb=""
-		          _label="Rename"/>
+		          _label="_Rename"/>
 		<menuitem name="EditDir_Delete" verb=""
-			  _label="Delete"/>
+			  _label="_Delete"/>
 		<menuitem name="EditDir_Move" verb=""
-			  _label="Move"/>
+			  _label="_Move..."/>
 	</popup>
 
 	<popup name="AlterImagePopup">

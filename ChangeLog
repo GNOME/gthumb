@@ -1,5 +1,7 @@
 2002-11-20  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gthumb-ui.xml: add ellipses and underscores (bug #99041).
+
 	* libgthumb/file-utils.c (escape_underscore): 
 	* src/gthumb-window.c (add_bookmark_menu_item): fix bug #99042.
 
