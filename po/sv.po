@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
-"POT-Creation-Date: 2003-04-24 23:23+0200\n"
-"PO-Revision-Date: 2003-04-24 23:23+0200\n"
+"POT-Creation-Date: 2003-05-01 00:03+0200\n"
+"PO-Revision-Date: 2003-05-01 00:04+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,6 @@ msgstr "Skriv ut den aktuella bilden"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
-#: src/gthumb_print.glade.h:11
 msgid "_Print"
 msgstr "Skriv _ut"
 
@@ -179,7 +178,7 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y %H.%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:799
-#: src/dlg-image-prop.c:656 src/fullscreen.c:233 src/gthumb-window.c:406
+#: src/dlg-image-prop.c:656 src/fullscreen.c:237 src/gthumb-window.c:406
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
@@ -229,7 +228,7 @@ msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:734 src/dlg-duplicates.c:551 src/dlg-image-prop.c:676
-#: src/fullscreen.c:240 src/gthumb-window.c:403
+#: src/fullscreen.c:244 src/gthumb-window.c:403
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
@@ -280,17 +279,17 @@ msgstr "Namn"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
 #: libgthumb/gtk-utils.c:317 src/commands-impl.c:2803 src/gthumb-window.c:805
-#: src/gthumb-window.c:4750 src/gthumb_png_exporter.glade.h:75
+#: src/gthumb-window.c:4821 src/gthumb_png_exporter.glade.h:75
 #: src/gthumb_web_exporter.glade.h:26 src/main.c:122
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/print-callbacks.c:749 libgthumb/print-callbacks.c:1026
+#: libgthumb/print-callbacks.c:783 libgthumb/print-callbacks.c:1169
 #, c-format
 msgid "Print %s"
 msgstr "Skriv ut %s"
 
-#: libgthumb/print-callbacks.c:752 src/gthumb_print.glade.h:10
+#: libgthumb/print-callbacks.c:786
 msgid "Print Image"
 msgstr "Skriv ut bild"
 
@@ -504,7 +503,7 @@ msgstr "Det valda albumet kommer att tas bort, är du säker?"
 
 #: src/commands-impl.c:2743 src/dlg-categories.c:321 src/dlg-comment.c:244
 #: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:174
-#: src/dlg-search.c:443
+#: src/dlg-search.c:448
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Kunde inte visa hjälp: %s"
@@ -548,7 +547,7 @@ msgstr "En bild med namnet \"%s\" finns redan. Ange ett annat namn."
 msgid "Skip"
 msgstr "Hoppa över"
 
-#: src/dlg-duplicates.c:265 src/gthumb_print.glade.h:7
+#: src/dlg-duplicates.c:265
 msgid "Image"
 msgstr "Bild"
 
@@ -676,11 +675,11 @@ msgstr "Ändrad"
 msgid "Information on Channel"
 msgstr "Information om kanal"
 
-#: src/dlg-image-prop.c:900 src/gthumb-window.c:5198
+#: src/dlg-image-prop.c:900 src/gthumb-window.c:5270
 msgid "Field"
 msgstr "Fält"
 
-#: src/dlg-image-prop.c:910 src/gthumb-window.c:5208 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:910 src/gthumb-window.c:5280 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Värde"
 
@@ -713,23 +712,23 @@ msgstr "Huvud"
 msgid "Footer"
 msgstr "Fot"
 
-#: src/dlg-rename-series.c:410
+#: src/dlg-rename-series.c:419
 msgid "Old Name"
 msgstr "Gammalt namn"
 
-#: src/dlg-rename-series.c:418
+#: src/dlg-rename-series.c:427
 msgid "New Name"
 msgstr "Nytt namn"
 
-#: src/dlg-search.c:332
+#: src/dlg-search.c:337
 msgid "Search Result"
 msgstr "Sökresultat"
 
-#: src/dlg-search.c:801
+#: src/dlg-search.c:808
 msgid "Filename"
 msgstr "Filnamn"
 
-#: src/dlg-search.c:810 src/gth-folder-selection-dialog.c:381
+#: src/dlg-search.c:817 src/gth-folder-selection-dialog.c:381
 msgid "Folder"
 msgstr "Mapp"
 
@@ -737,9 +736,21 @@ msgstr "Mapp"
 msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
-#: src/fullscreen.c:709 src/gthumb-ui.xml.h:113
+#: src/fullscreen.c:804 src/gthumb-ui.xml.h:113
 msgid "Restore Normal View"
 msgstr "Återställ normal vy"
+
+#: src/fullscreen.c:822
+msgid "Image Info"
+msgstr "Bildinformation"
+
+#: src/fullscreen.c:840 src/gthumb-window.c:4249
+msgid "Back"
+msgstr "Bakåt"
+
+#: src/fullscreen.c:858 src/gthumb-ui.xml.h:52
+msgid "Forward"
+msgstr "Framåt"
 
 #: src/gth-folder-selection-dialog.c:403
 msgid "_Browse..."
@@ -954,10 +965,6 @@ msgstr "Passa"
 msgid "Folders"
 msgstr "Mappar"
 
-#: src/gthumb-ui.xml.h:52
-msgid "Forward"
-msgstr "Framåt"
-
 #: src/gthumb-ui.xml.h:53
 msgid "Full Screen"
 msgstr "Helskärmsläge"
@@ -1101,7 +1108,7 @@ msgstr "Spela _animering"
 msgid "Previous"
 msgstr "Föregående"
 
-#: src/gthumb-ui.xml.h:89
+#: src/gthumb-ui.xml.h:89 src/gthumb_print.glade.h:17
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1748,8 +1755,12 @@ msgid "by _Time"
 msgstr "efter _tid"
 
 #: src/gthumb-window.c:684
-msgid "Press 'c' to add a comment"
-msgstr "Tryck \"c\" för att lägga till en kommentar"
+msgid "[Press 'c' to add a comment]"
+msgstr "[Tryck \"c\" för att lägga till en kommentar]"
+
+#: src/gthumb-window.c:759 src/gthumb-window.c:782
+msgid "[modified]"
+msgstr "[ändrad]"
 
 #: src/gthumb-window.c:866
 msgid "No image"
@@ -1775,46 +1786,43 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: src/gthumb-window.c:3318
+#: src/gthumb-window.c:3359
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: src/gthumb-window.c:3511
+#: src/gthumb-window.c:3553
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
-#: src/gthumb-window.c:4207
-msgid "Back"
-msgstr "Bakåt"
-
-#: src/gthumb-window.c:5079
+#: src/gthumb-window.c:5150
 msgid "Image comment"
 msgstr "Bildkommentar"
 
-#: src/gthumb-window.c:5093
+#: src/gthumb-window.c:5164
 msgid "Image data"
 msgstr "Bilddata"
 
-#: src/gthumb-window.c:5107
+#: src/gthumb-window.c:5178
 msgid "Image preview"
 msgstr "Bildförhandsgranskning"
 
-#: src/gthumb-window.c:6362
+#: src/gthumb-window.c:6436
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: src/gthumb-window.c:6632
+#: src/gthumb-window.c:6705
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
-#: src/gthumb-window.c:7959
+#: src/gthumb-window.c:8051
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
 #: src/gthumb.glade.h:1 src/gthumb_convert.glade.h:1 src/gthumb_edit.glade.h:1
 #: src/gthumb_png_exporter.glade.h:1 src/gthumb_web_exporter.glade.h:1
-#: src/gthumb_preferences.glade.h:1 src/gthumb_tools.glade.h:1
+#: src/gthumb_preferences.glade.h:1 src/gthumb_print.glade.h:1
+#: src/gthumb_tools.glade.h:1
 msgid "    "
 msgstr "    "
 
@@ -2129,7 +2137,7 @@ msgstr "punkter/tum"
 msgid "     "
 msgstr "     "
 
-#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:2
+#: src/gthumb_edit.glade.h:4 src/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -2330,7 +2338,7 @@ msgstr "<i>Exempel:</i>"
 msgid "Choose destination folder"
 msgstr "Välj målmapp"
 
-#: src/gthumb_png_exporter.glade.h:24 src/gthumb_print.glade.h:6
+#: src/gthumb_png_exporter.glade.h:24
 msgid "Co_mment"
 msgstr "Ko_mmentar"
 
@@ -2842,7 +2850,15 @@ msgstr "Inställningar för gThumb"
 msgid "seconds"
 msgstr "sekunder"
 
-#: src/gthumb_print.glade.h:3
+#: src/gthumb_print.glade.h:4
+msgid "<b>Orientation</b>"
+msgstr "<b>Orientering</b>"
+
+#: src/gthumb_print.glade.h:5
+msgid "<b>Size</b>"
+msgstr "<b>Storlek</b>"
+
+#: src/gthumb_print.glade.h:6
 msgid ""
 "<i>Drag the image to move\n"
 "it in the page.</i>"
@@ -2850,19 +2866,47 @@ msgstr ""
 "<i>Dra bilden för att flytta\n"
 "den på sidan.</i>"
 
-#: src/gthumb_print.glade.h:5
+#: src/gthumb_print.glade.h:8
+msgid "A_4 (8.27\" x 11.69\")"
+msgstr "A_4 (8,27\" × 11,69\")"
+
+#: src/gthumb_print.glade.h:9
 msgid "Center _on Page"
 msgstr "Centrera _på sidan"
 
-#: src/gthumb_print.glade.h:8
-msgid "Paper"
-msgstr "Papper"
+#: src/gthumb_print.glade.h:10
+msgid "E_xecutive (7.25\" x 10.5\")"
+msgstr "E_xecutive (7,25\" × 10,5\")"
 
-#: src/gthumb_print.glade.h:9
-msgid "Preview"
-msgstr "Förhandsgranska"
+#: src/gthumb_print.glade.h:11
+msgid "I_nclude comment"
+msgstr "I_nkludera kommentar"
 
 #: src/gthumb_print.glade.h:12
+msgid "L_egal (8.5\" x 14\")"
+msgstr "L_egal (8,5\" × 14\")"
+
+#: src/gthumb_print.glade.h:13
+msgid "Lan_dscape"
+msgstr "Li_ggande"
+
+#: src/gthumb_print.glade.h:14
+msgid "Layout"
+msgstr "Layout"
+
+#: src/gthumb_print.glade.h:15
+msgid "P_ortrait"
+msgstr "St_ående"
+
+#: src/gthumb_print.glade.h:16
+msgid "Paper Details"
+msgstr "Pappersdetaljer"
+
+#: src/gthumb_print.glade.h:18
+msgid "_Letter (8.5\" x 11\")"
+msgstr "_Letter (8,5\" × 11\")"
+
+#: src/gthumb_print.glade.h:19
 msgid "_Scale:"
 msgstr "_Skala:"
 
@@ -3076,12 +3120,13 @@ msgstr "_Följande datum:"
 
 #: src/gthumb_tools.glade.h:43
 msgid ""
-"Use #'s to specify positions used by numeric enumerator. Use * to insert "
-"original filename. Use ? to insert image date."
+"Use #'s to specify positions used by numeric enumerator. Use * to insert the "
+"original filename. Use ? to insert the image date. Use ! to insert the image "
+"size"
 msgstr ""
 "Använd brädgårdar för att ange positioner som ska användas av numerisk "
 "enumerator. Använd * för att infoga ursprungliga filnamnet. Använd ? för att "
-"infoga bilddatum."
+"infoga bilddatum. Använd ! för att infoga bildstorleken"
 
 #: src/gthumb_tools.glade.h:46
 msgid "_Sort original list:"
@@ -3159,6 +3204,42 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
+#~ msgid ""
+#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
+#~ "the original filename. Use ? to insert the image date. Use ! to insert "
+#~ "the image size."
+#~ msgstr ""
+#~ "Använd brädgårdar för att ange positioner som ska användas av numerisk "
+#~ "enumerator. Använd * för att infoga ursprungliga filnamnet. Använd ? för "
+#~ "att infoga bilddatum. Använd ! för att infoga bildstorleken."
+
+#~ msgid "Image Information"
+#~ msgstr "Bildinformation"
+
+#~ msgid "Press 'c' to add a comment"
+#~ msgstr "Tryck \"c\" för att lägga till en kommentar"
+
+#~ msgid "[Modified]"
+#~ msgstr "[Ändrad]"
+
+#~ msgid "modified"
+#~ msgstr "ändrad"
+
+#~ msgid "Orientation"
+#~ msgstr "Orientering"
+
+#~ msgid "Include comment"
+#~ msgstr "Inkludera kommentar"
+
+#~ msgid "Details"
+#~ msgstr "Detaljer"
+
+#~ msgid "Paper"
+#~ msgstr "Papper"
+
+#~ msgid "Preview"
+#~ msgstr "Förhandsgranska"
+
 #~ msgid "Apply threshold"
 #~ msgstr "Tillämpa tröskel"
 
@@ -3215,9 +3296,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "Information"
 #~ msgstr "Information"
-
-#~ msgid "Properties"
-#~ msgstr "Egenskaper"
 
 #~ msgid "_Equalize Histogram"
 #~ msgstr "_Jämna ut histogram"
@@ -3590,9 +3668,6 @@ msgstr "Kommandoraden"
 
 #~ msgid "Direction"
 #~ msgstr "Riktning"
-
-#~ msgid "Layout"
-#~ msgstr "Layout"
 
 #~ msgid "Display image properties"
 #~ msgstr "Visa bildegenskaper"
