@@ -737,6 +737,8 @@ write_line (const char *line, FILE *fout)
 {
 	if (line == NULL)
 		return;
+	if (*line == 0)
+		return;
 	fwrite (line, sizeof (char), strlen (line), fout);
 }
 
@@ -1104,6 +1106,13 @@ gth_parsed_doc_print (GList              *index_parsed,
 								      FALSE);
 						write_line ("    </td>\n", fout);
 						ce->image++;
+					} else {
+						char *line;
+						line = g_strdup_printf ("    <td  align=\"center\" valign=\"top\" width=%d height=%d>\n", ce->thumb_width, ce->thumb_height);
+						write_line (line, fout);
+						g_free (line);
+						write_line ("    &nbsp;\n", fout);
+						write_line ("    </td>\n", fout);
 					} 
 				}
 				write_line ("  </tr>\n", fout);

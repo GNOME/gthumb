@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003  Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -43,6 +43,9 @@
 #include "thumb-cache.h"
 #include "file-utils.h"
 #include "gtk-utils.h"
+
+#define PROCESS_DELAY 25
+#define PROCESS_MAX_FILES 100
 
 
 char *
@@ -150,13 +153,18 @@ cache_delete (const char *filename)
 
 
 typedef struct {
-	gboolean   recursive;
-	gboolean   clear_all;
-	GList     *dirs;
-	GList     *visited_dirs;
-	char      *nautilus_thumb_dir;
-	int        nautilus_thumb_dir_l;
-	GtkWidget *dialog;
+	gboolean            recursive;
+	gboolean            clear_all;
+	GList              *dirs;
+	GList              *visited_dirs;
+	char               *nautilus_thumb_dir;
+	int                 nautilus_thumb_dir_l;
+	GtkWidget          *dialog;
+	gboolean            interrupted;
+	guint               process_timeout;
+	PathListData       *pld;
+	GList              *scan;
+	PathListHandle     *handle;
 } NautilusCacheRemoveData;
 
 
@@ -178,6 +186,12 @@ nautilus_cache_data_free (NautilusCacheRemoveData *ncrd)
 
 	if (ncrd->nautilus_thumb_dir)
 		g_free (ncrd->nautilus_thumb_dir);
+
+	if (ncrd->pld != NULL)
+		path_list_data_free (ncrd->pld);
+
+	if (ncrd->handle != NULL)
+		g_free (ncrd->handle);
 
 	gtk_widget_destroy (ncrd->dialog);
 
@@ -256,9 +270,9 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 {
 	FILE        *f;
 	char        *result = NULL;
-	png_structp  png_ptr;
-	png_infop    info_ptr;
-	png_textp    text_ptr;
+	png_structp  png_ptr = NULL;
+	png_infop    info_ptr = NULL;
+	png_textp    text_ptr = NULL;
 	int          num_texts;
 	
 	f = fopen (cache_path, "r");
@@ -271,13 +285,19 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 					  png_simple_error_callback,
 					  png_simple_warning_callback);
 	
-        if (!png_ptr) {
+        if (png_ptr == NULL) {
 		fclose (f);
 		return NULL;
 	}
 	
 	info_ptr = png_create_info_struct (png_ptr);
-	if (!info_ptr) {
+	if (info_ptr == NULL) {
+		png_destroy_read_struct (&png_ptr, NULL, NULL);
+		fclose (f);
+		return NULL;
+	}
+
+	if (setjmp (png_ptr->jmpbuf)) {
 		png_destroy_read_struct (&png_ptr, NULL, NULL);
 		fclose (f);
 		return NULL;
@@ -318,50 +338,19 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 
 
 static void
-path_list_done_cb (PathListData *pld, 
-		   gpointer data)
+process__final_step (NautilusCacheRemoveData *ncrd)
 {
-	NautilusCacheRemoveData *ncrd = data;
-	GList *scan;
-	char  *rc_file, *real_file;
 	char  *sub_dir;
 
-	if (pld->result != GNOME_VFS_ERROR_EOF) {
-		char *path;
-
-		path = gnome_vfs_uri_to_string (pld->uri,
-						GNOME_VFS_URI_HIDE_NONE);
-		g_warning ("Error reading cache directory %s.", path);
-		g_free (path);
-
+	if (! ncrd->recursive || ncrd->interrupted) {
 		nautilus_cache_data_free (ncrd);
 		return;
 	}
 
-	for (scan = pld->files; scan; scan = scan->next) {
-		rc_file = (char*) scan->data;
-		real_file = get_real_name_from_nautilus_cache (rc_file);
-
-		if (real_file == NULL)
-			continue;
-
-		if (ncrd->clear_all || ! path_is_file (real_file)) {
-			if ((unlink (rc_file) < 0)) 
-				g_warning ("Cannot delete %s\n", rc_file);
-		}
-
-		g_free (real_file);
-	}
-
-	if (! ncrd->recursive) {
-		path_list_data_free (pld);
-		nautilus_cache_data_free (ncrd);
-		return;
-	}
-
-	ncrd->dirs = g_list_concat (pld->dirs, ncrd->dirs);
-	pld->dirs = NULL;
-	path_list_data_free (pld);
+	ncrd->dirs = g_list_concat (ncrd->pld->dirs, ncrd->dirs);
+	ncrd->pld->dirs = NULL;
+	path_list_data_free (ncrd->pld);
+	ncrd->pld = NULL;
 
 	if (ncrd->dirs == NULL) {
 		if (ncrd->clear_all) {
@@ -387,15 +376,103 @@ path_list_done_cb (PathListData *pld,
 }
 
 
+static gboolean
+process_files_cb (gpointer data)
+{
+	NautilusCacheRemoveData *ncrd = data;
+	GList *scan = ncrd->scan;
+	int    i = 0;
+
+	if (ncrd->process_timeout != 0) {
+		g_source_remove (ncrd->process_timeout);
+		ncrd->process_timeout = 0;
+	}
+
+	if ((ncrd->scan == NULL) || ncrd->interrupted) {
+		process__final_step (ncrd);
+		return FALSE;
+	}
+
+	g_free (ncrd->handle);
+	ncrd->handle = NULL;
+
+	for (; scan && i < PROCESS_MAX_FILES; scan = scan->next, i++) {
+		char  *rc_file, *real_file;
+
+		rc_file = (char*) scan->data;
+		real_file = get_real_name_from_nautilus_cache (rc_file);
+
+
+		if (real_file == NULL)
+			continue;
+
+		if (ncrd->clear_all || ! path_is_file (real_file)) {
+			if ((unlink (rc_file) < 0)) 
+				g_warning ("Cannot delete %s\n", rc_file);
+		}
+
+		g_free (real_file);
+	}
+
+	ncrd->scan = scan;
+	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY, 
+					       process_files_cb, 
+					       ncrd);
+
+	return FALSE;
+}
+
+
+static void
+path_list_done_cb (PathListData *pld, 
+		   gpointer      data)
+{
+	NautilusCacheRemoveData *ncrd = data;
+
+	g_free (ncrd->handle);
+	ncrd->handle = NULL;
+
+	ncrd->pld = pld;
+
+	if (pld->result != GNOME_VFS_ERROR_EOF || ncrd->interrupted) {
+		char *path;
+
+		path = gnome_vfs_uri_to_string (pld->uri,
+						GNOME_VFS_URI_HIDE_NONE);
+		g_warning ("Error reading cache directory %s.", path);
+		g_free (path);
+
+		nautilus_cache_data_free (ncrd);
+		return;
+	}
+
+	ncrd->scan = pld->files;
+	ncrd->process_timeout = g_timeout_add (PROCESS_DELAY, 
+					       process_files_cb, 
+					       ncrd);
+}
+
+
 static void
 visit_dir_async (const gchar *dir,
 		 NautilusCacheRemoveData *data)
 {
-	PathListHandle *handle;
-
-	handle = path_list_async_new (dir, path_list_done_cb, data);
-	g_free (handle);
+	data->handle = path_list_async_new (dir, path_list_done_cb, data);
 }
+
+
+static void
+ncrop_interrupt_cb (GtkDialog *dialog,
+		    int response_id,
+		    NautilusCacheRemoveData *ncrd)
+{
+	ncrd->interrupted = TRUE;
+	if (ncrd->handle != NULL) 
+		path_list_async_interrupt (ncrd->handle,
+					   (DoneFunc) process__final_step,
+					   ncrd);
+}
+
 
 
 static void 
@@ -410,12 +487,15 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 	else
 		message = _("Deleting old thumbnails, wait please...");
 
-	ncrd = g_new (NautilusCacheRemoveData, 1);
+	ncrd = g_new0 (NautilusCacheRemoveData, 1);
 
 	ncrd->recursive = recursive;
 	ncrd->clear_all = clear_all;
 	ncrd->dirs = NULL;
 	ncrd->visited_dirs = NULL;
+	ncrd->interrupted = FALSE;
+	ncrd->process_timeout = 0;
+	ncrd->handle = NULL;
 
 	ncrd->nautilus_thumb_dir = g_strconcat (g_get_home_dir (),
 						"/.thumbnails",
@@ -429,10 +509,10 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 						 NULL,
 						 GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						 NULL);
-	g_signal_connect_swapped (G_OBJECT (ncrd->dialog),
-				  "response",
-				  G_CALLBACK (gtk_widget_hide),
-				  ncrd->dialog);
+	g_signal_connect (G_OBJECT (ncrd->dialog),
+			  "response",
+			  G_CALLBACK (ncrop_interrupt_cb),
+			  ncrd);
 
 	gtk_widget_show (ncrd->dialog);
 
