@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-01-07 05:13+0100\n"
-"PO-Revision-Date: 2003-01-07 18:40+0100\n"
+"POT-Creation-Date: 2003-02-06 11:25+0100\n"
+"PO-Revision-Date: 2003-02-07 05:41+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -181,13 +181,13 @@ msgstr "Komponenta nemá upravitelné vlastnosti"
 msgid "Could not open file %s"
 msgstr "Nelze otevřít soubor %s"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:518
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:520
 #: src/gthumb-window.c:352
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:794 src/dlg-image-prop.c:619
+#: libgthumb/catalog-png-exporter.c:799 src/dlg-image-prop.c:624
 #: src/fullscreen.c:231 src/gthumb-window.c:358
 #, c-format
 msgid "%d x %d pixels"
@@ -201,12 +201,12 @@ msgstr "Prohlížení a uspořádání vašich obrázků"
 msgid "gThumb Image Viewer"
 msgstr "Prohlížeč obrázků gThumb"
 
-#: libgthumb/catalog-png-exporter.c:1295
+#: libgthumb/catalog-png-exporter.c:1320
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítá se obrázek: %s"
 
-#: libgthumb/catalog-png-exporter.c:1487
+#: libgthumb/catalog-png-exporter.c:1527
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Vytváří se obrázek: %s.%s"
@@ -247,7 +247,7 @@ msgstr "Odstraňují se staré komentáře, prosím počkejte..."
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:639
+#: libgthumb/comments.c:658 src/dlg-duplicates.c:551 src/dlg-image-prop.c:644
 #: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
@@ -288,9 +288,9 @@ msgid "Image type:"
 msgstr "Typ obrázku:"
 
 #: libgthumb/gtk-utils.c:128 libgthumb/gtk-utils.c:214
-#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2729 src/gthumb-window.c:437
+#: libgthumb/gtk-utils.c:317 src/commands-impl.c:2743 src/gthumb-window.c:437
 #: src/gthumb-window.c:451 src/gthumb-window.c:454 src/gthumb-window.c:471
-#: src/gthumb-window.c:477 src/gthumb-window.c:3987
+#: src/gthumb-window.c:477 src/gthumb-window.c:3982
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:119
 msgid "gThumb"
 msgstr "gThumb"
@@ -303,17 +303,17 @@ msgstr "Odstraňují se všechny miniatury, prosím počkejte..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňují se staré miniatury, prosím počkejte..."
 
-#: src/commands-impl.c:243 src/commands-impl.c:980 src/commands-impl.c:1559
+#: src/commands-impl.c:243 src/commands-impl.c:993 src/commands-impl.c:1573
 msgid "Enter the new name: "
 msgstr "Zadejte nový název: "
 
-#: src/commands-impl.c:247 src/commands-impl.c:984 src/commands-impl.c:1563
+#: src/commands-impl.c:247 src/commands-impl.c:997 src/commands-impl.c:1577
 #: src/gthumb-ui.xml.h:227 src/gthumb_tools.glade.h:45
 msgid "_Rename"
 msgstr "Přej_menovat"
 
-#: src/commands-impl.c:261 src/commands-impl.c:886 src/commands-impl.c:998
-#: src/commands-impl.c:1579 src/commands-impl.c:1674
+#: src/commands-impl.c:261 src/commands-impl.c:899 src/commands-impl.c:1011
+#: src/commands-impl.c:1593 src/commands-impl.c:1688
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -331,7 +331,7 @@ msgstr "_Přepsat"
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Nelze přejmenovat obrázek \"%s\": %s"
 
-#: src/commands-impl.c:310 src/commands-impl.c:1020 src/commands-impl.c:1324
+#: src/commands-impl.c:310 src/commands-impl.c:1033 src/commands-impl.c:1337
 msgid "source and destination are the same"
 msgstr "zdroj a cíl jsou shodné"
 
@@ -340,152 +340,153 @@ msgstr "zdroj a cíl jsou shodné"
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Nelze duplikovat obrázek \"%s\": %s"
 
-#: src/commands-impl.c:470
+#: src/commands-impl.c:483
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
 
-#: src/commands-impl.c:490
+#: src/commands-impl.c:503
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
 
-#: src/commands-impl.c:755
+#: src/commands-impl.c:768
 msgid "The image will be removed from the catalog, are you sure?"
 msgstr "Obrázek bude z katalogu odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:797
+#: src/commands-impl.c:810
 msgid "The selected images will be removed from the catalog, are you sure?"
 msgstr "Vybrané obrázky budou z katalogu odstraněny, jste si jisti?"
 
-#: src/commands-impl.c:873 src/dlg-catalog.c:83 src/dlg-catalog.c:124
+#: src/commands-impl.c:886 src/dlg-catalog.c:83 src/dlg-catalog.c:124
 #: src/dlg-categories.c:191 src/dlg-file-utils.c:93
 msgid "C_reate"
 msgstr "_Vytvořit"
 
-#: src/commands-impl.c:902 src/commands-impl.c:1027 src/commands-impl.c:1601
-#: src/commands-impl.c:1693
+#: src/commands-impl.c:915 src/commands-impl.c:1040 src/commands-impl.c:1615
+#: src/commands-impl.c:1707
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Název \"%s\" je již použit. Použijte prosím jiný název."
 
-#: src/commands-impl.c:930
+#: src/commands-impl.c:943
 msgid "New Folder"
 msgstr "Nový adresář"
 
-#: src/commands-impl.c:931
+#: src/commands-impl.c:944
 msgid "Enter the folder name: "
 msgstr "Zadejte název adresáře: "
 
-#: src/commands-impl.c:932
+#: src/commands-impl.c:945
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Nelze vytvořit adresář \"%s\": %s"
 
-#: src/commands-impl.c:943
+#: src/commands-impl.c:956
 msgid "New Library"
 msgstr "Nová knihovna"
 
-#: src/commands-impl.c:944 src/dlg-catalog.c:120
+#: src/commands-impl.c:957 src/dlg-catalog.c:120
 msgid "Enter the library name: "
 msgstr "Zadejte název knihovny: "
 
-#: src/commands-impl.c:945
+#: src/commands-impl.c:958
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Nelze vytvořit knihovnu \"%s\": %s"
 
-#: src/commands-impl.c:1018 src/commands-impl.c:1059
+#: src/commands-impl.c:1031 src/commands-impl.c:1072
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Nelze přejmenovat adresář \"%s\": %s"
 
-#: src/commands-impl.c:1125
+#: src/commands-impl.c:1138
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Nelze odstranit adresář \"%s\": %s"
 
-#: src/commands-impl.c:1154
+#: src/commands-impl.c:1167
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
 
-#: src/commands-impl.c:1191
+#: src/commands-impl.c:1204
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
 
-#: src/commands-impl.c:1193 src/dlg-file-utils.c:277
+#: src/commands-impl.c:1206 src/dlg-file-utils.c:277
 msgid "_Move"
 msgstr "_Přesunout"
 
-#: src/commands-impl.c:1259 src/commands-impl.c:1314
+#: src/commands-impl.c:1272 src/commands-impl.c:1327
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Nelze kopírovat adresář \"%s\": %s"
 
-#: src/commands-impl.c:1314 src/dlg-file-utils.c:2286
-#: src/dlg-file-utils.c:2288
+#: src/commands-impl.c:1327 src/dlg-file-utils.c:2301
+#: src/dlg-file-utils.c:2303
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Nelze přesunout adresář \"%s\": %s"
 
-#: src/commands-impl.c:1335
+#: src/commands-impl.c:1348
 msgid "source contains destination"
 msgstr "zdroj obsahuje cíl"
 
-#: src/commands-impl.c:1346
+#: src/commands-impl.c:1359
 msgid "a folder with that name is already present."
 msgstr "adresář s tímto názvem již existuje."
 
-#: src/commands-impl.c:1440 src/dlg-file-utils.c:362 src/dlg-file-utils.c:450
+#: src/commands-impl.c:1454 src/dlg-file-utils.c:363 src/dlg-file-utils.c:452
 msgid "Choose the destination folder"
 msgstr "Vyberte cílový adresář"
 
-#: src/commands-impl.c:1612
+#: src/commands-impl.c:1626
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Nelze přejmenovat knihovnu \"%s\": %s"
 
-#: src/commands-impl.c:1612
+#: src/commands-impl.c:1626
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Nelze přejmenovat katalog \"%s\": %s"
 
-#: src/commands-impl.c:1658 src/dlg-catalog.c:79
+#: src/commands-impl.c:1672 src/dlg-catalog.c:79
 msgid "Enter the catalog name: "
 msgstr "Zadejte název katalogu: "
 
-#: src/commands-impl.c:1659
+#: src/commands-impl.c:1673
 msgid "New Catalog"
 msgstr "Nový katalog"
 
-#: src/commands-impl.c:1704
+#: src/commands-impl.c:1718
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Nelze vytvořit katalog \"%s\": %s"
 
-#: src/commands-impl.c:1768
+#: src/commands-impl.c:1782
 msgid "The selected library will be removed, are you sure?"
 msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
 
-#: src/commands-impl.c:1770
+#: src/commands-impl.c:1784
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
 
-#: src/commands-impl.c:2669 src/dlg-categories.c:312 src/dlg-comment.c:237
-#: src/dlg-preferences.c:179 src/dlg-search.c:443
+#: src/commands-impl.c:2683 src/dlg-categories.c:312 src/dlg-comment.c:237
+#: src/dlg-jpegtran.c:632 src/dlg-maintenance.c:273 src/dlg-preferences.c:179
+#: src/dlg-search.c:443
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
 
-#: src/commands-impl.c:2720
+#: src/commands-impl.c:2734
 msgid "translator_credits"
 msgstr "Michal Bukovjan <bukm@centrum.cz>"
 
-#: src/commands-impl.c:2731
+#: src/commands-impl.c:2745
 msgid "Copyright (C) 2001 Free Software Foundation, Inc."
 msgstr "Copyright ©2001 Free Software Foundation, Inc."
 
-#: src/commands-impl.c:2732
+#: src/commands-impl.c:2746
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
@@ -525,7 +526,7 @@ msgstr "Duplikáty"
 msgid "Duplicates Size"
 msgstr "Velikost duplikátů"
 
-#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:799
+#: src/dlg-duplicates.c:372 src/dlg-image-prop.c:804
 msgid "Name"
 msgstr "Název"
 
@@ -533,7 +534,7 @@ msgstr "Název"
 msgid "Last modified"
 msgstr "Poslední úprava"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:819
+#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:824
 msgid "Location"
 msgstr "Umístění"
 
@@ -566,119 +567,119 @@ msgid ""
 "permanently?"
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
-#: src/dlg-file-utils.c:752 src/dlg-file-utils.c:853
+#: src/dlg-file-utils.c:754 src/dlg-file-utils.c:855
 msgid "You didn't enter the new name"
 msgstr "Nezadali jste nový název"
 
-#: src/dlg-file-utils.c:764 src/dlg-file-utils.c:865
+#: src/dlg-file-utils.c:766 src/dlg-file-utils.c:867
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
-#: src/dlg-file-utils.c:1004
+#: src/dlg-file-utils.c:1006
 msgid "Could not rename the image:"
 msgstr "Nelze přejmenovat obrázek:"
 
-#: src/dlg-file-utils.c:1006
+#: src/dlg-file-utils.c:1008
 msgid "Could not rename the following images:"
 msgstr "Nelze přejmenovat následující obrázky:"
 
-#: src/dlg-file-utils.c:1138
+#: src/dlg-file-utils.c:1140
 msgid "Could not move the image:"
 msgstr "Nelze přesunout obrázek:"
 
-#: src/dlg-file-utils.c:1140
+#: src/dlg-file-utils.c:1142
 msgid "Could not copy the image:"
 msgstr "Nelze kopírovat obrázek:"
 
-#: src/dlg-file-utils.c:1163 src/dlg-file-utils.c:2308
+#: src/dlg-file-utils.c:1165 src/dlg-file-utils.c:2323
 msgid "_Abort"
 msgstr "Přer_ušit"
 
-#: src/dlg-file-utils.c:1164 src/dlg-file-utils.c:2309
+#: src/dlg-file-utils.c:1166 src/dlg-file-utils.c:2324
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: src/dlg-file-utils.c:1335
+#: src/dlg-file-utils.c:1337
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopíruje se %d. soubor ze %d"
 
-#: src/dlg-file-utils.c:1701 src/dlg-file-utils.c:1887
+#: src/dlg-file-utils.c:1708 src/dlg-file-utils.c:1894
 msgid "Collecting images info"
 msgstr "Zjišťují se informace o obrázcích"
 
-#: src/dlg-file-utils.c:1704 src/dlg-file-utils.c:1900
+#: src/dlg-file-utils.c:1711 src/dlg-file-utils.c:1907
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Odstraňuje se %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1890
+#: src/dlg-file-utils.c:1897
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopíruje se %ld. soubor ze %ld"
 
-#: src/dlg-file-utils.c:1895
+#: src/dlg-file-utils.c:1902
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Přesunuje se %ld. soubor ze %ld"
 
-#: src/dlg-image-prop.c:804
+#: src/dlg-image-prop.c:809
 msgid "Image Dimensions"
 msgstr "Rozměry obrázku"
 
-#: src/dlg-image-prop.c:809
+#: src/dlg-image-prop.c:814
 msgid "Type"
 msgstr "Typ"
 
-#: src/dlg-image-prop.c:814
+#: src/dlg-image-prop.c:819
 msgid "File Size"
 msgstr "Velikost souboru"
 
-#: src/dlg-image-prop.c:824
+#: src/dlg-image-prop.c:829
 msgid "Last Modified"
 msgstr "Poslední úprava"
 
-#: src/dlg-image-prop.c:829
+#: src/dlg-image-prop.c:834
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: src/dlg-image-prop.c:863
+#: src/dlg-image-prop.c:868
 msgid "Field"
 msgstr "Pole"
 
-#: src/dlg-image-prop.c:873 src/gthumb.glade.h:25
+#: src/dlg-image-prop.c:878 src/gthumb.glade.h:25
 msgid "Value"
 msgstr "Hodnota"
 
-#: src/dlg-image-prop.c:954
+#: src/dlg-image-prop.c:959
 #, c-format
 msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
-#: src/dlg-maintenance.c:70
+#: src/dlg-maintenance.c:71
 msgid "All comments will be removed, are you sure?"
 msgstr "Všechny komentáře budou odstraněny, jste si jisti?"
 
-#: src/dlg-maintenance.c:101
+#: src/dlg-maintenance.c:102
 msgid "All thumbnails will be deleted, are you sure?"
 msgstr "Všechny miniatury budou odstraněny, jste si jisti?"
 
-#: src/dlg-maintenance.c:162 src/dlg-maintenance.c:232
+#: src/dlg-maintenance.c:163 src/dlg-maintenance.c:233
 msgid "Specify the backup file"
 msgstr "Zadejte záložní soubor"
 
-#: src/dlg-png-exporter.c:990
+#: src/dlg-png-exporter.c:1000
 msgid "Image Caption"
 msgstr "Titulek obrázku"
 
-#: src/dlg-png-exporter.c:1043
+#: src/dlg-png-exporter.c:1053
 msgid "Header"
 msgstr "Záhlaví"
 
-#: src/dlg-png-exporter.c:1056 src/dlg-png-exporter.c:1062
+#: src/dlg-png-exporter.c:1066 src/dlg-png-exporter.c:1072
 msgid "Footer"
 msgstr "Zápatí"
 
@@ -1688,28 +1689,28 @@ msgstr "1 vybraný (%s)"
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: src/gthumb-window.c:2859
+#: src/gthumb-window.c:2854
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: src/gthumb-window.c:3032
+#: src/gthumb-window.c:3027
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
-#: src/gthumb-window.c:3633
+#: src/gthumb-window.c:3628
 msgid "Back"
 msgstr "Zpět"
 
-#: src/gthumb-window.c:5401
+#: src/gthumb-window.c:5398
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: src/gthumb-window.c:5669
+#: src/gthumb-window.c:5666
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
-#: src/gthumb-window.c:6933
+#: src/gthumb-window.c:6930
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
@@ -3260,15 +3261,6 @@ msgstr "Příkazový řádek"
 
 #~ msgid "_Transfrom"
 #~ msgstr "_Transformovat"
-
-#~ msgid "html"
-#~ msgstr "html"
-
-#~ msgid "index.html"
-#~ msgstr "index.html"
-
-#~ msgid "thumbs"
-#~ msgstr "thumbs"
 
 #~ msgid "Delete Catalog"
 #~ msgstr "Odstranit katalog"
