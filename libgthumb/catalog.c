@@ -86,7 +86,7 @@ delete_catalog_dir (const char  *full_path,
 
 		switch (gnome_vfs_result_from_errno ()) {
 		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
-			details = _("Libray not empty");
+			details = _("Library not empty");
 			break;
 		default:
 			details = errno_to_string ();

@@ -186,7 +186,7 @@
 	     _tip="Sort images by file size"
 	     type="radio" group="sort_type"/>
 	<cmd name="SortByTime" _label="by _Time" 
-	     _tip="Sort images by modifiction time"
+	     _tip="Sort images by modification time"
 	     type="radio" group="sort_type"/>
 	<cmd name="SortReversed" _label="_Reversed Order" 
 	     _tip="Reverse images order"
@@ -280,7 +280,7 @@
 	     accel="*Control*I"/>
 
 	<cmd name="Go_Back" _label="_Back" 
-	     _tip="Go to the previuos visited location"
+	     _tip="Go to the previous visited location"
 	     pixtype="stock" pixname="gtk-go-back"
 	     accel="*Alt*Left"/>
 	<cmd name="Go_Forward" _label="_Forward" 
@@ -328,7 +328,7 @@
 	     _tip="Set the image as desktop background (tiled)"/>
 	<cmd name="Wallpaper_Scaled" _label="_Scaled" 
 	     _tip="Set the image as desktop background (scaled keeping aspect ratio)"/>
-	<cmd name="Wallpaper_Stretched" _label="Str_erched" 
+	<cmd name="Wallpaper_Stretched" _label="Str_etched" 
 	     _tip="Set the image as desktop background (stretched)"/>
 	<cmd name="Wallpaper_Restore" _label="_Restore" 
 	     _tip="Restore the original desktop wallpaper"/>

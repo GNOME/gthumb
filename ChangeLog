@@ -1,3 +1,8 @@
+2002-11-10  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gthumb-ui.xml: 
+	* libgthumb/catalog.c (delete_catalog_dir): fixed some string typos.
+
 2002-11-09  Hasbullah Bin Pit  <sebol@ikhlas.com>
 
         * configure.in: Added ms to ALL_LINGUAS.
