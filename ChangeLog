@@ -1,5 +1,10 @@
 2002-11-26  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/gth-folder-selection-dialog.c (list_view_activated_cb):
+	fixed bug.
+
+	* src/dlg-search.c (directory_load_cb, cache_dir): fix bug #99424
+
 	* src/gthumb-window.c (viewer_drag_data_received): create a
 	catalog when files are dropped into the viewer.
 

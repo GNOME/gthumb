@@ -1149,6 +1149,22 @@ uri_from_comment_uri (const char *comment_uri,
 static void search_dir_async (DialogData *data, gchar *dir);
 
 
+static gboolean
+cache_dir (const char *folder)
+{
+	if (folder == NULL)
+		return FALSE;
+
+	if (strcmp (folder, ".thumbnails") == 0)
+		return TRUE;
+
+	if (strcmp (folder, ".xvpics") == 0)
+		return TRUE;
+
+	return FALSE;
+}
+
+
 static void
 directory_load_cb (GnomeVFSAsyncHandle *handle,
 		   GnomeVFSResult       result,
@@ -1239,7 +1255,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 			dir = (char*) first_dir->data; 
 			g_list_free (first_dir);
 
-			good_dir_to_search_into = ! file_is_hidden (file_name_from_path (dir));
+			good_dir_to_search_into = ! cache_dir (file_name_from_path (dir));
 			if (good_dir_to_search_into)
 				search_dir_async (data, dir);
 			g_free (dir);

@@ -106,11 +106,17 @@ gth_folder_selection_init (GthFolderSelection *folder_sel)
 static gboolean
 list_view_button_press_cb (GdkEventButton     *event,
 			   GthFolderSelection *folder_sel,
-			   BookmarkList       *bookmark_list)
+			   gboolean            bookmarks)
 {
-        GtkTreePath *path;
-        GtkTreeIter  iter;
-        char        *folder_path, *utf8_folder_path;
+        GtkTreePath  *path;
+        GtkTreeIter   iter;
+        char         *folder_path, *utf8_folder_path;
+	BookmarkList *bookmark_list;
+
+	if (bookmarks) 
+		bookmark_list = folder_sel->priv->bookmark_list;
+	else
+		bookmark_list = folder_sel->priv->recent_list;
 
         if (! gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (bookmark_list->list_view),
                                              event->x, event->y,
@@ -128,7 +134,11 @@ list_view_button_press_cb (GdkEventButton     *event,
                             2, &folder_path,
                             -1);
 
-	utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
+	if (bookmarks)
+		utf8_folder_path = g_locale_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+	else
+		utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
+
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
 
@@ -148,7 +158,7 @@ bookmark_button_press_cb (GtkWidget      *widget,
 	GthFolderSelection *folder_sel = callback_data;
 	return list_view_button_press_cb (event,
 					  folder_sel,
-					  folder_sel->priv->bookmark_list);
+					  TRUE);
 }
 
 
@@ -160,17 +170,23 @@ recent_button_press_cb (GtkWidget      *widget,
 	GthFolderSelection *folder_sel = callback_data;
 	return list_view_button_press_cb (event,
 					  folder_sel,
-					  folder_sel->priv->recent_list);
+					  FALSE);
 }
 
 
 static void
 list_view_activated_cb (GtkTreePath        *path,
 			GthFolderSelection *folder_sel,
-			BookmarkList       *bookmark_list)
+			gboolean            bookmarks)
 {
-	GtkTreeIter  iter;
-	char        *folder_path, *utf8_folder_path;
+	GtkTreeIter   iter;
+	char         *folder_path, *utf8_folder_path;
+	BookmarkList *bookmark_list;
+
+	if (bookmarks) 
+		bookmark_list = folder_sel->priv->bookmark_list;
+	else
+		bookmark_list = folder_sel->priv->recent_list;
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (bookmark_list->list_store),
 				       &iter, 
@@ -178,10 +194,14 @@ list_view_activated_cb (GtkTreePath        *path,
 		return;
 	
 	gtk_tree_model_get (GTK_TREE_MODEL (bookmark_list->list_store), &iter,
-			    0, &folder_path,
+			    2, &folder_path,
 			    -1);
+	
+	if (bookmarks)
+		utf8_folder_path = g_locale_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+	else
+		utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
 
-	utf8_folder_path = g_locale_to_utf8 (folder_path, -1, 0, 0, 0);
 	gth_folder_selection_set_folder (GTH_FOLDER_SELECTION (folder_sel),
 					 utf8_folder_path);
 
@@ -199,9 +219,7 @@ bookmark_activated_cb (GtkTreeView       *tree_view,
 		       gpointer           callback_data)
 {
 	GthFolderSelection *folder_sel = callback_data;
-	list_view_activated_cb (path,
-				folder_sel,
-				folder_sel->priv->bookmark_list);
+	list_view_activated_cb (path, folder_sel, TRUE);
 }
 
 
@@ -212,9 +230,7 @@ recent_activated_cb (GtkTreeView       *tree_view,
 		     gpointer           callback_data)
 {
 	GthFolderSelection *folder_sel = callback_data;
-	list_view_activated_cb (path,
-				folder_sel,
-				folder_sel->priv->recent_list);
+	list_view_activated_cb (path, folder_sel, FALSE);
 }
 
 

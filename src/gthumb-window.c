@@ -1744,7 +1744,8 @@ dir_list_button_release_cb (GtkWidget      *widget,
 		return FALSE;
 	}
 
-	if (gtk_tree_path_compare (dir_list_tree_path, path) != 0) {
+	if ((dir_list_tree_path == NULL)
+	    || gtk_tree_path_compare (dir_list_tree_path, path) != 0) {
 		gtk_tree_path_free (path);
 		return FALSE;
 	}
@@ -1774,7 +1775,7 @@ dir_list_button_release_cb (GtkWidget      *widget,
 
 		if (strcmp (name, "..") == 0) {
 			g_free (name);
-			return FALSE;
+			return TRUE;
 		}
 		g_free (name);
 
@@ -2032,7 +2033,7 @@ catalog_list_button_release_cb (GtkWidget      *widget,
 
 		if (strcmp (name, "..") == 0) {
 			g_free (name);
-			return FALSE;
+			return TRUE;
 		}
 		g_free (name);
 
@@ -2590,7 +2591,7 @@ key_press_cb (GtkWidget   *widget,
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0) 
-				return FALSE;
+				return TRUE;
 
 			if (window->popup_menu != NULL)
 				gtk_widget_destroy (window->popup_menu);
@@ -2631,7 +2632,7 @@ key_press_cb (GtkWidget   *widget,
 			g_free (utf8_name);
 
 			if (strcmp (name, "..") == 0) 
-				return FALSE;
+				return TRUE;
 
 			if (window->popup_menu != NULL)
 				gtk_widget_destroy (window->popup_menu);
@@ -3161,13 +3162,25 @@ dir_list_drag_motion (GtkWidget          *widget,
 
 
 static void
+dir_list_drag_begin (GtkWidget          *widget,
+		     GdkDragContext     *context,
+		     gpointer            extra_data)
+{	
+	if (dir_list_tree_path != NULL) {
+		gtk_tree_path_free (dir_list_tree_path);
+		dir_list_tree_path = NULL;
+	}
+}
+
+
+static void
 dir_list_drag_leave (GtkWidget          *widget,
 		     GdkDragContext     *context,
 		     guint               time,
 		     gpointer            extra_data)
 {	
-	GThumbWindow            *window = extra_data;
-	GtkTreeView             *list_view;
+	GThumbWindow  *window = extra_data;
+	GtkTreeView   *list_view;
 
 	list_view = GTK_TREE_VIEW (window->dir_list->list_view);
 	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
@@ -3335,6 +3348,18 @@ catalog_list_drag_motion (GtkWidget          *widget,
 	gtk_tree_path_free (pos_path);
 
 	return TRUE;
+}
+
+
+static void
+catalog_list_drag_begin (GtkWidget          *widget,
+			 GdkDragContext     *context,
+			 gpointer            extra_data)
+{	
+	if (catalog_list_tree_path != NULL) {
+		gtk_tree_path_free (catalog_list_tree_path);
+		catalog_list_tree_path = NULL;
+	}
 }
 
 
@@ -3948,6 +3973,10 @@ window_new (void)
 			  "drag_data_received",
 			  G_CALLBACK (dir_list_drag_data_received), 
 			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
+			  "drag_begin",
+			  G_CALLBACK (dir_list_drag_begin), 
+			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->root_widget), 
 			  "drag_motion",
 			  G_CALLBACK (dir_list_drag_motion), 
@@ -3973,6 +4002,10 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->catalog_list->root_widget),
 			  "drag_data_received",
 			  G_CALLBACK (catalog_list_drag_data_received), 
+			  window);
+	g_signal_connect (G_OBJECT (window->catalog_list->list_view), 
+			  "drag_begin",
+			  G_CALLBACK (catalog_list_drag_begin), 
 			  window);
 	g_signal_connect (G_OBJECT (window->catalog_list->root_widget), 
 			  "drag_motion",
