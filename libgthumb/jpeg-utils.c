@@ -186,6 +186,7 @@ do_load_internal (const char *path,
 	guchar * volatile buffer;
 	guchar * volatile pixels;
 	guchar *ptr;
+	char   *e_path;
 	guchar *uri;
 	GnomeVFSResult result;
 	unsigned int i;
@@ -197,11 +198,13 @@ do_load_internal (const char *path,
 	if (original_height_return != NULL)
 		*original_height_return = 0;
 
-	uri = g_strconcat ("file://", path, NULL);
+	e_path = gnome_vfs_escape_path_string (path);
+	uri = g_strconcat ("file://", e_path, NULL);
 	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 	g_free (uri);
+	g_free (e_path);
 
-	if (result != GNOME_VFS_OK)
+	if (result != GNOME_VFS_OK) 
 		return NULL;
 	
 	cinfo.err = jpeg_std_error (&jerr.pub);
@@ -279,7 +282,7 @@ do_load_internal (const char *path,
 	if (original_height_return != NULL)
 		*original_height_return = cinfo.image_height;
 
-	if (target_width == 0 || target_height == 0)
+	if (target_width == 0 || target_height == 0) 
 		return NULL;
 
 	return gdk_pixbuf_new_from_data (pixels, GDK_COLORSPACE_RGB, FALSE, 8,

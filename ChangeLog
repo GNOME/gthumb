@@ -1,3 +1,8 @@
+2004-01-17  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* libgthumb/jpeg-utils.c (do_load_internal): escape the path before
+	creating the uri.
+
 2004-01-16  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	[ gthumb 2.3.0 released ]

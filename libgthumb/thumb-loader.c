@@ -244,7 +244,13 @@ thumb_loader (const char  *path,
 		if (pixbuf != NULL) {
 			animation = gdk_pixbuf_non_anim_new (pixbuf);
 			g_object_unref (pixbuf);
-		}
+
+			if (animation == NULL)
+				g_print ("ANIMATION == NULL\n");
+
+		} else
+			g_print ("PIXBUF == NULL\n");
+
 	} else
 #endif
 		animation = gdk_pixbuf_animation_new_from_file (path, error);
