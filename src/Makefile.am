@@ -172,3 +172,5 @@ EXTRA_DIST = 			\
 	gthumb.schemas		\
 	gthumb.schemas.in
 
+DISTCLEANFILES =                \
+	$(schema_DATA)

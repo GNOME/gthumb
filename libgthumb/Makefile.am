@@ -15,7 +15,7 @@ INCLUDES =							\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
 	$(DISABLE_DEPRECATED)
 
-libgthumbdir = $(libdir)
+libgthumbdir = $(libdir)/gthumb
 libgthumb_LTLIBRARIES = libgthumb.la
 libgthumb_la_LDFLAGS = -avoid-version
 

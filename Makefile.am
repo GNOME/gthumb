@@ -22,6 +22,11 @@ icon_DATA = gthumb.png
 
 man_MANS = gthumb.1
 
+distcleancheck_listfiles = find . -type f -print | grep -v 'omf\.out'
+
+distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollkeeper' | grep -v 'omf' | grep -v 'figures'
+
+
 EXTRA_DIST = 			\
         AUTHORS                 \
         NEWS                    \
@@ -37,3 +42,9 @@ EXTRA_DIST = 			\
 	$(desktop_DATA)		\
 	$(icon_DATA)		\
 	$(man_MANS)
+
+DISTCLEANFILES =                \
+	$(desktop_DATA)		\
+	intltool-extract        \
+	intltool-merge          \
+	intltool-update

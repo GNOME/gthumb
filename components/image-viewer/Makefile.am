@@ -87,3 +87,11 @@ EXTRA_DIST =				\
         GNOME_GThumb_Viewer.xml.in	\
 	nav_button.xpm  		\
 	nautilus-view-component.idl
+
+DISTCLEANFILES =                        	\
+	$(nautilus_view_component_idl_sources)	\
+	nautilus_view_component_idl_stamp	\
+	$(ui_DATA)                 		\
+	GNOME_GThumb_Viewer.server.in		\
+	$(server_DATA)
+

@@ -64,3 +64,10 @@ EXTRA_DIST =				\
         $(server_DATA)     		\
         GNOME_GThumb_CatalogView.xml.in	\
 	nautilus-view-component.idl
+
+DISTCLEANFILES =                        	\
+	$(nautilus_view_component_idl_sources)	\
+	nautilus_view_component_idl_stamp	\
+	$(ui_DATA)                 		\
+	GNOME_GThumb_CatalogView.server.in	\
+	$(server_DATA)
