@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-23 14:30+0100\n"
-"PO-Revision-Date: 2005-01-23 14:30+0100\n"
+"POT-Creation-Date: 2005-01-27 19:25+0100\n"
+"PO-Revision-Date: 2005-01-27 19:25+0100\n"
 "Last-Translator: Hendrik Richter <hendrik@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -381,7 +381,7 @@ msgid "Camera Model"
 msgstr "Kameramodell"
 
 #: data/glade/gthumb_camera.glade.h:4
-#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:295
+#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:299
 msgid "Choose destination folder"
 msgstr "Wählen Sie einen Zielordner"
 
@@ -393,8 +393,8 @@ msgstr "Die gewählten Bilder von der Kamera entfernen"
 msgid "Import Photos"
 msgstr "Photos importieren"
 
-#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:810
-#: src/dlg-photo-importer.c:849 src/dlg-photo-importer.c:1318
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:819
+#: src/dlg-photo-importer.c:858 src/dlg-photo-importer.c:1359
 msgid "No camera detected"
 msgstr "Keine Kamera erkannt"
 
@@ -1531,10 +1531,10 @@ msgstr "Muss sich in _einer gewählten Kategorie befinden"
 msgid "New _Search..."
 msgstr "Neue _Suche..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:779
-#: src/dlg-photo-importer.c:1367
+#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:788
+#: src/dlg-photo-importer.c:1408
 msgid "No images found"
-msgstr "Kei Bild gefunden"
+msgstr "Kein Bild gefunden"
 
 #: data/glade/gthumb_search.glade.h:21
 msgid "Search Progress"
@@ -2082,7 +2082,7 @@ msgid "(No Comment)"
 msgstr "(kein Kommentar)"
 
 #: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:769 src/dlg-photo-importer.c:1392
+#: src/dlg-jpegtran.c:769 src/dlg-photo-importer.c:1433
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2414,7 +2414,7 @@ msgstr "Ordner anlegen"
 msgid "Enter the folder name: "
 msgstr "Geben Sie einen Namen für den Ordner ein: "
 
-#: src/actions.c:1973 src/dlg-photo-importer.c:1375
+#: src/actions.c:1973 src/dlg-photo-importer.c:1416
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Der Ordner »%s« konnte nicht angelegt werden: %s"
@@ -2640,13 +2640,13 @@ msgstr "Kanal-Informationen"
 msgid "%s Properties"
 msgstr "Eigenschaften von %s"
 
-#: src/dlg-photo-importer.c:846 src/dlg-photo-importer.c:1317
-#: src/dlg-photo-importer.c:1366 src/dlg-photo-importer.c:1378
-#: src/dlg-photo-importer.c:1394 src/dlg-photo-importer.c:1423
+#: src/dlg-photo-importer.c:855 src/dlg-photo-importer.c:1358
+#: src/dlg-photo-importer.c:1407 src/dlg-photo-importer.c:1419
+#: src/dlg-photo-importer.c:1435 src/dlg-photo-importer.c:1464
 msgid "Could not import photos"
 msgstr "Fotos konnten nicht importiert werden"
 
-#: src/dlg-photo-importer.c:1191 src/main.c:1054
+#: src/dlg-photo-importer.c:1200 src/main.c:1054
 msgid "Film"
 msgstr "Film"
 
@@ -2682,7 +2682,7 @@ msgstr "Dateiname"
 msgid "Folder"
 msgstr "Ordner"
 
-#: src/dlg-web-exporter.c:746
+#: src/dlg-web-exporter.c:750
 msgid "Select Album Theme"
 msgstr "Wählen Sie ein Albenthema"
 
