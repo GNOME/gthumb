@@ -173,6 +173,16 @@ category_present (DialogData *data,
 }
 
 
+static gboolean
+category_name_is_valid (const char *name)
+{
+	gboolean valid = TRUE;
+	if (strchr (name, ',') != NULL)
+		valid = FALSE;
+	return valid;
+}
+
+
 /* called when the "add category" button is pressed. */
 static void
 add_category_cb (GtkWidget  *widget, 
@@ -192,10 +202,16 @@ add_category_cb (GtkWidget  *widget,
 	if (new_category == NULL)
 		return;
 
-	if (category_present (data, new_category)) {
+	if (! category_name_is_valid (new_category)) {
+		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
+				       _("The name \"%s\" is not valid because it contains the character \",\". " "Please use a different name."),
+				       new_category);
+
+	} else if (category_present (data, new_category)) {
 		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
 				       _("The category \"%s\" is already present. Please use a different name."), 
 				       new_category);
+
 	} else {
 		gtk_list_store_append (data->keywords_list_model, &iter);
 		gtk_list_store_set (data->keywords_list_model, &iter,

@@ -1426,7 +1426,6 @@ print_image_dlg (GtkWindow   *parent,
 			  "toggled",
 			  G_CALLBACK (print_comment_cb),
 			  data);
-
 	
 	radio_button = glade_xml_get_widget (data->gui, "print_orient_portrait_radiobutton");
 	g_signal_connect (G_OBJECT (radio_button),

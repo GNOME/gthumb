@@ -1,3 +1,11 @@
+2003-07-19  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-image-prop.c (dlg_image_prop_new): 
+	* src/gthumb-window.c (window_new): fix bug #117008
+
+	* src/dlg-categories.c (add_category_cb): do not allow commans in
+	category names (bug #117729)
+
 2003-07-08  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/main.c (prepare_app): 

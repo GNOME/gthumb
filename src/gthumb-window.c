@@ -703,7 +703,7 @@ update_image_comment (GThumbWindow *window)
 						  NULL);
 		gtk_text_buffer_apply_tag (text_buffer, tag, &start, &end);
 
-                return;
+		return;
 	}
 
 	comment = comments_get_comment_as_string (cdata, "\n\n", " - ");
@@ -1834,6 +1834,7 @@ make_image_visible (GThumbWindow *window,
 			gth_file_view_moveto (window->file_list->view, pos, offset);
 	}
 }
+
 
 static void
 window_image_viewer_set_void (GThumbWindow *window)
@@ -4012,8 +4013,8 @@ catalog_list_drag_leave (GtkWidget          *widget,
 			 guint               time,
 			 gpointer            extra_data)
 {	
-	GThumbWindow            *window = extra_data;
-	GtkTreeView             *list_view;
+	GThumbWindow *window = extra_data;
+	GtkTreeView  *list_view;
 
 	list_view = GTK_TREE_VIEW (window->catalog_list->list_view);
 	gtk_tree_view_set_drag_dest_row  (list_view, NULL, 0);
@@ -4112,7 +4113,9 @@ item_toggled_handler (BonoboUIComponent            *ui_component,
 	GThumbWindow *window = user_data;
         gboolean      s;
 
+#ifdef DEBUG
 	g_print ("%s: %s\n", path, state);
+#endif /* DEBUG */
 
 	if (window->freeze_toggle_handler > 0) {
 		window->freeze_toggle_handler--;
@@ -5333,7 +5336,7 @@ window_new (void)
 	/**/
 
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value"),
+	column = gtk_tree_view_column_new_with_attributes (_("Value "),
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
@@ -6014,7 +6017,6 @@ window_hide_sidebar (GThumbWindow *window)
 	/**/
 
 	gtk_widget_hide (window->preview_button_image);
-	/*gtk_widget_hide (window->preview_button_data);*/
 	gtk_widget_hide (window->preview_button_comment);
 	window_update_sensitivity (window);
 
@@ -6077,7 +6079,6 @@ window_show_sidebar (GThumbWindow *window)
 	}
 
 	gtk_widget_show (window->preview_button_image);
-	/*gtk_widget_show (window->preview_button_data);*/
 	gtk_widget_show (window->preview_button_comment);
 	window_update_sensitivity (window);
 
@@ -6231,8 +6232,8 @@ static void notify_files_deleted (GThumbWindow *window, GList *list);
 static gboolean
 _proc_monitor_events (gpointer data)
 {
-	GThumbWindow       *window = data;
-	GList              *scan;
+	GThumbWindow *window = data;
+	GList        *scan;
 		
 	if (window->update_changes_timeout != 0) {
 		g_source_remove (window->update_changes_timeout);
