@@ -1,5 +1,10 @@
 2004-12-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/glade/gthumb_comments.glade: 
+
+	Fixed bug #142897: Selected Categories area of Categories window 
+	appears to be directly editable, but it is not.
+
 	* libgthumb/dlg-save-image.c (file_save_ok_cb): 
 
 	Fixes bug #149883: Saving pictures with files extensions in uppercase 
