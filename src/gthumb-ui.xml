@@ -296,10 +296,9 @@
 	<cmd name="View_Sidebar_Folders"/>
 	<cmd name="View_Sidebar_Catalogs"/>
 
-	<cmd name="View_ImageProp" _label="Image _Properties"
+	<cmd name="View_ImageProp" _label="Proper_ties"
 	     _tip="View Image Properties"
-	     pixtype="stock" pixname="gthumb-properties"
-	     accel="*Control*I"/>
+	     pixtype="stock" pixname="gthumb-properties"/>
 
 	<cmd name="Go_Back" _label="_Back" 
 	     _tip="Go to the previous visited location"
@@ -356,11 +355,11 @@
 	     _tip="Restore the original desktop wallpaper"/>
 
 	<cmd name="Tools_Slideshow" _label="_Slide Show" 
-	     _tip="View Slide Show"
+	     _tip="Slide Show"
 	     pixtype="stock" pixname="gthumb-slideshow"/>
 	     accel="*Control*S"/>
-	<cmd name="Tools_FindImages" _label="_Find Images..." 
-	     _tip="Find Images"
+	<cmd name="Tools_FindImages" _label="_Find..." 
+	     _tip="Find"
 	     accel="*Control*F"
 	     pixtype="stock" pixname="gtk-find"/>
 	<cmd name="Tools_IndexImage" _label="Create _Index Image" />
@@ -394,6 +393,7 @@
 	<submenu name="File" _label="_File">
 		<menuitem name="File_NewWindow" verb=""/>
 		<menuitem name="File_OpenWith" verb=""/>
+		<separator/>
 		<menuitem name="File_Save" verb=""/>
 		<menuitem name="File_Revert" verb=""/>
 		<separator/>
@@ -424,15 +424,17 @@
 		<separator/>
 		<menuitem name="File_Print" verb=""/>
 		<separator/>
+		<menuitem name="View_ImageProp" verb=""/>
+		<separator/>
 		<menuitem name="File_CloseWindow" verb=""/>
 		<menuitem name="File_Exit" verb=""/>
 	</submenu>
 	<submenu name="Edit" _label="_Edit">
 		<menuitem name="Edit_RenameFile" verb=""/>
-		<menuitem name="Edit_DuplicateFile" verb=""/>
-		<menuitem name="Edit_DeleteFiles" verb=""/>
 		<menuitem name="Edit_CopyFiles" verb=""/>
 		<menuitem name="Edit_MoveFiles" verb=""/>
+		<menuitem name="Edit_DuplicateFile" verb=""/>
+		<menuitem name="Edit_DeleteFiles" verb=""/>
 		<separator/>
 		<menuitem name="Edit_SelectAll" verb=""/>
 		<separator/>
@@ -453,21 +455,6 @@
 		<menuitem name="View_Fullscreen" verb=""
 			  _label="_Full Screen"/>
 		<separator/>
-		<menuitem name="Go_Stop" verb=""/>
-		<menuitem name="Go_Refresh" verb=""/>
-		<submenu name="Go" _label="_Go">
-			<menuitem name="Go_Back" verb=""/>
-			<menuitem name="Go_Forward" verb=""/>
-			<menuitem name="Go_Up" verb=""/>
-			<separator/>
-			<menuitem name="Go_Home" verb=""/>
-			<menuitem name="Go_ToContainer" verb=""/>
-			<menuitem name="Go_Location" verb=""/>
-			<separator/>
-			<menuitem name="Go_DeleteHistory" verb=""/>
-			<placeholder name="HistoryList" delimit="top"/>
-		</submenu>
-		<separator/>
 		<submenu name="ViewSort" _label="S_ort Images">
 			<menuitem name="SortByName" verb=""/>
 			<menuitem name="SortByPath" verb=""/>
@@ -478,7 +465,8 @@
 		</submenu>
 		<menuitem name="View_Thumbnails" verb=""/>
 		<separator/>
-		<menuitem name="View_ImageProp" verb=""/>
+		<menuitem name="Go_Stop" verb=""/>
+		<menuitem name="Go_Refresh" verb=""/>
 		<separator/>
 		<submenu name="ZoomType" _label="_Zoom">
 			<menuitem name="View_ZoomIn" verb="" 
@@ -534,6 +522,18 @@
 		<separator/>
 		<menuitem name="AlterImage_Equalize" verb=""/>
 		<menuitem name="AlterImage_AdjustLevels" verb=""/>
+	</submenu>
+	<submenu name="Go" _label="_Go">
+		<menuitem name="Go_Back" verb=""/>
+		<menuitem name="Go_Forward" verb=""/>
+		<menuitem name="Go_Up" verb=""/>
+		<separator/>
+		<menuitem name="Go_Home" verb=""/>
+		<menuitem name="Go_ToContainer" verb=""/>
+		<menuitem name="Go_Location" verb=""/>
+		<separator/>
+		<menuitem name="Go_DeleteHistory" verb=""/>
+		<placeholder name="HistoryList" delimit="top"/>
 	</submenu>
 	<submenu name="Bookmarks" _label="_Bookmarks">
 		<menuitem name="Bookmarks_Add" verb=""/>
@@ -591,28 +591,27 @@
 	<toolitem name="Tools_FindImages" verb="" priority="0"
 	          _label="Search"/>
 
-  	<toolitem name="Tools_Slideshow" verb=""
-	          _label="Slide Show"/>
-
-	<separator/>
-
 	<toolitem name="Edit_EditComment" verb="" _label="Comment" />
 
 	<toolitem name="Edit_EditCategories" verb="" _label="Categories" />
 
-  	<toolitem name="Tools_JPEGRotate" verb=""
-	          _label="Rotate"/>
-
-  	<toolitem name="Tools_ConvertFormat" verb=""
-	          _label="Convert"/>
-
 	<separator/>
+
+  	<toolitem name="Tools_Slideshow" verb=""
+	          _label="Slide Show"/>
 
   	<toolitem name="View_Fullscreen" verb="" _label="Full Screen"
 		priority="0"/>
 
   	<toolitem name="View_ImageProp" verb="" _label="Properties" />
 
+	<separator/>
+
+  	<toolitem name="Tools_JPEGRotate" verb=""
+	          _label="Rotate"/>
+
+  	<toolitem name="Tools_ConvertFormat" verb=""
+	          _label="Convert"/>
 </dockitem>
 
 <dockitem name="ImageToolbar" _tip="Image Toolbar" config="0"
@@ -681,7 +680,7 @@
 <popups>
 	<popup name="FilePopup">
 		<menuitem name="File_OpenWithPopup" verb=""/>
-		<separator/>		
+		<separator/>
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
 			<menuitem name="Wallpaper_Tiled" verb=""/>
@@ -690,14 +689,13 @@
 			<separator/>
 			<menuitem name="Wallpaper_Restore" verb=""/>
 		</submenu>
-		<separator/>
+		<menuitem name="Go_ToContainerPopup" verb=""/>
+		<separator/>		
 		<menuitem name="Edit_RenameFilePopup" verb=""/>
-		<menuitem name="Edit_DuplicateFile" verb=""/>
-		<separator/>
-		<menuitem name="Edit_DeleteFiles" verb=""/>
-		<separator/>
 		<menuitem name="Edit_CopyFiles" verb=""/>
 		<menuitem name="Edit_MoveFiles" verb=""/>
+		<menuitem name="Edit_DuplicateFile" verb=""/>
+		<menuitem name="Edit_DeleteFiles" verb=""/>
 		<separator/>
 		<menuitem name="Edit_EditComment" verb=""/>
 		<menuitem name="Edit_EditCategories" verb=""/>
@@ -705,12 +703,12 @@
 		<separator/>
 		<menuitem name="Edit_AddToCatalog" verb=""/>
 		<menuitem name="Edit_RemoveFromCatalog" verb=""/>
-		<separator/>
-		<menuitem name="Go_ToContainerPopup" verb=""/>
 	</popup>
 
 	<popup name="ImagePopup">
-		<menuitem name="View_FullscreenPopup" verb=""/>
+		<menuitem name="Image_OpenWith" verb=""/>
+		<menuitem name="Image_Save" verb=""/>
+		<menuitem name="Image_Print" verb=""/>
 		<separator/>
 		<submenu name="Wallpaper" _label="Set Image as _Wallpaper">
 			<menuitem name="Wallpaper_Centered" verb=""/>
@@ -720,20 +718,15 @@
 			<separator/>
 			<menuitem name="Wallpaper_Restore" verb=""/>
 		</submenu>
-		<separator/>
-		<menuitem name="Image_OpenWith" verb=""/>
-		<menuitem name="Image_Save" verb=""/>
-		<menuitem name="Image_Print" verb=""/>
+		<menuitem name="Go_ToContainerPopup" verb=""/>
 		<separator/>
 		<menuitem name="Image_RenamePopup" verb=""/>
-		<menuitem name="Image_Duplicate" verb=""/>
-		<separator/>
-		<menuitem name="Image_Delete" verb=""/>
-		<separator/>
 		<menuitem name="Image_Copy" verb=""/>
 		<menuitem name="Image_Move" verb=""/>
+		<menuitem name="Image_Duplicate" verb=""/>
+		<menuitem name="Image_Delete" verb=""/>
 		<separator/>
-		<menuitem name="Go_ToContainerPopup" verb=""/>
+		<menuitem name="View_ImageProp" verb=""/>
 	</popup>
 
 	<popup name="FullscreenImagePopup">

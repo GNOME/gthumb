@@ -1451,8 +1451,8 @@ copy_next_file (FileCopyData *fcdata)
 
 		/**/
 		
-		src_cache = cache_get_nautilus_cache_dir (src_file);
-		dest_cache = cache_get_nautilus_cache_dir (dest_file);
+		src_cache = cache_get_nautilus_cache_name (src_file);
+		dest_cache = cache_get_nautilus_cache_name (dest_file);
 		
 		if (path_is_dir (src_cache)) {
 			char *parent_dir = remove_level_from_path (dest_cache);
@@ -1463,6 +1463,9 @@ copy_next_file (FileCopyData *fcdata)
 			dest_list = g_list_append (dest_list, new_uri_from_path (dest_cache));
 		}
 		
+		g_free (src_cache);
+		g_free (dest_cache);
+
 		g_free (dest_file);
 	}
 	
@@ -2049,22 +2052,25 @@ folder_copy (GThumbWindow   *window,
 		g_free (dest_cache);
 
 		/**/
-
+		
 		src_cache = cache_get_nautilus_cache_dir (src_path);
 		dest_cache = cache_get_nautilus_cache_dir (dest_path);
-
+		
 		if (path_is_dir (src_cache)) {
 			char *parent_dir = remove_level_from_path (dest_cache);
 			ensure_dir_exists (parent_dir, 0755);
 			g_free (parent_dir);
-
+			
 			src_list = g_list_append (src_list, 
 						  new_uri_from_path (src_cache));
-
+			
 			if (fcdata->file_op != FILE_OP_DELETE)
 				dest_list = g_list_append (dest_list, 
 							   new_uri_from_path (dest_cache));
 		}
+		
+		g_free (src_cache);
+		g_free (dest_cache);
 	}
 
 	xfer_options = GNOME_VFS_XFER_RECURSIVE;

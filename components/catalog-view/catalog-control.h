@@ -42,7 +42,7 @@ struct _CatalogControl {
 	/*< private >*/
 
 	BonoboObject   *nautilus_view;
-	FileList       *file_list;
+	GthFileList    *file_list;
 };
 
 struct _CatalogControlClass {
@@ -50,6 +50,6 @@ struct _CatalogControlClass {
 };
 
 GType           catalog_control_get_type   (void);
-BonoboControl  *catalog_control_new        (FileList *file_list);
+BonoboControl  *catalog_control_new        (GthFileList *file_list);
 
 #endif /* CATALOG_CONTROL */

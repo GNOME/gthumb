@@ -267,6 +267,13 @@ get_text_item_size (GThumbTextItem *text_item,
 }
 
 
+static gboolean
+string_void (const char *s)
+{
+	return (s == NULL) || (*s == 0);
+}
+
+
 static void
 image_get_view_mode (ImageList *gil,
 		     Image *image,
@@ -281,12 +288,12 @@ image_get_view_mode (ImageList *gil,
 	if (gil->priv->view_mode == IMAGE_LIST_VIEW_COMMENTS)
 		*view_text = FALSE;
 	if ((gil->priv->view_mode == IMAGE_LIST_VIEW_COMMENTS_OR_TEXT)
-	    && (*(image->comment->text) != 0))
+	    && ! string_void (image->comment->text))
 		*view_text = FALSE;
 
-	if (*(image->comment->text) == 0)
+	if (string_void (image->comment->text))
 		*view_comment = FALSE;
-	if (*(image->text->text) == 0)
+	if (string_void (image->text->text))
 		*view_text = FALSE;
 }
 

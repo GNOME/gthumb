@@ -147,7 +147,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label80">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Destination Folder&lt;/b&gt;</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Destination folder&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -258,7 +258,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label81">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Index Images&lt;/b&gt;</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Index images&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -634,7 +634,7 @@
 		  <child>
 		    <widget class="GtkLabel" id="label82">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">&lt;b&gt;Header and Footer&lt;/b&gt;</property>
+		      <property name="label" translatable="yes">&lt;b&gt;Header and footer&lt;/b&gt;</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">True</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1045,7 +1045,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label94">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Background Style&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Background style&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1110,7 +1110,7 @@
 				    <widget class="GtkRadioButton" id="solid_color_radiobutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Solid Color</property>
+				      <property name="label" translatable="yes">_Solid color</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="active">False</property>
@@ -1149,7 +1149,7 @@
 				    <widget class="GtkRadioButton" id="gradient_radiobutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Gradient</property>
+				      <property name="label" translatable="yes">_Gradient</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="active">False</property>
@@ -1195,7 +1195,7 @@
 				    <widget class="GtkCheckButton" id="hgrad_checkbutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Horizontal:</property>
+				      <property name="label" translatable="yes">_Horizontal:</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="active">False</property>
@@ -1258,7 +1258,7 @@
 				    <widget class="GtkCheckButton" id="vgrad_checkbutton">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
-				      <property name="label" translatable="yes">Vertical:</property>
+				      <property name="label" translatable="yes">_Vertical:</property>
 				      <property name="use_underline">True</property>
 				      <property name="relief">GTK_RELIEF_NORMAL</property>
 				      <property name="active">False</property>
@@ -1421,7 +1421,7 @@
 			      <child>
 				<widget class="GtkLabel" id="label83">
 				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">&lt;b&gt;Page Size&lt;/b&gt;</property>
+				  <property name="label" translatable="yes">&lt;b&gt;Page size&lt;/b&gt;</property>
 				  <property name="use_underline">False</property>
 				  <property name="use_markup">True</property>
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1743,7 +1743,7 @@
 						<widget class="GtkCheckButton" id="same_size_checkbutton">
 						  <property name="visible">True</property>
 						  <property name="can_focus">True</property>
-						  <property name="label" translatable="yes">All pages with the _same size</property>
+						  <property name="label" translatable="yes">_All pages with the same size</property>
 						  <property name="use_underline">True</property>
 						  <property name="relief">GTK_RELIEF_NORMAL</property>
 						  <property name="active">False</property>

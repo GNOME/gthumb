@@ -115,7 +115,7 @@ catalog_control_finalize (GObject *object)
 {
 	CatalogControl *control = CATALOG_CONTROL (object);
 
-	file_list_free (control->file_list);
+	g_object_unref (control->file_list);
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
@@ -160,7 +160,7 @@ file_selection_changed_cb (GtkWidget *widget,
 	control = data;
 	nautilus_view = CATALOG_NAUTILUS_VIEW (control->nautilus_view);
 
-	selection = file_list_get_selection (control->file_list);
+	selection = gth_file_list_get_selection (control->file_list);
 
 	uri_list = Nautilus_URIList__alloc();
 	CORBA_sequence_set_release (uri_list, FALSE);
@@ -227,7 +227,7 @@ file_button_press_cb (GtkWidget      *widget,
 			char *path, *uri;
 			CORBA_string Uri;
 
-			path = file_list_path_from_pos (control->file_list, pos);
+			path = gth_file_list_path_from_pos (control->file_list, pos);
 			uri = g_strconcat ("file://", path, NULL);
 
 			Uri = CORBA_string_alloc (strlen (uri));
@@ -249,7 +249,7 @@ file_button_press_cb (GtkWidget      *widget,
 
 static void
 construct_control (CatalogControl *control,
-		   FileList       *file_list)
+		   GthFileList    *file_list)
 {
 	g_return_if_fail (control != NULL);
 	g_return_if_fail (file_list != NULL);
@@ -285,7 +285,7 @@ construct_control (CatalogControl *control,
 
 
 BonoboControl *
-catalog_control_new (FileList *file_list)
+catalog_control_new (GthFileList *file_list)
 {
 	BonoboControl *control;
 	

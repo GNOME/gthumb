@@ -23,11 +23,24 @@
 #ifndef FILE_LIST_H
 #define FILE_LIST_H
 
+#include <glib.h>
 #include "typedefs.h"
 #include "thumb-loader.h"
 #include "file-data.h"
 
-typedef struct {
+#define GTH_TYPE_FILE_LIST            (gth_file_list_get_type ())
+#define GTH_FILE_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), GTH_TYPE_FILE_LIST, GthFileList))
+#define GTH_FILE_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), GTH_TYPE_FILE_LIST, GthFileListClass))
+#define GTH_IS_FILE_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), GTH_TYPE_FILE_LIST))
+#define GTH_IS_FILE_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), GTH_TYPE_FILE_LIST))
+#define GTH_FILE_LIST_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), GTH_TYPE_FILE_LIST, GthFileListClass))
+
+typedef struct _GthFileList       GthFileList;
+typedef struct _GthFileListClass  GthFileListClass;
+
+struct _GthFileList {
+	GObject __parent;
+
 	GList       *list;                /* A list of FileData elements. */
 	SortMethod   sort_method;         /* How to sort the list. */
 	GtkSortType  sort_type;           /* ascending or discending sort. */
@@ -40,7 +53,7 @@ typedef struct {
 					   * with a dot (hidden files).*/
 	gboolean     enable_thumbs;       /* Whether to show the thumbnails. */
 
-	gint         thumb_size;          /* The max size of the thumbnails. */
+	int          thumb_size;          /* The max size of the thumbnails. */
 
 	ProgressFunc progress_func;
 	gpointer     progress_data;
@@ -56,103 +69,113 @@ typedef struct {
 	ThumbLoader *thumb_loader;
 	gboolean     doing_thumbs;        /* thumbs creation process is 
 					   * active. */
-	gint         thumbs_num;
+	int          thumbs_num;
 	FileData    *thumb_fd;
-	gint         thumb_pos;           /* The pos of the item we are 
+	int          thumb_pos;           /* The position of the item we are 
 					   * genereting a thumbnail. */
-} FileList;
+};
 
 
-FileList*   file_list_new                    (void);
+struct _GthFileListClass {
+	GObjectClass __parent;
 
-void        file_list_free                   (FileList     *file_list);
+	/* -- signals -- */
+	
+	void (*busy) (GthFileList *file_list);
+	void (*idle) (GthFileList *file_list);
+};
 
-void        file_list_set_list               (FileList     *file_list,
-					      GList        *new_list,
-					      DoneFunc      done_func,
-					      gpointer      done_func_data);
 
-void        file_list_add_list               (FileList     *file_list,
-					      GList        *new_list,
-					      DoneFunc      done_func,
-					      gpointer      done_func_data);
+GType        gth_file_list_get_type             (void);
 
-void        file_list_interrupt_set_list     (FileList     *file_list,
-					      DoneFunc      done_func,
-					      gpointer      done_data);
+GthFileList* gth_file_list_new                  (void);
 
-void        file_list_set_sort_method        (FileList     *file_list,
-					      SortMethod    method);
+void         gth_file_list_set_list             (GthFileList  *file_list,
+						 GList        *new_list,
+						 DoneFunc      done_func,
+						 gpointer      done_func_data);
+
+void         gth_file_list_add_list             (GthFileList  *file_list,
+						 GList        *new_list,
+						 DoneFunc      done_func,
+						 gpointer      done_func_data);
+
+void         gth_file_list_interrupt_set_list   (GthFileList  *file_list,
+						 DoneFunc      done_func,
+						 gpointer      done_data);
+
+void         gth_file_list_set_sort_method      (GthFileList  *file_list,
+						 SortMethod    method);
 
 /* how to sort: ascending or discending. */
-void        file_list_set_sort_type          (FileList     *file_list,
-					      GtkSortType   sort_type);
+void         gth_file_list_set_sort_type        (GthFileList  *file_list,
+						 GtkSortType   sort_type);
 
-void        file_list_interrupt_thumbs       (FileList     *file_list, 
-					      DoneFunc      done_func,
-					      gpointer      done_func_data);
+void         gth_file_list_interrupt_thumbs     (GthFileList  *file_list, 
+						 DoneFunc      done_func,
+						 gpointer      done_func_data);
 
-gint        file_list_pos_from_path          (FileList     *file_list, 
-					      const char   *path);
+int          gth_file_list_pos_from_path        (GthFileList  *file_list, 
+						 const char   *path);
 
-GList*      file_list_get_all                (FileList     *file_list);
+GList*       gth_file_list_get_all              (GthFileList  *file_list);
 
-gint        file_list_get_length             (FileList     *file_list);
+int          gth_file_list_get_length           (GthFileList  *file_list);
 
-GList*      file_list_get_selection          (FileList     *file_list);
+GList*       gth_file_list_get_selection        (GthFileList  *file_list);
 
-GList*      file_list_get_selection_as_fd    (FileList     *file_list);
+GList*       gth_file_list_get_selection_as_fd  (GthFileList  *file_list);
 
-gint        file_list_get_selection_length   (FileList     *file_list);
+int          gth_file_list_get_selection_length (GthFileList  *file_list);
 
-gchar*      file_list_path_from_pos          (FileList     *file_list,
-					      int           pos);
+char*        gth_file_list_path_from_pos        (GthFileList  *file_list,
+						 int           pos);
 
-gboolean    file_list_is_selected            (FileList     *file_list, 
-					      int           pos);
+gboolean     gth_file_list_is_selected          (GthFileList  *file_list, 
+						 int           pos);
 
-void        file_list_select_image_by_pos    (FileList     *file_list,
-					      int           pos);
+void         gth_file_list_select_image_by_pos  (GthFileList  *file_list,
+						 int           pos);
 
-void        file_list_select_all             (FileList     *file_list);
+void         gth_file_list_select_all           (GthFileList  *file_list);
 
-void        file_list_unselect_all           (FileList     *file_list);
+void         gth_file_list_unselect_all         (GthFileList  *file_list);
 
-void        file_list_enable_thumbs          (FileList     *file_list,
-					      gboolean      enable);
+void         gth_file_list_enable_thumbs        (GthFileList  *file_list,
+						 gboolean      enable);
 
-void        file_list_set_progress_func      (FileList     *file_list,
-					      ProgressFunc  func,
-					      gpointer      data);
+void         gth_file_list_set_progress_func    (GthFileList  *file_list,
+						 ProgressFunc  func,
+						 gpointer      data);
 
-gint        file_list_next_image             (FileList     *file_list,
-					      int           starting_pos,
-					      gboolean      without_error);
+int          gth_file_list_next_image           (GthFileList  *file_list,
+						 int           starting_pos,
+						 gboolean      without_error);
 
-gint        file_list_prev_image             (FileList     *file_list,
-					      int           starting_pos,
-					      gboolean      without_error);
+int          gth_file_list_prev_image           (GthFileList  *file_list,
+						 int           starting_pos,
+						 gboolean      without_error);
 
-void        file_list_delete_pos             (FileList     *file_list,
-					      int           pos);
+void         gth_file_list_delete_pos           (GthFileList  *file_list,
+						 int           pos);
 
-void        file_list_rename_pos             (FileList     *file_list,
-					      int           pos, 
-					      const char   *path);
+void         gth_file_list_rename_pos           (GthFileList  *file_list,
+						 int           pos, 
+						 const char   *path);
 
-void        file_list_update_comment         (FileList     *file_list,
-					      int           pos);
+void         gth_file_list_update_comment       (GthFileList  *file_list,
+						 int           pos);
 
-void        file_list_update_thumb           (FileList     *file_list,
-					      int           pos);
+void         gth_file_list_update_thumb         (GthFileList  *file_list,
+						 int           pos);
 
-void        file_list_update_thumb_list      (FileList     *file_list,
-					      GList        *list /*path list*/);
+void         gth_file_list_update_thumb_list    (GthFileList  *file_list,
+						 GList        *list /*path list*/);
 
-void        file_list_restart_thumbs         (FileList     *file_list,
-					      gboolean      _continue);
+void         gth_file_list_restart_thumbs       (GthFileList  *file_list,
+						 gboolean      _continue);
 
-void        file_list_set_thumbs_size        (FileList     *file_list,
-					      int           size);
+void         gth_file_list_set_thumbs_size      (GthFileList  *file_list,
+						 int           size);
 
-#endif /* FILE_LIST_H */
+#endif /* GTH_FILE_LIST_H */

@@ -413,7 +413,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label86">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;On Startup:&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;On startup:&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -2016,7 +2016,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label171">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">&lt;b&gt;Slide Show&lt;/b&gt;</property>
+			  <property name="label" translatable="yes">&lt;b&gt;Slide show&lt;/b&gt;</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">True</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>

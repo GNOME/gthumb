@@ -576,9 +576,9 @@ edit_current_edit_comment_command_impl (BonoboUIComponent *uic,
 	if (window->image_path == NULL)
 		return;
 
-	pos = file_list_pos_from_path (window->file_list, window->image_path);
+	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
 	if (pos != -1) {
-		file_list_select_image_by_pos (window->file_list, pos);
+		gth_file_list_select_image_by_pos (window->file_list, pos);
 		dlg_edit_comment (NULL, window);
 	}
 }
@@ -633,9 +633,9 @@ edit_current_edit_categories_command_impl (BonoboUIComponent *uic,
 	if (window->image_path == NULL)
 		return;
 
-	pos = file_list_pos_from_path (window->file_list, window->image_path);
+	pos = gth_file_list_pos_from_path (window->file_list, window->image_path);
 	if (pos != -1) {
-		file_list_select_image_by_pos (window->file_list, pos);
+		gth_file_list_select_image_by_pos (window->file_list, pos);
 		dlg_categories (NULL, window);
 	}
 }

@@ -306,6 +306,39 @@ images_add_columns (GtkTreeView *treeview)
 
 
 static void
+update_ops_sensitivity (DialogData *data)
+{
+	GtkTreeModel *model;
+	GtkTreeIter   iter;
+	ImageData    *idata;
+	gboolean      image_list_empty = TRUE;
+
+	model = data->duplicates_model;
+
+	if (! gtk_tree_model_get_iter_first (model, &iter)) 
+		return;
+	
+	gtk_tree_model_get (model, &iter, DCOLUMN_IMAGE_DATA, &idata, -1);
+	
+	do {
+		gboolean checked;
+		gtk_tree_model_get (model, &iter, 
+				    DCOLUMN_CHECKED, &checked, -1);
+
+		if (checked) {
+			image_list_empty = FALSE;
+			break;
+
+		} else if (! gtk_tree_model_iter_next (model, &iter))
+			break;
+	} while (TRUE);
+
+	gtk_widget_set_sensitive (data->fdr_view_button, ! image_list_empty);
+	gtk_widget_set_sensitive (data->fdr_delete_button, ! image_list_empty);
+}
+
+
+static void
 image_toggled_cb (GtkCellRendererToggle *cell,
 		  char                  *path_string,
 		  gpointer               callback_data)
@@ -321,6 +354,8 @@ image_toggled_cb (GtkCellRendererToggle *cell,
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter, DCOLUMN_CHECKED, !value, -1);
 	
 	gtk_tree_path_free (path);
+
+	update_ops_sensitivity (data);
 }
 
 
@@ -545,6 +580,8 @@ select_all_cb (GtkWidget  *widget,
 				    DCOLUMN_CHECKED, TRUE, 
 				    -1);
 	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
+
+	update_ops_sensitivity (data);
 }
 
 
@@ -563,6 +600,8 @@ select_none_cb (GtkWidget  *widget,
 				    DCOLUMN_CHECKED, FALSE, 
 				    -1);
 	} while (gtk_tree_model_iter_next (data->duplicates_model, &iter));
+
+	update_ops_sensitivity (data);
 }
 
 
@@ -713,7 +752,7 @@ delete_cb (GtkWidget  *widget,
 
 	if (dlg_file_delete__confirm (data->window, 
 				      path_list_dup (list),
-				      _("Checked images will be deleted, are you sure?"))) 
+				      _("Checked images will be moved to the Trash, are you sure?"))) 
 		delete_images_from_lists (data, list);
 
 	path_list_free (list);

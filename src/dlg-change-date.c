@@ -175,7 +175,7 @@ dlg_change_date (GThumbWindow *window)
 	GtkWidget   *ok_button;
 	GList       *list;
 
-	list = file_list_get_selection_as_fd (window->file_list);
+	list = gth_file_list_get_selection_as_fd (window->file_list);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;

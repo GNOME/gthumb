@@ -1,5 +1,30 @@
+2002-12-02  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-image-prop.c (dlg_image_prop_update): update a tab only
+	when needed.
+
+	* libgthumb/comments.c (comments_load_comment): check NULL pointer.
+
+	* src/gthumb_comments.glade: 
+	* src/dlg-comment.c: changed dialog layout.
+
+2002-12-01  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/gth-folder-selection-dialog.c (folder_sel__response_cb):
+	move last folder to the top.
+
+	* libgthumb/image-list.c (image_get_view_mode): check whether the
+	string is NULL (attempt to fix #100031)
+
 2002-11-29  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* src/dlg-search.c (cache_dir): ignore the .nautilus folder when 
+	searching.
+
+	* src/dlg-file-utils.c (copy_next_file, folder_copy): fix memleak.
+
+2002-11-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+	
 	[ gthumb 1.106 released ]
 
 2002-11-28  Paolo Bacchilega  <paolo.bacch@tin.it>

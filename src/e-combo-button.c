@@ -160,8 +160,7 @@ paint (EComboButton *combo_button,
 
 	separator_x = (priv->hbox->allocation.width 
 		       - priv->arrow_image->allocation.width
-		       - (priv->hbox->style->xthickness * 2) 
-		       - 1);
+		       - GTK_WIDGET (combo_button)->style->xthickness);
 
 	if (GTK_WIDGET_STATE (combo_button) == GTK_STATE_ACTIVE)
 		shadow_type = GTK_SHADOW_IN;
@@ -291,8 +290,7 @@ impl_button_press_event (GtkWidget *widget,
 
 		if (event->button == 3 || 
 		    event->x >= (priv->arrow_image->allocation.x 
-				 - (priv->arrow_image->style->xthickness * 2)
-				 - 1)) {
+				 - widget->style->xthickness)) {
 			/* User clicked on the right side: pop up the menu.  */
 			gtk_button_pressed (GTK_BUTTON (widget));
 

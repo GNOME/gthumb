@@ -61,7 +61,7 @@ control_factory (BonoboGenericFactory *factory,
 		 gpointer              callback_data)
 {
 	BonoboControl *control;
-	FileList      *file_list;
+	GthFileList   *file_list;
 
 	if (init_gthumb) {
 		init_gthumb = FALSE;
@@ -72,11 +72,11 @@ control_factory (BonoboGenericFactory *factory,
         if (strcmp (object_id, OAFIID) != 0)
 		return NULL;
 
-	file_list = file_list_new ();
+	file_list = gth_file_list_new ();
 	control = catalog_control_new (file_list);
 
 	if (control == NULL) {
-		file_list_free (file_list);
+		g_object_unref (file_list);
 		return NULL;
 	}
 

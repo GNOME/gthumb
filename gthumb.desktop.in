@@ -2,10 +2,9 @@
 _Name=gThumb Image Viewer
 _GenericName=
 _Comment=View and organize your images
-Exec=gthumb
-Terminal=false
-Type=Application
-X-GNOME-DocPath=gthumb/gthumb.xml
-Icon=gthumb.png
 Categories=Application;Graphics;
 Encoding=UTF-8
+Exec=gthumb
+Icon=gthumb.png
+Terminal=false
+Type=Application

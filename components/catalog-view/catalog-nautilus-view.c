@@ -105,10 +105,10 @@ catalog_nautilus_view_load_location (PortableServer_Servant  servant,
 	gnome_vfs_file_info_list_free (list);
 	g_free (unesc_loc);
 
-	file_list_set_list (nautilus_view->control->file_list, 
-			    file_list,
-			    set_list_done,
-			    nautilus_view);
+	gth_file_list_set_list (nautilus_view->control->file_list, 
+				file_list,
+				set_list_done,
+				nautilus_view);
 
 	path_list_free (file_list);
 }

@@ -54,15 +54,28 @@ enum {
 };
 
 
+enum {
+	IPROP_PAGE_GENERAL = 0,
+	IPROP_PAGE_COMMENT,
+#ifdef HAVE_LIBEXIF
+	IPROP_PAGE_EXIF,
+#endif /* HAVE_LIBEXIF */
+	IPROP_PAGE_HISTOGRAM,
+	IPROP_NUM_PAGES
+};
+
+
 #define GLADE_FILE     "gthumb.glade"
 #define PREVIEW_SIZE   80
 
 
 typedef struct {
 	GThumbWindow *window;
+	ImageViewer  *window_viewer;
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
+	GtkWidget    *i_notebook;
 	GtkWidget    *i_name_label;
 	GtkWidget    *i_type_label;
 	GtkWidget    *i_image_size_label;
@@ -77,10 +90,8 @@ typedef struct {
 	GtkWidget     *i_categories_label;
 
 #ifdef HAVE_LIBEXIF
-
 	GtkWidget     *i_exif_treeview;
 	GtkListStore  *i_exif_model;
-
 #endif /* HAVE_LIBEXIF */
 
 	GtkWidget     *i_histogram_channel;
@@ -89,6 +100,8 @@ typedef struct {
 	GtkWidget     *i_histogram_gradient;
 
 	GthumbHistogram *histogram;
+
+	gboolean       page_updated[IPROP_NUM_PAGES];
 } DialogData;
 
 
@@ -243,226 +256,7 @@ next_image_cb (GtkWidget    *widget,
 }
 
 
-
-GtkWidget *
-dlg_image_prop_new (GThumbWindow *window)
-{
-	DialogData  *data;
-	GtkWidget   *i_image_vbox;
-	GtkWidget   *i_close_button;
-	GtkWidget   *i_next_button;
-	GtkWidget   *i_prev_button;
-	GtkWidget   *i_field_label;
-	GtkWidget   *i_notebook;
-
 #ifdef HAVE_LIBEXIF
-
-	GtkCellRenderer   *renderer;
-	GtkTreeViewColumn *column;
-
-#endif /* HAVE_LIBEXIF */
-
-	char        *label;
-
-	data = g_new0 (DialogData, 1);
-	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
-				   NULL);
-
-	if (! data->gui) {
-		g_warning ("Could not find " GLADE_FILE "\n");
-		g_free (data);
-		return NULL;
-	}
-
-	data->histogram = gthumb_histogram_new ();
-
-	/* Get the widgets. */
-
-	data->dialog = glade_xml_get_widget (data->gui, "image_prop_window");
-	data->i_name_label = glade_xml_get_widget (data->gui, "i_name_label");
-	data->i_type_label = glade_xml_get_widget (data->gui, "i_type_label");
-	data->i_image_size_label = glade_xml_get_widget (data->gui, "i_image_size_label");
-	data->i_file_size_label = glade_xml_get_widget (data->gui, "i_file_size_label");
-	data->i_location_label = glade_xml_get_widget (data->gui, "i_location_label");
-	data->i_date_modified_label = glade_xml_get_widget (data->gui, "i_date_modified_label");
-
-	i_image_vbox = glade_xml_get_widget (data->gui, "i_image_vbox");
-	i_close_button = glade_xml_get_widget (data->gui, "i_close_button");
-	i_next_button = glade_xml_get_widget (data->gui, "i_next_button");
-	i_prev_button = glade_xml_get_widget (data->gui, "i_prev_button");
-	i_notebook = glade_xml_get_widget (data->gui, "i_notebook");
-
-	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
-	data->i_categories_label = glade_xml_get_widget (data->gui, "i_categories_label");
-
-#ifdef HAVE_LIBEXIF
-	data->i_exif_treeview = glade_xml_get_widget (data->gui, "i_exif_treeview");
-#endif /* HAVE_LIBEXIF */
-
-	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
-
-	data->i_histogram_channel_alpha = glade_xml_get_widget (data->gui, "i_histogram_channel_alpha");
-	data->i_histogram_channel = glade_xml_get_widget (data->gui, "i_histogram_channel");
-	data->i_histogram_graph = glade_xml_get_widget (data->gui, "i_histogram_graph");
-	data->i_histogram_gradient = glade_xml_get_widget (data->gui, "i_histogram_gradient");
-
-	/* * set labels */
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field1_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Name"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field2_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Image Dimensions"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field3_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Type"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field4_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("File Size"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field5_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Location"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_field6_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Last Modified"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	i_field_label = glade_xml_get_widget (data->gui, "i_histogram_channel_label");
-	label = g_strdup_printf ("<b>%s:</b>", _("Information on Channel"));
-	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
-	g_free (label);
-
-	/* * comment data */
-
-	/* * exif data */
-
-#ifndef HAVE_LIBEXIF
-
-	gtk_notebook_remove_page (GTK_NOTEBOOK (i_notebook), 2);
-
-#endif /* ! HAVE_LIBEXIF */
-
-	/* * image viewer */
-
-	data->viewer = image_viewer_new ();
-	image_viewer_size (IMAGE_VIEWER (data->viewer), PREVIEW_SIZE, PREVIEW_SIZE);
-	gtk_box_pack_start (GTK_BOX (i_image_vbox), data->viewer, FALSE, FALSE, 0);
-	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), ZOOM_CHANGE_FIT_IF_LARGER);
-	image_viewer_set_zoom_quality (IMAGE_VIEWER (data->viewer),
-				       pref_get_zoom_quality ());
-	image_viewer_set_check_type (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size (IMAGE_VIEWER (data->viewer),
-				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type (IMAGE_VIEWER (data->viewer),
-				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_stop_animation (IMAGE_VIEWER (data->viewer));
-	GTK_WIDGET_UNSET_FLAGS (data->viewer, GTK_CAN_FOCUS);
-
-	/* Set widgets data. */
-
-	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
-
-#ifdef HAVE_LIBEXIF
-
-	data->i_exif_model = gtk_list_store_new (NUM_COLUMNS,
-						 G_TYPE_STRING, 
-						 G_TYPE_STRING);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (data->i_exif_treeview),
-				 GTK_TREE_MODEL (data->i_exif_model));
-	g_object_unref (data->i_exif_model);
-
-	/**/
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Field"),
-							   renderer,
-							   "text", NAME_COLUMN,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, NAME_COLUMN);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
-				     column);
-
-	/**/
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Value"),
-							   renderer,
-							   "text", VALUE_COLUMN,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, VALUE_COLUMN);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
-				     column);
-
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->i_exif_model), NAME_COLUMN, GTK_SORT_ASCENDING);
-
-#endif /* HAVE_LIBEXIF */
-
-	/* Set the signals handlers. */
-	
-	g_signal_connect (G_OBJECT (data->dialog),
-			  "destroy",
-			  G_CALLBACK (destroy_cb),
-			  data);
-
-	g_signal_connect_swapped (G_OBJECT (i_close_button), 
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (i_next_button), 
-			  "clicked",
-			  G_CALLBACK (next_image_cb),
-			  data);
-	g_signal_connect (G_OBJECT (i_prev_button), 
-			  "clicked",
-			  G_CALLBACK (prev_image_cb),
-			  data);
-
-	g_signal_connect (G_OBJECT (data->viewer), 
-			  "image_loaded",
-			  G_CALLBACK (image_loaded_cb), 
-			  data);
-
-	g_signal_connect (G_OBJECT (data->i_histogram_graph), 
-			  "expose_event",
-			  G_CALLBACK (histogram_graph_expose_cb), 
-			  data);
-
-	g_signal_connect (G_OBJECT (data->i_histogram_gradient), 
-			  "expose_event",
-			  G_CALLBACK (histogram_gradient_expose_cb), 
-			  data);
-
-	g_signal_connect (G_OBJECT (data->i_histogram_channel), 
-			  "changed",
-			  G_CALLBACK (histogram_channel_changed_cb), 
-			  data);
-
-	/* Run dialog. */
-
-	gtk_widget_show_all (data->dialog);
-
-	dlg_image_prop_update (data->dialog);
-
-	return data->dialog;
-}
-
-
-#ifdef HAVE_LIBEXIF
-
-
 static void
 update_exif_data (DialogData *data)
 {
@@ -508,8 +302,6 @@ update_exif_data (DialogData *data)
 
 	exif_data_unref (edata);
 }
-
-
 #endif /* HAVE_LIBEXIF */
 
 
@@ -601,10 +393,9 @@ update_histogram (DialogData *data)
 }
 
 
-void
-dlg_image_prop_update (GtkWidget *image_prop_dlg)
+static void
+update_general_info (DialogData *data)
 {
-	DialogData   *data;
 	GThumbWindow *window;
 	ImageViewer  *viewer;
 	int           width, height;
@@ -617,13 +408,8 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 	char         *utf8_name;
 	char         *title;
 
-	g_return_if_fail (image_prop_dlg != NULL);
-
-	data = g_object_get_data (G_OBJECT (image_prop_dlg), "dialog_data");
-	g_return_if_fail (data != NULL);
-
 	window = data->window;
-	viewer = IMAGE_VIEWER (window->viewer);
+	viewer = data->window_viewer;
 
 	if (window->image_path == NULL) {
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), "");
@@ -679,20 +465,286 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 		tm = localtime (&timer);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
-	}
-		
-	update_comment (data);
-
-#ifdef HAVE_LIBEXIF
-
-	update_exif_data (data);
-
-#endif /* HAVE_LIBEXIF */
-
-	update_histogram (data);
+}
 
 	if ((window->image_path != NULL) && ! image_viewer_is_void (viewer))
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), viewer->loader);
 	else
 		image_viewer_set_void (IMAGE_VIEWER (data->viewer));
+
+}
+
+
+static void
+update_notebook_page (DialogData *data,
+		      int         page_num)
+{
+	if (data->page_updated[page_num]) 
+		return;
+
+	switch (page_num) {
+	case IPROP_PAGE_GENERAL:
+		update_general_info (data); 
+		break;
+
+	case IPROP_PAGE_COMMENT:
+		update_comment (data); 
+		break;
+
+#ifdef HAVE_LIBEXIF
+	case IPROP_PAGE_EXIF:
+		update_exif_data (data);
+		break;
+#endif /* HAVE_LIBEXIF */
+
+	case IPROP_PAGE_HISTOGRAM:
+		update_histogram (data);
+		break;
+		
+	default:
+		return;
+	}
+	data->page_updated[page_num] = TRUE;
+}
+
+
+static void
+i_notebook_switch_page_cb (GtkWidget       *widget,
+			   GtkNotebookPage *page,
+			   guint            page_num,
+			   gpointer         extra_data)
+{
+	DialogData *data = extra_data;
+	update_notebook_page (data, page_num);
+}
+
+
+
+GtkWidget *
+dlg_image_prop_new (GThumbWindow *window)
+{
+	DialogData        *data;
+	GtkWidget         *i_image_vbox;
+	GtkWidget         *i_close_button;
+	GtkWidget         *i_next_button;
+	GtkWidget         *i_prev_button;
+	GtkWidget         *i_field_label;
+#ifdef HAVE_LIBEXIF
+	GtkCellRenderer   *renderer;
+	GtkTreeViewColumn *column;
+#endif /* HAVE_LIBEXIF */
+	char              *label;
+
+	data = g_new0 (DialogData, 1);
+	data->window = window;
+	data->window_viewer = IMAGE_VIEWER (window->viewer);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+
+	if (! data->gui) {
+		g_warning ("Could not find " GLADE_FILE "\n");
+		g_free (data);
+		return NULL;
+	}
+
+	data->histogram = gthumb_histogram_new ();
+
+	/* Get the widgets. */
+
+	data->dialog = glade_xml_get_widget (data->gui, "image_prop_window");
+	data->i_name_label = glade_xml_get_widget (data->gui, "i_name_label");
+	data->i_type_label = glade_xml_get_widget (data->gui, "i_type_label");
+	data->i_image_size_label = glade_xml_get_widget (data->gui, "i_image_size_label");
+	data->i_file_size_label = glade_xml_get_widget (data->gui, "i_file_size_label");
+	data->i_location_label = glade_xml_get_widget (data->gui, "i_location_label");
+	data->i_date_modified_label = glade_xml_get_widget (data->gui, "i_date_modified_label");
+
+	i_image_vbox = glade_xml_get_widget (data->gui, "i_image_vbox");
+	i_close_button = glade_xml_get_widget (data->gui, "i_close_button");
+	i_next_button = glade_xml_get_widget (data->gui, "i_next_button");
+	i_prev_button = glade_xml_get_widget (data->gui, "i_prev_button");
+	data->i_notebook = glade_xml_get_widget (data->gui, "i_notebook");
+
+	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
+	data->i_categories_label = glade_xml_get_widget (data->gui, "i_categories_label");
+
+#ifdef HAVE_LIBEXIF
+	data->i_exif_treeview = glade_xml_get_widget (data->gui, "i_exif_treeview");
+#endif /* HAVE_LIBEXIF */
+
+	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
+
+	data->i_histogram_channel_alpha = glade_xml_get_widget (data->gui, "i_histogram_channel_alpha");
+	data->i_histogram_channel = glade_xml_get_widget (data->gui, "i_histogram_channel");
+	data->i_histogram_graph = glade_xml_get_widget (data->gui, "i_histogram_graph");
+	data->i_histogram_gradient = glade_xml_get_widget (data->gui, "i_histogram_gradient");
+
+	/* * set labels */
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field1_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Name"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field2_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Image Dimensions"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field3_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Type"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field4_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("File Size"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field5_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Location"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_field6_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Last Modified"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	i_field_label = glade_xml_get_widget (data->gui, "i_histogram_channel_label");
+	label = g_strdup_printf ("<b>%s:</b>", _("Information on Channel"));
+	gtk_label_set_markup (GTK_LABEL (i_field_label), label);
+	g_free (label);
+
+	/* * comment data */
+
+	/* * exif data */
+
+#ifndef HAVE_LIBEXIF
+	gtk_notebook_remove_page (GTK_NOTEBOOK (data->i_notebook), 2);
+#endif /* ! HAVE_LIBEXIF */
+
+	/* * image viewer */
+
+	data->viewer = image_viewer_new ();
+	image_viewer_size (IMAGE_VIEWER (data->viewer), PREVIEW_SIZE, PREVIEW_SIZE);
+	gtk_box_pack_start (GTK_BOX (i_image_vbox), data->viewer, FALSE, FALSE, 0);
+	image_viewer_set_zoom_change (IMAGE_VIEWER (data->viewer), ZOOM_CHANGE_FIT_IF_LARGER);
+	image_viewer_set_zoom_quality (IMAGE_VIEWER (data->viewer),
+				       pref_get_zoom_quality ());
+	image_viewer_set_check_type (IMAGE_VIEWER (data->viewer),
+				     image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_size (IMAGE_VIEWER (data->viewer),
+				     image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_transp_type (IMAGE_VIEWER (data->viewer),
+				      image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_stop_animation (IMAGE_VIEWER (data->viewer));
+	GTK_WIDGET_UNSET_FLAGS (data->viewer, GTK_CAN_FOCUS);
+
+	/* Set widgets data. */
+
+	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
+
+#ifdef HAVE_LIBEXIF
+	data->i_exif_model = gtk_list_store_new (NUM_COLUMNS,
+						 G_TYPE_STRING, 
+						 G_TYPE_STRING);
+	gtk_tree_view_set_model (GTK_TREE_VIEW (data->i_exif_treeview),
+				 GTK_TREE_MODEL (data->i_exif_model));
+	g_object_unref (data->i_exif_model);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Field"),
+							   renderer,
+							   "text", NAME_COLUMN,
+							   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, NAME_COLUMN);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
+				     column);
+
+	/**/
+
+	renderer = gtk_cell_renderer_text_new ();
+	column = gtk_tree_view_column_new_with_attributes (_("Value"),
+							   renderer,
+							   "text", VALUE_COLUMN,
+							   NULL);
+	gtk_tree_view_column_set_sort_column_id (column, VALUE_COLUMN);
+	gtk_tree_view_append_column (GTK_TREE_VIEW (data->i_exif_treeview),
+				     column);
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->i_exif_model), NAME_COLUMN, GTK_SORT_ASCENDING);
+#endif /* HAVE_LIBEXIF */
+
+	/* Set the signals handlers. */
+	
+	g_signal_connect (G_OBJECT (data->dialog),
+			  "destroy",
+			  G_CALLBACK (destroy_cb),
+			  data);
+
+	g_signal_connect_swapped (G_OBJECT (i_close_button), 
+				  "clicked",
+				  G_CALLBACK (gtk_widget_destroy),
+				  G_OBJECT (data->dialog));
+	g_signal_connect (G_OBJECT (i_next_button), 
+			  "clicked",
+			  G_CALLBACK (next_image_cb),
+			  data);
+	g_signal_connect (G_OBJECT (i_prev_button), 
+			  "clicked",
+			  G_CALLBACK (prev_image_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_notebook), 
+			  "switch_page",
+			  G_CALLBACK (i_notebook_switch_page_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->viewer), 
+			  "image_loaded",
+			  G_CALLBACK (image_loaded_cb), 
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_histogram_graph), 
+			  "expose_event",
+			  G_CALLBACK (histogram_graph_expose_cb), 
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_histogram_gradient), 
+			  "expose_event",
+			  G_CALLBACK (histogram_gradient_expose_cb), 
+			  data);
+
+	g_signal_connect (G_OBJECT (data->i_histogram_channel), 
+			  "changed",
+			  G_CALLBACK (histogram_channel_changed_cb), 
+			  data);
+
+	/* Run dialog. */
+
+	gtk_widget_show_all (data->dialog);
+
+	dlg_image_prop_update (data->dialog);
+
+	return data->dialog;
+}
+
+
+void
+dlg_image_prop_update (GtkWidget *image_prop_dlg)
+{
+	DialogData *data;
+	int         i;
+
+	g_return_if_fail (image_prop_dlg != NULL);
+
+	data = g_object_get_data (G_OBJECT (image_prop_dlg), "dialog_data");
+	g_return_if_fail (data != NULL);
+
+	for (i = 0; i < IPROP_NUM_PAGES; i++)
+		data->page_updated[i] = FALSE;
+
+	update_notebook_page (data, gtk_notebook_get_current_page (GTK_NOTEBOOK (data->i_notebook)));
 }

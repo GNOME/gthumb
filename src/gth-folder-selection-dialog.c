@@ -319,6 +319,7 @@ folder_sel__response_cb (GObject *object,
 
 	dir = remove_ending_separator (folder);
 
+	bookmarks_remove_all_instances (folder_sel->priv->recents, dir);
 	bookmarks_add (folder_sel->priv->recents, dir, TRUE, FALSE);
 	bookmarks_set_max_lines (folder_sel->priv->recents, MAX_RECENT_LIST);
 	bookmarks_write_to_disk (folder_sel->priv->recents);

@@ -56,7 +56,7 @@ typedef enum {
 typedef struct {
 	GtkWidget          *app;                /* The main window. */
 	BonoboUIComponent  *ui_component;
-	FileList           *file_list;
+	GthFileList        *file_list;
 	DirList            *dir_list;
 	CatalogList        *catalog_list;
 	char               *catalog_path;       /* The catalog file we are 
@@ -144,6 +144,7 @@ typedef struct {
 	guint               load_dir_timer;
 	guint               freeze_toggle_handler;
 	guint               sel_change_timer;
+	guint               busy_cursor_timeout;
 
 	/* Monitor stuff */
 

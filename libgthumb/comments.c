@@ -416,6 +416,9 @@ comments_load_comment (const char *filename)
         xmlChar     *value;
 	xmlChar     *format;
 
+	if (filename == NULL)
+		return NULL;
+
 	comment_file = comments_get_comment_filename (filename);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);

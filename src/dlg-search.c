@@ -1155,6 +1155,9 @@ cache_dir (const char *folder)
 	if (folder == NULL)
 		return FALSE;
 
+	if (strcmp (folder, ".nautilus") == 0)
+		return TRUE;
+
 	if (strcmp (folder, ".thumbnails") == 0)
 		return TRUE;
 

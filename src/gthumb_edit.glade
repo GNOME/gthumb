@@ -947,7 +947,7 @@
 				  <child>
 				    <widget class="GtkLabel" id="label13">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Cyan-Red:</property>
+				      <property name="label" translatable="yes">Cyan-_Red:</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -971,7 +971,7 @@
 				  <child>
 				    <widget class="GtkLabel" id="label14">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Magenta-Green:</property>
+				      <property name="label" translatable="yes">_Magenta-Green:</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1034,7 +1034,7 @@
 				  <child>
 				    <widget class="GtkLabel" id="label15">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Yellow-Blue:</property>
+				      <property name="label" translatable="yes">_Yellow-Blue:</property>
 				      <property name="use_underline">True</property>
 				      <property name="use_markup">False</property>
 				      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1100,7 +1100,7 @@
 			<widget class="GtkCheckButton" id="cb_luminosity_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Preserve _Luminosity</property>
+			  <property name="label" translatable="yes">Preserve l_uminosity</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="active">True</property>
@@ -1690,7 +1690,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label58">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Original Dimensions&lt;/b&gt;</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Original dimensions&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -1870,7 +1870,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label61">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;New Dimensions&lt;/b&gt;</property>
+		  <property name="label" translatable="yes">&lt;b&gt;New dimensions&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -2106,7 +2106,7 @@
 	      <child>
 		<widget class="GtkLabel" id="label71">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">&lt;b&gt;Scale Ratio&lt;/b&gt;</property>
+		  <property name="label" translatable="yes">&lt;b&gt;Scale ratio&lt;/b&gt;</property>
 		  <property name="use_underline">False</property>
 		  <property name="use_markup">True</property>
 		  <property name="justify">GTK_JUSTIFY_LEFT</property>

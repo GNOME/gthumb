@@ -34,6 +34,7 @@
 #include "file-data.h"
 #include "file-list.h"
 #include "file-utils.h"
+#include "gthumb-marshal.h"
 #include "image-list.h"
 #include "thumb-loader.h"
 #include "typedefs.h"
@@ -45,10 +46,18 @@
 #define ADD_LIST_DELAY 75
 #define ADD_LIST_CHUNK 333
 
-static GdkPixbuf *unknown_pixbuf = NULL;
+enum {
+	BUSY,
+	IDLE,
+	LAST_SIGNAL
+};
+
+static GObjectClass *parent_class = NULL;
+static guint         gth_file_list_signals[LAST_SIGNAL] = { 0 };
+static GdkPixbuf    *unknown_pixbuf = NULL;
 
 
-static gint
+static int
 comp_func_name (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -65,7 +74,7 @@ comp_func_name (gconstpointer  ptr1,
 }
 
 
-static gint
+static int
 comp_func_size (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -86,7 +95,7 @@ comp_func_size (gconstpointer  ptr1,
 }
 
 
-static gint
+static int
 comp_func_time (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -107,7 +116,7 @@ comp_func_time (gconstpointer  ptr1,
 }
 
 
-static gint
+static int
 comp_func_path (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -124,7 +133,7 @@ comp_func_path (gconstpointer  ptr1,
 }
 
 
-static gint
+static int
 comp_func_none (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -133,7 +142,7 @@ comp_func_none (gconstpointer  ptr1,
 
 
 static void
-set_unknown_icon (FileList *file_list, gint pos)
+set_unknown_icon (GthFileList *file_list, int pos)
 {
 	image_list_set_image_pixbuf (IMAGE_LIST (file_list->ilist), 
 				     pos, unknown_pixbuf);
@@ -141,7 +150,7 @@ set_unknown_icon (FileList *file_list, gint pos)
 
 
 static void 
-update_thumb_in_clist (FileList *file_list)
+update_thumb_in_clist (GthFileList *file_list)
 {
 	GdkPixbuf *pixbuf;
 
@@ -156,21 +165,26 @@ update_thumb_in_clist (FileList *file_list)
 }
 
 
-static void file_list_update_next_thumb (FileList *file_list);
-static void interrupt_thumbs__part2 (FileList *file_list);
+static void gth_file_list_update_next_thumb (GthFileList *file_list);
 
 
 static void 
 load_thumb_error_cb (ThumbLoader *tl,
 		     gpointer data)
 {
-	FileList *file_list = data;
+	GthFileList *file_list = data;
+	float        percent;
 
 	set_unknown_icon (file_list, file_list->thumb_pos);
 	file_list->thumb_fd->error = TRUE;
 	file_list->thumb_fd->thumb = FALSE;
 
-	file_list_update_next_thumb (file_list);
+	percent = ((float) (file_list->thumbs_num) 
+		   / IMAGE_LIST (file_list->ilist)->images);
+	if (file_list->progress_func) 
+		file_list->progress_func (percent, file_list->progress_data);
+
+	gth_file_list_update_next_thumb (file_list);
 }
 
 
@@ -178,8 +192,8 @@ static void
 load_thumb_done_cb (ThumbLoader *tl,
 		    gpointer data)
 {
-	FileList *file_list = data;
-	gfloat    percent;
+	GthFileList *file_list = data;
+	float        percent;
 
 	update_thumb_in_clist (file_list);
 	file_list->thumb_fd->error = FALSE;
@@ -190,7 +204,7 @@ load_thumb_done_cb (ThumbLoader *tl,
 	if (file_list->progress_func) 
 		file_list->progress_func (percent, file_list->progress_data);
 
-	file_list_update_next_thumb (file_list);
+	gth_file_list_update_next_thumb (file_list);
 }
 
 
@@ -224,19 +238,84 @@ get_compfunc_from_method (SortMethod sort_method)
 }
 
 
-FileList*   
-file_list_new ()
+static void
+free_file_data_list (GList *list)
 {
-	FileList *file_list;
-	GtkWidget *ilist;
-	GtkAdjustment *adj;
-        GtkWidget *vsb, *hbox;
-	GtkWidget *frame; 
-	ImageListViewMode view_mode;
+	GList *scan;
+	for (scan = list; scan; scan = scan->next) 
+		file_data_unref (scan->data);
+	g_list_free (list);
+}
 
-	file_list = g_new (FileList, 1);
-	
+
+static void
+gth_file_list_free_list (GthFileList *file_list)
+{
+	g_return_if_fail (file_list != NULL);
+
+	free_file_data_list (file_list->list);
+	file_list->list = NULL;
+}
+
+
+static void 
+gth_file_list_finalize (GObject *object)
+{
+	GthFileList *file_list;
+
+        g_return_if_fail (GTH_IS_FILE_LIST (object));
+	file_list = GTH_FILE_LIST (object);
+
+	gth_file_list_free_list (file_list);
+	g_object_unref (G_OBJECT (file_list->thumb_loader));
+	g_object_unref (G_OBJECT (unknown_pixbuf));
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static void
+gth_file_list_class_init (GthFileListClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	gth_file_list_signals[BUSY] =
+		g_signal_new ("busy",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileListClass, busy),
+			      NULL, NULL,
+			      gthumb_marshal_VOID__VOID,
+			      G_TYPE_NONE, 
+			      0);
+	gth_file_list_signals[IDLE] =
+		g_signal_new ("idle",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthFileListClass, idle),
+			      NULL, NULL,
+			      gthumb_marshal_VOID__VOID,
+			      G_TYPE_NONE, 
+			      0);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = gth_file_list_finalize;
+}
+
+
+static void
+gth_file_list_init (GthFileList *file_list)
+{
+	GtkWidget         *ilist;
+	GtkAdjustment     *adj;
+        GtkWidget         *vsb, *hbox;
+	GtkWidget         *frame; 
+	ImageListViewMode  view_mode;
+
 	/* set the default values. */
+
 	file_list->list              = NULL;
 	file_list->sort_method       = pref_get_arrange_type ();
 	file_list->sort_type         = pref_get_sort_order ();
@@ -303,58 +382,61 @@ file_list_new ()
 
 	file_list->ilist = ilist;
 	file_list->root_widget = hbox;
-
-	return file_list;
 }
 
 
-static void
-free_file_data_list (GList *list)
+GType
+gth_file_list_get_type ()
 {
-	GList *scan;
-	for (scan = list; scan; scan = scan->next) 
-		file_data_unref (scan->data);
-	g_list_free (list);
+	static guint type = 0;
+
+	if (! type) {
+		GTypeInfo type_info = {
+			sizeof (GthFileListClass),
+                        NULL,
+                        NULL,
+                        (GClassInitFunc) gth_file_list_class_init,
+                        NULL,
+                        NULL,
+                        sizeof (GthFileList),
+                        0,
+                        (GInstanceInitFunc) gth_file_list_init
+                };
+
+                type = g_type_register_static (G_TYPE_OBJECT,
+                                               "GthFileList",
+                                               &type_info,
+                                               0);
+        }
+
+        return type;
 }
 
 
-static void
-file_list_free_list (FileList *file_list)
+GthFileList*   
+gth_file_list_new ()
 {
-	g_return_if_fail (file_list != NULL);
-
-	free_file_data_list (file_list->list);
-	file_list->list = NULL;
-}
-
-
-void
-file_list_free (FileList *file_list)
-{
-	file_list_free_list (file_list);
-	g_object_unref (G_OBJECT (file_list->thumb_loader));
-	g_free (file_list);
-	g_object_unref (G_OBJECT (unknown_pixbuf));
+	return GTH_FILE_LIST (g_object_new (GTH_TYPE_FILE_LIST, NULL));
 }
 
 
 
-/* ----- file_list_set_list help functions ----- */
+/* ----- gth_file_list_set_list help functions ----- */
 
 
 typedef struct {
-	FileList *file_list;
-	GList    *filtered;
-	GList    *uri_list;
-	DoneFunc  done_func;
-	gpointer  done_func_data;
-	guint     timeout_id;
-	gboolean  doing_thumbs;
+	GthFileList *file_list;
+	GList       *filtered;
+	GList       *uri_list;
+	DoneFunc     done_func;
+	gpointer     done_func_data;
+	guint        timeout_id;
+	gboolean     doing_thumbs;
 } GetFileInfoData;
 
 
 static GetFileInfoData *
-get_file_info_data_new (FileList *file_list, 
+get_file_info_data_new (GthFileList *file_list, 
 			DoneFunc  done_func,
 			gpointer  done_func_data)
 {
@@ -397,7 +479,7 @@ get_file_info_data_free (GetFileInfoData *data)
 }
 
 
-/* -- file_list_set_list -- */
+/* -- gth_file_list_set_list -- */
 
 
 static gboolean add_list_in_chunks (gpointer callback_data);
@@ -409,9 +491,11 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 				 gpointer callback_data)
 {
 	GetFileInfoData *gfi_data = callback_data;
-	FileList        *file_list = gfi_data->file_list;
+	GthFileList     *file_list = gfi_data->file_list;
 	GList           *scan;
 	DoneFunc         done_func;
+
+	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
 
 	if (file_list->interrupt_set_list) {
 		done_func = file_list->interrupt_done_func;
@@ -451,9 +535,11 @@ void
 set_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
-	FileList            *file_list = gfi_data->file_list;
+	GthFileList         *file_list = gfi_data->file_list;
 
 	if (file_list->interrupt_set_list) {
+		g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[IDLE], 0);
+
 		if (file_list->interrupt_done_func != NULL)
 			(*file_list->interrupt_done_func) (file_list->interrupt_done_data);
 		file_list->interrupt_done_func = NULL;
@@ -461,7 +547,7 @@ set_list__step2 (GetFileInfoData *gfi_data)
 		return;
 	}
 
- 	file_list_free_list (file_list);
+ 	gth_file_list_free_list (file_list);
 
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
@@ -474,20 +560,25 @@ set_list__step2 (GetFileInfoData *gfi_data)
 
 
 void 
-file_list_set_list (FileList *file_list,
-		    GList    *new_list,
-		    DoneFunc  done_func,
-		    gpointer  done_func_data)
+gth_file_list_set_list (GthFileList *file_list,
+			GList       *new_list,
+			DoneFunc     done_func,
+			gpointer     done_func_data)
 {
 	GetFileInfoData *gfi_data;
 	GList           *scan;
+	gboolean         fast_file_type;
 
 	g_return_if_fail (file_list != NULL);
+
+	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
 
 	file_list->interrupt_set_list = FALSE;
 	gfi_data = get_file_info_data_new (file_list, 
 					   done_func, 
 					   done_func_data);
+
+	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE);
 
 	for (scan = new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
@@ -497,7 +588,7 @@ file_list_set_list (FileList *file_list,
 
 		if ((! gfi_data->file_list->show_dot_files 
 		     && file_is_hidden (name_only))
-		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE)))
+		    || ! file_is_image (full_path, fast_file_type))
 			continue;
 
 		escaped = gnome_vfs_escape_path_string (full_path);
@@ -509,18 +600,18 @@ file_list_set_list (FileList *file_list,
 	}
 
 	if (file_list->doing_thumbs)
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) set_list__step2, 
-					    gfi_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) set_list__step2, 
+						gfi_data);
 	else
 		set_list__step2 (gfi_data);
 }
 
 
 void
-file_list_interrupt_set_list (FileList *file_list,
-			      DoneFunc done_func,
-			      gpointer done_data)
+gth_file_list_interrupt_set_list (GthFileList *file_list,
+				  DoneFunc     done_func,
+				  gpointer     done_data)
 {
 	g_return_if_fail (file_list != NULL);
 
@@ -530,14 +621,14 @@ file_list_interrupt_set_list (FileList *file_list,
 }
 
 
-/* -- file_list_add_list -- */
+/* -- gth_file_list_add_list -- */
 
 
 static gboolean
 add_list_in_chunks (gpointer callback_data)
 {
 	GetFileInfoData *gfi_data = callback_data;
-	FileList        *file_list = gfi_data->file_list;
+	GthFileList        *file_list = gfi_data->file_list;
 	GtkWidget       *ilist = file_list->ilist;
 	GList           *scan, *chunk;
 	DoneFunc         done_func;
@@ -564,7 +655,7 @@ add_list_in_chunks (gpointer callback_data)
 
 		if ((file_list->list != NULL) && file_list->enable_thumbs) { 
 			file_list->doing_thumbs = TRUE;
-			file_list_update_next_thumb (file_list);
+			gth_file_list_update_next_thumb (file_list);
 		}
 
 		done_func = gfi_data->done_func;
@@ -609,7 +700,7 @@ add_list_in_chunks (gpointer callback_data)
 					      add_list_in_chunks, 
 					      gfi_data);
 	
-	return TRUE;
+	return FALSE;
 }
 
 
@@ -619,7 +710,7 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 				 gpointer callback_data)
 {
 	GetFileInfoData *gfi_data = callback_data;
-	FileList        *file_list = gfi_data->file_list;
+	GthFileList        *file_list = gfi_data->file_list;
 	GList           *scan;
 	DoneFunc         done_func;
 
@@ -669,7 +760,7 @@ void
 add_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
-	FileList            *file_list = gfi_data->file_list;
+	GthFileList            *file_list = gfi_data->file_list;
 
 	if (file_list->interrupt_set_list) {
 		if (file_list->interrupt_done_func != NULL)
@@ -690,10 +781,10 @@ add_list__step2 (GetFileInfoData *gfi_data)
 
 
 void 
-file_list_add_list (FileList *file_list,
-		    GList    *new_list,
-		    DoneFunc  done_func,
-		    gpointer  done_func_data)
+gth_file_list_add_list (GthFileList *file_list,
+			GList       *new_list,
+			DoneFunc     done_func,
+			gpointer     done_func_data)
 {
 	GetFileInfoData *gfi_data;
 	GList           *scan;
@@ -711,7 +802,7 @@ file_list_add_list (FileList *file_list,
 		char        *escaped;
 		GnomeVFSURI *uri;
 
-		if (file_list_pos_from_path (file_list, full_path) != -1)
+		if (gth_file_list_pos_from_path (file_list, full_path) != -1)
 			continue;
 
 		if ((! gfi_data->file_list->show_dot_files 
@@ -737,9 +828,9 @@ file_list_add_list (FileList *file_list,
 	gfi_data->doing_thumbs = file_list->doing_thumbs;
 
 	if (file_list->doing_thumbs)
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) add_list__step2, 
-					    gfi_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) add_list__step2, 
+						gfi_data);
 	else
 		add_list__step2 (gfi_data);
 }
@@ -749,7 +840,7 @@ file_list_add_list (FileList *file_list,
 
 
 typedef struct {
-	FileList *file_list;
+	GthFileList *file_list;
 	gboolean  restart_thumbs;
 	int       i_data;
 	char     *s_data;
@@ -757,7 +848,7 @@ typedef struct {
 
 
 static InterruptThumbsData *
-it_data_new (FileList   *file_list,
+it_data_new (GthFileList   *file_list,
 	     gboolean    restart_thumbs,
 	     int         i_data,
 	     const char *s_data)
@@ -792,7 +883,7 @@ it_data_free (InterruptThumbsData *it_data)
 void
 set_sort_method__step2 (InterruptThumbsData *it_data)
 {
-	FileList   *file_list = it_data->file_list;
+	GthFileList   *file_list = it_data->file_list;
 	SortMethod  new_method = it_data->i_data;
 
 	file_list->sort_method = new_method;
@@ -802,7 +893,7 @@ set_sort_method__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 	
 	it_data_free (it_data);
@@ -810,8 +901,8 @@ set_sort_method__step2 (InterruptThumbsData *it_data)
 
 
 void 
-file_list_set_sort_method (FileList   *file_list,
-			   SortMethod  new_method)
+gth_file_list_set_sort_method (GthFileList *file_list,
+			       SortMethod   new_method)
 {
 	InterruptThumbsData *it_data;
 
@@ -822,9 +913,9 @@ file_list_set_sort_method (FileList   *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, new_method, NULL);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) set_sort_method__step2,
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) set_sort_method__step2,
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, new_method, NULL);
 		set_sort_method__step2 (it_data);
@@ -838,7 +929,7 @@ file_list_set_sort_method (FileList   *file_list,
 void
 set_sort_type__step2 (InterruptThumbsData *it_data)
 {
-	FileList    *file_list = it_data->file_list;
+	GthFileList    *file_list = it_data->file_list;
 	GtkSortType  sort_type = it_data->i_data;
 
 	file_list->sort_type = sort_type;
@@ -847,7 +938,7 @@ set_sort_type__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 	
 	it_data_free (it_data);
@@ -855,8 +946,8 @@ set_sort_type__step2 (InterruptThumbsData *it_data)
 
 
 void
-file_list_set_sort_type (FileList    *file_list,
-			 GtkSortType  sort_type)
+gth_file_list_set_sort_type (GthFileList *file_list,
+			     GtkSortType  sort_type)
 {
 	InterruptThumbsData *it_data;
 
@@ -864,9 +955,9 @@ file_list_set_sort_type (FileList    *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, sort_type, NULL);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) set_sort_type__step2,
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) set_sort_type__step2,
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, sort_type, NULL);
 		set_sort_type__step2 (it_data);
@@ -877,15 +968,15 @@ file_list_set_sort_type (FileList    *file_list,
 /* -- -- */
 
 
-static void file_list_thumb_cleanup (FileList *file_list);
+static void gth_file_list_thumb_cleanup (GthFileList *file_list);
 
 
 static void
-interrupt_thumbs__part2 (FileList *file_list)
+interrupt_thumbs__part2 (GthFileList *file_list)
 {
 	DoneFunc done_func = file_list->interrupt_done_func;
 
-	file_list_thumb_cleanup (file_list);
+	gth_file_list_thumb_cleanup (file_list);
 	file_list->interrupt_done_func = NULL;
 	if (done_func != NULL)
 		(*done_func) (file_list->interrupt_done_data);
@@ -893,9 +984,9 @@ interrupt_thumbs__part2 (FileList *file_list)
 
 
 void 
-file_list_interrupt_thumbs (FileList *file_list, 
-			    DoneFunc  done_func,
-			    gpointer  done_func_data)
+gth_file_list_interrupt_thumbs (GthFileList *file_list, 
+				DoneFunc     done_func,
+				gpointer     done_func_data)
 {
 	g_return_if_fail (file_list != NULL);
 
@@ -909,9 +1000,9 @@ file_list_interrupt_thumbs (FileList *file_list,
 }
 
 
-gint 
-file_list_pos_from_path (FileList    *file_list, 
-			 const char  *path)
+int 
+gth_file_list_pos_from_path (GthFileList *file_list, 
+			     const char  *path)
 {
 	GList *scan;
 	int    i;
@@ -939,7 +1030,7 @@ file_list_pos_from_path (FileList    *file_list,
 
 
 GList *
-file_list_get_all (FileList *file_list)
+gth_file_list_get_all (GthFileList *file_list)
 {
 	GList *list;
 	GList *scan;
@@ -956,8 +1047,8 @@ file_list_get_all (FileList *file_list)
 }
 
 
-gint 
-file_list_get_length (FileList *file_list)
+int 
+gth_file_list_get_length (GthFileList *file_list)
 {
 	g_return_val_if_fail (file_list != NULL, 0);
 	return g_list_length (file_list->list);
@@ -965,7 +1056,7 @@ file_list_get_length (FileList *file_list)
 
 
 GList *
-file_list_get_selection (FileList *file_list)
+gth_file_list_get_selection (GthFileList *file_list)
 {
 	GList *list = NULL;
 	GList *scan;
@@ -983,7 +1074,7 @@ file_list_get_selection (FileList *file_list)
 
 
 GList *
-file_list_get_selection_as_fd (FileList *file_list)
+gth_file_list_get_selection_as_fd (GthFileList *file_list)
 {
 	GList *list = NULL;
 	GList *scan;
@@ -1000,8 +1091,8 @@ file_list_get_selection_as_fd (FileList *file_list)
 }
 
 
-gint 
-file_list_get_selection_length (FileList *file_list)
+int 
+gth_file_list_get_selection_length (GthFileList *file_list)
 {
 	g_return_val_if_fail (file_list != NULL, 0);
 	return g_list_length (IMAGE_LIST (file_list->ilist)->selection);
@@ -1009,7 +1100,7 @@ file_list_get_selection_length (FileList *file_list)
 
 
 gchar *
-file_list_path_from_pos (FileList *file_list,
+gth_file_list_path_from_pos (GthFileList *file_list,
 			 int       pos)
 {
 	FileData *fd;
@@ -1028,8 +1119,8 @@ file_list_path_from_pos (FileList *file_list,
 
 
 gboolean
-file_list_is_selected (FileList *file_list,
-		       int       pos)
+gth_file_list_is_selected (GthFileList *file_list,
+			   int          pos)
 {
 	GList *scan;
 
@@ -1045,8 +1136,8 @@ file_list_is_selected (FileList *file_list,
 
 
 void 
-file_list_select_image_by_pos (FileList *file_list,
-			       int       pos)
+gth_file_list_select_image_by_pos (GthFileList *file_list,
+				   int          pos)
 {
 	GtkWidget        *ilist;
 	GthumbVisibility  visibility;
@@ -1082,7 +1173,7 @@ file_list_select_image_by_pos (FileList *file_list,
 
 
 void 
-file_list_select_all (FileList *file_list)
+gth_file_list_select_all (GthFileList *file_list)
 {
 	g_return_if_fail (file_list != NULL);
 	image_list_select_all (IMAGE_LIST (file_list->ilist));
@@ -1090,7 +1181,7 @@ file_list_select_all (FileList *file_list)
 
 
 void 
-file_list_unselect_all (FileList *file_list)
+gth_file_list_unselect_all (GthFileList *file_list)
 {
 	g_return_if_fail (file_list != NULL);
 	image_list_unselect_all (IMAGE_LIST (file_list->ilist), NULL, FALSE);
@@ -1098,7 +1189,7 @@ file_list_unselect_all (FileList *file_list)
 
 
 static void
-enable_thumbs__step2 (FileList *file_list)
+enable_thumbs__step2 (GthFileList *file_list)
 {
 	ImageList *ilist = IMAGE_LIST (file_list->ilist);
 	int        i;
@@ -1108,28 +1199,28 @@ enable_thumbs__step2 (FileList *file_list)
 }
 
 
-static void file_list_update_thumbs (FileList *file_list);
+static void gth_file_list_update_thumbs (GthFileList *file_list);
 
 
 void
-file_list_enable_thumbs (FileList *file_list,
-			 gboolean  enable)
+gth_file_list_enable_thumbs (GthFileList *file_list,
+			     gboolean     enable)
 {
 	g_return_if_fail (file_list != NULL);
 
 	file_list->enable_thumbs = enable;
 
 	if (file_list->enable_thumbs)
-		file_list_update_thumbs (file_list);
+		gth_file_list_update_thumbs (file_list);
 	else 
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) enable_thumbs__step2, 
-					    file_list);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) enable_thumbs__step2, 
+						file_list);
 }
 
 
 void
-file_list_set_progress_func (FileList *file_list,
+gth_file_list_set_progress_func (GthFileList *file_list,
 			    ProgressFunc func,
 			    gpointer data)
 {
@@ -1141,7 +1232,7 @@ file_list_set_progress_func (FileList *file_list,
 
 
 /**
- * file_list_next_image:
+ * gth_file_list_next_image:
  * @file_list: 
  * @pos: 
  * @without_error: 
@@ -1153,10 +1244,10 @@ file_list_set_progress_func (FileList *file_list,
  * Return value: the next row that contains an image or -1 if no row could
  * be found.
  **/
-gint
-file_list_next_image (FileList *file_list,
-		      int       pos,
-		      gboolean  without_error)
+int
+gth_file_list_next_image (GthFileList *file_list,
+			  int          pos,
+			  gboolean     without_error)
 {
 	int n;
 
@@ -1188,10 +1279,10 @@ file_list_next_image (FileList *file_list,
 }
 
 
-gint
-file_list_prev_image (FileList *file_list,
-		      int       pos,
-		      gboolean  without_error)
+int
+gth_file_list_prev_image (GthFileList *file_list,
+			  int          pos,
+			  gboolean     without_error)
 {
 	g_return_val_if_fail (file_list != NULL, -1);
 
@@ -1225,7 +1316,7 @@ file_list_prev_image (FileList *file_list,
 void
 delete_pos__step2 (InterruptThumbsData *it_data)
 {
-	FileList  *file_list = it_data->file_list;
+	GthFileList  *file_list = it_data->file_list;
 	int        pos = it_data->i_data;
 	ImageList *ilist = IMAGE_LIST (file_list->ilist);
 	FileData  *fd;
@@ -1241,7 +1332,7 @@ delete_pos__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 
 	it_data_free (it_data);
@@ -1249,8 +1340,8 @@ delete_pos__step2 (InterruptThumbsData *it_data)
 
 
 void
-file_list_delete_pos (FileList *file_list,
-		      int       pos)
+gth_file_list_delete_pos (GthFileList *file_list,
+			  int          pos)
 {
 	ImageList           *ilist;
 	InterruptThumbsData *it_data;
@@ -1263,9 +1354,9 @@ file_list_delete_pos (FileList *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, pos, NULL);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) delete_pos__step2, 
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) delete_pos__step2, 
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, pos, NULL);
 		delete_pos__step2 (it_data);
@@ -1279,7 +1370,7 @@ file_list_delete_pos (FileList *file_list,
 void
 rename_pos__step2 (InterruptThumbsData *it_data)
 {
-	FileList    *file_list = it_data->file_list;
+	GthFileList    *file_list = it_data->file_list;
 	int          pos = it_data->i_data;
 	char *       path = it_data->s_data;
 	ImageList   *ilist = IMAGE_LIST (file_list->ilist);
@@ -1295,7 +1386,7 @@ rename_pos__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 
 	it_data_free (it_data);
@@ -1303,9 +1394,9 @@ rename_pos__step2 (InterruptThumbsData *it_data)
 
 
 void
-file_list_rename_pos (FileList   *file_list,
-		      int         pos, 
-		      const char *path)
+gth_file_list_rename_pos (GthFileList *file_list,
+			  int          pos, 
+			  const char  *path)
 {
 	ImageList           *ilist;
 	InterruptThumbsData *it_data;
@@ -1318,9 +1409,9 @@ file_list_rename_pos (FileList   *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, pos, path);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) rename_pos__step2, 
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) rename_pos__step2, 
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, pos, path);
 		rename_pos__step2 (it_data);
@@ -1334,7 +1425,7 @@ file_list_rename_pos (FileList   *file_list,
 void
 update_comment__step2 (InterruptThumbsData *it_data)
 {
-	FileList    *file_list = it_data->file_list;
+	GthFileList    *file_list = it_data->file_list;
 	int          pos = it_data->i_data;
 	ImageList   *ilist = IMAGE_LIST (file_list->ilist);
 	FileData    *fd;
@@ -1350,7 +1441,7 @@ update_comment__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 
 	it_data_free (it_data);
@@ -1358,8 +1449,8 @@ update_comment__step2 (InterruptThumbsData *it_data)
 
 
 void
-file_list_update_comment (FileList *file_list,
-			  int       pos)
+gth_file_list_update_comment (GthFileList *file_list,
+			      int          pos)
 {
 	ImageList           *ilist;
 	InterruptThumbsData *it_data;
@@ -1373,9 +1464,9 @@ file_list_update_comment (FileList *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, pos, NULL);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) update_comment__step2, 
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) update_comment__step2, 
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, pos, NULL);
 		update_comment__step2 (it_data);
@@ -1389,7 +1480,7 @@ file_list_update_comment (FileList *file_list,
 void
 set_thumbs_size__step2 (InterruptThumbsData *it_data)
 {
-	FileList    *file_list = it_data->file_list;
+	GthFileList    *file_list = it_data->file_list;
 	int          size = it_data->i_data;
 
 	file_list->thumb_size = size;
@@ -1410,7 +1501,7 @@ set_thumbs_size__step2 (InterruptThumbsData *it_data)
 
 	if (it_data->restart_thumbs) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	}
 
 	it_data_free (it_data);
@@ -1418,8 +1509,8 @@ set_thumbs_size__step2 (InterruptThumbsData *it_data)
 
 
 void
-file_list_set_thumbs_size (FileList *file_list,
-			   int       size)
+gth_file_list_set_thumbs_size (GthFileList *file_list,
+			       int          size)
 {
 	InterruptThumbsData *it_data;
 
@@ -1428,9 +1519,9 @@ file_list_set_thumbs_size (FileList *file_list,
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, size, NULL);
-		file_list_interrupt_thumbs (file_list, 
-					    (DoneFunc) set_thumbs_size__step2, 
-					    it_data);
+		gth_file_list_interrupt_thumbs (file_list, 
+						(DoneFunc) set_thumbs_size__step2, 
+						it_data);
 	} else {
 		it_data = it_data_new (file_list, FALSE, size, NULL);
 		set_thumbs_size__step2 (it_data);
@@ -1442,7 +1533,7 @@ file_list_set_thumbs_size (FileList *file_list,
 
 
 static void
-file_list_update_current_thumb (FileList *file_list)
+gth_file_list_update_current_thumb (GthFileList *file_list)
 {
 	if (path_is_file (file_list->thumb_fd->path)) {
 		thumb_loader_set_path (file_list->thumb_loader, 
@@ -1458,8 +1549,8 @@ file_list_update_current_thumb (FileList *file_list)
 
 
 void
-file_list_update_thumb (FileList     *file_list,
-			int           pos)
+gth_file_list_update_thumb (GthFileList  *file_list,
+			    int           pos)
 {
 	FileData  *fd;
 
@@ -1474,13 +1565,13 @@ file_list_update_thumb (FileList     *file_list,
 	file_list->thumb_pos = pos;
 	file_list->thumb_fd = fd;
 	
-	file_list_update_current_thumb (file_list);
+	gth_file_list_update_current_thumb (file_list);
 }
 
 
 void
-file_list_update_thumb_list (FileList     *file_list,
-			     GList        *list)
+gth_file_list_update_thumb_list (GthFileList  *file_list,
+				 GList        *list)
 {
 	GList     *scan;
 	ImageList *ilist;
@@ -1500,7 +1591,7 @@ file_list_update_thumb_list (FileList     *file_list,
 		FileData  *fd;
 		int        pos;
 
-		pos = file_list_pos_from_path (file_list, path);
+		pos = gth_file_list_pos_from_path (file_list, path);
 
 		if (pos == -1)
 			continue;
@@ -1513,7 +1604,7 @@ file_list_update_thumb_list (FileList     *file_list,
 	}
 	
 	file_list->doing_thumbs = TRUE;
-	file_list_update_next_thumb (file_list);
+	gth_file_list_update_next_thumb (file_list);
 }
 
 
@@ -1522,7 +1613,7 @@ file_list_update_thumb_list (FileList     *file_list,
 
 
 static void 
-file_list_thumb_cleanup (FileList *file_list)
+gth_file_list_thumb_cleanup (GthFileList *file_list)
 {
 	file_list->thumbs_num = 0;
 	file_list->doing_thumbs = FALSE;
@@ -1533,7 +1624,7 @@ file_list_thumb_cleanup (FileList *file_list)
 
 
 static void
-file_list_update_next_thumb (FileList *file_list)
+gth_file_list_update_next_thumb (GthFileList *file_list)
 {
 	ImageList *ilist;
 	FileData  *fd = NULL;
@@ -1588,7 +1679,7 @@ file_list_update_next_thumb (FileList *file_list)
 		
 		if (pos == n) {
 			/* Thumbnails creation terminated. */
-			file_list_thumb_cleanup (file_list);
+			gth_file_list_thumb_cleanup (file_list);
 			return;
 		}
 	}
@@ -1600,12 +1691,12 @@ file_list_update_next_thumb (FileList *file_list)
 	file_list->thumbs_num++;
 	file_list->thumb_fd = fd;
 
-	file_list_update_current_thumb (file_list);
+	gth_file_list_update_current_thumb (file_list);
 }
 
 
 static void 
-file_list_update_thumbs (FileList *file_list)
+gth_file_list_update_thumbs (GthFileList *file_list)
 {
 	GList *scan;
 
@@ -1621,20 +1712,20 @@ file_list_update_thumbs (FileList *file_list)
 	}
 		
 	file_list->doing_thumbs = TRUE;
-	file_list_update_next_thumb (file_list);
+	gth_file_list_update_next_thumb (file_list);
 }
 
 
 void 
-file_list_restart_thumbs (FileList *file_list,
-			  gboolean  _continue)
+gth_file_list_restart_thumbs (GthFileList *file_list,
+			      gboolean    _continue)
 {
 	if (! file_list->enable_thumbs)
 		return;
 
 	if (_continue) {
 		file_list->doing_thumbs = TRUE;
-		file_list_update_next_thumb (file_list);
+		gth_file_list_update_next_thumb (file_list);
 	} else
-		file_list_update_thumbs (file_list);	
+		gth_file_list_update_thumbs (file_list);	
 }
