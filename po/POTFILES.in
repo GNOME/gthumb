@@ -123,6 +123,7 @@ src/dlg-search.c
 src/dlg-search.c
 src/fullscreen.c
 src/fullscreen.h
+src/gth-folder-selection-dialog.c
 src/gthumb-preloader.c
 src/gthumb-preloader.h
 src/gthumb-ui.xml
