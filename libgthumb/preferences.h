@@ -179,13 +179,16 @@
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
 
-#define  PREF_PHOTO_IMPORT_DESTINATION "/apps/gthumb/dialogs/photo_importer/destination"
-#define  PREF_PHOTO_IMPORT_FILM        "/apps/gthumb/dialogs/photo_importer/film"
-#define  PREF_PHOTO_IMPORT_DELETE      "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
+#define  PREF_PHOTO_IMPORT_DESTINATION    "/apps/gthumb/dialogs/photo_importer/destination"
+#define  PREF_PHOTO_IMPORT_FILM           "/apps/gthumb/dialogs/photo_importer/film"
+#define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
-#define  PREF_CROP_ASPECT_RATIO        "/apps/gthumb/dialogs/crop/aspect_ratio"
-#define  PREF_CROP_ASPECT_RATIO_WIDTH  "/apps/gthumb/dialogs/crop/aspect_ratio_width"
-#define  PREF_CROP_ASPECT_RATIO_HEIGHT "/apps/gthumb/dialogs/crop/aspect_ratio_height"
+#define  PREF_PHOTO_IMPORT_MODEL          "/apps/gthumb/dialogs/photo_importer/model"
+#define  PREF_PHOTO_IMPORT_PORT           "/apps/gthumb/dialogs/photo_importer/port"
+
+#define  PREF_CROP_ASPECT_RATIO           "/apps/gthumb/dialogs/crop/aspect_ratio"
+#define  PREF_CROP_ASPECT_RATIO_WIDTH     "/apps/gthumb/dialogs/crop/aspect_ratio_width"
+#define  PREF_CROP_ASPECT_RATIO_HEIGHT    "/apps/gthumb/dialogs/crop/aspect_ratio_height"
 
 
 typedef struct {

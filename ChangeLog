@@ -1,5 +1,11 @@
 2005-01-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-photo-importer.c (check_thread, set_camera_model): 
+
+	Fixed bug #162323: Doesn't remember settings for serial port cameras.
+
+	* src/catalog-web-exporter.c (line_is_void): added const
+
 	* src/dlg-photo-importer.c (main_dialog_set_sensitive)
 	(async_operation_step, async_operation_start): 
 

@@ -21,13 +21,13 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <time.h>
 #include <locale.h>
 #include <ctype.h>
-#include <string.h>
 #include <gtk/gtk.h>
 #include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -831,7 +831,7 @@ get_page_idx_from_image_idx (CatalogWebExporter *ce,
 static gboolean
 line_is_void (const char *line)
 {
-	char *scan;
+	const char *scan;
 
 	if (line == NULL)
 		return TRUE;

@@ -831,6 +831,9 @@ set_camera_model (DialogData *data,
 	} 
 
 	if (r >= 0) {
+		eel_gconf_set_string (PREF_PHOTO_IMPORT_MODEL, model);
+		eel_gconf_set_string (PREF_PHOTO_IMPORT_PORT, port);
+
 		_gtk_label_set_locale_text (GTK_LABEL (data->camera_model_label), model);
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->progress_camera_image), data->camera_present_pixbuf);
 		load_images_preview (data);
@@ -857,7 +860,7 @@ autodetect_camera (DialogData *data)
 	const char *model = NULL, *port = NULL;
 
 	data->current_op = GTH_IMPORTER_OP_AUTO_DETECT;
-
+		
 	gp_list_new (&list);
 
 	gp_abilities_list_detect (data->abilities_list,
@@ -874,7 +877,7 @@ autodetect_camera (DialogData *data)
 		model = NULL;
 		port = NULL;
 	}
-
+		
 	set_camera_model (data, model, port);
 
 	gp_list_free (list);
@@ -1515,8 +1518,20 @@ check_thread (gpointer cb_data)
 		task_terminated (data);
 
 		switch (data->current_op) {
-		case GTH_IMPORTER_OP_LIST_ABILITIES:
-			autodetect_camera (data);
+		case GTH_IMPORTER_OP_LIST_ABILITIES: 
+			if (! autodetect_camera (data)) {
+				char *camera_model;
+				char *camera_port;
+				
+				camera_model = eel_gconf_get_string (PREF_PHOTO_IMPORT_MODEL, NULL);
+				camera_port = eel_gconf_get_string (PREF_PHOTO_IMPORT_PORT, NULL);
+
+				if ((camera_model != NULL) && (camera_port != NULL))
+					set_camera_model (data, camera_model, camera_port);
+
+				g_free (camera_model);
+				g_free (camera_port);
+			}
 			break;
 		default:
 			break;

@@ -1603,6 +1603,32 @@
       <!-- Photo Importer -->
 
       <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/model</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/model</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/port</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/port</applyto>
+	<owner>gthumb</owner>
+	<type>string</type>
+	<default></default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/photo_importer/destination</key>
 	<applyto>/apps/gthumb/dialogs/photo_importer/destination</applyto>
 	<owner>gthumb</owner>
