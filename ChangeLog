@@ -1,3 +1,8 @@
+2005-03-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (image_comment_button_press_cb): make
+	the comment text selectable.
+
 2005-03-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-exif-utils.c (get_exif_time): do not assume a correct data 

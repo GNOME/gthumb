@@ -3084,10 +3084,11 @@ image_comment_button_press_cb (GtkWidget      *widget,
 	GThumbWindow *window = data;
 
 	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) 
-		if (gth_file_view_selection_not_null (window->file_list->view))
-			activate_action_edit_edit_comment (NULL, window);
-
-	return TRUE;
+		if (gth_file_view_selection_not_null (window->file_list->view)) {
+			activate_action_edit_edit_comment (NULL, window); 
+			return TRUE;
+		}
+	return FALSE;
 }
 
 
