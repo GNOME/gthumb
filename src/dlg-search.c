@@ -59,6 +59,7 @@ enum {
 
 #define CATEGORY_SEPARATOR_C   ';'
 #define CATEGORY_SEPARATOR_STR ";"
+#define ONE_DAY (60*60*24)
 
 static void dlg_search_ui (GThumbWindow *window, 
 			   char         *catalog_path, 
@@ -982,7 +983,7 @@ file_respects_search_criteria (DialogData *data,
 	char        *comment;
 	char        *place;
 	int          keywords_n;
-	time_t       time;
+	time_t       time = 0;
 	const char  *name_only;
 
 	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
@@ -1001,6 +1002,9 @@ file_respects_search_criteria (DialogData *data,
 		keywords_n = comment_data->keywords_n;
 		time = comment_data->time;
 	}
+
+	if (time == 0)
+		time = get_file_mtime (filename);
 
 	match_keywords = data->keywords_patterns[0] == NULL;
 	for (i = 0; data->keywords_patterns[i] != NULL; i++) {
@@ -1024,11 +1028,12 @@ file_respects_search_criteria (DialogData *data,
 		match_date = TRUE;
 	else if ((data->search_data->date_scope == DATE_EQUAL_TO) 
 		 && (time != 0)
-		 && (time == data->search_data->date))
+		 && (time >= data->search_data->date)
+		 && (time <= data->search_data->date + ONE_DAY))
 		match_date = TRUE;
 	else if ((data->search_data->date_scope == DATE_AFTER) 
 		 && (time != 0)
-		 && (time > data->search_data->date))
+		 && (time > data->search_data->date + ONE_DAY))
 		match_date = TRUE;
 
 	name_only = file_name_from_path (filename);
@@ -1309,8 +1314,8 @@ search_images_async (DialogData *data)
 
 	data->search_comments = ! (empty_pattern (search_data->comment_pattern)
 				   && empty_pattern (search_data->place_pattern)
-				   && empty_pattern (search_data->keywords_pattern)
-				   && (search_data->date_scope == DATE_ANY));
+				   && empty_pattern (search_data->keywords_pattern)) /* FIXME 
+											&& (search_data->date_scope == DATE_ANY))*/;
 	
 	search_dir_async (data, search_data->start_from);
 }

@@ -1809,7 +1809,7 @@ paint_text (CatalogPngExporter *ce,
 
 	x += THUMB_FRAME_BORDER;
 
-	pango_layout_set_text (ce->layout, utf8_text, strlen (utf8_text));
+	pango_layout_set_text (ce->layout, utf8_text, -1);
 
 	pango_layout_set_width (ce->layout, width * PANGO_SCALE);
 	pango_layout_get_pixel_extents (ce->layout, NULL, &bounds);
@@ -1891,7 +1891,7 @@ paint_comment (CatalogPngExporter *ce,
 
 	/**/
 
-	pango_layout_set_text (ce->layout, parsed_text, strlen (parsed_text));
+	pango_layout_set_text (ce->layout, parsed_text, -1);
 	g_free (parsed_text);
 
 	pango_layout_set_width (ce->layout, ce->thumb_width * PANGO_SCALE);
@@ -1962,7 +1962,7 @@ get_text_height (CatalogPngExporter *ce,
 	pango_layout_set_width (ce->layout, width * PANGO_SCALE);
 
 	utf8_text = g_locale_to_utf8 (text, -1, NULL, NULL, NULL);
-	pango_layout_set_text (ce->layout, utf8_text, strlen (utf8_text));
+	pango_layout_set_text (ce->layout, utf8_text, -1);
 	g_free (utf8_text);
 
 	pango_layout_get_pixel_extents (ce->layout, NULL, &bounds);
