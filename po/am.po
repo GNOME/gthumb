@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "POT-Creation-Date: 2002-10-31 05:39+0100\n"
-"PO-Revision-Date: 2002-12-21 22:37+EDT\n"
+"PO-Revision-Date: 2002-12-27 22:19+EDT\n"
 "Last-Translator: Ge'ez Frontier Foundation <locales@geez.org>\n"
 "Language-Team: Amharic <locales@geez.org>\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +49,7 @@ msgstr "ፋይል \"%s\"ን መክፈት አልተቻለም ፦ %s"
 #: libgthumb/catalog.c:377
 #, c-format
 msgid "Cannot save file \"%s\" : %s"
-msgstr ""
+msgstr "ፋይል \"%s\"ን ማስቀመጥ አልተቻለም ፦ %s"
 
 #: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:479
 #: src/fullscreen.c:229 src/gthumb-window.c:458
@@ -173,7 +173,7 @@ msgstr "አዲስ ዶሴ"
 
 #: src/commands-impl.c:887
 msgid "Enter the folder name : "
-msgstr ""
+msgstr "የዶሴ ስም አስገባ ፦ "
 
 #: src/commands-impl.c:888
 #, c-format
@@ -182,11 +182,11 @@ msgstr ""
 
 #: src/commands-impl.c:899
 msgid "New Library"
-msgstr ""
+msgstr "አዲስ ቤተ መጸሕፍት"
 
 #: src/commands-impl.c:900 src/dlg-catalog.c:120
 msgid "Enter the library name : "
-msgstr ""
+msgstr "የቤተ መጸሕፍት ስም አስገባ ፦ "
 
 #: src/commands-impl.c:901
 #, c-format
@@ -241,15 +241,15 @@ msgstr ""
 
 #: src/dlg-catalog.c:79
 msgid "Enter the catalog name : "
-msgstr ""
+msgstr "የማውጫን ስም አስገባ ፦ "
 
 #: src/dlg-catalog.c:433
 msgid "Move Catalog to..."
-msgstr ""
+msgstr "ማውጫውን ወደ... አንቀሳቅስ"
 
 #: src/dlg-categories.c:195
 msgid "Enter the new category name"
-msgstr ""
+msgstr "የአዲስ ማውጫን ስም አስገባ"
 
 #: src/dlg-categories.c:208 src/dlg-categories.c:373
 #, c-format
@@ -263,11 +263,11 @@ msgstr "ምስል"
 
 #: src/dlg-duplicates.c:279 src/dlg-duplicates.c:611
 msgid "Duplicates"
-msgstr ""
+msgstr "አባዛዎች"
 
 #: src/dlg-duplicates.c:294
 msgid "Duplicates Size"
-msgstr ""
+msgstr "የአባዛዎች መጠን"
 
 #: src/dlg-duplicates.c:337 src/dlg-image-prop.c:182 src/gthumb.glade.h:65
 msgid "Name"
@@ -275,7 +275,7 @@ msgstr "ስም"
 
 #: src/dlg-duplicates.c:365
 msgid "Last modified"
-msgstr ""
+msgstr "መጨረሻ የተለወጠ"
 
 #: src/dlg-duplicates.c:380 src/dlg-image-prop.c:202
 msgid "Location"
@@ -336,7 +336,7 @@ msgstr "የፋይልን መጠን"
 
 #: src/dlg-image-prop.c:207 src/gthumb.glade.h:58
 msgid "Last Modified"
-msgstr ""
+msgstr "መጨረሻ የተለወጠ"
 
 #: src/dlg-image-prop.c:254
 msgid "Field"
@@ -344,7 +344,7 @@ msgstr "መጻፊያ ሳጥን"
 
 #: src/dlg-image-prop.c:265
 msgid "Value"
-msgstr ""
+msgstr "ዕሴት"
 
 #: src/dlg-jpegtran.c:536
 msgid "No JPEG image selected"
@@ -552,7 +552,7 @@ msgstr "መቃኛ"
 
 #: src/gthumb.glade.h:34
 msgid "C_atalogs:"
-msgstr ""
+msgstr "ማውጫዎች፦ (_C)"
 
 #: src/gthumb.glade.h:35
 msgid "C_lick policy:"
@@ -672,7 +672,7 @@ msgstr "አዲስ ምስል፦"
 
 #: src/gthumb.glade.h:67 src/gthumb-ui.xml.h:82
 msgid "New _Library"
-msgstr ""
+msgstr "አዲስ ቤተ መጸሕፍት (_L)"
 
 #: src/gthumb.glade.h:68
 msgid "None"
@@ -788,7 +788,7 @@ msgstr "ነጭ"
 
 #: src/gthumb.glade.h:96
 msgid "Zoom _quality:"
-msgstr ""
+msgstr "የቅርበት ጥራት፦ (_Q)"
 
 #: src/gthumb.glade.h:97
 msgid "_Application:"
@@ -808,7 +808,7 @@ msgstr "አጠቃላይ (_G)"
 
 #: src/gthumb.glade.h:101
 msgid "_New Catalog"
-msgstr ""
+msgstr "አዲስ ማውጫ (_N)"
 
 #: src/gthumb.glade.h:102
 msgid "_Next"
@@ -840,7 +840,7 @@ msgstr ""
 
 #: src/gthumb.glade.h:111
 msgid "seconds"
-msgstr ""
+msgstr "ሴኮንዶች"
 
 #: src/gthumb_comments.glade.h:3 src/gthumb_search.glade.h:6
 msgid "A_vailable categories:"
@@ -900,7 +900,7 @@ msgstr "ቦታ፦ (_P)"
 
 #: src/gthumb_comments.glade.h:17 src/gthumb_search.glade.h:31
 msgid "_Selected categories:"
-msgstr ""
+msgstr "የተመረጠው ምድብ፦ (_S)"
 
 #: src/gthumb_comments.glade.h:18
 msgid "_Today"
@@ -1230,7 +1230,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:55
 msgid "Solid Color"
-msgstr ""
+msgstr "ቀጣይ ቀለም"
 
 #: src/gthumb_png_exporter.glade.h:56
 msgid "Sor_t images:"
@@ -1290,7 +1290,7 @@ msgstr "መደዳዎቹ፦ (_R)"
 
 #: src/gthumb_png_exporter.glade.h:70 src/gthumb_tools.glade.h:84
 msgid "_Template:"
-msgstr "ንድፍ፦ (_T)"
+msgstr "ቲምፕሌት፦ (_T)"
 
 #: src/gthumb_png_exporter.glade.h:71
 msgid "by name"
@@ -1306,7 +1306,7 @@ msgstr "በመጠን"
 
 #: src/gthumb_png_exporter.glade.h:74
 msgid "by time"
-msgstr "በስዓቱ"
+msgstr "በሰዓቱ"
 
 #: src/gthumb_png_exporter.glade.h:76
 msgid "jpeg"
@@ -1800,11 +1800,11 @@ msgstr "ምድብ... (_t)"
 #: src/gthumb-ui.xml.h:14
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
-msgstr "ከፋፍል"
+msgstr "ማውጫ"
 
 #: src/gthumb-ui.xml.h:15
 msgid "Catalogs"
-msgstr ""
+msgstr "ማውጫዎች"
 
 #: src/gthumb-ui.xml.h:16
 msgid "Close all windows and exit"
@@ -1856,15 +1856,15 @@ msgstr "አስተያየት ሰረዝ"
 
 #: src/gthumb-ui.xml.h:30
 msgid "Delete"
-msgstr "መሰረዣ"
+msgstr "አጥፉ"
 
 #: src/gthumb-ui.xml.h:31
 msgid "Delete Catalog"
-msgstr ""
+msgstr "ማውጫን አጥፉ"
 
 #: src/gthumb-ui.xml.h:32
 msgid "Delete Folder"
-msgstr ""
+msgstr "ዶሴን አጥፉ"
 
 #: src/gthumb-ui.xml.h:33
 msgid "Delete comments of selected images"
@@ -1872,19 +1872,19 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:34
 msgid "Delete current catalog"
-msgstr ""
+msgstr "የአሁኑን ማውጫን አጥፉ"
 
 #: src/gthumb-ui.xml.h:35
 msgid "Delete current folder"
-msgstr ""
+msgstr "የአሁኑን ዶሴን አጥፉ"
 
 #: src/gthumb-ui.xml.h:36
 msgid "Delete selected catalog"
-msgstr ""
+msgstr "የተመረጠው ማውጫን አጥፉ"
 
 #: src/gthumb-ui.xml.h:37
 msgid "Delete selected folder"
-msgstr ""
+msgstr "የተመረጠው ዶሴን አጥፉ"
 
 #: src/gthumb-ui.xml.h:38
 msgid "Delete selected images from disk"
@@ -2461,7 +2461,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:185
 msgid "_Catalogs"
-msgstr ""
+msgstr "ማውጫዎች (_C)"
 
 #: src/gthumb-ui.xml.h:186
 msgid "_Centered"
@@ -2486,11 +2486,11 @@ msgstr "ቅጂ... (_C)"
 
 #: src/gthumb-ui.xml.h:191
 msgid "_Delete"
-msgstr "መሰረዣ (_D)"
+msgstr "አጥፉ (_D)"
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Delete History"
-msgstr "ታሪክ ሰረዝ (_D)"
+msgstr "ታሪክ አጥፉ (_D)"
 
 #: src/gthumb-ui.xml.h:193
 msgid "_Desaturate"
@@ -2706,7 +2706,7 @@ msgstr "በመጠን (_S)"
 
 #: src/gthumb-ui.xml.h:251
 msgid "by _Time"
-msgstr "በስዓቱ (_T)"
+msgstr "በሰዓቱ (_T)"
 
 #: src/gthumb-window.c:1209
 msgid "No image"
