@@ -1,11 +1,11 @@
 # Translation of gthumb to Croatian
 # Copyright (C) Croatian team
-# Translators: Automatski Prijevod <>,Denis Lackovic <delacko@fly.srk.fer.hr>,Vanja Turković <vanja@kimore.net>,Vlatko Kosturjak <kost@linux.hr>,Zoran Jankovic <zoran.jankovic@inet.hr>,
+# Translators: Antun Krasic <butch@gawab.com>,Automatski Prijevod <>,Boris Tudan <boris.tudan@ka.htnet.hr>,Denis Lackovic <delacko@fly.srk.fer.hr>,Ivan Jankovic <rbrrneck@gmx.net>,Vanja Turković <vanja@kimore.net>,Vlatko Kosturjak <kost@linux.hr>,Zoran Jankovic <zoran.jankovic@inet.hr>,
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 0\n"
 "POT-Creation-Date: 2003-11-06 18:12+0100\n"
-"PO-Revision-Date: 2003-11-07 18:44+CET\n"
+"PO-Revision-Date: 2003-11-10 16:53+CET\n"
 "Last-Translator: auto\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
 "MIME-Version: 1.0\n"
@@ -172,7 +172,7 @@ msgstr ""
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
 msgid "%d %b %Y, %H:%M"
-msgstr ""
+msgstr "%d %B %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98 src/catalog-png-exporter.c:813
 #: src/dlg-image-prop.c:445 src/fullscreen.c:216
@@ -280,7 +280,7 @@ msgstr "pikseli"
 #: data/albumthemes/NeatRound/image.xml.in.h:1
 #: data/albumthemes/NeatSquare/image.xml.in.h:1
 msgid "(click on the image to view it at original size)"
-msgstr ""
+msgstr "(kliknite na sliku da biste vidjeli njenu izvornu veličinu)"
 
 #: gthumb.desktop.in.h:1
 msgid "View and organize your images"
@@ -323,20 +323,18 @@ msgid "Deleting old comments, wait please..."
 msgstr ""
 
 #: libgthumb/comments.c:760
-#, fuzzy
 msgid "%d %B %Y"
-msgstr """UPOZORENJE: ne može se učitati upravljački program za USB pisač, vaš USB "
-"pisač može"
+msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:762 src/catalog-web-exporter.c:47
 #: src/dlg-duplicates.c:551 src/dlg-image-prop.c:465 src/fullscreen.c:223
 #: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:395
 msgid "%d %B %Y, %H:%M"
-msgstr ""
+msgstr "%d %B %Y, %H:%M"
 
 #: libgthumb/comments.c:772
 msgid "(No Comment)"
-msgstr ""
+msgstr "(Bez komentara)"
 
 #: libgthumb/dlg-save-image.c:119 src/commands-impl.c:313
 #: src/dlg-convert.c:308
@@ -419,7 +417,7 @@ msgstr ""
 
 #: libgthumb/gnome-print-font-picker.c:218
 msgid "Use font in label"
-msgstr ""
+msgstr "Koristi font u oznaci"
 
 #: libgthumb/gnome-print-font-picker.c:219
 msgid "Use font in the label in font info mode"
@@ -476,7 +474,7 @@ msgstr ""
 #: src/dlg-rename-series.c:299 src/gthumb-window.c:541
 #: src/gthumb-window.c:1285 src/gthumb-window.c:1292 src/gthumb-window.c:1300
 msgid "(Invalid Name)"
-msgstr ""
+msgstr "(Neispravno ime)"
 
 #: src/catalog-png-exporter.c:1334
 #, c-format
@@ -1095,7 +1093,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:37
 msgid "Create a new folder"
-msgstr ""
+msgstr "Napravi novu mapu"
 
 #: src/gthumb-ui.xml.h:38
 msgid "Create a new window"
@@ -1175,7 +1173,7 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:58
 msgid "Go up one level"
-msgstr ""
+msgstr "Idi jednu razinu iznad"
 
 #: src/gthumb-ui.xml.h:59
 msgid "Home"
@@ -1949,12 +1947,12 @@ msgstr "%d slike (%s)"
 #: src/gthumb-window.c:630
 #, c-format
 msgid "1 selected (%s)"
-msgstr ""
+msgstr "1 odaberen (%s)"
 
 #: src/gthumb-window.c:633
 #, c-format
 msgid "%d selected (%s)"
-msgstr ""
+msgstr "%d odabrano (%s)"
 
 #: src/gthumb-window.c:3172
 msgid "Dragged Images"
@@ -2007,7 +2005,7 @@ msgstr "*"
 
 #: src/gthumb.glade.h:3
 msgid "<b>Categories:</b>"
-msgstr ""
+msgstr "<b>Kategorije:</b>"
 
 #: src/gthumb.glade.h:4
 msgid "<b>Information on Channel:</b>"
@@ -2315,7 +2313,7 @@ msgstr ""
 
 #: src/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
-msgstr ""
+msgstr "<b>Kompresija</b>"
 
 #: src/gthumb_convert.glade.h:4
 msgid "<b>Image type</b>"
@@ -2442,7 +2440,7 @@ msgstr "%"
 
 #: src/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr ""
+msgstr "<b>Razine boja</b>"
 
 #: src/gthumb_edit.glade.h:6
 msgid "<b>New dimensions</b>"
@@ -2514,7 +2512,7 @@ msgstr "_Nijansa:"
 
 #: src/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
-msgstr ""
+msgstr "_Zadrži odnos širine i visine"
 
 #: src/gthumb_edit.glade.h:24
 msgid "_Levels:"
@@ -2594,15 +2592,15 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:14
 msgid "<b>Background style</b>"
-msgstr ""
+msgstr "<b>Stil pozadine</b>"
 
 #: src/gthumb_png_exporter.glade.h:15
 msgid "<b>Caption</b>"
-msgstr ""
+msgstr "<b>Naslov</b>"
 
 #: src/gthumb_png_exporter.glade.h:16
 msgid "<b>Destination folder</b>"
-msgstr ""
+msgstr "<b>Odredisna mapa</b>"
 
 #: src/gthumb_png_exporter.glade.h:17
 msgid "<b>Footer</b>"
@@ -2630,7 +2628,7 @@ msgstr ""
 
 #: src/gthumb_png_exporter.glade.h:23
 msgid "Choose destination folder"
-msgstr ""
+msgstr "Odaberi odredišnu mapu"
 
 #: src/gthumb_png_exporter.glade.h:24 src/gthumb_web_exporter.glade.h:18
 msgid "Co_mment"
@@ -2836,7 +2834,7 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
-msgstr ""
+msgstr "112x112"
 
 #: src/gthumb_preferences.glade.h:5
 msgid "128 x 128"
@@ -2872,7 +2870,7 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:13
 msgid "<b>Direction</b>"
-msgstr ""
+msgstr "<b>Smjer</b>"
 
 #: src/gthumb_preferences.glade.h:14
 msgid "<b>Hide/Show</b>"
@@ -3097,7 +3095,7 @@ msgstr "<b>Orijentacija</b>"
 
 #: src/gthumb_print.glade.h:6
 msgid "<b>Size</b>"
-msgstr ""
+msgstr "<b>Veličina</b>"
 
 #: src/gthumb_print.glade.h:7
 msgid ""
@@ -3252,11 +3250,11 @@ msgstr "_&Traži"
 
 #: src/gthumb_tools.glade.h:4
 msgid "<b>Comments</b>"
-msgstr ""
+msgstr "<b>Komentari</b>"
 
 #: src/gthumb_tools.glade.h:5
 msgid "<b>File list order</b>"
-msgstr ""
+msgstr "<b>Red popisa datoteka</b>"
 
 #: src/gthumb_tools.glade.h:6
 msgid "<b>Specify a template to use for renaming images</b>"
