@@ -1,3 +1,7 @@
+2002-11-07  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-change-date.c: added "change date" tool.
+
 2002-11-06  Paolo Bacchilega  <paolo.bacch@tin.it>
 
 	* src/gthumb.schemas: use system style as default toolbar style.
