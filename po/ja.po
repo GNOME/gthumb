@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-18 00:20+0900\n"
-"PO-Revision-Date: 2004-02-17 23:59+0900\n"
+"POT-Creation-Date: 2004-03-26 00:07+0900\n"
+"PO-Revision-Date: 2004-03-26 00:05+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -176,123 +176,64 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%Y年 %B %d日 %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:216
-#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:411
+#: src/dlg-image-prop.c:419 src/fullscreen.c:217
+#: src/gth-exif-data-viewer.c:450 src/gthumb-window.c:418
 #, c-format
 msgid "%d x %d pixels"
 msgstr "ピクセル数 %d x %d"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:1
-#: data/albumthemes/Classic/image.xml.in.h:2
-#: data/albumthemes/ClassicClips/image.xml.in.h:2
-#: data/albumthemes/Clean/image.xml.in.h:1
-#: data/albumthemes/NeatRound/image.xml.in.h:2
-#: data/albumthemes/NeatSquare/image.xml.in.h:2
-msgid "Aperture value"
-msgstr "アパーチャの値"
+#: data/albumthemes/text.h:27
+msgid "(click on the image to view it at original size)"
+msgstr "(画像をクリックするとオリジナルサイズで表示します)"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:2
-#: data/albumthemes/Classic/image.xml.in.h:3
-#: data/albumthemes/ClassicClips/image.xml.in.h:3
-#: data/albumthemes/Clean/image.xml.in.h:2
-#: data/albumthemes/NeatRound/image.xml.in.h:3
-#: data/albumthemes/NeatSquare/image.xml.in.h:3 src/dlg-image-prop.c:610
+#: data/albumthemes/text.h:28 src/dlg-duplicates.c:264
+msgid "Image"
+msgstr "画像"
+
+#: data/albumthemes/text.h:29
+msgid "Dimensions"
+msgstr "画像の寸法"
+
+#: data/albumthemes/text.h:30 src/dlg-image-prop.c:610
 #: src/gth-exif-data-viewer.c:479
 msgid "Bytes"
 msgstr "サイズ"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:3
-#: data/albumthemes/Classic/image.xml.in.h:4
-#: data/albumthemes/ClassicClips/image.xml.in.h:4
-#: data/albumthemes/Clean/image.xml.in.h:3
-#: data/albumthemes/NeatRound/image.xml.in.h:4
-#: data/albumthemes/NeatSquare/image.xml.in.h:4
-msgid "Camera model"
-msgstr "カメラの型式"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:4
-#: data/albumthemes/Classic/image.xml.in.h:5
-#: data/albumthemes/ClassicClips/image.xml.in.h:5
-#: data/albumthemes/Clean/image.xml.in.h:4
-#: data/albumthemes/NeatRound/image.xml.in.h:5
-#: data/albumthemes/NeatSquare/image.xml.in.h:5
+#: data/albumthemes/text.h:31
 msgid "Date"
 msgstr "日付"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:5
-#: data/albumthemes/Classic/image.xml.in.h:6
-#: data/albumthemes/ClassicClips/image.xml.in.h:6
-#: data/albumthemes/Clean/image.xml.in.h:5
-#: data/albumthemes/NeatRound/image.xml.in.h:6
-#: data/albumthemes/NeatSquare/image.xml.in.h:6
-msgid "Dimensions"
-msgstr "画像の寸法"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:6
-#: data/albumthemes/Classic/image.xml.in.h:7
-#: data/albumthemes/ClassicClips/image.xml.in.h:7
-#: data/albumthemes/Clean/image.xml.in.h:6
-#: data/albumthemes/NeatRound/image.xml.in.h:7
-#: data/albumthemes/NeatSquare/image.xml.in.h:7
-msgid "Exposure mode"
-msgstr "露出モード"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:7
-#: data/albumthemes/Classic/image.xml.in.h:8
-#: data/albumthemes/ClassicClips/image.xml.in.h:8
-#: data/albumthemes/Clean/image.xml.in.h:7
-#: data/albumthemes/NeatRound/image.xml.in.h:8
-#: data/albumthemes/NeatSquare/image.xml.in.h:8
+#: data/albumthemes/text.h:32
 msgid "Exposure time"
 msgstr "露出時間"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:8
-#: data/albumthemes/Classic/image.xml.in.h:9
-#: data/albumthemes/ClassicClips/image.xml.in.h:9
-#: data/albumthemes/Clean/image.xml.in.h:8
-#: data/albumthemes/NeatRound/image.xml.in.h:9
-#: data/albumthemes/NeatSquare/image.xml.in.h:9
+#: data/albumthemes/text.h:33
+msgid "Exposure mode"
+msgstr "露出モード"
+
+#: data/albumthemes/text.h:34
 msgid "Flash"
 msgstr "フラッシュ"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:9
-#: data/albumthemes/Classic/image.xml.in.h:10
-#: data/albumthemes/ClassicClips/image.xml.in.h:10
-#: data/albumthemes/Clean/image.xml.in.h:9
-#: data/albumthemes/NeatRound/image.xml.in.h:10
-#: data/albumthemes/NeatSquare/image.xml.in.h:10
-msgid "Focal length"
-msgstr "フォーカスの長さ"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:10
-#: data/albumthemes/Classic/image.xml.in.h:11
-#: data/albumthemes/ClassicClips/image.xml.in.h:11
-#: data/albumthemes/Clean/image.xml.in.h:10
-#: data/albumthemes/NeatRound/image.xml.in.h:11
-#: data/albumthemes/NeatSquare/image.xml.in.h:11 src/dlg-duplicates.c:264
-msgid "Image"
-msgstr "画像"
-
-#: data/albumthemes/BlueStripes/image.xml.in.h:11
-#: data/albumthemes/Classic/image.xml.in.h:12
-#: data/albumthemes/ClassicClips/image.xml.in.h:12
-#: data/albumthemes/Clean/image.xml.in.h:11
-#: data/albumthemes/NeatRound/image.xml.in.h:12
-#: data/albumthemes/NeatSquare/image.xml.in.h:12
+#: data/albumthemes/text.h:35
 msgid "Shutter speed"
 msgstr "シャッター速度"
 
-#: data/albumthemes/BlueStripes/image.xml.in.h:12
-#: data/albumthemes/Clean/image.xml.in.h:12 data/glade/gthumb_edit.glade.h:33
+#: data/albumthemes/text.h:36
+msgid "Aperture value"
+msgstr "アパーチャの値"
+
+#: data/albumthemes/text.h:37
+msgid "Focal length"
+msgstr "フォーカスの長さ"
+
+#: data/albumthemes/text.h:38
+msgid "Camera model"
+msgstr "カメラの型式"
+
+#: data/albumthemes/text.h:39 data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "ピクセル"
-
-#: data/albumthemes/Classic/image.xml.in.h:1
-#: data/albumthemes/ClassicClips/image.xml.in.h:1
-#: data/albumthemes/NeatRound/image.xml.in.h:1
-#: data/albumthemes/NeatSquare/image.xml.in.h:1
-msgid "(click on the image to view it at original size)"
-msgstr "(画像をクリックするとオリジナルサイズで表示します)"
 
 #: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
 #: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
@@ -372,7 +313,7 @@ msgstr "古い画像:"
 
 #: data/glade/gthumb.glade.h:18
 msgid "Open Images"
-msgstr "画像を開きます"
+msgstr "画像を開く"
 
 #: data/glade/gthumb.glade.h:19
 msgid "Over_write the old image"
@@ -491,7 +432,7 @@ msgstr "カメラからインポートした画像を削除する(_D)"
 
 #: data/glade/gthumb_camera.glade.h:13
 #: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "格納場所(_D):"
 
@@ -500,21 +441,20 @@ msgid "_Film:"
 msgstr "フィルム(_F):"
 
 #: data/glade/gthumb_camera.glade.h:15
+msgid "_Import"
+msgstr "インポート(_I)"
+
+#: data/glade/gthumb_camera.glade.h:16
 msgid "_Keep original filenames"
 msgstr "オリジナルのファイル名を使う(_K)"
 
-#: data/glade/gthumb_camera.glade.h:16
+#: data/glade/gthumb_camera.glade.h:17
 msgid "_Model:"
 msgstr "型式(_M):"
 
-#: data/glade/gthumb_camera.glade.h:17
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: data/glade/gthumb_camera.glade.h:18
 msgid "_Port:"
 msgstr "ポート(_P):"
-
-#: data/glade/gthumb_camera.glade.h:18
-msgid "_import"
-msgstr "インポート(_I)"
 
 #: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
 msgid "A_vailable categories:"
@@ -543,52 +483,56 @@ msgid "Current date"
 msgstr "今日"
 
 #: data/glade/gthumb_comments.glade.h:8
+msgid "Do not modify"
+msgstr "変更しない"
+
+#: data/glade/gthumb_comments.glade.h:9
 msgid "Image creation date"
 msgstr "画像の生成日"
 
-#: data/glade/gthumb_comments.glade.h:9
+#: data/glade/gthumb_comments.glade.h:10
 msgid "Last modified date"
 msgstr "最終修正日時"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: data/glade/gthumb_comments.glade.h:11
 msgid "No date"
 msgstr "日付がありません"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: data/glade/gthumb_comments.glade.h:12
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "デジタル写真の日付 (EXIFのデータ)"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: data/glade/gthumb_comments.glade.h:13
 msgid "Remove selected category"
 msgstr "選択したカタログを削除します"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: data/glade/gthumb_comments.glade.h:14
 msgid "Save only cha_nged fields"
 msgstr "変更のあるフィールドのみ保存する(_N)"
 
-#: data/glade/gthumb_comments.glade.h:14
+#: data/glade/gthumb_comments.glade.h:15
 msgid "The following date"
 msgstr "次の日付"
 
-#: data/glade/gthumb_comments.glade.h:15 data/glade/gthumb_search.glade.h:24
+#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:24
 msgid "_Date:"
 msgstr "日付(_D):"
 
-#: data/glade/gthumb_comments.glade.h:16
+#: data/glade/gthumb_comments.glade.h:17
 msgid "_Delete"
 msgstr "削除する(_D)"
 
-#: data/glade/gthumb_comments.glade.h:17
+#: data/glade/gthumb_comments.glade.h:18
 msgid "_New"
 msgstr "新規(_N)"
 
-#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:27
+#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:27
 msgid "_Place:"
 msgstr "場所(_P):"
 
-#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:30
+#: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
 msgid "_Selected categories:"
-msgstr "選択済みのカテゴリ(_S):"
+msgstr "選択したカテゴリ(_S):"
 
 #: data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
@@ -995,12 +939,12 @@ msgid "Create _HTML image map"
 msgstr "HTML 画像マップを生成する(_H)"
 
 #: data/glade/gthumb_png_exporter.glade.h:31
-#: data/glade/gthumb_web_exporter.glade.h:26
+#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "フッタ(_O):"
 
 #: data/glade/gthumb_png_exporter.glade.h:32
-#: data/glade/gthumb_web_exporter.glade.h:27
+#: data/glade/gthumb_web_exporter.glade.h:24
 msgid "File _name"
 msgstr "ファイル名(_N)"
 
@@ -1009,7 +953,7 @@ msgid "File pa_th"
 msgstr "パス名(_T)"
 
 #: data/glade/gthumb_png_exporter.glade.h:34
-#: data/glade/gthumb_web_exporter.glade.h:28
+#: data/glade/gthumb_web_exporter.glade.h:25
 msgid "File si_ze"
 msgstr "サイズ(_Z)"
 
@@ -1022,7 +966,7 @@ msgid "Frame co_lor:"
 msgstr "フレームの色(_L):"
 
 #: data/glade/gthumb_png_exporter.glade.h:37
-#: data/glade/gthumb_web_exporter.glade.h:30
+#: data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "ヘッダ(_E):"
 
@@ -1035,7 +979,7 @@ msgid "Hei_ght:"
 msgstr "高さ(_G):"
 
 #: data/glade/gthumb_png_exporter.glade.h:40
-#: data/glade/gthumb_web_exporter.glade.h:32
+#: data/glade/gthumb_web_exporter.glade.h:29
 msgid "Image dim_ensions"
 msgstr "画像の寸法(_E)"
 
@@ -1056,7 +1000,7 @@ msgid "Pi_xels"
 msgstr "ピクセル(_X)"
 
 #: data/glade/gthumb_png_exporter.glade.h:45
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: data/glade/gthumb_web_exporter.glade.h:31
 msgid "Re_verse order"
 msgstr "逆順に並べる(_V)"
 
@@ -1093,7 +1037,7 @@ msgid "Slide"
 msgstr "スライド"
 
 #: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: data/glade/gthumb_web_exporter.glade.h:35
 msgid "Sor_t:"
 msgstr "並び替え(_T):"
 
@@ -1152,17 +1096,17 @@ msgid "_Template:"
 msgstr "テンプレート(_T):"
 
 #: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:62
+#: data/glade/gthumb_web_exporter.glade.h:50
 msgid "by name"
 msgstr "名前順"
 
 #: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:63
+#: data/glade/gthumb_web_exporter.glade.h:51
 msgid "by path"
 msgstr "パス名順"
 
 #: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:64
+#: data/glade/gthumb_web_exporter.glade.h:52
 msgid "by size"
 msgstr "サイズ順"
 
@@ -1216,7 +1160,7 @@ msgstr "95 x 95"
 
 #: data/glade/gthumb_preferences.glade.h:13
 msgid "<b>Direction</b>"
-msgstr "<b>方向</b>"
+msgstr "<b>順番</b>"
 
 #: data/glade/gthumb_preferences.glade.h:14
 msgid "<b>Hide/Show</b>"
@@ -1528,8 +1472,8 @@ msgstr "用紙の詳細"
 
 #.
 #: data/glade/gthumb_print.glade.h:25 data/gthumb-ui.xml.h:98
-#: libgthumb/print-callbacks.c:2960 libgthumb/print-callbacks.c:2974
-#: libgthumb/print-callbacks.c:3432
+#: libgthumb/print-callbacks.c:2966 libgthumb/print-callbacks.c:2980
+#: libgthumb/print-callbacks.c:3444
 msgid "Print"
 msgstr "印刷"
 
@@ -1575,7 +1519,7 @@ msgstr "保存した一覧からカテゴリを選択して下さい"
 
 #: data/glade/gthumb_search.glade.h:13
 msgid "Equal to"
-msgstr "次に等しい"
+msgstr "次と同じ"
 
 #: data/glade/gthumb_search.glade.h:14
 msgid "File _name:"
@@ -1649,8 +1593,8 @@ msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 msgstr ""
-"<small><i><b>特別な文字:</b> # (通番), %f (オリジナルのファイル名), %d (画像"
-"の日付), %s (画像の大きさ)</i></small>"
+"<small><i><b>特別な文字:</b> # (通番)、%f (オリジナルのファイル名)、%d (画像"
+"の日時)、%s (画像の大きさ)</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
 msgid "Adjust photo _orientation"
@@ -1859,142 +1803,98 @@ msgid "Caption"
 msgstr "表題"
 
 #: data/glade/gthumb_web_exporter.glade.h:21
-msgid "Destination"
-msgstr "格納場所"
-
-#: data/glade/gthumb_web_exporter.glade.h:22
-msgid "Destinations"
-msgstr "格納場所"
-
-#: data/glade/gthumb_web_exporter.glade.h:23
 msgid "E_xposure mode"
 msgstr "露出モード(_X)"
 
-#: data/glade/gthumb_web_exporter.glade.h:24
+#: data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
 msgstr "露出時間(_T)"
 
-#: data/glade/gthumb_web_exporter.glade.h:25
-msgid "FTP"
-msgstr "FTP"
-
-#: data/glade/gthumb_web_exporter.glade.h:29
+#: data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr "フォーカスの長さ(_L)"
 
-#: data/glade/gthumb_web_exporter.glade.h:31
+#: data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "画像の表題(_M)..."
 
-#: data/glade/gthumb_web_exporter.glade.h:33
+#: data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
 msgstr "目録ファイル(_X):"
 
-#: data/glade/gthumb_web_exporter.glade.h:34
-msgid "Local Folder"
-msgstr "ローカルのフォルダ"
-
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: data/glade/gthumb_web_exporter.glade.h:32
 msgid "Resi_ze if larger than:"
 msgstr "次よりも大きい場合に画像サイズを変更する(_Z):"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
-msgid "SSH"
-msgstr "SSH"
+#: data/glade/gthumb_web_exporter.glade.h:33
+msgid "Select Destination"
+msgstr "エキスポート先の選択"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
-msgid "Saved _Destinations:"
-msgstr "保存する格納場所(_D):"
-
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
 msgstr "大きさ(_Z):"
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: data/glade/gthumb_web_exporter.glade.h:36
 msgid "Th_eme:"
 msgstr "テーマ(_E):"
 
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album"
 msgstr "Web アルバム"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: data/glade/gthumb_web_exporter.glade.h:38
 msgid "Web Album Theme"
 msgstr "Web アルバムのテーマ"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Aperture value"
 msgstr "アパーチャの値(_A)"
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Copy originals to destination"
 msgstr "オリジナルを格納場所へコピーする(_C)"
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Date and Time"
 msgstr "日付と時刻(_D)"
 
-#: data/glade/gthumb_web_exporter.glade.h:48 data/gthumb-ui.xml.h:206
-msgid "_Edit"
-msgstr "編集(_E)"
-
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Flash"
 msgstr "フラッシュ(_F)"
 
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Go to Theme Folder"
 msgstr "テーマのフォルダへジャンプ(_G)"
 
-#: data/glade/gthumb_web_exporter.glade.h:51
-msgid "_Host:"
-msgstr "ホスト名(_H):"
-
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Install Theme..."
 msgstr "テーマのインストール(_I)..."
 
-#: data/glade/gthumb_web_exporter.glade.h:53
-msgid "_Password:"
-msgstr "パスワード(_P):"
-
-#: data/glade/gthumb_web_exporter.glade.h:54
-msgid "_Path:"
-msgstr "パス名(_P):"
-
-#: data/glade/gthumb_web_exporter.glade.h:56
+#: data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Select"
 msgstr "選択(_S)"
 
-#: data/glade/gthumb_web_exporter.glade.h:57
+#: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Shutter speed"
 msgstr "シャッター速度(_S)"
 
-#: data/glade/gthumb_web_exporter.glade.h:58
+#: data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Thumbnail Caption..."
 msgstr "サムネイルの表題(_T)..."
 
-#: data/glade/gthumb_web_exporter.glade.h:59
-msgid "_Type:"
-msgstr "種類(_T):"
-
-#: data/glade/gthumb_web_exporter.glade.h:60
-msgid "_User:"
-msgstr "ユーザ名(_U):"
-
-#: data/glade/gthumb_web_exporter.glade.h:61
+#: data/glade/gthumb_web_exporter.glade.h:49
 msgid "by modified time"
 msgstr "最終修正日時"
 
-#: data/glade/gthumb_web_exporter.glade.h:65
+#: data/glade/gthumb_web_exporter.glade.h:53
 msgid "columns"
 msgstr "行"
 
-#: data/glade/gthumb_web_exporter.glade.h:66
+#: data/glade/gthumb_web_exporter.glade.h:54
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:67
+#: data/glade/gthumb_web_exporter.glade.h:55
 msgid "rows"
 msgstr "桁"
 
@@ -2082,7 +1982,7 @@ msgstr "カタログ(_T)"
 msgid "Ca_tegories"
 msgstr "カテゴリ(_T)"
 
-#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4275
+#: data/gthumb-ui.xml.h:22 src/gthumb-window.c:4368
 msgid "Catalogs"
 msgstr "カタログ"
 
@@ -2202,11 +2102,11 @@ msgstr "画像を検索します"
 msgid "Fit"
 msgstr "フィット"
 
-#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4225
+#: data/gthumb-ui.xml.h:55 src/gthumb-window.c:4318
 msgid "Folders"
 msgstr "フォルダ"
 
-#: data/gthumb-ui.xml.h:56 src/fullscreen.c:840
+#: data/gthumb-ui.xml.h:56 src/fullscreen.c:845
 msgid "Forward"
 msgstr "進む"
 
@@ -2226,7 +2126,7 @@ msgstr "ホーム・フォルダにジャンプします"
 msgid "Go to the next visited location"
 msgstr "次に訪れた場所へジャンプします"
 
-#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4193
+#: data/gthumb-ui.xml.h:61 src/gthumb-window.c:4286
 msgid "Go to the previous visited location"
 msgstr "前に訪れた場所へジャンプします"
 
@@ -2456,7 +2356,7 @@ msgstr "この画像の名前を変更します"
 msgid "Resize image"
 msgstr "画像のサイズを変更します"
 
-#: data/gthumb-ui.xml.h:122 src/fullscreen.c:786
+#: data/gthumb-ui.xml.h:122 src/fullscreen.c:791
 msgid "Restore Normal View"
 msgstr "通常表示に戻す"
 
@@ -2632,11 +2532,11 @@ msgstr "このウィンドウのツールバーの表示を ON/OFF します"
 msgid "View previous image"
 msgstr "前の画像を表示します"
 
-#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4281
+#: data/gthumb-ui.xml.h:172 src/gthumb-window.c:4374
 msgid "View the catalogs"
 msgstr "カタログを表示します"
 
-#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4231
+#: data/gthumb-ui.xml.h:173 src/gthumb-window.c:4324
 msgid "View the folders"
 msgstr "フォルダを表示します"
 
@@ -2755,6 +2655,10 @@ msgstr "履歴の削除(_D)"
 #: data/gthumb-ui.xml.h:205
 msgid "_Desaturate"
 msgstr "脱色(_D)"
+
+#: data/gthumb-ui.xml.h:206
+msgid "_Edit"
+msgstr "編集(_E)"
 
 #: data/gthumb-ui.xml.h:207
 msgid "_Edit Bookmarks"
@@ -3124,25 +3028,25 @@ msgstr "カタログ \"%s\" が開けません: %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "カタログ \"%s\" を保存できません: %s"
 
-#: libgthumb/comments.c:392
+#: libgthumb/comments.c:393
 msgid "Deleting all comments, wait please..."
 msgstr "全てのコメントを削除しています。少々お待ち下さい..."
 
-#: libgthumb/comments.c:394
+#: libgthumb/comments.c:395
 msgid "Deleting old comments, wait please..."
 msgstr "古いコメントを削除しています。少々お待ち下さい..."
 
-#: libgthumb/comments.c:756
+#: libgthumb/comments.c:758
 msgid "%d %B %Y"
 msgstr "%Y年 %B %d日"
 
-#: libgthumb/comments.c:758 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:223
-#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:407
+#: libgthumb/comments.c:760 src/catalog-web-exporter.c:47
+#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
+#: src/gth-exif-data-viewer.c:454 src/gthumb-window.c:414
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y年 %B %d日 %H:%M"
 
-#: libgthumb/comments.c:768
+#: libgthumb/comments.c:770
 msgid "(No Comment)"
 msgstr "(コメントなし)"
 
@@ -3176,23 +3080,23 @@ msgstr "画像の保存"
 msgid "Image type:"
 msgstr "画像の種類:"
 
-#: libgthumb/gnome-print-font-dialog.c:109
+#: libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
 msgstr "新しくプレビューする語句を入力して下さい(_I)。"
 
-#: libgthumb/gnome-print-font-dialog.c:114
+#: libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
 msgstr "プレビューする文の変更..."
 
-#: libgthumb/gnome-print-font-dialog.c:168
+#: libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "プレビュー"
 
-#: libgthumb/gnome-print-font-dialog.c:181
+#: libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
 msgstr "プレビューする文の修正(_M)..."
 
-#: libgthumb/gnome-print-font-dialog.c:237
+#: libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
 msgstr "フォントの選択"
 
@@ -3265,7 +3169,7 @@ msgstr "フォント"
 msgid "Name"
 msgstr "名前"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1547
+#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1553
 #, c-format
 msgid "Print %s"
 msgstr "%s の印刷"
@@ -3274,12 +3178,12 @@ msgstr "%s の印刷"
 msgid "Print Image"
 msgstr "画像の印刷"
 
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2030
+#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2036
 #, c-format
 msgid "Page %d of %d"
 msgstr "ページ %d / %d"
 
-#: libgthumb/print-callbacks.c:3033 src/catalog-png-exporter.c:1334
+#: libgthumb/print-callbacks.c:3039 src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "画像の読み込み中: %s"
@@ -3294,8 +3198,8 @@ msgstr "古いサムネイルを削除しています。少々お待ち下さい
 
 #: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
 #: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:560
-#: src/gthumb-window.c:1299 src/gthumb-window.c:1306 src/gthumb-window.c:1314
+#: src/dlg-rename-series.c:291 src/gthumb-window.c:567
+#: src/gthumb-window.c:1336 src/gthumb-window.c:1343 src/gthumb-window.c:1351
 msgid "(Invalid Name)"
 msgstr "(不正な名前)"
 
@@ -3439,7 +3343,7 @@ msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" をゴミ箱に移動することはできません。これを完全に削除しますか？"
 
-#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:5720
+#: src/commands-impl.c:1241 src/dlg-file-utils.c:227 src/gthumb-window.c:1718
 msgid "_Do not display this message again"
 msgstr "次回からこのメッセージを表示しない(_D)"
 
@@ -3506,7 +3410,7 @@ msgid "The selected catalog will be removed, are you sure?"
 msgstr "選択したカタログを削除します。よろしいですか？"
 
 #: src/commands-impl.c:2901 src/dlg-categories.c:323 src/dlg-change-date.c:151
-#: src/dlg-comment.c:270 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
+#: src/dlg-comment.c:279 src/dlg-convert.c:434 src/dlg-jpegtran.c:1007
 #: src/dlg-maintenance.c:273 src/dlg-preferences.c:188
 #: src/dlg-rename-series.c:330 src/dlg-search.c:457
 #, c-format
@@ -3519,7 +3423,7 @@ msgstr ""
 "相花 毅 <aihana@gnome.gr.jp>\n"
 "日本GNOMEユーザー会 <http://www.gnome.gr.jp>"
 
-#: src/commands-impl.c:2961 src/gthumb-window.c:578 src/gthumb-window.c:4910
+#: src/commands-impl.c:2961 src/gthumb-window.c:585 src/gthumb-window.c:5003
 #: src/main.c:137
 msgid "gThumb"
 msgstr "gThumb"
@@ -3678,7 +3582,7 @@ msgid "Type"
 msgstr "種類"
 
 #: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:486
-#: src/gthumb-window.c:423
+#: src/gthumb-window.c:430
 msgid "Modified"
 msgstr "修正日時"
 
@@ -3744,15 +3648,15 @@ msgstr "ファイル名"
 msgid "Folder"
 msgstr "フォルダ"
 
-#: src/dlg-web-exporter.c:1185
+#: src/dlg-web-exporter.c:687
 msgid "Select Album Theme"
 msgstr "アルバムのテーマの選択"
 
-#: src/fullscreen.c:804
+#: src/fullscreen.c:809
 msgid "Image Info"
 msgstr "画像の情報"
 
-#: src/fullscreen.c:822 src/gthumb-window.c:4174
+#: src/fullscreen.c:827 src/gthumb-window.c:4267
 msgid "Back"
 msgstr "戻る"
 
@@ -3772,76 +3676,76 @@ msgstr "参照(_B)..."
 msgid "_Recents:"
 msgstr "現在(_R):"
 
-#: src/gthumb-window.c:457
+#: src/gthumb-window.c:464
 msgid "[Press 'c' to add a comment]"
 msgstr "[キー 'c' 押すとコメントを追加します]"
 
-#: src/gthumb-window.c:531 src/gthumb-window.c:553
+#: src/gthumb-window.c:538 src/gthumb-window.c:560
 msgid "[modified]"
 msgstr "[変更済]"
 
-#: src/gthumb-window.c:637
+#: src/gthumb-window.c:644
 msgid "No image"
-msgstr "画像ではありません"
+msgstr "画像はありません"
 
-#: src/gthumb-window.c:639
+#: src/gthumb-window.c:646
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 個の画像 (%s)"
 
-#: src/gthumb-window.c:642
+#: src/gthumb-window.c:649
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 個の画像 (%s)"
 
-#: src/gthumb-window.c:649
+#: src/gthumb-window.c:656
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 つ選択 (%s)"
 
-#: src/gthumb-window.c:652
+#: src/gthumb-window.c:659
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d つ選択 (%s)"
 
-#: src/gthumb-window.c:3191
-msgid "Dragged Images"
-msgstr "画像のドラッグ"
-
-#: src/gthumb-window.c:3405
-msgid "Could not move the items:"
-msgstr "アイテムを移動することができませんでした:"
-
-#: src/gthumb-window.c:5246
-msgid "Image comment"
-msgstr "画像のコメント"
-
-#: src/gthumb-window.c:5260
-msgid "Image data"
-msgstr "画像データの表示を切替えます"
-
-#: src/gthumb-window.c:5274
-msgid "Image preview"
-msgstr "画像のプレビュー"
-
-#: src/gthumb-window.c:5717
+#: src/gthumb-window.c:1715
 msgid "The current image has been modified, do you want to save it?"
 msgstr "この画像が変更されました。保存しますか？"
 
-#: src/gthumb-window.c:5718
+#: src/gthumb-window.c:1716
 msgid "Do Not Save"
 msgstr "保存しない"
 
-#: src/gthumb-window.c:6552
+#: src/gthumb-window.c:3284
+msgid "Dragged Images"
+msgstr "画像のドラッグ"
+
+#: src/gthumb-window.c:3498
+msgid "Could not move the items:"
+msgstr "アイテムを移動することができませんでした:"
+
+#: src/gthumb-window.c:5339
+msgid "Image comment"
+msgstr "画像のコメント"
+
+#: src/gthumb-window.c:5353
+msgid "Image data"
+msgstr "画像データの表示を切替えます"
+
+#: src/gthumb-window.c:5367
+msgid "Image preview"
+msgstr "画像のプレビュー"
+
+#: src/gthumb-window.c:6610
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "フォルダ \"%s\" が読めませんでした: %s\n"
 
-#: src/gthumb-window.c:6821
+#: src/gthumb-window.c:6879
 msgid "The specified catalog does not exist."
 msgstr "指定したカタログは存在しません。"
 
-#: src/gthumb-window.c:8434
+#: src/gthumb-window.c:8492
 msgid "Wait please..."
 msgstr "しばらくお待ち下さい..."
 
