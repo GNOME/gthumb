@@ -32,6 +32,7 @@ typedef struct {
 	GtkListStore * list_store;
 	GtkWidget    * list_view;       /* The widget that shows the list. */
 	GtkWidget    * root_widget;     /* The widget that contains all. */
+	GtkCellRenderer  *text_renderer;
 	gboolean       use_underline;
 } CatalogList;
 
@@ -41,6 +42,8 @@ CatalogList *  catalog_list_new                      (gboolean use_underline);
 void           catalog_list_free                     (CatalogList *cat_list);
 
 gboolean       catalog_list_refresh                  ();
+
+void           catalog_list_update_underline         (CatalogList *cat_list);
 
 gchar *        catalog_list_get_path_from_tree_path  (CatalogList *cat_list,
 						      GtkTreePath *path);

@@ -88,6 +88,12 @@ gthumb_histogram_calculate (GthumbHistogram *histogram,
 
 	g_return_if_fail (histogram != NULL);
 
+	if (pixbuf == NULL) {
+		histogram->n_channels = 0;
+		histogram_reset_values (histogram);
+		return;
+	}
+
 	has_alpha  = gdk_pixbuf_get_has_alpha (pixbuf);
 	n_channels = gdk_pixbuf_get_n_channels (pixbuf);
 	rowstride  = gdk_pixbuf_get_rowstride (pixbuf);

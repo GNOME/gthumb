@@ -95,7 +95,7 @@ delete_catalog_dir (const char  *full_path,
 
 		*gerror = g_error_new (GTHUMB_ERROR,
 				       errno,
-				       _("Cannot remove library \"%s\" : %s"),
+				       _("Cannot remove library \"%s\": %s"),
 				       utf8_path,
 				       details);
 		g_free (utf8_path);
@@ -122,7 +122,7 @@ delete_catalog (const char  *full_path,
 
 			*gerror = g_error_new (GTHUMB_ERROR,
 					       errno,
-					       _("Cannot remove catalog \"%s\" : %s"),
+					       _("Cannot remove catalog \"%s\": %s"),
 					       catalog,
 					       errno_to_string ());
 			g_free (catalog);
@@ -243,7 +243,7 @@ catalog_load_from_disk (Catalog     *catalog,
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
 					       errno,
-					       _("Cannot open catalog \"%s\" : %s"),
+					       _("Cannot open catalog \"%s\": %s"),
 					       fullpath,
 					       errno_to_string ());
 		return FALSE;
@@ -388,7 +388,7 @@ error_on_saving (char    *path,
 	if (gerror != NULL)
 		*gerror = g_error_new (GTHUMB_ERROR,
 				       errno,
-				       _("Cannot save catalog \"%s\" : %s"),
+				       _("Cannot save catalog \"%s\": %s"),
 				       path,
 				       errno_to_string ());
 }
@@ -411,7 +411,7 @@ catalog_write_to_disk (Catalog     *catalog,
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
 					       errno,
-					       _("Cannot open catalog \"%s\" : %s"),
+					       _("Cannot open catalog \"%s\": %s"),
 					       path,
 					       errno_to_string ());
 		return FALSE;

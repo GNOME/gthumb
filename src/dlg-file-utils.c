@@ -154,7 +154,7 @@ real_files_delete__continue (GnomeVFSResult result,
 
 		d = _gtk_yesno_dialog_new (GTK_WINDOW (cfddata->window->app),
 					   GTK_DIALOG_MODAL,
-					   _("The images cannot be moved to the Trash. Do you want to delete it permanently ?"),
+					   _("The images cannot be moved to the Trash. Do you want to delete them permanently ?"),
 					   GTK_STOCK_CANCEL,
 					   GTK_STOCK_DELETE);
 

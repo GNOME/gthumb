@@ -2708,7 +2708,7 @@ gil_motion_notify (GtkWidget      *widget,
 			gil->priv->drag_started = TRUE;
 			context = gtk_drag_begin (widget,
 						  gil->priv->target_list,
-						  GDK_ACTION_COPY,
+						  /*GDK_ACTION_COPY |*/ GDK_ACTION_MOVE,
 						  1,
 						  (GdkEvent *) event);
 			gtk_drag_set_icon_default (context);

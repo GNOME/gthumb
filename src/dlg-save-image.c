@@ -134,7 +134,7 @@ file_save_ok_cb (GtkWidget *w,
 		g_strfreev (values);
 	} else
 		_gtk_error_dialog_run (parent,
-				       _("Image type not supported : %s"),
+				       _("Image type not supported: %s"),
 				       mime_type);
 	
 	g_free (filename);
@@ -196,7 +196,7 @@ dlg_save_image (GThumbWindow *window,
         gtk_option_menu_set_menu (GTK_OPTION_MENU (opt_menu), menu);
 	gtk_box_pack_end (GTK_BOX (hbox), opt_menu, FALSE, FALSE, 0);
 
-	gtk_box_pack_end (GTK_BOX (hbox), gtk_label_new (_("Image type :")), FALSE, FALSE, 5);
+	gtk_box_pack_end (GTK_BOX (hbox), gtk_label_new (_("Image type:")), FALSE, FALSE, 5);
 
 	gtk_widget_show_all (hbox);
 

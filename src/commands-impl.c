@@ -223,7 +223,7 @@ rename_file (GThumbWindow *window,
 
 	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 					    GTK_DIALOG_MODAL,
-					    _("Enter the new name : "),
+					    _("Enter the new name: "),
 					    old_name_utf8,
 					    MAX_NAME_LEN,
 					    GTK_STOCK_CANCEL,
@@ -285,7 +285,7 @@ rename_file (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not rename the image \"%s\" : %s"),
+				       _("Could not rename the image \"%s\": %s"),
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
@@ -300,7 +300,7 @@ rename_file (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not rename the image \"%s\" : %s"),
+				       _("Could not rename the image \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
 		g_free (utf8_path);
@@ -389,7 +389,7 @@ duplicate_file (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not duplicate the image \"%s\" : %s"),
+				       _("Could not duplicate the image \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
 		g_free (utf8_path);
@@ -447,7 +447,7 @@ edit_delete_files_command_impl (BonoboUIComponent *uic,
 	list = ilist_utils_get_file_list_selection (ilist);
 	dlg_file_delete__confirm (window, 
 				  list, 
-				  _("Selected images will be moved to the Trash, are you sure ?"));
+				  _("The selected images will be moved to the Trash, are you sure ?"));
 
 	/* the list is deallocated when the dialog is closed. */
 }
@@ -904,8 +904,8 @@ edit_current_folder_new_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	create_new_folder_or_library (window, 
 				      _("New Folder"),
-				      _("Enter the folder name : "),
-				      _("Could not create the folder \"%s\" : %s"));
+				      _("Enter the folder name: "),
+				      _("Could not create the folder \"%s\": %s"));
 }
 
 
@@ -917,8 +917,8 @@ edit_current_catalog_new_library_command_impl (BonoboUIComponent *uic,
 	GThumbWindow *window = user_data;
 	create_new_folder_or_library (window, 
 				      _("New Library"),
-				      _("Enter the library name : "),
-				      _("Could not create the library \"%s\" : %s"));
+				      _("Enter the library name: "),
+				      _("Could not create the library \"%s\": %s"));
 }
 
 
@@ -952,7 +952,7 @@ folder_rename (GThumbWindow *window,
 
 	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 					    GTK_DIALOG_MODAL,
-					    _("Enter the new name : "),
+					    _("Enter the new name: "),
 					    old_name_utf8,
 					    MAX_NAME_LEN,
 					    GTK_STOCK_CANCEL,
@@ -987,7 +987,7 @@ folder_rename (GThumbWindow *window,
 		
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Could not rename the folder \"%s\" : %s"),
+				       _("Could not rename the folder \"%s\": %s"),
 				       utf8_path,
 				       _("source and destination are the same"));
 		g_free (utf8_path);
@@ -1028,7 +1028,7 @@ folder_rename (GThumbWindow *window,
 
 		utf8_path = g_locale_to_utf8 (old_path, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-                                       _("Could not rename the folder \"%s\" : %s"),
+                                       _("Could not rename the folder \"%s\": %s"),
                                        utf8_path,
                                        errno_to_string ());
 		g_free (utf8_path);
@@ -1127,7 +1127,7 @@ remove_dir_permanently (GThumbWindow *window,
 
 	gerror = g_error_new (GTHUMB_ERROR,
 			      errno,
-			      _("Cannot delete the folder \"%s\" : %s"),
+			      _("Cannot delete the folder \"%s\": %s"),
 			      utf8_name,
 			      details);
 	g_free (utf8_name);
@@ -1146,7 +1146,7 @@ folder_delete__continue2 (GnomeVFSResult result,
 		const char *message;
 		char       *utf8_name;
 		
-		message = _("Could not delete the folder \"%s\" : %s");
+		message = _("Could not delete the folder \"%s\": %s");
 		utf8_name = g_locale_to_utf8 (file_name_from_path (fddata->path), -1, 0, 0, 0);
 
 		_gtk_error_dialog_run (GTK_WINDOW (fddata->window->app),
@@ -1280,7 +1280,7 @@ folder_copy__continue (GnomeVFSResult result,
 		const char *message;
 		char       *utf8_name;
 		
-		message = _("Could not copy the folder \"%s\" : %s");
+		message = _("Could not copy the folder \"%s\": %s");
 		utf8_name = g_locale_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
 		
 		_gtk_error_dialog_run (NULL,
@@ -1330,7 +1330,7 @@ folder_copy__response_cb (GObject *object,
 	if (gnome_vfs_check_same_fs (old_path, dest_dir, &same_fs) != GNOME_VFS_OK)
 		same_fs = FALSE;
 
-	message = move ? _("Could not move the folder \"%s\" : %s") : _("Could not copy the folder \"%s\" : %s");
+	message = move ? _("Could not move the folder \"%s\": %s") : _("Could not copy the folder \"%s\": %s");
 
 	if (strcmp (old_path, new_path) == 0) {
 		char *utf8_path;
@@ -1574,7 +1574,7 @@ catalog_rename (GThumbWindow *window,
 
 	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 					    GTK_DIALOG_MODAL,
-					    _("Enter the new name : "),
+					    _("Enter the new name: "),
 					    name_only_utf8,
 					    MAX_NAME_LEN,
 					    GTK_STOCK_CANCEL,
@@ -1624,7 +1624,7 @@ catalog_rename (GThumbWindow *window,
 
 		utf8_name = g_locale_to_utf8 (name_only, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
-                                       is_dir ? _("Could not rename the library \"%s\" : %s") : _("Could not rename the catalog \"%s\" : %s"),
+                                       is_dir ? _("Could not rename the library \"%s\": %s") : _("Could not rename the catalog \"%s\": %s"),
                                        utf8_name,
                                        errno_to_string ());
 		g_free (utf8_name);
@@ -1669,7 +1669,7 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 
 	new_name = _gtk_request_dialog_run (GTK_WINDOW (window->app),
 					    GTK_DIALOG_MODAL,
-					    _("Enter the catalog name : "),
+					    _("Enter the catalog name: "),
 					    _("New Catalog"),
 					    MAX_NAME_LEN,
 					    GTK_STOCK_CANCEL,
@@ -1712,7 +1712,7 @@ edit_current_catalog_new_command_impl (BonoboUIComponent *uic,
 
 		utf8_name = g_locale_to_utf8 (new_name, -1, NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app), 
-                                       _("Could not create the catalog \"%s\" : %s"), 
+                                       _("Could not create the catalog \"%s\": %s"), 
                                        utf8_name,
                                        errno_to_string ());
 		g_free (utf8_name);

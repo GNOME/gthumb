@@ -203,7 +203,7 @@ update_text (GThumbTextItem  *iti,
 				  &parsed_text, 
 				  NULL,
 				  &error)) {
-		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error : %s",  error->message, new_text);
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, new_text);
 		g_error_free (error);
 		g_free (marked_text);
 		return;

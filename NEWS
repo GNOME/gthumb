@@ -1,5 +1,10 @@
 version 1.106
 -------------
+	* New image operations: auto adjust color levels, equalize histogram.
+	* Added an histogram tag to the image properties dialog.
+	* Delete operations now move files and folders to the Trash. 
+	* Added ability to copy, move and delete recursively folders.
+	* Added a rename option to the overwrite dialog.
 	* Bugfixes.
 
 version 1.105

@@ -608,6 +608,7 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 {
 	DialogData   *data;
 	GThumbWindow *window;
+	ImageViewer  *viewer;
 	int           width, height;
 	char         *file_size_txt;
 	char         *size_txt;
@@ -624,9 +625,9 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 	g_return_if_fail (data != NULL);
 
 	window = data->window;
+	viewer = IMAGE_VIEWER (window->viewer);
 
 	if (window->image_path == NULL) {
-		image_viewer_set_void (IMAGE_VIEWER (data->viewer));
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_type_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_image_size_label), "");
@@ -649,9 +650,15 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 				    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (window->image_path, NULL, FALSE)));
 		
 		/**/
-		
-		width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
-		height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
+
+		if (image_viewer_is_void (viewer)) {
+			width = 0;
+			height = 0;
+		} else {
+			width = image_viewer_get_image_width (viewer);
+			height = image_viewer_get_image_height (viewer);
+		}
+
 		size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
 		gtk_label_set_text (GTK_LABEL (data->i_image_size_label), size_txt);
 		g_free (size_txt);
@@ -686,6 +693,8 @@ dlg_image_prop_update (GtkWidget *image_prop_dlg)
 
 	update_histogram (data);
 
-	if (window->image_path != NULL) 
-		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), IMAGE_VIEWER (window->viewer)->loader);
+	if ((window->image_path != NULL) && ! image_viewer_is_void (viewer))
+		image_viewer_load_from_image_loader (IMAGE_VIEWER (data->viewer), viewer->loader);
+	else
+		image_viewer_set_void (IMAGE_VIEWER (data->viewer));
 }

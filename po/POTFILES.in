@@ -120,7 +120,7 @@ src/dlg-rename-series.c
 src/dlg-rename-series.h
 src/dlg-save-image.c
 src/dlg-search.c
-src/dlg-search.c
+src/dlg-search.h
 src/fullscreen.c
 src/fullscreen.h
 src/gth-folder-selection-dialog.c

@@ -168,7 +168,7 @@
 	<cmd name="AlterImage_Equalize" _label="_Equalize Histogram" 
 	     tip=""
 	     pixtype="stock" pixname="gthumb-histogram"/>
-	<cmd name="AlterImage_AdjustLevels" _label="_Adjust Colors Levels" 
+	<cmd name="AlterImage_AdjustLevels" _label="_Adjust Color Levels" 
 	     tip=""
 	     pixtype="stock" pixname="gthumb-levels"/>
 	<cmd name="AlterImage_Posterize" _label="_Posterize" 

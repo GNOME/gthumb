@@ -215,7 +215,7 @@ export (GtkWidget  *widget,
 			char *utf8_path;
 			utf8_path = g_locale_to_utf8 (dir, -1, NULL, NULL, NULL);
 			_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
-					       _("Could not create folder \"%s\" : %s."),
+					       _("Could not create folder \"%s\": %s."),
 					       utf8_path,
 					       errno_to_string ());
 			g_free (utf8_path);

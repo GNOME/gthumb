@@ -272,28 +272,6 @@ cache_delete (const gchar *filename)
 }
 
 
-/* ----- cache_remove_old_previews_async implememtation. ------ */
-
-
-typedef struct {
-	gboolean   recursive;
-	gboolean   clear_all;
-	GtkWidget *dialog;
-} CacheRemoveData;
-
-
-static void nautilus_cache_remove_old_previews_async (gboolean recursive,
-						      gboolean clear_all);
-
-void
-cache_remove_old_previews_async (const char *dir,
-				 gboolean    recursive,
-				 gboolean    clear_all)
-{
-	nautilus_cache_remove_old_previews_async (recursive, clear_all);
-}
-
-
 /* ----- nautilus_cache_remove_old_previews_async implememtation. ------ */
 
 
@@ -439,7 +417,7 @@ path_list_done_cb (PathListData *pld,
 	}
 
 	for (scan = pld->files; scan; scan = scan->next) {
-		rc_file = (gchar*) scan->data;
+		rc_file = (char*) scan->data;
 		real_file = get_real_name_from_nautilus_cache (ncrd, rc_file);
 
 		if (real_file == NULL)
@@ -476,7 +454,7 @@ path_list_done_cb (PathListData *pld,
 		return;
 	}
 
-	sub_dir = (gchar*) ncrd->dirs->data;
+	sub_dir = (char*) ncrd->dirs->data;
 	ncrd->dirs = g_list_remove_link (ncrd->dirs, ncrd->dirs);
 
 	ncrd->visited_dirs = g_list_prepend (ncrd->visited_dirs,
@@ -503,6 +481,12 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 					  gboolean clear_all)
 {
 	NautilusCacheRemoveData *ncrd;
+	const char              *message;
+
+	if (clear_all)
+		message = _("Deleting all thumbnails, wait please...");
+	else
+		message = _("Deleting old thumbnails, wait please...");
 
 	ncrd = g_new (NautilusCacheRemoveData, 1);
 
@@ -519,7 +503,7 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 	ncrd->dialog =  _gtk_message_dialog_new (NULL,
 						 GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_INFO,
-						 _("Deleting old thumbnails, wait please..."),
+						 message,
 						 GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 						 NULL);
 	g_signal_connect_swapped (G_OBJECT (ncrd->dialog),
@@ -530,4 +514,13 @@ nautilus_cache_remove_old_previews_async (gboolean recursive,
 	gtk_widget_show (ncrd->dialog);
 
 	visit_dir_async (ncrd->nautilus_thumb_dir, ncrd);
+}
+
+
+void
+cache_remove_old_previews_async (const char *dir,
+				 gboolean    recursive,
+				 gboolean    clear_all)
+{
+	nautilus_cache_remove_old_previews_async (recursive, clear_all);
 }

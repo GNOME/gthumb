@@ -311,6 +311,12 @@ comments_remove_old_comments_async (const char *dir,
 				    gboolean    clear_all)
 {
 	CommentsRemoveData *crd;
+	const char         *message;
+
+	if (clear_all)
+		message = _("Deleting all comments, wait please...");
+	else
+		message = _("Deleting old comments, wait please...");
 
 	crd = g_new (CommentsRemoveData, 1);
 	crd->recursive = recursive;
@@ -318,7 +324,7 @@ comments_remove_old_comments_async (const char *dir,
 	crd->dialog = _gtk_message_dialog_new (NULL,
 					       GTK_DIALOG_MODAL,
 					       GTK_MESSAGE_INFO,
-					       _("Deleting old comments, wait please..."),
+					       message,
 					       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
 					       NULL);
 	g_signal_connect_swapped (G_OBJECT (crd->dialog),

@@ -65,7 +65,7 @@ add_columns (CatalogList *cat_list,
 					     "pixbuf", CAT_LIST_COLUMN_ICON,
 					     NULL);
 	
-	renderer = gtk_cell_renderer_text_new ();
+	cat_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
 
 	if (cat_list->use_underline) {
 		GValue value = { 0, };
@@ -326,6 +326,28 @@ catalog_list_get_iter_from_path (CatalogList *cat_list,
 }
 
 
+void
+catalog_list_update_underline (CatalogList *cat_list)
+{
+	GValue value = { 0, };
+
+	g_value_init (&value, PANGO_TYPE_UNDERLINE);
+
+	cat_list->use_underline = pref_get_real_click_policy () == CLICK_POLICY_SINGLE;
+
+	if (cat_list->use_underline) 
+		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
+	 else 
+		g_value_set_enum (&value, PANGO_UNDERLINE_NONE);
+
+	g_object_set_property (G_OBJECT (cat_list->text_renderer), 
+			       "underline", &value);
+	g_value_unset (&value);
+
+	gtk_widget_queue_draw (cat_list->root_widget);
+}
+
+
 gboolean
 catalog_list_refresh (CatalogList *cat_list)
 {
@@ -348,7 +370,7 @@ catalog_list_refresh (CatalogList *cat_list)
 	/* Set the file and dir lists. */
 
 	if (! path_list_new (cat_list->path, &file_list, &dir_list)) {
-		g_print ("ERROR : reading catalogs directory\n");
+		g_print ("ERROR: reading catalogs directory\n");
 		return FALSE;
 	}
 

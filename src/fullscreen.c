@@ -316,7 +316,7 @@ show_comment_on_image (GThumbWindow *window,
 				  &parsed_text, 
 				  NULL,
 				  &error)) {
-		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error : %s",  error->message, marked_text);
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, marked_text);
 		g_error_free (error);
 		g_free (marked_text);
 		g_object_unref (layout);

@@ -2172,7 +2172,18 @@ static void
 image_requested_error_cb (GtkWidget    *widget, 
 			  GThumbWindow *window)
 {
+	window->image_mtime = 0;
+	window->image_modified = FALSE;
+
 	image_viewer_set_void (IMAGE_VIEWER (window->viewer));
+
+	window_update_infobar (window);
+	window_update_title (window);
+	window_update_statusbar_image_info (window);
+	window_update_sensitivity (window);
+
+	if (window->image_prop_dlg != NULL)
+		dlg_image_prop_update (window->image_prop_dlg);
 }
 
 
@@ -2866,7 +2877,7 @@ image_list_drag_data_received  (GtkWidget          *widget,
 
 	catalog_set_path (catalog, catalog_path);
 
-	for (scan = list; scan; scan = scan->next)
+	for (scan = list; scan; scan = scan->next) 
 		catalog_add_item (catalog, (char*) scan->data);
 
 	if (! catalog_write_to_disk (catalog, &gerror)) 
@@ -3351,6 +3362,7 @@ pref_click_policy_changed (GConfClient *client,
 {
 	GThumbWindow *window = user_data;
 	dir_list_update_underline (window->dir_list);
+	catalog_list_update_underline (window->catalog_list);
 }
 
 
@@ -3526,7 +3538,7 @@ window_new (void)
 	gtk_drag_dest_set (window->file_list->ilist,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
-			   /*GDK_ACTION_COPY | FIXME */ GDK_ACTION_MOVE);
+			   GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (window->file_list->ilist), 
 			  "drag_data_received",
@@ -3541,7 +3553,7 @@ window_new (void)
 	gtk_drag_dest_set (window->dir_list->root_widget,
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, n_targets,
-			   /*GDK_ACTION_COPY | FIXME*/ GDK_ACTION_MOVE);
+			   GDK_ACTION_MOVE);
 
 	g_signal_connect (G_OBJECT (window->dir_list->root_widget),
 			  "drag_data_received",
@@ -4706,7 +4718,7 @@ go_to_directory_continue (DirList  *dir_list,
 		utf8_path = g_locale_to_utf8 (dir_list->try_path, -1,
 					      NULL, NULL, NULL);
 		_gtk_error_dialog_run (GTK_WINDOW (window->app),
-				       _("Cannot load folder \"%s\" : %s\n"), 
+				       _("Cannot load folder \"%s\": %s\n"), 
 				       utf8_path, 
 				       gnome_vfs_result_to_string (dir_list->result));
 		g_free (utf8_path);

@@ -1,5 +1,26 @@
 2002-11-24  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	* libgthumb/gthumb-histogram.c (gthumb_histogram_calculate):
+	reset values when the pixbuf is NULL.
+
+	* src/gthumb-window.c (pref_click_policy_changed): 
+	* src/catalog-list.c (catalog_list_update_underline): update the
+	catalog list when the click policy changes.
+
+	* libgthumb/catalog-png-exporter.c: 
+	* libgthumb/catalog.c: 
+	* src/dlg-catalog.c: 
+	* src/commands-impl.c: 
+	* src/gthumb-window.c: 
+	* src/dlg-png-exporter.c: 
+	* src/dlg-file-utils.c: 
+	* src/gthumb-ui.xml: 
+	* src/dlg-save-image.c: fixed bug #99427, #99430, #99431, #99433.
+	
+	* libgthumb/thumb-cache.c (nautilus_cache_remove_old_previews_async): 
+	* libgthumb/comments.c (comments_remove_old_comments_async):
+	fix dialog message (bug #99135).
+
 	* src/dlg-file-utils.c (create_overwrite_dialog): added an
 	option to specify a new name in the overwrite dialog.
 

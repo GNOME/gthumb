@@ -1803,7 +1803,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
-						     "JPEG optimize option must be 'yes' or 'no', value is : %s", *viter);
+						     "JPEG optimize option must be 'yes' or 'no', value is: %s", *viter);
 					
 					return FALSE;
 				}
@@ -1817,7 +1817,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 					g_set_error (error,
 						     GDK_PIXBUF_ERROR,
 						     GDK_PIXBUF_ERROR_BAD_OPTION,
-						     "JPEG progressive option must be 'yes' or 'no', value is : %s", *viter);
+						     "JPEG progressive option must be 'yes' or 'no', value is: %s", *viter);
 					
 					return FALSE;
 				}

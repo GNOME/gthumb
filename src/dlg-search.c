@@ -1250,7 +1250,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 		path = gnome_vfs_uri_to_string (data->uri, 
 						GNOME_VFS_URI_HIDE_NONE);
-		g_warning ("Cannot load directory \"%s\" : %s\n", path,
+		g_warning ("Cannot load directory \"%s\": %s\n", path,
 			   gnome_vfs_result_to_string (result));
 		g_free (path);
 

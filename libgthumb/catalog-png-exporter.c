@@ -1291,7 +1291,7 @@ load_next_file (CatalogPngExporter *ce)
 	g_free (ce->info);
 
 	utf8_name = g_locale_to_utf8 (file_name_from_path (filename), -1, 0, 0, 0);
-	ce->info = g_strdup_printf (_("Loading image : %s"), utf8_name);
+	ce->info = g_strdup_printf (_("Loading image: %s"), utf8_name);
 	g_free (utf8_name);
 
 	g_signal_emit (G_OBJECT (ce), catalog_png_exporter_signals[INFO], 
@@ -1483,7 +1483,7 @@ begin_page (CatalogPngExporter *ce,
 
 	filename = _g_get_name_from_template (ce->templatev, ce->start_at + page_n - 1);
 	utf8_name = g_locale_to_utf8 (filename, -1, 0, 0, 0);
-	ce->info = g_strdup_printf (_("Creating image : %s.%s"), 
+	ce->info = g_strdup_printf (_("Creating image: %s.%s"), 
 				    utf8_name, 
 				    ce->file_type);
 	g_free (utf8_name);
@@ -1506,7 +1506,7 @@ begin_page (CatalogPngExporter *ce,
 	g_free (path);
 
 	if (uri == NULL) {
-		g_warning ("URI not valid : %s", path);
+		g_warning ("URI not valid: %s", path);
 		return;
 	}
 
@@ -1814,7 +1814,7 @@ paint_comment (CatalogPngExporter *ce,
 				  &parsed_text, 
 				  NULL,
 				  &error)) {
-		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error : %s",  error->message, text);
+		g_warning ("Failed to set text from markup due to error parsing markup: %s\nThis is the text that caused the error: %s",  error->message, text);
 		g_error_free (error);
 		g_free (marked_text);
 		pango_attr_list_unref (original_attr_list);
