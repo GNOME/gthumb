@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-05 21:42+0100\n"
-"PO-Revision-Date: 2004-01-05 21:03+0100\n"
+"POT-Creation-Date: 2004-01-07 22:50+0100\n"
+"PO-Revision-Date: 2004-01-07 22:19+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -787,7 +787,7 @@ msgstr "%"
 
 #: data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
-msgstr "<b>Niveaux de couleur</b>"
+msgstr "<b>Niveaux de couleurs</b>"
 
 #: data/glade/gthumb_edit.glade.h:6
 msgid "<b>New dimensions</b>"
@@ -839,7 +839,7 @@ msgstr "Préserver la l_uminosité"
 
 #: data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
-msgstr "Redimenssionnez l'image"
+msgstr "Redimensionnez l'image"
 
 #: data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
@@ -883,7 +883,7 @@ msgstr "_Saturation :"
 
 #: data/glade/gthumb_edit.glade.h:30
 msgid "_Scale"
-msgstr "_Redimenssioner"
+msgstr "_Redimensioner"
 
 #: data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
@@ -1466,7 +1466,7 @@ msgstr "<b>Orientation</b>"
 
 #: data/glade/gthumb_print.glade.h:10
 msgid "<b>Size</b>"
-msgstr "<b>Dimension</b>"
+msgstr "<b>Taille</b>"
 
 #: data/glade/gthumb_print.glade.h:11
 msgid ""
@@ -2890,7 +2890,7 @@ msgstr "_Renommer..."
 
 #: data/gthumb-ui.xml.h:247
 msgid "_Resize"
-msgstr "_Redimenssionner"
+msgstr "_Redimensionner"
 
 #: data/gthumb-ui.xml.h:248
 msgid "_Restore"
@@ -2910,7 +2910,7 @@ msgstr "_Retourner"
 
 #: data/gthumb-ui.xml.h:252
 msgid "_Scaled"
-msgstr "_Redimenssionné"
+msgstr "_Redimensionné"
 
 #: data/gthumb-ui.xml.h:253
 msgid "_Select All"
@@ -3127,7 +3127,7 @@ msgstr "Impossible d'enregistrer le catalogue « %s » : %s"
 
 #: libgthumb/comments.c:392
 msgid "Deleting all comments, wait please..."
-msgstr "Suppression tous les commentaires, veuillez patienter..."
+msgstr "Suppression de tous les commentaires, veuillez patienter..."
 
 #: libgthumb/comments.c:394
 msgid "Deleting old comments, wait please..."
@@ -3253,7 +3253,7 @@ msgstr ""
 
 #: libgthumb/gnome-print-font-picker.c:238
 msgid "Show size"
-msgstr "Afficher la dimension"
+msgstr "Afficher la taille"
 
 #: libgthumb/gnome-print-font-picker.c:239
 msgid "Show size in font info mode"
@@ -3413,7 +3413,7 @@ msgstr "Saisissez le nom du dossier : "
 #: src/commands-impl.c:1009 src/dlg-photo-importer.c:867
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "Impossible créer le dossier « %s » : %s"
+msgstr "Impossible de créer le dossier « %s » : %s"
 
 #: src/commands-impl.c:1020
 msgid "New Library"
