@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
-"POT-Creation-Date: 2003-01-19 22:07+0100\n"
-"PO-Revision-Date: 2003-01-19 22:07+0100\n"
+"POT-Creation-Date: 2003-01-25 11:58+0100\n"
+"PO-Revision-Date: 2003-01-25 11:59+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1319,11 +1319,11 @@ msgstr "Das nächste Bild anzeigen"
 
 #: src/gthumb-ui.xml.h:155
 msgid "View or hide the statusbar of this window"
-msgstr "Die Statusleiste dieses Fensters zeigen oder verbergen"
+msgstr "Die Statusleiste dieses Fensters anzeigen/verbergen"
 
 #: src/gthumb-ui.xml.h:156
 msgid "View or hide the toolbar of this window"
-msgstr "Die Werkzeugleiste dieses Fensters zeigen oder verbergen"
+msgstr "Die Werkzeugleiste dieses Fensters anzeigen/verbergen"
 
 #: src/gthumb-ui.xml.h:157
 msgid "View previous image"
@@ -2646,15 +2646,15 @@ msgstr "Auf _Aktuelles setzen"
 
 #: src/gthumb_preferences.glade.h:59
 msgid "Show _thumbnails"
-msgstr "Miniatur-_Vorschaubilder zeigen"
+msgstr "Miniatur-_Vorschaubilder anzeigen"
 
 #: src/gthumb_preferences.glade.h:60
 msgid "Show co_mments"
-msgstr "_Kommentare zeigen"
+msgstr "_Kommentare anzeigen"
 
 #: src/gthumb_preferences.glade.h:61
 msgid "Show hi_dden images"
-msgstr "Vers_teckte Bilder zeigen"
+msgstr "Vers_teckte Bilder anzeigen"
 
 #: src/gthumb_preferences.glade.h:62
 msgid "Si_ze:"
