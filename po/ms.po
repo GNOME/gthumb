@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 1.101\n"
-"POT-Creation-Date: 2002-11-10 02:43+0800\n"
+"POT-Creation-Date: 2002-11-16 00:09+0800\n"
 "PO-Revision-Date: 2002-10-20 20:17+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -26,10 +26,10 @@ msgid "View as Catalog"
 msgstr "LIhat sebagai Katalog"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:94
 msgid "Print the current image"
-msgstr ""
+msgstr "Cetak imej semasa"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
@@ -39,96 +39,98 @@ msgstr "_Cetak"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
-msgstr ""
+msgstr "Imej GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr ""
+msgstr "Pelihat GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr ""
+msgstr "Lihat dengan GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
-msgid "Black and White"
-msgstr ""
+#: src/gthumb-ui.xml.h:41
+msgid "Desaturate"
+msgstr "Nyahtepu"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
-msgid "Black and _White"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "Flip"
 msgstr ""
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "Flip the image"
 msgstr ""
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
 msgid "High"
 msgstr "Tinggi"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Low"
 msgstr "Rendah"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror"
 msgstr ""
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 msgid "Mirror the image"
 msgstr ""
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate"
-msgstr ""
+msgstr "Kilas"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate 180 _Degrees"
+msgstr "Kilas 180 _Darjah"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
-msgid "Rotate 180 _Degrees"
-msgstr ""
+msgid "Rotate the image clockwise"
+msgstr "Kilas imej ikut jam"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-msgid "Rotate the image clockwise"
-msgstr ""
+msgid "Rotate the image of 180 degrees"
+msgstr "Kilas imej 180 darjah"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-msgid "Rotate the image of 180 degrees"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 #: src/gthumb-ui.xml.h:150
 msgid "Start or stop current animation"
-msgstr ""
+msgstr "Mula atau henti animasi semasa"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+msgid "Start/Stop _Animation"
+msgstr "Mula/Henti _Animasi"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
-msgid "Start/Stop _Animation"
-msgstr ""
+msgid "Transparency T_ype"
+msgstr "_Jenis Ketelusan"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-msgid "Transparency T_ype"
-msgstr ""
-
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 #: src/gthumb-ui.xml.h:165
 msgid "View next animation frame"
-msgstr ""
+msgstr "Lihat kerangka animasi berikut"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 #: src/gthumb-ui.xml.h:174
 msgid "View the image in black and white"
-msgstr ""
+msgstr "Lihat imej dalam hitam dan putih"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 #: src/gthumb-ui.xml.h:191
 msgid "_Black"
 msgstr "_Hitam"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 #: src/gthumb-ui.xml.h:196
 msgid "_Checked"
 msgstr "Di_semak"
+
+#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: src/gthumb-ui.xml.h:202
+msgid "_Desaturate"
+msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: src/gthumb-ui.xml.h:208
@@ -183,13 +185,13 @@ msgid "Could not open file %s"
 msgstr "Tak dapat membuka fail %s"
 
 #: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:541
-#: src/gthumb-window.c:457
+#: src/gthumb-window.c:458
 msgid "%d %b %Y, %H:%M"
-msgstr ""
+msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:98
-#: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:479
-#: src/fullscreen.c:229 src/gthumb-window.c:463
+#: libgthumb/catalog-png-exporter.c:793 src/dlg-image-prop.c:478
+#: src/fullscreen.c:231 src/gthumb-window.c:464
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d piksel"
@@ -214,7 +216,7 @@ msgid "Creating image : %s.%s"
 msgstr "Mencipta imej : %s.%s"
 
 #: libgthumb/catalog.c:89
-msgid "Libray not empty"
+msgid "Library not empty"
 msgstr "Pustaka tidak kosong"
 
 #: libgthumb/catalog.c:98
@@ -245,8 +247,8 @@ msgstr "Memadam komen lama, sila tunggu...."
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:653 src/dlg-duplicates.c:516 src/dlg-image-prop.c:499
-#: src/fullscreen.c:236
+#: libgthumb/comments.c:653 src/dlg-duplicates.c:516 src/dlg-image-prop.c:498
+#: src/fullscreen.c:238
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -260,16 +262,18 @@ msgid ""
 "GConf error:\n"
 "  %s"
 msgstr ""
+"Ralat GConf:\n"
+"  %s"
 
 #: libgthumb/gtk-utils.c:125 libgthumb/gtk-utils.c:206
-#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2492 src/gthumb-window.c:1129
-#: src/gthumb-window.c:1143 src/gthumb-window.c:1146 src/gthumb-window.c:1163
-#: src/gthumb-window.c:1169 src/gthumb-window.c:3091
+#: libgthumb/gtk-utils.c:303 src/commands-impl.c:2492 src/gthumb-window.c:1130
+#: src/gthumb-window.c:1144 src/gthumb-window.c:1147 src/gthumb-window.c:1164
+#: src/gthumb-window.c:1170 src/gthumb-window.c:3116
 #: src/gthumb_png_exporter.glade.h:75 src/main.c:116
 msgid "gThumb"
 msgstr "gThumb"
 
-#: libgthumb/thumb-cache.c:669
+#: libgthumb/thumb-cache.c:522
 msgid "Deleting old thumbnails, wait please..."
 msgstr ""
 
@@ -292,13 +296,13 @@ msgstr ""
 "Nama \"%s\" adalah tidak sah kerana ia mengandungi aksara \"/\". Sila guna "
 "nama lain."
 
-#: src/commands-impl.c:262 src/dlg-convert.c:301 src/dlg-save-image.c:87
+#: src/commands-impl.c:262 src/dlg-convert.c:300 src/dlg-save-image.c:87
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it ?"
 msgstr ""
 "Imej bernama \"%s\" sudah wujud di folder ini.Adakah anda ingin menindihnya?"
 
-#: src/commands-impl.c:269 src/dlg-convert.c:307
+#: src/commands-impl.c:269 src/dlg-convert.c:306
 msgid "_Overwrite"
 msgstr "_Tindih"
 
@@ -380,7 +384,7 @@ msgstr "Folder dipilih akan dipadan, anda pasti?"
 
 #: src/commands-impl.c:1127
 msgid "Folder not empty"
-msgstr ""
+msgstr "Folder tidak kosong"
 
 #: src/commands-impl.c:1136
 #, c-format
@@ -456,12 +460,12 @@ msgstr "Masukkan nama kategori baru "
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategori  \"%s\" sudah ada. Sila guna nama lain."
 
-#: src/dlg-convert.c:162
+#: src/dlg-convert.c:161
 #, c-format
 msgid "Converting image: %s"
 msgstr ""
 
-#: src/dlg-convert.c:185
+#: src/dlg-convert.c:184
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
@@ -479,7 +483,7 @@ msgstr ""
 msgid "Duplicates Size"
 msgstr ""
 
-#: src/dlg-duplicates.c:337 src/dlg-image-prop.c:182 src/gthumb.glade.h:15
+#: src/dlg-duplicates.c:337 src/dlg-image-prop.c:181 src/gthumb.glade.h:15
 msgid "Name"
 msgstr "Nama"
 
@@ -487,7 +491,7 @@ msgstr "Nama"
 msgid "Last modified"
 msgstr "Tarikh diubahsuai"
 
-#: src/dlg-duplicates.c:380 src/dlg-image-prop.c:202
+#: src/dlg-duplicates.c:380 src/dlg-image-prop.c:201
 msgid "Location"
 msgstr "Lokasi"
 
@@ -527,36 +531,36 @@ msgstr "Tak dapat menukarnama imej:"
 msgid "Could not rename the following images:"
 msgstr "Tidak dapat menukarnama imej berikut:"
 
-#: src/dlg-image-prop.c:187
+#: src/dlg-image-prop.c:186
 msgid "Image Dimensions"
 msgstr "Dimensi Imej"
 
-#: src/dlg-image-prop.c:192
+#: src/dlg-image-prop.c:191
 msgid "Type"
 msgstr "Jenis"
 
-#: src/dlg-image-prop.c:197 src/gthumb.glade.h:13
+#: src/dlg-image-prop.c:196 src/gthumb.glade.h:13
 msgid "File Size"
 msgstr "Saiz Fail"
 
-#: src/dlg-image-prop.c:207 src/gthumb.glade.h:14
+#: src/dlg-image-prop.c:206 src/gthumb.glade.h:14
 msgid "Last Modified"
 msgstr "Tarikh Diubahsuai"
 
-#: src/dlg-image-prop.c:254
+#: src/dlg-image-prop.c:253
 msgid "Field"
 msgstr "Medan"
 
-#: src/dlg-image-prop.c:265
+#: src/dlg-image-prop.c:264
 msgid "Value"
 msgstr "Nilai"
 
-#: src/dlg-image-prop.c:465
+#: src/dlg-image-prop.c:464
 #, c-format
 msgid "%s Properties"
 msgstr "Ciri-ciri %s"
 
-#: src/dlg-jpegtran.c:536
+#: src/dlg-jpegtran.c:535
 msgid "No JPEG image selected"
 msgstr "Tiada fail JPEG dipilih"
 
@@ -567,7 +571,7 @@ msgstr "Imej komen akan dibuang, anda pasti ?"
 #: src/dlg-maintenance.c:100
 #, fuzzy
 msgid "All thumbnails will be deleted, are you sure ?"
-msgstr "Imej dipilih akan dipadam, anda pasti?"
+msgstr "Imej thumbnails akan dipadam, anda pasti?"
 
 #: src/dlg-maintenance.c:160 src/dlg-maintenance.c:230
 msgid "Specify the backup file"
@@ -640,7 +644,7 @@ msgstr "Namafail"
 msgid "Folder"
 msgstr "Folder"
 
-#: src/fullscreen.c:705 src/gthumb-ui.xml.h:122
+#: src/fullscreen.c:707 src/gthumb-ui.xml.h:122
 msgid "Restore Normal View"
 msgstr "Pulihkan paparan normal"
 
@@ -773,9 +777,8 @@ msgid "Create a new window"
 msgstr "Cipta tetingkap baru"
 
 #: src/gthumb-ui.xml.h:33
-#, fuzzy
 msgid "D_uplicate"
-msgstr "_Aplikasi:"
+msgstr "D_uakan"
 
 #: src/gthumb-ui.xml.h:34
 msgid "Delete"
@@ -805,22 +808,17 @@ msgstr "Padam senarai lokasi dilawati"
 msgid "Delete this image from disk"
 msgstr "Padam imej ini drpd cakera"
 
-#: src/gthumb-ui.xml.h:41
-msgid "Desaturate"
-msgstr "Nyahtepu"
-
 #: src/gthumb-ui.xml.h:42
 msgid "Duplicate"
-msgstr ""
+msgstr "Duakan"
 
 #: src/gthumb-ui.xml.h:43
 msgid "Duplicate selected image"
-msgstr ""
+msgstr "Duakan"
 
 #: src/gthumb-ui.xml.h:44
-#, fuzzy
 msgid "Duplicate this image"
-msgstr "_Jangan tindih  imej ini"
+msgstr "Duakan imej ini"
 
 #: src/gthumb-ui.xml.h:45
 msgid "E_xit"
@@ -848,499 +846,476 @@ msgstr "Cari Imej"
 
 #: src/gthumb-ui.xml.h:51
 msgid "Fit"
-msgstr ""
+msgstr "Muat"
 
 #: src/gthumb-ui.xml.h:52
 msgid "Folders"
-msgstr ""
+msgstr "Folder"
 
 #: src/gthumb-ui.xml.h:53
 msgid "Forward"
-msgstr ""
+msgstr "Maju"
 
 #: src/gthumb-ui.xml.h:54
 msgid "Full Screen"
-msgstr ""
+msgstr "Skrin Penuh"
 
 #: src/gthumb-ui.xml.h:55
 msgid "Go to the folder that contains the selected image"
-msgstr ""
+msgstr "Pergi ke folder yang mengandungi imej dipilih"
 
 #: src/gthumb-ui.xml.h:56
 msgid "Go to the home folder"
-msgstr ""
+msgstr "Pergi ke folder rumah"
 
 #: src/gthumb-ui.xml.h:57
 msgid "Go to the next visited location"
-msgstr ""
+msgstr "Pergi ke lokasi dilawati berikut"
 
 #: src/gthumb-ui.xml.h:58
-msgid "Go to the previuos visited location"
-msgstr ""
+msgid "Go to the previous visited location"
+msgstr "Pergi ke lokasi dilawati terdahulu"
 
 #: src/gthumb-ui.xml.h:59
 msgid "Go up one level"
-msgstr ""
+msgstr "Naik satu aras"
 
 #: src/gthumb-ui.xml.h:60
 msgid "Home"
-msgstr ""
+msgstr "Rumah"
 
 #: src/gthumb-ui.xml.h:61
 msgid "Hue-Saturation"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:62
-#, fuzzy
 msgid "Image Toolbar"
-msgstr "Opsyen imej"
+msgstr "Toolbar Imej"
 
 #: src/gthumb-ui.xml.h:63
-#, fuzzy
 msgid "Image _Properties"
-msgstr "Opsyen imej"
+msgstr "_Ciri-ciri imej"
 
 #: src/gthumb-ui.xml.h:64
 msgid "In"
-msgstr ""
+msgstr "Masuk"
 
 #: src/gthumb-ui.xml.h:65
 msgid "Information"
-msgstr ""
+msgstr "Maklumat"
 
 #: src/gthumb-ui.xml.h:66
 msgid "Main Toolbar"
-msgstr ""
+msgstr "Toolbar Utama"
 
 #: src/gthumb-ui.xml.h:67
 msgid "Modify search criteria"
-msgstr ""
+msgstr "Ubahsuai kriteria carian"
 
 #: src/gthumb-ui.xml.h:68
 msgid "Move"
-msgstr ""
+msgstr "Pindah"
 
 #: src/gthumb-ui.xml.h:69
 msgid "Move Catalog..."
-msgstr ""
+msgstr "Pindah Katalog..."
 
 #: src/gthumb-ui.xml.h:70
-#, fuzzy
 msgid "Move Folder"
-msgstr "Folder Baru"
+msgstr "PIndah Folder"
 
 #: src/gthumb-ui.xml.h:71
 msgid "Move current catalog to another location"
-msgstr ""
+msgstr "Pindah katalog semasa ke lokasi lain"
 
 #: src/gthumb-ui.xml.h:72
 msgid "Move current folder"
-msgstr ""
+msgstr "Pindah folder semasa"
 
 #: src/gthumb-ui.xml.h:73
 msgid "Move selected catalog to another location"
-msgstr ""
+msgstr "Pindah katalog dipilih ke lokasi lain"
 
 #: src/gthumb-ui.xml.h:74
-#, fuzzy
 msgid "Move selected folder"
-msgstr "Buang kategori yang dipilih"
+msgstr "Pindah folder dipilih"
 
 #: src/gthumb-ui.xml.h:75
 msgid "Move selected images to another location"
-msgstr ""
+msgstr "Pindah imej dipilih ke lokasi lain"
 
 #: src/gthumb-ui.xml.h:76
 msgid "Move this image to another location"
-msgstr ""
+msgstr "Pindah imej ini ke lokasi lain"
 
 #: src/gthumb-ui.xml.h:77
 msgid "Move..."
-msgstr ""
+msgstr "Pindah..."
 
 #: src/gthumb-ui.xml.h:78
 msgid "Negative"
-msgstr ""
+msgstr "Negatif"
 
 #: src/gthumb-ui.xml.h:79 src/gthumb.glade.h:17
-#, fuzzy
 msgid "New _Library"
-msgstr "_Pustaka Baru..."
+msgstr "_Pustaka Baru"
 
 #: src/gthumb-ui.xml.h:80
 msgid "New _Window"
-msgstr ""
+msgstr "_Tetingkap Baru"
 
 #: src/gthumb-ui.xml.h:81
 msgid "Next"
-msgstr ""
+msgstr "Berikut"
 
 #: src/gthumb-ui.xml.h:82
 msgid "Open current folder with the Nautilus file manager"
-msgstr ""
+msgstr "Buka folder semasa dengan pengurus fail Nautilus"
 
 #: src/gthumb-ui.xml.h:83 src/gthumb.glade.h:19
 msgid "Open selected images with an application"
-msgstr ""
+msgstr "Buka imej dipilih dengan satu aplikasi"
 
 #: src/gthumb-ui.xml.h:84
 msgid ""
 "Open the selected folder with the Nautilus file\n"
 "\t     manager"
 msgstr ""
+"Buka folder dipilih dengan pengurus fail \n"
+"\t      Nautilus"
 
 #: src/gthumb-ui.xml.h:86
 msgid "Open this image with an application"
-msgstr ""
+msgstr "Buka imej ini dengan satu aplikasi"
 
 #: src/gthumb-ui.xml.h:87
 msgid "Open with the File Manager"
-msgstr ""
+msgstr "Buka dengan Pengurus Fail"
 
 #: src/gthumb-ui.xml.h:88
 msgid "Open with the _File Manager"
-msgstr ""
+msgstr "Buka dengan Pengurus _Fail"
 
 #: src/gthumb-ui.xml.h:89
 msgid "Out"
-msgstr ""
+msgstr "Keluar"
 
 #: src/gthumb-ui.xml.h:90
 msgid "Play _Animation"
-msgstr ""
+msgstr "Main _Animasi"
 
 #: src/gthumb-ui.xml.h:91 src/gthumb_edit.glade.h:17
 msgid "Posterize"
 msgstr ""
 
 #: src/gthumb-ui.xml.h:92
-#, fuzzy
 msgid "Previous"
-msgstr "Prebiu"
+msgstr "Terdahulu"
 
 #: src/gthumb-ui.xml.h:93
-#, fuzzy
 msgid "Print"
-msgstr "_Cetak"
+msgstr "Cetak"
 
 #: src/gthumb-ui.xml.h:95
 msgid "Properties"
-msgstr ""
+msgstr "Ciri-ciri"
 
 #: src/gthumb-ui.xml.h:96
 msgid "Redo Search"
-msgstr ""
+msgstr "Ulangcara Carian"
 
 #: src/gthumb-ui.xml.h:97
 msgid "Redo _Search"
-msgstr ""
+msgstr "Ulangcara _Carian"
 
 #: src/gthumb-ui.xml.h:98
 msgid "Redo the search"
-msgstr ""
+msgstr "Ulangcara carian itu"
 
 #: src/gthumb-ui.xml.h:99
-#, fuzzy
 msgid "Reduce number of colors"
-msgstr "Bilangan _kolum:"
+msgstr "Kurangkan bilangan warna"
 
 #: src/gthumb-ui.xml.h:100
 msgid "Reduce the number of colors"
-msgstr ""
+msgstr "Kurangkan bilangan warna"
 
 #: src/gthumb-ui.xml.h:101
 msgid "Reload the current location"
-msgstr ""
+msgstr "Ulangmuat lokasi semasa"
 
 #: src/gthumb-ui.xml.h:102
 msgid "Rem_ove"
-msgstr ""
+msgstr "_Buang"
 
 #: src/gthumb-ui.xml.h:103
-#, fuzzy
 msgid "Rem_ove Comment"
-msgstr "(Tiada Komen)"
+msgstr "_Buang Komen"
 
 #: src/gthumb-ui.xml.h:104
 msgid "Remo_ve from Catalog"
-msgstr ""
+msgstr "Buang drpd Katalog"
 
 #: src/gthumb-ui.xml.h:105
-#, fuzzy
 msgid "Remove"
-msgstr "_Tukarnama"
+msgstr "Buang"
 
 #: src/gthumb-ui.xml.h:106
-#, fuzzy
 msgid "Remove Catalog"
-msgstr "Pindah Katalog ke..."
+msgstr "Buang Katalog"
 
 #: src/gthumb-ui.xml.h:107
-#, fuzzy
 msgid "Remove comments of selected images"
-msgstr "Buang kategori yang dipilih"
+msgstr "Buang komen bagi imej yang dipilih"
 
 #: src/gthumb-ui.xml.h:108
-#, fuzzy
 msgid "Remove current catalog"
-msgstr "Buang kategori yang dipilih"
+msgstr "Buang katalog semasa"
 
 #: src/gthumb-ui.xml.h:109
-#, fuzzy
 msgid "Remove selected catalog"
-msgstr "Buang kategori yang dipilih"
+msgstr "Buang katalog yang dipilih"
 
 #: src/gthumb-ui.xml.h:110
 msgid "Remove selected images from the catalog"
-msgstr ""
+msgstr "Buang imej dipilih daripada katalog"
 
 #: src/gthumb-ui.xml.h:111 src/gthumb_convert.glade.h:16
 msgid "Rename"
-msgstr ""
+msgstr "Tukarnama"
 
 #: src/gthumb-ui.xml.h:112
 msgid "Rename Catalog"
-msgstr ""
+msgstr "Tukarnama Katalog"
 
 #: src/gthumb-ui.xml.h:113
 msgid "Rename Folder"
-msgstr ""
+msgstr "Tukarnama Folder"
 
 #: src/gthumb-ui.xml.h:114
 msgid "Rename current catalog"
-msgstr ""
+msgstr "Tukarnama katalog semasa"
 
 #: src/gthumb-ui.xml.h:115
 msgid "Rename current folder"
-msgstr ""
+msgstr "Tukarnama folder semasa"
 
 #: src/gthumb-ui.xml.h:116
 msgid "Rename selected catalog"
-msgstr ""
+msgstr "Tukarnama katalog dipilih"
 
 #: src/gthumb-ui.xml.h:117
 msgid "Rename selected folder"
-msgstr ""
+msgstr "Tukarnama folder dipilih"
 
 #: src/gthumb-ui.xml.h:118
 msgid "Rename selected image"
-msgstr ""
+msgstr "Tukarnama imej dipilih"
 
 #: src/gthumb-ui.xml.h:119
 msgid "Rename this image"
-msgstr ""
+msgstr "Tukarnama imej ini"
 
 #: src/gthumb-ui.xml.h:120
-#, fuzzy
 msgid "Resize"
-msgstr "Saiz halaman"
+msgstr "Ubahsaiz"
 
 #: src/gthumb-ui.xml.h:121
-#, fuzzy
 msgid "Resize image"
-msgstr "TIndih imej"
+msgstr "Ubahsaiz imej"
 
 #: src/gthumb-ui.xml.h:123
 msgid "Restore the original desktop wallpaper"
-msgstr ""
+msgstr "Pulihkan wallpaper desktop asal"
 
 #: src/gthumb-ui.xml.h:124
 msgid "Reverse images order"
-msgstr ""
+msgstr "Songsangkan turutan imej"
 
 #: src/gthumb-ui.xml.h:125
-#, fuzzy
 msgid "Revert"
-msgstr "Songsang"
+msgstr "Berbalik"
 
 #: src/gthumb-ui.xml.h:126
-#, fuzzy
 msgid "Revert to saved image"
-msgstr "TIndih imej"
+msgstr "Berbalik ke imej yang disimpan"
 
 #: src/gthumb-ui.xml.h:127
-#, fuzzy
 msgid "Rotate Images"
-msgstr "Imej"
+msgstr "Kilas Imej"
 
 #: src/gthumb-ui.xml.h:128
 msgid "Rotate Ri_ght"
-msgstr ""
+msgstr "Kilas ke Ka_nan"
 
 #: src/gthumb-ui.xml.h:129
 msgid "Rotate _JPEG"
-msgstr ""
+msgstr "Kilas _JPEG"
 
 #: src/gthumb-ui.xml.h:130
 msgid "Rotate _Left"
-msgstr ""
+msgstr "Kilas ke Ki_ri"
 
 #: src/gthumb-ui.xml.h:131
 msgid "Rotate image"
-msgstr ""
+msgstr "Kilas imej"
 
 #: src/gthumb-ui.xml.h:132
-#, fuzzy
 msgid "S_ort Images"
-msgstr "Imej"
+msgstr "_Isih Imej"
 
 #: src/gthumb-ui.xml.h:133
-#, fuzzy
 msgid "Save"
-msgstr "_Simpan"
+msgstr "Simpan"
 
 #: src/gthumb-ui.xml.h:134
 msgid "Save _As..."
-msgstr ""
+msgstr "Simpan Seb_agai..."
 
 #: src/gthumb-ui.xml.h:135
-#, fuzzy
 msgid "Save current image"
-msgstr "TIndih imej"
+msgstr "Simpan imej semasa"
 
 #: src/gthumb-ui.xml.h:136
-#, fuzzy
 msgid "Search"
-msgstr "_Cari"
+msgstr "Cari"
 
 #: src/gthumb-ui.xml.h:137
 msgid "Select all images"
-msgstr ""
+msgstr "Pilih semua imej"
 
 #: src/gthumb-ui.xml.h:138
 msgid "Set Image as _Wallpaper"
-msgstr ""
+msgstr "Tetapkan Imej sebagai _Wallpaper"
 
 #: src/gthumb-ui.xml.h:139
 msgid "Set the image as desktop background (centered)"
-msgstr ""
+msgstr "Tetapkan imej sebagai latar belakang desktop (ketengah)"
 
 #: src/gthumb-ui.xml.h:140
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
+"Tetapkan imej sebagai latar belakang desktop (diskala kekal nisbah aspek)"
 
 #: src/gthumb-ui.xml.h:141
 msgid "Set the image as desktop background (stretched)"
-msgstr ""
+msgstr "Tetapkan imej sebagai latar belakang desktop (diregang)"
 
 #: src/gthumb-ui.xml.h:142
 msgid "Set the image as desktop background (tiled)"
-msgstr ""
+msgstr "Tetapkan imej sebagai latar belakang desktop (dijubin)"
 
 #: src/gthumb-ui.xml.h:143
 msgid "Show information about gThumb"
-msgstr ""
+msgstr "Papar maklumat perihal gThumb (bukan gbum)"
 
 #: src/gthumb-ui.xml.h:144
 msgid "Show/_Hide"
-msgstr ""
+msgstr "Papar/_Sorok"
 
 #: src/gthumb-ui.xml.h:145
 msgid "Sort images by file size"
-msgstr ""
+msgstr "Isih imej mengikut saiz fail"
 
 #: src/gthumb-ui.xml.h:146
-msgid "Sort images by modifiction time"
-msgstr ""
+msgid "Sort images by modification time"
+msgstr "Isih imej mengikut tarikh diubahsuai"
 
 #: src/gthumb-ui.xml.h:147
 msgid "Sort images by name"
-msgstr ""
+msgstr "Isih imej mengikut nama"
 
 #: src/gthumb-ui.xml.h:148
 msgid "Sort images by path"
-msgstr ""
+msgstr "Isih imej mengikut path"
 
 #: src/gthumb-ui.xml.h:149
 msgid "Specify a location to visit"
-msgstr ""
+msgstr "Nyatakan lokasi untuk dilawati"
 
 #: src/gthumb-ui.xml.h:151
 msgid "Step A_nimation"
-msgstr ""
+msgstr "Langkah A_nimasi"
 
 #: src/gthumb-ui.xml.h:152
 msgid "Stop loading current location"
-msgstr ""
+msgstr "Henti pemuatan lokasi semasa"
 
 #: src/gthumb-ui.xml.h:153
-msgid "Str_erched"
-msgstr ""
+msgid "Str_etched"
+msgstr "Di_regang"
 
 #: src/gthumb-ui.xml.h:154
 msgid "Transparen_cy Type"
-msgstr ""
+msgstr "Jenis Ke_telusan"
 
 #: src/gthumb-ui.xml.h:155
 msgid "Up"
-msgstr ""
+msgstr "Naik"
 
 #: src/gthumb-ui.xml.h:156
 msgid "Use black as transparency"
-msgstr ""
+msgstr "Guna hitam sebagai ketelusan"
 
 #: src/gthumb-ui.xml.h:157
 msgid "Use checks as transparency"
-msgstr ""
+msgstr "Guna kekotak sebagai ketelusan"
 
 #: src/gthumb-ui.xml.h:158
 msgid "Use gray as transparency"
-msgstr ""
+msgstr "Guna kelabu sebagai ketelusan"
 
 #: src/gthumb-ui.xml.h:159
 msgid "Use high quality zoom"
-msgstr ""
+msgstr "Guna zoom kualiti tinggi"
 
 #: src/gthumb-ui.xml.h:160
 msgid "Use low quality zoom"
-msgstr ""
+msgstr "Guna zoom kualiti rendah"
 
 #: src/gthumb-ui.xml.h:161
 msgid "Use white as transparency"
-msgstr ""
+msgstr "Guna putih sebagai ketelusan"
 
 #: src/gthumb-ui.xml.h:162
 msgid "View Properties"
-msgstr ""
+msgstr "Lihat Ciri-ciri"
 
 #: src/gthumb-ui.xml.h:163
-#, fuzzy
 msgid "View Slide Show"
-msgstr "Paparan Slaid"
+msgstr "Lihat Paparan Slaid"
 
 #: src/gthumb-ui.xml.h:164
 msgid "View image in fullscreen mode"
-msgstr ""
+msgstr "Lihat imej pada mod skrinpenuh"
 
 #: src/gthumb-ui.xml.h:166
-#, fuzzy
 msgid "View next image"
-msgstr "TIndih imej"
+msgstr "LIhat imej berikut"
 
 #: src/gthumb-ui.xml.h:167
 msgid "View or hide the statusbar of this window"
-msgstr ""
+msgstr "Lihat atau sorok bar status bagi tetingkap ini"
 
 #: src/gthumb-ui.xml.h:168
 msgid "View or hide the toolbar of this window"
-msgstr ""
+msgstr "Lihat atau sorok toolbar bagi tetingkap ini"
 
 #: src/gthumb-ui.xml.h:169
-#, fuzzy
 msgid "View previous image"
-msgstr "Lihat dan pelihara imej anda"
+msgstr "Lihat imej terdahulu"
 
 #: src/gthumb-ui.xml.h:170
 msgid "View the catalogs"
-msgstr ""
+msgstr "Lihat katalog"
 
 #: src/gthumb-ui.xml.h:171
 msgid "View the folders"
-msgstr ""
+msgstr "Lihat folder"
 
 #: src/gthumb-ui.xml.h:172
 msgid "View the image"
-msgstr ""
+msgstr "Lihat imej"
 
 #: src/gthumb-ui.xml.h:173
 msgid "View the image flipped"
@@ -1352,15 +1327,15 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:176
 msgid "View the image rotated clockwise"
-msgstr ""
+msgstr "Lihat imej dikilas ikut jam"
 
 #: src/gthumb-ui.xml.h:177
 msgid "View the image rotated counter-clockwise"
-msgstr ""
+msgstr "Lihat imej dikilas berlawanan jam"
 
 #: src/gthumb-ui.xml.h:178
 msgid "View the image with negative colors"
-msgstr ""
+msgstr "Lihat imej dengan warna negatif"
 
 #: src/gthumb-ui.xml.h:179
 msgid "View thumbnails"
@@ -1391,9 +1366,8 @@ msgid "Zoom to fit window"
 msgstr "Zoom supaya  muat  tetingkap"
 
 #: src/gthumb-ui.xml.h:186
-#, fuzzy
 msgid "_About"
-msgstr "_Perihal..."
+msgstr "_Perihal"
 
 #: src/gthumb-ui.xml.h:187
 msgid "_Actual Size"
@@ -1428,17 +1402,16 @@ msgid "_Centered"
 msgstr "Ketengah"
 
 #: src/gthumb-ui.xml.h:197
-#, fuzzy
 msgid "_Close"
-msgstr "_Katalog"
+msgstr "_Tutup"
 
 #: src/gthumb-ui.xml.h:198
 msgid "_Color Balance"
-msgstr ""
+msgstr "Imbangan _Warna"
 
 #: src/gthumb-ui.xml.h:199
 msgid "_Copy..."
-msgstr ""
+msgstr "_salin..."
 
 #: src/gthumb-ui.xml.h:200
 msgid "_Delete"
@@ -1446,19 +1419,15 @@ msgstr "Pa_dam"
 
 #: src/gthumb-ui.xml.h:201
 msgid "_Delete History"
-msgstr ""
-
-#: src/gthumb-ui.xml.h:202
-msgid "_Desaturate"
-msgstr ""
+msgstr "Pa_dam Sejarah"
 
 #: src/gthumb-ui.xml.h:203
 msgid "_Edit"
-msgstr ""
+msgstr "_Edit"
 
 #: src/gthumb-ui.xml.h:204
 msgid "_Edit Bookmarks"
-msgstr ""
+msgstr "_Edit TandaBuku"
 
 #: src/gthumb-ui.xml.h:205 src/gthumb_search.glade.h:26
 msgid "_Edit Search"
@@ -1466,49 +1435,47 @@ msgstr "_Edit Carian"
 
 #: src/gthumb-ui.xml.h:206
 msgid "_File"
-msgstr ""
+msgstr "_Fail"
 
 #: src/gthumb-ui.xml.h:207
-#, fuzzy
 msgid "_Find Images"
-msgstr "Imej"
+msgstr "_Cari Imej"
 
 #: src/gthumb-ui.xml.h:209
-#, fuzzy
 msgid "_Folder"
-msgstr "Folder"
+msgstr "_Folder"
 
 #: src/gthumb-ui.xml.h:210
 msgid "_Folders"
-msgstr ""
+msgstr "_Folder"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Forward"
-msgstr ""
+msgstr "_Maju"
 
 #: src/gthumb-ui.xml.h:212
 msgid "_Full Screen"
-msgstr ""
+msgstr "Skrin _Penuh"
 
 #: src/gthumb-ui.xml.h:213
 msgid "_Go"
-msgstr ""
+msgstr "_Pergi"
 
 #: src/gthumb-ui.xml.h:214
 msgid "_Go to the Image Folder"
-msgstr ""
+msgstr "_Pergi ke Folder Imej"
 
 #: src/gthumb-ui.xml.h:215
 msgid "_Help"
-msgstr ""
+msgstr "_Bantuan"
 
 #: src/gthumb-ui.xml.h:216
 msgid "_High Quality"
-msgstr ""
+msgstr "Kualiti _Tinggi"
 
 #: src/gthumb-ui.xml.h:217
 msgid "_Home"
-msgstr ""
+msgstr "_Rumah"
 
 #: src/gthumb-ui.xml.h:218
 msgid "_Hue-Saturation"
@@ -1516,46 +1483,43 @@ msgstr ""
 
 #: src/gthumb-ui.xml.h:220
 msgid "_Image preview"
-msgstr ""
+msgstr "_Prebiu imej"
 
 #: src/gthumb-ui.xml.h:221
 msgid "_Keyboard Shortcuts"
-msgstr ""
+msgstr "Pintasan Papan _Kekunci"
 
 #: src/gthumb-ui.xml.h:222
 msgid "_Location..."
-msgstr ""
+msgstr "_Lokasi..."
 
 #: src/gthumb-ui.xml.h:223
 msgid "_Low Quality"
-msgstr ""
+msgstr "Kualiti _Rendah"
 
 #: src/gthumb-ui.xml.h:224
 msgid "_Maintenance"
-msgstr ""
+msgstr "_Penyenggaraan"
 
 #: src/gthumb-ui.xml.h:225
 msgid "_Manual"
-msgstr ""
+msgstr "_Manual"
 
 #: src/gthumb-ui.xml.h:227
 msgid "_Move..."
-msgstr ""
+msgstr "_Pindah..."
 
 #: src/gthumb-ui.xml.h:228
-#, fuzzy
 msgid "_Negative"
-msgstr "Ci_pta"
+msgstr "_Negatif"
 
 #: src/gthumb-ui.xml.h:229 src/gthumb.glade.h:28
-#, fuzzy
 msgid "_New Catalog"
-msgstr "Katalog _Baru..."
+msgstr "Katalog _Baru"
 
 #: src/gthumb-ui.xml.h:230
-#, fuzzy
 msgid "_New Folder"
-msgstr "Folder Baru"
+msgstr "Folder _Baru"
 
 #: src/gthumb-ui.xml.h:232
 msgid "_Open With"
@@ -1670,40 +1634,40 @@ msgstr ""
 msgid "by _Time"
 msgstr ""
 
-#: src/gthumb-window.c:1214
+#: src/gthumb-window.c:1215
 msgid "No image"
 msgstr ""
 
-#: src/gthumb-window.c:1216
+#: src/gthumb-window.c:1217
 #, c-format
 msgid "1 image (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:1219
+#: src/gthumb-window.c:1220
 #, c-format
 msgid "%d images (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:1226
+#: src/gthumb-window.c:1227
 #, c-format
 msgid "1 selected (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:1229
+#: src/gthumb-window.c:1230
 #, c-format
 msgid "%d selected (%s)"
 msgstr ""
 
-#: src/gthumb-window.c:2602
+#: src/gthumb-window.c:2634
 msgid "Drag & Drop"
 msgstr ""
 
-#: src/gthumb-window.c:4297
+#: src/gthumb-window.c:4324
 #, c-format
 msgid "Cannot load folder \"%s\" : %s\n"
 msgstr ""
 
-#: src/gthumb-window.c:4547
+#: src/gthumb-window.c:4574
 msgid "The specified catalog does not exist."
 msgstr ""
 
@@ -2773,7 +2737,7 @@ msgstr "Prebiu"
 
 #: src/gthumb_print.glade.h:10
 #, fuzzy
-msgid "Print setup"
+msgid "Print Setup"
 msgstr "gThumb - Tetapan cetakan"
 
 #: src/gthumb_print.glade.h:11
@@ -3128,6 +3092,12 @@ msgstr ""
 #: src/main.c:271 src/main.c:333
 msgid "Command Line"
 msgstr ""
+
+#~ msgid "Black and White"
+#~ msgstr "Hitam dan Putih"
+
+#~ msgid "Black and _White"
+#~ msgstr "Hitam dan _Putih"
 
 #~ msgid "Cannot open file \"%s\" : %s"
 #~ msgstr "Tak dapat buka fail \"%s\" : %s"
