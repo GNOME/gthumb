@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 2.1.7, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
+AC_INIT(gthumb, 2.1.8, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -225,6 +225,12 @@ if test "x${prefix}" = "xNONE"; then
 else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "${prefix}/${DATADIRNAME}/locale", [Locale directory])
 fi
+
+dnl ******************************
+
+AC_ARG_ENABLE(deprecations,AC_HELP_STRING([--enable-deprecations],[warn about deprecated usages]))
+
+AM_CONDITIONAL(ENABLE_DEPRECATIONS, test "x$enable_deprecations" = xyes)
 
 dnl ******************************
 

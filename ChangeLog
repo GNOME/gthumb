@@ -1,5 +1,7 @@
 2003-11-02  Paolo Bacchilega  <paolo.bacch@tin.it>
 
+	[ gthumb 2.1.8 released ]
+
 	* src/dir-list.c (dir_list_add_directory): do not use an hardcoded
 	icon size, get the size from the gtk theme instead.
 
