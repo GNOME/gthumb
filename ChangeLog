@@ -1,3 +1,15 @@
+2005-02-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (update_exif_data): declare value as 
+	const.
+
+	Fixes bug #167502: crash trying to open specific image.
+
+2005-02-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (update_exif_data): ensure g_locale_to_utf8
+	gets a non NULL string.
+
 2005-02-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (window_notify_files_changed): restore commented 

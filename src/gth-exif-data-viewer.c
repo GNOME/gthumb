@@ -352,6 +352,7 @@ update_exif_data (GthExifDataViewer *edv)
 	for (i = 0; i < G_N_ELEMENTS (usefull_tags); i++) {
 		ExifEntry   *e;
 		GtkTreeIter  iter;
+		const char  *value;
 		char        *utf8_name;
 		char        *utf8_value;
 		
@@ -370,13 +371,23 @@ update_exif_data (GthExifDataViewer *edv)
 		if (e == NULL)
 			continue;
 
-		utf8_name = g_locale_to_utf8 (exif_tag_get_name (e->tag), -1, 0, 0, 0);
+		value = exif_tag_get_name (e->tag);
+		if (value == NULL)
+			continue;
+
+		utf8_name = g_locale_to_utf8 (value, -1, 0, 0, 0);
 		if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
 			g_free (utf8_name);
 			continue;
 		}
+		
+		value = get_exif_entry_value (e);
+		if (value == NULL) {
+			g_free (utf8_name);
+			continue;
+		}
 
-		utf8_value = g_locale_to_utf8 (get_exif_entry_value (e), -1, 0, 0, 0);
+		utf8_value = g_locale_to_utf8 (value, -1, 0, 0, 0);
 		if ((utf8_value == NULL) 
 		    || (*utf8_value == 0) 
 		    || _g_utf8_all_spaces (utf8_value)) {
