@@ -396,14 +396,8 @@ dlg_edit_comment (GtkWidget *widget, gpointer wdata)
 	data->have_exif_data = FALSE;
 #else
 	{
-		ExifData *edata;
-		char     *first_image = data->file_list->data;
-
-		edata = exif_data_new_from_file (first_image);
-		data->have_exif_data = edata != NULL;
-
-		if (edata != NULL) 
-			exif_data_unref (edata);
+		char *first_image = data->file_list->data;
+		data->have_exif_data = have_exif_data (first_image);
 	}
 #endif
 

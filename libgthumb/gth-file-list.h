@@ -70,6 +70,9 @@ struct _GthFileList {
 	ThumbLoader *thumb_loader;
 	gboolean     doing_thumbs;        /* Thumbs creation process is 
 					   * active. */
+	gboolean     interrupt_thumbs;    /* Thumbs creation interruption is 
+					   * underway. */
+
 	int          thumbs_num;
 	FileData    *thumb_fd;
 	int          thumb_pos;           /* The position of the item we are 

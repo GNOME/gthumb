@@ -227,7 +227,7 @@ preferences_init (void)
         g_object_unref (client);
 
 	preferences.startup_location = NULL;
-	preferences_set_startup_location (eel_gconf_get_locale_string (PREF_STARTUP_LOCATION, NULL));
+	preferences_set_startup_location (eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL));
 }
 
 

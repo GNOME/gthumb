@@ -161,9 +161,10 @@ endif
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(ui_DATA)		\
-	$(schema_DATA)		\
 	albumtheme.c		\
 	albumtheme.y		\
 	albumtheme.l		\
-	lex.albumtheme.c
+	lex.albumtheme.c	\
+	gthumb.schemas		\
+	gthumb.schemas.in
 

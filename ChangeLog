@@ -1,3 +1,38 @@
+2003-09-29  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* doc/C/gthumb.xml: started updating manual.
+
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): check whether the
+	image type is writable before trying to write the image, and warn
+	the user if it's not.
+
+2003-09-28  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/dlg-comment.c (dlg_edit_comment): use have_exif_data.
+
+	* src/exif-utils.c (have_exif_data): new function.
+
+	* src/fullscreen.c (fullscreen_start): do not hide the main
+	window.
+	
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c (gth_file_list_init) 
+	(interrupt_thumbs__part2, gth_file_list_interrupt_thumbs) 
+	(start_update_next_thumb): do not allow to interrupt an interruption.
+
+2003-09-14  Paolo Bacchilega  <paolo.bacch@tin.it>
+
+	* src/Makefile.am (EXTRA_DIST): add gthumb.schemas.in
+
+	* src/dlg-preferences.c: 
+	* src/gthumb-window.c: 
+	* src/dlg-web-exporter.c: 
+	* libgthumb/preferences.c: use the new functions.
+
+	* libgthumb/gconf-utils.c (eel_gconf_set_path) 
+	(eel_gconf_get_path): new functions, used to save paths in gconf
+	substituting the home dir with a tilde.
+
 2003-09-11  Andras Timar  <timar@gnome.hu>
 
 	configure.in: Added "hu" to ALL_LINGUAS.

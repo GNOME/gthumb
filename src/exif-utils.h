@@ -23,6 +23,7 @@
 #ifndef EXIF_UTILS_H
 #define EXIF_UTILS_H
 
+
 #include <config.h>
 
 #ifdef HAVE_LIBEXIF
@@ -37,6 +38,9 @@ char *   get_exif_tag            (const char *filename,
 time_t   get_exif_time           (const char *filename);
 
 char *   get_exif_aperture_value (const char *filename);
+
+gboolean have_exif_data          (const char *filename);
+
 
 #endif /* HAVE_LIBEXIF */
 

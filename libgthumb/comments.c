@@ -163,17 +163,12 @@ comments_get_comment_filename (const char *source,
 
 	if (resolve_symlinks) {
 		char           *parent;
-		char           *parent_escaped;
 		char           *parent_resolved;
 		GnomeVFSResult  result;
 
 		parent = remove_level_from_path (source);
-		parent_escaped = gnome_vfs_escape_path_string (parent);
+		result = resolve_all_symlinks (parent, &parent_resolved);
 		g_free (parent);
-
-		result = resolve_all_symlinks (parent_escaped, 
-					       &parent_resolved);
-		g_free (parent_escaped);
 
 		if (result == GNOME_VFS_OK) { 
 			g_free (source_real);
@@ -221,14 +216,8 @@ comments_get_comment_dir (const char *directory,
 	char        *path;
 
 	if (resolve_symlinks && (directory != NULL)) {
-		char           *directory_escaped;
 		GnomeVFSResult  result;
-
-		directory_escaped = gnome_vfs_escape_path_string (directory);
-		result = resolve_all_symlinks (directory_escaped, 
-					       &directory_resolved);
-		g_free (directory_escaped);
-
+		result = resolve_all_symlinks (directory, &directory_resolved);
 		if (result == GNOME_VFS_OK) 
 			directory_real = directory_resolved;
 	}

@@ -122,7 +122,7 @@ export (GtkWidget  *widget,
 	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->dest_fileentry_entry));
 	location = remove_ending_separator (path);
 	g_free (path);
-	eel_gconf_set_string (PREF_WEB_ALBUM_DESTINATION, location);
+	eel_gconf_set_path (PREF_WEB_ALBUM_DESTINATION, location);
 
 	index_file = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_index_file_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_INDEX_FILE, index_file);
@@ -336,7 +336,7 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_DESTINATION, NULL);
+	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),
 				    ((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue);
 	g_free (svalue);

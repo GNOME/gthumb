@@ -170,8 +170,7 @@ char *              remove_special_dirs_from_path (const char *path);
      
 GnomeVFSURI *       new_uri_from_path             (const char *path);
 
-GnomeVFSResult      resolve_all_symlinks_uri      (GnomeVFSURI *uri,
-						   GnomeVFSURI **result_uri);
+char *              new_path_from_uri             (GnomeVFSURI *uri);
 
 GnomeVFSResult      resolve_all_symlinks          (const char  *text_uri,
 						   char       **resolved_text_uri);

@@ -2,8 +2,9 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY gthumb-version "2.0">
-  <!ENTITY manual-version "2.0">
+  <!ENTITY gthumb-version "2.2">
+  <!ENTITY manual-version "2.2">
+  <!ENTITY date "September 2003">
   <!ENTITY gthumb "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
 <!--  Template Version: 1.0.1  (do not remove this line) -->
@@ -14,10 +15,11 @@
 <article id="index" lang="en"> <!-- please do not change the id -->
 
   <articleinfo>
-    <title>gThumb User Guide</title>
+    <title>&gthumb; Manual V&manual-version;</title>
     <copyright>
       <year>2001</year>
       <year>2002</year>
+      <year>2003</year>
       <holder>Paolo Bacchilega</holder>
     </copyright>
 
@@ -30,6 +32,13 @@
 
     -->
 
+    <!-- An address can be added to the publisher information.  If a role is 
+     not specified, the publisher/author is the same for all versions of the 
+     document.  -->
+    <publisher> 
+      <publishername> GNOME Documentation Project </publishername> 
+    </publisher> 
+
     &legal; 
 
     <authorgroup>
@@ -37,7 +46,7 @@
         <firstname>Paolo</firstname>
 	<surname>Bacchilega</surname>
 	<affiliation>
-          <address><email>paolo.bacch@tin.it</email></address>
+	  <address> <email>paolo.bacch@tin.it</email> </address>
         </affiliation>
       </author>
       <author> 
@@ -55,8 +64,7 @@
 
     <!-- this is version of manual, not application --> 
     <releaseinfo>
-      This is version &manual-version; of the gThumb manual, describing 
-      version &gthumb-version; of gThumb.
+      This is manual describes version &gthumb-version; of &gthumb;
     </releaseinfo>
   </articleinfo>
 
@@ -77,83 +85,103 @@
   <sect1 id="intro">
     <title>Introduction</title>
     <para>
-      <application>gThumb</application> is an image viewer and browser 
+      &gthumb; is an image viewer and browser 
       written for the GNOME environment.  It lets you browse your hard disk, 
-      showing you thumbnails of image files.  It also lets you view single 
-      files (including GIF animations), add comments to images, organize 
-      images in catalogs, print images, view slideshows, set your desktop 
-      background, and more. 
+      showing you thumbnails of image files and view single images
+      of many different formats.
     </para>
     <para>
-      To run <application>gThumb</application>, select its entry from the
-      <guisubmenu>Graphics</guisubmenu> submenu of the <guimenu>Applications
-      </guimenu> menu, or type <command>gthumb</command> on the
-      command line.  If you start <application>gThumb</application> from the
-      command line you can specify a starting folder : 
+      The most common image formats are JPEG and GIF. The JPEG format 
+      is good for medium and big sized images because it has a high
+      compression rate keeping a good image quality.  
+      The GIF format is used in Web pages for displaying little
+      animations or little static images.
+      Another important image format is PNG, this format is very
+      common on Unix platforms and is considered
+      a replacement of the GIF format which has  
+      <ulink url="http://www.gnu.org/philosophy/gif.html"
+      type="http">license issues</ulink>.
     </para>
     <para>
-      <command>gthumb <replaceable>foldername</replaceable></command>
-    </para>
-    <para>  
-      or a list of files to view : 
-    </para>  
-    <para>
-      <command>gthumb <replaceable>*.jpg</replaceable></command>
+      &gthumb; supports all this formats and many others, it also displays
+      GIF animations.
     </para>
     <para>
-      you can even do a combination of the two :
-    </para>
-    <para>
-      <command>gthumb <replaceable>*.jpg folder1 folder2</replaceable></command>
-    </para>
-    <para>
-      The above example will pop up three windows, one shows you the files 
-      with a <filename>jpg</filename> extension in the current folder, 
-      and the others two will show you respectively
-      the content of <filename>folder1</filename> and 
-      <filename>folder2</filename>.
+      &gthumb; not only lets you view image files but has many other features
+      such as add comments to images, organize images
+      in catalogs, print images, view slideshows, set your desktop
+      background, and more.
     </para>
   </sect1>
-
-
-  <!-- ============= Browsing ================================== -->
-  <sect1 id="browsing">
-  <title>Browsing folders</title>
+  
+  <!-- ============= Getting Started ==============================  -->
+  <sect1 id="gthumb-getting-started">
+  <title>Getting Started</title>
   <para>
-    When you first launch <application>gThumb</application> the main window
-    pops up,  four areas give you information about the current folder :
-    <orderedlist>
-      <listitem>
-        <para>
-	  The <guilabel>location bar</guilabel>, which contains the 
-	  current folder name. 
-	</para>
-      </listitem>
+    This section provides information on how to start &gthumb;, and
+    describes the main window interface. 
+  </para>
+  <sect2 id="get-start">
+    <title>To Start &gthumb;</title>
+    <para>
+      You can start &gthumb; in the following ways:</para>
+      <variablelist>
+        <varlistentry>
+          <term><guimenu>Applications</guimenu> menu</term>
+          <listitem>
+            <para>Choose
+            <menuchoice><guisubmenu>Graphics</guisubmenu><guimenuitem>gThumb</guimenuitem></menuchoice>.
+            </para> 
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>Command line</term>
+          <listitem>
+            <para>Type <command>gthumb</command>, then press
+            <keycap>Return</keycap>.</para> 
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    <para>If you start &gthumb; from the command line you can specify
+      the following options:
+    </para>
+      <informaltable frame="all">
+        <tgroup cols="2" colsep="1" rowsep="1">
+          <colspec colname="COLSPEC0" colwidth="50.00*"/>
+          <colspec colname="COLSPEC1" colwidth="50.00*"/>
+          <thead>
+            <row valign="top">
+              <entry colname="COLSPEC0">
+                <para>Command</para></entry>
+              <entry colname="COLSPEC1" align="left">
+                <para>Explanation</para></entry>
+            </row>
+          </thead>
+          <tbody>
+            <row valign="top">
+              <entry><para><command>gthumb <replaceable>folder</replaceable></command></para></entry>
+              <entry align="left"><para>Start &gthumb; in the
+              specified folder</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para><command>gthumb <replaceable>name.jpg</replaceable></command></para></entry>
+              <entry align="left"><para>View the image <filename>name.jpg</filename>.</para></entry>
+            </row>
+            <row valign="top">
+              <entry><para><command>gthumb <replaceable>*.jpg</replaceable></command></para></entry>
+              <entry align="left"><para>View all the images with a
+              <filename>.jpg</filename> extension.</para></entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </informaltable>
 
-      <listitem>
-        <para>
-	  The <guilabel>folder list</guilabel>, which shows you the
-	  sub-folders contained in the current folder.
-	</para>
-      </listitem>
+  </sect2>
+  <sect2 id="gthumb-main-window">
+  <title>When You Start &gthumb;</title>
+    <para>
+    When you start &gthumb; the following window is displayed:
 
-      <listitem>
-        <para>
-	  The <guilabel>image list</guilabel>, which shows you the images 
-	  in the current folder.
-	</para>
-      </listitem>
-
-      <listitem>
-        <para>
-	  The <guilabel>status bar</guilabel>, where you can read the 
-	  total number of images contained in the current folder and 
-	  their size;
-	  the number of the selected images and their size;
-	  some properties of the current image.
-	</para>
-      </listitem>
-    </orderedlist>
     <!-- ==== Figure ==== -->
     <figure id="main-win-fig">
     <title>The main window</title> 
@@ -164,48 +192,133 @@
     </screenshot>
     </figure>
     <!-- ==== End of Figure ==== -->
-  </para>
 
+    The &gthumb; <guilabel>window</guilabel> contains the following elements:
+    <variablelist>
+      <varlistentry> <term>Menubar</term>
+        <listitem>
+          <para>The menus on the menubar contain all of the commands
+          that you can use &gthumb;</para> 
+        </listitem>
+      </varlistentry>
+      <varlistentry> <term>Toolbar</term>
+        <listitem>
+           <para>The toolbar contains a subset of the commands that
+           you can access from the menubar. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry> <term>Locationbar</term>
+        <listitem>
+          <para>The locationbar contains the current folder name. </para>
+        </listitem>
+      </varlistentry>
+      <varlistentry> <term>Folder list</term>
+      <listitem> 
+        <para>The folder list shows the
+	  sub-folders contained in the current folder.
+	</para>
+      </listitem>
+      </varlistentry>
+      <varlistentry> <term>Image list</term>
+      <listitem>
+        <para>The image list which shows the images in the current folder.
+	</para>
+      </listitem>
+      </varlistentry>
+      <varlistentry> <term>Statusbar</term>
+      <listitem>
+        <para>On the statusbar you can read:
+	  <orderedlist>
+	    <listitem>
+              <para>the total number of images contained in the
+	      current folder and their total size.</para>
+	    </listitem>
+	    <listitem>
+	      <para>the number of the selected images and their size.</para>
+	    </listitem>
+	    <listitem>
+	      <para>some properties of the currently focused image.</para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+      </listitem>
+      </varlistentry>
+    </variablelist>
+    </para>
+  </sect2>
+  </sect1>
+
+  <!-- ============= Browsing Folders ==============================  -->
+  <sect1 id="gthumb-browsing">
+  <title>Browsing Folders</title>
     <para>
-      If you want to change folder you have two options,  clicking on the 
-      folder name in the folder list, or typing the folder name in 
-      the location entry.  When using the location entry you can press 
+      Browser options can be found in the <xref
+      linkend="preferences-browser"/> of the
+      <guilabel>Preferences</guilabel> dialog.
+    </para>
+    <sect2 id="gthumb-change-folder">
+    <title>To Change Folder</title>
+    <para>
+      If you want to change folder you have two ways:
+      <orderedlist>
+	<listitem>
+	  <para>click on the folder name in the folder list.</para>
+        </listitem>
+        <listitem>
+	  <para>type the folder name in the location entry.</para>
+        </listitem>
+      </orderedlist>
+      When using the location entry you can press 
       <keycombo><keycap>Ctrl</keycap><keycap>TAB</keycap></keycombo> to
       try to automatically complete the folder name,  this simplify the 
-      typing of long names.
+      typing of long names.  You can quickly give focus to the
+      location entry pressing
+      <keycombo><keycap>Ctrl</keycap><keycap>L</keycap></keycombo>.
     </para>
     <para>
       To go to a previously visited folder you can use the 
-      <menuchoice><guimenu>Go</guimenu><guimenuitem>Back</guimenuitem>
-      </menuchoice> command or click on the
-      <guimenu>Go</guimenu> menu that contains a list of the most recently
-      visited ones.  In this menu keeping the pointer on a folder name will
-      display the full path of the folder in the statusbar.
+      toolbar <guilabel>Back</guilabel> button or click on the
+      down arrow located near the button to display a menu that
+      contains a list of the most recently visited folders.  When this
+      menu is displayed, if you keep the pointer on a folder name, you
+      can read the full folder path in the statusbar.
     </para>
     <para>
+      The above commands are also present in the
+      <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu></menuchoice>
+      menu.
+    </para>
+  </sect2>
+  <sect2 id="gthumb-sort">
+  <title>To Sort Images</title>
+    <para>
+      To sort images in a different order use the <guimenuitem>Sort
+      images</guimenuitem> submenu in the <guimenu>View</guimenu>
+      menu, use <keycombo><keycap>Ctrl</keycap><keycap>R</keycap>
+      </keycombo> to reload the current folder,  type
+      <keycombo><keycap>T</keycap></keycombo> to view or hide the
+      thumbnails in the images list.
+    </para>
+  </sect2>
+  <sect2 id="gthumb-bookmarks">
+  <title>To Add a Folder to the Bookmarks</title>
+  <para>
       Frequently used folders can be added to the bookmark list for rapid
-      access.  Just go the folder and press <keycombo action="simul">
-      <keycap>Ctrl</keycap><keycap>D</keycap></keycombo> or use the command
-      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add Bookmark</guimenuitem></menuchoice>.
-      For removing or rearrange bookmarks in a different order use the 
-      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit Bookmarks</guimenuitem></menuchoice> command.
-    </para>
+      access.  Just go to the folder you want to add to the bookmarks and
+      press <keycombo action="simul"><keycap>Ctrl</keycap><keycap>D</keycap>
+      </keycombo> or use the command
+      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Add
+      Bookmark</guimenuitem></menuchoice>.
+      To remove or rearrange bookmarks in a different order use the 
+      <menuchoice><guimenu>Bookmarks</guimenu><guimenuitem>Edit
+      Bookmarks</guimenuitem></menuchoice> command.
+  </para>
+  </sect2>
+  <sect2 id="gthumb-browser-shortcuts">
+  <title>Keyboard Shortcuts to Navigate Folders</title>
     <para>
-      To sort images in a different order use the <guimenuitem>Sort images</guimenuitem> submenu in the <guimenu>View</guimenu> menu,  
-      use <menuchoice><guimenu>View</guimenu><guimenuitem>Refresh</guimenuitem></menuchoice> to reload the current folder,  click on
-      <menuchoice><guimenu>View</guimenu><guimenuitem>Thumbnails</guimenuitem></menuchoice> to view or hide the thumbnails in the images list.
-    </para>
-
-    <para>
-      To move, copy and rename images, select the images and use the corresponding command in the <guimenu>Edit</guimenu> menu.
-    </para>
-    <para>
-      To open an image, or a series of images, with an external program 
-      select the image and use
-      the <menuchoice><guimenu>File</guimenu><guimenuitem>Open images with</guimenuitem></menuchoice> command.
-    </para>
       <table frame="topbot">
-      <title>Keyboard shortcuts to navigate your folders</title>
+      <title>Keyboard shortcuts to navigate folders</title>
       <tgroup cols="2" colsep="0" rowsep="0">
       	<colspec colwidth="20.00*"/>
 	<colspec colwidth="20.00*"/>
@@ -368,25 +481,202 @@
 	</tbody>
       </tgroup>
       </table>
-
-    <para>
-      Other options for the browser can be found in the <interface>Browser</interface> tag of the <guilabel>Preferences</guilabel> dialog.
     </para>
+    </sect2>
   </sect1>
-
+  <sect1 id="gthumb-folders">
+    <title>
+      Working with Folders
+    </title>
+    <para>
+      &gthumb; offers the all functionalities to manage folders.
+      <note>
+        <title>WARNING</title>
+        <para>
+          It's higly suggested to move and copy image folders with
+          &gthumb;.  This is because if you move or copy folders with
+          &gthumb; image comments will remain attached to images as
+          you expect, but if you move or copy folders with the file
+          manager or other applications you will loose your comments.
+        </para>
+      </note>
+    </para>
+    <sect2 id="gthumb-create-folder">
+    <title>To Create a Folder</title>
+    <para>To create a new folder, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder where the new folder will be created.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guimenuitem>New
+        Folder</guimenuitem></menuchoice> to display the <guilabel>New
+        Folder</guilabel> dialog.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Enter the new folder name.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Create</guibutton>. &gthumb; creates
+        a new folder.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="gthumb-open-folder">
+    <title>To Open a Folder</title>
+    <para>To open a folder with the file manager, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder you want to open.</para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Open
+        with the _File Manager</guimenuitem></menuchoice>. &gthumb;
+        opens the folder with the file manager.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="gthumb-rename-folder">
+    <title>To Rename a Folder</title>
+    <para>To rename a folder, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder you want to rename.</para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Rename</guimenuitem></menuchoice>
+        to display the <guilabel>Rename Folder</guilabel> dialog.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Enter the new folder name.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Rename</guibutton>. &gthumb; renames
+        the folder.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="gthumb-move-to-trash-folder">
+    <title>To Delete a Folder</title>
+    <para>To delete a folder, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder you want to delete.</para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Move
+        to Trash</guimenuitem></menuchoice>. &gthumb; moves the folder
+        to the system trash.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="gthumb-copy-folder">
+    <title>To Copy a Folder</title>
+    <para>To copy a folder to a different location, perform the
+    following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder you want to copy.</para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Copy</guimenuitem></menuchoice>
+        to display the <guilabel>Copy Folder</guilabel> dialog.
+        </para>
+      </listitem>
+      <listitem>
+        <para>The <guilabel>Copy Folder</guilabel> dialog is used to
+        choose the destination folder. You can type the folder name in
+        the <guilabel>Folder</guilabel> entry, or click on
+        <guibutton>Browse</guibutton> to select a folder from your
+        disk. The <guilabel>Recents</guilabel> list contains the list
+        of recently specified destination folders, while the
+        <guilabel>Bookmarks</guilabel> list contains the folders you
+        have a bookmark for.
+        Click on a folder in these lists to insert the folder name in
+        the <guilabel>Folder</guilabel> entry.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; copies the
+        folder to the destination folder.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  <sect2 id="gthumb-move-folder">
+    <title>To Move a Folder</title>
+    <para>To move a folder to a different location, perform the
+    following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder you want to move.</para>
+      </listitem>
+      <listitem>
+        <para>Choose
+        <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Move</guimenuitem></menuchoice>
+        to display the <guilabel>Move Folder</guilabel> dialog.
+        </para>
+      </listitem>
+      <listitem>
+        <para>The <guilabel>Move Folder</guilabel> dialog is used to
+        choose the destination folder. You can type the folder name in
+        the <guilabel>Folder</guilabel> entry, or click on
+        <guibutton>Browse</guibutton> to select a folder from your
+        disk. The <guilabel>Recents</guilabel> list contains the list
+        of recently specified destination folders, while the
+        <guilabel>Bookmarks</guilabel> list contains the folders you
+        have a bookmark for.
+        Click on a folder in these lists to insert the folder name in
+        the <guilabel>Folder</guilabel> entry.
+        </para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; moves the
+        folder to the destination folder.
+        </para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+  </sect1>
 
   <!-- ============= Viewing ================================== -->
   <sect1 id="viewing">
-  <title>Viewing images</title>
+  <title>Working with Images</title>
+  <para>
+    This section shows how to view, modify and save images.
+  </para>
+  <sect2 id="gthumb-view-images">
+  <title>To View Images</title>
     <para>
       In order to view an image just click on its thumbnail and the image will
       be visualized in the viewer pane.  If the image doesn't fit the viewer
       pane you can give more space to the viewer hiding the browser, this can 
-      be accoplished pressing the <keycombo><keycap>Return</keycap></keycombo>
-      key, pressing it again the browser will be re-displayed.  Another way of
-      viewing a big image is to view it in full screen mode, type <keycombo>
-      <keycap>V</keycap></keycombo> to activate/disactivate the full screen 
-      mode.
+      be accomplished double-clicking on the thumbnails or pressing the
+      <keycombo><keycap>Return</keycap></keycombo> key, pressing it
+      again the browser will be displayed again.  
+      Another way of viewing a big image is to view it in full screen
+      mode, type <keycombo> <keycap>V</keycap></keycombo> to
+      activate/disactivate the full screen mode.
     </para>
     <para>
       Mouse operations :
@@ -424,7 +714,7 @@
         </tgroup>
       </informaltable>
     <para>
-      Another way of moving the image is by the navigation button :
+      Another way of moving images is by the navigation button :
       <screenshot> 
         <mediaobject> 
           <imageobject>
@@ -438,11 +728,13 @@
       button will show you a preview of the image.  Moving the mouse you will 
       move the image to the desired position.
     </para>
-    <sect2>
-      <title>Altering images</title>
+   </sect2>
+   <sect2 id="gthumb-alter-images">
+   <title>To Modify Images</title>
       <para>
-        There are a set of commands, located in the <guimenu>Image</guimenu> 
-	menu, that let you modify the current image.
+	The current image can be modified in many ways.  The commands
+	used to modify an image are located in the <guimenu>Image</guimenu> 
+	menu.
       </para>
       <informaltable frame="topbot">
         <tgroup cols="2" colsep="0" rowsep="0"><colspec colname="COLSPEC0"
@@ -517,7 +809,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Change image size performing a zoom in or out.
+	        Change the image size performing a zoom in or out.
 	      </para>
 	    </entry>
 	  </row>
@@ -531,7 +823,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Change color balancement.
+	        Change the color balancement.
 	      </para>
 	    </entry>
 	  </row>
@@ -559,7 +851,7 @@
 	    </entry>
             <entry>
 	      <para>
-	        Change image brightness and contrast.
+	        Change the image brightness and contrast.
 	      </para>
 	    </entry>
 	  </row>
@@ -637,30 +929,234 @@
 	</tbody>
       </tgroup>
       </informaltable>
+      <para>When an image is modified the label "[modified]" is
+      displayed near the image filename.
       <note>
-        <title>WARNING</title>
+        <title>NOTE</title>
         <para>
-          Please note that this modifications do not change the image file,
-	  and if you want to view the original image just click on its 
+          Please note that this modifications do not change the image file.
+	  If you want to view the original image just click on its 
 	  thumbnail again or use the
 	  <menuchoice><guimenu>File</guimenu><guimenuitem>Revert</guimenuitem>
 	 </menuchoice> command.
         </para>
       </note>
+      </para>
       <para>
-        To save the modified image use the
-	<menuchoice><guimenu>File</guimenu><guimenuitem>Save
-	As</guimenuitem></menuchoice> command.  Images can be saved 
-	in JPEG, PNG, TGA, TIFF formats.  
-	Each image format have some option that
-	can be changed with a dialog that pops up after having
-	entered the image filename.  All the dialogs remember the
-	last specified options.
+        You can save modified images, see <xref
+        linkend="gthumb-save-images"/> to known how.
+      </para>
+    </sect2>
+    <sect2 id="gthumb-save-images">
+    <title>To Save Images</title>
+      <para>To save an image, perform the following steps:
+      <orderedlist>
+        <listitem>
+           <para>Display the image.</para>
+        </listitem>
+        <listitem>
+           <para>Modify the image (described in <xref
+           linkend="gthumb-alter-images"/>).  This step is
+           optional.</para> 
+        </listitem>
+        <listitem>
+            <para>Choose
+            <menuchoice><guimenu>File</guimenu><guimenuitem>Save
+            As</guimenuitem></menuchoice>.</para>
+        </listitem>
+        <listitem>
+            <para>Choose the filename and click on
+            <guibutton>Ok</guibutton>.</para>
+        </listitem>
+        <listitem>
+           <para>&gthumb; displays the image format dialog from which
+           you can choose specific file format options.  Once you are
+           ok with the options click on
+           <guibutton>Ok</guibutton>. &gthumb; saves the image.</para>
+        </listitem>
+      </orderedlist>
       </para>
     </sect2>      
 
+  <sect2 id="gthumb-image-open">
+  <title>To Open Images with Another Program</title>
+  <para>
+    To open a series of images with another program, perform the
+    following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the images are.</para>
+      </listitem>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>File</guimenu><guimenuitem>Open With</guimenuitem></menuchoice>
+        to display the <guilabel>Open</guilabel> dialog.</para>
+      </listitem>
+      <listitem>
+        <para>Select an application from the <guilabel>Available
+        applications</guilabel> list, or from the <guilabel>Recent
+        applications</guilabel> list; or type a command in the
+        <guilabel>Application</guilabel> entry.</para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Open</guibutton>. &gthumb; opens the
+        images.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+
+  <sect2 id="gthumb-image-rename">
+  <title>To Rename Images</title>
+  <para>
+    To rename an image filename, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the image is.</para>
+      </listitem>
+      <listitem>
+        <para>Select the image and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Rename</guimenuitem></menuchoice>.</para>
+      </listitem>
+      <listitem>
+        <para>Enter the new filename and click on
+        <guibutton>Rename</guibutton>. &gthumb; renames the image
+        filename.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+
+  <sect2 id="gthumb-image-delete">
+  <title>To Delete Images</title>
+  <para>
+    To delete a series of images, perform the
+    following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the images are.</para>
+      </listitem>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move to
+        Trash</guimenuitem></menuchoice>. &gthumb; deletes the images
+        moving them to the system trash.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+
+  <sect2 id="gthumb-image-copy">
+  <title>To Copy Images</title>
+  <para>
+    To copy a series of images, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the images are.</para>
+      </listitem>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Copy</guimenuitem></menuchoice>
+        to display the <guilabel>Choose the destination
+        folder</guilabel> dialog.</para>
+      </listitem>
+      <listitem>
+        <para>Select a folder from the <guilabel>Recents</guilabel>
+        list, or from the <guilabel>Bookmarks</guilabel> list; or type
+        a folder name in the
+        <guilabel>Folder</guilabel> entry.</para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; copies the
+        images.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+
+  <sect2 id="gthumb-image-move">
+  <title>To Move Images</title>
+  <para>
+    To move a series of images, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the images are.</para>
+      </listitem>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move</guimenuitem></menuchoice>
+        to display the <guilabel>Choose the destination
+        folder</guilabel> dialog.</para>
+      </listitem>
+      <listitem>
+        <para>Select a folder from the <guilabel>Recents</guilabel>
+        list, or from the <guilabel>Bookmarks</guilabel> list; or type
+        a folder name in the
+        <guilabel>Folder</guilabel> entry.</para>
+      </listitem>
+      <listitem>
+        <para>Click on <guibutton>Ok</guibutton>. &gthumb; moves the
+        images.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
+
+  <!-- ============= Print ================================== -->
+  <sect2 id="gthumb-print-images">
+  <title>To Print Images</title>
+  <para>
+    To print an image, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the image is.</para>
+      </listitem>
+      <listitem>
+        <para>Select the image and choose <menuchoice><guimenu>File</guimenu><guimenuitem>Print</guimenuitem></menuchoice>.</para>
+      </listitem>
+      <listitem>
+        <para> From the <guilabel>Print</guilabel> dialog you can
+        <itemizedlist>
+        <listitem>
+          <para>Choose the paper format and orientation from the
+          <guilabel>Paper Details</guilabel> tag.</para>
+        </listitem>
+        <listitem>
+          <para>Choose the size of the image.</para>
+        </listitem>
+        <listitem>
+          <para>Move the image clicking on it with the left mouse
+          button and dragging it.</para>
+        </listitem>
+        <listitem>
+          <para> Recenter the image on the page using the <guibutton>Center on 
+	  Page</guibutton> button.</para>
+        </listitem>
+        </itemizedlist>
+        </para>
+      </listitem>
+      <listitem>
+        <para>When you are ready to print click on
+        <guibutton>Print</guibutton>. &gthumb; prints the
+        image.</para>
+      </listitem>
+    </orderedlist>
+    </para>
+  </sect2>
+
+  <!-- ============= EXIF ================================== -->
+  <sect2 id="gthumb-exif">
+  <title>To View EXIF Data</title>
+  <para>
+    FIXME
+  </para>
+  </sect2>
+
+  <!-- ============= Keyboard Shortcuts =============================== -->
+  <sect2 id="gthumb-viewer-shortcuts">
+  <title>Keyboard Shortcuts to View Images</title>
     <table frame="topbot">
-    <title>Some keyboard shortcuts</title>
+    <title>Keyboard shortcuts to view images</title>
     <tgroup cols="2" colsep="0" rowsep="0">
       	<colspec colwidth="20.00*"/>
 	<colspec colwidth="20.00*"/>
@@ -786,65 +1282,36 @@
 	  </row>
 	</tbody>
      </tgroup>
-  </table>
-
-
-  </sect1>
-
-
-  <!-- ============= Printing ================================== -->
-  <sect1 id="printing">
-  <title>Printing images</title>
-  <para>
-    Click on the image you want to print, then select the <menuchoice>
-    <guimenu>File</guimenu><guimenuitem>Print image</guimenuitem></menuchoice>
-    command.
-  </para>
-  <para>
-    The <interface>Print setup</interface> dialog lets you 
-
-    <itemizedlist>
-      <listitem>
-        <para>
-	Choose the paper format and orientation, 
-        </para>
-      </listitem>
-      <listitem>
-        <para>
-	Choose the printer to use, 
-        </para>
-      </listitem>
-      <listitem>
-        <para>
-	Choose the size of the image, 
-        </para>
-      </listitem>
-      <listitem>
-        <para>
-	Move the image clicking on it with the left mouse  button and dragging
-	the image where you want to put it.  
-        </para>
-      </listitem>
-      <listitem>
-        <para>
-	Recentre the image on the page use the <guibutton>Center on 
-	Page</guibutton> button.
-        </para>
-      </listitem>
-    </itemizedlist>
-  </para>
-  <para>
-    When you are ready to print press the <guibutton>Print</guibutton> button.
-  </para>
+   </table>
+   </sect2>
   </sect1>
 
   <!-- ============= Comments ================================== -->
-  <sect1 id="comments">
-  <title>Adding comments to images</title>
+  <sect1 id="gthumb-comments">
+  <title>Comments</title>
   <para>
-    In order to add a comment to an image select the image and use the 
+    FIXME
+    <note>
+      <title>WARNING</title>
+      <para>Comments are not embedded in image files, they are saved
+      separately. This means that if you move images or 
+      folders with other programs you will lose the comments.
+      </para>
+    </note>
+    <note>
+      <title>FOR EXPERTS</title>
+      <para>Comments are saved in the folder
+      <filename>$(HOME)/.gnome2/gthumb/comments</filename>. 
+      </para>
+    </note>
+  </para>
+
+  <sect2 id="gthumb-comment-add">
+  <title>To Add a Comment</title>
+  <para>
+    To add a comment to an image select the image and choose 
     <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit comment</guimenuitem>
-    </menuchoice> command or type <keycombo><keycap>C</keycap></keycombo>.
+    </menuchoice> or type <keycombo><keycap>C</keycap></keycombo>.
   </para>
   <para>
     Comments are structured in various parts :
@@ -865,25 +1332,6 @@
         </para>
       </listitem>
     </itemizedlist>
-    <!-- ==== Figure ==== -->
-    <figure id="dlg-comment-fig">
-      <title>The "Edit Comment" dialog </title> 
-      <screenshot>
-        <screeninfo>The Edit Comment dialog </screeninfo> 
-        <graphic format="png" fileref="figures/dlg-comment.png" srccredit="Me">
-        </graphic>
-      </screenshot>
-    </figure>
-    <!-- ==== End of Figure ==== -->
-  </para>
-  <para>
-    You can even add a comment to multiple images, in this case the comment 
-    dialog will fill in the fields that are the same for all images leaving 
-    all other fields empty.  When adding a comment to multiple images
-    you can active the <guilabel>Save only changed fields
-    </guilabel> option (which is active by default) which let you  
-    change one or more fields of the comment of many images leaving all other
-    fields unchanged.
   </para>
   <para>
     Image comments are displayed in the image list in italic text above the 
@@ -905,84 +1353,134 @@
       </screenshot>
     </figure>
     <!-- ==== End of Figure ==== -->
+
+  <sect3 id="gthumb-comment-add-multi">
+  <title>To Add a Comment to Many Images</title>
   <para>
-    To delete a comment use the command : <menuchoice><guimenu>Edit</guimenu><guimenuitem>Delete comment</guimenuitem></menuchoice>.
+    To add a comment to many images, select the images and choose
+    <menuchoice><guimenu>Edit</guimenu><guimenuitem>Edit
+    comment</guimenuitem> </menuchoice> or type
+    <keycombo><keycap>C</keycap></keycombo>. 
   </para>
   <para>
-    Comments are not embedded in image files they are saved separately, this
-    means that if you move the images or the folders images are in with other 
-    programs you will lose the comments.  Comments are saved in the folder
-    <filename>$(HOME)/.gnome2/gthumb/comments</filename>.
+    The <guilabel>Comment</guilabel> dialog will fill in the fields
+    that have the same value for all the images leaving all other
+    fields empty.
   </para>
+  <para>
+    You can activate the <guilabel>Save only changed fields
+    </guilabel> option (active by default) to change one or more
+    fields of many comments leaving all other fields unchanged.
+  </para>
+  </sect3>
+  </sect2>
+
+  <sect2 id="gthumb-comment-delete">
+  <title>To Remove Comments</title>
+  <para>
+    To remove comments, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Go to the folder or catalog where the images are.</para>
+      </listitem>
+      <listitem>
+        <para>Select the images and choose
+        <menuchoice><guimenu>Edit</guimenu><guimenuitem>Remove
+        comment</guimenuitem></menuchoice>. &gthumb; removes the
+        comments.</para>
+      </listitem>
+    </orderedlist>
+  </para>
+  </sect2>
   </sect1>
 
   <!-- ============= Catalogs ================================== -->
   <sect1 id="catalogs">
-  <title>Organizing images in catalogs</title>
+  <title>Catalogs</title>
   <para>
     Catalogs lets you organize images without moving them from a folder to
     another, think of them as "playlists" for images.
-    The following is the list of operations you can perform with a catalog :
   </para>
   <para>
-    <itemizedlist>
-      <listitem>
-        <para>
-	 Viewing the list of catalogs : Press <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> or select the <menuchoice><guimenu>View</guimenu><guisubmenu>Show/Hide</guisubmenu><guimenuitem>Catalogs</guimenuitem></menuchoice> command. 
-	</para>
-      </listitem>
-      <listitem>
-        <para>
-	  Adding images to a catalog : Select the images you want to add to a
-	  catalog and use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
-	  Add to Catalog</guimenuitem></menuchoice> command to select or 
-	  create a catalog.
-	</para>
-      </listitem>
-      <listitem>
-        <para>
-	 Deleting images from a catalog : Select the images you want to delete
-	 then use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
-	  Delete from Catalog</guimenuitem></menuchoice> command.
-	</para>
-      </listitem>
-      <listitem>
-        <para>
-	  Renaming, Deleting or Moving catalogs : Select the catalog and use 
-	  the corrisponding command in the <guimenu>File</guimenu> menu, or 
-	  use the context menu pressing the right mouse
-	  button on the name of the catalog in the catalog list.
-	</para>
-      </listitem>
-    </itemizedlist>
-  </para>
-  <para>
-    If you want to go to the folder that contains an image, select
-    the image and use the
-    <menuchoice><guimenu>Go</guimenu><guimenuitem>Go to the image folder
-    </guimenuitem></menuchoice> command or press <keycombo action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>.
-  </para>
+  <note>
+  <title>WARNING</title>
   <para>
     Catalogs are not updated when you move images, if you want a more flexible
     catalog you can use the searches described in <xref linkend="find"/>, 
     searches are catalogs with search criteria attached, after moving
     images you can redo the search to get the catalog updated.
   </para>
+  </note>
+  <note>
+  <title>FOR EXPERTS</title>
   <para>
     Catalogs are saved in the
     folder <filename>$(HOME)/.gnome2/gthumb/collections</filename>.
   </para>
+  </note>
+  </para>
+    <sect2 id="gthumb-catalog-view">
+    <title>To View the List of Catalogs</title>
+      <para>Press <keycombo><keycap>Alt</keycap><keycap>2</keycap></keycombo> or select the <menuchoice><guimenu>View</guimenu><guimenuitem>Catalogs</guimenuitem></menuchoice> command. 
+       </para>
+    </sect2>
+    <sect2 id="gthumb-catalog-view-content">
+    <title>To View a Catalog</title>
+       <para>
+         To view the content of a catalog just click on its name.
+       </para>
+       <para>
+         If you want to go to the image folder,
+         select the image and use the
+         <menuchoice><guimenu>View</guimenu><guisubmenu>Go</guisubmenu><guimenuitem>Go
+         to the image folder </guimenuitem></menuchoice> command or
+         press <keycombo
+         action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. 
+       </para>
+    </sect2>
+    <sect2 id="gthumb-catalog-add">
+    <title>To Add Images to a Catalog</title>
+      <para>
+        To add a series of images to a catalog, perform the following steps:
+    <orderedlist>
+      <listitem>
+        <para>Select the images you want to add to the catalog and
+        choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>
+	  Add to Catalog</guimenuitem></menuchoice>.</para>
+      </listitem>
+      <listitem>
+        <para>Select an existing catalog or create a new one.</para>
+      </listitem>
+      <listitem>
+        <para>Choose <guibutton>Ok</guibutton>.  &gthumb; adds the
+        selected images to the catalog.</para>
+      </listitem>
+    </orderedlist>
+	</para>
+    </sect2>
+    <sect2 id="gthumb-catalog-delete">
+    <title>To Delete Images from a Catalog</title>
+        <para>Select the images you want to delete
+	 then use the <menuchoice><guimenu>Edit</guimenu><guimenuitem>
+	  Delete from Catalog</guimenuitem></menuchoice> command.
+	</para>
+    </sect2>
+    <sect2 id="gthumb-catalog-rename">
+    <title>To Rename, Delete or Move Catalogs</title>
+        <para>Select the catalog and use 
+	  the corrisponding command in the <guimenu>File</guimenu> menu, or 
+	  use the context menu pressing the right mouse
+	  button on the name of the catalog in the catalog list.
+	</para>
+    </sect2>
+
   </sect1>
 
   <!-- ============= Find ================================== -->
 
   <sect1 id="find">
-    <title>Finding Images</title>
-      <para>The <interface>Find Images</interface> tool lets you find
-        images on
-	you hard disk and save the result as a catalog.
-        To use this tool select the <guimenuitem>Find...</guimenuitem>
-	item from the <guimenu>Edit</guimenu> menu.
+    <title>To Find Images</title>
+      <para>To find images on your hard disk choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice>.
       </para>
 
       <!-- ==== Figure ==== -->
@@ -996,27 +1494,27 @@
       </figure>
       <!-- ==== End of Figure ==== -->
       <para>
-	When the dialog pops up,
+	From the <guilabel>Find</guilabel> dialog
 	you can specify a file name or a pattern in the <guilabel>File name
 	</guilabel> entry, for example : 
 	<itemizedlist>
 	  <listitem>
 	    <para>
-	      <userinput>foo.jpg</userinput>: will search for files
+	      <userinput>foo.jpg</userinput>: &gthumb; searches for files
 	      named foo.jpg
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-	        <userinput>*.png</userinput>: will search for files
+	        <userinput>*.png</userinput>: &gthumb; searches for files
 		with the png extension.
 	      </para>
 	    </listitem>
 
 	    <listitem>
 	      <para>
-	        <userinput>*.gif; *.jpg</userinput>: will search for
+	        <userinput>*.gif; *.jpg</userinput>: &gthumb; searches for
 		files with the gif or jpg extension.
 	      </para>with an image editor
 	    </listitem>
@@ -1030,7 +1528,7 @@
 	    <!-- -->
 	    <listitem>
 	      <para>
-	        <guilabel>Start at</guilabel>: The folder the
+	        <guilabel>Start at</guilabel>: The folder where the
 		search will start from.
 	      </para>
 	    </listitem>
@@ -1182,19 +1680,19 @@
         </figure>
         <!-- ==== End of Figure ==== -->
         <para>
-          Pressing the <guibutton>Search</guibutton> button the search will 
-	  start. Once the search has finished you will see the list of files 
-	  that matches your search, if you want to see these files press the 
-	  <guibutton>View</guibutton> button, if you want to make another 
-	  search press the <guibutton>New Search</guibutton> button.
+          Click on <guibutton>Search</guibutton> to start the search.
+	  Once the search has finished you will see the list of images 
+	  that matches your search, if you want to see these images
+	  click on <guibutton>View</guibutton>, if you want to make another 
+	  search click on<guibutton>New Search</guibutton>.
 	</para>
 	<para>
           <!-- ==== End of Figure ==== -->
-	  If you choose to view the files, a catalog named <interface>Search 
+	  If you choose to view the images, a catalog named <interface>Search 
 	  Results</interface> will be created and visualized automatically.  
 	  A catalog created in this way has a special icon, a magnifier, this
 	  is
-	  because on this type of catalog you can perform two more operations :
+	  because on this type of catalogs you can perform two more operations:
 	  <guibutton>Edit Search</guibutton> and <guibutton>Redo Search
 	  </guibutton>.
 
@@ -1220,49 +1718,115 @@
         <para>
 	  The <guilabel>Edit Search</guilabel> command lets you re-edit 
 	  the search rules, while <guilabel>Redo Search</guilabel> lets
-	  you restart the search, at the end of the search you can decide whether
-	  to save the result in the catalog or not.
+	  you restart the search, at the end of the search you can
+	  decide whether to save the result in the catalog or not.
         </para>
   </sect1>
 
   <!-- ============= Slideshow ================================== -->
 
     <sect1 id="slideshow">
-      <title>Slide Show</title>
+      <title>Slide Shows</title>
       <para>
         You can start a slide show of the images in the current folder by
 	pressing <keycombo action="simul"><keycap>S</keycap></keycombo> or 
 	selecting the <menuchoice><guimenu>View
 	</guimenu><guimenuitem>Slide Show</guimenuitem></menuchoice> menu item.
-        To stop the Slideshow press <keycombo action="simul">
+        To stop the slide show press <keycombo action="simul">
 	<keycap>S</keycap></keycombo> again.
       </para>
       <para>
         Switching on/off the full screen mode does not stop the
-      slide show.  If the <guilabel>Switch to full screen</guilabel> option
-      is on then the slide show is started in
-      fullscreen mode and exiting from the fullscreen mode stops the slide show.
+        slide show.  If the <guilabel>Switch to full screen</guilabel> option
+        is on then the slide show is started in
+        fullscreen mode and exiting from the fullscreen mode stops the
+        slide show. 
       </para>
       <para>
-        The slideshow is interrupted when changing folder or re-loading the
+        The slide show is interrupted when you change folder or re-load the
 	current one.
       </para>
       <para>
-        If you want to do a presentation with images you do not need this 
-	tool, instead you can simply set the 
-	fullscreen mode and press <keycombo><keycap>Space</keycap></keycombo>
-	or <keycombo><keycap>Page Down</keycap></keycombo> to view the next
-	image, and <keycombo><keycap>b</keycap></keycombo> or <keycombo>
-	<keycap>Page Up</keycap></keycombo> to view the previous image.
+        With the slideshow tool and the fullscreen mode you can do
+        presetations. There are two types of presentations: automatic
+        presentations and manual presentations. 
       </para>
+      <sect2 id="gthumb-auto-presentation">
+      <title>How To Do an Automatic Presentation</title>
+      <para>To do an automatic presentation, perform the following
+      steps:</para>
+      <orderedlist>
+        <listitem>
+          <para>Go to the folder or catalog containing the images you
+          want to present.</para>
+        </listitem>
+        <listitem>
+          <para>Choose
+          <menuchoice><guimenu>View</guimenu><guimenuitem>Slide Show
+          </guimenuitem></menuchoice> or press <keycombo action="simul">
+	  <keycap>S</keycap></keycombo>. &gthumb; starts an automatic
+          presentation of the images catained in the folder or
+          catalog. 
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>
+        To stop the presentation press <keycombo action="simul">
+	<keycap>S</keycap></keycombo> or <keycombo action="simul">
+	<keycap>Q</keycap></keycombo> or <keycombo action="simul">
+	<keycap>Esc</keycap></keycombo>.
+      </para>
+      <para>
+        The slide show behaviour can be personalized from the
+        <guilabel>Preferences</guilabel> dialog in the <xref
+        linkend="preferences-slideshow"/>
+      </para>
+      </sect2>
+      <sect2 id="gthumb-manual-presentation">
+      <title>How To Do a Manual Presentation</title>
+      <para>To do a manual presentation, perform the following steps:</para> 
+      <orderedlist>
+        <listitem>
+          <para>Go to the folder or catalog containing the images you
+          want to present.</para>
+        </listitem>
+        <listitem>
+          <para>Select the image from which you want to start the presentation.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Press <keycombo action="simul">
+	  <keycap>V</keycap></keycombo>. &gthumb; displays the image
+	  in fullscreen mode.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Press <keycombo action="simul">
+	  <keycap>Space</keycap></keycombo> or <keycombo action="simul">
+	  <keycap>N</keycap></keycombo>. &gthumb; displays the next image.
+          </para>
+        </listitem>
+        <listitem>
+          <para>Press <keycombo action="simul">
+	  <keycap>BackSpace</keycap></keycombo> or <keycombo action="simul">
+	  <keycap>B</keycap></keycombo>. &gthumb; displays the previuos image.
+          </para>
+        </listitem>
+      </orderedlist>
+      <para>
+        To stop the presentation press <keycombo action="simul">
+	<keycap>Q</keycap></keycombo> or <keycombo action="simul">
+	<keycap>Esc</keycap></keycombo>.
+      </para>
+      </sect2>
     </sect1>
 
   <!-- ============= Tools ================================== -->
-  <sect1 id="tools">
+  <sect1 id="gthumb-tools">
   <title>Advanced Tools</title>
 
-    <sect2 id="wallpaper">
-      <title>Wallpaper</title>
+    <sect2 id="gthumb-wallpaper">
+      <title>To Set the Desktop Wallpaper</title>
       <para>
         If you want to set the selected image as desktop wallpaper select the
 	menu <guimenuitem>Set Image as Wallpaper</guimenuitem> from the 
@@ -1275,21 +1839,18 @@
 	      the screen.
 	    </para>
 	  </listitem>
-
 	  <listitem>
 	    <para>
 	      <guilabel>Tiled</guilabel> -- The image will be duplicated on
 	      the screen as tiles on the floor.
 	    </para>
 	  </listitem>
-
 	  <listitem>
 	    <para>
 	      <guilabel>Stretched</guilabel> -- The image will be scaled to 
 	      fill the screen changing proportions if needed.
 	    </para>
 	  </listitem>
-
 	  <listitem>
 	    <para>
 	      <guilabel>Scaled</guilabel> -- The image will be scaled to fill 
@@ -1307,9 +1868,8 @@
          </menuchoice> item.
        </para>
     </sect2>
-
-    <sect2 id="rotate-jpeg">
-      <title>Rotate JPEG</title>
+    <sect2 id="gthumb-rotate-jpeg">
+      <title>To Rotate JPEG Images Without Loss of Quality</title>
       <para>
         Usually if you want to rotate an image you have to open the image with
         an editor, rotate the image and save it.  This works good for
@@ -1336,9 +1896,8 @@
         simply ignored.
       </para>
     </sect2>
-
-    <sect2 id="convert-format">
-      <title>Convert Format</title>
+    <sect2 id="gthumb-convert-format">
+      <title>To Convert Images Format</title>
       <para>
         With this tool you can change the format of images.  To use it
         select the images you want to convert, and use the 
@@ -1348,7 +1907,6 @@
       <para>
         The <guilabel>Convert Format</guilabel> dialog offers you the
         following options:
-
 	<itemizedlist>
         <listitem>
           <para>
@@ -1380,9 +1938,8 @@
 	</itemizedlist>
       </para>
     </sect2>
-
-    <sect2 id="rename-series">
-      <title>Rename Series</title>
+    <sect2 id="gthumb-rename-series">
+      <title>To Rename a Series of Images</title>
       <para>
         With this tool you can change a series of image filenames
         specifing a name template.  In order to use it
@@ -1424,9 +1981,8 @@
         always overwrite, never overwrite, specify a new name. 
       </para>
     </sect2>
-
-    <sect2 id="change-date">
-      <title>Change Date</title>
+    <sect2 id="gthumb-change-date">
+      <title>To Change Images Date</title>
       <para>
         If you want to change the last modified date of a series of
         images,  select the images and use the <menuchoice><guimenu>
@@ -1434,18 +1990,26 @@
         command.
       </para>
     </sect2>
-
-    <sect2 id="create-index-image">
-      <title>Index Image</title>
+    <sect2 id="gthumb-index-image">
+      <title>To Create an Index Image</title>
       <para>
         An index image is an image that contains small previews of a series of 
 	images.  If you want to create an index image select the images you 
-	want
-	to insert in the index and then use the <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index Image</guimenuitem></menuchoice> command.
+	want to insert in the index and then use the
+	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Index
+	Image</guimenuitem></menuchoice> command. 
       </para>
     </sect2>
+    <sect2 id="gthumb-web-album">
+      <title>To Create a Web Album</title>
+      <para>
+         FIXME
+      </para>
+    </sect2>
+  </sect1>
 
-    <sect2 id="maintenance">
+  <!-- ============= Maintenance ================================== -->
+  <sect1 id="maintenance">
       <title>Maintenance</title>
       <para>
         To get access to maintenance operations select the
@@ -1471,7 +2035,7 @@
       </para>
       <para>
         <guilabel>Delete Old Comments</guilabel> --  If you use
-        <application>gThumb</application> to delete or move images,
+        &gthumb; to delete or move images,
         comments are deleted and moved accordingly.  Other
         applications do not handle image comments so it can happen that
         a comment exists but the relative image does not exist
@@ -1489,15 +2053,13 @@
         existing images.  The commands in the
         <guilabel>Thumbnails</guilabel> section let you do this.
       </para>
-    </sect2>
-
   </sect1>
 
  <!-- ============= Preferences ================================== -->
  <sect1 id="preferences">
   <title>Preferences</title>
   <para>
-    To configure <application>gThumb</application>, open
+    To configure &gthumb;, open
     <guilabel>Preferences</guilabel> dialog by selecting
     <menuchoice><guimenu>Edit</guimenu><guisubmenu>Preferences</guisubmenu>
     </menuchoice>.
@@ -1541,7 +2103,7 @@
       <itemizedlist>
 	<listitem>
 	<para>Select the layout of
-	  <application>gThumb</application> main window, i.e. the
+	  &gthumb; main window, i.e. the
 	  positions of directory list window, the image (thumbnail) list
 	  window, and the main image viewer window.
 	  </para>
@@ -1575,7 +2137,7 @@
 	  <listitem>
 	    <para>This option (which you can activate simply pressing 
 	    <keycombo><keycap>T</keycap></keycombo>) controls whether
-	    <application>gThumb</application> should show thumbnails.
+	    &gthumb; should show thumbnails.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -1584,7 +2146,7 @@
 	  <term><guilabel>Show comments</guilabel></term>
 	  <listitem>
 	    <para>This option controls whether
-	    <application>gThumb</application> should show comments
+	    &gthumb; should show comments
 	    (including date and place) in the image list. By default,
 	    &gthumb; shows the comment as a caption under the
 	    thumbnail.
@@ -1596,7 +2158,7 @@
 	  <term><guilabel>Show hidden files</guilabel></term>
 	  <listitem>
 	    <para>This option controls whether
-	    <application>gThumb</application> should show files with
+	    &gthumb; should show files with
 	    the names starting with dot (.). These files usually
 	    contain system information or applications settings. Since
 	    these files almost never contain user data, by default
@@ -1611,7 +2173,7 @@
 	  <term><guilabel>Thumbnails</guilabel></term>
 	  <listitem>
 	    <para>Here you can select the thumbnails size to your taste. By
-	    default, <application>gThumb</application> display
+	    default, &gthumb; display
 	    thumbnails of size 95x95 pixels.  If you like to view as much
 	    thumbnails as possible select a small thumbnail size, if you
 	    want to view detailed thumbnails select a big size.  The other 
@@ -1634,10 +2196,10 @@
 	    hard disk searching for images.  The default behaviour is to
 	    follow the Nautilus file manager policy.
 	    Furthermore you can select whether
-	    <application>gThumb</application> should ask
+	    &gthumb; should ask
 	    for confirmation before deleting an image or a catalog,
 	    and whether
-	    <application>gThumb</application> should determine image
+	    &gthumb; should determine image
 	    type by looking at the file extension or by looking at the
 	    file content. Determining file type from the content is
 	    more reliable (some applications may create files with
@@ -2301,50 +2863,9 @@
 	</tbody>
      </tgroup>
   </table>
-
   <para>
     Look in the menus for other shortcuts.
   </para>
-
   </sect1>
 
-
-<!-- ============= Authors ================================ -->
- <sect1 id="authors">
-   <title>Developers</title>
-   <sect1info>
-     <authorgroup>
-       <author>
-         <firstname>Paolo</firstname>
-           <surname>Bacchilega</surname>
-           <affiliation>
-             <address><email>paolo.bacch@tin.it</email></address>
-           </affiliation>
-       </author>
-     </authorgroup>
-   </sect1info>
-   <para>
-     To find more information about
-     <application>gThumb</application>, please visit the <ulink
-     url="http://gthumb.sourceforge.net/" type="http">gThumb Web
-     site</ulink>.  
-   </para>
-   <para>
-     Send all comments, suggestions, and bug reports to 
-     Paolo Bacchilega (<email>paolo.bacch@tin.it</email>).
-   </para>
-
-   <!-- For translations: uncomment this:
-
-   <para>
-     Latin translation was done by ME
-     (<email>MYNAME@MYADDRESS</email>). Please send all  comments  and
-     suggestions regarding this translation to SOMEWHERE.
-   </para>
-
-   -->
-
- </sect1>
 </article>
-
-

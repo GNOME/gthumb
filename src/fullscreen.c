@@ -50,8 +50,6 @@ static PangoRectangle  bounds;
 static GtkWidget      *popup_window = NULL;
 static GtkWidget      *prop_button = NULL;
 static FullScreen     *current_fullscreen;
-static int             main_window_x;
-static int             main_window_y;
 
 
 static void
@@ -953,12 +951,7 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	current_fullscreen = fullscreen;
 
-	gtk_widget_hide (window->app);
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
-
-	gtk_window_get_position (GTK_WINDOW (window->app),
-				 &main_window_x,
-				 &main_window_y);
 
 	window->fullscreen = TRUE;
 	fullscreen->related_win = window;
@@ -1037,6 +1030,7 @@ fullscreen_stop (FullScreen *fullscreen)
 	if (! eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE))
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), FALSE);
 
+	gtk_widget_hide (fullscreen->window);
 	wmspec_change_state (FALSE,
 			     fullscreen->window->window,
 			     gdk_atom_intern ("_NET_WM_STATE_FULLSCREEN", 
@@ -1075,10 +1069,6 @@ fullscreen_stop (FullScreen *fullscreen)
 
 	gtk_widget_show_all (window->app);
 
-	gtk_window_move (GTK_WINDOW (window->app),
-			 main_window_x,
-			 main_window_y);
-
 	/* restore widgets visiblity */
 
 	window_set_preview_content (window, window->preview_content);
@@ -1088,8 +1078,4 @@ fullscreen_stop (FullScreen *fullscreen)
 		window_show_sidebar (window);
 	else 
 		window_hide_sidebar (window);
-
-	/**/
-
-	gtk_widget_hide (fullscreen->window);
 }

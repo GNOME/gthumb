@@ -67,6 +67,28 @@ destroy_cb (GtkWidget *w,
 }
 
 
+static gboolean
+is_mime_type_writable (const char *mime_type)
+{
+	GSList *list, *scan;
+
+	list = gdk_pixbuf_get_formats();
+	for (scan = list; scan; scan = scan->next) {
+		GdkPixbufFormat *format = scan->data;
+		char **mime_types;
+		int i;
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; mime_types[i] != NULL; i++) 
+			if (strcmp (mime_type, mime_types[i]) == 0)
+				return gdk_pixbuf_format_is_writable (format);
+		g_strfreev (mime_types);
+	}
+	g_slist_free (list);
+	
+	return FALSE;
+}
+
+
 static void 
 file_save_ok_cb (GtkWidget *w,
 		 GtkWidget *file_sel)
@@ -122,7 +144,7 @@ file_save_ok_cb (GtkWidget *w,
 		mime_type = mime_types [idx - 2];
 
 	if ((mime_type != NULL)
-	    && strncmp (mime_type, "image/", 6) == 0) {
+	    && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
 		const char  *image_type = mime_type + 6;
 		char       **keys = NULL;
@@ -137,10 +159,9 @@ file_save_ok_cb (GtkWidget *w,
 						 image_type, 
 						 keys, values,
 						 &error)) 
-				_gtk_error_dialog_from_gerror_run (parent, 
-								   &error);
+				_gtk_error_dialog_from_gerror_run (parent, &error);
 			else {
-				SaveImageData *data;
+				SaveImageData *data;	
 				data = g_object_get_data (G_OBJECT (file_sel), "data");
 				if (data->done_func != NULL) 
 					(*data->done_func) (filename, data->done_data);

@@ -52,6 +52,7 @@
 #include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "gthumb-error.h"
+#include "glib-utils.h"
 
 static GConfClient *global_gconf_client = NULL;
 
@@ -444,6 +445,80 @@ eel_gconf_set_locale_string_list (const char   *key,
 
 	g_slist_foreach (utf8_slist, (GFunc) g_free, NULL);
 	g_slist_free (utf8_slist);
+}
+
+
+char *
+eel_gconf_get_path (const char *key,
+		    const char *def_val)
+{
+	char *path;
+	char *no_tilde_path;
+
+	path = eel_gconf_get_string (key, def_val);
+	no_tilde_path = _g_substitute (path, '~', g_get_home_dir ());
+	g_free (path);
+
+	return no_tilde_path;
+}
+
+
+static char *
+tilde_compress (const char *path)
+{
+	const char *home_dir = g_get_home_dir();
+	int         home_dir_l = strlen (home_dir);
+	int         ntilde = 0;
+	const char *scan;
+	int         path_l, result_l;
+	char       *result, *scan2;
+
+	if (path == NULL)
+		return NULL;
+
+	path_l = strlen (path);
+	for (scan = path; scan != NULL; scan++) {
+		if (path_l - (scan - path) < home_dir_l)
+			break;
+		if (strncmp (scan, home_dir, home_dir_l) == 0)
+			ntilde++;
+	}
+	
+	if (ntilde == 0)
+		return g_strdup (path);
+	
+	result_l = strlen (path) + ntilde - (ntilde * home_dir_l);
+	result = g_new (char, result_l + 1);
+
+	for (scan = path, scan2 = result; scan != NULL; scan2++) {
+		if (path_l - (scan - path) < home_dir_l) {
+			strcpy (scan2, scan);
+			scan2 += strlen (scan);
+			break;
+		}
+		if (strncmp (scan, home_dir, home_dir_l) == 0) {
+			*scan2 = '~';
+			scan += home_dir_l;
+		} else {
+			*scan2 = *scan;
+			scan++;
+		} 
+	}
+	*scan2 = 0;
+
+	return result;
+}
+
+
+void
+eel_gconf_set_path (const char *key,
+		    const char *value)
+{
+	char *tilde_path;
+
+	tilde_path = tilde_compress (value);
+	eel_gconf_set_string (key, tilde_path);
+	g_free (tilde_path);
 }
 
 

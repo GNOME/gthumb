@@ -85,6 +85,12 @@ char *       eel_gconf_get_string            (const char             *key,
 void         eel_gconf_set_string            (const char             *key,
 					      const char             *value);
 
+char *       eel_gconf_get_path              (const char             *key,
+					      const char             *def_val);
+
+void         eel_gconf_set_path              (const char             *key,
+					      const char             *value);
+
 char *       eel_gconf_get_locale_string     (const char             *key,
 					      const char             *def_val);
 

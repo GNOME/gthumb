@@ -881,10 +881,10 @@ window_progress (gfloat   percent,
 
 	if (percent == 0.0) 
 		set_command_sensitive (window, "Go_Stop", 
-				       (window->activity_ref > 0) 
-				       || window->setting_file_list
-				       || window->changing_directory
-				       || window->file_list->doing_thumbs);
+				       ((window->activity_ref > 0) 
+					|| window->setting_file_list
+					|| window->changing_directory
+					|| window->file_list->doing_thumbs));
 }
 
 
@@ -992,7 +992,7 @@ window_set_file_list_continue (gpointer callback_data)
 	window->setting_file_list = FALSE;
 
 	window_update_sensitivity (window);
-		
+
 	if (data->done_func != NULL)
 		(*data->done_func) (data->done_func_data);
 	g_free (data);
@@ -2695,7 +2695,7 @@ key_press_cb (GtkWidget   *widget,
 
 		/* View/hide thumbnails. */
 	case GDK_t:
-		window_enable_thumbs (window, ! window->file_list->enable_thumbs);
+		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, !window->file_list->enable_thumbs);
 		return TRUE;
 
 		/* Zoom in. */
@@ -4382,7 +4382,6 @@ pref_show_filenames_changed (GConfClient *client,
 {
 	GThumbWindow  *window = user_data;
 	gth_file_view_set_view_mode (window->file_list->view, pref_get_view_mode ());
-	window_update_file_list (window);
 }
 
 
@@ -4394,7 +4393,6 @@ pref_show_comments_changed (GConfClient *client,
 {
 	GThumbWindow  *window = user_data;
 	gth_file_view_set_view_mode (window->file_list->view, pref_get_view_mode ());
-	window_update_file_list (window);
 }
 
 
@@ -4418,7 +4416,6 @@ pref_thumbnail_size_changed (GConfClient *client,
 	GThumbWindow *window = user_data;
 
 	gth_file_list_set_thumbs_size (window->file_list, eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95));
-	window_update_file_list (window);	
 }
 
 
@@ -5634,7 +5631,7 @@ close__step5 (GThumbWindow *window)
 						NULL);
 
 		if (location != NULL) {
-			eel_gconf_set_locale_string (PREF_STARTUP_LOCATION, location);
+			eel_gconf_set_path (PREF_STARTUP_LOCATION, location);
 			g_free (location);
 		}
 	}
@@ -6461,17 +6458,17 @@ go_to_directory_cb (gpointer data)
 					      (DoneFunc)go_to_directory__step4,
 					      gt_data);
 
-	} else if (window->setting_file_list) {
+	} else if (window->setting_file_list) 
 		gth_file_list_interrupt_set_list (window->file_list,
 						  (DoneFunc) go_to_directory__step4,
 						  gt_data);
 
-	} else if (window->file_list->doing_thumbs) {
+	else if (window->file_list->doing_thumbs) 
 		gth_file_list_interrupt_thumbs (window->file_list, 
 						(DoneFunc) go_to_directory__step4,
 						gt_data);
 
-	} else
+	else 
 		go_to_directory__step4 (gt_data);
 
 	return FALSE;

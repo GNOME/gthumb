@@ -1270,13 +1270,12 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 						   error);
 	else
 #endif
-	if ((strcmp (type, "x-tga") == 0) ||  (strcmp (type, "tga") == 0))
+	if ((strcmp (type, "x-tga") == 0) || (strcmp (type, "tga") == 0))
 		result = _gdk_pixbuf_save_as_tga (pixbuf, 
 						  filename, 
 						  keys, values, 
 						  error);
 	else
-
 		result = gdk_pixbuf_savev (pixbuf, filename, type,
 					   keys, values,
 					   error);
