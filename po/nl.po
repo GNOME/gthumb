@@ -1,21 +1,24 @@
+# translation of gthumb.HEAD.po to Dutch
 # gThumb superb dutch translation.
-# Copyright (C) 2001 Free Software Foundation, Inc.
-# Dennis Smit <synap@area101.penguin.nl>, 2001.
+# Copyright (C) 2001, 2003 Free Software Foundation, Inc.
 # Mark Van den Borre <mark@markvdb.be>
+# Dennis Smit <synap@area101.penguin.nl>, 2001.
 # Tino Meinen <a.t.meinen@chello.nl>, 2003.
+# Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2003.
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gThumb\n"
+"Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-20 04:17+0100\n"
-"PO-Revision-Date: 2003-12-20 15:18+0100\n"
-"Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
+"POT-Creation-Date: 2003-12-21 04:16+0100\n"
+"PO-Revision-Date: 2003-12-21 12:39+0100\n"
+"Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -28,7 +31,7 @@ msgstr "GThumb catalogus-weergave"
 # weergeven als catalogus
 #: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
-msgstr "Bekijken als catalogus"
+msgstr "Catalogusweergave"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
@@ -45,7 +48,7 @@ msgstr "Af_drukken"
 msgid "GThumb Image"
 msgstr "GThumb afbeelding"
 
-# een viewer bestaat ook in het Nederlands. Bekijker/weergever 
+# een viewer bestaat ook in het Nederlands. Bekijker/weergever
 # is te vergezocht
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
@@ -53,7 +56,7 @@ msgstr "GThumb viewer"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
-msgstr "Bekijken met gThumb"
+msgstr "Weergeven met GThumb"
 
 # was eerst tuimelen.
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
@@ -124,7 +127,7 @@ msgstr "T_ype transparantie"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 #: data/gthumb-ui.xml.h:161
 msgid "View next animation frame"
-msgstr "Volgend animatiebeeld bekijken"
+msgstr "Volgend animatiebeeld weergeven"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 #: data/gthumb-ui.xml.h:188
@@ -743,7 +746,7 @@ msgstr "Helderheid - contrast"
 
 #: data/glade/gthumb_edit.glade.h:10
 msgid "Co_rrective"
-msgstr ""
+msgstr "Co_rrigerend"
 
 #: data/glade/gthumb_edit.glade.h:11
 msgid "Color Balance"
@@ -2529,11 +2532,11 @@ msgstr "Wit gebruiken als transparant"
 
 #: data/gthumb-ui.xml.h:157
 msgid "View as a slide show"
-msgstr "Als diavoorstelling bekijken"
+msgstr "Als diavoorstelling weergeven"
 
 #: data/gthumb-ui.xml.h:158
 msgid "View image comment"
-msgstr "Afbeeldingscommentaar bekijken"
+msgstr "Afbeeldingscommentaar weergeven"
 
 #: data/gthumb-ui.xml.h:159
 msgid "View image in fullscreen mode"
@@ -2541,11 +2544,11 @@ msgstr "Bekijk afbeelding in volledig-scherm modus"
 
 #: data/gthumb-ui.xml.h:160
 msgid "View image properties"
-msgstr "Eigenschappen afbeelding bekijken"
+msgstr "Eigenschappen afbeelding weergeven"
 
 #: data/gthumb-ui.xml.h:162
 msgid "View next image"
-msgstr "Volgende afbeelding bekijken"
+msgstr "Volgende afbeelding weergeven"
 
 #: data/gthumb-ui.xml.h:163
 msgid "View or hide the statusbar of this window"
@@ -2557,47 +2560,47 @@ msgstr "De werkbalk van dit venster tonen of verbergen"
 
 #: data/gthumb-ui.xml.h:165
 msgid "View previous image"
-msgstr "Vorige afbeelding bekijken"
+msgstr "Vorige afbeelding weergeven"
 
 #: data/gthumb-ui.xml.h:166 src/gthumb-window.c:4192
 msgid "View the catalogs"
-msgstr "De catalogi bekijken"
+msgstr "De catalogi weergeven"
 
 #: data/gthumb-ui.xml.h:167 src/gthumb-window.c:4142
 msgid "View the folders"
-msgstr "De mappen bekijken"
+msgstr "De mappen weergeven"
 
 #: data/gthumb-ui.xml.h:168
 msgid "View the image"
-msgstr "De afbeelding bekijken"
+msgstr "De afbeelding weergeven"
 
 #: data/gthumb-ui.xml.h:169
 msgid "View the image flipped"
-msgstr "De afbeelding getuimeld bekijken"
+msgstr "De afbeelding verticaal gespiegeld weergeven"
 
 #: data/gthumb-ui.xml.h:170
 msgid "View the image in black and white"
-msgstr "Afbeelding in zwartwit bekijken"
+msgstr "Afbeelding in zwartwit weergeven"
 
 #: data/gthumb-ui.xml.h:171
 msgid "View the image mirrored"
-msgstr "De afbeelding gespiegeld bekijken"
+msgstr "De afbeelding horizontaal gespiegeld weergeven"
 
 #: data/gthumb-ui.xml.h:172
 msgid "View the image rotated clockwise"
-msgstr "De afbeelding kloksgewijs gedraaid bekijken"
+msgstr "De afbeelding kloksgewijs gedraaid weergeven"
 
 #: data/gthumb-ui.xml.h:173
 msgid "View the image rotated counter-clockwise"
-msgstr "De afbeelding tegenkloks gedraaid bekijken"
+msgstr "De afbeelding tegenkloks gedraaid weergeven"
 
 #: data/gthumb-ui.xml.h:174
 msgid "View the image with negative colors"
-msgstr "Negatief van afbeelding bekijken "
+msgstr "Negatief van afbeelding weergeven "
 
 #: data/gthumb-ui.xml.h:175
 msgid "View thumbnails"
-msgstr "Voorbeelden bekijken"
+msgstr "Voorbeelden weergeven"
 
 #: data/gthumb-ui.xml.h:176
 msgid "Zoom _In"
@@ -2915,7 +2918,7 @@ msgstr "op _tijd"
 
 #: data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr "Uw afbeeldingen bekijken en beheren"
+msgstr "Uw afbeeldingen weergeven en beheren"
 
 #: data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
