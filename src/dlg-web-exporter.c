@@ -33,6 +33,7 @@
 #include <libgnomeui/gnome-font-picker.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 #include "catalog-web-exporter.h"
 #include "dlg-file-utils.h"
@@ -116,16 +117,19 @@ export (GtkWidget  *widget,
 {
 	CatalogWebExporter *exporter = data->exporter;
 	char               *location;
-	char               *path;
+	char               *esc_path, *path;
 	char               *theme, *index_file;
 	const char         *header;
 	const char         *footer;
 
 	/* Save options. */
 
-	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_destination_entry));
+	esc_path = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_destination_entry));
+	path = gnome_vfs_unescape_string (esc_path, "");
 	location = remove_ending_separator (path);
 	g_free (path);
+	g_free (esc_path);
+
 	eel_gconf_set_path (PREF_WEB_ALBUM_DESTINATION, location);
 
 	index_file = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_index_file_entry));
