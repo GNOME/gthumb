@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-25 11:38+0100\n"
-"PO-Revision-Date: 2004-03-25 11:38+0100\n"
+"POT-Creation-Date: 2004-03-25 18:40+0100\n"
+"PO-Revision-Date: 2004-03-25 18:41+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -410,7 +410,7 @@ msgstr "Ta bort de valda bilderna från kameran"
 
 #: data/glade/gthumb_camera.glade.h:7
 msgid "Import Photos"
-msgstr "Importera foton"
+msgstr "Importera bilder"
 
 #: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:692
 #: src/dlg-photo-importer.c:727 src/dlg-photo-importer.c:1168
@@ -676,9 +676,8 @@ msgid "8 x 10"
 msgstr "8 × 10"
 
 #: data/glade/gthumb_crop.glade.h:6
-#, fuzzy
 msgid "<b>Aspect ratio</b>"
-msgstr "<b>Skalningsförhållande</b>"
+msgstr "<b>Proportioner</b>"
 
 #: data/glade/gthumb_crop.glade.h:7
 msgid "<b>Selection</b>"
@@ -912,7 +911,7 @@ msgstr "<b>Sparar</b>"
 
 #: data/glade/gthumb_png_exporter.glade.h:22
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
-msgstr ""
+msgstr "<small><i><b>Obs:</b> # (enumerator)</i>.</small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:24
 #, no-c-format
@@ -920,6 +919,7 @@ msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
 msgstr ""
+"<small><i><b>Obs:</b> %p (sidnummer), %n (totala antalet sidor)</i>.</small>"
 
 #: data/glade/gthumb_png_exporter.glade.h:26
 #: data/glade/gthumb_web_exporter.glade.h:20
@@ -1393,26 +1393,23 @@ msgstr "sekunder"
 
 #: data/glade/gthumb_print.glade.h:4
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: data/glade/gthumb_print.glade.h:5
-#, fuzzy
 msgid "16"
-msgstr "164"
+msgstr "16"
 
 #: data/glade/gthumb_print.glade.h:6
 msgid "2"
-msgstr ""
+msgstr "2"
 
 #: data/glade/gthumb_print.glade.h:7
-#, fuzzy
 msgid "4"
-msgstr "64"
+msgstr "4"
 
 #: data/glade/gthumb_print.glade.h:8
-#, fuzzy
 msgid "8"
-msgstr "85"
+msgstr "8"
 
 #: data/glade/gthumb_print.glade.h:9
 msgid "<b>Orientation</b>"
@@ -1427,6 +1424,8 @@ msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
+"<small><i><b>Obs:</b> Drag bilden för att flytta den på sidan.\n"
+"Klicka på en bild för att rotera den.</i></small>"
 
 #: data/glade/gthumb_print.glade.h:13
 msgid "A_4"
@@ -1449,9 +1448,8 @@ msgid "I_nclude comment"
 msgstr "I_nkludera kommentar"
 
 #: data/glade/gthumb_print.glade.h:18
-#, fuzzy
 msgid "Images per page:"
-msgstr "Bildtyp:"
+msgstr "Bilder per sida:"
 
 #: data/glade/gthumb_print.glade.h:19
 msgid "Inches"
@@ -1592,6 +1590,7 @@ msgstr "<b>Miniatyrbilder</b>"
 #: data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr ""
+"<small><i><b>Obs</b>: jpeg-transformationer är förlustfria.</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:8
 #, no-c-format
@@ -1599,11 +1598,12 @@ msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 msgstr ""
+"<small><i><b>Specialtecken:</b> # (enumerator), %f (ursprungliga filnamnet), "
+"%d (bilddatum), %s (bildstorlek).</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:9
-#, fuzzy
 msgid "Adjust photo _orientation"
-msgstr "Justera nyans och mättnad"
+msgstr "Justera bildens _orientering"
 
 #: data/glade/gthumb_tools.glade.h:10
 msgid "Apply to _all images"
@@ -1739,9 +1739,8 @@ msgid "_Rename"
 msgstr "_Byt namn"
 
 #: data/glade/gthumb_tools.glade.h:47
-#, fuzzy
 msgid "_Sort:"
-msgstr "Sortera:"
+msgstr "_Sortera:"
 
 #: data/glade/gthumb_tools.glade.h:50
 msgid "by Modification date"
@@ -1798,7 +1797,7 @@ msgstr "<b>Tema</b>"
 #: data/glade/gthumb_web_exporter.glade.h:17
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
-msgstr ""
+msgstr "<small><i><b>Note:</b> %d (aktuellt datum).</i></small>"
 
 #: data/glade/gthumb_web_exporter.glade.h:18
 msgid "Came_ra Model"
@@ -1829,14 +1828,12 @@ msgid "Inde_x file:"
 msgstr "Inde_xfil:"
 
 #: data/glade/gthumb_web_exporter.glade.h:32
-#, fuzzy
 msgid "Resi_ze if larger than:"
-msgstr "_Ändra storlek på bilder om de är större än:"
+msgstr "_Ändra storlek om större än:"
 
 #: data/glade/gthumb_web_exporter.glade.h:33
-#, fuzzy
 msgid "Select Destination"
-msgstr "Mål"
+msgstr "Välj mål"
 
 #: data/glade/gthumb_web_exporter.glade.h:34
 msgid "Si_ze :"
@@ -1859,9 +1856,8 @@ msgid "_Aperture value"
 msgstr "_Bländarvärde"
 
 #: data/glade/gthumb_web_exporter.glade.h:40
-#, fuzzy
 msgid "_Copy originals to destination"
-msgstr "_Kopiera bilder till mål"
+msgstr "_Kopiera originalbilder till mål"
 
 #: data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Date and Time"
@@ -1880,9 +1876,8 @@ msgid "_Install Theme..."
 msgstr "_Installera tema..."
 
 #: data/glade/gthumb_web_exporter.glade.h:46
-#, fuzzy
 msgid "_Select"
-msgstr "_Välj alla"
+msgstr "_Välj"
 
 #: data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Shutter speed"
@@ -1897,18 +1892,16 @@ msgid "by modified time"
 msgstr "efter ändringstid"
 
 #: data/glade/gthumb_web_exporter.glade.h:53
-#, fuzzy
 msgid "columns"
-msgstr "Kol_umner:"
+msgstr "kolumner"
 
 #: data/glade/gthumb_web_exporter.glade.h:54
 msgid "index.html"
 msgstr "index.html"
 
 #: data/glade/gthumb_web_exporter.glade.h:55
-#, fuzzy
 msgid "rows"
-msgstr "Bläddrare"
+msgstr "rader"
 
 #: data/gthumb-ui.xml.h:1
 msgid "1:1"
@@ -1955,32 +1948,28 @@ msgid "Assign categories to selected images"
 msgstr "Tilldela kategorier till valda bilder"
 
 #: data/gthumb-ui.xml.h:12
-#, fuzzy
 msgid "Assign categories to the current folder"
-msgstr "Tilldela kategorier till bilden"
+msgstr "Tilldela kategorier till den aktuella mappen"
 
 #: data/gthumb-ui.xml.h:13
 msgid "Assign categories to the image"
 msgstr "Tilldela kategorier till bilden"
 
 #: data/gthumb-ui.xml.h:14
-#, fuzzy
 msgid "Assign categories to the selected folder"
-msgstr "Tilldela kategorier till valda bilder"
+msgstr "Tilldela kategorier till den valda mappen"
 
 #: data/gthumb-ui.xml.h:15
 msgid "Auto"
 msgstr "Auto"
 
 #: data/gthumb-ui.xml.h:16
-#, fuzzy
 msgid "Automatically adjust the color levels"
-msgstr "Sträck ut kontrasten automatiskt"
+msgstr "Justera färgnivåerna automatiskt"
 
 #: data/gthumb-ui.xml.h:17
-#, fuzzy
 msgid "Automatically equalize the image histogram"
-msgstr "Normalisera kontrasten automatiskt"
+msgstr "Jämna ut bildhistogrammet automatiskt"
 
 #: data/gthumb-ui.xml.h:18
 msgid "Automatically normalize the contrast"
@@ -2164,7 +2153,7 @@ msgstr "Bild_kommentar"
 
 #: data/gthumb-ui.xml.h:66
 msgid "Import photos from a digital camera"
-msgstr ""
+msgstr "Importera bilder från en digitalkamera"
 
 # Tror detta är i sammanhanget "zoom in"
 #: data/gthumb-ui.xml.h:67
@@ -2232,32 +2221,28 @@ msgid "Next"
 msgstr "Nästa"
 
 #: data/gthumb-ui.xml.h:84
-#, fuzzy
 msgid "Open"
-msgstr "Öppna med"
+msgstr "Öppna"
 
 #: data/gthumb-ui.xml.h:85
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Öppna aktuell mapp med filhanteraren Nautilus"
 
 #: data/gthumb-ui.xml.h:86
-#, fuzzy
 msgid "Open in New Window"
-msgstr "Nytt _fönster"
+msgstr "Öppna i nytt fönster"
 
 #: data/gthumb-ui.xml.h:87
 msgid "Open selected images with an application"
 msgstr "Öppna valda bilder med ett program"
 
 #: data/gthumb-ui.xml.h:88
-#, fuzzy
 msgid "Open the selected folder"
-msgstr "Byt namn på vald mapp"
+msgstr "Öppna den valda mappen"
 
 #: data/gthumb-ui.xml.h:89
-#, fuzzy
 msgid "Open the selected folder in a new window"
-msgstr "Flytta den valda mappen till papperskorgen"
+msgstr "Öppna den valda mappen i ett nytt fönster"
 
 #: data/gthumb-ui.xml.h:90
 msgid ""
@@ -2398,9 +2383,8 @@ msgid "Revert to saved image"
 msgstr "Återgå till sparad bild"
 
 #: data/gthumb-ui.xml.h:127
-#, fuzzy
 msgid "Ro_tate Images"
-msgstr "Rotera bilder"
+msgstr "Ro_tera bilder"
 
 #: data/gthumb-ui.xml.h:129
 msgid "Rotate Ri_ght"
@@ -2415,9 +2399,8 @@ msgid "Rotate image"
 msgstr "Rotera bild"
 
 #: data/gthumb-ui.xml.h:132
-#, fuzzy
 msgid "Rotate images without loss of quality"
-msgstr "Rotera jpeg-bilder utan kvalitetsförlust"
+msgstr "Rotera bilder utan kvalitetsförlust"
 
 #: data/gthumb-ui.xml.h:133
 msgid "S_ort Images"
@@ -2690,9 +2673,8 @@ msgid "_Edit Bookmarks"
 msgstr "_Redigera bokmärken"
 
 #: data/gthumb-ui.xml.h:209
-#, fuzzy
 msgid "_Enhance"
-msgstr "_Underhåll"
+msgstr "_Förbättra"
 
 #: data/gthumb-ui.xml.h:210
 msgid "_Equalize"
@@ -2752,7 +2734,7 @@ msgstr "_Bildförhandsgranskning"
 
 #: data/gthumb-ui.xml.h:226
 msgid "_Import Photos..."
-msgstr ""
+msgstr "_Importera bilder..."
 
 #: data/gthumb-ui.xml.h:227
 msgid "_Keyboard Shortcuts"
@@ -2939,9 +2921,8 @@ msgid "Possible values are: ascending, descending."
 msgstr "Möjliga värden är: ascending, descending."
 
 #: data/gthumb.schemas.in.h:5
-#, fuzzy
 msgid "Possible values are: forward, backward, random."
-msgstr "Möjliga värden är: forward, backward."
+msgstr "Möjliga värden är: forward, backward, random."
 
 #: data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
@@ -2996,11 +2977,11 @@ msgstr ""
 "shadow_in, shadow_out."
 
 #: data/gthumb.schemas.in.h:18
-#, fuzzy
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr "Möjliga värden är: none, name, path, size, time."
+msgstr ""
+"Möjliga värden är: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
 #: data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
@@ -3207,9 +3188,9 @@ msgid "Print Image"
 msgstr "Skriv ut bild"
 
 #: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2036
-#, fuzzy, c-format
+#, c-format
 msgid "Page %d of %d"
-msgstr "Kopierar fil %d av %d"
+msgstr "Sida %d av %d"
 
 #: libgthumb/print-callbacks.c:3039 src/catalog-png-exporter.c:1334
 #, c-format
@@ -3496,14 +3477,14 @@ msgid ""
 msgstr "En bild med namnet \"%s\" finns redan. Ange ett annat namn."
 
 #: src/dlg-crop.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Image)"
-msgstr "%d × %d bildpunkter"
+msgstr "%d × %d (bild)"
 
 #: src/dlg-crop.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d (Display)"
-msgstr "%d × %d bildpunkter"
+msgstr "%d × %d (display)"
 
 #: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
 msgid "Duplicates"
@@ -3639,14 +3620,12 @@ msgstr "Ange säkerhetskopiefilen"
 
 #: src/dlg-photo-importer.c:724 src/dlg-photo-importer.c:1167
 #: src/dlg-photo-importer.c:1212 src/dlg-photo-importer.c:1223
-#, fuzzy
 msgid "Could not import photos"
-msgstr "Kunde inte flytta objekten:"
+msgstr "Kunde inte importera bilder"
 
 #: src/dlg-photo-importer.c:1063 src/main.c:1002
-#, fuzzy
 msgid "Film"
-msgstr "_Arkiv"
+msgstr "Film"
 
 #: src/dlg-png-exporter.c:923
 msgid "Image Caption"
@@ -3742,11 +3721,11 @@ msgstr "%d markerade (%s)"
 
 #: src/gthumb-window.c:1715
 msgid "The current image has been modified, do you want to save it?"
-msgstr ""
+msgstr "Den aktuella bilden har ändrats. Vill du spara den?"
 
 #: src/gthumb-window.c:1716
 msgid "Do Not Save"
-msgstr ""
+msgstr "Spara inte"
 
 #: src/gthumb-window.c:3284
 msgid "Dragged Images"
@@ -3790,9 +3769,8 @@ msgid "Automatically start a slideshow"
 msgstr "Starta ett bildspel automatiskt"
 
 #: src/main.c:93
-#, fuzzy
 msgid "Automatically import digital camera photos"
-msgstr "Normalisera kontrasten automatiskt"
+msgstr "Importera digitalkamerabilder automatiskt"
 
 #: src/main.c:173
 msgid "Holidays"
@@ -3845,6 +3823,71 @@ msgstr "Familj"
 #: src/main.c:321 src/main.c:406
 msgid "Command Line"
 msgstr "Kommandoraden"
+
+#~ msgid "Aspect ratio"
+#~ msgstr "Proportioner"
+
+#~ msgid "<b>Note:</b> # (enumerator)."
+#~ msgstr "<b>Obs:</b> # (enumerator)."
+
+#~ msgid "<b>Note:</b> %p (page number), %n (total number of pages)."
+#~ msgstr "<b>Obs:</b> %p (sidnummer), %n (totala antalet sidor)."
+
+#~ msgid ""
+#~ "<b>Note:</b> Drag the image to move it in the page.\n"
+#~ "Click on an image to rotate it."
+#~ msgstr ""
+#~ "<b>Obs:</b> Drag bilden för att flytta den på sidan.\n"
+#~ "Klicka på en bild för att rotera den."
+
+#~ msgid "<b>Note</b>: jpeg transformations are lossless."
+#~ msgstr "<b>Obs</b>: jpeg-transformationer är förlustfria."
+
+#~ msgid ""
+#~ "<b>Special characters:</b> # (enumerator), %f (original filename), %d "
+#~ "(image date), %s (image size)."
+#~ msgstr ""
+#~ "<b>Specialtecken:</b> # (enumerator), %f (ursprungliga filnamnet), %d "
+#~ "(bilddatum), %s (bildstorlek)."
+
+#~ msgid "Sort:"
+#~ msgstr "Sortera:"
+
+#~ msgid "<b>Note:</b> %d (current date)."
+#~ msgstr "<b>Note:</b> %d (aktuellt datum)."
+
+#~ msgid "Columns"
+#~ msgstr "Kolumner"
+
+#~ msgid "Column"
+#~ msgstr "Kolumn"
+
+#~ msgid "column"
+#~ msgstr "kolumn"
+
+#~ msgid "Rows"
+#~ msgstr "Rader"
+
+#~ msgid "row"
+#~ msgstr "rad"
+
+#~ msgid "Row"
+#~ msgstr "Rad"
+
+#~ msgid "Open with"
+#~ msgstr "Öppna med"
+
+#~ msgid "Open the selected folder with the Nautilus file manager"
+#~ msgstr "Öppna den valda mappen med filhanteraren Nautilus"
+
+#~ msgid "Rotate images"
+#~ msgstr "Rotera bilder"
+
+#~ msgid "_Import Photos"
+#~ msgstr "_Importera bilder"
+
+#~ msgid "Possible values are: forward, backward."
+#~ msgstr "Möjliga värden är: forward, backward."
 
 #~ msgid "Selection"
 #~ msgstr "Markering"
