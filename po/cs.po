@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-23 04:47+0100\n"
-"PO-Revision-Date: 2004-01-23 17:30+0100\n"
+"POT-Creation-Date: 2004-01-24 04:45+0100\n"
+"PO-Revision-Date: 2004-01-26 23:01+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr "Otočit obrázek o 180°"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
 #: data/gthumb-ui.xml.h:135
 msgid "Save _As..."
-msgstr "Uložit j_ako..."
+msgstr "Uložit _jako..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
 #: data/gthumb-ui.xml.h:136
@@ -139,7 +139,7 @@ msgstr "O_brátit"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: data/gthumb-ui.xml.h:224
 msgid "_Image"
-msgstr "O_brázek"
+msgstr "_Obrázek"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 #: data/gthumb-ui.xml.h:231
@@ -295,7 +295,7 @@ msgstr "bodů"
 #: data/albumthemes/NeatRound/image.xml.in.h:1
 #: data/albumthemes/NeatSquare/image.xml.in.h:1
 msgid "(click on the image to view it at original size)"
-msgstr "(obrázek si prohlédnete v původní velikosti klinutím na něj)"
+msgstr "(obrázek si prohlédnete v původní velikosti kliknutím na něj)"
 
 #: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
 #: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
@@ -530,7 +530,7 @@ msgstr "Kategorie"
 
 #: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
 msgid "Co_mment:"
-msgstr "Ko_mentář:"
+msgstr "_Komentář:"
 
 #: data/glade/gthumb_comments.glade.h:5 data/gthumb-ui.xml.h:29
 #: libgthumb/gth-file-view-list.c:1368
@@ -579,7 +579,7 @@ msgstr "_Odstranit"
 
 #: data/glade/gthumb_comments.glade.h:16
 msgid "_New"
-msgstr "_Nové"
+msgstr "_Nová"
 
 #: data/glade/gthumb_comments.glade.h:17 data/glade/gthumb_search.glade.h:27
 msgid "_Place:"
@@ -1249,7 +1249,7 @@ msgstr "<b>Prohlížeč</b>"
 
 #: data/glade/gthumb_preferences.glade.h:21
 msgid "<b>Zoom quality</b>"
-msgstr "<b>Kvalita zvětšení</b>"
+msgstr "<b>Kvalita zvětšování</b>"
 
 #: data/glade/gthumb_preferences.glade.h:22
 msgid "Activate items with a double click"
@@ -1265,11 +1265,11 @@ msgstr "Po načtení _obrázku:"
 
 #: data/glade/gthumb_preferences.glade.h:25
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Vyžádat _potvrzení před odstraněním obrázků nebo katalogů"
+msgstr "Vyžadovat _potvrzení před odstraňováním obrázků nebo katalogů"
 
 #: data/glade/gthumb_preferences.glade.h:26
 msgid "Ask whether to save _modified images"
-msgstr "Ptát se, jestli uložit z_měněné obrázky"
+msgstr "Ptát se, jestli _ukládat změněné obrázky"
 
 #: data/glade/gthumb_preferences.glade.h:27
 msgid "Black"
@@ -1301,7 +1301,7 @@ msgstr "_Prodleva před změnou obrázku:"
 
 #: data/glade/gthumb_preferences.glade.h:34
 msgid "D_etermine image type from content (slower)"
-msgstr "Určit typ obrázku podle jeho _obsahu (pomalejší)"
+msgstr "_Určit typ obrázku podle jeho obsahu (pomalejší)"
 
 #: data/glade/gthumb_preferences.glade.h:35
 msgid "Do _not change folder"
@@ -1317,7 +1317,7 @@ msgstr "Přizpůsobit oknu, pokud je větší"
 
 #: data/glade/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
-msgstr "Převzít chování prohlížeče Nautilus"
+msgstr "Podle chování Nautilu"
 
 #: data/glade/gthumb_preferences.glade.h:39
 msgid "For_ward"
@@ -1373,7 +1373,7 @@ msgstr "Nastavit obrázek na skutečnou velikost"
 
 #: data/glade/gthumb_preferences.glade.h:53
 msgid "Set to C_urrent"
-msgstr "Nastavit na akt_uální"
+msgstr "Nastavit na _aktuální"
 
 #: data/glade/gthumb_preferences.glade.h:54 data/gthumb-ui.xml.h:146
 msgid "Slide Show"
@@ -1381,7 +1381,7 @@ msgstr "Promítání snímků"
 
 #: data/glade/gthumb_preferences.glade.h:55
 msgid "Switch to _full screen"
-msgstr "Zobrazit na _celé obrazovce"
+msgstr "Zobrazovat přes _celou obrazovku"
 
 #: data/glade/gthumb_preferences.glade.h:56
 msgid "System settings"
@@ -1433,15 +1433,15 @@ msgstr "Minia_tury"
 
 #: data/glade/gthumb_preferences.glade.h:68
 msgid "_Toolbar style:"
-msgstr "_Styl lišty:"
+msgstr "_Styl lišty nástrojů:"
 
 #: data/glade/gthumb_preferences.glade.h:69
 msgid "gThumb Preferences"
-msgstr "Nastavení programu gThumb"
+msgstr "Nastavení gThumb"
 
 #: data/glade/gthumb_preferences.glade.h:70
 msgid "seconds"
-msgstr "sekund(y)"
+msgstr "sekund"
 
 #: data/glade/gthumb_print.glade.h:4
 msgid "1"
@@ -1641,7 +1641,7 @@ msgstr "<b>Miniatury</b>"
 
 #: data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-msgstr "<small><i><b>Note</b>: transformace jpeg jsou bezztrátové.</i></small>"
+msgstr "<small><i><b>Poznámka</b>: transformace jpeg jsou bezztrátové.</i></small>"
 
 #: data/glade/gthumb_tools.glade.h:8
 #, no-c-format
@@ -1912,11 +1912,11 @@ msgstr "_Téma:"
 
 #: data/glade/gthumb_web_exporter.glade.h:42
 msgid "Web Album"
-msgstr "Webové album"
+msgstr "WWW album"
 
 #: data/glade/gthumb_web_exporter.glade.h:43
 msgid "Web Album Theme"
-msgstr "Téma webového alba"
+msgstr "Téma WWW alba"
 
 #: data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Aperture value"
@@ -2132,7 +2132,7 @@ msgstr "Vytvořit obrázek s _indexem"
 
 #: data/gthumb-ui.xml.h:38
 msgid "Create _Web Album"
-msgstr "Vytvořit _webové album"
+msgstr "Vytvořit _WWW album"
 
 #: data/gthumb-ui.xml.h:39
 msgid "Create a new catalog"
@@ -2188,7 +2188,7 @@ msgstr "Upravit různá nastavení"
 
 #: data/gthumb-ui.xml.h:52
 msgid "Fi_nd Duplicates..."
-msgstr "_Hledat d_uplikáty..."
+msgstr "Hledat d_uplikáty..."
 
 #: data/gthumb-ui.xml.h:53
 msgid "Find images"
@@ -2236,7 +2236,7 @@ msgstr "Domů"
 
 #: data/gthumb-ui.xml.h:64
 msgid "Image Toolbar"
-msgstr "Nástrojová lišta obrázku"
+msgstr "Lišta nástrojů obrázku"
 
 #: data/gthumb-ui.xml.h:65
 msgid "Image _Comment"
@@ -2252,7 +2252,7 @@ msgstr "Zvětšit"
 
 #: data/gthumb-ui.xml.h:68
 msgid "Main Toolbar"
-msgstr "Hlavní nástrojová lišta"
+msgstr "Hlavní lišta nástrojů"
 
 #: data/gthumb-ui.xml.h:69
 msgid "Modify search criteria"
@@ -2480,7 +2480,7 @@ msgstr "_Otočit obrázky"
 
 #: data/gthumb-ui.xml.h:129
 msgid "Rotate Ri_ght"
-msgstr "Otočit dop_rava"
+msgstr "Otočit do_prava"
 
 #: data/gthumb-ui.xml.h:130
 msgid "Rotate _Left"
@@ -2534,7 +2534,7 @@ msgstr "Nastavení obrázku jako pozadí pracovní plochy (dlaždice)"
 
 #: data/gthumb-ui.xml.h:144
 msgid "Show information about gThumb"
-msgstr "Zobrazení informací o aplikaci gThumb"
+msgstr "Zobrazit informace o gThumb"
 
 #: data/gthumb-ui.xml.h:145
 msgid "Show/_Hide"
@@ -2626,7 +2626,7 @@ msgstr "Zobrazit nebo skrýt stavovou lištu tohoto okna"
 
 #: data/gthumb-ui.xml.h:170
 msgid "View or hide the toolbar of this window"
-msgstr "Zobrazit nebo skrýt nástrojovou lištu tohoto okna"
+msgstr "Zobrazit nebo skrýt lištu nástrojů tohoto okna"
 
 #: data/gthumb-ui.xml.h:171
 msgid "View previous image"
@@ -2742,7 +2742,7 @@ msgstr "_Barevné vyvážení"
 
 #: data/gthumb-ui.xml.h:201
 msgid "_Contents"
-msgstr "O_bsah"
+msgstr "_Obsah"
 
 #: data/gthumb-ui.xml.h:202
 msgid "_Copy..."
@@ -2750,7 +2750,7 @@ msgstr "_Kopírovat..."
 
 #: data/gthumb-ui.xml.h:204
 msgid "_Delete History"
-msgstr "O_dstranit historii"
+msgstr "_Odstranit historii"
 
 #: data/gthumb-ui.xml.h:205
 msgid "_Desaturate"
@@ -2890,7 +2890,7 @@ msgstr "Přej_menovat řadu"
 
 #: data/gthumb-ui.xml.h:246
 msgid "_Rename..."
-msgstr "Přej_menovat..."
+msgstr "Pře_jmenovat..."
 
 #: data/gthumb-ui.xml.h:247
 msgid "_Resize"
@@ -2930,7 +2930,7 @@ msgstr "_Stavová lišta"
 
 #: data/gthumb-ui.xml.h:256
 msgid "_Stop"
-msgstr "_Stop"
+msgstr "Za_stavit"
 
 #: data/gthumb-ui.xml.h:257
 msgid "_Stretch Contrast"
@@ -2946,11 +2946,11 @@ msgstr "_Dlaždice"
 
 #: data/gthumb-ui.xml.h:261
 msgid "_Toolbar"
-msgstr "Nás_trojová lišta"
+msgstr "Lišta _nástrojů"
 
 #: data/gthumb-ui.xml.h:262
 msgid "_Tools"
-msgstr "Nás_troje"
+msgstr "_Nástroje"
 
 #: data/gthumb-ui.xml.h:263
 msgid "_Transform"
@@ -2958,7 +2958,7 @@ msgstr "_Transformovat"
 
 #: data/gthumb-ui.xml.h:264
 msgid "_Up"
-msgstr "Nahor_u"
+msgstr "Na_horu"
 
 #: data/gthumb-ui.xml.h:267
 msgid "_Zoom"
@@ -2992,9 +2992,7 @@ msgstr "Prohlížeč obrázků gThumb"
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
-msgstr ""
-"Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. "
-"Použijte 0, pokud chcete generovat miniatury všechn obrázků."
+msgstr "Pro obrázky nad tuto velikost (v bajtech) nebudou tvořeny miniatury. Použijte 0, pokud chcete generovat miniatury všech obrázků."
 
 #: data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -3216,7 +3214,7 @@ msgstr "Titulek"
 
 #: libgthumb/gnome-print-font-picker.c:180
 msgid "The title of the selection dialog box"
-msgstr "Titulke dialogového okna výběru"
+msgstr "Titulek dialogového okna výběru"
 
 #: libgthumb/gnome-print-font-picker.c:200
 msgid "Font name"
