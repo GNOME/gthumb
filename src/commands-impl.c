@@ -38,6 +38,7 @@
 #include "dlg-hue-saturation.h"
 #include "dlg-catalog.h"
 #include "dlg-categories.h"
+#include "dlg-change-date.h"
 #include "dlg-comment.h"
 #include "dlg-convert.h"
 #include "dlg-duplicates.h"
@@ -2138,7 +2139,7 @@ bookmarks_add_command_impl (BonoboUIComponent *uic,
 			    const gchar       *verbname)
 {
 	GThumbWindow *window = user_data;
-	gchar        *path = NULL;
+	char         *path = NULL;
 
 	if (window->sidebar_content == CATALOG_LIST) {
 		GtkTreeIter iter;
@@ -2377,6 +2378,16 @@ tools_convert_format_command_impl (BonoboUIComponent *uic,
 {
         GThumbWindow *window = user_data;
         dlg_convert (window);
+}
+
+
+void 
+tools_change_date_command_impl (BonoboUIComponent *uic, 
+				gpointer           user_data, 
+				const gchar       *verbname)
+{
+        GThumbWindow *window = user_data;
+        dlg_change_date (window);
 }
 
 

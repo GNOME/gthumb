@@ -1,13 +1,14 @@
 version 1.105
 -------------
-	* New tools: edit image, convert format.
+	* New tools: edit image (hue, brightness, contrast, saturation, 
+	  color balance, etc.), convert format, change timestamp.
 	* Use gconf as configuration system instead of gnome-config.
 
 version 1.104
 -------------
 	* New tool: find duplicates.
 	* Added an image properties dialog that displays various image
-	  properties and EXIF data if present (you need the libexif).
+	  properties and EXIF data if present (you need libexif).
 	* Added ability to print the comment alongside the image.
 	* Added option to choose the click policy.
 	* Added "duplicate image" operation.

@@ -52,6 +52,8 @@
 static gint thumb_size[] = {48, 64, 85, 95, 112, 128, 164, 200, 256};
 static gint thumb_sizes = sizeof (thumb_size) / sizeof (gint);
 
+#define GLADE_PREF_FILE "gthumb_preferences.glade"
+
 typedef struct {
 	GThumbWindow    *window;
 
@@ -398,7 +400,7 @@ dlg_preferences (GThumbWindow *window)
 
 	data = g_new (DialogData, 1);
 	data->window = window;
-	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
+	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PREF_FILE, NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
 		g_free (data);

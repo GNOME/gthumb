@@ -176,6 +176,7 @@ static const BonoboUIVerb gthumb_verbs [] = {
 	BONOBO_UI_VERB ("Tools_JPEGRotate", tools_jpeg_rotate_command_impl),
 	BONOBO_UI_VERB ("Tools_FindDuplicates", tools_duplicates_command_impl),
 	BONOBO_UI_VERB ("Tools_ConvertFormat", tools_convert_format_command_impl),
+	BONOBO_UI_VERB ("Tools_ChangeDate", tools_change_date_command_impl),
 	BONOBO_UI_VERB ("Tools_Slideshow", tools_slideshow_command_impl),
 	BONOBO_UI_VERB ("Help_Help", help_help_command_impl),
 	BONOBO_UI_VERB ("Help_Shortcuts", help_shortcuts_command_impl),
@@ -712,6 +713,7 @@ window_update_sensitivity (GThumbWindow *window)
 	set_command_sensitive (window, "Tools_IndexImage", sel_not_null);
 	set_command_sensitive (window, "Tools_RenameSeries", sel_not_null);
 	set_command_sensitive (window, "Tools_ConvertFormat", sel_not_null);
+	set_command_sensitive (window, "Tools_ChangeDate", sel_not_null);
 	set_command_sensitive (window, "Tools_JPEGRotate", sel_not_null);
 	set_command_sensitive (window, "Wallpaper_Centered", ! image_is_void);
 	set_command_sensitive (window, "Wallpaper_Tiled", ! image_is_void);
@@ -2730,6 +2732,7 @@ setup_commands_pixbufs (BonoboUIComponent *ui_component)
 		{ add_to_catalog_16_rgba,    "/commands/Edit_AddToCatalog" },
 		{ catalog_24_rgba,           "/commands/View_ShowCatalogs" },
 		{ catalog_24_rgba,           "/ImageToolbar/View_Sidebar_Catalogs" },
+		{ change_date_16_rgba,       "/menu/Tools/Tools_ChangeDate" },
 		{ dir_24_rgba,               "/commands/View_ShowFolders" },
 		{ dir_24_rgba,               "/ImageToolbar/View_Sidebar_Folders" },
 		{ index_image_16_rgba,       "/menu/Tools/Tools_IndexImage" },

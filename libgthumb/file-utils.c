@@ -625,7 +625,8 @@ get_file_mtime (const char *path)
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
 					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
 	mtime = 0;
-	if (result == GNOME_VFS_OK)
+	if ((result == GNOME_VFS_OK)
+	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_MTIME))
 		mtime = info->mtime;
 
 	g_free (escaped);
@@ -652,7 +653,8 @@ get_file_ctime (const gchar *path)
 					  (GNOME_VFS_FILE_INFO_DEFAULT 
 					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
 	ctime = 0;
-	if (result == GNOME_VFS_OK)
+	if ((result == GNOME_VFS_OK)
+	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_CTIME))
 		ctime = info->ctime;
 
 	g_free (escaped);

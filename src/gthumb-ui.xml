@@ -338,6 +338,9 @@
 	     _tip="Edit various preferences"
 	     pixtype="stock" pixname="gtk-preferences"/>
 
+	<cmd name="Tools_ChangeDate" _label="Change _Date" 
+	     _tip="Change images last modified date"/>
+
 	<cmd name="Help_About" _label="_About"
 	     _tip="Show information about gThumb"
 	     pixtype="stock" pixname="gnome-stock-about"/>
@@ -506,6 +509,7 @@
 		<menuitem name="Tools_JPEGRotate" verb=""/>
 		<menuitem name="Tools_ConvertFormat" verb=""/>
 		<menuitem name="Tools_RenameSeries" verb=""/>
+		<menuitem name="Tools_ChangeDate" verb=""/>
 		<separator/>
 		<menuitem name="Tools_IndexImage" verb=""/>
 		<separator/>

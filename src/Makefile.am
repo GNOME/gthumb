@@ -4,8 +4,10 @@ DIST_SUBDIRS = icons
 glade_DATA = 				\
 	gthumb.glade 			\
 	gthumb_comments.glade		\
+	gthumb_convert.glade		\
 	gthumb_edit.glade		\
 	gthumb_png_exporter.glade 	\
+	gthumb_preferences.glade	\
 	gthumb_print.glade		\
 	gthumb_search.glade		\
 	gthumb_tools.glade
@@ -51,6 +53,8 @@ gthumb_SOURCES = 			\
 	dlg-catalog.h			\
 	dlg-categories.c		\
 	dlg-categories.h		\
+	dlg-change-date.c		\
+	dlg-change-date.h		\
 	dlg-color-balance.c		\
 	dlg-color-balance.h		\
 	dlg-comment.c			\

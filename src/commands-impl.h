@@ -126,6 +126,7 @@ DEFINE_VERB(tools_preferences_command_impl);
 DEFINE_VERB(tools_jpeg_rotate_command_impl);
 DEFINE_VERB(tools_duplicates_command_impl);
 DEFINE_VERB(tools_convert_format_command_impl);
+DEFINE_VERB(tools_change_date_command_impl);
 DEFINE_VERB(help_help_command_impl);
 DEFINE_VERB(help_shortcuts_command_impl);
 DEFINE_VERB(help_about_command_impl);

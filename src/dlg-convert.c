@@ -41,7 +41,7 @@
 #include "dlg-save-image.h"
 
 
-#define CONVERT_GLADE_FILE "gthumb_tools.glade"
+#define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_png_exporter.glade"
 #define MAX_NAME_LEN 1024
 

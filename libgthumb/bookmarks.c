@@ -208,7 +208,7 @@ my_remove (GHashTable    *hash_table,
 
 void
 bookmarks_add (Bookmarks   *bookmarks,
-	       const gchar *path,
+	       const char  *path,
 	       gboolean     avoid_duplicates)
 {
 	g_return_if_fail (bookmarks != NULL);
@@ -217,11 +217,11 @@ bookmarks_add (Bookmarks   *bookmarks,
 	if (avoid_duplicates) {
 		GList *scan;
 		for (scan = bookmarks->list; scan; scan = scan->next)
-			if (strcmp ((gchar*) scan->data, path) == 0)
+			if (strcmp ((char*) scan->data, path) == 0)
 				return;
 	}
 	
-	bookmarks->list = g_list_prepend (bookmarks->list, g_strdup (path));
+	bookmarks->list = g_list_append (bookmarks->list, g_strdup (path));
 
 	my_insert (bookmarks->names, 
 		   path, 

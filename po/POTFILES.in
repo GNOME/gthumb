@@ -130,8 +130,10 @@ src/gthumb-window.c
 src/gthumb-window.h
 src/gthumb.glade
 src/gthumb_comments.glade
+src/gthumb_convert.glade
 src/gthumb_edit.glade
 src/gthumb_png_exporter.glade
+src/gthumb_preferences.glade
 src/gthumb_print.glade
 src/gthumb_search.glade
 src/gthumb_tools.glade
