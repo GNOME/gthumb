@@ -99,9 +99,8 @@ file_data_set_path (FileData *fd,
 	g_return_if_fail (path != NULL);
 
 	g_free (fd->path);
-	g_free (fd->utf8_name);
-
 	fd->path = g_strdup (path);
+
 	file_data_update (fd);
 }
 

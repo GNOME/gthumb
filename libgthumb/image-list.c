@@ -4017,13 +4017,14 @@ image_list_set_image_text (ImageList  *gil,
 		return;
 	
 	image = g_list_nth (gil->priv->image_list, pos)->data;
+
 	gthumb_text_item_configure (image->text,
 				    0, 
 				    0, 
 				    gil->priv->max_image_width, 
 				    DEFAULT_FONT,
 				    text, 
-				    FALSE,
+				    gil->priv->is_editable,
 				    gil->priv->static_text);
 
 	if (gil->priv->frozen) {
