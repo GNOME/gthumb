@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "POT-Creation-Date: 2003-03-11 13:39+0200\n"
-"PO-Revision-Date: 2003-03-11 11:52--500\n"
+"PO-Revision-Date: 2003-03-31 09:28--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -52,11 +52,11 @@ msgstr "Переглянути за допомогою GThumb"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
-msgstr ""
+msgstr "Перевернути"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
-msgstr ""
+msgstr "Перевернути зображення"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
@@ -68,11 +68,11 @@ msgstr ""
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
-msgstr ""
+msgstr "Віддзеркалити"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
-msgstr ""
+msgstr "Віддзеркалити зображення"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 #: src/gthumb-ui.xml.h:114
@@ -132,7 +132,7 @@ msgstr ""
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: src/gthumb-ui.xml.h:201
 msgid "_Flip"
-msgstr ""
+msgstr "Пе_ревернути"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: src/gthumb-ui.xml.h:212
@@ -142,7 +142,7 @@ msgstr "_Зображення"
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 #: src/gthumb-ui.xml.h:218
 msgid "_Mirror"
-msgstr ""
+msgstr "Від_дзеркалити"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 #: src/gthumb-ui.xml.h:223
@@ -400,11 +400,11 @@ msgstr "Не вдалось продублювати зображення \"%s\"
 
 #: src/commands-impl.c:499
 msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Вибрані зображення буде перенесено у смітник, ви впевнені?"
 
 #: src/commands-impl.c:519
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Зображення буде перенесено у смітник, ви впевнені?"
 
 #: src/commands-impl.c:754
 msgid "The image will be removed from the catalog, are you sure?"
@@ -471,11 +471,11 @@ msgstr "Не вдалось стерти теку \"%s\": %s"
 #: src/commands-impl.c:1146
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
+msgstr "\"%s\" не може бути перенесено у смітник. Бажаєте стерти його остаточно?"
 
 #: src/commands-impl.c:1183
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr ""
+msgstr "Вибрану теку буде перенесено у смітник, ви впевнені?"
 
 #: src/commands-impl.c:1185
 #: src/dlg-file-utils.c:273
@@ -1431,15 +1431,15 @@ msgstr "Показати зображення"
 
 #: src/gthumb-ui.xml.h:164
 msgid "View the image flipped"
-msgstr ""
+msgstr "Показати зображення перевернутим"
 
 #: src/gthumb-ui.xml.h:165
 msgid "View the image in black and white"
-msgstr ""
+msgstr "Показати зображення чорно-білим"
 
 #: src/gthumb-ui.xml.h:166
 msgid "View the image mirrored"
-msgstr ""
+msgstr "Показати зображення віддзеркаленим"
 
 #: src/gthumb-ui.xml.h:167
 msgid "View the image rotated clockwise"
@@ -1511,7 +1511,7 @@ msgstr "_Закладки"
 
 #: src/gthumb-ui.xml.h:185
 msgid "_Brightness-Contrast"
-msgstr ""
+msgstr "_Яскравість і контрастність"
 
 #: src/gthumb-ui.xml.h:186
 msgid "_Catalogs"
@@ -1531,7 +1531,7 @@ msgstr "_Баланс кольорів"
 
 #: src/gthumb-ui.xml.h:191
 msgid "_Contents"
-msgstr ""
+msgstr "_Зміст"
 
 #: src/gthumb-ui.xml.h:192
 msgid "_Copy..."
@@ -1608,7 +1608,7 @@ msgstr "_Домівка"
 
 #: src/gthumb-ui.xml.h:211
 msgid "_Hue-Saturation"
-msgstr ""
+msgstr "Від_тінок і насиченість"
 
 #: src/gthumb-ui.xml.h:213
 msgid "_Image preview"
@@ -1997,7 +1997,7 @@ msgstr ""
 #: src/gthumb_comments.glade.h:14
 #: src/gthumb_search.glade.h:25
 msgid "_Date:"
-msgstr ""
+msgstr "_Дата:"
 
 #: src/gthumb_comments.glade.h:15
 #: src/gthumb_search.glade.h:28
@@ -2023,7 +2023,7 @@ msgstr "<b>Роздільна здатність</b>"
 
 #: src/gthumb_convert.glade.h:6
 msgid "Ask"
-msgstr ""
+msgstr "Перепитати"
 
 #: src/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -2159,7 +2159,7 @@ msgstr ""
 
 #: src/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
-msgstr ""
+msgstr "Яскравість і контрастність"
 
 #: src/gthumb_edit.glade.h:10
 msgid "Color Balance"
@@ -2179,11 +2179,11 @@ msgstr "Висота:"
 
 #: src/gthumb_edit.glade.h:14
 msgid "High _quality"
-msgstr ""
+msgstr "_Висока якість"
 
 #: src/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
-msgstr ""
+msgstr "Відтінок і насиченість"
 
 #: src/gthumb_edit.glade.h:16
 msgid "Posterize"
@@ -2593,11 +2593,11 @@ msgstr ""
 
 #: src/gthumb_web_exporter.glade.h:18
 msgid "_Go to Theme Folder"
-msgstr ""
+msgstr "Пере_йти до теки тем"
 
 #: src/gthumb_web_exporter.glade.h:19
 msgid "_Install Theme..."
-msgstr ""
+msgstr "_Встановити тему..."
 
 #: src/gthumb_web_exporter.glade.h:21
 msgid "_Title:"
@@ -2609,7 +2609,7 @@ msgstr "за затою модифікації"
 
 #: src/gthumb_web_exporter.glade.h:27
 msgid "index.html"
-msgstr ""
+msgstr "index.html"
 
 #: src/gthumb_preferences.glade.h:4
 msgid "112 x 112"
@@ -2690,11 +2690,11 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:23
 msgid "Activate items with a double click"
-msgstr ""
+msgstr "Активувати елементи подвійним клацанням"
 
 #: src/gthumb_preferences.glade.h:24
 msgid "Activate items with a single click"
-msgstr ""
+msgstr "Активувати елементи одинарним клацанням"
 
 #: src/gthumb_preferences.glade.h:25
 msgid "After _loading an image:"
@@ -2734,15 +2734,15 @@ msgstr ""
 
 #: src/gthumb_preferences.glade.h:35
 msgid "Do _not change folder"
-msgstr ""
+msgstr "_Не змінювати теки"
 
 #: src/gthumb_preferences.glade.h:36
 msgid "Fit image to window"
-msgstr ""
+msgstr "Підігнати зображенян під розміри вікна"
 
 #: src/gthumb_preferences.glade.h:37
 msgid "Fit to window if larger"
-msgstr ""
+msgstr "Підігнати під вікно, якщо більше"
 
 #: src/gthumb_preferences.glade.h:38
 msgid "Follow Nautilus behaviour"
