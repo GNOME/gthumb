@@ -18,11 +18,13 @@ version 2.6.3
 	  Slide Show
 	* Fixed bug #143102: gThumb SHOULD save sizes when window is maximized.
 	* Fixed bug #164344: EXIF hour off by one (DST)
-	* Fixed bug #164293: bad time in rename functionnality
+	* Fixed bug #164293: bad time in rename functionality
 	* Fixes bug #143161: Select previous directory in directory list.
 	* Fixes bug #149707: Remember last catalog for next catalog operation.
+	* Fixes bug #164325: "Import Photos" error handling when import 
+	  destination is read-only or device is full.
 	* Classic and ClassicClips album themes are now xhtml compliant.
-
+	
 version 2.6.2
 -------------	
 	* Fixed bug #159492: freezes when trying to create thumbnail for a JPEG

@@ -597,7 +597,7 @@ static int
 get_default_icon_size (GtkWidget *widget)
 {
         int icon_width, icon_height;
-                                                                                
+
         gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (widget),
                                            GTK_ICON_SIZE_DIALOG,
                                            &icon_width, &icon_height);
@@ -1166,6 +1166,11 @@ save_image (DialogData *data,
 			data->delete_list = g_list_prepend (data->delete_list, 
 							    g_strdup (camera_path));
 		add_categories_to_image (data, local_path);
+	} else {
+		g_mutex_lock (data->yes_or_no);
+		data->error = TRUE;
+		data->interrupted = TRUE;
+		g_mutex_unlock (data->yes_or_no);
 	}
 	
 	g_free (local_path);
@@ -1256,13 +1261,15 @@ save_images__done (AsyncOperationData *aodata,
 		   DialogData         *data)
 {
 	gboolean            interrupted;
+	gboolean            error;
 	AsyncOperationData *new_aodata;
 
 	g_mutex_lock (data->yes_or_no);
 	interrupted = data->interrupted;
+	error = data->error;
 	g_mutex_unlock (data->yes_or_no);
 
-	if (interrupted)
+	if (interrupted || error)
 		return;
 
 	new_aodata = async_operation_new (data->delete_list,
@@ -1301,6 +1308,7 @@ ok_clicked_cb (GtkButton  *button,
 	GList              *sel_list;
 	gboolean            error;
 	AsyncOperationData *aodata;
+	GnomeVFSFileSize    total_size = 0;
 
 	if (!data->camera_setted) {
 		display_error_dialog (data,
@@ -1325,9 +1333,21 @@ ok_clicked_cb (GtkButton  *button,
 
 	/**/
 
+	g_mutex_lock (data->yes_or_no);
+	error = data->error;
+	g_mutex_unlock (data->yes_or_no);
+
+	if (error) {
+		update_info (data);
+		return;
+	}
+
 	sel_list = gth_image_list_get_selection (GTH_IMAGE_LIST (data->image_list));
-	if (sel_list == NULL)
+	if (sel_list == NULL) {
 		sel_list = gth_image_list_get_list (GTH_IMAGE_LIST (data->image_list));
+		g_list_foreach (sel_list, (GFunc) file_data_ref, NULL);
+	}
+
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
 			FileData   *fdata = scan->data;
@@ -1339,33 +1359,71 @@ ok_clicked_cb (GtkButton  *button,
 		file_data_list_free (sel_list);
 	} 
 
-	g_mutex_lock (data->yes_or_no);
-	error = data->error;
-	g_mutex_unlock (data->yes_or_no);
-
-	if (error) {
-		update_info (data);
-		return;
-	}
-	
 	if (file_list == NULL) {
 		display_error_dialog (data,
 				      _("Could not import photos"), 
 				      _("No images found"));
 		return;
 	}
-	
+
 	if (! ensure_dir_exists (data->local_folder, 0755)) {
+		char *utf8_path;
 		char *msg;
-		
+		utf8_path = g_filename_to_utf8 (data->local_folder, -1, NULL, NULL, NULL);
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
-				       data->local_folder,
-				       errno_to_string());
+				       utf8_path,
+				       errno_to_string ());
 		display_error_dialog (data, _("Could not import photos"), msg);
+
+		g_free (utf8_path);
 		g_free (msg);
-		
 		g_free (data->local_folder);
 		data->local_folder = NULL;
+		path_list_free (file_list);
+		return; 
+	}
+
+	if (! check_permissions (data->local_folder, R_OK | W_OK | X_OK)) {
+		char *utf8_path;
+		char *msg;
+		utf8_path = g_filename_to_utf8 (data->local_folder, -1, NULL, NULL, NULL);
+		msg = g_strdup_printf (_("You don't have the right permissions to create images in the folder \"%s\""), utf8_path);
+
+		display_error_dialog (data, _("Could not import photos"), msg);
+				       
+		g_free (utf8_path);
+		g_free (msg);
+		g_free (data->local_folder);
+		data->local_folder = NULL;
+		path_list_free (file_list);
+		return;
+	} 
+
+	for (scan = file_list; scan; scan = scan->next) {
+		const char     *camera_path = scan->data;
+		CameraFileInfo  info;
+		char           *camera_folder;
+		const char     *camera_filename;
+
+		camera_folder = remove_level_from_path (camera_path);
+		camera_filename = file_name_from_path (camera_path);
+		gp_camera_file_get_info (data->camera, 
+					 camera_folder, 
+					 camera_filename,
+					 &info,
+					 data->context);
+		g_free (camera_folder);
+		total_size += (GnomeVFSFileSize) info.file.size;
+	}
+
+	if (get_dest_free_space (data->local_folder) < total_size) {
+		display_error_dialog (data, 
+				      _("Could not import photos"), 
+				      "Not enough free space left on disk"); /* FIXME: mark for translation. */
+
+		g_free (data->local_folder);
+		data->local_folder = NULL;
+		path_list_free (file_list);
 		return; 
 	}
 

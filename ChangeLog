@@ -1,3 +1,11 @@
+2005-01-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (ok_clicked_cb): check write permissions
+	and free space before exporting.
+
+	Fixes bug #164325: "Import Photos" error handling when import 
+	destination is read-only or device if full.
+
 2005-01-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/fullscreen.c: hide the prev and next buttons if in slideshow
