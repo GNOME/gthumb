@@ -93,6 +93,7 @@ typedef struct {
 	GtkWidget      *import_preview_box;
 	GtkWidget      *import_reload_button;
 	GtkWidget      *import_delete_button;
+	GtkWidget      *i_commands_table;
 
 	GtkWidget      *progress_info_image;
 	GtkWidget      *progress_info_label;
@@ -501,6 +502,7 @@ main_dialog_set_sensitive (DialogData *data,
 	gtk_widget_set_sensitive (data->select_model_button, value);
 	gtk_widget_set_sensitive (data->import_reload_button, value);
 	gtk_widget_set_sensitive (data->import_delete_button, value);
+	gtk_widget_set_sensitive (data->i_commands_table, value);
 }
 
 
@@ -1749,6 +1751,7 @@ dlg_photo_importer (GThumbWindow *window)
 	data->import_preview_box = glade_xml_get_widget (data->gui, "import_preview_box");
 	data->import_reload_button = glade_xml_get_widget (data->gui, "import_reload_button");
 	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
+	data->i_commands_table = glade_xml_get_widget (data->gui, "i_commands_table");
 	btn_ok = glade_xml_get_widget (data->gui, "import_okbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 

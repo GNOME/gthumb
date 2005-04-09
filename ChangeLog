@@ -1,3 +1,8 @@
+2005-03-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (main_dialog_set_sensitive): set all
+	commands insensitive when importing photos.
+
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
         * configure.in: Added "rw" to ALL_LINGUAS.
