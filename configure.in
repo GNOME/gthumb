@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.52)
 
-AC_INIT(gthumb, 2.6.4, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
+AC_INIT(gthumb, 2.7.0, http://bugzilla.gnome.org/enter_bug.cgi?product=gthumb)
 AC_CONFIG_SRCDIR(src/main.c)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -19,8 +19,8 @@ dnl it too, or it will never make it into the spec file!
 dnl
 dnl ==========================================================================
 
-GLIB_REQUIRED=2.4.0
-GTK_REQUIRED=2.4.0
+GLIB_REQUIRED=2.6.0
+GTK_REQUIRED=2.6.0
 LIBXML_REQUIRED=2.4.0
 LIBGNOME_REQUIRED=2.6.0
 LIBGNOMEUI_REQUIRED=2.6.0

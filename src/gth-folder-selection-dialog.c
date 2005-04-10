@@ -23,10 +23,11 @@
 
 #include <config.h>
 #include <string.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
 #include "gth-folder-selection-dialog.h"
+
 #include "bookmark-list.h"
 #include "bookmarks.h"
 #include "typedefs.h"

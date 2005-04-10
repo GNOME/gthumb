@@ -23,12 +23,12 @@
 #include <config.h>
 #include <string.h>
 #include <unistd.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-pixmap.h>
+
+#include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <glade/glade.h>
-#include <gtk/gtk.h>
+
 #include "thumb-cache.h"
 #include "comments.h"
 #include "dlg-file-utils.h"

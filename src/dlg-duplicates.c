@@ -83,8 +83,7 @@ typedef struct {
 	GtkWidget           *dialog;
 	GtkWidget           *results_dialog;
 
-	GtkWidget           *fd_start_from_entry;
-	GtkWidget           *fd_start_from_fileentry;
+	GtkWidget           *fd_start_from_filechooserbutton;
 	GtkWidget           *fd_include_subfolders_checkbutton;
 
 	GtkWidget           *fdr_progress_table;
@@ -239,11 +238,11 @@ static void
 find_cb (GtkWidget  *widget,
 	 DialogData *data)
 {
-	char *utf8_path;
+	char *esc_path;
 
-	utf8_path = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->fd_start_from_fileentry), FALSE);
-	data->start_from_path = g_filename_from_utf8 (utf8_path, -1, 0, 0, 0);
-	g_free (utf8_path);
+	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
+	data->start_from_path = gnome_vfs_unescape_string (esc_path, "");
+	g_free (esc_path);
 
 	data->recursive = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->fd_include_subfolders_checkbutton));
 
@@ -768,7 +767,7 @@ dlg_duplicates (GThumbWindow *window)
 	GtkWidget         *ok_button;
 	GtkWidget         *close_button;
 	GtkTreeSelection  *selection;
-	GValue             value = {0, };
+	char              *esc_uri = NULL;
 
 	data = g_new0 (DialogData, 1);
 
@@ -786,8 +785,7 @@ dlg_duplicates (GThumbWindow *window)
 	data->dialog = glade_xml_get_widget (data->gui, "duplicates_dialog");
 	data->results_dialog = glade_xml_get_widget (data->gui, "duplicates_results_dialog");
 
-	data->fd_start_from_entry = glade_xml_get_widget (data->gui, "fd_start_from_entry");
-	data->fd_start_from_fileentry = glade_xml_get_widget (data->gui, "fd_start_from_fileentry");
+	data->fd_start_from_filechooserbutton = glade_xml_get_widget (data->gui, "fd_start_from_filechooserbutton");
 	data->fd_include_subfolders_checkbutton = glade_xml_get_widget (data->gui, "fd_include_subfolders_checkbutton");
 
 	data->fdr_progress_table = glade_xml_get_widget (data->gui, "fdr_progress_table");
@@ -811,14 +809,12 @@ dlg_duplicates (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	g_value_init (&value, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&value, TRUE);
-	g_object_set_property (G_OBJECT (data->fd_start_from_fileentry), "use_filechooser", &value);
-
-	if (window->dir_list->path != NULL)
-		_gtk_entry_set_filename_text (GTK_ENTRY (data->fd_start_from_entry), window->dir_list->path);
+	if (data->window->dir_list->path != NULL)
+		esc_uri = gnome_vfs_escape_host_and_path_string (data->window->dir_list->path);
 	else
-		_gtk_entry_set_filename_text (GTK_ENTRY (data->fd_start_from_entry), g_get_home_dir ());
+		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton), esc_uri);
+	g_free (esc_uri);
 
 	/* * Images model */
 

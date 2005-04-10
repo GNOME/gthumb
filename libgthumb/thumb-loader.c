@@ -25,8 +25,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+
 #include <gtk/gtkmain.h>
-#include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>

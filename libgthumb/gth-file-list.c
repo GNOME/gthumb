@@ -21,9 +21,10 @@
  */
 
 #include <config.h>
-#include <gtk/gtk.h>
 #include <string.h>
-#include <libgnome/libgnome.h>
+
+#include <glib/gi18n.h>
+#include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>

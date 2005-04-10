@@ -42,11 +42,12 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+#include <stdio.h>
+
 #include <libgnome/gnome-macros.h>
 
-/* Must be before all other gnome includes!! */
-#include <libgnome/gnome-i18n.h>
-
+#include <glib/gi18n.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkalignment.h>
@@ -57,15 +58,9 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
 
-#include <gnome-print-font-dialog.h>
-/*
-#include "gnometypebuiltins.h"
-*/
-
+#include "gnome-print-font-dialog.h"
 #include "gnome-print-font-picker.h"
 
-#include <string.h>
-#include <stdio.h>
 
 struct _GnomePrintFontPickerPrivate {
         gchar         *title;

@@ -22,12 +22,11 @@
 
 #include <config.h>
 #include <string.h>
+#include <time.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 

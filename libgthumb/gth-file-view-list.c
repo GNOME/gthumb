@@ -22,12 +22,13 @@
 
 #include <config.h>
 #include <string.h>
+
+#include <glib/gi18n.h>
 #include <glib.h>
-#include <gtk/gtktreemodel.h>
-#include <gtk/gtktreeview.h>
-#include <gtk/gtktreeselection.h>
-#include <gtk/gtkliststore.h>
-#include <gnome.h>
+#include <gtk/gtk.h>
+#include <libgnomeui/gnome-icon-lookup.h>
+#include <libgnomeui/gnome-icon-theme.h>
+
 #include "typedefs.h"
 #include "gth-file-view.h"
 #include "gth-file-view-list.h"
@@ -1105,18 +1106,19 @@ gfv_get_cursor (GthFileView *file_view)
 static GdkPixbuf *
 create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 {
-	int         icon_width, icon_height, icon_size;
-	char       *icon_name;
-	char       *icon_path;
-	GdkPixbuf  *pixbuf = NULL;
-	int         width, height;
+	GnomeIconTheme *icon_theme = gfv_list->priv->icon_theme;
+	int             icon_width, icon_height, icon_size;
+	char           *icon_name;
+	char           *icon_path;
+	GdkPixbuf      *pixbuf = NULL;
+	int             width, height;
 
 	gtk_icon_size_lookup_for_settings (gtk_widget_get_settings (GTK_WIDGET (gfv_list->priv->tree_view)),
                                            (big ? GTK_ICON_SIZE_DIALOG: GTK_ICON_SIZE_LARGE_TOOLBAR),
                                            &icon_width, &icon_height);
 	icon_size = MAX (icon_width, icon_height);
 
-	icon_name = gnome_icon_lookup (gfv_list->priv->icon_theme,
+	icon_name = gnome_icon_lookup (icon_theme,
 				       NULL,
 				       NULL,
 				       NULL,
@@ -1124,22 +1126,23 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 				       "image/*",
 				       GNOME_ICON_LOOKUP_FLAGS_NONE,
 				       NULL);
-	icon_path = gnome_icon_theme_lookup_icon (gfv_list->priv->icon_theme,
+	icon_path = gnome_icon_theme_lookup_icon (icon_theme,
 						  icon_name,
 						  icon_size,
-						  NULL,
+						  NULL, 
 						  NULL);
 	g_free (icon_name);
 
-	if (icon_path == NULL) 
+	if (icon_path != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
+		g_object_unref (icon_path);
+	}
+
+	if (pixbuf == NULL) 
 		pixbuf = gdk_pixbuf_new_from_inline (-1, 
 						     dir_16_rgba, 
 						     FALSE, 
 						     NULL);
-	else {
-		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-		g_free (icon_path);
-	}
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);

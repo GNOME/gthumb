@@ -20,15 +20,18 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <stdlib.h>
 #include <math.h>
+
+#include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkadjustment.h>
 #include <gtk/gtkhscrollbar.h>
 #include <gtk/gtkvscrollbar.h>
-#include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+
 #include "image-viewer.h"
 #include "cursors.h"
 #include "pixbuf-utils.h"

@@ -25,8 +25,9 @@
 #include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
+
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 

@@ -23,11 +23,12 @@
 #include <config.h>
 #include <stdio.h>
 #include <string.h>
+
 #include <gtk/gtk.h>
 #include <gdk/gdkx.h>
 #include <gdk/gdkrgb.h>
-#include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs.h>
+
 #include "catalog-png-exporter.h"
 #include "comments.h"
 #include "file-utils.h"

@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,12 +28,10 @@
 #include <unistd.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-propertybox.h>
-#include <libgnomeui/gnome-pixmap.h>
+#include <libgnome/gnome-help.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
+
 #include "thumb-cache.h"
 #include "comments.h"
 #include "file-utils.h"
@@ -63,8 +61,7 @@ typedef struct {
 	GtkWidget *radio_current_location;
 	GtkWidget *radio_last_location;
 	GtkWidget *radio_use_startup;
-	GtkWidget *startup_dir_entry;
-	GtkWidget *file_entry;
+	GtkWidget *startup_dir_filechooserbutton;
 	GtkWidget *btn_set_to_current;
 	GtkWidget *radio_layout1;
 	GtkWidget *radio_layout2;
@@ -74,7 +71,6 @@ typedef struct {
 
 	GtkWidget *view_as_slides_radiobutton;
 	GtkWidget *view_as_list_radiobutton;
-	/*GtkWidget *toggle_show_hidden;*/
 	GtkWidget *toggle_show_filenames;
 	GtkWidget *toggle_show_comments;
 	GtkWidget *toggle_show_thumbs;
@@ -121,19 +117,17 @@ apply_cb (GtkWidget  *widget,
 	eel_gconf_set_boolean (PREF_USE_STARTUP_LOCATION, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->radio_use_startup)));
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
-		char *temp;
-		char *text;
+		char *esc_path;
 		char *location;
 
-		text = _gtk_entry_get_filename_text (GTK_ENTRY (data->startup_dir_entry));
-		temp = remove_ending_separator (text);
-		location = g_strconcat ("file://", temp, NULL);
+		esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton));
+		location = gnome_vfs_unescape_string (esc_path, "");
+		g_free (esc_path);
 
 		eel_gconf_set_path (PREF_STARTUP_LOCATION, location);
 		preferences_set_startup_location (location);
 
-		g_free (temp);
-		g_free (text);
+		g_free (esc_path);
 		g_free (location);
 	}
 
@@ -206,7 +200,7 @@ static void
 use_startup_toggled_cb (GtkWidget *widget, 
 			DialogData *data)
 {
-	gtk_widget_set_sensitive (data->file_entry,
+	gtk_widget_set_sensitive (data->startup_dir_filechooserbutton,
 				  GTK_TOGGLE_BUTTON (widget)->active);
 	gtk_widget_set_sensitive (data->btn_set_to_current,
 				  GTK_TOGGLE_BUTTON (widget)->active);
@@ -218,11 +212,16 @@ static void
 set_to_current_cb (GtkWidget  *widget, 
 		   DialogData *data)
 {
-	if (data->window->dir_list->path == NULL)
-		return;
+	const char *dir;
+	char       *esc_uri;
 
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->startup_dir_entry), 
-				      data->window->dir_list->path);
+	dir = data->window->dir_list->path;
+	if (dir == NULL)
+		return;
+	
+	esc_uri = gnome_vfs_escape_host_and_path_string (dir);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
+	g_free (esc_uri);
 }
 
 
@@ -402,8 +401,6 @@ dlg_preferences (GThumbWindow *window)
 	int               layout_type;
 	char             *startup_location;
 	GthDirectionType  direction;
-	GValue            value = {0, };
-	GtkWidget        *fileentry;
 
 	data = g_new (DialogData, 1);
 	data->window = window;
@@ -425,8 +422,7 @@ dlg_preferences (GThumbWindow *window)
         data->radio_current_location = glade_xml_get_widget (data->gui, "radio_current_location");
         data->radio_last_location = glade_xml_get_widget (data->gui, "radio_last_location");
         data->radio_use_startup = glade_xml_get_widget (data->gui, "radio_use_startup");
-        data->startup_dir_entry = glade_xml_get_widget (data->gui, "startup_dir_entry");
-        data->file_entry = glade_xml_get_widget (data->gui, "file_entry");
+        data->startup_dir_filechooserbutton = glade_xml_get_widget (data->gui, "startup_dir_filechooserbutton");
 	data->btn_set_to_current = glade_xml_get_widget (data->gui, "btn_set_to_current");
         data->toggle_confirm_del = glade_xml_get_widget (data->gui, "toggle_confirm_del");
         data->toggle_ask_to_save = glade_xml_get_widget (data->gui, "toggle_ask_to_save");
@@ -465,13 +461,6 @@ dlg_preferences (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	/* Make use of new filechooser */
-
-	g_value_init (&value, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&value, TRUE);
-	fileentry = glade_xml_get_widget (data->gui, "file_entry");
-	g_object_set_property (G_OBJECT (fileentry), "use_filechooser", &value);
-
 	/* * general */
 
 	if (eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE))
@@ -482,15 +471,22 @@ dlg_preferences (GThumbWindow *window)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_current_location), TRUE);
 	
 	if (! eel_gconf_get_boolean (PREF_USE_STARTUP_LOCATION, FALSE)) {
-		gtk_widget_set_sensitive (data->file_entry, FALSE);
+		gtk_widget_set_sensitive (data->startup_dir_filechooserbutton, FALSE);
 		gtk_widget_set_sensitive (data->btn_set_to_current, FALSE);
 	}
 
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
-
+	
 	if ((startup_location != NULL)
-	    && pref_util_location_is_file (startup_location)) 
-		_gtk_entry_set_filename_text (GTK_ENTRY (data->startup_dir_entry), pref_util_get_file_location (startup_location));
+	    && pref_util_location_is_file (startup_location)) {
+		const char *uri;
+		char       *esc_uri;
+
+		uri = pref_util_get_file_location (startup_location);
+		esc_uri = gnome_vfs_escape_host_and_path_string (uri);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
+		g_free (esc_uri);
+	}
 
 	g_free (startup_location);
 

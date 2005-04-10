@@ -22,8 +22,9 @@
 
 #include <string.h>
 #include <math.h>
+
 #include <gconf/gconf-client.h>
-#include <libgnome/libgnome.h>
+
 #include "typedefs.h"
 #include "bookmarks.h"
 #include "file-utils.h"
@@ -432,6 +433,17 @@ pref_util_get_rgb_values (const char *hex,
 }
 
 
+void
+pref_util_get_color_from_hex (const char *hex,
+			      GdkColor   *color)
+{
+	pref_util_get_rgb_values (hex,
+				  &color->red,
+				  &color->green,
+				  &color->blue);
+}
+
+
 const char *
 pref_util_get_hex_value (guint16     r,
 			 guint16     g,
@@ -473,6 +485,21 @@ pref_util_get_int_value (const char *hex)
 	r = dec (hex[1]) * 16 + dec (hex[2]);
 	g = dec (hex[3]) * 16 + dec (hex[4]);
 	b = dec (hex[5]) * 16 + dec (hex[6]);
+
+	return (r << 24) + (g << 16) + (b << 8) + 0xFF;
+}
+
+
+guint32
+pref_util_get_ui32_from_color (GdkColor *color)
+{
+	guint8  r, g, b;
+
+	g_return_val_if_fail (color != NULL, 0);
+
+	r = color->red / 256;
+	g = color->green / 256;
+	b = color->blue / 256;
 
 	return (r << 24) + (g << 16) + (b << 8) + 0xFF;
 }

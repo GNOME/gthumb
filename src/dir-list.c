@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <libgnome/libgnome.h>
+
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 

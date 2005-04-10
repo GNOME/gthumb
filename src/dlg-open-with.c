@@ -24,7 +24,6 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>

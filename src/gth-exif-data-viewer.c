@@ -23,10 +23,12 @@
 
 #include <config.h>
 #include <string.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gth-exif-utils.h"

@@ -24,10 +24,12 @@
 #include <sys/types.h>
 #include <string.h>
 #include <unistd.h>
+
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
-#include <libgnome/libgnome.h>
+#include <libgnomeui/gnome-help.h>
 #include <glade/glade.h>
+
 #include "file-data.h"
 #include "gconf-utils.h"
 #include "gthumb-window.h"

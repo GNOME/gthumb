@@ -30,7 +30,8 @@
 #include <string.h>
 
 #include <png.h>
-#include <libgnome/libgnome.h>
+
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-thumbnail.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>

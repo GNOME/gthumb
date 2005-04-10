@@ -26,13 +26,11 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
-#include <libgnomeui/gnome-file-entry.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs.h>
+
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-search.h"
@@ -102,8 +100,7 @@ typedef struct {
 	GtkWidget      *dialog;
 	GtkWidget      *search_progress_dialog;
 
-	GtkWidget      *s_start_from_fileentry;
-	GtkWidget      *s_start_from_entry;
+	GtkWidget      *s_start_from_filechooserbutton;
 	GtkWidget      *s_include_subfold_checkbutton;
 	GtkWidget      *s_filename_entry;
 	GtkWidget      *s_comment_entry;
@@ -220,27 +217,44 @@ destroy_cb (GtkWidget  *widget,
 static void search_images_async (DialogData *data);
 
 
+static void
+start_search_now (DialogData *data) 
+{
+	/* pop up the progress dialog. */
+
+	gtk_widget_hide (data->dialog);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (data->p_notebook), 0);
+	gtk_widget_set_sensitive (data->p_searching_in_hbox, TRUE);
+	gtk_widget_set_sensitive (data->p_view_button, FALSE);
+	gtk_widget_set_sensitive (data->p_search_button, FALSE);
+	gtk_widget_set_sensitive (data->p_close_button, FALSE);
+	gtk_label_set_text (GTK_LABEL (data->p_images_label), "");
+	gtk_widget_show (data->search_progress_dialog);
+
+	search_images_async (data);
+}
+
+
 /* called when the "search" button is pressed. */
 static void
 search_clicked_cb (GtkWidget  *widget, 
 		   DialogData *data)
 {
 	char       *full_path;
+	char       *esc_path;
 	const char *entry;
-	char       *utf8_path;
 
 	/* collect search data. */
 
 	free_search_criteria_data (data);
 	search_data_free (data->search_data);
-
 	data->search_data = search_data_new ();
 
 	/* * start from */
 
-	utf8_path = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->s_start_from_fileentry), FALSE);
-	full_path = g_filename_from_utf8 (utf8_path, -1, 0, 0, 0);
-	g_free (utf8_path);
+	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
+	full_path = gnome_vfs_unescape_string (esc_path, "");
+	g_free (esc_path);
 
 	search_data_set_start_from (data->search_data, full_path);
 	g_free (full_path);
@@ -285,18 +299,9 @@ search_clicked_cb (GtkWidget  *widget,
 
 	search_data_set_date (data->search_data, gnome_date_edit_get_time (GNOME_DATE_EDIT (data->s_date_dateedit)));
 
-	/* pop up the progress dialog. */
+	/**/
 
-	gtk_widget_hide (data->dialog);
-	gtk_notebook_set_current_page (GTK_NOTEBOOK (data->p_notebook), 0);
-	gtk_widget_set_sensitive (data->p_searching_in_hbox, TRUE);
-	gtk_widget_set_sensitive (data->p_view_button, FALSE);
-	gtk_widget_set_sensitive (data->p_search_button, FALSE);
-	gtk_widget_set_sensitive (data->p_close_button, FALSE);
-	gtk_label_set_text (GTK_LABEL (data->p_images_label), "");
-	gtk_widget_show (data->search_progress_dialog);
-
-	search_images_async (data);
+	start_search_now (data);
 }
 
 
@@ -513,6 +518,14 @@ response_cb (GtkWidget  *dialog,
 }
 
 
+static gboolean
+idle_start_search_cb (gpointer data) 
+{
+	start_search_now (data);
+	return FALSE;
+}
+
+
 static void
 dlg_search_ui (GThumbWindow *window, 
 	       char         *catalog_path, 
@@ -521,7 +534,6 @@ dlg_search_ui (GThumbWindow *window,
 	DialogData        *data;
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	GValue             value = {0, };
 
 	data = g_new0 (DialogData, 1);
 
@@ -549,8 +561,7 @@ dlg_search_ui (GThumbWindow *window,
 
 	data->dialog = glade_xml_get_widget (data->gui, "search_dialog");
 
-	data->s_start_from_fileentry = glade_xml_get_widget (data->gui, "s_start_from_fileentry");
-	data->s_start_from_entry = glade_xml_get_widget (data->gui, "s_start_from_entry");
+	data->s_start_from_filechooserbutton = glade_xml_get_widget (data->gui, "s_start_from_filechooserbutton");
 	data->s_include_subfold_checkbutton = glade_xml_get_widget (data->gui, "s_include_subfold_checkbutton");
 	data->s_filename_entry = glade_xml_get_widget (data->gui, "s_filename_entry");
 	data->s_comment_entry = glade_xml_get_widget (data->gui, "s_comment_entry");
@@ -587,33 +598,47 @@ dlg_search_ui (GThumbWindow *window,
 
 	/* Set widgets data. */
 
-	/* Make use of the new filechooser */
-
-	g_value_init (&value, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&value, TRUE);
-	g_object_set_property (G_OBJECT (data->s_start_from_fileentry),"use_filechooser", &value);
-	
-	/**/
-
 	if (catalog_path == NULL) {
+		char *esc_uri = NULL;
+
 		if (data->window->dir_list->path != NULL)
-			_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), data->window->dir_list->path);
+			esc_uri = gnome_vfs_escape_host_and_path_string (data->window->dir_list->path);
 		else
-			_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), g_get_home_dir ());
+			esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
+
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
+		g_free (esc_uri);
+
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), eel_gconf_get_boolean (PREF_SEARCH_RECURSIVE, TRUE));
 
 	} else {
 		Catalog    *catalog;
 		SearchData *search_data;
+		char       *esc_uri = NULL;
 
 		catalog = catalog_new ();
 		catalog_load_from_disk (catalog, data->catalog_path, NULL);
 
 		search_data = catalog->search_data;
 
-		data->all_keywords =  search_data->all_keywords;
+		free_search_criteria_data (data);
+		search_data_free (data->search_data);
+		data->search_data = search_data_new ();
+		search_data_copy (data->search_data, search_data);
+		
+		data->all_keywords =  data->search_data->all_keywords;
+		data->file_patterns = search_util_get_file_patterns (data->search_data->file_pattern);
+		data->comment_patterns = search_util_get_patterns (data->search_data->comment_pattern);
+		data->place_patterns = search_util_get_patterns (data->search_data->place_pattern);
+		data->keywords_patterns = search_util_get_patterns (data->search_data->keywords_pattern);
 
-		_gtk_entry_set_filename_text (GTK_ENTRY (data->s_start_from_entry), search_data->start_from);
+		/**/
+		
+		esc_uri = gnome_vfs_escape_host_and_path_string (search_data->start_from);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
+		g_free (esc_uri);
+
+		/**/
 	
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->s_include_subfold_checkbutton), search_data->recursive);
 		
@@ -710,14 +735,13 @@ dlg_search_ui (GThumbWindow *window,
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (data->search_progress_dialog), GTK_WINDOW (window->app));
 
 	gtk_widget_grab_focus (data->s_filename_entry);
 
 	if (! start_search) 
 		gtk_widget_show (data->dialog);
 	else 
-		search_clicked_cb (NULL, data);
+		g_idle_add (idle_start_search_cb, data);
 }
 
 
@@ -750,7 +774,7 @@ match_patterns (char       **patterns,
 {
 	int i;
 
-	if (patterns[0] == NULL)
+	if ((patterns == NULL) || (patterns[0] == NULL))
 		return TRUE;
 
 	if (string == NULL)

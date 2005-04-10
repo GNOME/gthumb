@@ -24,7 +24,7 @@
 #include <string.h>
 #include <math.h>
 
-#include <libgnome/libgnome.h>
+#include <glib/gi18n.h>
 #include <libgnomeui/gnome-font-picker.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-unit.h>

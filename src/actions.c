@@ -2723,14 +2723,20 @@ activate_action_help_about (GtkAction *action,
 	}
 
 	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb-logo.png", NULL);
-	about = gnome_about_new (_("gThumb"), 
-				 VERSION,
-				 "Copyright \xc2\xa9 2001-2004 Free Software Foundation, Inc.",
-				 _("An image viewer and browser for GNOME."),
-				 authors,
-				 documenters,
-				 strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
-				 logo);
+
+	about = gtk_about_dialog_new ();
+	g_object_set (about,
+		      "name", _("gThumb"), 
+		      "version", VERSION,
+		      "copyright",  "Copyright \xc2\xa9 2001-2004 Free Software Foundation, Inc.",
+		      "comments", _("An image viewer and browser for GNOME."),
+		      "authors", authors,
+		      "documenters", documenters,
+		      "translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
+		      "logo", logo,
+		      "website", "http://gthumb.sourceforge.net",
+		      NULL);
+
 	if (logo != NULL)
                 g_object_unref (logo);
 
@@ -2743,7 +2749,7 @@ activate_action_help_about (GtkAction *action,
 			  G_CALLBACK (gtk_widget_destroyed), 
 			  &about);
 
-	gtk_widget_show_all (about);
+	gtk_widget_show (about);
 }
 
 

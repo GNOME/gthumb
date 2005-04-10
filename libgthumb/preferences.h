@@ -238,11 +238,16 @@ void            pref_util_get_rgb_values              (const char *hex,
 						       guint16    *g,
 						       guint16    *b);
 
+void            pref_util_get_color_from_hex          (const char *hex,
+						       GdkColor   *color);
+
 const char     *pref_util_get_hex_value               (guint16     r,
 						       guint16     g,
 						       guint16     b);
 
 guint32         pref_util_get_int_value               (const char *hex);
+
+guint32         pref_util_get_ui32_from_color         (GdkColor   *color);
 
 GthClickPolicy  pref_get_real_click_policy            (void);
 

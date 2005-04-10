@@ -25,11 +25,9 @@
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-dateedit.h>
+#include <libgnomeui/gnome-help.h>
 #include <glade/glade.h>
+
 #include "typedefs.h"
 #include "preferences.h"
 #include "main.h"

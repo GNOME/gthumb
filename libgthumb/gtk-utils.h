@@ -23,7 +23,7 @@
 #ifndef _GTK_UTILS_H
 #define _GTK_UTILS_H
 
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 
 GtkWidget * _gtk_image_new_from_xpm_data (char             *xpm_data[]);
 GtkWidget * _gtk_image_new_from_inline   (const guint8     *data);

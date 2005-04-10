@@ -32,14 +32,16 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <dirent.h>
+#include <errno.h>
 
 #include <glib.h>
-#include <libgnome/libgnome.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <libgnomevfs/gnome-vfs-handle.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-result.h>
 #include <gconf/gconf-client.h>
+
 #include "gthumb-init.h"
 #include "gconf-utils.h"
 #include "file-utils.h"

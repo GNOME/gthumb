@@ -29,13 +29,10 @@
 #include <time.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-file-entry.h>
 #include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomeui/gnome-icon-lookup.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
 #include <gphoto2/gphoto2-abilities-list.h>
@@ -81,8 +78,7 @@ typedef struct {
 	GtkWidget      *import_preview_scrolledwindow;
 	GtkWidget      *camera_model_label; 
 	GtkWidget      *select_model_button;
-	GtkWidget      *destination_fileentry;
-	GtkWidget      *destination_entry;
+	GtkWidget      *destination_filechooserbutton;
 	GtkWidget      *film_entry;
 	GtkWidget      *keep_names_checkbutton;
 	GtkWidget      *delete_checkbutton;
@@ -1037,14 +1033,16 @@ is_valid_filename (const char *name)
 static char*
 get_folder_name (DialogData *data)
 {
-	char *entry_val;
+	char *esc_destination;
 	char *destination;
 	char *film_name;
 	char *path;
 
-	entry_val = _gtk_entry_get_filename_text (GTK_ENTRY (data->destination_entry));
-	destination = remove_ending_separator (entry_val);
-	g_free (entry_val);
+	esc_destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
+	destination = gnome_vfs_unescape_string (esc_destination, "");
+	g_free (esc_destination);
+
+	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
 
 	if (! dlg_check_folder (data->window, destination)) {
 		g_free (destination);
@@ -1069,8 +1067,6 @@ get_folder_name (DialogData *data)
 
 	path = g_build_filename (destination, film_name, NULL);
 	g_free (film_name);
-
-	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
 	g_free (destination);
 
 	return path;
@@ -1692,8 +1688,8 @@ dlg_photo_importer (GThumbWindow *window)
 	GtkWidget    *btn_ok, *btn_cancel;
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
+	char         *esc_uri;
 	char         *default_film_name;
-	GValue        value = {0, };
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
@@ -1736,8 +1732,7 @@ dlg_photo_importer (GThumbWindow *window)
 	data->import_preview_scrolledwindow = glade_xml_get_widget (data->gui, "import_preview_scrolledwindow");
 	data->camera_model_label = glade_xml_get_widget (data->gui, "camera_model_label");
 	data->select_model_button = glade_xml_get_widget (data->gui, "select_model_button");
-	data->destination_fileentry = glade_xml_get_widget (data->gui, "destination_fileentry");
-	data->destination_entry = glade_xml_get_widget (data->gui, "destination_entry");
+	data->destination_filechooserbutton = glade_xml_get_widget (data->gui, "destination_filechooserbutton");
 	data->film_entry = glade_xml_get_widget (data->gui, "film_entry");
 	data->keep_names_checkbutton = glade_xml_get_widget (data->gui, "keep_names_checkbutton");
 	data->delete_checkbutton = glade_xml_get_widget (data->gui, "delete_checkbutton");
@@ -1765,14 +1760,6 @@ dlg_photo_importer (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	/* Make use of the new filechooser */
-
-	g_value_init (&value, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&value, TRUE);
-	g_object_set_property (G_OBJECT (data->destination_fileentry), "use_filechooser", &value);
-
-	/**/
-
 	data->camera_present_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" CAMERA_FILE, NULL);
 	mute_pixbuf = gdk_pixbuf_new_from_file (GTHUMB_GLADEDIR "/" MUTE_FILE, NULL);
 
@@ -1799,8 +1786,9 @@ dlg_photo_importer (GThumbWindow *window)
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))
 		default_path = g_strdup (g_get_home_dir());
-	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->destination_fileentry), default_path);
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->destination_entry), default_path);
+	esc_uri = gnome_vfs_escape_host_and_path_string (default_path);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton), esc_uri);
+	g_free (esc_uri);
 	g_free (default_path);
 
 	default_film_name = eel_gconf_get_path (PREF_PHOTO_IMPORT_FILM, "");

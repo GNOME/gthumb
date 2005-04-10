@@ -29,7 +29,7 @@
 #include <dirent.h>
 #include <string.h>
 
-#include <libgnome/libgnome.h>
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-types.h>
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>

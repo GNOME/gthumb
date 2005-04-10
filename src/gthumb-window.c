@@ -27,8 +27,7 @@
 #include <unistd.h>
 
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/libgnomeui.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
@@ -524,7 +523,8 @@ window_update_statusbar_list_info (GThumbWindow *window)
 			    selected_info, 
 			    NULL);
 
-	gtk_statusbar_pop (GTK_STATUSBAR (window->statusbar), window->list_info_cid);
+	gtk_statusbar_pop (GTK_STATUSBAR (window->statusbar), 
+			   window->list_info_cid);
 	gtk_statusbar_push (GTK_STATUSBAR (window->statusbar),
 			    window->list_info_cid, info);
 
@@ -4604,7 +4604,7 @@ menu_item_select_cb (GtkMenuItem  *proxy,
         g_return_if_fail (action != NULL);
 	
         g_object_get (G_OBJECT (action), "tooltip", &message, NULL);
-        if (message) {
+        if (message != NULL) {
 		gtk_statusbar_push (GTK_STATUSBAR (window->statusbar),
 				    window->help_message_cid, message);
 		g_free (message);
@@ -4871,10 +4871,10 @@ window_new (void)
 			      2, 1, 0);
 
 	window->statusbar = gtk_statusbar_new ();
-	window->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "help_message");
-	window->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "list_info");
-	gnome_app_set_statusbar (GNOME_APP (window->app), window->statusbar);
 	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (window->statusbar), TRUE);
+	window->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "gth_help_message");
+	window->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (window->statusbar), "gth_list_info");
+	gnome_app_set_statusbar (GNOME_APP (window->app), window->statusbar);
 
 	g_signal_connect (G_OBJECT (window->app), 
 			  "delete_event",
@@ -5354,7 +5354,7 @@ window_new (void)
 	gtk_frame_set_shadow_type (GTK_FRAME (window->zoom_info_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (window->zoom_info_frame), window->zoom_info);
 	gtk_box_pack_start (GTK_BOX (window->statusbar), window->zoom_info_frame, FALSE, FALSE, 0);
-
+	
 	/* Image info */
 
 	window->image_info = gtk_label_new (NULL);

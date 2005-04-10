@@ -27,7 +27,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-#include <libgnome/libgnome.h>
+#include <glib/gi18n.h>
 #include "catalog.h"
 #include "typedefs.h"
 #include "file-utils.h"

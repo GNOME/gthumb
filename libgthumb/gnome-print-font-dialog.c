@@ -37,6 +37,7 @@
 
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkvbox.h>
@@ -46,9 +47,8 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 
-#include <libgnome/gnome-i18n.h>
+#include "gnome-print-font-dialog.h"
 
-#include <gnome-print-font-dialog.h>
 
 struct _GnomePrintFontDialog {
 	GtkDialog dialog;

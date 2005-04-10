@@ -22,11 +22,13 @@
 
 #include <config.h>
 #include <string.h>
+
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+
 #include "gthumb-window.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"

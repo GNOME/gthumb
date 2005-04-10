@@ -25,16 +25,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
+
 #include "catalog-web-exporter.h"
 #include "dlg-file-utils.h"
 #include "file-utils.h"

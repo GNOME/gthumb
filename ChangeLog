@@ -1,3 +1,48 @@
+2005-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_png_exporter.glade: 
+	* src/dlg-png-exporter.c: 
+
+	Use the gtk_color_button instead of the gnome_color_picker widget.
+	Use the gtk_font_button instead of the gnome_font_picker widget.
+
+	* src/dlg-search.c: 
+	* src/dlg-preferences.c: 
+
+	Use the the gtk_filechooser_button widget.
+
+	* src/actions.c (activate_action_help_about): 
+
+	Use the gtk_about_dialog widget.
+
+	* configure.in: require gtk+ >= 2.6.0 and glib >= 2.6.0
+
+	* src/dlg-preferences.c: 
+	* src/dlg-rename-series.c: 
+	* src/dlg-search.c: 
+	* src/dlg-web-exporter.c: 
+	* src/dlg-write-to-cd.c: 
+	* src/gth-exif-data-viewer.c: 
+	* src/gth-folder-selection-dialog.c: 
+	* src/gthumb-window.c: 
+	* src/dlg-photo-importer.c: 
+	* libgthumb/gth-file-view-list.c: 
+	* libgthumb/gthumb-init.c: 
+	* libgthumb/jpeg-utils.c: 
+	* libgthumb/preferences.c: 
+	* libgthumb/thumb-loader.c: 
+	* libgthumb/gtk-utils.c: 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/thumb-cache.c: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/file-utils.c: 
+	* libgthumb/gconf-utils.c: 
+	* libgthumb/dlg-save-image.c: 
+	* libgthumb/comments.c: 
+	* libgthumb/catalog.c: 
+
+	Include <glib/gi18n.h> instead of <libgnome/libgnome.h>
+	
 2005-03-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c (main_dialog_set_sensitive): set all

@@ -25,12 +25,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-file-entry.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-color-picker.h>
-#include <libgnomeui/gnome-font-picker.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
+
 #include "catalog-png-exporter.h"
 #include "dlg-file-utils.h"
 #include "file-utils.h"
@@ -62,8 +61,7 @@ typedef struct {
 	GladeXML           *gui;
 	GtkWidget          *dialog;
 
-	GtkWidget          *dest_fileentry;
-	GtkWidget          *dest_fileentry_entry;
+	GtkWidget          *dest_filechooserbutton;
 	GtkWidget          *template_entry;
 	GtkWidget          *file_type_option_menu;
 	GtkWidget          *image_map_checkbutton;
@@ -101,7 +99,7 @@ export (GtkWidget  *widget,
 {
 	CatalogPngExporter *exporter = data->exporter;
 	char               *dir;
-	char               *path;
+	char               *esc_dir;
 	int                 type_id;
 	guint32             bg_color;
 	guint32             hgrad1;
@@ -136,10 +134,10 @@ export (GtkWidget  *widget,
 	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_TEXT, gtk_entry_get_text (GTK_ENTRY (data->footer_entry)));
 
 	/**/
-
-	path = _gtk_entry_get_filename_text (GTK_ENTRY (data->dest_fileentry_entry));
-	dir = remove_ending_separator (path);
-	g_free (path);
+	
+	esc_dir = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->dest_filechooserbutton));
+	dir = gnome_vfs_unescape_string (esc_dir, "");
+	g_free (esc_dir);
 
 	if (! dlg_check_folder (data->window, dir)) {
 		g_free (dir);
@@ -321,7 +319,7 @@ dlg_exporter (GThumbWindow *window)
 	GList        *list;
 	char         *template;
 	char         *s;
-	GValue        value = {0, };
+	char         *esc_uri = NULL;
 
 	data = g_new (DialogData, 1);
 
@@ -349,7 +347,7 @@ dlg_exporter (GThumbWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "exporter_save_dialog");
-	data->dest_fileentry = glade_xml_get_widget (data->gui, "dest_fileentry");
+	data->dest_filechooserbutton = glade_xml_get_widget (data->gui, "dest_filechooserbutton");
 	data->template_entry = glade_xml_get_widget (data->gui, "template_entry");
 	data->file_type_option_menu = glade_xml_get_widget (data->gui, "type_optionmenu");
 	
@@ -367,8 +365,6 @@ dlg_exporter (GThumbWindow *window)
         btn_cancel = glade_xml_get_widget (data->gui, "cancel_button");
 	data->btn_ok = glade_xml_get_widget (data->gui, "ok_button");
         btn_pref = glade_xml_get_widget (data->gui, "pref_button");
-
-	data->dest_fileentry_entry = gnome_entry_gtk_entry (GNOME_ENTRY (gnome_file_entry_gnome_entry (GNOME_FILE_ENTRY (data->dest_fileentry))));
 
 	/* Signals. */
 
@@ -413,18 +409,15 @@ dlg_exporter (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	/* Make use of the new filechooser */
-
-	g_value_init (&value, G_TYPE_BOOLEAN);
-	g_value_set_boolean (&value, TRUE);
-	g_object_set_property (G_OBJECT (data->dest_fileentry), "use_filechooser", &value);
-
 	/**/
 
-	gnome_file_entry_set_default_path (GNOME_FILE_ENTRY (data->dest_fileentry), (window->dir_list->path != NULL) ? window->dir_list->path : g_get_home_dir ());
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->dest_fileentry_entry),
-				      (window->dir_list->path == NULL) ? g_get_home_dir() : window->dir_list->path);
-
+	if (window->dir_list->path != NULL)
+		esc_uri = gnome_vfs_escape_host_and_path_string (window->dir_list->path);
+	else
+		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), esc_uri);
+	g_free (esc_uri);
+	
 	template = eel_gconf_get_string (PREF_EXP_NAME_TEMPLATE, DEF_NAME_TEMPLATE);
 	if (template != NULL)
 		gtk_entry_set_text (GTK_ENTRY (data->template_entry), 
@@ -713,37 +706,36 @@ paint_background (PrefDialogData *data,
 		  int             height)
 {
 	GdkPixbuf  *pixbuf;
+	GdkColor    color;
 	gboolean    use_solid_color;
 	gboolean    use_hgradient, use_vgradient;
 	guint32     bg_color;
 	guint32     hgrad1, hgrad2;
 	guint32     vgrad1, vgrad2;
-	gushort     red, green, blue;
-	const char *value;
 
 	use_solid_color = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->solid_color_radiobutton));
 	use_hgradient = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->hgrad_checkbutton));
 	use_vgradient = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->vgrad_checkbutton));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), &red, &green, &blue, NULL);
-	value = pref_util_get_hex_value (red, green, blue);
-	bg_color = pref_util_get_int_value (value);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker),
+				    &color);
+	bg_color = pref_util_get_ui32_from_color (&color);
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), &red, &green, &blue, NULL);
-	value = pref_util_get_hex_value (red, green, blue);
-	hgrad1 = pref_util_get_int_value (value);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker),
+				    &color);
+	hgrad1 = pref_util_get_ui32_from_color (&color);
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), &red, &green, &blue, NULL);
-	value = pref_util_get_hex_value (red, green, blue);
-	hgrad2 = pref_util_get_int_value (value);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker),
+				    &color);
+	hgrad2 = pref_util_get_ui32_from_color (&color);
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), &red, &green, &blue, NULL);
-	value = pref_util_get_hex_value (red, green, blue);
-	vgrad1 = pref_util_get_int_value (value);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker),
+				    &color);
+	vgrad1 = pref_util_get_ui32_from_color (&color);
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), &red, &green, &blue, NULL);
-	value = pref_util_get_hex_value (red, green, blue);
-	vgrad2 = pref_util_get_int_value (value);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker),
+				    &color);
+	vgrad2 = pref_util_get_ui32_from_color (&color);
 
 	/**/
 
@@ -832,9 +824,11 @@ update_thumb_preview (PrefDialogData *data,
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton)))
 		frame_style = GTH_FRAME_STYLE_NONE;
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), &frame_color.red, &frame_color.green, &frame_color.blue, NULL);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->frame_colorpicker),
+				    &frame_color);
 	
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), &bg_color.red, &bg_color.green, &bg_color.blue, NULL);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker),
+				    &bg_color);
 
 	thumb_size = get_size_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->thumb_size_optionmenu)));
 
@@ -925,9 +919,9 @@ update_thumb_preview (PrefDialogData *data,
 	}
 
 	/* Paint Caption. */
-
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->text_colorpicker), &text_color.red, &text_color.green, &text_color.blue, NULL);
-	text_font = gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->text_fontpicker));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->text_colorpicker),
+				    &text_color);
+	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->text_fontpicker));
 
 	paint_sample_text (drawable, 
 			   data->pixmap,
@@ -979,8 +973,9 @@ update_thumb_preview (PrefDialogData *data,
 
 	/* Paint Header. */
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->header_colorpicker), &text_color.red, &text_color.green, &text_color.blue, NULL);
-	text_font = gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->header_fontpicker));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->header_colorpicker),
+				    &text_color);
+	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->header_fontpicker));
 
 	paint_sample_text (drawable, 
 			   data->pixmap,
@@ -993,9 +988,9 @@ update_thumb_preview (PrefDialogData *data,
 			   &text_color);
 
 	/* Paint Footer. */
-
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->footer_colorpicker), &text_color.red, &text_color.green, &text_color.blue, NULL);
-	text_font = gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->footer_fontpicker));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->footer_colorpicker),
+				    &text_color);
+	text_font = gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->footer_fontpicker));
 
 	y = (drawable->allocation.height - get_text_height (drawable, 
 							    _("Footer"), 
@@ -1035,12 +1030,8 @@ preview_expose_cb (GtkWidget      *widget,
 
 
 static void
-color_picker_color_set_cb (GnomeColorPicker *cp, 
-			   guint             r, 
-			   guint             g, 
-			   guint             b, 
-			   guint             a,
-			   PrefDialogData   *data)
+color_button_color_set_cb (GtkColorButton *color_button, 
+			   PrefDialogData *data)
 {
 	update_thumb_preview (data, TRUE);
 }
@@ -1055,9 +1046,8 @@ optionmenu_changed_cb (GtkWidget      *widget,
 
 
 static void 
-font_set_cb (GnomeFontPicker *gfp, 
-	     const gchar     *font_name,
-	     PrefDialogData  *data)
+font_button_font_set_cb (GtkFontButton   *font_button, 
+			 PrefDialogData  *data)
 {
 	update_thumb_preview (data, TRUE);
 }
@@ -1108,7 +1098,7 @@ static void
 ok_cb (GtkWidget *widget, 
        PrefDialogData *data)
 {
-	gushort  red, green, blue;
+	GdkColor color;
 	char    *s;
 
 	/* Page */
@@ -1126,8 +1116,9 @@ ok_cb (GtkWidget *widget,
 	eel_gconf_set_integer (PREF_EXP_PAGE_ROWS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rows_spinbutton)));
 	eel_gconf_set_integer (PREF_EXP_PAGE_COLS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->cols_spinbutton)));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_BGCOLOR, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_BGCOLOR, pref_util_get_hex_value (color.red, color.green, color.blue));
 
 	/**/
 
@@ -1137,17 +1128,21 @@ ok_cb (GtkWidget *widget,
 
 	/* gradients  */
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_HGRAD_COLOR1, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_HGRAD_COLOR1, pref_util_get_hex_value (color.red, color.green, color.blue));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_HGRAD_COLOR2, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_HGRAD_COLOR2, pref_util_get_hex_value (color.red, color.green, color.blue));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_VGRAD_COLOR1, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_VGRAD_COLOR1, pref_util_get_hex_value (color.red, color.green, color.blue));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_VGRAD_COLOR2, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_VGRAD_COLOR2, pref_util_get_hex_value (color.red, color.green, color.blue));
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->sort_type_checkbutton)))
 		pref_set_exp_sort_order (GTK_SORT_DESCENDING);
@@ -1169,8 +1164,9 @@ ok_cb (GtkWidget *widget,
 
 	pref_set_exporter_frame_style (get_style_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->frame_style_optionmenu))));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_FRAME_COLOR, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->frame_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_FRAME_COLOR, pref_util_get_hex_value (color.red, color.green, color.blue));
 
 	if (! gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton)))
 		pref_set_exporter_frame_style (GTH_FRAME_STYLE_NONE);
@@ -1179,22 +1175,25 @@ ok_cb (GtkWidget *widget,
 
 	eel_gconf_set_integer (PREF_EXP_THUMB_SIZE, get_size_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->thumb_size_optionmenu))));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->text_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_TEXT_COLOR, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->text_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_TEXT_COLOR, pref_util_get_hex_value (color.red, color.green, color.blue));
 
-	eel_gconf_set_string (PREF_EXP_TEXT_FONT, gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->text_fontpicker)));
+	eel_gconf_set_string (PREF_EXP_TEXT_FONT, gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->text_fontpicker)));
 
 	/* Header / Footer */
 
-	eel_gconf_set_string (PREF_EXP_PAGE_HEADER_FONT, gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->header_fontpicker)));
+	eel_gconf_set_string (PREF_EXP_PAGE_HEADER_FONT, gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->header_fontpicker)));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->header_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_HEADER_COLOR, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->header_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_HEADER_COLOR, pref_util_get_hex_value (color.red, color.green, color.blue));
 
-	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_FONT, gnome_font_picker_get_font_name (GNOME_FONT_PICKER (data->footer_fontpicker)));
+	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_FONT, gtk_font_button_get_font_name (GTK_FONT_BUTTON (data->footer_fontpicker)));
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->footer_colorpicker), &red, &green, &blue, NULL);
-	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_COLOR, pref_util_get_hex_value (red, green, blue));
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->footer_colorpicker),
+				    &color);
+	eel_gconf_set_string (PREF_EXP_PAGE_FOOTER_COLOR, pref_util_get_hex_value (color.red, color.green, color.blue));
 
 	/* Close */
 
@@ -1296,14 +1295,17 @@ static void
 hgrad_swap_cb (GtkWidget      *button,
 	       PrefDialogData *data)
 {
-	gushort r1, g1, b1, a1;
-	gushort r2, g2, b2, a2;
+	GdkColor color1, color2;
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), &r1, &g1, &b1, &a1);
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), &r2, &g2, &b2, &a2);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker),
+				    &color1);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker),
+				    &color2);
 
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), r2, g2, b2, a2);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), r1, g1, b1, a1);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker),
+				    &color2);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker),
+				    &color1);
 
 	update_thumb_preview (data, TRUE);
 }
@@ -1313,14 +1315,17 @@ static void
 vgrad_swap_cb (GtkWidget      *button,
 	       PrefDialogData *data)
 {
-	gushort r1, g1, b1, a1;
-	gushort r2, g2, b2, a2;
+	GdkColor color1, color2;
 
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), &r1, &g1, &b1, &a1);
-	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), &r2, &g2, &b2, &a2);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker),
+				    &color1);
+	gtk_color_button_get_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker),
+				    &color2);
 
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), r2, g2, b2, a2);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), r1, g1, b1, a1);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker),
+				    &color2);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker),
+				    &color1);
 
 	update_thumb_preview (data, TRUE);
 }
@@ -1336,8 +1341,8 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	GtkWidget      *image;
 	char            s[10];
 	char           *v;
-	guint16         r, g, b;
-	gboolean        use_rc;
+	gboolean        use_rc, active;
+	GdkColor        color;
 
 	data = g_new0 (PrefDialogData, 1);
 
@@ -1448,40 +1453,40 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	g_signal_connect (G_OBJECT (data->page_bg_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->hgrad1_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->hgrad2_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->vgrad1_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->vgrad2_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->frame_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->text_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->header_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->footer_colorpicker),
 			  "color_set",
-			  G_CALLBACK (color_picker_color_set_cb),
+			  G_CALLBACK (color_button_color_set_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->frame_style_optionmenu),
@@ -1495,15 +1500,15 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 
 	g_signal_connect (G_OBJECT (data->text_fontpicker),
 			  "font_set",
-			  G_CALLBACK (font_set_cb),
+			  G_CALLBACK (font_button_font_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->header_fontpicker),
 			  "font_set",
-			  G_CALLBACK (font_set_cb),
+			  G_CALLBACK (font_button_font_set_cb),
 			  data);
 	g_signal_connect (G_OBJECT (data->footer_fontpicker),
 			  "font_set",
-			  G_CALLBACK (font_set_cb),
+			  G_CALLBACK (font_button_font_set_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->draw_frame_checkbutton),
@@ -1546,28 +1551,33 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	/* background color */
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_BGCOLOR, "#62757b");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->page_bg_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->page_bg_colorpicker), 
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR1, "#e0d3c0");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad1_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad1_colorpicker), 
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HGRAD_COLOR2, "#b1c3ad");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->hgrad2_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->hgrad2_colorpicker), 
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR1, "#e8e8ea");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad1_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad1_colorpicker), 
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_VGRAD_COLOR2, "#bad8d8");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->vgrad2_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->vgrad2_colorpicker), 
+				    &color);
 	g_free (v);
 
 	/* sort type */
@@ -1630,45 +1640,49 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->frame_style_optionmenu), get_idx_from_style (pref_get_exporter_frame_style ()));
 
 	v = eel_gconf_get_string (PREF_EXP_FRAME_COLOR, "#94d6cd");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->frame_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->frame_colorpicker), 
+				    &color);
 	g_free (v);
 
-	b = pref_get_exporter_frame_style () != GTH_FRAME_STYLE_NONE;
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton), b);
-	gtk_widget_set_sensitive (data->prop_frame_table, b);
+	active = pref_get_exporter_frame_style () != GTH_FRAME_STYLE_NONE;
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->draw_frame_checkbutton), active);
+	gtk_widget_set_sensitive (data->prop_frame_table, active);
 
 	/* ** Others */
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->thumb_size_optionmenu), get_idx_from_size (eel_gconf_get_integer (PREF_EXP_THUMB_SIZE, DEF_THUMB_SIZE)));
 
 	v = eel_gconf_get_string (PREF_EXP_TEXT_COLOR, "#414141");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->text_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->text_colorpicker),
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_TEXT_FONT, "Arial Bold 12");
-	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->text_fontpicker), v);
+	gtk_font_button_set_font_name (GTK_FONT_BUTTON (data->text_fontpicker), v);
 	g_free (v);
 
 	/* * Header/Footer */
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_FONT, "Arial 22");
-	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->header_fontpicker), v);
+	gtk_font_button_set_font_name (GTK_FONT_BUTTON (data->header_fontpicker), v);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_HEADER_COLOR, "#d5504a");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->header_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->header_colorpicker),
+				    &color);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_FONT, "Arial Bold Italic 12");
-	gnome_font_picker_set_font_name (GNOME_FONT_PICKER (data->footer_fontpicker), v);
+	gtk_font_button_set_font_name (GTK_FONT_BUTTON (data->footer_fontpicker), v);
 	g_free (v);
 
 	v = eel_gconf_get_string (PREF_EXP_PAGE_FOOTER_COLOR, "#394083");
-	pref_util_get_rgb_values (v, &r, &g, &b);
-	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (data->footer_colorpicker), r, g, b, 65535);
+	pref_util_get_color_from_hex (v, &color);
+	gtk_color_button_set_color (GTK_COLOR_BUTTON (data->footer_colorpicker),
+				    &color);
 	g_free (v);
 
 	/* Signals */

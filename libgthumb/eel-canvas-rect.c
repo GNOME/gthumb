@@ -23,8 +23,6 @@
 */
 
 #include <config.h>
-#include "eel-canvas-rect.h"
-
 #include <math.h>
 #include <string.h>
 
@@ -32,6 +30,8 @@
 #include <libgnome/gnome-macros.h>
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <gdk/gdkx.h>
+
+#include "eel-canvas-rect.h"
 
 #ifdef HAVE_RENDER
 #include <X11/extensions/Xrender.h>

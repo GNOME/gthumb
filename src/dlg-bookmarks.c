@@ -24,10 +24,8 @@
 #include <string.h>
 
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
+
 #include "typedefs.h"
 #include "bookmarks.h"
 #include "bookmark-list.h"

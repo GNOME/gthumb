@@ -28,10 +28,11 @@
 #include <time.h>
 #include <locale.h>
 #include <ctype.h>
+
 #include <gtk/gtk.h>
-#include <libgnome/libgnome.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
+
 #include "catalog-web-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
