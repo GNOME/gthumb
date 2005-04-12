@@ -71,8 +71,7 @@ typedef struct {
 
 	GtkWidget          *btn_ok;
 
-	GtkWidget          *wa_destination_entry;
-	GtkWidget          *wa_destination_button;
+	GtkWidget          *wa_destination_filechooserbutton;
 	GtkWidget          *wa_index_file_entry;
 	GtkWidget          *wa_copy_images_checkbutton;
 	GtkWidget          *wa_resize_images_checkbutton;
@@ -122,7 +121,7 @@ export (GtkWidget  *widget,
 
 	/* Save options. */
 
-	esc_path = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_destination_entry));
+	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton));
 	path = gnome_vfs_unescape_string (esc_path, "");
 	location = remove_ending_separator (path);
 	g_free (path);
@@ -273,50 +272,6 @@ resize_image_toggled_cb (GtkToggleButton *button,
 }
 
 
-static void
-open_response_cb (GtkDialog  *file_sel,
-		  int         button_number,
-		  gpointer    userdata)
-{
-	DialogData  *data = (DialogData   * )userdata;
-
-	if (button_number == GTK_RESPONSE_ACCEPT) {
-		_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_entry),
-					      gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
-	}
-	gtk_widget_destroy (GTK_WIDGET (file_sel));
-}
-
-
-static void
-wa_destination_button_clicked_cb (GtkWidget  *button,
-				  gpointer    data)
-{
-	GtkWidget *file_sel;
-	
-	file_sel = gtk_file_chooser_dialog_new (_("Choose destination folder"),
-						NULL,
-						GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER, 
-						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, 
-						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
-						NULL);
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
-
-	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (file_sel), FALSE);
-	g_signal_connect (G_OBJECT (file_sel),
-			  "response",
-			  G_CALLBACK (open_response_cb),
-			  data);
-	
-	g_signal_connect_swapped (GTK_DIALOG (file_sel),
-				  "close",
-				  G_CALLBACK (gtk_widget_destroy),
-				  GTK_WIDGET (file_sel));
-	
-	gtk_widget_show_all (GTK_WIDGET (file_sel));
-}
-
-
 /* create the main dialog. */
 void
 dlg_web_exporter (GThumbWindow *window)
@@ -326,6 +281,7 @@ dlg_web_exporter (GThumbWindow *window)
 	GtkWidget    *btn_help;
 	GList        *list;
 	char         *svalue;
+	char         *esc_uri;
 
 	data = g_new (DialogData, 1);
 
@@ -353,8 +309,7 @@ dlg_web_exporter (GThumbWindow *window)
 	/* Get the widgets. */
 	
 	data->dialog = glade_xml_get_widget (data->gui, "web_album_dialog");
-	data->wa_destination_entry = glade_xml_get_widget (data->gui, "wa_destination_entry");
-	data->wa_destination_button = glade_xml_get_widget (data->gui, "wa_destination_button");
+	data->wa_destination_filechooserbutton = glade_xml_get_widget (data->gui, "wa_destination_filechooserbutton");
 	data->wa_index_file_entry = glade_xml_get_widget (data->gui, "wa_index_file_entry");
 	data->wa_copy_images_checkbutton = glade_xml_get_widget (data->gui, "wa_copy_images_checkbutton");
 
@@ -426,8 +381,12 @@ dlg_web_exporter (GThumbWindow *window)
 	/**/
 
 	svalue = eel_gconf_get_path (PREF_WEB_ALBUM_DESTINATION, NULL);
-	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_destination_entry),
-				      (((svalue == NULL) || (*svalue == 0)) ? g_get_home_dir() : svalue));
+	if (svalue == NULL)
+		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
+	else
+		esc_uri = gnome_vfs_escape_host_and_path_string (svalue);
+	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->wa_destination_filechooserbutton), esc_uri);
+	g_free (esc_uri);
 	g_free (svalue);
 
 	/* Signals. */
@@ -435,10 +394,6 @@ dlg_web_exporter (GThumbWindow *window)
 	g_signal_connect (G_OBJECT (data->dialog), 
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->wa_destination_button), 
-			  "clicked",
-			  G_CALLBACK (wa_destination_button_clicked_cb),
 			  data);
 	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
 				  "clicked",
@@ -490,8 +445,6 @@ dlg_web_exporter (GThumbWindow *window)
 				  data->exporter);
 
 	/* Run dialog. */
-
-	gtk_widget_grab_focus (data->wa_destination_entry);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);

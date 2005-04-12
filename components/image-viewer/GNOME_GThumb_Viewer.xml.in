@@ -51,17 +51,12 @@
 	     _tip="Save current image" 
 	     pixtype="stock" pixname="gtk-save-as" 
 	     accel="*Shift**Control*S"/>
-
-	<cmd name="PrintImage" _label="_Print"
-	     _tip="Print the current image" 
-	     pixtype="stock" pixname="gtk-print" accel="*Control*p"/>
 </commands>
 
 <menu>
 	<submenu name="File">
       		<placeholder name="File Items Placeholder">
 	       	<menuitem name="SaveImage" verb=""/>
-	       	<menuitem name="PrintImage" verb=""/>
       		</placeholder>
     	</submenu>
 	<submenu name="View" _label="_View">

@@ -58,10 +58,6 @@ void verb_step_ani       (BonoboUIComponent *component,
 			  gpointer callback_data, 
 			  const char *cname);
 
-void verb_print_image    (BonoboUIComponent *component, 
-			  gpointer callback_data, 
-			  const char *cname);
-
 void verb_save_image     (BonoboUIComponent *component, 
 			  gpointer callback_data, 
 			  const char *cname);

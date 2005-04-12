@@ -1,3 +1,21 @@
+2005-04-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* components/image-viewer/ui.c: 
+	* components/image-viewer/ui.h: 
+	* components/image-viewer/viewer-control.c: 
+	* components/image-viewer/GNOME_GThumb_Viewer.xml.in: 
+
+	Removed the print command from the viewer component.
+	
+	* data/glade/gthumb_print.glade: 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/preferences.h: 
+
+	Added ability to customize the paper margins in the print
+	dialog.
+	
+	* src/dlg-web-exporter.c: use the gtk_filechooser_button widget.
+
 2005-04-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_png_exporter.glade: 

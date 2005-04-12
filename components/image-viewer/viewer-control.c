@@ -91,7 +91,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("StepAnimation",      verb_step_ani),
 
 	BONOBO_UI_VERB ("SaveImage",          verb_save_image),
-	BONOBO_UI_VERB ("PrintImage",         verb_print_image),
 
 	BONOBO_UI_VERB_END
 };

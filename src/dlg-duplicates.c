@@ -240,7 +240,7 @@ find_cb (GtkWidget  *widget,
 {
 	char *esc_path;
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
+	esc_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton));
 	data->start_from_path = gnome_vfs_unescape_string (esc_path, "");
 	g_free (esc_path);
 

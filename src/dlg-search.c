@@ -222,13 +222,17 @@ start_search_now (DialogData *data)
 {
 	/* pop up the progress dialog. */
 
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_hide (data->dialog);
+
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (data->p_notebook), 0);
 	gtk_widget_set_sensitive (data->p_searching_in_hbox, TRUE);
 	gtk_widget_set_sensitive (data->p_view_button, FALSE);
 	gtk_widget_set_sensitive (data->p_search_button, FALSE);
 	gtk_widget_set_sensitive (data->p_close_button, FALSE);
 	gtk_label_set_text (GTK_LABEL (data->p_images_label), "");
+
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->search_progress_dialog);
 
 	search_images_async (data);
@@ -324,7 +328,11 @@ new_search_clicked_cb (GtkWidget *widget,
 		       DialogData *data)
 {
 	cancel_progress_dlg_cb (widget, data);
+
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_hide (data->search_progress_dialog);
+
+	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }
 
@@ -732,6 +740,8 @@ dlg_search_ui (GThumbWindow *window,
 
 	/* Run dialog. */
 
+	gtk_window_set_transient_for (GTK_WINDOW (data->search_progress_dialog), 
+				      GTK_WINDOW (window->app));
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (window->app));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);

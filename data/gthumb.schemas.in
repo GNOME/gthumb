@@ -1508,6 +1508,58 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/margin_left</key>
+	<applyto>/apps/gthumb/dialogs/print/margin_left</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>20.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/margin_right</key>
+	<applyto>/apps/gthumb/dialogs/print/margin_right</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>20.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/margin_top</key>
+	<applyto>/apps/gthumb/dialogs/print/margin_top</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>30.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/print/margin_bottom</key>
+	<applyto>/apps/gthumb/dialogs/print/margin_bottom</applyto>
+	<owner>gthumb</owner>
+	<type>float</type>
+	<default>30.0</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/print/paper_unit</key>
 	<applyto>/apps/gthumb/dialogs/print/paper_unit</applyto>
 	<owner>gthumb</owner>

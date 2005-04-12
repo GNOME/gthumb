@@ -23,10 +23,6 @@
 #ifndef PRINT_CALLBACKS_H
 #define PRINT_CALLBACKS_H
 
-void  print_image_dlg    (GtkWindow   *parent, 
-			  ImageViewer *viewer, 
-			  const char  *location);
-
 void  print_catalog_dlg  (GtkWindow *parent,
 			  GList     *file_list);
 

@@ -31,7 +31,6 @@
 #include "image-viewer.h"
 #include "viewer-control.h"
 #include "pixbuf-utils.h"
-#include "print-callbacks.h"
 #include "viewer-nautilus-view.h"
 
 
@@ -131,20 +130,6 @@ verb_step_ani (BonoboUIComponent *component,
 		return;
 
 	image_viewer_step_animation (control->priv->viewer);
-}
-
-
-void
-verb_print_image (BonoboUIComponent *component, 
-		  gpointer           callback_data, 
-		  const char        *cname)
-{
-	ViewerControl *control = callback_data;
-	BonoboObject  *nautilus_view = control->priv->nautilus_view;
-	const char    *location;
-
-	location = VIEWER_NAUTILUS_VIEW (nautilus_view)->location;
-	print_image_dlg (NULL, control->priv->viewer, location);
 }
 
 

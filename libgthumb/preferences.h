@@ -173,6 +173,10 @@
 #define  PREF_PRINT_COMMENT_FONT      "/apps/gthumb/dialogs/print/comment_font"
 #define  PREF_PRINT_PAPER_WIDTH       "/apps/gthumb/dialogs/print/paper_width"
 #define  PREF_PRINT_PAPER_HEIGHT      "/apps/gthumb/dialogs/print/paper_height"
+#define  PREF_PRINT_MARGIN_LEFT       "/apps/gthumb/dialogs/print/margin_left"
+#define  PREF_PRINT_MARGIN_RIGHT      "/apps/gthumb/dialogs/print/margin_right"
+#define  PREF_PRINT_MARGIN_TOP        "/apps/gthumb/dialogs/print/margin_top"
+#define  PREF_PRINT_MARGIN_BOTTOM     "/apps/gthumb/dialogs/print/margin_bottom"
 #define  PREF_PRINT_PAPER_UNIT        "/apps/gthumb/dialogs/print/paper_unit"
 #define  PREF_PRINT_IMAGES_PER_PAGE   "/apps/gthumb/dialogs/print/images_per_page"
 
