@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-11 02:59-0400\n"
-"PO-Revision-Date: 2005-04-11 22:26-0400\n"
+"POT-Creation-Date: 2005-04-12 23:02-0400\n"
+"PO-Revision-Date: 2005-04-12 22:26-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,12 +29,11 @@ msgid "View as Catalog"
 msgstr "View as Catalogue"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7 ../src/ui.h:79
+#: ../src/ui.h:79
 msgid "Print the current image"
 msgstr "Print the current image"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
 msgid "_Print"
 msgstr "_Print"
 
@@ -74,90 +73,90 @@ msgstr "Mirror"
 msgid "Mirror the image"
 msgstr "Mirror the image"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 msgid "Rotate"
 msgstr "Rotate"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 msgid "Rotate 180 _Degrees"
 msgstr "Rotate 180 _Degrees"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate the image clockwise"
 msgstr "Rotate the image clockwise"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image of 180 degrees"
 msgstr "Rotate the image of 180 degrees"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 ../src/ui.h:68
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11 ../src/ui.h:68
 msgid "Save _As..."
 msgstr "Save _As..."
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 ../src/ui.h:69
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 ../src/ui.h:69
 msgid "Save current image"
 msgstr "Save current image"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14 ../src/ui.h:623
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 ../src/ui.h:623
 msgid "Start or stop current animation"
 msgstr "Start or stop current animation"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 msgid "Start/Stop _Animation"
 msgstr "Start/Stop _Animation"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Transparency T_ype"
 msgstr "Transparency T_ype"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17 ../src/ui.h:439
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16 ../src/ui.h:439
 msgid "View next animation frame"
 msgstr "View next animation frame"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 msgid "_Black"
 msgstr "_Black"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "_Checked"
 msgstr "_Checked"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 ../src/ui.h:328
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19 ../src/ui.h:328
 msgid "_Flip"
 msgstr "_Flip"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 ../src/ui.h:44
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 ../src/ui.h:44
 #: ../src/ui.h:681
 msgid "_Image"
 msgstr "_Image"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22 ../src/ui.h:333
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 ../src/ui.h:333
 msgid "_Mirror"
 msgstr "_Mirror"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 msgid "_None"
 msgstr "_None"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_Rotate Clockwise"
 msgstr "_Rotate Clockwise"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
 msgid "_Step Animation"
 msgstr "_Step Animation"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
 #: ../data/glade/gthumb_tools.glade.h:42 ../src/ui.h:39
 msgid "_View"
 msgstr "_View"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_White"
 msgstr "_White"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 msgid "_Zoom Quality"
 msgstr "_Zoom Quality"
 
@@ -232,7 +231,6 @@ msgid "    "
 msgstr "    "
 
 #: ../data/glade/gthumb.glade.h:2 ../data/glade/gthumb_convert.glade.h:2
-#: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "*"
 msgstr "*"
 
@@ -369,7 +367,7 @@ msgid "_Save the new image as:"
 msgstr "_Save the new image as:"
 
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
-#: ../data/glade/gthumb_web_exporter.glade.h:4
+#: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
@@ -382,7 +380,8 @@ msgid "Camera Model"
 msgstr "Camera Model"
 
 #: ../data/glade/gthumb_camera.glade.h:4
-#: ../data/glade/gthumb_png_exporter.glade.h:24 ../src/dlg-web-exporter.c:297
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "Choose destination folder"
 msgstr "Choose destination folder"
 
@@ -692,12 +691,12 @@ msgid "_Crop"
 msgstr "_Crop"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "_Height:"
 msgstr "_Height:"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "_Width:"
 msgstr "_Width:"
 
@@ -895,7 +894,7 @@ msgid "<b>Page size</b>"
 msgstr "<b>Page size</b>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_web_exporter.glade.h:14
+#: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Saving</b>"
 msgstr "<b>Saving</b>"
 
@@ -1407,14 +1406,18 @@ msgid "8"
 msgstr "8"
 
 #: ../data/glade/gthumb_print.glade.h:9
+msgid "<b>Margins</b>"
+msgstr "<b>Margins</b>"
+
+#: ../data/glade/gthumb_print.glade.h:10
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientation</b>"
 
-#: ../data/glade/gthumb_print.glade.h:10
+#: ../data/glade/gthumb_print.glade.h:11
 msgid "<b>Size</b>"
 msgstr "<b>Size</b>"
 
-#: ../data/glade/gthumb_print.glade.h:11
+#: ../data/glade/gthumb_print.glade.h:12
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
@@ -1422,13 +1425,9 @@ msgstr ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 
-#: ../data/glade/gthumb_print.glade.h:13
-msgid "A_4"
-msgstr "A_4"
-
 #: ../data/glade/gthumb_print.glade.h:14
-msgid "C_ustom:"
-msgstr "C_ustom:"
+msgid "A4"
+msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
@@ -1439,58 +1438,90 @@ msgid "Comment _font:"
 msgstr "Comment _font:"
 
 #: ../data/glade/gthumb_print.glade.h:17
+msgid "Custom size..."
+msgstr "Custom size..."
+
+#: ../data/glade/gthumb_print.glade.h:18
+msgid "Executive"
+msgstr "Executive"
+
+#: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
 msgstr "I_nclude comment"
 
-#: ../data/glade/gthumb_print.glade.h:18
+#: ../data/glade/gthumb_print.glade.h:20
 msgid "Images per page:"
 msgstr "Images per page:"
 
-#: ../data/glade/gthumb_print.glade.h:19
+#: ../data/glade/gthumb_print.glade.h:21
 msgid "Inches"
 msgstr "Inches"
 
-#: ../data/glade/gthumb_print.glade.h:20
+#: ../data/glade/gthumb_print.glade.h:22
 msgid "Lan_dscape"
 msgstr "Lan_dscape"
 
-#: ../data/glade/gthumb_print.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:23
 msgid "Layout"
 msgstr "Layout"
 
-#: ../data/glade/gthumb_print.glade.h:22
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "Legal"
+msgstr "Legal"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Letter"
+msgstr "Letter"
+
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
 msgstr "Millimetres"
 
-#: ../data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "P_ortrait"
 msgstr "P_ortrait"
 
-#: ../data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Paper Details"
 msgstr "Paper Details"
 
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Postcard"
+msgstr "Postcard"
+
 #.
-#: ../data/glade/gthumb_print.glade.h:25 ../libgthumb/print-callbacks.c:2964
-#: ../libgthumb/print-callbacks.c:2978 ../libgthumb/print-callbacks.c:3444
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1667
+#: ../libgthumb/print-callbacks.c:1681 ../libgthumb/print-callbacks.c:2137
 msgid "Print"
 msgstr "Print"
 
-#: ../data/glade/gthumb_print.glade.h:26
-msgid "US E_xecutive"
-msgstr "US E_xecutive"
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Tabloid"
+msgstr "Tabloid"
 
-#: ../data/glade/gthumb_print.glade.h:27
-msgid "US L_egal"
-msgstr "US L_egal"
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "_Bottom:"
+msgstr "_Bottom:"
 
-#: ../data/glade/gthumb_print.glade.h:28
-msgid "US _Letter"
-msgstr "US _Letter"
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "_Left:"
+msgstr "_Left:"
 
-#: ../data/glade/gthumb_print.glade.h:30
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "_Right:"
+msgstr "_Right:"
+
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "_Scale:"
+
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "_Top:"
+msgstr "_Top:"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "_Unit:"
+msgstr "_Unit:"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1726,56 +1757,56 @@ msgstr "by Name"
 msgid "by Size"
 msgstr "by Size"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:5
+#: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:6
+#: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1280 x 960"
 msgstr "1280 x 960"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:7
+#: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "320 x 200"
 msgstr "320 x 200"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:8
+#: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "640 x 480"
 msgstr "640 x 480"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "800 x 600"
 msgstr "800 x 600"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:10
+#: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "<b>Album</b>"
 msgstr "<b>Album</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:11
+#: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "<b>Index Layout</b>"
 msgstr "<b>Index Layout</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:12
+#: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "<b>Personalize theme</b>"
 msgstr "<b>Personalize theme</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:13
+#: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "<b>Photo data</b>"
 msgstr "<b>Photo data</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:15
+#: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Theme</b>"
 msgstr "<b>Theme</b>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:17
+#: ../data/glade/gthumb_web_exporter.glade.h:16
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
 msgstr "<small><i><b>Note:</b> %d (current date).</i></small>"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:18
+#: ../data/glade/gthumb_web_exporter.glade.h:17
 msgid "Came_ra Model"
 msgstr "Came_ra Model"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:19
+#: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "Caption"
 msgstr "Caption"
 
@@ -2178,21 +2209,12 @@ msgstr "Name"
 msgid "(Invalid Name)"
 msgstr "(Invalid Name)"
 
-#: ../libgthumb/print-callbacks.c:939 ../libgthumb/print-callbacks.c:1555
-#, c-format
-msgid "Print %s"
-msgstr "Print %s"
-
-#: ../libgthumb/print-callbacks.c:942
-msgid "Print Image"
-msgstr "Print Image"
-
-#: ../libgthumb/print-callbacks.c:1280 ../libgthumb/print-callbacks.c:2040
+#: ../libgthumb/print-callbacks.c:662
 #, c-format
 msgid "Page %d of %d"
 msgstr "Page %d of %d"
 
-#: ../libgthumb/print-callbacks.c:3037 ../src/catalog-png-exporter.c:1335
+#: ../libgthumb/print-callbacks.c:1740 ../src/catalog-png-exporter.c:1335
 #, c-format
 msgid "Loading image: %s"
 msgstr "Loading image: %s"
@@ -2396,7 +2418,7 @@ msgstr "An image viewer and browser for GNOME."
 #: ../src/dlg-change-date.c:151 ../src/dlg-comment.c:302
 #: ../src/dlg-convert.c:436 ../src/dlg-jpegtran.c:1015
 #: ../src/dlg-preferences.c:182 ../src/dlg-rename-series.c:332
-#: ../src/dlg-search.c:461
+#: ../src/dlg-search.c:469
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Could not display help: %s"
@@ -2628,19 +2650,19 @@ msgstr "Old Name"
 msgid "New Name"
 msgstr "New Name"
 
-#: ../src/dlg-search.c:348
+#: ../src/dlg-search.c:356
 msgid "Search Result"
 msgstr "Search Result"
 
-#: ../src/dlg-search.c:672
+#: ../src/dlg-search.c:680
 msgid "Filename"
 msgstr "Filename"
 
-#: ../src/dlg-search.c:681 ../src/gth-folder-selection-dialog.c:383
+#: ../src/dlg-search.c:689 ../src/gth-folder-selection-dialog.c:383
 msgid "Folder"
 msgstr "Folder"
 
-#: ../src/dlg-web-exporter.c:748
+#: ../src/dlg-web-exporter.c:701
 msgid "Select Album Theme"
 msgstr "Select Album Theme"
 
