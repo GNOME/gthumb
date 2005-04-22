@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gthumb 2.6.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-03-14 19:57+0800\n"
-"PO-Revision-Date: 2005-03-14 21:57+0800\n"
+"PO-Revision-Date: 2005-04-22 14:43+0800\n"
 "Last-Translator: Woodman Tuen <woodman@culturecom.com.hk>\n"
 "Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -1914,13 +1914,15 @@ msgstr "index.html"
 msgid "rows"
 msgstr "行"
 
+# (abel) bug #161957
 #: ../data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
-msgstr "瀏覽及管理圖片"
+msgstr "管理數位相片和圖片"
 
+# (abel) bug #161957
 #: ../data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
-msgstr "gThumb 圖片瀏覽程式"
+msgstr "gThumb 圖片管理工具"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid ""
