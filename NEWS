@@ -1,3 +1,11 @@
+version 2.6.5
+-------------	
+	* Fixed bug #170391: Crash if the EXIF DateTime is too short.
+	* Do not allow to press the import button when an import operation
+	  is already underway.
+	* The comment text is now selectable.
+	* Added rw, xh and hi translations.
+
 version 2.6.4
 -------------	
 	* Fixed bug #145325: xhtml/xml support for Web Albums
