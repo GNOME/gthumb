@@ -1,4 +1,17 @@
+2005-04-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c (IMAGE_SPACE): set to 20 pixels.
+
 2005-04-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-view-thumbs.c (create_unknown_pixbuf): use
+	the default dir icon if the theme icon cannot be loaded.
+
+	* libgthumb/gth-file-view-list.c (create_unknown_pixbuf): use g_free
+	instead of g_object_unref.
+
+	* src/dlg-search.c (search_clicked_cb): use get_filename instead of
+	get_uri.
 
 	* components/image-viewer/ui.c: 
 	* components/image-viewer/ui.h: 

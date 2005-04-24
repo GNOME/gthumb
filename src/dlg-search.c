@@ -256,7 +256,7 @@ search_clicked_cb (GtkWidget  *widget,
 
 	/* * start from */
 
-	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
+	esc_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton));
 	full_path = gnome_vfs_unescape_string (esc_path, "");
 	g_free (esc_path);
 

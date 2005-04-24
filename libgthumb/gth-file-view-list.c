@@ -1135,7 +1135,7 @@ create_unknown_pixbuf (GthFileViewList *gfv_list, gboolean big)
 
 	if (icon_path != NULL) {
 		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-		g_object_unref (icon_path);
+		g_free (icon_path);
 	}
 
 	if (pixbuf == NULL) 

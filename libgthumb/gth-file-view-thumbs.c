@@ -802,15 +802,16 @@ create_unknown_pixbuf (GthFileViewThumbs *gfv_thumbs)
 						  NULL);
 	g_free (icon_name);
 
-	if (icon_path == NULL) 
+	if (icon_path != NULL) {
+		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
+		g_free (icon_path);
+	}
+
+	if (pixbuf == NULL)
 		pixbuf = gdk_pixbuf_new_from_inline (-1, 
 						     dir_16_rgba, 
 						     FALSE, 
 						     NULL);
-	else {
-		pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
-		g_free (icon_path);
-	}
 
 	width = gdk_pixbuf_get_width (pixbuf);
 	height = gdk_pixbuf_get_height (pixbuf);

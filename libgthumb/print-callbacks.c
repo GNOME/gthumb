@@ -633,7 +633,7 @@ pci_print_comment (GnomePrintContext *pc,
 
 static int catalog_rows[5] = {1, 2, 2, 4, 4};
 static int catalog_cols[5] = {1, 1, 2, 2, 4};
-#define IMAGE_SPACE 36
+#define IMAGE_SPACE 20
 
 
 #ifndef log2

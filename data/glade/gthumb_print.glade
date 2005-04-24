@@ -682,7 +682,7 @@ Click on an image to rotate it.&lt;/i&gt;&lt;/small&gt;</property>
 					  <child>
 					    <widget class="GtkMenuItem" id="custom1">
 					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Custom size...</property>
+					      <property name="label" translatable="yes">Custom</property>
 					      <property name="use_underline">True</property>
 					      <signal name="activate" handler="on_custom1_activate" last_modification_time="Tue, 12 Apr 2005 10:55:33 GMT"/>
 					    </widget>
@@ -1057,7 +1057,7 @@ Click on an image to rotate it.&lt;/i&gt;&lt;/small&gt;</property>
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 0 100 1 5 5</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -1078,7 +1078,7 @@ Click on an image to rotate it.&lt;/i&gt;&lt;/small&gt;</property>
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 0 100 1 5 5</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -1099,7 +1099,7 @@ Click on an image to rotate it.&lt;/i&gt;&lt;/small&gt;</property>
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 0 100 1 5 5</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1120,7 +1120,7 @@ Click on an image to rotate it.&lt;/i&gt;&lt;/small&gt;</property>
 				      <property name="update_policy">GTK_UPDATE_ALWAYS</property>
 				      <property name="snap_to_ticks">False</property>
 				      <property name="wrap">False</property>
-				      <property name="adjustment">1 0 100 1 10 10</property>
+				      <property name="adjustment">1 0 100 1 5 5</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
