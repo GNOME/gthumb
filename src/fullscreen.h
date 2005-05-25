@@ -24,27 +24,24 @@
 #define FULLSCREEN_H
 
 #include "image-viewer.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 typedef struct {
-	GtkWidget     *window;
-	GtkWidget     *viewer;
-	GtkWidget     *toolbar;
-	GThumbWindow  *related_win;
-	guint          motion_id;
-	guint          mouse_hide_id;
-	gboolean       wm_state_fullscreen_support;
-	gboolean       msg_save_modified_image;
+	GtkWidget *window;
+	GtkWidget *viewer;
+	GtkWidget *toolbar;
+	GthWindow *related_win;
+	guint      motion_id;
+	guint      mouse_hide_id;
+	gboolean   wm_state_fullscreen_support;
+	gboolean   msg_save_modified_image;
 } FullScreen;
 
 
 FullScreen *   fullscreen_new    (void);
-
 void           fullscreen_close  (FullScreen *fullscreen);
-
 void           fullscreen_start  (FullScreen *fullscreen,
-				  GThumbWindow *window);
-
+				  GthWindow  *window);
 void           fullscreen_stop   (FullScreen *fullscreen);
 
 

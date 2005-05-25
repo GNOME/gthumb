@@ -22,14 +22,17 @@
 
 #include <config.h>
 #include <time.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
+
 #include "file-data.h"
 #include "gth-exif-utils.h"
 #include "file-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "main.h"
 
 
@@ -37,7 +40,7 @@
 
 
 typedef struct {
-	GThumbWindow *window;
+	GthWindow    *window;
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
@@ -165,7 +168,7 @@ help_cb (GtkWidget  *widget,
 
 
 void
-dlg_change_date (GThumbWindow *window)
+dlg_change_date (GthWindow *window)
 {
 	DialogData  *data;
 	GtkWidget   *cancel_button;
@@ -173,7 +176,7 @@ dlg_change_date (GThumbWindow *window)
 	GtkWidget   *help_button;
 	GList       *list;
 
-	list = gth_file_list_get_selection_as_fd (window->file_list);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -258,7 +261,7 @@ dlg_change_date (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
 	gtk_widget_show (data->dialog);
 }

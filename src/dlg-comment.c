@@ -24,6 +24,7 @@
 #include <string.h>
 #include <time.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
@@ -34,13 +35,14 @@
 #include "preferences.h"
 #include "main.h"
 #include "glib-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"
 #include "comments.h"
 #include "gth-exif-utils.h"
 #include "dlg-comment.h"
 #include "dlg-image-prop.h"
+#include "file-utils.h"
 
 
 enum {
@@ -60,7 +62,7 @@ enum {
 
 
 typedef struct {
-	GThumbWindow  *window;
+	GthWindow     *window;
 	GladeXML      *gui;
 	GList         *file_list;
 
@@ -101,7 +103,7 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	data->window->comment_dlg = NULL;
+	gth_window_set_comment_dlg (GTH_WINDOW (data->window), NULL);
 	g_object_unref (data->gui);
 	free_dialog_data (data);
 	g_free (data);
@@ -275,9 +277,11 @@ save_clicked_cb (GtkWidget  *widget,
 		all_windows_notify_update_comment (filename); 
 	}
 
+	gth_window_update_current_image_metadata (data->window);
+	/* FIXME:
 	if ((data->window != NULL) && (data->window->image_prop_dlg != NULL))
 		dlg_image_prop_update (data->window->image_prop_dlg);
-
+	*/
 	comment_data_free (cdata);
 }
 
@@ -384,15 +388,17 @@ get_exif_date_option_item (DialogData *data)
 
 
 GtkWidget *
-dlg_comment_new (GThumbWindow *window)
+dlg_comment_new (GthWindow *window)
 {
-	DialogData   *data;
-	GtkWidget    *btn_close;
-	GtkWidget    *btn_help;
-
-	if (window->comment_dlg != NULL) {
-		gtk_window_present (GTK_WINDOW (window->comment_dlg));
-		return window->comment_dlg;
+	GtkWidget  *current_dialog;
+	DialogData *data;
+	GtkWidget  *btn_close;
+	GtkWidget  *btn_help;
+	
+	current_dialog = gth_window_get_comment_dlg (window);
+	if (current_dialog != NULL) {
+		gtk_window_present (GTK_WINDOW (current_dialog));
+		return current_dialog;
 	}
 
 	data = g_new0 (DialogData, 1);
@@ -407,7 +413,8 @@ dlg_comment_new (GThumbWindow *window)
 
 	/* Get the widgets. */
 
-	window->comment_dlg = data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
+	data->dialog = glade_xml_get_widget (data->gui, "comments_dialog");
+	gth_window_set_comment_dlg (window, data->dialog);
 	data->comment_main_box = glade_xml_get_widget (data->gui, "comment_main_box");
 	data->note_text_view = glade_xml_get_widget (data->gui, "note_text");
 	data->place_entry = glade_xml_get_widget (data->gui, "place_entry");
@@ -462,14 +469,8 @@ dlg_comment_new (GThumbWindow *window)
 	/* run dialog. */
 
 	gtk_widget_grab_focus (data->note_text_view);
-
-	{
-		GtkWidget *parent_win = window->viewer;
-		while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
-			parent_win = parent_win->parent;
-		if (parent_win != NULL)
-			gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (parent_win));
-	}
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+				      GTK_WINDOW (window));
 
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	pref_util_restore_window_geometry (GTK_WINDOW (data->dialog), DIALOG_NAME);
@@ -496,7 +497,7 @@ dlg_comment_update (GtkWidget *dlg)
 	
 	free_dialog_data (data);
 
-	data->file_list = gth_file_view_get_file_list_selection (data->window->file_list->view);
+	data->file_list = gth_window_get_file_list_selection (data->window); /* FIXME: gth_file_view_get_file_list_selection (data->window->file_list->view); */
 
 	if (data->file_list == NULL) {
 		gtk_widget_set_sensitive (data->save_button, FALSE);

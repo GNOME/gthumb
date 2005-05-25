@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <gtk/gtkenums.h> /* for GtkSortType */
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "image-loader.h"
 #include "typedefs.h"
 
@@ -46,7 +46,7 @@ struct _CatalogWebExporter {
 
 	/*< private >*/
 
-	GThumbWindow *window;
+	GthWindow    *window;
 
 	GList        *file_list;              /* char* elements. */
 	GList        *album_files;
@@ -125,7 +125,7 @@ struct _CatalogWebExporterClass {
 
 GType      catalog_web_exporter_get_type              (void);
 
-CatalogWebExporter *  catalog_web_exporter_new        (GThumbWindow       *window,
+CatalogWebExporter *  catalog_web_exporter_new        (GthWindow          *window,
 						       GList              *file_list);
 
 void       catalog_web_exporter_set_header            (CatalogWebExporter *ce,

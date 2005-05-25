@@ -24,6 +24,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
@@ -38,7 +39,6 @@
 #include "main.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
-#include "gthumb-window.h"
 #include "gth-folder-selection-dialog.h"
 
 #define GLADE_FILE "gthumb.glade"
@@ -69,8 +69,8 @@ typedef void (*OverwriteDoneFunc) (OverwriteResult  result,
 
 
 gboolean
-dlg_check_folder (GThumbWindow *window,
-		  const char   *path)
+dlg_check_folder (GthWindow  *window,
+		  const char *path)
 {
 	GtkWidget *d;
 	char      *dir;
@@ -83,7 +83,7 @@ dlg_check_folder (GThumbWindow *window,
 		return TRUE;
 	}
 
-	d = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
+	d = _gtk_yesno_dialog_new (GTK_WINDOW (window),
 				   GTK_DIALOG_MODAL,
 				   _("The destination folder does not exist. " "Do you want to create it?"),
 				   GTK_STOCK_CANCEL,
@@ -100,7 +100,7 @@ dlg_check_folder (GThumbWindow *window,
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
 		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
 				       errno_to_string ());
@@ -114,7 +114,7 @@ dlg_check_folder (GThumbWindow *window,
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
 		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
 		g_free (utf8_path);
@@ -131,10 +131,10 @@ dlg_check_folder (GThumbWindow *window,
 /**/
 
 static void
-dlg_show_error (GThumbWindow *window,
-		const char   *first_line,
-		GList        *error_list, 
-		const char   *reason)
+dlg_show_error (GthWindow  *window,
+		const char *first_line,
+		GList      *error_list, 
+		const char *reason)
 {
 	const int   max_files = 15; /* FIXME */
 	GtkWidget  *d;
@@ -165,7 +165,7 @@ dlg_show_error (GThumbWindow *window,
 
 	utf8_msg = g_locale_to_utf8 (msg, -1, NULL, NULL, NULL);
 
-	d = _gtk_message_dialog_new (GTK_WINDOW (window->app),
+	d = _gtk_message_dialog_new (GTK_WINDOW (window),
 				     GTK_DIALOG_MODAL,
 				     GTK_STOCK_DIALOG_ERROR,
 				     utf8_msg,
@@ -184,8 +184,8 @@ dlg_show_error (GThumbWindow *window,
 
 
 typedef struct {
-	GThumbWindow *window;
-	GList        *file_list;
+	GthWindow *window;
+	GList     *file_list;
 } ConfirmFileDeleteData;
 
 
@@ -196,7 +196,7 @@ real_files_delete__continue2 (GnomeVFSResult result,
 	ConfirmFileDeleteData *cfddata = data;
 
 	if ((result != GNOME_VFS_OK) && (result != GNOME_VFS_ERROR_INTERRUPTED))
-		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window->app),
+		_gtk_error_dialog_run (GTK_WINDOW (cfddata->window),
 				       "%s %s",
 				       _("Could not delete the images:"), 
 				       gnome_vfs_result_to_string (result));
@@ -219,7 +219,7 @@ real_files_delete__continue (GnomeVFSResult result,
 			GtkWidget *d;
 
 			d = _gtk_yesno_dialog_with_checkbutton_new (
-				    GTK_WINDOW (cfddata->window->app),
+				    GTK_WINDOW (cfddata->window),
 				    GTK_DIALOG_MODAL,
 				    _("The images cannot be moved to the Trash. Do you want to delete them permanently?"),
 				    GTK_STOCK_CANCEL,
@@ -243,8 +243,8 @@ real_files_delete__continue (GnomeVFSResult result,
 
 
 static void
-real_files_delete (GThumbWindow *window, 
-		   GList        *list)
+real_files_delete (GthWindow *window, 
+		   GList     *list)
 {
 	ConfirmFileDeleteData *cfddata;
 
@@ -262,9 +262,9 @@ real_files_delete (GThumbWindow *window,
 
 
 gboolean 
-dlg_file_delete__confirm (GThumbWindow *window,
-			  GList        *list,
-			  const char   *message)
+dlg_file_delete__confirm (GthWindow  *window,
+			  GList      *list,
+			  const char *message)
 {
 	GtkWidget *dialog;
 	int        result;
@@ -274,7 +274,7 @@ dlg_file_delete__confirm (GThumbWindow *window,
 		return TRUE;
 	}
 
-	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window->app),
+	dialog = _gtk_yesno_dialog_new (GTK_WINDOW (window),
 					GTK_DIALOG_MODAL,
 					message,
 					GTK_STOCK_CANCEL,
@@ -318,10 +318,10 @@ file_move_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
 {
-	GThumbWindow *window;
-	GList        *file_list;
-	char         *path;
-	int           len;
+	GthWindow *window;
+	GList     *file_list;
+	char      *path;
+	int        len;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -358,16 +358,17 @@ file_move_response_cb (GtkWidget *w,
 
 
 void 
-dlg_file_move__ask_dest (GThumbWindow *window,
-			 GList        *list)
+dlg_file_move__ask_dest (GthWindow  *window,
+			 const char *default_dir,
+			 GList      *list)
 {
 	GtkWidget   *file_sel;
 	const char  *path;
 
 	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
 
-	if (window->dir_list->path != NULL)
-		path = window->dir_list->path;
+	if (default_dir != NULL)
+		path = default_dir;
 	else
 		path = g_get_home_dir ();
 
@@ -386,7 +387,7 @@ dlg_file_move__ask_dest (GThumbWindow *window,
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
     
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
 }
@@ -408,10 +409,10 @@ file_copy_response_cb (GtkWidget *w,
 		       int        response_id,
 		       GtkWidget *file_sel)
 {
-	GThumbWindow *window;
-	GList        *file_list;
-	char         *path;
-	int           len;
+	GthWindow *window;
+	GList     *file_list;
+	char      *path;
+	int        len;
 
 	if (response_id != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (file_sel);
@@ -447,16 +448,17 @@ file_copy_response_cb (GtkWidget *w,
 
 
 void 
-dlg_file_copy__ask_dest (GThumbWindow *window,
-			 GList        *list)
+dlg_file_copy__ask_dest (GthWindow  *window,
+			 const char *default_dir,
+			 GList      *list)
 {
 	GtkWidget  *file_sel;
 	const char *path;
 
 	file_sel = gth_folder_selection_new (_("Choose the destination folder"));
 
-	if (window->dir_list->path != NULL)
-		path = window->dir_list->path;
+	if (default_dir != NULL)
+		path = default_dir;
 	else
 		path = g_get_home_dir ();
 
@@ -475,8 +477,8 @@ dlg_file_copy__ask_dest (GThumbWindow *window,
 			  G_CALLBACK (destroy_cb),
 			  file_sel);
     
-	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window->app));
-	gtk_window_set_modal (GTK_WINDOW (file_sel),TRUE);
+	gtk_window_set_transient_for (GTK_WINDOW (file_sel), GTK_WINDOW (window));
+	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	gtk_widget_show (file_sel);
 }
 
@@ -531,22 +533,22 @@ set_filename_labels (GladeXML    *gui,
 
 
 typedef struct {
-	GThumbWindow   *window;
-	GladeXML       *gui;
-	char           *destination;
+	GthWindow         *window;
+	GladeXML          *gui;
+	char              *destination;
 
-	GtkWidget      *dialog;
-	GtkWidget      *overwrite_yes_radiobutton;
-	GtkWidget      *overwrite_no_radiobutton;
-	GtkWidget      *overwrite_all_radiobutton;
-	GtkWidget      *overwrite_none_radiobutton;
-	GtkWidget      *overwrite_rename_radiobutton;
-	GtkWidget      *overwrite_rename_entry;
+	GtkWidget         *dialog;
+	GtkWidget         *overwrite_yes_radiobutton;
+	GtkWidget         *overwrite_no_radiobutton;
+	GtkWidget         *overwrite_all_radiobutton;
+	GtkWidget         *overwrite_none_radiobutton;
+	GtkWidget         *overwrite_rename_radiobutton;
+	GtkWidget         *overwrite_rename_entry;
 
-	GtkTooltips    *tooltips;
-	int             overwrite_mode;
+	GtkTooltips       *tooltips;
+	int                overwrite_mode;
 	OverwriteDoneFunc  done_func;
-	gpointer        done_data;
+	gpointer           done_data;
 } DlgOverwriteData;
 
 
@@ -571,7 +573,7 @@ overwrite_rename_radiobutton_toggled_cb (GtkToggleButton  *button,
 
 
 static DlgOverwriteData *
-create_overwrite_dialog (GThumbWindow      *window,
+create_overwrite_dialog (GthWindow         *window,
 			 int                default_overwrite_mode,
 			 const char        *old_filename, 
 			 const char        *new_filename,
@@ -588,7 +590,7 @@ create_overwrite_dialog (GThumbWindow      *window,
 	GtkWidget        *new_img_zoom_out_button;
 	GtkWidget        *old_image_viewer, *new_image_viewer;
 	GtkWidget        *overwrite_radiobutton;
-	ImageViewer      *viewer;
+	ImageViewer      *viewer, *w_viewer;
 
 	owdata = g_new0 (DlgOverwriteData, 1);
 
@@ -681,15 +683,17 @@ create_overwrite_dialog (GThumbWindow      *window,
 
 	/* * load images. */
 
+	w_viewer = gth_window_get_image_viewer (window);
+
 	old_image_viewer = image_viewer_new ();
 	gtk_container_add (GTK_CONTAINER (old_image_frame), old_image_viewer);
 
 	viewer = IMAGE_VIEWER (old_image_viewer);
 	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
 	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
-	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
+	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
+	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
 	image_viewer_zoom_to_fit      (viewer);
 	image_viewer_load_image       (viewer, old_filename);
 
@@ -703,9 +707,9 @@ create_overwrite_dialog (GThumbWindow      *window,
 	viewer = IMAGE_VIEWER (new_image_viewer);
 	image_viewer_size             (viewer, PREVIEW_SIZE, PREVIEW_SIZE);
 	image_viewer_set_zoom_quality (viewer, pref_get_zoom_quality ());
-	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (IMAGE_VIEWER (window->viewer)));
-	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	image_viewer_set_check_type   (viewer, image_viewer_get_check_type (w_viewer));
+	image_viewer_set_check_size   (viewer, image_viewer_get_check_size (w_viewer));
+	image_viewer_set_transp_type  (viewer, image_viewer_get_transp_type (w_viewer));
 	image_viewer_zoom_to_fit      (viewer);
 	image_viewer_load_image       (viewer, new_filename);
 
@@ -723,7 +727,7 @@ create_overwrite_dialog (GThumbWindow      *window,
 	g_object_set_data (G_OBJECT (owdata->dialog), "tooltips", owdata->tooltips);
 
 	gtk_window_set_transient_for (GTK_WINDOW (owdata->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (owdata->dialog), TRUE);
 
 	return owdata;
@@ -754,7 +758,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			result = OVERWRITE_RESULT_RENAME;
 			new_name = _gtk_entry_get_filename_text (GTK_ENTRY (owdata->overwrite_rename_entry));
 			if ((new_name == NULL) || (new_name[0] == 0)) {
-				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+				_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 						       _("You didn't enter the new name"));
 				g_free (new_name);
 				return;
@@ -766,7 +770,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 				char *utf8_name;
 
 				utf8_name = g_filename_to_utf8 (new_name, -1, 0, 0, 0);
-				_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+				_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 						       _("The name \"%s\" is already used in this folder. Please use a different name."),
 						       utf8_name);
 				g_free (utf8_name);
@@ -788,7 +792,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 
 
 static GtkWidget *
-dlg_overwrite (GThumbWindow      *window,
+dlg_overwrite (GthWindow         *window,
 	       int                default_overwrite_mode,
 	       const char        *old_filename, 
 	       const char        *new_filename,
@@ -816,7 +820,7 @@ dlg_overwrite (GThumbWindow      *window,
 
 
 static int
-dlg_overwrite_run (GThumbWindow  *window,
+dlg_overwrite_run (GthWindow     *window,
 		   int            default_overwrite_mode,
 		   const char    *old_filename, 
 		   const char    *new_filename,
@@ -855,7 +859,7 @@ dlg_overwrite_run (GThumbWindow  *window,
 		*new_name = _gtk_entry_get_filename_text (GTK_ENTRY (owdata->overwrite_rename_entry));
 
 		if ((*new_name == NULL) || ((*new_name)[0] == 0)) {
-			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("You didn't enter the new name"));
 			g_free (*new_name);
 			goto retry;
@@ -867,7 +871,7 @@ dlg_overwrite_run (GThumbWindow  *window,
 			char *utf8_name;
 			
 			utf8_name = g_filename_to_utf8 (*new_name, -1, 0, 0, 0);
-			_gtk_error_dialog_run (GTK_WINDOW (owdata->window->app),
+			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
 					       utf8_name);
 			g_free (utf8_name);
@@ -909,9 +913,9 @@ my_list_remove (GList      *list,
 
 
 void
-dlg_file_rename_series (GThumbWindow *window,
-			GList        *old_names,
-			GList        *new_names)
+dlg_file_rename_series (GthWindow *window,
+			GList     *old_names,
+			GList     *new_names)
 {
 	GList    *o_scan, *n_scan;
 	GList    *error_list = NULL;
@@ -1036,7 +1040,7 @@ typedef struct {
 	char                *destination;
 	gboolean             remove_source;
 	gboolean             copy_cache;
-	GThumbWindow        *window;
+	GthWindow           *window;
 
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
@@ -1158,7 +1162,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 	last_file = fcdata->current_file->next == NULL;
 
 	if (last_file)
-		d = _gtk_message_dialog_new (GTK_WINDOW (fcdata->window->app),
+		d = _gtk_message_dialog_new (GTK_WINDOW (fcdata->window),
 					     GTK_DIALOG_MODAL,
 					     GTK_STOCK_DIALOG_ERROR,
 					     message,
@@ -1166,7 +1170,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 					     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 					     NULL);
 	else 
-		d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window->app),
+		d = _gtk_yesno_dialog_new (GTK_WINDOW (fcdata->window),
 					   GTK_DIALOG_MODAL,
 					   message,
 					   _("_Abort"),
@@ -1546,7 +1550,7 @@ dlg_files_copy__interrupt_cb2 (GtkWidget    *caller,
 
 
 void
-dlg_files_copy (GThumbWindow   *window,
+dlg_files_copy (GthWindow      *window,
 		GList          *file_list,
 		const char     *dest_path,
 		gboolean        remove_source,
@@ -1614,7 +1618,7 @@ dlg_files_copy (GThumbWindow   *window,
 			  fcdata);
 
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
-				      GTK_WINDOW (fcdata->window->app));
+				      GTK_WINDOW (fcdata->window));
 	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
 
 	fcdata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
@@ -1628,7 +1632,7 @@ dlg_files_copy (GThumbWindow   *window,
 
 
 void
-dlg_files_move_to_trash (GThumbWindow   *window,
+dlg_files_move_to_trash (GthWindow      *window,
 			 GList          *file_list,
 			 FileOpDoneFunc  done_func,
 			 gpointer        done_data)
@@ -1683,7 +1687,7 @@ typedef struct {
 	GtkWidget           *progress_info;
 	GtkWidget           *progress_cancel;
 
-	GThumbWindow        *window;
+	GthWindow           *window;
 	GList               *file_list;
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
@@ -1814,7 +1818,7 @@ dlg_files_delete__interrupt_cb2 (GtkWidget      *caller,
 
 
 void
-dlg_files_delete (GThumbWindow   *window,
+dlg_files_delete (GthWindow      *window,
 		  GList          *file_list,
 		  FileOpDoneFunc  done_func,
 		  gpointer        done_data)
@@ -1862,7 +1866,7 @@ dlg_files_delete (GThumbWindow   *window,
 			  fddata);
 	
 	gtk_window_set_transient_for (GTK_WINDOW (fddata->progress_dialog),
-				      GTK_WINDOW (fddata->window->app));
+				      GTK_WINDOW (fddata->window));
 	gtk_window_set_modal (GTK_WINDOW (fddata->progress_dialog), FALSE);
 
 	fddata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
@@ -1921,7 +1925,7 @@ typedef struct {
 	char                *destination;
 	FileOp               file_op;
 	gboolean             include_cache;
-	GThumbWindow        *window;
+	GthWindow           *window;
 
 	FileOpDoneFunc       done_func;
 	gpointer             done_data;
@@ -2105,7 +2109,7 @@ folder_copy__interrupt_cb2 (GtkWidget      *caller,
 
 
 static void
-folder_copy (GThumbWindow   *window,
+folder_copy (GthWindow      *window,
 	     const char     *src_path,
 	     const char     *dest_path,
 	     FileOp          file_op,
@@ -2168,7 +2172,7 @@ folder_copy (GThumbWindow   *window,
 			  fcdata);
 	
 	gtk_window_set_transient_for (GTK_WINDOW (fcdata->progress_dialog),
-				      GTK_WINDOW (fcdata->window->app));
+				      GTK_WINDOW (fcdata->window));
 	gtk_window_set_modal (GTK_WINDOW (fcdata->progress_dialog), FALSE);
 
 	fcdata->timeout_id = g_timeout_add (DISPLAY_PROGRESS_DELAY,
@@ -2245,7 +2249,7 @@ folder_copy (GThumbWindow   *window,
 
 
 void
-dlg_folder_copy (GThumbWindow   *window,
+dlg_folder_copy (GthWindow      *window,
 		 const char     *src_path,
 		 const char     *dest_path,
 		 gboolean        remove_source,
@@ -2266,7 +2270,7 @@ dlg_folder_copy (GThumbWindow   *window,
 
 
 void
-dlg_folder_move_to_trash (GThumbWindow   *window,
+dlg_folder_move_to_trash (GthWindow      *window,
 			  const char     *folder,
 			  FileOpDoneFunc  done_func,
 			  gpointer        done_data)
@@ -2316,7 +2320,7 @@ dlg_folder_move_to_trash (GThumbWindow   *window,
 
 
 void
-dlg_folder_delete (GThumbWindow   *window,
+dlg_folder_delete (GthWindow      *window,
 		   const char     *folder,
 		   FileOpDoneFunc  done_func,
 		   gpointer        done_data)
@@ -2336,7 +2340,7 @@ dlg_folder_delete (GThumbWindow   *window,
 
 
 typedef struct {
-	GThumbWindow   *window;
+	GthWindow      *window;
 	GList          *item_list;
 	GList          *current_item;
 	GList          *dir_list;
@@ -2423,7 +2427,7 @@ copy_item__continue1 (GnomeVFSResult result,
 		g_free (utf8_name);
 
 		if (last_item)
-			d = _gtk_message_dialog_new (GTK_WINDOW (cidata->window->app),
+			d = _gtk_message_dialog_new (GTK_WINDOW (cidata->window),
 						     GTK_DIALOG_MODAL,
 						     GTK_STOCK_DIALOG_ERROR,
 						     message,
@@ -2431,7 +2435,7 @@ copy_item__continue1 (GnomeVFSResult result,
 						     GTK_STOCK_CLOSE, GTK_RESPONSE_CANCEL,
 						     NULL);
 		else 
-			d = _gtk_yesno_dialog_new (GTK_WINDOW (cidata->window->app),
+			d = _gtk_yesno_dialog_new (GTK_WINDOW (cidata->window),
 						   GTK_DIALOG_MODAL,
 						   message,
 						   _("_Abort"),
@@ -2496,7 +2500,7 @@ copy_current_item (CopyItemsData *cidata)
 
 
 void
-dlg_copy_items (GThumbWindow   *window,
+dlg_copy_items (GthWindow      *window,
 		GList          *item_list,
 		const char     *destination,
 		gboolean        remove_source,

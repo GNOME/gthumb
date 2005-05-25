@@ -23,10 +23,10 @@
 #ifndef DLG_COLOR_BALANCE_H
 #define DLG_COLOR_BALANCE_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_color_balance  (GThumbWindow *window);
+void   dlg_color_balance  (GthWindow *window);
 
 
 #endif /* DLG_COLOR_BALANCE_H */

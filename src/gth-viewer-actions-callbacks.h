@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,11 +20,21 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_PNG_EXPORTER_H
-#define DLG_PNG_EXPORTER_H
+#ifndef GTH_VIEWER_ACTIONS_CALLBACKS_H
+#define GTH_VIEWER_ACTIONS_CALLBACKS_H
 
-#include "gth-browser.h"
+#include <gtk/gtkaction.h>
 
-void   dlg_exporter    (GthBrowser *browser);
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
-#endif /* DLG_PNG_EXPORTER_H */
+DEFINE_ACTION(gth_viewer_activate_action_file_new_window)
+DEFINE_ACTION(gth_viewer_activate_action_file_revert)
+DEFINE_ACTION(gth_viewer_activate_action_edit_edit_comment)
+DEFINE_ACTION(gth_viewer_activate_action_edit_delete_comment)
+DEFINE_ACTION(gth_viewer_activate_action_edit_edit_categories)
+DEFINE_ACTION(gth_viewer_activate_action_edit_add_to_catalog)
+DEFINE_ACTION(gth_viewer_activate_action_view_toolbar)
+DEFINE_ACTION(gth_viewer_activate_action_view_statusbar)
+DEFINE_ACTION(gth_viewer_activate_action_view_show_info)
+
+#endif /* GTH_VIEWER_ACTIONS_CALLBACK_H */

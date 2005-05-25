@@ -6,6 +6,7 @@ Compile.sh
 FEATURES
 Makefile
 Makefile.in
+TAGS
 autom4te*.cache
 aclocal.m4
 bug*

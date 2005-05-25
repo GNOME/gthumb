@@ -23,10 +23,10 @@
 #ifndef DLG_SCALE_IMAGE_H
 #define DLG_SCALE_IMAGE_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_scale_image  (GThumbWindow *window);
+void   dlg_scale_image  (GthWindow *window);
 
 
 #endif /* DLG_SCALE_IMAGE_H */

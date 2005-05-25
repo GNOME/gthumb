@@ -27,7 +27,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkx.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
-#include "actions.h"
+#include "actions-callbacks.h"
 #include "comments.h"
 #include "fullscreen.h"
 #include "glib-utils.h"
@@ -46,23 +46,13 @@
 #define MOTION_THRESHOLD 5
 
 static gboolean        comment_visible = FALSE;
+static gboolean        image_data_visible = FALSE;
 static GdkPixmap      *buffer = NULL;
 static GdkPixmap      *original_buffer = NULL;
 static PangoRectangle  bounds;
 static GtkWidget      *popup_window = NULL, *grabbed_window = NULL;
 static GtkWidget      *prop_button = NULL, *back_button = NULL, *forward_button = NULL;
 static FullScreen     *current_fullscreen;
-
-
-static void
-set_action_active (GThumbWindow *window,
-		   char         *action_name,
-		   gboolean      is_active)
-{
-	GtkAction *action;
-	action = gtk_action_group_get_action (window->actions, action_name);
-	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action), is_active);
-}
 
 
 static void
@@ -194,33 +184,36 @@ get_pixmap (GdkDrawable    *drawable,
 
 
 static char *
-get_file_info (GThumbWindow *window)
+get_file_info (GthWindow *window)
 {
-	char       *e_filename;
-	int         width, height;
-	char       *size_txt;
-	char       *file_size_txt;
-	int         zoom;
-	char       *file_info;
-	char        time_txt[50], *utf8_time_txt;
-	time_t      timer = 0;
-	struct tm  *tm;
+	const char  *image_filename = gth_window_get_image_filename (window);
+	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
+	GthFileList *file_list = NULL /* FIXME*/
+	char        *e_filename;
+	int          width, height;
+	char        *size_txt;
+	char        *file_size_txt;
+	int          zoom;
+	char        *file_info;
+	char         time_txt[50], *utf8_time_txt;
+	time_t       timer = 0;
+	struct tm   *tm;
 
-	e_filename = escape_filename (file_name_from_path (window->image_path));
+	e_filename = escape_filename (file_name_from_path (image_filename));
 
-	width = image_viewer_get_image_width (IMAGE_VIEWER (window->viewer));
-	height = image_viewer_get_image_height (IMAGE_VIEWER (window->viewer));
+	width = image_viewer_get_image_width (image_viewer);
+	height = image_viewer_get_image_height (image_viewer);
 
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (window->image_path));
+	file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (image_filename));
 
-	zoom = (int) (IMAGE_VIEWER (window->viewer)->zoom_level * 100.0);
+	zoom = (int) (image_viewer->zoom_level * 100.0);
 
 #ifdef HAVE_LIBEXIF
-	timer = get_exif_time (window->image_path);
+	timer = get_exif_time (image_filename);
 #endif
 	if (timer == 0)
-		timer = get_file_mtime (window->image_path);
+		timer = get_file_mtime (image_filename);
 	tm = localtime (&timer);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
@@ -230,8 +223,8 @@ get_file_info (GThumbWindow *window)
 				     size_txt,
 				     zoom,
 				     file_size_txt,
-				     gth_file_list_pos_from_path (window->file_list, window->image_path) + 1,
-				     gth_file_list_get_length (window->file_list),
+				     gth_file_list_pos_from_path (file_list, image_filename) + 1,
+				     gth_file_list_get_length (file_list),
 				     e_filename);
 
 	g_free (utf8_time_txt);
@@ -255,8 +248,8 @@ set_button_active_no_notify (gpointer      data,
 
 
 static void
-show_comment_on_image (GThumbWindow *window,
-		       ImageViewer  *viewer)
+show_comment_on_image (GthWindow   *window,
+		       ImageViewer *viewer)
 {
 	CommentData    *cdata = NULL;
 	char           *comment, *e_comment, *file_info;
@@ -279,8 +272,8 @@ show_comment_on_image (GThumbWindow *window,
 		original_buffer = NULL;
 	}
 
-	if (window->image_path != NULL)
-		cdata = comments_load_comment (window->image_path);
+	if (gth_window_get_image_filename (window) != NULL)
+		cdata = comments_load_comment (gth_window_get_image_filename (window));
 	else
 		return;
 
@@ -401,10 +394,11 @@ show_comment_on_image (GThumbWindow *window,
 static void
 hide_comment_on_image ()
 {
-	GThumbWindow *window = fullscreen->related_win;
-	GtkWidget    *viewer = window->viewer;
+	GthWindow   *window = fullscreen->related_win;
+	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
+	GtkWidget   *viewer = (GtkWidget*) image_viewer;
 
-	IMAGE_VIEWER (viewer)->next_scroll_repaint = FALSE;
+	image_viewer->next_scroll_repaint = FALSE;
 
 	if (original_buffer == NULL)
 		return;
@@ -428,8 +422,8 @@ image_key_press_cb (GtkWidget   *widget,
 		    gpointer     data)
 {
 	FullScreen   *fullscreen = data;
-	GThumbWindow *window = fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GthWindow    *window = fullscreen->related_win;
+        ImageViewer  *viewer = gth_window_get_image_viewer (window);
 
 	switch (event->keyval) {
 		
@@ -446,9 +440,9 @@ image_key_press_cb (GtkWidget   *widget,
 	case GDK_space:
 	case GDK_n:
 	case GDK_Page_Down:
-		if (fullscreen->related_win->image_data_visible)
+		if (image_data_visible)
 			comment_visible = TRUE;
-		window_show_next_image (window, FALSE);
+		gth_window_show_next_image (window, FALSE); /* FIXME */
 		break;
 
 		/* Previous image. */
@@ -456,25 +450,25 @@ image_key_press_cb (GtkWidget   *widget,
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:
-		if (fullscreen->related_win->image_data_visible)
+		if (image_data_visible)
 			comment_visible = TRUE;
-		window_show_prev_image (window, FALSE);
+		gth_window_show_prev_image (window, FALSE); /* FIXME */
 		break;
 
 		/* Show first image. */
 	case GDK_Home: 
 	case GDK_KP_Home:
-		if (fullscreen->related_win->image_data_visible)
+		if (image_data_visible)
 			comment_visible = TRUE;
-		window_show_first_image (window, FALSE);
+		gth_window_show_first_image (window, FALSE); /* FIXME */
 		break;
 		
 		/* Show last image. */
 	case GDK_End: 
 	case GDK_KP_End:
-		if (fullscreen->related_win->image_data_visible)
+		if (image_data_visible)
 			comment_visible = TRUE;
-		window_show_last_image (window, FALSE);
+		gth_window_show_last_image (window, FALSE); /* FIXME */
 		break;
 
 		/* Zoom in. */
@@ -514,20 +508,20 @@ image_key_press_cb (GtkWidget   *widget,
 
 		/* Start/Stop Slideshow. */
 	case GDK_s:
-		if (! window->slideshow)
-			window_start_slideshow (window);
-		else
-			window_stop_slideshow (window);
+		if (! gth_window_get_running_slideshow (window)) /* FIXME */
+			gth_window_start_slideshow (window);  /* FIXME */
+		else 
+			gth_window_stop_slideshow (window); /* FIXME */
 		break;
 
 		/* Toggle animation. */
 	case GDK_g:
-		set_action_active (window, "View_PlayAnimation", ! viewer->play_animation);
+	        gth_window_toggle_animation (window); /* FIXME */
 		break;
 
 		/* Step animation. */
 	case GDK_j:
-		activate_action_view_step_animation (NULL, window);
+        	gth_window_step_animation (window); /* FIXME */
 		break;
 
 		/* Delete selection. */
@@ -544,10 +538,13 @@ image_key_press_cb (GtkWidget   *widget,
 
 		/* Delete. */
 
+		gth_window_delete_image (window)
+		/* FIXME
 		if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 			activate_action_image_delete (NULL, window);
 		else if (window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			activate_action_edit_remove_from_catalog (NULL, window);
+		*/
 		break;
 
 		/* Edit comment. */
@@ -561,8 +558,7 @@ image_key_press_cb (GtkWidget   *widget,
 
 		if (comment_visible)
 			hide_comment_on_image ();
-
-		activate_action_edit_edit_comment (NULL, window);
+		gth_window_edit_comment (window);
 		break;
 
 		/* Edit categories. */
@@ -576,40 +572,39 @@ image_key_press_cb (GtkWidget   *widget,
 
 		if (comment_visible)
 			hide_comment_on_image ();
-
-		activate_action_edit_edit_categories (NULL, window);
+		gth_window_edit_categories (window);
 		break;
 
 		/* Flip image. */
 	case GDK_l:
 	case GDK_L:
-		activate_action_alter_image_flip (NULL, window);
+		gth_window_activate_action_alter_image_flip (NULL, window);
 		break;
 
 		/* Rotate. */
 	case GDK_r:
 	case GDK_R:
 	case GDK_bracketright:
-		activate_action_alter_image_rotate90 (NULL, window);
+		gth_window_activate_action_alter_image_rotate90 (NULL, window);
 		break;
 
 	case GDK_bracketleft:
-		activate_action_alter_image_rotate90cc (NULL, window);
+		gth_window_activate_action_alter_image_rotate90cc (NULL, window);
 		break;
 
 		/* Mirror. */
 	case GDK_m:
 	case GDK_M:
-		activate_action_alter_image_mirror (NULL, window);
+		gth_window_activate_action_alter_image_mirror (NULL, window);
 		break;
 
 		/* View/Hide comment */
 	case GDK_i:
 		if (comment_visible) {
-			window->image_data_visible = FALSE;
+			image_data_visible = FALSE;
 			hide_comment_on_image ();
 		} else {
-			window->image_data_visible = TRUE;
+			image_data_visible = TRUE;
 			show_comment_on_image (window, viewer);
 		}
 		break;
@@ -653,7 +648,7 @@ hide_mouse_pointer_cb (gpointer data)
 	image_viewer_hide_cursor (IMAGE_VIEWER (fullscreen->viewer));
 	fullscreen->mouse_hide_id = 0;
 
-	if (fullscreen->related_win->image_data_visible)
+	if (image_data_visible)
 		comment_visible = TRUE;
 	if (comment_visible) 
 		gtk_widget_queue_draw (fullscreen->viewer);
@@ -717,8 +712,8 @@ fs_expose_event_cb (GtkWidget        *widget,
 		    FullScreen       *fullscreen)
 {
 	if (comment_visible) {
-		GThumbWindow *window = fullscreen->related_win;
-		ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+		GthWindow   *window = fullscreen->related_win;
+		ImageViewer *viewer = gth_window_get_image_viewer (window);
 
 		comment_visible = FALSE;
 		show_comment_on_image (window, viewer);
@@ -748,32 +743,32 @@ exit_fs_clicked_cb (GtkWidget *button)
 static void
 show_prev_image_cb (GtkWidget  *button)
 {
-	if (current_fullscreen->related_win->image_data_visible)
+	if (image_data_visible)
 		comment_visible = TRUE;
-	window_show_prev_image (current_fullscreen->related_win, FALSE);
+	gth_window_show_prev_image (current_fullscreen->related_win, FALSE);
 }
 
 
 static void
 show_next_image_cb (GtkWidget  *button)
 {
-	if (current_fullscreen->related_win->image_data_visible)
+	if (image_data_visible)
 		comment_visible = TRUE;
-	window_show_next_image (current_fullscreen->related_win, FALSE);
+	gth_window_show_next_image (current_fullscreen->related_win, FALSE);
 }
 
 
 static void
 image_comment_toggled_cb (GtkToggleButton  *button)
 {
-	GThumbWindow *window = current_fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
+	GthWindow   *window = current_fullscreen->related_win;
+        ImageViewer *viewer = gth_window_get_image_viewer (window);
 
 	if (gtk_toggle_button_get_active (button)) {
-		window->image_data_visible = TRUE;
+		image_data_visible = TRUE;
 		show_comment_on_image (window, viewer);
 	} else {
-		window->image_data_visible = FALSE;
+		image_data_visible = FALSE;
 		hide_comment_on_image ();
 	}
 }
@@ -782,9 +777,10 @@ image_comment_toggled_cb (GtkToggleButton  *button)
 static void
 zoom_in_cb (GtkWidget  *button)
 {
-	GThumbWindow *window = current_fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
-	if (window->image_data_visible)
+	GthWindow   *window = current_fullscreen->related_win;
+        ImageViewer *viewer = gth_window_get_image_viewer (window);
+
+	if (image_data_visible)
 		comment_visible = TRUE;
 	image_viewer_zoom_in (viewer);
 }
@@ -793,9 +789,10 @@ zoom_in_cb (GtkWidget  *button)
 static void
 zoom_out_cb (GtkWidget  *button)
 {
-	GThumbWindow *window = current_fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
-	if (window->image_data_visible)
+	GthWindow   *window = current_fullscreen->related_win;
+        ImageViewer *viewer = gth_window_get_image_viewer (window);
+
+	if (image_data_visible)
 		comment_visible = TRUE;
 	image_viewer_zoom_out (viewer);
 }
@@ -804,9 +801,10 @@ zoom_out_cb (GtkWidget  *button)
 static void
 zoom_100_cb (GtkWidget  *button)
 {
-	GThumbWindow *window = current_fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
-	if (window->image_data_visible)
+	GthWindow   *window = current_fullscreen->related_win;
+        ImageViewer *viewer = gth_window_get_image_viewer (window);
+
+	if (image_data_visible)
 		comment_visible = TRUE;
 	image_viewer_set_zoom (viewer, 1.0);
 }
@@ -815,9 +813,10 @@ zoom_100_cb (GtkWidget  *button)
 static void
 zoom_fit_cb (GtkWidget  *button)
 {
-	GThumbWindow *window = current_fullscreen->related_win;
-        ImageViewer  *viewer = IMAGE_VIEWER (window->viewer);
-	if (window->image_data_visible)
+	GthWindow   *window = current_fullscreen->related_win;
+        ImageViewer *viewer = gth_window_get_image_viewer (window);
+
+	if (image_data_visible)
 		comment_visible = TRUE;
 	image_viewer_zoom_to_fit (viewer);
 }
@@ -1017,8 +1016,8 @@ fullscreen_close (FullScreen *fullscreen)
 
 
 void
-fullscreen_start (FullScreen   *fullscreen,
-		  GThumbWindow *window)
+fullscreen_start (FullScreen *fullscreen,
+		  GthWindow  *window)
 {
 	int          monitor;
 	GdkRectangle rect;
@@ -1030,7 +1029,7 @@ fullscreen_start (FullScreen   *fullscreen,
 
 	current_fullscreen = fullscreen;
 
-	monitor = gdk_screen_get_monitor_at_window (gdk_screen_get_default (), GTK_WIDGET (window->app)->window);
+	monitor = gdk_screen_get_monitor_at_window (gdk_screen_get_default (), GTK_WIDGET (window)->window);
 	gdk_screen_get_monitor_geometry (gdk_screen_get_default (), monitor, &rect);
 	gtk_window_set_default_size (GTK_WINDOW (fullscreen->window), rect.width, rect.height);
 	gtk_window_move (GTK_WINDOW (fullscreen->window), rect.x, rect.y);
@@ -1038,11 +1037,12 @@ fullscreen_start (FullScreen   *fullscreen,
 	gtk_window_set_screen (GTK_WINDOW (fullscreen->window), gtk_widget_get_screen (window->app));
 	gtk_window_present (GTK_WINDOW (fullscreen->window));
 
-	window->fullscreen = TRUE;
+	gth_window_set_fullscreen (window, TRUE);  /*FIXME*/
+
 	fullscreen->related_win = window;
 	fullscreen->viewer = window->viewer;
 
-	if (window->slideshow) {
+	if (gth_window_get_slideshow (window)) {
 		gtk_widget_hide (back_button);
 		gtk_widget_hide (forward_button);
 	} else {
@@ -1062,9 +1062,9 @@ fullscreen_start (FullScreen   *fullscreen,
 		image_viewer_set_black_background (IMAGE_VIEWER (fullscreen->viewer), TRUE);
 	image_viewer_hide_frame (IMAGE_VIEWER (fullscreen->viewer));
 
-	gtk_widget_reparent (window->viewer, fullscreen->window); 
+	gtk_widget_reparent (gth_window_get_image_viewer (window), fullscreen->window); 
 
-	gtk_widget_set_sensitive (fullscreen->related_win->app, FALSE);
+	gtk_widget_set_sensitive (GTK_WIDGET (fullscreen->related_win), FALSE);
 
 	/* capture keyboard events. */
 
@@ -1094,7 +1094,7 @@ fullscreen_start (FullScreen   *fullscreen,
 				G_CALLBACK (fs_repainted_cb),
 				fullscreen);
 
-	if (window->image_data_visible)
+	if (image_data_visible)
 		show_comment_on_image (window, IMAGE_VIEWER (fullscreen->viewer));
 }
 
@@ -1102,7 +1102,8 @@ fullscreen_start (FullScreen   *fullscreen,
 void
 fullscreen_stop (FullScreen *fullscreen)
 {
-	GThumbWindow *window;
+	GthWindow *window;
+	GtkWidget *viewer;
 
 	g_return_if_fail (fullscreen != NULL);
 
@@ -1142,7 +1143,7 @@ fullscreen_stop (FullScreen *fullscreen)
 					      fs_repainted_cb,
 					      fullscreen);
 
-	window->fullscreen = FALSE;
+	gth_window_set_slideshow (window, FALSE);
 	fullscreen->related_win = NULL;
 	comment_visible = FALSE;
 
@@ -1163,18 +1164,21 @@ fullscreen_stop (FullScreen *fullscreen)
 	/* stop the slideshow if the user wants so. */
 
 	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
-		window_stop_slideshow (window);
+		gth_window_set_slideshow (window, FALSE);
 
-	gtk_widget_reparent (fullscreen->viewer, window->viewer_container);
-	gtk_widget_realize (window->viewer);
-	gtk_widget_show_all (window->viewer);
+	viewer = (GtkWidget*) gth_window_get_image_viewer (window);
+	viewer_container = gth_window_get_image_viewer_container (window);
+	gtk_widget_reparent (fullscreen->viewer, viewer_container);
+	gtk_widget_realize (viewer);
+	gtk_widget_show_all (viewer);
 	fullscreen->viewer = NULL;
 
-	gtk_widget_set_sensitive (window->app, TRUE);
-	gtk_widget_show_all (window->app);
+	gtk_widget_set_sensitive (window, TRUE);
+	gtk_widget_show_all (window);
 
 	/* restore widgets visiblity */
 
+	/* FIXME
 	gtk_widget_hide (window->progress);
 	window_set_preview_content (window, window->preview_content);
 	if (! window->image_pane_visible)
@@ -1183,4 +1187,5 @@ fullscreen_stop (FullScreen *fullscreen)
 		window_show_sidebar (window);
 	else 
 		window_hide_sidebar (window);
+	*/
 }

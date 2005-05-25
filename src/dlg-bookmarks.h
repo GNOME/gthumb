@@ -23,10 +23,10 @@
 #ifndef DLG_BOOKMARKS_H
 #define DLG_BOOKMARKS_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void dlg_edit_bookmarks        (GThumbWindow *window);
-void dlg_edit_bookmarks_update (GtkWidget    *dialog);
+void dlg_edit_bookmarks        (GthBrowser *browser);
+void dlg_edit_bookmarks_update (GtkWidget  *dialog);
 
 
 #endif /* DLG_BOOKMARKS_H */

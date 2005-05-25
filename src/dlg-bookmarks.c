@@ -30,39 +30,39 @@
 #include "bookmarks.h"
 #include "bookmark-list.h"
 #include "main.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
 
 #define GLADE_FILE "gthumb.glade"
 
 
 typedef struct {
-	GThumbWindow    *window;
+	GthBrowser   *browser;
 
-	GladeXML  *gui;
-	GtkWidget *dialog;
+	GladeXML     *gui;
+	GtkWidget    *dialog;
 
-	GtkWidget *list_container;
-	GtkWidget *btn_remove;
-	GtkWidget *btn_ok;
-	GtkWidget *up_button;
-	GtkWidget *down_button;
-	GtkWidget *bottom_button;
-	GtkWidget *top_button;
+	GtkWidget    *list_container;
+	GtkWidget    *btn_remove;
+	GtkWidget    *btn_ok;
+	GtkWidget    *up_button;
+	GtkWidget    *down_button;
+	GtkWidget    *bottom_button;
+	GtkWidget    *top_button;
 
 	BookmarkList *book_list;
-	Bookmarks *bookmarks;
+	Bookmarks    *bookmarks;
 
-	gboolean   do_not_update;
+	gboolean      do_not_update;
 } DialogData;
 
 
 /* called when the main dialog is closed. */
 static void
-destroy_cb (GtkWidget *widget, 
+destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	data->window->bookmarks_dlg = NULL;
+	gth_browser_set_bookmarks_dlg (data->browser, NULL);
 
 	g_object_unref (G_OBJECT (data->gui));
 	bookmark_list_free (data->book_list);
@@ -259,19 +259,19 @@ move_bottom_cb (GtkWidget *widget,
 
 
 void
-dlg_edit_bookmarks (GThumbWindow *window)
+dlg_edit_bookmarks (GthBrowser *browser)
 {
 	DialogData *data;
 	GtkWidget  *bm_bookmarks_label;
 
-	if (window->bookmarks_dlg != NULL) {
-		gtk_window_present (GTK_WINDOW (window->bookmarks_dlg));
+	if (gth_browser_get_bookmarks_dlg (browser) != NULL) {
+		gtk_window_present (GTK_WINDOW (gth_browser_get_bookmarks_dlg (browser)));
 		return;
 	}
 
 	data = g_new0 (DialogData, 1);
 
-	data->window = window;
+	data->browser = browser;
 	data->do_not_update = FALSE;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
@@ -283,7 +283,7 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "bookmarks_dialog");
-	window->bookmarks_dlg = data->dialog;
+	gth_browser_set_bookmarks_dlg (browser, data->dialog);
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
 	data->list_container = glade_xml_get_widget (data->gui, "bm_list_container");
@@ -348,7 +348,7 @@ dlg_edit_bookmarks (GThumbWindow *window)
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
 }

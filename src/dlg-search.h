@@ -23,17 +23,15 @@
 #ifndef DLG_SEARCH_H
 #define DLG_SEARCH_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
 
-void dlg_search              (GtkWidget    *widget, 
-			      gpointer      data);
-
-void dlg_catalog_edit_search (GThumbWindow *window,
-			      const char   *catalog_path);
-
-void dlg_catalog_search      (GThumbWindow *window,
-			      const char   *catalog_path);
+void dlg_search              (GtkWidget  *widget, 
+			      gpointer    data);
+void dlg_catalog_edit_search (GthBrowser *browser,
+			      const char *catalog_path);
+void dlg_catalog_search      (GthBrowser *browser,
+			      const char *catalog_path);
 
 
 #endif /* DLG_SEARCH_H */

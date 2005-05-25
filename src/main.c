@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003, 2004 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2004, 2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,30 +28,28 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
-#include "actions.h"
 #include "main.h"
 #include "auto-completion.h"
 #include "catalog.h"
 #include "dir-list.h"
 #include "file-utils.h"
-#include "fullscreen.h"
 #include "gconf-utils.h"
 #include "gthumb-init.h"
-#include "gthumb-window.h"
 #include "image-viewer.h"
 #include "gth-image-list.h"
 #include "preferences.h"
-#include "icons/pixbufs.h"
 #include "typedefs.h"
 #include "comments.h"
 #include "pixbuf-utils.h"
+#include "gth-browser.h"
+#include "gth-viewer.h"
 
+#include "icons/pixbufs.h"
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
 
-GList          *window_list = NULL;
-FullScreen     *fullscreen;
+/*FullScreen     *fullscreen;*/
 char          **file_urls, **dir_urls;
 int             n_file_urls, n_dir_urls;
 int             StartInFullscreen = FALSE;
@@ -66,7 +64,7 @@ gboolean        ImportPhotos = FALSE;
 static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
 static GdkPixbuf      *folder_pixbuf = NULL;
-static GThumbWindow   *first_window = NULL;
+static GtkWidget      *first_window = NULL;
 static GnomeIconTheme *icon_theme = NULL;
 
 
@@ -102,8 +100,10 @@ struct poptOption options[] = {
 static gboolean 
 check_whether_to_set_fullscreen (gpointer data) 
 {
+	/*
 	if ((first_window != NULL) && StartInFullscreen) 
 		fullscreen_start (fullscreen, first_window);
+	*/
 	StartInFullscreen = FALSE;
 	return FALSE;
 }
@@ -112,8 +112,10 @@ check_whether_to_set_fullscreen (gpointer data)
 static gboolean 
 check_whether_to_import_photos (gpointer data) 
 {
+	/*
 	if ((first_window != NULL) && ImportPhotos) 
 		activate_action_file_camera_import (NULL, first_window);
+	*/
 	return FALSE;
 }
 
@@ -271,7 +273,7 @@ initialize_data (poptContext pctx)
 
 	eel_gconf_monitor_add ("/apps/gthumb");
 
-	fullscreen = fullscreen_new ();
+	/* fullscreen = fullscreen_new (); FIXME */
 
 	pixmap_file = PIXMAPSDIR "gthumb.png";
 	if (g_file_test (pixmap_file, G_FILE_TEST_EXISTS))
@@ -391,7 +393,7 @@ release_data ()
 
 	g_object_unref (icon_theme);
 
-	fullscreen_close (fullscreen);
+	/* fullscreen_close (fullscreen); FIXME */
 	preferences_release ();
 	eel_global_client_free ();
 	auto_compl_reset ();
@@ -402,22 +404,30 @@ release_data ()
 static void 
 prepare_app ()
 {
-	GThumbWindow *current_window = NULL;
-	int           i;
+	GtkWidget *current_window = NULL;
+	int i;
 	
 	if (session_is_restored ()) {
 		load_session ();
 		return;
 	}
 
-	if (! view_comline_catalog 
-	    && (n_dir_urls == 0) 
-	    && (n_file_urls == 0)) {
+	/* FIXME
+	current_window = gth_viewer_new ("/home/pippo/Images/sha1.jpg");
+	gtk_widget_show (current_window);
+	*/
+
+	current_window = gth_browser_new (NULL);
+	gtk_widget_show (current_window);
+
+	return; /* FIXME */
+
+	if (! view_comline_catalog && (n_dir_urls == 0) && (n_file_urls == 0)) {
 		if (ImportPhotos)
 			preferences_set_startup_location (NULL);
-		current_window = window_new ();
+		current_window = gth_browser_new (NULL);
 		if (!ImportPhotos)
-			gtk_widget_show (current_window->app);
+			gtk_widget_show (current_window);
 		if (first_window == NULL)
 			first_window = current_window;
 	}
@@ -432,8 +442,8 @@ prepare_app ()
 		preferences_set_startup_location (image_folder);
 		g_free (image_folder);
 
-		current_window = window_new ();
-		gtk_widget_show (current_window->app);
+		current_window = gth_browser_new (NULL);
+		gtk_widget_show (current_window);
 
 		if (first_window == NULL)
 			first_window = current_window;
@@ -456,8 +466,8 @@ prepare_app ()
 		ViewFirstImage = TRUE;
 		HideSidebar = TRUE;
 
-		current_window = window_new ();
-		gtk_widget_show (current_window->app);
+		current_window = gth_browser_new (NULL);
+		gtk_widget_show (current_window);
 
 		if (first_window == NULL)
 			first_window = current_window;
@@ -467,8 +477,8 @@ prepare_app ()
 		/* Go to the specified directory. */
 		preferences_set_startup_location (dir_urls[i]);
 
-		current_window = window_new ();
-		gtk_widget_show (current_window->app);
+		current_window = gth_browser_new (NULL);
+		gtk_widget_show (current_window);
 
 		if (first_window == NULL)
 			first_window = current_window;
@@ -493,27 +503,34 @@ prepare_app ()
 void 
 all_windows_update_file_list ()
 {
+	/*
 	g_list_foreach (window_list, (GFunc) window_update_file_list, NULL);
+	*/
 }
 
 
 void 
 all_windows_update_catalog_list ()
 {
+	/*
 	g_list_foreach (window_list, (GFunc) window_update_catalog_list, NULL);
+	*/
 }
 
 
 void 
 all_windows_update_bookmark_list ()
 {
+	/*
 	g_list_foreach (window_list, (GFunc) window_update_bookmark_list, NULL);
+	*/
 }
 
 
 void 
 all_windows_update_browser_options ()
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
@@ -526,12 +543,14 @@ all_windows_update_browser_options ()
 		window_update_file_list (window);
 		dir_list_update_underline (window->dir_list);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_files_created (GList *list)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
@@ -543,31 +562,28 @@ all_windows_notify_files_created (GList *list)
 
 		window_notify_files_created (window, list);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_files_deleted (GList *list)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
-
-		/* FIXME
-		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
-		    window->monitor_enabled)
-			continue;
-		*/
-
 		window_notify_files_deleted (window, list);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_files_changed (GList *list)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
@@ -579,6 +595,7 @@ all_windows_notify_files_changed (GList *list)
 
 		window_notify_files_changed (window, list);
 	}
+	*/
 }
 
 
@@ -586,6 +603,7 @@ void
 all_windows_notify_cat_files_added (const char *catalog_path,
 				    GList      *list)
 {
+	/*
 	GList *scan;
 
 	if (list == NULL)
@@ -595,6 +613,7 @@ all_windows_notify_cat_files_added (const char *catalog_path,
 		GThumbWindow *window = scan->data;
 		window_notify_cat_files_added (window, catalog_path, list);
 	}
+	*/
 }
 
 
@@ -602,6 +621,7 @@ void
 all_windows_notify_cat_files_deleted (const char *catalog_path,
 				      GList      *list)
 {
+	/*
 	GList *scan;
 
 	if (list == NULL)
@@ -611,6 +631,7 @@ all_windows_notify_cat_files_deleted (const char *catalog_path,
 		GThumbWindow *window = scan->data;
 		window_notify_cat_files_deleted (window, catalog_path, list);
 	}
+	*/
 }
 
 
@@ -618,6 +639,7 @@ void
 all_windows_notify_file_rename (const gchar *old_name,
 				const gchar *new_name)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
@@ -629,6 +651,7 @@ all_windows_notify_file_rename (const gchar *old_name,
 
 		window_notify_file_rename (window, old_name, new_name);
 	}
+	*/
 }
 
 
@@ -636,6 +659,7 @@ void
 all_windows_notify_files_rename (GList       *old_names,
 				 GList       *new_names)
 {
+	/*
 	GList *o_scan, *n_scan;
 
 	for (o_scan = old_names, n_scan = new_names; o_scan && n_scan;) {
@@ -647,6 +671,7 @@ all_windows_notify_files_rename (GList       *old_names,
 		o_scan = o_scan->next;
 		n_scan = n_scan->next;
 	}
+	*/
 }
 
 
@@ -654,36 +679,42 @@ void
 all_windows_notify_directory_rename (const gchar *old_name,
 				     const gchar *new_name)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_directory_rename (window, old_name, new_name);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_directory_delete (const gchar *path)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_directory_delete (window, path);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_directory_new (const gchar *path)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_directory_new (window, path);
 	}
+	*/
 }
 
 
@@ -691,54 +722,63 @@ void
 all_windows_notify_catalog_rename (const gchar *oldname,
 				   const gchar *newname)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_catalog_rename (window, oldname, newname);
 	}
+	*/
 }
 
 
 void
 all_windows_notify_catalog_new (const gchar *path)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_catalog_new (window, path);
 	}
+	*/
 }
 
 
 void
 all_windows_notify_catalog_delete (const gchar *path)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_catalog_delete (window, path);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_update_comment (const gchar *filename)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_update_comment (window, filename);
 	}
+	*/
 }
 
 
 void 
 all_windows_notify_update_directory (const gchar *dir_path)
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
@@ -750,42 +790,49 @@ all_windows_notify_update_directory (const gchar *dir_path)
 
 		window_notify_update_directory (window, dir_path);
 	}
+	*/
 }
 
 
 void
 all_windows_notify_update_icon_theme ()
 {
+	/*
 	GList *scan;
 
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_notify_update_icon_theme (window);
 	}
+	*/
 }
 
 
 void
 all_windows_remove_monitor ()
 {
+	/*
 	GList *scan;
 	
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_remove_monitor (window);
 	}
+	*/
 }
 
 
 void
 all_windows_add_monitor ()
 {
+	/*
 	GList *scan;
 	
 	for (scan = window_list; scan; scan = scan->next) {
 		GThumbWindow *window = scan->data;
 		window_add_monitor (window);
 	}
+	*/
 }
 
 
@@ -859,6 +906,7 @@ static const char *program_argv0 = NULL;
 static void
 save_session (GnomeClient *client)
 {
+	/*
 	const char  *prefix;
 	GList        *scan;
 	int          i = 0;
@@ -899,6 +947,7 @@ save_session (GnomeClient *client)
 
 	gnome_config_pop_prefix ();
 	gnome_config_sync ();
+	*/
 }
 
 
@@ -987,6 +1036,7 @@ session_is_restored (void)
 static gboolean
 load_session (void)
 {
+	/*
 	int i, n;
 	
 	gnome_config_push_prefix (gnome_client_get_config_prefix (master_client));
@@ -1010,7 +1060,7 @@ load_session (void)
 	}
 
 	gnome_config_pop_prefix ();
-
+	*/
 	return TRUE;
 }
 

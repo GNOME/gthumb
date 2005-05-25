@@ -24,12 +24,11 @@
 #define __MAIN_H__
 
 #include "image-viewer.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "preferences.h"
 #include "fullscreen.h"
 
-extern GList            *window_list;
-extern GThumbWindow     *current_window;
+extern GthWindow        *current_window;
 extern Preferences       preferences;
 extern FullScreen       *fullscreen;
 

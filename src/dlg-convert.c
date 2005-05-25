@@ -25,6 +25,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomeui/gnome-help.h>
@@ -32,7 +33,7 @@
 
 #include "file-data.h"
 #include "gconf-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
 #include "main.h"
@@ -50,7 +51,7 @@
 
 
 typedef struct {
-	GThumbWindow *window;
+	GthWindow    *window;
 	GladeXML     *gui;
 	GladeXML     *progress_gui;
 
@@ -450,7 +451,7 @@ help_cb (GtkWidget  *widget,
 
 
 void
-dlg_convert (GThumbWindow *window)
+dlg_convert (GthWindow *window)
 {
 	DialogData  *data;
 	GtkWidget   *cancel_button;
@@ -461,7 +462,7 @@ dlg_convert (GThumbWindow *window)
 	GList       *list;
 	char        *image_type;
 
-	list = gth_file_list_get_selection_as_fd (window->file_list);
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -585,7 +586,7 @@ dlg_convert (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
 	gtk_widget_show (data->dialog);
 }

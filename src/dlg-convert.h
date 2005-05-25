@@ -23,10 +23,10 @@
 #ifndef DLG_CONVERT_H
 #define DLG_CONVERT_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void dlg_convert (GThumbWindow *window); 
+void dlg_convert (GthWindow *window); 
 
 
 #endif /* DLG_CONVERT_H */

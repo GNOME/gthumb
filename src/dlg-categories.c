@@ -23,15 +23,17 @@
 #include <config.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-help.h>
 #include <glade/glade.h>
 
 #include "typedefs.h"
+#include "file-utils.h"
 #include "preferences.h"
 #include "main.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gtk-utils.h"
 #include "gtkcellrendererthreestates.h"
 #include "gth-file-view.h"
@@ -67,7 +69,7 @@ typedef struct {
 	DoneFunc       done_func;
 	gpointer       done_data;
 
-	GThumbWindow  *window;
+	GthWindow     *window;
 	GtkWidget     *dialog;
 
 	GtkWidget     *c_ok_button;
@@ -104,7 +106,8 @@ destroy_cb (GtkWidget  *widget,
 	    DialogData *data)
 {
 	if (data->window != NULL)
-		data->window->categories_dlg = NULL;
+		gth_window_set_categories_dlg (data->window, NULL);
+
 	g_object_unref (data->gui);
 	free_dialog_data (data);
 	path_list_free (data->default_categories_list);
@@ -340,7 +343,7 @@ ok_clicked_cb (GtkWidget  *widget,
 		(*data->save_func) (data->file_list, data->save_data);
 		gtk_widget_set_sensitive (data->c_ok_button, FALSE);
 		if (data->window != NULL)
-			window_reload_image (data->window);
+			gth_window_reload_current_image (data->window);
 	} else
 		gtk_widget_destroy (data->dialog);
 }
@@ -479,7 +482,7 @@ name_column_sort_func (GtkTreeModel *model,
 
 static GtkWidget*
 dlg_categories_common (GtkWindow     *parent,
-		       GThumbWindow  *window,
+		       GthWindow     *window,
 		       GList         *file_list,
 		       GList         *default_categories_list,
 		       GList        **add_categories_list,
@@ -658,7 +661,7 @@ dlg_choose_categories (GtkWindow     *parent,
 
 
 typedef struct {
-	GThumbWindow  *window;
+	GthWindow     *window;
 	GList         *add_list;
 	GList         *remove_list;
 } DlgCategoriesData;
@@ -718,14 +721,15 @@ dlg_categories__save (GList    *file_list,
 
 
 GtkWidget*
-dlg_categories_new (GThumbWindow *window)
+dlg_categories_new (GthWindow *window)
 {
-	GtkWidget         *parent_win = window->viewer;
+	GtkWidget         *current_dlg;
 	DlgCategoriesData *dcdata;
 
-	if (window->categories_dlg != NULL) {
-		gtk_window_present (GTK_WINDOW (window->categories_dlg));
-		return window->categories_dlg;
+	current_dlg = gth_window_get_categories_dlg (window);
+	if (current_dlg != NULL) {
+		gtk_window_present (GTK_WINDOW (current_dlg));
+		return current_dlg;
 	}
 
 	dcdata = g_new0 (DlgCategoriesData, 1);
@@ -733,10 +737,7 @@ dlg_categories_new (GThumbWindow *window)
 	dcdata->add_list = NULL;
 	dcdata->remove_list = NULL;
 
-	while (parent_win != NULL && !GTK_IS_WINDOW(parent_win))
-		parent_win = parent_win->parent;
-
-	return dlg_categories_common (GTK_WINDOW (parent_win),
+	return dlg_categories_common (GTK_WINDOW (window),
 				      window,
 				      NULL,
 				      NULL,
@@ -770,7 +771,7 @@ dlg_categories_update (GtkWidget *dlg)
 
 	if (data->window != NULL) {
 		free_dialog_data (data);
-		data->file_list = gth_file_view_get_file_list_selection (data->window->file_list->view);
+		data->file_list = gth_window_get_file_list_selection (data->window); /* FIXME: gth_file_view_get_file_list_selection (data->window->file_list->view); */
 	} else if (data->original_cdata != NULL) {
 		comment_data_free (data->original_cdata);
 		data->original_cdata = NULL;

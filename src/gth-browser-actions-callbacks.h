@@ -1,0 +1,111 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
+/*
+ *  GThumb
+ *
+ *  Copyright (C) 2005 Free Software Foundation, Inc.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
+ */
+
+#ifndef GTH_BROWSER_ACTIONS_CALLBACKS_H
+#define GTH_BROWSER_ACTIONS_CALLBACKS_H
+
+#include <gtk/gtkaction.h>
+
+#define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
+
+
+DEFINE_ACTION(gth_browser_activate_action_file_new_window)
+DEFINE_ACTION(gth_browser_activate_action_file_view_image)
+DEFINE_ACTION(gth_browser_activate_action_file_image_properties)
+DEFINE_ACTION(gth_browser_activate_action_file_camera_import)
+DEFINE_ACTION(gth_browser_activate_action_file_write_to_cd)
+DEFINE_ACTION(gth_browser_activate_action_image_rename)
+DEFINE_ACTION(gth_browser_activate_action_image_delete)
+DEFINE_ACTION(gth_browser_activate_action_image_copy)
+DEFINE_ACTION(gth_browser_activate_action_image_move)
+DEFINE_ACTION(gth_browser_activate_action_edit_rename_file)
+DEFINE_ACTION(gth_browser_activate_action_edit_duplicate_file)
+DEFINE_ACTION(gth_browser_activate_action_edit_delete_files)
+DEFINE_ACTION(gth_browser_activate_action_edit_copy_files)
+DEFINE_ACTION(gth_browser_activate_action_edit_move_files)
+DEFINE_ACTION(gth_browser_activate_action_edit_select_all)
+DEFINE_ACTION(gth_browser_activate_action_edit_edit_comment)
+DEFINE_ACTION(gth_browser_activate_action_edit_delete_comment)
+DEFINE_ACTION(gth_browser_activate_action_edit_edit_categories)
+DEFINE_ACTION(gth_browser_activate_action_edit_add_to_catalog)
+DEFINE_ACTION(gth_browser_activate_action_edit_remove_from_catalog)
+DEFINE_ACTION(gth_browser_activate_action_edit_catalog_rename)
+DEFINE_ACTION(gth_browser_activate_action_edit_catalog_delete)
+DEFINE_ACTION(gth_browser_activate_action_edit_catalog_move)
+DEFINE_ACTION(gth_browser_activate_action_edit_catalog_edit_search)
+DEFINE_ACTION(gth_browser_activate_action_edit_catalog_redo_search)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_new)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_new_library)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_rename)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_delete)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_move)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_edit_search)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_catalog_redo_search)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_view)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_view_new_window)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_open)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_rename)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_delete)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_copy)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_move)
+DEFINE_ACTION(gth_browser_activate_action_edit_dir_categories)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_open)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_rename)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_delete)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_copy)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_move)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_categories)
+DEFINE_ACTION(gth_browser_activate_action_edit_current_dir_new)
+DEFINE_ACTION(gth_browser_activate_action_view_next_image)
+DEFINE_ACTION(gth_browser_activate_action_view_prev_image)
+DEFINE_ACTION(gth_browser_activate_action_view_image_prop)
+DEFINE_ACTION(gth_browser_activate_action_go_back)
+DEFINE_ACTION(gth_browser_activate_action_go_forward)
+DEFINE_ACTION(gth_browser_activate_action_go_up)
+DEFINE_ACTION(gth_browser_activate_action_go_refresh)
+DEFINE_ACTION(gth_browser_activate_action_go_stop)
+DEFINE_ACTION(gth_browser_activate_action_go_home)
+DEFINE_ACTION(gth_browser_activate_action_go_to_container)
+DEFINE_ACTION(gth_browser_activate_action_go_delete_history)
+DEFINE_ACTION(gth_browser_activate_action_go_location)
+DEFINE_ACTION(gth_browser_activate_action_bookmarks_add)
+DEFINE_ACTION(gth_browser_activate_action_bookmarks_edit)
+DEFINE_ACTION(gth_browser_activate_action_tools_slideshow)
+DEFINE_ACTION(gth_browser_activate_action_tools_find_images)
+DEFINE_ACTION(gth_browser_activate_action_tools_index_image)
+DEFINE_ACTION(gth_browser_activate_action_tools_web_exporter)
+DEFINE_ACTION(gth_browser_activate_action_tools_rename_series)
+DEFINE_ACTION(gth_browser_activate_action_tools_convert_format)
+DEFINE_ACTION(gth_browser_activate_action_tools_find_duplicates)
+DEFINE_ACTION(gth_browser_activate_action_tools_jpeg_rotate)
+DEFINE_ACTION(gth_browser_activate_action_tools_preferences)
+DEFINE_ACTION(gth_browser_activate_action_tools_change_date)
+
+DEFINE_ACTION(gth_browser_activate_action_view_toolbar)
+DEFINE_ACTION(gth_browser_activate_action_view_statusbar)
+DEFINE_ACTION(gth_browser_activate_action_view_thumbnails)
+DEFINE_ACTION(gth_browser_activate_action_view_play_animation)
+DEFINE_ACTION(gth_browser_activate_action_view_show_preview)
+DEFINE_ACTION(gth_browser_activate_action_view_show_info)
+DEFINE_ACTION(gth_browser_activate_action_sort_reversed)
+
+#endif /* GTH_BROWSER_ACTIONS_CALLBACKS_H */

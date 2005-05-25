@@ -28,6 +28,7 @@
 #include <string.h>
 #include <time.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomeui/gnome-icon-lookup.h>
@@ -39,7 +40,8 @@
 #include <glade/glade.h>
 
 #include "gtk-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
+#include "gth-browser.h"
 #include "file-data.h"
 #include "file-utils.h"
 #include "dlg-categories.h"
@@ -70,7 +72,7 @@ typedef enum {
 
 
 typedef struct {
-	GThumbWindow   *window;
+	GthBrowser     *browser;
 	GladeXML       *gui;
 
 	GtkWidget      *dialog;
@@ -144,8 +146,8 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	GThumbWindow *window = data->window;
-	gboolean      thread_done;
+	GthBrowser *browser = data->browser;
+	gboolean    thread_done;
 
 	/* Remove check. */
 
@@ -173,7 +175,7 @@ destroy_cb (GtkWidget  *widget,
 	/**/
 
 	if (data->view_folder)
-		window_go_to_directory (data->window, data->local_folder);
+		gth_browser_go_to_directory (data->browser, data->local_folder);
 
 	/**/
 
@@ -199,7 +201,7 @@ destroy_cb (GtkWidget  *widget,
 
 	if (ImportPhotos) {
 		ImportPhotos = FALSE;
-		window_close (window);
+		gth_window_close (GTH_WINDOW (browser));
 	}
 }
 
@@ -1044,7 +1046,7 @@ get_folder_name (DialogData *data)
 
 	eel_gconf_set_path (PREF_PHOTO_IMPORT_DESTINATION, destination);
 
-	if (! dlg_check_folder (data->window, destination)) {
+	if (! dlg_check_folder (GTH_WINDOW (data->browser), destination)) {
 		g_free (destination);
 		return NULL;
 	}
@@ -1246,8 +1248,7 @@ static void
 delete_images__done (AsyncOperationData *aodata, 
 		     DialogData         *data)
 {
-	GThumbWindow *window = data->window;
-	gboolean      interrupted;
+	gboolean interrupted;
 
 	task_terminated (data);
 
@@ -1262,7 +1263,7 @@ delete_images__done (AsyncOperationData *aodata,
 
 	if (ImportPhotos) {
 		ImportPhotos = FALSE;
-		gtk_widget_show (window->app);
+		gtk_widget_show (GTK_WIDGET (data->browser));
 	}
 
 	gtk_widget_destroy (data->dialog);
@@ -1682,7 +1683,7 @@ start_operation (DialogData    *data,
 
 
 void
-dlg_photo_importer (GThumbWindow *window)
+dlg_photo_importer (GthBrowser *browser)
 {
 	DialogData   *data;
 	GtkWidget    *btn_ok, *btn_cancel;
@@ -1692,7 +1693,7 @@ dlg_photo_importer (GThumbWindow *window)
 	char         *default_film_name;
 
 	data = g_new0 (DialogData, 1);
-	data->window = window;
+	data->browser = browser;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
         if (!data->gui) {
@@ -1831,7 +1832,7 @@ dlg_photo_importer (GThumbWindow *window)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 

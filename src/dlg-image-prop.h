@@ -23,13 +23,10 @@
 #ifndef DLG_IMAGE_PROP_H
 #define DLG_IMAGE_PROP_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-
-GtkWidget *   dlg_image_prop_new  (GThumbWindow *window);
-
-void          dlg_image_prop_update (GtkWidget *image_prop_dlg);
-
-void          dlg_image_prop_close  (GtkWidget *image_prop_dlg);
+GtkWidget *   dlg_image_prop_new    (GthBrowser *browser);
+void          dlg_image_prop_update (GtkWidget  *image_prop_dlg);
+void          dlg_image_prop_close  (GtkWidget  *image_prop_dlg);
 
 #endif /* DLG_IMAGE_PROP_H */

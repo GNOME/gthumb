@@ -33,14 +33,13 @@
 #include "gtk-utils.h"
 #include "typedefs.h"
 #include "main.h"
-#include "gthumb-window.h"
 
 
 #define GLADE_FILE "gthumb.glade"
 
 
 typedef struct {
-	GThumbWindow *window;
+	GtkWindow    *window;
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
@@ -258,8 +257,8 @@ delete_recent_cb (GtkWidget *widget,
 
 /* create the "open with" dialog. */
 void
-open_with_cb (GThumbWindow *window,
-	      GList        *file_list)
+dlg_open_with (GtkWindow  *window,
+	       GList      *file_list)
 {
 	DialogData              *data;
 	GList                   *scan;
@@ -272,7 +271,6 @@ open_with_cb (GThumbWindow *window,
 	GtkTreeViewColumn       *column;
 
 	data = g_new (DialogData, 1);
-
 
 	data->file_list = file_list;
 	data->window = window;
@@ -442,8 +440,7 @@ open_with_cb (GThumbWindow *window,
 
 	/* Run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), window);
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }

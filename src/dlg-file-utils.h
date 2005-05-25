@@ -23,32 +23,31 @@
 #ifndef DLG_FILE_UTILS_H
 #define DLG_FILE_UTILS_H
 
-#include "gthumb-window.h"
+#include <libgnomevfs/gnome-vfs-result.h>
+#include "gth-window.h"
 
 
-gboolean dlg_file_delete__confirm   (GThumbWindow   *window,
-				     GList          *list,
-				     const char     *message);
-
-void     dlg_file_move__ask_dest    (GThumbWindow   *window,
-				     GList          *list);
-
-void     dlg_file_copy__ask_dest    (GThumbWindow   *window,
-				     GList          *list);
-
-void     dlg_file_rename_series     (GThumbWindow   *window,
-				     GList          *old_names,
-				     GList          *new_names);
-
-gboolean dlg_check_folder           (GThumbWindow   *window,
-				     const char     *path);
+gboolean dlg_file_delete__confirm   (GthWindow   *window,
+				     GList       *list,
+				     const char  *message);
+void     dlg_file_move__ask_dest    (GthWindow   *window,
+				     const char  *default_dir,
+				     GList       *list);
+void     dlg_file_copy__ask_dest    (GthWindow   *window,
+				     const char  *default_dir,
+				     GList       *list);
+void     dlg_file_rename_series     (GthWindow   *window,
+				     GList       *old_names,
+				     GList       *new_names);
+gboolean dlg_check_folder           (GthWindow   *window,
+				     const char  *path);
 
 /**/
 
 typedef void (*FileOpDoneFunc) (GnomeVFSResult result,
 				gpointer       data);
 
-void     dlg_files_copy           (GThumbWindow   *window,
+void     dlg_files_copy           (GthWindow      *window,
 				   GList          *file_list,
 				   const char     *dest_path,
 				   gboolean        remove_source,
@@ -56,18 +55,15 @@ void     dlg_files_copy           (GThumbWindow   *window,
 				   gboolean        overwrite_all,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
-
-void     dlg_files_move_to_trash  (GThumbWindow   *window,
+void     dlg_files_move_to_trash  (GthWindow      *window,
 				   GList          *file_list,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
-
-void     dlg_files_delete         (GThumbWindow   *window,
+void     dlg_files_delete         (GthWindow      *window,
 				   GList          *file_list,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
-
-void     dlg_folder_copy          (GThumbWindow   *window,
+void     dlg_folder_copy          (GthWindow      *window,
 				   const char     *src_path,
 				   const char     *dest_path,
 				   gboolean        remove_source,
@@ -75,19 +71,18 @@ void     dlg_folder_copy          (GThumbWindow   *window,
 				   gboolean        overwrite_all,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
-
-void     dlg_folder_move_to_trash (GThumbWindow   *window,
+void     dlg_folder_move_to_trash (GthWindow      *window,
 				   const char     *folder,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
-
-void     dlg_folder_delete        (GThumbWindow   *window,
+void     dlg_folder_delete        (GthWindow      *window,
 				   const char     *folder,
 				   FileOpDoneFunc  done_func,
 				   gpointer        done_data);
 
 /* items means files and folders. */
-void     dlg_copy_items           (GThumbWindow   *window,
+
+void     dlg_copy_items           (GthWindow      *window,
 				   GList          *item_list,
 				   const char     *destination,
 				   gboolean        remove_source,

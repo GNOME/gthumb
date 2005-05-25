@@ -24,8 +24,7 @@
 #define DLG_CATEGORIES_H
 
 #include "typedefs.h"
-#include "gthumb-window.h"
-
+#include "gth-window.h"
 
 void        dlg_choose_categories    (GtkWindow     *parent,
 				      GList         *file_list,
@@ -34,12 +33,8 @@ void        dlg_choose_categories    (GtkWindow     *parent,
 				      GList        **remove_categories_list,
 				      DoneFunc       done_func,
 				      gpointer       done_data);
-
-GtkWidget*  dlg_categories_new       (GThumbWindow  *window);
-
+GtkWidget*  dlg_categories_new       (GthWindow     *window);
 void        dlg_categories_update    (GtkWidget     *dlg);
-
 void        dlg_categories_close     (GtkWidget     *dlg);
-
 
 #endif /* DLG_CATEGORIES_H */

@@ -496,6 +496,32 @@
       </schema>
 
       <schema>
+	<key>/schemas/apps/gthumb/ui/viewer_width</key>
+	<applyto>/apps/gthumb/ui/viewer_width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>690</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/ui/viewer_height</key>
+	<applyto>/apps/gthumb/ui/viewer_height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>460</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/ui/image_pane_visible</key>
 	<applyto>/apps/gthumb/ui/image_pane_visible</applyto>
 	<owner>gthumb</owner>

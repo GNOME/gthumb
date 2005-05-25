@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
@@ -38,7 +39,8 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "gconf-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
+#include "gth-browser.h"
 #include "gthumb-slide.h"
 #include "glib-utils.h"
 #include "gthumb-stock.h"
@@ -56,7 +58,7 @@
 
 
 typedef struct {
-	GThumbWindow       *window;
+	GthBrowser         *browser;
 
 	GladeXML           *gui;
 	GtkWidget          *dialog;
@@ -139,7 +141,7 @@ export (GtkWidget  *widget,
 	dir = gnome_vfs_unescape_string (esc_dir, "");
 	g_free (esc_dir);
 
-	if (! dlg_check_folder (data->window, dir)) {
+	if (! dlg_check_folder (GTH_WINDOW (data->browser), dir)) {
 		g_free (dir);
 		return;
 	}
@@ -263,7 +265,7 @@ export (GtkWidget  *widget,
 	/* Export. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
-				      GTK_WINDOW (data->window->app));
+				      GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->progress_dialog), FALSE);
 	gtk_widget_show_all (data->progress_dialog);
 
@@ -311,7 +313,7 @@ popup_pref_dialog (GtkWidget  *widget,
 
 /* create the main dialog. */
 void
-dlg_exporter (GThumbWindow *window)
+dlg_exporter (GthBrowser *browser)
 {
 	DialogData   *data;
 	GtkWidget    *btn_cancel;
@@ -323,9 +325,10 @@ dlg_exporter (GThumbWindow *window)
 
 	data = g_new (DialogData, 1);
 
-	data->window = window;
+	data->browser = browser;
 
-	list = gth_file_view_get_file_list_selection (window->file_list->view);
+	
+	list = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		g_free (data);
@@ -411,8 +414,8 @@ dlg_exporter (GThumbWindow *window)
 
 	/**/
 
-	if (window->dir_list->path != NULL)
-		esc_uri = gnome_vfs_escape_host_and_path_string (window->dir_list->path);
+	if (gth_browser_get_current_directory (browser) != NULL)
+		esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
 	else
 		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), esc_uri);
@@ -454,7 +457,7 @@ dlg_exporter (GThumbWindow *window)
 
 	gtk_widget_grab_focus (data->template_entry);
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }

@@ -23,8 +23,8 @@
 #ifndef DLG_PREFERENCES_H
 #define DLG_PREFERENCES_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void   dlg_preferences    (GThumbWindow *window);
+void   dlg_preferences    (GthBrowser *browser);
 
 #endif /* DLG_PREFERENCES_H */

@@ -25,23 +25,15 @@
 
 #include <glib.h>
 #include <gtk/gtkwidget.h>
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-
-void      auto_compl_reset                 ();
-
+void      auto_compl_reset                 (void);
 int       auto_compl_get_n_alternatives    (const char *path);
-
-char *    auto_compl_get_common_prefix     ();
-
-GList *   auto_compl_get_alternatives      ();
-
-void      auto_compl_show_alternatives     (GThumbWindow *window,
-					    GtkWidget    *entry);
-
-void      auto_compl_hide_alternatives     ();
-
-gboolean  auto_compl_alternatives_visible  (); 
-
+char *    auto_compl_get_common_prefix     (void);
+GList *   auto_compl_get_alternatives      (void);
+void      auto_compl_show_alternatives     (GthBrowser *browser,
+					    GtkWidget  *entry);
+void      auto_compl_hide_alternatives     (void);
+gboolean  auto_compl_alternatives_visible  (void);
 
 #endif /* AUTO_COMPLETION_H */

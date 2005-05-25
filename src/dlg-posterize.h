@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2005 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
 #ifndef DLG_POSTERIZE_H
 #define DLG_POSTERIZE_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_posterize  (GThumbWindow *window);
+void   dlg_posterize  (GthWindow *window);
 
 
 #endif /* DLG_POSTERIZE_H */

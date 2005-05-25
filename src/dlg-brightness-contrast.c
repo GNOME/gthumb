@@ -31,7 +31,7 @@
 
 #include "async-pixbuf-ops.h"
 #include "gth-pixbuf-op.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gthumb-stock.h"
 #include "pixbuf-utils.h"
 
@@ -42,7 +42,7 @@
 
 
 typedef struct {
-	GThumbWindow *window;
+	GthWindow    *window;
 	ImageViewer  *viewer;
 	GdkPixbuf    *image;
 	GdkPixbuf    *orig_pixbuf;
@@ -109,7 +109,7 @@ apply_changes (DialogData *data,
 				  data);
 		gth_pixbuf_op_start (pixop);
 	} else {
-		window_exec_pixbuf_op (data->window, pixop);
+		gth_window_exec_pixbuf_op (data->window, pixop);
 		g_object_unref (pixop);
 	}		
 }
@@ -122,7 +122,7 @@ ok_cb (GtkWidget  *widget,
 {
 	apply_changes (data, data->image, data->image, FALSE);
 	image_viewer_set_pixbuf (data->viewer, data->image);
-	window_image_set_modified (data->window, TRUE);
+	gth_window_set_image_modified (data->window, TRUE);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -134,7 +134,7 @@ cancel_cb (GtkWidget  *widget,
 {
 	if (data->modified) {
 		image_viewer_set_pixbuf (data->viewer, data->image);
-		window_image_set_modified (data->window, data->original_modified);
+		gth_window_set_image_modified (data->window, data->original_modified);
 	}
 	gtk_widget_destroy (data->dialog);
 }
@@ -208,7 +208,7 @@ gimp_scale_entry_new (GtkWidget  *parent_box,
 
 
 void
-dlg_brightness_contrast (GThumbWindow *window)
+dlg_brightness_contrast (GthWindow *window)
 {
 	DialogData *data;
 	GtkWidget  *ok_button;
@@ -223,7 +223,7 @@ dlg_brightness_contrast (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
-	data->original_modified = window_image_get_modified (window);
+	data->original_modified = gth_window_get_image_modified (window);
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 
@@ -257,7 +257,7 @@ dlg_brightness_contrast (GThumbWindow *window)
 							 1.0,
 							 10.0);
 
-	data->viewer = IMAGE_VIEWER (window->viewer);
+	data->viewer = gth_window_get_image_viewer (window);
 
 	reset_image = glade_xml_get_widget (data->gui, "bc_reset_image");
 	gtk_image_set_from_stock (GTK_IMAGE (reset_image), GTHUMB_STOCK_RESET, GTK_ICON_SIZE_MENU);
@@ -327,7 +327,7 @@ dlg_brightness_contrast (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_widget_show (data->dialog);
 
 	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);

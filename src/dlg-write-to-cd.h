@@ -23,8 +23,10 @@
 #ifndef DLG_WRITE_TO_CD
 #define DLG_WRITE_TO_CD
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void dlg_write_to_cd (GThumbWindow *window);
+
+void dlg_write_to_cd (GthBrowser *browser);
+
 
 #endif /* DLG_WRITE_TO_CD */

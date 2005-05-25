@@ -77,6 +77,8 @@
 #define  PREF_UI_TOOLBAR_STYLE       "/apps/gthumb/ui/toolbar_style"
 #define  PREF_UI_WINDOW_WIDTH        "/apps/gthumb/ui/window_width"
 #define  PREF_UI_WINDOW_HEIGHT       "/apps/gthumb/ui/window_height"
+#define  PREF_UI_VIEWER_WIDTH        "/apps/gthumb/ui/viewer_width"
+#define  PREF_UI_VIEWER_HEIGHT       "/apps/gthumb/ui/viewer_height"
 #define  PREF_UI_IMAGE_PANE_VISIBLE  "/apps/gthumb/ui/image_pane_visible"
 #define  PREF_UI_TOOLBAR_VISIBLE     "/apps/gthumb/ui/toolbar_visible"
 #define  PREF_UI_STATUSBAR_VISIBLE   "/apps/gthumb/ui/statusbar_visible"

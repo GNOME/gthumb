@@ -23,9 +23,9 @@
 #ifndef DLG_PHOTO_IMPORTER_H
 #define DLG_PHOTO_IMPORTER_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void   dlg_photo_importer (GThumbWindow *window);
+void   dlg_photo_importer (GthBrowser *browser);
 
 
 #endif /* DLG_PHOTO_IMPORTER_H */

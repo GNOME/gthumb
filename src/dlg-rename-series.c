@@ -23,12 +23,13 @@
 #include <config.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
@@ -50,7 +51,7 @@ GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD
 #define GLADE_FILE "gthumb_tools.glade"
 
 typedef struct {
-	GThumbWindow  *window;
+	GthBrowser    *browser;
 	GladeXML      *gui;
 
 	GtkWidget     *dialog;
@@ -120,7 +121,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	old_names = g_list_reverse (old_names);
 	new_names = g_list_reverse (new_names);
 
-	dlg_file_rename_series (data->window, old_names, new_names);
+	dlg_file_rename_series (GTH_WINDOW (data->browser), old_names, new_names);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -347,7 +348,7 @@ help_cb (GtkWidget  *widget,
 
 
 void
-dlg_rename_series (GThumbWindow *window)
+dlg_rename_series (GthBrowser *browser)
 {
 	DialogData        *data;
 	GtkWidget         *btn_ok;
@@ -358,7 +359,7 @@ dlg_rename_series (GThumbWindow *window)
 	GtkTreeViewColumn *column;
 	char              *svalue;
 
-	list = gth_file_list_get_selection_as_fd (window->file_list);
+	list = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -368,7 +369,7 @@ dlg_rename_series (GThumbWindow *window)
 
 	data->file_list = list;
 	data->new_names_list = NULL;
-	data->window = window;
+	data->browser = browser;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
 	if (!data->gui) {
 		g_free (data);
@@ -467,7 +468,7 @@ dlg_rename_series (GThumbWindow *window)
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

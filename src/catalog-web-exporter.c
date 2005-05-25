@@ -29,6 +29,7 @@
 #include <locale.h>
 #include <ctype.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
@@ -352,8 +353,8 @@ catalog_web_exporter_get_type ()
 
 
 CatalogWebExporter *
-catalog_web_exporter_new (GThumbWindow *window,
-			  GList        *file_list)
+catalog_web_exporter_new (GthWindow *window,
+			  GList     *file_list)
 {
 	CatalogWebExporter *ce;
 	GList              *scan;
@@ -1505,7 +1506,7 @@ export__copy_to_destination__step2 (GnomeVFSResult  result,
 	debug (DEBUG_INFO, "result: %s", gnome_vfs_result_to_string (result));
 
 	if (result != GNOME_VFS_OK) 
-		_gtk_error_dialog_run (GTK_WINDOW (ce->window->app), 
+		_gtk_error_dialog_run (GTK_WINDOW (ce->window), 
 				       gnome_vfs_result_to_string (result));
 
 	dlg_folder_delete (ce->window,
@@ -2367,7 +2368,7 @@ catalog_web_exporter_export (CatalogWebExporter *ce)
 	ce->tmp_location = get_temp_dir_name ();
 
 	if (ce->tmp_location == NULL) {
-		_gtk_error_dialog_run (GTK_WINDOW (ce->window->app), _("Could not create a temporary folder"));
+		_gtk_error_dialog_run (GTK_WINDOW (ce->window), _("Could not create a temporary folder"));
 		g_signal_emit (G_OBJECT (ce), catalog_web_exporter_signals[WEB_EXPORTER_DONE], 0);
 		return;
 	}

@@ -23,10 +23,10 @@
 #ifndef DLG_CHANGE_DATE_H
 #define DLG_CHANGE_DATE_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void dlg_change_date (GThumbWindow *window); 
+void dlg_change_date (GthWindow *window); 
 
 
 #endif /* DLG_CHANGE_DATE_H */

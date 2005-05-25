@@ -26,6 +26,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 
@@ -34,7 +35,7 @@
 #include "catalog-list.h"
 #include "file-utils.h"
 #include "main.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 
@@ -50,7 +51,7 @@ typedef struct {
 	GtkWidget    *ok_btn;
 	GtkWidget    *cancel_btn;
 
-	GThumbWindow *window;
+	GthWindow    *window;
 	CatalogList  *cat_list;
 	char         *current_dir;
 
@@ -77,7 +78,7 @@ new_catalog_cb (GtkWidget *widget,
 	int         fd;
 	GtkTreeIter iter;
 
-	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
+	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window),
 					     GTK_DIALOG_MODAL,
 					     _("Enter the catalog name: "),
 					     "",
@@ -128,7 +129,7 @@ new_dir_cb (GtkWidget *widget,
 	char *name;
 	char *path;
 
-	utf8_name = _gtk_request_dialog_run (GTK_WINDOW (data->window->app),
+	utf8_name = _gtk_request_dialog_run (GTK_WINDOW (data->window),
 					     GTK_DIALOG_MODAL,
 					     _("Enter the library name: "),
 					     "",
@@ -255,8 +256,8 @@ add_to_catalog__destroy_cb (GtkWidget *widget,
 
 /* create the "add to catalog" dialog. */
 void
-dlg_add_to_catalog (GThumbWindow *window,
-		    GList        *list)
+dlg_add_to_catalog (GthWindow *window,
+		    GList     *list)
 {
 	GtkTreeSelection *selection;
 	DialogData       *data;
@@ -343,8 +344,8 @@ dlg_add_to_catalog (GThumbWindow *window,
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
+				      GTK_WINDOW (window));
 
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
@@ -412,8 +413,8 @@ move_to_catalog_dir__ok_cb (GtkWidget  *widget,
 
 /* create the "move to catalog directory" dialog. */
 void
-dlg_move_to_catalog_directory (GThumbWindow *window,
-			       gchar *catalog_path)
+dlg_move_to_catalog_directory (GthWindow *window,
+			       gchar     *catalog_path)
 {
 	DialogData *data;
 	GtkWidget  *list_hbox;
@@ -476,7 +477,7 @@ dlg_move_to_catalog_directory (GThumbWindow *window,
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 

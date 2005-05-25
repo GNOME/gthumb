@@ -24,6 +24,7 @@
 
 #ifdef HAVE_LIBEXIF
 
+#include <string.h>
 #include <stdlib.h>
 #include <time.h>
 #include <glib.h>

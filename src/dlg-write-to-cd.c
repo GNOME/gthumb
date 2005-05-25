@@ -23,13 +23,14 @@
 #include <config.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
@@ -41,7 +42,7 @@
 #define GLADE_FILE "gthumb_tools.glade"
 
 typedef struct {
-	GThumbWindow  *window;
+	GthBrowser    *browser;
 	GladeXML      *gui;
 
 	GList         *file_list;
@@ -71,10 +72,9 @@ write_to_cd__continue (GnomeVFSResult  result,
 		       gpointer        user_data)
 {
 	DialogData   *data = user_data;
-	GThumbWindow *window = data->window;
 	
 	if (result != GNOME_VFS_OK) {
-		_gtk_error_dialog_run (GTK_WINDOW (window->app),
+		_gtk_error_dialog_run (GTK_WINDOW (data->browser),
 				       "%s %s",
 				       _("Could not move the items:"), 
 				       gnome_vfs_result_to_string (result));
@@ -84,7 +84,7 @@ write_to_cd__continue (GnomeVFSResult  result,
 		/*
 		  GError *err = NULL;
 		  if (! gnome_url_show ("burn:///", &err))
-		  _gtk_error_dialog_from_gerror_run (GTK_WINDOW (window->app), &err);
+		  _gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), &err);
 		*/
 	}
 
@@ -98,7 +98,7 @@ ok_clicked_cb (GtkWidget  *widget,
 	       DialogData *data)
 {
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton))) {
-		dlg_copy_items (data->window, 
+		dlg_copy_items (GTH_WINDOW (data->browser),
 				data->file_list,
 				"burn:///",
 				FALSE,
@@ -107,9 +107,9 @@ ok_clicked_cb (GtkWidget  *widget,
 				write_to_cd__continue,
 				data);
 
-	} else if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		GList *file_list = gth_file_list_get_all (data->window->file_list);
-		dlg_copy_items (data->window, 
+	} else if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_CATALOG_LIST) {
+		GList *file_list = gth_file_list_get_all (gth_browser_get_file_list (data->browser));
+		dlg_copy_items (GTH_WINDOW (data->browser),
 				file_list,
 				"burn:///",
 				FALSE,
@@ -121,7 +121,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	} else {
 		char *dest_folder = g_build_filename ("burn:///", file_name_from_path (data->current_folder), NULL);
-		dlg_folder_copy (data->window,
+		dlg_folder_copy (GTH_WINDOW (data->browser),
 				 data->current_folder,
 				 dest_folder,
 				 FALSE,
@@ -136,7 +136,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 
 void
-dlg_write_to_cd (GThumbWindow *window)
+dlg_write_to_cd (GthBrowser *browser)
 {
 	DialogData  *data;
 	GtkWidget   *btn_ok;
@@ -150,9 +150,9 @@ dlg_write_to_cd (GThumbWindow *window)
 		g_warning ("Could not find " GLADE_FILE "\n");
 		return;
 	}
-	data->current_folder = g_strdup (window->dir_list->path);
-	data->file_list = gth_file_list_get_selection (window->file_list);
-	data->window = window;
+	data->current_folder = g_strdup (gth_browser_get_current_directory (browser));
+	data->file_list = gth_file_list_get_selection (gth_browser_get_file_list (browser));
+	data->browser = browser;
 
 	/* Get the widgets. */
 
@@ -166,12 +166,12 @@ dlg_write_to_cd (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	if (data->window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+	if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_DIR_LIST)
 		gtk_widget_show (data->wtc_folder_radiobutton);
 	else
 		gtk_widget_hide (data->wtc_folder_radiobutton);
 
-	if (data->window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+	if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_CATALOG_LIST)
 		gtk_widget_show (data->wtc_catalog_radiobutton);
 	else
 		gtk_widget_hide (data->wtc_catalog_radiobutton);
@@ -180,7 +180,7 @@ dlg_write_to_cd (GThumbWindow *window)
 
 	if (data->file_list != NULL)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_selection_radiobutton), TRUE);
-	else if (data->window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+	else if (gth_browser_get_sidebar_content (data->browser) == GTH_SIDEBAR_DIR_LIST)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_folder_radiobutton), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wtc_catalog_radiobutton), TRUE);
@@ -203,7 +203,7 @@ dlg_write_to_cd (GThumbWindow *window)
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show (data->dialog);
 }

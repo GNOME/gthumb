@@ -27,6 +27,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -40,7 +41,7 @@
 #include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "typedefs.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
 #include "icons/layout1.xpm"
 #include "icons/layout2.xpm"
@@ -53,44 +54,44 @@ static gint thumb_sizes = sizeof (thumb_size) / sizeof (gint);
 #define GLADE_PREF_FILE "gthumb_preferences.glade"
 
 typedef struct {
-	GThumbWindow    *window;
+	GthBrowser *browser;
 
-	GladeXML  *gui;
-	GtkWidget *dialog;
+	GladeXML   *gui;
+	GtkWidget  *dialog;
 
-	GtkWidget *radio_current_location;
-	GtkWidget *radio_last_location;
-	GtkWidget *radio_use_startup;
-	GtkWidget *startup_dir_filechooserbutton;
-	GtkWidget *btn_set_to_current;
-	GtkWidget *radio_layout1;
-	GtkWidget *radio_layout2;
-	GtkWidget *radio_layout3;
-	GtkWidget *radio_layout4;
-	GtkWidget *toolbar_style_optionmenu;
+	GtkWidget  *radio_current_location;
+	GtkWidget  *radio_last_location;
+	GtkWidget  *radio_use_startup;
+	GtkWidget  *startup_dir_filechooserbutton;
+	GtkWidget  *btn_set_to_current;
+	GtkWidget  *radio_layout1;
+	GtkWidget  *radio_layout2;
+	GtkWidget  *radio_layout3;
+	GtkWidget  *radio_layout4;
+	GtkWidget  *toolbar_style_optionmenu;
 
-	GtkWidget *view_as_slides_radiobutton;
-	GtkWidget *view_as_list_radiobutton;
-	GtkWidget *toggle_show_filenames;
-	GtkWidget *toggle_show_comments;
-	GtkWidget *toggle_show_thumbs;
-	GtkWidget *toggle_file_type;
-	GtkWidget *opt_thumbs_size;
-	GtkWidget *toggle_confirm_del;
-	GtkWidget *toggle_ask_to_save;
-	GtkWidget *opt_click_policy;
+	GtkWidget  *view_as_slides_radiobutton;
+	GtkWidget  *view_as_list_radiobutton;
+	GtkWidget  *toggle_show_filenames;
+	GtkWidget  *toggle_show_comments;
+	GtkWidget  *toggle_show_thumbs;
+	GtkWidget  *toggle_file_type;
+	GtkWidget  *opt_thumbs_size;
+	GtkWidget  *toggle_confirm_del;
+	GtkWidget  *toggle_ask_to_save;
+	GtkWidget  *opt_click_policy;
 
-	GtkWidget *opt_zoom_quality_high;
-	GtkWidget *opt_zoom_quality_low;
-	GtkWidget *opt_zoom_change;
-	GtkWidget *opt_transparency;
+	GtkWidget  *opt_zoom_quality_high;
+	GtkWidget  *opt_zoom_quality_low;
+	GtkWidget  *opt_zoom_change;
+	GtkWidget  *opt_transparency;
 
-	GtkWidget *radio_ss_direction_forward;
-	GtkWidget *radio_ss_direction_reverse;
-	GtkWidget *radio_ss_direction_random;
-	GtkWidget *spin_ss_delay;
-	GtkWidget *toggle_ss_wrap_around;
-	GtkWidget *toggle_ss_fullscreen;
+	GtkWidget  *radio_ss_direction_forward;
+	GtkWidget  *radio_ss_direction_reverse;
+	GtkWidget  *radio_ss_direction_random;
+	GtkWidget  *spin_ss_delay;
+	GtkWidget  *toggle_ss_wrap_around;
+	GtkWidget  *toggle_ss_fullscreen;
 } DialogData;
 
 
@@ -215,7 +216,7 @@ set_to_current_cb (GtkWidget  *widget,
 	const char *dir;
 	char       *esc_uri;
 
-	dir = data->window->dir_list->path;
+	dir = gth_browser_get_current_directory (data->browser);
 	if (dir == NULL)
 		return;
 	
@@ -393,7 +394,7 @@ transp_type_changed_cb (GtkOptionMenu *option_menu,
 
 /* create the main dialog. */
 void
-dlg_preferences (GThumbWindow *window)
+dlg_preferences (GthBrowser *browser)
 {
 	DialogData       *data;
 	GtkWidget        *btn_close;
@@ -403,7 +404,7 @@ dlg_preferences (GThumbWindow *window)
 	GthDirectionType  direction;
 
 	data = g_new (DialogData, 1);
-	data->window = window;
+	data->browser = browser;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_PREF_FILE, NULL, NULL);
         if (!data->gui) {
                 g_warning ("Could not find " GLADE_PREF_FILE "\n");
@@ -538,7 +539,7 @@ dlg_preferences (GThumbWindow *window)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_zoom_quality_low), TRUE);
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), pref_get_zoom_change ());
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (IMAGE_VIEWER (window->viewer)));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (gth_window_get_image_viewer (GTH_WINDOW (browser))));
 
 	/* * slide show */
 
@@ -666,7 +667,8 @@ dlg_preferences (GThumbWindow *window)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
+				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
 }

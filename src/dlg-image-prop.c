@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2005 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <math.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -33,13 +35,15 @@
 #include "comments.h"
 #include "dlg-image-prop.h"
 #include "file-data.h"
+#include "file-utils.h"
 #include "gthumb-histogram.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "gth-exif-data-viewer.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
 #include "main.h"
 #include "pixbuf-utils.h"
+
 #include "icons/pixbufs.h"
 
 
@@ -67,8 +71,8 @@ enum {
 
 
 typedef struct {
-	GThumbWindow *window;
-	ImageViewer  *window_viewer;
+	GthBrowser   *browser;
+	ImageViewer  *browser_viewer;
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
@@ -115,7 +119,7 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	data->window->image_prop_dlg = NULL;
+	gth_browser_set_image_prop_dlg (data->browser, NULL);
 	gthumb_histogram_free (data->histogram);
 	g_object_unref (data->gui);
 	g_free (data);
@@ -265,7 +269,7 @@ static void
 prev_image_cb (GtkWidget    *widget, 
 	       DialogData   *data)
 {
-	window_show_prev_image (data->window, FALSE);
+	gth_browser_show_prev_image (data->browser, FALSE);
 }
 
 
@@ -273,7 +277,7 @@ static void
 next_image_cb (GtkWidget    *widget, 
 	       DialogData   *data)
 {
-	window_show_next_image (data->window, FALSE);
+	gth_browser_show_next_image (data->browser, FALSE);
 }
 
 
@@ -286,7 +290,7 @@ update_comment (DialogData *data)
 	g_return_if_fail (GTK_IS_WIDGET (data->i_categories_label));
 	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
 
-	cdata = comments_load_comment (data->window->image_path);
+	cdata = comments_load_comment (gth_window_get_image_filename (GTH_WINDOW (data->browser)));
 
 	if (cdata == NULL) {
 		GtkTextIter  start_iter, end_iter;
@@ -353,7 +357,7 @@ update_histogram (DialogData *data)
 	ImageViewer  *viewer;
 	GdkPixbuf    *pixbuf;
 
-	viewer = IMAGE_VIEWER (data->window->viewer);
+	viewer = gth_window_get_image_viewer (GTH_WINDOW (data->browser));
 	pixbuf = image_viewer_get_current_pixbuf (viewer);
 
 	gthumb_histogram_calculate (data->histogram, pixbuf);
@@ -373,8 +377,9 @@ update_histogram (DialogData *data)
 static void
 update_general_info (DialogData *data)
 {
-	GThumbWindow *window;
+	GthWindow    *window;
 	ImageViewer  *viewer;
+	const char   *image_filename;
 	GdkPixbuf    *pixbuf;
 	int           width, height;
 	char         *file_size_txt;
@@ -385,11 +390,12 @@ update_general_info (DialogData *data)
 	struct tm    *tm;
 	char         *utf8_name;
 
-	window = data->window;
-	viewer = data->window_viewer;
+	window = (GthWindow*) data->browser;
+	viewer = data->browser_viewer;
+	image_filename = gth_window_get_image_filename (window);
 	pixbuf = image_viewer_get_current_pixbuf (viewer);
 
-	if (window->image_path == NULL) {
+	if (image_filename == NULL) {
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_type_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_image_size_label), "");
@@ -397,14 +403,14 @@ update_general_info (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
 	} else {
-		utf8_name = g_filename_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
+		utf8_name = g_filename_to_utf8 (file_name_from_path (image_filename), -1, 0, 0, 0);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
 		g_free (utf8_name);
 		
 		/**/
 		
 		gtk_label_set_text (GTK_LABEL (data->i_type_label),
-				    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (window->image_path, NULL, FALSE)));
+				    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (image_filename, NULL, FALSE)));
 		
 		/**/
 
@@ -422,19 +428,19 @@ update_general_info (DialogData *data)
 		
 		/**/
 		
-		file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (window->image_path));
+		file_size_txt = gnome_vfs_format_file_size_for_display (get_file_size (image_filename));
 		gtk_label_set_text (GTK_LABEL (data->i_file_size_label), file_size_txt);
 		g_free (file_size_txt);
 		
 		/**/
 		
-		location = remove_level_from_path (window->image_path);
+		location = remove_level_from_path (image_filename);
 		_gtk_label_set_filename_text (GTK_LABEL (data->i_location_label), location);
 		g_free (location);
 		
 		/**/
 		
-		timer = get_file_mtime (window->image_path);
+		timer = get_file_mtime (image_filename);
 		tm = localtime (&timer);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 		_gtk_label_set_locale_text (GTK_LABEL (data->i_date_modified_label), time_txt);
@@ -442,7 +448,7 @@ update_general_info (DialogData *data)
 
 	pixbuf = image_viewer_get_current_pixbuf (viewer);
 
-	if ((window->image_path != NULL) && (pixbuf != NULL)) {
+	if ((image_filename != NULL) && (pixbuf != NULL)) {
 		GdkPixbuf *scaled = NULL;
 		int        width;
 		int        height;
@@ -492,8 +498,8 @@ update_notebook_page (DialogData *data,
 #ifdef HAVE_LIBEXIF
 	case IPROP_PAGE_EXIF:
 		gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (data->i_exif_data_view),
-					     data->window_viewer,
-					     data->window->image_path);
+					     data->browser_viewer,
+					     gth_window_get_image_filename (GTH_WINDOW (data->browser)));
 		break;
 #endif /* HAVE_LIBEXIF */
 
@@ -529,17 +535,17 @@ i_notebook_switch_page_cb (GtkWidget       *widget,
 
 
 GtkWidget *
-dlg_image_prop_new (GThumbWindow *window)
+dlg_image_prop_new (GthBrowser *browser)
 {
-	DialogData        *data;
-	GtkWidget         *i_image_vbox;
-	GtkWidget         *i_close_button;
-	GtkWidget         *i_field_label;
-	char              *label;
+	DialogData *data;
+	GtkWidget  *i_image_vbox;
+	GtkWidget  *i_close_button;
+	GtkWidget  *i_field_label;
+	char       *label;
 
 	data = g_new0 (DialogData, 1);
-	data->window = window;
-	data->window_viewer = IMAGE_VIEWER (window->viewer);
+	data->browser = browser;
+	data->browser_viewer = gth_window_get_image_viewer (GTH_WINDOW (browser));
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
 
 	if (! data->gui) {
@@ -707,39 +713,36 @@ dlg_image_prop_new (GThumbWindow *window)
 static void
 update_buttons_sensitivity (DialogData *data)
 {
-	GThumbWindow *window;
-	int           image_pos;
+	GthBrowser  *browser = data->browser;
+	GthFileList *file_list = gth_browser_get_file_list (browser);
+	const char  *image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
+	int          image_pos;
 
-	window = data->window;
-
-	if (window->image_path != NULL)
-		image_pos = gth_file_list_pos_from_path (window->file_list, 
-							 window->image_path);
+	if (image_filename != NULL)
+		image_pos = gth_file_list_pos_from_path (file_list, 
+							 image_filename);
 	else
 		image_pos = -1;
 
 	gtk_widget_set_sensitive (data->i_prev_button, image_pos > 0);
-	gtk_widget_set_sensitive (data->i_next_button, (image_pos != -1) && (image_pos < gth_file_view_get_images (window->file_list->view) - 1));
+	gtk_widget_set_sensitive (data->i_next_button, (image_pos != -1) && (image_pos < gth_file_view_get_images (file_list->view) - 1));
 }
 
 
 static void
 update_title (DialogData *data)
 {
-	GThumbWindow *window;
-	ImageViewer  *viewer;
+	GthBrowser  *browser = data->browser;
+	const char  *image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
 
-	window = data->window;
-	viewer = data->window_viewer;
-
-	if (window->image_path == NULL) 
+	if (image_filename == NULL) 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), "");
 
 	else {
 		char *utf8_name;
 		char *title;
 
-		utf8_name = g_filename_to_utf8 (file_name_from_path (window->image_path), -1, 0, 0, 0);
+		utf8_name = g_filename_display_basename (image_filename);
 		title = g_strdup_printf (_("%s Properties"), utf8_name); 
 		gtk_window_set_title (GTK_WINDOW (data->dialog), title);
 		g_free (utf8_name);

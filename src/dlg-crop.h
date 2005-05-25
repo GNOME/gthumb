@@ -23,10 +23,10 @@
 #ifndef DLG_CROP_H
 #define DLG_CROP_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_crop  (GThumbWindow *window);
+void   dlg_crop  (GthWindow *window);
 
 
 #endif /* DLG_CROP_H */

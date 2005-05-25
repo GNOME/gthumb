@@ -26,6 +26,7 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -40,8 +41,9 @@
 #endif /* HAVE_LIBEXIF */
 
 #include "file-data.h"
+#include "file-utils.h"
 #include "gconf-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gtk-utils.h"
 #include "image-loader.h"
 #include "main.h"
@@ -68,7 +70,7 @@ enum {
 };
 
 typedef struct {
-	GThumbWindow *window;
+	GthWindow    *window;
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
@@ -743,7 +745,7 @@ apply_transformation_generic (DialogData *data,
 					image_type, 
 					&error, 
 					NULL))
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->window->app), &error);
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->window), &error);
 	}
 	g_object_unref (pixbuf1);
 
@@ -1037,7 +1039,7 @@ from_exif_toggled_cb (GtkToggleButton *button,
 
 
 void
-dlg_jpegtran (GThumbWindow *window)
+dlg_jpegtran (GthWindow *window)
 {
 	DialogData  *data;
 	GtkWidget   *j_image_vbox;
@@ -1052,7 +1054,8 @@ dlg_jpegtran (GThumbWindow *window)
 	GtkWidget   *reset_image;
 	GList       *list;
 
-	list = gth_file_list_get_selection_as_fd (window->file_list);
+
+	list = gth_window_get_file_list_selection_as_fd (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -1173,7 +1176,7 @@ dlg_jpegtran (GThumbWindow *window)
 
 	all_windows_remove_monitor ();
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE); 
 	gtk_widget_show_all (data->dialog);
 

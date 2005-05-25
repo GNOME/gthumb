@@ -22,6 +22,8 @@
 
 #include <stdio.h>
 #include <string.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include "typedefs.h"

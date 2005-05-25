@@ -28,17 +28,20 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <string.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomeui/libgnomeui.h>
 #include <libgnomevfs/gnome-vfs.h>
+
 #include "catalog.h"
 #include "dlg-file-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "gthumb-init.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "file-utils.h"
 #include "md5.h"
 #include "thumb-loader.h"
@@ -77,7 +80,7 @@ enum {
 
 
 typedef struct {
-	GThumbWindow        *window;
+	GthBrowser          *browser;
 	GladeXML            *gui;
 
 	GtkWidget           *dialog;
@@ -660,10 +663,10 @@ view_cb (GtkWidget  *widget,
 		catalog_add_item (catalog, (char*) scan->data);
 
 	if (! catalog_write_to_disk (catalog, &gerror)) 
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->window->app), &gerror);
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->browser), &gerror);
 	else {
 		/* View the Drag&Drop catalog. */
-		window_go_to_catalog (data->window, catalog_path);
+		gth_browser_go_to_catalog (data->browser, catalog_path);
 	}
 
 	catalog_free (catalog);
@@ -751,7 +754,7 @@ delete_cb (GtkWidget  *widget,
 	if (list == NULL)
 		return;
 
-	if (dlg_file_delete__confirm (data->window, 
+	if (dlg_file_delete__confirm (GTH_WINDOW (data->browser), 
 				      path_list_dup (list),
 				      _("Checked images will be moved to the Trash, are you sure?"))) 
 		delete_images_from_lists (data, list);
@@ -761,7 +764,7 @@ delete_cb (GtkWidget  *widget,
 
 
 void
-dlg_duplicates (GThumbWindow *window)
+dlg_duplicates (GthBrowser *browser)
 {
 	DialogData        *data;
 	GtkWidget         *ok_button;
@@ -771,7 +774,7 @@ dlg_duplicates (GThumbWindow *window)
 
 	data = g_new0 (DialogData, 1);
 
-	data->window = window;
+	data->browser = browser;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 
@@ -809,8 +812,8 @@ dlg_duplicates (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	if (data->window->dir_list->path != NULL)
-		esc_uri = gnome_vfs_escape_host_and_path_string (data->window->dir_list->path);
+	if (gth_browser_get_current_directory (data->browser) != NULL)
+		esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
 	else
 		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->fd_start_from_filechooserbutton), esc_uri);
@@ -913,7 +916,7 @@ dlg_duplicates (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_widget_grab_focus (data->fdr_stop_button);
 	gtk_widget_show (data->dialog);
 }

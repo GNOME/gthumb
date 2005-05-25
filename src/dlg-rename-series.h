@@ -23,8 +23,10 @@
 #ifndef DLG_RENAME_SERIES_H
 #define DLG_RENAME_SERIES_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void dlg_rename_series (GThumbWindow *window);
+
+void dlg_rename_series (GthBrowser *browser);
+
 
 #endif /* DLG_RENAME_SERIES_H */

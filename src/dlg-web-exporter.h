@@ -23,8 +23,8 @@
 #ifndef DLG_WEB_EXPORTER_H
 #define DLG_WEB_EXPORTER_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
-void   dlg_web_exporter    (GThumbWindow *window);
+void   dlg_web_exporter    (GthBrowser *browser);
 
 #endif /* DLG_WEB_EXPORTER_H */

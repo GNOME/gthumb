@@ -26,6 +26,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
@@ -41,7 +42,7 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "gconf-utils.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "glib-utils.h"
 
 static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3 };
@@ -59,7 +60,7 @@ static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 
 
 typedef struct {
-	GThumbWindow       *window;
+	GthBrowser         *browser;
 
 	GladeXML           *gui;
 	GtkWidget          *dialog;
@@ -159,7 +160,7 @@ export (GtkWidget  *widget,
 
 	/**/
 
-	if (! dlg_check_folder (data->window, location)) {
+	if (! dlg_check_folder (GTH_WINDOW (data->browser), location)) {
 		g_free (location);
 		return;
 	}
@@ -192,7 +193,7 @@ export (GtkWidget  *widget,
 	/* Export. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->progress_dialog),
-				      GTK_WINDOW (data->window->app));
+				      GTK_WINDOW (data->browser));
 	gtk_window_set_modal (GTK_WINDOW (data->progress_dialog), TRUE);
 	gtk_widget_show_all (data->progress_dialog);
 
@@ -274,7 +275,7 @@ resize_image_toggled_cb (GtkToggleButton *button,
 
 /* create the main dialog. */
 void
-dlg_web_exporter (GThumbWindow *window)
+dlg_web_exporter (GthBrowser *browser)
 {
 	DialogData   *data;
 	GtkWidget    *btn_cancel;
@@ -285,16 +286,16 @@ dlg_web_exporter (GThumbWindow *window)
 
 	data = g_new (DialogData, 1);
 
-	data->window = window;
-
-	list = gth_file_view_get_file_list_selection (window->file_list->view);
+	data->browser = browser;
+	
+	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		g_free (data);
 		return;
 	}
 
-	data->exporter = catalog_web_exporter_new (window, list);
+	data->exporter = catalog_web_exporter_new (GTH_WINDOW (browser), list);
 	g_list_foreach (list, (GFunc) g_free, NULL);
 	g_list_free (list);
 
@@ -446,7 +447,7 @@ dlg_web_exporter (GThumbWindow *window)
 
 	/* Run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (window->app));
+	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
 }
@@ -456,7 +457,7 @@ dlg_web_exporter (GThumbWindow *window)
 
 typedef struct {
 	DialogData         *data;
-	GThumbWindow       *window;
+	GthBrowser         *browser;
 
 	GladeXML           *gui;
 	GtkWidget          *dialog;
@@ -827,7 +828,7 @@ show_album_theme_cb (GtkWidget  *widget,
 	tdata = g_new (ThemeDialogData, 1);
 
 	tdata->data = data;
-	tdata->window = data->window;
+	tdata->browser = data->browser;
 
 	tdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
         if (!tdata->gui) {
@@ -927,7 +928,7 @@ show_album_theme_cb (GtkWidget  *widget,
 
 typedef struct {
 	DialogData         *data;
-	GThumbWindow       *window;
+	GthBrowser         *browser;
 
 	GladeXML           *gui;
 	GtkWidget          *dialog;
@@ -1023,7 +1024,7 @@ show_caption_dialog_cb (GtkWidget       *widget,
 	cdata = g_new (CaptionDialogData, 1);
 
 	cdata->data = tdata->data;
-	cdata->window = tdata->window;
+	cdata->browser = tdata->browser;
 	cdata->thumbnail_caption = thumbnail_caption;
 
 	cdata->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);

@@ -1,3 +1,9 @@
+2005-05-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* many_files: Code reorganization.  Removed gthumb-window.[ch]; created
+	a base window class in gth-window.c;  moved the browser window in
+	gth-browser.c; Added a viewer window in gth-viewer.c
+
 2005-04-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/print-callbacks.c (IMAGE_SPACE): set to 20 pixels.

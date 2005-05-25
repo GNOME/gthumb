@@ -24,6 +24,7 @@
 #include <string.h>
 #include <time.h>
 
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-help.h>
@@ -31,13 +32,14 @@
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs.h>
 
+#include "file-utils.h"
 #include "catalog.h"
 #include "comments.h"
 #include "dlg-search.h"
 #include "gthumb-init.h"
 #include "gconf-utils.h"
 #include "search.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
 #include "utf8-fnmatch.h"
@@ -59,32 +61,32 @@ enum {
 #define CATEGORY_SEPARATOR_STR ";"
 #define ONE_DAY (60*60*24)
 
-static void dlg_search_ui (GThumbWindow *window, 
-			   char         *catalog_path, 
-			   gboolean      start_search);
+static void dlg_search_ui (GthBrowser *browser, 
+			   char       *catalog_path, 
+			   gboolean    start_search);
 
 
 void 
 dlg_search (GtkWidget *widget, gpointer data)
 {
-	GThumbWindow *window = data;
-	dlg_search_ui (window, NULL, FALSE);
+	GthBrowser *browser = data;
+	dlg_search_ui (browser, NULL, FALSE);
 }
 
 
 void 
-dlg_catalog_edit_search (GThumbWindow *window,
-			 const char   *catalog_path)
+dlg_catalog_edit_search (GthBrowser *browser,
+			 const char *catalog_path)
 {
-	dlg_search_ui (window, g_strdup (catalog_path), FALSE);
+	dlg_search_ui (browser, g_strdup (catalog_path), FALSE);
 }
 
 
 void 
-dlg_catalog_search (GThumbWindow *window,
-		    const char   *catalog_path)
+dlg_catalog_search (GthBrowser *browser,
+		    const char *catalog_path)
 {
-	dlg_search_ui (window, g_strdup (catalog_path), TRUE);
+	dlg_search_ui (browser, g_strdup (catalog_path), TRUE);
 }
 
 
@@ -94,7 +96,7 @@ dlg_catalog_search (GThumbWindow *window,
 #define SEARCH_GLADE_FILE      "gthumb_search.glade"
 
 typedef struct {
-	GThumbWindow   *window;
+	GthBrowser     *browser;
 	GladeXML       *gui;
 
 	GtkWidget      *dialog;
@@ -342,7 +344,6 @@ static void
 view_result_cb (GtkWidget  *widget, 
 		DialogData *data)
 {
-	GThumbWindow *window = data->window;
 	Catalog      *catalog;
 	char         *catalog_name, *catalog_path, *catalog_name_utf8;
 	GList        *scan;
@@ -373,7 +374,7 @@ view_result_cb (GtkWidget  *widget,
 	gtk_widget_destroy (data->search_progress_dialog);
 	catalog_free (catalog);
 
-	window_go_to_catalog (window, catalog_path);
+	gth_browser_go_to_catalog (data->browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -383,7 +384,6 @@ static void
 save_result_cb (GtkWidget  *widget, 
 		DialogData *data)
 {
-	GThumbWindow *window = data->window;
 	char         *catalog_path;
 	Catalog      *catalog;
 	GList        *scan;
@@ -405,7 +405,7 @@ save_result_cb (GtkWidget  *widget,
 	catalog_free (catalog);
 	gtk_widget_destroy (data->search_progress_dialog);
 
-	window_go_to_catalog (window, catalog_path);
+	gth_browser_go_to_catalog (data->browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -535,9 +535,9 @@ idle_start_search_cb (gpointer data)
 
 
 static void
-dlg_search_ui (GThumbWindow *window, 
-	       char         *catalog_path, 
-	       gboolean      start_search)
+dlg_search_ui (GthBrowser *browser, 
+	       char       *catalog_path, 
+	       gboolean    start_search)
 {
 	DialogData        *data;
 	GtkCellRenderer   *renderer;
@@ -558,7 +558,7 @@ dlg_search_ui (GThumbWindow *window,
 	data->keywords_patterns = NULL; 
 	data->dirs = NULL;
 	data->files = NULL;
-	data->window = window;
+	data->browser = browser;
 	data->handle = NULL;
 	data->search_data = NULL;
 	data->uri = NULL;
@@ -609,8 +609,8 @@ dlg_search_ui (GThumbWindow *window,
 	if (catalog_path == NULL) {
 		char *esc_uri = NULL;
 
-		if (data->window->dir_list->path != NULL)
-			esc_uri = gnome_vfs_escape_host_and_path_string (data->window->dir_list->path);
+		if (gth_browser_get_current_directory (data->browser) != NULL)
+			esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
 		else
 			esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
 
@@ -741,9 +741,9 @@ dlg_search_ui (GThumbWindow *window,
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->search_progress_dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 
 	gtk_widget_grab_focus (data->s_filename_entry);
@@ -1351,8 +1351,8 @@ static void
 choose_categories_dialog (DialogData *data)
 {
 	CategoriesDialogData *cdata;
-	GtkCellRenderer   *renderer;
-	GtkTreeViewColumn *column;
+	GtkCellRenderer      *renderer;
+	GtkTreeViewColumn    *column;
 
 	cdata = g_new (CategoriesDialogData, 1);
 	cdata->data = data;

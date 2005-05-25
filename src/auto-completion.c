@@ -37,7 +37,7 @@
 #include "auto-completion.h"
 #include "file-utils.h"
 #include "typedefs.h"
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
 #include "icons/pixbufs.h"
 
@@ -50,7 +50,7 @@ enum {
 	AC_LIST_NUM_COLUMNS
 };
 
-GThumbWindow        *gthumb_window         = NULL;
+GthBrowser          *current_w             = NULL;
 static gchar        *ac_dir                = NULL;
 static gchar        *ac_path               = NULL;
 static GList        *ac_subdirs            = NULL; 
@@ -111,7 +111,7 @@ ac_alternatives_free ()
 
 
 void
-auto_compl_reset () 
+auto_compl_reset (void) 
 {
 	ac_dir_free ();
 	ac_path_free ();
@@ -185,7 +185,7 @@ auto_compl_get_n_alternatives (const char *path)
 
 
 static gint
-get_common_prefix_length () 
+get_common_prefix_length (void) 
 {
 	int    n;
 	GList *scan;
@@ -225,7 +225,7 @@ get_common_prefix_length ()
 
 
 gchar *
-auto_compl_get_common_prefix () 
+auto_compl_get_common_prefix (void) 
 {
 	char *alternative;
 	int n;
@@ -244,7 +244,7 @@ auto_compl_get_common_prefix ()
 
 
 GList * 
-auto_compl_get_alternatives ()
+auto_compl_get_alternatives (void)
 {
 	return ac_alternatives;
 }
@@ -303,10 +303,10 @@ ac_list_row_activated_cb (GtkTreeView       *tree_view,
 
 	auto_compl_hide_alternatives ();
 
-	if (gthumb_window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-		window_go_to_directory (gthumb_window, full_path);
+	if (gth_browser_get_sidebar_content (current_w) == GTH_SIDEBAR_DIR_LIST)
+		gth_browser_go_to_directory (current_w, full_path);
 	else
-		window_go_to_catalog_directory (gthumb_window, full_path);
+		gth_browser_go_to_catalog_directory (current_w, full_path);
 
 	g_free (full_path);
 	g_free (name);
@@ -393,15 +393,15 @@ add_columns (GtkTreeView *treeview)
 
 /* displays a list of alternatives under the entry widget. */
 void
-auto_compl_show_alternatives (GThumbWindow *window,
-			      GtkWidget    *entry)
+auto_compl_show_alternatives (GthBrowser *browser,
+			      GtkWidget  *entry)
 {
 	GdkPixbuf *pixbuf;
 	int        x, y, w, h;
 	GList     *scan;
 	int        n, width;
 
-	gthumb_window = window;
+	current_w = browser;
 
 	if (ac_window == NULL) {
 		GtkWidget *scroll;
@@ -452,7 +452,10 @@ auto_compl_show_alternatives (GThumbWindow *window,
 	width = 0;
 	n = 0;
 
-	pixbuf = (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) ? get_folder_pixbuf (get_folder_pixbuf_size_for_list (window->app)) : gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
+	if (gth_browser_get_sidebar_content (current_w) == GTH_SIDEBAR_DIR_LIST)
+		pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (GTK_WIDGET (current_w)));
+	else
+		pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 
 	gtk_list_store_clear (ac_list_store);
 	for (scan = ac_alternatives; scan; scan = scan->next) {

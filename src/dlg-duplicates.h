@@ -23,10 +23,10 @@
 #ifndef DLG_DUPLICATE_H
 #define DLG_DUPLICATE_H
 
-#include "gthumb-window.h"
+#include "gth-browser.h"
 
 
-void dlg_duplicates (GThumbWindow *window); 
+void dlg_duplicates (GthBrowser *browser); 
 
 
 #endif /* DLG_DUPLICATE_H */

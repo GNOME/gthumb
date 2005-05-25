@@ -29,7 +29,7 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <glade/glade.h>
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "pixbuf-utils.h"
 #include "gconf-utils.h"
 #include "preferences.h"
@@ -48,7 +48,7 @@ enum {
 
 
 typedef struct {
-	GThumbWindow *window;
+	GthWindow    *window;
 	ImageViewer  *viewer;
 	GladeXML     *gui;
 
@@ -126,7 +126,7 @@ ok_cb (GtkWidget  *widget,
 	g_object_unref (orig_pixbuf);
 	g_object_unref (new_pixbuf);
 
-	window_image_set_modified (data->window, TRUE);
+	gth_window_set_image_modified (data->window, TRUE);
 
 	gtk_widget_destroy (data->dialog);
 }
@@ -276,7 +276,7 @@ unit_changed (GtkOptionMenu *option_menu,
 
 
 void
-dlg_scale_image (GThumbWindow *window)
+dlg_scale_image (GthWindow *window)
 {
 	DialogData *data;
 	GtkWidget  *ok_button;
@@ -311,7 +311,7 @@ dlg_scale_image (GThumbWindow *window)
 	ok_button = glade_xml_get_widget (data->gui, "s_ok_button");
 	cancel_button = glade_xml_get_widget (data->gui, "s_cancel_button");
 
-	data->viewer = IMAGE_VIEWER (window->viewer);
+	data->viewer = gth_window_get_image_viewer (window);
 
 	pixbuf = image_viewer_get_current_pixbuf (data->viewer);
 
@@ -393,7 +393,7 @@ dlg_scale_image (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_widget_show (data->dialog);
 
 	update_ratio (data);

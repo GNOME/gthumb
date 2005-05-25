@@ -24,9 +24,9 @@
 #define DLG_OPEN_WITH_H
 
 #include <glib.h>
-#include "gthumb-window.h"
+#include <gtk/gtkwindow.h>
 
-void  open_with_cb (GThumbWindow *window, 
-		    GList        *list);
+void  dlg_open_with (GtkWindow *window, 
+		     GList     *list);
 
 #endif /* DLG_OPEN_WITH_H */

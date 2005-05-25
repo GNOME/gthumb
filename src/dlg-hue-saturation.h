@@ -23,10 +23,10 @@
 #ifndef DLG_HUE_SATURATION_H
 #define DLG_HUE_SATURATION_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_hue_saturation  (GThumbWindow *window);
+void   dlg_hue_saturation  (GthWindow *window);
 
 
 #endif /* DLG_HUE_SATURATION_H */

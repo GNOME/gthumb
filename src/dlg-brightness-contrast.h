@@ -23,10 +23,10 @@
 #ifndef DLG_BRIGHTNESSCONTRAST_H
 #define DLG_BRIGHTNESSCONTRAST_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void   dlg_brightness_contrast  (GThumbWindow *window);
+void   dlg_brightness_contrast  (GthWindow *window);
 
 
 #endif /* DLG_BRIGHTNESSCONTRAST_H */

@@ -23,10 +23,10 @@
 #ifndef DLG_JPEGTRAN_H
 #define DLG_JPEGTRAN_H
 
-#include "gthumb-window.h"
+#include "gth-window.h"
 
 
-void dlg_jpegtran (GThumbWindow *window); 
+void dlg_jpegtran (GthWindow *window);
 
 
 #endif /* DLG_JPEGTRAN_H */

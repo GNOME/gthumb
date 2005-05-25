@@ -22,12 +22,14 @@
 
 #include <config.h>
 #include <math.h>
+
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomecanvas/libgnomecanvas.h>
 
 #include "glib-utils.h"
-#include "gthumb-window.h"
+#include "gth-window.h"
 #include "gconf-utils.h"
 #include "preferences.h"
 #include "pixbuf-utils.h"
@@ -41,7 +43,7 @@
 /**/
 
 typedef struct {
-	GThumbWindow  *window;
+	GthWindow     *window;
 	GladeXML      *gui;
 
 	int            image_width, image_height;
@@ -91,7 +93,9 @@ ok_cb (GtkWidget  *widget,
 	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
 
 	if ((selection.width > 0) && (selection.height > 0)) {
-		old_pixbuf = image_viewer_get_current_pixbuf (IMAGE_VIEWER (data->window->viewer));
+		ImageViewer *image_viewer = gth_window_get_image_viewer (data->window);
+
+		old_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
 		g_object_ref (old_pixbuf);
 		new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, 
 						       selection.x, 
@@ -99,12 +103,12 @@ ok_cb (GtkWidget  *widget,
 						       selection.width, 
 						       selection.height);
 		if (new_pixbuf != NULL) {
-			image_viewer_set_pixbuf (IMAGE_VIEWER (data->window->viewer), new_pixbuf);
+			image_viewer_set_pixbuf (image_viewer, new_pixbuf);
 			g_object_unref (new_pixbuf);
 		}
 		g_object_unref (old_pixbuf);
 
-		window_image_set_modified (data->window, TRUE);
+		gth_window_set_image_modified (data->window, TRUE);
 	}
 
 	gtk_widget_destroy (data->dialog);
@@ -301,7 +305,7 @@ ratio_swap_button_cb (GtkButton *button,
 
 
 void
-dlg_crop (GThumbWindow *window)
+dlg_crop (GthWindow *window)
 {
 	DialogData   *data;
 	GtkWidget    *crop_frame;
@@ -353,7 +357,7 @@ dlg_crop (GThumbWindow *window)
 
 	/* Set widgets data. */
 
-	pixbuf = image_viewer_get_current_pixbuf (IMAGE_VIEWER (data->window->viewer));
+	pixbuf = image_viewer_get_current_pixbuf (gth_window_get_image_viewer (data->window));
 	data->image_width = gdk_pixbuf_get_width (pixbuf);
 	data->image_height = gdk_pixbuf_get_height (pixbuf);
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), pixbuf);
@@ -454,6 +458,6 @@ dlg_crop (GThumbWindow *window)
 	/* Run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
-				      GTK_WINDOW (window->app));
+				      GTK_WINDOW (window));
 	gtk_widget_show (data->dialog);
 }

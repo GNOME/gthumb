@@ -24,10 +24,8 @@
 #define DLG_COMMENT_H
 
 
-GtkWidget *   dlg_comment_new      (GThumbWindow *window);
-
+GtkWidget *   dlg_comment_new      (GthWindow *window);
 void          dlg_comment_update   (GtkWidget *dlg);
-
 void          dlg_comment_close    (GtkWidget *dlg);
 
 

@@ -26,8 +26,6 @@ INCLUDES =					\
 bin_PROGRAMS = gthumb
 
 gthumb_SOURCES = 			\
-	actions.c			\
-	actions.h			\
 	auto-completion.c		\
 	auto-completion.h		\
 	bookmark-list.c			\
@@ -74,8 +72,12 @@ gthumb_SOURCES = 			\
 	dlg-write-to-cd.h		\
 	e-combo-button.c		\
 	e-combo-button.h		\
-	fullscreen.c			\
-	fullscreen.h			\
+	gth-browser.c			\
+	gth-browser.h			\
+	gth-browser-actions-entries.h	\
+	gth-browser-actions-callbacks.h	\
+	gth-browser-actions-callbacks.c	\
+	gth-browser-ui.h		\
 	gth-image-selector.c		\
 	gth-image-selector.h		\
 	gth-exif-data-viewer.c		\
@@ -86,17 +88,24 @@ gthumb_SOURCES = 			\
 	gth-folder-selection-dialog.h	\
 	gth-toggle-button.c		\
 	gth-toggle-button.h		\
+	gth-viewer.c			\
+	gth-viewer.h			\
+	gth-viewer-actions-entries.h	\
+	gth-viewer-actions-callbacks.h	\
+	gth-viewer-actions-callbacks.c	\
+	gth-viewer-ui.h			\
+	gth-window.c			\
+	gth-window.h			\
+	gth-window-actions-callbacks.h	\
+	gth-window-actions-callbacks.c	\
 	gtkorientationbox.c		\
 	gtkorientationbox.h		\
 	gthumb-preloader.c		\
 	gthumb-preloader.h		\
-	gthumb-window.c			\
-	gthumb-window.h			\
 	gtkcellrendererthreestates.h	\
 	gtkcellrendererthreestates.c	\
 	main.c				\
-	main.h				\
-	ui.h
+	main.h
 
 gthumb_LDADD = 					\
 	$(EXIF_LIBS)				\
