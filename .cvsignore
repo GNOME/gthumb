@@ -1,5 +1,6 @@
 *.tar.gz
 *.patch
+*.diff
 ABOUT-NLS
 COPYING
 Compile.sh
