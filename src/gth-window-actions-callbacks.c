@@ -158,6 +158,55 @@ gth_window_activate_action_file_print (GtkAction *action,
 
 
 void
+gth_window_activate_action_edit_edit_comment (GtkAction *action,
+					      GthWindow *window)
+{
+	gth_window_edit_comment (window);
+}
+
+
+void
+gth_window_activate_action_edit_delete_comment (GtkAction *action,
+						GthWindow *window)
+{
+	GList *list, *scan;
+
+	list = gth_window_get_file_list_selection (window);
+	for (scan = list; scan; scan = scan->next) {
+		char        *filename = scan->data;
+		CommentData *cdata;
+
+		cdata = comments_load_comment (filename);
+		comment_data_free_comment (cdata);
+		if (! comment_data_is_void (cdata))
+			comments_save_comment (filename, cdata);
+		else
+			comment_delete (filename);
+		comment_data_free (cdata);
+
+		all_windows_notify_update_comment (filename);
+	}
+	path_list_free (list);
+
+	gth_window_update_current_image_metadata (window);
+
+	/* FIXME
+	if (window->image_prop_dlg != NULL)
+		dlg_image_prop_update (window->image_prop_dlg);
+	*/
+}
+
+
+void
+gth_window_activate_action_edit_edit_categories (GtkAction *action,
+						 GthWindow *window)
+{
+	gth_window_edit_categories (window);
+}
+
+
+
+void
 gth_window_activate_action_alter_image_rotate90 (GtkAction *action,
 						 gpointer   data)
 {
@@ -351,45 +400,33 @@ gth_window_activate_action_alter_image_stretch_contrast (GtkAction *action,
 
 void
 gth_window_activate_action_alter_image_posterize (GtkAction *action,
-						  gpointer   data)
+						  GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_posterize (window);
-	*/
+	dlg_posterize (window);
 }
 
 
 void
 gth_window_activate_action_alter_image_brightness_contrast (GtkAction *action,
-							    gpointer   data)
+							    GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_brightness_contrast (window);
-	*/
+	dlg_brightness_contrast (window);
 }
 
 
 void
 gth_window_activate_action_alter_image_hue_saturation (GtkAction *action,
-						       gpointer   data)
+						       GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_hue_saturation (window);
-	*/
+	dlg_hue_saturation (window);
 }
 
 
 void
 gth_window_activate_action_alter_image_color_balance (GtkAction *action,
-						      gpointer   data)
+						      GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_color_balance (window);
-	*/
+	dlg_color_balance (window);
 }
 
 
@@ -402,12 +439,9 @@ gth_window_activate_action_alter_image_threshold (GtkAction *action,
 
 void
 gth_window_activate_action_alter_image_resize (GtkAction *action,
-					       gpointer   data)
+					       GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_scale_image (window);
-	*/
+	dlg_scale_image (window);
 }
 
 
@@ -420,12 +454,9 @@ gth_window_activate_action_alter_image_rotate (GtkAction *action,
 
 void
 gth_window_activate_action_alter_image_crop (GtkAction *action,
-					     gpointer   data)
+					     GthWindow *window)
 {
-	/*
-	  GthWindow *window = GTH_WINDOW (data);
-	  dlg_crop (window);
-	*/
+	dlg_crop (window);
 }
 
 
@@ -472,29 +503,17 @@ gth_window_activate_action_view_zoom_fit (GtkAction *action,
 
 void
 gth_window_activate_action_view_fullscreen (GtkAction *action,
-					    gpointer   data)
+					    GthWindow *window)
 {
-	/*
-	  GthWindow  *window = GTH_WINDOW (data);
-
-	  if (! window->fullscreen)
-	  fullscreen_start (fullscreen, window);
-	  else
-	  fullscreen_stop (fullscreen);
-	*/
+	gth_window_set_fullscreen (window, TRUE);
 }
 
 
 void
 gth_window_activate_action_view_exit_fullscreen (GtkAction *action,
-						 gpointer   data)
+						 GthWindow *window)
 {
-	/*
-	GThumbWindow *window = data;
-
-	if (window->fullscreen)
-		fullscreen_stop (fullscreen);
-	*/
+	gth_window_set_fullscreen (window, FALSE);
 }
 
 
@@ -704,38 +723,18 @@ gth_window_activate_action_help_shortcuts (GtkAction *action,
 
 
 void
-gth_window_activate_action_view_play_animation (GtkAction *action,
-						gpointer   data)
+gth_window_activate_action_view_toggle_animation (GtkAction *action,
+						  GthWindow *window)
 {
-	/*
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
-	
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		image_viewer_start_animation (viewer);
-	else
-		image_viewer_stop_animation (viewer);
-
-	set_action_sensitive (window, "View_StepAnimation", 
-			      (image_viewer_is_animation (viewer) 
-			       && ! image_viewer_is_playing_animation (viewer)));
-	*/
+	gth_window_set_animation (window, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 
 void
 gth_window_activate_action_view_step_animation (GtkAction *action,
-						gpointer   data)
+						GthWindow *window)
 {
-	/*
-	GThumbWindow *window = data;
-	ImageViewer *viewer = IMAGE_VIEWER (window->viewer);
-
-	if (! viewer->is_animation)
-		return;
-
-	image_viewer_step_animation (viewer);
-	*/
+	gth_window_step_animation (window);
 }
 
 

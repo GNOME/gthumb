@@ -1,5 +1,17 @@
 2005-05-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-callbacks.c: 
+	* src/gth-viewer.c: 
+	* src/gth-viewer-actions-callbacks.c: 
+	* src/gth-browser.c:
+	* src/gth-browser-ui.h: 
+	* src/gth-browser-actions-entries.h: 
+	* src/gth-browser-actions-callbacks.c:
+	* src/gth-browser-actions-callbacks.h: 
+	Implemented many functions; moved some function to 
+	gth-window-action-callbacks.c
+
 	* many_files: Code reorganization.  Removed gthumb-window.[ch]; created
 	a base window class in gth-window.c;  moved the browser window in
 	gth-browser.c; Added a viewer window in gth-viewer.c

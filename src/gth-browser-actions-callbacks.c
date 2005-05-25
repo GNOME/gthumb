@@ -492,52 +492,6 @@ gth_browser_activate_action_edit_select_all (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_edit_edit_comment (GtkAction  *action,
-					       GthBrowser *browser)
-{
-	gth_browser_show_comment_dlg (browser);
-}
-
-
-void
-gth_browser_activate_action_edit_delete_comment (GtkAction  *action,
-						 GthBrowser *browser)
-{
-	GList *list, *scan;
-
-	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
-	for (scan = list; scan; scan = scan->next) {
-		char        *filename = scan->data;
-		CommentData *cdata;
-
-		cdata = comments_load_comment (filename);
-		comment_data_free_comment (cdata);
-		if (! comment_data_is_void (cdata))
-			comments_save_comment (filename, cdata);
-		else
-			comment_delete (filename);
-		comment_data_free (cdata);
-
-		all_windows_notify_update_comment (filename);
-	}
-	path_list_free (list);
-
-	/* FIXME
-	if (window->image_prop_dlg != NULL)
-		dlg_image_prop_update (window->image_prop_dlg);
-	*/
-}
-
-
-void
-gth_browser_activate_action_edit_edit_categories (GtkAction  *action,
-						  GthBrowser *browser)
-{
-	gth_browser_show_categories_dlg (browser);
-}
-
-
-void
 gth_browser_activate_action_edit_add_to_catalog (GtkAction *action,
 						 GthWindow *window)
 {
@@ -2027,14 +1981,6 @@ gth_browser_activate_action_view_thumbnails (GtkAction *action,
 					     gpointer   data)
 {
 	eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-}
-
-
-void
-gth_browser_activate_action_view_play_animation (GtkAction  *action,
-						 GthBrowser *browser)
-{
-	gth_window_set_animation (GTH_WINDOW (browser), gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }
 
 

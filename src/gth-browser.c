@@ -314,7 +314,7 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
-#define HISTORY_LIST_MENU      "/MenuBar/View/Go/HistoryList"
+#define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
 #define HISTORY_LIST_POPUP     "/HistoryListPopup"
 
 enum {
@@ -3107,16 +3107,6 @@ key_press_cb (GtkWidget   *widget,
 		gth_window_activate_action_view_zoom_fit (NULL, browser);
 		return TRUE;
 
-		/* Play animation */
-	case GDK_g:
-		gth_window_set_animation (GTH_WINDOW (browser), !gth_window_get_animation (GTH_WINDOW (browser)));
-		return TRUE;
-
-		/* Step animation */
-	case GDK_j:
-		gth_window_step_animation (GTH_WINDOW (browser));
-		return TRUE;
-
 		/* Show previous image. */
 	case GDK_p:
 	case GDK_b:
@@ -3192,16 +3182,14 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_c:
 		if (! sel_not_null)
 			break;
-
-		gth_browser_activate_action_edit_edit_comment (NULL, browser);
+		gth_window_edit_comment (GTH_WINDOW (browser));
 		return TRUE;
 
 		/* Edit categories */
 	case GDK_k:
 		if (! sel_not_null)
 			break;
-
-		gth_browser_activate_action_edit_edit_categories (NULL, browser);
+		gth_window_edit_categories (GTH_WINDOW (browser));
 		return TRUE;
 
 	case GDK_Escape:
@@ -3375,7 +3363,7 @@ image_comment_button_press_cb (GtkWidget      *widget,
 
 	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) 
 		if (gth_file_view_selection_not_null (browser->priv->file_list->view)) {
-			gth_browser_activate_action_edit_edit_comment (NULL, browser); 
+			gth_window_edit_comment (GTH_WINDOW (browser)); 
 			return TRUE;
 		}
 	return FALSE;
@@ -7839,30 +7827,6 @@ gth_browser_set_image_prop_dlg (GthBrowser *browser,
 }
 
 
-void
-gth_browser_show_comment_dlg (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->comment_dlg == NULL) 
-		priv->comment_dlg = dlg_comment_new (GTH_WINDOW (browser));
-	else
-		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
-}
-
-
-void
-gth_browser_show_categories_dlg (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->categories_dlg == NULL) 
-		priv->categories_dlg = dlg_categories_new (GTH_WINDOW (browser));
-	else
-		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
-}
-
-
 static ImageViewer *
 gth_browser_get_image_viewer (GthWindow *window)
 {
@@ -9003,8 +8967,8 @@ gth_browser_set_animation (GthWindow *window,
 	GthBrowser  *browser = GTH_BROWSER (window);
 	ImageViewer *viewer = IMAGE_VIEWER (browser->priv->viewer);
 
-	set_action_active (browser, "View_PlayAnimation", ! play);
-	set_action_active (browser, "View_StepAnimation", play);
+	set_action_active (browser, "View_PlayAnimation", play);
+	set_action_sensitive (browser, "View_StepAnimation", ! play);
 	if (play)
 		image_viewer_start_animation (viewer);
 	else
@@ -9039,12 +9003,26 @@ gth_browser_delete_image (GthWindow *window)
 static void           
 gth_browser_edit_comment (GthWindow *window)
 {
+	GthBrowser *browser = GTH_BROWSER (window);
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->comment_dlg == NULL) 
+		priv->comment_dlg = dlg_comment_new (GTH_WINDOW (browser));
+	else
+		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
 }
 
 
 static void           
 gth_browser_edit_categories (GthWindow *window)
 {
+	GthBrowser *browser = GTH_BROWSER (window);
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->categories_dlg == NULL) 
+		priv->categories_dlg = dlg_categories_new (GTH_WINDOW (browser));
+	else
+		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
 }
 
 

@@ -31,23 +31,25 @@
 #include "jpegutils/jpeg-data.h"
 #endif /* HAVE_LIBEXIF */
 
-#include "gth-viewer.h"
-#include "glib-utils.h"
-#include "gconf-utils.h"
-#include "gtk-utils.h"
-#include "file-utils.h"
-#include "file-data.h"
-#include "jpeg-utils.h"
-#include "typedefs.h"
 #include "comments.h"
-#include "preferences.h"
-#include "image-viewer.h"
 #include "dlg-save-image.h"
+#include "dlg-categories.h"
+#include "dlg-comment.h"
+#include "file-data.h"
+#include "file-utils.h"
+#include "gconf-utils.h"
+#include "glib-utils.h"
+#include "gth-viewer.h"
 #include "gth-viewer-ui.h"
 #include "gth-exif-data-viewer.h"
 #include "gth-exif-utils.h"
 #include "gthumb-info-bar.h"
+#include "gtk-utils.h"
 #include "nav-window.h"
+#include "image-viewer.h"
+#include "jpeg-utils.h"
+#include "preferences.h"
+#include "typedefs.h"
 
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
@@ -974,15 +976,13 @@ image_comment_button_press_cb (GtkWidget      *widget,
 			       GdkEventButton *event,
 			       gpointer        data)
 {
-	/*
 	GthViewer *viewer = data;
 
-	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) 
-		if (gth_file_view_selection_not_null (window->file_list->view)) {
-			activate_action_edit_edit_comment (NULL, window); 
-			return TRUE;
-		}
-	*/
+	if ((event->button == 1) && (event->type == GDK_2BUTTON_PRESS)) {
+		gth_window_edit_comment (GTH_WINDOW (viewer)); 
+		return TRUE;
+	}
+
 	return FALSE;
 }
 
@@ -1809,8 +1809,8 @@ gth_viewer_set_animation (GthWindow *window,
 	GthViewer   *viewer = GTH_VIEWER (window);
 	ImageViewer *image_viewer = IMAGE_VIEWER (viewer->priv->viewer);
 
-	set_action_active (viewer, "View_PlayAnimation", ! play);
-	set_action_active (viewer, "View_StepAnimation", play);
+	set_action_active (viewer, "View_PlayAnimation", play);
+	set_action_sensitive (viewer, "View_StepAnimation", ! play);
 	if (play)
 		image_viewer_start_animation (image_viewer);
 	else
@@ -1843,12 +1843,26 @@ gth_viewer_delete_image (GthWindow *window)
 static void           
 gth_viewer_edit_comment (GthWindow *window)
 {
+	GthViewer            *viewer = GTH_VIEWER (window);
+	GthViewerPrivateData *priv = viewer->priv;
+
+	if (priv->comment_dlg == NULL) 
+		priv->comment_dlg = dlg_comment_new (GTH_WINDOW (viewer));
+	else
+		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
 }
 
 
 static void           
 gth_viewer_edit_categories (GthWindow *window)
 {
+	GthViewer            *viewer = GTH_VIEWER (window);
+	GthViewerPrivateData *priv = viewer->priv;
+
+	if (priv->categories_dlg == NULL) 
+		priv->categories_dlg = dlg_categories_new (GTH_WINDOW (viewer));
+	else
+		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
 }
 
 
