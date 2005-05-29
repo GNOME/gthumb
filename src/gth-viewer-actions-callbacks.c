@@ -22,6 +22,7 @@
 
 #include <config.h>
 
+#include "gconf-utils.h"
 #include "gth-window.h"
 #include "gth-browser.h"
 #include "gth-viewer.h"

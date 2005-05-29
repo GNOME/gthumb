@@ -1,5 +1,8 @@
 2005-05-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/Makefile.am ($(server_in_files): use TAB instead of 8 spaces.
+	* src/gth-viewer-actions-callbacks.c: include gconf-utils.h
+
 	* src/main.c: 
 	* src/gth-application.c:
 	* src/gth-application.h:
