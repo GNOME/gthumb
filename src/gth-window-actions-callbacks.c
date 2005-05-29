@@ -130,6 +130,14 @@ void
 gth_window_activate_action_file_save (GtkAction *action,
 				      gpointer   data)
 {
+	/* FIXME */
+}
+
+
+void
+gth_window_activate_action_file_save_as (GtkAction *action,
+					 gpointer   data)
+{
 	GthWindow   *window = GTH_WINDOW (data);
 	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
 	gth_window_save_pixbuf (window, image_viewer_get_current_pixbuf (image_viewer));
@@ -624,7 +632,6 @@ gth_window_activate_action_help_about (GtkAction *action,
 {
 	GthWindow *window = GTH_WINDOW (data);
 	static GtkWidget *about;
-	GdkPixbuf *logo;
 	const char *authors[] = {
 		"Paolo Bacchilega <paolo.bacchilega@libero.it>",
 		NULL
@@ -643,8 +650,6 @@ gth_window_activate_action_help_about (GtkAction *action,
 		return;
 	}
 
-	logo = gdk_pixbuf_new_from_file (PIXMAPSDIR "/gthumb.png", NULL);
-
 	about = gtk_about_dialog_new ();
 	g_object_set (about,
 		      "name", _("gThumb"), 
@@ -654,12 +659,9 @@ gth_window_activate_action_help_about (GtkAction *action,
 		      "authors", authors,
 		      "documenters", documenters,
 		      "translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
-		      "logo", logo,
+		      "logo_icon_name", "gthumb",
 		      "website", "http://gthumb.sourceforge.net",
 		      NULL);
-
-	if (logo != NULL)
-                g_object_unref (logo);
 
 	gtk_window_set_destroy_with_parent (GTK_WINDOW (about), TRUE);
 	gtk_window_set_transient_for (GTK_WINDOW (about),

@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include "gth-window.h"
+#include "gth-browser.h"
 #include "gth-viewer.h"
 #include "image-viewer.h"
 #include "comments.h"
@@ -40,6 +41,23 @@ gth_viewer_activate_action_file_new_window (GtkAction *action,
 
 	new_viewer = gth_viewer_new (gth_window_get_image_filename (window));
 	gtk_widget_show (new_viewer);
+}
+
+
+void
+gth_viewer_activate_action_file_open_folder (GtkAction *action,
+					     gpointer   data)
+{
+	GthWindow *window = GTH_WINDOW (data);
+	char      *image_folder;
+	GtkWidget *new_window;
+	
+	ImageToDisplay = g_strdup (gth_window_get_image_filename (window));
+	image_folder = remove_level_from_path (ImageToDisplay);
+	new_window = gth_browser_new (image_folder);
+	gtk_widget_show (new_window);
+
+	g_free (image_folder);
 }
 
 
@@ -78,9 +96,7 @@ void
 gth_viewer_activate_action_view_toolbar (GtkAction *action,
 					 gpointer   data)
 {
-	/*
 	eel_gconf_set_boolean (PREF_UI_TOOLBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-	*/
 }
 
 
@@ -88,9 +104,7 @@ void
 gth_viewer_activate_action_view_statusbar (GtkAction *action,
 				gpointer   data)
 {
-	/*
 	eel_gconf_set_boolean (PREF_UI_STATUSBAR_VISIBLE, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
-	*/
 }
 
 

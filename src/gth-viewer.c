@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include <string.h>
+
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -60,6 +62,7 @@
 #define DEFAULT_WIN_HEIGHT 400
 #define DISPLAY_PROGRESS_DELAY 750
 #define PANE_MIN_SIZE 60
+#define GCONF_NOTIFICATIONS 2
 
 
 struct _GthViewerPrivateData {
@@ -100,6 +103,10 @@ struct _GthViewerPrivateData {
 #ifdef HAVE_LIBEXIF
 	ExifData        *exif_data;
 #endif /* HAVE_LIBEXIF */
+
+	/* misc */
+
+	guint            cnxn_id[GCONF_NOTIFICATIONS];
 
 	/* save_pixbuf data */
 
@@ -184,14 +191,13 @@ static void
 gth_viewer_finalize (GObject *object)
 {
 	GthViewer *viewer = GTH_VIEWER (object);
+	int        i;
 
 	debug (DEBUG_INFO, "Gth::Viewer::Finalize");
 
-	/* FIXME
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
-		if (window->priv->cnxn_id[i] != -1)
-			eel_gconf_notification_remove (window->priv->cnxn_id[i]);
-	*/
+		if (viewer->priv->cnxn_id[i] != -1)
+			eel_gconf_notification_remove (viewer->priv->cnxn_id[i]);
 
 	if (viewer->priv != NULL) {
 		GthViewerPrivateData *priv = viewer->priv;
@@ -277,29 +283,54 @@ connect_proxy_cb (GtkUIManager *manager,
 }
 
 
-/* FIXME
 static void
-pref_view_toolbar_changed (GConfClient *client,
-			   guint        cnxn_id,
-			   GConfEntry  *entry,
-			   gpointer     user_data)
+gth_viewer_set_toolbar_visibility (GthViewer *viewer,
+				   gboolean   visible)
+{
+	g_return_if_fail (viewer != NULL);
+
+	set_action_active (viewer, "View_Toolbar", visible);
+	if (visible)
+		gtk_widget_show (viewer->priv->toolbar->parent);
+	else
+		gtk_widget_hide (viewer->priv->toolbar->parent);
+}
+
+
+static void
+pref_ui_toolbar_visible_changed (GConfClient *client,
+				 guint        cnxn_id,
+				 GConfEntry  *entry,
+				 gpointer     user_data)
 {
 	GthViewer *viewer = user_data;
-	g_return_if_fail (viewer != NULL);
 	gth_viewer_set_toolbar_visibility (viewer, gconf_value_get_bool (gconf_entry_get_value (entry)));
 }
 
 
 static void
-pref_view_statusbar_changed (GConfClient *client,
-			     guint        cnxn_id,
-			     GConfEntry  *entry,
-			     gpointer     user_data)
+gth_viewer_set_statusbar_visibility  (GthViewer *viewer,
+				      gboolean   visible)
 {
-	GooWindow *window = user_data;
-	goo_window_set_statusbar_visibility (window, gconf_value_get_bool (gconf_entry_get_value (entry)));
+	g_return_if_fail (viewer != NULL);
+
+	set_action_active (viewer, "View_Statusbar", visible);
+	if (visible) 
+		gtk_widget_show (viewer->priv->statusbar);
+	else
+		gtk_widget_hide (viewer->priv->statusbar);
 }
-*/
+
+
+static void
+pref_ui_statusbar_visible_changed (GConfClient *client,
+				   guint        cnxn_id,
+				   GConfEntry  *entry,
+				   gpointer     user_data)
+{
+	GthViewer *viewer = user_data;
+	gth_viewer_set_statusbar_visibility (viewer, gconf_value_get_bool (gconf_entry_get_value (entry)));
+}
 
 
 static void 
@@ -358,32 +389,6 @@ first_time_idle (gpointer callback_data)
 }
 
 
-static void
-gth_viewer_set_toolbar_visibility (GthViewer *viewer,
-				   gboolean   visible)
-{
-	g_return_if_fail (viewer != NULL);
-
-	if (visible)
-		gtk_widget_show (viewer->priv->toolbar->parent);
-	else
-		gtk_widget_hide (viewer->priv->toolbar->parent);
-}
-
-
-static void
-gth_viewer_set_statusbar_visibility  (GthViewer *viewer,
-				      gboolean   visible)
-{
-	g_return_if_fail (viewer != NULL);
-
-	if (visible) 
-		gtk_widget_show (viewer->priv->statusbar);
-	else
-		gtk_widget_hide (viewer->priv->statusbar);
-}
-
-
 static void 
 gth_viewer_show (GtkWidget *widget)
 {
@@ -396,11 +401,9 @@ gth_viewer_show (GtkWidget *widget)
 		viewer->priv->first_time_show = FALSE;
 
 	view_foobar = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE);
-	set_action_active (viewer, "View_Toolbar", view_foobar);
 	gth_viewer_set_toolbar_visibility (viewer, view_foobar);
 
 	view_foobar = eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE);
-	set_action_active (viewer, "View_Statusbar", view_foobar);
 	gth_viewer_set_statusbar_visibility (viewer, view_foobar);
 
 	if (viewer->priv->first_timeout_handle == 0)
@@ -1074,13 +1077,12 @@ gth_viewer_construct (GthViewer   *viewer,
 	GtkActionGroup       *actions;
 	GtkUIManager         *ui;
 	GError               *error = NULL;		
+	int                   i;
 
 	g_signal_connect (G_OBJECT (viewer), 
 			  "key_press_event",
 			  G_CALLBACK (viewer_key_press_cb), 
 			  viewer);
-
-	gnome_window_icon_set_from_default (GTK_WINDOW (viewer));
 
 	/* Create the widgets. */
 
@@ -1090,21 +1092,30 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	priv->actions = actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (actions, NULL);
+
 	gtk_action_group_add_actions (actions, 
-				      gth_viewer_action_entries, 
-				      gth_viewer_n_action_entries, 
+				      gth_window_action_entries, 
+				      gth_window_action_entries_size, 
 				      viewer);
 	gtk_action_group_add_toggle_actions (actions, 
-					     gth_viewer_action_toggle_entries, 
-					     gth_viewer_n_action_toggle_entries, 
+					     gth_window_action_toggle_entries, 
+					     gth_window_action_toggle_entries_size, 
 					     viewer);
-
 	gtk_action_group_add_radio_actions (actions, 
-					    gth_viewer_zoom_quality_entries, 
-					    gth_viewer_n_zoom_quality_entries,
+					    gth_window_zoom_quality_entries, 
+					    gth_window_zoom_quality_entries_size,
 					    GTH_ZOOM_QUALITY_HIGH,
 					    G_CALLBACK (zoom_quality_radio_action), 
 					    viewer);
+
+	gtk_action_group_add_actions (actions, 
+				      gth_viewer_action_entries, 
+				      gth_viewer_action_entries_size, 
+				      viewer);
+	gtk_action_group_add_toggle_actions (actions, 
+					     gth_viewer_action_toggle_entries, 
+					     gth_viewer_action_toggle_entries_size, 
+					     viewer);
 
 	priv->ui = ui = gtk_ui_manager_new ();
 	
@@ -1139,7 +1150,7 @@ gth_viewer_construct (GthViewer   *viewer,
 			      1, 1, 0);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
-	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), FALSE);
+	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
 
 	gnome_app_add_docked (GNOME_APP (viewer),
 			      toolbar,
@@ -1440,35 +1451,17 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/* Add notification callbacks. */
 
-	/* FIXME
 	i = 0;
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_TOOLBAR,
-					   pref_view_toolbar_changed,
+					   PREF_UI_TOOLBAR_VISIBLE,
+					   pref_ui_toolbar_visible_changed,
 					   viewer);
-	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_STATUSBAR,
-					   pref_view_statusbar_changed,
-					   window);
-	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_UI_PLAYLIST,
-					   pref_view_playlist_changed,
-					   window);
-	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_PLAYLIST_PLAYALL,
-					   pref_playlist_playall_changed,
-					   window);
-	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_PLAYLIST_SHUFFLE,
-					   pref_playlist_shuffle_changed,
-					   window);
-	priv->cnxn_id[i++] = eel_gconf_notification_add (
-					   PREF_PLAYLIST_REPEAT,
-					   pref_playlist_repeat_changed,
-					   window);
 
-	*/
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_UI_STATUSBAR_VISIBLE,
+					   pref_ui_statusbar_visible_changed,
+					   viewer);
 
 	/* Progress dialog */
 

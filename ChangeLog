@@ -1,3 +1,45 @@
+2005-05-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c: 
+	* src/gth-application.c:
+	* src/gth-application.h:
+	* src/Makefile.am:
+	* data/Makefile.am:
+	* components/image-viewer/Makefile.am: 
+	* components/catalog-view/Makefile.am: 
+	* configure.in:
+
+	Added a window factory to use only one executable.
+	
+	* src/gth-window-actions-entries.h
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-callbacks.c:
+
+	Moved common actions to gth-window-actions-callbacks.c
+
+	* src/gth-browser.c: 
+	* src/gth-browser-ui.h: 
+	* src/gth-browser-actions-entries.h: 
+
+	Implemented the history list both in the Go menu and for the toolbar
+	back button.
+	
+	* src/gth-viewer.c: 
+	* src/gth-viewer-ui.h: 
+	* src/gth-viewer-actions-entries.h: 
+	* src/gth-viewer-actions-callbacks.c: 
+	* src/gth-viewer-actions-callbacks.h: 
+
+	Implemented more missing actions.
+
+	* src/dlg-png-exporter.c (dlg_exporter): use get_file_list_selection
+	instead of get_file_list_selection_as_fd.
+
+	* po/POTFILES.in: updated.
+
+	* src/e-combo-button.c:
+	* src/e-combo-button.h: removed, not used anymore.
+	
 2005-05-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-window-actions-callbacks.h:

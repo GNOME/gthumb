@@ -28,6 +28,7 @@
 #define DEFINE_ACTION(x) void x (GtkAction *action, gpointer data);
 
 DEFINE_ACTION(gth_viewer_activate_action_file_new_window)
+DEFINE_ACTION(gth_viewer_activate_action_file_open_folder)
 DEFINE_ACTION(gth_viewer_activate_action_file_revert)
 DEFINE_ACTION(gth_viewer_activate_action_edit_add_to_catalog)
 DEFINE_ACTION(gth_viewer_activate_action_view_toolbar)

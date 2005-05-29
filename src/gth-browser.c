@@ -22,6 +22,8 @@
 
 #include <config.h>
 
+#include <string.h>
+
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -46,14 +48,10 @@
 #include "dlg-file-utils.h"
 #include "dlg-image-prop.h"
 #include "dlg-save-image.h"
-#include "e-combo-button.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
-#include "gth-window-actions-callbacks.h"
 #include "gth-browser.h"
-#include "gth-browser-actions-entries.h"
-#include "gth-browser-actions-callbacks.h"
 #include "gth-browser-ui.h"
 #include "gth-exif-data-viewer.h"
 #include "gth-exif-utils.h"
@@ -108,6 +106,8 @@ struct _GthBrowserPrivateData {
 	guint               bookmarks_merge_id;
 	guint               history_merge_id;
 
+	GtkToolItem        *go_back_tool_item;
+
 	GtkWidget          *toolbar;
 	GtkWidget          *statusbar;
 
@@ -126,10 +126,6 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *viewer_vscr;
 	GtkWidget          *viewer_hscr;
 	GtkWidget          *viewer_event_box;
-	GtkWidget          *go_back_toolbar_button;
-	GtkWidget          *go_fwd_toolbar_button;
-	GtkWidget          *go_up_toolbar_button;
-	GtkWidget          *go_home_toolbar_button;
 	GtkWidget          *show_folders_toolbar_button;
 	GtkWidget          *show_catalog_toolbar_button;
 
@@ -468,13 +464,9 @@ window_update_statusbar_image_info (GthBrowser *browser)
 	path = priv->image_path;
 
 	if ((path == NULL) || priv->image_error) {
-		if (! GTK_WIDGET_VISIBLE (priv->image_info_frame))
-			return;
-		gtk_widget_hide (priv->image_info_frame);
+		gtk_label_set_text (GTK_LABEL (priv->image_info), "");
 		return;
-
-	} else if (! GTK_WIDGET_VISIBLE (priv->image_info_frame)) 
-		gtk_widget_show (priv->image_info_frame);
+	}
 
 	if (!image_viewer_is_void (IMAGE_VIEWER (priv->viewer))) {
 		width = image_viewer_get_image_width (IMAGE_VIEWER (priv->viewer));
@@ -764,11 +756,9 @@ window_update_go_sensitivity (GthBrowser *browser)
 
 	sensitive = (priv->history_current != NULL) && (priv->history_current->next != NULL);
 	set_action_sensitive (browser, "Go_Back", sensitive);
-	gtk_widget_set_sensitive (priv->go_back_toolbar_button, sensitive);
 
 	sensitive = (priv->history_current != NULL) && (priv->history_current->prev != NULL);
 	set_action_sensitive (browser, "Go_Forward", sensitive);
-	gtk_widget_set_sensitive (priv->go_fwd_toolbar_button, sensitive);
 }
 
 
@@ -849,7 +839,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "File_OpenWith", sel_not_null && not_fullscreen);
 
-	set_action_sensitive (browser, "File_Save", ! image_is_void);
+	set_action_sensitive (browser, "File_SaveAs", ! image_is_void);
 	set_action_sensitive (browser, "File_Revert", ! image_is_void && priv->image_modified);
 	set_action_sensitive (browser, "File_Print", ! image_is_void || sel_not_null);
 
@@ -1368,17 +1358,6 @@ add_bookmark_menu_item (GthBrowser     *browser,
 		stock_id = GTK_STOCK_OPEN;
 	g_free (menu_name);
 
-	/*
-	else if (pref_util_location_is_catalog (path)) 
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
-	else if (pref_util_location_is_search (path))
-		pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
-	else if (folder_is_film (path))
-		pixbuf = gtk_widget_render_icon (priv->app, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
-	else
-		pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_menu (priv->app));
-	*/
-
 	action = g_object_new (GTK_TYPE_ACTION,
 			       "name", name,
 			       "label", e_label,
@@ -1466,8 +1445,6 @@ gth_browser_update_bookmark_list (GthBrowser *browser)
 
 	g_list_free (names);
 
-	/*gtk_ui_manager_ensure_update (priv->ui);*/
-
 	if (priv->bookmarks_dlg != NULL)
 		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
 }
@@ -1517,13 +1494,20 @@ window_update_history_list (GthBrowser *browser)
 					priv->history,
 					"History",
 					i,
-					HISTORY_LIST_POPUP,
+					HISTORY_LIST_MENU,
 					scan->data);
+		if (i > 0)
+			add_bookmark_menu_item (browser,
+						priv->history_actions,
+						priv->history_merge_id,
+						priv->history,
+						"History",
+						i,
+						HISTORY_LIST_POPUP,
+						scan->data);
 		i++;
 	}
 	priv->history_length = i;
-
-	/*gtk_ui_manager_ensure_update (priv->ui);*/
 }
 
 
@@ -1899,7 +1883,6 @@ real_set_void (char     *filename,
 		priv->image_mtime = 0;
 		priv->image_modified = FALSE;
 	}
-
 
 	image_viewer_set_void (IMAGE_VIEWER (priv->viewer));
 
@@ -4309,54 +4292,6 @@ progress_delete_cb (GtkWidget  *caller,
 }
 
 
-/* -- setup toolbar custom widgets -- */
-
-
-static gboolean
-combo_button_activate_default_callback (EComboButton *combo_button,
-					void         *data)
-{
-	gth_browser_activate_action_go_back (NULL, (GthBrowser*) data);
-	return TRUE;
-}
-
-
-static void
-setup_toolbar_go_back_button (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GtkWidget             *combo_button;
-	GtkMenu               *menu;
-	GdkPixbuf             *icon;
-
-	icon = gtk_widget_render_icon (GTK_WIDGET (browser),
-				       GTK_STOCK_GO_BACK,
-				       GTK_ICON_SIZE_LARGE_TOOLBAR,
-				       "");
-
-	combo_button = e_combo_button_new ();
-
-	menu = (GtkMenu*) gtk_ui_manager_get_widget (priv->ui, "/HistoryListPopup");
-	e_combo_button_set_menu (E_COMBO_BUTTON (combo_button), menu);
-	e_combo_button_set_label (E_COMBO_BUTTON (combo_button), _("Back"));
-
-	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button), icon);
-	g_object_unref (icon);
-
-	gtk_widget_show (combo_button);
-
-	e_combo_button_set_style (E_COMBO_BUTTON (combo_button), GTH_TOOLBAR_STYLE_ICONS);
-
-	g_signal_connect (combo_button, "activate_default",
-			  G_CALLBACK (combo_button_activate_default_callback),
-			  browser);
-
-	priv->go_back_toolbar_button = combo_button;
-
-	gtk_tooltips_set_tip (priv->tooltips, combo_button, _("Go to the previous visited location"), NULL);
-}
-
-
 static void
 window_sync_menu_with_preferences (GthBrowser *browser)
 {
@@ -4421,16 +4356,41 @@ pref_ui_toolbar_style_changed (GConfClient *client,
 
 
 static void
+gth_browser_set_toolbar_visibility (GthBrowser *browser,
+				    gboolean    visible)
+{
+	g_return_if_fail (browser != NULL);
+
+	set_action_active (browser, "View_Toolbar", visible);
+	if (visible)
+		gtk_widget_show (browser->priv->toolbar->parent);
+	else
+		gtk_widget_hide (browser->priv->toolbar->parent);
+}
+
+
+static void
 pref_ui_toolbar_visible_changed (GConfClient *client,
 				 guint        cnxn_id,
 				 GConfEntry  *entry,
 				 gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	if (gconf_value_get_bool (gconf_entry_get_value (entry)))
-		gtk_widget_show (browser->priv->toolbar->parent);
+	gth_browser_set_toolbar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
+}
+
+
+static void
+gth_browser_set_statusbar_visibility  (GthBrowser *browser,
+				       gboolean    visible)
+{
+	g_return_if_fail (browser != NULL);
+
+	set_action_active (browser, "View_Statusbar", visible);
+	if (visible) 
+		gtk_widget_show (browser->priv->statusbar);
 	else
-		gtk_widget_hide (browser->priv->toolbar->parent);
+		gtk_widget_hide (browser->priv->statusbar);
 }
 
 
@@ -4441,18 +4401,15 @@ pref_ui_statusbar_visible_changed (GConfClient *client,
 				   gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	if (gconf_value_get_bool (gconf_entry_get_value (entry)))
-		gtk_widget_show (browser->priv->statusbar);
-	else
-		gtk_widget_hide (browser->priv->statusbar);
+	gth_browser_set_statusbar_visibility (browser, gconf_value_get_bool (gconf_entry_get_value (entry)));
 }
 
 
 static void
 pref_show_thumbnails_changed (GConfClient *client,
-			       guint        cnxn_id,
-			       GConfEntry  *entry,
-			       gpointer     user_data)
+			      guint        cnxn_id,
+			      GConfEntry  *entry,
+			      gpointer     user_data)
 {
 	GthBrowser            *browser = user_data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -4716,6 +4673,9 @@ pref_view_as_changed (GConfClient *client,
 	/**/
 
 	file_list = create_new_file_list (browser);
+	gth_file_list_set_sort_method (file_list, sort_method);
+	gth_file_list_set_sort_type (file_list, sort_type);
+	gth_file_list_enable_thumbs (file_list, enable_thumbs);
 
 	gtk_widget_destroy (priv->file_list->root_widget);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), file_list->root_widget, TRUE, TRUE, 0);
@@ -4735,10 +4695,6 @@ pref_view_as_changed (GConfClient *client,
 		gtk_paned_pack1 (GTK_PANED (priv->content_pane), file_list->root_widget, FALSE, FALSE);
 	}
 	*/
-
-	gth_file_list_set_sort_method (file_list, sort_method);
-	gth_file_list_set_sort_type (file_list, sort_type);
-	gth_file_list_enable_thumbs (file_list, enable_thumbs);
 
 	g_object_unref (priv->file_list);
 	priv->file_list = file_list;
@@ -4973,65 +4929,74 @@ zoom_quality_radio_action (GtkAction      *action,
 
 
 static void
+add_go_back_toolbar_item (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;	
+
+	if (priv->go_back_tool_item != NULL) {
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), priv->go_back_tool_item, 4); /*FIXME*/
+		return;
+	}
+
+	priv->go_back_tool_item = gtk_menu_tool_button_new_from_stock (GTK_STOCK_GO_BACK);
+	g_object_ref (priv->go_back_tool_item);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->go_back_tool_item),
+				       gtk_ui_manager_get_widget (priv->ui, "/HistoryListPopup"));
+	gtk_tool_item_set_homogeneous (priv->go_back_tool_item, FALSE);
+	gtk_tool_item_set_tooltip (priv->go_back_tool_item, priv->tooltips, _("Back"), NULL);
+	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->go_back_tool_item), priv->tooltips,	_("Go to the previous visited location"), NULL);
+
+	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Go/Go_Back"),
+				  GTK_WIDGET (priv->go_back_tool_item));
+
+	gtk_widget_show (GTK_WIDGET (priv->go_back_tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), priv->go_back_tool_item, 4);  /*FIXME*/
+
+	return;
+}
+
+
+static void
+set_mode_specific_ui_info (GthBrowser        *browser, 
+			   GthSidebarContent  content,
+			   gboolean           first_time)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->toolbar_merge_id != 0)
+		gtk_ui_manager_remove_ui (priv->ui, priv->toolbar_merge_id);
+
+	if ((priv->go_back_tool_item != NULL)
+	    && (gtk_widget_get_parent ((GtkWidget*) priv->go_back_tool_item) != NULL)) {
+		gtk_container_remove (GTK_CONTAINER (priv->toolbar), (GtkWidget*) priv->go_back_tool_item);
+	}
+	gtk_ui_manager_ensure_update (priv->ui);
+
+	if (content != GTH_SIDEBAR_NO_LIST) {
+		if (!first_time)
+			gth_browser_set_sidebar_content (browser, content);
+		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
+		add_go_back_toolbar_item (browser);
+
+	} else {
+		if (!first_time)
+			gth_browser_hide_sidebar (browser);
+		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, viewer_ui_info, -1, NULL);
+	}
+
+	gtk_ui_manager_ensure_update (priv->ui);
+}
+
+
+static void
 content_radio_action (GtkAction      *action,
 		      GtkRadioAction *current,
 		      gpointer        data)
 {
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	GthSidebarContent      content = gtk_radio_action_get_current_value (current);
+	GthBrowser        *browser = data;
+	GthSidebarContent  content = gtk_radio_action_get_current_value (current);
 
-	if (priv->toolbar_merge_id != 0)
-		gtk_ui_manager_remove_ui (priv->ui, priv->toolbar_merge_id);
-	gtk_ui_manager_ensure_update (priv->ui);
-
-	if (content != GTH_SIDEBAR_NO_LIST) {
-		gth_browser_set_sidebar_content (browser, content);
-		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
-		gtk_ui_manager_ensure_update (priv->ui);
-	} else {
-		gth_browser_hide_sidebar (browser);
-		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, viewer_ui_info, -1, NULL);
-		gtk_ui_manager_ensure_update (priv->ui);
-	}
-
-	gtk_widget_queue_resize (priv->toolbar->parent);
-}
-
-
-static GtkWidget*
-create_locationbar_button (const char *stock_id,
-                           gboolean    view_text)
-{
-        GtkWidget    *button;
-        GtkWidget    *box;
-        GtkWidget    *image;
-
-        button = gtk_button_new ();
-        gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
-
-        box = gtk_hbox_new (FALSE, 1);
-        image = gtk_image_new ();
-        gtk_image_set_from_stock (GTK_IMAGE (image),
-                                  stock_id,
-                                  GTK_ICON_SIZE_LARGE_TOOLBAR);
-        gtk_box_pack_start (GTK_BOX (box), image, !view_text, FALSE, 0);
-
-        if (view_text) {
-                GtkStockItem  stock_item;
-                const char   *text;
-                GtkWidget    *label;
-                if (gtk_stock_lookup (stock_id, &stock_item))
-                        text = stock_item.label;
-                else
-                        text = "";
-                label = gtk_label_new_with_mnemonic (text);
-                gtk_box_pack_start (GTK_BOX (box), label, TRUE, TRUE, 0);
-        }
-
-        gtk_container_add (GTK_CONTAINER (button), box);
-
-        return button;
+	set_mode_specific_ui_info (browser, content, FALSE);
 }
 
 
@@ -5039,7 +5004,7 @@ static void
 gth_browser_show (GtkWidget  *widget)
 {
 	GthBrowser            *browser = GTH_BROWSER (widget);
-	/*	GthBrowserPrivateData *priv = browser->priv;*/
+	GthBrowserPrivateData *priv = browser->priv;
 
 	GTK_WIDGET_CLASS (parent_class)->show (widget);
 	
@@ -5048,22 +5013,24 @@ gth_browser_show (GtkWidget  *widget)
 
 	browser->priv->first_time_show = FALSE;
 
-	/* FIXME
+	/* toolbar */
+
 	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE))
 		gtk_widget_show (priv->toolbar->parent);
 	else
 		gtk_widget_hide (priv->toolbar->parent);
-	*/
+
 	set_action_active (browser, 
 			   "View_Toolbar", 
 			   eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE));
 
-	/* FIXME
+	/* statusbar */
+
 	if (eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE))
 		gtk_widget_show (priv->statusbar);
 	else
 		gtk_widget_hide (priv->statusbar);
-	*/
+
 	set_action_active (browser, 
 			   "View_Statusbar", 
 			   eel_gconf_get_boolean (PREF_UI_STATUSBAR_VISIBLE, TRUE));
@@ -5133,28 +5100,6 @@ gth_browser_finalize (GObject *object)
 }
 
 
-static void 
-gth_browser_realize (GtkWidget *widget)
-{
-	/* FIXME
-	GthBrowser            *browser;
-	GthBrowserPrivateData *priv;
-	*/
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
-}
-
-
-static void 
-gth_browser_unrealize (GtkWidget *widget)
-{
-	/* FIXME
-	GthBrowser            *browser;
-	GthBrowserPrivateData *priv;
-	*/
-	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
-}
-
-
 static void
 gth_browser_init (GthBrowser *browser)
 {
@@ -5188,7 +5133,6 @@ gth_browser_construct (GthBrowser  *browser,
 	GError                *error = NULL;
 	GtkWidget             *toolbar;
 
-	gnome_window_icon_set_from_default (GTK_WINDOW (browser));
 	gtk_window_set_default_size (GTK_WINDOW (browser), 
 				     eel_gconf_get_integer (PREF_UI_WINDOW_WIDTH, DEF_WIN_WIDTH),
 				     eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT));
@@ -5199,29 +5143,39 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->actions = actions = gtk_action_group_new ("Actions");
 	gtk_action_group_set_translation_domain (actions, NULL);
+
 	gtk_action_group_add_actions (actions, 
-				      action_entries, 
-				      n_action_entries, 
+				      gth_window_action_entries, 
+				      gth_window_action_entries_size, 
 				      browser);
 	gtk_action_group_add_toggle_actions (actions, 
-					     action_toggle_entries, 
-					     n_action_toggle_entries, 
+					     gth_window_action_toggle_entries, 
+					     gth_window_action_toggle_entries_size, 
 					     browser);
 	gtk_action_group_add_radio_actions (actions, 
-					    sort_by_entries, 
-					    n_sort_by_entries,
+					    gth_window_zoom_quality_entries, 
+					    gth_window_zoom_quality_entries_size,
+					    GTH_ZOOM_QUALITY_HIGH,
+					    G_CALLBACK (zoom_quality_radio_action), 
+					    browser);
+
+	gtk_action_group_add_actions (actions, 
+				      gth_browser_action_entries, 
+				      gth_browser_action_entries_size, 
+				      browser);
+	gtk_action_group_add_toggle_actions (actions, 
+					     gth_browser_action_toggle_entries, 
+					     gth_browser_action_toggle_entries_size, 
+					     browser);
+	gtk_action_group_add_radio_actions (actions, 
+					    gth_browser_sort_by_entries, 
+					    gth_browser_sort_by_entries_size,
 					    GTH_SORT_METHOD_BY_NAME,
 					    G_CALLBACK (sort_by_radio_action), 
 					    browser);
 	gtk_action_group_add_radio_actions (actions, 
-					    zoom_quality_entries, 
-					    n_zoom_quality_entries,
-					    GTH_ZOOM_QUALITY_HIGH,
-					    G_CALLBACK (zoom_quality_radio_action), 
-					    browser);
-	gtk_action_group_add_radio_actions (actions, 
-					    content_entries, 
-					    n_content_entries,
+					    gth_browser_content_entries, 
+					    gth_browser_content_entries_size,
 					    GTH_SIDEBAR_DIR_LIST,
 					    G_CALLBACK (content_radio_action), 
 					    browser);
@@ -5403,29 +5357,6 @@ gth_browser_construct (GthBrowser  *browser,
 	g_signal_connect (G_OBJECT (priv->location_entry),
 			  "key_press_event",
 			  G_CALLBACK (location_entry_key_press_cb),
-			  browser);
-
-	setup_toolbar_go_back_button (browser);
-
-	priv->go_fwd_toolbar_button = create_locationbar_button (GTK_STOCK_GO_FORWARD, FALSE);
-	gtk_tooltips_set_tip (priv->tooltips, priv->go_fwd_toolbar_button, _("Go to the next visited location"), NULL);
-	g_signal_connect (G_OBJECT (priv->go_fwd_toolbar_button),
-			  "clicked",
-			  G_CALLBACK (gth_browser_activate_action_go_forward),
-			  browser);
-
-	priv->go_up_toolbar_button = create_locationbar_button (GTK_STOCK_GO_UP, FALSE);
-	gtk_tooltips_set_tip (priv->tooltips, priv->go_up_toolbar_button, _("Go up one level"), NULL);
-	g_signal_connect (G_OBJECT (priv->go_up_toolbar_button),
-			  "clicked",
-			  G_CALLBACK (gth_browser_activate_action_go_up),
-			  browser);
-
-	priv->go_home_toolbar_button = create_locationbar_button (GTK_STOCK_HOME, FALSE);
-	gtk_tooltips_set_tip (priv->tooltips, priv->go_home_toolbar_button, _("Go to the home folder"), NULL);
-	g_signal_connect (G_OBJECT (priv->go_home_toolbar_button),
-			  "clicked",
-			  G_CALLBACK (gth_browser_activate_action_go_home),
 			  browser);
 
 	/* Info bar. */
@@ -5757,6 +5688,8 @@ gth_browser_construct (GthBrowser  *browser,
 	gtk_widget_show (priv->image_info);
 
 	priv->image_info_frame = info_frame = gtk_frame_new (NULL);
+	gtk_widget_show (priv->image_info_frame);
+
 	gtk_frame_set_shadow_type (GTK_FRAME (info_frame), GTK_SHADOW_IN);
 	gtk_container_add (GTK_CONTAINER (info_frame), priv->image_info);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), info_frame, FALSE, FALSE, 0);
@@ -5998,8 +5931,12 @@ gth_browser_construct (GthBrowser  *browser,
 					   pref_view_as_changed,
 					   browser);
 
+	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
+
+	/*
 	priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
 	gtk_ui_manager_ensure_update (priv->ui);	
+	*/
 
 	/* Initial location. */
 
@@ -8786,7 +8723,6 @@ void
 gth_browser_notify_update_icon_theme (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	GdkPixbuf *icon;
 
 	gth_file_view_update_icon_theme (priv->file_list->view);
 	dir_list_update_icon_theme (priv->dir_list);
@@ -8797,15 +8733,6 @@ gth_browser_notify_update_icon_theme (GthBrowser *browser)
 
 	if (priv->bookmarks_dlg != NULL)
 		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
-
-	/**/
-
-	icon = gtk_widget_render_icon (GTK_WIDGET (browser),
-				       GTK_STOCK_GO_BACK,
-				       GTK_ICON_SIZE_MENU,
-				       "");
-	e_combo_button_set_icon (E_COMBO_BUTTON (priv->go_back_toolbar_button), icon);
-	g_object_unref (icon);
 }
 
 
@@ -9068,8 +8995,6 @@ gth_browser_class_init (GthBrowserClass *class)
 
 	gobject_class->finalize = gth_browser_finalize;
 
-	widget_class->realize = gth_browser_realize;
-	widget_class->unrealize = gth_browser_unrealize;
 	widget_class->show = gth_browser_show;
 
 	window_class->close = gth_browser_close;
@@ -9128,9 +9053,6 @@ gth_browser_get_type (void)
 
         return type;
 }
-
-
-/* non-modal dialogs */
 
 
 void

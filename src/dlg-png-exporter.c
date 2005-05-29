@@ -327,8 +327,7 @@ dlg_exporter (GthBrowser *browser)
 
 	data->browser = browser;
 
-	
-	list = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
+	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		g_free (data);
@@ -1702,3 +1701,4 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }
+

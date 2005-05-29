@@ -20,21 +20,19 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef ACTION_ENTRIES_H
-#define ACTION_ENTRIES_H
+#ifndef GTH_BROWSER_ACTION_ENTRIES_H
+#define GTH_BROWSER_ACTION_ENTRIES_H
 
 
 #include <config.h>
-#include <gnome.h>
-
-#include "gth-window-actions-callbacks.h"
+#include <glib/gi18n.h>
 #include "gth-browser-actions-callbacks.h"
 #include "gthumb-stock.h"
 #include "typedefs.h"
 #include "image-viewer.h"
 
 
-static GtkActionEntry action_entries[] = {
+static GtkActionEntry gth_browser_action_entries[] = {
 	{ "FileMenu", NULL, N_("_File") },
 	{ "FileFolderMenu", NULL, N_("_Folder") },
 	{ "FileCatalogMenu", NULL, N_("Ca_talog") },
@@ -58,35 +56,10 @@ static GtkActionEntry action_entries[] = {
 	  N_("Create a new window"),
 	  G_CALLBACK (gth_browser_activate_action_file_new_window) },
 	
-	{ "File_CloseWindow", GTK_STOCK_CLOSE,
-	  N_("_Close"), "<control>W",
-	  N_("Close this window"),
-	  G_CALLBACK (gth_window_activate_action_file_close_window) },
-
 	{ "File_ViewImage", GTK_STOCK_OPEN,
 	  NULL, NULL,
 	  N_("Open the selecte image in a new window"),
 	  G_CALLBACK (gth_browser_activate_action_file_view_image) },
-
-	{ "File_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With"), NULL,
-	  N_("Open selected images with an application"),
-	  G_CALLBACK (gth_window_activate_action_file_open_with) },
-
-	{ "File_Save", GTK_STOCK_SAVE_AS,
-	  N_("Save _As..."), "<control><shift>S",
-	  N_("Save current image"),
-	  G_CALLBACK (gth_window_activate_action_file_save) },
-
-	{ "File_Revert", GTK_STOCK_REVERT_TO_SAVED,
-	  N_("_Revert"), "F12",
-	  N_("Revert to saved image"),
-	  G_CALLBACK (gth_window_activate_action_file_revert) },
-
-	{ "File_Print", GTK_STOCK_PRINT,
-	  N_("_Print..."), "<control>P",
-	  N_("Print the current image"),
-	  G_CALLBACK (gth_window_activate_action_file_print) },
 
 	{ "File_ImageProp", GTHUMB_STOCK_PROPERTIES,
 	  N_("Proper_ties"), NULL,
@@ -102,11 +75,6 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Write To CD"), NULL,
 	  N_("Write selection to CD"),
 	  G_CALLBACK (gth_browser_activate_action_file_write_to_cd) },
-
-	{ "Image_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With"), NULL,
-	  N_("Open this image with an application"),
-	  G_CALLBACK (gth_window_activate_action_image_open_with) },
 
 	{ "Image_Rename", NULL,
 	  N_("_Rename..."), NULL,
@@ -157,21 +125,6 @@ static GtkActionEntry action_entries[] = {
 	  N_("_Select All"), NULL,
 	  N_("Select all images"),
 	  G_CALLBACK (gth_browser_activate_action_edit_select_all) },
-
-	{ "Edit_EditComment", GTHUMB_STOCK_ADD_COMMENT,
-	  N_("Comm_ent"), NULL,
-	  N_("Add a comment to selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
-
-	{ "Edit_DeleteComment", NULL,
-	  N_("Rem_ove Comment"), NULL,
-	  N_("Remove comments of selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_delete_comment) },
-
-	{ "Edit_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories"), NULL,
-	  N_("Assign categories to selected images"),
-	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
 	{ "Edit_AddToCatalog", GTHUMB_STOCK_ADD_TO_CATALOG,
 	  N_("_Add to Catalog..."), NULL,
@@ -318,96 +271,6 @@ static GtkActionEntry action_entries[] = {
 	  N_("Create a new folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_new) },
 
-	{ "AlterImage_Rotate90", GTHUMB_STOCK_ROTATE_90,
-	  N_("Rotate Ri_ght"), NULL,
-	  N_("View the image rotated clockwise"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_rotate90) },
-
-	{ "AlterImage_Rotate90CC", GTHUMB_STOCK_ROTATE_90_CC,
-	  N_("Rotate _Left"), NULL,
-	  N_("View the image rotated counter-clockwise"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_rotate90cc) },
-
-	{ "AlterImage_Flip", GTHUMB_STOCK_FLIP,
-	  N_("_Flip"), NULL,
-	  N_("View the image flipped"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_flip) },
-
-	{ "AlterImage_Mirror", GTHUMB_STOCK_MIRROR,
-	  N_("_Mirror"), NULL,
-	  N_("View the image mirrored"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_mirror) },
-
-	{ "AlterImage_Desaturate", GTHUMB_STOCK_DESATURATE,
-	  N_("_Desaturate"), NULL,
-	  N_("View the image in black and white"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_desaturate) },
-
-	{ "AlterImage_Invert", GTHUMB_STOCK_INVERT,
-	  N_("_Negative"), NULL,
-	  N_("View the image with negative colors"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_invert) },
-
-	{ "AlterImage_AdjustLevels", GTHUMB_STOCK_ENHANCE,
-	  N_("_Enhance"), "<shift><control>E",
-	  N_("Automatically adjust the color levels"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_adjust_levels) },
-
-	{ "AlterImage_Equalize", GTHUMB_STOCK_HISTOGRAM,
-	  N_("_Equalize"), NULL,
-	  N_("Automatically equalize the image histogram"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_equalize) },
-
-	{ "AlterImage_Normalize", NULL,
-	  N_("_Normalize"), NULL,
-	  N_("Automatically normalize the contrast"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_normalize) },
-
-	{ "AlterImage_StretchContrast", NULL,
-	  N_("_Stretch Contrast"), NULL,
-	  N_("Automatically stretch the contrast"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_stretch_contrast) },
-
-	{ "AlterImage_Posterize", GTHUMB_STOCK_POSTERIZE,
-	  N_("_Posterize"), NULL,
-	  N_("Reduce the number of colors"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_posterize) },
-
-	{ "AlterImage_BrightnessContrast", GTHUMB_STOCK_BRIGHTNESS_CONTRAST,
-	  N_("_Brightness-Contrast"), NULL,
-	  N_("Adjust brightness and contrast"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_brightness_contrast) },
-
-	{ "AlterImage_HueSaturation", GTHUMB_STOCK_HUE_SATURATION,
-	  N_("_Hue-Saturation"), NULL,
-	  N_("Adjust hue and saturation"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_hue_saturation) },
-
-	{ "AlterImage_ColorBalance", GTHUMB_STOCK_COLOR_BALANCE,
-	  N_("_Color Balance"), NULL,
-	  N_("Adjust color balance"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_color_balance) },
-
-	{ "AlterImage_Threshold", GTHUMB_STOCK_THRESHOLD,
-	  N_("_Threshold"), NULL,
-	  N_("Apply threshold"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_threshold) },
-
-	{ "AlterImage_Resize", GTHUMB_STOCK_RESIZE,
-	  N_("_Resize"), NULL,
-	  N_("Resize image"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_resize) },
-
-	{ "AlterImage_Rotate", GTHUMB_STOCK_ROTATE,
-	  N_("_Rotate"), NULL,
-	  N_("Rotate image"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_rotate) },
-
-	{ "AlterImage_Crop", GTHUMB_STOCK_CROP,
-	  N_("_Crop"), NULL,
-	  N_("Crop image"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_crop) },
-
 	{ "View_NextImage", GTHUMB_STOCK_NEXT_IMAGE,
 	  N_("Next"), NULL,
 	  N_("View next image"),
@@ -418,53 +281,18 @@ static GtkActionEntry action_entries[] = {
 	  N_("View previous image"),
 	  G_CALLBACK (gth_browser_activate_action_view_prev_image) },
 
-	{ "View_ZoomIn", GTK_STOCK_ZOOM_IN,
-	  N_("In"), NULL,
-	  N_("Zoom in"),
-	  G_CALLBACK (gth_window_activate_action_view_zoom_in) },
-
-	{ "View_ZoomOut", GTK_STOCK_ZOOM_OUT,
-	  N_("Out"), NULL,
-	  N_("Zoom out"),
-	  G_CALLBACK (gth_window_activate_action_view_zoom_out) },
-
-	{ "View_Zoom100", GTK_STOCK_ZOOM_100,
-	  N_("1:1"), NULL,
-	  N_("Actual size"),
-	  G_CALLBACK (gth_window_activate_action_view_zoom_100) },
-
-	{ "View_ZoomFit", GTK_STOCK_ZOOM_FIT,
-	  N_("Fit"), NULL,
-	  N_("Zoom to fit window"),
-	  G_CALLBACK (gth_window_activate_action_view_zoom_fit) },
-
-	{ "View_StepAnimation", NULL,
-	  N_("Step A_nimation"), "J",
-	  N_("View next animation frame"),
-	  G_CALLBACK (gth_window_activate_action_view_step_animation) },
-
-	{ "View_Fullscreen", GTHUMB_STOCK_FULLSCREEN,
-	  N_("_Full Screen"), "F",
-	  N_("View image in fullscreen mode"),
-	  G_CALLBACK (gth_window_activate_action_view_fullscreen) },
-
-	{ "View_ExitFullscreen", GTHUMB_STOCK_NORMAL_VIEW,
-	  N_("Restore Normal View"), NULL,
-	  N_("View image in fullscreen mode"),
-	  G_CALLBACK (gth_window_activate_action_view_exit_fullscreen) },
-
 	{ "Go_Back", GTK_STOCK_GO_BACK,
-	  N_("_Back"), "<alt>Left",
+	  NULL, "<alt>Left",
 	  N_("Go to the previous visited location"),
 	  G_CALLBACK (gth_browser_activate_action_go_back) },
 
 	{ "Go_Forward", GTK_STOCK_GO_FORWARD,
-	  N_("_Forward"), "<alt>Right",
+	  NULL, "<alt>Right",
 	  N_("Go to the next visited location"),
 	  G_CALLBACK (gth_browser_activate_action_go_forward) },
 
 	{ "Go_Up", GTK_STOCK_GO_UP,
-	  N_("_Up"), "<alt>Up",
+	  NULL, "<alt>Up",
 	  N_("Go up one level"),
 	  G_CALLBACK (gth_browser_activate_action_go_up) },
 
@@ -474,12 +302,12 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_go_refresh) },
 
 	{ "Go_Stop", GTK_STOCK_STOP,
-	  N_("_Stop"), "Escape",
+	  NULL, "Escape",
 	  N_("Stop loading current location"),
 	  G_CALLBACK (gth_browser_activate_action_go_stop) },
 
 	{ "Go_Home", GTK_STOCK_HOME,
-	  N_("_Home"), "<alt>Home",
+	  NULL, "<alt>Home",
 	  N_("Go to the home folder"),
 	  G_CALLBACK (gth_browser_activate_action_go_home) },
 
@@ -508,38 +336,13 @@ static GtkActionEntry action_entries[] = {
 	  N_("Edit bookmarks"),
 	  G_CALLBACK (gth_browser_activate_action_bookmarks_edit) },
 
-	{ "Wallpaper_Centered", NULL,
-	  N_("_Centered"), NULL,
-	  N_("Set the image as desktop background (centered)"),
-	  G_CALLBACK (gth_window_activate_action_wallpaper_centered) },
-
-	{ "Wallpaper_Tiled", NULL,
-	  N_("_Tiled"), NULL,
-	  N_("Set the image as desktop background (tiled)"),
-	  G_CALLBACK (gth_window_activate_action_wallpaper_tiled) },
-
-	{ "Wallpaper_Scaled", NULL,
-	  N_("_Scaled"), NULL,
-	  N_("Set the image as desktop background (scaled keeping aspect ratio)"),
-	  G_CALLBACK (gth_window_activate_action_wallpaper_scaled) },
-
-	{ "Wallpaper_Stretched", NULL,
-	  N_("Str_etched"), NULL,
-	  N_("Set the image as desktop background (stretched)"),
-	  G_CALLBACK (gth_window_activate_action_wallpaper_stretched) },
-
-	{ "Wallpaper_Restore", NULL,
-	  N_("_Restore"), NULL,
-	  N_("Restore the original desktop wallpaper"),
-	  G_CALLBACK (gth_window_activate_action_wallpaper_restore) },
-
 	{ "Tools_Slideshow", GTHUMB_STOCK_SLIDESHOW,
 	  N_("_Slide Show"), "S",
 	  N_("View as a slide show"),
 	  G_CALLBACK (gth_browser_activate_action_tools_slideshow) },
 
 	{ "Tools_FindImages", GTK_STOCK_FIND,
-	  N_("_Find"), "<control>F",
+	  NULL, NULL, 
 	  N_("Find images"),
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
@@ -574,7 +377,7 @@ static GtkActionEntry action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_tools_jpeg_rotate) },
 
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
-	  N_("_Preferences"), NULL,
+	  NULL, NULL, 
 	  N_("Edit various preferences"),
 	  G_CALLBACK (gth_browser_activate_action_tools_preferences) },
 
@@ -583,25 +386,11 @@ static GtkActionEntry action_entries[] = {
 	  N_("Change images last modified date"),
 	  G_CALLBACK (gth_browser_activate_action_tools_change_date) },
 
-	{ "Help_About", GNOME_STOCK_ABOUT,
-	  N_("_About"), NULL,
-	  N_("Show information about gThumb"),
-	  G_CALLBACK (gth_window_activate_action_help_about) },
-
-	{ "Help_Help", GTK_STOCK_HELP,
-	  N_("_Contents"), "F1",
-	  " ",
-	  G_CALLBACK (gth_window_activate_action_help_help) },
-
-	{ "Help_Shortcuts", NULL,
-	  N_("_Keyboard Shortcuts"), NULL,
-	  " ",
-	  G_CALLBACK (gth_window_activate_action_help_shortcuts) }
 };
-static guint n_action_entries = G_N_ELEMENTS (action_entries);
+static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
 
 
-static GtkToggleActionEntry action_toggle_entries[] = {
+static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	{ "View_Toolbar", NULL,
 	  N_("_Toolbar"), NULL,
 	  N_("View or hide the toolbar of this window"),
@@ -616,11 +405,6 @@ static GtkToggleActionEntry action_toggle_entries[] = {
 	  N_("_Thumbnails"), "<control>T",
 	  N_("View thumbnails"),
 	  G_CALLBACK (gth_browser_activate_action_view_thumbnails), 
-	  TRUE },
-	{ "View_PlayAnimation", NULL,
-	  N_("Play _Animation"), "G",
-	  N_("Start or stop current animation"),
-	  G_CALLBACK (gth_window_activate_action_view_toggle_animation), 
 	  TRUE },
 	{ "View_ShowPreview", NULL,
 	  N_("_Image Preview"), NULL,
@@ -638,10 +422,10 @@ static GtkToggleActionEntry action_toggle_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_sort_reversed), 
 	  FALSE },
 };
-static guint n_action_toggle_entries = G_N_ELEMENTS (action_toggle_entries);
+static guint gth_browser_action_toggle_entries_size = G_N_ELEMENTS (gth_browser_action_toggle_entries);
 
 
-static GtkRadioActionEntry sort_by_entries[] = {
+static GtkRadioActionEntry gth_browser_sort_by_entries[] = {
 	{ "SortByName", NULL,
 	  N_("by _Name"), NULL,
 	  N_("Sort images by name"), GTH_SORT_METHOD_BY_NAME },
@@ -655,21 +439,10 @@ static GtkRadioActionEntry sort_by_entries[] = {
 	  N_("by _Time"), NULL,
 	  N_("Sort images by modification time"), GTH_SORT_METHOD_BY_TIME }
 };
-static guint n_sort_by_entries = G_N_ELEMENTS (sort_by_entries);
+static guint gth_browser_sort_by_entries_size = G_N_ELEMENTS (gth_browser_sort_by_entries);
 
 
-static GtkRadioActionEntry zoom_quality_entries[] = {
-	{ "View_ZoomQualityHigh", NULL,
-	  N_("_High Quality"), NULL,
-	  N_("Use high quality zoom"), GTH_ZOOM_QUALITY_HIGH },
-	{ "View_ZoomQualityLow", NULL,
-	  N_("_Low Quality"), NULL,
-	  N_("Use low quality zoom"), GTH_ZOOM_QUALITY_LOW }
-};
-static guint n_zoom_quality_entries = G_N_ELEMENTS (zoom_quality_entries);
-
-
-static GtkRadioActionEntry content_entries[] = {
+static GtkRadioActionEntry gth_browser_content_entries[] = {
 	{ "View_ShowFolders", GTHUMB_STOCK_SHOW_FOLDERS,
 	  N_("_Folders"), "<alt>1",
 	  N_("View the folders"), GTH_SIDEBAR_DIR_LIST },
@@ -680,7 +453,7 @@ static GtkRadioActionEntry content_entries[] = {
 	  N_("_Image"), "<alt>3",
 	  N_("View the image"), GTH_SIDEBAR_NO_LIST },
 };
-static guint n_content_entries = G_N_ELEMENTS (content_entries);
+static guint gth_browser_content_entries_size = G_N_ELEMENTS (gth_browser_content_entries);
 
 
-#endif /* ACTION_ENTRIES_H */
+#endif /* GTH_BROWSER_ACTION_ENTRIES_H */

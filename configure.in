@@ -229,8 +229,8 @@ AC_SUBST(LIBGPHOTO_CFLAGS)
 dnl ###############################################
 
 IDL_MODULES="bonobo-activation-2.0 libbonobo-2.0 libbonoboui-2.0"
-VIEWER_IDL_INCLUDES="`$PKG_CONFIG --variable=idldir $IDL_MODULES | $srcdir/add-include-prefix`"
-AC_SUBST(VIEWER_IDL_INCLUDES)
+IDL_INCLUDES="`$PKG_CONFIG --variable=idldir $IDL_MODULES | $srcdir/add-include-prefix`"
+AC_SUBST(IDL_INCLUDES)
 
 dnl ###############################################
 

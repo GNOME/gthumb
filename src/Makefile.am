@@ -25,7 +25,19 @@ INCLUDES =					\
 
 bin_PROGRAMS = gthumb
 
+gnome_gthumb_idl_sources =              \
+	GNOME_GThumb-stubs.c            \
+	GNOME_GThumb-skels.c            \
+	GNOME_GThumb.h                  \
+	GNOME_GThumb-common.c
+
+$(gnome_gthumb_idl_sources): gnome_gthumb_idl_stamp
+gnome_gthumb_idl_stamp: GNOME_GThumb.idl $(ORBIT_IDL)
+	$(ORBIT_IDL) $(IDL_INCLUDES) $<
+	touch $@
+
 gthumb_SOURCES = 			\
+	$(gnome_gthumb_idl_sources)	\
 	auto-completion.c		\
 	auto-completion.h		\
 	bookmark-list.c			\
@@ -70,8 +82,8 @@ gthumb_SOURCES = 			\
 	dlg-scale-image.h		\
 	dlg-write-to-cd.c		\
 	dlg-write-to-cd.h		\
-	e-combo-button.c		\
-	e-combo-button.h		\
+	gth-application.c		\
+	gth-application.h		\
 	gth-browser.c			\
 	gth-browser.h			\
 	gth-browser-actions-entries.h	\
@@ -96,6 +108,7 @@ gthumb_SOURCES = 			\
 	gth-viewer-ui.h			\
 	gth-window.c			\
 	gth-window.h			\
+	gth-window-actions-entries.h	\
 	gth-window-actions-callbacks.h	\
 	gth-window-actions-callbacks.c	\
 	gtkorientationbox.c		\
@@ -163,3 +176,8 @@ EXTRA_DIST = 			\
 	albumtheme.y		\
 	albumtheme.l		\
 	lex.albumtheme.c
+
+
+CLEANFILES =				\
+	$(gthumb_goobox_idl_sources)	\
+	gnome_gthumb_idl_stamp

@@ -20,6 +20,14 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 
 @INTLTOOL_SCHEMAS_RULE@
 
+bonobodir = $(libdir)/bonobo
+serverdir = $(libdir)/bonobo/servers
+server_in_files = GNOME_GThumb.server.in.in
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+        sed -e "s|\@BONOBODIR\@|$(bonobodir)|" $< > $@
+@INTLTOOL_SERVER_RULE@
+
 if SCHEMAS_INSTALL
 install-data-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
@@ -36,4 +44,8 @@ EXTRA_DIST = 			\
 
 DISTCLEANFILES =                \
 	$(schema_DATA)		\
-	$(desktop_DATA)	
+	$(desktop_DATA)		\
+	$(server_DATA)          \
+	GNOME_GThumb.server.in  \
+	GNOME_GThumb.server
+

@@ -1780,7 +1780,7 @@ gth_browser_activate_action_go_to_container (GtkAction  *action,
 	GList *list;
 	char  *path;
 
-	list = gth_file_view_get_file_list_selection (gth_browser_get_file_view (browser));
+	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
 	g_return_if_fail (list != NULL);
 	path = remove_level_from_path (list->data);
 

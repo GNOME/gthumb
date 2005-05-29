@@ -37,7 +37,7 @@ gthumb_catalog_view_LDADD = 			\
 
 $(nautilus_view_component_idl_sources): nautilus_view_component_idl_stamp
 nautilus_view_component_idl_stamp: nautilus-view-component.idl $(ORBIT_IDL)
-	$(ORBIT_IDL) $(VIEWER_IDL_INCLUDES) $<
+	$(ORBIT_IDL) $(IDL_INCLUDES) $<
 	touch $@
 
 server_in_files = GNOME_GThumb_CatalogView.server.in.in
