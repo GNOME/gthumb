@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-15 03:17+0000\n"
-"PO-Revision-Date: 2005-04-15 13:34+0200\n"
+"POT-Creation-Date: 2005-05-30 19:39+0000\n"
+"PO-Revision-Date: 2005-05-31 13:07+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgid "View as Catalog"
 msgstr "Zobrazit jako katalog"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: ../src/ui.h:79
+#: ../src/gth-window-actions-entries.h:62
 msgid "Print the current image"
 msgstr "Tisknout aktuální obrázek"
 
@@ -90,15 +90,18 @@ msgstr "Otočit obrázek po směru hodinových ručiček"
 msgid "Rotate the image of 180 degrees"
 msgstr "Otočit obrázek o 180°"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11 ../src/ui.h:68
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Save _As..."
 msgstr "Uložit _jako..."
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 ../src/ui.h:69
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: ../src/gth-window-actions-entries.h:47
+#: ../src/gth-window-actions-entries.h:52
 msgid "Save current image"
 msgstr "Uložit aktuální obrázek"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 ../src/ui.h:623
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: ../src/gth-window-actions-entries.h:256
 msgid "Start or stop current animation"
 msgstr "Začít nebo zastavit aktuální animaci"
 
@@ -110,7 +113,8 @@ msgstr "Spustit/Zastavit _animaci"
 msgid "Transparency T_ype"
 msgstr "T_yp průhlednosti"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16 ../src/ui.h:439
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../src/gth-window-actions-entries.h:197
 msgid "View next animation frame"
 msgstr "Zobrazit další snímek animace"
 
@@ -122,16 +126,20 @@ msgstr "Če_rná"
 msgid "_Checked"
 msgstr "Čtver_ce"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19 ../src/ui.h:328
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../src/gth-window-actions-entries.h:96
 msgid "_Flip"
 msgstr "O_brátit"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 ../src/ui.h:44
-#: ../src/ui.h:681
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:453
+#: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Obrázek"
 
-#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 ../src/ui.h:333
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: ../src/gth-window-actions-entries.h:101
 msgid "_Mirror"
 msgstr "Zr_cadlo"
 
@@ -149,7 +157,9 @@ msgstr "_Krokovat animaci"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:42 ../src/ui.h:39
+#: ../data/glade/gthumb_tools.glade.h:42
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
 msgstr "Zo_brazit"
 
@@ -161,19 +171,19 @@ msgstr "_Bílá"
 msgid "_Zoom Quality"
 msgstr "Kvalita _zvětšení"
 
-#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:524
+#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:526
 msgid "%d %b %Y, %H:%M"
 msgstr "%d. %b %Y, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
-#: ../src/catalog-png-exporter.c:814 ../src/dlg-image-prop.c:419
-#: ../src/fullscreen.c:214 ../src/gth-exif-data-viewer.c:468
-#: ../src/gthumb-window.c:276
+#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
+#: ../src/fullscreen.c:207 ../src/gth-browser.c:489
+#: ../src/gth-exif-data-viewer.c:468 ../src/gth-viewer.c:600
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bodů"
 
-#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:263
+#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "Obrázek"
 
@@ -181,7 +191,7 @@ msgstr "Obrázek"
 msgid "Dimensions"
 msgstr "Rozměry"
 
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:610
+#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:616
 #: ../src/gth-exif-data-viewer.c:497
 msgid "Bytes"
 msgstr "Bajtů"
@@ -271,7 +281,7 @@ msgstr "K_atalogy:"
 msgid "Choose a Catalog"
 msgstr "Vyberte katalog"
 
-#: ../data/glade/gthumb.glade.h:12 ../src/ui.h:158
+#: ../data/glade/gthumb.glade.h:12 ../src/gth-window-actions-entries.h:71
 msgid "Comm_ent"
 msgstr "Komen_tář"
 
@@ -394,8 +404,8 @@ msgstr "Odstranit vybrané obrázky z fotoaparátu"
 msgid "Import Photos"
 msgstr "Importovat fotografie"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:838
-#: ../src/dlg-photo-importer.c:877 ../src/dlg-photo-importer.c:1378
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:840
+#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1379
 msgid "No camera detected"
 msgstr "Nedetekován fotoaparát"
 
@@ -580,7 +590,7 @@ msgstr "_Odstranit originál"
 msgid "Rename"
 msgstr "Přejmenovat"
 
-#: ../data/glade/gthumb_convert.glade.h:17 ../src/dlg-convert.c:315
+#: ../data/glade/gthumb_convert.glade.h:17 ../src/dlg-convert.c:316
 msgid "Skip"
 msgstr "Přeskočit"
 
@@ -674,7 +684,7 @@ msgstr "<b>Výběr</b>"
 msgid "Crop"
 msgstr "Oříznout"
 
-#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:9 ../data/glade/gthumb_print.glade.h:17
 msgid "Custom"
 msgstr "Vlastní"
 
@@ -687,7 +697,8 @@ msgstr "Žádná"
 msgid "Square"
 msgstr "Čtverec"
 
-#: ../data/glade/gthumb_crop.glade.h:12 ../src/ui.h:403
+#: ../data/glade/gthumb_crop.glade.h:12
+#: ../src/gth-window-actions-entries.h:171
 msgid "_Crop"
 msgstr "_Oříznout"
 
@@ -1370,7 +1381,8 @@ msgstr "S_eznam"
 msgid "_Slides"
 msgstr "Sním_ky"
 
-#: ../data/glade/gthumb_preferences.glade.h:66 ../src/ui.h:617
+#: ../data/glade/gthumb_preferences.glade.h:66
+#: ../src/gth-browser-actions-entries.h:405
 msgid "_Thumbnails"
 msgstr "Minia_tury"
 
@@ -1437,10 +1449,6 @@ msgstr "Centr_ovat na stránce"
 #: ../data/glade/gthumb_print.glade.h:16
 msgid "Comment _font:"
 msgstr "_Písmo komentáře:"
-
-#: ../data/glade/gthumb_print.glade.h:17
-msgid "Custom size..."
-msgstr "Vlastní velikost..."
 
 #: ../data/glade/gthumb_print.glade.h:18
 msgid "Executive"
@@ -1576,8 +1584,8 @@ msgstr "Hledat _libovolnou vybranou kategorii"
 msgid "New _Search..."
 msgstr "Nové _hledání..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:807
-#: ../src/dlg-photo-importer.c:1427
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:809
+#: ../src/dlg-photo-importer.c:1428
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
 
@@ -1590,7 +1598,9 @@ msgstr "Průběh vyhledávání"
 msgid "Searching in:"
 msgstr "Hledám v:"
 
-#: ../data/glade/gthumb_search.glade.h:24 ../src/ui.h:198 ../src/ui.h:233
+#: ../data/glade/gthumb_search.glade.h:24
+#: ../src/gth-browser-actions-entries.h:155
+#: ../src/gth-browser-actions-entries.h:190
 msgid "_Edit Search"
 msgstr "Upravit hl_edání"
 
@@ -1637,7 +1647,9 @@ msgstr "_Aplikovat na všechny obrázky"
 msgid "C_urrent date"
 msgstr "_Dnešní datum"
 
-#: ../data/glade/gthumb_tools.glade.h:10 ../src/ui.h:36 ../src/ui.h:37
+#: ../data/glade/gthumb_tools.glade.h:10
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "Ka_talog"
 
@@ -1689,8 +1701,11 @@ msgstr "Zrcadlit obrázek horizontálně (zleva doprava)"
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Zrcadlit obrázek vertikálně (seshora dolů)"
 
-#: ../data/glade/gthumb_tools.glade.h:23 ../src/ui.h:113 ../src/ui.h:138
-#: ../src/ui.h:263 ../src/ui.h:293
+#: ../data/glade/gthumb_tools.glade.h:23
+#: ../src/gth-browser-actions-entries.h:85
+#: ../src/gth-browser-actions-entries.h:110
+#: ../src/gth-browser-actions-entries.h:220
+#: ../src/gth-browser-actions-entries.h:250
 msgid "Move to _Trash"
 msgstr "Přesunout do _Koše"
 
@@ -1734,8 +1749,10 @@ msgstr "_Následující datum:"
 msgid "Write To CD"
 msgstr "Zapsat na CD"
 
-#: ../data/glade/gthumb_tools.glade.h:37 ../src/actions.c:289
-#: ../src/actions.c:797 ../src/actions.c:1321
+#: ../data/glade/gthumb_tools.glade.h:37
+#: ../src/gth-browser-actions-callbacks.c:156
+#: ../src/gth-browser-actions-callbacks.c:584
+#: ../src/gth-browser-actions-callbacks.c:1093
 msgid "_Rename"
 msgstr "_Přejmenovat"
 
@@ -1904,6 +1921,14 @@ msgstr "index.html"
 msgid "rows"
 msgstr "řádků"
 
+#: ../data/GNOME_GThumb.server.in.in.h:1
+msgid "GThumb Application"
+msgstr "Aplikace GThumb"
+
+#: ../data/GNOME_GThumb.server.in.in.h:2
+msgid "GThumb Application Factory"
+msgstr "Generátor aplikace GThumb"
+
 #: ../data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
 msgstr "Prohlížení a uspořádání vašich obrázků"
@@ -2062,10 +2087,10 @@ msgstr "Odstraňuji staré komentáře, prosím počkejte..."
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: ../libgthumb/comments.c:944 ../src/catalog-web-exporter.c:50
-#: ../src/dlg-duplicates.c:550 ../src/dlg-image-prop.c:439
-#: ../src/fullscreen.c:225 ../src/gth-exif-data-viewer.c:472
-#: ../src/gthumb-window.c:272
+#: ../libgthumb/comments.c:944 ../src/catalog-web-exporter.c:51
+#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
+#: ../src/fullscreen.c:218 ../src/gth-browser.c:485
+#: ../src/gth-exif-data-viewer.c:472 ../src/gth-viewer.c:596
 msgid "%d %B %Y, %H:%M"
 msgstr "%d. %B %Y, %H:%M"
 
@@ -2074,14 +2099,14 @@ msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
 #: ../libgthumb/dlg-save-image.c:120 ../src/dlg-file-utils.c:118
-#: ../src/dlg-jpegtran.c:770 ../src/dlg-photo-importer.c:1452
+#: ../src/dlg-jpegtran.c:772 ../src/dlg-photo-importer.c:1453
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři \"%s\""
 
-#: ../libgthumb/dlg-save-image.c:136 ../src/actions.c:323
-#: ../src/dlg-convert.c:310
+#: ../libgthumb/dlg-save-image.c:136 ../src/dlg-convert.c:311
+#: ../src/gth-browser-actions-callbacks.c:190
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Obrázek pojmenovaný \"%s\" je již přítomen. Chcete jej přepsat?"
@@ -2187,26 +2212,28 @@ msgstr "Zobrazovat velikost v režimu informací o písmu"
 msgid "Font"
 msgstr "Písmo"
 
-#: ../libgthumb/gth-file-list.c:523 ../src/gthumb-window.c:8388
+#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8803
+#: ../src/gth-viewer.c:1695
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
 
 #: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
-#: ../libgthumb/gth-image-list.c:3443 ../src/gthumb-window.c:502
+#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:714
+#: ../src/gth-viewer.c:762
 msgid "No image"
 msgstr "Žádný obrázek"
 
-#: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:370
-#: ../src/dlg-image-prop.c:595 ../src/gth-exif-data-viewer.c:483
+#: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:601 ../src/gth-exif-data-viewer.c:483
 msgid "Name"
 msgstr "Název"
 
 #: ../libgthumb/gtk-utils.c:628 ../libgthumb/gtk-utils.c:662
-#: ../src/bookmark-list.c:172 ../src/catalog-list.c:436
-#: ../src/catalog-list.c:468 ../src/dir-list.c:244 ../src/dir-list.c:498
-#: ../src/dlg-rename-series.c:289 ../src/dlg-rename-series.c:293
-#: ../src/gthumb-window.c:425 ../src/gthumb-window.c:1107
-#: ../src/gthumb-window.c:1113 ../src/gthumb-window.c:1119
+#: ../src/bookmark-list.c:173 ../src/catalog-list.c:438
+#: ../src/catalog-list.c:470 ../src/dir-list.c:245 ../src/dir-list.c:499
+#: ../src/dlg-rename-series.c:290 ../src/dlg-rename-series.c:294
+#: ../src/gth-browser.c:636 ../src/gth-browser.c:1333
+#: ../src/gth-browser.c:1339 ../src/gth-browser.c:1345
 msgid "(Invalid Name)"
 msgstr "(Neplatný název)"
 
@@ -2215,7 +2242,7 @@ msgstr "(Neplatný název)"
 msgid "Page %d of %d"
 msgstr "Strana %d z %d"
 
-#: ../libgthumb/print-callbacks.c:1740 ../src/catalog-png-exporter.c:1335
+#: ../libgthumb/print-callbacks.c:1740 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítám obrázek: %s"
@@ -2228,243 +2255,60 @@ msgstr "Odstraňuji všechny miniatury, prosím počkejte..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Odstraňuji staré miniatury, prosím počkejte..."
 
-#: ../src/actions.c:285 ../src/actions.c:793 ../src/actions.c:1317
-msgid "Enter the new name: "
-msgstr "Zadejte nový název: "
-
-#: ../src/actions.c:303 ../src/actions.c:813 ../src/actions.c:1036
-#: ../src/actions.c:1113 ../src/actions.c:1335
-#, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím jiný "
-"název."
-
-#: ../src/actions.c:330 ../src/dlg-convert.c:316
-msgid "_Overwrite"
-msgstr "_Přepsat"
-
-#: ../src/actions.c:350 ../src/actions.c:365
-#, c-format
-msgid "Could not rename the image \"%s\": %s"
-msgstr "Nelze přejmenovat obrázek \"%s\": %s"
-
-#: ../src/actions.c:352 ../src/actions.c:1357 ../src/actions.c:1629
-msgid "source and destination are the same"
-msgstr "zdroj a cíl jsou shodné"
-
-#: ../src/actions.c:449
-#, c-format
-msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Nelze duplikovat obrázek \"%s\": %s"
-
-#: ../src/actions.c:457
-msgid "Stop"
-msgstr "Stop"
-
-#: ../src/actions.c:458
-msgid "Continue"
-msgstr "Pokračovat"
-
-#: ../src/actions.c:518
-msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
-
-#: ../src/actions.c:598
-msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
-
-#: ../src/actions.c:760
-msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr "Vybrané obrázky budou z katalogu odstraněny, jste si jisti?"
-
-#: ../src/actions.c:835 ../src/actions.c:1055 ../src/actions.c:1129
-#: ../src/actions.c:1365
-#, c-format
-msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Název \"%s\" je již použit. Použijte prosím jiný název."
-
-#: ../src/actions.c:846
-#, c-format
-msgid "Could not rename the library \"%s\": %s"
-msgstr "Nelze přejmenovat knihovnu \"%s\": %s"
-
-#: ../src/actions.c:846
-#, c-format
-msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Nelze přejmenovat katalog \"%s\": %s"
-
-#: ../src/actions.c:915
-msgid "The selected library will be removed, are you sure?"
-msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
-
-#: ../src/actions.c:917
-msgid "The selected catalog will be removed, are you sure?"
-msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
-
-#: ../src/actions.c:1020 ../src/dlg-catalog.c:82
-msgid "Enter the catalog name: "
-msgstr "Zadejte název katalogu: "
-
-#: ../src/actions.c:1021
-msgid "New Catalog"
-msgstr "Nový katalog"
-
-#: ../src/actions.c:1066
-#, c-format
-msgid "Could not create the catalog \"%s\": %s"
-msgstr "Nelze vytvořit katalog \"%s\": %s"
-
-#: ../src/actions.c:1100 ../src/dlg-catalog.c:86 ../src/dlg-catalog.c:137
-#: ../src/dlg-categories.c:240 ../src/dlg-file-utils.c:90
-msgid "C_reate"
-msgstr "_Vytvořit"
-
-#: ../src/actions.c:1156
-msgid "New Library"
-msgstr "Nová knihovna"
-
-#: ../src/actions.c:1157 ../src/dlg-catalog.c:133
-msgid "Enter the library name: "
-msgstr "Zadejte název knihovny: "
-
-#: ../src/actions.c:1158
-#, c-format
-msgid "Could not create the library \"%s\": %s"
-msgstr "Nelze vytvořit knihovnu \"%s\": %s"
-
-#: ../src/actions.c:1355 ../src/actions.c:1389
-#, c-format
-msgid "Could not rename the folder \"%s\": %s"
-msgstr "Nelze přejmenovat adresář \"%s\": %s"
-
-#: ../src/actions.c:1441
-#, c-format
-msgid "Could not delete the folder \"%s\": %s"
-msgstr "Nelze odstranit adresář \"%s\": %s"
-
-#: ../src/actions.c:1472
-#, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
-
-#: ../src/actions.c:1480 ../src/dlg-file-utils.c:227
-#: ../src/gthumb-window.c:1625
-msgid "_Do not display this message again"
-msgstr "_Příště tuto zprávu nezobrazovat"
-
-#: ../src/actions.c:1513
-msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
-
-#: ../src/actions.c:1515 ../src/dlg-file-utils.c:281
-msgid "_Move"
-msgstr "_Přesunout"
-
-#: ../src/actions.c:1564 ../src/actions.c:1619
-#, c-format
-msgid "Could not copy the folder \"%s\": %s"
-msgstr "Nelze kopírovat adresář \"%s\": %s"
-
-#: ../src/actions.c:1619 ../src/dlg-file-utils.c:2414
-#: ../src/dlg-file-utils.c:2416
-#, c-format
-msgid "Could not move the folder \"%s\": %s"
-msgstr "Nelze přesunout adresář \"%s\": %s"
-
-#: ../src/actions.c:1640
-msgid "source contains destination"
-msgstr "zdroj obsahuje cíl"
-
-#: ../src/actions.c:1651
-msgid "a folder with that name is already present."
-msgstr "adresář s tímto názvem již existuje."
-
-#: ../src/actions.c:1724 ../src/dlg-file-utils.c:367
-#: ../src/dlg-file-utils.c:456
-msgid "Choose the destination folder"
-msgstr "Vyberte cílový adresář"
-
-#: ../src/actions.c:1971
-msgid "New Folder"
-msgstr "Nový adresář"
-
-#: ../src/actions.c:1972
-msgid "Enter the folder name: "
-msgstr "Zadejte název adresáře: "
-
-#: ../src/actions.c:1973 ../src/dlg-photo-importer.c:1435
-#, c-format
-msgid "Could not create the folder \"%s\": %s"
-msgstr "Nelze vytvořit adresář \"%s\": %s"
-
-#: ../src/actions.c:2717
-msgid "translator_credits"
-msgstr ""
-"Michal Bukovjan <bukm@centrum.cz>\n"
-"Miloslav Trmač <mitr@volny.cz>"
-
-#: ../src/actions.c:2729 ../src/gthumb-window.c:443
-#: ../src/gthumb-window.c:4790 ../src/main.c:136
-msgid "gThumb"
-msgstr "gThumb"
-
-#: ../src/actions.c:2732
-msgid "An image viewer and browser for GNOME."
-msgstr "Prohlížeč obrázků pro prostředí GNOME"
-
-#: ../src/actions.c:2772 ../src/dlg-categories.c:366
-#: ../src/dlg-change-date.c:151 ../src/dlg-comment.c:302
-#: ../src/dlg-convert.c:436 ../src/dlg-jpegtran.c:1015
-#: ../src/dlg-preferences.c:182 ../src/dlg-rename-series.c:332
-#: ../src/dlg-search.c:469
-#, c-format
-msgid "Could not display help: %s"
-msgstr "Nelze zobrazit nápovědu: %s"
-
-#: ../src/catalog-png-exporter.c:1564
+#: ../src/catalog-png-exporter.c:1565
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Vytvářím obrázek: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1668
+#: ../src/catalog-web-exporter.c:1669
 msgid "Saving thumbnails"
 msgstr "Ukládám miniatury"
 
-#: ../src/catalog-web-exporter.c:1734
+#: ../src/catalog-web-exporter.c:1735
 msgid "Saving HTML pages: Images"
 msgstr "Ukládám stránky HTML: Obrázky"
 
-#: ../src/catalog-web-exporter.c:1809
+#: ../src/catalog-web-exporter.c:1810
 msgid "Saving HTML pages: Indexes"
 msgstr "Ukládám stránky HTML: Indexy"
 
-#: ../src/catalog-web-exporter.c:1932 ../src/catalog-web-exporter.c:1991
-#: ../src/catalog-web-exporter.c:2161
+#: ../src/catalog-web-exporter.c:1933 ../src/catalog-web-exporter.c:1992
+#: ../src/catalog-web-exporter.c:2162
 msgid "Saving images"
 msgstr "Ukládám obrázky"
 
-#: ../src/catalog-web-exporter.c:2370
+#: ../src/catalog-web-exporter.c:2371
 msgid "Could not create a temporary folder"
 msgstr "Nelze vytvořit dočasný adresář"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2403
+#: ../src/catalog-web-exporter.c:2404
 msgid "Loading images"
 msgstr "Načítám obrázky"
 
-#: ../src/dlg-catalog.c:474
+#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:799
+msgid "Enter the catalog name: "
+msgstr "Zadejte název katalogu: "
+
+#: ../src/dlg-catalog.c:87 ../src/dlg-catalog.c:138
+#: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:90
+#: ../src/gth-browser-actions-callbacks.c:885
+msgid "C_reate"
+msgstr "_Vytvořit"
+
+#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:941
+msgid "Enter the library name: "
+msgstr "Zadejte název knihovny: "
+
+#: ../src/dlg-catalog.c:475
 msgid "Move Catalog to..."
 msgstr "Přesunout katalog do..."
 
-#: ../src/dlg-categories.c:236
+#: ../src/dlg-categories.c:239
 msgid "Enter the new category name"
 msgstr "Zadejte název nové kategorie"
 
-#: ../src/dlg-categories.c:247
+#: ../src/dlg-categories.c:250
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
@@ -2473,49 +2317,62 @@ msgstr ""
 "Název \"%s\" není platný, protože obsahuje znak \",\". Použijte prosím jiný "
 "název."
 
-#: ../src/dlg-categories.c:252
+#: ../src/dlg-categories.c:255
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
 
-#: ../src/dlg-convert.c:164
+#: ../src/dlg-categories.c:369 ../src/dlg-change-date.c:154
+#: ../src/dlg-comment.c:306 ../src/dlg-convert.c:437
+#: ../src/dlg-jpegtran.c:1017 ../src/dlg-preferences.c:183
+#: ../src/dlg-rename-series.c:333 ../src/dlg-search.c:469
+#: ../src/gth-window-actions-callbacks.c:695
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Nelze zobrazit nápovědu: %s"
+
+#: ../src/dlg-convert.c:165
 #, c-format
 msgid "Converting image: %s"
 msgstr "Převádím obrázek: %s"
 
-#: ../src/dlg-convert.c:187
+#: ../src/dlg-convert.c:188
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název."
 
-#: ../src/dlg-crop.c:367
+#: ../src/dlg-convert.c:317 ../src/gth-browser-actions-callbacks.c:197
+msgid "_Overwrite"
+msgstr "_Přepsat"
+
+#: ../src/dlg-crop.c:371
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Obrázek)"
 
-#: ../src/dlg-crop.c:375
+#: ../src/dlg-crop.c:379
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d × %d (Displej)"
 
-#: ../src/dlg-duplicates.c:277 ../src/dlg-duplicates.c:651
+#: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
 msgid "Duplicates"
 msgstr "Duplikáty"
 
-#: ../src/dlg-duplicates.c:292
+#: ../src/dlg-duplicates.c:295
 msgid "Duplicates Size"
 msgstr "Velikost duplikátů"
 
-#: ../src/dlg-duplicates.c:399
+#: ../src/dlg-duplicates.c:402
 msgid "Last modified"
 msgstr "Poslední úprava"
 
-#: ../src/dlg-duplicates.c:414 ../src/dlg-image-prop.c:615
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:621
 msgid "Location"
 msgstr "Umístění"
 
-#: ../src/dlg-duplicates.c:756
+#: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
 
@@ -2538,118 +2395,144 @@ msgid ""
 "permanently?"
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
-#: ../src/dlg-file-utils.c:758 ../src/dlg-file-utils.c:859
+#: ../src/dlg-file-utils.c:227 ../src/gth-browser-actions-callbacks.c:1250
+#: ../src/gth-browser.c:1858 ../src/gth-viewer.c:508
+msgid "_Do not display this message again"
+msgstr "_Příště tuto zprávu nezobrazovat"
+
+#: ../src/dlg-file-utils.c:281 ../src/gth-browser-actions-callbacks.c:1288
+msgid "_Move"
+msgstr "_Přesunout"
+
+#: ../src/dlg-file-utils.c:368 ../src/dlg-file-utils.c:458
+#: ../src/gth-browser-actions-callbacks.c:1497
+msgid "Choose the destination folder"
+msgstr "Vyberte cílový adresář"
+
+#: ../src/dlg-file-utils.c:762 ../src/dlg-file-utils.c:863
 msgid "You didn't enter the new name"
 msgstr "Nezadali jste nový název"
 
-#: ../src/dlg-file-utils.c:770 ../src/dlg-file-utils.c:871
+#: ../src/dlg-file-utils.c:774 ../src/dlg-file-utils.c:875
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Název \"%s\" je již v tomto adresáři použit. Použijte prosím jiný název."
 
-#: ../src/dlg-file-utils.c:1010
+#: ../src/dlg-file-utils.c:1014
 msgid "Could not rename the image:"
 msgstr "Nelze přejmenovat obrázek:"
 
-#: ../src/dlg-file-utils.c:1012
+#: ../src/dlg-file-utils.c:1016
 msgid "Could not rename the following images:"
 msgstr "Nelze přejmenovat následující obrázky:"
 
-#: ../src/dlg-file-utils.c:1146
+#: ../src/dlg-file-utils.c:1150
 msgid "Could not move the image:"
 msgstr "Nelze přesunout obrázek:"
 
-#: ../src/dlg-file-utils.c:1148
+#: ../src/dlg-file-utils.c:1152
 msgid "Could not copy the image:"
 msgstr "Nelze kopírovat obrázek:"
 
-#: ../src/dlg-file-utils.c:1172 ../src/dlg-file-utils.c:2437
+#: ../src/dlg-file-utils.c:1176 ../src/dlg-file-utils.c:2441
 msgid "_Abort"
 msgstr "Přer_ušit"
 
-#: ../src/dlg-file-utils.c:1173 ../src/dlg-file-utils.c:2438
+#: ../src/dlg-file-utils.c:1177 ../src/dlg-file-utils.c:2442
 msgid "_Continue"
 msgstr "_Pokračovat"
 
-#: ../src/dlg-file-utils.c:1347
+#: ../src/dlg-file-utils.c:1351
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopíruji %d. soubor ze %d"
 
-#: ../src/dlg-file-utils.c:1763 ../src/dlg-file-utils.c:1991
+#: ../src/dlg-file-utils.c:1767 ../src/dlg-file-utils.c:1995
 msgid "Collecting images info"
 msgstr "Zjišťuji informace o obrázcích"
 
-#: ../src/dlg-file-utils.c:1766 ../src/dlg-file-utils.c:2004
+#: ../src/dlg-file-utils.c:1770 ../src/dlg-file-utils.c:2008
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Odstraňuji %ld. soubor ze %ld"
 
-#: ../src/dlg-file-utils.c:1994
+#: ../src/dlg-file-utils.c:1998
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopíruji %ld. soubor ze %ld"
 
-#: ../src/dlg-file-utils.c:1999
+#: ../src/dlg-file-utils.c:2003
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Přesouvám %ld. soubor ze %ld"
 
-#: ../src/dlg-image-prop.c:600 ../src/gth-exif-data-viewer.c:490
+#: ../src/dlg-file-utils.c:2418 ../src/dlg-file-utils.c:2420
+#: ../src/gth-browser-actions-callbacks.c:1389
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Nelze přesunout adresář \"%s\": %s"
+
+#: ../src/dlg-image-prop.c:606 ../src/gth-exif-data-viewer.c:490
 msgid "Size"
 msgstr "Velikost"
 
-#: ../src/dlg-image-prop.c:605
+#: ../src/dlg-image-prop.c:611
 msgid "Type"
 msgstr "Typ"
 
-#: ../src/dlg-image-prop.c:620 ../src/gth-exif-data-viewer.c:504
-#: ../src/gthumb-window.c:288
+#: ../src/dlg-image-prop.c:626 ../src/gth-browser.c:501
+#: ../src/gth-exif-data-viewer.c:504 ../src/gth-viewer.c:612
 msgid "Modified"
 msgstr "Změněn"
 
-#: ../src/dlg-image-prop.c:625
+#: ../src/dlg-image-prop.c:631
 msgid "Information on Channel"
 msgstr "Informace o kanálu"
 
-#: ../src/dlg-image-prop.c:743
+#: ../src/dlg-image-prop.c:746
 #, c-format
 msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
-#: ../src/dlg-photo-importer.c:874 ../src/dlg-photo-importer.c:1377
-#: ../src/dlg-photo-importer.c:1426 ../src/dlg-photo-importer.c:1438
-#: ../src/dlg-photo-importer.c:1454 ../src/dlg-photo-importer.c:1483
+#: ../src/dlg-photo-importer.c:876 ../src/dlg-photo-importer.c:1378
+#: ../src/dlg-photo-importer.c:1427 ../src/dlg-photo-importer.c:1439
+#: ../src/dlg-photo-importer.c:1455 ../src/dlg-photo-importer.c:1484
 msgid "Could not import photos"
 msgstr "Nemohu importovat fotografie"
 
-#: ../src/dlg-photo-importer.c:1219 ../src/main.c:1054
+#: ../src/dlg-photo-importer.c:1221 ../src/main.c:1133
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-png-exporter.c:929
+#: ../src/dlg-photo-importer.c:1436
+#: ../src/gth-browser-actions-callbacks.c:1700
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Nelze vytvořit adresář \"%s\": %s"
+
+#: ../src/dlg-png-exporter.c:931
 msgid "Image Caption"
 msgstr "Titulek obrázku"
 
-#: ../src/dlg-png-exporter.c:983
+#: ../src/dlg-png-exporter.c:985
 msgid "Header"
 msgstr "Záhlaví"
 
-#: ../src/dlg-png-exporter.c:996 ../src/dlg-png-exporter.c:1002
+#: ../src/dlg-png-exporter.c:998 ../src/dlg-png-exporter.c:1004
 msgid "Footer"
 msgstr "Zápatí"
 
-#: ../src/dlg-rename-series.c:402
+#: ../src/dlg-rename-series.c:403
 msgid "Old Name"
 msgstr "Starý název"
 
-#: ../src/dlg-rename-series.c:410
+#: ../src/dlg-rename-series.c:411
 msgid "New Name"
 msgstr "Nový název"
 
-#: ../src/dlg-search.c:356
+#: ../src/dlg-search.c:357
 msgid "Search Result"
 msgstr "Výsledek hledání"
 
@@ -2661,53 +2544,832 @@ msgstr "Název souboru"
 msgid "Folder"
 msgstr "Adresář"
 
-#: ../src/dlg-web-exporter.c:701
+#: ../src/dlg-web-exporter.c:702
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gthumb-window.c:3440
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3702
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
 #. restore normal view
-#: ../src/fullscreen.c:874 ../src/ui.h:448
+#: ../src/fullscreen.c:873 ../src/gth-window-actions-entries.h:206
 msgid "Restore Normal View"
 msgstr "Obnovit normální pohled"
 
 #. image info
-#: ../src/fullscreen.c:883
+#: ../src/fullscreen.c:882
 msgid "Image Info"
 msgstr "Informace o obrázku"
 
 #. back
-#: ../src/fullscreen.c:892 ../src/gthumb-window.c:4049
+#: ../src/fullscreen.c:891 ../src/gth-browser.c:4946
 msgid "Back"
 msgstr "Zpět"
 
 #. forward
-#: ../src/fullscreen.c:901
+#: ../src/fullscreen.c:900
 msgid "Forward"
 msgstr "Vpřed"
 
 #. zoom in
-#: ../src/fullscreen.c:910 ../src/ui.h:418
+#: ../src/fullscreen.c:909 ../src/gth-window-actions-entries.h:176
 msgid "In"
 msgstr "Zvětšit"
 
 #. zoom out
-#: ../src/fullscreen.c:919 ../src/ui.h:423
+#: ../src/fullscreen.c:918 ../src/gth-window-actions-entries.h:181
 msgid "Out"
 msgstr "Zmenšit"
 
 #. zoom 100
-#: ../src/fullscreen.c:928 ../src/ui.h:428
+#: ../src/fullscreen.c:927 ../src/gth-window-actions-entries.h:186
 msgid "1:1"
 msgstr "1:1"
 
 #. zoom fit
-#: ../src/fullscreen.c:937 ../src/ui.h:433
+#: ../src/fullscreen.c:936 ../src/gth-window-actions-entries.h:191
 msgid "Fit"
 msgstr "Přizpůsobit"
+
+#: ../src/gth-browser-actions-callbacks.c:152
+#: ../src/gth-browser-actions-callbacks.c:580
+#: ../src/gth-browser-actions-callbacks.c:1089
+msgid "Enter the new name: "
+msgstr "Zadejte nový název: "
+
+#: ../src/gth-browser-actions-callbacks.c:170
+#: ../src/gth-browser-actions-callbacks.c:600
+#: ../src/gth-browser-actions-callbacks.c:815
+#: ../src/gth-browser-actions-callbacks.c:898
+#: ../src/gth-browser-actions-callbacks.c:1107
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"Název \"%s\" není platný, protože obsahuje znak \"/\". Použijte prosím jiný "
+"název."
+
+#: ../src/gth-browser-actions-callbacks.c:217
+#: ../src/gth-browser-actions-callbacks.c:232
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Nelze přejmenovat obrázek \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:219
+#: ../src/gth-browser-actions-callbacks.c:1129
+#: ../src/gth-browser-actions-callbacks.c:1399
+msgid "source and destination are the same"
+msgstr "zdroj a cíl jsou shodné"
+
+#: ../src/gth-browser-actions-callbacks.c:276
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "Obrázek bude přesunut do Koše, jste si jisti?"
+
+#: ../src/gth-browser-actions-callbacks.c:389
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Nelze duplikovat obrázek \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:397
+msgid "Stop"
+msgstr "Stop"
+
+#: ../src/gth-browser-actions-callbacks.c:398
+msgid "Continue"
+msgstr "Pokračovat"
+
+#: ../src/gth-browser-actions-callbacks.c:450
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Vybrané obrázky budou přesunuty do Koše, jste si jisti?"
+
+#: ../src/gth-browser-actions-callbacks.c:622
+#: ../src/gth-browser-actions-callbacks.c:834
+#: ../src/gth-browser-actions-callbacks.c:914
+#: ../src/gth-browser-actions-callbacks.c:1137
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "Název \"%s\" je již použit. Použijte prosím jiný název."
+
+#: ../src/gth-browser-actions-callbacks.c:633
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Nelze přejmenovat knihovnu \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:633
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Nelze přejmenovat katalog \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:703
+msgid "The selected library will be removed, are you sure?"
+msgstr "Vybraná knihovna bude odstraněna, jste si jisti?"
+
+#: ../src/gth-browser-actions-callbacks.c:705
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Vybraný katalog bude odstraněn, jste si jisti?"
+
+#: ../src/gth-browser-actions-callbacks.c:800
+msgid "New Catalog"
+msgstr "Nový katalog"
+
+#: ../src/gth-browser-actions-callbacks.c:846
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Nelze vytvořit katalog \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:940
+msgid "New Library"
+msgstr "Nová knihovna"
+
+#: ../src/gth-browser-actions-callbacks.c:942
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Nelze vytvořit knihovnu \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1127
+#: ../src/gth-browser-actions-callbacks.c:1161
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Nelze přejmenovat adresář \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1211
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Nelze odstranit adresář \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1242
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\" nebylo možné přesunout do Koše. Chcete jej odstranit natrvalo?"
+
+#: ../src/gth-browser-actions-callbacks.c:1286
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Vybraný adresář bude přesunut do Koše, jste si jisti?"
+
+#: ../src/gth-browser-actions-callbacks.c:1334
+#: ../src/gth-browser-actions-callbacks.c:1389
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Nelze kopírovat adresář \"%s\": %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1410
+msgid "source contains destination"
+msgstr "zdroj obsahuje cíl"
+
+#: ../src/gth-browser-actions-callbacks.c:1421
+msgid "a folder with that name is already present."
+msgstr "adresář s tímto názvem již existuje."
+
+#: ../src/gth-browser-actions-callbacks.c:1698
+msgid "New Folder"
+msgstr "Nový adresář"
+
+#: ../src/gth-browser-actions-callbacks.c:1699
+msgid "Enter the folder name: "
+msgstr "Zadejte název adresáře: "
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "_Soubor"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "_Adresář"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "Ú_pravy"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "Zobrazit/S_krýt"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "Třídit _obrázky"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr "_Zvětšit"
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "Pře_jít"
+
+#: ../src/gth-browser-actions-entries.h:47
+#: ../src/gth-viewer-actions-entries.h:41
+msgid "_Transform"
+msgstr "_Transformovat"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:42
+msgid "Auto"
+msgstr "Automaticky"
+
+#: ../src/gth-browser-actions-entries.h:49
+msgid "_Bookmarks"
+msgstr "_Záložky"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "_Nástroje"
+
+#: ../src/gth-browser-actions-entries.h:51
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "Nasta_vit obrázek jako pozadí"
+
+#: ../src/gth-browser-actions-entries.h:52
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "Nápo_věda"
+
+#: ../src/gth-browser-actions-entries.h:55
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "No_vé okno"
+
+#: ../src/gth-browser-actions-entries.h:56
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "Vytvořit nové okno"
+
+# FIXME: s/selecte/selected/
+#: ../src/gth-browser-actions-entries.h:61
+msgid "Open the selecte image in a new window"
+msgstr "Otevřít vybraný obrázek v novém okně"
+
+#: ../src/gth-browser-actions-entries.h:65
+msgid "Proper_ties"
+msgstr "Vlas_tnosti"
+
+#: ../src/gth-browser-actions-entries.h:66
+msgid "View image properties"
+msgstr "Zobrazit vlastnosti obrázku"
+
+#: ../src/gth-browser-actions-entries.h:70
+msgid "_Import Photos..."
+msgstr "_Importovat fotografie..."
+
+#: ../src/gth-browser-actions-entries.h:71
+msgid "Import photos from a digital camera"
+msgstr "Importovat fotografie z digitálního fotoaparátu"
+
+#: ../src/gth-browser-actions-entries.h:75
+msgid "_Write To CD"
+msgstr "_Zapsat na CD"
+
+#: ../src/gth-browser-actions-entries.h:76
+msgid "Write selection to CD"
+msgstr "Zapsat výběr na CD"
+
+#: ../src/gth-browser-actions-entries.h:80
+#: ../src/gth-browser-actions-entries.h:100
+#: ../src/gth-browser-actions-entries.h:140
+#: ../src/gth-browser-actions-entries.h:175
+#: ../src/gth-browser-actions-entries.h:215
+#: ../src/gth-browser-actions-entries.h:245
+msgid "_Rename..."
+msgstr "Pře_jmenovat..."
+
+#: ../src/gth-browser-actions-entries.h:81
+msgid "Rename this image"
+msgstr "Přejmenovat tento obrázek"
+
+#: ../src/gth-browser-actions-entries.h:86
+msgid "Move this image to the Trash"
+msgstr "Přesunout tento obrázek do Koše"
+
+#: ../src/gth-browser-actions-entries.h:90
+#: ../src/gth-browser-actions-entries.h:115
+#: ../src/gth-browser-actions-entries.h:225
+#: ../src/gth-browser-actions-entries.h:255
+msgid "_Copy..."
+msgstr "_Kopírovat..."
+
+#: ../src/gth-browser-actions-entries.h:91
+msgid "Copy this image to another location"
+msgstr "Kopírovat tento obrázek na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:95
+#: ../src/gth-browser-actions-entries.h:120
+#: ../src/gth-browser-actions-entries.h:150
+#: ../src/gth-browser-actions-entries.h:185
+#: ../src/gth-browser-actions-entries.h:230
+#: ../src/gth-browser-actions-entries.h:260
+msgid "_Move..."
+msgstr "_Přesunout..."
+
+#: ../src/gth-browser-actions-entries.h:96
+msgid "Move this image to another location"
+msgstr "Přesunout tento obrázek na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:101
+msgid "Rename selected image"
+msgstr "Přejmenovat vybraný obrázek"
+
+#: ../src/gth-browser-actions-entries.h:105
+msgid "D_uplicate"
+msgstr "_Duplikovat"
+
+#: ../src/gth-browser-actions-entries.h:106
+msgid "Duplicate selected image"
+msgstr "Duplikovat vybraný obrázek"
+
+#: ../src/gth-browser-actions-entries.h:111
+msgid "Move the selected images to the Trash"
+msgstr "Přesunout vybrané obrázky do Koše"
+
+#: ../src/gth-browser-actions-entries.h:116
+msgid "Copy selected images to another location"
+msgstr "Kopírovat vybrané obrázky na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:121
+msgid "Move selected images to another location"
+msgstr "Přesunout vybrané obrázky na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:125
+msgid "_Select All"
+msgstr "Vybrat vš_e"
+
+#: ../src/gth-browser-actions-entries.h:126
+msgid "Select all images"
+msgstr "Vybrat všechny obrázky"
+
+#: ../src/gth-browser-actions-entries.h:130
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "Přid_at do katalogu..."
+
+#: ../src/gth-browser-actions-entries.h:131
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr "Přidat vybrané obrázky do katalogu"
+
+#: ../src/gth-browser-actions-entries.h:135
+msgid "Remo_ve from Catalog"
+msgstr "Odstranit z katalo_gu"
+
+#: ../src/gth-browser-actions-entries.h:136
+msgid "Remove selected images from the catalog"
+msgstr "Odstranit vybrané obrázky z katalogu"
+
+#: ../src/gth-browser-actions-entries.h:141
+msgid "Rename selected catalog"
+msgstr "Přejmenovat vybraný katalog"
+
+#: ../src/gth-browser-actions-entries.h:145
+#: ../src/gth-browser-actions-entries.h:180
+msgid "Rem_ove"
+msgstr "_Odstranit"
+
+#: ../src/gth-browser-actions-entries.h:146
+msgid "Remove selected catalog"
+msgstr "Odstranit vybraný katalog"
+
+#: ../src/gth-browser-actions-entries.h:151
+msgid "Move selected catalog to another location"
+msgstr "Přesunout vybraný katalog na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:156
+#: ../src/gth-browser-actions-entries.h:191
+msgid "Modify search criteria"
+msgstr "Upravit podmínky vyhledávání"
+
+#: ../src/gth-browser-actions-entries.h:160
+#: ../src/gth-browser-actions-entries.h:195
+msgid "Redo _Search"
+msgstr "Znovu prové_st hledání"
+
+#: ../src/gth-browser-actions-entries.h:161
+#: ../src/gth-browser-actions-entries.h:196
+msgid "Redo the search"
+msgstr "Znovu provést hledání"
+
+#: ../src/gth-browser-actions-entries.h:165
+msgid "_New Catalog..."
+msgstr "_Nový katalog..."
+
+#: ../src/gth-browser-actions-entries.h:166
+msgid "Create a new catalog"
+msgstr "Vytvořit nový katalog"
+
+#: ../src/gth-browser-actions-entries.h:170
+msgid "New _Library..."
+msgstr "Nová _knihovna..."
+
+#: ../src/gth-browser-actions-entries.h:171
+msgid "Create a new catalog library"
+msgstr "Vytvořit novou knihovnu katalogů"
+
+#: ../src/gth-browser-actions-entries.h:176
+msgid "Rename current catalog"
+msgstr "Přejmenovat aktuální katalog"
+
+#: ../src/gth-browser-actions-entries.h:181
+msgid "Remove current catalog"
+msgstr "Odstranit aktuální katalog"
+
+#: ../src/gth-browser-actions-entries.h:186
+msgid "Move current catalog to another location"
+msgstr "Přesunout aktuální katalog na jiné místo"
+
+#: ../src/gth-browser-actions-entries.h:200
+msgid "Open"
+msgstr "Otevřít"
+
+#: ../src/gth-browser-actions-entries.h:201
+msgid "Open the selected folder"
+msgstr "Otevřít vybraný adresář"
+
+#: ../src/gth-browser-actions-entries.h:205
+msgid "Open in New Window"
+msgstr "Otevřít v novém okně"
+
+#: ../src/gth-browser-actions-entries.h:206
+msgid "Open the selected folder in a new window"
+msgstr "Otevřít vybraný adresář v novém okně"
+
+#: ../src/gth-browser-actions-entries.h:210
+#: ../src/gth-browser-actions-entries.h:240
+msgid "Open with the _File Manager"
+msgstr "Otevřít ve _správci souborů"
+
+#: ../src/gth-browser-actions-entries.h:211
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Otevřít vybraný adresář správcem souborů Nautilus"
+
+#: ../src/gth-browser-actions-entries.h:216
+msgid "Rename selected folder"
+msgstr "Přejmenovat vybraný adresář"
+
+#: ../src/gth-browser-actions-entries.h:221
+msgid "Move the selected folder to the Trash"
+msgstr "Přesunout vybraný adresář do Koše"
+
+#: ../src/gth-browser-actions-entries.h:226
+msgid "Copy selected folder"
+msgstr "Kopírovat vybraný adresář"
+
+#: ../src/gth-browser-actions-entries.h:231
+msgid "Move selected folder"
+msgstr "Přesunout vybraný adresář"
+
+#: ../src/gth-browser-actions-entries.h:235
+#: ../src/gth-browser-actions-entries.h:265
+#: ../src/gth-window-actions-entries.h:81
+msgid "Ca_tegories"
+msgstr "Ka_tegorie"
+
+#: ../src/gth-browser-actions-entries.h:236
+msgid "Assign categories to the selected folder"
+msgstr "Přiřadit vybranému adresáři kategorie"
+
+#: ../src/gth-browser-actions-entries.h:241
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Otevřít aktuální adresář správcem souborů Nautilus"
+
+#: ../src/gth-browser-actions-entries.h:246
+msgid "Rename current folder"
+msgstr "Přejmenovat aktuální adresář"
+
+#: ../src/gth-browser-actions-entries.h:251
+msgid "Move the current folder to the Trash"
+msgstr "Přesunout aktuální adresář do Koše"
+
+#: ../src/gth-browser-actions-entries.h:256
+msgid "Copy current folder"
+msgstr "Kopírovat aktuální adresář"
+
+#: ../src/gth-browser-actions-entries.h:261
+msgid "Move current folder"
+msgstr "Přesunout aktuální adresář"
+
+#: ../src/gth-browser-actions-entries.h:266
+msgid "Assign categories to the current folder"
+msgstr "Přiřadit k aktuálnímu adresáři kategorie"
+
+#: ../src/gth-browser-actions-entries.h:270
+msgid "_New Folder..."
+msgstr "_Nový adresář..."
+
+#: ../src/gth-browser-actions-entries.h:271
+msgid "Create a new folder"
+msgstr "Vytvořit nový adresář"
+
+#: ../src/gth-browser-actions-entries.h:275
+msgid "Next"
+msgstr "Následující"
+
+#: ../src/gth-browser-actions-entries.h:276
+msgid "View next image"
+msgstr "Zobrazit další obrázek"
+
+#: ../src/gth-browser-actions-entries.h:280
+msgid "Previous"
+msgstr "Předchozí"
+
+#: ../src/gth-browser-actions-entries.h:281
+msgid "View previous image"
+msgstr "Zobrazit předchozí obrázek"
+
+#: ../src/gth-browser-actions-entries.h:286 ../src/gth-browser.c:4947
+msgid "Go to the previous visited location"
+msgstr "Přejít na předchozí navštívené místo"
+
+#: ../src/gth-browser-actions-entries.h:291
+msgid "Go to the next visited location"
+msgstr "Přejít na další navštívené místo"
+
+#: ../src/gth-browser-actions-entries.h:296
+msgid "Go up one level"
+msgstr "Přejít o úroveň výše"
+
+#: ../src/gth-browser-actions-entries.h:300
+msgid "_Reload"
+msgstr "_Znovu načíst"
+
+#: ../src/gth-browser-actions-entries.h:301
+msgid "Reload the current location"
+msgstr "Znovu načíst současné umístění"
+
+#: ../src/gth-browser-actions-entries.h:306
+msgid "Stop loading current location"
+msgstr "Přestat s načítáním tohoto místa"
+
+#: ../src/gth-browser-actions-entries.h:311
+msgid "Go to the home folder"
+msgstr "Přejít do domovského adresáře"
+
+#: ../src/gth-browser-actions-entries.h:315
+msgid "_Go to the Image Folder"
+msgstr "Pře_jít do adresáře obrázku"
+
+#: ../src/gth-browser-actions-entries.h:316
+msgid "Go to the folder that contains the selected image"
+msgstr "Přejít do adresáře obsahujícího vybraný obrázek"
+
+#: ../src/gth-browser-actions-entries.h:320
+msgid "_Delete History"
+msgstr "_Odstranit historii"
+
+#: ../src/gth-browser-actions-entries.h:321
+msgid "Delete the list of visited locations"
+msgstr "Vymazat seznam navštívených míst"
+
+#: ../src/gth-browser-actions-entries.h:325
+msgid "_Location..."
+msgstr "_Umístění..."
+
+#: ../src/gth-browser-actions-entries.h:326
+msgid "Specify a location to visit"
+msgstr "Které místo chcete navštívit"
+
+#: ../src/gth-browser-actions-entries.h:330
+msgid "_Add Bookmark"
+msgstr "_Přidat záložku"
+
+#: ../src/gth-browser-actions-entries.h:331
+msgid "Add current location to bookmarks"
+msgstr "Přidat současnou pozici k záložkám"
+
+#: ../src/gth-browser-actions-entries.h:335
+msgid "_Edit Bookmarks"
+msgstr "_Upravit záložky"
+
+#: ../src/gth-browser-actions-entries.h:336
+msgid "Edit bookmarks"
+msgstr "Upravit záložky"
+
+#: ../src/gth-browser-actions-entries.h:340
+msgid "_Slide Show"
+msgstr "Promítání _snímků"
+
+#: ../src/gth-browser-actions-entries.h:341
+msgid "View as a slide show"
+msgstr "Zobrazit jako promítání snímků"
+
+#: ../src/gth-browser-actions-entries.h:346
+msgid "Find images"
+msgstr "Hledat obrázky"
+
+#: ../src/gth-browser-actions-entries.h:350
+msgid "Create _Index Image"
+msgstr "Vytvořit obrázek s _indexem"
+
+#: ../src/gth-browser-actions-entries.h:355
+msgid "Create _Web Album"
+msgstr "Vytvořit _WWW album"
+
+#: ../src/gth-browser-actions-entries.h:360
+msgid "_Rename Series"
+msgstr "Přej_menovat řadu"
+
+#: ../src/gth-browser-actions-entries.h:365
+msgid "Convert F_ormat"
+msgstr "Převést _formát"
+
+#: ../src/gth-browser-actions-entries.h:370
+msgid "Fi_nd Duplicates..."
+msgstr "Hledat d_uplikáty..."
+
+#: ../src/gth-browser-actions-entries.h:375
+msgid "Ro_tate Images"
+msgstr "_Otočit obrázky"
+
+#: ../src/gth-browser-actions-entries.h:376
+msgid "Rotate images without loss of quality"
+msgstr "Otočit obrázky beze ztráty kvality"
+
+#: ../src/gth-browser-actions-entries.h:381
+msgid "Edit various preferences"
+msgstr "Upravit různá nastavení"
+
+#: ../src/gth-browser-actions-entries.h:385
+msgid "Change _Date"
+msgstr "Změnit _datum"
+
+#: ../src/gth-browser-actions-entries.h:386
+msgid "Change images last modified date"
+msgstr "Změna data poslední úpravy obrázku"
+
+#: ../src/gth-browser-actions-entries.h:395
+#: ../src/gth-viewer-actions-entries.h:67
+msgid "_Toolbar"
+msgstr "Lišta _nástrojů"
+
+#: ../src/gth-browser-actions-entries.h:396
+#: ../src/gth-viewer-actions-entries.h:68
+msgid "View or hide the toolbar of this window"
+msgstr "Zobrazit nebo skrýt lištu nástrojů tohoto okna"
+
+#: ../src/gth-browser-actions-entries.h:400
+#: ../src/gth-viewer-actions-entries.h:72
+msgid "_Statusbar"
+msgstr "_Stavová lišta"
+
+#: ../src/gth-browser-actions-entries.h:401
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "View or hide the statusbar of this window"
+msgstr "Zobrazit nebo skrýt stavovou lištu tohoto okna"
+
+#: ../src/gth-browser-actions-entries.h:406
+msgid "View thumbnails"
+msgstr "Zobrazit miniatury"
+
+#: ../src/gth-browser-actions-entries.h:410
+msgid "_Image Preview"
+msgstr "Náhled o_brázku"
+
+#: ../src/gth-browser-actions-entries.h:411
+#: ../src/gth-browser-actions-entries.h:454
+msgid "View the image"
+msgstr "Zobrazit obrázek"
+
+#: ../src/gth-browser-actions-entries.h:415
+#: ../src/gth-viewer-actions-entries.h:77
+msgid "Image _Comment"
+msgstr "_Komentář obrázku"
+
+#: ../src/gth-browser-actions-entries.h:416
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "View image comment"
+msgstr "Zobrazit komentář obrázku"
+
+#: ../src/gth-browser-actions-entries.h:420
+msgid "_Reversed Order"
+msgstr "_Obrácené pořadí"
+
+#: ../src/gth-browser-actions-entries.h:421
+msgid "Reverse images order"
+msgstr "Obrátit pořadí obrázků"
+
+#: ../src/gth-browser-actions-entries.h:430
+msgid "by _Name"
+msgstr "podle _názvu"
+
+#: ../src/gth-browser-actions-entries.h:431
+msgid "Sort images by name"
+msgstr "Třídit obrázky podle názvu"
+
+#: ../src/gth-browser-actions-entries.h:433
+msgid "by _Path"
+msgstr "podle _cesty"
+
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Sort images by path"
+msgstr "Třídit obrázky podle cesty"
+
+#: ../src/gth-browser-actions-entries.h:436
+msgid "by _Size"
+msgstr "podle _velikosti"
+
+#: ../src/gth-browser-actions-entries.h:437
+msgid "Sort images by file size"
+msgstr "Třídit obrázky podle velikosti souboru"
+
+#: ../src/gth-browser-actions-entries.h:439
+msgid "by _Time"
+msgstr "podle č_asu"
+
+#: ../src/gth-browser-actions-entries.h:440
+msgid "Sort images by modification time"
+msgstr "Třídit obrázky podle času poslední úpravy"
+
+#: ../src/gth-browser-actions-entries.h:447
+msgid "_Folders"
+msgstr "_Adresáře"
+
+#: ../src/gth-browser-actions-entries.h:448
+msgid "View the folders"
+msgstr "Zobrazit adresáře"
+
+#: ../src/gth-browser-actions-entries.h:450
+msgid "_Catalogs"
+msgstr "Katalo_gy"
+
+#: ../src/gth-browser-actions-entries.h:451
+msgid "View the catalogs"
+msgstr "Zobrazit katalogy"
+
+#: ../src/gth-browser.c:536 ../src/gth-viewer.c:647
+msgid "[Press 'c' to add a comment]"
+msgstr "[Pro přidání komentáře stiskněte 'c']"
+
+#: ../src/gth-browser.c:610 ../src/gth-browser.c:629 ../src/gth-viewer.c:716
+#: ../src/gth-viewer.c:759
+msgid "[modified]"
+msgstr "[změněn]"
+
+#: ../src/gth-browser.c:654 ../src/gth-window-actions-callbacks.c:655
+#: ../src/main.c:138
+msgid "gThumb"
+msgstr "gThumb"
+
+#: ../src/gth-browser.c:716
+#, c-format
+msgid "1 image (%s)"
+msgstr "1 obrázek (%s)"
+
+#: ../src/gth-browser.c:719
+#, c-format
+msgid "%d images (%s)"
+msgstr "obrázků: %d (%s)"
+
+#: ../src/gth-browser.c:726
+#, c-format
+msgid "1 selected (%s)"
+msgstr "1 vybraný (%s)"
+
+#: ../src/gth-browser.c:729
+#, c-format
+msgid "%d selected (%s)"
+msgstr "vybráno: %d (%s)"
+
+#: ../src/gth-browser.c:1855 ../src/gth-viewer.c:505
+msgid "The current image has been modified, do you want to save it?"
+msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
+
+#: ../src/gth-browser.c:1856 ../src/gth-viewer.c:506
+msgid "Do Not Save"
+msgstr "Neukládat"
+
+#: ../src/gth-browser.c:3493
+msgid "Dragged Images"
+msgstr "Tažené obrázky"
+
+#: ../src/gth-browser.c:5550
+msgid "Close"
+msgstr "Zavřít"
+
+#: ../src/gth-browser.c:5564 ../src/gth-viewer.c:1337
+msgid "Image comment"
+msgstr "Komentář obrázku"
+
+#: ../src/gth-browser.c:5578
+msgid "Image data"
+msgstr "Data obrázku"
+
+#: ../src/gth-browser.c:5592
+msgid "Image preview"
+msgstr "Náhled obrázku"
+
+#: ../src/gth-browser.c:6889
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr "Nelze načíst adresář \"%s\": %s\n"
+
+#: ../src/gth-browser.c:7173
+msgid "The specified catalog does not exist."
+msgstr "Zadaný katalog neexistuje."
 
 #: ../src/gth-exif-data-viewer.c:131
 msgid "Field"
@@ -2725,88 +3387,293 @@ msgstr "Pro_bírat..."
 msgid "_Recents:"
 msgstr "Ne_dávné:"
 
-#: ../src/gthumb-window.c:322
-msgid "[Press 'c' to add a comment]"
-msgstr "[Pro přidání komentáře stiskněte 'c']"
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "Open _Folder"
+msgstr "Otevřít _adresář"
 
-#: ../src/gthumb-window.c:396 ../src/gthumb-window.c:418
-msgid "[modified]"
-msgstr "[změněn]"
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Browse the image folder"
+msgstr "Procházet adresář obrázku"
 
-#: ../src/gthumb-window.c:504
-#, c-format
-msgid "1 image (%s)"
-msgstr "1 obrázek (%s)"
+#: ../src/gth-window-actions-callbacks.c:644
+msgid "translator_credits"
+msgstr ""
+"Michal Bukovjan <bukm@centrum.cz>\n"
+"Miloslav Trmač <mitr@volny.cz>"
 
-#: ../src/gthumb-window.c:507
-#, c-format
-msgid "%d images (%s)"
-msgstr "obrázků: %d (%s)"
+#: ../src/gth-window-actions-callbacks.c:658
+msgid "An image viewer and browser for GNOME."
+msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
-#: ../src/gthumb-window.c:514
-#, c-format
-msgid "1 selected (%s)"
-msgstr "1 vybraný (%s)"
+#: ../src/gth-window-actions-entries.h:37
+msgid "Close this window"
+msgstr "Zavřít toto okno"
 
-#: ../src/gthumb-window.c:517
-#, c-format
-msgid "%d selected (%s)"
-msgstr "vybráno: %d (%s)"
+#: ../src/gth-window-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:66
+msgid "_Open With"
+msgstr "_Otevřít pomocí"
 
-#: ../src/gthumb-window.c:1622
-msgid "The current image has been modified, do you want to save it?"
-msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
+#: ../src/gth-window-actions-entries.h:42
+msgid "Open selected images with an application"
+msgstr "Otevřít vybrané obrázky pomocí aplikace"
 
-#: ../src/gthumb-window.c:1623
-msgid "Do Not Save"
-msgstr "Neukládat"
+#: ../src/gth-window-actions-entries.h:57
+msgid "Revert to saved image"
+msgstr "Návrat k uložené verzi obrázku"
 
-#: ../src/gthumb-window.c:3232
-msgid "Dragged Images"
-msgstr "Tažené obrázky"
+#: ../src/gth-window-actions-entries.h:67
+msgid "Open this image with an application"
+msgstr "Otevřít tento obrázek pomocí aplikace"
 
-#: ../src/gthumb-window.c:4064 ../src/ui.h:459
-msgid "Go to the previous visited location"
-msgstr "Přejít na předchozí navštívené místo"
+#: ../src/gth-window-actions-entries.h:72
+msgid "Add a comment to selected images"
+msgstr "Přidat komentář k vybraným obrázkům"
 
-#: ../src/gthumb-window.c:5015 ../src/ui.h:464
-msgid "Go to the next visited location"
-msgstr "Přejít na další navštívené místo"
+#: ../src/gth-window-actions-entries.h:76
+msgid "Rem_ove Comment"
+msgstr "_Odstranit komentář"
 
-#: ../src/gthumb-window.c:5022 ../src/ui.h:469
-msgid "Go up one level"
-msgstr "Přejít o úroveň výše"
+#: ../src/gth-window-actions-entries.h:77
+msgid "Remove comments of selected images"
+msgstr "Odstranit komentáře vybraných obrázků"
 
-#: ../src/gthumb-window.c:5029 ../src/ui.h:484
-msgid "Go to the home folder"
-msgstr "Přejít do domovského adresáře"
+#: ../src/gth-window-actions-entries.h:82
+msgid "Assign categories to selected images"
+msgstr "Přiřadit vybraným obrázkům kategorie"
 
-#: ../src/gthumb-window.c:5223
-msgid "Close"
-msgstr "Zavřít"
+#: ../src/gth-window-actions-entries.h:86
+msgid "Rotate Ri_ght"
+msgstr "Otočit do_prava"
 
-#: ../src/gthumb-window.c:5237
-msgid "Image comment"
-msgstr "Komentář obrázku"
+#: ../src/gth-window-actions-entries.h:87
+msgid "View the image rotated clockwise"
+msgstr "Zobrazit obrázek otočený po směru hodinových ručiček"
 
-#: ../src/gthumb-window.c:5251
-msgid "Image data"
-msgstr "Data obrázku"
+#: ../src/gth-window-actions-entries.h:91
+msgid "Rotate _Left"
+msgstr "Otočit do_leva"
 
-#: ../src/gthumb-window.c:5265
-msgid "Image preview"
-msgstr "Náhled obrázku"
+#: ../src/gth-window-actions-entries.h:92
+msgid "View the image rotated counter-clockwise"
+msgstr "Zobrazit obrázek otočený proti směru hodinových ručiček"
 
-#: ../src/gthumb-window.c:6568
-#, c-format
-msgid "Cannot load folder \"%s\": %s\n"
-msgstr "Nelze načíst adresář \"%s\": %s\n"
+#: ../src/gth-window-actions-entries.h:97
+msgid "View the image flipped"
+msgstr "Zobrazit obrázek obráceně"
 
-#: ../src/gthumb-window.c:6838
-msgid "The specified catalog does not exist."
-msgstr "Zadaný katalog neexistuje."
+#: ../src/gth-window-actions-entries.h:102
+msgid "View the image mirrored"
+msgstr "Zobrazit obrázek zrcadlený"
 
-#: ../src/main.c:84
+#: ../src/gth-window-actions-entries.h:106
+msgid "_Desaturate"
+msgstr "O_dsytit"
+
+#: ../src/gth-window-actions-entries.h:107
+msgid "View the image in black and white"
+msgstr "Zobrazit obrázek černobíle"
+
+#: ../src/gth-window-actions-entries.h:111
+msgid "_Negative"
+msgstr "_Negativ"
+
+#: ../src/gth-window-actions-entries.h:112
+msgid "View the image with negative colors"
+msgstr "Zobrazit obrázek v barvách negativu"
+
+#: ../src/gth-window-actions-entries.h:116
+msgid "_Enhance"
+msgstr "_Vylepšit"
+
+#: ../src/gth-window-actions-entries.h:117
+msgid "Automatically adjust the color levels"
+msgstr "Automaticky upravit úrovně barev"
+
+#: ../src/gth-window-actions-entries.h:121
+msgid "_Equalize"
+msgstr "_Ekvalizovat"
+
+#: ../src/gth-window-actions-entries.h:122
+msgid "Automatically equalize the image histogram"
+msgstr "Automaticky ekvalizovat histogram obrázku"
+
+#: ../src/gth-window-actions-entries.h:126
+msgid "_Normalize"
+msgstr "_Normalizovat"
+
+#: ../src/gth-window-actions-entries.h:127
+msgid "Automatically normalize the contrast"
+msgstr "Automaticky normalizovat kontrast"
+
+#: ../src/gth-window-actions-entries.h:131
+msgid "_Stretch Contrast"
+msgstr "_Rozložit kontrast"
+
+#: ../src/gth-window-actions-entries.h:132
+msgid "Automatically stretch the contrast"
+msgstr "Automaticky rozložit kontrast"
+
+#: ../src/gth-window-actions-entries.h:136
+msgid "_Posterize"
+msgstr "_Posterizace"
+
+#: ../src/gth-window-actions-entries.h:137
+msgid "Reduce the number of colors"
+msgstr "Redukovat počet barev"
+
+#: ../src/gth-window-actions-entries.h:141
+msgid "_Brightness-Contrast"
+msgstr "_Jas - Kontrast"
+
+#: ../src/gth-window-actions-entries.h:142
+msgid "Adjust brightness and contrast"
+msgstr "Upravit jas a kontrast"
+
+#: ../src/gth-window-actions-entries.h:146
+msgid "_Hue-Saturation"
+msgstr "_Odstín - Sytost"
+
+#: ../src/gth-window-actions-entries.h:147
+msgid "Adjust hue and saturation"
+msgstr "Upravit odstín a sytost"
+
+#: ../src/gth-window-actions-entries.h:151
+msgid "_Color Balance"
+msgstr "_Barevné vyvážení"
+
+#: ../src/gth-window-actions-entries.h:152
+msgid "Adjust color balance"
+msgstr "Upravit barevné vyvážení"
+
+#: ../src/gth-window-actions-entries.h:156
+msgid "_Threshold"
+msgstr "_Práh"
+
+#: ../src/gth-window-actions-entries.h:157
+msgid "Apply threshold"
+msgstr "Použít práh"
+
+#: ../src/gth-window-actions-entries.h:161
+msgid "_Resize"
+msgstr "Z_měnit velikost"
+
+#: ../src/gth-window-actions-entries.h:162
+msgid "Resize image"
+msgstr "Změnit velikost obrázku"
+
+#: ../src/gth-window-actions-entries.h:166
+msgid "_Rotate"
+msgstr "_Otočit"
+
+#: ../src/gth-window-actions-entries.h:167
+msgid "Rotate image"
+msgstr "Otočit obrázek"
+
+#: ../src/gth-window-actions-entries.h:172
+msgid "Crop image"
+msgstr "Oříznout obrázek"
+
+#: ../src/gth-window-actions-entries.h:177
+msgid "Zoom in"
+msgstr "Zvětšit"
+
+#: ../src/gth-window-actions-entries.h:182
+msgid "Zoom out"
+msgstr "Zmenšit"
+
+#: ../src/gth-window-actions-entries.h:187
+msgid "Actual size"
+msgstr "Skutečná velikost"
+
+#: ../src/gth-window-actions-entries.h:192
+msgid "Zoom to fit window"
+msgstr "Přizpůsobit velikosti okna"
+
+#: ../src/gth-window-actions-entries.h:196
+msgid "Step A_nimation"
+msgstr "Krokovat a_nimaci"
+
+#: ../src/gth-window-actions-entries.h:201
+msgid "_Full Screen"
+msgstr "_Celá obrazovka"
+
+#: ../src/gth-window-actions-entries.h:202
+#: ../src/gth-window-actions-entries.h:207
+msgid "View image in fullscreen mode"
+msgstr "Zobrazit obrázek v celoobrazovkovém režimu"
+
+#: ../src/gth-window-actions-entries.h:211
+msgid "_Centered"
+msgstr "_Na střed"
+
+#: ../src/gth-window-actions-entries.h:212
+msgid "Set the image as desktop background (centered)"
+msgstr "Nastavení obrázku jako pozadí pracovní plochy (na střed)"
+
+#: ../src/gth-window-actions-entries.h:216
+msgid "_Tiled"
+msgstr "_Dlaždice"
+
+#: ../src/gth-window-actions-entries.h:217
+msgid "Set the image as desktop background (tiled)"
+msgstr "Nastavení obrázku jako pozadí pracovní plochy (dlaždice)"
+
+#: ../src/gth-window-actions-entries.h:221
+msgid "_Scaled"
+msgstr "_Přizpůsobený"
+
+#: ../src/gth-window-actions-entries.h:222
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr ""
+"Nastavení obrázku jako pozadí pracovní plochy (zvětšený při zachování poměru "
+"stran)"
+
+#: ../src/gth-window-actions-entries.h:226
+msgid "Str_etched"
+msgstr "_Roztažený"
+
+#: ../src/gth-window-actions-entries.h:227
+msgid "Set the image as desktop background (stretched)"
+msgstr "Nastavení obrázku jako pozadí pracovní plochy (roztažený)"
+
+#: ../src/gth-window-actions-entries.h:231
+msgid "_Restore"
+msgstr "_Obnovit"
+
+#: ../src/gth-window-actions-entries.h:232
+msgid "Restore the original desktop wallpaper"
+msgstr "Obnovit původní tapetu pracovní plochy"
+
+#: ../src/gth-window-actions-entries.h:237
+msgid "Show information about gThumb"
+msgstr "Zobrazit informace o gThumb"
+
+#: ../src/gth-window-actions-entries.h:246
+msgid "_Keyboard Shortcuts"
+msgstr "_Klávesové zkratky"
+
+#: ../src/gth-window-actions-entries.h:255
+msgid "Play _Animation"
+msgstr "Přehrát _animaci"
+
+#: ../src/gth-window-actions-entries.h:265
+msgid "_High Quality"
+msgstr "_Vysoká kvalita"
+
+#: ../src/gth-window-actions-entries.h:266
+msgid "Use high quality zoom"
+msgstr "Použít vysoce kvalitní zvětšení"
+
+#: ../src/gth-window-actions-entries.h:268
+msgid "_Low Quality"
+msgstr "Nízká kva_lita"
+
+#: ../src/gth-window-actions-entries.h:269
+msgid "Use low quality zoom"
+msgstr "Použít málo kvalitní zvětšení"
+
+#: ../src/main.c:85
 msgid "Start in fullscreen mode"
 msgstr "Začít v celoobrazovkovém režimu"
 
@@ -2814,1145 +3681,58 @@ msgstr "Začít v celoobrazovkovém režimu"
 msgid "Automatically start a slideshow"
 msgstr "Automaticky začít s promítáním snímků"
 
-#: ../src/main.c:92
+#: ../src/main.c:91
 msgid "Automatically import digital camera photos"
 msgstr "Automaticky importovat fotografie z digitálního fotoaparátu"
 
-#: ../src/main.c:173
+#: ../src/main.c:175
 msgid "Holidays"
 msgstr "Dovolená"
 
-#: ../src/main.c:174
+#: ../src/main.c:176
 msgid "Temporary"
 msgstr "Dočasné"
 
-#: ../src/main.c:175
+#: ../src/main.c:177
 msgid "Screenshots"
 msgstr "Sejmuté obrazovky"
 
-#: ../src/main.c:176
+#: ../src/main.c:178
 msgid "Science"
 msgstr "Věda"
 
-#: ../src/main.c:177
+#: ../src/main.c:179
 msgid "Favourite"
 msgstr "Oblíbené"
 
-#: ../src/main.c:178
+#: ../src/main.c:180
 msgid "Important"
 msgstr "Důležité"
 
-#: ../src/main.c:179
+#: ../src/main.c:181
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:180
+#: ../src/main.c:182
 msgid "Games"
 msgstr "Hry"
 
-#: ../src/main.c:181
+#: ../src/main.c:183
 msgid "Party"
 msgstr "Večírek"
 
-#: ../src/main.c:182
+#: ../src/main.c:184
 msgid "Birthday"
 msgstr "Narozeniny"
 
-#: ../src/main.c:183
+#: ../src/main.c:185
 msgid "Astronomy"
 msgstr "Astronomie"
 
-#: ../src/main.c:184
+#: ../src/main.c:186
 msgid "Family"
 msgstr "Rodina"
 
-#: ../src/main.c:361 ../src/main.c:446
+#: ../src/main.c:364 ../src/main.c:490
 msgid "Command Line"
 msgstr "Příkazový řádek"
-
-#: ../src/ui.h:34
-msgid "_File"
-msgstr "_Soubor"
-
-#: ../src/ui.h:35
-msgid "_Folder"
-msgstr "_Adresář"
-
-#: ../src/ui.h:38
-msgid "_Edit"
-msgstr "Ú_pravy"
-
-#: ../src/ui.h:40
-msgid "Show/_Hide"
-msgstr "Zobrazit/S_krýt"
-
-#: ../src/ui.h:41
-msgid "S_ort Images"
-msgstr "Třídit _obrázky"
-
-#: ../src/ui.h:42
-msgid "_Zoom"
-msgstr "_Zvětšit"
-
-#: ../src/ui.h:43
-msgid "_Go"
-msgstr "Pře_jít"
-
-#: ../src/ui.h:45
-msgid "_Transform"
-msgstr "_Transformovat"
-
-#: ../src/ui.h:46
-msgid "Auto"
-msgstr "Automaticky"
-
-#: ../src/ui.h:47
-msgid "_Bookmarks"
-msgstr "_Záložky"
-
-#: ../src/ui.h:48
-msgid "_Tools"
-msgstr "_Nástroje"
-
-#: ../src/ui.h:49
-msgid "Set Image as _Wallpaper"
-msgstr "Nasta_vit obrázek jako pozadí"
-
-#: ../src/ui.h:50
-msgid "_Help"
-msgstr "Nápo_věda"
-
-#: ../src/ui.h:53
-msgid "New _Window"
-msgstr "No_vé okno"
-
-#: ../src/ui.h:54
-msgid "Create a new window"
-msgstr "Vytvořit nové okno"
-
-#: ../src/ui.h:58
-msgid "_Close"
-msgstr "_Zavřít"
-
-#: ../src/ui.h:59
-msgid "Close this window"
-msgstr "Zavřít toto okno"
-
-#: ../src/ui.h:63 ../src/ui.h:98
-msgid "_Open With"
-msgstr "_Otevřít pomocí"
-
-#: ../src/ui.h:64
-msgid "Open selected images with an application"
-msgstr "Otevřít vybrané obrázky pomocí aplikace"
-
-#: ../src/ui.h:73
-msgid "_Revert"
-msgstr "V_rátit"
-
-#: ../src/ui.h:74
-msgid "Revert to saved image"
-msgstr "Návrat k uložené verzi obrázku"
-
-#: ../src/ui.h:78
-msgid "_Print..."
-msgstr "_Tisk..."
-
-#: ../src/ui.h:83 ../src/ui.h:453
-msgid "Proper_ties"
-msgstr "Vlas_tnosti"
-
-#: ../src/ui.h:84 ../src/ui.h:454
-msgid "View image properties"
-msgstr "Zobrazit vlastnosti obrázku"
-
-#: ../src/ui.h:88
-msgid "_Import Photos..."
-msgstr "_Importovat fotografie..."
-
-#: ../src/ui.h:89
-msgid "Import photos from a digital camera"
-msgstr "Importovat fotografie z digitálního fotoaparátu"
-
-#: ../src/ui.h:93
-msgid "_Write To CD"
-msgstr "_Zapsat na CD"
-
-#: ../src/ui.h:94
-msgid "Write selection to CD"
-msgstr "Zapsat výběr na CD"
-
-#: ../src/ui.h:99
-msgid "Open this image with an application"
-msgstr "Otevřít tento obrázek pomocí aplikace"
-
-#: ../src/ui.h:103 ../src/ui.h:128 ../src/ui.h:183 ../src/ui.h:218
-#: ../src/ui.h:258 ../src/ui.h:288
-msgid "_Rename..."
-msgstr "Pře_jmenovat..."
-
-#: ../src/ui.h:104
-msgid "Rename this image"
-msgstr "Přejmenovat tento obrázek"
-
-#: ../src/ui.h:108 ../src/ui.h:133
-msgid "D_uplicate"
-msgstr "_Duplikovat"
-
-#: ../src/ui.h:109
-msgid "Duplicate this image"
-msgstr "Duplikovat tento obrázek"
-
-#: ../src/ui.h:114
-msgid "Move this image to the Trash"
-msgstr "Přesunout tento obrázek do Koše"
-
-#: ../src/ui.h:118 ../src/ui.h:143 ../src/ui.h:268 ../src/ui.h:298
-msgid "_Copy..."
-msgstr "_Kopírovat..."
-
-#: ../src/ui.h:119
-msgid "Copy this image to another location"
-msgstr "Kopírovat tento obrázek na jiné místo"
-
-#: ../src/ui.h:123 ../src/ui.h:148 ../src/ui.h:193 ../src/ui.h:228
-#: ../src/ui.h:273 ../src/ui.h:303
-msgid "_Move..."
-msgstr "_Přesunout..."
-
-#: ../src/ui.h:124
-msgid "Move this image to another location"
-msgstr "Přesunout tento obrázek na jiné místo"
-
-#: ../src/ui.h:129
-msgid "Rename selected image"
-msgstr "Přejmenovat vybraný obrázek"
-
-#: ../src/ui.h:134
-msgid "Duplicate selected image"
-msgstr "Duplikovat vybraný obrázek"
-
-#: ../src/ui.h:139
-msgid "Move the selected images to the Trash"
-msgstr "Přesunout vybrané obrázky do Koše"
-
-#: ../src/ui.h:144
-msgid "Copy selected images to another location"
-msgstr "Kopírovat vybrané obrázky na jiné místo"
-
-#: ../src/ui.h:149
-msgid "Move selected images to another location"
-msgstr "Přesunout vybrané obrázky na jiné místo"
-
-#: ../src/ui.h:153
-msgid "_Select All"
-msgstr "Vybrat vš_e"
-
-#: ../src/ui.h:154
-msgid "Select all images"
-msgstr "Vybrat všechny obrázky"
-
-#: ../src/ui.h:159
-msgid "Add a comment to selected images"
-msgstr "Přidat komentář k vybraným obrázkům"
-
-#: ../src/ui.h:163
-msgid "Rem_ove Comment"
-msgstr "_Odstranit komentář"
-
-#: ../src/ui.h:164
-msgid "Remove comments of selected images"
-msgstr "Odstranit komentáře vybraných obrázků"
-
-#: ../src/ui.h:168 ../src/ui.h:278 ../src/ui.h:308
-msgid "Ca_tegories"
-msgstr "Ka_tegorie"
-
-#: ../src/ui.h:169
-msgid "Assign categories to selected images"
-msgstr "Přiřadit vybraným obrázkům kategorie"
-
-#: ../src/ui.h:173
-msgid "_Add to Catalog..."
-msgstr "Přid_at do katalogu..."
-
-#: ../src/ui.h:174
-msgid "Add selected images to a catalog"
-msgstr "Přidat vybrané obrázky do katalogu"
-
-#: ../src/ui.h:178
-msgid "Remo_ve from Catalog"
-msgstr "Odstranit z katalo_gu"
-
-#: ../src/ui.h:179
-msgid "Remove selected images from the catalog"
-msgstr "Odstranit vybrané obrázky z katalogu"
-
-#: ../src/ui.h:184
-msgid "Rename selected catalog"
-msgstr "Přejmenovat vybraný katalog"
-
-#: ../src/ui.h:188 ../src/ui.h:223
-msgid "Rem_ove"
-msgstr "_Odstranit"
-
-#: ../src/ui.h:189
-msgid "Remove selected catalog"
-msgstr "Odstranit vybraný katalog"
-
-#: ../src/ui.h:194
-msgid "Move selected catalog to another location"
-msgstr "Přesunout vybraný katalog na jiné místo"
-
-#: ../src/ui.h:199 ../src/ui.h:234
-msgid "Modify search criteria"
-msgstr "Upravit podmínky vyhledávání"
-
-#: ../src/ui.h:203 ../src/ui.h:238
-msgid "Redo _Search"
-msgstr "Znovu prové_st hledání"
-
-#: ../src/ui.h:204 ../src/ui.h:239
-msgid "Redo the search"
-msgstr "Znovu provést hledání"
-
-#: ../src/ui.h:208
-msgid "_New Catalog..."
-msgstr "_Nový katalog..."
-
-#: ../src/ui.h:209
-msgid "Create a new catalog"
-msgstr "Vytvořit nový katalog"
-
-#: ../src/ui.h:213
-msgid "New _Library..."
-msgstr "Nová _knihovna..."
-
-#: ../src/ui.h:214
-msgid "Create a new catalog library"
-msgstr "Vytvořit novou knihovnu katalogů"
-
-#: ../src/ui.h:219
-msgid "Rename current catalog"
-msgstr "Přejmenovat aktuální katalog"
-
-#: ../src/ui.h:224
-msgid "Remove current catalog"
-msgstr "Odstranit aktuální katalog"
-
-#: ../src/ui.h:229
-msgid "Move current catalog to another location"
-msgstr "Přesunout aktuální katalog na jiné místo"
-
-#: ../src/ui.h:243
-msgid "Open"
-msgstr "Otevřít"
-
-#: ../src/ui.h:244
-msgid "Open the selected folder"
-msgstr "Otevřít vybraný adresář"
-
-#: ../src/ui.h:248
-msgid "Open in New Window"
-msgstr "Otevřít v novém okně"
-
-#: ../src/ui.h:249
-msgid "Open the selected folder in a new window"
-msgstr "Otevřít vybraný adresář v novém okně"
-
-#: ../src/ui.h:253 ../src/ui.h:283
-msgid "Open with the _File Manager"
-msgstr "Otevřít ve _správci souborů"
-
-#: ../src/ui.h:254
-msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Otevřít vybraný adresář správcem souborů Nautilus"
-
-#: ../src/ui.h:259
-msgid "Rename selected folder"
-msgstr "Přejmenovat vybraný adresář"
-
-#: ../src/ui.h:264
-msgid "Move the selected folder to the Trash"
-msgstr "Přesunout vybraný adresář do Koše"
-
-#: ../src/ui.h:269
-msgid "Copy selected folder"
-msgstr "Kopírovat vybraný adresář"
-
-#: ../src/ui.h:274
-msgid "Move selected folder"
-msgstr "Přesunout vybraný adresář"
-
-#: ../src/ui.h:279
-msgid "Assign categories to the selected folder"
-msgstr "Přiřadit vybranému adresáři kategorie"
-
-#: ../src/ui.h:284
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Otevřít aktuální adresář správcem souborů Nautilus"
-
-#: ../src/ui.h:289
-msgid "Rename current folder"
-msgstr "Přejmenovat aktuální adresář"
-
-#: ../src/ui.h:294
-msgid "Move the current folder to the Trash"
-msgstr "Přesunout aktuální adresář do Koše"
-
-#: ../src/ui.h:299
-msgid "Copy current folder"
-msgstr "Kopírovat aktuální adresář"
-
-#: ../src/ui.h:304
-msgid "Move current folder"
-msgstr "Přesunout aktuální adresář"
-
-#: ../src/ui.h:309
-msgid "Assign categories to the current folder"
-msgstr "Přiřadit k aktuálnímu adresáři kategorie"
-
-#: ../src/ui.h:313
-msgid "_New Folder..."
-msgstr "_Nový adresář..."
-
-#: ../src/ui.h:314
-msgid "Create a new folder"
-msgstr "Vytvořit nový adresář"
-
-#: ../src/ui.h:318
-msgid "Rotate Ri_ght"
-msgstr "Otočit do_prava"
-
-#: ../src/ui.h:319
-msgid "View the image rotated clockwise"
-msgstr "Zobrazit obrázek otočený po směru hodinových ručiček"
-
-#: ../src/ui.h:323
-msgid "Rotate _Left"
-msgstr "Otočit do_leva"
-
-#: ../src/ui.h:324
-msgid "View the image rotated counter-clockwise"
-msgstr "Zobrazit obrázek otočený proti směru hodinových ručiček"
-
-#: ../src/ui.h:329
-msgid "View the image flipped"
-msgstr "Zobrazit obrázek obráceně"
-
-#: ../src/ui.h:334
-msgid "View the image mirrored"
-msgstr "Zobrazit obrázek zrcadlený"
-
-#: ../src/ui.h:338
-msgid "_Desaturate"
-msgstr "O_dsytit"
-
-#: ../src/ui.h:339
-msgid "View the image in black and white"
-msgstr "Zobrazit obrázek černobíle"
-
-#: ../src/ui.h:343
-msgid "_Negative"
-msgstr "_Negativ"
-
-#: ../src/ui.h:344
-msgid "View the image with negative colors"
-msgstr "Zobrazit obrázek v barvách negativu"
-
-#: ../src/ui.h:348
-msgid "_Enhance"
-msgstr "_Vylepšit"
-
-#: ../src/ui.h:349
-msgid "Automatically adjust the color levels"
-msgstr "Automaticky upravit úrovně barev"
-
-#: ../src/ui.h:353
-msgid "_Equalize"
-msgstr "_Ekvalizovat"
-
-#: ../src/ui.h:354
-msgid "Automatically equalize the image histogram"
-msgstr "Automaticky ekvalizovat histogram obrázku"
-
-#: ../src/ui.h:358
-msgid "_Normalize"
-msgstr "_Normalizovat"
-
-#: ../src/ui.h:359
-msgid "Automatically normalize the contrast"
-msgstr "Automaticky normalizovat kontrast"
-
-#: ../src/ui.h:363
-msgid "_Stretch Contrast"
-msgstr "_Rozložit kontrast"
-
-#: ../src/ui.h:364
-msgid "Automatically stretch the contrast"
-msgstr "Automaticky rozložit kontrast"
-
-#: ../src/ui.h:368
-msgid "_Posterize"
-msgstr "_Posterizace"
-
-#: ../src/ui.h:369
-msgid "Reduce the number of colors"
-msgstr "Redukovat počet barev"
-
-#: ../src/ui.h:373
-msgid "_Brightness-Contrast"
-msgstr "_Jas - Kontrast"
-
-#: ../src/ui.h:374
-msgid "Adjust brightness and contrast"
-msgstr "Upravit jas a kontrast"
-
-#: ../src/ui.h:378
-msgid "_Hue-Saturation"
-msgstr "_Odstín - Sytost"
-
-#: ../src/ui.h:379
-msgid "Adjust hue and saturation"
-msgstr "Upravit odstín a sytost"
-
-#: ../src/ui.h:383
-msgid "_Color Balance"
-msgstr "_Barevné vyvážení"
-
-#: ../src/ui.h:384
-msgid "Adjust color balance"
-msgstr "Upravit barevné vyvážení"
-
-#: ../src/ui.h:388
-msgid "_Threshold"
-msgstr "_Práh"
-
-#: ../src/ui.h:389
-msgid "Apply threshold"
-msgstr "Použít práh"
-
-#: ../src/ui.h:393
-msgid "_Resize"
-msgstr "Z_měnit velikost"
-
-#: ../src/ui.h:394
-msgid "Resize image"
-msgstr "Změnit velikost obrázku"
-
-#: ../src/ui.h:398
-msgid "_Rotate"
-msgstr "_Otočit"
-
-#: ../src/ui.h:399
-msgid "Rotate image"
-msgstr "Otočit obrázek"
-
-#: ../src/ui.h:404
-msgid "Crop image"
-msgstr "Oříznout obrázek"
-
-#: ../src/ui.h:408
-msgid "Next"
-msgstr "Následující"
-
-#: ../src/ui.h:409
-msgid "View next image"
-msgstr "Zobrazit další obrázek"
-
-#: ../src/ui.h:413
-msgid "Previous"
-msgstr "Předchozí"
-
-#: ../src/ui.h:414
-msgid "View previous image"
-msgstr "Zobrazit předchozí obrázek"
-
-#: ../src/ui.h:419
-msgid "Zoom in"
-msgstr "Zvětšit"
-
-#: ../src/ui.h:424
-msgid "Zoom out"
-msgstr "Zmenšit"
-
-#: ../src/ui.h:429
-msgid "Actual size"
-msgstr "Skutečná velikost"
-
-#: ../src/ui.h:434
-msgid "Zoom to fit window"
-msgstr "Přizpůsobit velikosti okna"
-
-#: ../src/ui.h:438
-msgid "Step A_nimation"
-msgstr "Krokovat a_nimaci"
-
-#: ../src/ui.h:443
-msgid "_Full Screen"
-msgstr "_Celá obrazovka"
-
-#: ../src/ui.h:444 ../src/ui.h:449
-msgid "View image in fullscreen mode"
-msgstr "Zobrazit obrázek v celoobrazovkovém režimu"
-
-#: ../src/ui.h:458
-msgid "_Back"
-msgstr "_Zpět"
-
-#: ../src/ui.h:463
-msgid "_Forward"
-msgstr "_Vpřed"
-
-#: ../src/ui.h:468
-msgid "_Up"
-msgstr "Na_horu"
-
-#: ../src/ui.h:473
-msgid "_Reload"
-msgstr "_Znovu načíst"
-
-#: ../src/ui.h:474
-msgid "Reload the current location"
-msgstr "Znovu načíst současné umístění"
-
-#: ../src/ui.h:478
-msgid "_Stop"
-msgstr "Za_stavit"
-
-#: ../src/ui.h:479
-msgid "Stop loading current location"
-msgstr "Přestat s načítáním tohoto místa"
-
-#: ../src/ui.h:483
-msgid "_Home"
-msgstr "_Domů"
-
-#: ../src/ui.h:488
-msgid "_Go to the Image Folder"
-msgstr "Pře_jít do adresáře obrázku"
-
-#: ../src/ui.h:489
-msgid "Go to the folder that contains the selected image"
-msgstr "Přejít do adresáře obsahujícího vybraný obrázek"
-
-#: ../src/ui.h:493
-msgid "_Delete History"
-msgstr "_Odstranit historii"
-
-#: ../src/ui.h:494
-msgid "Delete the list of visited locations"
-msgstr "Vymazat seznam navštívených míst"
-
-#: ../src/ui.h:498
-msgid "_Location..."
-msgstr "_Umístění..."
-
-#: ../src/ui.h:499
-msgid "Specify a location to visit"
-msgstr "Které místo chcete navštívit"
-
-#: ../src/ui.h:503
-msgid "_Add Bookmark"
-msgstr "_Přidat záložku"
-
-#: ../src/ui.h:504
-msgid "Add current location to bookmarks"
-msgstr "Přidat současnou pozici k záložkám"
-
-#: ../src/ui.h:508
-msgid "_Edit Bookmarks"
-msgstr "_Upravit záložky"
-
-#: ../src/ui.h:509
-msgid "Edit bookmarks"
-msgstr "Upravit záložky"
-
-#: ../src/ui.h:513
-msgid "_Centered"
-msgstr "_Na střed"
-
-#: ../src/ui.h:514
-msgid "Set the image as desktop background (centered)"
-msgstr "Nastavení obrázku jako pozadí pracovní plochy (na střed)"
-
-#: ../src/ui.h:518
-msgid "_Tiled"
-msgstr "_Dlaždice"
-
-#: ../src/ui.h:519
-msgid "Set the image as desktop background (tiled)"
-msgstr "Nastavení obrázku jako pozadí pracovní plochy (dlaždice)"
-
-#: ../src/ui.h:523
-msgid "_Scaled"
-msgstr "_Přizpůsobený"
-
-#: ../src/ui.h:524
-msgid "Set the image as desktop background (scaled keeping aspect ratio)"
-msgstr ""
-"Nastavení obrázku jako pozadí pracovní plochy (zvětšený při zachování poměru "
-"stran)"
-
-#: ../src/ui.h:528
-msgid "Str_etched"
-msgstr "_Roztažený"
-
-#: ../src/ui.h:529
-msgid "Set the image as desktop background (stretched)"
-msgstr "Nastavení obrázku jako pozadí pracovní plochy (roztažený)"
-
-#: ../src/ui.h:533
-msgid "_Restore"
-msgstr "_Obnovit"
-
-#: ../src/ui.h:534
-msgid "Restore the original desktop wallpaper"
-msgstr "Obnovit původní tapetu pracovní plochy"
-
-#: ../src/ui.h:538
-msgid "_Slide Show"
-msgstr "Promítání _snímků"
-
-#: ../src/ui.h:539
-msgid "View as a slide show"
-msgstr "Zobrazit jako promítání snímků"
-
-#: ../src/ui.h:543
-msgid "_Find"
-msgstr "_Hledat"
-
-#: ../src/ui.h:544
-msgid "Find images"
-msgstr "Hledat obrázky"
-
-#: ../src/ui.h:548
-msgid "Create _Index Image"
-msgstr "Vytvořit obrázek s _indexem"
-
-#: ../src/ui.h:553
-msgid "Create _Web Album"
-msgstr "Vytvořit _WWW album"
-
-#: ../src/ui.h:558
-msgid "_Rename Series"
-msgstr "Přej_menovat řadu"
-
-#: ../src/ui.h:563
-msgid "Convert F_ormat"
-msgstr "Převést _formát"
-
-#: ../src/ui.h:568
-msgid "Fi_nd Duplicates..."
-msgstr "Hledat d_uplikáty..."
-
-#: ../src/ui.h:573
-msgid "Ro_tate Images"
-msgstr "_Otočit obrázky"
-
-#: ../src/ui.h:574
-msgid "Rotate images without loss of quality"
-msgstr "Otočit obrázky beze ztráty kvality"
-
-#: ../src/ui.h:578
-msgid "_Preferences"
-msgstr "Nastav_ení"
-
-#: ../src/ui.h:579
-msgid "Edit various preferences"
-msgstr "Upravit různá nastavení"
-
-#: ../src/ui.h:583
-msgid "Change _Date"
-msgstr "Změnit _datum"
-
-#: ../src/ui.h:584
-msgid "Change images last modified date"
-msgstr "Změna data poslední úpravy obrázku"
-
-#: ../src/ui.h:588
-msgid "_About"
-msgstr "O _aplikaci"
-
-#: ../src/ui.h:589
-msgid "Show information about gThumb"
-msgstr "Zobrazit informace o gThumb"
-
-#: ../src/ui.h:593
-msgid "_Contents"
-msgstr "_Obsah"
-
-#: ../src/ui.h:598
-msgid "_Keyboard Shortcuts"
-msgstr "_Klávesové zkratky"
-
-#: ../src/ui.h:607
-msgid "_Toolbar"
-msgstr "Lišta _nástrojů"
-
-#: ../src/ui.h:608
-msgid "View or hide the toolbar of this window"
-msgstr "Zobrazit nebo skrýt lištu nástrojů tohoto okna"
-
-#: ../src/ui.h:612
-msgid "_Statusbar"
-msgstr "_Stavová lišta"
-
-#: ../src/ui.h:613
-msgid "View or hide the statusbar of this window"
-msgstr "Zobrazit nebo skrýt stavovou lištu tohoto okna"
-
-#: ../src/ui.h:618
-msgid "View thumbnails"
-msgstr "Zobrazit miniatury"
-
-#: ../src/ui.h:622
-msgid "Play _Animation"
-msgstr "Přehrát _animaci"
-
-#: ../src/ui.h:627
-msgid "_Image Preview"
-msgstr "Náhled o_brázku"
-
-#: ../src/ui.h:628 ../src/ui.h:682
-msgid "View the image"
-msgstr "Zobrazit obrázek"
-
-#: ../src/ui.h:632
-msgid "Image _Comment"
-msgstr "_Komentář obrázku"
-
-#: ../src/ui.h:633
-msgid "View image comment"
-msgstr "Zobrazit komentář obrázku"
-
-#: ../src/ui.h:637
-msgid "_Reversed Order"
-msgstr "_Obrácené pořadí"
-
-#: ../src/ui.h:638
-msgid "Reverse images order"
-msgstr "Obrátit pořadí obrázků"
-
-#: ../src/ui.h:647
-msgid "by _Name"
-msgstr "podle _názvu"
-
-#: ../src/ui.h:648
-msgid "Sort images by name"
-msgstr "Třídit obrázky podle názvu"
-
-#: ../src/ui.h:650
-msgid "by _Path"
-msgstr "podle _cesty"
-
-#: ../src/ui.h:651
-msgid "Sort images by path"
-msgstr "Třídit obrázky podle cesty"
-
-#: ../src/ui.h:653
-msgid "by _Size"
-msgstr "podle _velikosti"
-
-#: ../src/ui.h:654
-msgid "Sort images by file size"
-msgstr "Třídit obrázky podle velikosti souboru"
-
-#: ../src/ui.h:656
-msgid "by _Time"
-msgstr "podle č_asu"
-
-#: ../src/ui.h:657
-msgid "Sort images by modification time"
-msgstr "Třídit obrázky podle času poslední úpravy"
-
-#: ../src/ui.h:664
-msgid "_High Quality"
-msgstr "_Vysoká kvalita"
-
-#: ../src/ui.h:665
-msgid "Use high quality zoom"
-msgstr "Použít vysoce kvalitní zvětšení"
-
-#: ../src/ui.h:667
-msgid "_Low Quality"
-msgstr "Nízká kva_lita"
-
-#: ../src/ui.h:668
-msgid "Use low quality zoom"
-msgstr "Použít málo kvalitní zvětšení"
-
-#: ../src/ui.h:675
-msgid "_Folders"
-msgstr "_Adresáře"
-
-#: ../src/ui.h:676
-msgid "View the folders"
-msgstr "Zobrazit adresáře"
-
-#: ../src/ui.h:678
-msgid "_Catalogs"
-msgstr "Katalo_gy"
-
-#: ../src/ui.h:679
-msgid "View the catalogs"
-msgstr "Zobrazit katalogy"
-
-#~ msgid "(click on the image to view it at original size)"
-#~ msgstr "(obrázek si prohlédnete v původní velikosti kliknutím na něj)"
-
-#~ msgid "C_ustom:"
-#~ msgstr "_Vlastní:"
-
-#~ msgid "<b>Comments</b>"
-#~ msgstr "<b>Komentáře</b>"
-
-#~ msgid "<b>Thumbnails</b>"
-#~ msgstr "<b>Miniatury</b>"
-
-#~ msgid "Backup Comments"
-#~ msgstr "Zálohovat komentáře"
-
-#~ msgid "Delete ALL Comments"
-#~ msgstr "Odstranit VŠECHNY komentáře"
-
-#~ msgid "Delete ALL Thumbnails"
-#~ msgstr "Odstranit VŠECHNY miniatury"
-
-#~ msgid "Delete Old Comments"
-#~ msgstr "Odstranit staré komentáře"
-
-#~ msgid "Delete Old Thumbnails"
-#~ msgstr "Odstranit staré miniatury"
-
-#~ msgid "Delete comments of no more existing images"
-#~ msgstr "Odstranit komentáře již neexistujících obrázků"
-
-#~ msgid "Delete thumbnails of no more existing images"
-#~ msgstr "Odstranit miniatury již neexistujících obrázků"
-
-#~ msgid "Maintenance"
-#~ msgstr "Údržba"
-
-#~ msgid "Restore Comments From a Backup File"
-#~ msgstr "Obnovit komentáře ze záložního souboru"
-
-#~ msgid "Select Destination"
-#~ msgstr "Zvolte cíl"
-
-#~ msgid "Print %s"
-#~ msgstr "Tisk %s"
-
-#~ msgid "Print Image"
-#~ msgstr "Tisknout obrázek"
-
-#~ msgid "Add a comment to the image"
-#~ msgstr "Přidat komentář k obrázku"
-
-#~ msgid "Assign categories to the image"
-#~ msgstr "Přiřadit k obrázku kategorie"
-
-#~ msgid "Catalogs"
-#~ msgstr "Katalogy"
-
-#~ msgid "Close all windows and exit"
-#~ msgstr "Zavřít všechna okna a skončit"
-
-#~ msgid "Convert"
-#~ msgstr "Převést"
-
-#~ msgid "Convert image format"
-#~ msgstr "Převod formátu obrázku"
-
-#~ msgid "E_xit"
-#~ msgstr "U_končit"
-
-#~ msgid "Edit Search"
-#~ msgstr "Upravit hledání"
-
-#~ msgid "Folders"
-#~ msgstr "Adresáře"
-
-#~ msgid "Full Screen"
-#~ msgstr "Celá obrazovka"
-
-#~ msgid "Home"
-#~ msgstr "Domů"
-
-#~ msgid "Image Toolbar"
-#~ msgstr "Lišta nástrojů obrázku"
-
-#~ msgid "Main Toolbar"
-#~ msgstr "Hlavní lišta nástrojů"
-
-#~ msgid "Open with the File Manager"
-#~ msgstr "Otevřít ve správci souborů"
-
-#~ msgid "Redo Search"
-#~ msgstr "Znovu provést hledání"
-
-#~ msgid "Reduce number of colors"
-#~ msgstr "Redukovat počet barev"
-
-#~ msgid "Remove the comment"
-#~ msgstr "Odstranit komentář"
-
-#~ msgid "Revert"
-#~ msgstr "Vrátit"
-
-#~ msgid "Save"
-#~ msgstr "Uložit"
-
-#~ msgid "Search"
-#~ msgstr "Hledat"
-
-#~ msgid "Up"
-#~ msgstr "Nahoru"
-
-#~ msgid "Use black as transparency"
-#~ msgstr "Použít černou na průhledné oblasti"
-
-#~ msgid "Use checks as transparency"
-#~ msgstr "Použít čtverce na průhledné oblasti"
-
-#~ msgid "Use gray as transparency"
-#~ msgstr "Použít šedou na průhledné oblasti"
-
-#~ msgid "Use white as transparency"
-#~ msgstr "Použít bílou na průhledné oblasti"
-
-#~ msgid "Zoom _In"
-#~ msgstr "Zvětš_it"
-
-#~ msgid "Zoom _Out"
-#~ msgstr "Z_menšit"
-
-#~ msgid "Zoom to _Fit"
-#~ msgstr "Při_způsobit"
-
-#~ msgid "_Actual Size"
-#~ msgstr "_Skutečná velikost"
-
-#~ msgid "_Find..."
-#~ msgstr "_Hledat..."
-
-#~ msgid "_Maintenance"
-#~ msgstr "Údrž_ba"
-
-#~ msgid "_Reduce Colors"
-#~ msgstr "_Redukce barev"
-
-#~ msgid "The image will be removed from the catalog, are you sure?"
-#~ msgstr "Obrázek bude z katalogu odstraněn, jste si jisti?"
-
-#~ msgid "All comments will be removed, are you sure?"
-#~ msgstr "Všechny komentáře budou odstraněny, jste si jisti?"
-
-#~ msgid "All thumbnails will be deleted, are you sure?"
-#~ msgstr "Všechny miniatury budou odstraněny, jste si jisti?"
-
-#~ msgid "Specify the backup file"
-#~ msgstr "Zadejte záložní soubor"
-
-#~ msgid "Destinations"
-#~ msgstr "Cíle"
-
-#~ msgid "Local Folder"
-#~ msgstr "Místní adresář"
-
-#~ msgid "Saved _Destinations:"
-#~ msgstr "Uložené _cíle:"
-
-#~ msgid "_Host:"
-#~ msgstr "_Počítač:"
-
-#~ msgid "_Password:"
-#~ msgstr "_Heslo:"
-
-#~ msgid "_Path:"
-#~ msgstr "_Cesta:"
-
-#~ msgid "_User:"
-#~ msgstr "_Uživatel:"
-
-#~ msgid "Co_rrective"
-#~ msgstr "_Opravné"
-
-#~ msgid "_Angle:"
-#~ msgstr "_Úhel:"
-
-#~ msgid "_Film Name:"
-#~ msgstr "Název _filmu:"
-
-#~ msgid "Choose Date"
-#~ msgstr "Zvolte datum"
-
-#~ msgid "_No date"
-#~ msgstr "_Žádné datum"
-
-#~ msgid "<b>Destination folder</b>"
-#~ msgstr "<b>Cílový adresář</b>"
-
-#~ msgid "<i>Examples:</i>"
-#~ msgstr "<i>Příklady:</i>"
-
-#~ msgid "Sor_t images:"
-#~ msgstr "_Třídit obrázky:"
-
-#~ msgid "<b>Image</b>"
-#~ msgstr "<b>Obrázek</b>"
-
-#~ msgid "<b>File list order</b>"
-#~ msgstr "<b>Řazení seznamu souborů</b>"
-
-#~ msgid "<b>Specify a template to use for renaming images</b>"
-#~ msgstr "<b>Zadejte šablonu pro přejmenování obrázků</b>"
-
-#~ msgid "Revert changes"
-#~ msgstr "Vrátit změny"
-
-#~ msgid "_Sort original list:"
-#~ msgstr "Třídit původní _seznam:"
-
-#~ msgid "Transparen_cy Type"
-#~ msgstr "T_yp průhlednosti"
-
-#~ msgid "View as List"
-#~ msgstr "Zobrazit jako seznam"
-
-#~ msgid "View as Thumbnails"
-#~ msgstr "Zobrazit jako miniatury"
-
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "Chyba GConf:\n"
-#~ " %s"
-
-#~ msgid "_Title:"
-#~ msgstr "_Titulek:"
-
-#~ msgid "File name"
-#~ msgstr "Název souboru"
-
-#~ msgid "File size"
-#~ msgstr "Velikost souboru"
-
-#~ msgid "A_3 (297 x 420 mm)"
-#~ msgstr "A_3 (297 × 420 mm)"
-
-#~ msgid "A_4 (210 x 297 mm)"
-#~ msgstr "A_4 (210 × 297 mm)"
-
-#~ msgid "A_5 (148 x 210 mm)"
-#~ msgstr "A_5 (148 × 210 mm)"
-
-#~ msgid "E_xecutive (190 x 254 mm)"
-#~ msgstr "E_xecutive (190 × 254 mm)"
-
-#~ msgid "L_egal (216 x 356 mm)"
-#~ msgstr "L_egal (216 × 356 mm)"
-
-#~ msgid "_Letter (216 x 279 mm)"
-#~ msgstr "_Letter (216 × 279 mm)"
