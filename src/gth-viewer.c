@@ -1564,8 +1564,6 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
-	viewer_sync_ui_with_preferences (viewer);
-
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (priv->viewer),
 				       pref_get_zoom_quality ());
 	image_viewer_set_zoom_change  (IMAGE_VIEWER (priv->viewer),
