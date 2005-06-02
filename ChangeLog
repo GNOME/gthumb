@@ -1,3 +1,37 @@
+2005-06-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c: added dnd support.
+	(viewer_update_sensitivity): implemented.
+	(viewer_key_press_cb): added keyboard shortcuts.
+	(gth_viewer_load): ask whether to save the modified image before
+	loading a new image.
+
+	* src/gth-viewer-ui.h: added show/hide image comment.
+
+	* src/gth-viewer-actions-entries.h: added reload action.
+
+	* src/gth-viewer-actions-callbacks.c: implemented
+	gth_viewer_activate_action_view_show_info
+
+	* src/gth-browser.c (get_file_list_from_url_list): 
+	* libgthumb/glib-utils.h (get_file_list_from_url_list): 
+	* libgthumb/glib-utils.c (get_file_list_from_url_list): 
+	moved get_file_list_from_url_list to glib-utils.c.
+
+2005-06-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (gth_viewer_show): use idle_add instead on 
+	timeout_add for calling the first_time_idle function.  Give the focus 
+	to the viewer.
+
+2005-05-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (open_browser_window): 
+	(open_viewer_window): use "" instead of NULL.
+
+	* src/gth-application.c (impl_gth_application_open_viewer)
+	(impl_gth_application_open_browser): translate "" back to NULL.
+
 2005-05-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/Makefile.am ($(server_in_files): use TAB instead of 8 spaces.

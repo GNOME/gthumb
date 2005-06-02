@@ -75,4 +75,8 @@ void     debug                     (const char *file,
 				    const char *function,
 				    const char *format, ...);
 
+
+GList *  get_file_list_from_url_list (char *url_list);
+
+
 #endif /* _GLIB_UTILS_H */

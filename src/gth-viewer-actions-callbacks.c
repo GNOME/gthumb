@@ -111,14 +111,15 @@ gth_viewer_activate_action_view_statusbar (GtkAction *action,
 
 void
 gth_viewer_activate_action_view_show_info (GtkAction *action,
-					   gpointer   data)
+					   GthViewer *viewer)
 {
-	/*
-	GthWindow *window = data;
+	gth_viewer_set_metadata_visible (viewer, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
+}
 
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		window_show_image_data (window);
-	else
-		window_hide_image_data (window);
-	*/
+
+void
+gth_viewer_activate_action_go_refresh (GtkAction *action,
+				       GthViewer *viewer)
+{
+	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }

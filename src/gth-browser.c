@@ -837,6 +837,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	/* File menu. */
 
+	set_action_sensitive (browser, "File_ViewImage", ! image_is_void && not_fullscreen);
 	set_action_sensitive (browser, "File_OpenWith", sel_not_null && not_fullscreen);
 
 	set_action_sensitive (browser, "File_SaveAs", ! image_is_void);
@@ -868,7 +869,6 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
 
-	window_update_zoom_sensitivity(browser);
 	set_action_sensitive (browser, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (browser, "View_StepAnimation", image_is_ani && ! playing);
 
@@ -3392,48 +3392,6 @@ image_focus_changed_cb (GtkWidget     *widget,
 /* -- drag & drop -- */
 
 
-static GList *
-get_file_list_from_url_list (char *url_list)
-{
-	GList *list = NULL;
-	int    i;
-	char  *url_start, *url_end;
-
-	url_start = url_list;
-	while (url_start[0] != '\0') {
-		char *escaped;
-		char *unescaped;
-
-		if (strncmp (url_start, "file:", 5) == 0) {
-			url_start += 5;
-			if ((url_start[0] == '/') 
-			    && (url_start[1] == '/')) url_start += 2;
-		}
-
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && (url_start[i] != '\r')
-		       && (url_start[i] != '\n')) i++;
-		url_end = url_start + i;
-
-		escaped = g_strndup (url_start, url_end - url_start);
-		unescaped = gnome_vfs_unescape_string_for_display (escaped);
-		g_free (escaped);
-
-		list = g_list_prepend (list, unescaped);
-
-		url_start = url_end;
-		i = 0;
-		while ((url_start[i] != '\0')
-		       && ((url_start[i] == '\r')
-			   || (url_start[i] == '\n'))) i++;
-		url_start += i;
-	}
-	
-	return g_list_reverse (list);
-}
-
-
 static void  
 viewer_drag_data_get  (GtkWidget        *widget,
 		       GdkDragContext   *context,
@@ -5933,18 +5891,13 @@ gth_browser_construct (GthBrowser  *browser,
 
 	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
 
-	/*
-	priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
-	gtk_ui_manager_ensure_update (priv->ui);	
-	*/
-
 	/* Initial location. */
 
 	if (uri != NULL)
 		priv->initial_location = g_strdup (uri);
 	else 
 		priv->initial_location = g_strdup (preferences_get_startup_location ());
-		
+
 	g_idle_add (initial_location_cb, browser);
 }
 

@@ -104,6 +104,8 @@ impl_gth_application_open_browser (PortableServer_Servant  _servant,
 				   const CORBA_char       *uri,
 				   CORBA_Environment      *ev)
 {
+	if (*uri == '\0') 
+		uri = NULL;
 	show_grabbing_focus (gth_browser_new (uri));
 }
 
@@ -113,6 +115,8 @@ impl_gth_application_open_viewer (PortableServer_Servant  _servant,
 				  const CORBA_char       *uri,
 				  CORBA_Environment      *ev)
 {
+	if (*uri == '\0') 
+		uri = NULL;
 	show_grabbing_focus (gth_viewer_new (uri));
 }
 

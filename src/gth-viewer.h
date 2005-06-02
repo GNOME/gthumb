@@ -51,5 +51,6 @@ GType          gth_viewer_get_type                 (void);
 GtkWidget *    gth_viewer_new                      (const char  *filename);
 void           gth_viewer_load                     (GthViewer   *viewer,
 						    const char  *filename);
-
+void           gth_viewer_set_metadata_visible     (GthViewer   *viewer,
+						    gboolean     visible);
 #endif /* GTH_VIEWER_H */

@@ -34,5 +34,6 @@ DEFINE_ACTION(gth_viewer_activate_action_edit_add_to_catalog)
 DEFINE_ACTION(gth_viewer_activate_action_view_toolbar)
 DEFINE_ACTION(gth_viewer_activate_action_view_statusbar)
 DEFINE_ACTION(gth_viewer_activate_action_view_show_info)
+DEFINE_ACTION(gth_viewer_activate_action_go_refresh)
 
 #endif /* GTH_VIEWER_ACTIONS_CALLBACK_H */

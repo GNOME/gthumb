@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <glib.h>
 #include <glib/gprintf.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "glib-utils.h"
 
 
@@ -371,4 +372,46 @@ debug (const char *file,
 	g_free (str);
 #else /* ! DEBUG */
 #endif
+}
+
+
+GList *
+get_file_list_from_url_list (char *url_list)
+{
+	GList *list = NULL;
+	int    i;
+	char  *url_start, *url_end;
+
+	url_start = url_list;
+	while (url_start[0] != '\0') {
+		char *escaped;
+		char *unescaped;
+
+		if (strncmp (url_start, "file:", 5) == 0) {
+			url_start += 5;
+			if ((url_start[0] == '/') 
+			    && (url_start[1] == '/')) url_start += 2;
+		}
+
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && (url_start[i] != '\r')
+		       && (url_start[i] != '\n')) i++;
+		url_end = url_start + i;
+
+		escaped = g_strndup (url_start, url_end - url_start);
+		unescaped = gnome_vfs_unescape_string_for_display (escaped);
+		g_free (escaped);
+
+		list = g_list_prepend (list, unescaped);
+
+		url_start = url_end;
+		i = 0;
+		while ((url_start[i] != '\0')
+		       && ((url_start[i] == '\r')
+			   || (url_start[i] == '\n'))) i++;
+		url_start += i;
+	}
+	
+	return g_list_reverse (list);
 }

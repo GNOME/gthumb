@@ -58,6 +58,12 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	  N_("_Add to Catalog..."), NULL,
 	  N_("Add selected images to a catalog"),
 	  G_CALLBACK (gth_viewer_activate_action_edit_add_to_catalog) },
+
+	{ "Go_Refresh", GTK_STOCK_REFRESH,
+	  N_("_Reload"), "<control>R",
+	  N_("Reload the current location"),
+	  G_CALLBACK (gth_viewer_activate_action_go_refresh) },
+
 };
 static guint gth_viewer_action_entries_size = G_N_ELEMENTS (gth_viewer_action_entries);
 

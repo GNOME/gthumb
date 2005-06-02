@@ -413,6 +413,8 @@ open_viewer_window (const char               *uri,
 	GtkWidget *current_window;
 
 	if (use_factory) {
+		if (uri == NULL)
+			uri = "";
 		GNOME_GThumb_Application_open_viewer (app, uri, env);
 		return;
 	}
@@ -434,6 +436,8 @@ open_browser_window (const char               *uri,
 	GtkWidget *current_window;
 
 	if (use_factory) {
+		if (uri == NULL)
+			uri = "";
 		GNOME_GThumb_Application_open_browser (app, uri, env);
 		return;
 	}
