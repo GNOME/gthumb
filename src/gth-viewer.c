@@ -197,13 +197,18 @@ static void
 viewer_update_sensitivity (GthViewer *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
-	gboolean    image_is_void;
-	gboolean    image_is_ani;
-	gboolean    playing;
+	gboolean image_is_void;
+	gboolean image_is_ani;
+	gboolean playing;
 
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 	image_is_ani = image_viewer_is_animation (IMAGE_VIEWER (priv->viewer));
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
+
+	set_action_sensitive (viewer, "File_Save", ! image_is_void && priv->image_modified);
+	set_action_sensitive (viewer, "File_SaveAs", ! image_is_void);
+	set_action_sensitive (viewer, "File_Revert", ! image_is_void && priv->image_modified);
+	set_action_sensitive (viewer, "File_Print", ! image_is_void);
 
 	set_action_sensitive (viewer, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani);
@@ -455,113 +460,6 @@ gth_viewer_show (GtkWidget *widget)
 }
 
 
-/* ask_whether_to_save */
-
-
-static void
-save_pixbuf__image_saved_cb (char     *filename,
-			     gpointer  data)
-{
-	GthViewer            *viewer = data;
-	GthViewerPrivateData *priv = viewer->priv;
-
-	if (filename == NULL) 
-		return;
-
-#ifdef HAVE_LIBEXIF
-	if (priv->exif_data != NULL) {
-		JPEGData *jdata;
-
-		jdata = jpeg_data_new_from_file (filename);
-		if (jdata != NULL) {
-			jpeg_data_set_exif_data (jdata, priv->exif_data);
-			jpeg_data_save_file (jdata, filename);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
-
-	/**/
-
-	priv->image_modified = FALSE;
-	priv->saving_modified_image = FALSE;
-
-	if (strcmp (priv->image_path, filename) != 0) 
-		gtk_widget_show (gth_viewer_new (filename));
-}
-
-
-static void
-ask_whether_to_save__image_saved_cb (char     *filename,
-				     gpointer  data)
-{
-	GthViewer *viewer = data;
-
-	save_pixbuf__image_saved_cb (filename, data);
-
-	if (viewer->priv->image_saved_func != NULL)
-		(*viewer->priv->image_saved_func) (NULL, viewer);
-}
-
-
-static void
-ask_whether_to_save__response_cb (GtkWidget *dialog,
-				  int        response_id,
-				  GthViewer *viewer)
-{
-	GthViewerPrivateData *priv = viewer->priv;
-
-        gtk_widget_destroy (dialog);
-	
-        if (response_id == GTK_RESPONSE_YES) {
-		dlg_save_image (GTK_WINDOW (viewer),
-				priv->image_path,
-				image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
-				ask_whether_to_save__image_saved_cb,
-				viewer);
-		priv->saving_modified_image = TRUE;
-
-	} else {
-		priv->saving_modified_image = FALSE;
-		priv->image_modified = FALSE;
-		if (priv->image_saved_func != NULL)
-			(*priv->image_saved_func) (NULL, viewer);
-	}
-}
-
-
-static gboolean
-ask_whether_to_save (GthViewer      *viewer,
-		     ImageSavedFunc  image_saved_func)
-{
-	GthViewerPrivateData *priv = viewer->priv;
-	GtkWidget            *d;
-
-	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
-		return FALSE;
-		
-	d = _gtk_yesno_dialog_with_checkbutton_new (
-			    GTK_WINDOW (viewer),
-			    GTK_DIALOG_MODAL,
-			    _("The current image has been modified, do you want to save it?"),
-			    _("Do Not Save"),
-			    GTK_STOCK_SAVE_AS,
-			    _("_Do not display this message again"),
-			    PREF_MSG_SAVE_MODIFIED_IMAGE);
-
-	priv->saving_modified_image = TRUE;
-	priv->image_saved_func = image_saved_func;
-	g_signal_connect (G_OBJECT (d), 
-			  "response",
-			  G_CALLBACK (ask_whether_to_save__response_cb),
-			  viewer);
-
-	gtk_widget_show (d);
-
-	return TRUE;
-}
-
-
 static void
 viewer_update_statusbar_zoom_info (GthViewer *viewer)
 {
@@ -791,6 +689,121 @@ viewer_update_title (GthViewer *viewer)
 }
 
 
+/* ask_whether_to_save */
+
+
+static void
+save_pixbuf__image_saved_cb (const char *filename,
+			     gpointer    data)
+{
+	GthViewer            *viewer = data;
+	GthViewerPrivateData *priv = viewer->priv;
+
+	if (filename == NULL) 
+		return;
+
+#ifdef HAVE_LIBEXIF
+	if (priv->exif_data != NULL) {
+		JPEGData *jdata;
+
+		jdata = jpeg_data_new_from_file (filename);
+		if (jdata != NULL) {
+			jpeg_data_set_exif_data (jdata, priv->exif_data);
+			jpeg_data_save_file (jdata, filename);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
+
+	/**/
+
+	priv->image_modified = FALSE;
+	priv->saving_modified_image = FALSE;
+
+	if (strcmp (priv->image_path, filename) != 0) 
+		gtk_widget_show (gth_viewer_new (filename));
+
+	else {
+		viewer_update_statusbar_image_info (viewer);
+		viewer_update_image_info (viewer);
+		viewer_update_title (viewer);
+		viewer_update_infobar (viewer);
+		viewer_update_sensitivity (viewer);
+	}
+}
+
+
+static void
+ask_whether_to_save__image_saved_cb (const char *filename,
+				     gpointer    data)
+{
+	GthViewer *viewer = data;
+
+	save_pixbuf__image_saved_cb (filename, data);
+
+	if (viewer->priv->image_saved_func != NULL)
+		(*viewer->priv->image_saved_func) (NULL, viewer);
+}
+
+
+static void
+ask_whether_to_save__response_cb (GtkWidget *dialog,
+				  int        response_id,
+				  GthViewer *viewer)
+{
+	GthViewerPrivateData *priv = viewer->priv;
+
+        gtk_widget_destroy (dialog);
+	
+        if (response_id == GTK_RESPONSE_YES) {
+		dlg_save_image_as (GTK_WINDOW (viewer),
+				   priv->image_path,
+				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
+				   ask_whether_to_save__image_saved_cb,
+				   viewer);
+		priv->saving_modified_image = TRUE;
+
+	} else {
+		priv->saving_modified_image = FALSE;
+		priv->image_modified = FALSE;
+		if (priv->image_saved_func != NULL)
+			(*priv->image_saved_func) (NULL, viewer);
+	}
+}
+
+
+static gboolean
+ask_whether_to_save (GthViewer      *viewer,
+		     ImageSavedFunc  image_saved_func)
+{
+	GthViewerPrivateData *priv = viewer->priv;
+	GtkWidget            *d;
+
+	if (! eel_gconf_get_boolean (PREF_MSG_SAVE_MODIFIED_IMAGE, TRUE)) 
+		return FALSE;
+		
+	d = _gtk_yesno_dialog_with_checkbutton_new (
+			    GTK_WINDOW (viewer),
+			    GTK_DIALOG_MODAL,
+			    _("The current image has been modified, do you want to save it?"),
+			    _("Do Not Save"),
+			    GTK_STOCK_SAVE_AS,
+			    _("_Do not display this message again"),
+			    PREF_MSG_SAVE_MODIFIED_IMAGE);
+
+	priv->saving_modified_image = TRUE;
+	priv->image_saved_func = image_saved_func;
+	g_signal_connect (G_OBJECT (d), 
+			  "response",
+			  G_CALLBACK (ask_whether_to_save__response_cb),
+			  viewer);
+
+	gtk_widget_show (d);
+
+	return TRUE;
+}
+
+
 static gboolean
 info_bar_clicked_cb (GtkWidget      *widget,
 		     GdkEventButton *event,
@@ -802,8 +815,8 @@ info_bar_clicked_cb (GtkWidget      *widget,
 
 
 static void
-real_set_void (char     *filename,
-	       gpointer  data)
+real_set_void (const char *filename,
+	       gpointer    data)
 {
 	GthViewer            *viewer = data;
 	GthViewerPrivateData *priv = viewer->priv;
@@ -1347,7 +1360,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	gtk_widget_set_size_request (priv->viewer, PANE_MIN_SIZE, PANE_MIN_SIZE);
 
 	gtk_drag_source_set (priv->viewer,
-			     GDK_BUTTON1_MASK,
+			     GDK_BUTTON2_MASK,
 			     target_table, G_N_ELEMENTS (target_table), 
 			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
@@ -1646,8 +1659,8 @@ gth_viewer_new (const gchar *filename)
 }
 
 static void
-load_image__image_saved_cb (char     *filename,
-			    gpointer  data)
+load_image__image_saved_cb (const char *filename,
+			    gpointer    data)
 {
 	GthViewer             *viewer = data;
 	GthViewerPrivateData  *priv = viewer->priv;
@@ -1695,8 +1708,8 @@ gth_viewer_load (GthViewer   *viewer,
 
 
 static void
-close__step2 (char     *filename,
-	      gpointer  data)
+close__step2 (const char *filename,
+	      gpointer    data)
 {
 	GthViewer             *viewer = data;
 	GthViewerPrivateData  *priv = viewer->priv;
@@ -1760,13 +1773,15 @@ gth_viewer_set_image_modified (GthWindow *window,
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_title (viewer);
 
+	set_action_sensitive (viewer, "File_Save", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
 	set_action_sensitive (viewer, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
 }
 
 
 static void
 gth_viewer_save_pixbuf (GthWindow  *window,
-			GdkPixbuf  *pixbuf)
+			GdkPixbuf  *pixbuf,
+			const char *filename)
 {
 	GthViewer            *viewer = (GthViewer*) window;
 	GthViewerPrivateData *priv = viewer->priv;
@@ -1775,11 +1790,18 @@ gth_viewer_save_pixbuf (GthWindow  *window,
 	if (priv->image_path != NULL)
 		current_folder = g_strdup (priv->image_path);
 
-	dlg_save_image (GTK_WINDOW (viewer), 
-			current_folder,
-			pixbuf,
-			save_pixbuf__image_saved_cb,
-			viewer);
+	if (filename == NULL)
+		dlg_save_image_as (GTK_WINDOW (viewer), 
+				   current_folder,
+				   pixbuf,
+				   save_pixbuf__image_saved_cb,
+				   viewer);
+	else
+		dlg_save_image (GTK_WINDOW (viewer), 
+				filename,
+				pixbuf,
+				save_pixbuf__image_saved_cb,
+				viewer);
 
 	g_free (current_folder);
 }
@@ -1901,8 +1923,8 @@ gth_viewer_get_comment_dlg (GthWindow *window)
 
 
 static void
-reload_current_image__step2 (char     *filename,
-			     gpointer  data)
+reload_current_image__step2 (const char *filename,
+			     gpointer    data)
 {
 	GthViewer *viewer = data;
 	gth_viewer_load (viewer, viewer->priv->image_path);

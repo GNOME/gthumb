@@ -1714,8 +1714,8 @@ save_pixbuf__image_saved_step2 (gpointer data)
 
 
 static void
-save_pixbuf__image_saved_cb (char     *filename,
-			     gpointer  data)
+save_pixbuf__image_saved_cb (const char *filename,
+			     gpointer    data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -1744,7 +1744,7 @@ save_pixbuf__image_saved_cb (char     *filename,
 	    && (strcmp (priv->image_path, filename) == 0))
 		priv->image_modified = FALSE;
 
-	file_list = g_list_prepend (NULL, filename);
+	file_list = g_list_prepend (NULL, (char*)filename);
 
 	pos = gth_file_list_pos_from_path (priv->file_list, filename);
 	if (pos == -1) {
@@ -1775,8 +1775,9 @@ save_pixbuf__image_saved_cb (char     *filename,
 
 
 static void
-gth_browser_save_pixbuf (GthWindow *window,
-			 GdkPixbuf *pixbuf)
+gth_browser_save_pixbuf (GthWindow  *window,
+			 GdkPixbuf  *pixbuf,
+			 const char *filename)
 {
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
@@ -1790,19 +1791,26 @@ gth_browser_save_pixbuf (GthWindow *window,
 					      "/", 
 					      NULL);
 
-	dlg_save_image (GTK_WINDOW (browser), 
-			current_folder,
-			pixbuf,
-			save_pixbuf__image_saved_cb,
-			browser);
+	if (filename == NULL)
+		dlg_save_image_as (GTK_WINDOW (browser), 
+				   current_folder,
+				   pixbuf,
+				   save_pixbuf__image_saved_cb,
+				   browser);
+	else
+		dlg_save_image (GTK_WINDOW (browser), 
+				filename,
+				pixbuf,
+				save_pixbuf__image_saved_cb,
+				browser);
 
 	g_free (current_folder);
 }
 
 
 static void
-ask_whether_to_save__image_saved_cb (char     *filename,
-				     gpointer  data)
+ask_whether_to_save__image_saved_cb (const char *filename,
+				     gpointer    data)
 {
 	GthBrowser *browser = data;
 
@@ -1823,11 +1831,11 @@ ask_whether_to_save__response_cb (GtkWidget  *dialog,
         gtk_widget_destroy (dialog);
 	
         if (response_id == GTK_RESPONSE_YES) {
-		dlg_save_image (GTK_WINDOW (browser),
-				priv->image_path,
-				image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
-				ask_whether_to_save__image_saved_cb,
-				browser);
+		dlg_save_image_as (GTK_WINDOW (browser),
+				   priv->image_path,
+				   image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer)),
+				   ask_whether_to_save__image_saved_cb,
+				   browser);
 		priv->saving_modified_image = TRUE;
 
 	} else {
@@ -1871,8 +1879,8 @@ ask_whether_to_save (GthBrowser     *browser,
 
 
 static void
-real_set_void (char     *filename,
-	       gpointer  data)
+real_set_void (const char *filename,
+	       gpointer    data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -5929,8 +5937,8 @@ _window_remove_notifications (GthBrowser *browser)
 
 
 static void
-close__step6 (char     *filename,
-	      gpointer  data)
+close__step6 (const char *filename,
+	      gpointer    data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7866,8 +7874,8 @@ gth_browser_reload_image (GthBrowser *browser)
 
 
 static void
-load_image__image_saved_cb (char     *filename,
-			    gpointer  data)
+load_image__image_saved_cb (const char *filename,
+			    gpointer    data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;

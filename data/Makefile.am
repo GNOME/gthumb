@@ -10,7 +10,7 @@ applicationsdir = $(datadir)/application-registry
 applications_DATA = gthumb.applications
 
 icondir = $(datadir)/pixmaps
-icon_DATA = gthumb.png gthumb-logo.png
+icon_DATA = gthumb.png
 
 man_MANS = gthumb.1
 

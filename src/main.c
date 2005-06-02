@@ -274,10 +274,6 @@ initialize_data (poptContext pctx)
 
 	/* fullscreen = fullscreen_new (); FIXME */
 
-	/* Default windows icon */
-
-	gtk_window_set_default_icon_name ("gthumb");
-
 	/* Icon theme */
 
 	icon_theme = gnome_icon_theme_new ();
@@ -286,6 +282,12 @@ initialize_data (poptContext pctx)
 			  "changed",
 			  G_CALLBACK (theme_changed_cb),
 			  NULL);
+
+	/* Default windows icon */
+
+	gtk_window_set_default_icon_name ("gthumb");
+
+	/**/
 
 	init_session ("gthumb");
 	if (session_is_restored ()) 
@@ -495,7 +497,7 @@ prepare_app ()
 		catalog_path = get_catalog_full_path (catalog_name);
 		catalog_uri = g_strconcat ("catalog://", catalog_path, NULL);
 
-		open_browser_window (NULL, TRUE, use_factory, app, &env);
+		open_browser_window (catalog_uri, TRUE, use_factory, app, &env);
 
 		g_free (catalog_name);
 		g_free (catalog_path);

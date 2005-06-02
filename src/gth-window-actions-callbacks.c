@@ -130,7 +130,12 @@ void
 gth_window_activate_action_file_save (GtkAction *action,
 				      gpointer   data)
 {
-	/* FIXME */
+	GthWindow   *window = GTH_WINDOW (data);
+	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
+
+	gth_window_save_pixbuf (window, 
+				image_viewer_get_current_pixbuf (image_viewer), 
+				gth_window_get_image_filename (window));
 }
 
 
@@ -140,7 +145,8 @@ gth_window_activate_action_file_save_as (GtkAction *action,
 {
 	GthWindow   *window = GTH_WINDOW (data);
 	ImageViewer *image_viewer = gth_window_get_image_viewer (window);
-	gth_window_save_pixbuf (window, image_viewer_get_current_pixbuf (image_viewer));
+
+	gth_window_save_pixbuf (window, image_viewer_get_current_pixbuf (image_viewer), NULL);
 }
 
 

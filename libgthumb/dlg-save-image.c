@@ -85,30 +85,21 @@ file_save_cancel_cb (GtkDialog *file_sel,
 }
 
 
-static void 
-file_save_ok_cb (GtkDialog *file_sel,
-		 int        button_number,
-		 gpointer  *userdata)
-
+static gboolean
+__save_image (GtkWindow       *parent,
+	      const char      *filename,
+	      const char      *mime_type,
+	      GdkPixbuf       *pixbuf,
+	      SaveImageData   *data,
+	      GtkDialog       *file_sel)
 {
-	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
-	GtkWindow     *parent;
-	GtkWidget     *opt_menu;
-	GdkPixbuf     *pixbuf;
-	char          *filename = NULL;
-	char          *dir;
-	gboolean       file_exists;
-	const char    *mime_type = NULL;
-	int            idx;
-	gboolean       image_saved = FALSE;
-	SaveImageData *data;	
+	char     *dir;
+	gboolean  file_exists;
+	gboolean  image_saved = FALSE;
 
-	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
-	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
-	filename = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
 
 	if (filename == NULL)
-		return;
+		return FALSE;
 
 	/* Check permissions */
 
@@ -121,8 +112,7 @@ file_save_ok_cb (GtkDialog *file_sel,
 				       utf8_path);
 		g_free (utf8_path);
 		g_free (dir);
-		g_free (filename);
-		return;
+		return FALSE;
 	}
 	g_free (dir);
 
@@ -145,31 +135,12 @@ file_save_ok_cb (GtkDialog *file_sel,
 		gtk_widget_destroy (d);
 
 		if (r != GTK_RESPONSE_YES) {
-			g_free (filename);
-			return;
+			return FALSE;
 		}
 	}
 
-	gtk_widget_hide (GTK_WIDGET (file_sel));
-
-	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
-	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
-
-	if (idx == IMAGE_TYPE_AUTOMATIC) {
-		char *n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
-		if (n1 != NULL) {
-			char *n2, *n3;
-			n2 = g_utf8_strdown (n1, -1);
-			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
-			if (n3 != NULL)
-				mime_type = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-			g_free (n3);
-			g_free (n2);
-			g_free (n1);
-		}
-
-	} else
-		mime_type = mime_types [idx - 2];
+	if (file_sel != NULL)
+		gtk_widget_hide (GTK_WIDGET (file_sel));
 
 	if ((mime_type != NULL)
 	    && is_mime_type_writable (mime_type)) {
@@ -199,17 +170,60 @@ file_save_ok_cb (GtkDialog *file_sel,
 				       _("Image type not supported: %s"),
 				       mime_type);
 
-	if (! image_saved) {
-		g_free (filename);
-		filename = NULL;
-	}
-
-	data = g_object_get_data (G_OBJECT (file_sel), "data");
-	if (data->done_func != NULL) 
+	if (data->done_func != NULL) {
+		if (! image_saved) 
+			filename = NULL;
 		(*data->done_func) (filename, data->done_data);
+	}
 	
+	if (file_sel != NULL)
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+
+	return TRUE;
+}
+
+
+static void 
+file_save_ok_cb (GtkDialog *file_sel,
+		 int        button_number,
+		 gpointer  *userdata)
+
+{
+	static char   *mime_types[4] = {"image/jpeg", "image/png", "image/tga", "image/tiff"};
+	GtkWindow     *parent;
+	GtkWidget     *opt_menu;
+	GdkPixbuf     *pixbuf;
+	char          *filename = NULL;
+	const char    *mime_type = NULL;
+	int            idx;
+	SaveImageData *data;	
+
+	parent = g_object_get_data (G_OBJECT (file_sel), "parent_window");
+	pixbuf = g_object_get_data (G_OBJECT (file_sel), "pixbuf");
+	data = g_object_get_data (G_OBJECT (file_sel), "data");
+	filename = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
+
+	opt_menu = g_object_get_data (G_OBJECT (file_sel), "opt_menu");
+	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (opt_menu));
+	if (idx == IMAGE_TYPE_AUTOMATIC) {
+		char *n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
+		if (n1 != NULL) {
+			char *n2, *n3;
+			n2 = g_utf8_strdown (n1, -1);
+			n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
+			if (n3 != NULL)
+				mime_type = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
+			g_free (n3);
+			g_free (n2);
+			g_free (n1);
+		}
+
+	} else
+		mime_type = mime_types [idx - 2];
+
+	__save_image (parent, filename, mime_type, pixbuf, data, file_sel); 
+
 	g_free (filename);
-	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 
@@ -254,11 +268,11 @@ build_file_type_menu (void)
 
 
 void
-dlg_save_image (GtkWindow       *parent,
-		const char      *current_folder,
-		GdkPixbuf       *pixbuf,
-		ImageSavedFunc   done_func,
-		gpointer         done_data)
+dlg_save_image_as (GtkWindow       *parent,
+		   const char      *current_folder,
+		   GdkPixbuf       *pixbuf,
+		   ImageSavedFunc   done_func,
+		   gpointer         done_data)
 {
 	SaveImageData *data;
 	GtkWidget *file_sel;
@@ -336,6 +350,30 @@ dlg_save_image (GtkWindow       *parent,
 	}
 
 	gtk_widget_show (file_sel);
+}
+
+
+
+void
+dlg_save_image (GtkWindow       *parent,
+		const char      *filename,
+		GdkPixbuf       *pixbuf,
+		ImageSavedFunc   done_func,
+		gpointer         done_data)
+{
+	SaveImageData *data;
+	const char    *mime_type = NULL;
+
+	if (filename == NULL)
+		return;
+
+	data = g_new0 (SaveImageData, 1);
+	data->done_func = done_func;
+	data->done_data = done_data;
+
+	mime_type = gnome_vfs_mime_type_from_name_or_default (filename, NULL);
+
+	__save_image (parent, filename, mime_type, pixbuf, data, NULL);
 }
 
 

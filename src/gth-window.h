@@ -58,7 +58,8 @@ struct _GthWindowClass
 							gboolean     value);
 	gboolean      (*get_image_modified)            (GthWindow   *window);
 	void          (*save_pixbuf)                   (GthWindow   *window,
-							GdkPixbuf   *pixbuf);
+							GdkPixbuf   *pixbuf,
+							const char  *filename);
 	void          (*exec_pixbuf_op)                (GthWindow   *window,
 							GthPixbufOp *pixop);
 	void          (*set_categories_dlg)            (GthWindow   *window,
@@ -94,7 +95,8 @@ void           gth_window_set_image_modified             (GthWindow   *window,
 							  gboolean     value);
 gboolean       gth_window_get_image_modified             (GthWindow   *window);
 void           gth_window_save_pixbuf                    (GthWindow   *window,
-							  GdkPixbuf   *pixbuf);
+							  GdkPixbuf   *pixbuf,
+							  const char  *filename);
 void           gth_window_exec_pixbuf_op                 (GthWindow   *window,
 							  GthPixbufOp *pixop);
 void           gth_window_set_categories_dlg             (GthWindow   *window,

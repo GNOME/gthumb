@@ -87,8 +87,9 @@ base_get_image_modified (GthWindow *window)
 
 
 static void
-base_save_pixbuf (GthWindow *window,
-		  GdkPixbuf *pixbuf)
+base_save_pixbuf (GthWindow  *window,
+		  GdkPixbuf  *pixbuf,
+		  const char *filename)
 {
 }
 
@@ -338,11 +339,12 @@ gth_window_get_image_modified (GthWindow *window)
 
 
 void
-gth_window_save_pixbuf (GthWindow *window,
-			GdkPixbuf *pixbuf)
+gth_window_save_pixbuf (GthWindow  *window,
+			GdkPixbuf  *pixbuf,
+			const char *filename)
 {
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->save_pixbuf (window, pixbuf);
+	class->save_pixbuf (window, pixbuf, filename);
 }
 
 

@@ -1,5 +1,18 @@
 2005-06-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-window.c: 
+	* src/gth-window-actions-callbacks.c (gth_window_activate_action_file_save_as): 
+	* src/gth-viewer.c (viewer_update_sensitivity): 
+	* src/gth-viewer-ui.h: 
+	* libgthumb/dlg-save-image.c (__save_image, dlg_save_image): 
+
+	Implemented the File_Save action.
+	
+	* data/Makefile.am (applications_DATA): remove gthumb-logo.png
+
+	* src/gth-viewer.c (gth_viewer_construct): use BUTTON2 for the DnD, 
+	button 1 is used to scroll the image.
+	
 	* src/gth-viewer.c: added dnd support.
 	(viewer_update_sensitivity): implemented.
 	(viewer_key_press_cb): added keyboard shortcuts.

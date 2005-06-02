@@ -27,12 +27,18 @@
 #include <gtk/gtkwindow.h>
 
 
-typedef void (*ImageSavedFunc)       (char     *filename,
-				      gpointer  data);
+typedef void (*ImageSavedFunc)       (const char *filename,
+				      gpointer    data);
 
+
+void       dlg_save_image_as   (GtkWindow       *parent,
+				const char      *current_folder,
+				GdkPixbuf       *pixbuf,
+				ImageSavedFunc   done_func,
+				gpointer         done_data);
 
 void       dlg_save_image   (GtkWindow       *parent,
-			     const char      *current_folder,
+			     const char      *filename,
 			     GdkPixbuf       *pixbuf,
 			     ImageSavedFunc   done_func,
 			     gpointer         done_data);
