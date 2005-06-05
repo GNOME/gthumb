@@ -1,3 +1,10 @@
+2005-06-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (resolve_all_symlinks): The call to 
+	g_strconcat() in resolve_all_symlinks() was not null-terminated.
+
+	Fixes bug #306514.  Patch by Brian Gerst.
+	
 2005-04-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.5 released ]
