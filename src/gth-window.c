@@ -24,17 +24,33 @@
 #include <gtk/gtk.h>
 #include "glib-utils.h"
 #include "gth-window.h"
+#include "dlg-comment.h"
+#include "dlg-categories.h"
 
 
 static GnomeAppClass *parent_class = NULL;
 static GList *window_list = NULL;
+
+struct _GthWindowPrivateData {
+	GtkWidget  *comment_dlg;
+	GtkWidget  *categories_dlg;
+
+	gboolean    slideshow;
+	gboolean    fullscreen;
+};
 
 
 static void 
 gth_window_finalize (GObject *object)
 {
 	GthWindow *window = GTH_WINDOW (object);
-	
+
+	if (window->priv != NULL) {
+		/*GthWindowPrivateData *priv = window->priv; FIXME*/
+		g_free (window->priv);
+		window->priv = NULL;
+	}
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 	
 	window_list = g_list_remove (window_list, window);
@@ -102,34 +118,6 @@ base_exec_pixbuf_op (GthWindow   *window,
 
 
 static void
-base_set_categories_dlg (GthWindow *window,
-			 GtkWidget *dialog)
-{
-}
-
-
-static GtkWidget *
-base_get_categories_dlg (GthWindow *window)
-{
-	return NULL;
-}
-
-
-static void
-base_set_comment_dlg (GthWindow *window,
-		      GtkWidget *dialog)
-{
-}
-
-
-static GtkWidget *
-base_get_comment_dlg (GthWindow *window)
-{
-	return NULL;
-}
-
-
-static void
 base_reload_current_image (GthWindow *window)
 {
 }
@@ -182,28 +170,9 @@ base_delete_image (GthWindow *window)
 
 
 static void
-base_edit_comment (GthWindow *window)
-{
-}
-
-
-static void
-base_edit_categories (GthWindow *window)
-{
-}
-
-
-static void
 base_set_fullscreen (GthWindow *window,
 		     gboolean   value)
 {
-}
-
-
-static gboolean
-base_get_fullscreen (GthWindow *window)
-{
-	return FALSE;
 }
 
 
@@ -211,13 +180,6 @@ static void
 base_set_slideshow (GthWindow *window,
 		    gboolean   value)
 {
-}
-
-
-static gboolean
-base_get_slideshow (GthWindow *window)
-{
-	return FALSE;
 }
 
 
@@ -241,10 +203,6 @@ gth_window_class_init (GthWindowClass *class)
 	class->get_image_modified = base_get_image_modified;
 	class->save_pixbuf = base_save_pixbuf;
 	class->exec_pixbuf_op = base_exec_pixbuf_op;
-	class->set_categories_dlg = base_set_categories_dlg;
-	class->get_categories_dlg = base_get_categories_dlg;
-	class->set_comment_dlg = base_set_comment_dlg;
-	class->get_comment_dlg = base_get_comment_dlg;
 	class->reload_current_image = base_reload_current_image;
 	class->update_current_image_metadata = base_update_current_image_metadata;
 	class->get_file_list_selection = base_get_file_list_selection;
@@ -253,18 +211,22 @@ gth_window_class_init (GthWindowClass *class)
 	class->get_animation = base_get_animation;
 	class->step_animation = base_step_animation;
 	class->delete_image = base_delete_image;
-	class->edit_comment = base_edit_comment;
-	class->edit_categories = base_edit_categories;
 	class->set_fullscreen = base_set_fullscreen;
-	class->get_fullscreen = base_get_fullscreen;
 	class->set_slideshow = base_set_slideshow;
-	class->get_slideshow = base_get_slideshow;
 }
 
 
 static void
 gth_window_init (GthWindow *window)
 {
+	GthWindowPrivateData *priv;
+
+	priv = window->priv = g_new0 (GthWindowPrivateData, 1);
+	priv->comment_dlg = NULL;
+	priv->categories_dlg = NULL;
+
+	/**/
+
 	window_list = g_list_prepend (window_list, window);
 }
 
@@ -300,7 +262,19 @@ gth_window_get_type ()
 void
 gth_window_close (GthWindow *window)
 {	
+	GthWindowPrivateData *priv = window->priv;
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
+
+	if (priv->comment_dlg != NULL) {
+		dlg_comment_close (priv->comment_dlg);
+		priv->comment_dlg = NULL;
+	}
+	
+	if (priv->categories_dlg != NULL) {
+		dlg_categories_close (priv->categories_dlg);
+		priv->categories_dlg = NULL;
+	}
+
 	class->close (window);
 }
 
@@ -361,16 +335,14 @@ void
 gth_window_set_categories_dlg (GthWindow *window,
 			       GtkWidget *dialog)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->set_categories_dlg (window, dialog);
+	window->priv->categories_dlg = dialog;
 }
 
 
 GtkWidget *
 gth_window_get_categories_dlg (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	return class->get_categories_dlg (window);
+	return window->priv->categories_dlg;
 }
 
 
@@ -378,16 +350,27 @@ void
 gth_window_set_comment_dlg (GthWindow *window,
 			    GtkWidget *dialog)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->set_comment_dlg (window, dialog);
+	window->priv->comment_dlg = dialog;
 }
 
 
 GtkWidget *
 gth_window_get_comment_dlg (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	return class->get_comment_dlg (window);
+	return window->priv->comment_dlg;
+}
+
+
+void
+gth_window_update_comment_categories_dlg (GthWindow *window)
+{
+	GthWindowPrivateData *priv = window->priv;
+	
+	if (priv->comment_dlg != NULL)
+		dlg_comment_update (priv->comment_dlg);
+	
+	if (priv->categories_dlg != NULL)
+		dlg_categories_update (priv->categories_dlg);
 }
 
 
@@ -459,16 +442,24 @@ gth_window_delete_image (GthWindow *window)
 void
 gth_window_edit_comment (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->edit_comment (window);
+	GthWindowPrivateData *priv = window->priv;
+
+	if (priv->comment_dlg == NULL) 
+		priv->comment_dlg = dlg_comment_new (window);
+	else
+		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
 }
 
 
 void
 gth_window_edit_categories (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->edit_categories (window);
+	GthWindowPrivateData *priv = window->priv;
+
+	if (priv->categories_dlg == NULL) 
+		priv->categories_dlg = dlg_categories_new (window);
+	else
+		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
 }
 
 
@@ -477,6 +468,8 @@ gth_window_set_fullscreen (GthWindow *window,
 			   gboolean   value)
 {
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
+
+	window->priv->fullscreen = value;
 	class->set_fullscreen (window, value);
 }
 
@@ -484,8 +477,7 @@ gth_window_set_fullscreen (GthWindow *window,
 gboolean
 gth_window_get_fullscreen (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	return class->get_fullscreen (window);
+	return window->priv->fullscreen;
 }
 
 
@@ -494,6 +486,7 @@ gth_window_set_slideshow (GthWindow *window,
 			  gboolean   value)
 {
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
+	window->priv->slideshow = value;
 	class->set_slideshow (window, value);
 }
 
@@ -501,8 +494,7 @@ gth_window_set_slideshow (GthWindow *window,
 gboolean
 gth_window_get_slideshow (GthWindow *window)
 {
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	return class->get_slideshow (window);
+	return window->priv->slideshow;
 }
 
 

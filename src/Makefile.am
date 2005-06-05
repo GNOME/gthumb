@@ -98,8 +98,8 @@ gthumb_SOURCES = 			\
 	gth-exif-utils.h		\
 	gth-folder-selection-dialog.c	\
 	gth-folder-selection-dialog.h	\
-	gth-toggle-button.c		\
-	gth-toggle-button.h		\
+	gth-fullscreen.c		\
+	gth-fullscreen.h		\
 	gth-viewer.c			\
 	gth-viewer.h			\
 	gth-viewer-actions-entries.h	\
@@ -111,8 +111,6 @@ gthumb_SOURCES = 			\
 	gth-window-actions-entries.h	\
 	gth-window-actions-callbacks.h	\
 	gth-window-actions-callbacks.c	\
-	gtkorientationbox.c		\
-	gtkorientationbox.h		\
 	gthumb-preloader.c		\
 	gthumb-preloader.h		\
 	gtkcellrendererthreestates.h	\

@@ -62,12 +62,6 @@ struct _GthWindowClass
 							const char  *filename);
 	void          (*exec_pixbuf_op)                (GthWindow   *window,
 							GthPixbufOp *pixop);
-	void          (*set_categories_dlg)            (GthWindow   *window,
-							GtkWidget   *dialog);
-	GtkWidget *   (*get_categories_dlg)            (GthWindow   *window);
-	void          (*set_comment_dlg)               (GthWindow   *window,
-							GtkWidget   *dialog);
-	GtkWidget *   (*get_comment_dlg)               (GthWindow   *window);
 	void          (*reload_current_image)          (GthWindow   *window);
 	void          (*update_current_image_metadata) (GthWindow   *window);
 	GList *       (*get_file_list_selection)       (GthWindow   *window);
@@ -77,14 +71,10 @@ struct _GthWindowClass
 	gboolean      (*get_animation)                 (GthWindow   *window);
 	void          (*step_animation)                (GthWindow   *window);
 	void          (*delete_image)                  (GthWindow   *window);
-	void          (*edit_comment)                  (GthWindow   *window);
-	void          (*edit_categories)               (GthWindow   *window);
 	void          (*set_fullscreen)                (GthWindow   *window,
 							gboolean     value);
-	gboolean      (*get_fullscreen)                (GthWindow   *window);
 	void          (*set_slideshow)                 (GthWindow   *window,
 							gboolean     value);
-	gboolean      (*get_slideshow)                 (GthWindow   *window);
 };
 
 GType          gth_window_get_type                       (void);
@@ -105,6 +95,7 @@ GtkWidget *    gth_window_get_categories_dlg             (GthWindow   *window);
 void           gth_window_set_comment_dlg                (GthWindow   *window,
 							  GtkWidget   *dialog);
 GtkWidget *    gth_window_get_comment_dlg                (GthWindow   *window);
+void           gth_window_update_comment_categories_dlg  (GthWindow   *window);
 void           gth_window_reload_current_image           (GthWindow   *window);
 void           gth_window_update_current_image_metadata  (GthWindow   *window);
 GList *        gth_window_get_file_list_selection        (GthWindow   *window);

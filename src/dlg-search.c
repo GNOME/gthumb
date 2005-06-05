@@ -69,8 +69,7 @@ static void dlg_search_ui (GthBrowser *browser,
 void 
 dlg_search (GtkWidget *widget, gpointer data)
 {
-	GthBrowser *browser = data;
-	dlg_search_ui (browser, NULL, FALSE);
+	dlg_search_ui (GTH_BROWSER (data), NULL, FALSE);
 }
 
 
@@ -371,10 +370,10 @@ view_result_cb (GtkWidget  *widget,
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 
+	gth_browser_go_to_catalog (data->browser, catalog_path);
+
 	gtk_widget_destroy (data->search_progress_dialog);
 	catalog_free (catalog);
-
-	gth_browser_go_to_catalog (data->browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -402,10 +401,10 @@ save_result_cb (GtkWidget  *widget,
 	if (! catalog_write_to_disk (catalog, &gerror))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 
-	catalog_free (catalog);
-	gtk_widget_destroy (data->search_progress_dialog);
-
 	gth_browser_go_to_catalog (data->browser, catalog_path);
+
+	gtk_widget_destroy (data->search_progress_dialog);
+	catalog_free (catalog);
 	g_free (catalog_path);
 }
 
@@ -543,8 +542,9 @@ dlg_search_ui (GthBrowser *browser,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 
-	data = g_new0 (DialogData, 1);
+	g_return_if_fail (GTH_IS_BROWSER (browser));
 
+	data = g_new0 (DialogData, 1);
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" SEARCH_GLADE_FILE, NULL, NULL);
 	if (! data->gui) {
 		g_free (data);

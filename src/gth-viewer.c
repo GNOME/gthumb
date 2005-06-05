@@ -46,6 +46,7 @@
 #include "gth-viewer-ui.h"
 #include "gth-exif-data-viewer.h"
 #include "gth-exif-utils.h"
+#include "gth-fullscreen.h"
 #include "gthumb-info-bar.h"
 #include "gtk-utils.h"
 #include "nav-window.h"
@@ -97,6 +98,7 @@ struct _GthViewerPrivateData {
 	GtkWidget       *comment_dlg;
 	GtkWidget       *categories_dlg;
 	GtkWidget       *comment_button;
+	GtkWidget       *fullscreen;
 
 	GtkActionGroup  *actions;
 
@@ -444,10 +446,11 @@ gth_viewer_show (GtkWidget *widget)
 	GthViewer *viewer = GTH_VIEWER (widget);
 	gboolean   view_foobar;
 
-	if (! viewer->priv->first_time_show) 
-		GTK_WIDGET_CLASS (parent_class)->show (widget);
-	else
-		viewer->priv->first_time_show = FALSE;
+	GTK_WIDGET_CLASS (parent_class)->show (widget);
+
+	if (!viewer->priv->first_time_show) 
+		return;
+	viewer->priv->first_time_show = FALSE;
 
 	view_foobar = eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE);
 	gth_viewer_set_toolbar_visibility (viewer, view_foobar);
@@ -1188,7 +1191,7 @@ gth_viewer_init (GthViewer *viewer)
 	GthViewerPrivateData *priv;
 
 	priv = viewer->priv = g_new0 (GthViewerPrivateData, 1);
-	priv->first_time_show = FALSE; /* FIXME */
+	priv->first_time_show = TRUE;
 	priv->image_path = NULL;
 	priv->image_error = FALSE;
 }
@@ -1726,9 +1729,14 @@ close__step2 (const char *filename,
 static void
 gth_viewer_close (GthWindow *window)
 {
-	GthViewer *viewer = (GthViewer*) window;
+	GthViewer            *viewer = (GthViewer*) window;
+	GthViewerPrivateData *priv = viewer->priv;
 
 	debug(DEBUG_INFO, "Gth::Viewer::Close");
+
+	if (priv->fullscreen != NULL)
+		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),
+						      viewer);
 
 	if (viewer->priv->image_modified) 
 		if (ask_whether_to_save (viewer, close__step2))
@@ -1889,40 +1897,6 @@ gth_viewer_exec_pixbuf_op (GthWindow   *window,
 
 
 static void
-gth_viewer_set_categories_dlg (GthWindow *window,
-			       GtkWidget *dialog)
-{
-	GthViewer *viewer = GTH_VIEWER (window);
-	viewer->priv->categories_dlg = dialog;
-}
-
-
-static GtkWidget *
-gth_viewer_get_categories_dlg (GthWindow *window)
-{
-	GthViewer *viewer = GTH_VIEWER (window);
-	return viewer->priv->categories_dlg;
-}
-
-
-static void
-gth_viewer_set_comment_dlg (GthWindow *window,
-			    GtkWidget *dialog)
-{
-	GthViewer *viewer = GTH_VIEWER (window);
-	viewer->priv->comment_dlg = dialog;
-}
-
-
-static GtkWidget *
-gth_viewer_get_comment_dlg (GthWindow *window)
-{
-	GthViewer *viewer = GTH_VIEWER (window);
-	return viewer->priv->comment_dlg;
-}
-
-
-static void
 reload_current_image__step2 (const char *filename,
 			     gpointer    data)
 {
@@ -2025,43 +1999,35 @@ gth_viewer_delete_image (GthWindow *window)
 }
 
 
-static void           
-gth_viewer_edit_comment (GthWindow *window)
+static gboolean
+fullscreen_destroy_cb (GtkWidget *widget,
+		       GthViewer *viewer)
 {
-	GthViewer            *viewer = GTH_VIEWER (window);
-	GthViewerPrivateData *priv = viewer->priv;
-
-	if (priv->comment_dlg == NULL) 
-		priv->comment_dlg = dlg_comment_new (GTH_WINDOW (viewer));
-	else
-		gtk_window_present (GTK_WINDOW (priv->comment_dlg));
-}
-
-
-static void           
-gth_viewer_edit_categories (GthWindow *window)
-{
-	GthViewer            *viewer = GTH_VIEWER (window);
-	GthViewerPrivateData *priv = viewer->priv;
-
-	if (priv->categories_dlg == NULL) 
-		priv->categories_dlg = dlg_categories_new (GTH_WINDOW (viewer));
-	else
-		gtk_window_present (GTK_WINDOW (priv->categories_dlg));
+	viewer->priv->fullscreen = NULL;
+	gth_window_set_fullscreen (GTH_WINDOW (viewer), FALSE);
+	return FALSE;
 }
 
 
 static void           
 gth_viewer_set_fullscreen (GthWindow *window,
-			   gboolean   value)
+			   gboolean   fullscreen)
 {
-}
+	GthViewer *viewer = GTH_VIEWER (window);
+	GthViewerPrivateData *priv = viewer->priv;
+	
+	if (fullscreen && (priv->fullscreen == NULL)) {
+		GdkPixbuf *image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
 
+		priv->fullscreen = gth_fullscreen_new (image, NULL);
+		g_signal_connect (priv->fullscreen, 
+				  "destroy",
+				  G_CALLBACK (fullscreen_destroy_cb), 
+				  viewer);
+		gtk_widget_show (priv->fullscreen);
 
-static gboolean       
-gth_viewer_get_fullscreen (GthWindow *window)
-{
-	return FALSE;
+	} else if (!fullscreen && (priv->fullscreen != NULL)) 
+		gtk_widget_destroy (priv->fullscreen);
 }
 
 
@@ -2069,13 +2035,6 @@ static void
 gth_viewer_set_slideshow (GthWindow *window,
 			  gboolean   value)
 {
-}
-
-
-static gboolean       
-gth_viewer_get_slideshow (GthWindow *window)
-{
-	return FALSE;
 }
 
 
@@ -2105,10 +2064,6 @@ gth_viewer_class_init (GthViewerClass *class)
 	window_class->save_pixbuf = gth_viewer_save_pixbuf;
 	window_class->exec_pixbuf_op = gth_viewer_exec_pixbuf_op;
 
-	window_class->set_categories_dlg = gth_viewer_set_categories_dlg;
-	window_class->get_categories_dlg = gth_viewer_get_categories_dlg;
-	window_class->set_comment_dlg = gth_viewer_set_comment_dlg;
-	window_class->get_comment_dlg = gth_viewer_get_comment_dlg;
 	window_class->reload_current_image = gth_viewer_reload_current_image;
 	window_class->update_current_image_metadata = gth_viewer_update_current_image_metadata;
 	window_class->get_file_list_selection = gth_viewer_get_file_list_selection;
@@ -2118,12 +2073,8 @@ gth_viewer_class_init (GthViewerClass *class)
 	window_class->get_animation = gth_viewer_get_animation;
 	window_class->step_animation = gth_viewer_step_animation;
 	window_class->delete_image = gth_viewer_delete_image;
-	window_class->edit_comment = gth_viewer_edit_comment;
-	window_class->edit_categories = gth_viewer_edit_categories;
 	window_class->set_fullscreen = gth_viewer_set_fullscreen;
-	window_class->get_fullscreen = gth_viewer_get_fullscreen;
 	window_class->set_slideshow = gth_viewer_set_slideshow;
-	window_class->get_slideshow = gth_viewer_get_slideshow;
 }
 
 

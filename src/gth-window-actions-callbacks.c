@@ -519,7 +519,7 @@ void
 gth_window_activate_action_view_fullscreen (GtkAction *action,
 					    GthWindow *window)
 {
-	gth_window_set_fullscreen (window, TRUE);
+	gth_window_set_fullscreen (window, ! gth_window_get_fullscreen (window));
 }
 
 

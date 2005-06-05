@@ -1611,6 +1611,8 @@ image_viewer_set_pixbuf (ImageViewer *viewer,
         if (viewer->rendering) 
 		return;
 
+	viewer->is_void = (pixbuf == NULL);
+
 	image_loader_set_pixbuf (viewer->loader, pixbuf);
 	image_viewer_update_view (viewer);
 }

@@ -156,7 +156,7 @@ load_current_image (DialogData *data)
 	folder = remove_level_from_path (fd->path);
 	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
 
-	data->new_path = g_strconcat (folder, "/", name_no_ext, ".", data->ext, 0);
+	data->new_path = g_strconcat (folder, "/", name_no_ext, ".", data->ext, NULL);
 
 	g_free (folder);
 	g_free (name_no_ext);

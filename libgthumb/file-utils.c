@@ -1749,7 +1749,7 @@ resolve_all_symlinks (const char  *text_uri,
 			}
 
 			if (first_level && (info->symlink_name[0] != '/')) 
-				symbolic_link = g_strconcat ("/", info->symlink_name);
+				symbolic_link = g_strconcat ("/", info->symlink_name, NULL);
 			else 
 				symbolic_link = g_strdup (info->symlink_name);
 			resolved_uri = gnome_vfs_uri_resolve_relative (new_uri, symbolic_link);

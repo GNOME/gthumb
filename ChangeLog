@@ -1,3 +1,19 @@
+2005-06-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-toggle-button.c:
+	* src/gth-toggle-button.h:
+	* src/gtkorientationbox.c:
+	* src/gtkorientationbox.h: removed unused files.
+	
+	* src/gth-fullscreen.h: 
+	* src/gth-fullscreen.c: started a new fullscreen implementation.
+
+	* libgthumb/image-viewer.c (image_viewer_set_pixbuf): update the is_void
+	flag.
+
+	* libgthumb/file-utils.c (resolve_all_symlinks): add NULL as last param
+	to g_strconcat (bug #306514).
+
 2005-06-05  Ignacio Casal Quinteiro <icq@cvs.gnome.org>
 
 	*configure.in: Added 'gl' to ALL_LINGUAS

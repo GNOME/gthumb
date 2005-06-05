@@ -753,13 +753,13 @@ gth_browser_activate_action_edit_catalog_edit_search (GtkAction  *action,
 						      GthBrowser *browser)
 {
 	char *catalog_path;
-	void (*module) (GthWindow *window, const char *catalog_path);
+	void (*module) (GthBrowser *browser, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
 	if (gthumb_module_get ("dlg_catalog_edit_search", (gpointer*) &module))
-		(*module) (GTH_WINDOW (browser), catalog_path);
+		(*module) (browser, catalog_path);
 	g_free (catalog_path);
 }
 
@@ -769,13 +769,13 @@ gth_browser_activate_action_edit_catalog_redo_search (GtkAction  *action,
 						      GthBrowser *browser)
 {
 	char *catalog_path;
-	void (*module) (GthWindow *window, const char *catalog_path);
+	void (*module) (GthBrowser *window, const char *catalog_path);
 
 	catalog_path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (catalog_path == NULL)
 		return;
 	if (gthumb_module_get ("dlg_catalog_search", (gpointer*) &module))
-		(*module) (GTH_WINDOW (browser), catalog_path);
+		(*module) (browser, catalog_path);
 	g_free (catalog_path);
 }
 
