@@ -1,3 +1,7 @@
+2005-06-05  Ignacio Casal Quinteiro <icq@cvs.gnome.org>
+
+	*configure.in: Added 'gl' to ALL_LINGUAS
+
 2005-06-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-window.c: 
