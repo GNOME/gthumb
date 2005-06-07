@@ -1055,6 +1055,13 @@ viewer_key_press_cb (GtkWidget   *widget,
 		retval = TRUE;
 		break;
 
+		/* Full screen view. */
+	case GDK_v:
+	case GDK_f:
+		gth_window_set_fullscreen (GTH_WINDOW (viewer), TRUE);
+		retval = TRUE;
+		break;
+
 	default:
 		break;
 	}

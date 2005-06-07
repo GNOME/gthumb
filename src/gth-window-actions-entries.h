@@ -173,17 +173,17 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_crop) },
 
 	{ "View_ZoomIn", GTK_STOCK_ZOOM_IN,
-	  N_("In"), NULL,
+	  N_("In"), "<control>plus",
 	  N_("Zoom in"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_in) },
 
 	{ "View_ZoomOut", GTK_STOCK_ZOOM_OUT,
-	  N_("Out"), NULL,
+	  N_("Out"), "<control>minus",
 	  N_("Zoom out"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_out) },
 
 	{ "View_Zoom100", GTK_STOCK_ZOOM_100,
-	  N_("1:1"), NULL,
+	  N_("1:1"), "<control>0",
 	  N_("Actual size"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_100) },
 
@@ -198,7 +198,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_view_step_animation) },
 
 	{ "View_Fullscreen", GTHUMB_STOCK_FULLSCREEN,
-	  N_("_Full Screen"), "F",
+	  N_("_Full Screen"), "F11",
 	  N_("View image in fullscreen mode"),
 	  G_CALLBACK (gth_window_activate_action_view_fullscreen) },
 
@@ -245,7 +245,14 @@ static GtkActionEntry gth_window_action_entries[] = {
 	{ "Help_Shortcuts", NULL,
 	  N_("_Keyboard Shortcuts"), NULL,
 	  " ",
-	  G_CALLBACK (gth_window_activate_action_help_shortcuts) }
+	  G_CALLBACK (gth_window_activate_action_help_shortcuts) },
+
+	/* Accelerators */
+
+	{ "ControlEqual", NULL,
+	  N_("In"), "<control>equal",
+	  NULL,
+	  G_CALLBACK (gth_window_activate_action_view_zoom_in) }
 };
 static guint gth_window_action_entries_size = G_N_ELEMENTS (gth_window_action_entries);
 

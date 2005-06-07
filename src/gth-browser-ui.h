@@ -276,6 +276,7 @@ static const gchar *main_ui_info =
 "  </popup>"
 "  <popup name='HistoryListPopup'>"
 "  </popup>"
+"  <accelerator name='ControlEqualAccel' action='ControlEqual'/>"
 "</ui>";
 
 

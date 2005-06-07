@@ -516,12 +516,12 @@ image_key_press_cb (GtkWidget   *widget,
 
 		/* Toggle animation. */
 	case GDK_g:
-	        gth_window_toggle_animation (window); /* FIXME */
+	        gth_window_toggle_animation (window); 
 		break;
 
 		/* Step animation. */
 	case GDK_j:
-        	gth_window_step_animation (window); /* FIXME */
+        	gth_window_step_animation (window); 
 		break;
 
 		/* Delete selection. */

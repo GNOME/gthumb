@@ -1,4 +1,18 @@
+2005-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (gth_fullscreen_construct): added keyboard
+	accellerators.
+
+	* src/gth-window-actions-entries.h: 
+	* src/gth-browser-ui.h: 
+	* src/gth-viewer-ui.h: 
+
+	Fixed bug #302753: Gthumb does not support HIG zooming shortcuts.
+	Patch by Jaap A. Haitsma
+	
 2005-06-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (create_toolbar_window): set border width to 0.
 
 	* src/gth-toggle-button.c:
 	* src/gth-toggle-button.h:

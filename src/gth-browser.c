@@ -3041,11 +3041,8 @@ key_press_cb (GtkWidget   *widget,
 
 		/* Full screen view. */
 	case GDK_v:
-	case GDK_F11:
-		/* FIXME
-		if (priv->image_path != NULL)
-			fullscreen_start (fullscreen, browser);
-		*/
+	case GDK_f:
+		gth_window_set_fullscreen (GTH_WINDOW (browser), TRUE);
 		return TRUE;
 
 		/* View/hide thumbnails. */

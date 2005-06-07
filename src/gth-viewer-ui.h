@@ -146,6 +146,7 @@ static const gchar *viewer_window_ui_info =
 "      <menuitem action='Wallpaper_Restore'/>"
 "    </menu>"
 "  </popup>"
+"  <accelerator name='ControlEqualAccel' action='ControlEqual'/>"
 "</ui>";
 
 

@@ -150,7 +150,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 1);
+	gtk_container_set_border_width (GTK_CONTAINER (frame), 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 0);
@@ -238,6 +238,70 @@ motion_notify_event_cb (GtkWidget      *widget,
 }
 
 
+static gboolean
+viewer_key_press_cb (GtkWidget   *widget, 
+		     GdkEventKey *event,
+		     gpointer     data)
+{
+	GthFullscreen *fullscreen = data;
+	ImageViewer   *viewer = (ImageViewer*) fullscreen->priv->viewer;
+	gboolean       retval = FALSE;
+
+	switch (event->keyval) {
+
+		/* Exit fullscreen mode. */
+	case GDK_Escape:
+	case GDK_q:
+	case GDK_v:
+	case GDK_f:
+	case GDK_F11:
+		gth_window_close (GTH_WINDOW (fullscreen));
+		retval = TRUE;
+		break;
+
+		/* Zoom in. */
+	case GDK_plus:
+	case GDK_equal:
+	case GDK_KP_Add:
+		image_viewer_zoom_in (viewer);
+		break;
+
+		/* Zoom out. */
+	case GDK_minus:
+	case GDK_KP_Subtract:
+		image_viewer_zoom_out (viewer);
+		break;
+
+		/* Actual size. */
+	case GDK_KP_Divide:
+	case GDK_1:
+	case GDK_z:
+		image_viewer_set_zoom (viewer, 1.0);
+		break;
+
+		/* Set zoom to 2.0. */
+	case GDK_2:
+		image_viewer_set_zoom (viewer, 2.0);
+		break;
+
+		/* Set zoom to 3.0. */
+	case GDK_3:
+		image_viewer_set_zoom (viewer, 3.0);
+		break;
+
+		/* Zoom to fit. */
+	case GDK_x:
+		image_viewer_zoom_to_fit (viewer);
+		break;
+
+	default:
+		break;
+	}
+
+	return retval;
+}
+
+
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
@@ -276,6 +340,11 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 		char *filename = priv->file_list->data;
 		image_viewer_load_image (IMAGE_VIEWER (priv->viewer), filename);
 	}
+
+	g_signal_connect (G_OBJECT (priv->viewer),
+			  "key_press_event",
+			  G_CALLBACK (viewer_key_press_cb),
+			  fullscreen);
 
 	gnome_app_set_contents (GNOME_APP (fullscreen), priv->viewer);
 
