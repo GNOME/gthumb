@@ -1,6 +1,13 @@
 2005-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c (_show_cursor__hide_comment): 
+	automatically pause the slideshow when editing the comment
+	or the categories.
+
 	* src/gth-browser.c: 
+	(_set_fullscreen_or_slideshow): use only the selection if
+	more than one image is selected.
+
 	* src/gth-viewer.c: 
 	* src/gth-window.c: removed the delete_image virtual function.
 

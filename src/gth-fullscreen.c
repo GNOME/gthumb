@@ -80,7 +80,8 @@ struct _GthFullscreenPrivateData {
 
 	GtkWidget       *viewer;
 	GtkWidget       *toolbar_window;
-	GtkWidget       *prop_button;
+	GtkWidget       *info_button;
+	GtkWidget       *pause_button;
 
 	/* comment */
 
@@ -708,7 +709,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 		return;
 
 	priv->comment_visible = TRUE;
-	set_button_active_no_notify (NULL, priv->prop_button, TRUE);
+	set_button_active_no_notify (NULL, priv->info_button, TRUE);
 	
 	comment = NULL;
 	if (cdata != NULL) {
@@ -833,7 +834,7 @@ hide_comment_on_image (GthFullscreen *fullscreen)
 		return;
 
 	priv->comment_visible = FALSE;
-	set_button_active_no_notify (NULL, priv->prop_button, FALSE);
+	set_button_active_no_notify (NULL, priv->info_button, FALSE);
 
 	gdk_draw_drawable (priv->viewer->window,
 			   priv->viewer->style->black_gc,
@@ -849,7 +850,13 @@ static void
 _show_cursor__hide_comment (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
-	
+
+	if (priv->slideshow) {
+		priv->slideshow_paused = TRUE;
+		if (priv->pause_button != NULL)
+			set_button_active_no_notify (NULL, priv->pause_button, TRUE);
+	}
+
 	if (priv->mouse_hide_id != 0)
 		g_source_remove (priv->mouse_hide_id);
 	priv->mouse_hide_id = 0;
@@ -1239,7 +1246,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 
 	/* image comment */
 
-	priv->prop_button = button = create_button (GTHUMB_STOCK_PROPERTIES, _("Image Info"), TRUE);
+	priv->info_button = button = create_button (GTHUMB_STOCK_PROPERTIES, _("Image Info"), TRUE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect (G_OBJECT (button),
 			  "toggled",
@@ -1249,7 +1256,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 	if (priv->slideshow) {
 		/* pause slideshow */
 
-		button = create_button (GTK_STOCK_MEDIA_PAUSE, _("Pause"), TRUE);
+		priv->pause_button = button = create_button (GTK_STOCK_MEDIA_PAUSE, _("Pause"), TRUE);
 		gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 		g_signal_connect (G_OBJECT (button),
 				  "toggled",

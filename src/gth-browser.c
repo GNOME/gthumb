@@ -8557,10 +8557,25 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 	
 	if (_set && (priv->fullscreen == NULL)) {
 		GdkPixbuf *image = NULL;
+		GList     *selection, *file_list = NULL;
+
+		selection = gth_file_view_get_selection (priv->file_list->view);
+		if ((selection == NULL) || (g_list_length (selection) == 1)) 
+			file_list = gth_file_list_get_all_from_view (priv->file_list);
+		else {
+			GList *scan;
+			for (scan = selection; scan; scan = scan->next) {
+				FileData *fd = scan->data;
+				file_list = g_list_prepend (file_list, g_strdup (fd->path));
+			}
+			file_list = g_list_reverse (file_list);
+		}
+		if (selection != NULL)
+			g_list_free (selection);
 
 		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
 			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
-		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, gth_file_list_get_all_from_view (priv->file_list));
+		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, file_list);
 		gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
 		g_signal_connect (priv->fullscreen, 
 				  "destroy",
