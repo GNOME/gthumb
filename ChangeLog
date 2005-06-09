@@ -3,6 +3,7 @@
 	* src/gth-fullscreen.c (_show_cursor__hide_comment): 
 	automatically pause the slideshow when editing the comment
 	or the categories.
+	(update_sensitivity): update commands sensitivity.
 
 	* src/gth-browser.c: 
 	(_set_fullscreen_or_slideshow): use only the selection if

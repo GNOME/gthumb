@@ -82,6 +82,8 @@ struct _GthFullscreenPrivateData {
 	GtkWidget       *toolbar_window;
 	GtkWidget       *info_button;
 	GtkWidget       *pause_button;
+	GtkWidget       *prev_button;
+	GtkWidget       *next_button;
 
 	/* comment */
 
@@ -330,6 +332,18 @@ get_prev_image (GthFullscreen *fullscreen)
 
 
 static void
+update_sensitivity (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+	gtk_widget_set_sensitive (priv->prev_button, 
+				  get_prev_image (fullscreen) != NULL);
+	gtk_widget_set_sensitive (priv->next_button, 
+				  get_next_image (fullscreen) != NULL);
+}
+
+
+static void
 load_current_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
@@ -356,6 +370,8 @@ load_current_image (GthFullscreen *fullscreen)
 
 	} else if (priv->image != NULL) 
 		image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
+
+	update_sensitivity (fullscreen);
 
 	if (priv->slideshow && from_pixbuf)
 		continue_slideshow (fullscreen);
@@ -1228,7 +1244,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 
 	/* previous image */
 
-	button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Previous"), FALSE);
+	priv->prev_button = button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Previous"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect_swapped (G_OBJECT (button),
 				  "clicked",
@@ -1237,7 +1253,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 
 	/* next image */
 
-	button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Next"), FALSE);
+	priv->next_button = button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Next"), FALSE);
 	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 	g_signal_connect_swapped (G_OBJECT (button),
 				  "clicked",
