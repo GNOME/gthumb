@@ -95,8 +95,6 @@ struct _GthViewerPrivateData {
 	GtkWidget       *zoom_info;
 	GtkWidget       *zoom_info_frame;
 
-	GtkWidget       *comment_dlg;
-	GtkWidget       *categories_dlg;
 	GtkWidget       *comment_button;
 	GtkWidget       *fullscreen;
 
@@ -2000,12 +1998,6 @@ gth_viewer_step_animation (GthWindow *window)
 }
 
 
-static void           
-gth_viewer_delete_image (GthWindow *window)
-{
-}
-
-
 static gboolean
 fullscreen_destroy_cb (GtkWidget *widget,
 		       GthViewer *viewer)
@@ -2024,9 +2016,11 @@ gth_viewer_set_fullscreen (GthWindow *window,
 	GthViewerPrivateData *priv = viewer->priv;
 	
 	if (fullscreen && (priv->fullscreen == NULL)) {
-		GdkPixbuf *image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
+		GdkPixbuf *image = NULL;
 
-		priv->fullscreen = gth_fullscreen_new (image, NULL);
+		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
+			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
+		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, gth_viewer_get_file_list_selection (window));
 		g_signal_connect (priv->fullscreen, 
 				  "destroy",
 				  G_CALLBACK (fullscreen_destroy_cb), 
@@ -2079,7 +2073,6 @@ gth_viewer_class_init (GthViewerClass *class)
 	window_class->set_animation = gth_viewer_set_animation;
 	window_class->get_animation = gth_viewer_get_animation;
 	window_class->step_animation = gth_viewer_step_animation;
-	window_class->delete_image = gth_viewer_delete_image;
 	window_class->set_fullscreen = gth_viewer_set_fullscreen;
 	window_class->set_slideshow = gth_viewer_set_slideshow;
 }

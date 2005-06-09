@@ -131,7 +131,6 @@ struct _GthBrowserPrivateData {
 
 	GtkWidget          *file_popup_menu;
 	GtkWidget          *image_popup_menu;
-	GtkWidget          *fullscreen_image_popup_menu;
 	GtkWidget          *catalog_popup_menu;
 	GtkWidget          *library_popup_menu;
 	GtkWidget          *dir_popup_menu;
@@ -240,14 +239,6 @@ struct _GthBrowserPrivateData {
 	guint               view_image_timeout; /* timer for the 
 						 * view_image_at_pos function.
 						 */
-	guint               slideshow_timeout;  /* slideshow timer. */
-	GList              *slideshow_set;      /* FileData list of the 
-						 * images to display in the 
-						 * slideshow. */
-	GList              *slideshow_random_set;
-	GList              *slideshow_first;
-	GList              *slideshow_current;
-
 #ifdef HAVE_LIBEXIF
 	ExifData           *exif_data;
 #endif /* HAVE_LIBEXIF */
@@ -299,7 +290,6 @@ static GthWindowClass *parent_class = NULL;
 #define DEF_WIN_HEIGHT         460
 #define DEF_SIDEBAR_SIZE       255
 #define DEF_SIDEBAR_CONT_SIZE  190
-#define DEF_SLIDESHOW_DELAY    4
 #define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
@@ -801,7 +791,6 @@ window_update_sensitivity (GthBrowser *browser)
 	gboolean    viewing_catalog;
 	gboolean    is_catalog;
 	gboolean    is_search;
-	gboolean    not_fullscreen;
 	gboolean    image_is_visible;
 	int         image_pos;
 
@@ -812,7 +801,6 @@ window_update_sensitivity (GthBrowser *browser)
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
 	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
-	not_fullscreen = ! gth_window_get_fullscreen (GTH_WINDOW (browser));
 	image_is_visible = ! image_is_void && ((priv->sidebar_visible && priv->image_pane_visible && (priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) || ! priv->sidebar_visible);
 
 	if (priv->image_path != NULL)
@@ -824,16 +812,16 @@ window_update_sensitivity (GthBrowser *browser)
 
 	/* Image popup menu. */
 
-	set_action_sensitive (browser, "Image_OpenWith", ! image_is_void && not_fullscreen);
-	set_action_sensitive (browser, "Image_Rename", ! image_is_void && not_fullscreen);
-	set_action_sensitive (browser, "Image_Delete", ! image_is_void && not_fullscreen);
-	set_action_sensitive (browser, "Image_Copy", ! image_is_void && not_fullscreen);
-	set_action_sensitive (browser, "Image_Move", ! image_is_void && not_fullscreen);
+	set_action_sensitive (browser, "Image_OpenWith", ! image_is_void);
+	set_action_sensitive (browser, "Image_Rename", ! image_is_void);
+	set_action_sensitive (browser, "Image_Delete", ! image_is_void);
+	set_action_sensitive (browser, "Image_Copy", ! image_is_void);
+	set_action_sensitive (browser, "Image_Move", ! image_is_void);
 
 	/* File menu. */
 
-	set_action_sensitive (browser, "File_ViewImage", ! image_is_void && not_fullscreen);
-	set_action_sensitive (browser, "File_OpenWith", sel_not_null && not_fullscreen);
+	set_action_sensitive (browser, "File_ViewImage", ! image_is_void);
+	set_action_sensitive (browser, "File_OpenWith", sel_not_null);
 
 	set_action_sensitive (browser, "File_SaveAs", ! image_is_void);
 	set_action_sensitive (browser, "File_Revert", ! image_is_void && priv->image_modified);
@@ -841,11 +829,11 @@ window_update_sensitivity (GthBrowser *browser)
 
 	/* Edit menu. */
 
-	set_action_sensitive (browser, "Edit_RenameFile", only_one_is_selected && not_fullscreen);
-	set_action_sensitive (browser, "Edit_DuplicateFile", sel_not_null && not_fullscreen);
-	set_action_sensitive (browser, "Edit_DeleteFiles", sel_not_null && not_fullscreen);
-	set_action_sensitive (browser, "Edit_CopyFiles", sel_not_null && not_fullscreen);
-	set_action_sensitive (browser, "Edit_MoveFiles", sel_not_null && not_fullscreen);
+	set_action_sensitive (browser, "Edit_RenameFile", only_one_is_selected);
+	set_action_sensitive (browser, "Edit_DuplicateFile", sel_not_null);
+	set_action_sensitive (browser, "Edit_DeleteFiles", sel_not_null);
+	set_action_sensitive (browser, "Edit_CopyFiles", sel_not_null);
+	set_action_sensitive (browser, "Edit_MoveFiles", sel_not_null);
 
 	set_action_sensitive (browser, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani && image_is_visible);
@@ -874,7 +862,7 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Edit_AddToCatalog", sel_not_null);
 	set_action_sensitive (browser, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);
 
-	set_action_sensitive (browser, "Go_ToContainer", not_fullscreen && viewing_catalog && only_one_is_selected);
+	set_action_sensitive (browser, "Go_ToContainer", viewing_catalog && only_one_is_selected);
 
 	set_action_sensitive (browser, "Go_Stop", 
 			       ((priv->activity_ref > 0) 
@@ -1034,12 +1022,12 @@ set_file_list__final_step_cb (gpointer data)
 
 	if (StartInFullscreen) {
 		StartInFullscreen = FALSE;
-		/*fullscreen_start (fullscreen, browser); FIXME */
+		gth_window_set_fullscreen (GTH_WINDOW (browser), TRUE);
 	}
 
 	if (StartSlideshow) {
 		StartSlideshow = FALSE;
-		gth_browser_start_slideshow (browser);
+		gth_window_set_slideshow (GTH_WINDOW (browser), TRUE);
 	} 
 
 	if (HideSidebar) {
@@ -1126,8 +1114,6 @@ window_set_file_list (GthBrowser *browser,
 		return;
 
 	priv->can_set_file_list = FALSE;
-
-	gth_browser_stop_slideshow (browser);
 
 	data = g_new (WindowSetListData, 1);
 	data->browser = browser;
@@ -2788,16 +2774,16 @@ image_loaded_cb (GtkWidget  *widget,
 
 
 static void
-image_requested_error_cb (GtkWidget  *widget, 
-			  GthBrowser *browser)
+image_requested_error_cb (GThumbPreloader *gploader,
+			  GthBrowser      *browser)
 {
 	window_image_viewer_set_error (browser);
 }
 
 
 static void
-image_requested_done_cb (GtkWidget  *widget, 
-			 GthBrowser *browser)
+image_requested_done_cb (GThumbPreloader *gploader,
+			 GthBrowser      *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	ImageLoader           *loader;
@@ -3289,23 +3275,13 @@ image_button_press_cb (GtkWidget      *widget,
 	case 2:
 		break;
 	case 3:
-		if (gth_window_get_fullscreen (GTH_WINDOW (browser)))
-			gtk_menu_popup (GTK_MENU (priv->fullscreen_image_popup_menu),
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					3,
-					event->time);
-		else
-			gtk_menu_popup (GTK_MENU (priv->image_popup_menu),
-					NULL,
-					NULL,
-					NULL,
-					NULL,
-					3,
-					event->time);
-
+		gtk_menu_popup (GTK_MENU (priv->image_popup_menu),
+				NULL,
+				NULL,
+				NULL,
+				NULL,
+				3,
+				event->time);
 		return TRUE;
 	}
 
@@ -5163,10 +5139,6 @@ gth_browser_construct (GthBrowser  *browser,
 	set_action_important (browser, "/ToolBar/View_ShowFolders", TRUE);
 	set_action_important (browser, "/ToolBar/View_ShowCatalogs", TRUE);
 	set_action_important (browser, "/ToolBar/View_ShowImage", TRUE);
-	/* FIXME
-	set_action_important (browser, "/ToolBar/ModeCommands/Tools_Slideshow", TRUE);
-	set_action_important (browser, "/ToolBar/ModeCommands/View_Fullscreen", TRUE);
-	*/
 
 	gnome_app_add_docked (GNOME_APP (browser),
 			      toolbar,
@@ -5196,7 +5168,6 @@ gth_browser_construct (GthBrowser  *browser,
 
 	priv->file_popup_menu = gtk_ui_manager_get_widget (ui, "/FilePopup");
 	priv->image_popup_menu = gtk_ui_manager_get_widget (ui, "/ImagePopup");
-	priv->fullscreen_image_popup_menu = gtk_ui_manager_get_widget (ui, "/FullscreenImagePopup");
 	priv->catalog_popup_menu = gtk_ui_manager_get_widget (ui, "/CatalogPopup");
 	priv->library_popup_menu = gtk_ui_manager_get_widget (ui, "/LibraryPopup");
 	priv->dir_popup_menu = gtk_ui_manager_get_widget (ui, "/DirPopup");
@@ -5687,12 +5658,6 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->image_catalog = NULL;
 	priv->image_modified = FALSE;
 
-	priv->slideshow_set = NULL;
-	priv->slideshow_random_set = NULL;
-	priv->slideshow_first = NULL;
-	priv->slideshow_current = NULL;
-	priv->slideshow_timeout = 0;
-
 	priv->bookmarks_length = 0;
 	gth_browser_update_bookmark_list (browser);
 
@@ -6042,7 +6007,6 @@ close__step6 (const char *filename,
 
 	gtk_widget_destroy (priv->file_popup_menu);
 	gtk_widget_destroy (priv->image_popup_menu);
-	gtk_widget_destroy (priv->fullscreen_image_popup_menu);
 	gtk_widget_destroy (priv->catalog_popup_menu);
 	gtk_widget_destroy (priv->library_popup_menu);
 	gtk_widget_destroy (priv->dir_popup_menu);
@@ -6059,11 +6023,6 @@ close__step6 (const char *filename,
 		g_free (dir_list_drag_data);
 		dir_list_drag_data = NULL;
 	}
-
-	if (priv->slideshow_set != NULL)
-		g_list_free (priv->slideshow_set);
-	if (priv->slideshow_random_set != NULL)
-		g_list_free (priv->slideshow_random_set);
 
 	g_free (priv->initial_location);
 
@@ -6099,8 +6058,6 @@ close__step5 (GthBrowser *browser)
 static void
 close__step4 (GthBrowser *browser)
 {
-	gth_browser_stop_slideshow (browser);
-
 	if (browser->priv->preloader != NULL)
 		gthumb_preloader_stop (browser->priv->preloader, 
 				       (DoneFunc) close__step5, 
@@ -6202,8 +6159,6 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 
 		if (priv->catalog_path != NULL) {
 			GtkTreeIter iter;
-			
-			gth_browser_stop_slideshow (browser);
 			
 			if (! catalog_list_get_iter_from_path (priv->catalog_list, priv->catalog_path, &iter)) {
 				window_image_viewer_set_void (browser);
@@ -6442,8 +6397,6 @@ void
 stop__step4 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-
-	gth_browser_stop_slideshow (browser);
 
 	gthumb_preloader_stop (priv->preloader, 
 			       (DoneFunc) stop__step5, 
@@ -6916,8 +6869,6 @@ go_to_directory_cb (gpointer data)
 	g_source_remove (priv->load_dir_timeout);
 	priv->load_dir_timeout = 0;
 
-	gth_browser_stop_slideshow (browser);
-
 	if (priv->changing_directory) {
 		gth_browser_stop_activity_mode (browser);
 		dir_list_interrupt_change_to (priv->dir_list,
@@ -7007,8 +6958,6 @@ gth_browser_go_to_directory (GthBrowser *browser,
 
 	/**/
 
-	gth_browser_stop_slideshow (browser);
-
 	if (priv->monitor_handle != NULL) {
 		gnome_vfs_monitor_cancel (priv->monitor_handle);
 		priv->monitor_handle = NULL;
@@ -7086,8 +7035,6 @@ go_to_catalog__step2 (GoToData *gt_data)
 	char                  *catalog_path = gt_data->path;
 	GtkTreeIter            iter;
 	char                  *catalog_dir;
-
-	gth_browser_stop_slideshow (browser);
 
 	if (catalog_path == NULL) {
 		window_set_file_list (browser, NULL, NULL, NULL);
@@ -7306,234 +7253,6 @@ gth_browser_delete_history (GthBrowser *browser)
 }
 
 
-/* -- slideshow -- */
-
-
-static GList *
-get_slideshow_random_image (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	int                    n, i;
-	GList                 *item;
-
-	if (priv->slideshow_current != NULL) {
-		g_list_free (priv->slideshow_current);
-		priv->slideshow_current = NULL;
-	}
-
-	n = g_list_length (priv->slideshow_random_set);
-	if (n == 0)
-		return NULL;
-	i = g_random_int_range (0, n - 1);
-
-	item = g_list_nth (priv->slideshow_random_set, i);
-	if (item != NULL)
-		priv->slideshow_random_set = g_list_remove_link (priv->slideshow_random_set, item);
-
-	priv->slideshow_current = item;
-
-	return item;
-}
-
-
-static GList *
-get_next_slideshow_image (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GList                 *current;
-	FileData              *fd;
-	gboolean               wrap_around;
-
-	current = priv->slideshow_current;
-	if (current == NULL) {
-		if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM)
-			current = get_slideshow_random_image (browser);
-		else
-			current = priv->slideshow_first;
-		fd = current->data;
-		if (! fd->error) 
-			return current;
-	}
-
-	wrap_around = eel_gconf_get_boolean (PREF_SLIDESHOW_WRAP_AROUND, FALSE);
-	do {
-		if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD) {
-			current = current->next;
-			if (current == NULL)
-				current = priv->slideshow_set;
-			if ((current == priv->slideshow_first) && !wrap_around) 
-				return NULL;
-
-		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_REVERSE) {
-			current = current->prev;
-			if (current == NULL)
-				current = g_list_last (priv->slideshow_set);
-			if ((current == priv->slideshow_first) && ! wrap_around)
-				return NULL;
-
-		} else if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM) {
-			current = get_slideshow_random_image (browser);
-			if (current == NULL) {
-				if (! wrap_around)
-					return NULL;
-				else {
-					priv->slideshow_random_set = g_list_copy (priv->slideshow_set);
-					current = get_slideshow_random_image (browser);
-				}
-			}
-		}
-
-		fd = current->data;
-	} while (fd->error);
-
-	return current;
-}
-
-
-static gboolean
-slideshow_timeout_cb (gpointer data)
-{
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	gboolean               go_on = FALSE;
-
-	if (priv->slideshow_timeout != 0) {
-		g_source_remove (priv->slideshow_timeout);
-		priv->slideshow_timeout = 0;
-	}
-
-	priv->slideshow_current = get_next_slideshow_image (browser);
-
-	if (priv->slideshow_current != NULL) {
-		FileData *fd = priv->slideshow_current->data;
-		int       pos = gth_file_list_pos_from_path (priv->file_list, fd->path);
-		if (pos != -1) {
-			gth_file_view_set_cursor (priv->file_list->view, pos);
-			go_on = TRUE;
-		}
-	}
-
-	if (! go_on) 
-		gth_browser_stop_slideshow (browser);
-	else
-		priv->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, browser);
-
-	return FALSE;
-}
-
-
-void
-gth_browser_start_slideshow (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	gboolean               only_selected;
-	gboolean               go_on = FALSE;
-
-	g_return_if_fail (browser != NULL);
-
-	if (priv->file_list->list == NULL)
-		return;
-
-	if (gth_window_get_slideshow (GTH_WINDOW (browser)))
-		return;
-
-	/* priv->slideshow = TRUE; FIXME */
-
-	if (priv->slideshow_set != NULL) {
-		g_list_free (priv->slideshow_set);
-		priv->slideshow_set = NULL;
-	}
-	if (priv->slideshow_random_set != NULL) {
-		g_list_free (priv->slideshow_random_set);
-		priv->slideshow_random_set = NULL;
-	}
-	priv->slideshow_first = NULL;
-	priv->slideshow_current = NULL;
-
-	only_selected = gth_file_view_selection_not_null (priv->file_list->view) && ! gth_file_view_only_one_is_selected (priv->file_list->view);
-
-	if (only_selected)
-		priv->slideshow_set = gth_file_view_get_selection (priv->file_list->view);
-	else
-		priv->slideshow_set = gth_file_view_get_list (priv->file_list->view);
-	priv->slideshow_random_set = g_list_copy (priv->slideshow_set);
-
-	if (pref_get_slideshow_direction () == GTH_DIRECTION_FORWARD)
-		priv->slideshow_first = g_list_first (priv->slideshow_set);
-	else if (pref_get_slideshow_direction () == GTH_DIRECTION_REVERSE)
-		priv->slideshow_first = g_list_last (priv->slideshow_set);
-	else if (pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM) 
-		priv->slideshow_first = NULL;
-
-	priv->slideshow_current = get_next_slideshow_image (browser);
-
-	if (priv->slideshow_current != NULL) {
-		FileData *fd = priv->slideshow_current->data;
-		int       pos = gth_file_list_pos_from_path (priv->file_list, fd->path);
-		if (pos != -1) {
-			/* FIXME
-			if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE))
-				fullscreen_start (fullscreen, browser);
-			*/
-			gth_file_view_set_cursor (priv->file_list->view, pos);
-			go_on = TRUE;
-		}
-	}
-
-	if (! go_on) 
-		gth_browser_stop_slideshow (browser);
-	else
-		priv->slideshow_timeout = g_timeout_add (eel_gconf_get_integer (PREF_SLIDESHOW_DELAY, DEF_SLIDESHOW_DELAY) * 1000, slideshow_timeout_cb, browser);
-}
-
-
-void
-gth_browser_stop_slideshow (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (!gth_window_get_slideshow (GTH_WINDOW (browser)))
-		return;
-
-	/*priv->slideshow = FALSE; FIXME */
-	if (priv->slideshow_timeout != 0) {
-		g_source_remove (priv->slideshow_timeout);
-		priv->slideshow_timeout = 0;
-	}
-
-	if ((pref_get_slideshow_direction () == GTH_DIRECTION_RANDOM)
-	    && (priv->slideshow_current != NULL)) {
-		g_list_free (priv->slideshow_current);
-		priv->slideshow_current = NULL;
-	}
-
-	if (priv->slideshow_set != NULL) {
-		g_list_free (priv->slideshow_set);
-		priv->slideshow_set = NULL;
-	}
-
-	if (priv->slideshow_random_set != NULL) {
-		g_list_free (priv->slideshow_random_set);
-		priv->slideshow_random_set = NULL;
-	}
-
-	/* FIXME
-	if (eel_gconf_get_boolean (PREF_SLIDESHOW_FULLSCREEN, TRUE) && priv->fullscreen)
-		fullscreen_stop (fullscreen);
-	*/
-}
-
-
-void
-gth_browser_toggle_slideshow (GthBrowser *browser)
-{
-	if (! gth_window_get_slideshow (GTH_WINDOW (browser)))
-		gth_browser_start_slideshow (browser);
-	else
-		gth_browser_stop_slideshow (browser);
-}
-
-
 /**/
 
 
@@ -7570,12 +7289,10 @@ gth_browser_show_next_image (GthBrowser *browser,
 
 	g_return_val_if_fail (browser != NULL, FALSE);
 	
-	if (gth_window_get_slideshow (GTH_WINDOW (browser))
-	    || priv->setting_file_list 
-	    || priv->changing_directory) 
+	if (priv->setting_file_list || priv->changing_directory) 
 		return FALSE;
 	
-	skip_broken = gth_window_get_fullscreen (GTH_WINDOW (browser));
+	skip_broken = FALSE;
 
 	if (priv->image_path == NULL) {
 		pos = gth_file_list_next_image (priv->file_list, -1, skip_broken, only_selected);
@@ -7610,12 +7327,10 @@ gth_browser_show_prev_image (GthBrowser *browser,
 
 	g_return_val_if_fail (browser != NULL, FALSE);
 	
-	if (gth_window_get_slideshow (GTH_WINDOW (browser))
-	    || priv->setting_file_list 
-	    || priv->changing_directory)
+	if (priv->setting_file_list || priv->changing_directory)
 		return FALSE;
 
-	skip_broken = gth_window_get_fullscreen (GTH_WINDOW (browser));
+	skip_broken = FALSE;
 	
 	if (priv->image_path == NULL) {
 		pos = gth_file_view_get_images (priv->file_list->view);
@@ -8822,12 +8537,6 @@ gth_browser_step_animation (GthWindow *window)
 }
 
 
-static void           
-gth_browser_delete_image (GthWindow *window)
-{
-}
-
-
 static gboolean
 fullscreen_destroy_cb (GtkWidget  *widget,
 		       GthBrowser *browser)
@@ -8838,32 +8547,45 @@ fullscreen_destroy_cb (GtkWidget  *widget,
 }
 
 
-static void           
-gth_browser_set_fullscreen (GthWindow *window,
-			    gboolean   fullscreen)
+static void
+_set_fullscreen_or_slideshow (GthWindow *window,
+			      gboolean   _set,
+			      gboolean   _slideshow)
 {
 	GthBrowser *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 	
-	if (fullscreen && (priv->fullscreen == NULL)) {
-		GdkPixbuf *image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
+	if (_set && (priv->fullscreen == NULL)) {
+		GdkPixbuf *image = NULL;
 
-		priv->fullscreen = gth_fullscreen_new (image, NULL);
+		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
+			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
+		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, gth_file_list_get_all_from_view (priv->file_list));
+		gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
 		g_signal_connect (priv->fullscreen, 
 				  "destroy",
 				  G_CALLBACK (fullscreen_destroy_cb), 
 				  browser);
 		gtk_widget_show (priv->fullscreen);
 
-	} else if (!fullscreen && (priv->fullscreen != NULL)) 
+	} else if (!_set && (priv->fullscreen != NULL)) 
 		gtk_widget_destroy (priv->fullscreen);
 }
 
 
 static void           
-gth_browser_set_slideshow (GthWindow *window,
-			   gboolean   value)
+gth_browser_set_fullscreen (GthWindow *window,
+			    gboolean   fullscreen)
 {
+	_set_fullscreen_or_slideshow (window, fullscreen, FALSE);
+}
+
+
+static void           
+gth_browser_set_slideshow (GthWindow *window,
+			   gboolean   slideshow)
+{
+	_set_fullscreen_or_slideshow (window, slideshow, TRUE);
 }
 
 
@@ -8899,7 +8621,6 @@ gth_browser_class_init (GthBrowserClass *class)
 	window_class->set_animation = gth_browser_set_animation;
 	window_class->get_animation = gth_browser_get_animation;
 	window_class->step_animation = gth_browser_step_animation;
-	window_class->delete_image = gth_browser_delete_image;
 	window_class->set_fullscreen = gth_browser_set_fullscreen;
 	window_class->set_slideshow = gth_browser_set_slideshow;
 }

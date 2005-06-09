@@ -497,7 +497,7 @@ dlg_comment_update (GtkWidget *dlg)
 	
 	free_dialog_data (data);
 
-	data->file_list = gth_window_get_file_list_selection (data->window); /* FIXME: gth_file_view_get_file_list_selection (data->window->file_list->view); */
+	data->file_list = gth_window_get_file_list_selection (data->window); 
 
 	if (data->file_list == NULL) {
 		gtk_widget_set_sensitive (data->save_button, FALSE);

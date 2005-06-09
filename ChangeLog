@@ -1,3 +1,21 @@
+2005-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c: 
+	* src/gth-viewer.c: 
+	* src/gth-window.c: removed the delete_image virtual function.
+
+	* libgthumb/gth-file-list.h:
+	* libgthumb/gth-file-list.c (gth_file_list_get_all_from_view): new 
+	function.
+
+	* data/glade/gthumb_preferences.glade: 
+	* libgthumb/preferences.h: 
+	* src/dlg-preferences.c: removed the fullscreen option for
+	the slideshow, because now the slideshow is always in fullscreen
+	mode.
+
+	* src/gth-fullscreen.c: implemented the slideshow mode.
+
 2005-06-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (gth_fullscreen_construct): added keyboard

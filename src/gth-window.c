@@ -164,12 +164,6 @@ base_step_animation (GthWindow *window)
 
 
 static void
-base_delete_image (GthWindow *window)
-{
-}
-
-
-static void
 base_set_fullscreen (GthWindow *window,
 		     gboolean   value)
 {
@@ -210,7 +204,6 @@ gth_window_class_init (GthWindowClass *class)
 	class->set_animation = base_set_animation;
 	class->get_animation = base_get_animation;
 	class->step_animation = base_step_animation;
-	class->delete_image = base_delete_image;
 	class->set_fullscreen = base_set_fullscreen;
 	class->set_slideshow = base_set_slideshow;
 }
@@ -428,14 +421,6 @@ gth_window_step_animation (GthWindow *window)
 {
 	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
 	class->step_animation (window);
-}
-
-
-void
-gth_window_delete_image (GthWindow *window)
-{
-	GthWindowClass *class = GTH_WINDOW_GET_CLASS (G_OBJECT (window));
-	class->delete_image (window);
 }
 
 

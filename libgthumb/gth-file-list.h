@@ -128,6 +128,8 @@ int          gth_file_list_pos_from_path        (GthFileList  *file_list,
 
 GList*       gth_file_list_get_all              (GthFileList  *file_list);
 
+GList*       gth_file_list_get_all_from_view    (GthFileList  *file_list);
+
 int          gth_file_list_get_length           (GthFileList  *file_list);
 
 GList*       gth_file_list_get_selection        (GthFileList  *file_list);

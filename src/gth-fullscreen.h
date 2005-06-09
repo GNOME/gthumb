@@ -47,10 +47,11 @@ struct _GthFullscreenClass
 	GthWindowClass __parent_class;
 };
 
-GType          gth_fullscreen_get_type               (void);
-GtkWidget *    gth_fullscreen_new                    (GdkPixbuf     *image,
-						      GList         *file_list);
-void           gth_fullscreen_set_metadata_visible   (GthFullscreen *window,
-						      gboolean       visible);
+GType          gth_fullscreen_get_type        (void);
+GtkWidget *    gth_fullscreen_new             (GdkPixbuf     *image,
+					       const char    *image_path,
+					       GList         *file_list);
+void           gth_fullscreen_set_slideshow   (GthFullscreen *fullscreen,
+					       gboolean       slideshow);
 
 #endif /* GTH_FULLSCREEN_H */

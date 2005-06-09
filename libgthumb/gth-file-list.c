@@ -1024,6 +1024,24 @@ gth_file_list_get_all (GthFileList *file_list)
 }
 
 
+GList *
+gth_file_list_get_all_from_view (GthFileList *file_list)
+{
+	GList *list;
+	GList *scan;
+
+	g_return_val_if_fail (file_list != NULL, NULL);
+
+	list = NULL;
+	for (scan = gth_file_view_get_list (file_list->view); scan; scan = scan->next) {
+		FileData *fd = scan->data;
+		list = g_list_prepend (list, g_strdup (fd->path));
+	}
+
+	return g_list_reverse (list);
+}
+
+
 int 
 gth_file_list_get_length (GthFileList *file_list)
 {

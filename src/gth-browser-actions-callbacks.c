@@ -1869,7 +1869,7 @@ void
 gth_browser_activate_action_tools_slideshow (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	gth_browser_toggle_slideshow (browser);
+	gth_window_set_slideshow (GTH_WINDOW (browser), TRUE);
 }
 
 

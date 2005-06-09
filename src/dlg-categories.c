@@ -771,7 +771,7 @@ dlg_categories_update (GtkWidget *dlg)
 
 	if (data->window != NULL) {
 		free_dialog_data (data);
-		data->file_list = gth_window_get_file_list_selection (data->window); /* FIXME: gth_file_view_get_file_list_selection (data->window->file_list->view); */
+		data->file_list = gth_window_get_file_list_selection (data->window);
 	} else if (data->original_cdata != NULL) {
 		comment_data_free (data->original_cdata);
 		data->original_cdata = NULL;

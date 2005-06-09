@@ -90,9 +90,6 @@ gboolean        gth_browser_show_last_image              (GthBrowser        *bro
 void            gth_browser_load_image                   (GthBrowser        *browser, 
 							  const gchar       *filename);
 void            gth_browser_reload_image                 (GthBrowser        *browser);
-void            gth_browser_start_slideshow              (GthBrowser        *browser);
-void            gth_browser_stop_slideshow               (GthBrowser        *browser);
-void            gth_browser_toggle_slideshow             (GthBrowser        *browser);
 void            gth_browser_show_image_prop              (GthBrowser        *browser);
 void            gth_browser_set_image_prop_dlg           (GthBrowser        *browser,
 							  GtkWidget         *dialog);

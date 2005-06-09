@@ -70,7 +70,6 @@ struct _GthWindowClass
 							gboolean     value);
 	gboolean      (*get_animation)                 (GthWindow   *window);
 	void          (*step_animation)                (GthWindow   *window);
-	void          (*delete_image)                  (GthWindow   *window);
 	void          (*set_fullscreen)                (GthWindow   *window,
 							gboolean     value);
 	void          (*set_slideshow)                 (GthWindow   *window,
@@ -106,7 +105,6 @@ void           gth_window_set_animation                  (GthWindow   *window,
 gboolean       gth_window_get_animation                  (GthWindow   *window);
 void           gth_window_step_animation                 (GthWindow   *window);
 
-void           gth_window_delete_image                   (GthWindow   *window);
 void           gth_window_edit_comment                   (GthWindow   *window);
 void           gth_window_edit_categories                (GthWindow   *window);
 

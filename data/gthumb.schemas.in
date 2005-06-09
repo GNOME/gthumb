@@ -428,19 +428,6 @@
 	</locale>
       </schema>
 
-      <schema>
-	<key>/schemas/apps/gthumb/slideshow/fullscreen</key>
-	<applyto>/apps/gthumb/slideshow/fullscreen</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>true</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
       <!-- UI -->
 
       <schema>

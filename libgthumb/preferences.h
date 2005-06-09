@@ -71,7 +71,6 @@
 #define  PREF_SLIDESHOW_DIR          "/apps/gthumb/slideshow/direction"
 #define  PREF_SLIDESHOW_DELAY        "/apps/gthumb/slideshow/delay"
 #define  PREF_SLIDESHOW_WRAP_AROUND  "/apps/gthumb/slideshow/wrap_around"
-#define  PREF_SLIDESHOW_FULLSCREEN   "/apps/gthumb/slideshow/fullscreen"
 
 #define  PREF_UI_LAYOUT              "/apps/gthumb/ui/layout"
 #define  PREF_UI_TOOLBAR_STYLE       "/apps/gthumb/ui/toolbar_style"
