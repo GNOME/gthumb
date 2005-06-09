@@ -98,18 +98,6 @@ struct poptOption options[] = {
 
 
 static gboolean 
-check_whether_to_set_fullscreen (gpointer data) 
-{
-	/*
-	if ((first_window != NULL) && StartInFullscreen) 
-		fullscreen_start (fullscreen, first_window);
-	*/
-	StartInFullscreen = FALSE;
-	return FALSE;
-}
-
-
-static gboolean 
 check_whether_to_import_photos (gpointer data) 
 {
 	/*
@@ -157,7 +145,6 @@ main (int argc, char *argv[])
 	poptFreeContext (pctx);
 	prepare_app ();
 
-	g_idle_add (check_whether_to_set_fullscreen, NULL);
 	g_idle_add (check_whether_to_import_photos, NULL);
 
 	gtk_main ();

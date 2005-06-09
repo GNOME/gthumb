@@ -26,11 +26,9 @@
 #include "image-viewer.h"
 #include "gth-window.h"
 #include "preferences.h"
-#include "fullscreen.h"
 
 extern GthWindow        *current_window;
 extern Preferences       preferences;
-extern FullScreen       *fullscreen;
 
 extern gboolean          StartInFullscreen;
 extern gboolean          StartSlideshow;

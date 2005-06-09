@@ -1,5 +1,14 @@
 2005-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-viewer.c (image_loaded_cb): support for starting
+	in fullscreen mode.
+
+	* src/gth-window-actions-callbacks.c: 
+	* src/main.h: removed the fullscreen.h include.
+
+	* src/fullscreen.c:
+	* src/fullscreen.h: removed files.
+
 	* src/gth-fullscreen.c (_show_cursor__hide_comment): 
 	automatically pause the slideshow when editing the comment
 	or the categories.

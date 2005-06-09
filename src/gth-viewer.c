@@ -49,6 +49,7 @@
 #include "gth-fullscreen.h"
 #include "gthumb-info-bar.h"
 #include "gtk-utils.h"
+#include "main.h"
 #include "nav-window.h"
 #include "image-viewer.h"
 #include "jpeg-utils.h"
@@ -888,6 +889,11 @@ image_loaded_cb (GtkWidget  *widget,
 		}
 	}
 #endif /* HAVE_LIBEXIF */
+
+	if (StartInFullscreen) {
+		StartInFullscreen = FALSE;
+		gth_window_set_fullscreen (GTH_WINDOW (viewer), TRUE);
+	}
 }
 
 
