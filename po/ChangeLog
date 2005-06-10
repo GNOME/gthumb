@@ -1,6 +1,10 @@
+2005-06-10  Danilo Å egan  <dsegan@gmx.net>
+
+	* POTFILES.in: Updated.
+
 2005-06-05  Ignacio Casal Quinteiro <icq@cvs.gnome.org>
 
-	*gl.po: Updated Galician translation.
+	* gl.po: Updated Galician translation.
 
 2005-06-01  Adam Weinberger  <adamw@gnome.org>
 
@@ -115,7 +119,7 @@
 
 	* it.po: Changed my email address.
 
-2004-12-13  Iñaki Larrañaga  <dooteo@euskalgnu.org>
+2004-12-13  Iaki Larraaga  <dooteo@euskalgnu.org>
 
 	* eu.po: Updated Basque translation.
 
