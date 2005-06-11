@@ -43,6 +43,7 @@ HEADER_FILES =				\
 	glib-utils.h			\
 	gnome-print-font-picker.h	\
 	gnome-print-font-dialog.h	\
+	gstringlist.h			\
 	gth-image-list.h		\
 	gth-file-list.h			\
 	gth-file-view.h			\
@@ -97,6 +98,7 @@ libgthumb_la_SOURCES =			\
 	glib-utils.c			\
 	gnome-print-font-picker.c	\
 	gnome-print-font-dialog.c	\
+	gstringlist.c			\
 	gth-pixbuf-op.c			\
 	gth-image-list.c		\
 	gth-file-list.c			\

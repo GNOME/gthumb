@@ -53,5 +53,7 @@ GtkWidget *    gth_fullscreen_new             (GdkPixbuf     *image,
 					       GList         *file_list);
 void           gth_fullscreen_set_slideshow   (GthFullscreen *fullscreen,
 					       gboolean       slideshow);
+void           gth_fullscreen_set_catalog     (GthFullscreen *fullscreen,
+					       const char    *catalog_path);
 
 #endif /* GTH_FULLSCREEN_H */

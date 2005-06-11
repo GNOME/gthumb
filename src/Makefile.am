@@ -90,8 +90,6 @@ gthumb_SOURCES = 			\
 	gth-browser-actions-callbacks.h	\
 	gth-browser-actions-callbacks.c	\
 	gth-browser-ui.h		\
-	gth-image-selector.c		\
-	gth-image-selector.h		\
 	gth-exif-data-viewer.c		\
 	gth-exif-data-viewer.h		\
 	gth-exif-utils.c		\
@@ -100,6 +98,10 @@ gthumb_SOURCES = 			\
 	gth-folder-selection-dialog.h	\
 	gth-fullscreen.c		\
 	gth-fullscreen.h		\
+	gth-image-selector.c		\
+	gth-image-selector.h		\
+	gth-monitor.c			\
+	gth-monitor.h			\
 	gth-viewer.c			\
 	gth-viewer.h			\
 	gth-viewer-actions-entries.h	\
@@ -111,6 +113,8 @@ gthumb_SOURCES = 			\
 	gth-window-actions-entries.h	\
 	gth-window-actions-callbacks.h	\
 	gth-window-actions-callbacks.c	\
+	gth-window-utils.c		\
+	gth-window-utils.h		\
 	gthumb-preloader.c		\
 	gthumb-preloader.h		\
 	gtkcellrendererthreestates.h	\

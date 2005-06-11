@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libbonoboui.h>
-#include <libgnomevfs/gnome-vfs-monitor.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 #include <libgnomevfs/gnome-vfs-result.h>
@@ -85,15 +84,6 @@ typedef enum {
 	GTH_BROWSER_GO_BACK,
 	GTH_BROWSER_GO_FORWARD
 } WindowGoOp;
-
-typedef enum {
-	MONITOR_EVENT_FILE_CREATED = 0,
-	MONITOR_EVENT_FILE_DELETED,
-	MONITOR_EVENT_DIR_CREATED,
-	MONITOR_EVENT_DIR_DELETED,
-	MONITOR_EVENT_FILE_CHANGED,
-	MONITOR_EVENT_NUM
-} MonitorEventType;
 
 struct _GthBrowserPrivateData {
 	BonoboUIComponent  *ui_component;
@@ -243,13 +233,6 @@ struct _GthBrowserPrivateData {
 	ExifData           *exif_data;
 #endif /* HAVE_LIBEXIF */
 
-	/* monitor stuff */
-
-	GnomeVFSMonitorHandle *monitor_handle;
-	guint                  monitor_enabled : 1;
-	guint                  update_changes_timeout;
-	GList                 *monitor_events[MONITOR_EVENT_NUM]; /* char * lists */
-
 	/* misc */
 
 	guint                  cnxn_id[GCONF_NOTIFICATIONS];
@@ -281,7 +264,6 @@ static GthWindowClass *parent_class = NULL;
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
-#define UPDATE_DIR_DELAY       500
 #define VIEW_IMAGE_DELAY       25
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
@@ -3664,7 +3646,7 @@ add_image_list_to_catalog (GthBrowser *browser,
 		if (! catalog_write_to_disk (catalog, &gerror)) 
 			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
 		else 
-			all_windows_notify_cat_files_added (catalog_path, files_added);
+			all_windows_notify_cat_files_created (catalog_path, files_added);
 		
 		g_list_free (files_added);
 	}
@@ -4975,7 +4957,6 @@ gth_browser_finalize (GObject *object)
 
 	if (browser->priv != NULL) {
 		GthBrowserPrivateData *priv = browser->priv;
-		int                    i;
 
 		g_object_unref (priv->file_list);
 		dir_list_free (priv->dir_list);
@@ -5018,9 +4999,6 @@ gth_browser_finalize (GObject *object)
 			priv->preloader = NULL;
 		}
 		
-		for (i = 0; i < MONITOR_EVENT_NUM; i++)
-			path_list_free (priv->monitor_events[i]);
-		
 		g_free (browser->priv);
 		browser->priv = NULL;
 	}
@@ -5036,6 +5014,854 @@ gth_browser_init (GthBrowser *browser)
 
 	priv = browser->priv = g_new0 (GthBrowserPrivateData, 1);
 	priv->first_time_show = TRUE;
+}
+
+
+/* -- changes notification functions -- */
+
+
+static void
+notify_files_added__step2 (gpointer data)
+{
+	GthBrowser *browser = data;
+
+	window_update_statusbar_list_info (browser);
+	window_update_infobar (browser);
+	window_update_sensitivity (browser);
+}
+
+
+static void
+notify_files_added (GthBrowser *browser,
+		    GList      *list)
+{
+	gth_file_list_add_list (browser->priv->file_list, 
+				list, 
+				notify_files_added__step2,
+				browser);
+}
+
+
+static void
+gth_browser_notify_files_created (GthBrowser *browser,
+				  GList      *list)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	GList *scan;
+	GList *created_in_current_dir = NULL;
+	char  *current_dir;
+
+	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
+		return;
+
+	current_dir = priv->dir_list->path;
+	if (current_dir == NULL)
+		return;
+
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		char *parent_dir;
+		
+		parent_dir = remove_level_from_path (path);
+
+		if (strcmp (parent_dir, current_dir) == 0)
+			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
+
+		g_free (parent_dir);
+	}
+
+	if (created_in_current_dir != NULL) {
+		notify_files_added (browser, created_in_current_dir);
+		g_list_free (created_in_current_dir);
+	}
+}
+
+
+typedef struct {
+	GthBrowser *browser;
+	GList      *list;
+	gboolean    restart_thumbs;
+} FilesDeletedData;
+
+
+static void
+notify_files_deleted__step2 (FilesDeletedData *data)
+{
+	GthBrowser   *browser = data->browser;
+	GthBrowserPrivateData *priv = browser->priv;
+	GList        *list = data->list;
+	GList        *scan;
+	char         *filename;
+	int           pos, smallest_pos, image_pos;
+	gboolean      current_image_deleted = FALSE;
+	gboolean      no_image_viewed;
+
+	gth_file_view_freeze (priv->file_list->view);
+
+	pos = -1;
+	smallest_pos = -1;
+	image_pos = -1;
+	if (priv->image_path)
+		image_pos = gth_file_list_pos_from_path (priv->file_list, 
+							 priv->image_path);
+	no_image_viewed = (image_pos == -1);
+
+	for (scan = list; scan; scan = scan->next) {
+		filename = scan->data;
+
+		pos = gth_file_list_pos_from_path (priv->file_list, filename);
+		if (pos == -1) 
+			continue;
+
+		if (image_pos == pos) {
+			/* the current image will be deleted. */
+			image_pos = -1;
+			current_image_deleted = TRUE;
+
+		} else if (image_pos > pos)
+			/* a previous image will be deleted, so image_pos 
+			 * decrements its value. */
+			image_pos--;
+
+		if (scan == list)
+			smallest_pos = pos;
+		else
+			smallest_pos = MIN (smallest_pos, pos);
+
+		gth_file_list_delete_pos (priv->file_list, pos);
+	}
+
+	gth_file_view_thaw (priv->file_list->view);
+
+	/* Try to visualize the smallest pos. */
+	if (smallest_pos != -1) {
+		int images = gth_file_view_get_images (priv->file_list->view);
+
+		pos = smallest_pos;
+
+		if (pos > images - 1)
+			pos = images - 1;
+		if (pos < 0)
+			pos = 0;
+
+		gth_file_view_moveto (priv->file_list->view, pos, 0.5);
+	}
+
+	if (! no_image_viewed) {
+		if (current_image_deleted) {
+			int images = gth_file_view_get_images (priv->file_list->view);
+
+			/* delete the image from the viewer. */
+			gth_browser_load_image (browser, NULL);
+
+			if ((images > 0) && (smallest_pos != -1)) {
+				pos = smallest_pos;
+				
+				if (pos > images - 1)
+					pos = images - 1;
+				if (pos < 0)
+					pos = 0;
+				
+				view_image_at_pos (browser, pos);
+				gth_file_list_select_image_by_pos (priv->file_list, pos);
+			}
+		}
+	}
+
+	window_update_statusbar_list_info (browser);
+	window_update_sensitivity (browser);
+
+	if (data->restart_thumbs)
+		gth_file_list_restart_thumbs (data->browser->priv->file_list, TRUE);
+
+	path_list_free (data->list);
+	g_free (data);
+}
+
+
+static void
+notify_files_deleted (GthBrowser *browser,
+		      GList      *list)
+{
+	FilesDeletedData *data;
+
+	if (list == NULL)
+		return;
+
+	data = g_new (FilesDeletedData, 1);
+
+	data->browser = browser;
+	data->list = path_list_dup (list);
+	data->restart_thumbs = browser->priv->file_list->doing_thumbs;
+	
+	gth_file_list_interrupt_thumbs (browser->priv->file_list,
+					(DoneFunc) notify_files_deleted__step2,
+					data);
+}
+
+
+static void
+gth_browser_notify_files_deleted (GthBrowser *browser,
+				  GList      *list)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	g_return_if_fail (browser != NULL);
+
+	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+	    && (priv->catalog_path != NULL)) { /* update the catalog. */
+		Catalog *catalog;
+		GList   *scan;
+
+		catalog = catalog_new ();
+		if (catalog_load_from_disk (catalog, priv->catalog_path, NULL)) {
+			for (scan = list; scan; scan = scan->next)
+				catalog_remove_item (catalog, (char*) scan->data);
+			catalog_write_to_disk (catalog, NULL);
+		}
+		catalog_free (catalog);
+	} 
+
+	notify_files_deleted (browser, list);
+}
+
+
+static void
+gth_browser_notify_files_changed (GthBrowser *browser,
+				  GList      *list)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	/* FIXME: better implementation */
+
+	if (! priv->file_list->doing_thumbs)
+		gth_file_list_update_thumb_list (priv->file_list, list);
+
+	if (priv->image_path != NULL) {
+		int pos = gth_file_list_pos_from_path (priv->file_list,
+						       priv->image_path);
+		if (pos != -1)
+			view_image_at_pos (browser, pos);
+	}
+}
+
+
+static void
+monitor_update_files_cb (GthMonitor      *monitor,
+			 GthMonitorEvent  event,
+			 GList           *list,
+			 GthBrowser      *browser)
+{
+	g_return_if_fail (browser != NULL);
+
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+		gth_browser_notify_files_created (browser, list);
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		gth_browser_notify_files_deleted (browser, list);
+		break;
+
+	case GTH_MONITOR_EVENT_CHANGED:
+		gth_browser_notify_files_changed (browser, list);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+monitor_update_cat_files_cb (GthMonitor      *monitor,
+			     const char      *catalog_name,
+			     GthMonitorEvent  event,
+			     GList           *list,
+			     GthBrowser      *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	g_return_if_fail (browser != NULL);
+
+	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
+		return;
+	if (priv->catalog_path == NULL)
+		return;
+	if (strcmp (priv->catalog_path, catalog_name) != 0)
+		return;
+
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+		notify_files_added (browser, list);
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		notify_files_deleted (browser, list);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static gboolean
+first_level_sub_directory (GthBrowser *browser,
+			   const char *current,
+			   const char *old_path)
+{
+	const char *old_name;
+	int         current_l;
+	int         old_path_l;
+
+	current_l = strlen (current);
+	old_path_l = strlen (old_path);
+
+	if (old_path_l <= current_l + 1)
+		return FALSE;
+
+	if (strncmp (current, old_path, current_l) != 0)
+		return FALSE;
+
+	old_name = old_path + current_l + 1;
+
+	return (strchr (old_name, '/') == NULL);
+}
+
+
+static void
+gth_browser_notify_file_rename (GthBrowser *browser,
+				const char *old_name,
+				const char *new_name)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	int pos;
+
+	g_return_if_fail (browser != NULL);
+	if ((old_name == NULL) || (new_name == NULL))
+		return;
+
+	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+	    && (priv->catalog_path != NULL)) { /* update the catalog. */
+		Catalog  *catalog;
+		GList    *scan;
+		gboolean  changed = FALSE;
+
+		catalog = catalog_new ();
+		if (catalog_load_from_disk (catalog, priv->catalog_path, NULL)) {
+			for (scan = catalog->list; scan; scan = scan->next) {
+				char *entry = scan->data;
+				if (strcmp (entry, old_name) == 0) {
+					catalog_remove_item (catalog, old_name);
+					catalog_add_item (catalog, new_name);
+					changed = TRUE;
+				}
+			}
+			if (changed)
+				catalog_write_to_disk (catalog, NULL);
+		}
+		catalog_free (catalog);
+	}
+
+	pos = gth_file_list_pos_from_path (priv->file_list, new_name);
+	if (pos != -1)
+		gth_file_list_delete_pos (priv->file_list, pos);
+
+	pos = gth_file_list_pos_from_path (priv->file_list, old_name);
+	if (pos != -1)
+		gth_file_list_rename_pos (priv->file_list, pos, new_name);
+
+	if ((priv->image_path != NULL) 
+	    && strcmp (old_name, priv->image_path) == 0) 
+		gth_browser_load_image (browser, new_name);
+}
+
+
+static void
+gth_browser_notify_directory_rename (GthBrowser *browser,
+				     const char *old_name,
+				     const char *new_name)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+		if (strcmp (priv->dir_list->path, old_name) == 0) 
+			gth_browser_go_to_directory (browser, new_name);
+		else {
+			const char *current = priv->dir_list->path;
+
+			/* a sub directory was renamed, refresh. */
+			if (first_level_sub_directory (browser, current, old_name)) 
+				dir_list_remove_directory (priv->dir_list, 
+							   file_name_from_path (old_name));
+
+			if (first_level_sub_directory (browser, current, new_name)) 
+				dir_list_add_directory (priv->dir_list, 
+							file_name_from_path (new_name));
+		}
+		
+	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		if (strcmp (priv->catalog_list->path, old_name) == 0) 
+			gth_browser_go_to_catalog_directory (browser, new_name);
+		else {
+			const char *current = priv->catalog_list->path;
+			if (first_level_sub_directory (browser, current, old_name))  
+				gth_browser_update_catalog_list (browser);
+		}
+	}
+
+	if ((priv->image_path != NULL) 
+	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+	    && (strncmp (priv->image_path, 
+			 old_name,
+			 strlen (old_name)) == 0)) {
+		char *new_image_name;
+
+		new_image_name = g_strconcat (new_name,
+					      priv->image_path + strlen (old_name),
+					      NULL);
+		gth_browser_notify_file_rename (browser, 
+						priv->image_path,
+						new_image_name);
+		g_free (new_image_name);
+	}
+}
+
+
+static void
+gth_browser_notify_directory_delete (GthBrowser *browser,
+				     const char *path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+		if (strcmp (priv->dir_list->path, path) == 0) 
+			gth_browser_go_up (browser);
+		else {
+			const char *current = priv->dir_list->path;
+			if (first_level_sub_directory (browser, current, path))
+				dir_list_remove_directory (priv->dir_list, 
+							   file_name_from_path (path));
+		}
+
+	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		if (strcmp (priv->catalog_list->path, path) == 0) 
+			gth_browser_go_up (browser);
+		else {
+			const char *current = priv->catalog_list->path;
+			if (path_in_path (current, path))
+				/* a sub directory got deleted, refresh. */
+				gth_browser_update_catalog_list (browser);
+		}
+	}
+
+	if ((priv->image_path != NULL) 
+	    && (path_in_path (priv->image_path, path))) {
+		GList *list;
+		
+		list = g_list_append (NULL, priv->image_path);
+		gth_browser_notify_files_deleted (browser, list);
+		g_list_free (list);
+	}
+}
+
+
+static void
+gth_browser_notify_directory_new (GthBrowser *browser,
+				  const char *path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+		const char *current = priv->dir_list->path;
+		if (first_level_sub_directory (browser, current, path))
+			dir_list_add_directory (priv->dir_list, 
+						file_name_from_path (path));
+
+	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
+		const char *current = priv->catalog_list->path;
+		if (path_in_path (current, path))
+			/* a sub directory was created, refresh. */
+			gth_browser_update_catalog_list (browser);
+	}
+}
+
+
+static void
+monitor_update_directory_cb (GthMonitor      *monitor,
+			     const char      *dir_path,
+			     GthMonitorEvent  event,
+			     GthBrowser      *browser)
+{
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+		gth_browser_notify_directory_new (browser, dir_path);
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		gth_browser_notify_directory_delete (browser, dir_path);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+monitor_file_renamed_cb (GthMonitor      *monitor,
+			 const char      *old_name,
+			 const char      *new_name,
+			 GthBrowser      *browser)
+{
+	gth_browser_notify_file_rename (browser, old_name, new_name);
+}
+
+
+static void
+monitor_directory_renamed_cb (GthMonitor      *monitor,
+			      const char      *old_name,
+			      const char      *new_name,
+			      GthBrowser      *browser)
+{
+	gth_browser_notify_directory_rename (browser, old_name, new_name);
+}
+
+
+static void
+gth_browser_notify_catalog_rename (GthBrowser *browser,
+				   const char *old_path,
+				   const char *new_path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	char     *catalog_dir;
+	gboolean  viewing_a_catalog;
+	gboolean  current_cat_renamed;
+	gboolean  renamed_cat_is_in_current_dir;
+
+	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
+		return;
+
+	if (priv->catalog_list->path == NULL)
+		return;
+
+	catalog_dir = remove_level_from_path (priv->catalog_list->path);
+	viewing_a_catalog = (priv->catalog_path != NULL);
+	current_cat_renamed = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, old_path) == 0));
+	renamed_cat_is_in_current_dir = path_in_path (catalog_dir, new_path);
+
+	if (! renamed_cat_is_in_current_dir) {
+		g_free (catalog_dir);
+		return;
+	}
+
+	if (! viewing_a_catalog) 
+		gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+	else {
+		if (current_cat_renamed)
+			gth_browser_go_to_catalog (browser, new_path);
+		else {
+			GtkTreeIter iter;
+			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+
+			/* reselect the current catalog. */
+			if (catalog_list_get_iter_from_path (priv->catalog_list, 
+							     priv->catalog_path, &iter))
+				catalog_list_select_iter (priv->catalog_list, &iter);
+		}
+	}
+
+	g_free (catalog_dir);
+}
+
+
+static void
+monitor_catalog_renamed_cb (GthMonitor      *monitor,
+			   const char      *old_name,
+			   const char      *new_name,
+			   GthBrowser      *browser)
+{
+	gth_browser_notify_catalog_rename (browser, old_name, new_name);
+}
+
+
+static void
+gth_browser_notify_catalog_new (GthBrowser *browser,
+				const char *path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	char     *catalog_dir;
+	gboolean  viewing_a_catalog;
+	gboolean  created_cat_is_in_current_dir;
+
+	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
+		return;
+
+	if (priv->catalog_list->path == NULL)
+		return;
+
+	viewing_a_catalog = (priv->catalog_path != NULL);
+	catalog_dir = remove_level_from_path (priv->catalog_list->path);
+	created_cat_is_in_current_dir = path_in_path (catalog_dir, path);
+
+	if (! created_cat_is_in_current_dir) {
+		g_free (catalog_dir);
+		return;
+	}
+
+	gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+
+	if (viewing_a_catalog) {
+		GtkTreeIter iter;
+			
+		/* reselect the current catalog. */
+		if (catalog_list_get_iter_from_path (priv->catalog_list, 
+						     priv->catalog_path, 
+						     &iter))
+			catalog_list_select_iter (priv->catalog_list, &iter);
+	}
+
+	g_free (catalog_dir);
+}
+
+
+static void
+gth_browser_notify_catalog_delete (GthBrowser *browser,
+				   const char *path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	char     *catalog_dir;
+	gboolean  viewing_a_catalog;
+	gboolean  current_cat_deleted;
+	gboolean  deleted_cat_is_in_current_dir;
+
+	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
+		return;
+
+	if (priv->catalog_list->path == NULL)
+		return;
+
+	catalog_dir = remove_level_from_path (priv->catalog_list->path);
+	viewing_a_catalog = (priv->catalog_path != NULL);
+	current_cat_deleted = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, path) == 0));
+	deleted_cat_is_in_current_dir = path_in_path (catalog_dir, path);
+
+	if (! deleted_cat_is_in_current_dir) {
+		g_free (catalog_dir);
+		return;
+	}
+
+	if (! viewing_a_catalog) 
+		gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+	else {
+		if (current_cat_deleted) {
+			gth_browser_go_to_catalog (browser, NULL);
+			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+		} else {
+			GtkTreeIter iter;
+			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
+			
+			/* reselect the current catalog. */
+			if (catalog_list_get_iter_from_path (priv->catalog_list, 
+							     priv->catalog_path, &iter))
+				catalog_list_select_iter (priv->catalog_list, &iter);
+		}
+	}
+
+	g_free (catalog_dir);
+}
+
+
+static void
+monitor_update_catalog_cb (GthMonitor      *monitor,
+			   const char      *dir_path,
+			   GthMonitorEvent  event,
+			   GthBrowser      *browser)
+{
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+		gth_browser_notify_catalog_new (browser, dir_path);
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		gth_browser_notify_catalog_delete (browser, dir_path);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+void
+gth_browser_notify_update_comment (GthBrowser *browser,
+				   const char *filename)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	int pos;
+
+	g_return_if_fail (browser != NULL);
+
+	update_image_comment (browser);
+
+	pos = gth_file_list_pos_from_path (priv->file_list, filename);
+	if (pos != -1)
+		gth_file_list_update_comment (priv->file_list, pos);
+}
+
+
+void
+gth_browser_notify_update_directory (GthBrowser *browser,
+				     const char *dir_path)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	g_return_if_fail (browser != NULL);
+
+	/* FIXME
+	if (priv->monitor_enabled)
+		return;
+	*/
+
+	if ((priv->dir_list->path == NULL) 
+	    || (strcmp (priv->dir_list->path, dir_path) != 0)) 
+		return;
+
+	gth_browser_update_file_list (browser);
+}
+
+
+gboolean
+gth_browser_notify_update_layout_cb (gpointer data)
+{
+	GthBrowser   *browser = data;
+	GthBrowserPrivateData *priv = browser->priv;
+	GtkWidget    *paned1;      /* Main paned widget. */
+	GtkWidget    *paned2;      /* Secondary paned widget. */
+	int           paned1_pos;
+	int           paned2_pos;
+	gboolean      sidebar_visible;
+
+	if (! GTK_IS_WIDGET (priv->main_pane))
+		return TRUE;
+
+	if (priv->update_layout_timeout != 0) {
+		g_source_remove (priv->update_layout_timeout);
+		priv->update_layout_timeout = 0;
+	}
+
+	sidebar_visible = priv->sidebar_visible;
+	if (! sidebar_visible) 
+		gth_browser_show_sidebar (browser);
+
+	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
+
+	paned1_pos = gtk_paned_get_position (GTK_PANED (priv->main_pane));
+	paned2_pos = gtk_paned_get_position (GTK_PANED (priv->content_pane));
+
+	if (priv->layout_type == 1) {
+		paned1 = gtk_vpaned_new (); 
+		paned2 = gtk_hpaned_new ();
+	} else {
+		paned1 = gtk_hpaned_new (); 
+		paned2 = gtk_vpaned_new (); 
+	}
+
+	if (priv->layout_type == 3)
+		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+	else
+		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
+
+	if (priv->layout_type == 3)
+		gtk_widget_reparent (priv->dir_list_pane, paned1);
+	else
+		gtk_widget_reparent (priv->dir_list_pane, paned2);
+
+	if (priv->layout_type == 2) 
+		gtk_widget_reparent (priv->file_list_pane, paned1);
+	else 
+		gtk_widget_reparent (priv->file_list_pane, paned2);
+
+	if (priv->layout_type <= 1) 
+		gtk_widget_reparent (priv->image_pane, paned1);
+	else 
+		gtk_widget_reparent (priv->image_pane, paned2);
+
+	gtk_paned_set_position (GTK_PANED (paned1), paned1_pos);
+	gtk_paned_set_position (GTK_PANED (paned2), paned2_pos);
+
+	gnome_app_set_contents (GNOME_APP (browser), paned1);
+
+	gtk_widget_show (paned1);
+	gtk_widget_show (paned2);
+
+	priv->main_pane = paned1;
+	priv->content_pane = paned2;
+
+	if (! sidebar_visible) 
+		gth_browser_hide_sidebar (browser);
+
+	return FALSE;
+}
+
+
+
+void
+gth_browser_notify_update_layout (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->update_layout_timeout != 0) {
+		g_source_remove (priv->update_layout_timeout);
+		priv->update_layout_timeout = 0;
+	}
+
+	priv->update_layout_timeout = g_timeout_add (UPDATE_LAYOUT_DELAY, 
+						       gth_browser_notify_update_layout_cb, 
+						       browser);
+}
+
+
+void
+gth_browser_notify_update_toolbar_style (GthBrowser *browser)
+{
+	GthToolbarStyle toolbar_style;
+	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
+
+	toolbar_style = pref_get_real_toolbar_style ();
+
+	switch (toolbar_style) {
+	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
+		prop = GTK_TOOLBAR_BOTH; break;
+	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
+		prop = GTK_TOOLBAR_BOTH_HORIZ; break;
+	case GTH_TOOLBAR_STYLE_ICONS:
+		prop = GTK_TOOLBAR_ICONS; break;
+	case GTH_TOOLBAR_STYLE_TEXT:
+		prop = GTK_TOOLBAR_TEXT; break;
+	default:
+		break;
+	}
+
+	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->toolbar), prop);
+}
+
+
+void
+gth_browser_notify_update_icon_theme (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	gth_file_view_update_icon_theme (priv->file_list->view);
+	dir_list_update_icon_theme (priv->dir_list);
+
+	gth_browser_update_bookmark_list (browser);
+	window_update_history_list (browser);
+	gth_browser_update_file_list (browser);
+
+	if (priv->bookmarks_dlg != NULL)
+		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
 }
 
 
@@ -5674,12 +6500,6 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->changing_directory = FALSE;
 	priv->can_change_directory = TRUE;
 
-	priv->monitor_handle = NULL;
-	priv->monitor_enabled = FALSE;
-	priv->update_changes_timeout = 0;
-	for (i = 0; i < MONITOR_EVENT_NUM; i++)
-		priv->monitor_events[i] = NULL;
-
 	priv->image_prop_dlg = NULL;
 
 	priv->busy_cursor_timeout = 0;
@@ -5848,6 +6668,41 @@ gth_browser_construct (GthBrowser  *browser,
 
 	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
 
+	/**/
+
+	g_signal_connect_swapped (G_OBJECT (monitor), 
+				  "update_bookmarks",
+				  G_CALLBACK (gth_browser_update_bookmark_list),
+				  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_cat_files",
+			  G_CALLBACK (monitor_update_cat_files_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_files",
+			  G_CALLBACK (monitor_update_files_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_directory",
+			  G_CALLBACK (monitor_update_directory_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_catalog",
+			  G_CALLBACK (monitor_update_catalog_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "file_renamed",
+			  G_CALLBACK (monitor_file_renamed_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "directory_renamed",
+			  G_CALLBACK (monitor_directory_renamed_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "catalog_renamed",
+			  G_CALLBACK (monitor_catalog_renamed_cb),
+			  browser);
+
 	/* Initial location. */
 
 	if (uri != NULL)
@@ -5871,7 +6726,7 @@ gth_browser_new (const gchar *uri)
 }
 
 
-/* -- gth_browserclose -- */
+/* -- gth_browser_close -- */
 
 
 static void
@@ -5954,8 +6809,9 @@ close__step6 (const char *filename,
 	pref_set_preview_content (priv->preview_content);
 
 	if (priv->fullscreen != NULL)
-		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),
-						      browser);
+		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen), browser);
+
+	g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), browser);
 
 	/* Destroy the main window. */
 
@@ -5987,11 +6843,6 @@ close__step6 (const char *filename,
 	if (priv->view_image_timeout != 0) {
  		g_source_remove (priv->view_image_timeout);
 		priv->view_image_timeout = 0;
-	}
-
-	if (priv->update_changes_timeout != 0) {
-		g_source_remove (priv->update_changes_timeout);
-		priv->update_changes_timeout = 0;
 	}
 
 	if (priv->auto_load_timeout != 0) {
@@ -6090,6 +6941,21 @@ close__step2 (GthBrowser *browser)
 						  browser);
 	else
 		close__step3 (browser);
+}
+
+
+static void
+gth_browser_remove_monitor (GthBrowser *browser)
+{
+	/* FIXME
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->monitor_handle != NULL) {
+		gnome_vfs_monitor_cancel (priv->monitor_handle);
+		priv->monitor_handle = NULL;
+	}
+	priv->monitor_enabled = FALSE;
+	*/
 }
 
 
@@ -6467,240 +7333,13 @@ gth_browser_refresh (GthBrowser *browser)
 }
 
 
-/* -- file system monitor -- */
-
-
-static void notify_files_added (GthBrowser *browser, GList *list);
-static void notify_files_deleted (GthBrowser *browser, GList *list);
-
-
-static gboolean
-_proc_monitor_events (gpointer data)
-{
-	GthBrowser            *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	GList                 *dir_created_list, *dir_deleted_list;
-	GList                 *file_created_list, *file_deleted_list, *file_changed_list;
-	GList                 *scan;
-
-	dir_created_list = priv->monitor_events[MONITOR_EVENT_DIR_CREATED];
-	priv->monitor_events[MONITOR_EVENT_DIR_CREATED] = NULL;
-
-	dir_deleted_list = priv->monitor_events[MONITOR_EVENT_DIR_DELETED];
-	priv->monitor_events[MONITOR_EVENT_DIR_DELETED] = NULL;
-
-	file_created_list = priv->monitor_events[MONITOR_EVENT_FILE_CREATED];
-	priv->monitor_events[MONITOR_EVENT_FILE_CREATED] = NULL;
-
-	file_deleted_list = priv->monitor_events[MONITOR_EVENT_FILE_DELETED];
-	priv->monitor_events[MONITOR_EVENT_FILE_DELETED] = NULL;
-
-	file_changed_list = priv->monitor_events[MONITOR_EVENT_FILE_CHANGED];
-	priv->monitor_events[MONITOR_EVENT_FILE_CHANGED] = NULL;
-
-	if (priv->update_changes_timeout != 0) 
-		g_source_remove (priv->update_changes_timeout);
-
-	/**/
-
-	for (scan = dir_created_list; scan; scan = scan->next) {
-		char *path = scan->data;
-		const char *name = file_name_from_path (path);
-
-		/* ignore hidden directories. */
-		if (name[0] == '.')
-			continue;
-
-		dir_list_add_directory (priv->dir_list, path);
-	}
-	path_list_free (dir_created_list);
-
-	/**/
-
-	for (scan = dir_deleted_list; scan; scan = scan->next) {
-		char *path = scan->data;
-		dir_list_remove_directory (priv->dir_list, path);
-	}
-	path_list_free (dir_deleted_list);
-
-	/**/
-
-	if (file_created_list != NULL) {
-		notify_files_added (browser, file_created_list);
-		path_list_free (file_created_list);
-	}
-
-	if (file_deleted_list != NULL) {
-		notify_files_deleted (browser, file_deleted_list);
-		path_list_free (file_deleted_list);
-	}
-
-	if (file_changed_list != NULL) {
-		gth_browser_notify_files_changed (browser, file_changed_list);
-		path_list_free (file_changed_list);
-	}
-
-	/**/
-
-	priv->update_changes_timeout = 0;
-
-	return FALSE;
-}
-
-
-static gboolean
-remove_if_present (GList            **monitor_events,
-		   MonitorEventType   type,
-		   const char        *path)
-{
-	GList *list, *link;
-
-	list = monitor_events[type];
-	link = path_list_find_path (list, path);
-	if (link != NULL) {
-		monitor_events[type] = g_list_remove_link (list, link);
-		path_list_free (link);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-
-static gboolean
-add_if_not_present (GList            **monitor_events,
-		    MonitorEventType   type,
-		    MonitorEventType   add_type,
-		    const char        *path)
-{
-	GList *list, *link;
-
-	list = monitor_events[type];
-	link = path_list_find_path (list, path);
-	if (link == NULL) {
-		monitor_events[add_type] = g_list_append (list, g_strdup (path));
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-
-static void
-_gth_browser_add_monitor_event (GthBrowser                *browser,
-			   GnomeVFSMonitorEventType   event_type,
-			   char                      *path,
-			   GList                    **monitor_events)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	MonitorEventType       type;
-
-#ifdef DEBUG /* FIXME */
-	{
-		char *op;
-
-		if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED)
-			op = "CREATED";
-		else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED)
-			op = "DELETED";
-		else 
-			op = "CHANGED";
-
-		debug (DEBUG_INFO, "[%s] %s", op, path);
-	}
-#endif
-
-	if (event_type == GNOME_VFS_MONITOR_EVENT_CREATED) {
-		if (path_is_dir (path))
-			type = MONITOR_EVENT_DIR_CREATED;
-		else
-			type = MONITOR_EVENT_FILE_CREATED;
-
-	} else if (event_type == GNOME_VFS_MONITOR_EVENT_DELETED) {
-		if (dir_list_get_row_from_path (priv->dir_list, path) != -1)
-			type = MONITOR_EVENT_DIR_DELETED;
-		else
-			type = MONITOR_EVENT_FILE_DELETED;
-
-	} else {
-		if (! path_is_dir (path))
-			type = MONITOR_EVENT_FILE_CHANGED;
-		else 
-			return;
-	}
-
-	if (type == MONITOR_EVENT_FILE_CREATED) {
-		if (remove_if_present (monitor_events, 
-				       MONITOR_EVENT_FILE_DELETED, 
-				       path))
-			type = MONITOR_EVENT_FILE_CHANGED;
-		
-	} else if (type == MONITOR_EVENT_FILE_DELETED) {
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CREATED, 
-				   path);
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CHANGED, 
-				   path);
-
-	} else if (type == MONITOR_EVENT_FILE_CHANGED) {
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_FILE_CHANGED, 
-				   path);
-		
-		if (gth_file_list_pos_from_path (priv->file_list, path) == -1)
-			add_if_not_present (monitor_events, 
-					    MONITOR_EVENT_FILE_CHANGED, 
-					    MONITOR_EVENT_FILE_CREATED, 
-					    path);
-
-	} else if (type == MONITOR_EVENT_DIR_CREATED) {
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_DIR_DELETED,
-				   path);
-
-	} else if (type == MONITOR_EVENT_DIR_DELETED) 
-		remove_if_present (monitor_events, 
-				   MONITOR_EVENT_DIR_CREATED, 
-				   path);
-
-	monitor_events[type] = g_list_append (monitor_events[type], g_strdup (path));
-}
-
-
-static void
-directory_changed (GnomeVFSMonitorHandle    *handle,
-		   const char               *monitor_uri,
-		   const char               *info_uri,
-		   GnomeVFSMonitorEventType  event_type,
-		   gpointer                  user_data)
-{
-	GthBrowser            *browser = user_data; 
-	GthBrowserPrivateData *priv = browser->priv;
-	char                  *path;
-
-	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
-		return;
-
-	if (priv->update_changes_timeout != 0) 
-		return;
-
-	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
-	_gth_browser_add_monitor_event (browser, event_type, path, priv->monitor_events);
-	g_free (path);
-
-	priv->update_changes_timeout = g_timeout_add (UPDATE_DIR_DELAY,
-							_proc_monitor_events,
-							browser);
-}
-
-
 /* -- go to directory -- */
 
 
-void
+static void
 gth_browser_add_monitor (GthBrowser *browser)
 {
+	/* FIXME
 	GthBrowserPrivateData *priv = browser->priv;
 	GnomeVFSResult         result;
 	char                  *uri;
@@ -6722,19 +7361,7 @@ gth_browser_add_monitor (GthBrowser *browser)
 					browser);
 	g_free (uri);
 	priv->monitor_enabled = (result == GNOME_VFS_OK);
-}
-
-
-void
-gth_browser_remove_monitor (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->monitor_handle != NULL) {
-		gnome_vfs_monitor_cancel (priv->monitor_handle);
-		priv->monitor_handle = NULL;
-	}
-	priv->monitor_enabled = FALSE;
+	*/
 }
 
 
@@ -6957,11 +7584,6 @@ gth_browser_go_to_directory (GthBrowser *browser,
 		return;
 
 	/**/
-
-	if (priv->monitor_handle != NULL) {
-		gnome_vfs_monitor_cancel (priv->monitor_handle);
-		priv->monitor_handle = NULL;
-	}
 
 	if (priv->setting_file_list) 
 		gth_browser_stop_activity_mode (browser);
@@ -7634,758 +8256,6 @@ gth_browser_load_image (GthBrowser *browser,
 }
 
 
-/* -- changes notification functions -- */
-
-
-void
-notify_files_added__step2 (gpointer data)
-{
-	GthBrowser *browser = data;
-
-	window_update_statusbar_list_info (browser);
-	window_update_infobar (browser);
-	window_update_sensitivity (browser);
-}
-
-
-static void
-notify_files_added (GthBrowser *browser,
-		    GList      *list)
-{
-	gth_file_list_add_list (browser->priv->file_list, 
-				list, 
-				notify_files_added__step2,
-				browser);
-}
-
-
-void
-gth_browser_notify_files_created (GthBrowser *browser,
-				  GList      *list)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GList *scan;
-	GList *created_in_current_dir = NULL;
-	char  *current_dir;
-
-	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
-		return;
-
-	current_dir = priv->dir_list->path;
-	if (current_dir == NULL)
-		return;
-
-	for (scan = list; scan; scan = scan->next) {
-		char *path = scan->data;
-		char *parent_dir;
-		
-		parent_dir = remove_level_from_path (path);
-
-		if (strcmp (parent_dir, current_dir) == 0)
-			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
-
-		g_free (parent_dir);
-	}
-
-	if (created_in_current_dir != NULL) {
-		notify_files_added (browser, created_in_current_dir);
-		g_list_free (created_in_current_dir);
-	}
-}
-
-
-typedef struct {
-	GthBrowser *browser;
-	GList      *list;
-	gboolean    restart_thumbs;
-} FilesDeletedData;
-
-
-static void
-notify_files_deleted__step2 (FilesDeletedData *data)
-{
-	GthBrowser   *browser = data->browser;
-	GthBrowserPrivateData *priv = browser->priv;
-	GList        *list = data->list;
-	GList        *scan;
-	char         *filename;
-	int           pos, smallest_pos, image_pos;
-	gboolean      current_image_deleted = FALSE;
-	gboolean      no_image_viewed;
-
-	gth_file_view_freeze (priv->file_list->view);
-
-	pos = -1;
-	smallest_pos = -1;
-	image_pos = -1;
-	if (priv->image_path)
-		image_pos = gth_file_list_pos_from_path (priv->file_list, 
-							 priv->image_path);
-	no_image_viewed = (image_pos == -1);
-
-	for (scan = list; scan; scan = scan->next) {
-		filename = scan->data;
-
-		pos = gth_file_list_pos_from_path (priv->file_list, filename);
-		if (pos == -1) 
-			continue;
-
-		if (image_pos == pos) {
-			/* the current image will be deleted. */
-			image_pos = -1;
-			current_image_deleted = TRUE;
-
-		} else if (image_pos > pos)
-			/* a previous image will be deleted, so image_pos 
-			 * decrements its value. */
-			image_pos--;
-
-		if (scan == list)
-			smallest_pos = pos;
-		else
-			smallest_pos = MIN (smallest_pos, pos);
-
-		gth_file_list_delete_pos (priv->file_list, pos);
-	}
-
-	gth_file_view_thaw (priv->file_list->view);
-
-	/* Try to visualize the smallest pos. */
-	if (smallest_pos != -1) {
-		int images = gth_file_view_get_images (priv->file_list->view);
-
-		pos = smallest_pos;
-
-		if (pos > images - 1)
-			pos = images - 1;
-		if (pos < 0)
-			pos = 0;
-
-		gth_file_view_moveto (priv->file_list->view, pos, 0.5);
-	}
-
-	if (! no_image_viewed) {
-		if (current_image_deleted) {
-			int images = gth_file_view_get_images (priv->file_list->view);
-
-			/* delete the image from the viewer. */
-			gth_browser_load_image (browser, NULL);
-
-			if ((images > 0) && (smallest_pos != -1)) {
-				pos = smallest_pos;
-				
-				if (pos > images - 1)
-					pos = images - 1;
-				if (pos < 0)
-					pos = 0;
-				
-				view_image_at_pos (browser, pos);
-				gth_file_list_select_image_by_pos (priv->file_list, pos);
-			}
-		}
-	}
-
-	window_update_statusbar_list_info (browser);
-	window_update_sensitivity (browser);
-
-	if (data->restart_thumbs)
-		gth_file_list_restart_thumbs (data->browser->priv->file_list, TRUE);
-
-	path_list_free (data->list);
-	g_free (data);
-}
-
-
-static void
-notify_files_deleted (GthBrowser *browser,
-		      GList      *list)
-{
-	FilesDeletedData *data;
-
-	if (list == NULL)
-		return;
-
-	data = g_new (FilesDeletedData, 1);
-
-	data->browser = browser;
-	data->list = path_list_dup (list);
-	data->restart_thumbs = browser->priv->file_list->doing_thumbs;
-	
-	gth_file_list_interrupt_thumbs (browser->priv->file_list,
-					(DoneFunc) notify_files_deleted__step2,
-					data);
-}
-
-
-void
-gth_browser_notify_files_deleted (GthBrowser *browser,
-			     GList      *list)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	g_return_if_fail (browser != NULL);
-
-	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
-	    && (priv->catalog_path != NULL)) { /* update the catalog. */
-		Catalog *catalog;
-		GList   *scan;
-
-		catalog = catalog_new ();
-		if (catalog_load_from_disk (catalog, priv->catalog_path, NULL)) {
-			for (scan = list; scan; scan = scan->next)
-				catalog_remove_item (catalog, (char*) scan->data);
-			catalog_write_to_disk (catalog, NULL);
-		}
-		catalog_free (catalog);
-	} 
-
-	notify_files_deleted (browser, list);
-}
-
-
-void
-gth_browser_notify_files_changed (GthBrowser *browser,
-				  GList      *list)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (! priv->file_list->doing_thumbs)
-		gth_file_list_update_thumb_list (priv->file_list, list);
-
-	if (priv->image_path != NULL) {
-		int pos = gth_file_list_pos_from_path (priv->file_list,
-						       priv->image_path);
-		if (pos != -1)
-			view_image_at_pos (browser, pos);
-	}
-}
-
-
-void
-gth_browser_notify_cat_files_added (GthBrowser *browser,
-				    const char *catalog_name,
-				    GList      *list)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	g_return_if_fail (browser != NULL);
-
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
-		return;
-	if (priv->catalog_path == NULL)
-		return;
-	if (strcmp (priv->catalog_path, catalog_name) != 0)
-		return;
-
-	notify_files_added (browser, list);
-}
-
-
-void
-gth_browser_notify_cat_files_deleted (GthBrowser *browser,
-				      const char *catalog_name,
-				      GList      *list)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	g_return_if_fail (browser != NULL);
-
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST)
-		return;
-	if (priv->catalog_path == NULL)
-		return;
-	if (strcmp (priv->catalog_path, catalog_name) != 0)
-		return;
-
-	notify_files_deleted (browser, list);
-}
-
-	
-void
-gth_browser_notify_file_rename (GthBrowser *browser,
-				const char *old_name,
-				const char *new_name)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	int pos;
-
-	g_return_if_fail (browser != NULL);
-	if ((old_name == NULL) || (new_name == NULL))
-		return;
-
-	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
-	    && (priv->catalog_path != NULL)) { /* update the catalog. */
-		Catalog  *catalog;
-		GList    *scan;
-		gboolean  changed = FALSE;
-
-		catalog = catalog_new ();
-		if (catalog_load_from_disk (catalog, priv->catalog_path, NULL)) {
-			for (scan = catalog->list; scan; scan = scan->next) {
-				char *entry = scan->data;
-				if (strcmp (entry, old_name) == 0) {
-					catalog_remove_item (catalog, old_name);
-					catalog_add_item (catalog, new_name);
-					changed = TRUE;
-				}
-			}
-			if (changed)
-				catalog_write_to_disk (catalog, NULL);
-		}
-		catalog_free (catalog);
-	}
-
-	pos = gth_file_list_pos_from_path (priv->file_list, new_name);
-	if (pos != -1)
-		gth_file_list_delete_pos (priv->file_list, pos);
-
-	pos = gth_file_list_pos_from_path (priv->file_list, old_name);
-	if (pos != -1)
-		gth_file_list_rename_pos (priv->file_list, pos, new_name);
-
-	if ((priv->image_path != NULL) 
-	    && strcmp (old_name, priv->image_path) == 0) 
-		gth_browser_load_image (browser, new_name);
-}
-
-
-static gboolean
-first_level_sub_directory (GthBrowser *browser,
-			   const char *current,
-			   const char *old_path)
-{
-	const char *old_name;
-	int         current_l;
-	int         old_path_l;
-
-	current_l = strlen (current);
-	old_path_l = strlen (old_path);
-
-	if (old_path_l <= current_l + 1)
-		return FALSE;
-
-	if (strncmp (current, old_path, current_l) != 0)
-		return FALSE;
-
-	old_name = old_path + current_l + 1;
-
-	return (strchr (old_name, '/') == NULL);
-}
-
-
-void
-gth_browser_notify_directory_rename (GthBrowser *browser,
-				     const char *old_name,
-				     const char *new_name)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (strcmp (priv->dir_list->path, old_name) == 0) 
-			gth_browser_go_to_directory (browser, new_name);
-		else {
-			const char *current = priv->dir_list->path;
-
-			/* a sub directory was renamed, refresh. */
-			if (first_level_sub_directory (browser, current, old_name)) 
-				dir_list_remove_directory (priv->dir_list, 
-							   file_name_from_path (old_name));
-
-			if (first_level_sub_directory (browser, current, new_name)) 
-				dir_list_add_directory (priv->dir_list, 
-							file_name_from_path (new_name));
-		}
-		
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (strcmp (priv->catalog_list->path, old_name) == 0) 
-			gth_browser_go_to_catalog_directory (browser, new_name);
-		else {
-			const char *current = priv->catalog_list->path;
-			if (first_level_sub_directory (browser, current, old_name))  
-				gth_browser_update_catalog_list (browser);
-		}
-	}
-
-	if ((priv->image_path != NULL) 
-	    && (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-	    && (strncmp (priv->image_path, 
-			 old_name,
-			 strlen (old_name)) == 0)) {
-		char *new_image_name;
-
-		new_image_name = g_strconcat (new_name,
-					      priv->image_path + strlen (old_name),
-					      NULL);
-		gth_browser_notify_file_rename (browser, 
-					   priv->image_path,
-					   new_image_name);
-		g_free (new_image_name);
-	}
-}
-
-
-void
-gth_browser_notify_directory_delete (GthBrowser *browser,
-				     const char *path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (strcmp (priv->dir_list->path, path) == 0) 
-			gth_browser_go_up (browser);
-		else {
-			const char *current = priv->dir_list->path;
-			if (first_level_sub_directory (browser, current, path))
-				dir_list_remove_directory (priv->dir_list, 
-							   file_name_from_path (path));
-		}
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (strcmp (priv->catalog_list->path, path) == 0) 
-			gth_browser_go_up (browser);
-		else {
-			const char *current = priv->catalog_list->path;
-			if (path_in_path (current, path))
-				/* a sub directory got deleted, refresh. */
-				gth_browser_update_catalog_list (browser);
-		}
-	}
-
-	if ((priv->image_path != NULL) 
-	    && (path_in_path (priv->image_path, path))) {
-		GList *list;
-		
-		list = g_list_append (NULL, priv->image_path);
-		gth_browser_notify_files_deleted (browser, list);
-		g_list_free (list);
-	}
-}
-
-
-void
-gth_browser_notify_directory_new (GthBrowser *browser,
-				  const char *path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		const char *current = priv->dir_list->path;
-		if (first_level_sub_directory (browser, current, path))
-			dir_list_add_directory (priv->dir_list, 
-						file_name_from_path (path));
-
-	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		const char *current = priv->catalog_list->path;
-		if (path_in_path (current, path))
-			/* a sub directory was created, refresh. */
-			gth_browser_update_catalog_list (browser);
-	}
-}
-
-
-void
-gth_browser_notify_catalog_rename (GthBrowser *browser,
-				   const char *old_path,
-				   const char *new_path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	char     *catalog_dir;
-	gboolean  viewing_a_catalog;
-	gboolean  current_cat_renamed;
-	gboolean  renamed_cat_is_in_current_dir;
-
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
-		return;
-
-	if (priv->catalog_list->path == NULL)
-		return;
-
-	catalog_dir = remove_level_from_path (priv->catalog_list->path);
-	viewing_a_catalog = (priv->catalog_path != NULL);
-	current_cat_renamed = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, old_path) == 0));
-	renamed_cat_is_in_current_dir = path_in_path (catalog_dir, new_path);
-
-	if (! renamed_cat_is_in_current_dir) {
-		g_free (catalog_dir);
-		return;
-	}
-
-	if (! viewing_a_catalog) 
-		gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-	else {
-		if (current_cat_renamed)
-			gth_browser_go_to_catalog (browser, new_path);
-		else {
-			GtkTreeIter iter;
-			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-
-			/* reselect the current catalog. */
-			if (catalog_list_get_iter_from_path (priv->catalog_list, 
-							     priv->catalog_path, &iter))
-				catalog_list_select_iter (priv->catalog_list, &iter);
-		}
-	}
-
-	g_free (catalog_dir);
-}
-
-
-void
-gth_browser_notify_catalog_new (GthBrowser *browser,
-				const char *path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	char     *catalog_dir;
-	gboolean  viewing_a_catalog;
-	gboolean  created_cat_is_in_current_dir;
-
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
-		return;
-
-	if (priv->catalog_list->path == NULL)
-		return;
-
-	viewing_a_catalog = (priv->catalog_path != NULL);
-	catalog_dir = remove_level_from_path (priv->catalog_list->path);
-	created_cat_is_in_current_dir = path_in_path (catalog_dir, path);
-
-	if (! created_cat_is_in_current_dir) {
-		g_free (catalog_dir);
-		return;
-	}
-
-	gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-
-	if (viewing_a_catalog) {
-		GtkTreeIter iter;
-			
-		/* reselect the current catalog. */
-		if (catalog_list_get_iter_from_path (priv->catalog_list, 
-						     priv->catalog_path, 
-						     &iter))
-			catalog_list_select_iter (priv->catalog_list, &iter);
-	}
-
-	g_free (catalog_dir);
-}
-
-
-void
-gth_browser_notify_catalog_delete (GthBrowser *browser,
-				   const char *path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	char     *catalog_dir;
-	gboolean  viewing_a_catalog;
-	gboolean  current_cat_deleted;
-	gboolean  deleted_cat_is_in_current_dir;
-
-	if (priv->sidebar_content != GTH_SIDEBAR_CATALOG_LIST) 
-		return;
-
-	if (priv->catalog_list->path == NULL)
-		return;
-
-	catalog_dir = remove_level_from_path (priv->catalog_list->path);
-	viewing_a_catalog = (priv->catalog_path != NULL);
-	current_cat_deleted = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, path) == 0));
-	deleted_cat_is_in_current_dir = path_in_path (catalog_dir, path);
-
-	if (! deleted_cat_is_in_current_dir) {
-		g_free (catalog_dir);
-		return;
-	}
-
-	if (! viewing_a_catalog) 
-		gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-	else {
-		if (current_cat_deleted) {
-			gth_browser_go_to_catalog (browser, NULL);
-			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-		} else {
-			GtkTreeIter iter;
-			gth_browser_go_to_catalog_directory (browser, priv->catalog_list->path);
-			
-			/* reselect the current catalog. */
-			if (catalog_list_get_iter_from_path (priv->catalog_list, 
-							     priv->catalog_path, &iter))
-				catalog_list_select_iter (priv->catalog_list, &iter);
-		}
-	}
-
-	g_free (catalog_dir);
-}
-
-
-void
-gth_browser_notify_update_comment (GthBrowser *browser,
-				   const char *filename)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	int pos;
-
-	g_return_if_fail (browser != NULL);
-
-	update_image_comment (browser);
-
-	pos = gth_file_list_pos_from_path (priv->file_list, filename);
-	if (pos != -1)
-		gth_file_list_update_comment (priv->file_list, pos);
-}
-
-
-void
-gth_browser_notify_update_directory (GthBrowser *browser,
-				     const char *dir_path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	g_return_if_fail (browser != NULL);
-
-	if (priv->monitor_enabled)
-		return;
-	
-	if ((priv->dir_list->path == NULL) 
-	    || (strcmp (priv->dir_list->path, dir_path) != 0)) 
-		return;
-
-	gth_browser_update_file_list (browser);
-}
-
-
-gboolean
-gth_browser_notify_update_layout_cb (gpointer data)
-{
-	GthBrowser   *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	GtkWidget    *paned1;      /* Main paned widget. */
-	GtkWidget    *paned2;      /* Secondary paned widget. */
-	int           paned1_pos;
-	int           paned2_pos;
-	gboolean      sidebar_visible;
-
-	if (! GTK_IS_WIDGET (priv->main_pane))
-		return TRUE;
-
-	if (priv->update_layout_timeout != 0) {
-		g_source_remove (priv->update_layout_timeout);
-		priv->update_layout_timeout = 0;
-	}
-
-	sidebar_visible = priv->sidebar_visible;
-	if (! sidebar_visible) 
-		gth_browser_show_sidebar (browser);
-
-	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
-
-	paned1_pos = gtk_paned_get_position (GTK_PANED (priv->main_pane));
-	paned2_pos = gtk_paned_get_position (GTK_PANED (priv->content_pane));
-
-	if (priv->layout_type == 1) {
-		paned1 = gtk_vpaned_new (); 
-		paned2 = gtk_hpaned_new ();
-	} else {
-		paned1 = gtk_hpaned_new (); 
-		paned2 = gtk_vpaned_new (); 
-	}
-
-	if (priv->layout_type == 3)
-		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
-	else
-		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
-
-	if (priv->layout_type == 3)
-		gtk_widget_reparent (priv->dir_list_pane, paned1);
-	else
-		gtk_widget_reparent (priv->dir_list_pane, paned2);
-
-	if (priv->layout_type == 2) 
-		gtk_widget_reparent (priv->file_list_pane, paned1);
-	else 
-		gtk_widget_reparent (priv->file_list_pane, paned2);
-
-	if (priv->layout_type <= 1) 
-		gtk_widget_reparent (priv->image_pane, paned1);
-	else 
-		gtk_widget_reparent (priv->image_pane, paned2);
-
-	gtk_paned_set_position (GTK_PANED (paned1), paned1_pos);
-	gtk_paned_set_position (GTK_PANED (paned2), paned2_pos);
-
-	gnome_app_set_contents (GNOME_APP (browser), paned1);
-
-	gtk_widget_show (paned1);
-	gtk_widget_show (paned2);
-
-	priv->main_pane = paned1;
-	priv->content_pane = paned2;
-
-	if (! sidebar_visible) 
-		gth_browser_hide_sidebar (browser);
-
-	return FALSE;
-}
-
-
-
-void
-gth_browser_notify_update_layout (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->update_layout_timeout != 0) {
-		g_source_remove (priv->update_layout_timeout);
-		priv->update_layout_timeout = 0;
-	}
-
-	priv->update_layout_timeout = g_timeout_add (UPDATE_LAYOUT_DELAY, 
-						       gth_browser_notify_update_layout_cb, 
-						       browser);
-}
-
-
-void
-gth_browser_notify_update_toolbar_style (GthBrowser *browser)
-{
-	GthToolbarStyle toolbar_style;
-	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
-
-	toolbar_style = pref_get_real_toolbar_style ();
-
-	switch (toolbar_style) {
-	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
-		prop = GTK_TOOLBAR_BOTH; break;
-	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
-		prop = GTK_TOOLBAR_BOTH_HORIZ; break;
-	case GTH_TOOLBAR_STYLE_ICONS:
-		prop = GTK_TOOLBAR_ICONS; break;
-	case GTH_TOOLBAR_STYLE_TEXT:
-		prop = GTK_TOOLBAR_TEXT; break;
-	default:
-		break;
-	}
-
-	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->toolbar), prop);
-}
-
-
-void
-gth_browser_notify_update_icon_theme (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	gth_file_view_update_icon_theme (priv->file_list->view);
-	dir_list_update_icon_theme (priv->dir_list);
-
-	gth_browser_update_bookmark_list (browser);
-	window_update_history_list (browser);
-	gth_browser_update_file_list (browser);
-
-	if (priv->bookmarks_dlg != NULL)
-		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
-}
-
-
 /* -- image operations -- */
 
 
@@ -8552,39 +8422,51 @@ _set_fullscreen_or_slideshow (GthWindow *window,
 			      gboolean   _set,
 			      gboolean   _slideshow)
 {
-	GthBrowser *browser = GTH_BROWSER (window);
+	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
-	
-	if (_set && (priv->fullscreen == NULL)) {
-		GdkPixbuf *image = NULL;
-		GList     *selection, *file_list = NULL;
+	GdkPixbuf             *image = NULL;
+	GList                 *selection, *file_list = NULL;
 
-		selection = gth_file_view_get_selection (priv->file_list->view);
-		if ((selection == NULL) || (g_list_length (selection) == 1)) 
-			file_list = gth_file_list_get_all_from_view (priv->file_list);
-		else {
-			GList *scan;
-			for (scan = selection; scan; scan = scan->next) {
-				FileData *fd = scan->data;
-				file_list = g_list_prepend (file_list, g_strdup (fd->path));
-			}
-			file_list = g_list_reverse (file_list);
+	if (!_set) {
+		if (priv->fullscreen != NULL)
+			gtk_widget_destroy (priv->fullscreen);
+		return;
+	}
+
+	if (priv->fullscreen != NULL)
+		return;
+
+	selection = gth_file_view_get_selection (priv->file_list->view);
+	if ((selection == NULL) || (g_list_length (selection) == 1)) 
+		file_list = gth_file_list_get_all_from_view (priv->file_list);
+	else {
+		GList *scan;
+		for (scan = selection; scan; scan = scan->next) {
+			FileData *fd = scan->data;
+			file_list = g_list_prepend (file_list, g_strdup (fd->path));
 		}
-		if (selection != NULL)
-			g_list_free (selection);
+		file_list = g_list_reverse (file_list);
+	}
+	if (selection != NULL)
+		g_list_free (selection);
 
-		if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
-			image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
-		priv->fullscreen = gth_fullscreen_new (image, priv->image_path, file_list);
-		gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
-		g_signal_connect (priv->fullscreen, 
-				  "destroy",
-				  G_CALLBACK (fullscreen_destroy_cb), 
-				  browser);
-		gtk_widget_show (priv->fullscreen);
+	if (file_list == NULL)
+		return;
+	
+	if (!image_viewer_is_animation (IMAGE_VIEWER (priv->viewer)))
+		image = image_viewer_get_current_pixbuf (IMAGE_VIEWER (priv->viewer));
 
-	} else if (!_set && (priv->fullscreen != NULL)) 
-		gtk_widget_destroy (priv->fullscreen);
+	priv->fullscreen = gth_fullscreen_new (image, priv->image_path, file_list);
+	g_signal_connect (priv->fullscreen, 
+			  "destroy",
+			  G_CALLBACK (fullscreen_destroy_cb), 
+			  browser);
+	
+	gth_fullscreen_set_slideshow (GTH_FULLSCREEN (priv->fullscreen), _slideshow);
+	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
+		gth_fullscreen_set_catalog (GTH_FULLSCREEN (priv->fullscreen), gth_browser_get_current_catalog (browser));
+	
+	gtk_widget_show (priv->fullscreen);
 }
 
 

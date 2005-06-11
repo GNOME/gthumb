@@ -47,6 +47,7 @@
 #include "gth-browser.h"
 #include "gth-folder-selection-dialog.h"
 #include "gth-viewer.h"
+#include "gth-window-utils.h"
 #include "gthumb-module.h"
 #include "gtk-utils.h"
 #include "main.h"
@@ -504,40 +505,6 @@ gth_browser_activate_action_edit_add_to_catalog (GtkAction *action,
 }
 
 
-static void
-real_remove_from_catalog (GthBrowser *browser, 
-			  GList      *list)
-{
-	const char *catalog_path;
-	GList      *scan;
-	Catalog    *catalog;
-	GError     *gerror;
-
-	catalog_path = gth_browser_get_current_directory (browser);
-	catalog = catalog_new ();
-	if (! catalog_load_from_disk (catalog, catalog_path, &gerror)) {
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
-		path_list_free (list);
-		catalog_free (catalog);
-		return;
-	}
-
-	for (scan = list; scan; scan = scan->next) 
-		catalog_remove_item (catalog, (char*) scan->data);
-
-	if (! catalog_write_to_disk (catalog, &gerror)) {
-		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
-		path_list_free (list);
-		catalog_free (catalog);
-		return;
-	}
-
-	all_windows_notify_cat_files_deleted (catalog_path, list);
-	path_list_free (list);
-	catalog_free (catalog);
-}
-
-
 void
 gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 						      GthBrowser *browser)
@@ -545,9 +512,11 @@ gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 	GList *list;
 
 	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
-	real_remove_from_catalog (browser, list);
+	remove_files_from_catalog (GTH_WINDOW (browser), 
+				   gth_browser_get_current_catalog (browser), 
+				   list);
 
-	/* the list is deallocated in real_remove_from_catalog. */
+	/* the list is deallocated in remove_files_from_catalog. */
 }
 
 
@@ -1852,8 +1821,9 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 
 	bookmarks_add (preferences.bookmarks, path, TRUE, TRUE);
 	bookmarks_write_to_disk (preferences.bookmarks);
-	all_windows_update_bookmark_list ();
 	g_free (path);
+
+	all_windows_notify_update_bookmarks ();
 }
 
 

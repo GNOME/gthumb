@@ -103,35 +103,6 @@ CatalogList *   gth_browser_get_catalog_list             (GthBrowser        *bro
 
 /* functions used to notify a change. */
 
-void            gth_browser_notify_files_created         (GthBrowser        *browser,
-							  GList             *list);
-void            gth_browser_notify_files_deleted         (GthBrowser        *browser,
-							  GList             *list);
-void            gth_browser_notify_files_changed         (GthBrowser        *browser,
-							  GList             *list);
-void            gth_browser_notify_cat_files_added       (GthBrowser        *browser,
-							  const char        *catalog_name,
-							  GList             *list);
-void            gth_browser_notify_cat_files_deleted     (GthBrowser        *browser,
-							  const char        *catalog_name,
-							  GList             *list);
-void            gth_browser_notify_file_rename           (GthBrowser        *browser,
-							  const gchar       *old_name,
-							  const gchar       *new_name);
-void            gth_browser_notify_directory_rename      (GthBrowser        *browser,
-							  const gchar       *old_name,
-							  const gchar       *new_name);
-void            gth_browser_notify_directory_delete      (GthBrowser        *browser,
-							  const gchar       *path);
-void            gth_browser_notify_directory_new         (GthBrowser        *browser, 
-							  const gchar       *path);
-void            gth_browser_notify_catalog_rename        (GthBrowser        *browser,
-							  const gchar       *old_name,
-							  const gchar       *new_name);
-void            gth_browser_notify_catalog_new           (GthBrowser        *browser,
-							  const gchar       *path);
-void            gth_browser_notify_catalog_delete        (GthBrowser        *browser,
-							  const gchar       *path);
 void            gth_browser_notify_update_comment        (GthBrowser        *browser,
 							  const gchar       *filename);
 void            gth_browser_notify_update_directory      (GthBrowser        *browser,
@@ -142,8 +113,6 @@ void            gth_browser_notify_update_icon_theme     (GthBrowser        *bro
 void            gth_browser_update_file_list             (GthBrowser        *browser);
 void            gth_browser_update_catalog_list          (GthBrowser        *browser);
 void            gth_browser_update_bookmark_list         (GthBrowser        *browser);
-void            gth_browser_add_monitor                  (GthBrowser        *browser);
-void            gth_browser_remove_monitor               (GthBrowser        *browser);
 
 /* non-modal dialogs */
 

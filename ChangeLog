@@ -1,3 +1,35 @@
+2005-06-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-utils.c: 
+	* src/gth-window-utils.h: 
+	* libgthumb/gstringlist.c: 
+	* libgthumb/gstringlist.h: 
+	New files
+
+	* src/gth-fullscreen.c (delete_current_image): 
+	remove the image from the catalog if the fullscreen started from a 
+	catalog view.
+	(gth_fullscreen_set_catalog): function used to set the catalog.
+
+	* src/gth-monitor.c:
+	* src/gth-monitor.h:
+	* src/main.c: 
+	* src/gth-browser.h: 
+	* src/gth-browser.c: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/dlg-catalog.c:
+	* src/dlg-bookmarks.c: 
+	* src/Makefile.am (gthumb_SOURCES): 
+	Use a monitor object to notify file, directory and catalog changes.
+	
+	* libgthumb/typedefs.h: added GthMonitorEvent type.
+
+	* libgthumb/gthumb-marshal.list: added new marshallers.
+
+2005-06-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (create_toolbar_window): removed the frame.
+
 2005-06-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer.c (image_loaded_cb): support for starting

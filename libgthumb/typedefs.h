@@ -192,6 +192,15 @@ typedef enum { /*< skip >*/
 } GthCropRatio;
 
 
+typedef enum { /*< skip >*/
+	GTH_MONITOR_EVENT_CREATED,
+	GTH_MONITOR_EVENT_DELETED,
+	GTH_MONITOR_EVENT_CHANGED,
+	GTH_MONITOR_EVENT_RENAMED,
+} GthMonitorEvent;
+
+
+
 typedef void (*ErrorFunc)      (gpointer data);
 
 typedef void (*DoneFunc)       (gpointer data);

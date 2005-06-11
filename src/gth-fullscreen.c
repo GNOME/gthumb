@@ -31,19 +31,16 @@
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
-#ifdef HAVE_LIBEXIF
-#include <libexif/exif-data.h>
-#include "jpegutils/jpeg-data.h"
-#endif /* HAVE_LIBEXIF */
-
 #include "comments.h"
 #include "dlg-file-utils.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"
+#include "gtk-utils.h"
 #include "gth-exif-utils.h"
 #include "gth-fullscreen.h"
 #include "gth-window.h"
+#include "gth-window-utils.h"
 #include "gthumb-preloader.h"
 #include "gthumb-stock.h"
 #include "image-viewer.h"
@@ -64,6 +61,7 @@ struct _GthFullscreenPrivateData {
 	char            *image_path;
 	GList           *file_list;
 	int              files;
+	char            *catalog_path;
 	GList           *current;
 	gboolean         slideshow;
 	GthDirectionType slideshow_direction;
@@ -127,8 +125,8 @@ gth_fullscreen_finalize (GObject *object)
 
 		g_free (priv->image_path);
 		g_free (priv->requested_path);
-
 		path_list_free (priv->file_list);
+		g_free (priv->catalog_path);
 		
 		g_object_unref (priv->preloader);
 
@@ -887,15 +885,21 @@ static void
 delete_current_image (GthFullscreen *fullscreen)
 {
 	const char *image_filename;
-	GList *list;
+	GList      *list;
 
 	image_filename = gth_window_get_image_filename (GTH_WINDOW (fullscreen));
 	if (image_filename == NULL)
 		return;
 	list = g_list_prepend (NULL, g_strdup (image_filename));
-	dlg_file_delete__confirm (GTH_WINDOW (fullscreen),
-				  list,
-				  _("The image will be moved to the Trash, are you sure?"));
+
+	if (fullscreen->priv->catalog_path == NULL)
+		dlg_file_delete__confirm (GTH_WINDOW (fullscreen),
+					  list,
+					  _("The image will be moved to the Trash, are you sure?"));
+	else
+		remove_files_from_catalog (GTH_WINDOW (fullscreen),
+					   fullscreen->priv->catalog_path,
+					   list);
 }
 
 
@@ -1217,21 +1221,17 @@ create_toolbar_window (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GtkWidget *button;
-	GtkWidget *frame;
 	GtkWidget *hbox;
 
 	priv->toolbar_window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_default_size (GTK_WINDOW (priv->toolbar_window),
 				     gdk_screen_get_width (gtk_widget_get_screen (priv->toolbar_window)),
 				     -1);
-
-	frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_NONE);
-	gtk_container_set_border_width (GTK_CONTAINER (frame), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->toolbar_window), 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 0);
-	gtk_container_add (GTK_CONTAINER (frame), hbox);
+	gtk_container_add (GTK_CONTAINER (priv->toolbar_window), hbox);
 
 	/* restore normal view */
 
@@ -1282,8 +1282,7 @@ create_toolbar_window (GthFullscreen *fullscreen)
 
 	/**/
 
-	gtk_widget_show_all (frame);
-	gtk_container_add (GTK_CONTAINER (priv->toolbar_window), frame);
+	gtk_widget_show_all (hbox);
 }
 
 
@@ -1455,4 +1454,18 @@ gth_fullscreen_set_slideshow (GthFullscreen *fullscreen,
 {
 	g_return_if_fail (GTH_IS_FULLSCREEN (fullscreen));
 	fullscreen->priv->slideshow = slideshow;
+}
+
+
+void
+gth_fullscreen_set_catalog (GthFullscreen *fullscreen,
+			    const char    *catalog_path)
+{
+	g_return_if_fail (GTH_IS_FULLSCREEN (fullscreen));
+
+	g_free (fullscreen->priv->catalog_path);
+	fullscreen->priv->catalog_path = NULL;
+
+	if (catalog_path != NULL)
+		fullscreen->priv->catalog_path = g_strdup (catalog_path);
 }

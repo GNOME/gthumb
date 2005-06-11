@@ -189,7 +189,7 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 	else
-		all_windows_notify_cat_files_added (cat_path, data->data.list);
+		all_windows_notify_cat_files_created (cat_path, data->data.list);
 
 	catalog_free (catalog);
 	
