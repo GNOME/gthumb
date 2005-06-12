@@ -29,56 +29,45 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libbonobo.h>
 
-#include "main.h"
 #include "auto-completion.h"
 #include "catalog.h"
+#include "comments.h"
 #include "dir-list.h"
+#include "main.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
-#include "gthumb-init.h"
-#include "image-viewer.h"
-#include "gth-image-list.h"
-#include "preferences.h"
-#include "typedefs.h"
-#include "comments.h"
-#include "pixbuf-utils.h"
 #include "gth-application.h"
 #include "gth-browser.h"
+#include "gth-image-list.h"
 #include "gth-viewer.h"
+#include "gthumb-init.h"
+#include "image-viewer.h"
+#include "pixbuf-utils.h"
+#include "preferences.h"
+#include "typedefs.h"
 
 #include "icons/pixbufs.h"
 
 #define ICON_NAME_DIRECTORY "gnome-fs-directory"
 
-GthMonitor     *monitor = NULL;
-
-char          **file_urls, **dir_urls;
-int             n_file_urls, n_dir_urls;
-int             StartInFullscreen = FALSE;
-int             StartSlideshow = FALSE;
-int             ViewFirstImage = FALSE;
-int             HideSidebar = FALSE;
-gboolean        ExitAll = FALSE;
-char           *ImageToDisplay = NULL;
-gboolean        FirstStart = TRUE;
-gboolean        ImportPhotos = FALSE;
+GthMonitor  *monitor = NULL;
+char       **file_urls, **dir_urls;
+int          n_file_urls, n_dir_urls;
+int          StartInFullscreen = FALSE;
+int          StartSlideshow = FALSE;
+int          ViewFirstImage = FALSE;
+int          HideSidebar = FALSE;
+gboolean     ExitAll = FALSE;
+char        *ImageToDisplay = NULL;
+gboolean     FirstStart = TRUE;
+gboolean     ImportPhotos = FALSE;
 
 static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
 static GdkPixbuf      *folder_pixbuf = NULL;
 static GtkWidget      *first_window = NULL;
 static GnomeIconTheme *icon_theme = NULL;
-
-static BonoboObject *gth_application = NULL;
-
-static void     prepare_app         ();
-static void     initialize_data     (poptContext pctx);
-static void     release_data        ();
-
-static void     init_session        (const char *argv0);
-static gboolean session_is_restored (void);
-static gboolean load_session        (void);
-
+static BonoboObject   *gth_application = NULL;
 
 struct poptOption options[] = {
 	{ "fullscreen", '\0', POPT_ARG_NONE, &StartInFullscreen, 0,
@@ -94,69 +83,21 @@ struct poptOption options[] = {
 };
 
 
-/* -- Main -- */
-
-
-static gboolean 
-check_whether_to_import_photos (gpointer data) 
+static void
+theme_changed_cb (GnomeIconTheme *theme, 
+		  gpointer        data)
 {
-	/*
-	if ((first_window != NULL) && ImportPhotos) 
-		activate_action_file_camera_import (NULL, first_window);
-	*/
-	return FALSE;
-}
-
-
-int 
-main (int argc, char *argv[])
-{
-	GnomeProgram *program;
-	GValue        value = { 0 };
-	poptContext   pctx;
-
-	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
-	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
-	textdomain (GETTEXT_PACKAGE);
-
-	program = gnome_program_init ("gthumb", VERSION,
-				      LIBGNOMEUI_MODULE, 
-				      argc, argv,
-				      GNOME_PARAM_POPT_TABLE, options,
-				      GNOME_PARAM_HUMAN_READABLE_NAME, _("gThumb"),
-				      GNOME_PARAM_APP_PREFIX, GTHUMB_PREFIX,
-				      GNOME_PARAM_APP_SYSCONFDIR, GTHUMB_SYSCONFDIR,
-				      GNOME_PARAM_APP_DATADIR, GTHUMB_DATADIR,
-				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
-				      NULL);
-
-	if (! g_thread_supported ()) {
-		g_thread_init (NULL);
-		gdk_threads_init ();
+	if (folder_pixbuf != NULL) {
+		g_object_unref (folder_pixbuf);
+		folder_pixbuf = NULL;
 	}
 
-	g_object_get_property (G_OBJECT (program),
-			       GNOME_PARAM_POPT_CONTEXT,
-			       g_value_init (&value, G_TYPE_POINTER));
-	pctx = g_value_get_pointer (&value);
-	glade_gnome_init ();
-	gthumb_init ();
-	initialize_data (pctx);
-	poptFreeContext (pctx);
-	prepare_app ();
-
-	g_idle_add (check_whether_to_import_photos, NULL);
-
-	gtk_main ();
-
-	release_data ();
-
-	return 0;
+	all_windows_notify_update_icon_theme ();
 }
 
 
 static void
-create_default_categories_if_needed ()
+create_default_categories_if_needed (void)
 {
 	Bookmarks *categories;
 	char      *default_categories[] = { N_("Holidays"), 
@@ -193,18 +134,6 @@ create_default_categories_if_needed ()
 }
 
 
-static void
-theme_changed_cb (GnomeIconTheme *theme, 
-		  gpointer        data)
-{
-	if (folder_pixbuf != NULL) {
-		g_object_unref (folder_pixbuf);
-		folder_pixbuf = NULL;
-	}
-	all_windows_notify_update_icon_theme ();
-}
-
-
 static void 
 convert_old_comment (char     *real_file, 
 		     char     *rc_file, 
@@ -224,9 +153,6 @@ convert_old_comment (char     *real_file,
 }
 
 
-
-
-
 static void
 convert_to_new_comment_system (void)
 {
@@ -241,6 +167,163 @@ convert_to_new_comment_system (void)
 				 NULL);
 	g_print ("done.");
 	eel_gconf_set_boolean (PREF_MIGRATE_COMMENT_SYSTEM, FALSE);
+}
+
+
+/* SM support */
+
+
+/* argv[0] from main(); used as the command to restart the program */
+static const char *program_argv0 = NULL;
+
+/* The master client we use for SM */
+static GnomeClient *master_client = NULL;
+
+
+static void
+save_session (GnomeClient *client)
+{
+	const char  *prefix;
+	GList       *scan;
+	int          i = 0;
+
+	prefix = gnome_client_get_config_prefix (client);
+	gnome_config_push_prefix (prefix);
+
+	for (scan = gth_window_get_window_list (); scan; scan = scan->next) {
+		GthWindow  *window = scan->data;
+		char       *uri = NULL;
+		const char *location;
+		char       *key;
+
+		if (GTH_IS_VIEWER (window)) {
+			location = gth_window_get_image_filename (window);
+			if (location == NULL)
+				continue;
+
+			uri = g_strconcat ("file://", location, NULL);
+
+		} else {
+			GthBrowser *browser = (GthBrowser*) window;
+
+			switch (gth_browser_get_sidebar_content (browser)) {
+			case GTH_SIDEBAR_DIR_LIST:
+				location = gth_browser_get_current_directory (browser);
+				if (location == NULL)
+					continue;
+				uri = g_strconcat ("file://", location, NULL);
+				break;
+			
+			case GTH_SIDEBAR_CATALOG_LIST:
+				location = gth_browser_get_current_catalog (browser);
+				if (location == NULL)
+					continue;
+				uri = g_strconcat ("file://", location, NULL);
+				break;
+				
+			default:
+				break;
+			}
+		}
+
+		if (uri == NULL)
+			continue;
+
+		key = g_strdup_printf ("Session/location%d", i);
+		gnome_config_set_string (key, uri);
+
+		g_free (uri);
+		g_free (key);
+
+		i++;
+	}
+
+	gnome_config_set_int ("Session/locations", i);
+
+	gnome_config_pop_prefix ();
+	gnome_config_sync ();
+}
+
+
+/* save_yourself handler for the master client */
+static gboolean
+client_save_yourself_cb (GnomeClient *client,
+			 gint phase,
+			 GnomeSaveStyle save_style,
+			 gboolean shutdown,
+			 GnomeInteractStyle interact_style,
+			 gboolean fast,
+			 gpointer data)
+{
+	const char *prefix;
+	char       *argv[4] = { NULL };
+
+	save_session (client);
+
+	prefix = gnome_client_get_config_prefix (client);
+
+	/* Tell the session manager how to discard this save */
+
+	argv[0] = "rm";
+	argv[1] = "-rf";
+	argv[2] = gnome_config_get_real_path (prefix);
+	argv[3] = NULL;
+	gnome_client_set_discard_command (client, 3, argv);
+
+	/* Tell the session manager how to clone or restart this instance */
+
+	argv[0] = (char *) program_argv0;
+	argv[1] = NULL; /* "--debug-session"; */
+	
+	gnome_client_set_clone_command (client, 1, argv);
+	gnome_client_set_restart_command (client, 1, argv);
+
+	return TRUE;
+}
+
+
+/* die handler for the master client */
+static void
+client_die_cb (GnomeClient *client, gpointer data)
+{
+	if (! client->save_yourself_emitted)
+		save_session (client);
+
+	gtk_main_quit ();
+}
+
+
+static void
+init_session (const char *argv0)
+{
+	if (master_client != NULL)
+		return;
+
+	program_argv0 = argv0;
+
+	master_client = gnome_master_client ();
+
+	g_signal_connect (master_client, "save_yourself",
+			  G_CALLBACK (client_save_yourself_cb),
+			  NULL);
+
+	g_signal_connect (master_client, "die",
+			  G_CALLBACK (client_die_cb),
+			  NULL);
+}
+
+
+static gboolean
+session_is_restored (void)
+{
+	gboolean restored;
+	
+	if (! master_client)
+		return FALSE;
+
+	restored = (gnome_client_get_flags (master_client) & GNOME_CLIENT_RESTORED) != 0;
+
+	return restored;
 }
 
 
@@ -376,7 +459,7 @@ initialize_data (poptContext pctx)
 
 /* Free application data. */
 static void 
-release_data ()
+release_data (void)
 {
 	if (gth_application != NULL)
                 bonobo_object_unref (gth_application);
@@ -443,9 +526,39 @@ open_browser_window (const char               *uri,
 }
 
 
+static void
+load_session (gboolean                  use_factory,
+	      GNOME_GThumb_Application  app,
+	      CORBA_Environment        *env)
+{
+	int i, n;
+	
+	gnome_config_push_prefix (gnome_client_get_config_prefix (master_client));
+
+	n = gnome_config_get_int ("Session/locations");
+	for (i = 0; i < n; i++) {
+		char *key;
+		char *location;
+
+		key = g_strdup_printf ("Session/location%d", i);
+		location = gnome_config_get_string (key);
+
+		if (pref_util_location_is_file (location) && path_is_file (location))
+			open_viewer_window (location, use_factory, app, env);
+		else
+			open_browser_window (location, TRUE, use_factory, app, env);
+
+		g_free (location);
+		g_free (key);
+	}
+
+	gnome_config_pop_prefix ();
+}
+
+
 /* Create the windows. */
 static void 
-prepare_app ()
+prepare_app (void)
 {
 	CORBA_Object              factory;
 	gboolean                  use_factory = FALSE;
@@ -453,18 +566,19 @@ prepare_app ()
 	GNOME_GThumb_Application  app;
 	int                       i;
 	
-	if (session_is_restored ()) {
-		load_session ();
-		return;
-	}
-
 	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application_Factory",
                                                       Bonobo_ACTIVATION_FLAG_EXISTING_ONLY,
                                                       NULL, NULL);
+
 	if (factory != NULL) {
 		use_factory = TRUE;
 		CORBA_exception_init (&env);
 		app = bonobo_activation_activate_from_id ("OAFIID:GNOME_GThumb_Application", 0, NULL, &env);
+	}
+
+	if (session_is_restored ()) {
+		load_session (use_factory, app, &env);
+		return;
 	}
 
 	if (! view_comline_catalog && (n_dir_urls == 0) && (n_file_urls == 0)) {
@@ -523,24 +637,74 @@ prepare_app ()
 		exit (0);
 	} else
 		gth_application = gth_application_new (gdk_screen_get_default ());
- }
-
-
-void 
-all_windows_update_file_list ()
-{
-	/*
-	g_list_foreach (window_list, (GFunc) window_update_file_list, NULL);
-	*/
 }
 
 
-void 
-all_windows_update_catalog_list ()
+static gboolean 
+check_whether_to_import_photos (gpointer data) 
 {
-	/*
-	g_list_foreach (window_list, (GFunc) window_update_catalog_list, NULL);
+	/* FIXME
+	if ((first_window != NULL) && ImportPhotos) 
+		activate_action_file_camera_import (NULL, first_window);
 	*/
+	return FALSE;
+}
+
+
+int 
+main (int   argc, 
+      char *argv[])
+{
+	GnomeProgram *program;
+	GValue        value = { 0 };
+	poptContext   pctx;
+
+	bindtextdomain (GETTEXT_PACKAGE, LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+	textdomain (GETTEXT_PACKAGE);
+
+	program = gnome_program_init ("gthumb", VERSION,
+				      LIBGNOMEUI_MODULE, 
+				      argc, argv,
+				      GNOME_PARAM_POPT_TABLE, options,
+				      GNOME_PARAM_HUMAN_READABLE_NAME, _("gThumb"),
+				      GNOME_PARAM_APP_PREFIX, GTHUMB_PREFIX,
+				      GNOME_PARAM_APP_SYSCONFDIR, GTHUMB_SYSCONFDIR,
+				      GNOME_PARAM_APP_DATADIR, GTHUMB_DATADIR,
+				      GNOME_PARAM_APP_LIBDIR, GTHUMB_LIBDIR,
+				      NULL);
+
+	if (! g_thread_supported ()) {
+		g_thread_init (NULL);
+		gdk_threads_init ();
+	}
+
+	g_object_get_property (G_OBJECT (program),
+			       GNOME_PARAM_POPT_CONTEXT,
+			       g_value_init (&value, G_TYPE_POINTER));
+
+	pctx = g_value_get_pointer (&value);
+	glade_gnome_init ();
+	gthumb_init ();
+	initialize_data (pctx);
+	poptFreeContext (pctx);
+	prepare_app ();
+	g_idle_add (check_whether_to_import_photos, NULL);
+
+	gtk_main ();
+
+	release_data ();
+	return 0;
+}
+
+
+/**/
+
+
+void 
+all_windows_update_catalog_list (void)
+{
+	gth_monitor_notify_reload_catalogs (monitor);
 }
 
 
@@ -666,77 +830,30 @@ all_windows_notify_catalog_delete (const gchar *path)
 
 
 void 
-all_windows_notify_update_comment (const gchar *filename)
+all_windows_notify_update_metadata (const gchar *filename)
 {
-	/*
-	GList *scan;
-
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		window_notify_update_comment (window, filename);
-	}
-	*/
-}
-
-
-void 
-all_windows_notify_update_directory (const gchar *dir_path)
-{
-	/*
-	GList *scan;
-
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-
-		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) &&
-		    window->monitor_enabled)
-			continue;
-
-		window_notify_update_directory (window, dir_path);
-	}
-	*/
+	gth_monitor_notify_update_metadata (monitor, filename);
 }
 
 
 void
-all_windows_notify_update_icon_theme ()
+all_windows_notify_update_icon_theme (void)
 {
-	/*
-	GList *scan;
-
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		window_notify_update_icon_theme (window);
-	}
-	*/
+	gth_monitor_notify_update_icon_theme (monitor);
 }
 
 
 void
-all_windows_remove_monitor ()
+all_windows_remove_monitor (void)
 {
-	/*
-	GList *scan;
-	
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		window_remove_monitor (window);
-	}
-	*/
+	gth_monitor_pause (monitor);
 }
 
 
 void
-all_windows_add_monitor ()
+all_windows_add_monitor (void)
 {
-	/*
-	GList *scan;
-	
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		window_add_monitor (window);
-	}
-	*/
+	gth_monitor_resume (monitor);
 }
 
 
@@ -793,179 +910,6 @@ get_folder_pixbuf (double icon_size)
 	}
 
 	return pixbuf;
-}
-
-
-
-
-/* SM support */
-
-/* The master client we use for SM */
-static GnomeClient *master_client = NULL;
-
-/* argv[0] from main(); used as the command to restart the program */
-static const char *program_argv0 = NULL;
-
-
-static void
-save_session (GnomeClient *client)
-{
-	/*
-	const char  *prefix;
-	GList        *scan;
-	int          i = 0;
-
-	prefix = gnome_client_get_config_prefix (client);
-	gnome_config_push_prefix (prefix);
-
-	for (scan = window_list; scan; scan = scan->next) {
-		GThumbWindow *window = scan->data;
-		char         *location = NULL;
-		char         *key;
-
-		if ((window->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
-		    && (window->dir_list != NULL)
-		    && (window->dir_list->path != NULL))
-			location = g_strconcat ("file://",
-						window->dir_list->path,
-						NULL);
-		else if ((window->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
-			 && (window->catalog_path != NULL))
-			location = g_strconcat ("catalog://",
-						window->catalog_path,
-						NULL);
-		
-		if (location == NULL)
-			continue;
-
-		key = g_strdup_printf ("Session/location%d", i);
-		gnome_config_set_string (key, location);
-
-		g_free (key);
-		g_free (location);
-
-		i++;
-	}
-
-	gnome_config_set_int ("Session/locations", i);
-
-	gnome_config_pop_prefix ();
-	gnome_config_sync ();
-	*/
-}
-
-
-/* save_yourself handler for the master client */
-static gboolean
-client_save_yourself_cb (GnomeClient *client,
-			 gint phase,
-			 GnomeSaveStyle save_style,
-			 gboolean shutdown,
-			 GnomeInteractStyle interact_style,
-			 gboolean fast,
-			 gpointer data)
-{
-	const char *prefix;
-	char       *argv[4] = { NULL };
-
-	save_session (client);
-
-	prefix = gnome_client_get_config_prefix (client);
-
-	/* Tell the session manager how to discard this save */
-
-	argv[0] = "rm";
-	argv[1] = "-rf";
-	argv[2] = gnome_config_get_real_path (prefix);
-	argv[3] = NULL;
-	gnome_client_set_discard_command (client, 3, argv);
-
-	/* Tell the session manager how to clone or restart this instance */
-
-	argv[0] = (char *) program_argv0;
-	argv[1] = NULL; /* "--debug-session"; */
-	
-	gnome_client_set_clone_command (client, 1, argv);
-	gnome_client_set_restart_command (client, 1, argv);
-
-	return TRUE;
-}
-
-
-/* die handler for the master client */
-static void
-client_die_cb (GnomeClient *client, gpointer data)
-{
-	if (! client->save_yourself_emitted)
-		save_session (client);
-
-	gtk_main_quit ();
-}
-
-
-static void
-init_session (const char *argv0)
-{
-	if (master_client != NULL)
-		return;
-
-	program_argv0 = argv0;
-
-	master_client = gnome_master_client ();
-
-	g_signal_connect (master_client, "save_yourself",
-			  G_CALLBACK (client_save_yourself_cb),
-			  NULL);
-
-	g_signal_connect (master_client, "die",
-			  G_CALLBACK (client_die_cb),
-			  NULL);
-}
-
-
-static gboolean
-session_is_restored (void)
-{
-	gboolean restored;
-	
-	if (! master_client)
-		return FALSE;
-
-	restored = (gnome_client_get_flags (master_client) & GNOME_CLIENT_RESTORED) != 0;
-
-	return restored;
-}
-
-
-static gboolean
-load_session (void)
-{
-	/*
-	int i, n;
-	
-	gnome_config_push_prefix (gnome_client_get_config_prefix (master_client));
-
-	n = gnome_config_get_int ("Session/locations");
-	for (i = 0; i < n; i++) {
-		GThumbWindow *window;
-		char         *key;
-		char         *location;
-
-		key = g_strdup_printf ("Session/location%d", i);
-		location = gnome_config_get_string (key);
-		g_free (key);
-
-		preferences_set_startup_location (location);
-
-		window = window_new ();
-		gtk_widget_show (window->app);
-
-		g_free (location);
-	}
-
-	gnome_config_pop_prefix ();
-	*/
-	return TRUE;
 }
 
 

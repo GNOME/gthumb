@@ -93,31 +93,16 @@ void            gth_browser_reload_image                 (GthBrowser        *bro
 void            gth_browser_show_image_prop              (GthBrowser        *browser);
 void            gth_browser_set_image_prop_dlg           (GthBrowser        *browser,
 							  GtkWidget         *dialog);
-void            gth_browser_show_comment_dlg             (GthBrowser        *browser);
-void            gth_browser_show_categories_dlg          (GthBrowser        *browser);
 
 GthFileList *   gth_browser_get_file_list                (GthBrowser        *browser);
 GthFileView *   gth_browser_get_file_view                (GthBrowser        *browser);
 DirList *       gth_browser_get_dir_list                 (GthBrowser        *browser);
 CatalogList *   gth_browser_get_catalog_list             (GthBrowser        *browser);
 
-/* functions used to notify a change. */
-
-void            gth_browser_notify_update_comment        (GthBrowser        *browser,
-							  const gchar       *filename);
-void            gth_browser_notify_update_directory      (GthBrowser        *browser,
-							  const gchar       *dir_path);
-void            gth_browser_notify_update_layout         (GthBrowser        *browser);
-void            gth_browser_notify_update_toolbar_style  (GthBrowser        *browser);
-void            gth_browser_notify_update_icon_theme     (GthBrowser        *browser);
-void            gth_browser_update_file_list             (GthBrowser        *browser);
-void            gth_browser_update_catalog_list          (GthBrowser        *browser);
-void            gth_browser_update_bookmark_list         (GthBrowser        *browser);
-
 /* non-modal dialogs */
 
 void            gth_browser_set_bookmarks_dlg            (GthBrowser        *browser,
 							  GtkWidget         *dialog);
-GtkWidget      *gth_browser_get_bookmarks_dlg            (GthBrowser        *browser);
+GtkWidget *     gth_browser_get_bookmarks_dlg            (GthBrowser        *browser);
 
 #endif /* GTH_BROWSER_H */

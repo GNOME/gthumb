@@ -235,6 +235,8 @@ struct _GthBrowserPrivateData {
 
 	/* misc */
 
+	char                  *monitor_uri;
+
 	guint                  cnxn_id[GCONF_NOTIFICATIONS];
 	GthPixbufOp           *pixop;
 	
@@ -1139,7 +1141,7 @@ window_set_file_list (GthBrowser *browser,
 
 
 
-void
+static void
 gth_browser_update_file_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -1160,7 +1162,7 @@ gth_browser_update_file_list (GthBrowser *browser)
 }
 
 
-void
+static void
 gth_browser_update_catalog_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -1352,7 +1354,7 @@ add_bookmark_menu_item (GthBrowser     *browser,
 }
 
 
-void
+static void
 gth_browser_update_bookmark_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -4244,6 +4246,96 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 /* preferences change notification callbacks */
 
 
+gboolean
+gth_browser_notify_update_layout_cb (gpointer data)
+{
+	GthBrowser   *browser = data;
+	GthBrowserPrivateData *priv = browser->priv;
+	GtkWidget    *paned1;      /* Main paned widget. */
+	GtkWidget    *paned2;      /* Secondary paned widget. */
+	int           paned1_pos;
+	int           paned2_pos;
+	gboolean      sidebar_visible;
+
+	if (! GTK_IS_WIDGET (priv->main_pane))
+		return TRUE;
+
+	if (priv->update_layout_timeout != 0) {
+		g_source_remove (priv->update_layout_timeout);
+		priv->update_layout_timeout = 0;
+	}
+
+	sidebar_visible = priv->sidebar_visible;
+	if (! sidebar_visible) 
+		gth_browser_show_sidebar (browser);
+
+	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
+
+	paned1_pos = gtk_paned_get_position (GTK_PANED (priv->main_pane));
+	paned2_pos = gtk_paned_get_position (GTK_PANED (priv->content_pane));
+
+	if (priv->layout_type == 1) {
+		paned1 = gtk_vpaned_new (); 
+		paned2 = gtk_hpaned_new ();
+	} else {
+		paned1 = gtk_hpaned_new (); 
+		paned2 = gtk_vpaned_new (); 
+	}
+
+	if (priv->layout_type == 3)
+		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
+	else
+		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
+
+	if (priv->layout_type == 3)
+		gtk_widget_reparent (priv->dir_list_pane, paned1);
+	else
+		gtk_widget_reparent (priv->dir_list_pane, paned2);
+
+	if (priv->layout_type == 2) 
+		gtk_widget_reparent (priv->file_list_pane, paned1);
+	else 
+		gtk_widget_reparent (priv->file_list_pane, paned2);
+
+	if (priv->layout_type <= 1) 
+		gtk_widget_reparent (priv->image_pane, paned1);
+	else 
+		gtk_widget_reparent (priv->image_pane, paned2);
+
+	gtk_paned_set_position (GTK_PANED (paned1), paned1_pos);
+	gtk_paned_set_position (GTK_PANED (paned2), paned2_pos);
+
+	gnome_app_set_contents (GNOME_APP (browser), paned1);
+
+	gtk_widget_show (paned1);
+	gtk_widget_show (paned2);
+
+	priv->main_pane = paned1;
+	priv->content_pane = paned2;
+
+	if (! sidebar_visible) 
+		gth_browser_hide_sidebar (browser);
+
+	return FALSE;
+}
+
+
+static void
+gth_browser_notify_update_layout (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->update_layout_timeout != 0) {
+		g_source_remove (priv->update_layout_timeout);
+		priv->update_layout_timeout = 0;
+	}
+
+	priv->update_layout_timeout = g_timeout_add (UPDATE_LAYOUT_DELAY, 
+						       gth_browser_notify_update_layout_cb, 
+						       browser);
+}
+
+
 static void
 pref_ui_layout_changed (GConfClient *client,
 			guint        cnxn_id,
@@ -4252,6 +4344,31 @@ pref_ui_layout_changed (GConfClient *client,
 {
 	GthBrowser *browser = user_data;
 	gth_browser_notify_update_layout (browser);
+}
+
+
+void
+gth_browser_notify_update_toolbar_style (GthBrowser *browser)
+{
+	GthToolbarStyle toolbar_style;
+	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
+
+	toolbar_style = pref_get_real_toolbar_style ();
+
+	switch (toolbar_style) {
+	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
+		prop = GTK_TOOLBAR_BOTH; break;
+	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
+		prop = GTK_TOOLBAR_BOTH_HORIZ; break;
+	case GTH_TOOLBAR_STYLE_ICONS:
+		prop = GTK_TOOLBAR_ICONS; break;
+	case GTH_TOOLBAR_STYLE_TEXT:
+		prop = GTK_TOOLBAR_TEXT; break;
+	default:
+		break;
+	}
+
+	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->toolbar), prop);
 }
 
 
@@ -5231,8 +5348,7 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 				  GList      *list)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-
-	/* FIXME: better implementation */
+	GList                 *absent_files = NULL, *scan;
 
 	if (! priv->file_list->doing_thumbs)
 		gth_file_list_update_thumb_list (priv->file_list, list);
@@ -5242,6 +5358,24 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 						       priv->image_path);
 		if (pos != -1)
 			view_image_at_pos (browser, pos);
+	}
+	
+	/**/
+
+	for (scan = list; scan; scan = scan->next) {
+		char *filename = scan->data;
+		int   pos;
+
+		pos = gth_file_list_pos_from_path (priv->file_list, filename);
+		if (pos == -1) 
+			continue;
+
+		absent_files = g_list_prepend (absent_files, filename);
+	}
+
+	if (absent_files != NULL) {
+		gth_browser_notify_files_created (browser, absent_files);
+		g_list_free (absent_files);
 	}
 }
 
@@ -5578,11 +5712,19 @@ gth_browser_notify_catalog_rename (GthBrowser *browser,
 
 static void
 monitor_catalog_renamed_cb (GthMonitor      *monitor,
-			   const char      *old_name,
-			   const char      *new_name,
-			   GthBrowser      *browser)
+			    const char      *old_name,
+			    const char      *new_name,
+			    GthBrowser      *browser)
 {
 	gth_browser_notify_catalog_rename (browser, old_name, new_name);
+}
+
+
+static void
+monitor_reload_catalogs_cb (GthMonitor *monitor,
+			    GthBrowser *browser)
+{
+	gth_browser_update_catalog_list (browser);
 }
 
 
@@ -5694,7 +5836,7 @@ monitor_update_catalog_cb (GthMonitor      *monitor,
 }
 
 
-void
+static void
 gth_browser_notify_update_comment (GthBrowser *browser,
 				   const char *filename)
 {
@@ -5708,6 +5850,15 @@ gth_browser_notify_update_comment (GthBrowser *browser,
 	pos = gth_file_list_pos_from_path (priv->file_list, filename);
 	if (pos != -1)
 		gth_file_list_update_comment (priv->file_list, pos);
+}
+
+
+static void
+monitor_update_metadata_cb (GthMonitor *monitor,
+			    const char *filename,
+			    GthBrowser *browser)
+{
+	gth_browser_notify_update_comment (browser, filename);
 }
 
 
@@ -5732,123 +5883,7 @@ gth_browser_notify_update_directory (GthBrowser *browser,
 }
 
 
-gboolean
-gth_browser_notify_update_layout_cb (gpointer data)
-{
-	GthBrowser   *browser = data;
-	GthBrowserPrivateData *priv = browser->priv;
-	GtkWidget    *paned1;      /* Main paned widget. */
-	GtkWidget    *paned2;      /* Secondary paned widget. */
-	int           paned1_pos;
-	int           paned2_pos;
-	gboolean      sidebar_visible;
-
-	if (! GTK_IS_WIDGET (priv->main_pane))
-		return TRUE;
-
-	if (priv->update_layout_timeout != 0) {
-		g_source_remove (priv->update_layout_timeout);
-		priv->update_layout_timeout = 0;
-	}
-
-	sidebar_visible = priv->sidebar_visible;
-	if (! sidebar_visible) 
-		gth_browser_show_sidebar (browser);
-
-	priv->layout_type = eel_gconf_get_integer (PREF_UI_LAYOUT, 2);
-
-	paned1_pos = gtk_paned_get_position (GTK_PANED (priv->main_pane));
-	paned2_pos = gtk_paned_get_position (GTK_PANED (priv->content_pane));
-
-	if (priv->layout_type == 1) {
-		paned1 = gtk_vpaned_new (); 
-		paned2 = gtk_hpaned_new ();
-	} else {
-		paned1 = gtk_hpaned_new (); 
-		paned2 = gtk_vpaned_new (); 
-	}
-
-	if (priv->layout_type == 3)
-		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);
-	else
-		gtk_paned_pack1 (GTK_PANED (paned1), paned2, FALSE, FALSE);
-
-	if (priv->layout_type == 3)
-		gtk_widget_reparent (priv->dir_list_pane, paned1);
-	else
-		gtk_widget_reparent (priv->dir_list_pane, paned2);
-
-	if (priv->layout_type == 2) 
-		gtk_widget_reparent (priv->file_list_pane, paned1);
-	else 
-		gtk_widget_reparent (priv->file_list_pane, paned2);
-
-	if (priv->layout_type <= 1) 
-		gtk_widget_reparent (priv->image_pane, paned1);
-	else 
-		gtk_widget_reparent (priv->image_pane, paned2);
-
-	gtk_paned_set_position (GTK_PANED (paned1), paned1_pos);
-	gtk_paned_set_position (GTK_PANED (paned2), paned2_pos);
-
-	gnome_app_set_contents (GNOME_APP (browser), paned1);
-
-	gtk_widget_show (paned1);
-	gtk_widget_show (paned2);
-
-	priv->main_pane = paned1;
-	priv->content_pane = paned2;
-
-	if (! sidebar_visible) 
-		gth_browser_hide_sidebar (browser);
-
-	return FALSE;
-}
-
-
-
-void
-gth_browser_notify_update_layout (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->update_layout_timeout != 0) {
-		g_source_remove (priv->update_layout_timeout);
-		priv->update_layout_timeout = 0;
-	}
-
-	priv->update_layout_timeout = g_timeout_add (UPDATE_LAYOUT_DELAY, 
-						       gth_browser_notify_update_layout_cb, 
-						       browser);
-}
-
-
-void
-gth_browser_notify_update_toolbar_style (GthBrowser *browser)
-{
-	GthToolbarStyle toolbar_style;
-	GtkToolbarStyle prop = GTK_TOOLBAR_BOTH;
-
-	toolbar_style = pref_get_real_toolbar_style ();
-
-	switch (toolbar_style) {
-	case GTH_TOOLBAR_STYLE_TEXT_BELOW:
-		prop = GTK_TOOLBAR_BOTH; break;
-	case GTH_TOOLBAR_STYLE_TEXT_BESIDE:
-		prop = GTK_TOOLBAR_BOTH_HORIZ; break;
-	case GTH_TOOLBAR_STYLE_ICONS:
-		prop = GTK_TOOLBAR_ICONS; break;
-	case GTH_TOOLBAR_STYLE_TEXT:
-		prop = GTK_TOOLBAR_TEXT; break;
-	default:
-		break;
-	}
-
-	gtk_toolbar_set_style (GTK_TOOLBAR (browser->priv->toolbar), prop);
-}
-
-
-void
+static void
 gth_browser_notify_update_icon_theme (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -5862,6 +5897,15 @@ gth_browser_notify_update_icon_theme (GthBrowser *browser)
 
 	if (priv->bookmarks_dlg != NULL)
 		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
+}
+
+
+static void
+monitor_update_icon_theme_cb (GthMonitor *monitor,
+			      const char *filename,
+			      GthBrowser *browser)
+{
+	gth_browser_notify_update_icon_theme (browser);
 }
 
 
@@ -6691,6 +6735,10 @@ gth_browser_construct (GthBrowser  *browser,
 			  G_CALLBACK (monitor_update_catalog_cb),
 			  browser);
 	g_signal_connect (G_OBJECT (monitor), 
+			  "update_metadata",
+			  G_CALLBACK (monitor_update_metadata_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
 			  browser);
@@ -6701,6 +6749,14 @@ gth_browser_construct (GthBrowser  *browser,
 	g_signal_connect (G_OBJECT (monitor), 
 			  "catalog_renamed",
 			  G_CALLBACK (monitor_catalog_renamed_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "reload_catalogs",
+			  G_CALLBACK (monitor_reload_catalogs_cb),
+			  browser);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_icon_theme",
+			  G_CALLBACK (monitor_update_icon_theme_cb),
 			  browser);
 
 	/* Initial location. */
@@ -6947,15 +7003,14 @@ close__step2 (GthBrowser *browser)
 static void
 gth_browser_remove_monitor (GthBrowser *browser)
 {
-	/* FIXME
 	GthBrowserPrivateData *priv = browser->priv;
 
-	if (priv->monitor_handle != NULL) {
-		gnome_vfs_monitor_cancel (priv->monitor_handle);
-		priv->monitor_handle = NULL;
-	}
-	priv->monitor_enabled = FALSE;
-	*/
+	if (priv->monitor_uri == NULL)
+		return;
+
+	gth_monitor_remove_uri (monitor, priv->monitor_uri);
+	g_free (priv->monitor_uri);
+	priv->monitor_uri = NULL;
 }
 
 
@@ -7339,29 +7394,18 @@ gth_browser_refresh (GthBrowser *browser)
 static void
 gth_browser_add_monitor (GthBrowser *browser)
 {
-	/* FIXME
 	GthBrowserPrivateData *priv = browser->priv;
-	GnomeVFSResult         result;
-	char                  *uri;
 
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
+	gth_browser_remove_monitor (browser);
+
 	if (priv->dir_list->path == NULL)
 		return;
 
-	if (priv->monitor_handle != NULL)
-		gnome_vfs_monitor_cancel (priv->monitor_handle);
-
-	uri = g_strconcat ("file://", priv->dir_list->path, NULL);
-	result = gnome_vfs_monitor_add (&priv->monitor_handle,
-					uri,
-					GNOME_VFS_MONITOR_DIRECTORY,
-					directory_changed,
-					browser);
-	g_free (uri);
-	priv->monitor_enabled = (result == GNOME_VFS_OK);
-	*/
+	priv->monitor_uri = g_strconcat ("file://", priv->dir_list->path, NULL);
+	gth_monitor_add_uri (monitor, priv->monitor_uri);
 }
 
 
@@ -7540,8 +7584,8 @@ real_go_to_directory (GthBrowser *browser,
 	}
 
 	priv->load_dir_timeout = g_timeout_add (LOAD_DIR_DELAY,
-						  go_to_directory_cb, 
-						  gt_data);
+						go_to_directory_cb, 
+						gt_data);
 }
 
 

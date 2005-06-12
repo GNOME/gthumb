@@ -63,12 +63,8 @@ struct _GthMonitorClass
 	void        (*update_catalog)      (GthMonitor      *monitor,
 					    const char      *catalog_path,
 					    GthMonitorEvent  event);
-
 	void        (*update_metadata)     (GthMonitor      *monitor,
 					    const char      *path);
-	void        (*reload_directory)    (GthMonitor      *monitor,
-					    const char      *path);
-
 	void        (*file_renamed)        (GthMonitor      *monitor,
 					    const char      *old_name,
 					    const char      *new_name);
@@ -78,10 +74,15 @@ struct _GthMonitorClass
 	void        (*catalog_renamed)     (GthMonitor      *monitor,
 					    const char      *old_name,
 					    const char      *new_name);
+	void        (*reload_catalogs)     (GthMonitor      *monitor);
 };
 
 GType        gth_monitor_get_type                    (void);
 GthMonitor*  gth_monitor_new                         (void);
+void         gth_monitor_add_uri                     (GthMonitor *monitor,
+						      const char *uri);
+void         gth_monitor_remove_uri                  (GthMonitor *monitor,
+						      const char *uri);
 void         gth_monitor_pause                       (GthMonitor      *monitor);
 void         gth_monitor_resume                      (GthMonitor      *monitor);
 void         gth_monitor_notify_update_icon_theme    (GthMonitor      *monitor);
@@ -99,6 +100,8 @@ void         gth_monitor_notify_update_directory     (GthMonitor      *monitor,
 void         gth_monitor_notify_update_catalog       (GthMonitor      *monitor,
 						      const char      *catalog_path,
 						      GthMonitorEvent  event);
+void         gth_monitor_notify_update_metadata      (GthMonitor      *monitor,
+						      const char      *path);
 void         gth_monitor_notify_file_renamed         (GthMonitor      *monitor,
 						      const char      *old_name,
 						      const char      *new_name);
@@ -108,5 +111,6 @@ void         gth_monitor_notify_directory_renamed    (GthMonitor      *monitor,
 void         gth_monitor_notify_catalog_renamed      (GthMonitor      *monitor,
 						      const char      *old_name,
 						      const char      *new_name);
+void         gth_monitor_notify_reload_catalogs      (GthMonitor      *monitor);
 
 #endif /* GTH_MONITOR_H */

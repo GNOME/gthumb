@@ -1,5 +1,29 @@
 2005-06-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.h:
+	* src/main.c: added session support.
+
+	* src/gth-window.h: 
+	* src/gth-window.c: added  gth_window_get_window_list
+
+	* src/gth-monitor.h: 
+	* src/gth-monitor.c: added the file system monitor.
+
+	* src/gth-browser.h: removed unused functions.
+
+	* src/gth-browser.c (gth_browser_notify_files_changed): 
+	reimplemented.
+	(monitor_reload_catalogs_cb): 
+	(gth_browser_notify_update_directory): 
+	(gth_browser_construct): 
+	(gth_browser_add_monitor): 
+	(gth_browser_add_monitor): implemented functions.
+
+	* src/gth-window-actions-callbacks.c (gth_window_activate_action_edit_delete_comment): 
+	* src/dlg-comment.c (save_clicked_cb): 
+	renamed all_windows_notify_update_comment as
+	all_windows_notify_update_metadata.
+
 	* src/gth-window-utils.c: 
 	* src/gth-window-utils.h: 
 	* libgthumb/gstringlist.c: 

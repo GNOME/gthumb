@@ -274,7 +274,7 @@ save_clicked_cb (GtkWidget  *widget,
 			comments_save_comment_non_null (filename, cdata);
 		else
 			comments_save_comment (filename, cdata);
-		all_windows_notify_update_comment (filename); 
+		all_windows_notify_update_metadata (filename); 
 	}
 
 	gth_window_update_current_image_metadata (data->window);

@@ -197,7 +197,7 @@ gth_window_activate_action_edit_delete_comment (GtkAction *action,
 			comment_delete (filename);
 		comment_data_free (cdata);
 
-		all_windows_notify_update_comment (filename);
+		all_windows_notify_update_metadata (filename);
 	}
 	path_list_free (list);
 

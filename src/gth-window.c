@@ -488,3 +488,10 @@ gth_window_get_n_windows (void)
 {
 	return g_list_length (window_list);
 }
+
+
+GList *
+gth_window_get_window_list (void)
+{
+	return window_list;
+}

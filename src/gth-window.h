@@ -119,5 +119,6 @@ gboolean       gth_window_get_slideshow                  (GthWindow   *window);
 /**/
 
 int            gth_window_get_n_windows                  (void);
+GList *        gth_window_get_window_list                (void);
 
 #endif /* GTH_WINDOW_H */
