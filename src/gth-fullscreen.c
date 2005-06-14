@@ -314,7 +314,11 @@ get_next_image (GthFullscreen *fullscreen)
 
 	if (priv->current == NULL)
 		return NULL;
-	return priv->current->next;
+
+	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
+		return priv->current->prev;
+	else
+		return priv->current->next;
 }
 
 
@@ -325,7 +329,11 @@ get_prev_image (GthFullscreen *fullscreen)
 
 	if (priv->current == NULL)
 		return NULL;
-	return priv->current->prev;
+
+	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
+		return priv->current->next;
+	else
+		return priv->current->prev;
 }
 
 
@@ -440,11 +448,7 @@ load_next_image (GthFullscreen *fullscreen)
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GList *next;
 
-	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
-		next = get_prev_image (fullscreen);
-	else
-		next = get_next_image (fullscreen);
-
+	next = get_next_image (fullscreen);
 	if (next != NULL)
 		priv->current = next;
 	

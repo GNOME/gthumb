@@ -1,3 +1,8 @@
+2005-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (get_prev_image, get_next_image): 
+	consider the direction to compute the next/prev element.
+
 2005-06-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.h:
