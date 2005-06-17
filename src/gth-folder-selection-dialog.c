@@ -32,6 +32,7 @@
 #include "bookmarks.h"
 #include "typedefs.h"
 #include "preferences.h"
+#include "gconf-utils.h"
 #include "gtk-utils.h"
 #include "file-utils.h"
 
@@ -50,6 +51,7 @@ struct _GthFolderSelectionPrivate
 	BookmarkList *recent_list;
 	Bookmarks    *recents;
 	GtkWidget    *file_entry;
+	GtkWidget    *goto_destination;
 };
 
 
@@ -64,6 +66,14 @@ gth_folder_selection_destroy (GtkObject *object)
 	folder_sel = GTH_FOLDER_SELECTION (object);
 
 	if (folder_sel->priv != NULL) {
+
+		/* Save preferences */
+
+		eel_gconf_set_boolean (PREF_CHOOSE_DESTINATION_VIEW,
+				       gth_folder_selection_get_goto_destination (folder_sel));
+
+		/**/
+
 		g_free (folder_sel->priv->title);
 		folder_sel->priv->title = NULL;
 
@@ -76,7 +86,6 @@ gth_folder_selection_destroy (GtkObject *object)
 			bookmarks_free (folder_sel->priv->bookmarks);
 			folder_sel->priv->bookmarks = NULL;
 		}
-
 
 		if (folder_sel->priv->recent_list != NULL) {
 			bookmark_list_free (folder_sel->priv->recent_list);
@@ -480,6 +489,14 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	bookmark_list_set (folder_sel->priv->bookmark_list, 
 			   folder_sel->priv->bookmarks->list);
 
+	/* Go to destination */
+
+	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_View the destination");
+	gtk_box_pack_start (GTK_BOX (main_box), folder_sel->priv->goto_destination, FALSE, FALSE, 0);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (folder_sel->priv->goto_destination),
+				      eel_gconf_get_boolean (PREF_CHOOSE_DESTINATION_VIEW, FALSE));
+
 	gtk_widget_show_all (main_box);
 
 	/**/
@@ -570,4 +587,11 @@ char *
 gth_folder_selection_get_folder (GthFolderSelection *fsel)
 {
 	return _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
+}
+
+
+gboolean
+gth_folder_selection_get_goto_destination (GthFolderSelection *fsel)
+{
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (fsel->priv->goto_destination));
 }

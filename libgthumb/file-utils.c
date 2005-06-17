@@ -1822,3 +1822,42 @@ is_mime_type_writable (const char *mime_type)
 	return FALSE;
 }
 
+
+char *
+get_temp_dir_name (void)
+{
+	static int  count = 0;
+	char       *tmp_dir = NULL;
+	
+	do {
+		g_free (tmp_dir);
+		tmp_dir = g_strdup_printf ("%s%s.%d.%d",
+					   g_get_tmp_dir (),
+					   "/gthumb",
+					   getpid (),
+					   count++);
+
+	} while (path_is_dir (tmp_dir));
+
+	if (mkdir (tmp_dir, 0700) != 0) {
+		g_free (tmp_dir);
+		return NULL;
+	}
+
+	return tmp_dir;
+}
+
+
+char *
+get_temp_file_name (const char *ext)
+{
+	char *dir, *name, *filename;
+
+	dir = get_temp_dir_name ();
+	name = g_strconcat ("temp", ext, NULL);
+	filename = g_build_filename (dir, name, NULL);
+	g_free (name);
+	g_free (dir);
+	
+	return filename;
+}

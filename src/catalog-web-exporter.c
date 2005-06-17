@@ -2328,31 +2328,6 @@ parse_theme_files (CatalogWebExporter *ce)
 }
 
 
-static char *
-get_temp_dir_name (void)
-{
-	static int  count = 0;
-	char       *tmp_dir = NULL;
-	
-	do {
-		g_free (tmp_dir);
-		tmp_dir = g_strdup_printf ("%s%s.%d.%d",
-					   g_get_tmp_dir (),
-					   "/gthumb",
-					   getpid (),
-					   count++);
-
-	} while (path_is_dir (tmp_dir));
-
-	if (mkdir (tmp_dir, 0700) != 0) {
-		g_free (tmp_dir);
-		return NULL;
-	}
-
-	return tmp_dir;
-}
-
-
 void
 catalog_web_exporter_export (CatalogWebExporter *ce)
 {

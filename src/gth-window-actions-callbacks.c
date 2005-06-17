@@ -157,16 +157,91 @@ gth_window_activate_action_file_revert (GtkAction *action,
 }
 
 
+static void
+print_done_cb (gpointer data)
+{
+	char *tmp_filename = data;
+	char *tmp_comment;
+	char *tmp_dir;
+
+	if (tmp_filename == NULL)
+		return;
+
+	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE, TRUE);
+	tmp_dir = remove_level_from_path (tmp_comment);
+	gnome_vfs_unlink (tmp_comment);
+	gnome_vfs_remove_directory (tmp_dir);
+	g_free (tmp_comment);
+	g_free (tmp_dir);
+
+	gnome_vfs_unlink (tmp_filename);
+
+	tmp_dir = remove_level_from_path (tmp_filename);
+	gnome_vfs_remove_directory (tmp_dir);
+	g_free (tmp_dir);
+
+	g_free (tmp_filename);
+}
+
+
 void
 gth_window_activate_action_file_print (GtkAction *action,
 				       GthWindow *window)
 {
-	GList *list = gth_window_get_file_list_selection (window);
+	GList    *list;
+	char     *tmp_filename = NULL;
+	gboolean  remove_temp_file = FALSE;
 
+	list = gth_window_get_file_list_selection (window);
 	if (list == NULL)
 		return;
-	print_catalog_dlg (GTK_WINDOW (window), list);
-	g_list_free (list);
+
+	if (gth_window_get_image_modified (window)) {
+		ImageViewer *image_viewer;
+		GdkPixbuf   *pixbuf;
+
+		image_viewer = gth_window_get_image_viewer (window);
+		pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+		if (pixbuf != NULL) {
+			GError     *error = NULL;
+			const char *image_filename;
+			GList      *current;
+
+			g_object_ref (pixbuf);
+			tmp_filename = get_temp_file_name (".jpeg");
+			if (! _gdk_pixbuf_save (pixbuf,
+						tmp_filename,
+						"jpeg",
+						&error,
+						NULL)) {
+				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
+				g_object_unref (pixbuf);
+				g_free (tmp_filename);
+				return;
+			}
+
+			g_object_unref (pixbuf);
+
+			image_filename = gth_window_get_image_filename (window);
+			current = g_list_find_custom (list,
+						      image_filename,
+						      (GCompareFunc) strcmp);
+			if (current != NULL) {
+				g_free (current->data);
+				current->data = g_strdup (tmp_filename);
+				comment_copy (image_filename, tmp_filename);
+			}
+
+			remove_temp_file = TRUE;
+		}
+	}
+
+	if (remove_temp_file)
+		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, tmp_filename);
+	else
+		print_catalog_dlg (GTK_WINDOW (window), list);
+
+	path_list_free (list);
 }
 
 
@@ -531,8 +606,8 @@ gth_window_activate_action_view_exit_fullscreen (GtkAction *action,
 
 
 static void
-set_as_wallpaper (const gchar    *image_path,
-		  WallpaperAlign  align)
+set_wallpaper (const char     *image_path,
+	       WallpaperAlign  align)
 {
 	GConfClient *client;
 	char        *options = "none";
@@ -574,12 +649,82 @@ set_as_wallpaper (const gchar    *image_path,
 }
 
 
+static char *
+get_wallpaper_filename (int n) 
+{
+	char *name, *filename;
+
+	name = g_strdup_printf ("temp_wallpaper_%d.png", n);
+	filename = g_build_filename (g_get_home_dir (),
+				     name,
+				     NULL);
+	g_free (name);
+
+	return filename;
+}
+
+
+static void
+set_wallpaper_from_window (GthWindow      *window,
+			   WallpaperAlign  align)
+{
+	char *image_path = NULL;
+
+	if (!gth_window_get_image_modified (window)) {
+		const char *filename = gth_window_get_image_filename (window);
+		if (filename != NULL)
+			image_path = g_strdup (filename);
+		
+	} else {
+		ImageViewer *image_viewer;
+		GdkPixbuf   *pixbuf;
+		char        *wallpaper_filename = NULL;
+		GError      *error = NULL;
+
+		image_viewer = gth_window_get_image_viewer (window);
+		pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+		if (pixbuf == NULL)
+			return;
+
+		g_object_ref (pixbuf);
+
+		wallpaper_filename = get_wallpaper_filename (1);
+		if (path_is_file (wallpaper_filename)) {
+			/* Use a new filename to force an update. */
+			gnome_vfs_unlink (wallpaper_filename);
+			g_free (wallpaper_filename);
+			wallpaper_filename = get_wallpaper_filename (2);
+			if (path_is_file (wallpaper_filename)) 
+				gnome_vfs_unlink (wallpaper_filename);
+		}
+
+		if (! _gdk_pixbuf_save (pixbuf,
+					wallpaper_filename,
+					"jpeg",
+					&error,
+					NULL)) {
+			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
+			g_object_unref (pixbuf);
+			g_free (wallpaper_filename);
+			return;
+		}
+
+		g_object_unref (pixbuf);
+
+		image_path = wallpaper_filename;
+	}
+
+	set_wallpaper (image_path, align);
+	g_free (image_path);
+}
+
+
 void
 gth_window_activate_action_wallpaper_centered (GtkAction *action,
 					       gpointer   data)
 {
-	GthWindow  *window = GTH_WINDOW (data);
-	set_as_wallpaper (gth_window_get_image_filename (window),  WALLPAPER_ALIGN_CENTERED);
+	GthWindow *window = GTH_WINDOW (data);
+	set_wallpaper_from_window (window, WALLPAPER_ALIGN_CENTERED);
 }
 
 
@@ -587,8 +732,8 @@ void
 gth_window_activate_action_wallpaper_tiled (GtkAction *action,
 					    gpointer   data)
 {
-	GthWindow  *window = GTH_WINDOW (data);
-	set_as_wallpaper (gth_window_get_image_filename (window),  WALLPAPER_ALIGN_TILED);
+	GthWindow *window = GTH_WINDOW (data);
+	set_wallpaper_from_window (window, WALLPAPER_ALIGN_TILED);
 }
 
 
@@ -596,8 +741,8 @@ void
 gth_window_activate_action_wallpaper_scaled (GtkAction *action,
 					     gpointer   data)
 {
-	GthWindow  *window = GTH_WINDOW (data);
-	set_as_wallpaper (gth_window_get_image_filename (window),  WALLPAPER_ALIGN_SCALED);
+	GthWindow *window = GTH_WINDOW (data);
+	set_wallpaper_from_window (window, WALLPAPER_ALIGN_SCALED);
 }
 
 
@@ -605,8 +750,8 @@ void
 gth_window_activate_action_wallpaper_stretched (GtkAction *action,
 						gpointer   data)
 {
-	GthWindow  *window = GTH_WINDOW (data);
-	set_as_wallpaper (gth_window_get_image_filename (window),  WALLPAPER_ALIGN_STRETCHED);
+	GthWindow *window = GTH_WINDOW (data);
+	set_wallpaper_from_window (window, WALLPAPER_ALIGN_STRETCHED);
 }
 
 
@@ -627,7 +772,7 @@ gth_window_activate_action_wallpaper_restore (GtkAction *action,
 	else if (strcmp (preferences.wallpaperAlign, "none") == 0)
 		align_type = WALLPAPER_NONE;
 
-	set_as_wallpaper (preferences.wallpaper, align_type);
+	set_wallpaper (preferences.wallpaper, align_type);
 }
 
 
@@ -742,19 +887,4 @@ gth_window_activate_action_view_step_animation (GtkAction *action,
 						GthWindow *window)
 {
 	gth_window_step_animation (window);
-}
-
-
-void
-gth_window_activate_action_view_show_info (GtkAction *action,
-					   gpointer   data)
-{
-	/*
-	GThumbWindow *window = data;
-
-	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
-		window_show_image_data (window);
-	else
-		window_hide_image_data (window);
-	*/
 }

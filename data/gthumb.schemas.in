@@ -1665,6 +1665,21 @@
 	</locale>
       </schema>
 
+      <!-- Choose destination dialog -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/choose_destination/view</key>
+	<applyto>/apps/gthumb/dialogs/choose_destination/view</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Photo Importer -->
 
       <schema>

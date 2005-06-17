@@ -23,7 +23,11 @@
 #ifndef PRINT_CALLBACKS_H
 #define PRINT_CALLBACKS_H
 
-void  print_catalog_dlg  (GtkWindow *parent,
-			  GList     *file_list);
+void  print_catalog_dlg      (GtkWindow *parent,
+			      GList     *file_list);
+void  print_catalog_dlg_full (GtkWindow *parent,
+			      GList     *file_list,
+			      DoneFunc   done_func,
+			      gpointer   done_data);
 
 #endif /* PRINT_CALLBACKS_H */

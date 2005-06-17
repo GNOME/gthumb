@@ -300,7 +300,7 @@ add_monitor_event (GthMonitor                *monitor,
 	if (!monitor->priv->monitor_enabled)
 		return;
 
-#ifdef DEBUG /* FIXME */
+#ifdef DEBUG
 	{
 		char *op;
 

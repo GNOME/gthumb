@@ -184,6 +184,8 @@
 #define  PREF_MSG_CANNOT_MOVE_TO_TRASH "/apps/gthumb/dialogs/messages/cannot_move_to_trash"
 #define  PREF_MSG_SAVE_MODIFIED_IMAGE  "/apps/gthumb/dialogs/messages/save_modified_image"
 
+#define  PREF_CHOOSE_DESTINATION_VIEW  "/apps/gthumb/dialogs/choose_destination/view"
+
 #define  PREF_PHOTO_IMPORT_DESTINATION    "/apps/gthumb/dialogs/photo_importer/destination"
 #define  PREF_PHOTO_IMPORT_FILM           "/apps/gthumb/dialogs/photo_importer/film"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"

@@ -357,6 +357,9 @@ typedef struct {
 	int                current_image;
 	ImageLoader       *loader;
 	gboolean           interrupted;
+
+	DoneFunc           done_func;
+	gpointer           done_data;
 } PrintCatalogDialogData;
 
 
@@ -365,6 +368,10 @@ static void
 print_catalog_destroy_cb (GtkWidget              *widget, 
 			  PrintCatalogDialogData *data)
 {
+	if (data->done_func != NULL) {
+		(*data->done_func) (data->done_data);
+	}
+
 	g_object_unref (data->gui);
 	print_catalog_info_unref (data->pci);
 	progress_dialog_destroy (data->pd);
@@ -1874,8 +1881,10 @@ pci_print_comments_cb (GtkWidget              *widget,
 
 
 void
-print_catalog_dlg (GtkWindow *parent,
-		   GList     *file_list)
+print_catalog_dlg_full (GtkWindow *parent,
+			GList     *file_list,
+			DoneFunc   done_func,
+			gpointer   done_data)
 {
 	PrintCatalogInfo        *pci;
 	PrintCatalogDialogData  *data;
@@ -1915,6 +1924,9 @@ print_catalog_dlg (GtkWindow *parent,
 		g_free (data);
                 return;
         }
+
+	data->done_func = done_func;	
+	data->done_data = done_data;
 
 	data->loader = IMAGE_LOADER (image_loader_new (NULL, FALSE));
 	g_signal_connect (G_OBJECT (data->loader),
@@ -2141,4 +2153,12 @@ print_catalog_dlg (GtkWindow *parent,
 
 	load_current_image (data);
 	progress_dialog_show (data->pd);
+}
+
+
+void
+print_catalog_dlg (GtkWindow *parent,
+		   GList     *file_list)
+{
+	print_catalog_dlg_full (parent, file_list, NULL, NULL);
 }

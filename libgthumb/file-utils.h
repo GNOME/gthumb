@@ -195,5 +195,8 @@ gboolean            is_mime_type_writable        (const char *mime_type);
 
 gboolean            check_permissions            (const char *path, int mode);
 
+char *              get_temp_dir_name            (void);
+
+char *              get_temp_file_name           (const char *ext);
 
 #endif /* FILE_UTILS_H */

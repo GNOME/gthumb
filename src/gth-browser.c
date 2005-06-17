@@ -379,7 +379,33 @@ set_action_important (GthBrowser  *browser,
 
 
 
-static void window_update_zoom_sensitivity (GthBrowser *browser);
+static void
+window_update_zoom_sensitivity (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	gboolean               image_is_visible;
+	gboolean               image_is_void;
+	gboolean               fit;
+	int                    zoom;
+
+	image_is_visible = (priv->image_path != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
+	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
+	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (priv->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
+
+	set_action_sensitive (browser, 
+			      "View_Zoom100",
+			      image_is_visible && !image_is_void && (zoom != 100));
+	set_action_sensitive (browser, 
+			      "View_ZoomIn",
+			      image_is_visible && !image_is_void && (zoom != 10000));
+	set_action_sensitive (browser, 
+			      "View_ZoomOut",
+			      image_is_visible && !image_is_void && (zoom != 5));
+	set_action_sensitive (browser, 
+			      "View_ZoomFit",
+			      image_is_visible && !image_is_void);
+}
 
 
 static void
@@ -732,35 +758,6 @@ window_update_go_sensitivity (GthBrowser *browser)
 
 
 static void
-window_update_zoom_sensitivity (GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	gboolean               image_is_visible;
-	gboolean               image_is_void;
-	gboolean               fit;
-	int                    zoom;
-
-	image_is_visible = (priv->image_path != NULL) && ((priv->sidebar_visible && priv->image_pane_visible && priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE) || ! priv->sidebar_visible);
-	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
-	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
-	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (priv->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
-
-	set_action_sensitive (browser, 
-			      "View_Zoom100",
-			      image_is_visible && !image_is_void && (zoom != 100));
-	set_action_sensitive (browser, 
-			      "View_ZoomIn",
-			      image_is_visible && !image_is_void && (zoom != 10000));
-	set_action_sensitive (browser, 
-			      "View_ZoomOut",
-			      image_is_visible && !image_is_void && (zoom != 5));
-	set_action_sensitive (browser, 
-			      "View_ZoomFit",
-			      image_is_visible && !image_is_void);
-}
-
-
-static void
 window_update_sensitivity (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -857,9 +854,6 @@ window_update_sensitivity (GthBrowser *browser)
 	/* Edit Catalog menu. */
 
 	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) { 
-		char *view_catalog;
-		char *view_search;
-
 		is_catalog = (viewing_catalog && catalog_list_get_selected_iter (priv->catalog_list, &iter));
 
 		set_action_sensitive (browser, "EditCatalog_Rename", is_catalog);
@@ -881,14 +875,6 @@ window_update_sensitivity (GthBrowser *browser)
 		is_search = (is_catalog && (catalog_list_is_search (priv->catalog_list, &iter)));
 		set_action_sensitive (browser, "EditCurrentCatalog_EditSearch", is_search);
 		set_action_sensitive (browser, "EditCurrentCatalog_RedoSearch", is_search);
-
-		if (is_search) {
-			view_catalog = "1";
-			view_search = "0";
-		} else {
-			view_catalog = "0";
-			view_search = "1";
-		}
 	} 
 
 	/* View menu. */
@@ -962,8 +948,8 @@ gth_browser_start_activity_mode (GthBrowser *browser)
 	gtk_widget_show (priv->progress);
 
 	priv->activity_timeout = g_timeout_add (ACTIVITY_DELAY, 
-						  load_progress, 
-						  browser);
+						load_progress, 
+						browser);
 }
 
 
@@ -1142,7 +1128,7 @@ window_set_file_list (GthBrowser *browser,
 
 
 static void
-gth_browser_update_file_list (GthBrowser *browser)
+window_update_file_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
@@ -1163,7 +1149,7 @@ gth_browser_update_file_list (GthBrowser *browser)
 
 
 static void
-gth_browser_update_catalog_list (GthBrowser *browser)
+window_update_catalog_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *catalog_dir;
@@ -1355,7 +1341,7 @@ add_bookmark_menu_item (GthBrowser     *browser,
 
 
 static void
-gth_browser_update_bookmark_list (GthBrowser *browser)
+window_update_bookmark_list (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	GList                 *scan, *names;
@@ -1477,8 +1463,6 @@ window_update_history_list (GthBrowser *browser)
 
 /**/
 
-static void window_make_current_image_visible (GthBrowser *browser);
-
 
 static void
 view_image_at_pos (GthBrowser *browser, 
@@ -1564,8 +1548,8 @@ get_button_from_sidebar_content (GthBrowser *browser)
 
 
 static void
-_window_set_sidebar (GthBrowser *browser,
-		     int         sidebar_content)
+window_set_sidebar (GthBrowser *browser,
+		    int         sidebar_content)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *cname;
@@ -1617,45 +1601,10 @@ _window_set_sidebar (GthBrowser *browser,
 }
 
 
-static void
-make_image_visible (GthBrowser *browser, 
-		    int         pos)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GthVisibility          visibility;
-
-	if ((pos < 0) || (pos >= gth_file_view_get_images (priv->file_list->view)))
-		return;
-
-	visibility = gth_file_view_image_is_visible (priv->file_list->view, pos);
-	if (visibility != GTH_VISIBILITY_FULL) {
-		double offset = 0.5;
-		
-		switch (visibility) {
-		case GTH_VISIBILITY_NONE:
-			offset = 0.5; 
-			break;
-		case GTH_VISIBILITY_PARTIAL_TOP:
-			offset = 0.0; 
-			break;
-		case GTH_VISIBILITY_PARTIAL_BOTTOM:
-			offset = 1.0; 
-			break;
-		case GTH_VISIBILITY_PARTIAL:
-		case GTH_VISIBILITY_FULL:
-			offset = -1.0;
-			break;
-		}
-		if (offset > -1.0)
-			gth_file_view_moveto (priv->file_list->view, pos, offset);
-	}
-}
-
-
 /* -- window_save_pixbuf -- */
 
 
-void
+static void
 save_pixbuf__image_saved_step2 (gpointer data)
 {
 	GthBrowser            *browser = data;
@@ -1892,6 +1841,41 @@ window_image_viewer_set_error (GthBrowser *browser)
 		if (ask_whether_to_save (browser, real_set_void))
 			return;
 	real_set_void (NULL, browser);
+}
+
+
+static void
+make_image_visible (GthBrowser *browser, 
+		    int         pos)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	GthVisibility          visibility;
+
+	if ((pos < 0) || (pos >= gth_file_view_get_images (priv->file_list->view)))
+		return;
+
+	visibility = gth_file_view_image_is_visible (priv->file_list->view, pos);
+	if (visibility != GTH_VISIBILITY_FULL) {
+		double offset = 0.5;
+		
+		switch (visibility) {
+		case GTH_VISIBILITY_NONE:
+			offset = 0.5; 
+			break;
+		case GTH_VISIBILITY_PARTIAL_TOP:
+			offset = 0.0; 
+			break;
+		case GTH_VISIBILITY_PARTIAL_BOTTOM:
+			offset = 1.0; 
+			break;
+		case GTH_VISIBILITY_PARTIAL:
+		case GTH_VISIBILITY_FULL:
+			offset = -1.0;
+			break;
+		}
+		if (offset > -1.0)
+			gth_file_view_moveto (priv->file_list->view, pos, offset);
+	}
 }
 
 
@@ -4246,7 +4230,7 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 /* preferences change notification callbacks */
 
 
-gboolean
+static gboolean
 gth_browser_notify_update_layout_cb (gpointer data)
 {
 	GthBrowser   *browser = data;
@@ -4347,7 +4331,7 @@ pref_ui_layout_changed (GConfClient *client,
 }
 
 
-void
+static void
 gth_browser_notify_update_toolbar_style (GthBrowser *browser)
 {
 	GthToolbarStyle toolbar_style;
@@ -4476,7 +4460,7 @@ pref_show_hidden_files_changed (GConfClient *client,
 				gpointer     user_data)
 {
 	GthBrowser *browser = user_data;
-	gth_browser_update_file_list (browser);
+	window_update_file_list (browser);
 }
 
 
@@ -4728,7 +4712,7 @@ pref_view_as_changed (GConfClient *client,
 	priv->file_list = file_list;
 
 	gtk_widget_show_all (priv->file_list->root_widget);
-	gth_browser_update_file_list (browser);
+	window_update_file_list (browser);
 }
 
 
@@ -5541,7 +5525,7 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 		else {
 			const char *current = priv->catalog_list->path;
 			if (first_level_sub_directory (browser, current, old_name))  
-				gth_browser_update_catalog_list (browser);
+				window_update_catalog_list (browser);
 		}
 	}
 
@@ -5586,7 +5570,7 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 			const char *current = priv->catalog_list->path;
 			if (path_in_path (current, path))
 				/* a sub directory got deleted, refresh. */
-				gth_browser_update_catalog_list (browser);
+				window_update_catalog_list (browser);
 		}
 	}
 
@@ -5617,7 +5601,7 @@ gth_browser_notify_directory_new (GthBrowser *browser,
 		const char *current = priv->catalog_list->path;
 		if (path_in_path (current, path))
 			/* a sub directory was created, refresh. */
-			gth_browser_update_catalog_list (browser);
+			window_update_catalog_list (browser);
 	}
 }
 
@@ -5724,7 +5708,7 @@ static void
 monitor_reload_catalogs_cb (GthMonitor *monitor,
 			    GthBrowser *browser)
 {
-	gth_browser_update_catalog_list (browser);
+	window_update_catalog_list (browser);
 }
 
 
@@ -5862,27 +5846,6 @@ monitor_update_metadata_cb (GthMonitor *monitor,
 }
 
 
-void
-gth_browser_notify_update_directory (GthBrowser *browser,
-				     const char *dir_path)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-
-	g_return_if_fail (browser != NULL);
-
-	/* FIXME
-	if (priv->monitor_enabled)
-		return;
-	*/
-
-	if ((priv->dir_list->path == NULL) 
-	    || (strcmp (priv->dir_list->path, dir_path) != 0)) 
-		return;
-
-	gth_browser_update_file_list (browser);
-}
-
-
 static void
 gth_browser_notify_update_icon_theme (GthBrowser *browser)
 {
@@ -5891,9 +5854,9 @@ gth_browser_notify_update_icon_theme (GthBrowser *browser)
 	gth_file_view_update_icon_theme (priv->file_list->view);
 	dir_list_update_icon_theme (priv->dir_list);
 
-	gth_browser_update_bookmark_list (browser);
+	window_update_bookmark_list (browser);
 	window_update_history_list (browser);
-	gth_browser_update_file_list (browser);
+	window_update_file_list (browser);
 
 	if (priv->bookmarks_dlg != NULL)
 		dlg_edit_bookmarks_update (priv->bookmarks_dlg);
@@ -6529,7 +6492,7 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->image_modified = FALSE;
 
 	priv->bookmarks_length = 0;
-	gth_browser_update_bookmark_list (browser);
+	window_update_bookmark_list (browser);
 
 	priv->history = bookmarks_new (NULL);
 	priv->history_current = NULL;
@@ -6716,7 +6679,7 @@ gth_browser_construct (GthBrowser  *browser,
 
 	g_signal_connect_swapped (G_OBJECT (monitor), 
 				  "update_bookmarks",
-				  G_CALLBACK (gth_browser_update_bookmark_list),
+				  G_CALLBACK (window_update_bookmark_list),
 				  browser);
 	g_signal_connect (G_OBJECT (monitor), 
 			  "update_cat_files",
@@ -6789,7 +6752,7 @@ static void
 _window_remove_notifications (GthBrowser *browser)
 {
 	int i;
-
+	
 	for (i = 0; i < GCONF_NOTIFICATIONS; i++)
 		if (browser->priv->cnxn_id[i] != 0)
 			eel_gconf_notification_remove (browser->priv->cnxn_id[i]);
@@ -7047,13 +7010,13 @@ gth_browser_close (GthWindow *window)
 
 void
 gth_browser_set_sidebar_content (GthBrowser *browser,
-			    int         sidebar_content)
+			         int         sidebar_content)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                   old_content = priv->sidebar_content;
 	char                  *path;
 
-	_window_set_sidebar (browser, sidebar_content);
+	window_set_sidebar (browser, sidebar_content);
 	gth_browser_show_sidebar (browser);
 
 	if (old_content == sidebar_content) 
@@ -7301,7 +7264,7 @@ gth_browser_show_image_pane (GthBrowser *browser)
 /* -- gth_browser_stop_loading -- */
 
 
-void
+static void
 stop__step5 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7314,7 +7277,7 @@ stop__step5 (GthBrowser *browser)
 }
 
 
-void
+static void
 stop__step4 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7331,7 +7294,7 @@ stop__step4 (GthBrowser *browser)
 }
 
 
-void
+static void
 stop__step3 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7346,7 +7309,7 @@ stop__step3 (GthBrowser *browser)
 }
 
 
-void
+static void
 stop__step2 (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -7377,14 +7340,11 @@ gth_browser_stop_loading (GthBrowser *browser)
 }
 
 
-/* -- gth_browser_refresh -- */
-
-
 void
 gth_browser_refresh (GthBrowser *browser)
 {
 	browser->priv->refreshing = TRUE;
-	gth_browser_update_file_list (browser);
+	window_update_file_list (browser);
 }
 
 
@@ -7491,7 +7451,7 @@ typedef struct {
 } GoToData;
 
 
-void
+static void
 go_to_directory__step4 (GoToData *gt_data)
 {
 	GthBrowser            *browser = gt_data->browser;
@@ -7504,7 +7464,7 @@ go_to_directory__step4 (GoToData *gt_data)
 
 	/* Select the directory view. */
 
-	_window_set_sidebar (browser, GTH_SIDEBAR_DIR_LIST); 
+	window_set_sidebar (browser, GTH_SIDEBAR_DIR_LIST); 
 	if (! priv->refreshing)
 		gth_browser_show_sidebar (browser);
 	else
@@ -7693,7 +7653,7 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 /* -- gth_browser_go_to_catalog -- */
 
 
-void
+static void
 go_to_catalog__step2 (GoToData *gt_data)
 {
 	GthBrowser            *browser = gt_data->browser;
@@ -7732,7 +7692,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 		priv->catalog_path = g_strdup (catalog_path);
 	}
 
-	_window_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST); 
+	window_set_sidebar (browser, GTH_SIDEBAR_CATALOG_LIST); 
 	if (! priv->refreshing && ! ViewFirstImage)
 		gth_browser_show_sidebar (browser);
 	else
@@ -7793,7 +7753,7 @@ gth_browser_get_current_catalog (GthBrowser *browser)
 }
 
 
-gboolean
+static gboolean
 gth_browser_go_up__is_base_dir (GthBrowser *browser,
 				const char *dir)
 {

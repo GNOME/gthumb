@@ -1074,6 +1074,25 @@ fs_repainted_cb (GtkWidget     *widget,
 }
 
 
+static int
+image_button_release_cb (GtkWidget      *widget, 
+			 GdkEventButton *event,
+			 gpointer        data)
+{
+	GthFullscreen *fullscreen = data;
+
+	switch (event->button) {
+	case 2:
+		load_prev_image (fullscreen);
+		return TRUE;
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
@@ -1135,6 +1154,10 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 				  "clicked",
 				  G_CALLBACK (load_next_image), 
 				  fullscreen);
+	g_signal_connect (G_OBJECT (priv->viewer), 
+			  "button_release_event",
+			  G_CALLBACK (image_button_release_cb), 
+			  fullscreen);
 
 	gtk_widget_show (priv->viewer);
 	gnome_app_set_contents (GNOME_APP (fullscreen), priv->viewer);

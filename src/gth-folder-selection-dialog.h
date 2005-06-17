@@ -53,11 +53,12 @@ struct _GthFolderSelectionClass
 };
 
 
-GType         gth_folder_selection_get_type     (void) G_GNUC_CONST;
-GtkWidget *   gth_folder_selection_new          (const char         *title);
-void          gth_folder_selection_set_folder   (GthFolderSelection *fsel,
-						 const char         *folder);
-char *        gth_folder_selection_get_folder   (GthFolderSelection *fsel);
+GType         gth_folder_selection_get_type             (void) G_GNUC_CONST;
+GtkWidget *   gth_folder_selection_new                  (const char         *title);
+void          gth_folder_selection_set_folder           (GthFolderSelection *fsel,
+							 const char         *folder);
+char *        gth_folder_selection_get_folder           (GthFolderSelection *fsel);
+gboolean      gth_folder_selection_get_goto_destination (GthFolderSelection *fsel);
 
 
 #endif /* GTHUMB_FOLDER_SELECTION_DIALOG_H */

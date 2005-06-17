@@ -39,6 +39,7 @@
 #include "main.h"
 #include "gconf-utils.h"
 #include "gtk-utils.h"
+#include "gth-browser.h"
 #include "gth-folder-selection-dialog.h"
 
 #define GLADE_FILE "gthumb.glade"
@@ -309,7 +310,21 @@ static void
 file_move_ask__continue (GnomeVFSResult result,
 			 gpointer       data)
 {
-	gtk_widget_destroy (GTK_WIDGET (data));
+	GtkWidget *file_sel = data;
+	GthWindow *window;
+
+	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
+	if (GTH_IS_BROWSER (window) && 
+	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
+		GthBrowser *browser = GTH_BROWSER (window);
+		char       *path;
+
+		path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+		gth_browser_go_to_directory (browser, path);
+		g_free (path);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 
@@ -400,7 +415,21 @@ static void
 file_copy_ask__continue (GnomeVFSResult result,
 			 gpointer       data)
 {
-	gtk_widget_destroy (GTK_WIDGET (data));
+	GtkWidget *file_sel = data;
+	GthWindow *window;
+
+	window = g_object_get_data (G_OBJECT (file_sel), "gthumb_window");
+	if (GTH_IS_BROWSER (window) && 
+	    gth_folder_selection_get_goto_destination (GTH_FOLDER_SELECTION (file_sel))) {
+		GthBrowser *browser = GTH_BROWSER (window);
+		char       *path;
+
+		path = gth_folder_selection_get_folder (GTH_FOLDER_SELECTION (file_sel));
+		gth_browser_go_to_directory (browser, path);
+		g_free (path);
+	}
+
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 
 

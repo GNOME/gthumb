@@ -1,3 +1,43 @@
+2005-06-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer-ui.h: removed comment and categories from
+	the toolbar.
+
+	* src/gth-fullscreen.c (gth_fullscreen_construct): 
+
+	Load the previous image on middle button click.
+
+	* src/gth-window-actions-callbacks.c: removed unused function 
+	gth_window_activate_action_view_show_info
+	
+	* src/gth-browser.c: cleaned up; added static keyword to
+	static functions.
+
+2005-06-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c (gth_window_activate_action_file_print): 
+	* src/gth-window-actions-callbacks.c (print_done_cb): 
+	* src/catalog-web-exporter.c (get_temp_dir_name): removed from here.
+	* libgthumb/print-callbacks.c (print_catalog_dlg_full): new function
+
+	Added ability to print a non-saved image.
+	
+	* src/gth-window-actions-callbacks.c (set_wallpaper_from_window): 
+
+	Added ability to set as wallpaper a non-saved image.
+
+	* data/gthumb.schemas.in: 
+	* libgthumb/preferences.h (PREF_CHOOSE_DESTINATION_VIEW): 
+	* src/dlg-file-utils.c (file_copy_ask__continue)
+	(file_move_ask__continue): 
+	* src/gth-folder-selection-dialog.c (gth_folder_selection_construct): 
+
+	Added a "View destination" option in the choose folder dialog.
+
+	* libgthumb/file-utils.c (get_temp_file_name, get_temp_dir_name): 
+	new functions.
+
+
 2005-06-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (get_prev_image, get_next_image): 
