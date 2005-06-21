@@ -35,6 +35,7 @@
 #include "catalog-web-exporter.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "jpegutils/jpeg-data.h"
 #include "gth-exif-utils.h"
 #include "dlg-file-utils.h"
 #include "gthumb-init.h"
@@ -1607,6 +1608,39 @@ export__save_other_files (CatalogWebExporter *ce)
 }
 
 
+static void
+copy_exif_from_orig (const char *src_filename, 
+		     const char *dest_filename)
+{
+#if HAVE_LIBEXIF
+	JPEGData     *jdata_src, *jdata_dest;
+	ExifData     *edata_src;
+
+	jdata_src = jpeg_data_new_from_file (src_filename);
+	if (jdata_src == NULL)
+		return;
+
+	edata_src = jpeg_data_get_exif_data (jdata_src);
+	if (edata_src == NULL) {
+		jpeg_data_unref (jdata_src);
+		return;
+	}
+
+	jdata_dest = jpeg_data_new_from_file (dest_filename);
+	if (jdata_dest == NULL)
+		return;
+
+	jpeg_data_set_exif_data (jdata_dest, edata_src);
+
+	jpeg_data_save_file (jdata_dest, dest_filename);
+
+	exif_data_unref (edata_src);
+	jpeg_data_unref (jdata_src);
+	jpeg_data_unref (jdata_dest);
+#endif
+}
+
+
 static gboolean
 save_thumbnail_cb (gpointer data)
 {
@@ -1638,9 +1672,10 @@ save_thumbnail_cb (gpointer data)
 			if (_gdk_pixbuf_save (idata->thumb,
 					      filename,
 					      "jpeg",
-					      NULL, NULL))
+					      NULL, NULL)) {
+				copy_exif_from_orig (idata->src_filename, filename);
 				ce->album_files = g_list_prepend (ce->album_files, filename);
-			else
+			} else
 				g_free (filename);
 			
 			g_object_unref (idata->thumb);
@@ -1899,9 +1934,10 @@ save_image_preview_cb (gpointer data)
 			if (_gdk_pixbuf_save (idata->preview,
 					      filename,
 					      "jpeg",
-					      NULL, NULL))
+					      NULL, NULL)) {
+				copy_exif_from_orig (idata->src_filename, filename);
 				ce->album_files = g_list_prepend (ce->album_files, filename);
-			else
+			} else
 				g_free (filename);
 		}
 	}
@@ -1936,6 +1972,7 @@ save_resized_image_cb (gpointer data)
 					      filename,
 					      "jpeg",
 					      NULL, NULL)) {
+				copy_exif_from_orig (idata->src_filename, filename);
 				ce->album_files = g_list_prepend (ce->album_files, filename);
 				idata->file_size = get_file_size (filename);
 			} else

@@ -1,3 +1,13 @@
+2005-06-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c (save_resized_image_cb)
+	(copy_exif_from_orig): new function
+	(save_thumbnail_cb, save_image_preview_cb): 
+
+	Re-add the exif data to the resized images.
+
+	Fixes bug #303544.  Patch by Emmanuel Touzery.
+
 2005-06-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.c (resolve_all_symlinks): The call to 
