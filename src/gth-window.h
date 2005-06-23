@@ -61,7 +61,8 @@ struct _GthWindowClass
 							GdkPixbuf   *pixbuf,
 							const char  *filename);
 	void          (*exec_pixbuf_op)                (GthWindow   *window,
-							GthPixbufOp *pixop);
+							GthPixbufOp *pixop,
+							gboolean     preview);
 	void          (*reload_current_image)          (GthWindow   *window);
 	void          (*update_current_image_metadata) (GthWindow   *window);
 	GList *       (*get_file_list_selection)       (GthWindow   *window);
@@ -83,11 +84,22 @@ const char *   gth_window_get_image_filename             (GthWindow   *window);
 void           gth_window_set_image_modified             (GthWindow   *window,
 							  gboolean     value);
 gboolean       gth_window_get_image_modified             (GthWindow   *window);
+GdkPixbuf     *gth_window_get_image_pixbuf               (GthWindow   *window);
+void           gth_window_set_image_pixbuf               (GthWindow   *window,
+							  GdkPixbuf   *pixbuf);
 void           gth_window_save_pixbuf                    (GthWindow   *window,
 							  GdkPixbuf   *pixbuf,
 							  const char  *filename);
 void           gth_window_exec_pixbuf_op                 (GthWindow   *window,
-							  GthPixbufOp *pixop);
+							  GthPixbufOp *pixop,
+							  gboolean     preview);
+
+void           gth_window_undo                           (GthWindow   *window);
+void           gth_window_redo                           (GthWindow   *window);
+void           gth_window_clear_undo_history             (GthWindow   *window);
+gboolean       gth_window_get_can_undo                   (GthWindow   *window);
+gboolean       gth_window_get_can_redo                   (GthWindow   *window);
+
 void           gth_window_set_categories_dlg             (GthWindow   *window,
 							  GtkWidget   *dialog);
 GtkWidget *    gth_window_get_categories_dlg             (GthWindow   *window);

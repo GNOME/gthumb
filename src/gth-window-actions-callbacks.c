@@ -277,11 +277,6 @@ gth_window_activate_action_edit_delete_comment (GtkAction *action,
 	path_list_free (list);
 
 	gth_window_update_current_image_metadata (window);
-
-	/* FIXME
-	if (window->image_prop_dlg != NULL)
-		dlg_image_prop_update (window->image_prop_dlg);
-	*/
 }
 
 
@@ -293,195 +288,176 @@ gth_window_activate_action_edit_edit_categories (GtkAction *action,
 }
 
 
+void
+gth_window_activate_action_edit_undo (GtkAction *action,
+				      GthWindow *window)
+{
+	gth_window_undo (window);
+}
+
+
+void
+gth_window_activate_action_edit_redo (GtkAction *action,
+				      GthWindow *window)
+{
+	gth_window_redo (window);
+}
+
 
 void
 gth_window_activate_action_alter_image_rotate90 (GtkAction *action,
-						 gpointer   data)
+						 GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
-	image_viewer_set_pixbuf (image_viewer, dest_pixbuf);
+	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_set_image_modified (window, TRUE);
 }
 
 
 void
 gth_window_activate_action_alter_image_rotate90cc (GtkAction *action,
-						   gpointer   data)
+						   GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
-	image_viewer_set_pixbuf (image_viewer, dest_pixbuf);
+	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_set_image_modified (window, TRUE);
 }
 
 
 void
 gth_window_activate_action_alter_image_flip (GtkAction *action,
-					     gpointer   data)
+					     GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
-	image_viewer_set_pixbuf (image_viewer, dest_pixbuf);
+	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_set_image_modified (window, TRUE);
 }
 
 
 void
 gth_window_activate_action_alter_image_mirror (GtkAction *action,
-					       gpointer   data)
+					       GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
+	GdkPixbuf *src_pixbuf;
+	GdkPixbuf *dest_pixbuf;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
-	image_viewer_set_pixbuf (image_viewer, dest_pixbuf);
+	gth_window_set_image_pixbuf (window, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_set_image_modified (window, TRUE);
 }
 
 
 void
 gth_window_activate_action_alter_image_desaturate (GtkAction *action,
-						   gpointer   data)
+						   GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_desaturate (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
 
 void
 gth_window_activate_action_alter_image_invert (GtkAction *action,
-					       gpointer   data)
+					       GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_invert (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
 
 void
 gth_window_activate_action_alter_image_adjust_levels (GtkAction *action,
-						      gpointer   data)
+						      GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_adjust_levels (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
 
 void
 gth_window_activate_action_alter_image_equalize (GtkAction *action,
-						 gpointer   data)
+						 GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_eq_histogram (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
 
 void
 gth_window_activate_action_alter_image_normalize (GtkAction *action,
-						  gpointer   data)
+						  GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_normalize_contrast (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
 
 void
 gth_window_activate_action_alter_image_stretch_contrast (GtkAction *action,
-							 gpointer   data)
+							 GthWindow *window)
 {
-	GthWindow   *window = GTH_WINDOW (data);
-	ImageViewer *image_viewer;
 	GdkPixbuf   *src_pixbuf;
 	GdkPixbuf   *dest_pixbuf;
 	GthPixbufOp *pixop;
 
-	image_viewer = gth_window_get_image_viewer (window);
-	src_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+	src_pixbuf = gth_window_get_image_pixbuf (window);
 	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
 	pixop = _gdk_pixbuf_stretch_contrast (dest_pixbuf, dest_pixbuf);
 	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
 	g_object_unref (pixop);
 }
 
@@ -887,4 +863,12 @@ gth_window_activate_action_view_step_animation (GtkAction *action,
 						GthWindow *window)
 {
 	gth_window_step_animation (window);
+}
+
+
+void
+gth_window_activate_action_tools_change_date (GtkAction *action,
+					      GthWindow *window)
+{
+        dlg_change_date (window);
 }

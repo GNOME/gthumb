@@ -33,7 +33,6 @@
 #include "dlg-bookmarks.h"
 #include "dlg-catalog.h"
 #include "dlg-categories.h"
-#include "dlg-change-date.h"
 #include "dlg-convert.h"
 #include "dlg-duplicates.h"
 #include "dlg-file-utils.h"
@@ -1919,14 +1918,6 @@ gth_browser_activate_action_tools_preferences (GtkAction  *action,
 					       GthBrowser *browser)
 {
 	dlg_preferences (browser);
-}
-
-
-void
-gth_browser_activate_action_tools_change_date (GtkAction *action,
-					       GthWindow *window)
-{
-        dlg_change_date (window);
 }
 
 

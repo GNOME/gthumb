@@ -622,7 +622,7 @@ image_loader_stop__final_step (ImageLoader *il)
 	priv->loading = FALSE;
 	
 	priv->done_func = NULL;
-	if (done_func != NULL)
+	if (done_func != NULL) 
 		(*done_func) (priv->done_func_data);
 	
 	if (! priv->emit_signal || priv->interrupted) {
@@ -751,6 +751,7 @@ image_loader_start__step2 (ImageLoader *il)
 				       GNOME_VFS_PRIORITY_DEFAULT,
 				       get_file_info_cb,
 				       il);
+
 	{
 		GList *scan;
 		for (scan = uri_list; scan; scan = scan->next) 

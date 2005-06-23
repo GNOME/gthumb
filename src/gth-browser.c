@@ -184,6 +184,8 @@ struct _GthBrowserPrivateData {
 	char               *image_path;         /* The image file we are 
 						 * showing in the image 
 						 * viewer. */
+	char               *image_path_saved;   /* The filename of the saved 
+						 * image. */
 	char               *new_image_path;     /* The image to load after
 						 * asking whether to save
 						 * the current image. */
@@ -239,7 +241,8 @@ struct _GthBrowserPrivateData {
 
 	guint                  cnxn_id[GCONF_NOTIFICATIONS];
 	GthPixbufOp           *pixop;
-	
+	gboolean               pixop_preview;
+
 	GladeXML              *progress_gui;
 	GtkWidget             *progress_dialog;
 	GtkWidget             *progress_progressbar;
@@ -804,12 +807,15 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "File_ViewImage", ! image_is_void);
 	set_action_sensitive (browser, "File_OpenWith", sel_not_null);
 
+	set_action_sensitive (browser, "File_Save", ! image_is_void && priv->image_modified);
 	set_action_sensitive (browser, "File_SaveAs", ! image_is_void);
 	set_action_sensitive (browser, "File_Revert", ! image_is_void && priv->image_modified);
 	set_action_sensitive (browser, "File_Print", ! image_is_void || sel_not_null);
 
 	/* Edit menu. */
 
+	set_action_sensitive (browser, "Edit_Undo", gth_window_get_can_undo (GTH_WINDOW (browser)));
+	set_action_sensitive (browser, "Edit_Redo", gth_window_get_can_redo (GTH_WINDOW (browser)));
 	set_action_sensitive (browser, "Edit_RenameFile", only_one_is_selected);
 	set_action_sensitive (browser, "Edit_DuplicateFile", sel_not_null);
 	set_action_sensitive (browser, "Edit_DeleteFiles", sel_not_null);
@@ -1604,7 +1610,7 @@ window_set_sidebar (GthBrowser *browser,
 /* -- window_save_pixbuf -- */
 
 
-static void
+void
 save_pixbuf__image_saved_step2 (gpointer data)
 {
 	GthBrowser            *browser = data;
@@ -1633,7 +1639,6 @@ save_pixbuf__image_saved_cb (const char *filename,
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
 	GList                 *file_list;
-	int                    pos;
 
 	if (filename == NULL) 
 		return;
@@ -1653,36 +1658,18 @@ save_pixbuf__image_saved_cb (const char *filename,
 
 	/**/
 
-	if ((priv->image_path != NULL)
-	    && (strcmp (priv->image_path, filename) == 0))
-		priv->image_modified = FALSE;
+	priv->image_modified = FALSE;
+	priv->saving_modified_image = FALSE;
+	g_free (priv->image_path_saved);
+	priv->image_path_saved = g_strdup (filename);
+
+	/**/
 
 	file_list = g_list_prepend (NULL, (char*)filename);
-
-	pos = gth_file_list_pos_from_path (priv->file_list, filename);
-	if (pos == -1) {
-		char *destination = remove_level_from_path (filename);
-
-		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-		    && (priv->dir_list->path != NULL) 
-		    && (strcmp (priv->dir_list->path, destination) == 0)) {
-			g_free (priv->image_path);
-			priv->image_path = g_strdup (filename);
-			gth_file_list_add_list (priv->file_list, 
-						file_list, 
-						save_pixbuf__image_saved_step2,
-						browser);
-		} else
-			save_pixbuf__image_saved_step2 (browser);
-		g_free (destination);
-
-		all_windows_notify_files_created (file_list);
-
-	} else {
-		view_image_at_pos (browser, pos);
+	if ((priv->image_path != NULL) && (strcmp (priv->image_path, filename) == 0)) 
 		all_windows_notify_files_changed (file_list);
-	}
-
+	else
+		all_windows_notify_files_created (file_list);
 	g_list_free (file_list);
 }
 
@@ -1806,12 +1793,14 @@ real_set_void (const char *filename,
 	}
 
 	image_viewer_set_void (IMAGE_VIEWER (priv->viewer));
+	gth_window_clear_undo_history (GTH_WINDOW (browser));
 
 	window_update_statusbar_image_info (browser);
  	window_update_image_info (browser);
 	window_update_title (browser);
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
+	
 
 	if (priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (priv->image_prop_dlg);
@@ -2713,6 +2702,7 @@ image_loaded_cb (GtkWidget  *widget,
 
 	priv->image_mtime = get_file_mtime (priv->image_path);
 	priv->image_modified = FALSE;
+	gth_window_clear_undo_history (GTH_WINDOW (browser)); 
 
 	window_update_image_info (browser);
 	window_update_infobar (browser);
@@ -5072,6 +5062,11 @@ gth_browser_finalize (GObject *object)
 			g_free (priv->image_path);
 			priv->image_path = NULL;
 		}
+
+		if (priv->image_path_saved) {
+			g_free (priv->image_path_saved);
+			priv->image_path_saved = NULL;
+		}
 		
 #ifdef HAVE_LIBEXIF
 		if (priv->exif_data != NULL) {
@@ -5125,10 +5120,21 @@ static void
 notify_files_added__step2 (gpointer data)
 {
 	GthBrowser *browser = data;
+	GthBrowserPrivateData *priv = browser->priv;
 
 	window_update_statusbar_list_info (browser);
 	window_update_infobar (browser);
 	window_update_sensitivity (browser);
+
+	if (priv->image_path_saved != NULL) {
+		int pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path_saved);
+		if (pos != -1) {
+			view_image_at_pos (browser, pos);
+			gth_file_list_select_image_by_pos (priv->file_list, pos);
+		}
+		g_free (priv->image_path_saved);
+		priv->image_path_saved = NULL;
+	}
 }
 
 
@@ -8076,7 +8082,10 @@ gth_browser_set_image_modified (GthWindow *window,
 	window_update_statusbar_image_info (browser);
 	window_update_title (browser);
 
+	set_action_sensitive (browser, "File_Save", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
 	set_action_sensitive (browser, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
+	set_action_sensitive (browser, "Edit_Undo", gth_window_get_can_undo (window));
+	set_action_sensitive (browser, "Edit_Redo", gth_window_get_can_redo (window));
 
 	if (modified && priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (priv->image_prop_dlg);
@@ -8181,10 +8190,18 @@ load_timeout_cb (gpointer data)
 void
 gth_browser_reload_image (GthBrowser *browser)
 {
+	GthBrowserPrivateData *priv = browser->priv;
+
 	g_return_if_fail (browser != NULL);
 	
-	if (browser->priv->image_path != NULL)
-		load_timeout_cb (browser);
+	if (priv->image_path == NULL) 
+		return;
+
+	if (priv->view_image_timeout != 0) 
+		g_source_remove (priv->view_image_timeout);
+	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
+						  load_timeout_cb, 
+						  browser);
 }
 
 
@@ -8255,8 +8272,8 @@ gth_browser_load_image (GthBrowser *browser,
 	priv->image_path = g_strdup (filename);
 
 	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
-						    load_timeout_cb, 
-						    browser);
+						  load_timeout_cb, 
+						  browser);
 }
 
 
@@ -8272,8 +8289,12 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 	ImageViewer *viewer = IMAGE_VIEWER (priv->viewer);
 
 	if (completed) {
-		image_viewer_set_pixbuf (viewer, priv->pixop->dest);
-		gth_window_set_image_modified (GTH_WINDOW (browser), TRUE);
+		if (priv->pixop_preview)
+			image_viewer_set_pixbuf (viewer, priv->pixop->dest);
+		else {
+			gth_window_set_image_pixbuf (GTH_WINDOW (browser), priv->pixop->dest);
+			gth_window_set_image_modified (GTH_WINDOW (browser), TRUE);
+		}
 	}
 
 	g_object_unref (priv->pixop);
@@ -8315,13 +8336,15 @@ window__display_progress_dialog (gpointer data)
 
 static void
 gth_browser_exec_pixbuf_op (GthWindow   *window,
-			    GthPixbufOp *pixop)
+			    GthPixbufOp *pixop,
+			    gboolean     preview)
 {
 	GthBrowser            *browser = GTH_BROWSER (window);
 	GthBrowserPrivateData *priv = browser->priv;
 
 	priv->pixop = pixop;
 	g_object_ref (priv->pixop);
+	priv->pixop_preview = preview;
 
 	gtk_label_set_text (GTK_LABEL (priv->progress_info),
 			    _("Wait please..."));
@@ -8357,7 +8380,10 @@ gth_browser_update_current_image_metadata (GthWindow *window)
 
 	if (browser->priv->image_path == NULL)
 		return;
-	gth_browser_notify_update_comment (browser, browser->priv->image_path);
+	gth_browser_notify_update_comment (browser, browser->priv->image_path);	
+
+	if (browser->priv->image_prop_dlg != NULL)
+		dlg_image_prop_update (browser->priv->image_prop_dlg);
 }
 
 

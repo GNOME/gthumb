@@ -1,3 +1,48 @@
+2005-06-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-actions-entries.h: 
+	* src/gth-window-actions-entries.h: 
+
+	Added Tools_ChangeData to the viewer window too.
+
+	* src/gth-window.c: 
+	* src/gth-window.h: 
+	* src/gth-viewer.c: 
+	* src/gth-viewer-ui.h: 
+	* src/gth-browser-ui.h: 
+	* src/gth-browser-actions-callbacks.c:
+	* src/gth-window-actions-callbacks.h:
+	* src/dlg-scale-image.c: 
+	* src/dlg-posterize.c: 
+	* src/dlg-hue-saturation.c: 
+	* src/dlg-crop.c: 
+	* src/dlg-color-balance.c: 
+	* src/dlg-brightness-contrast.c: 
+
+	Added undo/redo support.
+	
+2005-06-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c: (save_resized_image_cb)
+	(copy_exif_from_orig): new function
+	(save_thumbnail_cb, save_image_preview_cb): 
+
+	Re-add the exif data to the resized images.
+
+	Fixes bug #303544.  Patch by Emmanuel Touzery.
+
+2005-06-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (gth_viewer_construct): listen to the following 
+	monitor events: update_files, update_metadata, file_renamed.
+	(monitor_update_files_cb): close the window if the image is deleted,
+	reload the image if the file is changed.
+
+	* src/gth-browser.c (gth_browser_update_current_image_metadata): update
+	the poperties dialog too.
+
+	* src/gth-window-actions-callbacks.c (gth_window_activate_action_edit_delete_comment): removed commented out code.
+
 2005-06-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer-ui.h: removed comment and categories from

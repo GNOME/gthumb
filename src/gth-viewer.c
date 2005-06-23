@@ -129,6 +129,7 @@ struct _GthViewerPrivateData {
 	char            *new_image_path;
 
 	GthPixbufOp           *pixop;
+	gboolean               pixop_preview;
 
 	/* progress dialog */
 
@@ -210,6 +211,9 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "File_SaveAs", ! image_is_void);
 	set_action_sensitive (viewer, "File_Revert", ! image_is_void && priv->image_modified);
 	set_action_sensitive (viewer, "File_Print", ! image_is_void);
+
+	set_action_sensitive (viewer, "Edit_Undo", gth_window_get_can_undo (GTH_WINDOW (viewer)));
+	set_action_sensitive (viewer, "Edit_Redo", gth_window_get_can_redo (GTH_WINDOW (viewer)));
 
 	set_action_sensitive (viewer, "AlterImage_Rotate90", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Rotate90CC", ! image_is_void && ! image_is_ani);
@@ -1209,6 +1213,69 @@ gth_viewer_init (GthViewer *viewer)
 
 
 static void
+monitor_update_metadata_cb (GthMonitor *monitor,
+			    const char *filename,
+			    GthViewer  *viewer)
+{
+	g_return_if_fail (viewer != NULL);
+	viewer_update_image_info (viewer);
+}
+
+
+static void
+monitor_update_files_cb (GthMonitor      *monitor,
+			 GthMonitorEvent  event,
+			 GList           *list,
+			 GthViewer       *viewer)
+{
+	g_return_if_fail (viewer != NULL);
+
+	if (viewer->priv->image_path == NULL)
+		return;
+
+	if (g_list_find_custom (list, 
+				viewer->priv->image_path, 
+				(GCompareFunc) strcmp) == NULL)
+		return;
+
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+	case GTH_MONITOR_EVENT_CHANGED:
+		gth_window_reload_current_image (GTH_WINDOW (viewer));
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		if (! viewer->priv->image_modified)
+			gth_window_close (GTH_WINDOW (viewer));
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+monitor_file_renamed_cb (GthMonitor *monitor,
+			 const char *old_name,
+			 const char *new_name,
+			 GthViewer  *viewer)
+{
+	if (viewer->priv->image_path == NULL)
+		return;
+
+	if (strcmp (old_name, viewer->priv->image_path) != 0)
+		return;
+
+	g_free (viewer->priv->image_path);
+	viewer->priv->image_path = NULL;
+
+	viewer->priv->image_path = g_strdup (new_name);
+	gth_window_reload_current_image (GTH_WINDOW (viewer));
+}
+
+
+static void
 sync_menu_with_preferences (GthViewer *viewer)
 {
 	char *prop;
@@ -1656,6 +1723,21 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_files",
+			  G_CALLBACK (monitor_update_files_cb),
+			  viewer);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_metadata",
+			  G_CALLBACK (monitor_update_metadata_cb),
+			  viewer);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "file_renamed",
+			  G_CALLBACK (monitor_file_renamed_cb),
+			  viewer);
+	
+	/**/
+
 	if (filename != NULL)
 		priv->image_path = g_strdup (filename);
 }
@@ -1745,6 +1827,8 @@ gth_viewer_close (GthWindow *window)
 
 	debug(DEBUG_INFO, "Gth::Viewer::Close");
 
+	g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), viewer);
+
 	if (priv->fullscreen != NULL)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),
 						      viewer);
@@ -1794,6 +1878,8 @@ gth_viewer_set_image_modified (GthWindow *window,
 
 	set_action_sensitive (viewer, "File_Save", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
 	set_action_sensitive (viewer, "File_Revert", ! image_viewer_is_void (IMAGE_VIEWER (priv->viewer)) && priv->image_modified);
+	set_action_sensitive (viewer, "Edit_Undo", gth_window_get_can_undo (window));
+	set_action_sensitive (viewer, "Edit_Redo", gth_window_get_can_redo (window));
 }
 
 
@@ -1838,8 +1924,12 @@ pixbuf_op_done_cb (GthPixbufOp   *pixop,
 	ImageViewer          *image_viewer = IMAGE_VIEWER (priv->viewer);
 
 	if (completed) {
-		image_viewer_set_pixbuf (image_viewer, priv->pixop->dest);
-		gth_window_set_image_modified (GTH_WINDOW (viewer), TRUE);
+		if (priv->pixop_preview)
+			image_viewer_set_pixbuf (image_viewer, priv->pixop->dest);
+		else {
+			gth_window_set_image_pixbuf (GTH_WINDOW (viewer), priv->pixop->dest);
+			gth_window_set_image_modified (GTH_WINDOW (viewer), TRUE);
+		}
 	}
 
 	g_object_unref (priv->pixop);
@@ -1880,13 +1970,15 @@ viewer__display_progress_dialog (gpointer data)
 
 static void
 gth_viewer_exec_pixbuf_op (GthWindow   *window,
-			   GthPixbufOp *pixop)
+			   GthPixbufOp *pixop,
+			   gboolean     preview)
 {
 	GthViewer            *viewer = (GthViewer*) window;
 	GthViewerPrivateData *priv = viewer->priv;
 
 	priv->pixop = pixop;
 	g_object_ref (priv->pixop);
+	priv->pixop_preview = preview;
 
 	gtk_label_set_text (GTK_LABEL (priv->progress_info),
 			    _("Wait please..."));

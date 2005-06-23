@@ -78,9 +78,7 @@ static void
 ok_cb (GtkWidget  *widget, 
        DialogData *data)
 {
-	GdkPixbuf     *old_pixbuf;
-	GdkPixbuf     *new_pixbuf;
-	GdkRectangle   selection;
+	GdkRectangle selection;
 
 	/* Save options */
 
@@ -93,9 +91,10 @@ ok_cb (GtkWidget  *widget,
 	gth_image_selector_get_selection (GTH_IMAGE_SELECTOR (data->crop_image), &selection);
 
 	if ((selection.width > 0) && (selection.height > 0)) {
-		ImageViewer *image_viewer = gth_window_get_image_viewer (data->window);
+		GdkPixbuf *old_pixbuf;
+		GdkPixbuf *new_pixbuf;
 
-		old_pixbuf = image_viewer_get_current_pixbuf (image_viewer);
+		old_pixbuf = gth_window_get_image_pixbuf (data->window);
 		g_object_ref (old_pixbuf);
 		new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, 
 						       selection.x, 
@@ -103,12 +102,11 @@ ok_cb (GtkWidget  *widget,
 						       selection.width, 
 						       selection.height);
 		if (new_pixbuf != NULL) {
-			image_viewer_set_pixbuf (image_viewer, new_pixbuf);
+			gth_window_set_image_pixbuf (data->window, new_pixbuf);
+			gth_window_set_image_modified (data->window, TRUE);
 			g_object_unref (new_pixbuf);
 		}
 		g_object_unref (old_pixbuf);
-
-		gth_window_set_image_modified (data->window, TRUE);
 	}
 
 	gtk_widget_destroy (data->dialog);

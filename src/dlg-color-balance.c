@@ -48,7 +48,6 @@ typedef struct {
 	GdkPixbuf    *orig_pixbuf;
 	GdkPixbuf    *new_pixbuf;
 
-	gboolean      original_modified;
 	gboolean      modified;
 
 	GladeXML     *gui;
@@ -90,7 +89,8 @@ static void
 apply_changes (DialogData *data, 
 	       GdkPixbuf  *src, 
 	       GdkPixbuf  *dest, 
-	       gboolean    preview)
+	       gboolean    dialog_preview,
+	       gboolean    window_preview)
 {
 	double       cyan_red;
 	double       magenta_green;
@@ -110,14 +110,14 @@ apply_changes (DialogData *data,
 					   yellow_blue,
 					   preserve_luminosity);
 
-	if (preview) {
+	if (dialog_preview) {
 		g_signal_connect (G_OBJECT (pixop),
 				  "pixbuf_op_done",
 				  G_CALLBACK (preview_done_cb),
 				  data);
 		gth_pixbuf_op_start (pixop);
 	} else {
-		gth_window_exec_pixbuf_op (data->window, pixop);
+		gth_window_exec_pixbuf_op (data->window, pixop, window_preview);
 		g_object_unref (pixop);
 	}
 }
@@ -128,9 +128,7 @@ static void
 ok_cb (GtkWidget  *widget, 
        DialogData *data)
 {
-	apply_changes (data, data->image, data->image, FALSE);
-	image_viewer_set_pixbuf (data->viewer, data->image);
-	gth_window_set_image_modified (data->window, TRUE);
+	apply_changes (data, data->image, data->image, FALSE, FALSE);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -140,10 +138,8 @@ static void
 cancel_cb (GtkWidget  *widget, 
 	   DialogData *data)
 {
-	if (data->modified) {
+	if (data->modified) 
 		image_viewer_set_pixbuf (data->viewer, data->image);
-		gth_window_set_image_modified (data->window, data->original_modified);
-	}
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -156,7 +152,7 @@ preview_cb (GtkWidget  *widget,
 	GdkPixbuf *preview;
 
 	preview = gdk_pixbuf_copy (data->image);
-	apply_changes (data, preview, preview, FALSE);
+	apply_changes (data, preview, preview, FALSE, TRUE);
 	g_object_unref (preview);
 
 	data->modified = TRUE;
@@ -179,7 +175,7 @@ static void
 range_value_changed (GtkRange   *range,
 		     DialogData *data)
 {
-	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);
+	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);
 }
 
 
@@ -187,7 +183,7 @@ static void
 luminosity_toggled (GtkWidget  *widget,
 		    DialogData *data)
 {
-	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);
+	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);
 }
 
 
@@ -241,7 +237,6 @@ dlg_color_balance (GthWindow *window)
 
 	data = g_new0 (DialogData, 1);
 	data->window = window;
-	data->original_modified = gth_window_get_image_modified (window);
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL,
 				   NULL);
 
@@ -366,5 +361,5 @@ dlg_color_balance (GthWindow *window)
 				      GTK_WINDOW (window));
 	gtk_widget_show (data->dialog);
 
-	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);
+	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);
 }

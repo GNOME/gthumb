@@ -121,12 +121,11 @@ ok_cb (GtkWidget  *widget,
 					      height,
 					      high_quality ? GDK_INTERP_BILINEAR : GDK_INTERP_NEAREST);
 
-	image_viewer_set_pixbuf (data->viewer, new_pixbuf);
+	gth_window_set_image_pixbuf (data->window, new_pixbuf);
+	gth_window_set_image_modified (data->window, TRUE);
 
 	g_object_unref (orig_pixbuf);
 	g_object_unref (new_pixbuf);
-
-	gth_window_set_image_modified (data->window, TRUE);
 
 	gtk_widget_destroy (data->dialog);
 }

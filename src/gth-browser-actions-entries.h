@@ -379,13 +379,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
 	  NULL, NULL, 
 	  N_("Edit various preferences"),
-	  G_CALLBACK (gth_browser_activate_action_tools_preferences) },
-
-	{ "Tools_ChangeDate", GTHUMB_STOCK_CHANGE_DATE,
-	  N_("Change _Date"), NULL,
-	  N_("Change images last modified date"),
-	  G_CALLBACK (gth_browser_activate_action_tools_change_date) },
-
+	  G_CALLBACK (gth_browser_activate_action_tools_preferences) }
 };
 static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
 

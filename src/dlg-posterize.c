@@ -87,7 +87,8 @@ static void
 apply_changes (DialogData *data, 
 	       GdkPixbuf  *src, 
 	       GdkPixbuf  *dest, 
-	       gboolean    preview)
+	       gboolean    dialog_preview,
+	       gboolean    window_preview)
 {
 	int          levels;
 	GthPixbufOp *pixop;
@@ -95,14 +96,14 @@ apply_changes (DialogData *data,
 	levels = (int) gtk_range_get_value (GTK_RANGE (data->p_levels_hscale));
 	pixop = _gdk_pixbuf_posterize (src, dest, levels);
 
-	if (preview) {
+	if (dialog_preview) {
 		g_signal_connect (G_OBJECT (pixop),
 				  "pixbuf_op_done",
 				  G_CALLBACK (preview_done_cb),
 				  data);
 		gth_pixbuf_op_start (pixop);
 	} else {
-		gth_window_exec_pixbuf_op (data->window, pixop);
+		gth_window_exec_pixbuf_op (data->window, pixop, window_preview);
 		g_object_unref (pixop);
 	}
 }
@@ -113,9 +114,7 @@ static void
 ok_cb (GtkWidget  *widget, 
        DialogData *data)
 {
-	apply_changes (data, data->image, data->image, FALSE);
-	image_viewer_set_pixbuf (data->viewer, data->image);
-	gth_window_set_image_modified (data->window, TRUE);
+	apply_changes (data, data->image, data->image, FALSE, FALSE);
 	gtk_widget_destroy (data->dialog);
 }
 
@@ -141,7 +140,7 @@ preview_cb (GtkWidget  *widget,
 	GdkPixbuf *preview;
 
 	preview = gdk_pixbuf_copy (data->image);
-	apply_changes (data, preview, preview, FALSE);
+	apply_changes (data, preview, preview, FALSE, TRUE);
 	g_object_unref (preview);
 
 	data->modified = TRUE;
@@ -161,7 +160,7 @@ static void
 range_value_changed (GtkRange   *range,
 		     DialogData *data)
 {
-	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);
+	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);
 }
 
 
@@ -310,5 +309,5 @@ dlg_posterize (GthWindow *window)
 				      GTK_WINDOW (window));
 	gtk_widget_show (data->dialog);
 
-	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE);
+	apply_changes (data, data->orig_pixbuf, data->new_pixbuf, TRUE, FALSE);
 }

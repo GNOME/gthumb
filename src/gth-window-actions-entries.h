@@ -82,6 +82,16 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
+	{ "Edit_Undo", GTK_STOCK_UNDO,
+	  NULL, "<control>Z",
+	  NULL,
+	  G_CALLBACK (gth_window_activate_action_edit_undo) },
+
+	{ "Edit_Redo", GTK_STOCK_REDO,
+	  NULL, "<shift><control>Z",
+	  NULL,
+	  G_CALLBACK (gth_window_activate_action_edit_redo) },
+
 	{ "AlterImage_Rotate90", GTHUMB_STOCK_ROTATE_90,
 	  N_("Rotate Ri_ght"), NULL,
 	  N_("View the image rotated clockwise"),
@@ -231,6 +241,11 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("_Restore"), NULL,
 	  N_("Restore the original desktop wallpaper"),
 	  G_CALLBACK (gth_window_activate_action_wallpaper_restore) },
+
+	{ "Tools_ChangeDate", GTHUMB_STOCK_CHANGE_DATE,
+	  N_("Change _Date"), NULL,
+	  N_("Change images last modified date"),
+	  G_CALLBACK (gth_window_activate_action_tools_change_date) },
 
 	{ "Help_About", GTK_STOCK_ABOUT,
 	  NULL, NULL,
