@@ -765,7 +765,8 @@ load_images_preview__step (AsyncOperationData *aodata,
 		unlink (tmp_filename);
 	}
 	g_free (tmp_filename);
-	
+	g_free (camera_folder);
+
 	gp_file_unref (file);
 }
 
@@ -1191,7 +1192,6 @@ save_image (DialogData *data,
 			    GP_FILE_TYPE_NORMAL,
 			    file, 
 			    data->context);
-	g_free (camera_folder);
 
 	local_path = get_file_name (data, camera_path, local_folder, n);
 
@@ -1208,6 +1208,7 @@ save_image (DialogData *data,
 	}
 	
 	g_free (local_path);
+	g_free (camera_folder);
 	gp_file_unref (file);
 }
 
@@ -1579,7 +1580,7 @@ import_delete_cb (GtkButton  *button,
 		camera_filename = file_name_from_path (camera_path);
 		
 		gp_camera_file_delete (data->camera, camera_folder, camera_filename, data->context);
-		/* FIXME */
+		g_free (camera_folder);
 	}
 
 	path_list_free (delete_list);

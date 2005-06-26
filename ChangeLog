@@ -1,3 +1,8 @@
+2005-06-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-photo-importer.c (load_images_preview__step)
+	(save_image): free the camera_folder variable after use.
+
 2005-06-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c (save_resized_image_cb)

@@ -1,3 +1,10 @@
+version 2.6.6
+-------------	
+	* Fixes bug #303544: Re-add the exif data to the resized images.  Patch
+          by Emmanuel Touzery.
+	* Fixed bug #306514: The call to g_strconcat() in resolve_all_symlinks()
+          was not null-terminated.  Patch by Brian Gerst.
+
 version 2.6.5
 -------------	
 	* Fixed bug #170391: Crash if the EXIF DateTime is too short.
