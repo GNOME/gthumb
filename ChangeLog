@@ -1,5 +1,9 @@
 2005-06-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	[ gthumb 2.6.6 released ]
+
+2005-06-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* src/dlg-photo-importer.c (load_images_preview__step)
 	(save_image): free the camera_folder variable after use.
 
