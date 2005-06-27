@@ -965,8 +965,8 @@ add_file_list (DialogData *data, GList *file_list)
 		filename = file_name_from_path (path);
 		folder = remove_level_from_path (path);
 
-		utf8_file = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
-		utf8_folder = g_filename_to_utf8 (folder, -1, NULL, NULL, NULL);
+		utf8_file = g_filename_display_name (filename);
+		utf8_folder = g_filename_display_name (folder);
 		
 		gtk_list_store_append (data->p_progress_tree_model, &iter);
 		gtk_list_store_set (data->p_progress_tree_model, 

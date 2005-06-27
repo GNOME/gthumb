@@ -579,9 +579,7 @@ escape_filename (const char *text)
 	char *utf8_text;
 	char *escaped_text;
 
-	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
-	g_return_val_if_fail (utf8_text != NULL, NULL);
-	
+	utf8_text = g_filename_display_name (text);
 	escaped_text = g_markup_escape_text (utf8_text, -1);
 	g_free (utf8_text);
 

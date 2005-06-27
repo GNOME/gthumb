@@ -543,11 +543,11 @@ images_selection_changed_cb (GtkTreeSelection *selection,
 			continue;
 
 		location = remove_level_from_path (idata2->path);
-		location_utf8 = g_filename_to_utf8 (location, -1, 0, 0, 0);
+		location_utf8 = g_filename_display_name (location);
 		g_free (location);
 			
 		name = file_name_from_path (idata2->path);
-		name_utf8 = g_filename_to_utf8 (name, -1, 0, 0, 0);
+		name_utf8 = g_filename_display_name (name);
 
 		tm = localtime (&idata2->last_modified);
 		strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);

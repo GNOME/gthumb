@@ -106,7 +106,7 @@ __save_image (GtkWindow       *parent,
 	dir = remove_level_from_path (filename);
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
-		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (dir);
 		_gtk_error_dialog_run (parent,
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);

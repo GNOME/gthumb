@@ -240,10 +240,7 @@ dir_list_update_view (DirList *dir_list)
 		else
 			pixbuf = dir_pixbuf;
 
-		utf8_name = g_filename_to_utf8 (name, -1, NULL, NULL, NULL);
-		if (utf8_name == NULL)
-			utf8_name = g_strdup (_("(Invalid Name)"));
-
+		utf8_name = g_filename_display_name (name);
 		gtk_list_store_append (dir_list->list_store, &iter);
 		gtk_list_store_set (dir_list->list_store, &iter,
 				    DIR_LIST_COLUMN_ICON, pixbuf,
@@ -494,9 +491,7 @@ dir_list_add_directory (DirList         *dir_list,
 	else
 		pixbuf = dir_pixbuf;
 
-	utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
-	if (utf8_name == NULL)
-		utf8_name = g_strdup (_("(Invalid Name)"));
+	utf8_name = g_filename_display_name (name_only);
 	gtk_list_store_insert (dir_list->list_store, &iter, pos);
 	gtk_list_store_set (dir_list->list_store, &iter,
 			    DIR_LIST_COLUMN_ICON, pixbuf,

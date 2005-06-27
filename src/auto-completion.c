@@ -470,7 +470,7 @@ auto_compl_show_alternatives (GthBrowser *browser,
 		if (! ac_change_to_hidden && (*name_only == '.'))
 			continue;
 
-		utf8_name = g_filename_to_utf8 (name_only, -1, NULL, NULL, NULL);
+		utf8_name = g_filename_display_name (name_only);
 		gtk_list_store_append (ac_list_store, &iter);
 		gtk_list_store_set (ac_list_store, &iter,
 				    AC_LIST_COLUMN_ICON, pixbuf,

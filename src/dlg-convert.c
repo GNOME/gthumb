@@ -161,7 +161,7 @@ load_current_image (DialogData *data)
 	g_free (folder);
 	g_free (name_no_ext);
 
-	utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+	utf8_name = g_filename_display_basename (data->new_path);
 	message = g_strdup_printf (_("Converting image: %s"), utf8_name);
 
 	gtk_label_set_text (GTK_LABEL (data->progress_label), message);
@@ -183,7 +183,7 @@ show_rename_dialog (DialogData *data)
 	char  *message;
 	char  *utf8_name;
 
-	utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+	utf8_name = g_filename_display_basename (data->new_path);
 
 	message = g_strdup_printf (_("An image named \"%s\" is already present. " "Please specify a different name."), utf8_name);
 	
@@ -307,7 +307,7 @@ loader_done (ImageLoader *il,
 			break;
 
 		case GTH_OVERWRITE_ASK:
-			utf8_name = g_filename_to_utf8 (file_name_from_path (data->new_path), -1, 0, 0, 0);
+			utf8_name = g_filename_display_basename (data->new_path);
 			message = g_strdup_printf (_("An image named \"%s\" is already present. " "Do you want to overwrite it?"), utf8_name);
 
 			d = _gtk_yesno_dialog_new (GTK_WINDOW (data->dialog),

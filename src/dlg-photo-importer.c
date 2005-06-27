@@ -679,7 +679,7 @@ get_mime_type_from_filename (const char*filename)
 {
 	const char *result;
 
-	char *n1 = g_filename_to_utf8 (filename, -1, 0, 0, 0);
+	char *n1 = g_filename_display_name (filename);
 	char *n2 = g_utf8_strdown (n1, -1);
 	char *n3 = g_filename_from_utf8 (n2, -1, 0, 0, 0);
 	result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
@@ -729,6 +729,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 			    data->context);
 	
 	tmp_filename = get_temp_filename ();
+
 	if (gp_file_save (file, tmp_filename) >= 0) {
 		GdkPixbuf *pixbuf;
 		int        width, height;
@@ -762,7 +763,9 @@ load_images_preview__step (AsyncOperationData *aodata,
 		g_object_unref (pixbuf);
 		unlink (tmp_filename);
 	}
+
 	g_free (tmp_filename);
+	g_free (camera_folder);
 	
 	gp_file_unref (file);
 }
@@ -1040,7 +1043,7 @@ get_folder_name (DialogData *data)
 	char *film_name;
 	char *path;
 
-	esc_destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
+	esc_destination = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
 	destination = gnome_vfs_unescape_string (esc_destination, "");
 	g_free (esc_destination);
 
@@ -1189,7 +1192,6 @@ save_image (DialogData *data,
 			    GP_FILE_TYPE_NORMAL,
 			    file, 
 			    data->context);
-	g_free (camera_folder);
 
 	local_path = get_file_name (data, camera_path, local_folder, n);
 
@@ -1204,7 +1206,8 @@ save_image (DialogData *data,
 		data->interrupted = TRUE;
 		g_mutex_unlock (data->yes_or_no);
 	}
-	
+
+	g_free (camera_folder);	
 	g_free (local_path);
 	gp_file_unref (file);
 }
@@ -1432,7 +1435,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! ensure_dir_exists (data->local_folder, 0755)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = g_filename_to_utf8 (data->local_folder, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (data->local_folder);
 		msg = g_strdup_printf (_("Could not create the folder \"%s\": %s"),
 				       utf8_path,
 				       errno_to_string ());
@@ -1449,7 +1452,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (! check_permissions (data->local_folder, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
 		char *msg;
-		utf8_path = g_filename_to_utf8 (data->local_folder, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (data->local_folder);
 		msg = g_strdup_printf (_("You don't have the right permissions to create images in the folder \"%s\""), utf8_path);
 
 		display_error_dialog (data, _("Could not import photos"), msg);

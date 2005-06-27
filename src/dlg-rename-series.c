@@ -247,7 +247,7 @@ update_list (DialogData *data)
 		g_free (name_wo_ext);
 		g_free (utf8_txt);
 
-		image_date  = get_image_date (fdata->path);
+		image_date = get_image_date (fdata->path);
 		utf8_txt = g_locale_to_utf8 (image_date, -1, 0, 0, 0);
 		name3 = _g_substitute_pattern (name2, 'd', utf8_txt);
 		g_free (image_date);
@@ -285,14 +285,8 @@ update_list (DialogData *data)
 		
 		gtk_list_store_append (data->rs_list_model, &iter);
 		
-		utf8_on = g_filename_to_utf8 (fdata->name, -1, NULL, NULL, NULL);
-		if (utf8_on == NULL)
-			utf8_on = g_strdup (_("(Invalid Name)"));
-
-		utf8_nn = g_filename_to_utf8 (new_name, -1, NULL, NULL, NULL);
-		if (utf8_nn == NULL)
-			utf8_nn = g_strdup (_("(Invalid Name)"));
-
+		utf8_on = g_filename_display_name (fdata->name);
+		utf8_nn = g_filename_display_name (new_name);
 		gtk_list_store_set (data->rs_list_model, &iter,
 				    RS_OLDNAME_COLUMN, utf8_on,
 				    RS_NEWNAME_COLUMN, utf8_nn,

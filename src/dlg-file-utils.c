@@ -100,7 +100,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! ensure_dir_exists (dir, 0755)) {
 		char *utf8_path;
-		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("Could not create folder \"%s\": %s."),
 				       utf8_path,
@@ -114,7 +114,7 @@ dlg_check_folder (GthWindow  *window,
 
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path;
-		utf8_path = g_filename_to_utf8 (dir, -1, NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (window),
 				       _("You don't have the right permissions to create images in the folder \"%s\""),
 				       utf8_path);
@@ -540,7 +540,7 @@ set_filename_labels (GladeXML    *gui,
 	_gtk_label_set_filename_text (GTK_LABEL (label), name);
 	g_free (name);
 
-	utf8_name = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	utf8_name = g_filename_display_name (filename);
 	gtk_tooltips_set_tip (tooltips, eventbox, utf8_name, NULL);
 	g_free (utf8_name);
 
@@ -798,7 +798,7 @@ dlg_overwrite__response_cb (GtkWidget *dialog,
 			if (path_is_file (new_path)) {
 				char *utf8_name;
 
-				utf8_name = g_filename_to_utf8 (new_name, -1, 0, 0, 0);
+				utf8_name = g_filename_display_name (new_name);
 				_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 						       _("The name \"%s\" is already used in this folder. Please use a different name."),
 						       utf8_name);
@@ -899,7 +899,7 @@ dlg_overwrite_run (GthWindow     *window,
 		if (path_is_file (new_path)) {
 			char *utf8_name;
 			
-			utf8_name = g_filename_to_utf8 (*new_name, -1, 0, 0, 0);
+			utf8_name = g_filename_display_name (*new_name);
 			_gtk_error_dialog_run (GTK_WINDOW (owdata->window),
 					       _("The name \"%s\" is already used in this folder. Please use a different name."),
 					       utf8_name);
@@ -1179,7 +1179,7 @@ continue_or_abort_dialog (FileCopyData   *fcdata,
 		error = _("Could not move the image:");
 	else
 		error = _("Could not copy the image:");
-	utf8_name = g_filename_to_utf8 (file_name_from_path (src_file), -1, 0, 0, 0);
+	utf8_name = g_filename_display_basename (src_file);
 	message = g_strconcat (error, 
 			       " ",
 			       utf8_name, 
@@ -2448,7 +2448,7 @@ copy_item__continue1 (GnomeVFSResult result,
 		else
 			error = _("Could not move the folder \"%s\": %s");
 		
-		utf8_name = g_filename_to_utf8 (file_name_from_path (folder), -1, 0, 0, 0);
+		utf8_name = g_filename_display_basename (folder);
 		message = g_strdup_printf (error, 
 					   utf8_name, 
 					   gnome_vfs_result_to_string (result),

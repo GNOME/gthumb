@@ -403,7 +403,7 @@ update_general_info (DialogData *data)
 		gtk_label_set_text (GTK_LABEL (data->i_location_label), "");
 		gtk_label_set_text (GTK_LABEL (data->i_date_modified_label), "");
 	} else {
-		utf8_name = g_filename_to_utf8 (file_name_from_path (image_filename), -1, 0, 0, 0);
+		utf8_name = g_filename_display_basename (image_filename);
 		gtk_label_set_text (GTK_LABEL (data->i_name_label), utf8_name);
 		g_free (utf8_name);
 		

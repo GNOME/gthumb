@@ -620,12 +620,8 @@ _gtk_entry_set_filename_text (GtkEntry   *entry,
 
 	if (text == NULL)
 		text = "";
-
-	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
-	if (utf8_text != NULL)
-		gtk_entry_set_text (entry, utf8_text);
-	else
-		gtk_entry_set_text (entry, _("(Invalid Name)"));
+	utf8_text = g_filename_display_name (text);
+	gtk_entry_set_text (entry, utf8_text);
 	g_free (utf8_text);
 }
 
@@ -654,13 +650,8 @@ _gtk_label_set_filename_text (GtkLabel   *label,
 
 	if (text == NULL)
 		text = "";
-
-	utf8_text = g_filename_to_utf8 (text, -1, NULL, NULL, NULL);
-	if (utf8_text != NULL)
-		gtk_label_set_text (label, utf8_text);
-	else
-		gtk_label_set_text (label, _("(Invalid Name)"));
-
+	utf8_text = g_filename_display_name (text);
+	gtk_label_set_text (label, utf8_text);
 	g_free (utf8_text);
 }
 

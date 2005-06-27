@@ -548,7 +548,7 @@ add_theme_dir (ThemeDialogData *tdata,
 			    || (strcmp (info->name, "..") == 0))
 				continue;
 
-			utf8_name = g_filename_to_utf8 (info->name, -1, NULL, NULL, NULL);
+			utf8_name = g_filename_display_name (info->name);
 			
 			gtk_list_store_append (tdata->list_store, &iter);
 			gtk_list_store_set (tdata->list_store, &iter,

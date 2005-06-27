@@ -1,3 +1,40 @@
+2005-06-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window.c (gth_window_set_image_pixbuf): clear
+	the undo history after setting a new image.
+
+	* src/dlg-change-date.c (ok_clicked): pass a path list to
+	all_windows_notify_files_changed.
+
+2005-06-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_camera.glade:
+
+	Do not allow non local destinations.
+
+	* src/gth-fullscreen.c (escape_filename): 
+	* src/gth-exif-data-viewer.c (update_file_info): 
+	* src/gth-browser.c (window_update_infobar): 
+	* src/gth-browser-actions-callbacks.c (rename_file): 
+	* src/dlg-web-exporter.c (add_theme_dir): 
+	* src/dlg-search.c (add_file_list): 
+	* src/dlg-rename-series.c (update_list): 
+	* src/dlg-photo-importer.c (get_mime_type_from_filename): 
+	* src/dlg-jpegtran.c (apply_transformation): 
+	* src/dlg-image-prop.c (update_general_info): 
+	* src/dlg-file-utils.c (dlg_check_folder): 
+	* src/dlg-duplicates.c (images_selection_changed_cb): 
+	* src/dlg-convert.c (load_current_image): 
+	* src/dir-list.c (dir_list_update_view): 
+	* src/catalog-png-exporter.c (set_item_caption): 
+	* src/catalog-list.c (catalog_list_refresh): 
+	* src/auto-completion.c (auto_compl_show_alternatives): 
+	* libgthumb/gtk-utils.c (_gtk_entry_set_filename_text): 
+	* libgthumb/dlg-save-image.c (__save_image): 
+	* libgthumb/catalog.c (delete_catalog_dir): 
+
+	Use g_filename_display_name/basename instead of g_filename_to_utf8.
+	
 2005-06-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-actions-entries.h: 

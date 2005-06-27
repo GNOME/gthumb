@@ -455,10 +455,9 @@ update_file_info (GthExifDataViewer *edv)
 	if (edv->priv->viewer == NULL)
 		return;
 
-	utf8_name = g_filename_to_utf8 (file_name_from_path (edv->priv->path), -1, 
-					NULL, NULL, NULL);
+	utf8_name = g_filename_display_basename (edv->priv->path);
 
-	if (!image_viewer_is_void(IMAGE_VIEWER (edv->priv->viewer))) {
+	if (!image_viewer_is_void (IMAGE_VIEWER (edv->priv->viewer))) {
 		width = image_viewer_get_image_width (edv->priv->viewer);
 		height = image_viewer_get_image_height (edv->priv->viewer);
 	} else {

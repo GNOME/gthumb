@@ -94,7 +94,7 @@ static void
 ok_clicked (GtkWidget  *button, 
 	    DialogData *data)
 {
-	GList  *scan;
+	GList  *scan, *file_list = NULL;
 	time_t  mtime = 0;
 
 	if (is_active (data->cd_following_date_radiobutton)) 
@@ -116,9 +116,13 @@ ok_clicked (GtkWidget  *button,
 		
 		if (mtime > 0) 
 			set_file_mtime (fdata->path, mtime);
+
+		file_list = g_list_prepend (file_list, fdata->path);
 	}
 
-	all_windows_notify_files_changed (data->file_list);
+	all_windows_notify_files_changed (file_list);
+	g_list_free (file_list);
+
 	all_windows_add_monitor ();
 	
 	gtk_widget_destroy (data->dialog);

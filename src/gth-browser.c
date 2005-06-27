@@ -598,7 +598,7 @@ window_update_infobar (GthBrowser *browser)
 
 	current = gth_file_list_pos_from_path (priv->file_list, path) + 1;
 
-	utf8_name = g_filename_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
+	utf8_name = g_filename_display_basename (path);
 	escaped_name = g_markup_escape_text (utf8_name, -1);
 
 	text = g_strdup_printf ("%d/%d - <b>%s</b> %s", 
@@ -629,7 +629,7 @@ window_update_title (GthBrowser *browser)
 	if (path == NULL) {
 		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (priv->dir_list->path != NULL)) {
-			char *path = g_filename_to_utf8 (priv->dir_list->path, -1, NULL, NULL, NULL);
+			char *path = g_filename_display_name (priv->dir_list->path);
 			if (path == NULL)
 				path = g_strdup (_("(Invalid Name)"));
 			info_txt = g_strconcat (path, " ", modified, NULL);
@@ -646,18 +646,18 @@ window_update_title (GthBrowser *browser)
 			/* Cut out the file extension. */
 			cat_name_no_ext[strlen (cat_name_no_ext) - 4] = 0;
 			
-			info_txt = g_filename_to_utf8 (cat_name_no_ext, -1, 0, 0, 0);
+			info_txt = g_filename_display_name (cat_name_no_ext);
 			g_free (cat_name_no_ext);
 		} else
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
 	} else {
-		const char *image_name = g_filename_to_utf8 (file_name_from_path (path), -1, 0, 0, 0);
+		const char *image_name = g_filename_display_basename (path);
 
 		if (image_name == NULL)
 			image_name = "";
 
 		if (priv->image_catalog != NULL) {
-			char *cat_name = g_filename_to_utf8 (file_name_from_path (priv->image_catalog), -1, 0, 0, 0);
+			char *cat_name = g_filename_display_basename (priv->image_catalog);
 
 			/* Cut out the file extension. */
 			cat_name[strlen (cat_name) - 4] = 0;
@@ -2568,7 +2568,7 @@ set_location (GthBrowser *browser,
 
 	if (l) {
 		char *utf8_l;
-		utf8_l = g_filename_to_utf8 (l, -1, NULL, NULL, NULL);
+		utf8_l = g_filename_display_name (l);
 		gtk_entry_set_text (GTK_ENTRY (priv->location_entry), utf8_l);
 		gtk_editable_set_position (GTK_EDITABLE (priv->location_entry), g_utf8_strlen (utf8_l, -1));
 		g_free (utf8_l);
@@ -7409,8 +7409,7 @@ go_to_directory_continue (DirList  *dir_list,
 	if (dir_list->result != GNOME_VFS_ERROR_EOF) {
 		char *utf8_path;
 
-		utf8_path = g_filename_to_utf8 (dir_list->try_path, -1,
-						NULL, NULL, NULL);
+		utf8_path = g_filename_display_name (dir_list->try_path);
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("Cannot load folder \"%s\": %s\n"), 
 				       utf8_path, 

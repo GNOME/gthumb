@@ -457,6 +457,9 @@ gth_window_set_image_pixbuf (GthWindow *window,
 
 	add_current_image_to_undo_history (window);
 
+	image_data_list_free (window->priv->redo_history);
+	window->priv->redo_history = NULL;
+
 	image_viewer = gth_window_get_image_viewer (window);
 	if (image_viewer == NULL)
 		return;
