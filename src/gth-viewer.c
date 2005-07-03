@@ -231,8 +231,6 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "AlterImage_Posterize", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Equalize", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani);
-	set_action_sensitive (viewer, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani);
-	set_action_sensitive (viewer, "AlterImage_Normalize", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Crop", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Dither_BW", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani);

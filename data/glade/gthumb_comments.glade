@@ -166,8 +166,8 @@
 			      <property name="visible">True</property>
 			      <property name="tooltip" translatable="yes">Create a new category</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">_New</property>
-			      <property name="use_underline">True</property>
+			      <property name="label">gtk-new</property>
+			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
 			    </widget>
@@ -183,8 +183,8 @@
 			      <property name="visible">True</property>
 			      <property name="tooltip" translatable="yes">Remove selected category</property>
 			      <property name="can_focus">True</property>
-			      <property name="label" translatable="yes">_Delete</property>
-			      <property name="use_underline">True</property>
+			      <property name="label">gtk-delete</property>
+			      <property name="use_stock">True</property>
 			      <property name="relief">GTK_RELIEF_NORMAL</property>
 			      <property name="focus_on_click">True</property>
 			    </widget>

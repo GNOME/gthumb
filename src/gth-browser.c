@@ -98,6 +98,7 @@ struct _GthBrowserPrivateData {
 
 	GtkToolItem        *go_back_tool_item;
 	GtkToolItem        *rotate_tool_item;
+	GtkToolItem        *sep_rotate_tool_item;
 
 	GtkWidget          *toolbar;
 	GtkWidget          *statusbar;
@@ -283,7 +284,7 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
 #define GO_BACK_TOOLITEM_POS   4
-#define ROTATE_TOOLITEM_POS    15
+#define ROTATE_TOOLITEM_POS    14
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
@@ -839,8 +840,6 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "AlterImage_Posterize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Equalize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_AdjustLevels", ! image_is_void && ! image_is_ani && image_is_visible);
-	set_action_sensitive (browser, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani && image_is_visible);
-	set_action_sensitive (browser, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Dither_BW", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani && image_is_visible);
@@ -4973,7 +4972,7 @@ add_rotate_toolbar_item (GthBrowser *browser)
 	if (priv->rotate_tool_item != NULL) {
 		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
 				    priv->rotate_tool_item, 
-				    ROTATE_TOOLITEM_POS);
+				    ROTATE_TOOLITEM_POS + 1);
 		return;
 	}
 
@@ -4990,7 +4989,7 @@ add_rotate_toolbar_item (GthBrowser *browser)
 	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
 			    priv->rotate_tool_item, 
-			    ROTATE_TOOLITEM_POS);
+			    ROTATE_TOOLITEM_POS + 1);
 }
 
 
