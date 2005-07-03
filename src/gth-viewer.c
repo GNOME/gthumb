@@ -65,6 +65,7 @@
 #define DISPLAY_PROGRESS_DELAY 750
 #define PANE_MIN_SIZE 60
 #define GCONF_NOTIFICATIONS 2
+#define ROTATE_TOOLITEM_POS 10
 
 
 enum {
@@ -100,6 +101,8 @@ struct _GthViewerPrivateData {
 	GtkWidget       *fullscreen;
 
 	GtkActionGroup  *actions;
+
+	GtkToolItem     *rotate_tool_item;
 
 	GtkTooltips     *tooltips;
         guint            help_message_cid;
@@ -231,6 +234,8 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Normalize", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Crop", ! image_is_void && ! image_is_ani);
+	set_action_sensitive (viewer, "AlterImage_Dither_BW", ! image_is_void && ! image_is_ani);
+	set_action_sensitive (viewer, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani);
 
 	set_action_sensitive (viewer, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (viewer, "View_StepAnimation", image_is_ani && ! playing);
@@ -1268,9 +1273,8 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 		return;
 
 	g_free (viewer->priv->image_path);
-	viewer->priv->image_path = NULL;
-
 	viewer->priv->image_path = g_strdup (new_name);
+
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }
 
@@ -1294,6 +1298,44 @@ sync_menu_with_preferences (GthViewer *viewer)
 	set_action_active (viewer, prop, TRUE);
 
 	set_action_active (viewer, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
+}
+
+
+static void
+add_rotate_toolbar_item (GthViewer *viewer)
+{
+	GthViewerPrivateData *priv = viewer->priv;	
+	GtkToolItem *sep;
+
+	gtk_ui_manager_ensure_update (priv->ui);
+
+	sep = gtk_separator_tool_item_new ();
+	gtk_widget_show (GTK_WIDGET (sep));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    sep,
+			    ROTATE_TOOLITEM_POS);
+
+	if (priv->rotate_tool_item != NULL) {
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+				    priv->rotate_tool_item, 
+				    ROTATE_TOOLITEM_POS + 1);
+		return;
+	}
+
+	priv->rotate_tool_item = gtk_menu_tool_button_new_from_stock (GTHUMB_STOCK_TRANSFORM);
+	g_object_ref (priv->rotate_tool_item);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item),
+				       gtk_ui_manager_get_widget (priv->ui, "/RotateImageMenu"));
+	gtk_tool_item_set_homogeneous (priv->rotate_tool_item, FALSE);
+	gtk_tool_item_set_tooltip (priv->rotate_tool_item, priv->tooltips, _("Rotate images without loss of quality"), NULL);
+	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), priv->tooltips,	_("Rotate images without loss of quality"), NULL);
+	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
+				  GTK_WIDGET (priv->rotate_tool_item));
+
+	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    priv->rotate_tool_item, 
+			    ROTATE_TOOLITEM_POS + 1);
 }
 
 
@@ -1369,7 +1411,6 @@ gth_viewer_construct (GthViewer   *viewer,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-
 	menubar = gtk_ui_manager_get_widget (ui, "/MenuBar");
 	gtk_widget_show (menubar);
 
@@ -1395,6 +1436,8 @@ gth_viewer_construct (GthViewer   *viewer,
 			      2, 1, 0);
 
 	priv->image_popup_menu = gtk_ui_manager_get_widget (ui, "/ImagePopupMenu");
+
+	add_rotate_toolbar_item (viewer);
 
 	/* Create the statusbar. */
 

@@ -25,7 +25,6 @@
 #include "gth-pixbuf-op.h"
 
 
-#define PROGRESS_TIMEOUT 5    /* timeout delay. */
 #define N_STEPS          20   /* number of lines to process in a single 
 			       * timeout handler. */
 #define PROGRESS_STEP    5    /* notify progress each PROGRESS_STEP lines. */ 
@@ -118,6 +117,8 @@ gth_pixbuf_op_init (GthPixbufOp *pixbuf_op)
 	pixbuf_op->dest_line = NULL;
 	pixbuf_op->dest_pixel = NULL;
 
+	pixbuf_op->ltr = TRUE;
+
 	pixbuf_op->timeout_id = 0;
 	pixbuf_op->line = 0;
 	pixbuf_op->interrupt = FALSE;
@@ -202,7 +203,7 @@ static gboolean
 one_step (gpointer data)
 {
 	GthPixbufOp *pixbuf_op = data;
-	int          i;
+	int          ofs = 0, dir = 1;
 
 	if ((pixbuf_op->line >= pixbuf_op->height)
 	    || pixbuf_op->interrupt) {
@@ -229,11 +230,23 @@ one_step (gpointer data)
 			       0,
 			       (float) pixbuf_op->line / pixbuf_op->height);
 
-	for (i = 0; i < pixbuf_op->width; i++) {
+	if (! pixbuf_op->ltr) { /* right to left */
+		int ofs = (pixbuf_op->width - 1) * pixbuf_op->bytes_per_pixel;
+		pixbuf_op->src_pixel += ofs;
+		pixbuf_op->dest_pixel += ofs;
+		dir = -1;
+		pixbuf_op->column = pixbuf_op->width - 1;
+	} else
+		pixbuf_op->column = 0;
+
+	pixbuf_op->line_step = 0;
+	while (pixbuf_op->line_step < pixbuf_op->width) {
 		if (pixbuf_op->step_func != NULL)
 			(*pixbuf_op->step_func) (pixbuf_op);
-		pixbuf_op->src_pixel += pixbuf_op->bytes_per_pixel;
-		pixbuf_op->dest_pixel += pixbuf_op->bytes_per_pixel;
+		pixbuf_op->src_pixel += dir * pixbuf_op->bytes_per_pixel;
+		pixbuf_op->dest_pixel += dir * pixbuf_op->bytes_per_pixel;
+		pixbuf_op->column += dir;
+		pixbuf_op->line_step++;
 	}
 
 	pixbuf_op->line++;
@@ -257,9 +270,7 @@ step (gpointer data)
 		if (! one_step (data))
 			return FALSE;
 
-	pixbuf_op->timeout_id = g_timeout_add (PROGRESS_TIMEOUT,
-					       step,
-					       pixbuf_op);
+	pixbuf_op->timeout_id = g_idle_add (step, pixbuf_op);
 
 	return FALSE;
 }

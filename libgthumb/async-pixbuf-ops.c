@@ -499,12 +499,6 @@ typedef struct
 } HueSaturationData;
 
 
-/* FIXME
-static HueSaturation hue_saturation;
-static gboolean      hue_saturation_initialized = FALSE;
-*/
-
-
 static void
 hue_saturation_data_init (HueSaturationData *hs)
 {
@@ -1360,5 +1354,212 @@ _gdk_pixbuf_normalize_contrast (GdkPixbuf *src,
 				  normalize_contrast_init,
 				  normalize_contrast_step,
 				  normalize_contrast_release,
+				  data);	
+}
+
+
+/* -- image dithering  -- */
+
+
+typedef struct {
+	GthDither dither_type;
+	double *error_row_1;
+	double *error_row_2;
+} DitherData;
+
+
+static void
+dither_init (GthPixbufOp *pixop)
+{
+	DitherData *data = pixop->data;
+
+	data->error_row_1 = g_new0 (double, pixop->width * pixop->bytes_per_pixel);
+	data->error_row_2 = g_new0 (double, pixop->width * pixop->bytes_per_pixel);
+}
+
+
+static double*
+get_error_pixel (GthPixbufOp *pixop,
+		 gboolean     next_line,
+		 int          column)
+{
+	DitherData *data = pixop->data;
+	int         ofs;
+
+	if ((column < 0) || (column >= pixop->width))
+		return NULL;
+	if (next_line && (pixop->line >= pixop->height - 1))
+		return NULL;
+
+	ofs = column * pixop->bytes_per_pixel;
+	if (next_line)
+		return data->error_row_2 + ofs;
+	else 
+		return data->error_row_1 + ofs;
+}
+
+
+static void
+distribute_error (GthPixbufOp *pixop,
+		  double      *dest,
+		  double      *src,
+		  double       weight)
+{
+	int i;
+
+	if (dest == NULL)
+		return;
+
+	for (i = 0; i < pixop->bytes_per_pixel; i++)
+		dest[i] += weight * src[i];
+}
+
+
+static guint
+shade_value (guint val,
+	     int   shades)
+{
+	double dval = val;
+	double shade_size = 256.0 / (shades - 1);
+
+	dval = dval / shade_size;
+	dval = floor (dval + 0.5);
+	dval = shade_size * dval;
+
+	if (dval > 255.0)
+		dval = 255.0;
+	if (dval < 0.0)
+		dval = 0.0;
+
+	return (guint) dval;
+}
+
+
+static void
+dither_step (GthPixbufOp *pixop)
+{
+	DitherData *data = pixop->data;
+	guchar      min, max, lightness;
+	int         red_pix, green_pix, blue_pix, alpha_pix;
+	double     *error_pixel, *ngh_error_pixel;
+	int         dir = 1;
+
+	if (pixop->line_step == 0) {
+		double *tmp;
+		int     row_size;
+
+		tmp = data->error_row_1;
+		data->error_row_1 = data->error_row_2;
+		data->error_row_2 = tmp;
+
+		row_size = pixop->width * pixop->bytes_per_pixel * sizeof (double);
+		memset (data->error_row_2, 0, row_size);
+	}
+
+	/**/
+
+	if (data->dither_type == GTH_DITHER_BLACK_WHITE) { /* Desaturate for better result. */
+		red_pix   = pixop->src_pixel[RED_PIX];
+		green_pix = pixop->src_pixel[GREEN_PIX];
+		blue_pix  = pixop->src_pixel[BLUE_PIX];
+
+		max = MAX (red_pix, green_pix);
+		max = MAX (max, blue_pix);
+		min = MIN (red_pix, green_pix);
+		min = MIN (min, blue_pix);
+		lightness = (max + min) / 2;
+		
+		pixop->src_pixel[RED_PIX]   = lightness;
+		pixop->src_pixel[GREEN_PIX] = lightness;
+		pixop->src_pixel[BLUE_PIX]  = lightness;
+	}
+
+	/**/
+
+	error_pixel = get_error_pixel (pixop, 0, pixop->column);
+
+	red_pix   = CLAMP (pixop->src_pixel[RED_PIX] + error_pixel[RED_PIX], 0, 255);
+	green_pix = CLAMP (pixop->src_pixel[GREEN_PIX] + error_pixel[GREEN_PIX], 0, 255);
+	blue_pix  = CLAMP (pixop->src_pixel[BLUE_PIX] + error_pixel[BLUE_PIX], 0, 255);
+	if (pixop->has_alpha)
+		alpha_pix = CLAMP (pixop->src_pixel[ALPHA_PIX] + error_pixel[ALPHA_PIX], 0, 255);
+
+	/* Find the closest color available. */
+
+	if (data->dither_type == GTH_DITHER_BLACK_WHITE) {
+		max = MAX (red_pix, green_pix);
+		max = MAX (max, blue_pix);
+		min = MIN (red_pix, green_pix);
+		min = MIN (min, blue_pix);
+		lightness = (((max + min) / 2) > 125) ? 255 : 0;
+		
+		pixop->dest_pixel[RED_PIX]   = lightness;
+		pixop->dest_pixel[GREEN_PIX] = lightness;
+		pixop->dest_pixel[BLUE_PIX]  = lightness;
+
+	} else if (data->dither_type == GTH_DITHER_WEB_PALETTE) {
+		pixop->dest_pixel[RED_PIX]   = shade_value (red_pix, 6);
+		pixop->dest_pixel[GREEN_PIX] = shade_value (green_pix, 6);
+		pixop->dest_pixel[BLUE_PIX]  = shade_value (blue_pix, 6);
+	}
+
+	if (pixop->has_alpha)
+		pixop->dest_pixel[ALPHA_PIX] = pixop->src_pixel[ALPHA_PIX];
+
+	/* Calculate the error values. */
+
+	error_pixel[RED_PIX]   = red_pix - pixop->dest_pixel[RED_PIX];
+	error_pixel[GREEN_PIX] = green_pix - pixop->dest_pixel[GREEN_PIX];
+	error_pixel[BLUE_PIX]  = blue_pix - pixop->dest_pixel[BLUE_PIX];
+	if (pixop->has_alpha)
+		error_pixel[ALPHA_PIX] = alpha_pix - pixop->dest_pixel[ALPHA_PIX];
+
+	/* Distribute the error over the neighboring pixels. */
+
+	if (! pixop->ltr)
+		dir = -1;
+
+	ngh_error_pixel = get_error_pixel (pixop, FALSE, pixop->column + dir);
+	distribute_error (pixop, ngh_error_pixel, error_pixel, 7.0/16);
+
+	ngh_error_pixel = get_error_pixel (pixop, TRUE, pixop->column - dir);
+	distribute_error (pixop, ngh_error_pixel, error_pixel, 3.0/16);
+
+	ngh_error_pixel = get_error_pixel (pixop, TRUE, pixop->column);
+	distribute_error (pixop, ngh_error_pixel, error_pixel, 5.0/16);
+
+	ngh_error_pixel = get_error_pixel (pixop, TRUE, pixop->column + dir);
+	distribute_error (pixop, ngh_error_pixel, error_pixel, 1.0/16);
+
+	if (pixop->line_step == pixop->width - 1)
+		pixop->ltr = ! pixop->ltr;
+}
+
+
+static void
+dither_release (GthPixbufOp *pixop)
+{
+	DitherData *data = pixop->data;
+
+	g_free (data->error_row_1);
+	g_free (data->error_row_2);
+	g_free (pixop->data);
+}
+
+
+GthPixbufOp*
+_gdk_pixbuf_dither (GdkPixbuf *src,
+		    GdkPixbuf *dest,
+		    GthDither  dither_type)
+{
+	DitherData *data;
+
+	data = g_new0 (DitherData, 1);
+	data->dither_type = dither_type;
+
+	return gth_pixbuf_op_new (src, dest,
+				  dither_init,
+				  dither_step,
+				  dither_release,
 				  data);	
 }

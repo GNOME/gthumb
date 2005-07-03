@@ -429,40 +429,6 @@ gth_window_activate_action_alter_image_equalize (GtkAction *action,
 
 
 void
-gth_window_activate_action_alter_image_normalize (GtkAction *action,
-						  GthWindow *window)
-{
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
-	GthPixbufOp *pixop;
-
-	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	pixop = _gdk_pixbuf_normalize_contrast (dest_pixbuf, dest_pixbuf);
-	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop, FALSE);
-	g_object_unref (pixop);
-}
-
-
-void
-gth_window_activate_action_alter_image_stretch_contrast (GtkAction *action,
-							 GthWindow *window)
-{
-	GdkPixbuf   *src_pixbuf;
-	GdkPixbuf   *dest_pixbuf;
-	GthPixbufOp *pixop;
-
-	src_pixbuf = gth_window_get_image_pixbuf (window);
-	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
-	pixop = _gdk_pixbuf_stretch_contrast (dest_pixbuf, dest_pixbuf);
-	g_object_unref (dest_pixbuf);
-	gth_window_exec_pixbuf_op (window, pixop, FALSE);
-	g_object_unref (pixop);
-}
-
-
-void
 gth_window_activate_action_alter_image_posterize (GtkAction *action,
 						  GthWindow *window)
 {
@@ -521,6 +487,40 @@ gth_window_activate_action_alter_image_crop (GtkAction *action,
 					     GthWindow *window)
 {
 	dlg_crop (window);
+}
+
+
+void
+gth_window_activate_action_alter_image_dither_bw (GtkAction *action,
+						  GthWindow *window)
+{
+	GdkPixbuf   *src_pixbuf;
+	GdkPixbuf   *dest_pixbuf;
+	GthPixbufOp *pixop;
+
+	src_pixbuf = gth_window_get_image_pixbuf (window);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	pixop = _gdk_pixbuf_dither (dest_pixbuf, dest_pixbuf, GTH_DITHER_BLACK_WHITE);
+	g_object_unref (dest_pixbuf);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
+	g_object_unref (pixop);
+}
+
+
+void
+gth_window_activate_action_alter_image_dither_web (GtkAction *action,
+						   GthWindow *window)
+{
+	GdkPixbuf   *src_pixbuf;
+	GdkPixbuf   *dest_pixbuf;
+	GthPixbufOp *pixop;
+
+	src_pixbuf = gth_window_get_image_pixbuf (window);
+	dest_pixbuf = gdk_pixbuf_copy (src_pixbuf);
+	pixop = _gdk_pixbuf_dither (dest_pixbuf, dest_pixbuf, GTH_DITHER_WEB_PALETTE);
+	g_object_unref (dest_pixbuf);
+	gth_window_exec_pixbuf_op (window, pixop, FALSE);
+	g_object_unref (pixop);
 }
 
 
@@ -630,7 +630,7 @@ get_wallpaper_filename (int n)
 {
 	char *name, *filename;
 
-	name = g_strdup_printf ("temp_wallpaper_%d.png", n);
+	name = g_strdup_printf (".temp_wallpaper_%d.png", n);
 	filename = g_build_filename (g_get_home_dir (),
 				     name,
 				     NULL);
@@ -871,4 +871,48 @@ gth_window_activate_action_tools_change_date (GtkAction *action,
 					      GthWindow *window)
 {
         dlg_change_date (window);
+}
+
+
+void
+gth_window_activate_action_tools_jpeg_rotate (GtkAction *action,
+					      GthWindow *window)
+{
+	void (*module) (GthWindow *window);
+
+	if (gthumb_module_get ("dlg_jpegtran", (gpointer*) &module))
+		(*module) (window);
+}
+
+
+void
+gth_window_activate_action_tools_jpeg_rotate_right (GtkAction *action,
+						    GthWindow *window)
+{
+	void (*module) (GthWindow *, GthTransform, GthTransform);
+
+	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
+		(*module) (window, GTH_TRANSFORM_ROTATE_90, GTH_TRANSFORM_NONE);
+}
+
+
+void
+gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
+						   GthWindow *window)
+{
+	void (*module) (GthWindow *, GthTransform, GthTransform);
+
+	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
+		(*module) (window, GTH_TRANSFORM_ROTATE_270, GTH_TRANSFORM_NONE);
+}
+
+
+void
+gth_window_activate_action_tools_jpeg_rotate_auto (GtkAction *action,
+						   GthWindow *window)
+{
+	void (*module) (GthWindow *);
+
+	if (gthumb_module_get ("dlg_apply_jpegtran_from_exif", (gpointer*) &module))
+		(*module) (window);
 }

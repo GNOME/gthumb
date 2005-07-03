@@ -51,6 +51,7 @@
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
 #define GTHUMB_STOCK_PREVIOUS_IMAGE       "gthumb-previous-image"
 #define GTHUMB_STOCK_PROPERTIES           "gthumb-properties"
+#define GTHUMB_STOCK_REDUCE_COLORS        "gthumb-reduce_colors"
 #define GTHUMB_STOCK_RESET                "gthumb-reset"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"
 #define GTHUMB_STOCK_ROTATE               "gthumb-rotate"

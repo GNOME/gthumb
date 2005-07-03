@@ -320,18 +320,29 @@ gth_browser_activate_action_image_move (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_edit_rename_file (GtkAction *action,
-					      GthWindow  *window)
+gth_browser_activate_action_edit_rename_file (GtkAction  *action,
+					      GthBrowser *browser)
 {
 	GList *list;
+	int    len;
 
-	list = gth_window_get_file_list_selection (window);
-	rename_file (GTK_WINDOW (window), list);
+	list = gth_window_get_file_list_selection (GTH_WINDOW (browser));
+	g_return_if_fail (list != NULL);
+
+	len = g_list_length (list);
+	if (len <= 0)
+		return;
+
+	if (len > 1)
+		dlg_rename_series (browser);
+	else 
+		rename_file (GTK_WINDOW (browser), list);
+
 	path_list_free (list);
 }
 
 
-static void 
+static gboolean
 duplicate_file (GtkWindow  *window,
 		const char *old_path)
 {
@@ -371,14 +382,6 @@ duplicate_file (GtkWindow  *window,
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
 
-		all_windows_remove_monitor ();
-
-		file_list = g_list_prepend (NULL, new_path);
-		all_windows_notify_files_created (file_list);
-		g_list_free (file_list);
-
-		all_windows_add_monitor ();
-
 	} else {
 		char      *utf8_path;
 		char      *msg;
@@ -404,12 +407,14 @@ duplicate_file (GtkWindow  *window,
 		if (r != GTK_RESPONSE_YES) {
 			g_free (new_path);
 			g_free (new_name);
-			return;
+			return FALSE;
 		}
 	}
 
 	g_free (new_name);
 	g_free (new_path);
+
+	return TRUE;
 }
 
 
@@ -421,7 +426,8 @@ duplicate_file_list (GtkWindow   *window,
 
 	for (scan = list; scan; scan = scan->next) {
 		char *filename = scan->data;
-		duplicate_file (window, filename);
+		if (! duplicate_file (window, filename))
+			break;
 	}
 }
 
@@ -1875,14 +1881,6 @@ gth_browser_activate_action_tools_web_exporter (GtkAction  *action,
 
 
 void
-gth_browser_activate_action_tools_rename_series (GtkAction  *action,
-						 GthBrowser *browser)
-{
-	dlg_rename_series (browser);
-}
-
-
-void
 gth_browser_activate_action_tools_convert_format (GtkAction  *action,
 						  GthBrowser *browser)
 {
@@ -1898,17 +1896,6 @@ gth_browser_activate_action_tools_find_duplicates (GtkAction  *action,
 
 	if (gthumb_module_get ("dlg_duplicates", (gpointer*) &module))
 		(*module) (browser);
-}
-
-
-void
-gth_browser_activate_action_tools_jpeg_rotate (GtkAction  *action,
-					       GthBrowser *browser)
-{
-	void (*module) (GthWindow *window);
-
-	if (gthumb_module_get ("dlg_jpegtran", (gpointer*) &module))
-		(*module) (GTH_WINDOW (browser));
 }
 
 

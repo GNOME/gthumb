@@ -21,6 +21,7 @@
  */
 
 #include <config.h>
+#include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include "gthumb-stock.h"
 #include "icons/pixbufs.h"
@@ -59,6 +60,7 @@ static struct {
 	{ GTHUMB_STOCK_POSTERIZE,           posterize_22_rgba,           posterize_16_rgba },
 	{ GTHUMB_STOCK_PREVIOUS_IMAGE,      prev_image_24_rgba,          NULL },
 	{ GTHUMB_STOCK_PROPERTIES,          image_info_24_rgba,          image_info_16_rgba },
+	{ GTHUMB_STOCK_REDUCE_COLORS,       reduce_colors_16_rgba,       NULL },
 	{ GTHUMB_STOCK_RESET,               reset_16_rgba,               NULL },
 	{ GTHUMB_STOCK_RESIZE,              resize_22_rgba,              resize_16_rgba },
 	{ GTHUMB_STOCK_ROTATE,              rotate_16_rgba,              NULL },
@@ -75,11 +77,25 @@ static struct {
 };
 
 
+static const GtkStockItem stock_items [] = {
+	{ GTHUMB_STOCK_TRANSFORM, N_("Ro_tate Images"), 0, 0, GETTEXT_PACKAGE }
+};
+
+
+static gboolean stock_initialized = FALSE;
+
+
 void
 gthumb_stock_init (void)
 {
 	GtkIconFactory *factory;
 	int             i;
+
+	if (stock_initialized)
+		return;
+	stock_initialized = TRUE;
+
+	gtk_stock_add_static (stock_items, G_N_ELEMENTS (stock_items));
 
 	factory = gtk_icon_factory_new ();
 

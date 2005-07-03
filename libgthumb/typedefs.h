@@ -200,6 +200,16 @@ typedef enum { /*< skip >*/
 } GthMonitorEvent;
 
 
+typedef enum { /*< skip >*/
+	GTH_TRANSFORM_ROTATE_0,
+	GTH_TRANSFORM_ROTATE_90,
+	GTH_TRANSFORM_ROTATE_180,
+	GTH_TRANSFORM_ROTATE_270,
+	GTH_TRANSFORM_NONE,
+	GTH_TRANSFORM_MIRROR,
+	GTH_TRANSFORM_FLIP
+} GthTransform;
+
 
 typedef void (*ErrorFunc)      (gpointer data);
 

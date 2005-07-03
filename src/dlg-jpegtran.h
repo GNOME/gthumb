@@ -23,10 +23,15 @@
 #ifndef DLG_JPEGTRAN_H
 #define DLG_JPEGTRAN_H
 
+#include "typedefs.h"
 #include "gth-window.h"
 
 
-void dlg_jpegtran (GthWindow *window);
+void dlg_jpegtran                 (GthWindow    *window);
+void dlg_apply_jpegtran           (GthWindow    *window,
+				   GthTransform  rot_type,
+				   GthTransform  tran_type);
+void dlg_apply_jpegtran_from_exif (GthWindow *window);
 
 
 #endif /* DLG_JPEGTRAN_H */

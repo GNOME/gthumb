@@ -56,8 +56,11 @@ struct _GthPixbufOp {
 	guchar       *src_line, *src_pixel;
 	guchar       *dest_line, *dest_pixel;
 
+	gboolean      ltr, first_step, last_step;
 	guint         timeout_id;
 	int           line;
+	int           line_step;	
+	int           column;
 	gboolean      interrupt;
 };
 

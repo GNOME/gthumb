@@ -643,10 +643,11 @@ prepare_app (void)
 static gboolean 
 check_whether_to_import_photos (gpointer data) 
 {
-	/* FIXME
-	if ((first_window != NULL) && ImportPhotos) 
-		activate_action_file_camera_import (NULL, first_window);
-	*/
+	if (ImportPhotos 
+	    && (first_window != NULL) 
+	    && GTH_IS_BROWSER (first_window))
+		gth_browser_activate_action_file_camera_import (NULL, GTH_BROWSER (first_window));
+
 	return FALSE;
 }
 

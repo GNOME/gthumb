@@ -97,6 +97,7 @@ struct _GthBrowserPrivateData {
 	guint               history_merge_id;
 
 	GtkToolItem        *go_back_tool_item;
+	GtkToolItem        *rotate_tool_item;
 
 	GtkWidget          *toolbar;
 	GtkWidget          *statusbar;
@@ -237,25 +238,25 @@ struct _GthBrowserPrivateData {
 
 	/* misc */
 
-	char                  *monitor_uri;
+	char               *monitor_uri;
 
-	guint                  cnxn_id[GCONF_NOTIFICATIONS];
-	GthPixbufOp           *pixop;
-	gboolean               pixop_preview;
+	guint               cnxn_id[GCONF_NOTIFICATIONS];
+	GthPixbufOp        *pixop;
+	gboolean            pixop_preview;
 
-	GladeXML              *progress_gui;
-	GtkWidget             *progress_dialog;
-	GtkWidget             *progress_progressbar;
-	GtkWidget             *progress_info;
-	guint                  progress_timeout;
+	GladeXML           *progress_gui;
+	GtkWidget          *progress_dialog;
+	GtkWidget          *progress_progressbar;
+	GtkWidget          *progress_info;
+	guint               progress_timeout;
 
-	GtkTooltips           *tooltips;
-	guint                  help_message_cid;
-	guint                  list_info_cid;
+	GtkTooltips        *tooltips;
+	guint               help_message_cid;
+	guint               list_info_cid;
 
-	gboolean               focus_location_entry;
+	gboolean            focus_location_entry;
 
-	gboolean               first_time_show;
+	gboolean            first_time_show;
 };
 
 static GthWindowClass *parent_class = NULL;
@@ -280,6 +281,9 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
+
+#define GO_BACK_TOOLITEM_POS   4
+#define ROTATE_TOOLITEM_POS    15
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
@@ -816,7 +820,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "Edit_Undo", gth_window_get_can_undo (GTH_WINDOW (browser)));
 	set_action_sensitive (browser, "Edit_Redo", gth_window_get_can_redo (GTH_WINDOW (browser)));
-	set_action_sensitive (browser, "Edit_RenameFile", only_one_is_selected);
+	set_action_sensitive (browser, "Edit_RenameFile", sel_not_null);
 	set_action_sensitive (browser, "Edit_DuplicateFile", sel_not_null);
 	set_action_sensitive (browser, "Edit_DeleteFiles", sel_not_null);
 	set_action_sensitive (browser, "Edit_CopyFiles", sel_not_null);
@@ -838,6 +842,8 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "AlterImage_StretchContrast", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Normalize", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_action_sensitive (browser, "AlterImage_Dither_BW", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_action_sensitive (browser, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani && image_is_visible);
 
 	set_action_sensitive (browser, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (browser, "View_StepAnimation", image_is_ani && ! playing);
@@ -898,7 +904,6 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Tools_Slideshow", priv->file_list->list != NULL);
 	set_action_sensitive (browser, "Tools_IndexImage", sel_not_null);
 	set_action_sensitive (browser, "Tools_WebExporter", sel_not_null);
-	set_action_sensitive (browser, "Tools_RenameSeries", sel_not_null);
 	set_action_sensitive (browser, "Tools_ConvertFormat", sel_not_null);
 	set_action_sensitive (browser, "Tools_ChangeDate", sel_not_null);
 	set_action_sensitive (browser, "Tools_JPEGRotate", sel_not_null);
@@ -4936,7 +4941,9 @@ add_go_back_toolbar_item (GthBrowser *browser)
 	GthBrowserPrivateData *priv = browser->priv;	
 
 	if (priv->go_back_tool_item != NULL) {
-		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), priv->go_back_tool_item, 4); /*FIXME*/
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+				    priv->go_back_tool_item, 
+				    GO_BACK_TOOLITEM_POS);
 		return;
 	}
 
@@ -4952,9 +4959,51 @@ add_go_back_toolbar_item (GthBrowser *browser)
 				  GTK_WIDGET (priv->go_back_tool_item));
 
 	gtk_widget_show (GTK_WIDGET (priv->go_back_tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), priv->go_back_tool_item, 4);  /*FIXME*/
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    priv->go_back_tool_item, 
+			    GO_BACK_TOOLITEM_POS);
+}
 
-	return;
+
+static void
+add_rotate_toolbar_item (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;	
+
+	if (priv->rotate_tool_item != NULL) {
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+				    priv->rotate_tool_item, 
+				    ROTATE_TOOLITEM_POS);
+		return;
+	}
+
+	priv->rotate_tool_item = gtk_menu_tool_button_new_from_stock (GTHUMB_STOCK_TRANSFORM);
+	g_object_ref (priv->rotate_tool_item);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item),
+				       gtk_ui_manager_get_widget (priv->ui, "/RotateImageMenu"));
+	gtk_tool_item_set_homogeneous (priv->rotate_tool_item, FALSE);
+	gtk_tool_item_set_tooltip (priv->rotate_tool_item, priv->tooltips, _("Rotate images without loss of quality"), NULL);
+	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), priv->tooltips,	_("Rotate images without loss of quality"), NULL);
+	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
+				  GTK_WIDGET (priv->rotate_tool_item));
+
+	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    priv->rotate_tool_item, 
+			    ROTATE_TOOLITEM_POS);
+}
+
+
+static void
+remove_custom_tool_item (GthBrowser  *browser,
+			 GtkToolItem *tool_item)
+{
+	if (tool_item == NULL)
+		return;
+
+	if (gtk_widget_get_parent ((GtkWidget*) tool_item) != NULL)
+		gtk_container_remove (GTK_CONTAINER (browser->priv->toolbar), 
+				      (GtkWidget*) tool_item);
 }
 
 
@@ -4967,18 +5016,18 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 
 	if (priv->toolbar_merge_id != 0)
 		gtk_ui_manager_remove_ui (priv->ui, priv->toolbar_merge_id);
-
-	if ((priv->go_back_tool_item != NULL)
-	    && (gtk_widget_get_parent ((GtkWidget*) priv->go_back_tool_item) != NULL)) {
-		gtk_container_remove (GTK_CONTAINER (priv->toolbar), (GtkWidget*) priv->go_back_tool_item);
-	}
+	remove_custom_tool_item (browser, priv->go_back_tool_item);
+	remove_custom_tool_item (browser, priv->rotate_tool_item);
+	
 	gtk_ui_manager_ensure_update (priv->ui);
 
 	if (content != GTH_SIDEBAR_NO_LIST) {
 		if (!first_time)
 			gth_browser_set_sidebar_content (browser, content);
 		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
+		gtk_ui_manager_ensure_update (priv->ui);
 		add_go_back_toolbar_item (browser);
+		add_rotate_toolbar_item (browser);
 
 	} else {
 		if (!first_time)

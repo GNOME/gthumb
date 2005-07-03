@@ -44,6 +44,7 @@
 #include "gthumb-preloader.h"
 #include "gthumb-stock.h"
 #include "image-viewer.h"
+#include "main.h"
 #include "preferences.h"
 
 #include "icons/pixbufs.h"
@@ -104,6 +105,8 @@ gth_fullscreen_finalize (GObject *object)
 
 	if (fullscreen->priv != NULL) {
 		GthFullscreenPrivateData *priv = fullscreen->priv;
+
+		g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), fullscreen);
 
 		if (priv->slideshow_timeout != 0) {
 			g_source_remove (priv->slideshow_timeout);
@@ -1092,6 +1095,137 @@ image_button_release_cb (GtkWidget      *widget,
 
 
 static void
+monitor_update_metadata_cb (GthMonitor    *monitor,
+			    const char    *filename,
+			    GthFullscreen *fullscreen)
+{
+	g_return_if_fail (fullscreen != NULL);
+	load_current_image (fullscreen);
+}
+
+
+static void
+update_current_image_link (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+	if (priv->current == NULL)
+		return;
+
+	if (priv->current->next != NULL) 
+		priv->current = priv->current->next;
+
+	else if (priv->current->prev != NULL) 
+		priv->current = priv->current->prev;
+
+	else {
+		priv->current = NULL;
+		return;
+	}
+
+	g_free (priv->image_path);
+	priv->image_path = NULL;
+}
+
+
+static void
+delete_list_from_file_list (GthFullscreen *fullscreen, 
+			    GList         *list)
+{
+	gboolean  reload_current_image = FALSE;
+	GList    *scan;
+
+	for (scan = list; scan; scan = scan->next) {
+		char  *filename = scan->data;
+		GList *deleted;
+		
+		deleted = g_list_find_custom (fullscreen->priv->file_list, 
+					      filename,
+					      (GCompareFunc) strcmp);
+		if (deleted != NULL) {
+			if (fullscreen->priv->current == deleted) {
+				reload_current_image = TRUE;
+				update_current_image_link (fullscreen);
+			}
+
+			fullscreen->priv->file_list = g_list_remove_link (fullscreen->priv->file_list, deleted);
+			path_list_free (deleted);
+			fullscreen->priv->files = g_list_length (fullscreen->priv->file_list);
+		}
+	}
+
+	if (reload_current_image) {
+		if (fullscreen->priv->current != NULL)
+			load_current_image (fullscreen);
+		else
+			gth_window_close (GTH_WINDOW (fullscreen));
+	}
+}
+
+
+static void
+monitor_update_files_cb (GthMonitor      *monitor,
+			 GthMonitorEvent  event,
+			 GList           *list,
+			 GthFullscreen   *fullscreen)
+{
+	g_return_if_fail (fullscreen != NULL);
+
+	if (fullscreen->priv->current == NULL)
+		return;
+
+	switch (event) {
+	case GTH_MONITOR_EVENT_CREATED:
+	case GTH_MONITOR_EVENT_CHANGED:
+		if ((fullscreen->priv->current != NULL) 
+		    && (g_list_find_custom (list, 
+					    fullscreen->priv->current->data,
+					    (GCompareFunc) strcmp) == NULL))
+			load_current_image (fullscreen);
+		break;
+
+	case GTH_MONITOR_EVENT_DELETED:
+		delete_list_from_file_list (fullscreen, list);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+static void
+monitor_file_renamed_cb (GthMonitor    *monitor,
+			 const char    *old_name,
+			 const char    *new_name,
+			 GthFullscreen *fullscreen)
+{
+	GList *renamed_image;
+
+	renamed_image = g_list_find_custom (fullscreen->priv->file_list,
+					    old_name,
+					    (GCompareFunc) strcmp);
+
+	if (renamed_image == NULL)
+		return;
+
+	g_free (renamed_image->data);
+	renamed_image->data = g_strdup (new_name);
+
+	if (fullscreen->priv->image_path == NULL)
+		return;
+
+	if (strcmp (old_name, fullscreen->priv->image_path) != 0)
+		return;
+
+	g_free (fullscreen->priv->image_path);
+	fullscreen->priv->image_path = g_strdup (new_name);
+
+	load_current_image (fullscreen);
+}
+
+
+static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
 			  const char    *image_path,
@@ -1159,6 +1293,21 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 
 	gtk_widget_show (priv->viewer);
 	gnome_app_set_contents (GNOME_APP (fullscreen), priv->viewer);
+
+	/**/
+
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_files",
+			  G_CALLBACK (monitor_update_files_cb),
+			  fullscreen);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_metadata",
+			  G_CALLBACK (monitor_update_metadata_cb),
+			  fullscreen);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "file_renamed",
+			  G_CALLBACK (monitor_file_renamed_cb),
+			  fullscreen);
 
 	/**/
 

@@ -32,6 +32,10 @@
 
 
 static GtkActionEntry gth_window_action_entries[] = {
+	{ "ImageTransformMenu", NULL, N_("_Transform") },
+	{ "ImageAutoMenu", NULL, N_("Auto") },
+	{ "DitherMenu", GTHUMB_STOCK_REDUCE_COLORS, N_("Reduce Colors") },
+
 	{ "File_CloseWindow", GTK_STOCK_CLOSE,
 	  NULL, NULL,
 	  N_("Close this window"),
@@ -132,16 +136,6 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Automatically equalize the image histogram"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_equalize) },
 
-	{ "AlterImage_Normalize", NULL,
-	  N_("_Normalize"), NULL,
-	  N_("Automatically normalize the contrast"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_normalize) },
-
-	{ "AlterImage_StretchContrast", NULL,
-	  N_("_Stretch Contrast"), NULL,
-	  N_("Automatically stretch the contrast"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_stretch_contrast) },
-
 	{ "AlterImage_Posterize", GTHUMB_STOCK_POSTERIZE,
 	  N_("_Posterize"), NULL,
 	  N_("Reduce the number of colors"),
@@ -181,6 +175,16 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("_Crop"), NULL,
 	  N_("Crop image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_crop) },
+
+	{ "AlterImage_Dither_BW", NULL,
+	  N_("Black and White"), NULL,
+	  N_("Reduce the number of colors"),
+	  G_CALLBACK (gth_window_activate_action_alter_image_dither_bw) },
+
+	{ "AlterImage_Dither_Web", NULL,
+	  N_("Web Palette"), NULL,
+	  N_("Reduce the number of colors"),
+	  G_CALLBACK (gth_window_activate_action_alter_image_dither_web) },
 
 	{ "View_ZoomIn", GTK_STOCK_ZOOM_IN,
 	  N_("In"), "<control>plus",
@@ -246,6 +250,26 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Change _Date"), NULL,
 	  N_("Change images last modified date"),
 	  G_CALLBACK (gth_window_activate_action_tools_change_date) },
+
+	{ "Tools_JPEGRotate", GTHUMB_STOCK_TRANSFORM,
+	  N_("Ro_tate Images"), NULL,
+	  N_("Rotate images without loss of quality"),
+	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate) },
+
+	{ "Tools_JPEGRotate_Left", GTHUMB_STOCK_ROTATE_90_CC,
+	  N_("Rotate _Left"), NULL,
+	  N_("Rotate images without loss of quality"),
+	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate_left) },
+
+	{ "Tools_JPEGRotate_Right", GTHUMB_STOCK_ROTATE_90,
+	  N_("Rotate Ri_ght"), NULL,
+	  N_("Rotate images without loss of quality"),
+	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate_right) },
+
+	{ "Tools_JPEGRotate_Auto", NULL,
+	  N_("Adjust photo _orientation"), NULL,
+	  N_("Rotate images without loss of quality"),
+	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate_auto) },
 
 	{ "Help_About", GTK_STOCK_ABOUT,
 	  NULL, NULL,

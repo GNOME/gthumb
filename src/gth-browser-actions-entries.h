@@ -44,8 +44,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "ViewZoomMenu", NULL, N_("_Zoom") },
 	{ "GoMenu", NULL, N_("_Go") },
 	{ "ImageMenu", NULL, N_("_Image") },
-	{ "ImageTransformMenu", NULL, N_("_Transform") },
-	{ "ImageAutoMenu", NULL, N_("Auto") },
 	{ "BookmarksMenu", NULL, N_("_Bookmarks") },
 	{ "ToolsMenu", NULL, N_("_Tools") },
 	{ "ToolsWallpaperMenu", NULL, N_("Set Image as _Wallpaper") },
@@ -98,12 +96,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "Edit_RenameFile", NULL,
 	  N_("_Rename..."), "F2",
-	  N_("Rename selected image"),
+	  N_("Rename selected images"),
 	  G_CALLBACK (gth_browser_activate_action_edit_rename_file) },
 
 	{ "Edit_DuplicateFile", NULL,
 	  N_("D_uplicate"), NULL,
-	  N_("Duplicate selected image"),
+	  N_("Duplicate selected images"),
 	  G_CALLBACK (gth_browser_activate_action_edit_duplicate_file) },
 
 	{ "Edit_DeleteFiles", GTK_STOCK_DELETE,
@@ -356,11 +354,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  " ",
 	  G_CALLBACK (gth_browser_activate_action_tools_web_exporter) },
 
-	{ "Tools_RenameSeries", NULL,
-	  N_("_Rename Series"), NULL,
-	  " ",
-	  G_CALLBACK (gth_browser_activate_action_tools_rename_series) },
-
 	{ "Tools_ConvertFormat", GTK_STOCK_CONVERT,
 	  N_("Convert F_ormat"), NULL,
 	  "Convert image format",
@@ -370,11 +363,6 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Fi_nd Duplicates..."), NULL,
 	  " ",
 	  G_CALLBACK (gth_browser_activate_action_tools_find_duplicates) },
-
-	{ "Tools_JPEGRotate", GTHUMB_STOCK_TRANSFORM,
-	  N_("Ro_tate Images"), NULL,
-	  N_("Rotate images without loss of quality"),
-	  G_CALLBACK (gth_browser_activate_action_tools_jpeg_rotate) },
 
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
 	  NULL, NULL, 

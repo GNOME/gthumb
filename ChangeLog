@@ -1,4 +1,50 @@
+2005-07-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/typedefs.h: moved GthTransform here.
+	* libgthumb/gthumb-module.c: 
+	* src/dlg-jpegtran.c (dlg_apply_jpegtran_from_exif)
+	(dlg_apply_jpegtran): 
+
+	Added ability to rotate to left/right a series of images,
+	or to auto-adjust the images orientation.
+
+	* src/gth-fullscreen.c (monitor_update_metadata_cb)
+	(update_current_image_link, delete_list_from_file_list)
+	(monitor_update_files_cb, monitor_file_renamed_cb): 
+
+	Update the file list and the current image when files
+	are updated or deleted.
+
+	* libgthumb/gth-pixbuf-op.h: 
+	* libgthumb/gth-pixbuf-op.c: 
+	* libgthumb/async-pixbuf-ops.h (_gdk_pixbuf_dither): 
+	* libgthumb/async-pixbuf-ops.c (_gdk_pixbuf_dither): 
+	* src/gth-viewer-ui.h: 
+	* src/gth-browser-ui.h: 
+	* libgthumb/async-pixbuf-ops.c (_gdk_pixbuf_dither): 
+	(dither_step, shade_value, get_error_pixel): 
+
+	Added image dithering operations using the web palette or
+	black and white.  
+	Removed normalize contrast and stretch contrast commands.
+	
+	* src/gth-browser-actions-entries.h: 
+	* src/gth-browser-actions-callbacks.h: 
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_edit_rename_file): 
+	* src/gth-browser.c (window_update_sensitivity): 
+
+	Fixed bug #171050: dont disable Rename when more than one file is 
+	selected.  Patch by Christian - Manny Calavera - Neumair.
+	
+2005-06-28  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-jpegtran.c (notify_file_changed): update the thumbnails soon
+	if images are rotated one by one.
+
 2005-06-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c (get_wallpaper_filename): 
+	make the file hidden, starting the name with a dot.
 
 	* src/gth-window.c (gth_window_set_image_pixbuf): clear
 	the undo history after setting a new image.
