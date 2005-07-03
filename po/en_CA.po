@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-17 01:57-0400\n"
-"PO-Revision-Date: 2005-06-17 22:26-0400\n"
+"POT-Creation-Date: 2005-07-03 18:55-0400\n"
+"PO-Revision-Date: 2005-07-03 22:26-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid "View as Catalog"
 msgstr "View as Catalogue"
 
 #: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: src/gth-window-actions-entries.h:62
+#: src/gth-window-actions-entries.h:66
 msgid "Print the current image"
 msgstr "Print the current image"
 
@@ -94,12 +94,12 @@ msgid "Save _As..."
 msgstr "Save _As..."
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: src/gth-window-actions-entries.h:47 src/gth-window-actions-entries.h:52
+#: src/gth-window-actions-entries.h:51 src/gth-window-actions-entries.h:56
 msgid "Save current image"
 msgstr "Save current image"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: src/gth-window-actions-entries.h:263
+#: src/gth-window-actions-entries.h:302
 msgid "Start or stop current animation"
 msgstr "Start or stop current animation"
 
@@ -112,7 +112,7 @@ msgid "Transparency T_ype"
 msgstr "Transparency T_ype"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#: src/gth-window-actions-entries.h:197
+#: src/gth-window-actions-entries.h:211
 msgid "View next animation frame"
 msgstr "View next animation frame"
 
@@ -125,18 +125,18 @@ msgid "_Checked"
 msgstr "_Checked"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: src/gth-window-actions-entries.h:96
+#: src/gth-window-actions-entries.h:110
 msgid "_Flip"
 msgstr "_Flip"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
-#: src/gth-browser-actions-entries.h:46 src/gth-browser-actions-entries.h:453
+#: src/gth-browser-actions-entries.h:46 src/gth-browser-actions-entries.h:435
 #: src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Image"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: src/gth-window-actions-entries.h:101
+#: src/gth-window-actions-entries.h:115
 msgid "_Mirror"
 msgstr "_Mirror"
 
@@ -166,14 +166,14 @@ msgstr "_White"
 msgid "_Zoom Quality"
 msgstr "_Zoom Quality"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:526
+#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:555
 msgid "%d %b %Y, %H:%M"
 msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:815
-#: src/dlg-image-prop.c:425 src/gth-browser.c:458
-#: src/gth-exif-data-viewer.c:468 src/gth-fullscreen.c:654
-#: src/gth-viewer.c:541
+#: src/dlg-image-prop.c:425 src/gth-browser.c:492
+#: src/gth-exif-data-viewer.c:467 src/gth-fullscreen.c:655
+#: src/gth-viewer.c:548
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -195,7 +195,7 @@ msgid "Dimensions"
 msgstr "Dimensions"
 
 #: data/albumthemes/text.h:29 src/dlg-image-prop.c:616
-#: src/gth-exif-data-viewer.c:497
+#: src/gth-exif-data-viewer.c:496
 msgid "Bytes"
 msgstr "Bytes"
 
@@ -243,139 +243,131 @@ msgstr "pixels"
 msgid "    "
 msgstr "    "
 
-#: data/glade/gthumb.glade.h:2 data/glade/gthumb_convert.glade.h:2
-msgid "*"
-msgstr "*"
-
-#: data/glade/gthumb.glade.h:3
+#: data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
 msgstr "<b>Categories:</b>"
 
-#: data/glade/gthumb.glade.h:4
+#: data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>Information on Channel:</b>"
 
-#: data/glade/gthumb.glade.h:5
+#: data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Overwrite the old image with the new one?</b>"
 
-#: data/glade/gthumb.glade.h:6
+#: data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
 msgstr "A_vailable applications:"
 
-#: data/glade/gthumb.glade.h:7
+#: data/glade/gthumb.glade.h:6
 msgid "Alpha"
 msgstr "Alpha"
 
-#: data/glade/gthumb.glade.h:8
+#: data/glade/gthumb.glade.h:7
 msgid "Blue"
 msgstr "Blue"
 
-#: data/glade/gthumb.glade.h:9
+#: data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
 msgstr "Bookmarks"
 
-#: data/glade/gthumb.glade.h:10
+#: data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
 msgstr "C_atalogs:"
 
-#: data/glade/gthumb.glade.h:11
+#: data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
 msgstr "Choose a Catalogue"
 
-#: data/glade/gthumb.glade.h:12 src/gth-window-actions-entries.h:71
+#: data/glade/gthumb.glade.h:11 src/gth-window-actions-entries.h:75
 msgid "Comm_ent"
 msgstr "Comm_ent"
 
-#: data/glade/gthumb.glade.h:13
+#: data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
 msgstr "Do not overwrite _the old image"
 
-#: data/glade/gthumb.glade.h:14
+#: data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "Green"
 
-#: data/glade/gthumb.glade.h:15
+#: data/glade/gthumb.glade.h:14
 msgid "New Image:"
 msgstr "New Image:"
 
-#: data/glade/gthumb.glade.h:16
+#: data/glade/gthumb.glade.h:15
 msgid "New _Library"
 msgstr "New _Library"
 
-#: data/glade/gthumb.glade.h:17
+#: data/glade/gthumb.glade.h:16
 msgid "Old Image:"
 msgstr "Old Image:"
 
-#: data/glade/gthumb.glade.h:18
+#: data/glade/gthumb.glade.h:17
 msgid "Open Images"
 msgstr "Open Images"
 
-#: data/glade/gthumb.glade.h:19
+#: data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
 msgstr "Over_write the old image"
 
-#: data/glade/gthumb.glade.h:20
+#: data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
 msgstr "Overwrite Image"
 
-#: data/glade/gthumb.glade.h:21
+#: data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
 msgstr "Overwrite _all images"
 
-#: data/glade/gthumb.glade.h:22
+#: data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
 msgstr "Photo _Data (EXIF)"
 
-#: data/glade/gthumb.glade.h:23
+#: data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
 msgstr "R_ecent applications:"
 
-#: data/glade/gthumb.glade.h:24
+#: data/glade/gthumb.glade.h:23
 msgid "Red"
 msgstr "Red"
 
-#: data/glade/gthumb.glade.h:25
+#: data/glade/gthumb.glade.h:24
 msgid "Value"
 msgstr "Value"
 
-#: data/glade/gthumb.glade.h:26
+#: data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "_Application:"
 
-#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:445
+#: data/glade/gthumb.glade.h:26 src/gth-folder-selection-dialog.c:454
 msgid "_Bookmarks:"
 msgstr "_Bookmarks:"
 
-#: data/glade/gthumb.glade.h:28
+#: data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
 msgstr "_Do not overwrite any image"
 
-#: data/glade/gthumb.glade.h:29
+#: data/glade/gthumb.glade.h:28
 msgid "_General"
 msgstr "_General"
 
-#: data/glade/gthumb.glade.h:30
+#: data/glade/gthumb.glade.h:29
 msgid "_Histogram"
 msgstr "_Histogram"
 
-#: data/glade/gthumb.glade.h:31
+#: data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
 msgstr "_New Catalogue"
 
-#: data/glade/gthumb.glade.h:32
+#: data/glade/gthumb.glade.h:31
 msgid "_Next"
 msgstr "_Next"
 
-#: data/glade/gthumb.glade.h:33
+#: data/glade/gthumb.glade.h:32
 msgid "_Previous"
 msgstr "_Previous"
 
-#: data/glade/gthumb.glade.h:34
-msgid "_Remove"
-msgstr "_Remove"
-
-#: data/glade/gthumb.glade.h:35
+#: data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
 msgstr "_Save the new image as:"
 
@@ -406,8 +398,8 @@ msgstr "Delete selected images from the camera"
 msgid "Import Photos"
 msgstr "Import Photos"
 
-#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:840
-#: src/dlg-photo-importer.c:879 src/dlg-photo-importer.c:1379
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:843
+#: src/dlg-photo-importer.c:882 src/dlg-photo-importer.c:1382
 msgid "No camera detected"
 msgstr "No camera detected"
 
@@ -513,21 +505,17 @@ msgstr "The following date"
 msgid "_Date:"
 msgstr "_Date:"
 
-#: data/glade/gthumb_comments.glade.h:16
-msgid "_Delete"
-msgstr "_Delete"
-
-#: data/glade/gthumb_comments.glade.h:17
-msgid "_New"
-msgstr "_New"
-
-#: data/glade/gthumb_comments.glade.h:18 data/glade/gthumb_search.glade.h:26
+#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
 msgstr "_Place:"
 
-#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:29
+#: data/glade/gthumb_comments.glade.h:17 data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
 msgstr "_Selected categories:"
+
+#: data/glade/gthumb_convert.glade.h:2
+msgid "*"
+msgstr "*"
 
 #: data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
@@ -691,7 +679,7 @@ msgstr "None"
 msgid "Square"
 msgstr "Square"
 
-#: data/glade/gthumb_crop.glade.h:12 src/gth-window-actions-entries.h:171
+#: data/glade/gthumb_crop.glade.h:12 src/gth-window-actions-entries.h:175
 msgid "_Crop"
 msgstr "_Crop"
 
@@ -1368,7 +1356,7 @@ msgid "_Slides"
 msgstr "_Slides"
 
 #: data/glade/gthumb_preferences.glade.h:65
-#: src/gth-browser-actions-entries.h:405
+#: src/gth-browser-actions-entries.h:387
 msgid "_Thumbnails"
 msgstr "_Thumbnails"
 
@@ -1485,8 +1473,8 @@ msgid "Postcard"
 msgstr "Postcard"
 
 #.
-#: data/glade/gthumb_print.glade.h:30 libgthumb/print-callbacks.c:1667
-#: libgthumb/print-callbacks.c:1681 libgthumb/print-callbacks.c:2137
+#: data/glade/gthumb_print.glade.h:30 libgthumb/print-callbacks.c:1674
+#: libgthumb/print-callbacks.c:1688 libgthumb/print-callbacks.c:2149
 msgid "Print"
 msgstr "Print"
 
@@ -1570,8 +1558,8 @@ msgstr "Match a_ny selected category"
 msgid "New _Search..."
 msgstr "New _Search..."
 
-#: data/glade/gthumb_search.glade.h:19 src/dlg-photo-importer.c:809
-#: src/dlg-photo-importer.c:1428
+#: data/glade/gthumb_search.glade.h:19 src/dlg-photo-importer.c:812
+#: src/dlg-photo-importer.c:1431
 msgid "No images found"
 msgstr "No images found"
 
@@ -1583,8 +1571,8 @@ msgstr "Search Progress"
 msgid "Searching in:"
 msgstr "Searching in:"
 
-#: data/glade/gthumb_search.glade.h:24 src/gth-browser-actions-entries.h:155
-#: src/gth-browser-actions-entries.h:190
+#: data/glade/gthumb_search.glade.h:24 src/gth-browser-actions-entries.h:153
+#: src/gth-browser-actions-entries.h:188
 msgid "_Edit Search"
 msgstr "_Edit Search"
 
@@ -1617,7 +1605,7 @@ msgstr ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 
-#: data/glade/gthumb_tools.glade.h:7
+#: data/glade/gthumb_tools.glade.h:7 src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "Adjust photo _orientation"
 
@@ -1682,9 +1670,9 @@ msgstr "Mirror image horizontally (left-right)"
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Mirror image vertically (top-bottom)"
 
-#: data/glade/gthumb_tools.glade.h:23 src/gth-browser-actions-entries.h:85
-#: src/gth-browser-actions-entries.h:110 src/gth-browser-actions-entries.h:220
-#: src/gth-browser-actions-entries.h:250
+#: data/glade/gthumb_tools.glade.h:23 src/gth-browser-actions-entries.h:83
+#: src/gth-browser-actions-entries.h:108 src/gth-browser-actions-entries.h:218
+#: src/gth-browser-actions-entries.h:248
 msgid "Move to _Trash"
 msgstr "Move to _Trash"
 
@@ -1728,9 +1716,9 @@ msgstr "The _following date:"
 msgid "Write To CD"
 msgstr "Write To CD"
 
-#: data/glade/gthumb_tools.glade.h:37 src/gth-browser-actions-callbacks.c:157
-#: src/gth-browser-actions-callbacks.c:553
-#: src/gth-browser-actions-callbacks.c:1062
+#: data/glade/gthumb_tools.glade.h:37 src/gth-browser-actions-callbacks.c:156
+#: src/gth-browser-actions-callbacks.c:557
+#: src/gth-browser-actions-callbacks.c:1066
 msgid "_Rename"
 msgstr "_Rename"
 
@@ -2057,10 +2045,10 @@ msgstr "Deleting old comments, wait please..."
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:944 src/catalog-web-exporter.c:51
-#: src/dlg-duplicates.c:553 src/dlg-image-prop.c:445 src/gth-browser.c:454
-#: src/gth-exif-data-viewer.c:472 src/gth-fullscreen.c:665
-#: src/gth-viewer.c:537
+#: libgthumb/comments.c:944 src/catalog-web-exporter.c:52
+#: src/dlg-duplicates.c:553 src/dlg-image-prop.c:445 src/gth-browser.c:488
+#: src/gth-exif-data-viewer.c:471 src/gth-fullscreen.c:666
+#: src/gth-viewer.c:544
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2068,8 +2056,8 @@ msgstr "%d %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(No Comment)"
 
-#: libgthumb/dlg-save-image.c:111 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:772 src/dlg-photo-importer.c:1453
+#: libgthumb/dlg-save-image.c:111 src/dlg-file-utils.c:119
+#: src/dlg-jpegtran.c:791 src/dlg-photo-importer.c:1456
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2077,7 +2065,7 @@ msgstr ""
 "You don't have the right permissions to create images in the folder \"%s\""
 
 #: libgthumb/dlg-save-image.c:126 src/dlg-convert.c:311
-#: src/gth-browser-actions-callbacks.c:191
+#: src/gth-browser-actions-callbacks.c:190
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "An image named \"%s\" is already present. Do you want to overwrite it?"
@@ -2183,34 +2171,30 @@ msgstr "Show size in font info mode"
 msgid "Font"
 msgstr "Font"
 
-#: libgthumb/gth-file-list.c:523 src/gth-browser.c:8367 src/gth-viewer.c:1892
+#: libgthumb/gth-file-list.c:523 src/gth-browser.c:8397 src/gth-viewer.c:2025
 msgid "Wait please..."
 msgstr "Wait please..."
 
 #: libgthumb/gth-file-list.c:617 libgthumb/gth-file-list.c:638
-#: libgthumb/gth-image-list.c:3443 src/gth-browser.c:683 src/gth-viewer.c:681
+#: libgthumb/gth-image-list.c:3443 src/gth-browser.c:717 src/gth-viewer.c:688
 msgid "No image"
 msgstr "No image"
 
 #: libgthumb/gth-file-view-list.c:1378 src/dlg-duplicates.c:373
-#: src/dlg-image-prop.c:601 src/gth-exif-data-viewer.c:483
+#: src/dlg-image-prop.c:601 src/gth-exif-data-viewer.c:482
 msgid "Name"
 msgstr "Name"
 
-#: libgthumb/gtk-utils.c:628 libgthumb/gtk-utils.c:662 src/bookmark-list.c:173
-#: src/catalog-list.c:438 src/catalog-list.c:470 src/dir-list.c:245
-#: src/dir-list.c:499 src/dlg-rename-series.c:290 src/dlg-rename-series.c:294
-#: src/gth-browser.c:605 src/gth-browser.c:1297 src/gth-browser.c:1303
-#: src/gth-browser.c:1309
-msgid "(Invalid Name)"
-msgstr "(Invalid Name)"
+#: libgthumb/gthumb-stock.c:81 src/gth-window-actions-entries.h:255
+msgid "Ro_tate Images"
+msgstr "Ro_tate Images"
 
-#: libgthumb/print-callbacks.c:662
+#: libgthumb/print-callbacks.c:669
 #, c-format
 msgid "Page %d of %d"
 msgstr "Page %d of %d"
 
-#: libgthumb/print-callbacks.c:1740 src/catalog-png-exporter.c:1336
+#: libgthumb/print-callbacks.c:1747 src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Loading image: %s"
@@ -2223,47 +2207,52 @@ msgstr "Deleting all thumbnails, wait please..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Deleting old thumbnails, wait please..."
 
+#: src/bookmark-list.c:173 src/gth-browser.c:639 src/gth-browser.c:1293
+#: src/gth-browser.c:1299 src/gth-browser.c:1305
+msgid "(Invalid Name)"
+msgstr "(Invalid Name)"
+
 #: src/catalog-png-exporter.c:1565
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Creating image: %s.%s"
 
-#: src/catalog-web-exporter.c:1669
+#: src/catalog-web-exporter.c:1704
 msgid "Saving thumbnails"
 msgstr "Saving thumbnails"
 
-#: src/catalog-web-exporter.c:1735
+#: src/catalog-web-exporter.c:1770
 msgid "Saving HTML pages: Images"
 msgstr "Saving HTML pages: Images"
 
-#: src/catalog-web-exporter.c:1810
+#: src/catalog-web-exporter.c:1845
 msgid "Saving HTML pages: Indexes"
 msgstr "Saving HTML pages: Indexes"
 
-#: src/catalog-web-exporter.c:1933 src/catalog-web-exporter.c:1992
-#: src/catalog-web-exporter.c:2162
+#: src/catalog-web-exporter.c:1969 src/catalog-web-exporter.c:2029
+#: src/catalog-web-exporter.c:2199
 msgid "Saving images"
 msgstr "Saving images"
 
-#: src/catalog-web-exporter.c:2371
+#: src/catalog-web-exporter.c:2383
 msgid "Could not create a temporary folder"
 msgstr "Could not create a temporary folder"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2404
+#: src/catalog-web-exporter.c:2416
 msgid "Loading images"
 msgstr "Loading images"
 
-#: src/dlg-catalog.c:83 src/gth-browser-actions-callbacks.c:768
+#: src/dlg-catalog.c:83 src/gth-browser-actions-callbacks.c:772
 msgid "Enter the catalog name: "
 msgstr "Enter the catalogue name: "
 
 #: src/dlg-catalog.c:87 src/dlg-catalog.c:138 src/dlg-categories.c:243
-#: src/dlg-file-utils.c:90 src/gth-browser-actions-callbacks.c:854
+#: src/dlg-file-utils.c:91 src/gth-browser-actions-callbacks.c:858
 msgid "C_reate"
 msgstr "C_reate"
 
-#: src/dlg-catalog.c:134 src/gth-browser-actions-callbacks.c:910
+#: src/dlg-catalog.c:134 src/gth-browser-actions-callbacks.c:914
 msgid "Enter the library name: "
 msgstr "Enter the library name: "
 
@@ -2289,10 +2278,10 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "The category \"%s\" is already present. Please use a different name."
 
-#: src/dlg-categories.c:369 src/dlg-change-date.c:154 src/dlg-comment.c:306
-#: src/dlg-convert.c:437 src/dlg-jpegtran.c:1017 src/dlg-preferences.c:180
-#: src/dlg-rename-series.c:333 src/dlg-search.c:468
-#: src/gth-window-actions-callbacks.c:700
+#: src/dlg-categories.c:369 src/dlg-change-date.c:158 src/dlg-comment.c:306
+#: src/dlg-convert.c:437 src/dlg-jpegtran.c:1052 src/dlg-preferences.c:180
+#: src/dlg-rename-series.c:327 src/dlg-search.c:468
+#: src/gth-window-actions-callbacks.c:821
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Could not display help: %s"
@@ -2309,16 +2298,16 @@ msgid ""
 msgstr ""
 "An image named \"%s\" is already present. Please specify a different name."
 
-#: src/dlg-convert.c:317 src/gth-browser-actions-callbacks.c:198
+#: src/dlg-convert.c:317 src/gth-browser-actions-callbacks.c:197
 msgid "_Overwrite"
 msgstr "_Overwrite"
 
-#: src/dlg-crop.c:371
+#: src/dlg-crop.c:369
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Image)"
 
-#: src/dlg-crop.c:379
+#: src/dlg-crop.c:377
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (Display)"
@@ -2343,20 +2332,20 @@ msgstr "Location"
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Checked images will be moved to the Trash, are you sure?"
 
-#: src/dlg-file-utils.c:88
+#: src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "The destination folder does not exist. Do you want to create it?"
 
-#: src/dlg-file-utils.c:104
+#: src/dlg-file-utils.c:105
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Could not create folder \"%s\": %s."
 
-#: src/dlg-file-utils.c:201
+#: src/dlg-file-utils.c:202
 msgid "Could not delete the images:"
 msgstr "Could not delete the images:"
 
-#: src/dlg-file-utils.c:224
+#: src/dlg-file-utils.c:225
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -2364,86 +2353,86 @@ msgstr ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 
-#: src/dlg-file-utils.c:227 src/gth-browser-actions-callbacks.c:1219
-#: src/gth-browser.c:1830 src/gth-viewer.c:793
+#: src/dlg-file-utils.c:228 src/gth-browser-actions-callbacks.c:1223
+#: src/gth-browser.c:1770 src/gth-viewer.c:800
 msgid "_Do not display this message again"
 msgstr "_Do not display this message again"
 
-#: src/dlg-file-utils.c:281 src/gth-browser-actions-callbacks.c:1257
+#: src/dlg-file-utils.c:282 src/gth-browser-actions-callbacks.c:1261
 msgid "_Move"
 msgstr "_Move"
 
-#: src/dlg-file-utils.c:368 src/dlg-file-utils.c:458
-#: src/gth-browser-actions-callbacks.c:1466
+#: src/dlg-file-utils.c:383 src/dlg-file-utils.c:487
+#: src/gth-browser-actions-callbacks.c:1470
 msgid "Choose the destination folder"
 msgstr "Choose the destination folder"
 
-#: src/dlg-file-utils.c:762 src/dlg-file-utils.c:863
+#: src/dlg-file-utils.c:791 src/dlg-file-utils.c:892
 msgid "You didn't enter the new name"
 msgstr "You didn't enter the new name"
 
-#: src/dlg-file-utils.c:774 src/dlg-file-utils.c:875
+#: src/dlg-file-utils.c:803 src/dlg-file-utils.c:904
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 
-#: src/dlg-file-utils.c:1014
+#: src/dlg-file-utils.c:1043
 msgid "Could not rename the image:"
 msgstr "Could not rename the image:"
 
-#: src/dlg-file-utils.c:1016
+#: src/dlg-file-utils.c:1045
 msgid "Could not rename the following images:"
 msgstr "Could not rename the following images:"
 
-#: src/dlg-file-utils.c:1150
+#: src/dlg-file-utils.c:1179
 msgid "Could not move the image:"
 msgstr "Could not move the image:"
 
-#: src/dlg-file-utils.c:1152
+#: src/dlg-file-utils.c:1181
 msgid "Could not copy the image:"
 msgstr "Could not copy the image:"
 
-#: src/dlg-file-utils.c:1176 src/dlg-file-utils.c:2441
+#: src/dlg-file-utils.c:1205 src/dlg-file-utils.c:2470
 msgid "_Abort"
 msgstr "_Abort"
 
-#: src/dlg-file-utils.c:1177 src/dlg-file-utils.c:2442
+#: src/dlg-file-utils.c:1206 src/dlg-file-utils.c:2471
 msgid "_Continue"
 msgstr "_Continue"
 
-#: src/dlg-file-utils.c:1351
+#: src/dlg-file-utils.c:1380
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Copying file %d of %d"
 
-#: src/dlg-file-utils.c:1767 src/dlg-file-utils.c:1995
+#: src/dlg-file-utils.c:1796 src/dlg-file-utils.c:2024
 msgid "Collecting images info"
 msgstr "Collecting images info"
 
-#: src/dlg-file-utils.c:1770 src/dlg-file-utils.c:2008
+#: src/dlg-file-utils.c:1799 src/dlg-file-utils.c:2037
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Deleting file %ld of %ld"
 
-#: src/dlg-file-utils.c:1998
+#: src/dlg-file-utils.c:2027
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Copying file %ld of %ld"
 
-#: src/dlg-file-utils.c:2003
+#: src/dlg-file-utils.c:2032
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Moving file %ld of %ld"
 
-#: src/dlg-file-utils.c:2418 src/dlg-file-utils.c:2420
-#: src/gth-browser-actions-callbacks.c:1358
+#: src/dlg-file-utils.c:2447 src/dlg-file-utils.c:2449
+#: src/gth-browser-actions-callbacks.c:1362
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Could not move the folder \"%s\": %s"
 
-#: src/dlg-image-prop.c:606 src/gth-exif-data-viewer.c:490
+#: src/dlg-image-prop.c:606 src/gth-exif-data-viewer.c:489
 msgid "Size"
 msgstr "Size"
 
@@ -2451,8 +2440,8 @@ msgstr "Size"
 msgid "Type"
 msgstr "Type"
 
-#: src/dlg-image-prop.c:626 src/gth-browser.c:470
-#: src/gth-exif-data-viewer.c:504 src/gth-viewer.c:553
+#: src/dlg-image-prop.c:626 src/gth-browser.c:504
+#: src/gth-exif-data-viewer.c:503 src/gth-viewer.c:560
 msgid "Modified"
 msgstr "Modified"
 
@@ -2465,17 +2454,17 @@ msgstr "Information on Channel"
 msgid "%s Properties"
 msgstr "%s Properties"
 
-#: src/dlg-photo-importer.c:876 src/dlg-photo-importer.c:1378
-#: src/dlg-photo-importer.c:1427 src/dlg-photo-importer.c:1439
-#: src/dlg-photo-importer.c:1455 src/dlg-photo-importer.c:1484
+#: src/dlg-photo-importer.c:879 src/dlg-photo-importer.c:1381
+#: src/dlg-photo-importer.c:1430 src/dlg-photo-importer.c:1442
+#: src/dlg-photo-importer.c:1458 src/dlg-photo-importer.c:1487
 msgid "Could not import photos"
 msgstr "Could not import photos"
 
-#: src/dlg-photo-importer.c:1221 src/main.c:952
+#: src/dlg-photo-importer.c:1224 src/main.c:953
 msgid "Film"
 msgstr "Film"
 
-#: src/dlg-photo-importer.c:1436 src/gth-browser-actions-callbacks.c:1669
+#: src/dlg-photo-importer.c:1439 src/gth-browser-actions-callbacks.c:1673
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Could not create the folder \"%s\": %s"
@@ -2492,11 +2481,11 @@ msgstr "Header"
 msgid "Footer"
 msgstr "Footer"
 
-#: src/dlg-rename-series.c:403
+#: src/dlg-rename-series.c:397
 msgid "Old Name"
 msgstr "Old Name"
 
-#: src/dlg-rename-series.c:411
+#: src/dlg-rename-series.c:405
 msgid "New Name"
 msgstr "New Name"
 
@@ -2508,7 +2497,7 @@ msgstr "Search Result"
 msgid "Filename"
 msgstr "Filename"
 
-#: src/dlg-search.c:689 src/gth-folder-selection-dialog.c:383
+#: src/dlg-search.c:689 src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "Folder"
 
@@ -2516,21 +2505,21 @@ msgstr "Folder"
 msgid "Select Album Theme"
 msgstr "Select Album Theme"
 
-#: src/dlg-write-to-cd.c:79 src/gth-browser.c:3615
+#: src/dlg-write-to-cd.c:79 src/gth-browser.c:3593
 msgid "Could not move the items:"
 msgstr "Could not move the items:"
 
-#: src/gth-browser-actions-callbacks.c:153
-#: src/gth-browser-actions-callbacks.c:549
-#: src/gth-browser-actions-callbacks.c:1058
+#: src/gth-browser-actions-callbacks.c:152
+#: src/gth-browser-actions-callbacks.c:553
+#: src/gth-browser-actions-callbacks.c:1062
 msgid "Enter the new name: "
 msgstr "Enter the new name: "
 
-#: src/gth-browser-actions-callbacks.c:171
-#: src/gth-browser-actions-callbacks.c:569
-#: src/gth-browser-actions-callbacks.c:784
-#: src/gth-browser-actions-callbacks.c:867
-#: src/gth-browser-actions-callbacks.c:1076
+#: src/gth-browser-actions-callbacks.c:170
+#: src/gth-browser-actions-callbacks.c:573
+#: src/gth-browser-actions-callbacks.c:788
+#: src/gth-browser-actions-callbacks.c:871
+#: src/gth-browser-actions-callbacks.c:1080
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2539,124 +2528,124 @@ msgstr ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 
-#: src/gth-browser-actions-callbacks.c:218
-#: src/gth-browser-actions-callbacks.c:233
+#: src/gth-browser-actions-callbacks.c:217
+#: src/gth-browser-actions-callbacks.c:232
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Could not rename the image \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:220
-#: src/gth-browser-actions-callbacks.c:1098
-#: src/gth-browser-actions-callbacks.c:1368
+#: src/gth-browser-actions-callbacks.c:219
+#: src/gth-browser-actions-callbacks.c:1102
+#: src/gth-browser-actions-callbacks.c:1372
 msgid "source and destination are the same"
 msgstr "source and destination are the same"
 
-#: src/gth-browser-actions-callbacks.c:277 src/gth-fullscreen.c:902
+#: src/gth-browser-actions-callbacks.c:276 src/gth-fullscreen.c:903
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "The image will be moved to the Trash, are you sure?"
 
-#: src/gth-browser-actions-callbacks.c:390
+#: src/gth-browser-actions-callbacks.c:392
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Could not duplicate the image \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:398
+#: src/gth-browser-actions-callbacks.c:400
 msgid "Stop"
 msgstr "Stop"
 
-#: src/gth-browser-actions-callbacks.c:399
+#: src/gth-browser-actions-callbacks.c:401
 msgid "Continue"
 msgstr "Continue"
 
-#: src/gth-browser-actions-callbacks.c:451
+#: src/gth-browser-actions-callbacks.c:456
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "The selected images will be moved to the Trash, are you sure?"
 
-#: src/gth-browser-actions-callbacks.c:591
-#: src/gth-browser-actions-callbacks.c:803
-#: src/gth-browser-actions-callbacks.c:883
-#: src/gth-browser-actions-callbacks.c:1106
+#: src/gth-browser-actions-callbacks.c:595
+#: src/gth-browser-actions-callbacks.c:807
+#: src/gth-browser-actions-callbacks.c:887
+#: src/gth-browser-actions-callbacks.c:1110
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "The name \"%s\" is already used. Please use a different name."
 
-#: src/gth-browser-actions-callbacks.c:602
+#: src/gth-browser-actions-callbacks.c:606
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Could not rename the library \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:602
+#: src/gth-browser-actions-callbacks.c:606
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Could not rename the catalogue \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:672
+#: src/gth-browser-actions-callbacks.c:676
 msgid "The selected library will be removed, are you sure?"
 msgstr "The selected library will be removed, are you sure?"
 
-#: src/gth-browser-actions-callbacks.c:674
+#: src/gth-browser-actions-callbacks.c:678
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "The selected catalogue will be removed, are you sure?"
 
-#: src/gth-browser-actions-callbacks.c:769
+#: src/gth-browser-actions-callbacks.c:773
 msgid "New Catalog"
 msgstr "New Catalogue"
 
-#: src/gth-browser-actions-callbacks.c:815
+#: src/gth-browser-actions-callbacks.c:819
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Could not create the catalogue \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:909
+#: src/gth-browser-actions-callbacks.c:913
 msgid "New Library"
 msgstr "New Library"
 
-#: src/gth-browser-actions-callbacks.c:911
+#: src/gth-browser-actions-callbacks.c:915
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Could not create the library \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:1096
-#: src/gth-browser-actions-callbacks.c:1130
+#: src/gth-browser-actions-callbacks.c:1100
+#: src/gth-browser-actions-callbacks.c:1134
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Could not rename the folder \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:1180
+#: src/gth-browser-actions-callbacks.c:1184
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Could not delete the folder \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:1211
+#: src/gth-browser-actions-callbacks.c:1215
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 
-#: src/gth-browser-actions-callbacks.c:1255
+#: src/gth-browser-actions-callbacks.c:1259
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "The selected folder will be moved to the Trash, are you sure?"
 
-#: src/gth-browser-actions-callbacks.c:1303
-#: src/gth-browser-actions-callbacks.c:1358
+#: src/gth-browser-actions-callbacks.c:1307
+#: src/gth-browser-actions-callbacks.c:1362
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Could not copy the folder \"%s\": %s"
 
-#: src/gth-browser-actions-callbacks.c:1379
+#: src/gth-browser-actions-callbacks.c:1383
 msgid "source contains destination"
 msgstr "source contains destination"
 
-#: src/gth-browser-actions-callbacks.c:1390
+#: src/gth-browser-actions-callbacks.c:1394
 msgid "a folder with that name is already present."
 msgstr "a folder with that name is already present."
 
-#: src/gth-browser-actions-callbacks.c:1667
+#: src/gth-browser-actions-callbacks.c:1671
 msgid "New Folder"
 msgstr "New Folder"
 
-#: src/gth-browser-actions-callbacks.c:1668
+#: src/gth-browser-actions-callbacks.c:1672
 msgid "Enter the folder name: "
 msgstr "Enter the folder name: "
 
@@ -2688,585 +2677,564 @@ msgstr "_Zoom"
 msgid "_Go"
 msgstr "_Go"
 
-#: src/gth-browser-actions-entries.h:47 src/gth-viewer-actions-entries.h:41
-msgid "_Transform"
-msgstr "_Transform"
-
-#: src/gth-browser-actions-entries.h:48 src/gth-viewer-actions-entries.h:42
-msgid "Auto"
-msgstr "Auto"
-
-#: src/gth-browser-actions-entries.h:49
+#: src/gth-browser-actions-entries.h:47
 msgid "_Bookmarks"
 msgstr "_Bookmarks"
 
-#: src/gth-browser-actions-entries.h:50 src/gth-viewer-actions-entries.h:43
+#: src/gth-browser-actions-entries.h:48 src/gth-viewer-actions-entries.h:43
 msgid "_Tools"
 msgstr "_Tools"
 
-#: src/gth-browser-actions-entries.h:51 src/gth-viewer-actions-entries.h:44
+#: src/gth-browser-actions-entries.h:49 src/gth-viewer-actions-entries.h:44
 msgid "Set Image as _Wallpaper"
 msgstr "Set Image as _Wallpaper"
 
-#: src/gth-browser-actions-entries.h:52 src/gth-viewer-actions-entries.h:45
+#: src/gth-browser-actions-entries.h:50 src/gth-viewer-actions-entries.h:45
 msgid "_Help"
 msgstr "_Help"
 
-#: src/gth-browser-actions-entries.h:55 src/gth-viewer-actions-entries.h:48
+#: src/gth-browser-actions-entries.h:53 src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
 msgstr "New _Window"
 
-#: src/gth-browser-actions-entries.h:56 src/gth-viewer-actions-entries.h:49
+#: src/gth-browser-actions-entries.h:54 src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
 msgstr "Create a new window"
 
-#: src/gth-browser-actions-entries.h:61
+#: src/gth-browser-actions-entries.h:59
 msgid "Open the selecte image in a new window"
 msgstr "Open the selecte image in a new window"
 
-#: src/gth-browser-actions-entries.h:65
+#: src/gth-browser-actions-entries.h:63
 msgid "Proper_ties"
 msgstr "Proper_ties"
 
-#: src/gth-browser-actions-entries.h:66
+#: src/gth-browser-actions-entries.h:64
 msgid "View image properties"
 msgstr "View image properties"
 
-#: src/gth-browser-actions-entries.h:70
+#: src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
 msgstr "_Import Photos..."
 
-#: src/gth-browser-actions-entries.h:71
+#: src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
 msgstr "Import photos from a digital camera"
 
-#: src/gth-browser-actions-entries.h:75
+#: src/gth-browser-actions-entries.h:73
 msgid "_Write To CD"
 msgstr "_Write To CD"
 
-#: src/gth-browser-actions-entries.h:76
+#: src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
 msgstr "Write selection to CD"
 
-#: src/gth-browser-actions-entries.h:80 src/gth-browser-actions-entries.h:100
-#: src/gth-browser-actions-entries.h:140 src/gth-browser-actions-entries.h:175
-#: src/gth-browser-actions-entries.h:215 src/gth-browser-actions-entries.h:245
+#: src/gth-browser-actions-entries.h:78 src/gth-browser-actions-entries.h:98
+#: src/gth-browser-actions-entries.h:138 src/gth-browser-actions-entries.h:173
+#: src/gth-browser-actions-entries.h:213 src/gth-browser-actions-entries.h:243
 msgid "_Rename..."
 msgstr "_Rename..."
 
-#: src/gth-browser-actions-entries.h:81
+#: src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
 msgstr "Rename this image"
 
-#: src/gth-browser-actions-entries.h:86
+#: src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
 msgstr "Move this image to the Trash"
 
-#: src/gth-browser-actions-entries.h:90 src/gth-browser-actions-entries.h:115
-#: src/gth-browser-actions-entries.h:225 src/gth-browser-actions-entries.h:255
+#: src/gth-browser-actions-entries.h:88 src/gth-browser-actions-entries.h:113
+#: src/gth-browser-actions-entries.h:223 src/gth-browser-actions-entries.h:253
 msgid "_Copy..."
 msgstr "_Copy..."
 
-#: src/gth-browser-actions-entries.h:91
+#: src/gth-browser-actions-entries.h:89
 msgid "Copy this image to another location"
 msgstr "Copy this image to another location"
 
-#: src/gth-browser-actions-entries.h:95 src/gth-browser-actions-entries.h:120
-#: src/gth-browser-actions-entries.h:150 src/gth-browser-actions-entries.h:185
-#: src/gth-browser-actions-entries.h:230 src/gth-browser-actions-entries.h:260
+#: src/gth-browser-actions-entries.h:93 src/gth-browser-actions-entries.h:118
+#: src/gth-browser-actions-entries.h:148 src/gth-browser-actions-entries.h:183
+#: src/gth-browser-actions-entries.h:228 src/gth-browser-actions-entries.h:258
 msgid "_Move..."
 msgstr "_Move..."
 
-#: src/gth-browser-actions-entries.h:96
+#: src/gth-browser-actions-entries.h:94
 msgid "Move this image to another location"
 msgstr "Move this image to another location"
 
-#: src/gth-browser-actions-entries.h:101
-msgid "Rename selected image"
-msgstr "Rename selected image"
+#: src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "Rename selected images"
 
-#: src/gth-browser-actions-entries.h:105
+#: src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
 msgstr "D_uplicate"
 
-#: src/gth-browser-actions-entries.h:106
-msgid "Duplicate selected image"
-msgstr "Duplicate selected image"
+#: src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr "Duplicate selected images"
 
-#: src/gth-browser-actions-entries.h:111
+#: src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
 msgstr "Move the selected images to the Trash"
 
-#: src/gth-browser-actions-entries.h:116
+#: src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
 msgstr "Copy selected images to another location"
 
-#: src/gth-browser-actions-entries.h:121
+#: src/gth-browser-actions-entries.h:119
 msgid "Move selected images to another location"
 msgstr "Move selected images to another location"
 
-#: src/gth-browser-actions-entries.h:125
+#: src/gth-browser-actions-entries.h:123
 msgid "_Select All"
 msgstr "_Select All"
 
-#: src/gth-browser-actions-entries.h:126
+#: src/gth-browser-actions-entries.h:124
 msgid "Select all images"
 msgstr "Select all images"
 
-#: src/gth-browser-actions-entries.h:130 src/gth-viewer-actions-entries.h:58
+#: src/gth-browser-actions-entries.h:128 src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
 msgstr "_Add to Catalogue..."
 
-#: src/gth-browser-actions-entries.h:131 src/gth-viewer-actions-entries.h:59
+#: src/gth-browser-actions-entries.h:129 src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
 msgstr "Add selected images to a catalogue"
 
-#: src/gth-browser-actions-entries.h:135
+#: src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
 msgstr "Remo_ve from Catalogue"
 
-#: src/gth-browser-actions-entries.h:136
+#: src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
 msgstr "Remove selected images from the catalogue"
 
-#: src/gth-browser-actions-entries.h:141
+#: src/gth-browser-actions-entries.h:139
 msgid "Rename selected catalog"
 msgstr "Rename selected catalogue"
 
-#: src/gth-browser-actions-entries.h:145 src/gth-browser-actions-entries.h:180
+#: src/gth-browser-actions-entries.h:143 src/gth-browser-actions-entries.h:178
 msgid "Rem_ove"
 msgstr "Rem_ove"
 
-#: src/gth-browser-actions-entries.h:146
+#: src/gth-browser-actions-entries.h:144
 msgid "Remove selected catalog"
 msgstr "Remove selected catalogue"
 
-#: src/gth-browser-actions-entries.h:151
+#: src/gth-browser-actions-entries.h:149
 msgid "Move selected catalog to another location"
 msgstr "Move selected catalogue to another location"
 
-#: src/gth-browser-actions-entries.h:156 src/gth-browser-actions-entries.h:191
+#: src/gth-browser-actions-entries.h:154 src/gth-browser-actions-entries.h:189
 msgid "Modify search criteria"
 msgstr "Modify search criteria"
 
-#: src/gth-browser-actions-entries.h:160 src/gth-browser-actions-entries.h:195
+#: src/gth-browser-actions-entries.h:158 src/gth-browser-actions-entries.h:193
 msgid "Redo _Search"
 msgstr "Redo _Search"
 
-#: src/gth-browser-actions-entries.h:161 src/gth-browser-actions-entries.h:196
+#: src/gth-browser-actions-entries.h:159 src/gth-browser-actions-entries.h:194
 msgid "Redo the search"
 msgstr "Redo the search"
 
-#: src/gth-browser-actions-entries.h:165
+#: src/gth-browser-actions-entries.h:163
 msgid "_New Catalog..."
 msgstr "_New Catalogue..."
 
-#: src/gth-browser-actions-entries.h:166
+#: src/gth-browser-actions-entries.h:164
 msgid "Create a new catalog"
 msgstr "Create a new catalogue"
 
-#: src/gth-browser-actions-entries.h:170
+#: src/gth-browser-actions-entries.h:168
 msgid "New _Library..."
 msgstr "New _Library..."
 
-#: src/gth-browser-actions-entries.h:171
+#: src/gth-browser-actions-entries.h:169
 msgid "Create a new catalog library"
 msgstr "Create a new catalogue library"
 
-#: src/gth-browser-actions-entries.h:176
+#: src/gth-browser-actions-entries.h:174
 msgid "Rename current catalog"
 msgstr "Rename current catalogue"
 
-#: src/gth-browser-actions-entries.h:181
+#: src/gth-browser-actions-entries.h:179
 msgid "Remove current catalog"
 msgstr "Remove current catalogue"
 
-#: src/gth-browser-actions-entries.h:186
+#: src/gth-browser-actions-entries.h:184
 msgid "Move current catalog to another location"
 msgstr "Move current catalogue to another location"
 
-#: src/gth-browser-actions-entries.h:200
+#: src/gth-browser-actions-entries.h:198
 msgid "Open"
 msgstr "Open"
 
-#: src/gth-browser-actions-entries.h:201
+#: src/gth-browser-actions-entries.h:199
 msgid "Open the selected folder"
 msgstr "Open the selected folder"
 
-#: src/gth-browser-actions-entries.h:205
+#: src/gth-browser-actions-entries.h:203
 msgid "Open in New Window"
 msgstr "Open in New Window"
 
-#: src/gth-browser-actions-entries.h:206
+#: src/gth-browser-actions-entries.h:204
 msgid "Open the selected folder in a new window"
 msgstr "Open the selected folder in a new window"
 
-#: src/gth-browser-actions-entries.h:210 src/gth-browser-actions-entries.h:240
+#: src/gth-browser-actions-entries.h:208 src/gth-browser-actions-entries.h:238
 msgid "Open with the _File Manager"
 msgstr "Open with the _File Manager"
 
-#: src/gth-browser-actions-entries.h:211
+#: src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder with the Nautilus file manager"
 msgstr "Open the selected folder with the Nautilus file manager"
 
-#: src/gth-browser-actions-entries.h:216
+#: src/gth-browser-actions-entries.h:214
 msgid "Rename selected folder"
 msgstr "Rename selected folder"
 
-#: src/gth-browser-actions-entries.h:221
+#: src/gth-browser-actions-entries.h:219
 msgid "Move the selected folder to the Trash"
 msgstr "Move the selected folder to the Trash"
 
-#: src/gth-browser-actions-entries.h:226
+#: src/gth-browser-actions-entries.h:224
 msgid "Copy selected folder"
 msgstr "Copy selected folder"
 
-#: src/gth-browser-actions-entries.h:231
+#: src/gth-browser-actions-entries.h:229
 msgid "Move selected folder"
 msgstr "Move selected folder"
 
-#: src/gth-browser-actions-entries.h:235 src/gth-browser-actions-entries.h:265
-#: src/gth-window-actions-entries.h:81
+#: src/gth-browser-actions-entries.h:233 src/gth-browser-actions-entries.h:263
+#: src/gth-window-actions-entries.h:85
 msgid "Ca_tegories"
 msgstr "Ca_tegories"
 
-#: src/gth-browser-actions-entries.h:236
+#: src/gth-browser-actions-entries.h:234
 msgid "Assign categories to the selected folder"
 msgstr "Assign categories to the selected folder"
 
-#: src/gth-browser-actions-entries.h:241
+#: src/gth-browser-actions-entries.h:239
 msgid "Open current folder with the Nautilus file manager"
 msgstr "Open current folder with the Nautilus file manager"
 
-#: src/gth-browser-actions-entries.h:246
+#: src/gth-browser-actions-entries.h:244
 msgid "Rename current folder"
 msgstr "Rename current folder"
 
-#: src/gth-browser-actions-entries.h:251
+#: src/gth-browser-actions-entries.h:249
 msgid "Move the current folder to the Trash"
 msgstr "Move the current folder to the Trash"
 
-#: src/gth-browser-actions-entries.h:256
+#: src/gth-browser-actions-entries.h:254
 msgid "Copy current folder"
 msgstr "Copy current folder"
 
-#: src/gth-browser-actions-entries.h:261
+#: src/gth-browser-actions-entries.h:259
 msgid "Move current folder"
 msgstr "Move current folder"
 
-#: src/gth-browser-actions-entries.h:266
+#: src/gth-browser-actions-entries.h:264
 msgid "Assign categories to the current folder"
 msgstr "Assign categories to the current folder"
 
-#: src/gth-browser-actions-entries.h:270
+#: src/gth-browser-actions-entries.h:268
 msgid "_New Folder..."
 msgstr "_New Folder..."
 
-#: src/gth-browser-actions-entries.h:271
+#: src/gth-browser-actions-entries.h:269
 msgid "Create a new folder"
 msgstr "Create a new folder"
 
 #. next image
-#: src/gth-browser-actions-entries.h:275 src/gth-fullscreen.c:1260
+#: src/gth-browser-actions-entries.h:273 src/gth-fullscreen.c:1430
 msgid "Next"
 msgstr "Next"
 
-#: src/gth-browser-actions-entries.h:276
+#: src/gth-browser-actions-entries.h:274
 msgid "View next image"
 msgstr "View next image"
 
 #. previous image
-#: src/gth-browser-actions-entries.h:280 src/gth-fullscreen.c:1251
+#: src/gth-browser-actions-entries.h:278 src/gth-fullscreen.c:1421
 msgid "Previous"
 msgstr "Previous"
 
-#: src/gth-browser-actions-entries.h:281
+#: src/gth-browser-actions-entries.h:279
 msgid "View previous image"
 msgstr "View previous image"
 
-#: src/gth-browser-actions-entries.h:286 src/gth-browser.c:4975
+#: src/gth-browser-actions-entries.h:284 src/gth-browser.c:4955
 msgid "Go to the previous visited location"
 msgstr "Go to the previous visited location"
 
-#: src/gth-browser-actions-entries.h:291
+#: src/gth-browser-actions-entries.h:289
 msgid "Go to the next visited location"
 msgstr "Go to the next visited location"
 
-#: src/gth-browser-actions-entries.h:296
+#: src/gth-browser-actions-entries.h:294
 msgid "Go up one level"
 msgstr "Go up one level"
 
-#: src/gth-browser-actions-entries.h:300 src/gth-viewer-actions-entries.h:63
+#: src/gth-browser-actions-entries.h:298 src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "_Reload"
 
-#: src/gth-browser-actions-entries.h:301 src/gth-viewer-actions-entries.h:64
+#: src/gth-browser-actions-entries.h:299 src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "Reload the current location"
 
-#: src/gth-browser-actions-entries.h:306
+#: src/gth-browser-actions-entries.h:304
 msgid "Stop loading current location"
 msgstr "Stop loading current location"
 
-#: src/gth-browser-actions-entries.h:311
+#: src/gth-browser-actions-entries.h:309
 msgid "Go to the home folder"
 msgstr "Go to the home folder"
 
-#: src/gth-browser-actions-entries.h:315
+#: src/gth-browser-actions-entries.h:313
 msgid "_Go to the Image Folder"
 msgstr "_Go to the Image Folder"
 
-#: src/gth-browser-actions-entries.h:316
+#: src/gth-browser-actions-entries.h:314
 msgid "Go to the folder that contains the selected image"
 msgstr "Go to the folder that contains the selected image"
 
-#: src/gth-browser-actions-entries.h:320
+#: src/gth-browser-actions-entries.h:318
 msgid "_Delete History"
 msgstr "_Delete History"
 
-#: src/gth-browser-actions-entries.h:321
+#: src/gth-browser-actions-entries.h:319
 msgid "Delete the list of visited locations"
 msgstr "Delete the list of visited locations"
 
-#: src/gth-browser-actions-entries.h:325
+#: src/gth-browser-actions-entries.h:323
 msgid "_Location..."
 msgstr "_Location..."
 
-#: src/gth-browser-actions-entries.h:326
+#: src/gth-browser-actions-entries.h:324
 msgid "Specify a location to visit"
 msgstr "Specify a location to visit"
 
-#: src/gth-browser-actions-entries.h:330
+#: src/gth-browser-actions-entries.h:328
 msgid "_Add Bookmark"
 msgstr "_Add Bookmark"
 
-#: src/gth-browser-actions-entries.h:331
+#: src/gth-browser-actions-entries.h:329
 msgid "Add current location to bookmarks"
 msgstr "Add current location to bookmarks"
 
-#: src/gth-browser-actions-entries.h:335
+#: src/gth-browser-actions-entries.h:333
 msgid "_Edit Bookmarks"
 msgstr "_Edit Bookmarks"
 
-#: src/gth-browser-actions-entries.h:336
+#: src/gth-browser-actions-entries.h:334
 msgid "Edit bookmarks"
 msgstr "Edit bookmarks"
 
-#: src/gth-browser-actions-entries.h:340
+#: src/gth-browser-actions-entries.h:338
 msgid "_Slide Show"
 msgstr "_Slide Show"
 
-#: src/gth-browser-actions-entries.h:341
+#: src/gth-browser-actions-entries.h:339
 msgid "View as a slide show"
 msgstr "View as a slide show"
 
-#: src/gth-browser-actions-entries.h:346
+#: src/gth-browser-actions-entries.h:344
 msgid "Find images"
 msgstr "Find images"
 
-#: src/gth-browser-actions-entries.h:350
+#: src/gth-browser-actions-entries.h:348
 msgid "Create _Index Image"
 msgstr "Create _Index Image"
 
-#: src/gth-browser-actions-entries.h:355
+#: src/gth-browser-actions-entries.h:353
 msgid "Create _Web Album"
 msgstr "Create _Web Album"
 
-#: src/gth-browser-actions-entries.h:360
-msgid "_Rename Series"
-msgstr "_Rename Series"
-
-#: src/gth-browser-actions-entries.h:365
+#: src/gth-browser-actions-entries.h:358
 msgid "Convert F_ormat"
 msgstr "Convert F_ormat"
 
-#: src/gth-browser-actions-entries.h:370
+#: src/gth-browser-actions-entries.h:363
 msgid "Fi_nd Duplicates..."
 msgstr "Fi_nd Duplicates..."
 
-#: src/gth-browser-actions-entries.h:375
-msgid "Ro_tate Images"
-msgstr "Ro_tate Images"
-
-#: src/gth-browser-actions-entries.h:376
-msgid "Rotate images without loss of quality"
-msgstr "Rotate images without loss of quality"
-
-#: src/gth-browser-actions-entries.h:381
+#: src/gth-browser-actions-entries.h:369
 msgid "Edit various preferences"
 msgstr "Edit various preferences"
 
-#: src/gth-browser-actions-entries.h:385
-msgid "Change _Date"
-msgstr "Change _Date"
-
-#: src/gth-browser-actions-entries.h:386
-msgid "Change images last modified date"
-msgstr "Change images last modified date"
-
-#: src/gth-browser-actions-entries.h:395 src/gth-viewer-actions-entries.h:73
+#: src/gth-browser-actions-entries.h:377 src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "_Toolbar"
 
-#: src/gth-browser-actions-entries.h:396 src/gth-viewer-actions-entries.h:74
+#: src/gth-browser-actions-entries.h:378 src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "View or hide the toolbar of this window"
 
-#: src/gth-browser-actions-entries.h:400 src/gth-viewer-actions-entries.h:78
+#: src/gth-browser-actions-entries.h:382 src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "_Statusbar"
 
-#: src/gth-browser-actions-entries.h:401 src/gth-viewer-actions-entries.h:79
+#: src/gth-browser-actions-entries.h:383 src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "View or hide the statusbar of this window"
 
-#: src/gth-browser-actions-entries.h:406
+#: src/gth-browser-actions-entries.h:388
 msgid "View thumbnails"
 msgstr "View thumbnails"
 
-#: src/gth-browser-actions-entries.h:410
+#: src/gth-browser-actions-entries.h:392
 msgid "_Image Preview"
 msgstr "_Image Preview"
 
-#: src/gth-browser-actions-entries.h:411 src/gth-browser-actions-entries.h:454
+#: src/gth-browser-actions-entries.h:393 src/gth-browser-actions-entries.h:436
 msgid "View the image"
 msgstr "View the image"
 
-#: src/gth-browser-actions-entries.h:415 src/gth-viewer-actions-entries.h:83
+#: src/gth-browser-actions-entries.h:397 src/gth-viewer-actions-entries.h:83
 msgid "Image _Comment"
 msgstr "Image _Comment"
 
-#: src/gth-browser-actions-entries.h:416 src/gth-viewer-actions-entries.h:84
+#: src/gth-browser-actions-entries.h:398 src/gth-viewer-actions-entries.h:84
 msgid "View image comment"
 msgstr "View image comment"
 
-#: src/gth-browser-actions-entries.h:420
+#: src/gth-browser-actions-entries.h:402
 msgid "_Reversed Order"
 msgstr "_Reversed Order"
 
-#: src/gth-browser-actions-entries.h:421
+#: src/gth-browser-actions-entries.h:403
 msgid "Reverse images order"
 msgstr "Reverse images order"
 
-#: src/gth-browser-actions-entries.h:430
+#: src/gth-browser-actions-entries.h:412
 msgid "by _Name"
 msgstr "by _Name"
 
-#: src/gth-browser-actions-entries.h:431
+#: src/gth-browser-actions-entries.h:413
 msgid "Sort images by name"
 msgstr "Sort images by name"
 
-#: src/gth-browser-actions-entries.h:433
+#: src/gth-browser-actions-entries.h:415
 msgid "by _Path"
 msgstr "by _Path"
 
-#: src/gth-browser-actions-entries.h:434
+#: src/gth-browser-actions-entries.h:416
 msgid "Sort images by path"
 msgstr "Sort images by path"
 
-#: src/gth-browser-actions-entries.h:436
+#: src/gth-browser-actions-entries.h:418
 msgid "by _Size"
 msgstr "by _Size"
 
-#: src/gth-browser-actions-entries.h:437
+#: src/gth-browser-actions-entries.h:419
 msgid "Sort images by file size"
 msgstr "Sort images by file size"
 
-#: src/gth-browser-actions-entries.h:439
+#: src/gth-browser-actions-entries.h:421
 msgid "by _Time"
 msgstr "by _Time"
 
-#: src/gth-browser-actions-entries.h:440
+#: src/gth-browser-actions-entries.h:422
 msgid "Sort images by modification time"
 msgstr "Sort images by modification time"
 
-#: src/gth-browser-actions-entries.h:447
+#: src/gth-browser-actions-entries.h:429
 msgid "_Folders"
 msgstr "_Folders"
 
-#: src/gth-browser-actions-entries.h:448
+#: src/gth-browser-actions-entries.h:430
 msgid "View the folders"
 msgstr "View the folders"
 
-#: src/gth-browser-actions-entries.h:450
+#: src/gth-browser-actions-entries.h:432
 msgid "_Catalogs"
 msgstr "_Catalogues"
 
-#: src/gth-browser-actions-entries.h:451
+#: src/gth-browser-actions-entries.h:433
 msgid "View the catalogs"
 msgstr "View the catalogues"
 
-#: src/gth-browser.c:505 src/gth-viewer.c:588
+#: src/gth-browser.c:539 src/gth-viewer.c:595
 msgid "[Press 'c' to add a comment]"
 msgstr "[Press 'c' to add a comment]"
 
-#: src/gth-browser.c:579 src/gth-browser.c:598 src/gth-viewer.c:657
-#: src/gth-viewer.c:678
+#: src/gth-browser.c:613 src/gth-browser.c:632 src/gth-viewer.c:664
+#: src/gth-viewer.c:685
 msgid "[modified]"
 msgstr "[modified]"
 
-#: src/gth-browser.c:623 src/gth-window-actions-callbacks.c:660 src/main.c:670
+#: src/gth-browser.c:657 src/gth-window-actions-callbacks.c:781 src/main.c:671
 msgid "gThumb"
 msgstr "gThumb"
 
-#: src/gth-browser.c:685
+#: src/gth-browser.c:719
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 image (%s)"
 
-#: src/gth-browser.c:688
+#: src/gth-browser.c:722
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d images (%s)"
 
-#: src/gth-browser.c:695
+#: src/gth-browser.c:729
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 selected (%s)"
 
-#: src/gth-browser.c:698
+#: src/gth-browser.c:732
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d selected (%s)"
 
-#: src/gth-browser.c:1827 src/gth-viewer.c:790
+#: src/gth-browser.c:1767 src/gth-viewer.c:797
 msgid "The current image has been modified, do you want to save it?"
 msgstr "The current image has been modified, do you want to save it?"
 
-#: src/gth-browser.c:1828 src/gth-viewer.c:791
+#: src/gth-browser.c:1768 src/gth-viewer.c:798
 msgid "Do Not Save"
 msgstr "Do Not Save"
 
-#: src/gth-browser.c:3406
+#: src/gth-browser.c:3384
 msgid "Dragged Images"
 msgstr "Dragged Images"
 
-#: src/gth-browser.c:4974
+#: src/gth-browser.c:4954
 msgid "Back"
 msgstr "Back"
 
-#: src/gth-browser.c:6343
+#: src/gth-browser.c:4984 src/gth-browser.c:4985 src/gth-viewer.c:1328
+#: src/gth-viewer.c:1329 src/gth-window-actions-entries.h:256
+#: src/gth-window-actions-entries.h:261 src/gth-window-actions-entries.h:266
+#: src/gth-window-actions-entries.h:271
+msgid "Rotate images without loss of quality"
+msgstr "Rotate images without loss of quality"
+
+#: src/gth-browser.c:6360
 msgid "Close"
 msgstr "Close"
 
-#: src/gth-browser.c:6357 src/gth-viewer.c:1487
+#: src/gth-browser.c:6374 src/gth-viewer.c:1595
 msgid "Image comment"
 msgstr "Image comment"
 
-#: src/gth-browser.c:6371
+#: src/gth-browser.c:6388
 msgid "Image data"
 msgstr "Image data"
 
-#: src/gth-browser.c:6385
+#: src/gth-browser.c:6402
 msgid "Image preview"
 msgstr "Image preview"
 
-#: src/gth-browser.c:7449
+#: src/gth-browser.c:7462
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Cannot load folder \"%s\": %s\n"
 
-#: src/gth-browser.c:7719
+#: src/gth-browser.c:7732
 msgid "The specified catalog does not exist."
 msgstr "The specified catalogue does not exist."
 
@@ -3278,28 +3246,36 @@ msgstr "Field"
 msgid "Value "
 msgstr "Value "
 
-#: src/gth-folder-selection-dialog.c:405
+#: src/gth-folder-selection-dialog.c:414
 msgid "_Browse..."
 msgstr "_Browse..."
 
-#: src/gth-folder-selection-dialog.c:414
+#: src/gth-folder-selection-dialog.c:423
 msgid "_Recents:"
 msgstr "_Recents:"
 
 #. restore normal view
-#: src/gth-fullscreen.c:1242 src/gth-window-actions-entries.h:206
+#: src/gth-fullscreen.c:1412 src/gth-window-actions-entries.h:220
 msgid "Restore Normal View"
 msgstr "Restore Normal View"
 
 #. image comment
-#: src/gth-fullscreen.c:1269
+#: src/gth-fullscreen.c:1439
 msgid "Image Info"
 msgstr "Image Info"
 
 #. pause slideshow
-#: src/gth-fullscreen.c:1279
+#: src/gth-fullscreen.c:1449
 msgid "Pause"
 msgstr "Pause"
+
+#: src/gth-viewer-actions-entries.h:41 src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "_Transform"
+
+#: src/gth-viewer-actions-entries.h:42 src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "Auto"
 
 #: src/gth-viewer-actions-entries.h:53
 msgid "Open _Folder"
@@ -3309,291 +3285,296 @@ msgstr "Open _Folder"
 msgid "Browse the image folder"
 msgstr "Browse the image folder"
 
-#: src/gth-window-actions-callbacks.c:649
+#: src/gth-window-actions-callbacks.c:770
 msgid "translator_credits"
 msgstr "Adam Weinberger <adamw@gnome.org>"
 
-#: src/gth-window-actions-callbacks.c:663
+#: src/gth-window-actions-callbacks.c:784
 msgid "An image viewer and browser for GNOME."
 msgstr "An image viewer and browser for GNOME."
 
 #: src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "Reduce Colours"
+
+#: src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Close this window"
 
-#: src/gth-window-actions-entries.h:41 src/gth-window-actions-entries.h:66
+#: src/gth-window-actions-entries.h:45 src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "_Open With"
 
-#: src/gth-window-actions-entries.h:42
+#: src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Open selected images with an application"
 
-#: src/gth-window-actions-entries.h:57
+#: src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
 msgstr "Revert to saved image"
 
-#: src/gth-window-actions-entries.h:67
+#: src/gth-window-actions-entries.h:71
 msgid "Open this image with an application"
 msgstr "Open this image with an application"
 
-#: src/gth-window-actions-entries.h:72
+#: src/gth-window-actions-entries.h:76
 msgid "Add a comment to selected images"
 msgstr "Add a comment to selected images"
 
-#: src/gth-window-actions-entries.h:76
+#: src/gth-window-actions-entries.h:80
 msgid "Rem_ove Comment"
 msgstr "Rem_ove Comment"
 
-#: src/gth-window-actions-entries.h:77
+#: src/gth-window-actions-entries.h:81
 msgid "Remove comments of selected images"
 msgstr "Remove comments of selected images"
 
-#: src/gth-window-actions-entries.h:82
+#: src/gth-window-actions-entries.h:86
 msgid "Assign categories to selected images"
 msgstr "Assign categories to selected images"
 
-#: src/gth-window-actions-entries.h:86
+#: src/gth-window-actions-entries.h:100 src/gth-window-actions-entries.h:265
 msgid "Rotate Ri_ght"
 msgstr "Rotate Ri_ght"
 
-#: src/gth-window-actions-entries.h:87
+#: src/gth-window-actions-entries.h:101
 msgid "View the image rotated clockwise"
 msgstr "View the image rotated clockwise"
 
-#: src/gth-window-actions-entries.h:91
+#: src/gth-window-actions-entries.h:105 src/gth-window-actions-entries.h:260
 msgid "Rotate _Left"
 msgstr "Rotate _Left"
 
-#: src/gth-window-actions-entries.h:92
+#: src/gth-window-actions-entries.h:106
 msgid "View the image rotated counter-clockwise"
 msgstr "View the image rotated counter-clockwise"
 
-#: src/gth-window-actions-entries.h:97
+#: src/gth-window-actions-entries.h:111
 msgid "View the image flipped"
 msgstr "View the image flipped"
 
-#: src/gth-window-actions-entries.h:102
+#: src/gth-window-actions-entries.h:116
 msgid "View the image mirrored"
 msgstr "View the image mirrored"
 
-#: src/gth-window-actions-entries.h:106
+#: src/gth-window-actions-entries.h:120
 msgid "_Desaturate"
 msgstr "_Desaturate"
 
-#: src/gth-window-actions-entries.h:107
+#: src/gth-window-actions-entries.h:121
 msgid "View the image in black and white"
 msgstr "View the image in black and white"
 
-#: src/gth-window-actions-entries.h:111
+#: src/gth-window-actions-entries.h:125
 msgid "_Negative"
 msgstr "_Negative"
 
-#: src/gth-window-actions-entries.h:112
+#: src/gth-window-actions-entries.h:126
 msgid "View the image with negative colors"
 msgstr "View the image with negative colours"
 
-#: src/gth-window-actions-entries.h:116
+#: src/gth-window-actions-entries.h:130
 msgid "_Enhance"
 msgstr "_Enhance"
 
-#: src/gth-window-actions-entries.h:117
+#: src/gth-window-actions-entries.h:131
 msgid "Automatically adjust the color levels"
 msgstr "Automatically adjust the colour levels"
 
-#: src/gth-window-actions-entries.h:121
+#: src/gth-window-actions-entries.h:135
 msgid "_Equalize"
 msgstr "_Equalize"
 
-#: src/gth-window-actions-entries.h:122
+#: src/gth-window-actions-entries.h:136
 msgid "Automatically equalize the image histogram"
 msgstr "Automatically equalize the image histogram"
 
-#: src/gth-window-actions-entries.h:126
-msgid "_Normalize"
-msgstr "_Normalize"
-
-#: src/gth-window-actions-entries.h:127
-msgid "Automatically normalize the contrast"
-msgstr "Automatically normalize the contrast"
-
-#: src/gth-window-actions-entries.h:131
-msgid "_Stretch Contrast"
-msgstr "_Stretch Contrast"
-
-#: src/gth-window-actions-entries.h:132
-msgid "Automatically stretch the contrast"
-msgstr "Automatically stretch the contrast"
-
-#: src/gth-window-actions-entries.h:136
+#: src/gth-window-actions-entries.h:140
 msgid "_Posterize"
 msgstr "_Posterize"
 
-#: src/gth-window-actions-entries.h:137
+#: src/gth-window-actions-entries.h:141 src/gth-window-actions-entries.h:181
+#: src/gth-window-actions-entries.h:186
 msgid "Reduce the number of colors"
 msgstr "Reduce the number of colours"
 
-#: src/gth-window-actions-entries.h:141
+#: src/gth-window-actions-entries.h:145
 msgid "_Brightness-Contrast"
 msgstr "_Brightness-Contrast"
 
-#: src/gth-window-actions-entries.h:142
+#: src/gth-window-actions-entries.h:146
 msgid "Adjust brightness and contrast"
 msgstr "Adjust brightness and contrast"
 
-#: src/gth-window-actions-entries.h:146
+#: src/gth-window-actions-entries.h:150
 msgid "_Hue-Saturation"
 msgstr "_Hue-Saturation"
 
-#: src/gth-window-actions-entries.h:147
+#: src/gth-window-actions-entries.h:151
 msgid "Adjust hue and saturation"
 msgstr "Adjust hue and saturation"
 
-#: src/gth-window-actions-entries.h:151
+#: src/gth-window-actions-entries.h:155
 msgid "_Color Balance"
 msgstr "_Colour Balance"
 
-#: src/gth-window-actions-entries.h:152
+#: src/gth-window-actions-entries.h:156
 msgid "Adjust color balance"
 msgstr "Adjust colour balance"
 
-#: src/gth-window-actions-entries.h:156
+#: src/gth-window-actions-entries.h:160
 msgid "_Threshold"
 msgstr "_Threshold"
 
-#: src/gth-window-actions-entries.h:157
+#: src/gth-window-actions-entries.h:161
 msgid "Apply threshold"
 msgstr "Apply threshold"
 
-#: src/gth-window-actions-entries.h:161
+#: src/gth-window-actions-entries.h:165
 msgid "_Resize"
 msgstr "_Resize"
 
-#: src/gth-window-actions-entries.h:162
+#: src/gth-window-actions-entries.h:166
 msgid "Resize image"
 msgstr "Resize image"
 
-#: src/gth-window-actions-entries.h:166
+#: src/gth-window-actions-entries.h:170
 msgid "_Rotate"
 msgstr "_Rotate"
 
-#: src/gth-window-actions-entries.h:167
+#: src/gth-window-actions-entries.h:171
 msgid "Rotate image"
 msgstr "Rotate image"
 
-#: src/gth-window-actions-entries.h:172
+#: src/gth-window-actions-entries.h:176
 msgid "Crop image"
 msgstr "Crop image"
 
-#: src/gth-window-actions-entries.h:176 src/gth-window-actions-entries.h:253
+#: src/gth-window-actions-entries.h:180
+msgid "Black and White"
+msgstr "Black and White"
+
+#: src/gth-window-actions-entries.h:185
+msgid "Web Palette"
+msgstr "Web Palette"
+
+#: src/gth-window-actions-entries.h:190 src/gth-window-actions-entries.h:292
 msgid "In"
 msgstr "In"
 
-#: src/gth-window-actions-entries.h:177
+#: src/gth-window-actions-entries.h:191
 msgid "Zoom in"
 msgstr "Zoom in"
 
-#: src/gth-window-actions-entries.h:181
+#: src/gth-window-actions-entries.h:195
 msgid "Out"
 msgstr "Out"
 
-#: src/gth-window-actions-entries.h:182
+#: src/gth-window-actions-entries.h:196
 msgid "Zoom out"
 msgstr "Zoom out"
 
-#: src/gth-window-actions-entries.h:186
+#: src/gth-window-actions-entries.h:200
 msgid "1:1"
 msgstr "1:1"
 
-#: src/gth-window-actions-entries.h:187
+#: src/gth-window-actions-entries.h:201
 msgid "Actual size"
 msgstr "Actual size"
 
-#: src/gth-window-actions-entries.h:191
+#: src/gth-window-actions-entries.h:205
 msgid "Fit"
 msgstr "Fit"
 
-#: src/gth-window-actions-entries.h:192
+#: src/gth-window-actions-entries.h:206
 msgid "Zoom to fit window"
 msgstr "Zoom to fit window"
 
-#: src/gth-window-actions-entries.h:196
+#: src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
 msgstr "Step A_nimation"
 
-#: src/gth-window-actions-entries.h:201
+#: src/gth-window-actions-entries.h:215
 msgid "_Full Screen"
 msgstr "_Full Screen"
 
-#: src/gth-window-actions-entries.h:202 src/gth-window-actions-entries.h:207
+#: src/gth-window-actions-entries.h:216 src/gth-window-actions-entries.h:221
 msgid "View image in fullscreen mode"
 msgstr "View image in fullscreen mode"
 
-#: src/gth-window-actions-entries.h:211
+#: src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "_Centred"
 
-#: src/gth-window-actions-entries.h:212
+#: src/gth-window-actions-entries.h:226
 msgid "Set the image as desktop background (centered)"
 msgstr "Set the image as desktop background (centeed)"
 
-#: src/gth-window-actions-entries.h:216
+#: src/gth-window-actions-entries.h:230
 msgid "_Tiled"
 msgstr "_Tiled"
 
-#: src/gth-window-actions-entries.h:217
+#: src/gth-window-actions-entries.h:231
 msgid "Set the image as desktop background (tiled)"
 msgstr "Set the image as desktop background (tiled)"
 
-#: src/gth-window-actions-entries.h:221
+#: src/gth-window-actions-entries.h:235
 msgid "_Scaled"
 msgstr "_Scaled"
 
-#: src/gth-window-actions-entries.h:222
+#: src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "Set the image as desktop background (scaled keeping aspect ratio)"
 
-#: src/gth-window-actions-entries.h:226
+#: src/gth-window-actions-entries.h:240
 msgid "Str_etched"
 msgstr "Str_etched"
 
-#: src/gth-window-actions-entries.h:227
+#: src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (stretched)"
 msgstr "Set the image as desktop background (stretched)"
 
-#: src/gth-window-actions-entries.h:231
+#: src/gth-window-actions-entries.h:245
 msgid "_Restore"
 msgstr "_Restore"
 
-#: src/gth-window-actions-entries.h:232
+#: src/gth-window-actions-entries.h:246
 msgid "Restore the original desktop wallpaper"
 msgstr "Restore the original desktop wallpaper"
 
-#: src/gth-window-actions-entries.h:237
+#: src/gth-window-actions-entries.h:250
+msgid "Change _Date"
+msgstr "Change _Date"
+
+#: src/gth-window-actions-entries.h:251
+msgid "Change images last modified date"
+msgstr "Change images last modified date"
+
+#: src/gth-window-actions-entries.h:276
 msgid "Show information about gThumb"
 msgstr "Show information about gThumb"
 
-#: src/gth-window-actions-entries.h:246
+#: src/gth-window-actions-entries.h:285
 msgid "_Keyboard Shortcuts"
 msgstr "_Keyboard Shortcuts"
 
-#: src/gth-window-actions-entries.h:262
+#: src/gth-window-actions-entries.h:301
 msgid "Play _Animation"
 msgstr "Play _Animation"
 
-#: src/gth-window-actions-entries.h:272
+#: src/gth-window-actions-entries.h:311
 msgid "_High Quality"
 msgstr "_High Quality"
 
-#: src/gth-window-actions-entries.h:273
+#: src/gth-window-actions-entries.h:312
 msgid "Use high quality zoom"
 msgstr "Use high quality zoom"
 
-#: src/gth-window-actions-entries.h:275
+#: src/gth-window-actions-entries.h:314
 msgid "_Low Quality"
 msgstr "_Low Quality"
 
-#: src/gth-window-actions-entries.h:276
+#: src/gth-window-actions-entries.h:315
 msgid "Use low quality zoom"
 msgstr "Use low quality zoom"
 
