@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-20 13:58+0200\n"
-"PO-Revision-Date: 2005-04-20 13:44+0200\n"
+"PO-Revision-Date: 2005-07-04 17:11+0200\n"
 "Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -474,7 +474,7 @@ msgstr "Nicht ändern"
 
 #: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
-msgstr "Erstellungdatum des Bildes"
+msgstr "Erstellungsdatum des Bildes"
 
 #: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
@@ -1680,7 +1680,7 @@ msgstr "Duplikate gefunden:"
 
 #: ../data/glade/gthumb_tools.glade.h:20
 msgid "Image c_reation date"
-msgstr "_Erstellungdatum des Bildes"
+msgstr "_Erstellungsdatum des Bildes"
 
 #: ../data/glade/gthumb_tools.glade.h:21
 msgid "Mirror image horizontally (left-right)"
@@ -3139,7 +3139,7 @@ msgstr "_Suche wiederholen"
 
 #: ../src/ui.h:204 ../src/ui.h:239
 msgid "Redo the search"
-msgstr "Die Suche widerholen"
+msgstr "Die Suche wiederholen"
 
 #: ../src/ui.h:208
 msgid "_New Catalog..."
