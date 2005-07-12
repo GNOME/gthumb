@@ -1,3 +1,7 @@
+2005-07-12  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* configure.in: Added "th" (Thai) to ALL_LINGUAS.
+
 2005-07-03  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb.glade: 
