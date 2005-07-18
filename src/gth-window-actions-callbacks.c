@@ -756,8 +756,8 @@ void
 gth_window_activate_action_help_about (GtkAction *action,
 				       gpointer   data)
 {
-	GthWindow *window = GTH_WINDOW (data);
-	static GtkWidget *about;
+	GthWindow  *window = GTH_WINDOW (data);
+	static GtkWidget  *about = NULL;
 	const char *authors[] = {
 		"Paolo Bacchilega <paolo.bacchilega@libero.it>",
 		NULL
@@ -771,8 +771,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 
 
 	if (about != NULL) {
-		gdk_window_show (about->window);
-		gdk_window_raise (about->window);
+		gtk_window_present (GTK_WINDOW (about));
 		return;
 	}
 

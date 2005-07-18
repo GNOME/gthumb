@@ -28,7 +28,7 @@
 #include "pixbuf-utils.h"
 
 
-#define PREVIEW_SIZE 300
+#define PREVIEW_SIZE 350
 #define DRAG_THRESHOLD 1
 #define BORDER 3
 #define BORDER2 (BORDER * 2)
@@ -1255,8 +1255,8 @@ gth_image_selector_get_selection (GthImageSelector *selector,
 
 	selection->x = MAX (selection->x, 0);
 	selection->y = MAX (selection->y, 0);
-	selection->width = MIN (selection->width, priv->pixbuf_width);
-	selection->height = MIN (selection->height, priv->pixbuf_height);
+	selection->width = MIN (selection->width, priv->pixbuf_width - selection->x);
+	selection->height = MIN (selection->height, priv->pixbuf_height - selection->y);
 }
 
 

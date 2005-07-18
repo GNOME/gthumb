@@ -1,3 +1,14 @@
+2005-07-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/icons/reduce-colors-16.png: added
+	* libgthumb/icons/reduce-colors-24.png: reduced
+
+2005-07-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-image-selector.c (PREVIEW_SIZE): use a bigger preview.
+	(gth_image_selector_get_selection): cut selection if larger than
+	the pixbuf image in order to always return a valid selection range.
+
 2005-07-12  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	* configure.in: Added "th" (Thai) to ALL_LINGUAS.
