@@ -2948,7 +2948,7 @@ msgstr "Aseta kuva _taustakuvaksi"
 
 #: src/ui.h:50
 msgid "_Help"
-msgstr "_Ohje"
+msgstr "O_hje"
 
 #: src/ui.h:53
 msgid "New _Window"
