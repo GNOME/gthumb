@@ -1,5 +1,5 @@
 # gthumb Finnish translation
-# Suomennos: http://gnome-fi.org/
+# Suomennos: http://gnome.fi/
 # Copyright (C) 2004 Free Software Foundation, Inc.
 # Ville Pohjanheimo <vpohjanheimo@hotmail.com>, 2004,
 # Sami Pesonen <sampeson@iki.fi>, 2004.
@@ -2418,7 +2418,7 @@ msgstr ""
 "Ville Pohjanheimo, 2004\n"
 "Sami Pesonen, 2004\n"
 "\n"
-"http://gnome-fi.org/"
+"http://gnome.fi/"
 
 #: src/actions.c:2725 src/gthumb-window.c:434 src/gthumb-window.c:4635
 #: src/main.c:136
