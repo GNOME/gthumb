@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-24 19:46+0000\n"
+"POT-Creation-Date: 2005-08-01 03:46+0000\n"
 "PO-Revision-Date: 2004-07-06 14:19+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
@@ -2387,7 +2387,7 @@ msgstr "Laatst gewijzigd"
 
 #: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:621
 msgid "Location"
-msgstr "Lokatie"
+msgstr "Locatie"
 
 #: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
