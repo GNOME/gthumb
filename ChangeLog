@@ -1,3 +1,18 @@
+2005-08-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-actions-entries.h: 
+
+	Fixes bug #312374: Typo in translatable string
+
+2005-07-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dir-list.h: 
+	* src/dir-list.c: 
+	* src/catalog-list.c: 
+	* src/catalog-list.h: 
+
+	Underline the item name only when the mouse is over it.
+
 2005-07-21  Pawan Chitrakar  <pawan@nplinux.org>
 
 	* configure.in: Added ne in ALL_LINGUAS

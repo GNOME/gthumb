@@ -56,7 +56,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	
 	{ "File_ViewImage", GTK_STOCK_OPEN,
 	  NULL, NULL,
-	  N_("Open the selecte image in a new window"),
+	  N_("Open the selected image in a new window"),
 	  G_CALLBACK (gth_browser_activate_action_file_view_image) },
 
 	{ "File_ImageProp", GTHUMB_STOCK_PROPERTIES,

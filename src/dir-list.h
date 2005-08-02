@@ -47,6 +47,8 @@ struct _DirList {
 
 	gboolean   show_dot_files; /* Whether to show file names that begin 
 				    * with a dot. */
+	gboolean   single_click;
+	GtkTreePath *hover_path;
 
 	gchar     *old_dir;
 

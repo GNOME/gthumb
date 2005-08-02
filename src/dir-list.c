@@ -52,6 +52,44 @@ enum {
 
 
 static void
+filename_cell_data_func (GtkTreeViewColumn *column,
+			 GtkCellRenderer   *renderer,
+			 GtkTreeModel      *model,
+			 GtkTreeIter       *iter,
+			 DirList           *dir_list)
+{
+	char *text;
+	GtkTreePath *path;
+	PangoUnderline underline;
+
+	gtk_tree_model_get (model, iter,
+			    DIR_LIST_COLUMN_UTF_NAME, &text,
+			    -1);
+
+	if (dir_list->single_click) {
+		path = gtk_tree_model_get_path (model, iter);
+
+		if (dir_list->hover_path == NULL ||
+		    gtk_tree_path_compare (path, dir_list->hover_path)) 
+			underline = PANGO_UNDERLINE_NONE;
+		else 
+			underline = PANGO_UNDERLINE_SINGLE;
+		
+		gtk_tree_path_free (path);
+
+	} else 
+		underline = PANGO_UNDERLINE_NONE;
+
+	g_object_set (G_OBJECT (renderer),
+		      "text", text,
+		      "underline", underline,
+		      NULL);
+
+	g_free (text);
+}
+
+
+static void
 add_columns (DirList     *dir_list,
 	     GtkTreeView *treeview)
 {
@@ -70,13 +108,6 @@ add_columns (DirList     *dir_list,
 					     NULL);
 	
 	dir_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
-	
-	if (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE) {
-		g_value_init (&value, PANGO_TYPE_UNDERLINE);
-		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
-		g_object_set_property (G_OBJECT (renderer), "underline", &value);
-		g_value_unset (&value);
-	}
 
         gtk_tree_view_column_pack_start (column,
                                          renderer,
@@ -87,7 +118,92 @@ add_columns (DirList     *dir_list,
 
         gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
 	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_UTF_NAME);
+	gtk_tree_view_column_set_cell_data_func (column, renderer,
+						 (GtkTreeCellDataFunc) filename_cell_data_func,
+						 dir_list, NULL);
+
         gtk_tree_view_append_column (GTK_TREE_VIEW (treeview), column);
+}
+
+
+static gboolean
+file_motion_notify_callback (GtkWidget *widget,
+			     GdkEventMotion *event,
+			     gpointer user_data)
+{
+	DirList     *dir_list = user_data;
+	GdkCursor   *cursor;
+	GtkTreePath *last_hover_path;
+	GtkTreeIter  iter;
+ 	
+	if (! dir_list->single_click) 
+		return FALSE;
+
+	if (event->window != gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view))) 
+                return FALSE;
+
+	last_hover_path = dir_list->hover_path;
+
+	gtk_tree_view_get_path_at_pos (GTK_TREE_VIEW (widget),
+				       event->x, event->y,
+				       &dir_list->hover_path,
+				       NULL, NULL, NULL);
+
+	if (dir_list->hover_path != NULL) 
+		cursor = gdk_cursor_new (GDK_HAND2);
+	else 
+		cursor = NULL;
+	
+	gdk_window_set_cursor (event->window, cursor);
+
+	/* only redraw if the hover row has changed */
+	if (!(last_hover_path == NULL && dir_list->hover_path == NULL) &&
+	    (!(last_hover_path != NULL && dir_list->hover_path != NULL) ||
+	     gtk_tree_path_compare (last_hover_path, dir_list->hover_path))) {
+		if (last_hover_path) {
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
+						 &iter, last_hover_path);
+			gtk_tree_model_row_changed (GTK_TREE_MODEL (dir_list->list_store),
+						    last_hover_path, &iter);
+		}
+		
+		if (dir_list->hover_path) {
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
+						 &iter, dir_list->hover_path);
+			gtk_tree_model_row_changed (GTK_TREE_MODEL (dir_list->list_store),
+						    dir_list->hover_path, &iter);
+		}
+	}
+	
+	gtk_tree_path_free (last_hover_path);
+
+ 	return FALSE;
+}
+
+
+static gboolean 
+file_leave_notify_callback (GtkWidget *widget,
+			    GdkEventCrossing *event,
+			    gpointer user_data)
+{
+	DirList     *dir_list = user_data;
+	GtkTreeIter  iter;
+
+	if (dir_list->single_click && (dir_list->hover_path != NULL)) {
+		gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
+					 &iter, 
+					 dir_list->hover_path);
+		gtk_tree_model_row_changed (GTK_TREE_MODEL (dir_list->list_store),
+					    dir_list->hover_path,
+					    &iter);
+
+		gtk_tree_path_free (dir_list->hover_path);
+		dir_list->hover_path = NULL;
+
+		return TRUE;
+	}
+
+	return FALSE;
 }
 
 
@@ -98,7 +214,7 @@ dir_list_new ()
 	GtkTreeView *list_view;
 	GtkWidget   *scrolled;
 
-	dir_list = g_new (DirList, 1);
+	dir_list = g_new0 (DirList, 1);
 
 	/* Set default values. */
 
@@ -110,6 +226,9 @@ dir_list_new ()
 	dir_list->old_dir = NULL;
 	dir_list->dir_load_handle = NULL;
 	dir_list->result = GNOME_VFS_OK;
+
+	dir_list->single_click = (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
+	dir_list->hover_path = NULL;
 
 	/* Create the widgets. */
 
@@ -131,6 +250,15 @@ dir_list_new ()
         gtk_tree_view_set_enable_search (list_view, TRUE);
         gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_UTF_NAME);
 
+	g_signal_connect (G_OBJECT (list_view), 
+			  "motion_notify_event",
+			  G_CALLBACK (file_motion_notify_callback), 
+			  dir_list);
+	g_signal_connect (G_OBJECT (list_view), 
+			  "leave_notify_event",
+			  G_CALLBACK (file_leave_notify_callback), 
+			  dir_list);
+
 	/**/
 
 	dir_list->list_view = (GtkWidget*) list_view;
@@ -144,20 +272,15 @@ dir_list_new ()
 void
 dir_list_update_underline (DirList *dir_list)
 {
-	GValue value = { 0, };
+	GdkWindow  *win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view));
+	GdkDisplay *display;
 
-	g_value_init (&value, PANGO_TYPE_UNDERLINE);
+	dir_list->single_click = (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 
-	if (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE) 
-		g_value_set_enum (&value, PANGO_UNDERLINE_SINGLE);
-	else
-		g_value_set_enum (&value, PANGO_UNDERLINE_NONE);
-
-	g_object_set_property (G_OBJECT (dir_list->text_renderer), 
-			       "underline", &value);
-	g_value_unset (&value);
-
-	gtk_widget_queue_draw (dir_list->root_widget);
+	gdk_window_set_cursor (win, NULL);
+	display = gtk_widget_get_display (GTK_WIDGET (dir_list->list_view));
+	if (display != NULL) 
+		gdk_display_flush (display);
 }
 
 
