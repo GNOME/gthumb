@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-07-05 11:41+0000\n"
-"PO-Revision-Date: 2005-07-10 14:30+0200\n"
+"POT-Creation-Date: 2005-08-05 03:46+0000\n"
+"PO-Revision-Date: 2005-08-05 12:24+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2312,7 +2312,7 @@ msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
 #: ../src/dlg-comment.c:306 ../src/dlg-convert.c:437
 #: ../src/dlg-jpegtran.c:1052 ../src/dlg-preferences.c:180
 #: ../src/dlg-rename-series.c:327 ../src/dlg-search.c:468
-#: ../src/gth-window-actions-callbacks.c:821
+#: ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
@@ -2332,12 +2332,12 @@ msgstr "Obrázek pojmenovaný \"%s\" již existuje. Zadejte prosím jiný název
 msgid "_Overwrite"
 msgstr "_Přepsat"
 
-#: ../src/dlg-crop.c:369
+#: ../src/dlg-crop.c:376
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Obrázek)"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:384
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d × %d (Displej)"
@@ -2738,9 +2738,8 @@ msgstr "No_vé okno"
 msgid "Create a new window"
 msgstr "Vytvořit nové okno"
 
-# FIXME: s/selecte/selected/
 #: ../src/gth-browser-actions-entries.h:59
-msgid "Open the selecte image in a new window"
+msgid "Open the selected image in a new window"
 msgstr "Otevřít vybraný obrázek v novém okně"
 
 #: ../src/gth-browser-actions-entries.h:63
@@ -3229,7 +3228,7 @@ msgstr "[Pro přidání komentáře stiskněte 'c']"
 msgid "[modified]"
 msgstr "[změněn]"
 
-#: ../src/gth-browser.c:657 ../src/gth-window-actions-callbacks.c:781
+#: ../src/gth-browser.c:657 ../src/gth-window-actions-callbacks.c:780
 #: ../src/main.c:671
 msgid "gThumb"
 msgstr "gThumb"
@@ -3359,7 +3358,7 @@ msgstr ""
 "Michal Bukovjan <bukm@centrum.cz>\n"
 "Miloslav Trmač <mitr@volny.cz>"
 
-#: ../src/gth-window-actions-callbacks.c:784
+#: ../src/gth-window-actions-callbacks.c:783
 msgid "An image viewer and browser for GNOME."
 msgstr "Prohlížeč obrázků pro prostředí GNOME"
 
