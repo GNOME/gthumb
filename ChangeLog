@@ -1,3 +1,11 @@
+2005-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-scale-image.c (h_spinbutton_value_changed)
+	(w_spinbutton_value_changed): round to nearest integer when converting
+	from double to int
+
+	Fixes bug #312612: Resize bug.  Patch by whoops.
+
 2005-08-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-actions-entries.h: 

@@ -23,6 +23,7 @@
 #include <config.h>
 #include <sys/types.h>
 #include <string.h>
+#include <math.h>
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
@@ -180,7 +181,7 @@ h_spinbutton_value_changed (GtkSpinButton *button,
 						 w_spinbutton_value_changed,
 						 data);
 
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), width);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), round (width));
 		
 		g_signal_handlers_unblock_by_func (data->s_new_width_spinbutton,
 						   w_spinbutton_value_changed,
@@ -213,7 +214,7 @@ w_spinbutton_value_changed (GtkSpinButton *button,
 						 h_spinbutton_value_changed,
 						 data);
 
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), height);
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), round (height));
 
 		g_signal_handlers_unblock_by_func (data->s_new_height_spinbutton,
 						   h_spinbutton_value_changed,
