@@ -186,6 +186,21 @@ if $have_render ; then
 fi
 AC_SUBST(RENDER_LIBS)
 
+
+#
+# Checks for Xtest
+#
+have_xtest=false
+XTEST_LIBS=""
+AC_CHECK_LIB(Xtst, XTestFakeKeyEvent,
+    have_xtest=true,:,-lX11 -lXtst $GTHUMB_LIBS)
+if $have_xtest ; then
+   XTEST_LIBS="-lX11 -lXtst"
+   AC_DEFINE(HAVE_XTEST, 1, [Have XTest])
+fi
+AC_SUBST(XTEST_LIBS)
+
+
 #
 # Checks for libexif
 #
@@ -308,7 +323,8 @@ Configuration:
 
         Source code location:   ${srcdir}
         Compiler:               ${CC}
-    	Have Render:            ${have_render}
+    	Have XRender:           ${have_render}
+    	Have XTest:             ${have_xtest}
     	Have libexif:           ${have_libexif}
 	Have libjpeg:           ${jpeg_ok}
 	Have libtiff:           ${tiff_ok}

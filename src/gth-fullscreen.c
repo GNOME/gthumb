@@ -46,6 +46,7 @@
 #include "image-viewer.h"
 #include "main.h"
 #include "preferences.h"
+#include "totem-scrsaver.h"
 
 #include "icons/pixbufs.h"
 
@@ -83,6 +84,8 @@ struct _GthFullscreenPrivateData {
 	GtkWidget       *pause_button;
 	GtkWidget       *prev_button;
 	GtkWidget       *next_button;
+
+	TotemScrsaver   *screensaver;
 
 	/* comment */
 
@@ -125,6 +128,8 @@ gth_fullscreen_finalize (GObject *object)
 			g_object_unref (priv->image);
 			priv->image = NULL;
 		}
+
+		g_object_unref (priv->screensaver);
 
 		g_free (priv->image_path);
 		g_free (priv->requested_path);
@@ -234,6 +239,8 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  "requested_error",
 			  G_CALLBACK (preloader_requested_error_cb),
 			  fullscreen);
+
+	priv->screensaver = totem_scrsaver_new ();
 }
 
 
@@ -1371,8 +1378,13 @@ pause_button_toggled_cb (GtkToggleButton *button,
 			 GthFullscreen   *fullscreen)
 {
 	fullscreen->priv->slideshow_paused = gtk_toggle_button_get_active (button);
-	if (!fullscreen->priv->slideshow_paused)
+
+	if (fullscreen->priv->slideshow_paused)
+		totem_scrsaver_enable (fullscreen->priv->screensaver);
+	else {
+		totem_scrsaver_disable (fullscreen->priv->screensaver);
 		load_next_image (fullscreen);
+	}
 }
 
 
@@ -1480,6 +1492,12 @@ gth_fullscreen_show (GtkWidget *widget)
 
 	image_viewer_hide_cursor (IMAGE_VIEWER (priv->viewer));
 	gtk_window_fullscreen (GTK_WINDOW (widget));
+
+	if (fullscreen->priv->slideshow)
+		totem_scrsaver_disable (fullscreen->priv->screensaver);
+	else
+		totem_scrsaver_enable (fullscreen->priv->screensaver);
+
 	load_first_image (fullscreen);
 }
 

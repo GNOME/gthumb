@@ -120,7 +120,9 @@ gthumb_SOURCES = 			\
 	gtkcellrendererthreestates.h	\
 	gtkcellrendererthreestates.c	\
 	main.c				\
-	main.h
+	main.h				\
+	totem-scrsaver.c		\
+	totem-scrsaver.h
 
 gthumb_LDADD = 					\
 	$(EXIF_LIBS)				\
@@ -130,6 +132,7 @@ gthumb_LDADD = 					\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(LIBGPHOTO_LIBS)			\
+	$(XTEST_LIBS)				\
 	$(top_builddir)/libgthumb/libgthumb.la	\
 	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
 

@@ -95,7 +95,6 @@ add_columns (DirList     *dir_list,
 {
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-	GValue             value = { 0, };
 
 	/* The Name column. */
 

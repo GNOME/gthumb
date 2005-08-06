@@ -38,6 +38,7 @@
 #include "gconf-utils.h"
 #include "gth-application.h"
 #include "gth-browser.h"
+#include "gth-browser-actions-callbacks.h"
 #include "gth-image-list.h"
 #include "gth-viewer.h"
 #include "gthumb-init.h"

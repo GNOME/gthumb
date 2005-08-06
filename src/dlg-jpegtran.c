@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-help.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 

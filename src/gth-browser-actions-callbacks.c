@@ -352,7 +352,7 @@ duplicate_file (GtkWindow  *window,
 	char       *dir;
 	int         try;
 
-	g_return_if_fail (old_path != NULL);
+	g_return_val_if_fail (old_path != NULL, FALSE);
 		
 	old_name = file_name_from_path (old_path);
 	old_name_no_ext = remove_extension_from_path (old_name);
@@ -377,8 +377,6 @@ duplicate_file (GtkWindow  *window,
 	g_free (old_name_no_ext);
 
 	if (file_copy (old_path, new_path)) {
-		GList *file_list;
-
 		cache_copy (old_path, new_path);
 		comment_copy (old_path, new_path);
 

@@ -1,5 +1,32 @@
 2005-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/main.c: include gth-browser-actions-callbacks.h to avoid
+	a compiler warning.
+
+	* src/gth-browser-actions-callbacks.c (duplicate_file): return
+	FALSE if the condition does not hold.
+	(duplicate_file): removed file_list because unused.
+
+	* src/dlg-jpegtran.c: include <libgnomevfs/gnome-vfs-ops.h> to
+	avoid a warning.
+
+	* src/dir-list.c (add_columns): removed unused variable.
+
+	* src/gth-browser.c (pref_click_policy_changed): 
+	* src/catalog-list.c (catalog_list_update_click_policy): renamed
+	catalog_list_update_underline as catalog_list_update_click_policy.
+
+	* configure.in: check the presents of the XTest library, used by
+	totem-scrsaver.c
+
+	* src/Makefile.am (gthumb_SOURCES): 
+	* src/totem-scrsaver.h: 
+	* src/totem-scrsaver.c: new files
+	* src/gth-fullscreen.c: disable the screensaver when the slideshow
+	is playing.
+
+	Fixes bug #311364: make gthumb disable xscreensaver during slideshow
+	
 	* libgthumb/comments.c (_append_escaped_text_for_html): convert \n
 	to <br/>
 

@@ -4477,7 +4477,7 @@ pref_click_policy_changed (GConfClient *client,
 {
 	GthBrowser *browser = user_data;
 	dir_list_update_underline (browser->priv->dir_list);
-	catalog_list_update_underline (browser->priv->catalog_list);
+	catalog_list_update_click_policy (browser->priv->catalog_list);
 }
 
 

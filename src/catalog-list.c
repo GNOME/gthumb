@@ -454,7 +454,7 @@ catalog_list_get_iter_from_path (CatalogList *cat_list,
 
 
 void
-catalog_list_update_underline (CatalogList *cat_list)
+catalog_list_update_click_policy (CatalogList *cat_list)
 {
 	GdkWindow  *win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (cat_list->list_view));
 	GdkDisplay *display;

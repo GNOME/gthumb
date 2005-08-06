@@ -21,9 +21,9 @@
  */
 
 #include <config.h>
+#include <math.h>
 #include <sys/types.h>
 #include <string.h>
-#include <math.h>
 #include <unistd.h>
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
