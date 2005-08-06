@@ -1,5 +1,11 @@
 2005-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/comments.c (_append_escaped_text_for_html): convert \n
+	to <br/>
+
+	Fixes bug #301163: Web Album: Line breaks in Comments are lost.
+	Based on the patch by Alexander Skwar.
+	
 	* src/dlg-scale-image.c (h_spinbutton_value_changed)
 	(w_spinbutton_value_changed): round to nearest integer when converting
 	from double to int
