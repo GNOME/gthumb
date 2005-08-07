@@ -12,6 +12,7 @@ endif
 INCLUDES =					\
 	$(GTHUMB_CFLAGS)			\
 	$(EXIF_CFLAGS)				\
+	$(IPTCDATA_CFLAGS)			\
 	$(DISABLE_DEPRECATED)			\
 	$(LIBGPHOTO_CFLAGS)			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
@@ -126,6 +127,7 @@ gthumb_SOURCES = 			\
 
 gthumb_LDADD = 					\
 	$(EXIF_LIBS)				\
+	$(IPTCDATA_LIBS)			\
 	$(GTHUMB_LIBS)				\
 	$(JPEG_LIBS)				\
 	$(PNG_LIBS)				\

@@ -33,6 +33,7 @@ LIBBONOBO_REQUIRED=2.6.0
 LIBBONOBOUI_REQUIRED=2.6.0
 LIBEXIF_0_5_REQUIRED=0.5.12
 LIBEXIF_REQUIRED=0.6.9
+LIBIPTCDATA_REQUIRED=0.1.1
 LIBGPHOTO_REQUIRED=2.1.3
 
 AC_SUBST(GLIB_REQUIRED)
@@ -48,6 +49,8 @@ AC_SUBST(LIBGNOMEPRINTUI_REQUIRED)
 AC_SUBST(LIBBONOBO_REQUIRED)
 AC_SUBST(LIBBONOBOUI_REQUIRED)
 AC_SUBST(LIBEXIF_REQUIRED)
+AC_SUBST(LIBIPTCDATA_REQUIRED)
+AC_SUBST(LIBGPHOTO_REQUIRED)
 
 dnl ===========================================================================
 
@@ -224,6 +227,27 @@ AC_MSG_RESULT($have_libexif)
 AC_SUBST(EXIF_LIBS)
 AC_SUBST(EXIF_CFLAGS)
 
+
+#
+# Checks for libiptcdata
+#
+AC_MSG_CHECKING(for libiptcdata)
+have_libiptcdata=no
+IPTCDATA_LIBS=""
+IPTCDATA_CFLAGS=""
+if test "x$EXIF_LIBS" = "x"; then
+   have_libiptcdata="no iptc support without libexif"
+elif pkg-config --atleast-version=$LIBIPTCDATA_REQUIRED libiptcdata; then
+   have_libiptcdata="yes"
+   IPTCDATA_LIBS=`pkg-config --libs libiptcdata`
+   IPTCDATA_CFLAGS=`pkg-config --cflags libiptcdata`
+   AC_DEFINE(HAVE_LIBIPTCDATA, 1, [Have libiptcdata])
+fi
+AC_MSG_RESULT($have_libiptcdata)
+AC_SUBST(IPTCDATA_LIBS)
+AC_SUBST(IPTCDATA_CFLAGS)
+
+
 #
 # Checks for libgphoto2
 #
@@ -326,6 +350,7 @@ Configuration:
     	Have XRender:           ${have_render}
     	Have XTest:             ${have_xtest}
     	Have libexif:           ${have_libexif}
+    	Have libiptcdata:       ${have_libiptcdata}
 	Have libjpeg:           ${jpeg_ok}
 	Have libtiff:           ${tiff_ok}
 	Have libgphoto:         ${have_libgphoto}

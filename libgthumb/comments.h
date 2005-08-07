@@ -59,6 +59,7 @@ void           comment_data_add_keyword            (CommentData *data,
 
 gboolean       comment_data_is_void                (CommentData *data);
 
+gboolean       comment_text_is_void                (CommentData *data);
 
 /* -- */
 

@@ -74,6 +74,11 @@
 #include "jpegutils/jpeg-data.h"
 #endif /* HAVE_LIBEXIF */
 
+#ifdef HAVE_LIBIPTCDATA
+#include <libiptcdata/iptc-data.h>
+#include <libiptcdata/iptc-jpeg.h>
+#endif /* HAVE_LIBIPTCDATA */
+
 #include "icons/pixbufs.h"
 #include "icons/nav_button.xpm"
 
@@ -236,6 +241,10 @@ struct _GthBrowserPrivateData {
 #ifdef HAVE_LIBEXIF
 	ExifData           *exif_data;
 #endif /* HAVE_LIBEXIF */
+
+#ifdef HAVE_LIBIPTCDATA
+	IptcData           *iptc_data;
+#endif /* HAVE_LIBIPTCDATA */
 
 	/* misc */
 
@@ -519,9 +528,19 @@ static void
 update_image_comment (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	CommentData   *cdata;
-	char          *comment;
-	GtkTextBuffer *text_buffer;
+	CommentData           *cdata;
+	char                  *comment = NULL;
+	GtkTextBuffer         *text_buffer;
+
+#ifdef HAVE_LIBIPTCDATA
+	if (priv->iptc_data != NULL) {
+		iptc_data_unref (priv->iptc_data);
+		priv->iptc_data = NULL;
+	}
+
+	if (priv->image_path != NULL) 
+		priv->iptc_data = iptc_data_new_from_jpeg (priv->image_path);
+#endif /* HAVE_LIBIPTCDATA */
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
 
@@ -534,7 +553,7 @@ update_image_comment (GthBrowser *browser)
 
 	cdata = comments_load_comment (priv->image_path);
 
-	if (cdata == NULL) {
+	if (comment_text_is_void (cdata)) {
 		GtkTextIter  iter;
 		const char  *click_here = _("[Press 'c' to add a comment]");
 		GtkTextIter  start, end;
@@ -1637,6 +1656,58 @@ save_pixbuf__image_saved_step2 (gpointer data)
 
 
 static void
+save_jpeg_data (GthBrowser *browser,
+		const char *filename)
+{
+#ifdef HAVE_LIBEXIF
+	GthBrowserPrivateData *priv = browser->priv;
+	gboolean               data_to_save = FALSE;
+	JPEGData              *jdata;
+
+	if (priv->exif_data != NULL) 
+		data_to_save = TRUE;
+	
+#ifdef HAVE_LIBIPTCDATA
+	if (priv->iptc_data != NULL) 
+		data_to_save = TRUE;
+#endif /* HAVE_LIBIPTCDATA */
+
+	if (!data_to_save)
+		return;
+
+	jdata = jpeg_data_new_from_file (filename);
+	if (jdata == NULL) 
+		return;
+
+#ifdef HAVE_LIBIPTCDATA
+	if (priv->iptc_data != NULL) {
+		unsigned char *out_buf, *iptc_buf;
+		int            iptc_len, ps3_len;
+
+		out_buf = g_malloc (256*256);
+		iptc_data_save (priv->iptc_data, &iptc_buf, &iptc_len);
+		ps3_len = iptc_jpeg_ps3_save_iptc (NULL, 0, iptc_buf,
+						   iptc_len, out_buf, 256*256);
+		iptc_data_free_buf (priv->iptc_data, iptc_buf);
+		if (ps3_len > 0)
+			jpeg_data_set_header_data (jdata,
+						   JPEG_MARKER_APP13,
+						   out_buf, ps3_len);
+		g_free (out_buf);
+	}
+#endif /* HAVE_LIBIPTCDATA */
+
+	if (priv->exif_data != NULL) 
+		jpeg_data_set_exif_data (jdata, priv->exif_data);
+
+	jpeg_data_save_file (jdata, filename);
+	jpeg_data_unref (jdata);
+
+#endif /* HAVE_LIBEXIF */
+}
+
+
+static void
 save_pixbuf__image_saved_cb (const char *filename,
 			     gpointer    data)
 {
@@ -1647,18 +1718,7 @@ save_pixbuf__image_saved_cb (const char *filename,
 	if (filename == NULL) 
 		return;
 
-#ifdef HAVE_LIBEXIF
-	if (priv->exif_data != NULL) {
-		JPEGData *jdata;
-
-		jdata = jpeg_data_new_from_file (filename);
-		if (jdata != NULL) {
-			jpeg_data_set_exif_data (jdata, priv->exif_data);
-			jpeg_data_save_file (jdata, filename);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
+	save_jpeg_data (browser, filename);
 
 	/**/
 
@@ -5122,6 +5182,13 @@ gth_browser_finalize (GObject *object)
 			priv->exif_data = NULL;
 		}
 #endif /* HAVE_LIBEXIF */
+
+#ifdef HAVE_LIBIPTCDATA
+		if (priv->iptc_data != NULL) {
+			iptc_data_unref (priv->iptc_data);
+			priv->iptc_data = NULL;
+		}
+#endif /* HAVE_LIBIPTCDATA */
 		
 		if (priv->new_image_path) {
 			g_free (priv->new_image_path);

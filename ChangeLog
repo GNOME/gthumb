@@ -1,3 +1,31 @@
+2005-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/comments.c (comment_text_is_void): new function.
+	
+	* src/jpegutils/jpeg-data.h: 
+	* src/jpegutils/jpeg-data.c (jpeg_data_set_header_data): new function.
+	* src/gth-browser.c: 
+	* src/gth-viewer.c: 
+	* src/Makefile.am: 
+	* libgthumb/comments.c: 
+	* components/catalog-view/Makefile.am: 
+	* components/image-viewer/Makefile.am: 
+	* configure.in: 
+
+	Applied patch by David Moore to store comments inside jpeg images.
+	Uses the libiptcdata library,  fixes bug #136286.
+
+	* src/dlg-preferences.c (dlg_preferences): hide the "show comments"
+	option if using iptcdata.
+
+	* libgthumb/gth-file-list.c (add_list_in_chunks): do not load comments
+	if using iptcdata for scalability reasons.
+
+	* src/dlg-scale-image.c (w_spinbutton_value_changed)
+	(h_spinbutton_value_changed): Do not round the value when using
+	the percentage.  Use floor(x+0.5) instead of round to avoid a
+	compiler warning.
+
 2005-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c: include gth-browser-actions-callbacks.h to avoid

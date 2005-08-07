@@ -38,6 +38,11 @@
 #include <libxml/xmlmemory.h>
 #include <gtk/gtk.h>
 
+#ifdef HAVE_LIBIPTCDATA
+#include <libiptcdata/iptc-data.h>
+#include <libiptcdata/iptc-jpeg.h>
+#endif /* HAVE_LIBIPTCDATA */
+
 #include "typedefs.h"
 #include "comments.h"
 #include "file-utils.h"
@@ -287,6 +292,285 @@ comments_get_comment_filename (const char *source,
 }
 
 
+#ifdef HAVE_LIBIPTCDATA
+
+
+static CommentData *
+load_comment_from_iptc (const char *filename)
+{
+	CommentData *data;
+	IptcData *d;
+	struct tm t;
+	int i;
+	int got_date = 0, got_time = 0;
+
+	d = iptc_data_new_from_jpeg (filename);
+	if (!d)
+		return NULL;
+
+	data = g_new0 (CommentData, 1);
+	data->place = NULL;
+	data->time = 0;
+	data->comment = NULL;
+	data->keywords = NULL;
+	data->keywords_n = 0;
+	data->utf8_format = TRUE;
+
+	bzero (&t, sizeof (t));
+	t.tm_isdst = -1;
+
+	for (i = 0; i < d->count; i++) {
+		IptcDataSet * ds = d->datasets[i];
+
+		if (ds->record == IPTC_RECORD_APP_2 &&
+				ds->tag == IPTC_TAG_CAPTION) {
+			if (data->comment)
+				continue;
+			data->comment = g_new (char, ds->size + 1);
+			if (data->comment)
+				iptc_dataset_get_data (ds, data->comment, ds->size + 1);
+		}
+		else if (ds->record == IPTC_RECORD_APP_2 &&
+				ds->tag == IPTC_TAG_CONTENT_LOC_NAME) {
+			if (data->place)
+				continue;
+			data->place = g_new (char, ds->size + 1);
+			if (data->place)
+				iptc_dataset_get_data (ds, data->place, ds->size + 1);
+		}
+		else if (ds->record == IPTC_RECORD_APP_2 &&
+				ds->tag == IPTC_TAG_KEYWORDS) {
+			char keyword[64];
+			if (iptc_dataset_get_data (ds, keyword, sizeof(keyword)) < 0)
+				continue;
+			comment_data_add_keyword (data, keyword);
+		}
+		else if (ds->record == IPTC_RECORD_APP_2 &&
+				ds->tag == IPTC_TAG_DATE_CREATED) {
+			int year, month;
+			iptc_dataset_get_date (ds, &year, &month, &t.tm_mday);
+			t.tm_year = year - 1900;
+			t.tm_mon = month - 1;
+			got_date = 1;
+		}
+		else if (ds->record == IPTC_RECORD_APP_2 &&
+				ds->tag == IPTC_TAG_TIME_CREATED) {
+			iptc_dataset_get_time (ds, &t.tm_hour, &t.tm_min, &t.tm_sec, NULL);
+			got_time = 1;
+		}
+	}
+
+	if (got_date && got_time)
+		data->time = mktime (&t);
+
+	iptc_data_unref (d);
+	return data;
+}
+
+static void
+clear_iptc_comment (IptcData *d)
+{
+	int i;
+	IptcDataSet *ds;
+	IptcTag deletetag[] = {
+		IPTC_TAG_DATE_CREATED, IPTC_TAG_TIME_CREATED, IPTC_TAG_KEYWORDS,
+		IPTC_TAG_CAPTION, IPTC_TAG_CONTENT_LOC_NAME, 0
+	};
+
+	for (i = 0; deletetag[i] != 0; i++) {
+		while ((ds = iptc_data_get_dataset (d, IPTC_RECORD_APP_2,
+						deletetag[i]))) {
+			iptc_data_remove_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+	}
+}
+
+
+static void
+save_iptc_data (const char *filename, IptcData *d)
+{
+	int buf_len = 256 * 256;
+	FILE *infile, *outfile;
+	char *ps3_buf;
+	char *ps3_out_buf;
+	unsigned char *iptc_buf;
+	int ps3_len, iptc_len;
+	gchar *tmpfile;
+	struct stat statinfo;
+
+	ps3_buf = g_malloc (buf_len);
+	if (!ps3_buf)
+		return;
+
+	ps3_out_buf = g_malloc (buf_len);
+	if (!ps3_out_buf)
+		goto abort1;
+
+	infile = fopen (filename, "r");
+	if (!infile)
+		goto abort2;
+
+	ps3_len = iptc_jpeg_read_ps3 (infile, ps3_buf, buf_len);
+	if (ps3_len < 0)
+		goto abort3;
+
+	if (iptc_data_save (d, &iptc_buf, &iptc_len) < 0)
+		goto abort3;
+
+	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len, iptc_buf,
+			iptc_len, ps3_out_buf, buf_len);
+	iptc_data_free_buf (d, iptc_buf);
+	if (ps3_len < 0)
+		goto abort3;
+
+	rewind (infile);
+
+	tmpfile = g_strdup_printf ("%s.%d", filename, getpid());
+	if (!tmpfile)
+		goto abort3;
+
+	outfile = fopen (tmpfile, "w");
+	if (!outfile)
+		goto abort4;
+	
+	if (iptc_jpeg_save_with_ps3 (infile, outfile, ps3_out_buf, ps3_len) < 0)
+		goto abort5;
+
+	fclose (outfile);
+	fclose (infile);
+
+	stat (filename, &statinfo);
+
+	if (rename (tmpfile, filename) < 0)
+		unlink (tmpfile);
+	else {
+		chown (filename, -1, statinfo.st_gid);
+		chmod (filename, statinfo.st_mode);
+	}
+
+	g_free (tmpfile);
+	g_free (ps3_out_buf);
+	g_free (ps3_buf);
+
+	return;
+abort5:
+	fclose (outfile);
+	unlink (tmpfile);
+abort4:
+	g_free (tmpfile);
+abort3:
+	fclose (infile);
+abort2:
+	g_free (ps3_out_buf);
+abort1:
+	g_free (ps3_buf);
+}
+
+
+static void
+save_comment_iptc (const char  *filename,
+		   CommentData *data)
+{
+	IptcData *d;
+	IptcDataSet *ds;
+	int i;
+
+	d = iptc_data_new_from_jpeg (filename);
+	if (d) {
+		clear_iptc_comment (d);
+	}
+	else {
+		d = iptc_data_new ();
+		if (!d)
+			return;
+	}
+
+	if (data->time > 0) {
+		struct tm t;
+		localtime_r (&data->time, &t);
+		
+		ds = iptc_dataset_new ();
+		if (ds) {
+			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
+					IPTC_TAG_DATE_CREATED);
+			iptc_dataset_set_date (ds, t.tm_year + 1900, t.tm_mon + 1,
+					t.tm_mday, IPTC_DONT_VALIDATE);
+			iptc_data_add_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+
+		ds = iptc_dataset_new ();
+		if (ds) {
+			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
+					IPTC_TAG_TIME_CREATED);
+			iptc_dataset_set_time (ds, t.tm_hour, t.tm_min, t.tm_sec,
+					0, IPTC_DONT_VALIDATE);
+			iptc_data_add_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+	}
+
+	for (i = 0; i < data->keywords_n; i++) {
+		ds = iptc_dataset_new ();
+		if (ds) {
+			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
+					IPTC_TAG_KEYWORDS);
+			iptc_dataset_set_data (ds, data->keywords[i],
+					strlen (data->keywords[i]), IPTC_DONT_VALIDATE);
+			iptc_data_add_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+	}
+
+	if (data->comment != NULL && data->comment[0]) {
+		ds = iptc_dataset_new ();
+		if (ds) {
+			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
+					IPTC_TAG_CAPTION);
+			iptc_dataset_set_data (ds, data->comment,
+					strlen (data->comment), IPTC_DONT_VALIDATE);
+			iptc_data_add_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+	}
+
+	if (data->place != NULL && data->place[0]) {
+		ds = iptc_dataset_new ();
+		if (ds) {
+			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
+					IPTC_TAG_CONTENT_LOC_NAME);
+			iptc_dataset_set_data (ds, data->place,
+					strlen (data->place), IPTC_DONT_VALIDATE);
+			iptc_data_add_dataset (d, ds);
+			iptc_dataset_unref (ds);
+		}
+	}
+
+	save_iptc_data (filename, d);
+	iptc_data_unref (d);
+}
+
+
+static void
+delete_comment_iptc (const char  *filename)
+{
+	IptcData *d;
+
+	d = iptc_data_new_from_jpeg (filename);
+	if (!d)
+		return;
+
+	clear_iptc_comment (d);
+
+	save_iptc_data (filename, d);
+	iptc_data_unref (d);
+}
+
+
+#endif /* HAVE_LIBIPTCDATA */
+
+
 void
 comment_copy (const char *src,
 	      const char *dest)
@@ -343,6 +627,13 @@ comment_delete (const char *filename)
 	comment_name = comments_get_comment_filename (filename, TRUE, TRUE);
 	unlink (comment_name);
 	g_free (comment_name);
+
+#ifdef HAVE_LIBIPTCDATA
+
+	if (image_is_jpeg (filename)) 
+		delete_comment_iptc (filename);
+
+#endif /* HAVE_LIBIPTCDATA */
 }
 
 
@@ -539,6 +830,12 @@ comments_load_comment (const char *filename)
 	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
+
+#ifdef HAVE_LIBIPTCDATA
+		if (image_is_jpeg (filename))
+			return load_comment_from_iptc (filename);
+#endif /* HAVE_LIBIPTCDATA */
+
 		return NULL;
 	}
 
@@ -606,6 +903,19 @@ save_comment (const char  *filename,
 		comment_delete (filename);
 		return;
 	}
+
+#ifdef HAVE_LIBIPTCDATA
+	if (image_is_jpeg (filename)) {
+		save_comment_iptc (filename, data);
+
+		/* Remove the legacy comment if it is still present */
+		comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
+		unlink (comment_file);
+		g_free (comment_file);
+
+		return;
+	}
+#endif /* HAVE_LIBIPTCDATA */
 
 	/* Convert data to strings. */
 
@@ -840,6 +1150,23 @@ comment_data_is_void (CommentData *data)
 	if ((data->comment != NULL) && (*data->comment != 0))
 		return FALSE;
 	if (data->keywords_n > 0)
+		return FALSE;
+
+	return TRUE;
+}
+
+
+gboolean
+comment_text_is_void (CommentData *data)
+{
+	if (data == NULL)
+		return TRUE;
+
+	if ((data->place != NULL) && (*data->place != 0))
+		return FALSE;
+	if (data->time > 0)
+		return FALSE;
+	if ((data->comment != NULL) && (*data->comment != 0))
 		return FALSE;
 
 	return TRUE;

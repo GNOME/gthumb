@@ -30,6 +30,7 @@ gthumb_catalog_view_SOURCES = 			\
 gthumb_catalog_view_LDADD = 			\
 	$(COMPONENT_LIBS)			\
 	$(JPEG_LIBS)				\
+	$(IPTCDATA_LIBS)			\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\

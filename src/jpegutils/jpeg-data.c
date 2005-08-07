@@ -21,14 +21,15 @@
 
 #include "config.h"
 
-#ifdef HAVE_LIBEXIF
-
 #include "jpeg-data.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 /* #define DEBUG */
+
+#ifdef HAVE_LIBEXIF
+
 
 struct _JPEGDataPrivate
 {
@@ -356,6 +357,22 @@ jpeg_data_free (JPEGData *data)
 	free (data);
 }
 
+
+static JPEGSection *
+jpeg_data_get_section (JPEGData *data, JPEGMarker marker)
+{
+	unsigned int i;
+
+	if (!data)
+		return (NULL);
+
+	for (i = 0; i < data->count; i++)
+		if (data->sections[i].marker == marker)
+			return (&data->sections[i]);
+	return (NULL);
+}
+
+
 void
 jpeg_data_dump (JPEGData *data)
 {
@@ -389,19 +406,6 @@ jpeg_data_dump (JPEGData *data)
         }
 }
 
-static JPEGSection *
-jpeg_data_get_section (JPEGData *data, JPEGMarker marker)
-{
-	unsigned int i;
-
-	if (!data)
-		return (NULL);
-
-	for (i = 0; i < data->count; i++)
-		if (data->sections[i].marker == marker)
-			return (&data->sections[i]);
-	return (NULL);
-}
 
 ExifData *
 jpeg_data_get_exif_data (JPEGData *data)
@@ -438,5 +442,40 @@ jpeg_data_set_exif_data (JPEGData *data, ExifData *exif_data)
 	section->content.app1 = exif_data;
 	exif_data_ref (exif_data);
 }
+
+
+void
+jpeg_data_set_header_data (JPEGData *data, JPEGMarker marker,
+			   unsigned char *buf, unsigned int size)
+{
+	JPEGSection *section;
+	int i;
+	
+	section = jpeg_data_get_section (data, marker);
+	if (!section) {
+		jpeg_data_append_section (data);
+		for (i = 0; i < data->count - 1; i++) {
+			JPEGMarker m = data->sections[i].marker;
+			if (m != JPEG_MARKER_SOI &&
+			    (m < JPEG_MARKER_APP0 ||
+			     m > JPEG_MARKER_APP15)) {
+				memmove (&data->sections[i+1],
+					 &data->sections[i],
+					 sizeof (JPEGSection) *
+					 (data->count - i - 1));
+				break;
+			}
+		}
+		section = &data->sections[i];
+	} else {
+		free (section->content.generic.data);
+	}
+
+	section->marker = marker;
+	section->content.generic.data = malloc (size);
+	memcpy (section->content.generic.data, buf, size);
+	section->content.generic.size = size;
+}
+
 
 #endif /* HAVE_LIBEXIF */

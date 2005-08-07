@@ -175,13 +175,13 @@ h_spinbutton_value_changed (GtkSpinButton *button,
 		if (data->percentage)
 			width = height;
 		else
-			width = height * data->ratio;
+			width = floor (height * data->ratio + 0.5);
 
 		g_signal_handlers_block_by_func (data->s_new_width_spinbutton,
 						 w_spinbutton_value_changed,
 						 data);
 
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), round (width));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_width_spinbutton), width);
 		
 		g_signal_handlers_unblock_by_func (data->s_new_width_spinbutton,
 						   w_spinbutton_value_changed,
@@ -208,13 +208,13 @@ w_spinbutton_value_changed (GtkSpinButton *button,
 		if (data->percentage)
 			height = width;
 		else
-			height = width / data->ratio;
+			height = floor (width / data->ratio + 0.5);
 
 		g_signal_handlers_block_by_func (data->s_new_height_spinbutton,
 						 h_spinbutton_value_changed,
 						 data);
 
-		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), round (height));
+		gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->s_new_height_spinbutton), height);
 
 		g_signal_handlers_unblock_by_func (data->s_new_height_spinbutton,
 						   h_spinbutton_value_changed,
