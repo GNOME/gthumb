@@ -1,5 +1,8 @@
 2005-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (gth_browser_notify_files_changed): do not
+	update the image from disk if it has been modified bu the user.
+
 	* libgthumb/comments.c (comment_text_is_void): new function.
 	
 	* src/jpegutils/jpeg-data.h: 
@@ -13,7 +16,8 @@
 	* configure.in: 
 
 	Applied patch by David Moore to store comments inside jpeg images.
-	Uses the libiptcdata library,  fixes bug #136286.
+	Uses the libiptcdata library.
+	Fixes bug #136286.
 
 	* src/dlg-preferences.c (dlg_preferences): hide the "show comments"
 	option if using iptcdata.

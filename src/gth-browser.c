@@ -5458,9 +5458,11 @@ gth_browser_notify_files_changed (GthBrowser *browser,
 	if (! priv->file_list->doing_thumbs)
 		gth_file_list_update_thumb_list (priv->file_list, list);
 
-	if (priv->image_path != NULL) {
-		int pos = gth_file_list_pos_from_path (priv->file_list,
-						       priv->image_path);
+	if ((priv->image_path != NULL) 
+	    && ! priv->image_modified
+	    && (path_list_find_path (list, priv->image_path) != NULL)) {
+		int pos;
+		pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
 		if (pos != -1)
 			view_image_at_pos (browser, pos);
 	}
@@ -5492,6 +5494,17 @@ monitor_update_files_cb (GthMonitor      *monitor,
 			 GthBrowser      *browser)
 {
 	g_return_if_fail (browser != NULL);
+
+	{
+		GList *scan;
+		char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
+		g_print ("%s:\n", event_name[event]);
+
+		for (scan = list; scan; scan = scan->next) {
+			char *filename = scan->data;
+			g_print ("%s\n", filename);
+		}
+	}
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
