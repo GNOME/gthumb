@@ -268,17 +268,6 @@ gth_viewer_finalize (GObject *object)
 	if (viewer->priv != NULL) {
 		GthViewerPrivateData *priv = viewer->priv;
 
-		/**/
-
-		gtk_object_destroy (GTK_OBJECT (priv->tooltips));
-
-		if (priv->image_popup_menu != NULL) {
-			gtk_widget_destroy (priv->image_popup_menu);
-			priv->image_popup_menu = NULL;
-		}
-
-		/**/
-
 #ifdef HAVE_LIBEXIF
 		if (priv->exif_data != NULL) {
 			exif_data_unref (priv->exif_data);
@@ -1928,9 +1917,16 @@ close__step2 (const char *filename,
 	
 	if (priv->pixop != NULL) 
 		g_object_unref (priv->pixop);
+
 	if (priv->progress_gui != NULL)
 		g_object_unref (priv->progress_gui);
+
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+	if (priv->image_popup_menu != NULL) {
+		gtk_widget_destroy (priv->image_popup_menu);
+		priv->image_popup_menu = NULL;
+	}
+
 	gtk_widget_destroy (GTK_WIDGET (viewer));
 }
 
