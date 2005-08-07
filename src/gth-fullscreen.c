@@ -926,6 +926,23 @@ viewer_key_press_cb (GtkWidget   *widget,
 	ImageViewer   *viewer = (ImageViewer*) fullscreen->priv->viewer;
 	gboolean       retval = FALSE;
 
+
+	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
+		switch (event->keyval) {
+			/* Exit fullscreen mode. */
+		case GDK_w:
+			gth_window_close (window);
+			retval = TRUE;
+			break;
+		default:
+			break;
+		}
+
+		if (retval)
+			return retval;
+	}
+
+
 	switch (event->keyval) {
 
 		/* Exit fullscreen mode. */

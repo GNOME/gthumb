@@ -1,5 +1,11 @@
 2005-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c (viewer_key_press_cb): exit from fullscreen
+	with ctrl-w
+
+	Fixes bug #143999: Please allow control-w shortcut for quit in 
+	fullscreen mode or make a quit button in fullscreen mode
+
 	* src/gth-viewer.c (gth_viewer_finalize): do not free the tooltips
 	twice.
 	
