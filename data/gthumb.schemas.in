@@ -573,6 +573,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/ui/comment_pane_size</key>
+	<applyto>/apps/gthumb/ui/comment_pane_size</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>190</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Exporter/General -->
 
       <schema>

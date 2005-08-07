@@ -102,6 +102,8 @@ struct _GthViewerPrivateData {
 	GtkWidget       *zoom_info;
 	GtkWidget       *zoom_info_frame;
 
+	GtkWidget       *image_main_pane;
+
 	GtkWidget       *comment_button;
 	GtkWidget       *fullscreen;
 
@@ -265,10 +267,6 @@ gth_viewer_finalize (GObject *object)
 
 	if (viewer->priv != NULL) {
 		GthViewerPrivateData *priv = viewer->priv;
-
-		/* Save preferences */
-
-		/* FIXME ... */
 
 		/**/
 
@@ -450,6 +448,7 @@ gth_viewer_unrealize (GtkWidget *widget)
 	/* save ui preferences. */
 
 	save_window_size (viewer);
+	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
 
 	GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
@@ -1726,8 +1725,8 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/* * image_vpaned */
 
-	image_vpaned = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (image_vpaned), eel_gconf_get_integer (PREF_UI_VIEWER_HEIGHT, DEFAULT_WIN_HEIGHT) * 2 / 3);
+	priv->image_main_pane = image_vpaned = gtk_vpaned_new ();
+	gtk_paned_set_position (GTK_PANED (image_vpaned), eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_WIN_WIDTH / 3 * 2));
 
 	/* ** table */
 

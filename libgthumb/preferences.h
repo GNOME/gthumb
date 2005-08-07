@@ -83,6 +83,7 @@
 #define  PREF_UI_STATUSBAR_VISIBLE   "/apps/gthumb/ui/statusbar_visible"
 #define  PREF_UI_SIDEBAR_SIZE        "/apps/gthumb/ui/sidebar_size"
 #define  PREF_UI_SIDEBAR_CONTENT_SIZE "/apps/gthumb/ui/sidebar_content_size"
+#define  PREF_UI_COMMENT_PANE_SIZE   "/apps/gthumb/ui/comment_pane_size"
 
 #define  PREF_EXP_NAME_TEMPLATE      "/apps/gthumb/exporter/general/name_template"
 #define  PREF_EXP_START_FROM         "/apps/gthumb/exporter/general/start_from"

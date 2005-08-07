@@ -158,6 +158,8 @@ struct _GthBrowserPrivateData {
 
 	gboolean            image_pane_visible;
 
+	GtkWidget          *image_main_pane;
+
 	GtkWidget          *preview_widget_image;
 	GtkWidget          *preview_widget_data_comment;
 	GtkWidget          *preview_widget_data;
@@ -6485,8 +6487,8 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/* image preview, comment, exif data. */
 
-	image_pane_paned1 = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) / 2);
+	priv->image_main_pane = image_pane_paned1 = gtk_vpaned_new ();
+	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEF_WIN_WIDTH / 3 * 2));
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
 
 	/**/
@@ -6922,6 +6924,8 @@ close__step6 (const char *filename,
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_CONTENT_SIZE, gtk_paned_get_position (GTK_PANED (priv->content_pane)));
 	} else
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, priv->sidebar_width);
+
+	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
 
 	if (last_window)
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, priv->file_list->enable_thumbs);

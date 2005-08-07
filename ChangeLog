@@ -1,5 +1,10 @@
 2005-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (gth_browser_construct, close__step6): 
+	* src/gth-viewer.c (gth_viewer_finalize, gth_viewer_construct): 
+	* libgthumb/preferences.h (PREF_UI_COMMENT_PANE_SIZE): 
+	* data/gthumb.schemas.in: save and restore the comment pane size.
+
 	* src/gth-browser.c (gth_browser_notify_files_changed): do not
 	update the image from disk if it has been modified bu the user.
 
