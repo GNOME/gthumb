@@ -294,8 +294,8 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
-#define GO_BACK_TOOLITEM_POS   4
-#define ROTATE_TOOLITEM_POS    14
+#define GO_BACK_TOOLITEM_POS   0
+#define ROTATE_TOOLITEM_POS    11
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
@@ -4997,14 +4997,16 @@ zoom_quality_radio_action (GtkAction      *action,
 
 
 static void
-add_go_back_toolbar_item (GthBrowser *browser)
+add_go_back_toolbar_item (GthBrowser *browser,
+			  GtkWidget  *toolbar,
+			  int         pos)
 {
 	GthBrowserPrivateData *priv = browser->priv;	
 
 	if (priv->go_back_tool_item != NULL) {
-		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+		gtk_toolbar_insert (GTK_TOOLBAR (toolbar), 
 				    priv->go_back_tool_item, 
-				    GO_BACK_TOOLITEM_POS);
+				    pos);
 		return;
 	}
 
@@ -5020,9 +5022,9 @@ add_go_back_toolbar_item (GthBrowser *browser)
 				  GTK_WIDGET (priv->go_back_tool_item));
 
 	gtk_widget_show (GTK_WIDGET (priv->go_back_tool_item));
-	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+	gtk_toolbar_insert (GTK_TOOLBAR (toolbar), 
 			    priv->go_back_tool_item, 
-			    GO_BACK_TOOLITEM_POS);
+			    pos);
 }
 
 
@@ -5077,7 +5079,6 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 
 	if (priv->toolbar_merge_id != 0)
 		gtk_ui_manager_remove_ui (priv->ui, priv->toolbar_merge_id);
-	remove_custom_tool_item (browser, priv->go_back_tool_item);
 	remove_custom_tool_item (browser, priv->rotate_tool_item);
 	
 	gtk_ui_manager_ensure_update (priv->ui);
@@ -5087,7 +5088,6 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 			gth_browser_set_sidebar_content (browser, content);
 		priv->toolbar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, browser_ui_info, -1, NULL);
 		gtk_ui_manager_ensure_update (priv->ui);
-		add_go_back_toolbar_item (browser);
 		add_rotate_toolbar_item (browser);
 
 	} else {
@@ -6388,6 +6388,22 @@ gth_browser_construct (GthBrowser  *browser,
 
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->location_entry, 
 			    FALSE, FALSE, 0);
+
+	{
+		GtkWidget *nav_bar;
+
+		gtk_ui_manager_add_ui_from_string (priv->ui, nav_ui_info, -1, NULL);
+		gtk_ui_manager_ensure_update (priv->ui);
+		nav_bar = gtk_ui_manager_get_widget (priv->ui, "/NavBar");
+		set_action_important (browser, "/MenuBar/Go/Go_Back", TRUE);
+		add_go_back_toolbar_item (browser, nav_bar, GO_BACK_TOOLITEM_POS);
+		gtk_toolbar_set_style (GTK_TOOLBAR (nav_bar), GTK_TOOLBAR_BOTH_HORIZ);
+		gtk_toolbar_set_icon_size (GTK_TOOLBAR (nav_bar), GTK_ICON_SIZE_SMALL_TOOLBAR);
+		gtk_widget_show_all (nav_bar);
+		gtk_box_pack_start (GTK_BOX (dir_list_vbox), nav_bar,
+				    FALSE, FALSE, 0);
+	}
+
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->notebook, 
 			    TRUE, TRUE, 0);
 
@@ -6423,7 +6439,6 @@ gth_browser_construct (GthBrowser  *browser,
 
 	gtk_box_pack_start (GTK_BOX (info_hbox), priv->info_bar, TRUE, TRUE, 0);
 
-	/* FIXME */
 	{
 		GtkWidget *button;
 		GtkWidget *image;

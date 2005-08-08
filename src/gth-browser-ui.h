@@ -85,8 +85,8 @@ static const gchar *main_ui_info =
 "        <menuitem action='View_Statusbar'/>"
 "      </menu>"
 "      <separator/>"
-"      <menuitem action='View_Fullscreen'/>"
 "      <menuitem action='Tools_Slideshow'/>"
+"      <menuitem action='View_Fullscreen'/>"
 "      <separator/>"
 "      <menuitem action='View_ShowFolders'/>"
 "      <menuitem action='View_ShowCatalogs'/>"
@@ -351,14 +351,22 @@ static const gchar *search_ui_info =
 "</ui>";
 
 
+static const gchar *nav_ui_info =
+"<ui>"
+"  <toolbar name='NavBar'>"
+"    <toolitem action='Go_Forward'/>"
+"    <toolitem action='Go_Up'/>"
+"    <toolitem action='Go_Home'/>"
+"  </toolbar>"
+"</ui>";
+
+
 static const gchar *browser_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
 "    <placeholder name='ModeCommands'>"
-"      <toolitem action='Go_Forward'/>"
-"      <toolitem action='Go_Home'/>"
-"      <separator/>"
 "      <toolitem action='Tools_Slideshow'/>"
+"      <toolitem action='View_Fullscreen'/>"
 "      <separator/>"
 "      <toolitem action='Tools_FindImages'/>"
 "      <separator/>"

@@ -472,12 +472,6 @@ dir_list_refresh_continue (PathListData *pld,
 	filtered = dir_list_filter_and_sort (new_dir_list, TRUE, 
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
-	/* * Add the ".." entry if the current path is not "/". 
-	 * path_list_new does not include the "." and ".." elements. */
-
-	if (strcmp (dir_list->path, "/") != 0)
-		filtered = g_list_prepend (filtered, g_strdup (".."));
-
 	dir_list->list = filtered;
 
 	g_list_foreach (new_dir_list, (GFunc) g_free, NULL);

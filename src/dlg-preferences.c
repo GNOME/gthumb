@@ -527,10 +527,6 @@ dlg_preferences (GthBrowser *browser)
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_thumbs_size), get_idx_from_size (eel_gconf_get_integer (PREF_THUMBNAIL_SIZE, 95)));
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_click_policy), pref_get_click_policy ());
 
-#ifdef HAVE_LIBIPTCDATA
-	gtk_widget_hide (data->toggle_show_comments);
-#endif
-
 	/* * viewer */
 
 	if (pref_get_zoom_quality () == GTH_ZOOM_QUALITY_HIGH)
@@ -669,5 +665,10 @@ dlg_preferences (GthBrowser *browser)
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
-	gtk_widget_show (data->dialog);
+	gtk_widget_show_all (data->dialog);
+
+#ifdef HAVE_LIBIPTCDATA
+	gtk_widget_hide (data->toggle_show_comments);
+#endif
+
 }

@@ -1334,6 +1334,11 @@ image_viewer_size_allocate (GtkWidget       *widget,
 		else
 			viewer->y_offset = 0;
 
+		if ((width != viewer->hadj->upper) || (height != viewer->vadj->upper))
+			g_signal_emit (G_OBJECT (viewer), 
+				       image_viewer_signals[SIZE_CHANGED], 
+				       0);
+
 		/* Change adjustment values. */
 
 		viewer->hadj->lower          = 0.0;
@@ -1370,17 +1375,10 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 	/**/
 
-	if (GTK_WIDGET_REALIZED (widget)) {
+	if (GTK_WIDGET_REALIZED (widget)) 
 		gdk_window_move_resize (widget->window,
 					allocation->x, allocation->y,
 					allocation->width, allocation->height);
-	}
-
-	/* FIXME 
-	g_signal_emit (G_OBJECT (viewer), 
-		       image_viewer_signals[SIZE_CHANGED], 
-		       0);
-	*/
 
 	if (! viewer->skip_size_change)
 		g_signal_emit (G_OBJECT (viewer), 

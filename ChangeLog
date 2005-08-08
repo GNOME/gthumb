@@ -1,3 +1,18 @@
+2005-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-list.c (catalog_list_refresh): 
+	* src/dir-list.c (dir_list_refresh_continue): removed the
+	go up entry, no more needed thanks to the navitagion toolbar.
+	
+	* src/gth-browser-ui.h: 
+	* src/gth-browser.c (gth_browser_construct): added a navigation
+	bar below the location entry.  Remove the navigation buttons
+	from the main toolbar.  Added fullscreen button on the main toolbar.
+
+	* libgthumb/image-viewer.c (image_viewer_size_allocate): emit a
+	size_change signal when viewer->hadj->upper or viewer->vadj->upper
+	change.
+
 2005-08-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (viewer_key_press_cb): exit from fullscreen
