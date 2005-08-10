@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001-2005 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
 #include <libgnomeui/gnome-dateedit.h>
 #include <glade/glade.h>
 
+#include "comments.h"
 #include "file-data.h"
 #include "gth-exif-utils.h"
 #include "file-utils.h"
@@ -44,12 +45,20 @@ typedef struct {
 	GladeXML     *gui;
 
 	GtkWidget    *dialog;
+	GtkWidget    *ok_button;
+
+	GtkWidget    *cd_last_modified_checkbutton;
+	GtkWidget    *cd_comment_checkbutton;
+
 	GtkWidget    *cd_following_date_radiobutton;
 	GtkWidget    *cd_created_radiobutton;
 	GtkWidget    *cd_current_radiobutton;
 	GtkWidget    *cd_exif_radiobutton;
-
+	GtkWidget    *cd_adjust_timezone_radiobutton;
 	GtkWidget    *cd_dateedit;
+
+	GtkWidget    *cd_timezone_box;
+	GtkWidget    *cd_timezone_spinbutton;
 
 	GList        *file_list;
 } DialogData;
@@ -96,26 +105,61 @@ ok_clicked (GtkWidget  *button,
 {
 	GList  *scan, *file_list = NULL;
 	time_t  mtime = 0;
+	time_t  comment_time = 0;
 
-	if (is_active (data->cd_following_date_radiobutton)) 
+	if (is_active (data->cd_following_date_radiobutton)) {
 		mtime = gnome_date_edit_get_time (GNOME_DATE_EDIT (data->cd_dateedit));
-	else if (is_active (data->cd_current_radiobutton)) 
+		comment_time = mtime;
+	} else if (is_active (data->cd_current_radiobutton)) {
 		time (&mtime);
+		comment_time = mtime;
+	}
 	
 	all_windows_remove_monitor ();
 
 	for (scan = data->file_list; scan; scan = scan->next) {
 		FileData *fdata = scan->data;
-		
-		if (is_active (data->cd_created_radiobutton)) 
+
+		if (is_active (data->cd_created_radiobutton)) {
 			mtime = get_file_ctime (fdata->path);
+			comment_time = mtime;
 #ifdef HAVE_LIBEXIF
-		else if (is_active (data->cd_exif_radiobutton)) 
+		} else if (is_active (data->cd_exif_radiobutton)) {
 			mtime = get_exif_time (fdata->path);
+			comment_time = mtime;
 #endif /* HAVE_LIBEXIF */
-		
-		if (mtime > 0) 
+		} else if (is_active (data->cd_adjust_timezone_radiobutton)) {
+			time_t tz;
+
+			comment_time = 0;
+			tz = (int) gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->cd_timezone_spinbutton)) * (60 * 60);
+			if (is_active (data->cd_comment_checkbutton)) {
+				CommentData *cdata;
+				cdata = comments_load_comment (fdata->path);
+				if (cdata != NULL) {
+					comment_time = cdata->time + tz;
+					comment_data_free (cdata);
+				}
+			}
+			if (is_active (data->cd_last_modified_checkbutton)) 
+				mtime = get_file_mtime (fdata->path) + tz;
+		}
+			
+		if ((mtime <= 0) && (comment_time <= 0))
+			continue;
+
+		if (is_active (data->cd_last_modified_checkbutton))
 			set_file_mtime (fdata->path, mtime);
+
+		if (is_active (data->cd_comment_checkbutton)) {
+			CommentData *cdata;
+			cdata = comments_load_comment (fdata->path);
+			if (cdata == NULL)
+				cdata = comment_data_new ();
+			cdata->time = comment_time;
+			comments_save_comment (fdata->path, cdata);
+			comment_data_free (cdata);
+		}
 
 		file_list = g_list_prepend (file_list, fdata->path);
 	}
@@ -130,10 +174,22 @@ ok_clicked (GtkWidget  *button,
 
 
 static void
+update_sensitivity (DialogData *data)
+{
+	gtk_widget_set_sensitive (data->ok_button,
+				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_last_modified_checkbutton))
+				  || gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_comment_checkbutton)));
+		
+	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
+	gtk_widget_set_sensitive (data->cd_timezone_box, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_adjust_timezone_radiobutton)));
+}
+
+
+static void
 radio_button_clicked (GtkWidget  *button, 
 		      DialogData *data)
 {
-	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
+	update_sensitivity (data);
 }
 
 
@@ -176,7 +232,6 @@ dlg_change_date (GthWindow *window)
 {
 	DialogData  *data;
 	GtkWidget   *cancel_button;
-	GtkWidget   *ok_button;
 	GtkWidget   *help_button;
 	GList       *list;
 
@@ -205,14 +260,22 @@ dlg_change_date (GthWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "change_date_dialog");
+
+	data->cd_last_modified_checkbutton = glade_xml_get_widget (data->gui, "cd_last_modified_checkbutton");
+	data->cd_comment_checkbutton = glade_xml_get_widget (data->gui, "cd_comment_checkbutton");
+
 	data->cd_following_date_radiobutton = glade_xml_get_widget (data->gui, "cd_following_date_radiobutton");
 	data->cd_created_radiobutton = glade_xml_get_widget (data->gui, "cd_created_radiobutton");
 	data->cd_current_radiobutton = glade_xml_get_widget (data->gui, "cd_current_radiobutton");
 	data->cd_exif_radiobutton = glade_xml_get_widget (data->gui, "cd_exif_radiobutton");
+	data->cd_adjust_timezone_radiobutton = glade_xml_get_widget (data->gui, "cd_adjust_timezone_radiobutton");
 	data->cd_dateedit = glade_xml_get_widget (data->gui, "cd_dateedit");
 
+	data->cd_timezone_box = glade_xml_get_widget (data->gui, "cd_timezone_box");
+	data->cd_timezone_spinbutton = glade_xml_get_widget (data->gui, "cd_timezone_spinbutton");
+
 	cancel_button = glade_xml_get_widget (data->gui, "cd_cancel_button");
-	ok_button = glade_xml_get_widget (data->gui, "cd_ok_button");
+	data->ok_button = glade_xml_get_widget (data->gui, "cd_ok_button");
 	help_button = glade_xml_get_widget (data->gui, "cd_help_button");
 
 	/* Set widgets data. */
@@ -225,6 +288,8 @@ dlg_change_date (GthWindow *window)
 
 	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
 
+	update_sensitivity (data);
+
 	/* Set the signals handlers. */
 	
 	g_signal_connect (G_OBJECT (data->dialog),
@@ -236,13 +301,22 @@ dlg_change_date (GthWindow *window)
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
 				  G_OBJECT (data->dialog));
-	g_signal_connect (G_OBJECT (ok_button), 
+	g_signal_connect (G_OBJECT (data->ok_button), 
 			  "clicked",
 			  G_CALLBACK (ok_clicked),
 			  data);
 	g_signal_connect (G_OBJECT (help_button), 
 			  "clicked",
 			  G_CALLBACK (help_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->cd_last_modified_checkbutton), 
+			  "clicked",
+			  G_CALLBACK (radio_button_clicked),
+			  data);
+	g_signal_connect (G_OBJECT (data->cd_comment_checkbutton), 
+			  "clicked",
+			  G_CALLBACK (radio_button_clicked),
 			  data);
 	
 	g_signal_connect (G_OBJECT (data->cd_following_date_radiobutton), 
@@ -258,6 +332,10 @@ dlg_change_date (GthWindow *window)
 			  G_CALLBACK (radio_button_clicked),
 			  data);
 	g_signal_connect (G_OBJECT (data->cd_exif_radiobutton), 
+			  "clicked",
+			  G_CALLBACK (radio_button_clicked),
+			  data);
+	g_signal_connect (G_OBJECT (data->cd_adjust_timezone_radiobutton), 
 			  "clicked",
 			  G_CALLBACK (radio_button_clicked),
 			  data);

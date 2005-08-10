@@ -1,6 +1,27 @@
+2005-08-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dir-list.c (dir_list_refresh_continue): 
+	* src/catalog-list.c (catalog_list_refresh): Restore the ..
+	item to allow moving images with DnD.  Use the default icon
+	instead of GTK_STOCK_UP.
+
+	* data/glade/gthumb_tools.glade: 
+	* src/dlg-change-date.c (ok_clicked): 
+
+	Fixes bug #138265: Feature Request - Add time offset to the Change Date
+	tool.
+	Allow to change the comment date as well.
+	
+2005-08-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/comments.c (delete_comment_iptc, save_comment_iptc): 
+	do not change the mtime when saving a comment.
+
+	* src/gth-browser.c (monitor_update_icon_theme_cb): removed a
+	wrong argument.
+
 2005-08-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/catalog-list.c (catalog_list_refresh): 
 	* src/dir-list.c (dir_list_refresh_continue): removed the
 	go up entry, no more needed thanks to the navitagion toolbar.
 	

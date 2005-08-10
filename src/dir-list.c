@@ -356,7 +356,7 @@ dir_list_update_view (DirList *dir_list)
 		GdkPixbuf   *pixbuf;
 
 		if (strcmp (name, "..") == 0)
-			pixbuf = up_pixbuf;
+			pixbuf = dir_pixbuf /*up_pixbuf*/;
 		else if (is_a_film (dir_list, name))
 			pixbuf = film_pixbuf;
 		else
@@ -471,6 +471,12 @@ dir_list_refresh_continue (PathListData *pld,
 
 	filtered = dir_list_filter_and_sort (new_dir_list, TRUE, 
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
+
+	/* * Add the ".." entry if the current path is not "/". 
+	 * path_list_new does not include the "." and ".." elements. */
+
+	if (strcmp (dir_list->path, "/") != 0)
+		filtered = g_list_prepend (filtered, g_strdup (".."));
 
 	dir_list->list = filtered;
 

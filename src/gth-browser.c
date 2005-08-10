@@ -6001,7 +6001,6 @@ gth_browser_notify_update_icon_theme (GthBrowser *browser)
 
 static void
 monitor_update_icon_theme_cb (GthMonitor *monitor,
-			      const char *filename,
 			      GthBrowser *browser)
 {
 	gth_browser_notify_update_icon_theme (browser);
@@ -6384,7 +6383,7 @@ gth_browser_construct (GthBrowser  *browser,
 				  priv->catalog_list->root_widget,
 				  NULL);
 
-	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 3);
+	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->location_entry, 
 			    FALSE, FALSE, 0);
@@ -6396,6 +6395,7 @@ gth_browser_construct (GthBrowser  *browser,
 		gtk_ui_manager_ensure_update (priv->ui);
 		nav_bar = gtk_ui_manager_get_widget (priv->ui, "/NavBar");
 		set_action_important (browser, "/MenuBar/Go/Go_Back", TRUE);
+		set_action_important (browser, "/MenuBar/Go/Go_Home", TRUE);
 		add_go_back_toolbar_item (browser, nav_bar, GO_BACK_TOOLITEM_POS);
 		gtk_toolbar_set_style (GTK_TOOLBAR (nav_bar), GTK_TOOLBAR_BOTH_HORIZ);
 		gtk_toolbar_set_icon_size (GTK_TOOLBAR (nav_bar), GTK_ICON_SIZE_SMALL_TOOLBAR);

@@ -506,6 +506,17 @@ catalog_list_refresh (CatalogList *cat_list)
 	}
 	dir_name = g_list_reverse (dir_name);
 
+	/* Add a ".." entry if the current dir is not the base catalog dir. */
+
+	base = get_catalog_full_path (NULL);
+	if (strcmp (base, cat_list->path) != 0) {
+		char *prev_dir = remove_level_from_path (cat_list->path);
+
+		dir_list = g_list_prepend (dir_list, prev_dir);
+		dir_name = g_list_prepend (dir_name, g_strdup (".."));
+	}
+	g_free (base);
+
 	/* get the list of files names (without path). */
 
 	file_name = NULL;
@@ -535,7 +546,7 @@ catalog_list_refresh (CatalogList *cat_list)
 		GdkPixbuf   *pixbuf;
 
 		if (strcmp (name, "..") == 0)
-			pixbuf = up_pixbuf;
+			pixbuf = dir_pixbuf /*up_pixbuf*/;
 		else 
 			pixbuf = dir_pixbuf;
 

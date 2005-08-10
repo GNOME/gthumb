@@ -472,9 +472,12 @@ static void
 save_comment_iptc (const char  *filename,
 		   CommentData *data)
 {
-	IptcData *d;
+	IptcData    *d;
 	IptcDataSet *ds;
-	int i;
+	time_t       mtime;
+	int          i;
+
+	mtime = get_file_mtime (filename);
 
 	d = iptc_data_new_from_jpeg (filename);
 	if (d) {
@@ -548,6 +551,8 @@ save_comment_iptc (const char  *filename,
 	}
 
 	save_iptc_data (filename, d);
+	set_file_mtime (filename, mtime);
+
 	iptc_data_unref (d);
 }
 
@@ -556,14 +561,18 @@ static void
 delete_comment_iptc (const char  *filename)
 {
 	IptcData *d;
+	time_t    mtime;
+
+	mtime = get_file_mtime (filename);
 
 	d = iptc_data_new_from_jpeg (filename);
 	if (!d)
 		return;
 
 	clear_iptc_comment (d);
-
 	save_iptc_data (filename, d);
+	set_file_mtime (filename, mtime);
+
 	iptc_data_unref (d);
 }
 
