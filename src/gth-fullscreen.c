@@ -1249,6 +1249,32 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 }
 
 
+static GList*
+shift_current_image_to_head (GList      *file_list,
+			     const char *image)
+{
+	GList *head;
+	
+	if (file_list == NULL)
+		return NULL;
+	if (image == NULL)
+		return file_list;
+
+	head = g_list_find_custom (file_list,
+				   image,
+				   (GCompareFunc) strcmp);
+	if ((head == NULL) || (head == file_list))
+		return file_list;
+
+	if (head->prev != NULL) {
+		head->prev->next = NULL;
+		head->prev = NULL;
+	}
+
+	return g_list_concat (head, file_list);
+}
+
+
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
@@ -1272,7 +1298,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	else
 		priv->image_path = NULL;
 
-	priv->file_list = file_list;
+	priv->file_list = shift_current_image_to_head (file_list, image_path);
 	if (file_list != NULL)
 		priv->files = MAX (g_list_length (priv->file_list), 1);
 	else

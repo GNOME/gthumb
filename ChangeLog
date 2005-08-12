@@ -1,3 +1,13 @@
+2005-08-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (shift_current_image_to_head): new function.
+	Start the slideshow from the current image.
+
+	Fixes bug #310929: should start slideshow from the selected image.
+
+	* src/gth-browser.c (fullscreen_destroy_cb): set the last
+	viewed image in fullscreen mode as the current image.
+
 2005-08-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dir-list.c (dir_list_refresh_continue): 

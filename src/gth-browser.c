@@ -1497,7 +1497,7 @@ window_update_history_list (GthBrowser *browser)
 
 static void
 view_image_at_pos (GthBrowser *browser, 
-		   int           pos)
+		   int         pos)
 {
 	char *path;
 
@@ -8587,8 +8587,21 @@ static gboolean
 fullscreen_destroy_cb (GtkWidget  *widget,
 		       GthBrowser *browser)
 {
+	GthBrowserPrivateData *priv = browser->priv;
+	const char *current_image;
+	int pos;
+
+	current_image = gth_window_get_image_filename (GTH_WINDOW (widget));
+
 	browser->priv->fullscreen = NULL;
 	gth_window_set_fullscreen (GTH_WINDOW (browser), FALSE);
+
+	pos = gth_file_list_pos_from_path (priv->file_list, current_image);
+	if (pos != -1) {
+		view_image_at_pos (browser, pos);
+		gth_file_list_select_image_by_pos (priv->file_list, pos);
+	}
+
 	return FALSE;
 }
 
