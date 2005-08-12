@@ -1,5 +1,8 @@
 2005-08-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
-
+	
+	* src/gth-fullscreen.c (load_next_image, load_prev_image): Exit
+	from the fullscreen mode when the slideshow ends.  
+	
 	* src/gth-fullscreen.c (shift_current_image_to_head): new function.
 	Start the slideshow from the current image.
 

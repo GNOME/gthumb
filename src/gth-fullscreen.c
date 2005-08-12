@@ -404,7 +404,8 @@ random_list_func (gconstpointer a,
 
 static void
 load_first_or_last_image (GthFullscreen *fullscreen,
-			  gboolean       first)
+			  gboolean       first,
+			  gboolean       first_time)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
@@ -434,6 +435,13 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 			priv->current = priv->file_list;
 	}
 
+	if (first_time 
+	    && (priv->image_path != NULL)
+	    && (priv->slideshow_direction != GTH_DIRECTION_RANDOM)) 
+		priv->current = g_list_find_custom (priv->file_list, 
+						    priv->image_path,
+						    (GCompareFunc) strcmp);
+
 	load_current_image (fullscreen);
 }
 
@@ -441,14 +449,14 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 static void
 load_first_image (GthFullscreen *fullscreen)
 {
-	load_first_or_last_image (fullscreen, TRUE);
+	load_first_or_last_image (fullscreen, TRUE, FALSE);
 }
 
 
 static void
 load_last_image (GthFullscreen *fullscreen)
 {
-	load_first_or_last_image (fullscreen, FALSE);
+	load_first_or_last_image (fullscreen, FALSE, FALSE);
 }
 
 
@@ -462,9 +470,14 @@ load_next_image (GthFullscreen *fullscreen)
 	if (next != NULL)
 		priv->current = next;
 	
-	if ((next == NULL) && priv->slideshow && priv->slideshow_wrap_around)
-		load_first_image (fullscreen);
-	else
+	if (next == NULL) {
+		if (priv->slideshow) {
+			if (priv->slideshow_wrap_around)
+				load_first_image (fullscreen);
+			else
+				gth_window_close (GTH_WINDOW (fullscreen));
+		}
+	} else
 		load_current_image (fullscreen);
 }
 
@@ -483,9 +496,14 @@ load_prev_image (GthFullscreen *fullscreen)
 	if (next != NULL)
 		priv->current = next;
 
-	if ((next == NULL) && priv->slideshow  && priv->slideshow_wrap_around)
-		load_last_image (fullscreen);
-	else
+	if (next == NULL) {
+		if (priv->slideshow) {
+			if (priv->slideshow_wrap_around)
+				load_last_image (fullscreen);
+			else
+				gth_window_close (GTH_WINDOW (fullscreen));
+		}
+	} else
 		load_current_image (fullscreen);
 }
 
@@ -1249,32 +1267,6 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 }
 
 
-static GList*
-shift_current_image_to_head (GList      *file_list,
-			     const char *image)
-{
-	GList *head;
-	
-	if (file_list == NULL)
-		return NULL;
-	if (image == NULL)
-		return file_list;
-
-	head = g_list_find_custom (file_list,
-				   image,
-				   (GCompareFunc) strcmp);
-	if ((head == NULL) || (head == file_list))
-		return file_list;
-
-	if (head->prev != NULL) {
-		head->prev->next = NULL;
-		head->prev = NULL;
-	}
-
-	return g_list_concat (head, file_list);
-}
-
-
 static void
 gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  GdkPixbuf     *image,
@@ -1298,7 +1290,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	else
 		priv->image_path = NULL;
 
-	priv->file_list = shift_current_image_to_head (file_list, image_path);
+	priv->file_list = file_list;
 	if (file_list != NULL)
 		priv->files = MAX (g_list_length (priv->file_list), 1);
 	else
@@ -1541,7 +1533,7 @@ gth_fullscreen_show (GtkWidget *widget)
 	else
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
 
-	load_first_image (fullscreen);
+	load_first_or_last_image (fullscreen, TRUE, TRUE);
 }
 
 
