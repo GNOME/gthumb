@@ -1,8 +1,18 @@
 2005-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser-ui.h: put Fullscreen before Slideshow.
+
+	* src/gth-browser-actions-entries.h: F12 starts the slideshow.
+
+	* src/gth-window-actions-entries.h: F4 associated with Revert.
+
+	* src/gth-fullscreen.c (load_next_image, load_prev_image): 
+	make the code more clear.
+
 	* src/main.c (folder_is_film): 
 	* src/gth-viewer.c (update_image_comment): 
 	* src/gth-fullscreen.c (show_comment_on_image): 
+
 	* src/gth-browser.c (update_image_comment): 
 	* src/gth-browser-actions-callbacks.c (edit_current_folder_categories__done): 
 	* src/dlg-search.c (load_parents_comments): 

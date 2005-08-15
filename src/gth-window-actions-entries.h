@@ -57,7 +57,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_save_as) },
 
 	{ "File_Revert", GTK_STOCK_REVERT_TO_SAVED,
-	  NULL, "F12",
+	  NULL, "F4",
 	  N_("Revert to saved image"),
 	  G_CALLBACK (gth_window_activate_action_file_revert) },
 

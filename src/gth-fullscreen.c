@@ -467,18 +467,17 @@ load_next_image (GthFullscreen *fullscreen)
 	GList *next;
 
 	next = get_next_image (fullscreen);
-	if (next != NULL)
+
+	if (next != NULL) {
 		priv->current = next;
-	
-	if (next == NULL) {
-		if (priv->slideshow) {
-			if (priv->slideshow_wrap_around)
-				load_first_image (fullscreen);
-			else
-				gth_window_close (GTH_WINDOW (fullscreen));
-		}
-	} else
 		load_current_image (fullscreen);
+	} 
+	else if (priv->slideshow) {
+		if (priv->slideshow_wrap_around)
+			load_first_image (fullscreen);
+		else
+			gth_window_close (GTH_WINDOW (fullscreen));
+	}
 }
 
 
@@ -488,23 +487,18 @@ load_prev_image (GthFullscreen *fullscreen)
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GList *next;
 
-	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
-		next = get_next_image (fullscreen);
-	else
-		next = get_prev_image (fullscreen);
+	next = get_prev_image (fullscreen);
 
-	if (next != NULL)
+	if (next != NULL) {
 		priv->current = next;
-
-	if (next == NULL) {
-		if (priv->slideshow) {
-			if (priv->slideshow_wrap_around)
-				load_last_image (fullscreen);
-			else
-				gth_window_close (GTH_WINDOW (fullscreen));
-		}
-	} else
 		load_current_image (fullscreen);
+	} 
+	else if (priv->slideshow) {
+		if (priv->slideshow_wrap_around)
+			load_last_image (fullscreen);
+		else
+			gth_window_close (GTH_WINDOW (fullscreen));
+	}
 }
 
 
