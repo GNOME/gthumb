@@ -611,7 +611,7 @@ update_image_comment (GthViewer *viewer)
                 return;
 	}
 
-	cdata = comments_load_comment (priv->image_path);
+	cdata = comments_load_comment (priv->image_path, TRUE);
 
 	if (cdata == NULL) {
 		GtkTextIter  iter;

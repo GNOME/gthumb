@@ -1,3 +1,47 @@
+2005-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (folder_is_film): 
+	* src/gth-viewer.c (update_image_comment): 
+	* src/gth-fullscreen.c (show_comment_on_image): 
+	* src/gth-browser.c (update_image_comment): 
+	* src/gth-browser-actions-callbacks.c (edit_current_folder_categories__done): 
+	* src/dlg-search.c (load_parents_comments): 
+	* src/dlg-preferences.c (dlg_preferences): 
+	* src/dlg-photo-importer.c (add_categories_to_image): 
+	* src/dlg-image-prop.c (update_comment): 
+	* src/dlg-change-date.c (ok_clicked): 
+	* src/dlg-categories.c (dlg_categories__save): 
+	* src/catalog-web-exporter.c (image_data_new): 
+	* src/catalog-png-exporter.c (image_data_new): 
+	* libgthumb/print-callbacks.c (image_loader_done_cb): 
+	* libgthumb/gth-file-list.c (add_list_in_chunks): 
+	* libgthumb/file-data.c (file_data_update_comment): 
+
+	Read the .comments DB when loading a folder and when searching for 
+	images, this is a workaround for the performance issues we get when
+	using the embedded comments for these operations.  
+	Give priority to the embedded comment for all other operations 
+	updating the .comments DB if the embedded comment is different.
+	
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c (comment_data_equal, save_comment)
+	(comments_load_comment):  Consider the image comment more up-to-date
+	then the .comments comment and update it.  Added try_embedded param to
+	comments_load_comment.
+
+	* libgthumb/nav-window.c (nav_window_new): fixed comment.
+	
+	* libgthumb/gth-pixbuf-op.c (one_step): removed unused variable ofs
+
+2005-08-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-comment.c: 
+	* libgthumb/glib-utils.c (strcmp_null_tollerant): 
+	moves strcmp_null_tollerant in glib-utils.c
+
+	* libgthumb/comments.c (save_comment): always save the comment in
+	the .comments subfolder even if libiptcdata is available.
+
 2005-08-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 	
 	* src/gth-fullscreen.c (load_next_image, load_prev_image): Exit

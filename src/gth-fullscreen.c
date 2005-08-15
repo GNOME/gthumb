@@ -748,7 +748,7 @@ show_comment_on_image (GthFullscreen *fullscreen)
 	}
 
 	if (gth_window_get_image_filename (window) != NULL)
-		cdata = comments_load_comment (gth_window_get_image_filename (window));
+		cdata = comments_load_comment (gth_window_get_image_filename (window), TRUE);
 	else
 		return;
 

@@ -203,7 +203,7 @@ static gboolean
 one_step (gpointer data)
 {
 	GthPixbufOp *pixbuf_op = data;
-	int          ofs = 0, dir = 1;
+	int          dir = 1;
 
 	if ((pixbuf_op->line >= pixbuf_op->height)
 	    || pixbuf_op->interrupt) {

@@ -62,6 +62,8 @@ char *   _g_utf8_strstrip          (const char *str);
 
 gboolean _g_utf8_all_spaces        (const char *utf8_string);
 
+int      strcmp_null_tollerant     (const char *s1, const char *s2);
+
 /**/
 
 #ifndef __GNUC__

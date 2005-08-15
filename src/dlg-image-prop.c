@@ -290,7 +290,7 @@ update_comment (DialogData *data)
 	g_return_if_fail (GTK_IS_WIDGET (data->i_categories_label));
 	g_return_if_fail (GTK_IS_TEXT_BUFFER (data->i_comment_textbuffer));
 
-	cdata = comments_load_comment (gth_window_get_image_filename (GTH_WINDOW (data->browser)));
+	cdata = comments_load_comment (gth_window_get_image_filename (GTH_WINDOW (data->browser)), TRUE);
 
 	if (cdata == NULL) {
 		GtkTextIter  start_iter, end_iter;

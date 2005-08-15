@@ -1157,7 +1157,7 @@ add_categories_to_image (DialogData *data,
 	if (data->categories_list == NULL)
 		return;
 
-	cdata = comments_load_comment (filename);
+	cdata = comments_load_comment (filename, FALSE);
 	if (cdata == NULL)
 		cdata = comment_data_new ();
 	
@@ -1218,7 +1218,7 @@ add_film_keyword (const char *folder)
 {
 	CommentData *cdata;
 
-	cdata = comments_load_comment (folder);
+	cdata = comments_load_comment (folder, FALSE);
 	if (cdata == NULL)
 		cdata = comment_data_new ();
 	comment_data_add_keyword (cdata, _("Film"));

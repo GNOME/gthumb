@@ -82,7 +82,7 @@ nav_window_new (ImageViewer *viewer)
 	nav_window->preview = gtk_drawing_area_new ();
 	gtk_container_add (GTK_CONTAINER (in_frame), nav_window->preview);
 
-	/* Needed gc to draw the preview sqr with */
+	/* gc needed to draw the preview square */
 
 	nav_window->gc = gdk_gc_new (GTK_WIDGET (viewer)->window);
 	gdk_gc_set_function (nav_window->gc, GDK_INVERT);

@@ -46,6 +46,7 @@
 #include "typedefs.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "glib-utils.h"
 #include "gtk-utils.h"
 
 #define COMMENT_TAG  "Comment"
@@ -148,6 +149,34 @@ comment_data_dup (CommentData *data)
 	new_data->utf8_format = data->utf8_format;
 
 	return new_data;
+}
+
+
+gboolean
+comment_data_equal (CommentData *data1, 
+		    CommentData *data2)
+{
+	int i;
+
+	if ((data1 == NULL) && (data2 == NULL))
+		return TRUE;
+	if ((data1 == NULL) || (data2 == NULL))
+		return FALSE;
+
+	if (strcmp_null_tollerant (data1->place, data2->place) != 0)
+		return FALSE;
+	if (data1->time != data2->time)
+		return FALSE;
+	if (strcmp_null_tollerant (data1->comment, data2->comment) != 0)
+		return FALSE;
+	if (data1->keywords_n != data2->keywords_n)
+		return FALSE;
+	for (i = 0; i < data1->keywords_n; i++)
+		if (strcmp_null_tollerant (data1->keywords[i], 
+					   data2->keywords[i]) != 0)
+			return FALSE;
+
+	return TRUE;
 }
 
 
@@ -823,8 +852,8 @@ get_keywords (CommentData *data,
 }
 
 
-CommentData *
-comments_load_comment (const char *filename)
+static CommentData *
+load_comment_from_xml (const char *filename)
 {
 	CommentData *data;
 	char        *comment_file;
@@ -839,12 +868,6 @@ comments_load_comment (const char *filename)
 	comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
 	if (! path_is_file (comment_file)) {
 		g_free (comment_file);
-
-#ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
-			return load_comment_from_iptc (filename);
-#endif /* HAVE_LIBIPTCDATA */
-
 		return NULL;
 	}
 
@@ -892,13 +915,14 @@ comments_load_comment (const char *filename)
         xmlFreeDoc (doc);
 	g_free (comment_file);
 
-	return data;
+	return data;	
 }
 
 
 void
 save_comment (const char  *filename,
-	      CommentData *data)
+	      CommentData *data,
+	      gboolean     save_embedded)
 {
 	xmlDocPtr    doc;
         xmlNodePtr   tree, subtree;
@@ -913,18 +937,12 @@ save_comment (const char  *filename,
 		return;
 	}
 
+	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-	if (image_is_jpeg (filename)) {
-		save_comment_iptc (filename, data);
-
-		/* Remove the legacy comment if it is still present */
-		comment_file = comments_get_comment_filename (filename, TRUE, TRUE);
-		unlink (comment_file);
-		g_free (comment_file);
-
-		return;
-	}
+		if (image_is_jpeg (filename)) 
+			save_comment_iptc (filename, data);
 #endif /* HAVE_LIBIPTCDATA */
+	}
 
 	/* Convert data to strings. */
 
@@ -984,20 +1002,51 @@ save_comment (const char  *filename,
 }
 
 
+CommentData *
+comments_load_comment (const char *filename,
+		       gboolean    try_embedded)
+{
+	CommentData *xml_comment = NULL, *img_comment = NULL;
+
+	if (filename == NULL)
+		return NULL;
+
+	xml_comment = load_comment_from_xml (filename);
+
+	if (try_embedded) {
+#ifdef HAVE_LIBIPTCDATA
+		if (image_is_jpeg (filename))
+			img_comment = load_comment_from_iptc (filename);
+#endif /* HAVE_LIBIPTCDATA */
+		if ((img_comment != NULL)
+		    && (! comment_data_equal (xml_comment, img_comment))) {
+			/* Consider the image comment more up-to-date and 
+			 * sync the xml comment with it. */
+			save_comment (filename, img_comment, FALSE);
+			comment_data_free (xml_comment);
+			xml_comment = img_comment;
+		} else 
+			comment_data_free (img_comment);
+	}
+
+	return xml_comment;
+}
+
+
 void
 comments_save_comment (const char  *filename,
 		       CommentData *data)
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename);
+	new_data = comments_load_comment (filename, TRUE);
 
 	if (new_data == NULL) {
 		CommentData *data_without_categories;
 
 		data_without_categories = comment_data_dup (data);
 		comment_data_free_keywords (data_without_categories);
-		save_comment (filename, data_without_categories);
+		save_comment (filename, data_without_categories, TRUE);
 		comment_data_free (data_without_categories);
 
 		return;
@@ -1011,7 +1060,7 @@ comments_save_comment (const char  *filename,
 	if (data->comment != NULL) 
 		new_data->comment = g_strdup (data->comment);
 
-	save_comment (filename, new_data);
+	save_comment (filename, new_data, TRUE);
 	comment_data_free (new_data);
 }
 
@@ -1022,7 +1071,7 @@ comments_save_comment_non_null (const char  *filename,
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename);
+	new_data = comments_load_comment (filename, TRUE);
 	if (new_data == NULL) {
 		comments_save_comment (filename, data);
 		return;
@@ -1056,14 +1105,14 @@ comments_save_categories (const char  *filename,
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename);
+	new_data = comments_load_comment (filename, TRUE);
 
 	if (new_data == NULL) {
 		CommentData *data_without_comment;
 
 		data_without_comment = comment_data_dup (data);
 		comment_data_free_comment (data_without_comment);
-		save_comment (filename, data_without_comment);
+		save_comment (filename, data_without_comment, TRUE);
 		comment_data_free (data_without_comment);
 
 		return;
@@ -1083,7 +1132,7 @@ comments_save_categories (const char  *filename,
 		new_data->keywords[i] = NULL;
 	}
 
-	save_comment (filename, new_data);
+	save_comment (filename, new_data, TRUE);
 	comment_data_free (new_data);
 }
 

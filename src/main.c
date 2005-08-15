@@ -947,7 +947,7 @@ folder_is_film (const char *folder)
 
 	folder = pref_util_remove_prefix (folder);
 
-	cdata = comments_load_comment (folder);
+	cdata = comments_load_comment (folder, FALSE);
 	if (cdata != NULL) {
 		int i;
 		for (i = 0; i < cdata->keywords_n; i++)

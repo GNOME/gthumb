@@ -120,20 +120,6 @@ unrealize_cb (GtkWidget  *widget,
 
 
 static int
-strcmp_null_tollerant (const char *s1, const char *s2)
-{
-	if ((s1 == NULL) && (s2 == NULL))
-		return 0;
-	else if ((s1 != NULL) && (s2 == NULL))
-		return 1;
-	else if ((s1 == NULL) && (s2 != NULL))
-		return -1;
-	else 
-		return strcmp (s1, s2);
-}
-
-
-static int
 text_field_cmp (const char *s1, const char *s2)
 {
 	if ((s1 != NULL) && (*s1 == 0))
@@ -534,7 +520,7 @@ dlg_comment_update (GtkWidget *dlg)
 #endif
 	
 	first_image = data->file_list->data;
-	data->original_cdata = cdata = comments_load_comment (first_image);
+	data->original_cdata = cdata = comments_load_comment (first_image, TRUE);
 
 	if (cdata != NULL) {
 		comment_data_free_keywords (cdata);
@@ -543,7 +529,7 @@ dlg_comment_update (GtkWidget *dlg)
 		for (scan = data->file_list->next; scan; scan = scan->next) {
 			CommentData *scan_cdata;
 
-			scan_cdata = comments_load_comment (scan->data);
+			scan_cdata = comments_load_comment (scan->data, TRUE);
 
 			/* If there is no comment then all fields must be
 			 * considered to differ. */

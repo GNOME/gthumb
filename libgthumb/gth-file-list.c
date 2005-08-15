@@ -654,9 +654,7 @@ add_list_in_chunks (gpointer callback_data)
 		FileData *fd = scan->data;
 		int       pos;
 
-#ifndef HAVE_LIBIPTCDATA
 		file_data_update_comment (fd); 
-#endif
 		
 		pos = gth_file_view_append_with_data (file_list->view,
 						      NULL,
@@ -1396,9 +1394,7 @@ update_comment__step2 (InterruptThumbsData *it_data)
 
 	/* update the FileData structure. */
 	fd = gth_file_view_get_image_data (file_list->view, pos);
-#ifndef HAVE_LIBIPTCDATA
 	file_data_update_comment (fd);
-#endif
 
 	/* Set the new name. */
 	gth_file_view_set_image_comment (file_list->view, pos, fd->comment);

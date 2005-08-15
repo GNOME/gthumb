@@ -666,9 +666,4 @@ dlg_preferences (GthBrowser *browser)
 				      GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show_all (data->dialog);
-
-#ifdef HAVE_LIBIPTCDATA
-	gtk_widget_hide (data->toggle_show_comments);
-#endif
-
 }

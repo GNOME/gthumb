@@ -553,7 +553,7 @@ update_image_comment (GthBrowser *browser)
                 return;
 	}
 
-	cdata = comments_load_comment (priv->image_path);
+	cdata = comments_load_comment (priv->image_path, TRUE);
 
 	if (comment_text_is_void (cdata)) {
 		GtkTextIter  iter;

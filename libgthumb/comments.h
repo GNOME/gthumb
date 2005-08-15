@@ -87,7 +87,8 @@ void           comments_remove_old_comments_async  (const char  *dir,
 						    gboolean     recursive, 
 						    gboolean     clear_all);
 
-CommentData *  comments_load_comment               (const char  *filename);
+CommentData *  comments_load_comment               (const char  *filename,
+						    gboolean     try_embedded);
 
 void           comments_save_comment               (const char  *filename,
 						    CommentData *data);

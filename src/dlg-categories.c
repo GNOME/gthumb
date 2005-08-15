@@ -694,7 +694,7 @@ dlg_categories__save (GList    *file_list,
 		CommentData *cdata;
 		GList       *scan2;
 
-		cdata = comments_load_comment (filename);
+		cdata = comments_load_comment (filename, TRUE);
 		if (cdata == NULL)
 			cdata = comment_data_new ();
 		else 
@@ -779,7 +779,7 @@ dlg_categories_update (GtkWidget *dlg)
 
 	if (data->file_list != NULL) {
 		char *first_image = data->file_list->data;
-		data->original_cdata = cdata = comments_load_comment (first_image);
+		data->original_cdata = cdata = comments_load_comment (first_image, TRUE);
 	}
 	
 	if (cdata != NULL) {
@@ -790,7 +790,7 @@ dlg_categories_update (GtkWidget *dlg)
 			CommentData *scan_cdata;
 			int          i;
 
-			scan_cdata = comments_load_comment (scan->data);
+			scan_cdata = comments_load_comment (scan->data, TRUE);
 		
 			if (scan_cdata == NULL) {
 				comment_data_free_keywords (cdata);
@@ -822,7 +822,7 @@ dlg_categories_update (GtkWidget *dlg)
 		CommentData *scan_cdata;
 		int          j;
 
-		scan_cdata = comments_load_comment (scan->data);
+		scan_cdata = comments_load_comment (scan->data, TRUE);
 		
 		if (scan_cdata == NULL) 
 			continue;

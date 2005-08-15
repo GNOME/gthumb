@@ -811,7 +811,7 @@ load_parents_comments (DialogData *data,
 		g_free (tmp);
 
 		if (g_hash_table_lookup (data->folders_comment, parent) == NULL) {
-			CommentData *comment_data = comments_load_comment (parent);
+			CommentData *comment_data = comments_load_comment (parent, FALSE);
 			if (comment_data == NULL)
 				comment_data = comment_data_new ();
 
@@ -880,7 +880,7 @@ file_respects_search_criteria (DialogData *data,
 
 	load_parents_comments (data, filename);
 
-	comment_data = comments_load_comment (filename);
+	comment_data = comments_load_comment (filename, FALSE);
 	if (comment_data == NULL) 
 		comment_data = comment_data_new ();
 	add_parents_comments (comment_data, data, filename);

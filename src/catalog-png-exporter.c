@@ -130,7 +130,7 @@ image_data_new (gchar *filename)
 
 	idata = g_new (ImageData, 1);
 
-	cdata = comments_load_comment (filename);
+	cdata = comments_load_comment (filename, TRUE);
 	idata->comment = comments_get_comment_as_string (cdata, "\n", "\n");
 	if (cdata != NULL)
 		comment_data_free (cdata);

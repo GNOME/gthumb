@@ -117,7 +117,7 @@ file_data_update_comment (FileData *fd)
 	if (fd->comment != NULL)
 		g_free (fd->comment);
 
-	data = comments_load_comment (fd->path);
+	data = comments_load_comment (fd->path, FALSE);
 
 	if (data == NULL) {
 		fd->comment = g_strdup ("");

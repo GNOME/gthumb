@@ -264,7 +264,7 @@ gth_window_activate_action_edit_delete_comment (GtkAction *action,
 		char        *filename = scan->data;
 		CommentData *cdata;
 
-		cdata = comments_load_comment (filename);
+		cdata = comments_load_comment (filename, TRUE);
 		comment_data_free_comment (cdata);
 		if (! comment_data_is_void (cdata))
 			comments_save_comment (filename, cdata);

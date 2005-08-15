@@ -1543,7 +1543,7 @@ edit_current_folder_categories__done (gpointer data)
 		GList       *scan2;
 		DirList     *dir_list;
 
-		cdata = comments_load_comment (filename);
+		cdata = comments_load_comment (filename, FALSE);
 		if (cdata == NULL)
 			cdata = comment_data_new ();
 		else 
