@@ -342,8 +342,17 @@ ok_clicked_cb (GtkWidget  *widget,
 	if (data->save_func) {
 		(*data->save_func) (data->file_list, data->save_data);
 		gtk_widget_set_sensitive (data->c_ok_button, FALSE);
-		if (data->window != NULL)
-			gth_window_reload_current_image (data->window);
+		if (data->window != NULL) {
+			gboolean close_on_save;
+
+			gth_window_update_current_image_metadata (data->window);
+
+			g_object_get (data->window,
+				      "close_on_save", &close_on_save,
+				      NULL);
+			if (close_on_save)
+				dlg_categories_close (data->dialog);
+		}
 	} else
 		gtk_widget_destroy (data->dialog);
 }
@@ -477,6 +486,19 @@ name_column_sort_func (GtkTreeModel *model,
 }
 
 
+static gboolean
+keyword_equal_func (GtkTreeModel *model,
+		    gint          column, 
+		    const gchar  *key,
+		    GtkTreeIter  *iter,
+		    gpointer      search_data)
+{
+	char *cell;
+	gtk_tree_model_get (model, iter, column, &cell, -1);
+	return g_strcasecmp (key, cell) > 0;
+}
+    
+
 
 
 
@@ -556,6 +578,13 @@ dlg_categories_common (GtkWindow     *parent,
 				 GTK_TREE_MODEL (data->keywords_list_model));
 	g_object_unref (data->keywords_list_model);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (data->keywords_list_view), FALSE);
+
+	gtk_tree_view_set_search_column (GTK_TREE_VIEW (data->keywords_list_view), 
+					 CATEGORY_COLUMN);
+	gtk_tree_view_set_search_equal_func (GTK_TREE_VIEW (data->keywords_list_view),
+					     keyword_equal_func,
+					     NULL,
+					     NULL);
 
 	renderer = gtk_cell_renderer_three_states_new ();
 	g_signal_connect (G_OBJECT (renderer), 

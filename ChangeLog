@@ -1,3 +1,16 @@
+2005-08-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (gth_viewer_init): 
+	* src/gth-fullscreen.c (gth_fullscreen_init): 
+	* src/gth-window.c (gth_window_set_property)
+	(gth_window_get_property): 
+	* src/dlg-comment.c (save_clicked_cb): close the categories dialog
+	and the comment dialog after saving when in fullscreen mode or in
+	single image mode.
+
+	* src/dlg-categories.c (keyword_equal_func): 
+	(ok_clicked_cb): added keyword search in the categories list.
+
 2005-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-ui.h: put Fullscreen before Slideshow.

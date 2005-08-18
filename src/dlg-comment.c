@@ -176,6 +176,7 @@ save_clicked_cb (GtkWidget  *widget,
 	struct tm    tm = {0};
 	GtkTextIter  start_iter, end_iter;
 	gboolean     save_changed;
+	gboolean     close_on_save;
 
 	save_changed = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton));
 	cdata = comment_data_new ();
@@ -264,11 +265,15 @@ save_clicked_cb (GtkWidget  *widget,
 	}
 
 	gth_window_update_current_image_metadata (data->window);
-	/* FIXME:
-	if ((data->window != NULL) && (data->window->image_prop_dlg != NULL))
-		dlg_image_prop_update (data->window->image_prop_dlg);
-	*/
 	comment_data_free (cdata);
+
+	/**/
+
+	g_object_get (data->window,
+		      "close_on_save", &close_on_save,
+		      NULL);
+	if (close_on_save)
+		dlg_comment_close (data->dialog);
 }
 
 

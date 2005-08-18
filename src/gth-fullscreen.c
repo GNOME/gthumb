@@ -241,6 +241,10 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  fullscreen);
 
 	priv->screensaver = totem_scrsaver_new ();
+
+	g_object_set (fullscreen, 
+		      "close_on_save", TRUE,
+		      NULL);
 }
 
 

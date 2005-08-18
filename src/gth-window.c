@@ -29,6 +29,11 @@
 
 #define MAX_UNDO_HISTORY_LEN 5
 
+enum {
+        PROP_0,
+        PROP_CLOSE_ON_SAVE,
+};
+
 static GnomeAppClass *parent_class = NULL;
 static GList *window_list = NULL;
 
@@ -38,6 +43,7 @@ struct _GthWindowPrivateData {
 	GtkWidget  *categories_dlg;
 	gboolean    slideshow;
 	gboolean    fullscreen;
+	gboolean    close_on_save;
 	GList      *undo_history;  /* ImageData items */
 	GList      *redo_history;  /* ImageData items */
 };
@@ -122,6 +128,42 @@ gth_window_finalize (GObject *object)
 	window_list = g_list_remove (window_list, window);
 	if (window_list == NULL) 
 		gtk_main_quit ();
+}
+
+
+static void
+gth_window_set_property (GObject      *object,
+			 guint         prop_id,
+			 const GValue *value,
+			 GParamSpec   *pspec)
+{
+	GthWindow *window = GTH_WINDOW (object);
+
+	switch (prop_id) {
+	case PROP_CLOSE_ON_SAVE:
+		window->priv->close_on_save = g_value_get_boolean (value);
+                break;
+	default:
+                G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        }
+}
+
+
+static void
+gth_window_get_property (GObject    *object,
+			 guint       prop_id,
+			 GValue     *value,
+			 GParamSpec *pspec)
+{
+	GthWindow *window = GTH_WINDOW (object);
+
+        switch (prop_id) {
+        case PROP_CLOSE_ON_SAVE:
+		g_value_set_boolean (value, window->priv->close_on_save);
+                break;
+	default:
+                G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+        }
 }
 
 
@@ -255,6 +297,9 @@ gth_window_class_init (GthWindowClass *class)
 	gobject_class = (GObjectClass*) class;
 
 	gobject_class->finalize = gth_window_finalize;
+	gobject_class->set_property = gth_window_set_property;
+        gobject_class->get_property = gth_window_get_property;
+
 	widget_class->delete_event = gth_window_delete_event;
 
 	class->close = base_close;
@@ -273,6 +318,14 @@ gth_window_class_init (GthWindowClass *class)
 	class->step_animation = base_step_animation;
 	class->set_fullscreen = base_set_fullscreen;
 	class->set_slideshow = base_set_slideshow;
+
+	g_object_class_install_property (gobject_class,
+                                         PROP_CLOSE_ON_SAVE,
+                                         g_param_spec_boolean ("close_on_save",
+                                                               "Close on save",
+                                                               "Close the comment and categories dialogs after saving",
+                                                               FALSE,
+                                                               G_PARAM_READWRITE));
 }
 
 
@@ -286,6 +339,7 @@ gth_window_init (GthWindow *window)
 	priv->categories_dlg = NULL;
 	priv->undo_history = NULL;
 	priv->redo_history = NULL;
+	priv->close_on_save = FALSE;
 
 	/**/
 
