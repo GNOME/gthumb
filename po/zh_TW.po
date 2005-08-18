@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb 2.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-06-24 03:40+0000\n"
-"PO-Revision-Date: 2005-06-24 12:44+0800\n"
-"Last-Translator: Woodman Tuen <woodman@culturecom.com.hk>\n"
+"POT-Creation-Date: 2005-08-18 03:41+0000\n"
+"PO-Revision-Date: 2005-08-18 16:09+0800\n"
+"Last-Translator: Chao-Hsiung Liao <j_h_liau@yahoo.com.tw>\n"
 "Language-Team: Chinese/Traditional <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgid "View as Catalog"
 msgstr "以圖片集方式顯示"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: ../src/gth-window-actions-entries.h:62
+#: ../src/gth-window-actions-entries.h:66
 msgid "Print the current image"
 msgstr "列印目前的圖片"
 
@@ -93,13 +93,13 @@ msgid "Save _As..."
 msgstr "另存檔案(_A)..."
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
-#: ../src/gth-window-actions-entries.h:47
-#: ../src/gth-window-actions-entries.h:52
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
 msgstr "儲存目前的圖片"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: ../src/gth-window-actions-entries.h:278
+#: ../src/gth-window-actions-entries.h:302
 msgid "Start or stop current animation"
 msgstr "開始或停止目前顯示的動畫"
 
@@ -112,7 +112,7 @@ msgid "Transparency T_ype"
 msgstr "透明表示方式(_Y)"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#: ../src/gth-window-actions-entries.h:207
+#: ../src/gth-window-actions-entries.h:211
 msgid "View next animation frame"
 msgstr "顯示下一格動畫畫格"
 
@@ -125,19 +125,19 @@ msgid "_Checked"
 msgstr "方格(_C)"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: ../src/gth-window-actions-entries.h:106
+#: ../src/gth-window-actions-entries.h:110
 msgid "_Flip"
 msgstr "上下倒置(_F)"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:447
+#: ../src/gth-browser-actions-entries.h:435
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "圖片(_I)"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: ../src/gth-window-actions-entries.h:111
+#: ../src/gth-window-actions-entries.h:115
 msgid "_Mirror"
 msgstr "左右倒置(_M)"
 
@@ -155,7 +155,7 @@ msgstr "逐格動格(_S)"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:46
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -169,28 +169,32 @@ msgstr "白(_W)"
 msgid "_Zoom Quality"
 msgstr "縮放品質(_Z)"
 
-#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
+#: ../components/image-viewer/viewer-stream.c:90
+#: ../src/dlg-file-utils.c:555
 msgid "%d %b %Y, %H:%M"
 msgstr "%x %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
-#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:487 ../src/gth-exif-data-viewer.c:468
-#: ../src/gth-fullscreen.c:654 ../src/gth-viewer.c:545
+#: ../src/catalog-png-exporter.c:815
+#: ../src/dlg-image-prop.c:425
+#: ../src/gth-browser.c:503
+#: ../src/gth-exif-data-viewer.c:467
+#: ../src/gth-fullscreen.c:674
+#: ../src/gth-viewer.c:561
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d×%d 像素"
 
 #: ../data/GNOME_GThumb.server.in.in.h:1
-#, fuzzy
 msgid "GThumb Application"
-msgstr "應用程式(_A):"
+msgstr "GThumb 應用程式"
 
 #: ../data/GNOME_GThumb.server.in.in.h:2
 msgid "GThumb Application Factory"
-msgstr ""
+msgstr "GThumb 應用程式工廠"
 
-#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
+#: ../data/albumthemes/text.h:27
+#: ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "圖片"
 
@@ -198,8 +202,9 @@ msgstr "圖片"
 msgid "Dimensions"
 msgstr "尺寸"
 
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:616
-#: ../src/gth-exif-data-viewer.c:497
+#: ../data/albumthemes/text.h:29
+#: ../src/dlg-image-prop.c:616
+#: ../src/gth-exif-data-viewer.c:496
 msgid "Bytes"
 msgstr "位元組"
 
@@ -235,161 +240,161 @@ msgstr "焦距長度"
 msgid "Camera model"
 msgstr "相機型號"
 
-#: ../data/albumthemes/text.h:38 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/albumthemes/text.h:38
+#: ../data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "像素"
 
-#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
-#: ../data/glade/gthumb_crop.glade.h:1 ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb.glade.h:1
+#: ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:1
+#: ../data/glade/gthumb_edit.glade.h:1
 #: ../data/glade/gthumb_png_exporter.glade.h:1
 #: ../data/glade/gthumb_preferences.glade.h:1
-#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1
+#: ../data/glade/gthumb_tools.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: ../data/glade/gthumb.glade.h:2 ../data/glade/gthumb_convert.glade.h:2
-msgid "*"
-msgstr "*"
-
-#: ../data/glade/gthumb.glade.h:3
+#: ../data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
 msgstr "<b>分類:</b>"
 
-#: ../data/glade/gthumb.glade.h:4
+#: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>請選取色版:</b>"
 
-#: ../data/glade/gthumb.glade.h:5
+#: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>是否用新的圖片覆寫舊的圖片？</b>"
 
-#: ../data/glade/gthumb.glade.h:6
+#: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
 msgstr "可選用的應用程式(_V):"
 
-#: ../data/glade/gthumb.glade.h:7
+#: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
 msgstr "透明"
 
-#: ../data/glade/gthumb.glade.h:8
+#: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
 msgstr "藍"
 
-#: ../data/glade/gthumb.glade.h:9
+#: ../data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
 msgstr "書籤"
 
-#: ../data/glade/gthumb.glade.h:10
+#: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
 msgstr "圖片集(_A):"
 
-#: ../data/glade/gthumb.glade.h:11
+#: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
 msgstr "請選取圖片集"
 
-#: ../data/glade/gthumb.glade.h:12 ../src/gth-window-actions-entries.h:71
+#: ../data/glade/gthumb.glade.h:11
+#: ../src/gth-window-actions-entries.h:75
 msgid "Comm_ent"
 msgstr "備註(_E)"
 
-#: ../data/glade/gthumb.glade.h:13
+#: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
 msgstr "不覆寫舊的圖片(_T)"
 
-#: ../data/glade/gthumb.glade.h:14
+#: ../data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "綠"
 
-#: ../data/glade/gthumb.glade.h:15
+#: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
 msgstr "新版本圖片:"
 
-#: ../data/glade/gthumb.glade.h:16
+#: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
 msgstr "新增圖庫(_L)"
 
-#: ../data/glade/gthumb.glade.h:17
+#: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
 msgstr "舊版本圖片:"
 
-#: ../data/glade/gthumb.glade.h:18
+#: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
 msgstr "開啟圖片"
 
-#: ../data/glade/gthumb.glade.h:19
+#: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
 msgstr "覆寫舊的圖片(_W)"
 
-#: ../data/glade/gthumb.glade.h:20
+#: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
 msgstr "覆寫圖片"
 
-#: ../data/glade/gthumb.glade.h:21
+#: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
 msgstr "覆寫所有圖片(_A)"
 
-#: ../data/glade/gthumb.glade.h:22
+#: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
 msgstr "相片資料(E_XIF)"
 
-#: ../data/glade/gthumb.glade.h:23
+#: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
 msgstr "最近使用的應用程式(_E):"
 
-#: ../data/glade/gthumb.glade.h:24
+#: ../data/glade/gthumb.glade.h:23
 msgid "Red"
 msgstr "紅"
 
-#: ../data/glade/gthumb.glade.h:25
+#: ../data/glade/gthumb.glade.h:24
 msgid "Value"
 msgstr "亮度"
 
-#: ../data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "應用程式(_A):"
 
-#: ../data/glade/gthumb.glade.h:27 ../src/gth-folder-selection-dialog.c:454
+#: ../data/glade/gthumb.glade.h:26
+#: ../src/gth-folder-selection-dialog.c:454
 msgid "_Bookmarks:"
 msgstr "書籤(_B):"
 
-#: ../data/glade/gthumb.glade.h:28
+#: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
 msgstr "不覆寫任何圖片(_D)"
 
-#: ../data/glade/gthumb.glade.h:29
+#: ../data/glade/gthumb.glade.h:28
 msgid "_General"
 msgstr "一般(_G)"
 
-#: ../data/glade/gthumb.glade.h:30
+#: ../data/glade/gthumb.glade.h:29
 msgid "_Histogram"
 msgstr "統計圖(_H)"
 
-#: ../data/glade/gthumb.glade.h:31
+#: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
 msgstr "新增圖片集(_N)"
 
-#: ../data/glade/gthumb.glade.h:32
+#: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
 msgstr "下一幅(_N)"
 
-#: ../data/glade/gthumb.glade.h:33
+#: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
 msgstr "上一幅(_P)"
 
-#: ../data/glade/gthumb.glade.h:34
-msgid "_Remove"
-msgstr "移除(_R)"
-
-#: ../data/glade/gthumb.glade.h:35
+#: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
 msgstr "將新的圖片儲存為(_S):"
 
-#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_camera.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
-#: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "類別(_T):"
 
@@ -411,8 +416,10 @@ msgstr "在相機中刪除檔案"
 msgid "Import Photos"
 msgstr "匯入相片"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:840
-#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1379
+#: ../data/glade/gthumb_camera.glade.h:7
+#: ../src/dlg-photo-importer.c:843
+#: ../src/dlg-photo-importer.c:882
+#: ../src/dlg-photo-importer.c:1382
 msgid "No camera detected"
 msgstr "找不到任何相機"
 
@@ -524,22 +531,18 @@ msgid "_Date:"
 msgstr "日期(_D):"
 
 #: ../data/glade/gthumb_comments.glade.h:16
-msgid "_Delete"
-msgstr "刪除(_D)"
-
-#: ../data/glade/gthumb_comments.glade.h:17
-msgid "_New"
-msgstr "新增(_N)"
-
-#: ../data/glade/gthumb_comments.glade.h:18
 #: ../data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
 msgstr "位置(_P):"
 
-#: ../data/glade/gthumb_comments.glade.h:19
+#: ../data/glade/gthumb_comments.glade.h:17
 #: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
 msgstr "選定的類別(_S):"
+
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "*"
+msgstr "*"
 
 #: ../data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
@@ -597,7 +600,8 @@ msgstr "移除原有的圖片(_E)"
 msgid "Rename"
 msgstr "重新命名"
 
-#: ../data/glade/gthumb_convert.glade.h:17 ../src/dlg-convert.c:316
+#: ../data/glade/gthumb_convert.glade.h:17
+#: ../src/dlg-convert.c:316
 msgid "Skip"
 msgstr "略過"
 
@@ -691,7 +695,8 @@ msgstr "<b>選取</b>"
 msgid "Crop"
 msgstr "裁剪"
 
-#: ../data/glade/gthumb_crop.glade.h:9 ../data/glade/gthumb_print.glade.h:17
+#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:17
 msgid "Custom"
 msgstr "自選"
 
@@ -705,16 +710,18 @@ msgid "Square"
 msgstr "正方形"
 
 #: ../data/glade/gthumb_crop.glade.h:12
-#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Crop"
 msgstr "裁剪(_C)"
 
-#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_crop.glade.h:13
+#: ../data/glade/gthumb_edit.glade.h:21
 #: ../data/glade/gthumb_print.glade.h:33
 msgid "_Height:"
 msgstr "高度(_H):"
 
-#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_crop.glade.h:14
+#: ../data/glade/gthumb_edit.glade.h:31
 #: ../data/glade/gthumb_print.glade.h:39
 msgid "_Width:"
 msgstr "寬度(_W):"
@@ -735,7 +742,8 @@ msgstr "_Y:"
 msgid "     "
 msgstr "     "
 
-#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_edit.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -828,7 +836,8 @@ msgstr "紫紅色－綠色(_M):"
 msgid "_Preview"
 msgstr "預覽(_P)"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_edit.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:42
 msgid "_Reset"
 msgstr "重設(_R)"
 
@@ -923,9 +932,7 @@ msgstr "<small><i><b>注意:</b> # (計算器)</i>。</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
-msgid ""
-"<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
-"small>"
+msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
 msgstr "<small><i><b>注意:</b> %p (頁數)，%n (所有頁數)</i>。</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
@@ -1024,9 +1031,8 @@ msgid "Select a color"
 msgstr "請選取顏色"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:47
-#, fuzzy
 msgid "Select a font"
-msgstr "請選取顏色"
+msgstr "選擇一種字型"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
@@ -1067,7 +1073,7 @@ msgstr "樣式(_Y)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Start _at:"
 msgstr "開始的數字(_A):"
 
@@ -1108,7 +1114,7 @@ msgid "_Solid color"
 msgstr "單色(_S)"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "_Template:"
 msgstr "樣式(_T):"
 
@@ -1386,7 +1392,7 @@ msgid "_Slides"
 msgstr "投影片(_S)"
 
 #: ../data/glade/gthumb_preferences.glade.h:65
-#: ../src/gth-browser-actions-entries.h:399
+#: ../src/gth-browser-actions-entries.h:387
 msgid "_Thumbnails"
 msgstr "縮圖(_T)"
 
@@ -1423,9 +1429,8 @@ msgid "8"
 msgstr "8"
 
 #: ../data/glade/gthumb_print.glade.h:9
-#, fuzzy
 msgid "<b>Margins</b>"
-msgstr "<b>儲存</b>"
+msgstr "<b>邊界</b>"
 
 #: ../data/glade/gthumb_print.glade.h:10
 msgid "<b>Orientation</b>"
@@ -1445,9 +1450,8 @@ msgstr ""
 "也可以在圖片上按一下來表示旋轉。</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:14
-#, fuzzy
 msgid "A4"
-msgstr "A_4"
+msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
@@ -1458,9 +1462,8 @@ msgid "Comment _font:"
 msgstr "備註字型(_F):"
 
 #: ../data/glade/gthumb_print.glade.h:18
-#, fuzzy
 msgid "Executive"
-msgstr "US E_xecutive"
+msgstr "Executive"
 
 #: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
@@ -1483,14 +1486,12 @@ msgid "Layout"
 msgstr "配置"
 
 #: ../data/glade/gthumb_print.glade.h:24
-#, fuzzy
 msgid "Legal"
-msgstr "US L_egal"
+msgstr "Legal"
 
 #: ../data/glade/gthumb_print.glade.h:25
-#, fuzzy
 msgid "Letter"
-msgstr "US _Letter"
+msgstr "Letter"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
@@ -1505,47 +1506,43 @@ msgid "Paper Details"
 msgstr "紙張詳細資料"
 
 #: ../data/glade/gthumb_print.glade.h:29
-#, fuzzy
 msgid "Postcard"
-msgstr "4×6（明信片）"
+msgstr "明信片"
 
-#.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
-#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
+#: ../data/glade/gthumb_print.glade.h:30
+#: ../libgthumb/print-callbacks.c:1674
+#: ../libgthumb/print-callbacks.c:1688
+#: ../libgthumb/print-callbacks.c:2149
 msgid "Print"
 msgstr "列印"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Tabloid"
-msgstr ""
+msgstr "摘要"
 
 #: ../data/glade/gthumb_print.glade.h:32
-#, fuzzy
 msgid "_Bottom:"
-msgstr "書籤(_B):"
+msgstr "底部(_B):"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "_Left:"
-msgstr ""
+msgstr "左方(_L):"
 
 #: ../data/glade/gthumb_print.glade.h:35
-#, fuzzy
 msgid "_Right:"
-msgstr "高度(_H):"
+msgstr "右方(_R):"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "比例(_S):"
 
 #: ../data/glade/gthumb_print.glade.h:37
-#, fuzzy
 msgid "_Top:"
-msgstr "停止(_S)"
+msgstr "頂端(_T):"
 
 #: ../data/glade/gthumb_print.glade.h:38
-#, fuzzy
 msgid "_Unit:"
-msgstr "字型(_F):"
+msgstr "單位(_U):"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1599,8 +1596,9 @@ msgstr "至少符合其中一個選定的類別(_N)"
 msgid "New _Search..."
 msgstr "進行另一次搜尋(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:809
-#: ../src/dlg-photo-importer.c:1428
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/dlg-photo-importer.c:812
+#: ../src/dlg-photo-importer.c:1431
 msgid "No images found"
 msgstr "找不到任何圖片"
 
@@ -1609,18 +1607,18 @@ msgid "Search Progress"
 msgstr "搜尋進度"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "Searching in:"
 msgstr "正在搜尋以下位置:"
 
 #: ../data/glade/gthumb_search.glade.h:24
-#: ../src/gth-browser-actions-entries.h:155
-#: ../src/gth-browser-actions-entries.h:190
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
 msgid "_Edit Search"
 msgstr "更改搜尋條件(_E)"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "_Include sub-folders"
 msgstr "包括子目錄(_I)"
 
@@ -1633,162 +1631,179 @@ msgid "_Search"
 msgstr "搜尋(_S)"
 
 #: ../data/glade/gthumb_tools.glade.h:3
+msgid "<b>Change the following values:</b>"
+msgstr "<b>改變下列數值：</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:4
+msgid "<b>Change to:</b>"
+msgstr "<b>改變為：</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Write to CD</b>"
 msgstr "<b>寫入光碟</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:4
+#: ../data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr "<small><i><b>注意</b>: jpeg 變換不會引致圖片品質變差。</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:8
 #, no-c-format
-msgid ""
-"<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
-"%d (image date), %s (image size).</i></small>"
-msgstr ""
-"<small><i><b>專用符號:</b># (計算器)， %f (原檔名)， %d (圖片日期)，%s (圖片"
-"尺寸)</i></small>"
+msgid "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %d (image date), %s (image size).</i></small>"
+msgstr "<small><i><b>專用符號:</b># (計算器)， %f (原檔名)， %d (圖片日期)，%s (圖片尺寸)</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_tools.glade.h:9
+msgid "A_djust timezone:"
+msgstr "調整時區(_D):"
+
+#: ../data/glade/gthumb_tools.glade.h:10
+#: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "調整相片方向(_O)"
 
-#: ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "適用於所有圖片(_A)"
 
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "現在(_U)"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:13
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "圖片集(_T)"
 
-#: ../data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "Change Date"
 msgstr "更改日期"
 
-#: ../data/glade/gthumb_tools.glade.h:12
-msgid "Change the last modified date to:"
-msgstr "將最後修改日期更改為:"
-
-#: ../data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "全部選取(_A)"
 
-#: ../data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "全部不選(_N)"
 
-#: ../data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "正在檢查圖片:"
 
-#: ../data/glade/gthumb_tools.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Co_mment date"
+msgstr "註解日期(_M)"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Current _Folder"
 msgstr "目前的資料夾(_F)"
 
-#: ../data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Equal images:"
 msgstr "重複的圖片:"
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Find Duplicates"
 msgstr "搜尋重複圖片"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Found duplicates:"
 msgstr "找到的重複圖片:"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:23
 msgid "Image c_reation date"
 msgstr "產生圖片的時間(_R)"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Mirror image horizontally (left-right)"
 msgstr "水平鏡射圖片 (左右倒置)"
 
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Mirror image vertically (top-bottom)"
 msgstr "垂直鏡射圖片 (上下倒置)"
 
-#: ../data/glade/gthumb_tools.glade.h:23
-#: ../src/gth-browser-actions-entries.h:85
-#: ../src/gth-browser-actions-entries.h:110
-#: ../src/gth-browser-actions-entries.h:220
-#: ../src/gth-browser-actions-entries.h:250
+#: ../data/glade/gthumb_tools.glade.h:26
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
 msgid "Move to _Trash"
 msgstr "丟進回收筒(_T)"
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "New names _preview:"
 msgstr "新檔名預覽(_P):"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "數位相片的日期 (來自 E_XIF 數據)"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Re_verse Order"
 msgstr "相反次序排列(_V)"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Rename Series"
 msgstr "更改一系列圖片的名稱"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Rotate Images"
 msgstr "旋轉圖片"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Rotate image 90 degrees clockwise"
 msgstr "順時針 90 度旋轉"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "逆時針 90 度旋轉"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Search terminated, no duplicates found."
 msgstr "搜尋中止，找不到任何重複的圖片。"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "The _following date:"
 msgstr "以下的日期(_F):"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Write To CD"
 msgstr "寫入光碟"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "_Last modified date"
+msgstr "最後修改日期(_L)"
+
+#: ../data/glade/gthumb_tools.glade.h:41
 #: ../src/gth-browser-actions-callbacks.c:156
-#: ../src/gth-browser-actions-callbacks.c:552
-#: ../src/gth-browser-actions-callbacks.c:1061
+#: ../src/gth-browser-actions-callbacks.c:555
+#: ../src/gth-browser-actions-callbacks.c:1064
 msgid "_Rename"
 msgstr "重新命名(_R)"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "_Selected Images"
 msgstr "選定的圖片(_S)"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "_Sort:"
 msgstr "排序(_S):"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid "by Modification date"
 msgstr "根據最後修改時間"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "by Name"
 msgstr "根據名稱"
 
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "by Size"
 msgstr "根據大小"
+
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "hours"
+msgstr "小時"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 768"
@@ -1946,12 +1961,8 @@ msgid "gThumb Image Viewer"
 msgstr "gThumb 圖片管理工具"
 
 #: ../data/gthumb.schemas.in.h:1
-msgid ""
-"Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
-"to generate thumbnails for all images."
-msgstr ""
-"超過這個大小的圖片（以位元組計算）不會産生縮圖。如果您要所有的圖片都建立縮圖"
-"則使用 0。"
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "超過這個大小的圖片（以位元組計算）不會産生縮圖。如果您要所有的圖片都建立縮圖則使用 0。"
 
 #: ../data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2014,19 +2025,12 @@ msgid "Possible values are: none, name, path, size, time."
 msgstr "適用的數值有:none, name, path, size, time."
 
 #: ../data/gthumb.schemas.in.h:17
-msgid ""
-"Possible values are: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out."
-msgstr ""
-"適用的數值有:none, simple, simple_with_shadow, shadow, slide, shadow_in, "
-"shadow_out."
+msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr "適用的數值有:none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
 
 #: ../data/gthumb.schemas.in.h:18
-msgid ""
-"Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom."
-msgstr ""
-"適用的數值有:none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgstr "適用的數值有:none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
 #: ../data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
@@ -2045,8 +2049,7 @@ msgid "Possible values are: small, medium, large."
 msgstr "適用的數值有:small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:23
-msgid ""
-"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr "適用的數值有:system, text_below, text_beside, text_only, icons_only."
 
 #: ../data/gthumb.schemas.in.h:24
@@ -2071,7 +2074,8 @@ msgstr "無法移除圖庫“%s”:%s"
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "無法移除圖片集“%s”:%s"
 
-#: ../libgthumb/catalog.c:250 ../libgthumb/catalog.c:418
+#: ../libgthumb/catalog.c:250
+#: ../libgthumb/catalog.c:418
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "無法開啟圖片集“%s”:%s"
@@ -2081,37 +2085,44 @@ msgstr "無法開啟圖片集“%s”:%s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "無法儲存圖片集“%s”:%s"
 
-#: ../libgthumb/comments.c:429
+#: ../libgthumb/comments.c:758
 msgid "Deleting all comments, wait please..."
 msgstr "正在刪除所有備註，請稍等..."
 
-#: ../libgthumb/comments.c:431
+#: ../libgthumb/comments.c:760
 msgid "Deleting old comments, wait please..."
 msgstr "正在刪除舊的備註，請稍等..."
 
-#: ../libgthumb/comments.c:942
+#: ../libgthumb/comments.c:1331
 msgid "%d %B %Y"
 msgstr "%x"
 
-#: ../libgthumb/comments.c:944 ../src/catalog-web-exporter.c:52
-#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:483 ../src/gth-exif-data-viewer.c:472
-#: ../src/gth-fullscreen.c:665 ../src/gth-viewer.c:541
+#: ../libgthumb/comments.c:1333
+#: ../src/catalog-web-exporter.c:52
+#: ../src/dlg-duplicates.c:553
+#: ../src/dlg-image-prop.c:445
+#: ../src/gth-browser.c:499
+#: ../src/gth-exif-data-viewer.c:471
+#: ../src/gth-fullscreen.c:685
+#: ../src/gth-viewer.c:557
 msgid "%d %B %Y, %H:%M"
 msgstr "%x %H:%M"
 
-#: ../libgthumb/comments.c:954 ../libgthumb/comments.c:956
+#: ../libgthumb/comments.c:1343
+#: ../libgthumb/comments.c:1345
 msgid "(No Comment)"
 msgstr "(沒有任何備註)"
 
-#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:772 ../src/dlg-photo-importer.c:1453
+#: ../libgthumb/dlg-save-image.c:111
+#: ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:792
+#: ../src/dlg-photo-importer.c:1456
 #, c-format
-msgid ""
-"You don't have the right permissions to create images in the folder \"%s\""
+msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "沒有足夠的權限，無法在資料夾“%s”中產生圖片"
 
-#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:311
+#: ../libgthumb/dlg-save-image.c:126
+#: ../src/dlg-convert.c:311
 #: ../src/gth-browser-actions-callbacks.c:190
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
@@ -2218,37 +2229,39 @@ msgstr "在字型資訊模式中顯示字型大小"
 msgid "Font"
 msgstr "字型"
 
-#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8350
-#: ../src/gth-viewer.c:1984
+#: ../libgthumb/gth-file-list.c:523
+#: ../src/gth-browser.c:8496
+#: ../src/gth-viewer.c:2096
 msgid "Wait please..."
 msgstr "請稍等..."
 
-#: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
-#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:712
-#: ../src/gth-viewer.c:685
+#: ../libgthumb/gth-file-list.c:617
+#: ../libgthumb/gth-file-list.c:638
+#: ../libgthumb/gth-image-list.c:3443
+#: ../src/gth-browser.c:738
+#: ../src/gth-viewer.c:711
 msgid "No image"
 msgstr "沒有任何圖片"
 
-#: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:601 ../src/gth-exif-data-viewer.c:483
+#: ../libgthumb/gth-file-view-list.c:1378
+#: ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:601
+#: ../src/gth-exif-data-viewer.c:482
 msgid "Name"
 msgstr "名稱"
 
-#: ../libgthumb/gtk-utils.c:628 ../libgthumb/gtk-utils.c:662
-#: ../src/bookmark-list.c:173 ../src/catalog-list.c:438
-#: ../src/catalog-list.c:470 ../src/dir-list.c:245 ../src/dir-list.c:499
-#: ../src/dlg-rename-series.c:290 ../src/dlg-rename-series.c:294
-#: ../src/gth-browser.c:634 ../src/gth-browser.c:1289
-#: ../src/gth-browser.c:1295 ../src/gth-browser.c:1301
-msgid "(Invalid Name)"
-msgstr "（非法的檔名）"
+#: ../libgthumb/gthumb-stock.c:81
+#: ../src/gth-window-actions-entries.h:255
+msgid "Ro_tate Images"
+msgstr "旋轉圖片(_T)"
 
 #: ../libgthumb/print-callbacks.c:669
 #, c-format
 msgid "Page %d of %d"
 msgstr "第 %d 頁 (共 %d 頁)"
 
-#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1747
+#: ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "正在載入圖片:%s"
@@ -2260,6 +2273,14 @@ msgstr "正在刪除所有縮圖，請稍等..."
 #: ../libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
 msgstr "正在刪除舊的縮圖，請稍等..."
+
+#: ../src/bookmark-list.c:173
+#: ../src/gth-browser.c:660
+#: ../src/gth-browser.c:1314
+#: ../src/gth-browser.c:1320
+#: ../src/gth-browser.c:1326
+msgid "(Invalid Name)"
+msgstr "（非法的檔名）"
 
 #: ../src/catalog-png-exporter.c:1565
 #, c-format
@@ -2278,7 +2299,8 @@ msgstr "儲存 HTML 頁面:圖片"
 msgid "Saving HTML pages: Indexes"
 msgstr "儲存 HTML 頁面:索引"
 
-#: ../src/catalog-web-exporter.c:1969 ../src/catalog-web-exporter.c:2029
+#: ../src/catalog-web-exporter.c:1969
+#: ../src/catalog-web-exporter.c:2029
 #: ../src/catalog-web-exporter.c:2199
 msgid "Saving images"
 msgstr "正在儲存圖片"
@@ -2292,17 +2314,21 @@ msgstr "無法建立暫存資料夾"
 msgid "Loading images"
 msgstr "圖片載入中"
 
-#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:767
+#: ../src/dlg-catalog.c:83
+#: ../src/gth-browser-actions-callbacks.c:770
 msgid "Enter the catalog name: "
 msgstr "請輸入圖片集的名稱:"
 
-#: ../src/dlg-catalog.c:87 ../src/dlg-catalog.c:138
-#: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
-#: ../src/gth-browser-actions-callbacks.c:853
+#: ../src/dlg-catalog.c:87
+#: ../src/dlg-catalog.c:138
+#: ../src/dlg-categories.c:243
+#: ../src/dlg-file-utils.c:91
+#: ../src/gth-browser-actions-callbacks.c:856
 msgid "C_reate"
 msgstr "建立(_R)"
 
-#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:909
+#: ../src/dlg-catalog.c:134
+#: ../src/gth-browser-actions-callbacks.c:912
 msgid "Enter the library name: "
 msgstr "請輸入圖庫的名稱:"
 
@@ -2316,9 +2342,7 @@ msgstr "請輸入新的類別名稱"
 
 #: ../src/dlg-categories.c:250
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \",\". Please "
-"use a different name."
+msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
 msgstr "名稱“%s”無效，因為它含有“,”字元。請使用另一個名稱。"
 
 #: ../src/dlg-categories.c:255
@@ -2326,11 +2350,15 @@ msgstr "名稱“%s”無效，因為它含有“,”字元。請使用另一個
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "類別“%s”已經存在。請使用另一個名稱。"
 
-#: ../src/dlg-categories.c:369 ../src/dlg-change-date.c:154
-#: ../src/dlg-comment.c:306 ../src/dlg-convert.c:437
-#: ../src/dlg-jpegtran.c:1017 ../src/dlg-preferences.c:180
-#: ../src/dlg-rename-series.c:333 ../src/dlg-search.c:468
-#: ../src/gth-window-actions-callbacks.c:821
+#: ../src/dlg-categories.c:369
+#: ../src/dlg-change-date.c:214
+#: ../src/dlg-comment.c:292
+#: ../src/dlg-convert.c:437
+#: ../src/dlg-jpegtran.c:1053
+#: ../src/dlg-preferences.c:180
+#: ../src/dlg-rename-series.c:327
+#: ../src/dlg-search.c:468
+#: ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "無法顯示說明文件:%s"
@@ -2342,25 +2370,26 @@ msgstr "正在轉換圖片:%s"
 
 #: ../src/dlg-convert.c:188
 #, c-format
-msgid ""
-"An image named \"%s\" is already present. Please specify a different name."
+msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "名稱為“%s”的圖片已經存在。請使用另一個名稱。"
 
-#: ../src/dlg-convert.c:317 ../src/gth-browser-actions-callbacks.c:197
+#: ../src/dlg-convert.c:317
+#: ../src/gth-browser-actions-callbacks.c:197
 msgid "_Overwrite"
 msgstr "覆寫(_O)"
 
-#: ../src/dlg-crop.c:369
+#: ../src/dlg-crop.c:376
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d×%d （圖片）"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:384
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d×%d （顯示）"
 
-#: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
+#: ../src/dlg-duplicates.c:280
+#: ../src/dlg-duplicates.c:654
 msgid "Duplicates"
 msgstr "重複數目"
 
@@ -2372,7 +2401,8 @@ msgstr "重複圖片的大小"
 msgid "Last modified"
 msgstr "最後修改時間"
 
-#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:621
+#: ../src/dlg-duplicates.c:417
+#: ../src/dlg-image-prop.c:621
 msgid "Location"
 msgstr "位置"
 
@@ -2394,33 +2424,36 @@ msgid "Could not delete the images:"
 msgstr "無法刪除檔案:"
 
 #: ../src/dlg-file-utils.c:225
-msgid ""
-"The images cannot be moved to the Trash. Do you want to delete them "
-"permanently?"
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
 msgstr "無法將圖片丟進回收筒。是否永遠刪除圖片？"
 
-#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1218
-#: ../src/gth-browser.c:1766 ../src/gth-viewer.c:797
+#: ../src/dlg-file-utils.c:228
+#: ../src/gth-browser-actions-callbacks.c:1221
+#: ../src/gth-browser.c:1832
+#: ../src/gth-viewer.c:864
 msgid "_Do not display this message again"
 msgstr "不要再顯示這訊息(_D)"
 
-#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1256
+#: ../src/dlg-file-utils.c:282
+#: ../src/gth-browser-actions-callbacks.c:1259
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1465
+#: ../src/dlg-file-utils.c:383
+#: ../src/dlg-file-utils.c:487
+#: ../src/gth-browser-actions-callbacks.c:1468
 msgid "Choose the destination folder"
 msgstr "請選擇目的地資料夾"
 
-#: ../src/dlg-file-utils.c:791 ../src/dlg-file-utils.c:892
+#: ../src/dlg-file-utils.c:791
+#: ../src/dlg-file-utils.c:892
 msgid "You didn't enter the new name"
 msgstr "並未輸入新的名稱"
 
-#: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
+#: ../src/dlg-file-utils.c:803
+#: ../src/dlg-file-utils.c:904
 #, c-format
-msgid ""
-"The name \"%s\" is already used in this folder. Please use a different name."
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "本資料夾中已經有檔案的名稱是“%s”。請使用另一個名稱。"
 
 #: ../src/dlg-file-utils.c:1043
@@ -2439,11 +2472,13 @@ msgstr "無法移動圖片:"
 msgid "Could not copy the image:"
 msgstr "無法複製檔案:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2470
+#: ../src/dlg-file-utils.c:1205
+#: ../src/dlg-file-utils.c:2470
 msgid "_Abort"
 msgstr "中止(_A)"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2471
+#: ../src/dlg-file-utils.c:1206
+#: ../src/dlg-file-utils.c:2471
 msgid "_Continue"
 msgstr "繼續(_C)"
 
@@ -2452,11 +2487,13 @@ msgstr "繼續(_C)"
 msgid "Copying file %d of %d"
 msgstr "正在複製第 %d 個檔案 (總共 %d 個)"
 
-#: ../src/dlg-file-utils.c:1796 ../src/dlg-file-utils.c:2024
+#: ../src/dlg-file-utils.c:1796
+#: ../src/dlg-file-utils.c:2024
 msgid "Collecting images info"
 msgstr "正在收集圖片資訊"
 
-#: ../src/dlg-file-utils.c:1799 ../src/dlg-file-utils.c:2037
+#: ../src/dlg-file-utils.c:1799
+#: ../src/dlg-file-utils.c:2037
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "正在刪除第 %ld 個檔案 (總共 %ld 個)"
@@ -2471,13 +2508,15 @@ msgstr "正在複製第 %ld 個檔案 (總共 %ld 個)"
 msgid "Moving file %ld of %ld"
 msgstr "正在移動第 %ld 個檔案 (總共 %ld 個)"
 
-#: ../src/dlg-file-utils.c:2447 ../src/dlg-file-utils.c:2449
-#: ../src/gth-browser-actions-callbacks.c:1357
+#: ../src/dlg-file-utils.c:2447
+#: ../src/dlg-file-utils.c:2449
+#: ../src/gth-browser-actions-callbacks.c:1360
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "無法移動資料夾“%s”:%s"
 
-#: ../src/dlg-image-prop.c:606 ../src/gth-exif-data-viewer.c:490
+#: ../src/dlg-image-prop.c:606
+#: ../src/gth-exif-data-viewer.c:489
 msgid "Size"
 msgstr "尺寸"
 
@@ -2486,8 +2525,10 @@ msgid "Type"
 msgstr "類型"
 
 # (Abel) 這個很麻煩，我沒查清楚，可能有些地方會用作「已經修改」的意思。
-#: ../src/dlg-image-prop.c:626 ../src/gth-browser.c:499
-#: ../src/gth-exif-data-viewer.c:504 ../src/gth-viewer.c:557
+#: ../src/dlg-image-prop.c:626
+#: ../src/gth-browser.c:515
+#: ../src/gth-exif-data-viewer.c:503
+#: ../src/gth-viewer.c:573
 msgid "Modified"
 msgstr "最後修改"
 
@@ -2501,18 +2542,22 @@ msgstr "選取色版:"
 msgid "%s Properties"
 msgstr "%s 屬性"
 
-#: ../src/dlg-photo-importer.c:876 ../src/dlg-photo-importer.c:1378
-#: ../src/dlg-photo-importer.c:1427 ../src/dlg-photo-importer.c:1439
-#: ../src/dlg-photo-importer.c:1455 ../src/dlg-photo-importer.c:1484
+#: ../src/dlg-photo-importer.c:879
+#: ../src/dlg-photo-importer.c:1381
+#: ../src/dlg-photo-importer.c:1430
+#: ../src/dlg-photo-importer.c:1442
+#: ../src/dlg-photo-importer.c:1458
+#: ../src/dlg-photo-importer.c:1487
 msgid "Could not import photos"
 msgstr "無法匯入相片"
 
-#: ../src/dlg-photo-importer.c:1221 ../src/main.c:952
+#: ../src/dlg-photo-importer.c:1224
+#: ../src/main.c:954
 msgid "Film"
 msgstr "底片"
 
-#: ../src/dlg-photo-importer.c:1436
-#: ../src/gth-browser-actions-callbacks.c:1668
+#: ../src/dlg-photo-importer.c:1439
+#: ../src/gth-browser-actions-callbacks.c:1671
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "無法建立資料夾“%s”:%s"
@@ -2525,15 +2570,16 @@ msgstr "圖片標題"
 msgid "Header"
 msgstr "頁首"
 
-#: ../src/dlg-png-exporter.c:998 ../src/dlg-png-exporter.c:1004
+#: ../src/dlg-png-exporter.c:998
+#: ../src/dlg-png-exporter.c:1004
 msgid "Footer"
 msgstr "頁尾"
 
-#: ../src/dlg-rename-series.c:403
+#: ../src/dlg-rename-series.c:397
 msgid "Old Name"
 msgstr "舊檔名"
 
-#: ../src/dlg-rename-series.c:411
+#: ../src/dlg-rename-series.c:405
 msgid "New Name"
 msgstr "新檔名"
 
@@ -2545,7 +2591,8 @@ msgstr "搜尋結果"
 msgid "Filename"
 msgstr "檔案名稱"
 
-#: ../src/dlg-search.c:689 ../src/gth-folder-selection-dialog.c:392
+#: ../src/dlg-search.c:689
+#: ../src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "資料夾"
 
@@ -2553,25 +2600,24 @@ msgstr "資料夾"
 msgid "Select Album Theme"
 msgstr "選擇相簿佈景主題"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3589
+#: ../src/dlg-write-to-cd.c:79
+#: ../src/gth-browser.c:3655
 msgid "Could not move the items:"
 msgstr "無法移動以下的項目:"
 
 #: ../src/gth-browser-actions-callbacks.c:152
-#: ../src/gth-browser-actions-callbacks.c:548
-#: ../src/gth-browser-actions-callbacks.c:1057
+#: ../src/gth-browser-actions-callbacks.c:551
+#: ../src/gth-browser-actions-callbacks.c:1060
 msgid "Enter the new name: "
 msgstr "請輸入新的名稱:"
 
 #: ../src/gth-browser-actions-callbacks.c:170
-#: ../src/gth-browser-actions-callbacks.c:568
-#: ../src/gth-browser-actions-callbacks.c:783
-#: ../src/gth-browser-actions-callbacks.c:866
-#: ../src/gth-browser-actions-callbacks.c:1075
+#: ../src/gth-browser-actions-callbacks.c:571
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:869
+#: ../src/gth-browser-actions-callbacks.c:1078
 #, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
 msgstr "名稱“%s”無效，因為它含有“/”字元。請使用另一個名稱。"
 
 #: ../src/gth-browser-actions-callbacks.c:217
@@ -2581,116 +2627,116 @@ msgid "Could not rename the image \"%s\": %s"
 msgstr "無法更改圖片“%s”的名稱:%s"
 
 #: ../src/gth-browser-actions-callbacks.c:219
-#: ../src/gth-browser-actions-callbacks.c:1097
-#: ../src/gth-browser-actions-callbacks.c:1367
+#: ../src/gth-browser-actions-callbacks.c:1100
+#: ../src/gth-browser-actions-callbacks.c:1370
 msgid "source and destination are the same"
 msgstr "來源地和目的地一樣"
 
-#: ../src/gth-browser-actions-callbacks.c:276 ../src/gth-fullscreen.c:902
+#: ../src/gth-browser-actions-callbacks.c:276
+#: ../src/gth-fullscreen.c:922
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "該圖片將會被丟進回收筒，是否確定？"
 
-#: ../src/gth-browser-actions-callbacks.c:389
+#: ../src/gth-browser-actions-callbacks.c:390
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "無法複製圖片“%s”:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:397
+#: ../src/gth-browser-actions-callbacks.c:398
 msgid "Stop"
 msgstr "停止"
 
-#: ../src/gth-browser-actions-callbacks.c:398
+#: ../src/gth-browser-actions-callbacks.c:399
 msgid "Continue"
 msgstr "繼續"
 
-#: ../src/gth-browser-actions-callbacks.c:450
+#: ../src/gth-browser-actions-callbacks.c:454
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "選定的圖片將會被丟進回收筒，是否確定？"
 
-#: ../src/gth-browser-actions-callbacks.c:590
-#: ../src/gth-browser-actions-callbacks.c:802
-#: ../src/gth-browser-actions-callbacks.c:882
-#: ../src/gth-browser-actions-callbacks.c:1105
+#: ../src/gth-browser-actions-callbacks.c:593
+#: ../src/gth-browser-actions-callbacks.c:805
+#: ../src/gth-browser-actions-callbacks.c:885
+#: ../src/gth-browser-actions-callbacks.c:1108
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "名稱“%s”已經在使用中。請使用另一個名稱。"
 
-#: ../src/gth-browser-actions-callbacks.c:601
+#: ../src/gth-browser-actions-callbacks.c:604
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "無法更改圖庫“%s”的名稱:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:601
+#: ../src/gth-browser-actions-callbacks.c:604
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "無法更改圖片集“%s”的名稱:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:671
+#: ../src/gth-browser-actions-callbacks.c:674
 msgid "The selected library will be removed, are you sure?"
 msgstr "將會移除選定的圖庫，是否確定？"
 
-#: ../src/gth-browser-actions-callbacks.c:673
+#: ../src/gth-browser-actions-callbacks.c:676
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "將會移除選定的圖片集，是否確定？"
 
-#: ../src/gth-browser-actions-callbacks.c:768
+#: ../src/gth-browser-actions-callbacks.c:771
 msgid "New Catalog"
 msgstr "新的圖片集"
 
-#: ../src/gth-browser-actions-callbacks.c:814
+#: ../src/gth-browser-actions-callbacks.c:817
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "無法建立圖片集“%s”:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:908
+#: ../src/gth-browser-actions-callbacks.c:911
 msgid "New Library"
 msgstr "新增圖庫"
 
-#: ../src/gth-browser-actions-callbacks.c:910
+#: ../src/gth-browser-actions-callbacks.c:913
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "無法建立圖庫“%s”:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:1095
-#: ../src/gth-browser-actions-callbacks.c:1129
+#: ../src/gth-browser-actions-callbacks.c:1098
+#: ../src/gth-browser-actions-callbacks.c:1132
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "無法更改資料夾“%s”的名稱:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:1179
+#: ../src/gth-browser-actions-callbacks.c:1182
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "無法刪除資料夾“%s”:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:1210
+#: ../src/gth-browser-actions-callbacks.c:1213
 #, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "“%s”無法丟進回收筒。是否永遠刪除該圖片？"
 
-#: ../src/gth-browser-actions-callbacks.c:1254
+#: ../src/gth-browser-actions-callbacks.c:1257
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "選定的資料夾將會被丟進回收筒，是否確定？"
 
-#: ../src/gth-browser-actions-callbacks.c:1302
-#: ../src/gth-browser-actions-callbacks.c:1357
+#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1360
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "無法複製資料夾“%s”:%s"
 
-#: ../src/gth-browser-actions-callbacks.c:1378
+#: ../src/gth-browser-actions-callbacks.c:1381
 msgid "source contains destination"
 msgstr "目的地在來源目錄之下"
 
-#: ../src/gth-browser-actions-callbacks.c:1389
+#: ../src/gth-browser-actions-callbacks.c:1392
 msgid "a folder with that name is already present."
 msgstr "該名稱的資料夾已經存在。"
 
-#: ../src/gth-browser-actions-callbacks.c:1666
+#: ../src/gth-browser-actions-callbacks.c:1669
 msgid "New Folder"
 msgstr "新增資料夾"
 
-#: ../src/gth-browser-actions-callbacks.c:1667
+#: ../src/gth-browser-actions-callbacks.c:1670
 msgid "Enter the folder name: "
 msgstr "請輸入資料夾的名稱:"
 
@@ -2727,610 +2773,608 @@ msgid "_Go"
 msgstr "前往(_G)"
 
 #: ../src/gth-browser-actions-entries.h:47
-#: ../src/gth-viewer-actions-entries.h:41
-msgid "_Transform"
-msgstr "變換(_T)"
-
-#: ../src/gth-browser-actions-entries.h:48
-#: ../src/gth-viewer-actions-entries.h:42
-msgid "Auto"
-msgstr "自動"
-
-#: ../src/gth-browser-actions-entries.h:49
 msgid "_Bookmarks"
 msgstr "書籤(_B)"
 
-#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-browser-actions-entries.h:48
 #: ../src/gth-viewer-actions-entries.h:43
 msgid "_Tools"
 msgstr "工具(_T)"
 
-#: ../src/gth-browser-actions-entries.h:51
+#: ../src/gth-browser-actions-entries.h:49
 #: ../src/gth-viewer-actions-entries.h:44
 msgid "Set Image as _Wallpaper"
 msgstr "將圖片設定為桌布(_W)"
 
-#: ../src/gth-browser-actions-entries.h:52
+#: ../src/gth-browser-actions-entries.h:50
 #: ../src/gth-viewer-actions-entries.h:45
 msgid "_Help"
 msgstr "求助(_H)"
 
-#: ../src/gth-browser-actions-entries.h:55
+#: ../src/gth-browser-actions-entries.h:53
 #: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
 msgstr "新增視窗(_W)"
 
-#: ../src/gth-browser-actions-entries.h:56
+#: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
 msgstr "開啟新的視窗"
 
-#: ../src/gth-browser-actions-entries.h:61
-#, fuzzy
-msgid "Open the selecte image in a new window"
-msgstr "將選定的資料夾用新視窗開啟"
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "將選定的圖片用新視窗開啟"
 
-#: ../src/gth-browser-actions-entries.h:65
+#: ../src/gth-browser-actions-entries.h:63
 msgid "Proper_ties"
 msgstr "屬性(_T)"
 
-#: ../src/gth-browser-actions-entries.h:66
+#: ../src/gth-browser-actions-entries.h:64
 msgid "View image properties"
 msgstr "顯示圖片屬性"
 
-#: ../src/gth-browser-actions-entries.h:70
+#: ../src/gth-browser-actions-entries.h:68
 msgid "_Import Photos..."
 msgstr "匯入相片(_I)..."
 
-#: ../src/gth-browser-actions-entries.h:71
+#: ../src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
 msgstr "從數位相機匯入相片"
 
-#: ../src/gth-browser-actions-entries.h:75
+#: ../src/gth-browser-actions-entries.h:73
 msgid "_Write To CD"
 msgstr "寫入光碟(_W)"
 
-#: ../src/gth-browser-actions-entries.h:76
+#: ../src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
 msgstr "將選定的圖片寫入光碟"
 
-#: ../src/gth-browser-actions-entries.h:80
-#: ../src/gth-browser-actions-entries.h:100
-#: ../src/gth-browser-actions-entries.h:140
-#: ../src/gth-browser-actions-entries.h:175
-#: ../src/gth-browser-actions-entries.h:215
-#: ../src/gth-browser-actions-entries.h:245
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:173
+#: ../src/gth-browser-actions-entries.h:213
+#: ../src/gth-browser-actions-entries.h:243
 msgid "_Rename..."
 msgstr "重新命名(_R)"
 
-#: ../src/gth-browser-actions-entries.h:81
+#: ../src/gth-browser-actions-entries.h:79
 msgid "Rename this image"
 msgstr "更改圖片的名稱"
 
-#: ../src/gth-browser-actions-entries.h:86
+#: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
 msgstr "將本圖片丟進回收筒"
 
-#: ../src/gth-browser-actions-entries.h:90
-#: ../src/gth-browser-actions-entries.h:115
-#: ../src/gth-browser-actions-entries.h:225
-#: ../src/gth-browser-actions-entries.h:255
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
 msgid "_Copy..."
 msgstr "複製(_C)..."
 
-#: ../src/gth-browser-actions-entries.h:91
+#: ../src/gth-browser-actions-entries.h:89
 msgid "Copy this image to another location"
 msgstr "將本圖片複製至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:95
-#: ../src/gth-browser-actions-entries.h:120
-#: ../src/gth-browser-actions-entries.h:150
-#: ../src/gth-browser-actions-entries.h:185
-#: ../src/gth-browser-actions-entries.h:230
-#: ../src/gth-browser-actions-entries.h:260
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
 msgid "_Move..."
 msgstr "移動(_M)..."
 
-#: ../src/gth-browser-actions-entries.h:96
+#: ../src/gth-browser-actions-entries.h:94
 msgid "Move this image to another location"
 msgstr "將本圖片移動至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:101
-msgid "Rename selected image"
-msgstr "更改已選取的圖片的名稱"
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "更改已選取圖片的名稱"
 
-#: ../src/gth-browser-actions-entries.h:105
+#: ../src/gth-browser-actions-entries.h:103
 msgid "D_uplicate"
 msgstr "複製副本(_U)"
 
-#: ../src/gth-browser-actions-entries.h:106
-msgid "Duplicate selected image"
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
 msgstr "複製已選取的圖片"
 
-#: ../src/gth-browser-actions-entries.h:111
+#: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
 msgstr "將已選取的圖片丟進回收筒"
 
-#: ../src/gth-browser-actions-entries.h:116
+#: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
 msgstr "將已選取的圖片複製至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:121
+#: ../src/gth-browser-actions-entries.h:119
 msgid "Move selected images to another location"
 msgstr "將已選取的圖片移動至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:125
+#: ../src/gth-browser-actions-entries.h:123
 msgid "_Select All"
 msgstr "全選(_S)"
 
-#: ../src/gth-browser-actions-entries.h:126
+#: ../src/gth-browser-actions-entries.h:124
 msgid "Select all images"
 msgstr "選取所有圖片"
 
-#: ../src/gth-browser-actions-entries.h:130
+#: ../src/gth-browser-actions-entries.h:128
 #: ../src/gth-viewer-actions-entries.h:58
 msgid "_Add to Catalog..."
 msgstr "加入至圖片集(_A)..."
 
-#: ../src/gth-browser-actions-entries.h:131
+#: ../src/gth-browser-actions-entries.h:129
 #: ../src/gth-viewer-actions-entries.h:59
 msgid "Add selected images to a catalog"
 msgstr "將已選取的圖片加入至圖片集"
 
-#: ../src/gth-browser-actions-entries.h:135
+#: ../src/gth-browser-actions-entries.h:133
 msgid "Remo_ve from Catalog"
 msgstr "從圖片集中移除(_V)"
 
-#: ../src/gth-browser-actions-entries.h:136
+#: ../src/gth-browser-actions-entries.h:134
 msgid "Remove selected images from the catalog"
 msgstr "從圖片集中移除選定的圖片"
 
-#: ../src/gth-browser-actions-entries.h:141
+#: ../src/gth-browser-actions-entries.h:139
 msgid "Rename selected catalog"
 msgstr "更改選定的圖片集的名稱"
 
-#: ../src/gth-browser-actions-entries.h:145
-#: ../src/gth-browser-actions-entries.h:180
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:178
 msgid "Rem_ove"
 msgstr "移除(_O)"
 
-#: ../src/gth-browser-actions-entries.h:146
+#: ../src/gth-browser-actions-entries.h:144
 msgid "Remove selected catalog"
 msgstr "移除選定的圖片集"
 
-#: ../src/gth-browser-actions-entries.h:151
+#: ../src/gth-browser-actions-entries.h:149
 msgid "Move selected catalog to another location"
 msgstr "將已選取的圖片集移動至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:156
-#: ../src/gth-browser-actions-entries.h:191
+#: ../src/gth-browser-actions-entries.h:154
+#: ../src/gth-browser-actions-entries.h:189
 msgid "Modify search criteria"
 msgstr "更改搜尋的條件"
 
-#: ../src/gth-browser-actions-entries.h:160
-#: ../src/gth-browser-actions-entries.h:195
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
 msgid "Redo _Search"
 msgstr "重新搜尋(_S)"
 
-#: ../src/gth-browser-actions-entries.h:161
-#: ../src/gth-browser-actions-entries.h:196
+#: ../src/gth-browser-actions-entries.h:159
+#: ../src/gth-browser-actions-entries.h:194
 msgid "Redo the search"
 msgstr "重新進行搜尋"
 
-#: ../src/gth-browser-actions-entries.h:165
+#: ../src/gth-browser-actions-entries.h:163
 msgid "_New Catalog..."
 msgstr "新增圖片集(_N)..."
 
-#: ../src/gth-browser-actions-entries.h:166
+#: ../src/gth-browser-actions-entries.h:164
 msgid "Create a new catalog"
 msgstr "建立新的圖片集"
 
-#: ../src/gth-browser-actions-entries.h:170
+#: ../src/gth-browser-actions-entries.h:168
 msgid "New _Library..."
 msgstr "新增圖庫(_L)..."
 
-#: ../src/gth-browser-actions-entries.h:171
+#: ../src/gth-browser-actions-entries.h:169
 msgid "Create a new catalog library"
 msgstr "建立新的圖庫"
 
-#: ../src/gth-browser-actions-entries.h:176
+#: ../src/gth-browser-actions-entries.h:174
 msgid "Rename current catalog"
 msgstr "更改目前的圖片集的名稱"
 
-#: ../src/gth-browser-actions-entries.h:181
+#: ../src/gth-browser-actions-entries.h:179
 msgid "Remove current catalog"
 msgstr "移除目前的圖片集"
 
-#: ../src/gth-browser-actions-entries.h:186
+#: ../src/gth-browser-actions-entries.h:184
 msgid "Move current catalog to another location"
 msgstr "將目前的圖片集移動至其它位置"
 
-#: ../src/gth-browser-actions-entries.h:200
+#: ../src/gth-browser-actions-entries.h:198
 msgid "Open"
 msgstr "開啟"
 
-#: ../src/gth-browser-actions-entries.h:201
+#: ../src/gth-browser-actions-entries.h:199
 msgid "Open the selected folder"
 msgstr "開啟選定的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:205
+#: ../src/gth-browser-actions-entries.h:203
 msgid "Open in New Window"
 msgstr "在新視窗中開啟"
 
-#: ../src/gth-browser-actions-entries.h:206
+#: ../src/gth-browser-actions-entries.h:204
 msgid "Open the selected folder in a new window"
 msgstr "將選定的資料夾用新視窗開啟"
 
-#: ../src/gth-browser-actions-entries.h:210
-#: ../src/gth-browser-actions-entries.h:240
+#: ../src/gth-browser-actions-entries.h:208
+#: ../src/gth-browser-actions-entries.h:238
 msgid "Open with the _File Manager"
 msgstr "以檔案總管開啟(_F)"
 
-#: ../src/gth-browser-actions-entries.h:211
+#: ../src/gth-browser-actions-entries.h:209
 msgid "Open the selected folder with the Nautilus file manager"
 msgstr "用 Nautilus 檔案總管開啟選定的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:216
+#: ../src/gth-browser-actions-entries.h:214
 msgid "Rename selected folder"
 msgstr "更改選定的資料夾的名稱"
 
-#: ../src/gth-browser-actions-entries.h:221
+#: ../src/gth-browser-actions-entries.h:219
 msgid "Move the selected folder to the Trash"
 msgstr "將選定的資料夾丟進回收筒"
 
-#: ../src/gth-browser-actions-entries.h:226
+#: ../src/gth-browser-actions-entries.h:224
 msgid "Copy selected folder"
 msgstr "複製選定的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:231
+#: ../src/gth-browser-actions-entries.h:229
 msgid "Move selected folder"
 msgstr "移動選定的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:235
-#: ../src/gth-browser-actions-entries.h:265
-#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+#: ../src/gth-window-actions-entries.h:85
 msgid "Ca_tegories"
 msgstr "分類(_T)"
 
-#: ../src/gth-browser-actions-entries.h:236
+#: ../src/gth-browser-actions-entries.h:234
 msgid "Assign categories to the selected folder"
 msgstr "將已選定的資料夾分類"
 
-#: ../src/gth-browser-actions-entries.h:241
+#: ../src/gth-browser-actions-entries.h:239
 msgid "Open current folder with the Nautilus file manager"
 msgstr "用 Nautilus 檔案總管開啟目前的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:246
+#: ../src/gth-browser-actions-entries.h:244
 msgid "Rename current folder"
 msgstr "更改目前的資料夾的名稱"
 
-#: ../src/gth-browser-actions-entries.h:251
+#: ../src/gth-browser-actions-entries.h:249
 msgid "Move the current folder to the Trash"
 msgstr "將目前的資料夾丟進回收筒"
 
-#: ../src/gth-browser-actions-entries.h:256
+#: ../src/gth-browser-actions-entries.h:254
 msgid "Copy current folder"
 msgstr "複製目前的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:261
+#: ../src/gth-browser-actions-entries.h:259
 msgid "Move current folder"
 msgstr "移動目前的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:266
+#: ../src/gth-browser-actions-entries.h:264
 msgid "Assign categories to the current folder"
 msgstr "將目前的資料夾分類"
 
-#: ../src/gth-browser-actions-entries.h:270
+#: ../src/gth-browser-actions-entries.h:268
 msgid "_New Folder..."
 msgstr "新增資料夾(_N)..."
 
-#: ../src/gth-browser-actions-entries.h:271
+#: ../src/gth-browser-actions-entries.h:269
 msgid "Create a new folder"
 msgstr "建立新的資料夾"
 
 #. next image
-#: ../src/gth-browser-actions-entries.h:275 ../src/gth-fullscreen.c:1283
+#: ../src/gth-browser-actions-entries.h:273
+#: ../src/gth-fullscreen.c:1471
 msgid "Next"
 msgstr "下一幅"
 
-#: ../src/gth-browser-actions-entries.h:276
+#: ../src/gth-browser-actions-entries.h:274
 msgid "View next image"
 msgstr "顯示下一幅圖片"
 
 #. previous image
-#: ../src/gth-browser-actions-entries.h:280 ../src/gth-fullscreen.c:1274
+#: ../src/gth-browser-actions-entries.h:278
+#: ../src/gth-fullscreen.c:1462
 msgid "Previous"
 msgstr "上一幅"
 
-#: ../src/gth-browser-actions-entries.h:281
+#: ../src/gth-browser-actions-entries.h:279
 msgid "View previous image"
 msgstr "顯示上一幅圖片"
 
-#: ../src/gth-browser-actions-entries.h:286 ../src/gth-browser.c:4949
+#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-browser.c:5019
 msgid "Go to the previous visited location"
 msgstr "前往上一次瀏覽的位置"
 
-#: ../src/gth-browser-actions-entries.h:291
+#: ../src/gth-browser-actions-entries.h:289
 msgid "Go to the next visited location"
 msgstr "前往下一次瀏覽的位置"
 
-#: ../src/gth-browser-actions-entries.h:296
+#: ../src/gth-browser-actions-entries.h:294
 msgid "Go up one level"
 msgstr "前往上一層資料夾"
 
-#: ../src/gth-browser-actions-entries.h:300
+#: ../src/gth-browser-actions-entries.h:298
 #: ../src/gth-viewer-actions-entries.h:63
 msgid "_Reload"
 msgstr "重新載入(_R)"
 
-#: ../src/gth-browser-actions-entries.h:301
+#: ../src/gth-browser-actions-entries.h:299
 #: ../src/gth-viewer-actions-entries.h:64
 msgid "Reload the current location"
 msgstr "重新載入目前位置的內容"
 
-#: ../src/gth-browser-actions-entries.h:306
+#: ../src/gth-browser-actions-entries.h:304
 msgid "Stop loading current location"
 msgstr "停止載入目前位置的內容"
 
-#: ../src/gth-browser-actions-entries.h:311
+#: ../src/gth-browser-actions-entries.h:309
 msgid "Go to the home folder"
 msgstr "前往個人資料夾"
 
-#: ../src/gth-browser-actions-entries.h:315
+#: ../src/gth-browser-actions-entries.h:313
 msgid "_Go to the Image Folder"
 msgstr "前往圖片資料夾(_G)"
 
-#: ../src/gth-browser-actions-entries.h:316
+#: ../src/gth-browser-actions-entries.h:314
 msgid "Go to the folder that contains the selected image"
 msgstr "前往載有指定圖片的資料夾"
 
-#: ../src/gth-browser-actions-entries.h:320
+#: ../src/gth-browser-actions-entries.h:318
 msgid "_Delete History"
 msgstr "刪除瀏覽紀錄(_D)"
 
-#: ../src/gth-browser-actions-entries.h:321
+#: ../src/gth-browser-actions-entries.h:319
 msgid "Delete the list of visited locations"
 msgstr "刪除所有瀏覽紀錄"
 
-#: ../src/gth-browser-actions-entries.h:325
+#: ../src/gth-browser-actions-entries.h:323
 msgid "_Location..."
 msgstr "位置(_L)..."
 
-#: ../src/gth-browser-actions-entries.h:326
+#: ../src/gth-browser-actions-entries.h:324
 msgid "Specify a location to visit"
 msgstr "指定要瀏覽的位置"
 
-#: ../src/gth-browser-actions-entries.h:330
+#: ../src/gth-browser-actions-entries.h:328
 msgid "_Add Bookmark"
 msgstr "加入書籤(_A)"
 
-#: ../src/gth-browser-actions-entries.h:331
+#: ../src/gth-browser-actions-entries.h:329
 msgid "Add current location to bookmarks"
 msgstr "將目前的位置加入至書籤"
 
-#: ../src/gth-browser-actions-entries.h:335
+#: ../src/gth-browser-actions-entries.h:333
 msgid "_Edit Bookmarks"
 msgstr "編輯書籤(_E)"
 
-#: ../src/gth-browser-actions-entries.h:336
+#: ../src/gth-browser-actions-entries.h:334
 msgid "Edit bookmarks"
 msgstr "編輯書籤"
 
-#: ../src/gth-browser-actions-entries.h:340
+#: ../src/gth-browser-actions-entries.h:338
 msgid "_Slide Show"
 msgstr "投影片(_S)"
 
-#: ../src/gth-browser-actions-entries.h:341
+#: ../src/gth-browser-actions-entries.h:339
 msgid "View as a slide show"
 msgstr "以投影片方式顯示"
 
-#: ../src/gth-browser-actions-entries.h:346
+#: ../src/gth-browser-actions-entries.h:344
 msgid "Find images"
 msgstr "搜尋圖片"
 
-#: ../src/gth-browser-actions-entries.h:350
+#: ../src/gth-browser-actions-entries.h:348
 msgid "Create _Index Image"
 msgstr "產生索引圖(_I)"
 
-#: ../src/gth-browser-actions-entries.h:355
+#: ../src/gth-browser-actions-entries.h:353
 msgid "Create _Web Album"
 msgstr "製作網頁相簿(_W)"
 
-#: ../src/gth-browser-actions-entries.h:360
-msgid "_Rename Series"
-msgstr "更改一系列圖片的名稱(_R)"
-
-#: ../src/gth-browser-actions-entries.h:365
+#: ../src/gth-browser-actions-entries.h:358
 msgid "Convert F_ormat"
 msgstr "轉換圖片格式(_O)"
 
-#: ../src/gth-browser-actions-entries.h:370
+#: ../src/gth-browser-actions-entries.h:363
 msgid "Fi_nd Duplicates..."
 msgstr "搜尋重複圖片(_N)..."
 
-#: ../src/gth-browser-actions-entries.h:375
-msgid "Ro_tate Images"
-msgstr "旋轉圖片(_T)"
-
-#: ../src/gth-browser-actions-entries.h:376
-msgid "Rotate images without loss of quality"
-msgstr "以不會減低品質的方式旋轉圖片"
-
-#: ../src/gth-browser-actions-entries.h:381
+#: ../src/gth-browser-actions-entries.h:369
 msgid "Edit various preferences"
 msgstr "更改不同的偏好設定"
 
-#: ../src/gth-browser-actions-entries.h:389
+#: ../src/gth-browser-actions-entries.h:377
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "工具列(_T)"
 
-#: ../src/gth-browser-actions-entries.h:390
+#: ../src/gth-browser-actions-entries.h:378
 #: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "顯示或隱藏本視窗中的工具列"
 
-#: ../src/gth-browser-actions-entries.h:394
+#: ../src/gth-browser-actions-entries.h:382
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "狀態列(_S)"
 
-#: ../src/gth-browser-actions-entries.h:395
+#: ../src/gth-browser-actions-entries.h:383
 #: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "顯示或隱藏本視窗中的狀態列"
 
-#: ../src/gth-browser-actions-entries.h:400
+#: ../src/gth-browser-actions-entries.h:388
 msgid "View thumbnails"
 msgstr "顯示縮圖"
 
-#: ../src/gth-browser-actions-entries.h:404
+#: ../src/gth-browser-actions-entries.h:392
 msgid "_Image Preview"
 msgstr "圖片預覽(_I)"
 
-#: ../src/gth-browser-actions-entries.h:405
-#: ../src/gth-browser-actions-entries.h:448
+#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:436
 msgid "View the image"
 msgstr "顯示圖片"
 
-#: ../src/gth-browser-actions-entries.h:409
+#: ../src/gth-browser-actions-entries.h:397
 #: ../src/gth-viewer-actions-entries.h:83
 msgid "Image _Comment"
 msgstr "圖片備註(_C)"
 
-#: ../src/gth-browser-actions-entries.h:410
+#: ../src/gth-browser-actions-entries.h:398
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image comment"
 msgstr "顯示圖片備註"
 
-#: ../src/gth-browser-actions-entries.h:414
+#: ../src/gth-browser-actions-entries.h:402
 msgid "_Reversed Order"
 msgstr "相反次序排列(_R)"
 
-#: ../src/gth-browser-actions-entries.h:415
+#: ../src/gth-browser-actions-entries.h:403
 msgid "Reverse images order"
 msgstr "以相反的次序顯示圖片"
 
-#: ../src/gth-browser-actions-entries.h:424
+#: ../src/gth-browser-actions-entries.h:412
 msgid "by _Name"
 msgstr "根據名稱(_N)"
 
-#: ../src/gth-browser-actions-entries.h:425
+#: ../src/gth-browser-actions-entries.h:413
 msgid "Sort images by name"
 msgstr "根據檔案名稱排列圖片"
 
-#: ../src/gth-browser-actions-entries.h:427
+#: ../src/gth-browser-actions-entries.h:415
 msgid "by _Path"
 msgstr "根據路徑(_P)"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:416
 msgid "Sort images by path"
 msgstr "根據路徑名稱排列圖片"
 
-#: ../src/gth-browser-actions-entries.h:430
+#: ../src/gth-browser-actions-entries.h:418
 msgid "by _Size"
 msgstr "根據大小(_S)"
 
-#: ../src/gth-browser-actions-entries.h:431
+#: ../src/gth-browser-actions-entries.h:419
 msgid "Sort images by file size"
 msgstr "根據檔案大小排列圖片"
 
-#: ../src/gth-browser-actions-entries.h:433
+#: ../src/gth-browser-actions-entries.h:421
 msgid "by _Time"
 msgstr "根據時間(_T)"
 
-#: ../src/gth-browser-actions-entries.h:434
+#: ../src/gth-browser-actions-entries.h:422
 msgid "Sort images by modification time"
 msgstr "根據最後修改時間排列圖片"
 
-#: ../src/gth-browser-actions-entries.h:441
+#: ../src/gth-browser-actions-entries.h:429
 msgid "_Folders"
 msgstr "資料夾(_F)"
 
-#: ../src/gth-browser-actions-entries.h:442
+#: ../src/gth-browser-actions-entries.h:430
 msgid "View the folders"
 msgstr "瀏覽資料夾"
 
-#: ../src/gth-browser-actions-entries.h:444
+#: ../src/gth-browser-actions-entries.h:432
 msgid "_Catalogs"
 msgstr "圖片集(_C)"
 
-#: ../src/gth-browser-actions-entries.h:445
+#: ../src/gth-browser-actions-entries.h:433
 msgid "View the catalogs"
 msgstr "瀏覽圖片集"
 
-#: ../src/gth-browser.c:534 ../src/gth-viewer.c:592
+#: ../src/gth-browser.c:560
+#: ../src/gth-viewer.c:618
 msgid "[Press 'c' to add a comment]"
 msgstr "[請按‘c’加上備註]"
 
-#: ../src/gth-browser.c:608 ../src/gth-browser.c:627 ../src/gth-viewer.c:661
-#: ../src/gth-viewer.c:682
+#: ../src/gth-browser.c:634
+#: ../src/gth-browser.c:653
+#: ../src/gth-viewer.c:687
+#: ../src/gth-viewer.c:708
 msgid "[modified]"
 msgstr "[已修改]"
 
-#: ../src/gth-browser.c:652 ../src/gth-window-actions-callbacks.c:781
-#: ../src/main.c:670
+#: ../src/gth-browser.c:678
+#: ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:672
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:714
+#: ../src/gth-browser.c:740
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 幅圖片 (%s)"
 
-#: ../src/gth-browser.c:717
+#: ../src/gth-browser.c:743
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 幅圖片 (%s)"
 
-#: ../src/gth-browser.c:724
+#: ../src/gth-browser.c:750
 #, c-format
 msgid "1 selected (%s)"
 msgstr "選了 1 幅 (%s)"
 
-#: ../src/gth-browser.c:727
+#: ../src/gth-browser.c:753
 #, c-format
 msgid "%d selected (%s)"
 msgstr "選了 %d 幅 (%s)"
 
-#: ../src/gth-browser.c:1763 ../src/gth-viewer.c:794
+#: ../src/gth-browser.c:1829
+#: ../src/gth-viewer.c:861
 msgid "The current image has been modified, do you want to save it?"
 msgstr "目前的圖片檔已經修改，您要儲存它嗎？"
 
-#: ../src/gth-browser.c:1764 ../src/gth-viewer.c:795
+#: ../src/gth-browser.c:1830
+#: ../src/gth-viewer.c:862
 msgid "Do Not Save"
 msgstr "不要儲存"
 
-#: ../src/gth-browser.c:3380
+#: ../src/gth-browser.c:3446
 msgid "Dragged Images"
 msgstr "拖曳的圖片"
 
-#: ../src/gth-browser.c:4948
+#: ../src/gth-browser.c:5018
 msgid "Back"
 msgstr "上一幅"
 
-#: ../src/gth-browser.c:6312
+#: ../src/gth-browser.c:5048
+#: ../src/gth-browser.c:5049
+#: ../src/gth-viewer.c:1392
+#: ../src/gth-viewer.c:1393
+#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-window-actions-entries.h:271
+msgid "Rotate images without loss of quality"
+msgstr "以不會減低品質的方式旋轉圖片"
+
+#: ../src/gth-browser.c:6457
 msgid "Close"
 msgstr "關閉"
 
-#: ../src/gth-browser.c:6326 ../src/gth-viewer.c:1554
+#: ../src/gth-browser.c:6471
+#: ../src/gth-viewer.c:1659
 msgid "Image comment"
 msgstr "圖片備註"
 
-#: ../src/gth-browser.c:6340
+#: ../src/gth-browser.c:6485
 msgid "Image data"
 msgstr "圖片資料"
 
-#: ../src/gth-browser.c:6354
+#: ../src/gth-browser.c:6499
 msgid "Image preview"
 msgstr "圖片預覽"
 
-#: ../src/gth-browser.c:7415
+#: ../src/gth-browser.c:7561
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "無法載入資料夾“%s”:%s\n"
 
-#: ../src/gth-browser.c:7685
+#: ../src/gth-browser.c:7831
 msgid "The specified catalog does not exist."
 msgstr "指定的圖片集不存在。"
 
@@ -3351,30 +3395,38 @@ msgid "_Recents:"
 msgstr "最近使用(_R):"
 
 #. restore normal view
-#: ../src/gth-fullscreen.c:1265 ../src/gth-window-actions-entries.h:216
+#: ../src/gth-fullscreen.c:1453
+#: ../src/gth-window-actions-entries.h:220
 msgid "Restore Normal View"
 msgstr "還原為正常顯示模式"
 
 #. image comment
-#: ../src/gth-fullscreen.c:1292
+#: ../src/gth-fullscreen.c:1480
 msgid "Image Info"
 msgstr "圖片資訊"
 
 #. pause slideshow
-#: ../src/gth-fullscreen.c:1302
-#, fuzzy
+#: ../src/gth-fullscreen.c:1490
 msgid "Pause"
-msgstr "頁面"
+msgstr "暫停"
+
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "變換(_T)"
+
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "自動"
 
 #: ../src/gth-viewer-actions-entries.h:53
-#, fuzzy
 msgid "Open _Folder"
-msgstr "目前的資料夾(_F)"
+msgstr "開啟資料夾(_F)"
 
 #: ../src/gth-viewer-actions-entries.h:54
-#, fuzzy
 msgid "Browse the image folder"
-msgstr "前往圖片資料夾(_G)"
+msgstr "瀏覽圖片資料夾"
 
 #: ../src/gth-window-actions-callbacks.c:770
 msgid "translator_credits"
@@ -3386,716 +3438,366 @@ msgstr ""
 "Woodman Tuen <woodman@culturecom.com.hk>, 2004\n"
 "Abel Cheung <abel@oaka.org>, 2002-05"
 
-#: ../src/gth-window-actions-callbacks.c:784
+#: ../src/gth-window-actions-callbacks.c:783
 msgid "An image viewer and browser for GNOME."
 msgstr "適合在 GNOME 環境下使用的圖片瀏覽器。"
 
 #: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "減少顏色"
+
+#: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "關閉本視窗"
 
-#: ../src/gth-window-actions-entries.h:41
-#: ../src/gth-window-actions-entries.h:66
+#: ../src/gth-window-actions-entries.h:45
+#: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "用其它程式開啟(_O)"
 
-#: ../src/gth-window-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "用其它程式開啟已選取的圖片"
 
-#: ../src/gth-window-actions-entries.h:57
+#: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
 msgstr "將圖片還原為未修改前的版本"
 
-#: ../src/gth-window-actions-entries.h:67
+#: ../src/gth-window-actions-entries.h:71
 msgid "Open this image with an application"
 msgstr "用其它程式開啟本圖片"
 
-#: ../src/gth-window-actions-entries.h:72
+#: ../src/gth-window-actions-entries.h:76
 msgid "Add a comment to selected images"
 msgstr "在已選取的圖片中加入備註"
 
 # (Abel) clear comment 對中文來說比較適合
-#: ../src/gth-window-actions-entries.h:76
+#: ../src/gth-window-actions-entries.h:80
 msgid "Rem_ove Comment"
 msgstr "清除備註(_O)"
 
-#: ../src/gth-window-actions-entries.h:77
+#: ../src/gth-window-actions-entries.h:81
 msgid "Remove comments of selected images"
 msgstr "清除選定的圖片的備註"
 
-#: ../src/gth-window-actions-entries.h:82
+#: ../src/gth-window-actions-entries.h:86
 msgid "Assign categories to selected images"
 msgstr "為選定的圖片分類"
 
-#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:265
 msgid "Rotate Ri_ght"
 msgstr "向右旋轉(_G)"
 
-#: ../src/gth-window-actions-entries.h:97
+#: ../src/gth-window-actions-entries.h:101
 msgid "View the image rotated clockwise"
 msgstr "將圖片順時針旋轉"
 
-#: ../src/gth-window-actions-entries.h:101
+#: ../src/gth-window-actions-entries.h:105
+#: ../src/gth-window-actions-entries.h:260
 msgid "Rotate _Left"
 msgstr "向左旋轉(_L)"
 
-#: ../src/gth-window-actions-entries.h:102
+#: ../src/gth-window-actions-entries.h:106
 msgid "View the image rotated counter-clockwise"
 msgstr "將圖片逆時針旋轉"
 
-#: ../src/gth-window-actions-entries.h:107
+#: ../src/gth-window-actions-entries.h:111
 msgid "View the image flipped"
 msgstr "將圖片上下倒置"
 
-#: ../src/gth-window-actions-entries.h:112
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image mirrored"
 msgstr "將圖片左右倒置"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:120
 msgid "_Desaturate"
 msgstr "去除色彩(_D)"
 
-#: ../src/gth-window-actions-entries.h:117
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image in black and white"
 msgstr "以黑白模式瀏覽圖片"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:125
 msgid "_Negative"
 msgstr "底片效果(_N)"
 
-#: ../src/gth-window-actions-entries.h:122
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image with negative colors"
 msgstr "以相反的色彩瀏覽圖片"
 
 # (Abel) 有沒有更好的？遇到這些和圖有關的術語就頭疼了
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:130
 msgid "_Enhance"
 msgstr "改善色階(_E)"
 
-#: ../src/gth-window-actions-entries.h:127
+#: ../src/gth-window-actions-entries.h:131
 msgid "Automatically adjust the color levels"
 msgstr "自動調整色階"
 
-#: ../src/gth-window-actions-entries.h:131
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Equalize"
 msgstr "統一亮度(_E)"
 
 # (Abel) 不跟原文了，跟原文的話根本不知所云
-#: ../src/gth-window-actions-entries.h:132
+#: ../src/gth-window-actions-entries.h:136
 msgid "Automatically equalize the image histogram"
 msgstr "將整幅圖片的亮度等化"
 
-#: ../src/gth-window-actions-entries.h:136
-msgid "_Normalize"
-msgstr "正常化(_N)"
-
-#: ../src/gth-window-actions-entries.h:137
-msgid "Automatically normalize the contrast"
-msgstr "自動將對比正常化"
-
-#: ../src/gth-window-actions-entries.h:141
-msgid "_Stretch Contrast"
-msgstr "擴大對比(_S)"
-
-#: ../src/gth-window-actions-entries.h:142
-msgid "Automatically stretch the contrast"
-msgstr "自動擴大對比"
-
-#: ../src/gth-window-actions-entries.h:146
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Posterize"
 msgstr "極色化(_P)"
 
-#: ../src/gth-window-actions-entries.h:147
+#: ../src/gth-window-actions-entries.h:141
+#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:186
 msgid "Reduce the number of colors"
 msgstr "減少顏色數目"
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Brightness-Contrast"
 msgstr "光度及反差(_B)"
 
-#: ../src/gth-window-actions-entries.h:152
+#: ../src/gth-window-actions-entries.h:146
 msgid "Adjust brightness and contrast"
 msgstr "調整光度及反差"
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Hue-Saturation"
 msgstr "色相及彩度(_H)"
 
-#: ../src/gth-window-actions-entries.h:157
+#: ../src/gth-window-actions-entries.h:151
 msgid "Adjust hue and saturation"
 msgstr "調整色相及彩度"
 
-#: ../src/gth-window-actions-entries.h:161
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Color Balance"
 msgstr "色彩平衡(_C)"
 
-#: ../src/gth-window-actions-entries.h:162
+#: ../src/gth-window-actions-entries.h:156
 msgid "Adjust color balance"
 msgstr "調整色彩平衡"
 
-#: ../src/gth-window-actions-entries.h:166
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Threshold"
 msgstr "界限值(_T)"
 
-#: ../src/gth-window-actions-entries.h:167
+#: ../src/gth-window-actions-entries.h:161
 msgid "Apply threshold"
 msgstr "套用界限值"
 
-#: ../src/gth-window-actions-entries.h:171
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Resize"
 msgstr "調整尺寸(_R)"
 
-#: ../src/gth-window-actions-entries.h:172
+#: ../src/gth-window-actions-entries.h:166
 msgid "Resize image"
 msgstr "調整圖片尺寸"
 
-#: ../src/gth-window-actions-entries.h:176
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Rotate"
 msgstr "旋轉(_R)"
 
-#: ../src/gth-window-actions-entries.h:177
+#: ../src/gth-window-actions-entries.h:171
 msgid "Rotate image"
 msgstr "旋轉圖片"
 
-#: ../src/gth-window-actions-entries.h:182
+#: ../src/gth-window-actions-entries.h:176
 msgid "Crop image"
 msgstr "裁剪圖片"
 
-#: ../src/gth-window-actions-entries.h:186
-#: ../src/gth-window-actions-entries.h:268
+#: ../src/gth-window-actions-entries.h:180
+msgid "Black and White"
+msgstr "黑白"
+
+#: ../src/gth-window-actions-entries.h:185
+msgid "Web Palette"
+msgstr "網頁調色板"
+
+#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:292
 msgid "In"
 msgstr "拉近"
 
-#: ../src/gth-window-actions-entries.h:187
+#: ../src/gth-window-actions-entries.h:191
 msgid "Zoom in"
 msgstr "拉近"
 
-#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:195
 msgid "Out"
 msgstr "拉遠"
 
-#: ../src/gth-window-actions-entries.h:192
+#: ../src/gth-window-actions-entries.h:196
 msgid "Zoom out"
 msgstr "拉遠"
 
-#: ../src/gth-window-actions-entries.h:196
+#: ../src/gth-window-actions-entries.h:200
 msgid "1:1"
 msgstr "原來尺寸"
 
-#: ../src/gth-window-actions-entries.h:197
+#: ../src/gth-window-actions-entries.h:201
 msgid "Actual size"
 msgstr "實際尺寸"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:205
 msgid "Fit"
 msgstr "符合視窗"
 
-#: ../src/gth-window-actions-entries.h:202
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom to fit window"
 msgstr "符合視窗尺寸"
 
-#: ../src/gth-window-actions-entries.h:206
+#: ../src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
 msgstr "逐格動畫(_N)"
 
-#: ../src/gth-window-actions-entries.h:211
+#: ../src/gth-window-actions-entries.h:215
 msgid "_Full Screen"
 msgstr "全螢幕(_F)"
 
-#: ../src/gth-window-actions-entries.h:212
-#: ../src/gth-window-actions-entries.h:217
+#: ../src/gth-window-actions-entries.h:216
+#: ../src/gth-window-actions-entries.h:221
 msgid "View image in fullscreen mode"
 msgstr "以全螢幕模式瀏覽圖片"
 
-#: ../src/gth-window-actions-entries.h:221
+#: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "置中(_C)"
 
-#: ../src/gth-window-actions-entries.h:222
+#: ../src/gth-window-actions-entries.h:226
 msgid "Set the image as desktop background (centered)"
 msgstr "將圖片設定為桌布 (置中)"
 
-#: ../src/gth-window-actions-entries.h:226
+#: ../src/gth-window-actions-entries.h:230
 msgid "_Tiled"
 msgstr "鋪排(_T)"
 
-#: ../src/gth-window-actions-entries.h:227
+#: ../src/gth-window-actions-entries.h:231
 msgid "Set the image as desktop background (tiled)"
 msgstr "將圖片設定為桌布 (鋪排)"
 
-#: ../src/gth-window-actions-entries.h:231
+#: ../src/gth-window-actions-entries.h:235
 msgid "_Scaled"
 msgstr "依比例縮放(_S)"
 
-#: ../src/gth-window-actions-entries.h:232
+#: ../src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "將圖片設定為桌面背景 (依比例縮放)"
 
-#: ../src/gth-window-actions-entries.h:236
+#: ../src/gth-window-actions-entries.h:240
 msgid "Str_etched"
 msgstr "伸展(_E)"
 
-#: ../src/gth-window-actions-entries.h:237
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (stretched)"
 msgstr "將圖片設定為桌面背景 (不依比例伸展)"
 
-#: ../src/gth-window-actions-entries.h:241
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Restore"
 msgstr "還原(_R)"
 
-#: ../src/gth-window-actions-entries.h:242
+#: ../src/gth-window-actions-entries.h:246
 msgid "Restore the original desktop wallpaper"
 msgstr "還原為原來的桌布"
 
-#: ../src/gth-window-actions-entries.h:246
+#: ../src/gth-window-actions-entries.h:250
 msgid "Change _Date"
 msgstr "更改日期(_D)"
 
-#: ../src/gth-window-actions-entries.h:247
+#: ../src/gth-window-actions-entries.h:251
 msgid "Change images last modified date"
 msgstr "更改圖片的最後修改日期"
 
-#: ../src/gth-window-actions-entries.h:252
+#: ../src/gth-window-actions-entries.h:276
 msgid "Show information about gThumb"
 msgstr "顯示有關 gThumb 的資訊"
 
-#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:285
 msgid "_Keyboard Shortcuts"
 msgstr "捷徑鍵(_K)"
 
-#: ../src/gth-window-actions-entries.h:277
+#: ../src/gth-window-actions-entries.h:301
 msgid "Play _Animation"
 msgstr "播放動畫(_A)"
 
-#: ../src/gth-window-actions-entries.h:287
+#: ../src/gth-window-actions-entries.h:311
 msgid "_High Quality"
 msgstr "高品質(_H)"
 
-#: ../src/gth-window-actions-entries.h:288
+#: ../src/gth-window-actions-entries.h:312
 msgid "Use high quality zoom"
 msgstr "以高品質方式縮放圖片"
 
-#: ../src/gth-window-actions-entries.h:290
+#: ../src/gth-window-actions-entries.h:314
 msgid "_Low Quality"
 msgstr "低品質(_L)"
 
-#: ../src/gth-window-actions-entries.h:291
+#: ../src/gth-window-actions-entries.h:315
 msgid "Use low quality zoom"
 msgstr "以低品質方式縮放圖片"
 
-#: ../src/main.c:74
+#: ../src/main.c:75
 msgid "Start in fullscreen mode"
 msgstr "以全螢幕模式開始"
 
-#: ../src/main.c:77
+#: ../src/main.c:78
 msgid "Automatically start a slideshow"
 msgstr "自動啟動投影片模式"
 
-#: ../src/main.c:80
+#: ../src/main.c:81
 msgid "Automatically import digital camera photos"
 msgstr "自動匯入數位相片"
 
-#: ../src/main.c:103
+#: ../src/main.c:104
 msgid "Holidays"
 msgstr "假期"
 
-#: ../src/main.c:104
+#: ../src/main.c:105
 msgid "Temporary"
 msgstr "暫存"
 
-#: ../src/main.c:105
+#: ../src/main.c:106
 msgid "Screenshots"
 msgstr "畫面快照"
 
-#: ../src/main.c:106
+#: ../src/main.c:107
 msgid "Science"
 msgstr "科學"
 
-#: ../src/main.c:107
+#: ../src/main.c:108
 msgid "Favourite"
 msgstr "喜愛"
 
-#: ../src/main.c:108
+#: ../src/main.c:109
 msgid "Important"
 msgstr "重要"
 
-#: ../src/main.c:109
+#: ../src/main.c:110
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:110
+#: ../src/main.c:111
 msgid "Games"
 msgstr "遊戲"
 
-#: ../src/main.c:111
+#: ../src/main.c:112
 msgid "Party"
 msgstr "派對"
 
-#: ../src/main.c:112
+#: ../src/main.c:113
 msgid "Birthday"
 msgstr "生日"
 
-#: ../src/main.c:113
+#: ../src/main.c:114
 msgid "Astronomy"
 msgstr "天文"
 
-#: ../src/main.c:114
+#: ../src/main.c:115
 msgid "Family"
 msgstr "全家褔"
 
-#: ../src/main.c:436 ../src/main.c:601
+#: ../src/main.c:437
+#: ../src/main.c:602
 msgid "Command Line"
 msgstr "指令列"
 
-#~ msgid "Switch to _full screen"
-#~ msgstr "切換為全螢幕模式(_F)"
-
-#, fuzzy
-#~ msgid "Custom size..."
-#~ msgstr "自選"
-
-#~ msgid "The selected images will be removed from the catalog, are you sure?"
-#~ msgstr "選定的圖片將會從圖片集中移除，是否確定？"
-
-#~ msgid "Forward"
-#~ msgstr "下一幅"
-
-#~ msgid "_Close"
-#~ msgstr "關閉(_C)"
-
-#~ msgid "_Revert"
-#~ msgstr "還原(_R)"
-
-#~ msgid "_Print..."
-#~ msgstr "列印(_P)..."
-
-#~ msgid "Duplicate this image"
-#~ msgstr "複製本圖片"
-
-#~ msgid "_Back"
-#~ msgstr "上一幅(_B)"
-
-#~ msgid "_Forward"
-#~ msgstr "下一幅(_F)"
-
-#~ msgid "_Up"
-#~ msgstr "上一層(_U)"
-
-#~ msgid "_Stop"
-#~ msgstr "停止(_S)"
-
-#~ msgid "_Home"
-#~ msgstr "個人資料夾(_H)"
-
-#~ msgid "_Find"
-#~ msgstr "搜尋(_F)"
-
-#~ msgid "_Preferences"
-#~ msgstr "偏好設定(_P)"
-
-#~ msgid "_About"
-#~ msgstr "關於(_A)"
-
-#~ msgid "_Contents"
-#~ msgstr "內容(_C)"
-
-#~ msgid "C_ustom:"
-#~ msgstr "自選(_U):"
-
-#~ msgid "<b>Comments</b>"
-#~ msgstr "<b>備註</b>"
-
-#~ msgid "<b>Thumbnails</b>"
-#~ msgstr "<b>縮圖</b>"
-
-#~ msgid "Backup Comments"
-#~ msgstr "為備註進行備份"
-
-#~ msgid "Delete ALL Comments"
-#~ msgstr "刪除所有備註"
-
-#~ msgid "Delete ALL Thumbnails"
-#~ msgstr "刪除所有縮圖"
-
-#~ msgid "Delete Old Comments"
-#~ msgstr "刪除舊的備註"
-
-#~ msgid "Delete Old Thumbnails"
-#~ msgstr "刪除舊的縮圖"
-
-#~ msgid "Delete comments of no more existing images"
-#~ msgstr "刪除不存在的圖片的備註"
-
-#~ msgid "Delete thumbnails of no more existing images"
-#~ msgstr "刪除不存在的圖片的縮圖"
-
-#~ msgid "Maintenance"
-#~ msgstr "維謢"
-
-#~ msgid "Restore Comments From a Backup File"
-#~ msgstr "從備份檔載入備註"
-
-#~ msgid "Print %s"
-#~ msgstr "列印 %s"
-
-#~ msgid "Print Image"
-#~ msgstr "列印圖片"
-
-#~ msgid "(click on the image to view it at original size)"
-#~ msgstr "（點選圖片來以原來大小顯示）"
-
-#~ msgid "Select Destination"
-#~ msgstr "選擇目的地"
-
-#~ msgid "Add a comment to the image"
-#~ msgstr "為圖片加上備註"
-
-#~ msgid "Assign categories to the image"
-#~ msgstr "為圖片分類"
-
-#~ msgid "Catalogs"
-#~ msgstr "圖片集"
-
-#~ msgid "Close all windows and exit"
-#~ msgstr "關閉所有視窗並離開"
-
-#~ msgid "Convert"
-#~ msgstr "轉換"
-
-#~ msgid "Convert image format"
-#~ msgstr "轉換圖片格式"
-
-#~ msgid "E_xit"
-#~ msgstr "離開(_X)"
-
-#~ msgid "Edit Search"
-#~ msgstr "更改搜尋條件"
-
-#~ msgid "Folders"
-#~ msgstr "資料夾"
-
-#~ msgid "Full Screen"
-#~ msgstr "全螢幕"
-
-#~ msgid "Home"
-#~ msgstr "個人資料夾"
-
-#~ msgid "Image Toolbar"
-#~ msgstr "圖片工具列"
-
-#~ msgid "Main Toolbar"
-#~ msgstr "主工具列"
-
-#~ msgid "Open with the File Manager"
-#~ msgstr "以檔案總管開啟"
-
-#~ msgid "Redo Search"
-#~ msgstr "重新搜尋"
-
-#~ msgid "Reduce number of colors"
-#~ msgstr "減少顏色數目"
-
-#~ msgid "Revert"
-#~ msgstr "還原"
-
-#~ msgid "Save"
-#~ msgstr "儲存"
-
-#~ msgid "Search"
-#~ msgstr "搜尋"
-
-#~ msgid "Up"
-#~ msgstr "上一層"
-
-#~ msgid "Use black as transparency"
-#~ msgstr "使用黑色表示透明"
-
-#~ msgid "Use checks as transparency"
-#~ msgstr "使用方格表示透明"
-
-#~ msgid "Use gray as transparency"
-#~ msgstr "使用灰色表示透明"
-
-#~ msgid "Use white as transparency"
-#~ msgstr "使用白色表示透明"
-
-#~ msgid "Zoom _In"
-#~ msgstr "拉近(_I)"
-
-#~ msgid "Zoom _Out"
-#~ msgstr "拉遠(_O)"
-
-#~ msgid "Zoom to _Fit"
-#~ msgstr "符合視窗尺寸(_F)"
-
-#~ msgid "_Actual Size"
-#~ msgstr "實際尺寸(_A)"
-
-#~ msgid "_Find..."
-#~ msgstr "搜尋(_F)..."
-
-#~ msgid "_Maintenance"
-#~ msgstr "維謢(_M)"
-
-#~ msgid "_Reduce Colors"
-#~ msgstr "減少顏色(_R)"
-
-#~ msgid "The image will be removed from the catalog, are you sure?"
-#~ msgstr "將會從圖片集中移除該圖片，是否確定？"
-
-#~ msgid "All comments will be removed, are you sure?"
-#~ msgstr "將會刪除所有備註，是否確定？"
-
-#~ msgid "All thumbnails will be deleted, are you sure?"
-#~ msgstr "將會刪除所有縮圖，是否確定？"
-
-#~ msgid "Specify the backup file"
-#~ msgstr "指定備份檔"
-
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "GConf 錯誤:\n"
-#~ "  %s"
-
-#~ msgid "Rotate _JPEG"
-#~ msgstr "旋轉 _JPEG"
-
-#~ msgid "Transparen_cy Type"
-#~ msgstr "透明表示方式(_C)"
-
-#~ msgid "View as List"
-#~ msgstr "以清單方式顯示"
-
-#~ msgid "View as Thumbnails"
-#~ msgstr "以縮圖方式顯示"
-
-#~ msgid "_Adjust Color Levels"
-#~ msgstr "自動調整色彩平衡(_A)"
-
-#~ msgid "Choose Date"
-#~ msgstr "選取日期"
-
-#~ msgid "_No date"
-#~ msgstr "沒有日期(_N)"
-
-#~ msgid "<b>Destination folder</b>"
-#~ msgstr "<b>目的地資料夾</b>"
-
-#~ msgid "<i>Examples:</i>"
-#~ msgstr "<i>例子:</i>"
-
-#~ msgid "Sor_t images:"
-#~ msgstr "排列圖片(_T):"
-
-#~ msgid "Use #'s to specify positions used by numeric enumerator."
-#~ msgstr "使用 # 來指定數字的位置。"
-
-#~ msgid ""
-#~ "Use %p  to insert the page number, and %n to insert the total number of "
-#~ "pages."
-#~ msgstr "使用 %p 來加入該頁頁數，及 %n 來加入總頁數。"
-
-#~ msgid "<b>Image</b>"
-#~ msgstr "<b>圖片</b>"
-
-#~ msgid ""
-#~ "<i>Drag the image to move\n"
-#~ "it in the page.</i>"
-#~ msgstr ""
-#~ "<i>可在頁面中拖曳\n"
-#~ "圖片來選擇位置。</i>"
-
-#~ msgid "<b>File list order</b>"
-#~ msgstr "<b>檔案清單排列次序</b>"
-
-#~ msgid "<b>Specify a template to use for renaming images</b>"
-#~ msgstr "<b>指定更改圖片檔名稱的規則</b>"
-
-#~ msgid "JPEG Lossless Transformation"
-#~ msgstr "JPEG 無失真方式變換圖片"
-
-#~ msgid "Revert changes"
-#~ msgstr "還原所有變更"
-
-#~ msgid ""
-#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-#~ "the original filename. Use ? to insert the image date. Use ! to insert "
-#~ "the image size"
-#~ msgstr ""
-#~ "# 表示數字的位置。* 表示原來的檔案名稱。? 表示圖片檔的日期。! 表示圖片的尺"
-#~ "寸。"
-
-#~ msgid "_Sort original list:"
-#~ msgstr "原來的圖片清單的排列方式(_S):"
-
-#~ msgid "_Title:"
-#~ msgstr "標題(_T):"
-
-#~ msgid "Paper"
-#~ msgstr "紙張"
-
-#~ msgid "Component has no editable properties"
-#~ msgstr "該部件沒有任何可修改的屬性"
-
-#~ msgid "Could not open file %s"
-#~ msgstr "無法開啟檔案 %s"
-
-#~ msgid "File Size"
-#~ msgstr "檔案大小"
-
-#~ msgid "Information"
-#~ msgstr "資訊"
-
-#~ msgid "_Equalize Histogram"
-#~ msgstr "平均分佈亮度(_E)"
-
-#~ msgid "Add a category"
-#~ msgstr "新增類別"
-
-#~ msgid "<b>Checks</b>"
-#~ msgstr "<b>方格</b>"
-
-#~ msgid "<b>History</b>"
-#~ msgstr "<b>瀏覽紀錄</b>"
-
-#~ msgid "Dark"
-#~ msgstr "深色"
-
-#~ msgid "Large"
-#~ msgstr "大"
-
-#~ msgid "Max _history length:"
-#~ msgstr "可保存的瀏覽紀錄數目(_H):"
-
-#~ msgid "Medium"
-#~ msgstr "中"
-
-#~ msgid "Mid tone"
-#~ msgstr "半調色"
-
-#~ msgid "Show _thumbnails"
-#~ msgstr "顯示縮圖(_T)"
-
-#~ msgid "Show co_mments"
-#~ msgstr "顯示備註(_M)"
-
-#~ msgid "Show hi_dden images"
-#~ msgstr "顯示隱藏圖片(_D)"
-
-#~ msgid "Small"
-#~ msgstr "小"
-
-#~ msgid "Printer"
-#~ msgstr "印表機"
-
-#~ msgid "All catego_ries"
-#~ msgstr "符合所有類別(_R)"
-
-#~ msgid "At _least a category"
-#~ msgstr "至少符合其中一項類別(_L)"
-
-#~ msgid "Choose Categories"
-#~ msgstr "選取類別"
