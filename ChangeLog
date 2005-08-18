@@ -11,6 +11,8 @@
 	* src/dlg-categories.c (keyword_equal_func): 
 	(ok_clicked_cb): added keyword search in the categories list.
 
+	Patch by John Leach.
+	
 2005-08-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-ui.h: put Fullscreen before Slideshow.
