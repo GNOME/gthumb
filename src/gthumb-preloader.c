@@ -29,7 +29,7 @@
 #include "gthumb-marshal.h"
 
 #define NEXT_LOAD_SMALL_TIMEOUT 100
-#define NEXT_LOAD_BIG_TIMEOUT 500
+#define NEXT_LOAD_BIG_TIMEOUT 400
 
 
 enum {
@@ -83,7 +83,10 @@ loader_error_cb (ImageLoader  *il,
 		timeout = NEXT_LOAD_BIG_TIMEOUT;
 	}
 
+	/*
 	gploader->load_id = g_timeout_add (timeout, load_next, gploader);
+	*/
+	gploader->load_id = g_idle_add (load_next, gploader);
 }
 
 

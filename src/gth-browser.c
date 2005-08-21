@@ -282,7 +282,7 @@ static GthWindowClass *parent_class = NULL;
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
-#define VIEW_IMAGE_DELAY       25
+#define VIEW_IMAGE_DELAY       20
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
 
@@ -539,9 +539,6 @@ update_image_comment (GthBrowser *browser)
 		iptc_data_unref (priv->iptc_data);
 		priv->iptc_data = NULL;
 	}
-
-	if (priv->image_path != NULL) 
-		priv->iptc_data = iptc_data_new_from_jpeg (priv->image_path);
 #endif /* HAVE_LIBIPTCDATA */
 
 	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->image_comment));
@@ -554,6 +551,14 @@ update_image_comment (GthBrowser *browser)
 	}
 
 	cdata = comments_load_comment (priv->image_path, TRUE);
+
+#ifdef HAVE_LIBIPTCDATA
+	if (cdata != NULL) {
+		priv->iptc_data = cdata->iptc_data;
+		if (priv->iptc_data != NULL)
+			iptc_data_ref (priv->iptc_data);
+	}
+#endif /* HAVE_LIBIPTCDATA */
 
 	if (comment_text_is_void (cdata)) {
 		GtkTextIter  iter;
@@ -597,9 +602,37 @@ window_update_image_info (GthBrowser *browser)
 {
 	window_update_statusbar_image_info (browser);
 	window_update_statusbar_zoom_info (browser);
+
+#ifdef HAVE_LIBEXIF
+	{
+		GthBrowserPrivateData *priv = browser->priv;
+		JPEGData              *jdata = NULL;
+
+		if (priv->exif_data != NULL) {
+			exif_data_unref (priv->exif_data);
+			priv->exif_data = NULL;
+		}
+		
+		if (priv->image_path != NULL) 
+			jdata = jpeg_data_new_from_file (priv->image_path);
+
+		if (jdata != NULL) {
+			priv->exif_data = jpeg_data_get_exif_data (jdata);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
+	
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer), 
 				     IMAGE_VIEWER (browser->priv->viewer),
-				     browser->priv->image_path);
+				     browser->priv->image_path,
+#ifdef HAVE_LIBEXIF
+				     browser->priv->exif_data
+#else /* ! HAVE_LIBEXIF */
+				     NULL
+#endif /* ! HAVE_LIBEXIF */
+				     );
+
 	update_image_comment (browser);
 }
 
@@ -2777,23 +2810,6 @@ image_loaded_cb (GtkWidget  *widget,
 
 	if (priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (priv->image_prop_dlg);
-
-#ifdef HAVE_LIBEXIF
-	{
-		JPEGData *jdata;
-
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
-		}
-		
-		jdata = jpeg_data_new_from_file (priv->image_path);
-		if (jdata != NULL) {
-			priv->exif_data = jpeg_data_get_exif_data (jdata);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
 }
 
 
@@ -8301,7 +8317,7 @@ load_timeout_cb (gpointer data)
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *prev1;
 	char                  *next1;
-	char                  *next2;
+	/*char                  *next2;*/
 	int                    pos;
 
 	if (priv->view_image_timeout != 0) {
@@ -8317,17 +8333,17 @@ load_timeout_cb (gpointer data)
 
 	prev1 = get_image_to_preload (browser, pos - 1, 1);
 	next1 = get_image_to_preload (browser, pos + 1, 1);
-	next2 = get_image_to_preload (browser, pos + 2, 2);
+	/*next2 = get_image_to_preload (browser, pos + 2, 2);*/
 	
 	gthumb_preloader_start (priv->preloader, 
 				priv->image_path, 
 				next1, 
 				prev1, 
-				next2);
+				NULL/*next2*/);
 
 	g_free (prev1);
 	g_free (next1);
-	g_free (next2);
+	/*g_free (next2);*/
 
 	return FALSE;
 }
@@ -8345,9 +8361,16 @@ gth_browser_reload_image (GthBrowser *browser)
 
 	if (priv->view_image_timeout != 0) 
 		g_source_remove (priv->view_image_timeout);
+
+	/*
 	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
 						  load_timeout_cb, 
 						  browser);
+	*/
+
+	priv->view_image_timeout = g_idle_add (load_timeout_cb, 
+					       browser);
+
 }
 
 
@@ -8417,9 +8440,14 @@ gth_browser_load_image (GthBrowser *browser,
 	g_free (priv->image_path);
 	priv->image_path = g_strdup (filename);
 
+	/*
 	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
 						  load_timeout_cb, 
 						  browser);
+	*/
+
+	priv->view_image_timeout = g_idle_add (load_timeout_cb, 
+					       browser);
 }
 
 

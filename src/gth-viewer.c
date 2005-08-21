@@ -657,9 +657,36 @@ viewer_update_image_info (GthViewer *viewer)
 
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
+
+
+#ifdef HAVE_LIBEXIF
+	{
+		JPEGData *jdata = NULL;
+
+		if (priv->exif_data != NULL) {
+			exif_data_unref (priv->exif_data);
+			priv->exif_data = NULL;
+		}
+		
+		if (priv->image_path != NULL)
+			jdata = jpeg_data_new_from_file (priv->image_path);
+		if (jdata != NULL) {
+			priv->exif_data = jpeg_data_get_exif_data (jdata);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
+
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer), 
 				     IMAGE_VIEWER (priv->viewer),
-				     priv->image_path);
+				     priv->image_path,
+#ifdef HAVE_LIBEXIF
+				     viewer->priv->exif_data
+#else /* ! HAVE_LIBEXIF */
+				     NULL
+#endif /* ! HAVE_LIBEXIF */
+				     );
+
 	update_image_comment (viewer);
 }
 
@@ -943,23 +970,6 @@ image_loaded_cb (GtkWidget  *widget,
 	viewer_update_infobar (viewer);
 	viewer_update_title (viewer);
 	viewer_update_sensitivity (viewer);
-
-#ifdef HAVE_LIBEXIF
-	{
-		JPEGData *jdata;
-
-		if (priv->exif_data != NULL) {
-			exif_data_unref (priv->exif_data);
-			priv->exif_data = NULL;
-		}
-		
-		jdata = jpeg_data_new_from_file (priv->image_path);
-		if (jdata != NULL) {
-			priv->exif_data = jpeg_data_get_exif_data (jdata);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
 
 	if (StartInFullscreen) {
 		StartInFullscreen = FALSE;

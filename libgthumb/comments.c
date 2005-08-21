@@ -59,11 +59,11 @@
 
 
 CommentData *
-comment_data_new ()
+comment_data_new (void)
 {
 	CommentData *data;
 
-	data = g_new (CommentData, 1);
+	data = g_new0 (CommentData, 1);
 
 	data->place = NULL;
 	data->time = 0;
@@ -71,6 +71,10 @@ comment_data_new ()
 	data->keywords_n = 0;
 	data->keywords = NULL;
 	data->utf8_format = TRUE;
+
+#ifdef HAVE_LIBIPTCDATA
+	data->iptc_data = NULL;
+#endif /* HAVE_LIBIPTCDATA */
 
 	return data;
 }
@@ -119,6 +123,11 @@ comment_data_free (CommentData *data)
 	comment_data_free_comment (data);
 	comment_data_free_keywords (data);
 
+#ifdef HAVE_LIBIPTCDATA
+	if (data->iptc_data != NULL)
+		iptc_data_unref (data->iptc_data);
+#endif /* HAVE_LIBIPTCDATA */
+
         g_free (data);
 }
 
@@ -147,6 +156,12 @@ comment_data_dup (CommentData *data)
 		new_data->keywords[i] = NULL;
 	}
 	new_data->utf8_format = data->utf8_format;
+
+#ifdef HAVE_LIBIPTCDATA
+	new_data->iptc_data = data->iptc_data;
+	if (new_data->iptc_data != NULL)
+		iptc_data_ref (new_data->iptc_data);
+#endif /* HAVE_LIBIPTCDATA */
 
 	return new_data;
 }
@@ -328,22 +343,16 @@ static CommentData *
 load_comment_from_iptc (const char *filename)
 {
 	CommentData *data;
-	IptcData *d;
-	struct tm t;
-	int i;
-	int got_date = 0, got_time = 0;
+	IptcData    *d;
+	struct tm    t;
+	int          i;
+	int          got_date = 0, got_time = 0;
 
 	d = iptc_data_new_from_jpeg (filename);
 	if (!d)
 		return NULL;
 
-	data = g_new0 (CommentData, 1);
-	data->place = NULL;
-	data->time = 0;
-	data->comment = NULL;
-	data->keywords = NULL;
-	data->keywords_n = 0;
-	data->utf8_format = TRUE;
+	data = comment_data_new ();
 
 	bzero (&t, sizeof (t));
 	t.tm_isdst = -1;
@@ -392,7 +401,8 @@ load_comment_from_iptc (const char *filename)
 	if (got_date && got_time)
 		data->time = mktime (&t);
 
-	iptc_data_unref (d);
+	data->iptc_data = d;
+
 	return data;
 }
 
@@ -667,10 +677,8 @@ comment_delete (const char *filename)
 	g_free (comment_name);
 
 #ifdef HAVE_LIBIPTCDATA
-
 	if (image_is_jpeg (filename)) 
 		delete_comment_iptc (filename);
-
 #endif /* HAVE_LIBIPTCDATA */
 }
 
@@ -877,12 +885,7 @@ load_comment_from_xml (const char *filename)
 		return NULL;
 	}
 
-	data = g_new (CommentData, 1);
-        data->place = NULL;
-        data->time = 0;
-        data->comment = NULL;
-        data->keywords = NULL;
-        data->keywords_n = 0;
+	data = comment_data_new ();
 
         root = xmlDocGetRootElement (doc);
         node = root->xmlChildrenNode;
@@ -1015,8 +1018,13 @@ comments_load_comment (const char *filename,
 
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
-		if (image_is_jpeg (filename))
+		if (image_is_jpeg (filename)) 
 			img_comment = load_comment_from_iptc (filename);
+		if (img_comment != NULL) {
+			xml_comment->iptc_data = img_comment->iptc_data;
+			if (xml_comment->iptc_data != NULL)
+				iptc_data_ref (xml_comment->iptc_data);
+		}
 #endif /* HAVE_LIBIPTCDATA */
 		if ((img_comment != NULL)
 		    && (! comment_data_equal (xml_comment, img_comment))) {

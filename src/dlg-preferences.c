@@ -126,8 +126,6 @@ apply_cb (GtkWidget  *widget,
 
 		eel_gconf_set_path (PREF_STARTUP_LOCATION, location);
 		preferences_set_startup_location (location);
-
-		g_free (esc_path);
 		g_free (location);
 	}
 

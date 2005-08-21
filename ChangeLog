@@ -1,3 +1,19 @@
+2005-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-categories.c (save_categories): 
+	* libgthumb/bookmarks.c (bookmarks_write_to_disk): Set no limit to
+	the max number of categories.
+
+	Patch by John Leach.
+	
+2005-08-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (gth_exif_data_viewer_construct): 
+	use ellipses if the text doesn't fit.
+
+	* src/dlg-preferences.c (apply_cb): removed double free.
+	Patch by John Leach.
+
 2005-08-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer.c (gth_viewer_init): 

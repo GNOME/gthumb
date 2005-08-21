@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -107,6 +107,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 {
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
+	GValue             value = { 0, };
 
 	edv->priv->scrolled_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (edv->priv->scrolled_win), GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
@@ -142,6 +143,12 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 							   renderer,
 							   "text", VALUE_COLUMN,
 							   NULL);
+
+	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+	g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+	g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+	g_value_unset (&value);
+
 	gtk_tree_view_append_column (GTK_TREE_VIEW (edv->priv->image_exif_view),
 				     column);
 
@@ -334,9 +341,9 @@ get_entry_from_tag (ExifData *edata,
 
 
 static void
-update_exif_data (GthExifDataViewer *edv)
+update_exif_data (GthExifDataViewer *edv,
+		  ExifData          *edata)
 {
-	ExifData     *edata;
 	unsigned int  i;
 	gboolean      date_added = FALSE;
 	gboolean      aperture_added = FALSE;
@@ -346,7 +353,10 @@ update_exif_data (GthExifDataViewer *edv)
 	if (edv->priv->path == NULL)
 		return;
 
-	edata = exif_data_new_from_file (edv->priv->path);
+	if (edata == NULL)
+		edata = exif_data_new_from_file (edv->priv->path);
+	else
+		exif_data_ref (edata);
 
 	if (edata == NULL) 
                 return;
@@ -538,9 +548,9 @@ set_path (GthExifDataViewer *edv,
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     ImageViewer       *viewer,
-			     const char        *path)
+			     const char        *path,
+			     gpointer           exif_data)
 {
-
 	set_path (edv, path);
 	if (viewer != NULL)
 		edv->priv->viewer = viewer;
@@ -554,7 +564,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		update_file_info (edv);
 
 #ifdef HAVE_LIBEXIF
-	update_exif_data (edv);
+	update_exif_data (edv, exif_data);
 #endif /* HAVE_LIBEXIF */
 }
 
