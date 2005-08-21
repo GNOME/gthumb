@@ -332,9 +332,9 @@ get_entry_from_tag (ExifData *edata,
 
 
 static void
-update_exif_data (GthExifDataViewer *edv)
+update_exif_data (GthExifDataViewer *edv,
+		  ExifData          *edata)
 {
-	ExifData     *edata;
 	unsigned int  i;
 	gboolean      date_added = FALSE;
 	gboolean      aperture_added = FALSE;
@@ -344,7 +344,13 @@ update_exif_data (GthExifDataViewer *edv)
 	if (edv->priv->path == NULL)
 		return;
 
-	edata = exif_data_new_from_file (edv->priv->path);
+	if (edata == NULL)
+		edata = exif_data_new_from_file (edv->priv->path);
+	else
+		exif_data_ref (edata);
+	
+	if (edata == NULL) 
+                return;
 
 	if (edata == NULL) 
                 return;
@@ -537,9 +543,9 @@ set_path (GthExifDataViewer *edv,
 void
 gth_exif_data_viewer_update (GthExifDataViewer *edv,
 			     ImageViewer       *viewer,
-			     const char        *path)
+			     const char        *path,
+			     gpointer           exif_data)
 {
-
 	set_path (edv, path);
 	if (viewer != NULL)
 		edv->priv->viewer = viewer;
@@ -553,7 +559,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		update_file_info (edv);
 
 #ifdef HAVE_LIBEXIF
-	update_exif_data (edv);
+	update_exif_data (edv, exif_data);
 #endif /* HAVE_LIBEXIF */
 }
 

@@ -257,9 +257,13 @@ step (gpointer data)
 		if (! one_step (data))
 			return FALSE;
 
+	/*
 	pixbuf_op->timeout_id = g_timeout_add (PROGRESS_TIMEOUT,
 					       step,
 					       pixbuf_op);
+	*/
+
+	pixbuf_op->timeout_id = g_idle_add (step, pixbuf_op);
 
 	return FALSE;
 }

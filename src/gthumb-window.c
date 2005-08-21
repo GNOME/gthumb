@@ -360,9 +360,36 @@ window_update_image_info (GThumbWindow *window)
 {
 	window_update_statusbar_image_info (window);
 	window_update_statusbar_zoom_info (window);
+
+#ifdef HAVE_LIBEXIF
+	{
+		JPEGData *jdata = NULL;
+
+		if (window->exif_data != NULL) {
+			exif_data_unref (window->exif_data);
+			window->exif_data = NULL;
+		}
+		
+		if (window->image_path != NULL)
+			jdata = jpeg_data_new_from_file (window->image_path);
+
+		if (jdata != NULL) {
+			window->exif_data = jpeg_data_get_exif_data (jdata);
+			jpeg_data_unref (jdata);
+		}
+	}
+#endif /* HAVE_LIBEXIF */
+
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (window->exif_data_viewer), 
 				     IMAGE_VIEWER (window->viewer),
-				     window->image_path);
+				     window->image_path,
+#ifdef HAVE_LIBEXIF
+				     window->exif_data
+#else /* ! HAVE_LIBEXIF */
+				     NULL
+#endif /* ! HAVE_LIBEXIF */
+				     );
+
 	update_image_comment (window);
 }
 
@@ -829,11 +856,6 @@ set_file_list__final_step_cb (gpointer data)
 		window_start_slideshow (window);
 	} 
 
-	if (HideSidebar) {
-		HideSidebar = FALSE;
-		window_hide_sidebar (window);
-	}
-
 	if (ImageToDisplay != NULL) {
 		int pos = gth_file_list_pos_from_path (window->file_list, ImageToDisplay);
 		if (pos != -1)
@@ -844,6 +866,11 @@ set_file_list__final_step_cb (gpointer data)
 	} else if (ViewFirstImage) {
 		ViewFirstImage = FALSE;
 		window_show_first_image (window, FALSE);
+	}
+
+	if (HideSidebar) {
+		HideSidebar = FALSE;
+		window_hide_sidebar (window);
 	}
 
 	if (FirstStart)
@@ -2512,23 +2539,6 @@ image_loaded_cb (GtkWidget    *widget,
 
 	if (window->image_prop_dlg != NULL)
 		dlg_image_prop_update (window->image_prop_dlg);
-
-#ifdef HAVE_LIBEXIF
-	{
-		JPEGData *jdata;
-
-		if (window->exif_data != NULL) {
-			exif_data_unref (window->exif_data);
-			window->exif_data = NULL;
-		}
-		
-		jdata = jpeg_data_new_from_file (window->image_path);
-		if (jdata != NULL) {
-			window->exif_data = jpeg_data_get_exif_data (jdata);
-			jpeg_data_unref (jdata);
-		}
-	}
-#endif /* HAVE_LIBEXIF */
 }
 
 
@@ -7482,7 +7492,6 @@ load_timeout_cb (gpointer data)
 	GThumbWindow *window = data;
 	char         *prev1;
 	char         *next1;
-	char         *next2;
 	int           pos;
 
 	if (window->view_image_timeout != 0) {
@@ -7498,17 +7507,15 @@ load_timeout_cb (gpointer data)
 
 	prev1 = get_image_to_preload (window, pos - 1, 1);
 	next1 = get_image_to_preload (window, pos + 1, 1);
-	next2 = get_image_to_preload (window, pos + 2, 2);
 	
 	gthumb_preloader_start (window->preloader, 
 				window->image_path, 
 				next1, 
 				prev1, 
-				next2);
+				NULL);
 
 	g_free (prev1);
 	g_free (next1);
-	g_free (next2);
 
 	return FALSE;
 }

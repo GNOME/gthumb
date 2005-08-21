@@ -493,7 +493,8 @@ update_notebook_page (DialogData *data,
 	case IPROP_PAGE_EXIF:
 		gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (data->i_exif_data_view),
 					     data->window_viewer,
-					     data->window->image_path);
+					     data->window->image_path,
+					     NULL);
 		break;
 #endif /* HAVE_LIBEXIF */
 

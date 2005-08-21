@@ -876,7 +876,11 @@ _append_escaped_text_for_html (GString     *str,
 		case '>':
 			g_string_append (str, "&gt;");
 			break;
-			
+
+		case '\n':
+			g_string_append (str, "<br />");
+			break;	
+
 		default:
 			g_string_append_len (str, p, next - p);
 			break;

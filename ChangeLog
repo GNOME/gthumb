@@ -1,3 +1,40 @@
+2005-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-pixbuf-op.c (step): use an idle handle instead of
+	a timeout.
+
+	* src/gth-exif-data-viewer.h: 
+	* src/gth-exif-data-viewer.c (update_exif_data): 
+
+	do not load exif data twice.
+	
+	* src/gthumb-window.c (load_timeout_cb): do not preload the second
+	next image.
+
+	* libgthumb/image-loader.c (image_loader_set_pixbuf)
+	(image_loader_sync_pixbuf, image_loader_sync_pixbuf_from_loader): 
+	ref the pixbuf instead of copying it.
+
+	* src/gthumb-window.c (set_file_list__final_step_cb): hide the sidebar
+	after selecting the image.
+
+	Fixes bug #313902: Starting with <image> as argument shows thumbnails 
+	NOT <image>
+
+2005-08-06  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/comments.c (_append_escaped_text_for_html): convert \n
+	to <br/>
+	
+	Fixes bug #301163: Web Album: Line breaks in Comments are lost.
+	Based on the patch by Alexander Skwar.
+	
+	* src/dlg-scale-image.c (h_spinbutton_value_changed)
+	(w_spinbutton_value_changed): round to nearest integer when converting
+	from double to int
+
+	Fixes bug #312612: Resize bug.  Patch by whoops.
+
 2005-06-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.6 released ]
