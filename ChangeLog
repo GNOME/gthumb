@@ -1,5 +1,11 @@
 2005-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-categories.c (save_categories): 
+	* libgthumb/bookmarks.c (bookmarks_write_to_disk): Set no limit to
+	the max number of categories.
+
+	Patch by John Leach.
+	
 	* libgthumb/gth-pixbuf-op.c (step): use an idle handle instead of
 	a timeout.
 

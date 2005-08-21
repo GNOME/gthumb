@@ -296,6 +296,7 @@ save_categories (DialogData *data)
 
 	cat_list = get_categories (data->keywords_list_model, -1);
 	categories = bookmarks_new (RC_CATEGORIES_FILE);
+	bookmarks_set_max_lines (categories, -1);
 
 	for (scan = cat_list; scan; scan = scan->next) {
 		char *category = scan->data;

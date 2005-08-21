@@ -417,7 +417,8 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 	/* write the file list. */
 	lines = 0;
 	scan = bookmarks->list; 
-	while ((lines < bookmarks->max_lines) && scan) {
+	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines)) 
+	       && scan) {
 		if (! fprintf (f, "\"%s\"\n", (gchar*) scan->data)) {
 			g_print ("ERROR saving to bookmark file\n");
 			fclose (f);
