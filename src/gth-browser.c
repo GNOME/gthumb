@@ -592,6 +592,13 @@ update_image_comment (GthBrowser *browser)
 		gtk_text_buffer_delete (text_buffer, &start, &end);
 	}
 
+	/**/
+
+	if (cdata->changed) {
+		int pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
+		gth_file_list_update_comment (priv->file_list, pos);
+	}
+
 	g_free (comment);
 	comment_data_free (cdata);
 }
@@ -1024,8 +1031,12 @@ gth_browser_stop_activity_mode (GthBrowser *browser)
 
 	g_return_if_fail (browser != NULL);
 
+	/*
 	if (--priv->activity_ref > 0)
 		return;
+	*/
+
+	priv->activity_ref = 0;
 
 	gtk_widget_hide (priv->progress);
 

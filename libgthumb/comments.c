@@ -76,6 +76,8 @@ comment_data_new (void)
 	data->iptc_data = NULL;
 #endif /* HAVE_LIBIPTCDATA */
 
+	data->changed = FALSE;
+
 	return data;
 }
 
@@ -1021,6 +1023,8 @@ comments_load_comment (const char *filename,
 		if (image_is_jpeg (filename)) 
 			img_comment = load_comment_from_iptc (filename);
 		if (img_comment != NULL) {
+			if (xml_comment == NULL)
+				xml_comment = comment_data_new ();
 			xml_comment->iptc_data = img_comment->iptc_data;
 			if (xml_comment->iptc_data != NULL)
 				iptc_data_ref (xml_comment->iptc_data);
@@ -1033,6 +1037,7 @@ comments_load_comment (const char *filename,
 			save_comment (filename, img_comment, FALSE);
 			comment_data_free (xml_comment);
 			xml_comment = img_comment;
+			xml_comment->changed = TRUE;
 		} else 
 			comment_data_free (img_comment);
 	}

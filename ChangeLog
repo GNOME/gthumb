@@ -1,3 +1,13 @@
+2005-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/comments.h: 
+	* libgthumb/comments.c (comments_load_comment): 
+	* src/gth-browser.c (update_image_comment): update the comment in
+	the file list when the comment changes.
+	
+	* src/gth-browser.c (gth_browser_stop_activity_mode): always reset
+	activity_ref instead of decrementing it.
+
 2005-08-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-categories.c (save_categories): 

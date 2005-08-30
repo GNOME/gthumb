@@ -48,6 +48,7 @@ typedef struct {
 	IptcData  *iptc_data;
 #endif /* HAVE_LIBIPTCDATA */
 
+	gboolean   changed;
 } CommentData;
 
 
