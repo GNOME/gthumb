@@ -817,8 +817,11 @@ window_stop_activity_mode (GThumbWindow *window)
 {
 	g_return_if_fail (window != NULL);
 
+	/*
 	if (--window->activity_ref > 0)
 		return;
+	*/
+	window->activity_ref = 0;
 
 	gtk_widget_hide (window->progress);
 

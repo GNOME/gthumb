@@ -1,3 +1,12 @@
+version 2.6.7
+-------------
+	* Set no limit to the max number of categories.
+	* Use less memory to load images.
+	* Fixed bug #313902: Starting with <image> as argument shows thumbnails 
+	  NOT <image>
+	* Fixed bug #301163: Web Album: Line breaks in Comments are lost.
+	* Fixed bug #312612: Resize bug.
+
 version 2.6.6
 -------------	
 	* Fixes bug #303544: Re-add the exif data to the resized images.  Patch
