@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-08-01 03:46+0000\n"
-"PO-Revision-Date: 2004-07-06 14:19+0200\n"
+"POT-Creation-Date: 2005-08-30 19:50+0000\n"
+"PO-Revision-Date: 2005-08-30 23:14+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -167,7 +167,7 @@ msgstr "Animatie _doorlopen"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:46
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -187,20 +187,19 @@ msgstr "%d %b %Y, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:492 ../src/gth-exif-data-viewer.c:467
-#: ../src/gth-fullscreen.c:655 ../src/gth-viewer.c:548
+#: ../src/gth-browser.c:503 ../src/gth-exif-data-viewer.c:477
+#: ../src/gth-fullscreen.c:678 ../src/gth-viewer.c:561
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d beeldpunten"
 
 #: ../data/GNOME_GThumb.server.in.in.h:1
-#, fuzzy
 msgid "GThumb Application"
-msgstr "Toep_assing:"
+msgstr "GThumb-toepassing"
 
 #: ../data/GNOME_GThumb.server.in.in.h:2
 msgid "GThumb Application Factory"
-msgstr ""
+msgstr "GThumb-toepassingsfabriek"
 
 #: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
 msgid "Image"
@@ -211,8 +210,8 @@ msgid "Dimensions"
 msgstr "Afmetingen"
 
 # Meervoud van byte is byte zonder s
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:616
-#: ../src/gth-exif-data-viewer.c:496
+#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:506
 msgid "Bytes"
 msgstr "Byte"
 
@@ -831,7 +830,7 @@ msgstr "_Magenta-groen:"
 msgid "_Preview"
 msgstr "_Voorbeeld"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:42
 msgid "_Reset"
 msgstr "He_rstellen"
 
@@ -1029,9 +1028,8 @@ msgid "Select a color"
 msgstr "Kies een kleur"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:47
-#, fuzzy
 msgid "Select a font"
-msgstr "Kies een kleur"
+msgstr "Kies een lettertype"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
@@ -1072,7 +1070,7 @@ msgstr "_Stijl"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Start _at:"
 msgstr "_Beginnen bij:"
 
@@ -1113,7 +1111,7 @@ msgid "_Solid color"
 msgstr "_Egale vullling"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "_Template:"
 msgstr "_Sjabloon:"
 
@@ -1426,9 +1424,8 @@ msgid "8"
 msgstr "8"
 
 #: ../data/glade/gthumb_print.glade.h:9
-#, fuzzy
 msgid "<b>Margins</b>"
-msgstr "<b>Opslaan</b>"
+msgstr "<b>Marges</b>"
 
 #: ../data/glade/gthumb_print.glade.h:10
 msgid "<b>Orientation</b>"
@@ -1447,9 +1444,8 @@ msgstr ""
 "Klik op een afbeelding om hem te draaien.</i></small>"
 
 #: ../data/glade/gthumb_print.glade.h:14
-#, fuzzy
 msgid "A4"
-msgstr "A_4"
+msgstr "A4"
 
 #: ../data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
@@ -1459,10 +1455,10 @@ msgstr "_Centreren op pagina"
 msgid "Comment _font:"
 msgstr "_Lettertype voor commentaar:"
 
+# dit is een naam van een papierformaat
 #: ../data/glade/gthumb_print.glade.h:18
-#, fuzzy
 msgid "Executive"
-msgstr "US E_xecutive"
+msgstr "Executive"
 
 #: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
@@ -1476,23 +1472,24 @@ msgstr "Afbeeldingen per pagina:"
 msgid "Inches"
 msgstr "Inch"
 
+# Landscape/portrait = liggend/staand
 #: ../data/glade/gthumb_print.glade.h:22
 msgid "Lan_dscape"
-msgstr "Lan_dschap"
+msgstr "Liggen_d"
 
 #: ../data/glade/gthumb_print.glade.h:23
 msgid "Layout"
 msgstr "Lay-out"
 
+# dit is een naam van een papierformaat
 #: ../data/glade/gthumb_print.glade.h:24
-#, fuzzy
 msgid "Legal"
-msgstr "US L_egal"
+msgstr "Legal"
 
+# dit is een naam van een papierformaat
 #: ../data/glade/gthumb_print.glade.h:25
-#, fuzzy
 msgid "Letter"
-msgstr "US _Letter"
+msgstr "Letter"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
@@ -1500,16 +1497,15 @@ msgstr "Millimeter"
 
 #: ../data/glade/gthumb_print.glade.h:27
 msgid "P_ortrait"
-msgstr "_Portret"
+msgstr "_Staand"
 
 #: ../data/glade/gthumb_print.glade.h:28
 msgid "Paper Details"
-msgstr "Papier eigenschappen"
+msgstr "Papiereigenschappen"
 
 #: ../data/glade/gthumb_print.glade.h:29
-#, fuzzy
 msgid "Postcard"
-msgstr "4 x 6 (Anzichtkaart)"
+msgstr "(Anzichtkaart)"
 
 #.
 #: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
@@ -1519,35 +1515,31 @@ msgstr "Afdrukken"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Tabloid"
-msgstr ""
+msgstr "Tabloid"
 
 #: ../data/glade/gthumb_print.glade.h:32
-#, fuzzy
 msgid "_Bottom:"
-msgstr "Blad_wijzers:"
+msgstr "_Onder:"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "_Left:"
-msgstr ""
+msgstr "_Links:"
 
 #: ../data/glade/gthumb_print.glade.h:35
-#, fuzzy
 msgid "_Right:"
-msgstr "_Hoogte:"
+msgstr "_Rechts:"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "_Verkleinen/vergroten:"
 
 #: ../data/glade/gthumb_print.glade.h:37
-#, fuzzy
 msgid "_Top:"
-msgstr "_Stoppen"
+msgstr "_Boven:"
 
 #: ../data/glade/gthumb_print.glade.h:38
-#, fuzzy
 msgid "_Unit:"
-msgstr "_Lettertype:"
+msgstr "_Eenheden:"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1611,7 +1603,7 @@ msgid "Search Progress"
 msgstr "Zoekresultaten"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "Searching in:"
 msgstr "Op zoek in:"
 
@@ -1622,7 +1614,7 @@ msgid "_Edit Search"
 msgstr "B_ewerk zoekopdracht"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "_Include sub-folders"
 msgstr "Laat oo_k submappen zien"
 
@@ -1635,16 +1627,25 @@ msgid "_Search"
 msgstr "_Zoeken"
 
 #: ../data/glade/gthumb_tools.glade.h:3
+msgid "<b>Change the following values:</b>"
+msgstr "<b>De volgende waarden wijzigen:</b>"
+
+# in/naar
+#: ../data/glade/gthumb_tools.glade.h:4
+msgid "<b>Change to:</b>"
+msgstr "<b>Wijzigen naar:</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Write to CD</b>"
 msgstr "<b>Op CD branden</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:4
+#: ../data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr ""
 "<small><i><b>Opmerking</b>: Bij transformeren gaat geen "
 "afbeeldingsinformatie verloren.</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:8
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
@@ -1653,74 +1654,78 @@ msgstr ""
 "<small><i><b>Speciale tekens:</b> # (enumerator), %f (originele "
 "bestandsnaam), %d (afbeeldingsdatum), %s (afbeeldingsgrootte).</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_tools.glade.h:9
+msgid "A_djust timezone:"
+msgstr "_Tijdzone aanpassen"
+
+#: ../data/glade/gthumb_tools.glade.h:10
 #: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "Foto-_oriëntatie bijstellen"
 
-#: ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "Toepassen op _alle afbeeldingen"
 
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "_Huidige datum"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:13
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "Ca_talogus"
 
-#: ../data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "Change Date"
 msgstr "Datum aanpassen"
 
-#: ../data/glade/gthumb_tools.glade.h:12
-msgid "Change the last modified date to:"
-msgstr "Datum laatste wijziging bijwerken tot:"
-
-#: ../data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "_Alles selecteren"
 
-#: ../data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "_Niets selecteren"
 
-#: ../data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "Afbeelding aan het controleren:"
 
-#: ../data/glade/gthumb_tools.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Co_mment date"
+msgstr "_Datum commentaar"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Current _Folder"
 msgstr "Huidige _map"
 
-#: ../data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Equal images:"
 msgstr "Gelijke bestanden:"
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Find Duplicates"
 msgstr "Dubbels zoeken"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Found duplicates:"
 msgstr "Dubbels gevonden:"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:23
 msgid "Image c_reation date"
 msgstr "Aa_nmaakdatum afbeelding"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Mirror image horizontally (left-right)"
 msgstr "Afbeelding horizontaal spiegelen (links-rechts)"
 
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Afbeelding verticaal spiegelen (boven-onder)"
 
-#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:26
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:218
@@ -1728,72 +1733,82 @@ msgstr "Afbeelding verticaal spiegelen (boven-onder)"
 msgid "Move to _Trash"
 msgstr "Naar _prullenbak verplaatsen"
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "New names _preview:"
 msgstr "Voor_proefje nieuwe namen:"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "_Datum digitaliseren foto (uit EXIF-data)"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Re_verse Order"
 msgstr "Omgekeerde _volgorde"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Rename Series"
 msgstr "Reeks hernoemen"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Rotate Images"
 msgstr "Afbeeldingen transformeren"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Afbeelding 90 graden kloksgewijs draaien"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Afbeelding 90 graden tegen de klok in draaien"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Search terminated, no duplicates found."
 msgstr "Zoeken voltooid, geen dubbels gevonden."
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "The _following date:"
 msgstr "_Volgende datum:"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Write To CD"
 msgstr "Op CD branden"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+# datum kan hier weggelaten worden
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "_Last modified date"
+msgstr "_Laatst gewijzigd"
+
+#: ../data/glade/gthumb_tools.glade.h:41
 #: ../src/gth-browser-actions-callbacks.c:156
-#: ../src/gth-browser-actions-callbacks.c:557
-#: ../src/gth-browser-actions-callbacks.c:1066
+#: ../src/gth-browser-actions-callbacks.c:555
+#: ../src/gth-browser-actions-callbacks.c:1064
 msgid "_Rename"
 msgstr "_Hernoemen"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "_Selected Images"
 msgstr "_Geselecteerde afbeeldingen"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "_Sort:"
 msgstr "_Sorteren:"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid "by Modification date"
 msgstr "op datum wijziging"
 
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "by Name"
 msgstr "op naam"
 
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "by Size"
 msgstr "op grootte"
+
+# meervoud is hier ook uur< (bv 5 uur)
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "hours"
+msgstr "uur"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 768"
@@ -2087,31 +2102,31 @@ msgstr "Kan catalogus \"%s\" niet openen : %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan catalogus \"%s\" niet opslaan : %s"
 
-#: ../libgthumb/comments.c:429
+#: ../libgthumb/comments.c:768
 msgid "Deleting all comments, wait please..."
 msgstr "Alle commentaren worden verwijderd, een ogenblik alstublieft..."
 
-#: ../libgthumb/comments.c:431
+#: ../libgthumb/comments.c:770
 msgid "Deleting old comments, wait please..."
 msgstr "Oude commentaren worden verwijderd, een ogenblik alstublieft..."
 
-#: ../libgthumb/comments.c:942
+#: ../libgthumb/comments.c:1344
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:944 ../src/catalog-web-exporter.c:52
+#: ../libgthumb/comments.c:1346 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:488 ../src/gth-exif-data-viewer.c:471
-#: ../src/gth-fullscreen.c:666 ../src/gth-viewer.c:544
+#: ../src/gth-browser.c:499 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:689 ../src/gth-viewer.c:557
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:954 ../libgthumb/comments.c:956
+#: ../libgthumb/comments.c:1356 ../libgthumb/comments.c:1358
 msgid "(No Comment)"
 msgstr "(Geen commentaar)"
 
 #: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:791 ../src/dlg-photo-importer.c:1456
+#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2226,19 +2241,19 @@ msgstr "Afmetingen tonen in lettertype-infomodus"
 msgid "Font"
 msgstr "Lettertype"
 
-#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8397
-#: ../src/gth-viewer.c:2025
+#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8535
+#: ../src/gth-viewer.c:2110
 msgid "Wait please..."
 msgstr "Even wachten graag..."
 
 #: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
-#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:717
-#: ../src/gth-viewer.c:688
+#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:778
+#: ../src/gth-viewer.c:738
 msgid "No image"
 msgstr "Geen afbeelding"
 
 #: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:601 ../src/gth-exif-data-viewer.c:482
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:492
 msgid "Name"
 msgstr "Naam"
 
@@ -2264,9 +2279,9 @@ msgstr "Alle voorbeelden aan het verwijderen, een ogenblik alstublieft..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Oude voorbeelden worden verwijderd, een ogenblik alstublieft..."
 
-#: ../src/bookmark-list.c:173 ../src/gth-browser.c:639
-#: ../src/gth-browser.c:1293 ../src/gth-browser.c:1299
-#: ../src/gth-browser.c:1305
+#: ../src/bookmark-list.c:173 ../src/gth-browser.c:700
+#: ../src/gth-browser.c:1358 ../src/gth-browser.c:1364
+#: ../src/gth-browser.c:1370
 msgid "(Invalid Name)"
 msgstr "(Ongeldige naam)"
 
@@ -2301,17 +2316,17 @@ msgstr "Kon geen tijdelijke map aanmaken"
 msgid "Loading images"
 msgstr "Afbeelding wordt geladen"
 
-#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:772
+#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:770
 msgid "Enter the catalog name: "
 msgstr "Catalogusnaam ingeven: "
 
 #: ../src/dlg-catalog.c:87 ../src/dlg-catalog.c:138
 #: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
-#: ../src/gth-browser-actions-callbacks.c:858
+#: ../src/gth-browser-actions-callbacks.c:856
 msgid "C_reate"
 msgstr "Aan_maken"
 
-#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:914
+#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:912
 msgid "Enter the library name: "
 msgstr "Geef de naam van de bibliotheek: "
 
@@ -2337,9 +2352,9 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "De categorie \"%s\" bestaat al. Gebruik graag een andere naam."
 
-#: ../src/dlg-categories.c:369 ../src/dlg-change-date.c:158
-#: ../src/dlg-comment.c:306 ../src/dlg-convert.c:437
-#: ../src/dlg-jpegtran.c:1052 ../src/dlg-preferences.c:180
+#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:437
+#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
 #: ../src/dlg-rename-series.c:327 ../src/dlg-search.c:468
 #: ../src/gth-window-actions-callbacks.c:820
 #, c-format
@@ -2385,7 +2400,7 @@ msgstr "Grootte dubbels"
 msgid "Last modified"
 msgstr "Laatst gewijzigd"
 
-#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:621
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:622
 msgid "Location"
 msgstr "Locatie"
 
@@ -2416,17 +2431,17 @@ msgstr ""
 " De afbeeldingen kunnen niet naar de Prullenbak. Wilt u ze definitief  "
 "verwijderen?"
 
-#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1223
-#: ../src/gth-browser.c:1770 ../src/gth-viewer.c:800
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1221
+#: ../src/gth-browser.c:1876 ../src/gth-viewer.c:891
 msgid "_Do not display this message again"
 msgstr "_Deze boodschap niet meer weergeven"
 
-#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1261
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1259
 msgid "_Move"
 msgstr "_Verplaatsen"
 
 #: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1470
+#: ../src/gth-browser-actions-callbacks.c:1468
 msgid "Choose the destination folder"
 msgstr "Selecteer doelmap"
 
@@ -2490,29 +2505,29 @@ msgid "Moving file %ld of %ld"
 msgstr "Bestand %ld van %ld wordt verplaatst"
 
 #: ../src/dlg-file-utils.c:2447 ../src/dlg-file-utils.c:2449
-#: ../src/gth-browser-actions-callbacks.c:1362
+#: ../src/gth-browser-actions-callbacks.c:1360
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verplaatsen : %s"
 
-#: ../src/dlg-image-prop.c:606 ../src/gth-exif-data-viewer.c:489
+#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:499
 msgid "Size"
 msgstr "Grootte"
 
-#: ../src/dlg-image-prop.c:611
+#: ../src/dlg-image-prop.c:612
 msgid "Type"
 msgstr "Type"
 
-#: ../src/dlg-image-prop.c:626 ../src/gth-browser.c:504
-#: ../src/gth-exif-data-viewer.c:503 ../src/gth-viewer.c:560
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:515
+#: ../src/gth-exif-data-viewer.c:513 ../src/gth-viewer.c:573
 msgid "Modified"
 msgstr "Laatst gewijzigd"
 
-#: ../src/dlg-image-prop.c:631
+#: ../src/dlg-image-prop.c:632
 msgid "Information on Channel"
 msgstr "Informatie over kanaal"
 
-#: ../src/dlg-image-prop.c:746
+#: ../src/dlg-image-prop.c:747
 #, c-format
 msgid "%s Properties"
 msgstr "%s Eigenschappen"
@@ -2523,12 +2538,12 @@ msgstr "%s Eigenschappen"
 msgid "Could not import photos"
 msgstr "Kon de foto's niet importeren"
 
-#: ../src/dlg-photo-importer.c:1224 ../src/main.c:953
+#: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
 msgid "Film"
 msgstr "_Rolletje"
 
 #: ../src/dlg-photo-importer.c:1439
-#: ../src/gth-browser-actions-callbacks.c:1673
+#: ../src/gth-browser-actions-callbacks.c:1671
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet aanmaken : %s"
@@ -2569,21 +2584,21 @@ msgstr "Map"
 msgid "Select Album Theme"
 msgstr "Selecteer een album-thema"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3593
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3682
 msgid "Could not move the items:"
 msgstr "Kon items niet verplaatsen:"
 
 #: ../src/gth-browser-actions-callbacks.c:152
-#: ../src/gth-browser-actions-callbacks.c:553
-#: ../src/gth-browser-actions-callbacks.c:1062
+#: ../src/gth-browser-actions-callbacks.c:551
+#: ../src/gth-browser-actions-callbacks.c:1060
 msgid "Enter the new name: "
 msgstr "Graag de nieuwe naam: "
 
 #: ../src/gth-browser-actions-callbacks.c:170
-#: ../src/gth-browser-actions-callbacks.c:573
-#: ../src/gth-browser-actions-callbacks.c:788
-#: ../src/gth-browser-actions-callbacks.c:871
-#: ../src/gth-browser-actions-callbacks.c:1080
+#: ../src/gth-browser-actions-callbacks.c:571
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:869
+#: ../src/gth-browser-actions-callbacks.c:1078
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2599,90 +2614,90 @@ msgid "Could not rename the image \"%s\": %s"
 msgstr "Kon de afbeelding \"%s\" niet hernoemen : %s"
 
 #: ../src/gth-browser-actions-callbacks.c:219
-#: ../src/gth-browser-actions-callbacks.c:1102
-#: ../src/gth-browser-actions-callbacks.c:1372
+#: ../src/gth-browser-actions-callbacks.c:1100
+#: ../src/gth-browser-actions-callbacks.c:1370
 msgid "source and destination are the same"
 msgstr "bron en doel zijn gelijk"
 
-#: ../src/gth-browser-actions-callbacks.c:276 ../src/gth-fullscreen.c:903
+#: ../src/gth-browser-actions-callbacks.c:276 ../src/gth-fullscreen.c:926
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "De afbeelding zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: ../src/gth-browser-actions-callbacks.c:392
+#: ../src/gth-browser-actions-callbacks.c:390
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Kon de afbeelding \"%s\" niet kopiëren : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:400
+#: ../src/gth-browser-actions-callbacks.c:398
 msgid "Stop"
 msgstr "Stoppen"
 
-#: ../src/gth-browser-actions-callbacks.c:401
+#: ../src/gth-browser-actions-callbacks.c:399
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: ../src/gth-browser-actions-callbacks.c:456
+#: ../src/gth-browser-actions-callbacks.c:454
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde afbeeldingen zullen naar de Prullenbak verhuizen. Weet u "
 "het zeker ?"
 
-#: ../src/gth-browser-actions-callbacks.c:595
-#: ../src/gth-browser-actions-callbacks.c:807
-#: ../src/gth-browser-actions-callbacks.c:887
-#: ../src/gth-browser-actions-callbacks.c:1110
+#: ../src/gth-browser-actions-callbacks.c:593
+#: ../src/gth-browser-actions-callbacks.c:805
+#: ../src/gth-browser-actions-callbacks.c:885
+#: ../src/gth-browser-actions-callbacks.c:1108
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "De naam \"%s\" wordt al gebruikt. Kies alstublieft een andere naam."
 
-#: ../src/gth-browser-actions-callbacks.c:606
+#: ../src/gth-browser-actions-callbacks.c:604
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet hernoemen : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:606
+#: ../src/gth-browser-actions-callbacks.c:604
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet hernoemen : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:676
+#: ../src/gth-browser-actions-callbacks.c:674
 msgid "The selected library will be removed, are you sure?"
 msgstr "De geselecteerde bibliotheek zal worden verwijderd. Weet u het zeker ?"
 
-#: ../src/gth-browser-actions-callbacks.c:678
+#: ../src/gth-browser-actions-callbacks.c:676
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Zo verwijdert u de geselecteerde catalogus. Weet u het zeker ?"
 
-#: ../src/gth-browser-actions-callbacks.c:773
+#: ../src/gth-browser-actions-callbacks.c:771
 msgid "New Catalog"
 msgstr "Nieuwe catalogus"
 
-#: ../src/gth-browser-actions-callbacks.c:819
+#: ../src/gth-browser-actions-callbacks.c:817
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Kon catalogus \"%s\" niet aanmaken : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:913
+#: ../src/gth-browser-actions-callbacks.c:911
 msgid "New Library"
 msgstr "Nieuwe bibliotheek"
 
-#: ../src/gth-browser-actions-callbacks.c:915
+#: ../src/gth-browser-actions-callbacks.c:913
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Kon bibliotheek \"%s\" niet aanmaken : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1100
-#: ../src/gth-browser-actions-callbacks.c:1134
+#: ../src/gth-browser-actions-callbacks.c:1098
+#: ../src/gth-browser-actions-callbacks.c:1132
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet hernoemen : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1184
+#: ../src/gth-browser-actions-callbacks.c:1182
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet verwijderen : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1215
+#: ../src/gth-browser-actions-callbacks.c:1213
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
@@ -2690,30 +2705,30 @@ msgstr ""
 "Kan \"%s\" niet naar de Prullenbak verplaatsen. Wil u het definitief "
 "verwijderen?"
 
-#: ../src/gth-browser-actions-callbacks.c:1259
+#: ../src/gth-browser-actions-callbacks.c:1257
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr ""
 "De geselecteerde map zal naar de Prullenbak verhuizen. Weet u het zeker ?"
 
-#: ../src/gth-browser-actions-callbacks.c:1307
-#: ../src/gth-browser-actions-callbacks.c:1362
+#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1360
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Kon map \"%s\" niet kopieren : %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1383
+#: ../src/gth-browser-actions-callbacks.c:1381
 msgid "source contains destination"
 msgstr "bron bevat doel"
 
-#: ../src/gth-browser-actions-callbacks.c:1394
+#: ../src/gth-browser-actions-callbacks.c:1392
 msgid "a folder with that name is already present."
 msgstr "er is al een map met die naam."
 
-#: ../src/gth-browser-actions-callbacks.c:1671
+#: ../src/gth-browser-actions-callbacks.c:1669
 msgid "New Folder"
 msgstr "Nieuwe map"
 
-#: ../src/gth-browser-actions-callbacks.c:1672
+#: ../src/gth-browser-actions-callbacks.c:1670
 msgid "Enter the folder name: "
 msgstr "Geef de mapnaam : "
 
@@ -2779,9 +2794,8 @@ msgid "Create a new window"
 msgstr "Een nieuw venster maken"
 
 #: ../src/gth-browser-actions-entries.h:59
-#, fuzzy
-msgid "Open the selecte image in a new window"
-msgstr "Geselecteerde map in een nieuw venster openen"
+msgid "Open the selected image in a new window"
+msgstr "De geselecteerde afbeelding in een nieuw venster openen"
 
 #: ../src/gth-browser-actions-entries.h:63
 msgid "Proper_ties"
@@ -3042,7 +3056,7 @@ msgid "Create a new folder"
 msgstr "Nieuwe map aanmaken"
 
 #. next image
-#: ../src/gth-browser-actions-entries.h:273 ../src/gth-fullscreen.c:1430
+#: ../src/gth-browser-actions-entries.h:273 ../src/gth-fullscreen.c:1475
 msgid "Next"
 msgstr "Volgende"
 
@@ -3051,7 +3065,7 @@ msgid "View next image"
 msgstr "Volgende afbeelding weergeven"
 
 #. previous image
-#: ../src/gth-browser-actions-entries.h:278 ../src/gth-fullscreen.c:1421
+#: ../src/gth-browser-actions-entries.h:278 ../src/gth-fullscreen.c:1466
 msgid "Previous"
 msgstr "Vorige"
 
@@ -3059,7 +3073,7 @@ msgstr "Vorige"
 msgid "View previous image"
 msgstr "Vorige afbeelding weergeven"
 
-#: ../src/gth-browser-actions-entries.h:284 ../src/gth-browser.c:4955
+#: ../src/gth-browser-actions-entries.h:284 ../src/gth-browser.c:5046
 msgid "Go to the previous visited location"
 msgstr "Naar vorige bezochte locatie gaan"
 
@@ -3260,58 +3274,58 @@ msgstr "_Catalogi"
 msgid "View the catalogs"
 msgstr "De catalogi weergeven"
 
-#: ../src/gth-browser.c:539 ../src/gth-viewer.c:595
+#: ../src/gth-browser.c:565 ../src/gth-viewer.c:618
 msgid "[Press 'c' to add a comment]"
 msgstr "[Tik 'c' om commentaar toe te voegen]"
 
-#: ../src/gth-browser.c:613 ../src/gth-browser.c:632 ../src/gth-viewer.c:664
-#: ../src/gth-viewer.c:685
+#: ../src/gth-browser.c:674 ../src/gth-browser.c:693 ../src/gth-viewer.c:714
+#: ../src/gth-viewer.c:735
 msgid "[modified]"
 msgstr "[gewijzigd]"
 
-#: ../src/gth-browser.c:657 ../src/gth-window-actions-callbacks.c:780
-#: ../src/main.c:671
+#: ../src/gth-browser.c:718 ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:672
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:719
+#: ../src/gth-browser.c:780
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 afbeelding (%s)"
 
-#: ../src/gth-browser.c:722
+#: ../src/gth-browser.c:783
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d afbeeldingen (%s)"
 
-#: ../src/gth-browser.c:729
+#: ../src/gth-browser.c:790
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 geselecteerd (%s)"
 
-#: ../src/gth-browser.c:732
+#: ../src/gth-browser.c:793
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d geselecteerd (%s)"
 
-#: ../src/gth-browser.c:1767 ../src/gth-viewer.c:797
+#: ../src/gth-browser.c:1873 ../src/gth-viewer.c:888
 msgid "The current image has been modified, do you want to save it?"
 msgstr "De huidige afbeelding is veranderd, wilt u hem opslaan?"
 
-#: ../src/gth-browser.c:1768 ../src/gth-viewer.c:798
+#: ../src/gth-browser.c:1874 ../src/gth-viewer.c:889
 msgid "Do Not Save"
 msgstr "Niet opslaan"
 
-#: ../src/gth-browser.c:3384
+#: ../src/gth-browser.c:3473
 msgid "Dragged Images"
 msgstr "Gesleepte afbeeldingen"
 
-#: ../src/gth-browser.c:4954
+#: ../src/gth-browser.c:5045
 msgid "Back"
 msgstr "Terug"
 
-#: ../src/gth-browser.c:4984 ../src/gth-browser.c:4985
-#: ../src/gth-viewer.c:1328 ../src/gth-viewer.c:1329
+#: ../src/gth-browser.c:5075 ../src/gth-browser.c:5076
+#: ../src/gth-viewer.c:1406 ../src/gth-viewer.c:1407
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
 #: ../src/gth-window-actions-entries.h:266
@@ -3319,36 +3333,36 @@ msgstr "Terug"
 msgid "Rotate images without loss of quality"
 msgstr "Afbeeldingen draaien zonder kwaliteitsverlies"
 
-#: ../src/gth-browser.c:6360
+#: ../src/gth-browser.c:6484
 msgid "Close"
 msgstr "Sluiten"
 
-#: ../src/gth-browser.c:6374 ../src/gth-viewer.c:1595
+#: ../src/gth-browser.c:6498 ../src/gth-viewer.c:1673
 msgid "Image comment"
 msgstr "Afbeeldingcommentaar"
 
-#: ../src/gth-browser.c:6388
+#: ../src/gth-browser.c:6512
 msgid "Image data"
 msgstr "Afbeeldingsgegevens"
 
-#: ../src/gth-browser.c:6402
+#: ../src/gth-browser.c:6526
 msgid "Image preview"
 msgstr "Afbeeld_ingsvoorbeeld"
 
-#: ../src/gth-browser.c:7462
+#: ../src/gth-browser.c:7588
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan map \"%s\" niet laden: %s\n"
 
-#: ../src/gth-browser.c:7732
+#: ../src/gth-browser.c:7858
 msgid "The specified catalog does not exist."
 msgstr "De opgegeven catalogus bestaat niet."
 
-#: ../src/gth-exif-data-viewer.c:131
+#: ../src/gth-exif-data-viewer.c:132
 msgid "Field"
 msgstr "Veld"
 
-#: ../src/gth-exif-data-viewer.c:141
+#: ../src/gth-exif-data-viewer.c:142
 msgid "Value "
 msgstr "Waarde "
 
@@ -3361,40 +3375,38 @@ msgid "_Recents:"
 msgstr "_Recente:"
 
 #. restore normal view
-#: ../src/gth-fullscreen.c:1412 ../src/gth-window-actions-entries.h:220
+#: ../src/gth-fullscreen.c:1457 ../src/gth-window-actions-entries.h:220
 msgid "Restore Normal View"
 msgstr "Diavoorstelling verlaten"
 
 #. image comment
-#: ../src/gth-fullscreen.c:1439
+#: ../src/gth-fullscreen.c:1484
 msgid "Image Info"
 msgstr "Afbeeldingsinformatie"
 
 #. pause slideshow
-#: ../src/gth-fullscreen.c:1449
-#, fuzzy
+#: ../src/gth-fullscreen.c:1494
 msgid "Pause"
-msgstr "Pagina"
+msgstr "Pauzeren"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
-msgstr "_Transformeer"
+msgstr "_Transformeren"
 
 #: ../src/gth-viewer-actions-entries.h:42
 #: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
-msgstr "_Automatisch"
+msgstr "Automatisch"
 
 #: ../src/gth-viewer-actions-entries.h:53
-#, fuzzy
 msgid "Open _Folder"
-msgstr "Huidige _map"
+msgstr "_Map openen"
 
+# verkennen/doorbladeren
 #: ../src/gth-viewer-actions-entries.h:54
-#, fuzzy
 msgid "Browse the image folder"
-msgstr "Ga naar de _afbeeldingenmap"
+msgstr "De afbeeldingenmap doorbladeren"
 
 #: ../src/gth-window-actions-callbacks.c:770
 msgid "translator_credits"
@@ -3410,9 +3422,8 @@ msgid "An image viewer and browser for GNOME."
 msgstr "Afbeeldingenbeheer voor GNOME."
 
 #: ../src/gth-window-actions-entries.h:37
-#, fuzzy
 msgid "Reduce Colors"
-msgstr "_Reduceer kleuren"
+msgstr "Kleuren reduceren"
 
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
@@ -3575,11 +3586,11 @@ msgstr "Krimp afbeelding"
 
 #: ../src/gth-window-actions-entries.h:180
 msgid "Black and White"
-msgstr ""
+msgstr "Zwart-wit"
 
 #: ../src/gth-window-actions-entries.h:185
 msgid "Web Palette"
-msgstr ""
+msgstr "Web-kleuren"
 
 #: ../src/gth-window-actions-entries.h:190
 #: ../src/gth-window-actions-entries.h:292
@@ -3704,69 +3715,72 @@ msgstr "_Lage kwaliteit"
 msgid "Use low quality zoom"
 msgstr "Gebruik lage kwaliteit zoom"
 
-#: ../src/main.c:74
+#: ../src/main.c:75
 msgid "Start in fullscreen mode"
 msgstr "Starten in volledig scherm-modus"
 
-#: ../src/main.c:77
+#: ../src/main.c:78
 msgid "Automatically start a slideshow"
 msgstr "Automatisch een diavoorstelling starten"
 
-#: ../src/main.c:80
+#: ../src/main.c:81
 msgid "Automatically import digital camera photos"
 msgstr "Automatisch het fotos van de digitale camera importeren"
 
-#: ../src/main.c:103
+#: ../src/main.c:104
 msgid "Holidays"
 msgstr "Vakantie"
 
-#: ../src/main.c:104
+#: ../src/main.c:105
 msgid "Temporary"
 msgstr "Tijdelijk"
 
-#: ../src/main.c:105
+#: ../src/main.c:106
 msgid "Screenshots"
 msgstr "Schermafdrukken"
 
-#: ../src/main.c:106
+#: ../src/main.c:107
 msgid "Science"
 msgstr "Wetenschap"
 
-#: ../src/main.c:107
+#: ../src/main.c:108
 msgid "Favourite"
 msgstr "Favorieten"
 
-#: ../src/main.c:108
+#: ../src/main.c:109
 msgid "Important"
 msgstr "Belangrijk"
 
-#: ../src/main.c:109
+#: ../src/main.c:110
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:110
+#: ../src/main.c:111
 msgid "Games"
 msgstr "Spelletjes"
 
-#: ../src/main.c:111
+#: ../src/main.c:112
 msgid "Party"
 msgstr "Feest"
 
-#: ../src/main.c:112
+#: ../src/main.c:113
 msgid "Birthday"
 msgstr "Verjaardag"
 
-#: ../src/main.c:113
+#: ../src/main.c:114
 msgid "Astronomy"
 msgstr "Sterrenkunde"
 
-#: ../src/main.c:114
+#: ../src/main.c:115
 msgid "Family"
 msgstr "Familie"
 
-#: ../src/main.c:436 ../src/main.c:601
+#: ../src/main.c:437 ../src/main.c:602
 msgid "Command Line"
 msgstr "Opdrachtregel"
+
+#~ msgid "Change the last modified date to:"
+#~ msgstr "Datum laatste wijziging bijwerken tot:"
 
 #~ msgid "_Remove"
 #~ msgstr "_Verwijderen"
