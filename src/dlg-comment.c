@@ -520,7 +520,7 @@ dlg_comment_update (GtkWidget *dlg)
 #else
 	{
 		char *first_image = data->file_list->data;
-		data->have_exif_data = have_exif_data (first_image);
+		data->have_exif_data = have_exif_time (first_image);
 	}
 #endif
 	

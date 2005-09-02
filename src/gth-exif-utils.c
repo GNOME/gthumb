@@ -238,18 +238,9 @@ get_exif_aperture_value (const char *filename)
 
 
 gboolean 
-have_exif_data (const char *filename)
+have_exif_time (const char *filename)
 {
-	ExifData *edata;
-	gboolean  result;
-
-	edata = exif_data_new_from_file (filename);
-	result = (edata != NULL) && (edata->size != 0);
-	
-	if (edata != NULL) 
-		exif_data_unref (edata);
-
-	return result;
+	return get_exif_time (filename) != (time_t)0;
 }
 
 

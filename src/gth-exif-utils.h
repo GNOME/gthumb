@@ -57,7 +57,7 @@ time_t      get_exif_time           (const char *filename);
 
 char *      get_exif_aperture_value (const char *filename);
 
-gboolean    have_exif_data          (const char *filename);
+gboolean    have_exif_time          (const char *filename);
 
 const char *get_exif_entry_value    (ExifEntry  *entry);
 

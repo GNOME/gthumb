@@ -1,3 +1,12 @@
+2005-09-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-utils.h: 
+	* src/gth-exif-utils.c (have_exif_time): 
+	* src/dlg-comment.c (dlg_comment_update): 
+
+	Fixed bug #315003: Unable to set Date value in Comment dialog for 
+	JFIF 1.01 images.
+
 2005-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/comments.h: 
