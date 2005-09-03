@@ -5,13 +5,13 @@
 # Copyright (C) 2003 THE gthumb'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the gthumb package.
 # Mikel Olasagasti <hey_neken@mundurat.net>, 2003.
-# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2004.
+# Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-13 22:53+0100\n"
+"POT-Creation-Date: 2005-09-03 11:07+0200\n"
 "PO-Revision-Date: 2004-12-08 16:12+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
@@ -20,885 +20,900 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
 msgstr "Katalogoa"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
 msgstr "GThumb katalogoaren ikuspegia"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
 msgstr "Ikusi katalogo gisa"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7 src/ui.h:79
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: ../src/gth-window-actions-entries.h:66
 msgid "Print the current image"
 msgstr "Inprimatu uneko irudia"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 msgid "_Print"
 msgstr "_Inprimatu"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
 msgstr "GThumb irudia"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
 msgstr "GThumb ikustailea"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
 msgstr "Ikusi GThumb-ekin"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
 msgstr "Irauli"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
 msgstr "Irauli irudia"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
 msgstr "Handia"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
 msgid "Low"
 msgstr "Baxua"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
 msgstr "Ispilu efektua"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
 msgstr "Ispilu efektua irudian"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 msgid "Rotate"
 msgstr "Biratu"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 msgid "Rotate 180 _Degrees"
 msgstr "Biratu 180 g_radu"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate the image clockwise"
 msgstr "Biratu irudia erlojuaren orratzen norabidean"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image of 180 degrees"
 msgstr "Biratu irudia 180 gradu"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 src/ui.h:68
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Save _As..."
 msgstr "Gorde _honela..."
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 src/ui.h:69
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
 msgstr "Gorde uneko irudia"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14 src/ui.h:623
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: ../src/gth-window-actions-entries.h:302
 msgid "Start or stop current animation"
 msgstr "Hasi edo gelditu uneko animazioa"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 msgid "Start/Stop _Animation"
 msgstr "Hasi/gelditu _animazioa"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Transparency T_ype"
 msgstr "Gardentasun m_ota"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17 src/ui.h:439
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../src/gth-window-actions-entries.h:211
 msgid "View next animation frame"
 msgstr "Ikusi animazioaren hurrengo markoa"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 msgid "_Black"
 msgstr "_Beltza"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "_Checked"
 msgstr "_Egiaztatua"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 src/ui.h:328
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../src/gth-window-actions-entries.h:110
 msgid "_Flip"
 msgstr "_Irauli"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 src/ui.h:44
-#: src/ui.h:681
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:435
+#: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Irudia"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22 src/ui.h:333
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: ../src/gth-window-actions-entries.h:115
 msgid "_Mirror"
 msgstr "_Ispilu efektua"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 msgid "_None"
 msgstr "_Bat ere ez"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_Rotate Clockwise"
 msgstr "_Biratu ordulariaren zentzuan"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
 msgid "_Step Animation"
 msgstr "Animazioa p_ausoka"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:54
-#: src/ui.h:39
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:46
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
 msgstr "_Ikusi"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_White"
 msgstr "_Zuria"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 msgid "_Zoom Quality"
 msgstr "_Zoomaren kalitatea"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
+#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
 msgid "%d %b %Y, %H:%M"
 msgstr "%Y %b %d, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:214
-#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:261
+#: ../components/image-viewer/viewer-stream.c:99
+#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
+#: ../src/gth-browser.c:503 ../src/gth-exif-data-viewer.c:477
+#: ../src/gth-fullscreen.c:678 ../src/gth-viewer.c:561
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixel"
 
-#: data/albumthemes/text.h:27 src/dlg-duplicates.c:264
+#: ../data/GNOME_GThumb.server.in.in.h:1
+msgid "GThumb Application"
+msgstr "GThumb aplikazioa"
+
+#: ../data/GNOME_GThumb.server.in.in.h:2
+msgid "GThumb Application Factory"
+msgstr "GThumb aplikazioaren faktoria"
+
+#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "Irudia"
 
-#: data/albumthemes/text.h:28
+#: ../data/albumthemes/text.h:28
 msgid "Dimensions"
 msgstr "Dimentsioak"
 
-#: data/albumthemes/text.h:29 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:484
+#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:506
 msgid "Bytes"
 msgstr "Byte"
 
-#: data/albumthemes/text.h:30
+#: ../data/albumthemes/text.h:30
 msgid "Date"
 msgstr "Data"
 
-#: data/albumthemes/text.h:31
+#: ../data/albumthemes/text.h:31
 msgid "Exposure time"
 msgstr "Esposizio denbora"
 
-#: data/albumthemes/text.h:32
+#: ../data/albumthemes/text.h:32
 msgid "Exposure mode"
 msgstr "Esposizio mota"
 
-#: data/albumthemes/text.h:33
+#: ../data/albumthemes/text.h:33
 msgid "Flash"
 msgstr "Flash"
 
-#: data/albumthemes/text.h:34
+#: ../data/albumthemes/text.h:34
 msgid "Shutter speed"
 msgstr "Obturadore-abiadura"
 
-#: data/albumthemes/text.h:35
+#: ../data/albumthemes/text.h:35
 msgid "Aperture value"
 msgstr "Irekidura-balioa"
 
-#: data/albumthemes/text.h:36
+#: ../data/albumthemes/text.h:36
 msgid "Focal length"
 msgstr "Fokuaren luzeera"
 
-#: data/albumthemes/text.h:37
+#: ../data/albumthemes/text.h:37
 msgid "Camera model"
 msgstr "Kamara modeloa"
 
-#: data/albumthemes/text.h:38 data/glade/gthumb_edit.glade.h:33
+#: ../data/albumthemes/text.h:38 ../data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "pixel"
 
-#: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
-#: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
-#: data/glade/gthumb_png_exporter.glade.h:1
-#: data/glade/gthumb_preferences.glade.h:1 data/glade/gthumb_print.glade.h:1
-#: data/glade/gthumb_tools.glade.h:1 data/glade/gthumb_web_exporter.glade.h:1
+#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:1 ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_png_exporter.glade.h:1
+#: ../data/glade/gthumb_preferences.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: data/glade/gthumb.glade.h:2 data/glade/gthumb_comments.glade.h:1
-#: data/glade/gthumb_convert.glade.h:2
-#: data/glade/gthumb_png_exporter.glade.h:3
-#: data/glade/gthumb_preferences.glade.h:3 data/glade/gthumb_search.glade.h:1
-#: data/glade/gthumb_tools.glade.h:3 data/glade/gthumb_web_exporter.glade.h:3
-msgid "*"
-msgstr "*"
-
-#: data/glade/gthumb.glade.h:3
+#: ../data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
 msgstr "<b>Kategoriak:</b>"
 
-#: data/glade/gthumb.glade.h:4
+#: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>Kanalari buruzko informazioa:</b>"
 
-#: data/glade/gthumb.glade.h:5
+#: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Gainidatzi irudi zaharra berriarekin?</b>"
 
-#: data/glade/gthumb.glade.h:6
+#: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
 msgstr "Aplikazio e_skuragarriak:"
 
-#: data/glade/gthumb.glade.h:7
+#: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
 msgstr "Gardentasuna"
 
-#: data/glade/gthumb.glade.h:8
+#: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
 msgstr "Urdina"
 
-#: data/glade/gthumb.glade.h:9
+#: ../data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
 msgstr "Laster-markak"
 
-#: data/glade/gthumb.glade.h:10
+#: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
 msgstr "K_atalogoak:"
 
-#: data/glade/gthumb.glade.h:11
+#: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
 msgstr "Aukeratu katalogo bat"
 
-#: data/glade/gthumb.glade.h:12 src/ui.h:158
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:75
 msgid "Comm_ent"
 msgstr "Azalape_na"
 
-#: data/glade/gthumb.glade.h:13
+#: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
 msgstr "Ez gainidatzi irudi _zaharra"
 
-#: data/glade/gthumb.glade.h:14
+#: ../data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "Berdea"
 
-#: data/glade/gthumb.glade.h:15
+#: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
 msgstr "Irudi berria:"
 
-#: data/glade/gthumb.glade.h:16
+#: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
 msgstr "_Liburutegi berria"
 
-#: data/glade/gthumb.glade.h:17
+#: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
 msgstr "Irudi zaharra:"
 
-#: data/glade/gthumb.glade.h:18
+#: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
 msgstr "Ireki irudiak"
 
-#: data/glade/gthumb.glade.h:19
+#: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
 msgstr "Gaini_datzi irudi zaharra"
 
-#: data/glade/gthumb.glade.h:20
+#: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
 msgstr "Gainidatzi irudia"
 
-#: data/glade/gthumb.glade.h:21
+#: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
 msgstr "Gainidatzi irudi g_uztiak"
 
-#: data/glade/gthumb.glade.h:22
+#: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
 msgstr "Argazkiaren datuak (EXIF)"
 
-#: data/glade/gthumb.glade.h:23
+#: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
 msgstr "A_zken aplikazioak:"
 
-#: data/glade/gthumb.glade.h:24
+#: ../data/glade/gthumb.glade.h:23
 msgid "Red"
 msgstr "Gorria"
 
-#: data/glade/gthumb.glade.h:25
+#: ../data/glade/gthumb.glade.h:24
 msgid "Value"
 msgstr "Balioa"
 
-#: data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "_Aplikazioa:"
 
-#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:444
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:454
 msgid "_Bookmarks:"
 msgstr "_Laster-markak:"
 
-#: data/glade/gthumb.glade.h:28
+#: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
 msgstr "_Ez gainidatzi irudirik"
 
-#: data/glade/gthumb.glade.h:29
+#: ../data/glade/gthumb.glade.h:28
 msgid "_General"
 msgstr "_Orokorra"
 
-#: data/glade/gthumb.glade.h:30
+#: ../data/glade/gthumb.glade.h:29
 msgid "_Histogram"
 msgstr "_Histograma"
 
-#: data/glade/gthumb.glade.h:31
+#: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
 msgstr "_Katalogo berria"
 
-#: data/glade/gthumb.glade.h:32
+#: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
 msgstr "_Hurrengoa"
 
-#: data/glade/gthumb.glade.h:33
+#: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
 msgstr "_Aurrekoa"
 
-#: data/glade/gthumb.glade.h:34
-msgid "_Remove"
-msgstr "_Kendu"
-
-#: data/glade/gthumb.glade.h:35
+#: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
 msgstr "_Gorde irudi berria honela:"
 
-#: data/glade/gthumb_camera.glade.h:1 data/glade/gthumb_search.glade.h:2
-#: data/glade/gthumb_web_exporter.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
-#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "Ka_tegoriak:"
 
-#: data/glade/gthumb_camera.glade.h:3
+#: ../data/glade/gthumb_camera.glade.h:3
 msgid "Camera Model"
 msgstr "Kamara modeloa"
 
-#: data/glade/gthumb_camera.glade.h:4
-#: data/glade/gthumb_png_exporter.glade.h:25 src/dlg-web-exporter.c:295
+#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "Choose destination folder"
 msgstr "Aukeratu helburuko karpeta"
 
-#: data/glade/gthumb_camera.glade.h:5
+#: ../data/glade/gthumb_camera.glade.h:5
 msgid "Delete selected images from the camera"
 msgstr "Ezabatu hautatutako irudiak kameratik"
 
-#: data/glade/gthumb_camera.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:6
 msgid "Import Photos"
 msgstr "Inportatu argazkiak"
 
-#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:792
-#: src/dlg-photo-importer.c:828 src/dlg-photo-importer.c:1289
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
+#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1382
 msgid "No camera detected"
 msgstr "Ez da kamerarik detektatu"
 
-#: data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Select a camera model"
 msgstr "Hautatu kamara modeloa"
 
-#: data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:9
 msgid "Update previews"
 msgstr "Eguneratu aurrebistak"
 
-#: data/glade/gthumb_camera.glade.h:10
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "_Auto Detect"
 msgstr "_Autodetektatu"
 
-#: data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "_Delete imported images from the camera"
 msgstr "_Ezabatu kamaratik inportatutako irudiak"
 
-#: data/glade/gthumb_camera.glade.h:12
-#: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr "_Helburua:"
 
-#: data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Film:"
 msgstr "_Filmea:"
 
-#: data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:14
 msgid "_Import"
 msgstr "_Inportatu"
 
-#: data/glade/gthumb_camera.glade.h:15
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Keep original filenames"
 msgstr "_Mantendu jatorrizko fitxategi-izenak"
 
-#: data/glade/gthumb_camera.glade.h:16
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Model:"
 msgstr "_Modeloa:"
 
-#: data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Port:"
 msgstr "_Ataka:"
 
-#: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
+#: ../data/glade/gthumb_comments.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:4
 msgid "A_vailable categories:"
 msgstr "Kategoria e_skuragarriak:"
 
-#: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:9
 msgid "Categories"
 msgstr "Kategoriak"
 
-#: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
+#: ../data/glade/gthumb_comments.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:11
 msgid "Co_mment:"
 msgstr "_Iruzkina:"
 
-#: data/glade/gthumb_comments.glade.h:5 libgthumb/gth-file-view-list.c:1368
+#: ../data/glade/gthumb_comments.glade.h:4
+#: ../libgthumb/gth-file-view-list.c:1371
 msgid "Comment"
 msgstr "Iruzkina"
 
-#: data/glade/gthumb_comments.glade.h:6
+#: ../data/glade/gthumb_comments.glade.h:5
 msgid "Create a new category"
 msgstr "Sortu kategoria berri bat"
 
-#: data/glade/gthumb_comments.glade.h:7
+#: ../data/glade/gthumb_comments.glade.h:6
 msgid "Current date"
 msgstr "Uneko data"
 
-#: data/glade/gthumb_comments.glade.h:8
+#: ../data/glade/gthumb_comments.glade.h:7
 msgid "Do not modify"
 msgstr "Ez aldatu"
 
-#: data/glade/gthumb_comments.glade.h:9
+#: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
 msgstr "Irudiaren sorrera-data"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
 msgstr "Azken aldaketa-data"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: ../data/glade/gthumb_comments.glade.h:10
 msgid "No date"
 msgstr "Datarik gabe"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Argazkiaren digitalizazio data (EXIF datutik)"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
 msgstr "Kendu hautatutako kategoria"
 
-#: data/glade/gthumb_comments.glade.h:14
+#: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
 msgstr "Gorde _aldatutako eremuak soilik"
 
-#: data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
 msgstr "Data hau:"
 
-#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:24
+#: ../data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:23
 msgid "_Date:"
 msgstr "_Data:"
 
-#: data/glade/gthumb_comments.glade.h:17
-msgid "_Delete"
-msgstr "_Ezabatu"
-
-#: data/glade/gthumb_comments.glade.h:18
-msgid "_New"
-msgstr "_Berria"
-
-#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:27
+#: ../data/glade/gthumb_comments.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
 msgstr "_Kokapena:"
 
-#: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_comments.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
 msgstr "_Hautatutako kategoriak:"
 
-#: data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "*"
+msgstr "*"
+
+#: ../data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
 msgstr "<b>Konpresioa</b>"
 
-#: data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_convert.glade.h:4
 msgid "<b>Image type</b>"
 msgstr "<b>Irudi mota</b>"
 
-#: data/glade/gthumb_convert.glade.h:5
+#: ../data/glade/gthumb_convert.glade.h:5
 msgid "<b>Resolution</b>"
 msgstr "<b>Bereizmena</b>"
 
-#: data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_convert.glade.h:6
 msgid "Ask"
 msgstr "Galdetu"
 
-#: data/glade/gthumb_convert.glade.h:7
+#: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
 msgstr "Konpresio maila:"
 
-#: data/glade/gthumb_convert.glade.h:8
+#: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
 msgstr "Bihurtu formatua"
 
-#: data/glade/gthumb_convert.glade.h:9
+#: ../data/glade/gthumb_convert.glade.h:9
 msgid "JPEG Options"
 msgstr "JPEG aukerak"
 
-#: data/glade/gthumb_convert.glade.h:10
+#: ../data/glade/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
 msgstr "No_rmala (hustu)"
 
-#: data/glade/gthumb_convert.glade.h:11
+#: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
 msgstr "Opti_mizatu"
 
-#: data/glade/gthumb_convert.glade.h:12
+#: ../data/glade/gthumb_convert.glade.h:12
 msgid "Overwrite"
 msgstr "Gainidatzi"
 
-#: data/glade/gthumb_convert.glade.h:13
+#: ../data/glade/gthumb_convert.glade.h:13
 msgid "Overwrite mode:"
 msgstr "Gainidazte modua:"
 
-#: data/glade/gthumb_convert.glade.h:14
+#: ../data/glade/gthumb_convert.glade.h:14
 msgid "PNG Options"
 msgstr "PNG aukerak"
 
-#: data/glade/gthumb_convert.glade.h:15
+#: ../data/glade/gthumb_convert.glade.h:15
 msgid "R_emove original"
 msgstr "E_zabatu jatorrizkoa"
 
-#: data/glade/gthumb_convert.glade.h:16
+#: ../data/glade/gthumb_convert.glade.h:16
 msgid "Rename"
 msgstr "Berrizendatu"
 
-#: data/glade/gthumb_convert.glade.h:17 src/dlg-convert.c:313
+#: ../data/glade/gthumb_convert.glade.h:17 ../src/dlg-convert.c:316
 msgid "Skip"
 msgstr "Saltatu"
 
-#: data/glade/gthumb_convert.glade.h:18
+#: ../data/glade/gthumb_convert.glade.h:18
 msgid "TGA Options"
 msgstr "TGA aukerak"
 
-#: data/glade/gthumb_convert.glade.h:19
+#: ../data/glade/gthumb_convert.glade.h:19
 msgid "TIFF Options"
 msgstr "TIFF aukerak"
 
-#: data/glade/gthumb_convert.glade.h:20
+#: ../data/glade/gthumb_convert.glade.h:20
 msgid "T_GA"
 msgstr "T_GA"
 
-#: data/glade/gthumb_convert.glade.h:21
-#: data/glade/gthumb_png_exporter.glade.h:65
+#: ../data/glade/gthumb_convert.glade.h:21
+#: ../data/glade/gthumb_png_exporter.glade.h:65
 msgid "_Horizontal:"
 msgstr "_Horizontala:"
 
-#: data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_convert.glade.h:22
 msgid "_JPEG"
 msgstr "_JPEG"
 
-#: data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_convert.glade.h:23
 msgid "_Loss compression (JPEG)"
 msgstr "_Konpresio galera (JPEG)"
 
-#: data/glade/gthumb_convert.glade.h:24
+#: ../data/glade/gthumb_convert.glade.h:24
 msgid "_No compression"
 msgstr "_Konpresiorik gabe"
 
-#: data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_convert.glade.h:25
 msgid "_PNG"
 msgstr "_PNG"
 
-#: data/glade/gthumb_convert.glade.h:26
+#: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Progressive"
 msgstr "_Piskanaka"
 
-#: data/glade/gthumb_convert.glade.h:27
+#: ../data/glade/gthumb_convert.glade.h:27
 msgid "_Quality:"
 msgstr "_Kalitatea:"
 
-#: data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_convert.glade.h:28
 msgid "_RLE compression"
 msgstr "_RLE konpresioa"
 
-#: data/glade/gthumb_convert.glade.h:29
+#: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Smoothing:"
 msgstr "_Leundu:"
 
-#: data/glade/gthumb_convert.glade.h:30
+#: ../data/glade/gthumb_convert.glade.h:30
 msgid "_TIFF"
 msgstr "_TIFF"
 
-#: data/glade/gthumb_convert.glade.h:31
-#: data/glade/gthumb_png_exporter.glade.h:70
+#: ../data/glade/gthumb_convert.glade.h:31
+#: ../data/glade/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
 msgstr "_Bertikala:"
 
-#: data/glade/gthumb_convert.glade.h:32
+#: ../data/glade/gthumb_convert.glade.h:32
 msgid "dpi"
 msgstr "dpi"
 
-#: data/glade/gthumb_crop.glade.h:2
+#: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 3 (Book, DVD)"
 msgstr "4 x 3 (liburua, DVD)"
 
-#: data/glade/gthumb_crop.glade.h:3
+#: ../data/glade/gthumb_crop.glade.h:3
 msgid "4 x 6 (Postcard)"
 msgstr "4 x 6 (postala)"
 
-#: data/glade/gthumb_crop.glade.h:4
+#: ../data/glade/gthumb_crop.glade.h:4
 msgid "5 x 7"
 msgstr "5 x 7"
 
-#: data/glade/gthumb_crop.glade.h:5
+#: ../data/glade/gthumb_crop.glade.h:5
 msgid "8 x 10"
 msgstr "8 x 10"
 
-#: data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Aspektu-erlazioa</b>"
 
-#: data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:7
 msgid "<b>Selection</b>"
 msgstr "<b>Hautapena</b>"
 
-#: data/glade/gthumb_crop.glade.h:8
+#: ../data/glade/gthumb_crop.glade.h:8
 msgid "Crop"
 msgstr "Moztu"
 
-#: data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:9 ../data/glade/gthumb_print.glade.h:17
 msgid "Custom"
 msgstr "Pertsonalizatua"
 
-#: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "None"
 msgstr "Bat ere ez"
 
-#: data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
 msgstr "Laukia"
 
-#: data/glade/gthumb_crop.glade.h:12 src/ui.h:403
+#: ../data/glade/gthumb_crop.glade.h:12
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Crop"
 msgstr "_Moztu"
 
-#: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
-#: data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "_Height:"
 msgstr "_Altuera:"
 
-#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
-#: data/glade/gthumb_print.glade.h:31
+#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "_Width:"
 msgstr "_Zabalera:"
 
-#: data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_crop.glade.h:15
 msgid "_X:"
 msgstr "_X:"
 
-#: data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_crop.glade.h:16
 msgid "_Y:"
 msgstr "_Y:"
 
-#: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
-#: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
-#: data/glade/gthumb_web_exporter.glade.h:2
+#: ../data/glade/gthumb_edit.glade.h:2
+#: ../data/glade/gthumb_png_exporter.glade.h:2
+#: ../data/glade/gthumb_preferences.glade.h:2
+#: ../data/glade/gthumb_tools.glade.h:2
+#: ../data/glade/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
-#: data/glade/gthumb_edit.glade.h:4 data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: data/glade/gthumb_edit.glade.h:5
+#: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
 msgstr "<b>Kolore mailak</b>"
 
-#: data/glade/gthumb_edit.glade.h:6
+#: ../data/glade/gthumb_edit.glade.h:6
 msgid "<b>New dimensions</b>"
 msgstr "<b>Dimentsio berriak</b>"
 
-#: data/glade/gthumb_edit.glade.h:7
+#: ../data/glade/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
 msgstr "<b>Jatorrizko dimentsioak</b>"
 
-#: data/glade/gthumb_edit.glade.h:8
+#: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
 msgstr "<b>Eskala-ratioa</b>"
 
-#: data/glade/gthumb_edit.glade.h:9
+#: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
 msgstr "Dirdira - Kontrastea"
 
-#: data/glade/gthumb_edit.glade.h:10
+#: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
 msgstr "Kolore oreka"
 
-#: data/glade/gthumb_edit.glade.h:11
+#: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
 msgstr "Kon_trastea:"
 
-#: data/glade/gthumb_edit.glade.h:12
+#: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
 msgstr "Cyan-go_rria:"
 
-#: data/glade/gthumb_edit.glade.h:13
+#: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
 msgstr "Altuera:"
 
-#: data/glade/gthumb_edit.glade.h:14
+#: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
 msgstr "_Kalitate handia"
 
-#: data/glade/gthumb_edit.glade.h:15
+#: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
 msgstr "Ñabardura - saturazioa"
 
-#: data/glade/gthumb_edit.glade.h:16
+#: ../data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
 msgstr "Posterizatu"
 
-#: data/glade/gthumb_edit.glade.h:17
+#: ../data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
 msgstr "Mantendu _argitasuna"
 
-#: data/glade/gthumb_edit.glade.h:18
+#: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
 msgstr "Eskalatu irudia"
 
-#: data/glade/gthumb_edit.glade.h:19
+#: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
 msgstr "Zabalera:"
 
-#: data/glade/gthumb_edit.glade.h:20
+#: ../data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
 msgstr "_Distira:"
 
-#: data/glade/gthumb_edit.glade.h:22
+#: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
 msgstr "_Ñabardura:"
 
-#: data/glade/gthumb_edit.glade.h:23
+#: ../data/glade/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
 msgstr "_Mantendu itxura-ratioa"
 
-#: data/glade/gthumb_edit.glade.h:24
+#: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
 msgstr "_Mailak:"
 
-#: data/glade/gthumb_edit.glade.h:25
+#: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
 msgstr "_Argitasuna:"
 
-#: data/glade/gthumb_edit.glade.h:26
+#: ../data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
 msgstr "_Magenta-berdea:"
 
-#: data/glade/gthumb_edit.glade.h:27
+#: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
 msgstr "_Aurrebista"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:42
 msgid "_Reset"
 msgstr "_Berrasieratu"
 
-#: data/glade/gthumb_edit.glade.h:29
+#: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
 msgstr "_Saturazioa:"
 
-#: data/glade/gthumb_edit.glade.h:30
+#: ../data/glade/gthumb_edit.glade.h:30
 msgid "_Scale"
 msgstr "_Eskala"
 
-#: data/glade/gthumb_edit.glade.h:32
+#: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
 msgstr "_Hori-urdina:"
 
-#: data/glade/gthumb_png_exporter.glade.h:4
+#: ../data/glade/gthumb_png_exporter.glade.h:3
 msgid "112"
 msgstr "112"
 
-#: data/glade/gthumb_png_exporter.glade.h:5
+#: ../data/glade/gthumb_png_exporter.glade.h:4
 msgid "128"
 msgstr "128"
 
-#: data/glade/gthumb_png_exporter.glade.h:6
+#: ../data/glade/gthumb_png_exporter.glade.h:5
 msgid "164"
 msgstr "164"
 
-#: data/glade/gthumb_png_exporter.glade.h:7
+#: ../data/glade/gthumb_png_exporter.glade.h:6
 msgid "200"
 msgstr "200"
 
-#: data/glade/gthumb_png_exporter.glade.h:8
+#: ../data/glade/gthumb_png_exporter.glade.h:7
 msgid "256"
 msgstr "256"
 
-#: data/glade/gthumb_png_exporter.glade.h:9
+#: ../data/glade/gthumb_png_exporter.glade.h:8
 msgid "48"
 msgstr "48"
 
-#: data/glade/gthumb_png_exporter.glade.h:10
+#: ../data/glade/gthumb_png_exporter.glade.h:9
 msgid "64"
 msgstr "64"
 
-#: data/glade/gthumb_png_exporter.glade.h:11
+#: ../data/glade/gthumb_png_exporter.glade.h:10
 msgid "75"
 msgstr "75"
 
-#: data/glade/gthumb_png_exporter.glade.h:12
+#: ../data/glade/gthumb_png_exporter.glade.h:11
 msgid "85"
 msgstr "85"
 
-#: data/glade/gthumb_png_exporter.glade.h:13
+#: ../data/glade/gthumb_png_exporter.glade.h:12
 msgid "95"
 msgstr "95"
 
-#: data/glade/gthumb_png_exporter.glade.h:14
+#: ../data/glade/gthumb_png_exporter.glade.h:13
 msgid "<b>Background style</b>"
 msgstr "<b>Atzeko planoaren estiloa</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:15
+#: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
 msgstr "<b>Epigrafea</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:16
+#: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
 msgstr "<b>Orri-oina</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:17
+#: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
 msgstr "<b>Goiburu eta orri-oina</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:18
+#: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
 msgstr "<b>Goiburua</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:19
+#: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
 msgstr "<b>Indexatu irudiak</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
 msgstr "<b>Orri tamaina</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:21
-#: data/glade/gthumb_web_exporter.glade.h:14
+#: ../data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Saving</b>"
 msgstr "<b>Gordetzen</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:22
+#: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
 msgstr "<small><i><b>Oharra:</b> # (enumeratzailea)</i>.</small>"
 
-#: data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
@@ -907,504 +922,510 @@ msgstr ""
 "<small><i><b>Oharra:</b> %p (orri zenbakia), %n (orri guztien kopurua)</i>.</"
 "small>"
 
-#: data/glade/gthumb_png_exporter.glade.h:26
-#: data/glade/gthumb_web_exporter.glade.h:20
+#: ../data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "Co_mment"
 msgstr "_Iruzkina"
 
-#: data/glade/gthumb_png_exporter.glade.h:27
+#: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
 msgstr "Z_utabeak:"
 
-#: data/glade/gthumb_png_exporter.glade.h:28
+#: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
 msgstr "Kolo_rea:"
 
-#: data/glade/gthumb_png_exporter.glade.h:29
+#: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
 msgstr "Sortu irudi indizea"
 
-#: data/glade/gthumb_png_exporter.glade.h:30
+#: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
 msgstr "Sortu _HTML irudi mapa"
 
-#: data/glade/gthumb_png_exporter.glade.h:31
-#: data/glade/gthumb_web_exporter.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "Orri-_oina:"
 
-#: data/glade/gthumb_png_exporter.glade.h:32
-#: data/glade/gthumb_web_exporter.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid "File _name"
 msgstr "Fitxategi-_izena"
 
-#: data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
 msgstr "Fitxategiaren _bidea"
 
-#: data/glade/gthumb_png_exporter.glade.h:34
-#: data/glade/gthumb_web_exporter.glade.h:25
+#: ../data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:25
 msgid "File si_ze"
 msgstr "Fitxategiaren tamaina"
 
-#: data/glade/gthumb_png_exporter.glade.h:35
+#: ../data/glade/gthumb_png_exporter.glade.h:34
 msgid "Frame _style:"
 msgstr "Marko e_stiloa:"
 
-#: data/glade/gthumb_png_exporter.glade.h:36
+#: ../data/glade/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
 msgstr "Markoaren ko_lorea:"
 
-#: data/glade/gthumb_png_exporter.glade.h:37
-#: data/glade/gthumb_web_exporter.glade.h:27
+#: ../data/glade/gthumb_png_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "Go_iburua:"
 
-#: data/glade/gthumb_png_exporter.glade.h:38
+#: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
 msgstr "Goiburu/Orri-oina"
 
-#: data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
 msgstr "Altue_ra:"
 
-#: data/glade/gthumb_png_exporter.glade.h:40
-#: data/glade/gthumb_web_exporter.glade.h:29
+#: ../data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Image dim_ensions"
 msgstr "Irudiaren dim_entsioak"
 
-#: data/glade/gthumb_png_exporter.glade.h:41
+#: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
 msgstr "Irudiak"
 
-#: data/glade/gthumb_png_exporter.glade.h:42
+#: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
 msgstr "Indize irudi estiloa"
 
-#: data/glade/gthumb_png_exporter.glade.h:43
+#: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
 msgstr "Orria"
 
-#: data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
 msgstr "Pi_xel"
 
-#: data/glade/gthumb_png_exporter.glade.h:45
-#: data/glade/gthumb_web_exporter.glade.h:31
+#: ../data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Re_verse order"
 msgstr "Ald_erantzikatu ordena"
 
-#: data/glade/gthumb_png_exporter.glade.h:46
+#: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
 msgstr "Errenkada e_ta zutabeak"
 
-#: data/glade/gthumb_png_exporter.glade.h:47
+#: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
 msgstr "Hautatu kolorea"
 
-#: data/glade/gthumb_png_exporter.glade.h:48
+#: ../data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a font"
+msgstr "Hautatu letra-tipoa"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
 msgstr "Itzaldu barrua"
 
-#: data/glade/gthumb_png_exporter.glade.h:49
+#: ../data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
 msgstr "Itzala bakarrik"
 
-#: data/glade/gthumb_png_exporter.glade.h:50
+#: ../data/glade/gthumb_png_exporter.glade.h:50
 msgid "Shadow out"
 msgstr "Itzaldu kanpoa"
 
-#: data/glade/gthumb_png_exporter.glade.h:51
+#: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
 msgstr "Bakuna"
 
-#: data/glade/gthumb_png_exporter.glade.h:52
+#: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
 msgstr "Bakuna itzalarekin"
 
-#: data/glade/gthumb_png_exporter.glade.h:53
+#: ../data/glade/gthumb_png_exporter.glade.h:53
 msgid "Slide"
 msgstr "Diapositiba"
 
-#: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:34
+#: ../data/glade/gthumb_png_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "Sor_t:"
 msgstr "Ordena_tu:"
 
-#: data/glade/gthumb_png_exporter.glade.h:55
+#: ../data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
 msgstr "Ordenatu"
 
-#: data/glade/gthumb_png_exporter.glade.h:56
+#: ../data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
 msgstr "Est_iloa"
 
-#: data/glade/gthumb_png_exporter.glade.h:57
-#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_png_exporter.glade.h:57
+#: ../data/glade/gthumb_search.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Start _at:"
 msgstr "Hemen hasi:"
 
-#: data/glade/gthumb_png_exporter.glade.h:58
+#: ../data/glade/gthumb_png_exporter.glade.h:58
 msgid "Style Preview"
 msgstr "Estiloaren aurrebista"
 
-#: data/glade/gthumb_png_exporter.glade.h:59
+#: ../data/glade/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
 msgstr "Za_balera:"
 
-#: data/glade/gthumb_png_exporter.glade.h:60
+#: ../data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
 msgstr "_Orri guztiak tamaina berdinarekin"
 
-#: data/glade/gthumb_png_exporter.glade.h:62
+#: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
 msgstr "_Marraztu markoa"
 
-#: data/glade/gthumb_png_exporter.glade.h:63
+#: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
 msgstr "_Letra-tipoa:"
 
-#: data/glade/gthumb_png_exporter.glade.h:64
+#: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
 msgstr "_Gradientea"
 
-#: data/glade/gthumb_png_exporter.glade.h:66
+#: ../data/glade/gthumb_png_exporter.glade.h:66
 msgid "_Image size:"
 msgstr "_Irudiaren tamaina:"
 
-#: data/glade/gthumb_png_exporter.glade.h:67
+#: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
 msgstr "_Errenkadak:"
 
-#: data/glade/gthumb_png_exporter.glade.h:68
+#: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
 msgstr "_Kolore solidoa"
 
-#: data/glade/gthumb_png_exporter.glade.h:69
-#: data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_png_exporter.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "_Template:"
 msgstr "_Txantiloia:"
 
-#: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: ../data/glade/gthumb_png_exporter.glade.h:71
+#: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "izenaren arabera"
 
-#: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: ../data/glade/gthumb_png_exporter.glade.h:72
+#: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr "bidearen arabera"
 
-#: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:51
+#: ../data/glade/gthumb_png_exporter.glade.h:73
+#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "tamainaren arabera"
 
-#: data/glade/gthumb_png_exporter.glade.h:74
+#: ../data/glade/gthumb_png_exporter.glade.h:74
 msgid "by time"
 msgstr "orduaren arabera"
 
-#: data/glade/gthumb_png_exporter.glade.h:75
+#: ../data/glade/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: data/glade/gthumb_png_exporter.glade.h:76
+#: ../data/glade/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
 
-#: data/glade/gthumb_preferences.glade.h:4
+#: ../data/glade/gthumb_preferences.glade.h:3
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: data/glade/gthumb_preferences.glade.h:7
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:7
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: data/glade/gthumb_preferences.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: data/glade/gthumb_preferences.glade.h:11
+#: ../data/glade/gthumb_preferences.glade.h:10
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:11
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: data/glade/gthumb_preferences.glade.h:13
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "<b>Direction</b>"
 msgstr "<b>Norabidea</b>"
 
-#: data/glade/gthumb_preferences.glade.h:14
+#: ../data/glade/gthumb_preferences.glade.h:13
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Ezkutatu/Erakutsi</b>"
 
-#: data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:14
 msgid "<b>Interface</b>"
 msgstr "<b>Interfazea</b>"
 
-#: data/glade/gthumb_preferences.glade.h:16
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "<b>On startup:</b>"
 msgstr "<b>Abiatzean:</b>"
 
-#: data/glade/gthumb_preferences.glade.h:17
+#: ../data/glade/gthumb_preferences.glade.h:16
 msgid "<b>Other</b>"
 msgstr "<b>Besteak</b>"
 
-#: data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:17
 msgid "<b>Slide show</b>"
 msgstr "<b>Diapositiba-aurkezpena</b>"
 
-#: data/glade/gthumb_preferences.glade.h:19
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "<b>View images as</b>"
 msgstr "<b>Ikusi irudiak honela</b>"
 
-#: data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Viewer</b>"
 msgstr "<b>Ikustailea</b>"
 
-#: data/glade/gthumb_preferences.glade.h:21
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "<b>Zoom quality</b>"
 msgstr "<b>Zoom-aren kalitatea</b>"
 
-#: data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a double click"
 msgstr "Aktibatu elementuak klik-bikoitzarekin"
 
-#: data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "Activate items with a single click"
 msgstr "Aktibatu elementuak klik bakarrarekin"
 
-#: data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "After _loading an image:"
 msgstr "Irudi bat _kargatu ondoren:"
 
-#: data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "_Galdetu irudiak edo katalogoak ezabatu aurretik"
 
-#: data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Ask whether to save _modified images"
 msgstr "Galdetu aldatutako irudiak gorde edo ez"
 
-#: data/glade/gthumb_preferences.glade.h:27
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "Black"
 msgstr "Beltza"
 
-#: data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "Browser"
 msgstr "Arakatzailea"
 
-#: data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
 msgstr "K_lik-atze politika:"
 
-#: data/glade/gthumb_preferences.glade.h:30
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "Checked"
 msgstr "Egiaztatua"
 
-#: data/glade/gthumb_preferences.glade.h:31
+#: ../data/glade/gthumb_preferences.glade.h:30
 msgid "Choose startup folder"
 msgstr "Aukeratu abioko karpeta\t"
 
-#: data/glade/gthumb_preferences.glade.h:32
+#: ../data/glade/gthumb_preferences.glade.h:31
 msgid "Co_mments"
 msgstr "_Iruzkinak"
 
-#: data/glade/gthumb_preferences.glade.h:33
+#: ../data/glade/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
 msgstr "A_tzerapena irudiak aldatzeko:"
 
-#: data/glade/gthumb_preferences.glade.h:34
+#: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
 msgstr "Z_ehaztu irudi mota edukiaren arabera (motelagoa)"
 
-#: data/glade/gthumb_preferences.glade.h:35
+#: ../data/glade/gthumb_preferences.glade.h:34
 msgid "Do _not change folder"
 msgstr "Ez _aldatu karpeta"
 
-#: data/glade/gthumb_preferences.glade.h:36
+#: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Fit image to window"
 msgstr "Doitu irudia leihora"
 
-#: data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Fit to window if larger"
 msgstr "Doitu leihora, handiagoa bada"
 
-#: data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
 msgstr "Jarraitu Nautilus-en jokaera"
 
-#: data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "Au_rreruntz"
 
-#: data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "General"
 msgstr "Orokorra"
 
-#: data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
 msgstr "Joan _bisitatutako azken karpeta edo katalogora"
 
-#: data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to this _folder:"
 msgstr "Joan _karpeta honetara:"
 
-#: data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "H_igh"
 msgstr "H_andia"
 
-#: data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Icons only"
 msgstr "Ikonoak bakarrik"
 
-#: data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
 msgstr "Mantendu aurreko zoom-a"
 
-#: data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Layout:"
 msgstr "Diseinua:"
 
-#: data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Lo_w"
 msgstr "Ba_xua"
 
-#: data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Ran_dom"
 msgstr "Au_sazkoa"
 
-#: data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Re_verse"
 msgstr "Alderantzizkoa"
 
-#: data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Resta_rt when finished"
 msgstr "B_errabiarazi amaitzean"
 
-#: data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Set image to actual size"
 msgstr "Ezarri irudia uneko tamainara"
 
-#: data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Set to C_urrent"
 msgstr "Ezarri _unekora"
 
-#: data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Slide Show"
 msgstr "Diapositiba-aurkezpena"
 
-#: data/glade/gthumb_preferences.glade.h:55
-msgid "Switch to _full screen"
-msgstr "Aldatu pantaila _osora"
-
-#: data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "System settings"
 msgstr "Sistemaren ezarpenak"
 
-#: data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Text below icons"
 msgstr "Textua ikonoen azpian"
 
-#: data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
 msgstr "Textua ikonoen ondoan"
 
-#: data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "Text only"
 msgstr "Textua bakarrik"
 
-#: data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Th_umbnail size:"
 msgstr "Ko_adro txikien tamaina:"
 
-#: data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Transparency _type:"
 msgstr "Gardentasun _mota:"
 
-#: data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Viewer"
 msgstr "Ikustailea"
 
-#: data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "White"
 msgstr "Zuria"
 
-#: data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "_Filenames"
 msgstr "_Fitxategi-izenak"
 
-#: data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "_List"
 msgstr "_Zerrenda"
 
-#: data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "_Slides"
 msgstr "_Diapositibak"
 
-#: data/glade/gthumb_preferences.glade.h:67 src/ui.h:617
+#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../src/gth-browser-actions-entries.h:387
 msgid "_Thumbnails"
 msgstr "_Koadro txikiak"
 
-#: data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
 msgstr "_Tresna-barra estiloa:"
 
-#: data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
 msgstr "gThumb-en hobespenak"
 
-#: data/glade/gthumb_preferences.glade.h:70
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "seconds"
 msgstr "segundu"
 
-#: data/glade/gthumb_print.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:4
 msgid "1"
 msgstr "1"
 
-#: data/glade/gthumb_print.glade.h:5
+#: ../data/glade/gthumb_print.glade.h:5
 msgid "16"
 msgstr "16"
 
-#: data/glade/gthumb_print.glade.h:6
+#: ../data/glade/gthumb_print.glade.h:6
 msgid "2"
 msgstr "2"
 
-#: data/glade/gthumb_print.glade.h:7
+#: ../data/glade/gthumb_print.glade.h:7
 msgid "4"
 msgstr "4"
 
-#: data/glade/gthumb_print.glade.h:8
+#: ../data/glade/gthumb_print.glade.h:8
 msgid "8"
 msgstr "8"
 
-#: data/glade/gthumb_print.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:9
+msgid "<b>Margins</b>"
+msgstr "<b>Marjinak</b>"
+
+#: ../data/glade/gthumb_print.glade.h:10
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientazioa</b>"
 
-#: data/glade/gthumb_print.glade.h:10
+#: ../data/glade/gthumb_print.glade.h:11
 msgid "<b>Size</b>"
 msgstr "<b>Tamaina</b>"
 
-#: data/glade/gthumb_print.glade.h:11
+#: ../data/glade/gthumb_print.glade.h:12
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
@@ -1412,176 +1433,204 @@ msgstr ""
 "<small><i><b>Oharra:</b> Arrastatu irudia orrian zehar.\n"
 "Egin klik irudian biratzeko.</i></small>"
 
-#: data/glade/gthumb_print.glade.h:13
-msgid "A_4"
-msgstr "A_4"
+#: ../data/glade/gthumb_print.glade.h:14
+msgid "A4"
+msgstr "A4"
 
-#: data/glade/gthumb_print.glade.h:14
-msgid "C_ustom:"
-msgstr "Pertsonalizat_ua:"
-
-#: data/glade/gthumb_print.glade.h:15
+#: ../data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
 msgstr "Zentratu _orrian"
 
-#: data/glade/gthumb_print.glade.h:16
+#: ../data/glade/gthumb_print.glade.h:16
 msgid "Comment _font:"
 msgstr "Iruzkinaren letra-tipoa:"
 
-#: data/glade/gthumb_print.glade.h:17
+#: ../data/glade/gthumb_print.glade.h:18
+msgid "Executive"
+msgstr "Exekutiboa"
+
+#: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
 msgstr "_Txertatu iruzkina"
 
-#: data/glade/gthumb_print.glade.h:18
+#: ../data/glade/gthumb_print.glade.h:20
 msgid "Images per page:"
 msgstr "Irudiak orriko:"
 
-#: data/glade/gthumb_print.glade.h:19
+#: ../data/glade/gthumb_print.glade.h:21
 msgid "Inches"
 msgstr "Hazbete"
 
-#: data/glade/gthumb_print.glade.h:20
+#: ../data/glade/gthumb_print.glade.h:22
 msgid "Lan_dscape"
 msgstr "_Horizontala"
 
-#: data/glade/gthumb_print.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:23
 msgid "Layout"
 msgstr "Diseinua"
 
-#: data/glade/gthumb_print.glade.h:22
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "Legal"
+msgstr "Legala"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Letter"
+msgstr "Gutuna"
+
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
 msgstr "Milimetro"
 
-#: data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "P_ortrait"
 msgstr "_Bertikala"
 
-#: data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Paper Details"
 msgstr "Paperaren xehetasunak"
 
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Postcard"
+msgstr "Postala"
+
 #.
-#: data/glade/gthumb_print.glade.h:25 libgthumb/print-callbacks.c:2964
-#: libgthumb/print-callbacks.c:2978 libgthumb/print-callbacks.c:3444
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
+#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
 msgid "Print"
 msgstr "Inprimatu"
 
-#: data/glade/gthumb_print.glade.h:26
-msgid "US E_xecutive"
-msgstr "US e_xekutiboa"
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Tabloid"
+msgstr "Tabloidea"
 
-#: data/glade/gthumb_print.glade.h:27
-msgid "US L_egal"
-msgstr "US _legala"
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "_Bottom:"
+msgstr "_Behean:"
 
-#: data/glade/gthumb_print.glade.h:28
-msgid "US _Letter"
-msgstr "US g_utuna"
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "_Left:"
+msgstr "E_zkerrean:"
 
-#: data/glade/gthumb_print.glade.h:30
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "_Right:"
+msgstr "E_skuinean:"
+
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "_Eskala:"
 
-#: data/glade/gthumb_search.glade.h:3
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "_Top:"
+msgstr "_Goian:"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "_Unit:"
+msgstr "_Unitatea:"
+
+#: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
 msgstr "<b>Bilaketa irizpideak</b>"
 
-#: data/glade/gthumb_search.glade.h:4
+#: ../data/glade/gthumb_search.glade.h:3
 msgid "<b>Search scope</b>"
 msgstr "<b>Bilaketa esparrua</b>"
 
-#: data/glade/gthumb_search.glade.h:6
+#: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
 msgstr "Ondoren"
 
-#: data/glade/gthumb_search.glade.h:7
+#: ../data/glade/gthumb_search.glade.h:6
 msgid "Any"
 msgstr "Edozein"
 
-#: data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_search.glade.h:7
 msgid "Before"
 msgstr "Aurretik"
 
-#: data/glade/gthumb_search.glade.h:11
+#: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
 msgstr "Aukeratu kategoria gordetako zerrendatik"
 
-#: data/glade/gthumb_search.glade.h:13
+#: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
 msgstr "Honen berdina"
 
-#: data/glade/gthumb_search.glade.h:14
+#: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
 msgstr "Fitxategi-_izena:"
 
-#: data/glade/gthumb_search.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:14
 msgid "Find"
 msgstr "Bilatu"
 
-#: data/glade/gthumb_search.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:15
 msgid "Found images:"
 msgstr "Aurkitutako irudiak:"
 
-#: data/glade/gthumb_search.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ll selected categories"
 msgstr "Parekatu hautatutako kategoria g_uztiak"
 
-#: data/glade/gthumb_search.glade.h:18
+#: ../data/glade/gthumb_search.glade.h:17
 msgid "Match a_ny selected category"
 msgstr "Parekatu hautatutako _edozein kategoria"
 
-#: data/glade/gthumb_search.glade.h:19
+#: ../data/glade/gthumb_search.glade.h:18
 msgid "New _Search..."
 msgstr "_Bilaketa berria..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:761
-#: src/dlg-photo-importer.c:1334
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:812
+#: ../src/dlg-photo-importer.c:1431
 msgid "No images found"
 msgstr "Ez da irudirik aurkitu"
 
-#: data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
 msgstr "Bilaketaren progresioa"
 
-#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "Searching in:"
 msgstr "Hemen bilatzen:"
 
-#: data/glade/gthumb_search.glade.h:25 src/ui.h:198 src/ui.h:233
+#: ../data/glade/gthumb_search.glade.h:24
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
 msgid "_Edit Search"
 msgstr "_Editatu bilaketa"
 
-#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_search.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "_Include sub-folders"
 msgstr "_Azpikarpetak barne"
 
-#: data/glade/gthumb_search.glade.h:28
+#: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
 msgstr "_Gorde"
 
-#: data/glade/gthumb_search.glade.h:29
+#: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
 msgstr "_Bilatu"
 
-#: data/glade/gthumb_tools.glade.h:4
-msgid "<b>Comments</b>"
-msgstr "<b>Iruzkinak</b>"
+#: ../data/glade/gthumb_tools.glade.h:3
+msgid "<b>Change the following values:</b>"
+msgstr "<b>Aldatu honako balioak:</b>"
 
-#: data/glade/gthumb_tools.glade.h:5
-msgid "<b>Thumbnails</b>"
-msgstr "<b>Koadro txikiak</b>"
+#: ../data/glade/gthumb_tools.glade.h:4
+msgid "<b>Change to:</b>"
+msgstr "<b>Aldatu hona:</b>"
 
-#: data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Write to CD</b>"
 msgstr "<b>Idatzi CD batean</b>"
 
-#: data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr ""
 "<small><i><b>Oharra</b>: bihurtutako jpeg irudiek galerak dituzte.</i></"
 "small>"
 
-#: data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:8
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
@@ -1590,330 +1639,314 @@ msgstr ""
 "<small><i><b>Karaktere bereziak:</b> # (enumeratzailea), %f (jatorrizko "
 "fitxategia), %d (irudiaren data), %s (irudiaren tamaina).</i></small>"
 
-#: data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:9
+msgid "A_djust timezone:"
+msgstr "Egokitu _ordu-zona:"
+
+#: ../data/glade/gthumb_tools.glade.h:10
+#: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "Egokitu argazkiaren _orientazioa"
 
-#: data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "Aplikatu _irudi guztiei"
 
-#: data/glade/gthumb_tools.glade.h:12
-msgid "Backup Comments"
-msgstr "Sortu iruzkinen babes-kopia"
-
-#: data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "U_neko data"
 
-#: data/glade/gthumb_tools.glade.h:14 src/ui.h:36 src/ui.h:37
+#: ../data/glade/gthumb_tools.glade.h:13
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "Ka_talogoa"
 
-#: data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "Change Date"
 msgstr "Aldatu data"
 
-#: data/glade/gthumb_tools.glade.h:16
-msgid "Change the last modified date to:"
-msgstr "Aldatu azken aldaketaren data hona:"
-
-#: data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "Egiaztatu _denak"
 
-#: data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "Egiaztapen guztiak kendu"
 
-#: data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "Irudia egiaztatzen:"
 
-#: data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Co_mment date"
+msgstr "_Iruzkinaren data"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Current _Folder"
 msgstr "_Uneko karpeta"
 
-#: data/glade/gthumb_tools.glade.h:21
-msgid "Delete ALL Comments"
-msgstr "Ezabatu iruzkin guztiak"
-
-#: data/glade/gthumb_tools.glade.h:22
-msgid "Delete ALL Thumbnails"
-msgstr "Ezabatu koadro txiki guztiak"
-
-#: data/glade/gthumb_tools.glade.h:23
-msgid "Delete Old Comments"
-msgstr "Ezabatu iruzkin zaharrak"
-
-#: data/glade/gthumb_tools.glade.h:24
-msgid "Delete Old Thumbnails"
-msgstr "Ezabatu koadro txiki zaharrak"
-
-#: data/glade/gthumb_tools.glade.h:25
-msgid "Delete comments of no more existing images"
-msgstr "Ezabatu iruzkinak, ez dauden irudienak"
-
-#: data/glade/gthumb_tools.glade.h:26
-msgid "Delete thumbnails of no more existing images"
-msgstr "Ezabatu koadro txikiak, ez dauden irudienak"
-
-#: data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Equal images:"
 msgstr "Irudi berdinak:"
 
-#: data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Find Duplicates"
 msgstr "Bilatu bikoiztuak"
 
-#: data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Found duplicates:"
 msgstr "Aurkitutako bikoiztuak:"
 
-#: data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:23
 msgid "Image c_reation date"
 msgstr "Irudiaren _sortze data"
 
-#: data/glade/gthumb_tools.glade.h:31
-msgid "Maintenance"
-msgstr "Mantentzea"
-
-#: data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Mirror image horizontally (left-right)"
 msgstr "Ispilu efektu horizontala (ezker-eskuin)"
 
-#: data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Ispilu efektu bertikala (goi-behea)"
 
-#: data/glade/gthumb_tools.glade.h:34 src/ui.h:113 src/ui.h:138 src/ui.h:263
-#: src/ui.h:293
+#: ../data/glade/gthumb_tools.glade.h:26
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
 msgid "Move to _Trash"
 msgstr "Mugitu _zakarrontzira"
 
-#: data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "New names _preview:"
 msgstr "Izen _berrien aurrebista:"
 
-#: data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "A_rgazkiaren digitalizazio data (EXIF datutik)"
 
-#: data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Re_verse Order"
 msgstr "Ald_erantzikatu ordena"
 
-#: data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Rename Series"
 msgstr "Berrizendatu serieak"
 
-#: data/glade/gthumb_tools.glade.h:39
-msgid "Restore Comments From a Backup File"
-msgstr "Berrezarri azalpenak segurtasun kopia batetik"
-
-#: data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Rotate Images"
 msgstr "Biratu irudiak"
 
-#: data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Biratu irudia 90 gradu erlojuaren orratzen zentzuan"
 
-#: data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Biratu irudia 90 gradu erlojuarn orratzen aurkako zentzuan"
 
-#: data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Search terminated, no duplicates found."
 msgstr "Bilaketa amaitua, ez da bikoizturik aurkitu."
 
-#: data/glade/gthumb_tools.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "The _following date:"
 msgstr "_Data hau:"
 
-#: data/glade/gthumb_tools.glade.h:47
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Write To CD"
 msgstr "Idatzi CD batean"
 
-#: data/glade/gthumb_tools.glade.h:49 src/actions.c:289 src/actions.c:797
-#: src/actions.c:1321
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "_Last modified date"
+msgstr "_Azken aldaketa-data"
+
+#: ../data/glade/gthumb_tools.glade.h:41
+#: ../src/gth-browser-actions-callbacks.c:156
+#: ../src/gth-browser-actions-callbacks.c:555
+#: ../src/gth-browser-actions-callbacks.c:1064
 msgid "_Rename"
 msgstr "_Berrizendatu"
 
-#: data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "_Selected Images"
 msgstr "_Hautatutako irudiak:"
 
-#: data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "_Sort:"
 msgstr "_Ordenatu:"
 
-#: data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid "by Modification date"
 msgstr "aldaketa-dataren arabera"
 
-#: data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "by Name"
 msgstr "izenaren arabera"
 
-#: data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "by Size"
 msgstr "tamainaren arabera"
 
-#: data/glade/gthumb_web_exporter.glade.h:5
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "hours"
+msgstr "orduak"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
-#: data/glade/gthumb_web_exporter.glade.h:6
+#: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1280 x 960"
 msgstr "1280 x 960"
 
-#: data/glade/gthumb_web_exporter.glade.h:7
+#: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "320 x 200"
 msgstr "320 x 200"
 
-#: data/glade/gthumb_web_exporter.glade.h:8
+#: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "640 x 480"
 msgstr "640 x 480"
 
-#: data/glade/gthumb_web_exporter.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "800 x 600"
 msgstr "800 x 600"
 
-#: data/glade/gthumb_web_exporter.glade.h:10
+#: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "<b>Album</b>"
 msgstr "<b>Albuma</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:11
+#: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "<b>Index Layout</b>"
 msgstr "<b>Indexatu diseinuak</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:12
+#: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "<b>Personalize theme</b>"
 msgstr "<b>Pertsonalizatu gaia</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:13
+#: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "<b>Photo data</b>"
 msgstr "<b>Argazkiaren datuak</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:15
+#: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Theme</b>"
 msgstr "<b>Gaia</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:17
+#: ../data/glade/gthumb_web_exporter.glade.h:16
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
 msgstr "<small><i><b>Oharra:</b> %d (uneko data).</i></small>"
 
-#: data/glade/gthumb_web_exporter.glade.h:18
+#: ../data/glade/gthumb_web_exporter.glade.h:17
 msgid "Came_ra Model"
 msgstr "Kama_ra modeloa"
 
-#: data/glade/gthumb_web_exporter.glade.h:19
+#: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "Caption"
 msgstr "Epigrafea"
 
-#: data/glade/gthumb_web_exporter.glade.h:21
+#: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "E_xposure mode"
 msgstr "E_sposizio mota"
 
-#: data/glade/gthumb_web_exporter.glade.h:22
+#: ../data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
 msgstr "Esposizio _denbora"
 
-#: data/glade/gthumb_web_exporter.glade.h:26
+#: ../data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr "Fokuaren _luzeera"
 
-#: data/glade/gthumb_web_exporter.glade.h:28
+#: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "Irudiaren epigrafea.."
 
-#: data/glade/gthumb_web_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
 msgstr "Indi_ze fitxategia:"
 
-#: data/glade/gthumb_web_exporter.glade.h:32
+#: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "Resi_ze if larger than:"
 msgstr "Aldatu tamaina hau baina handiagoa bada:"
 
-#: data/glade/gthumb_web_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Si_ze :"
 msgstr "Ta_maina:"
 
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "Th_eme:"
 msgstr "Gaia:"
 
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
 msgstr "Web albuma"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
+#: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album Theme"
 msgstr "Web album-aren gaia"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
+#: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr "_Irekidura-balioa"
 
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Copy originals to destination"
 msgstr "_Kopiatu jatorrizkoak helburuan"
 
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
 msgstr "_Data eta ordua"
 
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
 msgstr "_Flash"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Go to Theme Folder"
 msgstr "_Joan gaien karpetara"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
 msgstr "_Instalatu gaia..."
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Select"
 msgstr "_Hautatu"
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
 msgstr "_Obturadorearen abiadura"
 
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
 msgstr "_Koadro txikien epigrafea..."
 
-#: data/glade/gthumb_web_exporter.glade.h:48
+#: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
 msgstr "aldaketa-orduaren arabera"
 
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "columns"
 msgstr "zutabeak"
 
-#: data/glade/gthumb_web_exporter.glade.h:53
+#: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:54
 msgid "rows"
 msgstr "errenkadak"
 
-#: data/gthumb.desktop.in.h:1
+#: ../data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
 msgstr "Ikusi eta antolatu zure irudiak"
 
-#: data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
 msgstr "gThumb irudi ikustailea"
 
-#: data/gthumb.schemas.in.h:1
+#: ../data/gthumb.schemas.in.h:1
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
@@ -1922,67 +1955,67 @@ msgstr ""
 "txikietan bihurtuko. Erabili 0 irudi guztien koadro txikiak sortu nahi "
 "baduzu."
 
-#: data/gthumb.schemas.in.h:2
+#: ../data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
 msgstr "Balio posibleak: 1, 2, 3, 4."
 
-#: data/gthumb.schemas.in.h:3
+#: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
 msgstr "Balio posibleak:: actual_size, fit, keep_prev, fit_if_larger."
 
-#: data/gthumb.schemas.in.h:4
+#: ../data/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
 msgstr "Balio posibleak: ascending, descending."
 
-#: data/gthumb.schemas.in.h:5
+#: ../data/gthumb.schemas.in.h:5
 msgid "Possible values are: forward, backward, random."
 msgstr "Balio posibleak: forward, backward, random."
 
-#: data/gthumb.schemas.in.h:6
+#: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
 msgstr "Balio posibleak: high, low."
 
-#: data/gthumb.schemas.in.h:7
+#: ../data/gthumb.schemas.in.h:7
 msgid "Possible values are: image, data, comment."
 msgstr "Balio posibleak: image, data, comment."
 
-#: data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: jpeg, png, tga, tiff."
 msgstr "Balio posibleak: jpeg, png, tga, tiff."
 
-#: data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:9
 msgid "Possible values are: light, midtone, dark."
 msgstr "Balio posibleak: light, midtone, dark."
 
-#: data/gthumb.schemas.in.h:10
+#: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: list, thumbnails."
 msgstr "Balio posibleak: list, thumbnails."
 
-#: data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: mm, in."
 msgstr "Balio posibleak: mm, in."
 
-#: data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: name, path, size, time."
 msgstr "Balio posibleak: name, path, size, time."
 
-#: data/gthumb.schemas.in.h:13
+#: ../data/gthumb.schemas.in.h:13
 msgid "Possible values are: name, size, time."
 msgstr "Balio posibleak: name, size, time."
 
-#: data/gthumb.schemas.in.h:14
+#: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
 msgstr "Balio posibleak: nautilus, single, double."
 
-#: data/gthumb.schemas.in.h:15
+#: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Balio posibleak: none, deflate, jpeg."
 
-#: data/gthumb.schemas.in.h:16
+#: ../data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, name, path, size, time."
 msgstr "Balio posibleak: none, name, path, size, time."
 
-#: data/gthumb.schemas.in.h:17
+#: ../data/gthumb.schemas.in.h:17
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
@@ -1990,482 +2023,302 @@ msgstr ""
 "Balio posibleak: none, simple, simple_with_shadow, shadow, slide, shadow_in, "
 "shadow_out."
 
-#: data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 msgstr ""
 "Balio posibleak: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
 
-#: data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
 msgstr "Balio posibleak: pixels, percentage."
 
-#: data/gthumb.schemas.in.h:20
+#: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: png, jpeg."
 msgstr "Balio posibleak: png, jpeg."
 
-#: data/gthumb.schemas.in.h:21
+#: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Balio posibleak: skip, rename, ask, overwrite."
 
-#: data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: small, medium, large."
 msgstr "Balio posibleak: small, medium, large."
 
-#: data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:23
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Balio posibleak: system, text_below, text_beside, text_only, icons_only."
 
-#: data/gthumb.schemas.in.h:24
+#: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
 msgstr "Balio posibleak: white, black, checked, none."
 
-#: data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:25
 msgid "Whether to always use a black background."
 msgstr "Atzeko plano beltza erabili behar den edo ez adierazten du"
 
-#: libgthumb/catalog.c:89
+#: ../libgthumb/catalog.c:89
 msgid "Library not empty"
 msgstr "Liburutegia ez dago hutsik"
 
-#: libgthumb/catalog.c:98
+#: ../libgthumb/catalog.c:98
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Ezin izan da \"%s\" liburutegia ezabatu: %s"
 
-#: libgthumb/catalog.c:125
+#: ../libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Ezin izan da \"%s\" katologoa ezabatu: %s"
 
-#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
+#: ../libgthumb/catalog.c:250 ../libgthumb/catalog.c:418
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Ezin izan da \"%s\" katologoa ireki: %s"
 
-#: libgthumb/catalog.c:395
+#: ../libgthumb/catalog.c:395
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Ezin izan da \"%s\" katologoa gorde: %s"
 
-#: libgthumb/comments.c:429
+#: ../libgthumb/comments.c:768
 msgid "Deleting all comments, wait please..."
 msgstr "Iruzkin guztiak ezabatzen, itxaron mesedez..."
 
-#: libgthumb/comments.c:431
+#: ../libgthumb/comments.c:770
 msgid "Deleting old comments, wait please..."
 msgstr "Iruzkin zaharrak ezabatzen, itxaron mesedez..."
 
-#: libgthumb/comments.c:788
+#: ../libgthumb/comments.c:1344
 msgid "%d %B %Y"
 msgstr "%Y %B %d"
 
-#: libgthumb/comments.c:790 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:551 src/dlg-image-prop.c:439 src/fullscreen.c:225
-#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:257
+#: ../libgthumb/comments.c:1346 ../src/catalog-web-exporter.c:52
+#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
+#: ../src/gth-browser.c:499 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:689 ../src/gth-viewer.c:557
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y %B %d, %H:%M"
 
-#: libgthumb/comments.c:800
+#: ../libgthumb/comments.c:1356 ../libgthumb/comments.c:1358
 msgid "(No Comment)"
 msgstr "(Iruzkinik ez)"
 
-#: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:769
+#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Ez dituzu beharrezko baimenak irudia \"%s\" karpetan sortzeko "
 
-#: libgthumb/dlg-save-image.c:135 src/actions.c:323 src/dlg-convert.c:308
+#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:311
+#: ../src/gth-browser-actions-callbacks.c:190
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "\"%s\" izenarekin irudi bat badago dagoeneko. Gainidatzi nahi duzu?"
 
-#: libgthumb/dlg-save-image.c:187
+#: ../libgthumb/dlg-save-image.c:170
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Irudi mota hau ez dago onartua: %s"
 
-#: libgthumb/dlg-save-image.c:226
+#: ../libgthumb/dlg-save-image.c:252
 msgid "Determine by extension"
 msgstr "Zehaztu luzapenaren bitartez"
 
-#: libgthumb/dlg-save-image.c:261
+#: ../libgthumb/dlg-save-image.c:287
 msgid "Save Image"
 msgstr "Gorde irudia"
 
-#: libgthumb/dlg-save-image.c:278
+#: ../libgthumb/dlg-save-image.c:304
 msgid "Image type:"
 msgstr "Irudi mota:"
 
-#: libgthumb/gnome-print-font-dialog.c:113
+#: ../libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
 msgstr "_Sartu aurrebistaren esaldi berria."
 
-#: libgthumb/gnome-print-font-dialog.c:119
+#: ../libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
 msgstr "Aldatu aurrebistaren esaldia..."
 
-#: libgthumb/gnome-print-font-dialog.c:173
+#: ../libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "Aurrebista"
 
-#: libgthumb/gnome-print-font-dialog.c:186
+#: ../libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
 msgstr "_Aldatu aurrebistaren esaldia..."
 
-#: libgthumb/gnome-print-font-dialog.c:247
+#: ../libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
 msgstr "Letra-tipoaren hautapena"
 
-#: libgthumb/gnome-print-font-picker.c:92
+#: ../libgthumb/gnome-print-font-picker.c:87
 msgid "Sans Regular 12"
 msgstr "Sans Regular 12"
 
-#: libgthumb/gnome-print-font-picker.c:93
+#: ../libgthumb/gnome-print-font-picker.c:88
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 
-#: libgthumb/gnome-print-font-picker.c:94
+#: ../libgthumb/gnome-print-font-picker.c:89
 msgid "Pick a Font"
 msgstr "Hautatu letra-tipoa"
 
-#: libgthumb/gnome-print-font-picker.c:179
+#: ../libgthumb/gnome-print-font-picker.c:174
 msgid "Title"
 msgstr "Titulua"
 
-#: libgthumb/gnome-print-font-picker.c:180
+#: ../libgthumb/gnome-print-font-picker.c:175
 msgid "The title of the selection dialog box"
 msgstr "Hautapen-leihoaren titulua"
 
-#: libgthumb/gnome-print-font-picker.c:200
+#: ../libgthumb/gnome-print-font-picker.c:195
 msgid "Font name"
 msgstr "Letra-tipoaren izena"
 
-#: libgthumb/gnome-print-font-picker.c:201
+#: ../libgthumb/gnome-print-font-picker.c:196
 msgid "Name of the selected font"
 msgstr "Hautatutako letra-tipoaren izena"
 
-#: libgthumb/gnome-print-font-picker.c:209
+#: ../libgthumb/gnome-print-font-picker.c:204
 msgid "Preview text"
 msgstr "Testuaren aurrebista"
 
-#: libgthumb/gnome-print-font-picker.c:210
+#: ../libgthumb/gnome-print-font-picker.c:205
 msgid "Preview text shown in the dialog"
 msgstr "Testuaren aurrebista elkarrizketa-koadroan erakusten da"
 
-#: libgthumb/gnome-print-font-picker.c:218
+#: ../libgthumb/gnome-print-font-picker.c:213
 msgid "Use font in label"
 msgstr "Erabili letra-tipoa etiketan"
 
-#: libgthumb/gnome-print-font-picker.c:219
+#: ../libgthumb/gnome-print-font-picker.c:214
 msgid "Use font in the label in font info mode"
 msgstr "Erabili letra-tipoa etiketan letra-tipoaren informazio moduan"
 
-#: libgthumb/gnome-print-font-picker.c:227
+#: ../libgthumb/gnome-print-font-picker.c:222
 msgid "Font size for label"
 msgstr "Letra-tipoaren tamaina etiketentzat"
 
-#: libgthumb/gnome-print-font-picker.c:228
+#: ../libgthumb/gnome-print-font-picker.c:223
 msgid "Font size for label in font info mode"
 msgstr "Letra-tipoaren tamaina etiketentzat letra-tipo informazio moduan"
 
-#: libgthumb/gnome-print-font-picker.c:238
+#: ../libgthumb/gnome-print-font-picker.c:233
 msgid "Show size"
 msgstr "Erakutsi tamaina"
 
-#: libgthumb/gnome-print-font-picker.c:239
+#: ../libgthumb/gnome-print-font-picker.c:234
 msgid "Show size in font info mode"
 msgstr "Erakutsi tamaina letra-tipoaren informazio moduan"
 
-#: libgthumb/gnome-print-font-picker.c:1018
+#: ../libgthumb/gnome-print-font-picker.c:1013
 msgid "Font"
 msgstr "Letra-tipoa"
 
-#: libgthumb/gth-file-list.c:522 src/gthumb-window.c:8368
+#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8535
+#: ../src/gth-viewer.c:2110
 msgid "Wait please..."
 msgstr "Itxaron..."
 
-#: libgthumb/gth-file-list.c:616 libgthumb/gth-file-list.c:637
-#: libgthumb/gth-image-list.c:3443 src/gthumb-window.c:487
+#: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
+#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:778
+#: ../src/gth-viewer.c:738
 msgid "No image"
 msgstr "Irudirik ez"
 
-#: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
+#: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:492
 msgid "Name"
 msgstr "Izena"
 
-#: libgthumb/gtk-utils.c:626 libgthumb/gtk-utils.c:660 src/bookmark-list.c:172
-#: src/catalog-list.c:436 src/catalog-list.c:468 src/dir-list.c:244
-#: src/dir-list.c:497 src/dlg-rename-series.c:287 src/dlg-rename-series.c:291
-#: src/gthumb-window.c:410 src/gthumb-window.c:1091 src/gthumb-window.c:1097
-#: src/gthumb-window.c:1103
-msgid "(Invalid Name)"
-msgstr "(Izen baliogabea)"
+#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+msgid "Ro_tate Images"
+msgstr "Bira_tu irudiak"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1555
-#, c-format
-msgid "Print %s"
-msgstr "Inprimatu %s"
-
-#: libgthumb/print-callbacks.c:942
-msgid "Print Image"
-msgstr "Inprimatu irudia"
-
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2040
+#: ../libgthumb/print-callbacks.c:669
 #, c-format
 msgid "Page %d of %d"
 msgstr "%d / %d orrialdea"
 
-#: libgthumb/print-callbacks.c:3037 src/catalog-png-exporter.c:1334
+#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Irudia kargatzen: %s"
 
-#: libgthumb/thumb-cache.c:485
+#: ../libgthumb/thumb-cache.c:486
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Koadro txiki guztiak ezabatzen, itxaron mesedez..."
 
-#: libgthumb/thumb-cache.c:487
+#: ../libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Koadro txiki zaharrak ezabatzen, itxaron mesedez..."
 
-#: src/actions.c:285 src/actions.c:793 src/actions.c:1317
-msgid "Enter the new name: "
-msgstr "Sartu izen berria: "
+#: ../src/bookmark-list.c:173 ../src/gth-browser.c:700
+#: ../src/gth-browser.c:1358 ../src/gth-browser.c:1364
+#: ../src/gth-browser.c:1370
+msgid "(Invalid Name)"
+msgstr "(Izen baliogabea)"
 
-#: src/actions.c:303 src/actions.c:813 src/actions.c:1036 src/actions.c:1113
-#: src/actions.c:1335
-#, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"\"%s\" izena ez da baliozkoa \"/\" karakterea duelako. Erabili beste izen "
-"bat."
-
-#: src/actions.c:330 src/dlg-convert.c:314
-msgid "_Overwrite"
-msgstr "_Gainidatzi"
-
-#: src/actions.c:350 src/actions.c:365
-#, c-format
-msgid "Could not rename the image \"%s\": %s"
-msgstr "Ezin izan da \"%s\" irudia berrizendatu: %s"
-
-#: src/actions.c:352 src/actions.c:1357 src/actions.c:1629
-msgid "source and destination are the same"
-msgstr "jatorria eta helburua berdinak dira"
-
-#: src/actions.c:449
-#, c-format
-msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Ezin izan da \"%s\" irudia bikoiztu: %s"
-
-#: src/actions.c:457
-msgid "Stop"
-msgstr "Gelditu"
-
-#: src/actions.c:458
-msgid "Continue"
-msgstr "Jarraitu"
-
-#: src/actions.c:518
-msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Irudia zakarrontzira botako da, ziur zaude?"
-
-#: src/actions.c:598
-msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Hautatutako irudiak zakarrontzira botako dira, ziur zaude?"
-
-#: src/actions.c:760
-msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr "Hautatutako irudiak katalogotik kenduko dira, ziur zaude?"
-
-#: src/actions.c:835 src/actions.c:1055 src/actions.c:1129 src/actions.c:1365
-#, c-format
-msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "\"%s\" izena jadanik erabilia dago. Erabili beste izen bat."
-
-#: src/actions.c:846
-#, c-format
-msgid "Could not rename the library \"%s\": %s"
-msgstr "Ezin izan da \"%s\" liburutegia berrizendatu: %s"
-
-#: src/actions.c:846
-#, c-format
-msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Ezin izan da \"%s\" katalogoa berrizendatu: %s"
-
-#: src/actions.c:915
-msgid "The selected library will be removed, are you sure?"
-msgstr "Hautatutako liburutegia ezabatuko da, ziur zaude?"
-
-#: src/actions.c:917
-msgid "The selected catalog will be removed, are you sure?"
-msgstr "Hautatutako katalogoa ezabatuko da, ziur zaude?"
-
-#: src/actions.c:1020 src/dlg-catalog.c:82
-msgid "Enter the catalog name: "
-msgstr "Idatzi katalogoaren izena: "
-
-#: src/actions.c:1021
-msgid "New Catalog"
-msgstr "Katalogo berria"
-
-#: src/actions.c:1066
-#, c-format
-msgid "Could not create the catalog \"%s\": %s"
-msgstr "Ezin izan da \"%s\"·katalogoa sortu: %s"
-
-#: src/actions.c:1100 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:242 src/dlg-file-utils.c:90
-msgid "C_reate"
-msgstr "So_rtu"
-
-#: src/actions.c:1156
-msgid "New Library"
-msgstr "Liburutegi berria"
-
-#: src/actions.c:1157 src/dlg-catalog.c:127
-msgid "Enter the library name: "
-msgstr "Sartu liburutegiaren izena: "
-
-#: src/actions.c:1158
-#, c-format
-msgid "Could not create the library \"%s\": %s"
-msgstr "Ezin izan da \"%s\"·liburutegia sortu: %s"
-
-#: src/actions.c:1355 src/actions.c:1389
-#, c-format
-msgid "Could not rename the folder \"%s\": %s"
-msgstr "Ezin izan da \"%s\" karpeta berrizendatu: %s"
-
-#: src/actions.c:1441
-#, c-format
-msgid "Could not delete the folder \"%s\": %s"
-msgstr "Ezin izan da \"%s\" karpeta ezabatu: %s"
-
-#: src/actions.c:1472
-#, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr "Ezin izan da \"%s\" zakarrontzira bota. Betirako ezabatu nahi duzu?"
-
-#: src/actions.c:1480 src/dlg-file-utils.c:227 src/gthumb-window.c:1609
-msgid "_Do not display this message again"
-msgstr "_Ez bistaratu mezu hau berriz"
-
-#: src/actions.c:1513
-msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Hautatutako karpeta zakarrontzira botako da, ziur zaude?"
-
-#: src/actions.c:1515 src/dlg-file-utils.c:281
-msgid "_Move"
-msgstr "_Mugitu"
-
-#: src/actions.c:1564 src/actions.c:1619
-#, c-format
-msgid "Could not copy the folder \"%s\": %s"
-msgstr "Ezin izan da \"%s\"·karpeta kopiatu: %s"
-
-#: src/actions.c:1619 src/dlg-file-utils.c:2414 src/dlg-file-utils.c:2416
-#, c-format
-msgid "Could not move the folder \"%s\": %s"
-msgstr "Ezin izan da \"%s\" karpeta mugitu: %s"
-
-#: src/actions.c:1640
-msgid "source contains destination"
-msgstr "jatorriak helburua dauka"
-
-#: src/actions.c:1651
-msgid "a folder with that name is already present."
-msgstr "izen hori duen karpeta jadanik badago."
-
-#: src/actions.c:1724 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
-msgid "Choose the destination folder"
-msgstr "Hautatu helburuko karpeta"
-
-#: src/actions.c:1971
-msgid "New Folder"
-msgstr "Karpeta berria"
-
-#: src/actions.c:1972
-msgid "Enter the folder name: "
-msgstr "Idatzi karpetaren izena: "
-
-#: src/actions.c:1973 src/dlg-photo-importer.c:1341
-#, c-format
-msgid "Could not create the folder \"%s\": %s"
-msgstr "Ezin izan da \"%s\" karpeta sortu: %s"
-
-#: src/actions.c:2717
-msgid "translator_credits"
-msgstr ""
-"Mikel Olasagasti <hey_neken@mundurat.net> \n"
-"Iñaki Larrañaga <dooteo@euskalgnu.org>"
-
-#: src/actions.c:2726 src/gthumb-window.c:428 src/gthumb-window.c:4779
-#: src/main.c:136
-msgid "gThumb"
-msgstr "gThumb"
-
-#: src/actions.c:2729
-msgid "An image viewer and browser for GNOME."
-msgstr "Irudi ikustaile eta arakatzaile bat GNOMErako."
-
-#: src/actions.c:2766 src/dlg-categories.c:368 src/dlg-change-date.c:151
-#: src/dlg-comment.c:303 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
-#: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
-#, c-format
-msgid "Could not display help: %s"
-msgstr "Ezin izan da laguntza bistaratu: %s"
-
-#: src/catalog-png-exporter.c:1563
+#: ../src/catalog-png-exporter.c:1565
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Irudia sortzen: %s.%s"
 
-#: src/catalog-web-exporter.c:1573
+#: ../src/catalog-web-exporter.c:1704
 msgid "Saving thumbnails"
 msgstr "Koadro txikiak gordetzen"
 
-#: src/catalog-web-exporter.c:1639
+#: ../src/catalog-web-exporter.c:1770
 msgid "Saving HTML pages: Images"
 msgstr "HTML orriak gordetzen: irudiak"
 
-#: src/catalog-web-exporter.c:1714
+#: ../src/catalog-web-exporter.c:1845
 msgid "Saving HTML pages: Indexes"
 msgstr "HTML orriak gordetzen: indizeak"
 
-#: src/catalog-web-exporter.c:1837 src/catalog-web-exporter.c:1896
-#: src/catalog-web-exporter.c:2031
+#: ../src/catalog-web-exporter.c:1969 ../src/catalog-web-exporter.c:2029
+#: ../src/catalog-web-exporter.c:2199
 msgid "Saving images"
 msgstr "Irudiak gordetzen"
 
-#: src/catalog-web-exporter.c:2240
+#: ../src/catalog-web-exporter.c:2383
 msgid "Could not create a temporary folder"
 msgstr "Ezin izan da aldi baterako karpeta bat sortu"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2273
+#: ../src/catalog-web-exporter.c:2416
 msgid "Loading images"
 msgstr "Irudiak kargatzen"
 
-#: src/dlg-catalog.c:446
+#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:770
+msgid "Enter the catalog name: "
+msgstr "Idatzi katalogoaren izena: "
+
+#: ../src/dlg-catalog.c:87 ../src/dlg-catalog.c:138
+#: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
+#: ../src/gth-browser-actions-callbacks.c:856
+msgid "C_reate"
+msgstr "So_rtu"
+
+#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:912
+msgid "Enter the library name: "
+msgstr "Sartu liburutegiaren izena: "
+
+#: ../src/dlg-catalog.c:475
 msgid "Move Catalog to..."
 msgstr "Mugitu katalogoa hona..."
 
-#: src/dlg-categories.c:238
+#: ../src/dlg-categories.c:239
 msgid "Enter the new category name"
 msgstr "Idatzi kategoria berriaren izena"
 
-#: src/dlg-categories.c:249
+#: ../src/dlg-categories.c:250
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
@@ -2474,1225 +2327,1531 @@ msgstr ""
 "\"%s\" izena ez da baliozkoa \",\" karakterea duelako. Erabili beste izen "
 "bat."
 
-#: src/dlg-categories.c:254
+#: ../src/dlg-categories.c:255
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Dagoeneko \"%s\" kategoria badago. Erabili beste izen bat."
 
-#: src/dlg-convert.c:162
+#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:437
+#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
+#: ../src/dlg-rename-series.c:327 ../src/dlg-search.c:468
+#: ../src/gth-window-actions-callbacks.c:820
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Ezin izan da laguntza bistaratu: %s"
+
+#: ../src/dlg-convert.c:165
 #, c-format
 msgid "Converting image: %s"
 msgstr "Irudia bihurtzen: %s"
 
-#: src/dlg-convert.c:185
+#: ../src/dlg-convert.c:188
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "\"%s\" izeneko irudia badago dagoeneko.·Zehaztu beste izen bat."
 
-#: src/dlg-crop.c:367
+#: ../src/dlg-convert.c:317 ../src/gth-browser-actions-callbacks.c:197
+msgid "_Overwrite"
+msgstr "_Gainidatzi"
+
+#: ../src/dlg-crop.c:376
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (irudia)"
 
-#: src/dlg-crop.c:375
+#: ../src/dlg-crop.c:384
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (pantaila)"
 
-#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:652
+#: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
 msgid "Duplicates"
 msgstr "Bikoizketak"
 
-#: src/dlg-duplicates.c:293
+#: ../src/dlg-duplicates.c:295
 msgid "Duplicates Size"
 msgstr "Tamaina bikoizten du"
 
-#: src/dlg-duplicates.c:400
+#: ../src/dlg-duplicates.c:402
 msgid "Last modified"
 msgstr "Azken aldaketa"
 
-#: src/dlg-duplicates.c:415 src/dlg-image-prop.c:615
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:622
 msgid "Location"
 msgstr "Kokapena"
 
-#: src/dlg-duplicates.c:757
+#: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Gaitutako irudiak zakarraontzira botako dira, ziur zaude?"
 
-#: src/dlg-file-utils.c:88
+#: ../src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Helburuko karpeta ez da existitzen. Sortzea nahi duzu?"
 
-#: src/dlg-file-utils.c:104
+#: ../src/dlg-file-utils.c:105
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Ezin izan da \"%s\"·karpeta sortu: %s."
 
-#: src/dlg-file-utils.c:201
+#: ../src/dlg-file-utils.c:202
 msgid "Could not delete the images:"
 msgstr "Ezin izan dira irudiak ezabatu:"
 
-#: src/dlg-file-utils.c:224
+#: ../src/dlg-file-utils.c:225
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr "Irudiak ezin dira zakarrontzira bota. Betirako ezabatu nahi dituzu?"
 
-#: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1221
+#: ../src/gth-browser.c:1876 ../src/gth-viewer.c:891
+msgid "_Do not display this message again"
+msgstr "_Ez bistaratu mezu hau berriz"
+
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1259
+msgid "_Move"
+msgstr "_Mugitu"
+
+#: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
+#: ../src/gth-browser-actions-callbacks.c:1468
+msgid "Choose the destination folder"
+msgstr "Hautatu helburuko karpeta"
+
+#: ../src/dlg-file-utils.c:791 ../src/dlg-file-utils.c:892
 msgid "You didn't enter the new name"
 msgstr "Ez duzu izen berririk idatzi"
 
-#: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
+#: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "\"%s\" izena jadanik erabilia dago karpeta honetan. Erabili beste izen bat."
 
-#: src/dlg-file-utils.c:1010
+#: ../src/dlg-file-utils.c:1043
 msgid "Could not rename the image:"
 msgstr "Ezin izan da irudia berrizendatu:"
 
-#: src/dlg-file-utils.c:1012
+#: ../src/dlg-file-utils.c:1045
 msgid "Could not rename the following images:"
 msgstr "Ezin izan dira honako irudiak berrizendatu:"
 
-#: src/dlg-file-utils.c:1146
+#: ../src/dlg-file-utils.c:1179
 msgid "Could not move the image:"
 msgstr "Ezin izan da irudia mugitu:"
 
-#: src/dlg-file-utils.c:1148
+#: ../src/dlg-file-utils.c:1181
 msgid "Could not copy the image:"
 msgstr "Ezin izan da irudia kopiatu:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2437
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2470
 msgid "_Abort"
 msgstr "_Bertan behera utzi"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2438
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2471
 msgid "_Continue"
 msgstr "_Jarraitu"
 
-#: src/dlg-file-utils.c:1347
+#: ../src/dlg-file-utils.c:1380
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Fitxategiak kopiatzen: %d / %d"
 
-#: src/dlg-file-utils.c:1763 src/dlg-file-utils.c:1991
+#: ../src/dlg-file-utils.c:1796 ../src/dlg-file-utils.c:2024
 msgid "Collecting images info"
 msgstr "Irudien informazioa biltzen"
 
-#: src/dlg-file-utils.c:1766 src/dlg-file-utils.c:2004
+#: ../src/dlg-file-utils.c:1799 ../src/dlg-file-utils.c:2037
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Fitxategiak ezabatzen: %ld / %ld"
 
-#: src/dlg-file-utils.c:1994
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Fitxategiak kopiatzen: %ld / %ld"
 
-#: src/dlg-file-utils.c:1999
+#: ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Fitxategiak mugitzen: %ld / %ld"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
+#: ../src/dlg-file-utils.c:2447 ../src/dlg-file-utils.c:2449
+#: ../src/gth-browser-actions-callbacks.c:1360
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Ezin izan da \"%s\" karpeta mugitu: %s"
+
+#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:499
 msgid "Size"
 msgstr "Tamaina"
 
-#: src/dlg-image-prop.c:605
+#: ../src/dlg-image-prop.c:612
 msgid "Type"
 msgstr "Mota"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
-#: src/gthumb-window.c:273
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:515
+#: ../src/gth-exif-data-viewer.c:513 ../src/gth-viewer.c:573
 msgid "Modified"
 msgstr "Aldatua"
 
-#: src/dlg-image-prop.c:625
+#: ../src/dlg-image-prop.c:632
 msgid "Information on Channel"
 msgstr "Kanalari buruzko informazioa"
 
-#: src/dlg-image-prop.c:743
+#: ../src/dlg-image-prop.c:747
 #, c-format
 msgid "%s Properties"
 msgstr "%s propietateak"
 
-#: src/dlg-photo-importer.c:825 src/dlg-photo-importer.c:1288
-#: src/dlg-photo-importer.c:1333 src/dlg-photo-importer.c:1344
+#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1381
+#: ../src/dlg-photo-importer.c:1430 ../src/dlg-photo-importer.c:1442
+#: ../src/dlg-photo-importer.c:1458 ../src/dlg-photo-importer.c:1487
 msgid "Could not import photos"
 msgstr "Ezin dira argazkiak inportatu"
 
-#: src/dlg-photo-importer.c:1165 src/main.c:1054
+#: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
 msgid "Film"
 msgstr "Filmea"
 
-#: src/dlg-png-exporter.c:935
+#: ../src/dlg-photo-importer.c:1439
+#: ../src/gth-browser-actions-callbacks.c:1671
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Ezin izan da \"%s\" karpeta sortu: %s"
+
+#: ../src/dlg-png-exporter.c:931
 msgid "Image Caption"
 msgstr "Irudiaren epigrafea"
 
-#: src/dlg-png-exporter.c:988
+#: ../src/dlg-png-exporter.c:985
 msgid "Header"
 msgstr "Goiburua"
 
-#: src/dlg-png-exporter.c:1001 src/dlg-png-exporter.c:1007
+#: ../src/dlg-png-exporter.c:998 ../src/dlg-png-exporter.c:1004
 msgid "Footer"
 msgstr "Orri-oina"
 
-#: src/dlg-rename-series.c:400
+#: ../src/dlg-rename-series.c:397
 msgid "Old Name"
 msgstr "Izen zaharra"
 
-#: src/dlg-rename-series.c:408
+#: ../src/dlg-rename-series.c:405
 msgid "New Name"
 msgstr "Izen berria"
 
-#: src/dlg-search.c:343
+#: ../src/dlg-search.c:356
 msgid "Search Result"
 msgstr "Bilaketaren emaitzak"
 
-#: src/dlg-search.c:647
+#: ../src/dlg-search.c:680
 msgid "Filename"
 msgstr "Fitxategi-izena"
 
-#: src/dlg-search.c:656 src/gth-folder-selection-dialog.c:382
+#: ../src/dlg-search.c:689 ../src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "Karpeta"
 
-#: src/dlg-web-exporter.c:746
+#: ../src/dlg-web-exporter.c:702
 msgid "Select Album Theme"
 msgstr "Hautatu albumaren gaia"
 
-#: src/dlg-write-to-cd.c:77 src/gthumb-window.c:3428
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3682
 msgid "Could not move the items:"
 msgstr "Ezin izan dira elementuak mugitu:"
 
-#. restore normal view
-#: src/fullscreen.c:874 src/ui.h:448
-msgid "Restore Normal View"
-msgstr "Berrezarri ikuspegi normala"
+#: ../src/gth-browser-actions-callbacks.c:152
+#: ../src/gth-browser-actions-callbacks.c:551
+#: ../src/gth-browser-actions-callbacks.c:1060
+msgid "Enter the new name: "
+msgstr "Sartu izen berria: "
 
-#. image info
-#: src/fullscreen.c:883
-msgid "Image Info"
-msgstr "Irudiaren informazioa"
+#: ../src/gth-browser-actions-callbacks.c:170
+#: ../src/gth-browser-actions-callbacks.c:571
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:869
+#: ../src/gth-browser-actions-callbacks.c:1078
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"\"%s\" izena ez da baliozkoa \"/\" karakterea duelako. Erabili beste izen "
+"bat."
 
-#. back
-#: src/fullscreen.c:892 src/gthumb-window.c:4037
-msgid "Back"
-msgstr "Atzera"
+#: ../src/gth-browser-actions-callbacks.c:217
+#: ../src/gth-browser-actions-callbacks.c:232
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Ezin izan da \"%s\" irudia berrizendatu: %s"
 
-#. forward
-#: src/fullscreen.c:901
-msgid "Forward"
-msgstr "Aurrera"
+#: ../src/gth-browser-actions-callbacks.c:219
+#: ../src/gth-browser-actions-callbacks.c:1100
+#: ../src/gth-browser-actions-callbacks.c:1370
+msgid "source and destination are the same"
+msgstr "jatorria eta helburua berdinak dira"
 
-#. zoom in
-#: src/fullscreen.c:910 src/ui.h:418
-msgid "In"
-msgstr "Barruan"
+#: ../src/gth-browser-actions-callbacks.c:276 ../src/gth-fullscreen.c:926
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "Irudia zakarrontzira botako da, ziur zaude?"
 
-#. zoom out
-#: src/fullscreen.c:919 src/ui.h:423
-msgid "Out"
-msgstr "Kanpoan"
+#: ../src/gth-browser-actions-callbacks.c:390
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Ezin izan da \"%s\" irudia bikoiztu: %s"
 
-#. zoom 100
-#: src/fullscreen.c:928 src/ui.h:428
-msgid "1:1"
-msgstr "1:1"
+#: ../src/gth-browser-actions-callbacks.c:398
+msgid "Stop"
+msgstr "Gelditu"
 
-#. zoom fit
-#: src/fullscreen.c:937 src/ui.h:433
-msgid "Fit"
-msgstr "Doitu"
+#: ../src/gth-browser-actions-callbacks.c:399
+msgid "Continue"
+msgstr "Jarraitu"
 
-#: src/gth-exif-data-viewer.c:129
-msgid "Field"
-msgstr "Eremua"
+#: ../src/gth-browser-actions-callbacks.c:454
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Hautatutako irudiak zakarrontzira botako dira, ziur zaude?"
 
-#: src/gth-exif-data-viewer.c:139
-msgid "Value "
-msgstr "Balioa "
+#: ../src/gth-browser-actions-callbacks.c:593
+#: ../src/gth-browser-actions-callbacks.c:805
+#: ../src/gth-browser-actions-callbacks.c:885
+#: ../src/gth-browser-actions-callbacks.c:1108
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "\"%s\" izena jadanik erabilia dago. Erabili beste izen bat."
 
-#: src/gth-folder-selection-dialog.c:404
-msgid "_Browse..."
-msgstr "_Arakatu..."
+#: ../src/gth-browser-actions-callbacks.c:604
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Ezin izan da \"%s\" liburutegia berrizendatu: %s"
 
-#: src/gth-folder-selection-dialog.c:413
-msgid "_Recents:"
-msgstr "_Azkenak:"
+#: ../src/gth-browser-actions-callbacks.c:604
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Ezin izan da \"%s\" katalogoa berrizendatu: %s"
 
-#: src/gthumb-window.c:307
+#: ../src/gth-browser-actions-callbacks.c:674
+msgid "The selected library will be removed, are you sure?"
+msgstr "Hautatutako liburutegia ezabatuko da, ziur zaude?"
+
+#: ../src/gth-browser-actions-callbacks.c:676
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Hautatutako katalogoa ezabatuko da, ziur zaude?"
+
+#: ../src/gth-browser-actions-callbacks.c:771
+msgid "New Catalog"
+msgstr "Katalogo berria"
+
+#: ../src/gth-browser-actions-callbacks.c:817
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Ezin izan da \"%s\"·katalogoa sortu: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:911
+msgid "New Library"
+msgstr "Liburutegi berria"
+
+#: ../src/gth-browser-actions-callbacks.c:913
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Ezin izan da \"%s\"·liburutegia sortu: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1098
+#: ../src/gth-browser-actions-callbacks.c:1132
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Ezin izan da \"%s\" karpeta berrizendatu: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1182
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Ezin izan da \"%s\" karpeta ezabatu: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1213
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "Ezin izan da \"%s\" zakarrontzira bota. Betirako ezabatu nahi duzu?"
+
+#: ../src/gth-browser-actions-callbacks.c:1257
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Hautatutako karpeta zakarrontzira botako da, ziur zaude?"
+
+#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1360
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Ezin izan da \"%s\"·karpeta kopiatu: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1381
+msgid "source contains destination"
+msgstr "jatorriak helburua dauka"
+
+#: ../src/gth-browser-actions-callbacks.c:1392
+msgid "a folder with that name is already present."
+msgstr "izen hori duen karpeta jadanik badago."
+
+#: ../src/gth-browser-actions-callbacks.c:1669
+msgid "New Folder"
+msgstr "Karpeta berria"
+
+#: ../src/gth-browser-actions-callbacks.c:1670
+msgid "Enter the folder name: "
+msgstr "Idatzi karpetaren izena: "
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "_Fitxategia"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "_Karpeta"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "_Editatu"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "Erakutsi/_Ezkutatu"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "_Ordenatu irudiak"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr "_Zooma"
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "_Joan"
+
+#: ../src/gth-browser-actions-entries.h:47
+msgid "_Bookmarks"
+msgstr "_Laster-markak"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "_Tresnak"
+
+#: ../src/gth-browser-actions-entries.h:49
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "Ezarri atzeko planoko irudi gisa"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "_Laguntza"
+
+#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "Leih_o berria"
+
+#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "Sortu leiho berri bat"
+
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "Ireki hautatutako irudia leiho berri batean"
+
+#: ../src/gth-browser-actions-entries.h:63
+msgid "Proper_ties"
+msgstr "Propie_tateak"
+
+#: ../src/gth-browser-actions-entries.h:64
+msgid "View image properties"
+msgstr "Ikusi irudiaren propietateak"
+
+#: ../src/gth-browser-actions-entries.h:68
+msgid "_Import Photos..."
+msgstr "_Inportatu argazkiak..."
+
+#: ../src/gth-browser-actions-entries.h:69
+msgid "Import photos from a digital camera"
+msgstr "Inportatu argazkiak kamera digitaletik"
+
+#: ../src/gth-browser-actions-entries.h:73
+msgid "_Write To CD"
+msgstr "_Idatzi CD batean"
+
+#: ../src/gth-browser-actions-entries.h:74
+msgid "Write selection to CD"
+msgstr "Idatzi hautapena CD batean"
+
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:173
+#: ../src/gth-browser-actions-entries.h:213
+#: ../src/gth-browser-actions-entries.h:243
+msgid "_Rename..."
+msgstr "Berr_izendatu..."
+
+#: ../src/gth-browser-actions-entries.h:79
+msgid "Rename this image"
+msgstr "Berrizendatu irudi hau"
+
+#: ../src/gth-browser-actions-entries.h:84
+msgid "Move this image to the Trash"
+msgstr "Bota irudi hau zakarrontzira"
+
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
+msgid "_Copy..."
+msgstr "_Kopiatu..."
+
+#: ../src/gth-browser-actions-entries.h:89
+msgid "Copy this image to another location"
+msgstr "Kopiatu irudi hau beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
+msgid "_Move..."
+msgstr "_Mugitu..."
+
+#: ../src/gth-browser-actions-entries.h:94
+msgid "Move this image to another location"
+msgstr "Eraman irudiak beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "Berrizendatu hautatutako irudiak"
+
+#: ../src/gth-browser-actions-entries.h:103
+msgid "D_uplicate"
+msgstr "Bik_oiztu"
+
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr "Bikoiztu hautatutako irudiak"
+
+#: ../src/gth-browser-actions-entries.h:109
+msgid "Move the selected images to the Trash"
+msgstr "Bota hautatutak irudiak zakarrontzira"
+
+#: ../src/gth-browser-actions-entries.h:114
+msgid "Copy selected images to another location"
+msgstr "Kopiatu hautatutako irudiak beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:119
+msgid "Move selected images to another location"
+msgstr "Eraman hautatutako irudiak beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:123
+msgid "_Select All"
+msgstr "_Hautatu denak"
+
+#: ../src/gth-browser-actions-entries.h:124
+msgid "Select all images"
+msgstr "Hautatu irudi guztiak"
+
+#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "_Gehitu katalogora..."
+
+#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr "Gehitu hautatutako irudiak katalogo batean"
+
+#: ../src/gth-browser-actions-entries.h:133
+msgid "Remo_ve from Catalog"
+msgstr "_Kendu katalogotik"
+
+#: ../src/gth-browser-actions-entries.h:134
+msgid "Remove selected images from the catalog"
+msgstr "Kendu hautatutako irudiak katalogotik"
+
+#: ../src/gth-browser-actions-entries.h:139
+msgid "Rename selected catalog"
+msgstr "Berrizendatu hautatutako katalogoa"
+
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:178
+msgid "Rem_ove"
+msgstr "Ken_du"
+
+#: ../src/gth-browser-actions-entries.h:144
+msgid "Remove selected catalog"
+msgstr "Kendu hautatutako katalogoa"
+
+#: ../src/gth-browser-actions-entries.h:149
+msgid "Move selected catalog to another location"
+msgstr "Eraman hautatutako katalogoa beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:154
+#: ../src/gth-browser-actions-entries.h:189
+msgid "Modify search criteria"
+msgstr "Aldatu bilaketaren irizpideak"
+
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
+msgid "Redo _Search"
+msgstr "Berregin _bilaketa"
+
+#: ../src/gth-browser-actions-entries.h:159
+#: ../src/gth-browser-actions-entries.h:194
+msgid "Redo the search"
+msgstr "Berregin bilaketa"
+
+#: ../src/gth-browser-actions-entries.h:163
+msgid "_New Catalog..."
+msgstr "_Katalogo berria..."
+
+#: ../src/gth-browser-actions-entries.h:164
+msgid "Create a new catalog"
+msgstr "Sortu katalogo berri bat"
+
+#: ../src/gth-browser-actions-entries.h:168
+msgid "New _Library..."
+msgstr "_Liburutegi berria..."
+
+#: ../src/gth-browser-actions-entries.h:169
+msgid "Create a new catalog library"
+msgstr "Sortu katalogo liburutegi berri bat"
+
+#: ../src/gth-browser-actions-entries.h:174
+msgid "Rename current catalog"
+msgstr "Berrizendatu uneko katalogoa"
+
+#: ../src/gth-browser-actions-entries.h:179
+msgid "Remove current catalog"
+msgstr "Kendu uneko katalogoa"
+
+#: ../src/gth-browser-actions-entries.h:184
+msgid "Move current catalog to another location"
+msgstr "Eraman uneko katalogoa beste kokapen batera"
+
+#: ../src/gth-browser-actions-entries.h:198
+msgid "Open"
+msgstr "Ireki"
+
+#: ../src/gth-browser-actions-entries.h:199
+msgid "Open the selected folder"
+msgstr "Ireki hautatutako karpeta"
+
+#: ../src/gth-browser-actions-entries.h:203
+msgid "Open in New Window"
+msgstr "Ireki leiho berrian"
+
+#: ../src/gth-browser-actions-entries.h:204
+msgid "Open the selected folder in a new window"
+msgstr "Ireki hautatutako karpeta leiho berri batean"
+
+#: ../src/gth-browser-actions-entries.h:208
+#: ../src/gth-browser-actions-entries.h:238
+msgid "Open with the _File Manager"
+msgstr "Ireki _fitxategi-kudeatzailearekin"
+
+#: ../src/gth-browser-actions-entries.h:209
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Ireki hautatutako karpeta Nautilus fitxategi kudeatzailearekin"
+
+#: ../src/gth-browser-actions-entries.h:214
+msgid "Rename selected folder"
+msgstr "Berrizendatu hautatutako karpeta"
+
+#: ../src/gth-browser-actions-entries.h:219
+msgid "Move the selected folder to the Trash"
+msgstr "Bota hautatutako karpeta zakarrontzira"
+
+#: ../src/gth-browser-actions-entries.h:224
+msgid "Copy selected folder"
+msgstr "Kopiatu hautatutako karpeta"
+
+#: ../src/gth-browser-actions-entries.h:229
+msgid "Move selected folder"
+msgstr "Aldatuz lekuz hautatutako karpeta"
+
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+#: ../src/gth-window-actions-entries.h:85
+msgid "Ca_tegories"
+msgstr "Ka_tegoriak"
+
+#: ../src/gth-browser-actions-entries.h:234
+msgid "Assign categories to the selected folder"
+msgstr "Esleitu kategoriak hautatutako karpetari"
+
+#: ../src/gth-browser-actions-entries.h:239
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Ireki uneko karpeta Nautilus fitxategi-kudeatzailearekin"
+
+#: ../src/gth-browser-actions-entries.h:244
+msgid "Rename current folder"
+msgstr "Berrizendatu uneko karpeta"
+
+#: ../src/gth-browser-actions-entries.h:249
+msgid "Move the current folder to the Trash"
+msgstr "Bota uneko karpeta zakarrontzira"
+
+#: ../src/gth-browser-actions-entries.h:254
+msgid "Copy current folder"
+msgstr "Kopiatu uneko karpeta"
+
+#: ../src/gth-browser-actions-entries.h:259
+msgid "Move current folder"
+msgstr "Aldatu lekuz uneko karpeta"
+
+#: ../src/gth-browser-actions-entries.h:264
+msgid "Assign categories to the current folder"
+msgstr "Esleitu katogoriak uneko karpetari"
+
+#: ../src/gth-browser-actions-entries.h:268
+msgid "_New Folder..."
+msgstr "_Karpeta berria..."
+
+#: ../src/gth-browser-actions-entries.h:269
+msgid "Create a new folder"
+msgstr "Sortu karpeta berri bat"
+
+#. next image
+#: ../src/gth-browser-actions-entries.h:273 ../src/gth-fullscreen.c:1475
+msgid "Next"
+msgstr "Hurrengoa"
+
+#: ../src/gth-browser-actions-entries.h:274
+msgid "View next image"
+msgstr "Ikusi hurrengo irudia"
+
+#. previous image
+#: ../src/gth-browser-actions-entries.h:278 ../src/gth-fullscreen.c:1466
+msgid "Previous"
+msgstr "Aurrekoa"
+
+#: ../src/gth-browser-actions-entries.h:279
+msgid "View previous image"
+msgstr "Ikusi aurreko irudia"
+
+#: ../src/gth-browser-actions-entries.h:284 ../src/gth-browser.c:5046
+msgid "Go to the previous visited location"
+msgstr "Joan bisitatutako aurreko kokapenera"
+
+#: ../src/gth-browser-actions-entries.h:289
+msgid "Go to the next visited location"
+msgstr "Joan bisitatutako hurrengo kokapenera"
+
+#: ../src/gth-browser-actions-entries.h:294
+msgid "Go up one level"
+msgstr "Joan maila bat gora"
+
+#: ../src/gth-browser-actions-entries.h:298
+#: ../src/gth-viewer-actions-entries.h:63
+msgid "_Reload"
+msgstr "_Birkargatu"
+
+#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-viewer-actions-entries.h:64
+msgid "Reload the current location"
+msgstr "Birkargatu uneko kokapena"
+
+#: ../src/gth-browser-actions-entries.h:304
+msgid "Stop loading current location"
+msgstr "Gelditu uneko kokapenaren karga"
+
+#: ../src/gth-browser-actions-entries.h:309
+msgid "Go to the home folder"
+msgstr "Joan etxeko karpetara"
+
+#: ../src/gth-browser-actions-entries.h:313
+msgid "_Go to the Image Folder"
+msgstr "_Joan irudien karpetara"
+
+#: ../src/gth-browser-actions-entries.h:314
+msgid "Go to the folder that contains the selected image"
+msgstr "Joan hautatutako irudia dagoen karpetara"
+
+#: ../src/gth-browser-actions-entries.h:318
+msgid "_Delete History"
+msgstr "_Ezabatu historia"
+
+#: ../src/gth-browser-actions-entries.h:319
+msgid "Delete the list of visited locations"
+msgstr "Ezabatu bisitatutako kokapenen zerrenda"
+
+#: ../src/gth-browser-actions-entries.h:323
+msgid "_Location..."
+msgstr "_Kokapena..."
+
+#: ../src/gth-browser-actions-entries.h:324
+msgid "Specify a location to visit"
+msgstr "Zehaztu kokapena bisitatzeko"
+
+#: ../src/gth-browser-actions-entries.h:328
+msgid "_Add Bookmark"
+msgstr "_Gehitu laster-marka"
+
+#: ../src/gth-browser-actions-entries.h:329
+msgid "Add current location to bookmarks"
+msgstr "Gehitu uneko kokapena laster-marketan"
+
+#: ../src/gth-browser-actions-entries.h:333
+msgid "_Edit Bookmarks"
+msgstr "_Editatu laster-markak"
+
+#: ../src/gth-browser-actions-entries.h:334
+msgid "Edit bookmarks"
+msgstr "Editatu laster-markak"
+
+#: ../src/gth-browser-actions-entries.h:338
+msgid "_Slide Show"
+msgstr "_Diapositiba-aurkezpena"
+
+#: ../src/gth-browser-actions-entries.h:339
+msgid "View as a slide show"
+msgstr "Ikusi diapositiba-aurkezpen gisa"
+
+#: ../src/gth-browser-actions-entries.h:344
+msgid "Find images"
+msgstr "Bilatu irudiak"
+
+#: ../src/gth-browser-actions-entries.h:348
+msgid "Create _Index Image"
+msgstr "Sortu irudi _indizea"
+
+#: ../src/gth-browser-actions-entries.h:353
+msgid "Create _Web Album"
+msgstr "Sortu _web albuma"
+
+#: ../src/gth-browser-actions-entries.h:358
+msgid "Convert F_ormat"
+msgstr "Bihurtu f_ormatua"
+
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Fi_nd Duplicates..."
+msgstr "Bi_latu bikoiztuak..."
+
+#: ../src/gth-browser-actions-entries.h:369
+msgid "Edit various preferences"
+msgstr "Editatu hainbat hobespen"
+
+#: ../src/gth-browser-actions-entries.h:377
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "_Toolbar"
+msgstr "_Tresna-barra"
+
+#: ../src/gth-browser-actions-entries.h:378
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "View or hide the toolbar of this window"
+msgstr "Ikusi edo ezkutatu leiho honen tresna-barra"
+
+#: ../src/gth-browser-actions-entries.h:382
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "_Statusbar"
+msgstr "_Egoera-barra"
+
+#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-viewer-actions-entries.h:79
+msgid "View or hide the statusbar of this window"
+msgstr "Ikusi edo ezkutatu leiho honen egoera-barra"
+
+#: ../src/gth-browser-actions-entries.h:388
+msgid "View thumbnails"
+msgstr "Ikusi koadro txikiak"
+
+#: ../src/gth-browser-actions-entries.h:392
+msgid "_Image Preview"
+msgstr "_Irudiaren aurrebista"
+
+#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:436
+msgid "View the image"
+msgstr "Ikusi irudia"
+
+#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-viewer-actions-entries.h:83
+msgid "Image _Comment"
+msgstr "Irudiaren _iruzkina"
+
+#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-viewer-actions-entries.h:84
+msgid "View image comment"
+msgstr "Ikusi irudiaren iruzkina"
+
+#: ../src/gth-browser-actions-entries.h:402
+msgid "_Reversed Order"
+msgstr "_Alderantzikatu ordena"
+
+#: ../src/gth-browser-actions-entries.h:403
+msgid "Reverse images order"
+msgstr "Alderantzikatu irudien ordena"
+
+#: ../src/gth-browser-actions-entries.h:412
+msgid "by _Name"
+msgstr "_izenaren arabera"
+
+#: ../src/gth-browser-actions-entries.h:413
+msgid "Sort images by name"
+msgstr "Ordenatu irudiak izenaren arabera"
+
+#: ../src/gth-browser-actions-entries.h:415
+msgid "by _Path"
+msgstr "_bidearen arabera"
+
+#: ../src/gth-browser-actions-entries.h:416
+msgid "Sort images by path"
+msgstr "Ordenatu irudiak bidearen arabera"
+
+#: ../src/gth-browser-actions-entries.h:418
+msgid "by _Size"
+msgstr "_tamainaren arabera"
+
+#: ../src/gth-browser-actions-entries.h:419
+msgid "Sort images by file size"
+msgstr "Ordenatu irudiak fitxategiaren tamainaren arabera"
+
+#: ../src/gth-browser-actions-entries.h:421
+msgid "by _Time"
+msgstr "_orduaren arabera"
+
+#: ../src/gth-browser-actions-entries.h:422
+msgid "Sort images by modification time"
+msgstr "Ordenatu irudiak aldaketa-dataren arabera"
+
+#: ../src/gth-browser-actions-entries.h:429
+msgid "_Folders"
+msgstr "_Karpetak"
+
+#: ../src/gth-browser-actions-entries.h:430
+msgid "View the folders"
+msgstr "Ikusi karpetak"
+
+#: ../src/gth-browser-actions-entries.h:432
+msgid "_Catalogs"
+msgstr "_Katalogoak"
+
+#: ../src/gth-browser-actions-entries.h:433
+msgid "View the catalogs"
+msgstr "Ikusi katalogoak"
+
+#: ../src/gth-browser.c:565 ../src/gth-viewer.c:618
 msgid "[Press 'c' to add a comment]"
 msgstr "[Sakatu 'c' azalpen bat gehitzeko]"
 
-#: src/gthumb-window.c:381 src/gthumb-window.c:403
+#: ../src/gth-browser.c:674 ../src/gth-browser.c:693 ../src/gth-viewer.c:714
+#: ../src/gth-viewer.c:735
 msgid "[modified]"
 msgstr "[aldatua]"
 
-#: src/gthumb-window.c:489
+#: ../src/gth-browser.c:718 ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:672
+msgid "gThumb"
+msgstr "gThumb"
+
+#: ../src/gth-browser.c:780
 #, c-format
 msgid "1 image (%s)"
 msgstr "Irudi bat (%s)"
 
-#: src/gthumb-window.c:492
+#: ../src/gth-browser.c:783
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d irudi (%s)"
 
-#: src/gthumb-window.c:499
+#: ../src/gth-browser.c:790
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 hautatua (%s)"
 
-#: src/gthumb-window.c:502
+#: ../src/gth-browser.c:793
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d hautatuak (%s)"
 
-#: src/gthumb-window.c:1606
+#: ../src/gth-browser.c:1873 ../src/gth-viewer.c:888
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Uneko irudia aldatua izan da, gorde nahi duzu?"
 
-#: src/gthumb-window.c:1607
+#: ../src/gth-browser.c:1874 ../src/gth-viewer.c:889
 msgid "Do Not Save"
 msgstr "Ez gorde"
 
-#: src/gthumb-window.c:3220
+#: ../src/gth-browser.c:3473
 msgid "Dragged Images"
 msgstr "Arrastutako irudiak"
 
-#: src/gthumb-window.c:4052 src/ui.h:459
-msgid "Go to the previous visited location"
-msgstr "Joan bisitatutako aurreko kokapenera"
+#: ../src/gth-browser.c:5045
+msgid "Back"
+msgstr "Atzera"
 
-#: src/gthumb-window.c:4996 src/ui.h:464
-msgid "Go to the next visited location"
-msgstr "Joan bisitatutako hurrengo kokapenera"
+#: ../src/gth-browser.c:5075 ../src/gth-browser.c:5076
+#: ../src/gth-viewer.c:1406 ../src/gth-viewer.c:1407
+#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-window-actions-entries.h:271
+msgid "Rotate images without loss of quality"
+msgstr "Biratu irudiak kalitaterik galdu gabe"
 
-#: src/gthumb-window.c:5003 src/ui.h:469
-msgid "Go up one level"
-msgstr "Joan maila bat gora"
-
-#: src/gthumb-window.c:5010 src/ui.h:484
-msgid "Go to the home folder"
-msgstr "Joan etxeko karpetara"
-
-#: src/gthumb-window.c:5204
+#: ../src/gth-browser.c:6484
 msgid "Close"
 msgstr "Itxi"
 
-#: src/gthumb-window.c:5218
+#: ../src/gth-browser.c:6498 ../src/gth-viewer.c:1673
 msgid "Image comment"
 msgstr "Irudiaren iruzkina"
 
-#: src/gthumb-window.c:5232
+#: ../src/gth-browser.c:6512
 msgid "Image data"
 msgstr "Irudiaren datuak"
 
-#: src/gthumb-window.c:5246
+#: ../src/gth-browser.c:6526
 msgid "Image preview"
 msgstr "Irudiaren aurrebista"
 
-#: src/gthumb-window.c:6546
+#: ../src/gth-browser.c:7588
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Ezin izan da \"%s\" karpeta kargatu: %s\n"
 
-#: src/gthumb-window.c:6816
+#: ../src/gth-browser.c:7858
 msgid "The specified catalog does not exist."
 msgstr "Zehaztutako katalogoa ez da existitzen."
 
-#: src/main.c:84
-msgid "Start in fullscreen mode"
-msgstr "Hasi pantaila osoko moduan"
+#: ../src/gth-exif-data-viewer.c:132
+msgid "Field"
+msgstr "Eremua"
 
-#: src/main.c:88
-msgid "Automatically start a slideshow"
-msgstr "Automatikoki hasi diapositiba-aurkezpen bat"
+#: ../src/gth-exif-data-viewer.c:142
+msgid "Value "
+msgstr "Balioa "
 
-#: src/main.c:92
-msgid "Automatically import digital camera photos"
-msgstr "Inportatu automatikoki kamera digitaleko argazkiak"
+#: ../src/gth-folder-selection-dialog.c:414
+msgid "_Browse..."
+msgstr "_Arakatu..."
 
-#: src/main.c:173
-msgid "Holidays"
-msgstr "Oporrak"
+#: ../src/gth-folder-selection-dialog.c:423
+msgid "_Recents:"
+msgstr "_Azkenak:"
 
-#: src/main.c:174
-msgid "Temporary"
-msgstr "Aldi batekoa"
+#. restore normal view
+#: ../src/gth-fullscreen.c:1457 ../src/gth-window-actions-entries.h:220
+msgid "Restore Normal View"
+msgstr "Berrezarri ikuspegi normala"
 
-#: src/main.c:175
-msgid "Screenshots"
-msgstr "Pantaila-argazkia"
+#. image comment
+#: ../src/gth-fullscreen.c:1484
+msgid "Image Info"
+msgstr "Irudiaren informazioa"
 
-#: src/main.c:176
-msgid "Science"
-msgstr "Zientzia"
+#. pause slideshow
+#: ../src/gth-fullscreen.c:1494
+msgid "Pause"
+msgstr "Pausarazi"
 
-#: src/main.c:177
-msgid "Favourite"
-msgstr "Gogokoak"
-
-#: src/main.c:178
-msgid "Important"
-msgstr "Garrantzitsua"
-
-#: src/main.c:179
-msgid "GNOME"
-msgstr "GNOME"
-
-#: src/main.c:180
-msgid "Games"
-msgstr "Jokuak"
-
-#: src/main.c:181
-msgid "Party"
-msgstr "Festa"
-
-#: src/main.c:182
-msgid "Birthday"
-msgstr "Urtebetetzea"
-
-#: src/main.c:183
-msgid "Astronomy"
-msgstr "Astronomia"
-
-#: src/main.c:184
-msgid "Family"
-msgstr "Senideak"
-
-#: src/main.c:361 src/main.c:446
-msgid "Command Line"
-msgstr "Komando-lerroa"
-
-#: src/ui.h:34
-msgid "_File"
-msgstr "_Fitxategia"
-
-#: src/ui.h:35
-msgid "_Folder"
-msgstr "_Karpeta"
-
-#: src/ui.h:38
-msgid "_Edit"
-msgstr "_Editatu"
-
-#: src/ui.h:40
-msgid "Show/_Hide"
-msgstr "Erakutsi/_Ezkutatu"
-
-#: src/ui.h:41
-msgid "S_ort Images"
-msgstr "_Ordenatu irudiak"
-
-#: src/ui.h:42
-msgid "_Zoom"
-msgstr "_Zooma"
-
-#: src/ui.h:43
-msgid "_Go"
-msgstr "_Joan"
-
-#: src/ui.h:45
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
 msgstr "_Eraldatu"
 
-#: src/ui.h:46
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
 msgstr "Auto"
 
-#: src/ui.h:47
-msgid "_Bookmarks"
-msgstr "_Laster-markak"
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "Open _Folder"
+msgstr "Ireki _karpeta"
 
-#: src/ui.h:48
-msgid "_Tools"
-msgstr "_Tresnak"
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Browse the image folder"
+msgstr "Arakatu irudien karpeta"
 
-#: src/ui.h:49
-msgid "Set Image as _Wallpaper"
-msgstr "Ezarri atzeko planoko irudi gisa"
+#: ../src/gth-window-actions-callbacks.c:770
+msgid "translator_credits"
+msgstr ""
+"Mikel Olasagasti <hey_neken@mundurat.net> \n"
+"Iñaki Larrañaga <dooteo@euskalgnu.org>"
 
-#: src/ui.h:50
-msgid "_Help"
-msgstr "_Laguntza"
+#: ../src/gth-window-actions-callbacks.c:783
+msgid "An image viewer and browser for GNOME."
+msgstr "Irudi ikustaile eta arakatzaile bat GNOMErako."
 
-#: src/ui.h:53
-msgid "New _Window"
-msgstr "Leih_o berria"
+#: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "Gutxiagotu koloreak"
 
-#: src/ui.h:54
-msgid "Create a new window"
-msgstr "Sortu leiho berri bat"
-
-#: src/ui.h:58
-msgid "_Close"
-msgstr "_Itxi"
-
-#: src/ui.h:59
+#: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Itxi leiho hau"
 
-#: src/ui.h:63 src/ui.h:98
+#: ../src/gth-window-actions-entries.h:45
+#: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "_Ireki honekin"
 
-#: src/ui.h:64
+#: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Ireki hautatutako irudiak aplikazio batekin"
 
-#: src/ui.h:73
-msgid "_Revert"
-msgstr "_Itzuli lehengora"
-
-#: src/ui.h:74
+#: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
 msgstr "Itzuli gordetako irudira"
 
-#: src/ui.h:78
-msgid "_Print..."
-msgstr "_Inprimatu..."
-
-#: src/ui.h:83 src/ui.h:453
-msgid "Proper_ties"
-msgstr "Propie_tateak"
-
-#: src/ui.h:84 src/ui.h:454
-msgid "View image properties"
-msgstr "Ikusi irudiaren propietateak"
-
-#: src/ui.h:88
-msgid "_Import Photos..."
-msgstr "_Inportatu argazkiak..."
-
-#: src/ui.h:89
-msgid "Import photos from a digital camera"
-msgstr "Inportatu argazkiak kamera digitaletik"
-
-#: src/ui.h:93
-msgid "_Write To CD"
-msgstr "_Idatzi CD batean"
-
-#: src/ui.h:94
-msgid "Write selection to CD"
-msgstr "Idatzi hautapena CD batean"
-
-#: src/ui.h:99
+#: ../src/gth-window-actions-entries.h:71
 msgid "Open this image with an application"
 msgstr "Ireki irudi hau aplikazio batekin"
 
-#: src/ui.h:103 src/ui.h:128 src/ui.h:183 src/ui.h:218 src/ui.h:258
-#: src/ui.h:288
-msgid "_Rename..."
-msgstr "Berr_izendatu..."
-
-#: src/ui.h:104
-msgid "Rename this image"
-msgstr "Berrizendatu irudi hau"
-
-#: src/ui.h:108 src/ui.h:133
-msgid "D_uplicate"
-msgstr "Bik_oiztu"
-
-#: src/ui.h:109
-msgid "Duplicate this image"
-msgstr "Bikoiztu irudi hau"
-
-#: src/ui.h:114
-msgid "Move this image to the Trash"
-msgstr "Bota irudi hau zakarrontzira"
-
-#: src/ui.h:118 src/ui.h:143 src/ui.h:268 src/ui.h:298
-msgid "_Copy..."
-msgstr "_Kopiatu..."
-
-#: src/ui.h:119
-msgid "Copy this image to another location"
-msgstr "Kopiatu irudi hau beste kokapen batera"
-
-#: src/ui.h:123 src/ui.h:148 src/ui.h:193 src/ui.h:228 src/ui.h:273
-#: src/ui.h:303
-msgid "_Move..."
-msgstr "_Mugitu..."
-
-#: src/ui.h:124
-msgid "Move this image to another location"
-msgstr "Eraman irudiak beste kokapen batera"
-
-#: src/ui.h:129
-msgid "Rename selected image"
-msgstr "Berrizendatu hautatutako irudia"
-
-#: src/ui.h:134
-msgid "Duplicate selected image"
-msgstr "Bikoiztu hautatutako irudia"
-
-#: src/ui.h:139
-msgid "Move the selected images to the Trash"
-msgstr "Bota hautatutak irudiak zakarrontzira"
-
-#: src/ui.h:144
-msgid "Copy selected images to another location"
-msgstr "Kopiatu hautatutako irudiak beste kokapen batera"
-
-#: src/ui.h:149
-msgid "Move selected images to another location"
-msgstr "Eraman hautatutako irudiak beste kokapen batera"
-
-#: src/ui.h:153
-msgid "_Select All"
-msgstr "_Hautatu denak"
-
-#: src/ui.h:154
-msgid "Select all images"
-msgstr "Hautatu irudi guztiak"
-
-#: src/ui.h:159
+#: ../src/gth-window-actions-entries.h:76
 msgid "Add a comment to selected images"
 msgstr "Gehitu iruzkina hautatutako irudiei"
 
-#: src/ui.h:163
+#: ../src/gth-window-actions-entries.h:80
 msgid "Rem_ove Comment"
 msgstr "Ken_du iruzkina"
 
-#: src/ui.h:164
+#: ../src/gth-window-actions-entries.h:81
 msgid "Remove comments of selected images"
 msgstr "Kendu iruzkinak hautatutako irudietatik"
 
-#: src/ui.h:168 src/ui.h:278 src/ui.h:308
-msgid "Ca_tegories"
-msgstr "Ka_tegoriak"
-
-#: src/ui.h:169
+#: ../src/gth-window-actions-entries.h:86
 msgid "Assign categories to selected images"
 msgstr "Esleitu kategoriak hautatutako irudiei"
 
-#: src/ui.h:173
-msgid "_Add to Catalog..."
-msgstr "_Gehitu katalogora..."
-
-#: src/ui.h:174
-msgid "Add selected images to a catalog"
-msgstr "Gehitu hautatutako irudiak katalogo batean"
-
-#: src/ui.h:178
-msgid "Remo_ve from Catalog"
-msgstr "_Kendu katalogotik"
-
-#: src/ui.h:179
-msgid "Remove selected images from the catalog"
-msgstr "Kendu hautatutako irudiak katalogotik"
-
-#: src/ui.h:184
-msgid "Rename selected catalog"
-msgstr "Berrizendatu hautatutako katalogoa"
-
-#: src/ui.h:188 src/ui.h:223
-msgid "Rem_ove"
-msgstr "Ken_du"
-
-#: src/ui.h:189
-msgid "Remove selected catalog"
-msgstr "Kendu hautatutako katalogoa"
-
-#: src/ui.h:194
-msgid "Move selected catalog to another location"
-msgstr "Eraman hautatutako katalogoa beste kokapen batera"
-
-#: src/ui.h:199 src/ui.h:234
-msgid "Modify search criteria"
-msgstr "Aldatu bilaketaren irizpideak"
-
-#: src/ui.h:203 src/ui.h:238
-msgid "Redo _Search"
-msgstr "Berregin _bilaketa"
-
-#: src/ui.h:204 src/ui.h:239
-msgid "Redo the search"
-msgstr "Berregin bilaketa"
-
-#: src/ui.h:208
-msgid "_New Catalog..."
-msgstr "_Katalogo berria..."
-
-#: src/ui.h:209
-msgid "Create a new catalog"
-msgstr "Sortu katalogo berri bat"
-
-#: src/ui.h:213
-msgid "New _Library..."
-msgstr "_Liburutegi berria..."
-
-#: src/ui.h:214
-msgid "Create a new catalog library"
-msgstr "Sortu katalogo liburutegi berri bat"
-
-#: src/ui.h:219
-msgid "Rename current catalog"
-msgstr "Berrizendatu uneko katalogoa"
-
-#: src/ui.h:224
-msgid "Remove current catalog"
-msgstr "Kendu uneko katalogoa"
-
-#: src/ui.h:229
-msgid "Move current catalog to another location"
-msgstr "Eraman uneko katalogoa beste kokapen batera"
-
-#: src/ui.h:243
-msgid "Open"
-msgstr "Ireki"
-
-#: src/ui.h:244
-msgid "Open the selected folder"
-msgstr "Ireki hautatutako karpeta"
-
-#: src/ui.h:248
-msgid "Open in New Window"
-msgstr "Ireki leiho berrian"
-
-#: src/ui.h:249
-msgid "Open the selected folder in a new window"
-msgstr "Ireki hautatutako karpeta leiho berri batean"
-
-#: src/ui.h:253 src/ui.h:283
-msgid "Open with the _File Manager"
-msgstr "Ireki _fitxategi-kudeatzailearekin"
-
-#: src/ui.h:254
-msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Ireki hautatutako karpeta Nautilus fitxategi kudeatzailearekin"
-
-#: src/ui.h:259
-msgid "Rename selected folder"
-msgstr "Berrizendatu hautatutako karpeta"
-
-#: src/ui.h:264
-msgid "Move the selected folder to the Trash"
-msgstr "Bota hautatutako karpeta zakarrontzira"
-
-#: src/ui.h:269
-msgid "Copy selected folder"
-msgstr "Kopiatu hautatutako karpeta"
-
-#: src/ui.h:274
-msgid "Move selected folder"
-msgstr "Aldatuz lekuz hautatutako karpeta"
-
-#: src/ui.h:279
-msgid "Assign categories to the selected folder"
-msgstr "Esleitu kategoriak hautatutako karpetari"
-
-#: src/ui.h:284
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Ireki uneko karpeta Nautilus fitxategi-kudeatzailearekin"
-
-#: src/ui.h:289
-msgid "Rename current folder"
-msgstr "Berrizendatu uneko karpeta"
-
-#: src/ui.h:294
-msgid "Move the current folder to the Trash"
-msgstr "Bota uneko karpeta zakarrontzira"
-
-#: src/ui.h:299
-msgid "Copy current folder"
-msgstr "Kopiatu uneko karpeta"
-
-#: src/ui.h:304
-msgid "Move current folder"
-msgstr "Aldatu lekuz uneko karpeta"
-
-#: src/ui.h:309
-msgid "Assign categories to the current folder"
-msgstr "Esleitu katogoriak uneko karpetari"
-
-#: src/ui.h:313
-msgid "_New Folder..."
-msgstr "_Karpeta berria..."
-
-#: src/ui.h:314
-msgid "Create a new folder"
-msgstr "Sortu karpeta berri bat"
-
-#: src/ui.h:318
+#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:265
 msgid "Rotate Ri_ght"
 msgstr "Biratu e_skuinera"
 
-#: src/ui.h:319
+#: ../src/gth-window-actions-entries.h:101
 msgid "View the image rotated clockwise"
 msgstr "Ikusi irudia ordulariaren zentzuan biratua"
 
-#: src/ui.h:323
+#: ../src/gth-window-actions-entries.h:105
+#: ../src/gth-window-actions-entries.h:260
 msgid "Rotate _Left"
 msgstr "Biratu e_zkerrera"
 
-#: src/ui.h:324
+#: ../src/gth-window-actions-entries.h:106
 msgid "View the image rotated counter-clockwise"
 msgstr "Ikusi irudia ordulariaren zentzuaren aurka biratua"
 
-#: src/ui.h:329
+#: ../src/gth-window-actions-entries.h:111
 msgid "View the image flipped"
 msgstr "Ikusi irudia iraulita"
 
-#: src/ui.h:334
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image mirrored"
 msgstr "Ikusi irudia ispilatua"
 
-#: src/ui.h:338
+#: ../src/gth-window-actions-entries.h:120
 msgid "_Desaturate"
 msgstr "_Desasetu"
 
-#: src/ui.h:339
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image in black and white"
 msgstr "Ikusi irudia zuri-beltzean"
 
-#: src/ui.h:343
+#: ../src/gth-window-actions-entries.h:125
 msgid "_Negative"
 msgstr "_Negatiboa"
 
-#: src/ui.h:344
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image with negative colors"
 msgstr "Ikusi irudia kolore negatiboekin"
 
-#: src/ui.h:348
+#: ../src/gth-window-actions-entries.h:130
 msgid "_Enhance"
 msgstr "_Hobetu"
 
-#: src/ui.h:349
+#: ../src/gth-window-actions-entries.h:131
 msgid "Automatically adjust the color levels"
 msgstr "Automatikoki egokitu kolore-mailak"
 
-#: src/ui.h:353
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Equalize"
 msgstr "_Berdindu"
 
-#: src/ui.h:354
+#: ../src/gth-window-actions-entries.h:136
 msgid "Automatically equalize the image histogram"
 msgstr "Automatikoki berdindu irudiaren histograma"
 
-#: src/ui.h:358
-msgid "_Normalize"
-msgstr "_Normalizatu"
-
-#: src/ui.h:359
-msgid "Automatically normalize the contrast"
-msgstr "Automatikoki normalizatu kontrastea"
-
-#: src/ui.h:363
-msgid "_Stretch Contrast"
-msgstr "_Tiratu kontrastea"
-
-#: src/ui.h:364
-msgid "Automatically stretch the contrast"
-msgstr "Automatikoki egokitu kontrastea"
-
-#: src/ui.h:368
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Posterize"
 msgstr "_Posterizatu"
 
-#: src/ui.h:369
+#: ../src/gth-window-actions-entries.h:141
+#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:186
 msgid "Reduce the number of colors"
 msgstr "Gutxiagotu kolore kopurua"
 
-#: src/ui.h:373
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Brightness-Contrast"
 msgstr "_Distira-kontrastea"
 
-#: src/ui.h:374
+#: ../src/gth-window-actions-entries.h:146
 msgid "Adjust brightness and contrast"
 msgstr "Egokitu distira eta kontrastea"
 
-#: src/ui.h:378
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Hue-Saturation"
 msgstr "_Ñabardura-saturazioa"
 
-#: src/ui.h:379
+#: ../src/gth-window-actions-entries.h:151
 msgid "Adjust hue and saturation"
 msgstr "Egokitu ñabardura eta saturazioa"
 
-#: src/ui.h:383
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Color Balance"
 msgstr "_Kolore-balantzea"
 
-#: src/ui.h:384
+#: ../src/gth-window-actions-entries.h:156
 msgid "Adjust color balance"
 msgstr "Egokitu kolore oreka"
 
-#: src/ui.h:388
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Threshold"
 msgstr "_Muga"
 
-#: src/ui.h:389
+#: ../src/gth-window-actions-entries.h:161
 msgid "Apply threshold"
 msgstr "Aplikatu muga"
 
-#: src/ui.h:393
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Resize"
 msgstr "_Aldatu tamaina"
 
-#: src/ui.h:394
+#: ../src/gth-window-actions-entries.h:166
 msgid "Resize image"
 msgstr "Aldatu irudiaren tamaina"
 
-#: src/ui.h:398
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Rotate"
 msgstr "_Biratu"
 
-#: src/ui.h:399
+#: ../src/gth-window-actions-entries.h:171
 msgid "Rotate image"
 msgstr "Biratu irudia"
 
-#: src/ui.h:404
+#: ../src/gth-window-actions-entries.h:176
 msgid "Crop image"
 msgstr "Moztu irudia"
 
-#: src/ui.h:408
-msgid "Next"
-msgstr "Hurrengoa"
+#: ../src/gth-window-actions-entries.h:180
+msgid "Black and White"
+msgstr "Zuri-beltza"
 
-#: src/ui.h:409
-msgid "View next image"
-msgstr "Ikusi hurrengo irudia"
+#: ../src/gth-window-actions-entries.h:185
+msgid "Web Palette"
+msgstr "Web-paleta "
 
-#: src/ui.h:413
-msgid "Previous"
-msgstr "Aurrekoa"
+#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:292
+msgid "In"
+msgstr "Barruan"
 
-#: src/ui.h:414
-msgid "View previous image"
-msgstr "Ikusi aurreko irudia"
-
-#: src/ui.h:419
+#: ../src/gth-window-actions-entries.h:191
 msgid "Zoom in"
 msgstr "Zooma handiagotu"
 
-#: src/ui.h:424
+#: ../src/gth-window-actions-entries.h:195
+msgid "Out"
+msgstr "Kanpoan"
+
+#: ../src/gth-window-actions-entries.h:196
 msgid "Zoom out"
 msgstr "Zooma txikiagotu"
 
-#: src/ui.h:429
+#: ../src/gth-window-actions-entries.h:200
+msgid "1:1"
+msgstr "1:1"
+
+#: ../src/gth-window-actions-entries.h:201
 msgid "Actual size"
 msgstr "Oraingo tamaina"
 
-#: src/ui.h:434
+#: ../src/gth-window-actions-entries.h:205
+msgid "Fit"
+msgstr "Doitu"
+
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom to fit window"
 msgstr "Doitu zooma leihora"
 
-#: src/ui.h:438
+#: ../src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
 msgstr "A_nimazioa pausoka"
 
-#: src/ui.h:443
+#: ../src/gth-window-actions-entries.h:215
 msgid "_Full Screen"
 msgstr "_Pantaila osoa"
 
-#: src/ui.h:444 src/ui.h:449
+#: ../src/gth-window-actions-entries.h:216
+#: ../src/gth-window-actions-entries.h:221
 msgid "View image in fullscreen mode"
 msgstr "Ikusi irudia pantaila osoan"
 
-#: src/ui.h:458
-msgid "_Back"
-msgstr "_Atzera"
-
-#: src/ui.h:463
-msgid "_Forward"
-msgstr "_Aurrera"
-
-#: src/ui.h:468
-msgid "_Up"
-msgstr "_Gora"
-
-#: src/ui.h:473
-msgid "_Reload"
-msgstr "_Birkargatu"
-
-#: src/ui.h:474
-msgid "Reload the current location"
-msgstr "Birkargatu uneko kokapena"
-
-#: src/ui.h:478
-msgid "_Stop"
-msgstr "_Gelditu"
-
-#: src/ui.h:479
-msgid "Stop loading current location"
-msgstr "Gelditu uneko kokapenaren karga"
-
-#: src/ui.h:483
-msgid "_Home"
-msgstr "_Etxea"
-
-#: src/ui.h:488
-msgid "_Go to the Image Folder"
-msgstr "_Joan irudien karpetara"
-
-#: src/ui.h:489
-msgid "Go to the folder that contains the selected image"
-msgstr "Joan hautatutako irudia dagoen karpetara"
-
-#: src/ui.h:493
-msgid "_Delete History"
-msgstr "_Ezabatu historia"
-
-#: src/ui.h:494
-msgid "Delete the list of visited locations"
-msgstr "Ezabatu bisitatutako kokapenen zerrenda"
-
-#: src/ui.h:498
-msgid "_Location..."
-msgstr "_Kokapena..."
-
-#: src/ui.h:499
-msgid "Specify a location to visit"
-msgstr "Zehaztu kokapena bisitatzeko"
-
-#: src/ui.h:503
-msgid "_Add Bookmark"
-msgstr "_Gehitu laster-marka"
-
-#: src/ui.h:504
-msgid "Add current location to bookmarks"
-msgstr "Gehitu uneko kokapena laster-marketan"
-
-#: src/ui.h:508
-msgid "_Edit Bookmarks"
-msgstr "_Editatu laster-markak"
-
-#: src/ui.h:509
-msgid "Edit bookmarks"
-msgstr "Editatu laster-markak"
-
-#: src/ui.h:513
+#: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "_Erdian"
 
-#: src/ui.h:514
+#: ../src/gth-window-actions-entries.h:226
 msgid "Set the image as desktop background (centered)"
 msgstr "Ezarri irudia mahaigaineko atzeko plano gisa (zentratua)"
 
-#: src/ui.h:518
+#: ../src/gth-window-actions-entries.h:230
 msgid "_Tiled"
 msgstr "_Lauza moduan"
 
-#: src/ui.h:519
+#: ../src/gth-window-actions-entries.h:231
 msgid "Set the image as desktop background (tiled)"
 msgstr "Ezarri irudia mahaigaineko atzeko plano gisa (lauza moduan)"
 
-#: src/ui.h:523
+#: ../src/gth-window-actions-entries.h:235
 msgid "_Scaled"
 msgstr "_Eskalatua"
 
-#: src/ui.h:524
+#: ../src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
 "Ezarri irudia mahaigaineko atzeko plano gisa (eskalatua itxura gordetzeko)"
 
-#: src/ui.h:528
+#: ../src/gth-window-actions-entries.h:240
 msgid "Str_etched"
 msgstr "_Tiratua"
 
-#: src/ui.h:529
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (stretched)"
 msgstr "Ezarri irudia mahaigaineko atzeko plano gisa (luzatua)"
 
-#: src/ui.h:533
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Restore"
 msgstr "_Berrezarri"
 
-#: src/ui.h:534
+#: ../src/gth-window-actions-entries.h:246
 msgid "Restore the original desktop wallpaper"
 msgstr "Berrezarri mahaigaineko horma-papera"
 
-#: src/ui.h:538
-msgid "_Slide Show"
-msgstr "_Diapositiba-aurkezpena"
-
-#: src/ui.h:539
-msgid "View as a slide show"
-msgstr "Ikusi diapositiba-aurkezpen gisa"
-
-#: src/ui.h:543
-msgid "_Find"
-msgstr "_Bilatu"
-
-#: src/ui.h:544
-msgid "Find images"
-msgstr "Bilatu irudiak"
-
-#: src/ui.h:548
-msgid "Create _Index Image"
-msgstr "Sortu irudi _indizea"
-
-#: src/ui.h:553
-msgid "Create _Web Album"
-msgstr "Sortu _web albuma"
-
-#: src/ui.h:558
-msgid "_Rename Series"
-msgstr "_Berrizendatu serieak"
-
-#: src/ui.h:563
-msgid "Convert F_ormat"
-msgstr "Bihurtu f_ormatua"
-
-#: src/ui.h:568
-msgid "Fi_nd Duplicates..."
-msgstr "Bi_latu bikoiztuak..."
-
-#: src/ui.h:573
-msgid "Ro_tate Images"
-msgstr "Bira_tu irudiak"
-
-#: src/ui.h:574
-msgid "Rotate images without loss of quality"
-msgstr "Biratu irudiak kalitaterik galdu gabe"
-
-#: src/ui.h:578
-msgid "_Preferences"
-msgstr "_Hobespenak"
-
-#: src/ui.h:579
-msgid "Edit various preferences"
-msgstr "Editatu hainbat hobespen"
-
-#: src/ui.h:583
+#: ../src/gth-window-actions-entries.h:250
 msgid "Change _Date"
 msgstr "Aldatu _data"
 
-#: src/ui.h:584
+#: ../src/gth-window-actions-entries.h:251
 msgid "Change images last modified date"
 msgstr "Aldatu irudien azken aldaketa-data"
 
-#: src/ui.h:588
-msgid "_About"
-msgstr "_Honi buruz"
-
-#: src/ui.h:589
+#: ../src/gth-window-actions-entries.h:276
 msgid "Show information about gThumb"
 msgstr "Erakutsi gThumb-i buruzko informazioa"
 
-#: src/ui.h:593
-msgid "_Contents"
-msgstr "_Edukiak"
-
-#: src/ui.h:598
+#: ../src/gth-window-actions-entries.h:285
 msgid "_Keyboard Shortcuts"
 msgstr "_Laster-teklak"
 
-#: src/ui.h:607
-msgid "_Toolbar"
-msgstr "_Tresna-barra"
-
-#: src/ui.h:608
-msgid "View or hide the toolbar of this window"
-msgstr "Ikusi edo ezkutatu leiho honen tresna-barra"
-
-#: src/ui.h:612
-msgid "_Statusbar"
-msgstr "_Egoera-barra"
-
-#: src/ui.h:613
-msgid "View or hide the statusbar of this window"
-msgstr "Ikusi edo ezkutatu leiho honen egoera-barra"
-
-#: src/ui.h:618
-msgid "View thumbnails"
-msgstr "Ikusi koadro txikiak"
-
-#: src/ui.h:622
+#: ../src/gth-window-actions-entries.h:301
 msgid "Play _Animation"
 msgstr "Erreproduzitu _animazioa"
 
-#: src/ui.h:627
-msgid "_Image Preview"
-msgstr "_Irudiaren aurrebista"
-
-#: src/ui.h:628 src/ui.h:682
-msgid "View the image"
-msgstr "Ikusi irudia"
-
-#: src/ui.h:632
-msgid "Image _Comment"
-msgstr "Irudiaren _iruzkina"
-
-#: src/ui.h:633
-msgid "View image comment"
-msgstr "Ikusi irudiaren iruzkina"
-
-#: src/ui.h:637
-msgid "_Reversed Order"
-msgstr "_Alderantzikatu ordena"
-
-#: src/ui.h:638
-msgid "Reverse images order"
-msgstr "Alderantzikatu irudien ordena"
-
-#: src/ui.h:647
-msgid "by _Name"
-msgstr "_izenaren arabera"
-
-#: src/ui.h:648
-msgid "Sort images by name"
-msgstr "Ordenatu irudiak izenaren arabera"
-
-#: src/ui.h:650
-msgid "by _Path"
-msgstr "_bidearen arabera"
-
-#: src/ui.h:651
-msgid "Sort images by path"
-msgstr "Ordenatu irudiak bidearen arabera"
-
-#: src/ui.h:653
-msgid "by _Size"
-msgstr "_tamainaren arabera"
-
-#: src/ui.h:654
-msgid "Sort images by file size"
-msgstr "Ordenatu irudiak fitxategiaren tamainaren arabera"
-
-#: src/ui.h:656
-msgid "by _Time"
-msgstr "_orduaren arabera"
-
-#: src/ui.h:657
-msgid "Sort images by modification time"
-msgstr "Ordenatu irudiak aldaketa-dataren arabera"
-
-#: src/ui.h:664
+#: ../src/gth-window-actions-entries.h:311
 msgid "_High Quality"
 msgstr "Kalitate _handia"
 
-#: src/ui.h:665
+#: ../src/gth-window-actions-entries.h:312
 msgid "Use high quality zoom"
 msgstr "Erabili kalitate altuko zoom-a"
 
-#: src/ui.h:667
+#: ../src/gth-window-actions-entries.h:314
 msgid "_Low Quality"
 msgstr "Ka_litate baxua"
 
-#: src/ui.h:668
+#: ../src/gth-window-actions-entries.h:315
 msgid "Use low quality zoom"
 msgstr "Erabili kaliltate baxuko zoom-a"
 
-#: src/ui.h:675
-msgid "_Folders"
-msgstr "_Karpetak"
+#: ../src/main.c:75
+msgid "Start in fullscreen mode"
+msgstr "Hasi pantaila osoko moduan"
 
-#: src/ui.h:676
-msgid "View the folders"
-msgstr "Ikusi karpetak"
+#: ../src/main.c:78
+msgid "Automatically start a slideshow"
+msgstr "Automatikoki hasi diapositiba-aurkezpen bat"
 
-#: src/ui.h:678
-msgid "_Catalogs"
-msgstr "_Katalogoak"
+#: ../src/main.c:81
+msgid "Automatically import digital camera photos"
+msgstr "Inportatu automatikoki kamera digitaleko argazkiak"
 
-#: src/ui.h:679
-msgid "View the catalogs"
-msgstr "Ikusi katalogoak"
+#: ../src/main.c:104
+msgid "Holidays"
+msgstr "Oporrak"
+
+#: ../src/main.c:105
+msgid "Temporary"
+msgstr "Aldi batekoa"
+
+#: ../src/main.c:106
+msgid "Screenshots"
+msgstr "Pantaila-argazkia"
+
+#: ../src/main.c:107
+msgid "Science"
+msgstr "Zientzia"
+
+#: ../src/main.c:108
+msgid "Favourite"
+msgstr "Gogokoak"
+
+#: ../src/main.c:109
+msgid "Important"
+msgstr "Garrantzitsua"
+
+#: ../src/main.c:110
+msgid "GNOME"
+msgstr "GNOME"
+
+#: ../src/main.c:111
+msgid "Games"
+msgstr "Jokuak"
+
+#: ../src/main.c:112
+msgid "Party"
+msgstr "Festa"
+
+#: ../src/main.c:113
+msgid "Birthday"
+msgstr "Urtebetetzea"
+
+#: ../src/main.c:114
+msgid "Astronomy"
+msgstr "Astronomia"
+
+#: ../src/main.c:115
+msgid "Family"
+msgstr "Senideak"
+
+#: ../src/main.c:437 ../src/main.c:602
+msgid "Command Line"
+msgstr "Komando-lerroa"
+
+#~ msgid "_Remove"
+#~ msgstr "_Kendu"
+
+#~ msgid "_Delete"
+#~ msgstr "_Ezabatu"
+
+#~ msgid "_New"
+#~ msgstr "_Berria"
+
+#~ msgid "Switch to _full screen"
+#~ msgstr "Aldatu pantaila _osora"
+
+#~ msgid "C_ustom:"
+#~ msgstr "Pertsonalizat_ua:"
+
+#~ msgid "<b>Comments</b>"
+#~ msgstr "<b>Iruzkinak</b>"
+
+#~ msgid "<b>Thumbnails</b>"
+#~ msgstr "<b>Koadro txikiak</b>"
+
+#~ msgid "Backup Comments"
+#~ msgstr "Sortu iruzkinen babes-kopia"
+
+#~ msgid "Change the last modified date to:"
+#~ msgstr "Aldatu azken aldaketaren data hona:"
+
+#~ msgid "Delete ALL Comments"
+#~ msgstr "Ezabatu iruzkin guztiak"
+
+#~ msgid "Delete ALL Thumbnails"
+#~ msgstr "Ezabatu koadro txiki guztiak"
+
+#~ msgid "Delete Old Comments"
+#~ msgstr "Ezabatu iruzkin zaharrak"
+
+#~ msgid "Delete Old Thumbnails"
+#~ msgstr "Ezabatu koadro txiki zaharrak"
+
+#~ msgid "Delete comments of no more existing images"
+#~ msgstr "Ezabatu iruzkinak, ez dauden irudienak"
+
+#~ msgid "Delete thumbnails of no more existing images"
+#~ msgstr "Ezabatu koadro txikiak, ez dauden irudienak"
+
+#~ msgid "Maintenance"
+#~ msgstr "Mantentzea"
+
+#~ msgid "Restore Comments From a Backup File"
+#~ msgstr "Berrezarri azalpenak segurtasun kopia batetik"
+
+#~ msgid "Print %s"
+#~ msgstr "Inprimatu %s"
+
+#~ msgid "Print Image"
+#~ msgstr "Inprimatu irudia"
+
+#~ msgid "The selected images will be removed from the catalog, are you sure?"
+#~ msgstr "Hautatutako irudiak katalogotik kenduko dira, ziur zaude?"
+
+#~ msgid "Forward"
+#~ msgstr "Aurrera"
+
+#~ msgid "_Close"
+#~ msgstr "_Itxi"
+
+#~ msgid "_Revert"
+#~ msgstr "_Itzuli lehengora"
+
+#~ msgid "_Print..."
+#~ msgstr "_Inprimatu..."
+
+#~ msgid "Duplicate this image"
+#~ msgstr "Bikoiztu irudi hau"
+
+#~ msgid "_Normalize"
+#~ msgstr "_Normalizatu"
+
+#~ msgid "Automatically normalize the contrast"
+#~ msgstr "Automatikoki normalizatu kontrastea"
+
+#~ msgid "_Stretch Contrast"
+#~ msgstr "_Tiratu kontrastea"
+
+#~ msgid "Automatically stretch the contrast"
+#~ msgstr "Automatikoki egokitu kontrastea"
+
+#~ msgid "_Back"
+#~ msgstr "_Atzera"
+
+#~ msgid "_Forward"
+#~ msgstr "_Aurrera"
+
+#~ msgid "_Up"
+#~ msgstr "_Gora"
+
+#~ msgid "_Home"
+#~ msgstr "_Etxea"
+
+#~ msgid "_Find"
+#~ msgstr "_Bilatu"
+
+#~ msgid "_Rename Series"
+#~ msgstr "_Berrizendatu serieak"
+
+#~ msgid "_Preferences"
+#~ msgstr "_Hobespenak"
+
+#~ msgid "_About"
+#~ msgstr "_Honi buruz"
+
+#~ msgid "_Contents"
+#~ msgstr "_Edukiak"
