@@ -1,3 +1,8 @@
+2005-09-08  Jürg Billeter  <j@bitron.ch>
+
+	* src/dlg-file-utils.c: (dlg_files_move_to_trash): Fix crash when trying
+	to delete files from a location where no trash is available.
+
 2005-08-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 	
 	[ gthumb 2.6.7 released ]
