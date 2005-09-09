@@ -1667,7 +1667,7 @@ dlg_files_move_to_trash (GthWindow      *window,
 			 gpointer        done_data)
 {
 	char        *e_path;
-	GnomeVFSURI *first_uri, *trash_uri;
+	GnomeVFSURI *first_uri, *trash_uri = NULL;
 
 	g_return_if_fail (file_list != NULL);
 
