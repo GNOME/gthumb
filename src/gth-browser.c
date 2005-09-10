@@ -953,7 +953,7 @@ window_update_sensitivity (GthBrowser *browser)
 
 	set_action_sensitive (browser, "View_ShowImage", priv->image_path != NULL);
 	set_action_sensitive (browser, "File_ImageProp", priv->image_path != NULL);
-	set_action_sensitive (browser, "View_Fullscreen", priv->image_path != NULL);
+	set_action_sensitive (browser, "View_Fullscreen", priv->file_list->list != NULL);
 	set_action_sensitive (browser, "View_ShowPreview", priv->sidebar_visible);
 	set_action_sensitive (browser, "View_ShowInfo", ! priv->sidebar_visible);
 	set_action_sensitive (browser, "View_PrevImage", image_pos > 0);
