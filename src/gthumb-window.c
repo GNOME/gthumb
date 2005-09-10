@@ -743,7 +743,7 @@ window_update_sensitivity (GThumbWindow *window)
 
 	set_action_sensitive (window, "View_ShowImage", window->image_path != NULL);
 	set_action_sensitive (window, "View_ImageProp", window->image_path != NULL);
-	set_action_sensitive (window, "View_Fullscreen", window->image_path != NULL);
+	set_action_sensitive (window, "View_Fullscreen", window->file_list->list != NULL);
 	set_action_sensitive (window, "View_ShowPreview", window->sidebar_visible);
 	set_action_sensitive (window, "View_ShowInfo", ! window->sidebar_visible);
 	set_action_sensitive (window, "View_PrevImage", image_pos > 0);
@@ -2787,8 +2787,7 @@ key_press_cb (GtkWidget   *widget,
 		/* Full screen view. */
 	case GDK_v:
 	case GDK_F11:
-		if (window->image_path != NULL)
-			fullscreen_start (fullscreen, window);
+		fullscreen_start (fullscreen, window);
 		return TRUE;
 
 		/* View/hide thumbnails. */

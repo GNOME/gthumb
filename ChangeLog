@@ -1,3 +1,11 @@
+2005-09-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (key_press_cb, window_update_sensitivity): 
+	* src/fullscreen.c (fullscreen_start): 
+
+	Fixed bug #315356: Can't go to fullscreen view in 1 step when opening 
+	a folder from nautilus
+	
 2005-09-08  Jürg Billeter  <j@bitron.ch>
 
 	* src/dlg-file-utils.c: (dlg_files_move_to_trash): Fix crash when trying

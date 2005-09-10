@@ -1028,6 +1028,9 @@ fullscreen_start (FullScreen   *fullscreen,
 	if (fullscreen->related_win != NULL)
 		return;
 
+	if (image_viewer_is_void (IMAGE_VIEWER (window->viewer)))
+		window_show_next_image (window, FALSE);
+
 	current_fullscreen = fullscreen;
 
 	monitor = gdk_screen_get_monitor_at_window (gdk_screen_get_default (), GTK_WIDGET (window->app)->window);
