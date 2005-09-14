@@ -2273,7 +2273,7 @@ dlg_folder_move_to_trash (GThumbWindow   *window,
 {
 	char            *parent_dir;
 	char            *e_parent_dir;
-	GnomeVFSURI     *parent_uri, *trash_uri;
+	GnomeVFSURI     *parent_uri, *trash_uri = NULL;
 
 	parent_dir = remove_level_from_path (folder);
 	e_parent_dir = escape_uri (parent_dir);
