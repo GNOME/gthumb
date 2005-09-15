@@ -1,3 +1,10 @@
+2005-09-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-scale-image.c (h_spinbutton_value_changed)
+	(w_spinbutton_value_changed): do not round() values.
+
+	Fixes bug #316321: 2.6.7 image->resize  doesn't work correctrly
+	
 2005-09-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-file-utils.c (dlg_folder_move_to_trash): init trash_uri to
