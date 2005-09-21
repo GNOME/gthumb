@@ -1,3 +1,12 @@
+version 2.6.8
+-------------
+	* Fixed bug #316665: "MakerNotes" info from EXIF header is not present
+	* Fixed bug #316321: 2.6.7 image->resize  doesn't work correctrly
+	* Fixed bug #315356: Can't go to fullscreen view in 1 step when opening 
+	  a folder from nautilus.
+	* Fix crash when trying to delete files from a location where no trash
+	  is available.
+
 version 2.6.7
 -------------
 	* Set no limit to the max number of categories.

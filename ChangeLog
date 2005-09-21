@@ -1,3 +1,13 @@
+2005-09-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.6.8 released ]
+
+2005-09-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: added maker_note tag
+
+	Fixes bug #316665: "MakerNotes" info from EXIF header is not present
+
 2005-09-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-scale-image.c (h_spinbutton_value_changed)
