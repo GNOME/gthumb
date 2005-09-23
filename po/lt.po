@@ -1,904 +1,915 @@
 # Lithuanian translation of gthumb.
-# Copyright (C) 2004 Free Software Foundation, Inc.
+# Copyright (C) 2004-2005 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
-# Žygimantas Beručka <uid0@akl.lt>, 2004.
+# Žygimantas Beručka <zygis@gnome.org>, 2004-2005.
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-28 10:27+0300\n"
-"PO-Revision-Date: 2004-07-28 10:29+0300\n"
-"Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
+"POT-Creation-Date: 2005-09-23 13:10+0300\n"
+"PO-Revision-Date: 2005-09-23 13:24+0300\n"
+"Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
 msgstr "Katalogas"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
 msgid "GThumb Catalog View"
 msgstr "GThumb katalogų vaizdas"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
 msgid "View as Catalog"
 msgstr "Žiūrėti kaip katalogą"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7 src/ui.h:79
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: ../src/gth-window-actions-entries.h:66
 msgid "Print the current image"
 msgstr "Spausdinti esamą paveikslėlį"
 
-#: components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
 msgid "_Print"
 msgstr "S_pausdinti"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
 msgid "GThumb Image"
 msgstr "GThumb paveikslėlis"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
 msgstr "GThumb žiūrėjimo programa"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
 msgstr "Žiūrėti su GThumb"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
 msgid "Flip"
 msgstr "Apversti"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
 msgid "Flip the image"
 msgstr "Apversti paveikslėlį"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
 msgid "High"
 msgstr "Aukšta"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
 msgid "Low"
 msgstr "Žema"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
 msgid "Mirror"
 msgstr "Veidrodis"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
 msgid "Mirror the image"
 msgstr "Atspindėti paveikslėlį"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
 msgid "Rotate"
 msgstr "Pasukti"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
 msgid "Rotate 180 _Degrees"
 msgstr "Pasukti 180 _laipsnių"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
 msgid "Rotate the image clockwise"
 msgstr "Pasukti paveiklėlį pagal laikrodžio rodyklę"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
 msgid "Rotate the image of 180 degrees"
 msgstr "Pasukti paveikslėlį 180 laipsnių"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 src/ui.h:68
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
 msgid "Save _As..."
 msgstr "Išsaugoti _kaip..."
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13 src/ui.h:69
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
 msgid "Save current image"
 msgstr "Išsaugoti šį paveikslėlį"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14 src/ui.h:623
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: ../src/gth-window-actions-entries.h:302
 msgid "Start or stop current animation"
 msgstr "Paleisti arba stabdyti esamą animaciją"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
 msgid "Start/Stop _Animation"
 msgstr "Leisti/Stabdyti _animaciją"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
 msgid "Transparency T_ype"
 msgstr "Permatomumo t_ipas"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17 src/ui.h:439
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../src/gth-window-actions-entries.h:211
 msgid "View next animation frame"
 msgstr "Žiūrėti kitą animacijos kadrą"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
 msgid "_Black"
 msgstr "_Juodas"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
 msgid "_Checked"
 msgstr "_Languotas"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20 src/ui.h:328
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../src/gth-window-actions-entries.h:110
 msgid "_Flip"
 msgstr "_Apversti"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21 src/ui.h:44
-#: src/ui.h:681
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:435
+#: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Paveikslėlis"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22 src/ui.h:333
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: ../src/gth-window-actions-entries.h:115
 msgid "_Mirror"
 msgstr "_Veidrodis"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
 msgid "_None"
 msgstr "_Nėra"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
 msgid "_Rotate Clockwise"
 msgstr "_Pasukti pagal laikrodžio rodyklę"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
 msgid "_Step Animation"
 msgstr "Ž_engti animacijoje"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
-#: data/glade/gthumb_search.glade.h:31 data/glade/gthumb_tools.glade.h:53
-#: src/ui.h:39
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:46
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
 msgstr "_Rodyti"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:28
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
 msgid "_White"
 msgstr "_Baltas"
 
-#: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:29
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 msgid "_Zoom Quality"
 msgstr "_Mastelio kokybė"
 
-#: components/image-viewer/viewer-stream.c:90 src/dlg-file-utils.c:524
+#: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
 msgid "%d %b %Y, %H:%M"
-msgstr "%d %b %Y, %H:%M"
+msgstr "%Y %b %d, %H:%M"
 
-#: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:813
-#: src/dlg-image-prop.c:419 src/fullscreen.c:217
-#: src/gth-exif-data-viewer.c:455 src/gthumb-window.c:267
+#: ../components/image-viewer/viewer-stream.c:99
+#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
+#: ../src/gth-browser.c:503 ../src/gth-exif-data-viewer.c:477
+#: ../src/gth-fullscreen.c:678 ../src/gth-viewer.c:561
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pikselių"
 
-#: data/albumthemes/text.h:27
-msgid "(click on the image to view it at original size)"
-msgstr "(spragtelkit ant paveikslėlio, kad matyti jį originalaus dydžio)"
+#: ../data/GNOME_GThumb.server.in.in.h:1
+msgid "GThumb Application"
+msgstr "GThumb programa"
 
-#: data/albumthemes/text.h:28 src/dlg-duplicates.c:264
+#: ../data/GNOME_GThumb.server.in.in.h:2
+msgid "GThumb Application Factory"
+msgstr "GThumb programos gamykla"
+
+#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "Paveiklėlis"
 
-#: data/albumthemes/text.h:29
+#: ../data/albumthemes/text.h:28
 msgid "Dimensions"
 msgstr "Išmatavimai"
 
-#: data/albumthemes/text.h:30 src/dlg-image-prop.c:610
-#: src/gth-exif-data-viewer.c:484
+#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:506
 msgid "Bytes"
 msgstr "Baitai"
 
-#: data/albumthemes/text.h:31
+#: ../data/albumthemes/text.h:30
 msgid "Date"
 msgstr "Data"
 
-#: data/albumthemes/text.h:32
+#: ../data/albumthemes/text.h:31
 msgid "Exposure time"
 msgstr "Ekspozicijos laikas"
 
-#: data/albumthemes/text.h:33
+#: ../data/albumthemes/text.h:32
 msgid "Exposure mode"
 msgstr "Ekspozicijos režimas"
 
-#: data/albumthemes/text.h:34
+#: ../data/albumthemes/text.h:33
 msgid "Flash"
 msgstr "Blykstė"
 
-#: data/albumthemes/text.h:35
+#: ../data/albumthemes/text.h:34
 msgid "Shutter speed"
 msgstr "Užrakto dydis"
 
-#: data/albumthemes/text.h:36
+#: ../data/albumthemes/text.h:35
 msgid "Aperture value"
 msgstr "Diafragmos vertė"
 
-#: data/albumthemes/text.h:37
+#: ../data/albumthemes/text.h:36
 msgid "Focal length"
 msgstr "Židinio nuotolis"
 
-#: data/albumthemes/text.h:38
+#: ../data/albumthemes/text.h:37
 msgid "Camera model"
-msgstr "Foto aparato modelis"
+msgstr "Fotoaparato modelis"
 
-#: data/albumthemes/text.h:39 data/glade/gthumb_edit.glade.h:33
+#: ../data/albumthemes/text.h:38 ../data/glade/gthumb_edit.glade.h:33
 msgid "pixels"
 msgstr "pikseliai"
 
-#: data/glade/gthumb.glade.h:1 data/glade/gthumb_convert.glade.h:1
-#: data/glade/gthumb_crop.glade.h:1 data/glade/gthumb_edit.glade.h:1
-#: data/glade/gthumb_png_exporter.glade.h:1
-#: data/glade/gthumb_preferences.glade.h:1 data/glade/gthumb_print.glade.h:1
-#: data/glade/gthumb_tools.glade.h:1 data/glade/gthumb_web_exporter.glade.h:1
+#: ../data/glade/gthumb.glade.h:1 ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:1 ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_png_exporter.glade.h:1
+#: ../data/glade/gthumb_preferences.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1 ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:1
 msgid "    "
 msgstr "    "
 
-#: data/glade/gthumb.glade.h:2 data/glade/gthumb_camera.glade.h:1
-#: data/glade/gthumb_comments.glade.h:1 data/glade/gthumb_convert.glade.h:2
-#: data/glade/gthumb_png_exporter.glade.h:3
-#: data/glade/gthumb_preferences.glade.h:3 data/glade/gthumb_search.glade.h:1
-#: data/glade/gthumb_tools.glade.h:3 data/glade/gthumb_web_exporter.glade.h:3
-msgid "*"
-msgstr "*"
-
-#: data/glade/gthumb.glade.h:3
+#: ../data/glade/gthumb.glade.h:2
 msgid "<b>Categories:</b>"
 msgstr "<b>Kategorijos:</b>"
 
-#: data/glade/gthumb.glade.h:4
+#: ../data/glade/gthumb.glade.h:3
 msgid "<b>Information on Channel:</b>"
 msgstr "<b>Kanalo informacija:</b>"
 
-#: data/glade/gthumb.glade.h:5
+#: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
 msgstr "<b>Perrašyti seną paveikslėlį nauju?</b>"
 
-#: data/glade/gthumb.glade.h:6
+#: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
 msgstr "_Prieinamos programos:"
 
-#: data/glade/gthumb.glade.h:7
+#: ../data/glade/gthumb.glade.h:6
 msgid "Alpha"
 msgstr "Alfa"
 
-#: data/glade/gthumb.glade.h:8
+#: ../data/glade/gthumb.glade.h:7
 msgid "Blue"
 msgstr "Mėlynas"
 
-#: data/glade/gthumb.glade.h:9
+#: ../data/glade/gthumb.glade.h:8
 msgid "Bookmarks"
 msgstr "Žymelės"
 
-#: data/glade/gthumb.glade.h:10
+#: ../data/glade/gthumb.glade.h:9
 msgid "C_atalogs:"
 msgstr "K_atalogai:"
 
-#: data/glade/gthumb.glade.h:11
+#: ../data/glade/gthumb.glade.h:10
 msgid "Choose a Catalog"
 msgstr "Pasirinkit katalogą"
 
-#: data/glade/gthumb.glade.h:12 src/ui.h:158
+#: ../data/glade/gthumb.glade.h:11 ../src/gth-window-actions-entries.h:75
 msgid "Comm_ent"
 msgstr "Kom_entaras"
 
-#: data/glade/gthumb.glade.h:13
+#: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
 msgstr "Neperrašyti _seno paveikslėlio"
 
-#: data/glade/gthumb.glade.h:14
+#: ../data/glade/gthumb.glade.h:13
 msgid "Green"
 msgstr "Žalias"
 
-#: data/glade/gthumb.glade.h:15
+#: ../data/glade/gthumb.glade.h:14
 msgid "New Image:"
 msgstr "Naujas paveiklėlis:"
 
-#: data/glade/gthumb.glade.h:16
+#: ../data/glade/gthumb.glade.h:15
 msgid "New _Library"
 msgstr "Nauja _biblioteka"
 
-#: data/glade/gthumb.glade.h:17
+#: ../data/glade/gthumb.glade.h:16
 msgid "Old Image:"
 msgstr "Senas paveiklėlis:"
 
-#: data/glade/gthumb.glade.h:18
+#: ../data/glade/gthumb.glade.h:17
 msgid "Open Images"
-msgstr "Atidaryti paveikslėlius"
+msgstr "Atverti paveikslėlius"
 
-#: data/glade/gthumb.glade.h:19
+#: ../data/glade/gthumb.glade.h:18
 msgid "Over_write the old image"
 msgstr "Per_rašyti seną paveikslėlį"
 
-#: data/glade/gthumb.glade.h:20
+#: ../data/glade/gthumb.glade.h:19
 msgid "Overwrite Image"
 msgstr "Perrašyti paveikslėlį"
 
-#: data/glade/gthumb.glade.h:21
+#: ../data/glade/gthumb.glade.h:20
 msgid "Overwrite _all images"
 msgstr "Perrašyti _visus paveikslėlius"
 
-#: data/glade/gthumb.glade.h:22
+#: ../data/glade/gthumb.glade.h:21
 msgid "Photo _Data (EXIF)"
 msgstr "Foto _duomenys (EXIF)"
 
-#: data/glade/gthumb.glade.h:23
+#: ../data/glade/gthumb.glade.h:22
 msgid "R_ecent applications:"
 msgstr "N_esenos programos:"
 
-#: data/glade/gthumb.glade.h:24
+#: ../data/glade/gthumb.glade.h:23
 msgid "Red"
 msgstr "Raudonas"
 
-#: data/glade/gthumb.glade.h:25
+#: ../data/glade/gthumb.glade.h:24
 msgid "Value"
 msgstr "Vertė"
 
-#: data/glade/gthumb.glade.h:26
+#: ../data/glade/gthumb.glade.h:25
 msgid "_Application:"
 msgstr "_Programa:"
 
-#: data/glade/gthumb.glade.h:27 src/gth-folder-selection-dialog.c:443
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:454
 msgid "_Bookmarks:"
 msgstr "Ž_ymelės:"
 
-#: data/glade/gthumb.glade.h:28
+#: ../data/glade/gthumb.glade.h:27
 msgid "_Do not overwrite any image"
 msgstr "_Neperrašyti jokių paveikslėlių"
 
-#: data/glade/gthumb.glade.h:29
+#: ../data/glade/gthumb.glade.h:28
 msgid "_General"
 msgstr "_Bendros"
 
-#: data/glade/gthumb.glade.h:30
+#: ../data/glade/gthumb.glade.h:29
 msgid "_Histogram"
 msgstr "_Histograma"
 
-#: data/glade/gthumb.glade.h:31
+#: ../data/glade/gthumb.glade.h:30
 msgid "_New Catalog"
 msgstr "_Naujas katalogas"
 
-#: data/glade/gthumb.glade.h:32
+#: ../data/glade/gthumb.glade.h:31
 msgid "_Next"
 msgstr "_Sekantis"
 
-#: data/glade/gthumb.glade.h:33
+#: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
 msgstr "_Ankstesnis"
 
-#: data/glade/gthumb.glade.h:34
-msgid "_Remove"
-msgstr "_Pašalinti"
-
-#: data/glade/gthumb.glade.h:35
+#: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
 msgstr "Iš_saugoti naują paveikslėlį kaip:"
 
-#: data/glade/gthumb_camera.glade.h:2 data/glade/gthumb_search.glade.h:2
-#: data/glade/gthumb_web_exporter.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
 msgstr "..."
 
-#: data/glade/gthumb_camera.glade.h:3 data/glade/gthumb_search.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
 msgstr "Kate_gorijos:"
 
-#: data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_camera.glade.h:3
 msgid "Camera Model"
-msgstr "Kameros modelis"
+msgstr "Fotoaparato modelis"
 
-#: data/glade/gthumb_camera.glade.h:5
-#: data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "Choose destination folder"
 msgstr "Pasirinkit paskirties aplanką"
 
-#: data/glade/gthumb_camera.glade.h:6
+#: ../data/glade/gthumb_camera.glade.h:5
 msgid "Delete selected images from the camera"
-msgstr "Ištrinti pasirinktus paveikslėlius iš kameros"
+msgstr "Ištrinti pasirinktus paveikslėlius iš fotoaparato"
 
-#: data/glade/gthumb_camera.glade.h:7
+#: ../data/glade/gthumb_camera.glade.h:6
 msgid "Import Photos"
 msgstr "Importuoti fotografijas"
 
-#: data/glade/gthumb_camera.glade.h:8 src/dlg-photo-importer.c:785
-#: src/dlg-photo-importer.c:820 src/dlg-photo-importer.c:1262
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
+#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1382
 msgid "No camera detected"
-msgstr "Kamera neaptikta"
+msgstr "Fotoaparatas neaptiktas"
 
-#: data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:8
 msgid "Select a camera model"
-msgstr "Pasirinkit kameros dydį"
+msgstr "Pasirinkite fotoaparato modelį"
 
-#: data/glade/gthumb_camera.glade.h:10
+#: ../data/glade/gthumb_camera.glade.h:9
 msgid "Update previews"
 msgstr "Atnaujinti peržiūras"
 
-#: data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "_Auto Detect"
 msgstr "_Automatiškai aptikti"
 
-#: data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "_Delete imported images from the camera"
-msgstr "_Trinti importuotus paveikslėlius iš kameros"
+msgstr "_Importuotus paveikslėlius ištrinti iš fotoaparto"
 
-#: data/glade/gthumb_camera.glade.h:13
-#: data/glade/gthumb_png_exporter.glade.h:61
-#: data/glade/gthumb_web_exporter.glade.h:42
+#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_web_exporter.glade.h:41
 msgid "_Destination:"
 msgstr "Paskirties _vieta:"
 
-#: data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Film:"
 msgstr "_Juosta:"
 
-#: data/glade/gthumb_camera.glade.h:15
+#: ../data/glade/gthumb_camera.glade.h:14
 msgid "_Import"
 msgstr "_Importuoti"
 
-#: data/glade/gthumb_camera.glade.h:16
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Keep original filenames"
 msgstr "_Palikti originalius bylų vardus"
 
-#: data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Model:"
 msgstr "_Modelis:"
 
-#: data/glade/gthumb_camera.glade.h:18
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Port:"
 msgstr "_Prievadas:"
 
-#: data/glade/gthumb_comments.glade.h:2 data/glade/gthumb_search.glade.h:5
+#: ../data/glade/gthumb_comments.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:4
 msgid "A_vailable categories:"
 msgstr "_Prieinamos kategorijos:"
 
-#: data/glade/gthumb_comments.glade.h:3 data/glade/gthumb_search.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:9
 msgid "Categories"
 msgstr "Kategorijos"
 
-#: data/glade/gthumb_comments.glade.h:4 data/glade/gthumb_search.glade.h:12
+#: ../data/glade/gthumb_comments.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:11
 msgid "Co_mment:"
 msgstr "Ko_mentaras:"
 
-#: data/glade/gthumb_comments.glade.h:5 libgthumb/gth-file-view-list.c:1368
+#: ../data/glade/gthumb_comments.glade.h:4
+#: ../libgthumb/gth-file-view-list.c:1371
 msgid "Comment"
 msgstr "Komentaras"
 
-#: data/glade/gthumb_comments.glade.h:6
+#: ../data/glade/gthumb_comments.glade.h:5
 msgid "Create a new category"
 msgstr "Sukurti naują kategoriją"
 
-#: data/glade/gthumb_comments.glade.h:7
+#: ../data/glade/gthumb_comments.glade.h:6
 msgid "Current date"
 msgstr "Dabartinė data"
 
-#: data/glade/gthumb_comments.glade.h:8
+#: ../data/glade/gthumb_comments.glade.h:7
 msgid "Do not modify"
 msgstr "Nekeisti"
 
-#: data/glade/gthumb_comments.glade.h:9
+#: ../data/glade/gthumb_comments.glade.h:8
 msgid "Image creation date"
 msgstr "Paveikslėlio sukūrimo data"
 
-#: data/glade/gthumb_comments.glade.h:10
+#: ../data/glade/gthumb_comments.glade.h:9
 msgid "Last modified date"
 msgstr "Paskutinio pakeitimo data"
 
-#: data/glade/gthumb_comments.glade.h:11
+#: ../data/glade/gthumb_comments.glade.h:10
 msgid "No date"
 msgstr "Datos nėra"
 
-#: data/glade/gthumb_comments.glade.h:12
+#: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
 msgstr "Foto suskaitmeninimo data (Iš EXIF duomenų)"
 
-#: data/glade/gthumb_comments.glade.h:13
+#: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
 msgstr "Pašalinti pasirinktą kategoriją"
 
-#: data/glade/gthumb_comments.glade.h:14
+#: ../data/glade/gthumb_comments.glade.h:13
 msgid "Save only cha_nged fields"
 msgstr "Išsaugoti tik pa_keistus laukelius"
 
-#: data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_comments.glade.h:14
 msgid "The following date"
 msgstr "Sekanti data"
 
-#: data/glade/gthumb_comments.glade.h:16 data/glade/gthumb_search.glade.h:24
+#: ../data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:23
 msgid "_Date:"
 msgstr "_Data:"
 
-#: data/glade/gthumb_comments.glade.h:17
-msgid "_Delete"
-msgstr "_Trinti"
-
-#: data/glade/gthumb_comments.glade.h:18
-msgid "_New"
-msgstr "_Nauja"
-
-#: data/glade/gthumb_comments.glade.h:19 data/glade/gthumb_search.glade.h:27
+#: ../data/glade/gthumb_comments.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:26
 msgid "_Place:"
 msgstr "_Vieta:"
 
-#: data/glade/gthumb_comments.glade.h:20 data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_comments.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:29
 msgid "_Selected categories:"
 msgstr "_Pasirinktos kategorijos:"
 
-#: data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "*"
+msgstr "*"
+
+#: ../data/glade/gthumb_convert.glade.h:3
 msgid "<b>Compression</b>"
 msgstr "<b>Suspaudimas</b>"
 
-#: data/glade/gthumb_convert.glade.h:4
+#: ../data/glade/gthumb_convert.glade.h:4
 msgid "<b>Image type</b>"
 msgstr "<b>Paveikslėlio tipas</b>"
 
-#: data/glade/gthumb_convert.glade.h:5
+#: ../data/glade/gthumb_convert.glade.h:5
 msgid "<b>Resolution</b>"
 msgstr "<b>Raiška</b>"
 
-#: data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_convert.glade.h:6
 msgid "Ask"
 msgstr "Paklausti"
 
-#: data/glade/gthumb_convert.glade.h:7
+#: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
 msgstr "Suspaudimo _lygis:"
 
-#: data/glade/gthumb_convert.glade.h:8
+#: ../data/glade/gthumb_convert.glade.h:8
 msgid "Convert Format"
 msgstr "Konvertuoti formatą"
 
-#: data/glade/gthumb_convert.glade.h:9
+#: ../data/glade/gthumb_convert.glade.h:9
 msgid "JPEG Options"
 msgstr "JPEG nustatymai"
 
-#: data/glade/gthumb_convert.glade.h:10
+#: ../data/glade/gthumb_convert.glade.h:10
 msgid "No_rmal (Deflate)"
 msgstr "No_rmalus (Deflate)"
 
-#: data/glade/gthumb_convert.glade.h:11
+#: ../data/glade/gthumb_convert.glade.h:11
 msgid "Opti_mize"
 msgstr "Opti_mizuoti"
 
-#: data/glade/gthumb_convert.glade.h:12
+#: ../data/glade/gthumb_convert.glade.h:12
 msgid "Overwrite"
 msgstr "Perrašyti"
 
-#: data/glade/gthumb_convert.glade.h:13
+#: ../data/glade/gthumb_convert.glade.h:13
 msgid "Overwrite mode:"
 msgstr "Perrašymo režimas:"
 
-#: data/glade/gthumb_convert.glade.h:14
+#: ../data/glade/gthumb_convert.glade.h:14
 msgid "PNG Options"
 msgstr "PNG nustatymai"
 
-#: data/glade/gthumb_convert.glade.h:15
+#: ../data/glade/gthumb_convert.glade.h:15
 msgid "R_emove original"
 msgstr "Paša_linti originalą"
 
-#: data/glade/gthumb_convert.glade.h:16
+#: ../data/glade/gthumb_convert.glade.h:16
 msgid "Rename"
 msgstr "Perrvadinti"
 
-#: data/glade/gthumb_convert.glade.h:17 src/dlg-convert.c:313
+#: ../data/glade/gthumb_convert.glade.h:17 ../src/dlg-convert.c:316
 msgid "Skip"
 msgstr "Praleisti"
 
-#: data/glade/gthumb_convert.glade.h:18
+#: ../data/glade/gthumb_convert.glade.h:18
 msgid "TGA Options"
 msgstr "TGA nustatymai"
 
-#: data/glade/gthumb_convert.glade.h:19
+#: ../data/glade/gthumb_convert.glade.h:19
 msgid "TIFF Options"
 msgstr "TIFF nustatymai"
 
-#: data/glade/gthumb_convert.glade.h:20
+#: ../data/glade/gthumb_convert.glade.h:20
 msgid "T_GA"
 msgstr "T_GA"
 
-#: data/glade/gthumb_convert.glade.h:21
-#: data/glade/gthumb_png_exporter.glade.h:65
+#: ../data/glade/gthumb_convert.glade.h:21
+#: ../data/glade/gthumb_png_exporter.glade.h:65
 msgid "_Horizontal:"
 msgstr "_Horizontalus:"
 
-#: data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_convert.glade.h:22
 msgid "_JPEG"
 msgstr "_JPEG"
 
-#: data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_convert.glade.h:23
 msgid "_Loss compression (JPEG)"
 msgstr "_Prarandamas suspaudimas (JPEG)"
 
-#: data/glade/gthumb_convert.glade.h:24
+#: ../data/glade/gthumb_convert.glade.h:24
 msgid "_No compression"
 msgstr "_Jokio suspaudimo"
 
-#: data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_convert.glade.h:25
 msgid "_PNG"
 msgstr "_PNG"
 
-#: data/glade/gthumb_convert.glade.h:26
+#: ../data/glade/gthumb_convert.glade.h:26
 msgid "_Progressive"
 msgstr "_Progresyvus"
 
-#: data/glade/gthumb_convert.glade.h:27
+#: ../data/glade/gthumb_convert.glade.h:27
 msgid "_Quality:"
 msgstr "_Kokybė:"
 
-#: data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_convert.glade.h:28
 msgid "_RLE compression"
 msgstr "_RLE suspaudimas"
 
-#: data/glade/gthumb_convert.glade.h:29
+#: ../data/glade/gthumb_convert.glade.h:29
 msgid "_Smoothing:"
 msgstr "_Glotninimas:"
 
-#: data/glade/gthumb_convert.glade.h:30
+#: ../data/glade/gthumb_convert.glade.h:30
 msgid "_TIFF"
 msgstr "_TIFF"
 
-#: data/glade/gthumb_convert.glade.h:31
-#: data/glade/gthumb_png_exporter.glade.h:70
+#: ../data/glade/gthumb_convert.glade.h:31
+#: ../data/glade/gthumb_png_exporter.glade.h:70
 msgid "_Vertical:"
 msgstr "_Vertikalus:"
 
-#: data/glade/gthumb_convert.glade.h:32
+#: ../data/glade/gthumb_convert.glade.h:32
 msgid "dpi"
 msgstr "dpi"
 
-#: data/glade/gthumb_crop.glade.h:2
+#: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 3 (Book, DVD)"
 msgstr "4 x 3 (Knyga, DVD)"
 
-#: data/glade/gthumb_crop.glade.h:3
+#: ../data/glade/gthumb_crop.glade.h:3
 msgid "4 x 6 (Postcard)"
 msgstr "4 x 6 (Atvirukas)"
 
-#: data/glade/gthumb_crop.glade.h:4
+#: ../data/glade/gthumb_crop.glade.h:4
 msgid "5 x 7"
 msgstr "5 x 7"
 
-#: data/glade/gthumb_crop.glade.h:5
+#: ../data/glade/gthumb_crop.glade.h:5
 msgid "8 x 10"
 msgstr "8 x 10"
 
-#: data/glade/gthumb_crop.glade.h:6
+#: ../data/glade/gthumb_crop.glade.h:6
 msgid "<b>Aspect ratio</b>"
 msgstr "<b>Proporcijos</b>"
 
-#: data/glade/gthumb_crop.glade.h:7
+#: ../data/glade/gthumb_crop.glade.h:7
 msgid "<b>Selection</b>"
 msgstr "<b>Pasirinkimas</b>"
 
-#: data/glade/gthumb_crop.glade.h:8
+#: ../data/glade/gthumb_crop.glade.h:8
 msgid "Crop"
 msgstr "Apkirpti"
 
-#: data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_crop.glade.h:9 ../data/glade/gthumb_print.glade.h:17
 msgid "Custom"
 msgstr "Parinkta vartotojo"
 
-#: data/glade/gthumb_crop.glade.h:10 data/glade/gthumb_preferences.glade.h:48
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:47
 msgid "None"
 msgstr "Nėra"
 
-#: data/glade/gthumb_crop.glade.h:11
+#: ../data/glade/gthumb_crop.glade.h:11
 msgid "Square"
 msgstr "Kvadratas"
 
-#: data/glade/gthumb_crop.glade.h:12 src/ui.h:403
+#: ../data/glade/gthumb_crop.glade.h:12
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Crop"
 msgstr "_Apkirpti"
 
-#: data/glade/gthumb_crop.glade.h:13 data/glade/gthumb_edit.glade.h:21
-#: data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "_Height:"
 msgstr "A_ukštis:"
 
-#: data/glade/gthumb_crop.glade.h:14 data/glade/gthumb_edit.glade.h:31
-#: data/glade/gthumb_print.glade.h:31
+#: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "_Width:"
 msgstr "Pl_otis:"
 
-#: data/glade/gthumb_crop.glade.h:15
+#: ../data/glade/gthumb_crop.glade.h:15
 msgid "_X:"
 msgstr "_X:"
 
-#: data/glade/gthumb_crop.glade.h:16
+#: ../data/glade/gthumb_crop.glade.h:16
 msgid "_Y:"
 msgstr "_Y:"
 
-#: data/glade/gthumb_edit.glade.h:2 data/glade/gthumb_png_exporter.glade.h:2
-#: data/glade/gthumb_preferences.glade.h:2 data/glade/gthumb_tools.glade.h:2
-#: data/glade/gthumb_web_exporter.glade.h:2
+#: ../data/glade/gthumb_edit.glade.h:2
+#: ../data/glade/gthumb_png_exporter.glade.h:2
+#: ../data/glade/gthumb_preferences.glade.h:2
+#: ../data/glade/gthumb_tools.glade.h:2
+#: ../data/glade/gthumb_web_exporter.glade.h:2
 msgid "     "
 msgstr "     "
 
-#: data/glade/gthumb_edit.glade.h:4 data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_edit.glade.h:4 ../data/glade/gthumb_print.glade.h:3
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: data/glade/gthumb_edit.glade.h:5
+#: ../data/glade/gthumb_edit.glade.h:5
 msgid "<b>Color levels</b>"
 msgstr "<b>Spalvų lygiai</b>"
 
-#: data/glade/gthumb_edit.glade.h:6
+#: ../data/glade/gthumb_edit.glade.h:6
 msgid "<b>New dimensions</b>"
 msgstr "<b>Nauji išmatavimai</b>"
 
-#: data/glade/gthumb_edit.glade.h:7
+#: ../data/glade/gthumb_edit.glade.h:7
 msgid "<b>Original dimensions</b>"
 msgstr "<b>Originalūs išmatavimai</b>"
 
-#: data/glade/gthumb_edit.glade.h:8
+#: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
 msgstr "<b>Mastelio santykis</b>"
 
-#: data/glade/gthumb_edit.glade.h:9
+#: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
 msgstr "Ryškumas - Kontrastas"
 
-#: data/glade/gthumb_edit.glade.h:10
+#: ../data/glade/gthumb_edit.glade.h:10
 msgid "Color Balance"
 msgstr "Spalvų balansas"
 
-#: data/glade/gthumb_edit.glade.h:11
+#: ../data/glade/gthumb_edit.glade.h:11
 msgid "Con_trast:"
 msgstr "Kon_trastas:"
 
-#: data/glade/gthumb_edit.glade.h:12
+#: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
 msgstr "Žydra-_Raudona:"
 
-#: data/glade/gthumb_edit.glade.h:13
+#: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
 msgstr "Aukštis:"
 
-#: data/glade/gthumb_edit.glade.h:14
+#: ../data/glade/gthumb_edit.glade.h:14
 msgid "High _quality"
 msgstr "Aukšta _kokybė"
 
-#: data/glade/gthumb_edit.glade.h:15
+#: ../data/glade/gthumb_edit.glade.h:15
 msgid "Hue - Saturation"
 msgstr "Atspalvis - Sotis"
 
-#: data/glade/gthumb_edit.glade.h:16
+#: ../data/glade/gthumb_edit.glade.h:16
 msgid "Posterize"
 msgstr "Sumažinti spalvų kiekį"
 
-#: data/glade/gthumb_edit.glade.h:17
+#: ../data/glade/gthumb_edit.glade.h:17
 msgid "Preserve l_uminosity"
 msgstr "Išsaugoti šviesos ryšk_umą"
 
-#: data/glade/gthumb_edit.glade.h:18
+#: ../data/glade/gthumb_edit.glade.h:18
 msgid "Scale Image"
 msgstr "Keisti paveikslėlio mastelį"
 
-#: data/glade/gthumb_edit.glade.h:19
+#: ../data/glade/gthumb_edit.glade.h:19
 msgid "Width:"
 msgstr "Plotis:"
 
-#: data/glade/gthumb_edit.glade.h:20
+#: ../data/glade/gthumb_edit.glade.h:20
 msgid "_Brightness:"
 msgstr "_Ryškumas:"
 
-#: data/glade/gthumb_edit.glade.h:22
+#: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
 msgstr "_Atspalvis:"
 
-#: data/glade/gthumb_edit.glade.h:23
+#: ../data/glade/gthumb_edit.glade.h:23
 msgid "_Keep aspect ratio"
 msgstr "Išlai_kyti proporcijas"
 
-#: data/glade/gthumb_edit.glade.h:24
+#: ../data/glade/gthumb_edit.glade.h:24
 msgid "_Levels:"
 msgstr "_Lygiai:"
 
-#: data/glade/gthumb_edit.glade.h:25
+#: ../data/glade/gthumb_edit.glade.h:25
 msgid "_Lightness:"
 msgstr "Š_viesumas:"
 
-#: data/glade/gthumb_edit.glade.h:26
+#: ../data/glade/gthumb_edit.glade.h:26
 msgid "_Magenta-Green:"
 msgstr "_Violetinė-Žalia:"
 
-#: data/glade/gthumb_edit.glade.h:27
+#: ../data/glade/gthumb_edit.glade.h:27
 msgid "_Preview"
 msgstr "_Peržiūra"
 
-#: data/glade/gthumb_edit.glade.h:28 data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:42
 msgid "_Reset"
 msgstr "A_tstatyti"
 
-#: data/glade/gthumb_edit.glade.h:29
+#: ../data/glade/gthumb_edit.glade.h:29
 msgid "_Saturation:"
 msgstr "_Sotis:"
 
-#: data/glade/gthumb_edit.glade.h:30
+#: ../data/glade/gthumb_edit.glade.h:30
 msgid "_Scale"
 msgstr "Kei_sti mastelį"
 
-#: data/glade/gthumb_edit.glade.h:32
+#: ../data/glade/gthumb_edit.glade.h:32
 msgid "_Yellow-Blue:"
 msgstr "_Geltona-Mėlyna:"
 
-#: data/glade/gthumb_png_exporter.glade.h:4
+#: ../data/glade/gthumb_png_exporter.glade.h:3
 msgid "112"
 msgstr "112"
 
-#: data/glade/gthumb_png_exporter.glade.h:5
+#: ../data/glade/gthumb_png_exporter.glade.h:4
 msgid "128"
 msgstr "128"
 
-#: data/glade/gthumb_png_exporter.glade.h:6
+#: ../data/glade/gthumb_png_exporter.glade.h:5
 msgid "164"
 msgstr "164"
 
-#: data/glade/gthumb_png_exporter.glade.h:7
+#: ../data/glade/gthumb_png_exporter.glade.h:6
 msgid "200"
 msgstr "200"
 
-#: data/glade/gthumb_png_exporter.glade.h:8
+#: ../data/glade/gthumb_png_exporter.glade.h:7
 msgid "256"
 msgstr "256"
 
-#: data/glade/gthumb_png_exporter.glade.h:9
+#: ../data/glade/gthumb_png_exporter.glade.h:8
 msgid "48"
 msgstr "48"
 
-#: data/glade/gthumb_png_exporter.glade.h:10
+#: ../data/glade/gthumb_png_exporter.glade.h:9
 msgid "64"
 msgstr "64"
 
-#: data/glade/gthumb_png_exporter.glade.h:11
+#: ../data/glade/gthumb_png_exporter.glade.h:10
 msgid "75"
 msgstr "75"
 
-#: data/glade/gthumb_png_exporter.glade.h:12
+#: ../data/glade/gthumb_png_exporter.glade.h:11
 msgid "85"
 msgstr "85"
 
-#: data/glade/gthumb_png_exporter.glade.h:13
+#: ../data/glade/gthumb_png_exporter.glade.h:12
 msgid "95"
 msgstr "95"
 
-#: data/glade/gthumb_png_exporter.glade.h:14
+#: ../data/glade/gthumb_png_exporter.glade.h:13
 msgid "<b>Background style</b>"
 msgstr "<b>Fono stilius</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:15
+#: ../data/glade/gthumb_png_exporter.glade.h:14
 msgid "<b>Caption</b>"
 msgstr "<b>Antraštė</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:16
+#: ../data/glade/gthumb_png_exporter.glade.h:15
 msgid "<b>Footer</b>"
 msgstr "<b>Poraštė</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:17
+#: ../data/glade/gthumb_png_exporter.glade.h:16
 msgid "<b>Header and footer</b>"
 msgstr "<b>Antraštė ir poraštė</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:18
+#: ../data/glade/gthumb_png_exporter.glade.h:17
 msgid "<b>Header</b>"
 msgstr "<b>Antraštė</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:19
+#: ../data/glade/gthumb_png_exporter.glade.h:18
 msgid "<b>Index images</b>"
 msgstr "<b>Rodikliniai paveikslėlius</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_png_exporter.glade.h:19
 msgid "<b>Page size</b>"
 msgstr "<b>Puslapio dydis</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:21
-#: data/glade/gthumb_web_exporter.glade.h:14
+#: ../data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Saving</b>"
 msgstr "<b>Saugoma</b>"
 
-#: data/glade/gthumb_png_exporter.glade.h:22
+#: ../data/glade/gthumb_png_exporter.glade.h:21
 msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
 msgstr "<small><i><b>Pastaba:</b> # (skaičiuoklis)</i>.</small>"
 
-#: data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:23
 #, no-c-format
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
@@ -907,681 +918,715 @@ msgstr ""
 "<small><i><b>Pastaba:</b> %p (puslapio numeris), %n (iš viso puslapių)</i>.</"
 "small>"
 
-#: data/glade/gthumb_png_exporter.glade.h:26
-#: data/glade/gthumb_web_exporter.glade.h:20
+#: ../data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:20
 msgid "Co_mment"
 msgstr "Ko_mentaras"
 
-#: data/glade/gthumb_png_exporter.glade.h:27
+#: ../data/glade/gthumb_png_exporter.glade.h:26
 msgid "Col_umns:"
 msgstr "St_ulpeliai:"
 
-#: data/glade/gthumb_png_exporter.glade.h:28
+#: ../data/glade/gthumb_png_exporter.glade.h:27
 msgid "Colo_r:"
 msgstr "S_palva:"
 
-#: data/glade/gthumb_png_exporter.glade.h:29
+#: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
 msgstr "Sukurti rodiklinį paveikslėlį"
 
-#: data/glade/gthumb_png_exporter.glade.h:30
+#: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
 msgstr "Sukurti _HTML paveikslėlių žemėlapį"
 
-#: data/glade/gthumb_png_exporter.glade.h:31
-#: data/glade/gthumb_web_exporter.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:23
 msgid "F_ooter:"
 msgstr "P_oraštė:"
 
-#: data/glade/gthumb_png_exporter.glade.h:32
-#: data/glade/gthumb_web_exporter.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:24
 msgid "File _name"
 msgstr "_Bylos vardas"
 
-#: data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_png_exporter.glade.h:32
 msgid "File pa_th"
 msgstr "Bylos _kelias"
 
-#: data/glade/gthumb_png_exporter.glade.h:34
-#: data/glade/gthumb_web_exporter.glade.h:25
+#: ../data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:25
 msgid "File si_ze"
 msgstr "Bylos _dydis"
 
-#: data/glade/gthumb_png_exporter.glade.h:35
+#: ../data/glade/gthumb_png_exporter.glade.h:34
 msgid "Frame _style:"
 msgstr "Rėmelio _stilius:"
 
-#: data/glade/gthumb_png_exporter.glade.h:36
+#: ../data/glade/gthumb_png_exporter.glade.h:35
 msgid "Frame co_lor:"
 msgstr "Rėmelio spa_lva:"
 
-#: data/glade/gthumb_png_exporter.glade.h:37
-#: data/glade/gthumb_web_exporter.glade.h:27
+#: ../data/glade/gthumb_png_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:27
 msgid "H_eader:"
 msgstr "A_ntraštė:"
 
-#: data/glade/gthumb_png_exporter.glade.h:38
+#: ../data/glade/gthumb_png_exporter.glade.h:37
 msgid "Header/Footer"
 msgstr "Antraštė/Poraštė"
 
-#: data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_png_exporter.glade.h:38
 msgid "Hei_ght:"
 msgstr "Au_kštis:"
 
-#: data/glade/gthumb_png_exporter.glade.h:40
-#: data/glade/gthumb_web_exporter.glade.h:29
+#: ../data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:29
 msgid "Image dim_ensions"
 msgstr "Paveikslėlio matm_enys"
 
-#: data/glade/gthumb_png_exporter.glade.h:41
+#: ../data/glade/gthumb_png_exporter.glade.h:40
 msgid "Images"
 msgstr "Paveikslėliai"
 
-#: data/glade/gthumb_png_exporter.glade.h:42
+#: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
 msgstr "Rodiklinio paveikslėlio stilius"
 
-#: data/glade/gthumb_png_exporter.glade.h:43
+#: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
 msgstr "Puslapis"
 
-#: data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_png_exporter.glade.h:43
 msgid "Pi_xels"
 msgstr "Pi_kseliai"
 
-#: data/glade/gthumb_png_exporter.glade.h:45
-#: data/glade/gthumb_web_exporter.glade.h:31
+#: ../data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:31
 msgid "Re_verse order"
 msgstr "At_virkštine tvarka"
 
-#: data/glade/gthumb_png_exporter.glade.h:46
+#: ../data/glade/gthumb_png_exporter.glade.h:45
 msgid "Rows a_nd columns"
 msgstr "Eilutės ir _stulpeliai"
 
-#: data/glade/gthumb_png_exporter.glade.h:47
+#: ../data/glade/gthumb_png_exporter.glade.h:46
 msgid "Select a color"
 msgstr "Pasirinkit spalvą"
 
-#: data/glade/gthumb_png_exporter.glade.h:48
+#: ../data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a font"
+msgstr "Pasirinkite šriftą"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:48
 msgid "Shadow in"
 msgstr "Šešėlis į vidų"
 
-#: data/glade/gthumb_png_exporter.glade.h:49
+#: ../data/glade/gthumb_png_exporter.glade.h:49
 msgid "Shadow only"
 msgstr "Tik šešėlis"
 
-#: data/glade/gthumb_png_exporter.glade.h:50
+#: ../data/glade/gthumb_png_exporter.glade.h:50
 msgid "Shadow out"
 msgstr "Šešėlis į išorę"
 
-#: data/glade/gthumb_png_exporter.glade.h:51
+#: ../data/glade/gthumb_png_exporter.glade.h:51
 msgid "Simple"
 msgstr "Paprastas"
 
-#: data/glade/gthumb_png_exporter.glade.h:52
+#: ../data/glade/gthumb_png_exporter.glade.h:52
 msgid "Simple with shadow"
 msgstr "Paprastas su šešėliu"
 
-#: data/glade/gthumb_png_exporter.glade.h:53
+#: ../data/glade/gthumb_png_exporter.glade.h:53
 msgid "Slide"
 msgstr "Skaidrė"
 
-#: data/glade/gthumb_png_exporter.glade.h:54
-#: data/glade/gthumb_web_exporter.glade.h:35
+#: ../data/glade/gthumb_png_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:34
 msgid "Sor_t:"
 msgstr "Rūšiuo_ti:"
 
-#: data/glade/gthumb_png_exporter.glade.h:55
+#: ../data/glade/gthumb_png_exporter.glade.h:55
 msgid "Sort"
 msgstr "Rūšiuoti"
 
-#: data/glade/gthumb_png_exporter.glade.h:56
+#: ../data/glade/gthumb_png_exporter.glade.h:56
 msgid "St_yle"
 msgstr "St_ilius"
 
-#: data/glade/gthumb_png_exporter.glade.h:57
-#: data/glade/gthumb_search.glade.h:23 data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_png_exporter.glade.h:57
+#: ../data/glade/gthumb_search.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "Start _at:"
 msgstr "_Pradėti nuo:"
 
-#: data/glade/gthumb_png_exporter.glade.h:58
+#: ../data/glade/gthumb_png_exporter.glade.h:58
 msgid "Style Preview"
 msgstr "Stiliaus peržiūra"
 
-#: data/glade/gthumb_png_exporter.glade.h:59
+#: ../data/glade/gthumb_png_exporter.glade.h:59
 msgid "Wi_dth:"
 msgstr "Pl_otis:"
 
-#: data/glade/gthumb_png_exporter.glade.h:60
+#: ../data/glade/gthumb_png_exporter.glade.h:60
 msgid "_All pages with the same size"
 msgstr "_Visi puslapiai vienodo dydžio"
 
-#: data/glade/gthumb_png_exporter.glade.h:62
+#: ../data/glade/gthumb_png_exporter.glade.h:62
 msgid "_Draw frame"
 msgstr "_Piešti rėmelį"
 
-#: data/glade/gthumb_png_exporter.glade.h:63
+#: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
 msgstr "Šri_ftas:"
 
-#: data/glade/gthumb_png_exporter.glade.h:64
+#: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
 msgstr "_Perėjimas"
 
-#: data/glade/gthumb_png_exporter.glade.h:66
+#: ../data/glade/gthumb_png_exporter.glade.h:66
 msgid "_Image size:"
 msgstr "_Paveikslėlio dydis:"
 
-#: data/glade/gthumb_png_exporter.glade.h:67
+#: ../data/glade/gthumb_png_exporter.glade.h:67
 msgid "_Rows:"
 msgstr "_Eilutės:"
 
-#: data/glade/gthumb_png_exporter.glade.h:68
+#: ../data/glade/gthumb_png_exporter.glade.h:68
 msgid "_Solid color"
 msgstr "_Vientisa spalva"
 
-#: data/glade/gthumb_png_exporter.glade.h:69
-#: data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_png_exporter.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "_Template:"
 msgstr "Ša_blonas:"
 
-#: data/glade/gthumb_png_exporter.glade.h:71
-#: data/glade/gthumb_web_exporter.glade.h:50
+#: ../data/glade/gthumb_png_exporter.glade.h:71
+#: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "pagal vardą"
 
-#: data/glade/gthumb_png_exporter.glade.h:72
-#: data/glade/gthumb_web_exporter.glade.h:51
+#: ../data/glade/gthumb_png_exporter.glade.h:72
+#: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "by path"
 msgstr "pagal kelią"
 
-#: data/glade/gthumb_png_exporter.glade.h:73
-#: data/glade/gthumb_web_exporter.glade.h:52
+#: ../data/glade/gthumb_png_exporter.glade.h:73
+#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "by size"
 msgstr "pagal dydį"
 
-#: data/glade/gthumb_png_exporter.glade.h:74
+#: ../data/glade/gthumb_png_exporter.glade.h:74
 msgid "by time"
 msgstr "pagal laiką"
 
-#: data/glade/gthumb_png_exporter.glade.h:75
+#: ../data/glade/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: data/glade/gthumb_png_exporter.glade.h:76
+#: ../data/glade/gthumb_png_exporter.glade.h:76
 msgid "png"
 msgstr "png"
 
-#: data/glade/gthumb_preferences.glade.h:4
+#: ../data/glade/gthumb_preferences.glade.h:3
 msgid "112 x 112"
 msgstr "112 x 112"
 
-#: data/glade/gthumb_preferences.glade.h:5
+#: ../data/glade/gthumb_preferences.glade.h:4
 msgid "128 x 128"
 msgstr "128 x 128"
 
-#: data/glade/gthumb_preferences.glade.h:6
+#: ../data/glade/gthumb_preferences.glade.h:5
 msgid "164 x 164"
 msgstr "164 x 164"
 
-#: data/glade/gthumb_preferences.glade.h:7
+#: ../data/glade/gthumb_preferences.glade.h:6
 msgid "200 x 200"
 msgstr "200 x 200"
 
-#: data/glade/gthumb_preferences.glade.h:8
+#: ../data/glade/gthumb_preferences.glade.h:7
 msgid "256 x 256"
 msgstr "256 x 256"
 
-#: data/glade/gthumb_preferences.glade.h:9
+#: ../data/glade/gthumb_preferences.glade.h:8
 msgid "48 x 48"
 msgstr "48 x 48"
 
-#: data/glade/gthumb_preferences.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:9
 msgid "64 x 64"
 msgstr "64 x 64"
 
-#: data/glade/gthumb_preferences.glade.h:11
+#: ../data/glade/gthumb_preferences.glade.h:10
 msgid "85 x 85"
 msgstr "85 x 85"
 
-#: data/glade/gthumb_preferences.glade.h:12
+#: ../data/glade/gthumb_preferences.glade.h:11
 msgid "95 x 95"
 msgstr "95 x 95"
 
-#: data/glade/gthumb_preferences.glade.h:13
+#: ../data/glade/gthumb_preferences.glade.h:12
 msgid "<b>Direction</b>"
 msgstr "<b>Kryptis</b>"
 
-#: data/glade/gthumb_preferences.glade.h:14
+#: ../data/glade/gthumb_preferences.glade.h:13
 msgid "<b>Hide/Show</b>"
 msgstr "<b>Slėpti/Rodyti</b>"
 
-#: data/glade/gthumb_preferences.glade.h:15
+#: ../data/glade/gthumb_preferences.glade.h:14
 msgid "<b>Interface</b>"
 msgstr "<b>Sąsaja</b>"
 
-#: data/glade/gthumb_preferences.glade.h:16
+#: ../data/glade/gthumb_preferences.glade.h:15
 msgid "<b>On startup:</b>"
 msgstr "<b>Paleidimo metu:</b>"
 
-#: data/glade/gthumb_preferences.glade.h:17
+#: ../data/glade/gthumb_preferences.glade.h:16
 msgid "<b>Other</b>"
 msgstr "<b>Kita</b>"
 
-#: data/glade/gthumb_preferences.glade.h:18
+#: ../data/glade/gthumb_preferences.glade.h:17
 msgid "<b>Slide show</b>"
 msgstr "<b>Skaidrių šou</b>"
 
-#: data/glade/gthumb_preferences.glade.h:19
+#: ../data/glade/gthumb_preferences.glade.h:18
 msgid "<b>View images as</b>"
 msgstr "<b>Matyti paveikslėlius kaip</b>"
 
-#: data/glade/gthumb_preferences.glade.h:20
+#: ../data/glade/gthumb_preferences.glade.h:19
 msgid "<b>Viewer</b>"
 msgstr "<b>Žiūryklė</b>"
 
-#: data/glade/gthumb_preferences.glade.h:21
+#: ../data/glade/gthumb_preferences.glade.h:20
 msgid "<b>Zoom quality</b>"
 msgstr "<b>Mastelio keitimo kokybė</b>"
 
-#: data/glade/gthumb_preferences.glade.h:22
+#: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a double click"
 msgstr "Aktyvuoti elementus dvigubu spragtelėjimu"
 
-#: data/glade/gthumb_preferences.glade.h:23
+#: ../data/glade/gthumb_preferences.glade.h:22
 msgid "Activate items with a single click"
 msgstr "Aktyvuoti elementus vienu spragtelėjimu"
 
-#: data/glade/gthumb_preferences.glade.h:24
+#: ../data/glade/gthumb_preferences.glade.h:23
 msgid "After _loading an image:"
 msgstr "Po paveikslėlio įkė_limo:"
 
-#: data/glade/gthumb_preferences.glade.h:25
+#: ../data/glade/gthumb_preferences.glade.h:24
 msgid "As_k confirmation before deleting images or catalogs"
 msgstr "Pakla_usti patvirtinimo prieš trinant paveikslėlius ar katalogus"
 
-#: data/glade/gthumb_preferences.glade.h:26
+#: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Ask whether to save _modified images"
 msgstr "Paklausti ar išsau_goti pakeistus paveikslėlius"
 
-#: data/glade/gthumb_preferences.glade.h:27
+#: ../data/glade/gthumb_preferences.glade.h:26
 msgid "Black"
 msgstr "Juodas"
 
-#: data/glade/gthumb_preferences.glade.h:28
+#: ../data/glade/gthumb_preferences.glade.h:27
 msgid "Browser"
 msgstr "Naršyklė"
 
-#: data/glade/gthumb_preferences.glade.h:29
+#: ../data/glade/gthumb_preferences.glade.h:28
 msgid "C_lick policy:"
 msgstr "Spra_gtelėjimų elgsena:"
 
-#: data/glade/gthumb_preferences.glade.h:30
+#: ../data/glade/gthumb_preferences.glade.h:29
 msgid "Checked"
 msgstr "Languotas"
 
-#: data/glade/gthumb_preferences.glade.h:31
+#: ../data/glade/gthumb_preferences.glade.h:30
 msgid "Choose startup folder"
 msgstr "Pasirinkit pradinį paleidimo aplanką"
 
-#: data/glade/gthumb_preferences.glade.h:32
+#: ../data/glade/gthumb_preferences.glade.h:31
 msgid "Co_mments"
 msgstr "Ko_mentarus"
 
-#: data/glade/gthumb_preferences.glade.h:33
+#: ../data/glade/gthumb_preferences.glade.h:32
 msgid "D_elay before changing image:"
 msgstr "_Laikas tarp paveikslėlių keitimų:"
 
-#: data/glade/gthumb_preferences.glade.h:34
+#: ../data/glade/gthumb_preferences.glade.h:33
 msgid "D_etermine image type from content (slower)"
 msgstr "Nustat_yti paveikslėlio tipą iš turinio (lėčiau)"
 
-#: data/glade/gthumb_preferences.glade.h:35
+#: ../data/glade/gthumb_preferences.glade.h:34
 msgid "Do _not change folder"
 msgstr "Ne_keisti aplanko"
 
-#: data/glade/gthumb_preferences.glade.h:36
+#: ../data/glade/gthumb_preferences.glade.h:35
 msgid "Fit image to window"
 msgstr "Sutalpinti paveikslėlį į langą"
 
-#: data/glade/gthumb_preferences.glade.h:37
+#: ../data/glade/gthumb_preferences.glade.h:36
 msgid "Fit to window if larger"
 msgstr "Jei didesnis, tai tilpti į langą"
 
-#: data/glade/gthumb_preferences.glade.h:38
+#: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
 msgstr "Sekti Nautilus elgseną"
 
-#: data/glade/gthumb_preferences.glade.h:39
+#: ../data/glade/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "Pir_myn"
 
-#: data/glade/gthumb_preferences.glade.h:40
+#: ../data/glade/gthumb_preferences.glade.h:39
 msgid "General"
 msgstr "Bendri"
 
-#: data/glade/gthumb_preferences.glade.h:41
+#: ../data/glade/gthumb_preferences.glade.h:40
 msgid "Go to last _visited folder or catalog"
 msgstr "Eiti į pa_skutinį aplankytą aplanką ar katalogą"
 
-#: data/glade/gthumb_preferences.glade.h:42
+#: ../data/glade/gthumb_preferences.glade.h:41
 msgid "Go to this _folder:"
 msgstr "Eiti į šį _aplanką:"
 
-#: data/glade/gthumb_preferences.glade.h:43
+#: ../data/glade/gthumb_preferences.glade.h:42
 msgid "H_igh"
 msgstr "Au_kšta"
 
-#: data/glade/gthumb_preferences.glade.h:44
+#: ../data/glade/gthumb_preferences.glade.h:43
 msgid "Icons only"
 msgstr "Tik ikonos"
 
-#: data/glade/gthumb_preferences.glade.h:45
+#: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
 msgstr "Išlaikyti ankstesnį mastelį"
 
-#: data/glade/gthumb_preferences.glade.h:46
+#: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Layout:"
 msgstr "Išdėstymas:"
 
-#: data/glade/gthumb_preferences.glade.h:47
+#: ../data/glade/gthumb_preferences.glade.h:46
 msgid "Lo_w"
 msgstr "Že_ma"
 
-#: data/glade/gthumb_preferences.glade.h:49
+#: ../data/glade/gthumb_preferences.glade.h:48
 msgid "Ran_dom"
 msgstr "At_sitiktinė"
 
-#: data/glade/gthumb_preferences.glade.h:50
+#: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Re_verse"
 msgstr "A_tgal"
 
-#: data/glade/gthumb_preferences.glade.h:51
+#: ../data/glade/gthumb_preferences.glade.h:50
 msgid "Resta_rt when finished"
 msgstr "Pe_rkrauti kai baigta"
 
-#: data/glade/gthumb_preferences.glade.h:52
+#: ../data/glade/gthumb_preferences.glade.h:51
 msgid "Set image to actual size"
 msgstr "Nustatyti paveikslėlį į tikrąjį dydį"
 
-#: data/glade/gthumb_preferences.glade.h:53
+#: ../data/glade/gthumb_preferences.glade.h:52
 msgid "Set to C_urrent"
 msgstr "Nustat_yti į dabartinį"
 
-#: data/glade/gthumb_preferences.glade.h:54
+#: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Slide Show"
 msgstr "Skaidrių šou"
 
-#: data/glade/gthumb_preferences.glade.h:55
-msgid "Switch to _full screen"
-msgstr "Perju_ngti į pilną ekraną"
-
-#: data/glade/gthumb_preferences.glade.h:56
+#: ../data/glade/gthumb_preferences.glade.h:54
 msgid "System settings"
 msgstr "Sistemos nustatymai"
 
-#: data/glade/gthumb_preferences.glade.h:57
+#: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Text below icons"
 msgstr "Tekstas žemiau ikonų"
 
-#: data/glade/gthumb_preferences.glade.h:58
+#: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
 msgstr "Tekstas šalia ikonų"
 
-#: data/glade/gthumb_preferences.glade.h:59
+#: ../data/glade/gthumb_preferences.glade.h:57
 msgid "Text only"
 msgstr "Tik tekstas"
 
-#: data/glade/gthumb_preferences.glade.h:60
+#: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Th_umbnail size:"
 msgstr "Minivai_zdų dydis:"
 
-#: data/glade/gthumb_preferences.glade.h:61
+#: ../data/glade/gthumb_preferences.glade.h:59
 msgid "Transparency _type:"
 msgstr "Permatomumo _tipas:"
 
-#: data/glade/gthumb_preferences.glade.h:62
+#: ../data/glade/gthumb_preferences.glade.h:60
 msgid "Viewer"
 msgstr "Žiūryklė"
 
-#: data/glade/gthumb_preferences.glade.h:63
+#: ../data/glade/gthumb_preferences.glade.h:61
 msgid "White"
 msgstr "Baltas"
 
-#: data/glade/gthumb_preferences.glade.h:64
+#: ../data/glade/gthumb_preferences.glade.h:62
 msgid "_Filenames"
 msgstr "_Bylų vardus"
 
-#: data/glade/gthumb_preferences.glade.h:65
+#: ../data/glade/gthumb_preferences.glade.h:63
 msgid "_List"
 msgstr "Są_rašą"
 
-#: data/glade/gthumb_preferences.glade.h:66
+#: ../data/glade/gthumb_preferences.glade.h:64
 msgid "_Slides"
 msgstr "_Skaidres"
 
-#: data/glade/gthumb_preferences.glade.h:67 src/ui.h:617
+#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../src/gth-browser-actions-entries.h:387
 msgid "_Thumbnails"
 msgstr "_Minivaizdus"
 
-#: data/glade/gthumb_preferences.glade.h:68
+#: ../data/glade/gthumb_preferences.glade.h:66
 msgid "_Toolbar style:"
 msgstr "Įrankių juos_tos stilius:"
 
-#: data/glade/gthumb_preferences.glade.h:69
+#: ../data/glade/gthumb_preferences.glade.h:67
 msgid "gThumb Preferences"
 msgstr "gThumb nustatymai"
 
-#: data/glade/gthumb_preferences.glade.h:70
+#: ../data/glade/gthumb_preferences.glade.h:68
 msgid "seconds"
 msgstr "sekundės"
 
-#: data/glade/gthumb_print.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:4
 msgid "1"
 msgstr "1"
 
-#: data/glade/gthumb_print.glade.h:5
+#: ../data/glade/gthumb_print.glade.h:5
 msgid "16"
 msgstr "16"
 
-#: data/glade/gthumb_print.glade.h:6
+#: ../data/glade/gthumb_print.glade.h:6
 msgid "2"
 msgstr "2"
 
-#: data/glade/gthumb_print.glade.h:7
+#: ../data/glade/gthumb_print.glade.h:7
 msgid "4"
 msgstr "4"
 
-#: data/glade/gthumb_print.glade.h:8
+#: ../data/glade/gthumb_print.glade.h:8
 msgid "8"
 msgstr "8"
 
-#: data/glade/gthumb_print.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:9
+msgid "<b>Margins</b>"
+msgstr "<b>Paraštės</b>"
+
+#: ../data/glade/gthumb_print.glade.h:10
 msgid "<b>Orientation</b>"
 msgstr "<b>Orientacija</b>"
 
-#: data/glade/gthumb_print.glade.h:10
+#: ../data/glade/gthumb_print.glade.h:11
 msgid "<b>Size</b>"
 msgstr "<b>Dydis</b>"
 
-#: data/glade/gthumb_print.glade.h:11
+#: ../data/glade/gthumb_print.glade.h:12
 msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
-"<small><i><b>Pastaba:</b> Tempkit paveikslėlį, kad perkelti jį puslapyje.\n"
-"Spragtelkit ant jo, kad jį pasaukti.</i></small>"
+"<small><i><b>Pastaba:</b> Paveikslėlį perkelti galite tampydami jį puslapyje.\n"
+"Pasukti - paprasčiausiai spragtelėję jį.</i></small>"
 
-#: data/glade/gthumb_print.glade.h:13
-msgid "A_4"
-msgstr "A_4"
+#: ../data/glade/gthumb_print.glade.h:14
+msgid "A4"
+msgstr "A4"
 
-#: data/glade/gthumb_print.glade.h:14
-msgid "C_ustom:"
-msgstr "_Kitas:"
-
-#: data/glade/gthumb_print.glade.h:15
+#: ../data/glade/gthumb_print.glade.h:15
 msgid "Center _on Page"
 msgstr "Centru_oti puslapyje"
 
-#: data/glade/gthumb_print.glade.h:16
+#: ../data/glade/gthumb_print.glade.h:16
 msgid "Comment _font:"
 msgstr "Komentaro šri_ftas:"
 
-#: data/glade/gthumb_print.glade.h:17
+#: ../data/glade/gthumb_print.glade.h:18
+msgid "Executive"
+msgstr "Vykdomasis"
+
+#: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
 msgstr "Įtra_ukti komentarą"
 
-#: data/glade/gthumb_print.glade.h:18
+#: ../data/glade/gthumb_print.glade.h:20
 msgid "Images per page:"
 msgstr "Paveikslėlių puslapyje:"
 
-#: data/glade/gthumb_print.glade.h:19
+#: ../data/glade/gthumb_print.glade.h:21
 msgid "Inches"
 msgstr "Coliai"
 
-#: data/glade/gthumb_print.glade.h:20
+#: ../data/glade/gthumb_print.glade.h:22
 msgid "Lan_dscape"
 msgstr "_Gulsčias"
 
-#: data/glade/gthumb_print.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:23
 msgid "Layout"
 msgstr "Išdėstymas"
 
-#: data/glade/gthumb_print.glade.h:22
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "Legal"
+msgstr "Teisinis"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Letter"
+msgstr "Laiškas"
+
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
 msgstr "Milimetrai"
 
-#: data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "P_ortrait"
 msgstr "_Stačias"
 
-#: data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "Paper Details"
 msgstr "Popieriaus detalės"
 
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Postcard"
+msgstr "Atvirutė"
+
 #.
-#: data/glade/gthumb_print.glade.h:25 libgthumb/print-callbacks.c:2962
-#: libgthumb/print-callbacks.c:2976 libgthumb/print-callbacks.c:3442
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
+#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
 msgid "Print"
 msgstr "Spausdinti"
 
-#: data/glade/gthumb_print.glade.h:26
-msgid "US E_xecutive"
-msgstr "US E_xecutive"
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Tabloid"
+msgstr "Tabloidas"
 
-#: data/glade/gthumb_print.glade.h:27
-msgid "US L_egal"
-msgstr "US L_egal"
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "_Bottom:"
+msgstr "_Apačia:"
 
-#: data/glade/gthumb_print.glade.h:28
-msgid "US _Letter"
-msgstr "US _laiškas"
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "_Left:"
+msgstr "_Kairė:"
 
-#: data/glade/gthumb_print.glade.h:30
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "_Right:"
+msgstr "_Dešinė:"
+
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "Kei_sti mastelį:"
 
-#: data/glade/gthumb_search.glade.h:3
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "_Top:"
+msgstr "_Viršus:"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "_Unit:"
+msgstr "Vi_enetas:"
+
+#: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
 msgstr "<b>Paieškos kriterijai</b>"
 
-#: data/glade/gthumb_search.glade.h:4
+#: ../data/glade/gthumb_search.glade.h:3
 msgid "<b>Search scope</b>"
 msgstr "<b>Paieškos apimtis</b>"
 
-#: data/glade/gthumb_search.glade.h:6
+#: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
 msgstr "Po"
 
-#: data/glade/gthumb_search.glade.h:7
+#: ../data/glade/gthumb_search.glade.h:6
 msgid "Any"
 msgstr "Bet kokia"
 
-#: data/glade/gthumb_search.glade.h:8
+#: ../data/glade/gthumb_search.glade.h:7
 msgid "Before"
 msgstr "Prieš"
 
-#: data/glade/gthumb_search.glade.h:11
+#: ../data/glade/gthumb_search.glade.h:10
 msgid "Choose categories from the saved list"
 msgstr "Pasirinkit kategorijas iš išsaugoto sąrašo"
 
-#: data/glade/gthumb_search.glade.h:13
+#: ../data/glade/gthumb_search.glade.h:12
 msgid "Equal to"
 msgstr "Lygi"
 
-#: data/glade/gthumb_search.glade.h:14
+#: ../data/glade/gthumb_search.glade.h:13
 msgid "File _name:"
 msgstr "_Bylos vardas:"
 
-#: data/glade/gthumb_search.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:14
 msgid "Find"
 msgstr "Rasti"
 
-#: data/glade/gthumb_search.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:15
 msgid "Found images:"
 msgstr "Rasti paveikslėliai:"
 
-#: data/glade/gthumb_search.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:16
 msgid "Match a_ll selected categories"
 msgstr "Atitikti _visas pasirinktas kategorijas"
 
-#: data/glade/gthumb_search.glade.h:18
+#: ../data/glade/gthumb_search.glade.h:17
 msgid "Match a_ny selected category"
 msgstr "Atitikti _bet kurią pasirinktą kategoriją"
 
-#: data/glade/gthumb_search.glade.h:19
+#: ../data/glade/gthumb_search.glade.h:18
 msgid "New _Search..."
 msgstr "Nauja _paieška..."
 
-#: data/glade/gthumb_search.glade.h:20 src/dlg-photo-importer.c:756
-#: src/dlg-photo-importer.c:1307
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:812
+#: ../src/dlg-photo-importer.c:1431
 msgid "No images found"
 msgstr "Paveikslėlių nerasta"
 
-#: data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_search.glade.h:20
 msgid "Search Progress"
 msgstr "Paieškos progresas"
 
-#: data/glade/gthumb_search.glade.h:22 data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "Searching in:"
 msgstr "Ieškoma:"
 
-#: data/glade/gthumb_search.glade.h:25 src/ui.h:198 src/ui.h:233
+#: ../data/glade/gthumb_search.glade.h:24
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
 msgid "_Edit Search"
 msgstr "K_eisti paiešką"
 
-#: data/glade/gthumb_search.glade.h:26 data/glade/gthumb_tools.glade.h:47
+#: ../data/glade/gthumb_search.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "_Include sub-folders"
 msgstr "_Ieškoti ir dukteriniuose aplankuose"
 
-#: data/glade/gthumb_search.glade.h:28
+#: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
 msgstr "Iš_saugoti"
 
-#: data/glade/gthumb_search.glade.h:29
+#: ../data/glade/gthumb_search.glade.h:28
 msgid "_Search"
 msgstr "_Ieškoti"
 
-#: data/glade/gthumb_tools.glade.h:4
-msgid "<b>Comments</b>"
-msgstr "<b>Komentarai</b>"
+#: ../data/glade/gthumb_tools.glade.h:3
+msgid "<b>Change the following values:</b>"
+msgstr "<b>Pakeisti šias reikšmes:</b>"
 
-#: data/glade/gthumb_tools.glade.h:5
-msgid "<b>Thumbnails</b>"
-msgstr "<b>Minivaizdai</b>"
+#: ../data/glade/gthumb_tools.glade.h:4
+msgid "<b>Change to:</b>"
+msgstr "<b>Pakeisti į:</b>"
 
-#: data/glade/gthumb_tools.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:5
 msgid "<b>Write to CD</b>"
 msgstr "<b>Rašyti į CD</b>"
 
-#: data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_tools.glade.h:6
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr ""
 "<small><i><b>Pastaba</b>: jpeg transformacijos yra be kokybės praradimų.</"
 "i></small>"
 
-#: data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:8
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
@@ -1590,330 +1635,314 @@ msgstr ""
 "<small><i><b>Spec. simboliai:</b> # (skaičiuoklis), %f (originalus bylos "
 "vardas), %d (paveikslėlio data), %s (paveikslėlio dydis).</i></small>"
 
-#: data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:9
+msgid "A_djust timezone:"
+msgstr "P_akeisti laiko juostą:"
+
+#: ../data/glade/gthumb_tools.glade.h:10
+#: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "Priderinti foto _orientaciją"
 
-#: data/glade/gthumb_tools.glade.h:11
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "Apply to _all images"
 msgstr "Pritaikyti _visiems paveikslėliams"
 
-#: data/glade/gthumb_tools.glade.h:12
-msgid "Backup Comments"
-msgstr "Atsarginės kopijos komentarai"
-
-#: data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:12
 msgid "C_urrent date"
 msgstr "Da_bartinė data"
 
-#: data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:13
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
+msgid "Ca_talog"
+msgstr "Ka_talogas"
+
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "Change Date"
 msgstr "Pakeisti datą"
 
-#: data/glade/gthumb_tools.glade.h:15
-msgid "Change the last modified date to:"
-msgstr "Pakeisti paskutinio modifikavimo datą į:"
-
-#: data/glade/gthumb_tools.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:15
 msgid "Check _All"
 msgstr "Patikrinti _visus"
 
-#: data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Check _None"
 msgstr "Netikrinti _nieko"
 
-#: data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "Checking image:"
 msgstr "Tikrinamas paveikslėlis:"
 
-#: data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:18
+msgid "Co_mment date"
+msgstr "Ko_mentaro data"
+
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Current _Folder"
 msgstr "Esamas _aplankas"
 
-#: data/glade/gthumb_tools.glade.h:20
-msgid "Delete ALL Comments"
-msgstr "Ištrinti VISUS komentarus"
-
-#: data/glade/gthumb_tools.glade.h:21
-msgid "Delete ALL Thumbnails"
-msgstr "Ištrinti VISUS minivaizdus"
-
-#: data/glade/gthumb_tools.glade.h:22
-msgid "Delete Old Comments"
-msgstr "Ištrinti senus komentarus"
-
-#: data/glade/gthumb_tools.glade.h:23
-msgid "Delete Old Thumbnails"
-msgstr "Ištrinti senus minivaizdus"
-
-#: data/glade/gthumb_tools.glade.h:24
-msgid "Delete comments of no more existing images"
-msgstr "Ištrinti jau nebeegzistuojančių paveikslėlių komentarus"
-
-#: data/glade/gthumb_tools.glade.h:25
-msgid "Delete thumbnails of no more existing images"
-msgstr "Ištrinti jau nebeegzistuojančių paveikslėlių minivaizdus"
-
-#: data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Equal images:"
 msgstr "Vienodi paveikslėliai:"
 
-#: data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Find Duplicates"
 msgstr "Rasti dublikatus"
 
-#: data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Found duplicates:"
 msgstr "Rasti dublikatai:"
 
-#: data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:23
 msgid "Image c_reation date"
 msgstr "Paveikslėlio sukū_rimo data"
 
-#: data/glade/gthumb_tools.glade.h:30
-msgid "Maintenance"
-msgstr "Priežiūra"
-
-#: data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Mirror image horizontally (left-right)"
 msgstr "Atspindėti paveikslėlį horizontaliai (kairė-dešinė)"
 
-#: data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Atspindėti paveikslėlį vertikaliai (viršus-apačia)"
 
-#: data/glade/gthumb_tools.glade.h:33 src/ui.h:113 src/ui.h:138 src/ui.h:263
-#: src/ui.h:293
+#: ../data/glade/gthumb_tools.glade.h:26
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
 msgid "Move to _Trash"
 msgstr "Perkel_ti į šiukšlinę"
 
-#: data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "New names _preview:"
 msgstr "Naujų vardų _peržiūra:"
 
-#: data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "_Foto suskaitmeninimo data (Iš EXIF duomenų)"
 
-#: data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Re_verse Order"
 msgstr "At_virkštine tvarka"
 
-#: data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Rename Series"
 msgstr "Pervadinti seriją"
 
-#: data/glade/gthumb_tools.glade.h:38
-msgid "Restore Comments From a Backup File"
-msgstr "Atstatyti komentarus iš atsarginės bylos"
-
-#: data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Rotate Images"
 msgstr "Pasukti paveikslėlius"
 
-#: data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Pasukti paveikslėlį 90 laipsnių pagal laikrodžio rodyklę"
 
-#: data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Pasukti paveikslėlį 90 laipsnių prieš laikrodžio rodyklę"
 
-#: data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Search terminated, no duplicates found."
 msgstr "Paieška nutraukta, dublikatų nerasta."
 
-#: data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "The _following date:"
 msgstr "S_ekanti data:"
 
-#: data/glade/gthumb_tools.glade.h:46
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Write To CD"
 msgstr "Rašyti į CD"
 
-#: data/glade/gthumb_tools.glade.h:48 src/actions.c:288 src/actions.c:793
-#: src/actions.c:1317
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "_Last modified date"
+msgstr "_Paskutinio pakeitimo data"
+
+#: ../data/glade/gthumb_tools.glade.h:41
+#: ../src/gth-browser-actions-callbacks.c:156
+#: ../src/gth-browser-actions-callbacks.c:555
+#: ../src/gth-browser-actions-callbacks.c:1064
 msgid "_Rename"
 msgstr "Pe_rvadinti"
 
-#: data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "_Selected Images"
 msgstr "_Pasirinkti paveikslėliai"
 
-#: data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "_Sort:"
 msgstr "_Rūšiuoti:"
 
-#: data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid "by Modification date"
 msgstr "pagal pakeitimo datą"
 
-#: data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:48
 msgid "by Name"
 msgstr "pagal vardą"
 
-#: data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "by Size"
 msgstr "pagal dydį"
 
-#: data/glade/gthumb_web_exporter.glade.h:5
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "hours"
+msgstr "valandos"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:4
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
-#: data/glade/gthumb_web_exporter.glade.h:6
+#: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1280 x 960"
 msgstr "1280 x 960"
 
-#: data/glade/gthumb_web_exporter.glade.h:7
+#: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "320 x 200"
 msgstr "320 x 200"
 
-#: data/glade/gthumb_web_exporter.glade.h:8
+#: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "640 x 480"
 msgstr "640 x 480"
 
-#: data/glade/gthumb_web_exporter.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "800 x 600"
 msgstr "800 x 600"
 
-#: data/glade/gthumb_web_exporter.glade.h:10
+#: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "<b>Album</b>"
 msgstr "<b>Albumas</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:11
+#: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "<b>Index Layout</b>"
 msgstr "<b>Rodiklinis išdėstymas</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:12
+#: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "<b>Personalize theme</b>"
 msgstr "<b>Pritaikyti sau temą</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:13
+#: ../data/glade/gthumb_web_exporter.glade.h:12
 msgid "<b>Photo data</b>"
 msgstr "<b>Foto duomenys</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:15
+#: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Theme</b>"
 msgstr "<b>Tema</b>"
 
-#: data/glade/gthumb_web_exporter.glade.h:17
+#: ../data/glade/gthumb_web_exporter.glade.h:16
 #, no-c-format
 msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
 msgstr "<small><i><b>Pastaba:</b> %d (dabartinė data).</i></small>"
 
-#: data/glade/gthumb_web_exporter.glade.h:18
+#: ../data/glade/gthumb_web_exporter.glade.h:17
 msgid "Came_ra Model"
 msgstr "Kame_ros modelis"
 
-#: data/glade/gthumb_web_exporter.glade.h:19
+#: ../data/glade/gthumb_web_exporter.glade.h:18
 msgid "Caption"
 msgstr "Antraštė"
 
-#: data/glade/gthumb_web_exporter.glade.h:21
+#: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "E_xposure mode"
 msgstr "E_kspozicijos režimas"
 
-#: data/glade/gthumb_web_exporter.glade.h:22
+#: ../data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
 msgstr "Ekspo_zicijos laikas"
 
-#: data/glade/gthumb_web_exporter.glade.h:26
+#: ../data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
 msgstr "Židinio nuoto_lis"
 
-#: data/glade/gthumb_web_exporter.glade.h:28
+#: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
 msgstr "P_aveikslėlio antraštė..."
 
-#: data/glade/gthumb_web_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
 msgstr "Rodyklės byla:"
 
-#: data/glade/gthumb_web_exporter.glade.h:32
+#: ../data/glade/gthumb_web_exporter.glade.h:32
 msgid "Resi_ze if larger than:"
 msgstr "Pakeisti d_ydį jeigu didesnis nei:"
 
-#: data/glade/gthumb_web_exporter.glade.h:33
-msgid "Select Destination"
-msgstr "Pasirinkit paskirties vietą"
-
-#: data/glade/gthumb_web_exporter.glade.h:34
+#: ../data/glade/gthumb_web_exporter.glade.h:33
 msgid "Si_ze :"
 msgstr "_Dydis:"
 
-#: data/glade/gthumb_web_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "Th_eme:"
 msgstr "T_ema:"
 
-#: data/glade/gthumb_web_exporter.glade.h:37
+#: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Web Album"
 msgstr "Web albumas"
 
-#: data/glade/gthumb_web_exporter.glade.h:38
+#: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album Theme"
 msgstr "Web albumo tema"
 
-#: data/glade/gthumb_web_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "_Aperture value"
 msgstr "_Diafragmos vertė"
 
-#: data/glade/gthumb_web_exporter.glade.h:40
+#: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Copy originals to destination"
 msgstr "_Kopijuoti originalus į naują vietą"
 
-#: data/glade/gthumb_web_exporter.glade.h:41
+#: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
 msgstr "_Data ir laikas"
 
-#: data/glade/gthumb_web_exporter.glade.h:43
+#: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
 msgstr "_Blykstė"
 
-#: data/glade/gthumb_web_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:43
 msgid "_Go to Theme Folder"
 msgstr "_Eiti į temos aplanką"
 
-#: data/glade/gthumb_web_exporter.glade.h:45
+#: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
 msgstr "Įd_iegti temą..."
 
-#: data/glade/gthumb_web_exporter.glade.h:46
+#: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Select"
 msgstr "Pa_sirinkti"
 
-#: data/glade/gthumb_web_exporter.glade.h:47
+#: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Shutter speed"
 msgstr "_Užrakto greitis"
 
-#: data/glade/gthumb_web_exporter.glade.h:48
+#: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
 msgstr "_Minivaizdo antraštė..."
 
-#: data/glade/gthumb_web_exporter.glade.h:49
+#: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
 msgstr "pagal pakeitimo laiką"
 
-#: data/glade/gthumb_web_exporter.glade.h:53
+#: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "columns"
 msgstr "stulpeliai"
 
-#: data/glade/gthumb_web_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:53
 msgid "index.html"
 msgstr "index.html"
 
-#: data/glade/gthumb_web_exporter.glade.h:55
+#: ../data/glade/gthumb_web_exporter.glade.h:54
 msgid "rows"
 msgstr "eilutės"
 
-#: data/gthumb.desktop.in.h:1
+#: ../data/gthumb.desktop.in.h:1
 msgid "View and organize your images"
 msgstr "Žiūrėkit ir organizuokit savo paveikslėlius"
 
-#: data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:2
 msgid "gThumb Image Viewer"
 msgstr "gThumb paveikslėlių žiūrėjimo programa"
 
-#: data/gthumb.schemas.in.h:1
+#: ../data/gthumb.schemas.in.h:1
 msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
@@ -1921,67 +1950,67 @@ msgstr ""
 "Paveikslėlių viršijančių šį dydį (baitais) minivaizdai nebus rodomi. "
 "Naudokit 0 jeigu norite matyti visų paveikslėlių minivaizdus."
 
-#: data/gthumb.schemas.in.h:2
+#: ../data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
 msgstr "Galimos vertės yra: 1, 2, 3, 4."
 
-#: data/gthumb.schemas.in.h:3
+#: ../data/gthumb.schemas.in.h:3
 msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
 msgstr "Galimos vertės yra: actual_size, fit, keep_prev, fit_if_larger."
 
-#: data/gthumb.schemas.in.h:4
+#: ../data/gthumb.schemas.in.h:4
 msgid "Possible values are: ascending, descending."
 msgstr "Galimos vertės yra: ascending, descending."
 
-#: data/gthumb.schemas.in.h:5
+#: ../data/gthumb.schemas.in.h:5
 msgid "Possible values are: forward, backward, random."
 msgstr "Galimos vertės yra: forward, backward, random."
 
-#: data/gthumb.schemas.in.h:6
+#: ../data/gthumb.schemas.in.h:6
 msgid "Possible values are: high, low."
 msgstr "Galimos vertės yra: high, low."
 
-#: data/gthumb.schemas.in.h:7
+#: ../data/gthumb.schemas.in.h:7
 msgid "Possible values are: image, data, comment."
 msgstr "Galimos vertės yra: image, data, comment."
 
-#: data/gthumb.schemas.in.h:8
+#: ../data/gthumb.schemas.in.h:8
 msgid "Possible values are: jpeg, png, tga, tiff."
 msgstr "Galimos vertės yra: jpeg, png, tga, tiff."
 
-#: data/gthumb.schemas.in.h:9
+#: ../data/gthumb.schemas.in.h:9
 msgid "Possible values are: light, midtone, dark."
 msgstr "Galimos vertės yra: light, midtone, dark."
 
-#: data/gthumb.schemas.in.h:10
+#: ../data/gthumb.schemas.in.h:10
 msgid "Possible values are: list, thumbnails."
 msgstr "Galimos vertės yra: list, thumbnails."
 
-#: data/gthumb.schemas.in.h:11
+#: ../data/gthumb.schemas.in.h:11
 msgid "Possible values are: mm, in."
 msgstr "Galimos vertės yra: mm, in."
 
-#: data/gthumb.schemas.in.h:12
+#: ../data/gthumb.schemas.in.h:12
 msgid "Possible values are: name, path, size, time."
 msgstr "Galimos vertės yra: name, path, size, time."
 
-#: data/gthumb.schemas.in.h:13
+#: ../data/gthumb.schemas.in.h:13
 msgid "Possible values are: name, size, time."
 msgstr "Galimos vertės yra: name, size, time:"
 
-#: data/gthumb.schemas.in.h:14
+#: ../data/gthumb.schemas.in.h:14
 msgid "Possible values are: nautilus, single, double."
 msgstr "Galimos vertės yra: nautilus, single, double."
 
-#: data/gthumb.schemas.in.h:15
+#: ../data/gthumb.schemas.in.h:15
 msgid "Possible values are: none, deflate, jpeg."
 msgstr "Galimos vertės yra: none, deflate, jpeg."
 
-#: data/gthumb.schemas.in.h:16
+#: ../data/gthumb.schemas.in.h:16
 msgid "Possible values are: none, name, path, size, time."
 msgstr "Galimos vertės yra: none, name, path, size, time."
 
-#: data/gthumb.schemas.in.h:17
+#: ../data/gthumb.schemas.in.h:17
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
@@ -1989,7 +2018,7 @@ msgstr ""
 "Galimos vertės yra: none, simple, simple_with_shadow, shadow, slide,"
 "shadow_in, shadow_out."
 
-#: data/gthumb.schemas.in.h:18
+#: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
@@ -1997,464 +2026,295 @@ msgstr ""
 "Galimos vertės yra: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
 
-#: data/gthumb.schemas.in.h:19
+#: ../data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
 msgstr "Galimos vertės yra: pixels, percentage."
 
-#: data/gthumb.schemas.in.h:20
+#: ../data/gthumb.schemas.in.h:20
 msgid "Possible values are: png, jpeg."
 msgstr "Galimos vertės yra: png, jpeg."
 
-#: data/gthumb.schemas.in.h:21
+#: ../data/gthumb.schemas.in.h:21
 msgid "Possible values are: skip, rename, ask, overwrite."
 msgstr "Galimos vertės yra: skip, rename, ask, overwrite."
 
-#: data/gthumb.schemas.in.h:22
+#: ../data/gthumb.schemas.in.h:22
 msgid "Possible values are: small, medium, large."
 msgstr "Galimos vertės yra: small, medium, large."
 
-#: data/gthumb.schemas.in.h:23
+#: ../data/gthumb.schemas.in.h:23
 msgid ""
 "Possible values are: system, text_below, text_beside, text_only, icons_only."
 msgstr ""
 "Galimos vertės yra: system, text_below, text_beside, text_only, icons_only."
 
-#: data/gthumb.schemas.in.h:24
+#: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
 msgstr "Galimos vertės yra: white, black, checked, none."
 
-#: data/gthumb.schemas.in.h:25
+#: ../data/gthumb.schemas.in.h:25
 msgid "Whether to always use a black background."
 msgstr "Ar visada naudoti juodą foną."
 
-#: libgthumb/catalog.c:89
+#: ../libgthumb/catalog.c:89
 msgid "Library not empty"
 msgstr "Biblioteka netuščia"
 
-#: libgthumb/catalog.c:98
+#: ../libgthumb/catalog.c:98
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Negalima pašalinti bibliotekos „%s“: %s"
 
-#: libgthumb/catalog.c:125
+#: ../libgthumb/catalog.c:125
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Negalima pašalinti katalogo „%s“: %s"
 
-#: libgthumb/catalog.c:250 libgthumb/catalog.c:418
+#: ../libgthumb/catalog.c:250 ../libgthumb/catalog.c:418
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "Negalima atidaryti katalogo „%s“: %s"
+msgstr "Negalima atverti katalogo „%s“: %s"
 
-#: libgthumb/catalog.c:395
+#: ../libgthumb/catalog.c:395
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Negalima išsaugoti katalogo „%s“: %s"
 
-#: libgthumb/comments.c:429
+#: ../libgthumb/comments.c:768
 msgid "Deleting all comments, wait please..."
 msgstr "Trinami visi komentarai, prašom palaukti..."
 
-#: libgthumb/comments.c:431
+#: ../libgthumb/comments.c:770
 msgid "Deleting old comments, wait please..."
 msgstr "Trinami seni komentarai, prašom palaukti..."
 
-#: libgthumb/comments.c:788
+#: ../libgthumb/comments.c:1344
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: libgthumb/comments.c:790 src/catalog-web-exporter.c:47
-#: src/dlg-duplicates.c:550 src/dlg-image-prop.c:439 src/fullscreen.c:228
-#: src/gth-exif-data-viewer.c:459 src/gthumb-window.c:263
+#: ../libgthumb/comments.c:1346 ../src/catalog-web-exporter.c:52
+#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
+#: ../src/gth-browser.c:499 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:689 ../src/gth-viewer.c:557
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: libgthumb/comments.c:800
+#: ../libgthumb/comments.c:1356 ../libgthumb/comments.c:1358
 msgid "(No Comment)"
 msgstr "(Nėra komentaro)"
 
-#: libgthumb/dlg-save-image.c:119 src/dlg-file-utils.c:118
-#: src/dlg-jpegtran.c:769
+#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Jūs neturite reikiamo leidimo kurti paveikslėliams aplanke „%s“"
 
-#: libgthumb/dlg-save-image.c:135 src/actions.c:322 src/dlg-convert.c:308
+#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:311
+#: ../src/gth-browser-actions-callbacks.c:190
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Paveikslėlis pavadinimu „%s“ jau yra. Ar norite jį perrašyti?"
 
-#: libgthumb/dlg-save-image.c:187
+#: ../libgthumb/dlg-save-image.c:170
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Paveikslėlio tipas nepalaikomas: %s"
 
-#: libgthumb/dlg-save-image.c:226
+#: ../libgthumb/dlg-save-image.c:252
 msgid "Determine by extension"
 msgstr "Nustatyti pagal plėtinį"
 
-#: libgthumb/dlg-save-image.c:261
+#: ../libgthumb/dlg-save-image.c:287
 msgid "Save Image"
 msgstr "Išsaugoti paveiklėlį"
 
-#: libgthumb/dlg-save-image.c:278
+#: ../libgthumb/dlg-save-image.c:304
 msgid "Image type:"
 msgstr "Paveikslėlio tipas:"
 
-#: libgthumb/gnome-print-font-dialog.c:113
+#: ../libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
 msgstr "Įvest_i naują peržiūros frazę."
 
-#: libgthumb/gnome-print-font-dialog.c:119
+#: ../libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
 msgstr "Keisti peržiūros frazę..."
 
-#: libgthumb/gnome-print-font-dialog.c:173
+#: ../libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
 msgstr "Peržiūra"
 
-#: libgthumb/gnome-print-font-dialog.c:186
+#: ../libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
 msgstr "_Keisti peržiūros frazę..."
 
-#: libgthumb/gnome-print-font-dialog.c:247
+#: ../libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
 msgstr "Šrifto parinkimas"
 
-#: libgthumb/gnome-print-font-picker.c:92
+#: ../libgthumb/gnome-print-font-picker.c:87
 msgid "Sans Regular 12"
 msgstr "Sans Regular 12"
 
-#: libgthumb/gnome-print-font-picker.c:93
+#: ../libgthumb/gnome-print-font-picker.c:88
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr "AaAąBbCcČčDdEeĘeĖėFfGgHhIiĮįYyJjKkLlMmNnOoPpRrSsŠšTtUuŲųŪūVvZzŽž"
 
-#: libgthumb/gnome-print-font-picker.c:94
+#: ../libgthumb/gnome-print-font-picker.c:89
 msgid "Pick a Font"
 msgstr "Pasirinkit šriftą"
 
-#: libgthumb/gnome-print-font-picker.c:179
+#: ../libgthumb/gnome-print-font-picker.c:174
 msgid "Title"
 msgstr "Pavadinimas"
 
-#: libgthumb/gnome-print-font-picker.c:180
+#: ../libgthumb/gnome-print-font-picker.c:175
 msgid "The title of the selection dialog box"
 msgstr "Pasirinkimo dialogo dėžutės pavadinimas"
 
-#: libgthumb/gnome-print-font-picker.c:200
+#: ../libgthumb/gnome-print-font-picker.c:195
 msgid "Font name"
 msgstr "Šrifto pavadinimas"
 
-#: libgthumb/gnome-print-font-picker.c:201
+#: ../libgthumb/gnome-print-font-picker.c:196
 msgid "Name of the selected font"
 msgstr "Pasirinkto šrifto pavadinimas"
 
-#: libgthumb/gnome-print-font-picker.c:209
+#: ../libgthumb/gnome-print-font-picker.c:204
 msgid "Preview text"
 msgstr "Peržiūros tekstas"
 
-#: libgthumb/gnome-print-font-picker.c:210
+#: ../libgthumb/gnome-print-font-picker.c:205
 msgid "Preview text shown in the dialog"
 msgstr "Peržiūros tekstas rodomas dialoge"
 
-#: libgthumb/gnome-print-font-picker.c:218
+#: ../libgthumb/gnome-print-font-picker.c:213
 msgid "Use font in label"
 msgstr "Naudoti šriftą etiketėje"
 
-#: libgthumb/gnome-print-font-picker.c:219
+#: ../libgthumb/gnome-print-font-picker.c:214
 msgid "Use font in the label in font info mode"
 msgstr "Naudoti šriftą etiketėje, šrifto informacijos režime"
 
-#: libgthumb/gnome-print-font-picker.c:227
+#: ../libgthumb/gnome-print-font-picker.c:222
 msgid "Font size for label"
 msgstr "Šrifto dydis etiketei"
 
-#: libgthumb/gnome-print-font-picker.c:228
+#: ../libgthumb/gnome-print-font-picker.c:223
 msgid "Font size for label in font info mode"
 msgstr "Šrifto dydis etiketei, šrifto informacijos režime"
 
-#: libgthumb/gnome-print-font-picker.c:238
+#: ../libgthumb/gnome-print-font-picker.c:233
 msgid "Show size"
 msgstr "Rodyti dydį"
 
-#: libgthumb/gnome-print-font-picker.c:239
+#: ../libgthumb/gnome-print-font-picker.c:234
 msgid "Show size in font info mode"
 msgstr "Šrifto informacijos lange rodyti dydį"
 
-#: libgthumb/gnome-print-font-picker.c:1018
+#: ../libgthumb/gnome-print-font-picker.c:1013
 msgid "Font"
 msgstr "Šriftas"
 
-#: libgthumb/gth-file-view-list.c:1375 src/dlg-duplicates.c:371
-#: src/dlg-image-prop.c:595 src/gth-exif-data-viewer.c:470
+#: ../libgthumb/gth-file-list.c:523 ../src/gth-browser.c:8535
+#: ../src/gth-viewer.c:2110
+msgid "Wait please..."
+msgstr "Prašom palaukti..."
+
+#: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
+#: ../libgthumb/gth-image-list.c:3443 ../src/gth-browser.c:778
+#: ../src/gth-viewer.c:738
+msgid "No image"
+msgstr "Nėra paveikslėlio"
+
+#: ../libgthumb/gth-file-view-list.c:1378 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:492
 msgid "Name"
 msgstr "Vardas"
 
-#: libgthumb/print-callbacks.c:939 libgthumb/print-callbacks.c:1555
-#, c-format
-msgid "Print %s"
-msgstr "Spausdinti %s"
+#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+msgid "Ro_tate Images"
+msgstr "Pasuk_ti paveikslėlius"
 
-#: libgthumb/print-callbacks.c:942
-msgid "Print Image"
-msgstr "Spausdinti paveikslėlį"
-
-#: libgthumb/print-callbacks.c:1280 libgthumb/print-callbacks.c:2038
+#: ../libgthumb/print-callbacks.c:669
 #, c-format
 msgid "Page %d of %d"
 msgstr "Puslapis %d iš %d"
 
-#: libgthumb/print-callbacks.c:3035 src/catalog-png-exporter.c:1334
+#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Įkeliamas paveikslėlis: %s"
 
-#: libgthumb/thumb-cache.c:485
+#: ../libgthumb/thumb-cache.c:486
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Trinami visi minivaizdai, prašom palaukti..."
 
-#: libgthumb/thumb-cache.c:487
+#: ../libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Trinami seni minivaizdai, prašom palaukti..."
 
-#: src/actions.c:284 src/actions.c:789 src/actions.c:1313
-msgid "Enter the new name: "
-msgstr "Įveskit naują vardą: "
-
-#: src/actions.c:302 src/actions.c:809 src/actions.c:1032 src/actions.c:1109
-#: src/actions.c:1331
-#, c-format
-msgid ""
-"The name \"%s\" is not valid because it contains the character \"/\". Please "
-"use a different name."
-msgstr ""
-"Vardas „%s“ yra netinkamas, nes jame yra simbolis „/“. Prašom naudoti kitą "
-"vardą."
-
-#: src/actions.c:329 src/dlg-convert.c:314
-msgid "_Overwrite"
-msgstr "_Perrašyti"
-
-#: src/actions.c:349 src/actions.c:364
-#, c-format
-msgid "Could not rename the image \"%s\": %s"
-msgstr "Negalima pervadinti paveikslėlio „%s“: %s"
-
-#: src/actions.c:351 src/actions.c:1353 src/actions.c:1625
-msgid "source and destination are the same"
-msgstr "šaltinio ir paskirties vietos yra tos pačios"
-
-#: src/actions.c:448
-#, c-format
-msgid "Could not duplicate the image \"%s\": %s"
-msgstr "Negalima dubliuoti paveikslėlio „%s“: %s"
-
-#: src/actions.c:456
-msgid "Stop"
-msgstr "Stabdyti"
-
-#: src/actions.c:457
-msgid "Continue"
-msgstr "Tęsti"
-
-#: src/actions.c:517
-msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Paveikslėlis bus perkeltas į šiukšlinę, Jūs tikras?"
-
-#: src/actions.c:597
-msgid "The selected images will be moved to the Trash, are you sure?"
-msgstr "Pasirinkti paveikslėliai bus perkelti į šiukšlinę, Jūs tikras?"
-
-#: src/actions.c:756
-msgid "The selected images will be removed from the catalog, are you sure?"
-msgstr "Pasirinkti paveikslėliai bus pašalinti iš katalogo, Jūs tikras?"
-
-#: src/actions.c:831 src/actions.c:1051 src/actions.c:1125 src/actions.c:1361
-#, c-format
-msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Vardas „%s“ jau naudojamas. Prašom pasirinkti kitą vardą."
-
-#: src/actions.c:842
-#, c-format
-msgid "Could not rename the library \"%s\": %s"
-msgstr "Negalima pervadinti bibliotekos „%s“: %s"
-
-#: src/actions.c:842
-#, c-format
-msgid "Could not rename the catalog \"%s\": %s"
-msgstr "Negalima pervadinti katalogo „%s“: %s"
-
-#: src/actions.c:911
-msgid "The selected library will be removed, are you sure?"
-msgstr "Pasirinkta biblioteka bus pašalinta, Jūs tikras?"
-
-#: src/actions.c:913
-msgid "The selected catalog will be removed, are you sure?"
-msgstr "Pasirinktas katalogas bus pašalintas, Jūs tikras?"
-
-#: src/actions.c:1016 src/dlg-catalog.c:82
-msgid "Enter the catalog name: "
-msgstr "Įveskit katalogo pavadinimą: "
-
-#: src/actions.c:1017
-msgid "New Catalog"
-msgstr "Naujas katalogas"
-
-#: src/actions.c:1062
-#, c-format
-msgid "Could not create the catalog \"%s\": %s"
-msgstr "Negalima sukurti katalogo „%s“: %s"
-
-#: src/actions.c:1096 src/dlg-catalog.c:86 src/dlg-catalog.c:131
-#: src/dlg-categories.c:230 src/dlg-file-utils.c:90
-msgid "C_reate"
-msgstr "Suku_rti"
-
-#: src/actions.c:1152
-msgid "New Library"
-msgstr "Nauja biblioteka"
-
-#: src/actions.c:1153 src/dlg-catalog.c:127
-msgid "Enter the library name: "
-msgstr "Įveskit bibliotekos pavadinimą: "
-
-#: src/actions.c:1154
-#, c-format
-msgid "Could not create the library \"%s\": %s"
-msgstr "Negalima sukurti bibliotekos „%s“: %s"
-
-#: src/actions.c:1351 src/actions.c:1385
-#, c-format
-msgid "Could not rename the folder \"%s\": %s"
-msgstr "Negalima pervadinti aplanko „%s“: %s"
-
-#: src/actions.c:1437
-#, c-format
-msgid "Could not delete the folder \"%s\": %s"
-msgstr "Negalima ištrinti aplanko „%s“: %s"
-
-#: src/actions.c:1468
-#, c-format
-msgid ""
-"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
-msgstr ""
-"„%s“ negali būti perkelta į šiukšlinę. Ar noritę ją ištrinti visam laikui?"
-
-#: src/actions.c:1476 src/dlg-file-utils.c:227 src/gthumb-window.c:1484
-msgid "_Do not display this message again"
-msgstr "_Daugiau nerodyti šios žinutės"
-
-#: src/actions.c:1509
-msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Pažymėtas aplankas bus perkeltas į šiukšlinę, Jūs tikras?"
-
-#: src/actions.c:1511 src/dlg-file-utils.c:281
-msgid "_Move"
-msgstr "_Perkelti"
-
-#: src/actions.c:1560 src/actions.c:1615
-#, c-format
-msgid "Could not copy the folder \"%s\": %s"
-msgstr "Negalima kopijuoti aplanko „%s“: %s"
-
-#: src/actions.c:1615 src/dlg-file-utils.c:2413 src/dlg-file-utils.c:2415
-#, c-format
-msgid "Could not move the folder \"%s\": %s"
-msgstr "Negalima perkelti aplanko „%s“: %s"
-
-#: src/actions.c:1636
-msgid "source contains destination"
-msgstr "šaltinis kartu yra tikslas"
-
-#: src/actions.c:1647
-msgid "a folder with that name is already present."
-msgstr "aplankas tokiu vardu jau yra."
-
-#: src/actions.c:1720 src/dlg-file-utils.c:367 src/dlg-file-utils.c:456
-msgid "Choose the destination folder"
-msgstr "Pasirinkit paskirties aplanką"
-
-#: src/actions.c:1967
-msgid "New Folder"
-msgstr "Naujas aplankas"
-
-#: src/actions.c:1968
-msgid "Enter the folder name: "
-msgstr "Įveskit aplanko pavadinimą: "
-
-#: src/actions.c:1969 src/dlg-photo-importer.c:1314
-#, c-format
-msgid "Could not create the folder \"%s\": %s"
-msgstr "Negaliu sukurti aplanko „%s“: %s"
-
-#: src/actions.c:2713
-msgid "translator_credits"
-msgstr "Žygimantas Beručka <uid0@akl.lt>"
-
-#: src/actions.c:2722 src/gthumb-window.c:434 src/gthumb-window.c:4620
-#: src/main.c:136
-msgid "gThumb"
-msgstr "gThumb"
-
-#: src/actions.c:2725
-msgid "An image viewer and browser for GNOME."
-msgstr "Paveikslėlių žiūrėjimo ir naršymo programa skirta GNOME."
-
-#: src/actions.c:2762 src/dlg-categories.c:351 src/dlg-change-date.c:151
-#: src/dlg-comment.c:287 src/dlg-convert.c:434 src/dlg-jpegtran.c:1014
-#: src/dlg-preferences.c:188 src/dlg-rename-series.c:330 src/dlg-search.c:456
-#, c-format
-msgid "Could not display help: %s"
-msgstr "Negalima parodyti pagalbos: %s"
-
-#: src/bookmark-list.c:172 src/catalog-list.c:436 src/catalog-list.c:468
-#: src/dir-list.c:244 src/dir-list.c:497 src/dlg-rename-series.c:287
-#: src/dlg-rename-series.c:291 src/gthumb-window.c:416
-#: src/gthumb-window.c:1111 src/gthumb-window.c:1117 src/gthumb-window.c:1123
+#: ../src/bookmark-list.c:173 ../src/gth-browser.c:700
+#: ../src/gth-browser.c:1358 ../src/gth-browser.c:1364
+#: ../src/gth-browser.c:1370
 msgid "(Invalid Name)"
 msgstr "(Netinkamas vardas)"
 
-#: src/catalog-png-exporter.c:1563
+#: ../src/catalog-png-exporter.c:1565
 #, c-format
 msgid "Creating image: %s.%s"
 msgstr "Kuriamas paveikslėlis: %s.%s"
 
-#: src/catalog-web-exporter.c:1572
+#: ../src/catalog-web-exporter.c:1704
 msgid "Saving thumbnails"
 msgstr "Saugomi minivaizdai"
 
-#: src/catalog-web-exporter.c:1638
+#: ../src/catalog-web-exporter.c:1770
 msgid "Saving HTML pages: Images"
 msgstr "Saugomi HTML puslapiai: paveikslėliai"
 
-#: src/catalog-web-exporter.c:1713
+#: ../src/catalog-web-exporter.c:1845
 msgid "Saving HTML pages: Indexes"
 msgstr "Saugomi HTML puslapiai: rodyklės"
 
-#: src/catalog-web-exporter.c:1836 src/catalog-web-exporter.c:1895
-#: src/catalog-web-exporter.c:2030
+#: ../src/catalog-web-exporter.c:1969 ../src/catalog-web-exporter.c:2029
+#: ../src/catalog-web-exporter.c:2199
 msgid "Saving images"
 msgstr "Saugomi paveikslėliai"
 
-#: src/catalog-web-exporter.c:2239
+#: ../src/catalog-web-exporter.c:2383
 msgid "Could not create a temporary folder"
 msgstr "Negalima sukurti laikino aplanko"
 
 #. Load thumbnails.
-#: src/catalog-web-exporter.c:2272
+#: ../src/catalog-web-exporter.c:2416
 msgid "Loading images"
 msgstr "Įkeliami paveikslėliai"
 
-#: src/dlg-catalog.c:446
+#: ../src/dlg-catalog.c:83 ../src/gth-browser-actions-callbacks.c:770
+msgid "Enter the catalog name: "
+msgstr "Įveskit katalogo pavadinimą: "
+
+#: ../src/dlg-catalog.c:87 ../src/dlg-catalog.c:138
+#: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
+#: ../src/gth-browser-actions-callbacks.c:856
+msgid "C_reate"
+msgstr "Suku_rti"
+
+#: ../src/dlg-catalog.c:134 ../src/gth-browser-actions-callbacks.c:912
+msgid "Enter the library name: "
+msgstr "Įveskit bibliotekos pavadinimą: "
+
+#: ../src/dlg-catalog.c:475
 msgid "Move Catalog to..."
 msgstr "Perkelti katalogą į..."
 
-#: src/dlg-categories.c:226
+#: ../src/dlg-categories.c:239
 msgid "Enter the new category name"
 msgstr "Įveskit naujos kategorijos pavadinimą"
 
-#: src/dlg-categories.c:237
+#: ../src/dlg-categories.c:250
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
@@ -2463,67 +2323,80 @@ msgstr ""
 "Vardas „%s“ yra netinkamas, nes jame yra simbolis „,“. Prašom naudoti kitą "
 "vardą."
 
-#: src/dlg-categories.c:242
+#: ../src/dlg-categories.c:255
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorija „%s“ jau yra. Prašom naudoti kitą pavadinimą."
 
-#: src/dlg-convert.c:162
+#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:437
+#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
+#: ../src/dlg-rename-series.c:327 ../src/dlg-search.c:468
+#: ../src/gth-window-actions-callbacks.c:820
+#, c-format
+msgid "Could not display help: %s"
+msgstr "Negalima parodyti pagalbos: %s"
+
+#: ../src/dlg-convert.c:165
 #, c-format
 msgid "Converting image: %s"
 msgstr "Konvertuojamas paveiklėlis: %s"
 
-#: src/dlg-convert.c:185
+#: ../src/dlg-convert.c:188
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
 "Paveikslėlis pavadinimu „%s“ jau yra. Prašom nurodykit kitą pavadinimą."
 
-#: src/dlg-crop.c:367
+#: ../src/dlg-convert.c:317 ../src/gth-browser-actions-callbacks.c:197
+msgid "_Overwrite"
+msgstr "_Perrašyti"
+
+#: ../src/dlg-crop.c:376
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (Paveikslėlis)"
 
-#: src/dlg-crop.c:375
+#: ../src/dlg-crop.c:384
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (Ekranas)"
 
-#: src/dlg-duplicates.c:278 src/dlg-duplicates.c:651
+#: ../src/dlg-duplicates.c:280 ../src/dlg-duplicates.c:654
 msgid "Duplicates"
 msgstr "Dublikatai"
 
-#: src/dlg-duplicates.c:293
+#: ../src/dlg-duplicates.c:295
 msgid "Duplicates Size"
 msgstr "Dublikatų dydis"
 
-#: src/dlg-duplicates.c:399
+#: ../src/dlg-duplicates.c:402
 msgid "Last modified"
 msgstr "Vėliausiai pakeista"
 
-#: src/dlg-duplicates.c:414 src/dlg-image-prop.c:615
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:622
 msgid "Location"
 msgstr "Vieta"
 
-#: src/dlg-duplicates.c:756
+#: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr "Pažymėti paveikslėliai bus perkelti į šiukšlinę, ar jūs tikras?"
 
-#: src/dlg-file-utils.c:88
+#: ../src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
 msgstr "Paskirties aplankas neegzistuoja. Ar norite jį sukurti?"
 
-#: src/dlg-file-utils.c:104
+#: ../src/dlg-file-utils.c:105
 #, c-format
 msgid "Could not create folder \"%s\": %s."
 msgstr "Negaliu sukurti aplanko „%s“: %s."
 
-#: src/dlg-file-utils.c:201
+#: ../src/dlg-file-utils.c:202
 msgid "Could not delete the images:"
 msgstr "Negaliu ištrinti paveikslėlių:"
 
-#: src/dlg-file-utils.c:224
+#: ../src/dlg-file-utils.c:225
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
@@ -2531,1280 +2404,1338 @@ msgstr ""
 "Paveikslėliai negali būti perkelti į šiukšlinę. Ar norite juos ištrinti "
 "visam laikui?"
 
-#: src/dlg-file-utils.c:758 src/dlg-file-utils.c:859
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1221
+#: ../src/gth-browser.c:1876 ../src/gth-viewer.c:891
+msgid "_Do not display this message again"
+msgstr "_Daugiau nerodyti šios žinutės"
+
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1259
+msgid "_Move"
+msgstr "_Perkelti"
+
+#: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
+#: ../src/gth-browser-actions-callbacks.c:1468
+msgid "Choose the destination folder"
+msgstr "Pasirinkit paskirties aplanką"
+
+#: ../src/dlg-file-utils.c:791 ../src/dlg-file-utils.c:892
 msgid "You didn't enter the new name"
 msgstr "Jūs neįvedėte naujo vardo"
 
-#: src/dlg-file-utils.c:770 src/dlg-file-utils.c:871
+#: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
 #, c-format
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
 "Vardas „%s“ jau yra panaudotas šiame aplanke. Prašom pasirinkti kitą vardą."
 
-#: src/dlg-file-utils.c:1010
+#: ../src/dlg-file-utils.c:1043
 msgid "Could not rename the image:"
 msgstr "Negalima pervadinti paveikslėlio:"
 
-#: src/dlg-file-utils.c:1012
+#: ../src/dlg-file-utils.c:1045
 msgid "Could not rename the following images:"
 msgstr "Negalima pervadinti sekančių paveikslėlių:"
 
-#: src/dlg-file-utils.c:1146
+#: ../src/dlg-file-utils.c:1179
 msgid "Could not move the image:"
 msgstr "Negalima perkelti paveikslėlio:"
 
-#: src/dlg-file-utils.c:1148
+#: ../src/dlg-file-utils.c:1181
 msgid "Could not copy the image:"
 msgstr "Negalima nukopijuoti paveikslėlio:"
 
-#: src/dlg-file-utils.c:1172 src/dlg-file-utils.c:2436
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2470
 msgid "_Abort"
 msgstr "_Nutraukti"
 
-#: src/dlg-file-utils.c:1173 src/dlg-file-utils.c:2437
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2471
 msgid "_Continue"
 msgstr "_Tęsti"
 
-#: src/dlg-file-utils.c:1347
+#: ../src/dlg-file-utils.c:1380
 #, c-format
 msgid "Copying file %d of %d"
 msgstr "Kopijuojama byla %d iš %d"
 
-#: src/dlg-file-utils.c:1763 src/dlg-file-utils.c:1991
+#: ../src/dlg-file-utils.c:1796 ../src/dlg-file-utils.c:2024
 msgid "Collecting images info"
 msgstr "Renkama paveikslėlio informacija"
 
-#: src/dlg-file-utils.c:1766 src/dlg-file-utils.c:2004
+#: ../src/dlg-file-utils.c:1799 ../src/dlg-file-utils.c:2037
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Trinama byla %ld iš %ld"
 
-#: src/dlg-file-utils.c:1994
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopijuojama byla %ld iš %ld"
 
-#: src/dlg-file-utils.c:1999
+#: ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Perkeliama byla %ld iš %ld"
 
-#: src/dlg-image-prop.c:600 src/gth-exif-data-viewer.c:477
+#: ../src/dlg-file-utils.c:2447 ../src/dlg-file-utils.c:2449
+#: ../src/gth-browser-actions-callbacks.c:1360
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "Negalima perkelti aplanko „%s“: %s"
+
+#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:499
 msgid "Size"
 msgstr "Dydis"
 
-#: src/dlg-image-prop.c:605
+#: ../src/dlg-image-prop.c:612
 msgid "Type"
 msgstr "Tipas"
 
-#: src/dlg-image-prop.c:620 src/gth-exif-data-viewer.c:491
-#: src/gthumb-window.c:279
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:515
+#: ../src/gth-exif-data-viewer.c:513 ../src/gth-viewer.c:573
 msgid "Modified"
 msgstr "Pakeistas"
 
-#: src/dlg-image-prop.c:625
+#: ../src/dlg-image-prop.c:632
 msgid "Information on Channel"
 msgstr "Kanalo informacija"
 
-#: src/dlg-image-prop.c:744
+#: ../src/dlg-image-prop.c:747
 #, c-format
 msgid "%s Properties"
 msgstr "%s savybės"
 
-#: src/dlg-photo-importer.c:817 src/dlg-photo-importer.c:1261
-#: src/dlg-photo-importer.c:1306 src/dlg-photo-importer.c:1317
+#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1381
+#: ../src/dlg-photo-importer.c:1430 ../src/dlg-photo-importer.c:1442
+#: ../src/dlg-photo-importer.c:1458 ../src/dlg-photo-importer.c:1487
 msgid "Could not import photos"
 msgstr "Negaliu importuoti fotografijų"
 
-#: src/dlg-photo-importer.c:1157 src/main.c:1054
+#: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
 msgid "Film"
 msgstr "Juosta"
 
-#: src/dlg-png-exporter.c:935
+#: ../src/dlg-photo-importer.c:1439
+#: ../src/gth-browser-actions-callbacks.c:1671
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr "Negaliu sukurti aplanko „%s“: %s"
+
+#: ../src/dlg-png-exporter.c:931
 msgid "Image Caption"
 msgstr "Paveikslėlio antraštė"
 
-#: src/dlg-png-exporter.c:988
+#: ../src/dlg-png-exporter.c:985
 msgid "Header"
 msgstr "Antraštė"
 
-#: src/dlg-png-exporter.c:1001 src/dlg-png-exporter.c:1007
+#: ../src/dlg-png-exporter.c:998 ../src/dlg-png-exporter.c:1004
 msgid "Footer"
 msgstr "Poraštė"
 
-#: src/dlg-rename-series.c:400
+#: ../src/dlg-rename-series.c:397
 msgid "Old Name"
 msgstr "Senas vardas"
 
-#: src/dlg-rename-series.c:408
+#: ../src/dlg-rename-series.c:405
 msgid "New Name"
 msgstr "Naujas vardas"
 
-#: src/dlg-search.c:343
+#: ../src/dlg-search.c:356
 msgid "Search Result"
 msgstr "Paieškos rezultatai"
 
-#: src/dlg-search.c:647
+#: ../src/dlg-search.c:680
 msgid "Filename"
 msgstr "Bylos vardas"
 
-#: src/dlg-search.c:656 src/gth-folder-selection-dialog.c:381
+#: ../src/dlg-search.c:689 ../src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "Aplankas"
 
-#: src/dlg-web-exporter.c:711
+#: ../src/dlg-web-exporter.c:702
 msgid "Select Album Theme"
 msgstr "Pasirinkite albumo temą"
 
-#: src/dlg-write-to-cd.c:76 src/gthumb-window.c:3274
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3682
 msgid "Could not move the items:"
 msgstr "Negalima perkelti šių elementų:"
 
-#. restore normal view
-#: src/fullscreen.c:862 src/ui.h:448
-msgid "Restore Normal View"
-msgstr "Atstatyti normalų vaizdą"
+#: ../src/gth-browser-actions-callbacks.c:152
+#: ../src/gth-browser-actions-callbacks.c:551
+#: ../src/gth-browser-actions-callbacks.c:1060
+msgid "Enter the new name: "
+msgstr "Įveskit naują vardą: "
 
-#. image info
-#: src/fullscreen.c:871
-msgid "Image Info"
-msgstr "Paveikslėlio informacija"
+#: ../src/gth-browser-actions-callbacks.c:170
+#: ../src/gth-browser-actions-callbacks.c:571
+#: ../src/gth-browser-actions-callbacks.c:786
+#: ../src/gth-browser-actions-callbacks.c:869
+#: ../src/gth-browser-actions-callbacks.c:1078
+#, c-format
+msgid ""
+"The name \"%s\" is not valid because it contains the character \"/\". Please "
+"use a different name."
+msgstr ""
+"Vardas „%s“ yra netinkamas, nes jame yra simbolis „/“. Prašom naudoti kitą "
+"vardą."
 
-#. back
-#: src/fullscreen.c:880 src/gthumb-window.c:3881
-msgid "Back"
-msgstr "Atgal"
+#: ../src/gth-browser-actions-callbacks.c:217
+#: ../src/gth-browser-actions-callbacks.c:232
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "Negalima pervadinti paveikslėlio „%s“: %s"
 
-#. forward
-#: src/fullscreen.c:889
-msgid "Forward"
-msgstr "Pirmyn"
+#: ../src/gth-browser-actions-callbacks.c:219
+#: ../src/gth-browser-actions-callbacks.c:1100
+#: ../src/gth-browser-actions-callbacks.c:1370
+msgid "source and destination are the same"
+msgstr "šaltinio ir paskirties vietos yra tos pačios"
 
-#. zoom in
-#: src/fullscreen.c:898 src/ui.h:418
-msgid "In"
-msgstr "Padidinti"
+#: ../src/gth-browser-actions-callbacks.c:276 ../src/gth-fullscreen.c:926
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "Paveikslėlis bus perkeltas į šiukšlinę, Jūs tikras?"
 
-#. zoom out
-#: src/fullscreen.c:907 src/ui.h:423
-msgid "Out"
-msgstr "Sumažinti"
+#: ../src/gth-browser-actions-callbacks.c:390
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr "Negalima dubliuoti paveikslėlio „%s“: %s"
 
-#. zoom 100
-#: src/fullscreen.c:916 src/ui.h:428
-msgid "1:1"
-msgstr "1:1"
+#: ../src/gth-browser-actions-callbacks.c:398
+msgid "Stop"
+msgstr "Stabdyti"
 
-#. zoom fit
-#: src/fullscreen.c:925 src/ui.h:433
-msgid "Fit"
-msgstr "Tilpti"
+#: ../src/gth-browser-actions-callbacks.c:399
+msgid "Continue"
+msgstr "Tęsti"
 
-#: src/gth-exif-data-viewer.c:129
-msgid "Field"
-msgstr "Laukelis"
+#: ../src/gth-browser-actions-callbacks.c:454
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "Pasirinkti paveikslėliai bus perkelti į šiukšlinę, Jūs tikras?"
 
-#: src/gth-exif-data-viewer.c:139
-msgid "Value "
-msgstr "Vertė"
+#: ../src/gth-browser-actions-callbacks.c:593
+#: ../src/gth-browser-actions-callbacks.c:805
+#: ../src/gth-browser-actions-callbacks.c:885
+#: ../src/gth-browser-actions-callbacks.c:1108
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr "Vardas „%s“ jau naudojamas. Prašom pasirinkti kitą vardą."
 
-#: src/gth-folder-selection-dialog.c:403
-msgid "_Browse..."
-msgstr "_Naršyti..."
+#: ../src/gth-browser-actions-callbacks.c:604
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr "Negalima pervadinti bibliotekos „%s“: %s"
 
-#: src/gth-folder-selection-dialog.c:412
-msgid "_Recents:"
-msgstr "_Neseni:"
+#: ../src/gth-browser-actions-callbacks.c:604
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr "Negalima pervadinti katalogo „%s“: %s"
 
-#: src/gthumb-window.c:313
+#: ../src/gth-browser-actions-callbacks.c:674
+msgid "The selected library will be removed, are you sure?"
+msgstr "Pasirinkta biblioteka bus pašalinta, Jūs tikras?"
+
+#: ../src/gth-browser-actions-callbacks.c:676
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "Pasirinktas katalogas bus pašalintas, Jūs tikras?"
+
+#: ../src/gth-browser-actions-callbacks.c:771
+msgid "New Catalog"
+msgstr "Naujas katalogas"
+
+#: ../src/gth-browser-actions-callbacks.c:817
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr "Negalima sukurti katalogo „%s“: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:911
+msgid "New Library"
+msgstr "Nauja biblioteka"
+
+#: ../src/gth-browser-actions-callbacks.c:913
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "Negalima sukurti bibliotekos „%s“: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1098
+#: ../src/gth-browser-actions-callbacks.c:1132
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "Negalima pervadinti aplanko „%s“: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1182
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "Negalima ištrinti aplanko „%s“: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1213
+#, c-format
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr ""
+"„%s“ negali būti perkelta į šiukšlinę. Ar noritę ją ištrinti visam laikui?"
+
+#: ../src/gth-browser-actions-callbacks.c:1257
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "Pažymėtas aplankas bus perkeltas į šiukšlinę, Jūs tikras?"
+
+#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1360
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr "Negalima kopijuoti aplanko „%s“: %s"
+
+#: ../src/gth-browser-actions-callbacks.c:1381
+msgid "source contains destination"
+msgstr "šaltinis kartu yra tikslas"
+
+#: ../src/gth-browser-actions-callbacks.c:1392
+msgid "a folder with that name is already present."
+msgstr "aplankas tokiu vardu jau yra."
+
+#: ../src/gth-browser-actions-callbacks.c:1669
+msgid "New Folder"
+msgstr "Naujas aplankas"
+
+#: ../src/gth-browser-actions-callbacks.c:1670
+msgid "Enter the folder name: "
+msgstr "Įveskit aplanko pavadinimą: "
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "_Byla"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "Apla_nkas"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "K_eisti"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "Rod_yti/Slėpti"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "Rūšiu_oti paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr "_Mastelis"
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "_Eiti"
+
+#: ../src/gth-browser-actions-entries.h:47
+msgid "_Bookmarks"
+msgstr "Ž_ymelės"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "Įra_nkiai"
+
+#: ../src/gth-browser-actions-entries.h:49
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "Padaryti paveikslėlį dar_balaukio fonu"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "_Pagalba"
+
+#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "Naujas _langas"
+
+#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "Sukurti naują langą"
+
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "Atverti pasirinktą paveikslėlį naujame lange"
+
+#: ../src/gth-browser-actions-entries.h:63
+msgid "Proper_ties"
+msgstr "Sav_ybės"
+
+#: ../src/gth-browser-actions-entries.h:64
+msgid "View image properties"
+msgstr "Žiurėti paveikslėlio savybes"
+
+#: ../src/gth-browser-actions-entries.h:68
+msgid "_Import Photos..."
+msgstr "_Importuoti fotografijas..."
+
+#: ../src/gth-browser-actions-entries.h:69
+msgid "Import photos from a digital camera"
+msgstr "Importuoti fotografijas iš skaitmeninio fotoaparato"
+
+#: ../src/gth-browser-actions-entries.h:73
+msgid "_Write To CD"
+msgstr "_Rašyti į CD"
+
+#: ../src/gth-browser-actions-entries.h:74
+msgid "Write selection to CD"
+msgstr "Rašyti pažymėtus į CD"
+
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:173
+#: ../src/gth-browser-actions-entries.h:213
+#: ../src/gth-browser-actions-entries.h:243
+msgid "_Rename..."
+msgstr "Per_vadinti..."
+
+#: ../src/gth-browser-actions-entries.h:79
+msgid "Rename this image"
+msgstr "Pervadinti šį paveikslėlį"
+
+#: ../src/gth-browser-actions-entries.h:84
+msgid "Move this image to the Trash"
+msgstr "Perkelti šį paveikslėlį į šiukšlinę"
+
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
+msgid "_Copy..."
+msgstr "_Kopijuoti..."
+
+#: ../src/gth-browser-actions-entries.h:89
+msgid "Copy this image to another location"
+msgstr "Kopijuoti šį paveikslėlį į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
+msgid "_Move..."
+msgstr "Perke_lti..."
+
+#: ../src/gth-browser-actions-entries.h:94
+msgid "Move this image to another location"
+msgstr "Perkelti šį paveikslėlį į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "Pervadinti pasirinktus paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:103
+msgid "D_uplicate"
+msgstr "D_ubliuoti"
+
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr "Dubliuoti pasirinktus paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:109
+msgid "Move the selected images to the Trash"
+msgstr "Perkelti pasirinktus paveikslėlius į šiukšlinę"
+
+#: ../src/gth-browser-actions-entries.h:114
+msgid "Copy selected images to another location"
+msgstr "Kopijuoti pasirinktus paveikslėlius į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:119
+msgid "Move selected images to another location"
+msgstr "Perkelti pasirinktus paveikslėlius į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:123
+msgid "_Select All"
+msgstr "_Pasirinkti visus"
+
+#: ../src/gth-browser-actions-entries.h:124
+msgid "Select all images"
+msgstr "Pasirinkti visus paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "Pri_dėti į katalogą..."
+
+#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr "Pridėti pasirinktus paveikslėlius į katalogą"
+
+#: ../src/gth-browser-actions-entries.h:133
+msgid "Remo_ve from Catalog"
+msgstr "Pašalin_ti iš katalogo"
+
+#: ../src/gth-browser-actions-entries.h:134
+msgid "Remove selected images from the catalog"
+msgstr "Iš katalogo pašalinti pasirinktus paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:139
+msgid "Rename selected catalog"
+msgstr "Pervadinti esamą katalogą"
+
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:178
+msgid "Rem_ove"
+msgstr "Pašali_nti"
+
+#: ../src/gth-browser-actions-entries.h:144
+msgid "Remove selected catalog"
+msgstr "Pašalinti pasirinktą katalogą"
+
+#: ../src/gth-browser-actions-entries.h:149
+msgid "Move selected catalog to another location"
+msgstr "Perkelti pasirinktą katalogą į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:154
+#: ../src/gth-browser-actions-entries.h:189
+msgid "Modify search criteria"
+msgstr "Keisti paieškos kriterijus"
+
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
+msgid "Redo _Search"
+msgstr "Pakartoti _paiešką"
+
+#: ../src/gth-browser-actions-entries.h:159
+#: ../src/gth-browser-actions-entries.h:194
+msgid "Redo the search"
+msgstr "Pakartoti paiešką"
+
+#: ../src/gth-browser-actions-entries.h:163
+msgid "_New Catalog..."
+msgstr "_Naujas katalogas..."
+
+#: ../src/gth-browser-actions-entries.h:164
+msgid "Create a new catalog"
+msgstr "Sukurti naują katalogą"
+
+#: ../src/gth-browser-actions-entries.h:168
+msgid "New _Library..."
+msgstr "Nauja _biblioteka..."
+
+#: ../src/gth-browser-actions-entries.h:169
+msgid "Create a new catalog library"
+msgstr "Sukurti naują katalogų biblioteką"
+
+#: ../src/gth-browser-actions-entries.h:174
+msgid "Rename current catalog"
+msgstr "Pašalinti esamą katalogą"
+
+#: ../src/gth-browser-actions-entries.h:179
+msgid "Remove current catalog"
+msgstr "Pašalinti esamą katalogą"
+
+#: ../src/gth-browser-actions-entries.h:184
+msgid "Move current catalog to another location"
+msgstr "Perkelti esamą katalogą į kitą vietą"
+
+#: ../src/gth-browser-actions-entries.h:198
+msgid "Open"
+msgstr "Atverti"
+
+#: ../src/gth-browser-actions-entries.h:199
+msgid "Open the selected folder"
+msgstr "Atverti pasirinktą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:203
+msgid "Open in New Window"
+msgstr "Atverti naujame lange"
+
+#: ../src/gth-browser-actions-entries.h:204
+msgid "Open the selected folder in a new window"
+msgstr "Atverti pasirinktą aplanką naujame lange"
+
+#: ../src/gth-browser-actions-entries.h:208
+#: ../src/gth-browser-actions-entries.h:238
+msgid "Open with the _File Manager"
+msgstr "Atverti su _bylų tvarkykle"
+
+#: ../src/gth-browser-actions-entries.h:209
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "Atverti pasirinktą aplanką su Nautilus bylų tvarkykle"
+
+#: ../src/gth-browser-actions-entries.h:214
+msgid "Rename selected folder"
+msgstr "Pervadinti pasirinktą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:219
+msgid "Move the selected folder to the Trash"
+msgstr "Perkelti pasirinktą aplanką į šiukšlinę"
+
+#: ../src/gth-browser-actions-entries.h:224
+msgid "Copy selected folder"
+msgstr "Kopijuoti pasirinktą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:229
+msgid "Move selected folder"
+msgstr "Perkelti pažymėtą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+#: ../src/gth-window-actions-entries.h:85
+msgid "Ca_tegories"
+msgstr "Kate_gorijos"
+
+#: ../src/gth-browser-actions-entries.h:234
+msgid "Assign categories to the selected folder"
+msgstr "Priskirti kategorijas pasirinktam aplankui"
+
+#: ../src/gth-browser-actions-entries.h:239
+msgid "Open current folder with the Nautilus file manager"
+msgstr "Atverti esamą aplanką su Nautilus bylų tvarkykle"
+
+#: ../src/gth-browser-actions-entries.h:244
+msgid "Rename current folder"
+msgstr "Pervadinti esamą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:249
+msgid "Move the current folder to the Trash"
+msgstr "Perkelti esamą aplanką į šiukšlinę"
+
+#: ../src/gth-browser-actions-entries.h:254
+msgid "Copy current folder"
+msgstr "Kopijuoti esamą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:259
+msgid "Move current folder"
+msgstr "Perkelti esamą aplanką"
+
+#: ../src/gth-browser-actions-entries.h:264
+msgid "Assign categories to the current folder"
+msgstr "Priskirti kategorijas esamam aplankui"
+
+#: ../src/gth-browser-actions-entries.h:268
+msgid "_New Folder..."
+msgstr "_Naujas aplankas..."
+
+#: ../src/gth-browser-actions-entries.h:269
+msgid "Create a new folder"
+msgstr "Sukurti naują aplanką"
+
+#. next image
+#: ../src/gth-browser-actions-entries.h:273 ../src/gth-fullscreen.c:1475
+msgid "Next"
+msgstr "Sekantis"
+
+#: ../src/gth-browser-actions-entries.h:274
+msgid "View next image"
+msgstr "Žiūrėti sekantį paveikslėlį"
+
+#. previous image
+#: ../src/gth-browser-actions-entries.h:278 ../src/gth-fullscreen.c:1466
+msgid "Previous"
+msgstr "Ankstesnis"
+
+#: ../src/gth-browser-actions-entries.h:279
+msgid "View previous image"
+msgstr "Žiūrėti ankstesnį paveikslėlį"
+
+#: ../src/gth-browser-actions-entries.h:284 ../src/gth-browser.c:5046
+msgid "Go to the previous visited location"
+msgstr "Eiti į ankstesnę aplankytą vietą"
+
+#: ../src/gth-browser-actions-entries.h:289
+msgid "Go to the next visited location"
+msgstr "Eiti į sekančią aplankytą vietą"
+
+#: ../src/gth-browser-actions-entries.h:294
+msgid "Go up one level"
+msgstr "Eiti vienu lygiu aukštyn"
+
+#: ../src/gth-browser-actions-entries.h:298
+#: ../src/gth-viewer-actions-entries.h:63
+msgid "_Reload"
+msgstr "Pe_rkrauti"
+
+#: ../src/gth-browser-actions-entries.h:299
+#: ../src/gth-viewer-actions-entries.h:64
+msgid "Reload the current location"
+msgstr "Iš naujo įkelti esamą vietą"
+
+#: ../src/gth-browser-actions-entries.h:304
+msgid "Stop loading current location"
+msgstr "Sustabdyti esamos vietos įkėlimą"
+
+#: ../src/gth-browser-actions-entries.h:309
+msgid "Go to the home folder"
+msgstr "Eiti į namų aplanką"
+
+#: ../src/gth-browser-actions-entries.h:313
+msgid "_Go to the Image Folder"
+msgstr "_Eiti į paveikslėlio aplanką"
+
+#: ../src/gth-browser-actions-entries.h:314
+msgid "Go to the folder that contains the selected image"
+msgstr "Eiti į aplanką kuriame yra pasirinktas paveikslėlis"
+
+#: ../src/gth-browser-actions-entries.h:318
+msgid "_Delete History"
+msgstr "_Ištrinti istoriją"
+
+#: ../src/gth-browser-actions-entries.h:319
+msgid "Delete the list of visited locations"
+msgstr "Ištrinti aplankytų vietų sąrašą"
+
+#: ../src/gth-browser-actions-entries.h:323
+msgid "_Location..."
+msgstr "_Vieta..."
+
+#: ../src/gth-browser-actions-entries.h:324
+msgid "Specify a location to visit"
+msgstr "Nurodykit norimą aplankyti vietą"
+
+#: ../src/gth-browser-actions-entries.h:328
+msgid "_Add Bookmark"
+msgstr "_Pridėti žymelę"
+
+#: ../src/gth-browser-actions-entries.h:329
+msgid "Add current location to bookmarks"
+msgstr "Pridėti esamą vietą į žymeles"
+
+#: ../src/gth-browser-actions-entries.h:333
+msgid "_Edit Bookmarks"
+msgstr "K_eisti žymeles"
+
+#: ../src/gth-browser-actions-entries.h:334
+msgid "Edit bookmarks"
+msgstr "Keisti žymeles"
+
+#: ../src/gth-browser-actions-entries.h:338
+msgid "_Slide Show"
+msgstr "_Skaidrių šou"
+
+#: ../src/gth-browser-actions-entries.h:339
+msgid "View as a slide show"
+msgstr "Žiūrėti kaip skaidrių šou"
+
+#: ../src/gth-browser-actions-entries.h:344
+msgid "Find images"
+msgstr "Rasti paveikslėlius"
+
+#: ../src/gth-browser-actions-entries.h:348
+msgid "Create _Index Image"
+msgstr "Sukurti rod_iklinį paveikslėlį"
+
+#: ../src/gth-browser-actions-entries.h:353
+msgid "Create _Web Album"
+msgstr "Sukurti _web albumą"
+
+#: ../src/gth-browser-actions-entries.h:358
+msgid "Convert F_ormat"
+msgstr "Konvertuoti _formatą"
+
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Fi_nd Duplicates..."
+msgstr "Ra_sti dublikatus..."
+
+#: ../src/gth-browser-actions-entries.h:369
+msgid "Edit various preferences"
+msgstr "Keisti įvairius nustatymus"
+
+#: ../src/gth-browser-actions-entries.h:377
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "_Toolbar"
+msgstr "Į_rankių juosta"
+
+#: ../src/gth-browser-actions-entries.h:378
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "View or hide the toolbar of this window"
+msgstr "Rodyti ar slėpti šio lango įrankių juostą"
+
+#: ../src/gth-browser-actions-entries.h:382
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "_Statusbar"
+msgstr "_Būklės juosta"
+
+#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-viewer-actions-entries.h:79
+msgid "View or hide the statusbar of this window"
+msgstr "Rodyti ar slėpti šio lango būsenos juostą"
+
+#: ../src/gth-browser-actions-entries.h:388
+msgid "View thumbnails"
+msgstr "Matyti minivaizdus"
+
+#: ../src/gth-browser-actions-entries.h:392
+msgid "_Image Preview"
+msgstr "_Paveikslėlio peržiūra"
+
+#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:436
+msgid "View the image"
+msgstr "Žiūrėti paveikslėlį"
+
+#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-viewer-actions-entries.h:83
+msgid "Image _Comment"
+msgstr "Paveikslėlio _komentaras"
+
+#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-viewer-actions-entries.h:84
+msgid "View image comment"
+msgstr "Žiūrėti paveikslėlio komentarą"
+
+#: ../src/gth-browser-actions-entries.h:402
+msgid "_Reversed Order"
+msgstr "_atvirkštine tvarka"
+
+#: ../src/gth-browser-actions-entries.h:403
+msgid "Reverse images order"
+msgstr "Atvirkštinė paveikslėlių tvarka"
+
+#: ../src/gth-browser-actions-entries.h:412
+msgid "by _Name"
+msgstr "pagal _vardą"
+
+#: ../src/gth-browser-actions-entries.h:413
+msgid "Sort images by name"
+msgstr "Rūšiuoti paveikslėlius pagal vardą"
+
+#: ../src/gth-browser-actions-entries.h:415
+msgid "by _Path"
+msgstr "pagal _kelią"
+
+#: ../src/gth-browser-actions-entries.h:416
+msgid "Sort images by path"
+msgstr "Rūšiuoti paveikslėlius pagal kelią"
+
+#: ../src/gth-browser-actions-entries.h:418
+msgid "by _Size"
+msgstr "pagal _dydį"
+
+#: ../src/gth-browser-actions-entries.h:419
+msgid "Sort images by file size"
+msgstr "Rūšiuoti paveikslėlius pagal bylos dydį"
+
+#: ../src/gth-browser-actions-entries.h:421
+msgid "by _Time"
+msgstr "pagal _laiką"
+
+#: ../src/gth-browser-actions-entries.h:422
+msgid "Sort images by modification time"
+msgstr "Rūšiuoti paveikslėlius pagal modifikavimo datą"
+
+#: ../src/gth-browser-actions-entries.h:429
+msgid "_Folders"
+msgstr "_Aplankai"
+
+#: ../src/gth-browser-actions-entries.h:430
+msgid "View the folders"
+msgstr "Žiūrėti aplankus"
+
+#: ../src/gth-browser-actions-entries.h:432
+msgid "_Catalogs"
+msgstr "_Katalogai"
+
+#: ../src/gth-browser-actions-entries.h:433
+msgid "View the catalogs"
+msgstr "Žiūrėti katalogus"
+
+#: ../src/gth-browser.c:565 ../src/gth-viewer.c:618
 msgid "[Press 'c' to add a comment]"
 msgstr "[Spauskit 'c', kad pridėti komentarą]"
 
-#: src/gthumb-window.c:387 src/gthumb-window.c:409
+#: ../src/gth-browser.c:674 ../src/gth-browser.c:693 ../src/gth-viewer.c:714
+#: ../src/gth-viewer.c:735
 msgid "[modified]"
 msgstr "[pakeistas]"
 
-#: src/gthumb-window.c:493
-msgid "No image"
-msgstr "Nėra paveikslėlio"
+#: ../src/gth-browser.c:718 ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:672
+msgid "gThumb"
+msgstr "gThumb"
 
-#: src/gthumb-window.c:495
+#: ../src/gth-browser.c:780
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 paveikslėlis (%s)"
 
-#: src/gthumb-window.c:498
+#: ../src/gth-browser.c:783
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d paveikslėlių (%s)"
 
-#: src/gthumb-window.c:505
+#: ../src/gth-browser.c:790
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 pažymėtas (%s)"
 
-#: src/gthumb-window.c:508
+#: ../src/gth-browser.c:793
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d pasirinkta (%s)"
 
-#: src/gthumb-window.c:1481
+#: ../src/gth-browser.c:1873 ../src/gth-viewer.c:888
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Šis paveikslėlis buvo pakeistas, ar norite jį išsaugoti?"
 
-#: src/gthumb-window.c:1482
+#: ../src/gth-browser.c:1874 ../src/gth-viewer.c:889
 msgid "Do Not Save"
 msgstr "Nesaugoti"
 
-#: src/gthumb-window.c:3066
+#: ../src/gth-browser.c:3473
 msgid "Dragged Images"
 msgstr "Nutempti paveikslėliai"
 
-#: src/gthumb-window.c:3896 src/ui.h:459
-msgid "Go to the previous visited location"
-msgstr "Eiti į ankstesnę aplankytą vietą"
+#: ../src/gth-browser.c:5045
+msgid "Back"
+msgstr "Atgal"
 
-#: src/gthumb-window.c:4837 src/ui.h:464
-msgid "Go to the next visited location"
-msgstr "Eiti į sekančią aplankytą vietą"
+#: ../src/gth-browser.c:5075 ../src/gth-browser.c:5076
+#: ../src/gth-viewer.c:1406 ../src/gth-viewer.c:1407
+#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-window-actions-entries.h:271
+msgid "Rotate images without loss of quality"
+msgstr "Pasukti paveikslėlius neprarandant kokybės"
 
-#: src/gthumb-window.c:4844 src/ui.h:469
-msgid "Go up one level"
-msgstr "Eiti vienu lygiu aukštyn"
-
-#: src/gthumb-window.c:4851 src/ui.h:484
-msgid "Go to the home folder"
-msgstr "Eiti į namų aplanką"
-
-#: src/gthumb-window.c:5045
+#: ../src/gth-browser.c:6484
 msgid "Close"
 msgstr "Uždaryti"
 
-#: src/gthumb-window.c:5059
+#: ../src/gth-browser.c:6498 ../src/gth-viewer.c:1673
 msgid "Image comment"
 msgstr "Paveikslėlio komentaras"
 
-#: src/gthumb-window.c:5073
+#: ../src/gth-browser.c:6512
 msgid "Image data"
 msgstr "Paveikslėlio duomenys"
 
-#: src/gthumb-window.c:5087
+#: ../src/gth-browser.c:6526
 msgid "Image preview"
 msgstr "Paveikslėlio peržiūra"
 
-#: src/gthumb-window.c:6338
+#: ../src/gth-browser.c:7588
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Negaliu įkelti aplanko „%s“: %s\n"
 
-#: src/gthumb-window.c:6608
+#: ../src/gth-browser.c:7858
 msgid "The specified catalog does not exist."
 msgstr "Nurodytas aplankas neegzistuoja."
 
-#: src/gthumb-window.c:8262
-msgid "Wait please..."
-msgstr "Prašom palaukti..."
+#: ../src/gth-exif-data-viewer.c:132
+msgid "Field"
+msgstr "Laukelis"
 
-#: src/main.c:84
-msgid "Start in fullscreen mode"
-msgstr "Paleisti pilno ekrano režime"
+#: ../src/gth-exif-data-viewer.c:142
+msgid "Value "
+msgstr "Vertė"
 
-#: src/main.c:88
-msgid "Automatically start a slideshow"
-msgstr "Automatiškai pradėti skaidrių šou"
+#: ../src/gth-folder-selection-dialog.c:414
+msgid "_Browse..."
+msgstr "_Naršyti..."
 
-#: src/main.c:92
-msgid "Automatically import digital camera photos"
-msgstr "Automatiškai importuoti skaitmeninės kameros fotografijas"
+#: ../src/gth-folder-selection-dialog.c:423
+msgid "_Recents:"
+msgstr "_Neseni:"
 
-#: src/main.c:173
-msgid "Holidays"
-msgstr "Šventės"
+#. restore normal view
+#: ../src/gth-fullscreen.c:1457 ../src/gth-window-actions-entries.h:220
+msgid "Restore Normal View"
+msgstr "Atstatyti normalų vaizdą"
 
-#: src/main.c:174
-msgid "Temporary"
-msgstr "Laikina"
+#. image comment
+#: ../src/gth-fullscreen.c:1484
+msgid "Image Info"
+msgstr "Paveikslėlio informacija"
 
-#: src/main.c:175
-msgid "Screenshots"
-msgstr "Ekrano nuotraukos"
+#. pause slideshow
+#: ../src/gth-fullscreen.c:1494
+msgid "Pause"
+msgstr "Sustabdyti"
 
-#: src/main.c:176
-msgid "Science"
-msgstr "Mokslas"
-
-#: src/main.c:177
-msgid "Favourite"
-msgstr "Mėgstamiausi"
-
-#: src/main.c:178
-msgid "Important"
-msgstr "Svarbu"
-
-#: src/main.c:179
-msgid "GNOME"
-msgstr "GNOME"
-
-#: src/main.c:180
-msgid "Games"
-msgstr "Žaidimai"
-
-#: src/main.c:181
-msgid "Party"
-msgstr "Vakarėlis"
-
-#: src/main.c:182
-msgid "Birthday"
-msgstr "Gimtadienis"
-
-#: src/main.c:183
-msgid "Astronomy"
-msgstr "Astronomija"
-
-#: src/main.c:184
-msgid "Family"
-msgstr "Šeima"
-
-#: src/main.c:361 src/main.c:446
-msgid "Command Line"
-msgstr "Komandinė eilutė"
-
-#: src/ui.h:34
-msgid "_File"
-msgstr "_Byla"
-
-#: src/ui.h:35
-msgid "_Folder"
-msgstr "Apla_nkas"
-
-#: src/ui.h:36 src/ui.h:37
-msgid "Ca_talog"
-msgstr "Ka_talogas"
-
-#: src/ui.h:38
-msgid "_Edit"
-msgstr "K_eisti"
-
-#: src/ui.h:40
-msgid "Show/_Hide"
-msgstr "Rod_yti/Slėpti"
-
-#: src/ui.h:41
-msgid "S_ort Images"
-msgstr "Rūšiu_oti paveikslėlius"
-
-#: src/ui.h:42
-msgid "_Zoom"
-msgstr "_Mastelis"
-
-#: src/ui.h:43
-msgid "_Go"
-msgstr "_Eiti"
-
-#: src/ui.h:45
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
 msgid "_Transform"
 msgstr "_Transformuoti"
 
-#: src/ui.h:46
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
 msgid "Auto"
 msgstr "Auto"
 
-#: src/ui.h:47
-msgid "_Bookmarks"
-msgstr "Ž_ymelės"
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "Open _Folder"
+msgstr "Atverti _aplanką"
 
-#: src/ui.h:48
-msgid "_Tools"
-msgstr "Įra_nkiai"
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Browse the image folder"
+msgstr "Naršyti paveikslėlio aplanką"
 
-#: src/ui.h:49
-msgid "Set Image as _Wallpaper"
-msgstr "Padaryti paveikslėlį dar_balaukio fonu"
+#: ../src/gth-window-actions-callbacks.c:770
+msgid "translator_credits"
+msgstr "Žygimantas Beručka <zygis@gnome.org>"
 
-#: src/ui.h:50
-msgid "_Help"
-msgstr "_Pagalba"
+#: ../src/gth-window-actions-callbacks.c:783
+msgid "An image viewer and browser for GNOME."
+msgstr "Paveikslėlių žiūrėjimo ir naršymo programa skirta GNOME."
 
-#: src/ui.h:53
-msgid "New _Window"
-msgstr "Naujas _langas"
+#: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "Sumažinti spalvas"
 
-#: src/ui.h:54
-msgid "Create a new window"
-msgstr "Sukurti naują langą"
-
-#: src/ui.h:58
-msgid "_Close"
-msgstr "_Uždaryti"
-
-#: src/ui.h:59
+#: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Uždaryti šį langą"
 
-#: src/ui.h:63 src/ui.h:98
+#: ../src/gth-window-actions-entries.h:45
+#: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
-msgstr "_Atidaryti su"
+msgstr "_Atverti su"
 
-#: src/ui.h:64
+#: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
-msgstr "Atidaryti pasirinktus paveikslėlius su programa"
+msgstr "Atverti pasirinktus paveikslėlius su programa"
 
-#: src/ui.h:73
-msgid "_Revert"
-msgstr "A_tstatyti"
-
-#: src/ui.h:74
+#: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
 msgstr "Atstatyti į išsaugotą paveikslėlį"
 
-#: src/ui.h:78
-msgid "_Print..."
-msgstr "S_pausdinti..."
-
-#: src/ui.h:83 src/ui.h:453
-msgid "Proper_ties"
-msgstr "Sav_ybės"
-
-#: src/ui.h:84 src/ui.h:454
-msgid "View image properties"
-msgstr "Žiurėti  paveikslėlio savybes"
-
-#: src/ui.h:88
-msgid "_Import Photos..."
-msgstr "_Importuoti fotografijas..."
-
-#: src/ui.h:89
-msgid "Import photos from a digital camera"
-msgstr "Importuoti fotografijas iš skaitmeninės kameros"
-
-#: src/ui.h:93
-msgid "_Write To CD"
-msgstr "_Rašyti į CD"
-
-#: src/ui.h:94
-msgid "Write selection to CD"
-msgstr "Rašyti pažymėtus į CD"
-
-#: src/ui.h:99
+#: ../src/gth-window-actions-entries.h:71
 msgid "Open this image with an application"
-msgstr "Atidaryti šį paveikslėlį su programa"
+msgstr "Atverti šį paveikslėlį su programa"
 
-#: src/ui.h:103 src/ui.h:128 src/ui.h:183 src/ui.h:218 src/ui.h:258
-#: src/ui.h:288
-msgid "_Rename..."
-msgstr "Per_vadinti..."
-
-#: src/ui.h:104
-msgid "Rename this image"
-msgstr "Pervadinti šį paveikslėlį"
-
-#: src/ui.h:108 src/ui.h:133
-msgid "D_uplicate"
-msgstr "D_ubliuoti"
-
-#: src/ui.h:109
-msgid "Duplicate this image"
-msgstr "Dubliuoti šį paveikslėlį"
-
-#: src/ui.h:114
-msgid "Move this image to the Trash"
-msgstr "Perkelti šį paveikslėlį į šiukšlinę"
-
-#: src/ui.h:118 src/ui.h:143 src/ui.h:268 src/ui.h:298
-msgid "_Copy..."
-msgstr "_Kopijuoti..."
-
-#: src/ui.h:119
-msgid "Copy this image to another location"
-msgstr "Kopijuoti šį paveikslėlį į kitą vietą"
-
-#: src/ui.h:123 src/ui.h:148 src/ui.h:193 src/ui.h:228 src/ui.h:273
-#: src/ui.h:303
-msgid "_Move..."
-msgstr "Perke_lti..."
-
-#: src/ui.h:124
-msgid "Move this image to another location"
-msgstr "Perkelti šį paveikslėlį į kitą vietą"
-
-#: src/ui.h:129
-msgid "Rename selected image"
-msgstr "Pervadinti pasirinktą paveikslėlį"
-
-#: src/ui.h:134
-msgid "Duplicate selected image"
-msgstr "Dubliuoti pasirinktą paveikslėlį"
-
-#: src/ui.h:139
-msgid "Move the selected images to the Trash"
-msgstr "Perkelti pasirinktus paveikslėlius į šiukšlinę"
-
-#: src/ui.h:144
-msgid "Copy selected images to another location"
-msgstr "Kopijuoti pasirinktus paveikslėlius į kitą vietą"
-
-#: src/ui.h:149
-msgid "Move selected images to another location"
-msgstr "Perkelti pasirinktus paveikslėlius į kitą vietą"
-
-#: src/ui.h:153
-msgid "_Select All"
-msgstr "_Pasirinkti visus"
-
-#: src/ui.h:154
-msgid "Select all images"
-msgstr "Pasirinkti visus paveikslėlius"
-
-#: src/ui.h:159
+#: ../src/gth-window-actions-entries.h:76
 msgid "Add a comment to selected images"
 msgstr "Pasirinktiems paveikslėliams pridėti komentarą"
 
-#: src/ui.h:163
+#: ../src/gth-window-actions-entries.h:80
 msgid "Rem_ove Comment"
 msgstr "Pašali_nti komentarą"
 
-#: src/ui.h:164
+#: ../src/gth-window-actions-entries.h:81
 msgid "Remove comments of selected images"
 msgstr "Pašalinti pasirinktų paveikslėlių komentarus"
 
-#: src/ui.h:168 src/ui.h:278 src/ui.h:308
-msgid "Ca_tegories"
-msgstr "Kate_gorijos"
-
-#: src/ui.h:169
+#: ../src/gth-window-actions-entries.h:86
 msgid "Assign categories to selected images"
 msgstr "Pasirinktiems paveikslėliams priskirti kategorijas"
 
-#: src/ui.h:173
-msgid "_Add to Catalog..."
-msgstr "Pri_dėti į katalogą..."
-
-#: src/ui.h:174
-msgid "Add selected images to a catalog"
-msgstr "Pridėti pasirinktus paveikslėlius į katalogą"
-
-#: src/ui.h:178
-msgid "Remo_ve from Catalog"
-msgstr "Pašalin_ti iš katalogo"
-
-#: src/ui.h:179
-msgid "Remove selected images from the catalog"
-msgstr "Iš katalogo pašalinti pasirinktus paveikslėlius"
-
-#: src/ui.h:184
-msgid "Rename selected catalog"
-msgstr "Pervadinti esamą katalogą"
-
-#: src/ui.h:188 src/ui.h:223
-msgid "Rem_ove"
-msgstr "Pašali_nti"
-
-#: src/ui.h:189
-msgid "Remove selected catalog"
-msgstr "Pašalinti pasirinktą katalogą"
-
-#: src/ui.h:194
-msgid "Move selected catalog to another location"
-msgstr "Perkelti pasirinktą katalogą į kitą vietą"
-
-#: src/ui.h:199 src/ui.h:234
-msgid "Modify search criteria"
-msgstr "Keisti paieškos kriterijus"
-
-#: src/ui.h:203 src/ui.h:238
-msgid "Redo _Search"
-msgstr "Pakartoti _paiešką"
-
-#: src/ui.h:204 src/ui.h:239
-msgid "Redo the search"
-msgstr "Pakartoti paiešką"
-
-#: src/ui.h:208
-msgid "_New Catalog..."
-msgstr "_Naujas katalogas..."
-
-#: src/ui.h:209
-msgid "Create a new catalog"
-msgstr "Sukurti naują katalogą"
-
-#: src/ui.h:213
-msgid "New _Library..."
-msgstr "Nauja _biblioteka..."
-
-#: src/ui.h:214
-msgid "Create a new catalog library"
-msgstr "Sukurti naują katalogų biblioteką"
-
-#: src/ui.h:219
-msgid "Rename current catalog"
-msgstr "Pašalinti esamą katalogą"
-
-#: src/ui.h:224
-msgid "Remove current catalog"
-msgstr "Pašalinti esamą katalogą"
-
-#: src/ui.h:229
-msgid "Move current catalog to another location"
-msgstr "Perkelti esamą katalogą į kitą vietą"
-
-#: src/ui.h:243
-msgid "Open"
-msgstr "Atidaryti"
-
-#: src/ui.h:244
-msgid "Open the selected folder"
-msgstr "Atidaryti pasirinktą aplanką"
-
-#: src/ui.h:248
-msgid "Open in New Window"
-msgstr "Atidaryti naujame lange"
-
-#: src/ui.h:249
-msgid "Open the selected folder in a new window"
-msgstr "Atidaryti pasirinktą aplanką naujame lange"
-
-#: src/ui.h:253 src/ui.h:283
-msgid "Open with the _File Manager"
-msgstr "Atidaryti su _bylų tvarkykle"
-
-#: src/ui.h:254
-msgid "Open the selected folder with the Nautilus file manager"
-msgstr "Atidaryti pasirinktą aplanką su Nautilus bylų tvarkykle"
-
-#: src/ui.h:259
-msgid "Rename selected folder"
-msgstr "Pervadinti pasirinktą aplanką"
-
-#: src/ui.h:264
-msgid "Move the selected folder to the Trash"
-msgstr "Perkelti pasirinktą aplanką į šiukšlinę"
-
-#: src/ui.h:269
-msgid "Copy selected folder"
-msgstr "Kopijuoti pasirinktą aplanką"
-
-#: src/ui.h:274
-msgid "Move selected folder"
-msgstr "Perkelti pažymėtą aplanką"
-
-#: src/ui.h:279
-msgid "Assign categories to the selected folder"
-msgstr "Priskirti kategorijas pasirinktam aplankui"
-
-#: src/ui.h:284
-msgid "Open current folder with the Nautilus file manager"
-msgstr "Atidaryti esamą aplanką su Nautilus bylų tvarkykle"
-
-#: src/ui.h:289
-msgid "Rename current folder"
-msgstr "Pervadinti esamą aplanką"
-
-#: src/ui.h:294
-msgid "Move the current folder to the Trash"
-msgstr "Perkelti esamą aplanką į šiukšlinę"
-
-#: src/ui.h:299
-msgid "Copy current folder"
-msgstr "Kopijuoti esamą aplanką"
-
-#: src/ui.h:304
-msgid "Move current folder"
-msgstr "Perkelti esamą aplanką"
-
-#: src/ui.h:309
-msgid "Assign categories to the current folder"
-msgstr "Priskirti kategorijas esamam aplankui"
-
-#: src/ui.h:313
-msgid "_New Folder..."
-msgstr "_Naujas aplankas..."
-
-#: src/ui.h:314
-msgid "Create a new folder"
-msgstr "Sukurti naują aplanką"
-
-#: src/ui.h:318
+#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:265
 msgid "Rotate Ri_ght"
 msgstr "Pasukti į _dešinę"
 
-#: src/ui.h:319
+#: ../src/gth-window-actions-entries.h:101
 msgid "View the image rotated clockwise"
 msgstr "Žiūrėti paveikslėlį pasuktą pagal laikrodžio rodyklę"
 
-#: src/ui.h:323
+#: ../src/gth-window-actions-entries.h:105
+#: ../src/gth-window-actions-entries.h:260
 msgid "Rotate _Left"
 msgstr "Pasukti į _kairę"
 
-#: src/ui.h:324
+#: ../src/gth-window-actions-entries.h:106
 msgid "View the image rotated counter-clockwise"
 msgstr "Žiūrėti paveikslėlį pasuktą prieš laikrodžio rodyklę"
 
-#: src/ui.h:329
+#: ../src/gth-window-actions-entries.h:111
 msgid "View the image flipped"
 msgstr "Žiūrėti apverstą paveikslėlį"
 
-#: src/ui.h:334
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image mirrored"
 msgstr "Žiūrėti atspindėtą paveikslėlį"
 
-#: src/ui.h:338
+#: ../src/gth-window-actions-entries.h:120
 msgid "_Desaturate"
 msgstr "Panaikinti spal_vas"
 
-#: src/ui.h:339
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image in black and white"
 msgstr "Žiūrėti paveikslėlį juodai baltą"
 
-#: src/ui.h:343
+#: ../src/gth-window-actions-entries.h:125
 msgid "_Negative"
 msgstr "_Negatyvas"
 
-#: src/ui.h:344
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image with negative colors"
 msgstr "Matyti paveikslėlį su negatyvo spalvomis"
 
-#: src/ui.h:348
+#: ../src/gth-window-actions-entries.h:130
 msgid "_Enhance"
 msgstr "Pag_erinti"
 
-#: src/ui.h:349
+#: ../src/gth-window-actions-entries.h:131
 msgid "Automatically adjust the color levels"
 msgstr "Automatiškai suderinti spalvų lygius"
 
-#: src/ui.h:353
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Equalize"
 msgstr "_Išlyginti"
 
-#: src/ui.h:354
+#: ../src/gth-window-actions-entries.h:136
 msgid "Automatically equalize the image histogram"
 msgstr "Automatiškai išlyginti paveikslėlio histogramą"
 
-#: src/ui.h:358
-msgid "_Normalize"
-msgstr "_Normalizuoti"
-
-#: src/ui.h:359
-msgid "Automatically normalize the contrast"
-msgstr "Automatiškai normalizuoti kontrastą"
-
-#: src/ui.h:363
-msgid "_Stretch Contrast"
-msgstr "_Padidinti kontrastą"
-
-#: src/ui.h:364
-msgid "Automatically stretch the contrast"
-msgstr "Automatiškai padidinti kontrastą"
-
-#: src/ui.h:368
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Posterize"
 msgstr "Sumažinti s_palvų kiekį"
 
-#: src/ui.h:369
+#: ../src/gth-window-actions-entries.h:141
+#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:186
 msgid "Reduce the number of colors"
 msgstr "Sumažinti spalvų skaičių"
 
-#: src/ui.h:373
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Brightness-Contrast"
 msgstr "_Ryškumas-Kontrastas"
 
-#: src/ui.h:374
+#: ../src/gth-window-actions-entries.h:146
 msgid "Adjust brightness and contrast"
 msgstr "Derinti ryškumą ir kontrastą"
 
-#: src/ui.h:378
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Hue-Saturation"
 msgstr "_Atspalvis-Sotis"
 
-#: src/ui.h:379
+#: ../src/gth-window-actions-entries.h:151
 msgid "Adjust hue and saturation"
 msgstr "Derinti atspalvį ir sotį"
 
-#: src/ui.h:383
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Color Balance"
 msgstr "_Spalvų balansas"
 
-#: src/ui.h:384
+#: ../src/gth-window-actions-entries.h:156
 msgid "Adjust color balance"
 msgstr "Derinti spalvų balansą"
 
-#: src/ui.h:388
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Threshold"
 msgstr "_Slenkstis"
 
-#: src/ui.h:389
+#: ../src/gth-window-actions-entries.h:161
 msgid "Apply threshold"
 msgstr "Pritaikyti slenkstį"
 
-#: src/ui.h:393
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Resize"
 msgstr "Pakeisti _dydį"
 
-#: src/ui.h:394
+#: ../src/gth-window-actions-entries.h:166
 msgid "Resize image"
 msgstr "Pakeisti paveikslėlio dydį"
 
-#: src/ui.h:398
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Rotate"
 msgstr "_Pasukti"
 
-#: src/ui.h:399
+#: ../src/gth-window-actions-entries.h:171
 msgid "Rotate image"
 msgstr "Pasukti paveikslėlį"
 
-#: src/ui.h:404
+#: ../src/gth-window-actions-entries.h:176
 msgid "Crop image"
 msgstr "Apkirpti paveikslėlį"
 
-#: src/ui.h:408
-msgid "Next"
-msgstr "Sekantis"
+#: ../src/gth-window-actions-entries.h:180
+msgid "Black and White"
+msgstr "Juoda ir balta"
 
-#: src/ui.h:409
-msgid "View next image"
-msgstr "Žiūrėti sekantį paveikslėlį"
+#: ../src/gth-window-actions-entries.h:185
+msgid "Web Palette"
+msgstr "Web paletė"
 
-#: src/ui.h:413
-msgid "Previous"
-msgstr "Ankstesnis"
+#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:292
+msgid "In"
+msgstr "Padidinti"
 
-#: src/ui.h:414
-msgid "View previous image"
-msgstr "Žiūrėti ankstesnį paveikslėlį"
-
-#: src/ui.h:419
+#: ../src/gth-window-actions-entries.h:191
 msgid "Zoom in"
 msgstr "Padidinti"
 
-#: src/ui.h:424
+#: ../src/gth-window-actions-entries.h:195
+msgid "Out"
+msgstr "Sumažinti"
+
+#: ../src/gth-window-actions-entries.h:196
 msgid "Zoom out"
 msgstr "Sumažinti"
 
-#: src/ui.h:429
+#: ../src/gth-window-actions-entries.h:200
+msgid "1:1"
+msgstr "1:1"
+
+#: ../src/gth-window-actions-entries.h:201
 msgid "Actual size"
 msgstr "Tikras dydis"
 
-#: src/ui.h:434
+#: ../src/gth-window-actions-entries.h:205
+msgid "Fit"
+msgstr "Tilpti"
+
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom to fit window"
 msgstr "Pritraukti, kad tilptų lange"
 
-#: src/ui.h:438
+#: ../src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
 msgstr "Žengti a_nimacijoje"
 
-#: src/ui.h:443
+#: ../src/gth-window-actions-entries.h:215
 msgid "_Full Screen"
 msgstr "Pi_lnas ekranas"
 
-#: src/ui.h:444 src/ui.h:449
+#: ../src/gth-window-actions-entries.h:216
+#: ../src/gth-window-actions-entries.h:221
 msgid "View image in fullscreen mode"
 msgstr "Žiūrėti paveikslėlį pilno ekrano režime"
 
-#: src/ui.h:458
-msgid "_Back"
-msgstr "_Atgal"
-
-#: src/ui.h:463
-msgid "_Forward"
-msgstr "_Pirmyn"
-
-#: src/ui.h:468
-msgid "_Up"
-msgstr "_Aukštyn"
-
-#: src/ui.h:473
-msgid "_Reload"
-msgstr "Pe_rkrauti"
-
-#: src/ui.h:474
-msgid "Reload the current location"
-msgstr "Iš naujo įkelti esamą vietą"
-
-#: src/ui.h:478
-msgid "_Stop"
-msgstr "St_op"
-
-#: src/ui.h:479
-msgid "Stop loading current location"
-msgstr "Sustabdyti esamos vietos įkėlimą"
-
-#: src/ui.h:483
-msgid "_Home"
-msgstr "_Namai"
-
-#: src/ui.h:488
-msgid "_Go to the Image Folder"
-msgstr "_Eiti į paveikslėlio aplanką"
-
-#: src/ui.h:489
-msgid "Go to the folder that contains the selected image"
-msgstr "Eiti į aplanką kuriame yra pasirinktas paveikslėlis"
-
-#: src/ui.h:493
-msgid "_Delete History"
-msgstr "_Ištrinti istoriją"
-
-#: src/ui.h:494
-msgid "Delete the list of visited locations"
-msgstr "Ištrinti aplankytų vietų sąrašą"
-
-#: src/ui.h:498
-msgid "_Location..."
-msgstr "_Vieta..."
-
-#: src/ui.h:499
-msgid "Specify a location to visit"
-msgstr "Nurodykit norimą aplankyti vietą"
-
-#: src/ui.h:503
-msgid "_Add Bookmark"
-msgstr "_Pridėti žymelę"
-
-#: src/ui.h:504
-msgid "Add current location to bookmarks"
-msgstr "Pridėti esamą vietą į žymeles"
-
-#: src/ui.h:508
-msgid "_Edit Bookmarks"
-msgstr "K_eisti žymeles"
-
-#: src/ui.h:509
-msgid "Edit bookmarks"
-msgstr "Keisti žymeles"
-
-#: src/ui.h:513
+#: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "_Centruotas"
 
-#: src/ui.h:514
+#: ../src/gth-window-actions-entries.h:226
 msgid "Set the image as desktop background (centered)"
 msgstr "Padaryti paveikslėlį darbalaukio fonu (centruotas)"
 
-#: src/ui.h:518
+#: ../src/gth-window-actions-entries.h:230
 msgid "_Tiled"
 msgstr "_Išklotas plytelėmis"
 
-#: src/ui.h:519
+#: ../src/gth-window-actions-entries.h:231
 msgid "Set the image as desktop background (tiled)"
 msgstr "Padaryti paveikslėlį darbalaukio fonu (išklotas)"
 
-#: src/ui.h:523
+#: ../src/gth-window-actions-entries.h:235
 msgid "_Scaled"
 msgstr "_Mastelis"
 
-#: src/ui.h:524
+#: ../src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr ""
 "Padaryti paveikslėlį darbalaukio fonu (ištemptas išlaikant proporcijas)"
 
-#: src/ui.h:528
+#: ../src/gth-window-actions-entries.h:240
 msgid "Str_etched"
 msgstr "Išt_emptas"
 
-#: src/ui.h:529
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (stretched)"
 msgstr "Padaryti paveikslėlį darbalaukio fonu (ištemptas)"
 
-#: src/ui.h:533
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Restore"
 msgstr "A_tstatyti"
 
-#: src/ui.h:534
+#: ../src/gth-window-actions-entries.h:246
 msgid "Restore the original desktop wallpaper"
 msgstr "Atstatyti originalų darbalaukio fono paveikslėlį"
 
-#: src/ui.h:538
-msgid "_Slide Show"
-msgstr "_Skaidrių šou"
-
-#: src/ui.h:539
-msgid "View as a slide show"
-msgstr "Žiūrėti kaip skaidrių šou"
-
-#: src/ui.h:543
-msgid "_Find"
-msgstr "_Rasti"
-
-#: src/ui.h:544
-msgid "Find images"
-msgstr "Rasti paveikslėlius"
-
-#: src/ui.h:548
-msgid "Create _Index Image"
-msgstr "Sukurti rod_iklinį paveikslėlį"
-
-#: src/ui.h:553
-msgid "Create _Web Album"
-msgstr "Sukurti _web albumą"
-
-#: src/ui.h:558
-msgid "_Rename Series"
-msgstr "Pe_rvadinti seriją"
-
-#: src/ui.h:563
-msgid "Convert F_ormat"
-msgstr "Konvertuoti _formatą"
-
-#: src/ui.h:568
-msgid "Fi_nd Duplicates..."
-msgstr "Ra_sti dublikatus..."
-
-#: src/ui.h:573
-msgid "Ro_tate Images"
-msgstr "Pasuk_ti paveikslėlius"
-
-#: src/ui.h:574
-msgid "Rotate images without loss of quality"
-msgstr "Pasukti paveikslėlius neprarandant kokybės"
-
-#: src/ui.h:578
-msgid "_Preferences"
-msgstr "_Nustatymai"
-
-#: src/ui.h:579
-msgid "Edit various preferences"
-msgstr "Keisti įvairius nustatymus"
-
-#: src/ui.h:583
+#: ../src/gth-window-actions-entries.h:250
 msgid "Change _Date"
 msgstr "Pakeisti _datą"
 
-#: src/ui.h:584
+#: ../src/gth-window-actions-entries.h:251
 msgid "Change images last modified date"
 msgstr "Pakeisti paveikslėlio paskutinio pakeitimo datą"
 
-#: src/ui.h:588
-msgid "_About"
-msgstr "_Apie"
-
-#: src/ui.h:589
+#: ../src/gth-window-actions-entries.h:276
 msgid "Show information about gThumb"
 msgstr "Rodyti informaciją apie gThumb"
 
-#: src/ui.h:593
-msgid "_Contents"
-msgstr "_Turinys"
-
-#: src/ui.h:598
+#: ../src/gth-window-actions-entries.h:285
 msgid "_Keyboard Shortcuts"
 msgstr "_Klavišų susiejimai"
 
-#: src/ui.h:607
-msgid "_Toolbar"
-msgstr "Į_rankių juosta"
-
-#: src/ui.h:608
-msgid "View or hide the toolbar of this window"
-msgstr "Rodyti ar slėpti šio lango įrankių juostą"
-
-#: src/ui.h:612
-msgid "_Statusbar"
-msgstr "_Būklės juosta"
-
-#: src/ui.h:613
-msgid "View or hide the statusbar of this window"
-msgstr "Rodyti ar slėpti šio lango būsenos juostą"
-
-#: src/ui.h:618
-msgid "View thumbnails"
-msgstr "Matyti minivaizdus"
-
-#: src/ui.h:622
+#: ../src/gth-window-actions-entries.h:301
 msgid "Play _Animation"
 msgstr "Rodyti _animaciją"
 
-#: src/ui.h:627
-msgid "_Image Preview"
-msgstr "_Paveikslėlio peržiūra"
-
-#: src/ui.h:628 src/ui.h:682
-msgid "View the image"
-msgstr "Žiūrėti paveikslėlį"
-
-#: src/ui.h:632
-msgid "Image _Comment"
-msgstr "Paveikslėlio _komentaras"
-
-#: src/ui.h:633
-msgid "View image comment"
-msgstr "Žiūrėti paveikslėlio komentarą"
-
-#: src/ui.h:637
-msgid "_Reversed Order"
-msgstr "_atvirkštine tvarka"
-
-#: src/ui.h:638
-msgid "Reverse images order"
-msgstr "Atvirkštinė paveikslėlių tvarka"
-
-#: src/ui.h:647
-msgid "by _Name"
-msgstr "pagal _vardą"
-
-#: src/ui.h:648
-msgid "Sort images by name"
-msgstr "Rūšiuoti paveikslėlius pagal vardą"
-
-#: src/ui.h:650
-msgid "by _Path"
-msgstr "pagal _kelią"
-
-#: src/ui.h:651
-msgid "Sort images by path"
-msgstr "Rūšiuoti paveikslėlius pagal kelią"
-
-#: src/ui.h:653
-msgid "by _Size"
-msgstr "pagal _dydį"
-
-#: src/ui.h:654
-msgid "Sort images by file size"
-msgstr "Rūšiuoti paveikslėlius pagal bylos dydį"
-
-#: src/ui.h:656
-msgid "by _Time"
-msgstr "pagal _laiką"
-
-#: src/ui.h:657
-msgid "Sort images by modification time"
-msgstr "Rūšiuoti paveikslėlius pagal modifikavimo datą"
-
-#: src/ui.h:664
+#: ../src/gth-window-actions-entries.h:311
 msgid "_High Quality"
 msgstr "_Aukšta kokybė"
 
-#: src/ui.h:665
+#: ../src/gth-window-actions-entries.h:312
 msgid "Use high quality zoom"
 msgstr "Naudoti aukštos kokybės pritraukimą"
 
-#: src/ui.h:667
+#: ../src/gth-window-actions-entries.h:314
 msgid "_Low Quality"
 msgstr "Že_ma kokybė"
 
-#: src/ui.h:668
+#: ../src/gth-window-actions-entries.h:315
 msgid "Use low quality zoom"
 msgstr "Naudoti žemos kokybės pritraukimą"
 
-#: src/ui.h:675
-msgid "_Folders"
-msgstr "_Aplankai"
+#: ../src/main.c:75
+msgid "Start in fullscreen mode"
+msgstr "Paleisti pilno ekrano režime"
 
-#: src/ui.h:676
-msgid "View the folders"
-msgstr "Žiūrėti aplankus"
+#: ../src/main.c:78
+msgid "Automatically start a slideshow"
+msgstr "Automatiškai pradėti skaidrių šou"
 
-#: src/ui.h:678
-msgid "_Catalogs"
-msgstr "_Katalogai"
+#: ../src/main.c:81
+msgid "Automatically import digital camera photos"
+msgstr "Automatiškai importuoti skaitmeninio fotoaparato fotografijas"
 
-#: src/ui.h:679
-msgid "View the catalogs"
-msgstr "Žiūrėti katalogus"
+#: ../src/main.c:104
+msgid "Holidays"
+msgstr "Šventės"
 
-#~ msgid "Add a comment to the image"
-#~ msgstr "Paveikslėliui pridėti komentarą"
+#: ../src/main.c:105
+msgid "Temporary"
+msgstr "Laikina"
 
-#~ msgid "Assign categories to the image"
-#~ msgstr "Priskirti kategorijas šiam paveikslėliui"
+#: ../src/main.c:106
+msgid "Screenshots"
+msgstr "Ekrano nuotraukos"
 
-#~ msgid "Catalogs"
-#~ msgstr "Katalogai"
+#: ../src/main.c:107
+msgid "Science"
+msgstr "Mokslas"
 
-#~ msgid "Close all windows and exit"
-#~ msgstr "Uždaryti visus langus ir išeiti"
+#: ../src/main.c:108
+msgid "Favourite"
+msgstr "Mėgstamiausi"
 
-#~ msgid "Convert"
-#~ msgstr "Konvertuoti"
+#: ../src/main.c:109
+msgid "Important"
+msgstr "Svarbu"
 
-#~ msgid "Convert image format"
-#~ msgstr "Konvertuoti paveikslėlio formatą"
+#: ../src/main.c:110
+msgid "GNOME"
+msgstr "GNOME"
 
-#~ msgid "E_xit"
-#~ msgstr "Išei_ti"
+#: ../src/main.c:111
+msgid "Games"
+msgstr "Žaidimai"
 
-#~ msgid "Edit Search"
-#~ msgstr "Keisti paiešką"
+#: ../src/main.c:112
+msgid "Party"
+msgstr "Vakarėlis"
 
-#~ msgid "Folders"
-#~ msgstr "Aplankai"
+#: ../src/main.c:113
+msgid "Birthday"
+msgstr "Gimtadienis"
 
-#~ msgid "Full Screen"
-#~ msgstr "Pilnas ekranas"
+#: ../src/main.c:114
+msgid "Astronomy"
+msgstr "Astronomija"
 
-#~ msgid "Home"
-#~ msgstr "Namai"
+#: ../src/main.c:115
+msgid "Family"
+msgstr "Šeima"
 
-#~ msgid "Image Toolbar"
-#~ msgstr "Paveikslėlio įrankių juosta"
-
-#~ msgid "Main Toolbar"
-#~ msgstr "Pagrindinė įrankių juosta"
-
-#~ msgid "Open with the File Manager"
-#~ msgstr "Atisaryti su bylų tvarkykle"
-
-#~ msgid "Redo Search"
-#~ msgstr "Pakartoti paiešką"
-
-#~ msgid "Reduce number of colors"
-#~ msgstr "Sumažinti spalvų skaičių"
-
-#~ msgid "Remove the comment"
-#~ msgstr "Pašalinti komentarą"
-
-#~ msgid "Revert"
-#~ msgstr "Atstatyti"
-
-#~ msgid "Save"
-#~ msgstr "Išsaugoti"
-
-#~ msgid "Search"
-#~ msgstr "Ieškoti"
-
-#~ msgid "Up"
-#~ msgstr "Aukštyn"
-
-#~ msgid "Use black as transparency"
-#~ msgstr "Naudoti juodą kaip permatomumą"
-
-#~ msgid "Use checks as transparency"
-#~ msgstr "Naudoti langelius kaip permatomumą"
-
-#~ msgid "Use gray as transparency"
-#~ msgstr "Naudoti pilką kaip permatomumą"
-
-#~ msgid "Use white as transparency"
-#~ msgstr "Naudoti baltą kaip permatotmumą"
-
-#~ msgid "Zoom _In"
-#~ msgstr "Pa_didinti"
-
-#~ msgid "Zoom _Out"
-#~ msgstr "S_umažinti"
-
-#~ msgid "Zoom to _Fit"
-#~ msgstr "Pritraukti, kad tiktų"
-
-#~ msgid "_Actual Size"
-#~ msgstr "_Tikrasis dydis"
-
-#~ msgid "_Find..."
-#~ msgstr "_Rasti..."
-
-#~ msgid "_Maintenance"
-#~ msgstr "_Priežiūra"
-
-#~ msgid "_Reduce Colors"
-#~ msgstr "_Sumažinti spalvas"
-
-#~ msgid "The image will be removed from the catalog, are you sure?"
-#~ msgstr "Paveikslėlis bus pašalintas iš katalogo, Jūs tikras?"
-
-#~ msgid "All comments will be removed, are you sure?"
-#~ msgstr "Visi komentarai bus pašalinti, Jūs tikras?"
-
-#~ msgid "All thumbnails will be deleted, are you sure?"
-#~ msgstr "Visi minivaizdai bus pašalinti, Jūs tikras?"
-
-#~ msgid "Specify the backup file"
-#~ msgstr "Nurodykit atsarginę bylą"
+#: ../src/main.c:437 ../src/main.c:602
+msgid "Command Line"
+msgstr "Komandinė eilutė"
