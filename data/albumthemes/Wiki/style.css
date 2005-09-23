@@ -1,0 +1,79 @@
+/* Gthumb "Wiki" style */
+
+  body {
+    background: white;
+  }
+
+  td.photo {
+    border: 1px solid #ccc;
+  }
+
+  table.nav_button {
+    border: 1px outset #bbb;
+  }
+
+  table.nav_button_hover {
+    border: 1px inset #bbb;
+  }
+
+  div.copyright {
+    font-size: 8pt;
+    color: #888;
+  }
+
+  img.photo_center {
+    border: 1px solid #ccc;
+  }
+
+  img.preview {
+    border: 1px solid #ccc;
+  }
+
+  .comment, .property, .property_value {
+    font-size: 9pt;
+  }
+
+  .property_value file_name {
+    font-family: monospace;
+  }
+
+  .property {
+    font-weight: bold;
+  }
+
+  .comment, .property_value {
+    font-size: 9pt;
+  }
+  
+  .comment {
+    font-style: italic;
+  }
+
+  span.title {
+    color: #000;
+  }
+
+  span.page_index {
+    color: #000;
+  }
+
+  /* links */
+
+  a:link { 
+    font-weight: bold;
+    text-decoration: none;
+    color: #87875E;
+  }
+
+  a:visited { 
+    font-weight: bold;
+    text-decoration: none;
+    color: #87875E;
+  }
+
+  a:hover {
+    font-weight: bold;
+    text-decoration: none;
+    color: #FFD700;
+  }
+

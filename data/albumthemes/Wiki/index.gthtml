@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<gthumb:language/>">
+<head>
+<gthumb:if pages > 1 />
+  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+<gthumb:else/>
+  <title><gthumb:header/></title>
+<gthumb:end/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="Generator" content="gThumb Image Viewer" />
+  <link href="layout.css" rel="stylesheet" type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<gthumb:set_var thumbnail_width="140" thumbnail_height="140"/>
+<gthumb:set_var preview_width="550" preview_height="500"/>
+<body>
+
+<table class="full_size" summary="page body">
+</tr>
+<tr>
+<td class="nav_bar">
+
+<!-- Navigation Bar -->
+<table class="full_size" summary="navigation bar">
+<tr>
+  <td>
+    &nbsp;
+  </td>
+
+<gthumb:if pages > 1 />
+  <td class="button">
+
+  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:page_link idx_relative=-1/>'">
+  <tr>
+    <td class="nav_button_up">
+      <img src="left-arrow.png" alt="Back" border="0" />
+    </td>
+  </table>
+
+  </td>
+  <td class="button">
+    <span class="page_index"><gthumb:page_idx/> / <gthumb:pages/></span>
+  </td>
+  <td class="button">
+
+  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:page_link idx_relative=+1/>'">
+  <tr>
+    <td class="nav_button_up">
+      <img src="right-arrow.png" alt="Next" border="0" />
+    </td>
+  </table>
+
+  </td>
+<gthumb:end/>
+
+  <td class="title">
+    <span class="title"><gthumb:header/></span>
+  </td>
+</tr>
+</table>
+
+</td>
+</tr>
+<tr>
+<td>
+
+<!-- Photos -->
+<div class="thumbnails">
+<table class="thumbnails" summary="thumbnails">
+<gthumb:table/>
+</table>
+</div>
+
+</td>
+</tr>
+<tr>
+<td class="footer">
+
+<!-- Footer -->
+<div class="copyright"><gthumb:footer/></div>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

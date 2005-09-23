@@ -1,0 +1,78 @@
+/* Gthumb "Wiki" layout */
+
+  div.properties {
+    margin-top: 1em;
+    margin-left: 10%;
+    text-align: justify;
+  }
+
+  table.thumbnails {
+    border-spacing: 20px;
+  }
+
+  tr.tr_index {
+    text-align: center;
+    vertical-align: top;
+  }
+
+  td.td_index {
+    width: 165px;
+    text-align: center;
+    vertical-align: top;
+  }
+
+  table.photo {
+    width: 165px;
+    padding-bottom: 10px;
+  }
+
+  td.photo {
+    text-align: center;
+    vertical-align: middle;
+    height: 165px;
+  }
+
+  table.nav_button {
+    cursor: pointer;
+  }
+
+  table.nav_button_hover {
+    cursor: pointer;
+  }
+
+  td.nav_button_preview, td.nav_button_up {
+    width: 50px; 
+    height: 50px; 
+    padding: 0px;
+    text-align: center;
+    vertical-align: center;
+  }
+
+  div.copyright {
+    padding-top: 25px;
+  }
+
+  div.comment {
+    text-align: left;
+  }
+
+  div.preview_comment {
+    padding-bottom: 15px;
+    width: 500px;
+  }
+
+  td.title {
+    text-align: center;
+  }
+
+  span.title {
+    font-size: 12pt;
+    font-weight: bold;
+    padding-left: 10px;
+  }
+
+  span.page_index {
+    font-size: 8pt;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
