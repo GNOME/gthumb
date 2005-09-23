@@ -128,7 +128,7 @@ struct _GthViewerPrivateData {
 #endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
-	IptcData           *iptc_data;
+	IptcData        *iptc_data;
 #endif /* HAVE_LIBIPTCDATA */
 
 	/* misc */
@@ -142,16 +142,17 @@ struct _GthViewerPrivateData {
 	ImageSavedFunc   image_saved_func;
 	char            *new_image_path;
 
-	GthPixbufOp           *pixop;
-	gboolean               pixop_preview;
-
+	GthPixbufOp     *pixop;
+	gboolean         pixop_preview;
+	gboolean         closing;
+       
 	/* progress dialog */
 
-	GladeXML              *progress_gui;
-	GtkWidget             *progress_dialog;
-	GtkWidget             *progress_progressbar;
-	GtkWidget             *progress_info;
-	guint                  progress_timeout;
+	GladeXML        *progress_gui;
+	GtkWidget       *progress_dialog;
+	GtkWidget       *progress_progressbar;
+	GtkWidget       *progress_info;
+	guint            progress_timeout;
 };
 
 static GthWindowClass *parent_class = NULL;
@@ -820,6 +821,9 @@ save_pixbuf__image_saved_cb (const char *filename,
 	priv->image_modified = FALSE;
 	priv->saving_modified_image = FALSE;
 
+	if (priv->closing)
+		return;
+
 	if (strcmp (priv->image_path, filename) != 0) 
 		gtk_widget_show (gth_viewer_new (filename));
 
@@ -1125,18 +1129,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 		/* Rotate image counter-clockwise */
 	case GDK_bracketleft:
 		gth_window_activate_action_alter_image_rotate90cc (NULL, viewer);
-		retval = TRUE;
-		break;
-
-		/* Edit comment */
-	case GDK_c:
-		gth_window_edit_comment (GTH_WINDOW (viewer));
-		retval = TRUE;
-		break;
-
-		/* Edit categories */
-	case GDK_k:
-		gth_window_edit_categories (GTH_WINDOW (viewer));
 		retval = TRUE;
 		break;
 
@@ -1953,13 +1945,15 @@ gth_viewer_close (GthWindow *window)
 
 	debug(DEBUG_INFO, "Gth::Viewer::Close");
 
+	priv->closing = TRUE;
+
 	g_signal_handlers_disconnect_by_data (G_OBJECT (monitor), viewer);
 
 	if (priv->fullscreen != NULL)
 		g_signal_handlers_disconnect_by_data (G_OBJECT (priv->fullscreen),
 						      viewer);
 
-	if (viewer->priv->image_modified) 
+	if (priv->image_modified) 
 		if (ask_whether_to_save (viewer, close__step2))
 			return;
 	close__step2 (NULL, viewer);

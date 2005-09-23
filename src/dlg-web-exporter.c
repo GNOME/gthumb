@@ -56,7 +56,7 @@ static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 
 #define str_void(x) (((x) == NULL) || (*(x) == 0))
 #define GLADE_EXPORTER_FILE "gthumb_web_exporter.glade"
-#define MAX_PREVIEW_SIZE 150
+#define MAX_PREVIEW_SIZE 220
 
 
 typedef struct {
@@ -728,16 +728,12 @@ theme_dialog__go_to_folder_clicked (GtkWidget       *widget,
 				    ThemeDialogData *tdata)
 {
 	char         *path;
-        GnomeVFSURI  *uri;
 	GError       *err;
 
 	path = g_strdup_printf ("file://%s/.gnome2/gthumb/albumthemes", 
 			       g_get_home_dir ());
 
-	uri = gnome_vfs_uri_new (path);
-	if (! gnome_vfs_uri_exists (uri)) 
-		gnome_vfs_make_directory_for_uri (uri, 0775);
-        gnome_vfs_uri_unref (uri);
+	ensure_dir_exists (path, 0775);
 
 	if (! gnome_url_show (path, &err))
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (tdata->dialog),

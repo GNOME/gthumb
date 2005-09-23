@@ -1,3 +1,71 @@
+2005-09-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (gth_browser_get_current_directory): 
+	
+	Always return a non-NULL value.
+
+	* src/dlg-search.c (dlg_search_ui): 
+	* src/dlg-duplicates.c (dlg_duplicates): 
+	* src/dlg-png-exporter.c (dlg_exporter): 
+	* src/dlg-preferences.c (set_to_current_cb): 
+
+	Do not check whether the current direcotry is NULL
+	
+	* src/gth-browser.c (dir_list_key_press_cb): 
+
+	Fixes bug #316952: [PATCH] bind DELETE key to move a folder to trash 
+	in directory list.  Patch by Nelson Benitez.
+
+2005-09-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-scale-series.c:
+	* src/dlg-scale-series.h:
+	* src/gth-batch-op.c:
+	* src/gth-batch-op.h: new files
+	* src/gth-window-actions-entries.h: 
+	* src/gth-window-actions-callbacks.h (DEFINE_ACTION): 
+	* src/gth-window-actions-callbacks.c: 
+	* src/gth-browser-ui.h: 
+	* src/Makefile.am (gthumb_SOURCES): 
+	* po/POTFILES.in: 
+	* libgthumb/gth-pixbuf-op.h: 
+	* libgthumb/gth-pixbuf-op.c: 
+	* libgthumb/async-pixbuf-ops.h (_gdk_pixbuf_scale): 
+	* libgthumb/async-pixbuf-ops.c: 
+	* data/glade/gthumb_tools.glade: 
+
+	Added 'scale series' tool.
+	
+	* data/albumthemes/*: 
+
+	Removed Clean and NeatSquare.  Added Wiki.  Changed all themes preview
+	image.  Removed preview image from NeatRound, BlueStripes, Classic and
+	ClassicClips.
+
+2005-09-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: added maker_note tag
+
+	Fixes bug #316665: "MakerNotes" info from EXIF header is not present
+
+2005-09-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (save_pixbuf__image_saved_cb): do
+	not update the ui during the closing process.
+
+2005-09-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* many files: use gnome_vfs_unlink instead of unlink. implements 
+	file_copy and file_move with gnome_vfs.  
+	Use gnome_vfs_remove_directory instead of rmdir.
+
+	* src/gth-window-actions-callbacks.c (gth_window_activate_action_help_about): updated copyright year.
+
+2005-09-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-pixbuf-op.c (one_step): interrupt the iteraction at 
+	the first step if the step_func is null.
+
 2005-09-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (window_update_sensitivity): 

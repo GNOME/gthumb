@@ -1563,3 +1563,79 @@ _gdk_pixbuf_dither (GdkPixbuf *src,
 				  dither_release,
 				  data);	
 }
+
+
+/* -- scale image -- */
+
+
+typedef struct {
+	gboolean percentage;
+	gboolean keep_ratio;
+	int      width;
+	int      height;
+} ScaleData;
+
+
+static void
+scale_step (GthPixbufOp *pixop)
+{
+	ScaleData *data = pixop->data;
+	int        w, h;
+	int        new_w, new_h;
+
+	w = gdk_pixbuf_get_width (pixop->src);
+	h = gdk_pixbuf_get_height (pixop->src);
+
+	if (data->percentage) {
+		new_w = w * ((double)data->width / 100.0);
+		new_h = h * ((double)data->height / 100.0);
+	} else if (data->keep_ratio) {
+		new_w = w;
+		new_h = h;
+		scale_keepping_ratio (&new_w, &new_h,
+				      data->width, data->height);
+	} else {
+		new_w = data->width;
+		new_h = data->height;
+	}
+
+	if ((new_w > 0) && (new_h > 0))
+		pixop->dest = gdk_pixbuf_scale_simple (pixop->src, new_w, new_h, GDK_INTERP_BILINEAR);
+}
+
+
+static void
+scale_free_data (GthPixbufOp *pixop)
+{
+	ScaleData *data = pixop->data;
+	g_free (data);
+}
+
+
+GthPixbufOp*
+_gdk_pixbuf_scale (GdkPixbuf *src,
+		   GdkPixbuf *dest,
+		   gboolean   percentage,
+		   gboolean   keep_ratio,
+		   int        width,
+		   int        height)
+{
+	ScaleData   *data;
+	GthPixbufOp *pixop;
+
+	data = g_new0 (ScaleData, 1);
+	data->percentage = percentage;
+	data->keep_ratio = keep_ratio;
+	data->width = width;
+	data->height = height;
+
+	pixop = gth_pixbuf_op_new (src, dest,
+				   NULL,
+				   scale_step,
+				   NULL,
+				   data);	
+	pixop->free_data_func = scale_free_data;
+	gth_pixbuf_op_set_single_step (pixop, TRUE);
+
+	return pixop;
+}

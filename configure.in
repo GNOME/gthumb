@@ -335,9 +335,8 @@ data/albumthemes/Makefile
 data/albumthemes/BlueStripes/Makefile
 data/albumthemes/Classic/Makefile
 data/albumthemes/ClassicClips/Makefile
-data/albumthemes/Clean/Makefile
 data/albumthemes/NeatRound/Makefile
-data/albumthemes/NeatSquare/Makefile
+data/albumthemes/Wiki/Makefile
 data/glade/Makefile
 ])
 

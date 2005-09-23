@@ -367,7 +367,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
 	  NULL, NULL, 
 	  N_("Edit various preferences"),
-	  G_CALLBACK (gth_browser_activate_action_tools_preferences) }
+	  G_CALLBACK (gth_browser_activate_action_tools_preferences) },
+
+	{ "Tools_ScaleSeries", GTHUMB_STOCK_RESIZE,
+	  N_("Scale Images"), NULL,
+	  N_("Scale Images"),
+	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) }
 };
 static guint gth_browser_action_entries_size = G_N_ELEMENTS (gth_browser_action_entries);
 

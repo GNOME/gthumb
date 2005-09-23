@@ -68,8 +68,9 @@ filename_cell_data_func (GtkTreeViewColumn *column,
 	if (catalog_list->single_click) {
 		path = gtk_tree_model_get_path (model, iter);
 
-		if (catalog_list->hover_path == NULL ||
-		    gtk_tree_path_compare (path, catalog_list->hover_path)) 
+		if ((path == NULL) 
+		    || (catalog_list->hover_path == NULL) 
+		    || gtk_tree_path_compare (path, catalog_list->hover_path)) 
 			underline = PANGO_UNDERLINE_NONE;
 		else 
 			underline = PANGO_UNDERLINE_SINGLE;

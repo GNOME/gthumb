@@ -105,7 +105,7 @@ cache_copy (const char *src,
 		char *cache_dest = cache_get_nautilus_cache_name (dest);
 
 		if (path_is_file (cache_dest)) 
-			unlink (cache_dest);
+			file_unlink (cache_dest);
 		if (file_copy (cache_src, cache_dest))
 			set_file_mtime (cache_dest, dest_mtime);
 
@@ -128,7 +128,7 @@ cache_move (const char *src,
 		char *cache_dest = cache_get_nautilus_cache_name (dest);
 
 		if (path_is_file (cache_dest)) 
-			unlink (cache_dest);
+			file_unlink (cache_dest);
 		if (file_move (cache_src, cache_dest))
 			set_file_mtime (cache_dest, dest_mtime);
 		
@@ -144,7 +144,7 @@ cache_delete (const char *filename)
 	char *cache_name;
 
 	cache_name = cache_get_nautilus_cache_name (filename);
-	unlink (cache_name);
+	file_unlink (cache_name);
 	g_free (cache_name);
 }
 
@@ -359,7 +359,7 @@ process__final_step (NautilusCacheRemoveData *ncrd)
 
 			for (; scan; scan = scan->next) {
 				char *dir = scan->data;
-				rmdir (dir);
+				dir_remove (dir);
 			}
 		}
 		nautilus_cache_data_free (ncrd);
@@ -408,7 +408,7 @@ process_files_cb (gpointer data)
 			continue;
 
 		if (ncrd->clear_all || ! path_is_file (real_file)) {
-			if ((unlink (rc_file) < 0)) 
+			if (! file_unlink (rc_file)) 
 				g_warning ("Cannot delete %s\n", rc_file);
 		}
 

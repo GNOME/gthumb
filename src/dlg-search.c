@@ -609,11 +609,7 @@ dlg_search_ui (GthBrowser *browser,
 	if (catalog_path == NULL) {
 		char *esc_uri = NULL;
 
-		if (gth_browser_get_current_directory (data->browser) != NULL)
-			esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
-		else
-			esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
-
+		esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->s_start_from_filechooserbutton), esc_uri);
 		g_free (esc_uri);
 
@@ -1107,31 +1103,22 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 
 
 static void 
-search_dir_async (DialogData *data, char *dir)
+search_dir_async (DialogData *data, 
+		  char       *dir)
 {
-	char *escaped;
-	char *start_from;
-
-	start_from = g_strdup (dir);
-
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->p_current_dir_entry), dir);
 
 	/**/
 
 	if (data->uri != NULL)
 		gnome_vfs_uri_unref (data->uri);
-
-	escaped = escape_uri (start_from);
-	data->uri = gnome_vfs_uri_new (escaped);
-
-	g_free (start_from);
-	g_free (escaped);
+	data->uri = new_uri_from_path (dir);
 
 	gnome_vfs_async_load_directory_uri (
 		& (data->handle),
 		data->uri,
 		GNOME_VFS_FILE_INFO_FOLLOW_LINKS,
-		32 /* items_per_notification FIXME */,
+		128 /* items_per_notification FIXME */,
 		GNOME_VFS_PRIORITY_DEFAULT,
 		directory_load_cb,
 		data);

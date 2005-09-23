@@ -81,10 +81,14 @@ gthumb_SOURCES = 			\
 	dlg-rename-series.h		\
 	dlg-scale-image.c		\
 	dlg-scale-image.h		\
+	dlg-scale-series.c		\
+	dlg-scale-series.h		\
 	dlg-write-to-cd.c		\
 	dlg-write-to-cd.h		\
 	gth-application.c		\
 	gth-application.h		\
+	gth-batch-op.c			\
+	gth-batch-op.h			\
 	gth-browser.c			\
 	gth-browser.h			\
 	gth-browser-actions-entries.h	\

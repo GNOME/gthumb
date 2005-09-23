@@ -69,7 +69,7 @@ delete_catalog_dir (const char  *full_path,
 		    gboolean     recursive,
 		    GError     **gerror)
 {
-	if (rmdir (full_path) == 0)
+	if (dir_remove (full_path))
 		return TRUE;
 
 	if (gerror != NULL) {
@@ -109,7 +109,7 @@ gboolean
 delete_catalog (const char  *full_path,
 		GError     **gerror)
 {
-	if (unlink (full_path) != 0) {
+	if (! file_unlink (full_path)) {
 		if (gerror != NULL) {
 			const char *rel_path;
 			char       *base_path;

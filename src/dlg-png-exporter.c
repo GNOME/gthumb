@@ -413,10 +413,7 @@ dlg_exporter (GthBrowser *browser)
 
 	/**/
 
-	if (gth_browser_get_current_directory (browser) != NULL)
-		esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
-	else
-		esc_uri = gnome_vfs_escape_host_and_path_string (g_get_home_dir ());
+	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (browser));
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton), esc_uri);
 	g_free (esc_uri);
 	

@@ -2182,6 +2182,51 @@ dir_list_activated_cb (GtkTreeView       *tree_view,
 
 /**/
 
+static int
+dir_list_key_press_cb ( GtkWidget *widget,
+			GdkEventKey *event,
+			gpointer data)
+{
+	GthBrowser       *browser = data;
+	GtkWidget	 *treeview = browser->priv->dir_list->list_view;
+	GtkTreeIter	  iter;
+	GtkTreeSelection *tree_selection;
+	gboolean          has_selected;
+	char	         *utf8_name;
+	char	         *name;
+
+  	switch (event->keyval) {
+	case GDK_Delete:
+		tree_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+
+		if (gtk_tree_selection_get_mode(tree_selection) == GTK_SELECTION_MULTIPLE)
+			return TRUE;
+		
+		has_selected = gtk_tree_selection_get_selected (tree_selection,
+								NULL,
+								&iter);
+		if (has_selected == FALSE)
+			return TRUE;
+		
+		utf8_name = dir_list_get_name_from_iter (browser->priv->dir_list, &iter);
+		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		g_free (utf8_name);
+
+		if (strcmp (name, "..") == 0) {
+			g_free (name);
+			return TRUE;
+		}
+		g_free (name);
+		gth_browser_activate_action_edit_dir_delete (NULL, browser);
+      		break;
+
+    	default:
+      		break;
+    	}
+
+	return FALSE;
+}
+
 
 static int
 dir_list_button_press_cb (GtkWidget      *widget,
@@ -3191,20 +3236,6 @@ key_press_cb (GtkWidget   *widget,
 		/* Go home */
 	case GDK_h:
 		gth_browser_activate_action_go_home (NULL, browser);
-		return TRUE;
-
-		/* Edit comment */
-	case GDK_c:
-		if (! sel_not_null)
-			break;
-		gth_window_edit_comment (GTH_WINDOW (browser));
-		return TRUE;
-
-		/* Edit categories */
-	case GDK_k:
-		if (! sel_not_null)
-			break;
-		gth_window_edit_categories (GTH_WINDOW (browser));
 		return TRUE;
 
 	case GDK_Escape:
@@ -6210,6 +6241,10 @@ gth_browser_construct (GthBrowser  *browser,
 			  G_CALLBACK (dir_list_drag_data_get), 
 			  browser);
 	g_signal_connect (G_OBJECT (priv->dir_list->list_view), 
+			  "key_press_event",
+			  G_CALLBACK (dir_list_key_press_cb), 
+			  browser);
+	g_signal_connect (G_OBJECT (priv->dir_list->list_view), 
 			  "button_press_event",
 			  G_CALLBACK (dir_list_button_press_cb), 
 			  browser);
@@ -7790,7 +7825,13 @@ gth_browser_go_to_directory (GthBrowser *browser,
 const char *
 gth_browser_get_current_directory (GthBrowser *browser)
 {
-	return browser->priv->dir_list->path;
+	const char *path;
+
+	path = browser->priv->dir_list->path;
+	if (path == NULL)
+		path = g_get_home_dir ();
+
+	return path;
 }
 
 

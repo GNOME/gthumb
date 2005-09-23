@@ -51,7 +51,7 @@ ensure_directories_exist (void)
         /* before the gconf port this was a file, now it's folder. */
         path = get_home_relative_dir (RC_DIR);
         if (path_is_file (path))
-                unlink (path);
+                file_unlink (path);
 	g_free (path);
 
 	path = get_home_relative_dir (RC_CATALOG_DIR);

@@ -41,6 +41,21 @@ static GObjectClass *parent_class = NULL;
 static guint         gth_pixbuf_op_signals[LAST_SIGNAL] = { 0 };
 
 
+static void
+release_pixbufs (GthPixbufOp *pixbuf_op)
+{
+	if (pixbuf_op->src != NULL) {
+		g_object_unref (pixbuf_op->src);
+		pixbuf_op->src = NULL;
+	}
+
+	if (pixbuf_op->dest != NULL) {
+		g_object_unref (pixbuf_op->dest);
+		pixbuf_op->dest = NULL;
+	}
+}
+
+
 static void 
 gth_pixbuf_op_finalize (GObject *object)
 {
@@ -53,16 +68,9 @@ gth_pixbuf_op_finalize (GObject *object)
 		g_source_remove (pixbuf_op->timeout_id);
 		pixbuf_op->timeout_id = 0;
 	}
-
-	if (pixbuf_op->src != NULL) {
-		g_object_unref (pixbuf_op->src);
-		pixbuf_op->src = NULL;
-	}
-
-	if (pixbuf_op->dest != NULL) {
-		g_object_unref (pixbuf_op->dest);
-		pixbuf_op->dest = NULL;
-	}
+	release_pixbufs (pixbuf_op);
+	if (pixbuf_op->free_data_func != NULL)
+		(*pixbuf_op->free_data_func)(pixbuf_op);
 
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -111,6 +119,7 @@ gth_pixbuf_op_init (GthPixbufOp *pixbuf_op)
 	pixbuf_op->init_func = NULL;
 	pixbuf_op->step_func = NULL;
 	pixbuf_op->release_func = NULL;
+	pixbuf_op->free_data_func = NULL;
 
 	pixbuf_op->src_line = NULL;
 	pixbuf_op->src_pixel = NULL;
@@ -154,46 +163,23 @@ gth_pixbuf_op_get_type ()
 
 
 GthPixbufOp *
-gth_pixbuf_op_new (GdkPixbuf        *src,
-		   GdkPixbuf        *dest,
-		   PixbufOpFunc      init_func,
-		   PixbufOpFunc      step_func,
-		   PixbufOpFunc      release_func,
-		   gpointer          data)
+gth_pixbuf_op_new (GdkPixbuf    *src,
+		   GdkPixbuf    *dest,
+		   PixbufOpFunc  init_func,
+		   PixbufOpFunc  step_func,
+		   PixbufOpFunc  release_func,
+		   gpointer      data)
 {
 	GthPixbufOp *pixbuf_op;
 
-	/* NOTE that src and dest MAY be the same pixbuf! */
-  
-        g_return_val_if_fail (GDK_IS_PIXBUF (src), NULL);
-        g_return_val_if_fail (GDK_IS_PIXBUF (dest), NULL);
-	g_return_val_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest), NULL);
-	g_return_val_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest), NULL);
-	g_return_val_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest), NULL);
-	g_return_val_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest), NULL);
-
 	pixbuf_op = GTH_PIXBUF_OP (g_object_new (GTH_TYPE_PIXBUF_OP, NULL));
-
-	g_object_ref (src);
-	pixbuf_op->src = src;
-
-	g_object_ref (dest);
-	pixbuf_op->dest = dest;
 
 	pixbuf_op->init_func = init_func;
 	pixbuf_op->step_func = step_func;
 	pixbuf_op->release_func = release_func;
 	pixbuf_op->data = data;
 
-	/**/
-
-	pixbuf_op->has_alpha       = gdk_pixbuf_get_has_alpha (src);
-	pixbuf_op->bytes_per_pixel = pixbuf_op->has_alpha ? 4 : 3;
-	pixbuf_op->width           = gdk_pixbuf_get_width (src);
-	pixbuf_op->height          = gdk_pixbuf_get_height (src);
-	pixbuf_op->rowstride       = gdk_pixbuf_get_rowstride (src);
-	pixbuf_op->src_line        = gdk_pixbuf_get_pixels (src);
-	pixbuf_op->dest_line       = gdk_pixbuf_get_pixels (dest);
+	gth_pixbuf_op_set_pixbufs (pixbuf_op, src, dest);
 
 	return pixbuf_op;
 }
@@ -205,16 +191,18 @@ one_step (gpointer data)
 	GthPixbufOp *pixbuf_op = data;
 	int          dir = 1;
 
+	if (pixbuf_op->single_step)
+		(*pixbuf_op->step_func) (pixbuf_op);	
+
 	if ((pixbuf_op->line >= pixbuf_op->height)
+	    || pixbuf_op->single_step
 	    || pixbuf_op->interrupt) {
 		if (pixbuf_op->release_func != NULL)
 			(*pixbuf_op->release_func) (pixbuf_op);
-
 		g_signal_emit (G_OBJECT (pixbuf_op),
 			       gth_pixbuf_op_signals[PIXBUF_OP_DONE],
 			       0,
 			       ! pixbuf_op->interrupt);
-
 		return FALSE;
 	}
 
@@ -241,8 +229,7 @@ one_step (gpointer data)
 
 	pixbuf_op->line_step = 0;
 	while (pixbuf_op->line_step < pixbuf_op->width) {
-		if (pixbuf_op->step_func != NULL)
-			(*pixbuf_op->step_func) (pixbuf_op);
+		(*pixbuf_op->step_func) (pixbuf_op);
 		pixbuf_op->src_pixel += dir * pixbuf_op->bytes_per_pixel;
 		pixbuf_op->dest_pixel += dir * pixbuf_op->bytes_per_pixel;
 		pixbuf_op->column += dir;
@@ -277,10 +264,59 @@ step (gpointer data)
 
 
 void
+gth_pixbuf_op_set_single_step (GthPixbufOp *pixbuf_op,
+			       gboolean     single_step)
+{
+	pixbuf_op->single_step = single_step;
+}
+
+
+void
+gth_pixbuf_op_set_pixbufs (GthPixbufOp  *pixbuf_op,
+			   GdkPixbuf    *src,
+			   GdkPixbuf    *dest)
+{
+	if (src == NULL)
+		return;
+
+	/* NOTE that src and dest MAY be the same pixbuf! */
+  
+        g_return_if_fail (GDK_IS_PIXBUF (src));
+	if (dest != NULL) {
+		g_return_if_fail (GDK_IS_PIXBUF (dest));
+		g_return_if_fail (gdk_pixbuf_get_has_alpha (src) == gdk_pixbuf_get_has_alpha (dest));
+		g_return_if_fail (gdk_pixbuf_get_width (src) == gdk_pixbuf_get_width (dest));
+		g_return_if_fail (gdk_pixbuf_get_height (src) == gdk_pixbuf_get_height (dest));
+		g_return_if_fail (gdk_pixbuf_get_colorspace (src) == gdk_pixbuf_get_colorspace (dest));
+	}
+
+	release_pixbufs (pixbuf_op);
+
+	g_object_ref (src);
+	pixbuf_op->src = src;
+
+	pixbuf_op->has_alpha       = gdk_pixbuf_get_has_alpha (src);
+	pixbuf_op->bytes_per_pixel = pixbuf_op->has_alpha ? 4 : 3;
+	pixbuf_op->width           = gdk_pixbuf_get_width (src);
+	pixbuf_op->height          = gdk_pixbuf_get_height (src);
+	pixbuf_op->rowstride       = gdk_pixbuf_get_rowstride (src);
+	pixbuf_op->src_line        = gdk_pixbuf_get_pixels (src);
+
+	if (dest != NULL) {
+		g_object_ref (dest);
+		pixbuf_op->dest = dest;
+		pixbuf_op->dest_line = gdk_pixbuf_get_pixels (dest);
+	}
+}
+
+
+void
 gth_pixbuf_op_start (GthPixbufOp  *pixbuf_op)
 {
-	pixbuf_op->line = 0;
+	g_return_if_fail (GTH_IS_PIXBUF_OP (pixbuf_op));
+	g_return_if_fail (pixbuf_op->src != NULL);
 
+	pixbuf_op->line = 0;
 	if (pixbuf_op->init_func != NULL)
 		(*pixbuf_op->init_func) (pixbuf_op);
 

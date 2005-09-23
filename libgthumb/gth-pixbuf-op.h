@@ -48,6 +48,9 @@ struct _GthPixbufOp {
 	PixbufOpFunc  init_func;
 	PixbufOpFunc  step_func;
 	PixbufOpFunc  release_func;
+	PixbufOpFunc  free_data_func;
+
+	gboolean      single_step;
 
 	gboolean      has_alpha;
 	int           bytes_per_pixel;
@@ -75,17 +78,19 @@ struct _GthPixbufOpClass {
 				    gboolean     completed);
 };
 
-GType         gth_pixbuf_op_get_type   (void);
-
-GthPixbufOp * gth_pixbuf_op_new        (GdkPixbuf       *src,
-					GdkPixbuf       *dest,
-					PixbufOpFunc     init_func,
-					PixbufOpFunc     step_func,
-					PixbufOpFunc     release_func,
-					gpointer         data);
-
-void          gth_pixbuf_op_start      (GthPixbufOp     *pixbuf_op);
-
-void          gth_pixbuf_op_stop       (GthPixbufOp     *pixbuf_op);
+GType         gth_pixbuf_op_get_type        (void);
+GthPixbufOp * gth_pixbuf_op_new             (GdkPixbuf       *src,
+					     GdkPixbuf       *dest,
+					     PixbufOpFunc     init_func,
+					     PixbufOpFunc     step_func,
+					     PixbufOpFunc     release_func,
+					     gpointer         data);
+void          gth_pixbuf_op_set_single_step (GthPixbufOp     *pixbuf_op,
+					     gboolean         single_step);
+void          gth_pixbuf_op_set_pixbufs     (GthPixbufOp     *pixbuf_op,
+					     GdkPixbuf       *src,
+					     GdkPixbuf       *dest);
+void          gth_pixbuf_op_start           (GthPixbufOp     *pixbuf_op);
+void          gth_pixbuf_op_stop            (GthPixbufOp     *pixbuf_op);
 
 #endif /* _GTH_PIXBUF_OP_H */

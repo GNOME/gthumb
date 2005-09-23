@@ -1666,15 +1666,11 @@ dlg_files_move_to_trash (GthWindow      *window,
 			 FileOpDoneFunc  done_func,
 			 gpointer        done_data)
 {
-	char        *e_path;
 	GnomeVFSURI *first_uri, *trash_uri = NULL;
 
 	g_return_if_fail (file_list != NULL);
 
-	e_path = escape_uri (file_list->data);
-	first_uri = gnome_vfs_uri_new (e_path);
-	g_free (e_path);
-	
+	first_uri = new_uri_from_path (file_list->data);
 	gnome_vfs_find_directory (first_uri, 
 				  GNOME_VFS_DIRECTORY_KIND_TRASH,
 				  &trash_uri, 
@@ -2228,7 +2224,7 @@ folder_copy (GthWindow      *window,
 			src_list = g_list_append (src_list, new_uri_from_path (src_folder_comment));
 			if (fcdata->file_op != FILE_OP_DELETE) {
 				if (path_is_file (dest_folder_comment))
-					unlink (dest_folder_comment);
+					file_unlink (dest_folder_comment);
 				dest_list = g_list_append (dest_list, new_uri_from_path (dest_folder_comment));
 			}
 			g_free (dest_folder_comment);
@@ -2305,12 +2301,10 @@ dlg_folder_move_to_trash (GthWindow      *window,
 			  gpointer        done_data)
 {
 	char            *parent_dir;
-	char            *e_parent_dir;
-	GnomeVFSURI     *parent_uri, *trash_uri;
+	GnomeVFSURI     *parent_uri, *trash_uri = NULL;
 
 	parent_dir = remove_level_from_path (folder);
-	e_parent_dir = escape_uri (parent_dir);
-	parent_uri = gnome_vfs_uri_new (e_parent_dir);
+	parent_uri = new_uri_from_path (parent_dir);
 	
 	gnome_vfs_find_directory (parent_uri, 
 				  GNOME_VFS_DIRECTORY_KIND_TRASH,
@@ -2343,7 +2337,6 @@ dlg_folder_move_to_trash (GthWindow      *window,
 		(*done_func) (GNOME_VFS_ERROR_NOT_FOUND, done_data);
 
 	g_free (parent_dir);
-	g_free (e_parent_dir);
 	gnome_vfs_uri_unref (parent_uri);
 }
 

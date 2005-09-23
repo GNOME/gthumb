@@ -74,23 +74,9 @@
 <!-- Thumbnails and preview -->
 <table class="row" summary="preview">
 <tr>
-  <td class="left_thumbnail">
-<gthumb:if image_idx == 1 />
-    <img class="button" src="background.gif" alt="void" />
-<gthumb:else/>
-    <a href="<gthumb:image_link idx_relative="-1"/>"><gthumb:image thumbnail max_size="100" idx_relative="-1" class="thumbnail"/></a>
-<gthumb:end/>
-  </td>
   <td>
     <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview class="preview"/>
     </a>
-  </td>
-  <td class="right_thumbnail">
-<gthumb:if image_idx == images />
-    <img class="button" src="background.gif" alt="void" />
-<gthumb:else/>
-    <a href="<gthumb:image_link idx_relative="+1"/>"><gthumb:image thumbnail max_size="100" idx_relative="+1" class="thumbnail"/></a>
-<gthumb:end/>
   </td>
 </tr>
 </table>

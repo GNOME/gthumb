@@ -72,7 +72,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_image_open_with) },
 
 	{ "Edit_EditComment", GTHUMB_STOCK_ADD_COMMENT,
-	  N_("Comm_ent"), NULL,
+	  N_("Comm_ent"), "C",
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
@@ -82,7 +82,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_edit_delete_comment) },
 
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories"), NULL,
+	  N_("Ca_tegories"), "K",
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 

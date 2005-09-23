@@ -496,6 +496,10 @@ gth_monitor_notify_update_cat_files (GthMonitor      *monitor,
 				     GList           *list)
 {	
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
+
+	if (list == NULL)
+		return;
+
 	g_signal_emit (G_OBJECT (monitor), 
 		       monitor_signals[UPDATE_CAT_FILES], 
 		       0,
@@ -511,6 +515,10 @@ gth_monitor_notify_update_files (GthMonitor      *monitor,
 				 GList           *list)
 {	
 	g_return_if_fail (GTH_IS_MONITOR (monitor));
+
+	if (list == NULL)
+		return;
+
 	g_signal_emit (G_OBJECT (monitor), 
 		       monitor_signals[UPDATE_FILES], 
 		       0,

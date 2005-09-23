@@ -48,18 +48,13 @@ typedef struct {
 
 FileData *   file_data_new               (const char       *path, 
 					  GnomeVFSFileInfo *info);
-
 void         file_data_ref               (FileData         *fd);
-
 void         file_data_unref             (FileData         *fd);
-
 void         file_data_set_path          (FileData         *fd,
 					  const char       *path);
-
 void         file_data_update            (FileData         *fd);
-
 void         file_data_update_comment    (FileData         *fd);
-
+GList*       file_data_list_dup          (GList            *list);
 void         file_data_list_free         (GList            *list);
 
 #endif /* FILE_DATA_H */

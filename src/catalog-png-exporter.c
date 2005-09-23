@@ -1581,7 +1581,7 @@ begin_page (CatalogPngExporter *ce,
 					      ce->start_at + page_n - 1);
 	path = g_strconcat (ce->directory, "/", filename, ".html", NULL);
 
-	uri = gnome_vfs_uri_new (path);
+	uri = new_uri_from_path (path);
 	g_free (path);
 
 	if (uri == NULL) {

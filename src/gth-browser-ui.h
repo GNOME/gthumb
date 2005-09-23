@@ -172,6 +172,7 @@ static const gchar *main_ui_info =
 "      <menuitem action='Tools_JPEGRotate'/>"
 "      <menuitem action='Tools_ConvertFormat'/>"
 "      <menuitem action='Tools_ChangeDate'/>"
+"      <menuitem action='Tools_ScaleSeries'/>"
 "      <separator/>"
 "      <menuitem action='Tools_IndexImage'/>"
 "      <menuitem action='Tools_WebExporter'/>"

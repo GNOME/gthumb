@@ -484,7 +484,7 @@ save_iptc_data (const char *filename, IptcData *d)
 	stat (filename, &statinfo);
 
 	if (rename (tmpfile, filename) < 0)
-		unlink (tmpfile);
+		file_unlink (tmpfile);
 	else {
 		chown (filename, -1, statinfo.st_gid);
 		chmod (filename, statinfo.st_mode);
@@ -497,7 +497,7 @@ save_iptc_data (const char *filename, IptcData *d)
 	return;
 abort5:
 	fclose (outfile);
-	unlink (tmpfile);
+	file_unlink (tmpfile);
 abort4:
 	g_free (tmpfile);
 abort3:
@@ -636,7 +636,7 @@ comment_copy (const char *src,
 
 	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 	if (path_is_file (comment_dest)) 
-		unlink (comment_dest);
+		file_unlink (comment_dest);
 
 	file_copy (comment_src, comment_dest);
 
@@ -660,7 +660,7 @@ comment_move (const char *src,
 
 	comment_dest = comments_get_comment_filename (dest, TRUE, TRUE);
 	if (path_is_file (comment_dest)) 
-		unlink (comment_dest);
+		file_unlink (comment_dest);
 
 	file_move (comment_src, comment_dest);
 
@@ -675,7 +675,7 @@ comment_delete (const char *filename)
 	char *comment_name;
 
 	comment_name = comments_get_comment_filename (filename, TRUE, TRUE);
-	unlink (comment_name);
+	file_unlink (comment_name);
 	g_free (comment_name);
 
 #ifdef HAVE_LIBIPTCDATA
@@ -721,7 +721,7 @@ check_comment_file (char     *real_file,
 	CommentsRemoveData *crd = data;
 
 	if (crd->clear_all || ! path_is_file (real_file)) {
-		if ((unlink (rc_file) < 0)) 
+		if (! file_unlink (rc_file)) 
 			g_warning ("Cannot delete %s\n", rc_file);
 	}
 }
@@ -742,7 +742,7 @@ remove_comments_done (const GList *dir_list,
 
 	for (scan = dir_list; scan; scan = scan->next) {
 		char *dir = scan->data;
-		rmdir (dir);
+		dir_remove (dir);
 	}
 }
 

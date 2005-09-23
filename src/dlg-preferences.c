@@ -208,14 +208,9 @@ static void
 set_to_current_cb (GtkWidget  *widget, 
 		   DialogData *data)
 {
-	const char *dir;
-	char       *esc_uri;
+	char *esc_uri;
 
-	dir = gth_browser_get_current_directory (data->browser);
-	if (dir == NULL)
-		return;
-	
-	esc_uri = gnome_vfs_escape_host_and_path_string (dir);
+	esc_uri = gnome_vfs_escape_host_and_path_string (gth_browser_get_current_directory (data->browser));
 	gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
 	g_free (esc_uri);
 }

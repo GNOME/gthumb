@@ -156,6 +156,24 @@ file_data_unref (FileData *fd)
 }
 
 
+GList*
+file_data_list_dup (GList *list)
+{
+	GList *new_list = NULL, *scan;
+
+	if (list == NULL)
+		return NULL;
+
+	for (scan = list; scan; scan = scan->next) {
+		FileData *data = scan->data;
+		file_data_ref (data);
+		new_list = g_list_prepend (new_list, data);
+	}
+
+	return g_list_reverse (new_list);
+}
+
+
 void
 file_data_list_free (GList *list)
 {

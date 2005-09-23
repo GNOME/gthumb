@@ -338,13 +338,8 @@ image_loader_set_path (ImageLoader *il,
 		gnome_vfs_uri_unref (priv->uri);
 		priv->uri = NULL;
 	}
-
-	if (path != NULL) {
-		char *escaped_path;
-		escaped_path = gnome_vfs_escape_path_string (path);
-		priv->uri = gnome_vfs_uri_new (escaped_path);
-		g_free (escaped_path);
-	}
+	if (path != NULL) 
+		priv->uri = new_uri_from_path (path);
 
 	g_mutex_unlock (priv->yes_or_no);
 }

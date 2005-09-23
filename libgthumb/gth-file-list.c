@@ -533,7 +533,6 @@ gth_file_list_set_list (GthFileList *file_list,
 	for (scan = new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
 		const char  *name_only = file_name_from_path (full_path);
-		char        *escaped;
 		GnomeVFSURI *uri;
 
 		if ((! gfi_data->file_list->show_dot_files 
@@ -541,10 +540,7 @@ gth_file_list_set_list (GthFileList *file_list,
 		    || ! file_is_image (full_path, fast_file_type))
 			continue;
 
-		escaped = escape_uri (full_path);
-		uri = gnome_vfs_uri_new (escaped);
-		g_free (escaped);
-
+		uri = new_uri_from_path (full_path);
 		if (uri != NULL)
 			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
 	}
@@ -777,7 +773,6 @@ gth_file_list_add_list (GthFileList *file_list,
 	for (scan = new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
 		const char  *name_only = file_name_from_path (full_path);
-		char        *escaped;
 		GnomeVFSURI *uri;
 
 		if (gth_file_list_pos_from_path (file_list, full_path) != -1)
@@ -788,10 +783,7 @@ gth_file_list_add_list (GthFileList *file_list,
 		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
 			continue;
 		
-		escaped = escape_uri (full_path);
-		uri = gnome_vfs_uri_new (escaped);
-		g_free (escaped);
-
+		uri = new_uri_from_path (full_path);
 		if (uri != NULL)
 			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
 	}

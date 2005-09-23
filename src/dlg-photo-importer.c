@@ -761,7 +761,7 @@ load_images_preview__step (AsyncOperationData *aodata,
 						 NULL,
 						 fdata);
 		g_object_unref (pixbuf);
-		unlink (tmp_filename);
+		file_unlink (tmp_filename);
 	}
 
 	g_free (tmp_filename);

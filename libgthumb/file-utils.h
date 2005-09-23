@@ -85,6 +85,8 @@ gboolean            file_copy                    (const gchar *from,
 gboolean            file_move                    (const gchar *from, 
 						  const gchar *to);
 
+gboolean            file_unlink                  (const gchar *path);
+
 gboolean            ensure_dir_exists            (const gchar *a_path,
 						  mode_t mode);
 
@@ -147,7 +149,12 @@ void                visit_rc_directory_async     (const gchar *rc_dir,
 						  VisitDoneFunc done_func,
 						  gpointer data);
 
-gboolean            rmdir_recursive              (const gchar *directory);
+gboolean            dir_make                     (const gchar *directory,
+						  mode_t       mode);
+
+gboolean            dir_remove                   (const gchar *directory);
+
+gboolean            dir_remove_recursive         (const gchar *directory);
 
 gboolean            file_is_image                (const gchar *name,
 						  gboolean fast_file_type);

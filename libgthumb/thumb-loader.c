@@ -379,9 +379,7 @@ thumb_loader_set_path (ThumbLoader *tl,
 	g_free (priv->uri);
 	g_free (priv->path);
 
-	escaped_path = escape_uri (path);
-	vfs_uri = gnome_vfs_uri_new (escaped_path);
-	g_free (escaped_path);
+	vfs_uri = new_uri_from_path (path);
 
 	escaped_path = gnome_vfs_uri_to_string (vfs_uri, GNOME_VFS_URI_HIDE_NONE);
 	priv->uri = gnome_vfs_unescape_string (escaped_path, NULL);
@@ -421,18 +419,12 @@ GnomeVFSURI *
 thumb_loader_get_uri (ThumbLoader *tl)
 {
 	ThumbLoaderPrivateData *priv;
-	GnomeVFSURI *uri;
-	char        *escaped_path;
 
 	g_return_val_if_fail (tl != NULL, NULL);
 
 	priv = tl->priv;
 
-	escaped_path = escape_uri (priv->path);
-	uri = gnome_vfs_uri_new (escaped_path);
-	g_free (escaped_path);
-
-	return uri;
+	return new_uri_from_path (priv->path);
 }
 
 

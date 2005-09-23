@@ -40,6 +40,7 @@
 #include "dlg-photo-importer.h"
 #include "dlg-preferences.h"
 #include "dlg-rename-series.h"
+#include "dlg-scale-series.h"
 #include "dlg-write-to-cd.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -1882,7 +1883,7 @@ void
 gth_browser_activate_action_tools_convert_format (GtkAction  *action,
 						  GthBrowser *browser)
 {
-        dlg_convert (GTH_WINDOW (browser));
+        dlg_convert (browser);
 }
 
 
@@ -1962,4 +1963,12 @@ gth_browser_activate_action_sort_reversed (GtkAction  *action,
 	else
 		new_type = GTK_SORT_ASCENDING;
 	gth_file_list_set_sort_type (gth_browser_get_file_list (browser), new_type);
+}
+
+
+void
+gth_browser_activate_action_tools_resize_images (GtkAction  *action,
+						 GthBrowser *browser)
+{
+	dlg_scale_series (browser);
 }

@@ -166,6 +166,8 @@ src/dlg-rename-series.c
 src/dlg-rename-series.h
 src/dlg-scale-image.c
 src/dlg-scale-image.h
+src/dlg-scale-series.c
+src/dlg-scale-series.h
 src/dlg-search.c
 src/dlg-search.h
 src/dlg-web-exporter.c

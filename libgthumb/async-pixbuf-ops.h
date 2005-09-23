@@ -66,5 +66,11 @@ GthPixbufOp* _gdk_pixbuf_normalize_contrast       (GdkPixbuf *src,
 GthPixbufOp* _gdk_pixbuf_dither                   (GdkPixbuf *src,
 						   GdkPixbuf *dest,
 						   GthDither  dither_type);
+GthPixbufOp* _gdk_pixbuf_scale                    (GdkPixbuf *src,
+						   GdkPixbuf *dest,
+						   gboolean   percentage,
+						   gboolean   keep_ratio,
+						   int        width,
+						   int        height);
 
 #endif /* ASYNC_PIXBUF_OPS_H */

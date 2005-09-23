@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2005 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_CONVERT_H
-#define DLG_CONVERT_H
+#ifndef DLG_SCALE_SERIES_H
+#define DLG_SCALE_SERIES_H
 
 #include "gth-browser.h"
 
 
-void dlg_convert (GthBrowser *window); 
+void   dlg_scale_series  (GthBrowser *browser);
 
 
-#endif /* DLG_CONVERT_H */
+#endif /* DLG_SCALE_SERIES_H */

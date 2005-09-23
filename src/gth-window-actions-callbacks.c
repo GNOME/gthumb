@@ -169,15 +169,15 @@ print_done_cb (gpointer data)
 
 	tmp_comment = comments_get_comment_filename (tmp_filename, TRUE, TRUE);
 	tmp_dir = remove_level_from_path (tmp_comment);
-	gnome_vfs_unlink (tmp_comment);
-	gnome_vfs_remove_directory (tmp_dir);
+	file_unlink (tmp_comment);
+	dir_remove (tmp_dir);
 	g_free (tmp_comment);
 	g_free (tmp_dir);
 
-	gnome_vfs_unlink (tmp_filename);
+	file_unlink (tmp_filename);
 
 	tmp_dir = remove_level_from_path (tmp_filename);
-	gnome_vfs_remove_directory (tmp_dir);
+	dir_remove (tmp_dir);
 	g_free (tmp_dir);
 
 	g_free (tmp_filename);
@@ -667,11 +667,11 @@ set_wallpaper_from_window (GthWindow      *window,
 		wallpaper_filename = get_wallpaper_filename (1);
 		if (path_is_file (wallpaper_filename)) {
 			/* Use a new filename to force an update. */
-			gnome_vfs_unlink (wallpaper_filename);
+			file_unlink (wallpaper_filename);
 			g_free (wallpaper_filename);
 			wallpaper_filename = get_wallpaper_filename (2);
 			if (path_is_file (wallpaper_filename)) 
-				gnome_vfs_unlink (wallpaper_filename);
+				file_unlink (wallpaper_filename);
 		}
 
 		if (! _gdk_pixbuf_save (pixbuf,
@@ -779,7 +779,7 @@ gth_window_activate_action_help_about (GtkAction *action,
 	g_object_set (about,
 		      "name", _("gThumb"), 
 		      "version", VERSION,
-		      "copyright",  "Copyright \xc2\xa9 2001-2004 Free Software Foundation, Inc.",
+		      "copyright",  "Copyright \xc2\xa9 2001-2005 Free Software Foundation, Inc.",
 		      "comments", _("An image viewer and browser for GNOME."),
 		      "authors", authors,
 		      "documenters", documenters,
