@@ -176,6 +176,7 @@ src/dlg-write-to-cd.c
 src/dlg-write-to-cd.h
 src/gth-application.c
 src/gth-application.h
+src/gth-batch-op.c
 src/gth-browser-actions-callbacks.c
 src/gth-browser-actions-callbacks.h
 src/gth-browser-actions-entries.h
