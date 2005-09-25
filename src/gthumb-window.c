@@ -1918,6 +1918,51 @@ dir_list_activated_cb (GtkTreeView       *tree_view,
 
 /**/
 
+static int
+dir_list_key_press_cb ( GtkWidget *widget,
+			GdkEventKey *event,
+			gpointer data)
+{
+	GThumbWindow	 *window = data;
+	GtkWidget	 *treeview = window->dir_list->list_view;
+	GtkTreeIter	  iter;
+	GtkTreeSelection *tree_selection;
+	gboolean          has_selected;
+	char	         *utf8_name;
+	char	         *name;
+
+  	switch (event->keyval)
+   	{
+	case GDK_Delete:
+		tree_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
+
+		if (gtk_tree_selection_get_mode(tree_selection) == GTK_SELECTION_MULTIPLE)
+			return TRUE;
+		
+		has_selected = gtk_tree_selection_get_selected (tree_selection,
+								NULL,
+								&iter);
+		if (has_selected == FALSE)
+			return TRUE;
+		
+		utf8_name = dir_list_get_name_from_iter (window->dir_list, &iter);
+		name = g_filename_from_utf8 (utf8_name, -1, NULL, NULL, NULL);
+		g_free (utf8_name);
+
+		if (strcmp (name, "..") == 0) {
+			g_free (name);
+			return TRUE;
+		}
+		g_free (name);
+		activate_action_edit_dir_delete(NULL, window);
+      		break;
+    	default:
+      		break;
+    	}
+
+	return FALSE;
+}
+
 
 static int
 dir_list_button_press_cb (GtkWidget      *widget,
@@ -4951,6 +4996,10 @@ window_new (void)
 	g_signal_connect (G_OBJECT (window->dir_list->list_view),
 			  "drag_data_get",
 			  G_CALLBACK (dir_list_drag_data_get), 
+			  window);
+	g_signal_connect (G_OBJECT (window->dir_list->list_view),
+			  "key_press_event",
+			  G_CALLBACK (dir_list_key_press_cb),
 			  window);
 	g_signal_connect (G_OBJECT (window->dir_list->list_view), 
 			  "button_press_event",

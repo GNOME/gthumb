@@ -1,3 +1,22 @@
+2005-09-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/jpegutils/transupp.c: 
+	* src/Makefile.am (gthumb_LDADD): 
+	* libgthumb/Makefile.am (lib_LTLIBRARIES): 
+	* configure.in: 
+	* components/catalog-view/Makefile.am (gthumb_catalog_view_LDADD): 
+	* components/image-viewer/Makefile.am (gthumb_image_viewer_LDADD): 
+	
+	Fixes bug #317056: gthumb Cygwin build fixes.  
+	Patch by yselkowitz AT users.sourceforge.net
+	
+2005-09-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-window.c (dir_list_key_press_cb): 
+
+	Fixes bug #316952: [PATCH] bind DELETE key to move a folder to trash in
+	directory list.  Patch by Nelson Benitez.
+
 2005-09-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.6.8 released ]

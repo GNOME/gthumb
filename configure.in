@@ -274,7 +274,37 @@ AM_GCONF_SOURCE_2
 
 dnl ******************************
 
-MODULE_LIBTOOL_FLAGS="-module -avoid-version"
+AC_MSG_CHECKING([for some Win32 platform])
+case "$host" in
+  *-*-cygwin*|*-*-mingw*)
+    platform_win32=yes
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    os_win32=yes
+    ;;
+  *)
+    os_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$os_win32])
+AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
+
+dnl ******************************
+
+if test "$platform_win32" = "yes" ; then
+	MODULE_LIBTOOL_FLAGS='-module -avoid-version -no-undefined -Wl,$(top_builddir)/src/.libs/gthumb.exe.a'
+else
+	MODULE_LIBTOOL_FLAGS='-module -avoid-version'
+fi
 AC_SUBST(MODULE_LIBTOOL_FLAGS)
 
 AC_OUTPUT([

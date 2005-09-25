@@ -33,12 +33,12 @@ gthumb_image_viewer_SOURCES = 			\
 	viewer-stream.h
 
 gthumb_image_viewer_LDADD = 			\
+	$(top_builddir)/libgthumb/libgthumb.la  \
 	$(COMPONENT_LIBS)			\
 	$(JPEG_LIBS)				\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
-	$(RENDER_LIBS)				\
-	$(top_builddir)/libgthumb/libgthumb.la
+	$(RENDER_LIBS)
 
 $(nautilus_view_component_idl_sources): nautilus_view_component_idl_stamp
 nautilus_view_component_idl_stamp: nautilus-view-component.idl $(ORBIT_IDL)

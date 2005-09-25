@@ -51,6 +51,11 @@
 #define MAX(a, b)  (((a) > (b)) ? (a) : (b))
 #endif
 
+#ifdef __CYGWIN__
+#define height_in_blocks	height_in_data_units
+#define width_in_blocks	width_in_data_units
+#endif
+
 enum {
   JERR_CONVERSION_NOTIMPL
 };
