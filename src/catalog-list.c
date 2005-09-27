@@ -214,7 +214,7 @@ catalog_list_new (gboolean single_click_policy)
 	GtkWidget *scrolled;
 	GtkTreeView *list_view;
 
-	cat_list = g_new (CatalogList, 1);
+	cat_list = g_new0 (CatalogList, 1);
 
 	cat_list->single_click = single_click_policy;
 
@@ -563,32 +563,34 @@ catalog_list_refresh (CatalogList *cat_list)
 		name_scan = name_scan->next;
 	}
 
-	name_scan = file_name;
-	for (scan = file_list; scan; scan = scan->next) {
-		char        *name = name_scan->data;
-		char        *utf8_name;
-		GtkTreeIter  iter;
-		GdkPixbuf   *pixbuf;
-		int          type;
-
-		if (file_is_search_result (scan->data)) {
-			type = CAT_LIST_TYPE_SEARCH;
-			pixbuf = search_pixbuf;
-		} else {
-			type = CAT_LIST_TYPE_CATALOG;
-			pixbuf = catalog_pixbuf;
+	if (!cat_list->dirs_only) {
+		name_scan = file_name;
+		for (scan = file_list; scan; scan = scan->next) {
+			char        *name = name_scan->data;
+			char        *utf8_name;
+			GtkTreeIter  iter;
+			GdkPixbuf   *pixbuf;
+			int          type;
+			
+			if (file_is_search_result (scan->data)) {
+				type = CAT_LIST_TYPE_SEARCH;
+				pixbuf = search_pixbuf;
+			} else {
+				type = CAT_LIST_TYPE_CATALOG;
+				pixbuf = catalog_pixbuf;
+			}
+			
+			utf8_name = g_filename_display_name (name);
+			gtk_list_store_append (cat_list->list_store, &iter);
+			gtk_list_store_set (cat_list->list_store, &iter,
+					    CAT_LIST_COLUMN_ICON, pixbuf,
+					    CAT_LIST_COLUMN_NAME, utf8_name,
+					    CAT_LIST_COLUMN_PATH, scan->data,
+					    CAT_LIST_COLUMN_TYPE, type,
+					    -1);
+			g_free (utf8_name);
+			name_scan = name_scan->next;
 		}
-
-		utf8_name = g_filename_display_name (name);
-		gtk_list_store_append (cat_list->list_store, &iter);
-		gtk_list_store_set (cat_list->list_store, &iter,
-				    CAT_LIST_COLUMN_ICON, pixbuf,
-				    CAT_LIST_COLUMN_NAME, utf8_name,
-				    CAT_LIST_COLUMN_PATH, scan->data,
-				    CAT_LIST_COLUMN_TYPE, type,
-				    -1);
-		g_free (utf8_name);
-		name_scan = name_scan->next;
 	}
 
 	g_object_unref (dir_pixbuf);
@@ -632,3 +634,10 @@ catalog_list_select_iter (CatalogList *cat_list,
 	gtk_tree_selection_select_iter (selection, iter);
 }
 
+
+void
+catalog_list_show_dirs_only (CatalogList *cat_list,
+			     gboolean     value)
+{
+	cat_list->dirs_only = value;
+}

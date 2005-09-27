@@ -94,6 +94,9 @@ void            gth_browser_show_image_prop              (GthBrowser        *bro
 void            gth_browser_set_image_prop_dlg           (GthBrowser        *browser,
 							  GtkWidget         *dialog);
 
+void            gth_browser_set_sort_type                (GthBrowser        *browser,
+							  GtkSortType        sort_type);
+
 GthFileList *   gth_browser_get_file_list                (GthBrowser        *browser);
 GthFileView *   gth_browser_get_file_view                (GthBrowser        *browser);
 DirList *       gth_browser_get_dir_list                 (GthBrowser        *browser);

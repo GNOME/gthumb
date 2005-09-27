@@ -235,6 +235,9 @@ struct _GthBrowserPrivateData {
 	
 	GThumbPreloader    *preloader;
 
+	GthSortMethod       sort_method;
+	GtkSortType         sort_type;
+
 	/* viewer stuff */
 
 	guint               view_image_timeout; /* timer for the 
@@ -282,7 +285,6 @@ static GthWindowClass *parent_class = NULL;
 #define PANE_MIN_SIZE          60
 #define PROGRESS_BAR_WIDTH     60
 #define SEL_CHANGED_DELAY      150
-#define VIEW_IMAGE_DELAY       20
 #define AUTO_LOAD_DELAY        750
 #define UPDATE_LAYOUT_DELAY    250
 
@@ -958,6 +960,7 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "View_ShowInfo", ! priv->sidebar_visible);
 	set_action_sensitive (browser, "View_PrevImage", image_pos > 0);
 	set_action_sensitive (browser, "View_NextImage", (image_pos != -1) && (image_pos < gth_file_view_get_images (priv->file_list->view) - 1));
+	set_action_sensitive (browser, "SortManual", viewing_catalog);
 
 	/* Tools menu. */
 
@@ -967,12 +970,11 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Tools_ConvertFormat", sel_not_null);
 	set_action_sensitive (browser, "Tools_ChangeDate", sel_not_null);
 	set_action_sensitive (browser, "Tools_JPEGRotate", sel_not_null);
+	set_action_sensitive (browser, "Tools_ScaleSeries", sel_not_null);
 	set_action_sensitive (browser, "Wallpaper_Centered", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Tiled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Scaled", ! image_is_void);
 	set_action_sensitive (browser, "Wallpaper_Stretched", ! image_is_void);
-
-	set_action_sensitive (browser, "Tools_JPEGRotate", sel_not_null);
 
 	window_update_zoom_sensitivity (browser);
 }
@@ -1053,9 +1055,9 @@ gth_browser_stop_activity_mode (GthBrowser *browser)
 
 
 typedef struct {
-	GthBrowser *browser;
-	DoneFunc    done_func;
-	gpointer    done_func_data;
+	GthBrowser    *browser;
+	DoneFunc       done_func;
+	gpointer       done_func_data;
 } WindowSetListData;
 
 
@@ -1124,7 +1126,34 @@ typedef struct {
 	WindowSetListData *wsl_data;
 	GList             *list;
 	GthBrowser        *browser;
+	GthSortMethod      sort_method;
+	GtkSortType        sort_type;
 } SetListInterruptedData; 
+
+
+static void
+window_sync_sort_menu (GthBrowser    *browser,
+		       GthSortMethod  sort_method,
+		       GtkSortType    sort_type)
+{
+	char *prop;
+
+	/* Sort type item. */
+
+	switch (sort_method) {
+	case GTH_SORT_METHOD_BY_NAME: prop = "SortByName"; break;
+	case GTH_SORT_METHOD_BY_PATH: prop = "SortByPath"; break;
+	case GTH_SORT_METHOD_BY_SIZE: prop = "SortBySize"; break;
+	case GTH_SORT_METHOD_BY_TIME: prop = "SortByTime"; break;
+	case GTH_SORT_METHOD_MANUAL:  prop = "SortManual"; break;
+	default: prop = "X"; break;
+	}
+	set_action_active (browser, prop, TRUE);
+
+	/* 'reversed' item. */
+
+	set_action_active (browser, "SortReversed", (sort_type != GTK_SORT_ASCENDING));
+}
 
 
 static void
@@ -1132,9 +1161,15 @@ set_list_interrupted_cb (gpointer callback_data)
 {
 	SetListInterruptedData *sli_data = callback_data;
 
+	window_sync_sort_menu (sli_data->browser,
+			       sli_data->sort_method,
+			       sli_data->sort_type);
+
 	sli_data->browser->priv->setting_file_list = TRUE;
 	gth_file_list_set_list (sli_data->browser->priv->file_list, 
 				sli_data->list, 
+				sli_data->sort_method,
+				sli_data->sort_type,
 				window_set_file_list_continue, 
 				sli_data->wsl_data);
 
@@ -1147,10 +1182,12 @@ set_list_interrupted_cb (gpointer callback_data)
 
 
 static void
-window_set_file_list (GthBrowser *browser, 
-		      GList      *list,
-		      DoneFunc    done_func,
-		      gpointer    done_func_data)
+window_set_file_list (GthBrowser   *browser, 
+		      GList        *list,
+		      GthSortMethod sort_method,
+		      GtkSortType   sort_type,
+		      DoneFunc      done_func,
+		      gpointer      done_func_data)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	WindowSetListData     *data;
@@ -1173,7 +1210,9 @@ window_set_file_list (GthBrowser *browser,
 
 		sli_data->wsl_data = data;
 		sli_data->browser = browser;
-
+		sli_data->sort_method = sort_method;
+		sli_data->sort_type = sort_type;
+	
 		sli_data->list = NULL;
 		for (scan = list; scan; scan = scan->next) {
 			char *path = g_strdup ((char*)(scan->data));
@@ -1190,8 +1229,14 @@ window_set_file_list (GthBrowser *browser,
 	gth_browser_start_activity_mode (browser);
 	window_update_sensitivity (browser);
 
+	window_sync_sort_menu (browser,
+			       sort_method,
+			       sort_type);
+
 	gth_file_list_set_list (priv->file_list, 
 				list, 
+				sort_method,
+				sort_type,
 				window_set_file_list_continue, 
 				data);
 
@@ -1272,7 +1317,7 @@ window_update_catalog_list (GthBrowser *browser)
 
 		/* Update file list. */
 
-		window_set_file_list (browser, NULL, NULL, NULL);
+		window_set_file_list (browser, NULL, priv->sort_method, priv->sort_type, NULL, NULL);
 	}
 
 	g_return_if_fail (priv->catalog_list->path != NULL);
@@ -1623,12 +1668,38 @@ get_button_from_sidebar_content (GthBrowser *browser)
 
 
 static void
+window_update_catalog_ui (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	gboolean               is_catalog;
+	gboolean               is_search;
+	GtkTreeIter            iter;
+	GError                *error = NULL;
+
+	if (priv->sidebar_merge_id != 0)
+		gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
+	gtk_ui_manager_ensure_update (priv->ui);
+
+	/**/
+
+	is_catalog = (priv->catalog_path != NULL) && (catalog_list_get_iter_from_path (priv->catalog_list, priv->catalog_path, &iter));
+	is_search = (is_catalog && (catalog_list_is_search (priv->catalog_list, &iter)));
+	
+	if (is_search)
+		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, search_ui_info, -1, &error);
+	else
+		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, catalog_ui_info, -1, &error);
+
+	gtk_ui_manager_ensure_update (priv->ui);
+}
+
+
+static void
 window_set_sidebar (GthBrowser *browser,
 		    int         sidebar_content)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *cname;
-	GError                *error = NULL;
 
 	cname = get_command_name_from_sidebar_content (browser);
 	if (cname != NULL) 
@@ -1653,25 +1724,17 @@ window_set_sidebar (GthBrowser *browser,
 
 	/**/
 
-	if (priv->sidebar_merge_id != 0)
-		gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
-	gtk_ui_manager_ensure_update (priv->ui);
-
-	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) { 
-		gboolean    is_catalog;
-		gboolean    is_search;
-		GtkTreeIter iter;
-		
-		is_catalog = (priv->catalog_path != NULL) && (catalog_list_get_iter_from_path (priv->catalog_list, priv->catalog_path, &iter));
-		is_search = (is_catalog && (catalog_list_is_search (priv->catalog_list, &iter)));
-		if (is_search)
-			priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, search_ui_info, -1, &error);
-		else
-			priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, catalog_ui_info, -1, &error);
-	} else 
+	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
+		window_update_catalog_ui (browser);
+	else {
+		GError *error = NULL;
+		if (priv->sidebar_merge_id != 0)
+			gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
+		gtk_ui_manager_ensure_update (priv->ui);
 		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, folder_ui_info, -1, &error);
+		gtk_ui_manager_ensure_update (priv->ui);
+	}
 
-	gtk_ui_manager_ensure_update (priv->ui);
 	gtk_widget_queue_resize (GTK_WIDGET (browser));
 }
 
@@ -2412,6 +2475,7 @@ catalog_activate_continue (gpointer data)
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
 
+	window_update_catalog_ui (browser);
 	window_update_sensitivity (browser);
 
 	/* Add to history list if not present as last entry. */
@@ -2447,34 +2511,50 @@ catalog_activate (GthBrowser *browser,
 		  const char *cat_path)
 {
 	GthBrowserPrivateData *priv = browser->priv;
+	Catalog               *catalog;
+	GError                *gerror;
+	GthSortMethod          sort_method;
+	GtkSortType            sort_type;
 
-	if (path_is_dir (cat_path)) {
+	/* catalog directory */
+
+	if (path_is_dir (cat_path)) { 
 		gth_browser_go_to_catalog (browser, NULL);
 		gth_browser_go_to_catalog_directory (browser, cat_path);
-
-	} else {
-		Catalog *catalog = catalog_new ();
-		GError  *gerror;
-
-		if (! catalog_load_from_disk (catalog, cat_path, &gerror)) {
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
-			catalog_free (catalog);
-			window_image_viewer_set_void (browser);
-			return;
-		}
-
-		window_set_file_list (browser, 
-				      catalog->list,
-				      catalog_activate_continue,
-				      browser);
-
-		catalog_free (catalog);
-		if (priv->catalog_path != cat_path) {
-			if (priv->catalog_path)
-				g_free (priv->catalog_path);
-			priv->catalog_path = g_strdup (cat_path);
-		}
+		return;
 	}
+
+	/* catalog */
+
+	if (priv->catalog_path != cat_path) {
+		if (priv->catalog_path)
+			g_free (priv->catalog_path);
+		priv->catalog_path = g_strdup (cat_path);
+	}
+
+	catalog = catalog_new ();	
+	if (! catalog_load_from_disk (catalog, cat_path, &gerror)) {
+		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
+		catalog_free (catalog);
+		window_image_viewer_set_void (browser);
+		return;
+	}
+
+	sort_method = catalog->sort_method;
+	sort_type = catalog->sort_type;
+	if (sort_method == GTH_SORT_METHOD_NONE) {
+		sort_method = priv->sort_method;
+		sort_type = priv->sort_type;
+	}
+
+	window_set_file_list (browser, 
+			      catalog->list,
+			      sort_method,
+			      sort_type,
+			      catalog_activate_continue,
+			      browser);
+
+	catalog_free (catalog);
 }
 
 
@@ -3029,7 +3109,7 @@ window_enable_thumbs (GthBrowser *browser,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
-	gth_file_list_enable_thumbs (priv->file_list, enable);
+	gth_file_list_enable_thumbs (priv->file_list, enable, TRUE);
 	set_action_sensitive (browser, "Go_Stop", 
 			       ((priv->activity_ref > 0) 
 				|| priv->setting_file_list
@@ -3680,14 +3760,13 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 			      GtkSelectionData *selection_data,
 			      guint             info,
 			      guint             time,
-			      gpointer          data)
+			      gpointer          extra_data)
 {
 	GString *url_list;
 
 	debug (DEBUG_INFO, "Gth::FileList::DragDataGet");
 
 	url_list = make_url_list (gth_file_list_drag_data, info);
-
 	if (url_list == NULL) 
 		return;
 
@@ -3696,8 +3775,41 @@ gth_file_list_drag_data_get  (GtkWidget        *widget,
 				8, 
 				url_list->str, 
 				url_list->len);
-
 	g_string_free (url_list, TRUE);	
+}
+
+
+static gboolean
+gth_file_list_drag_motion (GtkWidget          *widget,
+			   GdkDragContext     *context,
+			   gint                x,
+			   gint                y,
+			   guint               time,
+			   gpointer            extra_data)
+{
+	GthBrowser            *browser = extra_data;
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (gtk_drag_get_source_widget (context) == priv->file_list->root_widget) 
+		gth_file_view_set_drag_dest_pos (priv->file_list->view, x, y);
+
+	return TRUE;
+}
+
+
+static gboolean
+gth_file_list_drag_leave (GtkWidget          *widget,
+			  GdkDragContext     *context,
+			  guint               time,
+			  gpointer            extra_data)
+{
+	GthBrowser            *browser = extra_data;
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (gtk_drag_get_source_widget (context) == priv->file_list->root_widget) 
+		gth_file_view_set_drag_dest_pos (priv->file_list->view, -1, -1);
+
+	return TRUE;
 }
 
 
@@ -3756,6 +3868,54 @@ add_image_list_to_catalog (GthBrowser *browser,
 
 
 static void  
+reorder_current_catalog (GthBrowser *browser, 
+			 int         pos)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	GList                 *selection;
+
+	selection = gth_file_list_get_selection (priv->file_list);
+	if (selection == NULL)
+		return;
+
+	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
+	    && (priv->catalog_path != NULL)) {
+		Catalog *catalog = catalog_new ();
+
+		if (catalog_load_from_disk (catalog,
+					    priv->catalog_path,
+					    NULL)) {
+			GList *scan;
+			for (scan = selection; scan; scan = scan->next) {
+				int item_pos = catalog_remove_item (catalog, scan->data);
+				if (item_pos < pos)
+					pos--;
+			}
+			catalog_insert_items (catalog, selection, pos);
+			selection = NULL;
+
+			catalog->sort_method = GTH_SORT_METHOD_MANUAL;
+			if (catalog_write_to_disk (catalog, NULL)) {
+				window_set_file_list (browser, 
+						      catalog->list,
+						      catalog->sort_method,
+						      catalog->sort_type,
+						      catalog_activate_continue,
+						      browser);
+				/* FIXME: notify change. */
+						      } else {
+				/* FIXME: error dialog */
+			}
+		} 
+
+		catalog_free (catalog);
+	}
+
+	path_list_free (selection);
+}
+
+
+static void  
 image_list_drag_data_received  (GtkWidget        *widget,
 				GdkDragContext   *context,
 				int               x,
@@ -3767,6 +3927,14 @@ image_list_drag_data_received  (GtkWidget        *widget,
 {
 	GthBrowser            *browser = extra_data;
 	GthBrowserPrivateData *priv = browser->priv;
+
+	if (gtk_drag_get_source_widget (context) == priv->file_list->root_widget) {
+		int pos;
+		gth_file_view_get_drag_dest_pos (priv->file_list->view, &pos);
+		gtk_drag_finish (context, FALSE, FALSE, time);
+		reorder_current_catalog (browser, pos);
+		return;
+	}
 
 	if (! ((data->length >= 0) && (data->format == 8))
 	    || (((context->action & GDK_ACTION_COPY) != GDK_ACTION_COPY)
@@ -4323,21 +4491,7 @@ window_sync_menu_with_preferences (GthBrowser *browser)
 	set_action_active (browser, "View_ShowPreview", eel_gconf_get_boolean (PREF_SHOW_PREVIEW, FALSE));
 	set_action_active (browser, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 
-	/* Sort type item. */
-
-	switch (priv->file_list->sort_method) {
-	case GTH_SORT_METHOD_BY_NAME: prop = "SortByName"; break;
-	case GTH_SORT_METHOD_BY_PATH: prop = "SortByPath"; break;
-	case GTH_SORT_METHOD_BY_SIZE: prop = "SortBySize"; break;
-	case GTH_SORT_METHOD_BY_TIME: prop = "SortByTime"; break;
-	default: prop = "X"; break;
-	}
-	set_action_active (browser, prop, TRUE);
-
-	/* 'reversed' item. */
-
-	set_action_active (browser, prop, TRUE);
-	set_action_active (browser, "SortReversed", (priv->file_list->sort_type != GTK_SORT_ASCENDING));
+	window_sync_sort_menu (browser, priv->sort_method, priv->sort_type);
 }
 
 
@@ -4765,6 +4919,14 @@ create_new_file_list (GthBrowser *browser)
 			  "drag_data_get",
 			  G_CALLBACK (gth_file_list_drag_data_get), 
 			  browser);
+	g_signal_connect (G_OBJECT (file_list->root_widget),
+			  "drag_motion",
+			  G_CALLBACK (gth_file_list_drag_motion), 
+			  browser);
+	g_signal_connect (G_OBJECT (file_list->root_widget),
+			  "drag_leave",
+			  G_CALLBACK (gth_file_list_drag_leave), 
+			  browser);
 
 	g_signal_connect (G_OBJECT (file_list),
 			  "busy",
@@ -4788,20 +4950,16 @@ pref_view_as_changed (GConfClient *client,
 	GthBrowser            *browser = user_data;
 	GthBrowserPrivateData *priv = browser->priv;
 	GthFileList           *file_list;
-	GthSortMethod          sort_method;
-	GtkSortType            sort_type;
 	gboolean               enable_thumbs;
 
-	sort_method = priv->file_list->sort_method;
-	sort_type = priv->file_list->sort_type;
 	enable_thumbs = priv->file_list->enable_thumbs;
 
 	/**/
 
 	file_list = create_new_file_list (browser);
-	gth_file_list_set_sort_method (file_list, sort_method);
-	gth_file_list_set_sort_type (file_list, sort_type);
-	gth_file_list_enable_thumbs (file_list, enable_thumbs);
+	gth_file_list_set_sort_method (file_list, priv->sort_method, FALSE);
+	gth_file_list_set_sort_type (file_list, priv->sort_type, FALSE);
+	gth_file_list_enable_thumbs (file_list, enable_thumbs, FALSE);
 
 	gtk_widget_destroy (priv->file_list->root_widget);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), file_list->root_widget, TRUE, TRUE, 0);
@@ -5032,8 +5190,44 @@ sort_by_radio_action (GtkAction      *action,
 		      GtkRadioAction *current,
 		      gpointer        data)
 {
-	GthBrowser *browser = data;
-	gth_file_list_set_sort_method (browser->priv->file_list, gtk_radio_action_get_current_value (current));
+	GthBrowser            *browser = data;
+	GthBrowserPrivateData *priv = browser->priv;
+	GthSortMethod          sort_method;
+
+	sort_method = gtk_radio_action_get_current_value (current);
+
+	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
+	    && (priv->catalog_path != NULL)) {
+		Catalog *catalog = catalog_new ();
+		if (catalog_load_from_disk (catalog,
+					    priv->catalog_path,
+					    NULL)) {
+			if ( !((catalog->sort_method == GTH_SORT_METHOD_NONE)
+			       && (sort_method == priv->sort_method))
+			     && (catalog->sort_method != sort_method)) {
+				catalog->sort_method = sort_method;
+				catalog_write_to_disk (catalog, NULL);
+			}
+		}
+
+	} else if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+		priv->sort_method = sort_method;
+
+	gth_file_list_set_sort_method (browser->priv->file_list, sort_method, TRUE);
+}
+
+
+void
+gth_browser_set_sort_type (GthBrowser  *browser,
+			   GtkSortType  sort_type)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	priv->sort_type = sort_type;
+
+	/* FIXME: save catalog order. */
+
+	gth_file_list_set_sort_type (priv->file_list, sort_type, TRUE);
 }
 
 
@@ -5285,6 +5479,8 @@ gth_browser_init (GthBrowser *browser)
 
 	priv = browser->priv = g_new0 (GthBrowserPrivateData, 1);
 	priv->first_time_show = TRUE;
+	priv->sort_method = pref_get_arrange_type ();
+	priv->sort_type = pref_get_sort_order ();
 }
 
 
@@ -5555,16 +5751,18 @@ monitor_update_files_cb (GthMonitor      *monitor,
 {
 	g_return_if_fail (browser != NULL);
 
+#if DEBUG
 	{
 		GList *scan;
 		char *event_name[] = {"CREATED", "DELETED", "CHANGED", "RENAMED"};
-		g_print ("%s:\n", event_name[event]);
+		debug (DEBUG_INFO, "%s:\n", event_name[event]);
 
 		for (scan = list; scan; scan = scan->next) {
 			char *filename = scan->data;
-			g_print ("%s\n", filename);
+			debug (DEBUG_INFO, "%s\n", filename);
 		}
 	}
+#endif
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
@@ -7007,8 +7205,8 @@ close__step6 (const char *filename,
 	if (last_window)
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, priv->file_list->enable_thumbs);
 
-	pref_set_arrange_type (priv->file_list->sort_method);
-	pref_set_sort_order (priv->file_list->sort_type);
+	pref_set_arrange_type (priv->sort_method);
+	pref_set_sort_order (priv->sort_type);
 
 	if (last_window 
 	    && eel_gconf_get_boolean (PREF_GO_TO_LAST_LOCATION, TRUE)) {
@@ -7234,6 +7432,8 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 	window_set_sidebar (browser, sidebar_content);
 	gth_browser_show_sidebar (browser);
 
+	gth_file_view_set_reorderable (priv->file_list->view, (sidebar_content == GTH_SIDEBAR_CATALOG_LIST));
+
 	if (old_content == sidebar_content) 
 		return;
 
@@ -7266,7 +7466,7 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 			catalog_list_select_iter (priv->catalog_list, &iter);
 			catalog_activate (browser, priv->catalog_path);
 		} else {
-			window_set_file_list (browser, NULL, NULL, NULL);
+			window_set_file_list (browser, NULL, priv->sort_method, priv->sort_type, NULL, NULL);
 			window_image_viewer_set_void (browser);
 		}
 
@@ -7327,26 +7527,8 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 
 	/**/
 
-	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE)) {
-		/*
-		bonobo_ui_component_set_prop (priv->ui_component, 
-					      "/Toolbar",
-					      "hidden", "1",
-					      NULL);
-		bonobo_ui_component_set_prop (priv->ui_component, 
-					      "/ImageToolbar",
-					      "hidden", "0",
-					      NULL);
-		*/
-	}
-
-	/**/
-
 	gtk_widget_hide (priv->preview_button_image);
 	gtk_widget_hide (priv->preview_button_comment);
-
-	/**/
-
 	if (! priv->image_pane_visible) 
 		gth_browser_show_image_pane (browser);
 
@@ -7651,6 +7833,8 @@ go_to_directory_continue (DirList  *dir_list,
 
 	file_list = dir_list_get_file_list (priv->dir_list);
 	window_set_file_list (browser, file_list, 
+			      priv->sort_method,
+			      priv->sort_type,
 			      set_dir_list_continue, browser);
 	g_list_free (file_list);
 }
@@ -7883,7 +8067,7 @@ go_to_catalog__step2 (GoToData *gt_data)
 	char                  *catalog_dir;
 
 	if (catalog_path == NULL) {
-		window_set_file_list (browser, NULL, NULL, NULL);
+		window_set_file_list (browser, NULL, priv->sort_method, priv->sort_type, NULL, NULL);
 		if (priv->catalog_path)
 			g_free (priv->catalog_path);
 		priv->catalog_path = NULL;
@@ -7895,14 +8079,19 @@ go_to_catalog__step2 (GoToData *gt_data)
 	}
 
 	if (! path_is_file (catalog_path)) {
+		char *base_path;
+
 		_gtk_error_dialog_run (GTK_WINDOW (browser),
 				       _("The specified catalog does not exist."));
-
-		/* gth_browser_go_to_directory (browser, g_get_home_dir ()); FIXME */
 		g_free (gt_data->path);
 		g_free (gt_data);
-		window_update_title (browser);
+
 		window_image_viewer_set_void (browser);
+
+		base_path = get_catalog_full_path (NULL);
+		gth_browser_go_to_catalog_directory (browser, base_path);
+		g_free (base_path);
+
 		return;
 	}
 
@@ -8414,15 +8603,8 @@ gth_browser_reload_image (GthBrowser *browser)
 	if (priv->view_image_timeout != 0) 
 		g_source_remove (priv->view_image_timeout);
 
-	/*
-	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
-						  load_timeout_cb, 
-						  browser);
-	*/
-
 	priv->view_image_timeout = g_idle_add (load_timeout_cb, 
 					       browser);
-
 }
 
 
@@ -8491,12 +8673,6 @@ gth_browser_load_image (GthBrowser *browser,
 
 	g_free (priv->image_path);
 	priv->image_path = g_strdup (filename);
-
-	/*
-	priv->view_image_timeout = g_timeout_add (VIEW_IMAGE_DELAY,
-						  load_timeout_cb, 
-						  browser);
-	*/
 
 	priv->view_image_timeout = g_idle_add (load_timeout_cb, 
 					       browser);

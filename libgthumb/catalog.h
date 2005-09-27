@@ -24,13 +24,17 @@
 #define CATALOG_H
 
 #include <glib.h>
+#include <gtk/gtkenums.h>
 #include "search.h"
+#include "typedefs.h"
 
 
 typedef struct {
-	char  *path;  /* File name of the catalog. */
-	GList *list;  /* The list of file names the catalog contains. */
-	SearchData *search_data;
+	char          *path;  /* File name of the catalog. */
+	GList         *list;  /* The list of file names the catalog contains. */
+	SearchData    *search_data;
+	GthSortMethod  sort_method;
+	GtkSortType    sort_type;
 } Catalog;
 
 
@@ -74,7 +78,11 @@ gboolean  catalog_write_to_disk     (Catalog     *catalog,
 void      catalog_add_item          (Catalog     *catalog,
 				     const char  *file_path);
 
-void      catalog_remove_item       (Catalog     *catalog,
+void      catalog_insert_items      (Catalog *catalog,
+				     GList   *list,
+				     int      pos);
+
+int       catalog_remove_item       (Catalog     *catalog,
 				     const char  *file_path);
 
 void      catalog_remove_all_items  (Catalog     *catalog);

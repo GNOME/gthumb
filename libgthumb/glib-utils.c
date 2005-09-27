@@ -429,3 +429,41 @@ strcmp_null_tollerant (const char *s1, const char *s2)
 	else 
 		return strcmp (s1, s2);
 }
+
+
+GList *
+_g_list_insert_list_before (GList *list1,
+			    GList *sibling,
+			    GList *list2)
+{
+  if (!list2)
+    {
+      return list1;
+    }
+  else if (!list1) 
+    {
+      return list2;
+    }
+  else if (sibling) 
+    {
+      GList *list2_last = g_list_last (list2);
+      if (sibling->prev)
+	{
+	  sibling->prev->next = list2;
+	  list2->prev = sibling->prev;
+	  sibling->prev = list2_last;
+	  list2_last->next = sibling;
+	  return list1;
+	}
+      else
+	{
+	  sibling->prev = list2_last;
+	  list2_last->next = sibling;
+	  return list2;
+	}
+    }
+  else
+    {
+      return g_list_concat (list1, list2);
+    }
+}

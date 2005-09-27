@@ -125,7 +125,8 @@ typedef enum { /*< skip >*/
 	GTH_SORT_METHOD_BY_NAME,
 	GTH_SORT_METHOD_BY_PATH,
 	GTH_SORT_METHOD_BY_SIZE,
-	GTH_SORT_METHOD_BY_TIME
+	GTH_SORT_METHOD_BY_TIME,
+	GTH_SORT_METHOD_MANUAL
 } GthSortMethod;
 
 
@@ -209,6 +210,14 @@ typedef enum { /*< skip >*/
 	GTH_TRANSFORM_MIRROR,
 	GTH_TRANSFORM_FLIP
 } GthTransform;
+
+
+typedef enum { /*< skip >*/
+	GTH_DROP_POSITION_NONE,
+	GTH_DROP_POSITION_INTO,
+	GTH_DROP_POSITION_LEFT,
+	GTH_DROP_POSITION_RIGHT
+} GthDropPosition;
 
 
 typedef void (*ErrorFunc)      (gpointer data);

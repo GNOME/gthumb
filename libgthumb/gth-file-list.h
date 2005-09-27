@@ -101,6 +101,8 @@ GthFileList* gth_file_list_new                  (void);
 
 void         gth_file_list_set_list             (GthFileList  *file_list,
 						 GList        *new_list,
+						 GthSortMethod sort_method,
+						 GtkSortType   sort_type,
 						 DoneFunc      done_func,
 						 gpointer      done_func_data);
 
@@ -114,10 +116,12 @@ void         gth_file_list_interrupt_set_list   (GthFileList  *file_list,
 						 gpointer      done_data);
 
 void         gth_file_list_set_sort_method      (GthFileList  *file_list,
-						 GthSortMethod method);
+						 GthSortMethod method,
+						 gboolean      update);
 
 void         gth_file_list_set_sort_type        (GthFileList  *file_list,
-						 GtkSortType   sort_type);
+						 GtkSortType   sort_type,
+						 gboolean      update);
 
 void         gth_file_list_interrupt_thumbs     (GthFileList  *file_list, 
 						 DoneFunc      done_func,
@@ -152,7 +156,8 @@ void         gth_file_list_select_all           (GthFileList  *file_list);
 void         gth_file_list_unselect_all         (GthFileList  *file_list);
 
 void         gth_file_list_enable_thumbs        (GthFileList  *file_list,
-						 gboolean      enable);
+						 gboolean      enable,
+						 gboolean      update);
 
 void         gth_file_list_set_progress_func    (GthFileList  *file_list,
 						 ProgressFunc  func,

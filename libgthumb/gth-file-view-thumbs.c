@@ -696,6 +696,7 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		func = comp_func_path;
 		break;
 	case GTH_SORT_METHOD_NONE:
+	case GTH_SORT_METHOD_MANUAL:
 	default:
 		func = comp_func_none;
 		break;
@@ -862,6 +863,53 @@ gfv_set_no_image_text (GthFileView *file_view,
 }
 
 
+/* DnD */
+
+
+static void
+gfv_set_drag_dest_pos (GthFileView *file_view,
+		       int          x,
+		       int          y)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	gth_image_list_set_drag_dest_pos (ilist, x, y);
+}
+
+
+static void
+gfv_get_drag_dest_pos (GthFileView     *file_view,
+		       int             *pos)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	gth_image_list_get_drag_dest_pos (ilist, pos);
+}
+
+
+static void
+gfv_set_reorderable (GthFileView  *file_view,
+		     gboolean      value)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	gth_image_list_set_reorderable (ilist, value);
+}
+
+
+static gboolean
+gfv_get_reorderable (GthFileView  *file_view)
+{
+	GthFileViewThumbs *gfv_thumbs = (GthFileViewThumbs *) file_view;
+	GthImageList      *ilist = gfv_thumbs->priv->ilist;
+
+	return gth_image_list_get_reorderable (ilist);
+}
+
+
 /* Interactive search */
 
 
@@ -973,6 +1021,10 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->update_icon_theme    = gfv_update_icon_theme;
 	file_view_class->set_no_image_text    = gfv_set_no_image_text;
+	file_view_class->set_drag_dest_pos    = gfv_set_drag_dest_pos;
+	file_view_class->get_drag_dest_pos    = gfv_get_drag_dest_pos;
+	file_view_class->set_reorderable      = gfv_set_reorderable;
+	file_view_class->get_reorderable      = gfv_get_reorderable;
 	file_view_class->set_enable_search    = gfv_set_enable_search;
 	file_view_class->get_enable_search    = gfv_get_enable_search;
 }

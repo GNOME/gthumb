@@ -507,10 +507,12 @@ set_list__step2 (GetFileInfoData *gfi_data)
 
 
 void 
-gth_file_list_set_list (GthFileList *file_list,
-			GList       *new_list,
-			DoneFunc     done_func,
-			gpointer     done_func_data)
+gth_file_list_set_list (GthFileList   *file_list,
+			GList         *new_list,
+			GthSortMethod  sort_method,
+			GtkSortType    sort_type,
+			DoneFunc       done_func,
+			gpointer       done_func_data)
 {
 	GetFileInfoData *gfi_data;
 	GList           *scan;
@@ -523,6 +525,8 @@ gth_file_list_set_list (GthFileList *file_list,
 	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
 	gth_file_view_clear (file_list->view); 
 
+	file_list->sort_method = sort_method;
+	file_list->sort_type = sort_type;
 	file_list->interrupt_set_list = FALSE;
 	gfi_data = get_file_info_data_new (file_list, 
 					   done_func, 
@@ -869,7 +873,8 @@ set_sort_method__step2 (InterruptThumbsData *it_data)
 
 void 
 gth_file_list_set_sort_method (GthFileList   *file_list,
-			       GthSortMethod  new_method)
+			       GthSortMethod  new_method,
+			       gboolean       update)
 {
 	InterruptThumbsData *it_data;
 
@@ -877,6 +882,11 @@ gth_file_list_set_sort_method (GthFileList   *file_list,
 
 	if (file_list->sort_method == new_method) 
 		return;
+
+	if (! update) {
+		file_list->sort_method = new_method;
+		return;
+	}
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, new_method, NULL);
@@ -913,11 +923,17 @@ set_sort_type__step2 (InterruptThumbsData *it_data)
 
 void
 gth_file_list_set_sort_type (GthFileList *file_list,
-			     GtkSortType  sort_type)
+			     GtkSortType  sort_type,
+			     gboolean     update)
 {
 	InterruptThumbsData *it_data;
 
 	g_return_if_fail (file_list != NULL);
+
+	if (! update) {
+		file_list->sort_type = sort_type;
+		return;
+	}
 
 	if (file_list->doing_thumbs) {
 		it_data = it_data_new (file_list, TRUE, sort_type, NULL);
@@ -1156,13 +1172,17 @@ static void gth_file_list_update_thumbs (GthFileList *file_list);
 
 void
 gth_file_list_enable_thumbs (GthFileList *file_list,
-			     gboolean     enable)
+			     gboolean     enable,
+			     gboolean     update)
 {
 	int i;
 
 	g_return_if_fail (file_list != NULL);
 
 	file_list->enable_thumbs = enable;
+
+	if (!update)
+		return;
 
 	gth_file_view_enable_thumbs (file_list->view, file_list->enable_thumbs);
 

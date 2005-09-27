@@ -64,6 +64,10 @@ gboolean _g_utf8_all_spaces        (const char *utf8_string);
 
 int      strcmp_null_tollerant     (const char *s1, const char *s2);
 
+GList *  _g_list_insert_list_before (GList *list1,
+				     GList *sibling,
+				     GList *list2);
+
 /**/
 
 #ifndef __GNUC__

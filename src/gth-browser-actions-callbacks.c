@@ -524,6 +524,44 @@ gth_browser_activate_action_edit_remove_from_catalog (GtkAction  *action,
 }
 
 
+void
+gth_browser_activate_action_edit_catalog_view (GtkAction  *action,
+					       GthBrowser *browser)
+{	
+	char *path;
+
+	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
+	if (path == NULL) 
+		return;
+	if (path_is_dir (path)) {
+		gth_browser_go_to_catalog (browser, NULL);
+		gth_browser_go_to_catalog_directory (browser, path);
+	} else
+		gth_browser_go_to_catalog (browser, path);
+
+	g_free (path);
+}
+
+
+void
+gth_browser_activate_action_edit_catalog_view_new_window (GtkAction  *action,
+							  GthBrowser *browser)
+{
+	char *path;
+	char *uri;
+
+	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
+	if (path == NULL) 
+		return;
+	uri = g_strconcat ("catalog://", path, NULL);
+
+	gtk_widget_show (gth_browser_new (uri));
+
+	g_free (uri);
+	g_free (path);	
+}
+
+
 static void
 catalog_rename (GthBrowser *browser,
 		const char *catalog_path)
@@ -806,7 +844,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (gnome_vfs_create (&vfs_handle, new_catalog_path, GNOME_VFS_OPEN_NONE, FALSE, 0660) == GNOME_VFS_OK) {
+	} else if (gnome_vfs_create (&vfs_handle, new_catalog_path, GNOME_VFS_OPEN_WRITE, FALSE, 0660) == GNOME_VFS_OK) {
 		gnome_vfs_close (vfs_handle);
 		all_windows_notify_catalog_new (new_catalog_path);
 
@@ -1962,7 +2000,7 @@ gth_browser_activate_action_sort_reversed (GtkAction  *action,
 		new_type = GTK_SORT_DESCENDING;
 	else
 		new_type = GTK_SORT_ASCENDING;
-	gth_file_list_set_sort_type (gth_browser_get_file_list (browser), new_type);
+	gth_browser_set_sort_type (browser, new_type);
 }
 
 

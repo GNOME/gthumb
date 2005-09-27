@@ -97,11 +97,12 @@ ok_cb (GtkWidget  *widget,
 		old_pixbuf = gth_window_get_image_pixbuf (data->window);
 		g_object_ref (old_pixbuf);
 
-		g_print ("(%d, %d) [%d, %d]\n", 
-			 selection.x, 
-			 selection.y, 
-			 selection.width, 
-			 selection.height);
+		debug (DEBUG_INFO, 
+		       "(%d, %d) [%d, %d]\n", 
+		       selection.x, 
+		       selection.y, 
+		       selection.width, 
+		       selection.height);
 		
 		new_pixbuf = gdk_pixbuf_new_subpixbuf (old_pixbuf, 
 						       selection.x, 

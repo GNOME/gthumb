@@ -330,7 +330,7 @@ struct _GthImageListPrivate {
 						* after a button press. */
 
 	guint             enable_search : 1;
-
+	guint             reorderable : 1;
 	guint             enable_thumbs : 1;
 
 	int               select_pending_pos;
@@ -382,6 +382,9 @@ struct _GthImageListPrivate {
 	int               drag_start_x;        /* The point where the drag 
 						* started. */
 	int               drag_start_y;
+
+	int               drop_image;
+	GthDropPosition   drop_pos;
 
 	GtkAdjustment    *hadjustment;
 	GtkAdjustment    *vadjustment;
@@ -1644,6 +1647,56 @@ paint_rubberband (GthImageList *image_list,
 }
 
 
+static void
+paint_drop_target (GthImageList *image_list,
+		   GdkRectangle *area)
+{
+	GtkWidget           *widget = (GtkWidget*) image_list;
+	GthImageListPrivate *priv = image_list->priv;
+	GthImageListItem    *item;
+	int                  x1;
+	int                  ofs, len;
+
+	if (priv->drop_pos == GTH_DROP_POSITION_NONE)
+		return;
+	if ((priv->drop_image < 0) || (priv->drop_image >= priv->images))
+		return;
+
+	item = g_list_nth (priv->image_list, priv->drop_image)->data;
+	
+	if (priv->drop_pos == GTH_DROP_POSITION_LEFT) 
+		x1 = item->slide_area.x - (priv->col_spacing / 2);
+	else if (priv->drop_pos == GTH_DROP_POSITION_RIGHT) 
+		x1 = item->slide_area.x + priv->max_item_width + (priv->col_spacing / 2);
+
+	ofs = (priv->row_spacing / 2) - 1;
+	len = 4;
+	gdk_draw_rectangle (priv->bin_window,
+			    widget->style->fg_gc[GTK_STATE_ACTIVE],
+			    TRUE,
+			    x1 - 1,
+			    item->slide_area.y - ofs,
+			    2,
+			    priv->max_item_width + (ofs*2));
+
+	gdk_draw_rectangle (priv->bin_window,
+			    widget->style->fg_gc[GTK_STATE_ACTIVE],
+			    TRUE,
+			    x1 - len - 1,
+			    item->slide_area.y - ofs - 2,
+			    (len + 1) * 2,
+			    2);
+
+	gdk_draw_rectangle (priv->bin_window,
+			    widget->style->fg_gc[GTK_STATE_ACTIVE],
+			    TRUE,
+			    x1 - len - 1,
+			    item->slide_area.y + priv->max_item_width + ofs,
+			    (len + 1) * 2,
+			    2);
+}
+
+
 static gboolean
 gth_image_list_expose (GtkWidget      *widget, 
 		       GdkEventExpose *event)
@@ -1724,6 +1777,9 @@ gth_image_list_expose (GtkWidget      *widget,
  
 		g_free (rectangles);
 	}
+
+	if (priv->drop_pos != GTH_DROP_POSITION_NONE) 
+		paint_drop_target (image_list, &event->area);
 
 	return TRUE;
 }
@@ -2683,8 +2739,7 @@ gth_image_list_motion_notify (GtkWidget      *widget,
 						 multi_dnd ? GTK_STOCK_DND_MULTIPLE : GTK_STOCK_DND,
 						 -4, -4);
 
-			return TRUE;
-		}
+		} 
 
 		return TRUE;
 	}
@@ -3439,6 +3494,7 @@ gth_image_list_init (GthImageList *image_list)
 	priv->target_list = gtk_target_list_new (target_table, G_N_ELEMENTS (target_table));
 
 	priv->enable_search = TRUE;
+	priv->reorderable = FALSE;
 
 	priv->no_image_text = g_strdup (_("No image"));
 }
@@ -4341,6 +4397,111 @@ gth_image_list_set_no_image_text (GthImageList *image_list,
 		} else
 			priv->dirty = TRUE;
 	}
+}
+
+
+static int
+get_drop_target_at (GthImageList *image_list,
+		    int           x,
+		    int           y)
+{
+	GthImageListPrivate *priv = image_list->priv;
+	GList               *scan;
+	int                  height, row, col;
+	int                  items_per_line;
+
+	row = -1;
+	height = priv->row_spacing;
+	for (scan = priv->lines; scan && (height < y); scan = scan->next) {
+		GthImageListLine *line = scan->data;
+		height += IMAGE_LINE_HEIGHT (image_list, line);
+		row++;
+	}
+	if (height < y)
+		row++;
+	row = MAX (row, 0);
+
+	items_per_line = gth_image_list_get_items_per_line (image_list);
+	col = (x - (priv->col_spacing/2)) / (priv->max_item_width + priv->col_spacing) + 1;
+	col = MIN (col, items_per_line);
+
+	return (items_per_line * row) + col - 1;
+}
+
+
+void
+gth_image_list_get_drag_dest_pos (GthImageList    *image_list,
+				  int             *pos)
+{
+	GthImageListPrivate *priv = image_list->priv;
+
+	if (pos != NULL)
+		*pos = priv->drop_image;
+}
+
+
+void
+gth_image_list_set_drag_dest_pos (GthImageList *image_list,
+				  int           x,
+				  int           y)
+{
+	GthImageListPrivate *priv = image_list->priv;
+	int                  drop_image = priv->drop_image;
+	GthDropPosition      drop_pos = priv->drop_pos;
+
+	if (! priv->reorderable) {
+		drop_pos = GTH_DROP_POSITION_NONE;
+		goto update_drop_pos;
+	}
+
+	if ((x < 0) && (y < 0) && (drop_pos != GTH_DROP_POSITION_NONE)) {
+		if (drop_pos == GTH_DROP_POSITION_RIGHT)
+			drop_image++;	
+		drop_pos = GTH_DROP_POSITION_NONE;
+
+	} else {
+		drop_image = get_drop_target_at (image_list, x, y);
+
+		if (drop_image < 0) {
+			drop_image = 0;
+			drop_pos = GTH_DROP_POSITION_LEFT;
+	
+		} else if (drop_image >= priv->images) {
+			drop_image = priv->images - 1;
+			drop_pos = GTH_DROP_POSITION_RIGHT;
+			
+		} else {
+			GthImageListItem *item = g_list_nth (priv->image_list, drop_image)->data;
+			if (x - item->slide_area.x > priv->max_item_width / 2)
+				drop_pos = GTH_DROP_POSITION_RIGHT;
+			else
+				drop_pos = GTH_DROP_POSITION_LEFT;
+		}
+	}
+
+ update_drop_pos:
+	if ((drop_pos == priv->drop_pos) && (drop_image == priv->drop_image))
+	    return;
+	priv->drop_pos = drop_pos;
+	priv->drop_image = drop_image;
+	queue_draw (image_list);
+}
+
+
+void
+gth_image_list_set_reorderable (GthImageList *image_list,
+				gboolean      value)
+{
+	g_return_if_fail (GTH_IS_IMAGE_LIST (image_list));
+	image_list->priv->reorderable = value;
+}
+
+
+gboolean
+gth_image_list_get_reorderable (GthImageList *image_list)
+{
+	g_return_val_if_fail (GTH_IS_IMAGE_LIST (image_list), FALSE);
+	return image_list->priv->reorderable;
 }
 
 

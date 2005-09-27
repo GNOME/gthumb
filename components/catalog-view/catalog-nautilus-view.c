@@ -107,6 +107,8 @@ catalog_nautilus_view_load_location (PortableServer_Servant  servant,
 
 	gth_file_list_set_list (nautilus_view->control->file_list, 
 				file_list,
+				GTH_SORT_METHOD_BY_NAME,
+				GTK_SORT_ASCENDING,
 				set_list_done,
 				nautilus_view);
 

@@ -35,6 +35,7 @@
 #include "catalog-list.h"
 #include "file-utils.h"
 #include "main.h"
+#include "gth-browser.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
@@ -50,6 +51,9 @@ typedef struct {
 	GtkWidget    *new_dir_btn;
 	GtkWidget    *ok_btn;
 	GtkWidget    *cancel_btn;
+	GtkWidget    *cat_view_dest_checkbutton;
+
+	gboolean      can_view_catalog;
 
 	GthWindow    *window;
 	CatalogList  *cat_list;
@@ -182,18 +186,23 @@ add_to_catalog__ok_cb (GtkWidget *widget,
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 		return;
 	}
-
 	for (scan = data->data.list; scan; scan = scan->next)
 		catalog_add_item (catalog, (char*) scan->data);
-
 	if (! catalog_write_to_disk (catalog, &gerror)) 
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->dialog), &gerror);
 	else
 		all_windows_notify_cat_files_created (cat_path, data->data.list);
 
-	catalog_free (catalog);
-	
 	eel_gconf_set_path (PREF_ADD_TO_CATALOG_LAST_CATALOG, cat_path);
+	if (data->can_view_catalog) {
+		gboolean view;
+		view = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cat_view_dest_checkbutton));
+		eel_gconf_set_boolean (PREF_ADD_TO_CATALOG_VIEW, view);
+		if (view)
+			gth_browser_go_to_catalog (GTH_BROWSER (data->window), cat_path);
+	}
+
+	catalog_free (catalog);
 	g_free (cat_path);
 
 	gtk_widget_destroy (data->dialog);
@@ -270,6 +279,7 @@ dlg_add_to_catalog (GthWindow *window,
 	data->window = window;
 	data->cat_list = catalog_list_new (FALSE);
 	data->data.list = list;
+	data->can_view_catalog = GTH_IS_BROWSER (window);
 
 	last_catalog = eel_gconf_get_path (PREF_ADD_TO_CATALOG_LAST_CATALOG, NULL);
 	if (path_is_file (last_catalog)) {
@@ -289,6 +299,7 @@ dlg_add_to_catalog (GthWindow *window,
 	list_hbox = glade_xml_get_widget (data->gui, "cat_list_hbox");
 	data->new_catalog_btn = glade_xml_get_widget (data->gui, "cat_new_catalog_btn");
 	data->new_dir_btn = glade_xml_get_widget (data->gui, "cat_new_dir_btn");
+	data->cat_view_dest_checkbutton = glade_xml_get_widget (data->gui, "cat_view_dest_checkbutton");
 	cat_catalogs_label = glade_xml_get_widget (data->gui, "cat_catalogs_label");
 	data->ok_btn = glade_xml_get_widget (data->gui, "cat_ok_btn");
 	data->cancel_btn = glade_xml_get_widget (data->gui, "cat_cancel_btn");
@@ -342,13 +353,20 @@ dlg_add_to_catalog (GthWindow *window,
 		g_free (last_catalog);
 	}
 
+	if (data->can_view_catalog) 
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->cat_view_dest_checkbutton),
+					      eel_gconf_get_boolean (PREF_ADD_TO_CATALOG_VIEW, FALSE));
+	else
+		gtk_widget_hide (data->cat_view_dest_checkbutton);
+	gtk_widget_show_all (data->cat_list->root_widget);
+
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
 
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
-	gtk_widget_show_all (data->dialog);
+	gtk_widget_show (data->dialog);
 }
 
 
@@ -424,6 +442,7 @@ dlg_move_to_catalog_directory (GthWindow *window,
 	data->window = window;
 	data->current_dir = get_catalog_full_path (NULL);
 	data->cat_list = catalog_list_new (FALSE);
+	catalog_list_show_dirs_only (data->cat_list, TRUE);
 	data->data.catalog_path = catalog_path;
 
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
@@ -473,6 +492,8 @@ dlg_move_to_catalog_directory (GthWindow *window,
 	catalog_list_change_to (data->cat_list, data->current_dir);
 	gtk_widget_set_sensitive (data->new_catalog_btn, FALSE);
 	gtk_window_set_title (GTK_WINDOW (data->dialog), _("Move Catalog to..."));
+	gtk_widget_hide (glade_xml_get_widget (data->gui, "cat_view_dest_checkbutton"));
+	gtk_widget_show_all (data->cat_list->root_widget);
 
 	/* run dialog. */
 
@@ -481,5 +502,5 @@ dlg_move_to_catalog_directory (GthWindow *window,
 	
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 
-	gtk_widget_show_all (data->dialog);
+	gtk_widget_show (data->dialog);
 }

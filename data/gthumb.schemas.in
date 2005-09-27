@@ -1829,5 +1829,18 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/add_to_catalog/view</key>
+	<applyto>/apps/gthumb/general/add_to_catalog/view</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
     </schemalist>
 </gconfschemafile>

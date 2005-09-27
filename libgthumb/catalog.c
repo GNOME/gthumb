@@ -28,14 +28,19 @@
 #include <errno.h>
 
 #include <glib/gi18n.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include "catalog.h"
 #include "typedefs.h"
 #include "file-utils.h"
+#include "glib-utils.h"
 #include "gthumb-error.h"
 
 
 #define SEARCH_HEADER "# Search\n"
+#define SORT_FIELD "# sort: "
 #define MAX_LINE_LENGTH 4096
+
+static char *sort_names[] = { "none", "name", "path", "size", "time", "manual" };
 
 
 char *
@@ -137,21 +142,22 @@ delete_catalog (const char  *full_path,
 gboolean
 file_is_search_result (const char *fullpath)
 {
-	char   line[MAX_LINE_LENGTH];
-	FILE  *f;
+	GnomeVFSResult  r;
+	char           *epath;
+	GnomeVFSHandle *handle;
+	char            line[50] = "";
 
-	f = fopen (fullpath, "r");
-	if (!f)	{
-		/* FIXME */
-		g_print ("ERROR: Failed opening catalog file: %s\n", fullpath);
+	epath = escape_uri (fullpath);
+	r = gnome_vfs_open (&handle, epath, GNOME_VFS_OPEN_READ);
+	g_free (epath);
+
+	if (r != GNOME_VFS_OK)
 		return FALSE;
-	}
 
-	line[0] = 0;
-	fgets (line, sizeof (line), f);
-	fclose (f);
+	r = gnome_vfs_read (handle, line, strlen (SEARCH_HEADER), NULL);
+	gnome_vfs_close (handle);
 
-	if (line[0] == 0)
+	if ((r != GNOME_VFS_OK) || (line[0] == 0))
 		return FALSE;
 
 	return strncmp (line, SEARCH_HEADER, strlen (SEARCH_HEADER)) == 0;
@@ -167,6 +173,8 @@ catalog_new ()
 	catalog->path = NULL;
 	catalog->list = NULL;
 	catalog->search_data = NULL;
+	catalog->sort_method = GTH_SORT_METHOD_NONE;
+	catalog->sort_type = GTK_SORT_ASCENDING;
 
 	return catalog;
 }
@@ -239,8 +247,9 @@ catalog_load_from_disk (Catalog     *catalog,
 			const char  *fullpath,
 			GError     **gerror)
 {
-	gchar  line[MAX_LINE_LENGTH];
-	FILE  *f;
+	FILE     *f;
+	char      line[MAX_LINE_LENGTH];
+	gboolean  file_list = FALSE;
 
 	f = fopen (fullpath, "r");
 	if (f == NULL) {
@@ -266,6 +275,7 @@ catalog_load_from_disk (Catalog     *catalog,
 
 	/*
 	 * Catalog Format : A list of quoted filenames, one name per line :
+	 *     # sort: name      Optional: possible values: none, name, path, size, time, manual
 	 *     "filename_1"
 	 *     "filename_2"
 	 *     ...
@@ -300,18 +310,13 @@ catalog_load_from_disk (Catalog     *catalog,
 		if (*line == 0)
 			continue;
 
-		/* The file name is quoted. */
-		if (*line != '"') {
+		/* search data starts with SEARCH_HEADER */
+		if (! file_list && strcmp (line, SEARCH_HEADER) == 0) {
 			char     unquoted [MAX_LINE_LENGTH];
 			time_t   date;
 			int      date_scope;
 			gboolean all_keywords = FALSE;
 			int      line_ofs = 0;
-
-			/* search data starts with SEARCH_HEADER */
-
-			if (strcmp (line, SEARCH_HEADER) != 0) 
-				continue;
 
 			/* load search data. */
 
@@ -374,12 +379,36 @@ catalog_load_from_disk (Catalog     *catalog,
 			fscanf (f, "%d\n", &date_scope);
 			search_data_set_date_scope (catalog->search_data, 
 						    date_scope);
+
+			continue;
 		}
 
+		if (! file_list && (strncmp (line, SORT_FIELD, strlen (SORT_FIELD)) == 0)) {
+			char          *sort_type;
+			GthSortMethod  sort_method = GTH_SORT_METHOD_NONE;
+			int            i;
+
+			sort_type = line + strlen (SORT_FIELD);
+			sort_type[strlen (sort_type) - 1] = 0;
+
+			for (i = 0; i < G_N_ELEMENTS (sort_names); i++)
+				if (strcmp (sort_type, sort_names[i]) == 0) {
+					sort_method = i;
+					break;
+				}
+
+			catalog->sort_method = sort_method;
+
+			continue;
+		}
+
+		file_list  = TRUE;
 		file_name = g_strndup (line + 1, strlen (line) - 3);
 		catalog->list = g_list_prepend (catalog->list, file_name);
 	}
 	fclose (f);
+
+	catalog->list = g_list_reverse (catalog->list);
 
 	return TRUE;
 }
@@ -402,7 +431,7 @@ gboolean
 catalog_write_to_disk (Catalog     *catalog,
 		       GError     **gerror)
 {
-	FILE *f;
+	FILE  *f;
 	gchar *path;
 	GList *scan;
 
@@ -486,6 +515,10 @@ catalog_write_to_disk (Catalog     *catalog,
 		}
 	}
 
+	/* sort method */
+
+	fprintf (f, "%s%s\n", SORT_FIELD, sort_names[catalog->sort_method]);
+
 	/* write the file list. */
 
 	for (scan = catalog->list; scan; scan = scan->next) 
@@ -517,25 +550,40 @@ catalog_add_item (Catalog *catalog,
 
 
 void
+catalog_insert_items (Catalog *catalog,
+		      GList   *list,
+		      int      pos)
+{
+	g_return_if_fail (catalog != NULL);
+	catalog->list = _g_list_insert_list_before (catalog->list,
+						    g_list_nth (catalog->list, pos),
+						    list);
+}
+
+
+int
 catalog_remove_item (Catalog *catalog,
 		     const char *file_path)
 {
 	GList *scan;
+	int    i = 0;
 
-	g_return_if_fail (catalog != NULL);
-	g_return_if_fail (file_path != NULL);	
+	g_return_val_if_fail (catalog != NULL, -1);
+	g_return_val_if_fail (file_path != NULL, -1);	
 
-	for (scan = catalog->list; scan; scan = scan->next)
+	for (scan = catalog->list; scan; scan = scan->next, i++) 
 		if (strcmp ((gchar*) scan->data, file_path) == 0)
 			break;
 
 	if (scan == NULL)
-		return;
+		return -1;
 
 	catalog->list = g_list_remove_link (catalog->list, scan);
 
 	g_free (scan->data);
 	g_list_free (scan);
+
+	return i;
 }
 
 

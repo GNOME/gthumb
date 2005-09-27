@@ -35,6 +35,7 @@ typedef struct {
 	GtkCellRenderer  *text_renderer;
 
 	gboolean     single_click;
+	gboolean     dirs_only;
 	GtkTreePath *hover_path;
 } CatalogList;
 
@@ -83,5 +84,7 @@ void           catalog_list_change_to                (CatalogList *cat_list,
 void           catalog_list_select_iter              (CatalogList *cat_list,
 						      GtkTreeIter *iter);
 
+void           catalog_list_show_dirs_only           (CatalogList *cat_list,
+						      gboolean     value);
 
 #endif /* CATALOG_LIST_H */

@@ -446,6 +446,36 @@ gfv_set_no_image_text (GthFileView *file_view,
 }
 
 
+static void
+gfv_set_drag_dest_pos (GthFileView *file_view,
+		       int          x,
+		       int          y)
+{
+}
+
+
+static void
+gfv_get_drag_dest_pos (GthFileView     *file_view,
+		       int             *pos)
+{
+	*pos = -1;
+}
+
+
+static void
+gfv_set_reorderable (GthFileView  *file_view,
+		     gboolean      value)
+{
+}
+
+
+static gboolean
+gfv_get_reorderable (GthFileView  *file_view)
+{
+	return FALSE;
+}
+
+
 /* Interactive search */
 
 
@@ -528,6 +558,10 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->update_icon_theme    = gfv_update_icon_theme;
 	file_view_class->set_no_image_text    = gfv_set_no_image_text;
+	file_view_class->set_drag_dest_pos    = gfv_set_drag_dest_pos;
+	file_view_class->get_drag_dest_pos    = gfv_get_drag_dest_pos;
+	file_view_class->set_reorderable      = gfv_set_reorderable;
+	file_view_class->get_reorderable      = gfv_get_reorderable;
 	file_view_class->set_enable_search    = gfv_set_enable_search;
 	file_view_class->get_enable_search    = gfv_get_enable_search;
 
@@ -1030,6 +1064,41 @@ gth_file_view_set_no_image_text (GthFileView *file_view,
 				 const char  *text)
 {
 	GTH_FILE_VIEW_GET_CLASS (file_view)->set_no_image_text (file_view, text);
+}
+
+
+/* DnD */
+
+
+void
+gth_file_view_set_drag_dest_pos (GthFileView *file_view,
+				 int          x,
+				 int          y)
+{
+	GTH_FILE_VIEW_GET_CLASS (file_view)->set_drag_dest_pos (file_view, x, y);
+}
+
+
+void
+gth_file_view_get_drag_dest_pos (GthFileView     *file_view,
+				 int             *pos)
+{
+	GTH_FILE_VIEW_GET_CLASS (file_view)->get_drag_dest_pos (file_view, pos);
+}
+
+
+void
+gth_file_view_set_reorderable (GthFileView  *file_view,
+			       gboolean      value)
+{
+	GTH_FILE_VIEW_GET_CLASS (file_view)->set_reorderable (file_view, value);
+}
+
+
+gboolean
+gth_file_view_get_reorderable (GthFileView  *file_view)
+{
+	return GTH_FILE_VIEW_GET_CLASS (file_view)->get_reorderable (file_view);
 }
 
 

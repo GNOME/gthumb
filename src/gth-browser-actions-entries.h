@@ -134,6 +134,16 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Remove selected images from the catalog"),
 	  G_CALLBACK (gth_browser_activate_action_edit_remove_from_catalog) },
 
+	{ "EditCatalog_View", NULL,
+	  N_("Open"), NULL,
+	  N_("Open the selected catalog"),
+	  G_CALLBACK (gth_browser_activate_action_edit_catalog_view) },
+
+	{ "EditCatalog_View_NewWindow", NULL,
+	  N_("Open in New Window"), NULL,
+	  N_("Open the selected catalog in a new window"),
+	  G_CALLBACK (gth_browser_activate_action_edit_catalog_view_new_window) },
+
 	{ "EditCatalog_Rename", NULL,
 	  N_("_Rename..."), NULL,
 	  N_("Rename selected catalog"),
@@ -154,7 +164,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Modify search criteria"),
 	  G_CALLBACK (gth_browser_activate_action_edit_catalog_edit_search) },
 
-	{ "EditCatalog_RedoSearch", NULL,
+	{ "EditCatalog_RedoSearch", GTK_STOCK_REFRESH,
 	  N_("Redo _Search"), NULL,
 	  N_("Redo the search"),
 	  G_CALLBACK (gth_browser_activate_action_edit_catalog_redo_search) },
@@ -189,7 +199,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Modify search criteria"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_catalog_edit_search) },
 
-	{ "EditCurrentCatalog_RedoSearch", NULL,
+	{ "EditCurrentCatalog_RedoSearch", GTK_STOCK_REFRESH,
 	  N_("Redo _Search"), NULL,
 	  N_("Redo the search"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_catalog_redo_search) },
@@ -424,7 +434,10 @@ static GtkRadioActionEntry gth_browser_sort_by_entries[] = {
 	  N_("Sort images by file size"), GTH_SORT_METHOD_BY_SIZE },
 	{ "SortByTime", NULL,
 	  N_("by _Time"), NULL,
-	  N_("Sort images by modification time"), GTH_SORT_METHOD_BY_TIME }
+	  N_("Sort images by modification time"), GTH_SORT_METHOD_BY_TIME },
+	{ "SortManual", NULL,
+	  N_("_Manual Order"), NULL,
+	  N_("Sort images manually"), GTH_SORT_METHOD_MANUAL }
 };
 static guint gth_browser_sort_by_entries_size = G_N_ELEMENTS (gth_browser_sort_by_entries);
 
