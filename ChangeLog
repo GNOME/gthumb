@@ -1,3 +1,10 @@
+2005-10-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/image-viewer.c (image_viewer_scroll_event): 
+
+	Fixes bug #317628: [PATCH] Zoom in/out with CTRL + scrollwheel
+	Patch by Nelson Benitez.
+
 2005-09-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/jpegutils/transupp.c: 
