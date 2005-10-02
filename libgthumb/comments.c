@@ -591,6 +591,10 @@ save_comment_iptc (const char  *filename,
 		}
 	}
 
+	iptc_data_set_version (d, IPTC_IIM_VERSION);
+	iptc_data_set_encoding_utf8 (d);
+	iptc_data_sort (d);
+
 	save_iptc_data (filename, d);
 	set_file_mtime (filename, mtime);
 

@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
@@ -513,6 +514,13 @@ update_file_info (GthExifDataViewer *edv)
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("Modified"),
 			    VALUE_COLUMN, utf8_time_txt,
+			    POS_COLUMN, -1,
+			    -1);
+
+	gtk_list_store_append (edv->priv->image_exif_model, &iter);
+	gtk_list_store_set (edv->priv->image_exif_model, &iter,
+			    NAME_COLUMN, _("Type"),
+			    VALUE_COLUMN, gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (edv->priv->path, NULL, FALSE)),
 			    POS_COLUMN, -1,
 			    -1);
 

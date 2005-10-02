@@ -51,11 +51,6 @@ enum {
 };
 
 
-static GtkTargetEntry target_table[] = {
-	{ "text/uri-list", 0, 0 } 
-};
-
-
 struct _GthFileViewListPrivate {
 	GtkTreeView    *tree_view;
 	GtkListStore   *list_store;
@@ -65,7 +60,7 @@ struct _GthFileViewListPrivate {
 	int             max_image_size;
 	GnomeIconTheme *icon_theme;
 	gboolean        enable_thumbs;
-
+	gboolean        reorderable;
 	GdkPixbuf      *unknown_pixbuf_small;
 	GdkPixbuf      *unknown_pixbuf_big;
 };
@@ -120,7 +115,14 @@ static GtkWidget *
 gfv_get_widget (GthFileView   *file_view)
 {
 	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
+	return GTK_WIDGET (gfv_list->priv->tree_view);
+}
 
+
+static GtkWidget *
+gfv_get_drag_source (GthFileView   *file_view)
+{
+	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
 	return GTK_WIDGET (gfv_list->priv->tree_view);
 }
 
@@ -1040,7 +1042,7 @@ gfv_sorted (GthFileView   *file_view,
 	case GTH_SORT_METHOD_BY_PATH: col = COLUMN_PATH; break;
 	case GTH_SORT_METHOD_BY_SIZE: col = COLUMN_SIZE; break;
 	case GTH_SORT_METHOD_BY_TIME: col = COLUMN_TIME; break;
-	default: col = -1; break;
+	default: col = GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID; break;
 	}
 
 	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (gfv_list->priv->list_store),
@@ -1055,7 +1057,18 @@ gfv_sorted (GthFileView   *file_view,
 static void
 gfv_unsorted (GthFileView *file_view)
 {
-	/* FIXME */
+	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
+	GtkAdjustment   *adj;
+
+	gfv_list->priv->sort_method =  GTH_SORT_METHOD_MANUAL;
+	gfv_list->priv->sort_type = GTK_SORT_ASCENDING;
+
+	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (gfv_list->priv->list_store),
+					      GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+					      gfv_list->priv->sort_type);
+
+	adj = gtk_tree_view_get_vadjustment (gfv_list->priv->tree_view);
+	gtk_adjustment_changed (adj);
 }
 
 
@@ -1176,6 +1189,90 @@ gfv_update_icon_theme (GthFileView *file_view)
 }
 
 
+/* DnD */
+
+
+static void
+gfv_set_drag_dest_pos (GthFileView *file_view,
+		       int          x,
+		       int          y)
+{
+	GthFileViewList         *gfv_list = (GthFileViewList *) file_view;
+	GtkTreePath             *path;
+	GtkTreeViewDropPosition  pos;
+
+	if (!gfv_list->priv->reorderable || ((x == -1) && (y == -1))) {
+		gtk_tree_view_set_drag_dest_row (gfv_list->priv->tree_view,
+						 NULL,
+						 0);
+		return;
+	}
+
+	gtk_tree_view_get_dest_row_at_pos (gfv_list->priv->tree_view,
+					   x, y,
+					   &path,
+					   &pos);
+
+	if (pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER)
+		pos = GTK_TREE_VIEW_DROP_AFTER;
+	else if (pos == GTK_TREE_VIEW_DROP_INTO_OR_BEFORE)
+		pos = GTK_TREE_VIEW_DROP_BEFORE;
+	
+	gtk_tree_view_set_drag_dest_row (gfv_list->priv->tree_view,
+					 path,
+					 pos);
+	if (path != NULL)
+		gtk_tree_path_free (path);
+}
+
+
+static void
+gfv_get_drag_dest_pos (GthFileView     *file_view,
+		       int             *dest_pos)
+{
+	GthFileViewList         *gfv_list = (GthFileViewList *) file_view;
+	GtkTreePath             *path;
+	GtkTreeViewDropPosition  pos;
+	int                     *idx;
+
+	if (!gfv_list->priv->reorderable) {
+		*dest_pos = -1;
+		return;
+	}
+		
+	gtk_tree_view_get_drag_dest_row (gfv_list->priv->tree_view,
+					 &path,
+					 &pos);
+
+	if (path != NULL) {
+		idx = gtk_tree_path_get_indices (path);
+		*dest_pos = idx[0];
+		if ((pos == GTK_TREE_VIEW_DROP_AFTER) 
+		    || (pos == GTK_TREE_VIEW_DROP_INTO_OR_AFTER))
+			(*dest_pos)++;
+		gtk_tree_path_free (path);
+	} else 
+		*dest_pos = -1;
+}
+
+
+static void
+gfv_set_reorderable (GthFileView  *file_view,
+		     gboolean      value)
+{
+	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
+	gfv_list->priv->reorderable = value;
+}
+
+
+static gboolean
+gfv_get_reorderable (GthFileView  *file_view)
+{
+	GthFileViewList *gfv_list = (GthFileViewList *) file_view;
+	return gfv_list->priv->reorderable;
+}
+
+
 /* Interactive search */
 
 
@@ -1241,6 +1338,7 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->set_vadjustment      = gfv_set_vadjustment;
 	file_view_class->get_vadjustment      = gfv_get_vadjustment;
 	file_view_class->get_widget           = gfv_get_widget;
+	file_view_class->get_drag_source      = gfv_get_drag_source;
 	file_view_class->insert               = gfv_insert;
 	file_view_class->append               = gfv_append;
 	file_view_class->append_with_data     = gfv_append_with_data;
@@ -1284,6 +1382,10 @@ gth_file_view_list_class_init (GthFileViewListClass *file_view_list_class)
 	file_view_class->set_cursor           = gfv_set_cursor;
 	file_view_class->get_cursor           = gfv_get_cursor;
 	file_view_class->update_icon_theme    = gfv_update_icon_theme;
+	file_view_class->set_drag_dest_pos    = gfv_set_drag_dest_pos;
+	file_view_class->get_drag_dest_pos    = gfv_get_drag_dest_pos;
+	file_view_class->set_reorderable      = gfv_set_reorderable;
+	file_view_class->get_reorderable      = gfv_get_reorderable;
 	file_view_class->set_enable_search    = gfv_set_enable_search;
 	file_view_class->get_enable_search    = gfv_get_enable_search;
 }
@@ -1299,6 +1401,7 @@ gth_file_view_list_init (GthFileViewList *gfv_list)
 
 	priv->sort_method = GTH_SORT_METHOD_NONE;
 	priv->sort_type   = GTK_SORT_ASCENDING;
+	priv->reorderable = FALSE;
 }
 
 
@@ -1409,7 +1512,7 @@ add_columns (GtkTreeView *treeview)
 								   NULL);
 
 		gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
-		/*gtk_tree_view_column_set_sort_column_id (column, i);*/
+		gtk_tree_view_column_set_sort_column_id (column, i);
 
 		gtk_tree_view_append_column (treeview, column);
 	}
@@ -1483,7 +1586,7 @@ static int
 comp_func_none (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
-	return 0;
+	return -1;
 }
 
 
@@ -1505,7 +1608,6 @@ get_compfunc_from_method (GthSortMethod sort_method)
 	case GTH_SORT_METHOD_BY_PATH:
 		func = comp_func_path;
 		break;
-	case GTH_SORT_METHOD_NONE:
 	default:
 		func = comp_func_none;
 		break;
@@ -1601,11 +1703,6 @@ gth_file_view_list_new (guint image_width)
 			  "cursor_changed",
 			  G_CALLBACK (cursor_changed_cb),
 			  gfv_list);
-
-	gtk_drag_source_set (GTK_WIDGET (priv->tree_view),
-			     GDK_BUTTON1_MASK,
-			     target_table, G_N_ELEMENTS (target_table),
-			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
 
 	/**/
 

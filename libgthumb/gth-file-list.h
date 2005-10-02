@@ -47,6 +47,7 @@ struct _GthFileList {
 	GtkSortType   sort_type;           /* ascending or discending sort. */
 
 	GtkWidget   *root_widget;         /* The widget that contains all. */
+	GtkWidget   *drag_source;  
 	GthFileView *view;                /* The view that contains the 
 					   * file list. */
 

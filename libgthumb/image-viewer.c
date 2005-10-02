@@ -1419,6 +1419,17 @@ image_viewer_scroll_event (GtkWidget        *widget,
 
 	g_return_val_if_fail (IS_IMAGE_VIEWER (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
+
+	if (event->state & GDK_CONTROL_MASK) {
+		if (event->direction == GDK_SCROLL_UP) {
+			image_viewer_zoom_in (viewer);
+			return TRUE;
+		}
+		if (event->direction == GDK_SCROLL_DOWN) {
+			image_viewer_zoom_out (viewer);
+			return TRUE;
+		}
+	}
 	
 	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN)
 		adj = viewer->vadj;

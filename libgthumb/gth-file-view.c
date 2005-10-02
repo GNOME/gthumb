@@ -74,6 +74,13 @@ gfv_get_widget (GthFileView   *file_view)
 }
 
 
+static GtkWidget *
+gfv_get_drag_source (GthFileView   *file_view)
+{
+	return NULL;
+}
+
+
 /* To avoid excesive recomputes during insertion/deletion */
 
 
@@ -511,6 +518,7 @@ gth_file_view_class_init (GthFileViewClass *file_view_class)
 	file_view_class->set_vadjustment      = gfv_set_vadjustment;
 	file_view_class->get_vadjustment      = gfv_get_vadjustment;
 	file_view_class->get_widget           = gfv_get_widget;
+	file_view_class->get_drag_source      = gfv_get_drag_source;
 	file_view_class->freeze               = gfv_freeze;
 	file_view_class->thaw                 = gfv_thaw;
 	file_view_class->is_frozen            = gfv_is_frozen;
@@ -667,6 +675,13 @@ GtkWidget *
 gth_file_view_get_widget (GthFileView *file_view)
 {
 	return 	GTH_FILE_VIEW_GET_CLASS (file_view)->get_widget (file_view);
+}
+
+
+GtkWidget *
+gth_file_view_get_drag_source (GthFileView *file_view)
+{
+	return 	GTH_FILE_VIEW_GET_CLASS (file_view)->get_drag_source (file_view);
 }
 
 

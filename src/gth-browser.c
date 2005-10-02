@@ -3790,7 +3790,7 @@ gth_file_list_drag_motion (GtkWidget          *widget,
 	GthBrowser            *browser = extra_data;
 	GthBrowserPrivateData *priv = browser->priv;
 
-	if (gtk_drag_get_source_widget (context) == priv->file_list->root_widget) 
+	if (gtk_drag_get_source_widget (context) == priv->file_list->drag_source)
 		gth_file_view_set_drag_dest_pos (priv->file_list->view, x, y);
 
 	return TRUE;
@@ -3874,6 +3874,9 @@ reorder_current_catalog (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	GList                 *selection;
 
+	if (pos < 0)
+		return;
+
 	selection = gth_file_list_get_selection (priv->file_list);
 	if (selection == NULL)
 		return;
@@ -3928,7 +3931,7 @@ image_list_drag_data_received  (GtkWidget        *widget,
 	GthBrowser            *browser = extra_data;
 	GthBrowserPrivateData *priv = browser->priv;
 
-	if (gtk_drag_get_source_widget (context) == priv->file_list->root_widget) {
+	if (gtk_drag_get_source_widget (context) == priv->file_list->drag_source) {
 		int pos;
 		gth_file_view_get_drag_dest_pos (priv->file_list->view, &pos);
 		gtk_drag_finish (context, FALSE, FALSE, time);
@@ -4855,6 +4858,8 @@ create_new_file_list (GthBrowser *browser)
 	file_list = gth_file_list_new ();
 	view_widget = gth_file_view_get_widget (file_list->view);
 
+	gth_file_view_set_reorderable (file_list->view, (browser->priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST));
+
 	gtk_widget_set_size_request (file_list->root_widget,
 				     PANE_MIN_SIZE,
 				     PANE_MIN_SIZE);
@@ -4864,7 +4869,7 @@ create_new_file_list (GthBrowser *browser)
 			   GTK_DEST_DEFAULT_ALL,
 			   target_table, G_N_ELEMENTS (target_table),
 			   GDK_ACTION_COPY);
-	gtk_drag_source_set (file_list->root_widget,
+	gtk_drag_source_set (file_list->drag_source,
 			     GDK_BUTTON1_MASK,
 			     target_table, G_N_ELEMENTS (target_table),
 			     GDK_ACTION_MOVE | GDK_ACTION_COPY);
@@ -4907,15 +4912,15 @@ create_new_file_list (GthBrowser *browser)
 			  "drag_data_received",
 			  G_CALLBACK (image_list_drag_data_received), 
 			  browser);
-	g_signal_connect (G_OBJECT (file_list->root_widget),
+	g_signal_connect (G_OBJECT (file_list->drag_source),
 			  "drag_begin",
 			  G_CALLBACK (gth_file_list_drag_begin), 
 			  browser);
-	g_signal_connect (G_OBJECT (file_list->root_widget),
+	g_signal_connect (G_OBJECT (file_list->drag_source),
 			  "drag_end",
 			  G_CALLBACK (gth_file_list_drag_end), 
 			  browser);
-	g_signal_connect (G_OBJECT (file_list->root_widget),
+	g_signal_connect (G_OBJECT (file_list->drag_source),
 			  "drag_data_get",
 			  G_CALLBACK (gth_file_list_drag_data_get), 
 			  browser);

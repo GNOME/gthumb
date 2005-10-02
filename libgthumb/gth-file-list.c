@@ -314,6 +314,9 @@ gth_file_list_init (GthFileList *file_list)
 	gtk_container_add (GTK_CONTAINER (scrolled_window), gth_file_view_get_widget (file_list->view));
 
 	file_list->root_widget = scrolled_window;
+	file_list->drag_source = gth_file_view_get_drag_source (file_list->view);
+	if (file_list->drag_source == NULL)
+		file_list->drag_source = file_list->root_widget;
 
 	/* signals */
 

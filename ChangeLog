@@ -1,3 +1,39 @@
+2005-10-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (reorder_current_catalog): 
+	* libgthumb/gth-file-view.h: 
+	* libgthumb/gth-file-view.c: 
+	* libgthumb/gth-file-view-list.c: do not set the drag source here.
+	Implemented drag&drop functions.
+	* libgthumb/gth-file-list.h: 
+	* libgthumb/gth-file-list.c (gth_file_list_init): added a drag_source
+	property.
+
+	Added ability to manually reorder images in the file list view.
+	Closes #130063.
+	
+	* libgthumb/image-viewer.c (image_viewer_scroll_event): 
+
+	Fixes bug #317628: [PATCH] Zoom in/out with CTRL + scrollwheel
+	Patch by Nelson Benitez.
+
+2005-09-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/comments.c (save_comment_iptc): 
+	Indicates the text encoding (UTF-8) in the IPTC data.  Adds the 
+	requisite version number dataset to the IPTC data to make it a more 
+	standards-compliant application.  Sorts the datasets before saving to 
+	stay organized.
+	
+	* configure.in: requires libiptcdata >= 0.2.1
+
+	Patch by David Moore.
+	
+2005-09-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c (update_file_info): added image
+	type.
+
 2005-09-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-catalog.c: 

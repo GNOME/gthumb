@@ -64,6 +64,7 @@ typedef struct {
 						GtkAdjustment *vadj);
 	GtkAdjustment* (* get_vadjustment)     (GthFileView   *file_view);
 	GtkWidget*     (* get_widget)          (GthFileView   *file_view);
+	GtkWidget*     (* get_drag_source)     (GthFileView   *file_view);
 	
 	/* To avoid excesive recomputes during insertion/deletion */
 	
@@ -208,6 +209,7 @@ void           gth_file_view_set_vadjustment     (GthFileView   *file_view,
 						  GtkAdjustment *vadj);
 GtkAdjustment *gth_file_view_get_vadjustment     (GthFileView   *file_view);
 GtkWidget     *gth_file_view_get_widget          (GthFileView   *file_view);
+GtkWidget     *gth_file_view_get_drag_source     (GthFileView   *file_view);
 
 /* To avoid excesive recomputes during insertion/deletion */
 
