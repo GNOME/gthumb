@@ -1,3 +1,11 @@
+2005-10-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (sidebar_list_key_press): 
+
+	Fixes bug #317623: [PATCH] Enter a directory or a catalog with the 
+	ENTER key.
+	Patch by Nelson Benitez.
+
 2005-10-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (reorder_current_catalog): 

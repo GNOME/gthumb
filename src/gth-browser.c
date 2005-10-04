@@ -3118,6 +3118,52 @@ window_enable_thumbs (GthBrowser *browser,
 }
 
 
+static gboolean
+sidebar_list_key_press (GthBrowser  *browser,
+			GdkEventKey *event)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	gboolean               retval = FALSE;
+	GtkTreeIter            iter;
+	GtkTreeSelection      *tree_selection;
+	GtkWidget             *list_view;
+	char                  *new_path;
+
+	switch (event->keyval) {
+	case GDK_Return:
+ 	case GDK_KP_Enter:
+		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+			list_view = priv->dir_list->list_view;
+		else
+			list_view = priv->catalog_list->list_view;
+		
+		tree_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (list_view));
+		
+		if (gtk_tree_selection_get_mode (tree_selection) == GTK_SELECTION_MULTIPLE)
+			break;
+		if (gtk_tree_selection_get_selected (tree_selection, NULL, &iter) == FALSE)
+			break;
+		
+		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+			new_path = dir_list_get_path_from_iter (priv->dir_list, &iter);
+			gth_browser_go_to_directory (browser, new_path);
+		} else {
+			new_path = catalog_list_get_path_from_iter (priv->catalog_list, &iter);
+			catalog_activate (browser, new_path);
+		}
+
+		g_free (new_path);
+		retval = TRUE;
+		break;
+
+	default:
+		break;
+	}
+
+	return retval;
+}
+
+
 static gint
 key_press_cb (GtkWidget   *widget, 
 	      GdkEventKey *event,
@@ -3140,6 +3186,11 @@ key_press_cb (GtkWidget   *widget,
 	    || GTK_WIDGET_HAS_FOCUS (priv->preview_button_data)
 	    || GTK_WIDGET_HAS_FOCUS (priv->preview_button_comment))
 		if (event->keyval == GDK_space)
+			return FALSE;
+
+	if (GTK_WIDGET_HAS_FOCUS (priv->dir_list->list_view)
+	    || GTK_WIDGET_HAS_FOCUS (priv->catalog_list->list_view)) 
+		if (sidebar_list_key_press (browser, event))
 			return FALSE;
 
 	if (priv->sidebar_visible
