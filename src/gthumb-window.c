@@ -2809,6 +2809,37 @@ key_press_cb (GtkWidget   *widget,
 		/* Hide/Show sidebar. */
 	case GDK_Return:
 	case GDK_KP_Enter:
+		if (GTK_WIDGET_HAS_FOCUS (window->dir_list->list_view)
+			|| GTK_WIDGET_HAS_FOCUS (window->catalog_list->list_view)) {
+			GtkTreeIter iter;
+			GtkTreeSelection *tree_selection;
+			GtkWidget *list_view;
+			char *new_path;
+			
+			if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST)
+				list_view = window->dir_list->list_view;
+			else
+				list_view = window->catalog_list->list_view;
+			
+			tree_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (list_view));
+
+			if (gtk_tree_selection_get_mode(tree_selection) == GTK_SELECTION_MULTIPLE)
+				break;
+			if (gtk_tree_selection_get_selected (tree_selection, NULL, &iter) == FALSE)
+				break;
+			
+			if (window->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
+				new_path = dir_list_get_path_from_iter (window->dir_list, &iter);
+				window_go_to_directory (window, new_path);
+			} else {
+				new_path = catalog_list_get_path_from_iter (window->catalog_list, &iter);
+				g_return_val_if_fail (new_path != NULL, FALSE);
+				catalog_activate (window, new_path);
+			}
+			g_free (new_path);
+			return TRUE;
+		}
+
 		if (window->sidebar_visible) 
 			window_hide_sidebar (window);
 		else
