@@ -56,6 +56,12 @@
 #define DEF_PAGE_HEIGHT     400
 #define DEF_THUMB_SIZE      128
 
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4 };
+static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
+					      GTH_SORT_METHOD_BY_PATH, 
+					      GTH_SORT_METHOD_BY_SIZE, 
+					      GTH_SORT_METHOD_BY_TIME,
+					      GTH_SORT_METHOD_MANUAL};
 
 typedef struct {
 	GthBrowser         *browser;
@@ -300,14 +306,14 @@ export_info (GtkObject  *object,
 }
 
 
-static void dlg_png_exporter_pref (GtkWidget *dialog);
+static void dlg_png_exporter_pref (DialogData *data);
 
 
 static void
 popup_pref_dialog (GtkWidget  *widget,
 		   DialogData *data)
 {
-	dlg_png_exporter_pref (data->dialog);
+	dlg_png_exporter_pref (data);
 }
 
 
@@ -481,7 +487,7 @@ typedef struct {
 	GtkWidget *hgrad_swap_button;
 	GtkWidget *vgrad_swap_button;
 
-	GtkWidget *sort_method_optionmenu;
+	GtkWidget *sort_method_combobox;
 	GtkWidget *sort_type_checkbutton;
 	GtkWidget *width_entry;
 	GtkWidget *height_entry;
@@ -602,36 +608,6 @@ get_style_from_idx (gint idx)
 	}
 
 	return GTH_FRAME_STYLE_NONE;
-}
-
-
-/* get the option menu index from the sort method. */
-static gint
-get_idx_from_sort_method (GthSortMethod style)
-{
-	switch (style) {
-	case GTH_SORT_METHOD_BY_NAME: return 0;
-	case GTH_SORT_METHOD_BY_PATH: return 1;
-	case GTH_SORT_METHOD_BY_SIZE: return 2;
-	case GTH_SORT_METHOD_BY_TIME: return 3;
-	default: return -1;
-	}
-
-	return -1;
-}
-
-
-static GthSortMethod
-get_sort_method_from_idx (gint idx)
-{
-	switch (idx) {
-	case 0: return GTH_SORT_METHOD_BY_NAME;
-	case 1: return GTH_SORT_METHOD_BY_PATH;
-	case 2: return GTH_SORT_METHOD_BY_SIZE;
-	case 3: return GTH_SORT_METHOD_BY_TIME;
-	}
-
-	return GTH_SORT_METHOD_NONE;
 }
 
 
@@ -1147,7 +1123,7 @@ ok_cb (GtkWidget *widget,
 		pref_set_exp_sort_order (GTK_SORT_DESCENDING);
 	else
 		pref_set_exp_sort_order (GTK_SORT_ASCENDING);
-	pref_set_exp_arrange_type (get_sort_method_from_idx (gtk_option_menu_get_history (GTK_OPTION_MENU (data->sort_method_optionmenu))));
+	pref_set_exp_arrange_type (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->sort_method_combobox))]);
 
 	/* Thumbnails */
 
@@ -1332,7 +1308,7 @@ vgrad_swap_cb (GtkWidget      *button,
 
 /* create the exporter preferences dialog. */
 static void 
-dlg_png_exporter_pref (GtkWidget *dialog)
+dlg_png_exporter_pref (DialogData *ddata)
 {
 	PrefDialogData *data;
 	GtkWidget      *btn_ok;
@@ -1342,6 +1318,8 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	char           *v;
 	gboolean        use_rc, active;
 	GdkColor        color;
+	gboolean        reorderable;
+	int             idx;
 
 	data = g_new0 (PrefDialogData, 1);
 
@@ -1371,7 +1349,7 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	data->hgrad2_colorpicker = glade_xml_get_widget (data->gui, "hgrad2_colorpicker");
 	data->vgrad1_colorpicker = glade_xml_get_widget (data->gui, "vgrad1_colorpicker");
 	data->vgrad2_colorpicker = glade_xml_get_widget (data->gui, "vgrad2_colorpicker");
-	data->sort_method_optionmenu = glade_xml_get_widget (data->gui, "sort_method_optionmenu");
+	data->sort_method_combobox = glade_xml_get_widget (data->gui, "sort_method_combobox");
 	data->sort_type_checkbutton = glade_xml_get_widget (data->gui, "sort_type_checkbutton");
 	data->width_entry = glade_xml_get_widget (data->gui, "width_entry");
 	data->height_entry = glade_xml_get_widget (data->gui, "height_entry");
@@ -1582,7 +1560,23 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	/* sort type */
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->sort_type_checkbutton), pref_get_exp_sort_order () == GTK_SORT_DESCENDING);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->sort_method_optionmenu), get_idx_from_sort_method (pref_get_exp_arrange_type ()));
+
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
+				   _("by path"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
+				   _("by size"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
+				   _("by modified time"));
+
+	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (ddata->browser));
+	if (reorderable)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
+					   _("manual order"));
+
+	idx = sort_method_to_idx [pref_get_exp_arrange_type ()];
+	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
+		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->sort_method_combobox), idx);
 
 	/* page size */
 
@@ -1694,7 +1688,7 @@ dlg_png_exporter_pref (GtkWidget *dialog)
 	/* run dialog. */
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), 
-				      GTK_WINDOW (dialog));
+				      GTK_WINDOW (ddata->dialog));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), TRUE);
 	gtk_widget_show_all (data->dialog);
 }

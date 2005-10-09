@@ -1,3 +1,26 @@
+2005-10-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (initialize_data): 
+
+	Removed a FIXME.
+
+	* src/dlg-web-exporter.c: 
+	* src/dlg-rename-series.c: 
+	* src/dlg-png-exporter.c: 
+	* src/catalog-web-exporter.c (comp_func_none): 
+	* libgthumb/preferences.c: 
+	* data/glade/gthumb_web_exporter.glade: 
+	* data/glade/gthumb_tools.glade: 
+	* data/glade/gthumb_png_exporter.glade: 
+
+	Allow to use the manual order in the "web exporter", "png exporter" and
+	"rename series" tools, if available.
+	
+2005-10-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* Makefile.am (EXTRA_DIST): 
+	* MAINTAINERS: new file
+
 2005-10-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (sidebar_list_key_press): 

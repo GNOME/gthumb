@@ -44,8 +44,8 @@ enum {
 	RS_NUM_COLUMNS
 };
 
-int            sort_method_to_idx[] = { -1, 0, -1, 1, 2 };
-GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME };
+int            sort_method_to_idx[] = { -1, 0, -1, 1, 2, 3 };
+GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME, GTH_SORT_METHOD_MANUAL };
 
 
 #define GLADE_FILE "gthumb_tools.glade"
@@ -57,11 +57,12 @@ typedef struct {
 	GtkWidget     *dialog;
 	GtkWidget     *rs_template_entry;
 	GtkWidget     *rs_start_at_spinbutton;
-	GtkWidget     *rs_sort_optionmenu;
+	GtkWidget     *rs_sort_combobox;
 	GtkWidget     *rs_reverse_checkbutton;
 	GtkWidget     *rs_list_treeview;
 
 	GtkListStore  *rs_list_model;
+	GList         *original_file_list;
 	GList         *file_list;
 	GList         *new_names_list;
 } DialogData;
@@ -72,7 +73,9 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	file_data_list_free (data->file_list); 
+	if (data->file_list != NULL)
+		g_list_free (data->file_list);
+	file_data_list_free (data->original_file_list); 
 	if (data->new_names_list != NULL) {
 		g_list_foreach (data->new_names_list, (GFunc) g_free, NULL);
 		g_list_free (data->new_names_list);
@@ -99,7 +102,7 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	eel_gconf_set_integer (PREF_RENAME_SERIES_START_AT, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton)));
 
-	pref_set_rename_sort_order (idx_to_sort_method [gtk_option_menu_get_history (GTK_OPTION_MENU (data->rs_sort_optionmenu))]);
+	pref_set_rename_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))]);
 
 	eel_gconf_set_boolean (PREF_RENAME_SERIES_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)));
 
@@ -165,16 +168,25 @@ sort_by_time (gconstpointer  ptr1,
 }
 
 
+static gint
+sort_by_manual_order (gconstpointer  ptr1,
+		      gconstpointer  ptr2)
+{
+	return -1;
+}
+
+
 static GCompareFunc
 get_compare_func_from_idx (int column_index)
 {
-	static GCompareFunc compare_funcs[3] = {
+	static GCompareFunc compare_funcs[4] = {
 		sort_by_name,
 		sort_by_size,
-		sort_by_time
+		sort_by_time,
+		sort_by_manual_order
 	};
 
-	return compare_funcs [column_index % 3];
+	return compare_funcs [column_index % 4];
 }
 
 
@@ -210,7 +222,11 @@ update_list (DialogData *data)
 	char  **template;
 	const char   *template_s;
 
-	idx = gtk_option_menu_get_history (GTK_OPTION_MENU (data->rs_sort_optionmenu));
+	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox));
+
+	if (data->file_list != NULL)
+		g_list_free (data->file_list);
+	data->file_list = g_list_copy (data->original_file_list);
 	data->file_list = g_list_sort (data->file_list, get_compare_func_from_idx (idx));
 	
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)))
@@ -352,6 +368,8 @@ dlg_rename_series (GthBrowser *browser)
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 	char              *svalue;
+	gboolean           reorderable;
+	int                idx;
 
 	list = gth_window_get_file_list_selection_as_fd (GTH_WINDOW (browser));
 	if (list == NULL) {
@@ -359,9 +377,10 @@ dlg_rename_series (GthBrowser *browser)
 		return;
 	}
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
-	data->file_list = list;
+	data->original_file_list = list;
+	data->file_list = NULL;
 	data->new_names_list = NULL;
 	data->browser = browser;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE , NULL, NULL);
@@ -371,12 +390,14 @@ dlg_rename_series (GthBrowser *browser)
 		return;
 	}
 
+	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (browser));
+
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "rename_series_dialog");
 	data->rs_template_entry = glade_xml_get_widget (data->gui, "rs_template_entry");
 	data->rs_start_at_spinbutton = glade_xml_get_widget (data->gui, "rs_start_at_spinbutton");
-	data->rs_sort_optionmenu = glade_xml_get_widget (data->gui, "rs_sort_optionmenu");
+	data->rs_sort_combobox = glade_xml_get_widget (data->gui, "rs_sort_combobox");
 	data->rs_reverse_checkbutton = glade_xml_get_widget (data->gui, "rs_reverse_checkbutton");
 	data->rs_list_treeview = glade_xml_get_widget (data->gui, "rs_list_treeview");
 
@@ -409,6 +430,14 @@ dlg_rename_series (GthBrowser *browser)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->rs_list_treeview),
 				     column);
 
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+				   _("by size"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+				   _("by modified time"));
+	if (reorderable)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+					   _("manual order"));
+
 	/**/
 
 	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
@@ -417,7 +446,10 @@ dlg_rename_series (GthBrowser *browser)
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->rs_sort_optionmenu), sort_method_to_idx [pref_get_rename_sort_order ()]);
+	idx = sort_method_to_idx [pref_get_rename_sort_order ()];
+	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
+		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_sort_combobox), idx);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
 
@@ -450,7 +482,7 @@ dlg_rename_series (GthBrowser *browser)
 			  "value_changed",
 			  G_CALLBACK (update_list_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->rs_sort_optionmenu), 
+	g_signal_connect (G_OBJECT (data->rs_sort_combobox), 
 			  "changed",
 			  G_CALLBACK (update_list_cb),
 			  data);

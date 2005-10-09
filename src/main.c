@@ -338,7 +338,7 @@ initialize_data (poptContext pctx)
 	char        *path;
 	int          i;
 
-	convert_to_new_comment_system (); /* FIXME */
+	convert_to_new_comment_system (); 
 	create_default_categories_if_needed ();
 
 	eel_gconf_monitor_add ("/apps/gthumb");

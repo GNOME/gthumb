@@ -14,6 +14,7 @@ distuninstallcheck_listfiles = find . -type f -print | grep -v '^\./var/scrollke
 
 EXTRA_DIST = 			\
         AUTHORS                 \
+	MAINTAINERS		\
         NEWS                    \
         README                  \
 	add-include-prefix	\

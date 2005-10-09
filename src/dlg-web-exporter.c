@@ -45,11 +45,12 @@
 #include "gth-browser.h"
 #include "glib-utils.h"
 
-static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3 };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4 };
 static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
 					      GTH_SORT_METHOD_BY_PATH, 
 					      GTH_SORT_METHOD_BY_SIZE, 
-					      GTH_SORT_METHOD_BY_TIME };
+					      GTH_SORT_METHOD_BY_TIME,
+					      GTH_SORT_METHOD_MANUAL};
 static int           idx_to_resize_width[] = { 320, 640, 800, 1024, 1280 };
 static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 
@@ -82,7 +83,7 @@ typedef struct {
 
 	GtkWidget          *wa_rows_spinbutton;
 	GtkWidget          *wa_cols_spinbutton;
-	GtkWidget          *wa_sort_images_optionmenu;
+	GtkWidget          *wa_sort_images_combobox;
 	GtkWidget          *wa_reverse_order_checkbutton;
 
 	GtkWidget          *wa_header_entry;
@@ -145,7 +146,7 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_integer (PREF_WEB_ALBUM_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_cols_spinbutton)));
 
-	pref_set_web_album_sort_order (idx_to_sort_method [gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu))]);
+	pref_set_web_album_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->wa_sort_images_combobox))]);
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton)));
 
@@ -283,8 +284,10 @@ dlg_web_exporter (GthBrowser *browser)
 	GList        *list;
 	char         *svalue;
 	char         *esc_uri;
+	gboolean      reorderable;
+	int           idx;
 
-	data = g_new (DialogData, 1);
+	data = g_new0 (DialogData, 1);
 
 	data->browser = browser;
 	
@@ -294,6 +297,8 @@ dlg_web_exporter (GthBrowser *browser)
 		g_free (data);
 		return;
 	}
+
+	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (browser));
 
 	data->exporter = catalog_web_exporter_new (GTH_WINDOW (browser), list);
 	g_list_foreach (list, (GFunc) g_free, NULL);
@@ -321,7 +326,7 @@ dlg_web_exporter (GthBrowser *browser)
 
 	data->wa_rows_spinbutton = glade_xml_get_widget (data->gui, "wa_rows_spinbutton");
 	data->wa_cols_spinbutton = glade_xml_get_widget (data->gui, "wa_cols_spinbutton");
-	data->wa_sort_images_optionmenu = glade_xml_get_widget (data->gui, "wa_sort_images_optionmenu");
+	data->wa_sort_images_combobox = glade_xml_get_widget (data->gui, "wa_sort_images_combobox");
 	data->wa_reverse_order_checkbutton = glade_xml_get_widget (data->gui, "wa_reverse_order_checkbutton");
 
 	data->wa_header_entry = glade_xml_get_widget (data->gui, "wa_header_entry");
@@ -360,7 +365,24 @@ dlg_web_exporter (GthBrowser *browser)
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_sort_images_optionmenu), sort_method_to_idx [pref_get_web_album_sort_order ()]);
+	/**/
+
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
+				   _("by path"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
+				   _("by size"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
+				   _("by modified time"));
+	if (reorderable)
+		gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
+					   _("manual order"));
+
+	idx = sort_method_to_idx [pref_get_web_album_sort_order ()];
+	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
+		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->wa_sort_images_combobox), idx);
+
+	/**/
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE, FALSE));
 

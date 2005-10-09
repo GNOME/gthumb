@@ -604,7 +604,7 @@ comp_func_size (gconstpointer a, gconstpointer b)
 static int
 comp_func_none (gconstpointer a, gconstpointer b)
 {
-	return 0;
+	return -1;
 }
 
 
@@ -1901,7 +1901,9 @@ load_next_file (CatalogWebExporter *ce)
 	ce->file_to_load = ce->file_to_load->next;
 	if (ce->file_to_load == NULL) {
 		/* sort list */
-		ce->file_list = g_list_sort (ce->file_list, get_sortfunc (ce));
+		if ((ce->sort_method != GTH_SORT_METHOD_NONE)
+		    && (ce->sort_method != GTH_SORT_METHOD_MANUAL))
+			ce->file_list = g_list_sort (ce->file_list, get_sortfunc (ce));
 		if (ce->sort_type == GTK_SORT_DESCENDING)
 			ce->file_list = g_list_reverse (ce->file_list);
 
