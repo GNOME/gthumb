@@ -1,3 +1,7 @@
+2005-10-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* POTFILES.in: added new files.
+
 2005-09-28  Adam Weinberger  <adamw@gnome.org>
 
 	* en_CA.po: Updated Canadian English translation.

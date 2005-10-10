@@ -47,13 +47,19 @@ struct _GthFullscreenClass
 	GthWindowClass __parent_class;
 };
 
-GType          gth_fullscreen_get_type        (void);
-GtkWidget *    gth_fullscreen_new             (GdkPixbuf     *image,
-					       const char    *image_path,
+GType          gth_fullscreen_get_type         (void);
+GtkWidget *    gth_fullscreen_new              (GdkPixbuf     *image,
+						const char    *image_path,
 					       GList         *file_list);
-void           gth_fullscreen_set_slideshow   (GthFullscreen *fullscreen,
-					       gboolean       slideshow);
-void           gth_fullscreen_set_catalog     (GthFullscreen *fullscreen,
-					       const char    *catalog_path);
+void           gth_fullscreen_set_slideshow    (GthFullscreen *fullscreen,
+						gboolean       slideshow);
+void           gth_fullscreen_set_catalog      (GthFullscreen *fullscreen,
+						const char    *catalog_path);
+void           gth_fullscreen_show_prev_image  (GthFullscreen *fullscreen);
+void           gth_fullscreen_show_next_image  (GthFullscreen *fullscreen);
+void           gth_fullscreen_pause_slideshow  (GthFullscreen *fullscreen,
+						gboolean       value);
+void           gth_fullscreen_show_comment     (GthFullscreen *fullscreen,
+						gboolean       value);
 
 #endif /* GTH_FULLSCREEN_H */

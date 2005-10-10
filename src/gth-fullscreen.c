@@ -39,6 +39,7 @@
 #include "gtk-utils.h"
 #include "gth-exif-utils.h"
 #include "gth-fullscreen.h"
+#include "gth-fullscreen-ui.h"
 #include "gth-window.h"
 #include "gth-window-utils.h"
 #include "gthumb-preloader.h"
@@ -59,6 +60,8 @@
 
 
 struct _GthFullscreenPrivateData {
+	GtkUIManager    *ui;
+	GtkActionGroup  *actions;
 	GdkPixbuf       *image;
 	char            *image_path;
 	GList           *file_list;
@@ -1372,75 +1375,48 @@ gth_fullscreen_new (GdkPixbuf  *image,
 }
 
 
-static GtkWidget*
-create_button (const char *stock_icon,
-	       const char *label,
-	       gboolean    toggle)
-{
-	GtkWidget *button;
-	GtkWidget *image;
-	GtkWidget *button_box;
-
-	if (toggle)
-		button = gtk_toggle_button_new ();
-	else
-		button = gtk_button_new ();
-
-	if (pref_get_real_toolbar_style() == GTH_TOOLBAR_STYLE_TEXT_BELOW)
-		button_box = gtk_vbox_new (FALSE, 5);
-	else
-		button_box = gtk_hbox_new (FALSE, 5);
-	gtk_container_add (GTK_CONTAINER (button), button_box);
-
-	image = gtk_image_new_from_stock (stock_icon, GTK_ICON_SIZE_LARGE_TOOLBAR);
-	gtk_box_pack_start (GTK_BOX (button_box), image, FALSE, FALSE, 0);
-
-	if (label != NULL)
-		gtk_box_pack_start (GTK_BOX (button_box), gtk_label_new (label), FALSE, FALSE, 0);
-	else {
-		gtk_button_set_use_stock (GTK_BUTTON (button), TRUE);
-		gtk_button_set_label (GTK_BUTTON (button), stock_icon);
-	}
-
-	return button;
-}
-
-
-static void
-pause_button_toggled_cb (GtkToggleButton *button,
-			 GthFullscreen   *fullscreen)
-{
-	fullscreen->priv->slideshow_paused = gtk_toggle_button_get_active (button);
-
-	if (fullscreen->priv->slideshow_paused)
-		totem_scrsaver_enable (fullscreen->priv->screensaver);
-	else {
-		totem_scrsaver_disable (fullscreen->priv->screensaver);
-		load_next_image (fullscreen);
-	}
-}
-
-
-static void
-image_comment_toggled_cb (GtkToggleButton *button,
-			  GthFullscreen   *fullscreen)
-{
-	if (gtk_toggle_button_get_active (button)) {
-		fullscreen->priv->image_data_visible = TRUE;
-		show_comment_on_image (fullscreen);
-	} else {
-		fullscreen->priv->image_data_visible = FALSE;
-		hide_comment_on_image (fullscreen);
-	}
-}
-
-
 static void
 create_toolbar_window (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
-	GtkWidget *button;
-	GtkWidget *hbox;
+	GtkActionGroup           *actions;
+	GtkUIManager             *ui;
+	GError                   *error = NULL;
+	const gchar              *ui_info;
+
+	priv->actions = actions = gtk_action_group_new ("ToolbarActions");
+	gtk_action_group_set_translation_domain (actions, NULL);
+
+	gtk_action_group_add_actions (actions, 
+				      gth_window_action_entries, 
+				      gth_window_action_entries_size, 
+				      fullscreen);
+	gtk_action_group_add_toggle_actions (actions, 
+					     gth_window_action_toggle_entries, 
+					     gth_window_action_toggle_entries_size, 
+					     fullscreen);
+	gtk_action_group_add_actions (actions, 
+				      gth_fullscreen_action_entries, 
+				      gth_fullscreen_action_entries_size, 
+				      fullscreen);
+	gtk_action_group_add_toggle_actions (actions, 
+					     gth_fullscreen_action_toggle_entries, 
+					     gth_fullscreen_action_toggle_entries_size, 
+					     fullscreen);
+
+	priv->ui = ui = gtk_ui_manager_new ();
+	gtk_ui_manager_insert_action_group (ui, actions, 0);
+
+	if (priv->slideshow) 
+		ui_info = slideshow_ui_info;
+	else
+		ui_info = fullscreen_ui_info;
+	if (!gtk_ui_manager_add_ui_from_string (ui, ui_info, -1, &error)) {
+		g_message ("building menus failed: %s", error->message);
+		g_error_free (error);
+	}
+
+	/**/
 
 	priv->toolbar_window = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_window_set_default_size (GTK_WINDOW (priv->toolbar_window),
@@ -1448,60 +1424,8 @@ create_toolbar_window (GthFullscreen *fullscreen)
 				     -1);
 	gtk_container_set_border_width (GTK_CONTAINER (priv->toolbar_window), 0);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (hbox), 0);
-	gtk_container_add (GTK_CONTAINER (priv->toolbar_window), hbox);
-
-	/* restore normal view */
-
-	button = create_button (GTHUMB_STOCK_FULLSCREEN, _("Restore Normal View"), FALSE);
-	gtk_box_pack_end (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-	g_signal_connect_swapped (G_OBJECT (button),
-				  "clicked",
-				  G_CALLBACK (gtk_widget_destroy),
-				  fullscreen);
-
-	/* previous image */
-
-	priv->prev_button = button = create_button (GTHUMB_STOCK_PREVIOUS_IMAGE, _("Previous"), FALSE);
-	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-	g_signal_connect_swapped (G_OBJECT (button),
-				  "clicked",
-				  G_CALLBACK (load_prev_image),
-				  fullscreen);
-
-	/* next image */
-
-	priv->next_button = button = create_button (GTHUMB_STOCK_NEXT_IMAGE, _("Next"), FALSE);
-	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-	g_signal_connect_swapped (G_OBJECT (button),
-				  "clicked",
-				  G_CALLBACK (load_next_image),
-				  fullscreen);
-
-	/* image comment */
-
-	priv->info_button = button = create_button (GTHUMB_STOCK_PROPERTIES, _("Image Info"), TRUE);
-	gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-	g_signal_connect (G_OBJECT (button),
-			  "toggled",
-			  G_CALLBACK (image_comment_toggled_cb),
-			  fullscreen);
-
-	if (priv->slideshow) {
-		/* pause slideshow */
-
-		priv->pause_button = button = create_button (GTK_STOCK_MEDIA_PAUSE, _("Pause"), TRUE);
-		gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-		g_signal_connect (G_OBJECT (button),
-				  "toggled",
-				  G_CALLBACK (pause_button_toggled_cb),
-				  fullscreen);
-	}
-
-	/**/
-
-	gtk_widget_show_all (hbox);
+	gtk_container_add (GTK_CONTAINER (priv->toolbar_window),
+			   gtk_ui_manager_get_widget (ui, "/ToolBar"));
 }
 
 
@@ -1539,6 +1463,14 @@ static void
 gth_fullscreen_close (GthWindow *window)
 {
 	gtk_widget_destroy (GTK_WIDGET (window));
+}
+
+
+static ImageViewer*
+gth_fullscreen_get_image_viewer (GthWindow *window)
+{
+	GthFullscreen *fullscreen = (GthFullscreen*) window;
+	return (ImageViewer*) fullscreen->priv->viewer;
 }
 
 
@@ -1609,9 +1541,8 @@ gth_fullscreen_class_init (GthFullscreenClass *class)
 	widget_class->show = gth_fullscreen_show;
 
 	window_class->close = gth_fullscreen_close;
-	/*
 	window_class->get_image_viewer = gth_fullscreen_get_image_viewer;
-	*/
+
 	window_class->get_image_filename = gth_fullscreen_get_image_filename;
 	/*
 	window_class->get_image_modified = gth_fullscreen_get_image_modified;
@@ -1693,4 +1624,46 @@ gth_fullscreen_set_catalog (GthFullscreen *fullscreen,
 
 	if (catalog_path != NULL)
 		fullscreen->priv->catalog_path = g_strdup (catalog_path);
+}
+
+
+void
+gth_fullscreen_show_prev_image (GthFullscreen *fullscreen)
+{
+	load_prev_image (fullscreen);
+}
+
+
+void
+gth_fullscreen_show_next_image (GthFullscreen *fullscreen)
+{
+	load_next_image (fullscreen);
+}
+
+
+void
+gth_fullscreen_pause_slideshow (GthFullscreen *fullscreen,
+				gboolean       value)
+{
+	fullscreen->priv->slideshow_paused = value;
+
+	if (fullscreen->priv->slideshow_paused)
+		totem_scrsaver_enable (fullscreen->priv->screensaver);
+	else {
+		totem_scrsaver_disable (fullscreen->priv->screensaver);
+		load_next_image (fullscreen);
+	}
+}
+
+
+void
+gth_fullscreen_show_comment (GthFullscreen *fullscreen,
+			     gboolean       value)
+{	
+	fullscreen->priv->image_data_visible = value;
+
+	if (fullscreen->priv->image_data_visible) 
+		show_comment_on_image (fullscreen);
+	else
+		hide_comment_on_image (fullscreen);
 }

@@ -189,8 +189,12 @@ src/gth-exif-utils.c
 src/gth-exif-utils.h
 src/gth-folder-selection-dialog.c
 src/gth-folder-selection-dialog.h
+src/gth-fullscreen-actions-callbacks.c
+src/gth-fullscreen-actions-callbacks.h
+src/gth-fullscreen-actions-entries.h
 src/gth-fullscreen.c
 src/gth-fullscreen.h
+src/gth-fullscreen-ui.h
 src/gth-image-selector.c
 src/gth-image-selector.h
 src/gth-monitor.c
