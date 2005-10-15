@@ -40,12 +40,12 @@ static const gchar *fullscreen_ui_info =
 "    <toolitem action='View_PrevImage'/>"
 "    <toolitem action='View_NextImage'/>"
 "    <separator/>"
-"    <toolitem action='View_Comment'/>"
-"    <separator/>"
 "    <toolitem action='View_ZoomIn'/>"
 "    <toolitem action='View_ZoomOut'/>"
 "    <toolitem action='View_Zoom100'/>"
 "    <toolitem action='View_ZoomFit'/>"
+"    <separator/>"
+"    <toolitem action='View_Comment'/>"
 "  </toolbar>"
 "</ui>";
 

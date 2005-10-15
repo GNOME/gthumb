@@ -1,3 +1,8 @@
+2005-10-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen-ui.h: moved "view comment" to the end.
+	* src/gth-fullscreen.c: update toolbar actions sensibility.
+
 2005-10-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-window-actions-entries.h: added a conditional

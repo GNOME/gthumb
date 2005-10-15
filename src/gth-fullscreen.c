@@ -354,15 +354,64 @@ get_prev_image (GthFullscreen *fullscreen)
 }
 
 
+static void 
+set_action_sensitive (GthFullscreen *fullscreen,
+		      const char    *action_name,
+		      gboolean       sensitive)
+{
+	GtkAction *action;
+
+	action = gtk_action_group_get_action (fullscreen->priv->actions, action_name);
+	g_object_set (action, "sensitive", sensitive, NULL);
+}
+
+
+static void
+update_zoom_sensitivity (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+	gboolean                  image_is_void;
+	gboolean                  fit;
+	int                       zoom;
+
+	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
+	zoom = (int) (IMAGE_VIEWER (priv->viewer)->zoom_level * 100.0);
+	fit = image_viewer_is_zoom_to_fit (IMAGE_VIEWER (priv->viewer)) || image_viewer_is_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
+
+	set_action_sensitive (fullscreen, 
+			      "View_Zoom100",
+			      !image_is_void && (zoom != 100));
+	set_action_sensitive (fullscreen, 
+			      "View_ZoomIn",
+			      !image_is_void && (zoom != 10000));
+	set_action_sensitive (fullscreen, 
+			      "View_ZoomOut",
+			      !image_is_void && (zoom != 5));
+	set_action_sensitive (fullscreen, 
+			      "View_ZoomFit",
+			      !image_is_void);
+}
+
+
 static void
 update_sensitivity (GthFullscreen *fullscreen)
 {
-	GthFullscreenPrivateData *priv = fullscreen->priv;
+	set_action_sensitive (fullscreen, 
+			      "View_PrevImage", 
+			      get_prev_image (fullscreen) != NULL);
+	set_action_sensitive (fullscreen, 
+			      "View_NextImage", 
+			      get_next_image (fullscreen) != NULL);
+	update_zoom_sensitivity (fullscreen);
+}
 
-	gtk_widget_set_sensitive (priv->prev_button, 
-				  get_prev_image (fullscreen) != NULL);
-	gtk_widget_set_sensitive (priv->next_button, 
-				  get_next_image (fullscreen) != NULL);
+
+static gboolean
+zoom_changed_cb (GtkWidget     *widget, 
+		 GthFullscreen *fullscreen)
+{
+	update_zoom_sensitivity (fullscreen);
+	return TRUE;	
 }
 
 
@@ -1332,6 +1381,10 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	g_signal_connect (G_OBJECT (priv->viewer), 
 			  "button_release_event",
 			  G_CALLBACK (image_button_release_cb), 
+			  fullscreen);
+	g_signal_connect (G_OBJECT (priv->viewer), 
+			  "zoom_changed",
+			  G_CALLBACK (zoom_changed_cb), 
 			  fullscreen);
 
 	gtk_widget_show (priv->viewer);
