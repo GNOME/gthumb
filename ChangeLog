@@ -1,5 +1,8 @@
 2005-10-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen-actions-entries.h: use the stock label for
+	the pause action.
+
 	* src/gth-fullscreen-ui.h: moved "view comment" to the end.
 	* src/gth-fullscreen.c: update toolbar actions sensibility.
 

@@ -218,7 +218,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 
 	{ "View_ExitFullscreen", GTHUMB_STOCK_NORMAL_VIEW,
 	  N_("Restore Normal View"), NULL,
-	  N_("View image in fullscreen mode"),
+	  NULL,
 	  G_CALLBACK (gth_window_activate_action_view_exit_fullscreen) },
 
 	{ "Wallpaper_Centered", NULL,

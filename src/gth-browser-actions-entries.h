@@ -69,7 +69,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Import photos from a digital camera"),
 	  G_CALLBACK (gth_browser_activate_action_file_camera_import) },
 
-	{ "File_WriteToCD", GTHUMB_STOCK_CDROM,
+	{ "File_WriteToCD", GTK_STOCK_CDROM,
 	  N_("_Write To CD"), NULL,
 	  N_("Write selection to CD"),
 	  G_CALLBACK (gth_browser_activate_action_file_write_to_cd) },
@@ -443,7 +443,7 @@ static guint gth_browser_sort_by_entries_size = G_N_ELEMENTS (gth_browser_sort_b
 
 
 static GtkRadioActionEntry gth_browser_content_entries[] = {
-	{ "View_ShowFolders", GTHUMB_STOCK_SHOW_FOLDERS,
+	{ "View_ShowFolders", GTK_STOCK_OPEN,
 	  N_("_Folders"), "<alt>1",
 	  N_("View the folders"), GTH_SIDEBAR_DIR_LIST },
 	{ "View_ShowCatalogs", GTHUMB_STOCK_SHOW_CATALOGS,
