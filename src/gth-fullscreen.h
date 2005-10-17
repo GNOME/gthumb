@@ -50,7 +50,7 @@ struct _GthFullscreenClass
 GType          gth_fullscreen_get_type         (void);
 GtkWidget *    gth_fullscreen_new              (GdkPixbuf     *image,
 						const char    *image_path,
-					       GList         *file_list);
+						GList         *file_list);
 void           gth_fullscreen_set_slideshow    (GthFullscreen *fullscreen,
 						gboolean       slideshow);
 void           gth_fullscreen_set_catalog      (GthFullscreen *fullscreen,

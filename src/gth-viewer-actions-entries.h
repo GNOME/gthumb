@@ -83,7 +83,12 @@ static GtkToggleActionEntry gth_viewer_action_toggle_entries[] = {
 	  N_("Image _Comment"), NULL,
 	  N_("View image comment"),
 	  G_CALLBACK (gth_viewer_activate_action_view_show_info), 
-	  TRUE }
+	  TRUE },
+	{ "View_SingleWindow", NULL,
+	  N_("_Sigle Window"), NULL,
+	  N_("Reuse this window to view other images"),
+	  G_CALLBACK (gth_viewer_activate_action_single_window), 
+	  FALSE }
 };
 static guint gth_viewer_action_toggle_entries_size = G_N_ELEMENTS (gth_viewer_action_toggle_entries);
 

@@ -57,7 +57,6 @@ gth_viewer_activate_action_file_open_folder (GtkAction *action,
 	image_folder = remove_level_from_path (ImageToDisplay);
 	new_window = gth_browser_new (image_folder);
 	gtk_widget_show (new_window);
-
 	g_free (image_folder);
 }
 
@@ -122,4 +121,12 @@ gth_viewer_activate_action_go_refresh (GtkAction *action,
 				       GthViewer *viewer)
 {
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
+}
+
+
+void
+gth_viewer_activate_action_single_window (GtkAction *action,
+					  GthViewer *viewer)
+{
+	gth_viewer_set_single_window (viewer, gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)));
 }

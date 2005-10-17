@@ -76,6 +76,8 @@ static const gchar *viewer_window_ui_info =
 "      <menuitem action='View_PlayAnimation'/>"
 "      <menuitem action='View_StepAnimation'/>"
 "      <separator/>"
+"      <menuitem action='View_SingleWindow'/>"
+"      <separator/>"
 "      <menuitem action='Go_Refresh'/>"
 "    </menu>"
 "    <menu name='Image' action='ImageMenu'>"

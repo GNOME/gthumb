@@ -67,6 +67,7 @@
 #define  PREF_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
 #define  PREF_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
 #define  PREF_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
+#define  PREF_SINGLE_WINDOW          "/apps/gthumb/viewer/single_window"
 
 #define  PREF_SLIDESHOW_DIR          "/apps/gthumb/slideshow/direction"
 #define  PREF_SLIDESHOW_DELAY        "/apps/gthumb/slideshow/delay"

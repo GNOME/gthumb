@@ -31,7 +31,7 @@
 
 enum {
         PROP_0,
-        PROP_CLOSE_ON_SAVE,
+        PROP_CLOSE_ON_SAVE
 };
 
 static GnomeAppClass *parent_class = NULL;

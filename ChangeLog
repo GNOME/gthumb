@@ -1,3 +1,25 @@
+2005-10-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.c (prepare_app): 
+	* src/gth-viewer.h: 
+	* src/gth-viewer.c: 
+	* src/gth-viewer-ui.h: 
+	* src/gth-viewer-actions-entries.h (G_N_ELEMENTS): 
+	* src/gth-viewer-actions-callbacks.h (DEFINE_ACTION): 
+	* src/gth-viewer-actions-callbacks.c (gth_viewer_activate_action_go_refresh): 
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_file_view_image): 
+	* src/gth-application.c (impl_gth_application_load_image): 
+	* src/GNOME_GThumb.idl: 
+	* libgthumb/preferences.h (PREF_SINGLE_WINDOW): 
+	* data/gthumb.schemas.in: 
+
+	Added ability to reuse an already opened viewer window.
+
+2005-10-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer.c (save_pixbuf__image_saved_cb): reload the
+	saved image instead of opening a new window.
+
 2005-10-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen-actions-entries.h: use the stock label for

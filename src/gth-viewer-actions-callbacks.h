@@ -35,5 +35,6 @@ DEFINE_ACTION(gth_viewer_activate_action_view_toolbar)
 DEFINE_ACTION(gth_viewer_activate_action_view_statusbar)
 DEFINE_ACTION(gth_viewer_activate_action_view_show_info)
 DEFINE_ACTION(gth_viewer_activate_action_go_refresh)
+DEFINE_ACTION(gth_viewer_activate_action_single_window)
 
 #endif /* GTH_VIEWER_ACTIONS_CALLBACK_H */

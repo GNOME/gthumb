@@ -7,6 +7,7 @@ module GNOME {
     interface Application : Bonobo::Unknown {
       oneway void open_browser (in string uri);
       oneway void open_viewer (in string uri);
+      oneway void load_image (in string uri);
     };
     
   };

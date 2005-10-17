@@ -92,7 +92,6 @@ theme_changed_cb (GnomeIconTheme *theme,
 		g_object_unref (folder_pixbuf);
 		folder_pixbuf = NULL;
 	}
-
 	all_windows_notify_update_icon_theme ();
 }
 
@@ -589,7 +588,10 @@ prepare_app (void)
 	}
 
 	if (view_single_image) {
-		open_viewer_window (file_urls[0], use_factory, app, &env);
+		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE))
+			GNOME_GThumb_Application_load_image (app, file_urls[0], &env);
+		else
+			open_viewer_window (file_urls[0], use_factory, app, &env);
 
 	} else if (view_comline_catalog) {
 		char *catalog_uri;

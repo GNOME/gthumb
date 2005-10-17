@@ -53,4 +53,11 @@ void           gth_viewer_load                     (GthViewer   *viewer,
 						    const char  *filename);
 void           gth_viewer_set_metadata_visible     (GthViewer   *viewer,
 						    gboolean     visible);
+void           gth_viewer_set_single_window        (GthViewer   *viewer,
+						    gboolean     value);
+
+extern GthViewer *SingleViewer;
+
+void           compute_single_viewer_window        (void);
+
 #endif /* GTH_VIEWER_H */

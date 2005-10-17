@@ -91,15 +91,24 @@ void
 gth_browser_activate_action_file_view_image (GtkAction  *action,
 					     GthBrowser *browser)
 {
-	GtkWidget  *new_viewer;
 	const char *image_filename;
+	GtkWidget  *new_viewer;
 
 	image_filename = gth_window_get_image_filename (GTH_WINDOW (browser));
 	if (image_filename == NULL) 
 		return;
 
+	if (eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
+		compute_single_viewer_window ();
+		if (SingleViewer != NULL) {
+			gth_viewer_load (SingleViewer, image_filename);
+			gtk_window_present (GTK_WINDOW (SingleViewer));
+			return;
+		}
+	}
+
 	new_viewer = gth_viewer_new (image_filename);
-	gtk_widget_show (new_viewer);
+	gtk_window_present (GTK_WINDOW (new_viewer));
 }
 
 

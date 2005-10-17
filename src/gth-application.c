@@ -122,11 +122,31 @@ impl_gth_application_open_viewer (PortableServer_Servant  _servant,
 
 
 static void
+impl_gth_application_load_image (PortableServer_Servant  _servant,
+				 const CORBA_char       *uri,
+				 CORBA_Environment      *ev)
+{
+	if (*uri == '\0') 
+		uri = NULL;
+
+	compute_single_viewer_window ();
+
+	if (SingleViewer == NULL)
+		show_grabbing_focus (gth_viewer_new (uri));
+	else {
+		gth_viewer_load (SingleViewer, uri);
+		show_grabbing_focus (GTK_WIDGET (SingleViewer));
+	}
+}
+
+
+static void
 gth_application_class_init (GthApplicationClass *klass)
 {
         POA_GNOME_GThumb_Application__epv *epv = &klass->epv;
         epv->open_browser = impl_gth_application_open_browser;
         epv->open_viewer = impl_gth_application_open_viewer;
+        epv->load_image = impl_gth_application_load_image;
 }
 
 

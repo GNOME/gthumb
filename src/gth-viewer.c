@@ -69,8 +69,12 @@
 #define DEFAULT_WIN_HEIGHT 400
 #define DISPLAY_PROGRESS_DELAY 750
 #define PANE_MIN_SIZE 60
-#define GCONF_NOTIFICATIONS 2
+#define GCONF_NOTIFICATIONS 3
 #define ROTATE_TOOLITEM_POS 10
+
+
+GthViewer *SingleViewer = NULL;
+GthViewer *LastFocusedViewer = NULL;
 
 
 enum {
@@ -123,6 +127,7 @@ struct _GthViewerPrivateData {
 	char            *image_path;
 	time_t           image_mtime; 
 	gboolean         image_error;
+
 #ifdef HAVE_LIBEXIF
 	ExifData        *exif_data;
 #endif /* HAVE_LIBEXIF */
@@ -399,6 +404,19 @@ pref_ui_statusbar_visible_changed (GConfClient *client,
 {
 	GthViewer *viewer = user_data;
 	gth_viewer_set_statusbar_visibility (viewer, gconf_value_get_bool (gconf_entry_get_value (entry)));
+}
+
+
+static void
+pref_ui_single_window_changed (GConfClient *client,
+			       guint        cnxn_id,
+			       GConfEntry  *entry,
+			       gpointer     user_data)
+{
+	GthViewer *viewer = user_data;
+	gboolean   value = gconf_value_get_bool (gconf_entry_get_value (entry));
+
+	set_action_active (viewer, "View_SingleWindow", value);
 }
 
 
@@ -824,10 +842,11 @@ save_pixbuf__image_saved_cb (const char *filename,
 	if (priv->closing)
 		return;
 
-	if (strcmp (priv->image_path, filename) != 0) 
-		gtk_widget_show (gth_viewer_new (filename));
+	if (strcmp (priv->image_path, filename) != 0) {
+		/*FIXME: gtk_widget_show (gth_viewer_new (filename));*/
+		gth_viewer_load (viewer, filename);
 
-	else {
+	} else {
 		viewer_update_statusbar_image_info (viewer);
 		viewer_update_image_info (viewer);
 		viewer_update_title (viewer);
@@ -1214,6 +1233,17 @@ gth_viewer_set_metadata_visible (GthViewer *viewer,
 }
 
 
+void
+gth_viewer_set_single_window (GthViewer *viewer,
+			      gboolean   value)
+{
+	SingleViewer = NULL;
+	if (value && (LastFocusedViewer != NULL)) 
+		SingleViewer = LastFocusedViewer;
+	eel_gconf_set_boolean (PREF_SINGLE_WINDOW, value);
+}
+
+
 static gboolean
 comment_button_toggled_cb (GtkToggleButton *button,
 			   GthViewer       *viewer)
@@ -1282,6 +1312,9 @@ gth_viewer_init (GthViewer *viewer)
 	g_object_set (viewer, 
 		      "close_on_save", TRUE,
 		      NULL);
+
+	if (SingleViewer == NULL) 
+		SingleViewer = viewer;
 }
 
 
@@ -1366,6 +1399,7 @@ sync_menu_with_preferences (GthViewer *viewer)
 	set_action_active (viewer, prop, TRUE);
 
 	set_action_active (viewer, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
+	set_action_active (viewer, "View_SingleWindow", eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE));
 }
 
 
@@ -1802,6 +1836,11 @@ gth_viewer_construct (GthViewer   *viewer,
 					   pref_ui_statusbar_visible_changed,
 					   viewer);
 
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_SINGLE_WINDOW,
+					   pref_ui_single_window_changed,
+					   viewer);
+
 	/* Progress dialog */
 
 	priv->progress_gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_EXPORTER_FILE, NULL, NULL);
@@ -1864,6 +1903,7 @@ gth_viewer_new (const gchar *filename)
 
 	return (GtkWidget*) viewer;
 }
+
 
 static void
 load_image__image_saved_cb (const char *filename,
@@ -1932,6 +1972,11 @@ close__step2 (const char *filename,
 		gtk_widget_destroy (priv->image_popup_menu);
 		priv->image_popup_menu = NULL;
 	}
+
+	if (SingleViewer == viewer) 
+		SingleViewer = NULL;
+	if (LastFocusedViewer == viewer) 
+		LastFocusedViewer = NULL;
 
 	gtk_widget_destroy (GTK_WIDGET (viewer));
 }
@@ -2257,6 +2302,16 @@ gth_viewer_set_slideshow (GthWindow *window,
 }
 
 
+static gboolean
+gth_viewer_focus_in_event (GtkWidget     *widget,
+			   GdkEventFocus *event)
+{
+	LastFocusedViewer = (GthViewer*) widget;
+	SingleViewer = LastFocusedViewer;
+	return GTK_WIDGET_CLASS (parent_class)->focus_in_event (widget, event);
+}
+
+
 static void
 gth_viewer_class_init (GthViewerClass *class)
 {
@@ -2274,6 +2329,7 @@ gth_viewer_class_init (GthViewerClass *class)
 	widget_class->realize = gth_viewer_realize;
 	widget_class->unrealize = gth_viewer_unrealize;
 	widget_class->show = gth_viewer_show;
+	widget_class->focus_in_event = gth_viewer_focus_in_event;
 
 	window_class->close = gth_viewer_close;
 	window_class->get_image_viewer = gth_viewer_get_image_viewer;
@@ -2321,4 +2377,23 @@ gth_viewer_get_type ()
 	}
 
         return type;
+}
+
+
+void
+compute_single_viewer_window (void)
+{
+	GList *windows = gth_window_get_window_list ();
+	GList *scan;
+		
+	if (SingleViewer != NULL) 
+		return;
+
+	for (scan = windows; scan; scan = scan->next) {
+		GthWindow *window = scan->data;
+		if (GTH_IS_VIEWER (window)) {
+			SingleViewer = (GthViewer*) window;
+			break;
+		}
+	}
 }

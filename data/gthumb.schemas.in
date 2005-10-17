@@ -387,6 +387,19 @@
 	</locale>
       </schema>
 
+      <schema>
+	<key>/schemas/apps/gthumb/viewer/single_window</key>
+	<applyto>/apps/gthumb/viewer/single_window</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Slide Show -->
 
       <schema>
