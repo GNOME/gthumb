@@ -92,4 +92,12 @@ char *      _gtk_label_get_filename_text (GtkLabel   *label);
 gboolean    exec_command                 (const char *application, 
 					  GList      *file_list);
 
+GdkPixbuf * create_pixbuf                (GtkIconTheme  *icon_theme,
+					  const char    *icon_name,
+					  int            icon_size);
+
+GtkWidget * create_image                 (GtkIconTheme  *icon_theme,
+					  const char    *icon_path,
+					  int            icon_size);
+
 #endif /* _GTK_UTILS_H */

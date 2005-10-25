@@ -49,9 +49,9 @@ static GtkActionEntry gth_viewer_action_entries[] = {
 	  N_("Create a new window"),
 	  G_CALLBACK (gth_viewer_activate_action_file_new_window) },
 
-	{ "File_OpenFolder", GTK_STOCK_OPEN,
-	  N_("Open _Folder"), "<alt>End",
-	  N_("Browse the image folder"),
+	{ "File_OpenFolder", GTK_STOCK_JUMP_TO,
+	  N_("_Go to the Image Folder"), "<alt>End",
+	  N_("Go to the folder that contains the selected image"),
 	  G_CALLBACK (gth_viewer_activate_action_file_open_folder) },
 
 	{ "Edit_AddToCatalog", GTHUMB_STOCK_ADD_TO_CATALOG,

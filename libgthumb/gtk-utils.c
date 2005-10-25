@@ -21,10 +21,11 @@
  */
 
 #include <config.h>
-
+#include <string.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-
+#include <libgnome/libgnome.h>
+#include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
 
@@ -700,4 +701,139 @@ exec_command (const char *application,
 	g_string_free (command, TRUE);
 
 	return ! error;
+}
+
+
+/* This function from gnome-panel/panel-util.c
+ * (C) 1997, 1998, 1999, 2000 The Free Software Foundation
+ * Copyright 2000 Helix Code, Inc.
+ * Copyright 2000,2001 Eazel, Inc.
+ * Copyright 2001 George Lebl
+ * Copyright 2002 Sun Microsystems Inc.
+ *
+ * Authors: George Lebl
+ *          Jacob Berkman
+ *          Mark McLoughlin
+ *
+ * Modified by Paolo Bacchilega for the Quick Lounge applet
+ */
+static char*
+panel_find_icon (GtkIconTheme  *icon_theme,
+                 const char    *icon_name,
+                 gint           size)
+{
+        char        *retval  = NULL;
+	GtkIconInfo *icon_info = NULL;
+        char        *icon_no_extension;
+        char        *p;
+
+
+        if (icon_name == NULL || strcmp (icon_name, "") == 0)
+                return NULL;
+
+        if (g_path_is_absolute (icon_name)) {
+                if (g_file_test (icon_name, G_FILE_TEST_EXISTS)) {
+                        return g_strdup (icon_name);
+                } else {
+                        char *basename;
+			
+			basename = g_path_get_basename (icon_name);
+                        retval = panel_find_icon (icon_theme, 
+						  basename,
+                                                  size);
+                        g_free (basename);
+
+                        return retval;
+                }
+        }
+
+        /* This is needed because some .desktop files have an icon name *and*
+         * an extension as icon */
+        icon_no_extension = g_strdup (icon_name);
+        p = strrchr (icon_no_extension, '.');
+        if (p &&
+            (strcmp (p, ".png") == 0 ||
+             strcmp (p, ".xpm") == 0 ||
+             strcmp (p, ".svg") == 0)) {
+            *p = 0;
+        }
+
+        icon_info = gtk_icon_theme_lookup_icon (icon_theme, 
+						icon_no_extension,
+						size, 
+						0);
+	retval = g_strdup (gtk_icon_info_get_filename (icon_info));
+
+        g_free (icon_no_extension);
+	gtk_icon_info_free (icon_info);
+
+        return retval;
+}
+
+
+GdkPixbuf *
+create_pixbuf (GtkIconTheme  *icon_theme,
+	       const char    *icon_name,
+	       int            icon_size)
+{
+	char      *icon_path;
+	GdkPixbuf *pixbuf;
+	int        iw;
+	int        ih;
+
+	icon_path = panel_find_icon (icon_theme, icon_name, icon_size);
+	if (icon_path == NULL)
+		return NULL;
+
+	pixbuf = gdk_pixbuf_new_from_file (icon_path, NULL);
+        g_free (icon_path);
+	
+        if (pixbuf == NULL)
+                return NULL;
+
+        iw = gdk_pixbuf_get_width (pixbuf);
+        ih = gdk_pixbuf_get_height (pixbuf);
+
+        if ((iw > icon_size) || (ih > icon_size)) {
+                GdkPixbuf *scaled;
+                gdouble    factor;
+                gdouble    max = icon_size;
+                int        new_w, new_h;
+
+                factor = MIN (max / iw, max / ih);
+                new_w  = MAX ((int) (iw * factor), 1);
+                new_h = MAX ((int) (ih * factor), 1);
+
+                scaled = gdk_pixbuf_scale_simple (pixbuf,
+                                                  new_w,
+                                                  new_h,
+                                                  GDK_INTERP_BILINEAR);
+                g_object_unref (pixbuf);
+                pixbuf = scaled;
+        }
+
+	return pixbuf;
+}
+
+
+GtkWidget *
+create_image (GtkIconTheme  *icon_theme,
+	      const char    *icon_path,
+	      int            icon_size)
+{
+	GtkWidget *icon = NULL;
+	GdkPixbuf *pixbuf;
+
+	pixbuf = create_pixbuf (icon_theme, icon_path, icon_size);
+	
+	if (pixbuf == NULL)
+		return NULL;
+
+	icon = gtk_image_new ();
+	gtk_image_set_from_pixbuf (GTK_IMAGE (icon), pixbuf);
+	g_object_unref (pixbuf);
+	
+	gtk_widget_show (icon);
+
+	return icon;
 }

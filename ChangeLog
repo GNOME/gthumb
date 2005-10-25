@@ -1,3 +1,24 @@
+2005-10-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer-actions-entries.h: use "Go to the Image Folder" instead
+	of "Open Folder".
+
+	* src/gth-fullscreen.c (gth_fullscreen_pause_slideshow): do not load
+	the next image just after the user presses the pause button, simply 
+	wait for the slideshow timeout to expire instead.
+
+2005-10-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-open-with.c: added the application icon to list.
+	
+	* src/gth-viewer.c: 
+	* src/gth-viewer-ui.h: use a menu tool button for the 'open with'
+	action on the toolbar, with the associated applications as menu 
+	items.
+
+	* libgthumb/gtk-utils.h: 
+	* libgthumb/gtk-utils.c: new functions: create_pixbuf, create_image.
+
 2005-10-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.c (prepare_app): 

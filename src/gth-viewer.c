@@ -28,6 +28,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 
 #ifdef HAVE_LIBEXIF
 #include <libexif/exif-data.h>
@@ -70,6 +71,7 @@
 #define DISPLAY_PROGRESS_DELAY 750
 #define PANE_MIN_SIZE 60
 #define GCONF_NOTIFICATIONS 3
+#define OPEN_TOOLITEM_POS 0
 #define ROTATE_TOOLITEM_POS 10
 
 
@@ -113,6 +115,8 @@ struct _GthViewerPrivateData {
 
 	GtkActionGroup  *actions;
 
+	GtkToolItem     *open_with_tool_item;
+	GtkWidget       *open_with_popup_menu;
 	GtkToolItem     *rotate_tool_item;
 
 	GtkTooltips     *tooltips;
@@ -158,6 +162,8 @@ struct _GthViewerPrivateData {
 	GtkWidget       *progress_progressbar;
 	GtkWidget       *progress_info;
 	guint            progress_timeout;
+
+	GdkPixbuf       *folder;
 };
 
 static GthWindowClass *parent_class = NULL;
@@ -767,6 +773,63 @@ viewer_update_title (GthViewer *viewer)
 }
 
 
+static void
+open_with_menu_item_activate_cb (GtkMenuItem *menuitem,
+				 gpointer     user_data)
+{
+	GthViewer *viewer = user_data;
+	GnomeVFSMimeApplication *app;
+	GList *uris;
+
+	app = g_object_get_data (G_OBJECT (menuitem), "app");
+	uris = g_list_prepend (NULL, viewer->priv->image_path);
+	gnome_vfs_mime_application_launch (app, uris);
+	g_list_free (uris);
+}
+
+
+static void
+viewer_update_open_with_menu (GthViewer *viewer)
+{
+	GthViewerPrivateData *priv = viewer->priv;
+	const char           *mime_type = NULL;
+
+	gtk_container_foreach  (GTK_CONTAINER (priv->open_with_popup_menu), (GtkCallback) gtk_widget_destroy, NULL);
+
+	if (priv->image_path != NULL)
+		mime_type = gnome_vfs_get_file_mime_type (priv->image_path, NULL, FALSE);
+
+	if (mime_type != NULL) {
+		GList        *apps = gnome_vfs_mime_get_all_applications (mime_type);
+		GList        *scan;
+		GtkIconTheme *theme = gtk_icon_theme_get_default ();
+		int           icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (viewer));
+
+		for (scan = apps; scan; scan = scan->next) {
+			GnomeVFSMimeApplication *app = scan->data;
+			GtkWidget               *mitem;
+
+			mitem = gtk_image_menu_item_new_with_label (gnome_vfs_mime_application_get_name (app));
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem), create_image (theme, gnome_vfs_mime_application_get_icon (app), icon_size));
+			g_object_set_data_full (G_OBJECT (mitem), "app", app, (GDestroyNotify)gnome_vfs_mime_application_free);
+			g_signal_connect (mitem, "activate",
+					  G_CALLBACK (open_with_menu_item_activate_cb),
+					  viewer);
+			gtk_widget_show_all (mitem);
+			gtk_menu_append (priv->open_with_popup_menu, mitem);
+		}
+		g_list_free (apps);
+
+	} else {
+		GtkWidget *mitem;
+		mitem = gtk_menu_item_new_with_label (_("_None"));
+		gtk_widget_set_sensitive (mitem, FALSE);
+		gtk_widget_show (mitem);
+		gtk_menu_append (priv->open_with_popup_menu, mitem);
+	}
+}
+
+
 /* ask_whether_to_save */
 
 
@@ -957,6 +1020,7 @@ real_set_void (const char *filename,
  	viewer_update_image_info (viewer);
 	viewer_update_title (viewer);
 	viewer_update_infobar (viewer);
+	viewer_update_open_with_menu (viewer);
 	viewer_update_sensitivity (viewer);
 }
 
@@ -992,6 +1056,7 @@ image_loaded_cb (GtkWidget  *widget,
 	viewer_update_image_info (viewer);
 	viewer_update_infobar (viewer);
 	viewer_update_title (viewer);
+	viewer_update_open_with_menu (viewer);
 	viewer_update_sensitivity (viewer);
 
 	if (StartInFullscreen) {
@@ -1381,6 +1446,14 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 
 
 static void
+monitor_update_icon_theme_cb (GthMonitor *monitor,
+			      GthViewer  *viewer)
+{
+	viewer_update_open_with_menu (viewer);
+}
+
+
+static void
 sync_menu_with_preferences (GthViewer *viewer)
 {
 	char *prop;
@@ -1400,6 +1473,40 @@ sync_menu_with_preferences (GthViewer *viewer)
 
 	set_action_active (viewer, "View_ShowInfo", eel_gconf_get_boolean (PREF_SHOW_IMAGE_DATA, FALSE));
 	set_action_active (viewer, "View_SingleWindow", eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE));
+}
+
+
+static void
+add_open_with_toolbar_item (GthViewer *viewer)
+{
+	GthViewerPrivateData *priv = viewer->priv;	
+
+	gtk_ui_manager_ensure_update (priv->ui);
+
+	if (priv->open_with_tool_item != NULL) {
+		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+				    priv->open_with_tool_item, 
+				    OPEN_TOOLITEM_POS);
+		return;
+	}
+
+	priv->open_with_popup_menu = gtk_menu_new ();
+
+	priv->open_with_tool_item = gtk_menu_tool_button_new (gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_LARGE_TOOLBAR), _("_Open With"));
+
+	g_object_ref (priv->open_with_tool_item);
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item),
+				       priv->open_with_popup_menu);
+	gtk_tool_item_set_homogeneous (priv->open_with_tool_item, FALSE);
+	gtk_tool_item_set_tooltip (priv->open_with_tool_item, priv->tooltips, _("Open selected images with an application"), NULL);
+	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->open_with_tool_item), priv->tooltips, _("Open selected images with an application"), NULL);
+	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/File/Image_OpenWith"),
+				  GTK_WIDGET (priv->open_with_tool_item));
+
+	gtk_widget_show (GTK_WIDGET (priv->open_with_tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    priv->open_with_tool_item, 
+			    OPEN_TOOLITEM_POS);
 }
 
 
@@ -1539,6 +1646,7 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	priv->image_popup_menu = gtk_ui_manager_get_widget (ui, "/ImagePopupMenu");
 
+	add_open_with_toolbar_item (viewer);
 	add_rotate_toolbar_item (viewer);
 
 	/* Create the statusbar. */
@@ -1873,6 +1981,10 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
+	priv->folder = get_folder_pixbuf (get_folder_pixbuf_size_for_menu (GTK_WIDGET (viewer)));
+
+	/**/
+
 	g_signal_connect (G_OBJECT (monitor), 
 			  "update_files",
 			  G_CALLBACK (monitor_update_files_cb),
@@ -1884,6 +1996,10 @@ gth_viewer_construct (GthViewer   *viewer,
 	g_signal_connect (G_OBJECT (monitor), 
 			  "file_renamed",
 			  G_CALLBACK (monitor_file_renamed_cb),
+			  viewer);
+	g_signal_connect (G_OBJECT (monitor), 
+			  "update_icon_theme",
+			  G_CALLBACK (monitor_update_icon_theme_cb),
 			  viewer);
 	
 	/**/
@@ -1968,9 +2084,20 @@ close__step2 (const char *filename,
 		g_object_unref (priv->progress_gui);
 
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
+
 	if (priv->image_popup_menu != NULL) {
 		gtk_widget_destroy (priv->image_popup_menu);
 		priv->image_popup_menu = NULL;
+	}
+
+	if (priv->open_with_popup_menu != NULL) {
+		gtk_widget_destroy (priv->open_with_popup_menu);
+		priv->open_with_popup_menu = NULL;
+	}
+
+	if (priv->folder != NULL) {
+		g_object_unref (priv->folder);
+		priv->folder = NULL;
 	}
 
 	if (SingleViewer == viewer) 

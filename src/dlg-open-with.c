@@ -37,6 +37,7 @@
 
 #define GLADE_FILE "gthumb.glade"
 
+enum { ICON_COLUMN, TEXT_COLUMN, DATA_COLUMN, N_COLUMNS };
 
 typedef struct {
 	GtkWindow    *window;
@@ -145,7 +146,7 @@ app_list_selection_changed_cb (GtkTreeSelection *selection,
 		return;
 
         gtk_tree_model_get (data->app_model, &iter,
-                            1, &app,
+                            DATA_COLUMN, &app,
                             -1);
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
 }
@@ -165,7 +166,7 @@ app_activated_cb (GtkTreeView       *tree_view,
 		return;
 	
 	gtk_tree_model_get (data->app_model, &iter,
-			    1, &app,
+			    DATA_COLUMN, &app,
 			    -1);
 
 	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
@@ -269,6 +270,8 @@ dlg_open_with (GtkWindow  *window,
 	GtkTreeIter              iter;
 	GtkCellRenderer         *renderer;
 	GtkTreeViewColumn       *column;
+	GtkIconTheme            *theme;
+	int                      icon_size;
 
 	data = g_new (DialogData, 1);
 
@@ -349,21 +352,22 @@ dlg_open_with (GtkWindow  *window,
 			data->app_list = g_list_concat (data->app_list, gnome_vfs_mime_get_all_applications (result));
 	}
 
-	data->app_model = GTK_TREE_MODEL (gtk_list_store_new (2, 
+	data->app_model = GTK_TREE_MODEL (gtk_list_store_new (N_COLUMNS, 
+							      GDK_TYPE_PIXBUF,
 							      G_TYPE_STRING,
 							      G_TYPE_POINTER));
 
-	gtk_tree_sortable_set_sort_column_id (GTK_TREE_SORTABLE (data->app_model),
-                                              0,
-					      GTK_SORT_ASCENDING);
-	
 	gtk_tree_view_set_model (GTK_TREE_VIEW (data->app_list_tree_view),
 				 data->app_model);
 	g_object_unref (G_OBJECT (data->app_model));
 
+	theme = gtk_icon_theme_get_default ();
+	icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (window));
+
 	for (scan = data->app_list; scan; scan = scan->next) {
-		gboolean found;
-		char     *utf8_name;
+		gboolean   found;
+		char      *utf8_name;
+		GdkPixbuf *icon;
 
 		app = scan->data;
 
@@ -379,24 +383,36 @@ dlg_open_with (GtkWindow  *window,
 			continue;
 
 		app_names = g_list_prepend (app_names, app->command);
-
+		
 		gtk_list_store_append (GTK_LIST_STORE (data->app_model),
 				       &iter);
 
 		utf8_name = g_locale_to_utf8 (app->name, -1, NULL, NULL, NULL);
+		icon = create_pixbuf (theme, gnome_vfs_mime_application_get_icon (app), icon_size);
 		gtk_list_store_set (GTK_LIST_STORE (data->app_model), &iter,
-				    0, utf8_name,
-				    1, app,
+				    ICON_COLUMN, icon,
+				    TEXT_COLUMN, utf8_name,
+				    DATA_COLUMN, app,
 				    -1);
 		g_free (utf8_name);
 	}
 
+	column = gtk_tree_view_column_new ();
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_tree_view_column_pack_start (column, renderer, FALSE);
+	gtk_tree_view_column_set_attributes (column, renderer,
+					     "pixbuf", ICON_COLUMN,
+					     NULL);
+
 	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (NULL,
-							   renderer,
-							   "text", 0,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, 1);
+	gtk_tree_view_column_pack_start (column,
+                                         renderer,
+                                         TRUE);
+        gtk_tree_view_column_set_attributes (column, renderer,
+                                             "text", TEXT_COLUMN,
+                                             NULL);
+
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->app_list_tree_view),
 				     column);
 
