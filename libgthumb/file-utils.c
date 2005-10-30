@@ -1338,7 +1338,7 @@ ensure_dir_exists (const char *a_path,
 			}
 			
 			if (! path_is_dir (path)) {
-				if (dir_make (path, mode)) {
+				if (!dir_make (path, mode)) {
 					g_warning ("directory creation failed: %s.", path);
 					g_free (path);
 					return FALSE;

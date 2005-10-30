@@ -1,4 +1,14 @@
+2005-10-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (get_prev_image, get_next_image): continue
+	from the first image if the slideshow didn't start from the beginning.
+
+	* libgthumb/file-utils.c (ensure_dir_exists): dir_make returns
+	FALSE on error.
+
 2005-10-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* NEWS: updated for 2.7.1
 
 	* src/gth-viewer-actions-entries.h: use "Go to the Image Folder" instead
 	of "Open Folder".

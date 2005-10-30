@@ -66,6 +66,7 @@ struct _GthFullscreenPrivateData {
 	char            *image_path;
 	GList           *file_list;
 	int              files;
+	int              viewed;
 	char            *catalog_path;
 	GList           *current;
 	gboolean         slideshow;
@@ -324,18 +325,43 @@ get_image_filename (GList *current)
 }
 
 
+static gboolean
+all_images_viewed_at_least_once (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+	return (priv->slideshow
+		&& (!priv->slideshow_wrap_around)
+		&& (priv->viewed >= priv->files));
+}
+
+
 static GList*
 get_next_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
+	gboolean  reverse;
+	GList    *next;
 
 	if (priv->current == NULL)
 		return NULL;
 
-	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
-		return priv->current->prev;
+	if (all_images_viewed_at_least_once (fullscreen))
+		return NULL;
+
+	reverse = priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE);
+	if (reverse)
+		next = priv->current->prev;
 	else
-		return priv->current->next;
+		next = priv->current->next;
+
+	if ((next == NULL) && !all_images_viewed_at_least_once (fullscreen)) {
+		if (reverse)
+			next = g_list_last (priv->file_list);
+		else
+			next = priv->file_list;
+	}
+
+	return next;
 }
 
 
@@ -343,14 +369,29 @@ static GList*
 get_prev_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
+	gboolean  reverse;
+	GList    *next;
 
 	if (priv->current == NULL)
 		return NULL;
 
-	if (priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE))
-		return priv->current->next;
+	if (all_images_viewed_at_least_once (fullscreen))
+		return NULL;
+
+	reverse = priv->slideshow && (priv->slideshow_direction == GTH_DIRECTION_REVERSE);
+	if (reverse)
+		next = priv->current->next;
 	else
-		return priv->current->prev;
+		next = priv->current->prev;
+
+	if ((next == NULL) && !all_images_viewed_at_least_once (fullscreen)) {
+		if (reverse)
+			next = priv->file_list;
+		else
+			next = g_list_last (priv->file_list);
+	}
+
+	return next;
 }
 
 
@@ -442,6 +483,8 @@ load_current_image (GthFullscreen *fullscreen)
 
 	} else if (priv->image != NULL) 
 		image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
+
+	priv->viewed++;
 
 	update_sensitivity (fullscreen);
 
@@ -1346,6 +1389,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	else
 		priv->files = 1;
 	priv->current = NULL;
+	priv->viewed = 0;
 
 	priv->viewer = image_viewer_new ();
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (priv->viewer),
