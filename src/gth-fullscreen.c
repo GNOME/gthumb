@@ -354,7 +354,9 @@ get_next_image (GthFullscreen *fullscreen)
 	else
 		next = priv->current->next;
 
-	if ((next == NULL) && !all_images_viewed_at_least_once (fullscreen)) {
+	if ((next == NULL) 
+	    && priv->slideshow
+	    && !all_images_viewed_at_least_once (fullscreen)) {
 		if (reverse)
 			next = g_list_last (priv->file_list);
 		else
@@ -384,7 +386,9 @@ get_prev_image (GthFullscreen *fullscreen)
 	else
 		next = priv->current->prev;
 
-	if ((next == NULL) && !all_images_viewed_at_least_once (fullscreen)) {
+	if ((next == NULL) 
+	    && priv->slideshow
+	    && !all_images_viewed_at_least_once (fullscreen)) {
 		if (reverse)
 			next = priv->file_list;
 		else

@@ -1,3 +1,9 @@
+2005-11-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (get_next_image, get_prev_image): 
+	
+	Fixed bug #320442: prev/next button behaviour in 2.7.1
+
 2005-10-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (get_prev_image, get_next_image): continue
