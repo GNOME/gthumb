@@ -1,3 +1,8 @@
+2005-11-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-fullscreen.c (gth_fullscreen_pause_slideshow): continue
+	the slideshow when pause is false.
+
 2005-11-02  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (get_next_image, get_prev_image): 

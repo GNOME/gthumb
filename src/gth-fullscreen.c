@@ -1750,8 +1750,10 @@ gth_fullscreen_pause_slideshow (GthFullscreen *fullscreen,
 
 	if (fullscreen->priv->slideshow_paused)
 		totem_scrsaver_enable (fullscreen->priv->screensaver);
-	else 
+	else {
 		totem_scrsaver_disable (fullscreen->priv->screensaver);
+		continue_slideshow (fullscreen);
+	}
 }
 
 
