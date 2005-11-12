@@ -40,7 +40,8 @@ EXTRA_DIST = 			\
 	$(desktop_in_files)	\
 	$(desktop_DATA)		\
 	$(icon_DATA)		\
-	$(man_MANS)
+	$(man_MANS)		\
+	$(server_in_files)
 
 DISTCLEANFILES =                \
 	$(schema_DATA)		\

@@ -187,6 +187,7 @@ libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 
 EXTRA_DIST = 			\
+	GNOME_GThumb.idl	\
 	albumtheme.c		\
 	albumtheme.y		\
 	albumtheme.l		\
@@ -194,5 +195,5 @@ EXTRA_DIST = 			\
 
 
 CLEANFILES =				\
-	$(gthumb_goobox_idl_sources)	\
+	$(gnome_gthumb_idl_sources)	\
 	gnome_gthumb_idl_stamp
