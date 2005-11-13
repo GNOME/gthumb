@@ -1,5 +1,11 @@
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* configure.in: 
+	* data/Makefile.am: 
+
+	Removed custom --disable-schemas-install option.
+	Fixes bug #321124: Confusing handling of --disable-schemas-install
+	
 	* data/albumthemes/BlueStripes/thumbnail.gthtml: 
 	* data/albumthemes/BlueStripes/image.gthtml: 
 	* data/albumthemes/Classic/thumbnail.gthtml: 

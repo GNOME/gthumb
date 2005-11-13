@@ -28,7 +28,7 @@ $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@BONOBODIR\@|$(bonobodir)|" $< > $@
 @INTLTOOL_SERVER_RULE@
 
-if SCHEMAS_INSTALL
+if GCONF_SCHEMAS_INSTALL
 install-data-local:
 	GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$(schema_DATA)
 endif
