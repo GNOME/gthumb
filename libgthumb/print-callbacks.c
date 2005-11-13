@@ -643,13 +643,11 @@ static int catalog_cols[5] = {1, 1, 2, 2, 4};
 #define IMAGE_SPACE 20
 
 
-#ifndef log2
 static double 
-log2 (double x)
+_log2 (double x)
 {
 	return log(x) / log(2);
 }
-#endif
 
 
 static void
@@ -1011,7 +1009,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 	max_w = w - lmargin - rmargin;
 	max_h = h - bmargin - tmargin;
 
-	idx = (int) floor (log2 (pci->images_per_page) + 0.5);
+	idx = (int) floor (_log2 (pci->images_per_page) + 0.5);
 	rows = catalog_rows[idx];
 	cols = catalog_cols[idx];
 
@@ -2025,7 +2023,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 				     get_history_from_paper_size (value));
 	g_free (value);
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->images_per_page_optionmenu), (int) log2 (pci->images_per_page));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->images_per_page_optionmenu), (int) _log2 (pci->images_per_page));
 
 	/**/
 
