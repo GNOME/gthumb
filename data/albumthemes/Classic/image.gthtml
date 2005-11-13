@@ -106,7 +106,7 @@
 <gthumb:if file_name_visibility_image/>
 <tr>
   <td><span class="property"><gthumb:text>Image</gthumb:text></span></span></td>
-  <td><span class="property_value file_name"><gthumb:file_name/></span></td>
+  <td><span class="property_value file_name"><gthumb:file_name utf8="1" /></span></td>
 </tr>
 <gthumb:end/>
 <gthumb:if image_dim_visibility_image/>
