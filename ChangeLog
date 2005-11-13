@@ -1,5 +1,20 @@
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/albumthemes/BlueStripes/thumbnail.gthtml: 
+	* data/albumthemes/BlueStripes/image.gthtml: 
+	* data/albumthemes/Classic/thumbnail.gthtml: 
+	* data/albumthemes/Classic/image.gthtml: 
+	* data/albumthemes/ClassicClips/thumbnail.gthtml: 
+	* data/albumthemes/ClassicClips/image.gthtml: 
+	* data/albumthemes/NeatRound/thumbnail.gthtml: 
+	* data/albumthemes/NeatRound/image.gthtml: 
+	* data/albumthemes/Wiki/thumbnail.gthtml: 
+	* data/albumthemes/Wiki/image.gthtml: 
+
+	Convert the filename to utf8.
+	Fixes bug #320947: Create Web Album Tool doesn't generate HTML pages 
+	with International characters.
+
 	* libgthumb/print-callbacks.c (_log2): rename log2 as _log2
 
 	Fixes bug #321274: Incorrect log2 definition/detection.

@@ -27,7 +27,7 @@
 <gthumb:end/>
 
 <gthumb:if file_name_visibility_index/>
-      <span class="property_value file_name"><gthumb:file_name/></span><br />
+      <span class="property_value file_name"><gthumb:file_name utf8="1" /></span><br />
 <gthumb:end/>
 
 <gthumb:if exif_date_time_visibility_index/>
