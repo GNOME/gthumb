@@ -1,5 +1,11 @@
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/Makefile.am: 
+	* configure.in: 
+
+	Removed custom --disable-schemas-install option.
+	Fixes bug #321124: Confusing handling of --disable-schemas-install
+	
 	* data/albumthemes/NeatSquare/thumbnail.gthtml: 
 	* data/albumthemes/NeatSquare/image.gthtml: 
 	* data/albumthemes/NeatRound/thumbnail.gthtml: 
