@@ -1,5 +1,8 @@
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/dlg-preferences.c (view_as_cb): change view after a delay to
+	avoid crashes when the user changes the view type too quickly.
+
 	* configure.in: 
 	* data/Makefile.am: 
 
