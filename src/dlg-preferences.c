@@ -53,6 +53,7 @@ static gint thumb_size[] = {48, 64, 85, 95, 112, 128, 164, 200, 256};
 static gint thumb_sizes = sizeof (thumb_size) / sizeof (gint);
 
 #define GLADE_PREF_FILE "gthumb_preferences.glade"
+#define VIEW_AS_DELAY 500
 
 typedef struct {
 	GThumbWindow    *window;
@@ -95,6 +96,9 @@ typedef struct {
 	GtkWidget *spin_ss_delay;
 	GtkWidget *toggle_ss_wrap_around;
 	GtkWidget *toggle_ss_fullscreen;
+
+	GthViewAs   new_view_type;
+	guint       view_as_timeout;
 } DialogData;
 
 
@@ -103,6 +107,8 @@ static void
 destroy_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
+	if (data->view_as_timeout != 0)
+		g_source_remove (data->view_as_timeout);
 	g_object_unref (G_OBJECT (data->gui));
 	g_free (data);
 }
@@ -290,13 +296,29 @@ show_comments_toggled_cb (GtkToggleButton *button,
 }
 
 
+static gboolean
+view_as_cb (gpointer cb_data)
+{
+	DialogData *data = cb_data;
+
+	g_source_remove (data->view_as_timeout);
+	pref_set_view_as (data->new_view_type);
+	data->view_as_timeout = 0;
+
+	return FALSE;
+}
+
+
 static void
 view_as_slides_toggled_cb (GtkToggleButton *button, 
 			   DialogData      *data)
 {
 	if (! gtk_toggle_button_get_active (button))
 		return;
-	pref_set_view_as (GTH_VIEW_AS_THUMBNAILS);
+	if (data->view_as_timeout != 0)
+		g_source_remove (data->view_as_timeout);
+	data->new_view_type = GTH_VIEW_AS_THUMBNAILS;
+	data->view_as_timeout = g_timeout_add (VIEW_AS_DELAY, view_as_cb, data);
 }
 
 
@@ -306,7 +328,10 @@ view_as_list_toggled_cb (GtkToggleButton *button,
 {
 	if (! gtk_toggle_button_get_active (button))
 		return;
-	pref_set_view_as (GTH_VIEW_AS_LIST);
+	if (data->view_as_timeout != 0)
+		g_source_remove (data->view_as_timeout);
+	data->new_view_type = GTH_VIEW_AS_LIST;
+	data->view_as_timeout = g_timeout_add (VIEW_AS_DELAY, view_as_cb, data);
 }
 
 

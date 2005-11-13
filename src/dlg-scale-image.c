@@ -114,8 +114,8 @@ ok_cb (GtkWidget  *widget,
 		d_height = d_height / 100.0 * data->height;
 	} 
 
-	width  = (int) d_width;
-	height = (int) d_height;
+	width  = MAX (2, (int) d_width);
+	height = MAX (2, (int) d_height);
 
 	new_pixbuf = gdk_pixbuf_scale_simple (orig_pixbuf,
 					      width,
