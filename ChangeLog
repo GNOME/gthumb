@@ -1,7 +1,16 @@
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/glade/gthumb_edit.glade:
+	* data/glade/gthumb_tools.glade:
+	* src/dlg-scale-image.c (ok_cb): 
+	* libgthumb/async-pixbuf-ops.c (scale_step): 
+
+	Do not allow to scale images to 1x1, to avoid bug in 
+	gdk_pixbuf_scale_simple.
+	Fixes bug #305165: gthumb crash resize.
+	
 	* src/dlg-preferences.c (view_as_cb): change view after a delay to
-	avoid crashes when the user changes the view type too quickly.
+	avoid crashes when the user changes the view type too quickly (#305097).
 
 	* configure.in: 
 	* data/Makefile.am: 
