@@ -1,3 +1,9 @@
+2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c (_log2): rename log2 as _log2
+
+	Fixes bug #321274: Incorrect log2 definition/detection
+
 2005-10-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gthumb-window.c (key_press_cb): 
