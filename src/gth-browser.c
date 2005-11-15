@@ -1668,6 +1668,22 @@ get_button_from_sidebar_content (GthBrowser *browser)
 
 
 static void
+window_update_folder_ui (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	GError *error = NULL;
+
+	if (priv->sidebar_merge_id != 0) {
+		gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
+		gtk_ui_manager_ensure_update (priv->ui);
+	}
+
+	priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, folder_ui_info, -1, &error);
+	gtk_ui_manager_ensure_update (priv->ui);
+}
+
+
+static void
 window_update_catalog_ui (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
@@ -1676,9 +1692,10 @@ window_update_catalog_ui (GthBrowser *browser)
 	GtkTreeIter            iter;
 	GError                *error = NULL;
 
-	if (priv->sidebar_merge_id != 0)
+	if (priv->sidebar_merge_id != 0) {
 		gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
-	gtk_ui_manager_ensure_update (priv->ui);
+		gtk_ui_manager_ensure_update (priv->ui);
+	}
 
 	/**/
 
@@ -1699,43 +1716,17 @@ window_set_sidebar (GthBrowser *browser,
 		    int         sidebar_content)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	char                  *cname;
-
-	cname = get_command_name_from_sidebar_content (browser);
-	if (cname != NULL) 
-		set_action_active_if_different (browser, cname, FALSE);
-	set_button_active_no_notify (browser,
-				     get_button_from_sidebar_content (browser),
-				     FALSE);
 
 	priv->sidebar_content = sidebar_content;
-
-	set_button_active_no_notify (browser,
-				     get_button_from_sidebar_content (browser),
-				     TRUE);
-
-	cname = get_command_name_from_sidebar_content (browser);
-	if ((cname != NULL) && priv->sidebar_visible)
-		set_action_active_if_different (browser, cname, TRUE);
 	gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->notebook), 
 				       sidebar_content - 1);
 
-	window_update_sensitivity (browser);
-
-	/**/
-
 	if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 		window_update_catalog_ui (browser);
-	else {
-		GError *error = NULL;
-		if (priv->sidebar_merge_id != 0)
-			gtk_ui_manager_remove_ui (priv->ui, priv->sidebar_merge_id);
-		gtk_ui_manager_ensure_update (priv->ui);
-		priv->sidebar_merge_id = gtk_ui_manager_add_ui_from_string (priv->ui, folder_ui_info, -1, &error);
-		gtk_ui_manager_ensure_update (priv->ui);
-	}
+	else 
+		window_update_folder_ui (browser);
 
-	gtk_widget_queue_resize (GTK_WIDGET (browser));
+	window_update_sensitivity (browser);
 }
 
 
@@ -1772,6 +1763,9 @@ save_jpeg_data (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
+
+	if (!image_is_jpeg (filename))
+		return;
 
 	if (priv->exif_data != NULL) 
 		data_to_save = TRUE;
@@ -5020,22 +5014,6 @@ pref_view_as_changed (GConfClient *client,
 	gtk_widget_destroy (priv->file_list->root_widget);
 	gtk_box_pack_start (GTK_BOX (priv->file_list_pane), file_list->root_widget, TRUE, TRUE, 0);
 
-	/*
-	if (priv->layout_type <= 1) {
-		gtk_widget_destroy (GTK_PANED (priv->content_pane)->child2);
-		GTK_PANED (priv->content_pane)->child2 = NULL;
-		gtk_paned_pack2 (GTK_PANED (priv->content_pane), file_list->root_widget, TRUE, FALSE);
-	} else if (priv->layout_type == 2) {
-		gtk_widget_destroy (GTK_PANED (priv->main_pane)->child2);
-		GTK_PANED (priv->main_pane)->child2 = NULL;
-		gtk_paned_pack2 (GTK_PANED (priv->main_pane), file_list->root_widget, TRUE, FALSE);
-	} else if (priv->layout_type == 3) {
-		gtk_widget_destroy (GTK_PANED (priv->content_pane)->child1);
-		GTK_PANED (priv->content_pane)->child1 = NULL;
-		gtk_paned_pack1 (GTK_PANED (priv->content_pane), file_list->root_widget, FALSE, FALSE);
-	}
-	*/
-
 	g_object_unref (priv->file_list);
 	priv->file_list = file_list;
 
@@ -7634,21 +7612,6 @@ gth_browser_show_sidebar (GthBrowser *browser)
 
 	/**/
 
-	if (eel_gconf_get_boolean (PREF_UI_TOOLBAR_VISIBLE, TRUE)) {
-		/*
-		bonobo_ui_component_set_prop (priv->ui_component, 
-					      "/Toolbar",
-					      "hidden", "0",
-					      NULL);
-		bonobo_ui_component_set_prop (priv->ui_component, 
-					      "/ImageToolbar",
-					      "hidden", "1",
-					      NULL);
-		*/
-	}
-
-	/**/
-
 	gtk_widget_show (priv->preview_button_image);
 	gtk_widget_show (priv->preview_button_comment);
 
@@ -8626,7 +8589,8 @@ load_timeout_cb (gpointer data)
 		return FALSE;
 
 	pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
-	g_return_val_if_fail (pos != -1, FALSE);
+	if (pos < 0)
+		return FALSE;
 
 	prev1 = get_image_to_preload (browser, pos - 1, 1);
 	next1 = get_image_to_preload (browser, pos + 1, 1);

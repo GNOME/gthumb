@@ -47,15 +47,15 @@ serverdir = $(libdir)/bonobo/servers
 server_DATA = GNOME_GThumb_CatalogView.server
 GNOME_GThumb_CatalogView.server.in: GNOME_GThumb_CatalogView.server.in.in Makefile
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|g" \
-	< $(srcdir)/GNOME_GThumb_CatalogView.server.in.in > temp \
-	&& mv temp GNOME_GThumb_CatalogView.server.in
+	< $(srcdir)/GNOME_GThumb_CatalogView.server.in.in > GNOME_GThumb_CatalogView.server.in.temp \
+	&& mv GNOME_GThumb_CatalogView.server.in.temp GNOME_GThumb_CatalogView.server.in
 
 @INTLTOOL_SERVER_RULE@
 
 GNOME_GThumb_CatalogView.xml: GNOME_GThumb_CatalogView.xml.in Makefile
 	sed -e 's?\@ICONSDIR\@?$(datadir)/gthumb/icons?g' \
-	< $(srcdir)/GNOME_GThumb_CatalogView.xml.in > temp \
-	&& mv temp GNOME_GThumb_CatalogView.xml
+	< $(srcdir)/GNOME_GThumb_CatalogView.xml.in > GNOME_GThumb_CatalogView.xml.temp \
+	&& mv GNOME_GThumb_CatalogView.xml.temp GNOME_GThumb_CatalogView.xml
 
 uidir = $(datadir)/gnome-2.0/ui
 ui_DATA = GNOME_GThumb_CatalogView.xml

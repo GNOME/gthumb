@@ -97,7 +97,6 @@ __save_image (GtkWindow       *parent,
 	gboolean  file_exists;
 	gboolean  image_saved = FALSE;
 
-
 	if (filename == NULL)
 		return FALSE;
 
@@ -145,10 +144,10 @@ __save_image (GtkWindow       *parent,
 	if ((mime_type != NULL)
 	    && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
-		const char  *image_type = mime_type + 6;
+		const char  *image_type = mime_type + strlen("image/");
 		char       **keys = NULL;
 		char       **values = NULL;
-		
+
 		if (dlg_save_options (parent,
 				      image_type,
 				      &keys,

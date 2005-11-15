@@ -65,8 +65,8 @@ GNOME_GThumb_Viewer.server.in: GNOME_GThumb_Viewer.server.in.in Makefile
 
 GNOME_GThumb_Viewer.xml: GNOME_GThumb_Viewer.xml.in Makefile
 	sed -e 's?\@ICONSDIR\@?$(datadir)/gthumb/icons?g' \
-	< $(srcdir)/GNOME_GThumb_Viewer.xml.in > GNOME_GThumb_Viewer.temp \
-	&& mv -f GNOME_GThumb_Viewer.temp GNOME_GThumb_Viewer.xml
+	< $(srcdir)/GNOME_GThumb_Viewer.xml.in > GNOME_GThumb_Viewer.xml.temp \
+	&& mv -f GNOME_GThumb_Viewer.xml.temp GNOME_GThumb_Viewer.xml
 
 uidir = $(datadir)/gnome-2.0/ui
 ui_DATA = GNOME_GThumb_Viewer.xml

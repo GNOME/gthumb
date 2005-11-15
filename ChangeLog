@@ -1,4 +1,19 @@
+2005-11-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (save_jpeg_data): check whether the image is jpeg
+	before saving the jpeg data.
+
+	* components/image-viewer/Makefile.am (GNOME_GThumb_Viewer.xml): 
+	* components/catalog-view/Makefile.am (GNOME_GThumb_CatalogView.server.in)
+	(GNOME_GThumb_CatalogView.xml): 
+
+	Fixed bug #321500: Makefile.am in components/catalog-view is broken
+
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (load_timeout_cb): no need to fire a warning
+	when pos == -1.
+	(window_set_sidebar): simplified.
 
 	* data/glade/gthumb_edit.glade:
 	* data/glade/gthumb_tools.glade:
