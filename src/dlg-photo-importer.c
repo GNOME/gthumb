@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2003, 2004, 2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -32,7 +32,9 @@
 #include <gtk/gtk.h>
 #include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomeui/gnome-icon-lookup.h>
+#include <libgnomevfs/gnome-vfs-file-info.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <gphoto2/gphoto2-context.h>
 #include <gphoto2/gphoto2-camera.h>
@@ -51,8 +53,8 @@
 #include "gconf-utils.h"
 #include "preferences.h"
 #include "pixbuf-utils.h"
+#include "rotation-utils.h"
 #include "main.h"
-
 
 #define GLADE_FILE "gthumb_camera.glade"
 #define CATEGORIES_GLADE_FILE "gthumb_comment.glade"
@@ -111,6 +113,7 @@ typedef struct {
 
 	gboolean             keep_original_filename;
 	gboolean             delete_from_camera;
+	gboolean             adjust_orientation;
 
 	int                  image_n;
 	char                *local_folder;
@@ -128,6 +131,7 @@ typedef struct {
 
 	GList               *categories_list;
 	GList               *delete_list;
+	GList               *adjust_orientation_list;
 	GList               *saved_images_list;
 
 	/**/
@@ -138,6 +142,7 @@ typedef struct {
 	gboolean             thread_done; 
 
 	guint                idle_id;
+	
 } DialogData;
 
 
@@ -189,6 +194,7 @@ destroy_cb (GtkWidget  *widget,
 		g_object_unref (data->camera_present_pixbuf);
 	path_list_free (data->categories_list);
 	path_list_free (data->delete_list);
+	path_list_free (data->adjust_orientation_list);
 	path_list_free (data->saved_images_list);
 	gp_camera_unref (data->camera);
 	gp_context_unref (data->context);
@@ -1198,6 +1204,9 @@ save_image (DialogData *data,
 	if (gp_file_save (file, local_path) >= 0) {
 		if (data->delete_from_camera) 
 			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
+		if (data->adjust_orientation) {
+			data->adjust_orientation_list = g_list_prepend (data->adjust_orientation_list, g_strdup (local_path));
+		}
 		data->saved_images_list = g_list_prepend (data->saved_images_list, g_strdup (camera_path));
 		add_categories_to_image (data, local_path);
 	} else {
@@ -1264,39 +1273,12 @@ delete_images__done (AsyncOperationData *aodata,
 
 	data->view_folder = TRUE;
 
-	if (ImportPhotos) {
-		ImportPhotos = FALSE;
-		gtk_widget_show (GTK_WIDGET (data->browser));
-	}
+        if (ImportPhotos) {
+                ImportPhotos = FALSE;
+                gtk_widget_show (GTK_WIDGET (data->browser));
+        }
 
-	gtk_widget_destroy (data->dialog);
-}
-
-
-static void 
-save_images__init (AsyncOperationData *aodata, 
-		   DialogData         *data)
-{
-	all_windows_remove_monitor ();
-
-	data->image_n = 1;
-	if (data->delete_list != NULL) {
-		path_list_free (data->delete_list);
-		data->delete_list = NULL;
-	}
-	if (data->saved_images_list != NULL) {
-		path_list_free (data->saved_images_list);
-		data->saved_images_list = NULL;
-	}
-}
-
-
-static void 
-save_images__step (AsyncOperationData *aodata, 
-		   DialogData         *data)
-{
-	const char *camera_path = aodata->scan->data;
-	save_image (data, camera_path, data->local_folder, data->image_n++);
+        gtk_widget_destroy (data->dialog);
 }
 
 
@@ -1321,6 +1303,90 @@ notify_cb (gpointer cb_data)
 
 
 static void 
+adjust_orientation__done (AsyncOperationData *aodata,
+			  DialogData         *data)
+{
+	gboolean            interrupted;
+	AsyncOperationData *new_aodata;
+
+	g_mutex_lock (data->yes_or_no);
+	interrupted = data->interrupted;
+	g_mutex_unlock (data->yes_or_no);
+
+	data->idle_id = g_idle_add (notify_cb, data);
+
+	if (interrupted)
+		return;
+
+	new_aodata = async_operation_new (data->delete_list,
+					  NULL,
+					  delete_images__step,
+					  delete_images__done,
+					  data);
+	async_operation_start (new_aodata);
+}
+
+
+static void 
+adjust_orientation__step (AsyncOperationData *aodata,
+			  DialogData         *data)
+{
+	const char       *filepath = aodata->scan->data;
+	GnomeVFSFileInfo  info;
+	GtkWindow        *window = GTK_WINDOW (data->dialog);
+	
+	gnome_vfs_get_file_info (filepath, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	
+	if (file_is_image (filepath, TRUE)) {
+		FileData     *fd = file_data_new (filepath, &info);
+		RotationData *rot_data = rotation_data_new ();
+
+		update_rotation_from_exif_data (fd, rot_data);
+		if (image_is_jpeg (filepath))
+			apply_transformation_jpeg (window, fd, rot_data);
+		else
+			apply_transformation_generic (window, fd, rot_data);
+
+		file_data_unref (fd);
+		g_free (rot_data);
+	}
+	
+	gnome_vfs_set_file_info (filepath, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+}
+
+
+static void 
+save_images__init (AsyncOperationData *aodata, 
+		   DialogData         *data)
+{
+	all_windows_remove_monitor ();
+
+	data->image_n = 1;
+	if (data->delete_list != NULL) {
+		path_list_free (data->delete_list);
+		data->delete_list = NULL;
+	}
+	if (data->adjust_orientation_list != NULL) {
+		path_list_free (data->adjust_orientation_list);
+		data->adjust_orientation_list = NULL;
+	}
+	if (data->saved_images_list != NULL) {
+		path_list_free (data->saved_images_list);
+		data->saved_images_list = NULL;
+	}
+}
+
+
+static void 
+save_images__step (AsyncOperationData *aodata, 
+		   DialogData         *data)
+{
+	const char *camera_path = aodata->scan->data;
+	save_image (data, camera_path, data->local_folder, data->image_n++);
+}
+
+
+static void 
 save_images__done (AsyncOperationData *aodata, 
 		   DialogData         *data)
 {
@@ -1333,15 +1399,13 @@ save_images__done (AsyncOperationData *aodata,
 	error = data->error;
 	g_mutex_unlock (data->yes_or_no);
 
-	data->idle_id = g_idle_add (notify_cb, data);
-
 	if (interrupted || error)
 		return;
 
-	new_aodata = async_operation_new (data->delete_list,
+	new_aodata = async_operation_new (data->adjust_orientation_list,
 					  NULL,
-					  delete_images__step,
-					  delete_images__done,
+					  adjust_orientation__step,
+					  adjust_orientation__done,
 					  data);
 	async_operation_start (new_aodata);
 }
@@ -1393,6 +1457,7 @@ ok_clicked_cb (GtkButton  *button,
 
 	data->keep_original_filename = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton));
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
+	data->adjust_orientation = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE);
 
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, data->keep_original_filename);
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
@@ -2063,3 +2128,4 @@ dlg_select_camera_model_cb (GtkButton  *button,
 
 
 #endif /*HAVE_LIBGPHOTO */
+

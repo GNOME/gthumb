@@ -1,3 +1,17 @@
+2005-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c: 
+	* src/rotation-utils.h: new files
+
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.c: 
+	* src/Makefile.am: 
+	* libgthumb/preferences.h: 
+	* data/glade/gthumb_camera.glade: 
+	* data/gthumb.schemas.in: 
+
+	Adjust photo orientation on import.  Patch by Andriy Kulchytskyy.
+	
 2005-11-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (save_jpeg_data): check whether the image is jpeg

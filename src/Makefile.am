@@ -131,7 +131,9 @@ gthumb_SOURCES = 				\
 	main.c					\
 	main.h					\
 	totem-scrsaver.c			\
-	totem-scrsaver.h
+	totem-scrsaver.h			\
+	rotation-utils.c			\
+	rotation-utils.h
 
 gthumb_LDADD = 					\
 	$(EXIF_LIBS)				\
@@ -184,7 +186,7 @@ libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 libphotoimporter_la_SOURCES = dlg-photo-importer.c dlg-photo-importer.h
 libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-
+libphotoimporter_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
 
 EXTRA_DIST = 			\
 	GNOME_GThumb.idl	\

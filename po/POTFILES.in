@@ -219,3 +219,7 @@ src/gtkcellrendererthreestates.h
 src/lex.albumtheme.c
 src/main.c
 src/main.h
+src/rotation-utils.c
+src/rotation-utils.h
+src/totem-scrsaver.c
+src/totem-scrsaver.h

@@ -192,6 +192,7 @@
 #define  PREF_PHOTO_IMPORT_FILM           "/apps/gthumb/dialogs/photo_importer/film"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
+#define  PREF_PHOTO_IMPORT_ADJUST_ORIENTATION "/apps/gthumb/dialogs/photo_importer/adjust_orientation"
 #define  PREF_PHOTO_IMPORT_MODEL          "/apps/gthumb/dialogs/photo_importer/model"
 #define  PREF_PHOTO_IMPORT_PORT           "/apps/gthumb/dialogs/photo_importer/port"
 

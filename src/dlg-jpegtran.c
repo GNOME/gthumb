@@ -53,6 +53,7 @@
 #include "pixbuf-utils.h"
 #include "gthumb-stock.h"
 #include "gth-exif-utils.h"
+#include "rotation-utils.h"
 
 
 #define ROTATE_GLADE_FILE "gthumb_tools.glade"
@@ -72,14 +73,13 @@ typedef struct {
 	GtkWidget    *j_preview_image;
 	GtkWidget    *j_from_exif_checkbutton;
 
-	GthTransform  rot_type;    /* 0, 90 ,180, 270 */
-	GthTransform  tran_type;   /* mirror, flip */
 	gboolean      from_exif_data;
 	GList        *file_list;
 	GList        *files_changed_list;
 	GList        *current_image;
 	ImageLoader  *loader;
 	GdkPixbuf    *original_preview;
+	RotationData *rot_data;
 } DialogData;
 
 
@@ -98,6 +98,7 @@ dialog_data_free (DialogData *data)
 		g_object_unref (data->loader);
 	if (data->gui != NULL)
 		g_object_unref (data->gui);
+	g_free (data->rot_data);
 	g_free (data);
 }
 
@@ -149,60 +150,6 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 }
 
 
-static void
-update_rotation_from_exif_data (DialogData *data,
-				GList      *current_image)
-{
-#ifdef HAVE_LIBEXIF
-	FileData           *fd = current_image->data;
-	GthExifOrientation  orientation = get_exif_tag_short (fd->path, EXIF_TAG_ORIENTATION);
-#endif /* HAVE_LIBEXIF */
-
-	data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	data->tran_type = GTH_TRANSFORM_NONE;
-
-#ifdef HAVE_LIBEXIF
-	switch (orientation) {
-	case GTH_EXIF_ORIENTATION_TOP_LEFT:
-		data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_TOP_RIGHT:
-		data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_BOTTOM_RIGHT:
-		data->rot_type = GTH_TRANSFORM_ROTATE_180;
-		data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_BOTTOM_LEFT:
-		data->rot_type = GTH_TRANSFORM_ROTATE_180;
-		data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_LEFT_TOP:
-		data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_RIGHT_TOP:
-		data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_RIGHT_BOTTOM:
-		data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		data->tran_type = GTH_TRANSFORM_FLIP;
-		break;
-	case GTH_EXIF_ORIENTATION_LEFT_BOTTOM:
-		data->rot_type = GTH_TRANSFORM_ROTATE_270;
-		data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	default:
-		data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	}
-#endif /* HAVE_LIBEXIF */
-}
-
 
 static void
 update_from_exif_data (DialogData *data)
@@ -217,14 +164,13 @@ update_from_exif_data (DialogData *data)
 	if (! from_exif)
 		return;
 	
-	update_rotation_from_exif_data (data, data->current_image);
+	update_rotation_from_exif_data (data->current_image->data, data->rot_data);
 
 	src_pixbuf = data->original_preview;
-	
 	if (src_pixbuf == NULL) 
 		return;
 
-	switch (data->rot_type) {
+	switch (data->rot_data->rot_type) {
 	case GTH_TRANSFORM_ROTATE_90:
 		dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
 		break;
@@ -242,7 +188,7 @@ update_from_exif_data (DialogData *data)
 
 	src_pixbuf = dest_pixbuf;
 
-	switch (data->tran_type) {
+	switch (data->rot_data->tran_type) {
 	case GTH_TRANSFORM_MIRROR:
 		dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
 		break;
@@ -312,8 +258,8 @@ load_current_image (DialogData *data)
 	image_loader_set_path (data->loader, fd->path);
 	image_loader_start (data->loader);
 
-	data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	data->tran_type = GTH_TRANSFORM_NONE;
+	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
+	data->rot_data->tran_type = GTH_TRANSFORM_NONE;
 }
 
 
@@ -335,190 +281,6 @@ load_next_image (DialogData *data)
 }
 
 
-#ifdef HAVE_LIBEXIF
-
-
-static gboolean
-swap_fields (ExifContent *content,
-	     ExifTag      tag1,
-	     ExifTag      tag2)
-{
-	ExifEntry     *entry1;
-	ExifEntry     *entry2;
-	unsigned char *data;
-	unsigned int   size;
-	
-	entry1 = exif_content_get_entry (content, tag1);
-	if (entry1 == NULL) 
-		return FALSE;
-	
-	entry2 = exif_content_get_entry (content, tag2);
-	if (entry2 == NULL)
-		return FALSE;
-
-	data = entry1->data;
-	size = entry1->size;
-	
-	entry1->data = entry2->data;
-	entry1->size = entry2->size;
-	
-	entry2->data = data;
-	entry2->size = size;
-
-	return TRUE;
-}
-
-
-static ExifShort
-get_next_value_rotation_90 (int value)
-{
-	static ExifShort new_value [8] = {8, 7, 6, 5, 2, 1, 4, 3};
-	return new_value[value - 1];
-}
-
-
-static ExifShort
-get_next_value_mirror (int value)
-{
-	static ExifShort new_value [8] = {2, 1, 4, 3, 8, 7, 6, 5};
-	return new_value[value - 1];
-}
-
-
-static ExifShort
-get_next_value_flip (int value)
-{
-	static ExifShort new_value [8] = {4, 3, 2, 1, 6, 5, 8, 7};
-	return new_value[value - 1];
-}
-
-
-static void
-swap_xy_exif_fields (const char *filename,
-		     DialogData *data)
-{
-	JPEGData     *jdata;
-	ExifData     *edata;
-	unsigned int  i;
-
-	jdata = jpeg_data_new_from_file (filename);
-	if (jdata == NULL)
-		return;
-
-	edata = jpeg_data_get_exif_data (jdata);
-	if (edata == NULL) {
-		jpeg_data_unref (jdata);
-		return;
-	}
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if ((content == NULL) || (content->count == 0)) 
-			continue;
-		
-		swap_fields (content, 
-			     EXIF_TAG_RELATED_IMAGE_WIDTH,
-			     EXIF_TAG_RELATED_IMAGE_LENGTH);
-		swap_fields (content, 
-			     EXIF_TAG_IMAGE_WIDTH,
-			     EXIF_TAG_IMAGE_LENGTH);
-		swap_fields (content, 
-			     EXIF_TAG_PIXEL_X_DIMENSION,
-			     EXIF_TAG_PIXEL_Y_DIMENSION);
-		swap_fields (content, 
-			     EXIF_TAG_X_RESOLUTION,
-			     EXIF_TAG_Y_RESOLUTION);
-		swap_fields (content, 
-			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
-			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
-	}
-
-	jpeg_data_save_file (jdata, filename);
-
-	exif_data_unref (edata);
-	jpeg_data_unref (jdata);
-}
-
-
-static void
-update_orientation_field (const char *filename,
-			  DialogData *data)
-{
-	JPEGData     *jdata;
-	ExifData     *edata;
-	unsigned int  i;
-	gboolean      orientation_changed = FALSE;
-
-	jdata = jpeg_data_new_from_file (filename);
-	if (jdata == NULL)
-		return;
-
-	edata = jpeg_data_get_exif_data (jdata);
-	if (edata == NULL) {
-		jpeg_data_unref (jdata);
-		return;
-	}
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-		ExifEntry   *entry;
-
-		if ((content == NULL) || (content->count == 0)) 
-			continue;
-
-		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
-		if (!orientation_changed && (entry != NULL)) {
-			ExifByteOrder byte_order;
-			ExifShort     value;
-
-			byte_order = exif_data_get_byte_order (edata);
-			value = exif_get_short (entry->data, byte_order);
-
-			switch (data->rot_type) {
-			case GTH_TRANSFORM_ROTATE_90:
-				value = get_next_value_rotation_90 (value);
-				break;
-			case GTH_TRANSFORM_ROTATE_180:
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				break;
-			case GTH_TRANSFORM_ROTATE_270:
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				break;
-			default:
-				break;
-			}
-			
-			switch (data->tran_type) {
-			case GTH_TRANSFORM_MIRROR:
-				value = get_next_value_mirror (value);
-				break;
-			case GTH_TRANSFORM_FLIP:
-				value = get_next_value_flip (value);
-				break;
-			default:
-				break;
-			}
-
-			exif_set_short (entry->data, byte_order, value);
-
-			orientation_changed = TRUE;
-		}
-	}
-
-	jpeg_data_save_file (jdata, filename);
-
-	exif_data_unref (edata);
-	jpeg_data_unref (jdata);
-}
-
-
-#endif
-
-
 static void
 notify_file_changed (DialogData *data,
 		     const char *filename,
@@ -533,246 +295,6 @@ notify_file_changed (DialogData *data,
 }
 
 
-static void
-apply_tranformation_jpeg (DialogData *data,
-			  GList      *current_image,
-			  gboolean    notify_soon)
-{
-	FileData   *fd = current_image->data;
-	int         rot_type = data->rot_type; 
-	int         tran_type = data->tran_type; 
-	char       *line;
-	char       *tmp1, *tmp2;
-	static int  count = 0;
-	GError     *err = NULL;
-	GtkWindow  *parent = GTK_WINDOW (data->dialog);
-#ifdef HAVE_LIBJPEG
-	JXFORM_CODE transf;
-#else
-	char       *command;
-#endif
-	char       *e1, *e2;
-
-	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
-		return;
-
-	if (rot_type == GTH_TRANSFORM_ROTATE_0)
-		tmp1 = g_strdup (fd->path);
-	else {
-		tmp1 = g_strdup_printf ("%s/gthumb.%d.%d",
-					g_get_tmp_dir (), 
-					getpid (),
-					count++);
-
-#ifdef HAVE_LIBJPEG
-		switch (rot_type) {
-		case GTH_TRANSFORM_ROTATE_90:
-			transf = JXFORM_ROT_90;
-			break;
-		case GTH_TRANSFORM_ROTATE_180:
-			transf = JXFORM_ROT_180;
-			break;
-		case GTH_TRANSFORM_ROTATE_270:
-			transf = JXFORM_ROT_270;
-			break;
-		default:
-			transf = JXFORM_NONE;
-			break;
-		}
-
-		if (jpegtran (fd->path, tmp1, transf, &err) != 0) {
-			g_free (tmp1);
-			if (err != NULL) 
-				_gtk_error_dialog_from_gerror_run (parent, &err);
-			return;
-		}
-
-#else
-		switch (rot_type) {
-		case GTH_TRANSFORM_ROTATE_90:
-			command = "-rotate 90"; 
-			break;
-		case GTH_TRANSFORM_ROTATE_180:
-			command = "-rotate 180"; 
-			break;
-		case GTH_TRANSFORM_ROTATE_270:
-			command = "-rotate 270"; 
-			break;
-		default:
-			break;
-		}
-
-		e1 = shell_escape (tmp1);
-		e2 = shell_escape (fd->path);
-	
-		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, e1, e2);
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-
-		g_free (e1);
-		g_free (e2);
-		g_free (line);
-
-		if (err != NULL) {
-			g_free (tmp1);
-			_gtk_error_dialog_from_gerror_run (parent, &err);
-			return;
-		}
-#endif
-	}
-
-	if (tran_type == GTH_TRANSFORM_NONE)
-		tmp2 = g_strdup (tmp1);
-	else {
-		tmp2 = g_strdup_printf ("%s/gthumb.%d.%d",
-					g_get_tmp_dir (), 
-					getpid (),
-					count++);
-
-#ifdef HAVE_LIBJPEG
-		switch (tran_type) {
-		case GTH_TRANSFORM_MIRROR:
-			transf = JXFORM_FLIP_H;
-			break;
-		case GTH_TRANSFORM_FLIP:
-			transf = JXFORM_FLIP_V;
-			break;
-		default:
-			transf = JXFORM_NONE;
-			break;
-		}
-
-		if (jpegtran (tmp1, tmp2, transf, &err) != 0) {
-			g_free (tmp1);
-			if (err != NULL) 
-				_gtk_error_dialog_from_gerror_run (parent, &err);
-			return;
-		}
-
-#else
-		switch (tran_type) {
-		case GTH_TRANSFORM_MIRROR:
-			command = "-flip horizontal"; 
-			break;
-		case GTH_TRANSFORM_FLIP:
-			command = "-flip vertical"; 
-			break;
-		default:
-			return;
-		}
-
-		e1 = shell_escape (tmp2);
-		e2 = shell_escape (tmp1);
-
-		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, e1, e2);
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-
-		g_free (e1);
-		g_free (e2);
-		g_free (line);
-
-		if (err != NULL) {
-			g_free (tmp1);
-			g_free (tmp2);
-			_gtk_error_dialog_from_gerror_run (parent, &err);
-			return;
-		}
-#endif
-	}
-
-	e1 = shell_escape (tmp2);
-	e2 = shell_escape (fd->path);
-
-	line = g_strdup_printf ("mv -f %s %s", e1, e2);
-	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-
-	if (err != NULL) {
-		_gtk_error_dialog_from_gerror_run (parent, &err);
-
-	} else {
-#ifdef HAVE_LIBEXIF
-		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
-			swap_xy_exif_fields (fd->path, data);
-		update_orientation_field (fd->path, data);
-#endif
-
-		notify_file_changed (data, fd->path, notify_soon);
-	}
-
-	g_free (e1);
-	g_free (e2);
-	g_free (line);
-	g_free (tmp1);
-	g_free (tmp2);
-}
-
-
-static void
-apply_transformation_generic (DialogData *data,
-			      GList      *current_image,
-			      gboolean    notify_soon)
-{
-	FileData   *fd = current_image->data;
-	int         rot_type = data->rot_type; 
-	int         tran_type = data->tran_type; 
-	GdkPixbuf  *pixbuf1, *pixbuf2;
-	const char *mime_type;
-
-	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
-		return;
-
-	pixbuf1 = gdk_pixbuf_new_from_file (fd->path, NULL);
-	if (pixbuf1 == NULL)
-		return;
-
-	switch (rot_type) {
-	case GTH_TRANSFORM_ROTATE_90:
-		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, FALSE);
-		break;
-	case GTH_TRANSFORM_ROTATE_180:
-		pixbuf2 = _gdk_pixbuf_copy_mirror (pixbuf1, TRUE, TRUE);
-		break;
-	case GTH_TRANSFORM_ROTATE_270:
-		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, TRUE);
-		break;
-	default:
-		pixbuf2 = pixbuf1;
-		g_object_ref (pixbuf2);
-		break;
-	}
-	g_object_unref (pixbuf1);
-
-	switch (tran_type) {
-	case GTH_TRANSFORM_MIRROR:
-		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, TRUE, FALSE);
-		break;
-	case GTH_TRANSFORM_FLIP:
-		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, FALSE, TRUE);
-		break;
-	default:
-		pixbuf1 = pixbuf2;
-		g_object_ref (pixbuf1);
-		break;
-	}
-	g_object_unref (pixbuf2);
-
-	mime_type = gnome_vfs_mime_type_from_name (fd->path);
-	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
-		GError      *error = NULL;
-		const char  *image_type = mime_type + 6;
-		if (! _gdk_pixbuf_save (pixbuf1, 
-					fd->path, 
-					image_type, 
-					&error, 
-					NULL))
-			_gtk_error_dialog_from_gerror_run (GTK_WINDOW (data->window), &error);
-	}
-	g_object_unref (pixbuf1);
-
-	notify_file_changed (data, fd->path, notify_soon);
-}
-
 
 static void
 apply_transformation (DialogData *data,
@@ -781,7 +303,8 @@ apply_transformation (DialogData *data,
 {
 	FileData         *fd = current_image->data;
 	char             *dir;
-        GnomeVFSFileInfo  info;
+	GnomeVFSFileInfo  info;
+	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
         
 	/* Check directory permissions. */
 
@@ -800,21 +323,20 @@ apply_transformation (DialogData *data,
 	/**/
 
 	if (data->from_exif_data)
-		update_rotation_from_exif_data (data, current_image);
-
-        gnome_vfs_get_file_info (fd->path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-
+		update_rotation_from_exif_data (fd, data->rot_data);
+	gnome_vfs_get_file_info (fd->path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 	if (image_is_jpeg (fd->path)) 
-		apply_tranformation_jpeg (data, current_image, notify_soon);
+		apply_transformation_jpeg (window, fd, data->rot_data);
 	else 
-		apply_transformation_generic (data, current_image, notify_soon);
-		
-        gnome_vfs_set_file_info (fd->path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+		apply_transformation_generic (window, fd, data->rot_data);
+	gnome_vfs_set_file_info (fd->path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+
+	notify_file_changed (data, fd->path, notify_soon);
 }
 
 
 static void
-apply_tranformation_to_all (DialogData *data)
+apply_transformation_to_all (DialogData *data)
 {
 	GladeXML  *gui;
 	GtkWidget *dialog;
@@ -842,7 +364,6 @@ apply_tranformation_to_all (DialogData *data)
 					      GTK_WINDOW (data->dialog));
 	}
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE); 
-
 	gtk_widget_show (dialog);
 
 	while (gtk_events_pending())
@@ -860,7 +381,6 @@ apply_tranformation_to_all (DialogData *data)
 			gtk_main_iteration();
 		
 		apply_transformation (data, scan, FALSE);
-		
 		i++;
 	}
 	
@@ -882,7 +402,7 @@ ok_clicked (GtkWidget  *button,
 
 	if (to_all) {
 		gtk_widget_hide (data->dialog);
-		apply_tranformation_to_all (data);
+		apply_transformation_to_all (data);
 		gtk_widget_destroy (data->dialog);
 	} else {
 		apply_transformation (data, data->current_image, TRUE);
@@ -906,8 +426,8 @@ static void
 revert_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	data->tran_type = GTH_TRANSFORM_NONE;
+	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
+	data->rot_data->tran_type = GTH_TRANSFORM_NONE;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton), FALSE);
 
@@ -923,12 +443,12 @@ rot90_clicked (GtkWidget  *button,
 	GdkPixbuf *src_pixbuf;
 	GdkPixbuf *dest_pixbuf;
 
-	if (data->tran_type == GTH_TRANSFORM_NONE)
-		data->rot_type = get_next_rot (data->rot_type);
+	if (data->rot_data->tran_type == GTH_TRANSFORM_NONE)
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 	else {
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 	}
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
@@ -951,12 +471,12 @@ rot270_clicked (GtkWidget  *button,
 	GdkPixbuf *src_pixbuf;
 	GdkPixbuf *dest_pixbuf;
 
-	if (data->tran_type == GTH_TRANSFORM_NONE) {
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
+	if (data->rot_data->tran_type == GTH_TRANSFORM_NONE) {
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 	} else
-		data->rot_type = get_next_rot (data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
@@ -983,16 +503,16 @@ mirror_clicked (GtkWidget  *button,
 	if (src_pixbuf == NULL) 
 		return;
 
-	if (data->tran_type == GTH_TRANSFORM_FLIP) {
-		data->tran_type = GTH_TRANSFORM_NONE;
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
+	if (data->rot_data->tran_type == GTH_TRANSFORM_FLIP) {
+		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 
-	} else if (data->tran_type == GTH_TRANSFORM_MIRROR)
-		data->tran_type = GTH_TRANSFORM_NONE;
+	} else if (data->rot_data->tran_type == GTH_TRANSFORM_MIRROR)
+		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
 
 	else
-		data->tran_type = GTH_TRANSFORM_MIRROR;
+		data->rot_data->tran_type = GTH_TRANSFORM_MIRROR;
 	
 	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
@@ -1009,16 +529,16 @@ flip_clicked (GtkWidget  *button,
 	GdkPixbuf *src_pixbuf;
 	GdkPixbuf *dest_pixbuf;
 
-	if (data->tran_type == GTH_TRANSFORM_MIRROR) {
-		data->tran_type = GTH_TRANSFORM_NONE;
-		data->rot_type = get_next_rot (data->rot_type);
-		data->rot_type = get_next_rot (data->rot_type);
+	if (data->rot_data->tran_type == GTH_TRANSFORM_MIRROR) {
+		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
+		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
 
-	} else if (data->tran_type == GTH_TRANSFORM_FLIP)
-		data->tran_type = GTH_TRANSFORM_NONE;
+	} else if (data->rot_data->tran_type == GTH_TRANSFORM_FLIP)
+		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
 
 	else
-		data->tran_type = GTH_TRANSFORM_FLIP;
+		data->rot_data->tran_type = GTH_TRANSFORM_FLIP;
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
@@ -1114,6 +634,8 @@ dlg_jpegtran (GthWindow *window)
 		g_free (data);
 		return;
 	}
+
+	data->rot_data = rotation_data_new ();
 
 	/* Get the widgets. */
 
@@ -1241,10 +763,12 @@ dlg_apply_jpegtran (GthWindow    *window,
 	data->window = window;
 	data->file_list = list;
 	data->current_image = list;
-	data->rot_type = rot_type;
-	data->tran_type = tran_type;
 
-	apply_tranformation_to_all (data);
+	data->rot_data = rotation_data_new();
+	data->rot_data->rot_type = rot_type;
+	data->rot_data->tran_type = tran_type;
+
+	apply_transformation_to_all (data);
 }
 
 
@@ -1268,6 +792,7 @@ dlg_apply_jpegtran_from_exif (GthWindow *window)
 	data->file_list = list;
 	data->current_image = list;
 	data->from_exif_data = TRUE;
+	data->rot_data = rotation_data_new();
 
-	apply_tranformation_to_all (data);
+	apply_transformation_to_all (data);
 }
