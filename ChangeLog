@@ -1,5 +1,15 @@
 2005-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/icons/film-16.png: new icon.
+	
+	* libgthumb/cursors/void-mask.xbm (void_mask_bits): 
+	* libgthumb/cursors/void-data.xbm (void_data_bits): 
+
+	use char[] inseted of unsigned char[] to avoid a warning.
+
+	* libgthumb/nav-window.c (nav_window_new): draw the thumbnail
+	during the expose event of the preview.
+
 	* src/dlg-jpegtran.c (apply_transformation_to_all): 
 	call dialog_data_free only when the main dialog is not
 	used.

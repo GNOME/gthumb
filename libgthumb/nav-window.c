@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2005 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -55,45 +55,6 @@ typedef struct {
 	gdouble       factor;
 	gdouble       sqr_x_d, sqr_y_d;
 } NavWindow; 
-
-
-static NavWindow *
-nav_window_new (ImageViewer *viewer)
-{
-	NavWindow *nav_window;
-	GtkWidget *out_frame;
-	GtkWidget *in_frame;
-
-	nav_window = g_new (NavWindow, 1);
-
-	nav_window->viewer = viewer;
-	nav_window->popup_win = gtk_window_new (GTK_WINDOW_POPUP);
-	gtk_window_set_wmclass (GTK_WINDOW (nav_window->popup_win), "",
-                                "gthumb_navigator");
-
-	out_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (out_frame), GTK_SHADOW_OUT);
-	gtk_container_add (GTK_CONTAINER (nav_window->popup_win), out_frame);
-
-	in_frame = gtk_frame_new (NULL);
-	gtk_frame_set_shadow_type (GTK_FRAME (in_frame), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (out_frame), in_frame);
-
-	nav_window->preview = gtk_drawing_area_new ();
-	gtk_container_add (GTK_CONTAINER (in_frame), nav_window->preview);
-
-	/* gc needed to draw the preview square */
-
-	nav_window->gc = gdk_gc_new (GTK_WIDGET (viewer)->window);
-	gdk_gc_set_function (nav_window->gc, GDK_INVERT);
-	gdk_gc_set_line_attributes (nav_window->gc, 
-				    PEN_WIDTH, 
-				    GDK_LINE_SOLID, 
-				    GDK_CAP_BUTT, 
-				    GDK_JOIN_MITER);
-
-	return nav_window;
-}
 
 
 static void
@@ -189,6 +150,10 @@ update_view (NavWindow *nav_win)
 	popup_height = MAX ((gint) floor (factor * h + 0.5), 1);
 
 	image_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	g_return_if_fail (image_pixbuf != NULL);
+
+	if (nav_win->pixbuf != NULL) 
+		g_object_unref (nav_win->pixbuf);
 	nav_win->pixbuf = gdk_pixbuf_scale_simple (image_pixbuf,
 						   popup_width,
 						   popup_height,
@@ -225,48 +190,58 @@ update_view (NavWindow *nav_win)
 }
 
 
+static gboolean
+nav_window_expose (GtkWidget      *widget,
+		   GdkEventExpose *event,
+		   NavWindow      *nav_win)
+{
+	if (nav_win->pixbuf == NULL)
+		return FALSE;
+
+	if (! gdk_pixbuf_get_has_alpha (nav_win->pixbuf))
+		gdk_pixbuf_render_to_drawable (
+		       nav_win->pixbuf,
+		       nav_win->preview->window,
+		       nav_win->preview->style->white_gc,
+		       0, 0,
+		       0, 0,
+		       nav_win->popup_width,
+		       nav_win->popup_height,
+		       GDK_RGB_DITHER_MAX,
+		       0, 0);
+	else
+		gdk_pixbuf_render_to_drawable_alpha (
+			nav_win->pixbuf,
+			nav_win->preview->window,
+			0, 0,
+			0, 0,
+			nav_win->popup_width,
+			nav_win->popup_height,
+			GDK_PIXBUF_ALPHA_BILEVEL,
+			112, /* FIXME */
+			GDK_RGB_DITHER_MAX,
+			0, 0);
+	
+	nav_window_draw_sqr (nav_win, FALSE, 
+			     nav_win->sqr_x, 
+			     nav_win->sqr_y);
+
+	return TRUE;
+}
+
+		   
 static int
 nav_window_events (GtkWidget *widget, 
-		   GdkEvent *event, 
-		   gpointer data)
+		   GdkEvent  *event, 
+		   gpointer   data)
 {
-	NavWindow *nav_win = data;
-	GdkModifierType mask;
-	gint mx, my;
-	gdouble x, y;
-	ImageViewer *viewer = nav_win->viewer;
+	NavWindow       *nav_win = data;
+	GdkModifierType  mask;
+	gint             mx, my;
+	gdouble          x, y;
+	ImageViewer     *viewer = nav_win->viewer;
 
 	switch (event->type) {
-	case GDK_EXPOSE:
-		if (! gdk_pixbuf_get_has_alpha (nav_win->pixbuf))
-			gdk_pixbuf_render_to_drawable (
-				nav_win->pixbuf,
-				nav_win->preview->window,
-				nav_win->preview->style->white_gc,
-				0, 0,
-				0, 0,
-				nav_win->popup_width,
-				nav_win->popup_height,
-				GDK_RGB_DITHER_MAX,
-				0, 0);
-		else
-			gdk_pixbuf_render_to_drawable_alpha (
-				nav_win->pixbuf,
-				nav_win->preview->window,
-				0, 0,
-				0, 0,
-				nav_win->popup_width,
-				nav_win->popup_height,
-				GDK_PIXBUF_ALPHA_BILEVEL,
-				112, /* FIXME */
-				GDK_RGB_DITHER_MAX,
-				0, 0);
-		
-		nav_window_draw_sqr (nav_win, FALSE, 
-				     nav_win->sqr_x, 
-				     nav_win->sqr_y);
-		break;
-		
 	case GDK_BUTTON_RELEASE:
 		/* Release keyboard focus. */ 
 		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
@@ -279,7 +254,7 @@ nav_window_events (GtkWidget *widget,
 
 		return TRUE;
 
-	case GDK_MOTION_NOTIFY:  
+	case GDK_MOTION_NOTIFY: 
 		gdk_window_get_pointer (widget->window, &mx, &my, &mask);
 		get_sqr_origin_as_double (nav_win, mx, my, &x, &y);
 
@@ -365,10 +340,53 @@ nav_window_grab_pointer (NavWindow *nav_win)
 }
 
 
+static NavWindow *
+nav_window_new (ImageViewer *viewer)
+{
+	NavWindow *nav_window;
+	GtkWidget *out_frame;
+	GtkWidget *in_frame;
+
+	nav_window = g_new0 (NavWindow, 1);
+
+	nav_window->viewer = viewer;
+	nav_window->popup_win = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_wmclass (GTK_WINDOW (nav_window->popup_win), "",
+                                "gthumb_navigator");
+
+	out_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (out_frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (nav_window->popup_win), out_frame);
+
+	in_frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (in_frame), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (out_frame), in_frame);
+
+	nav_window->preview = gtk_drawing_area_new ();
+	gtk_container_add (GTK_CONTAINER (in_frame), nav_window->preview);
+	g_signal_connect (G_OBJECT (nav_window->preview), 
+			  "expose_event",  
+			  G_CALLBACK (nav_window_expose), 
+			  nav_window);
+
+	/* gc needed to draw the preview square */
+
+	nav_window->gc = gdk_gc_new (GTK_WIDGET (viewer)->window);
+	gdk_gc_set_function (nav_window->gc, GDK_INVERT);
+	gdk_gc_set_line_attributes (nav_window->gc, 
+				    PEN_WIDTH, 
+				    GDK_LINE_SOLID, 
+				    GDK_CAP_BUTT, 
+				    GDK_JOIN_MITER);
+
+	return nav_window;
+}
+
+
 void
-nav_button_clicked_cb (GtkWidget *widget, 
+nav_button_clicked_cb (GtkWidget      *widget, 
 		       GdkEventButton *event,
-		       ImageViewer *viewer)
+		       ImageViewer    *viewer)
 {
 	NavWindow *nav_win;
 

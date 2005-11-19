@@ -26,6 +26,8 @@
 #include <gtk/gtkwidget.h>
 #include "image-viewer.h"
 
-void nav_button_clicked_cb (GtkWidget *widget,  ImageViewer *viewer);
+void nav_button_clicked_cb (GtkWidget      *widget,  
+			    GdkEventButton *event,
+			    ImageViewer    *viewer);
 
 #endif /* NAV_WINDOW_H */
