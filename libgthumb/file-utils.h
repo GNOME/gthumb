@@ -114,6 +114,8 @@ GList *             path_list_dup                (GList *path_list);
 
 void                path_list_free               (GList *list);
 
+void                path_list_print              (GList *list);
+
 GList *             path_list_find_path          (GList *list, 
 						  const char *path);
 

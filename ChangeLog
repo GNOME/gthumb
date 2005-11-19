@@ -1,3 +1,9 @@
+2005-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-jpegtran.c (apply_transformation_to_all): 
+	call dialog_data_free only when the main dialog is not
+	used.
+	
 2005-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c: 

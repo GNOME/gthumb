@@ -1010,6 +1010,17 @@ path_list_free (GList *list)
 }
 
 
+void
+path_list_print (GList *list) 
+{
+	GList *scan;
+	for (scan = list; scan; scan = scan->next) {
+		char *path = scan->data;
+		g_print ("--> %s\n", path);
+	}
+}
+
+
 GList *
 path_list_find_path (GList *list, const char *path)
 {

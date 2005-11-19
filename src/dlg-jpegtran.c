@@ -89,6 +89,7 @@ dialog_data_free (DialogData *data)
 	if (data->files_changed_list != NULL) {
 		all_windows_notify_files_changed (data->files_changed_list);
 		path_list_free (data->files_changed_list);
+		data->files_changed_list = NULL;
 	}
 
 	all_windows_add_monitor ();
@@ -387,7 +388,10 @@ apply_transformation_to_all (DialogData *data)
 	gtk_widget_destroy (dialog);
 	g_object_unref (gui);
 
-	dialog_data_free (data);
+	if (data->dialog == NULL)
+		dialog_data_free (data);
+	else
+		gtk_widget_destroy (data->dialog);
 }
 
 
@@ -403,7 +407,6 @@ ok_clicked (GtkWidget  *button,
 	if (to_all) {
 		gtk_widget_hide (data->dialog);
 		apply_transformation_to_all (data);
-		gtk_widget_destroy (data->dialog);
 	} else {
 		apply_transformation (data, data->current_image, TRUE);
 		load_next_image (data);
