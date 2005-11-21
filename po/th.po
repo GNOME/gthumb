@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-07 16:57+0700\n"
-"PO-Revision-Date: 2005-11-08 16:00+0700\n"
+"PO-Revision-Date: 2005-11-21 18:02+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: THAI <l10n@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgstr "รูปภาพ GThumb"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "โปรแกรมดูรูป GThumb"
+msgstr "GThumb: โปรแกรมดูรูป"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
@@ -211,11 +211,11 @@ msgstr "วันที่"
 
 #: ../data/albumthemes/text.h:31
 msgid "Exposure time"
-msgstr ""
+msgstr "ช่วงเวลารับแสง"
 
 #: ../data/albumthemes/text.h:32
 msgid "Exposure mode"
-msgstr ""
+msgstr "โหมดการรับแสง"
 
 #: ../data/albumthemes/text.h:33
 msgid "Flash"
@@ -227,7 +227,7 @@ msgstr "ความเร็วชัตเตอร์"
 
 #: ../data/albumthemes/text.h:35
 msgid "Aperture value"
-msgstr ""
+msgstr "ค่ารูหน้ากล้อง"
 
 #: ../data/albumthemes/text.h:36
 msgid "Focal length"
@@ -380,9 +380,8 @@ msgid "_Save the new image as:"
 msgstr "บันทึกรูปใหม่เ_ป็น"
 
 #: ../data/glade/gthumb.glade.h:34
-#, fuzzy
 msgid "_View the destination"
-msgstr "เลือกโฟลเดอร์ปลายทาง"
+msgstr "เปิด_ดูปลายทาง"
 
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
@@ -424,7 +423,7 @@ msgstr "เลือกรุ่นของกล้อง"
 
 #: ../data/glade/gthumb_camera.glade.h:9
 msgid "Update previews"
-msgstr "ปรับปรุงตัวอย่างรูปภาพ"
+msgstr "อัพเดตตัวอย่างรูปภาพ"
 
 #: ../data/glade/gthumb_camera.glade.h:10
 msgid "_Auto Detect"
@@ -569,14 +568,12 @@ msgid "JPEG Options"
 msgstr "ตัวเลือก JPEG"
 
 #: ../data/glade/gthumb_convert.glade.h:10
-#, fuzzy
 msgid "No_rmal (Deflate)"
-msgstr "Normal (Deflate) (_r)"
+msgstr "_ปกติ (คลายคืนได้)"
 
 #: ../data/glade/gthumb_convert.glade.h:11
-#, fuzzy
 msgid "Opti_mize"
-msgstr "Optimize (_m)"
+msgstr "หาค่าที่_ดีที่สุด"
 
 #: ../data/glade/gthumb_convert.glade.h:12
 #: ../data/glade/gthumb_tools.glade.h:33
@@ -643,9 +640,8 @@ msgid "_PNG"
 msgstr "_PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:29
-#, fuzzy
 msgid "_Progressive"
-msgstr "Progressive (_P)"
+msgstr "ไล่_ระดับความชัด"
 
 #: ../data/glade/gthumb_convert.glade.h:30
 msgid "_Quality:"
@@ -949,7 +945,7 @@ msgstr "_สี:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:28
 msgid "Create Index Image"
-msgstr "สร้างดัชนีของรูปภาพ"
+msgstr "สร้างภาพดัชนี"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
@@ -1006,7 +1002,7 @@ msgstr "รูปภาพ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:41
 msgid "Index Image Style"
-msgstr ""
+msgstr "รูปแบบของภาพดัชนี"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:42
 msgid "Page"
@@ -1423,7 +1419,7 @@ msgstr "<b>การวางหน้ากระดาษ</b>"
 
 #: ../data/glade/gthumb_print.glade.h:11
 msgid "<b>Size</b>"
-msgstr "<b>ขนาดรูปภาพ</b>"
+msgstr "<b>ขนาด</b>"
 
 #: ../data/glade/gthumb_print.glade.h:12
 msgid ""
@@ -1447,7 +1443,7 @@ msgstr "แบบ_อักษรสำหรับหมายเหตุ:"
 
 #: ../data/glade/gthumb_print.glade.h:18
 msgid "Executive"
-msgstr ""
+msgstr "Executive"
 
 #: ../data/glade/gthumb_print.glade.h:19
 msgid "I_nclude comment"
@@ -1471,11 +1467,11 @@ msgstr "การจัดวาง"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "Legal"
-msgstr ""
+msgstr "Legal"
 
 #: ../data/glade/gthumb_print.glade.h:25
 msgid "Letter"
-msgstr ""
+msgstr "Letter"
 
 #: ../data/glade/gthumb_print.glade.h:26
 msgid "Millimeters"
@@ -1491,7 +1487,7 @@ msgstr "กระดาษ"
 
 #: ../data/glade/gthumb_print.glade.h:29
 msgid "Postcard"
-msgstr ""
+msgstr "Postcard"
 
 #.
 #: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
@@ -1501,7 +1497,7 @@ msgstr "พิมพ์"
 
 #: ../data/glade/gthumb_print.glade.h:31
 msgid "Tabloid"
-msgstr ""
+msgstr "Tabloid"
 
 #: ../data/glade/gthumb_print.glade.h:32
 msgid "_Bottom:"
@@ -1811,7 +1807,7 @@ msgstr "<b>อัลบั้ม</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:10
 msgid "<b>Index Layout</b>"
-msgstr "<b>ดัชนีรูปภาพ</b>"
+msgstr "<b>การจัดเรียงดัชนี</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:11
 msgid "<b>Personalize theme</b>"
@@ -1823,7 +1819,7 @@ msgstr "<b>ข้อมูลรูป</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:14
 msgid "<b>Theme</b>"
-msgstr "<b>ธีม</b>"
+msgstr "<b>ชุดตกแต่ง</b>"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:16
 #, no-c-format
@@ -1840,15 +1836,15 @@ msgstr "คำอธิบาย"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:21
 msgid "E_xposure mode"
-msgstr ""
+msgstr "โ_หมดการรับแสง"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:22
 msgid "Exposure _time"
-msgstr ""
+msgstr "ช่วงเ_วลารับแสง"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:26
 msgid "Focal _length"
-msgstr "ความ_ยาวโฟกัส"
+msgstr "ทาง_ยาวโฟกัส"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
@@ -1868,7 +1864,7 @@ msgstr "_ขนาด :"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:36
 msgid "Th_eme:"
-msgstr "_ธีม:"
+msgstr "ชุด_ตกแต่ง:"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:37
 msgid "Web Album"
@@ -1876,11 +1872,11 @@ msgstr "อัลบั้มรูปบนเว็บ"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:38
 msgid "Web Album Theme"
-msgstr "ธีมสำหรับอัลบั้มรูปบนเว็บ"
+msgstr "ชุดตกแต่งสำหรับอัลบั้มรูปบนเว็บ"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:39
 msgid "_Aperture value"
-msgstr ""
+msgstr "_ค่ารูหน้ากล้อง"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Copy originals to destination"
@@ -1896,11 +1892,11 @@ msgstr "แ_ฟลช"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Go to Theme Folder"
-msgstr "ไ_ปโฟลเดอร์ที่เก็บธีม"
+msgstr "ไ_ปโฟลเดอร์ที่เก็บชุดตกแต่ง"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Install Theme..."
-msgstr "_ติดตั้งธีม"
+msgstr "_ติดตั้งชุดตกแต่ง..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:46
 msgid "_Select"
@@ -2149,7 +2145,7 @@ msgstr "Sans Regular 12"
 
 #: ../libgthumb/gnome-print-font-picker.c:88
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
-msgstr ""
+msgstr "กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟภมยรลวศษสหฬอฮAaBb"
 
 #: ../libgthumb/gnome-print-font-picker.c:89
 msgid "Pick a Font"
@@ -2161,7 +2157,7 @@ msgstr "หัวเรื่อง"
 
 #: ../libgthumb/gnome-print-font-picker.c:175
 msgid "The title of the selection dialog box"
-msgstr ""
+msgstr "หัวเรื่องของไดอะล็อกเลือกแบบอักษร"
 
 #: ../libgthumb/gnome-print-font-picker.c:195
 msgid "Font name"
@@ -2173,7 +2169,7 @@ msgstr "ชื่อของแบบอักษรที่เลือก"
 
 #: ../libgthumb/gnome-print-font-picker.c:204
 msgid "Preview text"
-msgstr "ดูตัวอย่าง "
+msgstr "ข้อความตัวอย่าง"
 
 #: ../libgthumb/gnome-print-font-picker.c:205
 msgid "Preview text shown in the dialog"
@@ -2181,19 +2177,19 @@ msgstr "ข้อความตัวอย่างที่แสดงใน
 
 #: ../libgthumb/gnome-print-font-picker.c:213
 msgid "Use font in label"
-msgstr ""
+msgstr "ใช้แบบอักษรในฉลาก"
 
 #: ../libgthumb/gnome-print-font-picker.c:214
 msgid "Use font in the label in font info mode"
-msgstr ""
+msgstr "ใช้แบบอักษรในฉลากในโหมดข้อมูลแบบอักษร"
 
 #: ../libgthumb/gnome-print-font-picker.c:222
 msgid "Font size for label"
-msgstr ""
+msgstr "ขนาดแบบอักษรสำหรับฉลาก"
 
 #: ../libgthumb/gnome-print-font-picker.c:223
 msgid "Font size for label in font info mode"
-msgstr ""
+msgstr "ขนาดแบบอักษรสำหรับฉลากในโหมดข้อมูลแบบอักษร"
 
 #: ../libgthumb/gnome-print-font-picker.c:233
 msgid "Show size"
@@ -2201,7 +2197,7 @@ msgstr "แสดงขนาด"
 
 #: ../libgthumb/gnome-print-font-picker.c:234
 msgid "Show size in font info mode"
-msgstr ""
+msgstr "แสดงขนาดในโหมดข้อมูลแบบอักษร"
 
 #: ../libgthumb/gnome-print-font-picker.c:1013
 msgid "Font"
@@ -2479,7 +2475,7 @@ msgstr "ขนาด "
 
 #: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:522
 msgid "Type"
-msgstr "ประเภทของภาพ"
+msgstr "ชนิด"
 
 #: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:517
 #: ../src/gth-exif-data-viewer.c:515 ../src/gth-viewer.c:598
@@ -2488,7 +2484,7 @@ msgstr "แก้ไขล่าสุด"
 
 #: ../src/dlg-image-prop.c:632
 msgid "Information on Channel"
-msgstr "ข้อมูลบนแชนเนล"
+msgstr "ข้อมูลของแชนเนล"
 
 #: ../src/dlg-image-prop.c:747
 #, c-format
