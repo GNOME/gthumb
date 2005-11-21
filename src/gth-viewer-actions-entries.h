@@ -85,7 +85,7 @@ static GtkToggleActionEntry gth_viewer_action_toggle_entries[] = {
 	  G_CALLBACK (gth_viewer_activate_action_view_show_info), 
 	  TRUE },
 	{ "View_SingleWindow", NULL,
-	  N_("_Sigle Window"), NULL,
+	  N_("_Single Window"), NULL,
 	  N_("Reuse this window to view other images"),
 	  G_CALLBACK (gth_viewer_activate_action_single_window), 
 	  FALSE }

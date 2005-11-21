@@ -1,3 +1,9 @@
+2005-11-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-viewer-actions-entries.h: 
+
+	Fixed bug #321924: "Sigle Window" is a typo
+
 2005-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/icons/film-16.png: new icon.
