@@ -1,3 +1,9 @@
+2005-11-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.desktop.in (_GenericName): added generic name.
+
+	Fixed bug #322158: please add a generic name to the desktop file
+
 2005-11-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer-actions-entries.h: 
