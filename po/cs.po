@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-02 19:21+0100\n"
-"PO-Revision-Date: 2005-11-02 23:23+0100\n"
+"POT-Creation-Date: 2005-12-02 19:41+0100\n"
+"PO-Revision-Date: 2005-12-02 20:22+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -412,8 +412,8 @@ msgstr "Odstranit vybrané obrázky z fotoaparátu"
 msgid "Import Photos"
 msgstr "Importovat fotografie"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
-#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1382
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:849
+#: ../src/dlg-photo-importer.c:888 ../src/dlg-photo-importer.c:1446
 msgid "No camera detected"
 msgstr "Nedetekován fotoaparát"
 
@@ -1491,8 +1491,8 @@ msgid "Postcard"
 msgstr "Pohlednice"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
-#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1672
+#: ../libgthumb/print-callbacks.c:1686 ../libgthumb/print-callbacks.c:2147
 msgid "Print"
 msgstr "Tisk"
 
@@ -1576,8 +1576,8 @@ msgstr "Hledat _libovolnou vybranou kategorii"
 msgid "New _Search..."
 msgstr "Nové _hledání..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:812
-#: ../src/dlg-photo-importer.c:1431
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:818
+#: ../src/dlg-photo-importer.c:1496
 msgid "No images found"
 msgstr "Žádné obrázky nebyly nalezeny"
 
@@ -1925,10 +1925,14 @@ msgid "rows"
 msgstr "řádků"
 
 #: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Prohlížeč obrázků"
+
+#: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "Prohlížení a uspořádání vašich obrázků"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "Prohlížeč obrázků gThumb"
 
@@ -2093,33 +2097,33 @@ msgstr "%d. %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(Bez komentáře)"
 
-#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
+#: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:316 ../src/dlg-photo-importer.c:1521
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Nemáte potřebná oprávnění pro vytváření obrázků v adresáři \"%s\""
 
-#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:321
+#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
 #: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Obrázek pojmenovaný \"%s\" je již přítomen. Chcete jej přepsat?"
 
-#: ../libgthumb/dlg-save-image.c:170
+#: ../libgthumb/dlg-save-image.c:169
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Nepodporovaný typ obrázku: %s"
 
-#: ../libgthumb/dlg-save-image.c:252
+#: ../libgthumb/dlg-save-image.c:251
 msgid "Determine by extension"
 msgstr "Rozhodnout podle přípony"
 
-#: ../libgthumb/dlg-save-image.c:287
+#: ../libgthumb/dlg-save-image.c:286
 msgid "Save Image"
 msgstr "Uložit obrázek"
 
-#: ../libgthumb/dlg-save-image.c:304
+#: ../libgthumb/dlg-save-image.c:303
 msgid "Image type:"
 msgstr "Typ obrázku:"
 
@@ -2207,7 +2211,7 @@ msgstr "Zobrazovat velikost v režimu informací o písmu"
 msgid "Font"
 msgstr "Písmo"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8808
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8772
 #: ../src/gth-viewer.c:2276
 msgid "Wait please..."
 msgstr "Prosím počkejte..."
@@ -2227,12 +2231,12 @@ msgstr "Název"
 msgid "Ro_tate Images"
 msgstr "_Otočit obrázky"
 
-#: ../libgthumb/print-callbacks.c:669
+#: ../libgthumb/print-callbacks.c:667
 #, c-format
 msgid "Page %d of %d"
 msgstr "Strana %d z %d"
 
-#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1745 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Načítám obrázek: %s"
@@ -2319,10 +2323,9 @@ msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Kategorie \"%s\" již existuje. Použijte prosím jiný název."
 
 #: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
-#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456
-#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
-#: ../src/dlg-rename-series.c:343 ../src/dlg-search.c:468
-#: ../src/gth-window-actions-callbacks.c:820
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456 ../src/dlg-jpegtran.c:576
+#: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
+#: ../src/dlg-search.c:468 ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Nelze zobrazit nápovědu: %s"
@@ -2397,7 +2400,7 @@ msgid ""
 msgstr "Obrázky nelze přesunout do Koše. Chcete je odstranit natrvalo?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1269
-#: ../src/gth-browser.c:1939 ../src/gth-viewer.c:977
+#: ../src/gth-browser.c:1933 ../src/gth-viewer.c:977
 msgid "_Do not display this message again"
 msgstr "_Příště tuto zprávu nezobrazovat"
 
@@ -2497,17 +2500,17 @@ msgstr "Informace o kanálu"
 msgid "%s Properties"
 msgstr "Vlastnosti %s"
 
-#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1381
-#: ../src/dlg-photo-importer.c:1430 ../src/dlg-photo-importer.c:1442
-#: ../src/dlg-photo-importer.c:1458 ../src/dlg-photo-importer.c:1487
+#: ../src/dlg-photo-importer.c:885 ../src/dlg-photo-importer.c:1445
+#: ../src/dlg-photo-importer.c:1495 ../src/dlg-photo-importer.c:1507
+#: ../src/dlg-photo-importer.c:1523 ../src/dlg-photo-importer.c:1552
 msgid "Could not import photos"
 msgstr "Nemohu importovat fotografie"
 
-#: ../src/dlg-photo-importer.c:1224 ../src/main.c:956
+#: ../src/dlg-photo-importer.c:1233 ../src/main.c:956
 msgid "Film"
 msgstr "Film"
 
-#: ../src/dlg-photo-importer.c:1439
+#: ../src/dlg-photo-importer.c:1504
 #: ../src/gth-browser-actions-callbacks.c:1719
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
@@ -2568,7 +2571,7 @@ msgstr "Adresář"
 msgid "Select Album Theme"
 msgstr "Vyberte téma alba"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3876
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3870
 msgid "Could not move the items:"
 msgstr "Nelze přesunout položky:"
 
@@ -3065,7 +3068,7 @@ msgstr "Předchozí"
 msgid "View previous image"
 msgstr "Zobrazit předchozí obrázek"
 
-#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5327
+#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5305
 msgid "Go to the previous visited location"
 msgstr "Přejít na předchozí navštívené místo"
 
@@ -3310,23 +3313,23 @@ msgstr "1 vybraný (%s)"
 msgid "%d selected (%s)"
 msgstr "vybráno: %d (%s)"
 
-#: ../src/gth-browser.c:1936 ../src/gth-viewer.c:974
+#: ../src/gth-browser.c:1930 ../src/gth-viewer.c:974
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Aktuální obrázek byl změněn, chcete jej uložit?"
 
-#: ../src/gth-browser.c:1937 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1931 ../src/gth-viewer.c:975
 msgid "Do Not Save"
 msgstr "Neukládat"
 
-#: ../src/gth-browser.c:3635
+#: ../src/gth-browser.c:3629
 msgid "Dragged Images"
 msgstr "Tažené obrázky"
 
-#: ../src/gth-browser.c:5326
+#: ../src/gth-browser.c:5304
 msgid "Back"
 msgstr "Zpět"
 
-#: ../src/gth-browser.c:5356 ../src/gth-browser.c:5357
+#: ../src/gth-browser.c:5334 ../src/gth-browser.c:5335
 #: ../src/gth-viewer.c:1539 ../src/gth-viewer.c:1540
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
@@ -3335,28 +3338,28 @@ msgstr "Zpět"
 msgid "Rotate images without loss of quality"
 msgstr "Otočit obrázky beze ztráty kvality"
 
-#: ../src/gth-browser.c:6773
+#: ../src/gth-browser.c:6751
 msgid "Close"
 msgstr "Zavřít"
 
-#: ../src/gth-browser.c:6787 ../src/gth-viewer.c:1807
+#: ../src/gth-browser.c:6765 ../src/gth-viewer.c:1807
 msgid "Image comment"
 msgstr "Komentář obrázku"
 
-#: ../src/gth-browser.c:6801
+#: ../src/gth-browser.c:6779
 msgid "Image data"
 msgstr "Data obrázku"
 
-#: ../src/gth-browser.c:6815
+#: ../src/gth-browser.c:6793
 msgid "Image preview"
 msgstr "Náhled obrázku"
 
-#: ../src/gth-browser.c:7861
+#: ../src/gth-browser.c:7824
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nelze načíst adresář \"%s\": %s\n"
 
-#: ../src/gth-browser.c:8141
+#: ../src/gth-browser.c:8104
 msgid "The specified catalog does not exist."
 msgstr "Zadaný katalog neexistuje."
 
@@ -3391,9 +3394,8 @@ msgstr "_Transformovat"
 msgid "Auto"
 msgstr "Automaticky"
 
-# FIXME: s/Sigle/Single/
 #: ../src/gth-viewer-actions-entries.h:88
-msgid "_Sigle Window"
+msgid "_Single Window"
 msgstr "_Jedno okno"
 
 #: ../src/gth-viewer-actions-entries.h:89
