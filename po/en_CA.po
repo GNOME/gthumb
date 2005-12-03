@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-19 14:53-0400\n"
+"POT-Creation-Date: 2005-12-03 17:45-0500\n"
 "PO-Revision-Date: 2005-08-13 22:26-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
@@ -141,6 +141,7 @@ msgid "_Mirror"
 msgstr "_Mirror"
 
 #: components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: src/gth-viewer.c:825
 msgid "_None"
 msgstr "_None"
 
@@ -172,8 +173,8 @@ msgstr "%d %b %Y, %H:%M"
 
 #: components/image-viewer/viewer-stream.c:99 src/catalog-png-exporter.c:815
 #: src/dlg-image-prop.c:425 src/gth-browser.c:505
-#: src/gth-exif-data-viewer.c:479 src/gth-fullscreen.c:730
-#: src/gth-viewer.c:580
+#: src/gth-exif-data-viewer.c:479 src/gth-fullscreen.c:777
+#: src/gth-viewer.c:586
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -404,8 +405,8 @@ msgstr "Delete selected images from the camera"
 msgid "Import Photos"
 msgstr "Import Photos"
 
-#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:843
-#: src/dlg-photo-importer.c:882 src/dlg-photo-importer.c:1382
+#: data/glade/gthumb_camera.glade.h:7 src/dlg-photo-importer.c:849
+#: src/dlg-photo-importer.c:888 src/dlg-photo-importer.c:1446
 msgid "No camera detected"
 msgstr "No camera detected"
 
@@ -1466,8 +1467,8 @@ msgid "Postcard"
 msgstr "Postcard"
 
 #.
-#: data/glade/gthumb_print.glade.h:30 libgthumb/print-callbacks.c:1674
-#: libgthumb/print-callbacks.c:1688 libgthumb/print-callbacks.c:2149
+#: data/glade/gthumb_print.glade.h:30 libgthumb/print-callbacks.c:1672
+#: libgthumb/print-callbacks.c:1686 libgthumb/print-callbacks.c:2147
 msgid "Print"
 msgstr "Print"
 
@@ -1551,8 +1552,8 @@ msgstr "Match a_ny selected category"
 msgid "New _Search..."
 msgstr "New _Search..."
 
-#: data/glade/gthumb_search.glade.h:19 src/dlg-photo-importer.c:812
-#: src/dlg-photo-importer.c:1431
+#: data/glade/gthumb_search.glade.h:19 src/dlg-photo-importer.c:818
+#: src/dlg-photo-importer.c:1496
 msgid "No images found"
 msgstr "No images found"
 
@@ -1890,10 +1891,14 @@ msgid "rows"
 msgstr "rows"
 
 #: data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Image Viewer"
+
+#: data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "View and organize your images"
 
-#: data/gthumb.desktop.in.h:2
+#: data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "gThumb Image Viewer"
 
@@ -2049,8 +2054,8 @@ msgstr "%d %B %Y"
 
 #: libgthumb/comments.c:1350 src/catalog-web-exporter.c:52
 #: src/dlg-duplicates.c:553 src/dlg-image-prop.c:445 src/gth-browser.c:501
-#: src/gth-exif-data-viewer.c:483 src/gth-fullscreen.c:741
-#: src/gth-viewer.c:576
+#: src/gth-exif-data-viewer.c:483 src/gth-fullscreen.c:788
+#: src/gth-viewer.c:582
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2058,34 +2063,34 @@ msgstr "%d %B %Y, %H:%M"
 msgid "(No Comment)"
 msgstr "(No Comment)"
 
-#: libgthumb/dlg-save-image.c:111 src/dlg-file-utils.c:119
-#: src/dlg-jpegtran.c:792 src/dlg-photo-importer.c:1456
+#: libgthumb/dlg-save-image.c:110 src/dlg-file-utils.c:119
+#: src/dlg-jpegtran.c:316 src/dlg-photo-importer.c:1521
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr ""
 "You don't have the right permissions to create images in the folder \"%s\""
 
-#: libgthumb/dlg-save-image.c:126 src/dlg-convert.c:321 src/gth-batch-op.c:557
+#: libgthumb/dlg-save-image.c:125 src/dlg-convert.c:321 src/gth-batch-op.c:557
 #: src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "An image named \"%s\" is already present. Do you want to overwrite it?"
 
-#: libgthumb/dlg-save-image.c:170
+#: libgthumb/dlg-save-image.c:169
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Image type not supported: %s"
 
-#: libgthumb/dlg-save-image.c:252
+#: libgthumb/dlg-save-image.c:251
 msgid "Determine by extension"
 msgstr "Determine by extension"
 
-#: libgthumb/dlg-save-image.c:287
+#: libgthumb/dlg-save-image.c:286
 msgid "Save Image"
 msgstr "Save Image"
 
-#: libgthumb/dlg-save-image.c:304
+#: libgthumb/dlg-save-image.c:303
 msgid "Image type:"
 msgstr "Image type:"
 
@@ -2173,12 +2178,12 @@ msgstr "Show size in font info mode"
 msgid "Font"
 msgstr "Font"
 
-#: libgthumb/gth-file-list.c:528 src/gth-browser.c:8808 src/gth-viewer.c:2149
+#: libgthumb/gth-file-list.c:528 src/gth-browser.c:8772 src/gth-viewer.c:2276
 msgid "Wait please..."
 msgstr "Wait please..."
 
 #: libgthumb/gth-file-list.c:620 libgthumb/gth-file-list.c:641
-#: libgthumb/gth-image-list.c:3499 src/gth-browser.c:780 src/gth-viewer.c:757
+#: libgthumb/gth-image-list.c:3499 src/gth-browser.c:780 src/gth-viewer.c:763
 msgid "No image"
 msgstr "No image"
 
@@ -2191,12 +2196,12 @@ msgstr "Name"
 msgid "Ro_tate Images"
 msgstr "Ro_tate Images"
 
-#: libgthumb/print-callbacks.c:669
+#: libgthumb/print-callbacks.c:667
 #, c-format
 msgid "Page %d of %d"
 msgstr "Page %d of %d"
 
-#: libgthumb/print-callbacks.c:1747 src/catalog-png-exporter.c:1336
+#: libgthumb/print-callbacks.c:1745 src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Loading image: %s"
@@ -2281,7 +2286,7 @@ msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "The category \"%s\" is already present. Please use a different name."
 
 #: src/dlg-categories.c:379 src/dlg-change-date.c:214 src/dlg-comment.c:297
-#: src/dlg-convert.c:456 src/dlg-jpegtran.c:1053 src/dlg-preferences.c:178
+#: src/dlg-convert.c:456 src/dlg-jpegtran.c:576 src/dlg-preferences.c:184
 #: src/dlg-rename-series.c:343 src/dlg-search.c:468
 #: src/gth-window-actions-callbacks.c:820
 #, c-format
@@ -2361,7 +2366,7 @@ msgstr ""
 "permanently?"
 
 #: src/dlg-file-utils.c:228 src/gth-browser-actions-callbacks.c:1269
-#: src/gth-browser.c:1939 src/gth-viewer.c:914
+#: src/gth-browser.c:1933 src/gth-viewer.c:977
 msgid "_Do not display this message again"
 msgstr "_Do not display this message again"
 
@@ -2448,7 +2453,7 @@ msgid "Type"
 msgstr "Type"
 
 #: src/dlg-image-prop.c:627 src/gth-browser.c:517
-#: src/gth-exif-data-viewer.c:515 src/gth-viewer.c:592
+#: src/gth-exif-data-viewer.c:515 src/gth-viewer.c:598
 msgid "Modified"
 msgstr "Modified"
 
@@ -2461,17 +2466,17 @@ msgstr "Information on Channel"
 msgid "%s Properties"
 msgstr "%s Properties"
 
-#: src/dlg-photo-importer.c:879 src/dlg-photo-importer.c:1381
-#: src/dlg-photo-importer.c:1430 src/dlg-photo-importer.c:1442
-#: src/dlg-photo-importer.c:1458 src/dlg-photo-importer.c:1487
+#: src/dlg-photo-importer.c:885 src/dlg-photo-importer.c:1445
+#: src/dlg-photo-importer.c:1495 src/dlg-photo-importer.c:1507
+#: src/dlg-photo-importer.c:1523 src/dlg-photo-importer.c:1552
 msgid "Could not import photos"
 msgstr "Could not import photos"
 
-#: src/dlg-photo-importer.c:1224 src/main.c:956
+#: src/dlg-photo-importer.c:1233 src/main.c:956
 msgid "Film"
 msgstr "Film"
 
-#: src/dlg-photo-importer.c:1439 src/gth-browser-actions-callbacks.c:1719
+#: src/dlg-photo-importer.c:1504 src/gth-browser-actions-callbacks.c:1719
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Could not create the folder \"%s\": %s"
@@ -2531,7 +2536,7 @@ msgstr "Folder"
 msgid "Select Album Theme"
 msgstr "Select Album Theme"
 
-#: src/dlg-write-to-cd.c:79 src/gth-browser.c:3876
+#: src/dlg-write-to-cd.c:79 src/gth-browser.c:3870
 msgid "Could not move the items:"
 msgstr "Could not move the items:"
 
@@ -2566,7 +2571,7 @@ msgstr "Could not rename the image \"%s\": %s"
 msgid "source and destination are the same"
 msgstr "source and destination are the same"
 
-#: src/gth-browser-actions-callbacks.c:286 src/gth-fullscreen.c:978
+#: src/gth-browser-actions-callbacks.c:286 src/gth-fullscreen.c:1025
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "The image will be moved to the Trash, are you sure?"
 
@@ -3002,7 +3007,7 @@ msgstr "Previous"
 msgid "View previous image"
 msgstr "View previous image"
 
-#: src/gth-browser-actions-entries.h:294 src/gth-browser.c:5327
+#: src/gth-browser-actions-entries.h:294 src/gth-browser.c:5305
 msgid "Go to the previous visited location"
 msgstr "Go to the previous visited location"
 
@@ -3030,11 +3035,11 @@ msgstr "Stop loading current location"
 msgid "Go to the home folder"
 msgstr "Go to the home folder"
 
-#: src/gth-browser-actions-entries.h:323
+#: src/gth-browser-actions-entries.h:323 src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "_Go to the Image Folder"
 
-#: src/gth-browser-actions-entries.h:324
+#: src/gth-browser-actions-entries.h:324 src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "Go to the folder that contains the selected image"
 
@@ -3202,12 +3207,12 @@ msgstr "_Catalogues"
 msgid "View the catalogs"
 msgstr "View the catalogues"
 
-#: src/gth-browser.c:567 src/gth-viewer.c:637
+#: src/gth-browser.c:567 src/gth-viewer.c:643
 msgid "[Press 'c' to add a comment]"
 msgstr "[Press 'c' to add a comment]"
 
-#: src/gth-browser.c:676 src/gth-browser.c:695 src/gth-viewer.c:733
-#: src/gth-viewer.c:754
+#: src/gth-browser.c:676 src/gth-browser.c:695 src/gth-viewer.c:739
+#: src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[modified]"
 
@@ -3235,51 +3240,51 @@ msgstr "1 selected (%s)"
 msgid "%d selected (%s)"
 msgstr "%d selected (%s)"
 
-#: src/gth-browser.c:1936 src/gth-viewer.c:911
+#: src/gth-browser.c:1930 src/gth-viewer.c:974
 msgid "The current image has been modified, do you want to save it?"
 msgstr "The current image has been modified, do you want to save it?"
 
-#: src/gth-browser.c:1937 src/gth-viewer.c:912
+#: src/gth-browser.c:1931 src/gth-viewer.c:975
 msgid "Do Not Save"
 msgstr "Do Not Save"
 
-#: src/gth-browser.c:3635
+#: src/gth-browser.c:3629
 msgid "Dragged Images"
 msgstr "Dragged Images"
 
-#: src/gth-browser.c:5326
+#: src/gth-browser.c:5304
 msgid "Back"
 msgstr "Back"
 
-#: src/gth-browser.c:5356 src/gth-browser.c:5357 src/gth-viewer.c:1432
-#: src/gth-viewer.c:1433 src/gth-window-actions-entries.h:256
+#: src/gth-browser.c:5334 src/gth-browser.c:5335 src/gth-viewer.c:1539
+#: src/gth-viewer.c:1540 src/gth-window-actions-entries.h:256
 #: src/gth-window-actions-entries.h:261 src/gth-window-actions-entries.h:266
 #: src/gth-window-actions-entries.h:271
 msgid "Rotate images without loss of quality"
 msgstr "Rotate images without loss of quality"
 
-#: src/gth-browser.c:6773
+#: src/gth-browser.c:6751
 msgid "Close"
 msgstr "Close"
 
-#: src/gth-browser.c:6787 src/gth-viewer.c:1699
+#: src/gth-browser.c:6765 src/gth-viewer.c:1807
 msgid "Image comment"
 msgstr "Image comment"
 
-#: src/gth-browser.c:6801
+#: src/gth-browser.c:6779
 msgid "Image data"
 msgstr "Image data"
 
-#: src/gth-browser.c:6815
+#: src/gth-browser.c:6793
 msgid "Image preview"
 msgstr "Image preview"
 
-#: src/gth-browser.c:7861
+#: src/gth-browser.c:7824
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Cannot load folder \"%s\": %s\n"
 
-#: src/gth-browser.c:8141
+#: src/gth-browser.c:8104
 msgid "The specified catalog does not exist."
 msgstr "The specified catalogue does not exist."
 
@@ -3312,21 +3317,23 @@ msgstr "_Transform"
 msgid "Auto"
 msgstr "Auto"
 
-#: src/gth-viewer-actions-entries.h:53
-msgid "Open _Folder"
-msgstr "Open _Folder"
-
-#: src/gth-viewer-actions-entries.h:54
-msgid "Browse the image folder"
-msgstr "Browse the image folder"
-
 #: src/gth-viewer-actions-entries.h:88
-msgid "_Sigle Window"
+msgid "_Single Window"
 msgstr "_Single Window"
 
 #: src/gth-viewer-actions-entries.h:89
 msgid "Reuse this window to view other images"
 msgstr "Reuse this window to view other images"
+
+#: src/gth-viewer.c:1495 src/gth-window-actions-entries.h:45
+#: src/gth-window-actions-entries.h:70
+msgid "_Open With"
+msgstr "_Open With"
+
+#: src/gth-viewer.c:1501 src/gth-viewer.c:1502
+#: src/gth-window-actions-entries.h:46
+msgid "Open selected images with an application"
+msgstr "Open selected images with an application"
 
 #: src/gth-window-actions-callbacks.c:770
 msgid "translator_credits"
@@ -3343,14 +3350,6 @@ msgstr "Reduce Colours"
 #: src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Close this window"
-
-#: src/gth-window-actions-entries.h:45 src/gth-window-actions-entries.h:70
-msgid "_Open With"
-msgstr "_Open With"
-
-#: src/gth-window-actions-entries.h:46
-msgid "Open selected images with an application"
-msgstr "Open selected images with an application"
 
 #: src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
