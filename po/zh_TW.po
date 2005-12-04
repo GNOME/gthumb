@@ -1,16 +1,16 @@
 # traditional Chinese translation of gthumb.
 # Copyright (C) 2002, 03, 04, 05 Free Software Foundation, Inc.
-# Abel Cheung <maddog@linuxhall.org>, 2002-2005.
+# Abel Cheung <abel@oaka.org>, 2002-2005.
 # Woodman Tuen <woodman@culturecom.com, 2004.
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.6.4\n"
+"Project-Id-Version: gthumb 2.6.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-14 19:57+0800\n"
-"PO-Revision-Date: 2005-04-22 14:43+0800\n"
-"Last-Translator: Woodman Tuen <woodman@culturecom.com.hk>\n"
-"Language-Team: Chinese/Traditional <zh-l10n@linux.org.tw>\n"
+"POT-Creation-Date: 2005-11-21 04:48+0800\n"
+"PO-Revision-Date: 2005-11-21 04:50+0800\n"
+"Last-Translator: Abel Cheung <abel@oaka.org>\n"
+"Language-Team: Chinese/Traditional <community@linuxhall.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -166,7 +166,7 @@ msgstr "%x %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:813 ../src/dlg-image-prop.c:419
-#: ../src/fullscreen.c:214 ../src/gth-exif-data-viewer.c:466
+#: ../src/fullscreen.c:214 ../src/gth-exif-data-viewer.c:473
 #: ../src/gthumb-window.c:277
 #, c-format
 msgid "%d x %d pixels"
@@ -180,8 +180,8 @@ msgstr "圖片"
 msgid "Dimensions"
 msgstr "尺寸"
 
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:610
-#: ../src/gth-exif-data-viewer.c:495
+#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:611
+#: ../src/gth-exif-data-viewer.c:502
 msgid "Bytes"
 msgstr "位元組"
 
@@ -396,8 +396,8 @@ msgstr "在相機中刪除檔案"
 msgid "Import Photos"
 msgstr "匯入相片"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:840
-#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1380
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
+#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1383
 msgid "No camera detected"
 msgstr "找不到任何相機"
 
@@ -650,11 +650,11 @@ msgstr "dpi"
 
 #: ../data/glade/gthumb_crop.glade.h:2
 msgid "4 x 3 (Book, DVD)"
-msgstr "4×3（書本，DVD）"
+msgstr "4×3 (書本、DVD)"
 
 #: ../data/glade/gthumb_crop.glade.h:3
 msgid "4 x 6 (Postcard)"
-msgstr "4×6（明信片）"
+msgstr "4×6 (明信片)"
 
 #: ../data/glade/gthumb_crop.glade.h:4
 msgid "5 x 7"
@@ -1470,8 +1470,8 @@ msgid "Paper Details"
 msgstr "紙張詳細資料"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:25 ../libgthumb/print-callbacks.c:2964
-#: ../libgthumb/print-callbacks.c:2978 ../libgthumb/print-callbacks.c:3444
+#: ../data/glade/gthumb_print.glade.h:25 ../libgthumb/print-callbacks.c:2962
+#: ../libgthumb/print-callbacks.c:2976 ../libgthumb/print-callbacks.c:3442
 msgid "Print"
 msgstr "列印"
 
@@ -1543,8 +1543,8 @@ msgstr "至少符合其中一個選定的類別(_N)"
 msgid "New _Search..."
 msgstr "進行另一次搜尋(_S)..."
 
-#: ../data/glade/gthumb_search.glade.h:20 ../src/dlg-photo-importer.c:809
-#: ../src/dlg-photo-importer.c:1429
+#: ../data/glade/gthumb_search.glade.h:20 ../src/dlg-photo-importer.c:812
+#: ../src/dlg-photo-importer.c:1432
 msgid "No images found"
 msgstr "找不到任何圖片"
 
@@ -1872,7 +1872,7 @@ msgstr "將原檔複製至目的地(_C)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:40
 msgid "_Date and Time"
-msgstr "日期及時間(_D):"
+msgstr "日期及時間(_D)"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Flash"
@@ -2068,23 +2068,23 @@ msgstr "正在刪除所有備註，請稍等..."
 msgid "Deleting old comments, wait please..."
 msgstr "正在刪除舊的備註，請稍等..."
 
-#: ../libgthumb/comments.c:942
+#: ../libgthumb/comments.c:946
 msgid "%d %B %Y"
 msgstr "%x"
 
-#: ../libgthumb/comments.c:944 ../src/catalog-web-exporter.c:49
+#: ../libgthumb/comments.c:948 ../src/catalog-web-exporter.c:50
 #: ../src/dlg-duplicates.c:551 ../src/dlg-image-prop.c:439
-#: ../src/fullscreen.c:225 ../src/gth-exif-data-viewer.c:470
+#: ../src/fullscreen.c:225 ../src/gth-exif-data-viewer.c:477
 #: ../src/gthumb-window.c:273
 msgid "%d %B %Y, %H:%M"
 msgstr "%x %H:%M"
 
-#: ../libgthumb/comments.c:954 ../libgthumb/comments.c:956
+#: ../libgthumb/comments.c:958 ../libgthumb/comments.c:960
 msgid "(No Comment)"
 msgstr "(沒有任何備註)"
 
 #: ../libgthumb/dlg-save-image.c:119 ../src/dlg-file-utils.c:118
-#: ../src/dlg-jpegtran.c:769 ../src/dlg-photo-importer.c:1454
+#: ../src/dlg-jpegtran.c:769 ../src/dlg-photo-importer.c:1457
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2135,7 +2135,7 @@ msgstr "字型選擇"
 
 #: ../libgthumb/gnome-print-font-picker.c:92
 msgid "Sans Regular 12"
-msgstr "AR PL KaitiM Big5 12"
+msgstr "Sans Regular 12"
 
 #: ../libgthumb/gnome-print-font-picker.c:93
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
@@ -2197,17 +2197,17 @@ msgstr "在字型資訊模式中顯示字型大小"
 msgid "Font"
 msgstr "字型"
 
-#: ../libgthumb/gth-file-list.c:522 ../src/gthumb-window.c:8382
+#: ../libgthumb/gth-file-list.c:522 ../src/gthumb-window.c:8477
 msgid "Wait please..."
 msgstr "請稍等..."
 
 #: ../libgthumb/gth-file-list.c:616 ../libgthumb/gth-file-list.c:637
-#: ../libgthumb/gth-image-list.c:3443 ../src/gthumb-window.c:503
+#: ../libgthumb/gth-image-list.c:3443 ../src/gthumb-window.c:530
 msgid "No image"
 msgstr "沒有任何圖片"
 
 #: ../libgthumb/gth-file-view-list.c:1375 ../src/dlg-duplicates.c:371
-#: ../src/dlg-image-prop.c:595 ../src/gth-exif-data-viewer.c:481
+#: ../src/dlg-image-prop.c:596 ../src/gth-exif-data-viewer.c:488
 msgid "Name"
 msgstr "名稱"
 
@@ -2215,10 +2215,10 @@ msgstr "名稱"
 #: ../src/bookmark-list.c:172 ../src/catalog-list.c:436
 #: ../src/catalog-list.c:468 ../src/dir-list.c:244 ../src/dir-list.c:498
 #: ../src/dlg-rename-series.c:287 ../src/dlg-rename-series.c:291
-#: ../src/gthumb-window.c:426 ../src/gthumb-window.c:1107
-#: ../src/gthumb-window.c:1113 ../src/gthumb-window.c:1119
+#: ../src/gthumb-window.c:453 ../src/gthumb-window.c:1137
+#: ../src/gthumb-window.c:1143 ../src/gthumb-window.c:1149
 msgid "(Invalid Name)"
-msgstr "（非法的檔名）"
+msgstr "(非法的檔名)"
 
 #: ../libgthumb/print-callbacks.c:939 ../libgthumb/print-callbacks.c:1555
 #, c-format
@@ -2229,12 +2229,12 @@ msgstr "列印 %s"
 msgid "Print Image"
 msgstr "列印圖片"
 
-#: ../libgthumb/print-callbacks.c:1280 ../libgthumb/print-callbacks.c:2040
+#: ../libgthumb/print-callbacks.c:1280 ../libgthumb/print-callbacks.c:2038
 #, c-format
 msgid "Page %d of %d"
 msgstr "第 %d 頁 (共 %d 頁)"
 
-#: ../libgthumb/print-callbacks.c:3037 ../src/catalog-png-exporter.c:1334
+#: ../libgthumb/print-callbacks.c:3035 ../src/catalog-png-exporter.c:1334
 #, c-format
 msgid "Loading image: %s"
 msgstr "正在載入圖片:%s"
@@ -2369,7 +2369,7 @@ msgid ""
 msgstr "“%s”無法丟進回收筒。是否永遠刪除該圖片？"
 
 #: ../src/actions.c:1480 ../src/dlg-file-utils.c:227
-#: ../src/gthumb-window.c:1625
+#: ../src/gthumb-window.c:1655
 msgid "_Do not display this message again"
 msgstr "不要再顯示這訊息(_D)"
 
@@ -2390,7 +2390,7 @@ msgstr "無法複製資料夾“%s”:%s"
 #: ../src/dlg-file-utils.c:2416
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "無法移動資料夾“%s”:%s"
+msgstr "無法移動資料夾“%s”: %s"
 
 #: ../src/actions.c:1640
 msgid "source contains destination"
@@ -2413,7 +2413,7 @@ msgstr "新增資料夾"
 msgid "Enter the folder name: "
 msgstr "請輸入資料夾的名稱:"
 
-#: ../src/actions.c:1973 ../src/dlg-photo-importer.c:1437
+#: ../src/actions.c:1973 ../src/dlg-photo-importer.c:1440
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "無法建立資料夾“%s”:%s"
@@ -2421,14 +2421,15 @@ msgstr "無法建立資料夾“%s”:%s"
 #: ../src/actions.c:2717
 msgid "translator_credits"
 msgstr ""
-"i18n 程式中文化計劃\n"
-"http://i18n.linux.org.tw/\n"
+"如對翻譯有任何意見，請送一封電子郵件給\n"
+"以下地址，GNOME 翻譯團隊會盡快回覆您：\n"
+"community@linuxhall.org\n"
 "\n"
 "Woodman Tuen <woodman@culturecom.com.hk>, 2004\n"
-"Abel Cheung <maddog@linuxhall.org>, 2002-05"
+"Abel Cheung <abel@oaka.org>, 2002-05"
 
-#: ../src/actions.c:2726 ../src/gthumb-window.c:444
-#: ../src/gthumb-window.c:4787 ../src/main.c:136
+#: ../src/actions.c:2726 ../src/gthumb-window.c:471
+#: ../src/gthumb-window.c:4878 ../src/main.c:136
 msgid "gThumb"
 msgstr "gThumb"
 
@@ -2436,10 +2437,10 @@ msgstr "gThumb"
 msgid "An image viewer and browser for GNOME."
 msgstr "適合在 GNOME 環境下使用的圖片瀏覽器。"
 
-#: ../src/actions.c:2766 ../src/dlg-categories.c:368
+#: ../src/actions.c:2766 ../src/dlg-categories.c:369
 #: ../src/dlg-change-date.c:151 ../src/dlg-comment.c:303
 #: ../src/dlg-convert.c:434 ../src/dlg-jpegtran.c:1014
-#: ../src/dlg-preferences.c:188 ../src/dlg-rename-series.c:330
+#: ../src/dlg-preferences.c:194 ../src/dlg-rename-series.c:330
 #: ../src/dlg-search.c:456
 #, c-format
 msgid "Could not display help: %s"
@@ -2450,29 +2451,29 @@ msgstr "無法顯示說明文件:%s"
 msgid "Creating image: %s.%s"
 msgstr "正在製作圖片:%s.%s"
 
-#: ../src/catalog-web-exporter.c:1667
+#: ../src/catalog-web-exporter.c:1702
 msgid "Saving thumbnails"
 msgstr "儲存縮圖"
 
-#: ../src/catalog-web-exporter.c:1733
+#: ../src/catalog-web-exporter.c:1768
 msgid "Saving HTML pages: Images"
 msgstr "儲存 HTML 頁面:圖片"
 
-#: ../src/catalog-web-exporter.c:1808
+#: ../src/catalog-web-exporter.c:1843
 msgid "Saving HTML pages: Indexes"
 msgstr "儲存 HTML 頁面:索引"
 
-#: ../src/catalog-web-exporter.c:1931 ../src/catalog-web-exporter.c:1990
-#: ../src/catalog-web-exporter.c:2160
+#: ../src/catalog-web-exporter.c:1967 ../src/catalog-web-exporter.c:2027
+#: ../src/catalog-web-exporter.c:2197
 msgid "Saving images"
 msgstr "正在儲存圖片"
 
-#: ../src/catalog-web-exporter.c:2369
+#: ../src/catalog-web-exporter.c:2406
 msgid "Could not create a temporary folder"
 msgstr "無法建立暫存資料夾"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2402
+#: ../src/catalog-web-exporter.c:2439
 msgid "Loading images"
 msgstr "圖片載入中"
 
@@ -2510,12 +2511,12 @@ msgstr "名稱為“%s”的圖片已經存在。請使用另一個名稱。"
 #: ../src/dlg-crop.c:367
 #, c-format
 msgid "%d x %d (Image)"
-msgstr "%d×%d （圖片）"
+msgstr "%d×%d (圖片)"
 
 #: ../src/dlg-crop.c:375
 #, c-format
 msgid "%d x %d (Display)"
-msgstr "%d×%d （顯示）"
+msgstr "%d×%d (顯示)"
 
 #: ../src/dlg-duplicates.c:278 ../src/dlg-duplicates.c:652
 msgid "Duplicates"
@@ -2529,7 +2530,7 @@ msgstr "重複圖片的大小"
 msgid "Last modified"
 msgstr "最後修改時間"
 
-#: ../src/dlg-duplicates.c:415 ../src/dlg-image-prop.c:615
+#: ../src/dlg-duplicates.c:415 ../src/dlg-image-prop.c:616
 msgid "Location"
 msgstr "位置"
 
@@ -2614,37 +2615,37 @@ msgstr "正在複製第 %ld 個檔案 (總共 %ld 個)"
 msgid "Moving file %ld of %ld"
 msgstr "正在移動第 %ld 個檔案 (總共 %ld 個)"
 
-#: ../src/dlg-image-prop.c:600 ../src/gth-exif-data-viewer.c:488
+#: ../src/dlg-image-prop.c:601 ../src/gth-exif-data-viewer.c:495
 msgid "Size"
 msgstr "尺寸"
 
-#: ../src/dlg-image-prop.c:605
+#: ../src/dlg-image-prop.c:606
 msgid "Type"
 msgstr "類型"
 
 # (Abel) 這個很麻煩，我沒查清楚，可能有些地方會用作「已經修改」的意思。
-#: ../src/dlg-image-prop.c:620 ../src/gth-exif-data-viewer.c:502
+#: ../src/dlg-image-prop.c:621 ../src/gth-exif-data-viewer.c:509
 #: ../src/gthumb-window.c:289
 msgid "Modified"
 msgstr "最後修改"
 
 # (Abel) 改了意思，但中文介面來說好像比較適合？
-#: ../src/dlg-image-prop.c:625
+#: ../src/dlg-image-prop.c:626
 msgid "Information on Channel"
-msgstr "選取色版:"
+msgstr "選取色版"
 
-#: ../src/dlg-image-prop.c:743
+#: ../src/dlg-image-prop.c:744
 #, c-format
 msgid "%s Properties"
 msgstr "%s 屬性"
 
-#: ../src/dlg-photo-importer.c:876 ../src/dlg-photo-importer.c:1379
-#: ../src/dlg-photo-importer.c:1428 ../src/dlg-photo-importer.c:1440
-#: ../src/dlg-photo-importer.c:1456 ../src/dlg-photo-importer.c:1485
+#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1382
+#: ../src/dlg-photo-importer.c:1431 ../src/dlg-photo-importer.c:1443
+#: ../src/dlg-photo-importer.c:1459 ../src/dlg-photo-importer.c:1488
 msgid "Could not import photos"
 msgstr "無法匯入相片"
 
-#: ../src/dlg-photo-importer.c:1221 ../src/main.c:1054
+#: ../src/dlg-photo-importer.c:1224 ../src/main.c:1054
 msgid "Film"
 msgstr "底片"
 
@@ -2684,7 +2685,7 @@ msgstr "資料夾"
 msgid "Select Album Theme"
 msgstr "選擇相簿佈景主題"
 
-#: ../src/dlg-write-to-cd.c:77 ../src/gthumb-window.c:3437
+#: ../src/dlg-write-to-cd.c:77 ../src/gthumb-window.c:3528
 msgid "Could not move the items:"
 msgstr "無法移動以下的項目:"
 
@@ -2699,7 +2700,7 @@ msgid "Image Info"
 msgstr "圖片資訊"
 
 #. back
-#: ../src/fullscreen.c:892 ../src/gthumb-window.c:4046
+#: ../src/fullscreen.c:892 ../src/gthumb-window.c:4137
 msgid "Back"
 msgstr "上一幅"
 
@@ -2748,80 +2749,80 @@ msgstr "最近使用(_R):"
 msgid "[Press 'c' to add a comment]"
 msgstr "[請按‘c’加上備註]"
 
-#: ../src/gthumb-window.c:397 ../src/gthumb-window.c:419
+#: ../src/gthumb-window.c:424 ../src/gthumb-window.c:446
 msgid "[modified]"
 msgstr "[已修改]"
 
-#: ../src/gthumb-window.c:505
+#: ../src/gthumb-window.c:532
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 幅圖片 (%s)"
 
-#: ../src/gthumb-window.c:508
+#: ../src/gthumb-window.c:535
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d 幅圖片 (%s)"
 
-#: ../src/gthumb-window.c:515
+#: ../src/gthumb-window.c:542
 #, c-format
 msgid "1 selected (%s)"
 msgstr "選了 1 幅 (%s)"
 
-#: ../src/gthumb-window.c:518
+#: ../src/gthumb-window.c:545
 #, c-format
 msgid "%d selected (%s)"
 msgstr "選了 %d 幅 (%s)"
 
-#: ../src/gthumb-window.c:1622
+#: ../src/gthumb-window.c:1652
 msgid "The current image has been modified, do you want to save it?"
 msgstr "目前的圖片檔已經修改，您要儲存它嗎？"
 
-#: ../src/gthumb-window.c:1623
+#: ../src/gthumb-window.c:1653
 msgid "Do Not Save"
 msgstr "不要儲存"
 
-#: ../src/gthumb-window.c:3229
+#: ../src/gthumb-window.c:3320
 msgid "Dragged Images"
 msgstr "拖曳的圖片"
 
-#: ../src/gthumb-window.c:4061 ../src/ui.h:459
+#: ../src/gthumb-window.c:4152 ../src/ui.h:459
 msgid "Go to the previous visited location"
 msgstr "前往上一次瀏覽的位置"
 
-#: ../src/gthumb-window.c:5012 ../src/ui.h:464
+#: ../src/gthumb-window.c:5107 ../src/ui.h:464
 msgid "Go to the next visited location"
 msgstr "前往下一次瀏覽的位置"
 
-#: ../src/gthumb-window.c:5019 ../src/ui.h:469
+#: ../src/gthumb-window.c:5114 ../src/ui.h:469
 msgid "Go up one level"
 msgstr "前往上一層資料夾"
 
-#: ../src/gthumb-window.c:5026 ../src/ui.h:484
+#: ../src/gthumb-window.c:5121 ../src/ui.h:484
 msgid "Go to the home folder"
 msgstr "前往個人資料夾"
 
-#: ../src/gthumb-window.c:5220
+#: ../src/gthumb-window.c:5315
 msgid "Close"
 msgstr "關閉"
 
-#: ../src/gthumb-window.c:5234
+#: ../src/gthumb-window.c:5329
 msgid "Image comment"
 msgstr "圖片備註"
 
-#: ../src/gthumb-window.c:5248
+#: ../src/gthumb-window.c:5343
 msgid "Image data"
 msgstr "圖片資料"
 
-#: ../src/gthumb-window.c:5262
+#: ../src/gthumb-window.c:5357
 msgid "Image preview"
 msgstr "圖片預覽"
 
-#: ../src/gthumb-window.c:6562
+#: ../src/gthumb-window.c:6660
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "無法載入資料夾“%s”:%s\n"
 
-#: ../src/gthumb-window.c:6832
+#: ../src/gthumb-window.c:6930
 msgid "The specified catalog does not exist."
 msgstr "指定的圖片集不存在。"
 
@@ -3718,260 +3719,92 @@ msgstr "圖片集(_C)"
 msgid "View the catalogs"
 msgstr "瀏覽圖片集"
 
-#~ msgid "(click on the image to view it at original size)"
-#~ msgstr "（點選圖片來以原來大小顯示）"
+#~ msgid "GThumb Application"
+#~ msgstr "GThumb 應用程式"
 
-#~ msgid "Select Destination"
-#~ msgstr "選擇目的地"
+#~ msgid "GThumb Application Factory"
+#~ msgstr "GThumb 應用程式工廠"
 
-#~ msgid "Add a comment to the image"
-#~ msgstr "為圖片加上備註"
+#~ msgid "Select a font"
+#~ msgstr "選擇一種字型"
 
-#~ msgid "Assign categories to the image"
-#~ msgstr "為圖片分類"
+#~ msgid "<b>Margins</b>"
+#~ msgstr "<b>邊界</b>"
 
-#~ msgid "Catalogs"
-#~ msgstr "圖片集"
+#~ msgid "A4"
+#~ msgstr "A4"
 
-#~ msgid "Close all windows and exit"
-#~ msgstr "關閉所有視窗並離開"
+#~ msgid "Executive"
+#~ msgstr "Executive"
 
-#~ msgid "Convert"
-#~ msgstr "轉換"
+#~ msgid "Legal"
+#~ msgstr "Legal"
 
-#~ msgid "Convert image format"
-#~ msgstr "轉換圖片格式"
+#~ msgid "Letter"
+#~ msgstr "Letter"
 
-#~ msgid "E_xit"
-#~ msgstr "離開(_X)"
+#~ msgid "Postcard"
+#~ msgstr "明信片"
 
-#~ msgid "Edit Search"
-#~ msgstr "更改搜尋條件"
+#~ msgid "Tabloid"
+#~ msgstr "摘要"
 
-#~ msgid "Folders"
-#~ msgstr "資料夾"
+#~ msgid "_Bottom:"
+#~ msgstr "底部(_B):"
 
-#~ msgid "Full Screen"
-#~ msgstr "全螢幕"
+#~ msgid "_Left:"
+#~ msgstr "左方(_L):"
 
-#~ msgid "Home"
-#~ msgstr "個人資料夾"
+#~ msgid "_Right:"
+#~ msgstr "右方(_R):"
 
-#~ msgid "Image Toolbar"
-#~ msgstr "圖片工具列"
+#~ msgid "_Top:"
+#~ msgstr "頂端(_T):"
 
-#~ msgid "Main Toolbar"
-#~ msgstr "主工具列"
+#~ msgid "_Unit:"
+#~ msgstr "單位(_U):"
 
-#~ msgid "Open with the File Manager"
-#~ msgstr "以檔案總管開啟"
+#~ msgid "<b>Change the following values:</b>"
+#~ msgstr "<b>改變下列數值：</b>"
 
-#~ msgid "Redo Search"
-#~ msgstr "重新搜尋"
+#~ msgid "<b>Change to:</b>"
+#~ msgstr "<b>改變為：</b>"
 
-#~ msgid "Reduce number of colors"
-#~ msgstr "減少顏色數目"
+#~ msgid "A_djust timezone:"
+#~ msgstr "調整時區(_D):"
 
-#~ msgid "Revert"
-#~ msgstr "還原"
+#~ msgid "Co_mment date"
+#~ msgstr "註解日期(_M)"
 
-#~ msgid "Save"
-#~ msgstr "儲存"
+#~ msgid "_Last modified date"
+#~ msgstr "最後修改日期(_L)"
 
-#~ msgid "Search"
-#~ msgstr "搜尋"
+#~ msgid "hours"
+#~ msgstr "小時"
 
-#~ msgid "Up"
-#~ msgstr "上一層"
+#~ msgid "Open the selected image in a new window"
+#~ msgstr "將選定的圖片用新視窗開啟"
 
-#~ msgid "Use black as transparency"
-#~ msgstr "使用黑色表示透明"
+#~ msgid "Rename selected images"
+#~ msgstr "更改已選取圖片的名稱"
 
-#~ msgid "Use checks as transparency"
-#~ msgstr "使用方格表示透明"
+#~ msgid "Duplicate selected images"
+#~ msgstr "複製已選取的圖片"
 
-#~ msgid "Use gray as transparency"
-#~ msgstr "使用灰色表示透明"
+#~ msgid "Pause"
+#~ msgstr "暫停"
 
-#~ msgid "Use white as transparency"
-#~ msgstr "使用白色表示透明"
+#~ msgid "Open _Folder"
+#~ msgstr "開啟資料夾(_F)"
 
-#~ msgid "Zoom _In"
-#~ msgstr "拉近(_I)"
+#~ msgid "Browse the image folder"
+#~ msgstr "瀏覽圖片資料夾"
 
-#~ msgid "Zoom _Out"
-#~ msgstr "拉遠(_O)"
+#~ msgid "Reduce Colors"
+#~ msgstr "減少顏色"
 
-#~ msgid "Zoom to _Fit"
-#~ msgstr "符合視窗尺寸(_F)"
+#~ msgid "Black and White"
+#~ msgstr "黑白"
 
-#~ msgid "_Actual Size"
-#~ msgstr "實際尺寸(_A)"
-
-#~ msgid "_Find..."
-#~ msgstr "搜尋(_F)..."
-
-#~ msgid "_Maintenance"
-#~ msgstr "維謢(_M)"
-
-#~ msgid "_Reduce Colors"
-#~ msgstr "減少顏色(_R)"
-
-#~ msgid "The image will be removed from the catalog, are you sure?"
-#~ msgstr "將會從圖片集中移除該圖片，是否確定？"
-
-#~ msgid "All comments will be removed, are you sure?"
-#~ msgstr "將會刪除所有備註，是否確定？"
-
-#~ msgid "All thumbnails will be deleted, are you sure?"
-#~ msgstr "將會刪除所有縮圖，是否確定？"
-
-#~ msgid "Specify the backup file"
-#~ msgstr "指定備份檔"
-
-#~ msgid ""
-#~ "GConf error:\n"
-#~ "  %s"
-#~ msgstr ""
-#~ "GConf 錯誤:\n"
-#~ "  %s"
-
-#~ msgid "Rotate _JPEG"
-#~ msgstr "旋轉 _JPEG"
-
-#~ msgid "Transparen_cy Type"
-#~ msgstr "透明表示方式(_C)"
-
-#~ msgid "View as List"
-#~ msgstr "以清單方式顯示"
-
-#~ msgid "View as Thumbnails"
-#~ msgstr "以縮圖方式顯示"
-
-#~ msgid "_Adjust Color Levels"
-#~ msgstr "自動調整色彩平衡(_A)"
-
-#~ msgid "Choose Date"
-#~ msgstr "選取日期"
-
-#~ msgid "_No date"
-#~ msgstr "沒有日期(_N)"
-
-#~ msgid "<b>Destination folder</b>"
-#~ msgstr "<b>目的地資料夾</b>"
-
-#~ msgid "<i>Examples:</i>"
-#~ msgstr "<i>例子:</i>"
-
-#~ msgid "Sor_t images:"
-#~ msgstr "排列圖片(_T):"
-
-#~ msgid "Use #'s to specify positions used by numeric enumerator."
-#~ msgstr "使用 # 來指定數字的位置。"
-
-#~ msgid ""
-#~ "Use %p  to insert the page number, and %n to insert the total number of "
-#~ "pages."
-#~ msgstr "使用 %p 來加入該頁頁數，及 %n 來加入總頁數。"
-
-#~ msgid "<b>Image</b>"
-#~ msgstr "<b>圖片</b>"
-
-#~ msgid ""
-#~ "<i>Drag the image to move\n"
-#~ "it in the page.</i>"
-#~ msgstr ""
-#~ "<i>可在頁面中拖曳\n"
-#~ "圖片來選擇位置。</i>"
-
-#~ msgid "<b>File list order</b>"
-#~ msgstr "<b>檔案清單排列次序</b>"
-
-#~ msgid "<b>Specify a template to use for renaming images</b>"
-#~ msgstr "<b>指定更改圖片檔名稱的規則</b>"
-
-#~ msgid "JPEG Lossless Transformation"
-#~ msgstr "JPEG 無失真方式變換圖片"
-
-#~ msgid "Revert changes"
-#~ msgstr "還原所有變更"
-
-#~ msgid ""
-#~ "Use #'s to specify positions used by numeric enumerator. Use * to insert "
-#~ "the original filename. Use ? to insert the image date. Use ! to insert "
-#~ "the image size"
-#~ msgstr ""
-#~ "# 表示數字的位置。* 表示原來的檔案名稱。? 表示圖片檔的日期。! 表示圖片的尺"
-#~ "寸。"
-
-#~ msgid "_Sort original list:"
-#~ msgstr "原來的圖片清單的排列方式(_S):"
-
-#~ msgid "_Title:"
-#~ msgstr "標題(_T):"
-
-#~ msgid "Paper"
-#~ msgstr "紙張"
-
-#~ msgid "Component has no editable properties"
-#~ msgstr "該部件沒有任何可修改的屬性"
-
-#~ msgid "Could not open file %s"
-#~ msgstr "無法開啟檔案 %s"
-
-#~ msgid "File Size"
-#~ msgstr "檔案大小"
-
-#~ msgid "Information"
-#~ msgstr "資訊"
-
-#~ msgid "_Equalize Histogram"
-#~ msgstr "平均分佈亮度(_E)"
-
-#~ msgid "Add a category"
-#~ msgstr "新增類別"
-
-#~ msgid "<b>Checks</b>"
-#~ msgstr "<b>方格</b>"
-
-#~ msgid "<b>History</b>"
-#~ msgstr "<b>瀏覽紀錄</b>"
-
-#~ msgid "Dark"
-#~ msgstr "深色"
-
-#~ msgid "Large"
-#~ msgstr "大"
-
-#~ msgid "Max _history length:"
-#~ msgstr "可保存的瀏覽紀錄數目(_H):"
-
-#~ msgid "Medium"
-#~ msgstr "中"
-
-#~ msgid "Mid tone"
-#~ msgstr "半調色"
-
-#~ msgid "Show _thumbnails"
-#~ msgstr "顯示縮圖(_T)"
-
-#~ msgid "Show co_mments"
-#~ msgstr "顯示備註(_M)"
-
-#~ msgid "Show hi_dden images"
-#~ msgstr "顯示隱藏圖片(_D)"
-
-#~ msgid "Small"
-#~ msgstr "小"
-
-#~ msgid "Printer"
-#~ msgstr "印表機"
-
-#~ msgid "All catego_ries"
-#~ msgstr "符合所有類別(_R)"
-
-#~ msgid "At _least a category"
-#~ msgstr "至少符合其中一項類別(_L)"
-
-#~ msgid "Choose Categories"
-#~ msgstr "選取類別"
+#~ msgid "Web Palette"
+#~ msgstr "網頁調色板"
