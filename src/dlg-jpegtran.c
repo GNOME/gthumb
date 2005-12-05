@@ -670,7 +670,7 @@ apply_tranformation_jpeg (DialogData *data,
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == TRAN_ROTATE_90) || (rot_type == TRAN_ROTATE_270))
 			swap_xy_exif_fields (fd->path, data);
-		update_orientation_field (fd->path, data);
+		/* update_orientation_field (fd->path, data); see bug #318828 */
 #endif
 
 		data->files_changed_list = g_list_prepend (data->files_changed_list, 

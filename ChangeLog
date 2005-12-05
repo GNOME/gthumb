@@ -1,3 +1,10 @@
+2005-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-jpegtran.c (apply_tranformation_jpeg): 
+
+	Fixed bug #318828: Exif Orientation Tag Incorrectly Updated.
+	Patch by Pat Suwalski.
+
 2005-11-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 	
 	* data/glade/gthumb_edit.glade:
