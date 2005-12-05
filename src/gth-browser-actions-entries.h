@@ -59,8 +59,8 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("Open the selected image in a new window"),
 	  G_CALLBACK (gth_browser_activate_action_file_view_image) },
 
-	{ "File_ImageProp", GTHUMB_STOCK_PROPERTIES,
-	  N_("Proper_ties"), NULL,
+	{ "File_ImageProp", GTK_STOCK_PROPERTIES,
+	  NULL, NULL,
 	  N_("View image properties"),
 	  G_CALLBACK (gth_browser_activate_action_file_image_properties) },
 
@@ -351,7 +351,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 
 	{ "Tools_FindImages", GTK_STOCK_FIND,
 	  NULL, NULL, 
-	  N_("Find images"),
+	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
 	{ "Tools_IndexImage", GTHUMB_STOCK_INDEX_IMAGE,

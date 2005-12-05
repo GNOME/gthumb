@@ -165,6 +165,8 @@ gboolean            image_is_jpeg                (const char *name);
 
 gboolean            image_is_gif                 (const char *name);
 
+gboolean            image_is_gif__accurate       (const char *name);
+
 gboolean            file_extension_is            (const char *filename, 
 						  const char *ext);
 

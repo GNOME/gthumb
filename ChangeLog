@@ -1,3 +1,33 @@
+2005-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gthumb-stock.h (GTHUMB_STOCK_SHOW_IMAGE): 
+	* libgthumb/gthumb-stock.c: 
+	* src/gth-fullscreen-actions-entries.h (G_N_ELEMENTS): 
+	* src/gth-browser-actions-entries.h: 
+
+	Removed custom stock icon when a gtk stock icon is suitable.
+	
+	* src/gth-browser.c (reorder_current_catalog): 
+
+	Fixed catalog reordering when the viewed list is not equal to the catalog
+	list.
+
+	* src/main.h: 
+	* src/main.c (all_windows_notify_catalog_reordered): new function
+
+	notify the catalog reordering and update the view if the window is showing
+	that catalog.
+
+2005-12-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (viewer_drag_data_received): init gerror to NULL
+
+2005-11-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-utils.c (image_is_gif__accurate): 
+	* libgthumb/image-loader.c (load_image_thread): use a more accurate
+	method to check whether an image is a gif animation.
+
 2005-11-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/gthumb.desktop.in (_GenericName): added generic name.

@@ -522,7 +522,7 @@ catalog_write_to_disk (Catalog     *catalog,
 	/* write the file list. */
 
 	for (scan = catalog->list; scan; scan = scan->next) 
-		if (! fprintf (f, "\"%s\"\n", (gchar*) scan->data)) {
+		if (! fprintf (f, "\"%s\"\n", (char*) scan->data)) {
 			fclose (f);
 			error_on_saving (path, gerror);
 			return FALSE;

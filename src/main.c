@@ -833,6 +833,13 @@ all_windows_notify_catalog_delete (const gchar *path)
 }
 
 
+void
+all_windows_notify_catalog_reordered (const gchar *path)
+{
+	gth_monitor_notify_update_catalog (monitor, path, GTH_MONITOR_EVENT_CHANGED);
+}
+
+
 void 
 all_windows_notify_update_metadata (const gchar *filename)
 {

@@ -3611,7 +3611,7 @@ viewer_drag_data_received  (GtkWidget          *widget,
 	char                  *catalog_name, *catalog_name_utf8;
 	GList                 *list;
 	GList                 *scan;
-	GError                *gerror;
+	GError                *gerror = NULL;
 	gboolean               empty = TRUE;
 
 	if (! ((data->length >= 0) && (data->format == 8))) {
@@ -3929,33 +3929,28 @@ reorder_current_catalog (GthBrowser *browser,
 	if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 	    && (priv->catalog_path != NULL)) {
 		Catalog *catalog = catalog_new ();
+		GList   *list, *scan;
+		
+		list = gth_file_list_get_all_from_view (priv->file_list);
+		catalog_insert_items (catalog, list, 0);
 
-		if (catalog_load_from_disk (catalog,
-					    priv->catalog_path,
-					    NULL)) {
-			GList *scan;
-			for (scan = selection; scan; scan = scan->next) {
-				int item_pos = catalog_remove_item (catalog, scan->data);
-				if (item_pos < pos)
-					pos--;
-			}
-			catalog_insert_items (catalog, selection, pos);
-			selection = NULL;
-
-			catalog->sort_method = GTH_SORT_METHOD_MANUAL;
-			if (catalog_write_to_disk (catalog, NULL)) {
-				window_set_file_list (browser, 
-						      catalog->list,
-						      catalog->sort_method,
-						      catalog->sort_type,
-						      catalog_activate_continue,
-						      browser);
-				/* FIXME: notify change. */
-						      } else {
-				/* FIXME: error dialog */
-			}
-		} 
-
+		for (scan = selection; scan; scan = scan->next) {
+			int item_pos = catalog_remove_item (catalog, scan->data);
+			if (item_pos < pos)
+				pos--;
+		}
+		
+		catalog_insert_items (catalog, selection, pos);
+		selection = NULL;
+		
+		catalog->sort_method = GTH_SORT_METHOD_MANUAL;
+		catalog_set_path (catalog, priv->catalog_path);
+		if (catalog_write_to_disk (catalog, NULL)) 
+			all_windows_notify_catalog_reordered (priv->catalog_path);
+		else {
+			/* FIXME: error dialog? */
+		}
+		
 		catalog_free (catalog);
 	}
 
@@ -6227,17 +6222,22 @@ gth_browser_notify_catalog_delete (GthBrowser *browser,
 
 static void
 monitor_update_catalog_cb (GthMonitor      *monitor,
-			   const char      *dir_path,
+			   const char      *catalog_path,
 			   GthMonitorEvent  event,
 			   GthBrowser      *browser)
 {
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
-		gth_browser_notify_catalog_new (browser, dir_path);
+		gth_browser_notify_catalog_new (browser, catalog_path);
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
-		gth_browser_notify_catalog_delete (browser, dir_path);
+		gth_browser_notify_catalog_delete (browser, catalog_path);
+		break;
+
+	case GTH_MONITOR_EVENT_CHANGED:
+		if (strcmp_null_tollerant (browser->priv->catalog_path, catalog_path) == 0)
+			catalog_activate (browser, browser->priv->catalog_path);
 		break;
 
 	default:

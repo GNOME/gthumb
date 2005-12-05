@@ -569,7 +569,7 @@ load_image_thread (void *thread_data)
 			if (priv->loader != NULL) 
 				animation = (*priv->loader) (path, &error, priv->loader_data);
 			else {
-				if (image_is_gif (path))
+				if (image_is_gif__accurate (path))
 					animation = gdk_pixbuf_animation_new_from_file (path, &error);
 				else {
 					GdkPixbuf *pixbuf;

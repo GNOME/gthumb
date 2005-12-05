@@ -53,7 +53,7 @@ static guint gth_fullscreen_action_entries_size = G_N_ELEMENTS (gth_fullscreen_a
 
 
 static GtkToggleActionEntry gth_fullscreen_action_toggle_entries[] = {
-	{ "View_Comment", GTHUMB_STOCK_PROPERTIES,
+	{ "View_Comment", GTK_STOCK_PROPERTIES,
 	  N_("Proper_ties"), NULL,
 	  NULL,
 	  G_CALLBACK (gth_fullscreen_activate_action_toggle_comment), 

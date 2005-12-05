@@ -65,6 +65,7 @@ void       all_windows_notify_catalog_rename     (const char *oldname,
 						  const char *newname);
 void       all_windows_notify_catalog_new        (const char *path);
 void       all_windows_notify_catalog_delete     (const char *path);
+void       all_windows_notify_catalog_reordered  (const char *path);
 void       all_windows_notify_update_metadata    (const char *filename);
 void       all_windows_update_catalog_list       (void);
 

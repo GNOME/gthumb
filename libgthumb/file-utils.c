@@ -1125,12 +1125,13 @@ file_is_image (const gchar *name,
 
 
 static gboolean 
-image_is_type (const char *name,
-	       const char *type)
+image_is_type__common (const char *name,
+		       const char *type,
+		       gboolean    fast_file_type)
 {
 	const char *result = NULL;
 
-	if (eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)) {
+	if (fast_file_type) {
 		char *n1 = g_filename_to_utf8 (name, -1, 0, 0, 0);
 		if (n1 != NULL) {
 			char *n2 = g_utf8_strdown (n1, -1);
@@ -1152,6 +1153,14 @@ image_is_type (const char *name,
 }
 
 
+static gboolean 
+image_is_type (const char *name,
+	       const char *type)
+{
+	return image_is_type__common (name, type, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
+}
+
+
 gboolean 
 image_is_jpeg (const char *name)
 {
@@ -1163,6 +1172,13 @@ gboolean
 image_is_gif (const char *name)
 {
 	return image_is_type (name, "image/gif");
+}
+
+
+gboolean 
+image_is_gif__accurate (const char *name)
+{
+	return image_is_type__common (name, "image/gif", FALSE);
 }
 
 
