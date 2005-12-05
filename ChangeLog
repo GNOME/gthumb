@@ -1,5 +1,10 @@
 2005-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/rotation-utils.c (apply_transformation_jpeg): 
+
+	Fixed bug #318828: Exif Orientation Tag Incorrectly Updated.
+	Patch by Pat Suwalski.
+
 	* libgthumb/gthumb-stock.h (GTHUMB_STOCK_SHOW_IMAGE): 
 	* libgthumb/gthumb-stock.c: 
 	* src/gth-fullscreen-actions-entries.h (G_N_ELEMENTS): 

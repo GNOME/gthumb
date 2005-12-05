@@ -255,7 +255,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (fd->path);
-		update_orientation_field (fd, rot_data);
+		/* update_orientation_field (fd, rot_data); see bug #318828 */
 #endif
 	}
 
