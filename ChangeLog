@@ -1,3 +1,18 @@
+2005-12-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): 
+	show the home folder as USER instead of /home/USER
+
+	* src/gth-location.c: 
+	* src/gth-location.c: new files
+	* src/gth-browser.c: 
+	* src/gth-browser-ui.c: 
+	* src/main.c (get_stock_id_for_uri): 
+	* src/main.h (get_stock_id_for_uri): new function.
+
+	Removed the location entry.  Use gth_location, which is a specialized 
+	combobox with the parent folders list and bookmarks.
+	
 2005-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c (apply_transformation_jpeg): 

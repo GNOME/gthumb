@@ -42,6 +42,7 @@
 #include "gth-image-list.h"
 #include "gth-viewer.h"
 #include "gthumb-init.h"
+#include "gthumb-stock.h"
 #include "image-viewer.h"
 #include "pixbuf-utils.h"
 #include "preferences.h"
@@ -968,4 +969,31 @@ folder_is_film (const char *folder)
 	}
 
 	return film;
+}
+
+
+G_CONST_RETURN char *
+get_stock_id_for_uri (const char *uri)
+{
+	const char *stock_id;
+	char       *home_uri;
+
+	home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
+
+	if (strcmp (uri, g_get_home_dir ()) == 0) 
+		stock_id = GTK_STOCK_HOME;
+	else if (strcmp (uri, home_uri) == 0) 
+		stock_id = GTK_STOCK_HOME;
+	else if (folder_is_film (uri))
+		stock_id = GTHUMB_STOCK_FILM;
+	else if (pref_util_location_is_catalog (uri)) 
+		stock_id = GTHUMB_STOCK_CATALOG;
+	else if (pref_util_location_is_search (uri))	
+		stock_id = GTHUMB_STOCK_SEARCH;
+	else
+		stock_id = GTK_STOCK_OPEN;
+
+	g_free (home_uri);
+
+	return stock_id;
 }

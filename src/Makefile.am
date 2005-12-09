@@ -109,6 +109,8 @@ gthumb_SOURCES = 				\
 	gth-fullscreen-ui.h			\
 	gth-image-selector.c			\
 	gth-image-selector.h			\
+	gth-location.c				\
+	gth-location.h				\
 	gth-monitor.c				\
 	gth-monitor.h				\
 	gth-viewer.c				\

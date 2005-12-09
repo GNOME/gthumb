@@ -131,10 +131,12 @@ bookmarks_utils__get_menu_item_name (const char *path)
 			base_path = g_get_home_dir ();
 			l = strlen (base_path);
 			
-			if ((strcmp (tmp_path, base_path) != 0)
-			    && (strncmp (tmp_path, base_path, l) == 0))
-				name = g_strdup (tmp_path + 1 + l);
-			else
+			if (strncmp (tmp_path, base_path, l) == 0) {
+				if (strlen (tmp_path) > l)
+					name = g_strdup (tmp_path + 1 + l);
+				else
+					name = g_strdup (file_name_from_path (base_path));
+			} else
 				name = g_strdup (tmp_path);
 		}
 	}

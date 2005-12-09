@@ -359,16 +359,6 @@ static const gchar *search_ui_info =
 "</ui>";
 
 
-static const gchar *nav_ui_info =
-"<ui>"
-"  <toolbar name='NavBar'>"
-"    <toolitem action='Go_Forward'/>"
-"    <toolitem action='Go_Up'/>"
-"    <toolitem action='Go_Home'/>"
-"  </toolbar>"
-"</ui>";
-
-
 static const gchar *browser_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
