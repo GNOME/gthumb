@@ -175,6 +175,7 @@ combo_changed_cb (GtkComboBox *widget,
 
 	if (path == NULL) 
 		return;
+
 	g_signal_emit (G_OBJECT (loc), gth_location_signals[CHANGED], 0, path);
 	g_free (path);
 }
@@ -406,7 +407,8 @@ update_uri (GthLocation *loc,
 	clear_items (loc, ITEM_TYPE_PARENT);
 
 	if (loc->priv->catalog_uri)
-		base_uri = g_strconcat (g_get_home_dir(),
+		base_uri = g_strconcat (CATALOG_PREFIX,
+					g_get_home_dir(),
 					"/",
 					RC_CATALOG_DIR,
 					NULL);
@@ -490,8 +492,16 @@ gth_location_set_catalog_uri (GthLocation *loc,
 			      const char  *uri,
 			      gboolean     reset_history)
 {
+	char *catalog_uri;
+
 	loc->priv->catalog_uri = TRUE;
-	gth_location_set_uri (loc, uri, reset_history);
+
+	if (! pref_util_location_is_catalog (uri))
+		catalog_uri = g_strconcat (CATALOG_PREFIX, uri, NULL);
+	else
+		catalog_uri = g_strdup (uri);
+	gth_location_set_uri (loc, catalog_uri, reset_history);
+	g_free (catalog_uri);
 }
 
 

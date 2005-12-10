@@ -1,5 +1,8 @@
 2005-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-location.c (gth_location_set_catalog_uri): 
+	* src/gth-browser.c (go_to_uri): fix catalog handling.
+
 	* src/dlg-open-with.c (open_cb): use gnome_vfs_mime_application_get_exec
 	instead of app->command.
 

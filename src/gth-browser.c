@@ -1340,9 +1340,12 @@ go_to_uri (GthBrowser  *browser,
 {
 	const char *path = pref_util_remove_prefix (uri);
 	
-	if (pref_util_location_is_catalog (uri) || pref_util_location_is_search (uri)) 
-		gth_browser_go_to_catalog (browser, path);
-	else 
+	if (pref_util_location_is_catalog (uri) || pref_util_location_is_search (uri)) {
+		if (path_is_dir (path))
+			gth_browser_go_to_catalog_directory (browser, path);
+		else
+			gth_browser_go_to_catalog (browser, path);
+	} else 
 		gth_browser_go_to_directory (browser, path);	
 }
 
@@ -2722,6 +2725,7 @@ location_changed_cb (GthLocation *loc,
 		     const char  *uri,
 		     GthBrowser  *browser)
 {    
+	g_print ("--> %s\n", uri);
 	go_to_uri (browser, uri);
 }
 
