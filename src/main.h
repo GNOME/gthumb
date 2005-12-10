@@ -76,6 +76,8 @@ int        get_folder_pixbuf_size_for_list       (GtkWidget  *widget);
 int        get_folder_pixbuf_size_for_menu       (GtkWidget  *widget);
 GdkPixbuf *get_folder_pixbuf                     (double      icon_size);
 gboolean   folder_is_film                        (const char *full_path);
-G_CONST_RETURN char *  get_stock_id_for_uri                  (const char *uri);
+G_CONST_RETURN char *  get_stock_id_for_uri      (const char *uri);
+GdkPixbuf *get_icon_for_uri                      (GtkWidget  *widget,
+						  const char *uri);
 
 #endif /* __MAIN_H__ */

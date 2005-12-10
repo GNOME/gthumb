@@ -1374,21 +1374,24 @@ add_bookmark_menu_item (GthBrowser     *browser,
 	char                  *e_label;
 	char                  *e_tip;
 	char                  *utf8_s;
-	const char            *stock_id;
 
 	name = g_strdup_printf ("%s%d", prefix, id);
 
 	menu_name = escape_underscore (bookmarks_get_menu_name (bookmarks, path));
 	if (menu_name == NULL)
 		menu_name = g_strdup (_("(Invalid Name)"));
-
 	label = _g_strdup_with_max_size (menu_name, BOOKMARKS_MENU_MAX_LENGTH);
 	utf8_s = g_locale_to_utf8 (label, -1, NULL, NULL, NULL);
-	g_free (label);
 	if (utf8_s == NULL)
 		utf8_s = g_strdup (_("(Invalid Name)"));
 	e_label = g_markup_escape_text (utf8_s, -1);
 	g_free (utf8_s);
+
+	action = g_object_new (GTK_TYPE_ACTION,
+			       "name", name,
+			       "label", e_label,
+			       "stock_id", get_stock_id_for_uri (path),
+			       NULL);
 
 	utf8_s = g_locale_to_utf8 (bookmarks_get_menu_tip (bookmarks, path), -1, NULL, NULL, NULL);
 	if (utf8_s == NULL)
@@ -1396,31 +1399,18 @@ add_bookmark_menu_item (GthBrowser     *browser,
 	e_tip = g_markup_escape_text (utf8_s, -1);
 	g_free (utf8_s);
 
-	if (strcmp (pref_util_remove_prefix (path), g_get_home_dir ()) == 0) 
-		stock_id = GTK_STOCK_HOME;
-	else if (folder_is_film (path))
-		stock_id = GTHUMB_STOCK_FILM;
-	else if (pref_util_location_is_catalog (path)) 
-		stock_id = GTHUMB_STOCK_CATALOG;
-	else if (pref_util_location_is_search (path))	
-		stock_id = GTHUMB_STOCK_SEARCH;
-	else
-		stock_id = GTK_STOCK_OPEN;
-	g_free (menu_name);
-
-	action = g_object_new (GTK_TYPE_ACTION,
-			       "name", name,
-			       "label", e_label,
-			       "stock_id", stock_id,
-			       NULL);
-	g_free (e_label);
-
-	if (e_tip != NULL) {
+	if (e_tip != NULL) 
 		g_object_set (action, "tooltip", e_tip, NULL);
-		g_free (e_tip);
-	}
 
-	g_object_set_data_full (G_OBJECT (action), "path", g_strdup (path), (GFreeFunc)g_free);
+	g_free (label);
+	g_free (menu_name);
+	g_free (e_label);
+	g_free (e_tip);
+
+	g_object_set_data_full (G_OBJECT (action), 
+				"path", 
+				g_strdup (path), 
+				(GFreeFunc)g_free);
 	g_signal_connect (action, "activate", 
 			  G_CALLBACK (activate_action_bookmark), 
 			  browser);

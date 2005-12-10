@@ -94,7 +94,7 @@ open_cb (GtkWidget *widget,
 
 	for (scan = data->app_list; scan && ! present; scan = scan->next) {
 		GnomeVFSMimeApplication *app = scan->data;
-		if (strcmp (app->command, application) == 0) {
+		if (strcmp (gnome_vfs_mime_application_get_exec (app), application) == 0) {
 			command = application_get_command (app);
 			present = TRUE;
 		}
@@ -148,7 +148,7 @@ app_list_selection_changed_cb (GtkTreeSelection *selection,
         gtk_tree_model_get (data->app_model, &iter,
                             DATA_COLUMN, &app,
                             -1);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
+	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), gnome_vfs_mime_application_get_exec (app));
 }
 
 
@@ -375,14 +375,14 @@ dlg_open_with (GtkWindow  *window,
 		if (app_names != NULL) {
 			GList *p;
 			for (p = app_names; p && !found; p = p->next)
-				if (strcmp ((char*)p->data, app->command) == 0)
+				if (strcmp ((char*)p->data, gnome_vfs_mime_application_get_exec (app)) == 0)
 					found = TRUE;
 		}
 
 		if (found)
 			continue;
 
-		app_names = g_list_prepend (app_names, app->command);
+		app_names = g_list_prepend (app_names, gnome_vfs_mime_application_get_exec (app));
 		
 		gtk_list_store_append (GTK_LIST_STORE (data->app_model),
 				       &iter);

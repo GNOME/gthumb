@@ -127,34 +127,20 @@ void
 bookmark_list_set (BookmarkList *book_list,
 		   GList        *list)
 {
-	GdkPixbuf *dir_pixbuf;
-	GdkPixbuf *search_pixbuf;
-	GdkPixbuf *catalog_pixbuf;
-	GdkPixbuf *home_pixbuf;
-	GdkPixbuf *film_pixbuf;
-	GList     *scan;
+	GList *scan;
 
 	g_return_if_fail (book_list != NULL);
 
-	dir_pixbuf = get_folder_pixbuf (get_folder_pixbuf_size_for_list (book_list->list_view));
-	catalog_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_16_rgba, FALSE, NULL);
-	search_pixbuf = gdk_pixbuf_new_from_inline (-1, catalog_search_16_rgba, FALSE, NULL);
-	home_pixbuf = gtk_widget_render_icon (book_list->root_widget, GTK_STOCK_HOME, GTK_ICON_SIZE_MENU, NULL);
-	film_pixbuf = gtk_widget_render_icon (book_list->list_view, GTHUMB_STOCK_FILM, GTK_ICON_SIZE_MENU, NULL);
-
 	gtk_list_store_clear (book_list->list_store);
-
 	if (book_list->list)
 		path_list_free (book_list->list);
 
 	/* Copy the list of paths. */
 
 	book_list->list = NULL;
-
 	for (scan = list; scan; scan = scan->next)
 		book_list->list = g_list_prepend (
 			book_list->list, g_strdup ((char*) scan->data));
-
 	book_list->list = g_list_reverse (book_list->list);
 
 	/* Insert the bookmarks in the list. */
@@ -172,16 +158,10 @@ bookmark_list_set (BookmarkList *book_list,
 		if (utf8_name == NULL)
 			utf8_name = g_strdup (_("(Invalid Name)"));
 
-		if (pref_util_location_is_catalog (name)) 
-			pixbuf = catalog_pixbuf;
-		else if (pref_util_location_is_search (name))
-			pixbuf = search_pixbuf;
-		else if (strcmp (g_get_home_dir (), menu_name) == 0)
-			pixbuf = home_pixbuf;
-		else if (folder_is_film (name))
-			pixbuf = film_pixbuf;
-		else
-			pixbuf = dir_pixbuf;
+		pixbuf = gtk_widget_render_icon (book_list->list_view, 
+						 get_stock_id_for_uri (name),
+						 GTK_ICON_SIZE_MENU, 
+						 NULL);
 
 		gtk_list_store_append (book_list->list_store, &iter);
 		gtk_list_store_set (book_list->list_store, &iter,
@@ -189,15 +169,11 @@ bookmark_list_set (BookmarkList *book_list,
 				    BOOK_LIST_COLUMN_NAME, utf8_name,
 				    BOOK_LIST_COLUMN_PATH, name,
 				    -1);
+
 		g_free (menu_name);
 		g_free (utf8_name);
+		g_object_unref (pixbuf);
 	}
-
-	g_object_unref (dir_pixbuf);
-	g_object_unref (search_pixbuf);
-	g_object_unref (catalog_pixbuf);
-	g_object_unref (home_pixbuf);
-	g_object_unref (film_pixbuf);
 }
 
 

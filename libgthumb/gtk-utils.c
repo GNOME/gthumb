@@ -781,6 +781,8 @@ create_pixbuf (GtkIconTheme  *icon_theme,
 	int        iw;
 	int        ih;
 
+	g_return_val_if_fail (icon_theme != NULL, NULL);
+
 	icon_path = panel_find_icon (icon_theme, icon_name, icon_size);
 	if (icon_path == NULL)
 		return NULL;

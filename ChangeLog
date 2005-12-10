@@ -1,3 +1,16 @@
+2005-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-open-with.c (open_cb): use gnome_vfs_mime_application_get_exec
+	instead of app->command.
+
+	* src/main.h (get_icon_for_uri): 
+	* src/main.c (get_fs_icon, get_stock_id_for_uri): new functions.
+	* src/gth-location.c (update_uri): 
+	* src/gth-browser.c (add_bookmark_menu_item): 
+	* src/bookmark-list.c (bookmark_list_set): use get_stock_id_for_uri.
+
+	* libgthumb/gtk-utils.c (create_pixbuf): check icon_theme value.
+
 2005-12-09  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): 

@@ -36,6 +36,7 @@
 #include "main.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "gtk-utils.h"
 #include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
@@ -50,7 +51,18 @@
 
 #include "icons/pixbufs.h"
 
-#define ICON_NAME_DIRECTORY "gnome-fs-directory"
+typedef enum {
+	ICON_NAME_DIRECTORY,
+	ICON_NAME_HARDDISK,
+	ICON_NAME_HOME,
+	ICON_NAME_DESKTOP,
+	ICON_NAMES
+} IconName;
+
+static char*icon_mime_name[ICON_NAMES] = { "gnome-fs-directory",
+					   "gnome-dev-harddisk",
+					   "gnome-fs-home",
+					   "gnome-fs-desktop" };
 
 GthMonitor  *monitor = NULL;
 char       **file_urls, **dir_urls;
@@ -66,7 +78,7 @@ gboolean     ImportPhotos = FALSE;
 
 static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
-static GdkPixbuf      *folder_pixbuf = NULL;
+static GdkPixbuf      *icon_pixbuf[ICON_NAMES] = { 0 };
 static GtkWidget      *first_window = NULL;
 static GnomeIconTheme *icon_theme = NULL;
 static BonoboObject   *gth_application = NULL;
@@ -86,13 +98,31 @@ struct poptOption options[] = {
 
 
 static void
+init_icon_pixbufs (void)
+{
+	int i;
+	for (i = 0; i < ICON_NAMES; i++) 
+		icon_pixbuf[i] = NULL;
+}
+
+
+static void
+free_icon_pixbufs (void)
+{
+	int i;
+	for (i = 0; i < ICON_NAMES; i++)
+		if (icon_pixbuf[i] != NULL) {
+			g_object_unref (icon_pixbuf[i]);
+			icon_pixbuf[i] = NULL;
+		}
+}
+
+
+static void
 theme_changed_cb (GnomeIconTheme *theme, 
 		  gpointer        data)
 {
-	if (folder_pixbuf != NULL) {
-		g_object_unref (folder_pixbuf);
-		folder_pixbuf = NULL;
-	}
+	free_icon_pixbufs ();
 	all_windows_notify_update_icon_theme ();
 }
 
@@ -357,6 +387,7 @@ initialize_data (poptContext pctx)
 	/* Default windows icon */
 
 	gtk_window_set_default_icon_name ("gthumb");
+	init_icon_pixbufs ();
 
 	/**/
 
@@ -465,8 +496,7 @@ release_data (void)
 	if (gth_application != NULL)
                 bonobo_object_unref (gth_application);
 
-	if (folder_pixbuf != NULL)
-		g_object_unref (folder_pixbuf);
+	free_icon_pixbufs ();
 
 	g_object_unref (icon_theme);
 
@@ -869,31 +899,46 @@ all_windows_add_monitor (void)
 }
 
 
-GdkPixbuf *
-get_folder_pixbuf (double icon_size)
+static GdkPixbuf *
+get_fs_icon (IconName icon_name,
+	     double   icon_size)
 {
-	GdkPixbuf       *pixbuf = NULL;
-	static gboolean  scale = TRUE;
+	GdkPixbuf *pixbuf = NULL;
+	gboolean   scale = TRUE;
 
-	if (folder_pixbuf == NULL) {
-		char *icon_path;
+	/*
+	if (icon_pixbuf[icon_name] != NULL) {
+		g_object_ref (icon_pixbuf[icon_name]);
+		return icon_pixbuf[icon_name];
+	}
+
+	icon_pixbuf[icon_name] = create_pixbuf (icon_theme,
+						icon_mime_name[icon_name],
+						icon_size);
+	
+	return icon_pixbuf[icon_name];
+	*/
+
+	if (icon_pixbuf[icon_name] == NULL) {
+		const GnomeIconData *icon_data;
+		int                  base_size;
+		char                *icon_path;
 		
 		icon_path = gnome_icon_theme_lookup_icon (icon_theme,
-							  ICON_NAME_DIRECTORY,
+							  icon_mime_name[icon_name],
 							  icon_size,
-							  NULL,
-							  NULL);
+							  &icon_data,
+							  &base_size);
 
 		if (icon_path == NULL) {
-			folder_pixbuf = gdk_pixbuf_new_from_inline (-1, 
-								    dir_16_rgba, 
-								    FALSE, 
-								    NULL);
+			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_inline (-1, 
+									     dir_16_rgba, 
+									     FALSE, 
+									     NULL);
 			scale = FALSE;
-
 		} else {
-			folder_pixbuf = gdk_pixbuf_new_from_file (icon_path, 
-								  NULL);
+			icon_pixbuf[icon_name] = gdk_pixbuf_new_from_file (icon_path, 
+									   NULL);
 			g_free (icon_path);
 		}
 	}
@@ -901,27 +946,34 @@ get_folder_pixbuf (double icon_size)
 	/* Scale keeping aspect ratio. */
 
  	if (! scale) {
-		g_object_ref (folder_pixbuf);
-		return folder_pixbuf;
+		g_object_ref (icon_pixbuf[icon_name]);
+		return icon_pixbuf[icon_name];
 	}
-	
-	if (folder_pixbuf != NULL) {
+
+	if (icon_pixbuf[icon_name] != NULL) {
 		int w, h;
 		
-		w = gdk_pixbuf_get_width (folder_pixbuf);
-		h = gdk_pixbuf_get_height (folder_pixbuf);
+		w = gdk_pixbuf_get_width (icon_pixbuf[icon_name]);
+		h = gdk_pixbuf_get_height (icon_pixbuf[icon_name]);
 		if (scale_keepping_ratio (&w, &h, icon_size, icon_size)) 
-			pixbuf = gdk_pixbuf_scale_simple (folder_pixbuf,
+			pixbuf = gdk_pixbuf_scale_simple (icon_pixbuf[icon_name],
 							  w,
 							  h,
 							  GDK_INTERP_BILINEAR);
 		else {
-			pixbuf = folder_pixbuf;
+			pixbuf = icon_pixbuf[icon_name];
 			g_object_ref (pixbuf);
 		}
 	}
 
 	return pixbuf;
+}
+
+
+GdkPixbuf *
+get_folder_pixbuf (double icon_size)
+{
+	return get_fs_icon (ICON_NAME_DIRECTORY, icon_size);
 }
 
 
@@ -996,4 +1048,38 @@ get_stock_id_for_uri (const char *uri)
 	g_free (home_uri);
 
 	return stock_id;
+}
+
+
+GdkPixbuf *
+get_icon_for_uri (GtkWidget  *widget,
+		  const char *uri)
+{
+	const char *stock_id = NULL;
+	char       *home_uri;
+	int         menu_size;
+
+	menu_size = get_folder_pixbuf_size_for_list (widget);
+
+	home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
+	if (strcmp (uri, g_get_home_dir ()) == 0) 
+		return get_fs_icon (ICON_NAME_HOME, menu_size);
+	else if (strcmp (uri, home_uri) == 0) 
+		return get_fs_icon (ICON_NAME_HOME, menu_size);
+	g_free (home_uri);
+
+	if (strcmp (uri, "/") == 0) 
+		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
+
+	if (folder_is_film (uri))
+		stock_id = GTHUMB_STOCK_FILM;
+	else if (pref_util_location_is_catalog (uri)) 
+		stock_id = GTHUMB_STOCK_CATALOG;
+	else if (pref_util_location_is_search (uri))	
+		stock_id = GTHUMB_STOCK_SEARCH;
+
+	if (stock_id != NULL)
+		return gtk_widget_render_icon (widget, stock_id, GTK_ICON_SIZE_MENU, NULL); 
+	else
+		return get_fs_icon (ICON_NAME_DIRECTORY, menu_size);
 }

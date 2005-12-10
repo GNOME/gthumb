@@ -265,13 +265,12 @@ gth_location_construct (GthLocation *loc)
 			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
 			    -1);
 
-	/* location... */
-
+	/* open location command */
+	
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_OPEN_LOCATION,
 			    NAME_COLUMN, _("_Location..."),
-			    PATH_COLUMN, NULL,
 			    -1);
 }
 
@@ -418,16 +417,17 @@ update_uri (GthLocation *loc,
 	while (uri != NULL) {
 		char *parent;
 
-		if (loc->priv->catalog_uri) {
+		if (loc->priv->catalog_uri) 
 			pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
-		} else {
-			const char *stock_id = get_stock_id_for_uri (uri);
-			pixbuf = gtk_widget_render_icon (GTK_WIDGET (loc), stock_id, GTK_ICON_SIZE_MENU, NULL); 
-		}
+		else 
+			pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 
-		if (loc->priv->catalog_uri && (strcmp (uri, base_uri) == 0))
-			uri_name = g_strdup ("/");
-		else
+		if (strcmp (uri, base_uri) == 0) {
+			if (loc->priv->catalog_uri)
+				uri_name = g_strdup (_("Catalogs"));
+			else
+				uri_name = g_strdup ("");
+		} else
 			uri_name = g_filename_display_basename (uri);
 
 		gtk_list_store_insert (loc->priv->model, &iter, pos++);
@@ -516,16 +516,12 @@ gth_location_set_bookmarks (GthLocation *loc,
 	pos = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (loc->priv->model), NULL) - 2;
 
 	for (scan = bookmark_list; (scan != NULL) && (n < max_size); scan = scan->next) {
-		const char *uri;
-		const char *stock_id;
+		const char *uri = scan->data;
 		char       *uri_name;
 		GdkPixbuf  *pixbuf;
 
-		uri = scan->data;
-
-		stock_id = get_stock_id_for_uri (uri);
-		pixbuf = gtk_widget_render_icon (GTK_WIDGET (loc), stock_id, GTK_ICON_SIZE_MENU, NULL);
 		uri_name = bookmarks_utils__get_menu_item_name (uri);
+		pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 
 		gtk_list_store_insert (loc->priv->model, &iter, pos++);
 		gtk_list_store_set (loc->priv->model, &iter,
@@ -537,7 +533,6 @@ gth_location_set_bookmarks (GthLocation *loc,
 
 		g_free (uri_name);
 		g_object_unref (pixbuf);
-
 		n++;
 	}
 }
