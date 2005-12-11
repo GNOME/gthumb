@@ -30,14 +30,14 @@
 
 typedef struct {
 	GList        *list;
-
 	GtkListStore *list_store;
 	GtkWidget    *list_view;      /* The widget that shows the list. */
 	GtkWidget    *root_widget;    /* The widget that contains all. */
+	gboolean      menu_icons;
 } BookmarkList;
 
 
-BookmarkList * bookmark_list_new                     ();
+BookmarkList * bookmark_list_new                     (gboolean menu_icons);
 
 void           bookmark_list_free                    (BookmarkList *book_list);
 

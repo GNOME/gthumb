@@ -75,15 +75,16 @@ add_columns (GtkTreeView *treeview)
 
 
 BookmarkList *
-bookmark_list_new ()
+bookmark_list_new (gboolean menu_icons)
 {
-	BookmarkList * book_list;
-	GtkWidget *scrolled;
-	GtkTreeView *list_view;
+	BookmarkList *book_list;
+	GtkWidget    *scrolled;
+	GtkTreeView  *list_view;
 
-	book_list = g_new (BookmarkList, 1);
+	book_list = g_new0 (BookmarkList, 1);
 
 	book_list->list = NULL;
+	book_list->menu_icons = menu_icons;
 
 	/* Create the widgets. */
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
@@ -158,10 +159,13 @@ bookmark_list_set (BookmarkList *book_list,
 		if (utf8_name == NULL)
 			utf8_name = g_strdup (_("(Invalid Name)"));
 
-		pixbuf = gtk_widget_render_icon (book_list->list_view, 
-						 get_stock_id_for_uri (name),
-						 GTK_ICON_SIZE_MENU, 
-						 NULL);
+		if (book_list->menu_icons)
+			pixbuf = gtk_widget_render_icon (book_list->list_view, 
+							 get_stock_id_for_uri (name),
+							 GTK_ICON_SIZE_MENU, 
+							 NULL);
+		else
+			pixbuf = get_icon_for_uri (book_list->list_view, name);
 
 		gtk_list_store_append (book_list->list_store, &iter);
 		gtk_list_store_set (book_list->list_store, &iter,

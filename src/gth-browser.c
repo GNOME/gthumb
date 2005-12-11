@@ -2715,8 +2715,7 @@ static void
 open_location_cb (GthLocation *loc,
 		  GthBrowser  *browser)
 {    
-	/*GthBrowserPrivateData *priv = browser->priv;*/
-	g_print ("OPEN LOCATION\n");
+	gth_browser_activate_action_go_location (NULL, browser);
 }
 
 
@@ -2725,7 +2724,6 @@ location_changed_cb (GthLocation *loc,
 		     const char  *uri,
 		     GthBrowser  *browser)
 {    
-	g_print ("--> %s\n", uri);
 	go_to_uri (browser, uri);
 }
 
@@ -6449,7 +6447,7 @@ gth_browser_construct (GthBrowser  *browser,
 				  priv->catalog_list->root_widget,
 				  NULL);
 
-	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 0);
+	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 6);
 
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->location, 
 			    FALSE, FALSE, 0);

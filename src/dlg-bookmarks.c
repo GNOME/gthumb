@@ -296,7 +296,7 @@ dlg_edit_bookmarks (GthBrowser *browser)
 	data->top_button = glade_xml_get_widget (data->gui, "bm_top_button");
 	data->bottom_button = glade_xml_get_widget (data->gui, "bm_bottom_button");
 
-	data->book_list = bookmark_list_new ();
+	data->book_list = bookmark_list_new (TRUE);
 	gtk_container_add (GTK_CONTAINER (data->list_container), 
 			   data->book_list->root_widget);
 	gtk_label_set_mnemonic_widget (GTK_LABEL (bm_bookmarks_label), 

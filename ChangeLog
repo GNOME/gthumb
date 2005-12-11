@@ -1,3 +1,16 @@
+2005-12-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-location.c:
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_go_location): 
+	implemented.
+
+	* src/bookmark-list.h: 
+	* src/bookmark-list.c (bookmark_list_set): 
+	* src/dlg-bookmarks.c (dlg_edit_bookmarks): 
+	* src/gth-folder-selection-dialog.c (gth_folder_selection_construct): 
+
+	Use the menu icons in the bookmarks dialog only, use the mime icons otherwise.
+	
 2005-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-location.c (gth_location_set_catalog_uri): 

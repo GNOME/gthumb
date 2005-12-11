@@ -1818,16 +1818,48 @@ gth_browser_activate_action_go_delete_history (GtkAction  *action,
 }
 
 
+static void
+open_location_response_cb (GtkDialog  *file_sel,
+			   int         button_number,
+			   gpointer    data)
+{
+	GthBrowser *browser = data;
+	const char *folder;
+
+	if (button_number != GTK_RESPONSE_OK) {
+		gtk_widget_destroy (GTK_WIDGET (file_sel));
+		return;
+	}
+
+	folder = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel));
+	if (folder != NULL)
+		gth_browser_go_to_directory (browser, folder);
+	gtk_widget_destroy (GTK_WIDGET (file_sel));
+}
+
+
 void
 gth_browser_activate_action_go_location (GtkAction  *action,
 					 GthBrowser *browser)
 {
-	/* FIXME
-	GThumbWindow *window = data;
-	if (! window->sidebar_visible)
-		window_show_sidebar (window);
-	gtk_widget_grab_focus (window->location_entry);
-	*/
+	GtkWidget *chooser;
+
+	chooser = gtk_file_chooser_dialog_new ("",
+					       GTK_WINDOW (browser),
+					       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
+					       NULL);
+	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
+
+	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
+			  "response", 
+			  G_CALLBACK (open_location_response_cb), 
+			  browser);
+
+	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
+	gtk_widget_show (chooser);
 }
 
 

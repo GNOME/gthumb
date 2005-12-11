@@ -270,8 +270,9 @@ gth_location_construct (GthLocation *loc)
 	
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
+			    ICON_COLUMN, NULL,
 			    TYPE_COLUMN, ITEM_TYPE_OPEN_LOCATION,
-			    NAME_COLUMN, _("_Location..."),
+			    NAME_COLUMN, _("Other..."),
 			    -1);
 }
 

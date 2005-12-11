@@ -294,7 +294,6 @@ browse_button_clicked_cb (GtkWidget *widget,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
-	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	
 	entry = folder_sel->priv->file_entry;
 
@@ -436,7 +435,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	vbox2 = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
 
-	folder_sel->priv->recent_list = bookmark_list_new ();
+	folder_sel->priv->recent_list = bookmark_list_new (FALSE);
 	gtk_widget_set_size_request (folder_sel->priv->recent_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
 	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->recent_list->root_widget, TRUE, TRUE, 0);
 
@@ -467,7 +466,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	vbox2 = gtk_vbox_new (FALSE, 6);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
 
-	folder_sel->priv->bookmark_list = bookmark_list_new ();
+	folder_sel->priv->bookmark_list = bookmark_list_new (FALSE);
 	gtk_widget_set_size_request (folder_sel->priv->bookmark_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
 	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->bookmark_list->root_widget, TRUE, TRUE, 0);
 
