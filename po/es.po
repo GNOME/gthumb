@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-22 23:31+0100\n"
-"PO-Revision-Date: 2005-11-22 23:32+0100\n"
+"POT-Creation-Date: 2005-12-11 13:02+0100\n"
+"PO-Revision-Date: 2005-12-11 13:02+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -180,7 +180,7 @@ msgstr "%d %b %Y, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:505 ../src/gth-exif-data-viewer.c:479
+#: ../src/gth-browser.c:502 ../src/gth-exif-data-viewer.c:479
 #: ../src/gth-fullscreen.c:777 ../src/gth-viewer.c:586
 #, c-format
 msgid "%d x %d pixels"
@@ -1927,10 +1927,14 @@ msgid "rows"
 msgstr "filas"
 
 #: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Visor de imágenes"
+
+#: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "Muestra y organiza sus imágenes"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "Visor de imágenes gThumb"
 
@@ -2087,7 +2091,7 @@ msgstr "%d %B %Y"
 
 #: ../libgthumb/comments.c:1350 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:501 ../src/gth-exif-data-viewer.c:483
+#: ../src/gth-browser.c:498 ../src/gth-exif-data-viewer.c:483
 #: ../src/gth-fullscreen.c:788 ../src/gth-viewer.c:582
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
@@ -2214,13 +2218,13 @@ msgstr "Mostrar el tamaño en el modo de información de la tipografía"
 msgid "Font"
 msgstr "Tipografía"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8772
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8541
 #: ../src/gth-viewer.c:2276
 msgid "Wait please..."
 msgstr "Por favor aguarde..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:780
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:777
 #: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "Ninguna imagen"
@@ -2230,7 +2234,7 @@ msgstr "Ninguna imagen"
 msgid "Name"
 msgstr "Nombre"
 
-#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:255
 msgid "Ro_tate Images"
 msgstr "Ro_tar imágenes"
 
@@ -2252,9 +2256,9 @@ msgstr "Borrando todas las miniaturas, por favor aguarde..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Borrando miniaturas viejas, aguarde por favor..."
 
-#: ../src/bookmark-list.c:173 ../src/gth-browser.c:702
-#: ../src/gth-browser.c:1403 ../src/gth-browser.c:1409
-#: ../src/gth-browser.c:1415
+#: ../src/bookmark-list.c:159 ../src/gth-browser.c:699
+#: ../src/gth-browser.c:1385 ../src/gth-browser.c:1389
+#: ../src/gth-browser.c:1401
 msgid "(Invalid Name)"
 msgstr "(Nombre inválido)"
 
@@ -2408,7 +2412,7 @@ msgstr ""
 "permanentemente?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1269
-#: ../src/gth-browser.c:1933 ../src/gth-viewer.c:977
+#: ../src/gth-browser.c:1908 ../src/gth-viewer.c:977
 msgid "_Do not display this message again"
 msgstr "_No mostrar este mensaje otra vez"
 
@@ -2495,7 +2499,7 @@ msgstr "Tamaño"
 msgid "Type"
 msgstr "Tipo"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:517
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:514
 #: ../src/gth-exif-data-viewer.c:515 ../src/gth-viewer.c:598
 msgid "Modified"
 msgstr "Modificado"
@@ -2515,7 +2519,7 @@ msgstr "Propiedades de %s"
 msgid "Could not import photos"
 msgstr "No se han podido importar fotos"
 
-#: ../src/dlg-photo-importer.c:1233 ../src/main.c:956
+#: ../src/dlg-photo-importer.c:1233 ../src/main.c:1016
 msgid "Film"
 msgstr "Película"
 
@@ -2580,7 +2584,7 @@ msgstr "Carpeta"
 msgid "Select Album Theme"
 msgstr "Seleccionar el tema del álbum"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3870
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3670
 msgid "Could not move the items:"
 msgstr "No se han podido mover los elementos:"
 
@@ -2788,11 +2792,6 @@ msgstr "Crear una ventana nueva"
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
 msgstr "Abre la imagen seleccionada en una ventana nueva"
-
-#: ../src/gth-browser-actions-entries.h:63
-#: ../src/gth-fullscreen-actions-entries.h:57
-msgid "Proper_ties"
-msgstr "Pr_opiedades"
 
 #: ../src/gth-browser-actions-entries.h:64
 msgid "View image properties"
@@ -3079,7 +3078,7 @@ msgstr "Anterior"
 msgid "View previous image"
 msgstr "Ver la imagen anterior"
 
-#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5305
+#: ../src/gth-browser-actions-entries.h:294
 msgid "Go to the previous visited location"
 msgstr "Ir a la dirección visitada previamente"
 
@@ -3158,10 +3157,6 @@ msgstr "M_ostrar diapositivas"
 #: ../src/gth-browser-actions-entries.h:349
 msgid "View as a slide show"
 msgstr "Ver como diapositivas"
-
-#: ../src/gth-browser-actions-entries.h:354
-msgid "Find images"
-msgstr "Buscar imágenes"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "Create _Index Image"
@@ -3290,57 +3285,53 @@ msgstr "Catá_logos"
 msgid "View the catalogs"
 msgstr "Ver los catálogos"
 
-#: ../src/gth-browser.c:567 ../src/gth-viewer.c:643
+#: ../src/gth-browser.c:564 ../src/gth-viewer.c:643
 msgid "[Press 'c' to add a comment]"
 msgstr "[Presione «c» para añadir un comentario]"
 
-#: ../src/gth-browser.c:676 ../src/gth-browser.c:695 ../src/gth-viewer.c:739
+#: ../src/gth-browser.c:673 ../src/gth-browser.c:692 ../src/gth-viewer.c:739
 #: ../src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[modificada]"
 
-#: ../src/gth-browser.c:720 ../src/gth-window-actions-callbacks.c:780
-#: ../src/main.c:674
+#: ../src/gth-browser.c:717 ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:705
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:782
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 imagen (%s)"
 
-#: ../src/gth-browser.c:785
+#: ../src/gth-browser.c:782
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d imágenes (%s)"
 
-#: ../src/gth-browser.c:792
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 imagen seleccionada (%s)"
 
-#: ../src/gth-browser.c:795
+#: ../src/gth-browser.c:792
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d imágenes seleccionadas (%s)"
 
-#: ../src/gth-browser.c:1930 ../src/gth-viewer.c:974
+#: ../src/gth-browser.c:1905 ../src/gth-viewer.c:974
 msgid "The current image has been modified, do you want to save it?"
 msgstr "La imagen actual ha sido modificada, ¿quiere guardarla?"
 
-#: ../src/gth-browser.c:1931 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1906 ../src/gth-viewer.c:975
 msgid "Do Not Save"
 msgstr "No guardar"
 
-#: ../src/gth-browser.c:3629
+#: ../src/gth-browser.c:3429
 msgid "Dragged Images"
 msgstr "Imágenes arrastradas"
 
-#: ../src/gth-browser.c:5304
-msgid "Back"
-msgstr "Atrás"
-
-#: ../src/gth-browser.c:5334 ../src/gth-browser.c:5335
+#: ../src/gth-browser.c:5097 ../src/gth-browser.c:5098
 #: ../src/gth-viewer.c:1539 ../src/gth-viewer.c:1540
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
@@ -3349,28 +3340,28 @@ msgstr "Atrás"
 msgid "Rotate images without loss of quality"
 msgstr "Rotar imágenes sin pérdida de calidad"
 
-#: ../src/gth-browser.c:6751
+#: ../src/gth-browser.c:6507
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../src/gth-browser.c:6765 ../src/gth-viewer.c:1807
+#: ../src/gth-browser.c:6521 ../src/gth-viewer.c:1807
 msgid "Image comment"
 msgstr "Comentario de la imagen"
 
-#: ../src/gth-browser.c:6779
+#: ../src/gth-browser.c:6535
 msgid "Image data"
 msgstr "Datos de la imagen"
 
-#: ../src/gth-browser.c:6793
+#: ../src/gth-browser.c:6549
 msgid "Image preview"
 msgstr "Vista previa de la imagen"
 
-#: ../src/gth-browser.c:7824
+#: ../src/gth-browser.c:7573
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "No se puede cargar la carpeta «%s»: %s\n"
 
-#: ../src/gth-browser.c:8104
+#: ../src/gth-browser.c:7873
 msgid "The specified catalog does not exist."
 msgstr "El catálogo especificado no existe."
 
@@ -3394,6 +3385,10 @@ msgstr "_Recientes:"
 #: ../src/gth-window-actions-entries.h:220
 msgid "Restore Normal View"
 msgstr "Restaurar la vista normal"
+
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "Pr_opiedades"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3717,66 +3712,72 @@ msgstr "_Baja calidad"
 msgid "Use low quality zoom"
 msgstr "Usar ampliación de baja calidad"
 
-#: ../src/main.c:75
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "Iniciar en modo de pantalla completa"
 
-#: ../src/main.c:78
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "Iniciar una secuencia automáticamente"
 
-#: ../src/main.c:81
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "Importar automáticamente fotos de la cámara digital"
 
-#: ../src/main.c:103
+#: ../src/main.c:134
 msgid "Holidays"
 msgstr "Vacaciones"
 
-#: ../src/main.c:104
+#: ../src/main.c:135
 msgid "Temporary"
 msgstr "Temporal"
 
-#: ../src/main.c:105
+#: ../src/main.c:136
 msgid "Screenshots"
 msgstr "Capturas de pantallas"
 
-#: ../src/main.c:106
+#: ../src/main.c:137
 msgid "Science"
 msgstr "Ciencia"
 
-#: ../src/main.c:107
+#: ../src/main.c:138
 msgid "Favourite"
 msgstr "Favorita"
 
-#: ../src/main.c:108
+#: ../src/main.c:139
 msgid "Important"
 msgstr "Importante"
 
-#: ../src/main.c:109
+#: ../src/main.c:140
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:110
+#: ../src/main.c:141
 msgid "Games"
 msgstr "Juegos"
 
-#: ../src/main.c:111
+#: ../src/main.c:142
 msgid "Party"
 msgstr "Fiesta"
 
-#: ../src/main.c:112
+#: ../src/main.c:143
 msgid "Birthday"
 msgstr "Cumpleaños"
 
-#: ../src/main.c:113
+#: ../src/main.c:144
 msgid "Astronomy"
 msgstr "Astronomía"
 
-#: ../src/main.c:114
+#: ../src/main.c:145
 msgid "Family"
 msgstr "Familia"
 
-#: ../src/main.c:436 ../src/main.c:604
+#: ../src/main.c:468 ../src/main.c:635
 msgid "Command Line"
 msgstr "Línea de comandos"
+
+#~ msgid "Find images"
+#~ msgstr "Buscar imágenes"
+
+#~ msgid "Back"
+#~ msgstr "Atrás"
