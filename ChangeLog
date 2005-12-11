@@ -1,5 +1,8 @@
 2005-12-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_go_location):
+	added file chooser title.
+	
 	* src/gth-location.c:
 	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_go_location): 
 	implemented.

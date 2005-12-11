@@ -35,6 +35,7 @@
 #include "gth-location.h"
 #include "gthumb-stock.h"
 #include "main.h"
+#include "pixbuf-utils.h"
 
 #include "icons/pixbufs.h"
 
@@ -201,6 +202,8 @@ gth_location_construct (GthLocation *loc)
 	GtkCellRenderer *renderer;
 	GValue           value = { 0, };
 	GtkTreeIter      iter;
+	int              icon_size;
+	GdkPixbuf       *icon;
 
 	loc->priv->model = gtk_list_store_new (N_COLUMNS, 
 					       GDK_TYPE_PIXBUF, 
@@ -267,13 +270,18 @@ gth_location_construct (GthLocation *loc)
 			    -1);
 
 	/* open location command */
-	
+
+	icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (loc));
+	icon = create_void_pixbuf (icon_size, icon_size);
+
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
-			    ICON_COLUMN, NULL,
+			    ICON_COLUMN, icon,
 			    TYPE_COLUMN, ITEM_TYPE_OPEN_LOCATION,
 			    NAME_COLUMN, _("Other..."),
 			    -1);
+
+	g_object_unref (icon);
 }
 
 

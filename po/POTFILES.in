@@ -197,6 +197,8 @@ src/gth-fullscreen.h
 src/gth-fullscreen-ui.h
 src/gth-image-selector.c
 src/gth-image-selector.h
+src/gth-location.c
+src/gth-location.h
 src/gth-monitor.c
 src/gth-monitor.h
 src/gthumb-preloader.c

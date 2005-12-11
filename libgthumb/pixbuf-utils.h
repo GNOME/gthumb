@@ -70,4 +70,7 @@ gboolean   scale_keepping_ratio               (int *width,
 					       int  max_width,
 					       int  max_height);
 
+GdkPixbuf* create_void_pixbuf                 (int width,
+					       int height);
+
 #endif

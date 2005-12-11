@@ -1380,3 +1380,19 @@ scale_keepping_ratio (int *width,
 	return modified;
 }
 
+
+GdkPixbuf*
+create_void_pixbuf (int width,
+		    int height)
+{
+	GdkPixbuf *p;
+
+	p = gdk_pixbuf_new (GDK_COLORSPACE_RGB,
+			    TRUE,
+			    8,
+			    width,
+			    height);
+	gdk_pixbuf_fill (p, 0xFFFFFF00);
+
+	return p;
+}

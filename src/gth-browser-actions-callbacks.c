@@ -1844,7 +1844,7 @@ gth_browser_activate_action_go_location (GtkAction  *action,
 {
 	GtkWidget *chooser;
 
-	chooser = gtk_file_chooser_dialog_new ("",
+	chooser = gtk_file_chooser_dialog_new (_("Open Location"),
 					       GTK_WINDOW (browser),
 					       GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,

@@ -443,7 +443,7 @@ static guint gth_browser_sort_by_entries_size = G_N_ELEMENTS (gth_browser_sort_b
 
 
 static GtkRadioActionEntry gth_browser_content_entries[] = {
-	{ "View_ShowFolders", GTK_STOCK_OPEN,
+	{ "View_ShowFolders", GTK_STOCK_DIRECTORY,
 	  N_("_Folders"), "<alt>1",
 	  N_("View the folders"), GTH_SIDEBAR_DIR_LIST },
 	{ "View_ShowCatalogs", GTHUMB_STOCK_SHOW_CATALOGS,
