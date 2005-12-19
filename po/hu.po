@@ -9,14 +9,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.hu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-21 19:29+0100\n"
-"PO-Revision-Date: 2005-11-21 22:54+0100\n"
+"POT-Creation-Date: 2005-12-19 11:20+0100\n"
+"PO-Revision-Date: 2005-12-16 22:23+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@gnome.hu>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.2\n"
+"X-Generator: KBabel 1.10\n"
 "Plural-Forms:  nplurals=1; plural=0;\n"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
@@ -180,7 +180,7 @@ msgstr "%Y. %b. %e., %H.%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:505 ../src/gth-exif-data-viewer.c:479
+#: ../src/gth-browser.c:502 ../src/gth-exif-data-viewer.c:479
 #: ../src/gth-fullscreen.c:777 ../src/gth-viewer.c:586
 #, c-format
 msgid "%d x %d pixels"
@@ -349,7 +349,7 @@ msgstr "Érték"
 msgid "_Application:"
 msgstr "_Alkalmazás:"
 
-#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:454
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:453
 msgid "_Bookmarks:"
 msgstr "_Könyvjelzők:"
 
@@ -929,7 +929,8 @@ msgstr "<small><i><b>Megjegyzés:</b> # (sorszám)</i>.</small>"
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr "<small><i><b>Megjegyzés:</b> %p (oldalszám), %n (oldalak száma)</i>.</small>"
+msgstr ""
+"<small><i><b>Megjegyzés:</b> %p (oldalszám), %n (oldalak száma)</i>.</small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:20
@@ -1926,10 +1927,14 @@ msgid "rows"
 msgstr "sor"
 
 #: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Képmegjelenítő"
+
+#: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "Képek megtekintése és rendszerezése"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "gThumb képmegjelenítő"
 
@@ -2034,8 +2039,10 @@ msgid "Possible values are: small, medium, large."
 msgstr "Lehetséges értékek: small, medium, large."
 
 #: ../data/gthumb.schemas.in.h:23
-msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
-msgstr "Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
+msgid ""
+"Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr ""
+"Lehetséges értékek: system, text_below, text_beside, text_only, icons_only."
 
 #: ../data/gthumb.schemas.in.h:24
 msgid "Possible values are: white, black, checked, none."
@@ -2083,7 +2090,7 @@ msgstr "%Y. %B %e."
 
 #: ../libgthumb/comments.c:1350 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:501 ../src/gth-exif-data-viewer.c:483
+#: ../src/gth-browser.c:498 ../src/gth-exif-data-viewer.c:483
 #: ../src/gth-fullscreen.c:788 ../src/gth-viewer.c:582
 msgid "%d %B %Y, %H:%M"
 msgstr "%Y. %B %e., %H.%M"
@@ -2095,7 +2102,8 @@ msgstr "(Nincs megjegyzés)"
 #: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
 #: ../src/dlg-jpegtran.c:316 ../src/dlg-photo-importer.c:1521
 #, c-format
-msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgid ""
+"You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Nincs megfelelő jogosultsága képek létrehozásához a(z) \"%s\" mappában"
 
 #: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
@@ -2205,13 +2213,13 @@ msgstr "Méret megjelenítése a betűkészlet-információs módban"
 msgid "Font"
 msgstr "Betűkészlet"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8772
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8539
 #: ../src/gth-viewer.c:2276
 msgid "Wait please..."
 msgstr "Várjon..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:780
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:777
 #: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "Nincs kép"
@@ -2221,7 +2229,7 @@ msgstr "Nincs kép"
 msgid "Name"
 msgstr "Név"
 
-#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:255
 msgid "Ro_tate Images"
 msgstr "Képek el_forgatása"
 
@@ -2243,9 +2251,9 @@ msgstr "Az összes bélyegkép törlése folyamatban, várjon..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "A régi bélyegképek törlése folyamatban, várjon..."
 
-#: ../src/bookmark-list.c:173 ../src/gth-browser.c:702
-#: ../src/gth-browser.c:1403 ../src/gth-browser.c:1409
-#: ../src/gth-browser.c:1415
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:699
+#: ../src/gth-browser.c:1385 ../src/gth-browser.c:1389
+#: ../src/gth-browser.c:1401
 msgid "(Invalid Name)"
 msgstr "(Érvénytelen név)"
 
@@ -2331,7 +2339,8 @@ msgstr "Kép átalakítása: %s"
 
 #: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:413
 #, c-format
-msgid "An image named \"%s\" is already present. Please specify a different name."
+msgid ""
+"An image named \"%s\" is already present. Please specify a different name."
 msgstr "Már létezik \"%s\" nevű kép. Használjon másik nevet."
 
 #: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
@@ -2390,10 +2399,11 @@ msgstr "Nem lehet törölni a képeket:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr "A képeket nem lehet áthelyezni a Kukába. Szeretné véglegesen törölni őket?"
+msgstr ""
+"A képeket nem lehet áthelyezni a Kukába. Szeretné véglegesen törölni őket?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1269
-#: ../src/gth-browser.c:1933 ../src/gth-viewer.c:977
+#: ../src/gth-browser.c:1908 ../src/gth-viewer.c:977
 msgid "_Do not display this message again"
 msgstr "_Ne jelenjen meg többet ez az üzenet"
 
@@ -2412,7 +2422,8 @@ msgstr "Nem adott meg új nevet"
 
 #: ../src/dlg-file-utils.c:803 ../src/dlg-file-utils.c:904
 #, c-format
-msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgid ""
+"The name \"%s\" is already used in this folder. Please use a different name."
 msgstr "\"%s\" nevű elem már létezik ebben a mappában. Használjon másik nevet."
 
 #: ../src/dlg-file-utils.c:1043
@@ -2477,7 +2488,7 @@ msgstr "Méret"
 msgid "Type"
 msgstr "Típus"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:517
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:514
 #: ../src/gth-exif-data-viewer.c:515 ../src/gth-viewer.c:598
 msgid "Modified"
 msgstr "Módosítva"
@@ -2497,7 +2508,7 @@ msgstr "%s tulajdonságai"
 msgid "Could not import photos"
 msgstr "Nem lehet importálni a fényképeket"
 
-#: ../src/dlg-photo-importer.c:1233 ../src/main.c:956
+#: ../src/dlg-photo-importer.c:1233 ../src/main.c:1016
 msgid "Film"
 msgstr "Film"
 
@@ -2554,7 +2565,7 @@ msgstr "Keresés eredménye"
 msgid "Filename"
 msgstr "Fájlnév"
 
-#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:392
+#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:391
 msgid "Folder"
 msgstr "Mappa"
 
@@ -2562,7 +2573,7 @@ msgstr "Mappa"
 msgid "Select Album Theme"
 msgstr "Albumtéma kiválasztása"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3870
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3668
 msgid "Could not move the items:"
 msgstr "Nem lehet áthelyezni az elemeket:"
 
@@ -2675,7 +2686,8 @@ msgstr "Nem lehet törölni a(z) \"%s\" mappát: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1261
 #, c-format
-msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgid ""
+"\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "\"%s\" nem helyezhető át a Kukába. Szeretné véglegesen törölni?"
 
 #: ../src/gth-browser-actions-callbacks.c:1305
@@ -2703,6 +2715,10 @@ msgstr "Új mappa"
 #: ../src/gth-browser-actions-callbacks.c:1718
 msgid "Enter the folder name: "
 msgstr "Adja meg a mappa nevét: "
+
+#: ../src/gth-browser-actions-callbacks.c:1847
+msgid "Open Location"
+msgstr "Hely megnyitása"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
@@ -2768,11 +2784,6 @@ msgstr "Új ablak létrehozása"
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
 msgstr "A kijelölt kép megnyitása új ablakban"
-
-#: ../src/gth-browser-actions-entries.h:63
-#: ../src/gth-fullscreen-actions-entries.h:57
-msgid "Proper_ties"
-msgstr "_Tulajdonságok"
 
 #: ../src/gth-browser-actions-entries.h:64
 msgid "View image properties"
@@ -3058,7 +3069,7 @@ msgstr "Előző"
 msgid "View previous image"
 msgstr "Az előző kép megtekintése"
 
-#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5305
+#: ../src/gth-browser-actions-entries.h:294
 msgid "Go to the previous visited location"
 msgstr "Ugrás az előző meglátogatott helyre"
 
@@ -3137,10 +3148,6 @@ msgstr "_Diavetítés"
 #: ../src/gth-browser-actions-entries.h:349
 msgid "View as a slide show"
 msgstr "Megtekintés diavetítésként"
-
-#: ../src/gth-browser-actions-entries.h:354
-msgid "Find images"
-msgstr "Képek keresése"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "Create _Index Image"
@@ -3269,57 +3276,53 @@ msgstr "_Katalógusok"
 msgid "View the catalogs"
 msgstr "A katalógusok megtekintése"
 
-#: ../src/gth-browser.c:567 ../src/gth-viewer.c:643
+#: ../src/gth-browser.c:564 ../src/gth-viewer.c:643
 msgid "[Press 'c' to add a comment]"
 msgstr "[Nyomja meg a 'c' billentyűt a megjegyzés hozzáadásához.]"
 
-#: ../src/gth-browser.c:676 ../src/gth-browser.c:695 ../src/gth-viewer.c:739
+#: ../src/gth-browser.c:673 ../src/gth-browser.c:692 ../src/gth-viewer.c:739
 #: ../src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[módosítva]"
 
-#: ../src/gth-browser.c:720 ../src/gth-window-actions-callbacks.c:780
-#: ../src/main.c:674
+#: ../src/gth-browser.c:717 ../src/gth-window-actions-callbacks.c:780
+#: ../src/main.c:705
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:782
+#: ../src/gth-browser.c:779
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 kép (%s)"
 
-#: ../src/gth-browser.c:785
+#: ../src/gth-browser.c:782
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d kép (%s)"
 
-#: ../src/gth-browser.c:792
+#: ../src/gth-browser.c:789
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 kijelölve (%s)"
 
-#: ../src/gth-browser.c:795
+#: ../src/gth-browser.c:792
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d kijelölve (%s)"
 
-#: ../src/gth-browser.c:1930 ../src/gth-viewer.c:974
+#: ../src/gth-browser.c:1905 ../src/gth-viewer.c:974
 msgid "The current image has been modified, do you want to save it?"
 msgstr "A jelenlegi kép megváltozott. Szeretné menteni?"
 
-#: ../src/gth-browser.c:1931 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1906 ../src/gth-viewer.c:975
 msgid "Do Not Save"
 msgstr "Ne mentse"
 
-#: ../src/gth-browser.c:3629
+#: ../src/gth-browser.c:3427
 msgid "Dragged Images"
 msgstr "Behúzott képek"
 
-#: ../src/gth-browser.c:5304
-msgid "Back"
-msgstr "Vissza"
-
-#: ../src/gth-browser.c:5334 ../src/gth-browser.c:5335
+#: ../src/gth-browser.c:5095 ../src/gth-browser.c:5096
 #: ../src/gth-viewer.c:1539 ../src/gth-viewer.c:1540
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
@@ -3328,28 +3331,28 @@ msgstr "Vissza"
 msgid "Rotate images without loss of quality"
 msgstr "Képek elforgatása minőségvesztés nélkül"
 
-#: ../src/gth-browser.c:6751
+#: ../src/gth-browser.c:6505
 msgid "Close"
 msgstr "Bezárás"
 
-#: ../src/gth-browser.c:6765 ../src/gth-viewer.c:1807
+#: ../src/gth-browser.c:6519 ../src/gth-viewer.c:1807
 msgid "Image comment"
 msgstr "Megjegyzés a képhez"
 
-#: ../src/gth-browser.c:6779
+#: ../src/gth-browser.c:6533
 msgid "Image data"
 msgstr "Kép adatai"
 
-#: ../src/gth-browser.c:6793
+#: ../src/gth-browser.c:6547
 msgid "Image preview"
 msgstr "Előnézeti kép"
 
-#: ../src/gth-browser.c:7824
+#: ../src/gth-browser.c:7571
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Nem lehet betölteni a(z) \"%s\" mappát: %s\n"
 
-#: ../src/gth-browser.c:8104
+#: ../src/gth-browser.c:7871
 msgid "The specified catalog does not exist."
 msgstr "A megadott katalógus nem létezik."
 
@@ -3361,11 +3364,11 @@ msgstr "Mező"
 msgid "Value "
 msgstr "Érték "
 
-#: ../src/gth-folder-selection-dialog.c:414
+#: ../src/gth-folder-selection-dialog.c:413
 msgid "_Browse..."
 msgstr "_Tallózás..."
 
-#: ../src/gth-folder-selection-dialog.c:423
+#: ../src/gth-folder-selection-dialog.c:422
 msgid "_Recents:"
 msgstr "_Legutóbbiak:"
 
@@ -3373,6 +3376,18 @@ msgstr "_Legutóbbiak:"
 #: ../src/gth-window-actions-entries.h:220
 msgid "Restore Normal View"
 msgstr "Normál nézet visszaállítása"
+
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "_Tulajdonságok"
+
+#: ../src/gth-location.c:281
+msgid "Other..."
+msgstr "Egyéb..."
+
+#: ../src/gth-location.c:438
+msgid "Catalogs"
+msgstr "Katalógusok"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3694,67 +3709,66 @@ msgstr "_Alacsony minőség"
 msgid "Use low quality zoom"
 msgstr "Alacsony minőségű nagyítás használata"
 
-#: ../src/main.c:75
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "Indítás teljes képernyős módban"
 
-#: ../src/main.c:78
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "Diavetítés automatikus indítása"
 
-#: ../src/main.c:81
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "Fényképek automatikus importálása a digitális fényképezőgépből"
 
-#: ../src/main.c:103
+#: ../src/main.c:134
 msgid "Holidays"
 msgstr "Szabadság"
 
-#: ../src/main.c:104
+#: ../src/main.c:135
 msgid "Temporary"
 msgstr "Átmeneti"
 
-#: ../src/main.c:105
+#: ../src/main.c:136
 msgid "Screenshots"
 msgstr "Képernyőképek"
 
-#: ../src/main.c:106
+#: ../src/main.c:137
 msgid "Science"
 msgstr "Tudomány"
 
-#: ../src/main.c:107
+#: ../src/main.c:138
 msgid "Favourite"
 msgstr "Kedvenc"
 
-#: ../src/main.c:108
+#: ../src/main.c:139
 msgid "Important"
 msgstr "Fontos"
 
-#: ../src/main.c:109
+#: ../src/main.c:140
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:110
+#: ../src/main.c:141
 msgid "Games"
 msgstr "Játékok"
 
-#: ../src/main.c:111
+#: ../src/main.c:142
 msgid "Party"
 msgstr "Buli"
 
-#: ../src/main.c:112
+#: ../src/main.c:143
 msgid "Birthday"
 msgstr "Születésnap"
 
-#: ../src/main.c:113
+#: ../src/main.c:144
 msgid "Astronomy"
 msgstr "Csillagászat"
 
-#: ../src/main.c:114
+#: ../src/main.c:145
 msgid "Family"
 msgstr "Család"
 
-#: ../src/main.c:436 ../src/main.c:604
+#: ../src/main.c:468 ../src/main.c:635
 msgid "Command Line"
 msgstr "Parancssor"
-
