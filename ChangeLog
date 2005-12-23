@@ -1,5 +1,8 @@
 2005-12-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (gth_browser_notify_files_created): check
+	parent_dir before using it.
+
 	* src/gth-batch-op.c: 
 	* data/glade/gthumb_tools.glade: 
 	* data/gthumb.schemas.in: 

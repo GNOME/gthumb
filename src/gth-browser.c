@@ -5338,6 +5338,8 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		char *parent_dir;
 		
 		parent_dir = remove_level_from_path (path);
+		if (parent_dir == NULL)
+			continue;
 
 		if (strcmp (parent_dir, current_dir) == 0)
 			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
