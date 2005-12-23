@@ -93,6 +93,7 @@ typedef struct {
 	GtkWidget      *import_preview_box;
 	GtkWidget      *import_reload_button;
 	GtkWidget      *import_delete_button;
+	GtkWidget      *import_ok_button;
 	GtkWidget      *i_commands_table;
 
 	GtkWidget      *progress_info_image;
@@ -504,6 +505,7 @@ main_dialog_set_sensitive (DialogData *data,
 			   gboolean    value)
 {
 	gtk_widget_set_sensitive (data->select_model_button, value);
+	gtk_widget_set_sensitive (data->import_ok_button, value);
 	gtk_widget_set_sensitive (data->import_reload_button, value);
 	gtk_widget_set_sensitive (data->import_delete_button, value);
 	gtk_widget_set_sensitive (data->i_commands_table, value);
@@ -1754,7 +1756,7 @@ void
 dlg_photo_importer (GthBrowser *browser)
 {
 	DialogData   *data;
-	GtkWidget    *btn_ok, *btn_cancel;
+	GtkWidget    *btn_cancel;
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
 	char         *esc_uri;
@@ -1816,7 +1818,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->import_reload_button = glade_xml_get_widget (data->gui, "import_reload_button");
 	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
 	data->i_commands_table = glade_xml_get_widget (data->gui, "i_commands_table");
-	btn_ok = glade_xml_get_widget (data->gui, "import_okbutton");
+	data->import_ok_button = glade_xml_get_widget (data->gui, "import_okbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 
 	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
@@ -1872,7 +1874,7 @@ dlg_photo_importer (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
-	g_signal_connect (G_OBJECT (btn_ok), 
+	g_signal_connect (G_OBJECT (data->import_ok_button), 
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
 			  data);
