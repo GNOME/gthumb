@@ -151,6 +151,9 @@
 #define  PREF_SCALE_KEEP_RATIO        "/apps/gthumb/dialogs/scale_image/keep_aspect_ratio"
 #define  PREF_SCALE_HIGH_QUALITY      "/apps/gthumb/dialogs/scale_image/high_quality"
 
+#define  PREF_SCALE_SERIES_WIDTH      "/apps/gthumb/dialogs/scale_series/width"
+#define  PREF_SCALE_SERIES_HEIGHT     "/apps/gthumb/dialogs/scale_series/height"
+
 #define  PREF_WEB_ALBUM_DESTINATION   "/apps/gthumb/dialogs/web_album/destination"
 #define  PREF_WEB_ALBUM_DESTINATIONS  "/apps/gthumb/dialogs/web_album/destinations"
 #define  PREF_WEB_ALBUM_INDEX_FILE    "/apps/gthumb/dialogs/web_album/index_file"

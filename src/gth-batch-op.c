@@ -40,8 +40,6 @@
 
 #define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_tools.glade"
-#define OUT_IMAGE_TYPE "jpeg"
-#define EXT "jpeg"
 #define PD(b) (((b)->priv))  /* Private Data */
 
 struct _GthBatchOpPrivateData {
@@ -342,8 +340,10 @@ load_next_image (GthBatchOp *bop)
 static void
 notify_termination (GthBatchOp *bop)
 {
-	all_windows_notify_files_created (PD(bop)->saved_list);
-	all_windows_notify_files_deleted (PD(bop)->deleted_list);
+	if (PD(bop)->saved_list != NULL)
+		all_windows_notify_files_created (PD(bop)->saved_list);
+	if (PD(bop)->deleted_list != NULL)
+		all_windows_notify_files_deleted (PD(bop)->deleted_list);
 	all_windows_add_monitor ();
 
 	g_signal_emit (G_OBJECT (bop),
@@ -381,7 +381,7 @@ load_current_image (GthBatchOp *bop)
 	else
 		folder = g_strdup (PD(bop)->destination);
 	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
-	PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", EXT, NULL);
+	PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", PD(bop)->image_type, NULL);
 
 	g_free (folder);
 	g_free (name_no_ext);

@@ -1,5 +1,13 @@
 2005-12-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-batch-op.c: 
+	* data/glade/gthumb_tools.glade: 
+	* data/gthumb.schemas.in: 
+	* libgthumb/preferences.h (PREF_SCALE_SERIES_WIDTH): 
+	* src/dlg-scale-series.c (dlg_scale_series): 
+
+	save/restore width and height.  Added ability to select the image type.
+
 	* src/dlg-photo-importer.c (main_dialog_set_sensitive)
 	(dlg_photo_importer): 
 
@@ -28,7 +36,8 @@
 	* src/dlg-bookmarks.c (dlg_edit_bookmarks): 
 	* src/gth-folder-selection-dialog.c (gth_folder_selection_construct): 
 
-	Use the menu icons in the bookmarks dialog only, use the mime icons otherwise.
+	Use the menu icons in the bookmarks dialog only, use the mime icons 
+	otherwise.
 	
 2005-12-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

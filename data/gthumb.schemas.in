@@ -1293,6 +1293,34 @@
 	</locale>
       </schema>
 
+      <!-- Scale Series -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_series/width</key>
+	<applyto>/apps/gthumb/dialogs/scale_series/width</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>640</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/scale_series/height</key>
+	<applyto>/apps/gthumb/dialogs/scale_series/height</applyto>
+	<owner>gthumb</owner>
+	<type>int</type>
+	<default>480</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
       <!-- Web Album -->
 
       <schema>
