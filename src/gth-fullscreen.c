@@ -1174,6 +1174,27 @@ viewer_key_press_cb (GtkWidget   *widget,
 		}
 		break;
 
+		/* Rotate image */
+	case GDK_bracketright:
+	case GDK_r: 
+		gth_window_activate_action_alter_image_rotate90 (NULL, fullscreen);
+		return TRUE;
+			
+		/* Flip image */
+	case GDK_l:
+		gth_window_activate_action_alter_image_flip (NULL, fullscreen);
+		return TRUE;
+
+		/* Mirror image */
+	case GDK_m:
+		gth_window_activate_action_alter_image_mirror (NULL, fullscreen);
+		return TRUE;
+
+		/* Rotate image counter-clockwise */
+	case GDK_bracketleft:
+		gth_window_activate_action_alter_image_rotate90cc (NULL, fullscreen);
+		return TRUE;
+
 		/* Delete selection. */
 	case GDK_Delete: 
 	case GDK_KP_Delete:

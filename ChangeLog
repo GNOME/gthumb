@@ -1,3 +1,14 @@
+2005-12-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (key_press_cb): added page_down as next image 
+	shortcut.
+
+	* src/gth-fullscreen.c (viewer_key_press_cb): added rotate/flip/mirror
+	commands.
+
+	Fixes bug #324812 – rotating images not working in gthumb fullscreen 
+	mode.
+
 2005-12-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_go_location):
@@ -61,14 +72,14 @@
 	
 	* src/gth-browser.c (reorder_current_catalog): 
 
-	Fixed catalog reordering when the viewed list is not equal to the catalog
-	list.
+	Fixed catalog reordering when the viewed list is not equal to the 
+	catalog	list.
 
 	* src/main.h: 
 	* src/main.c (all_windows_notify_catalog_reordered): new function
 
-	notify the catalog reordering and update the view if the window is showing
-	that catalog.
+	notify the catalog reordering and update the view if the window is 
+	showing	that catalog.
 
 2005-12-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
