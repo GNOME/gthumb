@@ -1126,6 +1126,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_space:
 	case GDK_n:
 	case GDK_Page_Down:
+	case GDK_Right:
 		load_next_image (fullscreen);
 		break;
 
@@ -1134,6 +1135,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:
+	case GDK_Left:
 		load_prev_image (fullscreen);
 		break;
 

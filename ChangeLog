@@ -1,5 +1,10 @@
 2005-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c (viewer_key_press_cb): 
+
+	Fixed bug #310649 – Next/prev keyboard shortcuts in slides mode 
+	shouldn't block
+
 	* doc/C/gthumb.xml: update keyboard shortcuts
 
 	* src/rotation-utils.h: 
