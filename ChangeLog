@@ -1,4 +1,22 @@
+2005-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* doc/C/gthumb.xml: update keyboard shortcuts
+
+	* src/rotation-utils.h: 
+	* src/rotation-utils.c: 
+	* src/dlg-photo-importer.c (adjust_orientation__step): 
+	* src/gth-fullscreen.c (monitor_update_files_cb): 
+
+	allow to rotate images in fullscreen mode.
+
 2005-12-23  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (key_press_cb): 
+	* src/gth-fullscreen.c (viewer_key_press_cb): 
+	* src/gth-viewer.c (viewer_key_press_cb): use [ ] to do lossless 
+	rotation. r e to rotate the image without saving.
+	
+	Fixes bug #319467 – Add keyboard shortcut to Lossless JPEG rotation.
 
 	* src/gth-browser.c (gth_browser_notify_files_created): check
 	parent_dir before using it.

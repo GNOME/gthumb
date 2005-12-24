@@ -1139,6 +1139,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		     gpointer     data)
 {
 	GthViewer   *viewer = data;
+	GthWindow   *window = (GthWindow*) viewer;
 	ImageViewer *image_viewer = (ImageViewer*)viewer->priv->viewer;
 	gboolean     retval = FALSE;
 
@@ -1191,30 +1192,35 @@ viewer_key_press_cb (GtkWidget   *widget,
 		retval = TRUE;
 		break;
 
-		/* Rotate image */
-	case GDK_bracketright:
+		/* Rotate clockwise without saving */
 	case GDK_r: 
-		gth_window_activate_action_alter_image_rotate90 (NULL, viewer);
-		retval = TRUE;
-		break;
-			
+		gth_window_activate_action_alter_image_rotate90 (NULL, window);
+		return TRUE;
+
+		/* Rotate counter-clockwise without saving */
+	case GDK_e:
+		gth_window_activate_action_alter_image_rotate90cc (NULL, window);
+		return TRUE;
+
+		/* Lossless clockwise rotation. */
+	case GDK_bracketright:
+		gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
+		return TRUE;
+
+		/* Lossless counter-clockwise rotation */
+	case GDK_bracketleft:
+		gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
+		return TRUE;
+
 		/* Flip image */
 	case GDK_l:
-		gth_window_activate_action_alter_image_flip (NULL, viewer);
-		retval = TRUE;
-		break;
+		gth_window_activate_action_alter_image_flip (NULL, window);
+		return TRUE;
 
 		/* Mirror image */
 	case GDK_m:
-		gth_window_activate_action_alter_image_mirror (NULL, viewer);
-		retval = TRUE;
-		break;
-
-		/* Rotate image counter-clockwise */
-	case GDK_bracketleft:
-		gth_window_activate_action_alter_image_rotate90cc (NULL, viewer);
-		retval = TRUE;
-		break;
+		gth_window_activate_action_alter_image_mirror (NULL, window);
+		return TRUE;
 
 		/* Full screen view. */
 	case GDK_v:

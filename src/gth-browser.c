@@ -2969,6 +2969,7 @@ key_press_cb (GtkWidget   *widget,
 	      gpointer     data)
 {
 	GthBrowser            *browser = data;
+	GthWindow             *window = (GthWindow*) browser;
 	GthBrowserPrivateData *priv = browser->priv;
 	ImageViewer           *viewer = IMAGE_VIEWER (priv->viewer);
 	gboolean               sel_not_null;
@@ -3112,27 +3113,36 @@ key_press_cb (GtkWidget   *widget,
 		}
 		break;
 
-		/* Rotate image */
-	case GDK_bracketright:
+		/* Rotate clockwise without saving */
 	case GDK_r: 
-		gth_window_activate_action_alter_image_rotate90 (NULL, browser);
+		gth_window_activate_action_alter_image_rotate90 (NULL, window);
 		return TRUE;
-			
+
+		/* Rotate counter-clockwise without saving */
+	case GDK_e:
+		gth_window_activate_action_alter_image_rotate90cc (NULL, window);
+		return TRUE;
+
+		/* Lossless clockwise rotation. */
+	case GDK_bracketright:
+		gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
+		return TRUE;
+
+		/* Lossless counter-clockwise rotation */
+	case GDK_bracketleft:
+		gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
+		return TRUE;
+
 		/* Flip image */
 	case GDK_l:
-		gth_window_activate_action_alter_image_flip (NULL, browser);
+		gth_window_activate_action_alter_image_flip (NULL, window);
 		return TRUE;
 
 		/* Mirror image */
 	case GDK_m:
-		gth_window_activate_action_alter_image_mirror (NULL, browser);
+		gth_window_activate_action_alter_image_mirror (NULL, window);
 		return TRUE;
 
-		/* Rotate image counter-clockwise */
-	case GDK_bracketleft:
-		gth_window_activate_action_alter_image_rotate90cc (NULL, browser);
-		return TRUE;
-			
 		/* Delete selection. */
 	case GDK_Delete: 
 	case GDK_KP_Delete:

@@ -1174,25 +1174,34 @@ viewer_key_press_cb (GtkWidget   *widget,
 		}
 		break;
 
-		/* Rotate image */
-	case GDK_bracketright:
+		/* Rotate clockwise without saving */
 	case GDK_r: 
-		gth_window_activate_action_alter_image_rotate90 (NULL, fullscreen);
+		gth_window_activate_action_alter_image_rotate90 (NULL, window);
 		return TRUE;
-			
+
+		/* Rotate counter-clockwise without saving */
+	case GDK_e:
+		gth_window_activate_action_alter_image_rotate90cc (NULL, window);
+		return TRUE;
+
+		/* Lossless clockwise rotation. */
+	case GDK_bracketright:
+		gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
+		return TRUE;
+
+		/* Lossless counter-clockwise rotation */
+	case GDK_bracketleft:
+		gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
+		return TRUE;
+
 		/* Flip image */
 	case GDK_l:
-		gth_window_activate_action_alter_image_flip (NULL, fullscreen);
+		gth_window_activate_action_alter_image_flip (NULL, window);
 		return TRUE;
 
 		/* Mirror image */
 	case GDK_m:
-		gth_window_activate_action_alter_image_mirror (NULL, fullscreen);
-		return TRUE;
-
-		/* Rotate image counter-clockwise */
-	case GDK_bracketleft:
-		gth_window_activate_action_alter_image_rotate90cc (NULL, fullscreen);
+		gth_window_activate_action_alter_image_mirror (NULL, window);
 		return TRUE;
 
 		/* Delete selection. */
@@ -1337,10 +1346,19 @@ monitor_update_files_cb (GthMonitor      *monitor,
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
 	case GTH_MONITOR_EVENT_CHANGED:
+		if ((fullscreen->priv->image_path != NULL) 
+		    && (g_list_find_custom (list, 
+					    fullscreen->priv->image_path,
+					    (GCompareFunc) strcmp) != NULL)) {
+			g_free (fullscreen->priv->image_path);
+			fullscreen->priv->image_path = NULL;
+			if (fullscreen->priv->image != NULL)
+				g_object_unref (fullscreen->priv->image);
+		}
 		if ((fullscreen->priv->current != NULL) 
 		    && (g_list_find_custom (list, 
 					    fullscreen->priv->current->data,
-					    (GCompareFunc) strcmp) == NULL))
+					    (GCompareFunc) strcmp) != NULL))
 			load_current_image (fullscreen);
 		break;
 

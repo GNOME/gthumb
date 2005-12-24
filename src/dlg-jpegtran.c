@@ -41,7 +41,6 @@
 #include "jpegutils/jpeg-data.h"
 #endif /* HAVE_LIBEXIF */
 
-#include "file-data.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
 #include "gth-window.h"
@@ -94,7 +93,7 @@ dialog_data_free (DialogData *data)
 
 	all_windows_add_monitor ();
 
-	file_data_list_free (data->file_list);
+	path_list_free (data->file_list);
 	if (data->loader != NULL)
 		g_object_unref (data->loader);
 	if (data->gui != NULL)
@@ -245,7 +244,7 @@ image_loader_error_cb (ImageLoader  *il,
 static void
 load_current_image (DialogData *data)
 {
-	FileData *fd;
+	char *path;
 
 	if (data->current_image == NULL) {
 		gtk_widget_destroy (data->dialog);
@@ -255,8 +254,8 @@ load_current_image (DialogData *data)
 	gtk_widget_set_sensitive (data->j_button_vbox, FALSE);
 	gtk_widget_set_sensitive (data->j_revert_button, FALSE);
 
-	fd = data->current_image->data;
-	image_loader_set_path (data->loader, fd->path);
+	path = data->current_image->data;
+	image_loader_set_path (data->loader, path);
 	image_loader_start (data->loader);
 
 	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
@@ -302,14 +301,14 @@ apply_transformation (DialogData *data,
 		      GList      *current_image,
 		      gboolean    notify_soon)
 {
-	FileData         *fd = current_image->data;
+	char             *path = current_image->data;
 	char             *dir;
 	GnomeVFSFileInfo  info;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
         
 	/* Check directory permissions. */
 
-	dir = remove_level_from_path (fd->path);
+	dir = remove_level_from_path (path);
 	if (! check_permissions (dir, R_OK | W_OK | X_OK)) {
 		char *utf8_path = g_filename_display_name (dir);
 		_gtk_error_dialog_run (GTK_WINDOW (data->dialog),
@@ -324,15 +323,15 @@ apply_transformation (DialogData *data,
 	/**/
 
 	if (data->from_exif_data)
-		update_rotation_from_exif_data (fd, data->rot_data);
-	gnome_vfs_get_file_info (fd->path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (image_is_jpeg (fd->path)) 
-		apply_transformation_jpeg (window, fd, data->rot_data);
+		update_rotation_from_exif_data (path, data->rot_data);
+	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
+	if (image_is_jpeg (path)) 
+		apply_transformation_jpeg (window, path, data->rot_data);
 	else 
-		apply_transformation_generic (window, fd, data->rot_data);
-	gnome_vfs_set_file_info (fd->path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
+		apply_transformation_generic (window, path, data->rot_data);
+	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 
-	notify_file_changed (data, fd->path, notify_soon);
+	notify_file_changed (data, path, notify_soon);
 }
 
 
@@ -372,9 +371,13 @@ apply_transformation_to_all (DialogData *data)
 
 	i = 0;
 	for (scan = data->current_image; scan; scan = scan->next) {
-		FileData *fd = scan->data;
-		
-		_gtk_label_set_filename_text (GTK_LABEL (label), fd->name);
+		char *path = scan->data;
+		char *name;
+
+		name = g_filename_display_basename (path);
+		_gtk_label_set_filename_text (GTK_LABEL (label), name);
+		g_free (name);
+
 		gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (bar),
 					       (gdouble) (i + 0.5) / n);
 		
@@ -614,7 +617,7 @@ dlg_jpegtran (GthWindow *window)
 	GList       *list;
 
 
-	list = gth_window_get_file_list_selection_as_fd (window);
+	list = gth_window_get_file_list_selection (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -633,7 +636,7 @@ dlg_jpegtran (GthWindow *window)
 	if (! data->gui) {
 		g_warning ("Could not find " ROTATE_GLADE_FILE "\n");
 		if (data->file_list != NULL) 
-			g_list_free (data->file_list);
+			path_list_free (data->file_list);
 		g_free (data);
 		return;
 	}
@@ -754,7 +757,7 @@ dlg_apply_jpegtran (GthWindow    *window,
 	DialogData  *data;
 	GList       *list;
 
-	list = gth_window_get_file_list_selection_as_fd (window);
+	list = gth_window_get_file_list_selection (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;
@@ -782,7 +785,7 @@ dlg_apply_jpegtran_from_exif (GthWindow *window)
 	DialogData  *data;
 	GList       *list;
 
-	list = gth_window_get_file_list_selection_as_fd (window);
+	list = gth_window_get_file_list_selection (window);
 	if (list == NULL) {
 		g_warning ("No file selected.");
 		return;

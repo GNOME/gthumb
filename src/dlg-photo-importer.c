@@ -1343,11 +1343,11 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		FileData     *fd = file_data_new (filepath, &info);
 		RotationData *rot_data = rotation_data_new ();
 
-		update_rotation_from_exif_data (fd, rot_data);
+		update_rotation_from_exif_data (fd->path, rot_data);
 		if (image_is_jpeg (filepath))
-			apply_transformation_jpeg (window, fd, rot_data);
+			apply_transformation_jpeg (window, fd->path, rot_data);
 		else
-			apply_transformation_generic (window, fd, rot_data);
+			apply_transformation_generic (window, fd->path, rot_data);
 
 		file_data_unref (fd);
 		g_free (rot_data);

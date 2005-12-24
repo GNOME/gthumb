@@ -21,11 +21,17 @@
  */
 
 #include <config.h>
+#include <unistd.h>
+#include <sys/types.h>
 
-#include "file-data.h"
+#include <libgnomevfs/gnome-vfs-mime.h>
+#include "file-utils.h"
+#include "gtk-utils.h"
+#include "pixbuf-utils.h"
 #include "rotation-utils.h"
 #include "jpegutils/jpeg-data.h"
 #include "jpegutils/transupp.h"
+#include "jpegutils/jpegtran.h"
 
 
 RotationData*
@@ -42,11 +48,11 @@ rotation_data_new ()
 
 
 void
-update_rotation_from_exif_data (FileData *fd,
+update_rotation_from_exif_data (const char   *path,
 				RotationData *rot_data)
 {
 #ifdef HAVE_LIBEXIF
-	GthExifOrientation orientation = get_exif_tag_short (fd->path, EXIF_TAG_ORIENTATION);
+	GthExifOrientation orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
 #endif /* HAVE_LIBEXIF */
 
 	rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
@@ -97,7 +103,7 @@ update_rotation_from_exif_data (FileData *fd,
 
 void
 apply_transformation_jpeg (GtkWindow    *win,
-			   FileData     *fd,
+			   const char   *path,
 			   RotationData *rot_data)
 {
 	int          rot_type = rot_data->rot_type; 
@@ -118,7 +124,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		return;
 
 	if (rot_type == GTH_TRANSFORM_ROTATE_0)
-		tmp1 = g_strdup (fd->path);
+		tmp1 = g_strdup (path);
 	else {
 		tmp1 = g_strdup_printf ("%s/gthumb.%d.%d",
 					g_get_tmp_dir (), 
@@ -141,7 +147,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 			break;
 		}
 
-		if (jpegtran (fd->path, tmp1, transf, &err) != 0) {
+		if (jpegtran (path, tmp1, transf, &err) != 0) {
 			g_free (tmp1);
 			if (err != NULL) 
 				_gtk_error_dialog_from_gerror_run (win, &err);
@@ -164,7 +170,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		}
 
 		e1 = shell_escape (tmp1);
-		e2 = shell_escape (fd->path);
+		e2 = shell_escape (path);
 	
 		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
 					command, e1, e2);
@@ -243,7 +249,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 	}
 
 	e1 = shell_escape (tmp2);
-	e2 = shell_escape (fd->path);
+	e2 = shell_escape (path);
 
 	line = g_strdup_printf ("mv -f %s %s", e1, e2);
 	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
@@ -254,8 +260,8 @@ apply_transformation_jpeg (GtkWindow    *win,
 	} else {
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
-			swap_xy_exif_fields (fd->path);
-		/* update_orientation_field (fd, rot_data); see bug #318828 */
+			swap_xy_exif_fields (path);
+		/* update_orientation_field (path, rot_data); see bug #318828 */
 #endif
 	}
 
@@ -269,7 +275,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 
 void
 apply_transformation_generic (GtkWindow    *win,
-			      FileData     *fd,
+			      const char   *path,
 			      RotationData *rot_data)
 {
 	int         rot_type = rot_data->rot_type; 
@@ -280,7 +286,7 @@ apply_transformation_generic (GtkWindow    *win,
 	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
 		return;
 
-	pixbuf1 = gdk_pixbuf_new_from_file (fd->path, NULL);
+	pixbuf1 = gdk_pixbuf_new_from_file (path, NULL);
 	if (pixbuf1 == NULL)
 		return;
 
@@ -315,12 +321,12 @@ apply_transformation_generic (GtkWindow    *win,
 	}
 	g_object_unref (pixbuf2);
 
-	mime_type = gnome_vfs_mime_type_from_name (fd->path);
+	mime_type = gnome_vfs_mime_type_from_name (path);
 	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
 		const char  *image_type = mime_type + 6;
 		if (! _gdk_pixbuf_save (pixbuf1, 
-					fd->path, 
+					path, 
 					image_type, 
 					&error, 
 					NULL))
@@ -357,7 +363,7 @@ get_next_value_flip (int value)
 
 
 void
-update_orientation_field (FileData     *fd, 
+update_orientation_field (const char   *path,
 			  RotationData *rot_data)
 {
 	JPEGData     	*jdata;
@@ -365,7 +371,7 @@ update_orientation_field (FileData     *fd,
 	unsigned int  	i;
 	gboolean      orientation_changed = FALSE;
 
-	jdata = jpeg_data_new_from_file (fd->path);
+	jdata = jpeg_data_new_from_file (path);
 	if (jdata == NULL)
 		return;
 
@@ -424,7 +430,7 @@ update_orientation_field (FileData     *fd,
 		}
 	}
 
-	jpeg_data_save_file (jdata, fd->path);
+	jpeg_data_save_file (jdata, path);
 
 	exif_data_unref (edata);
 	jpeg_data_unref (jdata);

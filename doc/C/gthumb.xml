@@ -2404,24 +2404,6 @@
     reference for all of the &gthumb; keyword shortcuts.  Look in the
     menus for other shortcuts.</para>  
   <para>
-      <note>
-        <title>NOTE</title>
-        <para>
-          When the <guilabel>location</guilabel> entry is focused you
-          can use
-          <keycombo><keycap>Tab</keycap></keycombo>
-          to display a list of possible location completions. 
-        </para>
-      </note>
-      <note>
-        <title>WARNING</title>
-        <para>
-          When the <guilabel>location</guilabel> entry is focused
-          keyword shortcuts are not available.
-        </para>
-      </note>
-  </para>
-  <para>
       <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
       <title>Keyboard shortcuts to navigate folders</title>
       <tgroup cols="3" colsep="1" rowsep="1">
@@ -2830,12 +2812,38 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>r</keycap></keycombo> or
-	        <keycombo><keycap>]</keycap></keycombo>
+	        <keycombo><keycap>r</keycap></keycombo> 
 	      </para>
 	    </entry>
             <entry>
-	      <para>Rotate the image clockwise of 90 degrees.</para>
+	      <para>Rotate the image clockwise of 90 degrees without saving.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>e</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate the image counter-clockwise of 90 degrees without saving.</para>
+	    </entry>
+            <entry>
+	      <para>yes</para>
+	    </entry>
+	  </row>
+
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <keycombo><keycap>]</keycap></keycombo> 
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Rotate and save the image clockwise of 90 degrees.  The rotation is lossless for jpeg images.</para>
 	    </entry>
             <entry>
 	      <para>yes</para>
@@ -2848,12 +2856,13 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Rotate the image counter-clockwise of 90 degrees.</para>
+	      <para>Rotate and save the image counter-clockwise of 90 degrees.  The rotation is lossless for jpeg images.</para>
 	    </entry>
             <entry>
 	      <para>yes</para>
 	    </entry>
 	  </row>
+
 	  <row rowsep="0">
             <entry>
 	      <para>
