@@ -1,5 +1,10 @@
 2005-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/catalog-web-exporter.c (get_image_filename): 
+
+	Fixed bug #301726 – "Create Web Album" does not use relative 
+	paths for images.
+
 	* src/gth-fullscreen.c (viewer_key_press_cb): 
 
 	Fixed bug #310649 – Next/prev keyboard shortcuts in slides mode 
