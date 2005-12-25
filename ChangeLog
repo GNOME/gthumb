@@ -1,3 +1,8 @@
+2005-12-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/dlg-save-image.c (file_save_ok_cb): 
+	(dlg_save_image): use gnome_vfs_get_file_mime_type to get the mime type.
+
 2005-12-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c (get_image_filename): 
