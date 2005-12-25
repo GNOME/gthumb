@@ -1458,8 +1458,10 @@ window_update_bookmark_list (GthBrowser *browser)
 	/* Load and sort bookmarks */
 
 	bookmarks_load_from_disk (preferences.bookmarks);
-	if (preferences.bookmarks->list == NULL)
+	if (preferences.bookmarks->list == NULL) {
+		gth_location_set_bookmarks (GTH_LOCATION (priv->location), NULL, 0);
 		return;
+	}
 
 	names = g_list_copy (preferences.bookmarks->list);
 
@@ -1485,7 +1487,6 @@ window_update_bookmark_list (GthBrowser *browser)
 	}
 
 	priv->bookmarks_length = i;
-
 	gth_location_set_bookmarks (GTH_LOCATION (priv->location), names, i);
 
 	g_list_free (names);

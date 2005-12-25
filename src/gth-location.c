@@ -42,8 +42,9 @@
 enum {
 	ITEM_TYPE_NONE,
 	ITEM_TYPE_PARENT,
-	ITEM_TYPE_BOOKMARK,
 	ITEM_TYPE_SEPARATOR,
+	ITEM_TYPE_BOOKMARK,
+	ITEM_TYPE_BOOKMARK_SEPARATOR,
 	ITEM_TYPE_OPEN_LOCATION
 };
 
@@ -192,7 +193,8 @@ row_separator_func (GtkTreeModel *model,
 			    iter,
 			    TYPE_COLUMN, &item_type,
 			    -1);
-	return (item_type == ITEM_TYPE_SEPARATOR);
+	return ((item_type == ITEM_TYPE_SEPARATOR) 
+		|| (item_type == ITEM_TYPE_BOOKMARK_SEPARATOR));
 }
 
 
@@ -256,13 +258,6 @@ gth_location_construct (GthLocation *loc)
 	/* Add standard items. */
 
 	/* separator #1 */
-	
-	gtk_list_store_append (loc->priv->model, &iter);
-	gtk_list_store_set (loc->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
-			    -1);
-
-	/* separator #2 */
 	
 	gtk_list_store_append (loc->priv->model, &iter);
 	gtk_list_store_set (loc->priv->model, &iter,
@@ -531,8 +526,19 @@ gth_location_set_bookmarks (GthLocation *loc,
 	GtkTreeIter  iter;
 
 	clear_items (loc, ITEM_TYPE_BOOKMARK);
+	clear_items (loc, ITEM_TYPE_BOOKMARK_SEPARATOR);
+
+	if (max_size == 0)
+		return;
 
 	pos = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (loc->priv->model), NULL) - 2;
+
+	/* bookmark separator */
+
+	gtk_list_store_insert (loc->priv->model, &iter, pos++);
+	gtk_list_store_set (loc->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_BOOKMARK_SEPARATOR,
+			    -1);
 
 	for (scan = bookmark_list; (scan != NULL) && (n < max_size); scan = scan->next) {
 		const char *uri = scan->data;
