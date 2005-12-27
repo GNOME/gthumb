@@ -1,3 +1,19 @@
+2005-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* doc/C/gthumb.xml: updated.
+
+	* src/gth-fullscreen.c (viewer_key_press_cb): use p to pause/resume a
+	slideshow.
+
+	* src/gth-browser.c (key_press_cb): remove p as prev image shortcut.
+
+	* src/gs-fade.c: 
+	* src/gs-fade.h: new files.
+	* configure.in: 
+	* src/gth-fullscreen.c: 
+
+	Fixed bug #312116 – crossfading in slideshow mode.
+	
 2005-12-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-location.c (gth_location_set_bookmarks): remove the separator

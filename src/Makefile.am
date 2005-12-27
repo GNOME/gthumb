@@ -85,6 +85,8 @@ gthumb_SOURCES = 				\
 	dlg-scale-series.h			\
 	dlg-write-to-cd.c			\
 	dlg-write-to-cd.h			\
+	gs-fade.c				\
+	gs-fade.h				\
 	gth-application.c			\
 	gth-application.h			\
 	gth-batch-op.c				\
@@ -146,6 +148,7 @@ gthumb_LDADD = 					\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(LIBGPHOTO_LIBS)			\
+	$(XF86GAMMA_LIBS)			\
 	$(XTEST_LIBS)				\
 	$(top_builddir)/libgthumb/libgthumb.la	\
 	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.la

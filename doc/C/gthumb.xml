@@ -2440,7 +2440,6 @@
             <entry>
 	      <para>
 	        <keycombo action="simul"><keycap>b</keycap></keycombo> or
-		<keycombo><keycap>p</keycap></keycombo> or
 		<keycombo><keycap>Backspace</keycap></keycombo> or
 		<keycombo action="simul"><keycap>Page Up</keycap></keycombo>
 	      </para>
@@ -3009,6 +3008,16 @@
 	  </row>
 	</thead>
 	<tbody>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+		<keycombo><keycap>p</keycap></keycombo>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>Pause/Resume a slideshow.</para>
+	    </entry>
+	  </row>
 	  <row rowsep="0">
             <entry>
 	      <para>

@@ -48,6 +48,7 @@
 #include "main.h"
 #include "preferences.h"
 #include "totem-scrsaver.h"
+#include "gs-fade.h"
 
 #include "icons/pixbufs.h"
 
@@ -84,12 +85,10 @@ struct _GthFullscreenPrivateData {
 
 	GtkWidget       *viewer;
 	GtkWidget       *toolbar_window;
-	GtkWidget       *info_button;
-	GtkWidget       *pause_button;
-	GtkWidget       *prev_button;
-	GtkWidget       *next_button;
 
 	TotemScrsaver   *screensaver;
+	GSFade          *fade;
+	gboolean         use_fade;
 
 	/* comment */
 
@@ -135,6 +134,9 @@ gth_fullscreen_finalize (GObject *object)
 
 		g_object_unref (priv->screensaver);
 
+		gs_fade_reset (priv->fade);
+		g_object_unref (priv->fade);
+
 		g_free (priv->image_path);
 		g_free (priv->requested_path);
 		path_list_free (priv->file_list);
@@ -173,8 +175,10 @@ slideshow_timeout_cb (gpointer data)
 		priv->slideshow_timeout = 0;
 	}
 
-	if (!priv->slideshow_paused)
+	if (!priv->slideshow_paused) {
+		priv->use_fade = TRUE;
 		load_next_image (fullscreen);
+	}
 
 	return FALSE;
 }
@@ -197,15 +201,27 @@ continue_slideshow (GthFullscreen *fullscreen)
 
 
 static void
-preloader_requested_error_cb (GThumbPreloader *gploader,
-			      GthFullscreen   *fullscreen)
+image_loaded (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
-	image_viewer_set_void (IMAGE_VIEWER (priv->viewer));
-
+	if (priv->use_fade) {
+		gs_fade_in (priv->fade);
+		return;
+	}
+	
+	gs_fade_reset (priv->fade);
 	if (priv->slideshow)
 		continue_slideshow (fullscreen);
+}
+
+
+static void
+preloader_requested_error_cb (GThumbPreloader *gploader,
+			      GthFullscreen   *fullscreen)
+{
+	image_viewer_set_void (IMAGE_VIEWER (fullscreen->priv->viewer));
+	image_loaded (fullscreen);
 }
 
 
@@ -219,9 +235,30 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested_path);
 	if (loader != NULL) 
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
+	image_loaded (fullscreen);
+}
 
-	if (priv->slideshow)
-		continue_slideshow (fullscreen);
+
+static void real_load_current_image (GthFullscreen *fullscreen);
+
+
+static void
+fade_faded_cb (GSFade          *fade,
+	       GsFadeDirection  direction,
+	       GthFullscreen   *fullscreen)
+{
+	switch (direction) {
+	case GS_FADE_DIRECTION_OUT:
+		real_load_current_image (fullscreen);
+		break;
+		
+	case GS_FADE_DIRECTION_IN:
+		if (fullscreen->priv->slideshow)
+			continue_slideshow (fullscreen);
+		break;
+	}
+
+	fullscreen->priv->use_fade = FALSE;
 }
 
 
@@ -245,6 +282,13 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  fullscreen);
 
 	priv->screensaver = totem_scrsaver_new ();
+
+	priv->fade = gs_fade_new ();
+	g_signal_connect (G_OBJECT (priv->fade),
+			  "faded",
+			  G_CALLBACK (fade_faded_cb),
+			  fullscreen);
+	priv->use_fade = FALSE;
 
 	g_object_set (fullscreen, 
 		      "close_on_save", TRUE,
@@ -461,7 +505,7 @@ zoom_changed_cb (GtkWidget     *widget,
 
 
 static void
-load_current_image (GthFullscreen *fullscreen)
+real_load_current_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	gboolean from_pixbuf = TRUE;
@@ -492,8 +536,23 @@ load_current_image (GthFullscreen *fullscreen)
 
 	update_sensitivity (fullscreen);
 
-	if (priv->slideshow && from_pixbuf)
-		continue_slideshow (fullscreen);
+	if (from_pixbuf)
+		image_loaded (fullscreen);
+}
+
+
+static void
+load_current_image (GthFullscreen *fullscreen)
+{
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+	if (priv->use_fade) {
+		gs_fade_out (fullscreen->priv->fade);
+		return;
+	}
+
+	gs_fade_reset (fullscreen->priv->fade);
+	real_load_current_image (fullscreen);
 }
 
 
@@ -568,7 +627,7 @@ load_next_image (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GList *next;
-
+	
 	next = get_next_image (fullscreen);
 
 	if (next != NULL) {
@@ -807,17 +866,6 @@ get_file_info (GthFullscreen *fullscreen)
 
 
 static void
-set_button_active_no_notify (gpointer      data,
-			     GtkWidget    *button,
-			     gboolean      active)
-{
-	g_signal_handlers_block_by_data (button, data);
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), active);
-	g_signal_handlers_unblock_by_data (button, data);
-}
-
-
-static void
 show_comment_on_image (GthFullscreen *fullscreen)
 {
 	GthWindow      *window = GTH_WINDOW (fullscreen);
@@ -850,7 +898,6 @@ show_comment_on_image (GthFullscreen *fullscreen)
 		return;
 
 	priv->comment_visible = TRUE;
-	set_button_active_no_notify (NULL, priv->info_button, TRUE);
 	
 	comment = NULL;
 	if (cdata != NULL) {
@@ -975,7 +1022,6 @@ hide_comment_on_image (GthFullscreen *fullscreen)
 		return;
 
 	priv->comment_visible = FALSE;
-	set_button_active_no_notify (NULL, priv->info_button, FALSE);
 
 	gdk_draw_drawable (priv->viewer->window,
 			   priv->viewer->style->black_gc,
@@ -992,11 +1038,8 @@ _show_cursor__hide_comment (GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
-	if (priv->slideshow) {
+	if (priv->slideshow) 
 		priv->slideshow_paused = TRUE;
-		if (priv->pause_button != NULL)
-			set_button_active_no_notify (NULL, priv->pause_button, TRUE);
-	}
 
 	if (priv->mouse_hide_id != 0)
 		g_source_remove (priv->mouse_hide_id);
@@ -1040,7 +1083,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	GthWindow     *window = (GthWindow*) fullscreen;
 	ImageViewer   *viewer = (ImageViewer*) fullscreen->priv->viewer;
 	gboolean       retval = FALSE;
-
+	GtkAction     *a;
 
 	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
 		switch (event->keyval) {
@@ -1131,7 +1174,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Load previous image. */
-	case GDK_p:
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:
@@ -1151,6 +1193,12 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_KP_End:
 		priv->current = g_list_last (priv->file_list);
 		load_current_image (fullscreen);
+		break;
+
+	case GDK_p:
+		a = gtk_ui_manager_get_action (priv->ui, "/ToolBar/View_PauseSlideshow");
+		if (a != NULL)
+			gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (a), !priv->slideshow_paused);
 		break;
 
 		/* Edit comment. */

@@ -3093,7 +3093,6 @@ key_press_cb (GtkWidget   *widget,
 		return TRUE;
 
 		/* Show previous image. */
-	case GDK_p:
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:

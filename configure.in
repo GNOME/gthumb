@@ -205,6 +205,43 @@ AC_SUBST(XTEST_LIBS)
 
 
 #
+# Checks for XF86VMODE
+#
+have_xf86gamma=no
+XF86GAMMA_LIBS=""
+AC_CHECK_HEADER(X11/extensions/xf86vmode.h, 
+                [have_xf86gamma=yes],,
+                [#include <X11/Xlib.h>])
+
+# if that succeeded, then check for the -lXxf86vm
+if test "$have_xf86gamma" = yes; then
+  have_xf86gamma=no
+  AC_CHECK_LIB(Xxf86vm, XF86VidModeSetGamma,
+               [have_xf86gamma=yes],
+               [true], -lXext -lX11)
+fi
+
+# check for the Ramp versions of the functions too.
+if test "$have_xf86gamma" = yes; then
+  have_xf86gamma_ramp=no
+  AC_CHECK_LIB(Xxf86vm, XF86VidModeSetGammaRamp,
+               [have_xf86gamma_ramp=yes],
+               [true], -lXext -lX11)
+fi
+
+# if those tests succeeded, then we've really got the functions.
+if test "$have_xf86gamma" = yes; then
+  XF86GAMMA_LIBS="-lX11 -lXext -lXxf86vm"
+  AC_DEFINE(HAVE_XF86VMODE_GAMMA, 1, [Define if XF86VMODE Gamma is available])
+fi
+
+if test "$have_xf86gamma_ramp" = yes; then
+  AC_DEFINE(HAVE_XF86VMODE_GAMMA_RAMP, 1, [Define if XF86VMODE Gamma Ramp is available])
+fi
+
+AC_SUBST(XF86GAMMA_LIBS)
+
+#
 # Checks for libexif
 #
 AC_MSG_CHECKING(for libexif)
@@ -338,14 +375,15 @@ echo "
 
 Configuration:
 
-        Source code location:   ${srcdir}
-        Compiler:               ${CC}
-    	Have XRender:           ${have_render}
-    	Have XTest:             ${have_xtest}
-    	Have libexif:           ${have_libexif}
-    	Have libiptcdata:       ${have_libiptcdata}
-	Have libjpeg:           ${jpeg_ok}
-	Have libtiff:           ${tiff_ok}
-	Have libgphoto:         ${have_libgphoto}
+        Source code location:     ${srcdir}
+        Compiler:                 ${CC}
+    	Have XRender:             ${have_render}
+    	Have XTest:               ${have_xtest}
+	Have XF86VidModeSetGamma: ${have_xf86gamma}
+    	Have libexif:             ${have_libexif}
+    	Have libiptcdata:         ${have_libiptcdata}
+	Have libjpeg:             ${jpeg_ok}
+	Have libtiff:             ${tiff_ok}
+	Have libgphoto:           ${have_libgphoto}
 
 "
