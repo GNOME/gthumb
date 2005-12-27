@@ -201,7 +201,8 @@ continue_slideshow (GthFullscreen *fullscreen)
 
 
 static void
-image_loaded (GthFullscreen *fullscreen)
+viewer_image_loaded_cb (ImageViewer   *iviewer,
+			GthFullscreen *fullscreen)
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 
@@ -217,11 +218,19 @@ image_loaded (GthFullscreen *fullscreen)
 
 
 static void
+image_loaded (GthFullscreen *fullscreen)
+{
+	g_signal_emit_by_name (fullscreen->priv->viewer, "image_loaded", 0);
+}
+
+
+
+static void
 preloader_requested_error_cb (GThumbPreloader *gploader,
 			      GthFullscreen   *fullscreen)
 {
 	image_viewer_set_void (IMAGE_VIEWER (fullscreen->priv->viewer));
-	image_loaded (fullscreen);
+	/*image_loaded (fullscreen);*/
 }
 
 
@@ -235,7 +244,9 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested_path);
 	if (loader != NULL) 
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
+	/*
 	image_loaded (fullscreen);
+	*/
 }
 
 
@@ -255,10 +266,9 @@ fade_faded_cb (GSFade          *fade,
 	case GS_FADE_DIRECTION_IN:
 		if (fullscreen->priv->slideshow)
 			continue_slideshow (fullscreen);
+		fullscreen->priv->use_fade = FALSE;
 		break;
 	}
-
-	fullscreen->priv->use_fade = FALSE;
 }
 
 
@@ -1522,6 +1532,10 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	g_signal_connect (G_OBJECT (priv->viewer), 
 			  "zoom_changed",
 			  G_CALLBACK (zoom_changed_cb), 
+			  fullscreen);
+	g_signal_connect (G_OBJECT (priv->viewer),
+			  "image_loaded",
+			  G_CALLBACK (viewer_image_loaded_cb),
 			  fullscreen);
 
 	gtk_widget_show (priv->viewer);

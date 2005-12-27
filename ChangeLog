@@ -1,5 +1,8 @@
 2005-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-fullscreen.c (fade_faded_cb): reset use_fade only after
+	the fade in.
+
 	* doc/C/gthumb.xml: updated.
 
 	* src/gth-fullscreen.c (viewer_key_press_cb): use p to pause/resume a
