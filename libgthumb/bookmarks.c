@@ -25,6 +25,8 @@
 #include <unistd.h>
 #include <errno.h>
 
+#include <glib/gi18n.h>
+
 #include "typedefs.h"
 #include "bookmarks.h"
 #include "catalog.h"
@@ -94,7 +96,6 @@ bookmarks_free (Bookmarks *bookmarks)
 }
 
 
-
 char *
 bookmarks_utils__get_menu_item_name (const char *path)
 {
@@ -102,18 +103,18 @@ bookmarks_utils__get_menu_item_name (const char *path)
 	gboolean  catalog_or_search;
 	char     *name;
 
-	tmp_path = g_strdup (pref_util_remove_prefix (path));
+	tmp_path = g_strdup (remove_scheme_from_uri (path));
 
 	/* if it is a catalog then remove the extension */
 	
-	catalog_or_search = (pref_util_location_is_catalog (path)
-			     || pref_util_location_is_search (path));
-	
+	catalog_or_search = uri_scheme_is_catalog (path) || uri_scheme_is_search (path);
 	if (catalog_or_search)
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 			 
-	if (strcmp (tmp_path, "/") == 0) 
-		name = g_strdup ("/");
+	if ((tmp_path == NULL) 
+	    || (strcmp (tmp_path, "") == 0)
+	    || (strcmp (tmp_path, "/") == 0))
+		name = g_strdup (_("File System"));
 	else {
 		if (catalog_or_search) {
 			char *base_path;
@@ -132,7 +133,10 @@ bookmarks_utils__get_menu_item_name (const char *path)
 			l = strlen (base_path);
 			
 			if (strncmp (tmp_path, base_path, l) == 0) {
-				if (strlen (tmp_path) > l)
+				int tmp_l = strlen (tmp_path);
+				if (tmp_l == l)
+					name = g_strdup (_("Home"));
+				else if (tmp_l > l)
 					name = g_strdup (tmp_path + 1 + l);
 				else
 					name = g_strdup (file_name_from_path (base_path));
@@ -156,8 +160,7 @@ get_menu_item_tip (const char *path)
 
 	tmp_path = g_strdup (path);
 
-	if (pref_util_location_is_catalog (tmp_path)
-	    || pref_util_location_is_search (tmp_path)) {
+	if (uri_scheme_is_catalog (tmp_path) || uri_scheme_is_search (tmp_path)) {
 		gchar *rc_dir_prefix;
 
 		/* if it is a catalog then remove the extension */
@@ -174,7 +177,7 @@ get_menu_item_tip (const char *path)
 		g_free (rc_dir_prefix);
 	}
 
-	tip = g_strdup (pref_util_remove_prefix (tmp_path) + offset);
+	tip = g_strdup (remove_scheme_from_uri (tmp_path) + offset);
 	g_free (tmp_path);
 
 	return tip;

@@ -1,3 +1,40 @@
+2005-12-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-location.c: added drives to the list.
+
+	* src/rotation-utils.c (update_rotation_from_exif_data): 	
+	* src/main.c (save_session): 	
+	* src/gth-folder-selection-dialog.c (list_view_button_press_cb): 
+	* src/gth-browser.c (go_to_uri): 
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_file_new_window): 
+	* src/dlg-preferences.c (dlg_preferences): use the new functions.
+
+	* src/gth-monitor.c (directory_changed): 
+	* libgthumb/preferences.h: 
+	* libgthumb/preferences.c: remove obsolete functions.
+
+	* libgthumb/jpeg-utils.c (do_load_internal): 
+
+	* libgthumb/gth-file-list.c (add_list__get_file_info_done_cb): do not hide
+	the toplevel method.
+
+	* libgthumb/glib-utils.h: 
+	* libgthumb/glib-utils.c (str_ends_with): new function
+
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c (get_file_path_from_uri)
+	(get_search_path_from_uri, remove_scheme_from_uri, uri_scheme_is_file)
+	(uri_scheme_is_catalog, uri_scheme_is_search, get_uri_from_path)
+	(get_uri_display_name): new functions.
+
+	* src/gth-viewer.c (save_jpeg_data): 
+	* src/dlg-open-with.c (dlg_open_with): 
+	* libgthumb/print-callbacks.c: 
+	* libgthumb/comments.c: fixed compiler warnings.
+
+	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): 
+	use Home as display name for the user home folder, and 'File System' for /
+
 2005-12-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (fade_faded_cb): reset use_fade only after

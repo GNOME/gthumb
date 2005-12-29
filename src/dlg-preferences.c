@@ -492,13 +492,9 @@ dlg_preferences (GthBrowser *browser)
 
 	startup_location = eel_gconf_get_path (PREF_STARTUP_LOCATION, NULL);
 	
-	if ((startup_location != NULL)
-	    && pref_util_location_is_file (startup_location)) {
-		const char *uri;
-		char       *esc_uri;
-
-		uri = pref_util_get_file_location (startup_location);
-		esc_uri = gnome_vfs_escape_host_and_path_string (uri);
+	if (uri_scheme_is_file (startup_location)) {
+		char *esc_uri;
+		esc_uri = gnome_vfs_escape_host_and_path_string (startup_location);
 		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (data->startup_dir_filechooserbutton), esc_uri);
 		g_free (esc_uri);
 	}

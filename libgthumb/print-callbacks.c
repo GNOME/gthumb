@@ -76,9 +76,9 @@
 #define UNIT_IN 1
 static const GnomePrintUnit print_units[] = {
         {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0 / 25.4), 
-	 "Millimeter", "mm", "Millimeters", "mm"},
+	 (guchar*)"Millimeter", (guchar*)"mm", (guchar*)"Millimeters", (guchar*)"mm"},
         {0, GNOME_PRINT_UNIT_ABSOLUTE, (72.0), 
-	 "Inch", "in", "Inches", "in"},
+	 (guchar*)"Inch", (guchar*)"in", (guchar*)"Inches", (guchar*)"in"},
 };
 
 static const char *paper_sizes[] = {"A4", "USLetter", "USLegal", "Tabloid", 
@@ -147,10 +147,10 @@ clear_canvas (GnomeCanvasGroup *group)
 static gboolean
 orientation_is_portrait (GnomePrintConfig *config)
 {
-	guchar   *orientation;
+	char     *orientation;
 	gboolean  portrait;
 
-	orientation = gnome_print_config_get (config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
+	orientation = (char*)gnome_print_config_get (config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION);
 	portrait = ((strcmp (orientation, "R0") == 0) || (strcmp (orientation, "R180") == 0));
 	g_free (orientation);
 
@@ -221,7 +221,7 @@ image_info_new (const char *filename)
 {
 	ImageInfo *image = g_new0(ImageInfo, 1);
 
-	image->filename = g_strdup (filename);
+	image->filename = g_strdup (get_file_path_from_uri (filename));
 	image->comment = NULL;
 	image->thumbnail = NULL;
 	image->thumbnail_active = NULL;
@@ -459,7 +459,7 @@ pci_print_line (GnomePrintContext *pc,
 	GnomeGlyphList *gl;
 	const char     *p;
 	
-	gl = gnome_glyphlist_from_text_dumb (pci->font_comment, 0x000000ff, 0.0, 0.0, "");
+	gl = gnome_glyphlist_from_text_dumb (pci->font_comment, 0x000000ff, 0.0, 0.0, (guchar*)"");
 	gnome_glyphlist_moveto (gl, x, y - gnome_font_get_ascender (pci->font_comment));
 	
 	for (p = start; p < end; p = g_utf8_next_char (p)) {
@@ -1162,7 +1162,7 @@ catalog_update_page (PrintCatalogDialogData *data)
 	PrintCatalogInfo *pci = data->pci;
 	const      GnomePrintUnit *unit;
 	const      GnomePrintUnit *ps_unit;
-	guchar    *orientation;
+	char      *orientation;
 	double     width, height, lmargin, tmargin, rmargin, bmargin;
 	double     paper_width, paper_height, paper_lmargin, paper_tmargin;
 	double     paper_rmargin, paper_bmargin;
@@ -1171,37 +1171,37 @@ catalog_update_page (PrintCatalogDialogData *data)
 	ps_unit = gnome_print_unit_get_identity (GNOME_PRINT_UNIT_DIMENSIONLESS);
 
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAPER_WIDTH,
+					   (guchar*)GNOME_PRINT_KEY_PAPER_WIDTH,
 					   &width,
 					   &unit))
 		gnome_print_convert_distance (&width, unit, ps_unit);
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAPER_HEIGHT,
+					   (guchar*)GNOME_PRINT_KEY_PAPER_HEIGHT,
 					   &height,
 					   &unit))
 		gnome_print_convert_distance (&height, unit, ps_unit);
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
+					   (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_LEFT,
 					   &lmargin,
 					   &unit))
 		gnome_print_convert_distance (&lmargin, unit, ps_unit);
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
+					   (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT,
 					   &rmargin,
 					   &unit))
 		gnome_print_convert_distance (&rmargin, unit, ps_unit);
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
+					   (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_TOP,
 					   &tmargin,
 					   &unit))
 		gnome_print_convert_distance (&tmargin, unit, ps_unit);
 	if (gnome_print_config_get_length (pci->config, 
-					   GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
+					   (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM,
 					   &bmargin,
 					   &unit))
 		gnome_print_convert_distance (&bmargin, unit, ps_unit);
 
-	orientation = gnome_print_config_get (pci->config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
+	orientation = (char*)gnome_print_config_get (pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION);
 	portrait = ((strcmp (orientation, "R0") == 0) 
 		    || (strcmp (orientation, "R180") == 0));
 	g_free (orientation);
@@ -1250,8 +1250,8 @@ catalog_update_custom_page_size (PrintCatalogDialogData *data)
 	unit = &print_units[gtk_option_menu_get_history (GTK_OPTION_MENU (data->unit_optionmenu))];
 	width = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->width_spinbutton));
 	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->height_spinbutton));
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
 
 	catalog_update_page (data);
 }
@@ -1273,7 +1273,7 @@ catalog_get_config_length (PrintCatalogDialogData *data,
 	const GnomePrintUnit *unit;
 	double                len;
 
-	gnome_print_config_get_length (data->pci->config, key, &len, &unit);
+	gnome_print_config_get_length (data->pci->config, (guchar*)key, &len, &unit);
 	len = len * unit->unittobase / catalog_get_current_unittobase (data);
 	
 	return len;
@@ -1381,8 +1381,8 @@ catalog_set_standard_page_size (PrintCatalogDialogData *data,
 	} else
 		return;
 
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
 
 	catalog_update_page_size_from_config (data);
 	catalog_update_page (data);
@@ -1400,22 +1400,22 @@ catalog_update_margins (PrintCatalogDialogData *data)
 	/* left margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_left_spinbutton));
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, len, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_LEFT, len, unit);
 
 	/* right margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_right_spinbutton));
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, len, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_RIGHT, len, unit);
 
 	/* top margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_top_spinbutton));
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAGE_MARGIN_TOP, len, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_TOP, len, unit);
 
 	/* bottom margin */
 
 	len = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->margin_bottom_spinbutton));
-	gnome_print_config_set_length (data->pci->config, GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, len, unit);
+	gnome_print_config_set_length (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_MARGIN_BOTTOM, len, unit);
 
 	catalog_update_page (data);
 }
@@ -1526,7 +1526,7 @@ pci_update_comment_font (PrintCatalogDialogData *data)
 
 	debug (DEBUG_INFO, "Find closest: %s", font_name);
 
-	pci->font_comment = gnome_font_find_closest_from_full_name (font_name);
+	pci->font_comment = gnome_font_find_closest_from_full_name ((guchar*)font_name);
 
 	if (pci->font_comment == NULL)
 		g_warning ("Could not find font %s\n", font_name);
@@ -1569,7 +1569,7 @@ catalog_portrait_toggled_cb (GtkToggleButton        *widget,
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
-	gnome_print_config_set (data->pci->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R0");
+	gnome_print_config_set (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION, (guchar*)"R0");
 	catalog_update_page (data);
 }
 
@@ -1580,7 +1580,7 @@ catalog_landscape_toggled_cb (GtkToggleButton        *widget,
 {
 	if (! gtk_toggle_button_get_active (widget))
 		return;
-	gnome_print_config_set (data->pci->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, "R90");
+	gnome_print_config_set (data->pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION, (guchar*)"R90");
 	catalog_update_page (data);
 }
 
@@ -1640,7 +1640,7 @@ print_catalog_cb (GtkWidget              *widget,
 
 	pref_set_print_unit (catalog_get_current_unit (data));
 
-	value = gnome_print_config_get (pci->config, GNOME_PRINT_KEY_PAGE_ORIENTATION);
+	value = (char*)gnome_print_config_get (pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION);
 	eel_gconf_set_string (PREF_PRINT_PAPER_ORIENTATION, value);
 	g_free (value);
 
@@ -1669,7 +1669,7 @@ print_catalog_cb (GtkWidget              *widget,
 
 	pci->gpj = gnome_print_job_new (pci->config);
 
-	dialog = gnome_print_dialog_new (pci->gpj, _("Print"), 0);
+	dialog = gnome_print_dialog_new (pci->gpj, (guchar*)_("Print"), 0);
         response = gtk_dialog_run (GTK_DIALOG (dialog));
         gtk_widget_destroy (dialog);
 
@@ -1683,7 +1683,7 @@ print_catalog_cb (GtkWidget              *widget,
                 break;
 
         case GNOME_PRINT_DIALOG_RESPONSE_PREVIEW:
-		gtk_widget_show (gnome_print_job_preview_new (pci->gpj, _("Print")));
+		gtk_widget_show (gnome_print_job_preview_new (pci->gpj, (guchar*)_("Print")));
                 break;
 
         default:
@@ -1996,7 +1996,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	/**/
 
 	value = eel_gconf_get_string (PREF_PRINT_PAPER_ORIENTATION, DEF_PAPER_ORIENT);
-	gnome_print_config_set (pci->config, GNOME_PRINT_KEY_PAGE_ORIENTATION, value);
+	gnome_print_config_set (pci->config, (guchar*)GNOME_PRINT_KEY_PAGE_ORIENTATION, (guchar*)value);
 
 	if (strcmp (value, "R0") == 0)
 		button_name = "print_orient_portrait_radiobutton";

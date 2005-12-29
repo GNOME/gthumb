@@ -137,7 +137,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			full_uri = gnome_vfs_uri_append_file_name (pli->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 			pli->files = g_list_prepend (pli->files, unesc_uri);
 			g_free (str_uri);
@@ -148,7 +148,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 				break;
 
 			full_uri = gnome_vfs_uri_append_path (pli->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
 			pli->dirs = g_list_prepend (pli->dirs,  unesc_uri);
@@ -959,7 +959,7 @@ path_list_new (const char  *path,
 		char             *s_uri, *unesc_uri;
 
 		full_uri = gnome_vfs_uri_append_file_name (dir_uri, info->name);
-		s_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		s_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 		unesc_uri = gnome_vfs_unescape_string (s_uri, NULL);
 		g_free (s_uri);
 
@@ -1307,7 +1307,11 @@ remove_ending_separator (const gchar *path)
 		return NULL;
 
 	copy_len = len = strlen (path);
-	if ((len > 1) && (path[len - 1] == '/')) 
+	if ((len > 1) 
+	    && (path[len - 1] == '/')
+	    && ! ((len > 3)
+		  && (path[len - 2] == '/')
+		  && (path[len - 3] == ':'))) 
 		copy_len--;
 
 	return g_strndup (path, copy_len);
@@ -1909,4 +1913,101 @@ get_temp_file_name (const char *ext)
 	g_free (dir);
 	
 	return filename;
+}
+
+
+const char *
+get_file_path_from_uri (const char *uri)
+{
+	if (uri_scheme_is_file (uri))
+		return uri + FILE_PREFIX_L;
+	else if (uri[0] == '/')
+		return uri;
+	else
+		return NULL;
+}
+
+
+const char *
+get_catalog_path_from_uri (const char *uri)
+{
+	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
+		return NULL;
+	return uri + CATALOG_PREFIX_L;
+}
+
+
+const char *
+get_search_path_from_uri (const char *uri)
+{
+	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
+		return NULL;
+	return uri + SEARCH_PREFIX_L;
+}
+
+
+const char *
+remove_scheme_from_uri (const char*uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return uri;
+	return idx + 3;
+}
+
+
+gboolean
+uri_scheme_is_file (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	/*
+	return ! uri_scheme_is_catalog (uri) && ! uri_scheme_is_search (uri);
+	*/
+	if (g_utf8_strlen (uri, -1) < FILE_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, FILE_PREFIX, FILE_PREFIX_L) == 0;
+
+}
+
+
+gboolean
+uri_scheme_is_catalog (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, CATALOG_PREFIX, CATALOG_PREFIX_L) == 0;
+}
+
+
+gboolean
+uri_scheme_is_search (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, SEARCH_PREFIX, SEARCH_PREFIX_L) == 0;
+}
+
+
+char *
+get_uri_from_path (const char *path)
+{
+	if (path == NULL)
+		return NULL;
+	if ((path == "") || (path[0] == '/'))
+		return g_strconcat ("file://", path, NULL);
+	return g_strdup (path);
+}
+
+
+char *
+get_uri_display_name (const char *uri)
+{
+	return NULL;
 }

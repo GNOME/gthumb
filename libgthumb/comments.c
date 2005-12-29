@@ -49,13 +49,13 @@
 #include "glib-utils.h"
 #include "gtk-utils.h"
 
-#define COMMENT_TAG  "Comment"
-#define PLACE_TAG    "Place"
-#define TIME_TAG     "Time"
-#define NOTE_TAG     "Note"
-#define KEYWORDS_TAG "Keywords"
-#define FORMAT_TAG   "format"
-#define FORMAT_VER   "2.0"
+#define COMMENT_TAG  ((xmlChar *)"Comment")
+#define PLACE_TAG    ((xmlChar *)"Place")
+#define TIME_TAG     ((xmlChar *)"Time")
+#define NOTE_TAG     ((xmlChar *)"Note")
+#define KEYWORDS_TAG ((xmlChar *)"Keywords")
+#define FORMAT_TAG   ((xmlChar *)"format")
+#define FORMAT_VER   ((xmlChar *)"2.0")
 
 
 CommentData *
@@ -368,7 +368,7 @@ load_comment_from_iptc (const char *filename)
 				continue;
 			data->comment = g_new (char, ds->size + 1);
 			if (data->comment)
-				iptc_dataset_get_data (ds, data->comment, ds->size + 1);
+				iptc_dataset_get_data (ds, (guchar*)data->comment, ds->size + 1);
 		}
 		else if (ds->record == IPTC_RECORD_APP_2 &&
 				ds->tag == IPTC_TAG_CONTENT_LOC_NAME) {
@@ -376,12 +376,12 @@ load_comment_from_iptc (const char *filename)
 				continue;
 			data->place = g_new (char, ds->size + 1);
 			if (data->place)
-				iptc_dataset_get_data (ds, data->place, ds->size + 1);
+				iptc_dataset_get_data (ds, (guchar*)data->place, ds->size + 1);
 		}
 		else if (ds->record == IPTC_RECORD_APP_2 &&
 				ds->tag == IPTC_TAG_KEYWORDS) {
 			char keyword[64];
-			if (iptc_dataset_get_data (ds, keyword, sizeof(keyword)) < 0)
+			if (iptc_dataset_get_data (ds, (guchar*)keyword, sizeof(keyword)) < 0)
 				continue;
 			comment_data_add_keyword (data, keyword);
 		}
@@ -431,14 +431,14 @@ clear_iptc_comment (IptcData *d)
 static void
 save_iptc_data (const char *filename, IptcData *d)
 {
-	int buf_len = 256 * 256;
-	FILE *infile, *outfile;
-	char *ps3_buf;
-	char *ps3_out_buf;
-	unsigned char *iptc_buf;
-	int ps3_len, iptc_len;
-	gchar *tmpfile;
-	struct stat statinfo;
+	guint        buf_len = 256 * 256;
+	FILE        *infile, *outfile;
+	guchar      *ps3_buf;
+	guchar      *ps3_out_buf;
+	guchar      *iptc_buf;
+	guint        ps3_len, iptc_len;
+	gchar       *tmpfile;
+	struct stat  statinfo;
 
 	ps3_buf = g_malloc (buf_len);
 	if (!ps3_buf)
@@ -459,8 +459,9 @@ save_iptc_data (const char *filename, IptcData *d)
 	if (iptc_data_save (d, &iptc_buf, &iptc_len) < 0)
 		goto abort3;
 
-	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len, iptc_buf,
-			iptc_len, ps3_out_buf, buf_len);
+	ps3_len = iptc_jpeg_ps3_save_iptc (ps3_buf, ps3_len, 
+					   iptc_buf, iptc_len, 
+					   ps3_out_buf, buf_len);
 	iptc_data_free_buf (d, iptc_buf);
 	if (ps3_len < 0)
 		goto abort3;
@@ -475,7 +476,7 @@ save_iptc_data (const char *filename, IptcData *d)
 	if (!outfile)
 		goto abort4;
 	
-	if (iptc_jpeg_save_with_ps3 (infile, outfile, ps3_out_buf, ps3_len) < 0)
+	if (iptc_jpeg_save_with_ps3 (infile, outfile, (guchar*)ps3_out_buf, ps3_len) < 0)
 		goto abort5;
 
 	fclose (outfile);
@@ -559,9 +560,9 @@ save_comment_iptc (const char  *filename,
 		ds = iptc_dataset_new ();
 		if (ds) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					IPTC_TAG_KEYWORDS);
-			iptc_dataset_set_data (ds, data->keywords[i],
-					strlen (data->keywords[i]), IPTC_DONT_VALIDATE);
+					      IPTC_TAG_KEYWORDS);
+			iptc_dataset_set_data (ds, (guchar*)data->keywords[i],
+					       strlen (data->keywords[i]), IPTC_DONT_VALIDATE);
 			iptc_data_add_dataset (d, ds);
 			iptc_dataset_unref (ds);
 		}
@@ -572,8 +573,8 @@ save_comment_iptc (const char  *filename,
 		if (ds) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
 					IPTC_TAG_CAPTION);
-			iptc_dataset_set_data (ds, data->comment,
-					strlen (data->comment), IPTC_DONT_VALIDATE);
+			iptc_dataset_set_data (ds, (guchar*)data->comment,
+					       strlen (data->comment), IPTC_DONT_VALIDATE);
 			iptc_data_add_dataset (d, ds);
 			iptc_dataset_unref (ds);
 		}
@@ -583,9 +584,9 @@ save_comment_iptc (const char  *filename,
 		ds = iptc_dataset_new ();
 		if (ds) {
 			iptc_dataset_set_tag (ds, IPTC_RECORD_APP_2,
-					IPTC_TAG_CONTENT_LOC_NAME);
-			iptc_dataset_set_data (ds, data->place,
-					strlen (data->place), IPTC_DONT_VALIDATE);
+					      IPTC_TAG_CONTENT_LOC_NAME);
+			iptc_dataset_set_data (ds, (guchar*)data->place,
+					       strlen (data->place), IPTC_DONT_VALIDATE);
 			iptc_data_add_dataset (d, ds);
 			iptc_dataset_unref (ds);
 		}
@@ -801,7 +802,7 @@ comments_remove_old_comments_async (const char *dir,
 
 static char *
 get_utf8_text (CommentData *data,
-	       xmlChar     *value)
+	       char        *value)
 {
 	if (value == NULL)
 		return NULL;
@@ -815,12 +816,12 @@ get_utf8_text (CommentData *data,
 
 static void
 get_keywords (CommentData *data,
-	      xmlChar     *utf8_value)
+	      char        *utf8_value)
               
 {
 	char     *value;
         int       n;
-        xmlChar  *p, *keyword;
+        char     *p, *keyword;
         gboolean  done;
 
 	if ((utf8_value == NULL) || (*utf8_value == 0)) {
@@ -897,24 +898,26 @@ load_comment_from_xml (const char *filename)
         node = root->xmlChildrenNode;
 
 	format = xmlGetProp (root, FORMAT_TAG);
-	if (strcmp (format, "1.0") == 0)
+	if (strcmp ((char*)format, "1.0") == 0)
 		data->utf8_format = FALSE;
 	else
 		data->utf8_format = TRUE;
 	xmlFree (format);
 
 	for (; node; node = node->next) {
+		const char *name = (char*) node->name;
+
                 value = xmlNodeListGetString (doc, node->xmlChildrenNode, 1);
 
-                if (strcmp (node->name, PLACE_TAG) == 0) 
-			data->place = get_utf8_text (data, value);
-		else if (strcmp (node->name, NOTE_TAG) == 0) 
-			data->comment = get_utf8_text (data, value);
-		else if (strcmp (node->name, KEYWORDS_TAG) == 0) 
-			get_keywords (data, value);
-		else if (strcmp (node->name, TIME_TAG) == 0) {
+                if (strcmp (name, (char*)PLACE_TAG) == 0) 
+			data->place = get_utf8_text (data, (char*)value);
+		else if (strcmp (name, (char*)NOTE_TAG) == 0) 
+			data->comment = get_utf8_text (data, (char*)value);
+		else if (strcmp (name, (char*)KEYWORDS_TAG) == 0) 
+			get_keywords (data, (char*)value);
+		else if (strcmp (name, (char*)TIME_TAG) == 0) {
 			if (value != NULL)
-				data->time = atol (value);
+				data->time = atol ((char*)value);
 		}
 		
 		if (value)
@@ -978,16 +981,16 @@ save_comment (const char  *filename,
 
 	/* Create the xml tree. */
 
-	doc = xmlNewDoc ("1.0");
+	doc = xmlNewDoc ((xmlChar*)"1.0");
 
 	doc->xmlRootNode = xmlNewDocNode (doc, NULL, COMMENT_TAG, NULL); 
 	xmlSetProp (doc->xmlRootNode, FORMAT_TAG, FORMAT_VER);
 
 	tree = doc->xmlRootNode;
-	subtree = xmlNewChild (tree, NULL, PLACE_TAG,    e_place);
-	subtree = xmlNewChild (tree, NULL, TIME_TAG,     time_str);
-	subtree = xmlNewChild (tree, NULL, NOTE_TAG,     e_comment);
-	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, e_keywords);
+	subtree = xmlNewChild (tree, NULL, PLACE_TAG,    (xmlChar*)e_place);
+	subtree = xmlNewChild (tree, NULL, TIME_TAG,     (xmlChar*)time_str);
+	subtree = xmlNewChild (tree, NULL, NOTE_TAG,     (xmlChar*)e_comment);
+	subtree = xmlNewChild (tree, NULL, KEYWORDS_TAG, (xmlChar*)e_keywords);
 
 	g_free (e_place);
 	g_free (time_str);

@@ -52,13 +52,20 @@ update_rotation_from_exif_data (const char   *path,
 				RotationData *rot_data)
 {
 #ifdef HAVE_LIBEXIF
-	GthExifOrientation orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
+	GthExifOrientation orientation;
+
 #endif /* HAVE_LIBEXIF */
 
 	rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
 	rot_data->tran_type = GTH_TRANSFORM_NONE;
 
 #ifdef HAVE_LIBEXIF
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
+	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
+
 	switch (orientation) {
 	case GTH_EXIF_ORIENTATION_TOP_LEFT:
 		rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
@@ -112,6 +119,10 @@ apply_transformation_jpeg (GtkWindow    *win,
 	char        *tmp1, *tmp2;
 	static int   count = 0;
 	GError      *err = NULL;
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
 	
 #ifdef HAVE_LIBJPEG
 	JXFORM_CODE transf;
@@ -147,7 +158,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 			break;
 		}
 
-		if (jpegtran (path, tmp1, transf, &err) != 0) {
+		if (jpegtran ((char*)path, tmp1, transf, &err) != 0) {
 			g_free (tmp1);
 			if (err != NULL) 
 				_gtk_error_dialog_from_gerror_run (win, &err);
@@ -283,6 +294,10 @@ apply_transformation_generic (GtkWindow    *win,
 	GdkPixbuf  *pixbuf1, *pixbuf2;
 	const char *mime_type;
 
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
+
 	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
 		return;
 
@@ -366,10 +381,14 @@ void
 update_orientation_field (const char   *path,
 			  RotationData *rot_data)
 {
-	JPEGData     	*jdata;
-	ExifData     	*edata;
-	unsigned int  	i;
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
 	gboolean      orientation_changed = FALSE;
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
 
 	jdata = jpeg_data_new_from_file (path);
 	if (jdata == NULL)
@@ -474,6 +493,10 @@ swap_xy_exif_fields (const char *filename)
 	JPEGData     *jdata;
 	ExifData     *edata;
 	unsigned int  i;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return;
 
 	jdata = jpeg_data_new_from_file (filename);
 	if (jdata == NULL)

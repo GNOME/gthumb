@@ -1338,15 +1338,14 @@ static void
 go_to_uri (GthBrowser  *browser,
 	   const char  *uri)
 {
-	const char *path = pref_util_remove_prefix (uri);
-	
-	if (pref_util_location_is_catalog (uri) || pref_util_location_is_search (uri)) {
+	if (! uri_scheme_is_file (uri)) {
+		const char *path = remove_scheme_from_uri (uri);
 		if (path_is_dir (path))
 			gth_browser_go_to_catalog_directory (browser, path);
 		else
 			gth_browser_go_to_catalog (browser, path);
 	} else 
-		gth_browser_go_to_directory (browser, path);	
+		gth_browser_go_to_directory (browser, uri);
 }
 
 
@@ -2429,8 +2428,11 @@ add_history_item (GthBrowser *browser,
 	char                  *location;
 
 	bookmarks_remove_from (priv->history, priv->history_current);
-
-	location = g_strconcat (prefix, path, NULL);
+	
+	if (prefix == NULL)
+		location = get_uri_from_path (path);
+	else
+		location = g_strconcat (prefix, path, NULL);
 	bookmarks_remove_all_instances (priv->history, location);
 	bookmarks_add (priv->history, location, FALSE, FALSE);
 	g_free (location);
@@ -2453,7 +2455,7 @@ catalog_activate_continue (gpointer data)
 	if ((priv->go_op == GTH_BROWSER_GO_TO)
 	    && ((priv->history_current == NULL) 
 		|| ((priv->catalog_path != NULL)
-		    && (strcmp (priv->catalog_path, pref_util_remove_prefix (priv->history_current->data)) != 0)))) {
+		    && (strcmp (priv->catalog_path, remove_scheme_from_uri (priv->history_current->data)) != 0)))) {
 		GtkTreeIter iter;
 		gboolean    is_search;
 
@@ -4940,28 +4942,8 @@ static gboolean
 initial_location_cb (gpointer data)
 {
 	GthBrowser *browser = data;
-	const char *starting_location = browser->priv->initial_location;
-
-	if (pref_util_location_is_catalog (starting_location)) 
-		gth_browser_go_to_catalog (browser, pref_util_get_catalog_location (starting_location));
-
-	else {
-		const char *path;
-
-		if (pref_util_location_is_file (starting_location))
-			path = pref_util_get_file_location (starting_location);
-
-		else {  /* we suppose it is a directory name without prefix. */
-			path = starting_location;
-			if (! path_is_dir (path))
-				return FALSE;
-		}
-
-		gth_browser_go_to_directory (browser, path);
-	}
-
+	go_to_uri (browser, browser->priv->initial_location);
 	gtk_widget_grab_focus (gth_file_view_get_widget (browser->priv->file_list->view));
-
 	return FALSE;
 }
 
@@ -5339,7 +5321,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
 
-	current_dir = priv->dir_list->path;
+	current_dir = get_uri_from_path (priv->dir_list->path);
 	if (current_dir == NULL)
 		return;
 
@@ -7015,9 +6997,7 @@ close__step6 (const char *filename,
 		char *location = NULL;
 
 		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) 
-			location = g_strconcat ("file://",
-						priv->dir_list->path,
-						NULL);
+			location = get_uri_from_path (priv->dir_list->path);
 		else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 			 && (priv->catalog_path != NULL))
 			location = g_strconcat ("catalog://",
@@ -7548,7 +7528,10 @@ gth_browser_add_monitor (GthBrowser *browser)
 	if (priv->dir_list->path == NULL)
 		return;
 
-	priv->monitor_uri = g_strconcat ("file://", priv->dir_list->path, NULL);
+	if (priv->dir_list->path[0] == '/')
+		priv->monitor_uri = get_uri_from_path (priv->dir_list->path);
+	else
+		priv->monitor_uri = g_strdup (priv->dir_list->path);
 	gth_monitor_add_uri (monitor, priv->monitor_uri);
 }
 
@@ -7597,11 +7580,12 @@ go_to_directory_continue (DirList  *dir_list,
 	
 	/* Add to history list if not present as last entry. */
 
-	if ((priv->go_op == GTH_BROWSER_GO_TO)
-	    && ((priv->history_current == NULL) 
-		|| (strcmp (path, pref_util_remove_prefix (priv->history_current->data)) != 0))) 
-		add_history_item (browser, path, FILE_PREFIX);
-	else
+	if (priv->go_op == GTH_BROWSER_GO_TO) {
+		char *uri = get_uri_from_path (path);
+		if ((priv->history_current == NULL) || (strcmp (uri, priv->history_current->data) != 0))
+			add_history_item (browser, path, NULL);
+		g_free (uri);
+	} else
 		priv->go_op = GTH_BROWSER_GO_TO;
 	window_update_history_list (browser);
 
@@ -8029,21 +8013,10 @@ static void
 go_to_current_location (GthBrowser *browser,
 			WindowGoOp  go_op)
 {
-	GthBrowserPrivateData *priv = browser->priv;
-	char                  *location;
-
-	if (priv->history_current == NULL)
+	if (browser->priv->history_current == NULL)
 		return;
-
-	priv->go_op = go_op;
-
-	location = priv->history_current->data;
-	if (pref_util_location_is_catalog (location))
-		gth_browser_go_to_catalog (browser, pref_util_get_catalog_location (location));
-	else if (pref_util_location_is_search (location))
-		gth_browser_go_to_catalog (browser, pref_util_get_search_location (location));
-	else if (pref_util_location_is_file (location)) 
-		gth_browser_go_to_directory (browser, pref_util_get_file_location (location));
+	browser->priv->go_op = go_op;
+	go_to_uri (browser, browser->priv->history_current->data);
 }
 
 

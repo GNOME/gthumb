@@ -156,7 +156,7 @@ list_view_button_press_cb (GdkEventButton     *event,
                             -1);
 
 	if (bookmarks)
-		utf8_folder_path = g_filename_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (remove_scheme_from_uri (folder_path), -1, 0, 0, 0);
 	else
 		utf8_folder_path = g_filename_to_utf8 (folder_path, -1, 0, 0, 0);
 
@@ -219,7 +219,7 @@ list_view_activated_cb (GtkTreePath        *path,
 			    -1);
 	
 	if (bookmarks)
-		utf8_folder_path = g_filename_to_utf8 (folder_path + FILE_PREFIX_L, -1, 0, 0, 0);
+		utf8_folder_path = g_filename_to_utf8 (remove_scheme_from_uri (folder_path), -1, 0, 0, 0);
 	else
 		utf8_folder_path = g_filename_to_utf8 (folder_path, -1, 0, 0, 0);
 
@@ -476,7 +476,7 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	bookmarks_load_from_disk (bookmarks);
 	for (scan = bookmarks->list; scan; ) {
 		char *path = scan->data;
-		if (! pref_util_location_is_file (path)) {
+		if (! uri_scheme_is_file (path)) {
 			bookmarks->list = g_list_remove_link (bookmarks->list, scan);
 			g_free (scan->data);
 			g_list_free (scan);

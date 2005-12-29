@@ -189,10 +189,11 @@ do_load_internal (const char *path,
 	guchar * volatile pixels;
 	guchar *ptr;
 	char   *e_path;
-	guchar *uri;
+	gchar  *uri;
 	GnomeVFSResult result;
 	unsigned int i;
 
+	path = remove_scheme_from_uri (path);
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
 	if (original_width_return != NULL)
@@ -201,10 +202,7 @@ do_load_internal (const char *path,
 		*original_height_return = 0;
 
 	e_path = escape_uri (path);
-	if (e_path[0] == '/')
-		uri = g_strconcat ("file://", e_path, NULL);
-	else
-		uri = g_strdup (e_path);
+	uri = get_uri_from_path (e_path);
 	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
 	g_free (uri);
 	g_free (e_path);

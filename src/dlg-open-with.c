@@ -382,7 +382,7 @@ dlg_open_with (GtkWindow  *window,
 		if (found)
 			continue;
 
-		app_names = g_list_prepend (app_names, gnome_vfs_mime_application_get_exec (app));
+		app_names = g_list_prepend (app_names, (char*)gnome_vfs_mime_application_get_exec (app));
 		
 		gtk_list_store_append (GTK_LIST_STORE (data->app_model),
 				       &iter);

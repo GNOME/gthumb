@@ -210,4 +210,16 @@ char *              get_temp_dir_name            (void);
 
 char *              get_temp_file_name           (const char *ext);
 
+/**/
+
+const char *        get_file_path_from_uri       (const char *uri);
+const char *        get_catalog_path_from_uri    (const char *uri);
+const char *        get_search_path_from_uri     (const char *uri);
+const char *        remove_scheme_from_uri       (const char*uri);
+gboolean            uri_scheme_is_file           (const char *uri);
+gboolean            uri_scheme_is_catalog        (const char *uri);
+gboolean            uri_scheme_is_search         (const char *uri);
+char *              get_uri_from_path            (const char *path);
+char *              get_uri_display_name         (const char *uri);
+
 #endif /* FILE_UTILS_H */

@@ -292,7 +292,7 @@ remove_if_present (GList            **monitor_events,
 static void
 add_monitor_event (GthMonitor                *monitor,
 		   GnomeVFSMonitorEventType   event_type,
-		   char                      *path,
+		   const char                *path,
 		   GList                    **monitor_events)
 {
 	MonitorEventType type;
@@ -377,8 +377,8 @@ directory_changed (GnomeVFSMonitorHandle    *handle,
 	GthMonitor            *monitor = user_data; 
 	GthMonitorPrivateData *priv = monitor->priv;
 	char                  *path;
-
-	path = gnome_vfs_unescape_string (info_uri + strlen ("file://"), NULL);
+	
+	path = gnome_vfs_unescape_string (info_uri, NULL);
 	add_monitor_event (monitor, event_type, path, priv->monitor_events);
 	g_free (path);
 

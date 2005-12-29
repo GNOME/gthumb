@@ -859,8 +859,8 @@ save_jpeg_data (GthViewer  *viewer,
 
 #ifdef HAVE_LIBIPTCDATA
 	if (priv->iptc_data != NULL) {
-		unsigned char *out_buf, *iptc_buf;
-		int            iptc_len, ps3_len;
+		guchar *out_buf, *iptc_buf;
+		guint   iptc_len, ps3_len;
 
 		out_buf = g_malloc (256*256);
 		iptc_data_save (priv->iptc_data, &iptc_buf, &iptc_len);
@@ -1094,7 +1094,7 @@ viewer_drag_data_get  (GtkWidget        *widget,
 	gtk_selection_data_set (selection_data,
 				selection_data->target,
 				8, 
-				path, strlen (path));
+				(guchar*)path, strlen (path));
 	g_free (path);
 }
 

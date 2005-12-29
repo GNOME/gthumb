@@ -68,7 +68,7 @@ gth_browser_activate_action_file_new_window (GtkAction  *action,
 	switch (gth_browser_get_sidebar_content (browser)) {
 	case GTH_SIDEBAR_DIR_LIST:
 		path = gth_browser_get_current_directory (browser);
-		uri = g_strconcat ("file://", path, NULL);
+		uri = get_uri_from_path (path);
 		break;
 
 	case GTH_SIDEBAR_CATALOG_LIST:
@@ -1045,8 +1045,8 @@ gth_browser_activate_action_edit_dir_view_new_window (GtkAction  *action,
 	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL) 
 		return;
-	uri = g_strconcat ("file://", path, NULL);
 
+	uri = get_uri_from_path (path);
 	gtk_widget_show (gth_browser_new (uri));
 
 	g_free (uri);
@@ -1064,7 +1064,7 @@ show_folder (GtkWindow  *window,
 	if (path == NULL)
 		return;
 	
-	uri = g_strconcat ("file://", path, NULL);
+	uri = get_uri_from_path (path);
 	result = gnome_vfs_url_show (uri);
 	if (result != GNOME_VFS_OK)
 		_gtk_error_dialog_run (window, gnome_vfs_result_to_string (result));
@@ -1882,9 +1882,8 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 			prefix = g_strdup (CATALOG_PREFIX);
 		catalog_path = catalog_list_get_path_from_iter (catalog_list, &iter);
 		
-		path = g_strconcat (prefix,
-				    catalog_path,
-				    NULL);
+		path = g_strconcat (prefix, catalog_path, NULL);
+
 		g_free (catalog_path);
 		g_free (prefix);
 
@@ -1893,9 +1892,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 
 		if (dir_list->path == NULL)
 			return;
-		path = g_strconcat (FILE_PREFIX,
-				    dir_list->path,
-				    NULL);
+		path = get_uri_from_path (dir_list->path);
 	}
 	
 	if (path == NULL) 

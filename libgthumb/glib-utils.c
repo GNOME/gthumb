@@ -467,3 +467,22 @@ _g_list_insert_list_before (GList *list1,
       return g_list_concat (list1, list2);
     }
 }
+
+
+gboolean
+str_ends_with (const char *s1, 
+	       const char *s2)
+{
+	int s1_len, s2_len;
+
+	if ((s1 == NULL) || (s2 == NULL))
+		return FALSE;
+
+	s1_len = strlen (s1);
+	s2_len = strlen (s2);
+
+	if (s2_len > s1_len)
+		return FALSE;
+
+	return strncmp (s1 + (s1_len - s2_len), s2, s2_len) == 0;
+}

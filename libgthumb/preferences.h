@@ -225,135 +225,69 @@ typedef struct {
 
 
 void            preferences_init                      (void);
-
 void            preferences_release                   (void);
-
 void            preferences_set_startup_location      (const char *location);
-
 const char *    preferences_get_startup_location      (void);
-
-const  char    *pref_util_get_file_location           (const char *location);
-
-const  char    *pref_util_get_catalog_location        (const char *location);
-
-const  char    *pref_util_get_search_location         (const char *location);
-
-gboolean        pref_util_location_is_file            (const char *location);
-
-gboolean        pref_util_location_is_catalog         (const char *location);
-
-gboolean        pref_util_location_is_search          (const char *location);
-
-const  char    *pref_util_remove_prefix               (const char *location);
-
 void            pref_util_get_rgb_values              (const char *hex,
 						       guint16    *r,
 						       guint16    *g,
 						       guint16    *b);
-
 void            pref_util_get_color_from_hex          (const char *hex,
 						       GdkColor   *color);
-
 const char     *pref_util_get_hex_value               (guint16     r,
 						       guint16     g,
 						       guint16     b);
-
 guint32         pref_util_get_int_value               (const char *hex);
-
 guint32         pref_util_get_ui32_from_color         (GdkColor   *color);
-
 GthClickPolicy  pref_get_real_click_policy            (void);
-
 GthToolbarStyle pref_get_real_toolbar_style           (void);
-
 void            pref_util_save_window_geometry        (GtkWindow  *window,
 						       const char *dialog);
-
 void            pref_util_restore_window_geometry     (GtkWindow  *window,
 						       const char *dialog);
 
 /* ------- */
 
 GthClickPolicy     pref_get_click_policy           (void);
-
 void               pref_set_click_policy           (GthClickPolicy value);
-
 GthSortMethod      pref_get_arrange_type           (void);
-
 void               pref_set_arrange_type           (GthSortMethod value);
-
 GtkSortType        pref_get_sort_order             (void);
-
 void               pref_set_sort_order             (GtkSortType value);
-
 GthZoomQuality     pref_get_zoom_quality           (void);
-
 void               pref_set_zoom_quality           (GthZoomQuality value);
-
 GthZoomChange      pref_get_zoom_change            (void);
-
 void               pref_set_zoom_change            (GthZoomChange value);
-
 GthTranspType      pref_get_transp_type            (void);
-
 void               pref_set_transp_type            (GthTranspType value);
-
 GthCheckType       pref_get_check_type             (void);
-
 void               pref_set_check_type             (GthCheckType value);
-
 GthCheckSize       pref_get_check_size             (void);
-
 void               pref_set_check_size             (GthCheckSize value);
-
 GthDirectionType   pref_get_slideshow_direction    (void);
-
 void               pref_set_slideshow_direction    (GthDirectionType value);
-
 GthToolbarStyle    pref_get_toolbar_style          (void);
-
 void               pref_set_toolbar_style          (GthToolbarStyle value);
-
 GthSortMethod      pref_get_exp_arrange_type       (void);
-
 void               pref_set_exp_arrange_type       (GthSortMethod value);
-
 GtkSortType        pref_get_exp_sort_order         (void);
-
 void               pref_set_exp_sort_order         (GtkSortType value);
-
 GthFrameStyle      pref_get_exporter_frame_style   (void);
-
 void               pref_set_exporter_frame_style   (GthFrameStyle value);
-
 GthOverwriteMode   pref_get_convert_overwrite_mode (void);
-
 void               pref_set_convert_overwrite_mode (GthOverwriteMode value);
-
 GthSortMethod      pref_get_rename_sort_order      (void);
-
 void               pref_set_rename_sort_order      (GthSortMethod value);
-
 GthSortMethod      pref_get_web_album_sort_order   (void);
-
 void               pref_set_web_album_sort_order   (GthSortMethod value);
-
 GthViewAs          pref_get_view_as                (void);
-
 void               pref_set_view_as                (GthViewAs value);
-
 void               pref_set_preview_content        (GthPreviewContent value);
-
 GthPreviewContent  pref_get_preview_content        (void);
-
 GthViewMode        pref_get_view_mode              (void);
-
 void               pref_set_print_unit             (GthPrintUnit value);
-
 GthPrintUnit       pref_get_print_unit             (void);
-
 void               pref_set_crop_ratio             (GthCropRatio value);
-
 GthCropRatio       pref_get_crop_ratio             (void);
 
 #endif /* PREFERENCES_H */

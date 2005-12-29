@@ -68,6 +68,8 @@ GList *  _g_list_insert_list_before (GList *list1,
 				     GList *sibling,
 				     GList *list2);
 
+gboolean str_ends_with             (const char *s1, const char *s2);
+
 /**/
 
 #ifndef __GNUC__

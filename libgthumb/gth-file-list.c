@@ -463,7 +463,7 @@ set_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		if ((info_result->result != GNOME_VFS_OK) || (info_result->uri == NULL))
 			continue;
 
-		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_NONE);
 		full_path = gnome_vfs_unescape_string (escaped, "/");
 		g_free (escaped);
 
@@ -718,8 +718,8 @@ add_list__get_file_info_done_cb (GnomeVFSAsyncHandle *handle,
 		if (info_result->result != GNOME_VFS_OK) 
 			continue;
 
-		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
-		full_path = gnome_vfs_unescape_string (escaped, "/");
+		escaped = gnome_vfs_uri_to_string (info_result->uri, GNOME_VFS_URI_HIDE_NONE);
+		full_path = gnome_vfs_unescape_string (escaped, "");
 		g_free (escaped);
 
 		fd = file_data_new (full_path, info_result->file_info);

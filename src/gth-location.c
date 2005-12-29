@@ -25,13 +25,17 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomevfs/gnome-vfs-mime.h>
+#include <libgnomevfs/gnome-vfs-drive.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-volume.h>
+#include <libgnomevfs/gnome-vfs-volume-monitor.h>
 
 #include "bookmarks.h"
 #include "file-utils.h"
 #include "glib-utils.h"
+#include "gtk-utils.h"
 #include "gth-location.h"
 #include "gthumb-stock.h"
 #include "main.h"
@@ -42,6 +46,7 @@
 enum {
 	ITEM_TYPE_NONE,
 	ITEM_TYPE_PARENT,
+	ITEM_TYPE_DRIVE,
 	ITEM_TYPE_SEPARATOR,
 	ITEM_TYPE_BOOKMARK,
 	ITEM_TYPE_BOOKMARK_SEPARATOR,
@@ -64,11 +69,13 @@ enum {
 
 struct _GthLocationPrivate
 {
-	char         *uri;
-	int           current_idx;
-	gboolean      catalog_uri;
-	GtkWidget    *combo;
-	GtkListStore *model;
+	char                  *uri;
+	int                    current_idx;
+	gboolean               catalog_uri;
+	GtkWidget             *combo;
+	GtkListStore          *model;
+	GnomeVFSVolumeMonitor *volume_monitor;
+	GList                 *drives;
 };
 
 
@@ -77,7 +84,7 @@ static guint gth_location_signals[LAST_SIGNAL] = { 0 };
 
 
 static void
-gth_location_destroy (GtkObject *object)
+gth_location_finalize (GObject *object)
 {
 	GthLocation *loc;
 
@@ -86,23 +93,28 @@ gth_location_destroy (GtkObject *object)
 	if (loc->priv != NULL) {
 		g_free (loc->priv->uri);
 		loc->priv->uri = NULL;
+
+		g_list_foreach (loc->priv->drives, (GFunc) gnome_vfs_drive_unref, NULL);
+		g_list_free (loc->priv->drives);
+		loc->priv->drives = NULL;
+
 		g_free (loc->priv);
 		loc->priv = NULL;
 	}
 
-	GTK_OBJECT_CLASS (parent_class)->destroy (object);
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 
 static void
 gth_location_class_init (GthLocationClass *class)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	object_class = (GtkObjectClass*) class;
+	object_class = (GObjectClass*) class;
 
-	object_class->destroy = gth_location_destroy;
+	object_class->finalize = gth_location_finalize;
 
 	gth_location_signals[CHANGED] =
                 g_signal_new ("changed",
@@ -127,12 +139,46 @@ gth_location_class_init (GthLocationClass *class)
 }
 
 
+static void update_drives (GthLocation *loc);
+
+
+static void
+monitor_changed_cb (GnomeVFSVolumeMonitor *volume_monitor,
+		    gpointer               data,
+		    GthLocation           *loc)
+{
+	g_list_foreach (loc->priv->drives, (GFunc) gnome_vfs_drive_unref, NULL);
+	g_list_free (loc->priv->drives);
+	loc->priv->drives = gnome_vfs_volume_monitor_get_connected_drives (volume_monitor);
+	update_drives (loc);
+}
+
+
 static void
 gth_location_init (GthLocation *loc)
 {
 	loc->priv = g_new0 (GthLocationPrivate, 1);
 	loc->priv->current_idx = 0;
 	loc->priv->catalog_uri = FALSE;
+
+	loc->priv->volume_monitor = gnome_vfs_get_volume_monitor ();
+	g_signal_connect (loc->priv->volume_monitor, 
+			  "drive-connected",
+			  G_CALLBACK (monitor_changed_cb),
+			  loc);
+	g_signal_connect (loc->priv->volume_monitor, 
+			  "drive-disconnected",
+			  G_CALLBACK (monitor_changed_cb),
+			  loc);
+	g_signal_connect (loc->priv->volume_monitor, 
+			  "volume-mounted",
+			  G_CALLBACK (monitor_changed_cb),
+			  loc);
+	g_signal_connect (loc->priv->volume_monitor, 
+			  "volume-unmounted",
+			  G_CALLBACK (monitor_changed_cb),
+			  loc);
+	loc->priv->drives = gnome_vfs_volume_monitor_get_connected_drives (loc->priv->volume_monitor);
 }
 
 
@@ -264,6 +310,13 @@ gth_location_construct (GthLocation *loc)
 			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
 			    -1);
 
+	/* separator #2 */
+	
+	gtk_list_store_append (loc->priv->model, &iter);
+	gtk_list_store_set (loc->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_SEPARATOR,
+			    -1);
+
 	/* open location command */
 
 	icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (loc));
@@ -277,6 +330,8 @@ gth_location_construct (GthLocation *loc)
 			    -1);
 
 	g_object_unref (icon);
+
+	update_drives (loc);
 }
 
 
@@ -387,14 +442,265 @@ clear_items (GthLocation *loc,
 }
 
 
+static gboolean
+get_first_separator_pos (GthLocation *loc,
+			 int         *idx)
+{
+	GtkTreeIter iter;
+	gboolean    found = FALSE;
+
+	if (idx != NULL)
+		*idx = 0;
+
+	if (!gtk_tree_model_get_iter_first (GTK_TREE_MODEL (loc->priv->model), &iter))
+		return FALSE;
+	
+	do {
+		int item_type = ITEM_TYPE_NONE;
+
+		gtk_tree_model_get (GTK_TREE_MODEL (loc->priv->model),
+				    &iter,
+				    TYPE_COLUMN, &item_type,
+				    -1);
+		if (item_type == ITEM_TYPE_SEPARATOR) {
+			found = TRUE;
+			break;
+		}
+
+		if (idx != NULL)
+			*idx = *idx + 1;
+	} while (gtk_tree_model_iter_next (GTK_TREE_MODEL (loc->priv->model), &iter));
+	
+	return found;
+}
+
+
+static GdkPixbuf*
+get_drive_icon (GthLocation   *loc,
+		GnomeVFSDrive *drive)
+{
+	GtkWidget    *widget = GTK_WIDGET (loc);
+	GtkIconTheme *theme;
+	GdkPixbuf    *p;
+	char         *icon_path;
+	int           size;
+
+
+	theme = gtk_icon_theme_get_for_screen (gtk_widget_get_screen (widget));
+	size = get_folder_pixbuf_size_for_list (widget);
+
+	if (drive == NULL)
+		return get_icon_for_uri (widget, "/");
+
+	icon_path = gnome_vfs_drive_get_icon (drive);
+	if (icon_path == NULL)
+		return NULL;
+
+	p = create_pixbuf (theme, icon_path, size);
+
+	g_free (icon_path);
+
+	return p;
+}
+
+
+static char*
+get_drive_uri (GnomeVFSDrive *drive)
+{
+	char  *path = NULL;
+	GList *volumes;
+
+	volumes = gnome_vfs_drive_get_mounted_volumes (drive);
+	if (volumes == NULL)
+		return NULL;
+
+	if (g_list_length (volumes) == 1) {
+		GnomeVFSVolume *first_volume = volumes->data;
+		path = gnome_vfs_volume_get_activation_uri (first_volume);
+	}
+
+	gnome_vfs_drive_volume_list_free (volumes);
+
+	return path;
+}
+
+
+static char*
+get_drive_name (GnomeVFSDrive *drive)
+{
+	char  *name = NULL;
+	GList *volumes;
+
+	volumes = gnome_vfs_drive_get_mounted_volumes (drive);
+	if (volumes == NULL)
+		return NULL;
+
+	if (g_list_length (volumes) == 1) {
+		GnomeVFSVolume *first_volume = volumes->data;
+		name = gnome_vfs_volume_get_display_name (first_volume);
+	}
+
+	gnome_vfs_drive_volume_list_free (volumes);
+
+	return name;
+}
+
+
+static void
+update_drives (GthLocation *loc)
+{
+	GList       *scan;
+	int          pos = 0;
+	char        *uri;
+	char        *uri_name;
+	GdkPixbuf   *pixbuf;
+	GtkTreeIter  iter;
+
+	clear_items (loc, ITEM_TYPE_DRIVE);
+
+	if (g_list_length (loc->priv->drives) == 0)
+		return;
+
+	if (!get_first_separator_pos (loc, &pos))
+		return;
+
+	pos++;
+
+	/* Home */
+	
+	uri = g_strconcat ("file://", g_get_home_dir(), NULL);
+	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
+	uri_name = bookmarks_utils__get_menu_item_name (uri);
+	gtk_list_store_insert (loc->priv->model, &iter, pos++);
+	gtk_list_store_set (loc->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
+			    ICON_COLUMN, pixbuf,
+			    NAME_COLUMN, uri_name,
+			    PATH_COLUMN, uri,
+			    -1);
+	g_free (uri_name);
+	g_object_unref (pixbuf);
+	g_free (uri);
+
+	/* File System */
+
+	uri = "file://";
+	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
+	uri_name = bookmarks_utils__get_menu_item_name (uri);
+	gtk_list_store_insert (loc->priv->model, &iter, pos++);
+	gtk_list_store_set (loc->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
+			    ICON_COLUMN, pixbuf,
+			    NAME_COLUMN, uri_name,
+			    PATH_COLUMN, uri,
+			    -1);
+	g_free (uri_name);
+	g_object_unref (pixbuf);
+
+	/* Other drives */
+
+	for (scan = loc->priv->drives; scan; scan = scan->next) {
+		GnomeVFSDrive *drive = scan->data;
+
+		uri = get_drive_uri (drive);
+		if (! uri_scheme_is_file (uri)) {
+			g_free (uri);
+			continue;
+		}
+
+		pixbuf = get_drive_icon (loc, drive);
+		uri_name = get_drive_name (drive);
+
+		gtk_list_store_insert (loc->priv->model, &iter, pos++);
+		gtk_list_store_set (loc->priv->model, &iter,
+				    TYPE_COLUMN, ITEM_TYPE_DRIVE,
+				    ICON_COLUMN, pixbuf,
+				    NAME_COLUMN, uri_name,
+				    PATH_COLUMN, uri,
+				    -1);
+
+		g_free (uri_name);
+		g_object_unref (pixbuf);
+		g_free (uri);
+	}
+}
+
+
+static GnomeVFSVolume*
+get_volume_for_uri (GthLocation *loc,
+		    const char  *uri)
+{
+	GList *scan;
+
+	if (uri == NULL)
+		return NULL;
+
+	for (scan = loc->priv->drives; scan; scan = scan->next) {
+		GnomeVFSDrive *drive = scan->data;
+		GList         *volumes = gnome_vfs_drive_get_mounted_volumes (drive);
+
+		if (volumes == NULL)
+			continue;
+
+		if (g_list_length (volumes) == 1) {
+			GnomeVFSVolume *first_volume = volumes->data;
+			char           *path;
+
+			path = gnome_vfs_volume_get_activation_uri (first_volume);
+			if (strcmp (path, uri) == 0) {
+				g_free (path);
+				g_list_free (volumes);
+				return first_volume;
+			}
+			g_free (path);
+		}
+
+		gnome_vfs_drive_volume_list_free (volumes);
+	}
+
+	return NULL;
+}
+
+
+static GnomeVFSVolume*
+get_volume_from_uri (GthLocation *loc,
+		     const char  *from_uri)
+{
+	GnomeVFSVolume *volume = NULL;
+	char           *uri;
+
+	if (from_uri == NULL)
+		return NULL;
+
+	uri = g_strdup (from_uri);
+
+	while ((uri != NULL) && (volume == NULL)) {
+		volume = get_volume_for_uri (loc, uri);
+		if (volume == NULL) {
+			char *parent = remove_level_from_path (uri);
+			g_free (uri);
+			uri = parent;
+		}
+		if (str_ends_with (uri, "://"))
+			uri = NULL;
+	}
+
+	g_free (uri);
+
+	return volume;
+}
+
+
 static void
 update_uri (GthLocation *loc, 
 	    gboolean     reset_history)
 {
-	GtkTreeIter  iter;
-	int          idx, pos = 0;
-	char        *uri, *uri_name, *base_uri;
-	GdkPixbuf   *pixbuf;
+	GtkTreeIter     iter;
+	int             idx, pos = 0;
+	char           *uri, *uri_name, *base_uri, *home_uri;
+	GdkPixbuf      *pixbuf;
+	GnomeVFSVolume *volume = NULL;
+	GnomeVFSDrive  *drive = NULL;
 
 	/* search the uri in the current list and activate the entry if present */
 
@@ -410,31 +716,57 @@ update_uri (GthLocation *loc,
 
 	clear_items (loc, ITEM_TYPE_PARENT);
 
+	home_uri = g_strconcat ("file://", g_get_home_dir(), NULL);
+	uri = g_strdup (loc->priv->uri);
+
 	if (loc->priv->catalog_uri)
 		base_uri = g_strconcat (CATALOG_PREFIX,
 					g_get_home_dir(),
 					"/",
 					RC_CATALOG_DIR,
 					NULL);
-	else
-		base_uri = g_strdup ("/");
+	else {
+		g_print ("URI: %s\n", uri);
+		volume = get_volume_from_uri (loc, uri);
+		if (volume == NULL) 
+			base_uri = g_strdup ("file://");
+		else {
+			base_uri = gnome_vfs_volume_get_activation_uri (volume);
+			drive = gnome_vfs_volume_get_drive (volume);
+		}
+	}
 
-	uri = g_strdup (loc->priv->uri);
+	g_print ("BASE URI: %s\n", base_uri);
+
 	while (uri != NULL) {
 		char *parent;
 
+		g_print ("--> %s\n", uri);
+
 		if (loc->priv->catalog_uri) 
 			pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
-		else 
-			pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
+		else {
+			if (strcmp (uri, base_uri) == 0) 
+				pixbuf = get_drive_icon (loc, drive);
+			else
+				pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
+		}
 
 		if (strcmp (uri, base_uri) == 0) {
 			if (loc->priv->catalog_uri)
 				uri_name = g_strdup (_("Catalogs"));
+			else {
+				if (volume != NULL)
+					uri_name = gnome_vfs_volume_get_display_name (volume);
+				else
+					uri_name = g_strdup (_("File System"));
+			}
+		} else {
+			if (strcmp (uri, home_uri) == 0)
+				uri_name = g_strdup (_("Home"));
 			else
-				uri_name = g_strdup ("");
-		} else
-			uri_name = g_filename_display_basename (uri);
+				uri_name = g_filename_display_basename (uri);
+		}
 
 		gtk_list_store_insert (loc->priv->model, &iter, pos++);
 		gtk_list_store_set (loc->priv->model, &iter,
@@ -448,13 +780,18 @@ update_uri (GthLocation *loc,
 
 		/**/
 
-		if (strcmp (uri, base_uri) == 0)
+		if ((strcmp (uri, base_uri) == 0) || (strcmp (uri, home_uri) == 0))
 			parent = NULL;
 		else
 			parent = remove_level_from_path (uri);
 		g_free (uri);
 		uri = parent;
 	}
+
+	g_free (home_uri);
+
+	if (volume != NULL)
+		gnome_vfs_volume_unref (volume);
 
 	g_free (base_uri);
 
@@ -470,12 +807,8 @@ gth_location_set_uri (GthLocation *loc,
 		      const char  *uri,
 		      gboolean     reset_history)
 {
-	if (uri != loc->priv->uri) {
-		g_free (loc->priv->uri);
-		if (uri != NULL) 
-			loc->priv->uri = g_strdup (uri);
-	}
-	
+	g_free (loc->priv->uri);
+	loc->priv->uri = get_uri_from_path (uri);
 	update_uri (loc, reset_history);
 }
 
@@ -500,7 +833,7 @@ gth_location_set_catalog_uri (GthLocation *loc,
 
 	loc->priv->catalog_uri = TRUE;
 
-	if (! pref_util_location_is_catalog (uri))
+	if (! uri_scheme_is_catalog (uri))
 		catalog_uri = g_strconcat (CATALOG_PREFIX, uri, NULL);
 	else
 		catalog_uri = g_strdup (uri);
@@ -546,6 +879,9 @@ gth_location_set_bookmarks (GthLocation *loc,
 		GdkPixbuf  *pixbuf;
 
 		uri_name = bookmarks_utils__get_menu_item_name (uri);
+
+		g_print ("%s -> %s\n", uri, uri_name);
+
 		pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 
 		gtk_list_store_insert (loc->priv->model, &iter, pos++);

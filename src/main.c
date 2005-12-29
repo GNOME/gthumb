@@ -231,8 +231,7 @@ save_session (GnomeClient *client)
 			location = gth_window_get_image_filename (window);
 			if (location == NULL)
 				continue;
-
-			uri = g_strconcat ("file://", location, NULL);
+			uri = get_uri_from_path (location);
 
 		} else {
 			GthBrowser *browser = (GthBrowser*) window;
@@ -242,14 +241,14 @@ save_session (GnomeClient *client)
 				location = gth_browser_get_current_directory (browser);
 				if (location == NULL)
 					continue;
-				uri = g_strconcat ("file://", location, NULL);
+				uri = get_uri_from_path (location);
 				break;
 			
 			case GTH_SIDEBAR_CATALOG_LIST:
 				location = gth_browser_get_current_catalog (browser);
 				if (location == NULL)
 					continue;
-				uri = g_strconcat ("file://", location, NULL);
+				uri = get_uri_from_path (location);
 				break;
 				
 			default:
@@ -446,9 +445,7 @@ initialize_data (poptContext pctx)
 		}
 
 		if (is_dir) {
-			dir_urls[n_dir_urls++] = g_strconcat ("file://",
-							      path,
-							      NULL);
+			dir_urls[n_dir_urls++] = get_uri_from_path (path);
 			g_free (path);
 		} else
 			file_urls[n_file_urls++] = path;
@@ -574,7 +571,7 @@ load_session (gboolean                  use_factory,
 		key = g_strdup_printf ("Session/location%d", i);
 		location = gnome_config_get_string (key);
 
-		if (pref_util_location_is_file (location) && path_is_file (location))
+		if (uri_scheme_is_file (location) && path_is_file (location))
 			open_viewer_window (location, use_factory, app, env);
 		else
 			open_browser_window (location, TRUE, use_factory, app, env);
@@ -1007,7 +1004,7 @@ folder_is_film (const char *folder)
 	CommentData *cdata;
 	gboolean     film = FALSE;
 
-	folder = pref_util_remove_prefix (folder);
+	folder = remove_scheme_from_uri (folder);
 
 	cdata = comments_load_comment (folder, FALSE);
 	if (cdata != NULL) {
@@ -1038,9 +1035,9 @@ get_stock_id_for_uri (const char *uri)
 		stock_id = GTK_STOCK_HOME;
 	else if (folder_is_film (uri))
 		stock_id = GTHUMB_STOCK_FILM;
-	else if (pref_util_location_is_catalog (uri)) 
+	else if (uri_scheme_is_catalog (uri)) 
 		stock_id = GTHUMB_STOCK_CATALOG;
-	else if (pref_util_location_is_search (uri))	
+	else if (uri_scheme_is_search (uri))	
 		stock_id = GTHUMB_STOCK_SEARCH;
 	else
 		stock_id = GTK_STOCK_OPEN;
@@ -1068,14 +1065,14 @@ get_icon_for_uri (GtkWidget  *widget,
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
 	g_free (home_uri);
 
-	if (strcmp (uri, "/") == 0) 
+	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0)) 
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);
 
 	if (folder_is_film (uri))
 		stock_id = GTHUMB_STOCK_FILM;
-	else if (pref_util_location_is_catalog (uri)) 
+	else if (uri_scheme_is_catalog (uri)) 
 		stock_id = GTHUMB_STOCK_CATALOG;
-	else if (pref_util_location_is_search (uri))	
+	else if (uri_scheme_is_search (uri))	
 		stock_id = GTHUMB_STOCK_SEARCH;
 
 	if (stock_id != NULL)
