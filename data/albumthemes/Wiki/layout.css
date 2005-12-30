@@ -2,8 +2,13 @@
 
   div.properties {
     margin-top: 1em;
-    margin-left: 10%;
+    margin-left: 10px;
     text-align: justify;
+  }
+
+  table.properties {
+    margin: 0px;
+    padding: 0px;
   }
 
   table.thumbnails {
@@ -32,12 +37,9 @@
     height: 165px;
   }
 
-  table.nav_button {
-    cursor: pointer;
-  }
-
-  table.nav_button_hover {
-    cursor: pointer;
+  div.nav_bar {
+    padding: 5px 0px 10px 0px;
+    font-size: 9pt;
   }
 
   td.nav_button_preview, td.nav_button_up {
@@ -50,6 +52,7 @@
 
   div.copyright {
     padding-top: 25px;
+    padding-left: 10px;
   }
 
   div.comment {
@@ -65,14 +68,23 @@
     text-align: center;
   }
 
-  span.title {
+  div.title {
     font-size: 12pt;
     font-weight: bold;
-    padding-left: 10px;
+    margin-left: 10px;
+    margin-bottom: 5px;
   }
 
   span.page_index {
-    font-size: 8pt;
+    font-size: 9pt;
     padding-left: 5px;
     padding-right: 5px;
+  }
+
+  img.thumbnail {
+    border: 0px;
+  }
+
+  div.preview {
+    padding-left: 10px;
   }

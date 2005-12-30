@@ -41,51 +41,41 @@ typedef struct {
 /* utility functions to manipulate catalogs files and dirs. */
 
 
-char *    get_catalog_full_path     (const char  *relative_path);
-
-gboolean  delete_catalog_dir        (const char  *full_path, 
-				     gboolean     recursive,
-				     GError     **error);
-
-gboolean  delete_catalog            (const char  *full_path,
-				     GError     **error);
-
-gboolean  file_is_search_result     (const char  *full_path);
+char *    get_catalog_full_path              (const char  *relative_path);
+gboolean  delete_catalog_dir                 (const char  *full_path, 
+					      gboolean     recursive,
+					      GError     **error);
+gboolean  delete_catalog                     (const char  *full_path,
+					      GError     **error);
+gboolean  file_is_search_result              (const char  *full_path);
 
 
 /* functions to use the Catalog structure. */
 
 
-Catalog*  catalog_new               ();
-
-void      catalog_free              (Catalog    *catalog);
-
-void      catalog_set_path          (Catalog    *catalog,
-				     char       *full_path);
-
-void      catalog_set_search_data   (Catalog    *catalog,
-				     SearchData *search_data);
-
-gboolean  catalog_is_search_result  (Catalog    *catalog);
-
-gboolean  catalog_load_from_disk    (Catalog     *catalog,
-				     const char  *full_path,
-				     GError     **error);
-
-gboolean  catalog_write_to_disk     (Catalog     *catalog,
-				     GError     **error);
-
-void      catalog_add_item          (Catalog     *catalog,
-				     const char  *file_path);
-
-void      catalog_insert_items      (Catalog *catalog,
-				     GList   *list,
-				     int      pos);
-
-int       catalog_remove_item       (Catalog     *catalog,
-				     const char  *file_path);
-
-void      catalog_remove_all_items  (Catalog     *catalog);
+Catalog*  catalog_new                        (void);
+void      catalog_free                       (Catalog    *catalog);
+void      catalog_set_path                   (Catalog    *catalog,
+					      char       *full_path);
+void      catalog_set_search_data            (Catalog    *catalog,
+					      SearchData *search_data);
+gboolean  catalog_is_search_result           (Catalog    *catalog);
+gboolean  catalog_load_from_disk             (Catalog     *catalog,
+					      const char  *full_path,
+					      GError     **error);
+gboolean  catalog_load_search_data_from_disk (Catalog     *catalog,
+					      const char  *uri,
+					      GError     **gerror);
+gboolean  catalog_write_to_disk              (Catalog     *catalog,
+					      GError     **error);
+void      catalog_add_item                   (Catalog     *catalog,
+					      const char  *file_path);
+void      catalog_insert_items               (Catalog     *catalog,
+					      GList       *list,
+				              int          pos);
+int       catalog_remove_item                (Catalog     *catalog,
+					      const char  *file_path);
+void      catalog_remove_all_items           (Catalog     *catalog);
 
 
 #endif /* CATALOG_H */

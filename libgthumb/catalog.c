@@ -244,9 +244,10 @@ copy_unquoted (char *unquoted, char *line)
 
 
 gboolean
-catalog_load_from_disk (Catalog     *catalog,
-			const char  *uri,
-			GError     **gerror)
+catalog_load_from_disk__common (Catalog     *catalog,
+				const char  *uri,
+				GError     **gerror,
+				gboolean     load_file_list)
 {
 	GnomeVFSResult  result;
 	GnomeVFSHandle *handle;
@@ -308,7 +309,7 @@ catalog_load_from_disk (Catalog     *catalog,
 	 */
 	while ((result = _gnome_vfs_read_line (handle, 
 					       line, 
-					       sizeof (line), 
+					       64, 
 					       NULL)) == GNOME_VFS_OK) {
 		char *file_name;
 
@@ -396,7 +397,7 @@ catalog_load_from_disk (Catalog     *catalog,
 			int            i;
 
 			sort_type = line + strlen (SORT_FIELD);
-			sort_type[strlen (sort_type) - 1] = 0;
+			sort_type[strlen (sort_type)] = 0;
 
 			for (i = 0; i < G_N_ELEMENTS (sort_names); i++)
 				if (strcmp (sort_type, sort_names[i]) == 0) {
@@ -408,6 +409,9 @@ catalog_load_from_disk (Catalog     *catalog,
 
 			continue;
 		}
+
+		if (!load_file_list)
+			break;
 
 		file_list  = TRUE;
 		file_name = g_strndup (line + 1, strlen (line) - 2);
@@ -422,16 +426,37 @@ catalog_load_from_disk (Catalog     *catalog,
 }
 
 
-static void
-error_on_saving (char    *path, 
-		 GError **gerror)
+gboolean
+catalog_load_from_disk (Catalog     *catalog,
+			const char  *uri,
+			GError     **gerror)
 {
+	return catalog_load_from_disk__common (catalog, uri, gerror, TRUE);
+}
+
+
+gboolean
+catalog_load_search_data_from_disk (Catalog     *catalog,
+				    const char  *uri,
+				    GError     **gerror)
+{
+	return catalog_load_from_disk__common (catalog, uri, gerror, FALSE);
+}
+
+
+static gboolean
+error_on_saving (GnomeVFSHandle  *handle,
+		 char            *path, 
+		 GError         **gerror)
+{
+	gnome_vfs_close (handle);
 	if (gerror != NULL)
 		*gerror = g_error_new (GTHUMB_ERROR,
 				       errno,
 				       _("Cannot save catalog \"%s\": %s"),
 				       path,
 				       errno_to_string ());
+	return FALSE;
 }
 
 
@@ -439,22 +464,21 @@ gboolean
 catalog_write_to_disk (Catalog     *catalog,
 		       GError     **gerror)
 {
-	FILE  *f;
-	gchar *path;
-	GList *scan;
+	GnomeVFSResult  result;
+	GnomeVFSHandle *handle;
+	GList          *scan;
 
 	g_return_val_if_fail (catalog != NULL, FALSE);
 	g_return_val_if_fail (catalog->path != NULL, FALSE);
 
-	path = catalog->path;
-	f = fopen (path, "w");
-	if (!f)	{
+	result = gnome_vfs_open (&handle, catalog->path, GNOME_VFS_OPEN_WRITE);
+	if (result != GNOME_VFS_OK) {
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
-					       errno,
+					       result,
 					       _("Cannot open catalog \"%s\": %s"),
-					       path,
-					       errno_to_string ());
+					       catalog->path,
+					       gnome_vfs_result_to_string (result));
 		return FALSE;
 	}
 
@@ -462,83 +486,68 @@ catalog_write_to_disk (Catalog     *catalog,
 		SearchData *search_data = catalog->search_data;
 
 		/* write search data. */
+		if (_gnome_vfs_write_line (handle, SEARCH_HEADER) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, SEARCH_HEADER)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "\"%s\"", 
+					   search_data->start_from) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", search_data->start_from)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "\"%s\"", 
+					   (search_data->recursive ? "TRUE" : "FALSE")) != GNOME_VFS_OK)
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", (search_data->recursive ? "TRUE" : "FALSE"))) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "\"%s\"", 
+					   search_data->file_pattern) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", search_data->file_pattern)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "\"%s\"", 
+					   search_data->comment_pattern) != GNOME_VFS_OK)
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", search_data->comment_pattern)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "\"%s\"", 
+					   search_data->place_pattern) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", search_data->place_pattern)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "%d\"%s\"", 
+					   catalog->search_data->all_keywords,
+					   search_data->keywords_pattern) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "%d", catalog->search_data->all_keywords)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "%ld", 
+					   search_data->date) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 
-		if (! fprintf (f, "\"%s\"\n", search_data->keywords_pattern)) {
-			fclose (f);
-			return FALSE;
-		}
-
-		if (! fprintf (f, "%ld\n", search_data->date)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
-
-		if (! fprintf (f, "%d\n", catalog->search_data->date_scope)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle, 
+					   "%d", 
+					   catalog->search_data->date_scope) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 	}
 
 	/* sort method */
 
-	fprintf (f, "%s%s\n", SORT_FIELD, sort_names[catalog->sort_method]);
+	if (_gnome_vfs_write_line (handle, 
+				   "%s%s", 
+				   SORT_FIELD, 
+				   sort_names[catalog->sort_method]) != GNOME_VFS_OK) 
+		return error_on_saving (handle, catalog->path, gerror);
 
 	/* write the file list. */
 
 	for (scan = catalog->list; scan; scan = scan->next) 
-		if (! fprintf (f, "\"%s\"\n", (char*) scan->data)) {
-			fclose (f);
-			error_on_saving (path, gerror);
-			return FALSE;
-		}
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"", 
+					   (char*) scan->data) != GNOME_VFS_OK) 
+			return error_on_saving (handle, catalog->path, gerror);
 	
-	fclose (f);
-
-	return TRUE;
+	return gnome_vfs_close (handle) == GNOME_VFS_OK;
 }
 
 

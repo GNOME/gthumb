@@ -17,73 +17,54 @@
 <gthumb:set_var preview_width="550" preview_height="500"/>
 <body>
 
-<table class="full_size" summary="page body">
-</tr>
-<tr>
-<td class="nav_bar">
+  <!-- Header -->
+  <div class="title">
+    <gthumb:header/>
+  </div>
 
-<!-- Navigation Bar -->
-<table class="full_size" summary="navigation bar">
-<tr>
-  <td>
-    &nbsp;
-  </td>
 
-<gthumb:if pages > 1 />
-  <td class="button">
+  <!-- Navigation Bar -->
+  <gthumb:if pages > 1 />
+  <div class="nav_bar">
+    <span class="link">
+      <gthumb:if page_idx > 1 />
+        <a href="<gthumb:page_link idx_relative="-1"/>">
+          <gthumb:text>Previous</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Previous</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
 
-  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:page_link idx_relative=-1/>'">
-  <tr>
-    <td class="nav_button_up">
-      <img src="left-arrow.png" alt="Back" border="0" />
-    </td>
-  </table>
+    <span class="link">
+      <gthumb:if page_idx < pages />
+        <a href="<gthumb:page_link idx_relative="+1"/>">
+          <gthumb:text>Next</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Next</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
+  </div>
+  <gthumb:end/>
 
-  </td>
-  <td class="button">
-    <span class="page_index"><gthumb:page_idx/> / <gthumb:pages/></span>
-  </td>
-  <td class="button">
 
-  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:page_link idx_relative=+1/>'">
-  <tr>
-    <td class="nav_button_up">
-      <img src="right-arrow.png" alt="Next" border="0" />
-    </td>
-  </table>
+  <!-- Index -->
+  <div class="thumbnails">
+    <table class="thumbnails" summary="thumbnails">
+      <gthumb:table/>
+    </table>
+  </div>
 
-  </td>
-<gthumb:end/>
 
-  <td class="title">
-    <span class="title"><gthumb:header/></span>
-  </td>
-</tr>
-</table>
-
-</td>
-</tr>
-<tr>
-<td>
-
-<!-- Photos -->
-<div class="thumbnails">
-<table class="thumbnails" summary="thumbnails">
-<gthumb:table/>
-</table>
-</div>
-
-</td>
-</tr>
-<tr>
-<td class="footer">
-
-<!-- Footer -->
-<div class="copyright"><gthumb:footer/></div>
-
-</td>
-</tr>
-</table>
+  <!-- Footer -->
+  <div class="copyright">
+    <gthumb:footer/>
+  </div>
 
 </body>
 </html>

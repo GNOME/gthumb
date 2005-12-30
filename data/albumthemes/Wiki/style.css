@@ -9,11 +9,7 @@
   }
 
   table.nav_button {
-    border: 1px outset #bbb;
-  }
-
-  table.nav_button_hover {
-    border: 1px inset #bbb;
+    border: 0px outset #bbb;
   }
 
   div.copyright {
@@ -49,7 +45,7 @@
     font-style: italic;
   }
 
-  span.title {
+  div.title {
     color: #000;
   }
 
@@ -60,20 +56,24 @@
   /* links */
 
   a:link { 
-    font-weight: bold;
+    color: #0000FF;
     text-decoration: none;
-    color: #87875E;
   }
 
   a:visited { 
-    font-weight: bold;
+    color: #0000FF;
     text-decoration: none;
-    color: #87875E;
   }
 
   a:hover {
-    font-weight: bold;
-    text-decoration: none;
-    color: #FFD700;
+    color: #0000FF;
+    text-decoration: underline;
   }
 
+  span.nolink {
+    color: #AAA;
+  }
+
+  span.link {
+    padding: 10px;;
+  }

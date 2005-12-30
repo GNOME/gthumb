@@ -3568,7 +3568,7 @@ make_url_list (GList *list,
 			break;
 			
 		case TARGET_URILIST:
-			url = gnome_vfs_get_uri_from_local_path (scan->data);
+			url = get_uri_from_path (scan->data);
 			if (url == NULL) 
 				continue;
 			g_string_append (result, url);
@@ -3743,6 +3743,9 @@ reorder_current_catalog (GthBrowser *browser,
 		Catalog *catalog = catalog_new ();
 		GList   *list, *scan;
 		
+		if (file_is_search_result (priv->catalog_path))
+			catalog_load_search_data_from_disk (catalog, priv->catalog_path, NULL);
+
 		list = gth_file_list_get_all_from_view (priv->file_list);
 		catalog_insert_items (catalog, list, 0);
 
@@ -7797,8 +7800,6 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 	char                  *catalog_dir3;
 	char                  *current_path;
 	gboolean               reset_history = FALSE;
-
-	g_print ("GO TO CATALOG DIR: %s\n", catalog_dir);
 
 	catalog_dir2 = remove_special_dirs_from_path (catalog_dir);
 	catalog_dir3 = remove_ending_separator (catalog_dir2);

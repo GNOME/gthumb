@@ -15,120 +15,63 @@
 </head>
 <body>
 
-<table class="nav_bar" summary="page body">
-<tr>
-<td class="nav_bar">
+  <!-- Header -->
+  <div class="title">
+    <gthumb:header/>
+  </div>
 
-<!-- Navigation Bar -->
-<table class="full_size" summary="navigation bar">
-<tr>
+  <!-- Navigation Bar -->
+  <div class="nav_bar">
+    <span class="link">
+      <gthumb:if image_idx > 1 />
+        <a href="<gthumb:image_link idx_relative="-1"/>">
+          <gthumb:text>Previous</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Previous</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
 
-  <td class="button">
-  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:page_link idx_relative=0 image_idx/>'">
-  <tr>
-    <td class="nav_button_up">
-      <img src="up-arrow.png" alt="Back" border="0" />
-    </td>
-  </table>
-  </td>
+    <span class="link">
+      <gthumb:if image_idx < images />
+        <a href="<gthumb:image_link idx_relative="+1"/>">
+          <gthumb:text>Next</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          <gthumb:text>Next</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
 
-<gthumb:if images > 1 />
-  <td class="button">
-    &nbsp;
-  </td>
+    <span class="link">
+      <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+        <gthumb:text>Index</gthumb:text>
+      </a>
+    </span>
+  </div>
 
-  <td class="button">
-    &nbsp;
-  </td>
-
-  <td>
-
-<gthumb:if image_idx > 1 />
-  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:image_link idx_relative="-1"/>'">
-  <tr>
-  <td class="nav_button_preview">
-    <gthumb:image thumbnail max_size="50" idx_relative="-1" class="thumbnail"/>
-  </td>
-  <td>
-    <img src="left-arrow.png" alt="Previous image" border="0" align=center />
-  </td>
-  </table>
-<gthumb:else/>
-  <table class="nav_button">
-  <tr>
-  <td class="nav_button_preview">
-  </td>
-  <td>
-    <img src="left-arrow.png" alt="Previous image" border="0" align=center />
-  </td>
-  </table>
-<gthumb:end/>
-
-  </td>
-
-  <td class="button">
-    <span class="page_index"><gthumb:image_idx/> / <gthumb:images/></span>
-  </td>
-
-  <td>
-
-<gthumb:if image_idx < images />
-  <table class="nav_button" onMouseOver="this.className='nav_button_hover'" onMouseOut="this.className='nav_button'" onClick="window.location.href='<gthumb:image_link idx_relative="+1"/>'">
-  <tr>
-  <td>
-    <img src="right-arrow.png" alt="Next image" border="0" align=center />
-  </td>
-  <td class="nav_button_preview">
-    <gthumb:image thumbnail max_size="50" idx_relative="+1" class="thumbnail"/>
-  </td>
-  </table>
-<gthumb:else/>
-  <table class="nav_button">
-  <tr>
-  <td>
-    <img src="right-arrow.png" alt="Next image" border="0" align=center />
-  </td>
-  <td class="nav_button_preview">
-  </td>
-  </table>
-<gthumb:end/>
-
-  </td>
-
-</td>
-<gthumb:end/>
-
-<td class="title">
-  <span class="title"><gthumb:header/></span>
-</td>
-
-</tr>
-</table>
-
-
-</td>
-</tr>
-<tr>
-<td>
-
-<!-- Thumbnails and preview -->
-<table class="row" summary="preview">
-<tr>
-  <td>
-    <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview class="preview"/>
+  <!-- Image preview -->
+  <div class="preview">
+    <a href="<gthumb:file_name with_relative_path/>">
+      <gthumb:image preview class="preview"/>
     </a>
-  </td>
-</tr>
-</table>
+  </div>
 
 <!-- Comment and Exif data -->
 <div class="properties">
+
 <gthumb:if comment_visibility_image/>
 <div class="preview_comment">
-  <span class="comment"><gthumb:comment/></span><br />
+  <span class="comment">
+    <gthumb:comment/>
+  </span><br />
 </div>
 <gthumb:end/>
-<table summary="image properties">
+
+<table class="properties" summary="image properties">
 <gthumb:if file_name_visibility_image/>
 <tr>
   <td><span class="property"><gthumb:text>Image</gthumb:text></span></span></td>
@@ -198,17 +141,10 @@
 </table>
 </div>
 
-</td>
-</tr>
-<tr>
-<td class="footer">
-
-<!-- Footer -->
-<div class="copyright"><gthumb:footer/></div>
-
-</td>
-</tr>
-</table>
+  <!-- Footer -->
+  <div class="copyright">
+    <gthumb:footer/>
+  </div>
 
 </body>
 </html>

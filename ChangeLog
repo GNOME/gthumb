@@ -1,9 +1,28 @@
 2005-12-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/gth-window-actions-callbacks.c (set_wallpaper): set wallpaper as local
-	path.
+	* src/gth-browser.c (make_url_list): 
+	* libgthumb/file-utils.c: 
+	* libgthumb/catalog.h: 
+	* libgthumb/catalog.c: save catalogs using gnome_vfs
 
-	* src/dlg-open-with.c (open_cb): use gnome_vfs_mime_application_get_exec.
+	* data/albumthemes/text.h: added Previous, Next, Index.
+
+	* data/albumthemes/Wiki/image.gthtml: 
+	* data/albumthemes/Wiki/index.gthtml: 
+	* data/albumthemes/Wiki/style.css: 
+	* data/albumthemes/Wiki/layout.css: 
+	* data/albumthemes/Wiki/Makefile.am (theme_DATA): removed images and 
+	javascript code.
+
+	* src/gth-fullscreen.c (preloader_requested_error_cb): fire 
+	image_loaded signal after an error.
+
+	* src/gth-window-actions-callbacks.c (set_wallpaper): set wallpaper as 
+	local path.
+
+	* src/dlg-open-with.c (open_cb): use 
+	gnome_vfs_mime_application_get_exec.
+	
 	* src/dir-list.c (dir_list_refresh_continue): 
 
 	* src/main.c: 
@@ -14,12 +33,12 @@
 	* libgthumb/file-utils.c: rearranged the code.
 
 	* libgthumb/comments.c (load_comment_from_iptc)
-	(remove_comments_done): removed unused functions.  deal with iptc only supporting
-	local files.
+	(remove_comments_done): removed unused functions.  deal with iptc only 
+	supporting local files.
 
 	* src/gth-browser-actions-callbacks.c (catalog_rename): 
-	* src/dlg-file-utils.c (dlg_file_rename_series): use gnome_vfs_move instead of
-	rename
+	* src/dlg-file-utils.c (dlg_file_rename_series): use gnome_vfs_move 
+	instead of rename
 
 	* configure.in: set version to 2.7.2
 

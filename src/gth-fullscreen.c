@@ -230,7 +230,7 @@ preloader_requested_error_cb (GThumbPreloader *gploader,
 			      GthFullscreen   *fullscreen)
 {
 	image_viewer_set_void (IMAGE_VIEWER (fullscreen->priv->viewer));
-	/*image_loaded (fullscreen);*/
+	image_loaded (fullscreen);
 }
 
 

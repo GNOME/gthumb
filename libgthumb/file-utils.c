@@ -1680,6 +1680,32 @@ _gnome_vfs_read_line (GnomeVFSHandle   *handle,
 }
 
 
+GnomeVFSResult
+_gnome_vfs_write_line (GnomeVFSHandle   *handle,
+		       const char       *format,
+		       ...)
+{
+	GnomeVFSResult  result;
+	va_list         args;
+	char           *str;
+
+	g_return_val_if_fail (format != NULL, GNOME_VFS_ERROR_INTERNAL);
+	
+	va_start (args, format);
+	str = g_strdup_vprintf (format, args);
+	va_end (args);
+
+	result = gnome_vfs_write (handle, str, strlen(str), NULL);
+
+	g_free (str);
+
+	if (result != GNOME_VFS_OK)
+		return result;
+
+	return gnome_vfs_write (handle, "\n", 1, NULL);
+}
+
+
 GnomeVFSFileSize
 get_dest_free_space (const char  *path)
 {

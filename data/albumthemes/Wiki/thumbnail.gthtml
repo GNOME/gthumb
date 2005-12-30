@@ -1,4 +1,4 @@
-      <table class="photo" summary="photo">
+      <table class="photo" summary="photo" align="center">
       <tr>
         <td class="photo">
           <a href="<gthumb:image_link/>">
