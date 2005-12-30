@@ -35,7 +35,6 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 
-#include "auto-completion.h"
 #include "bookmarks.h"
 #include "catalog.h"
 #include "catalog-list.h"
@@ -7224,7 +7223,7 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 	switch (sidebar_content) {
 	case GTH_SIDEBAR_DIR_LIST: 
 		if (priv->dir_list->path == NULL) 
-			gth_browser_go_to_directory (browser, g_get_home_dir ());
+			gth_browser_go_to_directory (browser, get_home_uri ());
 		else 
 			gth_browser_go_to_directory (browser, priv->dir_list->path);
 		break;
@@ -7779,7 +7778,7 @@ gth_browser_get_current_directory (GthBrowser *browser)
 
 	path = browser->priv->dir_list->path;
 	if (path == NULL)
-		path = g_get_home_dir ();
+		path = get_home_uri ();
 
 	return path;
 }
@@ -7810,8 +7809,7 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 
 	/* Go up one level until a directory exists. */
 
-	base_dir = g_strconcat ("file://",
-				g_get_home_dir(),
+	base_dir = g_strconcat (get_home_uri (),
 				"/",
 				RC_CATALOG_DIR,
 				NULL);

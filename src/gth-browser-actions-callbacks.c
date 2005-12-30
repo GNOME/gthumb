@@ -641,7 +641,7 @@ catalog_rename (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (! rename (catalog_path, new_catalog_path)) {
+	} else if (gnome_vfs_move (catalog_path, new_catalog_path, TRUE) == GNOME_VFS_OK) {
 		all_windows_notify_catalog_rename (catalog_path, 
 						   new_catalog_path);
 	} else {
@@ -1162,13 +1162,13 @@ folder_rename (GtkWindow  *window,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (rename (old_path, new_path) == 0) { 
+		if (gnome_vfs_move (old_path, new_path, TRUE) == GNOME_VFS_OK) { 
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-			rename (old_folder_comment, new_folder_comment);
+			gnome_vfs_move (old_folder_comment, new_folder_comment, TRUE);
 			g_free (new_folder_comment);
 			
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1457,14 +1457,14 @@ folder_copy__response_cb (GObject *object,
 			
 		old_folder_comment= comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (rename (old_path, new_path) == 0) { 
+		if (gnome_vfs_move (old_path, new_path, TRUE) == GNOME_VFS_OK) { 
 			char *new_folder_comment;
 
 			/* moving folders on the same file system can be 
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-			rename (old_folder_comment, new_folder_comment);
+			gnome_vfs_move (old_folder_comment, new_folder_comment, TRUE);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1831,7 +1831,7 @@ open_location_response_cb (GtkDialog  *file_sel,
 		return;
 	}
 
-	folder = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel));
+	folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
 	if (folder != NULL)
 		gth_browser_go_to_directory (browser, folder);
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
@@ -1851,7 +1851,7 @@ gth_browser_activate_action_go_location (GtkAction  *action,
 					       GTK_STOCK_OPEN, GTK_RESPONSE_OK,
 					       NULL);
 	gtk_window_set_modal (GTK_WINDOW (chooser), TRUE);
-	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
+	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (chooser), gth_browser_get_current_directory (browser));
 
 	g_signal_connect (G_OBJECT (GTK_DIALOG (chooser)),
 			  "response", 

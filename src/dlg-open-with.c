@@ -84,7 +84,7 @@ open_cb (GtkWidget *widget,
 	GList       *scan;
 	GSList      *sscan, *editors;
 	gboolean     present = FALSE;
-	char        *command = NULL;
+	const char  *command = NULL;
 
 	application_utf8 = gtk_entry_get_text (GTK_ENTRY (data->app_entry));
 
@@ -95,7 +95,7 @@ open_cb (GtkWidget *widget,
 	for (scan = data->app_list; scan && ! present; scan = scan->next) {
 		GnomeVFSMimeApplication *app = scan->data;
 		if (strcmp (gnome_vfs_mime_application_get_exec (app), application) == 0) {
-			command = application_get_command (app);
+			command = gnome_vfs_mime_application_get_exec (app);
 			present = TRUE;
 		}
 	}
@@ -104,7 +104,7 @@ open_cb (GtkWidget *widget,
 	for (sscan = editors; sscan && ! present; sscan = sscan->next) {
 		char *recent_command = sscan->data;
 		if (strcmp (recent_command, application) == 0) {
-			command = g_strdup (recent_command);
+			command = recent_command;
 			present = TRUE;
 		}
 	}
@@ -112,7 +112,7 @@ open_cb (GtkWidget *widget,
 	if (! present) {
 		editors = g_slist_prepend (editors, g_strdup (application));
 		eel_gconf_set_locale_string_list (PREF_EDITORS, editors);
-		command = g_strdup (application);
+		command = application;
 	}
 
 	g_slist_foreach (editors, (GFunc) g_free, NULL);
@@ -120,11 +120,8 @@ open_cb (GtkWidget *widget,
 
 	/* exec the application. */
 
-	if (command != NULL) {
-		if (exec_command (command, data->file_list))
-			gtk_widget_destroy (data->dialog);
-		g_free (command);
-	}
+	if ((command != NULL) && exec_command (command, data->file_list))
+		gtk_widget_destroy (data->dialog);
 
 	g_free (application);
 }

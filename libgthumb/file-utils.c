@@ -234,699 +234,6 @@ path_list_async_interrupt (PathListHandle   *handle,
 }
 
 
-/* Checks all files in ~/RC_DIR and
- * if CLEAR_ALL is TRUE removes them all otherwise removes only those who 
- * have no source counterpart.
- */
-gboolean
-visit_rc_directory (const gchar *rc_dir,
-		    const gchar *rc_ext,
-		    const gchar *dir,
-		    gboolean recursive,
-		    gboolean clear_all)
-{
-	gchar *rc_dir_full_path;
-	GList *files, *dirs;
-	GList *scan;
-	gint   prefix_len, ext_len;
-	gchar *prefix;
-	
-	prefix = g_strconcat (g_get_home_dir(), 
-			      "/", 
-			      rc_dir,
-			      NULL);
-	prefix_len = strlen (prefix);
-	rc_dir_full_path = g_strconcat (prefix,
-					dir,
-					NULL);
-	g_free (prefix);
-	ext_len = strlen (rc_ext);
-
-	if (! path_is_dir (rc_dir_full_path)) {
-		g_free (rc_dir_full_path);
-		return FALSE;
-	}
-
-	path_list_new (rc_dir_full_path, &files, &dirs);
-
-	for (scan = files; scan; scan = scan->next) {
-		gchar *rc_file, *real_file;
-
-		rc_file = (gchar*) scan->data;
-		real_file = g_strndup (rc_file + prefix_len, 
-				       strlen (rc_file) - prefix_len - ext_len);
-		if (clear_all || ! path_is_file (real_file)) 
-			if (! file_unlink (rc_file)) 
-				g_warning ("Cannot delete %s\n", rc_file);
-		
-		g_free (real_file);
-	}
-
-	if (! recursive)
-		return TRUE;
-
-	for (scan = dirs; scan; scan = scan->next) {
-		gchar *sub_dir = (gchar*) scan->data;
-
-		visit_rc_directory (rc_dir,
-				    rc_ext,
-				    sub_dir + prefix_len,
-				    TRUE, 
-				    clear_all);
-
-		if (clear_all)
-			dir_remove (sub_dir);
-	}
-
-	return TRUE;
-}
-
-
-/* Checks all files in ~/RC_DIR and
- */
-gboolean
-visit_rc_directory_sync (const gchar *rc_dir,
-			 const gchar *rc_ext,
-			 const gchar *dir,
-			 gboolean recursive,
-			 VisitFunc do_something,
-			 gpointer data)
-{
-	gchar *rc_dir_full_path;
-	GList *files, *dirs;
-	GList *scan;
-	gint   prefix_len, ext_len;
-	gchar *prefix;
-	
-	prefix = g_strconcat (g_get_home_dir(), 
-			      "/", 
-			      rc_dir,
-			      NULL);
-	prefix_len = strlen (prefix);
-	rc_dir_full_path = g_strconcat (prefix,
-					dir,
-					NULL);
-	g_free (prefix);
-	ext_len = strlen (rc_ext);
-
-	if (! path_is_dir (rc_dir_full_path)) {
-		g_free (rc_dir_full_path);
-		return FALSE;
-	}
-
-	path_list_new (rc_dir_full_path, &files, &dirs);
-
-	for (scan = files; scan; scan = scan->next) {
-		gchar *rc_file, *real_file;
-
-		rc_file = (gchar*) scan->data;
-		real_file = g_strndup (rc_file + prefix_len, 
-				       strlen (rc_file) - prefix_len - ext_len);
-		if (do_something)
-			(*do_something) (real_file, rc_file, data);
-		
-		g_free (real_file);
-	}
-
-	if (! recursive)
-		return TRUE;
-
-	for (scan = dirs; scan; scan = scan->next) {
-		gchar *sub_dir = (gchar*) scan->data;
-
-		visit_rc_directory_sync (rc_dir,
-					 rc_ext,
-					 sub_dir + prefix_len,
-					 TRUE, 
-					 do_something,
-					 data);
-	}
-
-	return TRUE;
-}
-
-
-/* -- browse_rc_directory_async implementation -- */
-
-typedef struct {
-	gboolean recursive;
-	gint prefix_len;
-	gint ext_len;
-	VisitFunc do_something;
-	VisitDoneFunc done_func;
-	gpointer data;
-	GList *dirs;
-	GList *visited_dirs;
-	gboolean interrupted;
-} VisitRCDirData;
-
-
-static VisitRCDirData *
-visit_rc_dir_data_new ()
-{
-	VisitRCDirData * rcd;
-
-	rcd = g_new0 (VisitRCDirData, 1);
-	rcd->dirs = NULL;
-	rcd->visited_dirs = NULL;
-
-	return rcd;
-}
-
-
-static void
-visit_rc_dir_data_free (VisitRCDirData *rcd)
-{
-	if (rcd == NULL)
-		return;
-
-	if (rcd->dirs != NULL) {
-		g_list_foreach (rcd->dirs, (GFunc) g_free, NULL);
-		g_list_free (rcd->dirs);
-	}
-
-	if (rcd->visited_dirs != NULL) {
-		g_list_foreach (rcd->visited_dirs, (GFunc) g_free, NULL);
-		g_list_free (rcd->visited_dirs);
-	}
-
-	g_free (rcd);
-}
-
-
-static void visit_dir_async (const char     *dir,
-			     VisitRCDirData *rcd);
-
-
-static void
-rc_path_list_done_cb (PathListData *pld, 
-		      gpointer      data)
-{
-	VisitRCDirData *rcd = data;
-	GList          *scan;
-	char           *rc_file, *real_file;
-	char           *sub_dir;
-
-	if (pld->result != GNOME_VFS_ERROR_EOF) {
-		char *path;
-
-		path = gnome_vfs_uri_to_string (pld->uri,
-						GNOME_VFS_URI_HIDE_NONE);
-		g_warning ("Error reading cache directory %s.", path);
-		g_free (path);
-
-		if (rcd->done_func)
-			(* rcd->done_func) (rcd->visited_dirs, rcd->data);
-		visit_rc_dir_data_free (rcd);
-		return;
-	}
-
-	for (scan = pld->files; scan; scan = scan->next) {
-		rc_file = (gchar*) scan->data;
-		real_file = g_strndup (rc_file + rcd->prefix_len, 
-				       strlen (rc_file) 
-				       - rcd->prefix_len
-				       - rcd->ext_len);
-
-		if (rcd->do_something)
-			(* rcd->do_something) (real_file, rc_file, rcd->data);
-
-		g_free (real_file);
-
-		if (rcd->interrupted)
-			break;
-	}
-
-	if (! rcd->recursive || rcd->interrupted) {
-		if (rcd->done_func)
-			(* rcd->done_func) (rcd->visited_dirs, rcd->data);
-		path_list_data_free (pld);
-		visit_rc_dir_data_free (rcd);
-		return;
-	}
-
-	rcd->dirs = g_list_concat (pld->dirs, rcd->dirs);
-	pld->dirs = NULL;
-	path_list_data_free (pld);
-
-	if (rcd->dirs == NULL) {
-		if (rcd->done_func)
-			(* rcd->done_func) (rcd->visited_dirs, rcd->data);
-		visit_rc_dir_data_free (rcd);
-		return;
-	}
-
-	sub_dir = (gchar*) rcd->dirs->data;
-	rcd->dirs = g_list_remove_link (rcd->dirs, rcd->dirs);
-
-	rcd->visited_dirs = g_list_prepend (rcd->visited_dirs, 
-					    g_strdup (sub_dir));
-	visit_dir_async (sub_dir, rcd);
-
-	g_free (sub_dir);
-}
-
-
-static void
-visit_dir_async (const gchar *dir,
-		 VisitRCDirData *rcd)
-{
-	PathListHandle *handle;
-
-	handle = path_list_async_new (dir, rc_path_list_done_cb, rcd);	
-	g_free (handle);
-}
-
-
-/* Browse all files in ~/RC_DIR/DIR calling 
- * DO_SOMETHING (real_file, rc_file, DATA) on each file, 
- * when the process is terminated call DONE_FUNC (DATA).
- * Used to browse the cache and the comments directories.
- * Assumes all cache files have as extension RC_EXT (ex. ".png", ".xml", etc.).
- */
-void
-visit_rc_directory_async (const gchar *rc_dir,
-			  const gchar *rc_ext,
-			  const char *dir,
-			  gboolean recursive,
-			  VisitFunc do_something,
-			  VisitDoneFunc done_func,
-			  gpointer data)
-{
-	gchar *rc_dir_full_path;
-	gchar *prefix;
-	gint prefix_len;
-	VisitRCDirData *rcd;
-
-	prefix = g_strconcat (g_get_home_dir(), 
-			      "/", 
-			      rc_dir,
-			      NULL);
-	prefix_len = strlen (prefix);
-	rc_dir_full_path = g_strconcat (prefix,
-					dir,
-					NULL);
-	g_free (prefix);
-
-	if (! path_is_dir (rc_dir_full_path)) {
-		g_free (rc_dir_full_path);
-		return;
-	}
-
-	rcd = visit_rc_dir_data_new ();
-	rcd->recursive = recursive;
-	rcd->prefix_len = prefix_len;
-	rcd->ext_len = strlen (rc_ext);
-	rcd->do_something = do_something;
-	rcd->done_func = done_func;
-	rcd->data = data;
-
-	visit_dir_async (rc_dir_full_path, rcd);
-	g_free (rc_dir_full_path);
-}
-
-
-gboolean
-dir_make (const gchar *path, 
-	  mode_t       mode)
-{
-	GnomeVFSResult  r;
-	char           *epath;
-
-	epath = escape_uri (path);
-	r = gnome_vfs_make_directory (epath, mode);
-	g_free (epath);
-
-	return (r == GNOME_VFS_OK);
-}
-
-
-gboolean
-dir_remove (const gchar *path)
-{
-	GnomeVFSResult  r;
-	char           *epath;
-
-	epath = escape_uri (path);
-	r = gnome_vfs_remove_directory (epath);
-	g_free (epath);
-
-	return (r == GNOME_VFS_OK);
-}
-
-
-gboolean
-dir_remove_recursive (const gchar *directory)
-{
-	GList    *files, *dirs;
-	GList    *scan;
-	gboolean  error = FALSE;
-
-	if (! path_is_dir (directory)) 
-		return FALSE;
-
-	path_list_new (directory, &files, &dirs);
-
-	for (scan = files; scan; scan = scan->next) {
-		char *file = scan->data;
-		if (! file_unlink (file)) {
-			g_warning ("Cannot delete %s\n", file);
-			error = TRUE;
-		}
-	}
-	path_list_free (files);
-
-	for (scan = dirs; scan; scan = scan->next) {
-		char *sub_dir = scan->data;
-		if (!dir_remove_recursive (sub_dir))
-			error = TRUE;
-	}
-	path_list_free (dirs);
-
-	if (!dir_remove (directory))
-		error = TRUE;
-
-	return !error;
-}
-
-
-/* -- */
-
-
-gboolean
-check_permissions (const char *path,
-		   int         mode) 
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    vfs_result;
-	char             *escaped;
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-	vfs_result = gnome_vfs_get_file_info (escaped, 
-					      info, 
-					      (GNOME_VFS_FILE_INFO_DEFAULT 
-					       | GNOME_VFS_FILE_INFO_FOLLOW_LINKS
-					       | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
-	g_free (escaped);
-
-	if (vfs_result != GNOME_VFS_OK) 
-		return FALSE; 
-
-	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE)) 
-		return FALSE; 
-
-	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
-		return FALSE; 
-
-	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
-		return FALSE; 
-
-	return TRUE;
-}
-
-
-gboolean
-path_is_file (const char *path)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	gboolean          is_file;
-	char             *escaped;
-
-	if (! path || ! *path) 
-		return FALSE; 
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-
-	result = gnome_vfs_get_file_info (escaped, 
-					  info, 
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	is_file = FALSE;
-	if (result == GNOME_VFS_OK)		
-		is_file = (info->type == GNOME_VFS_FILE_TYPE_REGULAR);
-	
-	g_free (escaped);
-	gnome_vfs_file_info_unref (info);
-
-	return is_file;
-}
-
-
-char *
-escape_uri (const char *uri)
-{
-	const char *start = NULL;
-	const char *uri_no_method;
-	char       *method;
-	char       *epath, *euri;
-
-	if (uri == NULL)
-		return NULL;
-
-	start = strstr (uri, "://");
-	if (start != NULL) {
-		uri_no_method = start + strlen ("://");
-		method = g_strndup (uri, start - uri);
-	} else {
-		uri_no_method = uri;
-		method = NULL;
-	}
-	
-	epath = gnome_vfs_escape_host_and_path_string (uri_no_method);
-	
-	if (method != NULL) {
-		euri = g_strdup_printf ("%s://%s", method, epath);
-		g_free (epath);
-	} else
-		euri = epath;
-
-	g_free (method);
-
-	return euri;
-}
-
-
-gboolean
-path_is_dir (const char *path)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	gboolean          is_dir;
-	char             *escaped;
-
-	if (! path || ! *path) 
-		return FALSE; 
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-
-	result = gnome_vfs_get_file_info (escaped, 
-					  info, 
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	is_dir = FALSE;
-	if (result == GNOME_VFS_OK)
-		is_dir = (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY);
-
-	g_free (escaped);
-	gnome_vfs_file_info_unref (info);
-
-	return is_dir;
-}
-
-
-gboolean
-dir_is_empty (const gchar *path)
-{
-	DIR *dp;
-	int n;
-
-	if (strcmp (path, "/") == 0)
-		return FALSE;
-
-	dp = opendir (path);
-	n = 0;
-	while (readdir (dp) != NULL) {
-		n++;
-		if (n > 2) {
-			closedir (dp);
-			return FALSE;
-		}
-	}
-	closedir (dp);
-
-	return TRUE;
-}
-
-
-GnomeVFSFileSize 
-get_file_size (const char *path)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  size;
-	char             *escaped;
-
-	if (! path || ! *path) return 0; 
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-	result = gnome_vfs_get_file_info (escaped, 
-					  info,
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS)); 
-	size = 0;
-	if (result == GNOME_VFS_OK)
-		size = info->size;
-
-	g_free (escaped);
-	gnome_vfs_file_info_unref (info);
-
-	return size;
-}
-
-
-time_t 
-get_file_mtime (const char *path)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult    result;
-	char             *escaped;
-	time_t            mtime;
-
-	if (! path || ! *path) return 0; 
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-	result = gnome_vfs_get_file_info (escaped, 
-					  info, 
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	mtime = 0;
-	if ((result == GNOME_VFS_OK)
-	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_MTIME))
-		mtime = info->mtime;
-
-	g_free (escaped);
-	gnome_vfs_file_info_unref (info);
-
-	return mtime;
-}
-
-
-time_t 
-get_file_ctime (const gchar *path)
-{
-	GnomeVFSFileInfo *info;
-	GnomeVFSResult result;
-	gchar *escaped;
-	time_t ctime;
-
-	if (! path || ! *path) return 0; 
-
-	info = gnome_vfs_file_info_new ();
-	escaped = escape_uri (path);
-	result = gnome_vfs_get_file_info (escaped, 
-					  info, 
-					  (GNOME_VFS_FILE_INFO_DEFAULT 
-					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
-	ctime = 0;
-	if ((result == GNOME_VFS_OK)
-	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_CTIME))
-		ctime = info->ctime;
-
-	g_free (escaped);
-	gnome_vfs_file_info_unref (info);
-
-	return ctime;
-}
-
-
-void
-set_file_mtime (const gchar *path,
-		time_t       mtime)
-{
-	GnomeVFSFileInfo *file_info;
-	char             *escaped_path;
-
-	file_info = gnome_vfs_file_info_new ();
-	file_info->mtime = mtime;
-	file_info->atime = mtime;
-
-	escaped_path = escape_uri (path);
-	gnome_vfs_set_file_info (escaped_path,
-				 file_info,
-				 GNOME_VFS_SET_FILE_INFO_TIME);
-	gnome_vfs_file_info_unref (file_info);
-	g_free (escaped_path);
-}
-
-
-static gboolean
-xfer_file (const char *from,
-	   const char *to,
-	   gboolean    move) 
-{
-	GnomeVFSURI         *from_uri, *to_uri;
-	GnomeVFSXferOptions  opt;
-	GnomeVFSResult       result;
-
-	if (strcmp (from, to) == 0) {
-		g_warning ("cannot copy file %s: source and destination are the same\n", from);
-		return FALSE;
-	}
-
-	from_uri = new_uri_from_path (from);
-	to_uri = new_uri_from_path (to);
-	opt = move ? GNOME_VFS_XFER_REMOVESOURCE : GNOME_VFS_XFER_DEFAULT;
-	result = gnome_vfs_xfer_uri (from_uri,
-				     to_uri,
-				     opt,
-				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
-				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
-				     NULL,
-				     NULL);
-
-	gnome_vfs_uri_unref (from_uri);
-	gnome_vfs_uri_unref (to_uri);
-
-	return (result == GNOME_VFS_OK);
-}
-
-
-gboolean 
-file_copy (const char *from, 
-	   const char *to)
-{
-	return xfer_file (from, to, FALSE);
-}
-
-
-gboolean
-file_move (const gchar *from, 
-	   const gchar *to)
-{
-	return xfer_file (from, to, TRUE);
-}
-
-
-gboolean
-file_unlink (const gchar *path)
-{
-	GnomeVFSResult  r;
-	char           *epath;
-
-	epath = escape_uri (path);
-	r = gnome_vfs_unlink (epath);
-	g_free (epath);
-
-	return (r == GNOME_VFS_OK);
-}
-
-
 gboolean 
 path_list_new (const char  *path, 
 	       GList      **files, 
@@ -1033,14 +340,232 @@ path_list_find_path (GList *list, const char *path)
 }
 
 
-gboolean 
-file_is_hidden (const gchar *name)
+gboolean
+dir_is_empty (const gchar *path)
 {
-	if (name[0] != '.') return FALSE;
-	if (name[1] == '\0') return FALSE;
-	if ((name[1] == '.') && (name[2] == '\0')) return FALSE;
+	DIR *dp;
+	int n;
+
+	if (strcmp (path, "/") == 0)
+		return FALSE;
+
+	dp = opendir (path);
+	n = 0;
+	while (readdir (dp) != NULL) {
+		n++;
+		if (n > 2) {
+			closedir (dp);
+			return FALSE;
+		}
+	}
+	closedir (dp);
 
 	return TRUE;
+}
+
+
+gboolean
+dir_make (const gchar *path, 
+	  mode_t       mode)
+{
+	GnomeVFSResult  r;
+	char           *epath;
+
+	epath = escape_uri (path);
+	r = gnome_vfs_make_directory (epath, mode);
+	g_free (epath);
+
+	return (r == GNOME_VFS_OK);
+}
+
+
+gboolean
+dir_remove (const gchar *path)
+{
+	GnomeVFSResult  r;
+	char           *epath;
+
+	epath = escape_uri (path);
+	r = gnome_vfs_remove_directory (epath);
+	g_free (epath);
+
+	return (r == GNOME_VFS_OK);
+}
+
+
+gboolean
+dir_remove_recursive (const gchar *directory)
+{
+	GList    *files, *dirs;
+	GList    *scan;
+	gboolean  error = FALSE;
+
+	if (! path_is_dir (directory)) 
+		return FALSE;
+
+	path_list_new (directory, &files, &dirs);
+
+	for (scan = files; scan; scan = scan->next) {
+		char *file = scan->data;
+		if (! file_unlink (file)) {
+			g_warning ("Cannot delete %s\n", file);
+			error = TRUE;
+		}
+	}
+	path_list_free (files);
+
+	for (scan = dirs; scan; scan = scan->next) {
+		char *sub_dir = scan->data;
+		if (!dir_remove_recursive (sub_dir))
+			error = TRUE;
+	}
+	path_list_free (dirs);
+
+	if (!dir_remove (directory))
+		error = TRUE;
+
+	return !error;
+}
+
+
+gboolean 
+ensure_dir_exists (const char *a_path, 
+		   mode_t      mode)
+{
+	char *path;
+	char *p;
+
+	if (! a_path) 
+		return FALSE;
+
+	if (path_is_dir (a_path))
+		return TRUE;
+
+	path = g_strdup (a_path);
+
+	p = strstr (path, "://");
+	if (p == NULL)   /* Not a URI */
+		p = path;
+	else  /* Is a URI */
+		p = p + 3;  /* Move p past the :// */
+
+	while (*p != '\0') {
+		p++;
+		if ((*p == '/') || (*p == '\0')) {
+			gboolean end = TRUE;
+			
+			if (*p != '\0') {
+				*p = '\0';
+				end = FALSE;
+			}
+			
+			if (! path_is_dir (path)) {
+				if (!dir_make (path, mode)) {
+					g_warning ("directory creation failed: %s.", path);
+					g_free (path);
+					return FALSE;
+				}
+			}
+			if (! end) *p = '/';
+		}
+	}
+
+	g_free (path);
+
+	return TRUE;
+}
+
+
+GList *
+dir_list_filter_and_sort (GList    *dir_list,
+			  gboolean  names_only,
+			  gboolean  show_dot_files)
+{
+	GList *filtered;
+        GList *scan;
+
+        /* Apply filters on dir list. */
+        filtered = NULL;
+        scan = dir_list;
+        while (scan) {
+                const char *name_only = file_name_from_path (scan->data);
+
+                if (! (file_is_hidden (name_only) && ! show_dot_files)
+                    && (strcmp (name_only, CACHE_DIR) != 0)) {
+                        char *s;
+                        char *path = (char*) scan->data;
+
+                        s = g_strdup (names_only ? name_only : path);
+                        filtered = g_list_prepend (filtered, s);
+                }
+                scan = scan->next;
+        }
+        filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
+
+        return filtered;
+}
+
+
+gboolean
+visit_rc_directory_sync (const char *rc_dir,
+			 const char *rc_ext,
+			 const char *dir,
+			 gboolean    recursive,
+			 VisitFunc   do_something,
+			 gpointer    data)
+{
+	char  *rc_dir_full_path;
+        GList *files, *dirs;
+        GList *scan;
+        int    prefix_len, ext_len;
+        char  *prefix;
+
+        prefix = g_strconcat ("file://",
+			      g_get_home_dir(),
+                              "/",
+                              rc_dir,
+                              NULL);
+        prefix_len = strlen (prefix);
+        rc_dir_full_path = g_strconcat (prefix,
+                                        dir,
+                                        NULL);
+        g_free (prefix);
+        ext_len = strlen (rc_ext);
+
+        if (! path_is_dir (rc_dir_full_path)) {
+                g_free (rc_dir_full_path);
+                return FALSE;
+        }
+
+        path_list_new (rc_dir_full_path, &files, &dirs);
+	
+	for (scan = files; scan; scan = scan->next) {
+                char *rc_file, *real_file;
+		
+                rc_file = (char*) scan->data;
+                real_file = g_strndup (rc_file + prefix_len,
+                                       strlen (rc_file) - prefix_len - ext_len);
+                if (do_something)
+			(*do_something) (real_file, rc_file, data);
+		
+                g_free (real_file);
+        }
+	
+        if (! recursive)
+                return TRUE;
+	
+        for (scan = dirs; scan; scan = scan->next) {
+		char *sub_dir = (gchar*) scan->data;
+
+		visit_rc_directory_sync (rc_dir,
+					 rc_ext,
+					 sub_dir + prefix_len,
+					 TRUE,
+					 do_something,
+					 data);
+	}
+
+        return TRUE;
 }
 
 
@@ -1073,11 +598,9 @@ static char*
 get_sample_name (const char *filename)
 {
 	const char *ext;
-	
 	ext = get_extension (filename);
 	if (ext == NULL)
 		return NULL;
-
 	return g_strconcat ("a", get_extension (filename), NULL);
 }
 
@@ -1121,6 +644,79 @@ file_is_image (const gchar *name,
 	is_an_image = strstr (result, "image") != NULL;
 
 	return is_an_image;
+}
+
+
+gboolean 
+file_is_hidden (const gchar *name)
+{
+	if (name[0] != '.') return FALSE;
+	if (name[1] == '\0') return FALSE;
+	if ((name[1] == '.') && (name[2] == '\0')) return FALSE;
+
+	return TRUE;
+}
+
+
+static gboolean
+xfer_file (const char *from,
+	   const char *to,
+	   gboolean    move) 
+{
+	GnomeVFSURI         *from_uri, *to_uri;
+	GnomeVFSXferOptions  opt;
+	GnomeVFSResult       result;
+
+	if (strcmp (from, to) == 0) {
+		g_warning ("cannot copy file %s: source and destination are the same\n", from);
+		return FALSE;
+	}
+
+	from_uri = new_uri_from_path (from);
+	to_uri = new_uri_from_path (to);
+	opt = move ? GNOME_VFS_XFER_REMOVESOURCE : GNOME_VFS_XFER_DEFAULT;
+	result = gnome_vfs_xfer_uri (from_uri,
+				     to_uri,
+				     opt,
+				     GNOME_VFS_XFER_ERROR_MODE_ABORT,
+				     GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE,
+				     NULL,
+				     NULL);
+
+	gnome_vfs_uri_unref (from_uri);
+	gnome_vfs_uri_unref (to_uri);
+
+	return (result == GNOME_VFS_OK);
+}
+
+
+gboolean 
+file_copy (const char *from, 
+	   const char *to)
+{
+	return xfer_file (from, to, FALSE);
+}
+
+
+gboolean
+file_move (const gchar *from, 
+	   const gchar *to)
+{
+	return xfer_file (from, to, TRUE);
+}
+
+
+gboolean
+file_unlink (const gchar *path)
+{
+	GnomeVFSResult  r;
+	char           *epath;
+
+	epath = escape_uri (path);
+	r = gnome_vfs_unlink (epath);
+	g_free (epath);
+
+	return (r == GNOME_VFS_OK);
 }
 
 
@@ -1183,23 +779,163 @@ image_is_gif__accurate (const char *name)
 
 
 gboolean
-file_extension_is (const char *filename, 
-		   const char *ext)
+path_is_file (const char *path)
 {
-	return ! strcasecmp (filename + strlen (filename) - strlen (ext), ext);
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    result;
+	gboolean          is_file;
+	char             *escaped;
+
+	if (! path || ! *path) 
+		return FALSE; 
+
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+
+	result = gnome_vfs_get_file_info (escaped, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+	is_file = FALSE;
+	if (result == GNOME_VFS_OK)		
+		is_file = (info->type == GNOME_VFS_FILE_TYPE_REGULAR);
+	
+	g_free (escaped);
+	gnome_vfs_file_info_unref (info);
+
+	return is_file;
 }
 
 
-const char *
-get_filename_extension (const char *filename)
+gboolean
+path_is_dir (const char *path)
 {
-	char *last_dot;
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    result;
+	gboolean          is_dir;
+	char             *escaped;
 
-	last_dot = strrchr (filename, '.');
-	if (last_dot == NULL)
-		return NULL;
+	if (! path || ! *path) 
+		return FALSE; 
 
-	return last_dot + 1;
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+
+	result = gnome_vfs_get_file_info (escaped, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+	is_dir = FALSE;
+	if (result == GNOME_VFS_OK)
+		is_dir = (info->type == GNOME_VFS_FILE_TYPE_DIRECTORY);
+
+	g_free (escaped);
+	gnome_vfs_file_info_unref (info);
+
+	return is_dir;
+}
+
+
+GnomeVFSFileSize 
+get_file_size (const char *path)
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    result;
+	GnomeVFSFileSize  size;
+	char             *escaped;
+
+	if (! path || ! *path) return 0; 
+
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+	result = gnome_vfs_get_file_info (escaped, 
+					  info,
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS)); 
+	size = 0;
+	if (result == GNOME_VFS_OK)
+		size = info->size;
+
+	g_free (escaped);
+	gnome_vfs_file_info_unref (info);
+
+	return size;
+}
+
+
+time_t 
+get_file_mtime (const char *path)
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    result;
+	char             *escaped;
+	time_t            mtime;
+
+	if (! path || ! *path) return 0; 
+
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+	result = gnome_vfs_get_file_info (escaped, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+	mtime = 0;
+	if ((result == GNOME_VFS_OK)
+	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_MTIME))
+		mtime = info->mtime;
+
+	g_free (escaped);
+	gnome_vfs_file_info_unref (info);
+
+	return mtime;
+}
+
+
+time_t 
+get_file_ctime (const gchar *path)
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult result;
+	gchar *escaped;
+	time_t ctime;
+
+	if (! path || ! *path) return 0; 
+
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+	result = gnome_vfs_get_file_info (escaped, 
+					  info, 
+					  (GNOME_VFS_FILE_INFO_DEFAULT 
+					   | GNOME_VFS_FILE_INFO_FOLLOW_LINKS));
+	ctime = 0;
+	if ((result == GNOME_VFS_OK)
+	    && (info->valid_fields & GNOME_VFS_FILE_INFO_FIELDS_CTIME))
+		ctime = info->ctime;
+
+	g_free (escaped);
+	gnome_vfs_file_info_unref (info);
+
+	return ctime;
+}
+
+
+void
+set_file_mtime (const gchar *path,
+		time_t       mtime)
+{
+	GnomeVFSFileInfo *file_info;
+	char             *escaped_path;
+
+	file_info = gnome_vfs_file_info_new ();
+	file_info->mtime = mtime;
+	file_info->atime = mtime;
+
+	escaped_path = escape_uri (path);
+	gnome_vfs_set_file_info (escaped_path,
+				 file_info,
+				 GNOME_VFS_SET_FILE_INFO_TIME);
+	gnome_vfs_file_info_unref (file_info);
+	g_free (escaped_path);
 }
 
 
@@ -1218,6 +954,132 @@ checksum_simple (const gchar *path)
 	fclose (f);
 
 	return sum;
+}
+
+
+const char *
+get_home_uri (void)
+{
+	static char *home_uri = NULL;
+	if (home_uri == NULL)
+		home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
+	return home_uri;
+}
+
+
+const char *
+get_file_path_from_uri (const char *uri)
+{
+	if (uri_scheme_is_file (uri))
+		return uri + FILE_PREFIX_L;
+	else if (uri[0] == '/')
+		return uri;
+	else
+		return NULL;
+}
+
+
+const char *
+get_catalog_path_from_uri (const char *uri)
+{
+	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
+		return NULL;
+	return uri + CATALOG_PREFIX_L;
+}
+
+
+const char *
+get_search_path_from_uri (const char *uri)
+{
+	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
+		return NULL;
+	return uri + SEARCH_PREFIX_L;
+}
+
+
+const char *
+remove_scheme_from_uri (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return uri;
+	return idx + 3;
+}
+
+
+char *
+get_uri_scheme (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return NULL;
+	return g_strndup (uri, (idx - uri) + 3);
+}
+
+
+gboolean
+uri_has_scheme (const char *uri)
+{
+	return strstr (uri, "://") != NULL;
+}
+
+
+gboolean
+uri_scheme_is_file (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	/*
+	return ! uri_scheme_is_catalog (uri) && ! uri_scheme_is_search (uri);
+	*/
+	if (g_utf8_strlen (uri, -1) < FILE_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, FILE_PREFIX, FILE_PREFIX_L) == 0;
+
+}
+
+
+gboolean
+uri_scheme_is_catalog (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, CATALOG_PREFIX, CATALOG_PREFIX_L) == 0;
+}
+
+
+gboolean
+uri_scheme_is_search (const char *uri)
+{
+	if (uri == NULL)
+		return FALSE;
+	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
+		return FALSE;
+	return strncmp (uri, SEARCH_PREFIX, SEARCH_PREFIX_L) == 0;
+}
+
+
+char *
+get_uri_from_path (const char *path)
+{
+	if (path == NULL)
+		return NULL;
+	if ((path == "") || (path[0] == '/'))
+		return g_strconcat ("file://", path, NULL);
+	return g_strdup (path);
+}
+
+
+char *
+get_uri_display_name (const char *uri)
+{
+	return NULL;
 }
 
 
@@ -1248,76 +1110,6 @@ file_name_from_path (const char *file_name)
 }
 
 
-char *
-remove_level_from_path (const char *path)
-{
-	int         p;
-	const char *ptr = path;
-	char       *new_path;
-
-	if (! path) 
-		return NULL;
-
-	p = strlen (path) - 1;
-	if (p < 0) 
-		return NULL;
-
-	while ((p > 0) && (ptr[p] != '/')) 
-		p--;
-	if ((p == 0) && (ptr[p] == '/')) 
-		p++;
-	new_path = g_strndup (path, (guint)p);
-
-	return new_path;
-}
-
-
-char *
-remove_extension_from_path (const char *path)
-{
-	int         len;
-	int         p;
-	const char *ptr = path;
-	char       *new_path;
-
-	if (! path) 
-		return NULL;
-
-	len = strlen (path);
-	if (len == 1) 
-		return g_strdup (path);
-
-	p = len - 1;
-	while ((ptr[p] != '.') && (p > 0)) 
-		p--;
-	if (p == 0) 
-		p = len;
-	new_path = g_strndup (path, (guint) p);
-
-	return new_path;
-}
-
-
-gchar * 
-remove_ending_separator (const gchar *path)
-{
-	int len, copy_len;
-
-	if (path == NULL)
-		return NULL;
-
-	copy_len = len = strlen (path);
-	if ((len > 1) 
-	    && (path[len - 1] == '/')
-	    && ! ((len > 3)
-		  && (path[len - 2] == '/')
-		  && (path[len - 3] == ':'))) 
-		copy_len--;
-
-	return g_strndup (path, copy_len);
-}
-
-
 /* Check whether the path_src is contained in path_dest */
 gboolean
 path_in_path (const char  *path_src,
@@ -1334,260 +1126,6 @@ path_in_path (const char  *path_src,
 	return ((path_dest_l > path_src_l)
 		&& (strncmp (path_src, path_dest, path_src_l) == 0)
 		&& (path_dest[path_src_l] == '/'));
-}
-
-
-gboolean 
-ensure_dir_exists (const char *a_path, 
-		   mode_t      mode)
-{
-	char *path;
-	char *p;
-
-	if (! a_path) 
-		return FALSE;
-
-	if (path_is_dir (a_path))
-		return TRUE;
-
-	path = g_strdup (a_path);
-
-	p = strstr (path, "://");
-	if (p == NULL)   /* Not a URI */
-		p = path;
-	else  /* Is a URI */
-		p = p + 3;  /* Move p past the :// */
-
-	while (*p != '\0') {
-		p++;
-		if ((*p == '/') || (*p == '\0')) {
-			gboolean end = TRUE;
-			
-			if (*p != '\0') {
-				*p = '\0';
-				end = FALSE;
-			}
-			
-			if (! path_is_dir (path)) {
-				if (!dir_make (path, mode)) {
-					g_warning ("directory creation failed: %s.", path);
-					g_free (path);
-					return FALSE;
-				}
-			}
-			if (! end) *p = '/';
-		}
-	}
-
-	g_free (path);
-
-	return TRUE;
-}
-
-
-GList *
-dir_list_filter_and_sort (GList    *dir_list, 
-			  gboolean  names_only,
-			  gboolean  show_dot_files)
-{
-	GList *filtered;
-	GList *scan;
-
-	/* Apply filters on dir list. */
-	filtered = NULL;
-	scan = dir_list;
-	while (scan) {
-		const char *name_only = file_name_from_path (scan->data);
-
-		if (! (file_is_hidden (name_only) && ! show_dot_files) 
-		    && (strcmp (name_only, CACHE_DIR) != 0)) {
-			char *s;
-			char *path = (char*) scan->data;
-			
-			s = g_strdup (names_only ? name_only : path);
-			filtered = g_list_prepend (filtered, s);
-		}
-		scan = scan->next;
-	}
-	filtered = g_list_sort (filtered, (GCompareFunc) strcasecmp);
-
-	return filtered;
-}
-
-
-/* characters to escape */
-static gchar bad_char[] = { '$', '\'', '`', '"', '\\', '!', '?', '*',
-			    ' ', '(', ')', '[', ']', '&', '|', '@' , '#',
-			    ';' };
-
-/* the size of bad_char */
-static const gint bad_chars = sizeof (bad_char) / sizeof (gchar);
-
-
-/* counts how many characters to escape in @str. */
-static gint
-count_chars_to_escape (const gchar *str)
-{
-	const gchar *s;
-	gint i, n;
-
-	n = 0;
-	for (s = str; *s != 0; s++)
-		for (i = 0; i < bad_chars; i++)
-			if (*s == bad_char[i]) {
-				n++;
-				break;
-			}
-	return n;
-}
-
-
-/* escape with backslash the file name. */
-gchar*
-shell_escape (const gchar *filename)
-{
-	gchar *escaped;
-	gint i, new_l;
-	const gchar *s;
-	gchar *t;
-
-	if (filename == NULL) 
-		return NULL;
-
-	new_l = strlen (filename) + count_chars_to_escape (filename);
-	escaped = g_malloc (new_l + 1);
-
-	s = filename;
-	t = escaped;
-	while (*s) {
-		gboolean is_bad;
-	
-		is_bad = FALSE;
-		for (i = 0; (i < bad_chars) && !is_bad; i++)
-			is_bad = (*s == bad_char[i]);
-
-		if (is_bad)
-			*t++ = '\\';
-		*t++ = *s++;
-	}
-	*t = 0;
-
-	return escaped;
-}
-
-
-char *
-escape_underscore (const char *name)
-{
-	const char *s;
-	char       *e_name, *t;
-	int         l = 0, us = 0;
-
-	if (name == NULL)
-		return NULL;
-
-	for (s = name; *s != 0; s++) {
-		if (*s == '_')
-			us++;
-		l++;
-	}
-        
-	if (us == 0)
-		return g_strdup (name);
-
-	e_name = g_malloc (sizeof (char) * (l + us + 1));
-
-	t = e_name;
-	for (s = name; *s != 0; s++) 
-		if (*s == '_') {
-			*t++ = '_';
-			*t++ = '_';
-		} else
-			*t++ = *s;
-	*t = 0;
-
-	return e_name;
-}
-
-
-char *
-get_terminal (gboolean with_exec_flag)
-{
-	GConfClient *client;
-	char        *result;
-	char        *terminal = NULL;
-	char        *exec_flag = NULL;
-
-	client = gconf_client_get_default ();
-	terminal = gconf_client_get_string (client, "/desktop/gnome/applications/terminal/exec", NULL);
-	g_object_unref (G_OBJECT (client));
-	
-	if (terminal) 
-		exec_flag = gconf_client_get_string (client, "/desktop/gnome/applications/terminal/exec_arg", NULL);
-
-	if (terminal == NULL) {
-		char *check;
-
-		check = g_find_program_in_path ("gnome-terminal");
-		if (check != NULL) {
-			terminal = check;
-			/* Note that gnome-terminal takes -x and
-			 * as -e in gnome-terminal is broken we use that. */
-			exec_flag = g_strdup ("-x");
-		} else {
-			if (check == NULL)
-				check = g_find_program_in_path ("nxterm");
-			if (check == NULL)
-				check = g_find_program_in_path ("color-xterm");
-			if (check == NULL)
-				check = g_find_program_in_path ("rxvt");
-			if (check == NULL)
-				check = g_find_program_in_path ("xterm");
-			if (check == NULL)
-				check = g_find_program_in_path ("dtterm");
-			if (check == NULL) {
-				g_warning ("Cannot find a terminal, using "
-					   "xterm, even if it may not work");
-				check = g_strdup ("xterm");
-			}
-			terminal = check;
-			exec_flag = g_strdup ("-e");
-		}
-	}
-
-	if (terminal == NULL)
-		return NULL;
-
-	if (with_exec_flag)
-		result = g_strconcat (terminal, " ", exec_flag, NULL);
-	else
-		result = g_strdup (terminal);
-
-	return result;
-}
-
-
-gchar *
-application_get_command (const GnomeVFSMimeApplication *app)
-{
-	char *command;
-
-	if (app->requires_terminal) {
-		char *terminal;
-
-		terminal = get_terminal (TRUE);
-		if (terminal == NULL)
-			return NULL;
-
-		command = g_strconcat (terminal,
-				       " ",
-				       app->command,
-				       NULL);
-		g_free (terminal);
-	} else
-		command = g_strdup (app->command);
-
-	return command;
 }
 
 
@@ -1643,6 +1181,50 @@ get_path_relative_to_dir (const char *filename,
 	g_string_free (relpath, FALSE);
 
 	return result;
+}
+
+
+char *
+remove_level_from_path (const char *path)
+{
+	int         p;
+	const char *ptr = path;
+	char       *new_path;
+
+	if (! path) 
+		return NULL;
+
+	p = strlen (path) - 1;
+	if (p < 0) 
+		return NULL;
+
+	while ((p > 0) && (ptr[p] != '/')) 
+		p--;
+	if ((p == 0) && (ptr[p] == '/')) 
+		p++;
+	new_path = g_strndup (path, (guint)p);
+
+	return new_path;
+}
+
+
+gchar * 
+remove_ending_separator (const gchar *path)
+{
+	int len, copy_len;
+
+	if (path == NULL)
+		return NULL;
+
+	copy_len = len = strlen (path);
+	if ((len > 1) 
+	    && (path[len - 1] == '/')
+	    && ! ((len > 3)
+		  && (path[len - 2] == '/')
+		  && (path[len - 3] == ':'))) 
+		copy_len--;
+
+	return g_strndup (path, copy_len);
 }
 
 
@@ -1844,43 +1426,179 @@ resolve_all_symlinks (const char  *text_uri,
 }
 
 
-GnomeVFSFileSize
-get_dest_free_space (const char  *path)
+char *
+escape_underscore (const char *name)
 {
-	GnomeVFSURI      *uri;
-	GnomeVFSResult    result;
-	GnomeVFSFileSize  ret_val;
+	const char *s;
+	char       *e_name, *t;
+	int         l = 0, us = 0;
 
-	uri = new_uri_from_path (path);
-	result = gnome_vfs_get_volume_free_space (uri, &ret_val);
-	gnome_vfs_uri_unref (uri);
+	if (name == NULL)
+		return NULL;
 
-	if (result != GNOME_VFS_OK)
-		return (GnomeVFSFileSize) 0;
-	else
-		return ret_val;
+	for (s = name; *s != 0; s++) {
+		if (*s == '_')
+			us++;
+		l++;
+	}
+        
+	if (us == 0)
+		return g_strdup (name);
+
+	e_name = g_malloc (sizeof (char) * (l + us + 1));
+
+	t = e_name;
+	for (s = name; *s != 0; s++) 
+		if (*s == '_') {
+			*t++ = '_';
+			*t++ = '_';
+		} else
+			*t++ = *s;
+	*t = 0;
+
+	return e_name;
+}
+
+
+char *
+escape_uri (const char *uri)
+{
+	const char *start = NULL;
+	const char *uri_no_method;
+	char       *method;
+	char       *epath, *euri;
+
+	if (uri == NULL)
+		return NULL;
+
+	start = strstr (uri, "://");
+	if (start != NULL) {
+		uri_no_method = start + strlen ("://");
+		method = g_strndup (uri, start - uri);
+	} else {
+		uri_no_method = uri;
+		method = NULL;
+	}
+	
+	epath = gnome_vfs_escape_host_and_path_string (uri_no_method);
+	
+	if (method != NULL) {
+		euri = g_strdup_printf ("%s://%s", method, epath);
+		g_free (epath);
+	} else
+		euri = epath;
+
+	g_free (method);
+
+	return euri;
+}
+
+
+/* characters to escape */
+static gchar bad_char[] = { '$', '\'', '`', '"', '\\', '!', '?', '*',
+			    ' ', '(', ')', '[', ']', '&', '|', '@' , '#',
+			    ';' };
+
+/* the size of bad_char */
+static const gint bad_chars = sizeof (bad_char) / sizeof (gchar);
+
+
+/* counts how many characters to escape in @str. */
+static gint
+count_chars_to_escape (const gchar *str)
+{
+	const gchar *s;
+	gint i, n;
+
+	n = 0;
+	for (s = str; *s != 0; s++)
+		for (i = 0; i < bad_chars; i++)
+			if (*s == bad_char[i]) {
+				n++;
+				break;
+			}
+	return n;
+}
+
+
+/* escape with backslash the file name. */
+gchar*
+shell_escape (const gchar *filename)
+{
+	gchar *escaped;
+	gint i, new_l;
+	const gchar *s;
+	gchar *t;
+
+	if (filename == NULL) 
+		return NULL;
+
+	new_l = strlen (filename) + count_chars_to_escape (filename);
+	escaped = g_malloc (new_l + 1);
+
+	s = filename;
+	t = escaped;
+	while (*s) {
+		gboolean is_bad;
+	
+		is_bad = FALSE;
+		for (i = 0; (i < bad_chars) && !is_bad; i++)
+			is_bad = (*s == bad_char[i]);
+
+		if (is_bad)
+			*t++ = '\\';
+		*t++ = *s++;
+	}
+	*t = 0;
+
+	return escaped;
 }
 
 
 gboolean
-is_mime_type_writable (const char *mime_type)
+file_extension_is (const char *filename, 
+		   const char *ext)
 {
-	GSList *list, *scan;
+	return ! strcasecmp (filename + strlen (filename) - strlen (ext), ext);
+}
 
-	list = gdk_pixbuf_get_formats();
-	for (scan = list; scan; scan = scan->next) {
-		GdkPixbufFormat *format = scan->data;
-		char **mime_types;
-		int i;
-		mime_types = gdk_pixbuf_format_get_mime_types (format);
-		for (i = 0; mime_types[i] != NULL; i++) 
-			if (strcmp (mime_type, mime_types[i]) == 0)
-				return gdk_pixbuf_format_is_writable (format);
-		g_strfreev (mime_types);
-	}
-	g_slist_free (list);
-	
-	return FALSE;
+
+const char *
+get_filename_extension (const char *filename)
+{
+	char *last_dot;
+
+	last_dot = strrchr (filename, '.');
+	if (last_dot == NULL)
+		return NULL;
+
+	return last_dot + 1;
+}
+
+
+char *
+remove_extension_from_path (const char *path)
+{
+	int         len;
+	int         p;
+	const char *ptr = path;
+	char       *new_path;
+
+	if (! path) 
+		return NULL;
+
+	len = strlen (path);
+	if (len == 1) 
+		return g_strdup (path);
+
+	p = len - 1;
+	while ((ptr[p] != '.') && (p > 0)) 
+		p--;
+	if (p == 0) 
+		p = len;
+	new_path = g_strndup (path, (guint) p);
+
+	return new_path;
 }
 
 
@@ -1924,132 +1642,6 @@ get_temp_file_name (const char *ext)
 }
 
 
-const char *
-get_home_uri (void)
-{
-	static char *home_uri = NULL;
-	if (home_uri == NULL)
-		home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
-	return home_uri;
-}
-
-
-const char *
-get_file_path_from_uri (const char *uri)
-{
-	if (uri_scheme_is_file (uri))
-		return uri + FILE_PREFIX_L;
-	else if (uri[0] == '/')
-		return uri;
-	else
-		return NULL;
-}
-
-
-const char *
-get_catalog_path_from_uri (const char *uri)
-{
-	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
-		return NULL;
-	return uri + CATALOG_PREFIX_L;
-}
-
-
-const char *
-get_search_path_from_uri (const char *uri)
-{
-	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
-		return NULL;
-	return uri + SEARCH_PREFIX_L;
-}
-
-
-const char *
-remove_scheme_from_uri (const char *uri)
-{
-	const char *idx;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return uri;
-	return idx + 3;
-}
-
-
-char *
-get_uri_scheme (const char *uri)
-{
-	const char *idx;
-
-	idx = strstr (uri, "://");
-	if (idx == NULL)
-		return NULL;
-	return g_strndup (uri, (idx - uri) + 3);
-}
-
-
-gboolean
-uri_has_scheme (const char *uri)
-{
-	return strstr (uri, "://") != NULL;
-}
-
-
-gboolean
-uri_scheme_is_file (const char *uri)
-{
-	if (uri == NULL)
-		return FALSE;
-	/*
-	return ! uri_scheme_is_catalog (uri) && ! uri_scheme_is_search (uri);
-	*/
-	if (g_utf8_strlen (uri, -1) < FILE_PREFIX_L)
-		return FALSE;
-	return strncmp (uri, FILE_PREFIX, FILE_PREFIX_L) == 0;
-
-}
-
-
-gboolean
-uri_scheme_is_catalog (const char *uri)
-{
-	if (uri == NULL)
-		return FALSE;
-	if (g_utf8_strlen (uri, -1) < CATALOG_PREFIX_L)
-		return FALSE;
-	return strncmp (uri, CATALOG_PREFIX, CATALOG_PREFIX_L) == 0;
-}
-
-
-gboolean
-uri_scheme_is_search (const char *uri)
-{
-	if (uri == NULL)
-		return FALSE;
-	if (g_utf8_strlen (uri, -1) < SEARCH_PREFIX_L)
-		return FALSE;
-	return strncmp (uri, SEARCH_PREFIX, SEARCH_PREFIX_L) == 0;
-}
-
-
-char *
-get_uri_from_path (const char *path)
-{
-	if (path == NULL)
-		return NULL;
-	if ((path == "") || (path[0] == '/'))
-		return g_strconcat ("file://", path, NULL);
-	return g_strdup (path);
-}
-
-
-char *
-get_uri_display_name (const char *uri)
-{
-	return NULL;
-}
-
-
 GnomeVFSResult
 _gnome_vfs_read_line (GnomeVFSHandle   *handle,
 		      gpointer          buffer,
@@ -2085,4 +1677,77 @@ _gnome_vfs_read_line (GnomeVFSHandle   *handle,
 	}
 
 	return result;
+}
+
+
+GnomeVFSFileSize
+get_dest_free_space (const char  *path)
+{
+	GnomeVFSURI      *uri;
+	GnomeVFSResult    result;
+	GnomeVFSFileSize  ret_val;
+
+	uri = new_uri_from_path (path);
+	result = gnome_vfs_get_volume_free_space (uri, &ret_val);
+	gnome_vfs_uri_unref (uri);
+
+	if (result != GNOME_VFS_OK)
+		return (GnomeVFSFileSize) 0;
+	else
+		return ret_val;
+}
+
+
+gboolean
+is_mime_type_writable (const char *mime_type)
+{
+	GSList *list, *scan;
+
+	list = gdk_pixbuf_get_formats();
+	for (scan = list; scan; scan = scan->next) {
+		GdkPixbufFormat *format = scan->data;
+		char **mime_types;
+		int i;
+		mime_types = gdk_pixbuf_format_get_mime_types (format);
+		for (i = 0; mime_types[i] != NULL; i++) 
+			if (strcmp (mime_type, mime_types[i]) == 0)
+				return gdk_pixbuf_format_is_writable (format);
+		g_strfreev (mime_types);
+	}
+	g_slist_free (list);
+	
+	return FALSE;
+}
+
+
+gboolean
+check_permissions (const char *path,
+		   int         mode) 
+{
+	GnomeVFSFileInfo *info;
+	GnomeVFSResult    vfs_result;
+	char             *escaped;
+
+	info = gnome_vfs_file_info_new ();
+	escaped = escape_uri (path);
+	vfs_result = gnome_vfs_get_file_info (escaped, 
+					      info, 
+					      (GNOME_VFS_FILE_INFO_DEFAULT 
+					       | GNOME_VFS_FILE_INFO_FOLLOW_LINKS
+					       | GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS));
+	g_free (escaped);
+
+	if (vfs_result != GNOME_VFS_OK) 
+		return FALSE; 
+
+	if ((mode & R_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_READABLE)) 
+		return FALSE; 
+
+	if ((mode & W_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
+		return FALSE; 
+
+	if ((mode & X_OK) && ! (info->permissions & GNOME_VFS_PERM_ACCESS_WRITABLE)) 
+		return FALSE; 
+
+	return TRUE;
 }

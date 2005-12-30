@@ -350,6 +350,9 @@ load_comment_from_iptc (const char *filename)
 	int          i;
 	int          got_date = 0, got_time = 0;
 
+	if (filename == NULL)
+		return NULL;
+
 	d = iptc_data_new_from_jpeg (filename);
 	if (!d)
 		return NULL;
@@ -408,6 +411,7 @@ load_comment_from_iptc (const char *filename)
 	return data;
 }
 
+
 static void
 clear_iptc_comment (IptcData *d)
 {
@@ -429,7 +433,8 @@ clear_iptc_comment (IptcData *d)
 
 
 static void
-save_iptc_data (const char *filename, IptcData *d)
+save_iptc_data (const char *filename, 
+		IptcData   *d)
 {
 	guint        buf_len = 256 * 256;
 	FILE        *infile, *outfile;
@@ -439,6 +444,9 @@ save_iptc_data (const char *filename, IptcData *d)
 	guint        ps3_len, iptc_len;
 	gchar       *tmpfile;
 	struct stat  statinfo;
+
+	if (filename == NULL)
+		return;
 
 	ps3_buf = g_malloc (buf_len);
 	if (!ps3_buf)
@@ -690,116 +698,6 @@ comment_delete (const char *filename)
 }
 
 
-/* This checks all files in ~/.gqview/comments/DIR and
- * if CLEAR_ALL is TRUE removes them all otherwise removes only those who 
- * have no source counterpart.
- */
-void
-comments_remove_old_comments (const char *dir,
-			      gboolean    recursive,
-			      gboolean    clear_all)
-{
-	visit_rc_directory (RC_COMMENTS_DIR,
-			    COMMENT_EXT,
-			    dir,
-			    recursive,
-			    clear_all);
-}
-
-
-/* ----- comments_remove_old_comments_async implememtation. ------ */
-
-
-typedef struct {
-	gboolean   recursive;
-	gboolean   clear_all;
-	gboolean   interrupted;
-	GtkWidget *dialog;
-} CommentsRemoveData;
-
-
-static void 
-check_comment_file (char     *real_file, 
-		    char     *rc_file, 
-		    gpointer  data)
-{
-	CommentsRemoveData *crd = data;
-
-	if (crd->clear_all || ! path_is_file (real_file)) {
-		if (! file_unlink (rc_file)) 
-			g_warning ("Cannot delete %s\n", rc_file);
-	}
-}
-
-
-static void
-remove_comments_done (const GList *dir_list, 
-		      gpointer     data)
-{
-	CommentsRemoveData *crd = data;
-	const GList        *scan;
-	
-	if (! crd->clear_all || crd->interrupted) {
-		gtk_widget_destroy (crd->dialog);
-		g_free (crd);
-		return;
-	}
-
-	for (scan = dir_list; scan; scan = scan->next) {
-		char *dir = scan->data;
-		dir_remove (dir);
-	}
-}
-
-
-static void
-crd_interrupt_cb (GtkDialog *dialog,
-		  int response_id,
-		  CommentsRemoveData *crd)
-{
-	crd->interrupted = TRUE;
-}
-
-
-void
-comments_remove_old_comments_async (const char *dir,
-				    gboolean    recursive,
-				    gboolean    clear_all)
-{
-	CommentsRemoveData *crd;
-	const char         *message;
-
-	if (clear_all)
-		message = _("Deleting all comments, wait please...");
-	else
-		message = _("Deleting old comments, wait please...");
-
-	crd = g_new (CommentsRemoveData, 1);
-	crd->recursive = recursive;
-	crd->clear_all = clear_all;
-	crd->dialog = _gtk_message_dialog_new (NULL,
-					       GTK_DIALOG_MODAL,
-					       GTK_MESSAGE_INFO,
-					       message,
-					       NULL,
-					       GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE,
-					       NULL);
-	g_signal_connect (G_OBJECT (crd->dialog),
-			  "response",
-			  G_CALLBACK (crd_interrupt_cb),
-			  crd);
-	gtk_widget_show (crd->dialog);
-
-	visit_rc_directory_async (RC_COMMENTS_DIR,
-				  COMMENT_EXT,
-				  dir,
-				  recursive,
-				  check_comment_file,
-				  remove_comments_done,
-				  crd);
-}
-
-
 static char *
 get_utf8_text (CommentData *data,
 	       char        *value)
@@ -952,7 +850,7 @@ save_comment (const char  *filename,
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename)) 
-			save_comment_iptc (filename, data);
+			save_comment_iptc (get_file_path_from_uri (filename), data);
 #endif /* HAVE_LIBIPTCDATA */
 	}
 
@@ -1028,7 +926,7 @@ comments_load_comment (const char *filename,
 	if (try_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename)) 
-			img_comment = load_comment_from_iptc (filename);
+			img_comment = load_comment_from_iptc (get_file_path_from_uri (filename));
 		if (img_comment != NULL) {
 			if (xml_comment == NULL)
 				xml_comment = comment_data_new ();

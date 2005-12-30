@@ -29,7 +29,6 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libbonobo.h>
 
-#include "auto-completion.h"
 #include "catalog.h"
 #include "comments.h"
 #include "dir-list.h"
@@ -504,7 +503,6 @@ release_data (void)
 
 	preferences_release ();
 	eel_global_client_free ();
-	auto_compl_reset ();
 }
 
 

@@ -1,5 +1,26 @@
 2005-12-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-window-actions-callbacks.c (set_wallpaper): set wallpaper as local
+	path.
+
+	* src/dlg-open-with.c (open_cb): use gnome_vfs_mime_application_get_exec.
+	* src/dir-list.c (dir_list_refresh_continue): 
+
+	* src/main.c: 
+	* src/gth-browser.c: 
+	* src/Makefile.am (gthumb_SOURCES): removed auto-completion.[ch]
+
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c: rearranged the code.
+
+	* libgthumb/comments.c (load_comment_from_iptc)
+	(remove_comments_done): removed unused functions.  deal with iptc only supporting
+	local files.
+
+	* src/gth-browser-actions-callbacks.c (catalog_rename): 
+	* src/dlg-file-utils.c (dlg_file_rename_series): use gnome_vfs_move instead of
+	rename
+
 	* configure.in: set version to 2.7.2
 
 	* libgthumb/print-callbacks.c: use UCHAR macro.
@@ -10,8 +31,8 @@
 	* src/gth-browser.c (go_to_uri): 
 	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_bookmarks_add): 
 	* libgthumb/file-utils.c (remove_special_dirs_from_path): 
-	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): handle file://
-	uri correctly.
+	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): handle 
+	file:// uri correctly.
 
 2005-12-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

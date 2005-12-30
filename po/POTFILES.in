@@ -112,8 +112,6 @@ libgthumb/typedefs.h
 src/albumtheme.c
 src/albumtheme-private.c
 src/albumtheme-private.h
-src/auto-completion.c
-src/auto-completion.h
 src/bookmark-list.c
 src/bookmark-list.h
 src/catalog-list.c

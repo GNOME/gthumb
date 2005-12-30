@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2005 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -37,8 +37,9 @@
 #define errno_to_string() (gnome_vfs_result_to_string (gnome_vfs_result_from_errno ()))
 
 
-typedef struct _PathListData PathListData;
+/* Async directory list */
 
+typedef struct _PathListData PathListData;
 typedef void (*PathListDoneFunc) (PathListData *dld, gpointer data);
 
 struct _PathListData {
@@ -53,181 +54,131 @@ struct _PathListData {
 	gboolean          interrupted;
 };
 
-
 typedef struct {
 	GnomeVFSAsyncHandle *vfs_handle;
 	PathListData *pli_data;
 } PathListHandle;
 
+PathListData *      path_list_data_new            (void);
+void                path_list_data_free           (PathListData     *dli);
+void                path_list_handle_free         (PathListHandle   *handle);
+PathListHandle *    path_list_async_new           (const char       *uri, 
+						   PathListDoneFunc  f,
+						   gpointer          data);
+void                path_list_async_interrupt     (PathListHandle   *handle,
+						   DoneFunc          f,
+						   gpointer          data);
+gboolean            path_list_new                 (const char       *path, 
+						   GList           **files, 
+						   GList           **dirs);
+GList *             path_list_dup                 (GList            *path_list);
+void                path_list_free                (GList            *list);
+void                path_list_print               (GList            *list);
+GList *             path_list_find_path           (GList            *list, 
+						   const char       *path);
 
-PathListData *      path_list_data_new           ();
-void                path_list_data_free          (PathListData *dli);
-void                path_list_handle_free        (PathListHandle *handle);
+/* Directory utils */
 
-gboolean            path_is_file                 (const gchar *s);
+gboolean            dir_is_empty                  (const char       *s);
+gboolean            dir_make                      (const char       *directory,
+						   mode_t            mode);
+gboolean            dir_remove                    (const char       *directory);
+gboolean            dir_remove_recursive          (const char       *directory);
 
-gboolean            path_is_dir                  (const gchar *s);
+gboolean            ensure_dir_exists             (const char       *a_path,
+						   mode_t            mode);
+GList *             dir_list_filter_and_sort      (GList            *dir_list,
+						   gboolean          names_only,
+						   gboolean          show_dot_files);
 
-gboolean            dir_is_empty                 (const gchar *s);
+typedef void (*VisitFunc) (char *real_file, char *rc_file, gpointer data);
+gboolean            visit_rc_directory_sync       (const char       *rc_dir,
+						   const char       *rc_ext,
+						   const char       *dir,
+						   gboolean          recursive,
+						   VisitFunc         do_something,
+						   gpointer          data);
 
-GnomeVFSFileSize    get_file_size                (const gchar *s);
+/* File utils */ 
 
-time_t              get_file_mtime               (const gchar *s);
+gboolean            file_is_image                 (const char       *name,
+						   gboolean          fast_file_type);
+gboolean            file_is_hidden                (const char       *name);
+gboolean            file_copy                     (const char       *from, 
+						   const char       *to);
+gboolean            file_move                     (const char       *from, 
+						   const char       *to);
+gboolean            file_unlink                   (const char       *path);
+gboolean            image_is_jpeg                 (const char       *name);
+gboolean            image_is_gif                  (const char       *name);
+gboolean            image_is_gif__accurate        (const char       *name);
+gboolean            path_is_file                  (const char       *s);
+gboolean            path_is_dir                   (const char       *s);
+GnomeVFSFileSize    get_file_size                 (const char       *s);
+time_t              get_file_mtime                (const char       *s);
+time_t              get_file_ctime                (const char       *s);
+void                set_file_mtime                (const char       *s,
+						   time_t            mtime);
+long                checksum_simple               (const char       *path);
 
-time_t              get_file_ctime               (const gchar *s);
+/* URI/Path utils */
 
-void                set_file_mtime               (const gchar *s,
-						  time_t       mtime);
+const char *        get_home_uri                  (void);
+const char *        get_file_path_from_uri        (const char       *uri);
+const char *        get_catalog_path_from_uri     (const char       *uri);
+const char *        get_search_path_from_uri      (const char       *uri);
+const char *        remove_scheme_from_uri        (const char       *uri);
+char *              get_uri_scheme                (const char       *uri);
+gboolean            uri_has_scheme                (const char       *uri);
+gboolean            uri_scheme_is_file            (const char       *uri);
+gboolean            uri_scheme_is_catalog         (const char       *uri);
+gboolean            uri_scheme_is_search          (const char       *uri);
+char *              get_uri_from_path             (const char       *path);
+char *              get_uri_display_name          (const char       *uri);
 
-gboolean            file_copy                    (const gchar *from, 
-						  const gchar *to);
+G_CONST_RETURN char*file_name_from_path           (const char       *path);
+gboolean            path_in_path                  (const char       *path_src,
+						   const char       *path_dest);
 
-gboolean            file_move                    (const gchar *from, 
-						  const gchar *to);
+char *              get_path_relative_to_dir      (const char       *filename, 
+						   const char       *destdir);
+char *              remove_level_from_path        (const char       *path);
 
-gboolean            file_unlink                  (const gchar *path);
+char *              remove_ending_separator       (const char       *path);
+char *              remove_special_dirs_from_path (const char       *path);
 
-gboolean            ensure_dir_exists            (const gchar *a_path,
-						  mode_t mode);
+GnomeVFSURI *       new_uri_from_path             (const char       *path);
+char *              new_path_from_uri             (GnomeVFSURI      *uri);
+GnomeVFSResult      resolve_all_symlinks          (const char       *text_uri,
+						   char            **resolved_text_uri);
 
-gboolean            file_is_hidden               (const gchar *name);
+/* escape */
 
-G_CONST_RETURN gchar * file_name_from_path       (const gchar *path);
+char *              escape_underscore             (const char       *name);
+char *              escape_uri                    (const char       *uri);
+char *              shell_escape                  (const char       *filename);
 
-gchar *             remove_level_from_path       (const gchar *path);
+/* extesion */
 
-gchar *             remove_extension_from_path   (const gchar *path);
+gboolean            file_extension_is             (const char       *filename, 
+						   const char       *ext);
+const char *        get_filename_extension        (const char       *filename);
+char *              remove_extension_from_path    (const char       *path);
 
-gchar *             remove_ending_separator      (const gchar *path);
+/* temp */
 
-gboolean            path_in_path                 (const char  *path_src,
-						  const char  *path_dest);
+char *              get_temp_dir_name             (void);
+char *              get_temp_file_name            (const char       *ext);
 
-/* Return TRUE on success, it is up to you to free
- * the lists with path_list_free()
- */
-gboolean            path_list_new                (const gchar *path, 
-						  GList **files, 
-						  GList **dirs);
+/* VFS extensions */
 
-GList *             path_list_dup                (GList *path_list);
-
-void                path_list_free               (GList *list);
-
-void                path_list_print              (GList *list);
-
-GList *             path_list_find_path          (GList *list, 
-						  const char *path);
-
-PathListHandle *    path_list_async_new          (const gchar *uri, 
-						  PathListDoneFunc f,
-						  gpointer  data);
-
-void                path_list_async_interrupt    (PathListHandle   *handle,
-						  DoneFunc          f,
-						  gpointer          data);
-
-gboolean            visit_rc_directory           (const gchar *rc_dir,
-						  const gchar *rc_ext,
-						  const char *dir,
-						  gboolean recursive,
-						  gboolean clear_all);
-
-typedef void (*VisitFunc) (gchar *real_file, gchar *rc_file, gpointer data);
-typedef void (*VisitDoneFunc) (const GList *dir_list, gpointer data);
-
-gboolean            visit_rc_directory_sync      (const gchar *rc_dir,
-						  const gchar *rc_ext,
-						  const char *dir,
-						  gboolean recursive,
-						  VisitFunc do_something,
-						  gpointer data);
-
-void                visit_rc_directory_async     (const gchar *rc_dir,
-						  const gchar *rc_ext,
-						  const char *dir,
-						  gboolean recursive,
-						  VisitFunc do_something,
-						  VisitDoneFunc done_func,
-						  gpointer data);
-
-gboolean            dir_make                     (const gchar *directory,
-						  mode_t       mode);
-
-gboolean            dir_remove                   (const gchar *directory);
-
-gboolean            dir_remove_recursive         (const gchar *directory);
-
-gboolean            file_is_image                (const gchar *name,
-						  gboolean fast_file_type);
-
-gboolean            image_is_jpeg                (const char *name);
-
-gboolean            image_is_gif                 (const char *name);
-
-gboolean            image_is_gif__accurate       (const char *name);
-
-gboolean            file_extension_is            (const char *filename, 
-						  const char *ext);
-
-const char         *get_filename_extension       (const char *filename);
-
-long                checksum_simple              (const gchar *path);
-
-GList *             dir_list_filter_and_sort     (GList *dir_list, 
-						  gboolean names_only,
-						  gboolean show_dot_files);
-
-char*               shell_escape                 (const char *filename);
-
-char *              escape_underscore            (const char *name);
-
-char *              escape_uri                   (const char *uri);
-
-char *              get_terminal                 (gboolean with_exec_flag);
-
-char *              application_get_command      (const GnomeVFSMimeApplication *app);
-
-char *              get_path_relative_to_dir     (const char *filename, 
-						  const char *destdir);
-
-char *              remove_special_dirs_from_path (const char *path);
-     
-GnomeVFSURI *       new_uri_from_path             (const char *path);
-
-char *              new_path_from_uri             (GnomeVFSURI *uri);
-
-GnomeVFSResult      resolve_all_symlinks          (const char  *text_uri,
-						   char       **resolved_text_uri);
-
-GnomeVFSFileSize    get_dest_free_space          (const char  *path);
-
-gboolean            is_mime_type_writable        (const char *mime_type);
-
-gboolean            check_permissions            (const char *path, int mode);
-
-char *              get_temp_dir_name            (void);
-
-char *              get_temp_file_name           (const char *ext);
-
-/**/
-
-const char *        get_home_uri                 (void);
-const char *        get_file_path_from_uri       (const char *uri);
-const char *        get_catalog_path_from_uri    (const char *uri);
-const char *        get_search_path_from_uri     (const char *uri);
-const char *        remove_scheme_from_uri       (const char *uri);
-char *              get_uri_scheme               (const char *uri);
-gboolean            uri_has_scheme               (const char *uri);
-gboolean            uri_scheme_is_file           (const char *uri);
-gboolean            uri_scheme_is_catalog        (const char *uri);
-gboolean            uri_scheme_is_search         (const char *uri);
-char *              get_uri_from_path            (const char *path);
-char *              get_uri_display_name         (const char *uri);
-
-GnomeVFSResult      _gnome_vfs_read_line         (GnomeVFSHandle   *handle,
-						  gpointer          buffer,
-						  GnomeVFSFileSize  bytes,
-						  GnomeVFSFileSize *bytes_read);
+GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
+						   gpointer          buffer,
+						   GnomeVFSFileSize  bytes,
+						   GnomeVFSFileSize *bytes_read);
+GnomeVFSFileSize    get_dest_free_space           (const char       *path);
+gboolean            is_mime_type_writable         (const char       *mime_type);
+gboolean            check_permissions             (const char       *path, 
+						   int               mode);
 
 #endif /* FILE_UTILS_H */

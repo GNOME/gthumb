@@ -469,7 +469,8 @@ dir_list_refresh_continue (PathListData *pld,
 
 	/* Set the new dir list */
 
-	filtered = dir_list_filter_and_sort (new_dir_list, TRUE, 
+	filtered = dir_list_filter_and_sort (new_dir_list, 
+					     TRUE, 
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
 	/* * Add the ".." entry if the current path is not "/". 

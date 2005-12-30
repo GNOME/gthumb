@@ -39,8 +39,6 @@ gnome_gthumb_idl_stamp: GNOME_GThumb.idl $(ORBIT_IDL)
 
 gthumb_SOURCES = 				\
 	$(gnome_gthumb_idl_sources)		\
-	auto-completion.c			\
-	auto-completion.h			\
 	bookmark-list.c				\
 	bookmark-list.h				\
 	catalog-list.c				\

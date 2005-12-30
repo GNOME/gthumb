@@ -590,6 +590,7 @@ set_wallpaper (const char     *image_path,
 
 	client = gconf_client_get_default ();
 
+	image_path = get_file_path_from_uri (image_path);
 	if ((image_path == NULL) || ! path_is_file (image_path)) 
 		options = "none";
 
@@ -631,7 +632,8 @@ get_wallpaper_filename (int n)
 	char *name, *filename;
 
 	name = g_strdup_printf (".temp_wallpaper_%d.png", n);
-	filename = g_build_filename (g_get_home_dir (),
+	filename = g_build_filename ("file://",
+				     g_get_home_dir (),
 				     name,
 				     NULL);
 	g_free (name);
