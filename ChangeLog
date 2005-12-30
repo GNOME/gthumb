@@ -1,3 +1,18 @@
+2005-12-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* configure.in: set version to 2.7.2
+
+	* libgthumb/print-callbacks.c: use UCHAR macro.
+
+	* libgthumb/catalog.c: use gnome_vfs to read catalogs.
+
+	* src/gth-location.c (gth_location_set_catalog_uri): 
+	* src/gth-browser.c (go_to_uri): 
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_bookmarks_add): 
+	* libgthumb/file-utils.c (remove_special_dirs_from_path): 
+	* libgthumb/bookmarks.c (bookmarks_utils__get_menu_item_name): handle file://
+	uri correctly.
+
 2005-12-29  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-location.c: added drives to the list.

@@ -1338,12 +1338,13 @@ static void
 go_to_uri (GthBrowser  *browser,
 	   const char  *uri)
 {
-	if (! uri_scheme_is_file (uri)) {
-		const char *path = remove_scheme_from_uri (uri);
-		if (path_is_dir (path))
-			gth_browser_go_to_catalog_directory (browser, path);
+	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
+		char *file_uri = g_strconcat ("file://", remove_scheme_from_uri (uri), NULL);
+		if (path_is_dir (file_uri))
+			gth_browser_go_to_catalog_directory (browser, file_uri);
 		else
-			gth_browser_go_to_catalog (browser, path);
+			gth_browser_go_to_catalog (browser, file_uri);
+		g_free (file_uri);
 	} else 
 		gth_browser_go_to_directory (browser, uri);
 }
@@ -2467,7 +2468,7 @@ catalog_activate_continue (gpointer data)
 		}
 		is_search = catalog_list_is_search (priv->catalog_list, &iter);
 		add_history_item (browser,
-				  priv->catalog_path,
+				  remove_scheme_from_uri (priv->catalog_path),
 				  is_search ? SEARCH_PREFIX : CATALOG_PREFIX);
 	} else 
 		priv->go_op = GTH_BROWSER_GO_TO;
@@ -6968,6 +6969,7 @@ close__step6 (const char *filename,
 	last_window = gth_window_get_n_windows () == 1;
 
 	/* Save visualization options only if the window is not maximized. */
+
 	state = gdk_window_get_state (GTK_WIDGET (browser)->window);
 	maximized = (state & GDK_WINDOW_STATE_MAXIMIZED) != 0;
 	if (! maximized && GTK_WIDGET_VISIBLE (browser)) {
@@ -7000,8 +7002,8 @@ close__step6 (const char *filename,
 			location = get_uri_from_path (priv->dir_list->path);
 		else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) 
 			 && (priv->catalog_path != NULL))
-			location = g_strconcat ("catalog://",
-						priv->catalog_path,
+			location = g_strconcat (CATALOG_PREFIX,
+						remove_scheme_from_uri (priv->catalog_path),
 						NULL);
 
 		if (location != NULL) {
@@ -7797,6 +7799,8 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 	char                  *current_path;
 	gboolean               reset_history = FALSE;
 
+	g_print ("GO TO CATALOG DIR: %s\n", catalog_dir);
+
 	catalog_dir2 = remove_special_dirs_from_path (catalog_dir);
 	catalog_dir3 = remove_ending_separator (catalog_dir2);
 	g_free (catalog_dir2);
@@ -7806,7 +7810,8 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 
 	/* Go up one level until a directory exists. */
 
-	base_dir = g_strconcat (g_get_home_dir(),
+	base_dir = g_strconcat ("file://",
+				g_get_home_dir(),
 				"/",
 				RC_CATALOG_DIR,
 				NULL);
@@ -7958,8 +7963,8 @@ gth_browser_go_up__is_base_dir (GthBrowser *browser,
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		return (strcmp (dir, "/") == 0);
 	else {
-		char *catalog_base = get_catalog_full_path (NULL);
-		gboolean is_base_dir;
+		char     *catalog_base = get_catalog_full_path (NULL);
+		gboolean  is_base_dir;
 
 		is_base_dir = strcmp (dir, catalog_base) == 0;
 		g_free (catalog_base);

@@ -726,7 +726,6 @@ update_uri (GthLocation *loc,
 					RC_CATALOG_DIR,
 					NULL);
 	else {
-		g_print ("URI: %s\n", uri);
 		volume = get_volume_from_uri (loc, uri);
 		if (volume == NULL) 
 			base_uri = g_strdup ("file://");
@@ -736,12 +735,8 @@ update_uri (GthLocation *loc,
 		}
 	}
 
-	g_print ("BASE URI: %s\n", base_uri);
-
 	while (uri != NULL) {
 		char *parent;
-
-		g_print ("--> %s\n", uri);
 
 		if (loc->priv->catalog_uri) 
 			pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
@@ -834,7 +829,7 @@ gth_location_set_catalog_uri (GthLocation *loc,
 	loc->priv->catalog_uri = TRUE;
 
 	if (! uri_scheme_is_catalog (uri))
-		catalog_uri = g_strconcat (CATALOG_PREFIX, uri, NULL);
+		catalog_uri = g_strconcat (CATALOG_PREFIX, remove_scheme_from_uri (uri), NULL);
 	else
 		catalog_uri = g_strdup (uri);
 	gth_location_set_uri (loc, catalog_uri, reset_history);
@@ -879,8 +874,6 @@ gth_location_set_bookmarks (GthLocation *loc,
 		GdkPixbuf  *pixbuf;
 
 		uri_name = bookmarks_utils__get_menu_item_name (uri);
-
-		g_print ("%s -> %s\n", uri, uri_name);
 
 		pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 

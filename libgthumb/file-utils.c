@@ -1657,18 +1657,21 @@ get_path_relative_to_dir (const char *filename,
  * Note : PATH must be absolute.
  */
 char *
-remove_special_dirs_from_path (const char *path)
+remove_special_dirs_from_path (const char *uri)
 {
-	char    **pathv;
-	GList    *list = NULL, *scan;
-	int       i;
-	GString  *result_s;
-	char     *result;
+	const char  *path;
+	char       **pathv;
+	GList       *list = NULL, *scan;
+	int          i;
+	GString     *result_s;
+	char        *scheme;
+	char        *result;
 
-	if ((path == NULL) || (*path != '/'))
-		return NULL;
+	path = remove_scheme_from_uri (uri);
 
-	if (strstr (path, ".") == NULL)
+	if ((path == NULL) 
+	    || (*path != '/')
+	    || (strstr (path, ".") == NULL))
 		return g_strdup (path);
 
 	pathv = g_strsplit (path, "/", 0);
@@ -1689,6 +1692,11 @@ remove_special_dirs_from_path (const char *path)
 	}
 
 	result_s = g_string_new (NULL);
+	scheme = get_uri_scheme (uri);
+	if (scheme != NULL) {
+		g_string_append (result_s, scheme);
+		g_free (scheme);
+	}
 	if (list == NULL)
 		g_string_append_c (result_s, '/');
 	else {
@@ -1917,6 +1925,16 @@ get_temp_file_name (const char *ext)
 
 
 const char *
+get_home_uri (void)
+{
+	static char *home_uri = NULL;
+	if (home_uri == NULL)
+		home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
+	return home_uri;
+}
+
+
+const char *
 get_file_path_from_uri (const char *uri)
 {
 	if (uri_scheme_is_file (uri))
@@ -1947,7 +1965,7 @@ get_search_path_from_uri (const char *uri)
 
 
 const char *
-remove_scheme_from_uri (const char*uri)
+remove_scheme_from_uri (const char *uri)
 {
 	const char *idx;
 
@@ -1955,6 +1973,25 @@ remove_scheme_from_uri (const char*uri)
 	if (idx == NULL)
 		return uri;
 	return idx + 3;
+}
+
+
+char *
+get_uri_scheme (const char *uri)
+{
+	const char *idx;
+
+	idx = strstr (uri, "://");
+	if (idx == NULL)
+		return NULL;
+	return g_strndup (uri, (idx - uri) + 3);
+}
+
+
+gboolean
+uri_has_scheme (const char *uri)
+{
+	return strstr (uri, "://") != NULL;
 }
 
 
@@ -2010,4 +2047,42 @@ char *
 get_uri_display_name (const char *uri)
 {
 	return NULL;
+}
+
+
+GnomeVFSResult
+_gnome_vfs_read_line (GnomeVFSHandle   *handle,
+		      gpointer          buffer,
+		      GnomeVFSFileSize  bytes,
+		      GnomeVFSFileSize *bytes_read)
+{
+	GnomeVFSResult    result = GNOME_VFS_OK;
+	GnomeVFSFileSize  offset = 0;
+	GnomeVFSFileSize  file_offset;
+	GnomeVFSFileSize  priv_bytes_read = 0;
+	char             *eol = NULL;
+
+	result = gnome_vfs_tell (handle, &file_offset);
+
+	((char*)buffer)[0] = '\0';
+
+	while ((result == GNOME_VFS_OK) && (eol == NULL)) {
+		if (bytes - offset <= 0)
+			return GNOME_VFS_ERROR_INTERNAL;
+		result = gnome_vfs_read (handle, buffer + offset, bytes - offset, &priv_bytes_read);
+		if (result != GNOME_VFS_OK)
+			break;
+		eol = strchr ((char*)buffer + offset, '\n');
+		if (eol != NULL) {
+			GnomeVFSFileSize line_size = eol - (char*)buffer;
+			*eol = '\0';
+			gnome_vfs_seek (handle, GNOME_VFS_SEEK_START, file_offset + line_size + 1);
+			if (bytes_read != NULL)
+				*bytes_read = line_size;
+		} 
+		else 
+			offset += priv_bytes_read;
+	}
+
+	return result;
 }

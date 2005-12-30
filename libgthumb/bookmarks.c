@@ -97,17 +97,17 @@ bookmarks_free (Bookmarks *bookmarks)
 
 
 char *
-bookmarks_utils__get_menu_item_name (const char *path)
+bookmarks_utils__get_menu_item_name (const char *uri)
 {
 	char     *tmp_path;
 	gboolean  catalog_or_search;
 	char     *name;
 
-	tmp_path = g_strdup (remove_scheme_from_uri (path));
+	tmp_path = g_strdup (remove_scheme_from_uri (uri));
 
 	/* if it is a catalog then remove the extension */
 	
-	catalog_or_search = uri_scheme_is_catalog (path) || uri_scheme_is_search (path);
+	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
 	if (catalog_or_search)
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 			 
@@ -117,29 +117,30 @@ bookmarks_utils__get_menu_item_name (const char *path)
 		name = g_strdup (_("File System"));
 	else {
 		if (catalog_or_search) {
-			char *base_path;
-			int   l;
+			char *base_uri;
+			int   base_uri_len;
 
-			base_path = get_catalog_full_path (NULL);
-			l = strlen (base_path);
-			g_free (base_path);
+			base_uri = get_catalog_full_path (NULL);
+			base_uri_len = strlen (remove_scheme_from_uri (base_uri));
+			g_free (base_uri);
 
-			name = g_strdup (tmp_path + 1 + l);
+			name = g_strdup (tmp_path + 1 + base_uri_len);
 		} else {
 			const char *base_path;
-			int         l;
+			int         base_path_len;
 			
-			base_path = g_get_home_dir ();
-			l = strlen (base_path);
+			if (uri_has_scheme (uri))
+				base_path = get_home_uri ();
+			else
+				base_path = g_get_home_dir ();
+			base_path_len = strlen (base_path);
 			
-			if (strncmp (tmp_path, base_path, l) == 0) {
-				int tmp_l = strlen (tmp_path);
-				if (tmp_l == l)
+			if (strncmp (uri, base_path, base_path_len) == 0) {
+				int uri_len = strlen (uri);
+				if (uri_len == base_path_len)
 					name = g_strdup (_("Home"));
-				else if (tmp_l > l)
-					name = g_strdup (tmp_path + 1 + l);
-				else
-					name = g_strdup (file_name_from_path (base_path));
+				else if (uri_len > base_path_len)
+					name = g_strdup (uri + 1 + base_path_len);
 			} else
 				name = g_strdup (tmp_path);
 		}

@@ -36,7 +36,7 @@
 #include "gthumb-error.h"
 
 
-#define SEARCH_HEADER "# Search\n"
+#define SEARCH_HEADER "# Search"
 #define SORT_FIELD "# sort: "
 #define MAX_LINE_LENGTH 4096
 
@@ -59,7 +59,8 @@ get_catalog_full_path (const char *relative_path)
 	else
 		separator = (relative_path[0] == '/') ? "" : "/";
 
-	path = g_strconcat (g_get_home_dir (),
+	path = g_strconcat ("file://",
+			    g_get_home_dir (),
 			    "/",
 			    RC_CATALOG_DIR,
 			    separator,
@@ -235,30 +236,31 @@ catalog_is_search_result (Catalog *catalog)
 static void
 copy_unquoted (char *unquoted, char *line)
 {
-	gint l = strlen (line);
+	int len = strlen (line);
 
-	strncpy (unquoted, line + 1, l - 3);
-	unquoted[l - 3] = 0;
+	strncpy (unquoted, line + 1, len - 2);
+	unquoted[len - 2] = 0;
 }
 
 
 gboolean
 catalog_load_from_disk (Catalog     *catalog,
-			const char  *fullpath,
+			const char  *uri,
 			GError     **gerror)
 {
-	FILE     *f;
-	char      line[MAX_LINE_LENGTH];
-	gboolean  file_list = FALSE;
+	GnomeVFSResult  result;
+	GnomeVFSHandle *handle;
+	char            line[MAX_LINE_LENGTH];
+	gboolean        file_list = FALSE;
 
-	f = fopen (fullpath, "r");
-	if (f == NULL) {
+	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK) {
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,
-					       errno,
+					       result,
 					       _("Cannot open catalog \"%s\": %s"),
-					       fullpath,
-					       errno_to_string ());
+					       uri,
+					       gnome_vfs_result_to_string (result));
 		return FALSE;
 	}
 
@@ -269,7 +271,7 @@ catalog_load_from_disk (Catalog     *catalog,
 	if (catalog->search_data != NULL)
 		search_data_free (catalog->search_data);
 
-	catalog->path = g_strdup (fullpath);
+	catalog->path = g_strdup (uri);
 	catalog->list = NULL;
 	catalog->search_data = NULL;
 
@@ -304,7 +306,10 @@ catalog_load_from_disk (Catalog     *catalog,
 	 *    "filename_n"
 	 *   
 	 */
-	while (fgets (line, sizeof (line), f)) {
+	while ((result = _gnome_vfs_read_line (handle, 
+					       line, 
+					       sizeof (line), 
+					       NULL)) == GNOME_VFS_OK) {
 		char *file_name;
 
 		if (*line == 0)
@@ -324,41 +329,41 @@ catalog_load_from_disk (Catalog     *catalog,
 
 			/* * start from */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			copy_unquoted (unquoted, line);
 			search_data_set_start_from (catalog->search_data,
 						    unquoted);
 
 			/* * recursive */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			copy_unquoted (unquoted, line);
 			search_data_set_recursive (catalog->search_data, strcmp (unquoted, "TRUE") == 0);
 
 			/* * file pattern */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			copy_unquoted (unquoted, line);
 			search_data_set_file_pattern (catalog->search_data,
 						      unquoted);
 
 			/* * comment pattern */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			copy_unquoted (unquoted, line);
 			search_data_set_comment_pattern (catalog->search_data,
 							 unquoted);
 
 			/* * place pattern */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			copy_unquoted (unquoted, line);
 			search_data_set_place_pattern (catalog->search_data,
 						       unquoted);
 
 			/* * keywords pattern */
 
-			fgets (line, sizeof (line), f);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			if (*line != '"') {
 				line_ofs = 1;
 				/* * all keywords */
@@ -371,12 +376,14 @@ catalog_load_from_disk (Catalog     *catalog,
 
 			/* * date */
 
-			fscanf (f, "%ld\n", &date);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			sscanf (line, "%ld", &date);
 			search_data_set_date (catalog->search_data, date);
 
 			/* * date scope */
 
-			fscanf (f, "%d\n", &date_scope);
+			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
+			sscanf (line, "%d", &date_scope);
 			search_data_set_date_scope (catalog->search_data, 
 						    date_scope);
 
@@ -403,10 +410,11 @@ catalog_load_from_disk (Catalog     *catalog,
 		}
 
 		file_list  = TRUE;
-		file_name = g_strndup (line + 1, strlen (line) - 3);
+		file_name = g_strndup (line + 1, strlen (line) - 2);
 		catalog->list = g_list_prepend (catalog->list, file_name);
 	}
-	fclose (f);
+
+	gnome_vfs_close (handle);
 
 	catalog->list = g_list_reverse (catalog->list);
 

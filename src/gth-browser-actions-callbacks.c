@@ -1882,7 +1882,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 			prefix = g_strdup (CATALOG_PREFIX);
 		catalog_path = catalog_list_get_path_from_iter (catalog_list, &iter);
 		
-		path = g_strconcat (prefix, catalog_path, NULL);
+		path = g_strconcat (prefix, remove_scheme_from_uri (catalog_path), NULL);
 
 		g_free (catalog_path);
 		g_free (prefix);
