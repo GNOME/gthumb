@@ -940,18 +940,28 @@ set_file_mtime (const gchar *path,
 
 
 long 
-checksum_simple (const gchar *path)
+checksum_simple (const char *path)
 {
-	FILE *f;
-	long sum = 0;
-	gint c;
+	GnomeVFSHandle   *handle;
+	GnomeVFSResult    result;
+	char              buffer[1024];
+	GnomeVFSFileSize  bytes_read;
+	long              sum = 0;
 
-	f = fopen (path, "r");
-	if (!f) return -1;
+	result = gnome_vfs_open (&handle, path, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK)
+		return -1;
 
-	while ((c = fgetc (f)) != EOF)
-		sum += c;
-	fclose (f);
+	while (gnome_vfs_read (handle, 
+			       buffer, 
+			       1024, 
+			       &bytes_read) == GNOME_VFS_OK) {
+		int i;
+		for (i = 0; i < bytes_read; i++)
+			sum += buffer[i];
+	}
+
+	gnome_vfs_close (handle);
 
 	return sum;
 }

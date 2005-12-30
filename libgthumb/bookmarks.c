@@ -26,6 +26,7 @@
 #include <errno.h>
 
 #include <glib/gi18n.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "typedefs.h"
 #include "bookmarks.h"
@@ -33,7 +34,7 @@
 #include "file-utils.h"
 #include "preferences.h"
 
-
+#define MAX_LINE_LENGTH 4096
 #define MAX_LINES 100
 
 
@@ -345,13 +346,13 @@ bookmarks_remove_all (Bookmarks *bookmarks)
 }
 
 
-#define MAX_LINE_LENGTH 4096
 void
 bookmarks_load_from_disk (Bookmarks *bookmarks)
 {
-	gchar  line [MAX_LINE_LENGTH];
-	gchar *path;
-	FILE  *f;
+	GnomeVFSResult  result;
+	GnomeVFSHandle *handle;
+	char           *uri;
+	char            line [MAX_LINE_LENGTH];
 
 	g_return_if_fail (bookmarks != NULL);
 
@@ -359,23 +360,26 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 	if (bookmarks->rc_filename == NULL)
 		return;
 
-	path = g_strconcat (g_get_home_dir (),
-			    "/",
-			    bookmarks->rc_filename,
-			    NULL);
+	uri = g_strconcat (get_home_uri (),
+			   "/",
+			   bookmarks->rc_filename,
+			   NULL);
+	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
+	g_free (uri);
 
-	f = fopen (path, "r");
-	g_free (path);
+	if (result != GNOME_VFS_OK)
+		return;
 
-	if (!f)	return;
-
-	while (fgets (line, sizeof (line), f)) {
+	while (_gnome_vfs_read_line (handle,
+				     line,
+				     128,
+				     NULL) == GNOME_VFS_OK) {
 		char *path;
 
 		if (line[0] != '"')
 			continue;
 
-		line[strlen (line) - 2] = 0;
+		line[strlen (line) - 1] = 0;
 		path = line + 1;
 
 		bookmarks->list = g_list_prepend (bookmarks->list, 
@@ -388,56 +392,55 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 			   path, 
 			   get_menu_item_tip (path));
 	}
-	fclose (f);
+
+	gnome_vfs_close (handle);
 
 	bookmarks->list = g_list_reverse (bookmarks->list);
 }
-#undef MAX_LINE_LENGTH	
 
 
 void
 bookmarks_write_to_disk (Bookmarks *bookmarks)
 {
-	FILE *f;
-	gchar *path;
-	GList *scan;
-	gint lines;
+	GnomeVFSResult  result;
+	GnomeVFSHandle *handle;
+	char           *uri;
+	int             lines;
+	GList          *scan;
 
 	g_return_if_fail (bookmarks != NULL);
+
 	if (bookmarks->rc_filename == NULL)
 		return;
 
-	path = g_strconcat (g_get_home_dir (),
-			    "/",
-			    bookmarks->rc_filename,
-			    NULL);
+	uri = g_strconcat (get_home_uri (),
+			   "/",
+			   bookmarks->rc_filename,
+			   NULL);
+	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_WRITE);
+	g_free (uri);
 
-	f = fopen (path, "w+");
-	g_free (path);
-	
-	if (!f)	{
-		g_print ("ERROR opening bookmark file\n");
+	if (result != GNOME_VFS_OK)
 		return;
-	}
-	
+
 	/* write the file list. */
+
 	lines = 0;
 	scan = bookmarks->list; 
 	while (((bookmarks->max_lines < 0) || (lines < bookmarks->max_lines)) 
-	       && scan) {
-		if (! fprintf (f, "\"%s\"\n", (gchar*) scan->data)) {
+	       && (scan != NULL)) {
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
+					   (char*) scan->data) != GNOME_VFS_OK) {
 			g_print ("ERROR saving to bookmark file\n");
-			fclose (f);
-			
-			return;
+			break;
 		}
 		lines++;
 		scan = scan->next;
 	}
 
-	fclose (f);
+	gnome_vfs_close (handle);
 }
-#undef lines
 
 
 const gchar *

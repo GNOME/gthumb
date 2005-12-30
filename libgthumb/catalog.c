@@ -29,6 +29,7 @@
 
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
+
 #include "catalog.h"
 #include "typedefs.h"
 #include "file-utils.h"

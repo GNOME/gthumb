@@ -1,7 +1,11 @@
 2005-12-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/bookmarks.c (bookmarks_write_to_disk)
+	(bookmarks_load_from_disk): 
+	* libgthumb/file-utils.c (checksum_simple): implemeted using gnome_vfs.
+
 	* src/gth-browser.c (make_url_list): 
-	* libgthumb/file-utils.c: 
+	* libgthumb/file-utils.c:
 	* libgthumb/catalog.h: 
 	* libgthumb/catalog.c: save catalogs using gnome_vfs
 

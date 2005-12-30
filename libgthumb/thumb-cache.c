@@ -275,6 +275,10 @@ get_real_name_from_nautilus_cache (const char *cache_path)
 	png_textp      text_ptr = NULL;
 	int            num_texts;
 	
+	cache_path = get_file_path_from_uri (cache_path);
+	if (cache_path == NULL)
+		return NULL;
+
 	f = fopen (cache_path, "r");
 	
 	if (f == NULL)
