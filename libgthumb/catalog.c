@@ -187,7 +187,7 @@ catalog_load_from_disk__common (Catalog     *catalog,
 	 */
 	while ((result = _gnome_vfs_read_line (handle, 
 					       line, 
-					       64, 
+					       MAX_LINE_LENGTH, 
 					       NULL)) == GNOME_VFS_OK) {
 		char *file_name;
 

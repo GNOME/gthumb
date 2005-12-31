@@ -183,7 +183,7 @@ char *              get_temp_file_name            (const char       *ext);
 
 GnomeVFSResult      _gnome_vfs_read_line          (GnomeVFSHandle   *handle,
 						   gpointer          buffer,
-						   GnomeVFSFileSize  bytes,
+						   GnomeVFSFileSize  buffer_size,
 						   GnomeVFSFileSize *bytes_read);
 GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,

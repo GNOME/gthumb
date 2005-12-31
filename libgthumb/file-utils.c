@@ -49,6 +49,7 @@
 
 
 #define BUF_SIZE 4096
+#define CHUNK_SIZE 128
 #define MAX_SYMLINKS_FOLLOWED 32
 
 
@@ -1852,7 +1853,7 @@ get_temp_file_name (const char *ext)
 GnomeVFSResult
 _gnome_vfs_read_line (GnomeVFSHandle   *handle,
 		      gpointer          buffer,
-		      GnomeVFSFileSize  bytes,
+		      GnomeVFSFileSize  buffer_size,
 		      GnomeVFSFileSize *bytes_read)
 {
 	GnomeVFSResult    result = GNOME_VFS_OK;
@@ -1866,9 +1867,10 @@ _gnome_vfs_read_line (GnomeVFSHandle   *handle,
 	((char*)buffer)[0] = '\0';
 
 	while ((result == GNOME_VFS_OK) && (eol == NULL)) {
-		if (bytes - offset <= 0)
+		if (offset + CHUNK_SIZE >= buffer_size)
 			return GNOME_VFS_ERROR_INTERNAL;
-		result = gnome_vfs_read (handle, buffer + offset, bytes - offset, &priv_bytes_read);
+
+		result = gnome_vfs_read (handle, buffer + offset, CHUNK_SIZE, &priv_bytes_read);
 		if (result != GNOME_VFS_OK)
 			break;
 		eol = strchr ((char*)buffer + offset, '\n');

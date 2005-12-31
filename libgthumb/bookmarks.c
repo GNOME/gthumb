@@ -316,7 +316,7 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 
 	while (_gnome_vfs_read_line (handle,
 				     line,
-				     128,
+				     MAX_LINE_LENGTH,
 				     NULL) == GNOME_VFS_OK) {
 		char *path;
 

@@ -1,5 +1,13 @@
 2005-12-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/catalog.c (catalog_load_from_disk__common): 
+	* libgthumb/bookmarks.c (bookmarks_load_from_disk): 
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c (_gnome_vfs_read_line): 
+
+	keep reading the file until a new line character is found.
+	use the third argument to define the buffer size.
+
 	* NEWS: updated for 2.7.2
 
 	* src/gth-location.c (update_drives): 
