@@ -1,5 +1,9 @@
 2005-12-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-image-list.c (get_drop_target_at): 
+	add the vertical and horizontal adjustment when
+	calculating the target position.
+
 	* libgthumb/catalog.c (catalog_load_from_disk__common): 
 	* libgthumb/bookmarks.c (bookmarks_load_from_disk): 
 	* libgthumb/file-utils.h: 

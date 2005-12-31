@@ -4410,6 +4410,9 @@ get_drop_target_at (GthImageList *image_list,
 	int                  height, row, col;
 	int                  items_per_line;
 
+	x += gtk_adjustment_get_value (image_list->priv->hadjustment);
+	y += gtk_adjustment_get_value (image_list->priv->vadjustment);
+
 	row = -1;
 	height = priv->row_spacing;
 	for (scan = priv->lines; scan && (height < y); scan = scan->next) {
