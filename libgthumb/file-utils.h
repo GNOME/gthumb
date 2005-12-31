@@ -135,7 +135,6 @@ gboolean            uri_scheme_is_catalog         (const char       *uri);
 gboolean            uri_scheme_is_search          (const char       *uri);
 char *              get_uri_from_path             (const char       *path);
 char *              get_uri_display_name          (const char       *uri);
-
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
 gboolean            path_in_path                  (const char       *path_src,
 						   const char       *path_dest);
@@ -151,6 +150,16 @@ GnomeVFSURI *       new_uri_from_path             (const char       *path);
 char *              new_path_from_uri             (GnomeVFSURI      *uri);
 GnomeVFSResult      resolve_all_symlinks          (const char       *text_uri,
 						   char            **resolved_text_uri);
+
+/* Catalogs */
+
+char *              get_catalog_full_path         (const char       *relative_path);
+gboolean            delete_catalog_dir            (const char       *full_path, 
+						   gboolean          recursive,
+						   GError          **error);
+gboolean            delete_catalog                (const char       *full_path,
+						   GError          **error);
+gboolean            file_is_search_result         (const char       *full_path);
 
 /* escape */
 

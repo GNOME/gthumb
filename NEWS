@@ -1,3 +1,33 @@
+version 2.7.2
+-------------
+	* Crossfading in slideshow mode (#312116)
+	* Removed the location entry.  Use a specialized combobox with the 
+          parent folders, drives and bookmarks (#324970)
+	* Added ability to select the image type in the scale series dialog.
+	* Adjust photo orientation on import.
+	* Use a more accurate method to check whether an image is a gif 
+          animation.
+	* Updated the Wiki web album theme.
+	* Use gnome-vfs as much as possible.
+	* Use p as keyword shortcut to pause/resume a slideshow.
+	* Fixed bug #301726 – "Create Web Album" does not use relative 
+	  paths for images.
+	* Fixed bug #310649 – Next/prev keyboard shortcuts in slides mode 
+	  shouldn't block
+	* Fixed bug #319467 – Add keyboard shortcut to Lossless JPEG rotation.
+	* Fixed bug #323872 – Import button should be greyed out while importing
+	* Fixed bug #324812 – rotating images not working in gthumb fullscreen 
+	  mode.
+	* Fixed bug #318828: Exif Orientation Tag Incorrectly Updated.
+	* Fixed bug #322158: please add a generic name to the desktop file
+	* Fixed bug #321924: "Sigle Window" is a typo
+	* Fixed bug #321500: Makefile.am in components/catalog-view is broken
+	* Fixed bug #305165: gthumb crash resize.
+	* Fixed bug #321124: Confusing handling of --disable-schemas-install
+	* Fixed bug #320947: Create Web Album Tool doesn't generate HTML pages 
+	  with International characters.
+	* Fixed bug #321274: Incorrect log2 definition/detection.
+
 version 2.7.1
 -------------
 	* Requires gtk+ >= 2.6.0 and glib >= 2.6.0.  Use gtk_about_dialog, 

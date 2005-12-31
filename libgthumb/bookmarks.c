@@ -97,62 +97,6 @@ bookmarks_free (Bookmarks *bookmarks)
 }
 
 
-char *
-bookmarks_utils__get_menu_item_name (const char *uri)
-{
-	char     *tmp_path;
-	gboolean  catalog_or_search;
-	char     *name;
-
-	tmp_path = g_strdup (remove_scheme_from_uri (uri));
-
-	/* if it is a catalog then remove the extension */
-	
-	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
-	if (catalog_or_search)
-		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
-			 
-	if ((tmp_path == NULL) 
-	    || (strcmp (tmp_path, "") == 0)
-	    || (strcmp (tmp_path, "/") == 0))
-		name = g_strdup (_("File System"));
-	else {
-		if (catalog_or_search) {
-			char *base_uri;
-			int   base_uri_len;
-
-			base_uri = get_catalog_full_path (NULL);
-			base_uri_len = strlen (remove_scheme_from_uri (base_uri));
-			g_free (base_uri);
-
-			name = g_strdup (tmp_path + 1 + base_uri_len);
-		} else {
-			const char *base_path;
-			int         base_path_len;
-			
-			if (uri_has_scheme (uri))
-				base_path = get_home_uri ();
-			else
-				base_path = g_get_home_dir ();
-			base_path_len = strlen (base_path);
-			
-			if (strncmp (uri, base_path, base_path_len) == 0) {
-				int uri_len = strlen (uri);
-				if (uri_len == base_path_len)
-					name = g_strdup (_("Home"));
-				else if (uri_len > base_path_len)
-					name = g_strdup (uri + 1 + base_path_len);
-			} else
-				name = g_strdup (tmp_path);
-		}
-	}
-	
-	g_free (tmp_path);
-	
-	return name;
-}
-
-
 static char *
 get_menu_item_tip (const char *path)
 {	
@@ -242,7 +186,7 @@ bookmarks_add (Bookmarks   *bookmarks,
 
 	my_insert (bookmarks->names, 
 		   path, 
-		   bookmarks_utils__get_menu_item_name (path));
+		   get_uri_display_name (path));
 
 	my_insert (bookmarks->tips, 
 		   path, 
@@ -386,7 +330,7 @@ bookmarks_load_from_disk (Bookmarks *bookmarks)
 						  g_strdup (path));
 		my_insert (bookmarks->names, 
 			   path, 
-			   bookmarks_utils__get_menu_item_name (path));
+			   get_uri_display_name (path));
 
 		my_insert (bookmarks->tips, 
 			   path, 

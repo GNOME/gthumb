@@ -32,7 +32,6 @@
 #include <libgnomevfs/gnome-vfs-volume.h>
 #include <libgnomevfs/gnome-vfs-volume-monitor.h>
 
-#include "bookmarks.h"
 #include "file-utils.h"
 #include "glib-utils.h"
 #include "gtk-utils.h"
@@ -570,7 +569,7 @@ update_drives (GthLocation *loc)
 	
 	uri = g_strconcat ("file://", g_get_home_dir(), NULL);
 	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
-	uri_name = bookmarks_utils__get_menu_item_name (uri);
+	uri_name = get_uri_display_name (uri);
 	gtk_list_store_insert (loc->priv->model, &iter, pos++);
 	gtk_list_store_set (loc->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
@@ -586,7 +585,7 @@ update_drives (GthLocation *loc)
 
 	uri = "file://";
 	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
-	uri_name = bookmarks_utils__get_menu_item_name (uri);
+	uri_name = get_uri_display_name (uri);
 	gtk_list_store_insert (loc->priv->model, &iter, pos++);
 	gtk_list_store_set (loc->priv->model, &iter,
 			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
@@ -873,7 +872,7 @@ gth_location_set_bookmarks (GthLocation *loc,
 		char       *uri_name;
 		GdkPixbuf  *pixbuf;
 
-		uri_name = bookmarks_utils__get_menu_item_name (uri);
+		uri_name = get_uri_display_name (uri);
 
 		pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 

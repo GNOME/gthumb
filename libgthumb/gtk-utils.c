@@ -839,3 +839,12 @@ create_image (GtkIconTheme  *icon_theme,
 
 	return icon;
 }
+
+
+int
+_gtk_widget_get_height (GtkWidget *widget)
+{
+	int w, h;
+	gdk_drawable_get_size (widget->window, &w, &h);
+	return h;
+}

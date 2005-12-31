@@ -43,6 +43,7 @@
 #include <gconf/gconf-client.h>
 
 #include "gthumb-init.h"
+#include "gthumb-error.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
 
@@ -51,7 +52,7 @@
 #define MAX_SYMLINKS_FOLLOWED 32
 
 
-/* -- path_list_async_new implementation -- */
+/* Async directory list */
 
 
 PathListData * 
@@ -340,6 +341,9 @@ path_list_find_path (GList *list, const char *path)
 }
 
 
+/* Directory utils */
+
+
 gboolean
 dir_is_empty (const gchar *path)
 {
@@ -603,6 +607,9 @@ get_sample_name (const char *filename)
 		return NULL;
 	return g_strconcat ("a", get_extension (filename), NULL);
 }
+
+
+/* File utils */ 
 
 
 gboolean
@@ -967,6 +974,9 @@ checksum_simple (const char *path)
 }
 
 
+/* URI/Path utils */
+
+
 const char *
 get_home_uri (void)
 {
@@ -1089,7 +1099,56 @@ get_uri_from_path (const char *path)
 char *
 get_uri_display_name (const char *uri)
 {
-	return NULL;
+	char     *tmp_path;
+	gboolean  catalog_or_search;
+	char     *name;
+
+	tmp_path = g_strdup (remove_scheme_from_uri (uri));
+
+	/* if it is a catalog then remove the extension */
+	
+	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
+	if (catalog_or_search)
+		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
+			 
+	if ((tmp_path == NULL) 
+	    || (strcmp (tmp_path, "") == 0)
+	    || (strcmp (tmp_path, "/") == 0))
+		name = g_strdup (_("File System"));
+	else {
+		if (catalog_or_search) {
+			char *base_uri;
+			int   base_uri_len;
+
+			base_uri = get_catalog_full_path (NULL);
+			base_uri_len = strlen (remove_scheme_from_uri (base_uri));
+			g_free (base_uri);
+
+			name = g_strdup (tmp_path + 1 + base_uri_len);
+		} else {
+			const char *base_path;
+			int         base_path_len;
+			
+			if (uri_has_scheme (uri))
+				base_path = get_home_uri ();
+			else
+				base_path = g_get_home_dir ();
+			base_path_len = strlen (base_path);
+			
+			if (strncmp (uri, base_path, base_path_len) == 0) {
+				int uri_len = strlen (uri);
+				if (uri_len == base_path_len)
+					name = g_strdup (_("Home"));
+				else if (uri_len > base_path_len)
+					name = g_strdup (uri + 1 + base_path_len);
+			} else
+				name = g_strdup (tmp_path);
+		}
+	}
+	
+	g_free (tmp_path);
+	
+	return name;
 }
 
 
@@ -1436,6 +1495,135 @@ resolve_all_symlinks (const char  *text_uri,
 }
 
 
+/* Catalogs */
+
+
+char *
+get_catalog_full_path (const char *relative_path)
+{
+	char *path;
+	char *separator;
+
+	/* Do not allow .. in the relative_path otherwise the user can go
+	 * to any directory, while he shouldn't exit from RC_CATALOG_DIR. */
+	if ((relative_path != NULL) && (strstr (relative_path, "..") != NULL))
+		return NULL;
+
+	if (relative_path == NULL)
+		separator = NULL;
+	else
+		separator = (relative_path[0] == '/') ? "" : "/";
+
+	path = g_strconcat ("file://",
+			    g_get_home_dir (),
+			    "/",
+			    RC_CATALOG_DIR,
+			    separator,
+			    relative_path,
+			    NULL);
+
+	return path;
+}
+
+
+gboolean
+delete_catalog_dir (const char  *full_path, 
+		    gboolean     recursive,
+		    GError     **gerror)
+{
+	if (dir_remove (full_path))
+		return TRUE;
+
+	if (gerror != NULL) {
+		const char *rel_path;
+		char       *base_path;
+		char       *utf8_path;
+		const char *details;
+
+		base_path = get_catalog_full_path (NULL);
+		rel_path = full_path + strlen (base_path) + 1;
+		g_free (base_path);
+
+		utf8_path = g_filename_display_name (rel_path);
+
+		switch (gnome_vfs_result_from_errno ()) {
+		case GNOME_VFS_ERROR_DIRECTORY_NOT_EMPTY:
+			details = _("Library not empty");
+			break;
+		default:
+			details = errno_to_string ();
+			break;
+		}
+
+		*gerror = g_error_new (GTHUMB_ERROR,
+				       errno,
+				       _("Cannot remove library \"%s\": %s"),
+				       utf8_path,
+				       details);
+		g_free (utf8_path);
+	}
+
+	return FALSE;
+}
+
+
+gboolean
+delete_catalog (const char  *full_path,
+		GError     **gerror)
+{
+	if (! file_unlink (full_path)) {
+		if (gerror != NULL) {
+			const char *rel_path;
+			char       *base_path;
+			char       *catalog;			
+
+			base_path = get_catalog_full_path (NULL);
+			rel_path = full_path + strlen (base_path) + 1;
+			g_free (base_path);
+			catalog = remove_extension_from_path (rel_path);
+
+			*gerror = g_error_new (GTHUMB_ERROR,
+					       errno,
+					       _("Cannot remove catalog \"%s\": %s"),
+					       catalog,
+					       errno_to_string ());
+			g_free (catalog);
+		}
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+gboolean
+file_is_search_result (const char *fullpath)
+{
+	GnomeVFSResult  r;
+	char           *epath;
+	GnomeVFSHandle *handle;
+	char            line[50] = "";
+
+	epath = escape_uri (fullpath);
+	r = gnome_vfs_open (&handle, epath, GNOME_VFS_OPEN_READ);
+	g_free (epath);
+
+	if (r != GNOME_VFS_OK)
+		return FALSE;
+
+	r = gnome_vfs_read (handle, line, strlen (SEARCH_HEADER), NULL);
+	gnome_vfs_close (handle);
+
+	if ((r != GNOME_VFS_OK) || (line[0] == 0))
+		return FALSE;
+
+	return strncmp (line, SEARCH_HEADER, strlen (SEARCH_HEADER)) == 0;
+}
+
+
+/* escape */
+
+
 char *
 escape_underscore (const char *name)
 {
@@ -1565,6 +1753,9 @@ shell_escape (const gchar *filename)
 }
 
 
+/* extesion */
+
+
 gboolean
 file_extension_is (const char *filename, 
 		   const char *ext)
@@ -1612,6 +1803,9 @@ remove_extension_from_path (const char *path)
 }
 
 
+/* temp */
+
+
 char *
 get_temp_dir_name (void)
 {
@@ -1650,6 +1844,9 @@ get_temp_file_name (const char *ext)
 	
 	return filename;
 }
+
+
+/* VFS extensions */
 
 
 GnomeVFSResult

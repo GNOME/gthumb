@@ -38,18 +38,6 @@ typedef struct {
 } Catalog;
 
 
-/* utility functions to manipulate catalogs files and dirs. */
-
-
-char *    get_catalog_full_path              (const char  *relative_path);
-gboolean  delete_catalog_dir                 (const char  *full_path, 
-					      gboolean     recursive,
-					      GError     **error);
-gboolean  delete_catalog                     (const char  *full_path,
-					      GError     **error);
-gboolean  file_is_search_result              (const char  *full_path);
-
-
 /* functions to use the Catalog structure. */
 
 

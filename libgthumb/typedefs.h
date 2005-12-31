@@ -34,6 +34,8 @@
 #define CATALOG_PREFIX_L 10
 #define SEARCH_PREFIX_L  9
 
+#define SEARCH_HEADER "# Search"
+
 #define RC_DIR                    ".gnome2/gthumb"
 
 #define RC_CATALOG_DIR            ".gnome2/gthumb/collections"

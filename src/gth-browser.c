@@ -287,6 +287,7 @@ static GthWindowClass *parent_class = NULL;
 
 #define DEF_WIN_WIDTH          690
 #define DEF_WIN_HEIGHT         460
+#define DEFAULT_COMMENT_PANE_SIZE 100
 #define DEF_SIDEBAR_SIZE       255
 #define DEF_SIDEBAR_CONT_SIZE  190
 #define PRELOADED_IMAGE_MAX_SIZE (1.5*1024*1024)
@@ -693,11 +694,11 @@ window_update_title (GthBrowser *browser)
 	if (path == NULL) {
 		if ((priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		    && (priv->dir_list->path != NULL)) {
-			char *path = g_filename_display_name (priv->dir_list->path);
-			if (path == NULL)
-				path = g_strdup (_("(Invalid Name)"));
-			info_txt = g_strconcat (path, " ", modified, NULL);
-			g_free (path);
+			char *dir_name = get_uri_display_name (priv->dir_list->path);
+			char *display_name = g_filename_display_name (dir_name);
+			info_txt = g_strconcat (display_name, " ", modified, NULL);
+			g_free (dir_name);
+			g_free (display_name);
 
 		} else if ((priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST)
 			   && (priv->catalog_path != NULL)) {
@@ -716,9 +717,6 @@ window_update_title (GthBrowser *browser)
 			info_txt = g_strdup_printf ("%s", _("gThumb"));
 	} else {
 		const char *image_name = g_filename_display_basename (path);
-
-		if (image_name == NULL)
-			image_name = "";
 
 		if (priv->image_catalog != NULL) {
 			char *cat_name = g_filename_display_basename (priv->image_catalog);
@@ -6550,7 +6548,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* image preview, comment, exif data. */
 
 	priv->image_main_pane = image_pane_paned1 = gtk_vpaned_new ();
-	gtk_paned_set_position (GTK_PANED (image_pane_paned1), eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEF_WIN_WIDTH / 3 * 2));
+	gtk_paned_set_position (GTK_PANED (browser->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_WINDOW_HEIGHT, DEF_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
 	gtk_box_pack_start (GTK_BOX (image_vbox), image_pane_paned1, TRUE, TRUE, 0);
 
 	/**/
@@ -6988,7 +6986,7 @@ close__step6 (const char *filename,
 	} else
 		eel_gconf_set_integer (PREF_UI_SIDEBAR_SIZE, priv->sidebar_width);
 
-	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
+	eel_gconf_set_integer (PREF_UI_COMMENT_PANE_SIZE, _gtk_widget_get_height (GTK_WIDGET (browser)) - gtk_paned_get_position (GTK_PANED (priv->image_main_pane)));
 
 	if (last_window)
 		eel_gconf_set_boolean (PREF_SHOW_THUMBNAILS, priv->file_list->enable_thumbs);
@@ -7575,6 +7573,11 @@ go_to_directory_continue (DirList  *dir_list,
 		g_free (utf8_path);
 
 		priv->changing_directory = FALSE;
+
+		if ((strcmp (get_home_uri (), dir_list->path) != 0)
+		    && (priv->history_current == NULL))
+			gth_browser_go_to_directory (browser, get_home_uri ());
+
 		return;
 	}
 
