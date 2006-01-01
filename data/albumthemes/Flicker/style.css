@@ -1,0 +1,103 @@
+/* Gthumb "Wiki" style */
+
+  body {
+    background: white;
+  }
+
+  table.photo {
+    border: 1px solid #e3e3e3;
+  }
+
+  table.nav_button {
+    border: 0px outset #bbb;
+  }
+
+  div.copyright {
+    font-size: 7pt;
+    color: #888;
+  }
+
+  img.photo_center {
+    border: 0px;
+  }
+
+  img.preview {
+    border: 1px solid #ccc;
+  }
+
+  img.nav_img {
+    border: 0px;
+  }
+
+  .comment, .property, .property_value {
+    font-size: 8pt;
+  }
+
+  .property, .property_value {
+    text-align: left;
+    color: #c3bebd;
+  }
+
+  .property_value file_name {
+    font-family: monospace;
+  }
+
+  .property {
+    font-weight: bold;
+    text-align: left;
+  }
+
+  .comment, .property_value {
+    font-size: 8pt;
+  }
+  
+  .comment {
+    font-style: italic;
+  }
+
+  div.title {
+    color: #000;
+  }
+
+  span.page_index {
+    color: #000;
+  }
+
+  /* links */
+
+  a:link { 
+    color: #0000FF;
+    text-decoration: none;
+  }
+
+  a:visited { 
+    color: #0000FF;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #0000FF;
+    text-decoration: underline;
+  }
+
+  div.no_thumb {
+    border: 1px solid #e3e3e3;
+    width: 89px;
+    height: 89px;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  span.nolink {
+    color: #AAA;
+  }
+
+  span.link_prev {
+    padding-right: 10px;
+    border: 0px;
+  }
+
+  span.link_next {
+    padding-left: 10px;
+    border: 0px;
+  }

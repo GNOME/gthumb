@@ -1823,9 +1823,9 @@ get_temp_dir_name (void)
 
 	} while (path_is_dir (tmp_dir));
 
-	if (mkdir (tmp_dir, 0700) != 0) {
+	if (! dir_make (tmp_dir, 0700)) {
 		g_free (tmp_dir);
-		return NULL;
+		tmp_dir = NULL;
 	}
 
 	return tmp_dir;

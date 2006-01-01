@@ -144,8 +144,8 @@ gfsd_modify_preview_phrase (GtkButton *button, GnomePrintFontDialog *fontseldiag
 	{
 		if (strlen (gtk_entry_get_text (GTK_ENTRY (entry))) > 0)
 			 gnome_font_preview_set_phrase (
-					 GNOME_FONT_PREVIEW (fontseldiag->preview),
-					 gtk_entry_get_text (GTK_ENTRY (entry)));
+				 GNOME_FONT_PREVIEW (fontseldiag->preview),
+				 (guchar*)gtk_entry_get_text (GTK_ENTRY (entry)));
 	}
 
 	gtk_widget_destroy (dialog);

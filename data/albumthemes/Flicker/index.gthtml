@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<gthumb:language/>">
+<head>
+<gthumb:if pages > 1 />
+  <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+<gthumb:else/>
+  <title><gthumb:header/></title>
+<gthumb:end/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="Generator" content="gThumb Image Viewer" />
+  <link href="layout.css" rel="stylesheet" type="text/css" />
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<gthumb:set_var thumbnail_width="90" thumbnail_height="90"/>
+<gthumb:set_var preview_width="450" preview_height="450"/>
+<body>
+
+  <table style="width: 600px; margin: auto;">
+  <tr>
+    <td colspan="2">
+
+  <!-- Header -->
+  <div class="title">
+    <gthumb:header/>
+  </div>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+  <!-- Navigation Bar -->
+  <div class="page_nav_bar">
+  <gthumb:if pages > 1 />
+    <span class="link_prev">
+      <gthumb:if page_idx > 1 />
+        <a href="<gthumb:page_link idx_relative="-1"/>">
+          &lt; <gthumb:text>Previous</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          &lt; <gthumb:text>Previous</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
+
+    <span class="link_next">
+      <gthumb:if page_idx < pages />
+        <a href="<gthumb:page_link idx_relative="+1"/>">
+          &gt; <gthumb:text>Next</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <span class="nolink">
+          &gt; <gthumb:text>Next</gthumb:text>
+        </span>
+      <gthumb:end/>
+    </span>
+  <gthumb:end/>
+  </div>
+
+  <!-- Index -->
+  <table class="thumbnails" summary="thumbnails">
+    <gthumb:table/>
+  </table>
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+
+  <!-- Footer -->
+  <div class="copyright">
+    <gthumb:footer/>
+  </div>
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

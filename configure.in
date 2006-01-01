@@ -363,9 +363,9 @@ doc/Makefile
 doc/C/Makefile
 data/Makefile
 data/albumthemes/Makefile
-data/albumthemes/BlueStripes/Makefile
 data/albumthemes/Classic/Makefile
 data/albumthemes/ClassicClips/Makefile
+data/albumthemes/Flicker/Makefile
 data/albumthemes/NeatRound/Makefile
 data/albumthemes/Wiki/Makefile
 data/glade/Makefile

@@ -1,35 +1,19 @@
-      <table class="photo" onclick="window.location.href='<gthumb:image_link/>'" summary="photo">
-      <tr>
-        <td colspan="3"><img class="photo_top" src="top.png" alt="Top" /></td>
-      </tr>
-      <tr>
-        <td><img class="photo_left" src="left.png" alt="Left" /></td>
-        <td class="photo">
-          <gthumb:image thumbnail class="photo_center" />
-        </td>
-        <td><img class="photo_right" src="right.png" alt="Right" /></td>
-      </tr>
-      <tr>
-        <td colspan="3"><img class="photo_bottom" src="bottom.png" alt="Bottom" /></td>
-      </tr>
+      <table class="nav_thumb">
+      <tr><td>
+        <a href="<gthumb:image_link/>">
+          <gthumb:image thumbnail class="photo_center" /></a></td></tr>
       </table>
 
 <gthumb:if comment_visibility_index/>
-      <span class="comment"><gthumb:comment/></span><br />
+      <div class="comment"><gthumb:comment max_size=100/></div>
 <gthumb:end/>
 
 <gthumb:if image_dim_visibility_index/>
-      <span class="property_value image_dim"><gthumb:image_dim/></span>
+      <span class="property_value image_dim"><gthumb:image_dim/></span><br />
+<gthumb:end/>
+
 <gthumb:if file_size_visibility_index/>
-      <span class="property_value file_size">(<gthumb:file_size/>)</span>
-<gthumb:end/>
-<gthumb:else/>
-<gthumb:if file_size_visibility_index/>
-      <span class="property_value file_size"><gthumb:file_size/></span>
-<gthumb:end/>
-<gthumb:end/>
-<gthumb:if image_dim_visibility_index || file_size_visibility_index/>
-      <br />
+      <span class="property_value file_size"><gthumb:file_size/></span><br />
 <gthumb:end/>
 
 <gthumb:if file_name_visibility_index/>

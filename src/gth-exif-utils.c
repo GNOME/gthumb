@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <glib.h>
+
+#include "file-utils.h"
 #include "gth-exif-utils.h"
 
 
@@ -37,6 +39,10 @@ get_exif_tag (const char *filename,
 {
 	ExifData     *edata;
 	unsigned int  i, j;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return g_strdup ("-");
 
 	edata = exif_data_new_from_file (filename);
 
@@ -84,6 +90,10 @@ get_exif_tag_short (const char *filename,
 	ExifData     *edata;
 	unsigned int  i, j;
 
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return 0;
+
 	edata = exif_data_new_from_file (filename);
 
 	if (edata == NULL) 
@@ -129,6 +139,10 @@ get_exif_time (const char *filename)
 	time_t        time = 0;
 	struct tm     tm = { 0, };
 
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return (time_t)0;
+
 	edata = exif_data_new_from_file (filename);
 
 	if (edata == NULL) 
@@ -155,10 +169,10 @@ get_exif_time (const char *filename)
 			if (e->data == NULL)
 				continue;
 
-			if (strlen (e->data) < 10)
+			if (strlen ((char*)e->data) < 10)
 				continue;
 
-			data = g_strdup (e->data);
+			data = g_strdup ((char*)e->data);
 
 			data[4] = data[7] = data[10] = '\0';
 
@@ -170,7 +184,7 @@ get_exif_time (const char *filename)
 			tm.tm_sec  = 0;
 			tm.tm_isdst = -1;
 
-			if (strlen (e->data) > 10) {
+			if (strlen ((char*)e->data) > 10) {
 				data[13] = data[16] = '\0';
 				tm.tm_hour = atoi (data + 11);
 				tm.tm_min  = atoi (data + 14);
@@ -196,6 +210,10 @@ get_exif_aperture_value (const char *filename)
 {
 	ExifData     *edata;
 	unsigned int  i, j;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return g_strdup ("-");
 
 	edata = exif_data_new_from_file (filename);
 

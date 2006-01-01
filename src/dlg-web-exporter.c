@@ -644,11 +644,13 @@ ensure_local_theme_dir_exists (void)
 	char *theme_dir;
 
 	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
-				  g_get_home_dir (),
+				  get_home_uri (),
 				  ".gnome2",
 				  "gthumb/albumthemes",
 				  NULL);
-	mkdir (theme_dir, 0700);
+
+	dir_make (theme_dir, 0700);
+
 	g_free (theme_dir);
 }
 

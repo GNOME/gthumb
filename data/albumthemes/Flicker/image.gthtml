@@ -15,69 +15,109 @@
 </head>
 <body>
 
-<table class="full_size" summary="page body">
-<tr>
-<td class="title">
+  <table style="margin: auto">
+  <tr>
+    <td colspan="2">
 
-<!-- Title -->
-<table class="title" summary="title bar">
-<tr>
-  <td>
-  <span class="title"><gthumb:header/></span>
-  </td>
-</tr>
-</table>
+  <!-- Header -->
+  <div class="title">
+    <gthumb:header/>
+  </div>
 
-</td>
-</tr>
-<tr>
-<td class="nav_bar">
+    </td>
+  </tr>
 
-<!-- Navigation Bar -->
-<table class="full_size" summary="navigation bar">
-<tr>
-  <td>
-    &nbsp;
-  </td>
-  <td class="button">
-    <a href="<gthumb:page_link idx_relative=0 image_idx/>"><img src="back.png" alt="Back" /></a>
-  </td>
-  <td class="button">
-<gthumb:if image_idx > 1 />
-    <a href="<gthumb:image_link idx_relative=-1/>"><img src="prev.png" alt="Previous" /></a>
-<gthumb:end/>
-  </td>
-  <td class="button">
-<gthumb:if image_idx < images />
-    <a href="<gthumb:image_link idx_relative=+1/>"><img src="next.png" alt="Next" /></a>
-<gthumb:end/>
-  </td>
-</tr>
-</table>
+  <tr>
+    <td>
 
-</td>
-</tr>
-<tr>
-<td>
-
-<!-- Thumbnails and preview -->
-<table class="row" summary="preview">
-<tr>
-  <td>
-    <a href="<gthumb:file_name with_relative_path/>"><gthumb:image preview class="preview"/>
+  <!-- Image preview -->
+  <div class="preview">
+    <a href="<gthumb:file_name with_relative_path/>">
+      <gthumb:image preview class="preview"/>
     </a>
-  </td>
-</tr>
-</table>
+  </div>
 
-<!-- Comment and Exif data -->
-<div class="properties">
 <gthumb:if comment_visibility_image/>
 <div class="preview_comment">
-  <span class="comment"><gthumb:comment/></span><br />
+  <span class="comment">
+    <gthumb:comment/>
+  </span><br />
 </div>
 <gthumb:end/>
-<table summary="image properties">
+
+    </td>
+    <td valign="top">
+
+  <!-- Navigation Bar -->
+  <div class="nav_bar">
+
+    <table summary="navigation bar">
+    <tr>
+      <td colspan="2">
+        <div style="margin-bottom: 5px; text-align: left;">
+          <a href="<gthumb:page_link idx_relative=0 image_idx/>">
+            ^ <gthumb:text>Index</gthumb:text> 
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="middle" style="width: 90px; height: 110px;">
+
+      <gthumb:if image_idx > 1 />
+        <a href="<gthumb:image_link idx_relative="-1" />">
+          <table class="nav_thumb">
+          <tr><td>
+            <gthumb:image idx_relative="-1" thumbnail="1" class="nav_img" />
+          </td></tr>
+          </table>
+          &lt; <gthumb:text>Previous</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <div class="no_thumb"></div>
+        <span style="color: #d3d3d3;">
+          &lt; <gthumb:text>Previous</gthumb:text> 
+        </span>
+      <gthumb:end/>
+
+      </td>
+      <td align="right" valign="middle" style="width: 90px; height: 110px;">
+
+      <gthumb:if image_idx < images />
+        <a href="<gthumb:image_link idx_relative="+1"/>">
+          <table class="nav_thumb">
+          <tr><td>
+            <gthumb:image idx_relative="+1" thumbnail="1" class="nav_img" />
+          </td></tr>
+          </table>
+          &gt; <gthumb:text>Next</gthumb:text>
+        </a>
+      <gthumb:else/>
+        <div class="no_thumb"></div>
+        <span style="color: #d3d3d3;">
+          &gt; <gthumb:text>Next</gthumb:text>
+        </span>
+      <gthumb:end/>
+
+      </td>
+
+      <td style="color: #c3bebd; padding-left: 10px; vertical-align: middle;">
+        <span style="font-size: 14px; font-weight: bold">
+          <nobr>
+            <gthumb:image_idx/> / <gthumb:images/> 
+          </nobr>
+        </span>
+      </td>
+
+    </tr>
+    </table>
+
+  </div>
+
+
+<!-- Comment and Exif data -->
+
+<table class="properties" summary="image properties">
 <gthumb:if file_name_visibility_image/>
 <tr>
   <td><span class="property"><gthumb:text>Image</gthumb:text></span></span></td>
@@ -145,24 +185,20 @@
 </tr>
 <gthumb:end/>
 </table>
-</div>
 
-</td>
-</tr>
-<tr>
-<td class="footer">
+    </td>
+  </tr>
 
-<!-- Footer -->
-<table class="full_size" summary="copyright">
-<tr>
-  <td>
-  <span class="copyright"><gthumb:footer/></span>
-  </td>
-</tr>
-</table>
+  <tr>
+    <td colspan="2">
 
-</td>
-</tr>
+  <!-- Footer -->
+  <div class="copyright">
+    <gthumb:footer/>
+  </div>
+
+    </td>
+  </tr>
 </table>
 
 </body>

@@ -723,7 +723,7 @@ const gchar*	   gnome_print_font_picker_get_font_name    (GnomePrintFontPicker *
 	font_sel = gnome_print_font_dialog_get_fontsel (GNOME_PRINT_FONT_DIALOG (gfp->_priv->font_dialog));
 	font = gnome_font_selection_get_font (GNOME_FONT_SELECTION (font_sel));
 	
-	gfp->_priv->font_name = gnome_font_get_full_name (font);
+	gfp->_priv->font_name = (char*)gnome_font_get_full_name (font);
 	gfp->_priv->font = font;
     }
 
@@ -759,7 +759,7 @@ gboolean   gnome_print_font_picker_set_font_name    (GnomePrintFontPicker *gfp,
 		    g_object_unref (gfp->_priv->font);
 
 	    
-	    gfp->_priv->font = gnome_font_find_closest_from_full_name (fontname);	
+	    gfp->_priv->font = gnome_font_find_closest_from_full_name ((guchar*) fontname);	
     }
 
     if (gfp->_priv->mode == GNOME_PRINT_FONT_PICKER_MODE_FONT_INFO)
@@ -836,7 +836,7 @@ void	   gnome_print_font_picker_set_preview_text (GnomePrintFontPicker *gfp,
 	
 	preview = gnome_print_font_dialog_get_preview (GNOME_PRINT_FONT_DIALOG (gfp->_priv->font_dialog));
 
-	gnome_font_preview_set_phrase (GNOME_FONT_PREVIEW (preview), gfp->_priv->preview_text);;
+	gnome_font_preview_set_phrase (GNOME_FONT_PREVIEW (preview), (guchar*)gfp->_priv->preview_text);;
     }
 
 } /* gnome_print_font_picker_set_preview_text */
@@ -915,7 +915,7 @@ gnome_print_font_picker_clicked (GtkButton *button)
 
 	preview = gnome_print_font_dialog_get_preview (GNOME_PRINT_FONT_DIALOG (gfp->_priv->font_dialog));
 
-	gnome_font_preview_set_phrase (GNOME_FONT_PREVIEW (preview), gfp->_priv->preview_text);;
+	gnome_font_preview_set_phrase (GNOME_FONT_PREVIEW (preview), (guchar*)gfp->_priv->preview_text);
         
 	gtk_widget_show(gfp->_priv->font_dialog);
     } else if (gfp->_priv->font_dialog->window) {
@@ -1067,7 +1067,7 @@ gnome_print_font_picker_update_font_info (GnomePrintFontPicker *gfp)
 {
 	const char *name;
 
-	name = gnome_font_get_family_name (gfp->_priv->font);
+	name = (char*)gnome_font_get_family_name (gfp->_priv->font);
 
 	gtk_label_set_text (GTK_LABEL (gfp->_priv->font_label), name);
 

@@ -562,7 +562,7 @@ gth_browser_activate_action_edit_catalog_view_new_window (GtkAction  *action,
 	path = catalog_list_get_selected_path (gth_browser_get_catalog_list (browser));
 	if (path == NULL) 
 		return;
-	uri = g_strconcat ("catalog://", path, NULL);
+	uri = g_strconcat ("catalog://", remove_scheme_from_uri (path), NULL);
 
 	gtk_widget_show (gth_browser_new (uri));
 
@@ -933,8 +933,7 @@ create_new_folder_or_library (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (mkdir (new_path, 0755) == 0) { 
-	} else {
+	} else if (! dir_make (new_path, 0755)) { 
 		char *utf8_path;
 
 		utf8_path = g_filename_display_name (new_path);

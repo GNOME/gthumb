@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <glade/glade.h>
+#include <libgnomevfs/gnome-vfs-ops.h>
 
 #include "typedefs.h"
 #include "catalog.h"
@@ -76,11 +77,12 @@ static void
 new_catalog_cb (GtkWidget *widget, 
 		gpointer   p)
 {
-	DialogData *data = p;
-	char       *name_utf8, *name;
-	char       *path;
-	int         fd;
-	GtkTreeIter iter;
+	DialogData     *data = p;
+	char           *name_utf8, *name;
+	char           *path;
+	GnomeVFSResult  result;
+	GnomeVFSHandle *handle;
+	GtkTreeIter     iter;
 
 	name_utf8 = _gtk_request_dialog_run (GTK_WINDOW (data->window),
 					     GTK_DIALOG_MODAL,
@@ -103,10 +105,13 @@ new_catalog_cb (GtkWidget *widget,
 			    NULL);
 	g_free (name);
 
-	fd = creat (path, 0644);
-	close (fd);
-
-	sync ();
+	result = gnome_vfs_create (&handle,
+				   path,
+				   GNOME_VFS_OPEN_WRITE,
+				   TRUE,
+				   0644);
+	if (result == GNOME_VFS_OK)
+		gnome_vfs_close (handle);
 
 	/* update the catalog list. */
 
@@ -147,15 +152,15 @@ new_dir_cb (GtkWidget *widget,
 	name = g_filename_from_utf8 (utf8_name, -1, 0, 0, 0);
 	if (name == NULL)
 		return;
-
 	path = g_strconcat (data->current_dir,
 			    "/",
 			    name,
 			    NULL);
-	g_free (name);
 
-	mkdir (path, 0775);
+	dir_make (path, 0775);
+
 	g_free (path);
+	g_free (name);
 
 	/* update the catalog list. */
 	catalog_list_change_to (data->cat_list, data->current_dir);

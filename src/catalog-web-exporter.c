@@ -1425,7 +1425,7 @@ gth_parsed_doc_print (GList              *document,
 			write_markup_escape_line (line, fout);
 			g_free (line);
 
-			write_line (" ", fout);
+			write_line (" &nbsp; ", fout);
 
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_MODEL);

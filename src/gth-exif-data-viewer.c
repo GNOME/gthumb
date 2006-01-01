@@ -346,17 +346,19 @@ static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
+	const char   *path;
 	unsigned int  i;
 	gboolean      date_added = FALSE;
 	gboolean      aperture_added = FALSE;
 	gboolean      last_entry_is_void = ! edv->priv->view_file_info;
 	gboolean      list_is_empty = TRUE;
 
-	if (edv->priv->path == NULL)
+	path = get_file_path_from_uri (edv->priv->path);
+	if (path == NULL)
 		return;
 
 	if (edata == NULL)
-		edata = exif_data_new_from_file (edv->priv->path);
+		edata = exif_data_new_from_file (path);
 	else
 		exif_data_ref (edata);
 
