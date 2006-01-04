@@ -1,5 +1,11 @@
 2006-01-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (go_to_directory_continue): 
+
+	Fixed bug #325507: gthumb crashes if startup_location gconf pref is 
+	invalid.
+	
+
 	[ gthumb 2.7.2 released ]
 
 2006-01-01  Paolo Bacchilega  <paobac@cvs.gnome.org>

@@ -7574,14 +7574,16 @@ go_to_directory_continue (DirList  *dir_list,
 
 		priv->changing_directory = FALSE;
 
-		if ((strcmp (get_home_uri (), dir_list->path) != 0)
-		    && (priv->history_current == NULL))
+		if ((dir_list->path == NULL)
+		    || ((strcmp (get_home_uri (), dir_list->path) != 0)
+			&& (priv->history_current == NULL)))
 			gth_browser_go_to_directory (browser, get_home_uri ());
 
 		return;
 	}
 
 	path = dir_list->path;
+	g_return_if_fail (path != NULL);
 
 	set_action_sensitive (browser, "Go_Up", strcmp (path, "/") != 0);
 	
