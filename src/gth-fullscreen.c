@@ -1092,7 +1092,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GthWindow     *window = (GthWindow*) fullscreen;
 	ImageViewer   *viewer = (ImageViewer*) fullscreen->priv->viewer;
-	gboolean       retval = FALSE;
+	gboolean       retval = TRUE;
 	GtkAction     *a;
 
 	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
@@ -1100,9 +1100,9 @@ viewer_key_press_cb (GtkWidget   *widget,
 			/* Exit fullscreen mode. */
 		case GDK_w:
 			gth_window_close (window);
-			retval = TRUE;
 			break;
 		default:
+			retval = FALSE;
 			break;
 		}
 
@@ -1120,14 +1120,13 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_f:
 	case GDK_F11:
 		gth_window_close (window);
-		retval = TRUE;
 		break;
 
 	case GDK_s:
-		if (fullscreen->priv->slideshow) {
+		if (fullscreen->priv->slideshow) 
 			gth_window_close (window);
-			retval = TRUE;
-		}
+		else
+			retval = FALSE;
 		break;
 
 		/* Zoom in. */
@@ -1179,7 +1178,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_space:
 	case GDK_n:
 	case GDK_Page_Down:
-	case GDK_Right:
 		load_next_image (fullscreen);
 		break;
 
@@ -1187,7 +1185,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 	case GDK_b:
 	case GDK_BackSpace:
 	case GDK_Page_Up:
-	case GDK_Left:
 		load_prev_image (fullscreen);
 		break;
 
@@ -1237,32 +1234,32 @@ viewer_key_press_cb (GtkWidget   *widget,
 		/* Rotate clockwise without saving */
 	case GDK_r: 
 		gth_window_activate_action_alter_image_rotate90 (NULL, window);
-		return TRUE;
+		break;
 
 		/* Rotate counter-clockwise without saving */
 	case GDK_e:
 		gth_window_activate_action_alter_image_rotate90cc (NULL, window);
-		return TRUE;
+		break;
 
 		/* Lossless clockwise rotation. */
 	case GDK_bracketright:
 		gth_window_activate_action_tools_jpeg_rotate_right (NULL, window);
-		return TRUE;
+		break;
 
 		/* Lossless counter-clockwise rotation */
 	case GDK_bracketleft:
 		gth_window_activate_action_tools_jpeg_rotate_left (NULL, window);
-		return TRUE;
+		break;
 
 		/* Flip image */
 	case GDK_l:
 		gth_window_activate_action_alter_image_flip (NULL, window);
-		return TRUE;
+		break;
 
 		/* Mirror image */
 	case GDK_m:
 		gth_window_activate_action_alter_image_mirror (NULL, window);
-		return TRUE;
+		break;
 
 		/* Delete selection. */
 	case GDK_Delete: 
@@ -1274,6 +1271,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	default:
 		if (priv->comment_visible) 
 			hide_comment_on_image (fullscreen);
+		retval = FALSE;
 		break;
 	}
 
