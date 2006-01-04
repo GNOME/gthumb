@@ -1,3 +1,10 @@
+2006-01-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_save_as_jpeg): set default quality
+	to 85.
+
+	Fixes buf #325211 - Image quality in web album.
+
 2006-01-04  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (viewer_key_press_cb): block event propagation

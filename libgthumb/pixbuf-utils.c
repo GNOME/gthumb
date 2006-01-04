@@ -570,7 +570,7 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	guchar            *buf = NULL;
 	guchar            *ptr;
 	guchar            *pixels = NULL;
-	volatile int       quality = 75; /* default; must be between 0 and 100 */
+	volatile int       quality = 85; /* default; must be between 0 and 100 */
 	volatile int       smoothing = 0;
 	volatile gboolean  optimize = FALSE;
 	volatile gboolean  progressive = FALSE;
