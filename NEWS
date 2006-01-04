@@ -7,7 +7,8 @@ version 2.7.2
 	* Adjust photo orientation on import.
 	* Use a more accurate method to check whether an image is a gif 
           animation.
-	* Updated the Wiki web album theme.
+	* Added a Flickr like web album theme. Remove the BlueStrips theme.
+          Updated the Wiki web album theme. 
 	* Use gnome-vfs as much as possible.
 	* Use p as keyword shortcut to pause/resume a slideshow.
 	* Fixed bug #301726 – "Create Web Album" does not use relative 
