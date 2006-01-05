@@ -1,7 +1,15 @@
 2006-01-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_save_as_jpeg): set default quality
-	to 85.
+	* src/dlg-photo-importer.c (ctx_progress_start_func)
+	(ctx_error_func, ctx_status_func, ctx_message_func): 
+	* src/gth-exif-data-viewer.c (update_exif_data): 
+
+	Fixed bug #324017 - failed to initialize Canon powerShot G5 due an GTK
+	bug.  Patch by Frederic Crozat.
+	
+
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_save_as_jpeg): set default
+	quality	to 85.
 
 	Fixes buf #325211 - Image quality in web album.
 
@@ -9,11 +17,11 @@
 
 	* src/gth-fullscreen.c (viewer_key_press_cb): block event propagation
 	by default, as suggested in #325308
-	(viewer_key_press_cb): removed Left/Right as navigation shortcuts because
-	they are used to scroll the image horizontally.
+	(viewer_key_press_cb): removed Left/Right as navigation shortcuts
+	because	they are used to scroll the image horizontally.
 
-	Fixes bug #325308 - gThumb crash when reaching the end of a directory during 
-	fullscreen viewing.
+	Fixes bug #325308 - gThumb crash when reaching the end of a directory 
+	during fullscreen viewing.
 	
 	* src/gth-browser.c (go_to_directory_continue): 
 

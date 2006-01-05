@@ -391,7 +391,7 @@ update_exif_data (GthExifDataViewer *edv,
 		if (value == NULL)
 			continue;
 
-		utf8_name = g_locale_to_utf8 (value, -1, 0, 0, 0);
+		utf8_name = g_strdup (value);
 		if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
 			g_free (utf8_name);
 			continue;
@@ -403,7 +403,7 @@ update_exif_data (GthExifDataViewer *edv,
 			continue;
 		}
 
-		utf8_value = g_locale_to_utf8 (value, -1, 0, 0, 0);
+		utf8_value = g_strdup (value);
 		if ((utf8_value == NULL) 
 		    || (*utf8_value == 0) 
 		    || _g_utf8_all_spaces (utf8_value)) {

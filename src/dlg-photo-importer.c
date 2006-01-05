@@ -235,6 +235,7 @@ ctx_progress_start_func (GPContext  *context,
 			 gpointer    callback_data)
 {
 	DialogData *data = callback_data;
+	char *locale_string;
 
 	g_mutex_lock (data->yes_or_no);
 	data->update_ui = TRUE;
@@ -243,7 +244,9 @@ ctx_progress_start_func (GPContext  *context,
 	data->fraction = 0.0;
 	if (data->progress_info != NULL)
 		g_free (data->progress_info);
-	data->progress_info = g_strdup_vprintf (format, args);
+	locale_string = g_strdup_vprintf (format, args);
+	data->progress_info = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
+	g_free (locale_string);
 	g_mutex_unlock (data->yes_or_no);
 
 	return data->current_op;
@@ -967,13 +970,16 @@ ctx_error_func (GPContext  *context,
 		gpointer    callback_data)
 {
 	DialogData *data = callback_data;
+	char *locale_string;
 
 	g_mutex_lock (data->yes_or_no);
 	data->update_ui = TRUE;
 	data->error = TRUE;
 	if (data->msg_text != NULL)
 		g_free (data->msg_text);
-	data->msg_text = g_strdup_vprintf (format, args);
+	locale_string = g_strdup_vprintf (format, args);
+	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
+	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_ERROR;
 	g_mutex_unlock (data->yes_or_no);
 }
@@ -986,12 +992,15 @@ ctx_status_func (GPContext  *context,
 		 gpointer    callback_data)
 {
 	DialogData *data = callback_data;
+	char *locale_string;
 
 	g_mutex_lock (data->yes_or_no);
 	data->update_ui = TRUE;
 	if (data->msg_text != NULL)
 		g_free (data->msg_text);
-	data->msg_text = g_strdup_vprintf (format, args);
+	locale_string = g_strdup_vprintf (format, args);	
+	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
+	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_INFO;
 	g_mutex_unlock (data->yes_or_no);
 }
@@ -1004,12 +1013,15 @@ ctx_message_func (GPContext  *context,
 		  gpointer    callback_data)
 {
 	DialogData *data = callback_data;
+	char *locale_string;
 
 	g_mutex_lock (data->yes_or_no);
 	data->update_ui = TRUE;
 	if (data->msg_text != NULL)
 		g_free (data->msg_text);
-	data->msg_text = g_strdup_vprintf (format, args);
+	locale_string = g_strdup_vprintf (format, args);
+	data->msg_text = g_locale_to_utf8 (locale_string, -1, NULL, NULL, NULL);
+	g_free (locale_string);
 	data->msg_icon = GTK_STOCK_DIALOG_WARNING;
 	g_mutex_unlock (data->yes_or_no);
 }
