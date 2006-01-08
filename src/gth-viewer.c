@@ -793,22 +793,31 @@ static void
 viewer_update_open_with_menu (GthViewer *viewer)
 {
 	GthViewerPrivateData *priv = viewer->priv;
+	GList                *menu_items, *scan;
 	const char           *mime_type = NULL;
+	GtkWidget            *mitem;
+	int                   pos = 0, i;
 
-	gtk_container_foreach  (GTK_CONTAINER (priv->open_with_popup_menu), (GtkCallback) gtk_widget_destroy, NULL);
-
+	menu_items = gtk_container_get_children (GTK_CONTAINER (priv->open_with_popup_menu));
+	for (i = 0, scan = menu_items; i < g_list_length (menu_items) - 1; i++, scan = scan->next) 
+		gtk_widget_destroy ((GtkWidget*) scan->data);
+	g_list_free (menu_items);
+		
 	if (priv->image_path != NULL)
 		mime_type = gnome_vfs_get_file_mime_type (priv->image_path, NULL, FALSE);
 
 	if (mime_type != NULL) {
 		GList        *apps = gnome_vfs_mime_get_all_applications (mime_type);
-		GList        *scan;
 		GtkIconTheme *theme = gtk_icon_theme_get_default ();
 		int           icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (viewer));
 
 		for (scan = apps; scan; scan = scan->next) {
 			GnomeVFSMimeApplication *app = scan->data;
 			GtkWidget               *mitem;
+
+			/* do not include gthumb itself */
+			if (strncmp (gnome_vfs_mime_application_get_exec (app), "gthumb", 6) == 0)
+				continue;
 
 			mitem = gtk_image_menu_item_new_with_label (gnome_vfs_mime_application_get_name (app));
 			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (mitem), create_image (theme, gnome_vfs_mime_application_get_icon (app), icon_size));
@@ -817,17 +826,20 @@ viewer_update_open_with_menu (GthViewer *viewer)
 					  G_CALLBACK (open_with_menu_item_activate_cb),
 					  viewer);
 			gtk_widget_show_all (mitem);
-			gtk_menu_append (priv->open_with_popup_menu, mitem);
+			gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
 		}
 		g_list_free (apps);
 
 	} else {
-		GtkWidget *mitem;
 		mitem = gtk_menu_item_new_with_label (_("_None"));
 		gtk_widget_set_sensitive (mitem, FALSE);
 		gtk_widget_show (mitem);
-		gtk_menu_append (priv->open_with_popup_menu, mitem);
+		gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
 	}
+
+	mitem = gtk_separator_menu_item_new ();
+	gtk_widget_show (mitem);
+	gtk_menu_insert (priv->open_with_popup_menu, mitem, pos++);
 }
 
 
@@ -1446,7 +1458,7 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 		return;
 
 	g_free (viewer->priv->image_path);
-	viewer->priv->image_path = g_strdup (new_name);
+	viewer->priv->image_path = get_uri_from_path (new_name);
 
 	gth_window_reload_current_image (GTH_WINDOW (viewer));
 }
@@ -1497,7 +1509,7 @@ add_open_with_toolbar_item (GthViewer *viewer)
 		return;
 	}
 
-	priv->open_with_popup_menu = gtk_menu_new ();
+	priv->open_with_popup_menu = gtk_ui_manager_get_widget (priv->ui, "/OpenWithMenu");
 
 	priv->open_with_tool_item = gtk_menu_tool_button_new (gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_LARGE_TOOLBAR), _("_Open With"));
 
@@ -2012,7 +2024,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	/**/
 
 	if (filename != NULL)
-		priv->image_path = g_strdup (filename);
+		priv->image_path = get_uri_from_path (filename);
 }
 
 
@@ -2044,7 +2056,7 @@ load_image__image_saved_cb (const char *filename,
 
 	if (priv->new_image_path != priv->image_path) {
 		g_free (priv->image_path);
-		priv->image_path = g_strdup (priv->new_image_path);
+		priv->image_path = get_uri_from_path (priv->new_image_path);
 	}
 
 	image_viewer_load_image (IMAGE_VIEWER (priv->viewer), priv->image_path);
@@ -2061,7 +2073,7 @@ gth_viewer_load (GthViewer   *viewer,
 	g_free (priv->new_image_path);
 	priv->new_image_path = NULL;
 	if (filename != NULL)
-		priv->new_image_path = g_strdup (filename);
+		priv->new_image_path = get_uri_from_path (filename);
 
 	if (priv->image_modified) {
 		if (priv->saving_modified_image)

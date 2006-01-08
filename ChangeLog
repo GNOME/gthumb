@@ -1,3 +1,14 @@
+2006-01-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-open-with.c (dlg_open_with): do not include gthumb itself
+	in the applications list.
+
+	Fixes bug #307959 - "Open With..." dialog offers gthumb as an option.
+
+	* src/gth-viewer-ui.h: 
+	* src/gth-viewer.c (viewer_update_open_with_menu): added the "Go to the
+	image folder" command at the end of the "open with" popup menu.
+
 2006-01-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-photo-importer.c (ctx_progress_start_func)
@@ -27,7 +38,6 @@
 
 	Fixed bug #325507 - gthumb crashes if startup_location gconf pref is 
 	invalid.
-	
 
 	[ gthumb 2.7.2 released ]
 

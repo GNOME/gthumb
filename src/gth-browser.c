@@ -1078,6 +1078,7 @@ set_file_list__final_step_cb (gpointer data)
 
 	if (ImageToDisplay != NULL) {
 		int pos = gth_file_list_pos_from_path (priv->file_list, ImageToDisplay);
+
 		if (pos != -1)
 			gth_file_list_select_image_by_pos (priv->file_list, pos);
 		g_free (ImageToDisplay);

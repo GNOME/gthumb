@@ -157,6 +157,9 @@ static const gchar *viewer_window_ui_info =
 "    <separator/>"
 "    <menuitem action='Tools_JPEGRotate_Auto'/>"
 "  </popup>"
+"  <popup name='OpenWithMenu'>"
+"    <menuitem action='File_OpenFolder'/>"
+"  </popup>"
 "  <accelerator name='ControlEqualAccel' action='ControlEqual'/>"
 "</ui>";
 
