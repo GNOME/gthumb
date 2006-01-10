@@ -14,7 +14,7 @@ INCLUDES =					\
 	$(EXIF_CFLAGS)				\
 	$(IPTCDATA_CFLAGS)			\
 	$(DISABLE_DEPRECATED)			\
-	$(LIBGPHOTO_CFLAGS)			\
+	$(GPHOTO_CFLAGS)			\
 	-DGTHUMB_PREFIX=\"$(prefix)\"		\
 	-DGTHUMB_SYSCONFDIR=\"$(sysconfdir)\"	\
 	-DGTHUMB_DATADIR=\"$(datadir)\"		\
@@ -145,7 +145,7 @@ gthumb_LDADD = 					\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
-	$(LIBGPHOTO_LIBS)			\
+	$(PHOTO_LIBS)				\
 	$(XF86GAMMA_LIBS)			\
 	$(XTEST_LIBS)				\
 	$(top_builddir)/libgthumb/libgthumb.la	\

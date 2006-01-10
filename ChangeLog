@@ -1,3 +1,9 @@
+2006-01-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/Makefile.am (gthumb_LDADD, INCLUDES): 
+	* configure.in: added ability to enable/disable many features.
+	Patch by Saleem Abdulrasool <compnerd (at) gentoo (dot) org>
+
 2006-01-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-open-with.c (dlg_open_with): do not include gthumb itself
