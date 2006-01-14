@@ -535,7 +535,7 @@ msgstr "沒有日期"
 
 #: ../data/glade/gthumb_comments.glade.h:11
 msgid "Photo digitalization date (From EXIF data)"
-msgstr "數位相片的日期[來自 EXIF 數據]"
+msgstr "數碼相片的日期[來自 EXIF 數據]"
 
 #: ../data/glade/gthumb_comments.glade.h:12
 msgid "Remove selected category"
@@ -989,7 +989,7 @@ msgstr "產生索引圖"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:29
 msgid "Create _HTML image map"
-msgstr "製作 _HTML 影像地圖"
+msgstr "製作 _HTML 圖像地圖"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:30
 #: ../data/glade/gthumb_web_exporter.glade.h:23
@@ -1760,7 +1760,7 @@ msgstr "新檔名預覽(_P):"
 
 #: ../data/glade/gthumb_tools.glade.h:35
 msgid "P_hoto digitalization date (From EXIF data)"
-msgstr "數位相片的日期 (來自 E_XIF 數據)"
+msgstr "數碼相片的日期 (來自 E_XIF 數據)"
 
 #: ../data/glade/gthumb_tools.glade.h:37
 msgid "Re_verse Order"
@@ -1972,7 +1972,7 @@ msgstr "圖片檢視工具"
 # (abel) bug #161957
 #: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
-msgstr "管理數位相片和圖片"
+msgstr "管理數碼相片和圖片"
 
 # (abel) bug #161957
 #: ../data/gthumb.desktop.in.h:3
@@ -1981,7 +1981,7 @@ msgstr "gThumb 圖片管理工具"
 
 #: ../data/gthumb.schemas.in.h:1
 msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
-msgstr "超過這個大小的圖片（以位元組計算）不會産生縮圖。如果您要所有的圖片都建立縮圖則使用 0。"
+msgstr "超過這個大小的圖片（以位元組計算）不會産生縮圖。如果你要所有的圖片都建立縮圖則使用 0。"
 
 #: ../data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2872,7 +2872,7 @@ msgstr "匯入相片(_I)..."
 
 #: ../src/gth-browser-actions-entries.h:69
 msgid "Import photos from a digital camera"
-msgstr "從數位相機匯入相片"
+msgstr "從數碼相機匯入相片"
 
 #: ../src/gth-browser-actions-entries.h:73
 msgid "_Write To CD"
@@ -3389,7 +3389,7 @@ msgstr "選了 %d 幅 (%s)"
 #: ../src/gth-browser.c:1903
 #: ../src/gth-viewer.c:975
 msgid "The current image has been modified, do you want to save it?"
-msgstr "目前的圖片檔已經修改，您要儲存它嗎？"
+msgstr "目前的圖片檔已經修改，你要儲存它嗎？"
 
 #: ../src/gth-browser.c:1904
 #: ../src/gth-viewer.c:976
@@ -3503,8 +3503,8 @@ msgstr "用其它程式開啟已選取的圖片"
 #: ../src/gth-window-actions-callbacks.c:772
 msgid "translator_credits"
 msgstr ""
-"如對翻譯有任何意見，請送一封電子郵件給\n"
-"以下地址，GNOME 翻譯團隊會盡快回覆您：\n"
+"如對翻譯有任何意見，請送一封電郵給\n"
+"以下地址，GNOME 翻譯隊伍會盡快回覆你：\n"
 "community@linuxhall.org\n"
 "\n"
 "Woodman Tuen <woodman@culturecom.com.hk>, 2004\n"
@@ -3808,7 +3808,7 @@ msgstr "自動啟動投影片模式"
 
 #: ../src/main.c:93
 msgid "Automatically import digital camera photos"
-msgstr "自動匯入數位相片"
+msgstr "自動匯入數碼相片"
 
 #: ../src/main.c:133
 msgid "Holidays"
