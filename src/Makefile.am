@@ -145,7 +145,7 @@ gthumb_LDADD = 					\
 	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
-	$(PHOTO_LIBS)				\
+	$(GPHOTO_LIBS)				\
 	$(XF86GAMMA_LIBS)			\
 	$(XTEST_LIBS)				\
 	$(top_builddir)/libgthumb/libgthumb.la	\

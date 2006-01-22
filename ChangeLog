@@ -1,3 +1,23 @@
+2006-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (go_to_uri, gth_browser_construct): do not
+	attempt to open a NULL uri.
+
+	* src/Makefile.am (gthumb_LDADD): include GPHOTO_LIBS
+
+	* libgthumb/thumb-loader.c (thumb_loader): fix compiler warning.
+
+	* libgthumb/pixbuf-utils.c: include stdlib.h
+
+	* configure.in (HAVE_PROGRESSIVE_JPEG, HAVE_LIBEXIF): fixed.
+
+	* src/gth-exif-utils.h: 
+	* src/gth-exif-data-viewer.c: 
+	* src/dlg-jpegtran.c: 
+
+	Fixed bug #325846 - gthumb refuses to compile with libexif-0.6.13.
+	Patch by Raffaele Sandrini
+	
 2006-01-14  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
 
 	* configure.in: Add "zh_HK" to ALL_LINGUAS.

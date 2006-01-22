@@ -146,6 +146,8 @@ if test x$enable_jpeg = xyes ; then
                 [AC_DEFINE(HAVE_PROGRESSIVE_JPEG, 1, [Define to 1 if libjpeg supports progressive JPEG.])],
                 [AC_MSG_WARN(JPEG library does not support progressive saving.)])
 
+   AC_DEFINE(HAVE_LIBJPEG, 1, [Define to 1 if libjpeg support is included])
+
    JPEG_LIBS='-ljpeg -lm -lz'
    AC_SUBST(JPEG_LIBS)
 
@@ -275,9 +277,6 @@ if test x$enable_exif = xyes ; then
 
    AC_DEFINE(HAVE_LIBEXIF, 1, [Define to 1 if we have libexif support])
 
-   AC_SUBST(EXIF_LIBS)
-   AC_SUBST(EXIF_CFLAGS)
-
    HAVE_EXIF=yes
 else
    HAVE_EXIF=no
@@ -321,7 +320,6 @@ if test x$enable_gphoto2 = xyes ; then
 else
    HAVE_GPHOTO2=no
 fi
-
 
 dnl ###############################################
 

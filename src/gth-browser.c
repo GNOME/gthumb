@@ -1336,6 +1336,9 @@ static void
 go_to_uri (GthBrowser  *browser,
 	   const char  *uri)
 {
+	if (uri == NULL)
+		return;
+
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = g_strconcat ("file://", remove_scheme_from_uri (uri), NULL);
 		if (path_is_dir (file_uri))
@@ -6923,15 +6926,18 @@ gth_browser_construct (GthBrowser  *browser,
 
 	if (uri != NULL)
 		priv->initial_location = g_strdup (uri);
-	else 
-		priv->initial_location = g_strdup (preferences_get_startup_location ());
+	else {
+		const char *startup_uri = preferences_get_startup_location ();
+		if (startup_uri != NULL)
+			priv->initial_location = g_strdup (preferences_get_startup_location ());
+	}
 
 	g_idle_add (initial_location_cb, browser);
 }
 
 
 GtkWidget * 
-gth_browser_new (const gchar *uri)
+gth_browser_new (const char *uri)
 {
 	GthBrowser *browser;
 

@@ -234,11 +234,11 @@ thumb_loader (const char  *path,
 	      GError     **error,
 	      gpointer     data)
 {
-	ThumbLoader        *tl = data;
 	GdkPixbufAnimation *animation = NULL;
 
 #ifdef HAVE_LIBJPEG
 	if (image_is_jpeg (path)) {
+		ThumbLoader *tl = data;
 		ThumbLoaderPrivateData *priv = tl->priv;
 		GdkPixbuf *pixbuf;
 

@@ -28,10 +28,10 @@
 
 #ifdef HAVE_LIBEXIF
 
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
-#include <exif-utils.h>
+#include <libexif/exif-data.h>
+#include <libexif/exif-content.h>
+#include <libexif/exif-entry.h>
+#include <libexif/exif-utils.h>
 
 
 typedef enum { /*< skip >*/
