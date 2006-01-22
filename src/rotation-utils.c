@@ -119,18 +119,17 @@ apply_transformation_jpeg (GtkWindow    *win,
 	char        *tmp1, *tmp2;
 	static int   count = 0;
 	GError      *err = NULL;
+#ifdef HAVE_LIBJPEG
+	JXFORM_CODE  transf;
+#else
+	char        *command;
+#endif
+	char        *e1, *e2;
 
 	path = get_file_path_from_uri (path);
 	if (path == NULL)
 		return;
 	
-#ifdef HAVE_LIBJPEG
-	JXFORM_CODE transf;
-#else
-	char       *command;
-#endif
-	char       *e1, *e2;
-
 	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
 		return;
 
