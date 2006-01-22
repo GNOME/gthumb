@@ -34,9 +34,9 @@
 #include "image-viewer.h"
 
 #ifdef HAVE_LIBEXIF
-#include <exif-data.h>
-#include <exif-content.h>
-#include <exif-entry.h>
+#include <libexif/exif-data.h>
+#include <libexif/exif-content.h>
+#include <libexif/exif-entry.h>
 #endif /* HAVE_LIBEXIF */
 
 

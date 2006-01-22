@@ -1,3 +1,12 @@
+2006-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-jpegtran.c: 
+	* src/gth-exif-utils.h: 
+	* src/gth-exif-data-viewer.c: 
+
+	Fixed bug #326879 - gthumb-2.6.8: fix compilation against libexif-0.6.13
+	Patch by Thomas Klausner
+
 2005-12-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-jpegtran.c (apply_tranformation_jpeg): 
