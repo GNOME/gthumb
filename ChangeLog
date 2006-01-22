@@ -1,5 +1,9 @@
 2006-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* data/gthumb.desktop.in (Categories): added GNOME;GTK;
+
+	Fixes bug #328010 - Add GNOME or GTK categories o the .desktop file
+
 	* src/rotation-utils.c (apply_transformation_jpeg): 
 
 	Fixed bug #327049 – Fix build with gcc 2.95
