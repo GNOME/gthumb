@@ -2,18 +2,20 @@
 # Copyright © 2003, 2004, 2006 Free Software Foundation, Inc.
 # This file is distributed under the same license as the gthumb package.
 # Aleix Badia i Bosch <abadia@ica.es>, 2003, 2004, 2006.
+# Maria Soler Climent <maria.soler@eupm.upc.edu>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-05 18:16+0100\n"
-"PO-Revision-Date: 2006-02-05 23:47+0100\n"
+"POT-Creation-Date: 2006-02-09 00:32+0100\n"
+"PO-Revision-Date: 2006-02-09 00:29+0100\n"
 "Last-Translator: Aleix Badia i Bosch <abadia@ica.es>\n"
-"Language-Team: catalan <tradgnome@softcatala.org>\n"
+"Language-Team: catalan <tradgnome@softcatala.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -42,7 +44,7 @@ msgstr "Imatge del GThumb"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
 msgid "GThumb Viewer"
-msgstr "Visualitzador del GThumb"
+msgstr "Visualitzador GThumb"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
 msgid "View with GThumb"
@@ -168,7 +170,7 @@ msgstr "_Blanc"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
 msgid "_Zoom Quality"
-msgstr "Qualitat del _zoom"
+msgstr "_Qualitat de l'ampliació"
 
 #: ../components/image-viewer/viewer-stream.c:90 ../src/dlg-file-utils.c:555
 msgid "%d %b %Y, %H:%M"
@@ -304,7 +306,7 @@ msgstr "C_omentari"
 
 #: ../data/glade/gthumb.glade.h:12
 msgid "Do not overwrite _the old image"
-msgstr "No sobreescriguis _les imatges velles"
+msgstr "No sobreescriguis _les imatges antigues"
 
 #: ../data/glade/gthumb.glade.h:13
 msgid "Green"
@@ -384,7 +386,7 @@ msgstr "_Següent"
 
 #: ../data/glade/gthumb.glade.h:32
 msgid "_Previous"
-msgstr "_Previ"
+msgstr "_Anterior"
 
 #: ../data/glade/gthumb.glade.h:33
 msgid "_Save the new image as:"
@@ -775,7 +777,7 @@ msgstr "<b>Dimensions originals</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:8
 msgid "<b>Scale ratio</b>"
-msgstr "<b>Ràtio d'escala</b>"
+msgstr "<b>Relació de l'escalat</b>"
 
 #: ../data/glade/gthumb_edit.glade.h:9
 msgid "Brightness - Contrast"
@@ -791,7 +793,7 @@ msgstr "Con_trast:"
 
 #: ../data/glade/gthumb_edit.glade.h:12
 msgid "Cyan-_Red:"
-msgstr "Cian-ve_rmell"
+msgstr "Cian-ve_rmell:"
 
 #: ../data/glade/gthumb_edit.glade.h:13
 msgid "Height:"
@@ -827,7 +829,7 @@ msgstr "_Lluminositat:"
 
 #: ../data/glade/gthumb_edit.glade.h:22
 msgid "_Hue:"
-msgstr "_Matís:"
+msgstr "_To:"
 
 #: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:57
 msgid "_Keep aspect ratio"
@@ -1107,7 +1109,7 @@ msgstr "_Dibuixa el marc"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:63
 msgid "_Font:"
-msgstr "_Font:"
+msgstr "_Tipus de lletra:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:64
 msgid "_Gradient"
@@ -1214,7 +1216,7 @@ msgstr "<b>Visualitzador</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:20
 msgid "<b>Zoom quality</b>"
-msgstr "<b>Qualitat del zoom</b>"
+msgstr "<b>Qualitat de l'ampliació</b>"
 
 #: ../data/glade/gthumb_preferences.glade.h:21
 msgid "Activate items with a double click"
@@ -1310,7 +1312,7 @@ msgstr "Només icones"
 
 #: ../data/glade/gthumb_preferences.glade.h:44
 msgid "Keep previous zoom"
-msgstr "Conserva el zoom anterior"
+msgstr "Conserva l'ampliació anterior"
 
 #: ../data/glade/gthumb_preferences.glade.h:45
 msgid "Layout:"
@@ -1342,7 +1344,7 @@ msgstr "Ajusta a l'act_ual"
 
 #: ../data/glade/gthumb_preferences.glade.h:53
 msgid "Slide Show"
-msgstr "Exposició de diapositives"
+msgstr "Projecció de diapositives"
 
 #: ../data/glade/gthumb_preferences.glade.h:54
 msgid "System settings"
@@ -1495,7 +1497,7 @@ msgstr "Mil·límetres"
 
 #: ../data/glade/gthumb_print.glade.h:27
 msgid "P_ortrait"
-msgstr "R_etrat"
+msgstr "_Horitzontal"
 
 #: ../data/glade/gthumb_print.glade.h:28
 msgid "Paper Details"
@@ -1521,11 +1523,11 @@ msgstr "_Part inferior:"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "_Left:"
-msgstr "_Dreta:"
+msgstr "Es_querra:"
 
 #: ../data/glade/gthumb_print.glade.h:35
 msgid "_Right:"
-msgstr "Es_querre:"
+msgstr "_Dreta:"
 
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
@@ -1791,7 +1793,7 @@ msgstr "Canvia el _nom"
 
 #: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Selected Images"
-msgstr "Imatges _seleccionade:"
+msgstr "Imatges _seleccionades:"
 
 #: ../data/glade/gthumb_tools.glade.h:64
 msgid "_Sort:"
@@ -1868,7 +1870,7 @@ msgstr "_Distància focal"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
-msgstr "Títol de la i_matge"
+msgstr "Títol de la i_matge..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
@@ -1928,7 +1930,7 @@ msgstr "Velocitat de l'ob_turador"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "_Thumbnail Caption..."
-msgstr "Títol de la mina_tura"
+msgstr "Títol de la mina_tura..."
 
 #: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "columns"
@@ -1959,8 +1961,8 @@ msgid ""
 "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want "
 "to generate thumbnails for all images."
 msgstr ""
-"Les imatge d'una mida superior (en bytes) no es convertiran a miniatures. Si "
-"voleu generar les miniatures de totes les imatges utilitzeu 0."
+"Les imatges d'una mida superior (en bytes) no es convertiran a miniatures. "
+"Si voleu generar les miniatures de totes les imatges utilitzeu 0."
 
 #: ../data/gthumb.schemas.in.h:2
 msgid "Possible values are: 1, 2, 3, 4."
@@ -2072,12 +2074,12 @@ msgstr "Si s'ha d'utilitzar sempre el negre com a color de fons."
 #: ../libgthumb/catalog.c:140 ../libgthumb/catalog.c:357
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
-msgstr "No es pot obrir el catàleg \"%s\": %s"
+msgstr "No es pot obrir el catàleg «%s»: %s"
 
 #: ../libgthumb/catalog.c:334
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
-msgstr "No es pot desar el catàleg \"%s\": %s"
+msgstr "No es pot desar el catàleg «%s»: %s"
 
 #: ../libgthumb/comments.c:1249
 msgid "%d %B %Y"
@@ -2099,13 +2101,13 @@ msgstr "(Cap comentari)"
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr "No teniu el permís necessari per crear una imatge a la carpeta \"%s\""
+msgstr "No teniu el permís necessari per crear una imatge a la carpeta «%s»"
 
 #: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
 #: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
-msgstr "Ja hi ha una imatge amb el nom \"%s\". La voleu sobreescriure?"
+msgstr "Ja hi ha una imatge amb el nom «%s». La voleu sobreescriure?"
 
 #: ../libgthumb/dlg-save-image.c:169
 #, c-format
@@ -2139,12 +2141,12 @@ msgstr "La biblioteca no està buida"
 #: ../libgthumb/file-utils.c:1561
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
-msgstr "No es pot suprimir la biblioteca \"%s\": %s"
+msgstr "No es pot suprimir la biblioteca «%s»: %s"
 
 #: ../libgthumb/file-utils.c:1588
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
-msgstr "No es pot suprimir el catàleg \"%s\": %s"
+msgstr "No es pot suprimir el catàleg «%s»: %s"
 
 #: ../libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
@@ -2204,19 +2206,23 @@ msgstr "Previsualitza el text que es mostra al diàleg"
 
 #: ../libgthumb/gnome-print-font-picker.c:213
 msgid "Use font in label"
-msgstr "Utilitza la font a l'etiqueta"
+msgstr "Utilitza el tipus de lletra a l'etiqueta"
 
 #: ../libgthumb/gnome-print-font-picker.c:214
 msgid "Use font in the label in font info mode"
-msgstr "Utilitza la font a l'etiqueta del mode d'informació de la font"
+msgstr ""
+"Utilitza el tipus de lletra a l'etiqueta del mode d'informació del tipus de "
+"lletra"
 
 #: ../libgthumb/gnome-print-font-picker.c:222
 msgid "Font size for label"
-msgstr "Mida de la font per l'etiqueta"
+msgstr "Mida del tipus de lletra per l'etiqueta"
 
 #: ../libgthumb/gnome-print-font-picker.c:223
 msgid "Font size for label in font info mode"
-msgstr "Mida de la font de l'etiqueta del mode d'informació de font"
+msgstr ""
+"Mida del tipus de lletra de l'etiqueta del mode d'informació del tipus de "
+"lletra"
 
 #: ../libgthumb/gnome-print-font-picker.c:233
 msgid "Show size"
@@ -2224,11 +2230,11 @@ msgstr "Mostra la mida"
 
 #: ../libgthumb/gnome-print-font-picker.c:234
 msgid "Show size in font info mode"
-msgstr "Mostra la mida en el mode d'informació de la font"
+msgstr "Mostra la mida en el mode d'informació del tipus de lletra"
 
 #: ../libgthumb/gnome-print-font-picker.c:1013
 msgid "Font"
-msgstr "Font"
+msgstr "Tipus de lletra"
 
 #: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8542
 #: ../src/gth-viewer.c:2295
@@ -2262,7 +2268,7 @@ msgstr "S'està carregant la imatge: %s"
 
 #: ../libgthumb/thumb-cache.c:490
 msgid "Deleting all thumbnails, wait please..."
-msgstr "S'estan suprimint les miniatures, espereu..."
+msgstr "S'estan suprimint totes les miniatures, espereu..."
 
 #: ../libgthumb/thumb-cache.c:492
 msgid "Deleting old thumbnails, wait please..."
@@ -2332,13 +2338,13 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \",\". Please "
 "use a different name."
 msgstr ""
-"El nom \"%s\" no és vàlid perquè conté el caràcter \",\". Utilitzeu un nom "
+"El nom «%s» no és vàlid perquè conté el caràcter «,». Utilitzeu un nom "
 "diferent."
 
 #: ../src/dlg-categories.c:255
 #, c-format
 msgid "The category \"%s\" is already present. Please use a different name."
-msgstr "La categoria \"%s\" ja existeix. Utilitzeu un nom diferent."
+msgstr "La categoria «%s» ja existeix. Utilitzeu un nom diferent."
 
 #: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
 #: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456 ../src/dlg-jpegtran.c:579
@@ -2358,7 +2364,7 @@ msgstr "S'està convertint la imatge: %s"
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr ""
-"Ja existeix una imatge amb el nom \"%s\". Especifiqueu-ne un de diferent."
+"Ja existeix una imatge amb el nom «%s». Especifiqueu-ne un de diferent."
 
 #: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
 msgid "Skip"
@@ -2406,7 +2412,7 @@ msgstr "La carpeta destí no existeix. La voleu crear?"
 #: ../src/dlg-file-utils.c:105
 #, c-format
 msgid "Could not create folder \"%s\": %s."
-msgstr "No s'ha pogut crear la carpeta \"%s\": %s."
+msgstr "No s'ha pogut crear la carpeta «%s»: %s."
 
 #: ../src/dlg-file-utils.c:202
 msgid "Could not delete the images:"
@@ -2443,7 +2449,7 @@ msgstr "No heu introduït el nou nom"
 msgid ""
 "The name \"%s\" is already used in this folder. Please use a different name."
 msgstr ""
-"El nom \"%s\" ja s'està utilitzat en aquest directori. Utilitzeu-ne un de "
+"El nom «%s» ja s'està utilitzant en aquesta carpeta. Utilitzeu-ne un de "
 "diferent."
 
 #: ../src/dlg-file-utils.c:1043
@@ -2498,7 +2504,7 @@ msgstr "S'està movent el fitxer %ld de %ld"
 #: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
-msgstr "No s'ha pogut moure la carpeta \"%s\": %s"
+msgstr "No s'ha pogut moure la carpeta «%s»: %s"
 
 #: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:503
 msgid "Size"
@@ -2536,7 +2542,7 @@ msgstr "Vídeo"
 #: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
-msgstr "No s'ha pogut crear la carpeta \"%s\": %s"
+msgstr "No s'ha pogut crear la carpeta «%s»: %s"
 
 #: ../src/dlg-png-exporter.c:904
 msgid "Image Caption"
@@ -2613,14 +2619,14 @@ msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
 "use a different name."
 msgstr ""
-"El nom \"%s\" no és vàlid perquè conté el caràcter \"/\". Utilitzeu un nom "
+"El nom «%s» no és vàlid perquè conté el caràcter «/». Utilitzeu un nom "
 "diferent."
 
 #: ../src/gth-browser-actions-callbacks.c:227
 #: ../src/gth-browser-actions-callbacks.c:242
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
-msgstr "No s'ha pogut canviar el nom de la imatge \"%s\": %s"
+msgstr "No s'ha pogut canviar el nom de la imatge «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:229
 #: ../src/gth-browser-actions-callbacks.c:1147
@@ -2635,7 +2641,7 @@ msgstr "La imatge es mourà a la paperera, n'esteu segur?"
 #: ../src/gth-browser-actions-callbacks.c:400
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
-msgstr "No s'ha pogut duplicar la imatge \"%s\": %s"
+msgstr "No s'ha pogut duplicar la imatge «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:408
 msgid "Stop"
@@ -2655,17 +2661,17 @@ msgstr "Les imatges seleccionades es mouran a la paperera, n'esteu segur?"
 #: ../src/gth-browser-actions-callbacks.c:1155
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
-msgstr "Ja s'utilitza el nom \"%s\". Utilitzeu un nom diferent, si us plau."
+msgstr "Ja s'utilitza el nom «%s». Utilitzeu un nom diferent."
 
 #: ../src/gth-browser-actions-callbacks.c:652
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
-msgstr "No s'ha pogut canviar el nom de la biblioteca \"%s\": %s"
+msgstr "No s'ha pogut canviar el nom de la biblioteca «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:652
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
-msgstr "No s'ha pogut canviar el nom del catàleg \"%s\": %s"
+msgstr "No s'ha pogut canviar el nom del catàleg «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:722
 msgid "The selected library will be removed, are you sure?"
@@ -2682,7 +2688,7 @@ msgstr "Nou catàleg"
 #: ../src/gth-browser-actions-callbacks.c:865
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
-msgstr "No s'ha pogut crear el catàleg \"%s\": %s"
+msgstr "No s'ha pogut crear el catàleg «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:958
 msgid "New Library"
@@ -2691,18 +2697,18 @@ msgstr "Nova biblioteca"
 #: ../src/gth-browser-actions-callbacks.c:960
 #, c-format
 msgid "Could not create the library \"%s\": %s"
-msgstr "No s'ha pogut crear la biblioteca \"%s\": %s"
+msgstr "No s'ha pogut crear la biblioteca «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1145
 #: ../src/gth-browser-actions-callbacks.c:1179
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
-msgstr "No s'ha pogut canviar el nom de la carpeta \"%s\": %s"
+msgstr "No s'ha pogut canviar el nom de la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1229
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
-msgstr "No s'ha pogut suprimir la carpeta \"%s\": %s"
+msgstr "No s'ha pogut suprimir la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1260
 #, c-format
@@ -2718,7 +2724,7 @@ msgstr "La carpeta seleccionada es mourà a la paperera, n'esteu segur?"
 #: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
-msgstr "No s'ha pogut copiar la carpeta \"%s\": %s"
+msgstr "No s'ha pogut copiar la carpeta «%s»: %s"
 
 #: ../src/gth-browser-actions-callbacks.c:1428
 msgid "source contains destination"
@@ -2766,7 +2772,7 @@ msgstr "_Ordena les imatges"
 #: ../src/gth-browser-actions-entries.h:44
 #: ../src/gth-viewer-actions-entries.h:39
 msgid "_Zoom"
-msgstr "_Zoom"
+msgstr "A_mpliació"
 
 #: ../src/gth-browser-actions-entries.h:45
 msgid "_Go"
@@ -2819,11 +2825,11 @@ msgstr "Importa les fotos d'una càmera digital"
 
 #: ../src/gth-browser-actions-entries.h:73
 msgid "_Write To CD"
-msgstr "_Escriu a CD"
+msgstr "_Escriu a un CD"
 
 #: ../src/gth-browser-actions-entries.h:74
 msgid "Write selection to CD"
-msgstr "Escriu la selecció a CD"
+msgstr "Escriu la selecció a un CD"
 
 #: ../src/gth-browser-actions-entries.h:78
 #: ../src/gth-browser-actions-entries.h:98
@@ -3146,7 +3152,7 @@ msgstr "_Afegeix a la llista d'adreces d'interès"
 
 #: ../src/gth-browser-actions-entries.h:339
 msgid "Add current location to bookmarks"
-msgstr "Afegeix la ubicació actual a la llista d'adreces"
+msgstr "Afegeix la ubicació actual a la llista d'adreces d'interès"
 
 #: ../src/gth-browser-actions-entries.h:343
 msgid "_Edit Bookmarks"
@@ -3318,12 +3324,12 @@ msgstr "%d imatges (%s)"
 #: ../src/gth-browser.c:786
 #, c-format
 msgid "1 selected (%s)"
-msgstr "1 de sel·leccionada (%s)"
+msgstr "se n'ha seleccionat 1 (%s)"
 
 #: ../src/gth-browser.c:789
 #, c-format
 msgid "%d selected (%s)"
-msgstr "%d de seleccionades (%s)"
+msgstr "se n'han seleccionat %d (%s)"
 
 #: ../src/gth-browser.c:1907 ../src/gth-viewer.c:987
 msgid "The current image has been modified, do you want to save it?"
@@ -3365,7 +3371,7 @@ msgstr "Previsualització de la imatge"
 #: ../src/gth-browser.c:7577
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
-msgstr "No s'ha pogut carregar la carpeta \"%s\": %s\n"
+msgstr "No s'ha pogut carregar la carpeta «%s»: %s\n"
 
 #: ../src/gth-browser.c:7885
 msgid "The specified catalog does not exist."
@@ -3436,6 +3442,7 @@ msgstr "Obres les imatges seleccionades amb una aplicació"
 msgid "translator_credits"
 msgstr ""
 "Softcatalà <gnome@softcatala.net>\n"
+"Maria Soler Climent <maria.soler@eupm.upc.edu>\n"
 "Aleix Badia i Bosch <a.badia@callusdigital.org>"
 
 #: ../src/gth-window-actions-callbacks.c:785
@@ -3633,7 +3640,7 @@ msgstr "Ajusta"
 
 #: ../src/gth-window-actions-entries.h:206
 msgid "Zoom to fit window"
-msgstr "Fes un zoom per ajustar la finestra"
+msgstr "Amplia per ajustar la finestra"
 
 #: ../src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
@@ -3715,7 +3722,7 @@ msgstr "Qualitat _alta"
 
 #: ../src/gth-window-actions-entries.h:313
 msgid "Use high quality zoom"
-msgstr "Utilitza el zoom d'alta qualitat"
+msgstr "Utilitza l'ampliació d'alta qualitat"
 
 #: ../src/gth-window-actions-entries.h:315
 msgid "_Low Quality"
@@ -3723,7 +3730,7 @@ msgstr "Qualitat _baixa"
 
 #: ../src/gth-window-actions-entries.h:316
 msgid "Use low quality zoom"
-msgstr "Utilitza el zoom de baixa qualitat"
+msgstr "Utilitza l'ampliació de baixa qualitat"
 
 #: ../src/main.c:87
 msgid "Start in fullscreen mode"
