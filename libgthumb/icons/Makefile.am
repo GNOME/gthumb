@@ -137,6 +137,10 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list transform_24_rgba $(srcdir)/transform-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list unknown_48_rgba $(srcdir)/unknown-48.png >> $(srcdir)/pixbufs.h
 
+XPM_IMAGES =			\
+	nav_button.xpm
+
 EXTRA_DIST = \
 	$(IMAGES)		\
+	$(XPM_IMAGES)		\
 	pixbufs.h

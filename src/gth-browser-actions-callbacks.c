@@ -55,7 +55,7 @@
 
 #define MAX_NAME_LEN 1024
 #define DEF_CONFIRM_DEL TRUE
-
+#define CATALOG_PERMISSIONS 0600
 
 void
 gth_browser_activate_action_file_new_window (GtkAction  *action,
@@ -853,7 +853,7 @@ gth_browser_activate_action_edit_current_catalog_new (GtkAction  *action,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (gnome_vfs_create (&vfs_handle, new_catalog_path, GNOME_VFS_OPEN_WRITE, FALSE, 0660) == GNOME_VFS_OK) {
+	} else if (gnome_vfs_create (&vfs_handle, new_catalog_path, GNOME_VFS_OPEN_WRITE, FALSE, CATALOG_PERMISSIONS) == GNOME_VFS_OK) {
 		gnome_vfs_close (vfs_handle);
 		all_windows_notify_catalog_new (new_catalog_path);
 

@@ -24,10 +24,10 @@
 #define NAV_WINDOW_H
 
 #include <gtk/gtkwidget.h>
-#include "image-viewer.h"
+#include "gth-iviewer.h"
 
 void nav_button_clicked_cb (GtkWidget      *widget,  
 			    GdkEventButton *event,
-			    ImageViewer    *viewer);
+			    GthIViewer     *viewer);
 
 #endif /* NAV_WINDOW_H */

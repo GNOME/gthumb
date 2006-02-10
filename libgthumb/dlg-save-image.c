@@ -257,18 +257,17 @@ build_file_type_menu (void)
 
 void
 dlg_save_image_as (GtkWindow       *parent,
-		   const char      *current_folder,
+		   const char      *uri,
 		   GdkPixbuf       *pixbuf,
 		   ImageSavedFunc   done_func,
 		   gpointer         done_data)
 {
 	SaveImageData *data;
-	GtkWidget *file_sel;
-	GtkWidget *vbox;
-	GtkWidget *hbox;
-	GtkWidget *opt_menu;
-	GtkWidget *menu;
-	char      *path;
+	GtkWidget     *file_sel;
+	GtkWidget     *vbox;
+	GtkWidget     *hbox;
+	GtkWidget     *opt_menu;
+	GtkWidget     *menu;
 
 	g_return_if_fail (pixbuf != NULL);
 
@@ -301,15 +300,10 @@ dlg_save_image_as (GtkWindow       *parent,
 
 	/**/
 
-	if (current_folder != NULL)
-		path = g_strdup (current_folder);
+	if (uri != NULL)
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), uri);
 	else
-		path = g_strconcat (g_get_home_dir (),
-				    "/",
-				    NULL);
-
-	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_sel), path);
-	g_free (path);
+		gtk_file_chooser_set_uri (GTK_FILE_CHOOSER (file_sel), get_home_uri ());
 
 	g_object_ref (pixbuf);
 

@@ -32,7 +32,7 @@ typedef void (*ImageSavedFunc)       (const char *filename,
 
 
 void       dlg_save_image_as   (GtkWindow       *parent,
-				const char      *current_folder,
+				const char      *uri,
 				GdkPixbuf       *pixbuf,
 				ImageSavedFunc   done_func,
 				gpointer         done_data);

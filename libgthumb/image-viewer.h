@@ -165,14 +165,13 @@ struct _ImageViewerClass
 
 	/* -- Signals -- */
 
-	void (* clicked)                (ImageViewer *viewer);
-	void (* image_loaded)           (ImageViewer *viewer);
-	void (* zoom_changed)           (ImageViewer *viewer);
-	void (* size_changed)           (ImageViewer *viewer);
-	void (* set_scroll_adjustments) (GtkWidget *widget,
+	void (* clicked)                (ImageViewer   *viewer);
+	void (* image_loaded)           (ImageViewer   *viewer);
+	void (* zoom_changed)           (ImageViewer   *viewer);
+	void (* set_scroll_adjustments) (GtkWidget     *widget,
                                          GtkAdjustment *hadj,
                                          GtkAdjustment *vadj);
-	void (* repainted)              (ImageViewer *viewer);
+	void (* repainted)              (ImageViewer   *viewer);
 
 	/* -- Key binding signals -- */
 
@@ -302,6 +301,10 @@ void           image_viewer_scroll_page_x      (ImageViewer *viewer,
 
 void           image_viewer_scroll_page_y      (ImageViewer *viewer,
 						gboolean increment);
+
+void           image_viewer_get_scroll_offset  (ImageViewer *viewer,
+						int         *x,
+						int         *y);
 
 /* Cursor. */
 void           image_viewer_show_cursor        (ImageViewer *viewer);

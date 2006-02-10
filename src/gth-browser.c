@@ -65,7 +65,7 @@
 #include "image-viewer.h"
 #include "jpeg-utils.h"
 #include "main.h"
-#include "nav-window.h"
+#include "gth-nav-window.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
 
@@ -80,7 +80,6 @@
 #endif /* HAVE_LIBIPTCDATA */
 
 #include "icons/pixbufs.h"
-#include "icons/nav_button.xpm"
 
 #define GCONF_NOTIFICATIONS 18
 
@@ -108,10 +107,7 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *statusbar;
 
 	GtkWidget          *viewer;
-	GtkWidget          *viewer_container;  /* Container widget for the 
-						* viewer.  Used by fullscreen 
-						* in order to reparent the 
-						* viewer.*/
+
 	GtkWidget          *main_pane;
 	GtkWidget          *content_pane;
 	GtkWidget          *image_pane;
@@ -119,9 +115,6 @@ struct _GthBrowserPrivateData {
 	GtkWidget          *file_list_pane;
 	GtkWidget          *notebook;
 	GtkWidget          *location;
-	GtkWidget          *viewer_vscr;
-	GtkWidget          *viewer_hscr;
-	GtkWidget          *viewer_event_box;
 	GtkWidget          *show_folders_toolbar_button;
 	GtkWidget          *show_catalog_toolbar_button;
 
@@ -2780,34 +2773,6 @@ zoom_changed_cb (GtkWidget  *widget,
 		 GthBrowser *browser)
 {
 	window_update_statusbar_zoom_info (browser);
-	return TRUE;	
-}
-
-
-static gint
-size_changed_cb (GtkWidget  *widget, 
-		 GthBrowser *browser)
-{
-	GthBrowserPrivateData *priv = browser->priv;
-	GtkAdjustment         *vadj, *hadj;
-	gboolean               hide_vscr, hide_hscr;
-
-	vadj = IMAGE_VIEWER (priv->viewer)->vadj;
-	hadj = IMAGE_VIEWER (priv->viewer)->hadj;
-
-	hide_vscr = vadj->upper <= vadj->page_size;
-	hide_hscr = hadj->upper <= hadj->page_size;
-
-	if (hide_vscr && hide_hscr) {
-		gtk_widget_hide (priv->viewer_vscr); 
-		gtk_widget_hide (priv->viewer_hscr); 
-		gtk_widget_hide (priv->viewer_event_box);
-	} else {
-		gtk_widget_show (priv->viewer_vscr); 
-		gtk_widget_show (priv->viewer_hscr); 
-		gtk_widget_show (priv->viewer_event_box);
-	}
-
 	return TRUE;	
 }
 
@@ -6071,8 +6036,6 @@ gth_browser_construct (GthBrowser  *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	GtkWidget             *paned1;      /* Main paned widget. */
 	GtkWidget             *paned2;      /* Secondary paned widget. */
-	GtkWidget             *table;
-	GtkWidget             *frame;
 	GtkWidget             *image_vbox;
 	GtkWidget             *dir_list_vbox;
 	GtkWidget             *info_frame;
@@ -6352,10 +6315,6 @@ gth_browser_construct (GthBrowser  *browser,
 			  "zoom_changed",
 			  G_CALLBACK (zoom_changed_cb), 
 			  browser);
-	g_signal_connect (G_OBJECT (priv->viewer), 
-			  "size_changed",
-			  G_CALLBACK (size_changed_cb), 
-			  browser);
 	g_signal_connect_after (G_OBJECT (priv->viewer), 
 				"button_press_event",
 				G_CALLBACK (image_button_press_cb), 
@@ -6404,16 +6363,6 @@ gth_browser_construct (GthBrowser  *browser,
 			  "image_error",
 			  G_CALLBACK (image_loader_done_cb), 
 			  browser);
-
-	priv->viewer_vscr = gtk_vscrollbar_new (IMAGE_VIEWER (priv->viewer)->vadj);
-	priv->viewer_hscr = gtk_hscrollbar_new (IMAGE_VIEWER (priv->viewer)->hadj);
-	priv->viewer_event_box = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (priv->viewer_event_box), _gtk_image_new_from_xpm_data (nav_button_xpm));
-
-	g_signal_connect (G_OBJECT (priv->viewer_event_box), 
-			  "button_press_event",
-			  G_CALLBACK (nav_button_clicked_cb), 
-			  priv->viewer);
 
 	/* Pack the widgets */
 
@@ -6557,24 +6506,8 @@ gth_browser_construct (GthBrowser  *browser,
 
 	/**/
 
-	priv->viewer_container = frame = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (frame), priv->viewer);
-
-	priv->preview_widget_image = table = gtk_table_new (2, 2, FALSE);
-	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), table, FALSE, FALSE);
-
-	gtk_table_attach (GTK_TABLE (table), frame, 0, 1, 0, 1,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_vscr, 1, 2, 0, 1,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_hscr, 0, 1, 1, 2,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_event_box, 1, 2, 1, 2,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
+	priv->preview_widget_image = gth_nav_window_new (GTH_IVIEWER (priv->viewer));
+	gtk_paned_pack1 (GTK_PANED (image_pane_paned1), priv->preview_widget_image, FALSE, FALSE);
 
 	/**/
 

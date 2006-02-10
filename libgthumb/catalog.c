@@ -39,6 +39,7 @@
 
 #define SORT_FIELD "# sort: "
 #define MAX_LINE_LENGTH 4096
+#define FILE_PERMISSIONS 0600
 
 static char *sort_names[] = { "none", "name", "path", "size", "time", "manual" };
 
@@ -349,7 +350,7 @@ catalog_write_to_disk (Catalog     *catalog,
 	g_return_val_if_fail (catalog != NULL, FALSE);
 	g_return_val_if_fail (catalog->path != NULL, FALSE);
 
-	result = gnome_vfs_open (&handle, catalog->path, GNOME_VFS_OPEN_WRITE);
+	result = gnome_vfs_create (&handle, catalog->path, GNOME_VFS_OPEN_WRITE, FALSE, FILE_PERMISSIONS);
 	if (result != GNOME_VFS_OK) {
 		if (gerror != NULL)
 			*gerror = g_error_new (GTHUMB_ERROR,

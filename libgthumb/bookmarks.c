@@ -36,6 +36,7 @@
 
 #define MAX_LINE_LENGTH 4096
 #define MAX_LINES 100
+#define FILE_PERMISSIONS 0600
 
 
 Bookmarks *
@@ -361,7 +362,7 @@ bookmarks_write_to_disk (Bookmarks *bookmarks)
 			   "/",
 			   bookmarks->rc_filename,
 			   NULL);
-	result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_WRITE);
+	result = gnome_vfs_create (&handle, uri, GNOME_VFS_OPEN_WRITE, FALSE, FILE_PERMISSIONS);
 	g_free (uri);
 
 	if (result != GNOME_VFS_OK)

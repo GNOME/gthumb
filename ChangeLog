@@ -1,3 +1,43 @@
+2006-02-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-iviewer.c: new file
+	* libgthumb/gth-iviewer.h: new file
+	* libgthumb/gth-nav-window.c: new file
+	* libgthumb/gth-nav-window.h: new file
+	* libgthumb/icons/nav_button.xpm: new file
+	* src/icons/Makefile.am (EXTRA_DIST): 
+	* src/gth-viewer.c: 
+	* src/gth-image-selector.h (struct _GthImageSelectorClass): 
+	* src/gth-image-selector.c: 
+	* src/gth-browser.c: 
+	* src/dlg-crop.c: 
+	* libgthumb/icons/Makefile.am (pixbufs.h): 
+	* libgthumb/nav-window.h: 
+	* libgthumb/nav-window.c: 
+	* libgthumb/image-viewer.h: 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/Makefile.am (HEADER_FILES): 
+	* data/glade/gthumb_crop.glade: first step to improve the crop image
+	dialog.
+
+	* src/gth-browser-actions-callbacks.c: use CATALOG_PERMISSIONS instead
+	of 0660
+	
+	* libgthumb/dlg-save-image.h: 
+	* libgthumb/dlg-save-image.c (dlg_save_image_as): use set uri instead 
+	of set_filename
+
+2006-02-07  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-actions-callbacks.c (gth_browser_activate_action_edit_current_catalog_new): use 0600 as catalog permissions.
+
+	* libgthumb/catalog.c (catalog_write_to_disk): 
+	* libgthumb/bookmarks.c (bookmarks_write_to_disk): use gnome_vfs_create
+	instead of gnome_vfs_open
+
+	Fixes bug #329600 – Deleting the Catalogue Search\ Results causes 
+	erroneous behaviour.
+	
 2006-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/gthumb.desktop.in (Categories): added GNOME;GTK;

@@ -45,10 +45,12 @@ HEADER_FILES =				\
 	gnome-print-font-dialog.h	\
 	gstringlist.h			\
 	gth-image-list.h		\
+	gth-iviewer.h			\
 	gth-file-list.h			\
 	gth-file-view.h			\
 	gth-file-view-list.h		\
 	gth-file-view-thumbs.h		\
+	gth-nav-window.h		\
 	gth-pixbuf-op.h			\
 	gthumb-error.h			\
 	gthumb-histogram.h		\
@@ -101,10 +103,12 @@ libgthumb_la_SOURCES =			\
 	gstringlist.c			\
 	gth-pixbuf-op.c			\
 	gth-image-list.c		\
+	gth-iviewer.c			\
 	gth-file-list.c			\
 	gth-file-view.c			\
 	gth-file-view-list.c		\
 	gth-file-view-thumbs.c		\
+	gth-nav-window.c		\
 	gthumb-error.c			\
 	gthumb-histogram.c		\
 	gthumb-init.c			\

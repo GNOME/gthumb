@@ -50,38 +50,33 @@ struct _GthImageSelectorClass
 
 	/* -- Signals -- */
 
-	void (* selection_changed) (GthImageSelector *selector);
+	void (* set_scroll_adjustments) (GtkWidget        *widget,
+                                         GtkAdjustment    *hadj,
+					 GtkAdjustment    *vadj);
+	void (* selection_changed)      (GthImageSelector *selector);
 };
 
-
-GType          gth_image_selector_get_type       (void);
-
-GtkWidget*     gth_image_selector_new            (GdkPixbuf        *pixbuf);
-
-void           gth_image_selector_set_pixbuf     (GthImageSelector *selector, 
-						  GdkPixbuf        *pixbuf);
-
-GdkPixbuf*     gth_image_selector_get_pixbuf     (GthImageSelector *selector);
-
-void           gth_image_selector_set_selection_width (GthImageSelector *selector,
-						       int               width);
-
-void           gth_image_selector_set_selection_height (GthImageSelector *selector,
-							int               height);
-
-void           gth_image_selector_set_selection  (GthImageSelector *selector,
-						  GdkRectangle      selection);
-
-void           gth_image_selector_get_selection  (GthImageSelector *selector,
-						  GdkRectangle     *selection);
-
-void           gth_image_selector_set_ratio      (GthImageSelector *selector,
-						  gboolean          use_ratio,
-						  double            ratio);
-
-double         gth_image_selector_get_ratio      (GthImageSelector *selector);
-
-gboolean       gth_image_selector_get_use_ratio  (GthImageSelector *selector);
+GType      gth_image_selector_get_type             (void);
+GtkWidget* gth_image_selector_new                  (GdkPixbuf        *pixbuf);
+void       gth_image_selector_set_pixbuf           (GthImageSelector *selector, 
+						    GdkPixbuf        *pixbuf);
+GdkPixbuf* gth_image_selector_get_pixbuf           (GthImageSelector *selector);
+void       gth_image_selector_set_selection_width  (GthImageSelector *selector,
+						    int               width);
+void       gth_image_selector_set_selection_height (GthImageSelector *selector,
+						    int               height);
+void       gth_image_selector_set_selection        (GthImageSelector *selector,
+						    GdkRectangle      selection);
+void       gth_image_selector_get_selection        (GthImageSelector *selector,
+						    GdkRectangle     *selection);
+void       gth_image_selector_set_ratio            (GthImageSelector *selector,
+						    gboolean          use_ratio,
+						    double            ratio);
+double     gth_image_selector_get_ratio            (GthImageSelector *selector);
+gboolean   gth_image_selector_get_use_ratio        (GthImageSelector *selector);
+void       gth_image_selector_set_zoom             (GthImageSelector *selector,
+						    double            zoom);
+double     gth_image_selector_get_zoom             (GthImageSelector *selector);
 
 G_END_DECLS
 

@@ -34,11 +34,12 @@
 #include "preferences.h"
 #include "pixbuf-utils.h"
 #include "gth-image-selector.h"
+#include "image-viewer.h"
 #include "gthumb-stock.h"
 #include "typedefs.h"
+#include "gth-nav-window.h"
 
 #define GLADE_FILE     "gthumb_crop.glade"
-
 
 /**/
 
@@ -46,10 +47,12 @@ typedef struct {
 	GthWindow     *window;
 	GladeXML      *gui;
 
+	GdkPixbuf     *pixbuf;	
 	int            image_width, image_height;
 	int            display_width, display_height;
 
 	GtkWidget     *dialog;
+	GtkWidget     *nav_win;
 	GtkWidget     *crop_image;
 	GtkSpinButton *crop_x_spinbutton;
 	GtkSpinButton *crop_y_spinbutton;
@@ -60,6 +63,7 @@ typedef struct {
 	GtkSpinButton *ratio_h_spinbutton;
 	GtkWidget     *custom_ratio_box;
 	GtkWidget     *ratio_swap_button;
+	GtkAdjustment *hadj, *vadj;
 } DialogData;
 
 
@@ -310,14 +314,46 @@ ratio_swap_button_cb (GtkButton *button,
 }
 
 
+static void
+crop_zoom_combobox_changed_cb (GtkComboBox *combo_box,
+			       DialogData  *data)
+{
+	int    idx = gtk_combo_box_get_active (combo_box);
+	double zoom_level[4] = {0.5, 1.0, 2.0, 3.0};
+	double zoom;
+	double vscroll, hscroll;
+
+	zoom = gth_image_selector_get_zoom (GTH_IMAGE_SELECTOR (data->crop_image));
+	gth_iviewer_get_adjustments (GTH_IVIEWER (data->crop_image), &data->hadj, &data->vadj);
+	vscroll = gtk_adjustment_get_value (data->vadj) / zoom;
+	hscroll = gtk_adjustment_get_value (data->hadj) / zoom;
+
+	if (idx == 0) {
+		int widget_width, widget_height;
+
+		widget_width = GTK_WIDGET (data->nav_win)->allocation.width - 20;
+		widget_height = GTK_WIDGET (data->nav_win)->allocation.height - 20;
+
+		zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (data->pixbuf),
+			    (double) widget_height / gdk_pixbuf_get_height (data->pixbuf));
+	} else
+		zoom = zoom_level[idx-1];
+
+	gth_image_selector_set_zoom (GTH_IMAGE_SELECTOR (data->crop_image), zoom);
+
+	gtk_adjustment_set_value (data->vadj, vscroll * zoom);
+	gtk_adjustment_set_value (data->hadj, hscroll * zoom);
+}
+
+
 void
 dlg_crop (GthWindow *window)
 {
 	DialogData   *data;
-	GtkWidget    *crop_frame;
+	GtkWidget    *nav_container;
 	GtkWidget    *ok_button;
 	GtkWidget    *cancel_button;
-	GdkPixbuf    *pixbuf;	
+	GtkWidget    *crop_zoom_combobox;
 	GtkWidget    *menu, *item;
 	GtkWidget    *image;
 	char         *label;
@@ -338,7 +374,8 @@ dlg_crop (GthWindow *window)
 	/* Get the widgets. */
 
 	data->dialog = glade_xml_get_widget (data->gui, "crop_dialog");
-	crop_frame = glade_xml_get_widget (data->gui, "crop_frame");
+	nav_container = glade_xml_get_widget (data->gui, "nav_container");
+
 	data->crop_x_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_x_spinbutton");
 	data->crop_y_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_y_spinbutton");
 	data->crop_width_spinbutton = (GtkSpinButton*) glade_xml_get_widget (data->gui, "crop_width_spinbutton");
@@ -349,11 +386,12 @@ dlg_crop (GthWindow *window)
 	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
 	data->ratio_swap_button = glade_xml_get_widget (data->gui, "ratio_swap_button");
 
+	crop_zoom_combobox = glade_xml_get_widget (data->gui, "crop_zoom_combobox");
+
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
 
 	data->crop_image = gth_image_selector_new (NULL);
-	gtk_container_add (GTK_CONTAINER (crop_frame), data->crop_image);
 
 	image = glade_xml_get_widget (data->gui, "ratio_swap_image");
 	gtk_image_set_from_stock (GTK_IMAGE (image), GTHUMB_STOCK_SWAP, GTK_ICON_SIZE_MENU);
@@ -363,11 +401,17 @@ dlg_crop (GthWindow *window)
 
 	/* Set widgets data. */
 
-	pixbuf = image_viewer_get_current_pixbuf (gth_window_get_image_viewer (data->window));
-	data->image_width = gdk_pixbuf_get_width (pixbuf);
-	data->image_height = gdk_pixbuf_get_height (pixbuf);
-	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), pixbuf);
-	gtk_widget_show_all (data->crop_image);
+	data->pixbuf = image_viewer_get_current_pixbuf (gth_window_get_image_viewer (data->window));
+	data->image_width = gdk_pixbuf_get_width (data->pixbuf);
+	data->image_height = gdk_pixbuf_get_height (data->pixbuf);
+	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), data->pixbuf);
+
+	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->crop_image));
+	gtk_widget_set_size_request (data->nav_win, 350, 300);
+
+	gtk_container_add (GTK_CONTAINER (nav_container), data->nav_win);
+
+	gtk_widget_show_all (nav_container);
 
 	/**/
 
@@ -410,8 +454,22 @@ dlg_crop (GthWindow *window)
 				      (crop_ratio != GTH_CROP_RATIO_NONE),
 				      (double) ratio_w / ratio_h);
 
+
+	/**/
+
+	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
+				   _("Fit"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
+				   "50%");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
+				   "100%");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
+				   "200%");
+	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
+				   "300%");
+
 	/* Set the signals handlers. */
-	
+
 	g_signal_connect (G_OBJECT (data->dialog),
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
@@ -460,8 +518,15 @@ dlg_crop (GthWindow *window)
 			  "clicked",
 			  G_CALLBACK (ratio_swap_button_cb),
 			  data);
+	g_signal_connect (G_OBJECT (crop_zoom_combobox), 
+			  "changed",
+			  G_CALLBACK (crop_zoom_combobox_changed_cb),
+			  data);
 
 	/* Run dialog. */
+
+	gtk_widget_realize (data->dialog);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (crop_zoom_combobox), 0);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));

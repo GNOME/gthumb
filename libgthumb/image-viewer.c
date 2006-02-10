@@ -32,6 +32,7 @@
 #include <libgnomevfs/gnome-vfs-uri.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
 
+#include "gth-iviewer.h"
 #include "image-viewer.h"
 #include "cursors.h"
 #include "pixbuf-utils.h"
@@ -56,8 +57,8 @@
 enum {
 	CLICKED,
 	IMAGE_LOADED,
+	/*SIZE_CHANGED,*/
 	ZOOM_CHANGED,
-	SIZE_CHANGED,
 	REPAINTED,
 	SCROLL,
 	LAST_SIGNAL
@@ -163,6 +164,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
+	/*
 	image_viewer_signals[SIZE_CHANGED] =
 		g_signal_new ("size_changed",
 			      G_TYPE_FROM_CLASS (class),
@@ -172,6 +174,7 @@ image_viewer_class_init (ImageViewerClass *class)
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
+	*/
 	image_viewer_signals[REPAINTED] =
 		g_signal_new ("repainted",
 			      G_TYPE_FROM_CLASS (class),
@@ -391,14 +394,6 @@ image_viewer_init (ImageViewer *viewer)
 			  "value_changed",
 			  G_CALLBACK (vadj_value_changed), 
 			  viewer);
-
-	gtk_widget_set_events (GTK_WIDGET (viewer), 
-			       GDK_EXPOSURE_MASK | 
-			       GDK_BUTTON_PRESS_MASK |
-			       GDK_BUTTON_RELEASE_MASK |
-			       GDK_POINTER_MOTION_MASK |
-			       GDK_POINTER_MOTION_HINT_MASK |
-			       GDK_BUTTON_MOTION_MASK);
 }
 
 
@@ -1183,7 +1178,13 @@ image_viewer_realize (GtkWidget *widget)
 	attributes.visual      = gtk_widget_get_visual (widget);
 	attributes.colormap    = gtk_widget_get_colormap (widget);
 	attributes.event_mask  = (gtk_widget_get_events (widget) 
-				  | GDK_EXPOSURE_MASK);
+				  | GDK_EXPOSURE_MASK
+				  | GDK_BUTTON_PRESS_MASK 
+				  | GDK_BUTTON_RELEASE_MASK 
+				  | GDK_POINTER_MOTION_MASK 
+				  | GDK_POINTER_MOTION_HINT_MASK 
+				  | GDK_BUTTON_MOTION_MASK);
+
 	attributes_mask        = (GDK_WA_X 
 				  | GDK_WA_Y 
 				  | GDK_WA_VISUAL 
@@ -1335,9 +1336,12 @@ image_viewer_size_allocate (GtkWidget       *widget,
 			viewer->y_offset = 0;
 
 		if ((width != viewer->hadj->upper) || (height != viewer->vadj->upper))
+			gth_iviewer_size_changed (GTH_IVIEWER (viewer));
+		/*
 			g_signal_emit (G_OBJECT (viewer), 
 				       image_viewer_signals[SIZE_CHANGED], 
 				       0);
+		*/
 
 		/* Change adjustment values. */
 
@@ -1381,9 +1385,12 @@ image_viewer_size_allocate (GtkWidget       *widget,
 					allocation->width, allocation->height);
 
 	if (! viewer->skip_size_change)
+		gth_iviewer_size_changed (GTH_IVIEWER (viewer));
+	/*
 		g_signal_emit (G_OBJECT (viewer), 
 			       image_viewer_signals[SIZE_CHANGED], 
 			       0);
+	*/
 	else
 		viewer->skip_size_change = FALSE;
 }
@@ -1448,6 +1455,34 @@ image_viewer_scroll_event (GtkWidget        *widget,
 }
 
 
+void
+image_viewer_get_adjustments (GthIViewer     *self,
+			      GtkAdjustment **hadj,
+			      GtkAdjustment **vadj)
+{
+	ImageViewer *viewer = IMAGE_VIEWER (self);
+	if (hadj != NULL)
+		*hadj = viewer->hadj;
+	if (vadj != NULL)
+		*vadj = viewer->vadj;
+}
+
+
+static void
+gth_iviewer_interface_init (gpointer   g_iface,
+			    gpointer   iface_data)
+{
+	GthIViewerInterface *iface = (GthIViewerInterface *)g_iface;
+
+	iface->get_zoom = image_viewer_get_zoom;
+	iface->set_zoom = image_viewer_set_zoom;
+	iface->zoom_in = image_viewer_zoom_in;
+	iface->zoom_out = image_viewer_zoom_out;
+	iface->get_image = image_viewer_get_current_pixbuf;
+	iface->get_adjustments = image_viewer_get_adjustments;
+}
+
+
 
 
 
@@ -1468,11 +1503,19 @@ image_viewer_get_type ()
 			0,
 			(GInstanceInitFunc) image_viewer_init
 		};
+		static const GInterfaceInfo iviewer_info = {
+			(GInterfaceInitFunc) gth_iviewer_interface_init,
+			NULL,
+			NULL
+		};
 
 		type = g_type_register_static (GTK_TYPE_WIDGET,
 					       "ImageViewer",
 					       &type_info,
-					       0);
+					       0); 
+		g_type_add_interface_static (type,
+					     GTH_TYPE_IVIEWER,
+					     &iviewer_info);
 	}
 
         return type;
@@ -2419,6 +2462,17 @@ image_viewer_scroll_page_y (ImageViewer *viewer,
 	scroll_relative (viewer, 
 			 0,
 			 (increment ? 1 : -1) * viewer->vadj->page_increment);
+}
+
+
+void
+image_viewer_get_scroll_offset  (ImageViewer *viewer,
+				 int         *x,
+				 int         *y)
+{
+	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
+	*x = viewer->x_offset;
+	*y = viewer->y_offset;
 }
 
 

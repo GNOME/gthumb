@@ -5,4 +5,4 @@ XPM_IMAGES =			\
 	layout4.xpm		\
 	nav_button.xpm
 
-EXTRA_DIST = $(XPM_IMAGES)		
+EXTRA_DIST = $(XPM_IMAGES)

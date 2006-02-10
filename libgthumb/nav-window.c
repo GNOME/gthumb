@@ -23,8 +23,8 @@
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
-#include "image-viewer.h"
-#include "image-loader.h"
+
+#include "nav-window.h"
 
 
 #define PEN_WIDTH         3       /* Square border width. */ 
@@ -35,33 +35,36 @@
 #define NAV_WIN_MAX_HEIGHT    112
 
 
+#define FRAME_BORDER2   2    /* sync with FRAME_BORDER2 in image-viewer.h */
+
+
 typedef struct {
-	ImageViewer * viewer;
+	GthIViewer *viewer;
 
-	gint          x_root, y_root;
+	int        x_root, y_root;
 
-	GtkWidget *   popup_win;
-	GtkWidget *   preview;
-	GdkPixbuf *   pixbuf;
+	GtkWidget *popup_win;
+	GtkWidget *preview;
+	GdkPixbuf *pixbuf;
 
-	GdkGC *       gc;
+	GdkGC *    gc;
 
-	gint          image_width, image_height;
-	gint          window_max_width, window_max_height;
+	int        image_width, image_height;
+	int        window_max_width, window_max_height;
 
-	gint          popup_x, popup_y, popup_width, popup_height;
-	gint          sqr_x, sqr_y, sqr_width, sqr_height;
+	int        popup_x, popup_y, popup_width, popup_height;
+	int        sqr_x, sqr_y, sqr_width, sqr_height;
 
-	gdouble       factor;
-	gdouble       sqr_x_d, sqr_y_d;
+	double     factor;
+	double     sqr_x_d, sqr_y_d;
 } NavWindow; 
 
 
 static void
 nav_window_draw_sqr (NavWindow *nav_win,
-		     gboolean undraw,
-		     gint x,
-		     gint y)
+		     gboolean   undraw,
+		     int        x,
+		     int        y)
 {
 	if ((nav_win->sqr_x == x) && (nav_win->sqr_y == y) && undraw)
 		return;
@@ -95,10 +98,10 @@ nav_window_draw_sqr (NavWindow *nav_win,
 
 static void
 get_sqr_origin_as_double (NavWindow *nav_win,
-			  gint mx,
-			  gint my,
-			  gdouble *x,
-			  gdouble *y)
+			  int        mx,
+			  int        my,
+			  double    *x,
+			  double    *y)
 {
 	*x = MIN (mx - B, nav_win->window_max_width);
 	*y = MIN (my - B, nav_win->window_max_height);
@@ -123,22 +126,23 @@ get_sqr_origin_as_double (NavWindow *nav_win,
 static void
 update_view (NavWindow *nav_win)
 {
-	ImageViewer     *viewer = nav_win->viewer;
-	GdkPixbuf       *image_pixbuf;
-	gint             popup_x, popup_y;
-	gint             popup_width, popup_height;
-	gint             w, h;
-	gdouble          factor;
-	gint             gdk_width, gdk_height;
+	GthIViewer  *viewer = nav_win->viewer;
+	GdkPixbuf  *image_pixbuf;
+	int         popup_x, popup_y;
+	int         popup_width, popup_height;
+	int         x_offset, y_offset;
+	int         w, h;
+	double      factor;
+	int         gdk_width, gdk_height;
 
-	w = nav_win->image_width * image_viewer_get_zoom (viewer);
-	h = nav_win->image_height * image_viewer_get_zoom (viewer);
+	w = nav_win->image_width * gth_iviewer_get_zoom (viewer);
+	h = nav_win->image_height * gth_iviewer_get_zoom (viewer);
 
 	nav_win->window_max_width = MIN (w, NAV_WIN_MAX_WIDTH);
 	nav_win->window_max_height = MIN (w, NAV_WIN_MAX_HEIGHT);
 
-	factor = MIN ((gdouble) (nav_win->window_max_width) / w, 
-		      (gdouble) (nav_win->window_max_height) / h);
+	factor = MIN ((double) (nav_win->window_max_width) / w, 
+		      (double) (nav_win->window_max_height) / h);
 	nav_win->factor = factor;
 
 	gdk_width = GTK_WIDGET (viewer)->allocation.width - FRAME_BORDER2;
@@ -146,10 +150,10 @@ update_view (NavWindow *nav_win)
 
 	/* Popup window size. */
 
-	popup_width  = MAX ((gint) floor (factor * w + 0.5), 1);
-	popup_height = MAX ((gint) floor (factor * h + 0.5), 1);
+	popup_width  = MAX ((int) floor (factor * w + 0.5), 1);
+	popup_height = MAX ((int) floor (factor * h + 0.5), 1);
 
-	image_pixbuf = image_viewer_get_current_pixbuf (viewer);
+	image_pixbuf = gth_iviewer_get_image (viewer);
 	g_return_if_fail (image_pixbuf != NULL);
 
 	if (nav_win->pixbuf != NULL) 
@@ -169,16 +173,17 @@ update_view (NavWindow *nav_win)
 	nav_win->sqr_height = MAX (nav_win->sqr_height, B); 
 	nav_win->sqr_height = MIN (nav_win->sqr_height, popup_height); 
 
-	nav_win->sqr_x = viewer->x_offset * factor;
-	nav_win->sqr_y = viewer->y_offset * factor;
+	gth_iviewer_get_scroll_offset (viewer, &x_offset, &y_offset);
+	nav_win->sqr_x = x_offset * factor;
+	nav_win->sqr_y = y_offset * factor;
 
 	/* Popup window position. */
 
-	popup_x = MIN ((gint) nav_win->x_root - nav_win->sqr_x 
+	popup_x = MIN ((int) nav_win->x_root - nav_win->sqr_x 
 		       - B 
 		       - nav_win->sqr_width / 2,
 		       gdk_screen_width () - popup_width - B2);
-	popup_y = MIN ((gint) nav_win->y_root - nav_win->sqr_y 
+	popup_y = MIN ((int) nav_win->y_root - nav_win->sqr_y 
 		       - B
 		       - nav_win->sqr_height / 2,
 		       gdk_screen_height () - popup_height - B2);
@@ -237,9 +242,9 @@ nav_window_events (GtkWidget *widget,
 {
 	NavWindow       *nav_win = data;
 	GdkModifierType  mask;
-	gint             mx, my;
-	gdouble          x, y;
-	ImageViewer     *viewer = nav_win->viewer;
+	int              mx, my;
+	double           x, y;
+	GthIViewer       *viewer = nav_win->viewer;
 
 	switch (event->type) {
 	case GDK_BUTTON_RELEASE:
@@ -258,13 +263,13 @@ nav_window_events (GtkWidget *widget,
 		gdk_window_get_pointer (widget->window, &mx, &my, &mask);
 		get_sqr_origin_as_double (nav_win, mx, my, &x, &y);
 
-		mx = (gint) x;
-		my = (gint) y;
+		mx = (int) x;
+		my = (int) y;
 		nav_window_draw_sqr (nav_win, TRUE, mx, my);
 
-		mx = (gint) (x / nav_win->factor);
-		my = (gint) (y / nav_win->factor);
-		image_viewer_scroll_to (viewer, mx, my);
+		mx = (int) (x / nav_win->factor);
+		my = (int) (y / nav_win->factor);
+		gth_iviewer_scroll_to (viewer, mx, my);
 
 		return TRUE;
 
@@ -279,13 +284,13 @@ nav_window_events (GtkWidget *widget,
 
 			switch (event->key.keyval) {
 			case GDK_plus: 
-				image_viewer_zoom_in (viewer); 
+				gth_iviewer_zoom_in (viewer); 
 				break;
 			case GDK_minus:
-				image_viewer_zoom_out (viewer); 
+				gth_iviewer_zoom_out (viewer); 
 				break;
 			case GDK_1:
-				image_viewer_set_zoom (viewer, 1.0);
+				gth_iviewer_set_zoom (viewer, 1.0);
 				break;
 			}
 
@@ -341,7 +346,7 @@ nav_window_grab_pointer (NavWindow *nav_win)
 
 
 static NavWindow *
-nav_window_new (ImageViewer *viewer)
+nav_window_new (GthIViewer *viewer)
 {
 	NavWindow *nav_window;
 	GtkWidget *out_frame;
@@ -386,11 +391,11 @@ nav_window_new (ImageViewer *viewer)
 void
 nav_button_clicked_cb (GtkWidget      *widget, 
 		       GdkEventButton *event,
-		       ImageViewer    *viewer)
+		       GthIViewer      *viewer)
 {
 	NavWindow *nav_win;
 
-	if (image_viewer_is_void (viewer))
+	if (gth_iviewer_is_void (viewer))
 		return;
 
 	nav_win = nav_window_new (viewer);
@@ -398,8 +403,8 @@ nav_button_clicked_cb (GtkWidget      *widget,
 	nav_win->x_root = event->x_root;
 	nav_win->y_root = event->y_root;
 
-	nav_win->image_width = image_viewer_get_image_width (viewer);
-	nav_win->image_height = image_viewer_get_image_height (viewer);
+	nav_win->image_width = gth_iviewer_get_image_width (viewer);
+	nav_win->image_height = gth_iviewer_get_image_height (viewer);
 
 	update_view (nav_win);
 

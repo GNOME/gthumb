@@ -56,14 +56,13 @@
 #include "gthumb-info-bar.h"
 #include "gtk-utils.h"
 #include "main.h"
-#include "nav-window.h"
+#include "gth-nav-window.h"
 #include "image-viewer.h"
 #include "jpeg-utils.h"
 #include "preferences.h"
 #include "typedefs.h"
 
 #include "icons/pixbufs.h"
-#include "icons/nav_button.xpm"
 
 #define GLADE_EXPORTER_FILE "gthumb_png_exporter.glade"
 #define DEFAULT_WIN_WIDTH 200
@@ -98,9 +97,6 @@ struct _GthViewerPrivateData {
 	GtkWidget       *image_popup_menu;
 	GtkWidget       *info_bar;
 	GtkWidget       *viewer;
-	GtkWidget       *viewer_vscr;
-	GtkWidget       *viewer_hscr;
-	GtkWidget       *viewer_nav_event_box;
 	GtkWidget       *image_data_hpaned;
 	GtkWidget       *image_comment;
 	GtkWidget       *exif_data_viewer;
@@ -1251,34 +1247,6 @@ viewer_key_press_cb (GtkWidget   *widget,
 
 
 static gboolean
-size_changed_cb (GtkWidget *widget, 
-		 GthViewer *viewer)
-{
-	GthViewerPrivateData *priv = viewer->priv;
-	GtkAdjustment        *vadj, *hadj;
-	gboolean              hide_vscr, hide_hscr;
-
-	vadj = IMAGE_VIEWER (priv->viewer)->vadj;
-	hadj = IMAGE_VIEWER (priv->viewer)->hadj;
-
-	hide_vscr = vadj->upper <= vadj->page_size;
-	hide_hscr = hadj->upper <= hadj->page_size;
-
-	if (hide_vscr && hide_hscr) {
-		gtk_widget_hide (priv->viewer_vscr); 
-		gtk_widget_hide (priv->viewer_hscr); 
-		gtk_widget_hide (priv->viewer_nav_event_box);
-	} else {
-		gtk_widget_show (priv->viewer_vscr); 
-		gtk_widget_show (priv->viewer_hscr); 
-		gtk_widget_show (priv->viewer_nav_event_box);
-	}
-
-	return TRUE;	
-}
-
-
-static gboolean
 image_focus_changed_cb (GtkWidget     *widget,
 			GdkEventFocus *event,
 			gpointer       data)
@@ -1579,8 +1547,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	GtkWidget            *button;
 	GtkWidget            *image;
 	GtkWidget            *image_vpaned;
-	GtkWidget            *table;
-	GtkWidget            *hbox;
+	GtkWidget            *nav_window;
 	GtkWidget            *scrolled_window;
 	GtkActionGroup       *actions;
 	GtkUIManager         *ui;
@@ -1731,10 +1698,6 @@ gth_viewer_construct (GthViewer   *viewer,
 			  G_CALLBACK (zoom_changed_cb), 
 			  viewer);
 	g_signal_connect (G_OBJECT (priv->viewer), 
-			  "size_changed",
-			  G_CALLBACK (size_changed_cb), 
-			  viewer);
-	g_signal_connect (G_OBJECT (priv->viewer), 
 			  "focus_in_event",
 			  G_CALLBACK (image_focus_changed_cb), 
 			  viewer);
@@ -1773,15 +1736,7 @@ gth_viewer_construct (GthViewer   *viewer,
 			  window);
 	*/
 
-	priv->viewer_vscr = gtk_vscrollbar_new (IMAGE_VIEWER (priv->viewer)->vadj);
-	priv->viewer_hscr = gtk_hscrollbar_new (IMAGE_VIEWER (priv->viewer)->hadj);
-	priv->viewer_nav_event_box = gtk_event_box_new ();
-	gtk_container_add (GTK_CONTAINER (priv->viewer_nav_event_box), _gtk_image_new_from_xpm_data (nav_button_xpm));
-
-	g_signal_connect (G_OBJECT (priv->viewer_nav_event_box), 
-			  "button_press_event",
-			  G_CALLBACK (nav_button_clicked_cb), 
-			  priv->viewer);
+	nav_window = gth_nav_window_new (GTH_IVIEWER (priv->viewer));
 
 	/* Image comment */
 
@@ -1844,17 +1799,9 @@ gth_viewer_construct (GthViewer   *viewer,
              |
              +- image_vpaned
                   |
-                  +- table
+                  +- nav_window
                   |    |
-                  |    +- hbox
-                  |    |    |
-                  |    |    +- priv->viewer
-                  |    |
-                  |    +- priv->viewer_vscr
-                  |    |
-                  |    +- priv->viewer_hscr
-                  |    |
-                  |    +- priv->image_nav_button_box
+                  |    +- priv->viewer
                   |
                   +- priv->image_data_hpaned
                        |
@@ -1884,25 +1831,6 @@ gth_viewer_construct (GthViewer   *viewer,
 	priv->image_main_pane = image_vpaned = gtk_vpaned_new ();
 	gtk_paned_set_position (GTK_PANED (viewer->priv->image_main_pane), eel_gconf_get_integer (PREF_UI_VIEWER_HEIGHT, DEFAULT_WIN_HEIGHT) - eel_gconf_get_integer (PREF_UI_COMMENT_PANE_SIZE, DEFAULT_COMMENT_PANE_SIZE));
 
-	/* ** table */
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (hbox), priv->viewer);
-
-	table = gtk_table_new (2, 2, FALSE);
-	gtk_table_attach (GTK_TABLE (table), hbox, 0, 1, 0, 1,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_vscr, 1, 2, 0, 1,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_hscr, 0, 1, 1, 2,
-			  (GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-	gtk_table_attach (GTK_TABLE (table), priv->viewer_nav_event_box, 1, 2, 1, 2,
-			  (GtkAttachOptions) (GTK_FILL),
-			  (GtkAttachOptions) (GTK_FILL), 0, 0);
-
 	/* ** priv->image_data_hpaned */
 
 	priv->image_data_hpaned = gtk_hpaned_new ();
@@ -1918,7 +1846,7 @@ gth_viewer_construct (GthViewer   *viewer,
 
 	/**/
 
-	gtk_paned_pack1 (GTK_PANED (image_vpaned), table, FALSE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (image_vpaned), nav_window, FALSE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (image_vpaned), priv->image_data_hpaned, TRUE, FALSE);
 
 	gtk_box_pack_start (GTK_BOX (image_vbox), info_frame, FALSE, FALSE, 0);
