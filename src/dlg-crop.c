@@ -130,11 +130,7 @@ selection_x_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
 	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
-	GdkRectangle selection;
-
-	gth_image_selector_get_selection (selector, &selection);
-	selection.x = gtk_spin_button_get_value_as_int (spin);
-	gth_image_selector_set_selection (selector, selection);
+	gth_image_selector_set_selection_x (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
 
@@ -143,11 +139,7 @@ selection_y_value_changed_cb (GtkSpinButton *spin,
 			      DialogData    *data)
 {
 	GthImageSelector *selector = GTH_IMAGE_SELECTOR (data->crop_image);
-	GdkRectangle selection;
-
-	gth_image_selector_get_selection (selector, &selection);
-	selection.y = gtk_spin_button_get_value_as_int (spin);
-	gth_image_selector_set_selection (selector, selection);
+	gth_image_selector_set_selection_y (selector, gtk_spin_button_get_value_as_int (spin));
 }
 
 

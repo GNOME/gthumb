@@ -1,3 +1,13 @@
+2006-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-image-selector.h: 
+	* src/gth-image-selector.c: 
+	* src/dlg-crop.c (selection_x_value_changed_cb)
+	(selection_y_value_changed_cb): 
+	* libgthumb/gth-iviewer.h (double): fixed virtual functions signature.
+
+	more changes to the crop dialog.
+	
 2006-02-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-iviewer.c: new file

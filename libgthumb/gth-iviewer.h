@@ -47,8 +47,8 @@ struct _GthIViewerInterface {
 	double      (*get_zoom)           (GthIViewer *self);
 	void        (*set_zoom)           (GthIViewer *self,
 					   double      zoom);
-	double      (*zoom_in)            (GthIViewer *self);
-	double      (*zoom_out)           (GthIViewer *self);
+	void        (*zoom_in)            (GthIViewer *self);
+	void        (*zoom_out)           (GthIViewer *self);
 
 	GdkPixbuf * (*get_image)          (GthIViewer *self);
 	void        (*get_adjustments)    (GthIViewer     *self,

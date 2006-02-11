@@ -61,6 +61,10 @@ GtkWidget* gth_image_selector_new                  (GdkPixbuf        *pixbuf);
 void       gth_image_selector_set_pixbuf           (GthImageSelector *selector, 
 						    GdkPixbuf        *pixbuf);
 GdkPixbuf* gth_image_selector_get_pixbuf           (GthImageSelector *selector);
+void       gth_image_selector_set_selection_x      (GthImageSelector *selector,
+						    int               x);
+void       gth_image_selector_set_selection_y      (GthImageSelector *selector,
+						    int               y);
 void       gth_image_selector_set_selection_width  (GthImageSelector *selector,
 						    int               width);
 void       gth_image_selector_set_selection_height (GthImageSelector *selector,
