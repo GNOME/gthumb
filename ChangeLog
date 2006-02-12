@@ -1,5 +1,12 @@
 2006-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/gth-file-list.c (gth_file_list_pos_from_path)
+	(gth_file_list_get_all_from_view): 
+
+	Fixed memleaks found by Søren Wedel Nielsen (#166275)
+
+	* src/dlg-crop.c (dlg_crop): fit and focus image at startup.
+	
 	* src/gth-image-selector.h: 
 	* src/gth-image-selector.c: 
 	* src/dlg-crop.c: 

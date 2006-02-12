@@ -994,8 +994,8 @@ int
 gth_file_list_pos_from_path (GthFileList *file_list, 
 			     const char  *path)
 {
-	GList *scan;
-	int    i;
+	GList *list, *scan;
+	int    retval = -1, i;
 
 	g_return_val_if_fail (file_list != NULL, -1);
 
@@ -1003,17 +1003,20 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 		return -1;
 
 	i = 0;
-	scan = gth_file_view_get_list (file_list->view);
-	for (; scan; scan = scan->next) {
+	list = gth_file_view_get_list (file_list->view);
+	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
 
-		if (strcmp (fd->path, path) == 0)
-			return i;
+		if (strcmp (fd->path, path) == 0) {
+			retval = i;
+			break;
+		}
 
 		i++;
 	}
+	g_list_free (list);
 
-	return -1;
+	return retval;
 }
 
 
@@ -1038,18 +1041,18 @@ gth_file_list_get_all (GthFileList *file_list)
 GList *
 gth_file_list_get_all_from_view (GthFileList *file_list)
 {
-	GList *list;
-	GList *scan;
+	GList *list, *scan, *path_list = NULL;
 
 	g_return_val_if_fail (file_list != NULL, NULL);
 
-	list = NULL;
-	for (scan = gth_file_view_get_list (file_list->view); scan; scan = scan->next) {
+	list = gth_file_view_get_list (file_list->view);
+	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
-		list = g_list_prepend (list, g_strdup (fd->path));
+		path_list = g_list_prepend (path_list, g_strdup (fd->path));
 	}
+	g_list_free (list);
 
-	return g_list_reverse (list);
+	return g_list_reverse (path_list);
 }
 
 
