@@ -343,7 +343,7 @@ dlg_open_with (GtkWindow  *window,
 		const char *result;
 		const char *name = scan->data;
 
-		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
+		result = get_mime_type (name);
 
 		if (result != NULL)
 			data->app_list = g_list_concat (data->app_list, gnome_vfs_mime_get_all_applications (result));

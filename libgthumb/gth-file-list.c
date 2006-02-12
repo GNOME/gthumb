@@ -769,6 +769,7 @@ gth_file_list_add_list (GthFileList *file_list,
 {
 	GetFileInfoData *gfi_data;
 	GList           *scan;
+	gboolean         fast_file_type;
 
 	g_return_if_fail (file_list != NULL);
 
@@ -776,6 +777,8 @@ gth_file_list_add_list (GthFileList *file_list,
 	gfi_data = get_file_info_data_new (file_list, 
 					   done_func, 
 					   done_func_data);
+
+	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
 
 	for (scan = new_list; scan; scan = scan->next) {
 		char        *full_path = scan->data;
@@ -787,7 +790,7 @@ gth_file_list_add_list (GthFileList *file_list,
 
 		if ((! gfi_data->file_list->show_dot_files 
 		     && file_is_hidden (name_only))
-		    || ! file_is_image (full_path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
+		    || ! file_is_image (full_path, fast_file_type))
 			continue;
 		
 		uri = new_uri_from_path (full_path);

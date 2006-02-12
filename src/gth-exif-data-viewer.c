@@ -522,7 +522,7 @@ update_file_info (GthExifDataViewer *edv)
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("Type"),
-			    VALUE_COLUMN, gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (edv->priv->path, NULL, FALSE)),
+			    VALUE_COLUMN, gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)),
 			    POS_COLUMN, -1,
 			    -1);
 

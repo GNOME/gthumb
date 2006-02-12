@@ -800,7 +800,7 @@ viewer_update_open_with_menu (GthViewer *viewer)
 	g_list_free (menu_items);
 		
 	if (priv->image_path != NULL)
-		mime_type = gnome_vfs_get_file_mime_type (priv->image_path, NULL, FALSE);
+		mime_type = get_mime_type (priv->image_path);
 
 	if (mime_type != NULL) {
 		GList        *apps = gnome_vfs_mime_get_all_applications (mime_type);

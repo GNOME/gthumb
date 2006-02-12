@@ -189,6 +189,7 @@ GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   const char       *format,
 						   ...);
 GnomeVFSFileSize    get_dest_free_space           (const char       *path);
+const char *        get_mime_type                 (const char       *path);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);

@@ -613,6 +613,15 @@ get_sample_name (const char *filename)
 /* File utils */ 
 
 
+const char *
+get_mime_type (const char *uri)
+{
+	if (uri_scheme_is_file (uri))
+		uri = get_file_path_from_uri (uri);
+	return gnome_vfs_get_file_mime_type (uri, NULL, FALSE);
+}
+
+
 gboolean
 file_is_image (const gchar *name,
 	       gboolean     fast_file_type)
@@ -640,8 +649,11 @@ file_is_image (const gchar *name,
 			g_free (n2);
 			g_free (n1);
 		}
-	} else 
+	} else {
+		if (uri_scheme_is_file (name))
+			name = get_file_path_from_uri (name);
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
+	}
 
 	/* Unknown file type. */
 	if (result == NULL)
@@ -1054,9 +1066,6 @@ uri_scheme_is_file (const char *uri)
 {
 	if (uri == NULL)
 		return FALSE;
-	/*
-	return ! uri_scheme_is_catalog (uri) && ! uri_scheme_is_search (uri);
-	*/
 	if (g_utf8_strlen (uri, -1) < FILE_PREFIX_L)
 		return FALSE;
 	return strncmp (uri, FILE_PREFIX, FILE_PREFIX_L) == 0;

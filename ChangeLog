@@ -1,5 +1,15 @@
 2006-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.h (get_mime_type):
+	* libgthumb/file-utils.c (get_mime_type): new function
+	* src/gth-exif-data-viewer.c (update_file_info): 
+	* src/dlg-image-prop.c (update_general_info): 
+	* src/dlg-open-with.c (dlg_open_with): 
+	* src/gth-viewer.c (viewer_update_open_with_menu): 
+	* libgthumb/file-utils.c (file_is_image): 
+
+	Fixed bug #329139 - Doesn't determine image type from content anymore
+
 	* libgthumb/gth-file-list.c (gth_file_list_pos_from_path)
 	(gth_file_list_get_all_from_view): 
 

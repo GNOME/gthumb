@@ -410,7 +410,7 @@ update_general_info (DialogData *data)
 		/**/
 		
 		gtk_label_set_text (GTK_LABEL (data->i_type_label),
-				    gnome_vfs_mime_get_description (gnome_vfs_get_file_mime_type (image_filename, NULL, FALSE)));
+				    gnome_vfs_mime_get_description (get_mime_type (image_filename)));
 		
 		/**/
 
