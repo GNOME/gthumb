@@ -532,6 +532,8 @@ dlg_crop (GthWindow *window)
 	/* Run dialog. */
 
 	gtk_widget_realize (data->dialog);
+	zoom_fit_button_clicked_cb (NULL, data);
+	gtk_widget_grab_focus (data->crop_image);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));
