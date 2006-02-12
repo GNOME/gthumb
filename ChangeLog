@@ -1,3 +1,13 @@
+2006-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-image-selector.h: 
+	* src/gth-image-selector.c: 
+	* src/dlg-crop.c: 
+	* libgthumb/image-viewer.c: 
+	* data/glade/gthumb_crop.glade: 
+
+	misc fixes.
+
 2006-02-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-image-selector.h: 
@@ -27,7 +37,7 @@
 	* libgthumb/image-viewer.h: 
 	* libgthumb/image-viewer.c: 
 	* libgthumb/Makefile.am (HEADER_FILES): 
-	* data/glade/gthumb_crop.glade: first step to improve the crop image
+	* data/glade/gthumb_crop.glade: first step to improve the crop 
 	dialog.
 
 	* src/gth-browser-actions-callbacks.c: use CATALOG_PERMISSIONS instead

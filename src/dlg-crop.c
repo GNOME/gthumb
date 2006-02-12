@@ -33,12 +33,14 @@
 #include "gconf-utils.h"
 #include "preferences.h"
 #include "pixbuf-utils.h"
+#include "gth-iviewer.h"
 #include "gth-image-selector.h"
 #include "image-viewer.h"
 #include "gthumb-stock.h"
 #include "typedefs.h"
 #include "gth-nav-window.h"
 
+#define PREVIEW_SIZE   400
 #define GLADE_FILE     "gthumb_crop.glade"
 
 /**/
@@ -307,34 +309,43 @@ ratio_swap_button_cb (GtkButton *button,
 
 
 static void
-crop_zoom_combobox_changed_cb (GtkComboBox *combo_box,
-			       DialogData  *data)
+zoom_in_button_clicked_cb (GtkButton  *button,
+			   DialogData *data)
 {
-	int    idx = gtk_combo_box_get_active (combo_box);
-	double zoom_level[4] = {0.5, 1.0, 2.0, 3.0};
+	gth_iviewer_zoom_in (GTH_IVIEWER (data->crop_image));
+}
+
+
+static void
+zoom_out_button_clicked_cb (GtkButton  *button,
+			    DialogData *data)
+{
+	gth_iviewer_zoom_out (GTH_IVIEWER (data->crop_image));
+}
+
+
+static void
+zoom_100_button_clicked_cb (GtkButton  *button,
+			    DialogData *data)
+{
+	gth_iviewer_set_zoom (GTH_IVIEWER (data->crop_image), 1.0);
+}
+
+
+static void
+zoom_fit_button_clicked_cb (GtkButton  *button,
+			    DialogData *data)
+{
+	int    widget_width, widget_height;
 	double zoom;
-	double vscroll, hscroll;
 
-	zoom = gth_image_selector_get_zoom (GTH_IMAGE_SELECTOR (data->crop_image));
-	gth_iviewer_get_adjustments (GTH_IVIEWER (data->crop_image), &data->hadj, &data->vadj);
-	vscroll = gtk_adjustment_get_value (data->vadj) / zoom;
-	hscroll = gtk_adjustment_get_value (data->hadj) / zoom;
+	widget_width = GTK_WIDGET (data->nav_win)->allocation.width - 20;
+	widget_height = GTK_WIDGET (data->nav_win)->allocation.height - 20;
+	
+	zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (data->pixbuf),
+		    (double) widget_height / gdk_pixbuf_get_height (data->pixbuf));
 
-	if (idx == 0) {
-		int widget_width, widget_height;
-
-		widget_width = GTK_WIDGET (data->nav_win)->allocation.width - 20;
-		widget_height = GTK_WIDGET (data->nav_win)->allocation.height - 20;
-
-		zoom = MIN ((double) widget_width / gdk_pixbuf_get_width (data->pixbuf),
-			    (double) widget_height / gdk_pixbuf_get_height (data->pixbuf));
-	} else
-		zoom = zoom_level[idx-1];
-
-	gth_image_selector_set_zoom (GTH_IMAGE_SELECTOR (data->crop_image), zoom);
-
-	gtk_adjustment_set_value (data->vadj, vscroll * zoom);
-	gtk_adjustment_set_value (data->hadj, hscroll * zoom);
+	gth_iviewer_set_zoom (GTH_IVIEWER (data->crop_image), zoom);
 }
 
 
@@ -345,9 +356,9 @@ dlg_crop (GthWindow *window)
 	GtkWidget    *nav_container;
 	GtkWidget    *ok_button;
 	GtkWidget    *cancel_button;
-	GtkWidget    *crop_zoom_combobox;
 	GtkWidget    *menu, *item;
 	GtkWidget    *image;
+	GtkWidget    *zoom_in_button, *zoom_out_button, *zoom_100_button, *zoom_fit_button;
 	char         *label;
 	GthCropRatio  crop_ratio;
 	int           ratio_w, ratio_h;
@@ -378,7 +389,10 @@ dlg_crop (GthWindow *window)
 	data->custom_ratio_box = glade_xml_get_widget (data->gui, "custom_ratio_box");
 	data->ratio_swap_button = glade_xml_get_widget (data->gui, "ratio_swap_button");
 
-	crop_zoom_combobox = glade_xml_get_widget (data->gui, "crop_zoom_combobox");
+	zoom_in_button = glade_xml_get_widget (data->gui, "crop_zoom_in_button");
+	zoom_out_button = glade_xml_get_widget (data->gui, "crop_zoom_out_button");
+	zoom_100_button = glade_xml_get_widget (data->gui, "crop_zoom_100_button");
+	zoom_fit_button = glade_xml_get_widget (data->gui, "crop_zoom_fit_button");
 
 	ok_button = glade_xml_get_widget (data->gui, "crop_okbutton");
 	cancel_button = glade_xml_get_widget (data->gui, "crop_cancelbutton");
@@ -399,7 +413,7 @@ dlg_crop (GthWindow *window)
 	gth_image_selector_set_pixbuf (GTH_IMAGE_SELECTOR (data->crop_image), data->pixbuf);
 
 	data->nav_win = gth_nav_window_new (GTH_IVIEWER (data->crop_image));
-	gtk_widget_set_size_request (data->nav_win, 350, 300);
+	gtk_widget_set_size_request (data->nav_win, PREVIEW_SIZE, PREVIEW_SIZE);
 
 	gtk_container_add (GTK_CONTAINER (nav_container), data->nav_win);
 
@@ -446,19 +460,6 @@ dlg_crop (GthWindow *window)
 				      (crop_ratio != GTH_CROP_RATIO_NONE),
 				      (double) ratio_w / ratio_h);
 
-
-	/**/
-
-	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
-				   _("Fit"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
-				   "50%");
-	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
-				   "100%");
-	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
-				   "200%");
-	gtk_combo_box_append_text (GTK_COMBO_BOX (crop_zoom_combobox),
-				   "300%");
 
 	/* Set the signals handlers. */
 
@@ -510,15 +511,27 @@ dlg_crop (GthWindow *window)
 			  "clicked",
 			  G_CALLBACK (ratio_swap_button_cb),
 			  data);
-	g_signal_connect (G_OBJECT (crop_zoom_combobox), 
-			  "changed",
-			  G_CALLBACK (crop_zoom_combobox_changed_cb),
+
+	g_signal_connect (G_OBJECT (zoom_in_button), 
+			  "clicked",
+			  G_CALLBACK (zoom_in_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (zoom_out_button), 
+			  "clicked",
+			  G_CALLBACK (zoom_out_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (zoom_100_button), 
+			  "clicked",
+			  G_CALLBACK (zoom_100_button_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (zoom_fit_button), 
+			  "clicked",
+			  G_CALLBACK (zoom_fit_button_clicked_cb),
 			  data);
 
 	/* Run dialog. */
 
 	gtk_widget_realize (data->dialog);
-	gtk_combo_box_set_active (GTK_COMBO_BOX (crop_zoom_combobox), 0);
 
 	gtk_window_set_transient_for (GTK_WINDOW (data->dialog),
 				      GTK_WINDOW (window));

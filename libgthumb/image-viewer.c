@@ -57,7 +57,6 @@
 enum {
 	CLICKED,
 	IMAGE_LOADED,
-	/*SIZE_CHANGED,*/
 	ZOOM_CHANGED,
 	REPAINTED,
 	SCROLL,
@@ -164,17 +163,6 @@ image_viewer_class_init (ImageViewerClass *class)
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
-	/*
-	image_viewer_signals[SIZE_CHANGED] =
-		g_signal_new ("size_changed",
-			      G_TYPE_FROM_CLASS (class),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (ImageViewerClass, size_changed),
-			      NULL, NULL,
-			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
-			      0);
-	*/
 	image_viewer_signals[REPAINTED] =
 		g_signal_new ("repainted",
 			      G_TYPE_FROM_CLASS (class),
@@ -1337,11 +1325,6 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 		if ((width != viewer->hadj->upper) || (height != viewer->vadj->upper))
 			gth_iviewer_size_changed (GTH_IVIEWER (viewer));
-		/*
-			g_signal_emit (G_OBJECT (viewer), 
-				       image_viewer_signals[SIZE_CHANGED], 
-				       0);
-		*/
 
 		/* Change adjustment values. */
 
@@ -1386,11 +1369,6 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 	if (! viewer->skip_size_change)
 		gth_iviewer_size_changed (GTH_IVIEWER (viewer));
-	/*
-		g_signal_emit (G_OBJECT (viewer), 
-			       image_viewer_signals[SIZE_CHANGED], 
-			       0);
-	*/
 	else
 		viewer->skip_size_change = FALSE;
 }

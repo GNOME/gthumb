@@ -78,9 +78,6 @@ void       gth_image_selector_set_ratio            (GthImageSelector *selector,
 						    double            ratio);
 double     gth_image_selector_get_ratio            (GthImageSelector *selector);
 gboolean   gth_image_selector_get_use_ratio        (GthImageSelector *selector);
-void       gth_image_selector_set_zoom             (GthImageSelector *selector,
-						    double            zoom);
-double     gth_image_selector_get_zoom             (GthImageSelector *selector);
 
 G_END_DECLS
 
