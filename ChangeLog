@@ -1,3 +1,11 @@
+2006-02-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.h: 
+	* libgthumb/thumb-loader.c: 
+
+	Fixed bug #329889 - thumbnail generation and accentuated characters 
+	in path.
+	
 2006-02-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-utils.h (get_mime_type):

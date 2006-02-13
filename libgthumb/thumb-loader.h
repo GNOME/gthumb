@@ -37,13 +37,14 @@
 #define IS_THUMB_LOADER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), THUMB_LOADER_TYPE))
 #define THUMB_LOADER_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS((obj), THUMB_LOADER_TYPE, ThumbLoaderClass))
 
-typedef struct _ThumbLoader       ThumbLoader;
-typedef struct _ThumbLoaderClass  ThumbLoaderClass;
+typedef struct _ThumbLoader            ThumbLoader;
+typedef struct _ThumbLoaderClass       ThumbLoaderClass;
+typedef struct _ThumbLoaderPrivateData ThumbLoaderPrivateData;
 
 struct _ThumbLoader 
 {
 	GObject  __parent;
-	gpointer   priv;
+	ThumbLoaderPrivateData *priv;
 };
 
 struct _ThumbLoaderClass
@@ -79,7 +80,7 @@ GnomeVFSFileSize thumb_loader_get_max_file_size  (ThumbLoader      *tl);
 void           thumb_loader_set_path           (ThumbLoader *tl,
 						const gchar *path);
 
-gchar *        thumb_loader_get_path           (ThumbLoader *tl);
+char *         thumb_loader_get_path           (ThumbLoader *tl);
 
 void           thumb_loader_set_uri            (ThumbLoader *tl,
 						const GnomeVFSURI *uri);
