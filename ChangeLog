@@ -1,5 +1,10 @@
 2006-02-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	[ gthumb 2.7.3 released ]
+	
+	* configure.in: 
+	* NEWS: updated for 2.7.3.
+
 	* libgthumb/thumb-loader.h: 
 	* libgthumb/thumb-loader.c: 
 

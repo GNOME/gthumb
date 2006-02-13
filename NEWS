@@ -1,3 +1,25 @@
+version 2.7.3
+-------------
+	* Fixed bug #329889 - thumbnail generation and accentuated characters 
+	  in path.
+	* Fixed bug #329139 - Doesn't determine image type from content anymore
+	* Improved the crop dialog.
+	* Fixed bug #329600 – Deleting the Catalogue Search\ Results causes 
+	  erroneous behaviour.
+	* Fixed bug #328010 - Add GNOME or GTK categories o the .desktop file
+	* Fixed bug #327049 – Fix build with gcc 2.95
+	* Fixed bug #325846 - gthumb refuses to compile with libexif-0.6.13.
+	* Added ability to enable/disable many features in configure.in
+	* Fixed bug #307959 - "Open With..." dialog offers gthumb as an option.
+	* Fixed bug #324017 - failed to initialize Canon powerShot G5 due an GTK
+	  bug.
+	* Fixed bug #325211 - Image quality in web album.
+	* Fixed bug #325308 - gThumb crash when reaching the end of a directory 
+	  during fullscreen viewing.
+	* Fixed bug #325507 - gthumb crashes if startup_location gconf pref is 
+	  invalid.
+
+
 version 2.7.2
 -------------
 	* Crossfading in slideshow mode (#312116)
