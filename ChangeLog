@@ -1,3 +1,10 @@
+2006-02-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.6.9 released ]
+	
+	* configure.in: 
+	* NEWS: updated
+
 2006-01-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-jpegtran.c: 

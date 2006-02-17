@@ -1,3 +1,20 @@
+version 2.6.9
+-------------
+	* Fixed bug #326879 - gthumb-2.6.8: fix compilation against 
+          libexif-0.6.13
+	* Fixed bug #318828: Exif Orientation Tag Incorrectly Updated.
+	* Fixed bug #305165: gthumb crash resize.
+	* Fixed bug #321124: Confusing handling of --disable-schemas-install
+	* Fixed bug #320947: Create Web Album Tool doesn't generate HTML pages 
+	  with International characters
+	* Fixed bug #321274: Incorrect log2 definition/detection
+	* Fixed bug #317623: [PATCH] Enter a directory or a catalog with the 
+	  ENTER key.
+	* Fixed bug #317628: [PATCH] Zoom in/out with CTRL + scrollwheel
+	* Fixed bug #317056: gthumb Cygwin build fixes.
+	* Fixed bug #316952: [PATCH] bind DELETE key to move a folder to trash
+	  in directory list.
+
 version 2.6.8
 -------------
 	* Fixed bug #316665: "MakerNotes" info from EXIF header is not present
