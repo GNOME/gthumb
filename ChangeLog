@@ -1,5 +1,15 @@
 2006-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/search.c (search_util_get_file_patterns)
+	(search_util_get_patterns): 
+	* src/dlg-search.c (pattern_matched_by_keywords): 
+	* libgthumb/Makefile.am (libgthumb_la_SOURCES): 
+	* libgthumb/utf8-fnmatch.[ch]: removed files.
+	* libgthumb/glib-utils.c (_g_utf8_strstrip): fixed implemetation.
+
+	Fixes bug #313827 – Search does not work on categories with colon 
+	symbol and similar names.
+
 	* src/catalog-web-exporter.c (export__save_other_files): 
 	* src/gth-browser.c (window_update_image_info): 
 	* src/gth-viewer.c (viewer_update_image_info): 

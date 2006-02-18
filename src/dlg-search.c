@@ -42,7 +42,6 @@
 #include "gth-browser.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
-#include "utf8-fnmatch.h"
 
 
 enum {
@@ -758,7 +757,9 @@ static gboolean
 pattern_matched_by_keywords (char  *pattern,
 			     char **keywords)
 {
-	int i;
+	GPatternSpec *spec;
+	gboolean      retval = FALSE;
+	int           i;
 
 	if (pattern == NULL)
 		return TRUE;
@@ -766,11 +767,23 @@ pattern_matched_by_keywords (char  *pattern,
 	if ((keywords == NULL) || (keywords[0] == NULL))
 		return FALSE;
 
-	for (i = 0; keywords[i] != NULL; i++) 
-		if (g_utf8_fnmatch (pattern, keywords[i], FNM_CASEFOLD) == 0)
-			return TRUE;
+	spec = g_pattern_spec_new (pattern);
+	for (i = 0; keywords[i] != NULL; i++) {
+		char     *case_string;
+		gboolean  match;
 
-	return FALSE;
+		case_string = g_utf8_casefold (keywords[i], -1);
+		match = g_pattern_match_string (spec, case_string);
+		g_free (case_string);
+
+		if (match) {
+			retval = TRUE;
+			break;
+		}
+	}
+	g_pattern_spec_free (spec);
+
+	return retval;
 }
 
 
@@ -778,7 +791,9 @@ static gboolean
 match_patterns (char       **patterns, 
 		const char  *string)
 {
-	int i;
+	char     *case_string;
+	int       i;
+	gboolean  retval = FALSE;
 
 	if ((patterns == NULL) || (patterns[0] == NULL))
 		return TRUE;
@@ -786,11 +801,15 @@ match_patterns (char       **patterns,
 	if (string == NULL)
 		return FALSE;
 
+	case_string = g_utf8_casefold (string, -1);
 	for (i = 0; patterns[i] != NULL; i++) 
-		if (g_utf8_fnmatch (patterns[i], string, FNM_CASEFOLD) == 0)
-			return TRUE;
-	
-	return FALSE;
+		if (g_pattern_match_simple (patterns[i], case_string)) {
+			retval = TRUE;
+			break;
+		}
+	g_free (case_string);
+
+	return retval;
 }
 
 

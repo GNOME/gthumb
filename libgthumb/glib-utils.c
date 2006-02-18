@@ -301,36 +301,9 @@ _g_utf8_strsplit (const char     *str,
 char *
 _g_utf8_strstrip (const char *str)
 {
-	const char *s;
-	const char *t;
-
 	if (str == NULL)
 		return NULL;
-
-	s = str;
-
-	do {
-		gunichar ch = g_utf8_get_char (s);
-		if (! g_unichar_isspace (ch))
-			break;
-		s = g_utf8_next_char (s);
-	} while (*s != 0);
-
-	if (*s == 0)
-		return NULL;
-
-	/**/
-
-	t = s;
-
-	do {
-		gunichar ch = g_utf8_get_char (t);
-		if (g_unichar_isspace (ch))
-			break;
-		t = g_utf8_next_char (t);
-	} while (*t != 0);
-
-	return g_strndup (s, t - s);
+	return g_strstrip (g_strdup (str));
 }
 
 

@@ -188,10 +188,13 @@ search_data_copy (SearchData *dest,
 char **
 search_util_get_patterns (const char *pattern_string)
 {
+	char  *case_pattern;
 	char **patterns;
 	int    i;
 
-	patterns = _g_utf8_strsplit (pattern_string, ';');
+	case_pattern = g_utf8_casefold (pattern_string, -1);
+	patterns = _g_utf8_strsplit (case_pattern, ';');
+	g_free (case_pattern);
 
 	for (i = 0; patterns[i] != NULL; i++) {
 		char *stripped = _g_utf8_strstrip (patterns[i]);
@@ -215,10 +218,13 @@ search_util_get_patterns (const char *pattern_string)
 char **
 search_util_get_file_patterns (const char *pattern_string)
 {
+	char  *case_pattern;
 	char **patterns;
 	int    i;
 
-	patterns = _g_utf8_strsplit (pattern_string, ';');
+	case_pattern = g_utf8_casefold (pattern_string, -1);
+	patterns = _g_utf8_strsplit (case_pattern, ';');
+	g_free (case_pattern);
 
 	for (i = 0; patterns[i] != NULL; i++) {
 		char *stripped = _g_utf8_strstrip (patterns[i]);
