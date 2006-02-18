@@ -1621,6 +1621,8 @@ create_toolbar_window (GthFullscreen *fullscreen)
 	/**/
 
 	priv->toolbar_window = gtk_window_new (GTK_WINDOW_POPUP);
+	gtk_window_set_screen (GTK_WINDOW (priv->toolbar_window),
+			       gtk_widget_get_screen (priv->viewer));
 	gtk_window_set_default_size (GTK_WINDOW (priv->toolbar_window),
 				     gdk_screen_get_width (gtk_widget_get_screen (priv->toolbar_window)),
 				     -1);

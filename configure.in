@@ -164,22 +164,18 @@ AC_ARG_ENABLE([tiff],
               [AC_HELP_STRING([--disable-tiff],[disable support for tiff])],,
               [enable_tiff=yes])
 
+HAVE_TIFF=no
 if test x$enable_tiff = xyes ; then
    AC_MSG_CHECKING(TIFF Support)
    AC_MSG_RESULT()
-
    AC_CHECK_LIB(tiff, TIFFWriteScanline,
-                [AC_CHECK_HEADER(tiffio.h,,[AC_MSG_ERROR([*** TIFF headers not found ***])])],
-                [AC_MSG_ERROR([*** TIFF library not found ***])])
-
-   AC_DEFINE(HAVE_LIBTIFF, 1, [Define to 1 if libtiff support is included])
-
-   TIFF_LIBS='-ltiff -lm -lz'
+                [AC_CHECK_HEADER(tiffio.h,
+                                 AC_DEFINE(HAVE_LIBTIFF, 1, [Define to 1 if libtiff support is included])
+                                 TIFF_LIBS='-ltiff -lm -lz'
+                                 HAVE_TIFF=yes
+                                 ,[AC_MSG_WARN([*** TIFF headers not found ***])])],
+                [AC_MSG_WARN([*** TIFF library not found ***])])
    AC_SUBST(TIFF_LIBS)
-
-   HAVE_TIFF=yes
-else
-   HAVE_TIFF=no
 fi
 
 
@@ -190,20 +186,16 @@ AC_ARG_ENABLE([render],
               [AC_HELP_STRING([--disable-render],[disable support for Xrender])],,
               [enable_render=yes])
 
+HAVE_RENDER=no
 if test x$enable_render = xyes ; then
    AC_MSG_CHECKING(Xrender Support)
    AC_MSG_RESULT()
-
-   AC_CHECK_LIB(Xrender, XRenderFindFormat,,,[-lXext $GTHUMB_LIBS])
-
-   AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
-
-   RENDER_LIBS='-lXrender -lXext'
+   AC_CHECK_LIB(Xrender, XRenderFindFormat,
+                AC_DEFINE(HAVE_RENDER, 1, [Define to 1 if Xft/XRender support is included])
+                RENDER_LIBS='-lXrender -lXext'
+                HAVE_RENDER=yes
+                ,,[-lXext $GTHUMB_LIBS])
    AC_SUBST(RENDER_LIBS)
-
-   HAVE_RENDER=yes
-else
-   HAVE_RENDER=no
 fi
 
 #
@@ -264,43 +256,41 @@ AC_ARG_ENABLE([exif],
               [AC_HELP_STRING([--disable-exif],[disable support for libexif])],,
               [enable_exif=yes])
 
+HAVE_EXIF=no
 if test x$enable_exif = xyes ; then
-   AC_MSG_CHECKING(EXIF Support)
-   AC_MSG_RESULT()
-
-   PKG_CHECK_MODULES(EXIF, libexif >= $LIBEXIF_REQUIRED,,
-                     [PKG_CHECK_MODULES(EXIF, libexif >= $LIBEXIF_0_5_REQUIRED,
-                                        [AC_DEFINE(HAVE_LIBEXIF_0_5, 1, [Using libexif 0.5])],
-                                        [AC_MSG_ERROR([*** libexif not found ***])]
-                                       )
+   PKG_CHECK_MODULES(EXIF, libexif >= $LIBEXIF_REQUIRED,
+                     AC_DEFINE(HAVE_LIBEXIF, 1, [Define to 1 if we have libexif support])
+                     HAVE_EXIF=yes,
+                     [AC_MSG_RESULT(no)
+                      PKG_CHECK_MODULES(EXIF, libexif >= $LIBEXIF_0_5_REQUIRED,
+                                        [AC_DEFINE(HAVE_LIBEXIF_0_5, 1, [Using libexif 0.5])]
+                                        HAVE_EXIF=[yes],
+                                        HAVE_EXIF=[no])
                      ])
-
-   AC_DEFINE(HAVE_LIBEXIF, 1, [Define to 1 if we have libexif support])
-
-   HAVE_EXIF=yes
-else
-   HAVE_EXIF=no
 fi
-
 
 #
 # Checks for libiptcdata
 #
-have_libiptcdata="no"
-AC_MSG_CHECKING(IPTC Data Support)
+AC_ARG_ENABLE([iptcdata],
+              [AC_HELP_STRING([--disable-iptcdata],[disable support for iptc data])],,
+              [enable_iptcdata=yes])
 
-IPTCDATA_LIBS=""
-IPTCDATA_CFLAGS=""
-if test "x$EXIF_LIBS" = "x"; then
-   have_libiptcdata="no iptc support without libexif"
-elif pkg-config --atleast-version=$LIBIPTCDATA_REQUIRED libiptcdata; then
-   have_libiptcdata="yes"
-   IPTCDATA_LIBS=`pkg-config --libs libiptcdata`
-   IPTCDATA_CFLAGS=`pkg-config --cflags libiptcdata`
-   AC_DEFINE(HAVE_LIBIPTCDATA, 1, [Have libiptcdata])
+HAVE_IPTC=no
+if test x$enable_iptcdata = xyes ; then
+   AC_MSG_CHECKING(IPTC Data Support)
+   IPTCDATA_LIBS=""
+   IPTCDATA_CFLAGS=""
+   if test "x$EXIF_LIBS" = "x"; then
+     HAVE_IPTC="no iptc support without libexif"
+   elif pkg-config --atleast-version=$LIBIPTCDATA_REQUIRED libiptcdata; then
+     HAVE_IPTC="yes"
+     IPTCDATA_LIBS=`pkg-config --libs libiptcdata`
+     IPTCDATA_CFLAGS=`pkg-config --cflags libiptcdata`
+     AC_DEFINE(HAVE_LIBIPTCDATA, 1, [Have libiptcdata])
+   fi
+   AC_MSG_RESULT($HAVE_IPTC)
 fi
-
-AC_MSG_RESULT($have_libiptcdata)
 AC_SUBST(IPTCDATA_LIBS)
 AC_SUBST(IPTCDATA_CFLAGS)
 
@@ -311,14 +301,12 @@ AC_ARG_ENABLE([gphoto2],
               [AC_HELP_STRING([--disable-gphoto2],[disable support for libgphoto2])],,
               [enable_gphoto2=yes])
 
+HAVE_GPHOTO2=no
 if test x$enable_gphoto2 = xyes ; then
-   AC_MSG_CHECKING(GPHOTO2 Support)
-   AC_MSG_RESULT()
-   PKG_CHECK_MODULES(GPHOTO, libgphoto2 >= $LIBGPHOTO_REQUIRED)
-   AC_DEFINE(HAVE_LIBGPHOTO, 1, [Define to 1 to enable libgphoto2 support])
-   HAVE_GPHOTO2=yes
-else
-   HAVE_GPHOTO2=no
+   PKG_CHECK_MODULES(GPHOTO, libgphoto2 >= $LIBGPHOTO_REQUIRED,
+                     [AC_DEFINE(HAVE_LIBGPHOTO, 1, [Define to 1 to enable libgphoto2 support])
+                      HAVE_GPHOTO2=yes],
+                     [HAVE_GPHOTO2=no])
 fi
 
 dnl ###############################################
@@ -401,7 +389,7 @@ Configuration:
     	Have XTest:               ${have_xtest}
 	Have XF86VidModeSetGamma: ${have_xf86gamma}
     	Have libexif:             ${HAVE_EXIF}
-    	Have libiptcdata:         ${have_libiptcdata}
+    	Have libiptcdata:         ${HAVE_IPTC}
 	Have libpng:              ${HAVE_PNG}
 	Have libjpeg:             ${HAVE_JPEG}
 	Have libtiff:             ${HAVE_TIFF}
