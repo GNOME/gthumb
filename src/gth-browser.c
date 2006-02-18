@@ -612,8 +612,11 @@ window_update_image_info (GthBrowser *browser)
 			priv->exif_data = NULL;
 		}
 		
-		if (priv->image_path != NULL) 
-			jdata = jpeg_data_new_from_file (priv->image_path);
+		if (priv->image_path != NULL) {
+			const char *path = get_file_path_from_uri (priv->image_path);
+			if (path != NULL)
+				jdata = jpeg_data_new_from_file (path);
+		}
 
 		if (jdata != NULL) {
 			priv->exif_data = jpeg_data_get_exif_data (jdata);
@@ -1733,6 +1736,10 @@ save_jpeg_data (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return;
 
 	if (!image_is_jpeg (filename))
 		return;

@@ -690,8 +690,12 @@ viewer_update_image_info (GthViewer *viewer)
 			priv->exif_data = NULL;
 		}
 		
-		if (priv->image_path != NULL)
-			jdata = jpeg_data_new_from_file (priv->image_path);
+		if (priv->image_path != NULL) {
+			const char *path = get_file_path_from_uri (priv->image_path);
+			if (path != NULL)
+				jdata = jpeg_data_new_from_file (priv->image_path);
+		}
+
 		if (jdata != NULL) {
 			priv->exif_data = jpeg_data_get_exif_data (jdata);
 			jpeg_data_unref (jdata);
@@ -850,6 +854,10 @@ save_jpeg_data (GthViewer  *viewer,
 	GthViewerPrivateData  *priv = viewer->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return;
 
 	if (priv->exif_data != NULL) 
 		data_to_save = TRUE;

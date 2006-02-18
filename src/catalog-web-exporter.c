@@ -1621,6 +1621,14 @@ copy_exif_from_orig (const char *src_filename,
 	JPEGData     *jdata_src, *jdata_dest;
 	ExifData     *edata_src;
 
+	src_filename = get_file_path_from_uri (src_filename);
+	if (src_filename == NULL)
+		return;
+
+	dest_filename = get_file_path_from_uri (dest_filename);
+	if (dest_filename == NULL)
+		return;
+
 	jdata_src = jpeg_data_new_from_file (src_filename);
 	if (jdata_src == NULL)
 		return;

@@ -1,3 +1,13 @@
+2006-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c (export__save_other_files): 
+	* src/gth-browser.c (window_update_image_info): 
+	* src/gth-viewer.c (viewer_update_image_info): 
+	* libgthumb/pixbuf-utils.c (_gdk_pixbuf_savev): 
+
+	Convert uri to local path before saving exif data or jpeg images.
+	Fixes bugs #331658, #327263 and #327262
+
 2006-02-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.3 released ]

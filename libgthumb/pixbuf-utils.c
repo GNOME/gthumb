@@ -75,6 +75,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pixbuf-utils.h"
+#include "file-utils.h"
 
 #ifdef HAVE_LIBTIFF
 #include <tiffio.h>
@@ -1255,6 +1256,8 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 	g_return_val_if_fail (filename != NULL, TRUE);
 	g_return_val_if_fail (type != NULL, TRUE);
 
+	filename = get_file_path_from_uri (filename);
+
 #ifdef HAVE_LIBTIFF
 	if (strcmp (type, "tiff") == 0) 
 		result = _gdk_pixbuf_save_as_tiff (pixbuf, 
@@ -1286,7 +1289,7 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 
 
 static void
-collect_save_options (va_list   opts,
+collect_save_options (va_list    opts,
 		      char    ***keys,
 		      char    ***vals)
 {
