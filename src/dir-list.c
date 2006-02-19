@@ -126,9 +126,9 @@ add_columns (DirList     *dir_list,
 
 
 static gboolean
-file_motion_notify_callback (GtkWidget *widget,
+file_motion_notify_callback (GtkWidget      *widget,
 			     GdkEventMotion *event,
-			     gpointer user_data)
+			     gpointer        user_data)
 {
 	DirList     *dir_list = user_data;
 	GdkCursor   *cursor;
@@ -271,12 +271,15 @@ dir_list_new ()
 void
 dir_list_update_underline (DirList *dir_list)
 {
-	GdkWindow  *win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view));
+	GdkWindow  *win;
 	GdkDisplay *display;
 
 	dir_list->single_click = (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 
-	gdk_window_set_cursor (win, NULL);
+	win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view));
+	if (win != NULL)
+		gdk_window_set_cursor (win, NULL);
+
 	display = gtk_widget_get_display (GTK_WIDGET (dir_list->list_view));
 	if (display != NULL) 
 		gdk_display_flush (display);

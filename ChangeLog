@@ -1,9 +1,16 @@
+2006-02-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dir-list.c (dir_list_update_underline): 
+	* src/catalog-list.c (catalog_list_update_click_policy): 
+
+	Fixed bug #331714 - crash in Preferences Browser
+	
 2006-02-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-fullscreen.c (create_toolbar_window): use the same screen of
 	the image viewer.
 
-	Fixes bug #327245 – Full screen mode crippled if Xinerama is used
+	Fixes bug #327245 - Full screen mode crippled if Xinerama is used
 
 	* configure.in: Post release version bump.
 

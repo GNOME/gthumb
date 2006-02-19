@@ -457,12 +457,15 @@ catalog_list_get_iter_from_path (CatalogList *cat_list,
 void
 catalog_list_update_click_policy (CatalogList *cat_list)
 {
-	GdkWindow  *win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (cat_list->list_view));
+	GdkWindow  *win;
 	GdkDisplay *display;
 
 	cat_list->single_click = (pref_get_real_click_policy () == GTH_CLICK_POLICY_SINGLE);
 
-	gdk_window_set_cursor (win, NULL);
+	win = gtk_tree_view_get_bin_window (GTK_TREE_VIEW (cat_list->list_view));
+	if (win != NULL)
+		gdk_window_set_cursor (win, NULL);
+
 	display = gtk_widget_get_display (GTK_WIDGET (cat_list->list_view));
 	if (display != NULL) 
 		gdk_display_flush (display);
