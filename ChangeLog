@@ -1,5 +1,10 @@
 2006-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	[ gthumb 2.7.4 released ]
+	
+	* NEWS: 
+	* configure.in: updated for 2.7.4
+
 	* src/main.c (initialize_data): 
 
 	Fixed bug #325833 – gthumb icon isn't on window title bar and windo

@@ -1,3 +1,19 @@
+version 2.7.4
+-------------
+	* Fixed bug #325833 – gthumb icon isn't on window title bar and windo
+	  list applet.
+	* Fixed bug #326844 – Scale Series: Prevent rename .jpg to .jpeg
+	* Fixed bug #333102 – Image rotation action does not update the EXIF 
+	  tag correctly
+	* Fixed bug #331714 - crash in Preferences Browser
+	* Fixed bug #327245 - Full screen mode crippled if Xinerama is used
+	* Fixed bug #313827 – Search does not work on categories with colon 
+	  symbol and similar names.
+	* Fixed bug #331658 - EXIF attributes are not preserved after an image
+          modification + save
+	* Fixed bug #327263 - Save doesn't work, save as does.
+	* Fixed bug #327262 - Gthumb deletes exif data too aggressively
+
 version 2.7.3
 -------------
 	* Fixed bug #329889 - thumbnail generation and accentuated characters 
