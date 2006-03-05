@@ -644,7 +644,7 @@ file_is_image (const gchar *name,
 
 			if (n3 != NULL)
 				result = gnome_vfs_mime_type_from_name_or_default (n3, NULL);
-
+			
 			g_free (n3);
 			g_free (n2);
 			g_free (n1);

@@ -1,3 +1,11 @@
+2006-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/rotation-utils.c (update_orientation_field): updated all 
+	orientation fields.
+
+	Fixes bug #333102 – Image rotation action does not update the EXIF tag 
+	correctly
+
 2006-03-01  Daniel Nylander  <po@danielnylander.se>
 
         * po/sv.po: Updated Swedish translation.

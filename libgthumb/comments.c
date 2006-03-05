@@ -58,6 +58,10 @@
 #define FORMAT_VER   ((xmlChar *)"2.0")
 
 
+/* version 1.0 save comments in local format */
+/* version 2.0 save comments in utf8 format */
+
+
 CommentData *
 comment_data_new (void)
 {
@@ -800,7 +804,6 @@ load_comment_from_xml (const char *filename)
 		data->utf8_format = FALSE;
 	else
 		data->utf8_format = TRUE;
-	xmlFree (format);
 
 	for (; node; node = node->next) {
 		const char *name = (char*) node->name;
@@ -814,13 +817,15 @@ load_comment_from_xml (const char *filename)
 		else if (strcmp (name, (char*)KEYWORDS_TAG) == 0) 
 			get_keywords (data, (char*)value);
 		else if (strcmp (name, (char*)TIME_TAG) == 0) {
-			if (value != NULL)
+			if (value != NULL) 
 				data->time = atol ((char*)value);
 		}
 		
 		if (value)
 			xmlFree (value);
         }
+
+	xmlFree (format);
 
         xmlFreeDoc (doc);
 	g_free (comment_file);

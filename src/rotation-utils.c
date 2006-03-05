@@ -383,7 +383,6 @@ update_orientation_field (const char   *path,
 	JPEGData     *jdata;
 	ExifData     *edata;
 	unsigned int  i;
-	gboolean      orientation_changed = FALSE;
 
 	path = get_file_path_from_uri (path);
 	if (path == NULL)
@@ -407,7 +406,7 @@ update_orientation_field (const char   *path,
 			continue;
 
 		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
-		if (!orientation_changed && (entry != NULL)) {
+		if (entry != NULL) {
 			ExifByteOrder byte_order;
 			ExifShort     value;
 
@@ -443,8 +442,6 @@ update_orientation_field (const char   *path,
 			}
 
 			exif_set_short (entry->data, byte_order, value);
-
-			orientation_changed = TRUE;
 		}
 	}
 
