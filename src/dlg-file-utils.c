@@ -929,7 +929,7 @@ my_list_remove (GList      *list,
 	if (list == NULL)
 		return NULL;
 
-	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
 	if (link == NULL)
 		return list;
 
@@ -966,7 +966,7 @@ dlg_file_rename_series (GthWindow *window,
 		if (! path_is_file (old_full_path))
 			continue;
 
-		if (strcmp (old_full_path, new_full_path) == 0) {
+		if (same_uri (old_full_path, new_full_path)) {
 			o_scan = o_scan->next;
 			n_scan = n_scan->next;
 			continue;			
@@ -1397,7 +1397,7 @@ copy_current_file (FileCopyData *fcdata)
 				  file_name_from_path (src_file),
 				  NULL);
 
-	if (strcmp (src_file, dest_file) == 0) {
+	if (same_uri (src_file, dest_file)) {
 		g_free (dest_file);
 		copy_next_file (fcdata);
 		return;

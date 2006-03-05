@@ -439,7 +439,7 @@ catalog_add_item (Catalog *catalog,
 
 	if (g_list_find_custom (catalog->list, 
 				file_path, 
-				(GCompareFunc) strcmp) == NULL)
+				(GCompareFunc) uricmp) == NULL)
 		catalog->list = g_list_prepend (catalog->list, 
 						g_strdup (file_path));
 }
@@ -468,7 +468,7 @@ catalog_remove_item (Catalog *catalog,
 	g_return_val_if_fail (file_path != NULL, -1);	
 
 	for (scan = catalog->list; scan; scan = scan->next, i++) 
-		if (strcmp ((gchar*) scan->data, file_path) == 0)
+		if (same_uri ((char*) scan->data, file_path))
 			break;
 
 	if (scan == NULL)

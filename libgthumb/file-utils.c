@@ -44,6 +44,7 @@
 
 #include "gthumb-init.h"
 #include "gthumb-error.h"
+#include "glib-utils.h"
 #include "gconf-utils.h"
 #include "file-utils.h"
 
@@ -336,7 +337,7 @@ path_list_find_path (GList *list, const char *path)
 	GList *scan;
 
 	for (scan = list; scan; scan = scan->next)
-		if (strcmp ((char*) scan->data, path) == 0)
+		if (same_uri ((char*) scan->data, path))
 			return scan;
 	return NULL;
 }
@@ -622,6 +623,20 @@ get_mime_type (const char *uri)
 }
 
 
+const char *
+get_mime_type_from_ext (const char *ext)
+{
+	char       *filename;
+	const char *result;
+
+	filename = g_strconcat ("x.", ext, NULL);
+	result = get_mime_type (filename);
+	g_free (filename);
+
+	return result;
+}
+
+
 gboolean
 file_is_image (const gchar *name,
 	       gboolean     fast_file_type)
@@ -687,7 +702,7 @@ xfer_file (const char *from,
 	GnomeVFSXferOptions  opt;
 	GnomeVFSResult       result;
 
-	if (strcmp (from, to) == 0) {
+	if (same_uri (from, to)) {
 		g_warning ("cannot copy file %s: source and destination are the same\n", from);
 		return FALSE;
 	}
@@ -740,10 +755,9 @@ file_unlink (const gchar *path)
 }
 
 
-static gboolean 
-image_is_type__common (const char *name,
-		       const char *type,
-		       gboolean    fast_file_type)
+const char*
+get_file_mime_type (const char *name,
+		    gboolean    fast_file_type)
 {
 	const char *result = NULL;
 
@@ -761,11 +775,17 @@ image_is_type__common (const char *name,
 	} else 
 		result = gnome_vfs_get_file_mime_type (name, NULL, FALSE);
 	
-	/* Unknown file type. */
-	if (result == NULL)
-		return FALSE;
+	return result;
+}
 
-	return (strcmp (result, type) == 0);
+
+static gboolean 
+image_is_type__common (const char *name, 
+		       const char *type,
+		       gboolean    fast_file_type)
+{
+	const char *result = get_file_mime_type (name, fast_file_type);  
+	return (strcmp_null_tollerant (result, type) == 0);
 }
 
 
@@ -1205,6 +1225,33 @@ path_in_path (const char  *path_src,
 	return ((path_dest_l > path_src_l)
 		&& (strncmp (path_src, path_dest, path_src_l) == 0)
 		&& (path_dest[path_src_l] == '/'));
+}
+
+
+int
+uricmp (const char *path1,
+	const char *path2)
+{
+	char *uri1, *uri2;
+	int   result;
+
+	uri1 = get_uri_from_path (path1);
+	uri2 = get_uri_from_path (path2);
+
+	result = strcmp_null_tollerant (uri1, uri2);
+
+	g_free (uri1);
+	g_free (uri2);
+
+	return result;
+}
+
+
+gboolean
+same_uri (const char *uri1,
+	  const char *uri2)
+{
+	return uricmp (uri1, uri2) == 0;
 }
 
 

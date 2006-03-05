@@ -31,6 +31,7 @@
 #include "bookmark-list.h"
 #include "main.h"
 #include "gth-browser.h"
+#include "file-utils.h"
 
 
 #define GLADE_FILE "gthumb.glade"
@@ -106,7 +107,7 @@ move_up_cb (GtkWidget *widget,
 	
 	list = data->bookmarks->list;
 
-	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
 	if (link == NULL) {
 		g_free (path);
 		return;
@@ -151,7 +152,7 @@ move_down_cb (GtkWidget *widget,
 	
 	list = data->bookmarks->list;
 
-	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
 	if (link == NULL) {
 		g_free (path);
 		return;
@@ -196,7 +197,7 @@ move_top_cb (GtkWidget *widget,
 	
 	list = data->bookmarks->list;
 
-	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
 	if (link == NULL) {
 		g_free (path);
 		return;
@@ -234,7 +235,7 @@ move_bottom_cb (GtkWidget *widget,
 	
 	list = data->bookmarks->list;
 
-	link = g_list_find_custom (list, path, (GCompareFunc) strcmp);
+	link = g_list_find_custom (list, path, (GCompareFunc) uricmp);
 	if (link == NULL) {
 		g_free (path);
 		return;

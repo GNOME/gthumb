@@ -340,10 +340,10 @@ load_next_image (GthBatchOp *bop)
 static void
 notify_termination (GthBatchOp *bop)
 {
-	if (PD(bop)->saved_list != NULL)
-		all_windows_notify_files_created (PD(bop)->saved_list);
 	if (PD(bop)->deleted_list != NULL)
 		all_windows_notify_files_deleted (PD(bop)->deleted_list);
+	if (PD(bop)->saved_list != NULL)
+		all_windows_notify_files_created (PD(bop)->saved_list);
 	all_windows_add_monitor ();
 
 	g_signal_emit (G_OBJECT (bop),
@@ -356,11 +356,12 @@ notify_termination (GthBatchOp *bop)
 static void
 load_current_image (GthBatchOp *bop)
 {
-	FileData  *fd;
-	char      *folder;
-	char      *name_no_ext;
-	char      *utf8_name;
-	char      *message;
+	FileData   *fd;
+	char       *folder;
+	char       *name_no_ext;
+	char       *utf8_name;
+	char       *message;
+	const char *file_mime_type;
 
 	if (PD(bop)->stop_operation || (PD(bop)->current_image == NULL)) {
 		notify_termination (bop);
@@ -381,7 +382,12 @@ load_current_image (GthBatchOp *bop)
 	else
 		folder = g_strdup (PD(bop)->destination);
 	name_no_ext = remove_extension_from_path (file_name_from_path (fd->path));
-	PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", PD(bop)->image_type, NULL);
+
+	file_mime_type = get_file_mime_type (fd->path, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)); 
+	if (strcmp_null_tollerant (file_mime_type, get_mime_type_from_ext (PD(bop)->image_type)) == 0)
+		PD(bop)->new_path = g_strconcat (folder, "/", file_name_from_path (fd->path), NULL); 
+	else
+		PD(bop)->new_path = g_strconcat (folder, "/", name_no_ext, ".", PD(bop)->image_type, NULL);
 
 	g_free (folder);
 	g_free (name_no_ext);
@@ -445,8 +451,8 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 			       &error)) {
 		FileData *fd = PD(bop)->current_image->data;
 		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
-		if (PD(bop)->remove_original 
-		    && (strcmp (fd->path, PD(bop)->new_path) != 0)) {
+
+		if (PD(bop)->remove_original && ! same_uri (fd->path, PD(bop)->new_path)) {
 			file_unlink (fd->path);
 			PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
 		}

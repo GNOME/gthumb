@@ -525,7 +525,7 @@ real_load_current_image (GthFullscreen *fullscreen)
 
 		if ((priv->image != NULL) 
 		    && (priv->image_path != NULL) 
-		    && (strcmp (priv->image_path, filename) == 0))
+		    && same_uri (priv->image_path, filename))
 			image_viewer_set_pixbuf (IMAGE_VIEWER (priv->viewer), priv->image);
 
 		else {
@@ -601,7 +601,7 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 		} else if (priv->image_path != NULL)
 			priv->current = g_list_find_custom (priv->file_list, 
 							    priv->image_path,
-							    (GCompareFunc) strcmp);
+							    (GCompareFunc) uricmp);
 		
 		if (priv->current == NULL)
 			priv->current = priv->file_list;
@@ -612,7 +612,7 @@ load_first_or_last_image (GthFullscreen *fullscreen,
 	    && (priv->slideshow_direction != GTH_DIRECTION_RANDOM)) 
 		priv->current = g_list_find_custom (priv->file_list, 
 						    priv->image_path,
-						    (GCompareFunc) strcmp);
+						    (GCompareFunc) uricmp);
 
 	load_current_image (fullscreen);
 }
@@ -812,7 +812,7 @@ pos_from_path (GList      *list,
 
 	for (scan = list; scan; scan = scan->next) {
 		char *l_path = scan->data;
-		if (strcmp (l_path, path) == 0)
+		if (same_uri (l_path, path))
 			return i;
 		i++;
 	}
@@ -1368,7 +1368,7 @@ delete_list_from_file_list (GthFullscreen *fullscreen,
 		
 		deleted = g_list_find_custom (fullscreen->priv->file_list, 
 					      filename,
-					      (GCompareFunc) strcmp);
+					      (GCompareFunc) uricmp);
 		if (deleted != NULL) {
 			if (fullscreen->priv->current == deleted) {
 				reload_current_image = TRUE;
@@ -1407,7 +1407,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 		if ((fullscreen->priv->image_path != NULL) 
 		    && (g_list_find_custom (list, 
 					    fullscreen->priv->image_path,
-					    (GCompareFunc) strcmp) != NULL)) {
+					    (GCompareFunc) uricmp) != NULL)) {
 			g_free (fullscreen->priv->image_path);
 			fullscreen->priv->image_path = NULL;
 			if (fullscreen->priv->image != NULL)
@@ -1416,7 +1416,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 		if ((fullscreen->priv->current != NULL) 
 		    && (g_list_find_custom (list, 
 					    fullscreen->priv->current->data,
-					    (GCompareFunc) strcmp) != NULL))
+					    (GCompareFunc) uricmp) != NULL))
 			load_current_image (fullscreen);
 		break;
 
@@ -1440,7 +1440,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 
 	renamed_image = g_list_find_custom (fullscreen->priv->file_list,
 					    old_name,
-					    (GCompareFunc) strcmp);
+					    (GCompareFunc) uricmp);
 
 	if (renamed_image == NULL)
 		return;
@@ -1451,7 +1451,7 @@ monitor_file_renamed_cb (GthMonitor    *monitor,
 	if (fullscreen->priv->image_path == NULL)
 		return;
 
-	if (strcmp (old_name, fullscreen->priv->image_path) != 0)
+	if (! same_uri (old_name, fullscreen->priv->image_path))
 		return;
 
 	g_free (fullscreen->priv->image_path);

@@ -138,6 +138,10 @@ char *              get_uri_display_name          (const char       *uri);
 G_CONST_RETURN char*file_name_from_path           (const char       *path);
 gboolean            path_in_path                  (const char       *path_src,
 						   const char       *path_dest);
+int                 uricmp                        (const char       *uri1,
+						   const char       *uri2);
+gboolean            same_uri                      (const char       *uri1,
+						   const char       *uri2);
 
 char *              get_path_relative_to_dir      (const char       *filename, 
 						   const char       *destdir);
@@ -190,6 +194,9 @@ GnomeVFSResult      _gnome_vfs_write_line         (GnomeVFSHandle   *handle,
 						   ...);
 GnomeVFSFileSize    get_dest_free_space           (const char       *path);
 const char *        get_mime_type                 (const char       *path);
+const char*         get_file_mime_type            (const char       *path,
+						   gboolean          fast_file_type);
+const char *        get_mime_type_from_ext        (const char       *ext);
 gboolean            is_mime_type_writable         (const char       *mime_type);
 gboolean            check_permissions             (const char       *path, 
 						   int               mode);

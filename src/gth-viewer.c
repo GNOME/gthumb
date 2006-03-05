@@ -922,7 +922,7 @@ save_pixbuf__image_saved_cb (const char *filename,
 	if (priv->closing)
 		return;
 
-	if (strcmp (priv->image_path, filename) != 0) {
+	if (! same_uri (priv->image_path, filename)) {
 		/*FIXME: gtk_widget_show (gth_viewer_new (filename));*/
 		gth_viewer_load (viewer, filename);
 
@@ -1401,7 +1401,7 @@ monitor_update_files_cb (GthMonitor      *monitor,
 
 	if (g_list_find_custom (list, 
 				viewer->priv->image_path, 
-				(GCompareFunc) strcmp) == NULL)
+				(GCompareFunc) uricmp) == NULL)
 		return;
 
 	switch (event) {
@@ -1430,7 +1430,7 @@ monitor_file_renamed_cb (GthMonitor *monitor,
 	if (viewer->priv->image_path == NULL)
 		return;
 
-	if (strcmp (old_name, viewer->priv->image_path) != 0)
+	if (! same_uri (old_name, viewer->priv->image_path))
 		return;
 
 	g_free (viewer->priv->image_path);

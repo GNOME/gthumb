@@ -1810,7 +1810,7 @@ save_pixbuf__image_saved_cb (const char *filename,
 	/**/
 
 	file_list = g_list_prepend (NULL, (char*)filename);
-	if ((priv->image_path != NULL) && (strcmp (priv->image_path, filename) == 0)) 
+	if ((priv->image_path != NULL) && same_uri (priv->image_path, filename)) 
 		all_windows_notify_files_changed (file_list);
 	else
 		all_windows_notify_files_created (file_list);
@@ -2102,7 +2102,7 @@ gth_file_list_cursor_changed_cb (GtkWidget *widget,
 		return;
 
 	if ((priv->image_path == NULL) 
-	    || (strcmp (focused_image, priv->image_path) != 0))
+	    || ! same_uri (focused_image, priv->image_path))
 		view_image_at_pos (browser, pos);
 
 	g_free (focused_image);
@@ -5310,7 +5310,7 @@ gth_browser_notify_files_created (GthBrowser *browser,
 		if (parent_dir == NULL)
 			continue;
 
-		if (strcmp (parent_dir, current_dir) == 0)
+		if (same_uri (parent_dir, current_dir))
 			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
 
 		g_free (parent_dir);
@@ -5566,7 +5566,7 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 		return;
 	if (priv->catalog_path == NULL)
 		return;
-	if (strcmp (priv->catalog_path, catalog_name) != 0)
+	if (! same_uri (priv->catalog_path, catalog_name))
 		return;
 
 	switch (event) {
@@ -5650,8 +5650,7 @@ gth_browser_notify_file_rename (GthBrowser *browser,
 	if (pos != -1)
 		gth_file_list_rename_pos (priv->file_list, pos, new_name);
 
-	if ((priv->image_path != NULL) 
-	    && strcmp (old_name, priv->image_path) == 0) 
+	if (same_uri (old_name, priv->image_path))
 		gth_browser_load_image (browser, new_name);
 }
 
@@ -5664,7 +5663,7 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (strcmp (priv->dir_list->path, old_name) == 0) 
+		if (same_uri (priv->dir_list->path, old_name)) 
 			gth_browser_go_to_directory (browser, new_name);
 		else {
 			const char *current = priv->dir_list->path;
@@ -5680,7 +5679,7 @@ gth_browser_notify_directory_rename (GthBrowser *browser,
 		}
 		
 	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (strcmp (priv->catalog_list->path, old_name) == 0) 
+		if (same_uri (priv->catalog_list->path, old_name)) 
 			gth_browser_go_to_catalog_directory (browser, new_name);
 		else {
 			const char *current = priv->catalog_list->path;
@@ -5714,7 +5713,7 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 	GthBrowserPrivateData *priv = browser->priv;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST) {
-		if (strcmp (priv->dir_list->path, path) == 0) 
+		if (same_uri (priv->dir_list->path, path)) 
 			gth_browser_go_up (browser);
 		else {
 			const char *current = priv->dir_list->path;
@@ -5724,7 +5723,7 @@ gth_browser_notify_directory_delete (GthBrowser *browser,
 		}
 
 	} else if (priv->sidebar_content == GTH_SIDEBAR_CATALOG_LIST) {
-		if (strcmp (priv->catalog_list->path, path) == 0) 
+		if (same_uri (priv->catalog_list->path, path)) 
 			gth_browser_go_up (browser);
 		else {
 			const char *current = priv->catalog_list->path;
@@ -5826,7 +5825,7 @@ gth_browser_notify_catalog_rename (GthBrowser *browser,
 
 	catalog_dir = remove_level_from_path (priv->catalog_list->path);
 	viewing_a_catalog = (priv->catalog_path != NULL);
-	current_cat_renamed = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, old_path) == 0));
+	current_cat_renamed = same_uri (priv->catalog_path, old_path);
 	renamed_cat_is_in_current_dir = path_in_path (catalog_dir, new_path);
 
 	if (! renamed_cat_is_in_current_dir) {
@@ -5930,7 +5929,7 @@ gth_browser_notify_catalog_delete (GthBrowser *browser,
 
 	catalog_dir = remove_level_from_path (priv->catalog_list->path);
 	viewing_a_catalog = (priv->catalog_path != NULL);
-	current_cat_deleted = ((priv->catalog_path != NULL) && (strcmp (priv->catalog_path, path) == 0));
+	current_cat_deleted = same_uri (priv->catalog_path, path);
 	deleted_cat_is_in_current_dir = path_in_path (catalog_dir, path);
 
 	if (! deleted_cat_is_in_current_dir) {
@@ -5975,7 +5974,7 @@ monitor_update_catalog_cb (GthMonitor      *monitor,
 		break;
 
 	case GTH_MONITOR_EVENT_CHANGED:
-		if (strcmp_null_tollerant (browser->priv->catalog_path, catalog_path) == 0)
+		if (same_uri (browser->priv->catalog_path, catalog_path))
 			catalog_activate (browser, browser->priv->catalog_path);
 		break;
 
@@ -7522,10 +7521,10 @@ go_to_directory_continue (DirList  *dir_list,
 		priv->changing_directory = FALSE;
 
 		if ((dir_list->path == NULL)
-		    || ((strcmp (get_home_uri (), dir_list->path) != 0)
+		    || (! same_uri (get_home_uri (), dir_list->path)
 			&& (priv->history_current == NULL)))
 			gth_browser_go_to_directory (browser, get_home_uri ());
-
+		
 		return;
 	}
 
@@ -7538,7 +7537,7 @@ go_to_directory_continue (DirList  *dir_list,
 
 	if (priv->go_op == GTH_BROWSER_GO_TO) {
 		char *uri = get_uri_from_path (path);
-		if ((priv->history_current == NULL) || (strcmp (uri, priv->history_current->data) != 0))
+		if ((priv->history_current == NULL) || ! same_uri (uri, priv->history_current->data))
 			add_history_item (browser, path, NULL);
 		g_free (uri);
 	} else
@@ -7767,7 +7766,7 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 				RC_CATALOG_DIR,
 				NULL);
 	
-	while ((strcmp (base_dir, catalog_dir3) != 0) && ! path_is_dir (catalog_dir3)) {
+	while (! same_uri (base_dir, catalog_dir3) && ! path_is_dir (catalog_dir3)) {
 		char *new_dir = remove_level_from_path (catalog_dir3);
 		g_free (catalog_dir3);
 		catalog_dir3 = new_dir;
@@ -7787,9 +7786,7 @@ gth_browser_go_to_catalog_directory (GthBrowser *browser,
 
 	current_path = priv->catalog_list->path;
 	base_dir = get_catalog_full_path (NULL);
-	set_action_sensitive (browser, "Go_Up", 
-			       ((current_path != NULL)
-				&& strcmp (current_path, base_dir)) != 0);
+	set_action_sensitive (browser, "Go_Up", ! same_uri (current_path, base_dir));
 	g_free (base_dir);
 }
 
@@ -7914,11 +7911,13 @@ gth_browser_go_up__is_base_dir (GthBrowser *browser,
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
 		return (strcmp (dir, "/") == 0);
 	else {
-		char     *catalog_base = get_catalog_full_path (NULL);
+		char     *catalog_base;
 		gboolean  is_base_dir;
-
-		is_base_dir = strcmp (dir, catalog_base) == 0;
+		
+		catalog_base = get_catalog_full_path (NULL);
+		is_base_dir = same_uri (dir, catalog_base);
 		g_free (catalog_base);
+
 		return is_base_dir;
 	}
 	
@@ -8036,7 +8035,7 @@ view_focused_image (GthBrowser *browser)
 	if (focused == NULL)
 		return FALSE;
 
-	not_focused = strcmp (priv->image_path, focused) != 0;
+	not_focused = !same_uri (priv->image_path, focused);
 	g_free (focused);
 
 	return not_focused;
@@ -8376,7 +8375,7 @@ gth_browser_load_image (GthBrowser *browser,
 	if (! priv->image_modified
 	    && (priv->image_path != NULL) 
 	    && (filename != NULL)
-	    && (strcmp (filename, priv->image_path) == 0)
+	    && same_uri (filename, priv->image_path)
 	    && (priv->image_mtime == get_file_mtime (priv->image_path))) 
 		return;
 

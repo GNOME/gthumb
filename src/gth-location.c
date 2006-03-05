@@ -398,7 +398,7 @@ get_item_from_uri (GthLocation *loc,
 				    TYPE_COLUMN, &item_type,
 				    -1);
 		if ((item_type == ITEM_TYPE_PARENT) && (path != NULL)) {
-			if (strcmp (path, uri) == 0) {
+			if (same_uri (path, uri)) {
 				g_free (path);
 				found = TRUE;
 				break;
@@ -646,7 +646,7 @@ get_volume_for_uri (GthLocation *loc,
 			char           *path;
 
 			path = gnome_vfs_volume_get_activation_uri (first_volume);
-			if (strcmp (path, uri) == 0) {
+			if (same_uri (path, uri)) {
 				g_free (path);
 				g_list_free (volumes);
 				return first_volume;
@@ -740,13 +740,13 @@ update_uri (GthLocation *loc,
 		if (loc->priv->catalog_uri) 
 			pixbuf = gdk_pixbuf_new_from_inline (-1, library_19_rgba, FALSE, NULL);
 		else {
-			if (strcmp (uri, base_uri) == 0) 
+			if (same_uri (uri, base_uri)) 
 				pixbuf = get_drive_icon (loc, drive);
 			else
 				pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
 		}
 
-		if (strcmp (uri, base_uri) == 0) {
+		if (same_uri (uri, base_uri)) {
 			if (loc->priv->catalog_uri)
 				uri_name = g_strdup (_("Catalogs"));
 			else {
@@ -756,7 +756,7 @@ update_uri (GthLocation *loc,
 					uri_name = g_strdup (_("File System"));
 			}
 		} else {
-			if (strcmp (uri, home_uri) == 0)
+			if (same_uri (uri, home_uri))
 				uri_name = g_strdup (_("Home"));
 			else
 				uri_name = g_filename_display_basename (uri);
@@ -774,7 +774,7 @@ update_uri (GthLocation *loc,
 
 		/**/
 
-		if ((strcmp (uri, base_uri) == 0) || (strcmp (uri, home_uri) == 0))
+		if (same_uri (uri, base_uri) || same_uri (uri, home_uri))
 			parent = NULL;
 		else
 			parent = remove_level_from_path (uri);

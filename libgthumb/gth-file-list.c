@@ -1010,7 +1010,7 @@ gth_file_list_pos_from_path (GthFileList *file_list,
 	for (scan = list; scan; scan = scan->next) {
 		FileData *fd = scan->data;
 
-		if (strcmp (fd->path, path) == 0) {
+		if (same_uri (fd->path, path)) {
 			retval = i;
 			break;
 		}

@@ -174,7 +174,7 @@ bookmarks_add (Bookmarks   *bookmarks,
 	if (avoid_duplicates) {
 		GList *scan;
 		for (scan = bookmarks->list; scan; scan = scan->next)
-			if (strcmp ((char*) scan->data, path) == 0)
+			if (same_uri ((char*) scan->data, path))
 				return;
 	}
 	
@@ -202,7 +202,7 @@ get_link_from_path (GList      *list,
 	GList *scan;
 
 	for (scan = list; scan; scan = scan->next)
-		if (strcmp ((char*) scan->data, path) == 0)
+		if (same_uri ((char*) scan->data, path))
 			return scan;
 	
 	return NULL;

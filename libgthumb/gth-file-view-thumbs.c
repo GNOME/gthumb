@@ -665,7 +665,7 @@ comp_func_path (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return strcmp (fd1->path, fd2->path);
+	return uricmp (fd1->path, fd2->path);
 }
 
 

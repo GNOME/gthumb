@@ -219,7 +219,7 @@ rename_file (GtkWindow   *window,
 
 	all_windows_remove_monitor ();
 
-	if (strcmp (old_path, new_path) == 0) {
+	if (same_uri (old_path, new_path)) {
 		char *utf8_path;
 
 		utf8_path = g_filename_display_name (old_path);
@@ -1137,7 +1137,7 @@ folder_rename (GtkWindow  *window,
 
 	all_windows_remove_monitor ();
 	
-	if (strcmp (old_path, new_path) == 0) {
+	if (same_uri (old_path, new_path)) {
 		char *utf8_path;
 		
 		utf8_path = g_filename_display_name (old_path);
@@ -1406,7 +1406,7 @@ folder_copy__response_cb (GObject *object,
 
 	message = move ? _("Could not move the folder \"%s\": %s") : _("Could not copy the folder \"%s\": %s");
 
-	if (strcmp (old_path, new_path) == 0) {
+	if (same_uri (old_path, new_path)) {
 		char *utf8_path;
 		
 		utf8_path = g_filename_display_name (old_path);

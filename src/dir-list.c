@@ -433,7 +433,7 @@ dir_list_refresh_continue (PathListData *pld,
 	else {
 		char *previous_dir = remove_level_from_path (dir_list->path);
 
-		if (strcmp (previous_dir, dir_list->try_path) == 0)
+		if (same_uri (previous_dir, dir_list->try_path))
 			dir_list->old_dir = g_strdup (file_name_from_path (dir_list->path));
 		else
 			dir_list->old_dir = NULL;
@@ -479,7 +479,7 @@ dir_list_refresh_continue (PathListData *pld,
 	/* * Add the ".." entry if the current path is not "/". 
 	 * path_list_new does not include the "." and ".." elements. */
 
-	if (strcmp (dir_list->path, "/") != 0)
+	if (! same_uri (dir_list->path, "/"))
 		filtered = g_list_prepend (filtered, g_strdup (".."));
 
 	dir_list->list = filtered;
@@ -501,7 +501,7 @@ dir_list_refresh_continue (PathListData *pld,
 		row = -1;
 		scan = dir_list->list;
 		while (scan && !found) {
-			if (strcmp (dir_list->old_dir, scan->data) == 0) 
+			if (same_uri (dir_list->old_dir, scan->data)) 
 				found = TRUE;
 			scan = scan->next;
 			row++;
@@ -585,24 +585,22 @@ dir_list_add_directory (DirList         *dir_list,
 
 	/* check whether dir is already present */
 
-	for (scan = dir_list->list; scan; scan = scan->next) {
-		char *dir = scan->data;
-		if (strcmp (name_only, dir) == 0)
+	for (scan = dir_list->list; scan; scan = scan->next) 
+		if (same_uri (name_only, (char*)scan->data))
 			return;
-	}
 
 	/* insert dir in the list */
 	
-	if (! (file_is_hidden (name_only) && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN))
-	    && (strcmp (name_only, CACHE_DIR) != 0)) 
+	if (! (file_is_hidden (name_only) 
+	       && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN))
+	    && ! same_uri (name_only, CACHE_DIR)) 
 		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
 	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);
 
 	/* get the dir position */
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		char *dir = scan->data;
-		if (strcmp (name_only, dir) == 0)
+		if (same_uri (name_only, (char*) scan->data))
 			break;
 		pos++;
 	}
@@ -645,9 +643,7 @@ dir_list_remove_directory (DirList         *dir_list,
 	name_only = file_name_from_path (path);
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		char *dir = scan->data;
-
-		if (strcmp (name_only, dir) == 0) {
+		if (same_uri (name_only, (char*)scan->data)) {
 			link = scan;
 			break;
 		}
@@ -712,7 +708,7 @@ dir_list_get_path_from_iter (DirList     *dir_list,
 	else if (strcmp (name, "..") == 0)
 		new_path = remove_level_from_path (dir_list->path);
 	else {
-		if (strcmp (dir_list->path, "/") == 0)
+		if (same_uri (dir_list->path, "/"))
 			new_path = g_strconcat (dir_list->path, 
 						name, 
 						NULL);
@@ -738,7 +734,7 @@ dir_list_get_row_from_path (DirList     *dir_list,
 	int         pos;
 
 	parent = remove_level_from_path (path);
-	if (strcmp (dir_list->path, parent) != 0) {
+	if (! same_uri (dir_list->path, parent)) {
 		g_free (parent);
 		return -1;
 	}
@@ -747,11 +743,8 @@ dir_list_get_row_from_path (DirList     *dir_list,
 	name = file_name_from_path (path);
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		char *dir = scan->data;
-
-		if (strcmp (name, dir) == 0) 
+		if (same_uri (name, (char*) scan->data)) 
 			return pos;
-
 		pos++;
 	}
 

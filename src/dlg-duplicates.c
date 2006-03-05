@@ -1168,7 +1168,7 @@ check_image (DialogData *data,
 		ImageData *idata2 = scan->data;
 
 		if ((strcmp (idata->sum, idata2->sum) == 0)
-		    && (strcmp (idata->path, idata2->path) != 0)) {
+		    && ! same_uri (idata->path, idata2->path)) {
 			idata->common = idata2->common;
 			idata->common->ref++;
 			idata->common->duplicates++;

@@ -440,7 +440,7 @@ catalog_list_get_iter_from_path (CatalogList *cat_list,
 
 		g_return_val_if_fail (row_path != NULL, FALSE);
 
-		if (strcmp (row_path, path) == 0) {
+		if (same_uri (row_path, path)) {
 			g_free (row_path);
 			return TRUE;
 		}
@@ -513,7 +513,7 @@ catalog_list_refresh (CatalogList *cat_list)
 	/* Add a ".." entry if the current dir is not the base catalog dir. */
 
 	base = get_catalog_full_path (NULL);
-	if (strcmp (base, cat_list->path) != 0) {
+	if (!same_uri (base, cat_list->path)) {
 		char *prev_dir = remove_level_from_path (cat_list->path);
 
 		dir_list = g_list_prepend (dir_list, prev_dir);

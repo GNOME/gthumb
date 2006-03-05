@@ -1,5 +1,32 @@
 2006-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (path_list_find_path, xfer_file): 
+	* libgthumb/gth-file-list.c (gth_file_list_pos_from_path): 
+	* libgthumb/gth-file-view-list.c (gth_file_view_list_new): 
+	* libgthumb/gth-file-view-thumbs.c (comp_func_path): 
+	* libgthumb/catalog.c (catalog_remove_item): 
+	* src/gth-browser.c (gth_browser_load_image): 
+	* src/gth-fullscreen.c (monitor_file_renamed_cb): 
+	* src/gth-location.c (update_uri): 
+	* src/gthumb-preloader.c (gthumb_preloader_get_loader): 
+	* src/gth-viewer.c (monitor_file_renamed_cb): 
+	* libgthumb/bookmarks.c (get_link_from_path): 
+	* src/gth-browser-actions-callbacks.c (folder_copy__response_cb)
+	(rename_file, folder_rename): 
+	* src/dlg-file-utils.c (my_list_remove, copy_current_file): 
+	* src/dlg-duplicates.c (check_image): 
+	* src/dlg-convert.c (save_image_and_remove_original): 
+	* src/catalog-list.c (catalog_list_get_iter_from_path)
+	(catalog_list_refresh): 
+
+	use same_uri instead of strcmp to campare uris.
+	
+	* libgthumb/file-utils.h: 
+	* libgthumb/file-utils.c (same_uri): 
+	* src/gth-batch-op.c (pixbuf_op_done_cb, load_current_image): 
+
+	Fixed bug #326844 – Scale Series: Prevent rename .jpg to .jpeg
+	
 	* src/rotation-utils.c (update_orientation_field): updated all 
 	orientation fields.
 

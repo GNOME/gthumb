@@ -397,13 +397,13 @@ set_paths__step2 (SetPathData *sp_data)
 			PreLoader *ploader = gploader->loader[i];
 
 			if ((ploader->path != NULL)
-			    && (strcmp (ploader->path, path) == 0)
+			    && same_uri (ploader->path, path)
 			    && (path_mtime == ploader->mtime)
 			    && ploader->loaded) {
 
 				loader_assigned[i] = TRUE;
 				path_assigned[j] = TRUE;
-				if (strcmp (path, requested) == 0) {
+				if (same_uri (path, requested)) {
 					gploader->requested = i;
 					g_signal_emit (G_OBJECT (gploader), gthumb_preloader_signals[REQUESTED_DONE], 0);
 					debug (DEBUG_INFO, "[requested] preloaded");
@@ -435,7 +435,7 @@ set_paths__step2 (SetPathData *sp_data)
 		loader_assigned[k] = TRUE;
 		preloader_set_path (ploader, path);
 
-		if (strcmp (path, requested) == 0) {
+		if (same_uri (path, requested)) {
 			gploader->requested = k;
 			debug (DEBUG_INFO, "[requested] %s", path);
 		}
@@ -451,7 +451,7 @@ set_paths__step2 (SetPathData *sp_data)
 			if (ploader->path == NULL)
 				continue;
 			
-			if (strcmp (ploader->path, requested) == 0)
+			if (same_uri (ploader->path, requested))
 				priority = GNOME_VFS_PRIORITY_MAX;
 			else
 				priority = GNOME_VFS_PRIORITY_MIN;
@@ -495,7 +495,7 @@ gthumb_preloader_get_loader (GThumbPreloader  *gploader,
 		PreLoader *ploader = gploader->loader[i];
 
 		if ((ploader->path != NULL)
-		    && (strcmp (ploader->path, path) == 0)
+		    && same_uri (ploader->path, path)
 		    && (path_mtime == ploader->mtime)
 		    && ploader->loaded) 
 			return ploader->loader;

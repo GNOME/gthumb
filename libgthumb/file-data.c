@@ -42,7 +42,7 @@ file_data_new (const char       *path,
 	fd = g_new0 (FileData, 1);
 
 	fd->ref = 1;
-	fd->path = g_strdup (path);
+	fd->path = get_uri_from_path (path);
 	fd->name = file_name_from_path (fd->path);
 	fd->utf8_name = g_filename_to_utf8 (fd->name, -1, 0, 0, 0);
 	if (info != NULL) {
