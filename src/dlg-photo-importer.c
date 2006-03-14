@@ -152,8 +152,8 @@ static void
 destroy_cb (GtkWidget  *widget, 
 	    DialogData *data)
 {
-	GthBrowser *browser = data->browser;
-	gboolean    thread_done;
+	GtkWidget *browser = (GtkWidget*) data->browser;
+	gboolean   thread_done;
 
 	/* Remove check. */
 
@@ -180,8 +180,13 @@ destroy_cb (GtkWidget  *widget,
 
 	/**/
 
-	if (data->view_folder)
-		gth_browser_go_to_directory (data->browser, data->local_folder);
+	if (data->view_folder) {
+		if (browser == NULL) {
+			browser = gth_browser_new (data->local_folder);
+			gtk_widget_show (browser);
+		} else
+			gth_browser_go_to_directory (data->browser, data->local_folder);
+	}
 
 	/**/
 
@@ -208,7 +213,10 @@ destroy_cb (GtkWidget  *widget,
 
 	if (ImportPhotos) {
 		ImportPhotos = FALSE;
-		gth_window_close (GTH_WINDOW (browser));
+		if (browser != NULL)
+			gth_window_close (GTH_WINDOW (browser));
+		else
+			gtk_main_quit ();
 	}
 }
 
@@ -1289,7 +1297,8 @@ delete_images__done (AsyncOperationData *aodata,
 
         if (ImportPhotos) {
                 ImportPhotos = FALSE;
-                gtk_widget_show (GTK_WIDGET (data->browser));
+		if (data->browser != NULL)
+			gtk_widget_show (GTK_WIDGET (data->browser));
         }
 
         gtk_widget_destroy (data->dialog);
@@ -1496,7 +1505,7 @@ ok_clicked_cb (GtkButton  *button,
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
 			FileData   *fdata = scan->data;
-			const char *filename = fdata->path;
+			const char *filename = file_data_local_path (fdata);
 			file_list = g_list_prepend (file_list, g_strdup (filename));
 		}
 		if (file_list != NULL)
@@ -1641,7 +1650,7 @@ import_delete_cb (GtkButton  *button,
 	if (sel_list != NULL) {
 		for (scan = sel_list; scan; scan = scan->next) {
 			FileData   *fdata = scan->data;
-			const char *filename = fdata->path;
+			const char *filename = file_data_local_path (fdata);
 			delete_list = g_list_prepend (delete_list, g_strdup (filename));
 		}
 		if (delete_list != NULL)
@@ -1914,7 +1923,8 @@ dlg_photo_importer (GthBrowser *browser)
 
 	/* run dialog. */
 
-	gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
+	if (browser != NULL)
+		gtk_window_set_transient_for (GTK_WINDOW (data->dialog), GTK_WINDOW (browser));
 	gtk_window_set_modal (GTK_WINDOW (data->dialog), FALSE);
 	gtk_widget_show (data->dialog);
 

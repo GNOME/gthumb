@@ -1,3 +1,17 @@
+2006-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/file-data.h: 
+	* libgthumb/file-data.c: 
+	* src/GNOME_GThumb.idl: 
+	* src/gth-browser.c: 
+	* src/gth-application.c: 
+	* src/gth-window.c: 
+	* src/dlg-photo-importer.c: 
+	* src/main.c (prepare_app): 
+
+	Pass local paths to gphoto, and fixed bug that prevented
+	importing photos when an instance of gthumb was already running.
+	
 2006-03-05  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.4 released ]

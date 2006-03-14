@@ -1023,6 +1023,8 @@ get_home_uri (void)
 const char *
 get_file_path_from_uri (const char *uri)
 {
+	if (uri == NULL)
+		return NULL;
 	if (uri_scheme_is_file (uri))
 		return uri + FILE_PREFIX_L;
 	else if (uri[0] == '/')

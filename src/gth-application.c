@@ -32,6 +32,7 @@
 #include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-viewer.h"
+#include "gth-browser-actions-callbacks.h"
 
 
 static BonoboObject *
@@ -141,12 +142,21 @@ impl_gth_application_load_image (PortableServer_Servant  _servant,
 
 
 static void
+impl_gth_application_import_photos (PortableServer_Servant  _servant,
+				    CORBA_Environment      *ev)
+{
+	gth_browser_activate_action_file_camera_import (NULL, NULL);
+}
+
+
+static void
 gth_application_class_init (GthApplicationClass *klass)
 {
         POA_GNOME_GThumb_Application__epv *epv = &klass->epv;
         epv->open_browser = impl_gth_application_open_browser;
         epv->open_viewer = impl_gth_application_open_viewer;
         epv->load_image = impl_gth_application_load_image;
+        epv->import_photos = impl_gth_application_import_photos;
 }
 
 

@@ -27,5 +27,4 @@
 
 void   dlg_photo_importer (GthBrowser *browser);
 
-
 #endif /* DLG_PHOTO_IMPORTER_H */

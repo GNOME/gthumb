@@ -28,6 +28,7 @@
 #include "gthumb-marshal.h"
 #include "gthumb-enum-types.h"
 #include "gth-image-list.h"
+#include "file-utils.h"
 #include "file-data.h"
 #include "icons/pixbufs.h"
 #include "pixbuf-utils.h"

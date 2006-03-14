@@ -608,13 +608,23 @@ prepare_app (void)
 		return;
 	}
 
-	if (! view_comline_catalog && (n_dir_urls == 0) && (n_file_urls == 0)) {
-		if (ImportPhotos)
+	if (ImportPhotos) {
+		if (use_factory)
+			GNOME_GThumb_Application_import_photos (app, &env);
+		else {
+			gth_browser_activate_action_file_camera_import (NULL, NULL);
+			/*
 			preferences_set_startup_location (NULL);
-		open_browser_window (NULL, !ImportPhotos, use_factory, app, &env);
-	}
+			open_browser_window (NULL, FALSE, use_factory, app, &env);
+			*/
+		}
 
-	if (view_single_image) {
+	} else if (! view_comline_catalog 
+	    && (n_dir_urls == 0) 
+	    && (n_file_urls == 0)) {
+		open_browser_window (NULL, TRUE, use_factory, app, &env);
+
+	} else if (view_single_image) {
 		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE))
 			GNOME_GThumb_Application_load_image (app, file_urls[0], &env);
 		else
@@ -670,18 +680,6 @@ prepare_app (void)
 }
 
 
-static gboolean 
-check_whether_to_import_photos (gpointer data) 
-{
-	if (ImportPhotos 
-	    && (first_window != NULL) 
-	    && GTH_IS_BROWSER (first_window))
-		gth_browser_activate_action_file_camera_import (NULL, GTH_BROWSER (first_window));
-
-	return FALSE;
-}
-
-
 int 
 main (int   argc, 
       char *argv[])
@@ -720,7 +718,6 @@ main (int   argc,
 	initialize_data (pctx);
 	poptFreeContext (pctx);
 	prepare_app ();
-	g_idle_add (check_whether_to_import_photos, NULL);
 
 	gtk_main ();
 

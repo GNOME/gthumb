@@ -182,3 +182,10 @@ file_data_list_free (GList *list)
 		g_list_free (list);
 	}
 }
+
+
+const char * 
+file_data_local_path (FileData *fd)
+{
+	return get_file_path_from_uri (fd->path);
+}

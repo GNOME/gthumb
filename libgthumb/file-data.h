@@ -57,4 +57,6 @@ void         file_data_update_comment    (FileData         *fd);
 GList*       file_data_list_dup          (GList            *list);
 void         file_data_list_free         (GList            *list);
 
+const char * file_data_local_path        (FileData         *fd);
+
 #endif /* FILE_DATA_H */
