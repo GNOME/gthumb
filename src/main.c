@@ -1021,13 +1021,10 @@ G_CONST_RETURN char *
 get_stock_id_for_uri (const char *uri)
 {
 	const char *stock_id;
-	char       *home_uri;
-
-	home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
 
 	if (strcmp (uri, g_get_home_dir ()) == 0) 
 		stock_id = GTK_STOCK_HOME;
-	else if (strcmp (uri, home_uri) == 0) 
+	else if (strcmp (uri, get_home_uri ()) == 0) 
 		stock_id = GTK_STOCK_HOME;
 	else if (folder_is_film (uri))
 		stock_id = GTHUMB_STOCK_FILM;
@@ -1038,8 +1035,6 @@ get_stock_id_for_uri (const char *uri)
 	else
 		stock_id = GTK_STOCK_OPEN;
 
-	g_free (home_uri);
-
 	return stock_id;
 }
 
@@ -1049,17 +1044,14 @@ get_icon_for_uri (GtkWidget  *widget,
 		  const char *uri)
 {
 	const char *stock_id = NULL;
-	char       *home_uri;
 	int         menu_size;
 
 	menu_size = get_folder_pixbuf_size_for_list (widget);
 
-	home_uri = g_strconcat ("file://", g_get_home_dir (), NULL);
 	if (strcmp (uri, g_get_home_dir ()) == 0) 
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
-	else if (strcmp (uri, home_uri) == 0) 
+	else if (strcmp (uri, get_home_uri ()) == 0) 
 		return get_fs_icon (ICON_NAME_HOME, menu_size);
-	g_free (home_uri);
 
 	if ((strcmp (uri, "file://") == 0) || (strcmp (uri, "/") == 0)) 
 		return get_fs_icon (ICON_NAME_HARDDISK, menu_size);

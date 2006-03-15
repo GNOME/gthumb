@@ -1,3 +1,11 @@
+2006-03-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/catalog-list.c (catalog_list_select_iter): 
+	* src/gth-browser.c (catalog_activate): 
+	* src/main.c: 
+
+	Fixed command line catalog creation.
+	
 2006-03-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/file-data.h: 

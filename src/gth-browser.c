@@ -1336,7 +1336,7 @@ go_to_uri (GthBrowser  *browser,
 		return;
 
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
-		char *file_uri = g_strconcat ("file://", remove_scheme_from_uri (uri), NULL);
+		char *file_uri = get_uri_from_path (remove_scheme_from_uri (uri));
 		if (path_is_dir (file_uri))
 			gth_browser_go_to_catalog_directory (browser, file_uri);
 		else
@@ -2489,6 +2489,7 @@ catalog_activate (GthBrowser *browser,
 	GError                *gerror;
 	GthSortMethod          sort_method;
 	GtkSortType            sort_type;
+	GtkTreeIter            iter;
 
 	/* catalog directory */
 
@@ -2499,6 +2500,14 @@ catalog_activate (GthBrowser *browser,
 	}
 
 	/* catalog */
+
+	if (! catalog_list_get_iter_from_path (priv->catalog_list,
+					       cat_path,
+					       &iter)) {
+		window_image_viewer_set_void (browser);
+		return;
+	} else
+		catalog_list_select_iter (priv->catalog_list, &iter);
 
 	if (priv->catalog_path != cat_path) {
 		if (priv->catalog_path)
@@ -4031,7 +4040,7 @@ dir_list_drag_data_get  (GtkWidget        *widget,
 			 gpointer          data)
 {
         char *target;
-	char *uri;
+	char *uri, *uri_data;
 
 	debug (DEBUG_INFO, "DirList::DragDataGet");
 
@@ -4045,15 +4054,19 @@ dir_list_drag_data_get  (GtkWidget        *widget,
 	}
         g_free (target);
 
-	uri = g_strconcat ("file://", dir_list_drag_data, "\n", NULL);
+	uri = get_uri_from_path (dir_list_drag_data);
+	uri_data = g_strconcat (uri, "\n", NULL);
+	g_free (uri);
+
         gtk_selection_data_set (selection_data, 
                                 selection_data->target,
                                 8, 
                                 (unsigned char*)dir_list_drag_data, 
-                                strlen (uri));
+                                strlen (uri_data));
+
 	g_free (dir_list_drag_data);
 	dir_list_drag_data = NULL;
-	g_free (uri);
+	g_free (uri_data);
 }
 
 
@@ -7800,7 +7813,6 @@ go_to_catalog__step2 (GoToData *gt_data)
 	GthBrowser            *browser = gt_data->browser;
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *catalog_path = gt_data->path;
-	GtkTreeIter            iter;
 	char                  *catalog_dir;
 
 	if (catalog_path == NULL) {
@@ -7848,16 +7860,6 @@ go_to_catalog__step2 (GoToData *gt_data)
 	gth_browser_go_to_catalog_directory (browser, catalog_dir);
 	g_free (catalog_dir);
 
-	if (! catalog_list_get_iter_from_path (priv->catalog_list,
-					       catalog_path,
-					       &iter)) {
-		g_free (gt_data->path);
-		g_free (gt_data);
-		window_image_viewer_set_void (browser);
-		return;
-	}
-
-	catalog_list_select_iter (priv->catalog_list, &iter);
 	catalog_activate (browser, catalog_path);
 
 	g_free (gt_data->path);

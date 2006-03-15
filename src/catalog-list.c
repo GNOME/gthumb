@@ -629,7 +629,7 @@ void
 catalog_list_select_iter (CatalogList *cat_list,
 			  GtkTreeIter *iter)
 {
-	GtkTreeView *tree_view;
+	GtkTreeView      *tree_view;
 	GtkTreeSelection *selection;
 
 	tree_view = GTK_TREE_VIEW (cat_list->list_view);
