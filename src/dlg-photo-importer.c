@@ -1071,7 +1071,7 @@ get_folder_name (DialogData *data)
 	char *film_name;
 	char *path;
 
-	esc_destination = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
+	esc_destination = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->destination_filechooserbutton));
 	destination = gnome_vfs_unescape_string (esc_destination, "");
 	g_free (esc_destination);
 

@@ -641,7 +641,7 @@ catalog_rename (GthBrowser *browser,
 				       _("The name \"%s\" is already used. " "Please use a different name."), utf8_name);
 		g_free (utf8_name);
 
-	} else if (gnome_vfs_move (catalog_path, new_catalog_path, TRUE) == GNOME_VFS_OK) {
+	} else if (file_rename (catalog_path, new_catalog_path)) {
 		all_windows_notify_catalog_rename (catalog_path, 
 						   new_catalog_path);
 	} else {
@@ -1161,13 +1161,13 @@ folder_rename (GtkWindow  *window,
 
 		old_folder_comment = comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (gnome_vfs_move (old_path, new_path, TRUE) == GNOME_VFS_OK) { 
+		if (file_rename (old_path, new_path)) { 
 			char *new_folder_comment;
 
 			/* Comment cache. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-			gnome_vfs_move (old_folder_comment, new_folder_comment, TRUE);
+			file_rename (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
 			
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1456,14 +1456,14 @@ folder_copy__response_cb (GObject *object,
 			
 		old_folder_comment= comments_get_comment_filename (old_path, TRUE, TRUE);
 
-		if (gnome_vfs_move (old_path, new_path, TRUE) == GNOME_VFS_OK) { 
+		if (file_rename (old_path, new_path)) { 
 			char *new_folder_comment;
 
 			/* moving folders on the same file system can be 
 			 * implemeted with rename, which is faster. */
 
 			new_folder_comment = comments_get_comment_filename (new_path, TRUE, TRUE);
-			gnome_vfs_move (old_folder_comment, new_folder_comment, TRUE);
+			file_rename (old_folder_comment, new_folder_comment);
 			g_free (new_folder_comment);
 
 			all_windows_notify_directory_rename (old_path, new_path);
@@ -1787,7 +1787,7 @@ void
 gth_browser_activate_action_go_home (GtkAction  *action,
 				     GthBrowser *browser)
 {
-	gth_browser_go_to_directory (browser, g_get_home_dir ());
+	gth_browser_go_to_directory (browser, get_home_uri ());
 }
 
 

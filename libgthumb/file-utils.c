@@ -742,6 +742,24 @@ file_move (const gchar *from,
 
 
 gboolean
+file_rename (const gchar *old_path,
+	     const gchar *new_path)
+{
+	GnomeVFSResult  r;
+	char           *e_old_path;
+	char           *e_new_path;
+
+	e_old_path = escape_uri (old_path);
+	e_new_path = escape_uri (new_path);
+	r = gnome_vfs_move (e_old_path, e_new_path, TRUE);
+	g_free (e_old_path);
+	g_free (e_new_path);
+
+	return (r == GNOME_VFS_OK);
+}
+
+
+gboolean
 file_unlink (const gchar *path)
 {
 	GnomeVFSResult  r;

@@ -1008,7 +1008,7 @@ dlg_file_rename_series (GthWindow *window,
 			continue;
 		} 
 
-		if (gnome_vfs_move (old_full_path, new_full_path, TRUE) == GNOME_VFS_OK) {
+		if (file_rename (old_full_path, new_full_path)) {
 			cache_move (old_full_path, new_full_path);
 			comment_move (old_full_path, new_full_path);
 

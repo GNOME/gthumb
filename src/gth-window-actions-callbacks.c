@@ -266,10 +266,7 @@ gth_window_activate_action_edit_delete_comment (GtkAction *action,
 
 		cdata = comments_load_comment (filename, TRUE);
 		comment_data_free_comment (cdata);
-		if (! comment_data_is_void (cdata))
-			comments_save_comment (filename, cdata);
-		else
-			comment_delete (filename);
+		comments_save_comment (filename, cdata);
 		comment_data_free (cdata);
 
 		all_windows_notify_update_metadata (filename);

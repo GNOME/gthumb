@@ -143,7 +143,7 @@ export (GtkWidget  *widget,
 
 	/**/
 	
-	esc_dir = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->dest_filechooserbutton));
+	esc_dir = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->dest_filechooserbutton));
 	dir = gnome_vfs_unescape_string (esc_dir, "");
 	g_free (esc_dir);
 

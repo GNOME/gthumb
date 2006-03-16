@@ -661,18 +661,21 @@ install_theme__ok_cb (GtkDialog  *file_sel,
 		      gpointer    data)
 {
 	ThemeDialogData  *tdata;
-	char             *theme_archive;
+	char             *theme_archive, *e_theme_archive;
 	char             *command_line = NULL;
 	GError           *err = NULL;
 
 	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");
-	theme_archive = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
+	e_theme_archive = g_strdup (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
-	if (theme_archive == NULL)
+	if (e_theme_archive == NULL)
 		return;
 
 	/**/
+
+	theme_archive = gnome_vfs_unescape_string (e_theme_archive, "");
+	g_free (e_theme_archive);
 
 	ensure_local_theme_dir_exists ();
             

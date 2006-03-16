@@ -818,6 +818,17 @@ window_update_go_sensitivity (GthBrowser *browser)
 }
 
 
+static gboolean
+window_image_pane_is_visible (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	return ((priv->sidebar_visible 
+		 && priv->image_pane_visible 
+		 && (priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) 
+		|| ! priv->sidebar_visible);
+}
+
+
 static void
 window_update_sensitivity (GthBrowser *browser)
 {
@@ -843,7 +854,7 @@ window_update_sensitivity (GthBrowser *browser)
 	playing = image_viewer_is_playing_animation (IMAGE_VIEWER (priv->viewer));
 	viewing_dir = sidebar_content == GTH_SIDEBAR_DIR_LIST;
 	viewing_catalog = sidebar_content == GTH_SIDEBAR_CATALOG_LIST; 
-	image_is_visible = ! image_is_void && ((priv->sidebar_visible && priv->image_pane_visible && (priv->preview_content == GTH_PREVIEW_CONTENT_IMAGE)) || ! priv->sidebar_visible);
+	image_is_visible = ! image_is_void && window_image_pane_is_visible (browser);
 
 	if (priv->image_path != NULL)
 		image_pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
@@ -1427,6 +1438,27 @@ add_bookmark_menu_item (GthBrowser     *browser,
 			       FALSE);
 	
 	g_free (name);
+}
+
+
+static void
+window_update_location (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	char                  *uri;
+
+	if (priv->history_current == NULL)
+		return;
+
+	uri = priv->history_current->data;
+
+	if (uri_scheme_is_catalog (uri)
+	    || uri_scheme_is_search (uri)) {
+		char *parent_uri = remove_level_from_path (uri);
+		gth_location_set_catalog_uri (GTH_LOCATION (priv->location), parent_uri, FALSE);
+		g_free (parent_uri);
+	} else 
+		gth_location_set_folder_uri (GTH_LOCATION (priv->location), uri, FALSE);
 }
 
 
@@ -2480,7 +2512,7 @@ catalog_activate_continue (gpointer data)
 }
 
 
-static void
+static gboolean
 catalog_activate (GthBrowser *browser, 
 		  const char *cat_path)
 {
@@ -2496,7 +2528,7 @@ catalog_activate (GthBrowser *browser,
 	if (path_is_dir (cat_path)) { 
 		gth_browser_go_to_catalog (browser, NULL);
 		gth_browser_go_to_catalog_directory (browser, cat_path);
-		return;
+		return TRUE;
 	}
 
 	/* catalog */
@@ -2505,7 +2537,7 @@ catalog_activate (GthBrowser *browser,
 					       cat_path,
 					       &iter)) {
 		window_image_viewer_set_void (browser);
-		return;
+		return FALSE;
 	} else
 		catalog_list_select_iter (priv->catalog_list, &iter);
 
@@ -2520,7 +2552,7 @@ catalog_activate (GthBrowser *browser,
 		_gtk_error_dialog_from_gerror_run (GTK_WINDOW (browser), &gerror);
 		catalog_free (catalog);
 		window_image_viewer_set_void (browser);
-		return;
+		return FALSE;
 	}
 
 	sort_method = catalog->sort_method;
@@ -2538,6 +2570,8 @@ catalog_activate (GthBrowser *browser,
 			      browser);
 
 	catalog_free (catalog);
+
+	return TRUE;
 }
 
 
@@ -7827,23 +7861,6 @@ go_to_catalog__step2 (GoToData *gt_data)
 		return;
 	}
 
-	if (! path_is_file (catalog_path)) {
-		char *base_path;
-
-		_gtk_error_dialog_run (GTK_WINDOW (browser),
-				       _("The specified catalog does not exist."));
-		g_free (gt_data->path);
-		g_free (gt_data);
-
-		window_image_viewer_set_void (browser);
-
-		base_path = get_catalog_full_path (NULL);
-		gth_browser_go_to_catalog_directory (browser, base_path);
-		g_free (base_path);
-
-		return;
-	}
-
 	if (priv->catalog_path != catalog_path) {
 		if (priv->catalog_path)
 			g_free (priv->catalog_path);
@@ -7881,6 +7898,13 @@ gth_browser_go_to_catalog (GthBrowser *browser,
 	if (priv->setting_file_list && FirstStart)
 		return;
 
+	if ((catalog_path != NULL) && ! path_is_file (catalog_path)) {
+		_gtk_error_dialog_run (GTK_WINDOW (browser),
+				       _("The specified catalog does not exist."));
+		window_update_location (browser);
+		return;
+	}
+
 	gt_data = g_new (GoToData, 1);
 	gt_data->browser = browser;
 	gt_data->path = g_strdup (catalog_path);
@@ -7911,7 +7935,7 @@ gth_browser_go_up__is_base_dir (GthBrowser *browser,
 		return FALSE;
 
 	if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
-		return (strcmp (dir, "/") == 0);
+		return same_uri (dir, "file://");
 	else {
 		char     *catalog_base;
 		gboolean  is_base_dir;

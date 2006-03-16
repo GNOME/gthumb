@@ -132,7 +132,7 @@ ok_cb (GtkWidget  *widget,
 
 	/**/
 
-	esc_path = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton));
+	esc_path = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (data->ss_dest_filechooserbutton));
 	data->destination = gnome_vfs_unescape_string (esc_path, "");
 	g_free (esc_path);
 	

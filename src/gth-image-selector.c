@@ -822,6 +822,9 @@ button_press (GtkWidget      *widget,
 	x += priv->x_offset;
 	y += priv->y_offset;
 
+	if (!point_in_rectangle (x, y, priv->background_area))
+		return FALSE;
+
 	if (priv->current_area == NULL) {
 		GdkRectangle new_selection;
 

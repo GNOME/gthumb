@@ -454,18 +454,20 @@ thumb_loader_start (ThumbLoader *tl)
 		time_t  mtime;
 
 		mtime = get_file_mtime (priv->uri);
-		if (gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory, 
-									priv->e_uri, 
-									mtime)) {
+
+		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory, 
+							     priv->e_uri, 
+							     mtime);
+
+		if ((cache_path == NULL)
+		    && gnome_thumbnail_factory_has_valid_failed_thumbnail (priv->thumb_factory, 
+									   priv->e_uri, 
+									   mtime)) {
 			g_signal_emit (G_OBJECT (tl),
 				       thumb_loader_signals[THUMB_ERROR],
 				       0);
 			return;
 		}
-
-		cache_path = gnome_thumbnail_factory_lookup (priv->thumb_factory, 
-							     priv->e_uri, 
-							     mtime);
 	}
 
 	if (cache_path != NULL) {

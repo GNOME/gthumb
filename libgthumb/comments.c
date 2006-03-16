@@ -143,6 +143,9 @@ comment_data_dup (CommentData *data)
 {
 	CommentData *new_data;
 
+	if (data == NULL)
+		return NULL;
+
 	new_data = comment_data_new ();
 
 	if (data->place != NULL)
@@ -369,39 +372,39 @@ load_comment_from_iptc (const char *filename)
 	for (i = 0; i < d->count; i++) {
 		IptcDataSet * ds = d->datasets[i];
 
-		if (ds->record == IPTC_RECORD_APP_2 &&
-				ds->tag == IPTC_TAG_CAPTION) {
+		if ((ds->record == IPTC_RECORD_APP_2) 
+		    && (ds->tag == IPTC_TAG_CAPTION)) {
 			if (data->comment)
 				continue;
 			data->comment = g_new (char, ds->size + 1);
 			if (data->comment)
 				iptc_dataset_get_data (ds, (guchar*)data->comment, ds->size + 1);
 		}
-		else if (ds->record == IPTC_RECORD_APP_2 &&
-				ds->tag == IPTC_TAG_CONTENT_LOC_NAME) {
+		else if ((ds->record == IPTC_RECORD_APP_2) 
+			 && (ds->tag == IPTC_TAG_CONTENT_LOC_NAME)) {
 			if (data->place)
 				continue;
 			data->place = g_new (char, ds->size + 1);
 			if (data->place)
 				iptc_dataset_get_data (ds, (guchar*)data->place, ds->size + 1);
 		}
-		else if (ds->record == IPTC_RECORD_APP_2 &&
-				ds->tag == IPTC_TAG_KEYWORDS) {
+		else if ((ds->record == IPTC_RECORD_APP_2)
+			 && (ds->tag == IPTC_TAG_KEYWORDS)) {
 			char keyword[64];
 			if (iptc_dataset_get_data (ds, (guchar*)keyword, sizeof(keyword)) < 0)
 				continue;
 			comment_data_add_keyword (data, keyword);
 		}
-		else if (ds->record == IPTC_RECORD_APP_2 &&
-				ds->tag == IPTC_TAG_DATE_CREATED) {
+		else if ((ds->record == IPTC_RECORD_APP_2) 
+			 && (ds->tag == IPTC_TAG_DATE_CREATED)) {
 			int year, month;
 			iptc_dataset_get_date (ds, &year, &month, &t.tm_mday);
 			t.tm_year = year - 1900;
 			t.tm_mon = month - 1;
 			got_date = 1;
 		}
-		else if (ds->record == IPTC_RECORD_APP_2 &&
-				ds->tag == IPTC_TAG_TIME_CREATED) {
+		else if ((ds->record == IPTC_RECORD_APP_2) 
+			 && (ds->tag == IPTC_TAG_TIME_CREATED)) {
 			iptc_dataset_get_time (ds, &t.tm_hour, &t.tm_min, &t.tm_sec, NULL);
 			got_time = 1;
 		}
@@ -419,16 +422,17 @@ load_comment_from_iptc (const char *filename)
 static void
 clear_iptc_comment (IptcData *d)
 {
-	int i;
-	IptcDataSet *ds;
 	IptcTag deletetag[] = {
 		IPTC_TAG_DATE_CREATED, IPTC_TAG_TIME_CREATED, IPTC_TAG_KEYWORDS,
 		IPTC_TAG_CAPTION, IPTC_TAG_CONTENT_LOC_NAME, 0
 	};
+	int          i;
 
 	for (i = 0; deletetag[i] != 0; i++) {
-		while ((ds = iptc_data_get_dataset (d, IPTC_RECORD_APP_2,
-						deletetag[i]))) {
+		IptcDataSet *ds;
+		while ((ds = iptc_data_get_dataset (d, 
+						    IPTC_RECORD_APP_2,
+						    deletetag[i]))) {
 			iptc_data_remove_dataset (d, ds);
 			iptc_dataset_unref (ds);
 		}
@@ -847,16 +851,16 @@ save_comment (const char  *filename,
 	char        *dest_dir = NULL;
 	char        *e_comment = NULL, *e_place = NULL, *e_keywords = NULL;
 
-	if (comment_data_is_void (data)) {
-		comment_delete (filename);
-		return;
-	}
-
 	if (save_embedded) {
 #ifdef HAVE_LIBIPTCDATA
 		if (image_is_jpeg (filename)) 
 			save_comment_iptc (get_file_path_from_uri (filename), data);
 #endif /* HAVE_LIBIPTCDATA */
+	}
+
+	if (comment_data_is_void (data)) {
+		comment_delete (filename);
+		return;
 	}
 
 	/* Convert data to strings. */
@@ -962,9 +966,9 @@ comments_save_comment (const char  *filename,
 {
 	CommentData *new_data;
 
-	new_data = comments_load_comment (filename, TRUE);
+	new_data = comments_load_comment (filename, FALSE);
 
-	if (new_data == NULL) {
+	if ((new_data == NULL) && (data != NULL)) {
 		CommentData *data_without_categories;
 
 		data_without_categories = comment_data_dup (data);
@@ -974,14 +978,16 @@ comments_save_comment (const char  *filename,
 
 		return;
 	}
-
 	comment_data_free_comment (new_data);
-	if (data->place != NULL) 
-		new_data->place = g_strdup (data->place);
-	if (data->time >= 0)
-		new_data->time = data->time;
-	if (data->comment != NULL) 
-		new_data->comment = g_strdup (data->comment);
+
+	if (data != NULL) {
+		if (data->place != NULL) 
+			new_data->place = g_strdup (data->place);
+		if (data->time >= 0)
+			new_data->time = data->time;
+		if (data->comment != NULL) 
+			new_data->comment = g_strdup (data->comment);
+	}
 
 	save_comment (filename, new_data, TRUE);
 	comment_data_free (new_data);

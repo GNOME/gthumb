@@ -1,3 +1,28 @@
+2006-03-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/thumb-loader.c (thumb_loader_start): check a good thumbnail
+	before checking a valid failed thumbnail.
+
+	Fixes bug #329889 – thumbnail generation and accentuated characters in 
+	path.
+	
+	* src/gth-image-selector.c (button_press): do nothing when clicking 
+	outside the image.
+
+	* src/dlg-web-exporter.c (install_theme__ok_cb): 
+	* src/dlg-search.c (search_clicked_cb): 
+	* src/dlg-png-exporter.c (export): 
+	* src/dlg-photo-importer.c (get_folder_name): 
+	* src/dlg-duplicates.c (find_cb): 
+	* src/dlg-scale-series.c (ok_cb): 
+	* src/dlg-convert.c (ok_cb): use get_uri instead of get_filename
+
+	* src/gth-browser.c (gth_browser_go_up__is_base_dir): compare two uris,
+	instead of a local path and a uri.
+
+	* libgthumb/comments.c: fixed bug that prevented comments to be
+	removed correctly when iptc_data support was enabled.  
+
 2006-03-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/catalog-list.c (catalog_list_select_iter): 

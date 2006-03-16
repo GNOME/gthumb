@@ -108,6 +108,8 @@ gboolean            file_copy                     (const char       *from,
 						   const char       *to);
 gboolean            file_move                     (const char       *from, 
 						   const char       *to);
+gboolean            file_rename                   (const gchar      *old_path,
+						   const gchar      *new_path);
 gboolean            file_unlink                   (const char       *path);
 gboolean            image_is_jpeg                 (const char       *name);
 gboolean            image_is_gif                  (const char       *name);
