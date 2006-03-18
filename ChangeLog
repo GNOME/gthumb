@@ -1,3 +1,7 @@
+2006-03-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-location.c (update_drives): only display user visible drives.
+
 2006-03-16  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/thumb-loader.c (thumb_loader_start): check a good thumbnail

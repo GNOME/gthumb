@@ -546,14 +546,33 @@ get_drive_name (GnomeVFSDrive *drive)
 
 
 static void
+insert_drive_from_uri (GthLocation *loc,
+		       const char  *uri,
+		       int          pos)
+{
+	GdkPixbuf   *pixbuf;
+	char        *uri_name;
+	GtkTreeIter  iter;
+
+	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
+	uri_name = get_uri_display_name (uri);
+	gtk_list_store_insert (loc->priv->model, &iter, pos++);
+	gtk_list_store_set (loc->priv->model, &iter,
+			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
+			    ICON_COLUMN, pixbuf,
+			    NAME_COLUMN, uri_name,
+			    PATH_COLUMN, uri,
+			    -1);
+	g_free (uri_name);
+	g_object_unref (pixbuf);
+}
+
+
+static void
 update_drives (GthLocation *loc)
 {
-	GList       *scan;
-	int          pos = 0;
-	char        *uri;
-	char        *uri_name;
-	GdkPixbuf   *pixbuf;
-	GtkTreeIter  iter;
+	GList *scan;
+	int    pos = 0;
 
 	clear_items (loc, ITEM_TYPE_DRIVE);
 
@@ -565,41 +584,23 @@ update_drives (GthLocation *loc)
 
 	pos++;
 
-	/* Home */
-	
-	uri = g_strconcat ("file://", g_get_home_dir(), NULL);
-	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
-	uri_name = get_uri_display_name (uri);
-	gtk_list_store_insert (loc->priv->model, &iter, pos++);
-	gtk_list_store_set (loc->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
-			    ICON_COLUMN, pixbuf,
-			    NAME_COLUMN, uri_name,
-			    PATH_COLUMN, uri,
-			    -1);
-	g_free (uri_name);
-	g_object_unref (pixbuf);
-	g_free (uri);
+	/* Home, File System */
 
-	/* File System */
+	insert_drive_from_uri (loc, get_home_uri (), pos++);
+	insert_drive_from_uri (loc, "file://", pos++);
 
-	uri = "file://";
-	pixbuf = get_icon_for_uri (GTK_WIDGET (loc), uri);
-	uri_name = get_uri_display_name (uri);
-	gtk_list_store_insert (loc->priv->model, &iter, pos++);
-	gtk_list_store_set (loc->priv->model, &iter,
-			    TYPE_COLUMN, ITEM_TYPE_DRIVE,
-			    ICON_COLUMN, pixbuf,
-			    NAME_COLUMN, uri_name,
-			    PATH_COLUMN, uri,
-			    -1);
-	g_free (uri_name);
-	g_object_unref (pixbuf);
 
 	/* Other drives */
 
 	for (scan = loc->priv->drives; scan; scan = scan->next) {
 		GnomeVFSDrive *drive = scan->data;
+		char          *uri;
+		GdkPixbuf     *pixbuf;
+		char          *uri_name;
+		GtkTreeIter    iter;
+
+		if (!gnome_vfs_drive_is_user_visible (drive))
+			continue;
 
 		uri = get_drive_uri (drive);
 		if (! uri_scheme_is_file (uri)) {
