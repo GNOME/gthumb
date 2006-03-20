@@ -1763,7 +1763,7 @@ files_delete__done (FileDeleteData *fddata)
 {
 	if (fddata->result == GNOME_VFS_OK) 
 		all_windows_notify_files_deleted (fddata->file_list);
-	else
+	else 
 		all_windows_notify_files_changed (fddata->file_list);
 
 	/*all_windows_add_monitor (); FIXME*/
@@ -1928,8 +1928,7 @@ dlg_files_delete (GthWindow      *window,
 				       GNOME_VFS_PRIORITY_DEFAULT,
 				       file_delete_progress_update_cb,
 				       fddata,
-				       NULL,
-				       NULL);
+				       NULL, NULL);
 
 	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
 	g_list_free (src_list);

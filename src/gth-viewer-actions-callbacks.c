@@ -58,6 +58,8 @@ gth_viewer_activate_action_file_open_folder (GtkAction *action,
 	new_window = gth_browser_new (image_folder);
 	gtk_widget_show (new_window);
 	g_free (image_folder);
+
+	/* gth_window_close (window); */
 }
 
 

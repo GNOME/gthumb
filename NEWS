@@ -1,3 +1,15 @@
+version 2.7.5
+-------------
+	* Only display user visible drives in the location box.
+	* Fixed bug #329889 - thumbnail generation and accentuated characters 
+	  in path.
+	* Fixed little bug in crop dialog.
+	* Fixed bug that prevented comments to be removed correctly when 
+	  iptc_data support was enabled.
+	* Fixed command line catalog creation.
+	* Fixed photo importing and fixed bug that prevented importing photos 
+	  when an instance of gthumb was already running.
+
 version 2.7.4
 -------------
 	* Fixed bug #325833 – gthumb icon isn't on window title bar and windo
