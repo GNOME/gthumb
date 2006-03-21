@@ -1,3 +1,15 @@
+2006-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.7.5.1 released ]
+
+	* src/gth-batch-op.c (pixbuf_op_done_cb): copy the image comment.
+
+	* src/dlg-photo-importer.c (save_image): convert to local path
+	before saving.
+
+	* src/catalog-png-exporter.c (end_page): use _gdk_pixbuf_save 
+	instead of gdk_pixbuf_save
+
 2006-03-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.5 released ]
@@ -19,7 +31,7 @@
 	
 	* src/gth-image-selector.c (button_press): do nothing when clicking 
 	outside the image.
-
+ 
 	* src/dlg-web-exporter.c (install_theme__ok_cb): 
 	* src/dlg-search.c (search_clicked_cb): 
 	* src/dlg-png-exporter.c (export): 

@@ -108,4 +108,8 @@ void            gth_browser_set_bookmarks_dlg            (GthBrowser        *bro
 							  GtkWidget         *dialog);
 GtkWidget *     gth_browser_get_bookmarks_dlg            (GthBrowser        *browser);
 
+/**/
+
+GtkWidget *     gth_browser_get_current_browser          (void);
+
 #endif /* GTH_BROWSER_H */

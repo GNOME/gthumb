@@ -1640,9 +1640,9 @@ end_page (CatalogPngExporter *ce,
 	g_free (filename);
 
 	if (strcmp (ce->file_type, "jpeg") == 0) 
-		gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "85", NULL);
+		_gdk_pixbuf_save (pixbuf, path, "jpeg", NULL, "quality", "85", NULL);
 	else
-		gdk_pixbuf_save (pixbuf, path, ce->file_type, NULL, NULL);
+		_gdk_pixbuf_save (pixbuf, path, ce->file_type, NULL, NULL);
 
 	ce->created_list = g_list_prepend (ce->created_list, g_strdup (path));
 

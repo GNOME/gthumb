@@ -277,4 +277,71 @@ get_exif_entry_value (ExifEntry *entry)
 }
 
 
+ExifData *
+load_exif_data (const char *filename)
+{
+	JPEGData *jdata = NULL;
+	ExifData *exif_data = NULL;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return NULL;
+
+	jdata = jpeg_data_new_from_file (filename);
+	if (jdata == NULL) 
+		return NULL;
+
+	exif_data = jpeg_data_get_exif_data (jdata);
+	jpeg_data_unref (jdata);
+
+	return exif_data;
+}
+
+
+void 
+save_exif_data (const char *filename,
+		ExifData   *edata)
+{
+	JPEGData *jdata;
+
+	filename = get_file_path_from_uri (filename);
+	if (filename == NULL)
+		return;
+
+	jdata = jpeg_data_new_from_file (filename);
+	if (jdata == NULL) 
+		return;
+
+	if (edata != NULL)
+		jpeg_data_set_exif_data (jdata, edata);
+
+	jpeg_data_save_file (jdata, filename);
+	jpeg_data_unref (jdata);
+}
+
+
+void 
+copy_exif_data (const char *src,
+		const char *dest)
+{
+	ExifData *edata;
+
+	if (!image_is_jpeg (src) || !image_is_jpeg (dest))
+		return;
+	src = get_file_path_from_uri (src);
+	if (src == NULL)
+		return;
+	dest = get_file_path_from_uri (dest);
+	if (dest == NULL)
+		return;
+
+	edata = exif_data_new_from_file (src);
+	if (edata == NULL) 
+		return;
+	save_exif_data (dest, edata);
+
+	exif_data_unref (edata);
+}
+
+
 #endif /* HAVE_LIBEXIF */

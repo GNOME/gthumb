@@ -20,6 +20,7 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
 #include <string.h>
 
 #include <glib/gi18n.h>
@@ -37,6 +38,10 @@
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "dlg-save-image.h"
+#include "comments.h"
+#ifdef HAVE_LIBEXIF
+#include "gth-exif-utils.h"
+#endif /* HAVE_LIBEXIF */
 
 #define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_tools.glade"
@@ -436,7 +441,8 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 		   gboolean     completed,
 		   GthBatchOp  *bop)
 {
-	GError *error = NULL;
+	GError   *error = NULL;
+	FileData *fd = PD(bop)->current_image->data;
 
 	if (!completed) {
 		notify_termination (bop);
@@ -449,13 +455,16 @@ pixbuf_op_done_cb (GthPixbufOp *pixop,
 			       PD(bop)->keys, 
 			       PD(bop)->values,
 			       &error)) {
-		FileData *fd = PD(bop)->current_image->data;
 		PD(bop)->saved_list = g_list_prepend (PD(bop)->saved_list, g_strdup (PD(bop)->new_path));
 
-		if (PD(bop)->remove_original && ! same_uri (fd->path, PD(bop)->new_path)) {
-			file_unlink (fd->path);
-			PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
+		if (! same_uri (fd->path, PD(bop)->new_path)) {
+			comment_copy (fd->path, PD(bop)->new_path);
+			if (PD(bop)->remove_original) {
+				file_unlink (fd->path);
+				PD(bop)->deleted_list = g_list_prepend (PD(bop)->deleted_list, g_strdup (fd->path));
+			}
 		}
+
 	} else 
 		_gtk_error_dialog_from_gerror_run (PD(bop)->parent, &error);
 

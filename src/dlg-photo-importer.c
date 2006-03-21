@@ -182,8 +182,12 @@ destroy_cb (GtkWidget  *widget,
 
 	if (data->view_folder) {
 		if (browser == NULL) {
-			browser = gth_browser_new (data->local_folder);
-			gtk_widget_show (browser);
+			browser = gth_browser_get_current_browser ();
+			if (browser != NULL)
+				gth_browser_go_to_directory (GTH_BROWSER (browser), data->local_folder);
+			else
+				browser = gth_browser_new (data->local_folder);
+			gtk_window_present (GTK_WINDOW (browser));
 		} else
 			gth_browser_go_to_directory (data->browser, data->local_folder);
 	}
@@ -1207,8 +1211,8 @@ save_image (DialogData *data,
 {
 	CameraFile *file;
 	char       *camera_folder;
-	const char *camera_filename;
-	char       *local_path;
+	const char *camera_filename, *local_path;
+	char       *file_uri;
 
 	gp_file_new (&file);
 
@@ -1221,9 +1225,11 @@ save_image (DialogData *data,
 			    file, 
 			    data->context);
 
-	local_path = get_file_name (data, camera_path, local_folder, n);
+	file_uri = get_file_name (data, camera_path, local_folder, n);
 
-	if (gp_file_save (file, local_path) >= 0) {
+	/* FIXME: support non-local saving */
+	local_path = get_file_path_from_uri (file_uri);
+	if ((local_path != NULL) && gp_file_save (file, local_path) >= 0) {
 		if (data->delete_from_camera) 
 			data->delete_list = g_list_prepend (data->delete_list, g_strdup (camera_path));
 		if (data->adjust_orientation) {
@@ -1239,7 +1245,7 @@ save_image (DialogData *data,
 	}
 
 	g_free (camera_folder);	
-	g_free (local_path);
+	g_free (file_uri);
 	gp_file_unref (file);
 }
 

@@ -1,3 +1,7 @@
+version 2.7.5.1
+---------------
+	* Fixed photo importing.
+
 version 2.7.5
 -------------
 	* Only display user visible drives in the location box.

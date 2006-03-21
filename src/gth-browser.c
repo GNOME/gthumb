@@ -6922,6 +6922,9 @@ gth_browser_construct (GthBrowser  *browser,
 }
 
 
+static GList *browser_list = NULL;
+
+
 GtkWidget * 
 gth_browser_new (const char *uri)
 {
@@ -6929,6 +6932,8 @@ gth_browser_new (const char *uri)
 
 	browser = (GthBrowser*) g_object_new (GTH_TYPE_BROWSER, NULL);
 	gth_browser_construct (browser, uri);
+
+	browser_list = g_list_prepend (browser_list, browser);
 
 	return (GtkWidget*) browser;
 }
@@ -6959,6 +6964,7 @@ close__step6 (const char *filename,
 	GdkWindowState         state;
 	gboolean               maximized;
 
+	browser_list = g_list_remove (browser_list, browser);
 	last_window = gth_window_get_n_windows () == 1;
 
 	/* Save visualization options only if the window is not maximized. */
@@ -8791,4 +8797,14 @@ CatalogList*
 gth_browser_get_catalog_list (GthBrowser *browser)
 {
 	return browser->priv->catalog_list;
+}
+
+
+GtkWidget *
+gth_browser_get_current_browser (void)
+{
+	if ((browser_list == NULL) || (g_list_length (browser_list) > 1))
+		return NULL;
+	else
+		return (GtkWidget *) browser_list->data;
 }
