@@ -2462,20 +2462,22 @@ gth_viewer_get_type ()
 }
 
 
-void
-compute_single_viewer_window (void)
+GtkWidget *
+gth_viewer_get_current_viewer (void)
 {
 	GList *windows = gth_window_get_window_list ();
 	GList *scan;
 		
 	if (SingleViewer != NULL) 
-		return;
+		return SingleViewer;
 
 	for (scan = windows; scan; scan = scan->next) {
 		GthWindow *window = scan->data;
 		if (GTH_IS_VIEWER (window)) {
-			SingleViewer = (GthViewer*) window;
+			SingleViewer = (GtkWidget*) window;
 			break;
 		}
 	}
+
+	return SingleViewer;
 }

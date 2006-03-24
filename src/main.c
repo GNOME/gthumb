@@ -74,6 +74,7 @@ gboolean     ExitAll = FALSE;
 char        *ImageToDisplay = NULL;
 gboolean     FirstStart = TRUE;
 gboolean     ImportPhotos = FALSE;
+gboolean     UseViewer = FALSE;
 
 static gboolean        view_comline_catalog = FALSE;
 static gboolean        view_single_image = FALSE;
@@ -91,6 +92,9 @@ struct poptOption options[] = {
 	  0 },
 	{ "import-photos", '\0', POPT_ARG_NONE, &ImportPhotos, 0,
 	  N_("Automatically import digital camera photos"),
+	  0 },
+	{ "viewer", '\0', POPT_ARG_NONE, &UseViewer, 0,
+	  "Use the viewer mode to view single images",
 	  0 },
 	{ NULL, '\0', 0, NULL, 0 }
 };
@@ -611,13 +615,8 @@ prepare_app (void)
 	if (ImportPhotos) {
 		if (use_factory)
 			GNOME_GThumb_Application_import_photos (app, &env);
-		else {
+		else 
 			gth_browser_activate_action_file_camera_import (NULL, NULL);
-			/*
-			preferences_set_startup_location (NULL);
-			open_browser_window (NULL, FALSE, use_factory, app, &env);
-			*/
-		}
 
 	} else if (! view_comline_catalog 
 	    && (n_dir_urls == 0) 
@@ -627,8 +626,12 @@ prepare_app (void)
 	} else if (view_single_image) {
 		if (use_factory && eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE))
 			GNOME_GThumb_Application_load_image (app, file_urls[0], &env);
-		else
-			open_viewer_window (file_urls[0], use_factory, app, &env);
+		else {
+			if (UseViewer)
+				open_viewer_window (file_urls[0], use_factory, app, &env);
+			else
+				open_browser_window (file_urls[0], TRUE, use_factory, app, &env);
+		}
 
 	} else if (view_comline_catalog) {
 		char *catalog_uri;

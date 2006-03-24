@@ -40,6 +40,7 @@ extern gboolean          ExitAll;
 extern char             *ImageToDisplay;
 extern gboolean          FirstStart;
 extern gboolean          ImportPhotos;
+extern gboolean          UseViewer;
 
 #define MENU_ICON_SIZE 20.0
 #define LIST_ICON_SIZE 20.0

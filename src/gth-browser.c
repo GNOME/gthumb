@@ -217,6 +217,7 @@ struct _GthBrowserPrivateData {
 						 * handle the refreshing case 
 						 * in a special way. */
 	gboolean            saving_modified_image;
+	gboolean            load_image_folder_after_image;
 
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
@@ -1085,9 +1086,9 @@ set_file_list__final_step_cb (gpointer data)
 
 	if (ImageToDisplay != NULL) {
 		int pos = gth_file_list_pos_from_path (priv->file_list, ImageToDisplay);
-
 		if (pos != -1)
 			gth_file_list_select_image_by_pos (priv->file_list, pos);
+		
 		g_free (ImageToDisplay);
 		ImageToDisplay = NULL;
 
@@ -1114,6 +1115,7 @@ window_set_file_list_continue (gpointer callback_data)
 	window_update_statusbar_list_info (browser);
 	priv->setting_file_list = FALSE;
 
+	window_update_infobar (browser);
 	window_update_sensitivity (browser);
 
 	if (data->done_func != NULL)
@@ -1339,22 +1341,40 @@ window_update_catalog_list (GthBrowser *browser)
 /* -- bookmarks & history -- */
 
 
+static void set_mode_specific_ui_info (GthBrowser        *browser, 
+				       GthSidebarContent  content,
+				       gboolean           first_time);
+
 static void
 go_to_uri (GthBrowser  *browser,
 	   const char  *uri)
 {
+	GthSidebarContent sidebar_content = GTH_SIDEBAR_DIR_LIST;
+
 	if (uri == NULL)
 		return;
 
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = get_uri_from_path (remove_scheme_from_uri (uri));
+
+		sidebar_content = GTH_SIDEBAR_CATALOG_LIST;
+
 		if (path_is_dir (file_uri))
 			gth_browser_go_to_catalog_directory (browser, file_uri);
 		else
 			gth_browser_go_to_catalog (browser, file_uri);
 		g_free (file_uri);
-	} else 
+
+	} else if (path_is_file (uri)) {
+		sidebar_content = GTH_SIDEBAR_NO_LIST;
+		browser->priv->load_image_folder_after_image = TRUE;
+		gth_browser_set_sidebar_content (browser, GTH_SIDEBAR_NO_LIST);
+		gth_browser_load_image (browser, uri);
+
+	} else {
+		sidebar_content = GTH_SIDEBAR_DIR_LIST;
 		gth_browser_go_to_directory (browser, uri);
+	}
 }
 
 
@@ -2781,6 +2801,21 @@ image_loaded_cb (GtkWidget  *widget,
 		 GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->load_image_folder_after_image) {
+		char *folder_uri = remove_level_from_path (priv->image_path);
+
+		priv->load_image_folder_after_image = FALSE;
+		gth_browser_hide_sidebar (browser);
+
+		if (! same_uri (folder_uri, priv->dir_list->path)) {
+			priv->refreshing = TRUE;
+			ImageToDisplay = g_strdup (priv->image_path);
+			gth_browser_go_to_directory (browser, folder_uri);
+		}
+
+		g_free (folder_uri);
+	}
 
 	priv->image_mtime = get_file_mtime (priv->image_path);
 	priv->image_modified = FALSE;
@@ -6766,6 +6801,8 @@ gth_browser_construct (GthBrowser  *browser,
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer),
 					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 
+	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE); 
+
 	/* Add notification callbacks. */
 
 	i = 0;
@@ -6858,8 +6895,6 @@ gth_browser_construct (GthBrowser  *browser,
 					   PREF_VIEW_AS,
 					   pref_view_as_changed,
 					   browser);
-
-	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE);
 
 	/**/
 
@@ -7213,7 +7248,11 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 	char                  *path;
 
 	window_set_sidebar (browser, sidebar_content);
-	gth_browser_show_sidebar (browser);
+
+	if (sidebar_content == GTH_SIDEBAR_NO_LIST)
+		gth_browser_hide_sidebar (browser);
+	else
+		gth_browser_show_sidebar (browser);
 
 	gth_file_view_set_reorderable (priv->file_list->view, (sidebar_content == GTH_SIDEBAR_CATALOG_LIST));
 
@@ -7222,9 +7261,18 @@ gth_browser_set_sidebar_content (GthBrowser *browser,
 
 	switch (sidebar_content) {
 	case GTH_SIDEBAR_DIR_LIST: 
-		if (priv->dir_list->path == NULL) 
-			gth_browser_go_to_directory (browser, get_home_uri ());
-		else 
+		if (priv->dir_list->path == NULL) {
+			char *folder_uri = NULL;
+			if (priv->image_path != NULL) {
+				ImageToDisplay = g_strdup (priv->image_path);
+				folder_uri = remove_level_from_path (priv->image_path);
+			} else
+				folder_uri = g_strdup (get_home_uri ());
+
+			gth_browser_go_to_directory (browser, folder_uri);
+
+			g_free (folder_uri);
+		} else 
 			gth_browser_go_to_directory (browser, priv->dir_list->path);
 		break;
 
@@ -8316,9 +8364,9 @@ load_timeout_cb (gpointer data)
 {
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
-	char                  *prev1;
-	char                  *next1;
-	/*char                  *next2;*/
+	char                  *prev1 = NULL;
+	char                  *next1 = NULL;
+	char                  *next2 = NULL;
 	int                    pos;
 
 	if (priv->view_image_timeout != 0) {
@@ -8330,22 +8378,21 @@ load_timeout_cb (gpointer data)
 		return FALSE;
 
 	pos = gth_file_list_pos_from_path (priv->file_list, priv->image_path);
-	if (pos < 0)
-		return FALSE;
+	if (pos >= 0) {
+		prev1 = get_image_to_preload (browser, pos - 1, 1);
+		next1 = get_image_to_preload (browser, pos + 1, 1);
+		/*next2 = get_image_to_preload (browser, pos + 2, 2);*/
+	}
 
-	prev1 = get_image_to_preload (browser, pos - 1, 1);
-	next1 = get_image_to_preload (browser, pos + 1, 1);
-	/*next2 = get_image_to_preload (browser, pos + 2, 2);*/
-	
 	gthumb_preloader_start (priv->preloader, 
 				priv->image_path, 
 				next1, 
 				prev1, 
-				NULL/*next2*/);
+				next2);
 
 	g_free (prev1);
 	g_free (next1);
-	/*g_free (next2);*/
+	g_free (next2);
 
 	return FALSE;
 }
@@ -8797,6 +8844,14 @@ CatalogList*
 gth_browser_get_catalog_list (GthBrowser *browser)
 {
 	return browser->priv->catalog_list;
+}
+
+
+void
+gth_browser_load_uri (GthBrowser *browser,
+		      const char *uri)
+{
+	go_to_uri (browser, uri);
 }
 
 

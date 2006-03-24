@@ -56,8 +56,6 @@ void           gth_viewer_set_metadata_visible     (GthViewer   *viewer,
 void           gth_viewer_set_single_window        (GthViewer   *viewer,
 						    gboolean     value);
 
-extern GthViewer *SingleViewer;
-
-void           compute_single_viewer_window        (void);
+GtkWidget *    gth_viewer_get_current_viewer       (void);
 
 #endif /* GTH_VIEWER_H */

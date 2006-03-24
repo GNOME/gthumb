@@ -33,6 +33,7 @@
 #include "gth-browser.h"
 #include "gth-viewer.h"
 #include "gth-browser-actions-callbacks.h"
+#include "main.h"
 
 
 static BonoboObject *
@@ -130,13 +131,22 @@ impl_gth_application_load_image (PortableServer_Servant  _servant,
 	if (*uri == '\0') 
 		uri = NULL;
 
-	compute_single_viewer_window ();
-
-	if (SingleViewer == NULL)
-		show_grabbing_focus (gth_viewer_new (uri));
-	else {
-		gth_viewer_load (SingleViewer, uri);
-		show_grabbing_focus (GTK_WIDGET (SingleViewer));
+	if (UseViewer) {
+		GtkWidget *viewer = gth_viewer_get_current_viewer ();
+		if (viewer == NULL)
+			show_grabbing_focus (gth_viewer_new (uri));
+		else {
+			gth_viewer_load (GTH_VIEWER (viewer), uri);
+			show_grabbing_focus (viewer);
+		}
+	} else {
+		GtkWidget *browser = gth_browser_get_current_browser ();
+		if (browser == NULL)
+			show_grabbing_focus (gth_browser_new (uri));
+		else {
+			gth_browser_load_uri (GTH_BROWSER (browser), uri);
+			show_grabbing_focus (browser);
+		}
 	}
 }
 

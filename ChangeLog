@@ -1,3 +1,20 @@
+2006-03-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/main.h: 
+	* src/main.c: 
+	* src/gth-application.c (impl_gth_application_load_image): 
+	* src/gth-browser-actions-callbacks.c (if): 
+	* src/gth-viewer.h: 
+	* src/gth-viewer.c: 
+	
+	Always use the browser mode, added a --viewer command line option to
+	use the viewer mode for single images.
+
+	* src/gth-browser.h: 
+	* src/gth-browser.c (go_to_uri): 
+
+	Load the folder after loading the image.
+	
 2006-03-21  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.5.1 released ]

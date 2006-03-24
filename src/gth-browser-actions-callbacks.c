@@ -99,10 +99,10 @@ gth_browser_activate_action_file_view_image (GtkAction  *action,
 		return;
 
 	if (eel_gconf_get_boolean (PREF_SINGLE_WINDOW, FALSE)) {
-		compute_single_viewer_window ();
-		if (SingleViewer != NULL) {
-			gth_viewer_load (SingleViewer, image_filename);
-			gtk_window_present (GTK_WINDOW (SingleViewer));
+		GtkWidget *viewer = gth_viewer_get_current_viewer ();
+		if (viewer != NULL) {
+			gth_viewer_load (GTH_VIEWER (viewer), image_filename);
+			gtk_window_present (GTK_WINDOW (viewer));
 			return;
 		}
 	}

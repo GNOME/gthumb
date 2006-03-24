@@ -102,6 +102,9 @@ GthFileView *   gth_browser_get_file_view                (GthBrowser        *bro
 DirList *       gth_browser_get_dir_list                 (GthBrowser        *browser);
 CatalogList *   gth_browser_get_catalog_list             (GthBrowser        *browser);
 
+void            gth_browser_load_uri                     (GthBrowser        *browser,
+							  const char        *uri);
+
 /* non-modal dialogs */
 
 void            gth_browser_set_bookmarks_dlg            (GthBrowser        *browser,
