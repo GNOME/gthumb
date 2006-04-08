@@ -1,5 +1,13 @@
 2006-04-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/icons/exit-fullscreen-24.png:
+	* libgthumb/icons/fullscreen-16.png:
+	* libgthumb/icons/fullscreen-24.png: remove files
+	* src/gth-fullscreen-actions-entries.h: 
+	* libgthumb/gthumb-stock.c: 
+	* libgthumb/gthumb-stock.h:
+	* src/gth-window-actions-entries.h: use GTK_STOCK_FULLSCREEN.
+
 	* libgthumb/dlg-save-image.c (dlg_save_image_as): 
 	Fixed bug #334903 - Should save on hitting enter in “save as” dialog
 

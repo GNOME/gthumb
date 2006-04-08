@@ -33,8 +33,8 @@
 
 
 static GtkActionEntry gth_fullscreen_action_entries[] = {
-	{ "ExitFullscreen", GTHUMB_STOCK_FULLSCREEN,
-	  N_("Restore Normal View"), NULL,
+	{ "ExitFullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
+	  NULL, NULL,
 	  NULL,
 	  G_CALLBACK (gth_fullscreen_activate_action_close) },
 

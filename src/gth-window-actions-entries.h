@@ -211,13 +211,13 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("View next animation frame"),
 	  G_CALLBACK (gth_window_activate_action_view_step_animation) },
 
-	{ "View_Fullscreen", GTHUMB_STOCK_FULLSCREEN,
-	  N_("_Full Screen"), "F11",
-	  N_("View image in fullscreen mode"),
+	{ "View_Fullscreen", GTK_STOCK_FULLSCREEN,
+	  NULL, "F11",
+	  NULL,
 	  G_CALLBACK (gth_window_activate_action_view_fullscreen) },
 
-	{ "View_ExitFullscreen", GTHUMB_STOCK_NORMAL_VIEW,
-	  N_("Restore Normal View"), NULL,
+	{ "View_ExitFullscreen", GTK_STOCK_LEAVE_FULLSCREEN,
+	  NULL, NULL,
 	  NULL,
 	  G_CALLBACK (gth_window_activate_action_view_exit_fullscreen) },
 
