@@ -1,5 +1,8 @@
 2006-04-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/dlg-save-image.c (dlg_save_image_as): 
+	Fixed bug #334903 - Should save on hitting enter in “save as” dialog
+
 	* components/catalog-view/Makefile.am (gthumb_catalog_view_LDADD): 
 	* components/image-viewer/Makefile.am (gthumb_image_viewer_LDADD): 
 	* src/Makefile.am (gthumb_LDADD): 

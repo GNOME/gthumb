@@ -277,6 +277,8 @@ dlg_save_image_as (GtkWindow       *parent,
 					       GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT,
 					       NULL);
 
+	gtk_dialog_set_default_response (GTK_DIALOG (file_sel), GTK_RESPONSE_ACCEPT);
+
 	/**/
 
 	vbox = gtk_vbox_new (FALSE, 0);
