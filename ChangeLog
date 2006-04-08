@@ -1,5 +1,10 @@
 2006-04-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* components/catalog-view/Makefile.am (gthumb_catalog_view_LDADD): 
+	* components/image-viewer/Makefile.am (gthumb_image_viewer_LDADD): 
+	* src/Makefile.am (gthumb_LDADD): 
+	* configure.in: removed libpng check.
+
 	* libgthumb/gth-nav-window.c (gth_nav_window_construct): do not call
 	show_all on the main table.
 

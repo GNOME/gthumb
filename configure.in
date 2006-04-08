@@ -96,37 +96,6 @@ AC_C_BIGENDIAN
 AC_PROG_CPP
 
 
-dnl ###############################################
-
-# 
-# Checks for libpng
-# 
-AC_ARG_ENABLE([png],
-              [AC_HELP_STRING([--disable-png],[disable support for png])],,
-              [enable_png=yes])
-
-if test x$enable_png = xyes ; then
-   AC_MSG_CHECKING(PNG Support)
-   AC_MSG_RESULT()
-
-   AC_CHECK_LIB(png, png_read_info,
-                [AC_CHECK_HEADER(png.h,,[AC_MSG_ERROR([*** PNG headers not found ***])])],
-                [AC_MSG_ERROR([*** PNG library not found ***])])
-
-   AC_MSG_CHECKING([for png_structp in png.h])
-   AC_TRY_COMPILE([#include <png.h>],
-                  [png_struct pp; png_infop info; png_colorp cmap;png_create_read_struct;],,
-                  [AC_MSG_ERROR([*** PNG library (libpng) is too old ***])])
-
-   PNG_LIBS='-lpng -lm -lz'
-   AC_SUBST(PNG_LIBS)
-
-   HAVE_PNG=yes
-else
-   HAVE_PNG=no
-fi
-
-
 # 
 # Checks for libjpeg
 # 
@@ -390,7 +359,6 @@ Configuration:
 	Have XF86VidModeSetGamma: ${have_xf86gamma}
     	Have libexif:             ${HAVE_EXIF}
     	Have libiptcdata:         ${HAVE_IPTC}
-	Have libpng:              ${HAVE_PNG}
 	Have libjpeg:             ${HAVE_JPEG}
 	Have libtiff:             ${HAVE_TIFF}
 	Have libgphoto:           ${HAVE_GPHOTO2}

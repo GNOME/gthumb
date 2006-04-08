@@ -142,7 +142,6 @@ gthumb_LDADD = 					\
 	$(IPTCDATA_LIBS)			\
 	$(GTHUMB_LIBS)				\
 	$(JPEG_LIBS)				\
-	$(PNG_LIBS)				\
 	$(TIFF_LIBS)				\
 	$(RENDER_LIBS)				\
 	$(GPHOTO_LIBS)				\
