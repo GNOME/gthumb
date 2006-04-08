@@ -3664,6 +3664,9 @@ truncate_comment_if_needed (GthImageList  *image_list,
 	if (comment == NULL)
 		return NULL;
 
+	if (!GTK_WIDGET_REALIZED (image_list))
+		gtk_widget_realize (GTK_WIDGET (image_list));
+
         if (*comment == 0)
 		return g_strdup ("");
 	max_len = (image_list->priv->max_item_width / image_list->priv->approx_char_width) * COMMENT_MAX_LINES;

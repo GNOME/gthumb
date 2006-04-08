@@ -174,7 +174,8 @@ gth_nav_window_construct (GthNavWindow *nav_window,
 			  (GtkAttachOptions) (GTK_FILL),
 			  (GtkAttachOptions) (GTK_FILL), 0, 0);
 
-	gtk_widget_show_all (table);
+	gtk_widget_show_all (hbox);
+	gtk_widget_show (table);
 
 	gtk_container_add (GTK_CONTAINER (nav_window), table);
 }

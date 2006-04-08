@@ -666,7 +666,7 @@ install_theme__ok_cb (GtkDialog  *file_sel,
 	GError           *err = NULL;
 
 	tdata = g_object_get_data (G_OBJECT (file_sel), "theme_dialog_data");
-	e_theme_archive = g_strdup (gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel)));
+	e_theme_archive = g_strdup (gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_sel)));
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
 	if (e_theme_archive == NULL)
@@ -691,7 +691,7 @@ install_theme__ok_cb (GtkDialog  *file_sel,
 						g_get_home_dir (),
 						"/.gnome2/gthumb/albumthemes",
 						theme_archive);
-	
+
 	if ((command_line != NULL) 
 	    && ! g_spawn_command_line_sync (command_line, NULL, NULL, NULL, &err)
 	    && (err != NULL))
@@ -724,19 +724,16 @@ theme_dialog__install_theme_clicked (GtkWidget       *widget,
 				     ThemeDialogData *tdata)
 {
 	GtkWidget *file_sel;
-	char      *home;
 
 	file_sel = gtk_file_chooser_dialog_new (_("Select Album Theme"), NULL,
-						GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
+						GTK_FILE_CHOOSER_ACTION_OPEN,
 						GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 						GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT,
 						NULL);
 	gtk_window_set_modal (GTK_WINDOW (file_sel), TRUE);
 	g_object_set_data (G_OBJECT (file_sel), "theme_dialog_data", tdata);
 
-	home = g_strconcat (g_get_home_dir (), "/", NULL);
-	gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (file_sel), home);
-	g_free (home);
+	gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_sel), g_get_home_dir ());
 
 	g_signal_connect (GTK_DIALOG (file_sel),
 			  "response",

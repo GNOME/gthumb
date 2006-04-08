@@ -1,3 +1,31 @@
+2006-04-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-nav-window.c (gth_nav_window_construct): do not call
+	show_all on the main table.
+
+	* libgthumb/gth-image-list.c (truncate_comment_if_needed): realize
+	the widget if needed.
+
+	* configure.in: requires gtk+ 2.8
+
+	* src/gth-browser.c (go_to_folder_after_image_loaded): load the folder 
+	even after an error.
+
+	* src/gth-window-actions-callbacks.c 
+	(gth_window_activate_action_help_about): simplify about dialog.
+
+	* src/main.c (initialize_data): 
+	* data/Makefile.am (install-data-hook): 
+	* data/gthumb.desktop.in (Icon): Install theme-friendly icons 
+
+	* autogen.sh: set REQUIRED_AUTOMAKE_VERSION to 1.8; added
+	USE_COMMON_DOC_BUILD=yes
+
+	* src/dlg-web-exporter.c (install_theme__ok_cb): use get_filename
+	instead of get_uri.
+	(theme_dialog__install_theme_clicked): the user have to choose a file 
+	from here, not a folder; set home as current folder.
+
 2006-03-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/main.h: 

@@ -389,8 +389,8 @@ initialize_data (poptContext pctx)
 	/* Default windows icon */
 
 	init_icon_pixbufs ();
+	g_set_application_name (_("gThumb"));
 	gtk_window_set_default_icon_name ("gthumb");
-	gtk_window_set_default_icon_from_file (PIXMAPSDIR "gthumb.png", NULL);
 
 	/**/
 

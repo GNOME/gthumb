@@ -218,6 +218,7 @@ struct _GthBrowserPrivateData {
 						 * in a special way. */
 	gboolean            saving_modified_image;
 	gboolean            load_image_folder_after_image;
+	gboolean            focus_current_image;
 
 	guint               activity_timeout;   /* activity timeout handle. */
 	guint               load_dir_timeout;
@@ -1020,7 +1021,7 @@ gth_browser_start_activity_mode (GthBrowser *browser)
 	if (priv->activity_ref++ > 0)
 		return;
 
-	gtk_widget_show (priv->progress);
+	gtk_widget_show (priv->progress); 
 
 	priv->activity_timeout = g_timeout_add (ACTIVITY_DELAY, 
 						load_progress, 
@@ -1087,8 +1088,7 @@ set_file_list__final_step_cb (gpointer data)
 	if (ImageToDisplay != NULL) {
 		int pos = gth_file_list_pos_from_path (priv->file_list, ImageToDisplay);
 		if (pos != -1)
-			gth_file_list_select_image_by_pos (priv->file_list, pos);
-		
+			gth_file_view_set_cursor (priv->file_list->view, pos);
 		g_free (ImageToDisplay);
 		ImageToDisplay = NULL;
 
@@ -1349,15 +1349,11 @@ static void
 go_to_uri (GthBrowser  *browser,
 	   const char  *uri)
 {
-	GthSidebarContent sidebar_content = GTH_SIDEBAR_DIR_LIST;
-
 	if (uri == NULL)
 		return;
 
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = get_uri_from_path (remove_scheme_from_uri (uri));
-
-		sidebar_content = GTH_SIDEBAR_CATALOG_LIST;
 
 		if (path_is_dir (file_uri))
 			gth_browser_go_to_catalog_directory (browser, file_uri);
@@ -1366,15 +1362,12 @@ go_to_uri (GthBrowser  *browser,
 		g_free (file_uri);
 
 	} else if (path_is_file (uri)) {
-		sidebar_content = GTH_SIDEBAR_NO_LIST;
 		browser->priv->load_image_folder_after_image = TRUE;
-		gth_browser_set_sidebar_content (browser, GTH_SIDEBAR_NO_LIST);
 		gth_browser_load_image (browser, uri);
+		gth_browser_hide_sidebar (browser);
 
-	} else {
-		sidebar_content = GTH_SIDEBAR_DIR_LIST;
+	} else 
 		gth_browser_go_to_directory (browser, uri);
-	}
 }
 
 
@@ -1651,10 +1644,13 @@ get_command_name_from_sidebar_content (GthBrowser *browser)
 	switch (browser->priv->sidebar_content) {
 	case GTH_SIDEBAR_DIR_LIST:
 		return "View_ShowFolders";
+		break;
 	case GTH_SIDEBAR_CATALOG_LIST:
 		return "View_ShowCatalogs";
+		break;
 	default:
 		return NULL;
+		break;
 	}
 
 	return NULL;
@@ -2058,6 +2054,7 @@ make_image_visible (GthBrowser *browser,
 			offset = -1.0;
 			break;
 		}
+
 		if (offset > -1.0)
 			gth_file_view_moveto (priv->file_list->view, pos, offset);
 	}
@@ -2065,7 +2062,8 @@ make_image_visible (GthBrowser *browser,
 
 
 static void
-window_make_current_image_visible (GthBrowser *browser)
+window_make_current_image_visible (GthBrowser *browser,
+				   gboolean    reset_if_not_found)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *path;
@@ -2081,9 +2079,10 @@ window_make_current_image_visible (GthBrowser *browser)
 	pos = gth_file_list_pos_from_path (priv->file_list, path);
 	g_free (path);
 
-	if (pos == -1) 
-		window_image_viewer_set_void (browser);
-	else
+	if (pos == -1) {
+		if (reset_if_not_found)
+			window_image_viewer_set_void (browser);
+	} else
 		make_image_visible (browser, pos);
 }
 
@@ -2528,7 +2527,7 @@ catalog_activate_continue (gpointer data)
 
 	window_update_history_list (browser);
 	window_update_title (browser);
-	window_make_current_image_visible (browser);
+	window_make_current_image_visible (browser, TRUE);
 }
 
 
@@ -2797,25 +2796,29 @@ location_changed_cb (GthLocation *loc,
 
 
 static void
+go_to_folder_after_image_loaded (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+	char *folder_uri = remove_level_from_path (priv->image_path);
+	
+	priv->load_image_folder_after_image = FALSE;
+	priv->focus_current_image = TRUE;
+	gth_browser_hide_sidebar (browser);
+	
+	if (! same_uri (folder_uri, priv->dir_list->path)) {
+		priv->refreshing = TRUE;
+		gth_browser_go_to_directory (browser, folder_uri);
+	}
+	
+	g_free (folder_uri);
+}
+
+
+static void
 image_loaded_cb (GtkWidget  *widget, 
 		 GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-
-	if (priv->load_image_folder_after_image) {
-		char *folder_uri = remove_level_from_path (priv->image_path);
-
-		priv->load_image_folder_after_image = FALSE;
-		gth_browser_hide_sidebar (browser);
-
-		if (! same_uri (folder_uri, priv->dir_list->path)) {
-			priv->refreshing = TRUE;
-			ImageToDisplay = g_strdup (priv->image_path);
-			gth_browser_go_to_directory (browser, folder_uri);
-		}
-
-		g_free (folder_uri);
-	}
 
 	priv->image_mtime = get_file_mtime (priv->image_path);
 	priv->image_modified = FALSE;
@@ -2828,6 +2831,9 @@ image_loaded_cb (GtkWidget  *widget,
 
 	if (priv->image_prop_dlg != NULL)
 		dlg_image_prop_update (priv->image_prop_dlg);
+	
+	if (browser->priv->load_image_folder_after_image) 
+		go_to_folder_after_image_loaded (browser);
 }
 
 
@@ -2836,6 +2842,8 @@ image_requested_error_cb (GThumbPreloader *gploader,
 			  GthBrowser      *browser)
 {
 	window_image_viewer_set_error (browser);
+	if (browser->priv->load_image_folder_after_image) 
+		go_to_folder_after_image_loaded (browser);
 }
 
 
@@ -6118,6 +6126,49 @@ monitor_update_icon_theme_cb (GthMonitor *monitor,
 
 
 static void
+_hide_sidebar (GthBrowser *browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	priv->sidebar_visible = FALSE;
+	priv->sidebar_width = gtk_paned_get_position (GTK_PANED (priv->main_pane));
+
+	if (priv->layout_type <= 1)
+		gtk_widget_hide (GTK_PANED (priv->main_pane)->child1);
+
+	else if (priv->layout_type == 2) {
+		gtk_widget_hide (GTK_PANED (priv->main_pane)->child2);
+		gtk_widget_hide (GTK_PANED (priv->content_pane)->child1);
+
+	} else if (priv->layout_type == 3) {
+		gtk_widget_hide (GTK_PANED (priv->main_pane)->child1);
+		gtk_widget_hide (GTK_PANED (priv->content_pane)->child1);
+	}
+
+	if (priv->image_data_visible)
+		gth_browser_show_image_data (browser);
+	else
+		gth_browser_hide_image_data (browser);
+
+	gtk_widget_show (priv->preview_widget_image);
+
+	/* Sync menu and toolbar. */
+
+	set_action_active_if_different (browser, "View_ShowImage", TRUE);
+	set_button_active_no_notify (browser,
+				     get_button_from_sidebar_content (browser),
+				     FALSE);
+
+	/**/
+
+	gtk_widget_hide (priv->preview_button_image);
+	gtk_widget_hide (priv->preview_button_comment);
+	if (! priv->image_pane_visible) 
+		gth_browser_show_image_pane (browser);
+}
+
+
+static void
 gth_browser_construct (GthBrowser  *browser,
 		       const gchar *uri)
 {
@@ -6801,6 +6852,14 @@ gth_browser_construct (GthBrowser  *browser,
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer),
 					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
 
+	/*
+	if (path_is_file (uri)) {
+		_hide_sidebar (browser);
+		set_mode_specific_ui_info (browser, GTH_SIDEBAR_NO_LIST, TRUE); 
+	} else
+		set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE); 
+	*/
+
 	set_mode_specific_ui_info (browser, GTH_SIDEBAR_DIR_LIST, TRUE); 
 
 	/* Add notification callbacks. */
@@ -7326,42 +7385,9 @@ gth_browser_hide_sidebar (GthBrowser *browser)
 	if (priv->image_path == NULL)
 		return;
 
-	priv->sidebar_visible = FALSE;
-	priv->sidebar_width = gtk_paned_get_position (GTK_PANED (priv->main_pane));
+	_hide_sidebar (browser);
 
-	if (priv->layout_type <= 1)
-		gtk_widget_hide (GTK_PANED (priv->main_pane)->child1);
-
-	else if (priv->layout_type == 2) {
-		gtk_widget_hide (GTK_PANED (priv->main_pane)->child2);
-		gtk_widget_hide (GTK_PANED (priv->content_pane)->child1);
-
-	} else if (priv->layout_type == 3) {
-		gtk_widget_hide (GTK_PANED (priv->main_pane)->child1);
-		gtk_widget_hide (GTK_PANED (priv->content_pane)->child1);
-	}
-
-	if (priv->image_data_visible)
-		gth_browser_show_image_data (browser);
-	else
-		gth_browser_hide_image_data (browser);
-
-	gtk_widget_show (priv->preview_widget_image);
 	gtk_widget_grab_focus (priv->viewer);
-
-	/* Sync menu and toolbar. */
-
-	set_action_active_if_different (browser, "View_ShowImage", TRUE);
-	set_button_active_no_notify (browser,
-				     get_button_from_sidebar_content (browser),
-				     FALSE);
-
-	/**/
-
-	gtk_widget_hide (priv->preview_button_image);
-	gtk_widget_hide (priv->preview_button_comment);
-	if (! priv->image_pane_visible) 
-		gth_browser_show_image_pane (browser);
 
 	window_update_sensitivity (browser);
 	window_update_statusbar_zoom_info (browser);
@@ -7588,11 +7614,25 @@ gth_browser_add_monitor (GthBrowser *browser)
 static void
 set_dir_list_continue (gpointer data)
 {
-	GthBrowser *browser = data;
+	GthBrowser            *browser = data;
+	GthBrowserPrivateData *priv = browser->priv;
 
 	window_update_title (browser);
 	window_update_sensitivity (browser);
-	window_make_current_image_visible (browser);
+
+	if (priv->focus_current_image) {
+		char *path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));;
+		int   pos = gth_file_list_pos_from_path (priv->file_list, path);
+		if (pos != -1) {
+			gth_file_view_set_cursor (priv->file_list->view, pos);
+			gth_file_list_select_image_by_pos (priv->file_list, pos);
+		}
+		g_free (path);
+		priv->focus_current_image = FALSE;
+	}
+		
+	window_make_current_image_visible (browser, !priv->refreshing);
+	priv->refreshing = FALSE;
 
 	gth_browser_add_monitor (browser);
 }
@@ -7620,6 +7660,7 @@ go_to_directory_continue (DirList  *dir_list,
 		g_free (utf8_path);
 
 		priv->changing_directory = FALSE;
+		priv->refreshing = FALSE;
 
 		if ((dir_list->path == NULL)
 		    || (! same_uri (get_home_uri (), dir_list->path)
@@ -7685,8 +7726,6 @@ go_to_directory__step4 (GoToData *gt_data)
 	window_set_sidebar (browser, GTH_SIDEBAR_DIR_LIST); 
 	if (! priv->refreshing)
 		gth_browser_show_sidebar (browser);
-	else
-		priv->refreshing = FALSE;
 
 	/**/
 

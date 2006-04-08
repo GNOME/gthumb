@@ -756,7 +756,6 @@ gth_window_activate_action_help_about (GtkAction *action,
 				       gpointer   data)
 {
 	GthWindow  *window = GTH_WINDOW (data);
-	static GtkWidget  *about = NULL;
 	const char *authors[] = {
 		"Paolo Bacchilega <paolo.bacchilega@libero.it>",
 		NULL
@@ -767,36 +766,39 @@ gth_window_activate_action_help_about (GtkAction *action,
 		NULL
 	};
 	const char *translator_credits = _("translator_credits");
+	char       *license_text;
+	const char *license[] = {
+                "gThumb is free software; you can redistribute it and/or modify "
+                "it under the terms of the GNU General Public License as published by "
+                "the Free Software Foundation; either version 2 of the License, or "
+                "(at your option) any later version.",
+                "gThumb is distributed in the hope that it will be useful, "
+                "but WITHOUT ANY WARRANTY; without even the implied warranty of "
+                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the "
+                "GNU General Public License for more details.",
+                "You should have received a copy of the GNU General Public License "
+                "along with Nautilus; if not, write to the Free Software Foundation, Inc., "
+                "51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA"
+        };
+
+        license_text = g_strconcat (license[0], "\n\n", license[1], "\n\n",
+                                    license[2], "\n\n", NULL);
 
 
-	if (about != NULL) {
-		gtk_window_present (GTK_WINDOW (about));
-		return;
-	}
-
-	about = gtk_about_dialog_new ();
-	g_object_set (about,
-		      "name", _("gThumb"), 
-		      "version", VERSION,
-		      "copyright",  "Copyright \xc2\xa9 2001-2005 Free Software Foundation, Inc.",
-		      "comments", _("An image viewer and browser for GNOME."),
-		      "authors", authors,
-		      "documenters", documenters,
-		      "translator_credits", strcmp (translator_credits, "translator_credits") != 0 ? translator_credits : NULL,
-		      "logo_icon_name", "gthumb",
-		      "website", "http://gthumb.sourceforge.net",
-		      NULL);
-
-	gtk_window_set_destroy_with_parent (GTK_WINDOW (about), TRUE);
-	gtk_window_set_transient_for (GTK_WINDOW (about),
-				      GTK_WINDOW (window));
-
-	g_signal_connect (G_OBJECT (about), 
-			  "destroy",
-			  G_CALLBACK (gtk_widget_destroyed), 
-			  &about);
-
-	gtk_widget_show (about);
+	gtk_show_about_dialog (GTK_WINDOW (window),
+                               "version", VERSION,
+                               "copyright", "Copyright \xc2\xa9 2001-2006 Free Software Foundation, Inc.",
+                               "comments", _("An image viewer and browser for GNOME."),
+                               "authors", authors,
+                               "documenters", documenters,
+                               "translator-credits", _("translator_credits"),
+                               "logo-icon-name", "gthumb",
+                               "license", license_text,
+                               "wrap-license", TRUE,
+			       "website", "http://gthumb.sourceforge.net",
+                               NULL);
+	
+        g_free (license_text);
 }
 
 

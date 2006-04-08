@@ -2468,16 +2468,14 @@ gth_viewer_get_current_viewer (void)
 	GList *windows = gth_window_get_window_list ();
 	GList *scan;
 		
-	if (SingleViewer != NULL) 
-		return SingleViewer;
-
-	for (scan = windows; scan; scan = scan->next) {
-		GthWindow *window = scan->data;
-		if (GTH_IS_VIEWER (window)) {
-			SingleViewer = (GtkWidget*) window;
-			break;
+	if (SingleViewer == NULL) 
+		for (scan = windows; scan; scan = scan->next) {
+			GthWindow *window = scan->data;
+			if (GTH_IS_VIEWER (window)) {
+				SingleViewer = (GthViewer*) window;
+				break;
+			}
 		}
-	}
 
-	return SingleViewer;
+	return (GtkWidget*) SingleViewer;
 }

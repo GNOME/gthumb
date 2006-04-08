@@ -9,8 +9,20 @@ desktop_DATA = $(desktop_in_files:.desktop.in=.desktop)
 applicationsdir = $(datadir)/application-registry
 applications_DATA = gthumb.applications
 
-icondir = $(datadir)/pixmaps
+icondir = $(datadir)/icons/hicolor/48x48/apps
 icon_DATA = gthumb.png
+
+gtk_update_icon_cache = gtk-update-icon-cache -f -t $(datadir)/icons/hicolor
+
+install-data-hook:
+	@-if test -z "$(DESTDIR)"; then \
+		echo "Updating Gtk icon cache."; \
+		$(gtk_update_icon_cache); \
+	else \
+		echo "*** Icon cache not updated.  After install, run this:"; \
+		echo "***   $(gtk_update_icon_cache)"; \
+	fi
+
 
 man_MANS = gthumb.1
 
