@@ -1,3 +1,11 @@
+2006-04-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/albumthemes/ClassicClips/thumbnail.gthtml: 
+	* data/albumthemes/Classic/thumbnail.gthtml: 
+	* data/albumthemes/NeatRound/thumbnail.gthtml: 
+
+	Fixed bug #336930 - Web album without JavaScript
+
 2006-04-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/icons/exit-fullscreen-24.png:

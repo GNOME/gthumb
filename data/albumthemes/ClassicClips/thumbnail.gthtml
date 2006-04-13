@@ -1,11 +1,12 @@
-      <table class="photo" onclick="window.location.href='<gthumb:image_link/>'" summary="photo">
+      <table class="photo" summary="photo">
       <tr>
         <td colspan="3"><img class="photo_top" src="top.png" alt="Top" /></td>
       </tr>
       <tr>
         <td><img class="photo_left" src="left.png" alt="Left" /></td>
         <td class="photo">
-          <gthumb:image thumbnail class="photo_center" />
+          <a href="<gthumb:image_link/>">
+            <gthumb:image thumbnail class="photo_center" /></a>
         </td>
         <td><img class="photo_right" src="right.png" alt="Right" /></td>
       </tr>

@@ -427,7 +427,7 @@ initialize_data (poptContext pctx)
 		else
 			tmp1 = g_strdup (argv[i]);
 
-		tmp2= remove_special_dirs_from_path (tmp1);
+		tmp2 = remove_special_dirs_from_path (tmp1);
 
 		if (! g_path_is_absolute (tmp2))
 			path = g_strconcat (current_dir, "/", tmp2, NULL);
