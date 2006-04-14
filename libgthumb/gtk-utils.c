@@ -695,6 +695,8 @@ exec_command (const char *application,
 		g_free (e_filename);
         }
 
+	g_print ("EXEC: %s\n", command->str);
+
 	error = (! g_spawn_command_line_async (command->str, &err) || (err != NULL));
 	if (error)
 		_gtk_error_dialog_from_gerror_run (NULL, &err);

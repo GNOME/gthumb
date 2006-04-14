@@ -49,8 +49,8 @@ typedef struct {
 	GtkWidget    *app_entry;
 	GtkWidget    *del_button;
 
-	GList        *app_list;
-	GList        *file_list;
+	GList        *apps;
+	GList        *uris;
 
 	GtkTreeModel *app_model;
 	GtkTreeModel *recent_model;
@@ -64,11 +64,11 @@ open_with__destroy_cb (GtkWidget  *widget,
 {
 	g_object_unref (G_OBJECT (data->gui));
 
-	if (data->file_list)
-		path_list_free (data->file_list);
+	if (data->uris != NULL)
+		path_list_free (data->uris);
 
-	if (data->app_list)
-		gnome_vfs_mime_application_list_free (data->app_list);
+	if (data->apps != NULL)
+		gnome_vfs_mime_application_list_free (data->apps);
 
 	g_free (data);
 }
@@ -83,20 +83,21 @@ open_cb (GtkWidget *widget,
 	char        *application;
 	GList       *scan;
 	GSList      *sscan, *editors;
+	GnomeVFSMimeApplication *registered_app = NULL;
 	gboolean     present = FALSE;
 	const char  *command = NULL;
 
 	application_utf8 = gtk_entry_get_text (GTK_ENTRY (data->app_entry));
-
 	application = g_locale_from_utf8 (application_utf8, -1, NULL, NULL, NULL);
 
 	/* add the command to the editors list if not already present. */
 
-	for (scan = data->app_list; scan && ! present; scan = scan->next) {
+	for (scan = data->apps; scan && ! present; scan = scan->next) {
 		GnomeVFSMimeApplication *app = scan->data;
 		if (strcmp (gnome_vfs_mime_application_get_exec (app), application) == 0) {
 			command = gnome_vfs_mime_application_get_exec (app);
 			present = TRUE;
+			registered_app = app;
 		}
 	}
 
@@ -115,15 +116,18 @@ open_cb (GtkWidget *widget,
 		command = application;
 	}
 
-	g_slist_foreach (editors, (GFunc) g_free, NULL);
-	g_slist_free (editors);
-
 	/* exec the application. */
 
-	if ((command != NULL) && exec_command (command, data->file_list))
+	if (registered_app != NULL) {
+		if (gnome_vfs_mime_application_launch (registered_app, data->uris) == GNOME_VFS_OK)
+			gtk_widget_destroy (data->dialog);
+	} 
+	else if ((command != NULL) && exec_command (command, data->uris))
 		gtk_widget_destroy (data->dialog);
 
 	g_free (application);
+	g_slist_foreach (editors, (GFunc) g_free, NULL);
+	g_slist_free (editors);
 }
 
 
@@ -155,19 +159,7 @@ app_activated_cb (GtkTreeView       *tree_view,
                   GtkTreeViewColumn *column,
                   gpointer           callback_data)
 {
-        DialogData              *data = callback_data;
-	GtkTreeIter              iter;
-	GnomeVFSMimeApplication *app;
-
-	if (! gtk_tree_model_get_iter (data->app_model, &iter, path)) 
-		return;
-	
-	gtk_tree_model_get (data->app_model, &iter,
-			    DATA_COLUMN, &app,
-			    -1);
-
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), app->command);
-
+        DialogData *data = callback_data;
 	open_cb (NULL, data);
 }
 
@@ -202,18 +194,6 @@ recent_activated_cb (GtkTreeView       *tree_view,
 		     gpointer           callback_data)
 {
         DialogData   *data = callback_data;
-	GtkTreeIter   iter;
-	char         *editor;
-
-	if (! gtk_tree_model_get_iter (data->recent_model, &iter, path)) 
-		return;
-	
-	gtk_tree_model_get (data->recent_model, &iter,
-			    0, &editor,
-			    -1);
-	_gtk_entry_set_locale_text (GTK_ENTRY (data->app_entry), editor);
-	g_free (editor);
-
 	open_cb (NULL, data);
 }
 
@@ -256,7 +236,7 @@ delete_recent_cb (GtkWidget *widget,
 /* create the "open with" dialog. */
 void
 dlg_open_with (GtkWindow  *window,
-	       GList      *file_list)
+	       GList      *uris)
 {
 	DialogData              *data;
 	GList                   *scan;
@@ -272,14 +252,14 @@ dlg_open_with (GtkWindow  *window,
 
 	data = g_new (DialogData, 1);
 
-	data->file_list = file_list;
+	data->uris = uris;
 	data->window = window;
 	data->gui = glade_xml_new (GTHUMB_GLADEDIR "/" GLADE_FILE, NULL, NULL);
         if (! data->gui) {
                 g_warning ("Could not find " GLADE_FILE "\n");
 
 		g_free (data);
-		path_list_free (file_list);
+		path_list_free (uris);
                 return;
         }
 
@@ -338,15 +318,14 @@ dlg_open_with (GtkWindow  *window,
 
 	/* * registered editors list. */
 
-	data->app_list = NULL;
-	for (scan = data->file_list; scan; scan = scan->next) {
+	data->apps = NULL;
+	for (scan = data->uris; scan; scan = scan->next) {
+		const char *uri = scan->data;
 		const char *result;
-		const char *name = scan->data;
 
-		result = get_mime_type (name);
-
+		result = get_mime_type (uri);
 		if (result != NULL)
-			data->app_list = g_list_concat (data->app_list, gnome_vfs_mime_get_all_applications (result));
+			data->apps = g_list_concat (data->apps, gnome_vfs_mime_get_all_applications (result));
 	}
 
 	data->app_model = GTK_TREE_MODEL (gtk_list_store_new (N_COLUMNS, 
@@ -361,7 +340,7 @@ dlg_open_with (GtkWindow  *window,
 	theme = gtk_icon_theme_get_default ();
 	icon_size = get_folder_pixbuf_size_for_list (GTK_WIDGET (window));
 
-	for (scan = data->app_list; scan; scan = scan->next) {
+	for (scan = data->apps; scan; scan = scan->next) {
 		gboolean   found;
 		char      *utf8_name;
 		GdkPixbuf *icon;

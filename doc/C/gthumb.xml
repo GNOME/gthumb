@@ -2,10 +2,11 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"[
   <!ENTITY legal SYSTEM "legal.xml">
-  <!ENTITY gthumb-version "2.6">
-  <!ENTITY manual-version "2.6">
+  <!ENTITY appversion "2.6">
+  <!ENTITY manualversion "2.6">
   <!ENTITY date "September 2004">
-  <!ENTITY gthumb "<application>gThumb</application>">
+  <!ENTITY appname "gThumb">
+  <!ENTITY app "<application>gThumb</application>">
 <!-- replace version above with actual application version number -->
 <!--  Template Version: 1.0.1  (do not remove this line) -->
 ]>
@@ -15,12 +16,13 @@
 <article id="index" lang="en"> <!-- please do not change the id -->
 
   <articleinfo>
-    <title>&gthumb; Manual V&manual-version;</title>
+    <title>&app; Manual V&manualversion;</title>
     <copyright>
       <year>2001</year>
       <year>2002</year>
       <year>2003</year>
       <year>2004</year>
+      <year>2006</year>
       <holder>Paolo Bacchilega</holder>
     </copyright>
 
@@ -65,12 +67,12 @@
 
     <!-- this is version of manual, not application --> 
     <releaseinfo>
-      This is manual describes version &gthumb-version; of &gthumb;
+      This is manual describes version &appversion; of &appname;
     </releaseinfo>
   </articleinfo>
 
   <indexterm> 
-    <primary>gThumb</primary> 
+    <primary>&appname;</primary> 
   </indexterm> 
   <indexterm> 
     <primary>image viewer</primary> 
@@ -86,7 +88,7 @@
   <sect1 id="intro">
     <title>Introduction</title>
     <para>
-      &gthumb; is an image viewer and browser 
+      &app; is an image viewer and browser 
       written for the GNOME environment.  It lets you browse your hard disk, 
       showing you thumbnails of image files and view single images
       of many different formats.
@@ -104,11 +106,11 @@
       type="http">license issues</ulink>.
     </para>
     <para>
-      &gthumb; supports all this formats and many others, it also displays
+      &app; supports all this formats and many others, it also displays
       GIF animations.
     </para>
     <para>
-      &gthumb; not only lets you view image files but has many other features
+      &app; not only lets you view image files but has many other features
       such as add comments to images, organize images
       in catalogs, print images, view slideshows, set your desktop
       background, and more.
@@ -119,13 +121,13 @@
   <sect1 id="gthumb-getting-started">
   <title>Getting Started</title>
   <para>
-    This section provides information on how to start &gthumb;, and
+    This section provides information on how to start &app;, and
     describes the main window interface. 
   </para>
   <sect2 id="get-start">
-    <title>To Start &gthumb;</title>
+    <title>To Start &app;</title>
     <para>
-      You can start &gthumb; in the following ways:</para>
+      You can start &app; in the following ways:</para>
       <variablelist>
         <varlistentry>
           <term><guimenu>Applications</guimenu> menu</term>
@@ -143,7 +145,7 @@
           </listitem>
         </varlistentry>
       </variablelist>
-    <para>If you start &gthumb; from the command line you can specify
+    <para>If you start &app; from the command line you can specify
       the following options:
     </para>
       <informaltable frame="all">
@@ -161,7 +163,7 @@
           <tbody>
             <row valign="top">
               <entry><para><command>gthumb <replaceable>folder</replaceable></command></para></entry>
-              <entry align="left"><para>Start &gthumb; in the
+              <entry align="left"><para>Start &app; in the
               specified folder</para></entry>
             </row>
             <row valign="top">
@@ -179,9 +181,9 @@
 
   </sect2>
   <sect2 id="gthumb-main-window">
-  <title>When You Start &gthumb;</title>
+  <title>When You Start &app;</title>
     <para>
-    When you start &gthumb; the following window is displayed:
+    When you start &app; the following window is displayed:
 
     <!-- ==== Figure ==== -->
     <figure id="main-win-fig">
@@ -194,12 +196,12 @@
     </figure>
     <!-- ==== End of Figure ==== -->
 
-    The &gthumb; <guilabel>window</guilabel> contains the following elements:
+    The &app; <guilabel>window</guilabel> contains the following elements:
     <variablelist>
       <varlistentry> <term>Menubar</term>
         <listitem>
           <para>The menus on the menubar contain all of the commands
-          that you can use in &gthumb;</para> 
+          that you can use in &app;</para> 
         </listitem>
       </varlistentry>
       <varlistentry> <term>Toolbar</term>
@@ -323,13 +325,13 @@
       Working with Folders
     </title>
     <para>
-      &gthumb; offers the functionalities to manage folders.
+      &app; offers the functionalities to manage folders.
       <note>
         <title>WARNING</title>
         <para>
           It's highly suggested to move and copy image folders with
-          &gthumb;.  This is because if you move or copy folders with
-          &gthumb; image comments will remain attached to images as
+          &app;.  This is because if you move or copy folders with
+          &app; image comments will remain attached to images as
           you expect, but if you move or copy folders with the file
           manager or other applications you will loose your comments.
         </para>
@@ -355,7 +357,7 @@
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Create</guibutton>. &gthumb; creates
+        <para>Click on <guibutton>Create</guibutton>. &app; creates
         a new folder.
         </para>
       </listitem>
@@ -372,7 +374,7 @@
       <listitem>
         <para>Choose
         <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Open
-        with the File Manager</guimenuitem></menuchoice>. &gthumb;
+        with the File Manager</guimenuitem></menuchoice>. &app;
         opens the folder with the file manager.
         </para>
       </listitem>
@@ -397,7 +399,7 @@
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Rename</guibutton>. &gthumb; renames
+        <para>Click on <guibutton>Rename</guibutton>. &app; renames
         the folder.
         </para>
       </listitem>
@@ -414,7 +416,7 @@
       <listitem>
         <para>Choose
         <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu><guimenuitem>Move
-        to Trash</guimenuitem></menuchoice>. &gthumb; moves the folder
+        to Trash</guimenuitem></menuchoice>. &app; moves the folder
         to the system trash.
         </para>
       </listitem>
@@ -449,7 +451,7 @@
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; copies the
+        <para>Click on <guibutton>Ok</guibutton>. &app; copies the
         folder to the destination folder.
         </para>
       </listitem>
@@ -484,7 +486,7 @@
         </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; moves the
+        <para>Click on <guibutton>Ok</guibutton>. &app; moves the
         folder to the destination folder.
         </para>
       </listitem>
@@ -574,7 +576,7 @@
           </listitem>
           <listitem>
             <para>Choose <menuchoice><guimenu>File</guimenu><guimenuitem>Properties
-            </guimenuitem></menuchoice>. &gthumb; displays a
+            </guimenuitem></menuchoice>. &app; displays a
             <guilabel>Properties</guilabel> dialog.</para>
           </listitem>
         </orderedlist>
@@ -600,7 +602,7 @@
            Choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
            Comment</guimenuitem></menuchoice> or press
-           <keycap>I</keycap>. &gthumb; displays the exif data.
+           <keycap>I</keycap>. &app; displays the exif data.
         </listitem>
      </orderedlist>
   </para>
@@ -898,10 +900,10 @@
             <guibutton>Ok</guibutton>.</para>
         </listitem>
         <listitem>
-           <para>&gthumb; displays the image format dialog from which
+           <para>&app; displays the image format dialog from which
            you can choose specific file format options.  Once you are
            ok with the options click on
-           <guibutton>Ok</guibutton>. &gthumb; saves the image.</para>
+           <guibutton>Ok</guibutton>. &app; saves the image.</para>
         </listitem>
       </orderedlist>
       </para>
@@ -928,7 +930,7 @@
         <guilabel>Application</guilabel> entry.</para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Open</guibutton>. &gthumb; opens the
+        <para>Click on <guibutton>Open</guibutton>. &app; opens the
         images.</para>
       </listitem>
     </orderedlist>
@@ -949,7 +951,7 @@
       </listitem>
       <listitem>
         <para>Enter the new filename and click on
-        <guibutton>Rename</guibutton>. &gthumb; renames the image
+        <guibutton>Rename</guibutton>. &app; renames the image
         filename.</para>
       </listitem>
     </orderedlist>
@@ -968,7 +970,7 @@
       <listitem>
         <para>Select the images and choose
         <menuchoice><guimenu>Edit</guimenu><guimenuitem>Move to
-        Trash</guimenuitem></menuchoice>. &gthumb; deletes the images
+        Trash</guimenuitem></menuchoice>. &app; deletes the images
         moving them to the system trash.</para>
       </listitem>
     </orderedlist>
@@ -996,7 +998,7 @@
         <guilabel>Folder</guilabel> entry.</para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; copies the
+        <para>Click on <guibutton>Ok</guibutton>. &app; copies the
         images.</para>
       </listitem>
     </orderedlist>
@@ -1024,7 +1026,7 @@
         <guilabel>Folder</guilabel> entry.</para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; moves the
+        <para>Click on <guibutton>Ok</guibutton>. &app; moves the
         images.</para>
       </listitem>
     </orderedlist>
@@ -1084,7 +1086,7 @@
       </listitem>
       <listitem>
         <para>When you are ready to print click on
-        <guibutton>Print</guibutton>. &gthumb; prints the
+        <guibutton>Print</guibutton>. &app; prints the
         images.</para>
       </listitem>
     </orderedlist>
@@ -1190,7 +1192,7 @@
       <listitem>
         <para>Select the images and choose
         <menuchoice><guimenu>Edit</guimenu><guimenuitem>Remove
-        comment</guimenuitem></menuchoice>. &gthumb; removes the
+        comment</guimenuitem></menuchoice>. &app; removes the
         comments.</para>
       </listitem>
     </orderedlist>
@@ -1215,7 +1217,7 @@
            Press <keycap>I</keycap> or  choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
            Comment</guimenuitem></menuchoice>. 
-           &gthumb; displays the image comment.
+           &app; displays the image comment.
         </listitem>
      </orderedlist>
   </para>
@@ -1251,7 +1253,7 @@
       <listitem>
         <para>Select the images and choose
         <menuchoice><guimenu>Edit</guimenu><guimenuitem>Categories
-        </guimenuitem></menuchoice>. &gthumb; shows the
+        </guimenuitem></menuchoice>. &app; shows the
         <guilabel>Categories</guilabel> dialog.</para>
       </listitem>
       <listitem>
@@ -1261,7 +1263,7 @@
 	list clicking on the <guilabel>Remove</guilabel> button. </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Save</guibutton>. &gthumb; assigns
+        <para>Click on <guibutton>Save</guibutton>. &app; assigns
         the catories to the images.
         </para>
       </listitem>
@@ -1285,7 +1287,7 @@
         </menuchoice> command; alternatively go to the folder and select
 	the <menuchoice><guimenu>File</guimenu><guisubmenu>Folder</guisubmenu>
         <guimenuitem>Categories</guimenuitem></menuchoice> commands.  In both
-        cases &gthumb; shows the <guilabel>Categories</guilabel> dialog.</para>
+        cases &app; shows the <guilabel>Categories</guilabel> dialog.</para>
       </listitem>
       <listitem>
 	<para>Check the categories in the <guilabel>Available Categories
@@ -1294,7 +1296,7 @@
 	list clicking on the <guilabel>Remove</guilabel> button. </para>
       </listitem>
       <listitem>
-        <para>Click on <guibutton>Ok</guibutton>. &gthumb; assigns
+        <para>Click on <guibutton>Ok</guibutton>. &app; assigns
         the catories to the folder.
         </para>
       </listitem>
@@ -1376,7 +1378,7 @@
          to the image folder </guimenuitem></menuchoice> command or
          press <keycombo
          action="simul"><keycap>Alt</keycap><keycap>End</keycap></keycombo>. 
-         &gthumb; will display the image folder and will scroll the image list in 
+         &app; will display the image folder and will scroll the image list in 
          order to make the image visible.
        </para>
     </sect2>
@@ -1394,7 +1396,7 @@
         <para>Select an existing catalog or create a new one.</para>
       </listitem>
       <listitem>
-        <para>Choose <guibutton>Ok</guibutton>.  &gthumb; adds the
+        <para>Choose <guibutton>Ok</guibutton>.  &app; adds the
         selected images to the catalog.</para>
       </listitem>
     </orderedlist>
@@ -1415,7 +1417,7 @@
         <listitem>
          <para>Select the images you want to delete
 	  and choose <menuchoice><guimenu>Edit</guimenu><guimenuitem>
-	  Remove from Catalog</guimenuitem></menuchoice>. &gthumb;
+	  Remove from Catalog</guimenuitem></menuchoice>. &app;
 	  removes the images from the catalog.</para>
         </listitem>
       </orderedlist>
@@ -1437,7 +1439,7 @@
         </listitem>
         <listitem>
           <para>Enter the catalog name and click on
-          <guibutton>Ok</guibutton>.  &gthumb; creates the catalog.</para>
+          <guibutton>Ok</guibutton>.  &app; creates the catalog.</para>
         </listitem>
         </orderedlist>
         </para>
@@ -1480,7 +1482,7 @@
         </listitem>
         <listitem>
           <para>Enter the library name and click on
-          <guibutton>Ok</guibutton>.  &gthumb; creates the library.</para>
+          <guibutton>Ok</guibutton>.  &app; creates the library.</para>
         </listitem>
         </orderedlist>
         </para>
@@ -1495,7 +1497,7 @@
     <title>To Find Images</title>
       <para>To find images on your hard disk choose
       <menuchoice><guimenu>Edit</guimenu><guimenuitem>Find</guimenuitem></menuchoice>.
-      &gthumb; displays the <guilabel>Find</guilabel> dialog.</para>
+      &app; displays the <guilabel>Find</guilabel> dialog.</para>
      <sect3 id="gthumb-simple-search">
      <title>To Do a Simple Search</title>
       <para>
@@ -1523,7 +1525,7 @@
                 <userinput>foo.jpg</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images named <filename>foo.jpg</filename>
+                &app; searches for images named <filename>foo.jpg</filename>
               </para></entry>
             </row>
             <row valign="top">
@@ -1531,7 +1533,7 @@
                 <userinput>*.png</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images with the
+                &app; searches for images with the
                 <filename>png</filename> extension. 
               </para></entry>
             </row>
@@ -1540,7 +1542,7 @@
                 <userinput>*.gif; *.jpg</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images with the
+                &app; searches for images with the
                 <filename>gif</filename> or <filename>jpg</filename>
                 extension. 
               </para></entry>
@@ -1624,7 +1626,7 @@
                 <userinput>paolo</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "paolo" in the comment.
+                &app; searches for images that have "paolo" in the comment.
               </para></entry>
             </row>
             <row valign="top">
@@ -1632,7 +1634,7 @@
                 <userinput>my birthday</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "paolo" in the comment.
+                &app; searches for images that have "paolo" in the comment.
               </para></entry>
             </row>
             <row valign="top">
@@ -1640,7 +1642,7 @@
                 <userinput>holiday ; rome</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "holiday" OR
+                &app; searches for images that have "holiday" OR
                 "rome" in the comment. 
               </para></entry>
             </row>
@@ -1649,7 +1651,7 @@
                 <userinput>holiday in rome; my birthday</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "holiday in rome"
+                &app; searches for images that have "holiday in rome"
 		OR "my birthday" in the comment.
               </para></entry>
             </row>
@@ -1691,7 +1693,7 @@
                 <userinput>rome</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "rome" in the
+                &app; searches for images that have "rome" in the
                 place field. 
               </para></entry>
             </row>
@@ -1700,7 +1702,7 @@
                 <userinput>paris; rome; london</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images that have "paris" OR
+                &app; searches for images that have "paris" OR
                 "rome" OR "london" in the place field. 
                 place field. 
               </para></entry>
@@ -1774,7 +1776,7 @@
                 <userinput>family</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images with "family" as one of their keywords.
+                &app; searches for images with "family" as one of their keywords.
               </para></entry>
             </row>
             <row valign="top">
@@ -1782,7 +1784,7 @@
                 <userinput>me; family</userinput>
               </para></entry>
               <entry align="left"><para>
-                &gthumb; searches for images with "family" and/or "me"
+                &app; searches for images with "family" and/or "me"
                 in the keywords list. 
               </para></entry>
             </row>
@@ -1872,7 +1874,7 @@
           <para>Press <keycombo action="simul">
 	  <keycap>S</keycap></keycombo> or choose
           <menuchoice><guimenu>View</guimenu><guimenuitem>Slide Show
-          </guimenuitem></menuchoice>. &gthumb; starts an automatic
+          </guimenuitem></menuchoice>. &app; starts an automatic
           presentation of the images.
           </para>
         </listitem>
@@ -1903,20 +1905,20 @@
         </listitem>
         <listitem>
           <para>Press <keycombo action="simul">
-	  <keycap>F</keycap></keycombo>. &gthumb; displays the image
+	  <keycap>F</keycap></keycombo>. &app; displays the image
 	  in fullscreen mode.
           </para>
         </listitem>
         <listitem>
           <para>Press <keycombo action="simul">
 	  <keycap>Space</keycap></keycombo> or <keycombo action="simul">
-	  <keycap>N</keycap></keycombo>. &gthumb; displays the next image.
+	  <keycap>N</keycap></keycombo>. &app; displays the next image.
           </para>
         </listitem>
         <listitem>
           <para>Press <keycombo action="simul">
 	  <keycap>BackSpace</keycap></keycombo> or <keycombo action="simul">
-	  <keycap>B</keycap></keycombo>. &gthumb; displays the previuos image.
+	  <keycap>B</keycap></keycombo>. &app; displays the previuos image.
           </para>
         </listitem>
       </orderedlist>
@@ -1980,7 +1982,7 @@
         If you want to rotate JPEG images without losing image quality,
 	select the images you want to rotate and choose 
 	<menuchoice><guimenu>Tools</guimenu><guimenuitem>Rotate
-	Images</guimenuitem></menuchoice>.  &gthumb; displays the 
+	Images</guimenuitem></menuchoice>.  &app; displays the 
 	<guilabel>Rotate Images</guilabel> dialog.
       </para>
       <para>
@@ -2148,7 +2150,7 @@
         Select the new date.
       </para>
       <para>
-        Click on <guibutton>Ok</guibutton>. &gthumb; changes the date.
+        Click on <guibutton>Ok</guibutton>. &app; changes the date.
       </para>
     </sect2>
     <sect2 id="gthumb-index-image">
@@ -2184,7 +2186,7 @@
         <listitem>
           <para>Select the images you want to write to and choose
             <menuchoice><guimenu>File</guimenu><guimenuitem>Write to CD
-            </guimenuitem></menuchoice>, &gthumb; displays the 
+            </guimenuitem></menuchoice>, &app; displays the 
             <guilabel>Write to CD</guilabel> dialog.
           </para>
         </listitem>
@@ -2196,7 +2198,7 @@
           </para>
         </listitem>
         <listitem>
-          <para>Click on <guibutton>Ok</guibutton>. &gthumb;, after preparing the
+          <para>Click on <guibutton>Ok</guibutton>. &app;, after preparing the
             images for CD/DVD writing, displays the <filename>burn:///</filename>
             location with <guilabel>Nautilus</guilabel>.
           </para>
@@ -2217,7 +2219,7 @@
  <sect1 id="preferences">
   <title>Preferences</title>
   <para>
-    To configure &gthumb;, open the
+    To configure &app;, open the
     <guilabel>Preferences</guilabel> dialog by choosing
     <menuchoice><guimenu>Edit</guimenu><guisubmenu>Preferences</guisubmenu>
     </menuchoice>.
@@ -2252,7 +2254,7 @@
       <itemizedlist>
 	<listitem>
 	<para>Select the layout of
-	  &gthumb; main window, i.e. the
+	  &app; main window, i.e. the
 	  positions of directory list window, the image (thumbnail) list
 	  window, and the main image viewer window.
 	  </para>
@@ -2286,7 +2288,7 @@
 	<varlistentry>
 	  <term><guilabel>Show filenames</guilabel></term>
 	  <listitem>
-	    <para>This option controls whether &gthumb; should show
+	    <para>This option controls whether &app; should show
 	    image filenames.
 	    </para>
 	  </listitem>
@@ -2296,9 +2298,9 @@
 	  <term><guilabel>Show comments</guilabel></term>
 	  <listitem>
 	    <para>This option controls whether
-	    &gthumb; should show comments
+	    &app; should show comments
 	    (including date and place) in the image list. By default,
-	    &gthumb; shows the comment as a caption under the
+	    &app; shows the comment as a caption under the
 	    thumbnail.
 	    </para>
 	  </listitem>
@@ -2309,7 +2311,7 @@
 	  <listitem>
 	    <para>This option (which you can activate simply pressing 
 	    <keycombo><keycap>T</keycap></keycombo>) controls whether
-	    &gthumb; should show thumbnails.
+	    &app; should show thumbnails.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -2323,7 +2325,7 @@
 	    hard disk searching for images.  The default behaviour is to
 	    follow the Nautilus file manager policy.
 	    Furthermore you can select whether
-	    &gthumb; should determine image
+	    &app; should determine image
 	    type by looking at the file extension or by looking at the
 	    file content. Determining file type from the content is
 	    more reliable (some applications may create files with
@@ -2401,7 +2403,7 @@
     linkend="gthumb-TBL-keyword-shortcuts-viewer"/>, <xref
     linkend="gthumb-TBL-keyword-shortcuts-other"/> and <xref
     linkend="gthumb-TBL-keyword-shortcuts-fullscreen"/> provide a quick
-    reference for all of the &gthumb; keyword shortcuts.  Look in the
+    reference for all of the &app; keyword shortcuts.  Look in the
     menus for other shortcuts.</para>  
   <para>
       <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
