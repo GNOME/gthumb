@@ -1,5 +1,10 @@
 2006-04-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-folder-selection-dialog.c (gth_folder_selection_get_folder): 
+
+	Fixed bug #337920 - created directory "doesn't exist" if it contains 
+	spaces.
+
 	* src/dlg-open-with.c (open_cb): use gnome_vfs_mime_application_launch
 	when the user selects a registered application.
 

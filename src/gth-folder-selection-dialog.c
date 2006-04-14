@@ -26,6 +26,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
 #include "gth-folder-selection-dialog.h"
 
 #include "bookmark-list.h"
@@ -585,7 +586,14 @@ gth_folder_selection_set_folder (GthFolderSelection *fsel,
 char *
 gth_folder_selection_get_folder (GthFolderSelection *fsel)
 {
-	return _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
+	char *value;
+	char *retval;
+	
+	value = _gtk_entry_get_filename_text (GTK_ENTRY (fsel->priv->file_entry));
+	retval = gnome_vfs_unescape_string (value, "");
+	g_free (value);
+	
+	return retval;
 }
 
 
