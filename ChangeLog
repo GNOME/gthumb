@@ -1,3 +1,10 @@
+2006-04-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gs-fade.c (xf86_whack_gamma, gamma_info_init): return FALSE 
+	instead of aborting.
+
+	Fixes bug #336851 - gThumb crashes when I try "full screen"-mode
+
 2006-04-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-folder-selection-dialog.c (gth_folder_selection_get_folder): 

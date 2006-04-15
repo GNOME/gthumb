@@ -224,7 +224,8 @@ xf86_whack_gamma (int              screen,
                 free (b);
 
 # else  /* !HAVE_XF86VMODE_GAMMA_RAMP */
-                abort ();
+                /*abort ();*/
+		status = FALSE;
 # endif /* !HAVE_XF86VMODE_GAMMA_RAMP */
         }
 
@@ -331,7 +332,8 @@ gamma_info_init (GSFade *fade)
                 }
 # endif /* HAVE_XF86VMODE_GAMMA_RAMP */
                 else {
-                        abort ();
+                        /*abort ();*/
+			goto FAIL;
                 }
         }
 
