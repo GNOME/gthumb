@@ -1,3 +1,10 @@
+2006-04-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Remove obsolete entry for no_NO
+	* po/nb.po: Updated Norwegian bokmål translation.
+	* po/nn.po: Updated Norwegian nynorsk translation.
+	* po/no.po: Remove this.
+
 2006-04-15  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gs-fade.c (xf86_whack_gamma, gamma_info_init): return FALSE 
