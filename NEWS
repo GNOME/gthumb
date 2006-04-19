@@ -1,3 +1,14 @@
+version 2.7.6
+-------------
+	* Always use the browser mode, added a --viewer command line option to
+	  use the viewer mode for single images.
+	* Fixed bug #336851 - gThumb crashes when I try "full screen"-mode
+	* Fixed bug #337920 - created directory "doesn't exist" if it contains 
+	  spaces.
+	* Fixed bug #336930 - Web album without JavaScript.
+	* Fixed bug #334903 - Should save on hitting enter in “save as” dialog
+	* Install theme-friendly icons.
+
 version 2.7.5.1
 ---------------
 	* Fixed photo importing.
