@@ -565,8 +565,9 @@ msgstr "<b>Resolució</b>"
 #: ../data/glade/gthumb_png_exporter.glade.h:20
 #: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:13
+# Pel context, ha de ser Ubicació
 msgid "<b>Saving</b>"
-msgstr "<b>S'està desant</b>"
+msgstr "<b>Ubicació</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:7
 msgid "Compression _level:"
@@ -2800,7 +2801,7 @@ msgstr "A_juda"
 #: ../src/gth-browser-actions-entries.h:53
 #: ../src/gth-viewer-actions-entries.h:48
 msgid "New _Window"
-msgstr "Nova _finestra"
+msgstr "_Finestra nova"
 
 #: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-viewer-actions-entries.h:49
