@@ -1149,7 +1149,7 @@ get_file_name (DialogData *data,
 
 	if (data->keep_original_filename) {
 		file_name = g_strdup (file_name_from_path (camera_path));
-		set_lowercase (file_name);
+		/* set_lowercase (file_name); see #339291 */
 
 	} else {
 		char *s, *new_ext;
