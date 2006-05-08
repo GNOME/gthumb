@@ -1284,7 +1284,7 @@ same_uri (const char *uri1,
  *             return   : yyy/foo
  */
 char *
-get_path_relative_to_dir (const char *filename, 
+get_path_relative_to_dir (const char *uri, 
 			  const char *destdir)
 {
 	char     *sourcedir;
@@ -1294,9 +1294,9 @@ get_path_relative_to_dir (const char *filename,
 	char     *result;
 	GString  *relpath;
 
-	sourcedir = remove_level_from_path (filename);
+	sourcedir = remove_level_from_path (remove_scheme_from_uri (uri));
 	sourcedir_v = g_strsplit (sourcedir, "/", 0);
-	destdir_v = g_strsplit (destdir, "/", 0);
+	destdir_v = g_strsplit (remove_scheme_from_uri (destdir), "/", 0);
 
 	relpath = g_string_new (NULL);
 
@@ -1317,7 +1317,7 @@ get_path_relative_to_dir (const char *filename,
 		j++;
 	}
 
-	g_string_append (relpath, file_name_from_path (filename));
+	g_string_append (relpath, file_name_from_path (uri));
 
 	g_strfreev (sourcedir_v);
 	g_strfreev (destdir_v);

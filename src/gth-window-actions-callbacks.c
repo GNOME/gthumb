@@ -765,7 +765,6 @@ gth_window_activate_action_help_about (GtkAction *action,
 		"Alexander Kirillov", 
 		NULL
 	};
-	const char *translator_credits = _("translator_credits");
 	char       *license_text;
 	const char *license[] = {
                 "gThumb is free software; you can redistribute it and/or modify "
