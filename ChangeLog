@@ -1,5 +1,10 @@
 2006-05-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-viewer.c (viewer_update_image_info): 
+
+	Fixed bug #339484 - Gthumb 2.7.5.1 doesn't store EXIF information in 
+	JPEG files, when image is loaded directly
+
 	* src/dlg-photo-importer.c (get_file_name): 
 
 	Fixed bug #339291 - "keep original filename" changes case

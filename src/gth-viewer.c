@@ -680,7 +680,6 @@ viewer_update_image_info (GthViewer *viewer)
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
 
-
 #ifdef HAVE_LIBEXIF
 	{
 		JPEGData *jdata = NULL;
@@ -693,7 +692,7 @@ viewer_update_image_info (GthViewer *viewer)
 		if (priv->image_path != NULL) {
 			const char *path = get_file_path_from_uri (priv->image_path);
 			if (path != NULL)
-				jdata = jpeg_data_new_from_file (priv->image_path);
+				jdata = jpeg_data_new_from_file (path);
 		}
 
 		if (jdata != NULL) {
