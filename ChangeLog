@@ -1,6 +1,13 @@
 2006-05-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/gth-viewer.c (viewer_update_image_info): 
+	* src/gth-browser.c (sidebar_list_key_press, key_press_cb)
+	(viewer_key_press_cb): 
+	* src/gth-fullscreen.c (viewer_key_press_cb): 
+
+	* src/gth-viewer.c (viewer_update_image_info)
+	(viewer_key_press_cb): 
+
+	Fixed bug #339645 - [2.7.5.1] caps-lock disables keyboard shortcuts
 
 	Fixed bug #339484 - Gthumb 2.7.5.1 doesn't store EXIF information in 
 	JPEG files, when image is loaded directly

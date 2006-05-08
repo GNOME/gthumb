@@ -1096,7 +1096,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	GtkAction     *a;
 
 	if ((event->state & GDK_CONTROL_MASK) == GDK_CONTROL_MASK) {
-		switch (event->keyval) {
+		switch (gdk_keyval_to_lower (event->keyval)) {
 			/* Exit fullscreen mode. */
 		case GDK_w:
 			gth_window_close (window);
@@ -1111,7 +1111,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	}
 
 
-	switch (event->keyval) {
+	switch (gdk_keyval_to_lower (event->keyval)) {
 
 		/* Exit fullscreen mode. */
 	case GDK_Escape:

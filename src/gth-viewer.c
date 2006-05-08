@@ -1159,7 +1159,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 	ImageViewer *image_viewer = (ImageViewer*)viewer->priv->viewer;
 	gboolean     retval = FALSE;
 
-	switch (event->keyval) {
+	switch (gdk_keyval_to_lower (event->keyval)) {
 		/* Toggle comment visibility. */
 	case GDK_i:
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (viewer->priv->comment_button),

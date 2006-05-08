@@ -2280,7 +2280,7 @@ dir_list_key_press_cb ( GtkWidget *widget,
 	char	         *utf8_name;
 	char	         *name;
 
-  	switch (event->keyval) {
+  	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_Delete:
 		tree_selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (treeview));
 
@@ -2991,7 +2991,7 @@ sidebar_list_key_press (GthBrowser  *browser,
 	GtkWidget             *list_view;
 	char                  *new_path;
 
-	switch (event->keyval) {
+	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_Return:
  	case GDK_KP_Enter:
 		if (priv->sidebar_content == GTH_SIDEBAR_DIR_LIST)
@@ -3084,7 +3084,7 @@ key_press_cb (GtkWidget   *widget,
 	sel_not_null = gth_file_view_selection_not_null (priv->file_list->view);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));
 
-	switch (event->keyval) {
+	switch (gdk_keyval_to_lower (event->keyval)) {
 		/* Hide/Show sidebar. */
 	case GDK_Return:
 	case GDK_KP_Enter:
@@ -3539,7 +3539,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 {
 	GthBrowser *browser = data;
 
-	switch (event->keyval) {
+	switch (gdk_keyval_to_lower (event->keyval)) {
 	case GDK_Page_Up:
 		gth_browser_show_prev_image (browser, FALSE);
 		return TRUE;
