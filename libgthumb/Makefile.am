@@ -128,6 +128,9 @@ libgthumb_la_SOURCES =			\
 	thumb-cache.c			\
 	thumb-loader.c
 
+libgthumb_la_LIBADD =		\
+	$(TIFF_LIBS)		\
+	$(GTHUMB_LIBS)
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) gthumb-marshal.list --header --prefix=gthumb_marshal > $@

@@ -1,3 +1,12 @@
+2006-05-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c 
+	(gth_window_activate_action_help_about): removed unused var.
+
+	* libgthumb/Makefile.am (libgthumb_la_LIBADD): 
+
+	fixed bug #340947 - gthumb -Wl,--as-needed patch
+
 2006-04-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.6 released ]
