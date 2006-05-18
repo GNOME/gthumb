@@ -58,7 +58,7 @@ static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
 #define str_void(x) (((x) == NULL) || (*(x) == 0))
 #define GLADE_EXPORTER_FILE "gthumb_web_exporter.glade"
 #define MAX_PREVIEW_SIZE 220
-
+#define DEFAULT_ALBUM_THEME "Wiki"
 
 typedef struct {
 	GthBrowser         *browser;
@@ -158,6 +158,11 @@ export (GtkWidget  *widget,
 
 	theme = _gtk_entry_get_filename_text (GTK_ENTRY (data->wa_theme_combo_entry));
 	eel_gconf_set_string (PREF_WEB_ALBUM_THEME, theme);
+
+	if (strcmp (theme, "") == 0) {
+		g_free (location);
+		return;
+	}
 
 	/**/
 
@@ -271,6 +276,81 @@ resize_image_toggled_cb (GtkToggleButton *button,
 			 DialogData      *data)
 {
 	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, gtk_toggle_button_get_active (button));
+}
+
+
+static gboolean
+theme_present (const char *theme_name,
+	       const char *theme_dir)
+{
+	GnomeVFSResult  result;
+	GList          *file_list = NULL;
+	GList          *scan;
+	gboolean        found = FALSE;
+
+	if (theme_name == NULL)
+		return FALSE;
+
+	if (theme_dir != NULL)
+		result = gnome_vfs_directory_list_load (&file_list, 
+							theme_dir, 
+							GNOME_VFS_FILE_INFO_DEFAULT);
+	else
+		result = GNOME_VFS_ERROR_NOT_A_DIRECTORY;
+	
+	if (result == GNOME_VFS_OK) 
+		for (scan = file_list; scan; scan = scan->next) {
+			GnomeVFSFileInfo *info = scan->data;
+
+			if (info->type != GNOME_VFS_FILE_TYPE_DIRECTORY)
+				continue;
+
+			if ((strcmp (info->name, ".") == 0)
+			    || (strcmp (info->name, "..") == 0))
+				continue;
+
+			if (strcmp (info->name, theme_name) == 0) {
+				found = TRUE;
+				break;
+			}
+		}
+
+	return found;
+}
+
+
+static char *
+get_default_theme (void)
+{
+	char     *current_theme;
+	char     *theme_dir;
+	gboolean  found = FALSE;
+
+	current_theme = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, DEFAULT_ALBUM_THEME);
+
+	theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+				  g_get_home_dir (),
+				  ".gnome2",
+				  "gthumb/albumthemes",
+				  NULL);
+	found = theme_present (current_theme, theme_dir);
+	if (!found) {
+		g_free (theme_dir);
+		theme_dir = g_build_path (G_DIR_SEPARATOR_S,
+					  GTHUMB_DATADIR,
+					  "gthumb/albumthemes",
+					  NULL);
+		found = theme_present (current_theme, theme_dir);
+	}
+
+	g_free (theme_dir);
+
+	if (! found) {
+		g_free (current_theme);
+		return g_strdup ("");
+	}
+
+	return current_theme;
 }
 
 
@@ -394,7 +474,7 @@ dlg_web_exporter (GthBrowser *browser)
 	gtk_entry_set_text (GTK_ENTRY (data->wa_footer_entry), svalue);
 	g_free (svalue);
 
-	svalue = eel_gconf_get_string (PREF_WEB_ALBUM_THEME, "Clean");
+	svalue =get_default_theme();
 	_gtk_entry_set_filename_text (GTK_ENTRY (data->wa_theme_combo_entry), svalue);
 	g_free (svalue);
 

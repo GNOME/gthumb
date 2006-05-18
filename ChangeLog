@@ -1,3 +1,16 @@
+2006-05-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.7.7 released ]
+
+	* NEWS: updated for 2.7.7
+	
+	* src/dlg-web-exporter.c (dlg_web_exporter): use Wiki as the default 
+	album theme.
+	(get_default_theme): 
+
+	Fixed bug #340406 - gthumb doesn't compain of nonexisting default 
+	web-album theme.
+
 2006-05-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (sidebar_list_key_press, key_press_cb)

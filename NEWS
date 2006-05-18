@@ -1,3 +1,14 @@
+version 2.7.7
+-------------
+	* Fixed bug #340406 - gthumb doesn't compain of nonexisting default 
+          web-album theme.
+	* Fixed bug #339645 - [2.7.5.1] caps-lock disables keyboard shortcuts
+	* Fixed bug #339484 - Gthumb 2.7.5.1 doesn't store EXIF information in 
+	  JPEG files, when image is loaded directly
+	* Fixed bug #339291 - "keep original filename" changes case
+	* Fixed bug #339852 - index image maps creating wrong href
+	* Fixed bug #340947 - gthumb -Wl,--as-needed patch
+
 version 2.7.6
 -------------
 	* Always use the browser mode, added a --viewer command line option to
