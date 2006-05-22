@@ -1,3 +1,8 @@
+2006-05-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (gth_browser_construct): set a smaller height for 
+	the progressbar to avoid an image resize.
+
 2006-05-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	[ gthumb 2.7.7 released ]

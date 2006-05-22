@@ -6697,6 +6697,7 @@ gth_browser_construct (GthBrowser  *browser,
 	/* Progress bar. */
 
 	priv->progress = gtk_progress_bar_new ();
+	gtk_widget_set_size_request (priv->progress, -1, 10);
 	gtk_widget_show (priv->progress);
 	gtk_box_pack_start (GTK_BOX (priv->statusbar), priv->progress, FALSE, FALSE, 0);
 
