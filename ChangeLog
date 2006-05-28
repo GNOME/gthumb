@@ -1,3 +1,7 @@
+2006-05-28  Clytie Siddall <clytie@riverland.net.au>
+
+	* configure.in	Added vi in ALL_LINGUAS line.
+	
 2006-05-22  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (gth_browser_construct): set a smaller height for 
