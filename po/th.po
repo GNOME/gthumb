@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gthumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-07 16:57+0700\n"
-"PO-Revision-Date: 2005-11-21 18:02+0700\n"
+"POT-Creation-Date: 2006-05-30 15:57+0700\n"
+"PO-Revision-Date: 2006-05-30 17:06+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: THAI <l10n@opentle.org>\n"
 "MIME-Version: 1.0\n"
@@ -144,7 +144,7 @@ msgid "_Mirror"
 msgstr "_กลับภาพซ้าย-ขวา"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:825
+#: ../src/gth-viewer.c:833
 msgid "_None"
 msgstr "ไ_ม่มี"
 
@@ -158,7 +158,7 @@ msgstr "ดู_ภาพเคลื่อนไหวทีละเฟรม"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_tools.glade.h:67
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -178,8 +178,8 @@ msgstr "%d %b %Ey, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:505 ../src/gth-exif-data-viewer.c:479
-#: ../src/gth-fullscreen.c:777 ../src/gth-viewer.c:586
+#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:583
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d พิกเซล"
@@ -192,53 +192,66 @@ msgstr "แอพพลิเคชัน GThumb"
 msgid "GThumb Application Factory"
 msgstr "โรงงานแอพพลิเคชัน GThumb"
 
-#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
+#: ../data/albumthemes/text.h:27
+msgid "Prevous"
+msgstr "ภาพก่อนหน้า"
+
+#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../src/gth-fullscreen-actions-entries.h:42
+msgid "Next"
+msgstr "ภาพถัดไป"
+
+#: ../data/albumthemes/text.h:29
+msgid "Index"
+msgstr "ดัชนี"
+
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "รูปภาพ"
 
-#: ../data/albumthemes/text.h:28
+#: ../data/albumthemes/text.h:31
 msgid "Dimensions"
 msgstr "ความกว้างยาวของรูปภาพ"
 
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:617
-#: ../src/gth-exif-data-viewer.c:508
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:510
 msgid "Bytes"
 msgstr "ขนาดแฟ้ม"
 
-#: ../data/albumthemes/text.h:30
+#: ../data/albumthemes/text.h:33
 msgid "Date"
 msgstr "วันที่"
 
-#: ../data/albumthemes/text.h:31
+#: ../data/albumthemes/text.h:34
 msgid "Exposure time"
 msgstr "ช่วงเวลารับแสง"
 
-#: ../data/albumthemes/text.h:32
+#: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
 msgstr "โหมดการรับแสง"
 
-#: ../data/albumthemes/text.h:33
+#: ../data/albumthemes/text.h:36
 msgid "Flash"
 msgstr "แฟลช"
 
-#: ../data/albumthemes/text.h:34
+#: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
 msgstr "ความเร็วชัตเตอร์"
 
-#: ../data/albumthemes/text.h:35
+#: ../data/albumthemes/text.h:38
 msgid "Aperture value"
 msgstr "ค่ารูหน้ากล้อง"
 
-#: ../data/albumthemes/text.h:36
+#: ../data/albumthemes/text.h:39
 msgid "Focal length"
 msgstr "ทางยาวโฟกัส"
 
-#: ../data/albumthemes/text.h:37
+#: ../data/albumthemes/text.h:40
 msgid "Camera model"
 msgstr "รุ่นของกล้อง"
 
-#: ../data/albumthemes/text.h:38 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:66
+#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:71
 msgid "pixels"
 msgstr "พิกเซล"
 
@@ -399,7 +412,7 @@ msgstr "รุ่นของกล้อง"
 #: ../data/glade/gthumb_camera.glade.h:4
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:23
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "Choose destination folder"
 msgstr "เลือกโฟลเดอร์ปลายทาง"
@@ -412,8 +425,8 @@ msgstr "ลบรูปที่เลือกออกจากแค็ตต
 msgid "Import Photos"
 msgstr "นำเข้ารูปภาพ"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
-#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1382
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:866
+#: ../src/dlg-photo-importer.c:905 ../src/dlg-photo-importer.c:1475
 msgid "No camera detected"
 msgstr "ไม่พบกล้องดิจิทัล"
 
@@ -436,7 +449,7 @@ msgstr "_ลบรูปที่นำเข้าจากกล้อง"
 #: ../data/glade/gthumb_camera.glade.h:12
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:53
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "_ตำแหน่งปลายทาง:"
@@ -477,7 +490,7 @@ msgid "Co_mment:"
 msgstr "ห_มายเหตุ:"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1474
+#: ../libgthumb/gth-file-view-list.c:1475
 msgid "Comment"
 msgstr "หมายเหตุ"
 
@@ -540,7 +553,7 @@ msgstr "หมวดหมู่ที่เ_ลือก:"
 msgid "<b>Compression</b>"
 msgstr "<b>การบีบอัด</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
 msgstr "<b>ชนิดของรูปภาพ</b>"
 
@@ -550,7 +563,7 @@ msgstr "<b>ขนาดของรูปภาพ</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Saving</b>"
 msgstr "<b>บันทึก</b>"
@@ -576,7 +589,7 @@ msgid "Opti_mize"
 msgstr "หาค่าที่_ดีที่สุด"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Overwrite mode:"
 msgstr "การเขียนทับแฟ้ม:"
 
@@ -585,7 +598,7 @@ msgid "PNG Options"
 msgstr "ตัวเลือก PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "R_emove original"
 msgstr "ลบภาพ_ต้นฉบับ"
 
@@ -594,7 +607,7 @@ msgid "Rename"
 msgstr "เปลี่ยนชื่อแฟ้ม"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -615,6 +628,7 @@ msgid "TIFF Options"
 msgstr "ตัวเลือก TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:50
 msgid "T_GA"
 msgstr "T_GA"
 
@@ -624,6 +638,7 @@ msgid "_Horizontal:"
 msgstr "แ_นวนอน:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:56
 msgid "_JPEG"
 msgstr "_JPEG"
 
@@ -636,6 +651,7 @@ msgid "_No compression"
 msgstr "ไ_ม่บีบอัดภาพ"
 
 #: ../data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -656,6 +672,7 @@ msgid "_Smoothing:"
 msgstr "การทำขอบเ_รียบ:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:65
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -715,12 +732,12 @@ msgid "_Crop"
 msgstr "_ครอบตัด"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:54
 msgid "_Height:"
 msgstr "ความสู_ง:"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:68
 msgid "_Width:"
 msgstr "ความก_ว้าง:"
 
@@ -750,7 +767,7 @@ msgstr "%"
 msgid "<b>Color levels</b>"
 msgstr "<b>ระดับของสี</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
 msgstr "<b>ขนาดใหม่</b>"
 
@@ -814,7 +831,7 @@ msgstr "ความ_สว่าง:"
 msgid "_Hue:"
 msgstr "_สี:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:57
 msgid "_Keep aspect ratio"
 msgstr "_รักษาอัตราส่วนของรูปภาพ"
 
@@ -834,7 +851,7 @@ msgstr "_ม่วงแดง-เขียว:"
 msgid "_Preview"
 msgstr "_ดูตัวอย่าง"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:61
 msgid "_Reset"
 msgstr "_คืนค่าเดิม"
 
@@ -842,7 +859,7 @@ msgstr "_คืนค่าเดิม"
 msgid "_Saturation:"
 msgstr "ความส_ด:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Scale"
 msgstr "_ปรับขนาด"
 
@@ -927,8 +944,7 @@ msgstr "<small><i><b>หมายเหตุ:</b> # (ลำดับที่)<
 msgid ""
 "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</"
 "small>"
-msgstr ""
-"<small><i><b>หมายเหตุ:</b> %p (เลขหน้า), %n (จำนวนหน้าทั้งหมด)</i></small>"
+msgstr "<small><i><b>หมายเหตุ:</b> %p (เลขหน้า), %n (จำนวนหน้าทั้งหมด)</i></small>"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:25
 #: ../data/glade/gthumb_web_exporter.glade.h:20
@@ -1068,7 +1084,7 @@ msgstr "รูปแ_บบ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Start _at:"
 msgstr "เริ่ม_ที่:"
 
@@ -1110,12 +1126,12 @@ msgid "_Solid color"
 msgstr "ใช้_สีทึบ"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "_Template:"
 msgstr "แ_ม่แบบ:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:69
 #: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "ตามชื่อ"
@@ -1490,8 +1506,8 @@ msgid "Postcard"
 msgstr "Postcard"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
-#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1678
+#: ../libgthumb/print-callbacks.c:1692 ../libgthumb/print-callbacks.c:2153
 msgid "Print"
 msgstr "พิมพ์"
 
@@ -1575,8 +1591,8 @@ msgstr "ตรงกับหมวดหมู่ที่เลือกไว
 msgid "New _Search..."
 msgstr "_ค้นหาใหม่..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:812
-#: ../src/dlg-photo-importer.c:1431
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:835
+#: ../src/dlg-photo-importer.c:1525
 msgid "No images found"
 msgstr "ไม่พบรูปภาพ"
 
@@ -1585,7 +1601,7 @@ msgid "Search Progress"
 msgstr "ความคืบหน้าการค้นหา"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Searching in:"
 msgstr "กำลังค้นหาใน:"
 
@@ -1596,7 +1612,7 @@ msgid "_Edit Search"
 msgstr "แก้ไขเงื่อนไขการค้นหา"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "_Include sub-folders"
 msgstr "ค้_นในโฟลเดอร์ย่อยด้วย"
 
@@ -1616,95 +1632,96 @@ msgstr "<b>เปลี่ยนค่าต่อไปนี้:</b>"
 msgid "<b>Change to:</b>"
 msgstr "<b>เปลี่ยนเป็น:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:10
 msgid "<b>Write to CD</b>"
 msgstr "<b>เขียนลงซีดี</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
-msgstr "<small><i><b>หมายเหตุ:</b> การแปลงภาพ jpeg จะไม่สูญเสียรายละเอียด</i></small>"
+msgstr ""
+"<small><i><b>หมายเหตุ:</b> การแปลงภาพ jpeg จะไม่สูญเสียรายละเอียด</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:12
+#: ../data/glade/gthumb_tools.glade.h:13
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
 "%d (image date), %s (image size).</i></small>"
 msgstr ""
-"<small><i><b>อักขระพิเศษ:</b> # (ลำดับที่), %f (ชื่อแฟ้มเดิม), "
-"%d (วันที่ของรูป), %s (ขนาดของรูป).</i></small>"
+"<small><i><b>อักขระพิเศษ:</b> # (ลำดับที่), %f (ชื่อแฟ้มเดิม), %d (วันที่ของรูป), %s "
+"(ขนาดของรูป).</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "A_djust timezone:"
 msgstr "ปรับเ_ขตเวลา:"
 
-#: ../data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:15
 #: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "ปรับ_ทิศทางรูปภาพ"
 
-#: ../data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Apply to _all images"
 msgstr "ใช้กับ_ทุกรูป"
 
-#: ../data/glade/gthumb_tools.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "C_urrent date"
 msgstr "วันที่_ปัจจุบัน"
 
-#: ../data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:18
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "แ_ค็ตตาล็อก"
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Change Date"
 msgstr "แก้ไขวันที่"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Check _All"
 msgstr "เลือก_ทั้งหมด"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Check _None"
 msgstr "ไ_ม่เลือก"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Checking image:"
 msgstr "กำลังตรวจสอบรูปภาพ:"
 
-#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Co_mment date"
 msgstr "วันที่เขียนห_มายเหตุ"
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Current _Folder"
 msgstr "โ_ฟลเดอร์ปัจจุบัน"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Equal images:"
 msgstr "ภาพที่เหมือนกัน:"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Find Duplicates"
 msgstr "ค้นหาภาพที่ซ้ำกัน"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Found duplicates:"
 msgstr "พบภาพที่ซ้ำกัน:"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Image c_reation date"
 msgstr "วันที่_สร้างรูปภาพ"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Mirror image horizontally (left-right)"
 msgstr "กลับภาพตามแนวนอน (ซ้าย-ขวา)"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Mirror image vertically (top-bottom)"
 msgstr "กลับภาพตามแนวตั้ง (บน-ล่าง)"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:32
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1712,72 +1729,72 @@ msgstr "กลับภาพตามแนวตั้ง (บน-ล่าง
 msgid "Move to _Trash"
 msgstr "ทิ้งลง_ถังขยะ"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "New names _preview:"
 msgstr "_ดูตัวอย่างชื่อใหม่:"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "วันที่ทำเป็น_ภาพดิจิทัล (จากข้อมูล EXIF)"
 
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "Re_verse Order"
 msgstr "เ_รียงย้อนกลับ"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Rename Series"
 msgstr "เปลี่ยนชื่อภาพเป็นกลุ่ม"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Rotate Images"
 msgstr "หมุนรูปภาพ"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rotate image 90 degrees clockwise"
 msgstr "หมุนรุป 90 องศาตามเข็มนาฬิกา"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "หมุนรูป 90 องศาทวนเข็มนาฬิกา"
 
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:42
 #: ../src/gth-browser-actions-entries.h:383
 #: ../src/gth-browser-actions-entries.h:384
 msgid "Scale Images"
 msgstr "ย่อ-ขยายรูปภาพ"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Search terminated, no duplicates found."
 msgstr "การค้นหาเสร็จ, ไม่พบภาพที่เหมือนกัน"
 
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:51
 msgid "The _following date:"
 msgstr "วั_นที่ต่อไปนี้:"
 
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:52
 msgid "Write To CD"
 msgstr "เขียนลงซีดี"
 
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:58
 msgid "_Last modified date"
 msgstr "วันที่แ_ก้ไขครั้งล่าสุด"
 
-#: ../data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:60
 #: ../src/gth-browser-actions-callbacks.c:166
 #: ../src/gth-browser-actions-callbacks.c:603
-#: ../src/gth-browser-actions-callbacks.c:1112
+#: ../src/gth-browser-actions-callbacks.c:1111
 msgid "_Rename"
 msgstr "เปลี่ยน_ชื่อ"
 
-#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Selected Images"
 msgstr "รูปที่เ_ลือก"
 
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:64
 msgid "_Sort:"
 msgstr "เ_รียงตาม:"
 
-#: ../data/glade/gthumb_tools.glade.h:65
+#: ../data/glade/gthumb_tools.glade.h:70
 msgid "hours"
 msgstr "ชั่วโมง"
 
@@ -1923,10 +1940,14 @@ msgid "rows"
 msgstr "แถว"
 
 #: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "โปรแกรมดูภาพ"
+
+#: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "ดูและจัดการรูปภาพ"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "โปรแกรมดูภาพ gThumb"
 
@@ -2002,15 +2023,16 @@ msgstr "ค่าที่เป็นไปได้คือ: none, name, path
 msgid ""
 "Possible values are: none, simple, simple_with_shadow, shadow, slide, "
 "shadow_in, shadow_out."
-msgstr "ค่าที่เป็นไปได้คือ: none, simple, simple_with_shadow, shadow, slide, "
-"shadow_in, shadow_out"
+msgstr ""
+"ค่าที่เป็นไปได้คือ: none, simple, simple_with_shadow, shadow, slide, shadow_in, "
+"shadow_out"
 
 #: ../data/gthumb.schemas.in.h:18
 msgid ""
 "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
 "custom."
-msgstr "ค่าที่เป็นไปได้คือ: none, square, image, display, 4x3, 4x6, 5x7, 8x10, "
-"custom"
+msgstr ""
+"ค่าที่เป็นไปได้คือ: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom"
 
 #: ../data/gthumb.schemas.in.h:19
 msgid "Possible values are: pixels, percentage."
@@ -2041,83 +2063,82 @@ msgstr "ค่าที่เป็นไปได้คือ: white, black, ch
 msgid "Whether to always use a black background."
 msgstr "กำหนดว่าจะใช้สีพื้นหลังเป็นสีดำหรือไม่"
 
-#: ../libgthumb/catalog.c:94
-msgid "Library not empty"
-msgstr "ไลบรารีมีข้อมูลอยู่"
-
-#: ../libgthumb/catalog.c:103
-#, c-format
-msgid "Cannot remove library \"%s\": %s"
-msgstr "ไม่สามารถลบไลบรารี \"%s\": %s"
-
-#: ../libgthumb/catalog.c:130
-#, c-format
-msgid "Cannot remove catalog \"%s\": %s"
-msgstr "ไม่สามารถลบแค็ตตาล็อก \"%s\": %s"
-
-#: ../libgthumb/catalog.c:259 ../libgthumb/catalog.c:447
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "ไม่สามารถเปิดแค็ตตาล็อก \"%s\": %s"
 
-#: ../libgthumb/catalog.c:424
+#: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "ไม่สามารถบันทึกแค็ตตาล็อก \"%s\": %s"
 
-#: ../libgthumb/comments.c:772
-msgid "Deleting all comments, wait please..."
-msgstr "กำลังลบคำอธิบายทั้งหมด กรุณารอสักครู่..."
-
-#: ../libgthumb/comments.c:774
-msgid "Deleting old comments, wait please..."
-msgstr "กำลังลบคำอธิบายเดิม กรุณารอสักครู่..."
-
-#: ../libgthumb/comments.c:1348
+#: ../libgthumb/comments.c:1260
 msgid "%d %B %Y"
 msgstr "%d %B %Ey"
 
-#: ../libgthumb/comments.c:1350 ../src/catalog-web-exporter.c:52
+#: ../libgthumb/comments.c:1262 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:501 ../src/gth-exif-data-viewer.c:483
-#: ../src/gth-fullscreen.c:788 ../src/gth-viewer.c:582
+#: ../src/gth-browser.c:493 ../src/gth-exif-data-viewer.c:485
+#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:579
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Ey, %H:%M"
 
-#: ../libgthumb/comments.c:1360 ../libgthumb/comments.c:1362
+#: ../libgthumb/comments.c:1272 ../libgthumb/comments.c:1274
 msgid "(No Comment)"
 msgstr "(ไม่มีหมายเหตุ)"
 
-#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
+#: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1550
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
-msgstr ""
-"คุณไม่มีสิทธิ์ที่จะสร้างรูปภาพในโฟลเดอร์ \"%s\""
+msgstr "คุณไม่มีสิทธิ์ที่จะสร้างรูปภาพในโฟลเดอร์ \"%s\""
 
-#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:200
+#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:320
+#: ../src/gth-batch-op.c:572 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "มีภาพที่ชื่อ \"%s\" คุณต้องการแทนที่ของเดิมหรือไม่"
 
-#: ../libgthumb/dlg-save-image.c:170
+#: ../libgthumb/dlg-save-image.c:169
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "โปรแกรมไม่สามารถทำงานกับภาพประเภท: %s"
 
-#: ../libgthumb/dlg-save-image.c:252
+#: ../libgthumb/dlg-save-image.c:240
 msgid "Determine by extension"
 msgstr "กำหนดโดยนามสกุล"
 
-#: ../libgthumb/dlg-save-image.c:287
+#: ../libgthumb/dlg-save-image.c:274
 msgid "Save Image"
 msgstr "บันทึกรูปภาพ"
 
-#: ../libgthumb/dlg-save-image.c:304
+#: ../libgthumb/dlg-save-image.c:293
 msgid "Image type:"
 msgstr "ชนิดแฟ้ม:"
+
+#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:757
+msgid "File System"
+msgstr "ระบบแฟ้ม"
+
+#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:761
+msgid "Home"
+msgstr "บ้าน"
+
+#: ../libgthumb/file-utils.c:1628
+msgid "Library not empty"
+msgstr "ไลบรารีมีข้อมูลอยู่"
+
+#: ../libgthumb/file-utils.c:1637
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "ไม่สามารถลบไลบรารี \"%s\": %s"
+
+#: ../libgthumb/file-utils.c:1664
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "ไม่สามารถลบแค็ตตาล็อก \"%s\": %s"
 
 #: ../libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
@@ -2203,47 +2224,46 @@ msgstr "แสดงขนาดในโหมดข้อมูลแบบอ
 msgid "Font"
 msgstr "แบบอักษร"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8808
-#: ../src/gth-viewer.c:2276
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8600
+#: ../src/gth-viewer.c:2230
 msgid "Wait please..."
 msgstr "กรุณารอสักครู่..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:780
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:772
 #: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "ไม่มีรูปภาพ"
 
-#: ../libgthumb/gth-file-view-list.c:1481 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:494
+#: ../libgthumb/gth-file-view-list.c:1482 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:496
 msgid "Name"
 msgstr "ชื่อ"
 
-#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:76 ../src/gth-window-actions-entries.h:255
 msgid "Ro_tate Images"
 msgstr "_หมุนรูปภาพ"
 
-#: ../libgthumb/print-callbacks.c:669
+#: ../libgthumb/print-callbacks.c:668
 #, c-format
 msgid "Page %d of %d"
 msgstr "หน้าที่ %d จาก %d"
 
-#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1751 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "โหลดรูป: %s"
 
-#: ../libgthumb/thumb-cache.c:486
+#: ../libgthumb/thumb-cache.c:490
 msgid "Deleting all thumbnails, wait please..."
 msgstr "กำลังลบรูปย่อทั้งหมด กรุณารอสักครู่..."
 
-#: ../libgthumb/thumb-cache.c:488
+#: ../libgthumb/thumb-cache.c:492
 msgid "Deleting old thumbnails, wait please..."
 msgstr "กำลังลบรูปย่อของเก่า กรุณารอสักครู่..."
 
-#: ../src/bookmark-list.c:173 ../src/gth-browser.c:702
-#: ../src/gth-browser.c:1403 ../src/gth-browser.c:1409
-#: ../src/gth-browser.c:1415
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1406
+#: ../src/gth-browser.c:1410 ../src/gth-browser.c:1422
 msgid "(Invalid Name)"
 msgstr "(ชื่อไม่ถูกต้อง)"
 
@@ -2252,47 +2272,47 @@ msgstr "(ชื่อไม่ถูกต้อง)"
 msgid "Creating image: %s.%s"
 msgstr "กำลังสร้างรูป: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1704
+#: ../src/catalog-web-exporter.c:1715
 msgid "Saving thumbnails"
 msgstr "กำลังบันทึกรูปย่อ"
 
-#: ../src/catalog-web-exporter.c:1770
+#: ../src/catalog-web-exporter.c:1781
 msgid "Saving HTML pages: Images"
 msgstr "กำลังบันทึกหน้าเว็บ: รูปภาพ"
 
-#: ../src/catalog-web-exporter.c:1845
+#: ../src/catalog-web-exporter.c:1856
 msgid "Saving HTML pages: Indexes"
 msgstr "กำลังบันทึกหน้าเว็บ: ดัชนี"
 
-#: ../src/catalog-web-exporter.c:1971 ../src/catalog-web-exporter.c:2031
-#: ../src/catalog-web-exporter.c:2201
+#: ../src/catalog-web-exporter.c:1982 ../src/catalog-web-exporter.c:2042
+#: ../src/catalog-web-exporter.c:2212
 msgid "Saving images"
 msgstr "กำลังบันทึกรูปภาพ"
 
-#: ../src/catalog-web-exporter.c:2385
+#: ../src/catalog-web-exporter.c:2396
 msgid "Could not create a temporary folder"
 msgstr "ไม่สามารถสร้างโฟลเดอร์ใช้งานชั่วคราว"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2418
+#: ../src/catalog-web-exporter.c:2429
 msgid "Loading images"
 msgstr "กำลังโหลดรูป"
 
-#: ../src/dlg-catalog.c:87 ../src/gth-browser-actions-callbacks.c:818
+#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:818
 msgid "Enter the catalog name: "
 msgstr "ป้อนชื่อแค็ตตาล็อก:"
 
-#: ../src/dlg-catalog.c:91 ../src/dlg-catalog.c:142
+#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:147
 #: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
 #: ../src/gth-browser-actions-callbacks.c:904
 msgid "C_reate"
 msgstr "_สร้าง"
 
-#: ../src/dlg-catalog.c:138 ../src/gth-browser-actions-callbacks.c:960
+#: ../src/dlg-catalog.c:143 ../src/gth-browser-actions-callbacks.c:959
 msgid "Enter the library name: "
 msgstr "ป้อนชื่อของไลบรารี: "
 
-#: ../src/dlg-catalog.c:494
+#: ../src/dlg-catalog.c:499
 msgid "Move Catalog to..."
 msgstr "ย้ายแค็ตตาล็อกไปที่..."
 
@@ -2313,40 +2333,39 @@ msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "มีหมวดหมู่ที่ชื่อ \"%s\" อยู่แล้ว กรุณาตั้งชื่ออื่น"
 
 #: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
-#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456
-#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
-#: ../src/dlg-rename-series.c:343 ../src/dlg-search.c:468
-#: ../src/gth-window-actions-callbacks.c:820
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:455 ../src/dlg-jpegtran.c:579
+#: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
+#: ../src/dlg-search.c:467 ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "ไม่สามารถแสดงข้อความช่วยเหลือที่เกี่ยวข้อง: %s"
 
-#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:390
+#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:401
 #, c-format
 msgid "Converting image: %s"
 msgstr "กำลังแปลงรูปภาพ: %s"
 
-#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:413
+#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:424
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "มีภาพที่ชื่อ \"%s\" อยู่แล้ว กรุณาระบุชื่อใหม่"
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
+#: ../src/dlg-convert.c:325 ../src/gth-batch-op.c:577
 msgid "Skip"
 msgstr "ข้ามแฟ้มที่ซ้ำไป"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:563
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:578
 #: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
 msgstr "เขียน_ทับ"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:427
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (รูปภาพ)"
 
-#: ../src/dlg-crop.c:385
+#: ../src/dlg-crop.c:435
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (หน้าจอ)"
@@ -2388,20 +2407,19 @@ msgstr "ไม่สามารถลบรูปภาพ:"
 msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
-msgstr ""
-"ไม่สามารถทิ้งรูปลงถังขยะได้ คุณต้องการลบมันอย่างถาวรหรือไม่?"
+msgstr "ไม่สามารถทิ้งรูปลงถังขยะได้ คุณต้องการลบมันอย่างถาวรหรือไม่?"
 
-#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1269
-#: ../src/gth-browser.c:1939 ../src/gth-viewer.c:977
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
+#: ../src/gth-browser.c:1958 ../src/gth-viewer.c:993
 msgid "_Do not display this message again"
 msgstr "ไ_ม่ต้องแสดงข้อความนี้อีก"
 
-#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1307
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1306
 msgid "_Move"
 msgstr "_ย้าย"
 
 #: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1516
+#: ../src/gth-browser-actions-callbacks.c:1515
 msgid "Choose the destination folder"
 msgstr "เลือกโฟลเดอร์ปลายทาง"
 
@@ -2431,11 +2449,11 @@ msgstr "ไม่สามารถย้ายรูปภาพได้:"
 msgid "Could not copy the image:"
 msgstr "ไม่สามารถคัดลอกรูปภาพได้:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
 msgid "_Abort"
 msgstr "_ยกเลิก"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
 msgid "_Continue"
 msgstr "_ทำต่อไป"
 
@@ -2444,41 +2462,41 @@ msgstr "_ทำต่อไป"
 msgid "Copying file %d of %d"
 msgstr "กำลังสำเนาแฟ้มที่ %d จาก %d"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
 msgid "Collecting images info"
 msgstr "กำลังรวบรวมข้อมูลของรูปภาพ"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "กำลังลบแฟ้มที่ %ld จาก %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2022
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "กำลังคัดลอกแฟ้มที่ %ld จาก %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "กำลังย้ายแฟ้ม %ld จาก %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
-#: ../src/gth-browser-actions-callbacks.c:1408
+#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
+#: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "ไม่สามารถย้ายโฟลเดอร์ \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:501
+#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:503
 msgid "Size"
 msgstr "ขนาด "
 
-#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:522
+#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:524
 msgid "Type"
 msgstr "ชนิด"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:517
-#: ../src/gth-exif-data-viewer.c:515 ../src/gth-viewer.c:598
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:509
+#: ../src/gth-exif-data-viewer.c:517 ../src/gth-viewer.c:595
 msgid "Modified"
 msgstr "แก้ไขล่าสุด"
 
@@ -2491,18 +2509,18 @@ msgstr "ข้อมูลของแชนเนล"
 msgid "%s Properties"
 msgstr "คุณสมบัติ %s"
 
-#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1381
-#: ../src/dlg-photo-importer.c:1430 ../src/dlg-photo-importer.c:1442
-#: ../src/dlg-photo-importer.c:1458 ../src/dlg-photo-importer.c:1487
+#: ../src/dlg-photo-importer.c:902 ../src/dlg-photo-importer.c:1474
+#: ../src/dlg-photo-importer.c:1524 ../src/dlg-photo-importer.c:1536
+#: ../src/dlg-photo-importer.c:1552 ../src/dlg-photo-importer.c:1581
 msgid "Could not import photos"
 msgstr "ไม่สามารถนำเข้ารูปภาพ"
 
-#: ../src/dlg-photo-importer.c:1224 ../src/main.c:956
+#: ../src/dlg-photo-importer.c:1261 ../src/main.c:1012
 msgid "Film"
 msgstr "ฟิล์ม"
 
-#: ../src/dlg-photo-importer.c:1439
-#: ../src/gth-browser-actions-callbacks.c:1719
+#: ../src/dlg-photo-importer.c:1533
+#: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "ไม่สามารถสร้างโฟลเดอร์ \"%s\": %s"
@@ -2519,22 +2537,22 @@ msgstr "หัวกระดาษ"
 msgid "Footer"
 msgstr "ท้ายกระดาษ"
 
-#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:371
+#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:451
 msgid "by path"
 msgstr "ตามพาธ"
 
 #: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:434
-#: ../src/dlg-web-exporter.c:373
+#: ../src/dlg-web-exporter.c:453
 msgid "by size"
 msgstr "ตามขนาด"
 
 #: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:436
-#: ../src/dlg-web-exporter.c:375
+#: ../src/dlg-web-exporter.c:455
 msgid "by modified time"
 msgstr "ตามวันที่แก้ไขครั้งล่าสุด"
 
 #: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:439
-#: ../src/dlg-web-exporter.c:378
+#: ../src/dlg-web-exporter.c:458
 msgid "manual order"
 msgstr "เรียงเอง"
 
@@ -2546,29 +2564,29 @@ msgstr "ชื่อเดิม"
 msgid "New Name"
 msgstr "ชื่อใหม่"
 
-#: ../src/dlg-search.c:356
+#: ../src/dlg-search.c:355
 msgid "Search Result"
 msgstr "ผลการค้นหา"
 
-#: ../src/dlg-search.c:676
+#: ../src/dlg-search.c:675
 msgid "Filename"
 msgstr "ชื่อแฟ้ม"
 
-#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:392
+#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "โฟลเดอร์"
 
-#: ../src/dlg-web-exporter.c:724
+#: ../src/dlg-web-exporter.c:808
 msgid "Select Album Theme"
 msgstr "เลือกทุกรูป"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3876
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3742
 msgid "Could not move the items:"
 msgstr "ไม่สามารถย้ายวัตถุ:"
 
 #: ../src/gth-browser-actions-callbacks.c:162
 #: ../src/gth-browser-actions-callbacks.c:599
-#: ../src/gth-browser-actions-callbacks.c:1108
+#: ../src/gth-browser-actions-callbacks.c:1107
 msgid "Enter the new name: "
 msgstr "ป้อนชื่อใหม่: "
 
@@ -2576,7 +2594,7 @@ msgstr "ป้อนชื่อใหม่: "
 #: ../src/gth-browser-actions-callbacks.c:619
 #: ../src/gth-browser-actions-callbacks.c:834
 #: ../src/gth-browser-actions-callbacks.c:917
-#: ../src/gth-browser-actions-callbacks.c:1126
+#: ../src/gth-browser-actions-callbacks.c:1125
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2590,12 +2608,12 @@ msgid "Could not rename the image \"%s\": %s"
 msgstr "ไม่สามารถเปลี่ยนชื่อภาพ \"%s\": %s"
 
 #: ../src/gth-browser-actions-callbacks.c:229
-#: ../src/gth-browser-actions-callbacks.c:1148
-#: ../src/gth-browser-actions-callbacks.c:1418
+#: ../src/gth-browser-actions-callbacks.c:1147
+#: ../src/gth-browser-actions-callbacks.c:1417
 msgid "source and destination are the same"
 msgstr "ต้นฉบับกับสำเนาเหมือนกัน"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1025
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "กำลังจะทิ้งภาพลงถังขยะ คุณแน่ใจหรือไม่?"
 
@@ -2619,7 +2637,7 @@ msgstr "กำลังจะทิ้งภาพที่เลือกลง
 #: ../src/gth-browser-actions-callbacks.c:641
 #: ../src/gth-browser-actions-callbacks.c:853
 #: ../src/gth-browser-actions-callbacks.c:933
-#: ../src/gth-browser-actions-callbacks.c:1156
+#: ../src/gth-browser-actions-callbacks.c:1155
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "มีแฟ้มข้อมูลที่ชื่อ \"%s\" อยูแล้ว กรุณาใช้ชื่ออื่น"
@@ -2651,57 +2669,61 @@ msgstr "แค็ตตาล็อกใหม่"
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "ไม่สามารถสร้างแค็ตตาล็อก \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:959
+#: ../src/gth-browser-actions-callbacks.c:958
 msgid "New Library"
 msgstr "สร้างไลบรารีใหม่"
 
-#: ../src/gth-browser-actions-callbacks.c:961
+#: ../src/gth-browser-actions-callbacks.c:960
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "ไม่สามารถสร้างไลบรารี \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1146
-#: ../src/gth-browser-actions-callbacks.c:1180
+#: ../src/gth-browser-actions-callbacks.c:1145
+#: ../src/gth-browser-actions-callbacks.c:1179
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "ไม่สามารถเปลี่ยนชื่อโฟลเดอร์ \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1230
+#: ../src/gth-browser-actions-callbacks.c:1229
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "ไม่สามารถลบโฟลเดอร์ \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1261
+#: ../src/gth-browser-actions-callbacks.c:1260
 #, c-format
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr "ไม่สามารถทิ้ง \"%s\" ลงถังขยะได้ คุณต้องการลบแบบถาวรหรือไม่?"
 
-#: ../src/gth-browser-actions-callbacks.c:1305
+#: ../src/gth-browser-actions-callbacks.c:1304
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "โฟลเดอร์ที่เลือกจะถูกทิ้งลงถังขยะ คุณแน่ใจหรือไม่?"
 
-#: ../src/gth-browser-actions-callbacks.c:1353
-#: ../src/gth-browser-actions-callbacks.c:1408
+#: ../src/gth-browser-actions-callbacks.c:1352
+#: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "ไม่สามารถคัดลอกโฟลเดอร์ \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1429
+#: ../src/gth-browser-actions-callbacks.c:1428
 msgid "source contains destination"
 msgstr "โฟลเดอร์ปลายทางอยู่ในโฟลเดอร์ต้นฉบับ"
 
-#: ../src/gth-browser-actions-callbacks.c:1440
+#: ../src/gth-browser-actions-callbacks.c:1439
 msgid "a folder with that name is already present."
 msgstr "ชื่อโฟลเดอร์มีอยู่แล้ว"
 
-#: ../src/gth-browser-actions-callbacks.c:1717
+#: ../src/gth-browser-actions-callbacks.c:1716
 msgid "New Folder"
 msgstr "สร้างโฟลเดอร์ใหม่"
 
-#: ../src/gth-browser-actions-callbacks.c:1718
+#: ../src/gth-browser-actions-callbacks.c:1717
 msgid "Enter the folder name: "
 msgstr "ป้อนชื่อโฟลเดอร์:"
+
+#: ../src/gth-browser-actions-callbacks.c:1846
+msgid "Open Location"
+msgstr "เปิดตำแหน่่ง"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
@@ -2767,11 +2789,6 @@ msgstr "สร้างหน้าต่างใหม่"
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
 msgstr "เปิดภาพที่เลือกในหน้าต่างใหม่"
-
-#: ../src/gth-browser-actions-entries.h:63
-#: ../src/gth-fullscreen-actions-entries.h:57
-msgid "Proper_ties"
-msgstr "คุณ_สมบัติ"
 
 #: ../src/gth-browser-actions-entries.h:64
 msgid "View image properties"
@@ -3037,11 +3054,6 @@ msgstr "สร้างโ_ฟลเดอร์ใหม่"
 msgid "Create a new folder"
 msgstr "สร้างโฟลเดอร์ใหม่"
 
-#: ../src/gth-browser-actions-entries.h:283
-#: ../src/gth-fullscreen-actions-entries.h:42
-msgid "Next"
-msgstr "ภาพถัดไป"
-
 #: ../src/gth-browser-actions-entries.h:284
 #: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
@@ -3057,7 +3069,7 @@ msgstr "ภาพก่อนหน้า"
 msgid "View previous image"
 msgstr "ดูภาพก่อนหน้า"
 
-#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5327
+#: ../src/gth-browser-actions-entries.h:294
 msgid "Go to the previous visited location"
 msgstr "ไปยังตำแหน่งที่ดูก่อนหน้านี้"
 
@@ -3136,10 +3148,6 @@ msgstr "แสดง_สไลด์"
 #: ../src/gth-browser-actions-entries.h:349
 msgid "View as a slide show"
 msgstr "ดูแบบสไลด์"
-
-#: ../src/gth-browser-actions-entries.h:354
-msgid "Find images"
-msgstr "ค้นหารูปภาพ"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "Create _Index Image"
@@ -3268,58 +3276,53 @@ msgstr "แ_ค็ตตาล็อก"
 msgid "View the catalogs"
 msgstr "ดูแค็ตตาล็อก"
 
-#: ../src/gth-browser.c:567 ../src/gth-viewer.c:643
+#: ../src/gth-browser.c:559 ../src/gth-viewer.c:640
 msgid "[Press 'c' to add a comment]"
 msgstr "[กด 'c' เพื่อเขียนหมายเหตุ]"
 
-#: ../src/gth-browser.c:676 ../src/gth-browser.c:695 ../src/gth-viewer.c:739
+#: ../src/gth-browser.c:671 ../src/gth-browser.c:690 ../src/gth-viewer.c:739
 #: ../src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[วันที่แก้ไขครั้งล่าสุด]"
 
-#: ../src/gth-browser.c:720 ../src/gth-window-actions-callbacks.c:780
-#: ../src/main.c:674
+#: ../src/gth-browser.c:715 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:782
+#: ../src/gth-browser.c:774
 #, c-format
 msgid "1 image (%s)"
 msgstr "ทั้งหมด 1 รูป (%s)"
 
-#: ../src/gth-browser.c:785
+#: ../src/gth-browser.c:777
 #, c-format
 msgid "%d images (%s)"
 msgstr "ทั้งหมด %d รูป (%s)"
 
-#: ../src/gth-browser.c:792
+#: ../src/gth-browser.c:784
 #, c-format
 msgid "1 selected (%s)"
 msgstr "รูปที่เลือก 1 (%s)"
 
-#: ../src/gth-browser.c:795
+#: ../src/gth-browser.c:787
 #, c-format
 msgid "%d selected (%s)"
 msgstr "รูปที่เลือก %d (%s)"
 
-#: ../src/gth-browser.c:1936 ../src/gth-viewer.c:974
+#: ../src/gth-browser.c:1955 ../src/gth-viewer.c:990
 msgid "The current image has been modified, do you want to save it?"
 msgstr "รูปที่แสดงอยู่นี้มีการเปลี่ยนแปลง ต้องการบันทึกหรือไม่?"
 
-#: ../src/gth-browser.c:1937 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1956 ../src/gth-viewer.c:991
 msgid "Do Not Save"
 msgstr "ไม่บันทึก"
 
-#: ../src/gth-browser.c:3635
+#: ../src/gth-browser.c:3501
 msgid "Dragged Images"
 msgstr "ภาพลากมาวาง"
 
-#: ../src/gth-browser.c:5326
-msgid "Back"
-msgstr "ย้อนกลับ"
-
-#: ../src/gth-browser.c:5356 ../src/gth-browser.c:5357
-#: ../src/gth-viewer.c:1539 ../src/gth-viewer.c:1540
+#: ../src/gth-browser.c:5156 ../src/gth-browser.c:5157
+#: ../src/gth-viewer.c:1533 ../src/gth-viewer.c:1534
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
 #: ../src/gth-window-actions-entries.h:266
@@ -3327,28 +3330,28 @@ msgstr "ย้อนกลับ"
 msgid "Rotate images without loss of quality"
 msgstr "หมุนรูปโดยรักษาคุณภาพรูปไว้"
 
-#: ../src/gth-browser.c:6773
+#: ../src/gth-browser.c:6594
 msgid "Close"
 msgstr "ปิด"
 
-#: ../src/gth-browser.c:6787 ../src/gth-viewer.c:1807
+#: ../src/gth-browser.c:6608 ../src/gth-viewer.c:1788
 msgid "Image comment"
 msgstr "คำอธิบายรูปภาพ"
 
-#: ../src/gth-browser.c:6801
+#: ../src/gth-browser.c:6622
 msgid "Image data"
 msgstr "ข้อมูลรูปภาพ"
 
-#: ../src/gth-browser.c:6815
+#: ../src/gth-browser.c:6636
 msgid "Image preview"
 msgstr "ดูตัวอย่างรูปภาพ"
 
-#: ../src/gth-browser.c:7861
+#: ../src/gth-browser.c:7658
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "ไม่สามารถลบโฟลเดอร์ \"%s\": %s\n"
 
-#: ../src/gth-browser.c:8141
+#: ../src/gth-browser.c:7997
 msgid "The specified catalog does not exist."
 msgstr "ไม่มีแค็ตตาล็อกที่ระบุ"
 
@@ -3368,10 +3371,17 @@ msgstr "เ_ลือก..."
 msgid "_Recents:"
 msgstr "_ล่าสุด:"
 
-#: ../src/gth-fullscreen-actions-entries.h:37
-#: ../src/gth-window-actions-entries.h:220
-msgid "Restore Normal View"
-msgstr "มุมมองปกติ"
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "คุณ_สมบัติ"
+
+#: ../src/gth-location.c:328
+msgid "Other..."
+msgstr "อื่นๆ..."
+
+#: ../src/gth-location.c:752
+msgid "Catalogs"
+msgstr "แค็ตตาล็อก"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3384,30 +3394,34 @@ msgid "Auto"
 msgstr "อัตโนมัติ"
 
 #: ../src/gth-viewer-actions-entries.h:88
-msgid "_Sigle Window"
+msgid "_Single Window"
 msgstr "หน้าต่างเ_ดียว"
 
 #: ../src/gth-viewer-actions-entries.h:89
 msgid "Reuse this window to view other images"
 msgstr "ใช้หน้าต่างเดิมนี้ดูภาพอื่นต่อ"
 
-#: ../src/gth-viewer.c:1495 ../src/gth-window-actions-entries.h:45
+#: ../src/gth-viewer.c:1489 ../src/gth-window-actions-entries.h:45
 #: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "เปิ_ดด้วย"
 
-#: ../src/gth-viewer.c:1501 ../src/gth-viewer.c:1502
+#: ../src/gth-viewer.c:1495 ../src/gth-viewer.c:1496
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "เปิดภาพที่เลือกด้วยแอพพลิเคชัน"
 
-#: ../src/gth-window-actions-callbacks.c:770
-msgid "translator_credits"
-msgstr "_รายชื่อผู้แปล"
-
-#: ../src/gth-window-actions-callbacks.c:783
+#: ../src/gth-window-actions-callbacks.c:790
 msgid "An image viewer and browser for GNOME."
 msgstr "โปรแกรมแสดงและเรียกดูรูปสำหรับ GNOME"
+
+#: ../src/gth-window-actions-callbacks.c:793
+msgid "translator_credits"
+msgstr ""
+"Sapa <sapac@hotmail.com>"
+"Chanchai Junlouchai <taz@opentle.org>"
+"Supranee Thirawatthanasuk <supranee@opentle.org>"
+"Theppitak Karoonboonyanan <thep@linux.thai.net>"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3535,11 +3549,11 @@ msgstr "ปรับสมดุลของสี"
 
 #: ../src/gth-window-actions-entries.h:160
 msgid "_Threshold"
-msgstr ""
+msgstr "แ_ยกความสว่าง"
 
 #: ../src/gth-window-actions-entries.h:161
 msgid "Apply threshold"
-msgstr ""
+msgstr "แยกส่วนมืด-สว่าง"
 
 #: ../src/gth-window-actions-entries.h:165
 msgid "_Resize"
@@ -3605,14 +3619,6 @@ msgstr "ปรับขนาดให้พอดีกับหน้าจอ
 #: ../src/gth-window-actions-entries.h:210
 msgid "Step A_nimation"
 msgstr "ดู_ภาพเคลื่อนไหวทีละเฟรม"
-
-#: ../src/gth-window-actions-entries.h:215
-msgid "_Full Screen"
-msgstr "เ_ต็มหน้าจอ"
-
-#: ../src/gth-window-actions-entries.h:216
-msgid "View image in fullscreen mode"
-msgstr "ดูภาพแบบเต็มหน้าจอ"
 
 #: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
@@ -3690,69 +3696,90 @@ msgstr "คุณภาพ_ต่ำ"
 msgid "Use low quality zoom"
 msgstr "ใช้การขยายแบบคุณภาพต่ำ"
 
-#: ../src/main.c:75
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "เริ่มที่โหมดการแสดงรูปเต็มหน้าจอ"
 
-#: ../src/main.c:78
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "เริ่มแสดงสไลด์โดยอัตโนมัติ"
 
-#: ../src/main.c:81
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "นำเข้าภาพจากกล้องดิจิทัลโดยอัตโนมัติ"
 
-#: ../src/main.c:103
+#: ../src/main.c:137
 msgid "Holidays"
 msgstr "วันหยุด"
 
-#: ../src/main.c:104
+#: ../src/main.c:138
 msgid "Temporary"
 msgstr "ชั่วคราว"
 
-#: ../src/main.c:105
+#: ../src/main.c:139
 msgid "Screenshots"
 msgstr "ภาพหน้าจอ"
 
-#: ../src/main.c:106
+#: ../src/main.c:140
 msgid "Science"
 msgstr "วิทยาศาสตร์"
 
-#: ../src/main.c:107
+#: ../src/main.c:141
 msgid "Favourite"
 msgstr "ภาพโปรด"
 
-#: ../src/main.c:108
+#: ../src/main.c:142
 msgid "Important"
 msgstr "เรื่องสำคัญ"
 
-#: ../src/main.c:109
+#: ../src/main.c:143
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:110
+#: ../src/main.c:144
 msgid "Games"
 msgstr "เกม"
 
-#: ../src/main.c:111
+#: ../src/main.c:145
 msgid "Party"
 msgstr "งานเลี้ยง"
 
-#: ../src/main.c:112
+#: ../src/main.c:146
 msgid "Birthday"
 msgstr "วันเกิด"
 
-#: ../src/main.c:113
+#: ../src/main.c:147
 msgid "Astronomy"
 msgstr "ท้องฟ้า-ดวงดาว"
 
-#: ../src/main.c:114
+#: ../src/main.c:148
 msgid "Family"
 msgstr "ครอบครัว"
 
-#: ../src/main.c:436 ../src/main.c:604
+#: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "บรรทัดคำสั่ง"
+
+#~ msgid "Deleting all comments, wait please..."
+#~ msgstr "กำลังลบคำอธิบายทั้งหมด กรุณารอสักครู่..."
+
+#~ msgid "Deleting old comments, wait please..."
+#~ msgstr "กำลังลบคำอธิบายเดิม กรุณารอสักครู่..."
+
+#~ msgid "Find images"
+#~ msgstr "ค้นหารูปภาพ"
+
+#~ msgid "Back"
+#~ msgstr "ย้อนกลับ"
+
+#~ msgid "Restore Normal View"
+#~ msgstr "มุมมองปกติ"
+
+#~ msgid "_Full Screen"
+#~ msgstr "เ_ต็มหน้าจอ"
+
+#~ msgid "View image in fullscreen mode"
+#~ msgstr "ดูภาพแบบเต็มหน้าจอ"
 
 #~ msgid "_Remove"
 #~ msgstr "_ลบออก"
@@ -4009,9 +4036,6 @@ msgstr "บรรทัดคำสั่ง"
 #~ msgid "Edit search..."
 #~ msgstr "แก้ไข้ข้อมูลการค้นหา"
 
-#~ msgid "Catalogs"
-#~ msgstr "แค็ตตาล็อก"
-
 #~ msgid "Close all windows and exit"
 #~ msgstr "ปิดทุกหน้าต่างและออกจากโปรแกรม"
 
@@ -4227,9 +4251,6 @@ msgstr "บรรทัดคำสั่ง"
 #~ msgid "Reload current directory"
 #~ msgstr "โหลดภาพในโฟลเดอร์ปัจจุบันใหม่"
 
-#~ msgid "Home"
-#~ msgstr "บ้าน"
-
 #, fuzzy
 #~ msgid "Go to the home directory"
 #~ msgstr "ไปยังโฟลเดอร์บ้าน"
@@ -4364,9 +4385,6 @@ msgstr "บรรทัดคำสั่ง"
 #~ msgstr ""
 #~ "เกิดข้อผิดพลาดที่ GConf:\n"
 #~ "  %s"
-
-#~ msgid "File Size"
-#~ msgstr "ขนาดของแฟ้ม"
 
 #~ msgid "Transparen_cy Type"
 #~ msgstr "การกำหนดสีโปร่งใส (_c)"
