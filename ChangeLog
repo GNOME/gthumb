@@ -1,3 +1,15 @@
+2006-06-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-file-list.c (gth_file_list_update_current_thumb): 
+	the signal name is thumb_error, not error.
+
+	* libgthumb/thumb-loader.c (thumb_loader_start): stop the loader
+	before starting it again.
+	
+	* libgthumb/glib-utils.c: 
+	* libgthumb/glib-utils.h: 
+	* libgthumb/image-loader.c: exec the done_func function in an idle loop.
+
 2006-05-28  Clytie Siddall <clytie@riverland.net.au>
 
 	* configure.in	Added vi in ALL_LINGUAS line.

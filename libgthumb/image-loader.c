@@ -36,6 +36,7 @@
 #include "image-loader.h"
 #include "gthumb-marshal.h"
 #include "file-utils.h"
+#include "glib-utils.h"
 
 
 #define REFRESH_RATE 5
@@ -71,6 +72,7 @@ struct _ImageLoaderPrivateData {
 	gboolean              emit_signal;
 
 	guint                 check_id;
+	guint                 idle_id;
 
 	GThread              *thread;
 
@@ -151,7 +153,8 @@ image_loader_finalize__step2 (GObject *object)
 static void image_loader_stop_common (ImageLoader *il,
 				      DoneFunc     done_func,
 				      gpointer     done_func_data,
-				      gboolean     emit_sig);
+				      gboolean     emit_sig,
+				      gboolean     use_idle_cb);
 
 
 static void 
@@ -165,10 +168,16 @@ image_loader_finalize (GObject *object)
   
         il = IMAGE_LOADER (object);
 	priv = il->priv;
+
+	if (priv->idle_id != 0) {
+		g_source_remove (priv->idle_id);
+		priv->idle_id = 0;
+	}
 	
 	image_loader_stop_common (il, 
 				  (DoneFunc) image_loader_finalize__step2, 
 				  object,
+				  FALSE,
 				  FALSE);
 }
 
@@ -246,6 +255,7 @@ image_loader_init (ImageLoader *il)
 	priv->done_func_data = NULL;
 
 	priv->check_id = 0;
+	priv->idle_id = 0;
 
 	priv->yes_or_no = g_mutex_new ();
 
@@ -503,6 +513,7 @@ image_loader_interrupted (ImageLoader *il)
 	image_loader_stop_common (il, 
 				  priv->done_func, 
 				  priv->done_func_data, 
+				  TRUE,
 				  TRUE);
 }
 
@@ -516,7 +527,7 @@ image_loader_done (ImageLoader *il)
 	priv->error = FALSE;
 	g_mutex_unlock (priv->yes_or_no);
 
-	image_loader_stop_common (il, NULL, NULL, TRUE);
+	image_loader_stop_common (il, NULL, NULL, TRUE, TRUE);
 }
 
 
@@ -529,7 +540,7 @@ image_loader_error (ImageLoader *il)
 	priv->error = TRUE;
 	g_mutex_unlock (priv->yes_or_no);
 
-	image_loader_stop_common (il, NULL, NULL, TRUE);
+	image_loader_stop_common (il, NULL, NULL, TRUE, TRUE);
 }
 
 
@@ -610,7 +621,8 @@ load_image_thread (void *thread_data)
 
 
 static void
-image_loader_stop__final_step (ImageLoader *il) 
+image_loader_stop__final_step (ImageLoader *il,
+			       gboolean     use_idle_cb) 
 {
 	ImageLoaderPrivateData *priv = il->priv;
 	DoneFunc                done_func = priv->done_func;
@@ -626,8 +638,12 @@ image_loader_stop__final_step (ImageLoader *il)
 	priv->loading = FALSE;
 	
 	priv->done_func = NULL;
-	if (done_func != NULL) 
-		(*done_func) (priv->done_func_data);
+	if (done_func != NULL) {
+		IdleCall* call = idle_call_new (done_func, priv->done_func_data);
+		if (priv->idle_id != 0) 
+			g_source_remove (priv->idle_id);
+		priv->idle_id = idle_call_exec (call, use_idle_cb);
+	}
 	
 	if (! priv->emit_signal || priv->interrupted) {
 		priv->interrupted = FALSE;
@@ -645,7 +661,7 @@ image_loader_stop__final_step (ImageLoader *il)
 }
 
 
-static int
+static gboolean
 check_thread (gpointer data)
 {
 	ImageLoader            *il = data;
@@ -781,7 +797,11 @@ image_loader_start (ImageLoader *il)
 	}
 	g_mutex_unlock (priv->yes_or_no);
 
-	image_loader_stop_common (il, (DoneFunc) image_loader_start__step2, il, FALSE);
+	image_loader_stop_common (il, 
+				  (DoneFunc) image_loader_start__step2, 
+				  il, 
+				  FALSE,
+				  TRUE);
 }
 
 
@@ -809,7 +829,8 @@ static void
 image_loader_stop_common (ImageLoader *il,
 			  DoneFunc     done_func,
 			  gpointer     done_func_data,
-			  gboolean     emit_sig)
+			  gboolean     emit_sig,
+			  gboolean     use_idle_cb)
 {
 	ImageLoaderPrivateData *priv;
 
@@ -826,7 +847,7 @@ image_loader_stop_common (ImageLoader *il,
 		gnome_vfs_async_close (priv->info_handle, close_info_cb, il);
 
 	priv->info_handle = NULL;
-	image_loader_stop__final_step (il);
+	image_loader_stop__final_step (il, use_idle_cb);
 }
 
 
@@ -852,7 +873,11 @@ image_loader_stop (ImageLoader *il,
 		priv->done_func = done_func;
 		priv->done_func_data = done_func_data;
 	} else
-		image_loader_stop_common (il, done_func, done_func_data, FALSE);
+		image_loader_stop_common (il, 
+					  done_func, 
+					  done_func_data, 
+					  FALSE, 
+					  TRUE);
 
 	/* FIXME: emit a signal only if there is an operation to stop */
 	/*
@@ -877,7 +902,7 @@ image_loader_stop_with_error (ImageLoader *il,
 	priv->error = TRUE;
 	g_mutex_unlock (priv->yes_or_no);
 
-	image_loader_stop_common (il, done_func, done_func_data, TRUE);
+	image_loader_stop_common (il, done_func, done_func_data, TRUE, TRUE);
 }
 
 

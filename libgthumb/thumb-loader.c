@@ -438,8 +438,8 @@ thumb_loader_get_path (ThumbLoader *tl)
 }
 
 
-void 
-thumb_loader_start (ThumbLoader *tl)
+static void
+thumb_loader_start__step2 (ThumbLoader *tl)
 {
 	ThumbLoaderPrivateData *priv;
 	char *cache_path = NULL;
@@ -495,6 +495,12 @@ thumb_loader_start (ThumbLoader *tl)
 	}
 
 	image_loader_start (priv->il);
+}
+
+void 
+thumb_loader_start (ThumbLoader *tl)
+{
+	thumb_loader_stop (tl, (DoneFunc)thumb_loader_start__step2, tl);
 }
 
 

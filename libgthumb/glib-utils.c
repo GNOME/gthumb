@@ -459,3 +459,49 @@ str_ends_with (const char *s1,
 
 	return strncmp (s1 + (s1_len - s2_len), s2, s2_len) == 0;
 }
+
+
+/**/
+
+
+IdleCall*
+idle_call_new (DoneFunc func,
+	       gpointer data)
+{
+	IdleCall *call = g_new0(IdleCall, 1);
+	call->func = func;
+	call->data = data;
+	return call;
+}
+
+
+void
+idle_call_free (IdleCall *call)
+{
+	g_free (call);
+}
+
+
+static gboolean
+idle_call_exec_cb (gpointer data)
+{
+	IdleCall *call = data;
+	(*call->func) (call->data);
+	return FALSE;
+}
+
+
+guint
+idle_call_exec (IdleCall *call,
+		gboolean  use_idle_cb)
+{
+	if (use_idle_cb)
+		return g_idle_add_full (G_PRIORITY_DEFAULT_IDLE,
+					idle_call_exec_cb, 
+					call, 
+					(GDestroyNotify) idle_call_free);
+	else {
+		(*call->func) (call->data);
+		return 0;
+	}
+}

@@ -1541,7 +1541,7 @@ gth_file_list_update_current_thumb (GthFileList *file_list)
 
 	if (error) /* Error: the file does not exists. */
 		g_signal_emit_by_name (G_OBJECT (file_list->thumb_loader),
-				       "error",
+				       "thumb_error",
 				       0,
 				       file_list);
 }

@@ -24,6 +24,8 @@
 #define _GLIB_UTILS_H
 
 #include <glib-object.h>
+#include "typedefs.h"
+
 
 #define g_signal_handlers_disconnect_by_data(instance, data) \
     g_signal_handlers_disconnect_matched ((instance), G_SIGNAL_MATCH_DATA, \
@@ -70,7 +72,25 @@ GList *  _g_list_insert_list_before (GList *list1,
 
 gboolean str_ends_with             (const char *s1, const char *s2);
 
+
 /**/
+
+
+typedef struct {
+	DoneFunc func;
+	gpointer data;
+} IdleCall;
+
+
+IdleCall* idle_call_new  (DoneFunc func,
+			  gpointer data);
+void      idle_call_free (IdleCall *call);
+guint     idle_call_exec (IdleCall *call,
+			  gboolean  use_idle_cb);
+
+
+/**/
+
 
 #ifndef __GNUC__
 #define __FUNCTION__ ""
