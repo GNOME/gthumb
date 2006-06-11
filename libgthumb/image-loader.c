@@ -857,7 +857,6 @@ image_loader_stop (ImageLoader *il,
 		   gpointer     done_func_data)
 {
 	ImageLoaderPrivateData *priv;
-	/*gboolean                emit_sig;*/
 
 	g_return_if_fail (il != NULL);
 
@@ -878,12 +877,6 @@ image_loader_stop (ImageLoader *il,
 					  done_func_data, 
 					  FALSE, 
 					  TRUE);
-
-	/* FIXME: emit a signal only if there is an operation to stop */
-	/*
-	  emit_sig = (priv->info_handle != NULL);
-	  image_loader_stop_common (il, done_func, done_func_data, emit_sig);
-	*/
 }
 
 

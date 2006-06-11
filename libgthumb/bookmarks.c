@@ -272,7 +272,6 @@ bookmarks_remove_from (Bookmarks *bookmarks,
 		char *path = link->data;
 
 		bookmarks->list = g_list_remove_link (bookmarks->list, link);
-		g_list_free (link);
 
 		if (get_link_from_path (bookmarks->list, path) == NULL) {
 			my_remove (bookmarks->names, path);
@@ -280,6 +279,7 @@ bookmarks_remove_from (Bookmarks *bookmarks,
 		}
 
 		g_free (link->data);
+		g_list_free (link);
 	}
 }
 
