@@ -1,15 +1,15 @@
 # German gThumb translation.
 # Copyright (C) 2002-2004 Paolo Bacch
 # Christian Neumair <chris@gnome-de.org>, 2002-2004.
-# Hendrik Richter <hendi@gnome-de.org>, 2005.
+# Hendrik Richter <hendrikr@gnome.org>, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-20 13:58+0200\n"
-"PO-Revision-Date: 2005-07-04 17:11+0200\n"
-"Last-Translator: Hendrik Richter <hendi@gnome-de.org>\n"
+"PO-Revision-Date: 2006-06-15 17:15+0200\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "Bild um 180 Grad drehen"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11 ../src/ui.h:68
 msgid "Save _As..."
-msgstr "Speichern _unter..."
+msgstr "Speichern _unter …"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12 ../src/ui.h:69
 msgid "Save current image"
@@ -368,7 +368,7 @@ msgstr "Das neue Bild _speichern unter:"
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
-msgstr "..."
+msgstr " …"
 
 #: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
@@ -1441,7 +1441,7 @@ msgstr "Kommentar_schrift:"
 
 #: ../data/glade/gthumb_print.glade.h:17
 msgid "Custom size..."
-msgstr "Benutzerdefinierte Größe..."
+msgstr "Benutzerdefinierte Größe …"
 
 #: ../data/glade/gthumb_print.glade.h:18
 msgid "Executive"
@@ -1575,7 +1575,7 @@ msgstr "Muss sich in _einer gewählten Kategorie befinden"
 
 #: ../data/glade/gthumb_search.glade.h:18
 msgid "New _Search..."
-msgstr "Neue _Suche..."
+msgstr "Neue _Suche …"
 
 #: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:807
 #: ../src/dlg-photo-importer.c:1427
@@ -1827,7 +1827,7 @@ msgstr "Brenn_weite"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:28
 msgid "I_mage Caption..."
-msgstr "_Bildüberschrift..."
+msgstr "_Bildüberschrift …"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:30
 msgid "Inde_x file:"
@@ -1875,7 +1875,7 @@ msgstr "Zum Themenordner _gehen"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Install Theme..."
-msgstr "Thema _installieren..."
+msgstr "Thema _installieren …"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Select"
@@ -1887,7 +1887,7 @@ msgstr "_Verschlussgeschwindigkeit"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:47
 msgid "_Thumbnail Caption..."
-msgstr "Beschriftung der _Miniatur-Vorschaubilder..."
+msgstr "Beschriftung der _Miniatur-Vorschaubilder …"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:48
 msgid "by modified time"
@@ -2065,11 +2065,11 @@ msgstr "Katalog »%s« konnte nicht gespeichert werden: %s"
 
 #: ../libgthumb/comments.c:429
 msgid "Deleting all comments, wait please..."
-msgstr "Alte Kommentare werden gelöscht, bitte warten..."
+msgstr "Alte Kommentare werden gelöscht, bitte warten …"
 
 #: ../libgthumb/comments.c:431
 msgid "Deleting old comments, wait please..."
-msgstr "Alte Kommentare werden gelöscht, bitte warten..."
+msgstr "Alte Kommentare werden gelöscht, bitte warten …"
 
 #: ../libgthumb/comments.c:942
 msgid "%d %B %Y"
@@ -2126,7 +2126,7 @@ msgstr "Neuen Vorschautext e_infügen."
 
 #: ../libgthumb/gnome-print-font-dialog.c:119
 msgid "Modify preview phrase..."
-msgstr "Vorschautext verändern..."
+msgstr "Vorschautext verändern …"
 
 #: ../libgthumb/gnome-print-font-dialog.c:173
 msgid "Preview"
@@ -2134,7 +2134,7 @@ msgstr "Vorschau"
 
 #: ../libgthumb/gnome-print-font-dialog.c:186
 msgid "_Modify preview phrase..."
-msgstr "Vorschautext _bearbeiten..."
+msgstr "Vorschautext _bearbeiten …"
 
 #: ../libgthumb/gnome-print-font-dialog.c:247
 msgid "Font Selection"
@@ -2206,7 +2206,7 @@ msgstr "Schrift"
 
 #: ../libgthumb/gth-file-list.c:523 ../src/gthumb-window.c:8388
 msgid "Wait please..."
-msgstr "Bitte warten..."
+msgstr "Bitte warten …"
 
 #: ../libgthumb/gth-file-list.c:617 ../libgthumb/gth-file-list.c:638
 #: ../libgthumb/gth-image-list.c:3443 ../src/gthumb-window.c:502
@@ -2239,11 +2239,11 @@ msgstr "Bild wird geladen: %s"
 
 #: ../libgthumb/thumb-cache.c:486
 msgid "Deleting all thumbnails, wait please..."
-msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten..."
+msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten …"
 
 #: ../libgthumb/thumb-cache.c:488
 msgid "Deleting old thumbnails, wait please..."
-msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten..."
+msgstr "Alte Miniatur-Vorschaubilder werden gelöscht, bitte warten …"
 
 #: ../src/actions.c:285 ../src/actions.c:793 ../src/actions.c:1317
 msgid "Enter the new name: "
@@ -2476,7 +2476,7 @@ msgstr "Bilder werden geladen"
 
 #: ../src/dlg-catalog.c:474
 msgid "Move Catalog to..."
-msgstr "Katalog verschieben nach ..."
+msgstr "Katalog verschieben nach …"
 
 #: ../src/dlg-categories.c:236
 msgid "Enter the new category name"
@@ -2744,7 +2744,7 @@ msgstr "Wert "
 
 #: ../src/gth-folder-selection-dialog.c:405
 msgid "_Browse..."
-msgstr "_Auswählen..."
+msgstr "_Auswählen …"
 
 #: ../src/gth-folder-selection-dialog.c:414
 msgid "_Recents:"
@@ -2981,7 +2981,7 @@ msgstr "Auf das gespeicherte Bild zurücksetzen"
 
 #: ../src/ui.h:78
 msgid "_Print..."
-msgstr "_Drucken..."
+msgstr "_Drucken …"
 
 #: ../src/ui.h:83 ../src/ui.h:453
 msgid "Proper_ties"
@@ -2993,7 +2993,7 @@ msgstr "Die Eigenschaften des Bildes anzeigen"
 
 #: ../src/ui.h:88
 msgid "_Import Photos..."
-msgstr "Fotos _importieren..."
+msgstr "Fotos _importieren …"
 
 #: ../src/ui.h:89
 msgid "Import photos from a digital camera"
@@ -3014,7 +3014,7 @@ msgstr "Dieses Bild mit einer Anwendung öffnen"
 #: ../src/ui.h:103 ../src/ui.h:128 ../src/ui.h:183 ../src/ui.h:218
 #: ../src/ui.h:258 ../src/ui.h:288
 msgid "_Rename..."
-msgstr "_Umbenennen..."
+msgstr "_Umbenennen …"
 
 #: ../src/ui.h:104
 msgid "Rename this image"
@@ -3034,7 +3034,7 @@ msgstr "Dieses Bild in den Müll verschieben"
 
 #: ../src/ui.h:118 ../src/ui.h:143 ../src/ui.h:268 ../src/ui.h:298
 msgid "_Copy..."
-msgstr "_Kopieren..."
+msgstr "_Kopieren …"
 
 #: ../src/ui.h:119
 msgid "Copy this image to another location"
@@ -3043,7 +3043,7 @@ msgstr "Dieses Bild an einen anderen Speicherort kopieren"
 #: ../src/ui.h:123 ../src/ui.h:148 ../src/ui.h:193 ../src/ui.h:228
 #: ../src/ui.h:273 ../src/ui.h:303
 msgid "_Move..."
-msgstr "_Verschieben..."
+msgstr "_Verschieben …"
 
 #: ../src/ui.h:124
 msgid "Move this image to another location"
@@ -3099,7 +3099,7 @@ msgstr "Den gewählten Bildern Kategorien zuweisen"
 
 #: ../src/ui.h:173
 msgid "_Add to Catalog..."
-msgstr "Zum Katalog _hinzufügen..."
+msgstr "Zum Katalog _hinzufügen …"
 
 #: ../src/ui.h:174
 msgid "Add selected images to a catalog"
@@ -3143,7 +3143,7 @@ msgstr "Die Suche wiederholen"
 
 #: ../src/ui.h:208
 msgid "_New Catalog..."
-msgstr "Katalog a_nlegen..."
+msgstr "Katalog a_nlegen …"
 
 #: ../src/ui.h:209
 msgid "Create a new catalog"
@@ -3151,7 +3151,7 @@ msgstr "Einen neuen Katalog anlegen"
 
 #: ../src/ui.h:213
 msgid "New _Library..."
-msgstr "Neue _Bibliothek..."
+msgstr "Neue _Bibliothek …"
 
 #: ../src/ui.h:214
 msgid "Create a new catalog library"
@@ -3240,7 +3240,7 @@ msgstr "Dem momentan geöffneten Ordner Kategorien zuweisen"
 
 #: ../src/ui.h:313
 msgid "_New Folder..."
-msgstr "Ordner a_nlegen..."
+msgstr "Ordner a_nlegen …"
 
 #: ../src/ui.h:314
 msgid "Create a new folder"
@@ -3475,7 +3475,7 @@ msgstr "Die Liste besuchter Orte leeren"
 
 #: ../src/ui.h:498
 msgid "_Location..."
-msgstr "_Ort..."
+msgstr "_Ort …"
 
 #: ../src/ui.h:499
 msgid "Specify a location to visit"
@@ -3573,7 +3573,7 @@ msgstr "_Format umwandeln"
 
 #: ../src/ui.h:568
 msgid "Fi_nd Duplicates..."
-msgstr "Duplikate _suchen..."
+msgstr "Duplikate _suchen …"
 
 #: ../src/ui.h:573
 msgid "Ro_tate Images"
@@ -3890,7 +3890,7 @@ msgstr "Die Kataloge anzeigen"
 #~ msgstr "_Originalgröße"
 
 #~ msgid "_Find..."
-#~ msgstr "_Suchen..."
+#~ msgstr "_Suchen …"
 
 #~ msgid "_Maintenance"
 #~ msgstr "_Routineaufgaben"
@@ -3909,3 +3909,6 @@ msgstr "Die Kataloge anzeigen"
 
 #~ msgid "Specify the backup file"
 #~ msgstr "Geben Sie die Sicherungsdatei an"
+
+
+
