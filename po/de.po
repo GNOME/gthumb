@@ -1,14 +1,14 @@
 # German gThumb translation.
 # Copyright (C) 2002-2004 Paolo Bacch
 # Christian Neumair <chris@gnome-de.org>, 2002-2004.
-# Hendrik Richter <hendrikr@gnome.org>, 2005.
+# Hendrik Richter <hendrikr@gnome.org>, 2005, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gThumb 2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-04-20 13:58+0200\n"
-"PO-Revision-Date: 2006-06-15 17:15+0200\n"
+"PO-Revision-Date: 2006-06-15 17:50+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -368,7 +368,7 @@ msgstr "Das neue Bild _speichern unter:"
 #: ../data/glade/gthumb_camera.glade.h:1 ../data/glade/gthumb_search.glade.h:1
 #: ../data/glade/gthumb_web_exporter.glade.h:3
 msgid "..."
-msgstr " …"
+msgstr "…"
 
 #: ../data/glade/gthumb_camera.glade.h:2 ../data/glade/gthumb_search.glade.h:8
 msgid "Ca_tegories:"
