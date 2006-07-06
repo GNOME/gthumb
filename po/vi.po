@@ -1575,7 +1575,7 @@ msgstr "<b>Tiêu chuẩn tìm kiếm</b>"
 
 #: ../data/glade/gthumb_search.glade.h:3
 msgid "<b>Search scope</b>"
-msgstr "<b>Phạm vị tìm kiếm</b>"
+msgstr "<b>Phạm vi tìm kiếm</b>"
 
 #: ../data/glade/gthumb_search.glade.h:5
 msgid "After"
