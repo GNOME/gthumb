@@ -1,3 +1,8 @@
+version 2.7.8
+-------------
+	* Set a smaller height for the progressbar to avoid an image resize.
+	* Fixed memory deallocation bug that triggered random crashes.
+
 version 2.7.7
 -------------
 	* Fixed bug #340406 - gthumb doesn't compain of nonexisting default 

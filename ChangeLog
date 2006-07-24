@@ -1,3 +1,10 @@
+2006-07-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.7.8 released ]
+	
+	* configure.in: 
+	* NEWS: updated for 2.7.8
+
 2006-07-24  Christophe Merlet  <redfox@redfoxcenter.org>
 
 	* data/albumthemes/text.h: Fixed typo Previous.
