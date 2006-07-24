@@ -24,7 +24,7 @@
 #include <gnome.h>
 
 static char *text[] = {
-	N_("Prevous"),
+	N_("Previous"),
 	N_("Next"),
 	N_("Index"),
 	N_("Image"),

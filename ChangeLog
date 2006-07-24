@@ -1,3 +1,7 @@
+2006-07-24  Christophe Merlet  <redfox@redfoxcenter.org>
+
+	* data/albumthemes/text.h: Fixed typo Previous.
+
 2006-06-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/bookmarks.c (bookmarks_remove_from): free the link after
