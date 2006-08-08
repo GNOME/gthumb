@@ -1,4 +1,3 @@
-# translation of eu.po to Basque
 # translation of gthumb.HEAD.po to Basque
 # Basque translation of gthumb.
 # Copyright (C) 2003 THE gthumb'S COPYRIGHT HOLDER
@@ -10,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-05-30 16:55+0000\n"
+"POT-Creation-Date: 2006-08-08 11:08+0000\n"
 "PO-Revision-Date: 2006-03-01 12:10+0100\n"
 "Last-Translator: Iñaki Larrañaga <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
@@ -196,8 +195,9 @@ msgstr "GThumb aplikazioa"
 msgid "GThumb Application Factory"
 msgstr "GThumb aplikazioaren faktoria"
 
-#: ../data/albumthemes/text.h:27
-msgid "Prevous"
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
 msgstr "Aurrekoa"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
@@ -1356,15 +1356,15 @@ msgstr "Sistemaren ezarpenak"
 
 #: ../data/glade/gthumb_preferences.glade.h:55
 msgid "Text below icons"
-msgstr "Textua ikonoen azpian"
+msgstr "Testua ikonoen azpian"
 
 #: ../data/glade/gthumb_preferences.glade.h:56
 msgid "Text beside icons"
-msgstr "Textua ikonoen ondoan"
+msgstr "Testua ikonoen ondoan"
 
 #: ../data/glade/gthumb_preferences.glade.h:57
 msgid "Text only"
-msgstr "Textua bakarrik"
+msgstr "Testua soilik"
 
 #: ../data/glade/gthumb_preferences.glade.h:58
 msgid "Th_umbnail size:"
@@ -3073,11 +3073,6 @@ msgstr "Sortu karpeta berri bat"
 msgid "View next image"
 msgstr "Ikusi hurrengo irudia"
 
-#: ../src/gth-browser-actions-entries.h:288
-#: ../src/gth-fullscreen-actions-entries.h:47
-msgid "Previous"
-msgstr "Aurrekoa"
-
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
@@ -3772,6 +3767,9 @@ msgstr "Senideak"
 #: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "Komando-lerroa"
+
+#~ msgid "Prevous"
+#~ msgstr "Aurrekoa"
 
 #~ msgid "Restore Normal View"
 #~ msgstr "Berrezarri ikuspegi normala"
