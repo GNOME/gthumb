@@ -1,23 +1,22 @@
 # translation of mk.po to Macedonian
-# translation of gthumb.HEAD.mk.po to Macedonian
 # translation of gthumb.HEAD.mk.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) 2005 THE PACKAGE'S COPYRIGHT HOLDER, 2003.
-# Arangel Angov <ufo@linux.net.mk>, 2004.
-# Арангел Ангов <ufo@linux.net.mk>, 2005.
 #
+# Arangel Angov <ufo@linux.net.mk>, 2004, 2006.
+# Арангел Ангов <ufo@linux.net.mk>, 2005.
 msgid ""
 msgstr ""
 "Project-Id-Version: mk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-10-05 19:03+0200\n"
-"PO-Revision-Date: 2005-10-05 19:46+0200\n"
-"Last-Translator: Арангел Ангов <ufo@linux.net.mk>\n"
+"POT-Creation-Date: 2006-08-12 12:03+0200\n"
+"PO-Revision-Date: 2006-08-12 13:16+0200\n"
+"Last-Translator: Arangel Angov <ufo@linux.net.mk>\n"
 "Language-Team: Macedonian <ossm-members@hedona.on.net.mk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.2\n"
+"X-Generator: KBabel 1.11.2\n"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -146,6 +145,7 @@ msgid "_Mirror"
 msgstr "_Огледало"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: ../src/gth-viewer.c:833
 msgid "_None"
 msgstr "_Ништо"
 
@@ -159,7 +159,7 @@ msgstr ""
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_tools.glade.h:67
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -179,8 +179,8 @@ msgstr "%d %b %Y, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:505 ../src/gth-exif-data-viewer.c:479
-#: ../src/gth-fullscreen.c:678 ../src/gth-viewer.c:562
+#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:583
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d пиксели"
@@ -193,53 +193,67 @@ msgstr "Гтамб апликација"
 msgid "GThumb Application Factory"
 msgstr "Фабрика за Гтамб апликација"
 
-#: ../data/albumthemes/text.h:27 ../src/dlg-duplicates.c:266
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
+msgstr "Претходна"
+
+#: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
+#: ../src/gth-fullscreen-actions-entries.h:42
+msgid "Next"
+msgstr "Следна"
+
+#: ../data/albumthemes/text.h:29
+msgid "Index"
+msgstr "Индекс"
+
+#: ../data/albumthemes/text.h:30 ../src/dlg-duplicates.c:266
 msgid "Image"
 msgstr "Слика"
 
-#: ../data/albumthemes/text.h:28
+#: ../data/albumthemes/text.h:31
 msgid "Dimensions"
 msgstr "Димензии"
 
-#: ../data/albumthemes/text.h:29 ../src/dlg-image-prop.c:617
-#: ../src/gth-exif-data-viewer.c:508
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:510
 msgid "Bytes"
 msgstr "бајти"
 
-#: ../data/albumthemes/text.h:30
+#: ../data/albumthemes/text.h:33
 msgid "Date"
 msgstr "Датум"
 
-#: ../data/albumthemes/text.h:31
+#: ../data/albumthemes/text.h:34
 msgid "Exposure time"
 msgstr "Време на изложеност"
 
-#: ../data/albumthemes/text.h:32
+#: ../data/albumthemes/text.h:35
 msgid "Exposure mode"
 msgstr "Режим на изложеност"
 
-#: ../data/albumthemes/text.h:33
+#: ../data/albumthemes/text.h:36
 msgid "Flash"
 msgstr "Флеш"
 
-#: ../data/albumthemes/text.h:34
+#: ../data/albumthemes/text.h:37
 msgid "Shutter speed"
 msgstr "Брзиња на затворање на блендата"
 
-#: ../data/albumthemes/text.h:35
+#: ../data/albumthemes/text.h:38
 msgid "Aperture value"
 msgstr "Вредност за отворот"
 
-#: ../data/albumthemes/text.h:36
+#: ../data/albumthemes/text.h:39
 msgid "Focal length"
 msgstr "Фокусна должина"
 
-#: ../data/albumthemes/text.h:37
+#: ../data/albumthemes/text.h:40
 msgid "Camera model"
 msgstr "Модел на камера"
 
-#: ../data/albumthemes/text.h:38 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:68
+#: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:71
 msgid "pixels"
 msgstr "пиксели"
 
@@ -400,7 +414,7 @@ msgstr "Модел на камера"
 #: ../data/glade/gthumb_camera.glade.h:4
 #: ../data/glade/gthumb_convert.glade.h:6
 #: ../data/glade/gthumb_png_exporter.glade.h:24
-#: ../data/glade/gthumb_tools.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:23
 #: ../data/glade/gthumb_web_exporter.glade.h:19
 msgid "Choose destination folder"
 msgstr "Одберете папка за дестинација"
@@ -413,8 +427,8 @@ msgstr "Избриши ги избраните слики од камерата"
 msgid "Import Photos"
 msgstr "Увези фотографии"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:843
-#: ../src/dlg-photo-importer.c:882 ../src/dlg-photo-importer.c:1382
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:866
+#: ../src/dlg-photo-importer.c:905 ../src/dlg-photo-importer.c:1475
 msgid "No camera detected"
 msgstr "Не ја детектирав камерата"
 
@@ -437,7 +451,7 @@ msgstr "_Избриши ги увозните слики од камерата"
 #: ../data/glade/gthumb_camera.glade.h:12
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:53
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "_Дестинација:"
@@ -478,7 +492,7 @@ msgid "Co_mment:"
 msgstr "Ко_ментар:"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1474
+#: ../libgthumb/gth-file-view-list.c:1475
 msgid "Comment"
 msgstr "Коментар"
 
@@ -541,7 +555,7 @@ msgstr "_Избрани категории:"
 msgid "<b>Compression</b>"
 msgstr "<b>Компресија</b>"
 
-#: ../data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_convert.glade.h:3 ../data/glade/gthumb_tools.glade.h:7
 msgid "<b>Image type</b>"
 msgstr "<b>Тип на слика</b>"
 
@@ -551,7 +565,7 @@ msgstr "<b>Резолуција</b>"
 
 #: ../data/glade/gthumb_convert.glade.h:5
 #: ../data/glade/gthumb_png_exporter.glade.h:20
-#: ../data/glade/gthumb_tools.glade.h:8
+#: ../data/glade/gthumb_tools.glade.h:9
 #: ../data/glade/gthumb_web_exporter.glade.h:13
 msgid "<b>Saving</b>"
 msgstr "<b>Зачувувам</b>"
@@ -577,7 +591,7 @@ msgid "Opti_mize"
 msgstr "Опти_мизирај"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "Overwrite mode:"
 msgstr "Режим за замена:"
 
@@ -586,7 +600,7 @@ msgid "PNG Options"
 msgstr "Опции за PNG"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "R_emove original"
 msgstr "О_тстрани го оригиналот"
 
@@ -595,7 +609,7 @@ msgid "Rename"
 msgstr "Реименувај"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -616,6 +630,7 @@ msgid "TIFF Options"
 msgstr "Опции за TIFF"
 
 #: ../data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:50
 msgid "T_GA"
 msgstr "T_GA"
 
@@ -625,6 +640,7 @@ msgid "_Horizontal:"
 msgstr "_Хоризонтално:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:56
 msgid "_JPEG"
 msgstr "_JPEG"
 
@@ -637,6 +653,7 @@ msgid "_No compression"
 msgstr "_Без компресија"
 
 #: ../data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -657,6 +674,7 @@ msgid "_Smoothing:"
 msgstr "_Мазнење:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:65
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -716,12 +734,12 @@ msgid "_Crop"
 msgstr "_Сечи"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:54
 msgid "_Height:"
 msgstr "_Висина:"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:68
 msgid "_Width:"
 msgstr "_Должина:"
 
@@ -751,7 +769,7 @@ msgstr "%"
 msgid "<b>Color levels</b>"
 msgstr "<b>Нивоа на бои</b>"
 
-#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:7
+#: ../data/glade/gthumb_edit.glade.h:6 ../data/glade/gthumb_tools.glade.h:8
 msgid "<b>New dimensions</b>"
 msgstr "<b>Нови димензии</b>"
 
@@ -815,7 +833,7 @@ msgstr "_Светлост:"
 msgid "_Hue:"
 msgstr "_Хју:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:57
 msgid "_Keep aspect ratio"
 msgstr "_Задржи ја пропорцијата на графичкиот приказ"
 
@@ -835,7 +853,7 @@ msgstr "_Магента-зелена:"
 msgid "_Preview"
 msgstr "_Поглед"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:61
 msgid "_Reset"
 msgstr "_Ресетирај"
 
@@ -843,7 +861,7 @@ msgstr "_Ресетирај"
 msgid "_Saturation:"
 msgstr "_Заситување:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:62
 msgid "_Scale"
 msgstr "_Промени големина"
 
@@ -1070,7 +1088,7 @@ msgstr "Ст_ил"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:48
+#: ../data/glade/gthumb_tools.glade.h:49
 msgid "Start _at:"
 msgstr "Започни кај:"
 
@@ -1112,34 +1130,21 @@ msgid "_Solid color"
 msgstr "_Полна боја"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "_Template:"
 msgstr "_Мостра:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_web_exporter.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "по име"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:72
-#: ../data/glade/gthumb_web_exporter.glade.h:51
-msgid "by path"
-msgstr "по патека"
-
-#: ../data/glade/gthumb_png_exporter.glade.h:73
-#: ../data/glade/gthumb_web_exporter.glade.h:52
-msgid "by size"
-msgstr "по големина"
-
-#: ../data/glade/gthumb_png_exporter.glade.h:74
-msgid "by time"
-msgstr "по време"
-
-#: ../data/glade/gthumb_png_exporter.glade.h:75
 msgid "jpeg"
 msgstr "jpeg"
 
-#: ../data/glade/gthumb_png_exporter.glade.h:76
+#: ../data/glade/gthumb_png_exporter.glade.h:73
 msgid "png"
 msgstr "png"
 
@@ -1506,8 +1511,8 @@ msgid "Postcard"
 msgstr "Разгледница"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1674
-#: ../libgthumb/print-callbacks.c:1688 ../libgthumb/print-callbacks.c:2149
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1678
+#: ../libgthumb/print-callbacks.c:1692 ../libgthumb/print-callbacks.c:2153
 msgid "Print"
 msgstr "Печати"
 
@@ -1591,8 +1596,8 @@ msgstr "Совпаѓање во која било избрана категор�
 msgid "New _Search..."
 msgstr "Ново _пребарување..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:812
-#: ../src/dlg-photo-importer.c:1431
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:835
+#: ../src/dlg-photo-importer.c:1525
 msgid "No images found"
 msgstr "Не се пронајдени слики"
 
@@ -1601,7 +1606,7 @@ msgid "Search Progress"
 msgstr "Прогрес на пребарување"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:44
 msgid "Searching in:"
 msgstr "Пребарувам во:"
 
@@ -1612,7 +1617,7 @@ msgid "_Edit Search"
 msgstr "_Уреди пребарување"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "_Include sub-folders"
 msgstr "_Вклучи и подпапки"
 
@@ -1632,15 +1637,15 @@ msgstr "<b>Смени ги следните вредности:</b>"
 msgid "<b>Change to:</b>"
 msgstr "<b>Смени во:</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_tools.glade.h:10
 msgid "<b>Write to CD</b>"
 msgstr "<b>Запиши на ЦД</b>"
 
-#: ../data/glade/gthumb_tools.glade.h:10
+#: ../data/glade/gthumb_tools.glade.h:11
 msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
 msgstr "<small><i><b>Забелешка</b>: jpeg трансформациите се без загуби.</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:12
+#: ../data/glade/gthumb_tools.glade.h:13
 #, no-c-format
 msgid ""
 "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), "
@@ -1649,78 +1654,78 @@ msgstr ""
 "<small><i><b>Специјални карактери:</b> # (enumerator), %f (оригинално име на "
 "датотека), %d (датум на слика), %s (големина на слика).</i></small>"
 
-#: ../data/glade/gthumb_tools.glade.h:13
+#: ../data/glade/gthumb_tools.glade.h:14
 msgid "A_djust timezone:"
 msgstr "С_мени временска зона:"
 
-#: ../data/glade/gthumb_tools.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:15
 #: ../src/gth-window-actions-entries.h:270
 msgid "Adjust photo _orientation"
 msgstr "Подеси орентацација на фотографии"
 
-#: ../data/glade/gthumb_tools.glade.h:15
+#: ../data/glade/gthumb_tools.glade.h:16
 msgid "Apply to _all images"
 msgstr "Примени на _сите слики"
 
-#: ../data/glade/gthumb_tools.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:17
 msgid "C_urrent date"
 msgstr "С_егашен датум"
 
-#: ../data/glade/gthumb_tools.glade.h:17
+#: ../data/glade/gthumb_tools.glade.h:18
 #: ../src/gth-browser-actions-entries.h:38
 #: ../src/gth-browser-actions-entries.h:39
 msgid "Ca_talog"
 msgstr "К_аталог"
 
-#: ../data/glade/gthumb_tools.glade.h:18
+#: ../data/glade/gthumb_tools.glade.h:19
 msgid "Change Date"
 msgstr "Промени датум"
 
-#: ../data/glade/gthumb_tools.glade.h:19
+#: ../data/glade/gthumb_tools.glade.h:20
 msgid "Check _All"
 msgstr "Провери ги _сите"
 
-#: ../data/glade/gthumb_tools.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:21
 msgid "Check _None"
 msgstr "Не _проверувај"
 
-#: ../data/glade/gthumb_tools.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:22
 msgid "Checking image:"
 msgstr "Проверувам слика:"
 
-#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:24
 msgid "Co_mment date"
 msgstr "Да_тум во коментар"
 
-#: ../data/glade/gthumb_tools.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Current _Folder"
 msgstr "Тековна _папка"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Equal images:"
 msgstr "Еднакви слики:"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Find Duplicates"
 msgstr "Најди дупликати"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Found duplicates:"
 msgstr "Пронајдени дупликати:"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Image c_reation date"
 msgstr "Датум на креирање на сликата:"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Mirror image horizontally (left-right)"
 msgstr "Отсликај ја сликата хоризонтално (од лево надесно)"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Отсликај ја сликата вертикално (од горе надолу)"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:32
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1728,84 +1733,72 @@ msgstr "Отсликај ја сликата вертикално (од горе
 msgid "Move to _Trash"
 msgstr "Премести во _ѓубре"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:33
 msgid "New names _preview:"
 msgstr "Преглед на нови _имиња:"
 
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Датум на дигитализација на фотографијата (Од податоци за EXIF)"
 
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "Re_verse Order"
 msgstr "Об_ратен редослед"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Rename Series"
 msgstr "Реименувај ги сериите"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Rotate Images"
 msgstr "Ротирај слики"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:40
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Ротирај слика за 90 степени во правец на стрелките"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Ротирај слика за 90 степени во спротивен правец на стрелките"
 
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:42
 #: ../src/gth-browser-actions-entries.h:383
 #: ../src/gth-browser-actions-entries.h:384
 msgid "Scale Images"
 msgstr "Промени големина на слики"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Search terminated, no duplicates found."
 msgstr "Пребарувањето е прекинато, не беа пронајдени дупликати."
 
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:51
 msgid "The _following date:"
 msgstr "Следниот _датум:"
 
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:52
 msgid "Write To CD"
 msgstr "Запиши на ЦД"
 
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:58
 msgid "_Last modified date"
 msgstr "_Последен пат променето"
 
-#: ../data/glade/gthumb_tools.glade.h:56
-#: ../src/gth-browser-actions-callbacks.c:157
-#: ../src/gth-browser-actions-callbacks.c:594
-#: ../src/gth-browser-actions-callbacks.c:1103
+#: ../data/glade/gthumb_tools.glade.h:60
+#: ../src/gth-browser-actions-callbacks.c:166
+#: ../src/gth-browser-actions-callbacks.c:603
+#: ../src/gth-browser-actions-callbacks.c:1111
 msgid "_Rename"
 msgstr "_Реименувај"
 
-#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_tools.glade.h:63
 msgid "_Selected Images"
 msgstr "_Избрани слики"
 
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:64
 msgid "_Sort:"
 msgstr "_Вид:"
 
-#: ../data/glade/gthumb_tools.glade.h:64
-msgid "by Modification date"
-msgstr "по датум на промена"
-
-#: ../data/glade/gthumb_tools.glade.h:65
-msgid "by Name"
-msgstr "по име"
-
-#: ../data/glade/gthumb_tools.glade.h:66
-msgid "by Size"
-msgstr "по големина"
-
-#: ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_tools.glade.h:70
 msgid "hours"
 msgstr "часови"
 
@@ -1938,27 +1931,27 @@ msgstr "_Брзина на затворање на блендата"
 msgid "_Thumbnail Caption..."
 msgstr "_Назив на сликичка..."
 
-#: ../data/glade/gthumb_web_exporter.glade.h:49
-msgid "by modified time"
-msgstr "по време на промена"
-
-#: ../data/glade/gthumb_web_exporter.glade.h:53
+#: ../data/glade/gthumb_web_exporter.glade.h:50
 msgid "columns"
 msgstr "колони"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:51
 msgid "index.html"
 msgstr "index.html"
 
-#: ../data/glade/gthumb_web_exporter.glade.h:55
+#: ../data/glade/gthumb_web_exporter.glade.h:52
 msgid "rows"
 msgstr "редови"
 
 #: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "Прегледувач на слики"
+
+#: ../data/gthumb.desktop.in.h:2
 msgid "View and organize your images"
 msgstr "Гледајте ги и организирајте ги Вашите слики"
 
-#: ../data/gthumb.desktop.in.h:2
+#: ../data/gthumb.desktop.in.h:3
 msgid "gThumb Image Viewer"
 msgstr "gThumb прегледувач на слики"
 
@@ -2078,81 +2071,81 @@ msgstr "Можни вредности се: црно, бело, штиклира
 msgid "Whether to always use a black background."
 msgstr "Дали секогаш да користи црна позадина."
 
-#: ../libgthumb/catalog.c:94
-msgid "Library not empty"
-msgstr "Библиотеката не е празна"
-
-#: ../libgthumb/catalog.c:103
-#, c-format
-msgid "Cannot remove library \"%s\": %s"
-msgstr "Не можам да ја отстранам библиотеката \"%s\": %s"
-
-#: ../libgthumb/catalog.c:130
-#, c-format
-msgid "Cannot remove catalog \"%s\": %s"
-msgstr "Не можам да го отстранам дијалогот \"%s\": %s"
-
-#: ../libgthumb/catalog.c:259 ../libgthumb/catalog.c:447
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Не можам да го отворам каталогот \"%s\": %s"
 
-#: ../libgthumb/catalog.c:424
+#: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Не можам да го зачувам каталогот \"%s\": %s"
 
-#: ../libgthumb/comments.c:772
-msgid "Deleting all comments, wait please..."
-msgstr "Ги бришам сите коментари, Ве молам почекајте..."
-
-#: ../libgthumb/comments.c:774
-msgid "Deleting old comments, wait please..."
-msgstr "Ги бришам старите коментари, Ве молам почекајте..."
-
-#: ../libgthumb/comments.c:1348
+#: ../libgthumb/comments.c:1260
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1350 ../src/catalog-web-exporter.c:52
+#: ../libgthumb/comments.c:1262 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:501 ../src/gth-exif-data-viewer.c:483
-#: ../src/gth-fullscreen.c:689 ../src/gth-viewer.c:558
+#: ../src/gth-browser.c:493 ../src/gth-exif-data-viewer.c:485
+#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:579
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
-#: ../libgthumb/comments.c:1360 ../libgthumb/comments.c:1362
+#: ../libgthumb/comments.c:1272 ../libgthumb/comments.c:1274
 msgid "(No Comment)"
 msgstr "(Нема коментар)"
 
-#: ../libgthumb/dlg-save-image.c:111 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:792 ../src/dlg-photo-importer.c:1456
+#: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1550
 #, c-format
 msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Немате пермисии за да креирате слики во папката \"%s\""
 
-#: ../libgthumb/dlg-save-image.c:126 ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:191
+#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:320
+#: ../src/gth-batch-op.c:572 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Слика со името \"%s\" веќе постои. Дали сакате да ја замените?"
 
-#: ../libgthumb/dlg-save-image.c:170
+#: ../libgthumb/dlg-save-image.c:169
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Типот на слика не е поддржан: %s"
 
-#: ../libgthumb/dlg-save-image.c:252
+#: ../libgthumb/dlg-save-image.c:240
 msgid "Determine by extension"
 msgstr "Одреди по наставка"
 
-#: ../libgthumb/dlg-save-image.c:287
+#: ../libgthumb/dlg-save-image.c:274
 msgid "Save Image"
 msgstr "Зачувај слика"
 
-#: ../libgthumb/dlg-save-image.c:304
+#: ../libgthumb/dlg-save-image.c:293
 msgid "Image type:"
 msgstr "Тип на слика:"
+
+#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:757
+msgid "File System"
+msgstr "Датотечен систем"
+
+#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:761
+msgid "Home"
+msgstr "Дома"
+
+#: ../libgthumb/file-utils.c:1628
+msgid "Library not empty"
+msgstr "Библиотеката не е празна"
+
+#: ../libgthumb/file-utils.c:1637
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "Не можам да ја отстранам библиотеката \"%s\": %s"
+
+#: ../libgthumb/file-utils.c:1664
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr "Не можам да го отстранам дијалогот \"%s\": %s"
 
 #: ../libgthumb/gnome-print-font-dialog.c:113
 msgid "_Insert a new preview phrase."
@@ -2238,47 +2231,46 @@ msgstr "Покажи големина во режимот за информац�
 msgid "Font"
 msgstr "Фонт"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8808
-#: ../src/gth-viewer.c:2104
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8600
+#: ../src/gth-viewer.c:2230
 msgid "Wait please..."
 msgstr "Ве молам почекајте..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:780
-#: ../src/gth-viewer.c:739
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:772
+#: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "Нема слика"
 
-#: ../libgthumb/gth-file-view-list.c:1481 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:494
+#: ../libgthumb/gth-file-view-list.c:1482 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:496
 msgid "Name"
 msgstr "Име"
 
-#: ../libgthumb/gthumb-stock.c:81 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:76 ../src/gth-window-actions-entries.h:255
 msgid "Ro_tate Images"
 msgstr "Ро_тирај слики"
 
-#: ../libgthumb/print-callbacks.c:669
+#: ../libgthumb/print-callbacks.c:668
 #, c-format
 msgid "Page %d of %d"
 msgstr "Страница %d од %d"
 
-#: ../libgthumb/print-callbacks.c:1747 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1751 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Вчитувам слика: %s"
 
-#: ../libgthumb/thumb-cache.c:486
+#: ../libgthumb/thumb-cache.c:490
 msgid "Deleting all thumbnails, wait please..."
 msgstr "Ги бришам сите сликички, Ве молам почекајте..."
 
-#: ../libgthumb/thumb-cache.c:488
+#: ../libgthumb/thumb-cache.c:492
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Ги бришам старите сликички, Ве молам почекајте..."
 
-#: ../src/bookmark-list.c:173 ../src/gth-browser.c:702
-#: ../src/gth-browser.c:1403 ../src/gth-browser.c:1409
-#: ../src/gth-browser.c:1415
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1406
+#: ../src/gth-browser.c:1410 ../src/gth-browser.c:1422
 msgid "(Invalid Name)"
 msgstr "(Невалидно име)"
 
@@ -2287,47 +2279,47 @@ msgstr "(Невалидно име)"
 msgid "Creating image: %s.%s"
 msgstr "Креирам слика: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1704
+#: ../src/catalog-web-exporter.c:1715
 msgid "Saving thumbnails"
 msgstr "Зачувувам сликички"
 
-#: ../src/catalog-web-exporter.c:1770
+#: ../src/catalog-web-exporter.c:1781
 msgid "Saving HTML pages: Images"
 msgstr "Ги зачувувам HTML страниците: Слики"
 
-#: ../src/catalog-web-exporter.c:1845
+#: ../src/catalog-web-exporter.c:1856
 msgid "Saving HTML pages: Indexes"
 msgstr "Ги зачувувам HTML страниците: Индекси"
 
-#: ../src/catalog-web-exporter.c:1969 ../src/catalog-web-exporter.c:2029
-#: ../src/catalog-web-exporter.c:2199
+#: ../src/catalog-web-exporter.c:1982 ../src/catalog-web-exporter.c:2042
+#: ../src/catalog-web-exporter.c:2212
 msgid "Saving images"
 msgstr "Ги зачувувам сликите"
 
-#: ../src/catalog-web-exporter.c:2383
+#: ../src/catalog-web-exporter.c:2396
 msgid "Could not create a temporary folder"
 msgstr "Не можам да креирам привремена папка"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2416
+#: ../src/catalog-web-exporter.c:2429
 msgid "Loading images"
 msgstr "Вчитувам слики"
 
-#: ../src/dlg-catalog.c:87 ../src/gth-browser-actions-callbacks.c:809
+#: ../src/dlg-catalog.c:89 ../src/gth-browser-actions-callbacks.c:818
 msgid "Enter the catalog name: "
 msgstr "Внесете го името на каталогот: "
 
-#: ../src/dlg-catalog.c:91 ../src/dlg-catalog.c:142
+#: ../src/dlg-catalog.c:93 ../src/dlg-catalog.c:147
 #: ../src/dlg-categories.c:243 ../src/dlg-file-utils.c:91
-#: ../src/gth-browser-actions-callbacks.c:895
+#: ../src/gth-browser-actions-callbacks.c:904
 msgid "C_reate"
 msgstr "К_реирај"
 
-#: ../src/dlg-catalog.c:138 ../src/gth-browser-actions-callbacks.c:951
+#: ../src/dlg-catalog.c:143 ../src/gth-browser-actions-callbacks.c:959
 msgid "Enter the library name: "
 msgstr "Внесете го името на библиотеката: "
 
-#: ../src/dlg-catalog.c:494
+#: ../src/dlg-catalog.c:499
 msgid "Move Catalog to..."
 msgstr "Помести го каталогот во..."
 
@@ -2350,39 +2342,38 @@ msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Категоријата \"%s\" веќе постои. Ве молам пробајте со друго име."
 
 #: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
-#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456
-#: ../src/dlg-jpegtran.c:1053 ../src/dlg-preferences.c:178
-#: ../src/dlg-rename-series.c:327 ../src/dlg-search.c:468
-#: ../src/gth-window-actions-callbacks.c:820
+#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:455 ../src/dlg-jpegtran.c:579
+#: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
+#: ../src/dlg-search.c:467 ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Не можам да ја прикажам помошта: %s"
 
-#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:390
+#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:401
 #, c-format
 msgid "Converting image: %s"
 msgstr "Ја конвертирам сликата: %s"
 
-#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:413
+#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:424
 #, c-format
 msgid "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Слика со името \"%s\" веќе постои. Ве молам одберете друго име."
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
+#: ../src/dlg-convert.c:325 ../src/gth-batch-op.c:577
 msgid "Skip"
 msgstr "Прескокни"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:563
-#: ../src/gth-browser-actions-callbacks.c:198
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:578
+#: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
 msgstr "_Замени"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:427
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d x %d (слика)"
 
-#: ../src/dlg-crop.c:385
+#: ../src/dlg-crop.c:435
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d x %d (приказ)"
@@ -2428,17 +2419,17 @@ msgstr ""
 "Сликите не можат да бидат преместени во ѓубрето. Дали сакате да ги избришете "
 "трајно?"
 
-#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1260
-#: ../src/gth-browser.c:1939 ../src/gth-viewer.c:895
+#: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
+#: ../src/gth-browser.c:1958 ../src/gth-viewer.c:993
 msgid "_Do not display this message again"
 msgstr "_Не ја прикажувај оваа порака пак"
 
-#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1298
+#: ../src/dlg-file-utils.c:282 ../src/gth-browser-actions-callbacks.c:1306
 msgid "_Move"
 msgstr "_Помести"
 
 #: ../src/dlg-file-utils.c:383 ../src/dlg-file-utils.c:487
-#: ../src/gth-browser-actions-callbacks.c:1507
+#: ../src/gth-browser-actions-callbacks.c:1515
 msgid "Choose the destination folder"
 msgstr "Одберете ја дестинационата папка"
 
@@ -2467,11 +2458,11 @@ msgstr "Не можам да ја поместам сликата:"
 msgid "Could not copy the image:"
 msgstr "Не можам да ја копирам сликата:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
 msgid "_Abort"
 msgstr "_Прекини"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
 msgid "_Continue"
 msgstr "_Продолжи"
 
@@ -2480,41 +2471,41 @@ msgstr "_Продолжи"
 msgid "Copying file %d of %d"
 msgstr "Ја копирам датотеката %d од %d"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
 msgid "Collecting images info"
 msgstr "Собирам информации за сликите"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Бришам датотека %ld од %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2022
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Копирам датотека %ld од %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Поместувам датотека %ld од %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
-#: ../src/gth-browser-actions-callbacks.c:1399
+#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
+#: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Не можам да ја поместам папката \"%s\": %s"
 
-#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:501
+#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:503
 msgid "Size"
 msgstr "Големина"
 
-#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:522
+#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:524
 msgid "Type"
 msgstr "Тип"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:517
-#: ../src/gth-exif-data-viewer.c:515 ../src/gth-viewer.c:574
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:509
+#: ../src/gth-exif-data-viewer.c:517 ../src/gth-viewer.c:595
 msgid "Modified"
 msgstr "Променето"
 
@@ -2527,73 +2518,92 @@ msgstr "Информации за каналот"
 msgid "%s Properties"
 msgstr "%s својства"
 
-#: ../src/dlg-photo-importer.c:879 ../src/dlg-photo-importer.c:1381
-#: ../src/dlg-photo-importer.c:1430 ../src/dlg-photo-importer.c:1442
-#: ../src/dlg-photo-importer.c:1458 ../src/dlg-photo-importer.c:1487
+#: ../src/dlg-photo-importer.c:902 ../src/dlg-photo-importer.c:1474
+#: ../src/dlg-photo-importer.c:1524 ../src/dlg-photo-importer.c:1536
+#: ../src/dlg-photo-importer.c:1552 ../src/dlg-photo-importer.c:1581
 msgid "Could not import photos"
 msgstr "Не можам да ги увезам сликите"
 
-#: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
+#: ../src/dlg-photo-importer.c:1261 ../src/main.c:1012
 msgid "Film"
 msgstr "Филм"
 
-#: ../src/dlg-photo-importer.c:1439
-#: ../src/gth-browser-actions-callbacks.c:1710
+#: ../src/dlg-photo-importer.c:1533
+#: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
 msgstr "Не можам да ја креирам папката \"%s\": %s"
 
-#: ../src/dlg-png-exporter.c:928
+#: ../src/dlg-png-exporter.c:904
 msgid "Image Caption"
 msgstr "Назив на слика"
 
-#: ../src/dlg-png-exporter.c:982
+#: ../src/dlg-png-exporter.c:958
 msgid "Header"
 msgstr "Заглавје"
 
-#: ../src/dlg-png-exporter.c:995 ../src/dlg-png-exporter.c:1001
+#: ../src/dlg-png-exporter.c:971 ../src/dlg-png-exporter.c:977
 msgid "Footer"
 msgstr "Фуснота"
 
-#: ../src/dlg-rename-series.c:397
+#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:451
+msgid "by path"
+msgstr "по патека"
+
+#: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:434
+#: ../src/dlg-web-exporter.c:453
+msgid "by size"
+msgstr "по големина"
+
+#: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:436
+#: ../src/dlg-web-exporter.c:455
+msgid "by modified time"
+msgstr "по време на промена"
+
+#: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:439
+#: ../src/dlg-web-exporter.c:458
+msgid "manual order"
+msgstr "рачен редослед"
+
+#: ../src/dlg-rename-series.c:418
 msgid "Old Name"
 msgstr "Старо име"
 
-#: ../src/dlg-rename-series.c:405
+#: ../src/dlg-rename-series.c:426
 msgid "New Name"
 msgstr "Ново име"
 
-#: ../src/dlg-search.c:356
+#: ../src/dlg-search.c:355
 msgid "Search Result"
 msgstr "Резултати од пребарувањето"
 
-#: ../src/dlg-search.c:676
+#: ../src/dlg-search.c:675
 msgid "Filename"
 msgstr "Име на датотека"
 
-#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:392
+#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:392
 msgid "Folder"
 msgstr "Папка"
 
-#: ../src/dlg-web-exporter.c:702
+#: ../src/dlg-web-exporter.c:808
 msgid "Select Album Theme"
 msgstr "Одберете тема за албум"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3876
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3742
 msgid "Could not move the items:"
 msgstr "Не можам да ги преместам овие предмети:"
 
-#: ../src/gth-browser-actions-callbacks.c:153
-#: ../src/gth-browser-actions-callbacks.c:590
-#: ../src/gth-browser-actions-callbacks.c:1099
+#: ../src/gth-browser-actions-callbacks.c:162
+#: ../src/gth-browser-actions-callbacks.c:599
+#: ../src/gth-browser-actions-callbacks.c:1107
 msgid "Enter the new name: "
 msgstr "Внесете го новото име: "
 
-#: ../src/gth-browser-actions-callbacks.c:171
-#: ../src/gth-browser-actions-callbacks.c:610
-#: ../src/gth-browser-actions-callbacks.c:825
-#: ../src/gth-browser-actions-callbacks.c:908
-#: ../src/gth-browser-actions-callbacks.c:1117
+#: ../src/gth-browser-actions-callbacks.c:180
+#: ../src/gth-browser-actions-callbacks.c:619
+#: ../src/gth-browser-actions-callbacks.c:834
+#: ../src/gth-browser-actions-callbacks.c:917
+#: ../src/gth-browser-actions-callbacks.c:1125
 #, c-format
 msgid ""
 "The name \"%s\" is not valid because it contains the character \"/\". Please "
@@ -2602,126 +2612,130 @@ msgstr ""
 "Името \"%s\" не е валидно поради тоа што го содржи карактерот \"/\". Ве "
 "молам пробајте со друго име."
 
-#: ../src/gth-browser-actions-callbacks.c:218
-#: ../src/gth-browser-actions-callbacks.c:233
+#: ../src/gth-browser-actions-callbacks.c:227
+#: ../src/gth-browser-actions-callbacks.c:242
 #, c-format
 msgid "Could not rename the image \"%s\": %s"
 msgstr "Не можам да ја реименувам сликата \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:220
-#: ../src/gth-browser-actions-callbacks.c:1139
-#: ../src/gth-browser-actions-callbacks.c:1409
+#: ../src/gth-browser-actions-callbacks.c:229
+#: ../src/gth-browser-actions-callbacks.c:1147
+#: ../src/gth-browser-actions-callbacks.c:1417
 msgid "source and destination are the same"
 msgstr "изворот и дестинацијата се исти"
 
-#: ../src/gth-browser-actions-callbacks.c:277 ../src/gth-fullscreen.c:926
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Сликата ќе биде преместена во ѓубрето, дали сте сигурни?"
 
-#: ../src/gth-browser-actions-callbacks.c:391
+#: ../src/gth-browser-actions-callbacks.c:400
 #, c-format
 msgid "Could not duplicate the image \"%s\": %s"
 msgstr "Не можам да направам дупликат од сликата \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:399
+#: ../src/gth-browser-actions-callbacks.c:408
 msgid "Stop"
 msgstr "Стопирај"
 
-#: ../src/gth-browser-actions-callbacks.c:400
+#: ../src/gth-browser-actions-callbacks.c:409
 msgid "Continue"
 msgstr "Продолжи"
 
-#: ../src/gth-browser-actions-callbacks.c:455
+#: ../src/gth-browser-actions-callbacks.c:464
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr "Избраните слики ќе бидат преместени во ѓубрето, дали сте сигурни?"
 
-#: ../src/gth-browser-actions-callbacks.c:632
-#: ../src/gth-browser-actions-callbacks.c:844
-#: ../src/gth-browser-actions-callbacks.c:924
-#: ../src/gth-browser-actions-callbacks.c:1147
+#: ../src/gth-browser-actions-callbacks.c:641
+#: ../src/gth-browser-actions-callbacks.c:853
+#: ../src/gth-browser-actions-callbacks.c:933
+#: ../src/gth-browser-actions-callbacks.c:1155
 #, c-format
 msgid "The name \"%s\" is already used. Please use a different name."
 msgstr "Името \"%s\" е веќе во употреба. Ве молам пробајте со друго име."
 
-#: ../src/gth-browser-actions-callbacks.c:643
+#: ../src/gth-browser-actions-callbacks.c:652
 #, c-format
 msgid "Could not rename the library \"%s\": %s"
 msgstr "Не можам да ја реименувам библиотеката \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:643
+#: ../src/gth-browser-actions-callbacks.c:652
 #, c-format
 msgid "Could not rename the catalog \"%s\": %s"
 msgstr "Не можам да го реименувам каталогот \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:713
+#: ../src/gth-browser-actions-callbacks.c:722
 msgid "The selected library will be removed, are you sure?"
 msgstr "Избраната библиотека ќе биде отстранета, дали сте сигурни?"
 
-#: ../src/gth-browser-actions-callbacks.c:715
+#: ../src/gth-browser-actions-callbacks.c:724
 msgid "The selected catalog will be removed, are you sure?"
 msgstr "Избраниот каталог ќе биде отстранет, дали сте сигурни?"
 
-#: ../src/gth-browser-actions-callbacks.c:810
+#: ../src/gth-browser-actions-callbacks.c:819
 msgid "New Catalog"
 msgstr "Нов каталог"
 
-#: ../src/gth-browser-actions-callbacks.c:856
+#: ../src/gth-browser-actions-callbacks.c:865
 #, c-format
 msgid "Could not create the catalog \"%s\": %s"
 msgstr "Не можам да го креирам каталогот \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:950
+#: ../src/gth-browser-actions-callbacks.c:958
 msgid "New Library"
 msgstr "Нова библиотека"
 
-#: ../src/gth-browser-actions-callbacks.c:952
+#: ../src/gth-browser-actions-callbacks.c:960
 #, c-format
 msgid "Could not create the library \"%s\": %s"
 msgstr "Не можам да ја креирам библиотеката \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1137
-#: ../src/gth-browser-actions-callbacks.c:1171
+#: ../src/gth-browser-actions-callbacks.c:1145
+#: ../src/gth-browser-actions-callbacks.c:1179
 #, c-format
 msgid "Could not rename the folder \"%s\": %s"
 msgstr "Не можам да ја реименувам папката \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1221
+#: ../src/gth-browser-actions-callbacks.c:1229
 #, c-format
 msgid "Could not delete the folder \"%s\": %s"
 msgstr "Не можам да ја избришам папката \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1252
+#: ../src/gth-browser-actions-callbacks.c:1260
 #, c-format
 msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
 "\"%s\" Не можам да ја преместам во ѓубрето. Дали сакате да ја избришете "
 "трајно?"
 
-#: ../src/gth-browser-actions-callbacks.c:1296
+#: ../src/gth-browser-actions-callbacks.c:1304
 msgid "The selected folder will be moved to the Trash, are you sure?"
 msgstr "Избраната папка ќе биде преместена во ѓубрето, дали сте сигурни?"
 
-#: ../src/gth-browser-actions-callbacks.c:1344
-#: ../src/gth-browser-actions-callbacks.c:1399
+#: ../src/gth-browser-actions-callbacks.c:1352
+#: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not copy the folder \"%s\": %s"
 msgstr "Не можам да ја копирам папката \"%s\": %s"
 
-#: ../src/gth-browser-actions-callbacks.c:1420
+#: ../src/gth-browser-actions-callbacks.c:1428
 msgid "source contains destination"
 msgstr "изворот ја содржи дестинацијата"
 
-#: ../src/gth-browser-actions-callbacks.c:1431
+#: ../src/gth-browser-actions-callbacks.c:1439
 msgid "a folder with that name is already present."
 msgstr "папка со тоа име веќе постои."
 
-#: ../src/gth-browser-actions-callbacks.c:1708
+#: ../src/gth-browser-actions-callbacks.c:1716
 msgid "New Folder"
 msgstr "Нова папка"
 
-#: ../src/gth-browser-actions-callbacks.c:1709
+#: ../src/gth-browser-actions-callbacks.c:1717
 msgid "Enter the folder name: "
 msgstr "Внесете го името на папката: "
+
+#: ../src/gth-browser-actions-callbacks.c:1846
+msgid "Open Location"
+msgstr "Отвори локација"
 
 #: ../src/gth-browser-actions-entries.h:36
 #: ../src/gth-viewer-actions-entries.h:35
@@ -2787,10 +2801,6 @@ msgstr "Креирај нов прозорец"
 #: ../src/gth-browser-actions-entries.h:59
 msgid "Open the selected image in a new window"
 msgstr "Отвори ја избраната слика во нов прозорец"
-
-#: ../src/gth-browser-actions-entries.h:63
-msgid "Proper_ties"
-msgstr "Свој_ства"
 
 #: ../src/gth-browser-actions-entries.h:64
 msgid "View image properties"
@@ -3056,25 +3066,17 @@ msgstr "_Нова папка..."
 msgid "Create a new folder"
 msgstr "Креирај нова папка"
 
-#. next image
-#: ../src/gth-browser-actions-entries.h:283 ../src/gth-fullscreen.c:1475
-msgid "Next"
-msgstr "Следна"
-
 #: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-fullscreen-actions-entries.h:43
 msgid "View next image"
 msgstr "Види ја следната слика"
 
-#. previous image
-#: ../src/gth-browser-actions-entries.h:288 ../src/gth-fullscreen.c:1466
-msgid "Previous"
-msgstr "Претходна"
-
 #: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
 msgstr "Види ја претходната слика"
 
-#: ../src/gth-browser-actions-entries.h:294 ../src/gth-browser.c:5327
+#: ../src/gth-browser-actions-entries.h:294
 msgid "Go to the previous visited location"
 msgstr "Оди на претходнопосетенета локација"
 
@@ -3105,10 +3107,12 @@ msgid "Go to the home folder"
 msgstr "Оди во домашната папка"
 
 #: ../src/gth-browser-actions-entries.h:323
+#: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
 msgstr "_Оди до папката за слики"
 
 #: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
 msgstr "Оди до папката која што ја содржи избраната слика"
 
@@ -3151,10 +3155,6 @@ msgstr "_Слајд шоу"
 #: ../src/gth-browser-actions-entries.h:349
 msgid "View as a slide show"
 msgstr "Поглед како слајд шоу"
-
-#: ../src/gth-browser-actions-entries.h:354
-msgid "Find images"
-msgstr "Најди слики"
 
 #: ../src/gth-browser-actions-entries.h:358
 msgid "Create _Index Image"
@@ -3283,58 +3283,53 @@ msgstr "_Каталози"
 msgid "View the catalogs"
 msgstr "Види ги каталозите"
 
-#: ../src/gth-browser.c:567 ../src/gth-viewer.c:619
+#: ../src/gth-browser.c:559 ../src/gth-viewer.c:640
 msgid "[Press 'c' to add a comment]"
 msgstr "[Притиснете 'c' за да додадете коментар]"
 
-#: ../src/gth-browser.c:676 ../src/gth-browser.c:695 ../src/gth-viewer.c:715
-#: ../src/gth-viewer.c:736
+#: ../src/gth-browser.c:671 ../src/gth-browser.c:690 ../src/gth-viewer.c:739
+#: ../src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[променето]"
 
-#: ../src/gth-browser.c:720 ../src/gth-window-actions-callbacks.c:780
-#: ../src/main.c:672
+#: ../src/gth-browser.c:715 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:782
+#: ../src/gth-browser.c:774
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 слика (%s)"
 
-#: ../src/gth-browser.c:785
+#: ../src/gth-browser.c:777
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d слики (%s)"
 
-#: ../src/gth-browser.c:792
+#: ../src/gth-browser.c:784
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 избрана (%s)"
 
-#: ../src/gth-browser.c:795
+#: ../src/gth-browser.c:787
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d избрани (%s)"
 
-#: ../src/gth-browser.c:1936 ../src/gth-viewer.c:892
+#: ../src/gth-browser.c:1955 ../src/gth-viewer.c:990
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Тековната слика е променета, дали сакате да ја зачувате?"
 
-#: ../src/gth-browser.c:1937 ../src/gth-viewer.c:893
+#: ../src/gth-browser.c:1956 ../src/gth-viewer.c:991
 msgid "Do Not Save"
 msgstr "Не зачувувај"
 
-#: ../src/gth-browser.c:3635
+#: ../src/gth-browser.c:3501
 msgid "Dragged Images"
 msgstr "Влечени слики"
 
-#: ../src/gth-browser.c:5326
-msgid "Back"
-msgstr "Назад"
-
-#: ../src/gth-browser.c:5356 ../src/gth-browser.c:5357
-#: ../src/gth-viewer.c:1398 ../src/gth-viewer.c:1399
+#: ../src/gth-browser.c:5156 ../src/gth-browser.c:5157
+#: ../src/gth-viewer.c:1533 ../src/gth-viewer.c:1534
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
 #: ../src/gth-window-actions-entries.h:266
@@ -3342,28 +3337,28 @@ msgstr "Назад"
 msgid "Rotate images without loss of quality"
 msgstr "Ротирај ги сликите без загуба на квалитет"
 
-#: ../src/gth-browser.c:6773
+#: ../src/gth-browser.c:6594
 msgid "Close"
 msgstr "Затвори"
 
-#: ../src/gth-browser.c:6787 ../src/gth-viewer.c:1665
+#: ../src/gth-browser.c:6608 ../src/gth-viewer.c:1788
 msgid "Image comment"
 msgstr "Коментар за сликата"
 
-#: ../src/gth-browser.c:6801
+#: ../src/gth-browser.c:6622
 msgid "Image data"
 msgstr "Податоци за сликата"
 
-#: ../src/gth-browser.c:6815
+#: ../src/gth-browser.c:6636
 msgid "Image preview"
 msgstr "Преглед на сликата"
 
-#: ../src/gth-browser.c:7861
+#: ../src/gth-browser.c:7658
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Не можам да ја вчитам папката \"%s\": %s\n"
 
-#: ../src/gth-browser.c:8141
+#: ../src/gth-browser.c:7997
 msgid "The specified catalog does not exist."
 msgstr "Наведениот каталог не постои."
 
@@ -3383,20 +3378,17 @@ msgstr "_Разгледај"
 msgid "_Recents:"
 msgstr "_Скорешни:"
 
-#. restore normal view
-#: ../src/gth-fullscreen.c:1457 ../src/gth-window-actions-entries.h:220
-msgid "Restore Normal View"
-msgstr "Врати нормален поглед"
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "Свој_ства"
 
-#. image comment
-#: ../src/gth-fullscreen.c:1484
-msgid "Image Info"
-msgstr "Информации за сликата"
+#: ../src/gth-location.c:328
+msgid "Other..."
+msgstr "Друго..."
 
-#. pause slideshow
-#: ../src/gth-fullscreen.c:1494
-msgid "Pause"
-msgstr "Пауза"
+#: ../src/gth-location.c:752
+msgid "Catalogs"
+msgstr "Каталози"
 
 #: ../src/gth-viewer-actions-entries.h:41
 #: ../src/gth-window-actions-entries.h:35
@@ -3408,23 +3400,33 @@ msgstr "_Трансформирај"
 msgid "Auto"
 msgstr "Автоматски"
 
-#: ../src/gth-viewer-actions-entries.h:53
-msgid "Open _Folder"
-msgstr "Отвори _папка"
+#: ../src/gth-viewer-actions-entries.h:88
+msgid "_Single Window"
+msgstr "_Еден прозорец"
 
-#: ../src/gth-viewer-actions-entries.h:54
-msgid "Browse the image folder"
-msgstr "Разгледај ја папката со слики"
+#: ../src/gth-viewer-actions-entries.h:89
+msgid "Reuse this window to view other images"
+msgstr "Користи го овој прозорец за преглед на други слики"
 
-#: ../src/gth-window-actions-callbacks.c:770
+#: ../src/gth-viewer.c:1489 ../src/gth-window-actions-entries.h:45
+#: ../src/gth-window-actions-entries.h:70
+msgid "_Open With"
+msgstr "_Отвори со"
+
+#: ../src/gth-viewer.c:1495 ../src/gth-viewer.c:1496
+#: ../src/gth-window-actions-entries.h:46
+msgid "Open selected images with an application"
+msgstr "Отвори ги избраните слики со апликација"
+
+#: ../src/gth-window-actions-callbacks.c:790
+msgid "An image viewer and browser for GNOME."
+msgstr "Прегледувач на слики за Гном."
+
+#: ../src/gth-window-actions-callbacks.c:793
 msgid "translator_credits"
 msgstr ""
 "Арангел Ангов\n"
 "ufo@linux.net.mk"
-
-#: ../src/gth-window-actions-callbacks.c:783
-msgid "An image viewer and browser for GNOME."
-msgstr "Прегледувач на слики за Гном."
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3433,15 +3435,6 @@ msgstr "Намали бои"
 #: ../src/gth-window-actions-entries.h:41
 msgid "Close this window"
 msgstr "Затвори го овој прозорец"
-
-#: ../src/gth-window-actions-entries.h:45
-#: ../src/gth-window-actions-entries.h:70
-msgid "_Open With"
-msgstr "_Отвори со"
-
-#: ../src/gth-window-actions-entries.h:46
-msgid "Open selected images with an application"
-msgstr "Отвори ги избраните слики со апликација"
 
 #: ../src/gth-window-actions-entries.h:61
 msgid "Revert to saved image"
@@ -3632,15 +3625,6 @@ msgstr "Зумирај за да собере во прозорецот"
 msgid "Step A_nimation"
 msgstr ""
 
-#: ../src/gth-window-actions-entries.h:215
-msgid "_Full Screen"
-msgstr "_Цел екран"
-
-#: ../src/gth-window-actions-entries.h:216
-#: ../src/gth-window-actions-entries.h:221
-msgid "View image in fullscreen mode"
-msgstr "Види ја сликата на цел екран"
-
 #: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "_Центрирано"
@@ -3701,83 +3685,83 @@ msgstr "_Кратенки за тастатура"
 msgid "Play _Animation"
 msgstr "Пушти _анимација"
 
-#: ../src/gth-window-actions-entries.h:311
+#: ../src/gth-window-actions-entries.h:312
 msgid "_High Quality"
 msgstr "_Висок квалитет"
 
-#: ../src/gth-window-actions-entries.h:312
+#: ../src/gth-window-actions-entries.h:313
 msgid "Use high quality zoom"
 msgstr "Користи висококвалитетен зум"
 
-#: ../src/gth-window-actions-entries.h:314
+#: ../src/gth-window-actions-entries.h:315
 msgid "_Low Quality"
 msgstr "_Низок квалитет"
 
-#: ../src/gth-window-actions-entries.h:315
+#: ../src/gth-window-actions-entries.h:316
 msgid "Use low quality zoom"
 msgstr "Користи нискоквалитетен зум"
 
-#: ../src/main.c:75
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "Подигни на целосен екран"
 
-#: ../src/main.c:78
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "Автоматски започни слајд шоу"
 
-#: ../src/main.c:81
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "Автоматски увези фотографии од дигитална камера"
 
-#: ../src/main.c:104
+#: ../src/main.c:137
 msgid "Holidays"
 msgstr "Празници"
 
-#: ../src/main.c:105
+#: ../src/main.c:138
 msgid "Temporary"
 msgstr "Привремени"
 
-#: ../src/main.c:106
+#: ../src/main.c:139
 msgid "Screenshots"
 msgstr "Слики од екранот"
 
-#: ../src/main.c:107
+#: ../src/main.c:140
 msgid "Science"
 msgstr "Научни"
 
-#: ../src/main.c:108
+#: ../src/main.c:141
 msgid "Favourite"
 msgstr "Омилени"
 
-#: ../src/main.c:109
+#: ../src/main.c:142
 msgid "Important"
 msgstr "Важни"
 
-#: ../src/main.c:110
+#: ../src/main.c:143
 msgid "GNOME"
 msgstr "Гном"
 
-#: ../src/main.c:111
+#: ../src/main.c:144
 msgid "Games"
 msgstr "Игри"
 
-#: ../src/main.c:112
+#: ../src/main.c:145
 msgid "Party"
 msgstr "Забави"
 
-#: ../src/main.c:113
+#: ../src/main.c:146
 msgid "Birthday"
 msgstr "Родендени"
 
-#: ../src/main.c:114
+#: ../src/main.c:147
 msgid "Astronomy"
 msgstr "Астрономија"
 
-#: ../src/main.c:115
+#: ../src/main.c:148
 msgid "Family"
 msgstr "Фамилијарни"
 
-#: ../src/main.c:437 ../src/main.c:602
+#: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "Командна линија"
 
