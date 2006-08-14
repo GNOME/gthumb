@@ -1,9 +1,15 @@
 2006-08-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* doc/C/gthumb.xml: 
+
+	Fixed bug #350732: "loose" should be "lose"
+	Patch by Bruce Cowan
+
 	* libgthumb/Makefile.am (libgthumb_la_LIBADD): 
 
 	Fixed bug #351058: build failure when -Wl,--as-needed is passed to 
-	linker flags.  Patch by Fryderyk Dziarmagowski.
+	linker flags.  
+	Patch by Fryderyk Dziarmagowski.
 
 2006-07-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
 

@@ -333,7 +333,7 @@
           &app;.  This is because if you move or copy folders with
           &app; image comments will remain attached to images as
           you expect, but if you move or copy folders with the file
-          manager or other applications you will loose your comments.
+          manager or other applications you will lose your comments.
         </para>
       </note>
     </para>
