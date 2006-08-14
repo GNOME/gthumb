@@ -130,7 +130,8 @@ libgthumb_la_SOURCES =			\
 
 libgthumb_la_LIBADD =		\
 	$(TIFF_LIBS)		\
-	$(GTHUMB_LIBS)
+	$(GTHUMB_LIBS)		\
+	$(IPTCDATA_LIBS)
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) gthumb-marshal.list --header --prefix=gthumb_marshal > $@
