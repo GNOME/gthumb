@@ -40,7 +40,7 @@ typedef struct _GThumbPreloader      GThumbPreloader;
 typedef struct _GThumbPreloaderClass GThumbPreloaderClass;
 
 
-#define N_LOADERS 4
+#define N_LOADERS 3
 
 
 typedef struct {
@@ -100,8 +100,7 @@ GThumbPreloader    *gthumb_preloader_new        (void);
 void                gthumb_preloader_start      (GThumbPreloader  *gploader,
 						 const char       *requested,
 						 const char       *next1,
-						 const char       *prev1,
-						 const char       *next2);
+						 const char       *prev1);
 
 void                gthumb_preloader_stop       (GThumbPreloader  *gploader,
 						 DoneFunc          done_func,

@@ -1,3 +1,17 @@
+2006-08-17  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gthumb-preloader.c: 
+	* src/gthumb-preloader.h: 
+	* src/gth-browser.c (load_timeout_cb): 
+	* src/gth-fullscreen.c (real_load_current_image): removed the 4th 
+	preloader.
+	* libgthumb/image-loader.c (image_loader_start__step2): use 
+	priv->priority instead of always using DEFAULT
+
+	Fixes bug #349556 - [PATCH] Little bug makes gThumb slower than it can
+	be.
+	Patch by Colin Leroy  
+	
 2006-08-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* doc/C/gthumb.xml: 

@@ -8406,7 +8406,6 @@ load_timeout_cb (gpointer data)
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *prev1 = NULL;
 	char                  *next1 = NULL;
-	char                  *next2 = NULL;
 	int                    pos;
 
 	if (priv->view_image_timeout != 0) {
@@ -8421,18 +8420,15 @@ load_timeout_cb (gpointer data)
 	if (pos >= 0) {
 		prev1 = get_image_to_preload (browser, pos - 1, 1);
 		next1 = get_image_to_preload (browser, pos + 1, 1);
-		/*next2 = get_image_to_preload (browser, pos + 2, 2);*/
 	}
 
 	gthumb_preloader_start (priv->preloader, 
 				priv->image_path, 
 				next1, 
-				prev1, 
-				next2);
+				prev1);
 
 	g_free (prev1);
 	g_free (next1);
-	g_free (next2);
 
 	return FALSE;
 }

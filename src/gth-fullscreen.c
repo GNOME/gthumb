@@ -534,8 +534,7 @@ real_load_current_image (GthFullscreen *fullscreen)
 			gthumb_preloader_start (priv->preloader,
 						priv->requested_path,
 						get_image_filename (get_next_image (fullscreen)),
-						get_image_filename (get_prev_image (fullscreen)),
-						NULL);
+						get_image_filename (get_prev_image (fullscreen)));
 			from_pixbuf = FALSE;
 		}
 

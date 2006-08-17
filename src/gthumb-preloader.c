@@ -316,7 +316,6 @@ typedef struct {
 	char             *requested;
 	char             *next1;
 	char             *prev1;
-	char             *next2;
 } SetPathData;
 
 
@@ -324,8 +323,7 @@ static SetPathData*
 sp_data_new (GThumbPreloader  *gploader,
 	     const char       *requested,
 	     const char       *next1,
-	     const char       *prev1,
-	     const char       *next2)
+	     const char       *prev1)
 {
 	SetPathData *sp_data;
 
@@ -335,7 +333,6 @@ sp_data_new (GThumbPreloader  *gploader,
 	sp_data->requested = g_strdup (requested);
 	sp_data->next1 = g_strdup (next1);
 	sp_data->prev1 = g_strdup (prev1);
-	sp_data->next2 = g_strdup (next2);
 
 	return sp_data;
 }
@@ -350,7 +347,6 @@ sp_data_free (SetPathData *sp_data)
 	g_free (sp_data->requested);
 	g_free (sp_data->next1);
 	g_free (sp_data->prev1);
-	g_free (sp_data->next2);
 
 	g_free (sp_data);
 }
@@ -363,7 +359,6 @@ set_paths__step2 (SetPathData *sp_data)
 	const char      *requested = sp_data->requested;
 	const char      *next1 = sp_data->next1;
 	const char      *prev1 = sp_data->prev1;
-	const char      *next2 = sp_data->next2;
 	const char      *paths[N_ARGS];
 	gboolean         path_assigned[N_LOADERS];
 	gboolean         loader_assigned[N_LOADERS];
@@ -375,7 +370,6 @@ set_paths__step2 (SetPathData *sp_data)
 	paths[0] = requested;
 	paths[1] = next1;
 	paths[2] = prev1;
-	paths[3] = next2;
 
 	for (i = 0; i < N_LOADERS; i++) {
 		loader_assigned[i] = FALSE;
@@ -470,11 +464,10 @@ void
 gthumb_preloader_start (GThumbPreloader  *gploader,
 			const char       *requested,
 			const char       *next1,
-			const char       *prev1,
-			const char       *next2)
+			const char       *prev1)
 {
 	SetPathData *sp_data;
-	sp_data = sp_data_new (gploader, requested, next1, prev1, next2);
+	sp_data = sp_data_new (gploader, requested, next1, prev1);
 	gthumb_preloader_stop (gploader, (DoneFunc) set_paths__step2, sp_data);
 }
 

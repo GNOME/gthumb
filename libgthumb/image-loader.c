@@ -768,7 +768,7 @@ image_loader_start__step2 (ImageLoader *il)
 				       uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT
 					| GNOME_VFS_FILE_INFO_FOLLOW_LINKS),
-				       GNOME_VFS_PRIORITY_DEFAULT,
+				       priv->priority,
 				       get_file_info_cb,
 				       il);
 
