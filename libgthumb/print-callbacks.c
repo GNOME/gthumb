@@ -1036,7 +1036,7 @@ add_catalog_preview (PrintCatalogDialogData *data,
 		     && (image->pixbuf_width < image->pixbuf_height)) 
 		    || ((pci->max_image_width < pci->max_image_height) 
 			&& (image->pixbuf_width > image->pixbuf_height))) 
-			image_info_rotate (image, 90);
+			image_info_rotate (image, 270);
 
 		reset_zoom (data, image);
 
