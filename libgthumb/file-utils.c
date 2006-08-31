@@ -590,7 +590,7 @@ get_extension (const char *path)
 		return NULL;
 
 	p = len - 1;
-	while ((ptr[p] != '.') && (p >= 0)) 
+	while ((p >= 0) && (ptr[p] != '.'))
 		p--;
 
 	if (p < 0)

@@ -1,5 +1,10 @@
 2006-08-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/file-utils.c (get_extension): 
+
+	Fixed bug #353613 – Negative array access in get_extension.
+	Patch by Pascal Terjan.
+
 	* libgthumb/print-callbacks.c (add_catalog_preview): 
 	
 	Fixed bug #353390 – Fix default rotation angle in portrait print mode.
