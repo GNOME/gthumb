@@ -1823,16 +1823,22 @@ open_location_response_cb (GtkDialog  *file_sel,
 			   gpointer    data)
 {
 	GthBrowser *browser = data;
-	const char *folder;
+	char       *esc_folder;
 
 	if (button_number != GTK_RESPONSE_OK) {
 		gtk_widget_destroy (GTK_WIDGET (file_sel));
 		return;
 	}
 
-	folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
-	if (folder != NULL)
-		gth_browser_go_to_directory (browser, folder);
+	esc_folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
+	if (esc_folder != NULL) {
+		char *folder = gnome_vfs_unescape_string (esc_folder, "");
+		if (folder != NULL)
+			gth_browser_go_to_directory (browser, folder);
+		g_free (folder);
+	}
+	g_free (esc_folder);
+
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 }
 

@@ -1,5 +1,11 @@
 2006-08-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-folder-selection-dialog.c (file_sel_ok_clicked_cb): 
+	* src/gth-browser-actions-callbacks.c (open_location_response_cb): 
+
+	Unescape the uri before using it.  
+	Fixes bug #352747 – gthumb can't open folder through file selector.
+
 	* libgthumb/file-utils.c (get_extension): 
 
 	Fixed bug #353613 – Negative array access in get_extension.

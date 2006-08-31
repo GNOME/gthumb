@@ -262,7 +262,7 @@ file_sel_ok_clicked_cb (GtkDialog  *file_sel,
 			gpointer    data)
 {
 	GthFolderSelection *folder_sel;
-	char               *folder;
+	char               *esc_folder;
 
 	if (button_number != GTK_RESPONSE_ACCEPT) {
 		gtk_widget_destroy (GTK_WIDGET (file_sel));
@@ -271,12 +271,16 @@ file_sel_ok_clicked_cb (GtkDialog  *file_sel,
 
 	folder_sel = g_object_get_data (G_OBJECT (file_sel), "folder_sel");
 	
-	folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
-	gth_folder_selection_set_folder (folder_sel, folder);
+	esc_folder = gtk_file_chooser_get_uri (GTK_FILE_CHOOSER (file_sel));
+	if (esc_folder != NULL) {
+		char *folder = gnome_vfs_unescape_string (esc_folder, "");
+		gth_folder_selection_set_folder (folder_sel, folder);
+		g_free (folder);
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (file_sel));
 
-	g_free (folder);
+	g_free (esc_folder);
 }
 
 
