@@ -1,3 +1,7 @@
+2006-09-11  Pema Geyleg  <pgeyleg@gmail.com>
+
+	* configure.in: Added 'dz' to ALL_LINGUAS
+
 2006-08-31  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-folder-selection-dialog.c (file_sel_ok_clicked_cb): 

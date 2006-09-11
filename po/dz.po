@@ -1,0 +1,3840 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gthumb.pot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-04-19 03:31+0200\n"
+"PO-Revision-Date: 2006-05-03 18:37-0500\n"
+"Last-Translator: kinley tshering <gasepkuenden2k3@hotmail.com>\n"
+"Language-Team: Dzongkha <pgeyleg@dit.gov.bt>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2;plural=(n!=1);\n"
+"X-Poedit-Language: Dzongkha\n"
+"X-Poedit-Country: Bhutan\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
+msgid "Catalog"
+msgstr "ཐོ་གཞུང་།"
+
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:2
+msgid "GThumb Catalog View"
+msgstr "ཇི་ཐམཔ་ ཐོ་གཞུང་ མཐོང་སྣང་།"
+
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:3
+msgid "View as Catalog"
+msgstr "ཐོ་གཞུང་སྦེ་ སྟོན།"
+
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
+#: ../src/gth-window-actions-entries.h:66
+msgid "Print the current image"
+msgstr "ད་ལྟོའི་ གཟུགས་བརྙན་འདི་ དཔར་བསྐྲུན་འབད།"
+
+#: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:2
+msgid "_Print"
+msgstr "དཔར་བསྐྲུན་འབད།)(_P)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:1
+msgid "GThumb Image"
+msgstr "ཇི་ཐམཔ་ གཟུགས་བརྙན།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:2
+msgid "GThumb Viewer"
+msgstr "ཇི་ཐམཔ་ མཐོང་བྱེད།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.server.in.in.h:3
+msgid "View with GThumb"
+msgstr "ཇི་དམཔ་དང་བཅས་སྟོན།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:1
+msgid "Flip"
+msgstr "མྱུར་ལྷོག་འབད།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:2
+msgid "Flip the image"
+msgstr "གཟུགས་བརྙན་འདི་ མྱུར་ལྷོག་འབད།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:3
+msgid "High"
+msgstr "མཐོ།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:4
+msgid "Low"
+msgstr "དམའ།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:5
+msgid "Mirror"
+msgstr "ངོ་འཆར།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:6
+msgid "Mirror the image"
+msgstr "གཟུགས་བརྙན་འདི་ ངོ་འཆར་འབད།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:7
+msgid "Rotate"
+msgstr "བསྒྱིར།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:8
+msgid "Rotate 180 _Degrees"
+msgstr "ཁུག་ཟུར་ ༡༨༠ ་བསྒྱིར།(_D)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:9
+msgid "Rotate the image clockwise"
+msgstr "གཟུགས་བརྙན་འདི་ གཡས་སྐོར་སྦེ་ བསྒྱིར།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:10
+msgid "Rotate the image of 180 degrees"
+msgstr "༡༨༠་ ཁུག་ཟུར་གྱི་ གཟུགས་བརྙན་ བསྒྱིར།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:11
+msgid "Save _As..."
+msgstr "དེ་སྦེ་སྲུངས།(_A)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:12
+#: ../src/gth-window-actions-entries.h:51
+#: ../src/gth-window-actions-entries.h:56
+msgid "Save current image"
+msgstr "ད་ལྟོའི་ གཟུགས་བརྙན་འདི་ སྲུངས།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
+#: ../src/gth-window-actions-entries.h:302
+msgid "Start or stop current animation"
+msgstr "ད་ལྟོའི་ བསྒུལ་བཟོ་འདི་ འགོ་བཙུགས་ཡང་ན་ བཀག།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:14
+msgid "Start/Stop _Animation"
+msgstr "བསྒུལ་བཟོ་ འགོ་བཙུགས/བཀག(_A)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:15
+msgid "Transparency T_ype"
+msgstr "དྭངས་གསལ་གྱི་ དབྱེ་བ།(_T)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
+#: ../src/gth-window-actions-entries.h:211
+msgid "View next animation frame"
+msgstr "བསྒུལ་བཟོ་ གཞི་ཁྲམ་ གཞན་མི་འདི་ སྟོན།"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:17
+msgid "_Black"
+msgstr "གནགཔོ།(_B)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:18
+msgid "_Checked"
+msgstr "ཞིབ་དཔྱད་གྲུབ།(_C)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+#: ../src/gth-window-actions-entries.h:110
+msgid "_Flip"
+msgstr "མྱུར་ལྷོག་འབད།(_F)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
+#: ../src/gth-browser-actions-entries.h:46
+#: ../src/gth-browser-actions-entries.h:453
+#: ../src/gth-viewer-actions-entries.h:40
+msgid "_Image"
+msgstr "གཟུགས་བརྙན།(_I)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+#: ../src/gth-window-actions-entries.h:115
+msgid "_Mirror"
+msgstr "ངོ་འཆར།(_M)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
+#: ../src/gth-viewer.c:834
+msgid "_None"
+msgstr "ཅི་མེད།(_N)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:23
+msgid "_Rotate Clockwise"
+msgstr "གཡས་སྐོར་སྦེ་ བསྒྱིར།(_R)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:24
+msgid "_Step Animation"
+msgstr "བསྒུལ་བཟོ་ གོམ་པ་སྤོ།(_S)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
+#: ../data/glade/gthumb_search.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:67
+#: ../src/gth-browser-actions-entries.h:41
+#: ../src/gth-viewer-actions-entries.h:37
+msgid "_View"
+msgstr "སྟོན།(_V)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:26
+msgid "_White"
+msgstr "དཀརཔོ།(_W)"
+
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:27
+msgid "_Zoom Quality"
+msgstr "རྒྱས་ཟུམ་ སྤུས་ཚད།(_Z)"
+
+#: ../components/image-viewer/viewer-stream.c:90
+#: ../src/dlg-file-utils.c:555
+msgid "%d %b %Y, %H:%M"
+msgstr "%d %b %Y, %H:%M"
+
+#: ../components/image-viewer/viewer-stream.c:99
+#: ../src/catalog-png-exporter.c:815
+#: ../src/dlg-image-prop.c:425
+#: ../src/gth-browser.c:497
+#: ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:846
+#: ../src/gth-viewer.c:583
+#, c-format
+msgid "%d x %d pixels"
+msgstr "%d x %d པིག་སེལསི།"
+
+#: ../data/GNOME_GThumb.server.in.in.h:1
+msgid "GThumb Application"
+msgstr "ཇི་ཐམཔ་ གློག་རིམ།"
+
+#: ../data/GNOME_GThumb.server.in.in.h:2
+msgid "GThumb Application Factory"
+msgstr "ཇི་ཐམཔ་ གློག་རིམ་ འཕྲུལ་ཁང་།"
+
+#: ../data/albumthemes/text.h:27
+msgid "Prevous"
+msgstr "ཧེ་མ།"
+
+#: ../data/albumthemes/text.h:28
+#: ../src/gth-browser-actions-entries.h:283
+#: ../src/gth-fullscreen-actions-entries.h:42
+msgid "Next"
+msgstr "ཤུལ་མམ།"
+
+#: ../data/albumthemes/text.h:29
+msgid "Index"
+msgstr "ཟུར་ཐོ།"
+
+#: ../data/albumthemes/text.h:30
+#: ../src/dlg-duplicates.c:266
+msgid "Image"
+msgstr "གཟུགས་བརྙན།"
+
+#: ../data/albumthemes/text.h:31
+msgid "Dimensions"
+msgstr "རྒྱ་ཁྱོན་ཚུ།"
+
+#: ../data/albumthemes/text.h:32
+#: ../src/dlg-image-prop.c:617
+#: ../src/gth-exif-data-viewer.c:510
+msgid "Bytes"
+msgstr "བཱའིཊིསི།"
+
+#: ../data/albumthemes/text.h:33
+msgid "Date"
+msgstr "ཚེས་གྲངས།"
+
+#: ../data/albumthemes/text.h:34
+msgid "Exposure time"
+msgstr "མདངས་ཕོག་ ཆུ་ཚོད།"
+
+#: ../data/albumthemes/text.h:35
+msgid "Exposure mode"
+msgstr "མདངས་ཕོག་ ཐབས་ལམ།"
+
+#: ../data/albumthemes/text.h:36
+msgid "Flash"
+msgstr "རིབ་སྟོན།"
+
+#: ../data/albumthemes/text.h:37
+msgid "Shutter speed"
+msgstr "འགེབས་བྱེད་ མགྱོགས་ཚད།"
+
+#: ../data/albumthemes/text.h:38
+msgid "Aperture value"
+msgstr "པར་ཆས་དོང་ཆུང་གི་ གནས་གོང་།"
+
+#: ../data/albumthemes/text.h:39
+msgid "Focal length"
+msgstr "ཕོ་ཀཱལ་ རིང་ཚད།"
+
+#: ../data/albumthemes/text.h:40
+msgid "Camera model"
+msgstr "པར་ཆས་ དཔེ།"
+
+#: ../data/albumthemes/text.h:41
+#: ../data/glade/gthumb_edit.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:71
+msgid "pixels"
+msgstr "བིག་སེལསི།"
+
+#: ../data/glade/gthumb.glade.h:1
+#: ../data/glade/gthumb_convert.glade.h:1
+#: ../data/glade/gthumb_crop.glade.h:1
+#: ../data/glade/gthumb_edit.glade.h:1
+#: ../data/glade/gthumb_png_exporter.glade.h:1
+#: ../data/glade/gthumb_preferences.glade.h:1
+#: ../data/glade/gthumb_print.glade.h:1
+#: ../data/glade/gthumb_tools.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:1
+msgid "    "
+msgstr "    "
+
+#: ../data/glade/gthumb.glade.h:2
+msgid "<b>Categories:</b>"
+msgstr "<b>དབྱེ་རིམ་ཚུ།:</b>"
+
+#: ../data/glade/gthumb.glade.h:3
+msgid "<b>Information on Channel:</b>"
+msgstr "<b>རྒྱུ་ལམ་ནང་ལུ་ བརྡ་དོན།:</b>"
+
+#: ../data/glade/gthumb.glade.h:4
+msgid "<b>Overwrite the old image with the new one?</b>"
+msgstr "<b>གཟུགས་བརྙན་གསརཔ་དང་བཅས་ གཟུགས་བརྙན་རྙིངམ་འདི་ཚུ་ཡང་ ཚབས་སྲུང་འབད་ནི་ཨིན་ན? </b>"
+
+#: ../data/glade/gthumb.glade.h:5
+msgid "A_vailable applications:"
+msgstr "གློག་རིམ་ཚུ་ འཐོབ་ཚུགས།:"
+
+#: ../data/glade/gthumb.glade.h:6
+msgid "Alpha"
+msgstr "ཨཱལ་ཕ།"
+
+#: ../data/glade/gthumb.glade.h:7
+msgid "Blue"
+msgstr "ཧོནམ།"
+
+#: ../data/glade/gthumb.glade.h:8
+msgid "Bookmarks"
+msgstr "དེབ་རྟགས་ཚུ།"
+
+#: ../data/glade/gthumb.glade.h:9
+msgid "C_atalogs:"
+msgstr "ཐོ་གཞུང་།:(_a)"
+
+#: ../data/glade/gthumb.glade.h:10
+msgid "Choose a Catalog"
+msgstr "ཐོ་གཞུང་ཅིག་གདམ།"
+
+#: ../data/glade/gthumb.glade.h:11
+#: ../src/gth-window-actions-entries.h:75
+msgid "Comm_ent"
+msgstr "བསམ་བཀོད།(_e)"
+
+#: ../data/glade/gthumb.glade.h:12
+msgid "Do not overwrite _the old image"
+msgstr "གཟུགས་བརྙན་ རྙིངམ་འདི་ ཚབ་སྲུངས་མ་འབད།(_t)"
+
+#: ../data/glade/gthumb.glade.h:13
+msgid "Green"
+msgstr "ལྗང་ཁུ།"
+
+#: ../data/glade/gthumb.glade.h:14
+msgid "New Image:"
+msgstr "གཟུགས་བརྙན་ གསརཔ།"
+
+#: ../data/glade/gthumb.glade.h:15
+msgid "New _Library"
+msgstr "དཔེ་མཛོད་གསརཔ།(_L)"
+
+#: ../data/glade/gthumb.glade.h:16
+msgid "Old Image:"
+msgstr "གཟུགས་བརྙན ་རྙིངམ།:"
+
+#: ../data/glade/gthumb.glade.h:17
+msgid "Open Images"
+msgstr "གཟུགས་བརྙན་ཚུ་ ཁ་ཕྱེ།"
+
+#: ../data/glade/gthumb.glade.h:18
+msgid "Over_write the old image"
+msgstr "གཟུགས་བརྙན་ རྙིངམ་འདི་ ཚབ་སྲུངས་འབད།(_w)"
+
+#: ../data/glade/gthumb.glade.h:19
+msgid "Overwrite Image"
+msgstr "གཟུགས་བརྙན་ ཚབས་སྲུངས་འབད།"
+
+#: ../data/glade/gthumb.glade.h:20
+msgid "Overwrite _all images"
+msgstr "གཟུགས་བརྙན་ ཆ་མཉམ་ ཚབས་སྲུངས་འབད།(_a)"
+
+#: ../data/glade/gthumb.glade.h:21
+msgid "Photo _Data (EXIF)"
+msgstr "དཔར་གྱི་ གནད་སྡུད།(ཨི་ཨེགསི་ཨའི་ཨེཕ།)(_D)"
+
+#: ../data/glade/gthumb.glade.h:22
+msgid "R_ecent applications:"
+msgstr "འཕྲལ་གྱི་ གློག་རིམ་ཚུ།(_e)"
+
+#: ../data/glade/gthumb.glade.h:23
+msgid "Red"
+msgstr "དམརཔོ།"
+
+#: ../data/glade/gthumb.glade.h:24
+msgid "Value"
+msgstr "གནས་གོང།"
+
+#: ../data/glade/gthumb.glade.h:25
+msgid "_Application:"
+msgstr "གློག་རིམ།:(_A)"
+
+#: ../data/glade/gthumb.glade.h:26
+#: ../src/gth-folder-selection-dialog.c:454
+msgid "_Bookmarks:"
+msgstr "དེབ་རྟགས་ཚུ།:(_B)"
+
+#: ../data/glade/gthumb.glade.h:27
+msgid "_Do not overwrite any image"
+msgstr "གཟུགས་བརྙན་གང་རུང་ལུ་ ཚབས་སྲུང་མ་འབད།(_D)"
+
+#: ../data/glade/gthumb.glade.h:28
+msgid "_General"
+msgstr "ཡོངས་ཁྱབ།(_G)"
+
+#: ../data/glade/gthumb.glade.h:29
+msgid "_Histogram"
+msgstr "ཧིསི་ཊོ་ག་རམ།(_H)"
+
+#: ../data/glade/gthumb.glade.h:30
+msgid "_New Catalog"
+msgstr "དབྱེ་རིམ་ གསརཔ།(_N)"
+
+#: ../data/glade/gthumb.glade.h:31
+msgid "_Next"
+msgstr "ཤུལ་མམ།(_N)"
+
+#: ../data/glade/gthumb.glade.h:32
+msgid "_Previous"
+msgstr "ཧེ་མ།(_P)"
+
+#: ../data/glade/gthumb.glade.h:33
+msgid "_Save the new image as:"
+msgstr "གཟུགས་བརྙན་ གསརབ་འདི་བཟུམ་སྦེ སྲུངས།(_S)"
+
+#: ../data/glade/gthumb.glade.h:34
+msgid "_View the destination"
+msgstr "འགྲོ་ཡུལ་འདི་ སྟོན།(_V)"
+
+#: ../data/glade/gthumb_camera.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:1
+#: ../data/glade/gthumb_web_exporter.glade.h:3
+msgid "..."
+msgstr "..."
+
+#: ../data/glade/gthumb_camera.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:8
+msgid "Ca_tegories:"
+msgstr "དབྱེ་རིམ་ཚུ།(_t)"
+
+#: ../data/glade/gthumb_camera.glade.h:3
+msgid "Camera Model"
+msgstr "པར་ཆས་ དཔེ།"
+
+#: ../data/glade/gthumb_camera.glade.h:4
+#: ../data/glade/gthumb_convert.glade.h:6
+#: ../data/glade/gthumb_png_exporter.glade.h:24
+#: ../data/glade/gthumb_tools.glade.h:23
+#: ../data/glade/gthumb_web_exporter.glade.h:19
+msgid "Choose destination folder"
+msgstr "སྣོད་འཛིན་ འགྲོ་ཡུལ་གདམ།"
+
+#: ../data/glade/gthumb_camera.glade.h:5
+msgid "Delete selected images from the camera"
+msgstr "པར་ཆས་ནང་ལས་ སེལ་འཐུ་གྲུབ་་བའི་ གཟུགས་བརྙན་ཚུ་ བཏོན་གཏང་།"
+
+#: ../data/glade/gthumb_camera.glade.h:6
+msgid "Import Photos"
+msgstr "བཔར་ཚུ་ ནང་འདྲེན་འབད།"
+
+#: ../data/glade/gthumb_camera.glade.h:7
+#: ../src/dlg-photo-importer.c:866
+#: ../src/dlg-photo-importer.c:905
+#: ../src/dlg-photo-importer.c:1475
+msgid "No camera detected"
+msgstr "པར་ཆས་ སྐྱོན་འཛིན་མ་བྱུང་།"
+
+#: ../data/glade/gthumb_camera.glade.h:8
+msgid "Select a camera model"
+msgstr "པར་ཆས་ དཔེ་ཅིག་ སེལ་འཐུ་འབད།"
+
+#: ../data/glade/gthumb_camera.glade.h:9
+msgid "Update previews"
+msgstr "སྔོན་ལྟ་ཚུ་ དུས་མཐུན་བཟོ།"
+
+#: ../data/glade/gthumb_camera.glade.h:10
+msgid "_Auto Detect"
+msgstr "རང་བཞིན་གྱི་ སྐྱོན་འཛིན་ནི།(_A)"
+
+#: ../data/glade/gthumb_camera.glade.h:11
+msgid "_Delete imported images from the camera"
+msgstr "པར་ཆས་ནང་ལས་ ནང་འདྲེན་འབད་འབད་བའི་ གཟུགས་བརྙན་ཚུ་ བཏོན་གཏང་།(_D)"
+
+#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_convert.glade.h:23
+#: ../data/glade/gthumb_png_exporter.glade.h:61
+#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_web_exporter.glade.h:42
+msgid "_Destination:"
+msgstr "འགྲོ་ཡུལ།(_D)"
+
+#: ../data/glade/gthumb_camera.glade.h:13
+msgid "_Film:"
+msgstr "བརྙན་ཤོག:(_F)"
+
+#: ../data/glade/gthumb_camera.glade.h:14
+msgid "_Import"
+msgstr "ནང་འདྲེན་འབད།(_I)"
+
+#: ../data/glade/gthumb_camera.glade.h:15
+msgid "_Keep original filenames"
+msgstr "ཡིག་སྣོད་མིང་ ངོ་མ་འདི་ བདག་འཛིན་སྦེ་བཞག(_K)"
+
+#: ../data/glade/gthumb_camera.glade.h:16
+msgid "_Model:"
+msgstr "དཔེ།:(_M)"
+
+#: ../data/glade/gthumb_camera.glade.h:17
+msgid "_Port:"
+msgstr "འདྲེན་ལམ།:(_p)"
+
+#: ../data/glade/gthumb_comments.glade.h:1
+#: ../data/glade/gthumb_search.glade.h:4
+msgid "A_vailable categories:"
+msgstr "ཐོབ་ཚུགས་པའི་ དབྱེ་རིམ་ཚུ།(_V)"
+
+#: ../data/glade/gthumb_comments.glade.h:2
+#: ../data/glade/gthumb_search.glade.h:9
+msgid "Categories"
+msgstr "དབྱེ་རིམ་ཚུ།"
+
+#: ../data/glade/gthumb_comments.glade.h:3
+#: ../data/glade/gthumb_search.glade.h:11
+msgid "Co_mment:"
+msgstr "བསམ་བཀོད།:(_c)"
+
+#: ../data/glade/gthumb_comments.glade.h:4
+#: ../libgthumb/gth-file-view-list.c:1475
+msgid "Comment"
+msgstr "བསམ་བཀོད།"
+
+#: ../data/glade/gthumb_comments.glade.h:5
+msgid "Create a new category"
+msgstr "དབྱེ་རིམ་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད།"
+
+#: ../data/glade/gthumb_comments.glade.h:6
+msgid "Current date"
+msgstr "ད་ལྟོའི་ ཚེས་གྲངས།"
+
+#: ../data/glade/gthumb_comments.glade.h:7
+msgid "Do not modify"
+msgstr "ལེགས་བཅོས་མ་འབད།"
+
+#: ../data/glade/gthumb_comments.glade.h:8
+msgid "Image creation date"
+msgstr "གཟུགས་ བརྙན་གསར་བསྐྲུན་འབད་ནིའི་ ཚེས་གྲངས།"
+
+#: ../data/glade/gthumb_comments.glade.h:9
+msgid "Last modified date"
+msgstr "ཧེ་མ་ ལེགས་བཅོས་གྲུབ་པའི་ ཚེས་གྲངས།"
+
+#: ../data/glade/gthumb_comments.glade.h:10
+msgid "No date"
+msgstr "ཚེས་གྲངས་ མིན་འདུག།"
+
+#: ../data/glade/gthumb_comments.glade.h:11
+msgid "Photo digitalization date (From EXIF data)"
+msgstr "པར་ ཌི་ཇི་ཊཱལ་གྱི་ཐོག་ལས་བཏོན་པའི་ ཚེས་གྲངས།(ཨི་ཨེགསི་ཨའི་ཨེཕ་ གནད་སྡུད་ ནང་ལས།)"
+
+#: ../data/glade/gthumb_comments.glade.h:12
+msgid "Remove selected category"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ དབྱེ་རིམ་འདི་ རྩ་བསྐྲད་བཏང་།"
+
+#: ../data/glade/gthumb_comments.glade.h:13
+msgid "Save only cha_nged fields"
+msgstr "བསྒྱུར་བཅོས་འབད་ཡོད་པའི་ ས་སྒོ་ཚུ་ རྐྱངམ་གཅིག་ སྲུངས།(_n)"
+
+#: ../data/glade/gthumb_comments.glade.h:14
+msgid "The following date"
+msgstr "འོག་གི་ ཚེས་གྲངས།"
+
+#: ../data/glade/gthumb_comments.glade.h:15
+#: ../data/glade/gthumb_search.glade.h:23
+msgid "_Date:"
+msgstr "ཚེས་གྲངས།:(_D)"
+
+#: ../data/glade/gthumb_comments.glade.h:16
+#: ../data/glade/gthumb_search.glade.h:26
+msgid "_Place:"
+msgstr "ས་གནས།:(_P)"
+
+#: ../data/glade/gthumb_comments.glade.h:17
+#: ../data/glade/gthumb_search.glade.h:29
+msgid "_Selected categories:"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ དབྱེ་རིམ་ཚུ།:(_S)"
+
+#: ../data/glade/gthumb_convert.glade.h:2
+msgid "<b>Compression</b>"
+msgstr "<b></b>ཨེབ་བཙུགས།"
+
+#: ../data/glade/gthumb_convert.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:7
+msgid "<b>Image type</b>"
+msgstr "<b>གཟུགས་བརྙན་གྱི་ དབྱེ་བ།</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:4
+msgid "<b>Resolution</b>"
+msgstr "<b>ཧུམ་ཆ།</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:5
+#: ../data/glade/gthumb_png_exporter.glade.h:20
+#: ../data/glade/gthumb_tools.glade.h:9
+#: ../data/glade/gthumb_web_exporter.glade.h:13
+msgid "<b>Saving</b>"
+msgstr "<b>སྲུངས་བཞག</b>"
+
+#: ../data/glade/gthumb_convert.glade.h:7
+msgid "Compression _level:"
+msgstr "ཨེབ་བཙུགས་ གནས་རིམ།:(_l)"
+
+#: ../data/glade/gthumb_convert.glade.h:8
+msgid "Convert Format"
+msgstr "རྩ་སྒྲིག་ གཞི་བསྒྱུར་འབད།"
+
+#: ../data/glade/gthumb_convert.glade.h:9
+msgid "JPEG Options"
+msgstr "ཇེ་པི་ཨི་ཇི་ གདམ་ཁ་ཚུ།"
+
+#: ../data/glade/gthumb_convert.glade.h:10
+msgid "No_rmal (Deflate)"
+msgstr "སྤྱིར་བཏང་།(ནང་སྟོང་།)(_r)"
+
+#: ../data/glade/gthumb_convert.glade.h:11
+msgid "Opti_mize"
+msgstr "དང་ལེན་ བཟོ།(_m)"
+
+#: ../data/glade/gthumb_convert.glade.h:12
+#: ../data/glade/gthumb_tools.glade.h:34
+msgid "Overwrite mode:"
+msgstr "ཚབ་སྲུང་འབད་ནིའི་ ཐབས་ལམ།:"
+
+#: ../data/glade/gthumb_convert.glade.h:13
+msgid "PNG Options"
+msgstr "པི་ཨེན་ཇི་ གདམ་ཁ་ཚུ།"
+
+#: ../data/glade/gthumb_convert.glade.h:14
+#: ../data/glade/gthumb_tools.glade.h:36
+msgid "R_emove original"
+msgstr "ངོ་མ་ རྩ་བསྐྲད་བཏང་།"
+
+#: ../data/glade/gthumb_convert.glade.h:15
+msgid "Rename"
+msgstr "བསྐྱར་མིང་བཏགས།"
+
+#: ../data/glade/gthumb_convert.glade.h:16
+#: ../data/glade/gthumb_tools.glade.h:45
+msgid ""
+"Skip\n"
+"Rename\n"
+"Ask\n"
+"Overwrite"
+msgstr ""
+"གོམ་འགྱོ།\n"
+"བསྐྱར་མིང་བཏགས།\n"
+"འདྲི།\n"
+"ཚབ་སྲུང་འབད།"
+
+#: ../data/glade/gthumb_convert.glade.h:20
+msgid "TGA Options"
+msgstr "ཊི་ཇི་ཨེ་ གདམ་ཁ་ཚུ།"
+
+#: ../data/glade/gthumb_convert.glade.h:21
+msgid "TIFF Options"
+msgstr "ཊི་ཨའི་ཨེཕ་ཨེཕ་ གདམ་ཁ་ཚུ།"
+
+#: ../data/glade/gthumb_convert.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:50
+msgid "T_GA"
+msgstr "ཊི་ཆི་ཨེ།(_G)"
+
+#: ../data/glade/gthumb_convert.glade.h:24
+#: ../data/glade/gthumb_png_exporter.glade.h:65
+msgid "_Horizontal:"
+msgstr "ཐད་སྙོམས།(_H)"
+
+#: ../data/glade/gthumb_convert.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:56
+msgid "_JPEG"
+msgstr "ཇེ་པི་ཨི་ཇི།(_J)"
+
+#: ../data/glade/gthumb_convert.glade.h:26
+msgid "_Loss compression (JPEG)"
+msgstr "བརླག་སྟོར་ཨེབ་བཙུགས།(ཇེ་པི་ཨི་ཇི།)(_L)"
+
+#: ../data/glade/gthumb_convert.glade.h:27
+msgid "_No compression"
+msgstr "ཨེབ་བཙུགས་ མིན་འདུག།(_N)"
+
+#: ../data/glade/gthumb_convert.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:59
+msgid "_PNG"
+msgstr "པི་ཨེན་ཇི།(_P)"
+
+#: ../data/glade/gthumb_convert.glade.h:29
+msgid "_Progressive"
+msgstr "ཡར་འཕེལ་ཅན།(_P)"
+
+#: ../data/glade/gthumb_convert.glade.h:30
+msgid "_Quality:"
+msgstr "སྤུས་ཚད།(_Q)"
+
+#: ../data/glade/gthumb_convert.glade.h:31
+msgid "_RLE compression"
+msgstr "ཨར་ཨེལ་ཨི་ ཨིབ་བཙུགས།(_R)"
+
+#: ../data/glade/gthumb_convert.glade.h:32
+msgid "_Smoothing:"
+msgstr "ཧུམ་ཆ་བཟོ་བ།(_S)"
+
+#: ../data/glade/gthumb_convert.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:65
+msgid "_TIFF"
+msgstr "ཊི་ཨའི་ཨེཕ་ཨེཕ།"
+
+#: ../data/glade/gthumb_convert.glade.h:34
+#: ../data/glade/gthumb_png_exporter.glade.h:70
+msgid "_Vertical:"
+msgstr "ཀེར་ཕྲང་།:(_V)"
+
+#: ../data/glade/gthumb_convert.glade.h:35
+msgid "dpi"
+msgstr "ཌི་པི་ཨའི།"
+
+#: ../data/glade/gthumb_crop.glade.h:2
+msgid "4 x 3 (Book, DVD)"
+msgstr "༤ x ༣ (ཀི་དེབ, ཌི་བི་ཌི།)"
+
+#: ../data/glade/gthumb_crop.glade.h:3
+msgid "4 x 6 (Postcard)"
+msgstr "༤ x ༦ (འགྲེམ་བྱང་།)"
+
+#: ../data/glade/gthumb_crop.glade.h:4
+msgid "5 x 7"
+msgstr "༥ x ༧"
+
+#: ../data/glade/gthumb_crop.glade.h:5
+msgid "8 x 10"
+msgstr "༨ x ༡༠"
+
+#: ../data/glade/gthumb_crop.glade.h:6
+msgid "<b>Aspect ratio</b>"
+msgstr "<b>རྣམ་པའི་ པྱ་ཚད།</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:7
+msgid "<b>Selection</b>"
+msgstr "<b>སེལ་འཐུ།</b>"
+
+#: ../data/glade/gthumb_crop.glade.h:8
+msgid "Crop"
+msgstr "བཏོག་བཅོས།"
+
+#: ../data/glade/gthumb_crop.glade.h:9
+#: ../data/glade/gthumb_print.glade.h:17
+msgid "Custom"
+msgstr "སྲོལ་སྒྲིག"
+
+#: ../data/glade/gthumb_crop.glade.h:10
+#: ../data/glade/gthumb_preferences.glade.h:47
+msgid "None"
+msgstr "ཅི་མེད།"
+
+#: ../data/glade/gthumb_crop.glade.h:11
+msgid "Square"
+msgstr "གྲུ་བཞི།"
+
+#: ../data/glade/gthumb_crop.glade.h:12
+#: ../src/gth-window-actions-entries.h:175
+msgid "_Crop"
+msgstr "བཏོག་བཅོས།(_C)"
+
+#: ../data/glade/gthumb_crop.glade.h:13
+#: ../data/glade/gthumb_edit.glade.h:21
+#: ../data/glade/gthumb_print.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:54
+msgid "_Height:"
+msgstr "མཐོ་ཚད།(_H)"
+
+#: ../data/glade/gthumb_crop.glade.h:14
+#: ../data/glade/gthumb_edit.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:68
+msgid "_Width:"
+msgstr "རྒྱ་ཚད།:(_W)"
+
+#: ../data/glade/gthumb_crop.glade.h:15
+msgid "_X:"
+msgstr "ཨེགསི།:(_X)"
+
+#: ../data/glade/gthumb_crop.glade.h:16
+msgid "_Y:"
+msgstr "ཝའི།:(_Y)"
+
+#: ../data/glade/gthumb_edit.glade.h:2
+#: ../data/glade/gthumb_png_exporter.glade.h:2
+#: ../data/glade/gthumb_preferences.glade.h:2
+#: ../data/glade/gthumb_tools.glade.h:2
+#: ../data/glade/gthumb_web_exporter.glade.h:2
+msgid "     "
+msgstr "    "
+
+#: ../data/glade/gthumb_edit.glade.h:4
+#: ../data/glade/gthumb_print.glade.h:3
+#: ../data/glade/gthumb_tools.glade.h:4
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: ../data/glade/gthumb_edit.glade.h:5
+msgid "<b>Color levels</b>"
+msgstr "<b>ཚོས་གཞི་ གནས་རིམ་ཚུ།</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:6
+#: ../data/glade/gthumb_tools.glade.h:8
+msgid "<b>New dimensions</b>"
+msgstr "<b>རྒྱ་ཁྱོན་གསརཔ་ཚུ།</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:7
+msgid "<b>Original dimensions</b>"
+msgstr "<b>རྒྱ་ཁྱོན་ ངོ་མ་ཚུ།</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:8
+msgid "<b>Scale ratio</b>"
+msgstr "<b>ཆ་ཚད་ཀྱི་ དཔྱ་ཚད།</b>"
+
+#: ../data/glade/gthumb_edit.glade.h:9
+msgid "Brightness - Contrast"
+msgstr "དཀར་མདངས-་ཚོན་མདངས།"
+
+#: ../data/glade/gthumb_edit.glade.h:10
+msgid "Color Balance"
+msgstr "ཚོས་གཞི་ ཚད་སྙོམས།"
+
+#: ../data/glade/gthumb_edit.glade.h:11
+msgid "Con_trast:"
+msgstr "ཚོན་མདངས།(_C)"
+
+#: ../data/glade/gthumb_edit.glade.h:12
+msgid "Cyan-_Red:"
+msgstr "སྔོ་ལྗང་-དམརཔོ།:(_R)"
+
+#: ../data/glade/gthumb_edit.glade.h:13
+msgid "Height:"
+msgstr "མཐོ་ཚད།:"
+
+#: ../data/glade/gthumb_edit.glade.h:14
+msgid "High _quality"
+msgstr "སྤུས་ཚད་ མཐོ་བ།(_q)"
+
+#: ../data/glade/gthumb_edit.glade.h:15
+msgid "Hue - Saturation"
+msgstr "ཚོན་མདངས་-མཐའ་ཚད།"
+
+#: ../data/glade/gthumb_edit.glade.h:16
+msgid "Posterize"
+msgstr "གསལ་བྱང་བཟོ།"
+
+#: ../data/glade/gthumb_edit.glade.h:17
+msgid "Preserve l_uminosity"
+msgstr "འོད་ཤུགས་ ཉམས་སྲུངས་འབད།(_u)"
+
+#: ../data/glade/gthumb_edit.glade.h:18
+msgid "Scale Image"
+msgstr "ཚད་ཤིང་གི་ གཟུགས་བརྙན།"
+
+#: ../data/glade/gthumb_edit.glade.h:19
+msgid "Width:"
+msgstr "རྒྱ་ཚད།:"
+
+#: ../data/glade/gthumb_edit.glade.h:20
+msgid "_Brightness:"
+msgstr "དཀར་མདངས།:(_B)"
+
+#: ../data/glade/gthumb_edit.glade.h:22
+msgid "_Hue:"
+msgstr "མཚོན་མདངས།:(_H)"
+
+#: ../data/glade/gthumb_edit.glade.h:23
+#: ../data/glade/gthumb_tools.glade.h:57
+msgid "_Keep aspect ratio"
+msgstr "རྣམ་པའི་ དཔྱ་ཚད་ བདག་འཛིན་སྦེ་བཞག(_K)"
+
+#: ../data/glade/gthumb_edit.glade.h:24
+msgid "_Levels:"
+msgstr "གནས་རིམ་ཚུ།:(_L)"
+
+#: ../data/glade/gthumb_edit.glade.h:25
+msgid "_Lightness:"
+msgstr "ཡང་ཧིང།:(_L)"
+
+#: ../data/glade/gthumb_edit.glade.h:26
+msgid "_Magenta-Green:"
+msgstr "དམར་སྨུག-ལྗང་ཁུ།:(_M)"
+
+#: ../data/glade/gthumb_edit.glade.h:27
+msgid "_Preview"
+msgstr "སྔོན་ལྟ།(_P)"
+
+#: ../data/glade/gthumb_edit.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:61
+msgid "_Reset"
+msgstr "སླར་སྒྲིག(_R)"
+
+#: ../data/glade/gthumb_edit.glade.h:29
+msgid "_Saturation:"
+msgstr "མཐའ་ཚད།:(_S)"
+
+#: ../data/glade/gthumb_edit.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:62
+msgid "_Scale"
+msgstr "ཚད་ཤིང་།:(_S)"
+
+#: ../data/glade/gthumb_edit.glade.h:32
+msgid "_Yellow-Blue:"
+msgstr "སེརཔོ-ཧོནམོ།:(_Y)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:3
+msgid "112"
+msgstr "༡༡༢།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:4
+msgid "128"
+msgstr "༡༢༨།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:5
+msgid "164"
+msgstr "༡༦༤།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:6
+msgid "200"
+msgstr "༢༠༠།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:7
+msgid "256"
+msgstr "༢༥༦།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:8
+msgid "48"
+msgstr "༤༨།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:9
+msgid "64"
+msgstr "༦༤།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:10
+msgid "75"
+msgstr "༧༥།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:11
+msgid "85"
+msgstr "༨༥།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:12
+msgid "95"
+msgstr "༩༥།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:13
+msgid "<b>Background style</b>"
+msgstr "<b>རྒྱབ་གཞིའི་ བཟོ་རྣམ།</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:14
+msgid "<b>Caption</b>"
+msgstr "<b>འགོ་བརྗོད།</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:15
+msgid "<b>Footer</b>"
+msgstr "<b>མཇུག་ཡིག</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:16
+msgid "<b>Header and footer</b>"
+msgstr "<b>མགོ་ཡིག་དང་མཇུག་ཡིག</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:17
+msgid "<b>Header</b>"
+msgstr "<b>མགོ་ཡིག</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:18
+msgid "<b>Index images</b>"
+msgstr "<b>ཟུར་ཐོ་ གཟུགས་བརྙན་ཚུ།</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:19
+msgid "<b>Page size</b>"
+msgstr "<b>ཤོག་ལེབ་ཀྱི་ཚད།</b>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:21
+msgid "<small><i><b>Note:</b> # (enumerator)</i>.</small>"
+msgstr "<small><i><b>དྲན་འཛིན:</b> # (གྲགས་བཀོད་པ།)</i>.</small>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:23
+#, no-c-format
+msgid "<small><i><b>Note:</b> %p (page number), %n (total number of pages)</i>.</small>"
+msgstr "<small><i><b>དྲན་འཛིན།:</b> %p (ཤོག་གྲངས།), %n (ཤོག་གྲངས་ཀྱི་ བསྡོམས།)</i>.</small>"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:25
+#: ../data/glade/gthumb_web_exporter.glade.h:20
+msgid "Co_mment"
+msgstr "བསམ་བཀོད།(_m)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:26
+msgid "Col_umns:"
+msgstr "ཀེར་ཐིག་ཚུ།:(_u)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:27
+msgid "Colo_r:"
+msgstr "ཚོས་གཞི།:(_r)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:28
+msgid "Create Index Image"
+msgstr "གཟུགས་བརྙན་ཟུར་ཐོ་ གསར་བསྐྲུན་འབད།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:29
+msgid "Create _HTML image map"
+msgstr "ཧེཆ་ཊི་ཨེམ་ཨེལ་ གཟུགས་བརྙན་ ས་ཁྲ་ གསར་བསྐྲུན་འབད།(_H)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:30
+#: ../data/glade/gthumb_web_exporter.glade.h:23
+msgid "F_ooter:"
+msgstr "མཇུག་ཡིག:(_o)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:31
+#: ../data/glade/gthumb_web_exporter.glade.h:24
+msgid "File _name"
+msgstr "ཡིག་སྣོད་ མིང་།(_n)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:32
+msgid "File pa_th"
+msgstr "ཡིག་སྣོད་ འགྲུལ་ལམ།(_t)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:33
+#: ../data/glade/gthumb_web_exporter.glade.h:25
+msgid "File si_ze"
+msgstr "ཡིག་སྣོད་ ཚད།(_z)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:34
+msgid "Frame _style:"
+msgstr "གཞི་ཁྲམ་ བཟོ་རྣམ།:(_s)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:35
+msgid "Frame co_lor:"
+msgstr "གཞི་ཁྲམ་ ཚོས་གཞི།:(_l)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:36
+#: ../data/glade/gthumb_web_exporter.glade.h:27
+msgid "H_eader:"
+msgstr "མགོ་ཡིག:(_e)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:37
+msgid "Header/Footer"
+msgstr "མགོ་ཡིག/མཇུག་ཡིག"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:38
+msgid "Hei_ght:"
+msgstr "མཐོ་ཚད།:(_g)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:39
+#: ../data/glade/gthumb_web_exporter.glade.h:29
+msgid "Image dim_ensions"
+msgstr "གཟུགས་བརྙན་གྱི་ རྒྱ་ཁྱོན་ཚུ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:40
+msgid "Images"
+msgstr "གཟུགས་བརྙན་ཚུ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:41
+msgid "Index Image Style"
+msgstr "ཟུར་ཐོ་ གཟུགས་བརྙན་ཀྱི་ བཟོ་རྣམ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:42
+msgid "Page"
+msgstr "ཤོག་ལེབ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:43
+msgid "Pi_xels"
+msgstr "པིག་སེལསི།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:44
+#: ../data/glade/gthumb_web_exporter.glade.h:31
+msgid "Re_verse order"
+msgstr "གོ་རིམ་ རིམ་ལོག་འབད།(_v)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:45
+msgid "Rows a_nd columns"
+msgstr "གྲལ་ཐིག་དང་ ཀེར་ཐིག་ཚུ།(_n)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:46
+msgid "Select a color"
+msgstr "ཚོས་གཞི་ཅིག་ སེལ་འཐུ་འབད།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:47
+msgid "Select a font"
+msgstr "ཡིག་གཟུགས་ཅིག་ སེལ་འཐུ་འབད།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:48
+msgid "Shadow in"
+msgstr "གྱིབ་མ་ ནང་ན།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:49
+msgid "Shadow only"
+msgstr "གྱིབ་མ་ རྐྱངམ་གཅིག།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:50
+msgid "Shadow out"
+msgstr "གྱིབ་མ་ཕྱི་ཁར།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:51
+msgid "Simple"
+msgstr "འཇམ་སམ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:52
+msgid "Simple with shadow"
+msgstr "གྱིབ་མ་བཅས་པའི་འཇམ་སམ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:53
+msgid "Slide"
+msgstr "བཤུད་བརྙན།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:54
+#: ../data/glade/gthumb_web_exporter.glade.h:34
+msgid "Sor_t:"
+msgstr "དབྱི་སེལ།:(_t)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:55
+msgid "Sort"
+msgstr "དབྱེ་སེལ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:56
+msgid "St_yle"
+msgstr "བཟོ་རྣམ།(_y)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:57
+#: ../data/glade/gthumb_search.glade.h:22
+#: ../data/glade/gthumb_tools.glade.h:49
+msgid "Start _at:"
+msgstr "ལུ་ མགོ་བཙུགས།:(_a)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:58
+#: ../data/glade/gthumb_web_exporter.glade.h:35
+msgid "Style Preview"
+msgstr "སྔོན་ལྟ་ བཟོ་རྣམ།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:59
+msgid "Wi_dth:"
+msgstr "རྒྱ་ཚད།:"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:60
+msgid "_All pages with the same size"
+msgstr "ཚད་གཅིག་པའི་ ཤོག་ལེབ་ཚུ་ ཆ་མཉམ།(_A)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:62
+msgid "_Draw frame"
+msgstr "གཞི་ཁྲམ་ འབྲི།(_D)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:63
+msgid "_Font:"
+msgstr "ཡིག་གཟུགས།:(_F)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:64
+msgid "_Gradient"
+msgstr "སྟེགས་རིས།(_G)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:66
+msgid "_Image size:"
+msgstr "གཟུགས་བརྙན་གྱི་ཚད།:(_I)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:67
+msgid "_Rows:"
+msgstr "གྲལ་ཐིག:(_R)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:68
+msgid "_Solid color"
+msgstr "ཚོས་གཞི་ རགས་པ།(_S)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:66
+msgid "_Template:"
+msgstr "ཊེམ་པེལེཊི།(_T)"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_web_exporter.glade.h:49
+msgid "by name"
+msgstr "མིང་གི་ཐོག་ལས།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:72
+msgid "jpeg"
+msgstr "ཇེ་པི་ཨི་ཇི།"
+
+#: ../data/glade/gthumb_png_exporter.glade.h:73
+msgid "png"
+msgstr "པི་ཨེན་ཇི།"
+
+#: ../data/glade/gthumb_preferences.glade.h:3
+msgid "112 x 112"
+msgstr "༡༡༢ x ༡༡༢།"
+
+#: ../data/glade/gthumb_preferences.glade.h:4
+msgid "128 x 128"
+msgstr "༡༢༨ x ༡༢༨།"
+
+#: ../data/glade/gthumb_preferences.glade.h:5
+msgid "164 x 164"
+msgstr "༡༦༤ x ༡༦༤།"
+
+#: ../data/glade/gthumb_preferences.glade.h:6
+msgid "200 x 200"
+msgstr "༢༠༠ x ༢༠༠།"
+
+#: ../data/glade/gthumb_preferences.glade.h:7
+msgid "256 x 256"
+msgstr "༢༥༦ x ༢༥༦།"
+
+#: ../data/glade/gthumb_preferences.glade.h:8
+msgid "48 x 48"
+msgstr "༤༨ x ༤༨།"
+
+#: ../data/glade/gthumb_preferences.glade.h:9
+msgid "64 x 64"
+msgstr "༦༤ x ༦༤།"
+
+#: ../data/glade/gthumb_preferences.glade.h:10
+msgid "85 x 85"
+msgstr "༨༥ x ༨༥།"
+
+#: ../data/glade/gthumb_preferences.glade.h:11
+msgid "95 x 95"
+msgstr "༩༥ x ༩༥།"
+
+#: ../data/glade/gthumb_preferences.glade.h:12
+msgid "<b>Direction</b>"
+msgstr "<b>ཁ་ཕྱོགས།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:13
+msgid "<b>Hide/Show</b>"
+msgstr "<b>སྦ/སྟོན</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:14
+msgid "<b>Interface</b>"
+msgstr "<b>ངོས་འདྲ་བ།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:15
+msgid "<b>On startup:</b>"
+msgstr "<b>ལུ་འགོ་བཙུགས།:</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:16
+msgid "<b>Other</b>"
+msgstr "<b>གཞན</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:17
+msgid "<b>Slide show</b>"
+msgstr "<b>བཤུད་བརྙན།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:18
+msgid "<b>View images as</b>"
+msgstr "<b>བཟུམ་སྦེ་ གཟུགས་བརྙན་སྟོན།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:19
+msgid "<b>Viewer</b>"
+msgstr "<b>སྟོན་མི།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:20
+msgid "<b>Zoom quality</b>"
+msgstr "<b>རྒྱས་བཟུམ་ སྤུས་ཚད།</b>"
+
+#: ../data/glade/gthumb_preferences.glade.h:21
+msgid "Activate items with a double click"
+msgstr "ཨེབ་གཏང་ ཐེངས་གཉིས་དང་བཅས་ རྣམ་གྲངས་འདི་ཚུ་ ཤུགས་ལྡན་བཟོ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:22
+msgid "Activate items with a single click"
+msgstr "ཨེབ་གཏང་ཐེངས་གཅིག་དང་བཅས་ རྣམ་གྲངས་འདི་ཚུ་ ཤུགས་ལྡན་བཟོ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:23
+msgid "After _loading an image:"
+msgstr "གཟུགས་བརྙན་ མངོན་གསལ་འབད་ཚར་བཞིནམ་ལས།(_l)"
+
+#: ../data/glade/gthumb_preferences.glade.h:24
+msgid "As_k confirmation before deleting images or catalogs"
+msgstr "གཟུགས་བརྙན་ཡང་ན་ཐོ་གཞུང་ཚུ་ བཏོན་མ་གཏངམ་ལས ངེས་དཔྱད་འདྲི།(_k)"
+
+#: ../data/glade/gthumb_preferences.glade.h:25
+msgid "Ask whether to save _modified images"
+msgstr "ལེགས་བཅོས་གྲུབ་པའི་ གཟུགས་བརྙན་ཚུ་ བསྲུང་ནི ་ཨིན་ན་ མེན་ན་དྲི།(_m)"
+
+#: ../data/glade/gthumb_preferences.glade.h:26
+msgid "Black"
+msgstr "གནགཔོ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:27
+msgid "Browser"
+msgstr "བརའུ་ཟར།"
+
+#: ../data/glade/gthumb_preferences.glade.h:28
+msgid "C_lick policy:"
+msgstr "ཨེབ་གཏང་ སྲིད་བྱུས།:(_l)"
+
+#: ../data/glade/gthumb_preferences.glade.h:29
+msgid "Checked"
+msgstr "ཞིབ་དཔྱད་གྲུབ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:30
+msgid "Choose startup folder"
+msgstr "འགོ་བཙུགས་ སྣོད་འཛིན་ སེལ་འཐུ་འབད།"
+
+#: ../data/glade/gthumb_preferences.glade.h:31
+msgid "Co_mments"
+msgstr "བསམ་བཀོད་ཚུ།(_m)"
+
+#: ../data/glade/gthumb_preferences.glade.h:32
+msgid "D_elay before changing image:"
+msgstr "གཟུགས་བརྙན་ བསྒྱུར་བཅོས་མ་འབད་བའི་ཧེ་མ ཕྱིར་འགྱངས།:(_e)"
+
+#: ../data/glade/gthumb_preferences.glade.h:33
+msgid "D_etermine image type from content (slower)"
+msgstr "ནང་དོན་ ནང་ལས་ གཟུགས་བརྙན་གྱི་དབྱེ་བ་ གཏན་འབེབས་བཟོ།(ལྷོད་མི།)(_e)"
+
+#: ../data/glade/gthumb_preferences.glade.h:34
+msgid "Do _not change folder"
+msgstr "སྣོད་འཛིན་ བསྒྱུར་བཅོས་མ་འབད།(_n)"
+
+#: ../data/glade/gthumb_preferences.glade.h:35
+msgid "Fit image to window"
+msgstr "ཝིན་ཌོ་ལུ་ གཟུགས་བརྙན་ ཚུད་སྒྲིག་འབད།"
+
+#: ../data/glade/gthumb_preferences.glade.h:36
+msgid "Fit to window if larger"
+msgstr "སྦོམ་པ་ཅིན་ ཝིན་ཌོ་ལུ་ ཚུད་སྒྲིག་འབད།"
+
+#: ../data/glade/gthumb_preferences.glade.h:37
+msgid "Follow Nautilus behaviour"
+msgstr "ནའུ་ཊི་ལཱསི་ སྤྱོད་ལམ་གྱི་ རྗེས་སུ་འབྲང་།"
+
+#: ../data/glade/gthumb_preferences.glade.h:38
+msgid "For_ward"
+msgstr "གདོང་སྤྱོད།(_w)"
+
+#: ../data/glade/gthumb_preferences.glade.h:39
+msgid "General"
+msgstr "ཡོངས་ཁྱབ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:40
+msgid "Go to last _visited folder or catalog"
+msgstr "སྣོད་འཛིན་ཡང་ན་ ཐོ་གཞུང་ ཧེ་མ་ བལྟ་སྤྱོད་འབད་འབདཝ་ནང་ལུ་འགྱོ།(_v)"
+
+#: ../data/glade/gthumb_preferences.glade.h:41
+msgid "Go to this _folder:"
+msgstr "འ་ནི་ སྣོད་འཛིན་ནང་ལུ་ འགྱོ།:(_f)"
+
+#: ../data/glade/gthumb_preferences.glade.h:42
+msgid "H_igh"
+msgstr "མཐོ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:43
+msgid "Icons only"
+msgstr "དངོས་དཔར་རྐྱངམ་ཅིག"
+
+#: ../data/glade/gthumb_preferences.glade.h:44
+msgid "Keep previous zoom"
+msgstr "ཧེ་མའི་་རྒྱས་ཟུམ་ བཞག"
+
+#: ../data/glade/gthumb_preferences.glade.h:45
+msgid "Layout:"
+msgstr "སྒྲིག་བཀོད།:"
+
+#: ../data/glade/gthumb_preferences.glade.h:46
+msgid "Lo_w"
+msgstr "དམའ།(_w)"
+
+#: ../data/glade/gthumb_preferences.glade.h:48
+msgid "Ran_dom"
+msgstr "གང་འབྱུང་།"
+
+#: ../data/glade/gthumb_preferences.glade.h:49
+msgid "Re_verse"
+msgstr "ལོག་རིམ།(_v)"
+
+#: ../data/glade/gthumb_preferences.glade.h:50
+msgid "Resta_rt when finished"
+msgstr "མཇུག་བསྡུཝ་ད་ ལོག་འགོ་བཙུགས།(_r)"
+
+#: ../data/glade/gthumb_preferences.glade.h:51
+msgid "Set image to actual size"
+msgstr "གཟུགས་བརྙན་འདི་ ཚད་ངོ་མ་ནང་ལུ་ གཞི་སྒྲིག་འབད།"
+
+#: ../data/glade/gthumb_preferences.glade.h:52
+msgid "Set to C_urrent"
+msgstr "ད་ལྟོའི་ནང་ གཞི་སྒྲིག་འབད།(_u)"
+
+#: ../data/glade/gthumb_preferences.glade.h:53
+msgid "Slide Show"
+msgstr "བཤུད་བརྙན།"
+
+#: ../data/glade/gthumb_preferences.glade.h:54
+msgid "System settings"
+msgstr "རིམ་ལུགས་ གཞི་སྒྲིག་ཚུ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:55
+msgid "Text below icons"
+msgstr "ངོས་དཔར་ཚུ་གི་འོག་ལུ་ ཚིག་ཡིག"
+
+#: ../data/glade/gthumb_preferences.glade.h:56
+msgid "Text beside icons"
+msgstr "ངོས་དཔར་ཚུ་གི་ ཟུར་ཁར་ཚིག་ཡིག"
+
+#: ../data/glade/gthumb_preferences.glade.h:57
+msgid "Text only"
+msgstr "ཚིག་ཡིག་རྐྱངམ་ཅིག"
+
+#: ../data/glade/gthumb_preferences.glade.h:58
+msgid "Th_umbnail size:"
+msgstr "མཐེ་ཟེར་གྱི་ཚད།:(_u)"
+
+#: ../data/glade/gthumb_preferences.glade.h:59
+msgid "Transparency _type:"
+msgstr "དྭངས་གསལ་གྱི་ དབྱེ་བ།:(_t)"
+
+#: ../data/glade/gthumb_preferences.glade.h:60
+msgid "Viewer"
+msgstr "མཐོང་བྱེད།"
+
+#: ../data/glade/gthumb_preferences.glade.h:61
+msgid "White"
+msgstr "དཀརཔོ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:62
+msgid "_Filenames"
+msgstr "ཡིག་སྣོད་མིང་ཚུ།(_F)"
+
+#: ../data/glade/gthumb_preferences.glade.h:63
+msgid "_List"
+msgstr "ཐོ་ཡིག།(_L)"
+
+#: ../data/glade/gthumb_preferences.glade.h:64
+msgid "_Slides"
+msgstr "བཤུད་བརྙན་ཚུ།(_s)"
+
+#: ../data/glade/gthumb_preferences.glade.h:65
+#: ../src/gth-browser-actions-entries.h:402
+msgid "_Thumbnails"
+msgstr "མཐེ་ཟེརཚུ།(_T)"
+
+#: ../data/glade/gthumb_preferences.glade.h:66
+msgid "_Toolbar style:"
+msgstr "ལག་ཆས་ཕྲ་རིམ་གྱི་ བཟོ་རྣམ།:"
+
+#: ../data/glade/gthumb_preferences.glade.h:67
+msgid "gThumb Preferences"
+msgstr "ཇི་ཐམཔ་ དགའ་གདམ།"
+
+#: ../data/glade/gthumb_preferences.glade.h:68
+msgid "seconds"
+msgstr "སྐར་ཆག་ཚུ།"
+
+#: ../data/glade/gthumb_print.glade.h:4
+msgid "1"
+msgstr "༡།"
+
+#: ../data/glade/gthumb_print.glade.h:5
+msgid "16"
+msgstr "༡༦།"
+
+#: ../data/glade/gthumb_print.glade.h:6
+msgid "2"
+msgstr "༢།"
+
+#: ../data/glade/gthumb_print.glade.h:7
+msgid "4"
+msgstr "༤།"
+
+#: ../data/glade/gthumb_print.glade.h:8
+msgid "8"
+msgstr "༨།"
+
+#: ../data/glade/gthumb_print.glade.h:9
+msgid "<b>Margins</b>"
+msgstr "<b>ས་སྟོང་ཚུ།</b>"
+
+#: ../data/glade/gthumb_print.glade.h:10
+msgid "<b>Orientation</b>"
+msgstr "<b>ཕྱོགས།</b>"
+
+#: ../data/glade/gthumb_print.glade.h:11
+msgid "<b>Size</b>"
+msgstr "<b>ཚད།</b>"
+
+#: ../data/glade/gthumb_print.glade.h:12
+msgid ""
+"<small><i><b>Note:</b> Drag the image to move it in the page.\n"
+"Click on an image to rotate it.</i></small>"
+msgstr ""
+"<small><i><b>དྲན་འཛིན།:</b> ཤོག་ལེབ་ནང་སྤོ་ནིའི་དོན་ལུ་ གཟུགས་བརྙན་འདི་ འདྲུད།.\n"
+"གཟུགས་བརྙན་འདི་བསྒྱིར་ནིའི་དོན་ལུ་  ཨེབ་གཏང་འབད།། </i></small>"
+
+#: ../data/glade/gthumb_print.glade.h:14
+msgid "A4"
+msgstr "ཨེ་༤།"
+
+#: ../data/glade/gthumb_print.glade.h:15
+msgid "Center _on Page"
+msgstr "ཤོག་ལེབ་ཀྱི་ དབུས་ལུ།"
+
+#: ../data/glade/gthumb_print.glade.h:16
+msgid "Comment _font:"
+msgstr "བསམ་བཀོད་ ཡིག་གཟུགས།:(_f)"
+
+#: ../data/glade/gthumb_print.glade.h:18
+msgid "Executive"
+msgstr "ཨེག་ཟི་ཀུས་ཊིབ།"
+
+#: ../data/glade/gthumb_print.glade.h:19
+msgid "I_nclude comment"
+msgstr "བསམ་བཀོད་ གྲངས་སུ་ བཙུགས།(_n)"
+
+#: ../data/glade/gthumb_print.glade.h:20
+msgid "Images per page:"
+msgstr "ཤོག་ལེབ་རེ་ལུ་ གཟུགས་བརྙན་ཚུ།:"
+
+#: ../data/glade/gthumb_print.glade.h:21
+msgid "Inches"
+msgstr "ཨིན་ཅེསི།"
+
+#: ../data/glade/gthumb_print.glade.h:22
+msgid "Lan_dscape"
+msgstr "ཀེ་ཀེ(_d)"
+
+#: ../data/glade/gthumb_print.glade.h:23
+msgid "Layout"
+msgstr "སྒྲིག་བཀོད།"
+
+#: ../data/glade/gthumb_print.glade.h:24
+msgid "Legal"
+msgstr " ལི་གཱལ།"
+
+#: ../data/glade/gthumb_print.glade.h:25
+msgid "Letter"
+msgstr "ལེ་ཊར།"
+
+#: ../data/glade/gthumb_print.glade.h:26
+msgid "Millimeters"
+msgstr "མི་ལི་མི་ཊརསི།"
+
+#: ../data/glade/gthumb_print.glade.h:27
+msgid "P_ortrait"
+msgstr "ཡར་འཕྲང་།(_o)"
+
+#: ../data/glade/gthumb_print.glade.h:28
+msgid "Paper Details"
+msgstr "ཤོག་གུའི་ རྒྱས་བཤད་ཚུ།"
+
+#: ../data/glade/gthumb_print.glade.h:29
+msgid "Postcard"
+msgstr "འགྲེམ་བྱང་།"
+
+#.
+#: ../data/glade/gthumb_print.glade.h:30
+#: ../libgthumb/print-callbacks.c:1678
+#: ../libgthumb/print-callbacks.c:1692
+#: ../libgthumb/print-callbacks.c:2153
+msgid "Print"
+msgstr "དཔར་བསྐྲུན་འབད།"
+
+#: ../data/glade/gthumb_print.glade.h:31
+msgid "Tabloid"
+msgstr "ཊེབ་ལོའིཌི།"
+
+#: ../data/glade/gthumb_print.glade.h:32
+msgid "_Bottom:"
+msgstr "གཤམ།(_B)"
+
+#: ../data/glade/gthumb_print.glade.h:34
+msgid "_Left:"
+msgstr "གཡོན།:(_L)"
+
+#: ../data/glade/gthumb_print.glade.h:35
+msgid "_Right:"
+msgstr "གཡས།:(_R)"
+
+#: ../data/glade/gthumb_print.glade.h:36
+msgid "_Scale:"
+msgstr "ཚད་ཤིང་།:(_S)"
+
+#: ../data/glade/gthumb_print.glade.h:37
+msgid "_Top:"
+msgstr "སྤྱི་ཏོག(_T)"
+
+#: ../data/glade/gthumb_print.glade.h:38
+msgid "_Unit:"
+msgstr "ཆ་ཕྲན།:(_U)"
+
+#: ../data/glade/gthumb_search.glade.h:2
+msgid "<b>Search criteria</b>"
+msgstr "<b>ཁྱད་ཚད་ འཚོལ་ཞིབ་འབད།</b>"
+
+#: ../data/glade/gthumb_search.glade.h:3
+msgid "<b>Search scope</b>"
+msgstr "<b>འོས་སྐབས་ འཚོལ་ཞིབ་འབད།</b>"
+
+#: ../data/glade/gthumb_search.glade.h:5
+msgid "After"
+msgstr "ཤུལ་ལས།"
+
+#: ../data/glade/gthumb_search.glade.h:6
+msgid "Any"
+msgstr "གང་རུང་།"
+
+#: ../data/glade/gthumb_search.glade.h:7
+msgid "Before"
+msgstr "སྔོན་མ།"
+
+#: ../data/glade/gthumb_search.glade.h:10
+msgid "Choose categories from the saved list"
+msgstr "ཐོ་ཡིག་ སྲུངས་ འབད་འབདཝ་ནང་ལས་ དབྱེ་རིམ་ཚུ་ སེལ་འཐུ་འབད།"
+
+#: ../data/glade/gthumb_search.glade.h:12
+msgid "Equal to"
+msgstr "ལུ་མཉམ་པ།"
+
+#: ../data/glade/gthumb_search.glade.h:13
+msgid "File _name:"
+msgstr "ཡིག་སྣོད་ཀྱི་མིང་།(_n)"
+
+#: ../data/glade/gthumb_search.glade.h:14
+msgid "Find"
+msgstr "འཚོལ།"
+
+#: ../data/glade/gthumb_search.glade.h:15
+msgid "Found images:"
+msgstr "གཟུགས་བརྙན་ཚུ་ ཐོབ་ཅི།:"
+
+#: ../data/glade/gthumb_search.glade.h:16
+msgid "Match a_ll selected categories"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ དབྱེ་རིམ་ཚུ་ ཆ་མཉམ་ མཐུན་སྒྲིག་འབད།(_l)"
+
+#: ../data/glade/gthumb_search.glade.h:17
+msgid "Match a_ny selected category"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ དབྱེ་རིམ་ གང་རུང་ཅིག་ མཐུན་སྒྲིག་འབད།"
+
+#: ../data/glade/gthumb_search.glade.h:18
+msgid "New _Search..."
+msgstr "འཚོལ་ཞིབ་ གསརཔ།(_S)"
+
+#: ../data/glade/gthumb_search.glade.h:19
+#: ../src/dlg-photo-importer.c:835
+#: ../src/dlg-photo-importer.c:1525
+msgid "No images found"
+msgstr "གཟུགས་བརྙན་ཚུ་ མ་ཐོབ།"
+
+#: ../data/glade/gthumb_search.glade.h:20
+msgid "Search Progress"
+msgstr "འཚོལ་ཞིབ་ ཡར་འཕེལ།"
+
+#: ../data/glade/gthumb_search.glade.h:21
+#: ../data/glade/gthumb_tools.glade.h:44
+msgid "Searching in:"
+msgstr "ནང་ན་ འཚོལ་ཞིབ་འབད་དོ།:"
+
+#: ../data/glade/gthumb_search.glade.h:24
+#: ../src/gth-browser-actions-entries.h:163
+#: ../src/gth-browser-actions-entries.h:198
+msgid "_Edit Search"
+msgstr "འཚོལ་ཞིབ་ ཞུན་དག་འབད་དོ།(_E)"
+
+#: ../data/glade/gthumb_search.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:55
+msgid "_Include sub-folders"
+msgstr "ཡན་ལག་-སྣོད་འཛིན་ཚུ་ གྲངས་སུ་ བཙུགས།(_I)"
+
+#: ../data/glade/gthumb_search.glade.h:27
+msgid "_Save"
+msgstr "སྲུངས།(_S)"
+
+#: ../data/glade/gthumb_search.glade.h:28
+msgid "_Search"
+msgstr "འཚོལ་ཞིབ་འབད།(_s)"
+
+#: ../data/glade/gthumb_tools.glade.h:5
+msgid "<b>Change the following values:</b>"
+msgstr "<b>འོག་གི་གནས་གོང་ཚུ་ བསྒྱུར་བཅོས་འམད།:</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:6
+msgid "<b>Change to:</b>"
+msgstr "<b>ལུ་ བསྒྱུར་བཅོས།:</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:10
+msgid "<b>Write to CD</b>"
+msgstr "<b>སི་ཌི་ལུ་འབྲི།</b>"
+
+#: ../data/glade/gthumb_tools.glade.h:11
+msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+msgstr "<small><i><b>བྲན་འཛིན།</b>: ཇེ་པི་ཨི་ཇི་ བཟོ་བསྒྱུར་དེ་ཚུ་ ལོསི་ལེསི་ ཨིན་པས།</i></small>"
+
+#: ../data/glade/gthumb_tools.glade.h:13
+#, no-c-format
+msgid "<small><i><b>Special characters:</b> # (enumerator), %f (original filename), %d (image date), %s (image size).</i></small>"
+msgstr "<small><i><b>དམིགས་བསལ་ ཡིག་འབྲུ་ཚུ།:</b> # (གྲངས་བཀོད་པ།), %f (ཡིག་སྣོད་ཀྱི་མིང་ངོ་མ།), %d (གཟུགས་བརྙན་ ཚེས་གྲངས།), %s (གཟུགས་བརྙན་ ཚད།).</i></small>"
+
+#: ../data/glade/gthumb_tools.glade.h:14
+msgid "A_djust timezone:"
+msgstr "ཆུ་ཚོད་གླིང་སྡེ་ བདེ་སྒྲིག་འབད།:(_d)"
+
+#: ../data/glade/gthumb_tools.glade.h:15
+#: ../src/gth-window-actions-entries.h:270
+msgid "Adjust photo _orientation"
+msgstr "དཔར་གྱི་ ཕྱོགས་ བདེ་སྒྲིག་འབད།(_o)"
+
+#: ../data/glade/gthumb_tools.glade.h:16
+msgid "Apply to _all images"
+msgstr "གཟུགས་བརྙན་ཚུ་ ཆ་མཉམ་ནང་ལུ་ འཇུག་སྤྱོད་འབད།(_a)"
+
+#: ../data/glade/gthumb_tools.glade.h:17
+msgid "C_urrent date"
+msgstr "ད་ལྟོའི་ ཚེས་གྲངས།(_u)"
+
+#: ../data/glade/gthumb_tools.glade.h:18
+#: ../src/gth-browser-actions-entries.h:38
+#: ../src/gth-browser-actions-entries.h:39
+msgid "Ca_talog"
+msgstr "ཐོ་གཞུང།(_t)"
+
+#: ../data/glade/gthumb_tools.glade.h:19
+msgid "Change Date"
+msgstr "ཚེས་གྲངས་ བསྒྱུར་བཅོས་འབད།"
+
+#: ../data/glade/gthumb_tools.glade.h:20
+msgid "Check _All"
+msgstr "ཆ་མཉམ་ ཞིབ་དཔྱད་འབད།(_A)"
+
+#: ../data/glade/gthumb_tools.glade.h:21
+msgid "Check _None"
+msgstr "ག་ནི་ཡང་ ཞིབ་དཔྱད་མ་འབད།(_N)"
+
+#: ../data/glade/gthumb_tools.glade.h:22
+msgid "Checking image:"
+msgstr "གཟུགས་བརྙན་ ཞིབ་དཔྱད་འབད་དོ།:"
+
+#: ../data/glade/gthumb_tools.glade.h:24
+msgid "Co_mment date"
+msgstr "བསམ་བཀོད་ ཚེས་གྲངས།(_d)"
+
+#: ../data/glade/gthumb_tools.glade.h:25
+msgid "Current _Folder"
+msgstr "ད་ལྟོའི་ ཚེས་གྲངས།(_F)"
+
+#: ../data/glade/gthumb_tools.glade.h:26
+msgid "Equal images:"
+msgstr "མཉམ་མའི་ གཟུགས་བརྙན་ཚུ།:"
+
+#: ../data/glade/gthumb_tools.glade.h:27
+msgid "Find Duplicates"
+msgstr "ངོ་བཤུས་མཐའ་མ་ཚུ་ འཚོལ།"
+
+#: ../data/glade/gthumb_tools.glade.h:28
+msgid "Found duplicates:"
+msgstr "ཐོབ་ཐོབ་པའི་ ངོ་བཤུས་མཐའ་མ་ཚུ།:"
+
+#: ../data/glade/gthumb_tools.glade.h:29
+msgid "Image c_reation date"
+msgstr "གཟུངགས་བརྙན་ གསར་བསྐྲུན་ ཚེས་གྲངས།(_r)"
+
+#: ../data/glade/gthumb_tools.glade.h:30
+msgid "Mirror image horizontally (left-right)"
+msgstr "ངོ་འཆར་གྱི་ གཟུགས་བརྙན་ ཐད་སྙོམས་སྦེ།(གཡོན-གཡས།)"
+
+#: ../data/glade/gthumb_tools.glade.h:31
+msgid "Mirror image vertically (top-bottom)"
+msgstr "ངོ་འཆར་གྱི་ གཟུགས་བརྙན་ ཀེར་འཕྲང་སྦེ།(སྤྱི་ཏོག-གཤམ།)"
+
+#: ../data/glade/gthumb_tools.glade.h:32
+#: ../src/gth-browser-actions-entries.h:83
+#: ../src/gth-browser-actions-entries.h:108
+#: ../src/gth-browser-actions-entries.h:228
+#: ../src/gth-browser-actions-entries.h:258
+msgid "Move to _Trash"
+msgstr "ཕྱགས་ཧོད་ནང་ལུ་ བཤུད།(_T)"
+
+#: ../data/glade/gthumb_tools.glade.h:33
+msgid "New names _preview:"
+msgstr "མིང་གསརཔ་ཚུ་ སྔོན་ལྟ་འབད།(_p)"
+
+#: ../data/glade/gthumb_tools.glade.h:35
+msgid "P_hoto digitalization date (From EXIF data)"
+msgstr "དཔར་ཌི་ཇི་ཊཱལ་ བཟོ་བའི་ ཚེས་གྲངས།(ཨི་ཨེགསི་ཨའི་ཨེཕ་ གནད་སྡུད་ནང་ལས།)"
+
+#: ../data/glade/gthumb_tools.glade.h:37
+msgid "Re_verse Order"
+msgstr "རིམ་ལོག་ གོ་རིམ།(_v)"
+
+#: ../data/glade/gthumb_tools.glade.h:38
+msgid "Rename Series"
+msgstr "བསྐྱར་མིང་ རྒྱུན་རིམ།"
+
+#: ../data/glade/gthumb_tools.glade.h:39
+msgid "Rotate Images"
+msgstr "གཟུགས་བརྙན་ བསྒྱིར།"
+
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "Rotate image 90 degrees clockwise"
+msgstr "གཟུགས་བརྙན་འདི་ ཁུག་ཟུར་༩༠་ གཡས་བསྐོར་སྦེ་ བསྒྱིར།"
+
+#: ../data/glade/gthumb_tools.glade.h:41
+msgid "Rotate image 90 degrees counter-clockwise"
+msgstr "གཟུགས་བརྙན་འདི་ ཁུག་ཟུར་༩༠་ལུ་གཡོན་བསྐོར་སྦེ་བསྒྱིར།"
+
+#: ../data/glade/gthumb_tools.glade.h:42
+#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-browser-actions-entries.h:384
+msgid "Scale Images"
+msgstr "གཟུགས་བརྙན་ཚུ་ ཚད་འཇལ།"
+
+#: ../data/glade/gthumb_tools.glade.h:43
+msgid "Search terminated, no duplicates found."
+msgstr " འཚོལ་ཞིབ་ རྩ་གྲོལ་བཏང་ཡི་ ངོ་བཤུས་ཚུ་ མ་ཐོབ།"
+
+#: ../data/glade/gthumb_tools.glade.h:51
+msgid "The _following date:"
+msgstr "འོག་གི་ ཚེས་གྲངས།:(_f)"
+
+#: ../data/glade/gthumb_tools.glade.h:52
+msgid "Write To CD"
+msgstr "སི་ཌི་ནང་ལུ་ འབྲི།"
+
+#: ../data/glade/gthumb_tools.glade.h:58
+msgid "_Last modified date"
+msgstr "མཐའ་མཇུག་ལུ་ ལེགས་བཅོས་གྲུབ་པའི་ ཚེས་གྲངས།(_L)"
+
+#: ../data/glade/gthumb_tools.glade.h:60
+#: ../src/gth-browser-actions-callbacks.c:166
+#: ../src/gth-browser-actions-callbacks.c:603
+#: ../src/gth-browser-actions-callbacks.c:1111
+msgid "_Rename"
+msgstr "བསྐྱར་མིང་ མཏགས།(_R)"
+
+#: ../data/glade/gthumb_tools.glade.h:63
+msgid "_Selected Images"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ གཟུགས་བརྙན་ཚུ།(_S)"
+
+#: ../data/glade/gthumb_tools.glade.h:64
+msgid "_Sort:"
+msgstr "དབྱེ་སེལ་འབད།:(_S)"
+
+#: ../data/glade/gthumb_tools.glade.h:70
+msgid "hours"
+msgstr "ཆུ་ཚོད་ཚུ།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:4
+msgid "1024 x 768"
+msgstr "༡༠༢༤x༧༦༨།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:5
+msgid "1280 x 960"
+msgstr "༡༢༨༠ x ༩༦༠།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:6
+msgid "320 x 200"
+msgstr "༣༢༠ x ༢༠༠།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:7
+msgid "640 x 480"
+msgstr "༦༤༠x ༤༨༠།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:8
+msgid "800 x 600"
+msgstr "༨༠༠ x ༦༠༠།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:9
+msgid "<b>Album</b>"
+msgstr "<b>དཔར་མཛོད།</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:10
+msgid "<b>Index Layout</b>"
+msgstr "<b><b>ཟུར་ཐོ་ སྒྲིག་བཀོད།</b> "
+
+#: ../data/glade/gthumb_web_exporter.glade.h:11
+msgid "<b>Personalize theme</b>"
+msgstr "<b>བརྗོད་དོན་འདི་ རང་དོན་བཟོ།</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:12
+msgid "<b>Photo data</b>"
+msgstr "<b>དཔར་གྱི་ གནད་སྡུད།</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:14
+msgid "<b>Theme</b>"
+msgstr "<b>བརྗོད་དོན།</b>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:16
+#, no-c-format
+msgid "<small><i><b>Note:</b> %d (current date).</i></small>"
+msgstr "<small><i><b>དྲན་འཛིན།:</b> %d (ད་ལྟོའི་ ཚེས་གྲངས།).</i></small>"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:17
+msgid "Came_ra Model"
+msgstr "དཔར་ཆས་ དཔེ།(_C)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:18
+msgid "Caption"
+msgstr "དཔར་བཤད།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:21
+msgid "E_xposure mode"
+msgstr "མདངས་ཕོག་ ཐབས་ལམ།(_x)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:22
+msgid "Exposure _time"
+msgstr "མདངས་ཕོག་ ཆུ་ཚོད།(_t)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:26
+msgid "Focal _length"
+msgstr "ཕོ་ཀཱལ་ རིང་ཚད།(_l)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:28
+msgid "I_mage Caption..."
+msgstr "གཟུགས་བརྙན་གྱི་ དཔར་བཤད།(_m)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:30
+msgid "Inde_x file:"
+msgstr "ཟུར་ཐོག་ ཡིག་སྣོད།(_x)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:32
+msgid "Resi_ze if larger than:"
+msgstr "དེ་ལས་སྦོམ་པ་ཅིན་ ཚད་བསྐྱར་བཟོ་འབད།:(_z)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:33
+msgid "Si_ze :"
+msgstr "ཚད།:(_z)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:36
+msgid "Th_eme:"
+msgstr "བརྗོད་དོན།:(_e)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:37
+msgid "Web Album"
+msgstr "ཝེབ་ཀྱི་གླུ་མཛོད།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:38
+msgid "Web Album Theme"
+msgstr "ཝེབ་གླུ་མཛོད་ཀྱི་བརྗོད་དོན།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:39
+msgid "_Aperture value"
+msgstr "པར་ཆས་དོང་ཆུང་གི་གནས་གོང་།(_A)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:40
+msgid "_Copy originals to destination"
+msgstr "འདྲ་དང་པ་ཚུ་འགྲོ་ཡུལ་ནང་ལུ་འདྲ་བཤུས་རྐྱབས།(_C)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:41
+msgid "_Date and Time"
+msgstr "ཚེས་གྲངས་དང་ཆུ་ཚོད།(_D)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:43
+msgid "_Flash"
+msgstr "རིབ་སྟོན།(_F)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:44
+msgid "_Go to Theme Folder"
+msgstr "བརྗོད་དོན་གྱི་སྣོད་འཛིན་ནང་ལུ་འགྱོ།(_G)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:45
+msgid "_Install Theme..."
+msgstr "བརྗོད་དོན་གཞི་བཙུགས་འབད...(_I)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:46
+msgid "_Select"
+msgstr "སེལ་འཐུ་འབད།(_S)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:47
+msgid "_Shutter speed"
+msgstr "འགེབས་བྱེད་ཀྱི་མགྱོགས་ཚད།(_S)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:48
+msgid "_Thumbnail Caption..."
+msgstr "མཐེ་གཟེར་གྱི་དཔར་བཤད...(_T)"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:50
+msgid "columns"
+msgstr "ཀེར་ཐིག་ཚུ།"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:51
+msgid "index.html"
+msgstr "index.html"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:52
+msgid "rows"
+msgstr "གྲལ་ཐིག་ཚུ།"
+
+#: ../data/gthumb.desktop.in.h:1
+msgid "Image Viewer"
+msgstr "གཟུགས་བརྙན་མཐོང་བྱེད།"
+
+#: ../data/gthumb.desktop.in.h:2
+msgid "View and organize your images"
+msgstr "ཁྱོད་རའི་གཟུགས་བརྙན་ཚུ་ སྟོན་བཞིནམ་ལས་  འགོ་འདྲེན་འཐབ།"
+
+#: ../data/gthumb.desktop.in.h:3
+msgid "gThumb Image Viewer"
+msgstr "ཇི་ཐམཔ་ གཟུགས་བརྙན་ མཐོང་བྱེད།"
+
+#: ../data/gthumb.schemas.in.h:1
+msgid "Images over this size (in bytes) will not be thumbnailed. Use 0 if you want to generate thumbnails for all images."
+msgstr "འ་ནི་ཚད་(བཱའིཊིསི་ནང)འདི་ལས་ ལྷག་མི་ གཟུགས་བརྙན་ཚུ་ མཐེ་གཟེར་མི་འབད།ཁྱོད་ཀྱི་གཟུགས་བརྙན་ཚུ་ ཆ་མཉམ་གྱི་དོན་ལུ་ མཐེ་གཟེར་བཟོ་བཏོན་ འབད་དགོ་པ་ཅིན་ ༠་ ལག་ལེན་འཐབ།"
+
+#: ../data/gthumb.schemas.in.h:2
+msgid "Possible values are: 1, 2, 3, 4."
+msgstr "སྲིད་པའི་ གནས་གོང་ཚུ།: ༡, ༢, ༣, ༤.ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:3
+msgid "Possible values are: actual_size, fit, keep_prev, fit_if_larger."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:ཚད་ངོ་མ་དང་ ཚུད་སྒྲིག སྔོན་ལྟ་བཞག་ནི་ སྦོམ་པ་ཅིན་ཚུད་སྒྲིག་འབད་ནི་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:4
+msgid "Possible values are: ascending, descending."
+msgstr "སྲིད་པའི་ གནས་གོང་ཚུ།:ཡར་འཛེགས་དང་མར་འབབ་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:5
+msgid "Possible values are: forward, backward, random."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:གདོང་བསྐྱོད་དང རྒྱབ་བསྐྱོད་ གང་འབྱུང་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:6
+msgid "Possible values are: high, low."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:མཐོ་དང་དམའཝ་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:7
+msgid "Possible values are: image, data, comment."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:་གཟུགས་བརྙན་དང་ གནད་སྡུད་ དེ་ལས་བསམ་བཀོད་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:8
+msgid "Possible values are: jpeg, png, tga, tiff."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:་ཇེ་པི་ཨི་ཇི་དང་ པི་ཨེན་ཇི་ ཊི་ཇི་ཨེ་ ཊི་ཨའི་ཨེཕ་ཨེཕ་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:9
+msgid "Possible values are: light, midtone, dark."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:ཡང་བ་དང་ མིཌི་ཊོན་ གྲིབ་གནག་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:10
+msgid "Possible values are: list, thumbnails."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།: ཐོ་ཡིག་དང་མཐེ་གཟེར་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:11
+msgid "Possible values are: mm, in."
+msgstr "སྲིད་པའི་གནས་གོང་ཚི་།: ཨེམ་ཨེམ་དང་ ཨའི་ཨེན་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:12
+msgid "Possible values are: name, path, size, time."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:་མིང་དང་ འགྲུལ་ལམ་ ཚད་ དེ་ལས་ཆུ་ཚོད་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:13
+msgid "Possible values are: name, size, time."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།: མིང་དང་ ཚད་ དེ་ལས་ ཆུ་ཚོད་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:14
+msgid "Possible values are: nautilus, single, double."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།: ནའུ་ཊི་ལཱསི་དང་ རྐྱང་པ་ དེ་ལས་གཉིས་ལྡན་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:15
+msgid "Possible values are: none, deflate, jpeg."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:ཅི་མེད་དང་ ནང་སྟོང་ དེ་ལས་ཇེ་ཨི་པི་ཇི་་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:16
+msgid "Possible values are: none, name, path, size, time."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:ཅི་མེད་དང་ མིང་ ལམ་འགྲུལ་ ཚད་ དེ་ལས་ ཆུ་ཚོད་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:17
+msgid "Possible values are: none, simple, simple_with_shadow, shadow, slide, shadow_in, shadow_out."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:་ཅི་མེད་དང་ འཇམ་སམ་ གྱིབ་མ་དང་བཅས་ གྱིབ་མ་ བཤུད་བརྙན་ གྱིབ་མ་ནང་ན་  དེ་ལས་གྱིབ་མ་ཕྱིཁར་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:18
+msgid "Possible values are: none, square, image, display, 4x3, 4x6, 5x7, 8x10, custom."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ།:ཅི་མེད་དང་ གྲུ་བཞི་ གཟུགས་བརྙན་ བཀྲམ་སྟོན་ ༤x༣ ༤x༦ ༥x༧ ༨x༡༠་ སྲོལ་སྒྲིག་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:19
+msgid "Possible values are: pixels, percentage."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།: པིག་སེལསི་དང་ བརྒྱ་ཆ་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:20
+msgid "Possible values are: png, jpeg."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།: པི་ཨེན་ཇི་དང་ ཇེ་པི་ཨི་ཇི་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:21
+msgid "Possible values are: skip, rename, ask, overwrite."
+msgstr "སྲིད་པའི་གནས་གོང་ཚི་།:གོམ་འགྱོ་དང་ བསྐྱར་མིང་ འདྲི་ནི་ དེ་ལས་ ཚབས་སྲུངས་འབད་ནི་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:22
+msgid "Possible values are: small, medium, large."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།: ཆུང་ཀུ་དང་  འབྲིང་མ་ སྦོམ་སུ་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:23
+msgid "Possible values are: system, text_below, text_beside, text_only, icons_only."
+msgstr "སྲད་པའི་གནས་གོང་ཚུ་།: རིམ་ལུགས་ ཚིག་ཡིག་འོག་ལུ་ ཚིག་ཡིག་ཟུར་ཁ་ ཚིག་ཡིག་ཙམ་ཅིག་ དེ་ལས་ངོས་པར་ཙམ་ཅིག་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:24
+msgid "Possible values are: white, black, checked, none."
+msgstr "སྲིད་པའི་གནས་གོང་ཚུ་།:དཀརཔོ་དང་ གནགཔོ་ ཞིབ་དཔྱད་གྲུབ་པ་ དེ་ལས་ཅི་མེད་ཚུ་ཨིན།"
+
+#: ../data/gthumb.schemas.in.h:25
+msgid "Whether to always use a black background."
+msgstr "ཨ་རྟག་རང་ རྒྱབ་གཞི་གནགཔོ་ཅིག་ ལག་ལེན་འཐབ་ནི་ཨིནམ་དང་མེནམ།"
+
+#: ../libgthumb/catalog.c:141
+#: ../libgthumb/catalog.c:358
+#, c-format
+msgid "Cannot open catalog \"%s\": %s"
+msgstr "\"%s\": %s ཐོ་གཞུང་ ཁ་ཕྱེ་མ་ཚུགས།"
+
+#: ../libgthumb/catalog.c:335
+#, c-format
+msgid "Cannot save catalog \"%s\": %s"
+msgstr " \"%s\": %s ཐོ་གཞུང་ སྲུངས་འབད་མ་ཚུགས།"
+
+#: ../libgthumb/comments.c:1260
+msgid "%d %B %Y"
+msgstr "%d %B %Y"
+
+#: ../libgthumb/comments.c:1262
+#: ../src/catalog-web-exporter.c:52
+#: ../src/dlg-duplicates.c:553
+#: ../src/dlg-image-prop.c:445
+#: ../src/gth-browser.c:493
+#: ../src/gth-exif-data-viewer.c:485
+#: ../src/gth-fullscreen.c:857
+#: ../src/gth-viewer.c:579
+msgid "%d %B %Y, %H:%M"
+msgstr "%d %B %Y, %H:%M"
+
+#: ../libgthumb/comments.c:1272
+#: ../libgthumb/comments.c:1274
+msgid "(No Comment)"
+msgstr "(བསམ་བཀོད་མེད།)"
+
+#: ../libgthumb/dlg-save-image.c:110
+#: ../src/dlg-file-utils.c:119
+#: ../src/dlg-jpegtran.c:315
+#: ../src/dlg-photo-importer.c:1550
+#, c-format
+msgid "You don't have the right permissions to create images in the folder \"%s\""
+msgstr "ཁྱོད་ཀྱིས་སྣོད་འཛིན་ \"%s\" ནང་ལུ་ གཟུགས་བརྙན་གསར་བསྐྲུན་འབད་ནིའི་ གནང་བ་ཚུ་མེད།"
+
+#: ../libgthumb/dlg-save-image.c:125
+#: ../src/dlg-convert.c:320
+#: ../src/gth-batch-op.c:572
+#: ../src/gth-browser-actions-callbacks.c:200
+#, c-format
+msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
+msgstr "གཟུགས་བརྙན་མིང་\"%s\" འདི་ཧེ་མ་ལས་རང་གནས་གཞིན་པ་ཨིན།ཁྱོད་ཀྱིས་འདི་ ཚབས་སྲུངས་འབད་ནི་ཨིན་ན?"
+
+#: ../libgthumb/dlg-save-image.c:169
+#, c-format
+msgid "Image type not supported: %s"
+msgstr "གཟུགས་བརྙན་གྱི་དབྱེ་བ་  %s་ རྒྱབ་སྐྱོར་མ་འབད་བས།"
+
+#: ../libgthumb/dlg-save-image.c:240
+msgid "Determine by extension"
+msgstr "རྒྱ་བསྐྱེད་ཀྱིས་ གཏན་འབེབ་བཟོ།"
+
+#: ../libgthumb/dlg-save-image.c:274
+msgid "Save Image"
+msgstr "གཟུགས་བརྙན་སྲུངས།"
+
+#: ../libgthumb/dlg-save-image.c:293
+msgid "Image type:"
+msgstr "གཟུགས་བརྙན་གྱི་དབྱེ་བ།:"
+
+#: ../libgthumb/file-utils.c:1167
+#: ../src/gth-location.c:757
+msgid "File System"
+msgstr "ཡིག་སྣོད་རིམ་ལུགས།"
+
+#: ../libgthumb/file-utils.c:1191
+#: ../src/gth-location.c:761
+msgid "Home"
+msgstr "ཁྱིམ།"
+
+#: ../libgthumb/file-utils.c:1628
+msgid "Library not empty"
+msgstr "དཔེ་མཛོད་ སྟོངམ་མེན་པས།"
+
+#: ../libgthumb/file-utils.c:1637
+#, c-format
+msgid "Cannot remove library \"%s\": %s"
+msgstr "\"%s\": %s་ དཔེ་མཛོད་ རྩ་བསྐྲད་གཏང་མ་ཚུགས།"
+
+#: ../libgthumb/file-utils.c:1664
+#, c-format
+msgid "Cannot remove catalog \"%s\": %s"
+msgstr " \"%s\": %s་ ཐོ་གཞུང་ རྩ་བསྐྲད་གཏང་མ་ཚུགས།"
+
+#: ../libgthumb/gnome-print-font-dialog.c:113
+msgid "_Insert a new preview phrase."
+msgstr "སྔོན་ལྟ་ ཚིག་ཚན་གསརཔ་གཅིག་བཙུགས།(_I)"
+
+#: ../libgthumb/gnome-print-font-dialog.c:119
+msgid "Modify preview phrase..."
+msgstr "སྔོན་ལྟ་ཚིག་ཚན་ ལེགས་བཅོས་འབད།"
+
+#: ../libgthumb/gnome-print-font-dialog.c:173
+msgid "Preview"
+msgstr "སྔོན་ལྟ་འབད།"
+
+#: ../libgthumb/gnome-print-font-dialog.c:186
+msgid "_Modify preview phrase..."
+msgstr "སྔོན་ལྟ་ ཚིག་ཚན་ ལེགས་བཅོས་འབད།(_M)"
+
+#: ../libgthumb/gnome-print-font-dialog.c:247
+msgid "Font Selection"
+msgstr "ཡིག་གཟུགས་ སེལ་འཐུ།"
+
+#: ../libgthumb/gnome-print-font-picker.c:87
+msgid "Sans Regular 12"
+msgstr "སེནསི་ དུས་རྒྱུན་ ༡༢།"
+
+#: ../libgthumb/gnome-print-font-picker.c:88
+msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
+
+#: ../libgthumb/gnome-print-font-picker.c:89
+msgid "Pick a Font"
+msgstr "ཡིག་གཟུགས་གཅིག་འཐུ།"
+
+#: ../libgthumb/gnome-print-font-picker.c:174
+msgid "Title"
+msgstr "མགོ་མིང་།"
+
+#: ../libgthumb/gnome-print-font-picker.c:175
+msgid "The title of the selection dialog box"
+msgstr "ཌའི་ལོག་སྒྲོམ ་སེལ་འཐུ་གི་ མགོ་མིང་།"
+
+#: ../libgthumb/gnome-print-font-picker.c:195
+msgid "Font name"
+msgstr "ཡིག་གཟུགས་ཀྱི་མིང་།"
+
+#: ../libgthumb/gnome-print-font-picker.c:196
+msgid "Name of the selected font"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ ཡིག་གཟུགས་ཀྱི་མིང་།"
+
+#: ../libgthumb/gnome-print-font-picker.c:204
+msgid "Preview text"
+msgstr "སྔོན་ལྟ་ ཚིག་ཡིག"
+
+#: ../libgthumb/gnome-print-font-picker.c:205
+msgid "Preview text shown in the dialog"
+msgstr "ཌའི་ལོག་ནང་ལུ་ ཚིག་ཡིག་སྟོན་མི་ཚུ་ སྔོན་ལྟ་འབད།"
+
+#: ../libgthumb/gnome-print-font-picker.c:213
+msgid "Use font in label"
+msgstr "ཡིག་གཟུགས་ ཁ་ཡིག་ནང་ལག་ལེན་འཐབ།"
+
+#: ../libgthumb/gnome-print-font-picker.c:214
+msgid "Use font in the label in font info mode"
+msgstr "ཡིག་གཟུགས་བརྡ་དོན་ཐབས་ལམ་ནང་ལུ་ ཁ་ཡིག་ནང་་ ཡིག་གཟུགས་ལག་ལེན་འཐབ།"
+
+#: ../libgthumb/gnome-print-font-picker.c:222
+msgid "Font size for label"
+msgstr "ཁ་ཡིག་གི་དོན་ལུ་ ཡིག་གཟུགས་ཀྱི་ཚད།"
+
+#: ../libgthumb/gnome-print-font-picker.c:223
+msgid "Font size for label in font info mode"
+msgstr "ཡིག་གཟུགས་བརྡ་དོན་ཐབས་ལམ་ནང་ལུ ཁ་ཡིག་གི་དོན་ལུ་ ཡིག་གཟུགས་ཀྱི་ཚད།"
+
+#: ../libgthumb/gnome-print-font-picker.c:233
+msgid "Show size"
+msgstr "ཚད་སྟོན།"
+
+#: ../libgthumb/gnome-print-font-picker.c:234
+msgid "Show size in font info mode"
+msgstr "ཡིག་གཟུགས་ བརྡ་དོན་ ཐབས་ལམ་ནང་ལུ་ ཚད་སྟོན།"
+
+#: ../libgthumb/gnome-print-font-picker.c:1013
+msgid "Font"
+msgstr "ཡིག་གཟུགས།"
+
+#: ../libgthumb/gth-file-list.c:528
+#: ../src/gth-browser.c:8599
+#: ../src/gth-viewer.c:2231
+msgid "Wait please..."
+msgstr "བསྒུག་སྡོད་གནང་།"
+
+#: ../libgthumb/gth-file-list.c:620
+#: ../libgthumb/gth-file-list.c:641
+#: ../libgthumb/gth-image-list.c:3499
+#: ../src/gth-browser.c:772
+#: ../src/gth-viewer.c:764
+msgid "No image"
+msgstr "གཟུཐགས་བརྙན་ མིན་འདུག"
+
+#: ../libgthumb/gth-file-view-list.c:1482
+#: ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:602
+#: ../src/gth-exif-data-viewer.c:496
+msgid "Name"
+msgstr "མིང་།"
+
+#: ../libgthumb/gthumb-stock.c:76
+#: ../src/gth-window-actions-entries.h:255
+msgid "Ro_tate Images"
+msgstr "གཟུགས་བརྙན་ཚུ་ བསྒྱིར།(_R)"
+
+#: ../libgthumb/print-callbacks.c:668
+#, c-format
+msgid "Page %d of %d"
+msgstr "ཤོག་ལེབ་ %d གི %d"
+
+#: ../libgthumb/print-callbacks.c:1751
+#: ../src/catalog-png-exporter.c:1336
+#, c-format
+msgid "Loading image: %s"
+msgstr "གཟུགས་བརྙན་ %s མངོན་གསལ་འབད་དོ།"
+
+#: ../libgthumb/thumb-cache.c:490
+msgid "Deleting all thumbnails, wait please..."
+msgstr "མཐེ་གཟེ་ཆ་མཉམ་རང་བཏོན་གཏང་དོ་ བསྒུག་སྡོད་གནང་།"
+
+#: ../libgthumb/thumb-cache.c:492
+msgid "Deleting old thumbnails, wait please..."
+msgstr "མཐེ་གཟེ་རྙིངམ་ཚུ་བཏོན་གཏང་དོ་ བསྒུག་སྡོད་གནང་།"
+
+#: ../src/bookmark-list.c:160
+#: ../src/gth-browser.c:1406
+#: ../src/gth-browser.c:1410
+#: ../src/gth-browser.c:1422
+msgid "(Invalid Name)"
+msgstr "(ནུས་མེད་ཀྱི་ མིང་།)"
+
+#: ../src/catalog-png-exporter.c:1565
+#, c-format
+msgid "Creating image: %s.%s"
+msgstr "གཟུགས་བརྙན་ %s.%s་ གསར་བསྐྲུན་འབད་དོ།"
+
+#: ../src/catalog-web-exporter.c:1715
+msgid "Saving thumbnails"
+msgstr "མཐེ་གཟེར་ཚུ སྲུངས་འབད་དོ།"
+
+#: ../src/catalog-web-exporter.c:1781
+msgid "Saving HTML pages: Images"
+msgstr "ཨེཆ་ཊི་ཨེམ་ཨེལ་ ཤོག་ལེབ་ཚུ་ སྲུངས་འབད་དོ།:གཟུགས་བརྙན་ཚུ།"
+
+#: ../src/catalog-web-exporter.c:1856
+msgid "Saving HTML pages: Indexes"
+msgstr "ཨེཆ་ཊི་ཨེམ་ཨེལ་ ཤོག་ལེབ་སྲུངས་འབད་དོ།:ཟུར་ཐོ་ཚུ།"
+
+#: ../src/catalog-web-exporter.c:1982
+#: ../src/catalog-web-exporter.c:2042
+#: ../src/catalog-web-exporter.c:2212
+msgid "Saving images"
+msgstr "གཟུགས་བརྙན་ཚུ་ སྲུངས་འབད་དོ།"
+
+#: ../src/catalog-web-exporter.c:2396
+msgid "Could not create a temporary folder"
+msgstr "གནས་སྐབས་ཀྱི་ སྣོད་འཛིན་ གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#. Load thumbnails.
+#: ../src/catalog-web-exporter.c:2429
+msgid "Loading images"
+msgstr "གཟུགས་བརྙན་ཚུ་ མངོན་གསལ་འབད་དོ།"
+
+#: ../src/dlg-catalog.c:89
+#: ../src/gth-browser-actions-callbacks.c:818
+msgid "Enter the catalog name: "
+msgstr "ཐོ་གཞུང་གི་མིང་ བཙུགས།:"
+
+#: ../src/dlg-catalog.c:93
+#: ../src/dlg-catalog.c:147
+#: ../src/dlg-categories.c:243
+#: ../src/dlg-file-utils.c:91
+#: ../src/gth-browser-actions-callbacks.c:904
+msgid "C_reate"
+msgstr "གསར་བསྐྲུན་འབད།(_C)"
+
+#: ../src/dlg-catalog.c:143
+#: ../src/gth-browser-actions-callbacks.c:959
+msgid "Enter the library name: "
+msgstr "དཔེ་མཛོད་ཀྱི་མིང་ ཐོ་བཀོད་འབད།:"
+
+#: ../src/dlg-catalog.c:499
+msgid "Move Catalog to..."
+msgstr "ལུ་ ཐོ་གཞུང་སྤོ།"
+
+#: ../src/dlg-categories.c:239
+msgid "Enter the new category name"
+msgstr "ཐོ་གཞུང་གི་མིང་གསརཔ་འདི་ བཙུགས།"
+
+#: ../src/dlg-categories.c:250
+#, c-format
+msgid "The name \"%s\" is not valid because it contains the character \",\". Please use a different name."
+msgstr "\"%s\"མིང་འདི་ནུས་མེད་ཨིན་པས་ག་ཅི་སྦེ་ཟེར་བ་ཅིན་ འདི་ལུ་ \",\"ཡིག་འབྲུ་ནང་ན་ཡོདཔ་ཨིན། མིང་སོ་སོ་ཅིག་ ལག་ལེན་འཐབ་གནང་།"
+
+#: ../src/dlg-categories.c:255
+#, c-format
+msgid "The category \"%s\" is already present. Please use a different name."
+msgstr "ཐོ་གཞུང་ \"%s\"འདི་ཧེ་མ་ལས་རང་གནས་གཞིན་པ་ཨིན། མིང་སོ་སོ་ཅིག་ ལག་ལེན་འཐབ་གནང་།:"
+
+#: ../src/dlg-categories.c:379
+#: ../src/dlg-change-date.c:214
+#: ../src/dlg-comment.c:297
+#: ../src/dlg-convert.c:455
+#: ../src/dlg-jpegtran.c:579
+#: ../src/dlg-preferences.c:184
+#: ../src/dlg-rename-series.c:343
+#: ../src/dlg-search.c:467
+#: ../src/gth-window-actions-callbacks.c:821
+#, c-format
+msgid "Could not display help: %s"
+msgstr "%s་ གྲོགས་རམ་ བཀྲམ་སྟོན་འབད་མ་ཚུགས།:"
+
+#: ../src/dlg-convert.c:173
+#: ../src/gth-batch-op.c:401
+#, c-format
+msgid "Converting image: %s"
+msgstr "%s་ གཟུགས་བརྙན་ གཞི་བསྒྱུར་འབད་དོ།"
+
+#: ../src/dlg-convert.c:196
+#: ../src/gth-batch-op.c:424
+#, c-format
+msgid "An image named \"%s\" is already present. Please specify a different name."
+msgstr "གཟུགས་བརྙན་ \"%s\"མིང་སྦེ་ཡོད་མི་འདི་ཧེ་མ་ལས་རང་ གནས་གཞིན་པ་ཨིན། མིང་སོ་སོ་ཅིག་ གསལ་བཀོད་འབད་གནང་།"
+
+#: ../src/dlg-convert.c:325
+#: ../src/gth-batch-op.c:577
+msgid "Skip"
+msgstr "གོམ་འགྱོ།"
+
+#: ../src/dlg-convert.c:326
+#: ../src/gth-batch-op.c:578
+#: ../src/gth-browser-actions-callbacks.c:207
+msgid "_Overwrite"
+msgstr "ཚབས་སྲུངས་འབད།(_O)"
+
+#: ../src/dlg-crop.c:427
+#, c-format
+msgid "%d x %d (Image)"
+msgstr "%d x %d (གཟུགས་བརྙན།)"
+
+#: ../src/dlg-crop.c:435
+#, c-format
+msgid "%d x %d (Display)"
+msgstr "%d x %d (བཀྲམ་སྟོན་འབད།)"
+
+#: ../src/dlg-duplicates.c:280
+#: ../src/dlg-duplicates.c:654
+msgid "Duplicates"
+msgstr "ངོ་བཤུས་ཚུ།"
+
+#: ../src/dlg-duplicates.c:295
+msgid "Duplicates Size"
+msgstr "གོ་བཤུས་ཀྱི་ཚད།"
+
+#: ../src/dlg-duplicates.c:402
+msgid "Last modified"
+msgstr "མཇུག་ལུ་ ལེགས་བཅོས་གྲུབ་པ།"
+
+#: ../src/dlg-duplicates.c:417
+#: ../src/dlg-image-prop.c:622
+msgid "Location"
+msgstr "གནས་ཁོངས།"
+
+#: ../src/dlg-duplicates.c:759
+msgid "Checked images will be moved to the Trash, are you sure?"
+msgstr "ཞིབ་དཔྱད་གྲུབ་པའི་ གཟུགས་བརྙན་ཚུ་ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུདའབད་་འོང་ ཁྱོད་ ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/dlg-file-utils.c:89
+msgid "The destination folder does not exist. Do you want to create it?"
+msgstr "འགྲོ་ཡུལ་ སྣོད་འཛིན་དེ་ མིན་འདུག ཁྱོད་ཀྱིས་ གསར་བསྐྲུན་འབད་ནི་ཨིན་ན?"
+
+#: ../src/dlg-file-utils.c:105
+#, c-format
+msgid "Could not create folder \"%s\": %s."
+msgstr "\"%s\": %s་ སྣོད་འཛིན་གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: ../src/dlg-file-utils.c:202
+msgid "Could not delete the images:"
+msgstr "གཟུགས་བརྙན་ཚུ་ བཏོན་གཏང་མ་ཚུགས།:"
+
+#: ../src/dlg-file-utils.c:225
+msgid "The images cannot be moved to the Trash. Do you want to delete them permanently?"
+msgstr "གཟུགས་བརྙན་ཚུ་ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུད་འབད་མ་ཚུགས། ཁྱོད་ཀྱིས་འདི་ རྟག་བརྟན་སྦེ་བཏོན་གཏང་ནང་ཨིན་ན?"
+
+#: ../src/dlg-file-utils.c:228
+#: ../src/gth-browser-actions-callbacks.c:1268
+#: ../src/gth-browser.c:1958
+#: ../src/gth-viewer.c:994
+msgid "_Do not display this message again"
+msgstr "འ་ནི་འཕྲིན་དོན་འདི་ལོག་སྟེ་ བཀྲམ་སྟོན་མ་འབད།(_D)"
+
+#: ../src/dlg-file-utils.c:282
+#: ../src/gth-browser-actions-callbacks.c:1306
+msgid "_Move"
+msgstr "བཤུད།(_M)"
+
+#: ../src/dlg-file-utils.c:383
+#: ../src/dlg-file-utils.c:487
+#: ../src/gth-browser-actions-callbacks.c:1515
+msgid "Choose the destination folder"
+msgstr "འགྲོ་ཡུལ་སྣོད་འཛིན་འདི སེལ་འཐུ་འབད།"
+
+#: ../src/dlg-file-utils.c:791
+#: ../src/dlg-file-utils.c:892
+msgid "You didn't enter the new name"
+msgstr "ཁྱོད་ཀྱིས་ མིང་གསརཔ་འདི་ཐོ་བཀོད་མ་འབད་བས།"
+
+#: ../src/dlg-file-utils.c:803
+#: ../src/dlg-file-utils.c:904
+#, c-format
+msgid "The name \"%s\" is already used in this folder. Please use a different name."
+msgstr " \"%s\" མིང་དེ་ འ་ནི་སྣོད་འཛིན་འདི་ནང་ ཧེ་མ་ལས་རང་ ལག་ལེན་འཐབ་སྟེ་འདུག མིང་སོ་སོ་ཅིག་ ལག་ལེན་འཐབ་གནང་།"
+
+#: ../src/dlg-file-utils.c:1043
+msgid "Could not rename the image:"
+msgstr "གཟུགས་བརྙན་འདི་ལུ་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།:"
+
+#: ../src/dlg-file-utils.c:1045
+msgid "Could not rename the following images:"
+msgstr "འོག་གི་གཟུགས་བརྙན་ཚུ་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།:"
+
+#: ../src/dlg-file-utils.c:1179
+msgid "Could not move the image:"
+msgstr "གཟུགས་བརྙན་འདི་ སྤོ་བཤུད་འབད་མ་ཚུགས།:"
+
+#: ../src/dlg-file-utils.c:1181
+msgid "Could not copy the image:"
+msgstr "གཟུགས་བརྙན་འདི་ འདྲ་བཤུད་འབད་མ་ཚུགས།:"
+
+#: ../src/dlg-file-utils.c:1205
+#: ../src/dlg-file-utils.c:2462
+msgid "_Abort"
+msgstr "བར་བཤོལ་འབད།(_A)"
+
+#: ../src/dlg-file-utils.c:1206
+#: ../src/dlg-file-utils.c:2463
+msgid "_Continue"
+msgstr "འཕྲོ་འཐུད།(_C)"
+
+#: ../src/dlg-file-utils.c:1380
+#, c-format
+msgid "Copying file %d of %d"
+msgstr "ཡིག་སྣོད་ %d of %d འདྲ་བཤུས་འབད་དོ།"
+
+#: ../src/dlg-file-utils.c:1792
+#: ../src/dlg-file-utils.c:2019
+msgid "Collecting images info"
+msgstr "གཟུགས་བརྙན་བརྡ་དོན་ཚུ་ བསྡུ་ལེན་འབད་དོ།"
+
+#: ../src/dlg-file-utils.c:1795
+#: ../src/dlg-file-utils.c:2032
+#, c-format
+msgid "Deleting file %ld of %ld"
+msgstr "ཡིག་སྣོད་ %ld of %ld་ བཏོན་གཏང་དོ།"
+
+#: ../src/dlg-file-utils.c:2022
+#, c-format
+msgid "Copying file %ld of %ld"
+msgstr "ཡིག་སྣོད་%ld of %ld་ འདྲ་བཤུད་རྐྱབ་དོ།"
+
+#: ../src/dlg-file-utils.c:2027
+#, c-format
+msgid "Moving file %ld of %ld"
+msgstr "ཡིག་སྣོད་%ld of %ld་ སྤོ་བཤུད་འབད་དོ།"
+
+#: ../src/dlg-file-utils.c:2439
+#: ../src/dlg-file-utils.c:2441
+#: ../src/gth-browser-actions-callbacks.c:1407
+#, c-format
+msgid "Could not move the folder \"%s\": %s"
+msgstr "སྣོད་འཛིན་ \"%s\": %sའདི་སྤོ་བཤུད་འདབ་མ་ཚུགས།"
+
+#: ../src/dlg-image-prop.c:607
+#: ../src/gth-exif-data-viewer.c:503
+msgid "Size"
+msgstr "ཚད།"
+
+#: ../src/dlg-image-prop.c:612
+#: ../src/gth-exif-data-viewer.c:524
+msgid "Type"
+msgstr "དབྱེ་བ།"
+
+#: ../src/dlg-image-prop.c:627
+#: ../src/gth-browser.c:509
+#: ../src/gth-exif-data-viewer.c:517
+#: ../src/gth-viewer.c:595
+msgid "Modified"
+msgstr "ལེགས་བཅོས་གྲུབ་པ།"
+
+#: ../src/dlg-image-prop.c:632
+msgid "Information on Channel"
+msgstr "རྒྱུ་ལམ་ནང་ལུ་ བརྡ་དོན།"
+
+#: ../src/dlg-image-prop.c:747
+#, c-format
+msgid "%s Properties"
+msgstr "%s་གི་རྒྱུ་དངོས།"
+
+#: ../src/dlg-photo-importer.c:902
+#: ../src/dlg-photo-importer.c:1474
+#: ../src/dlg-photo-importer.c:1524
+#: ../src/dlg-photo-importer.c:1536
+#: ../src/dlg-photo-importer.c:1552
+#: ../src/dlg-photo-importer.c:1581
+msgid "Could not import photos"
+msgstr "དཔར་ཚུ་ ནང་འདྲེན་འབད་མ་ཚུགས།"
+
+#: ../src/dlg-photo-importer.c:1261
+#: ../src/main.c:1012
+msgid "Film"
+msgstr "བརྙན་ཤོག"
+
+#: ../src/dlg-photo-importer.c:1533
+#: ../src/gth-browser-actions-callbacks.c:1718
+#, c-format
+msgid "Could not create the folder \"%s\": %s"
+msgstr " \"%s\": %s་སྣོད་འཛིན་འདི་ གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: ../src/dlg-png-exporter.c:904
+msgid "Image Caption"
+msgstr "གཟུགས་བརྙན་གྱི་ དཔར་བཤད།"
+
+#: ../src/dlg-png-exporter.c:958
+msgid "Header"
+msgstr "མགོ་ཡིག་"
+
+#: ../src/dlg-png-exporter.c:971
+#: ../src/dlg-png-exporter.c:977
+msgid "Footer"
+msgstr "མཇུག་ཡིག"
+
+#: ../src/dlg-png-exporter.c:1565
+#: ../src/dlg-web-exporter.c:371
+msgid "by path"
+msgstr "འགྲུལ་ལམ་ཐོག་ལས།"
+
+#: ../src/dlg-png-exporter.c:1567
+#: ../src/dlg-rename-series.c:434
+#: ../src/dlg-web-exporter.c:373
+msgid "by size"
+msgstr "ཚད་ཀྱི་ཐོག་ལས།"
+
+#: ../src/dlg-png-exporter.c:1569
+#: ../src/dlg-rename-series.c:436
+#: ../src/dlg-web-exporter.c:375
+msgid "by modified time"
+msgstr "ལེགས་བཅོས་གྲུབ་པའི་ཆུ་ཚོད་ཀྱི་ཐཁོག་ལས།"
+
+#: ../src/dlg-png-exporter.c:1574
+#: ../src/dlg-rename-series.c:439
+#: ../src/dlg-web-exporter.c:378
+msgid "manual order"
+msgstr "ལག་ཐོག་གོ་རིམ།"
+
+#: ../src/dlg-rename-series.c:418
+msgid "Old Name"
+msgstr "མིང་རྙིངམ།"
+
+#: ../src/dlg-rename-series.c:426
+msgid "New Name"
+msgstr "མིང་གསརཔ།"
+
+#: ../src/dlg-search.c:355
+msgid "Search Result"
+msgstr "འཚོལ་ཞིབ་གྲིབ་འབྲས།"
+
+#: ../src/dlg-search.c:675
+msgid "Filename"
+msgstr "ཡིག་སྣོད་མིང།"
+
+#: ../src/dlg-search.c:684
+#: ../src/gth-folder-selection-dialog.c:392
+msgid "Folder"
+msgstr "སྣོད་འཛིན།"
+
+#: ../src/dlg-web-exporter.c:728
+msgid "Select Album Theme"
+msgstr "པར་དེབ་བརྗོད་དོན་སེལ་འཐུ་འབད།"
+
+#: ../src/dlg-write-to-cd.c:79
+#: ../src/gth-browser.c:3742
+msgid "Could not move the items:"
+msgstr "རྣམ་གྲངས་ཚུ་ སྤོ་བཤུད་འབད་མ་ཚུགས།:"
+
+#: ../src/gth-browser-actions-callbacks.c:162
+#: ../src/gth-browser-actions-callbacks.c:599
+#: ../src/gth-browser-actions-callbacks.c:1107
+msgid "Enter the new name: "
+msgstr "མིང་གསརཔ་འདི་ ཐོ་བཀོད་འབད།"
+
+#: ../src/gth-browser-actions-callbacks.c:180
+#: ../src/gth-browser-actions-callbacks.c:619
+#: ../src/gth-browser-actions-callbacks.c:834
+#: ../src/gth-browser-actions-callbacks.c:917
+#: ../src/gth-browser-actions-callbacks.c:1125
+#, c-format
+msgid "The name \"%s\" is not valid because it contains the character \"/\". Please use a different name."
+msgstr "\"%s\" མིང་འདི་ནུས་མེད་ཨིན་པས་ག་ཅི་འབད་ཟེར་བ་ཅིན་ འདི་ལུ་ཡིག་འབྲུ་ \"/\"དེ ནང་ན་ཡོདཔ་ཨིན། མིང་སོ་སོ་ཅིག་ལག་ལེན་འཐབ་གནང་།"
+
+#: ../src/gth-browser-actions-callbacks.c:227
+#: ../src/gth-browser-actions-callbacks.c:242
+#, c-format
+msgid "Could not rename the image \"%s\": %s"
+msgstr "\"%s\": %s གཟུགས་བརྙན་འདི་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:229
+#: ../src/gth-browser-actions-callbacks.c:1147
+#: ../src/gth-browser-actions-callbacks.c:1417
+msgid "source and destination are the same"
+msgstr "འབྱུང་ཁུངས་དང་འགྲོ་ཡུལ་འདི་ཚུ་ གཅིགཔ་ཨིན།"
+
+#: ../src/gth-browser-actions-callbacks.c:286
+#: ../src/gth-fullscreen.c:1078
+msgid "The image will be moved to the Trash, are you sure?"
+msgstr "གཟུགས་བརྙན་འདི་ ཕྱགས་ཧོད་ནང་ལུ་སྤོ་བཤུད་འབད་ནི་འདི་ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:400
+#, c-format
+msgid "Could not duplicate the image \"%s\": %s"
+msgstr " \"%s\": %sགཟུགས་བརྙན་འདི་ ངོ་བཤུས་འབད་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:408
+msgid "Stop"
+msgstr "བཀག"
+
+#: ../src/gth-browser-actions-callbacks.c:409
+msgid "Continue"
+msgstr "འཕྲོ་མཐུད།"
+
+#: ../src/gth-browser-actions-callbacks.c:464
+msgid "The selected images will be moved to the Trash, are you sure?"
+msgstr "ཁྱོད་ཀྱིས་སེལ་འཐུ་འབད་མི་གཟུགས་བརྙན་ཚུ་ ཕྱགས་ཧོད་ནང་ལུ་སྤོ་བཤུད་འབད་ནི་འདི་ ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:641
+#: ../src/gth-browser-actions-callbacks.c:853
+#: ../src/gth-browser-actions-callbacks.c:933
+#: ../src/gth-browser-actions-callbacks.c:1155
+#, c-format
+msgid "The name \"%s\" is already used. Please use a different name."
+msgstr " \"%s\"མིང་འདི་ཧེ་མ་ལས་རང་ལག་ལེན་འཐབ་སྟི་འདུག  མིང་གཞན་མི་ཅིག་ ལག་ལེན་འཐབ་གནང་།"
+
+#: ../src/gth-browser-actions-callbacks.c:652
+#, c-format
+msgid "Could not rename the library \"%s\": %s"
+msgstr " \"%s\": %s དཔེ་མཛོད་འདི་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:652
+#, c-format
+msgid "Could not rename the catalog \"%s\": %s"
+msgstr " \"%s\": %s་ ཐོ་གཞུང་འདི་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:722
+msgid "The selected library will be removed, are you sure?"
+msgstr "་སེལ་འཐུ་འབད་མི་དཔེ་མཛོད་  རྩ་བསྐྲད་གཏང་ནི་འདི་ ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:724
+msgid "The selected catalog will be removed, are you sure?"
+msgstr "སེལ་འཐུ་འབད་མི་ཐོ་གཞུང་ རྩ་བསྐྲད་གཏང་ནི་འདི་ ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:819
+msgid "New Catalog"
+msgstr "ཐོ་གཞུང་གསརཔ།"
+
+#: ../src/gth-browser-actions-callbacks.c:865
+#, c-format
+msgid "Could not create the catalog \"%s\": %s"
+msgstr " \"%s\": %s་ ཐོ་གཞུང་འདི་གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:958
+msgid "New Library"
+msgstr "དཔེ་མཛོད་ གསརཔ།"
+
+#: ../src/gth-browser-actions-callbacks.c:960
+#, c-format
+msgid "Could not create the library \"%s\": %s"
+msgstr "\"%s\": %s་ དཔེ་མཛོད་འདི་ གསར་བསྐྲུན་འབད་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:1145
+#: ../src/gth-browser-actions-callbacks.c:1179
+#, c-format
+msgid "Could not rename the folder \"%s\": %s"
+msgstr "\"%s\": %s་ སྣོད་འཛིན་འདི་ བསྐྱར་མིང་བཏགས་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:1229
+#, c-format
+msgid "Could not delete the folder \"%s\": %s"
+msgstr "\"%s\": %s་ སྣོད་འཛིན་འདི་ བཏོན་གཏང་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:1260
+#, c-format
+msgid "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
+msgstr "\"%s\"འདི་ཕྱགས་ཧོད་ནང་ལུ་སྤོ་བཤུད་འབད་མ་ཚུགས། ཁྱོད་ཀྱིས་རྟག་བརྟན་སྦེ་ བཏོན་གཏང་ནི་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:1304
+msgid "The selected folder will be moved to the Trash, are you sure?"
+msgstr "སེལ་འཐུ་འབད་མི་སྣོད་འཛིན་དེ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུད་འབད་ནི་འདི་ ངེས་ཏིག་ཨིན་ན?"
+
+#: ../src/gth-browser-actions-callbacks.c:1352
+#: ../src/gth-browser-actions-callbacks.c:1407
+#, c-format
+msgid "Could not copy the folder \"%s\": %s"
+msgstr " \"%s\": %sསྣོད་འཛིན་འདི་ འདྲ་བཤུས་འབད་མ་ཚུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:1428
+msgid "source contains destination"
+msgstr "འབྱུང་ཁུངས་ནང་ན་འགྲོ་ཡུལ་ཡོདཔ་ཨིན།"
+
+#: ../src/gth-browser-actions-callbacks.c:1439
+msgid "a folder with that name is already present."
+msgstr "མིང་དེ་ཡོད་མི་སྣོད་འཛིན་ཅིག་ ཧེ་མ་ལས་རང་འདུག"
+
+#: ../src/gth-browser-actions-callbacks.c:1716
+msgid "New Folder"
+msgstr "སྣོད་འཛིན་གསརཔ།"
+
+#: ../src/gth-browser-actions-callbacks.c:1717
+msgid "Enter the folder name: "
+msgstr "སྣོད་འཛིན་མིང་བཙུགས།"
+
+#: ../src/gth-browser-actions-callbacks.c:1846
+msgid "Open Location"
+msgstr "གནས་ཁོངས་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:36
+#: ../src/gth-viewer-actions-entries.h:35
+msgid "_File"
+msgstr "ཡིག་སྣོད།(_F)"
+
+#: ../src/gth-browser-actions-entries.h:37
+msgid "_Folder"
+msgstr "སྣོད་འཛིན།(_F)"
+
+#: ../src/gth-browser-actions-entries.h:40
+#: ../src/gth-viewer-actions-entries.h:36
+msgid "_Edit"
+msgstr "ཞུན་དག་འབད།(_E)"
+
+#: ../src/gth-browser-actions-entries.h:42
+#: ../src/gth-viewer-actions-entries.h:38
+msgid "Show/_Hide"
+msgstr "སྟོན་/སྦ།(_H)"
+
+#: ../src/gth-browser-actions-entries.h:43
+msgid "S_ort Images"
+msgstr "གཟུགས་བརྙན་ དབྱེ་སེལ་འབད།(_o)"
+
+#: ../src/gth-browser-actions-entries.h:44
+#: ../src/gth-viewer-actions-entries.h:39
+msgid "_Zoom"
+msgstr "རྒྱས་ཟུམ།(_Z)"
+
+#: ../src/gth-browser-actions-entries.h:45
+msgid "_Go"
+msgstr "འགྱོ།(_G)"
+
+#: ../src/gth-browser-actions-entries.h:47
+msgid "_Bookmarks"
+msgstr "དེབ་རྟགས་ཚུ།(_B)"
+
+#: ../src/gth-browser-actions-entries.h:48
+#: ../src/gth-viewer-actions-entries.h:43
+msgid "_Tools"
+msgstr "ལག་ཆས།(_T)"
+
+#: ../src/gth-browser-actions-entries.h:49
+#: ../src/gth-viewer-actions-entries.h:44
+msgid "Set Image as _Wallpaper"
+msgstr "གཟུགས་བརྙན་ཚུ་གྱང་ཤོག་སྦེ་ གཞི་སྒྲིག་འབད།(_W)"
+
+#: ../src/gth-browser-actions-entries.h:50
+#: ../src/gth-viewer-actions-entries.h:45
+msgid "_Help"
+msgstr "གྲོགས་རམ།(_H)"
+
+#: ../src/gth-browser-actions-entries.h:53
+#: ../src/gth-viewer-actions-entries.h:48
+msgid "New _Window"
+msgstr "སྒོ་སྒྲིག་གསརཔ།(_W)"
+
+#: ../src/gth-browser-actions-entries.h:54
+#: ../src/gth-viewer-actions-entries.h:49
+msgid "Create a new window"
+msgstr "སྒོ་སྒྲིག་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:59
+msgid "Open the selected image in a new window"
+msgstr "སྒོ་སྒྲིག་གསརཔ་ཅིག་ནང་ལུ་ སེལ་འཐུ་འབད་མི་གཟུགས་བརྙན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:64
+msgid "View image properties"
+msgstr "གཟུགས་བརྙན་གྱི་རྒྱུ་དངོས་ཚུ་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:68
+msgid "_Import Photos..."
+msgstr "དཔར་ཚུ་ནང་འདྲེན་འབད།(_I)"
+
+#: ../src/gth-browser-actions-entries.h:69
+msgid "Import photos from a digital camera"
+msgstr "ཌི་ཇི་ཊཱལ་ པར་ཆས་ནང་ལས་ དཔར་ཚུ་ནང་འདྲེན་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:73
+msgid "_Write To CD"
+msgstr "སི་ཌི་ནང་ལུ་ འབྲི།(_W)"
+
+#: ../src/gth-browser-actions-entries.h:74
+msgid "Write selection to CD"
+msgstr "སེལ་འཐུ་ སི་ཌི་ནང་ལུ་འབྲི།"
+
+#: ../src/gth-browser-actions-entries.h:78
+#: ../src/gth-browser-actions-entries.h:98
+#: ../src/gth-browser-actions-entries.h:148
+#: ../src/gth-browser-actions-entries.h:183
+#: ../src/gth-browser-actions-entries.h:223
+#: ../src/gth-browser-actions-entries.h:253
+msgid "_Rename..."
+msgstr "བསྐྱར་མིང་བཏགས།(_R)"
+
+#: ../src/gth-browser-actions-entries.h:79
+msgid "Rename this image"
+msgstr "གཟུགས་བརྙན་འདི་གི་བསྐྱར་མིང་བཏགས།"
+
+#: ../src/gth-browser-actions-entries.h:84
+msgid "Move this image to the Trash"
+msgstr "གཟུགས་བརྙན་འདི་ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:88
+#: ../src/gth-browser-actions-entries.h:113
+#: ../src/gth-browser-actions-entries.h:233
+#: ../src/gth-browser-actions-entries.h:263
+msgid "_Copy..."
+msgstr "འདྲ་བཤུས་འབད།(_C)"
+
+#: ../src/gth-browser-actions-entries.h:89
+msgid "Copy this image to another location"
+msgstr "གཟུགས་བརྙན་འདི་ གནས་ཁོངས་གཞན་མི་ཅིག་ནང་ལུ་ འདྲ་བཤུས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:93
+#: ../src/gth-browser-actions-entries.h:118
+#: ../src/gth-browser-actions-entries.h:158
+#: ../src/gth-browser-actions-entries.h:193
+#: ../src/gth-browser-actions-entries.h:238
+#: ../src/gth-browser-actions-entries.h:268
+msgid "_Move..."
+msgstr "སྤོ།(_M)"
+
+#: ../src/gth-browser-actions-entries.h:94
+msgid "Move this image to another location"
+msgstr "གཟུགས་བརྙན་འདི་ གནས་ཁོངས་གཞན་མི་ཅིག་ནང་ལུ་སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:99
+msgid "Rename selected images"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ བསྐྱར་མིང་བཏགས།"
+
+#: ../src/gth-browser-actions-entries.h:103
+msgid "D_uplicate"
+msgstr "ངོ་བཤུས།(_u)"
+
+#: ../src/gth-browser-actions-entries.h:104
+msgid "Duplicate selected images"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ གཟུགས་བརྙན་ཚུ་ ངོ་བཤུས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:109
+msgid "Move the selected images to the Trash"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:114
+msgid "Copy selected images to another location"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ གནས་ཁོངས་གཞན་ཅིག་ནང་ལུ་ འདྲ་བཤུས་རྐྱབ།།"
+
+#: ../src/gth-browser-actions-entries.h:119
+msgid "Move selected images to another location"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ གནས་ཁོངས་གཞན་ཅིག་ནང་ལུ་ སྤོ་བཤུས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:123
+msgid "_Select All"
+msgstr "ཆ་མཉམ་སེལ་འཐུ་འབད།(_S)"
+
+#: ../src/gth-browser-actions-entries.h:124
+msgid "Select all images"
+msgstr "གཟུགས་བརྙན་ཆ་མཉམ་སེལ་འཐུ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:128
+#: ../src/gth-viewer-actions-entries.h:58
+msgid "_Add to Catalog..."
+msgstr "ཐོ་གཞུང་ལུ་བསྡོམས།(_A)"
+
+#: ../src/gth-browser-actions-entries.h:129
+#: ../src/gth-viewer-actions-entries.h:59
+msgid "Add selected images to a catalog"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ ཐོ་གཞུང་ནང་ལུ་བསྡོམས།"
+
+#: ../src/gth-browser-actions-entries.h:133
+msgid "Remo_ve from Catalog"
+msgstr "ཐོ་གཞུང་ནང་ལས་རྩ་བསྐྲད་གཏང་།(_R)"
+
+#: ../src/gth-browser-actions-entries.h:134
+msgid "Remove selected images from the catalog"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་གཟུགས་བརྙན་ཚུ་ ཐོ་གཞུང་ནང་ལས་ རྩ་བསྐྲད་གཏང་།"
+
+#: ../src/gth-browser-actions-entries.h:138
+#: ../src/gth-browser-actions-entries.h:208
+msgid "Open"
+msgstr "ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:139
+msgid "Open the selected catalog"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ཐོ་གཞུང་ཚུ་ ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:143
+#: ../src/gth-browser-actions-entries.h:213
+msgid "Open in New Window"
+msgstr "ཝིན་ཌོ་གསརཔ་གཅིག་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:144
+msgid "Open the selected catalog in a new window"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ཐོ་གཞུང་འདི་ ཝིན་ཌོ་གསརཔ་གཅིག་ནང་ལུ་ ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:149
+msgid "Rename selected catalog"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ཐོ་གཞུང་འདི་ བསྐྱར་མིང་བཏགས།"
+
+#: ../src/gth-browser-actions-entries.h:153
+#: ../src/gth-browser-actions-entries.h:188
+msgid "Rem_ove"
+msgstr "རྩ་བསྐྲད་གཏང་།(_o)"
+
+#: ../src/gth-browser-actions-entries.h:154
+msgid "Remove selected catalog"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་ཐོ་གཞུང་འདི་ རྩ་བསྐྲད་གཏང་།"
+
+#: ../src/gth-browser-actions-entries.h:159
+msgid "Move selected catalog to another location"
+msgstr "སེལ་འའཐུ་གྲུབ་པའི་ཐོ་གཞུང་འདི་ གནས་ཡུལ་གཞན་ཅིག་ནང་ལུ་ སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:164
+#: ../src/gth-browser-actions-entries.h:199
+msgid "Modify search criteria"
+msgstr "འཚོལ་ཞིབ་ཁྱད་ཚད་ ལེགས་བཅོས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:168
+#: ../src/gth-browser-actions-entries.h:203
+msgid "Redo _Search"
+msgstr "འཚོལ་ཞིབ་ ལོག་འབད།(_S)"
+
+#: ../src/gth-browser-actions-entries.h:169
+#: ../src/gth-browser-actions-entries.h:204
+msgid "Redo the search"
+msgstr "འཚོལ་ཞིབ་འདི་ལོག་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:173
+msgid "_New Catalog..."
+msgstr "ཐོ་གཞུང་གསརཔ།(_N)"
+
+#: ../src/gth-browser-actions-entries.h:174
+msgid "Create a new catalog"
+msgstr "ཐོ་གཞུང་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:178
+msgid "New _Library..."
+msgstr "དཔེ་མཛོད་གསརཔ།(_L)"
+
+#: ../src/gth-browser-actions-entries.h:179
+msgid "Create a new catalog library"
+msgstr "ཐོ་གཞུང་དཔེ་མཛོད་གསརཔ་ཅིག་ གསར་བསྐྲུན་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:184
+msgid "Rename current catalog"
+msgstr "ད་ལྟོའི་ཐོ་གཞུང་འདི་བསྐྱར་མིང་བཏགས།"
+
+#: ../src/gth-browser-actions-entries.h:189
+msgid "Remove current catalog"
+msgstr "ད་ལྟོའི་ཐོ་གཞུང་འདི་ རྩ་བསྐྲད་གཏང་།"
+
+#: ../src/gth-browser-actions-entries.h:194
+msgid "Move current catalog to another location"
+msgstr "ད་ལྟོའི་ཐོ་གཞུང་འདི་ གནས་ཡུལ་གཞན་མི་ཅིག་ནང་ལུ་ སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:209
+msgid "Open the selected folder"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:214
+msgid "Open the selected folder in a new window"
+msgstr "སྒོ་སྒྲིག་གསརཔ་གཅིག་ནང་ལུ་ སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:218
+#: ../src/gth-browser-actions-entries.h:248
+msgid "Open with the _File Manager"
+msgstr "ཡིག་སྣོད་འཛིན་སྐྱོང་པ་དང་བཅས་ཁ་ཕྱེ།(_F)"
+
+#: ../src/gth-browser-actions-entries.h:219
+msgid "Open the selected folder with the Nautilus file manager"
+msgstr "ནའུ་ཊི་ལཱསི་ ཡིག་སྣོད་འཛིན་སྐྱོང་པ་དང་བཅས་སེལ་འཐུ་གྲུབ་པའི་ སྣོད་འཛིན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:224
+msgid "Rename selected folder"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:229
+msgid "Move the selected folder to the Trash"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་འདི་ ཕྱགས་ཧོད་ནང་ལུ་ སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:234
+msgid "Copy selected folder"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་ འདྲ་བཤུས་རྐྱབ།"
+
+#: ../src/gth-browser-actions-entries.h:239
+msgid "Move selected folder"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་སྤོ་བཤུད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:243
+#: ../src/gth-browser-actions-entries.h:273
+#: ../src/gth-window-actions-entries.h:85
+msgid "Ca_tegories"
+msgstr "དབྱེ་རིམ་ཚུ།(_t)"
+
+#: ../src/gth-browser-actions-entries.h:244
+msgid "Assign categories to the selected folder"
+msgstr "སེལ་འཐུ་གྲུབ་པའི་སྣོད་འཛིན་ནང་ལུ་ དབྱེ་རིམ་ཚུ་འགན་སྤྲོད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:249
+msgid "Open current folder with the Nautilus file manager"
+msgstr "ནའུ་ཊི་ལཱསི་ ཡིག་སྣོད་འཛིན་སྐྱོང་པ་དང་བཅས་ད་ལྟོའི་སྣོད་འཛིན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-browser-actions-entries.h:254
+msgid "Rename current folder"
+msgstr "ད་ལྟོའི་ སྣོད་འཛིན་འདི་ བསྐྱར་མིང་བཏགས།"
+
+#: ../src/gth-browser-actions-entries.h:259
+msgid "Move the current folder to the Trash"
+msgstr "ད་ལྟོའི་སྣོད་འཛིན་འདི་ ཕྱགས་ཧོད་ནང་ལུ་སྤོ་བཤུས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:264
+msgid "Copy current folder"
+msgstr "ད་ལྟོའི་སྣོད་འཛིན་འདི་ འདྲ་བཤུད་རྐྱབ།"
+
+#: ../src/gth-browser-actions-entries.h:269
+msgid "Move current folder"
+msgstr "ད་ལྟོའི་སྣོད་འཛིན་འདི་ སྤོ་བཤུས་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:274
+msgid "Assign categories to the current folder"
+msgstr "ད་ལྟོའི་སྣོད་འཛིན་ནང་ལུ་ དབྱེ་རིམ་ཚུ་ འགན་སྤྲོད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:278
+msgid "_New Folder..."
+msgstr "སྣོད་འཛིན་གསརཔ།(_N)"
+
+#: ../src/gth-browser-actions-entries.h:279
+msgid "Create a new folder"
+msgstr "སྣོད་འཛིན་གསརཔ་གཅིག་གསར་བསྐྲུན་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:284
+#: ../src/gth-fullscreen-actions-entries.h:43
+msgid "View next image"
+msgstr "གཟུགས་བརྙན་གཞན་མི་འདི་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
+msgstr "ཧེ་མ།"
+
+#: ../src/gth-browser-actions-entries.h:289
+#: ../src/gth-fullscreen-actions-entries.h:48
+msgid "View previous image"
+msgstr "ཧེ་མའི་གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:294
+msgid "Go to the previous visited location"
+msgstr "ཧེ་མ་བལྟ་སྤྱོད་འབད་ཡོད་པའི་གནས་ཁོངས་ནང་ལུ་འགྱོ་།"
+
+#: ../src/gth-browser-actions-entries.h:299
+msgid "Go to the next visited location"
+msgstr "བལྟ་སྤྱོད་འབད་ཡོད་པའི་གནས་ཁོངས་གཞན་མི་ནང་ལུ་འགྱོ།"
+
+#: ../src/gth-browser-actions-entries.h:304
+msgid "Go up one level"
+msgstr "གནས་རིམ་གཅིག་ཡར་འགྱོ།"
+
+#: ../src/gth-browser-actions-entries.h:308
+#: ../src/gth-viewer-actions-entries.h:63
+msgid "_Reload"
+msgstr "ཡང་བསྐྱར་མངོན་གསལ འབད།(_R)"
+
+#: ../src/gth-browser-actions-entries.h:309
+#: ../src/gth-viewer-actions-entries.h:64
+msgid "Reload the current location"
+msgstr "ད་ལྟོའི་གནས་ཁོངས་འདི་ ཡང་བསྐྱར་མངོན་གསལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:314
+msgid "Stop loading current location"
+msgstr "ད་ལྟོ་གནས་ཁོངས་ མངོན་གསལ་འབད་ནི་བཀག"
+
+#: ../src/gth-browser-actions-entries.h:319
+msgid "Go to the home folder"
+msgstr "ཁྱིམ་་སྣོད་འཛིན་ནང་ལུ་འགྱོ།"
+
+#: ../src/gth-browser-actions-entries.h:323
+#: ../src/gth-viewer-actions-entries.h:53
+msgid "_Go to the Image Folder"
+msgstr "གཟུགས་བརྙན་སྣོད་འཛིན་ནང་ལུ་འགྱོ།(_G)"
+
+#: ../src/gth-browser-actions-entries.h:324
+#: ../src/gth-viewer-actions-entries.h:54
+msgid "Go to the folder that contains the selected image"
+msgstr "སེལ་འཐུ་འབད་མི་གཟུགས་བརྙན་ཚུ་ ནང་ན་ཡོད་མི་ སྣོད་འཛིན་ནང་ལུ་འགྱོ།"
+
+#: ../src/gth-browser-actions-entries.h:328
+msgid "_Delete History"
+msgstr "ལོ་རྒྱུས་བཏོན་གཏང་།(_D)"
+
+#: ../src/gth-browser-actions-entries.h:329
+msgid "Delete the list of visited locations"
+msgstr "བལྟ་སྤྱོད་འབད་ཡོད་པའི་གནས་ཁོངས་་ཀྱི་ཐོ་ཡིག་ཚུ་བཏོན་གཏང་།"
+
+#: ../src/gth-browser-actions-entries.h:333
+msgid "_Location..."
+msgstr "གནས་ཁོངས།(_L)"
+
+#: ../src/gth-browser-actions-entries.h:334
+msgid "Specify a location to visit"
+msgstr "བལྟ་སྤྱོད་འབད་ནི་གནས་ཁོངས་ཅིག་ གསལ་བཀོད་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:338
+msgid "_Add Bookmark"
+msgstr "དེབ་རྟགས་ཁ་སྐོང་རྐྱབས།(_A)"
+
+#: ../src/gth-browser-actions-entries.h:339
+msgid "Add current location to bookmarks"
+msgstr "དེབ་རྟགས་ནང་ལུ་ ད་ལྟིའི་གནས་ཁོངས་འདི་ཁ་སྐོང་རྐྱབས།"
+
+#: ../src/gth-browser-actions-entries.h:343
+msgid "_Edit Bookmarks"
+msgstr "དེབ་རྟགས་ཚུ་ཞུན་དག་འབད།(_E)"
+
+#: ../src/gth-browser-actions-entries.h:344
+msgid "Edit bookmarks"
+msgstr "དེབ་རྟགས་ཚུ་ཞུན་དག་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:348
+msgid "_Slide Show"
+msgstr "བཤུད་བརྙན།(_S)"
+
+#: ../src/gth-browser-actions-entries.h:349
+msgid "View as a slide show"
+msgstr "བཤུད་བརྙན་ཅིག་སྦེ་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:358
+msgid "Create _Index Image"
+msgstr "ཟུར་ཐོའི་གཟུགས་བརྙན་གསར་བསྐྲུན་འབད།(_I)"
+
+#: ../src/gth-browser-actions-entries.h:363
+msgid "Create _Web Album"
+msgstr "ཝེབ་དཔར་དེབ་ གསར་བསྐྲུན་འབད།(_W)"
+
+#: ../src/gth-browser-actions-entries.h:368
+msgid "Convert F_ormat"
+msgstr "རྩ་སྒྲིག་གཞི་བསྒྱུར་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:373
+msgid "Fi_nd Duplicates..."
+msgstr "ངོ་བཤུས་ཚུ་འཚོལ།"
+
+#: ../src/gth-browser-actions-entries.h:379
+msgid "Edit various preferences"
+msgstr "འདྲ་མིན་སྣ་ཚོགས་་དགའ་གདམ་ཚུ་ ཞུན་དག་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:392
+#: ../src/gth-viewer-actions-entries.h:73
+msgid "_Toolbar"
+msgstr "ལག་ཆས་ཕྲ་རིང་།(_T)"
+
+#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-viewer-actions-entries.h:74
+msgid "View or hide the toolbar of this window"
+msgstr "སྒོ་སྒྲིག་འདི་གི་ལག་ཆས་ཕྲ་རིང་འདི་སྟོན་ཡང་ན་སྦ་བཞག"
+
+#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-viewer-actions-entries.h:78
+msgid "_Statusbar"
+msgstr "གནས་ཚད་ཕྲ་རིང་།(_S)"
+
+#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-viewer-actions-entries.h:79
+msgid "View or hide the statusbar of this window"
+msgstr "སྒོ་སྒྲིག་འདི་གི་ གནས་ཚད་ཕྲ་རིང་འདི་སྟོན་ཡང་ན་སྦ་བཞག"
+
+#: ../src/gth-browser-actions-entries.h:403
+msgid "View thumbnails"
+msgstr "མཐེ་གཟེར་ཚུ་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:407
+msgid "_Image Preview"
+msgstr "གཟུགས་བརྙན་སྔོན་ལྟ།(_I)"
+
+#: ../src/gth-browser-actions-entries.h:408
+#: ../src/gth-browser-actions-entries.h:454
+msgid "View the image"
+msgstr "གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:412
+#: ../src/gth-viewer-actions-entries.h:83
+msgid "Image _Comment"
+msgstr "གཟུགས་བརྙན་བསམ་བཀོད།(_C)"
+
+#: ../src/gth-browser-actions-entries.h:413
+#: ../src/gth-viewer-actions-entries.h:84
+msgid "View image comment"
+msgstr "གཟུགས་བརྙན་བསམ་བཀོད་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:417
+msgid "_Reversed Order"
+msgstr "རིམ་ལོག་འབད་འབད་བའི་ གོ་རིམ།(_R)"
+
+#: ../src/gth-browser-actions-entries.h:418
+msgid "Reverse images order"
+msgstr "གཟུགས་བརྙན་གོ་རིམ་ཚུ་རིམ་ལོག་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:427
+msgid "by _Name"
+msgstr "མིང་ཐོག་ལས།(_N)"
+
+#: ../src/gth-browser-actions-entries.h:428
+msgid "Sort images by name"
+msgstr "མིང་གི་ཐོག་ལས་གཟུགས་བརྙན་ཚུ་ དབྱེ་སེལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:430
+msgid "by _Path"
+msgstr "འགྲུལ་ལམ་གྱི་ཐོག་ལས།(_P)"
+
+#: ../src/gth-browser-actions-entries.h:431
+msgid "Sort images by path"
+msgstr "འགྲུལ་ལམ་གྱི་ཐོག་ལས་གཟུགས་བརྙན་ཚུ་དབྱེ་སེལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:433
+msgid "by _Size"
+msgstr "ཚད་ཀྱི་ཐོག་ལས།(_S)"
+
+#: ../src/gth-browser-actions-entries.h:434
+msgid "Sort images by file size"
+msgstr "ཡིག་སྣོད་ཚད་ཀྱི་ཐོག་ལས་གཟུགས་བརྙན་ཚུ་དབྱེ་སེལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:436
+msgid "by _Time"
+msgstr "ཆུ་ཚོད་ཀྱི་ཐོག་ལས།(_T)"
+
+#: ../src/gth-browser-actions-entries.h:437
+msgid "Sort images by modification time"
+msgstr "ཆུ་ཚོད་ལེགས་བཅོས་ཀྱི་ཐོག་ལས་གཟུགས་བརྙན་ཚུ་དབྱེ་སེལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:439
+msgid "_Manual Order"
+msgstr "ལག་ཐོག་གོ་རིམ།(_M)"
+
+#: ../src/gth-browser-actions-entries.h:440
+msgid "Sort images manually"
+msgstr "ལག་ཐོག་ལས་གཟུགས་བརྙན་ཚུ་དབྱེ་སེལ་འབད།"
+
+#: ../src/gth-browser-actions-entries.h:447
+msgid "_Folders"
+msgstr "སྣོད་འཛིན་ཚུ།(_F)"
+
+#: ../src/gth-browser-actions-entries.h:448
+msgid "View the folders"
+msgstr "སྣོད་འཛིན་ཚུ་སྟོན།"
+
+#: ../src/gth-browser-actions-entries.h:450
+msgid "_Catalogs"
+msgstr "ཐོ་གཞུང་ཚུ།(_C)"
+
+#: ../src/gth-browser-actions-entries.h:451
+msgid "View the catalogs"
+msgstr "ཐོ་གཞུང་ཚུ་སྟོན།"
+
+#: ../src/gth-browser.c:559
+#: ../src/gth-viewer.c:640
+msgid "[Press 'c' to add a comment]"
+msgstr "[བསམ་བཀོད་ཁ་སྐོང་རྐྱབས་ནིའི་དོན་ལུ་ 'སི'་ལུ་ཨེད་གཏང་འབད།]"
+
+#: ../src/gth-browser.c:671
+#: ../src/gth-browser.c:690
+#: ../src/gth-viewer.c:740
+#: ../src/gth-viewer.c:761
+msgid "[modified]"
+msgstr "[ལེགས་བཅོས་གྲུབ་པ།]"
+
+#: ../src/gth-browser.c:715
+#: ../src/main.c:392
+#: ../src/main.c:702
+msgid "gThumb"
+msgstr "ཇི་ཐམཔ།"
+
+#: ../src/gth-browser.c:774
+#, c-format
+msgid "1 image (%s)"
+msgstr "གཟུགས་བརྙན་ ༡་ (%s)"
+
+#: ../src/gth-browser.c:777
+#, c-format
+msgid "%d images (%s)"
+msgstr "%d ཁཟུགས་བརྙན་ཚུ། (%s)"
+
+#: ../src/gth-browser.c:784
+#, c-format
+msgid "1 selected (%s)"
+msgstr "སེལ་འཐུ་འབད་འབདཝ་ ༡་  (%s)"
+
+#: ../src/gth-browser.c:787
+#, c-format
+msgid "%d selected (%s)"
+msgstr "%d སེལ་འཐུ་འབད་འབདཝ། (%s)"
+
+#: ../src/gth-browser.c:1955
+#: ../src/gth-viewer.c:991
+msgid "The current image has been modified, do you want to save it?"
+msgstr "ད་ལྟོའི་གཟུགས་བརྙན་འདི་ལེགས་བཅོས་གྲུབ་ཡོད་  འདི་སྲུངས་ནི་ཨིན་ན?"
+
+#: ../src/gth-browser.c:1956
+#: ../src/gth-viewer.c:992
+msgid "Do Not Save"
+msgstr "སྲུངས་མ་འབད།"
+
+#: ../src/gth-browser.c:3501
+msgid "Dragged Images"
+msgstr "འདྲུད་ཡོད་པའི་ གཟུགས་བརྙན།"
+
+#: ../src/gth-browser.c:5156
+#: ../src/gth-browser.c:5157
+#: ../src/gth-viewer.c:1534
+#: ../src/gth-viewer.c:1535
+#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-window-actions-entries.h:261
+#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-window-actions-entries.h:271
+msgid "Rotate images without loss of quality"
+msgstr "སྤུད་ཚད་བརླག་སྟོར་མ་ཤོར་བར་གཟུགས་བརྙན་ཚུ་བསྒྱིར།"
+
+#: ../src/gth-browser.c:6594
+msgid "Close"
+msgstr "ཁ་བསྡམས།"
+
+#: ../src/gth-browser.c:6608
+#: ../src/gth-viewer.c:1789
+msgid "Image comment"
+msgstr "གཟུགས་བརྙན་གྱི་བསམ་བཀོད།"
+
+#: ../src/gth-browser.c:6622
+msgid "Image data"
+msgstr "གཟུགས་བརྙན་་གནད་སྡུད།"
+
+#: ../src/gth-browser.c:6636
+msgid "Image preview"
+msgstr "གཟུགས་བརྙན་སྔོན་ལྟ།"
+
+#: ../src/gth-browser.c:7657
+#, c-format
+msgid "Cannot load folder \"%s\": %s\n"
+msgstr " \"%s\": %s་ གནད་སྡུད་ མངོན་གསལ་འབད་མ་ཚུགས།\n"
+
+#: ../src/gth-browser.c:7996
+msgid "The specified catalog does not exist."
+msgstr "གསལ་བཀོད་འབད་མི་ཐོ་གཞུང་འདི་མིན་འདུག"
+
+#: ../src/gth-exif-data-viewer.c:133
+msgid "Field"
+msgstr "ས་སྒོ།"
+
+#: ../src/gth-exif-data-viewer.c:143
+msgid "Value "
+msgstr "གནས་གོང་།"
+
+#: ../src/gth-folder-selection-dialog.c:414
+msgid "_Browse..."
+msgstr "བརྡ་འཚོལ།(_B)"
+
+#: ../src/gth-folder-selection-dialog.c:423
+msgid "_Recents:"
+msgstr "འཕྲལ་གྱི་ཚུ།(_R)"
+
+#: ../src/gth-fullscreen-actions-entries.h:57
+msgid "Proper_ties"
+msgstr "རྒྱུ་དངོས་།(_t)"
+
+#: ../src/gth-location.c:328
+msgid "Other..."
+msgstr "གཞན།"
+
+#: ../src/gth-location.c:752
+msgid "Catalogs"
+msgstr "ཐོ་གཞུང་།"
+
+#: ../src/gth-viewer-actions-entries.h:41
+#: ../src/gth-window-actions-entries.h:35
+msgid "_Transform"
+msgstr "བཟོ་བསྒྱུར་འབད།(_T)"
+
+#: ../src/gth-viewer-actions-entries.h:42
+#: ../src/gth-window-actions-entries.h:36
+msgid "Auto"
+msgstr "རང་བཞིན།"
+
+#: ../src/gth-viewer-actions-entries.h:88
+msgid "_Single Window"
+msgstr "སྒོ་སྒྲིག་ རྐྱང་པ།(_S)"
+
+#: ../src/gth-viewer-actions-entries.h:89
+msgid "Reuse this window to view other images"
+msgstr "གཟུགས་བརྙན་གཞན་ཚུ་སྟོན་ནནིའི་དོན་ལུ་ འ་ནི་སྒོ་སྒྲིག་འདི་ བསྐྱར་སྤྱོད་འབད།"
+
+#: ../src/gth-viewer.c:1490
+#: ../src/gth-window-actions-entries.h:45
+#: ../src/gth-window-actions-entries.h:70
+msgid "_Open With"
+msgstr "བཅས་ཁ་ཕྱེ།(_O)"
+
+#: ../src/gth-viewer.c:1496
+#: ../src/gth-viewer.c:1497
+#: ../src/gth-window-actions-entries.h:46
+msgid "Open selected images with an application"
+msgstr "གློག་རིམ་ཅིག་གི་ཐོག་ལས་ སེལ་འཐུ་འབད་མི་ གཟུགས་བརྙན་ཚུ་ཁ་ཕྱེ།"
+
+#: ../src/gth-window-actions-callbacks.c:768
+#: ../src/gth-window-actions-callbacks.c:794
+msgid "translator_credits"
+msgstr "སྐད་བསྒྱུར་པའི་ངོ་བསྟོད་ཚུ།(_c)"
+
+#: ../src/gth-window-actions-callbacks.c:791
+msgid "An image viewer and browser for GNOME."
+msgstr "ཇི་ནོམ་གྱི་དོན་ལུ་ གཟུགས་བརྙན་མཐོང་བྱེད་དང་བརྡ་འཚོལ་པ།"
+
+#: ../src/gth-window-actions-entries.h:37
+msgid "Reduce Colors"
+msgstr "ཚོས་གཞི་མར་ཕབ་འབད།"
+
+#: ../src/gth-window-actions-entries.h:41
+msgid "Close this window"
+msgstr "འ་ནི་ཝིན་ཌོ་འདི་ ཁ་བསྡམས།"
+
+#: ../src/gth-window-actions-entries.h:61
+msgid "Revert to saved image"
+msgstr "སྲུངས་ཡོད་པའི་གཟུགས་བརྙན་ནང་ལུ རྒྱབ་ལོག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:71
+msgid "Open this image with an application"
+msgstr "གློག་རིམ་ཅིག་གི་ཐོག་ལས་ གཟུགས་བརྙན་འདི་ཁ་ཕྱེ།"
+
+#: ../src/gth-window-actions-entries.h:76
+msgid "Add a comment to selected images"
+msgstr "སེལ་འཐུ་འབད་ཡོད་མི་གཟུགས་བརྙན་ཚུ་ལུ་ བསམ་བཀོད་ཅིག་ཁ་སྐོང་རྐྱབས།"
+
+#: ../src/gth-window-actions-entries.h:80
+msgid "Rem_ove Comment"
+msgstr "བསམ་བཀོད་རྩ་བསྐྲད་གཏང་།(_o)"
+
+#: ../src/gth-window-actions-entries.h:81
+msgid "Remove comments of selected images"
+msgstr "སེལ་འཐུ་འབད་ཡོད་མི་གཟུགས་བརྙན་ཚུ་གི་ བསམ་བཀོད་རྩ་བསྐྲད་གཏང་།"
+
+#: ../src/gth-window-actions-entries.h:86
+msgid "Assign categories to selected images"
+msgstr "སེལ་འཐུ་འབད་ཡོད་མི་གཟུགས་བརྙན་ཚུ་ལུ་ དབྱེ་རིམ་ཚུ་འགན་སྤྲོད་འབད།"
+
+#: ../src/gth-window-actions-entries.h:100
+#: ../src/gth-window-actions-entries.h:265
+msgid "Rotate Ri_ght"
+msgstr "གཡས་སྐོར་སྦེ་བསྒྱིར།(_g)"
+
+#: ../src/gth-window-actions-entries.h:101
+msgid "View the image rotated clockwise"
+msgstr "གཡས་སྐོར་སྦེ་བསྒྱིར་ཡོད་མི་གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:105
+#: ../src/gth-window-actions-entries.h:260
+msgid "Rotate _Left"
+msgstr "གཡོན་སྐོར་སྦེ་བསྒྱིར།(_L)"
+
+#: ../src/gth-window-actions-entries.h:106
+msgid "View the image rotated counter-clockwise"
+msgstr "གཡོན་སྐོར་སྦེབསྒྱིར་ཡོད་་མི་གཟུགས་བརྙན་ཚུ་སྟོན་།"
+
+#: ../src/gth-window-actions-entries.h:111
+msgid "View the image flipped"
+msgstr "མྱུར་ལྷོག་འབད་ཡོད་མི་གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:116
+msgid "View the image mirrored"
+msgstr "ངོ་འཆར་ཏེ་ཡོད་མི་གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:120
+msgid "_Desaturate"
+msgstr "མཐའ་ཚད་ལུ་མ་ལྷོདཔ།(_D)"
+
+#: ../src/gth-window-actions-entries.h:121
+msgid "View the image in black and white"
+msgstr "གནགཔོ་དང་དཀརཔོ་ནང་ཡོད་མི་གཟུགས་བརྙན་ཚུ་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:125
+msgid "_Negative"
+msgstr "མེད་ཆ།(_N)"
+
+#: ../src/gth-window-actions-entries.h:126
+msgid "View the image with negative colors"
+msgstr "མེད་ཆ་ཚོས་གཞི་གི་ཐོག་ལས་ཡོད་མི་གཟུགས་བརྙན་འདི་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:130
+msgid "_Enhance"
+msgstr "གོང་སྤེལ།(_E)"
+
+#: ../src/gth-window-actions-entries.h:131
+msgid "Automatically adjust the color levels"
+msgstr "ཚོས་གཞི་གནས་རིམ་ཚུ་ རང་བཞིན་གྱིས་བདེ་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:135
+msgid "_Equalize"
+msgstr "མཉམ་པ་བཟོ།(_E)"
+
+#: ../src/gth-window-actions-entries.h:136
+msgid "Automatically equalize the image histogram"
+msgstr "ཧིསི་ཊོ་ག་རམ་ གཟུགས་བརྙན་འདི་རང་བཞིན་གྱིས་མཉམ་པ་བཟོ།"
+
+#: ../src/gth-window-actions-entries.h:140
+msgid "_Posterize"
+msgstr "གསལ་བྱང་བཟོ།(_P)"
+
+#: ../src/gth-window-actions-entries.h:141
+#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:186
+msgid "Reduce the number of colors"
+msgstr "ཚོས་གཞི་ཚུ་གི་གྲངས་མར་ཕབ་འབད།"
+
+#: ../src/gth-window-actions-entries.h:145
+msgid "_Brightness-Contrast"
+msgstr "དཀར་མདངས་ཀྱི་ཁྱད་པར།(_B)"
+
+#: ../src/gth-window-actions-entries.h:146
+msgid "Adjust brightness and contrast"
+msgstr "དཀར་མདངས་དང་མཚོན་མདངས་བདེ་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:150
+msgid "_Hue-Saturation"
+msgstr "མཚོན་མདངས་མཐའ་ཚད།(_H)"
+
+#: ../src/gth-window-actions-entries.h:151
+msgid "Adjust hue and saturation"
+msgstr "མཚོན་མདངས་དང་མཐའ་ཚད་བདེ་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:155
+msgid "_Color Balance"
+msgstr "ཚོས་གཞི་ཚད་སྙོམས།(_C)"
+
+#: ../src/gth-window-actions-entries.h:156
+msgid "Adjust color balance"
+msgstr "ཚོས་གཞི་ཚད་སྙོམས་བདེ་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:160
+msgid "_Threshold"
+msgstr "ཐེརེཤ་ཧཱོལ།(_T)"
+
+#: ../src/gth-window-actions-entries.h:161
+msgid "Apply threshold"
+msgstr "ཐེརེཤ་ཧཱོལ་ འཇུག་སྤྱོད་འབད།"
+
+#: ../src/gth-window-actions-entries.h:165
+msgid "_Resize"
+msgstr "ཚད་བསྐྱར་བཟོ་འབད་ནི།(_R)"
+
+#: ../src/gth-window-actions-entries.h:166
+msgid "Resize image"
+msgstr "གཟུགས་བརྙན་གྱི་ཚད་བསྐྱར་བཟོ་འབད།"
+
+#: ../src/gth-window-actions-entries.h:170
+msgid "_Rotate"
+msgstr "བསྒྱིར།(_R)"
+
+#: ../src/gth-window-actions-entries.h:171
+msgid "Rotate image"
+msgstr "གཟུགས་བརྙན་བསྒྱིར།"
+
+#: ../src/gth-window-actions-entries.h:176
+msgid "Crop image"
+msgstr "བཏོག་བཅོས་ཀྱི་གཟུགས་བརྙན།"
+
+#: ../src/gth-window-actions-entries.h:180
+msgid "Black and White"
+msgstr "གནགཔོ་དང་དཀརཔོ།"
+
+#: ../src/gth-window-actions-entries.h:185
+msgid "Web Palette"
+msgstr "ཝེབ་པེ་ལེཊི།"
+
+#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:292
+msgid "In"
+msgstr "ནང་ན།"
+
+#: ../src/gth-window-actions-entries.h:191
+msgid "Zoom in"
+msgstr "ཕྱིར་རྒྱས།"
+
+#: ../src/gth-window-actions-entries.h:195
+msgid "Out"
+msgstr "ཕྱི་ཁར།"
+
+#: ../src/gth-window-actions-entries.h:196
+msgid "Zoom out"
+msgstr "ནང་བཟུམ།"
+
+#: ../src/gth-window-actions-entries.h:200
+msgid "1:1"
+msgstr "༡:༡"
+
+#: ../src/gth-window-actions-entries.h:201
+msgid "Actual size"
+msgstr "ཚད་ངོ་མ།"
+
+#: ../src/gth-window-actions-entries.h:205
+msgid "Fit"
+msgstr "ཚུད་སྒྲིག"
+
+#: ../src/gth-window-actions-entries.h:206
+msgid "Zoom to fit window"
+msgstr "སྒོ་སྒྲིག་ནང་ལུ་ ཚུད་སྒྲིག་འབད་ནིའི་དོན་ལུ་ རྒྱས་ཟུམ་འབད།"
+
+#: ../src/gth-window-actions-entries.h:210
+msgid "Step A_nimation"
+msgstr "བསྒུལ་བཟོའི་རིམ་པ།(_n)"
+
+#: ../src/gth-window-actions-entries.h:225
+msgid "_Centered"
+msgstr "དབུས་སྒྲིག(_C)"
+
+#: ../src/gth-window-actions-entries.h:226
+msgid "Set the image as desktop background (centered)"
+msgstr "གཟུགས་བརྙན་འདི་ ཌེཀསི་ཊོཔ་རྒྱབ་གཞི་(དབུས་སྒྲིག)སྦེ་གཞི་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:230
+msgid "_Tiled"
+msgstr "ཊ་ཡིལཌི་།(_T)"
+
+#: ../src/gth-window-actions-entries.h:231
+msgid "Set the image as desktop background (tiled)"
+msgstr "གཟུགས་བརྙན་འདི་ ཌེཀསི་ཊོཔ་རྒྱབ་གཞི་(དབུས་སྒྲིག)སྦེ་གཞི་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:235
+msgid "_Scaled"
+msgstr "ཚད་འཇལ་ཡོདཔ།(_S)"
+
+#: ../src/gth-window-actions-entries.h:236
+msgid "Set the image as desktop background (scaled keeping aspect ratio)"
+msgstr "གཟུགས་བརྙན་འདི་ཌེཀསི་ཊོཔ་རྒྱབ་གཞི་(རྣམ་པའི་དཔྱ་ཚད་བཞག་པའི་ཐོག་ལས་ཚད་འཇལ་ཡོདཔ།)སྦེ་གཞི་སྒྲིག་འབད་ཡོདཔ།"
+
+#: ../src/gth-window-actions-entries.h:240
+msgid "Str_etched"
+msgstr "བསྣར་ཡོདཔ།(_e)"
+
+#: ../src/gth-window-actions-entries.h:241
+msgid "Set the image as desktop background (stretched)"
+msgstr "གཟུགས་བརྙན་འདི་ ཌེཀསི་ཊོཔ་རྒྱབ་གཞི་(བསྣར་ཡོདཔ།)སྦེ་གཞི་སྒྲིག་འབད།"
+
+#: ../src/gth-window-actions-entries.h:245
+msgid "_Restore"
+msgstr "སོར་ཆུད།(_R)"
+
+#: ../src/gth-window-actions-entries.h:246
+msgid "Restore the original desktop wallpaper"
+msgstr "ཌེཀསི་ཊོཔ་གྱང་ཤོག་ངོ་མ་འདི་སོར་ཆུད་འབད།"
+
+#: ../src/gth-window-actions-entries.h:250
+msgid "Change _Date"
+msgstr "ཚེས་གྲངས་བསྒྱུར་བཅོས་འབད།(_D)"
+
+#: ../src/gth-window-actions-entries.h:251
+msgid "Change images last modified date"
+msgstr "གཟུགས་མཐའ་མཇུག་ལུ་ ལེགས་བཅོས་འབད་མི་ཚེས་གྲངས་བསྒྱུར་བཅོས་འབད།"
+
+#: ../src/gth-window-actions-entries.h:276
+msgid "Show information about gThumb"
+msgstr "ཇི་ཐམཔ་གི་སྐོར་ལས་ བརྡ དོན་སྟོན།"
+
+#: ../src/gth-window-actions-entries.h:285
+msgid "_Keyboard Shortcuts"
+msgstr "ལྡེ་སྒྲོམ་གྱི་མགྱོགས་ཐབས་ཚུ།(_K)"
+
+#: ../src/gth-window-actions-entries.h:301
+msgid "Play _Animation"
+msgstr "བསྒུལ་བཟོ་གཏང་།(_A)"
+
+#: ../src/gth-window-actions-entries.h:312
+msgid "_High Quality"
+msgstr "སྤུས་ཚད་མཐོ་བ།(_H)"
+
+#: ../src/gth-window-actions-entries.h:313
+msgid "Use high quality zoom"
+msgstr "སྤུས་ཚད་མཐོ་བའི་ རྒྱས་ཟུམ་ལག་ལེན་འཐབ།"
+
+#: ../src/gth-window-actions-entries.h:315
+msgid "_Low Quality"
+msgstr "སྤུས་ཚད་དམའ་བ།(_Q)"
+
+#: ../src/gth-window-actions-entries.h:316
+msgid "Use low quality zoom"
+msgstr "སྤུས་ཚད་དམའ་བའི་རྒྱས་ཟུམ་ལག་ལེན་འཐབ།"
+
+#: ../src/main.c:88
+msgid "Start in fullscreen mode"
+msgstr "གསལ་གཞི་གང་བའི་ཐབས་ལམ་ནང་འགོ་བཙུགས།"
+
+#: ../src/main.c:91
+msgid "Automatically start a slideshow"
+msgstr "རང་བཞིན་གྱིས་བཤུད་བརྙན་ཅིག་འགོ་བཙུགས།"
+
+#: ../src/main.c:94
+msgid "Automatically import digital camera photos"
+msgstr "རང་བཞིན་གྱིས་ ཌི་ཇི་ཊཱལ་པར་ཆས་ཀྱི་དཔར་ཚུ་ ནང་འདྲེན་འབད།"
+
+#: ../src/main.c:137
+msgid "Holidays"
+msgstr "ངལ་གསོ་ཚུ།"
+
+#: ../src/main.c:138
+msgid "Temporary"
+msgstr "གནས་སྐབས།"
+
+#: ../src/main.c:139
+msgid "Screenshots"
+msgstr "གསལ་གཞིའི་པར་ཚུ།"
+
+#: ../src/main.c:140
+msgid "Science"
+msgstr "ཚན་རིག"
+
+#: ../src/main.c:141
+msgid "Favourite"
+msgstr "དགའ་མི།"
+
+#: ../src/main.c:142
+msgid "Important"
+msgstr "གལ་ཅན།"
+
+#: ../src/main.c:143
+msgid "GNOME"
+msgstr "ཇི་ནོམ།"
+
+#: ../src/main.c:144
+msgid "Games"
+msgstr "རྩེདམོ་ཚུ།"
+
+#: ../src/main.c:145
+msgid "Party"
+msgstr "སྡེ་ཚོགས།"
+
+#: ../src/main.c:146
+msgid "Birthday"
+msgstr "སྐྱེ་བའི་ཉིནམ།"
+
+#: ../src/main.c:147
+msgid "Astronomy"
+msgstr "གཟའ་སྐར་རིག་པ།"
+
+#: ../src/main.c:148
+msgid "Family"
+msgstr "རིགས་ཚན།"
+
+#: ../src/main.c:469
+#: ../src/main.c:644
+msgid "Command Line"
+msgstr "བཀོད་ལམ།"
+
