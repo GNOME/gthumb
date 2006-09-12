@@ -1,16 +1,19 @@
-# gthumb in Greek# Nikos Charonitakis <charosn@her.forthnet.gr>, 2005.# Stathis Kamperis <stathisk@med.auth.gr>, 2005.# 
+# gthumb in Greek
+# Nikos Charonitakis <charosn@her.forthnet.gr>, 2005.
+# Stathis Kamperis <stathisk@med.auth.gr>, 2005.
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: gthumb.HEAD.el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-20 13:23+0200\n"
+"POT-Creation-Date: 2006-09-12 12:58+0300\n"
 "PO-Revision-Date: 2006-03-20 13:28+0200\n"
 "Last-Translator: Stathis Kamperis <stathisk@med.auth.gr>\n"
 "Language-Team:  <team@gnome.gr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.server.in.in.h:1
 msgid "Catalog"
@@ -121,7 +124,8 @@ msgstr "_Μαύρο"
 msgid "_Checked"
 msgstr "Ε_πιλεγμένο"
 
-# #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
+# 
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
 #: ../src/gth-window-actions-entries.h:110
 msgid "_Flip"
@@ -134,14 +138,15 @@ msgstr "_Αναστροφή"
 msgid "_Image"
 msgstr "_Εικόνα"
 
-# #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
+# 
+#: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
 #: ../src/gth-window-actions-entries.h:115
 msgid "_Mirror"
 msgstr "_Καθρέπτης"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:834
+#: ../src/gth-viewer.c:833
 msgid "_None"
 msgstr "_Κανένα"
 
@@ -175,8 +180,8 @@ msgstr "%d %b %Y, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:495 ../src/gth-exif-data-viewer.c:481
-#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:583
+#: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:481
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:583
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d εικονοστοιχεία"
@@ -189,8 +194,9 @@ msgstr "_Εφαρμογή GThumb"
 msgid "GThumb Application Factory"
 msgstr "Εργαστήρι εφαρμογής GThumb"
 
-#: ../data/albumthemes/text.h:27
-msgid "Prevous"
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
 msgstr "Προηγούμενο"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
@@ -271,7 +277,7 @@ msgstr "<b>Πληροφορίες καναλιού:</b>"
 
 #: ../data/glade/gthumb.glade.h:4
 msgid "<b>Overwrite the old image with the new one?</b>"
-msgstr "<b>Αντικατάσταση της παλιάς εικόνας με την νεά;</b>"
+msgstr "<b>Αντικατάσταση της παλιάς εικόνας με τη νέα;</b>"
 
 #: ../data/glade/gthumb.glade.h:5
 msgid "A_vailable applications:"
@@ -357,7 +363,7 @@ msgstr "Τιμή"
 msgid "_Application:"
 msgstr "_Εφαρμογή:"
 
-#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:453
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:458
 msgid "_Bookmarks:"
 msgstr "Σελιδοδείκτες:"
 
@@ -422,8 +428,8 @@ msgstr "Διαγραφή επιλεγμένων εικόνων από τη φω�
 msgid "Import Photos"
 msgstr "Εισαγωγή φωτογραφιών"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:862
-#: ../src/dlg-photo-importer.c:901 ../src/dlg-photo-importer.c:1469
+#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:866
+#: ../src/dlg-photo-importer.c:905 ../src/dlg-photo-importer.c:1475
 msgid "No camera detected"
 msgstr "Αδύνατη η ανίχνευση κάμερας"
 
@@ -451,7 +457,8 @@ msgstr "Διαγραφή εικόνων που εισήχθησαν από τη�
 msgid "_Destination:"
 msgstr "_Προορισμός:"
 
-# #: ../data/glade/gthumb_camera.glade.h:13
+# 
+#: ../data/glade/gthumb_camera.glade.h:13
 #: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Film:"
 msgstr "Φ_ιλμ:"
@@ -532,7 +539,8 @@ msgstr "Αποθήκευση μόνο των πεδίων που τ_ροποπο
 msgid "The following date"
 msgstr "Η εξής ημερομηνία"
 
-# #: ../data/glade/gthumb_comments.glade.h:15
+# 
+#: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_comments.glade.h:15
 #: ../data/glade/gthumb_search.glade.h:23
 msgid "_Date:"
@@ -708,7 +716,8 @@ msgstr "<b>Λόγος διαστάσεων</b>"
 msgid "<b>Selection</b>"
 msgstr "<b>Επιλογή</b>"
 
-# #: ../data/glade/gthumb_crop.glade.h:8
+# 
+#: ../data/glade/gthumb_crop.glade.h:8
 #: ../data/glade/gthumb_crop.glade.h:8
 msgid "Crop"
 msgstr "Κοπή"
@@ -1090,7 +1099,8 @@ msgstr "Στ_υλ"
 msgid "Start _at:"
 msgstr "Έναρξη _στο:"
 
-# #: ../data/glade/gthumb_png_exporter.glade.h:58
+# 
+#: ../data/glade/gthumb_png_exporter.glade.h:58
 #: ../data/glade/gthumb_png_exporter.glade.h:58
 #: ../data/glade/gthumb_web_exporter.glade.h:35
 msgid "Style Preview"
@@ -1233,7 +1243,7 @@ msgstr "_Μετά το άνοιγμα της εικόνας:"
 
 #: ../data/glade/gthumb_preferences.glade.h:24
 msgid "As_k confirmation before deleting images or catalogs"
-msgstr "Να ζ_ητείται επιβεβαίωση πριν την διαγραφή εικόνων ή καταλόγων"
+msgstr "Να ζ_ητείται επιβεβαίωση πριν τη διαγραφή εικόνων ή καταλόγων"
 
 #: ../data/glade/gthumb_preferences.glade.h:25
 msgid "Ask whether to save _modified images"
@@ -1285,9 +1295,10 @@ msgstr "Προσαρμογή στο παράθυρο αν μεγαλύτερο"
 
 #: ../data/glade/gthumb_preferences.glade.h:37
 msgid "Follow Nautilus behaviour"
-msgstr "Εναρμόνιση με την συμπεριφορά του Nautilus"
+msgstr "Εναρμόνιση με τη συμπεριφορά του Nautilus"
 
-# #: ../data/glade/gthumb_preferences.glade.h:38
+# 
+#: ../data/glade/gthumb_preferences.glade.h:38
 #: ../data/glade/gthumb_preferences.glade.h:38
 msgid "For_ward"
 msgstr "Προς τα _εμπρός"
@@ -1328,7 +1339,8 @@ msgstr "_Χαμηλή"
 msgid "Ran_dom"
 msgstr "_Τυχαία"
 
-# #: ../data/glade/gthumb_preferences.glade.h:49
+# 
+#: ../data/glade/gthumb_preferences.glade.h:49
 #: ../data/glade/gthumb_preferences.glade.h:49
 msgid "Re_verse"
 msgstr "Προς τα _πίσω"
@@ -1447,7 +1459,7 @@ msgid ""
 "<small><i><b>Note:</b> Drag the image to move it in the page.\n"
 "Click on an image to rotate it.</i></small>"
 msgstr ""
-"<small><i><b>Σημείωση:</b> Σύρετε την εικόνα για να την μετακινήσετε στην "
+"<small><i><b>Σημείωση:</b> Σύρετε την εικόνα για να τη μετακινήσετε στην "
 "σελίδα.\n"
 "Κάντε κλικ σε μια εικόνα για να την περιστρέψετε.</i></small>"
 
@@ -1533,7 +1545,8 @@ msgstr "_Αριστερά:"
 msgid "_Right:"
 msgstr "_Δεξιά:"
 
-# #: ../data/glade/gthumb_print.glade.h:36
+# 
+#: ../data/glade/gthumb_print.glade.h:36
 #: ../data/glade/gthumb_print.glade.h:36
 msgid "_Scale:"
 msgstr "Κ_λιμάκωση:"
@@ -1598,8 +1611,8 @@ msgstr "Ταίριαξε κάθε επιλεγμένη κατηγορία"
 msgid "New _Search..."
 msgstr "_Νέα αναζήτηση..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:831
-#: ../src/dlg-photo-importer.c:1519
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:835
+#: ../src/dlg-photo-importer.c:1525
 msgid "No images found"
 msgstr "Δεν βρέθηκαν εικόνες"
 
@@ -1623,7 +1636,8 @@ msgstr "_Επεξεργασία αναζήτησης"
 msgid "_Include sub-folders"
 msgstr "Σ_υμπερίληψη υποφακέλων"
 
-# #: ../data/glade/gthumb_search.glade.h:27
+# 
+#: ../data/glade/gthumb_search.glade.h:27
 #: ../data/glade/gthumb_search.glade.h:27
 msgid "_Save"
 msgstr "Απο_θήκευση"
@@ -1918,7 +1932,7 @@ msgstr "_Flash"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:44
 msgid "_Go to Theme Folder"
-msgstr "_Μετάβαση στον φάκελο των θεμάτων"
+msgstr "_Μετάβαση στο φάκελο των θεμάτων"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:45
 msgid "_Install Theme..."
@@ -2091,8 +2105,8 @@ msgstr "%d %B %Y"
 
 #: ../libgthumb/comments.c:1262 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:491 ../src/gth-exif-data-viewer.c:485
-#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:579
+#: ../src/gth-browser.c:493 ../src/gth-exif-data-viewer.c:485
+#: ../src/gth-fullscreen.c:856 ../src/gth-viewer.c:579
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2101,7 +2115,7 @@ msgid "(No Comment)"
 msgstr "(Κανένα σχόλιο)"
 
 #: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1544
+#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1550
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
@@ -2110,7 +2124,7 @@ msgstr ""
 "\"%s\""
 
 #: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:320
-#: ../src/gth-batch-op.c:563 ../src/gth-browser-actions-callbacks.c:200
+#: ../src/gth-batch-op.c:572 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr ""
@@ -2125,12 +2139,13 @@ msgstr "Ο τύπος της εικόνας δεν υποστηρίζεται: %
 msgid "Determine by extension"
 msgstr "Καθορισμός από την επέκταση"
 
-# #: ../libgthumb/dlg-save-image.c:287
+# 
+#: ../libgthumb/dlg-save-image.c:287
 #: ../libgthumb/dlg-save-image.c:274
 msgid "Save Image"
 msgstr "Αποθήκευση εικόνας"
 
-#: ../libgthumb/dlg-save-image.c:291
+#: ../libgthumb/dlg-save-image.c:293
 msgid "Image type:"
 msgstr "Τύπος εικόνας:"
 
@@ -2241,14 +2256,14 @@ msgstr "Προβολή μεγέθους σε κατάσταση πληροφ. γ
 msgid "Font"
 msgstr "Γραμματοσειρά"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8507
-#: ../src/gth-viewer.c:2231
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8596
+#: ../src/gth-viewer.c:2230
 msgid "Wait please..."
 msgstr "Παρακαλώ περιμένετε..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:770
-#: ../src/gth-viewer.c:764
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:772
+#: ../src/gth-viewer.c:763
 msgid "No image"
 msgstr "Χωρίς εικόνα"
 
@@ -2257,7 +2272,7 @@ msgstr "Χωρίς εικόνα"
 msgid "Name"
 msgstr "Όνομα"
 
-#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:76 ../src/gth-window-actions-entries.h:255
 msgid "Ro_tate Images"
 msgstr "_Περιστροφή εικόνων"
 
@@ -2279,8 +2294,8 @@ msgstr "Διαγραφή όλων των μικρογραφιών, παρακα�
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Διαγραφή των παλιών μικρογραφιών, παρακαλώ περιμένετε..."
 
-#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1393
-#: ../src/gth-browser.c:1397 ../src/gth-browser.c:1409
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1406
+#: ../src/gth-browser.c:1410 ../src/gth-browser.c:1422
 msgid "(Invalid Name)"
 msgstr "(Μη έγκυρο όνομα)"
 
@@ -2356,17 +2371,17 @@ msgstr ""
 #: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
 #: ../src/dlg-comment.c:297 ../src/dlg-convert.c:455 ../src/dlg-jpegtran.c:579
 #: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
-#: ../src/dlg-search.c:467 ../src/gth-window-actions-callbacks.c:819
+#: ../src/dlg-search.c:467 ../src/gth-window-actions-callbacks.c:820
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Αδύνατη η προβολή βοήθειας: %s"
 
-#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:396
+#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:401
 #, c-format
 msgid "Converting image: %s"
 msgstr "Μετατροπή εικόνας: %s"
 
-#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:419
+#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:424
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
@@ -2374,11 +2389,11 @@ msgstr ""
 "Μια εκόνα με το όνομα \"%s\" υπάρχη ήδη. Παρακαλώ ορίστε ένα διαφορετικό "
 "όνομα."
 
-#: ../src/dlg-convert.c:325 ../src/gth-batch-op.c:568
+#: ../src/dlg-convert.c:325 ../src/gth-batch-op.c:577
 msgid "Skip"
 msgstr "Παράλειψη"
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:569
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:578
 #: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
 msgstr "_Αντικατάσταση"
@@ -2436,7 +2451,7 @@ msgstr ""
 "σβήσετε μόνιμα;"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
-#: ../src/gth-browser.c:1942 ../src/gth-viewer.c:994
+#: ../src/gth-browser.c:1958 ../src/gth-viewer.c:993
 msgid "_Do not display this message again"
 msgstr "Να _μην εμφανιστεί το μήνυμα αυτό ξανά"
 
@@ -2477,11 +2492,11 @@ msgstr "Αδύνατη η μετακίνηση της εικόνας:"
 msgid "Could not copy the image:"
 msgstr "Αδύνατη η αντιγραφή της εικόνας:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
 msgid "_Abort"
 msgstr "Α_κύρωση"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
 msgid "_Continue"
 msgstr "_Συνέχεια"
 
@@ -2490,26 +2505,26 @@ msgstr "_Συνέχεια"
 msgid "Copying file %d of %d"
 msgstr "Αντιγραφή αρχείου %d από %d"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
 msgid "Collecting images info"
 msgstr "Συλλογή πληροφορίων εικόνων"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Διαγραφή αρχείου  %ld of %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2022
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Αντιγραφή αρχείου %ld από %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Μετακίνηση αρχείου %ld από %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
 #: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
@@ -2523,7 +2538,7 @@ msgstr "Μέγεθος"
 msgid "Type"
 msgstr "Τύπος"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:507
+#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:509
 #: ../src/gth-exif-data-viewer.c:517 ../src/gth-viewer.c:595
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
@@ -2537,18 +2552,19 @@ msgstr "Πληροφορίες για το κανάλι"
 msgid "%s Properties"
 msgstr "Ιδιότητες %s"
 
-#: ../src/dlg-photo-importer.c:898 ../src/dlg-photo-importer.c:1468
-#: ../src/dlg-photo-importer.c:1518 ../src/dlg-photo-importer.c:1530
-#: ../src/dlg-photo-importer.c:1546 ../src/dlg-photo-importer.c:1575
+#: ../src/dlg-photo-importer.c:902 ../src/dlg-photo-importer.c:1474
+#: ../src/dlg-photo-importer.c:1524 ../src/dlg-photo-importer.c:1536
+#: ../src/dlg-photo-importer.c:1552 ../src/dlg-photo-importer.c:1581
 msgid "Could not import photos"
 msgstr "Αδύνατη η εισαγωγή των φωτογραφιών"
 
-# #: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
-#: ../src/dlg-photo-importer.c:1255 ../src/main.c:1009
+# 
+#: ../src/dlg-photo-importer.c:1224 ../src/main.c:954
+#: ../src/dlg-photo-importer.c:1261 ../src/main.c:1012
 msgid "Film"
 msgstr "Φιλμ"
 
-#: ../src/dlg-photo-importer.c:1527
+#: ../src/dlg-photo-importer.c:1533
 #: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
@@ -2566,26 +2582,27 @@ msgstr "Κεφαλίδα"
 msgid "Footer"
 msgstr "Υποσέλιδο"
 
-#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:371
+#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:451
 msgid "by path"
 msgstr "κατά διαδρομή"
 
 #: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:434
-#: ../src/dlg-web-exporter.c:373
+#: ../src/dlg-web-exporter.c:453
 msgid "by size"
 msgstr "κατά μέγεθος"
 
 #: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:436
-#: ../src/dlg-web-exporter.c:375
+#: ../src/dlg-web-exporter.c:455
 msgid "by modified time"
 msgstr "με βάση την ώρα τροποποίησης"
 
 #: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:439
-#: ../src/dlg-web-exporter.c:378
+#: ../src/dlg-web-exporter.c:458
 msgid "manual order"
 msgstr "χειροκίνητη ταξινόμηση"
 
-# #: ../src/dlg-rename-series.c:397
+# 
+#: ../src/dlg-rename-series.c:397
 #: ../src/dlg-rename-series.c:418
 msgid "Old Name"
 msgstr "Παλιό όνομα"
@@ -2602,15 +2619,15 @@ msgstr "Αποτέλεσμα αναζήτησης"
 msgid "Filename"
 msgstr "Όνομα αρχείου"
 
-#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:391
+#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:396
 msgid "Folder"
 msgstr "Φάκελος"
 
-#: ../src/dlg-web-exporter.c:729
+#: ../src/dlg-web-exporter.c:808
 msgid "Select Album Theme"
 msgstr "Επιλογή θέματος άλμπουμ"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3699
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3742
 msgid "Could not move the items:"
 msgstr "Αδύνατη η μετακίνηση των αντικειμένων:"
 
@@ -2645,7 +2662,7 @@ msgstr "Αδύνατη η μετονομασία της εικόνας  \"%s\": 
 msgid "source and destination are the same"
 msgstr "Η πηγή και ο προορισμός είναι ίδια"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1077
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Η εικόνα θα μετακινηθεί στα Απορρίμματα, είστε σίγουρος;"
 
@@ -2758,7 +2775,7 @@ msgstr "Νέος φάκελος"
 msgid "Enter the folder name: "
 msgstr "Εισάγετε το όνομα του φακέλου:"
 
-#: ../src/gth-browser-actions-callbacks.c:1846
+#: ../src/gth-browser-actions-callbacks.c:1852
 msgid "Open Location"
 msgstr "Άνοιγμα τοποθεσίας"
 
@@ -2818,7 +2835,11 @@ msgstr "_Βοήθεια"
 msgid "New _Window"
 msgstr "Νέο παρά_θυρο"
 
-# #-#-#-#-#  galeon-el.po (galeon 1.0)  #-#-#-#-## # #-#-#-#-#  gnome-libs-el.po (gnome-libs 1.2.12)  #-#-#-#-## #: ../src/gth-browser-actions-entries.h:54
+# #-#-#-#-#  galeon-el.po (galeon 1.0)  #-#-#-#-#
+# 
+# #-#-#-#-#  gnome-libs-el.po (gnome-libs 1.2.12)  #-#-#-#-#
+# 
+#: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-browser-actions-entries.h:54
 #: ../src/gth-viewer-actions-entries.h:49
 msgid "Create a new window"
@@ -2961,7 +2982,8 @@ msgstr "Άνοιγμα του επιλεγμένου καταλόγου σε ν�
 msgid "Rename selected catalog"
 msgstr "Μετονομασία επιλεγμένου καταλόγου"
 
-# #: ../src/gth-browser-actions-entries.h:143
+# 
+#: ../src/gth-browser-actions-entries.h:143
 #: ../src/gth-browser-actions-entries.h:153
 #: ../src/gth-browser-actions-entries.h:188
 msgid "Rem_ove"
@@ -3098,11 +3120,6 @@ msgstr "Δημιουργία νέου φακέλου"
 msgid "View next image"
 msgstr "Προβολή επόμενης εικόνας"
 
-#: ../src/gth-browser-actions-entries.h:288
-#: ../src/gth-fullscreen-actions-entries.h:47
-msgid "Previous"
-msgstr "Προηγούμενο"
-
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
@@ -3141,14 +3158,15 @@ msgstr "Μετάβαση στον αρχικό κατάλογο"
 #: ../src/gth-browser-actions-entries.h:323
 #: ../src/gth-viewer-actions-entries.h:53
 msgid "_Go to the Image Folder"
-msgstr "Μετάβαση στον φάκελο των εικόνων"
+msgstr "Μετάβαση στο φάκελο των εικόνων"
 
 #: ../src/gth-browser-actions-entries.h:324
 #: ../src/gth-viewer-actions-entries.h:54
 msgid "Go to the folder that contains the selected image"
-msgstr "Μετάβαση στον φάκελο που περιέχει την επιλεγμένη εικόνα"
+msgstr "Μετάβαση στο φάκελο που περιέχει την επιλεγμένη εικόνα"
 
-# #: ../src/gth-browser-actions-entries.h:318
+# 
+#: ../src/gth-browser-actions-entries.h:318
 #: ../src/gth-browser-actions-entries.h:328
 msgid "_Delete History"
 msgstr "_Διαγραφή ιστορικού"
@@ -3274,7 +3292,7 @@ msgstr "κατά _διαδρομή"
 
 #: ../src/gth-browser-actions-entries.h:431
 msgid "Sort images by path"
-msgstr "Ταξινόμηση εικόνων με βάση την διαδρομή"
+msgstr "Ταξινόμηση εικόνων με βάση τη διαδρομή"
 
 #: ../src/gth-browser-actions-entries.h:433
 msgid "by _Size"
@@ -3316,54 +3334,53 @@ msgstr "_Κατάλογοι"
 msgid "View the catalogs"
 msgstr "Προβολή καταλόγων"
 
-#: ../src/gth-browser.c:557 ../src/gth-viewer.c:640
+#: ../src/gth-browser.c:559 ../src/gth-viewer.c:640
 msgid "[Press 'c' to add a comment]"
 msgstr "[Πιέστε 'c' για να προσθέσετε ένα σχόλιο]"
 
-#: ../src/gth-browser.c:669 ../src/gth-browser.c:688 ../src/gth-viewer.c:740
-#: ../src/gth-viewer.c:761
+#: ../src/gth-browser.c:671 ../src/gth-browser.c:690 ../src/gth-viewer.c:739
+#: ../src/gth-viewer.c:760
 msgid "[modified]"
 msgstr "[τροποιήθηκε]"
 
-#: ../src/gth-browser.c:713 ../src/gth-window-actions-callbacks.c:779
-#: ../src/main.c:699
+#: ../src/gth-browser.c:715 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:772
+#: ../src/gth-browser.c:774
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 εικόνα (%s)"
 
-#: ../src/gth-browser.c:775
+#: ../src/gth-browser.c:777
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d εικόνες (%s)"
 
-#: ../src/gth-browser.c:782
+#: ../src/gth-browser.c:784
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 επιλεγμένο (%s)"
 
-#: ../src/gth-browser.c:785
+#: ../src/gth-browser.c:787
 #, c-format
 msgid "%d selected (%s)"
 msgstr "Επιλέχτηκαν: %d (%s)"
 
-#: ../src/gth-browser.c:1939 ../src/gth-viewer.c:991
+#: ../src/gth-browser.c:1955 ../src/gth-viewer.c:990
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Η τρέχουσα εικόνα έχει τροποποιηθεί, θέλετε να την αποθηκεύσετε;"
 
-#: ../src/gth-browser.c:1940 ../src/gth-viewer.c:992
+#: ../src/gth-browser.c:1956 ../src/gth-viewer.c:991
 msgid "Do Not Save"
 msgstr "Όχι αποθήκευση"
 
-#: ../src/gth-browser.c:3458
+#: ../src/gth-browser.c:3501
 msgid "Dragged Images"
 msgstr "Εικόνες που σύρθηκαν"
 
-#: ../src/gth-browser.c:5113 ../src/gth-browser.c:5114
-#: ../src/gth-viewer.c:1534 ../src/gth-viewer.c:1535
+#: ../src/gth-browser.c:5156 ../src/gth-browser.c:5157
+#: ../src/gth-viewer.c:1533 ../src/gth-viewer.c:1534
 #: ../src/gth-window-actions-entries.h:256
 #: ../src/gth-window-actions-entries.h:261
 #: ../src/gth-window-actions-entries.h:266
@@ -3371,29 +3388,30 @@ msgstr "Εικόνες που σύρθηκαν"
 msgid "Rotate images without loss of quality"
 msgstr "Περιστροφή εικόνων χωρίς απώλεια ποιότητας"
 
-#: ../src/gth-browser.c:6508
+#: ../src/gth-browser.c:6594
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: ../src/gth-browser.c:6522 ../src/gth-viewer.c:1789
+#: ../src/gth-browser.c:6608 ../src/gth-viewer.c:1788
 msgid "Image comment"
 msgstr "Σχόλιο εικόνας"
 
-#: ../src/gth-browser.c:6536
+#: ../src/gth-browser.c:6622
 msgid "Image data"
 msgstr "Δεδομένα εικόνας"
 
-# #: ../src/gth-browser.c:6499
-#: ../src/gth-browser.c:6550
+# 
+#: ../src/gth-browser.c:6499
+#: ../src/gth-browser.c:6636
 msgid "Image preview"
 msgstr "Προεπισκόπηση εικόνας"
 
-#: ../src/gth-browser.c:7563
+#: ../src/gth-browser.c:7658
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Αδύνατη η φόρτωση του καταλόγου: \"%s\": %s\n"
 
-#: ../src/gth-browser.c:7903
+#: ../src/gth-browser.c:7997
 msgid "The specified catalog does not exist."
 msgstr "Ο καθορισμένος κατάλογος δεν υπάρχει."
 
@@ -3405,19 +3423,15 @@ msgstr "Πεδίο"
 msgid "Value "
 msgstr "Τιμή "
 
-#: ../src/gth-folder-selection-dialog.c:413
+#: ../src/gth-folder-selection-dialog.c:418
 msgid "_Browse..."
 msgstr "_Περιήγηση..."
 
-# #: ../src/gth-folder-selection-dialog.c:423
-#: ../src/gth-folder-selection-dialog.c:422
+# 
+#: ../src/gth-folder-selection-dialog.c:423
+#: ../src/gth-folder-selection-dialog.c:427
 msgid "_Recents:"
 msgstr "Πρόσφατα:"
-
-#: ../src/gth-fullscreen-actions-entries.h:37
-#: ../src/gth-window-actions-entries.h:220
-msgid "Restore Normal View"
-msgstr "Επαναφορά κανονικής προβολής"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
@@ -3449,25 +3463,25 @@ msgstr "Μονό παράθυρο"
 msgid "Reuse this window to view other images"
 msgstr "Επαναχρησιμοποίηση του παραθύρου για την προβολή άλλων εικόνων"
 
-#: ../src/gth-viewer.c:1490 ../src/gth-window-actions-entries.h:45
+#: ../src/gth-viewer.c:1489 ../src/gth-window-actions-entries.h:45
 #: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "_Άνοιγμα με"
 
-#: ../src/gth-viewer.c:1496 ../src/gth-viewer.c:1497
+#: ../src/gth-viewer.c:1495 ../src/gth-viewer.c:1496
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Άνοιγμα επιλεγμένων φωτογραφιών με μία εφαρμογή"
 
-#: ../src/gth-window-actions-callbacks.c:769
+#: ../src/gth-window-actions-callbacks.c:790
+msgid "An image viewer and browser for GNOME."
+msgstr "Ένας προβολέας εικόνων και περιηγητής για το GNOME."
+
+#: ../src/gth-window-actions-callbacks.c:793
 msgid "translator_credits"
 msgstr ""
 "Νίκος Χαρωνιτάκης <nikosx@gmail.com>\n"
 "Στάθης Καμπέρης <stathisk@med.auth.gr>"
-
-#: ../src/gth-window-actions-callbacks.c:782
-msgid "An image viewer and browser for GNOME."
-msgstr "Ένας προβολέας εικόνων και περιηγητής για το GNOME."
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3666,14 +3680,6 @@ msgstr "Εστίαση ώστε να χωράει στο παράθυρο"
 msgid "Step A_nimation"
 msgstr "Π_ροώθηση κίνησης"
 
-#: ../src/gth-window-actions-entries.h:215
-msgid "_Full Screen"
-msgstr "_Πλήρης οθόνη"
-
-#: ../src/gth-window-actions-entries.h:216
-msgid "View image in fullscreen mode"
-msgstr "Προβολή εικόνας σε πλήρη οθόνη"
-
 #: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "Στο _κέντρο"
@@ -3690,7 +3696,8 @@ msgstr "Σε _παράθεση"
 msgid "Set the image as desktop background (tiled)"
 msgstr "Ορισμός εικόνας ως φόντου επιφάνειας εργασίας (σε παράθεση)"
 
-# #: ../src/gth-window-actions-entries.h:235
+# 
+#: ../src/gth-window-actions-entries.h:235
 #: ../src/gth-window-actions-entries.h:235
 msgid "_Scaled"
 msgstr "Σε κ_λιμάκωση"
@@ -3709,7 +3716,8 @@ msgstr "Σε _έκταση"
 msgid "Set the image as desktop background (stretched)"
 msgstr "Ορισμός εικόνας ως φόντου επιφάνειας εργασίας (σε έκταση)"
 
-# #: ../src/gth-window-actions-entries.h:245
+# 
+#: ../src/gth-window-actions-entries.h:245
 #: ../src/gth-window-actions-entries.h:245
 msgid "_Restore"
 msgstr "Επα_ναφορά"
@@ -3754,70 +3762,83 @@ msgstr "_Χαμηλή ποιότητα"
 msgid "Use low quality zoom"
 msgstr "Χρήση χαμηλής ποιότητας εστίασης"
 
-#: ../src/main.c:87
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "Εκκίνηση σε προβολή πλήρους οθόνης"
 
-#: ../src/main.c:90
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "Αυτόματη προβολή διαφανειών"
 
-#: ../src/main.c:93
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "Αυτόματη εισαγωγή φωτογραφιών από ψηφιακή κάμερα"
 
-#: ../src/main.c:133
+#: ../src/main.c:137
 msgid "Holidays"
 msgstr "Διακοπές"
 
-#: ../src/main.c:134
+#: ../src/main.c:138
 msgid "Temporary"
 msgstr "Προσωρινό"
 
-#: ../src/main.c:135
+#: ../src/main.c:139
 msgid "Screenshots"
 msgstr "Στιγμιότυπα"
 
-#: ../src/main.c:136
+#: ../src/main.c:140
 msgid "Science"
 msgstr "Επιστημονικά"
 
-#: ../src/main.c:137
+#: ../src/main.c:141
 msgid "Favourite"
 msgstr "Αγαπημένο"
 
-#: ../src/main.c:138
+#: ../src/main.c:142
 msgid "Important"
 msgstr "Σημαντικό"
 
-#: ../src/main.c:139
+#: ../src/main.c:143
 msgid "GNOME"
 msgstr "GNOME"
 
-#: ../src/main.c:140
+#: ../src/main.c:144
 msgid "Games"
 msgstr "Παιχνίδια"
 
-# #: ../src/main.c:112
-#: ../src/main.c:141
+# 
+#: ../src/main.c:112
+#: ../src/main.c:145
 msgid "Party"
 msgstr "Πάρτι"
 
-#: ../src/main.c:142
+#: ../src/main.c:146
 msgid "Birthday"
 msgstr "Γενέθλια"
 
-#: ../src/main.c:143
+#: ../src/main.c:147
 msgid "Astronomy"
 msgstr "Αστρονομία"
 
-#: ../src/main.c:144
+#: ../src/main.c:148
 msgid "Family"
 msgstr "Οικογένεια"
 
-#: ../src/main.c:465 ../src/main.c:641
+#: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "Γραμμή εντολών"
+
+#~ msgid "Prevous"
+#~ msgstr "Προηγούμενο"
+
+#~ msgid "Restore Normal View"
+#~ msgstr "Επαναφορά κανονικής προβολής"
+
+#~ msgid "_Full Screen"
+#~ msgstr "_Πλήρης οθόνη"
+
+#~ msgid "View image in fullscreen mode"
+#~ msgstr "Προβολή εικόνας σε πλήρη οθόνη"
 
 #~ msgid "*"
 #~ msgstr "*"
