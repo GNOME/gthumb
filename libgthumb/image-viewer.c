@@ -1375,7 +1375,7 @@ image_viewer_size_allocate (GtkWidget       *widget,
 
 
 static gint 
-image_viewer_focus_in (GtkWidget *widget,
+image_viewer_focus_in (GtkWidget     *widget,
 		       GdkEventFocus *event)
 {
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
@@ -1385,7 +1385,7 @@ image_viewer_focus_in (GtkWidget *widget,
 
 
 static gint 
-image_viewer_focus_out (GtkWidget *widget,
+image_viewer_focus_out (GtkWidget     *widget,
 			GdkEventFocus *event)
 {
 	GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
@@ -1452,12 +1452,12 @@ gth_iviewer_interface_init (gpointer   g_iface,
 {
 	GthIViewerInterface *iface = (GthIViewerInterface *)g_iface;
 
-	iface->get_zoom = image_viewer_get_zoom;
-	iface->set_zoom = image_viewer_set_zoom;
-	iface->zoom_in = image_viewer_zoom_in;
-	iface->zoom_out = image_viewer_zoom_out;
-	iface->get_image = image_viewer_get_current_pixbuf;
-	iface->get_adjustments = image_viewer_get_adjustments;
+	iface->get_zoom = (double (*) (GthIViewer *)) image_viewer_get_zoom;
+	iface->set_zoom = (void (*) (GthIViewer *, double)) image_viewer_set_zoom;
+	iface->zoom_in = (void (*) (GthIViewer *)) image_viewer_zoom_in;
+	iface->zoom_out = (void (*) (GthIViewer *)) image_viewer_zoom_out;
+	iface->get_image = (GdkPixbuf * (*) (GthIViewer *)) image_viewer_get_current_pixbuf;
+	iface->get_adjustments = (void (*) (GthIViewer *, GtkAdjustment **, GtkAdjustment **)) image_viewer_get_adjustments;
 }
 
 

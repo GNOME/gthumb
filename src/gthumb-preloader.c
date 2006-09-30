@@ -308,7 +308,8 @@ requested_preloader (GThumbPreloader *gploader)
 
 /* -- gthumb_preloader_set_paths -- */
 
-#define N_ARGS 4
+
+#define N_ARGS 3
 
 
 typedef struct {

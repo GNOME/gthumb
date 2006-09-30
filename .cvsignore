@@ -37,3 +37,7 @@ stamp-h.in
 stamp-h
 stamp-h1
 stamp.h
+.project
+.cdtproject
+.cdtbuild
+.settings

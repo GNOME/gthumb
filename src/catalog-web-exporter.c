@@ -924,7 +924,7 @@ get_image_filename (CatalogWebExporter *ce,
 					file_name_from_path (idata->dest_filename),
 					NULL);
 	else {
-		filename = gnome_vfs_get_uri_from_local_path (idata->src_filename);
+		filename = get_uri_from_path (idata->src_filename);
 		if (filename == NULL)
 			filename = g_strdup (idata->src_filename);
 	}
