@@ -1,5 +1,10 @@
 2006-10-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-window-actions-entries.h: 
+	
+	Fixed bug #355376 – "Help" shortcut should be "F1" instead of "Ctrl+H"
+	Patch by Michael Chudobiak  
+	
 	* src/gth-browser.c (set_dir_list_continue): 
 	
 	Removed double semicolon.  Fixes bug #343982 – fix build with gcc 2.95
