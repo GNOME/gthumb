@@ -7622,7 +7622,7 @@ set_dir_list_continue (gpointer data)
 	window_update_sensitivity (browser);
 
 	if (priv->focus_current_image) {
-		char *path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));;
+		char *path = image_viewer_get_image_filename (IMAGE_VIEWER (priv->viewer));
 		int   pos = gth_file_list_pos_from_path (priv->file_list, path);
 		if (pos != -1) {
 			gth_file_view_set_cursor (priv->file_list->view, pos);
