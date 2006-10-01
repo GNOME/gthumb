@@ -1,3 +1,22 @@
+version 2.7.9
+-------------
+	* Fixed bug #351058: build failure when -Wl,--as-needed is passed to 
+	  linker flags.  
+	* Fixed bug #350732: "loose" should be "lose"
+	* Fixed bug #349556 - [PATCH] Little bug makes gThumb slower than it can
+	  be.
+	* Fixed bug #353390 – Fix default rotation angle in portrait print mode.
+	* Fixed bug #353613 – Negative array access in get_extension.
+	* Fixed bug #352747 – gthumb can't open folder through file selector.
+	* Fixed compiler warnings.
+	* Fixed compilation/installation errors when srcdir != builddir
+	* Fixed bug #358326 – message: assertion `k < N_LOADERS' 
+	  failed
+	* Fixed bug #358343 – web album: assertion `g_path_is_absolute 
+	  (local_full_path)' failed
+	* Fixed bug #343982 – fix build with gcc 2.95
+	* Fixed bug #355376 – "Help" shortcut should be "F1" instead of "Ctrl+H"
+	
 version 2.7.8
 -------------
 	* Set a smaller height for the progressbar to avoid an image resize.

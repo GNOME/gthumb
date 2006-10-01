@@ -1,5 +1,8 @@
 2006-10-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* configure.in: 
+	* NEWS:  updated for 2.7.9
+	
 	* src/gth-window-actions-entries.h: 
 	
 	Fixed bug #355376 – "Help" shortcut should be "F1" instead of "Ctrl+H"
