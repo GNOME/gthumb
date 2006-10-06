@@ -37,6 +37,8 @@
 #include "gthumb-marshal.h"
 #include "file-utils.h"
 #include "glib-utils.h"
+#include "gth-exif-utils.h"
+#include "pixbuf-utils.h"
 
 
 #define REFRESH_RATE 5
@@ -405,16 +407,76 @@ image_loader_set_pixbuf (ImageLoader *il,
 	g_mutex_unlock (priv->yes_or_no);
 }
 
+/*
+ * Returns an image, transformed according
+ * to the Exif orientation data.
+ */
+#ifdef HAVE_LIBEXIF 
+static GdkPixbuf *
+_gdk_pixbuf_transform_exif_orientation (GdkPixbuf* src, 
+				GthExifOrientation orientation)
+{
+	GdkPixbuf *temp = NULL, *dest = NULL;
+	
+	if (!src) return NULL;
+	
+	switch (orientation) {
+	case GTH_EXIF_ORIENTATION_TOP_LEFT:
+		dest = src;
+		g_object_ref (dest);
+		break;
+	case GTH_EXIF_ORIENTATION_TOP_RIGHT:
+		dest = _gdk_pixbuf_copy_mirror (src, TRUE, FALSE);
+		break;
+	case GTH_EXIF_ORIENTATION_BOTTOM_RIGHT:
+		dest = _gdk_pixbuf_copy_mirror (src, TRUE, TRUE);
+		break;
+	case GTH_EXIF_ORIENTATION_BOTTOM_LEFT:
+		dest = _gdk_pixbuf_copy_mirror (src, FALSE, TRUE);
+		break;
+	case GTH_EXIF_ORIENTATION_LEFT_TOP:
+		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		dest = _gdk_pixbuf_copy_mirror (temp, TRUE, FALSE);
+		g_object_unref (temp);
+		break;
+	case GTH_EXIF_ORIENTATION_RIGHT_TOP:
+		dest = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		break;
+	case GTH_EXIF_ORIENTATION_RIGHT_BOTTOM:
+		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		dest = _gdk_pixbuf_copy_mirror (temp, FALSE, TRUE);
+		g_object_unref (temp);
+		break;
+	case GTH_EXIF_ORIENTATION_LEFT_BOTTOM:
+		dest = _gdk_pixbuf_copy_rotate_90 (src, TRUE);
+		break;
+	default:
+		dest = src;
+		g_object_ref (dest);
+		break;
+	}
+	
+	return dest;
+}
+#endif /* HAVE_LIBEXIF */
 
 static void 
 image_loader_sync_pixbuf (ImageLoader *il)
 {
 	GdkPixbuf              *pixbuf;
+	GdkPixbuf              *temp;
 	ImageLoaderPrivateData *priv;
+#ifdef HAVE_LIBEXIF        
+	GthExifOrientation     orientation;
+#endif
   
 	g_return_if_fail (il != NULL);
      
 	priv = il->priv;
+
+#ifdef HAVE_LIBEXIF        
+	orientation = get_exif_tag_short (image_loader_get_path(il), EXIF_TAG_ORIENTATION);
+#endif
 
 	g_mutex_lock (priv->yes_or_no);
 
@@ -426,8 +488,13 @@ image_loader_sync_pixbuf (ImageLoader *il)
 		return;
 	}
 
+#ifdef HAVE_LIBEXIF
+	temp = gdk_pixbuf_animation_get_static_image (priv->animation);
+	pixbuf = _gdk_pixbuf_transform_exif_orientation (temp, orientation);
+#else
 	pixbuf = gdk_pixbuf_animation_get_static_image (priv->animation);
 	g_object_ref (pixbuf);
+#endif
 
 	if (priv->pixbuf == pixbuf) {
 		g_object_unref (pixbuf);

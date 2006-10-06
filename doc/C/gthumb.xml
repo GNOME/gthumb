@@ -1989,13 +1989,6 @@
         Click on <guibutton>Apply</guibutton> to apply the changes.
       </para>
       <para>
-        If you check the <guilabel>Adjust photo orientation</guilabel>
-        option, an attempt is done to read the current orientation from
-        the photo data embedded in the image, if the orientation data is
-	found an automatic rotation is applied to the image in order to
-	visualize the image in the right orientation.
-      </para>
-      <para>
         If you check the <guilabel>Apply to all images</guilabel>
         option, the rotation is applied to the
         currently displayed image as well as to all the remaining

@@ -95,7 +95,20 @@
 	</locale>
       </schema>
 
-      <!-- Broswer -->
+      <schema>
+	<key>/schemas/apps/gthumb/general/use_exif_orientation</key>
+	<applyto>/apps/gthumb/general/use_exif_orientation</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>false</default>
+	<locale name="C">
+	  <short></short>
+	  <long>
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Browser -->
 
       <schema>
 	<key>/schemas/apps/gthumb/browser/show_hidden_files</key>

@@ -41,6 +41,9 @@ RotationData*	        rotation_data_new ();
 
 void			update_rotation_from_exif_data (const char      *filename,
 							RotationData 	*rot_data);
+void			apply_transformation_exif      (GtkWindow       *win,
+							const char      *filename,
+							RotationData 	*rot_data);
 void			apply_transformation_jpeg      (GtkWindow       *win,
 							const char      *filename,
 							RotationData 	*rot_data);

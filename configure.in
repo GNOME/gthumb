@@ -330,9 +330,9 @@ po/Makefile.in
 libgthumb/Makefile
 libgthumb/cursors/Makefile
 libgthumb/icons/Makefile
+libgthumb/jpegutils/Makefile
 src/Makefile
 src/icons/Makefile
-src/jpegutils/Makefile
 components/Makefile
 components/image-viewer/Makefile
 components/catalog-view/Makefile

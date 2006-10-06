@@ -107,6 +107,22 @@ update_rotation_from_exif_data (const char   *path,
 #endif /* HAVE_LIBEXIF */
 }
 
+void
+apply_transformation_exif (GtkWindow    *win,
+			   const char   *path,
+			   RotationData *rot_data)
+
+{
+#ifdef HAVE_LIBEXIF
+	if (get_exif_tag_short(path,EXIF_TAG_ORIENTATION)) {
+		update_orientation_field (path, rot_data);
+	} else {
+		apply_transformation_jpeg(win, path, rot_data);
+	}
+#else
+	apply_transformation_jpeg(win, path, rot_data);
+#endif
+}
 
 void
 apply_transformation_jpeg (GtkWindow    *win,
@@ -271,7 +287,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (path);
-		/* update_orientation_field (path, rot_data); see bug #318828 */
+		reset_orientation_field (path);
 #endif
 	}
 
@@ -355,7 +371,7 @@ apply_transformation_generic (GtkWindow    *win,
 ExifShort
 get_next_value_rotation_90 (int value)
 {
-	static ExifShort new_value [8] = {8, 7, 6, 5, 2, 1, 4, 3};
+	static ExifShort new_value [8] = {6, 7, 8, 5, 2, 3, 4, 1};
 	return new_value[value - 1];
 }
 
@@ -363,7 +379,7 @@ get_next_value_rotation_90 (int value)
 ExifShort
 get_next_value_mirror (int value)
 {
-	static ExifShort new_value [8] = {2, 1, 4, 3, 8, 7, 6, 5};
+	static ExifShort new_value [8] = {2, 1, 4, 3, 6, 5, 8, 7};
 	return new_value[value - 1];
 }
 
@@ -371,7 +387,7 @@ get_next_value_mirror (int value)
 ExifShort
 get_next_value_flip (int value)
 {
-	static ExifShort new_value [8] = {4, 3, 2, 1, 6, 5, 8, 7};
+	static ExifShort new_value [8] = {4, 3, 2, 1, 8, 7, 6, 5};
 	return new_value[value - 1];
 }
 
@@ -442,6 +458,51 @@ update_orientation_field (const char   *path,
 			}
 
 			exif_set_short (entry->data, byte_order, value);
+		}
+	}
+
+	jpeg_data_save_file (jdata, path);
+
+	exif_data_unref (edata);
+	jpeg_data_unref (jdata);
+}
+
+
+void
+reset_orientation_field (const char *path)
+{
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
+
+	jdata = jpeg_data_new_from_file (path);
+	if (jdata == NULL)
+		return;
+
+	edata = jpeg_data_get_exif_data (jdata);
+	if (edata == NULL) {
+		jpeg_data_unref (jdata);
+		return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+		ExifEntry   *entry;
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
+		if (entry != NULL) {
+			ExifByteOrder byte_order;
+			ExifShort     value;
+
+			byte_order = exif_data_get_byte_order (edata);
+			exif_set_short (entry->data, byte_order, 1);
 		}
 	}
 

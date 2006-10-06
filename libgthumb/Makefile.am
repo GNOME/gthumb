@@ -1,5 +1,5 @@
-SUBDIRS = icons cursors
-DIST_SUBDIRS = icons cursors
+SUBDIRS = icons cursors jpegutils
+DIST_SUBDIRS = icons cursors jpegutils
 
 if ENABLE_DEPRECATIONS
 DISABLE_DEPRECATED = -DG_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGDK_PIXBUF_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED -DGNOME_VFS_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED -DBONOBO_DISABLE_DEPRECATED
@@ -10,6 +10,7 @@ endif
 gladedir = $(datadir)/gthumb/glade
 
 INCLUDES =							\
+	$(EXIF_CFLAGS)						\
 	$(GTHUMB_CFLAGS)					\
 	-DGTHUMB_MODULEDIR=\""$(libdir)/gthumb/modules"\"	\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"			\
@@ -44,6 +45,7 @@ HEADER_FILES =				\
 	gnome-print-font-picker.h	\
 	gnome-print-font-dialog.h	\
 	gstringlist.h			\
+	gth-exif-utils.h		\
 	gth-image-list.h		\
 	gth-iviewer.h			\
 	gth-file-list.h			\
@@ -100,6 +102,7 @@ libgthumb_la_SOURCES =			\
 	gnome-print-font-picker.c	\
 	gnome-print-font-dialog.c	\
 	gstringlist.c			\
+	gth-exif-utils.c		\
 	gth-pixbuf-op.c			\
 	gth-image-list.c		\
 	gth-iviewer.c			\
@@ -129,9 +132,11 @@ libgthumb_la_SOURCES =			\
 	thumb-loader.c
 
 libgthumb_la_LIBADD =		\
+	$(EXIF_LIBS)		\
 	$(TIFF_LIBS)		\
 	$(GTHUMB_LIBS)		\
-	$(IPTCDATA_LIBS)
+	$(IPTCDATA_LIBS)	\
+	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
 	$(GLIB_GENMARSHAL) $(top_srcdir)/libgthumb/gthumb-marshal.list --header --prefix=gthumb_marshal > $(top_srcdir)/libgthumb/gthumb-marshal.h

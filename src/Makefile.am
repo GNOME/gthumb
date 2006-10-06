@@ -1,5 +1,5 @@
-SUBDIRS = icons jpegutils
-DIST_SUBDIRS = icons jpegutils 
+SUBDIRS = icons
+DIST_SUBDIRS = icons 
 
 gladedir = $(datadir)/gthumb/glade
 
@@ -97,8 +97,6 @@ gthumb_SOURCES = 				\
 	gth-browser-ui.h			\
 	gth-exif-data-viewer.c			\
 	gth-exif-data-viewer.h			\
-	gth-exif-utils.c			\
-	gth-exif-utils.h			\
 	gth-folder-selection-dialog.c		\
 	gth-folder-selection-dialog.h		\
 	gth-fullscreen.c			\
@@ -147,8 +145,7 @@ gthumb_LDADD = 					\
 	$(GPHOTO_LIBS)				\
 	$(XF86GAMMA_LIBS)			\
 	$(XTEST_LIBS)				\
-	$(top_builddir)/libgthumb/libgthumb.la	\
-	$(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
+	$(top_builddir)/libgthumb/libgthumb.la
 
 moduledir = $(libdir)/gthumb/modules
 module_LTLIBRARIES = 		\
@@ -164,7 +161,7 @@ libduplicates_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 libjpegtran_la_SOURCES = dlg-jpegtran.c dlg-jpegtran.h
 libjpegtran_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libjpegtran_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
+libjpegtran_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 libpngexporter_la_SOURCES = 	\
 	catalog-png-exporter.c	\
@@ -188,7 +185,7 @@ libwebexporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
 
 libphotoimporter_la_SOURCES = dlg-photo-importer.c dlg-photo-importer.h
 libphotoimporter_la_LDFLAGS = $(MODULE_LIBTOOL_FLAGS)
-libphotoimporter_la_LIBADD  = $(top_builddir)/src/jpegutils/libgthumb-jpegutils.la
+libphotoimporter_la_LIBADD  = $(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 EXTRA_DIST = 			\
 	GNOME_GThumb.idl	\
