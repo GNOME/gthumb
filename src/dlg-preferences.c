@@ -70,6 +70,8 @@ typedef struct {
 	GtkWidget  *radio_layout3;
 	GtkWidget  *radio_layout4;
 	GtkWidget  *toolbar_style_optionmenu;
+	GtkWidget  *radio_exif_use_orientation_tag;
+	GtkWidget  *radio_exif_use_image_transform;
 
 	GtkWidget  *view_as_slides_radiobutton;
 	GtkWidget  *view_as_list_radiobutton;
@@ -252,7 +254,6 @@ layout_toggled_cb (GtkWidget *widget,
 
 	eel_gconf_set_integer (PREF_UI_LAYOUT, layout_type);
 }
-
 
 static void
 toolbar_style_changed_cb (GtkOptionMenu *option_menu,
@@ -447,6 +448,8 @@ dlg_preferences (GthBrowser *browser)
 	data->radio_layout3 = glade_xml_get_widget (data->gui, "radio_layout3");
 	data->radio_layout4 = glade_xml_get_widget (data->gui, "radio_layout4");
 	data->toolbar_style_optionmenu = glade_xml_get_widget (data->gui, "toolbar_style_optionmenu");
+	data->radio_exif_use_orientation_tag = glade_xml_get_widget (data->gui, "radio_exif_use_orientation_tag");
+	data->radio_exif_use_image_transform = glade_xml_get_widget (data->gui, "radio_exif_use_image_transform");
 
 	data->view_as_slides_radiobutton = glade_xml_get_widget (data->gui, "view_as_slides_radiobutton");
 	data->view_as_list_radiobutton = glade_xml_get_widget (data->gui, "view_as_list_radiobutton");

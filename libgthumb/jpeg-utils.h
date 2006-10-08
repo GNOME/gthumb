@@ -29,8 +29,6 @@
 #ifndef JPEG_UTILS_H
 #define JPEG_UTILS_H
 
-#ifdef HAVE_LIBJPEG
-
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 GdkPixbuf *f_load_scaled_jpeg  (const char *path,
@@ -42,7 +40,5 @@ GdkPixbuf *f_load_scaled_jpeg  (const char *path,
 void       f_get_jpeg_size     (const char *path,
 				int        *width_return,
 				int        *height_return);
-
-#endif /*  HAVE_LIBJPEG */
 
 #endif /* JPEG_UTILS_H */

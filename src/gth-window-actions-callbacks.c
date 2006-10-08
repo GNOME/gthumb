@@ -904,14 +904,3 @@ gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
 	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
 		(*module) (window, GTH_TRANSFORM_ROTATE_270, GTH_TRANSFORM_NONE);
 }
-
-
-void
-gth_window_activate_action_tools_jpeg_rotate_auto (GtkAction *action,
-						   GthWindow *window)
-{
-	void (*module) (GthWindow *);
-
-	if (gthumb_module_get ("dlg_apply_jpegtran_from_exif", (gpointer*) &module))
-		(*module) (window);
-}

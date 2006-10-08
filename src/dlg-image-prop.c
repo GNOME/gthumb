@@ -58,9 +58,7 @@ enum {
 enum {
 	IPROP_PAGE_GENERAL = 0,
 	IPROP_PAGE_COMMENT,
-#ifdef HAVE_LIBEXIF
 	IPROP_PAGE_EXIF,
-#endif /* HAVE_LIBEXIF */
 	IPROP_PAGE_HISTOGRAM,
 	IPROP_NUM_PAGES
 };
@@ -93,10 +91,8 @@ typedef struct {
 	GtkTextBuffer *i_comment_textbuffer;
 	GtkWidget     *i_categories_label;
 
-#ifdef HAVE_LIBEXIF
 	GtkWidget     *i_exif_data_view;	
 	GtkWidget     *i_exif_data_container;
-#endif /* HAVE_LIBEXIF */
 
 	GtkWidget     *i_histogram_channel;
 	GtkWidget     *i_histogram_channel_alpha;
@@ -495,14 +491,12 @@ update_notebook_page (DialogData *data,
 		update_comment (data); 
 		break;
 
-#ifdef HAVE_LIBEXIF
 	case IPROP_PAGE_EXIF:
 		gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (data->i_exif_data_view),
 					     data->browser_viewer,
 					     gth_window_get_image_filename (GTH_WINDOW (data->browser)),
 					     NULL);
 		break;
-#endif /* HAVE_LIBEXIF */
 
 	case IPROP_PAGE_HISTOGRAM:
 		update_histogram (data);
@@ -585,9 +579,7 @@ dlg_image_prop_new (GthBrowser *browser)
 	data->i_comment_textview = glade_xml_get_widget (data->gui, "i_comment_textview");
 	data->i_categories_label = glade_xml_get_widget (data->gui, "i_categories_label");
 
-#ifdef HAVE_LIBEXIF
 	data->i_exif_data_container = glade_xml_get_widget (data->gui, "i_exif_data_container");
-#endif /* HAVE_LIBEXIF */
 
 	data->i_comment_textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->i_comment_textview));
 
@@ -637,10 +629,6 @@ dlg_image_prop_new (GthBrowser *browser)
 
 	/* * exif data */
 
-#ifndef HAVE_LIBEXIF
-	gtk_notebook_remove_page (GTK_NOTEBOOK (data->i_notebook), 2);
-#endif /* ! HAVE_LIBEXIF */
-
 	/* * image viewer */
 
 	data->image = gtk_image_new ();
@@ -651,11 +639,9 @@ dlg_image_prop_new (GthBrowser *browser)
 
 	g_object_set_data (G_OBJECT (data->dialog), "dialog_data", data);
 
-#ifdef HAVE_LIBEXIF
 	data->i_exif_data_view = gth_exif_data_viewer_new (FALSE);
 	gtk_container_add (GTK_CONTAINER (data->i_exif_data_container), 
 			   data->i_exif_data_view);
-#endif /* HAVE_LIBEXIF */
 
 	/* Set the signals handlers. */
 	

@@ -1115,12 +1115,8 @@ show_caption_dialog_cb (GtkWidget       *widget,
 	CaptionDialogData *cdata;
 	GtkWidget         *ok_button;
 	GtkWidget         *cancel_button;
-#ifdef HAVE_LIBEXIF
 	const char        *gconf_key;
 	GthCaptionFields   caption = 0;
-#else
-	GtkWidget         *vbox;
-#endif
 	cdata = g_new (CaptionDialogData, 1);
 
 	cdata->data = tdata->data;
@@ -1170,8 +1166,6 @@ show_caption_dialog_cb (GtkWidget       *widget,
 
 	/* Set widgets data. */
 
-#ifdef HAVE_LIBEXIF
-
 	if (cdata->thumbnail_caption) 
 		gconf_key = PREF_WEB_ALBUM_INDEX_CAPTION;
 	 else 
@@ -1203,10 +1197,6 @@ show_caption_dialog_cb (GtkWidget       *widget,
 	if (caption & GTH_CAPTION_EXIF_CAMERA_MODEL)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_exif_camera_model_checkbutton), TRUE);
 
-#else /* ! HAVE_LIBEXIF */
-	vbox = glade_xml_get_widget (cdata->gui, "c_exif_data_vbox");
-	gtk_widget_hide (vbox);
-#endif /* ! HAVE_LIBEXIF */
 
 	/* Run dialog. */
 

@@ -81,11 +81,9 @@
 #include <tiffio.h>
 #endif /* HAVE_LIBTIFF */
 
-#ifdef HAVE_LIBJPEG
 #include <stdlib.h>
 #include <setjmp.h>
 #include <jpeglib.h>
-#endif /* HAVE_LIBJPEG */
 
 
 enum {
@@ -510,10 +508,6 @@ _gdk_pixbuf_hv_gradient (GdkPixbuf *pixbuf,
 }
 
 
-
-
-
-#ifdef HAVE_LIBJPEG
 
 /* error handler data */
 struct error_handler_data {
@@ -768,10 +762,6 @@ _gdk_pixbuf_save_as_jpeg (GdkPixbuf     *pixbuf,
 	return TRUE;
 }
 
-#endif
-
-
-
 
 
 #ifdef HAVE_LIBTIFF
@@ -1266,14 +1256,12 @@ _gdk_pixbuf_savev (GdkPixbuf    *pixbuf,
 						   error);
 	else
 #endif
-#ifdef HAVE_LIBJPEG
 	if (strcmp (type, "jpeg") == 0) 
 		result = _gdk_pixbuf_save_as_jpeg (pixbuf, 
 						   filename, 
 						   keys, values, 
 						   error);
 	else
-#endif
 	if ((strcmp (type, "x-tga") == 0) || (strcmp (type, "tga") == 0))
 		result = _gdk_pixbuf_save_as_tga (pixbuf, 
 						  filename, 

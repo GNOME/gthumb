@@ -27,9 +27,7 @@
 #include <gtk/gtk.h>
 #include "typedefs.h"
 
-#ifdef HAVE_LIBEXIF
 #include "gth-exif-utils.h"
-#endif /* HAVE_LIBEXIF */
 
 typedef struct _RotationData RotationData;
 struct _RotationData {
@@ -41,13 +39,15 @@ RotationData*	        rotation_data_new ();
 
 void			update_rotation_from_exif_data (const char      *filename,
 							RotationData 	*rot_data);
+void			apply_transformation_exif      (GtkWindow       *win,
+							const char      *filename,
+							RotationData 	*rot_data);
 void			apply_transformation_jpeg      (GtkWindow       *win,
 							const char      *filename,
 							RotationData 	*rot_data);
 void			apply_transformation_generic   (GtkWindow       *win,
 							const char      *filename,
 							RotationData 	*rot_data);
-#ifdef HAVE_LIBEXIF
 ExifShort		get_next_value_rotation_90     (int value);
 ExifShort		get_next_value_mirror          (int value);
 ExifShort		get_next_value_flip            (int value);
@@ -58,6 +58,5 @@ gboolean		swap_fields                    (ExifContent     *content,
 							ExifTag          tag1,
 							ExifTag          tag2);
 void			swap_xy_exif_fields            (const char      *filename);
-#endif /* HAVE_LIBEXIF */
 
 #endif /* ROTATION_UTILS_H */

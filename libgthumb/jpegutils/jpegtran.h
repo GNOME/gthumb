@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001 The Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2002 The Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,16 +20,18 @@
  *  Foundation, Inc., 59 Temple Street #330, Boston, MA 02111-1307, USA.
  */
 
-#ifndef DLG_JPEGTRAN_H
-#define DLG_JPEGTRAN_H
+#include <config.h>
 
-#include "typedefs.h"
-#include "gth-window.h"
+#ifndef JPEGTRAN_H
+#define JPEGTRAN_H
+
+#include <glib.h>
+#include "transupp.h"
 
 
-void dlg_jpegtran                 (GthWindow    *window);
-void dlg_apply_jpegtran           (GthWindow    *window,
-				   GthTransform  rot_type,
-				   GthTransform  tran_type);
+int  jpegtran (char         *input_filename,
+	       char         *output_filename,
+	       JXFORM_CODE   transformation,
+	       GError      **error);
 
-#endif /* DLG_JPEGTRAN_H */
+#endif /* JPEGTRAN_H */

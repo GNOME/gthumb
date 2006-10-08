@@ -1339,65 +1339,52 @@ gth_parsed_doc_print (GList              *document,
 		case GTH_TAG_EXIF_EXPOSURE_TIME:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_EXPOSURE_TIME);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_EXPOSURE_MODE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_EXPOSURE_MODE);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_FLASH:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, EXIF_TAG_FLASH);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_SHUTTER_SPEED:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_SHUTTER_SPEED_VALUE);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_APERTURE_VALUE:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_aperture_value (idata->src_filename);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_FOCAL_LENGTH:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_FOCAL_LENGTH);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_DATE_TIME:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			{
 				time_t     t;
 				struct tm *tp;
@@ -1413,13 +1400,11 @@ gth_parsed_doc_print (GList              *document,
 					write_line ("-", fout);
 
 			}
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_EXIF_CAMERA_MODEL:
 			idx = get_image_idx (tag, ce);
 			idata = g_list_nth (ce->file_list, idx)->data;
-#ifdef HAVE_LIBEXIF
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_MAKE);
 			write_markup_escape_line (line, fout);
@@ -1430,7 +1415,6 @@ gth_parsed_doc_print (GList              *document,
 			line = get_exif_tag (idata->src_filename, 
 					     EXIF_TAG_MODEL);
 			write_markup_escape_line (line, fout);
-#endif /* HAVE_LIBEXIF */
 			break;
 
 		case GTH_TAG_SET_VAR:
@@ -1617,7 +1601,6 @@ static void
 copy_exif_from_orig (const char *src_filename, 
 		     const char *dest_filename)
 {
-#if HAVE_LIBEXIF
 	JPEGData     *jdata_src, *jdata_dest;
 	ExifData     *edata_src;
 
@@ -1650,7 +1633,6 @@ copy_exif_from_orig (const char *src_filename,
 	exif_data_unref (edata_src);
 	jpeg_data_unref (jdata_src);
 	jpeg_data_unref (jdata_dest);
-#endif
 }
 
 

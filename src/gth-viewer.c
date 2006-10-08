@@ -30,10 +30,8 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 
-#ifdef HAVE_LIBEXIF
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
-#endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
 #include <libiptcdata/iptc-data.h>
@@ -129,9 +127,7 @@ struct _GthViewerPrivateData {
 	time_t           image_mtime; 
 	gboolean         image_error;
 
-#ifdef HAVE_LIBEXIF
 	ExifData        *exif_data;
-#endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
 	IptcData        *iptc_data;
@@ -277,12 +273,10 @@ gth_viewer_finalize (GObject *object)
 	if (viewer->priv != NULL) {
 		GthViewerPrivateData *priv = viewer->priv;
 
-#ifdef HAVE_LIBEXIF
 		if (priv->exif_data != NULL) {
 			exif_data_unref (priv->exif_data);
 			priv->exif_data = NULL;
 		}
-#endif /* HAVE_LIBEXIF */
 		
 #ifdef HAVE_LIBIPTCDATA
 		if (priv->iptc_data != NULL) {
@@ -570,9 +564,7 @@ viewer_update_statusbar_image_info (GthViewer *viewer)
 		height = 0;
 	}
 
-#ifdef HAVE_LIBEXIF
 	timer = get_exif_time (path);
-#endif
 	if (timer == 0)
 		timer = get_file_mtime (path);
 	tm = localtime (&timer);
@@ -680,7 +672,6 @@ viewer_update_image_info (GthViewer *viewer)
 	viewer_update_statusbar_image_info (viewer);
 	viewer_update_statusbar_zoom_info (viewer);
 
-#ifdef HAVE_LIBEXIF
 	{
 		JPEGData *jdata = NULL;
 
@@ -700,16 +691,11 @@ viewer_update_image_info (GthViewer *viewer)
 			jpeg_data_unref (jdata);
 		}
 	}
-#endif /* HAVE_LIBEXIF */
 
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (priv->exif_data_viewer), 
 				     IMAGE_VIEWER (priv->viewer),
 				     priv->image_path,
-#ifdef HAVE_LIBEXIF
 				     viewer->priv->exif_data
-#else /* ! HAVE_LIBEXIF */
-				     NULL
-#endif /* ! HAVE_LIBEXIF */
 				     );
 
 	update_image_comment (viewer);
@@ -849,7 +835,6 @@ static void
 save_jpeg_data (GthViewer  *viewer,
 		const char *filename)
 {
-#ifdef HAVE_LIBEXIF
 	GthViewerPrivateData  *priv = viewer->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
@@ -896,8 +881,6 @@ save_jpeg_data (GthViewer  *viewer,
 
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
-
-#endif /* HAVE_LIBEXIF */
 }
 
 

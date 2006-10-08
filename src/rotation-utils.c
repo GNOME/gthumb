@@ -51,15 +51,10 @@ void
 update_rotation_from_exif_data (const char   *path,
 				RotationData *rot_data)
 {
-#ifdef HAVE_LIBEXIF
 	GthExifOrientation orientation;
-
-#endif /* HAVE_LIBEXIF */
 
 	rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
 	rot_data->tran_type = GTH_TRANSFORM_NONE;
-
-#ifdef HAVE_LIBEXIF
 
 	path = get_file_path_from_uri (path);
 	if (path == NULL)
@@ -104,7 +99,61 @@ update_rotation_from_exif_data (const char   *path,
 		rot_data->tran_type = GTH_TRANSFORM_NONE;
 		break;
 	}
-#endif /* HAVE_LIBEXIF */
+}
+
+void
+apply_transformation_exif (GtkWindow    *win,
+			   const char   *path,
+			   RotationData *rot_data)
+
+{
+	if (get_exif_tag_short(path,EXIF_TAG_ORIENTATION)) 
+		update_orientation_field (path, rot_data);
+	else 
+		apply_transformation_jpeg(win, path, rot_data);
+}
+
+
+void
+reset_orientation_field (const char *path)
+{
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
+
+	jdata = jpeg_data_new_from_file (path);
+	if (jdata == NULL)
+		return;
+
+	edata = jpeg_data_get_exif_data (jdata);
+	if (edata == NULL) {
+		jpeg_data_unref (jdata);
+		return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+		ExifEntry   *entry;
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
+		if (entry != NULL) {
+			ExifByteOrder byte_order;
+			byte_order = exif_data_get_byte_order (edata);
+			exif_set_short (entry->data, byte_order, 1);
+		}
+	}
+
+	jpeg_data_save_file (jdata, path);
+
+	exif_data_unref (edata);
+	jpeg_data_unref (jdata);
 }
 
 
@@ -119,11 +168,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 	char        *tmp1, *tmp2;
 	static int   count = 0;
 	GError      *err = NULL;
-#ifdef HAVE_LIBJPEG
 	JXFORM_CODE  transf;
-#else
-	char        *command;
-#endif
 	char        *e1, *e2;
 
 	path = get_file_path_from_uri (path);
@@ -141,7 +186,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 					getpid (),
 					count++);
 
-#ifdef HAVE_LIBJPEG
 		switch (rot_type) {
 		case GTH_TRANSFORM_ROTATE_90:
 			transf = JXFORM_ROT_90;
@@ -163,39 +207,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 				_gtk_error_dialog_from_gerror_run (win, &err);
 			return;
 		}
-
-#else
-		switch (rot_type) {
-		case GTH_TRANSFORM_ROTATE_90:
-			command = "-rotate 90"; 
-			break;
-		case GTH_TRANSFORM_ROTATE_180:
-			command = "-rotate 180"; 
-			break;
-		case GTH_TRANSFORM_ROTATE_270:
-			command = "-rotate 270"; 
-			break;
-		default:
-			break;
-		}
-
-		e1 = shell_escape (tmp1);
-		e2 = shell_escape (path);
-	
-		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, e1, e2);
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-
-		g_free (e1);
-		g_free (e2);
-		g_free (line);
-
-		if (err != NULL) {
-			g_free (tmp1);
-			_gtk_error_dialog_from_gerror_run (win, &err);
-			return;
-		}
-#endif
 	}
 
 	if (tran_type == GTH_TRANSFORM_NONE)
@@ -206,7 +217,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 					getpid (),
 					count++);
 
-#ifdef HAVE_LIBJPEG
 		switch (tran_type) {
 		case GTH_TRANSFORM_MIRROR:
 			transf = JXFORM_FLIP_H;
@@ -226,36 +236,6 @@ apply_transformation_jpeg (GtkWindow    *win,
 			return;
 		}
 
-#else
-		switch (tran_type) {
-		case GTH_TRANSFORM_MIRROR:
-			command = "-flip horizontal"; 
-			break;
-		case GTH_TRANSFORM_FLIP:
-			command = "-flip vertical"; 
-			break;
-		default:
-			return;
-		}
-
-		e1 = shell_escape (tmp2);
-		e2 = shell_escape (tmp1);
-
-		line = g_strdup_printf ("jpegtran -copy all %s -outfile %s %s",
-					command, e1, e2);
-		g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
-
-		g_free (e1);
-		g_free (e2);
-		g_free (line);
-
-		if (err != NULL) {
-			g_free (tmp1);
-			g_free (tmp2);
-			_gtk_error_dialog_from_gerror_run (win, &err);
-			return;
-		}
-#endif
 	}
 
 	e1 = shell_escape (tmp2);
@@ -268,11 +248,9 @@ apply_transformation_jpeg (GtkWindow    *win,
 		_gtk_error_dialog_from_gerror_run (win, &err);
 
 	} else {
-#ifdef HAVE_LIBEXIF
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (path);
-		/* update_orientation_field (path, rot_data); see bug #318828 */
-#endif
+		reset_orientation_field (path);
 	}
 
 	g_free (e1);
@@ -350,12 +328,10 @@ apply_transformation_generic (GtkWindow    *win,
 }
 
 
-#ifdef HAVE_LIBEXIF
-
 ExifShort
 get_next_value_rotation_90 (int value)
 {
-	static ExifShort new_value [8] = {8, 7, 6, 5, 2, 1, 4, 3};
+	static ExifShort new_value [8] = {6, 7, 8, 5, 2, 3, 4, 1};
 	return new_value[value - 1];
 }
 
@@ -363,7 +339,7 @@ get_next_value_rotation_90 (int value)
 ExifShort
 get_next_value_mirror (int value)
 {
-	static ExifShort new_value [8] = {2, 1, 4, 3, 8, 7, 6, 5};
+	static ExifShort new_value [8] = {2, 1, 4, 3, 6, 5, 8, 7};
 	return new_value[value - 1];
 }
 
@@ -371,7 +347,7 @@ get_next_value_mirror (int value)
 ExifShort
 get_next_value_flip (int value)
 {
-	static ExifShort new_value [8] = {4, 3, 2, 1, 6, 5, 8, 7};
+	static ExifShort new_value [8] = {4, 3, 2, 1, 8, 7, 6, 5};
 	return new_value[value - 1];
 }
 
@@ -532,6 +508,4 @@ swap_xy_exif_fields (const char *filename)
 	exif_data_unref (edata);
 	jpeg_data_unref (jdata);
 }
-
-#endif /* HAVE_LIBEXIF */
 

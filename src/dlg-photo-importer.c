@@ -95,6 +95,7 @@ typedef struct {
 	GtkWidget      *import_delete_button;
 	GtkWidget      *import_ok_button;
 	GtkWidget      *i_commands_table;
+	GtkWidget      *reset_exif_tag_on_import_checkbutton;
 
 	GtkWidget      *progress_info_image;
 	GtkWidget      *progress_info_label;
@@ -524,6 +525,7 @@ main_dialog_set_sensitive (DialogData *data,
 	gtk_widget_set_sensitive (data->import_reload_button, value);
 	gtk_widget_set_sensitive (data->import_delete_button, value);
 	gtk_widget_set_sensitive (data->i_commands_table, value);
+	gtk_widget_set_sensitive (data->reset_exif_tag_on_import_checkbutton, value);
 }
 
 
@@ -1486,7 +1488,7 @@ ok_clicked_cb (GtkButton  *button,
 
 	data->keep_original_filename = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton));
 	data->delete_from_camera = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton));
-	data->adjust_orientation = eel_gconf_get_boolean (PREF_PHOTO_IMPORT_ADJUST_ORIENTATION, TRUE);
+	data->adjust_orientation = eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_IMPORT, TRUE);
 
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, data->keep_original_filename);
 	eel_gconf_set_boolean (PREF_PHOTO_IMPORT_DELETE, data->delete_from_camera);
@@ -1630,6 +1632,15 @@ choose_categories_cb (GtkButton  *button,
 			       NULL,
 			       choose_categories__done,
 			       data);
+}
+
+
+static void
+reset_exif_tag_on_import_cb (GtkButton  *button,
+		                            DialogData *data)
+{
+	eel_gconf_set_boolean (PREF_RESET_EXIF_ORIENTATION_IMPORT, 
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton)));
 }
 
 
@@ -1846,6 +1857,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->import_delete_button = glade_xml_get_widget (data->gui, "import_delete_button");
 	data->i_commands_table = glade_xml_get_widget (data->gui, "i_commands_table");
 	data->import_ok_button = glade_xml_get_widget (data->gui, "import_okbutton");
+        data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
 
 	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
@@ -1880,6 +1892,7 @@ dlg_photo_importer (GthBrowser *browser)
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->keep_names_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_KEEP_FILENAMES, FALSE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->delete_checkbutton), eel_gconf_get_boolean (PREF_PHOTO_IMPORT_DELETE, FALSE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->reset_exif_tag_on_import_checkbutton), eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_IMPORT, TRUE));
 
 	default_path = eel_gconf_get_path (PREF_PHOTO_IMPORT_DESTINATION, NULL);
 	if ((default_path == NULL) || (*default_path == 0))
@@ -1925,6 +1938,11 @@ dlg_photo_importer (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (data->import_delete_button),
 			  "clicked",
 			  G_CALLBACK (import_delete_cb),
+			  data);
+
+	g_signal_connect (G_OBJECT (data->reset_exif_tag_on_import_checkbutton),
+			  "clicked",
+			  G_CALLBACK (reset_exif_tag_on_import_cb),
 			  data);
 
 	/* run dialog. */

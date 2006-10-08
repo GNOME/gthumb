@@ -148,9 +148,7 @@ get_requested_time (DialogData *data,
 		t = time (NULL);
 		break;
 	case EXIF_DATE:
-#ifdef HAVE_LIBEXIF
 		t = get_exif_time (filename);
-#endif
 		break;
 	case LAST_MODIFIED_DATE:
 		t = get_file_mtime (filename);
@@ -338,10 +336,8 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 					  get_file_mtime (first_image));
 		break;
 	case EXIF_DATE:
-#ifdef HAVE_LIBEXIF
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit),
 					  get_exif_time (first_image));
-#endif
 		break;
 	}
 
@@ -515,14 +511,7 @@ dlg_comment_update (GtkWidget *dlg)
 
 	/**/
 
-#ifndef HAVE_LIBEXIF
-	data->have_exif_data = FALSE;
-#else
-	{
-		char *first_image = data->file_list->data;
-		data->have_exif_data = have_exif_time (first_image);
-	}
-#endif
+	data->have_exif_data = have_exif_time (data->file_list->data);
 	
 	first_image = data->file_list->data;
 	data->original_cdata = cdata = comments_load_comment (first_image, TRUE);

@@ -43,6 +43,8 @@
 #define  PREF_EDITORS                "/apps/gthumb/general/editors"
 #define  PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
 #define  PREF_MIGRATE_COMMENT_SYSTEM "/apps/gthumb/general/migrate_comment_system"
+#define  PREF_RESET_EXIF_ORIENTATION_IMPORT	"/apps/gthumb/general/reset_exif_orientation_on_import"
+#define  PREF_RESET_EXIF_ORIENTATION_ROTATE     "/apps/gthumb/general/reset_exif_orientation_on_rotate"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
 #define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"

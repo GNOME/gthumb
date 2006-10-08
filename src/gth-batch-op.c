@@ -39,9 +39,7 @@
 #include "pixbuf-utils.h"
 #include "dlg-save-image.h"
 #include "comments.h"
-#ifdef HAVE_LIBEXIF
 #include "gth-exif-utils.h"
-#endif /* HAVE_LIBEXIF */
 
 #define CONVERT_GLADE_FILE "gthumb_convert.glade"
 #define PROGRESS_GLADE_FILE "gthumb_tools.glade"

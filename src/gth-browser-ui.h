@@ -291,8 +291,6 @@ static const gchar *main_ui_info =
 "  <popup name='RotateImageMenu'>"
 "    <menuitem action='Tools_JPEGRotate_Right'/>"
 "    <menuitem action='Tools_JPEGRotate_Left'/>"
-"    <separator/>"
-"    <menuitem action='Tools_JPEGRotate_Auto'/>"
 "  </popup>"
 "  <accelerator name='ControlEqualAccel' action='ControlEqual'/>"
 "</ui>";

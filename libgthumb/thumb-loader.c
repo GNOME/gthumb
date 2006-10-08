@@ -236,7 +236,6 @@ thumb_loader (const char  *path,
 {
 	GdkPixbufAnimation *animation = NULL;
 
-#ifdef HAVE_LIBJPEG
 	if (image_is_jpeg (path)) {
 		ThumbLoader *tl = data;
 		ThumbLoaderPrivateData *priv = tl->priv;
@@ -258,7 +257,6 @@ thumb_loader (const char  *path,
 			debug (DEBUG_INFO, "PIXBUF == NULL\n");
 
 	} else
-#endif
 		{
 			if (image_is_gif (path))
 				animation = gdk_pixbuf_animation_new_from_file (path, error);

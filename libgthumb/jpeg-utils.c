@@ -28,8 +28,6 @@
 
 #include <config.h>
 
-#ifdef HAVE_LIBJPEG
-
 #include <setjmp.h>
 #include <stdio.h>
 #include <jpeglib.h>
@@ -319,5 +317,3 @@ f_get_jpeg_size  (const char *path,
 	do_load_internal (path, 0, 0, width_return, height_return);
 }
 
-
-#endif /* HAVE_LIBJPEG */

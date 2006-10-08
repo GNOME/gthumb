@@ -1,5 +1,78 @@
 2006-10-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+    * many files: remove remove unnecessary #ifdefs
+    
+    Patch by Rennie deGraaf  
+
+    * configure.in: Patch to make libexif and libjpeg mandatory (v2)
+    
+    Patch by Rennie deGraaf
+
+	* many files: 
+	
+	Applied patch by Michael Chudobiak from bug #343867 comment #130 
+	
+	Merged branch exif-testing:
+
+2006-10-06  Bill Skaggs  <weskaggs@primate.ucdavis.edu>
+
+	* libgthumb/gth-exif-utils.c
+	* libgthumb/gth-exif-utils.h
+	* libgthumb/jpegutils/.cvsignore
+	* libgthumb/jpegutils/Makefile.am
+	* libgthumb/jpegutils/README
+	* libgthumb/jpegutils/jpeg-data.c
+	* libgthumb/jpegutils/jpeg-data.h
+	* libgthumb/jpegutils/jpeg-marker.c
+	* libgthumb/jpegutils/jpeg-marker.h
+	* libgthumb/jpegutils/jpegtran.c
+	* libgthumb/jpegutils/jpegtran.h
+	* libgthumb/jpegutils/transupp.c
+	* libgthumb/jpegutils/transupp.h: new files
+
+	* configure.in
+	* components/catalog-view/Makefile.am
+	* components/image-viewer/Makefile.am
+	* data/gthumb.schemas.in
+	* data/glade/gthumb_preferences.glade
+	* data/glade/gthumb_tools.glade
+	* doc/C/gthumb.xml
+	* libgthumb/Makefile.am
+	* libgthumb/gthumb-module.c
+	* libgthumb/image-loader.c
+	* libgthumb/preferences.h
+	* src/Makefile.am
+	* src/dlg-jpegtran.c
+	* src/dlg-jpegtran.h
+	* src/dlg-photo-importer.c
+	* src/dlg-preferences.c
+	* src/gth-browser-ui.h
+	* src/gth-window-actions-callbacks.c
+	* src/gth-window-actions-callbacks.h
+	* src/gth-window-actions-entries.h
+	* src/rotation-utils.c
+	* src/rotation-utils.h: modified files.
+
+	Committed patches listed in comment #106 of bug #343867,
+	as follows:
+
+	patch -p0 < gthumb-exif-v3.patch
+	patch -p0 < gthumb_reset_exif_orientation_v2.patch
+	patch -p0 < importer.patch
+	patch -p0 < gthumb_rotate_v3.patch
+	patch -p1 < gthumb-20061006-exif-rotate.patch
+	patch -p1 < delete-checkbox-v2.patch
+
+	This is development aimed at improving gthumb's handling
+	of exif metadata.
+
+2006-10-06  Bill Skaggs  <weskaggs@primate.ucdavis.edu>
+
+	Initiating "exif-testing" branch.  Testing to make sure commit
+	goes to the right branch, and not to HEAD.
+
+2006-10-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
 	* configure.in: changed version to 2.9.0
 
 2006-10-01  Paolo Bacchilega  <paobac@cvs.gnome.org>

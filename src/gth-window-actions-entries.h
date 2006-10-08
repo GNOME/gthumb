@@ -266,11 +266,6 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Rotate images without loss of quality"),
 	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate_right) },
 
-	{ "Tools_JPEGRotate_Auto", NULL,
-	  N_("Adjust photo _orientation"), NULL,
-	  N_("Rotate images without loss of quality"),
-	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate_auto) },
-
 	{ "Help_About", GTK_STOCK_ABOUT,
 	  NULL, NULL,
 	  N_("Show information about gThumb"),

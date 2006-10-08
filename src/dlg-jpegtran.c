@@ -33,13 +33,11 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <glade/glade.h>
 
-#ifdef HAVE_LIBEXIF
 #include <libexif/exif-data.h>
 #include <libexif/exif-content.h>
 #include <libexif/exif-entry.h>
 #include <libexif/exif-utils.h>
 #include "jpegutils/jpeg-data.h"
-#endif /* HAVE_LIBEXIF */
 
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -70,9 +68,8 @@ typedef struct {
 	GtkWidget    *j_revert_button;;
 	GtkWidget    *j_apply_to_all_checkbutton;
 	GtkWidget    *j_preview_image;
-	GtkWidget    *j_from_exif_checkbutton;
+	GtkWidget    *j_reset_exif_tag_on_rotate_checkbutton;
 
-	gboolean      from_exif_data;
 	GList        *file_list;
 	GList        *files_changed_list;
 	GList        *current_image;
@@ -150,67 +147,6 @@ _gdk_pixbuf_scale_keep_aspect_ratio (GdkPixbuf *pixbuf,
 }
 
 
-
-static void
-update_from_exif_data (DialogData *data)
-{
-#ifdef HAVE_LIBEXIF
-	gboolean   from_exif;
-	GdkPixbuf *src_pixbuf, *dest_pixbuf;
-	
-	from_exif = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton));
-	gtk_widget_set_sensitive (data->j_button_box, !from_exif);
-
-	if (! from_exif)
-		return;
-	
-	update_rotation_from_exif_data (data->current_image->data, data->rot_data);
-
-	src_pixbuf = data->original_preview;
-	if (src_pixbuf == NULL) 
-		return;
-
-	switch (data->rot_data->rot_type) {
-	case GTH_TRANSFORM_ROTATE_90:
-		dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
-		break;
-	case GTH_TRANSFORM_ROTATE_180:
-		dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, TRUE);
-		break;
-	case GTH_TRANSFORM_ROTATE_270:
-		dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
-		break;
-	default:
-		dest_pixbuf = src_pixbuf;
-		g_object_ref (dest_pixbuf);
-		break;
-	}
-
-	src_pixbuf = dest_pixbuf;
-
-	switch (data->rot_data->tran_type) {
-	case GTH_TRANSFORM_MIRROR:
-		dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
-		break;
-	case GTH_TRANSFORM_FLIP:
-		dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
-		break;
-	default:
-		dest_pixbuf = src_pixbuf;
-		g_object_ref (dest_pixbuf);
-		break;
-	}
-	
-	g_object_unref (src_pixbuf);
-
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
-		
-	g_object_unref (dest_pixbuf);
-
-#endif /* HAVE_LIBEXIF */
-}
-
-
 static void 
 image_loader_done_cb (ImageLoader  *il,
 		      DialogData   *data)
@@ -226,8 +162,6 @@ image_loader_done_cb (ImageLoader  *il,
 
 		gtk_widget_set_sensitive (data->j_button_vbox, TRUE);
 		gtk_widget_set_sensitive (data->j_revert_button, TRUE);
-
-		update_from_exif_data (data);
 	}
 }
 
@@ -320,13 +254,15 @@ apply_transformation (DialogData *data,
 	} 
 	g_free (dir);
 
-	/**/
-
-	if (data->from_exif_data)
-		update_rotation_from_exif_data (path, data->rot_data);
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (image_is_jpeg (path)) 
-		apply_transformation_jpeg (window, path, data->rot_data);
+	if (image_is_jpeg (path)) {
+		apply_transformation_exif (window, path, data->rot_data);
+		if (eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE, TRUE)) {
+			update_rotation_from_exif_data (path, data->rot_data);
+                        apply_transformation_jpeg (window, path, data->rot_data);
+		}
+
+	}
 	else 
 		apply_transformation_generic (window, path, data->rot_data);
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
@@ -405,7 +341,6 @@ ok_clicked (GtkWidget  *button,
 	gboolean to_all;
 
 	to_all = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_apply_to_all_checkbutton));
-	data->from_exif_data = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton));
 
 	if (to_all) {
 		gtk_widget_hide (data->dialog);
@@ -434,8 +369,6 @@ revert_clicked (GtkWidget  *button,
 {
 	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
 	data->rot_data->tran_type = GTH_TRANSFORM_NONE;
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_from_exif_checkbutton), FALSE);
 
 	if (data->original_preview != NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), data->original_preview);
@@ -559,6 +492,14 @@ flip_clicked (GtkWidget  *button,
 }
 
 
+static void
+reset_exif_tag_on_rotate_clicked (GtkWidget  *button,
+		              DialogData *data)
+{
+	eel_gconf_set_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE,
+		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton)));
+}
+
 /* called when the "help" button is clicked. */
 static void
 help_cb (GtkWidget  *widget, 
@@ -589,14 +530,6 @@ help_cb (GtkWidget  *widget,
 		
 		g_error_free (err);
 	}
-}
-
-
-static void
-from_exif_toggled_cb (GtkToggleButton *button,
-		      DialogData      *data)
-{
-	update_from_exif_data (data);
 }
 
 
@@ -659,7 +592,7 @@ dlg_jpegtran (GthWindow *window)
 	j_v_flip_button = glade_xml_get_widget (data->gui, "j_v_flip_button");
 	j_h_flip_button = glade_xml_get_widget (data->gui, "j_h_flip_button");
 
-	data->j_from_exif_checkbutton = glade_xml_get_widget (data->gui, "j_from_exif_checkbutton");
+	data->j_reset_exif_tag_on_rotate_checkbutton = glade_xml_get_widget (data->gui, "j_reset_exif_tag_on_rotate_checkbutton");
 
 	j_help_button = glade_xml_get_widget (data->gui, "j_help_button");
 	j_cancel_button = glade_xml_get_widget (data->gui, "j_cancel_button");
@@ -678,9 +611,7 @@ dlg_jpegtran (GthWindow *window)
 	gtk_widget_set_sensitive (data->j_apply_to_all_checkbutton,
 				  data->file_list->next != NULL);
 
-#ifndef HAVE_LIBEXIF
-	gtk_widget_set_sensitive (data->j_from_exif_checkbutton, FALSE);
-#endif /* ! HAVE_LIBEXIF */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton), eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE, TRUE));
 
 	/* Set the signals handlers. */
 	
@@ -721,10 +652,11 @@ dlg_jpegtran (GthWindow *window)
 			  "clicked",
 			  G_CALLBACK (flip_clicked),
 			  data);
-	g_signal_connect (G_OBJECT (data->j_from_exif_checkbutton),
-			  "toggled",
-			  G_CALLBACK (from_exif_toggled_cb),
+        g_signal_connect (G_OBJECT (data->j_reset_exif_tag_on_rotate_checkbutton),
+ 			  "clicked",
+                          G_CALLBACK (reset_exif_tag_on_rotate_clicked),
 			  data);
+
 
 	data->loader = (ImageLoader*)image_loader_new (NULL, FALSE);
 
@@ -773,32 +705,6 @@ dlg_apply_jpegtran (GthWindow    *window,
 	data->rot_data = rotation_data_new();
 	data->rot_data->rot_type = rot_type;
 	data->rot_data->tran_type = tran_type;
-
-	apply_transformation_to_all (data);
-}
-
-
-
-void
-dlg_apply_jpegtran_from_exif (GthWindow *window)
-{
-	DialogData  *data;
-	GList       *list;
-
-	list = gth_window_get_file_list_selection (window);
-	if (list == NULL) {
-		g_warning ("No file selected.");
-		return;
-	}
-
-	all_windows_remove_monitor ();
-
-	data = g_new0 (DialogData, 1);
-	data->window = window;
-	data->file_list = list;
-	data->current_image = list;
-	data->from_exif_data = TRUE;
-	data->rot_data = rotation_data_new();
 
 	apply_transformation_to_all (data);
 }

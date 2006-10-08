@@ -69,10 +69,8 @@
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
 
-#ifdef HAVE_LIBEXIF
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"
-#endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
 #include <libiptcdata/iptc-data.h>
@@ -237,9 +235,7 @@ struct _GthBrowserPrivateData {
 	guint               view_image_timeout; /* timer for the 
 						 * view_image_at_pos function.
 						 */
-#ifdef HAVE_LIBEXIF
 	ExifData           *exif_data;
-#endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
 	IptcData           *iptc_data;
@@ -484,9 +480,7 @@ window_update_statusbar_image_info (GthBrowser *browser)
 		height = 0;
 	}
 
-#ifdef HAVE_LIBEXIF
 	timer = get_exif_time (path);
-#endif
 	if (timer == 0)
 		timer = get_file_mtime (path);
 	tm = localtime (&timer);
@@ -604,7 +598,6 @@ window_update_image_info (GthBrowser *browser)
 	window_update_statusbar_image_info (browser);
 	window_update_statusbar_zoom_info (browser);
 
-#ifdef HAVE_LIBEXIF
 	{
 		GthBrowserPrivateData *priv = browser->priv;
 		JPEGData              *jdata = NULL;
@@ -625,16 +618,11 @@ window_update_image_info (GthBrowser *browser)
 			jpeg_data_unref (jdata);
 		}
 	}
-#endif /* HAVE_LIBEXIF */
 	
 	gth_exif_data_viewer_update (GTH_EXIF_DATA_VIEWER (browser->priv->exif_data_viewer), 
 				     IMAGE_VIEWER (browser->priv->viewer),
 				     browser->priv->image_path,
-#ifdef HAVE_LIBEXIF
 				     browser->priv->exif_data
-#else /* ! HAVE_LIBEXIF */
-				     NULL
-#endif /* ! HAVE_LIBEXIF */
 				     );
 
 	update_image_comment (browser);
@@ -1780,7 +1768,6 @@ static void
 save_jpeg_data (GthBrowser *browser,
 		const char *filename)
 {
-#ifdef HAVE_LIBEXIF
 	GthBrowserPrivateData *priv = browser->priv;
 	gboolean               data_to_save = FALSE;
 	JPEGData              *jdata;
@@ -1831,7 +1818,6 @@ save_jpeg_data (GthBrowser *browser,
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
 
-#endif /* HAVE_LIBEXIF */
 }
 
 
@@ -5286,12 +5272,10 @@ gth_browser_finalize (GObject *object)
 			priv->image_path_saved = NULL;
 		}
 		
-#ifdef HAVE_LIBEXIF
 		if (priv->exif_data != NULL) {
 			exif_data_unref (priv->exif_data);
 			priv->exif_data = NULL;
 		}
-#endif /* HAVE_LIBEXIF */
 
 #ifdef HAVE_LIBIPTCDATA
 		if (priv->iptc_data != NULL) {
@@ -8377,7 +8361,6 @@ get_image_to_preload (GthBrowser *browser,
 		return NULL;
 	}
 
-#ifdef HAVE_LIBJPEG
 	if (image_is_jpeg (fdata->path)) {
 		int width = 0, height = 0;
 
@@ -8391,7 +8374,6 @@ get_image_to_preload (GthBrowser *browser,
 			return NULL;
 		}
 	}
-#endif /* HAVE_LIBJPEG */
 
 	file_data_unref (fdata);
 

@@ -36,7 +36,6 @@ static struct {
 	{ "search",        "dlg_catalog_search" },
 	{ "jpegtran",      "dlg_jpegtran" },
 	{ "jpegtran",      "dlg_apply_jpegtran" },
-	{ "jpegtran",      "dlg_apply_jpegtran_from_exif" },
 	{ "duplicates",    "dlg_duplicates" },
 	{ "photoimporter", "dlg_photo_importer" },
 	{ NULL, NULL }

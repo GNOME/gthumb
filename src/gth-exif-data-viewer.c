@@ -36,11 +36,9 @@
 #include "gth-exif-data-viewer.h"
 #include "image-viewer.h"
 
-#ifdef HAVE_LIBEXIF
 #include <libexif/exif-data.h>
 #include <libexif/exif-content.h>
 #include <libexif/exif-entry.h>
-#endif /* HAVE_LIBEXIF */
 
 
 enum {
@@ -197,8 +195,6 @@ gth_exif_data_viewer_new (gboolean view_file_info)
 	return widget;
 }
 
-
-#ifdef HAVE_LIBEXIF
 
 static ExifTag usefull_tags[] = {
 	0, 
@@ -449,8 +445,6 @@ update_exif_data (GthExifDataViewer *edv,
 	exif_data_unref (edata);
 }
 
-#endif /* HAVE_LIBEXIF */
-
 
 static void
 update_file_info (GthExifDataViewer *edv)
@@ -574,9 +568,7 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 	if (edv->priv->view_file_info)
 		update_file_info (edv);
 
-#ifdef HAVE_LIBEXIF
 	update_exif_data (edv, exif_data);
-#endif /* HAVE_LIBEXIF */
 }
 
 

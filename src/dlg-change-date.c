@@ -75,8 +75,6 @@ destroy_cb (GtkWidget  *widget,
 }
 
 
-#ifdef HAVE_LIBEXIF
-
 static gboolean
 exif_time_available (DialogData *data)
 {
@@ -93,8 +91,6 @@ exif_time_available (DialogData *data)
 	return get_exif_time (fd->path) != 0;
 }
 
-
-#endif /* HAVE_LIBEXIF */
 
 #define is_active(x) (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (x)))
 
@@ -123,11 +119,9 @@ ok_clicked (GtkWidget  *button,
 		if (is_active (data->cd_created_radiobutton)) {
 			mtime = get_file_ctime (fdata->path);
 			comment_time = mtime;
-#ifdef HAVE_LIBEXIF
 		} else if (is_active (data->cd_exif_radiobutton)) {
 			mtime = get_exif_time (fdata->path);
 			comment_time = mtime;
-#endif /* HAVE_LIBEXIF */
 		} else if (is_active (data->cd_adjust_timezone_radiobutton)) {
 			time_t tz;
 
@@ -280,11 +274,7 @@ dlg_change_date (GthWindow *window)
 
 	/* Set widgets data. */
 
-#ifndef HAVE_LIBEXIF
-	gtk_widget_hide (data->cd_exif_radiobutton);
-#else /* HAVE_LIBEXIF */
 	gtk_widget_set_sensitive (data->cd_exif_radiobutton, exif_time_available (data));
-#endif /* HAVE_LIBEXIF */
 
 	gtk_widget_set_sensitive (data->cd_dateedit, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->cd_following_date_radiobutton)));
 
