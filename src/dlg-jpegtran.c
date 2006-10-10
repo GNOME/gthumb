@@ -239,7 +239,9 @@ apply_transformation (DialogData *data,
 	char             *dir;
 	GnomeVFSFileInfo  info;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
-        
+	gint		  width = 0;
+	gint		  height = 0;
+	
 	/* Check directory permissions. */
 
 	dir = remove_level_from_path (path);
@@ -255,14 +257,41 @@ apply_transformation (DialogData *data,
 	g_free (dir);
 
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	if (image_is_jpeg (path)) {
-		apply_transformation_exif (window, path, data->rot_data);
-		if (eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE, TRUE)) {
-			update_rotation_from_exif_data (path, data->rot_data);
-                        apply_transformation_jpeg (window, path, data->rot_data);
-		}
 
-	}
+        if (image_is_jpeg (path)) {
+
+                if (!get_exif_tag_short(path,EXIF_TAG_ORIENTATION)) {
+                        /* If no exif orientation tag is present, simply
+                           transform the data using the "lossless" jpeg
+                           mathematical transform (only really lossless if
+                           dimensions are multiples of 8 */
+                        apply_transformation_jpeg (window, path, data->rot_data);
+                }
+                else {
+                        /* Calculate a new orientation tag, based on the
+                           input tag and the requested rotation. This saves
+			   the jpeg, so no further action is required if
+			   "adjust photo orientation" is not selected. */
+                        update_orientation_field (path, data->rot_data);
+
+                        /* if "adjust photo orientation" is selected mathematically transform
+			   the data so that the viewed image remains the same, but the 
+			   orientation tag can be set to "top left" */
+
+                        if (eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
+
+				gdk_pixbuf_get_file_info(get_file_path_from_uri (path),&width,&height);
+				
+				if (!(height%8) && !(width%8)) {
+					/* Don't do this if the dimensions are not multiples
+					   of the jpeg minimum coding unit (iMCU = 8) */
+	                		update_rotation_from_exif_data (path, data->rot_data);
+					apply_transformation_jpeg (window, path, data->rot_data);
+				}
+                        }
+                }
+
+        }
 	else 
 		apply_transformation_generic (window, path, data->rot_data);
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
@@ -496,7 +525,7 @@ static void
 reset_exif_tag_on_rotate_clicked (GtkWidget  *button,
 		              DialogData *data)
 {
-	eel_gconf_set_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE,
+	eel_gconf_set_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION,
 		gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton)));
 }
 
@@ -611,7 +640,7 @@ dlg_jpegtran (GthWindow *window)
 	gtk_widget_set_sensitive (data->j_apply_to_all_checkbutton,
 				  data->file_list->next != NULL);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton), eel_gconf_get_boolean (PREF_RESET_EXIF_ORIENTATION_ROTATE, TRUE));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->j_reset_exif_tag_on_rotate_checkbutton), eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE));
 
 	/* Set the signals handlers. */
 	

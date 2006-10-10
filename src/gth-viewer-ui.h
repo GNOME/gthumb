@@ -154,8 +154,6 @@ static const gchar *viewer_window_ui_info =
 "  <popup name='RotateImageMenu'>"
 "    <menuitem action='Tools_JPEGRotate_Right'/>"
 "    <menuitem action='Tools_JPEGRotate_Left'/>"
-"    <separator/>"
-"    <menuitem action='Tools_JPEGRotate_Auto'/>"
 "  </popup>"
 "  <popup name='OpenWithMenu'>"
 "    <menuitem action='File_OpenFolder'/>"

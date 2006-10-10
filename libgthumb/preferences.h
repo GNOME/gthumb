@@ -43,8 +43,6 @@
 #define  PREF_EDITORS                "/apps/gthumb/general/editors"
 #define  PREF_MIGRATE_DIRECTORIES    "/apps/gthumb/general/migrate_directories"
 #define  PREF_MIGRATE_COMMENT_SYSTEM "/apps/gthumb/general/migrate_comment_system"
-#define  PREF_RESET_EXIF_ORIENTATION_IMPORT	"/apps/gthumb/general/reset_exif_orientation_on_import"
-#define  PREF_RESET_EXIF_ORIENTATION_ROTATE     "/apps/gthumb/general/reset_exif_orientation_on_rotate"
 
 #define  PREF_SHOW_HIDDEN_FILES      "/apps/gthumb/browser/show_hidden_files"
 #define  PREF_SHOW_FILENAMES         "/apps/gthumb/browser/show_filenames"
@@ -197,7 +195,7 @@
 #define  PREF_PHOTO_IMPORT_FILM           "/apps/gthumb/dialogs/photo_importer/film"
 #define  PREF_PHOTO_IMPORT_DELETE         "/apps/gthumb/dialogs/photo_importer/delete_from_camera"
 #define  PREF_PHOTO_IMPORT_KEEP_FILENAMES "/apps/gthumb/dialogs/photo_importer/keep_original_filenames"
-#define  PREF_PHOTO_IMPORT_ADJUST_ORIENTATION "/apps/gthumb/dialogs/photo_importer/adjust_orientation"
+#define  PREF_PHOTO_IMPORT_RESET_EXIF_ORIENTATION	"/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import"
 #define  PREF_PHOTO_IMPORT_MODEL          "/apps/gthumb/dialogs/photo_importer/model"
 #define  PREF_PHOTO_IMPORT_PORT           "/apps/gthumb/dialogs/photo_importer/port"
 
@@ -206,6 +204,8 @@
 #define  PREF_CROP_ASPECT_RATIO_HEIGHT    "/apps/gthumb/dialogs/crop/aspect_ratio_height"
 #define  PREF_ADD_TO_CATALOG_LAST_CATALOG "/apps/gthumb/dialogs/add_to_catalog/last_catalog"
 #define  PREF_ADD_TO_CATALOG_VIEW         "/apps/gthumb/dialogs/add_to_catalog/view"
+
+#define  PREF_ROTATE_RESET_EXIF_ORIENTATION     "/apps/gthumb/dialogs/rotate/reset_exif_orientation_on_rotate"
 
 typedef struct {
 	Bookmarks   *bookmarks;

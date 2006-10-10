@@ -95,19 +95,6 @@
 	</locale>
       </schema>
 
-      <schema>
-	<key>/schemas/apps/gthumb/general/use_exif_orientation</key>
-	<applyto>/apps/gthumb/general/use_exif_orientation</applyto>
-	<owner>gthumb</owner>
-	<type>bool</type>
-	<default>false</default>
-	<locale name="C">
-	  <short></short>
-	  <long>
-	  </long>
-	</locale>
-      </schema>
-
       <!-- Browser -->
 
       <schema>
@@ -1828,8 +1815,23 @@
       </schema>
 
       <schema>
-	<key>/schemas/apps/gthumb/dialogs/photo_importer/adjust_orientation</key>
-	<applyto>/apps/gthumb/dialogs/photo_importer/adjust_orientation</applyto>
+	<key>/schemas/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import</key>
+	<applyto>/apps/gthumb/dialogs/photo_importer/reset_exif_orientation_on_import</applyto>
+	<owner>gthumb</owner>
+	<type>bool</type>
+	<default>TRUE</default>
+	<locale name="C">
+	  <short></short>
+	  <long> 
+	  </long>
+	</locale>
+      </schema>
+
+      <!-- Rotate Dialog -->
+
+      <schema>
+	<key>/schemas/apps/gthumb/dialogs/rotate/reset_exif_orientation_on_rotate</key>
+	<applyto>/apps/gthumb/dialogs/rotate/reset_exif_orientation_on_rotate</applyto>
 	<owner>gthumb</owner>
 	<type>bool</type>
 	<default>TRUE</default>

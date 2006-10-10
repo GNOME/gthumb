@@ -24,6 +24,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+#include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include "file-utils.h"
 #include "gtk-utils.h"
@@ -99,18 +100,6 @@ update_rotation_from_exif_data (const char   *path,
 		rot_data->tran_type = GTH_TRANSFORM_NONE;
 		break;
 	}
-}
-
-void
-apply_transformation_exif (GtkWindow    *win,
-			   const char   *path,
-			   RotationData *rot_data)
-
-{
-	if (get_exif_tag_short(path,EXIF_TAG_ORIENTATION)) 
-		update_orientation_field (path, rot_data);
-	else 
-		apply_transformation_jpeg(win, path, rot_data);
 }
 
 
@@ -323,7 +312,11 @@ apply_transformation_generic (GtkWindow    *win,
 					&error, 
 					NULL))
 			_gtk_error_dialog_from_gerror_run (win, &error);
-	}
+	} else
+		_gtk_error_dialog_run (win,
+				       _("Image type not supported: %s"),
+				       mime_type);
+
 	g_object_unref (pixbuf1);
 }
 

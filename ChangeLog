@@ -1,12 +1,39 @@
+2006-10-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.schemas.in
+	* data/glade/gthumb_tools.glade
+	* doc/C/gthumb.xml
+	* libgthumb/preferences.h
+	* src/dlg-jpegtran.c
+	* src/dlg-photo-importer.c
+	* src/gth-browser-ui.h
+	* src/gth-viewer-ui.h
+	* src/rotation-utils.c
+
+	1. Less convoluted execution when no orientation tag is present.
+	2. Do not physical-transform if the dimensions are not multiples of 8
+	(jpegmcu) and an exif orientation tag is present, to avoid inevitable 
+	data corruption (bug 329129). It reverts to tag-change only for safety.
+	3. Provide error message if rotate-save fails due to unsupported file 
+	type.
+	4. Add comments to the rotation code for clarity.
+	5. Updates rotation help file to describe exif subtleties.
+	6. Renames some of the gconf keys, for greater consistency with other 
+	keys, and to remove them from the general section.
+	7. FYI, the keys are set to default to the physical transform mode.
+	8. remove non-existent "Tools_JPEGRotate_Auto" from pop-up menu.
+
+	Patch by Michael Chudobiak  
+
 2006-10-08  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-    * many files: remove remove unnecessary #ifdefs
+	* many files: remove remove unnecessary #ifdefs
     
-    Patch by Rennie deGraaf  
+	Patch by Rennie deGraaf  
 
-    * configure.in: Patch to make libexif and libjpeg mandatory (v2)
+	* configure.in: Patch to make libexif and libjpeg mandatory (v2)
     
-    Patch by Rennie deGraaf
+	Patch by Rennie deGraaf
 
 	* many files: 
 	
