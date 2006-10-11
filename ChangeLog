@@ -1,3 +1,17 @@
+2006-10-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_camera.glade:
+	* data/glade/gthumb_tools.glade: 
+	* doc/C/gthumb.xml: 
+
+	1. Changes the UI label to "Apply physical transform". I think this 
+	gets to the crux of what exactly the checkbox does. And if it doesn't:
+	2. Detailed tool-tips have been added to the checkboxes. They are 
+	different for the import and rotation dialogs. Please have a look.
+	3. The manual documentation has been clarified a bit.
+
+	Patch by Michael Chudobiak
+	
 2006-10-10  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/gthumb.schemas.in

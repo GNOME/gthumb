@@ -1987,6 +1987,7 @@
       </para>
       <para>
         Click on <guibutton>Apply</guibutton> to apply the changes.
+        The files are automatically saved after clicking <guibutton>Apply</guibutton>.
       </para>
       <para>
         If you check the <guilabel>Apply to all images</guilabel>
@@ -2000,39 +2001,47 @@
         <title>NOTE</title>
         <para>
           If the selection contains some non-JPEG images, they are
-          rotated as well.
+          rotated as well. (Not all file formats are supported, however.)
         </para>
       </note>
       </para>
       <para>
         In general, there are two ways to rotate a JPEG image. The first way
-        is to re-arrange the pixels inside the image file. The second way is
-        to change the value of the Exif orientation tag inside the JPEG file.
+        is to re-arrange the pixels inside the image file, using a "physical"  
+        transform. The second way is to leave the image data alone, and simply
+        change the value of the Exif orientation tag inside the header of the JPEG file.
         Not all JPEG files have Exif tags however, and not all applications
         support them. If your image does not have Exif tags, the pixels will
-        be re-arranged inside the image file automatically. If your image
-        does have Exif tags, then the pixels will only be re-arranged inside the
-        file if you check the <guilabel>Reset photo orientation</guilabel>
-        checkbox. In this mode, the Exif orientation tag will be reset to its default value 
-        of "top left". If your image has Exif tags and you do not select this option,
-        then only the tag will be changed, and the raw image data itself will not
-        be re-arranged.
+        be re-arranged inside the image file automatically, since that is the only
+        possible method.
+      </para>
+      <para>
+        If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel>
+        checkbox is enabled, the physical transform will be used to re-arrange the image 
+        data, and the Exif orientation tag will be reset to its default value
+        of "top left".
+      </para>
+      <para>
+        If your image has an Exif orientation tag, and the <guilabel>Apply physical transform</guilabel>
+        checkbox is not enabled, then only the orientation tag will be changed. The 
+        raw image data itself will not be transformed.
       <note>
         <title>NOTE</title>
         <para>
         For maximum compatibility with other applications, it is recommended that
-        the <guilabel>Reset photo orientation</guilabel> checkbox normally be enabled.
+        the <guilabel>Apply physical transform</guilabel> checkbox normally be enabled
+        in both the rotation and import dialogs.
         </para>
       </note>
       </para>
-      <para>The re-arrangement of pixel data inside the JPEG file will not
+      <para>The physical transform of pixel data inside the JPEG file will not
         degrade image quality (that is, it is lossless) under most conditions.
         However, if the image dimensions (height and width) are not both multiples
         of 8, some data corruption will occur along one of the edges of the 
         image. If there is no Exif orientation tag in the JPEG file, this
         data corruption will occur. If there is an Exif orientation tag, &app; 
         will avoid data corruption by changing the Exif orientation tag, even if 
-        the <guilabel>Reset photo orientation</guilabel> checkbox is enabled.
+        the <guilabel>Apply physical transform</guilabel> checkbox is enabled.
       </para>
     </sect2>
     <sect2 id="gthumb-convert-format">
