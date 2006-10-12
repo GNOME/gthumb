@@ -27,6 +27,8 @@
 #include <gdk/gdk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#include "typedefs.h"
+
 void        pixmap_from_xpm                   (const char **data, 
 					       GdkPixmap  **pixmap, 
 					       GdkBitmap  **mask);
@@ -51,6 +53,9 @@ GdkPixbuf *_gdk_pixbuf_copy_rotate_90         (GdkPixbuf *src,
 GdkPixbuf *_gdk_pixbuf_copy_mirror            (GdkPixbuf *src, 
 					       gboolean   mirror, 
 					       gboolean   flip);
+
+GdkPixbuf *_gdk_pixbuf_transform              (GdkPixbuf* src, 
+					       GthTransform transform);
 
 gboolean   _gdk_pixbuf_save                   (GdkPixbuf       *pixbuf,
 					       const char      *filename,

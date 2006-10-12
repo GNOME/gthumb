@@ -897,10 +897,10 @@ void
 gth_window_activate_action_tools_jpeg_rotate_right (GtkAction *action,
 						    GthWindow *window)
 {
-	void (*module) (GthWindow *, GthTransform, GthTransform);
+	void (*module) (GthWindow *, GthTransform);
 
 	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
-		(*module) (window, GTH_TRANSFORM_ROTATE_90, GTH_TRANSFORM_NONE);
+		(*module) (window, GTH_TRANSFORM_ROTATE_90);
 }
 
 
@@ -908,8 +908,8 @@ void
 gth_window_activate_action_tools_jpeg_rotate_left (GtkAction *action,
 						   GthWindow *window)
 {
-	void (*module) (GthWindow *, GthTransform, GthTransform);
+	void (*module) (GthWindow *, GthTransform);
 
 	if (gthumb_module_get ("dlg_apply_jpegtran", (gpointer*) &module))
-		(*module) (window, GTH_TRANSFORM_ROTATE_270, GTH_TRANSFORM_NONE);
+		(*module) (window, GTH_TRANSFORM_ROTATE_270);
 }

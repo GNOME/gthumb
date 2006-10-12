@@ -1,5 +1,37 @@
 2006-10-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/rotation-utils.h (update_orientation_field): 
+	* src/rotation-utils.c: 
+	* src/gth-window-actions-callbacks.c (adjust_orientation__step): 
+	* src/dlg-photo-importer.c: 
+	* src/dlg-jpegtran.h: 
+	* src/dlg-jpegtran.c: 
+	* libgthumb/typedefs.h: 
+	* libgthumb/pixbuf-utils.h (pixmap_from_xpm): 
+	* libgthumb/pixbuf-utils.c: 
+	* libgthumb/image-loader.c (image_loader_set_pixbuf): 
+	* libgthumb/gth-exif-utils.h: 
+
+	Merged RotatonData, GthExifOrientation and GthOrientation into 
+	GthTransform. The new enum contains all 8 possible transformations and
+	is compatible with the exif orientation values.
+	Moved _gdk_pixbuf_transform_exif_orientation from image-loader.h to
+	pixbuf-utils.h and renamed it to _gdk_pixbuf_transform.
+	Moved the implementation of the button callbacks in dlg-jpegtran.c to a
+	common function.
+	Combined the two parameters rot_type and tran_type of the function
+	dlg_apply_jpegtran into only one parameter.
+	Renamed the function update_rotation_from_exif_data in rotation-utils.h
+	to read_orientation_field.
+	Rewrote the lossless jpeg transform to perform all types of 
+	transformations in one pass.
+	Rewrote the generic transform to use the _gdk_pixbuf_transform function.
+	Replaced the get_next_value_* functions with one new function
+	(get_next_transformation) that supports all 8 transformations. Added two
+	functions to find the rotation and mirror/flip part of a transformation.
+
+	Patch by Jef Driesen.  Bug #361701
+	
 	* src/gth-browser-ui.h: move ResetExif under RotateImages, add a 
 	searator.
 

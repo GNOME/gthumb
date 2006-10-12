@@ -213,6 +213,57 @@ _gdk_pixbuf_copy_mirror (GdkPixbuf *src,
 }
 
 
+/*
+ * Returns a transformed image.
+ */
+GdkPixbuf *
+_gdk_pixbuf_transform (GdkPixbuf* src, 
+				GthTransform transform)
+{
+	GdkPixbuf *temp = NULL, *dest = NULL;
+	
+	if (!src) return NULL;
+	
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+		dest = src;
+		g_object_ref (dest);
+		break;
+	case GTH_TRANSFORM_FLIP_H:
+		dest = _gdk_pixbuf_copy_mirror (src, TRUE, FALSE);
+		break;
+	case GTH_TRANSFORM_ROTATE_180:
+		dest = _gdk_pixbuf_copy_mirror (src, TRUE, TRUE);
+		break;
+	case GTH_TRANSFORM_FLIP_V:
+		dest = _gdk_pixbuf_copy_mirror (src, FALSE, TRUE);
+		break;
+	case GTH_TRANSFORM_TRANSPOSE:
+		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		dest = _gdk_pixbuf_copy_mirror (temp, TRUE, FALSE);
+		g_object_unref (temp);
+		break;
+	case GTH_TRANSFORM_ROTATE_90:
+		dest = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		break;
+	case GTH_TRANSFORM_TRANSVERSE:
+		temp = _gdk_pixbuf_copy_rotate_90 (src, FALSE);
+		dest = _gdk_pixbuf_copy_mirror (temp, FALSE, TRUE);
+		g_object_unref (temp);
+		break;
+	case GTH_TRANSFORM_ROTATE_270:
+		dest = _gdk_pixbuf_copy_rotate_90 (src, TRUE);
+		break;
+	default:
+		dest = src;
+		g_object_ref (dest);
+		break;
+	}
+	
+	return dest;
+}
+
+
 void
 pixmap_from_xpm (const char **data, 
 		 GdkPixmap **pixmap, 

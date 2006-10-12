@@ -33,19 +33,6 @@
 #include "jpegutils/jpeg-data.h"
 
 
-typedef enum { /*< skip >*/
-	GTH_EXIF_ORIENTATION_NONE = 0,
-	GTH_EXIF_ORIENTATION_TOP_LEFT,
-	GTH_EXIF_ORIENTATION_TOP_RIGHT,
-	GTH_EXIF_ORIENTATION_BOTTOM_RIGHT,
-	GTH_EXIF_ORIENTATION_BOTTOM_LEFT,
-	GTH_EXIF_ORIENTATION_LEFT_TOP,
-	GTH_EXIF_ORIENTATION_RIGHT_TOP,
-	GTH_EXIF_ORIENTATION_RIGHT_BOTTOM,
-	GTH_EXIF_ORIENTATION_LEFT_BOTTOM
-} GthExifOrientation;
-
-
 char *      get_exif_tag            (const char *filename,
 				     ExifTag     etag);
 ExifShort   get_exif_tag_short      (const char *filename,

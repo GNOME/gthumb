@@ -29,34 +29,29 @@
 
 #include "gth-exif-utils.h"
 
-typedef struct _RotationData RotationData;
-struct _RotationData {
-    GthTransform  rot_type;
-    GthTransform  tran_type;
-};
+void		apply_transformation_exif      (GtkWindow    *win,
+						const char   *filename,
+						GthTransform  transform);
+void		apply_transformation_jpeg      (GtkWindow    *win,
+						const char   *filename,
+						GthTransform  transform);
+void		apply_transformation_generic   (GtkWindow    *win,
+						const char   *filename,
+						GthTransform  transform);
 
-RotationData*	        rotation_data_new ();
-void                    reset_orientation_field        (const char      *path);
-void			update_rotation_from_exif_data (const char      *filename,
-							RotationData 	*rot_data);
-void			apply_transformation_exif      (GtkWindow       *win,
-							const char      *filename,
-							RotationData 	*rot_data);
-void			apply_transformation_jpeg      (GtkWindow       *win,
-							const char      *filename,
-							RotationData 	*rot_data);
-void			apply_transformation_generic   (GtkWindow       *win,
-							const char      *filename,
-							RotationData 	*rot_data);
-ExifShort		get_next_value_rotation_90     (int value);
-ExifShort		get_next_value_mirror          (int value);
-ExifShort		get_next_value_flip            (int value);
+GthTransform	get_next_transformation	       (GthTransform  original, 
+						GthTransform  transform);
+GthTransform	get_rotation_part	       (GthTransform  transform);
+GthTransform	get_mirror_part	               (GthTransform  transform);
 
-void			update_orientation_field       (const char      *filename, 
-							RotationData    *rot_data);
-gboolean		swap_fields                    (ExifContent     *content,
-							ExifTag          tag1,
-							ExifTag          tag2);
-void			swap_xy_exif_fields            (const char      *filename);
+GthTransform	read_orientation_field	       (const char   *path);
+void		reset_orientation_field	       (const char   *path);
+void		update_orientation_field       (const char   *filename, 
+						GthTransform  transform);
+							
+gboolean	swap_fields                    (ExifContent  *content,
+						ExifTag       tag1,
+						ExifTag       tag2);
+void	        swap_xy_exif_fields            (const char   *filename);
 
 #endif /* ROTATION_UTILS_H */

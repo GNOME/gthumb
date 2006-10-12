@@ -204,13 +204,14 @@ typedef enum { /*< skip >*/
 
 
 typedef enum { /*< skip >*/
-	GTH_TRANSFORM_ROTATE_0,
-	GTH_TRANSFORM_ROTATE_90,
-	GTH_TRANSFORM_ROTATE_180,
-	GTH_TRANSFORM_ROTATE_270,
-	GTH_TRANSFORM_NONE,
-	GTH_TRANSFORM_MIRROR,
-	GTH_TRANSFORM_FLIP
+	GTH_TRANSFORM_NONE = 1,		/* no transformation */
+	GTH_TRANSFORM_FLIP_H,		/* horizontal flip */
+	GTH_TRANSFORM_ROTATE_180, 	/* 180-degree rotation */
+	GTH_TRANSFORM_FLIP_V,		/* vertical flip */
+	GTH_TRANSFORM_TRANSPOSE,	/* transpose across UL-to-LR axis (= rotate_90 + flip_h) */
+	GTH_TRANSFORM_ROTATE_90,	/* 90-degree clockwise rotation */
+	GTH_TRANSFORM_TRANSVERSE,	/* transpose across UR-to-LL axis (= rotate_90 + flip_v) */
+	GTH_TRANSFORM_ROTATE_270	/* 270-degree clockwise */
 } GthTransform;
 
 

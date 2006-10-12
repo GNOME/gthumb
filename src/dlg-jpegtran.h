@@ -29,7 +29,6 @@
 
 void dlg_jpegtran                 (GthWindow    *window);
 void dlg_apply_jpegtran           (GthWindow    *window,
-				   GthTransform  rot_type,
-				   GthTransform  tran_type);
+				   GthTransform  transform);
 
 #endif /* DLG_JPEGTRAN_H */

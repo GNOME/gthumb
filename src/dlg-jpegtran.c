@@ -75,7 +75,7 @@ typedef struct {
 	GList        *current_image;
 	ImageLoader  *loader;
 	GdkPixbuf    *original_preview;
-	RotationData *rot_data;
+	GthTransform	transform;
 } DialogData;
 
 
@@ -95,7 +95,6 @@ dialog_data_free (DialogData *data)
 		g_object_unref (data->loader);
 	if (data->gui != NULL)
 		g_object_unref (data->gui);
-	g_free (data->rot_data);
 	g_free (data);
 }
 
@@ -192,8 +191,7 @@ load_current_image (DialogData *data)
 	image_loader_set_path (data->loader, path);
 	image_loader_start (data->loader);
 
-	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	data->rot_data->tran_type = GTH_TRANSFORM_NONE;
+	data->transform = GTH_TRANSFORM_NONE;
 }
 
 
@@ -265,14 +263,14 @@ apply_transformation (DialogData *data,
                            transform the data using the "lossless" jpeg
                            mathematical transform (only really lossless if
                            dimensions are multiples of 8 */
-                        apply_transformation_jpeg (window, path, data->rot_data);
+                        apply_transformation_jpeg (window, path, data->transform);
                 }
                 else {
                         /* Calculate a new orientation tag, based on the
                            input tag and the requested rotation. This saves
 			   the jpeg, so no further action is required if
 			   "adjust photo orientation" is not selected. */
-                        update_orientation_field (path, data->rot_data);
+                        update_orientation_field (path, data->transform);
 
                         /* if "adjust photo orientation" is selected mathematically transform
 			   the data so that the viewed image remains the same, but the 
@@ -285,15 +283,15 @@ apply_transformation (DialogData *data,
 				if (!(height%8) && !(width%8)) {
 					/* Don't do this if the dimensions are not multiples
 					   of the jpeg minimum coding unit (iMCU = 8) */
-	                		update_rotation_from_exif_data (path, data->rot_data);
-					apply_transformation_jpeg (window, path, data->rot_data);
+	             			data->transform = read_orientation_field (path);
+					apply_transformation_jpeg (window, path, data->transform);
 				}
                         }
                 }
 
         }
 	else 
-		apply_transformation_generic (window, path, data->rot_data);
+		apply_transformation_generic (window, path, data->transform);
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 
 	notify_file_changed (data, path, notify_soon);
@@ -381,23 +379,11 @@ ok_clicked (GtkWidget  *button,
 }
 
 
-static int 
-get_next_rot (int rot)
-{
-	int next_rot [4] = {GTH_TRANSFORM_ROTATE_90, 
-			    GTH_TRANSFORM_ROTATE_180, 
-			    GTH_TRANSFORM_ROTATE_270,
-			    GTH_TRANSFORM_ROTATE_0};
-	return next_rot [rot];
-}
-
-
 static void
 revert_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	data->rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	data->rot_data->tran_type = GTH_TRANSFORM_NONE;
+	data->transform = GTH_TRANSFORM_NONE;
 
 	if (data->original_preview != NULL)
 		gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), data->original_preview);
@@ -405,30 +391,33 @@ revert_clicked (GtkWidget  *button,
 
 
 static void
-rot90_clicked (GtkWidget  *button, 
-	       DialogData *data)
+transform_clicked_impl (GtkWidget  *button, 
+	       DialogData *data,
+	       GthTransform transform)
 {
-	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
+	GdkPixbuf *src_pixbuf = NULL;
+	GdkPixbuf *dest_pixbuf = NULL;
 
-	if (data->rot_data->tran_type == GTH_TRANSFORM_NONE)
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-	else {
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-	}
+	data->transform = get_next_transformation (data->transform, transform);
 
 	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
 
 	if (src_pixbuf == NULL) 
 		return;
 
-	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, FALSE);
+	dest_pixbuf = _gdk_pixbuf_transform (src_pixbuf, transform);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
 
 	if (dest_pixbuf != NULL) 
 		g_object_unref (dest_pixbuf);
+}
+
+
+static void
+rot90_clicked (GtkWidget  *button, 
+	       DialogData *data)
+{
+	transform_clicked_impl (button, data, GTH_TRANSFORM_ROTATE_90);
 }
 
 
@@ -436,26 +425,7 @@ static void
 rot270_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
-
-	if (data->rot_data->tran_type == GTH_TRANSFORM_NONE) {
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-	} else
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-
-	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
-
-	if (src_pixbuf == NULL) 
-		return;
-
-	dest_pixbuf = _gdk_pixbuf_copy_rotate_90 (src_pixbuf, TRUE);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
-
-	if (dest_pixbuf != NULL) 
-		g_object_unref (dest_pixbuf);
+	transform_clicked_impl (button, data, GTH_TRANSFORM_ROTATE_270);
 }
 
 
@@ -463,30 +433,7 @@ static void
 mirror_clicked (GtkWidget  *button, 
 		DialogData *data)
 {
-	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
-
-	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
-
-	if (src_pixbuf == NULL) 
-		return;
-
-	if (data->rot_data->tran_type == GTH_TRANSFORM_FLIP) {
-		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-
-	} else if (data->rot_data->tran_type == GTH_TRANSFORM_MIRROR)
-		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
-
-	else
-		data->rot_data->tran_type = GTH_TRANSFORM_MIRROR;
-	
-	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, TRUE, FALSE);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
-	
-	if (dest_pixbuf != NULL) 
-		g_object_unref (dest_pixbuf);
+	transform_clicked_impl (button, data, GTH_TRANSFORM_FLIP_H);
 }
 
 
@@ -494,30 +441,7 @@ static void
 flip_clicked (GtkWidget  *button, 
 	      DialogData *data)
 {
-	GdkPixbuf *src_pixbuf;
-	GdkPixbuf *dest_pixbuf;
-
-	if (data->rot_data->tran_type == GTH_TRANSFORM_MIRROR) {
-		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-		data->rot_data->rot_type = get_next_rot (data->rot_data->rot_type);
-
-	} else if (data->rot_data->tran_type == GTH_TRANSFORM_FLIP)
-		data->rot_data->tran_type = GTH_TRANSFORM_NONE;
-
-	else
-		data->rot_data->tran_type = GTH_TRANSFORM_FLIP;
-
-	src_pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (data->j_preview_image));
-
-	if (src_pixbuf == NULL) 
-		return;
-
-	dest_pixbuf = _gdk_pixbuf_copy_mirror (src_pixbuf, FALSE, TRUE);
-	gtk_image_set_from_pixbuf (GTK_IMAGE (data->j_preview_image), dest_pixbuf);
-
-	if (dest_pixbuf != NULL) 
-		g_object_unref (dest_pixbuf);
+	transform_clicked_impl (button, data, GTH_TRANSFORM_FLIP_V);
 }
 
 
@@ -603,7 +527,7 @@ dlg_jpegtran (GthWindow *window)
 		return;
 	}
 
-	data->rot_data = rotation_data_new ();
+	data->transform = GTH_TRANSFORM_NONE;
 
 	/* Get the widgets. */
 
@@ -712,8 +636,7 @@ dlg_jpegtran (GthWindow *window)
 
 void
 dlg_apply_jpegtran (GthWindow    *window,
-		    GthTransform  rot_type,
-		    GthTransform  tran_type)
+		    GthTransform  transform)
 {
 	DialogData  *data;
 	GList       *list;
@@ -730,10 +653,7 @@ dlg_apply_jpegtran (GthWindow    *window,
 	data->window = window;
 	data->file_list = list;
 	data->current_image = list;
-
-	data->rot_data = rotation_data_new();
-	data->rot_data->rot_type = rot_type;
-	data->rot_data->tran_type = tran_type;
+	data->transform = transform;
 
 	apply_transformation_to_all (data);
 }

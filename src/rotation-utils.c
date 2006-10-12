@@ -34,74 +34,21 @@
 #include "jpegutils/transupp.h"
 #include "jpegutils/jpegtran.h"
 
-
-RotationData*
-rotation_data_new ()
+GthTransform
+read_orientation_field (const char *path)
 {
-	RotationData *rd;
-	
-	rd = g_new0 (RotationData, 1);
-	rd->rot_type = GTH_TRANSFORM_ROTATE_0;
-	rd->tran_type = GTH_TRANSFORM_NONE;
-	
-	return rd;
-}
-
-
-void
-update_rotation_from_exif_data (const char   *path,
-				RotationData *rot_data)
-{
-	GthExifOrientation orientation;
-
-	rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-	rot_data->tran_type = GTH_TRANSFORM_NONE;
+	ExifShort orientation;
 
 	path = get_file_path_from_uri (path);
 	if (path == NULL)
-		return;
+		return GTH_TRANSFORM_NONE;
+
 	orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
-
-	switch (orientation) {
-	case GTH_EXIF_ORIENTATION_TOP_LEFT:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		rot_data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_TOP_RIGHT:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		rot_data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_BOTTOM_RIGHT:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_180;
-		rot_data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_BOTTOM_LEFT:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_180;
-		rot_data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_LEFT_TOP:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		rot_data->tran_type = GTH_TRANSFORM_MIRROR;
-		break;
-	case GTH_EXIF_ORIENTATION_RIGHT_TOP:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		rot_data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	case GTH_EXIF_ORIENTATION_RIGHT_BOTTOM:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_90;
-		rot_data->tran_type = GTH_TRANSFORM_FLIP;
-		break;
-	case GTH_EXIF_ORIENTATION_LEFT_BOTTOM:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_270;
-		rot_data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	default:
-		rot_data->rot_type = GTH_TRANSFORM_ROTATE_0;
-		rot_data->tran_type = GTH_TRANSFORM_NONE;
-		break;
-	}
+	if (orientation >= 1 && orientation <= 8)
+		return orientation;
+	else
+		return GTH_TRANSFORM_NONE;
 }
-
 
 void
 reset_orientation_field (const char *path)
@@ -135,7 +82,7 @@ reset_orientation_field (const char *path)
 		if (entry != NULL) {
 			ExifByteOrder byte_order;
 			byte_order = exif_data_get_byte_order (edata);
-			exif_set_short (entry->data, byte_order, 1);
+			exif_set_short (entry->data, byte_order, GTH_TRANSFORM_NONE);
 		}
 	}
 
@@ -149,12 +96,10 @@ reset_orientation_field (const char *path)
 void
 apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
-			   RotationData *rot_data)
+			   GthTransform transform)
 {
-	int          rot_type = rot_data->rot_type; 
-	int          tran_type = rot_data->tran_type; 
 	char        *line;
-	char        *tmp1, *tmp2;
+	char        *tmp;
 	static int   count = 0;
 	GError      *err = NULL;
 	JXFORM_CODE  transf;
@@ -164,70 +109,49 @@ apply_transformation_jpeg (GtkWindow    *win,
 	if (path == NULL)
 		return;
 	
-	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
+	tmp = g_strdup_printf ("%s/gthumb.%d.%d",
+				g_get_tmp_dir (), 
+				getpid (),
+				count++);
+
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+		transf = JXFORM_NONE;
+		break;
+	case GTH_TRANSFORM_FLIP_H:
+		transf = JXFORM_FLIP_H;
+		break;
+	case GTH_TRANSFORM_ROTATE_180:
+		transf = JXFORM_ROT_180;
+		break;
+	case GTH_TRANSFORM_FLIP_V:
+		transf = JXFORM_FLIP_V;
+		break;
+	case GTH_TRANSFORM_TRANSPOSE:
+		transf = JXFORM_TRANSPOSE;
+		break;
+	case GTH_TRANSFORM_ROTATE_90:
+		transf = JXFORM_ROT_90;
+		break;
+	case GTH_TRANSFORM_TRANSVERSE:
+		transf = JXFORM_TRANSVERSE;
+		break;
+	case GTH_TRANSFORM_ROTATE_270:
+		transf = JXFORM_ROT_270;
+		break;
+	default:
+		transf = JXFORM_NONE;
+		break;
+	}
+
+	if (jpegtran ((char*)path, tmp, transf, &err) != 0) {
+		g_free (tmp);
+		if (err != NULL) 
+			_gtk_error_dialog_from_gerror_run (win, &err);
 		return;
-
-	if (rot_type == GTH_TRANSFORM_ROTATE_0)
-		tmp1 = g_strdup (path);
-	else {
-		tmp1 = g_strdup_printf ("%s/gthumb.%d.%d",
-					g_get_tmp_dir (), 
-					getpid (),
-					count++);
-
-		switch (rot_type) {
-		case GTH_TRANSFORM_ROTATE_90:
-			transf = JXFORM_ROT_90;
-			break;
-		case GTH_TRANSFORM_ROTATE_180:
-			transf = JXFORM_ROT_180;
-			break;
-		case GTH_TRANSFORM_ROTATE_270:
-			transf = JXFORM_ROT_270;
-			break;
-		default:
-			transf = JXFORM_NONE;
-			break;
-		}
-
-		if (jpegtran ((char*)path, tmp1, transf, &err) != 0) {
-			g_free (tmp1);
-			if (err != NULL) 
-				_gtk_error_dialog_from_gerror_run (win, &err);
-			return;
-		}
 	}
 
-	if (tran_type == GTH_TRANSFORM_NONE)
-		tmp2 = g_strdup (tmp1);
-	else {
-		tmp2 = g_strdup_printf ("%s/gthumb.%d.%d",
-					g_get_tmp_dir (), 
-					getpid (),
-					count++);
-
-		switch (tran_type) {
-		case GTH_TRANSFORM_MIRROR:
-			transf = JXFORM_FLIP_H;
-			break;
-		case GTH_TRANSFORM_FLIP:
-			transf = JXFORM_FLIP_V;
-			break;
-		default:
-			transf = JXFORM_NONE;
-			break;
-		}
-
-		if (jpegtran (tmp1, tmp2, transf, &err) != 0) {
-			g_free (tmp1);
-			if (err != NULL) 
-				_gtk_error_dialog_from_gerror_run (win, &err);
-			return;
-		}
-
-	}
-
-	e1 = shell_escape (tmp2);
+	e1 = shell_escape (tmp);
 	e2 = shell_escape (path);
 
 	line = g_strdup_printf ("mv -f %s %s", e1, e2);
@@ -237,7 +161,9 @@ apply_transformation_jpeg (GtkWindow    *win,
 		_gtk_error_dialog_from_gerror_run (win, &err);
 
 	} else {
-		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
+		GthTransform rot_type = get_rotation_part(transform);
+		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || 
+				(rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (path);
 		reset_orientation_field (path);
 	}
@@ -245,18 +171,15 @@ apply_transformation_jpeg (GtkWindow    *win,
 	g_free (e1);
 	g_free (e2);
 	g_free (line);
-	g_free (tmp1);
-	g_free (tmp2);
+	g_free (tmp);
 }
 
 
 void
 apply_transformation_generic (GtkWindow    *win,
 			      const char   *path,
-			      RotationData *rot_data)
+			      GthTransform transform)
 {
-	int         rot_type = rot_data->rot_type; 
-	int         tran_type = rot_data->tran_type; 
 	GdkPixbuf  *pixbuf1, *pixbuf2;
 	const char *mime_type;
 
@@ -264,49 +187,20 @@ apply_transformation_generic (GtkWindow    *win,
 	if (path == NULL)
 		return;
 
-	if ((rot_type == GTH_TRANSFORM_ROTATE_0) && (tran_type == GTH_TRANSFORM_NONE))
+	if (transform == GTH_TRANSFORM_NONE)
 		return;
 
 	pixbuf1 = gdk_pixbuf_new_from_file (path, NULL);
 	if (pixbuf1 == NULL)
 		return;
 
-	switch (rot_type) {
-	case GTH_TRANSFORM_ROTATE_90:
-		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, FALSE);
-		break;
-	case GTH_TRANSFORM_ROTATE_180:
-		pixbuf2 = _gdk_pixbuf_copy_mirror (pixbuf1, TRUE, TRUE);
-		break;
-	case GTH_TRANSFORM_ROTATE_270:
-		pixbuf2 = _gdk_pixbuf_copy_rotate_90 (pixbuf1, TRUE);
-		break;
-	default:
-		pixbuf2 = pixbuf1;
-		g_object_ref (pixbuf2);
-		break;
-	}
-	g_object_unref (pixbuf1);
-
-	switch (tran_type) {
-	case GTH_TRANSFORM_MIRROR:
-		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, TRUE, FALSE);
-		break;
-	case GTH_TRANSFORM_FLIP:
-		pixbuf1 = _gdk_pixbuf_copy_mirror (pixbuf2, FALSE, TRUE);
-		break;
-	default:
-		pixbuf1 = pixbuf2;
-		g_object_ref (pixbuf1);
-		break;
-	}
-	g_object_unref (pixbuf2);
+	pixbuf2 = _gdk_pixbuf_transform (pixbuf1, transform);
 
 	mime_type = gnome_vfs_mime_type_from_name (path);
 	if ((mime_type != NULL) && is_mime_type_writable (mime_type)) {
 		GError      *error = NULL;
 		const char  *image_type = mime_type + 6;
-		if (! _gdk_pixbuf_save (pixbuf1, 
+		if (! _gdk_pixbuf_save (pixbuf2, 
 					path, 
 					image_type, 
 					&error, 
@@ -318,36 +212,111 @@ apply_transformation_generic (GtkWindow    *win,
 				       mime_type);
 
 	g_object_unref (pixbuf1);
+	g_object_unref (pixbuf2);
 }
 
 
-ExifShort
-get_next_value_rotation_90 (int value)
+static GthTransform
+get_next_value_rotation_90 (GthTransform value)
 {
-	static ExifShort new_value [8] = {6, 7, 8, 5, 2, 3, 4, 1};
+	static GthTransform new_value [8] = {6, 7, 8, 5, 2, 3, 4, 1};
 	return new_value[value - 1];
 }
 
 
-ExifShort
-get_next_value_mirror (int value)
+static GthTransform
+get_next_value_mirror (GthTransform value)
 {
-	static ExifShort new_value [8] = {2, 1, 4, 3, 6, 5, 8, 7};
+	static GthTransform new_value [8] = {2, 1, 4, 3, 6, 5, 8, 7};
 	return new_value[value - 1];
 }
 
 
-ExifShort
-get_next_value_flip (int value)
+static GthTransform
+get_next_value_flip (GthTransform value)
 {
-	static ExifShort new_value [8] = {4, 3, 2, 1, 8, 7, 6, 5};
+	static GthTransform new_value [8] = {4, 3, 2, 1, 8, 7, 6, 5};
 	return new_value[value - 1];
+}
+
+
+GthTransform
+get_next_transformation(GthTransform original, GthTransform transform)
+{			
+	GthTransform result = (original >= 1 && original <= 8 ? 
+									original : 
+									GTH_TRANSFORM_NONE);
+	
+	switch (transform) {
+	case GTH_TRANSFORM_NONE:
+		break;
+	case GTH_TRANSFORM_ROTATE_90:
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_ROTATE_180:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_ROTATE_270:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_rotation_90 (result);
+		break;
+	case GTH_TRANSFORM_FLIP_H:
+		result = get_next_value_mirror (result);
+		break;
+	case GTH_TRANSFORM_FLIP_V:
+		result = get_next_value_flip (result);
+		break;		
+	case GTH_TRANSFORM_TRANSPOSE:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_mirror (result);
+		break;
+	case GTH_TRANSFORM_TRANSVERSE:
+		result = get_next_value_rotation_90 (result);
+		result = get_next_value_flip (result);
+		break;			
+	}
+	
+	return result;
+}
+
+
+GthTransform
+get_rotation_part(GthTransform transform)
+{
+	static GthTransform lookup [8] = {
+		GTH_TRANSFORM_NONE, GTH_TRANSFORM_NONE, 
+		GTH_TRANSFORM_ROTATE_180, GTH_TRANSFORM_NONE, 
+		GTH_TRANSFORM_ROTATE_90, GTH_TRANSFORM_ROTATE_90, 
+		GTH_TRANSFORM_ROTATE_90, GTH_TRANSFORM_ROTATE_270};
+
+	if (transform >= 1 && transform <= 8)
+		return lookup[transform - 1];
+	else
+		return GTH_TRANSFORM_NONE;
+}
+
+
+GthTransform
+get_mirror_or_flip_part(GthTransform transform)
+{
+	static GthTransform lookup [8] = {
+		GTH_TRANSFORM_NONE, GTH_TRANSFORM_FLIP_H, 
+		GTH_TRANSFORM_NONE, GTH_TRANSFORM_FLIP_V, 
+		GTH_TRANSFORM_FLIP_H, GTH_TRANSFORM_NONE, 
+		GTH_TRANSFORM_FLIP_V, GTH_TRANSFORM_NONE};
+
+	if (transform >= 1 && transform <= 8)
+		return lookup[transform - 1];
+	else
+		return GTH_TRANSFORM_NONE;
 }
 
 
 void
 update_orientation_field (const char   *path,
-			  RotationData *rot_data)
+			  GthTransform transform)
 {
 	JPEGData     *jdata;
 	ExifData     *edata;
@@ -366,7 +335,7 @@ update_orientation_field (const char   *path,
 		jpeg_data_unref (jdata);
 		return;
 	}
-
+	
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 		ExifEntry   *entry;
@@ -381,34 +350,8 @@ update_orientation_field (const char   *path,
 
 			byte_order = exif_data_get_byte_order (edata);
 			value = exif_get_short (entry->data, byte_order);
-
-			switch (rot_data->rot_type) {
-			case GTH_TRANSFORM_ROTATE_90:
-				value = get_next_value_rotation_90 (value);
-				break;
-			case GTH_TRANSFORM_ROTATE_180:
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				break;
-			case GTH_TRANSFORM_ROTATE_270:
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				value = get_next_value_rotation_90 (value);
-				break;
-			default:
-				break;
-			}
 			
-			switch (rot_data->tran_type) {
-			case GTH_TRANSFORM_MIRROR:
-				value = get_next_value_mirror (value);
-				break;
-			case GTH_TRANSFORM_FLIP:
-				value = get_next_value_flip (value);
-				break;
-			default:
-				break;
-			}
+			value = get_next_transformation(value, transform);
 
 			exif_set_short (entry->data, byte_order, value);
 		}

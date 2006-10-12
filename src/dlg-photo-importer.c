@@ -1371,16 +1371,13 @@ adjust_orientation__step (AsyncOperationData *aodata,
 	
 	if (file_is_image (filepath, TRUE)) {
 		FileData     *fd = file_data_new (filepath, &info);
-		RotationData *rot_data = rotation_data_new ();
-
-		update_rotation_from_exif_data (fd->path, rot_data);
+		GthTransform transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (filepath))
-			apply_transformation_jpeg (window, fd->path, rot_data);
+			apply_transformation_jpeg (window, fd->path, transform);
 		else
-			apply_transformation_generic (window, fd->path, rot_data);
+			apply_transformation_generic (window, fd->path, transform);
 
 		file_data_unref (fd);
-		g_free (rot_data);
 	}
 	
 	gnome_vfs_set_file_info (filepath, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
