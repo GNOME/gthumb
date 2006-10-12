@@ -1,3 +1,10 @@
+version 2.9.0
+-------------
+        * Added proper support for the Exif orientation tag when importing,
+          rotating, and displaying JPEG images. See bug #343867: Rotating image 
+          should alter EXIF data
+        * Fixed bug #361416: Reset Exif orientation tag tool
+
 version 2.7.9
 -------------
 	* Fixed bug #351058: build failure when -Wl,--as-needed is passed to 

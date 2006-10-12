@@ -1253,8 +1253,6 @@ catalog_update_custom_page_size (PrintCatalogDialogData *data)
 	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->height_spinbutton));
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_HEIGHT, height, unit);
 
 	catalog_update_page (data);
 }
@@ -1386,8 +1384,6 @@ catalog_set_standard_page_size (PrintCatalogDialogData *data,
 
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_HEIGHT, height, unit);
 
 	catalog_update_page_size_from_config (data);
 	catalog_update_page (data);

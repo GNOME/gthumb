@@ -171,6 +171,8 @@ static const gchar *main_ui_info =
 "      </menu>"
 "      <separator/>"
 "      <menuitem action='Tools_JPEGRotate'/>"
+"      <menuitem action='Tools_ResetExif'/>"
+"      <separator/>"
 "      <menuitem action='Tools_ScaleSeries'/>"
 "      <menuitem action='Tools_ConvertFormat'/>"
 "      <menuitem action='Tools_ChangeDate'/>"
@@ -295,6 +297,8 @@ static const gchar *main_ui_info =
 "  <popup name='RotateImageMenu'>"
 "    <menuitem action='Tools_JPEGRotate_Right'/>"
 "    <menuitem action='Tools_JPEGRotate_Left'/>"
+"    <separator/>"
+"    <menuitem action='Tools_ResetExif'/>"
 "  </popup>"
 "  <accelerator name='ControlEqualAccel' action='ControlEqual'/>"
 "</ui>";

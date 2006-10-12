@@ -42,6 +42,7 @@
 #include "dlg-catalog.h"
 #include "dlg-categories.h"
 #include "dlg-change-date.h"
+#include "dlg-reset-exif.h"
 #include "dlg-comment.h"
 #include "dlg-convert.h"
 #include "dlg-file-utils.h"
@@ -870,6 +871,14 @@ gth_window_activate_action_tools_change_date (GtkAction *action,
 					      GthWindow *window)
 {
         dlg_change_date (window);
+}
+
+
+void
+gth_window_activate_action_tools_reset_exif (GtkAction *action,
+                                              GthWindow *window)
+{
+        dlg_reset_exif (window);
 }
 
 

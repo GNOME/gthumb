@@ -78,5 +78,6 @@ DEFINE_ACTION(gth_window_activate_action_tools_change_date)
 DEFINE_ACTION(gth_window_activate_action_tools_jpeg_rotate)
 DEFINE_ACTION(gth_window_activate_action_tools_jpeg_rotate_right)
 DEFINE_ACTION(gth_window_activate_action_tools_jpeg_rotate_left)
+DEFINE_ACTION(gth_window_activate_action_tools_reset_exif)
 
 #endif /* GTH_WINDOW_ACTIONS_CALLBACK_H */

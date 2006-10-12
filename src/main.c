@@ -84,10 +84,10 @@ static GnomeIconTheme *icon_theme = NULL;
 static BonoboObject   *gth_application = NULL;
 
 struct poptOption options[] = {
-	{ "fullscreen", '\0', POPT_ARG_NONE, &StartInFullscreen, 0,
+	{ "fullscreen", 'f', POPT_ARG_NONE, &StartInFullscreen, 0,
 	  N_("Start in fullscreen mode"),
 	  0 },
-	{ "slideshow", '\0', POPT_ARG_NONE, &StartSlideshow, 0,
+	{ "slideshow", 's', POPT_ARG_NONE, &StartSlideshow, 0,
 	  N_("Automatically start a slideshow"),
 	  0 },
 	{ "import-photos", '\0', POPT_ARG_NONE, &ImportPhotos, 0,

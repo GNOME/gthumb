@@ -30,6 +30,7 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomeui/gnome-icon-theme.h>
 #include <libgnomeui/gnome-icon-lookup.h>
 #include <libgnomevfs/gnome-vfs-file-info.h>
@@ -1790,11 +1791,44 @@ start_operation (DialogData    *data,
 }
 
 
+/* called when the "help" button is pressed. */
+static void
+help_cb (GtkWidget  *widget, 
+	 DialogData *data)
+{
+	GError *err;
+
+	err = NULL;  
+	gnome_help_display ("gthumb", "gthumb-import-photos", &err);
+	
+	if (err != NULL) {
+		GtkWidget *d;
+		
+		d = gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+					    0,
+					    GTK_MESSAGE_ERROR,
+					    GTK_BUTTONS_CLOSE,
+					    _("Could not display help: %s"),
+					    err->message);
+		
+		g_signal_connect (G_OBJECT (d), "response",
+				  G_CALLBACK (gtk_widget_destroy),
+				  NULL);
+		
+		gtk_window_set_resizable (GTK_WINDOW (d), FALSE);
+		gtk_widget_show (d);
+		
+		g_error_free (err);
+	}
+}
+
+
 void
 dlg_photo_importer (GthBrowser *browser)
 {
 	DialogData   *data;
 	GtkWidget    *btn_cancel;
+	GtkWidget    *btn_help;
 	GdkPixbuf    *mute_pixbuf;
 	char         *default_path;
 	char         *esc_uri;
@@ -1859,6 +1893,7 @@ dlg_photo_importer (GthBrowser *browser)
 	data->import_ok_button = glade_xml_get_widget (data->gui, "import_okbutton");
         data->reset_exif_tag_on_import_checkbutton = glade_xml_get_widget (data->gui, "reset_exif_tag_on_import_checkbutton");
 	btn_cancel = glade_xml_get_widget (data->gui, "import_cancelbutton");
+	btn_help = glade_xml_get_widget (data->gui, "import_helpbutton");
 
 	data->image_list = gth_image_list_new (THUMB_SIZE + THUMB_BORDER);
 	gth_image_list_set_view_mode (GTH_IMAGE_LIST (data->image_list), GTH_VIEW_MODE_LABEL);
@@ -1917,6 +1952,10 @@ dlg_photo_importer (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (data->import_ok_button), 
 			  "clicked",
 			  G_CALLBACK (ok_clicked_cb),
+			  data);
+	g_signal_connect (G_OBJECT (btn_help), 
+			  "clicked",
+			  G_CALLBACK (help_cb),
 			  data);
 	g_signal_connect (G_OBJECT (btn_cancel), 
 			  "clicked",

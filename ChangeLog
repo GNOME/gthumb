@@ -1,3 +1,48 @@
+2006-10-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-ui.h: move ResetExif under RotateImages, add a 
+	searator.
+
+	* src/gth-window-actions-entries.h: changed "Reset Exif orientation" to
+	"Reset Exif Orientation".
+
+	* doc/C/gthumb.xml: 
+	* data/glade/gthumb_camera.glade:
+	* src/dlg-photo-importer.c (dlg_photo_importer): added a help button.
+
+	* src/dlg-reset-exif.c (apply_transformation): removed unused variables
+	* src/rotation-utils.h: added reset_orientation_field
+
+	* NEWS:
+	* README:
+	* data/glade/gthumb_tools.glade:
+	* doc/C/gthumb.xml:
+	* libgthumb/print-callbacks.c:
+	* src/Makefile.am:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c:
+	* src/gth-viewer-ui.h:
+	* src/gth-window-actions-callbacks.c:
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	* src/main.c:
+	* src/dlg-reset-exif.h:
+	* src/dlg-reset-exif.c:
+	
+	1. Adds a Tool > Reset Exif orientation function, for fixing images 
+	incorrectly imported and auto-rotated by previous versions of gthumb.
+	
+	2. Updates the README file, indicating the correct library requirements.
+
+	3. Updates the NEWS file, to reflect the exif improvements.
+
+	4. Makes the short command line options work (trivial patch from bug 
+	349747)
+
+	5. Makes print scaling work (trivial patch from bug 353681).
+
+	Patch by Michael Chudobiak
+	
 2006-10-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_camera.glade:

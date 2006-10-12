@@ -77,6 +77,8 @@ gthumb_SOURCES = 				\
 	dlg-preferences.h			\
 	dlg-rename-series.c			\
 	dlg-rename-series.h			\
+        dlg-reset-exif.c                        \
+        dlg-reset-exif.h                        \
 	dlg-scale-image.c			\
 	dlg-scale-image.h			\
 	dlg-scale-series.c			\

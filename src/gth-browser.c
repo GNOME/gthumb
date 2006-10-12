@@ -960,6 +960,7 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "Tools_WebExporter", sel_not_null);
 	set_action_sensitive (browser, "Tools_ConvertFormat", sel_not_null);
 	set_action_sensitive (browser, "Tools_ChangeDate", sel_not_null);
+	set_action_sensitive (browser, "Tools_ResetExif", sel_not_null);
 	set_action_sensitive (browser, "Tools_JPEGRotate", sel_not_null);
 	set_action_sensitive (browser, "Tools_ScaleSeries", sel_not_null);
 	set_action_sensitive (browser, "Wallpaper_Centered", ! image_is_void);
