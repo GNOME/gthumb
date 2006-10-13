@@ -271,7 +271,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 #ifdef HAVE_LIBEXIF
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || (rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (path);
-		/* update_orientation_field (path, rot_data); see bug #318828 */
+		reset_orientation_field (path);
 #endif
 	}
 
@@ -442,6 +442,51 @@ update_orientation_field (const char   *path,
 			}
 
 			exif_set_short (entry->data, byte_order, value);
+		}
+	}
+
+	jpeg_data_save_file (jdata, path);
+
+	exif_data_unref (edata);
+	jpeg_data_unref (jdata);
+}
+
+
+void
+reset_orientation_field (const char *path)
+{
+	JPEGData     *jdata;
+	ExifData     *edata;
+	unsigned int  i;
+
+	path = get_file_path_from_uri (path);
+	if (path == NULL)
+		return;
+
+	jdata = jpeg_data_new_from_file (path);
+	if (jdata == NULL)
+		return;
+
+	edata = jpeg_data_get_exif_data (jdata);
+	if (edata == NULL) {
+		jpeg_data_unref (jdata);
+		return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+		ExifEntry   *entry;
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
+		if (entry != NULL) {
+			ExifByteOrder byte_order;
+			ExifShort     value;
+
+			byte_order = exif_data_get_byte_order (edata);
+			exif_set_short (entry->data, byte_order, 1);
 		}
 	}
 
