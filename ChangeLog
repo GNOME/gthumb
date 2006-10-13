@@ -1,3 +1,7 @@
+2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/Makefile.am: fixed build of generated files.
+
 2006-10-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.h (update_orientation_field): 

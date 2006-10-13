@@ -139,11 +139,13 @@ libgthumb_la_LIBADD =		\
 	$(top_builddir)/libgthumb/jpegutils/libgthumb-jpegutils.la
 
 gthumb-marshal.h: gthumb-marshal.list $(GLIB_GENMARSHAL)
-	$(GLIB_GENMARSHAL) $(top_srcdir)/libgthumb/gthumb-marshal.list --header --prefix=gthumb_marshal > $(top_srcdir)/libgthumb/gthumb-marshal.h
+	cd $(top_srcdir)/libgthumb \
+	&& $(GLIB_GENMARSHAL) $(top_srcdir)/libgthumb/gthumb-marshal.list --header --prefix=gthumb_marshal > $(top_srcdir)/libgthumb/gthumb-marshal.h
 
 gthumb-marshal.c: gthumb-marshal.h gthumb-marshal.list $(GLIB_GENMARSHAL)
-	echo "#include \"gthumb-marshal.h\"" > $(top_srcdir)/libgthumb/gthumb-marshal.c && \
-	$(GLIB_GENMARSHAL) $(top_srcdir)/libgthumb/gthumb-marshal.list --body --prefix=gthumb_marshal >> $(top_srcdir)/libgthumb/gthumb-marshal.c
+	cd $(top_srcdir)/libgthumb \
+	&& echo "#include \"gthumb-marshal.h\"" > $(top_srcdir)/libgthumb/gthumb-marshal.c \
+	&& $(GLIB_GENMARSHAL) $(top_srcdir)/libgthumb/gthumb-marshal.list --body --prefix=gthumb_marshal >> $(top_srcdir)/libgthumb/gthumb-marshal.c
 
 gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
 	cd $(top_srcdir)/libgthumb \
@@ -153,7 +155,7 @@ gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTHUMB_ENUM_TYPES_H */" \
 		$(HEADER_FILES) > xgen-geth \
-	&& (cmp -s xgen-geth gthumb-enum-types.h || cp xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.h ) \
+	&& (cmp -s xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.h || cp xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.h ) \
 	&& rm -f xgen-geth
 
 gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) gthumb-enum-types.h
@@ -166,6 +168,7 @@ gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) gthumb-enum-types.h
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
                 $(HEADER_FILES) > xgen-getc \
 	&& cp xgen-getc $(top_srcdir)/libgthumb/gthumb-enum-types.c  \
+	&& (cmp -s xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.c || cp xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.c ) \
         && rm -f xgen-getc
 
 CLEANFILES = $(MARSHALLERS) $(ENUMS)
