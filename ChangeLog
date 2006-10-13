@@ -1,5 +1,6 @@
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-exif-utils.[ch]: removed
 	* src/jpegutils/*: removed
 	
 	* libgthumb/Makefile.am: fixed build of generated files.
