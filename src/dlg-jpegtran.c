@@ -237,8 +237,6 @@ apply_transformation (DialogData *data,
 	char             *dir;
 	GnomeVFSFileInfo  info;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
-	gint		  width = 0;
-	gint		  height = 0;
 	
 	/* Check directory permissions. */
 
@@ -257,41 +255,43 @@ apply_transformation (DialogData *data,
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
         if (image_is_jpeg (path)) {
-
-                if (!get_exif_tag_short(path,EXIF_TAG_ORIENTATION)) {
-                        /* If no exif orientation tag is present, simply
-                           transform the data using the "lossless" jpeg
-                           mathematical transform (only really lossless if
-                           dimensions are multiples of 8 */
-                        apply_transformation_jpeg (window, path, data->transform);
+		int	  width;
+		int	  height;
+		ExifShort orientation;
+			
+		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
+		
+		orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);;
+                if (orientation != 0) {
+			if (! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
+				/* Just change the exif orientation tag, and save the file */				
+	                        update_orientation_field (path, data->transform);
+			}
+			else if ((height % 8 == 0) && (width % 8 == 0)) {
+				/* Do a physical transform if requested and if the dimensions are
+				 * multiples of the jpeg mcu (8) */
+				data->transform = get_next_transformation (orientation, data->transform);
+				apply_transformation_jpeg (window, path, data->transform);
+			}
+			else {
+				/* Just change the exif orientation tag, and save the file */
+				_gtk_info_dialog_run (window, _("This image can not be physically transformed without image distortion, because its dimensions are not multiples of 8. Instead, gThumb will change the Exif orientation tag to accomplish the rotation without image distortion. To avoid this warning in the future, disable the \"Apply physical transform\" option in the rotation dialog."));
+                                update_orientation_field (path, data->transform);
+			}
                 }
                 else {
-                        /* Calculate a new orientation tag, based on the
-                           input tag and the requested rotation. This saves
-			   the jpeg, so no further action is required if
-			   "adjust photo orientation" is not selected. */
-                        update_orientation_field (path, data->transform);
-
-                        /* if "adjust photo orientation" is selected mathematically transform
-			   the data so that the viewed image remains the same, but the 
-			   orientation tag can be set to "top left" */
-
-                        if (eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
-
-				gdk_pixbuf_get_file_info(get_file_path_from_uri (path),&width,&height);
-				
-				if (!(height%8) && !(width%8)) {
-					/* Don't do this if the dimensions are not multiples
-					   of the jpeg minimum coding unit (iMCU = 8) */
-	             			data->transform = read_orientation_field (path);
-					apply_transformation_jpeg (window, path, data->transform);
-				}
-                        }
-                }
-
+                	/* If no exif orientation tag is present, do a physical transform. */
+                	
+			/* Warn about MCU issues, if the image dimensions are not multiples of 8 */
+			if ((height % 8) || (width % 8)) 
+				_gtk_info_dialog_run (window, _("This image will be distorted slightly along one edge, because its dimensions are not multiples of 8 and no Exif orientation tag is present. It is not possible to \"losslessly\" rotate such images. The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image."));
+		
+			apply_transformation_jpeg (window, path, data->transform);
+		}
         }
 	else 
 		apply_transformation_generic (window, path, data->transform);
+		
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 
 	notify_file_changed (data, path, notify_soon);
