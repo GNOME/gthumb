@@ -1,5 +1,7 @@
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/jpegutils/*: removed
+	
 	* libgthumb/Makefile.am: fixed build of generated files.
 
 2006-10-12  Paolo Bacchilega  <paobac@cvs.gnome.org>
