@@ -1,5 +1,11 @@
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* po/LINGUAS:
+	* configure.in: 
+	
+	Fixed bug #361770 - Use po/LINGUAS
+	Patch by Wouter Bolsterlee (uws)  
+	
 	* src/dlg-jpegtran.c (apply_transformation): 
 	
 	Fixed bug #361913 - Need to improve rotation code efficiency.
