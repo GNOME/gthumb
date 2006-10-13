@@ -1,5 +1,7 @@
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/Makefile.am: use xgen-$(@F) as temp filename.
+
 	* src/gth-exif-utils.[ch]: removed
 	* src/jpegutils/*: removed
 	

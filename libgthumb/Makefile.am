@@ -154,9 +154,9 @@ gthumb-enum-types.h: $(HEADER_FILES) $(GLIB_MKENUMS)
 		--fprod "/* enumerations from \"@filename@\" */\n" \
 		--vhead "GType @enum_name@_get_type (void);\n#define GTH_TYPE_@ENUMSHORT@ (@enum_name@_get_type())\n" \
 		--ftail "G_END_DECLS\n\n#endif /* GTHUMB_ENUM_TYPES_H */" \
-		$(HEADER_FILES) > xgen-geth \
-	&& (cmp -s xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.h || cp xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.h ) \
-	&& rm -f xgen-geth
+		$(HEADER_FILES) > xgen-$(@F) \
+	&& (cmp -s xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.h || cp xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.h ) \
+	&& rm -f xgen-$(@F)
 
 gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) gthumb-enum-types.h
 	cd $(top_srcdir)/libgthumb \
@@ -166,10 +166,10 @@ gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) gthumb-enum-types.h
 		--vhead "GType\n@enum_name@_get_type (void)\n{\n  static GType etype = 0;\n  if (etype == 0) {\n    static const G@Type@Value values[] = {" \
 		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
-                $(HEADER_FILES) > xgen-getc \
-	&& cp xgen-getc $(top_srcdir)/libgthumb/gthumb-enum-types.c  \
-	&& (cmp -s xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.c || cp xgen-geth $(top_srcdir)/libgthumb/gthumb-enum-types.c ) \
-        && rm -f xgen-getc
+                $(HEADER_FILES) > xgen-$(@F) \
+	&& cp xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c  \
+	&& (cmp -s xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c || cp xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c ) \
+        && rm -f xgen-$(@F)
 
 CLEANFILES = $(MARSHALLERS) $(ENUMS)
 EXTRA_DIST = gthumb-marshal.list
