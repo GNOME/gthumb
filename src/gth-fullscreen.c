@@ -1466,7 +1466,8 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 {
 	GthFullscreenPrivateData *priv = fullscreen->priv;
 	GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fullscreen));
-
+	GthZoomChange zoom_change = pref_get_zoom_change ();
+	
 	gtk_window_set_default_size (GTK_WINDOW (fullscreen),
 				     gdk_screen_get_width (screen),
 				     gdk_screen_get_height (screen));
@@ -1493,7 +1494,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 	image_viewer_set_zoom_quality (IMAGE_VIEWER (priv->viewer),
 				       pref_get_zoom_quality ());
 	image_viewer_set_zoom_change  (IMAGE_VIEWER (priv->viewer),
-				       GTH_ZOOM_CHANGE_FIT_IF_LARGER);
+				       zoom_change);
 	image_viewer_set_check_type   (IMAGE_VIEWER (priv->viewer),
 				       pref_get_check_type ());
 	image_viewer_set_check_size   (IMAGE_VIEWER (priv->viewer),
@@ -1502,7 +1503,12 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 				       pref_get_transp_type ());
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer), TRUE);
 	image_viewer_hide_frame (IMAGE_VIEWER (priv->viewer));
-	image_viewer_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
+	if(zoom_change == GTH_ZOOM_CHANGE_ACTUAL_SIZE)
+		image_viewer_set_zoom (IMAGE_VIEWER (priv->viewer), 1.0);
+	else if(zoom_change == GTH_ZOOM_CHANGE_FIT)
+		image_viewer_zoom_to_fit (IMAGE_VIEWER (priv->viewer));
+	else
+		image_viewer_zoom_to_fit_if_larger (IMAGE_VIEWER (priv->viewer));
 
 	g_signal_connect (G_OBJECT (priv->viewer),
 			  "key_press_event",

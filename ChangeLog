@@ -1,3 +1,18 @@
+2006-10-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/gthumb.schemas.in: 
+	* libgthumb/preferences.h: 
+	* libgthumb/print-callbacks.c (pci_print_comment): 	Added ability to print 
+	filenames. Fixed printing of multiline comments.
+	
+	Fixes bug #348969 – Add option to print path and filename when printing
+	
+	* src/gth-fullscreen.c (gth_fullscreen_construct): 
+	
+	Fixed bug #321840 – Zoom-to-fit state changes between images in fullscreen
+	mode.  
+	Patch by Michael Chudobiak  
+
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* po/LINGUAS:

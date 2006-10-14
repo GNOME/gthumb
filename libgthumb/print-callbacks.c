@@ -280,6 +280,7 @@ typedef struct {
 	GnomePrintJob       *gpj;
 
 	gboolean             print_comments;
+	gboolean             print_filenames;
 	gboolean             portrait;
 
 	gboolean             use_colors;
@@ -347,6 +348,7 @@ typedef struct {
 	GtkWidget     *page_label;
 	GtkWidget     *comment_fontpicker;
 	GtkWidget     *print_comment_checkbutton;
+	GtkWidget     *print_filename_checkbutton;
 	GtkWidget     *comment_font_hbox;
 	GtkWidget     *scale_image_box;
 
@@ -400,13 +402,14 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 	const char  *p;
 	double       current_width = 0.0;
 	ArtPoint     space_advance;
-	int          space, new_line;
+	int          space, new_line1, new_line2;
 	
 	/* Find space advance */
 	space = gnome_font_lookup_default (pci->font_comment, ' ');
 	gnome_font_get_glyph_stdadvance (pci->font_comment, space, &space_advance);
 
-	new_line = gnome_font_lookup_default (pci->font_comment, '\n');
+	new_line1 = gnome_font_lookup_default (pci->font_comment, '\n');
+	new_line2 = gnome_font_lookup_default (pci->font_comment, PARAGRAPH_SEPARATOR);
 
 	for (p = start; p < end; p = g_utf8_next_char (p)) {
 		gunichar ch;
@@ -415,7 +418,7 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 		ch = g_utf8_get_char (p);
 		glyph = gnome_font_lookup_default (pci->font_comment, ch);
 
-		if (glyph == new_line) {
+		if (glyph == new_line1 || glyph == new_line2) {
 			if (line_width != NULL)
 				*line_width = max_width;
 			return p;
@@ -489,6 +492,8 @@ pci_print_paragraph (GnomePrintContext *pc,
 	for (p = start; p < end; ) {
 		s = p;
 		p = pci_get_next_line_to_print_delimiter (pci, max_width, s, end, NULL);
+		if (p == s)
+			return y;
 		pci_print_line (pc, pci, s, p, x, y);
 		y -= 1.2 * gnome_font_get_size (pci->font_comment);
 	}
@@ -521,9 +526,7 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 	for (p = start; p < text_end;) {
 		gunichar wc = g_utf8_get_char (p);
 
-		if ((wc == '\n' ||
-           	     wc == '\r' ||
-                     wc == PARAGRAPH_SEPARATOR)) 
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
 			*height += 1.2 * gnome_font_get_size (pci->font_comment);
 		else {
 			const char *p1, *s1;
@@ -533,12 +536,20 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 
 				s1 = p1;
 				p1 = pci_get_next_line_to_print_delimiter (pci, max_width, s1, end, &line_width);
+				if (p1 == s1) {
+					*width = 0.0;
+					*height = 0.0;
+					return;
+				}
 				*width = MAX (*width, line_width);
 				*height += 1.2 * gnome_font_get_size (pci->font_comment);
 			}
 		}
 
 		p = p + next_paragraph_start;
+
+		if (next_paragraph_start == 0)
+			break;
 		
 		if (p < text_end) {
 			pango_find_paragraph_boundary (p, -1, &paragraph_delimiter_index, &next_paragraph_start);
@@ -548,11 +559,39 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 }
 
 
-static double
+static char *
+construct_comment (PrintCatalogInfo *pci, 
+		   ImageInfo        *image)
+{
+	GString *s;
+	char    *comment = NULL;
+	
+	s = g_string_new ("");
+	if (pci->print_comments  && (image->comment != NULL))
+		g_string_append (s, image->comment);
+	if (pci->print_filenames) {
+		if (s->len > 0)
+			g_string_append (s, "\n");
+		g_string_append (s, image->filename);
+	}
+	
+	if (s->len > 0) {
+		comment = s->str;
+		g_string_free (s, FALSE);
+	}
+	else
+		g_string_free (s, TRUE);
+	
+	return comment;	
+}
+
+
+static void
 pci_print_comment (GnomePrintContext *pc,
 		   PrintCatalogInfo  *pci,
 		   ImageInfo         *image)
 {
+	char       *comment;
 	const char *p;
 	const char *end;
 	double      fontheight;
@@ -561,17 +600,15 @@ pci_print_comment (GnomePrintContext *pc,
 	int         paragraph_delimiter_index;
 	int         next_paragraph_start;
 	char       *text_end;
-
-	if (image->comment == NULL)
-		return 0.0;
-
-	if (!image->print_comment)
-		return 0.0;
+	
+	comment = construct_comment (pci, image);
+	if (comment == NULL)
+ 		return;
 
 	gnome_print_setfont (pc, pci->font_comment);
 
-	p = image->comment;
-	text_end = image->comment + strlen (image->comment);
+	p = comment;
+	text_end = comment + strlen (comment);
 
 	pci_get_text_extents (pci, pci->max_image_width, p, text_end, &width, &height);
 
@@ -579,50 +616,21 @@ pci_print_comment (GnomePrintContext *pc,
 	x = image->min_x + MAX (0, (printable_width - width) / 2);
 	y = pci->paper_height - image->max_y + height;
 
-	pango_find_paragraph_boundary (image->comment, -1, 
+	pango_find_paragraph_boundary (comment, -1, 
 				       &paragraph_delimiter_index, 
 				       &next_paragraph_start);
 
-	end = image->comment + paragraph_delimiter_index;
+	end = comment + paragraph_delimiter_index;
 
 	fontheight = (gnome_font_get_ascender (pci->font_comment) + 
 		      gnome_font_get_descender (pci->font_comment));
 
 	while (p < text_end) {
 		gunichar wc = g_utf8_get_char (p);
-
-		if ((wc == '\n' ||
-           	     wc == '\r' ||
-                     wc == PARAGRAPH_SEPARATOR)) {
-	
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
 			y -= 1.2 * gnome_font_get_size (pci->font_comment);
-			
-			if (y - image->max_y < fontheight) {
-				/* FIXME
-				gnome_print_showpage (pc);
-				gnome_print_beginpage (pc, NULL);
-
-				x = pi->paper_lmargin + MAX (0, (printable_width - width) / 2);
-				y = pi->paper_bmargin + height;
-				*/
-				/* text do not fit. */
-				return image->max_y + height;
-			}
-		} else {
+		else 
 			y = pci_print_paragraph (pc, pci, p, end, printable_width, x, y);
-			
-			if ((y - image->max_y) < fontheight) {
-				/* FIXME
-				gnome_print_showpage (pc);
-				gnome_print_beginpage (pc, NULL);
-
-				x = pi->paper_lmargin + MAX (0, (printable_width - width) / 2);
-				y = pi->paper_bmargin + height;
-				*/
-				/* text do not fit. */
-				return image->max_y + height;
-			}
-		}
 
 		p = p + next_paragraph_start;
 
@@ -631,8 +639,8 @@ pci_print_comment (GnomePrintContext *pc,
 			end = p + paragraph_delimiter_index;
 		}
 	}
-
-	return image->max_y + height;
+	
+	g_free (comment);
 }
 
 
@@ -1029,7 +1037,8 @@ add_catalog_preview (PrintCatalogDialogData *data,
 		ImageInfo *image = pci->image_info[i];
 		double     iw, ih;
 		double     factor, max_image_height;
-	
+		char      *comment;
+		
 		image_info_rotate (image, (360 - image->rotate) % 360);
 
 		if (((pci->max_image_width > pci->max_image_height) 
@@ -1065,17 +1074,17 @@ add_catalog_preview (PrintCatalogDialogData *data,
 		image->comment_height = 0.0;
 		image->print_comment = FALSE;
 
-		if (pci->print_comments && (image->comment != NULL)) {
+		comment = construct_comment (pci, image);
+		if (comment != NULL) {
 			const char *p;
 			const char *text_end;
 			double      comment_width;
 			
-			p = image->comment;
-			text_end = image->comment + strlen (image->comment);
+			p = comment;
+			text_end = comment + strlen (comment);
 			pci_get_text_extents (pci, pci->max_image_width, p, text_end, &comment_width, &(image->comment_height));
 
 			image->print_comment = image->comment_height < (pci->max_image_width * 0.66);
-
 			if (image->print_comment) {
 				static char gray50_bits[] = {
 					0x0,
@@ -1101,6 +1110,8 @@ add_catalog_preview (PrintCatalogDialogData *data,
 				g_object_unref (stipple);
 			}
 		}
+
+		g_free (comment);
 
 		max_image_height = pci->max_image_height;
 		if (image->print_comment)
@@ -1456,7 +1467,7 @@ print_catalog (GnomePrintContext *pc,
 		ImageInfo *image = pci->image_info[i];
 		GdkPixbuf *image_pixbuf, *pixbuf = NULL;
 
-		if (pci->print_comments) {
+		if (pci->print_comments || pci->print_filenames) {
 			gnome_print_gsave (pc);
 			pci_print_comment (pc, pci, image);
 			gnome_print_grestore (pc);
@@ -1620,6 +1631,7 @@ print_catalog_cb (GtkWidget              *widget,
 	eel_gconf_set_integer (PREF_PRINT_IMAGES_PER_PAGE, pci->images_per_page);
 	eel_gconf_set_string (PREF_PRINT_COMMENT_FONT, gnome_print_font_picker_get_font_name (GNOME_PRINT_FONT_PICKER (data->comment_fontpicker)));
 	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_COMMENT, !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton)));
+	eel_gconf_set_boolean (PREF_PRINT_INCLUDE_FILENAME, !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton)));
 
 	length = catalog_get_page_width (data);
 	eel_gconf_set_float (PREF_PRINT_PAPER_WIDTH, length);
@@ -1875,7 +1887,17 @@ pci_print_comments_cb (GtkWidget              *widget,
 		       PrintCatalogDialogData *data)
 {
 	data->pci->print_comments = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-	gtk_widget_set_sensitive (data->comment_font_hbox, data->pci->print_comments);
+	gtk_widget_set_sensitive (data->comment_font_hbox, data->pci->print_comments || data->pci->print_filenames);
+	catalog_update_page (data);
+}
+
+
+static void
+pci_print_filenames_cb (GtkWidget              *widget,
+		        PrintCatalogDialogData *data)
+{
+	data->pci->print_filenames = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+	gtk_widget_set_sensitive (data->comment_font_hbox, data->pci->print_comments || data->pci->print_filenames);
 	catalog_update_page (data);
 }
 
@@ -1958,6 +1980,7 @@ print_catalog_dlg_full (GtkWindow *parent,
 	data->page_label = glade_xml_get_widget (data->gui, "page_label");
 	comment_fontpicker_hbox = glade_xml_get_widget (data->gui, "comment_fontpicker_hbox");
 	data->print_comment_checkbutton = glade_xml_get_widget (data->gui, "print_comment_checkbutton");
+	data->print_filename_checkbutton = glade_xml_get_widget (data->gui, "print_filename_checkbutton");
 	data->comment_font_hbox = glade_xml_get_widget (data->gui, "comment_font_hbox");
 	data->scale_image_box = glade_xml_get_widget (data->gui, "scale_image_box");
 	data->btn_close = glade_xml_get_widget (data->gui, "btn_close");
@@ -2046,7 +2069,11 @@ print_catalog_dlg_full (GtkWindow *parent,
 
 	pci->print_comments = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_COMMENT, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_comment_checkbutton), pci->print_comments);
-	gtk_widget_set_sensitive (data->comment_font_hbox, pci->print_comments);
+	
+	pci->print_filenames = eel_gconf_get_boolean (PREF_PRINT_INCLUDE_FILENAME, FALSE);
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->print_filename_checkbutton), pci->print_filenames);
+
+	gtk_widget_set_sensitive (data->comment_font_hbox, pci->print_comments || pci->print_filenames);
 
 	pci_update_comment_font (data);
 
@@ -2134,7 +2161,11 @@ print_catalog_dlg_full (GtkWindow *parent,
 			  "toggled",
 			  G_CALLBACK (pci_print_comments_cb),
 			  data);
-
+	g_signal_connect (G_OBJECT (data->print_filename_checkbutton),
+			  "toggled",
+			  G_CALLBACK (pci_print_filenames_cb),
+			  data);
+			  
 	g_signal_connect (G_OBJECT (center_button),
 			  "clicked",
 			  G_CALLBACK (catalog_center_cb),
