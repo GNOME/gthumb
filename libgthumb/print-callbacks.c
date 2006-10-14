@@ -400,13 +400,14 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 	const char  *p;
 	double       current_width = 0.0;
 	ArtPoint     space_advance;
-	int          space, new_line;
+	int          space, new_line1, new_line2;
 	
 	/* Find space advance */
 	space = gnome_font_lookup_default (pci->font_comment, ' ');
 	gnome_font_get_glyph_stdadvance (pci->font_comment, space, &space_advance);
 
-	new_line = gnome_font_lookup_default (pci->font_comment, '\n');
+	new_line1 = gnome_font_lookup_default (pci->font_comment, '\n');
+	new_line2 = gnome_font_lookup_default (pci->font_comment, PARAGRAPH_SEPARATOR);
 
 	for (p = start; p < end; p = g_utf8_next_char (p)) {
 		gunichar ch;
@@ -415,7 +416,7 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 		ch = g_utf8_get_char (p);
 		glyph = gnome_font_lookup_default (pci->font_comment, ch);
 
-		if (glyph == new_line) {
+		if (glyph == new_line1 || glyph == new_line2) {
 			if (line_width != NULL)
 				*line_width = max_width;
 			return p;
@@ -489,6 +490,8 @@ pci_print_paragraph (GnomePrintContext *pc,
 	for (p = start; p < end; ) {
 		s = p;
 		p = pci_get_next_line_to_print_delimiter (pci, max_width, s, end, NULL);
+		if (p == s)
+			return y;
 		pci_print_line (pc, pci, s, p, x, y);
 		y -= 1.2 * gnome_font_get_size (pci->font_comment);
 	}
@@ -521,9 +524,7 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 	for (p = start; p < text_end;) {
 		gunichar wc = g_utf8_get_char (p);
 
-		if ((wc == '\n' ||
-           	     wc == '\r' ||
-                     wc == PARAGRAPH_SEPARATOR)) 
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
 			*height += 1.2 * gnome_font_get_size (pci->font_comment);
 		else {
 			const char *p1, *s1;
@@ -533,12 +534,20 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 
 				s1 = p1;
 				p1 = pci_get_next_line_to_print_delimiter (pci, max_width, s1, end, &line_width);
+				if (p1 == s1) {
+					*width = 0.0;
+					*height = 0.0;
+					return;
+				}
 				*width = MAX (*width, line_width);
 				*height += 1.2 * gnome_font_get_size (pci->font_comment);
 			}
 		}
 
 		p = p + next_paragraph_start;
+
+		if (next_paragraph_start == 0)
+			break;
 		
 		if (p < text_end) {
 			pango_find_paragraph_boundary (p, -1, &paragraph_delimiter_index, &next_paragraph_start);
@@ -548,7 +557,7 @@ pci_get_text_extents (PrintCatalogInfo *pci,
 }
 
 
-static double
+static void
 pci_print_comment (GnomePrintContext *pc,
 		   PrintCatalogInfo  *pci,
 		   ImageInfo         *image)
@@ -563,10 +572,10 @@ pci_print_comment (GnomePrintContext *pc,
 	char       *text_end;
 
 	if (image->comment == NULL)
-		return 0.0;
+		return;
 
 	if (!image->print_comment)
-		return 0.0;
+		return;
 
 	gnome_print_setfont (pc, pci->font_comment);
 
@@ -590,39 +599,10 @@ pci_print_comment (GnomePrintContext *pc,
 
 	while (p < text_end) {
 		gunichar wc = g_utf8_get_char (p);
-
-		if ((wc == '\n' ||
-           	     wc == '\r' ||
-                     wc == PARAGRAPH_SEPARATOR)) {
-	
+		if (wc == '\n' || wc == PARAGRAPH_SEPARATOR) 
 			y -= 1.2 * gnome_font_get_size (pci->font_comment);
-			
-			if (y - image->max_y < fontheight) {
-				/* FIXME
-				gnome_print_showpage (pc);
-				gnome_print_beginpage (pc, NULL);
-
-				x = pi->paper_lmargin + MAX (0, (printable_width - width) / 2);
-				y = pi->paper_bmargin + height;
-				*/
-				/* text do not fit. */
-				return image->max_y + height;
-			}
-		} else {
+		else 
 			y = pci_print_paragraph (pc, pci, p, end, printable_width, x, y);
-			
-			if ((y - image->max_y) < fontheight) {
-				/* FIXME
-				gnome_print_showpage (pc);
-				gnome_print_beginpage (pc, NULL);
-
-				x = pi->paper_lmargin + MAX (0, (printable_width - width) / 2);
-				y = pi->paper_bmargin + height;
-				*/
-				/* text do not fit. */
-				return image->max_y + height;
-			}
-		}
 
 		p = p + next_paragraph_start;
 
@@ -631,8 +611,6 @@ pci_print_comment (GnomePrintContext *pc,
 			end = p + paragraph_delimiter_index;
 		}
 	}
-
-	return image->max_y + height;
 }
 
 
@@ -1253,8 +1231,6 @@ catalog_update_custom_page_size (PrintCatalogDialogData *data)
 	height = gtk_spin_button_get_value (GTK_SPIN_BUTTON (data->height_spinbutton));
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_HEIGHT, height, unit);
 
 	catalog_update_page (data);
 }
@@ -1386,8 +1362,6 @@ catalog_set_standard_page_size (PrintCatalogDialogData *data,
 
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_WIDTH, width, unit);
 	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_PAPER_HEIGHT, height, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_WIDTH, width, unit);
-	gnome_print_config_set_length (data->pci->config, UCHAR GNOME_PRINT_KEY_LAYOUT_HEIGHT, height, unit);
 
 	catalog_update_page_size_from_config (data);
 	catalog_update_page (data);

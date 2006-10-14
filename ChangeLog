@@ -1,3 +1,9 @@
+2006-10-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/print-callbacks.c: 
+
+	fixed printing of multiline comments.
+
 2006-10-13  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/rotation-utils.c (reset_orientation_field)
