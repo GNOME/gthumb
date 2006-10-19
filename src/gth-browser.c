@@ -3065,8 +3065,13 @@ key_press_cb (GtkWidget   *widget,
 		}
 	}
 
-	if ((event->state & GDK_CONTROL_MASK) || (event->state & GDK_MOD1_MASK))
-		return FALSE;
+	if (((event->state & GDK_CONTROL_MASK)
+
+		/* Let pass the ctrl+keypad_add and ctrl+keypad_subtract. */
+		&& (event->keyval != GDK_KP_Add) && (event->keyval != GDK_KP_Subtract)
+
+		) || (event->state & GDK_MOD1_MASK))
+			return FALSE;
 
 	sel_not_null = gth_file_view_selection_not_null (priv->file_list->view);
 	image_is_void = image_viewer_is_void (IMAGE_VIEWER (priv->viewer));

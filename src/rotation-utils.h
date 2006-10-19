@@ -29,9 +29,6 @@
 
 #include "gth-exif-utils.h"
 
-void		apply_transformation_exif      (GtkWindow    *win,
-						const char   *filename,
-						GthTransform  transform);
 void		apply_transformation_jpeg      (GtkWindow    *win,
 						const char   *filename,
 						GthTransform  transform);
@@ -45,8 +42,7 @@ GthTransform	get_rotation_part	       (GthTransform  transform);
 GthTransform	get_mirror_part	               (GthTransform  transform);
 
 GthTransform	read_orientation_field	       (const char   *path);
-void		reset_orientation_field	       (const char   *path);
-void		update_orientation_field       (const char   *filename, 
+void		write_orientation_field        (const char   *filename, 
 						GthTransform  transform);
 							
 gboolean	swap_fields                    (ExifContent  *content,

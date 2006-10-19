@@ -121,7 +121,7 @@ apply_transformation (DialogData *data,
 	g_free (dir);
 
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
-	reset_orientation_field (path);
+	write_orientation_field (path, GTH_TRANSFORM_NONE);
 
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 

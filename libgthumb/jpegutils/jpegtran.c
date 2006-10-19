@@ -99,6 +99,7 @@ int
 jpegtran (char         *input_filename,
 	  char         *output_filename,
 	  JXFORM_CODE   transformation,
+	  gboolean	trim,
 	  GError      **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
@@ -111,7 +112,7 @@ jpegtran (char         *input_filename,
 	FILE                          *output_file;
 
 	transformoption.transform = transformation;
-	transformoption.trim = FALSE;
+	transformoption.trim = trim;
 	transformoption.force_grayscale = FALSE;
 	
 	/* Initialize the JPEG decompression object with default error 

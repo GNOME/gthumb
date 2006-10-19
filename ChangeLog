@@ -1,3 +1,24 @@
+2006-10-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser.c (key_press_cb): Fixes zoom keybinding (bug #345339).
+
+	* src/rotation-utils.c (write_orientation_field): 
+	* src/rotation-utils.h: 
+	* src/dlg-reset-exif.c (apply_transformation): 
+	* src/dlg-jpegtran.c (apply_transformation): Fixes tag updating when 
+	multiple IFDs have orientation tag.
+	
+	* libgthumb/jpegutils/jpegtran.h: 
+	* libgthumb/jpegutils/jpegtran.c (jpegtran): Adds support for the trim mode.
+	
+	* libgthumb/typedefs.h: Adds comments to the GthTransform typedef, to 
+	explain its purpose.
+
+	* README: Updates the README file to reflect new intltool minimum 
+	requirement.
+	
+	Patch by Jef Driesen, Michael Chudobiak.
+
 2006-10-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/gthumb.schemas.in: 

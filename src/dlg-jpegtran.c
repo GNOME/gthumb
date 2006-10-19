@@ -261,22 +261,22 @@ apply_transformation (DialogData *data,
 			
 		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
 		
-		orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);;
+		orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
                 if (orientation != 0) {
+			data->transform = get_next_transformation (orientation, data->transform);
 			if (! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
-				/* Just change the exif orientation tag, and save the file */				
-	                        update_orientation_field (path, data->transform);
+				/* Just change the exif orientation tag, and save the file */
+				write_orientation_field (path, data->transform);
 			}
 			else if ((height % 8 == 0) && (width % 8 == 0)) {
 				/* Do a physical transform if requested and if the dimensions are
 				 * multiples of the jpeg mcu (8) */
-				data->transform = get_next_transformation (orientation, data->transform);
 				apply_transformation_jpeg (window, path, data->transform);
 			}
 			else {
 				/* Just change the exif orientation tag, and save the file */
 				_gtk_info_dialog_run (window, _("This image can not be physically transformed without image distortion, because its dimensions are not multiples of 8. Instead, gThumb will change the Exif orientation tag to accomplish the rotation without image distortion. To avoid this warning in the future, disable the \"Apply physical transform\" option in the rotation dialog."));
-                                update_orientation_field (path, data->transform);
+				write_orientation_field (path, data->transform);
 			}
                 }
                 else {

@@ -32,6 +32,7 @@
 int  jpegtran (char         *input_filename,
 	       char         *output_filename,
 	       JXFORM_CODE   transformation,
+	       gboolean	     trim,
 	       GError      **error);
 
 #endif /* JPEGTRAN_H */

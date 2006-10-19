@@ -50,8 +50,10 @@ read_orientation_field (const char *path)
 		return GTH_TRANSFORM_NONE;
 }
 
+
 void
-reset_orientation_field (const char *path)
+write_orientation_field (const char   *path,
+			 GthTransform  transform)
 {
 	JPEGData     *jdata;
 	ExifData     *edata;
@@ -82,7 +84,7 @@ reset_orientation_field (const char *path)
 		if (entry != NULL) {
 			ExifByteOrder byte_order;
 			byte_order = exif_data_get_byte_order (edata);
-			exif_set_short (entry->data, byte_order, GTH_TRANSFORM_NONE);
+			exif_set_short (entry->data, byte_order, transform);
 		}
 	}
 
@@ -144,7 +146,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran ((char*)path, tmp, transf, &err) != 0) {
+	if (jpegtran ((char*)path, tmp, transf, FALSE, &err) != 0) {
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
@@ -165,7 +167,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		if ((rot_type == GTH_TRANSFORM_ROTATE_90) || 
 				(rot_type == GTH_TRANSFORM_ROTATE_270))
 			swap_xy_exif_fields (path);
-		reset_orientation_field (path);
+		write_orientation_field (path, GTH_TRANSFORM_NONE);
 	}
 
 	g_free (e1);
@@ -311,56 +313,6 @@ get_mirror_or_flip_part(GthTransform transform)
 		return lookup[transform - 1];
 	else
 		return GTH_TRANSFORM_NONE;
-}
-
-
-void
-update_orientation_field (const char   *path,
-			  GthTransform transform)
-{
-	JPEGData     *jdata;
-	ExifData     *edata;
-	unsigned int  i;
-
-	path = get_file_path_from_uri (path);
-	if (path == NULL)
-		return;
-
-	jdata = jpeg_data_new_from_file (path);
-	if (jdata == NULL)
-		return;
-
-	edata = jpeg_data_get_exif_data (jdata);
-	if (edata == NULL) {
-		jpeg_data_unref (jdata);
-		return;
-	}
-	
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-		ExifEntry   *entry;
-
-		if ((content == NULL) || (content->count == 0)) 
-			continue;
-
-		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
-		if (entry != NULL) {
-			ExifByteOrder byte_order;
-			ExifShort     value;
-
-			byte_order = exif_data_get_byte_order (edata);
-			value = exif_get_short (entry->data, byte_order);
-			
-			value = get_next_transformation(value, transform);
-
-			exif_set_short (entry->data, byte_order, value);
-		}
-	}
-
-	jpeg_data_save_file (jdata, path);
-
-	exif_data_unref (edata);
-	jpeg_data_unref (jdata);
 }
 
 

@@ -96,6 +96,7 @@ Compiling
 	* libgnomeprintui 	version >= 2.6.0
 	* libbonobo 		version >= 2.6.0 
 	* libbonoboui 		version >= 2.6.0
+	* intltool		version >= 0.35.0
 	* libexif               version >= 0.6.9
 	* libjpeg
 

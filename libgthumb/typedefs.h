@@ -213,6 +213,14 @@ typedef enum { /*< skip >*/
 	GTH_TRANSFORM_TRANSVERSE,	/* transpose across UR-to-LL axis (= rotate_90 + flip_v) */
 	GTH_TRANSFORM_ROTATE_270	/* 270-degree clockwise */
 } GthTransform;
+/* The GthTransform numeric values range from 1 to 8, corresponding to
+the valid range of Exif orientation tags. The name associated with each
+numeric valid describes the data transformation required that will allow 
+the orientation value to be reset to "1" without changing the displayed image.
+GthTransform and ExifShort values are interchangeably in a number of places. 
+The main difference is that ExifShort can have a value of zero, corresponding
+to an error or an absence of an Exif orientation tag. See bug 361913 for 
+additional details. */
 
 
 typedef enum { /*< skip >*/
