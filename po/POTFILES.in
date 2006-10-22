@@ -183,8 +183,6 @@ src/gth-browser.h
 src/gth-browser-ui.h
 src/gth-exif-data-viewer.c
 src/gth-exif-data-viewer.h
-src/gth-exif-utils.c
-src/gth-exif-utils.h
 src/gth-folder-selection-dialog.c
 src/gth-folder-selection-dialog.h
 src/gth-fullscreen-actions-callbacks.c
