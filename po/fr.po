@@ -7,14 +7,15 @@
 # Christian Marillat <marillat.christian@wanadoo.fr>, 2003.
 # Fabien Gatell-Rica <f.gatell@gmail.com>, 2005.
 # Jonathan Ernst <jonathan@ernstfamily.ch>, 2006.
+# Christophe Bliard <christophe.bliard@trux.info>, 2006.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gthumb 2.7.7\n"
+"Project-Id-Version: gthumb 2.7.9\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-07-24 14:12+0200\n"
-"PO-Revision-Date: 2006-07-24 13:02+0200\n"
-"Last-Translator: Jonathan Ernst <jonathan@ernstfamily.ch>\n"
+"POT-Creation-Date: 2006-10-22 12:21+0200\n"
+"PO-Revision-Date: 2006-10-22 12:21+0200\n"
+"Last-Translator: Christophe Bliard <christophe.bliard@trux.info>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -182,7 +183,7 @@ msgstr "%d %b %Y, %H:%M"
 #: ../components/image-viewer/viewer-stream.c:99
 #: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
 #: ../src/gth-browser.c:497 ../src/gth-exif-data-viewer.c:481
-#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:583
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:583
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d x %d pixels"
@@ -364,7 +365,7 @@ msgstr "Valeur"
 msgid "_Application:"
 msgstr "_Application :"
 
-#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:454
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:458
 msgid "_Bookmarks:"
 msgstr "_Signets :"
 
@@ -1512,8 +1513,8 @@ msgid "Postcard"
 msgstr "Carte postale"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1678
-#: ../libgthumb/print-callbacks.c:1692 ../libgthumb/print-callbacks.c:2153
+#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1652
+#: ../libgthumb/print-callbacks.c:1666 ../libgthumb/print-callbacks.c:2127
 msgid "Print"
 msgstr "Imprimer"
 
@@ -1527,7 +1528,7 @@ msgstr "_Bas :"
 
 #: ../data/glade/gthumb_print.glade.h:34
 msgid "_Left:"
-msgstr "_Gauche"
+msgstr "_Gauche :"
 
 #: ../data/glade/gthumb_print.glade.h:35
 msgid "_Right:"
@@ -2092,7 +2093,7 @@ msgstr "%d %B %Y"
 #: ../libgthumb/comments.c:1262 ../src/catalog-web-exporter.c:52
 #: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
 #: ../src/gth-browser.c:493 ../src/gth-exif-data-viewer.c:485
-#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:579
+#: ../src/gth-fullscreen.c:856 ../src/gth-viewer.c:579
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y, %H:%M"
 
@@ -2240,7 +2241,7 @@ msgstr "Afficher la taille dans le mode d'info des polices"
 msgid "Font"
 msgstr "Police"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8600
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8596
 #: ../src/gth-viewer.c:2230
 msgid "Wait please..."
 msgstr "Veuillez patienter..."
@@ -2260,12 +2261,12 @@ msgstr "Nom"
 msgid "Ro_tate Images"
 msgstr "_Pivoter les images"
 
-#: ../libgthumb/print-callbacks.c:668
+#: ../libgthumb/print-callbacks.c:646
 #, c-format
 msgid "Page %d of %d"
 msgstr "Page %d sur %d"
 
-#: ../libgthumb/print-callbacks.c:1751 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1725 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Chargement de l'image : %s"
@@ -2410,7 +2411,7 @@ msgstr "Emplacement"
 #: ../src/dlg-duplicates.c:759
 msgid "Checked images will be moved to the Trash, are you sure?"
 msgstr ""
-"Les images sélectionnées seront déplacées dans la corbeille, êtes-vous sûr ?"
+"Les images sélectionnées seront mises dans la corbeille, êtes-vous sûr ?"
 
 #: ../src/dlg-file-utils.c:89
 msgid "The destination folder does not exist. Do you want to create it?"
@@ -2430,7 +2431,7 @@ msgid ""
 "The images cannot be moved to the Trash. Do you want to delete them "
 "permanently?"
 msgstr ""
-"Les images ne peuvent être déplacées dans la corbeille. Voulez-vous les "
+"Les images ne peuvent être mises dans la corbeille. Voulez-vous les "
 "supprimer définitivement ?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
@@ -2598,7 +2599,7 @@ msgstr "Résultat de la recherche :"
 msgid "Filename"
 msgstr "Nom du fichier"
 
-#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:392
+#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:396
 msgid "Folder"
 msgstr "Dossier"
 
@@ -2641,9 +2642,9 @@ msgstr "Impossible de renommer l'image « %s » : %s"
 msgid "source and destination are the same"
 msgstr "La source et la destination sont les mêmes"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1077
 msgid "The image will be moved to the Trash, are you sure?"
-msgstr "Les images seront déplacées dans la corbeille, êtes vous sûr ?"
+msgstr "L'image sera mise dans la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:400
 #, c-format
@@ -2661,7 +2662,7 @@ msgstr "Continuer"
 #: ../src/gth-browser-actions-callbacks.c:464
 msgid "The selected images will be moved to the Trash, are you sure?"
 msgstr ""
-"Les images sélectionnées seront déplacées dans la corbeille, êtes vous sûr ?"
+"Les images sélectionnées seront mises dans la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:641
 #: ../src/gth-browser-actions-callbacks.c:853
@@ -2683,11 +2684,11 @@ msgstr "Impossible de renommer le catalogue « %s » : %s"
 
 #: ../src/gth-browser-actions-callbacks.c:722
 msgid "The selected library will be removed, are you sure?"
-msgstr "La bibliothèque sélectionnée sera supprimée, êtes vous sûr ?"
+msgstr "La bibliothèque sélectionnée sera supprimée, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:724
 msgid "The selected catalog will be removed, are you sure?"
-msgstr "Le catalogue sélectionné sera supprimé, êtes vous sûr ?"
+msgstr "Le catalogue sélectionné sera supprimé, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:819
 msgid "New Catalog"
@@ -2723,12 +2724,12 @@ msgstr "Impossible de supprimer le dossier « %s » : %s"
 msgid ""
 "\"%s\" cannot be moved to the Trash. Do you want to delete it permanently?"
 msgstr ""
-"« %s » ne peut être déplacé dans la corbeille. Voulez-vous la supprimer "
+"« %s » ne peut être mise dans la corbeille. Voulez-vous la supprimer "
 "définitivement ?"
 
 #: ../src/gth-browser-actions-callbacks.c:1304
 msgid "The selected folder will be moved to the Trash, are you sure?"
-msgstr "Le dossier sélectionné sera déplacé dans la corbeille, êtes-vous sûr ?"
+msgstr "Le dossier sélectionné sera mis dans la corbeille, êtes-vous sûr ?"
 
 #: ../src/gth-browser-actions-callbacks.c:1352
 #: ../src/gth-browser-actions-callbacks.c:1407
@@ -2752,7 +2753,7 @@ msgstr "Nouveau dossier"
 msgid "Enter the folder name: "
 msgstr "Saisissez le nom du dossier : "
 
-#: ../src/gth-browser-actions-callbacks.c:1846
+#: ../src/gth-browser-actions-callbacks.c:1852
 msgid "Open Location"
 msgstr "Ouvrir l'emplacement"
 
@@ -2856,7 +2857,7 @@ msgstr "Renomme cette image"
 
 #: ../src/gth-browser-actions-entries.h:84
 msgid "Move this image to the Trash"
-msgstr "Déplacer cette image dans la corbeille"
+msgstr "Met cette image dans la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:88
 #: ../src/gth-browser-actions-entries.h:113
@@ -2896,7 +2897,7 @@ msgstr "Dupliquer les images sélectionnées"
 
 #: ../src/gth-browser-actions-entries.h:109
 msgid "Move the selected images to the Trash"
-msgstr "Déplacer les images sélectionnées vers la corbeille"
+msgstr "Met les images sélectionnées dans la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:114
 msgid "Copy selected images to another location"
@@ -3034,7 +3035,7 @@ msgstr "Renomme le dossier sélectionné"
 
 #: ../src/gth-browser-actions-entries.h:229
 msgid "Move the selected folder to the Trash"
-msgstr "Déplace le dossier sélectionné à la corbeille"
+msgstr "Met le dossier sélectionné dans la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:234
 msgid "Copy selected folder"
@@ -3064,7 +3065,7 @@ msgstr "Renomme le dossier en cours"
 
 #: ../src/gth-browser-actions-entries.h:259
 msgid "Move the current folder to the Trash"
-msgstr "Déplace le dossier en cours à la corbeille"
+msgstr "Met le dossier actuel dans la corbeille"
 
 #: ../src/gth-browser-actions-entries.h:264
 msgid "Copy current folder"
@@ -3390,11 +3391,11 @@ msgstr "Champ"
 msgid "Value "
 msgstr "Valeur "
 
-#: ../src/gth-folder-selection-dialog.c:414
+#: ../src/gth-folder-selection-dialog.c:418
 msgid "_Browse..."
 msgstr "_Parcourir..."
 
-#: ../src/gth-folder-selection-dialog.c:423
+#: ../src/gth-folder-selection-dialog.c:427
 msgid "_Recents:"
 msgstr "_Récents :"
 
@@ -3452,7 +3453,8 @@ msgstr ""
 "Stéphane Genaud <genaud@icps.u-strasbg.fr>\n"
 "Christian Marillat <marillat.christian@wanadoo.fr>\n"
 "Fabien Gatell <f.gatell@gmail.com>\n"
-"Jonathan Ernst <jonathan@ernstfamily.ch>"
+"Jonathan Ernst <jonathan@ernstfamily.ch>\n"
+"Christophe Bliard <christophe.bliard@trux.info>"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
