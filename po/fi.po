@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-01-07 14:25+0200\n"
-"PO-Revision-Date: 2006-01-07 14:30+0200\n"
+"POT-Creation-Date: 2006-10-26 18:33+0300\n"
+"PO-Revision-Date: 2006-10-26 18:36+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -145,7 +145,7 @@ msgid "_Mirror"
 msgstr "_Peilaa"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:826
+#: ../src/gth-viewer.c:819
 msgid "_None"
 msgstr "_Ei mitään"
 
@@ -159,7 +159,7 @@ msgstr "As_keltava animaatio"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:25
 #: ../data/glade/gthumb_search.glade.h:30
-#: ../data/glade/gthumb_tools.glade.h:67
+#: ../data/glade/gthumb_tools.glade.h:70
 #: ../src/gth-browser-actions-entries.h:41
 #: ../src/gth-viewer-actions-entries.h:37
 msgid "_View"
@@ -178,9 +178,9 @@ msgid "%d %b %Y, %H:%M"
 msgstr "%x, %H:%M"
 
 #: ../components/image-viewer/viewer-stream.c:99
-#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:425
-#: ../src/gth-browser.c:502 ../src/gth-exif-data-viewer.c:481
-#: ../src/gth-fullscreen.c:846 ../src/gth-viewer.c:587
+#: ../src/catalog-png-exporter.c:815 ../src/dlg-image-prop.c:421
+#: ../src/gth-browser.c:491 ../src/gth-exif-data-viewer.c:475
+#: ../src/gth-fullscreen.c:845 ../src/gth-viewer.c:575
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d kuvapistettä"
@@ -193,8 +193,9 @@ msgstr "'GThumb-sovellus"
 msgid "GThumb Application Factory"
 msgstr "GThumb-sovelluksen tehdas"
 
-#: ../data/albumthemes/text.h:27
-msgid "Prevous"
+#: ../data/albumthemes/text.h:27 ../src/gth-browser-actions-entries.h:288
+#: ../src/gth-fullscreen-actions-entries.h:47
+msgid "Previous"
 msgstr "Edellinen"
 
 #: ../data/albumthemes/text.h:28 ../src/gth-browser-actions-entries.h:283
@@ -214,8 +215,8 @@ msgstr "Kuva"
 msgid "Dimensions"
 msgstr "Ulottuvuudet"
 
-#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:617
-#: ../src/gth-exif-data-viewer.c:510
+#: ../data/albumthemes/text.h:32 ../src/dlg-image-prop.c:609
+#: ../src/gth-exif-data-viewer.c:504
 msgid "Bytes"
 msgstr "Tavua"
 
@@ -252,7 +253,7 @@ msgid "Camera model"
 msgstr "Kameran malli"
 
 #: ../data/albumthemes/text.h:41 ../data/glade/gthumb_edit.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:71
+#: ../data/glade/gthumb_tools.glade.h:74
 msgid "pixels"
 msgstr "kuvapistettä"
 
@@ -361,7 +362,7 @@ msgstr "Arvo"
 msgid "_Application:"
 msgstr "_Ohjelma:"
 
-#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:453
+#: ../data/glade/gthumb.glade.h:26 ../src/gth-folder-selection-dialog.c:458
 msgid "_Bookmarks:"
 msgstr "_Kirjanmerkit:"
 
@@ -423,55 +424,70 @@ msgid "Delete selected images from the camera"
 msgstr "Poista valitut kuvat kameralta"
 
 #: ../data/glade/gthumb_camera.glade.h:6
+msgid ""
+"If this checkbox is enabled and the imported photo contains an Exif "
+"orientation tag, the image data will be physically transformed (losslessly) "
+"so that the viewed image looks the same as before but the orientation tag is "
+"reset to \"top left\". If this checkbox is not enabled, the image data and "
+"the orientation tag are both left unchanged. The image will be displayed "
+"identically by gthumb for both possibilities, but for maximum compatibility "
+"with other applications this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_camera.glade.h:7
 msgid "Import Photos"
 msgstr "Tuo valokuvat"
 
-#: ../data/glade/gthumb_camera.glade.h:7 ../src/dlg-photo-importer.c:854
-#: ../src/dlg-photo-importer.c:893 ../src/dlg-photo-importer.c:1460
+#: ../data/glade/gthumb_camera.glade.h:8 ../src/dlg-photo-importer.c:869
+#: ../src/dlg-photo-importer.c:908 ../src/dlg-photo-importer.c:1475
 msgid "No camera detected"
 msgstr "Kameraa ei löydy"
 
-#: ../data/glade/gthumb_camera.glade.h:8
+#: ../data/glade/gthumb_camera.glade.h:9
+msgid "Rotate images physically"
+msgstr "Kierrä kuvaa fyysisesti"
+
+#: ../data/glade/gthumb_camera.glade.h:10
 msgid "Select a camera model"
 msgstr "Valitse kameran malli"
 
-#: ../data/glade/gthumb_camera.glade.h:9
+#: ../data/glade/gthumb_camera.glade.h:11
 msgid "Update previews"
 msgstr "Päivitä esikatselut"
 
-#: ../data/glade/gthumb_camera.glade.h:10
+#: ../data/glade/gthumb_camera.glade.h:12
 msgid "_Auto Detect"
 msgstr "Tunnista _automaattisesti"
 
-#: ../data/glade/gthumb_camera.glade.h:11
+#: ../data/glade/gthumb_camera.glade.h:13
 msgid "_Delete imported images from the camera"
 msgstr "_Poista tuodut kuvat kameralta"
 
-#: ../data/glade/gthumb_camera.glade.h:12
+#: ../data/glade/gthumb_camera.glade.h:14
 #: ../data/glade/gthumb_convert.glade.h:23
 #: ../data/glade/gthumb_png_exporter.glade.h:61
-#: ../data/glade/gthumb_tools.glade.h:53
+#: ../data/glade/gthumb_tools.glade.h:56
 #: ../data/glade/gthumb_web_exporter.glade.h:42
 msgid "_Destination:"
 msgstr "Ko_hdekansio:"
 
-#: ../data/glade/gthumb_camera.glade.h:13
+#: ../data/glade/gthumb_camera.glade.h:15
 msgid "_Film:"
 msgstr "_Filmi:"
 
-#: ../data/glade/gthumb_camera.glade.h:14
+#: ../data/glade/gthumb_camera.glade.h:16
 msgid "_Import"
 msgstr "_Tuo"
 
-#: ../data/glade/gthumb_camera.glade.h:15
+#: ../data/glade/gthumb_camera.glade.h:17
 msgid "_Keep original filenames"
 msgstr "_Säilytä alkuperäiset tiedostonimet"
 
-#: ../data/glade/gthumb_camera.glade.h:16
+#: ../data/glade/gthumb_camera.glade.h:18
 msgid "_Model:"
 msgstr "_Malli:"
 
-#: ../data/glade/gthumb_camera.glade.h:17
+#: ../data/glade/gthumb_camera.glade.h:19
 msgid "_Port:"
 msgstr "_Portti:"
 
@@ -491,7 +507,7 @@ msgid "Co_mment:"
 msgstr "Ko_mmentti:"
 
 #: ../data/glade/gthumb_comments.glade.h:4
-#: ../libgthumb/gth-file-view-list.c:1474
+#: ../libgthumb/gth-file-view-list.c:1475
 msgid "Comment"
 msgstr "Kommentti"
 
@@ -590,7 +606,7 @@ msgid "Opti_mize"
 msgstr "Opti_moi"
 
 #: ../data/glade/gthumb_convert.glade.h:12
-#: ../data/glade/gthumb_tools.glade.h:34
+#: ../data/glade/gthumb_tools.glade.h:35
 msgid "Overwrite mode:"
 msgstr "Korvaustila:"
 
@@ -599,7 +615,7 @@ msgid "PNG Options"
 msgstr "PNG-asetukset"
 
 #: ../data/glade/gthumb_convert.glade.h:14
-#: ../data/glade/gthumb_tools.glade.h:36
+#: ../data/glade/gthumb_tools.glade.h:37
 msgid "R_emove original"
 msgstr "_Poista alkuperäinen"
 
@@ -608,7 +624,7 @@ msgid "Rename"
 msgstr "Muuta nimeä"
 
 #: ../data/glade/gthumb_convert.glade.h:16
-#: ../data/glade/gthumb_tools.glade.h:45
+#: ../data/glade/gthumb_tools.glade.h:47
 msgid ""
 "Skip\n"
 "Rename\n"
@@ -629,7 +645,7 @@ msgid "TIFF Options"
 msgstr "TIFF-asetukset"
 
 #: ../data/glade/gthumb_convert.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:50
+#: ../data/glade/gthumb_tools.glade.h:52
 msgid "T_GA"
 msgstr "T_GA"
 
@@ -639,7 +655,7 @@ msgid "_Horizontal:"
 msgstr "_Vaakataso:"
 
 #: ../data/glade/gthumb_convert.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:56
+#: ../data/glade/gthumb_tools.glade.h:59
 msgid "_JPEG"
 msgstr "_JPEG"
 
@@ -652,7 +668,7 @@ msgid "_No compression"
 msgstr "_Ei tiivistetty"
 
 #: ../data/glade/gthumb_convert.glade.h:28
-#: ../data/glade/gthumb_tools.glade.h:59
+#: ../data/glade/gthumb_tools.glade.h:62
 msgid "_PNG"
 msgstr "_PNG"
 
@@ -673,7 +689,7 @@ msgid "_Smoothing:"
 msgstr "_Pehmennys:"
 
 #: ../data/glade/gthumb_convert.glade.h:33
-#: ../data/glade/gthumb_tools.glade.h:65
+#: ../data/glade/gthumb_tools.glade.h:68
 msgid "_TIFF"
 msgstr "_TIFF"
 
@@ -733,12 +749,12 @@ msgid "_Crop"
 msgstr "_Rajaa"
 
 #: ../data/glade/gthumb_crop.glade.h:13 ../data/glade/gthumb_edit.glade.h:21
-#: ../data/glade/gthumb_print.glade.h:33 ../data/glade/gthumb_tools.glade.h:54
+#: ../data/glade/gthumb_print.glade.h:34 ../data/glade/gthumb_tools.glade.h:57
 msgid "_Height:"
 msgstr "_Korkeus:"
 
 #: ../data/glade/gthumb_crop.glade.h:14 ../data/glade/gthumb_edit.glade.h:31
-#: ../data/glade/gthumb_print.glade.h:39 ../data/glade/gthumb_tools.glade.h:68
+#: ../data/glade/gthumb_print.glade.h:40 ../data/glade/gthumb_tools.glade.h:71
 msgid "_Width:"
 msgstr "_Leveys:"
 
@@ -832,7 +848,7 @@ msgstr "_Kirkkaus:"
 msgid "_Hue:"
 msgstr "_Sävy:"
 
-#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:57
+#: ../data/glade/gthumb_edit.glade.h:23 ../data/glade/gthumb_tools.glade.h:60
 msgid "_Keep aspect ratio"
 msgstr "_Säilytä kuvasuhde"
 
@@ -852,7 +868,7 @@ msgstr "_Magenta-Vihreä:"
 msgid "_Preview"
 msgstr "_Esikatsele"
 
-#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:61
+#: ../data/glade/gthumb_edit.glade.h:28 ../data/glade/gthumb_tools.glade.h:64
 msgid "_Reset"
 msgstr "_Palauta"
 
@@ -860,7 +876,7 @@ msgstr "_Palauta"
 msgid "_Saturation:"
 msgstr "_Kylläisyys:"
 
-#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:62
+#: ../data/glade/gthumb_edit.glade.h:30 ../data/glade/gthumb_tools.glade.h:65
 msgid "_Scale"
 msgstr "_Muuta kokoa"
 
@@ -1086,7 +1102,7 @@ msgstr "T_yyli"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:57
 #: ../data/glade/gthumb_search.glade.h:22
-#: ../data/glade/gthumb_tools.glade.h:49
+#: ../data/glade/gthumb_tools.glade.h:51
 msgid "Start _at:"
 msgstr "A_loita:"
 
@@ -1128,12 +1144,12 @@ msgid "_Solid color"
 msgstr "_Yksivärinen"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:69
-#: ../data/glade/gthumb_tools.glade.h:66
+#: ../data/glade/gthumb_tools.glade.h:69
 msgid "_Template:"
 msgstr "_Tiedostonimipohja:"
 
 #: ../data/glade/gthumb_png_exporter.glade.h:71
-#: ../data/glade/gthumb_tools.glade.h:69
+#: ../data/glade/gthumb_tools.glade.h:72
 #: ../data/glade/gthumb_web_exporter.glade.h:49
 msgid "by name"
 msgstr "nimen mukaan"
@@ -1476,68 +1492,72 @@ msgid "Inches"
 msgstr "Tuumaa"
 
 #: ../data/glade/gthumb_print.glade.h:22
+msgid "Include filename"
+msgstr "Liitä myös tiedostonimi"
+
+#: ../data/glade/gthumb_print.glade.h:23
 msgid "Lan_dscape"
 msgstr "Vaa_ka"
 
-#: ../data/glade/gthumb_print.glade.h:23
+#: ../data/glade/gthumb_print.glade.h:24
 msgid "Layout"
 msgstr "Asettelu"
 
-#: ../data/glade/gthumb_print.glade.h:24
+#: ../data/glade/gthumb_print.glade.h:25
 msgid "Legal"
 msgstr "Legal"
 
-#: ../data/glade/gthumb_print.glade.h:25
+#: ../data/glade/gthumb_print.glade.h:26
 msgid "Letter"
 msgstr "Letter"
 
-#: ../data/glade/gthumb_print.glade.h:26
+#: ../data/glade/gthumb_print.glade.h:27
 msgid "Millimeters"
 msgstr "Millimetriä"
 
-#: ../data/glade/gthumb_print.glade.h:27
+#: ../data/glade/gthumb_print.glade.h:28
 msgid "P_ortrait"
 msgstr "Pys_ty"
 
-#: ../data/glade/gthumb_print.glade.h:28
+#: ../data/glade/gthumb_print.glade.h:29
 msgid "Paper Details"
 msgstr "Paperin asetukset"
 
-#: ../data/glade/gthumb_print.glade.h:29
+#: ../data/glade/gthumb_print.glade.h:30
 msgid "Postcard"
 msgstr "Postikortti"
 
 #.
-#: ../data/glade/gthumb_print.glade.h:30 ../libgthumb/print-callbacks.c:1678
-#: ../libgthumb/print-callbacks.c:1692 ../libgthumb/print-callbacks.c:2153
+#: ../data/glade/gthumb_print.glade.h:31 ../libgthumb/print-callbacks.c:1686
+#: ../libgthumb/print-callbacks.c:1700 ../libgthumb/print-callbacks.c:2180
 msgid "Print"
 msgstr "Tulosta"
 
-#: ../data/glade/gthumb_print.glade.h:31
+#: ../data/glade/gthumb_print.glade.h:32
 msgid "Tabloid"
 msgstr "Tabloidi"
 
-#: ../data/glade/gthumb_print.glade.h:32
+#: ../data/glade/gthumb_print.glade.h:33
 msgid "_Bottom:"
 msgstr "_Ala:"
 
-#: ../data/glade/gthumb_print.glade.h:34
+#: ../data/glade/gthumb_print.glade.h:35
 msgid "_Left:"
 msgstr "_Vasen:"
 
-#: ../data/glade/gthumb_print.glade.h:35
+#: ../data/glade/gthumb_print.glade.h:36
 msgid "_Right:"
 msgstr "_Oikea:"
 
-#: ../data/glade/gthumb_print.glade.h:36
+#: ../data/glade/gthumb_print.glade.h:37
 msgid "_Scale:"
 msgstr "_Mittakaava:"
 
-#: ../data/glade/gthumb_print.glade.h:37
+#: ../data/glade/gthumb_print.glade.h:38
 msgid "_Top:"
 msgstr "_Ylä:"
 
-#: ../data/glade/gthumb_print.glade.h:38
+#: ../data/glade/gthumb_print.glade.h:39
 msgid "_Unit:"
 msgstr "_Yksikkö:"
 
@@ -1593,8 +1613,8 @@ msgstr "Täytyy kuulua _johonkin valituista luokista"
 msgid "New _Search..."
 msgstr "Uusi _haku..."
 
-#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:823
-#: ../src/dlg-photo-importer.c:1510
+#: ../data/glade/gthumb_search.glade.h:19 ../src/dlg-photo-importer.c:838
+#: ../src/dlg-photo-importer.c:1525
 msgid "No images found"
 msgstr "Yhtään kuvaa ei löytynyt"
 
@@ -1603,7 +1623,7 @@ msgid "Search Progress"
 msgstr "Haun eteneminen"
 
 #: ../data/glade/gthumb_search.glade.h:21
-#: ../data/glade/gthumb_tools.glade.h:44
+#: ../data/glade/gthumb_tools.glade.h:46
 msgid "Searching in:"
 msgstr "Haetaan kansiosta:"
 
@@ -1614,7 +1634,7 @@ msgid "_Edit Search"
 msgstr "_Muokkaa hakua"
 
 #: ../data/glade/gthumb_search.glade.h:25
-#: ../data/glade/gthumb_tools.glade.h:55
+#: ../data/glade/gthumb_tools.glade.h:58
 msgid "_Include sub-folders"
 msgstr "_Hae alikansioista"
 
@@ -1639,9 +1659,11 @@ msgid "<b>Write to CD</b>"
 msgstr "<b>Kirjoita CD-levylle</b>"
 
 #: ../data/glade/gthumb_tools.glade.h:11
-msgid "<small><i><b>Note</b>: jpeg transformations are lossless.</i></small>"
+msgid ""
+"<small><i><b>Note</b>: JPEG transformations are normally lossless.</i></"
+"small>"
 msgstr ""
-"<small><i><b>Huom</b>: jpeg-muunnokset eivät heikennä kuvanlaatua.</i></"
+"<small><i><b>Huomautus</b>: jpeg-muunnokset eivät yleensä heikennä kuvanlaatua.</i></"
 "small>"
 
 #: ../data/glade/gthumb_tools.glade.h:13
@@ -1658,9 +1680,8 @@ msgid "A_djust timezone:"
 msgstr "Säädä _aikavyöhykettä:"
 
 #: ../data/glade/gthumb_tools.glade.h:15
-#: ../src/gth-window-actions-entries.h:270
-msgid "Adjust photo _orientation"
-msgstr "Säädä valokuvan asent_oa"
+msgid "Apply physical transform"
+msgstr "Toteuta fyysinen muunnos"
 
 #: ../data/glade/gthumb_tools.glade.h:16
 msgid "Apply to _all images"
@@ -1693,38 +1714,46 @@ msgid "Checking image:"
 msgstr "Vertaillaan kuvaa:"
 
 #: ../data/glade/gthumb_tools.glade.h:24
+msgid ""
+"Click OK to reset the Exif orientation tag for the selected images to Top-"
+"Left."
+msgstr ""
+"Napsauta OK-painiketta, jos haluat nollata valittujen kuvien Exif-"
+"suuntamerkinnän vasemmaksi yläkulmaksi."
+
+#: ../data/glade/gthumb_tools.glade.h:25
 msgid "Co_mment date"
 msgstr "Ko_mmentin päivämäärä"
 
-#: ../data/glade/gthumb_tools.glade.h:25
+#: ../data/glade/gthumb_tools.glade.h:26
 msgid "Current _Folder"
 msgstr "Avattu _kansio"
 
-#: ../data/glade/gthumb_tools.glade.h:26
+#: ../data/glade/gthumb_tools.glade.h:27
 msgid "Equal images:"
 msgstr "Identtiset kuvat:"
 
-#: ../data/glade/gthumb_tools.glade.h:27
+#: ../data/glade/gthumb_tools.glade.h:28
 msgid "Find Duplicates"
 msgstr "Etsi kuvien toisia kopioita"
 
-#: ../data/glade/gthumb_tools.glade.h:28
+#: ../data/glade/gthumb_tools.glade.h:29
 msgid "Found duplicates:"
 msgstr "Löydettiin identtisiä kopioita:"
 
-#: ../data/glade/gthumb_tools.glade.h:29
+#: ../data/glade/gthumb_tools.glade.h:30
 msgid "Image c_reation date"
 msgstr "Kuvan _luontipäivämäärä"
 
-#: ../data/glade/gthumb_tools.glade.h:30
+#: ../data/glade/gthumb_tools.glade.h:31
 msgid "Mirror image horizontally (left-right)"
 msgstr "Peilaa kuva vaakatasossa (vasen-oikea)"
 
-#: ../data/glade/gthumb_tools.glade.h:31
+#: ../data/glade/gthumb_tools.glade.h:32
 msgid "Mirror image vertically (top-bottom)"
 msgstr "Peilaa kuva pystytasossa (ylös-alas)"
 
-#: ../data/glade/gthumb_tools.glade.h:32
+#: ../data/glade/gthumb_tools.glade.h:33
 #: ../src/gth-browser-actions-entries.h:83
 #: ../src/gth-browser-actions-entries.h:108
 #: ../src/gth-browser-actions-entries.h:228
@@ -1732,72 +1761,86 @@ msgstr "Peilaa kuva pystytasossa (ylös-alas)"
 msgid "Move to _Trash"
 msgstr "Siirrä _roskakoriin"
 
-#: ../data/glade/gthumb_tools.glade.h:33
+#: ../data/glade/gthumb_tools.glade.h:34
 msgid "New names _preview:"
 msgstr "Uusien tiedostonimien _esikatselu:"
 
-#: ../data/glade/gthumb_tools.glade.h:35
+#: ../data/glade/gthumb_tools.glade.h:36
 msgid "P_hoto digitalization date (From EXIF data)"
 msgstr "Valokuvan _digitointipäivä (EXIF-tietojen mukaan)"
 
-#: ../data/glade/gthumb_tools.glade.h:37
+#: ../data/glade/gthumb_tools.glade.h:38
 msgid "Re_verse Order"
 msgstr "Kään_teinen järjestys"
 
-#: ../data/glade/gthumb_tools.glade.h:38
+#: ../data/glade/gthumb_tools.glade.h:39
 msgid "Rename Series"
 msgstr "Nimeä sarjoja uudestaan"
 
-#: ../data/glade/gthumb_tools.glade.h:39
+#: ../data/glade/gthumb_tools.glade.h:40
+msgid "Reset Exif Orientation Tags"
+msgstr "Nollaa Exif-suuntamerkinnät"
+
+#: ../data/glade/gthumb_tools.glade.h:41
 msgid "Rotate Images"
 msgstr "Kierrä kuvia"
 
-#: ../data/glade/gthumb_tools.glade.h:40
+#: ../data/glade/gthumb_tools.glade.h:42
 msgid "Rotate image 90 degrees clockwise"
 msgstr "Kierrä kuvaa 90° myötäpäivään"
 
-#: ../data/glade/gthumb_tools.glade.h:41
+#: ../data/glade/gthumb_tools.glade.h:43
 msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Kierrä kuvaa 90° vastapäivään"
 
-#: ../data/glade/gthumb_tools.glade.h:42
+#: ../data/glade/gthumb_tools.glade.h:44
 #: ../src/gth-browser-actions-entries.h:383
 #: ../src/gth-browser-actions-entries.h:384
 msgid "Scale Images"
 msgstr "Muuta kuvien kokoa"
 
-#: ../data/glade/gthumb_tools.glade.h:43
+#: ../data/glade/gthumb_tools.glade.h:45
 msgid "Search terminated, no duplicates found."
 msgstr "Haku päättynyt. Yhtään toista kopiota ei löytynyt."
 
-#: ../data/glade/gthumb_tools.glade.h:51
+#: ../data/glade/gthumb_tools.glade.h:53
 msgid "The _following date:"
 msgstr "Seuraa_va päivämäärä:"
 
-#: ../data/glade/gthumb_tools.glade.h:52
+#: ../data/glade/gthumb_tools.glade.h:54
+msgid ""
+"This checkbox governs the rotation method used for JPEG images that contain "
+"Exif orientation tags. If this checkbox is enabled, the rotation will be "
+"performed using a physical transform, and the Exif orientation tag will be "
+"reset to the default \"top left\" value. If it is not enabled, the rotation "
+"will be performed by changing the Exif orientation tag only. For maximum "
+"compatibility with other applications, this checkbox should be enabled."
+msgstr ""
+
+#: ../data/glade/gthumb_tools.glade.h:55
 msgid "Write To CD"
 msgstr "Kirjoita CD-levylle"
 
-#: ../data/glade/gthumb_tools.glade.h:58
+#: ../data/glade/gthumb_tools.glade.h:61
 msgid "_Last modified date"
 msgstr "_Viimeisin muokkauspäivä"
 
-#: ../data/glade/gthumb_tools.glade.h:60
+#: ../data/glade/gthumb_tools.glade.h:63
 #: ../src/gth-browser-actions-callbacks.c:166
 #: ../src/gth-browser-actions-callbacks.c:603
 #: ../src/gth-browser-actions-callbacks.c:1111
 msgid "_Rename"
 msgstr "_Muuta nimeä"
 
-#: ../data/glade/gthumb_tools.glade.h:63
+#: ../data/glade/gthumb_tools.glade.h:66
 msgid "_Selected Images"
 msgstr "_Valitut kuvat"
 
-#: ../data/glade/gthumb_tools.glade.h:64
+#: ../data/glade/gthumb_tools.glade.h:67
 msgid "_Sort:"
 msgstr "_Järjestä:"
 
-#: ../data/glade/gthumb_tools.glade.h:70
+#: ../data/glade/gthumb_tools.glade.h:73
 msgid "hours"
 msgstr "tuntia"
 
@@ -2099,45 +2142,45 @@ msgstr ""
 msgid "Whether to always use a black background."
 msgstr "Käytetäänkö aina mustaa taustaa."
 
-#: ../libgthumb/catalog.c:140 ../libgthumb/catalog.c:357
+#: ../libgthumb/catalog.c:141 ../libgthumb/catalog.c:358
 #, c-format
 msgid "Cannot open catalog \"%s\": %s"
 msgstr "Albumia \"%s\" ei voida avata: %s"
 
-#: ../libgthumb/catalog.c:334
+#: ../libgthumb/catalog.c:335
 #, c-format
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Albumia \"%s\" ei voida tallentaa: %s"
 
-#: ../libgthumb/comments.c:1249
+#: ../libgthumb/comments.c:1260
 msgid "%d %B %Y"
 msgstr "%x"
 
-#: ../libgthumb/comments.c:1251 ../src/catalog-web-exporter.c:52
-#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:445
-#: ../src/gth-browser.c:498 ../src/gth-exif-data-viewer.c:485
-#: ../src/gth-fullscreen.c:857 ../src/gth-viewer.c:583
+#: ../libgthumb/comments.c:1262 ../src/catalog-web-exporter.c:52
+#: ../src/dlg-duplicates.c:553 ../src/dlg-image-prop.c:441
+#: ../src/gth-browser.c:487 ../src/gth-exif-data-viewer.c:479
+#: ../src/gth-fullscreen.c:854 ../src/gth-viewer.c:571
 msgid "%d %B %Y, %H:%M"
 msgstr "%x, %H:%M"
 
-#: ../libgthumb/comments.c:1261 ../libgthumb/comments.c:1263
+#: ../libgthumb/comments.c:1272 ../libgthumb/comments.c:1274
 msgid "(No Comment)"
 msgstr "(Ei kommenttia)"
 
 #: ../libgthumb/dlg-save-image.c:110 ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:315 ../src/dlg-photo-importer.c:1535
+#: ../src/dlg-jpegtran.c:247 ../src/dlg-photo-importer.c:1550
 #, c-format
 msgid ""
 "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Sinulla ei ole tarvittavia oikeuksia luoda kuvia kansioon \"%s\""
 
-#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:321
-#: ../src/gth-batch-op.c:557 ../src/gth-browser-actions-callbacks.c:200
+#: ../libgthumb/dlg-save-image.c:125 ../src/dlg-convert.c:320
+#: ../src/gth-batch-op.c:570 ../src/gth-browser-actions-callbacks.c:200
 #, c-format
 msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "Kuva nimellä \"%s\" on jo olemassa. Korvataanko se?"
 
-#: ../libgthumb/dlg-save-image.c:169
+#: ../libgthumb/dlg-save-image.c:169 ../src/rotation-utils.c:213
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Kuvatyyppi ei ole tuettu: %s"
@@ -2146,32 +2189,32 @@ msgstr "Kuvatyyppi ei ole tuettu: %s"
 msgid "Determine by extension"
 msgstr "Tiedostopäätteen mukaan"
 
-#: ../libgthumb/dlg-save-image.c:275
+#: ../libgthumb/dlg-save-image.c:274
 msgid "Save Image"
 msgstr "Tallenna kuva"
 
-#: ../libgthumb/dlg-save-image.c:292
+#: ../libgthumb/dlg-save-image.c:293
 msgid "Image type:"
 msgstr "Kuvatyyppi:"
 
-#: ../libgthumb/file-utils.c:1118 ../src/gth-location.c:756
+#: ../libgthumb/file-utils.c:1167 ../src/gth-location.c:757
 msgid "File System"
 msgstr "Tiedostojärjestelmä"
 
-#: ../libgthumb/file-utils.c:1142 ../src/gth-location.c:760
+#: ../libgthumb/file-utils.c:1191 ../src/gth-location.c:761
 msgid "Home"
 msgstr "Koti"
 
-#: ../libgthumb/file-utils.c:1552
+#: ../libgthumb/file-utils.c:1628
 msgid "Library not empty"
 msgstr "Kirjasto ei ole tyhjä"
 
-#: ../libgthumb/file-utils.c:1561
+#: ../libgthumb/file-utils.c:1637
 #, c-format
 msgid "Cannot remove library \"%s\": %s"
 msgstr "Kirjaston \"%s\" poisto epäonnistui: %s"
 
-#: ../libgthumb/file-utils.c:1588
+#: ../libgthumb/file-utils.c:1664
 #, c-format
 msgid "Cannot remove catalog \"%s\": %s"
 msgstr "Albumin \"%s\" poisto epäonnistui: %s"
@@ -2260,32 +2303,32 @@ msgstr "Näytä koko kirjasintiedoissa"
 msgid "Font"
 msgstr "Kirjasin"
 
-#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8535
-#: ../src/gth-viewer.c:2283
+#: ../libgthumb/gth-file-list.c:528 ../src/gth-browser.c:8584
+#: ../src/gth-viewer.c:2213
 msgid "Wait please..."
 msgstr "Ole hyvä ja odota..."
 
 #: ../libgthumb/gth-file-list.c:620 ../libgthumb/gth-file-list.c:641
-#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:774
-#: ../src/gth-viewer.c:764
+#: ../libgthumb/gth-image-list.c:3499 ../src/gth-browser.c:760
+#: ../src/gth-viewer.c:749
 msgid "No image"
 msgstr "Ei kuvaa"
 
-#: ../libgthumb/gth-file-view-list.c:1481 ../src/dlg-duplicates.c:373
-#: ../src/dlg-image-prop.c:602 ../src/gth-exif-data-viewer.c:496
+#: ../libgthumb/gth-file-view-list.c:1482 ../src/dlg-duplicates.c:373
+#: ../src/dlg-image-prop.c:594 ../src/gth-exif-data-viewer.c:490
 msgid "Name"
 msgstr "Nimi"
 
-#: ../libgthumb/gthumb-stock.c:78 ../src/gth-window-actions-entries.h:255
+#: ../libgthumb/gthumb-stock.c:76 ../src/gth-window-actions-entries.h:260
 msgid "Ro_tate Images"
 msgstr "Kie_rrä kuvia"
 
-#: ../libgthumb/print-callbacks.c:668
+#: ../libgthumb/print-callbacks.c:676
 #, c-format
 msgid "Page %d of %d"
 msgstr "Sivu %d / %d"
 
-#: ../libgthumb/print-callbacks.c:1751 ../src/catalog-png-exporter.c:1336
+#: ../libgthumb/print-callbacks.c:1759 ../src/catalog-png-exporter.c:1336
 #, c-format
 msgid "Loading image: %s"
 msgstr "Ladataan kuvaa: %s"
@@ -2298,8 +2341,8 @@ msgstr "Poistetaan kaikki pienoiskuvat. Ole hyvä ja odota..."
 msgid "Deleting old thumbnails, wait please..."
 msgstr "Poistetaan vanhat pienoiskuvat. Ole hyvä ja odota..."
 
-#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1382
-#: ../src/gth-browser.c:1386 ../src/gth-browser.c:1398
+#: ../src/bookmark-list.c:160 ../src/gth-browser.c:1395
+#: ../src/gth-browser.c:1399 ../src/gth-browser.c:1411
 msgid "(Invalid Name)"
 msgstr "(Virheellinen nimi)"
 
@@ -2308,29 +2351,29 @@ msgstr "(Virheellinen nimi)"
 msgid "Creating image: %s.%s"
 msgstr "Luodaan kuvaa: %s.%s"
 
-#: ../src/catalog-web-exporter.c:1707
+#: ../src/catalog-web-exporter.c:1697
 msgid "Saving thumbnails"
 msgstr "Tallennetaan pienoiskuvia"
 
-#: ../src/catalog-web-exporter.c:1773
+#: ../src/catalog-web-exporter.c:1763
 msgid "Saving HTML pages: Images"
 msgstr "Tallennetaan HTML-sivuja: Kuvia"
 
-#: ../src/catalog-web-exporter.c:1848
+#: ../src/catalog-web-exporter.c:1838
 msgid "Saving HTML pages: Indexes"
 msgstr "Tallennetaan HTML-sivuja: Hakemistoja"
 
-#: ../src/catalog-web-exporter.c:1974 ../src/catalog-web-exporter.c:2034
-#: ../src/catalog-web-exporter.c:2204
+#: ../src/catalog-web-exporter.c:1964 ../src/catalog-web-exporter.c:2024
+#: ../src/catalog-web-exporter.c:2194
 msgid "Saving images"
 msgstr "Tallennetaan kuvia"
 
-#: ../src/catalog-web-exporter.c:2388
+#: ../src/catalog-web-exporter.c:2378
 msgid "Could not create a temporary folder"
 msgstr "Väliaikaiskansion luonti ei onnistunut"
 
 #. Load thumbnails.
-#: ../src/catalog-web-exporter.c:2421
+#: ../src/catalog-web-exporter.c:2411
 msgid "Loading images"
 msgstr "Ladataan kuvia"
 
@@ -2370,40 +2413,41 @@ msgstr ""
 msgid "The category \"%s\" is already present. Please use a different name."
 msgstr "Luokka \"%s\" on jo olemassa. Käytä toista nimeä."
 
-#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:214
-#: ../src/dlg-comment.c:297 ../src/dlg-convert.c:456 ../src/dlg-jpegtran.c:579
-#: ../src/dlg-preferences.c:184 ../src/dlg-rename-series.c:343
-#: ../src/dlg-search.c:468 ../src/gth-window-actions-callbacks.c:822
+#: ../src/dlg-categories.c:379 ../src/dlg-change-date.c:208
+#: ../src/dlg-comment.c:295 ../src/dlg-convert.c:455 ../src/dlg-jpegtran.c:473
+#: ../src/dlg-photo-importer.c:1808 ../src/dlg-preferences.c:186
+#: ../src/dlg-rename-series.c:343 ../src/dlg-search.c:467
+#: ../src/gth-window-actions-callbacks.c:821
 #, c-format
 msgid "Could not display help: %s"
 msgstr "Ohjeen näyttö ei onnistunut: %s"
 
-#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:390
+#: ../src/dlg-convert.c:173 ../src/gth-batch-op.c:399
 #, c-format
 msgid "Converting image: %s"
 msgstr "Muunnetaan kuvaa: %s"
 
-#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:413
+#: ../src/dlg-convert.c:196 ../src/gth-batch-op.c:422
 #, c-format
 msgid ""
 "An image named \"%s\" is already present. Please specify a different name."
 msgstr "Nimellä \"%s\" on jo olemassa kuva. Anna toinen nimi kuvalle."
 
-#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:562
+#: ../src/dlg-convert.c:325 ../src/gth-batch-op.c:575
 msgid "Skip"
 msgstr "Ohita"
 
-#: ../src/dlg-convert.c:327 ../src/gth-batch-op.c:563
+#: ../src/dlg-convert.c:326 ../src/gth-batch-op.c:576
 #: ../src/gth-browser-actions-callbacks.c:207
 msgid "_Overwrite"
 msgstr "_Korvaa"
 
-#: ../src/dlg-crop.c:377
+#: ../src/dlg-crop.c:427
 #, c-format
 msgid "%d x %d (Image)"
 msgstr "%d × %d (Kuva)"
 
-#: ../src/dlg-crop.c:385
+#: ../src/dlg-crop.c:435
 #, c-format
 msgid "%d x %d (Display)"
 msgstr "%d × %d (Näyttö)"
@@ -2420,7 +2464,7 @@ msgstr "Kopioiden koko"
 msgid "Last modified"
 msgstr "Muokkauspäivä"
 
-#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:622
+#: ../src/dlg-duplicates.c:417 ../src/dlg-image-prop.c:614
 msgid "Location"
 msgstr "Sijainti"
 
@@ -2448,7 +2492,7 @@ msgid ""
 msgstr "Kuvia ei voida siirtää roskakoriin. Poistetaanko ne pysyvästi?"
 
 #: ../src/dlg-file-utils.c:228 ../src/gth-browser-actions-callbacks.c:1268
-#: ../src/gth-browser.c:1906 ../src/gth-viewer.c:978
+#: ../src/gth-browser.c:1945 ../src/gth-viewer.c:976
 msgid "_Do not display this message again"
 msgstr "_Älä näytä tätä viestiä enää uudestaan"
 
@@ -2487,11 +2531,11 @@ msgstr "Kuvaa ei voitu siirtää:"
 msgid "Could not copy the image:"
 msgstr "Kuvaa ei voitu kopioida:"
 
-#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2463
+#: ../src/dlg-file-utils.c:1205 ../src/dlg-file-utils.c:2462
 msgid "_Abort"
 msgstr "_Hylkää"
 
-#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2464
+#: ../src/dlg-file-utils.c:1206 ../src/dlg-file-utils.c:2463
 msgid "_Continue"
 msgstr "_Jatka"
 
@@ -2500,64 +2544,83 @@ msgstr "_Jatka"
 msgid "Copying file %d of %d"
 msgstr "Kopioidaan tiedostoa %d / %d"
 
-#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2020
+#: ../src/dlg-file-utils.c:1792 ../src/dlg-file-utils.c:2019
 msgid "Collecting images info"
 msgstr "Kerätään kuvien tietoja"
 
-#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2033
+#: ../src/dlg-file-utils.c:1795 ../src/dlg-file-utils.c:2032
 #, c-format
 msgid "Deleting file %ld of %ld"
 msgstr "Poistetaan tiedostoa %ld / %ld"
 
-#: ../src/dlg-file-utils.c:2023
+#: ../src/dlg-file-utils.c:2022
 #, c-format
 msgid "Copying file %ld of %ld"
 msgstr "Kopioidaan tiedostoa %ld / %ld"
 
-#: ../src/dlg-file-utils.c:2028
+#: ../src/dlg-file-utils.c:2027
 #, c-format
 msgid "Moving file %ld of %ld"
 msgstr "Siirretään tiedostoa %ld / %ld"
 
-#: ../src/dlg-file-utils.c:2440 ../src/dlg-file-utils.c:2442
+#: ../src/dlg-file-utils.c:2439 ../src/dlg-file-utils.c:2441
 #: ../src/gth-browser-actions-callbacks.c:1407
 #, c-format
 msgid "Could not move the folder \"%s\": %s"
 msgstr "Kansion \"%s\" siirtäminen ei onnistunut: %s"
 
-#: ../src/dlg-image-prop.c:607 ../src/gth-exif-data-viewer.c:503
+#: ../src/dlg-image-prop.c:599 ../src/gth-exif-data-viewer.c:497
 msgid "Size"
 msgstr "Koko"
 
-#: ../src/dlg-image-prop.c:612 ../src/gth-exif-data-viewer.c:524
+#: ../src/dlg-image-prop.c:604 ../src/gth-exif-data-viewer.c:518
 msgid "Type"
 msgstr "Tyyppi"
 
-#: ../src/dlg-image-prop.c:627 ../src/gth-browser.c:514
-#: ../src/gth-exif-data-viewer.c:517 ../src/gth-viewer.c:599
+#: ../src/dlg-image-prop.c:619 ../src/gth-browser.c:503
+#: ../src/gth-exif-data-viewer.c:511 ../src/gth-viewer.c:587
 msgid "Modified"
 msgstr "Muokattu"
 
-#: ../src/dlg-image-prop.c:632
+#: ../src/dlg-image-prop.c:624
 msgid "Information on Channel"
 msgstr "Tiedot kanavasta"
 
-#: ../src/dlg-image-prop.c:747
+#: ../src/dlg-image-prop.c:733
 #, c-format
 msgid "%s Properties"
 msgstr "Kohteen %s ominaisuudet"
 
-#: ../src/dlg-photo-importer.c:890 ../src/dlg-photo-importer.c:1459
-#: ../src/dlg-photo-importer.c:1509 ../src/dlg-photo-importer.c:1521
-#: ../src/dlg-photo-importer.c:1537 ../src/dlg-photo-importer.c:1566
+#. Just change the exif orientation tag, and save the file
+#: ../src/dlg-jpegtran.c:278
+msgid ""
+"This image can not be physically transformed without image distortion, "
+"because its dimensions are not multiples of 8. Instead, gThumb will change "
+"the Exif orientation tag to accomplish the rotation without image "
+"distortion. To avoid this warning in the future, disable the \"Apply "
+"physical transform\" option in the rotation dialog."
+msgstr ""
+
+#: ../src/dlg-jpegtran.c:287
+msgid ""
+"This image will be distorted slightly along one edge, because its dimensions "
+"are not multiples of 8 and no Exif orientation tag is present. It is not "
+"possible to \"losslessly\" rotate such images. The distortion is reversible, "
+"however. If the resulting image is unacceptable, simply apply the reverse "
+"transformation to return to the original image."
+msgstr ""
+
+#: ../src/dlg-photo-importer.c:905 ../src/dlg-photo-importer.c:1474
+#: ../src/dlg-photo-importer.c:1524 ../src/dlg-photo-importer.c:1536
+#: ../src/dlg-photo-importer.c:1552 ../src/dlg-photo-importer.c:1581
 msgid "Could not import photos"
 msgstr "Valokuvien tuonti ei onnistunut"
 
-#: ../src/dlg-photo-importer.c:1247 ../src/main.c:1011
+#: ../src/dlg-photo-importer.c:1264 ../src/main.c:1012
 msgid "Film"
 msgstr "Filmi"
 
-#: ../src/dlg-photo-importer.c:1518
+#: ../src/dlg-photo-importer.c:1533
 #: ../src/gth-browser-actions-callbacks.c:1718
 #, c-format
 msgid "Could not create the folder \"%s\": %s"
@@ -2575,22 +2638,22 @@ msgstr "Ylätunniste"
 msgid "Footer"
 msgstr "Alatunniste"
 
-#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:371
+#: ../src/dlg-png-exporter.c:1565 ../src/dlg-web-exporter.c:451
 msgid "by path"
 msgstr "polun mukaan"
 
 #: ../src/dlg-png-exporter.c:1567 ../src/dlg-rename-series.c:434
-#: ../src/dlg-web-exporter.c:373
+#: ../src/dlg-web-exporter.c:453
 msgid "by size"
 msgstr "koon mukaan"
 
 #: ../src/dlg-png-exporter.c:1569 ../src/dlg-rename-series.c:436
-#: ../src/dlg-web-exporter.c:375
+#: ../src/dlg-web-exporter.c:455
 msgid "by modified time"
 msgstr "muokkausajan mukaan"
 
 #: ../src/dlg-png-exporter.c:1574 ../src/dlg-rename-series.c:439
-#: ../src/dlg-web-exporter.c:378
+#: ../src/dlg-web-exporter.c:458
 msgid "manual order"
 msgstr "käsin järjestetty"
 
@@ -2602,23 +2665,23 @@ msgstr "Vanha nimi"
 msgid "New Name"
 msgstr "Uusi nimi"
 
-#: ../src/dlg-search.c:356
+#: ../src/dlg-search.c:355
 msgid "Search Result"
 msgstr "Hakutulokset"
 
-#: ../src/dlg-search.c:676
+#: ../src/dlg-search.c:675
 msgid "Filename"
 msgstr "Tiedostonimi"
 
-#: ../src/dlg-search.c:685 ../src/gth-folder-selection-dialog.c:391
+#: ../src/dlg-search.c:684 ../src/gth-folder-selection-dialog.c:396
 msgid "Folder"
 msgstr "Kansio"
 
-#: ../src/dlg-web-exporter.c:726
+#: ../src/dlg-web-exporter.c:808
 msgid "Select Album Theme"
 msgstr "Valitse verkkoalbumin teema"
 
-#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3680
+#: ../src/dlg-write-to-cd.c:79 ../src/gth-browser.c:3734
 msgid "Could not move the items:"
 msgstr "Objektien siirto ei onnistunut:"
 
@@ -2651,7 +2714,7 @@ msgstr "Kuvan \"%s\" nimen muuttaminen ei onnistunut: %s"
 msgid "source and destination are the same"
 msgstr "lähde ja kohde ovat samat"
 
-#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1078
+#: ../src/gth-browser-actions-callbacks.c:286 ../src/gth-fullscreen.c:1075
 msgid "The image will be moved to the Trash, are you sure?"
 msgstr "Siirretäänkö kuva varmasti roskakoriin?"
 
@@ -2759,7 +2822,7 @@ msgstr "Uusi kansio"
 msgid "Enter the folder name: "
 msgstr "Anna kansion nimi: "
 
-#: ../src/gth-browser-actions-callbacks.c:1846
+#: ../src/gth-browser-actions-callbacks.c:1852
 msgid "Open Location"
 msgstr "Avaa sijainti"
 
@@ -3097,11 +3160,6 @@ msgstr "Luo uusi kansio"
 msgid "View next image"
 msgstr "Näytä seuraava kuva"
 
-#: ../src/gth-browser-actions-entries.h:288
-#: ../src/gth-fullscreen-actions-entries.h:47
-msgid "Previous"
-msgstr "Edellinen"
-
 #: ../src/gth-browser-actions-entries.h:289
 #: ../src/gth-fullscreen-actions-entries.h:48
 msgid "View previous image"
@@ -3314,106 +3372,99 @@ msgstr "_Albumit"
 msgid "View the catalogs"
 msgstr "Näytä albumit"
 
-#: ../src/gth-browser.c:564 ../src/gth-viewer.c:644
+#: ../src/gth-browser.c:553 ../src/gth-viewer.c:632
 msgid "[Press 'c' to add a comment]"
 msgstr "[Paina \"c\"-näppäintä lisätäksesi kommentin]"
 
-#: ../src/gth-browser.c:673 ../src/gth-browser.c:692 ../src/gth-viewer.c:740
-#: ../src/gth-viewer.c:761
+#: ../src/gth-browser.c:659 ../src/gth-browser.c:678 ../src/gth-viewer.c:725
+#: ../src/gth-viewer.c:746
 msgid "[modified]"
 msgstr "[muokattu]"
 
-#: ../src/gth-browser.c:717 ../src/gth-window-actions-callbacks.c:782
-#: ../src/main.c:700
+#: ../src/gth-browser.c:703 ../src/main.c:392 ../src/main.c:702
 msgid "gThumb"
 msgstr "gThumb"
 
-#: ../src/gth-browser.c:776
+#: ../src/gth-browser.c:762
 #, c-format
 msgid "1 image (%s)"
 msgstr "1 kuva (%s)"
 
-#: ../src/gth-browser.c:779
+#: ../src/gth-browser.c:765
 #, c-format
 msgid "%d images (%s)"
 msgstr "%d kuvaa (%s)"
 
-#: ../src/gth-browser.c:786
+#: ../src/gth-browser.c:772
 #, c-format
 msgid "1 selected (%s)"
 msgstr "1 valittu (%s)"
 
-#: ../src/gth-browser.c:789
+#: ../src/gth-browser.c:775
 #, c-format
 msgid "%d selected (%s)"
 msgstr "%d valittua (%s)"
 
-#: ../src/gth-browser.c:1903 ../src/gth-viewer.c:975
+#: ../src/gth-browser.c:1942 ../src/gth-viewer.c:973
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Valittua kuvaa on muokattu. Tallennetaanko muutokset?"
 
-#: ../src/gth-browser.c:1904 ../src/gth-viewer.c:976
+#: ../src/gth-browser.c:1943 ../src/gth-viewer.c:974
 msgid "Do Not Save"
 msgstr "Älä tallenna"
 
-#: ../src/gth-browser.c:3439
+#: ../src/gth-browser.c:3493
 msgid "Dragged Images"
 msgstr "Raahatut kuvat"
 
-#: ../src/gth-browser.c:5090 ../src/gth-browser.c:5091
-#: ../src/gth-viewer.c:1546 ../src/gth-viewer.c:1547
-#: ../src/gth-window-actions-entries.h:256
+#: ../src/gth-browser.c:5148 ../src/gth-browser.c:5149
+#: ../src/gth-viewer.c:1516 ../src/gth-viewer.c:1517
 #: ../src/gth-window-actions-entries.h:261
 #: ../src/gth-window-actions-entries.h:266
 #: ../src/gth-window-actions-entries.h:271
 msgid "Rotate images without loss of quality"
 msgstr "Kierrä kuvia ilman, että kuvanlaatu heikkenee"
 
-#: ../src/gth-browser.c:6502
+#: ../src/gth-browser.c:6584
 msgid "Close"
 msgstr "Sulje"
 
-#: ../src/gth-browser.c:6516 ../src/gth-viewer.c:1814
+#: ../src/gth-browser.c:6598 ../src/gth-viewer.c:1771
 msgid "Image comment"
 msgstr "Kuvan kommentti"
 
-#: ../src/gth-browser.c:6530
+#: ../src/gth-browser.c:6612
 msgid "Image data"
 msgstr "Tietoja kuvasta"
 
-#: ../src/gth-browser.c:6544
+#: ../src/gth-browser.c:6626
 msgid "Image preview"
 msgstr "Kuvan esikatselu"
 
-#: ../src/gth-browser.c:7570
+#: ../src/gth-browser.c:7648
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kansion %s\" lataus ei onnistunut: %s\n"
 
-#: ../src/gth-browser.c:7878
+#: ../src/gth-browser.c:7987
 msgid "The specified catalog does not exist."
 msgstr "Annettua albumia ei löydy."
 
-#: ../src/gth-exif-data-viewer.c:133
+#: ../src/gth-exif-data-viewer.c:131
 msgid "Field"
 msgstr "Kenttä"
 
-#: ../src/gth-exif-data-viewer.c:143
+#: ../src/gth-exif-data-viewer.c:141
 msgid "Value "
 msgstr "Arvo"
 
-#: ../src/gth-folder-selection-dialog.c:413
+#: ../src/gth-folder-selection-dialog.c:418
 msgid "_Browse..."
 msgstr "_Selaa..."
 
-#: ../src/gth-folder-selection-dialog.c:422
+#: ../src/gth-folder-selection-dialog.c:427
 msgid "_Recents:"
 msgstr "_Viimeimmät:"
-
-#: ../src/gth-fullscreen-actions-entries.h:37
-#: ../src/gth-window-actions-entries.h:220
-msgid "Restore Normal View"
-msgstr "Palaa normaalinäkymään"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
@@ -3423,7 +3474,7 @@ msgstr "Ominai_suudet"
 msgid "Other..."
 msgstr "Muu..."
 
-#: ../src/gth-location.c:751
+#: ../src/gth-location.c:752
 msgid "Catalogs"
 msgstr "Luettelot"
 
@@ -3445,17 +3496,21 @@ msgstr "_Yksi ikkuna"
 msgid "Reuse this window to view other images"
 msgstr "Käytä tätä ikkunaa näytettäessä uusia kuvia"
 
-#: ../src/gth-viewer.c:1502 ../src/gth-window-actions-entries.h:45
+#: ../src/gth-viewer.c:1472 ../src/gth-window-actions-entries.h:45
 #: ../src/gth-window-actions-entries.h:70
 msgid "_Open With"
 msgstr "_Avaa ohjelmalla"
 
-#: ../src/gth-viewer.c:1508 ../src/gth-viewer.c:1509
+#: ../src/gth-viewer.c:1478 ../src/gth-viewer.c:1479
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Avaa valitut kuvat toisella ohjelmalla"
 
-#: ../src/gth-window-actions-callbacks.c:772
+#: ../src/gth-window-actions-callbacks.c:791
+msgid "An image viewer and browser for GNOME."
+msgstr "Kuvien katselu- ja selausohjelma Gnome-ympäristöön."
+
+#: ../src/gth-window-actions-callbacks.c:794
 msgid "translator_credits"
 msgstr ""
 "Ilkka Tuohela, 2005-2006\n"
@@ -3463,10 +3518,6 @@ msgstr ""
 "Sami Pesonen, 2004\n"
 "\n"
 "http://gnome.fi/"
-
-#: ../src/gth-window-actions-callbacks.c:785
-msgid "An image viewer and browser for GNOME."
-msgstr "Kuvien katselu- ja selausohjelma Gnome-ympäristöön."
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3501,7 +3552,7 @@ msgid "Assign categories to selected images"
 msgstr "Määrää luokkia valituille kuville"
 
 #: ../src/gth-window-actions-entries.h:100
-#: ../src/gth-window-actions-entries.h:265
+#: ../src/gth-window-actions-entries.h:270
 msgid "Rotate Ri_ght"
 msgstr "Kierrä _oikealle"
 
@@ -3510,7 +3561,7 @@ msgid "View the image rotated clockwise"
 msgstr "Näytä kuva kierrettynä myötäpäivään"
 
 #: ../src/gth-window-actions-entries.h:105
-#: ../src/gth-window-actions-entries.h:260
+#: ../src/gth-window-actions-entries.h:265
 msgid "Rotate _Left"
 msgstr "Kierrä _vasemmalle"
 
@@ -3665,14 +3716,6 @@ msgstr "Sovitettu ikkunaan"
 msgid "Step A_nimation"
 msgstr "Askeltava a_nimaatio"
 
-#: ../src/gth-window-actions-entries.h:215
-msgid "_Full Screen"
-msgstr "Koko_ruutu"
-
-#: ../src/gth-window-actions-entries.h:216
-msgid "View image in fullscreen mode"
-msgstr "Näytä kuva kokoruututilassa"
-
 #: ../src/gth-window-actions-entries.h:225
 msgid "_Centered"
 msgstr "_Keskitetty"
@@ -3721,6 +3764,14 @@ msgstr "Muuta _päivämäärää"
 msgid "Change images last modified date"
 msgstr "Muuta kuvan viimeistä muokkauspäivää"
 
+#: ../src/gth-window-actions-entries.h:255
+msgid "Reset Exif Orientation"
+msgstr "Nollaa Exif-suunta"
+
+#: ../src/gth-window-actions-entries.h:256
+msgid "Reset Exif orientation to top-left"
+msgstr "Nollaa Exif-suuntamerkintä vasemmaksi yläkulmaksi"
+
 #: ../src/gth-window-actions-entries.h:276
 msgid "Show information about gThumb"
 msgstr "Näytä tietoja gThumbista"
@@ -3749,69 +3800,84 @@ msgstr "_Heikkolaatuinen"
 msgid "Use low quality zoom"
 msgstr "Käytä heikkolaatuista suurennosta"
 
-#: ../src/main.c:87
+#: ../src/main.c:88
 msgid "Start in fullscreen mode"
 msgstr "Aloita kokoruututilassa"
 
-#: ../src/main.c:90
+#: ../src/main.c:91
 msgid "Automatically start a slideshow"
 msgstr "Käynnistä diaesitys automaattisesti"
 
-#: ../src/main.c:93
+#: ../src/main.c:94
 msgid "Automatically import digital camera photos"
 msgstr "Tuo valokuvat digitaalikamerasta automaattisesti"
 
-#: ../src/main.c:133
+#: ../src/main.c:137
 msgid "Holidays"
 msgstr "Lomat"
 
-#: ../src/main.c:134
+#: ../src/main.c:138
 msgid "Temporary"
 msgstr "Väliaikainen"
 
-#: ../src/main.c:135
+#: ../src/main.c:139
 msgid "Screenshots"
 msgstr "Kuvakaappaus"
 
-#: ../src/main.c:136
+#: ../src/main.c:140
 msgid "Science"
 msgstr "Tiede"
 
-#: ../src/main.c:137
+#: ../src/main.c:141
 msgid "Favourite"
 msgstr "Suosikki"
 
-#: ../src/main.c:138
+#: ../src/main.c:142
 msgid "Important"
 msgstr "Tärkeä"
 
-#: ../src/main.c:139
+#: ../src/main.c:143
 msgid "GNOME"
 msgstr "Gnome"
 
-#: ../src/main.c:140
+#: ../src/main.c:144
 msgid "Games"
 msgstr "Pelit"
 
-#: ../src/main.c:141
+#: ../src/main.c:145
 msgid "Party"
 msgstr "Juhla"
 
-#: ../src/main.c:142
+#: ../src/main.c:146
 msgid "Birthday"
 msgstr "Syntymäpäivä"
 
-#: ../src/main.c:143
+#: ../src/main.c:147
 msgid "Astronomy"
 msgstr "Astronomia"
 
-#: ../src/main.c:144
+#: ../src/main.c:148
 msgid "Family"
 msgstr "Perhe"
 
-#: ../src/main.c:464 ../src/main.c:630
+#: ../src/main.c:469 ../src/main.c:644
 msgid "Command Line"
 msgstr "Komentorivi"
+
+#~ msgid "Prevous"
+#~ msgstr "Edellinen"
+
+#~ msgid "Adjust photo _orientation"
+#~ msgstr "Säädä valokuvan asent_oa"
+
+#~ msgid "Restore Normal View"
+#~ msgstr "Palaa normaalinäkymään"
+
+#~ msgid "_Full Screen"
+#~ msgstr "Koko_ruutu"
+
+#~ msgid "View image in fullscreen mode"
+#~ msgstr "Näytä kuva kokoruututilassa"
 
 #~ msgid "Deleting all comments, wait please..."
 #~ msgstr "Poistetaan kaikki kommentit. Ole hyvä ja odota..."
