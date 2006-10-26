@@ -7,7 +7,7 @@ msgid ""
 msgstr "Project-Id-Version: gthumb HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-10-26 03:54+0200\n"
-"PO-Revision-Date: 2006-10-26 17:12+0930\n"
+"PO-Revision-Date: 2006-10-26 21:46+0930\n"
 "Last-Translator: Clytie Siddall <clytie@riverland.net.au>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -462,7 +462,7 @@ msgstr "_Phát hiện tự động"
 
 #: ../data/glade/gthumb_camera.glade.h:11
 msgid "_Delete imported images from the camera"
-msgstr "_Xoá ảnh đã nhập vào khỏi máy ảnh"
+msgstr "_Xoá khỏi máy ảnh các ảnh đã nhập"
 
 #: ../data/glade/gthumb_camera.glade.h:12
 #: ../data/glade/gthumb_convert.glade.h:23
@@ -1513,7 +1513,7 @@ msgstr "Bố trí"
 
 #: ../data/glade/gthumb_print.glade.h:24
 msgid "Legal"
-msgstr "Pháp lý"
+msgstr "Hành pháp"
 
 #: ../data/glade/gthumb_print.glade.h:25
 msgid "Letter"
