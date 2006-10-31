@@ -1,5 +1,11 @@
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/async-pixbuf-ops.c: (scale_step):
+	Fixes image scaling memory leak (bug #349576). Patch
+	by Manuel Braga.
+
+2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_camera.glade:
 	* doc/C/gthumb.xml:
 	* src/dlg-photo-importer.c: (model__destroy_cb),

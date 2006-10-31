@@ -1599,8 +1599,11 @@ scale_step (GthPixbufOp *pixop)
 		new_h = data->height;
 	}
 
-	if ((new_w > 1) && (new_h > 1))
+	if ((new_w > 1) && (new_h > 1))	{
+		if(pixop->dest != NULL)
+			g_object_unref(pixop->dest);
 		pixop->dest = gdk_pixbuf_scale_simple (pixop->src, new_w, new_h, GDK_INTERP_BILINEAR);
+	}
 }
 
 
