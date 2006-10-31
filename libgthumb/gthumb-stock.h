@@ -47,6 +47,7 @@
 #define GTHUMB_STOCK_NEXT_IMAGE           "gthumb-next-image"
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
 #define GTHUMB_STOCK_PREVIOUS_IMAGE       "gthumb-previous-image"
+#define GTHUMB_STOCK_REDEYE_REMOVAL       "gthumb-redeye-removal"
 #define GTHUMB_STOCK_REDUCE_COLORS        "gthumb-reduce-colors"
 #define GTHUMB_STOCK_RESET                "gthumb-reset"
 #define GTHUMB_STOCK_RESIZE               "gthumb-resize"

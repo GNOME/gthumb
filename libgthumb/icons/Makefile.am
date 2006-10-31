@@ -44,6 +44,7 @@ IMAGES=					\
 	preview-comment-16.png		\
 	preview-data-16.png		\
 	preview-image-16.png		\
+	redeye-removal-16.png		\
 	reduce-colors-16.png		\
 	reset-16.png			\
 	resize-16.png			\
@@ -112,6 +113,7 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list preview_comment_16_rgba $(srcdir)/preview-comment-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_data_16_rgba $(srcdir)/preview-data-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_image_16_rgba $(srcdir)/preview-image-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list redeye_removal_16_rgba $(srcdir)/redeye-removal-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list reduce_colors_16_rgba $(srcdir)/reduce-colors-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list reset_16_rgba $(srcdir)/reset-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list resize_16_rgba $(srcdir)/resize-16.png >> $(srcdir)/pixbufs.h

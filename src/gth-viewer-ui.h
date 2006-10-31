@@ -103,6 +103,8 @@ static const gchar *viewer_window_ui_info =
 "        <separator/>"
 "        <menuitem action='AlterImage_Posterize'/>"
 "      </menu>"
+"      <separator/>"
+"      <menuitem action='AlterImage_RedeyeRemoval'/>"
 "    </menu>"
 "    <menu name='Tools' action='ToolsMenu'>"
 "      <menu name='Wallpaper' action='ToolsWallpaperMenu'>"

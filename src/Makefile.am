@@ -75,6 +75,7 @@ gthumb_SOURCES = 				\
 	dlg-posterize.h				\
 	dlg-preferences.c			\
 	dlg-preferences.h			\
+	dlg-redeye-removal.c			\			
 	dlg-rename-series.c			\
 	dlg-rename-series.h			\
         dlg-reset-exif.c                        \

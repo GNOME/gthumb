@@ -151,6 +151,11 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Adjust hue and saturation"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_hue_saturation) },
 
+         { "AlterImage_RedeyeRemoval", GTHUMB_STOCK_REDEYE_REMOVAL,
+            N_("_Redeye Removal"), NULL, 
+            N_("Redeye Removal Tool"), 
+	    G_CALLBACK (gth_window_activate_action_alter_image_redeye_removal) },
+
 	{ "AlterImage_ColorBalance", GTHUMB_STOCK_COLOR_BALANCE,
 	  N_("_Color Balance"), NULL,
 	  N_("Adjust color balance"),

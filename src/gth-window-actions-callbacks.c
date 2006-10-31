@@ -451,6 +451,13 @@ gth_window_activate_action_alter_image_hue_saturation (GtkAction *action,
 
 
 void
+gth_window_activate_action_alter_image_redeye_removal (GtkAction *action,
+						   GthWindow *window)
+{
+	dlg_redeye_removal (window);
+}
+
+void
 gth_window_activate_action_alter_image_color_balance (GtkAction *action,
 						      GthWindow *window)
 {

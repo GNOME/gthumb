@@ -242,6 +242,7 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "AlterImage_Resize", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_ColorBalance", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_HueSaturation", ! image_is_void && ! image_is_ani);
+	set_action_sensitive (viewer, "AlterImage_RedeyeRemoval", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_BrightnessContrast", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Invert", ! image_is_void && ! image_is_ani);
 	set_action_sensitive (viewer, "AlterImage_Posterize", ! image_is_void && ! image_is_ani);

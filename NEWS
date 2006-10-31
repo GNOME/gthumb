@@ -4,6 +4,7 @@ version 2.9.0
           rotating, and displaying JPEG images. See bug #343867: Rotating image 
           should alter EXIF data
         * Fixed bug #361416: Reset Exif orientation tag tool
+	* Added red-eye removal tool (bug #140533)
 
 version 2.7.9
 -------------

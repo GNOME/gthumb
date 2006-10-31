@@ -788,6 +788,21 @@
             <entry>
 	      <para>
 	        <menuchoice>
+		<guimenuitem>Redeye Removal</guimenuitem>
+	        </menuchoice>
+	      </para>
+	    </entry>
+            <entry>
+	      <para>
+	        Remove red eyes caused by poor flashes. 
+		See <xref linkend="gthumb-redeye"/> for more information.
+	      </para>
+	    </entry>
+	  </row>
+	  <row rowsep="0">
+            <entry>
+	      <para>
+	        <menuchoice>
 		<guimenuitem>Brightness-Contrast</guimenuitem>
 	        </menuchoice>
 	      </para>
@@ -875,8 +890,32 @@
       </para>
       <para>
         You can save modified images, see <xref
-        linkend="gthumb-save-images"/> to known how.
+        linkend="gthumb-save-images"/> for more information.
       </para>
+    <sect3 id="gthumb-redeye">
+    <title>Redeye Removal</title>
+      <para>
+      Many inexpensive cameras have a flash that is too close to the camera lens.
+      As a result, the light from the flash may travel from the camera and be partially
+      reflected by a subject's retina right back into the camera lens. This causes 
+      "redeye". 
+      </para>
+      <para>
+      &app; provides a tool to remove this unwanted redeye. When viewing an image
+      with redeye, select <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye
+      Removal</guimenuitem></menuchoice>. A new window will be launched. Move the mouse 
+      pointer over top a redeye region, and click on or near it. This should remove the
+      red region, replacing it with a blacker region. If you are unhappy with the
+      result, simply click <guibutton>Undo</guibutton> to revert the previous change (or changes).
+      (Clicking <guibutton>Cancel</guibutton> will abandon all changes and close the window.)
+      Once you are satisfied with the result, you can click on more redeye regions, or
+      click <guibutton>OK</guibutton> to close the window.
+      </para>
+      <para>The image must be re-saved in the usual manner after using 
+      <menuchoice><guimenu>Image</guimenu><guimenuitem>Redeye Removal</guimenuitem></menuchoice>.
+      See <xref linkend="gthumb-save-images"/> for more information.
+      </para>
+    </sect3>
     </sect2>
     <sect2 id="gthumb-save-images">
     <title>To Save an Image</title>

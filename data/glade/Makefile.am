@@ -14,6 +14,7 @@ glade_DATA = 				\
 	gthumb_png_exporter.glade 	\
 	gthumb_preferences.glade	\
 	gthumb_print.glade		\
+	gthumb_redeye.glade		\
 	gthumb_search.glade		\
 	gthumb_tools.glade		\
 	gthumb_web_exporter.glade 

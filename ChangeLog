@@ -1,5 +1,32 @@
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* NEWS:
+	* data/glade/Makefile.am:
+	* doc/C/gthumb.xml:
+	* libgthumb/gthumb-stock.c:
+	* libgthumb/gthumb-stock.h:
+	* libgthumb/icons/Makefile.am:
+	* libgthumb/icons/redeye-removal-16.png:
+	* src/Makefile.am:
+	* src/dlg-redeye-removal.c: (get_widget), (destroy_cb),
+	(cancel_cb), (compute_scale_factor), (find_region), (fix_redeye),
+	(update_image), (press_in_win_event), (undo_cb), (help_cb),
+	(ok_cb), (make_redeye_buf), (clone_redeye_buf),
+	(destroy_redeye_buf), (initialize_redeye), (dlg_redeye_removal):
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_update_sensitivity):
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer.c: (viewer_update_sensitivity):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_alter_image_redeye_removal):
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+
+	Adds a redeye removal tool. See bug #140533. Patch by
+        Carl Michal, Marty Leisner, and Michael Chudobiak.
+
+2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb.glade: Fix image properties dialog window height.
 	  Fixes bug #357957. Patch by Manuel Braga.
 

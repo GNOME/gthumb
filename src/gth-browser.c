@@ -897,6 +897,8 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "AlterImage_Crop", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Dither_BW", ! image_is_void && ! image_is_ani && image_is_visible);
 	set_action_sensitive (browser, "AlterImage_Dither_Web", ! image_is_void && ! image_is_ani && image_is_visible);
+	set_action_sensitive (browser, "AlterImage_RedeyeRemoval", ! image_is_void && ! image_is_ani && image_is_visible);
+
 
 	set_action_sensitive (browser, "View_PlayAnimation", image_is_ani);
 	set_action_sensitive (browser, "View_StepAnimation", image_is_ani && ! playing);
