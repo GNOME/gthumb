@@ -52,7 +52,6 @@ static gint thumb_size[] = {48, 64, 85, 95, 112, 128, 164, 200, 256};
 static gint thumb_sizes = sizeof (thumb_size) / sizeof (gint);
 
 #define GLADE_PREF_FILE "gthumb_preferences.glade"
-#define VIEW_AS_DELAY 500
 
 typedef struct {
 	GthBrowser *browser;
@@ -73,8 +72,6 @@ typedef struct {
 	GtkWidget  *radio_exif_use_orientation_tag;
 	GtkWidget  *radio_exif_use_image_transform;
 
-	GtkWidget  *view_as_slides_radiobutton;
-	GtkWidget  *view_as_list_radiobutton;
 	GtkWidget  *toggle_show_filenames;
 	GtkWidget  *toggle_show_comments;
 	GtkWidget  *toggle_show_thumbs;
@@ -95,8 +92,6 @@ typedef struct {
 	GtkWidget  *spin_ss_delay;
 	GtkWidget  *toggle_ss_wrap_around;
 
-	GthViewAs   new_view_type;
-	guint       view_as_timeout;
 } DialogData;
 
 
@@ -105,8 +100,6 @@ static void
 destroy_cb (GtkWidget *widget, 
 	    DialogData *data)
 {
-	if (data->view_as_timeout != 0)
-		g_source_remove (data->view_as_timeout);
 	g_object_unref (G_OBJECT (data->gui));
 	g_free (data);
 }
@@ -287,45 +280,6 @@ show_comments_toggled_cb (GtkToggleButton *button,
 }
 
 
-static gboolean
-view_as_cb (gpointer cb_data)
-{
-	DialogData *data = cb_data;
-
-	g_source_remove (data->view_as_timeout);
-	pref_set_view_as (data->new_view_type);
-	data->view_as_timeout = 0;
-
-	return FALSE;
-}
-
-
-static void
-view_as_slides_toggled_cb (GtkToggleButton *button, 
-			   DialogData      *data)
-{
-	if (! gtk_toggle_button_get_active (button))
-		return;
-	if (data->view_as_timeout != 0)
-		g_source_remove (data->view_as_timeout);
-	data->new_view_type = GTH_VIEW_AS_THUMBNAILS;
-	data->view_as_timeout = g_timeout_add (VIEW_AS_DELAY, view_as_cb, data);
-}
-
-
-static void
-view_as_list_toggled_cb (GtkToggleButton *button, 
-			 DialogData      *data)
-{
-	if (! gtk_toggle_button_get_active (button))
-		return;
-	if (data->view_as_timeout != 0)
-		g_source_remove (data->view_as_timeout);
-	data->new_view_type = GTH_VIEW_AS_LIST;
-	data->view_as_timeout = g_timeout_add (VIEW_AS_DELAY, view_as_cb, data);
-}
-
-
 static void
 thumbs_size_changed_cb (GtkOptionMenu *option_menu,
 			DialogData    *data)
@@ -451,9 +405,6 @@ dlg_preferences (GthBrowser *browser)
 	data->radio_exif_use_orientation_tag = glade_xml_get_widget (data->gui, "radio_exif_use_orientation_tag");
 	data->radio_exif_use_image_transform = glade_xml_get_widget (data->gui, "radio_exif_use_image_transform");
 
-	data->view_as_slides_radiobutton = glade_xml_get_widget (data->gui, "view_as_slides_radiobutton");
-	data->view_as_list_radiobutton = glade_xml_get_widget (data->gui, "view_as_list_radiobutton");
-
         data->toggle_show_filenames = glade_xml_get_widget (data->gui, "toggle_show_filenames");
         data->toggle_show_comments = glade_xml_get_widget (data->gui, "toggle_show_comments");
 
@@ -531,11 +482,6 @@ dlg_preferences (GthBrowser *browser)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->radio_layout4), TRUE);
 
 	/* * browser */
-
-	if (pref_get_view_as () == GTH_VIEW_AS_THUMBNAILS)
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_slides_radiobutton), TRUE);
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->view_as_list_radiobutton), TRUE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_file_type), ! eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_show_filenames), eel_gconf_get_boolean (PREF_SHOW_FILENAMES, FALSE));
@@ -627,15 +573,6 @@ dlg_preferences (GthBrowser *browser)
 	g_signal_connect (G_OBJECT (data->toggle_show_comments), 
 			  "toggled",
 			  G_CALLBACK (show_comments_toggled_cb),
-			  data);
-
-	g_signal_connect (G_OBJECT (data->view_as_slides_radiobutton), 
-			  "toggled",
-			  G_CALLBACK (view_as_slides_toggled_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->view_as_list_radiobutton), 
-			  "toggled",
-			  G_CALLBACK (view_as_list_toggled_cb),
 			  data);
 
 	g_signal_connect (G_OBJECT (data->opt_thumbs_size),

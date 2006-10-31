@@ -1,5 +1,17 @@
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_preferences.glade:
+	* src/dlg-preferences.c: (destroy_cb), (dlg_preferences):
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (view_as_cb), (view_as_radio_action),
+	(gth_browser_construct), (close__step6):
+
+	Puts View As Slides / List in View menu, not in prefs.
+	Fixes bug #310648.
+
+2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* NEWS:
 	* data/glade/Makefile.am:
 	* data/glade/gthumb_redeye.glade:

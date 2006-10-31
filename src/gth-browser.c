@@ -81,6 +81,9 @@
 
 #define GCONF_NOTIFICATIONS 18
 
+#define VIEW_AS_DELAY 500
+
+
 typedef enum {
 	GTH_BROWSER_GO_TO,
 	GTH_BROWSER_GO_BACK,
@@ -229,6 +232,9 @@ struct _GthBrowserPrivateData {
 
 	GthSortMethod       sort_method;
 	GtkSortType         sort_type;
+
+        GthViewAs   	    new_view_type;
+        guint               view_as_timeout;
 
 	/* viewer stuff */
 
@@ -5099,6 +5105,38 @@ sort_by_radio_action (GtkAction      *action,
 }
 
 
+static gboolean
+view_as_cb (gpointer data)
+{
+        GthBrowser            *browser = data;
+        GthBrowserPrivateData *priv = browser->priv;
+
+        g_source_remove (priv->view_as_timeout);
+        pref_set_view_as (priv->new_view_type);
+        priv->view_as_timeout = 0;
+
+        return FALSE;
+}
+
+
+static void
+view_as_radio_action (GtkAction      *action,
+                      GtkRadioAction *current,
+                      gpointer        data)
+{
+        GthBrowser            *browser = data;
+        GthBrowserPrivateData *priv = browser->priv;
+        GthViewAs              view_as_choice;
+
+	view_as_choice = gtk_radio_action_get_current_value (current);
+
+        if (priv->view_as_timeout != 0)
+                g_source_remove (priv->view_as_timeout);
+        priv->new_view_type = view_as_choice;
+        priv->view_as_timeout = g_timeout_add (VIEW_AS_DELAY, view_as_cb, data);
+}
+
+
 void
 gth_browser_set_sort_type (GthBrowser  *browser,
 			   GtkSortType  sort_type)
@@ -6227,6 +6265,13 @@ gth_browser_construct (GthBrowser  *browser,
 					    GTH_SIDEBAR_DIR_LIST,
 					    G_CALLBACK (content_radio_action), 
 					    browser);
+        gtk_action_group_add_radio_actions (actions,
+                                            gth_browser_view_as_entries,
+                                            gth_browser_view_as_entries_size,
+                                            pref_get_view_as (),
+                                            G_CALLBACK (view_as_radio_action),
+                                            browser);
+
 	priv->ui = ui = gtk_ui_manager_new ();
 
 	g_signal_connect (ui, "connect_proxy",
@@ -7193,6 +7238,9 @@ close__step6 (const char *filename,
 		}
 
 	} 
+	
+	if (priv->view_as_timeout != 0)
+                g_source_remove (priv->view_as_timeout);
 
 	gtk_widget_destroy (GTK_WIDGET (browser));
 }
