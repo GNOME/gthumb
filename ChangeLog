@@ -2,6 +2,7 @@
 
 	* NEWS:
 	* data/glade/Makefile.am:
+	* data/glade/gthumb_redeye.glade:
 	* doc/C/gthumb.xml:
 	* libgthumb/gthumb-stock.c:
 	* libgthumb/gthumb-stock.h:
