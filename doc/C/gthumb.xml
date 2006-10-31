@@ -101,9 +101,7 @@
       animations or little static images.
       Another important image format is PNG, this format is very
       common on Unix platforms and is considered
-      a replacement of the GIF format which has  
-      <ulink url="http://www.gnu.org/philosophy/gif.html"
-      type="http">license issues</ulink>.
+      a replacement of the GIF format.
     </para>
     <para>
       &app; supports all this formats and many others, it also displays
@@ -2261,6 +2259,60 @@
          <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
          </guimenuitem></menuchoice>.
        </para>
+       <para>
+         Several options are presented in the
+         <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
+         </guimenuitem></menuchoice> dialog.
+       </para>
+       <para>
+         The destination folder can be selected through the
+         <guilabel>Destination</guilabel> box. The photos will
+         be imported into a sub-folder of the <guilabel>Destination</guilabel>
+         folder. The name of the sub-folder is set by the
+         <guilabel>Film</guilabel> box. If no "Film" folder is specified,
+         a sub-folder name consisting of the import data and time will
+         be automatically generated.
+       </para>
+       <para>
+         <guilabel>Categories</guilabel> can be specified for the imported
+         photos using the <guilabel>Categories</guilabel> box.
+       </para>
+       <para>
+         If the <guilabel>Delete imported images from the camera</guilabel>
+         checkbox is enabled, the photos will be deleted from the camera
+         after they have been imported.
+       </para>
+       <para>
+         &app; will rename the images (in numerical re-order) when they 
+ 	 are imported, unless the
+         <guilabel>Keep original filenames</guilabel> checkbox is selected.
+       </para>
+       <para>
+         If the <guilabel>Rotate images physically</guilabel> checkbox is selected,
+         and the imported photo contains an Exif orientation tag, the image data 
+         will be physically transformed (losslessly) so that the viewed image 
+         looks the same as before but the orientation tag is reset to "top left". 
+         If this checkbox is not enabled, the image data and the orientation tag 
+         are both left unchanged. The image will be displayed identically by 
+         gthumb for both possibilities, but for maximum compatibility with other 
+         applications this checkbox should be enabled.
+       </para>
+       <sect3 id="gthumb-select-camera">
+	<title>Selecting the Camera Model</title>
+         <para>
+         &app; should auto-detect your camera (if it is turned on) when you
+         launch the <menuchoice><guimenu>File</guimenu><guimenuitem>Import Photos
+         </guimenuitem></menuchoice> dialog. If it does, a camera icon will be
+         displayed in the dialog box. If not, a camera with an "X" through it
+         will be shown.
+         </para>
+         <para>
+         If the wrong camera has been detected, click the camera icon to select
+         a different one. A drop-down box listing all auto-detected cameras will
+         be shown. If the <guilabel>Use manual selection instead</guilabel> checkbox
+         is enabled, the user can manually set the camera model and port.
+         </para>
+       </sect3>
     </sect2>
     <sect2 id="gthumb-write-to-cd">
       <title>To Write Images to a CD or DVD</title>

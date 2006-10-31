@@ -1,5 +1,17 @@
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_camera.glade:
+	* doc/C/gthumb.xml:
+	* src/dlg-photo-importer.c: (model__destroy_cb),
+	(model__ok_clicked_cb), (get_autodetect_model_list),
+	(model__autodetect_model_changed_cb), (model__refresh_cb),
+	(model__manual_select_cb), (dlg_select_camera_model_cb):
+
+	Adds support for multiple auto-detected cameras (or
+	multiple modes for single cameras). Bug 361967.
+
+2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_preferences.glade:
 	* src/dlg-preferences.c: (destroy_cb), (dlg_preferences):
 	* src/gth-browser-actions-entries.h:
