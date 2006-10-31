@@ -1,3 +1,8 @@
+2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb.glade: Fix image properties dialog window height.
+	  Fixes bug #357957. Patch by Manuel Braga.
+
 2006-10-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (key_press_cb): Fixes zoom keybinding (bug #345339).
