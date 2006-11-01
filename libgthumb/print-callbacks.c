@@ -399,8 +399,15 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 				      const char       *end,
 				      double           *line_width)
 {
+	/* This function returns a pointer to the last printable character in 
+	   string starting at pointer "start". If a pointer to a "line_width"'
+	   variable is provided, this variable will be updated with the physical
+	   width of this string segment. */
+
 	const char  *p;
+	const char  *last_space;	
 	double       current_width = 0.0;
+	double	     width_to_last_space = 0.0;
 	ArtPoint     space_advance;
 	int          space, new_line1, new_line2;
 	
@@ -419,14 +426,23 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 		glyph = gnome_font_lookup_default (pci->font_comment, ch);
 
 		if (glyph == new_line1 || glyph == new_line2) {
+			/* Return if a newline is detected */
 			if (line_width != NULL)
 				*line_width = max_width;
 			return p;
 
-		} else if (glyph == space)
+		} else if (glyph == space) {
 			current_width += space_advance.x;
 
+			/* Record the width and string pointer thus far, in case this is the
+			   last space before max_width is reached. If it is, the string
+			   will wrap at this point (+1 character). */
+			width_to_last_space = current_width;
+			last_space = p;
+		}
+
 		else {
+			/* Normal characters simply increment the pointer and width. */
 			ArtPoint adv;
 			gnome_font_get_glyph_stdadvance (pci->font_comment, 
 							 glyph,
@@ -438,16 +454,37 @@ pci_get_next_line_to_print_delimiter (PrintCatalogInfo *pci,
 				current_width += (2 * space_advance.x);
 		}
 
+		/* We have to wrap the line if the max_width is exceeded */
+
 		if (current_width > max_width) {
-			if (line_width != NULL)
-				*line_width = max_width;
-			return p;
+			/* wrap after the last space, if possible */
+			if (width_to_last_space > 0.0) {
+				if (line_width != NULL) 
+					*line_width = width_to_last_space;
+				if (g_utf8_next_char(last_space)) {
+					/* Move just past last space, so that the next line
+					   doesn't have an odd indent, if possible. */
+					return g_utf8_next_char(last_space);
+				}
+				else {
+					/* If it isn't possible, just return the position
+			                   of the last space. */		   
+					return last_space;
+				}
+			}
+			/* otherwise, chop off at the current character */
+			else {
+				if (line_width != NULL) 
+					*line_width = max_width;
+                                return p;
+			}
 		}
 	}
 	
 	if (line_width != NULL)
 		*line_width = current_width;
 
+	/* if we have reached the specified end pointer, return that pointer */
 	return end;
 }
 

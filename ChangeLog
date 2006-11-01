@@ -1,3 +1,32 @@
+2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+        * libgthumb/print-callbacks.c:  (pci_get_next_line_to_print_delimiter):
+          Fixes bug 305046, by making printed comments wrap between words, rather than
+          blindly wrapping in the middle of words.
+
+        * data/gthumb.schemas.in:
+        * data/glade/gthumb_tools.glade:
+        * libgthumb/glib-utils.c: (_g_substitute_pattern):
+        * src/dlg-rename-series.c: (update_list): Fixes bug 338623 and bug 339037,
+          by adding a "%e" file-extension symbol when renaming a series of files.
+          This allows extensions to be changed, and fixes a crash when files without
+          extensions were renamed.
+
+        * data/glade/gthumb_comments.glade:
+        * doc/C/gthumb.xml:
+        * src/dlg-categories.c: (add_category_cb), (remove_category_cb),
+        (ok_clicked_cb), (use_category_toggled), (dlg_categories_common),
+        (dlg_categories_update):
+        * src/dlg-comment.c: (save_clicked_cb),
+        (date_optionmenu_changed_cb), (dlg_comment_new),
+        (dlg_comment_update):
+        * src/gth-fullscreen.c: (gth_fullscreen_init):
+        * src/gth-viewer.c: (gth_viewer_init):
+        * src/gth-window.c: (gth_window_class_init), (gth_window_init):
+          The "Close" and "Save" buttons in the comments and categories dialogs have
+          been changed to "Cancel" and "OK". The save is automatic when OK is clicked,
+	  for more intuitive operation.
+
 2006-10-31  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/async-pixbuf-ops.c: (scale_step):

@@ -222,7 +222,10 @@ _g_substitute_pattern (const char *utf8_text,
 
 			ch = g_utf8_get_char (s);
 			if (ch == pattern)
-				g_string_append (r, value);
+				{
+				if (value)
+					g_string_append (r, value);
+				}
 			else {
 				g_string_append (r, "%");
 				g_string_append_unichar (r, ch);

@@ -1205,7 +1205,7 @@
 	<applyto>/apps/gthumb/dialogs/rename_series/template</applyto>
 	<owner>gthumb</owner>
 	<type>string</type>
-	<default>###</default>
+	<default>###%e</default>
 	<locale name="C">
 	  <short></short>
 	  <long> 

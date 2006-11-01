@@ -263,7 +263,6 @@ add_category_cb (GtkWidget  *widget,
 				    CATEGORY_COLUMN, new_category,
 				    -1);
 		update_category_entry (data);
-		gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 	}
 
 	g_free (new_category);
@@ -284,7 +283,6 @@ remove_category_cb (GtkWidget *widget,
 
 	gtk_list_store_remove (data->keywords_list_model, &iter);
 	update_category_entry (data);
-	gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 }
 
 
@@ -342,17 +340,9 @@ ok_clicked_cb (GtkWidget  *widget,
 
 	if (data->save_func) {
 		(*data->save_func) (data->file_list, data->save_data);
-		gtk_widget_set_sensitive (data->c_ok_button, FALSE);
 		if (data->window != NULL) {
-			gboolean close_on_save;
-
 			gth_window_update_current_image_metadata (data->window);
-
-			g_object_get (data->window,
-				      "close_on_save", &close_on_save,
-				      NULL);
-			if (close_on_save)
-				dlg_categories_close (data->dialog);
+			dlg_categories_close (data->dialog);
 		}
 	} else
 		gtk_widget_destroy (data->dialog);
@@ -409,7 +399,6 @@ use_category_toggled (GtkCellRendererThreeStates *cell,
 	
 	gtk_tree_path_free (path);
 	update_category_entry (data);
-	gtk_widget_set_sensitive (data->c_ok_button, TRUE);
 }
 
 
@@ -560,11 +549,6 @@ dlg_categories_common (GtkWindow     *parent,
 	data->c_ok_button = btn_ok = glade_xml_get_widget (data->gui, "c_ok_button");
 	btn_cancel = glade_xml_get_widget (data->gui, "c_cancel_button");
 	btn_help = glade_xml_get_widget (data->gui, "c_help_button");
-
-	if (!modal) {
-		gtk_button_set_label (GTK_BUTTON (btn_ok), GTK_STOCK_SAVE);
-		gtk_button_set_label (GTK_BUTTON (btn_cancel), GTK_STOCK_CLOSE);
-	}
 
 	/* Set widgets data. */
 
@@ -931,7 +915,6 @@ dlg_categories_update (GtkWidget *dlg)
 
 	add_saved_categories (data);
 	update_category_entry (data);
-	gtk_widget_set_sensitive (data->c_ok_button, FALSE);
 }
 
 

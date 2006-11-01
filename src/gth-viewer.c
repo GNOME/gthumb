@@ -1352,10 +1352,6 @@ gth_viewer_init (GthViewer *viewer)
 	priv->image_path = NULL;
 	priv->image_error = FALSE;
 
-	g_object_set (viewer, 
-		      "close_on_save", TRUE,
-		      NULL);
-
 	if (SingleViewer == NULL) 
 		SingleViewer = viewer;
 }

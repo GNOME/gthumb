@@ -2187,7 +2187,14 @@
                 <para><keycap>%f</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
-                original name.</para></entry>
+                original name, excluding the extension.</para></entry>
+            </row>
+            <row valign="top">
+              <entry>
+                <para><keycap>%e</keycap></para></entry>
+              <entry align="left">
+                <para>This symbol will be replaced with the image
+                original filename extension.</para></entry>
             </row>
             <row valign="top">
               <entry>
@@ -2201,7 +2208,7 @@
                 <para><keycap>%s</keycap></para></entry>
               <entry align="left">
                 <para>This symbol will be replaced with the image
-                dimesions.</para></entry> 
+                dimensions.</para></entry> 
             </row>
           </tbody>
         </tgroup>

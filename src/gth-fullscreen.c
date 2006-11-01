@@ -299,10 +299,6 @@ gth_fullscreen_init (GthFullscreen *fullscreen)
 			  G_CALLBACK (fade_faded_cb),
 			  fullscreen);
 	priv->use_fade = FALSE;
-
-	g_object_set (fullscreen, 
-		      "close_on_save", TRUE,
-		      NULL);
 }
 
 

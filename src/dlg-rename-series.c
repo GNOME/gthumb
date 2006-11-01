@@ -253,11 +253,10 @@ update_list (DialogData *data)
 		char     *name2;
 		char     *name3;
 		char     *name4;
-		char     *extension;
+		char     *extension = NULL;
 		char     *new_name;
 
 		name1 = _g_get_name_from_template (template, start_at++);
-
 		utf8_txt = g_filename_to_utf8 (name_wo_ext, -1, 0, 0, 0);
 		name2 = _g_substitute_pattern (name1, 'f', utf8_txt);
 		g_free (name_wo_ext);
@@ -273,8 +272,12 @@ update_list (DialogData *data)
 		name4 = _g_substitute_pattern (name3, 's', image_size);
 		g_free (image_size);
 
-		extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
-		new_name = g_strconcat (name4, extension, NULL);
+		if (strrchr (fdata->name, '.'))
+			{
+			extension = g_filename_to_utf8 (strrchr (fdata->name, '.'), -1, 0, 0, 0);
+			}
+			
+		new_name = _g_substitute_pattern (name4, 'e', extension);
 
 		data->new_names_list = g_list_prepend (data->new_names_list, g_filename_from_utf8 (new_name, -1, 0, 0, 0));
 

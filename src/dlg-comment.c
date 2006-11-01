@@ -74,7 +74,7 @@ typedef struct {
 	GtkWidget     *date_optionmenu;
 	GtkWidget     *date_dateedit;
 	GtkWidget     *save_changed_checkbutton;
-	GtkWidget     *save_button;
+	GtkWidget     *ok_button;
 
 	CommentData   *original_cdata;
 	gboolean       have_exif_data;
@@ -174,7 +174,6 @@ save_clicked_cb (GtkWidget  *widget,
 	struct tm    tm = {0};
 	GtkTextIter  start_iter, end_iter;
 	gboolean     save_changed;
-	gboolean     close_on_save;
 
 	save_changed = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->save_changed_checkbutton));
 	cdata = comment_data_new ();
@@ -267,11 +266,7 @@ save_clicked_cb (GtkWidget  *widget,
 
 	/**/
 
-	g_object_get (data->window,
-		      "close_on_save", &close_on_save,
-		      NULL);
-	if (close_on_save)
-		dlg_comment_close (data->dialog);
+	dlg_comment_close (data->dialog);
 }
 
 
@@ -340,16 +335,6 @@ date_optionmenu_changed_cb (GtkOptionMenu *option_menu,
 					  get_exif_time (first_image));
 		break;
 	}
-
-	gtk_widget_set_sensitive (data->save_button, TRUE);
-}
-
-
-static void
-editabled_changed_cb (GtkEditable *editable,
-		      DialogData  *data)
-{
-	gtk_widget_set_sensitive (data->save_button, TRUE);
 }
 
 
@@ -408,8 +393,8 @@ dlg_comment_new (GthWindow *window)
 	data->date_optionmenu = glade_xml_get_widget (data->gui, "date_optionmenu");
 	data->date_dateedit = glade_xml_get_widget (data->gui, "date_dateedit");
 	data->save_changed_checkbutton = glade_xml_get_widget (data->gui, "save_changed_checkbutton");
-	data->save_button = glade_xml_get_widget (data->gui, "save_button");
-	btn_close = glade_xml_get_widget (data->gui, "close_button");
+	data->ok_button = glade_xml_get_widget (data->gui, "ok_button");
+	btn_close = glade_xml_get_widget (data->gui, "cancel_button");
 	btn_help = glade_xml_get_widget (data->gui, "help_button");
 
 	data->note_text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (data->note_text_view));
@@ -426,7 +411,7 @@ dlg_comment_new (GthWindow *window)
 			  "unrealize",
 			  G_CALLBACK (unrealize_cb),
 			  data);
-	g_signal_connect (G_OBJECT (data->save_button), 
+	g_signal_connect (G_OBJECT (data->ok_button), 
 			  "clicked",
 			  G_CALLBACK (save_clicked_cb),
 			  data);
@@ -442,15 +427,6 @@ dlg_comment_new (GthWindow *window)
 	g_signal_connect (G_OBJECT (data->date_optionmenu), 
 			  "changed",
 			  G_CALLBACK (date_optionmenu_changed_cb),
-			  data);
-
-	g_signal_connect (G_OBJECT (data->place_entry), 
-			  "changed",
-			  G_CALLBACK (editabled_changed_cb),
-			  data);
-	g_signal_connect (G_OBJECT (data->note_text_buffer), 
-			  "changed",
-			  G_CALLBACK (editabled_changed_cb),
 			  data);
 
 	/* run dialog. */
@@ -487,7 +463,7 @@ dlg_comment_update (GtkWidget *dlg)
 	data->file_list = gth_window_get_file_list_selection (data->window); 
 
 	if (data->file_list == NULL) {
-		gtk_widget_set_sensitive (data->save_button, FALSE);
+		gtk_widget_set_sensitive (data->ok_button, FALSE);
 		gtk_widget_set_sensitive (data->comment_main_box, FALSE);
 		return;
 	} else 
@@ -594,8 +570,6 @@ dlg_comment_update (GtkWidget *dlg)
 		gtk_option_menu_set_history (GTK_OPTION_MENU (data->date_optionmenu), NO_DATE);
 		gnome_date_edit_set_time (GNOME_DATE_EDIT (data->date_dateedit), ctime);
 	}
-
-	gtk_widget_set_sensitive (data->save_button, FALSE);
 }
 
 
