@@ -43,9 +43,9 @@
     </publisher> 
 
     &legal; 
-
+    
     <authorgroup>
-      <author>
+      <author role="maintainer">
         <firstname>Paolo</firstname>
 	<surname>Bacchilega</surname>
 	<affiliation>
@@ -61,14 +61,25 @@
 	</affiliation> 
       </author> 
     </authorgroup>
-
     <!-- do not put authorname in the header except in copyright - use
          section "authors" below -->
+    <revhistory>
+      <revision>
+	<revnumber>&manualversion;</revnumber>
+	<date>&date;</date>
+	<revdescription>
+	  <para role="author">Paolo Bacchilega</para>
+	  <para role="publisher">GNOME Documentation Project</para>
+	</revdescription>
+      </revision>
+    </revhistory>
+
 
     <!-- this is version of manual, not application --> 
     <releaseinfo>
       This is manual describes version &appversion; of &appname;
     </releaseinfo>
+    <abstract role="description"><para>&app; is an image viewer and browser for the GNOME environment</para></abstract>
   </articleinfo>
 
   <indexterm> 
@@ -188,8 +199,7 @@
     <title>The main window</title> 
     <screenshot>
       <screeninfo>The main window</screeninfo> 
-      <graphic format="png" fileref="figures/main-win.png" srccredit="Me">
-      </graphic>
+      <graphic format="PNG" fileref="figures/main-win.png" srccredit="Me"/>
     </screenshot>
     </figure>
     <!-- ==== End of Figure ==== -->
@@ -319,9 +329,7 @@
   </sect2>
   </sect1>
   <sect1 id="gthumb-folders">
-    <title>
-      Working with Folders
-    </title>
+    <title>Working with Folders</title>
     <para>
       &app; offers the functionalities to manage folders.
       <note>
@@ -589,19 +597,19 @@
       linkend="gthumb-view-prop"/>) or perform the following
      steps:
      <orderedlist>
-        <listitem>
+        <listitem><para>
            Select the image.
-        </listitem>
-        <listitem>
+        </para></listitem>
+        <listitem><para>
            View the image pressing <keycap>Return</keycap> or double
            clicking on it.
-        </listitem>
-        <listitem>
+        </para></listitem>
+        <listitem><para>
            Choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
            Comment</guimenuitem></menuchoice> or press
            <keycap>I</keycap>. &app; displays the exif data.
-        </listitem>
+        </para></listitem>
      </orderedlist>
   </para>
   </sect2>
@@ -1192,8 +1200,7 @@
       <title>An image comment</title> 
       <screenshot>
         <screeninfo>An image comment</screeninfo> 
-        <graphic format="png" fileref="figures/comment.png" srccredit="Me">
-        </graphic>
+        <graphic format="PNG" fileref="figures/comment.png" srccredit="Me"/>
       </screenshot>
     </figure>
     <!-- ==== End of Figure ==== -->
@@ -1243,19 +1250,19 @@
       linkend="gthumb-view-prop"/>) or perform the following
      steps:
      <orderedlist>
-        <listitem>
+        <listitem><para>
            Select the image.
-        </listitem>
-        <listitem>
+        </para></listitem>
+        <listitem><para>
            View the image pressing <keycap>Return</keycap> or double
            clicking on it. 
-        </listitem>
-        <listitem>
+        </para></listitem>
+        <listitem><para>
            Press <keycap>I</keycap> or  choose
            <menuchoice><guimenu>View</guimenu><guisubmenu>View/Hide</guisubmenu><guimenuitem>Image
            Comment</guimenuitem></menuchoice>. 
            &app; displays the image comment.
-        </listitem>
+        </para></listitem>
      </orderedlist>
   </para>
   </sect2>
@@ -2551,9 +2558,9 @@
       <table id="gthumb-TBL-keyword-shortcuts-browser" frame="topbot">
       <title>Keyboard shortcuts to navigate folders</title>
       <tgroup cols="3" colsep="1" rowsep="1">
-      	<colspec colanme="COLSPEC0" colwidth="50*"/>
-	<colspec colanme="COLSPEC1" colwidth="50*"/>
-	<colspec colanme="COLSPEC2" colwidth="50*"/>
+      	<colspec colname="COLSPEC0" colwidth="50*"/>
+	<colspec colname="COLSPEC1" colwidth="50*"/>
+	<colspec colname="COLSPEC2" colwidth="50*"/>
 	<thead>
 	  <row valign="top" rowsep="1">
 	    <entry colname="COLSPEC0">
@@ -2843,9 +2850,9 @@
     <table id="gthumb-TBL-keyword-shortcuts-viewer" frame="topbot">
     <title>Keyboard shortcuts to view images</title>
     <tgroup cols="3" colsep="1" rowsep="1">
-      	<colspec colanme="COLSPEC0" colwidth="50*"/>
-	<colspec colanme="COLSPEC1" colwidth="50*"/>
-	<colspec colanme="COLSPEC2" colwidth="50*"/>
+      	<colspec colname="COLSPEC0" colwidth="50*"/>
+	<colspec colname="COLSPEC1" colwidth="50*"/>
+	<colspec colname="COLSPEC2" colwidth="50*"/>
 	<thead>
 	  <row valign="top">
 	    <entry colname="COLSPEC0">
@@ -3069,9 +3076,9 @@
   <table id="gthumb-TBL-keyword-shortcuts-other" frame="topbot">
     <title>Other keyboard shortcuts.</title>
     <tgroup cols="3" colsep="0" rowsep="0">
-      	<colspec colanme="COLSPEC0" colwidth="50*"/>
-	<colspec colanme="COLSPEC1" colwidth="50*"/>
-	<colspec colanme="COLSPEC2" colwidth="50*"/>
+      	<colspec colname="COLSPEC0" colwidth="50*"/>
+	<colspec colname="COLSPEC1" colwidth="50*"/>
+	<colspec colname="COLSPEC2" colwidth="50*"/>
 	<thead>
 	  <row valign="top" rowsep="1">
 	    <entry colname="COLSPEC0">

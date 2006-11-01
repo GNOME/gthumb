@@ -1,5 +1,18 @@
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* .cvsignore:
+	* Makefile.am:
+	* configure.in:
+	* doc/C/gthumb.xml:
+	* doc/ChangeLog:
+	* doc/Makefile.am:
+	* doc/gthumb.omf.in:
+	* m4/.cvsignore:
+
+	  Migration to gnome-doc-utils (bug #346889). Patch by Don Scorgie.
+
+2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_tools.glade: Fixed duplicate and missing 
           shortcut keys in the lossless rotate dialog, and added note
           mentioning [ and ] shortcuts. Fixes bugs #145130 and #142936.

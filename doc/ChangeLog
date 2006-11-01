@@ -1,0 +1,7 @@
+2006-07-07  Don Scorgie  <dscorgie@cvs.gnome.org>
+
+	* C/gthumb.xml: 
+	Update doc to validate properly
+
+	New Changelog for help documents
+	Convert gThumb to gnome-doc-utils

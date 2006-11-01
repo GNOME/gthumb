@@ -37,6 +37,7 @@ stamp-h.in
 stamp-h
 stamp-h1
 stamp.h
+gnome-doc-utils.make
 .project
 .cdtproject
 .cdtbuild

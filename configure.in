@@ -12,6 +12,9 @@ AM_PROG_LIBTOOL
 AM_PROG_LEX
 AC_PROG_YACC
 
+AC_CONFIG_MACRO_DIR([m4])
+GNOME_DOC_INIT
+
 dnl ==========================================================================
 dnl
 dnl If you add a version number here, you *must* add an AC_SUBST line for
@@ -312,7 +315,6 @@ components/Makefile
 components/image-viewer/Makefile
 components/catalog-view/Makefile
 doc/Makefile
-doc/C/Makefile
 data/Makefile
 data/albumthemes/Makefile
 data/albumthemes/Classic/Makefile
