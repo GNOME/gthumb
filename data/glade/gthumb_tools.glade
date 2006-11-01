@@ -775,7 +775,7 @@
 			  <property name="visible">True</property>
 			  <property name="tooltip" translatable="yes">This checkbox governs the rotation method used for JPEG images that contain Exif orientation tags. If this checkbox is enabled, the rotation will be performed using a physical transform, and the Exif orientation tag will be reset to the default &quot;top left&quot; value. If it is not enabled, the rotation will be performed by changing the Exif orientation tag only. For maximum compatibility with other applications, this checkbox should be enabled.</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Apply physical transform</property>
+			  <property name="label" translatable="yes">Apply physical _transform</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -795,7 +795,7 @@
 			<widget class="GtkCheckButton" id="j_apply_to_all_checkbutton">
 			  <property name="visible">True</property>
 			  <property name="can_focus">True</property>
-			  <property name="label" translatable="yes">Apply to _all images</property>
+			  <property name="label" translatable="yes">Apply to all _images</property>
 			  <property name="use_underline">True</property>
 			  <property name="relief">GTK_RELIEF_NORMAL</property>
 			  <property name="focus_on_click">True</property>
@@ -863,9 +863,11 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkLabel" id="label92">
+	    <widget class="GtkLabel" id="label121">
 	      <property name="visible">True</property>
-	      <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Note&lt;/b&gt;: JPEG transformations are normally lossless.&lt;/i&gt;&lt;/small&gt;</property>
+	      <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;&lt;b&gt;Note&lt;/b&gt;: JPEG transformations are normally lossless.
+When viewing images, you can use the [ and ] shortcut
+keys to rotate and save losslessly, bypassing this dialog.&lt;/i&gt;&lt;/small&gt;</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">True</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

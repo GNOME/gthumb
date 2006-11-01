@@ -1,5 +1,11 @@
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_tools.glade: Fixed duplicate and missing 
+          shortcut keys in the lossless rotate dialog, and added note
+          mentioning [ and ] shortcuts. Fixes bugs #145130 and #142936.
+
+2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-file-utils.c: (dlg_files_delete): Fixed silent fail of file
 	  deletes on read-only-mounted filesystems. Bug #335180. Patch
 	  by Manuel Braga.
