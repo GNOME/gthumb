@@ -1916,7 +1916,7 @@ dlg_files_delete (GthWindow      *window,
 	}
 	
 	xfer_options    = GNOME_VFS_XFER_DELETE_ITEMS;
-	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
+	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_QUERY;
 	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
 
 	result = gnome_vfs_async_xfer (&fddata->handle,

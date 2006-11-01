@@ -1,5 +1,11 @@
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-file-utils.c: (dlg_files_delete): Fixed silent fail of file
+	  deletes on read-only-mounted filesystems. Bug #335180. Patch
+	  by Manuel Braga.
+
+2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
         * libgthumb/print-callbacks.c:  (pci_get_next_line_to_print_delimiter):
           Fixes bug 305046, by making printed comments wrap between words, rather than
           blindly wrapping in the middle of words.
