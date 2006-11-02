@@ -777,11 +777,29 @@
 			  </child>
 
 			  <child>
+			    <widget class="GtkMenuItem" id="320x2">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">320 x 320</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_320x2_activate" last_modification_time="Thu, 15 May 2003 18:27:44 GMT"/>
+			    </widget>
+			  </child>
+
+			  <child>
 			    <widget class="GtkMenuItem" id="640x1">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">640 x 480</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_640x1_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="640x2">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">640 x 640</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_640x2_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
 			    </widget>
 			  </child>
 
@@ -795,6 +813,15 @@
 			  </child>
 
 			  <child>
+			    <widget class="GtkMenuItem" id="800x7">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">800 x 800</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_800x2_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
+			    </widget>
+			  </child>
+
+			  <child>
 			    <widget class="GtkMenuItem" id="1024x1">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">1024 x 768</property>
@@ -804,11 +831,29 @@
 			  </child>
 
 			  <child>
+			    <widget class="GtkMenuItem" id="1024x2">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">1024 x 1024</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_1024x2_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
+			    </widget>
+			  </child>
+
+			  <child>
 			    <widget class="GtkMenuItem" id="1280x1">
 			      <property name="visible">True</property>
 			      <property name="label" translatable="yes">1280 x 960</property>
 			      <property name="use_underline">True</property>
 			      <signal name="activate" handler="on_1280x1_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="1280x2">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">1280 x 1280</property>
+			      <property name="use_underline">True</property>
+			      <signal name="activate" handler="on_1280x2_activate" last_modification_time="Thu, 15 May 2003 18:26:48 GMT"/>
 			    </widget>
 			  </child>
 			</widget>

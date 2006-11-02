@@ -1,3 +1,12 @@
+2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_web_exporter.glade:
+	* src/dlg-web-exporter.c: (get_idx_from_size), (dlg_web_exporter):
+
+	  New re-size options in web exporter to allow equal landscape and
+          portrait image sizes (square bounding box). Bug #313671. Patch
+          by Stanislav Brabec.
+
 2006-11-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* .cvsignore:

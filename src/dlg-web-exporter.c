@@ -51,8 +51,8 @@ static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
 					      GTH_SORT_METHOD_BY_SIZE, 
 					      GTH_SORT_METHOD_BY_TIME,
 					      GTH_SORT_METHOD_MANUAL};
-static int           idx_to_resize_width[] = { 320, 640, 800, 1024, 1280 };
-static int           idx_to_resize_height[] = { 200, 480, 600, 768, 960 };
+static int           idx_to_resize_width[] = { 320, 320, 640, 640, 800, 800, 1024, 1024, 1280, 1280 };
+static int           idx_to_resize_height[] = { 200, 320, 480, 640, 600, 800, 768, 1024, 960, 1280 };
 
 
 #define str_void(x) (((x) == NULL) || (*(x) == 0))
@@ -246,20 +246,22 @@ static void show_album_theme_cb (GtkWidget *widget, DialogData *data);
 
 
 static int
-get_idx_from_resize_width (int width)
+get_idx_from_size (int width, int height)
 {
+	int idx;
 	if (width == 320)
-		return 0;
+		idx = 0;
 	else if (width == 640)
-		return 1;
+		idx = 1;
 	else if (width == 800)
-		return 2;
+		idx = 2;
 	else if (width == 1024)
-		return 3;
+		idx = 3;
 	else if (width == 1280)
-		return 4;
+		idx = 4;
 	else
-		return 1;
+		idx = 1;
+	return 2 * idx + (width == height? 1 : 0);
 }
 
 
@@ -439,7 +441,7 @@ dlg_web_exporter (GthBrowser *browser)
 
 	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, eel_gconf_get_boolean (PREF_WEB_ALBUM_RESIZE_IMAGES, FALSE));
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_resize_width (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH, 640)));
+	gtk_option_menu_set_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu), get_idx_from_size (eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_WIDTH, 640), eel_gconf_get_integer (PREF_WEB_ALBUM_RESIZE_HEIGHT, 480)));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4));
 
