@@ -29,6 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-url.h>
+#include <libgnome/gnome-help.h>
 #include <libgnomevfs/gnome-vfs-directory.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include <libgnomevfs/gnome-vfs-utils.h>
@@ -107,6 +108,39 @@ destroy_cb (GtkWidget  *widget,
 	if (data->exporter != NULL)
 		g_object_unref (data->exporter);
 	g_free (data);
+}
+
+
+/* called when the "help" button is clicked. */
+static void
+help_cb (GtkWidget  *widget,
+         DialogData *data)
+{
+        GError *err;
+
+        err = NULL;
+        gnome_help_display ("gthumb", "gthumb-web-album", &err);
+
+        if (err != NULL) {
+                GtkWidget *dialog;
+
+                dialog = gtk_message_dialog_new (GTK_WINDOW (data->dialog),
+                                                 0,
+                                                 GTK_MESSAGE_ERROR,
+                                                 GTK_BUTTONS_CLOSE,
+                                                 _("Could not display help: %s"),
+                                                 err->message);
+
+                g_signal_connect (G_OBJECT (dialog), "response",
+                                  G_CALLBACK (gtk_widget_destroy),
+                                  NULL);
+
+                gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
+
+                gtk_widget_show (dialog);
+
+                g_error_free (err);
+        }
 }
 
 
@@ -500,6 +534,10 @@ dlg_web_exporter (GthBrowser *browser)
 			  "destroy",
 			  G_CALLBACK (destroy_cb),
 			  data);
+        g_signal_connect (G_OBJECT (btn_help),
+                          "clicked",
+                          G_CALLBACK (help_cb),
+                          data);
 	g_signal_connect_swapped (G_OBJECT (btn_cancel), 
 				  "clicked",
 				  G_CALLBACK (gtk_widget_destroy),
@@ -508,7 +546,6 @@ dlg_web_exporter (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (export),
 			  data);
-
 	g_signal_connect (G_OBJECT (data->wa_select_theme_button), 
 			  "clicked",
 			  G_CALLBACK (show_album_theme_cb),

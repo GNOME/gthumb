@@ -1,5 +1,10 @@
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-web-exporter.c: (help_cb), (dlg_web_exporter): The
+          web album "Help" button didn't do anything (bug #369436). Fixed!
+
+2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_web_exporter.glade:
 	* src/dlg-web-exporter.c: (get_idx_from_size), (dlg_web_exporter):
 
