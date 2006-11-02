@@ -1373,7 +1373,7 @@ adjust_orientation__step (AsyncOperationData *aodata,
 		FileData     *fd = file_data_new (filepath, &info);
 		GthTransform transform = read_orientation_field (fd->path);
 		if (image_is_jpeg (filepath))
-			apply_transformation_jpeg (window, fd->path, transform);
+			apply_transformation_jpeg (window, fd->path, transform, FALSE);
 		else
 			apply_transformation_generic (window, fd->path, transform);
 

@@ -1,5 +1,16 @@
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* doc/C/gthumb.xml:
+	* src/dlg-jpegtran.c: (jpeg_mcu_dialog), (apply_transformation):
+	* src/dlg-photo-importer.c: (adjust_orientation__step):
+	* src/rotation-utils.c: (jtransform_perfect_transform),
+	(apply_transformation_jpeg):
+	* src/rotation-utils.h: Added option to trim jpegs during
+          transformations on images whose dimensions are not multiples of
+	  the jpeg MCU (8). See bug #361913. Patch by Jef Driesen.
+
+2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-web-exporter.c: (help_cb), (dlg_web_exporter): The
           web album "Help" button didn't do anything (bug #369436). Fixed!
 

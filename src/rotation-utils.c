@@ -95,10 +95,46 @@ write_orientation_field (const char   *path,
 }
 
 
+gboolean
+jtransform_perfect_transform(gint image_width, gint image_height,
+				gint MCU_width, gint MCU_height,
+				GthTransform transform)
+{
+	/* This function determines if it is possible to perform a lossless
+	   jpeg transformation without trimming, based on the image dimensions 
+	   and MCU size. Further details at http://jpegclub.org/jpegtran. */
+
+	gboolean result = TRUE;
+
+	switch (transform) {
+	case GTH_TRANSFORM_FLIP_H:
+	case GTH_TRANSFORM_ROTATE_270:
+		if (image_width % MCU_width)
+			result = FALSE;
+		break;
+	case GTH_TRANSFORM_FLIP_V:
+	case GTH_TRANSFORM_ROTATE_90:
+		if (image_height % MCU_height)
+			result = FALSE;
+		break;
+	case GTH_TRANSFORM_TRANSVERSE:
+	case GTH_TRANSFORM_ROTATE_180:
+		if (image_width % MCU_width)
+			result = FALSE;
+		if (image_height % MCU_height)
+			result = FALSE;
+		break;
+	}
+
+	return result;
+}
+
+
 void
 apply_transformation_jpeg (GtkWindow    *win,
 			   const char   *path,
-			   GthTransform transform)
+			   GthTransform  transform,
+			   gboolean	 trim)
 {
 	char        *line;
 	char        *tmp;
@@ -146,7 +182,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 		break;
 	}
 
-	if (jpegtran ((char*)path, tmp, transf, FALSE, &err) != 0) {
+	if (jpegtran ((char*)path, tmp, transf, trim, &err) != 0) {
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);

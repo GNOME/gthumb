@@ -227,6 +227,32 @@ notify_file_changed (DialogData *data,
 }
 
 
+#define GTK_RESPONSE_TRIM 1
+static gint jpeg_mcu_dialog (GtkWindow *parent)
+{
+ 	GtkWidget *d =  _gtk_message_dialog_new (parent,
+		GTK_DIALOG_MODAL,
+		GTK_STOCK_DIALOG_WARNING,
+		_("This transformation may introduce small image distortions along "
+		"one or more edges, because the image dimensions are not multiples of 8.\n\nThe distortion "
+		"is reversible, however. If the resulting image is unacceptable, simply apply the reverse "
+		"transformation to return to the original image.\n\ngThumb can also discard (or trim) any "
+		"untransformable edge pixels. For practical use, this mode gives the best looking results, "
+		"but the transformation is not strictly lossless anymore.\n\nTo avoid this problem in the "
+		"future, consider disabling the \"Apply physical transform\" option in the rotation dialog."),
+		NULL,
+		_("Trim"), GTK_RESPONSE_TRIM,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK,
+		NULL);
+	
+	gint result = gtk_dialog_run (GTK_DIALOG (d));
+
+ 	gtk_widget_destroy (d);
+
+ 	return result;
+}
+
 
 static void
 apply_transformation (DialogData *data,
@@ -254,43 +280,33 @@ apply_transformation (DialogData *data,
 
 	gnome_vfs_get_file_info (path, &info, GNOME_VFS_FILE_INFO_GET_ACCESS_RIGHTS|GNOME_VFS_FILE_INFO_FOLLOW_LINKS);
 
-        if (image_is_jpeg (path)) {
-		int	  width;
-		int	  height;
-		ExifShort orientation;
-			
+	gboolean jpeg = image_is_jpeg (path);
+	ExifShort orientation = get_exif_tag_short(path, EXIF_TAG_ORIENTATION);
+	data->transform = get_next_transformation (orientation, data->transform);
+ 
+	if ((jpeg && orientation) &&
+			!eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
+		// Adjust Exif orientation tag.
+		write_orientation_field (path, data->transform);
+	} else if (jpeg) {
+ 		// Lossless jpeg transform.
+		gint width, height;
 		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
-		
-		orientation = get_exif_tag_short (path, EXIF_TAG_ORIENTATION);
-                if (orientation != 0) {
-			data->transform = get_next_transformation (orientation, data->transform);
-			if (! eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
-				/* Just change the exif orientation tag, and save the file */
-				write_orientation_field (path, data->transform);
+		if (!jtransform_perfect_transform(width, height, 8, 8, data->transform)) {
+ 			// Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
+ 			// Warn about possible image distortions along one or more edges.
+ 			gint result = jpeg_mcu_dialog (window);
+			if (result != GTK_RESPONSE_CANCEL) {
+				gboolean trim = (result == GTK_RESPONSE_TRIM);
+				apply_transformation_jpeg (window, path, data->transform, trim);
 			}
-			else if ((height % 8 == 0) && (width % 8 == 0)) {
-				/* Do a physical transform if requested and if the dimensions are
-				 * multiples of the jpeg mcu (8) */
-				apply_transformation_jpeg (window, path, data->transform);
-			}
-			else {
-				/* Just change the exif orientation tag, and save the file */
-				_gtk_info_dialog_run (window, _("This image can not be physically transformed without image distortion, because its dimensions are not multiples of 8. Instead, gThumb will change the Exif orientation tag to accomplish the rotation without image distortion. To avoid this warning in the future, disable the \"Apply physical transform\" option in the rotation dialog."));
-				write_orientation_field (path, data->transform);
-			}
-                }
-                else {
-                	/* If no exif orientation tag is present, do a physical transform. */
-                	
-			/* Warn about MCU issues, if the image dimensions are not multiples of 8 */
-			if ((height % 8) || (width % 8)) 
-				_gtk_info_dialog_run (window, _("This image will be distorted slightly along one edge, because its dimensions are not multiples of 8 and no Exif orientation tag is present. It is not possible to \"losslessly\" rotate such images. The distortion is reversible, however. If the resulting image is unacceptable, simply apply the reverse transformation to return to the original image."));
-		
-			apply_transformation_jpeg (window, path, data->transform);
+ 		} else {
+			apply_transformation_jpeg (window, path, data->transform, FALSE);
 		}
-        }
-	else 
+	} else {
+		// Generic image transform.
 		apply_transformation_generic (window, path, data->transform);
+	}
 		
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);
 

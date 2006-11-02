@@ -2081,11 +2081,14 @@
       <para>The physical transform of pixel data inside the JPEG file will not
         degrade image quality (that is, it is lossless) under most conditions.
         However, if the image dimensions (height and width) are not both multiples
-        of 8, some data corruption will occur along one of the edges of the 
-        image. If there is no Exif orientation tag in the JPEG file, this
-        data corruption will occur. If there is an Exif orientation tag, &app; 
-        will avoid data corruption by changing the Exif orientation tag, even if 
-        the <guilabel>Apply physical transform</guilabel> checkbox is enabled.
+        of 8, some data corruption will occur along one or two of the edges of the 
+        image. If there is an Exif orientation tag, you can avoid this problem 
+        by disabling the <guilabel>Apply physical transform</guilabel> checkbox.
+        If you must use the physical transform approach with
+        images whose dimensions are not multiples of 8, &app; will allow you to
+        proceed despite with possible image distortion, but it will also ask if you
+        would like the trim the image slightly (by up to 7 columns and/or rows
+        of pixels) to remove the problem areas.
       </para>
     </sect2>
     <sect2 id="gthumb-reset-exif">
