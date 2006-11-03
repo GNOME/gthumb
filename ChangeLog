@@ -1,3 +1,9 @@
+2006-11-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c: (image_data_new): Patch to
+          include original filename within album-generated image filenames.
+	  Patch by Christophe Bisière. Bug #173025.
+
 2006-11-02  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* doc/C/gthumb.xml:

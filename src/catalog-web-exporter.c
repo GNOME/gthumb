@@ -128,10 +128,13 @@ image_data_new (const char *filename)
 		comment_data_free (cdata);
 
 	idata->src_filename = g_strdup (filename);
-	idata->dest_filename = g_strconcat ("img", 
-					    zero_padded (img_counter++), 
-					    ".jpeg", 
-					    NULL);
+	idata->dest_filename = g_strconcat (
+		zero_padded (img_counter++),
+		"-",
+		file_name_from_path (filename),
+		(file_extension_is(filename, "jpg") || file_extension_is(filename, "jpeg") ? "" : ".jpg"), 
+		NULL);
+
 	idata->file_size = 0;
 
 	idata->image = NULL;
