@@ -1,3 +1,11 @@
+2006-11-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/Makefile.am:
+	* src/dlg-redeye-removal.h:
+	* src/gth-window-actions-callbacks.c:
+	  Added header file (dlg-redeye-removal.h).
+	  Patch by Manuel Braga.
+
 2006-11-03  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c: (image_data_new): Patch to

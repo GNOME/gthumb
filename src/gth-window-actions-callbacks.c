@@ -50,6 +50,7 @@
 #include "dlg-posterize.h"
 #include "dlg-color-balance.h"
 #include "dlg-preferences.h"
+#include "dlg-redeye-removal.h"
 #include "dlg-rename-series.h"
 #include "dlg-scale-image.h"
 #include "dlg-crop.h"
