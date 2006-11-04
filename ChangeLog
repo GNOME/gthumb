@@ -1,5 +1,14 @@
 2006-11-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/catalog-web-exporter.c: (copy_exif_from_orig):
+	* src/gth-browser.c: (save_jpeg_data):
+	* src/gth-viewer.c: (save_jpeg_data):
+
+	  Reset exif orientation tags after "save", "save as", and
+	  during web album export. Bug 370013.
+
+2006-11-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/Makefile.am:
 	* src/dlg-redeye-removal.h:
 	* src/gth-window-actions-callbacks.c:

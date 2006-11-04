@@ -882,6 +882,8 @@ save_jpeg_data (GthViewer  *viewer,
 
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
+
+	write_orientation_field (filename, GTH_TRANSFORM_NONE);
 }
 
 

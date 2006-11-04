@@ -48,6 +48,8 @@
 #include "image-loader.h"
 #include "glib-utils.h"
 #include "albumtheme-private.h"
+#include "rotation-utils.h"
+#include "typedefs.h"
 
 #define DATE_FORMAT _("%d %B %Y, %H:%M")
 
@@ -1636,6 +1638,8 @@ copy_exif_from_orig (const char *src_filename,
 	exif_data_unref (edata_src);
 	jpeg_data_unref (jdata_src);
 	jpeg_data_unref (jdata_dest);
+
+	write_orientation_field (dest_filename, GTH_TRANSFORM_NONE);
 }
 
 
