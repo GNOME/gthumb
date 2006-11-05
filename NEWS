@@ -3,8 +3,20 @@ version 2.9.0
         * Added proper support for the Exif orientation tag when importing,
           rotating, and displaying JPEG images. See bug #343867: Rotating image 
           should alter EXIF data
-        * Fixed bug #361416: Reset Exif orientation tag tool
+        * Added "reset Exif orientation tag" tool (bug #361416)
 	* Added red-eye removal tool (bug #140533)
+	* Include original filename in web-album image filenames (bug #173025).
+	* Added option to trim jpegs during transformations on images whose 
+	  dimensions are not multiples of the jpeg MCU, 8 (bug #361913)
+	* New re-size options in web exporter to allow equal landscape and
+	  portrait image sizes (square bounding box). Bug #313671.
+	* Migration to gnome-doc-utils (bug #346889).
+	* Fixed comment wrapping when printing (bug #305046).
+	* Allows file extension to be changed when bulk-renaming
+	  (bug 338623 and bug 339037)
+	* Fixes image scaling memory leak (bug #349576)
+	* Adds support for multiple auto-detected cameras (or
+	  multiple modes for single cameras). Bug 361967.
 
 version 2.7.9
 -------------
