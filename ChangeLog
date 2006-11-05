@@ -1,3 +1,9 @@
+2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS:
+	* libgthumb/async-pixbuf-ops.c: (scale_step):
+	  Fixes image scaling memory leak (bug #349576)
+
 2006-10-14  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/print-callbacks.c: 

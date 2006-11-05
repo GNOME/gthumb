@@ -1,3 +1,8 @@
+version 2.8.0
+-------------
+
+	* Fixes image scaling memory leak (bug #349576)
+
 version 2.7.9
 -------------
 	* Fixed bug #351058: build failure when -Wl,--as-needed is passed to 
