@@ -1,3 +1,31 @@
+2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-utils.c: (gthumb_display_help):
+	* libgthumb/gth-utils.h:
+	* src/dlg-categories.c: (help_cb):
+	* src/dlg-change-date.c: (help_cb):
+	* src/dlg-comment.c: (help_cb):
+	* src/dlg-convert.c: (help_cb):
+	* src/dlg-jpegtran.c: (help_cb):
+	* src/dlg-photo-importer.c: (help_cb):
+	* src/dlg-preferences.c: (help_cb):
+	* src/dlg-redeye-removal.c: (help_cb):
+	* src/dlg-rename-series.c: (help_cb):
+	* src/dlg-reset-exif.c: (help_cb):
+	* src/dlg-search.c: (help_cb):
+	* src/dlg-web-exporter.c: (help_cb):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_help_help),
+	(gth_window_activate_action_help_shortcuts):
+	Added libgthumb/gth-utils.c, and placed gthumb_display_help in it,
+	to reduce code duplication. Bug 369449. Patch by Manuel Braga.
+
+	* src/gth-browser.c: (save_jpeg_data):
+	* src/gth-viewer.c: (save_jpeg_data):
+	* src/catalog-web-exporter.c: (copy_exif_from_orig):
+	Added some comments, to clarify the changes in the previous commit.
+
 2006-11-04  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/catalog-web-exporter.c: (copy_exif_from_orig):

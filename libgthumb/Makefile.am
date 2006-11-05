@@ -54,6 +54,7 @@ HEADER_FILES =				\
 	gth-file-view-thumbs.h		\
 	gth-nav-window.h		\
 	gth-pixbuf-op.h			\
+	gth-utils.h			\
 	gthumb-error.h			\
 	gthumb-histogram.h		\
 	gthumb-init.h			\
@@ -111,6 +112,7 @@ libgthumb_la_SOURCES =			\
 	gth-file-view-list.c		\
 	gth-file-view-thumbs.c		\
 	gth-nav-window.c		\
+	gth-utils.c			\
 	gthumb-error.c			\
 	gthumb-histogram.c		\
 	gthumb-init.c			\

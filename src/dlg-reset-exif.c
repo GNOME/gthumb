@@ -206,31 +206,7 @@ static void
 help_cb (GtkWidget  *widget, 
 	 DialogData *data)
 {
-	GError *err;
-
-	err = NULL;  
-	gnome_help_display ("gthumb", "gthumb-reset-exif", &err);
-	
-	if (err != NULL) {
-		GtkWidget *dialog;
-		
-		dialog = gtk_message_dialog_new (GTK_WINDOW (data->dialog),
-						 0,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_CLOSE,
-						 _("Could not display help: %s"),
-						 err->message);
-		
-		g_signal_connect (G_OBJECT (dialog), "response",
-				  G_CALLBACK (gtk_widget_destroy),
-				  NULL);
-		
-		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-		
-		gtk_widget_show (dialog);
-		
-		g_error_free (err);
-	}
+	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-reset-exif");
 }
 
 

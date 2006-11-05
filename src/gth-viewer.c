@@ -883,6 +883,7 @@ save_jpeg_data (GthViewer  *viewer,
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
 
+	/* The exif orientation tag, if present, must be reset to "top-left" */
 	write_orientation_field (filename, GTH_TRANSFORM_NONE);
 }
 

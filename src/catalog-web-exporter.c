@@ -1639,6 +1639,7 @@ copy_exif_from_orig (const char *src_filename,
 	jpeg_data_unref (jdata_src);
 	jpeg_data_unref (jdata_dest);
 
+	/* The exif orientation tag, if present, must be reset to "top-left" */
 	write_orientation_field (dest_filename, GTH_TRANSFORM_NONE);
 }
 

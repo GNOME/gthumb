@@ -59,6 +59,7 @@
 #include "gconf-utils.h"
 #include "gth-pixbuf-op.h"
 #include "gth-viewer.h"
+#include "gth-utils.h"
 #include "gthumb-error.h"
 #include "gthumb-module.h"
 #include "gtk-utils.h"
@@ -810,43 +811,11 @@ gth_window_activate_action_help_about (GtkAction *action,
 }
 
 
-static void
-display_help (GthWindow  *window,
-	      const char *section) 
-{
-	GError *err;
-
-	err = NULL;  
-	gnome_help_display ("gthumb", section, &err);
-	
-	if (err != NULL) {
-		GtkWidget *dialog;
-		
-		dialog = gtk_message_dialog_new (GTK_WINDOW (window),
-						 GTK_DIALOG_DESTROY_WITH_PARENT,
-						 GTK_MESSAGE_ERROR,
-						 GTK_BUTTONS_CLOSE,
-						 _("Could not display help: %s"),
-						 err->message);
-		
-		g_signal_connect (G_OBJECT (dialog), "response",
-				  G_CALLBACK (gtk_widget_destroy),
-				  NULL);
-		
-		gtk_window_set_resizable (GTK_WINDOW (dialog), FALSE);
-		
-		gtk_widget_show (dialog);
-		
-		g_error_free (err);
-	}
-}
-
-
 void
 gth_window_activate_action_help_help (GtkAction *action,
 				      gpointer   data)
 {
-	display_help (GTH_WINDOW (data), NULL);
+	gthumb_display_help (GTK_WINDOW (data), NULL);
 }
 
 
@@ -854,7 +823,7 @@ void
 gth_window_activate_action_help_shortcuts (GtkAction *action,
 					   gpointer   data)
 {
-	display_help (GTH_WINDOW (data), "shortcuts");
+	gthumb_display_help (GTK_WINDOW (data), "shortcuts");
 }
 
 
