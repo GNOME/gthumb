@@ -1,5 +1,10 @@
 2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-window-actions-entries.h:
+	  Changed Help>Help to Help>Contents, as per HIG.
+
+2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/Makefile.am:
 	* libgthumb/gth-utils.c: (gthumb_display_help):
 	* libgthumb/gth-utils.h:
