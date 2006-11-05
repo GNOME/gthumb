@@ -1,5 +1,17 @@
 2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/file-utils.c: (get_temp_dir_name),
+	(get_temp_file_name):
+	* libgthumb/file-utils.h:
+	* src/dlg-photo-importer.c: (load_images_preview__step):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_file_print):
+	* src/rotation-utils.c: (apply_transformation_jpeg):
+	  More secure method of temporary file generation.
+	  Bug #358894. Patch by Rennie deGraaf.
+
+2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-window-actions-entries.h:
 	  Changed Help>Help to Help>Contents, as per HIG.
 

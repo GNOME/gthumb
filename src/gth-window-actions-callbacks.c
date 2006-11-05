@@ -24,6 +24,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-exec.h>
@@ -192,6 +193,7 @@ gth_window_activate_action_file_print (GtkAction *action,
 				       GthWindow *window)
 {
 	GList    *list;
+	char     *tmp_dir;
 	char     *tmp_filename = NULL;
 	gboolean  remove_temp_file = FALSE;
 
@@ -211,7 +213,13 @@ gth_window_activate_action_file_print (GtkAction *action,
 			GList      *current;
 
 			g_object_ref (pixbuf);
-			tmp_filename = get_temp_file_name (".jpeg");
+			tmp_dir = get_temp_dir_name ();
+			if (tmp_dir == NULL)
+			{
+				_gtk_error_dialog_run (GTK_WINDOW (window), _("Could not create a temporary folder"));
+				return;
+			}
+			tmp_filename = get_temp_file_name (tmp_dir, ".jpeg");
 			if (! _gdk_pixbuf_save (pixbuf,
 						tmp_filename,
 						"jpeg",
@@ -220,6 +228,8 @@ gth_window_activate_action_file_print (GtkAction *action,
 				_gtk_error_dialog_from_gerror_run (GTK_WINDOW (window), &error);
 				g_object_unref (pixbuf);
 				g_free (tmp_filename);
+				dir_remove(tmp_dir);
+				g_free(tmp_dir);
 				return;
 			}
 
@@ -240,7 +250,11 @@ gth_window_activate_action_file_print (GtkAction *action,
 	}
 
 	if (remove_temp_file)
+	{
 		print_catalog_dlg_full (GTK_WINDOW (window), list, print_done_cb, tmp_filename);
+		dir_remove (tmp_dir);
+		g_free (tmp_dir);
+	}
 	else
 		print_catalog_dlg (GTK_WINDOW (window), list);
 

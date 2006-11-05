@@ -1882,42 +1882,48 @@ remove_extension_from_path (const char *path)
 
 /* temp */
 
-
+/* NOTE: the directory created by this function must deleted when no longer 
+needed. (delete all temporary files and use dir_remove() */
+/* NOTE: the pointer returned by this function must be freed using g_free() */
 char *
 get_temp_dir_name (void)
 {
-	static int  count = 0;
-	char       *tmp_dir = NULL;
+	char       *tmppath;
+	char       *retval;
 	
-	do {
-		g_free (tmp_dir);
-		tmp_dir = g_strdup_printf ("%s%s.%d.%d",
-					   g_get_tmp_dir (),
-					   "/gthumb",
-					   getpid (),
-					   count++);
+	tmppath = (char*) g_build_filename (g_get_tmp_dir (), "gthumb.XXXXXX", NULL);
+	
+	retval = mkdtemp(tmppath);
+	if (retval == NULL)
+		g_free(tmppath);
 
-	} while (path_is_dir (tmp_dir));
-
-	if (! dir_make (tmp_dir, 0700)) {
-		g_free (tmp_dir);
-		tmp_dir = NULL;
-	}
-
-	return tmp_dir;
+	return retval;
 }
 
 
+/* WARNING: this is not secure unless only the current user has write access to 
+tmpdir.  Use get_temp_dir_name to create tmpdir securely. */
+/* NOTE: the pointer returned by this function must be freed using g_free() */
 char *
-get_temp_file_name (const char *ext)
+get_temp_file_name (const char* tmpdir, const char *ext)
 {
-	char *dir, *name, *filename;
+	char *name, *filename;
+	static GStaticMutex count_mutex = G_STATIC_MUTEX_INIT;
+	static int count = 0;
+	
+	if (tmpdir == NULL)
+		return NULL;
 
-	dir = get_temp_dir_name ();
-	name = g_strconcat ("temp", ext, NULL);
-	filename = g_build_filename (dir, name, NULL);
+	g_static_mutex_lock(&count_mutex);
+	if (ext != NULL)
+		name = g_strdup_printf("%d%s", count++, ext);
+	else
+		name = g_strdup_printf("%d", count++);
+	g_static_mutex_unlock(&count_mutex);
+	
+	filename = g_build_filename (tmpdir, name, NULL);
+
 	g_free (name);
-	g_free (dir);
 	
 	return filename;
 }

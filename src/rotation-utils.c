@@ -138,7 +138,7 @@ apply_transformation_jpeg (GtkWindow    *win,
 {
 	char        *line;
 	char        *tmp;
-	static int   count = 0;
+	char        *tmpdir;
 	GError      *err = NULL;
 	JXFORM_CODE  transf;
 	char        *e1, *e2;
@@ -147,10 +147,15 @@ apply_transformation_jpeg (GtkWindow    *win,
 	if (path == NULL)
 		return;
 	
-	tmp = g_strdup_printf ("%s/gthumb.%d.%d",
-				g_get_tmp_dir (), 
-				getpid (),
-				count++);
+	tmpdir = get_temp_dir_name ();
+	if (tmpdir == NULL)
+	{
+		_gtk_error_dialog_run (GTK_WINDOW (win), 
+				      _("Could not create a temporary folder"));
+		return;
+	}
+	
+	tmp = get_temp_file_name (tmpdir, NULL);
 
 	switch (transform) {
 	case GTH_TRANSFORM_NONE:
@@ -186,6 +191,8 @@ apply_transformation_jpeg (GtkWindow    *win,
 		g_free (tmp);
 		if (err != NULL) 
 			_gtk_error_dialog_from_gerror_run (win, &err);
+		dir_remove (tmpdir);
+		g_free (tmpdir);
 		return;
 	}
 
@@ -194,6 +201,8 @@ apply_transformation_jpeg (GtkWindow    *win,
 
 	line = g_strdup_printf ("mv -f %s %s", e1, e2);
 	g_spawn_command_line_sync (line, NULL, NULL, NULL, &err);  
+	dir_remove (tmpdir);
+	g_free (tmpdir);
 
 	if (err != NULL) {
 		_gtk_error_dialog_from_gerror_run (win, &err);

@@ -183,7 +183,8 @@ char *              remove_extension_from_path    (const char       *path);
 /* temp */
 
 char *              get_temp_dir_name             (void);
-char *              get_temp_file_name            (const char       *ext);
+char *              get_temp_file_name            (const char       *tmpdir,
+						   const char       *ext);
 
 /* VFS extensions */
 

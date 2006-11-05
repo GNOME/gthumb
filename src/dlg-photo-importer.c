@@ -405,26 +405,6 @@ get_all_files (DialogData *data,
 }
 
 
-static char*
-get_temp_filename (void)
-{
-	char       *result = NULL;
-        static int  count = 0;
-        int         try = 0;
- 
-	do {
-		g_free (result);
-		result = g_strdup_printf ("%s%s.%d.%d",
-					  g_get_tmp_dir (),
-					  "/gthumb",
-					  getpid (),
-					  count++);
-	} while (path_is_file (result) && (try++ < MAX_TRIES));
- 
-        return result;
-}
-
-
 static void
 display_error_dialog (DialogData *data,
 		      const char *msg1,
@@ -741,7 +721,16 @@ load_images_preview__step (AsyncOperationData *aodata,
 	CameraFile *file;
 	char       *camera_folder;
 	const char *camera_filename;
+	char       *tmp_dir;
 	char       *tmp_filename;
+
+	tmp_dir = get_temp_dir_name ();
+	if (tmp_dir == NULL)
+	{
+		/* should we display an error message here? */
+		return;
+	}
+	tmp_filename = get_temp_file_name (tmp_dir, NULL);
 
 	gp_file_new (&file);
 
@@ -754,8 +743,6 @@ load_images_preview__step (AsyncOperationData *aodata,
 			    file, 
 			    data->context);
 	
-	tmp_filename = get_temp_filename ();
-
 	if (gp_file_save (file, tmp_filename) >= 0) {
 		GdkPixbuf *pixbuf;
 		int        width, height;
@@ -791,6 +778,8 @@ load_images_preview__step (AsyncOperationData *aodata,
 	}
 
 	g_free (tmp_filename);
+	dir_remove (tmp_dir);
+	g_free (tmp_dir);
 	g_free (camera_folder);
 	
 	gp_file_unref (file);
