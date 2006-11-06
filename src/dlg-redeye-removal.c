@@ -128,7 +128,7 @@ static gfloat compute_scale_factor(GdkPixbuf *pixbuf)
 
 	screen = gdk_screen_get_default();
 	width_scale = 1.1 * (gfloat) width / (gfloat) gdk_screen_get_width(screen);
-	height_scale = 1.25 * (gfloat) height / (gfloat) gdk_screen_get_height(screen);
+	height_scale = 1.35 * (gfloat) height / (gfloat) gdk_screen_get_height(screen);
 
 	return MAX(width_scale, height_scale);
 }

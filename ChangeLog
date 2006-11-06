@@ -1,3 +1,8 @@
+2006-11-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/dlg-redeye-removal.c: (compute_scale_factor):
+	  Shrank window height for redeye removal tool slightly.
+
 2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/file-utils.c: (get_temp_dir_name),
