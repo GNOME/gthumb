@@ -1160,7 +1160,7 @@ comment_text_is_void (CommentData *data)
 }
 
 
-/* From: glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)  
+/* based on glib/glib/gmarkup.c (Copyright 2000, 2003 Red Hat, Inc.)  
  * This version does not escape ' and ''. Needed  because IE does not recognize
  * &apos; and &quot; */
 static void
@@ -1170,6 +1170,8 @@ _append_escaped_text_for_html (GString     *str,
 {
 	const gchar *p;
 	const gchar *end;
+	gunichar     ch;
+	int          state = 0;
 
 	p = text;
 	end = text + length;
@@ -1177,27 +1179,45 @@ _append_escaped_text_for_html (GString     *str,
 	while (p != end) {
 		const gchar *next;
 		next = g_utf8_next_char (p);
+		ch = g_utf8_get_char (p);
 		
-		switch (*p) {
-		case '&':
-			g_string_append (str, "&amp;");
+		switch (state) {
+		    case 1: /* escaped */
+			if ((ch > 127) ||  !isprint((char)ch)) 
+				g_string_append_printf (str, "\\&#%d;", ch);
+			else
+				g_string_append_unichar (str, ch);			state = 0;
 			break;
 			
-		case '<':
-			g_string_append (str, "&lt;");
-			break;
+		    default: /* not escaped */
+			switch (*p) {
+			    case '\\':
+				state = 1; /* next character is escaped */
+				break;
 			
-		case '>':
-			g_string_append (str, "&gt;");
-			break;
+			    case '&':
+				g_string_append (str, "&amp;");
+				break;
 			
-		case '\n':
-			g_string_append (str, "<br />");
-			break;
+			    case '<':
+				g_string_append (str, "&lt;");
+				break;
+			
+			    case '>':
+				g_string_append (str, "&gt;");
+				break;
+			
+			    case '\n':
+				g_string_append (str, "<br />");
+				break;
 
-		default:
-			g_string_append_len (str, p, next - p);
-			break;
+			    default:
+				if ((ch > 127) ||  !isprint((char)ch)) 
+					g_string_append_printf (str, "&#%d;", ch);
+				else
+					g_string_append_unichar (str, ch);			state = 0;
+				break;
+			}
 		}
 		
 		p = next;

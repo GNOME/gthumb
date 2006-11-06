@@ -163,6 +163,7 @@
 #define  PREF_WEB_ALBUM_RESIZE_HEIGHT "/apps/gthumb/dialogs/web_album/resize_height"
 #define  PREF_WEB_ALBUM_ROWS          "/apps/gthumb/dialogs/web_album/rows"
 #define  PREF_WEB_ALBUM_COLUMNS       "/apps/gthumb/dialogs/web_album/columns"
+#define  PREF_WEB_ALBUM_SINGLE_INDEX  "/apps/gthumb/dialogs/web_album/single_index"
 #define  PREF_WEB_ALBUM_SORT          "/apps/gthumb/dialogs/web_album/sort_by"
 #define  PREF_WEB_ALBUM_REVERSE       "/apps/gthumb/dialogs/web_album/reverse_order"
 #define  PREF_WEB_ALBUM_HEADER        "/apps/gthumb/dialogs/web_album/header"

@@ -81,6 +81,8 @@ extern FILE         *yyin;
 
 struct _ImageData {
 	char             *comment;
+	char             *place;
+	char             *date_time;
 	char             *src_filename;
 	char             *dest_filename;
 	GnomeVFSFileSize  file_size;
@@ -125,9 +127,28 @@ image_data_new (const char *filename)
 	idata = g_new (ImageData, 1);
 
 	cdata = comments_load_comment (filename, TRUE);
-	idata->comment = comments_get_comment_as_xml_string (cdata, "&nbsp;<br />", "&nbsp;<br />");
-	if (cdata != NULL)
+	if (cdata != NULL) {
+		/*idata->comment = comments_get_comment_as_xml_string (cdata, "&nbsp;<br />", "&nbsp;<br />");*/
+		idata->comment = g_strdup (cdata->comment);
+		idata->place = g_strdup (cdata->place);
+		if (cdata->time != 0) {
+			struct tm *tm;
+			char time_txt[50];
+			tm = localtime (&(cdata->time));
+			if (tm->tm_hour + tm->tm_min + tm->tm_sec == 0)
+				strftime (time_txt, 50, _("%d %B %Y"), tm);
+			else
+				strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
+			idata->date_time = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
+		}
+		else
+			idata->date_time = NULL;
 		comment_data_free (cdata);
+	} else {
+		idata->comment = NULL;
+		idata->place = NULL;
+		idata->date_time = NULL;
+	}
 
 	idata->src_filename = g_strdup (filename);
 	idata->dest_filename = g_strconcat (
@@ -162,6 +183,8 @@ static void
 image_data_free (ImageData *idata)
 {
 	g_free (idata->comment);
+	g_free (idata->place);
+	g_free (idata->date_time);
 	g_free (idata->src_filename);
 	g_free (idata->dest_filename);
 
@@ -322,11 +345,12 @@ catalog_web_exporter_init (CatalogWebExporter *ce)
 	ce->resize_max_width = 0;
 	ce->resize_max_height = 0;
 
+	ce->single_index = FALSE;
 	ce->preview_max_width = 0;
 	ce->preview_max_height = 0;
 
 	ce->index_caption_mask = GTH_CAPTION_IMAGE_DIM | GTH_CAPTION_FILE_SIZE;
-	ce->image_caption_mask = GTH_CAPTION_COMMENT | GTH_CAPTION_EXIF_DATE_TIME;
+	ce->image_caption_mask = GTH_CAPTION_COMMENT | GTH_CAPTION_PLACE | GTH_CAPTION_EXIF_DATE_TIME;
 }
 
 
@@ -479,6 +503,15 @@ catalog_web_exporter_set_row_col (CatalogWebExporter *ce,
 	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
 	ce->page_rows = rows;
 	ce->page_cols = cols;
+}
+
+
+void
+catalog_web_exporter_set_single_index (CatalogWebExporter *ce,
+				       gboolean            single)
+{
+	g_return_if_fail (IS_CATALOG_WEB_EXPORTER (ce));
+	ce->single_index = single;
 }
 
 
@@ -687,6 +720,10 @@ get_var_value (const char *var_name,
 		return ce->index_caption_mask & GTH_CAPTION_FILE_SIZE;
 	else if (strcmp (var_name, "comment_visibility_index") == 0)
 		return ce->index_caption_mask & GTH_CAPTION_COMMENT;
+	else if (strcmp (var_name, "place_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_PLACE;
+	else if (strcmp (var_name, "date_time_visibility_index") == 0)
+		return ce->index_caption_mask & GTH_CAPTION_DATE_TIME;
 	else if (strcmp (var_name, "exif_date_time_visibility_index") == 0)
 		return ce->index_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
 	else if (strcmp (var_name, "exif_exposure_time_visibility_index") == 0)
@@ -714,6 +751,10 @@ get_var_value (const char *var_name,
 		return ce->image_caption_mask & GTH_CAPTION_FILE_SIZE;
 	else if (strcmp (var_name, "comment_visibility_image") == 0)
 		return ce->image_caption_mask & GTH_CAPTION_COMMENT;
+	else if (strcmp (var_name, "place_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_PLACE;
+	else if (strcmp (var_name, "date_time_visibility_image") == 0)
+		return ce->image_caption_mask & GTH_CAPTION_DATE_TIME;
 	else if (strcmp (var_name, "exif_date_time_visibility_image") == 0)
 		return ce->image_caption_mask & GTH_CAPTION_EXIF_DATE_TIME;
 	else if (strcmp (var_name, "exif_exposure_time_visibility_image") == 0)
@@ -730,6 +771,9 @@ get_var_value (const char *var_name,
 		return ce->image_caption_mask & GTH_CAPTION_EXIF_FOCAL_LENGTH;
 	else if (strcmp (var_name, "exif_camera_model_visibility_image") == 0)
 		return ce->image_caption_mask & GTH_CAPTION_EXIF_CAMERA_MODEL;
+
+	else if (strcmp (var_name, "copy_originals") == 0)
+		return ce->copy_images;
 
 	g_warning ("[GetVarValue] Unknown variable name: %s", var_name);
 	
@@ -832,7 +876,10 @@ static int
 get_page_idx_from_image_idx (CatalogWebExporter *ce,
 			     int                 image_idx)
 {
-	return image_idx / (ce->page_rows * ce->page_cols);
+	if (ce->single_index)
+		return 1;
+	else
+		return image_idx / (ce->page_rows * ce->page_cols);
 }
 
 
@@ -1089,6 +1136,10 @@ gth_parsed_doc_print (GList              *document,
 		const char *class;
 		char       *class_attr;
 		char       *filename;
+		const char *alt;
+		char       *alt_attr;
+		const char *id;
+		char       * id_attr;
 		GList      *scan;
 
 
@@ -1145,12 +1196,27 @@ gth_parsed_doc_print (GList              *document,
 			escaped_path = escape_uri (image_src_relative);
 			e_escaped_path = _g_escape_text_for_html (escaped_path, -1);
 
-			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s />",
+			alt = gth_tag_get_str (ce, tag, "alt");
+			if (alt)
+				alt_attr = g_strdup (alt);
+			else
+				alt_attr = g_strdup (e_escaped_path);
+			
+			id = gth_tag_get_str (ce, tag, "id");
+			if (id)
+				id_attr = g_strdup_printf (" id=\"%s\"", id);
+			else
+				id_attr = g_strdup("");
+			
+			line = g_strdup_printf ("<img src=\"%s\" alt=\"%s\" width=\"%d\" height=\"%d\"%s%s />",
 						e_escaped_path,
-						e_escaped_path,
+						alt_attr,
 						image_width,
 						image_height,
+						id_attr,
 						class_attr);
+			g_free (id_attr);
+			g_free (alt_attr);
 			g_free (class_attr);
 			g_free (image_src);
 			g_free (image_src_relative);
@@ -1273,7 +1339,52 @@ gth_parsed_doc_print (GList              *document,
 				g_free (comment);
 			}
 
-			write_line (line, fout);
+			write_markup_escape_line (line, fout);
+			break;
+		
+		case GTH_TAG_PLACE:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
+			
+			if (idata->place == NULL)
+				break;
+
+			max_size = gth_tag_get_var (ce, tag, "max_size");
+			if (max_size <= 0)
+				line = g_strdup (idata->place);
+			else {
+				char *place = g_strndup (idata->place, max_size);
+				if (strlen (place) < strlen (idata->place))
+					line = g_strconcat (place, "...", NULL);
+				else
+					line = g_strdup (place);
+				g_free (place);
+			}
+
+			write_markup_escape_line (line, fout);
+			break;
+
+		case GTH_TAG_DATE_TIME:
+			idx = get_image_idx (tag, ce);
+			idata = g_list_nth (ce->file_list, idx)->data;
+			ce->eval_image = idata;
+			if (idata->date_time == NULL)
+				break;
+
+			max_size = gth_tag_get_var (ce, tag, "max_size");
+			if (max_size <= 0)
+				line = g_strdup (idata->date_time);
+			else {
+				char *date_time = g_strndup (idata->date_time, max_size);
+				if (strlen (date_time) < strlen (idata->date_time))
+					line = g_strconcat (date_time, "...", NULL);
+				else
+					line = g_strdup (date_time);
+				g_free (date_time);
+			}
+
+			write_markup_escape_line (line, fout);
 			break;
 
 		case GTH_TAG_PAGE_LINK:
@@ -1308,6 +1419,10 @@ gth_parsed_doc_print (GList              *document,
 			if (! allow_table)
 				break;
 
+			if (ce->single_index)
+				ce->page_rows = (ce->n_images + ce->page_cols - 1) / ce->page_cols;
+	
+			/* this may not work correctly if single_index is set */
 			for (r = 0; r < ce->page_rows; r++) {
 				if (ce->image < ce->n_images)
 					write_line ("  <tr class=\"tr_index\">\n", fout);
@@ -1329,6 +1444,20 @@ gth_parsed_doc_print (GList              *document,
 					} 
 				}
 				write_line ("  </tr>\n", fout);
+				
+			}
+			break;
+
+		case GTH_TAG_THUMBS:
+			if (! allow_table)
+				break;
+
+			for (r=0; r < (ce->single_index ? ce->n_images : ce->page_rows*ce->page_cols); r++)
+			{
+				if (ce->image >= ce->n_images)
+					break;
+				gth_parsed_doc_print(ce->thumbnail_parsed, ce, fout, FALSE);
+				ce->image++;
 			}
 			break;
 
@@ -1845,9 +1974,13 @@ export__save_html_files (CatalogWebExporter *ce)
 {
 	exporter_set_info (ce, _("Saving HTML pages: Indexes"));
 
-	ce->n_pages = ce->n_images / (ce->page_rows * ce->page_cols);
-	if (ce->n_images % (ce->page_rows * ce->page_cols) > 0)
-		ce->n_pages++;
+	if (ce->single_index)
+		ce->n_pages = 1;
+	else {
+		ce->n_pages = ce->n_images / (ce->page_rows * ce->page_cols);
+		if (ce->n_images % (ce->page_rows * ce->page_cols) > 0)
+			ce->n_pages++;
+	}
 
 	ce->image = 0;
 	ce->page = 0;

@@ -84,6 +84,9 @@ typedef struct {
 
 	GtkWidget          *wa_rows_spinbutton;
 	GtkWidget          *wa_cols_spinbutton;
+	GtkWidget          *wa_single_index_checkbutton;
+	GtkWidget          *wa_rows_hbox;
+	GtkWidget          *wa_cols_hbox;
 	GtkWidget          *wa_sort_images_combobox;
 	GtkWidget          *wa_reverse_order_checkbutton;
 
@@ -156,6 +159,8 @@ export (GtkWidget  *widget,
 
 	eel_gconf_set_integer (PREF_WEB_ALBUM_COLUMNS, gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (data->wa_cols_spinbutton)));
 
+	eel_gconf_set_boolean (PREF_WEB_ALBUM_SINGLE_INDEX, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_single_index_checkbutton)));
+
 	pref_set_web_album_sort_order (idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->wa_sort_images_combobox))]);
 
 	eel_gconf_set_boolean (PREF_WEB_ALBUM_REVERSE, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->wa_reverse_order_checkbutton)));
@@ -196,6 +201,7 @@ export (GtkWidget  *widget,
 						idx_to_resize_height[gtk_option_menu_get_history (GTK_OPTION_MENU (data->wa_resize_images_optionmenu))]);
 
 	catalog_web_exporter_set_row_col (exporter, eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
+	catalog_web_exporter_set_single_index (exporter, eel_gconf_get_boolean (PREF_WEB_ALBUM_SINGLE_INDEX, FALSE));
 	
 	catalog_web_exporter_set_sorted (exporter, pref_get_web_album_sort_order (), eel_gconf_get_boolean (PREF_WEB_ALBUM_REVERSE, FALSE));
 	catalog_web_exporter_set_header (exporter, header);
@@ -290,6 +296,15 @@ resize_image_toggled_cb (GtkToggleButton *button,
 	gtk_widget_set_sensitive (data->wa_resize_images_options_hbox, gtk_toggle_button_get_active (button));
 }
 
+
+static void
+single_index_toggled_cb (GtkToggleButton *button,
+			 DialogData      *data)
+{
+	gtk_widget_set_sensitive (data->wa_rows_hbox, !gtk_toggle_button_get_active (button));
+}
+
+ 
 
 static gboolean
 theme_present (const char *theme_name,
@@ -418,6 +433,9 @@ dlg_web_exporter (GthBrowser *browser)
 
 	data->wa_rows_spinbutton = glade_xml_get_widget (data->gui, "wa_rows_spinbutton");
 	data->wa_cols_spinbutton = glade_xml_get_widget (data->gui, "wa_cols_spinbutton");
+	data->wa_single_index_checkbutton = glade_xml_get_widget (data->gui, "wa_single_index_checkbutton");
+	data->wa_rows_hbox = glade_xml_get_widget (data->gui, "wa_rows_hbox");
+	data->wa_cols_hbox = glade_xml_get_widget (data->gui, "wa_cols_hbox");
 	data->wa_sort_images_combobox = glade_xml_get_widget (data->gui, "wa_sort_images_combobox");
 	data->wa_reverse_order_checkbutton = glade_xml_get_widget (data->gui, "wa_reverse_order_checkbutton");
 
@@ -456,6 +474,10 @@ dlg_web_exporter (GthBrowser *browser)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_rows_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_ROWS, 4));
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->wa_cols_spinbutton), eel_gconf_get_integer (PREF_WEB_ALBUM_COLUMNS, 4));
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->wa_single_index_checkbutton), eel_gconf_get_boolean (PREF_WEB_ALBUM_SINGLE_INDEX, FALSE));
+
+	gtk_widget_set_sensitive (data->wa_rows_hbox, !eel_gconf_get_boolean (PREF_WEB_ALBUM_SINGLE_INDEX, FALSE));
 
 	/**/
 
@@ -536,6 +558,11 @@ dlg_web_exporter (GthBrowser *browser)
 			  G_CALLBACK (resize_image_toggled_cb),
 			  data);
 
+	g_signal_connect (G_OBJECT (data->wa_single_index_checkbutton),
+			  "toggled",
+			  G_CALLBACK (single_index_toggled_cb),
+			  data);
+
 	g_signal_connect (G_OBJECT (data->exporter), 
 			  "web_exporter_done",
 			  G_CALLBACK (export_done),
@@ -570,7 +597,7 @@ dlg_web_exporter (GthBrowser *browser)
 }
 
 
-
+
 
 typedef struct {
 	DialogData         *data;
@@ -1049,6 +1076,8 @@ typedef struct {
 	GtkWidget          *dialog;
 
 	GtkWidget          *c_comment_checkbutton;
+	GtkWidget          *c_place_checkbutton;
+	GtkWidget          *c_date_time_checkbutton;
 	GtkWidget          *c_imagedim_checkbutton;
 	GtkWidget          *c_filename_checkbutton;
 	GtkWidget          *c_filesize_checkbutton;
@@ -1085,6 +1114,10 @@ caption_dialog__ok_clicked (GtkWidget         *widget,
 
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton)))
 		caption |= GTH_CAPTION_COMMENT;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_place_checkbutton)))
+		caption |= GTH_CAPTION_PLACE;
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_date_time_checkbutton)))
+		caption |= GTH_CAPTION_DATE_TIME;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_imagedim_checkbutton)))
 		caption |= GTH_CAPTION_IMAGE_DIM;
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cdata->c_filename_checkbutton)))
@@ -1149,6 +1182,8 @@ show_caption_dialog_cb (GtkWidget       *widget,
 
 	cdata->dialog = glade_xml_get_widget (cdata->gui, "caption_dialog");
 	cdata->c_comment_checkbutton = glade_xml_get_widget (cdata->gui, "c_comment_checkbutton");
+	cdata->c_place_checkbutton = glade_xml_get_widget (cdata->gui, "c_place_checkbutton");
+	cdata->c_date_time_checkbutton = glade_xml_get_widget (cdata->gui, "c_date_time_checkbutton");
 	cdata->c_imagedim_checkbutton = glade_xml_get_widget (cdata->gui, "c_imagedim_checkbutton");
 	cdata->c_filename_checkbutton = glade_xml_get_widget (cdata->gui, "c_filename_checkbutton");
 	cdata->c_filesize_checkbutton = glade_xml_get_widget (cdata->gui, "c_filesize_checkbutton");
@@ -1189,6 +1224,10 @@ show_caption_dialog_cb (GtkWidget       *widget,
 
 	if (caption & GTH_CAPTION_COMMENT)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_comment_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_PLACE)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_place_checkbutton), TRUE);
+	if (caption & GTH_CAPTION_DATE_TIME)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_date_time_checkbutton), TRUE);
 	if (caption & GTH_CAPTION_IMAGE_DIM)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (cdata->c_imagedim_checkbutton), TRUE);
 	if (caption & GTH_CAPTION_FILE_NAME)

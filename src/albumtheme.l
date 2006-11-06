@@ -90,6 +90,16 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					yylval.ivalue = GTH_TAG_COMMENT;
 					return COMMENT;
 				}
+"<gthumb:place"			{
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_PLACE;
+					return PLACE;
+				}
+"<gthumb:date_time"			{
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_DATE_TIME;
+					return DATE_TIME;
+				}
 "<gthumb:page_link"		{ 
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_PAGE_LINK;
@@ -109,6 +119,11 @@ name             [a-zA-Z_][0-9a-zA-Z_:@]*
 					BEGIN (TAG);
 					yylval.ivalue = GTH_TAG_TABLE;
 					return TABLE;
+				}
+"<gthumb:thumbs"			{ 
+					BEGIN (TAG);
+					yylval.ivalue = GTH_TAG_THUMBS;
+					return THUMBS;
 				}
 "<gthumb:date"			{ 
 					BEGIN (TAG);

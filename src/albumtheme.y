@@ -35,6 +35,7 @@ int   yylex   (void);
 %union {
 	char         *text;
 	int           ivalue;
+        GString      *string;
 	GthVar       *var;
 	GthTag       *tag;
 	GthExpr      *expr;
@@ -57,10 +58,13 @@ int   yylex   (void);
 %token <ivalue> FILEPATH
 %token <ivalue> FILESIZE
 %token <ivalue> COMMENT 
+%token <ivalue> PLACE
+%token <ivalue> DATE_TIME 
 %token <ivalue> PAGE_LINK 
 %token <ivalue> PAGE_IDX 
 %token <ivalue> PAGES 
 %token <ivalue> TABLE 
+%token <ivalue> THUMBS
 %token <ivalue> DATE 
 %token <ivalue> TEXT TEXT_END
 %token <ivalue> EXIF_EXPOSURE_TIME
@@ -88,6 +92,10 @@ int   yylex   (void);
 %type <list>   arg_list
 %type <var>    arg
 %type <expr>   expr
+%type <expr>   quoted_expr
+%type <string> constant_list
+%type <string> constant
+%type <string> constant1
 
 %left  <ivalue> BOOL_OP
 %left  <ivalue> COMPARE
@@ -150,6 +158,9 @@ document	: HTML document {
 gthumb_if	: IF expr END_TAG {
 			$$ = gth_condition_new ($2);
 		}
+		| IF '"' quoted_expr '"' END_TAG {
+			$$ = gth_condition_new ($3);
+		}
 		;
 
 opt_if_list     : gthumb_else_if document opt_if_list {
@@ -164,6 +175,9 @@ opt_if_list     : gthumb_else_if document opt_if_list {
 
 gthumb_else_if  : ELSE_IF expr END_TAG {
 			$$ = gth_condition_new ($2);
+		}
+		| ELSE_IF '"' quoted_expr '"' END_TAG {
+			$$ = gth_condition_new ($3);
 		}
 		;
 
@@ -299,7 +313,53 @@ expr		: '(' expr ')' {
 			$$ = e;
 		}
 		;
-
+quoted_expr     : expr {
+			$$ = $1;
+		}
+		| constant1 constant constant_list {
+			GthExpr *e = gth_expr_new ();
+			g_string_append($1, $2->str);
+			g_string_free($2, TRUE);
+			if ($3 != NULL)
+			{
+				g_string_append($1, $3->str);
+				g_string_free($3, TRUE);
+			}
+			gth_expr_push_var(e, $1->str);
+			g_string_free($1, TRUE);
+			$$ = e;
+		}
+		;
+constant1       : NAME {
+			GString* s = g_string_new($1);
+			g_free($1);
+			$$ = s;
+		}
+		;
+constant        : NAME {
+			GString* s = g_string_new($1);
+			g_string_prepend_c(s, ' ');
+			g_free($1);
+			$$ = s;
+		}
+		| NUMBER {
+			GString* s = g_string_new("");
+			g_string_sprintf(s, " %i", $1);
+			$$ = s;
+		}
+		;
+constant_list   : constant constant_list {
+			if ($2 != NULL)
+			{
+				g_string_append($1, $2->str);
+				g_string_free($2, TRUE);
+			}
+			$$ = $1;
+		}
+		| /* empty */ {
+			$$ = NULL;
+		}
+		;
 gthumb_text_tag	: TEXT arg_list END_TAG {
 			$$ = gth_tag_new ($1, $2);
 		}
@@ -322,10 +382,13 @@ tag_name	: HEADER              { $$ = $1; }
 		| FILEPATH            { $$ = $1; }
 		| FILESIZE            { $$ = $1; }
 		| COMMENT             { $$ = $1; }
+		| PLACE               { $$ = $1; }
+		| DATE_TIME           { $$ = $1; }
 		| PAGE_LINK           { $$ = $1; }
 		| PAGE_IDX            { $$ = $1; }
 		| PAGES               { $$ = $1; }
 		| TABLE               { $$ = $1; }
+		| THUMBS              { $$ = $1; }
 		| DATE                { $$ = $1; }
 		| EXIF_EXPOSURE_TIME  { $$ = $1; }
 		| EXIF_EXPOSURE_MODE  { $$ = $1; }
@@ -353,9 +416,9 @@ arg		: NAME '=' expr {
 			g_free ($1);
 		}
 
-		| NAME '=' '"' expr '"' { 
+		| NAME '=' '"' quoted_expr '"' { 
 			$$ = gth_var_new_expression ($1, $4);
-			g_free ($1);
+			g_free($1);
 		}
 
 		| NAME {
@@ -365,6 +428,8 @@ arg		: NAME '=' expr {
 			g_free ($1);
 		}
 		;
+
+                
 
 %%
 

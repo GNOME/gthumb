@@ -83,11 +83,19 @@
 
 <!-- Comment and Exif data -->
 <div class="properties">
-<gthumb:if comment_visibility_image/>
 <div class="preview_comment">
-  <span class="comment"><gthumb:comment/></span><br />
+  <span class="comment">
+    <gthumb:if comment_visibility_image/>
+      <gthumb:comment/> <br />
+    <gthumb:end/>
+    <gthumb:if place_visibility_image/>
+      <gthumb:place/> <br />
+    <gthumb:end/>
+    <gthumb:if date_time_visibility_image/>
+      <gthumb:date_time/>
+    <gthumb:end/>
+  </span><br />
 </div>
-<gthumb:end/>
 <table summary="image properties">
 <gthumb:if file_name_visibility_image/>
 <tr>

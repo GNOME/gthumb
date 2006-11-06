@@ -58,6 +58,7 @@ struct _CatalogWebExporter {
 	int           page_rows;              /* Number of rows and columns
 	 				       * each page must have. */
 	int           page_cols;
+	gboolean      single_index;
 
 	char         *tmp_location;
 	char         *location;               /* Save files in this 
@@ -170,6 +171,9 @@ void       catalog_web_exporter_set_sorted            (CatalogWebExporter *ce,
 void       catalog_web_exporter_set_row_col           (CatalogWebExporter *ce,
 						       int                 rows,
 						       int                 cols);
+
+void       catalog_web_exporter_set_single_index      (CatalogWebExporter *ce,
+						       gboolean            copy);
 
 void       catalog_web_exporter_set_image_caption     (CatalogWebExporter *ce,
 						       GthCaptionFields    caption);

@@ -15,9 +15,17 @@
       </tr>
       </table>
 
-<gthumb:if comment_visibility_index/>
-      <span class="comment"><gthumb:comment/></span><br />
-<gthumb:end/>
+<span class="comment">
+  <gthumb:if comment_visibility_image/>
+    <gthumb:comment/> <br />
+  <gthumb:end/>
+  <gthumb:if place_visibility_image/>
+    <gthumb:place/> <br />
+  <gthumb:end/>
+  <gthumb:if date_time_visibility_image/>
+    <gthumb:date_time/>
+  <gthumb:end/>
+</span><br />
 
 <gthumb:if image_dim_visibility_index/>
       <span class="property_value image_dim"><gthumb:image_dim/></span>

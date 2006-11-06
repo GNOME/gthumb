@@ -4,9 +4,17 @@
           <gthumb:image thumbnail class="photo_center" /></a></td></tr>
       </table>
 
-<gthumb:if comment_visibility_index/>
-      <div class="comment"><gthumb:comment max_size=100/></div>
-<gthumb:end/>
+<span class="comment">
+  <gthumb:if comment_visibility_image/>
+    <gthumb:comment max_size=100/> <br />
+  <gthumb:end/>
+  <gthumb:if place_visibility_image/>
+    <gthumb:place max_size=100/> <br />
+  <gthumb:end/>
+  <gthumb:if date_time_visibility_image/>
+    <gthumb:date_time/>
+  <gthumb:end/>
+</span><br />
 
 <gthumb:if image_dim_visibility_index/>
       <span class="property_value image_dim"><gthumb:image_dim/></span><br />

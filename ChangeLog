@@ -1,5 +1,44 @@
 2006-11-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/albumthemes/Classic/image.gthtml:
+	* data/albumthemes/Classic/thumbnail.gthtml:
+	* data/albumthemes/ClassicClips/image.gthtml:
+	* data/albumthemes/ClassicClips/thumbnail.gthtml:
+	* data/albumthemes/Flicker/image.gthtml:
+	* data/albumthemes/Flicker/thumbnail.gthtml:
+	* data/albumthemes/NeatRound/image.gthtml:
+	* data/albumthemes/NeatRound/thumbnail.gthtml:
+	* data/albumthemes/Wiki/image.gthtml:
+	* data/albumthemes/Wiki/thumbnail.gthtml:
+	* data/glade/gthumb_web_exporter.glade:
+	* data/gthumb.schemas.in:
+	* doc/theme-xml.txt:
+	* libgthumb/comments.c: (_append_escaped_text_for_html):
+	* libgthumb/preferences.h:
+	* libgthumb/typedefs.h:
+	* src/albumtheme-private.h:
+	* src/albumtheme.c: (yytnamerr), (yyparse), (yywrap), (yyerror):
+	* src/albumtheme.l:
+	* src/albumtheme.y:
+	* src/catalog-web-exporter.c: (image_data_new), (image_data_free),
+	(catalog_web_exporter_init),
+	(catalog_web_exporter_set_single_index), (get_var_value),
+	(get_page_idx_from_image_idx), (gth_parsed_doc_print),
+	(export__save_html_files):
+	* src/catalog-web-exporter.h:
+	* src/dlg-web-exporter.c: (export), (single_index_toggled_cb),
+	(dlg_web_exporter), (caption_dialog__ok_clicked),
+	(show_caption_dialog_cb):
+	* src/lex.albumtheme.c: (yy_get_next_buffer),
+	(yy_get_previous_state), (input), (yy_load_buffer_state),
+	(yy_pop_state), (yy_top_state), (main):
+	  Major web album formatting enhancements. Proper iso-code escaping
+          of non-ASCII characters. Initial development patch, some known issues.
+	  Additional tweaks are expected shortly. See bug 319933.
+	  Patch by Rennie deGraaf.
+
+2006-11-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/dlg-redeye-removal.c: (compute_scale_factor):
 	  Shrank window height for redeye removal tool slightly.
 

@@ -1415,6 +1415,19 @@
       </schema>
 
       <schema>
+        <key>/schemas/apps/gthumb/dialogs/web_album/single_index</key>
+        <applyto>/apps/gthumb/dialogs/web_album/single_index</applyto>
+        <owner>gthumb</owner>
+        <type>bool</type>
+        <default>false</default>
+        <locale name="C">
+          <short></short>
+          <long>
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/dialogs/web_album/columns</key>
 	<applyto>/apps/gthumb/dialogs/web_album/columns</applyto>
 	<owner>gthumb</owner>

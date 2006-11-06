@@ -160,7 +160,9 @@ typedef enum { /*< skip >*/
 	GTH_CAPTION_EXIF_APERTURE_VALUE = 1 << 9,
 	GTH_CAPTION_EXIF_FOCAL_LENGTH   = 1 << 10,
 	GTH_CAPTION_EXIF_DATE_TIME      = 1 << 11,
-	GTH_CAPTION_EXIF_CAMERA_MODEL   = 1 << 12
+	GTH_CAPTION_EXIF_CAMERA_MODEL   = 1 << 12,
+	GTH_CAPTION_PLACE               = 1 << 13,
+	GTH_CAPTION_DATE_TIME           = 1 << 14
 } GthCaptionFields;
 
  
