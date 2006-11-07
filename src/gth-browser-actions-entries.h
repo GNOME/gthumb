@@ -435,6 +435,9 @@ static GtkRadioActionEntry gth_browser_sort_by_entries[] = {
 	{ "SortByTime", NULL,
 	  N_("by _Time"), NULL,
 	  N_("Sort images by modification time"), GTH_SORT_METHOD_BY_TIME },
+	{ "SortByComment", NULL,
+	  N_("by _Comment"), NULL,
+	  N_("Sort images by comment"), GTH_SORT_METHOD_BY_COMMENT },
 	{ "SortManual", NULL,
 	  N_("_Manual Order"), NULL,
 	  N_("Sort images manually"), GTH_SORT_METHOD_MANUAL }

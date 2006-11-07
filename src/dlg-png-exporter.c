@@ -56,11 +56,12 @@
 #define DEF_PAGE_HEIGHT     400
 #define DEF_THUMB_SIZE      128
 
-static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4 };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
 static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
 					      GTH_SORT_METHOD_BY_PATH, 
 					      GTH_SORT_METHOD_BY_SIZE, 
 					      GTH_SORT_METHOD_BY_TIME,
+					      GTH_SORT_METHOD_BY_COMMENT,
 					      GTH_SORT_METHOD_MANUAL};
 
 typedef struct {
@@ -1567,6 +1568,8 @@ dlg_png_exporter_pref (DialogData *ddata)
 				   _("by size"));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
 				   _("by modified time"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->sort_method_combobox),
+                                   _("by comment"));
 
 	reorderable = gth_file_view_get_reorderable (gth_browser_get_file_view (ddata->browser));
 	if (reorderable)

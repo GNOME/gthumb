@@ -1,5 +1,26 @@
 2006-11-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/gthumb.schemas.in:
+	* libgthumb/gth-file-view-list.c: (gfv_sorted),
+	(comp_func_comment), (get_compfunc_from_method):
+	* libgthumb/gth-file-view-thumbs.c: (comp_func_comment),
+	(get_compfunc_from_method):
+	* libgthumb/preferences.c:
+	* libgthumb/typedefs.h:
+	* src/catalog-png-exporter.c: (comp_func_name),
+	(comp_func_comment), (get_sortfunc):
+	* src/catalog-web-exporter.c: (comp_func_comment), (get_sortfunc):
+	* src/dlg-png-exporter.c: (dlg_png_exporter_pref):
+	* src/dlg-web-exporter.c: (dlg_web_exporter):
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_sync_sort_menu):
+
+	  Added sorting by comment. Bug 356718. Adapted from
+	  a patch by David Kiliani.
+
+2006-11-06  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/albumthemes/Classic/image.gthtml:
 	* data/albumthemes/Classic/thumbnail.gthtml:
 	* data/albumthemes/ClassicClips/image.gthtml:

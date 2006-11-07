@@ -46,11 +46,12 @@
 #include "gth-browser.h"
 #include "glib-utils.h"
 
-static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4 };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
 static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, 
 					      GTH_SORT_METHOD_BY_PATH, 
 					      GTH_SORT_METHOD_BY_SIZE, 
 					      GTH_SORT_METHOD_BY_TIME,
+					      GTH_SORT_METHOD_BY_COMMENT,
 					      GTH_SORT_METHOD_MANUAL};
 static int           idx_to_resize_width[] = { 320, 320, 640, 640, 800, 800, 1024, 1024, 1280, 1280 };
 static int           idx_to_resize_height[] = { 200, 320, 480, 640, 600, 800, 768, 1024, 960, 1280 };
@@ -487,6 +488,8 @@ dlg_web_exporter (GthBrowser *browser)
 				   _("by size"));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
 				   _("by modified time"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
+                                   _("by comment"));
 	if (reorderable)
 		gtk_combo_box_append_text (GTK_COMBO_BOX (data->wa_sort_images_combobox),
 					   _("manual order"));

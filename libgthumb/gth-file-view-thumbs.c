@@ -671,6 +671,23 @@ comp_func_path (gconstpointer  ptr1,
 
 
 static int
+comp_func_comment (gconstpointer  ptr1,
+		   gconstpointer  ptr2)
+{
+        const GthImageListItem *item1 = ptr1, *item2 = ptr2;
+
+        if ((item1->comment == NULL) && (item2->comment == NULL))
+                return 0;
+        if (item1->comment == NULL)
+                return 1;
+        if (item2->comment == NULL)
+                return -1;
+	
+	return g_utf8_collate ( g_utf8_casefold (item1->comment,-1), g_utf8_casefold (item2->comment,-1) );
+}
+
+
+static int
 comp_func_none (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -695,6 +712,9 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		break;
 	case GTH_SORT_METHOD_BY_PATH:
 		func = comp_func_path;
+		break;
+	case GTH_SORT_METHOD_BY_COMMENT:
+		func = comp_func_comment;
 		break;
 	case GTH_SORT_METHOD_NONE:
 	case GTH_SORT_METHOD_MANUAL:

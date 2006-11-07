@@ -1043,6 +1043,7 @@ gfv_sorted (GthFileView   *file_view,
 	case GTH_SORT_METHOD_BY_PATH: col = COLUMN_PATH; break;
 	case GTH_SORT_METHOD_BY_SIZE: col = COLUMN_SIZE; break;
 	case GTH_SORT_METHOD_BY_TIME: col = COLUMN_TIME; break;
+	case GTH_SORT_METHOD_BY_COMMENT: col = COLUMN_COMMENT; break;
 	default: col = GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID; break;
 	}
 
@@ -1584,6 +1585,23 @@ comp_func_path (gconstpointer  ptr1,
 
 
 static int
+comp_func_comment (gconstpointer  ptr1,
+		   gconstpointer  ptr2)
+{
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
+
+        if ((fd1->comment == NULL) && (fd2->comment == NULL))
+                return 0;
+        if (fd1->comment == NULL)
+                return 1;
+        if (fd2->comment == NULL)
+                return -1;
+
+	return g_utf8_collate ( g_utf8_casefold (fd1->comment,-1), g_utf8_casefold (fd2->comment,-1) );
+}
+
+
+static int
 comp_func_none (gconstpointer  ptr1,
 		gconstpointer  ptr2)
 {
@@ -1608,6 +1626,9 @@ get_compfunc_from_method (GthSortMethod sort_method)
 		break;
 	case GTH_SORT_METHOD_BY_PATH:
 		func = comp_func_path;
+		break;
+	case GTH_SORT_METHOD_BY_COMMENT:
+		func = comp_func_comment;
 		break;
 	default:
 		func = comp_func_none;

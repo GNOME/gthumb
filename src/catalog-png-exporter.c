@@ -1193,7 +1193,7 @@ static gint
 comp_func_name (gconstpointer a, gconstpointer b)
 {
 	ImageData *data_a, *data_b;
-
+	
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
@@ -1211,6 +1211,25 @@ comp_func_path (gconstpointer a, gconstpointer b)
 	data_b = IMAGE_DATA (b);
 
 	return strcasecmp (data_a->filename, data_b->filename);
+}
+
+
+static gint
+comp_func_comment (gconstpointer a, gconstpointer b)
+{
+	ImageData *data_a, *data_b;
+
+	data_a = IMAGE_DATA (a);
+	data_b = IMAGE_DATA (b);
+
+        if ((data_a->comment == NULL) && (data_b->comment == NULL))
+	                return 0;
+        if (data_a->comment == NULL)
+	                return 1;
+        if (data_b->comment == NULL)
+	                return -1;
+
+	return g_utf8_collate ( g_utf8_casefold (data_a->comment,-1), g_utf8_casefold (data_b->comment,-1) );
 }
 
 
@@ -1272,6 +1291,9 @@ get_sortfunc (CatalogPngExporter *ce)
 		break;
 	case GTH_SORT_METHOD_BY_PATH:
 		func = comp_func_path;
+		break;
+	case GTH_SORT_METHOD_BY_COMMENT:
+		func = comp_func_comment;
 		break;
 	case GTH_SORT_METHOD_NONE:
 		func = comp_func_none;
