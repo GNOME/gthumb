@@ -42,7 +42,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_close_window) },
 
 	{ "File_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With"), "O",
+	  N_("_Open With..."), "O",
 	  N_("Open selected images with an application"),
 	  G_CALLBACK (gth_window_activate_action_file_open_with) },
 
@@ -52,7 +52,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_save) },
 
 	{ "File_SaveAs", GTK_STOCK_SAVE_AS,
-	  NULL, NULL,
+	  N_("Save _As..."), NULL,
 	  N_("Save current image"),
 	  G_CALLBACK (gth_window_activate_action_file_save_as) },
 
@@ -62,17 +62,17 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_file_revert) },
 
 	{ "File_Print", GTK_STOCK_PRINT,
-	  NULL, NULL,
+	  N_("Print..."), NULL,
 	  N_("Print the current image"),
 	  G_CALLBACK (gth_window_activate_action_file_print) },
 
 	{ "Image_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With"), "O",
+	  N_("_Open With..."), "O",
 	  N_("Open this image with an application"),
 	  G_CALLBACK (gth_window_activate_action_image_open_with) },
 
 	{ "Edit_EditComment", GTHUMB_STOCK_ADD_COMMENT,
-	  N_("Comm_ent"), "C",
+	  N_("Comm_ent..."), "C",
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
@@ -82,7 +82,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_edit_delete_comment) },
 
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
-	  N_("Ca_tegories"), "K",
+	  N_("Ca_tegories..."), "K",
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
@@ -137,47 +137,37 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_alter_image_equalize) },
 
 	{ "AlterImage_Posterize", GTHUMB_STOCK_POSTERIZE,
-	  N_("_Posterize"), NULL,
+	  N_("_Posterize..."), NULL,
 	  N_("Reduce the number of colors"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_posterize) },
 
 	{ "AlterImage_BrightnessContrast", GTHUMB_STOCK_BRIGHTNESS_CONTRAST,
-	  N_("_Brightness-Contrast"), NULL,
+	  N_("_Brightness-Contrast..."), NULL,
 	  N_("Adjust brightness and contrast"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_brightness_contrast) },
 
 	{ "AlterImage_HueSaturation", GTHUMB_STOCK_HUE_SATURATION,
-	  N_("_Hue-Saturation"), NULL,
+	  N_("_Hue-Saturation..."), NULL,
 	  N_("Adjust hue and saturation"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_hue_saturation) },
 
          { "AlterImage_RedeyeRemoval", GTHUMB_STOCK_REDEYE_REMOVAL,
-            N_("_Redeye Removal"), NULL, 
+            N_("_Redeye Removal..."), NULL, 
             N_("Redeye Removal Tool"), 
 	    G_CALLBACK (gth_window_activate_action_alter_image_redeye_removal) },
 
 	{ "AlterImage_ColorBalance", GTHUMB_STOCK_COLOR_BALANCE,
-	  N_("_Color Balance"), NULL,
+	  N_("_Color Balance..."), NULL,
 	  N_("Adjust color balance"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_color_balance) },
 
-	{ "AlterImage_Threshold", GTHUMB_STOCK_THRESHOLD,
-	  N_("_Threshold"), NULL,
-	  N_("Apply threshold"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_threshold) },
-
 	{ "AlterImage_Resize", GTHUMB_STOCK_RESIZE,
-	  N_("_Resize"), NULL,
+	  N_("_Resize..."), NULL,
 	  N_("Resize image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_resize) },
 
-	{ "AlterImage_Rotate", GTHUMB_STOCK_ROTATE,
-	  N_("_Rotate"), NULL,
-	  N_("Rotate image"),
-	  G_CALLBACK (gth_window_activate_action_alter_image_rotate) },
-
 	{ "AlterImage_Crop", GTHUMB_STOCK_CROP,
-	  N_("_Crop"), NULL,
+	  N_("_Crop..."), NULL,
 	  N_("Crop image"),
 	  G_CALLBACK (gth_window_activate_action_alter_image_crop) },
 
@@ -252,7 +242,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_wallpaper_restore) },
 
 	{ "Tools_ChangeDate", GTHUMB_STOCK_CHANGE_DATE,
-	  N_("Change _Date"), NULL,
+	  N_("Change _Date..."), NULL,
 	  N_("Change images last modified date"),
 	  G_CALLBACK (gth_window_activate_action_tools_change_date) },
 
@@ -262,7 +252,7 @@ static GtkActionEntry gth_window_action_entries[] = {
           G_CALLBACK (gth_window_activate_action_tools_reset_exif) },
 
 	{ "Tools_JPEGRotate", GTHUMB_STOCK_TRANSFORM,
-	  N_("Ro_tate Images"), NULL,
+	  N_("Ro_tate Images..."), NULL,
 	  N_("Rotate images without loss of quality"),
 	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate) },
 

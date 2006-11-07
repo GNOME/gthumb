@@ -1,5 +1,14 @@
 2006-11-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser-actions-entries.h:
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_alter_image_resize):
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	  Added missing ellipses to menu items, as per HIG.
+
+2006-11-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/catalog-web-exporter.c: (get_page_idx_from_image_idx):
 	  Corrected broken index links in web albums (broken by yesterday's
 	  web album patch). Bug 319933, patch by Rennie deGraaf.

@@ -70,7 +70,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_file_camera_import) },
 
 	{ "File_WriteToCD", GTK_STOCK_CDROM,
-	  N_("_Write To CD"), NULL,
+	  N_("_Write To CD..."), NULL,
 	  N_("Write selection to CD"),
 	  G_CALLBACK (gth_browser_activate_action_file_write_to_cd) },
 
@@ -160,7 +160,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_catalog_move) },
 
 	{ "EditCatalog_EditSearch", NULL,
-	  N_("_Edit Search"), NULL,
+	  N_("_Edit Search..."), NULL,
 	  N_("Modify search criteria"),
 	  G_CALLBACK (gth_browser_activate_action_edit_catalog_edit_search) },
 
@@ -195,7 +195,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_current_catalog_move) },
 
 	{ "EditCurrentCatalog_EditSearch", NULL,
-	  N_("_Edit Search"), NULL,
+	  N_("_Edit Search..."), NULL,
 	  N_("Modify search criteria"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_catalog_edit_search) },
 
@@ -240,7 +240,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_dir_move) },
 
 	{ "EditDir_Categories", NULL,
-	  N_("Ca_tegories"), NULL,
+	  N_("Ca_tegories..."), NULL,
 	  N_("Assign categories to the selected folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_dir_categories) },
 
@@ -270,7 +270,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_move) },
 
 	{ "EditCurrentDir_Categories", NULL,
-	  N_("Ca_tegories"), NULL,
+	  N_("Ca_tegories..."), NULL,
 	  N_("Assign categories to the current folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_categories) },
 
@@ -340,7 +340,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_bookmarks_add) },
 
 	{ "Bookmarks_Edit", NULL,
-	  N_("_Edit Bookmarks"), "<control>B",
+	  N_("_Edit Bookmarks..."), "<control>B",
 	  N_("Edit bookmarks"),
 	  G_CALLBACK (gth_browser_activate_action_bookmarks_edit) },
 
@@ -350,22 +350,22 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_tools_slideshow) },
 
 	{ "Tools_FindImages", GTK_STOCK_FIND,
-	  NULL, NULL, 
+	  N_("_Find..."), NULL, 
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
 	{ "Tools_IndexImage", GTHUMB_STOCK_INDEX_IMAGE,
-	  N_("Create _Index Image"), NULL,
+	  N_("Create _Index Image..."), NULL,
 	  " ",
 	  G_CALLBACK (gth_browser_activate_action_tools_index_image) },
 
 	{ "Tools_WebExporter", NULL,
-	  N_("Create _Web Album"), NULL,
+	  N_("Create _Web Album..."), NULL,
 	  " ",
 	  G_CALLBACK (gth_browser_activate_action_tools_web_exporter) },
 
 	{ "Tools_ConvertFormat", GTK_STOCK_CONVERT,
-	  N_("Convert F_ormat"), NULL,
+	  N_("Convert F_ormat..."), NULL,
 	  "Convert image format",
 	  G_CALLBACK (gth_browser_activate_action_tools_convert_format) },
 
@@ -375,12 +375,12 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_tools_find_duplicates) },
 
 	{ "Tools_Preferences", GTK_STOCK_PREFERENCES,
-	  NULL, NULL, 
+	  N_("_Preferences..."), NULL, 
 	  N_("Edit various preferences"),
 	  G_CALLBACK (gth_browser_activate_action_tools_preferences) },
 
 	{ "Tools_ScaleSeries", GTHUMB_STOCK_RESIZE,
-	  N_("Scale Images"), NULL,
+	  N_("Scale Images..."), NULL,
 	  N_("Scale Images"),
 	  G_CALLBACK (gth_browser_activate_action_tools_resize_images) }
 };

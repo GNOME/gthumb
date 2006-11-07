@@ -482,24 +482,10 @@ gth_window_activate_action_alter_image_color_balance (GtkAction *action,
 
 
 void
-gth_window_activate_action_alter_image_threshold (GtkAction *action,
-						  gpointer   data)
-{
-}
-
-
-void
 gth_window_activate_action_alter_image_resize (GtkAction *action,
 					       GthWindow *window)
 {
 	dlg_scale_image (window);
-}
-
-
-void
-gth_window_activate_action_alter_image_rotate (GtkAction *action,
-					       gpointer   data)
-{
 }
 
 
