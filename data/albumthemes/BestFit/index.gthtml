@@ -1,0 +1,92 @@
+<gthumb:set_var thumbnail_width="159" thumbnail_height="120"/>
+<gthumb:set_var preview_width="800" preview_height="600"/>
+
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!--
+ index.ghtml
+ Copyright (c) Rennie deGraaf, 2005.  All rights reserved.
+ $Id$
+ 
+ DHTML photo album template for use with gthumb - thumbnail index page
+-->
+  <head>
+    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=ISO-8859-1" />
+    <meta name="Author" content="Rennie deGraaf" />
+    <link rel="stylesheet" href="BestFit.css" />
+    <style type="text/css">
+      <!--
+      -->
+    </style>
+    <!--[if IE]>
+      <style type="text/css">
+        div.thumbnail {
+          float: left;
+          display: block;
+        }
+        #thumbnailPanel {
+          /* unto Opera hack */
+          padding-bottom: 0px;
+          margin-bottom: 80px;
+        }
+      </style>
+    <![endif]-->
+    <script type="text/javascript" src="lib.js"></script>
+    <script type="text/javascript" src="index.js"></script>
+    <gthumb:if "pages > 1" />
+      <title><gthumb:header/> (<gthumb:page_idx/>/<gthumb:pages/>)</title>
+    <gthumb:else/>
+      <title><gthumb:header/></title>
+    <gthumb:end/>
+  </head>
+  <body onload="startIndex();">
+    <div id="contents">
+    
+      <div id="titlePanel">
+        <noscript>
+          <div id="jswarning">
+            This page may not work correctly in your browser, because you have JavaScript disabled.
+          </div>
+        </noscript>
+        <div class="center">
+          <div class="centerContent" style="height: 3em; top: -1.5em;">
+            <h1 id="titleContent"><gthumb:header/></h1>
+          </div>
+        </div>
+      </div>
+    
+      <div id="navigationPanel">
+        <!-- previous/next page -->
+        <gthumb:if "page_idx > 1" />
+          <a href="<gthumb:page_link idx_relative=-1/>">
+            <img src="prev.png" width="40" height="30" alt="Previous page"/>
+            <span class="tip">Previous page</span>
+          </a>
+        <gthumb:end/>
+        <gthumb:if "pages != 1"/>
+          <span class="index"><gthumb:page_idx/> / <gthumb:pages/></span>
+        <gthumb:end/>
+        <gthumb:if "page_idx < pages" />
+          <a href="<gthumb:page_link idx_relative=+1/>">
+            <img src="next.png" width="40" height="30" alt="Next page"/>
+            <span class="tip">Next page</span>
+          </a>
+        <gthumb:end/>
+      </div>
+    
+      <div id="thumbnailPanel">
+        <gthumb:thumbs/>
+      </div>
+    
+      <div id="copyrightPanel">
+        <div class="center">
+          <div class="centerContent" style="height: 3em; top: -1.5em;">
+            <div id="copyrightContent"><gthumb:footer/></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>

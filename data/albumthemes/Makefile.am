@@ -1,2 +1,2 @@
-SUBDIRS = Classic ClassicClips Flicker NeatRound Wiki 
+SUBDIRS = BestFit Classic ClassicClips Flicker NeatRound Wiki 
 EXTRA_DIST = text.h

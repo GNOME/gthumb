@@ -317,6 +317,7 @@ components/catalog-view/Makefile
 doc/Makefile
 data/Makefile
 data/albumthemes/Makefile
+data/albumthemes/BestFit/Makefile
 data/albumthemes/Classic/Makefile
 data/albumthemes/ClassicClips/Makefile
 data/albumthemes/Flicker/Makefile

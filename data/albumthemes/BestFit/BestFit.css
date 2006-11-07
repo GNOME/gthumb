@@ -1,0 +1,369 @@
+/*************************************************
+* pictureview.css
+* Copyright (c) Rennie deGraaf, 2005.  All rights reserved.
+* $Id$
+*
+* Stylesheet for DHTML photo album template
+*
+* NOTE: while the HTML component (template.html) should work with a different
+* stylesheet, the JavaScript component (pictureview.js) contains routines to 
+* correct rendering bugs with various browsers, and thus depends on this 
+* stylesheet.  If you modify the layout, you may also need to modify the 
+* JavaScript.
+*************************************************/
+
+html, body {
+  color: #FFFFFF;
+  background-color: #4b4b4b;
+  /*border-width: 1px;*/
+  margin: 0;
+  font-family: serif;
+  padding: 0;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24pt;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+a:link { 
+  font-weight: bold; 
+  text-decoration: none;
+  color: white;
+  background-color: inherit;   
+}
+
+a:visited { 
+  font-weight: bold; 
+  text-decoration: none;
+  color: white;
+  background-color: inherit;   
+}
+
+a:hover { 
+  font-weight: bold; 
+  text-decoration: none; 
+  color: yellow;
+  background-color: inherit;   
+}
+
+table {
+  border-style: none;
+}
+
+td {
+  color: white;
+  background-color: inherit;
+  font-size: 10pt;
+  line-height: 10pt;
+}
+
+img {
+  border-style: none;
+}
+
+img.navigation {
+  border-style: solid;
+  border-width: 3px;
+  border-color: white;
+}
+
+img.preview {
+  border-style: solid;
+  border-width: 3px;
+  border-color: black;
+}
+
+img.thumbnail {
+  vertical-align: middle;
+  margin-top: 7px;
+  margin-bottom: 7px;
+}
+
+div.thumbnail {
+  /*border-style: solid;*/
+  border-color: red;
+  border-width: 1px;
+  margin: 10px;
+  width: 183px;
+  text-align: center;       
+  float: none;
+  display: inline-block; /* Not supported by Mozilla */
+  display: -moz-inline-box; /* mozilla-specific, roughly equiv. to inline-block */
+}
+      
+div.thumbnailFrame {
+  /*border-style: solid;*/
+  border-color: blue;
+  border-width: 1px;
+  background: #CCCCCC;
+  width: 179px;
+  height: 135px;
+  
+  /* center image vertically. Doesn't work in MSIE, too low in Konqueror */
+  text-align: center;
+  line-height: 135px; 
+  font-size: 0px;
+  
+  /* drop shadow */
+  position: relative;
+  top: -3px;
+  left: -3px;
+        
+  /* rounded edges.  CSS3; not supported yet */
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+div.shadowbox {
+  position: relative;
+  top: 3px;
+  left: 3px;
+  background: #000000;
+  width: 180px;
+  
+  /* rounded edges.  CSS3; not supported yet */
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+/* see http://www.wpdfd.com/editorial/thebox/deadcentre4.html */
+div.center {
+  text-align: center;
+  position: relative;
+  top: 50%;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  overflow: visible;
+  /*background-color: #0ff; /* line across the center */
+}
+
+/* see http://www.wpdfd.com/editorial/thebox/deadcentre4.html */
+div.centerContent {
+  margin-left: -50%;
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  height: 100%; /* needs to be the height of the minimum bounding box */
+  top: -50%; /* needs to be 50% of the height of the minimum bounding box */
+}
+
+div.caption {
+  padding: 1ex;
+  font-size: 12pt;
+  line-height: 12pt;
+  text-align: left;
+}
+
+div.centerh {
+  height: 100%;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+div.comments {
+}
+
+div.location {
+  padding-top: 1em;
+}
+
+div.time {
+  padding-top: 1em;
+}
+
+span.index {
+  font-weight: bold;
+  font-size: 10pt;
+  vertical-align: 9px;
+}
+
+span.property {
+  font-size: 10pt;
+  color: #AAAAAA;
+  background-color: inherit;
+  font-weight: bold;
+}
+
+div.tip {
+  padding: 2px;
+  background-color: #4b4b4b;
+  color: black;
+  font-size: 10pt;
+  line-height: 10pt;
+
+  /* display on top of everything else */
+  position: absolute;
+  display: none;
+  /*top: -60px;
+  left: 100%;*/
+  top: inherit;
+  left: inherit;
+  width: auto;
+  height: auto;
+  z-index: 100;
+  
+  /* draw a border */
+  border-style: solid;
+  border-color: black;
+  border-width: 1px;
+
+  /* rounded edges on border.  CSS3; not supported yet */
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+}
+
+a + div.tip {
+  display: none;
+}
+
+a:hover + div.tip {
+  display: block;
+}
+
+div.tip table
+{
+  text-align: left;
+}
+
+div.tip > div.comments
+{
+  padding: 0;
+}
+
+#indexPanel, #navigationPanel, #prevThumbPanel, #nextThumbPanel {
+  text-align: center;
+  /*border-style: solid;*/
+  border-width: 1px;
+  border-color: blue;
+  position: absolute;
+  width: 20%;
+}
+
+#indexPanel {
+  top: 22px;
+  height: 30px;
+  left: 0;
+}
+
+#navigationPanel {
+  top: 22px;
+  height: 30px;
+  right: 0;
+}
+
+#prevThumbPanel {
+  top: 80px;
+  height: 106px;
+  left: 0;
+  line-height: 0px;
+}
+
+#nextThumbPanel {
+  top: 80px;
+  height: 106px;
+  right: 0;
+  line-height: 0px;
+}
+
+#captionPanel, #propertyPanel, #imagePanel
+{
+  position: absolute;
+}
+
+#titlePanel {
+  top: 0;
+  margin-left: 20%;
+  margin-right: 20%;
+  height: 80px;
+  border-color: #786345;
+}
+
+#captionPanel {
+  top: 190px;
+  left: 0;
+  width: 20%;
+  bottom: 0;
+  border-color: #98072b;
+}
+
+#propertyPanel {
+  top: 190px;
+  right: 0;
+  width: 20%;
+  bottom: 0;
+  border-color: #386698;
+}
+
+#imagePanel {
+  top: 80px;
+  left: 20%;
+  right: 20%;
+  bottom: 80px;
+  border-color: #178634;
+  text-align: center;
+  line-height: 0px;
+}
+
+#copyrightPanel {
+  position: absolute;
+  height: 80px;
+  bottom: 0;
+  right: 20%;
+  left: 20%;
+  width: 60%; /* hack for MSIE */
+  border-color: #e80972;
+}
+
+#fullsizenote, #jswarning {
+  height: 1.5em;
+  line-height: 1em;
+  /*border-style: solid;*/
+  border-width: 1px;
+  font-size: 10pt;
+  text-align: center;
+  vertical-align: top;
+}
+
+#fullsizenote {
+  color: #AAAAAA;
+  background-color: inherit;
+}
+
+#jswarning {
+  border-style: solid;
+  color: #7FFF00;
+  background-color: inherit;
+}
+
+#thumbnailPanel {
+  margin-left: 80px;
+  margin-right: 80px;
+  /*margin-bottom: 80px;*/ /* this is the best way, but breaks in Opera 8.0 */
+  padding-bottom: 80px; /* hack for Opera 8.0, breaks MSIE 6.0 */
+  border-color: #178634;
+  text-align: center;
+  line-height: 0px;
+}
+
+html, body, #contents {
+  min-height: 100%;
+  width: 100%;
+  height: 100%; /* hack for MSIE - should be auto */
+}
+
+/* hack for MSIE */
+html>body, html>body #contents {
+  height: auto;
+}
+
+#contents {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

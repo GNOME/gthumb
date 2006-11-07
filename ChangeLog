@@ -1,5 +1,24 @@
 2006-11-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in:
+	* data/albumthemes/BestFit/BestFit.css:
+	* data/albumthemes/BestFit/BestFit.js:
+	* data/albumthemes/BestFit/Makefile.am:
+	* data/albumthemes/BestFit/back.png:
+	* data/albumthemes/BestFit/image.gthtml:
+	* data/albumthemes/BestFit/index.gthtml:
+	* data/albumthemes/BestFit/index.js:
+	* data/albumthemes/BestFit/lib.js:
+	* data/albumthemes/BestFit/next.png:
+	* data/albumthemes/BestFit/prev.png:
+	* data/albumthemes/BestFit/preview.png:
+	* data/albumthemes/BestFit/thumbnail.gthtml:
+	* data/albumthemes/Makefile.am:
+	  Initial addition of Rennie deGraaf's "BestFit" web album 
+	  theme. Bug 319933. Some tweaks expected shortly.
+
+2006-11-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb.glade:
 	  More stock buttons in the edit bookmarks dialog.
 
