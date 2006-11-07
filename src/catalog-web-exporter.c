@@ -899,7 +899,7 @@ get_page_idx_from_image_idx (CatalogWebExporter *ce,
 			     int                 image_idx)
 {
 	if (ce->single_index)
-		return 1;
+		return 0;
 	else
 		return image_idx / (ce->page_rows * ce->page_cols);
 }
