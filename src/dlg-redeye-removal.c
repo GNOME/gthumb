@@ -35,6 +35,7 @@
 */
 
 #include "config.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include <gtk/gtk.h>
 #include <glade/glade.h>

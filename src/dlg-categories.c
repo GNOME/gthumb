@@ -33,6 +33,7 @@
 #include "file-utils.h"
 #include "preferences.h"
 #include "main.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
 #include "gtkcellrendererthreestates.h"

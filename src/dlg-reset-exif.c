@@ -33,6 +33,7 @@
 #include <glade/glade.h>
 
 #include "file-utils.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
 #include "main.h"

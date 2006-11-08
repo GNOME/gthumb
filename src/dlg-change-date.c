@@ -33,6 +33,7 @@
 #include "file-data.h"
 #include "gth-exif-utils.h"
 #include "file-utils.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "main.h"
 

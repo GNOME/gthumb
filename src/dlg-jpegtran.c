@@ -41,6 +41,7 @@
 
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
 #include "image-loader.h"

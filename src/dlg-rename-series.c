@@ -30,6 +30,7 @@
 #include <libgnomevfs/gnome-vfs-utils.h>
 
 #include "gth-browser.h"
+#include "gth-utils.h"
 #include "gtk-utils.h"
 #include "gconf-utils.h"
 #include "glib-utils.h"

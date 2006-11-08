@@ -35,6 +35,7 @@
 #include "file-data.h"
 #include "gconf-utils.h"
 #include "gth-browser.h"
+#include "gth-utils.h"
 #include "gtk-utils.h"
 #include "image-viewer.h"
 #include "main.h"

@@ -40,6 +40,7 @@
 #include "gconf-utils.h"
 #include "search.h"
 #include "gth-browser.h"
+#include "gth-utils.h"
 #include "gtk-utils.h"
 #include "glib-utils.h"
 

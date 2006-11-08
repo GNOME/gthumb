@@ -44,6 +44,7 @@
 #include "pixbuf-utils.h"
 #include "gconf-utils.h"
 #include "gth-browser.h"
+#include "gth-utils.h"
 #include "glib-utils.h"
 
 static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };

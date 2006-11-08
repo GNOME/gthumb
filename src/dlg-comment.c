@@ -35,6 +35,7 @@
 #include "preferences.h"
 #include "main.h"
 #include "glib-utils.h"
+#include "gth-utils.h"
 #include "gth-window.h"
 #include "gtk-utils.h"
 #include "gth-file-view.h"

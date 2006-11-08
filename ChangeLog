@@ -1,3 +1,23 @@
+2006-11-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/glade/gthumb_web_exporter.glade: UI tweaks
+	  in web album exporter (added note about row/col
+	  auto-arranging). Bug 319933.
+
+	* src/dlg-categories.c:
+	* src/dlg-change-date.c:
+	* src/dlg-comment.c:
+	* src/dlg-convert.c:
+	* src/dlg-jpegtran.c:
+	* src/dlg-photo-importer.c:
+	* src/dlg-preferences.c:
+	* src/dlg-redeye-removal.c:
+	* src/dlg-rename-series.c:
+	* src/dlg-reset-exif.c:
+	* src/dlg-search.c:
+	* src/dlg-web-exporter.c:
+	  Added missing #includes for help functions. Bug 369449.
+
 2006-11-07  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* configure.in:

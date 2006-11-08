@@ -36,10 +36,10 @@
 #include "thumb-cache.h"
 #include "comments.h"
 #include "file-utils.h"
+#include "gth-utils.h"
 #include "gtk-utils.h"
 #include "main.h"
 #include "gconf-utils.h"
-#include "gtk-utils.h"
 #include "typedefs.h"
 #include "gth-browser.h"
 

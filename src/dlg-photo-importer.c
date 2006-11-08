@@ -42,6 +42,7 @@
 #include <gphoto2/gphoto2-abilities-list.h>
 #include <glade/glade.h>
 
+#include "gth-utils.h"
 #include "gtk-utils.h"
 #include "gth-window.h"
 #include "gth-browser.h"
