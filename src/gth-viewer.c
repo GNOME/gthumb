@@ -844,6 +844,9 @@ save_jpeg_data (GthViewer  *viewer,
 	if (filename == NULL)
 		return;
 
+	if (!image_is_jpeg (filename))
+		return;
+
 	if (priv->exif_data != NULL) 
 		data_to_save = TRUE;
 	
@@ -877,14 +880,14 @@ save_jpeg_data (GthViewer  *viewer,
 	}
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (priv->exif_data != NULL) 
+	if (priv->exif_data != NULL) {
+		/* The exif orientation tag, if present, must be reset to "top-left" */
+		set_orientation_in_exif_data (GTH_TRANSFORM_NONE, priv->exif_data);
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
+	}
 
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
-
-	/* The exif orientation tag, if present, must be reset to "top-left" */
-	write_orientation_field (filename, GTH_TRANSFORM_NONE);
 }
 
 

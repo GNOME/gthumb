@@ -1782,6 +1782,9 @@ copy_exif_from_orig (const char *src_filename,
 	if (jdata_dest == NULL)
 		return;
 
+	/* The exif orientation tag, if present, must be reset to "top-left" */
+	set_orientation_in_exif_data (GTH_TRANSFORM_NONE, edata_src);
+
 	jpeg_data_set_exif_data (jdata_dest, edata_src);
 
 	jpeg_data_save_file (jdata_dest, dest_filename);
@@ -1789,9 +1792,6 @@ copy_exif_from_orig (const char *src_filename,
 	exif_data_unref (edata_src);
 	jpeg_data_unref (jdata_src);
 	jpeg_data_unref (jdata_dest);
-
-	/* The exif orientation tag, if present, must be reset to "top-left" */
-	write_orientation_field (dest_filename, GTH_TRANSFORM_NONE);
 }
 
 

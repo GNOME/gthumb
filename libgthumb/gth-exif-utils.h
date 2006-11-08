@@ -31,6 +31,7 @@
 #include <libexif/exif-entry.h>
 #include <libexif/exif-utils.h>
 #include "jpegutils/jpeg-data.h"
+#include "typedefs.h"
 
 
 char *      get_exif_tag            (const char *filename,
@@ -46,5 +47,7 @@ void        save_exif_data          (const char *filename,
 				     ExifData   *edata);
 void        copy_exif_data          (const char *src,
 				     const char *dest);
+void   set_orientation_in_exif_data (GthTransform  transform,
+				     ExifData     *edata);
 
 #endif /* EXIF_UTILS_H */

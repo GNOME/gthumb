@@ -337,3 +337,26 @@ copy_exif_data (const char *src,
 	exif_data_unref (edata);
 }
 
+
+void
+set_orientation_in_exif_data (GthTransform  transform,
+			      ExifData     *edata)
+{
+	unsigned int  i;
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+		ExifEntry   *entry;
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
+		if (entry != NULL) {
+			ExifByteOrder byte_order;
+			byte_order = exif_data_get_byte_order (edata);
+			exif_set_short (entry->data, byte_order, transform);
+		}
+	}
+}
+
