@@ -1,3 +1,7 @@
+2006-11-08  Daniel Nylander <po@danielnylander.se>
+
+	* sv.po: Swedish translation updated.
+
 2006-11-08  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/gth-exif-utils.c: (set_orientation_in_exif_data):
