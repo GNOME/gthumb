@@ -31,6 +31,7 @@ data/glade/gthumb_edit.glade
 data/glade/gthumb_png_exporter.glade
 data/glade/gthumb_preferences.glade
 data/glade/gthumb_print.glade
+data/glade/gthumb_redeye.glade
 data/glade/gthumb_search.glade
 data/glade/gthumb_tools.glade
 data/glade/gthumb_web_exporter.glade
@@ -74,6 +75,8 @@ libgthumb/gth-image-list.c
 libgthumb/gth-image-list.h
 libgthumb/gth-pixbuf-op.c
 libgthumb/gth-pixbuf-op.h
+libgthumb/gth-utils.c
+libgthumb/gth-utils.h
 libgthumb/gthumb-error.c
 libgthumb/gthumb-error.h
 libgthumb/gthumb-histogram.c
@@ -162,6 +165,8 @@ src/dlg-preferences.c
 src/dlg-preferences.h
 src/dlg-rename-series.c
 src/dlg-rename-series.h
+src/dlg-reset-exif.c
+src/dlg-reset-exif.h
 src/dlg-scale-image.c
 src/dlg-scale-image.h
 src/dlg-scale-series.c

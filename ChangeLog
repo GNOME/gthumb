@@ -1,5 +1,10 @@
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* po/POTFILES.in:
+	  Added missing files to translation list (5 total).
+
+2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/albumthemes/BestFit/BestFit.css:
 	* data/albumthemes/BestFit/BestFit.js:
 	* data/albumthemes/BestFit/image.gthtml:
