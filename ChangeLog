@@ -1,5 +1,10 @@
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+        * doc/ru: Deleted obsolete Russian manual translation.
+	  Bug #346889.
+
+2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* po/POTFILES.in:
 	  Added missing files to translation list (5 total).
 
