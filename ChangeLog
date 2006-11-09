@@ -1,5 +1,11 @@
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+        * src/dlg-jpegtran.c: (jpeg_mcu_dialog):
+          Fixed action of jpeg-mcu-trim dialog when the close
+          button was pressed. Bug 361913. Patch by Jef Driesen.
+
+2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
         * doc/ru: Deleted obsolete Russian manual translation.
 	  Bug #346889.
 

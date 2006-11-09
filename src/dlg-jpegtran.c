@@ -251,7 +251,10 @@ static gint jpeg_mcu_dialog (GtkWindow *parent)
 
  	gtk_widget_destroy (d);
 
- 	return result;
+	if (result == GTK_RESPONSE_DELETE_EVENT)
+		return GTK_RESPONSE_CANCEL;
+	else
+ 		return result;
 }
 
 
