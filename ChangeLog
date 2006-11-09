@@ -1,3 +1,14 @@
+2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/albumthemes/BestFit/BestFit.css:
+	* data/albumthemes/BestFit/BestFit.js:
+	* data/albumthemes/BestFit/image.gthtml:
+	* data/albumthemes/BestFit/index.gthtml:
+	* data/albumthemes/BestFit/index.js:
+	* data/albumthemes/BestFit/lib.js:
+	  Improvements to the BestFit web album theme (image
+	  view). Bug 319933. Patch by Rennie deGraaf.
+
 2006-11-08  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Swedish translation updated.

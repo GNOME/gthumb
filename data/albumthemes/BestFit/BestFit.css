@@ -1,6 +1,6 @@
 /*************************************************
-* pictureview.css
-* Copyright (c) Rennie deGraaf, 2005.  All rights reserved.
+* BestFit.css
+* Copyright (C) 2005-2006 Free Software Foundation, Inc.
 * $Id$
 *
 * Stylesheet for DHTML photo album template
@@ -151,7 +151,7 @@ div.centerContent {
   top: -50%; /* needs to be 50% of the height of the minimum bounding box */
 }
 
-div.caption {
+div.caption, table.caption {
   padding: 1ex;
   font-size: 12pt;
   line-height: 12pt;

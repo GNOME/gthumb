@@ -1,6 +1,6 @@
 /*************************************************
 * BestFit.js
-* Copyright (c) Rennie deGraaf, 2005.  All rights reserved.
+* Copyright (C) 2005-2006 Free Software Foundation, Inc.
 * $Id$
 *
 * Scripts for DHTML photo album template
@@ -84,6 +84,14 @@ function resize ()
         // constrained by height
         image.height = Math.min(panelHeight, imageHeight);
         image.width = Math.min((imageWidth*panelHeight/imageHeight), imageWidth);
+    }
+
+    // adjust right column if there's space
+    propertyWidth = getObjWidth(document.getElementById("propertyPanel"));
+    tableWidth = getObjWidth(document.getElementById("propertyTable")) + getHBorder(document.getElementById("propertyTable"));
+    if ((tableWidth > propertyWidth) && (image.width+(tableWidth-propertyWidth) < panelWidth))
+    {
+        setProperty(document.getElementById("propertyPanel"), "width", tableWidth+"px");
     }
 }
 

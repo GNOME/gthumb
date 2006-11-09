@@ -1,6 +1,6 @@
 /*************************************************
 * index.js
-* Copyright (c) Rennie deGraaf, 2005.  All rights reserved.
+* Copyright (C) 2005-2006 Free Software Foundation, Inc.
 * $Id$
 *
 * Scripts for DHTML photo album template index page
