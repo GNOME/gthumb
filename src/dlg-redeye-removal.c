@@ -362,10 +362,9 @@ static void update_image(DialogData *data, GdkPixbuf *pixbuf)
 
 static gint press_in_win_event(GtkWidget *widget, GdkEventButton *event, DialogData *pdata)
 {
-	gfloat scale_factor = pdata->scale_factor;
-	const int REGION_SEARCH_SIZE = 3;
-	int mods;
-	char *new_red;
+	gfloat     scale_factor = pdata->scale_factor;
+	const int  REGION_SEARCH_SIZE = 3;
+	int        mods;
 	RedeyeBuf *redeye_to_use;
 	RedeyeBuf *new_buffer;
   

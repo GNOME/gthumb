@@ -2129,8 +2129,6 @@ model__autodetect_model_changed_cb (GtkEditable     *editable,
 {
 	const char      *model = NULL;
 	GList           *list = NULL;
-	int              m;
-	CameraAbilities  a;
 
 	model = gtk_entry_get_text (GTK_ENTRY (mdata->cm_autodetect_model_combo_entry));
 
@@ -2169,9 +2167,7 @@ static void
 model__refresh_cb (GtkButton       *button,
 		   ModelDialogData *mdata)
 {
-	DialogData *data = mdata->data;
 	GList *list = NULL;
-	int n, i;
 
 	list = get_autodetect_model_list (mdata);
 	gtk_combo_set_popdown_strings (GTK_COMBO (mdata->cm_autodetect_model_combo), list);
@@ -2182,9 +2178,6 @@ static void
 model__manual_select_cb (GtkButton       *button,
 			 ModelDialogData *mdata)
 {
-	DialogData *data = mdata->data;
-	GList *list = NULL;
-
 	if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(button)) == TRUE) {
 		gtk_widget_set_sensitive(mdata->cm_manual_selection_table, TRUE);
 		gtk_widget_set_sensitive(mdata->cm_autodetect_table, FALSE);

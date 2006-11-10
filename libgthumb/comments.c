@@ -28,6 +28,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <string.h>
+#include <ctype.h>
 
 #include <glib/gi18n.h>
 #include <libgnomevfs/gnome-vfs-types.h>
@@ -1186,7 +1187,8 @@ _append_escaped_text_for_html (GString     *str,
 			if ((ch > 127) ||  !isprint((char)ch)) 
 				g_string_append_printf (str, "\\&#%d;", ch);
 			else
-				g_string_append_unichar (str, ch);			state = 0;
+				g_string_append_unichar (str, ch);			
+			state = 0;
 			break;
 			
 		    default: /* not escaped */
@@ -1215,7 +1217,8 @@ _append_escaped_text_for_html (GString     *str,
 				if ((ch > 127) ||  !isprint((char)ch)) 
 					g_string_append_printf (str, "&#%d;", ch);
 				else
-					g_string_append_unichar (str, ch);			state = 0;
+					g_string_append_unichar (str, ch);			
+				state = 0;
 				break;
 			}
 		}

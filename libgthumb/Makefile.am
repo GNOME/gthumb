@@ -169,7 +169,6 @@ gthumb-enum-types.c: $(HEADER_FILES) $(GLIB_MKENUMS) gthumb-enum-types.h
 		--vprod "      { @VALUENAME@, \"@VALUENAME@\", \"@valuenick@\" }," \
 		--vtail "      { 0, NULL, NULL }\n    };\n    etype = g_@type@_register_static (\"@EnumName@\", values);\n  }\n  return etype;\n}\n" \
                 $(HEADER_FILES) > xgen-$(@F) \
-	&& cp xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c  \
 	&& (cmp -s xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c || cp xgen-$(@F) $(top_srcdir)/libgthumb/gthumb-enum-types.c ) \
         && rm -f xgen-$(@F)
 

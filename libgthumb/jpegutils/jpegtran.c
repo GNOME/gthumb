@@ -42,6 +42,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <setjmp.h>
+#include <string.h>
+
 #include <jpeglib.h>
 #include <glib.h>
 #include "gthumb-error.h"
@@ -244,7 +246,7 @@ update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
 	mark->data = src->mem->alloc_large((j_common_ptr)src, JPOOL_IMAGE, size);
 	mark->original_length = size;
 	mark->data_length = size;
-	memcpy(mark->data, data, size);
+	memcpy (mark->data, data, size);
 	free(data);
 }
 

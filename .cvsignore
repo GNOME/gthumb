@@ -31,6 +31,7 @@ intltool-*
 libtool
 ltconfig
 ltmain.sh
+m4
 missing
 mkinstalldirs
 stamp-h.in
@@ -38,6 +39,8 @@ stamp-h
 stamp-h1
 stamp.h
 gnome-doc-utils.make
+omf.make
+xmldocs.make
 .project
 .cdtproject
 .cdtbuild
