@@ -48,6 +48,7 @@
 #include "file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
 
+#include <libexif/exif-data.h>
 
 /* error handler data */
 struct error_handler_data {
@@ -92,6 +93,159 @@ output_message_handler (j_common_ptr cinfo)
 {
 	/* This method keeps libjpeg from dumping crap to stderr */
 	/* do nothing */
+}
+
+
+static void
+update_exif_orientation(ExifData *edata)
+{
+	unsigned int i;
+	ExifByteOrder byte_order;
+	
+	if (edata == NULL)
+		return;
+	
+	byte_order = exif_data_get_byte_order (edata);
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+		ExifEntry   *entry;
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+
+		entry = exif_content_get_entry (content, EXIF_TAG_ORIENTATION);
+		if (entry != NULL)
+			exif_set_short (entry->data, byte_order, 1);
+	}
+}
+
+
+static void
+swap_fields (ExifContent *content,
+	     ExifTag      tag1,
+	     ExifTag      tag2)
+{
+	ExifEntry     *entry1 = NULL;
+	ExifEntry     *entry2 = NULL;
+	unsigned char *data;
+	unsigned int   size;
+	
+	entry1 = exif_content_get_entry (content, tag1);
+	if (entry1 == NULL) 
+		return;
+	
+	entry2 = exif_content_get_entry (content, tag2);
+	if (entry2 == NULL)
+		return;
+
+	data = entry1->data;
+	size = entry1->size;
+	
+	entry1->data = entry2->data;
+	entry1->size = entry2->size;
+	
+	entry2->data = data;
+	entry2->size = size;
+}
+
+
+static void
+update_exif_dimensions (ExifData *edata, JXFORM_CODE transform)
+{
+	unsigned int i;
+	
+	if (edata == NULL)
+		return;
+
+	switch (transform) {
+	case JXFORM_ROT_90:
+	case JXFORM_ROT_270:
+	case JXFORM_TRANSPOSE:
+	case JXFORM_TRANSVERSE:
+	    break;
+	default:
+	    return;
+	}
+
+	for (i = 0; i < EXIF_IFD_COUNT; i++) {
+		ExifContent *content = edata->ifd[i];
+
+		if ((content == NULL) || (content->count == 0)) 
+			continue;
+		
+		swap_fields (content, 
+			     EXIF_TAG_RELATED_IMAGE_WIDTH,
+			     EXIF_TAG_RELATED_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_IMAGE_WIDTH,
+			     EXIF_TAG_IMAGE_LENGTH);
+		swap_fields (content, 
+			     EXIF_TAG_PIXEL_X_DIMENSION,
+			     EXIF_TAG_PIXEL_Y_DIMENSION);
+		swap_fields (content, 
+			     EXIF_TAG_X_RESOLUTION,
+			     EXIF_TAG_Y_RESOLUTION);
+		swap_fields (content, 
+			     EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
+			     EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION);
+	}
+}
+
+
+static void
+update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
+{
+	if (edata == NULL)
+		return;
+
+	if (transform == JXFORM_NONE)
+		return;
+
+	// TODO: Transform thumbnail here
+}
+
+
+static void
+update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
+{
+	jpeg_saved_marker_ptr mark = NULL;
+	ExifData *edata = NULL;
+	unsigned char *data = NULL;
+	unsigned int size;
+   
+   if (src == NULL)
+		return;
+   
+   // Find exif data.
+	for (mark = src->marker_list; mark != NULL; mark = mark->next) {
+		if (mark->marker != JPEG_APP0 +1)
+			continue;
+		edata = exif_data_new_from_data(mark->data, mark->data_length);
+		break;
+	}
+   if (edata == NULL)
+		return;
+
+	// Adjust exif orientation (set to top-left)
+	update_exif_orientation(edata);
+
+	// Adjust exif dimensions (swap values if necessary)
+	update_exif_dimensions(edata, transform);
+
+	// Adjust thumbnail (transform)
+	update_exif_thumbnail(edata, transform);
+
+	// Build new exif data block
+	exif_data_save_data(edata, &data, &size);
+	exif_data_unref(edata);
+
+	// Update jpeg APP1 (EXIF) marker
+	mark->data = src->mem->alloc_large((j_common_ptr)src, JPOOL_IMAGE, size);
+	mark->original_length = size;
+	mark->data_length = size;
+	memcpy(mark->data, data, size);
+	free(data);
 }
 
 
@@ -173,6 +327,9 @@ jpegtran (char         *input_filename,
 
 	/* Read file header */
 	(void) jpeg_read_header (&srcinfo, TRUE);
+
+	/* Update exif data */
+	update_exif_data(&srcinfo, transformation);
 
 	/* Any space needed by a transform option must be requested before
 	 * jpeg_read_coefficients so that memory allocation will be done right.

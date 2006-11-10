@@ -43,16 +43,9 @@ void		apply_transformation_generic   (GtkWindow    *win,
 
 GthTransform	get_next_transformation	       (GthTransform  original, 
 						GthTransform  transform);
-GthTransform	get_rotation_part	       (GthTransform  transform);
-GthTransform	get_mirror_part	               (GthTransform  transform);
 
 GthTransform	read_orientation_field	       (const char   *path);
 void		write_orientation_field        (const char   *filename, 
 						GthTransform  transform);
-							
-gboolean	swap_fields                    (ExifContent  *content,
-						ExifTag       tag1,
-						ExifTag       tag2);
-void	        swap_xy_exif_fields            (const char   *filename);
 
 #endif /* ROTATION_UTILS_H */

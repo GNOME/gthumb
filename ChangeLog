@@ -1,3 +1,16 @@
+2006-11-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_orientation),
+	(swap_fields), (update_exif_dimensions), (update_exif_thumbnail),
+	(update_exif_data), (jpegtran):
+	* src/rotation-utils.c: (apply_transformation_jpeg),
+	(get_next_transformation):
+	* src/rotation-utils.h:
+	  Made exif tag updating an integral part of jpegtran,
+	  to reduce unnecessary file reads/writes. Added stub
+	  for proper updating of exif thumbnail - to be
+	  expanded. Bug 361913. Patch by Jef Driesen.
+
 2006-11-09  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
         * src/dlg-jpegtran.c: (jpeg_mcu_dialog):
