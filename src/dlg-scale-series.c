@@ -38,7 +38,7 @@
 #include "gconf-utils.h"
 #include "gth-batch-op.h"
 #include "preferences.h"
-
+#include "gth-utils.h"
 
 #define GLADE_FILE "gthumb_tools.glade"
 #define DEF_TYPE "jpeg"
@@ -78,6 +78,7 @@ typedef struct {
 	GtkWidget        *ss_png_radiobutton;
 	GtkWidget        *ss_tga_radiobutton;
 	GtkWidget        *ss_tiff_radiobutton;
+	GtkWidget	 *ss_helpbutton;
 } DialogData;
 
 
@@ -182,6 +183,15 @@ ok_cb (GtkWidget  *widget,
 }
 
 
+/* called when the "help" button is clicked. */
+static void
+help_cb (GtkWidget  *widget, 
+	 DialogData *data)
+{
+	gthumb_display_help (GTK_WINDOW (data->dialog), "gthumb-scale-series");
+}
+
+
 static void
 unit_changed (GtkOptionMenu *option_menu,
 	      DialogData    *data)
@@ -210,6 +220,8 @@ dlg_scale_series (GthBrowser *browser)
 	GtkWidget  *ok_button;
 	GtkWidget  *cancel_button;
 	GtkWidget  *button;
+	GtkWidget  *help_button;
+
 	char       *unit;
 	char       *image_type;
 	char       *esc_uri = NULL;
@@ -246,6 +258,8 @@ dlg_scale_series (GthBrowser *browser)
 
 	ok_button = glade_xml_get_widget (data->gui, "ss_okbutton");
 	cancel_button = glade_xml_get_widget (data->gui, "ss_cancelbutton");
+	help_button = glade_xml_get_widget (data->gui, "ss_helpbutton");
+
 
 	/* Set widgets data. */
 
@@ -318,6 +332,12 @@ dlg_scale_series (GthBrowser *browser)
 			  "clicked",
 			  G_CALLBACK (ok_cb),
 			  data);
+
+	g_signal_connect (G_OBJECT (help_button), 
+			  "clicked",
+			  G_CALLBACK (help_cb),
+			  data);
+
 	g_signal_connect (G_OBJECT (data->ss_unit_optionmenu),
 			  "changed",
 			  G_CALLBACK (unit_changed),

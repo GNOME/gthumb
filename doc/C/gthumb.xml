@@ -2020,7 +2020,9 @@
         Usually if you want to rotate an image you have to open the image with
         an editor, rotate the image, and then save it.  This works well for
         image formats such as PNG or GIF, but results in a loss of
-        quality for JPEG images.
+        quality for JPEG images. (The rotation functions in 
+	<menuchoice><guimenu>Image</guimenu><guimenuitem>Transform</guimenuitem>
+	</menuchoice> operate this way - with loss.)
       </para>
       <para>
         If you want to rotate JPEG images without losing image quality,
@@ -2133,8 +2135,8 @@
           <para>
             <guilabel>Overwrite mode</guilabel>: a converted image has the
 	    same name of the original image except for the extension which is
-	    determined by the new format, an image with the new name
-	    can already exist in the destination folder, this option lets you
+	    determined by the new format, so an image with the new name
+	    can already exist in the destination folder. This option lets you
 	    decide what to do when such a case occurs.  If you choose
 	    <guilabel>skip</guilabel> the new image won't be created;
 	    <guilabel>rename</guilabel> will ask you to specify a new name;
@@ -2153,7 +2155,77 @@
 	</itemizedlist>
       </para>
       <para>
-        To perform the convertion click on <guibutton>Convert</guibutton>.
+        To perform the conversion click on <guibutton>Convert</guibutton>.
+      </para>
+    </sect2>
+    <sect2 id="gthumb-scale-series">
+      <title>To Scale a Series of Images</title>
+      <para>
+        To scale multiple images downwards in size,   
+        select the images you want to scale and choose
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Scale 
+	Images</guimenuitem></menuchoice>.
+      </para>
+      <para>
+        The <guilabel>Scale Images</guilabel> dialog offers you the
+        following options:
+        <itemizedlist>
+        <listitem>
+          <para>
+            <guilabel>Width</guilabel>: The desired maximum width of the scaled
+	    images.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Height</guilabel>: The desired maximum height of the scaled
+            images.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Keep aspect ratio</guilabel>: If this checkbox is not
+            enabled, the image may be stretched by different factors in the
+	    horizontal and vertical directions, in order to achieve both
+	    the specified width and height. This may result in a distorted
+	    image. If this checkbox is enabled, the image will be scaled
+	    by the same factor in both directions. The scaling factor will
+	    be calculated such that the output width and height are both 
+	    equal to or less than the values specified in the <guilabel>Width</guilabel>
+	    and <guilabel>Height</guilabel> boxes, respectively.
+          </para>
+        </listitem>	
+        <listitem>
+          <para>
+            <guilabel>Image type</guilabel>: this is the format you want to
+            save the scaled images as.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Overwrite mode</guilabel>: a scaled image has the
+            same name of the original image except for the extension which is
+            determined by the new format, so an image with the new name
+            can already exist in the destination folder. This option lets you
+            decide what to do when such a case occurs.  If you choose
+            <guilabel>skip</guilabel> the new image won't be created;
+            <guilabel>rename</guilabel> will ask you to specify a new name;
+            <guilabel>ask</guilabel> will ask you whether to overwrite the
+            old image or not and <guilabel>overwrite</guilabel> will
+            overwrite the old image without asking.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            <guilabel>Remove original</guilabel>: lets you remove the
+            original image.  If an image is not converted because of an
+            error it will not be removed.
+          </para>
+        </listitem>
+        </itemizedlist>
+      </para>
+      <para>
+        To perform the scaling click on <guibutton>Scale</guibutton>.
       </para>
     </sect2>
     <sect2 id="gthumb-rename-series">

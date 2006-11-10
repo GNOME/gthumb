@@ -1,6 +1,13 @@
 2006-11-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* doc/C/gthumb.xml:
+	* src/dlg-scale-series.c: (help_cb), (dlg_scale_series):
+	  The Scale Series help button didn't do anything. 
+	  A callback was added, and a new section was added to the manual.
+
+2006-11-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* doc/C/gthumb.xml:
 	  Greatly expanded the section of the manual dealing
 	  with web album generation.
 
