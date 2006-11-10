@@ -1,5 +1,11 @@
 2006-11-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-folder-selection-dialog.c:
+	  Minor tweak to file move folder selection dialog UI.
+	  Increased default width/height of lists. Bug #373406.
+
+2006-11-10  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_orientation),
 	(swap_fields), (update_exif_dimensions), (update_exif_thumbnail),
 	(update_exif_data), (jpegtran):

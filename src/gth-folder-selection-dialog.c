@@ -39,8 +39,8 @@
 
 
 #define RC_RECENT_FILE      ".gnome2/gthumb/recents"
-#define DEFAULT_LIST_WIDTH  300 
-#define DEFAULT_LIST_HEIGHT 120 
+#define DEFAULT_LIST_WIDTH  480 
+#define DEFAULT_LIST_HEIGHT 160 
 #define MAX_RECENT_LIST     20
 
 
