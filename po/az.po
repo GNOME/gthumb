@@ -3417,21 +3417,41 @@ msgstr "Böyüklüyə görə"
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
+#: src/gthumb_web_exporter.glade.h:5
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
 #: src/gthumb_web_exporter.glade.h:6
 msgid "1280 x 960"
 msgstr "1280 x 960"
+
+#: src/gthumb_web_exporter.glade.h:6
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
 
 #: src/gthumb_web_exporter.glade.h:7
 msgid "320 x 200"
 msgstr "320 x 200"
 
+#: src/gthumb_web_exporter.glade.h:7
+msgid "320 x 320"
+msgstr "320 x 320"
+
 #: src/gthumb_web_exporter.glade.h:8
 msgid "640 x 480"
 msgstr "640 x 480"
 
+#: src/gthumb_web_exporter.glade.h:8
+msgid "640 x 640"
+msgstr "640 x 640"
+
 #: src/gthumb_web_exporter.glade.h:9
 msgid "800 x 600"
 msgstr "800 x 600"
+
+#: src/gthumb_web_exporter.glade.h:9
+msgid "800 x 800"
+msgstr "800 x 800"
 
 #: src/gthumb_web_exporter.glade.h:10
 msgid "<b>Album</b>"

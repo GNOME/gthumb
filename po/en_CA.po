@@ -1802,21 +1802,41 @@ msgstr "hours"
 msgid "1024 x 768"
 msgstr "1024 x 768"
 
+#: ../data/glade/gthumb_web_exporter.glade.h:4
+msgid "1024 x 1024"
+msgstr "1024 x 1024"
+
 #: ../data/glade/gthumb_web_exporter.glade.h:5
 msgid "1280 x 960"
 msgstr "1280 x 960"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:5
+msgid "1280 x 1280"
+msgstr "1280 x 1280"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:6
 msgid "320 x 200"
 msgstr "320 x 200"
 
+#: ../data/glade/gthumb_web_exporter.glade.h:6
+msgid "320 x 320"
+msgstr "320 x 320"
+
 #: ../data/glade/gthumb_web_exporter.glade.h:7
 msgid "640 x 480"
 msgstr "640 x 480"
 
+#: ../data/glade/gthumb_web_exporter.glade.h:7
+msgid "640 x 640"
+msgstr "640 x 640"
+
 #: ../data/glade/gthumb_web_exporter.glade.h:8
 msgid "800 x 600"
 msgstr "800 x 600"
+
+#: ../data/glade/gthumb_web_exporter.glade.h:8
+msgid "800 x 800"
+msgstr "800 x 800"
 
 #: ../data/glade/gthumb_web_exporter.glade.h:9
 msgid "<b>Album</b>"

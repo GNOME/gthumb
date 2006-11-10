@@ -1,3 +1,13 @@
+2006-11-10  Stanislav Brabec  <sbrabec@suse.cz>
+
+	* am.po, az.po, be.po, bg.po, ca.po, cs.po, da.po, de.po, dz.po,
+	en_CA.po, en_GB.po, et.po, eu.po, fa.po, fi.po, fr.po, ga.po,
+	gl.po, gu.po, hi.po, hr.po, hu.po, id.po, it.po, ja.po, ko.po,
+	lt.po, lv.po, mk.po, ml.po, ms.po, nb.po, ne.po, nl.po, nn.po,
+	pa.po, pl.po, pt.po, pt_BR.po, ru.po, rw.po, sk.po, sq.po, sr.po,
+	sr@Latn.po, th.po, tr.po, uk.po, vi.po, xh.po, zh_CN.po, zh_HK.po,
+	zh_TW.po: Auto-created thumbnail size strings (#313671).
+
 2006-11-09  Dimitris Glezos  <dimitris@glezos.com>
 
 	* el.po: Updated Greek translation.
