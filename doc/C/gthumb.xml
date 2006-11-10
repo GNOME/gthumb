@@ -2264,10 +2264,64 @@
     <sect2 id="gthumb-web-album">
       <title>To Create a Web Album</title>
        <para>
-         To create a web album, choose
-         <menuchoice><guimenu>Tools</guimenu><guimenuitem>Create Web Album
-         </guimenuitem></menuchoice>.
+         To create a web album, view a folder or a catalog and select the images
+	 that you want to include in your album. (The usual selection methods apply -
+	 you can click to select one image, shift+click or shift+arrow to expand
+	 the selection continuously, ctrl+click to add images one at time, ctrl+A
+	 to select everything.) Then use the <menuchoice><guimenu>Tools</guimenu>
+	 <guimenuitem>Create Web Album</guimenuitem></menuchoice> function.
        </para>
+       <para>
+	 The web album will be generated in the  <guilabel>Destination</guilabel>
+	 folder. The starting page of the album will be given by the
+	 <guilabel>Index file</guilabel> setting - "index.html" is typically
+	 used.
+       </para>
+       <para>
+	 All web albums will consist of one or more "index pages" (which show
+	 a series of small thumbnail images) and one or more "image pages" 
+	 (which show a single image at a time). If the <guilabel>Copy originals
+	 to destination</guilabel> checkbox is enabled, the photo shown in the 
+	 image pages will have a link to a copy of the original image. If you
+	 click this link, the raw image will be loaded in your browser (with
+	 no accompanying HTML).
+       </para>
+       <para>
+	 If desired, images can be scaled down if they exceed a certain size
+	 defined in the <guilabel>Resize if larger than</guilabel> box.
+       </para>
+       <para>
+	 The number of thumbnail images shown on each index page of the web
+	 album is controlled by the <guilabel>Size</guilabel> row and column
+	 boxes. Alternatively, all images can be forced onto a single index
+	 page by enabling the <guilabel>use a single index page</guilabel>
+	 checkbox.
+       </para>
+       <para>
+	 Most themes will respect the row and column settings that you specify,
+	 because they are based on HTML tables. However other themes (the BestFit
+	 theme for example) use Cascading Style Sheets that automatically space
+	 the images to make the best possible use of space. (If you resize the
+	 browser window, the images will re-position themselves!) These themes
+	 will not respect the row and column settings, but they will keep the
+	 total number of images per index page equal to the ROW x COLUMNS (unless
+	 the <guilabel>use a single index page</guilabel> checkbox is enabled).
+       </para>
+       <para>
+         A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be 
+	 defined. These labels will appear at the top and bottom of every page
+	 in the album.
+       </para>
+       <para>
+	 A <guilabel>Theme</guilabel> must be specified. The <guilabel>Theme</guilabel>
+	 controls the overall appearance of your web album. To select a 
+         <guilabel>Theme</guilabel>, press the <guibutton>...</guibutton> button
+	 and select one from the list. The <guilabel>Thumbnail Caption</guilabel>
+	 and <guilabel>Image Caption</guilabel> dialogs allow you to specify
+	 what textual information (photo date, image size, camera model, etc) 
+	 will be displayed next to each image in the index and image pages, 
+	 respectively.
+       </para>.
     </sect2>
     <sect2 id="gthumb-import-photos">
       <title>To Import Photos from a Digital Camera</title>
