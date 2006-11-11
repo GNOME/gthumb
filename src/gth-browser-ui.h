@@ -382,10 +382,10 @@ static const gchar *browser_ui_info =
 "      <toolitem action='View_Fullscreen'/>"
 "      <toolitem action='Tools_Slideshow'/>"
 "      <separator/>"
-"      <toolitem action='Tools_FindImages'/>"
+"      <toolitem action='ToolBar_FindImages'/>"
 "      <separator/>"
-"      <toolitem action='Edit_EditComment'/>"
-"      <toolitem action='Edit_EditCategories'/>"
+"      <toolitem action='ToolBar_EditComment'/>"
+"      <toolitem action='ToolBar_EditCategories'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";

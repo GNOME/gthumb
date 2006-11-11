@@ -910,8 +910,10 @@ window_update_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, "View_StepAnimation", image_is_ani && ! playing);
 
 	set_action_sensitive (browser, "Edit_EditComment", sel_not_null);
+	set_action_sensitive (browser, "ToolBar_EditComment", sel_not_null);
 	set_action_sensitive (browser, "Edit_DeleteComment", sel_not_null);
 	set_action_sensitive (browser, "Edit_EditCategories", sel_not_null);
+	set_action_sensitive (browser, "ToolBar_EditCategories", sel_not_null);
 
 	set_action_sensitive (browser, "Edit_AddToCatalog", sel_not_null);
 	set_action_sensitive (browser, "Edit_RemoveFromCatalog", viewing_catalog && sel_not_null);

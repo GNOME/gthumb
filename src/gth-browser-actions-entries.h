@@ -354,6 +354,11 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
 
+	{ "ToolBar_FindImages", GTK_STOCK_FIND,
+	  N_("_Find"), NULL, 
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_tools_find_images) },
+
 	{ "Tools_IndexImage", GTHUMB_STOCK_INDEX_IMAGE,
 	  N_("Create _Index Image..."), NULL,
 	  " ",

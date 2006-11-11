@@ -66,13 +66,23 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Print the current image"),
 	  G_CALLBACK (gth_window_activate_action_file_print) },
 
+	{ "ToolBar_Print", GTK_STOCK_PRINT,
+	  N_("Print"), NULL,
+	  N_("Print the current image"),
+	  G_CALLBACK (gth_window_activate_action_file_print) },
+
 	{ "Image_OpenWith", GTK_STOCK_OPEN,
-	  N_("_Open With..."), "O",
+	  N_("_Open With"), "O",
 	  N_("Open this image with an application"),
 	  G_CALLBACK (gth_window_activate_action_image_open_with) },
 
 	{ "Edit_EditComment", GTHUMB_STOCK_ADD_COMMENT,
 	  N_("Comm_ent..."), "C",
+	  N_("Add a comment to selected images"),
+	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
+
+	{ "ToolBar_EditComment", GTHUMB_STOCK_ADD_COMMENT,
+	  N_("Comm_ent"), "C",
 	  N_("Add a comment to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_comment) },
 
@@ -83,6 +93,11 @@ static GtkActionEntry gth_window_action_entries[] = {
 
 	{ "Edit_EditCategories", GTK_STOCK_INDEX,
 	  N_("Ca_tegories..."), "K",
+	  N_("Assign categories to selected images"),
+	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
+
+	{ "ToolBar_EditCategories", GTK_STOCK_INDEX,
+	  N_("Ca_tegories"), "K",
 	  N_("Assign categories to selected images"),
 	  G_CALLBACK (gth_window_activate_action_edit_edit_categories) },
 
@@ -252,7 +267,7 @@ static GtkActionEntry gth_window_action_entries[] = {
           G_CALLBACK (gth_window_activate_action_tools_reset_exif) },
 
 	{ "Tools_JPEGRotate", GTHUMB_STOCK_TRANSFORM,
-	  N_("Ro_tate Images..."), NULL,
+	  N_("Ro_tate Images"), NULL,
 	  N_("Rotate images without loss of quality"),
 	  G_CALLBACK (gth_window_activate_action_tools_jpeg_rotate) },
 

@@ -230,6 +230,7 @@ viewer_update_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, "File_SaveAs", ! image_is_void);
 	set_action_sensitive (viewer, "File_Revert", ! image_is_void && priv->image_modified);
 	set_action_sensitive (viewer, "File_Print", ! image_is_void);
+	set_action_sensitive (viewer, "ToolBar_Print", ! image_is_void);
 
 	set_action_sensitive (viewer, "Edit_Undo", gth_window_get_can_undo (GTH_WINDOW (viewer)));
 	set_action_sensitive (viewer, "Edit_Redo", gth_window_get_can_redo (GTH_WINDOW (viewer)));
