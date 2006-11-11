@@ -10,10 +10,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-02-09 20:20+0100\n"
-"PO-Revision-Date: 2006-11-08 23:21+0100\n"
+"POT-Creation-Date: 2006-11-11 12:12+0100\n"
+"PO-Revision-Date: 2006-11-11 13:39+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
-"Language-Team: Swedish <sv@li.org>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,6 +32,7 @@ msgstr "Visa som album"
 
 #: ../components/catalog-view/GNOME_GThumb_CatalogView.xml.in.h:1
 #: ../src/gth-window-actions-entries.h:66
+#: ../src/gth-window-actions-entries.h:71
 msgid "Print the current image"
 msgstr "Skriv ut den aktuella bilden"
 
@@ -103,7 +104,7 @@ msgid "Save current image"
 msgstr "Spara den aktuella bilden"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:13
-#: ../src/gth-window-actions-entries.h:297
+#: ../src/gth-window-actions-entries.h:312
 msgid "Start or stop current animation"
 msgstr "Starta eller stoppa aktuell animering"
 
@@ -116,7 +117,7 @@ msgid "Transparency T_ype"
 msgstr "_Transparenstyp"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:16
-#: ../src/gth-window-actions-entries.h:206
+#: ../src/gth-window-actions-entries.h:221
 msgid "View next animation frame"
 msgstr "Visa nästa ruta i animering"
 
@@ -129,24 +130,24 @@ msgid "_Checked"
 msgstr "_Rutor"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:19
-#: ../src/gth-window-actions-entries.h:110
+#: ../src/gth-window-actions-entries.h:125
 msgid "_Flip"
 msgstr "_Vänd"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:20
 #: ../src/gth-browser-actions-entries.h:46
-#: ../src/gth-browser-actions-entries.h:469
+#: ../src/gth-browser-actions-entries.h:474
 #: ../src/gth-viewer-actions-entries.h:40
 msgid "_Image"
 msgstr "_Bild"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:21
-#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:130
 msgid "_Mirror"
 msgstr "_Spegla"
 
 #: ../components/image-viewer/GNOME_GThumb_Viewer.xml.in.h:22
-#: ../src/gth-viewer.c:820
+#: ../src/gth-viewer.c:821
 msgid "_None"
 msgstr "_Ingen"
 
@@ -185,7 +186,7 @@ msgstr "%d %b %Y %H.%M"
 #: ../src/gth-browser.c:497
 #: ../src/gth-exif-data-viewer.c:475
 #: ../src/gth-fullscreen.c:841
-#: ../src/gth-viewer.c:576
+#: ../src/gth-viewer.c:577
 #, c-format
 msgid "%d x %d pixels"
 msgstr "%d × %d bildpunkter"
@@ -316,6 +317,7 @@ msgid "Choose a Catalog"
 msgstr "Välj ett album"
 
 #: ../data/glade/gthumb.glade.h:11
+#: ../src/gth-window-actions-entries.h:85
 msgid "Comm_ent"
 msgstr "Komm_entar"
 
@@ -1418,7 +1420,7 @@ msgid "_Filenames"
 msgstr "_Filnamn"
 
 #: ../data/glade/gthumb_preferences.glade.h:62
-#: ../src/gth-browser-actions-entries.h:402
+#: ../src/gth-browser-actions-entries.h:407
 msgid "_Thumbnails"
 msgstr "_Miniatyrbilder"
 
@@ -1543,6 +1545,7 @@ msgstr "4 × 6 (vykort)"
 #: ../libgthumb/print-callbacks.c:1723
 #: ../libgthumb/print-callbacks.c:1737
 #: ../libgthumb/print-callbacks.c:2217
+#: ../src/gth-window-actions-entries.h:70
 msgid "Print"
 msgstr "Skriv ut"
 
@@ -1573,6 +1576,14 @@ msgstr "_Topp:"
 #: ../data/glade/gthumb_print.glade.h:39
 msgid "_Unit:"
 msgstr "_Enhet:"
+
+#: ../data/glade/gthumb_redeye.glade.h:1
+msgid "Click the mouse on the red-eye regions that need to be fixed."
+msgstr "Klicka med musen på de röda ögonregionerna som behöver rättas till."
+
+#: ../data/glade/gthumb_redeye.glade.h:2
+msgid "Redeye Removal"
+msgstr "Ta bort röda ögon"
 
 #: ../data/glade/gthumb_search.glade.h:2
 msgid "<b>Search criteria</b>"
@@ -1800,7 +1811,7 @@ msgid "Rotate image 90 degrees counter-clockwise"
 msgstr "Rotera bilden 90 grader motsols"
 
 #: ../data/glade/gthumb_tools.glade.h:46
-#: ../src/gth-browser-actions-entries.h:384
+#: ../src/gth-browser-actions-entries.h:389
 msgid "Scale Images"
 msgstr "Skala bilder"
 
@@ -2169,12 +2180,12 @@ msgstr "Kan inte öppna albumet \"%s\": %s"
 msgid "Cannot save catalog \"%s\": %s"
 msgstr "Kan inte spara albumet \"%s\": %s"
 
-#: ../libgthumb/comments.c:1280
+#: ../libgthumb/comments.c:1283
 #: ../src/catalog-web-exporter.c:139
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
-#: ../libgthumb/comments.c:1282
+#: ../libgthumb/comments.c:1285
 #: ../src/catalog-web-exporter.c:54
 #: ../src/catalog-web-exporter.c:141
 #: ../src/dlg-duplicates.c:553
@@ -2182,19 +2193,20 @@ msgstr "%d %B %Y"
 #: ../src/gth-browser.c:493
 #: ../src/gth-exif-data-viewer.c:479
 #: ../src/gth-fullscreen.c:850
-#: ../src/gth-viewer.c:572
+#: ../src/gth-viewer.c:573
 msgid "%d %B %Y, %H:%M"
 msgstr "%d %B %Y %H.%M"
 
-#: ../libgthumb/comments.c:1292
-#: ../libgthumb/comments.c:1294
+#: ../libgthumb/comments.c:1295
+#: ../libgthumb/comments.c:1297
 msgid "(No Comment)"
 msgstr "(Ingen kommentar)"
 
 #: ../libgthumb/dlg-save-image.c:110
 #: ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:274
+#: ../src/dlg-jpegtran.c:277
 #: ../src/dlg-photo-importer.c:1540
+#: ../src/dlg-reset-exif.c:116
 #, c-format
 msgid "You don't have the right permissions to create images in the folder \"%s\""
 msgstr "Du har inte rätt rättigheter för att skapa bilder i mappen \"%s\""
@@ -2208,7 +2220,7 @@ msgid "An image named \"%s\" is already present. Do you want to overwrite it?"
 msgstr "En bild med namnet \"%s\" finns redan. Vill du skriva över den?"
 
 #: ../libgthumb/dlg-save-image.c:169
-#: ../src/rotation-utils.c:246
+#: ../src/rotation-utils.c:238
 #, c-format
 msgid "Image type not supported: %s"
 msgstr "Bildtypen stöds inte: %s"
@@ -2334,8 +2346,8 @@ msgid "Font"
 msgstr "Typsnitt"
 
 #: ../libgthumb/gth-file-list.c:528
-#: ../src/gth-browser.c:8637
-#: ../src/gth-viewer.c:2216
+#: ../src/gth-browser.c:8639
+#: ../src/gth-viewer.c:2217
 msgid "Wait please..."
 msgstr "Var vänlig vänta..."
 
@@ -2343,7 +2355,7 @@ msgstr "Var vänlig vänta..."
 #: ../libgthumb/gth-file-list.c:641
 #: ../libgthumb/gth-image-list.c:3499
 #: ../src/gth-browser.c:766
-#: ../src/gth-viewer.c:750
+#: ../src/gth-viewer.c:751
 msgid "No image"
 msgstr "Ingen bild"
 
@@ -2354,7 +2366,12 @@ msgstr "Ingen bild"
 msgid "Name"
 msgstr "Namn"
 
+#: ../libgthumb/gth-utils.c:46
+msgid "Could not display help"
+msgstr "Kunde inte visa hjälp"
+
 #: ../libgthumb/gthumb-stock.c:77
+#: ../src/gth-window-actions-entries.h:270
 msgid "Ro_tate Images"
 msgstr "Ro_tera bilder"
 
@@ -2378,9 +2395,9 @@ msgid "Deleting old thumbnails, wait please..."
 msgstr "Tar bort gamla miniatyrbilder, var vänlig vänta..."
 
 #: ../src/bookmark-list.c:160
-#: ../src/gth-browser.c:1404
-#: ../src/gth-browser.c:1408
-#: ../src/gth-browser.c:1420
+#: ../src/gth-browser.c:1406
+#: ../src/gth-browser.c:1410
+#: ../src/gth-browser.c:1422
 msgid "(Invalid Name)"
 msgstr "(Ogiltigt namn)"
 
@@ -2528,8 +2545,8 @@ msgstr "Bilderna kan inte flyttas till papperskorgen. Vill du ta bort dem perman
 
 #: ../src/dlg-file-utils.c:228
 #: ../src/gth-browser-actions-callbacks.c:1268
-#: ../src/gth-browser.c:1956
-#: ../src/gth-viewer.c:983
+#: ../src/gth-browser.c:1958
+#: ../src/gth-viewer.c:984
 msgid "_Do not display this message again"
 msgstr "_Visa inte detta meddelande igen"
 
@@ -2627,7 +2644,7 @@ msgstr "Typ"
 #: ../src/dlg-image-prop.c:619
 #: ../src/gth-browser.c:509
 #: ../src/gth-exif-data-viewer.c:511
-#: ../src/gth-viewer.c:588
+#: ../src/gth-viewer.c:589
 msgid "Modified"
 msgstr "Ändrad"
 
@@ -2749,7 +2766,7 @@ msgid "Select Album Theme"
 msgstr "Välj albumtema"
 
 #: ../src/dlg-write-to-cd.c:79
-#: ../src/gth-browser.c:3745
+#: ../src/gth-browser.c:3747
 msgid "Could not move the items:"
 msgstr "Kunde inte flytta objekten:"
 
@@ -3186,7 +3203,7 @@ msgstr "Flytta aktuell mapp"
 
 #: ../src/gth-browser-actions-entries.h:243
 #: ../src/gth-browser-actions-entries.h:273
-#: ../src/gth-window-actions-entries.h:85
+#: ../src/gth-window-actions-entries.h:95
 msgid "Ca_tegories..."
 msgstr "Ka_tegorier..."
 
@@ -3321,167 +3338,171 @@ msgid "_Find..."
 msgstr "_Sök..."
 
 #: ../src/gth-browser-actions-entries.h:358
+msgid "_Find"
+msgstr "_Sök"
+
+#: ../src/gth-browser-actions-entries.h:363
 msgid "Create _Index Image..."
 msgstr "Skapa _indexbild..."
 
-#: ../src/gth-browser-actions-entries.h:363
+#: ../src/gth-browser-actions-entries.h:368
 msgid "Create _Web Album..."
 msgstr "Skapa _webbalbum..."
 
-#: ../src/gth-browser-actions-entries.h:368
+#: ../src/gth-browser-actions-entries.h:373
 msgid "Convert F_ormat..."
 msgstr "Konvertera f_ormat..."
 
-#: ../src/gth-browser-actions-entries.h:373
+#: ../src/gth-browser-actions-entries.h:378
 msgid "Fi_nd Duplicates..."
 msgstr "S_ök dubletter..."
 
-#: ../src/gth-browser-actions-entries.h:378
+#: ../src/gth-browser-actions-entries.h:383
 msgid "_Preferences..."
 msgstr "_Inställningar..."
 
-#: ../src/gth-browser-actions-entries.h:379
+#: ../src/gth-browser-actions-entries.h:384
 msgid "Edit various preferences"
 msgstr "Redigera olika inställningar"
 
-#: ../src/gth-browser-actions-entries.h:383
+#: ../src/gth-browser-actions-entries.h:388
 msgid "Scale Images..."
 msgstr "Skala bilder..."
 
-#: ../src/gth-browser-actions-entries.h:392
+#: ../src/gth-browser-actions-entries.h:397
 #: ../src/gth-viewer-actions-entries.h:73
 msgid "_Toolbar"
 msgstr "_Verktygsrad"
 
-#: ../src/gth-browser-actions-entries.h:393
+#: ../src/gth-browser-actions-entries.h:398
 #: ../src/gth-viewer-actions-entries.h:74
 msgid "View or hide the toolbar of this window"
 msgstr "Visa eller dölj verktygsraden för detta fönster"
 
-#: ../src/gth-browser-actions-entries.h:397
+#: ../src/gth-browser-actions-entries.h:402
 #: ../src/gth-viewer-actions-entries.h:78
 msgid "_Statusbar"
 msgstr "_Statusrad"
 
-#: ../src/gth-browser-actions-entries.h:398
+#: ../src/gth-browser-actions-entries.h:403
 #: ../src/gth-viewer-actions-entries.h:79
 msgid "View or hide the statusbar of this window"
 msgstr "Visa eller dölj statusraden för detta fönster"
 
-#: ../src/gth-browser-actions-entries.h:403
+#: ../src/gth-browser-actions-entries.h:408
 msgid "View thumbnails"
 msgstr "Visa miniatyrbilder"
 
-#: ../src/gth-browser-actions-entries.h:407
+#: ../src/gth-browser-actions-entries.h:412
 msgid "_Image Preview"
 msgstr "_Bildförhandsgranskning"
 
-#: ../src/gth-browser-actions-entries.h:408
-#: ../src/gth-browser-actions-entries.h:470
+#: ../src/gth-browser-actions-entries.h:413
+#: ../src/gth-browser-actions-entries.h:475
 msgid "View the image"
 msgstr "Visa bilden"
 
-#: ../src/gth-browser-actions-entries.h:412
+#: ../src/gth-browser-actions-entries.h:417
 #: ../src/gth-viewer-actions-entries.h:83
 msgid "Image _Comment"
 msgstr "Bild_kommentar"
 
-#: ../src/gth-browser-actions-entries.h:413
+#: ../src/gth-browser-actions-entries.h:418
 #: ../src/gth-viewer-actions-entries.h:84
 msgid "View image comment"
 msgstr "Visa bildkommentar"
 
-#: ../src/gth-browser-actions-entries.h:417
+#: ../src/gth-browser-actions-entries.h:422
 msgid "_Reversed Order"
 msgstr "_Omvänd ordning"
 
-#: ../src/gth-browser-actions-entries.h:418
+#: ../src/gth-browser-actions-entries.h:423
 msgid "Reverse images order"
 msgstr "Omvänd bildordning"
 
-#: ../src/gth-browser-actions-entries.h:427
+#: ../src/gth-browser-actions-entries.h:432
 msgid "by _Name"
 msgstr "efter _namn"
 
-#: ../src/gth-browser-actions-entries.h:428
+#: ../src/gth-browser-actions-entries.h:433
 msgid "Sort images by name"
 msgstr "Sortera bilder efter namn"
 
-#: ../src/gth-browser-actions-entries.h:430
+#: ../src/gth-browser-actions-entries.h:435
 msgid "by _Path"
 msgstr "efter sök_väg"
 
-#: ../src/gth-browser-actions-entries.h:431
+#: ../src/gth-browser-actions-entries.h:436
 msgid "Sort images by path"
 msgstr "Sortera bilder efter sökväg"
 
-#: ../src/gth-browser-actions-entries.h:433
+#: ../src/gth-browser-actions-entries.h:438
 msgid "by _Size"
 msgstr "efter _storlek"
 
-#: ../src/gth-browser-actions-entries.h:434
+#: ../src/gth-browser-actions-entries.h:439
 msgid "Sort images by file size"
 msgstr "Sortera bilder efter filstorlek"
 
-#: ../src/gth-browser-actions-entries.h:436
+#: ../src/gth-browser-actions-entries.h:441
 msgid "by _Time"
 msgstr "efter _tid"
 
-#: ../src/gth-browser-actions-entries.h:437
+#: ../src/gth-browser-actions-entries.h:442
 msgid "Sort images by modification time"
 msgstr "Sortera bilder efter ändringsdatum"
 
-#: ../src/gth-browser-actions-entries.h:439
+#: ../src/gth-browser-actions-entries.h:444
 msgid "by _Comment"
 msgstr "efter _kommentar"
 
-#: ../src/gth-browser-actions-entries.h:440
+#: ../src/gth-browser-actions-entries.h:445
 msgid "Sort images by comment"
 msgstr "Sortera bilder efter kommentar"
 
-#: ../src/gth-browser-actions-entries.h:442
+#: ../src/gth-browser-actions-entries.h:447
 msgid "_Manual Order"
 msgstr "_Manuell ordning"
 
-#: ../src/gth-browser-actions-entries.h:443
+#: ../src/gth-browser-actions-entries.h:448
 msgid "Sort images manually"
 msgstr "Sortera bilder manuellt"
 
-#: ../src/gth-browser-actions-entries.h:450
-#: ../src/gth-browser-actions-entries.h:451
+#: ../src/gth-browser-actions-entries.h:455
+#: ../src/gth-browser-actions-entries.h:456
 msgid "View As Slides"
 msgstr "Visa som bildspel"
 
-#: ../src/gth-browser-actions-entries.h:453
-#: ../src/gth-browser-actions-entries.h:454
+#: ../src/gth-browser-actions-entries.h:458
+#: ../src/gth-browser-actions-entries.h:459
 msgid "View As List"
 msgstr "Visa som lista"
 
-#: ../src/gth-browser-actions-entries.h:463
+#: ../src/gth-browser-actions-entries.h:468
 msgid "_Folders"
 msgstr "_Mappar"
 
-#: ../src/gth-browser-actions-entries.h:464
+#: ../src/gth-browser-actions-entries.h:469
 msgid "View the folders"
 msgstr "Visa mapparna"
 
-#: ../src/gth-browser-actions-entries.h:466
+#: ../src/gth-browser-actions-entries.h:471
 msgid "_Catalogs"
 msgstr "_Album"
 
-#: ../src/gth-browser-actions-entries.h:467
+#: ../src/gth-browser-actions-entries.h:472
 msgid "View the catalogs"
 msgstr "Visa albumen"
 
 #: ../src/gth-browser.c:559
-#: ../src/gth-viewer.c:633
+#: ../src/gth-viewer.c:634
 msgid "[Press 'c' to add a comment]"
 msgstr "[Tryck \"c\" för att lägga till en kommentar]"
 
 #: ../src/gth-browser.c:665
 #: ../src/gth-browser.c:684
-#: ../src/gth-viewer.c:726
-#: ../src/gth-viewer.c:747
+#: ../src/gth-viewer.c:727
+#: ../src/gth-viewer.c:748
 msgid "[modified]"
 msgstr "[ändrad]"
 
@@ -3511,53 +3532,53 @@ msgstr "1 markerad (%s)"
 msgid "%d selected (%s)"
 msgstr "%d markerade (%s)"
 
-#: ../src/gth-browser.c:1953
-#: ../src/gth-viewer.c:980
+#: ../src/gth-browser.c:1955
+#: ../src/gth-viewer.c:981
 msgid "The current image has been modified, do you want to save it?"
 msgstr "Den aktuella bilden har ändrats. Vill du spara den?"
 
-#: ../src/gth-browser.c:1954
-#: ../src/gth-viewer.c:981
+#: ../src/gth-browser.c:1956
+#: ../src/gth-viewer.c:982
 msgid "Do Not Save"
 msgstr "Spara inte"
 
-#: ../src/gth-browser.c:3504
+#: ../src/gth-browser.c:3506
 msgid "Dragged Images"
 msgstr "Bilder som har dragits"
 
-#: ../src/gth-browser.c:5191
-#: ../src/gth-browser.c:5192
-#: ../src/gth-viewer.c:1519
+#: ../src/gth-browser.c:5193
+#: ../src/gth-browser.c:5194
 #: ../src/gth-viewer.c:1520
-#: ../src/gth-window-actions-entries.h:256
-#: ../src/gth-window-actions-entries.h:261
-#: ../src/gth-window-actions-entries.h:266
+#: ../src/gth-viewer.c:1521
+#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-window-actions-entries.h:276
+#: ../src/gth-window-actions-entries.h:281
 msgid "Rotate images without loss of quality"
 msgstr "Rotera bilder utan kvalitetsförlust"
 
-#: ../src/gth-browser.c:6634
+#: ../src/gth-browser.c:6636
 msgid "Close"
 msgstr "Stäng"
 
-#: ../src/gth-browser.c:6648
-#: ../src/gth-viewer.c:1774
+#: ../src/gth-browser.c:6650
+#: ../src/gth-viewer.c:1775
 msgid "Image comment"
 msgstr "Bildkommentar"
 
-#: ../src/gth-browser.c:6662
+#: ../src/gth-browser.c:6664
 msgid "Image data"
 msgstr "Bilddata"
 
-#: ../src/gth-browser.c:6676
+#: ../src/gth-browser.c:6678
 msgid "Image preview"
 msgstr "Bildförhandsgranskning"
 
-#: ../src/gth-browser.c:7701
+#: ../src/gth-browser.c:7703
 #, c-format
 msgid "Cannot load folder \"%s\": %s\n"
 msgstr "Kan inte läsa in mappen \"%s\": %s\n"
 
-#: ../src/gth-browser.c:8040
+#: ../src/gth-browser.c:8042
 msgid "The specified catalog does not exist."
 msgstr "Det angivna albumet finns inte."
 
@@ -3611,12 +3632,13 @@ msgstr "_Enkelt fönster"
 msgid "Reuse this window to view other images"
 msgstr "Återanvänd detta fönster för att visa andra bilder"
 
-#: ../src/gth-viewer.c:1475
+#: ../src/gth-viewer.c:1476
+#: ../src/gth-window-actions-entries.h:75
 msgid "_Open With"
 msgstr "_Öppna med"
 
-#: ../src/gth-viewer.c:1481
 #: ../src/gth-viewer.c:1482
+#: ../src/gth-viewer.c:1483
 #: ../src/gth-window-actions-entries.h:46
 msgid "Open selected images with an application"
 msgstr "Öppna valda bilder med ett program"
@@ -3642,7 +3664,6 @@ msgid "Close this window"
 msgstr "Stäng det här fönstret"
 
 #: ../src/gth-window-actions-entries.h:45
-#: ../src/gth-window-actions-entries.h:70
 msgid "_Open With..."
 msgstr "_Öppna med..."
 
@@ -3654,281 +3675,283 @@ msgstr "Återgå till sparad bild"
 msgid "Print..."
 msgstr "Skriv ut..."
 
-#: ../src/gth-window-actions-entries.h:71
+#: ../src/gth-window-actions-entries.h:76
 msgid "Open this image with an application"
 msgstr "Öppna denna bild med ett program"
 
-#: ../src/gth-window-actions-entries.h:75
+#: ../src/gth-window-actions-entries.h:80
 msgid "Comm_ent..."
 msgstr "Komm_entar..."
 
-#: ../src/gth-window-actions-entries.h:76
+#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:86
 msgid "Add a comment to selected images"
 msgstr "Lägg till en kommentar till valda bilder"
 
-#: ../src/gth-window-actions-entries.h:80
+#: ../src/gth-window-actions-entries.h:90
 msgid "Rem_ove Comment"
 msgstr "Ta _bort kommentar"
 
-#: ../src/gth-window-actions-entries.h:81
+#: ../src/gth-window-actions-entries.h:91
 msgid "Remove comments of selected images"
 msgstr "Ta bort kommentarer från valda bilder"
 
-#: ../src/gth-window-actions-entries.h:86
+#: ../src/gth-window-actions-entries.h:96
+#: ../src/gth-window-actions-entries.h:101
 msgid "Assign categories to selected images"
 msgstr "Tilldela kategorier till valda bilder"
 
 #: ../src/gth-window-actions-entries.h:100
-#: ../src/gth-window-actions-entries.h:265
+msgid "Ca_tegories"
+msgstr "Ka_tegorier"
+
+#: ../src/gth-window-actions-entries.h:115
+#: ../src/gth-window-actions-entries.h:280
 msgid "Rotate Ri_ght"
 msgstr "Rotera hö_ger"
 
-#: ../src/gth-window-actions-entries.h:101
+#: ../src/gth-window-actions-entries.h:116
 msgid "View the image rotated clockwise"
 msgstr "Visa bilden roterad medsols"
 
-#: ../src/gth-window-actions-entries.h:105
-#: ../src/gth-window-actions-entries.h:260
+#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:275
 msgid "Rotate _Left"
 msgstr "Rotera _vänster"
 
-#: ../src/gth-window-actions-entries.h:106
+#: ../src/gth-window-actions-entries.h:121
 msgid "View the image rotated counter-clockwise"
 msgstr "Visa bilden roterad motsols"
 
-#: ../src/gth-window-actions-entries.h:111
+#: ../src/gth-window-actions-entries.h:126
 msgid "View the image flipped"
 msgstr "Visa bilden omvänd"
 
-#: ../src/gth-window-actions-entries.h:116
+#: ../src/gth-window-actions-entries.h:131
 msgid "View the image mirrored"
 msgstr "Visa bilden spegelvänd"
 
-#: ../src/gth-window-actions-entries.h:120
+#: ../src/gth-window-actions-entries.h:135
 msgid "_Desaturate"
 msgstr "_Avmätta"
 
-#: ../src/gth-window-actions-entries.h:121
+#: ../src/gth-window-actions-entries.h:136
 msgid "View the image in black and white"
 msgstr "Visa bilden i svartvitt"
 
-#: ../src/gth-window-actions-entries.h:125
+#: ../src/gth-window-actions-entries.h:140
 msgid "_Negative"
 msgstr "_Negativ"
 
-#: ../src/gth-window-actions-entries.h:126
+#: ../src/gth-window-actions-entries.h:141
 msgid "View the image with negative colors"
 msgstr "Visa bilden med negativa färger"
 
-#: ../src/gth-window-actions-entries.h:130
+#: ../src/gth-window-actions-entries.h:145
 msgid "_Enhance"
 msgstr "_Förbättra"
 
-#: ../src/gth-window-actions-entries.h:131
+#: ../src/gth-window-actions-entries.h:146
 msgid "Automatically adjust the color levels"
 msgstr "Justera färgnivåerna automatiskt"
 
-#: ../src/gth-window-actions-entries.h:135
+#: ../src/gth-window-actions-entries.h:150
 msgid "_Equalize"
 msgstr "_Jämna ut"
 
-#: ../src/gth-window-actions-entries.h:136
+#: ../src/gth-window-actions-entries.h:151
 msgid "Automatically equalize the image histogram"
 msgstr "Jämna ut bildhistogrammet automatiskt"
 
-#: ../src/gth-window-actions-entries.h:140
+#: ../src/gth-window-actions-entries.h:155
 msgid "_Posterize..."
 msgstr "_Posterisera..."
 
-#: ../src/gth-window-actions-entries.h:141
-#: ../src/gth-window-actions-entries.h:176
-#: ../src/gth-window-actions-entries.h:181
+#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:196
 msgid "Reduce the number of colors"
 msgstr "Reducera antalet färger"
 
-#: ../src/gth-window-actions-entries.h:145
+#: ../src/gth-window-actions-entries.h:160
 msgid "_Brightness-Contrast..."
 msgstr "_Ljusstyrka-kontrast..."
 
-#: ../src/gth-window-actions-entries.h:146
+#: ../src/gth-window-actions-entries.h:161
 msgid "Adjust brightness and contrast"
 msgstr "Justera ljusstyrka och kontrast"
 
-#: ../src/gth-window-actions-entries.h:150
+#: ../src/gth-window-actions-entries.h:165
 msgid "_Hue-Saturation..."
 msgstr "_Nyans-mättnad..."
 
-#: ../src/gth-window-actions-entries.h:151
+#: ../src/gth-window-actions-entries.h:166
 msgid "Adjust hue and saturation"
 msgstr "Justera nyans och mättnad"
 
-#: ../src/gth-window-actions-entries.h:155
+#: ../src/gth-window-actions-entries.h:170
 msgid "_Redeye Removal..."
 msgstr "Ta bort _röda ögon..."
 
-#: ../src/gth-window-actions-entries.h:156
+#: ../src/gth-window-actions-entries.h:171
 msgid "Redeye Removal Tool"
 msgstr "Verktyg för att ta bort röda ögon"
 
-#: ../src/gth-window-actions-entries.h:160
+#: ../src/gth-window-actions-entries.h:175
 msgid "_Color Balance..."
 msgstr "_Färgbalans..."
 
-#: ../src/gth-window-actions-entries.h:161
+#: ../src/gth-window-actions-entries.h:176
 msgid "Adjust color balance"
 msgstr "Justera färgbalans"
 
-#: ../src/gth-window-actions-entries.h:165
+#: ../src/gth-window-actions-entries.h:180
 msgid "_Resize..."
 msgstr "_Ändra storlek..."
 
-#: ../src/gth-window-actions-entries.h:166
+#: ../src/gth-window-actions-entries.h:181
 msgid "Resize image"
 msgstr "Ändra storlek på bild"
 
-#: ../src/gth-window-actions-entries.h:170
+#: ../src/gth-window-actions-entries.h:185
 msgid "_Crop..."
 msgstr "_Beskär..."
 
-#: ../src/gth-window-actions-entries.h:171
+#: ../src/gth-window-actions-entries.h:186
 msgid "Crop image"
 msgstr "Beskär bild"
 
-#: ../src/gth-window-actions-entries.h:175
+#: ../src/gth-window-actions-entries.h:190
 msgid "Black and White"
 msgstr "Svartvit"
 
-#: ../src/gth-window-actions-entries.h:180
+#: ../src/gth-window-actions-entries.h:195
 msgid "Web Palette"
 msgstr "Webbpalett"
 
 # Tror detta är i sammanhanget "zoom in"
-#: ../src/gth-window-actions-entries.h:185
-#: ../src/gth-window-actions-entries.h:287
+#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:302
 msgid "In"
 msgstr "In"
 
-#: ../src/gth-window-actions-entries.h:186
+#: ../src/gth-window-actions-entries.h:201
 msgid "Zoom in"
 msgstr "Zomma in"
 
-#: ../src/gth-window-actions-entries.h:190
+#: ../src/gth-window-actions-entries.h:205
 msgid "Out"
 msgstr "Ut"
 
-#: ../src/gth-window-actions-entries.h:191
+#: ../src/gth-window-actions-entries.h:206
 msgid "Zoom out"
 msgstr "Zooma ut"
 
-#: ../src/gth-window-actions-entries.h:195
+#: ../src/gth-window-actions-entries.h:210
 msgid "1:1"
 msgstr "1:1"
 
-#: ../src/gth-window-actions-entries.h:196
+#: ../src/gth-window-actions-entries.h:211
 msgid "Actual size"
 msgstr "Naturlig storlek"
 
-#: ../src/gth-window-actions-entries.h:200
+#: ../src/gth-window-actions-entries.h:215
 msgid "Fit"
 msgstr "Passa"
 
-#: ../src/gth-window-actions-entries.h:201
+#: ../src/gth-window-actions-entries.h:216
 msgid "Zoom to fit window"
 msgstr "Anpassa till fönstret"
 
-#: ../src/gth-window-actions-entries.h:205
+#: ../src/gth-window-actions-entries.h:220
 msgid "Step A_nimation"
 msgstr "Stega igenom a_nimering"
 
-#: ../src/gth-window-actions-entries.h:220
+#: ../src/gth-window-actions-entries.h:235
 msgid "_Centered"
 msgstr "_Centrerad"
 
-#: ../src/gth-window-actions-entries.h:221
+#: ../src/gth-window-actions-entries.h:236
 msgid "Set the image as desktop background (centered)"
 msgstr "Använd bilden som bakgrund på skrivbordet (centrerad)"
 
-#: ../src/gth-window-actions-entries.h:225
+#: ../src/gth-window-actions-entries.h:240
 msgid "_Tiled"
 msgstr "_Sida vid sida"
 
-#: ../src/gth-window-actions-entries.h:226
+#: ../src/gth-window-actions-entries.h:241
 msgid "Set the image as desktop background (tiled)"
 msgstr "Använd bilden som skrivbordsbakgrund (sida vid sida)"
 
-#: ../src/gth-window-actions-entries.h:230
+#: ../src/gth-window-actions-entries.h:245
 msgid "_Scaled"
 msgstr "_Skalad"
 
-#: ../src/gth-window-actions-entries.h:231
+#: ../src/gth-window-actions-entries.h:246
 msgid "Set the image as desktop background (scaled keeping aspect ratio)"
 msgstr "Använd bilden som skrivbordsbakgrund (skalad och behåll höjd-/breddförhållande)"
 
-#: ../src/gth-window-actions-entries.h:235
+#: ../src/gth-window-actions-entries.h:250
 msgid "Str_etched"
 msgstr "Utstr_äckt"
 
-#: ../src/gth-window-actions-entries.h:236
+#: ../src/gth-window-actions-entries.h:251
 msgid "Set the image as desktop background (stretched)"
 msgstr "Använd bilden som skrivbordsbakgrund (utsträckt)"
 
-#: ../src/gth-window-actions-entries.h:240
+#: ../src/gth-window-actions-entries.h:255
 msgid "_Restore"
 msgstr "_Återställ"
 
-#: ../src/gth-window-actions-entries.h:241
+#: ../src/gth-window-actions-entries.h:256
 msgid "Restore the original desktop wallpaper"
 msgstr "Återställ ursprunglig bakgrundsbild"
 
-#: ../src/gth-window-actions-entries.h:245
+#: ../src/gth-window-actions-entries.h:260
 msgid "Change _Date..."
 msgstr "Ändra _datum..."
 
-#: ../src/gth-window-actions-entries.h:246
+#: ../src/gth-window-actions-entries.h:261
 msgid "Change images last modified date"
 msgstr "Ändra bildens senast ändrad-datum"
 
-#: ../src/gth-window-actions-entries.h:250
+#: ../src/gth-window-actions-entries.h:265
 msgid "Reset Exif Orientation"
 msgstr "Nollställ Exif-orientering"
 
-#: ../src/gth-window-actions-entries.h:251
+#: ../src/gth-window-actions-entries.h:266
 msgid "Reset Exif orientation to top-left"
 msgstr "Nollställ Exif-orientering till övre-vänster"
 
-#: ../src/gth-window-actions-entries.h:255
-msgid "Ro_tate Images..."
-msgstr "Ro_tera bilder..."
-
-#: ../src/gth-window-actions-entries.h:271
+#: ../src/gth-window-actions-entries.h:286
 msgid "Show information about gThumb"
 msgstr "Visa information om gThumb"
 
-#: ../src/gth-window-actions-entries.h:275
+#: ../src/gth-window-actions-entries.h:290
 msgid "Contents"
 msgstr "Innehåll"
 
-#: ../src/gth-window-actions-entries.h:280
+#: ../src/gth-window-actions-entries.h:295
 msgid "_Keyboard Shortcuts"
 msgstr "_Tangentbordsgenvägar"
 
-#: ../src/gth-window-actions-entries.h:296
+#: ../src/gth-window-actions-entries.h:311
 msgid "Play _Animation"
 msgstr "Spela _animering"
 
-#: ../src/gth-window-actions-entries.h:307
+#: ../src/gth-window-actions-entries.h:322
 msgid "_High Quality"
 msgstr "_Hög kvalitet"
 
-#: ../src/gth-window-actions-entries.h:308
+#: ../src/gth-window-actions-entries.h:323
 msgid "Use high quality zoom"
 msgstr "Använd högkvalitativ zoom"
 
-#: ../src/gth-window-actions-entries.h:310
+#: ../src/gth-window-actions-entries.h:325
 msgid "_Low Quality"
 msgstr "_Låg kvalitet"
 
-#: ../src/gth-window-actions-entries.h:311
+#: ../src/gth-window-actions-entries.h:326
 msgid "Use low quality zoom"
 msgstr "Använd lågkvalititiv zoom"
 
@@ -3996,4 +4019,7 @@ msgstr "Familj"
 #: ../src/main.c:644
 msgid "Command Line"
 msgstr "Kommandoraden"
+
+#~ msgid "Ro_tate Images..."
+#~ msgstr "Ro_tera bilder..."
 
