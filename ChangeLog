@@ -1,6 +1,8 @@
 2006-11-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-ui.h: moved the ViewAs commands lower.
+	use ToolBar_EditComment and ToolBar_EditCategories to avoid "..." on the
+	toolbar.
 	
 	* src/gth-window-actions-entries.h: removed "..." from Image_OpenWith and 
 	RotateImages to avoid the dots on the toolbar (I couldn't find a better
