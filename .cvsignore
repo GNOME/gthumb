@@ -42,3 +42,5 @@ gnome-doc-utils.make
 .cdtproject
 .cdtbuild
 .settings
+xmldocs.make
+omf.make

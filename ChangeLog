@@ -1,5 +1,7 @@
 2006-11-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser-ui.h: moved the ViewAs commands lower.
+	
 	* src/gth-window-actions-entries.h: removed "..." from Image_OpenWith and 
 	RotateImages to avoid the dots on the toolbar (I couldn't find a better
 	solution).	
