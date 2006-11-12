@@ -1,3 +1,11 @@
+2006-11-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-folder-selection-dialog.c:
+	(gth_folder_selection_construct):
+	  Made the move-to folder selection dialog and its subelements
+	  fully resizable to handle long path names. Bug #373406.
+	  Patch by Manuel Braga.
+
 2006-11-11  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-ui.h: moved the ViewAs commands lower.

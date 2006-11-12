@@ -39,8 +39,8 @@
 
 
 #define RC_RECENT_FILE      ".gnome2/gthumb/recents"
-#define DEFAULT_LIST_WIDTH  480 
-#define DEFAULT_LIST_HEIGHT 160 
+#define DEFAULT_DIALOG_WIDTH  540
+#define DEFAULT_DIALOG_HEIGHT 480 
 #define MAX_RECENT_LIST     20
 
 
@@ -360,10 +360,11 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 				const char         *title)
 {
 	GtkDialog *dialog;
-	GtkWidget *main_box, *vbox, *vbox2, *hbox, *hbox2;
-	GtkWidget *label;
+	GtkWidget *main_box, *vbox, *hbox;
+	GtkWidget *frame1, *frame2, *frame3;
+	GtkWidget *label1, *label2, *label3;
+	GtkWidget *alignment;
 	GtkWidget *browse_button;
-	char      *label_txt;
 	Bookmarks *bookmarks;
 	GList     *scan;
 
@@ -378,71 +379,64 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 	gtk_dialog_set_default_response (dialog, GTK_RESPONSE_OK);
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT);
+
+
 	main_box = gtk_vbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (dialog->vbox), main_box, TRUE, TRUE, 0);
-	gtk_container_set_border_width (GTK_CONTAINER (main_box), 6);
-
-	gtk_container_set_border_width (GTK_CONTAINER (dialog->vbox), 6);
-	gtk_box_set_spacing (GTK_BOX (dialog->vbox), 8);
-
-	gtk_container_set_border_width (GTK_CONTAINER (dialog), 6);
+	gtk_container_set_border_width (GTK_CONTAINER (main_box), 4);
 
 	/* Folder */
+	frame1 = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame1), GTK_SHADOW_NONE);
+
+	label1 = gtk_label_new (NULL);
+	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label1), _("<b>_Folder</b>"));
+	gtk_frame_set_label_widget (GTK_FRAME (frame1), label1);
+	gtk_box_pack_start (GTK_BOX (main_box), frame1, FALSE, FALSE, 0);
+
+	alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 0);
+	gtk_container_add (GTK_CONTAINER (frame1), alignment);
 
 	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (main_box), vbox, FALSE, FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (alignment), vbox);
 
-	label = gtk_label_new (NULL);
-	label_txt = g_strdup_printf ("<b>%s</b>", _("Folder"));
-	gtk_label_set_markup (GTK_LABEL (label), label_txt);
-	g_free (label_txt);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-
-	label = gtk_label_new ("    ");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	/**/
-
-	hbox2 = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), hbox2, TRUE, TRUE, 0);
+	hbox = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	folder_sel->priv->file_entry = gtk_entry_new ();
 	gtk_entry_set_activates_default (GTK_ENTRY (folder_sel->priv->file_entry), TRUE);
-
-	gtk_box_pack_start (GTK_BOX (hbox2), folder_sel->priv->file_entry, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label1), folder_sel->priv->file_entry);
+	gtk_box_pack_start (GTK_BOX (hbox), folder_sel->priv->file_entry, TRUE, TRUE, 0);
 
 	browse_button = gtk_button_new_with_mnemonic (_("_Browse..."));
-	gtk_box_pack_start (GTK_BOX (hbox2), browse_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), browse_button, FALSE, FALSE, 0);
+
+	/* Go to destination */
+	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_View the destination");
+	gtk_box_pack_start (GTK_BOX (vbox), folder_sel->priv->goto_destination, FALSE, FALSE, 0);
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (folder_sel->priv->goto_destination),
+				      eel_gconf_get_boolean (PREF_CHOOSE_DESTINATION_VIEW, FALSE));
 
 	/* Recents */
+	frame2 = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame2), GTK_SHADOW_NONE);
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (main_box), vbox, TRUE, TRUE, 0);
+	label2 = gtk_label_new (NULL);
+	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label2), _("<b>_Recents</b>"));
+	gtk_frame_set_label_widget (GTK_FRAME (frame2), label2);
+	gtk_box_pack_start (GTK_BOX (main_box), frame2, TRUE, TRUE, 0);
 
-	label = gtk_label_new (NULL);
-	label_txt = g_strdup_printf ("<b>%s</b>", _("_Recents:"));
-	gtk_label_set_markup (GTK_LABEL (label), label_txt);
-	gtk_label_set_use_underline(GTK_LABEL (label), TRUE);
-	g_free (label_txt);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-
-	label = gtk_label_new ("    ");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	vbox2 = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
+	alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 0);
+	gtk_container_add (GTK_CONTAINER (frame2), alignment);
 
 	folder_sel->priv->recent_list = bookmark_list_new (FALSE);
-	gtk_widget_set_size_request (folder_sel->priv->recent_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
-	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->recent_list->root_widget, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label2), folder_sel->priv->recent_list->list_view);
+	gtk_container_add (GTK_CONTAINER (alignment), folder_sel->priv->recent_list->root_widget);
 
 	folder_sel->priv->recents = bookmarks_new (RC_RECENT_FILE);
 	bookmarks_load_from_disk (folder_sel->priv->recents);
@@ -450,35 +444,26 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 			   folder_sel->priv->recents->list);
 
 	/* Bookmarks */
+	frame3 = gtk_frame_new(NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame3), GTK_SHADOW_NONE);
 
-	vbox = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (main_box), vbox, TRUE, TRUE, 0);
+	label3 = gtk_label_new (NULL);
+	gtk_label_set_markup_with_mnemonic (GTK_LABEL (label3), _("<b>Book_marks</b>"));
+	gtk_frame_set_label_widget (GTK_FRAME (frame3), label3);
+	gtk_box_pack_start (GTK_BOX (main_box), frame3, TRUE, TRUE, 0);
 
-	label = gtk_label_new (NULL);
-	label_txt = g_strdup_printf ("<b>%s</b>", _("_Bookmarks:"));
-	gtk_label_set_markup (GTK_LABEL (label), label_txt);
-	gtk_label_set_use_underline(GTK_LABEL (label), TRUE);
-	g_free (label_txt);
-	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
-
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-
-	label = gtk_label_new ("    ");
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-	vbox2 = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start (GTK_BOX (hbox), vbox2, FALSE, FALSE, 0);
+	alignment = gtk_alignment_new (0.5, 0.5, 1, 1);
+	gtk_alignment_set_padding (GTK_ALIGNMENT (alignment), 6, 0, 12, 0);
+	gtk_container_add (GTK_CONTAINER (frame3), alignment);
 
 	folder_sel->priv->bookmark_list = bookmark_list_new (FALSE);
-	gtk_widget_set_size_request (folder_sel->priv->bookmark_list->root_widget, DEFAULT_LIST_WIDTH, DEFAULT_LIST_HEIGHT);
-	gtk_box_pack_start (GTK_BOX (vbox2), folder_sel->priv->bookmark_list->root_widget, TRUE, TRUE, 0);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label3), folder_sel->priv->bookmark_list->list_view);
+	gtk_container_add (GTK_CONTAINER (alignment), folder_sel->priv->bookmark_list->root_widget);
 
 	folder_sel->priv->bookmarks = bookmarks_new (RC_BOOKMARKS_FILE);
 	bookmarks = folder_sel->priv->bookmarks;
-
 	bookmarks_load_from_disk (bookmarks);
+
 	for (scan = bookmarks->list; scan; ) {
 		char *path = scan->data;
 		if (! uri_scheme_is_file (path)) {
@@ -492,14 +477,6 @@ gth_folder_selection_construct (GthFolderSelection *folder_sel,
 
 	bookmark_list_set (folder_sel->priv->bookmark_list, 
 			   folder_sel->priv->bookmarks->list);
-
-	/* Go to destination */
-
-	folder_sel->priv->goto_destination = gtk_check_button_new_with_mnemonic ("_View the destination");
-	gtk_box_pack_start (GTK_BOX (main_box), folder_sel->priv->goto_destination, FALSE, FALSE, 0);
-
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (folder_sel->priv->goto_destination),
-				      eel_gconf_get_boolean (PREF_CHOOSE_DESTINATION_VIEW, FALSE));
 
 	gtk_widget_show_all (main_box);
 
