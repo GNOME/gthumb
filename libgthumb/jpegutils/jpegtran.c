@@ -52,6 +52,12 @@
 
 #include <libexif/exif-data.h>
 
+static void
+jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
+						struct jpeg_compress_struct *dstinfo,
+						JXFORM_CODE transformation,
+						gboolean trim);
+
 /* error handler data */
 struct error_handler_data {
 	struct jpeg_error_mgr pub;
@@ -195,16 +201,116 @@ update_exif_dimensions (ExifData *edata, JXFORM_CODE transform)
 }
 
 
+#define container_of(ptr, type, member) ({			\
+        const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
+        (type *)( (char *)__mptr - offsetof(type,member) );})
+
+struct th {
+    struct jpeg_decompress_struct src;
+    struct jpeg_compress_struct   dst;
+    struct jpeg_error_mgr jsrcerr, jdsterr;
+    unsigned char *in;
+    unsigned char *out;
+    int isize, osize;
+};
+
+static void thumbnail_src_init(struct jpeg_decompress_struct *cinfo)
+{
+    struct th *h  = container_of(cinfo, struct th, src);
+    cinfo->src->next_input_byte = h->in;
+    cinfo->src->bytes_in_buffer = h->isize;
+}
+
+static int thumbnail_src_fill(struct jpeg_decompress_struct *cinfo)
+{
+    fprintf(stderr,"jpeg: panic: no more thumbnail input data\n");
+    exit(1);
+}
+
+static void thumbnail_src_skip(struct jpeg_decompress_struct *cinfo,
+			       long num_bytes)
+{
+    cinfo->src->next_input_byte += num_bytes;
+}
+
+static void thumbnail_src_term(struct jpeg_decompress_struct *cinfo)
+{
+    /* nothing */
+}
+
+static void thumbnail_dest_init(struct jpeg_compress_struct *cinfo)
+{
+    struct th *h  = container_of(cinfo, struct th, dst);
+    h->osize = h->isize * 2;
+    h->out   = malloc(h->osize);
+    cinfo->dest->next_output_byte = h->out;
+    cinfo->dest->free_in_buffer   = h->osize;
+}
+
+static boolean thumbnail_dest_flush(struct jpeg_compress_struct *cinfo)
+{
+    fprintf(stderr,"jpeg: panic: output buffer full\n");
+    exit(1);
+}
+
+static void thumbnail_dest_term(struct jpeg_compress_struct *cinfo)
+{
+    struct th *h  = container_of(cinfo, struct th, dst);
+    h->osize -= cinfo->dest->free_in_buffer;
+}
+
+static struct jpeg_source_mgr thumbnail_src = {
+	.init_source         = thumbnail_src_init,
+	.fill_input_buffer   = thumbnail_src_fill,
+	.skip_input_data     = thumbnail_src_skip,
+	.resync_to_restart   = jpeg_resync_to_restart,
+	.term_source         = thumbnail_src_term,
+};
+
+static struct jpeg_destination_mgr thumbnail_dst = {
+	.init_destination    = thumbnail_dest_init,
+	.empty_output_buffer = thumbnail_dest_flush,
+	.term_destination    = thumbnail_dest_term,
+};
+
 static void
 update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 {
+	struct th th;
+	
 	if (edata == NULL)
 		return;
 
 	if (transform == JXFORM_NONE)
 		return;
 
-	// TODO: Transform thumbnail here
+	if (edata->data && edata->data[0] == 0xff && edata->data[1] == 0xd8) {
+		memset(&th, 0, sizeof(th));
+		th.in    = edata->data;
+		th.isize = edata->size;
+		   
+		/* setup src */
+		th.src.err = jpeg_std_error(&th.jsrcerr);
+		jpeg_create_decompress(&th.src);
+		th.src.src = &thumbnail_src;
+
+		/* setup dst */
+		th.dst.err = jpeg_std_error(&th.jdsterr);
+		jpeg_create_compress(&th.dst);
+		th.dst.dest = &thumbnail_dst;
+
+		/* transform image */
+		jpegtran_internal(&th.src, &th.dst, transform, FALSE);
+
+		/* cleanup */
+		jpeg_destroy_decompress(&th.src);
+		jpeg_destroy_compress(&th.dst);
+
+		/* replace thumbnail */
+		free(edata->data);
+		edata->data = th.out;
+		edata->size = th.osize;
+	}
 }
 
 
@@ -251,6 +357,67 @@ update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
 }
 
 
+static void
+jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
+						struct jpeg_compress_struct *dstinfo,
+						JXFORM_CODE transformation,
+						gboolean trim)
+{
+	jpeg_transform_info            transformoption; 
+	jvirt_barray_ptr              *src_coef_arrays;
+	jvirt_barray_ptr              *dst_coef_arrays;
+
+	transformoption.transform = transformation;
+	transformoption.trim = trim;
+	transformoption.force_grayscale = FALSE;
+	
+	/* Enable saving of extra markers that we want to copy */
+	jcopy_markers_setup (srcinfo, JCOPYOPT_ALL);
+
+	/* Read file header */
+	(void) jpeg_read_header (srcinfo, TRUE);
+
+	/* Update exif data */
+	update_exif_data(srcinfo, transformation);
+
+	/* Any space needed by a transform option must be requested before
+	 * jpeg_read_coefficients so that memory allocation will be done right.
+	 */
+	jtransform_request_workspace (srcinfo, &transformoption);
+
+	/* Read source file as DCT coefficients */
+	src_coef_arrays = jpeg_read_coefficients (srcinfo);
+
+	/* Initialize destination compression parameters from source values */
+	jpeg_copy_critical_parameters (srcinfo, dstinfo);
+
+	/* Adjust destination parameters if required by transform options;
+	 * also find out which set of coefficient arrays will hold the output.
+	 */
+	dst_coef_arrays = jtransform_adjust_parameters (srcinfo, 
+							dstinfo,
+							src_coef_arrays,
+							&transformoption);
+
+	/* Start compressor (note no image data is actually written here) */
+	jpeg_write_coefficients (dstinfo, dst_coef_arrays);
+
+	/* Copy to the output file any extra markers that we want to 
+	 * preserve */
+	jcopy_markers_execute (srcinfo, dstinfo, JCOPYOPT_ALL);
+
+	/* Execute image transformation, if any */
+	jtransform_execute_transformation (srcinfo, 
+					   dstinfo,
+					   src_coef_arrays,
+					   &transformoption);
+
+	/* Finish compression and release memory */
+	jpeg_finish_compress (dstinfo);
+	jpeg_finish_decompress (srcinfo);
+}
+
+
 int
 jpegtran (char         *input_filename,
 	  char         *output_filename,
@@ -261,16 +428,9 @@ jpegtran (char         *input_filename,
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
 	struct error_handler_data      jsrcerr, jdsterr;
-	jpeg_transform_info            transformoption; 
-	jvirt_barray_ptr              *src_coef_arrays;
-	jvirt_barray_ptr              *dst_coef_arrays;
 	FILE                          *input_file;
 	FILE                          *output_file;
 
-	transformoption.transform = transformation;
-	transformoption.trim = trim;
-	transformoption.force_grayscale = FALSE;
-	
 	/* Initialize the JPEG decompression object with default error 
 	 * handling. */
 	jsrcerr.filename = input_filename;
@@ -323,55 +483,15 @@ jpegtran (char         *input_filename,
 
 	/* Specify data source for decompression */
 	jpeg_stdio_src (&srcinfo, input_file);
-
-	/* Enable saving of extra markers that we want to copy */
-	jcopy_markers_setup (&srcinfo, JCOPYOPT_ALL);
-
-	/* Read file header */
-	(void) jpeg_read_header (&srcinfo, TRUE);
-
-	/* Update exif data */
-	update_exif_data(&srcinfo, transformation);
-
-	/* Any space needed by a transform option must be requested before
-	 * jpeg_read_coefficients so that memory allocation will be done right.
-	 */
-	jtransform_request_workspace (&srcinfo, &transformoption);
-
-	/* Read source file as DCT coefficients */
-	src_coef_arrays = jpeg_read_coefficients (&srcinfo);
-
-	/* Initialize destination compression parameters from source values */
-	jpeg_copy_critical_parameters (&srcinfo, &dstinfo);
-
-	/* Adjust destination parameters if required by transform options;
-	 * also find out which set of coefficient arrays will hold the output.
-	 */
-	dst_coef_arrays = jtransform_adjust_parameters (&srcinfo, 
-							&dstinfo,
-							src_coef_arrays,
-							&transformoption);
-
+	
 	/* Specify data destination for compression */
 	jpeg_stdio_dest (&dstinfo, output_file);
 
-	/* Start compressor (note no image data is actually written here) */
-	jpeg_write_coefficients (&dstinfo, dst_coef_arrays);
+	/* Apply transformation */
+	jpegtran_internal(&srcinfo, &dstinfo, transformation, trim);
 
-	/* Copy to the output file any extra markers that we want to 
-	 * preserve */
-	jcopy_markers_execute (&srcinfo, &dstinfo, JCOPYOPT_ALL);
-
-	/* Execute image transformation, if any */
-	jtransform_execute_transformation (&srcinfo, 
-					   &dstinfo,
-					   src_coef_arrays,
-					   &transformoption);
-
-	/* Finish compression and release memory */
-	jpeg_finish_compress (&dstinfo);
+	/* Release memory */
 	jpeg_destroy_compress (&dstinfo);
-	(void) jpeg_finish_decompress (&srcinfo);
 	jpeg_destroy_decompress (&srcinfo);
 
 	/* Close files */
