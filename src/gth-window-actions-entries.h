@@ -262,7 +262,7 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  G_CALLBACK (gth_window_activate_action_tools_change_date) },
 
         { "Tools_ResetExif", NULL,
-          N_("Reset Exif Orientation"), NULL,
+          N_("Reset _Exif Orientation"), NULL,
           N_("Reset Exif orientation to top-left"),
           G_CALLBACK (gth_window_activate_action_tools_reset_exif) },
 

@@ -267,6 +267,7 @@ apply_transformation (DialogData *data,
 	char             *dir;
 	GnomeVFSFileInfo  info;
 	GtkWindow  	 *window = GTK_WINDOW (data->dialog);
+	GthTransform	  required_transform;
 	
 	/* Check directory permissions. */
 
@@ -286,30 +287,30 @@ apply_transformation (DialogData *data,
 
 	gboolean jpeg = image_is_jpeg (path);
 	ExifShort orientation = get_exif_tag_short(path, EXIF_TAG_ORIENTATION);
-	data->transform = get_next_transformation (orientation, data->transform);
- 
+	required_transform = get_next_transformation (orientation, data->transform);
+
 	if ((jpeg && orientation) &&
 			!eel_gconf_get_boolean (PREF_ROTATE_RESET_EXIF_ORIENTATION, TRUE)) {
 		// Adjust Exif orientation tag.
-		write_orientation_field (path, data->transform);
+		write_orientation_field (path, required_transform);
 	} else if (jpeg) {
  		// Lossless jpeg transform.
 		gint width, height;
 		gdk_pixbuf_get_file_info (get_file_path_from_uri (path), &width, &height);
-		if (!jtransform_perfect_transform(width, height, 8, 8, data->transform)) {
+		if (!jtransform_perfect_transform(width, height, 8, 8, required_transform)) {
  			// Image dimensions are not multiples of the jpeg minimal coding unit (mcu).
  			// Warn about possible image distortions along one or more edges.
  			gint result = jpeg_mcu_dialog (window);
 			if (result != GTK_RESPONSE_CANCEL) {
 				gboolean trim = (result == GTK_RESPONSE_TRIM);
-				apply_transformation_jpeg (window, path, data->transform, trim);
+				apply_transformation_jpeg (window, path, required_transform, trim);
 			}
  		} else {
-			apply_transformation_jpeg (window, path, data->transform, FALSE);
+			apply_transformation_jpeg (window, path, required_transform, FALSE);
 		}
 	} else {
 		// Generic image transform.
-		apply_transformation_generic (window, path, data->transform);
+		apply_transformation_generic (window, path, required_transform);
 	}
 		
 	gnome_vfs_set_file_info (path, &info, GNOME_VFS_SET_FILE_INFO_PERMISSIONS|GNOME_VFS_SET_FILE_INFO_OWNER);

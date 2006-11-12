@@ -1,5 +1,15 @@
 2006-11-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/dlg-jpegtran.c: (apply_transformation):
+	  Corrected error in the new rotation routines - data->transform
+	  was changed during rotation. A copy should be made instead.
+	  See bug 361913 comment 31.
+	
+	* src/gth-window-actions-entries.h:
+	  Added keyboard shortcut for Reset Exif Orientation menu item.
+
+2006-11-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/jpegutils/jpegtran.c: (thumbnail_src_init),
 	(thumbnail_src_fill), (thumbnail_src_skip), (thumbnail_src_term),
 	(thumbnail_dest_init), (thumbnail_dest_flush),
