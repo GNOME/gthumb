@@ -1,3 +1,9 @@
+2006-11-13  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* doc/C/gthumb.xml: Expanded the web album section
+	  of the manual, including more details about headers
+	  and footers. Patch by Rennie deGraaf.
+
 2006-11-12  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/dlg-jpegtran.c: (apply_transformation):

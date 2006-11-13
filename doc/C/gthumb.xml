@@ -2354,7 +2354,7 @@
 	 a series of small thumbnail images) and one or more "image pages" 
 	 (which show a single image at a time). If the <guilabel>Copy originals
 	 to destination</guilabel> checkbox is enabled, the photo shown in the 
-	 image pages will have a link to a copy of the original image. If you
+	 image pages will link to a copy of the original image. If you
 	 click this link, the raw image will be loaded in your browser (with
 	 no accompanying HTML).
        </para>
@@ -2376,13 +2376,20 @@
 	 the images to make the best possible use of space. (If you resize the
 	 browser window, the images will re-position themselves!) These themes
 	 will not respect the row and column settings, but they will keep the
-	 total number of images per index page equal to the ROW x COLUMNS (unless
-	 the <guilabel>use a single index page</guilabel> checkbox is enabled).
+	 total number of images per index page to a maximum of ROW x COLUMNS 
+	 (unless the <guilabel>use a single index page</guilabel> checkbox is 
+	 enabled).
        </para>
        <para>
          A <guilabel>Header</guilabel> and <guilabel>Footer</guilabel> may be 
 	 defined. These labels will appear at the top and bottom of every page
-	 in the album.
+	 in the album.  HTML markup may be used in headers and footers, as long 
+	 every '&gt;', '&lt;', and '&amp;' character is preceeded by a 
+	 backslash.  For example, "&lt;hr/&gt;" must be written as 
+	 "\&lt;hr/\&gt;".  Also, the sequence "%d" will be replaced by the 
+	 current date.  To make a literal backslash ('\') or percent symbol 
+	 ('%') appear in the output, it must be entered as "\\" or "%%" in the 
+	 header or footer fields.
        </para>
        <para>
 	 A <guilabel>Theme</guilabel> must be specified. The <guilabel>Theme</guilabel>
