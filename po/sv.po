@@ -1,8 +1,8 @@
 # Swedish messages for gThumb.
 # Copyright (C) 2001, 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
-# Bo Rosén <bo.rosen@home.se>, 2001.
-# Christian Rose <menthos@menthos.com>, 2002, 2003, 2004.
 # Daniel Nylander <po@danielnylander.se>, 2006.
+# Christian Rose <menthos@menthos.com>, 2002, 2003, 2004.
+# Bo Rosén <bo.rosen@home.se>, 2001.
 #
 # $Id$
 #
@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gThumb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-11-11 12:12+0100\n"
-"PO-Revision-Date: 2006-11-11 13:39+0100\n"
+"POT-Creation-Date: 2006-11-14 03:57+0100\n"
+"PO-Revision-Date: 2006-11-14 10:57+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -2204,7 +2204,7 @@ msgstr "(Ingen kommentar)"
 
 #: ../libgthumb/dlg-save-image.c:110
 #: ../src/dlg-file-utils.c:119
-#: ../src/dlg-jpegtran.c:277
+#: ../src/dlg-jpegtran.c:278
 #: ../src/dlg-photo-importer.c:1540
 #: ../src/dlg-reset-exif.c:116
 #, c-format
@@ -2757,7 +2757,6 @@ msgid "Filename"
 msgstr "Filnamn"
 
 #: ../src/dlg-search.c:662
-#: ../src/gth-folder-selection-dialog.c:396
 msgid "Folder"
 msgstr "Mapp"
 
@@ -3590,17 +3589,21 @@ msgstr "Fält"
 msgid "Value "
 msgstr "Värde "
 
-#: ../src/gth-folder-selection-dialog.c:418
+#: ../src/gth-folder-selection-dialog.c:395
+msgid "<b>_Folder</b>"
+msgstr "<b>_Mapp</b>"
+
+#: ../src/gth-folder-selection-dialog.c:414
 msgid "_Browse..."
 msgstr "_Bläddra..."
 
-#: ../src/gth-folder-selection-dialog.c:427
-msgid "_Recents:"
-msgstr "_Nyliga:"
+#: ../src/gth-folder-selection-dialog.c:429
+msgid "<b>_Recents</b>"
+msgstr "<b>_Tidigare</b>"
 
-#: ../src/gth-folder-selection-dialog.c:458
-msgid "_Bookmarks:"
-msgstr "_Bokmärken:"
+#: ../src/gth-folder-selection-dialog.c:451
+msgid "<b>Book_marks</b>"
+msgstr "<b>Bok_märken</b>"
 
 #: ../src/gth-fullscreen-actions-entries.h:57
 msgid "Proper_ties"
@@ -3653,7 +3656,9 @@ msgstr ""
 "Daniel Nylander\n"
 "Christian Rose\n"
 "Bo Rosén\n"
-"Skicka synpunkter på översättningen till tp-sv@listor.tp-sv.se"
+"\n"
+"Skicka synpunkter på översättningen till\n"
+"tp-sv@listor.tp-sv.se"
 
 #: ../src/gth-window-actions-entries.h:37
 msgid "Reduce Colors"
@@ -3916,8 +3921,8 @@ msgid "Change images last modified date"
 msgstr "Ändra bildens senast ändrad-datum"
 
 #: ../src/gth-window-actions-entries.h:265
-msgid "Reset Exif Orientation"
-msgstr "Nollställ Exif-orientering"
+msgid "Reset _Exif Orientation"
+msgstr "Nollställ _Exif-orientering"
 
 #: ../src/gth-window-actions-entries.h:266
 msgid "Reset Exif orientation to top-left"
@@ -4020,6 +4025,10 @@ msgstr "Familj"
 msgid "Command Line"
 msgstr "Kommandoraden"
 
+#~ msgid "_Recents:"
+#~ msgstr "_Nyliga:"
+#~ msgid "_Bookmarks:"
+#~ msgstr "_Bokmärken:"
 #~ msgid "Ro_tate Images..."
 #~ msgstr "Ro_tera bilder..."
 
