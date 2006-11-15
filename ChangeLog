@@ -1,5 +1,13 @@
 2006-11-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-location.c: (monitor_changed_cb),
+	(gth_location_finalize), (gth_location_class_init):
+	  Possible fix to the frequently-duped bug 356623. Removes
+	  all monitor_changed_cb signal handlers during finalize
+	  to avoid unref race conditions. Patch by Manuel Braga.
+
+2006-11-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/jpegutils/jpegtran.c: (jpegtran): Fixed memory
 	  and file descriptor leaks in error handling code.
 	  Patch by Jef Driesen. Bug 361913. 

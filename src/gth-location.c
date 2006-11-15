@@ -82,6 +82,21 @@ static GtkHBoxClass *parent_class = NULL;
 static guint gth_location_signals[LAST_SIGNAL] = { 0 };
 
 
+static void update_drives (GthLocation *loc);
+
+
+static void
+monitor_changed_cb (GnomeVFSVolumeMonitor *volume_monitor,
+		    gpointer               data,
+		    GthLocation           *loc)
+{
+	g_list_foreach (loc->priv->drives, (GFunc) gnome_vfs_drive_unref, NULL);
+	g_list_free (loc->priv->drives);
+	loc->priv->drives = gnome_vfs_volume_monitor_get_connected_drives (volume_monitor);
+	update_drives (loc);
+}
+
+
 static void
 gth_location_finalize (GObject *object)
 {
@@ -96,6 +111,10 @@ gth_location_finalize (GObject *object)
 		g_list_foreach (loc->priv->drives, (GFunc) gnome_vfs_drive_unref, NULL);
 		g_list_free (loc->priv->drives);
 		loc->priv->drives = NULL;
+
+		g_signal_handlers_disconnect_by_func(loc->priv->volume_monitor,
+						     G_CALLBACK (monitor_changed_cb),
+						     loc);
 
 		g_free (loc->priv);
 		loc->priv = NULL;
@@ -135,21 +154,6 @@ gth_location_class_init (GthLocationClass *class)
                               g_cclosure_marshal_VOID__VOID,
                               G_TYPE_NONE,
                               0);
-}
-
-
-static void update_drives (GthLocation *loc);
-
-
-static void
-monitor_changed_cb (GnomeVFSVolumeMonitor *volume_monitor,
-		    gpointer               data,
-		    GthLocation           *loc)
-{
-	g_list_foreach (loc->priv->drives, (GFunc) gnome_vfs_drive_unref, NULL);
-	g_list_free (loc->priv->drives);
-	loc->priv->drives = gnome_vfs_volume_monitor_get_connected_drives (volume_monitor);
-	update_drives (loc);
 }
 
 
