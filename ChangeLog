@@ -1,5 +1,11 @@
 2006-11-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/jpegutils/jpegtran.c: (jpegtran): Fixed memory
+	  and file descriptor leaks in error handling code.
+	  Patch by Jef Driesen. Bug 361913. 
+
+2006-11-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/catalog-web-exporter.c:
 	(copy_exif_from_orig_and_reset_orientation), (save_thumbnail_cb),
 	(save_image_preview_cb), (save_resized_image_cb):

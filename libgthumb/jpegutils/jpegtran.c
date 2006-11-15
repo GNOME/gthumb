@@ -431,22 +431,34 @@ jpegtran (char         *input_filename,
 	FILE                          *input_file;
 	FILE                          *output_file;
 
+	/* Open the input file. */
+	input_file = fopen (input_filename, "rb");
+	if (input_file == NULL) 
+		return 1;
+
+	/* Open the output file. */
+	output_file = fopen (output_filename, "wb");
+	if (output_file == NULL) {
+		fclose (input_file);
+		return 1;
+	}
+
 	/* Initialize the JPEG decompression object with default error 
 	 * handling. */
-	jsrcerr.filename = input_filename;
 	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
 	jsrcerr.pub.error_exit = fatal_error_handler;
 	jsrcerr.pub.output_message = output_message_handler;
+	jsrcerr.filename = input_filename;
 	jsrcerr.error = error;
 
 	jpeg_create_decompress (&srcinfo);
 
 	/* Initialize the JPEG compression object with default error 
 	 * handling. */
-	jdsterr.filename = output_filename;
 	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
 	jdsterr.pub.error_exit = fatal_error_handler;
 	jdsterr.pub.output_message = output_message_handler;
+	jdsterr.filename = output_filename;
 	jdsterr.error = error;
 
 	jpeg_create_compress (&dstinfo);
@@ -458,26 +470,21 @@ jpegtran (char         *input_filename,
 	jsrcerr.pub.trace_level = jdsterr.pub.trace_level;
 	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
 
-	/* Open the input file. */
-	input_file = fopen (input_filename, "rb");
-	if (input_file == NULL) 
-		return 1;
-
-	output_file = fopen (output_filename, "wb");
-	if (output_file == NULL) {
-		fclose (input_file);
-		return 1;
-	}
-
 	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
+		/* Release memory and close files */
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
+		fclose (input_file);
+		fclose (output_file);
 		return 1;
 	}
 
 	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
+		/* Release memory and close files */
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
+		fclose (input_file);
+		fclose (output_file);
 		return 1;
 	}
 
