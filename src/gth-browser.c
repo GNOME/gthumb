@@ -1824,14 +1824,18 @@ save_jpeg_data (GthBrowser *browser,
 	}
 #endif /* HAVE_LIBIPTCDATA */
 
-	if (priv->exif_data != NULL) {
-		/* The exif orientation tag, if present, must be reset to "top-left" */
-		set_orientation_in_exif_data (GTH_TRANSFORM_NONE, priv->exif_data);
+	if (priv->exif_data != NULL) 
 		jpeg_data_set_exif_data (jdata, priv->exif_data);
-	}
 
 	jpeg_data_save_file (jdata, filename);
 	jpeg_data_unref (jdata);
+
+	/* The exif orientation tag, if present, must be reset to "top-left",
+   	   because the jpeg was saved from a gthumb-generated pixbuf, and
+   	   the pixbug image loader always rotates the pixbuf to account for
+   	   the orientation tag. */
+	write_orientation_field (filename, GTH_TRANSFORM_NONE);
+
 }
 
 
