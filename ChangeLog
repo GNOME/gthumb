@@ -1,3 +1,16 @@
+2006-11-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpegutils/Makefile.am:
+	* libgthumb/jpegutils/jpeg-memory-mgr.c: (init_source),
+	(fill_input_buffer), (skip_input_data), (term_source),
+	(init_destination), (empty_output_buffer), (term_destination),
+	(jpeg_memory_src), (jpeg_memory_dest):
+	* libgthumb/jpegutils/jpeg-memory-mgr.h:
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):
+	  New files to hold jpeg callback functions, as a
+	  refinement of the developing code to rotate embedded 
+	  thumbnails. Patch by Jef Driesen. Bug 361913.
+
 2006-11-15  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-location.c: (monitor_changed_cb),

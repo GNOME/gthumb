@@ -49,6 +49,7 @@
 #include "gthumb-error.h"
 #include "file-utils.h"
 #include "transupp.h"		/* Support routines for jpegtran */
+#include "jpeg-memory-mgr.h"
 
 #include <libexif/exif-data.h>
 
@@ -201,82 +202,12 @@ update_exif_dimensions (ExifData *edata, JXFORM_CODE transform)
 }
 
 
-#define container_of(ptr, type, member) ({			\
-        const typeof( ((type *)0)->member ) *__mptr = (ptr);	\
-        (type *)( (char *)__mptr - offsetof(type,member) );})
-
-struct th {
-    struct jpeg_decompress_struct src;
-    struct jpeg_compress_struct   dst;
-    struct jpeg_error_mgr jsrcerr, jdsterr;
-    unsigned char *in;
-    unsigned char *out;
-    int isize, osize;
-};
-
-static void thumbnail_src_init(struct jpeg_decompress_struct *cinfo)
-{
-    struct th *h  = container_of(cinfo, struct th, src);
-    cinfo->src->next_input_byte = h->in;
-    cinfo->src->bytes_in_buffer = h->isize;
-}
-
-static int thumbnail_src_fill(struct jpeg_decompress_struct *cinfo)
-{
-    fprintf(stderr,"jpeg: panic: no more thumbnail input data\n");
-    exit(1);
-}
-
-static void thumbnail_src_skip(struct jpeg_decompress_struct *cinfo,
-			       long num_bytes)
-{
-    cinfo->src->next_input_byte += num_bytes;
-}
-
-static void thumbnail_src_term(struct jpeg_decompress_struct *cinfo)
-{
-    /* nothing */
-}
-
-static void thumbnail_dest_init(struct jpeg_compress_struct *cinfo)
-{
-    struct th *h  = container_of(cinfo, struct th, dst);
-    h->osize = h->isize * 2;
-    h->out   = malloc(h->osize);
-    cinfo->dest->next_output_byte = h->out;
-    cinfo->dest->free_in_buffer   = h->osize;
-}
-
-static boolean thumbnail_dest_flush(struct jpeg_compress_struct *cinfo)
-{
-    fprintf(stderr,"jpeg: panic: output buffer full\n");
-    exit(1);
-}
-
-static void thumbnail_dest_term(struct jpeg_compress_struct *cinfo)
-{
-    struct th *h  = container_of(cinfo, struct th, dst);
-    h->osize -= cinfo->dest->free_in_buffer;
-}
-
-static struct jpeg_source_mgr thumbnail_src = {
-	.init_source         = thumbnail_src_init,
-	.fill_input_buffer   = thumbnail_src_fill,
-	.skip_input_data     = thumbnail_src_skip,
-	.resync_to_restart   = jpeg_resync_to_restart,
-	.term_source         = thumbnail_src_term,
-};
-
-static struct jpeg_destination_mgr thumbnail_dst = {
-	.init_destination    = thumbnail_dest_init,
-	.empty_output_buffer = thumbnail_dest_flush,
-	.term_destination    = thumbnail_dest_term,
-};
-
 static void
 update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 {
-	struct th th;
+	struct jpeg_decompress_struct src;
+	struct jpeg_compress_struct dst;
+	struct jpeg_error_mgr jsrcerr, jdsterr;
 	
 	if (edata == NULL)
 		return;
@@ -285,31 +216,37 @@ update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 		return;
 
 	if (edata->data && edata->data[0] == 0xff && edata->data[1] == 0xd8) {
-		memset(&th, 0, sizeof(th));
-		th.in    = edata->data;
-		th.isize = edata->size;
-		   
-		/* setup src */
-		th.src.err = jpeg_std_error(&th.jsrcerr);
-		jpeg_create_decompress(&th.src);
-		th.src.src = &thumbnail_src;
+    	/* Allocate output buffer */
+    	unsigned int osize = edata->size * 2;
+    	unsigned char *out = malloc(osize);
 
-		/* setup dst */
-		th.dst.err = jpeg_std_error(&th.jdsterr);
-		jpeg_create_compress(&th.dst);
-		th.dst.dest = &thumbnail_dst;
+		/* Initialize the JPEG decompression object
+		 * with default error handling. */
+		src.err = jpeg_std_error(&jsrcerr);
+		jpeg_create_decompress(&src);	
+
+		/* Initialize the JPEG compression object
+		 * with default error handling. */
+		dst.err = jpeg_std_error(&jdsterr);
+		jpeg_create_compress(&dst);
+		
+		/* Specify data source for decompression */
+		jpeg_memory_src (&src, edata->data, edata->size);
+		
+		/* Specify data source for decompression */
+		jpeg_memory_dest (&dst, &out, &osize);
 
 		/* transform image */
-		jpegtran_internal(&th.src, &th.dst, transform, FALSE);
+		jpegtran_internal(&src, &dst, transform, FALSE);
 
 		/* cleanup */
-		jpeg_destroy_decompress(&th.src);
-		jpeg_destroy_compress(&th.dst);
+		jpeg_destroy_decompress(&src);
+		jpeg_destroy_compress(&dst);
 
 		/* replace thumbnail */
 		free(edata->data);
-		edata->data = th.out;
-		edata->size = th.osize;
+		edata->data = out;
+		edata->size = osize;
 	}
 }
 
