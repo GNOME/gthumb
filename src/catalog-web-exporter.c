@@ -128,7 +128,6 @@ image_data_new (const char *filename)
 
 	cdata = comments_load_comment (filename, TRUE);
 	if (cdata != NULL) {
-		/*idata->comment = comments_get_comment_as_xml_string (cdata, "&nbsp;<br />", "&nbsp;<br />");*/
 		idata->comment = g_strdup (cdata->comment);
 		idata->place = g_strdup (cdata->place);
 		if (cdata->time != 0) {
@@ -155,7 +154,6 @@ image_data_new (const char *filename)
 		zero_padded (img_counter++),
 		"-",
 		file_name_from_path (filename),
-		(file_extension_is(filename, "jpg") || file_extension_is(filename, "jpeg") ? "" : ".jpg"), 
 		NULL);
 
 	idata->file_size = 0;
@@ -2158,8 +2156,7 @@ save_resized_image_cb (gpointer data)
 
 
 static int
-export__copy_image__progress_update_cb (GnomeVFSAsyncHandle      *handle,
-					GnomeVFSXferProgressInfo *info,
+export__copy_image__progress_update_cb (GnomeVFSXferProgressInfo *info,
 					gpointer                  data)
 {
 	CatalogWebExporter *ce = data;
@@ -2185,48 +2182,72 @@ export__copy_image (CatalogWebExporter *ce)
 {
 	ImageData                 *idata;
 	char                      *dest_filename;
-	GList                     *src_list = NULL;
-	GList                     *dest_list = NULL;
+	GnomeVFSURI               *src = NULL;
+	GnomeVFSURI               *dest = NULL;
 	GnomeVFSXferOptions        xfer_options;
 	GnomeVFSXferErrorMode      xfer_error_mode;
 	GnomeVFSXferOverwriteMode  overwrite_mode;
-	GnomeVFSAsyncHandle       *handle;
 	GnomeVFSResult             result;
+	GthTransform		   transform;
 
-	exporter_set_info (ce, _("Saving images"));
+	/* This function is used when "Copy originals to destination" is
+	   enabled, and resizing is NOT enabled. This allows us to use a
+	   lossless copy (and rotate). When resizing is enabled, a lossy
+	   save has to be used. */
+
+	exporter_set_info (ce, _("Copying original images"));
 
 	idata = ce->file_to_load->data;
 
 	dest_filename = get_image_filename (ce, idata, ce->tmp_location);
-	src_list = g_list_append (src_list, new_uri_from_path (idata->src_filename));
-	dest_list = g_list_append (dest_list, new_uri_from_path (dest_filename));
+	src = new_uri_from_path (idata->src_filename);
+	dest = new_uri_from_path (dest_filename);
 	ce->album_files = g_list_prepend (ce->album_files, dest_filename);
 
 	xfer_options    = 0;
 	xfer_error_mode = GNOME_VFS_XFER_ERROR_MODE_ABORT;
 	overwrite_mode  = GNOME_VFS_XFER_OVERWRITE_MODE_REPLACE;
 
-	result = gnome_vfs_async_xfer (&handle,
-				       src_list,
-				       dest_list,
+	/* Nov 17/06: originally this was an async list-based file copy.
+	   It has been changed to a synchronous copy, so that the exif tag
+	   reset could be performed reliably immediately afterwards. There
+	   might be a more elegant async way to do this. Also, this is
+	   a single-file copy function now. I don't know why a list-based
+	   function was originally used - only one file was ever moved at
+	   a time (list count was always = 1) */
+
+	result = gnome_vfs_xfer_uri (  src,
+				       dest,
 				       xfer_options,
 				       xfer_error_mode,
 				       overwrite_mode,
-				       GNOME_VFS_PRIORITY_DEFAULT,
 				       export__copy_image__progress_update_cb,
-				       ce,
-				       NULL,
-				       NULL);
+				       ce);
 
-	g_list_foreach (src_list, (GFunc) gnome_vfs_uri_unref, NULL);
-	g_list_free (src_list);
-	g_list_foreach (dest_list, (GFunc) gnome_vfs_uri_unref, NULL);
-	g_list_free (dest_list);
-	
+	gnome_vfs_uri_unref (src);
+	gnome_vfs_uri_unref (dest);
+
+	/* If something goes wrong with the file copy, generate a copy
+   	   of the original by saving the pixbuf - possibly with loss.
+	   (That is the same method used when re-sizing the image.) */	   
 	if (result != GNOME_VFS_OK) 
 		ce->saving_timeout = g_timeout_add (SAVING_TIMEOUT,
 						    save_image_preview_cb,
 						    ce);
+	else if (image_is_jpeg (dest_filename)) {
+		/* If the VFS copy was OK, apply a transform to the 
+		   new file so that the exif orientation tag, if present,
+		   is equal to "top left" (1). Most browsers can not
+		   correctly display jpeg images with non-top-left orientations. 
+		   Skip this step if there is no tag (0), or it is already
+		   top-left (1). */
+		transform = read_orientation_field (dest_filename);
+		if (transform > 1)
+			apply_transformation_jpeg(GTK_WINDOW (ce->window),
+						  dest_filename,
+						  transform,
+						  FALSE);
+	}
 }
 
 

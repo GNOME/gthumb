@@ -1,3 +1,14 @@
+2006-11-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/catalog-web-exporter.c: (image_data_new):
+	  Corrected output file naming of non-jpeg images in web
+          album export. Always use original file extension.
+
+	* src/catalog-web-exporter.c: 
+	  (export__copy_image__progress_update_cb), (export__copy_image):
+	  Added transform-to-top-left step for copied originals, to ensure
+	  proper viewing in browsers that ignore exif tags. Bug 370013.
+
 2006-11-16  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpegutils/Makefile.am:
