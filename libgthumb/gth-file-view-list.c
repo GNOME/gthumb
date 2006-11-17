@@ -38,6 +38,7 @@
 #include "file-data.h"
 #include "icons/pixbufs.h"
 #include "pixbuf-utils.h"
+#include "gth-sort-utils.h"
 
 
 enum {
@@ -1533,7 +1534,7 @@ comp_func_name (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return strcasecmp (fd1->name, fd2->name);
+	return gth_sort_by_filename_but_ignore_path (fd1->name, fd2->name);
 }
 
 
@@ -1546,11 +1547,7 @@ comp_func_size (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	if (fd1->size < fd2->size) return -1;
-	if (fd1->size > fd2->size) return 1;
-
-	/* if the size is the same order by name. */
-	return comp_func_name (ptr1, ptr2);
+	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->path, fd2->path);
 }
 
 
@@ -1563,11 +1560,8 @@ comp_func_time (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	if (fd1->mtime < fd2->mtime) return -1;
-	if (fd1->mtime > fd2->mtime) return 1;
-
-	/* if time is the same order by name. */
-	return comp_func_name (ptr1, ptr2);
+	return gth_sort_by_filetime_then_name (fd1->mtime, fd2->mtime,
+						 fd1->path, fd2->path);
 }
 
 
@@ -1580,24 +1574,17 @@ comp_func_path (gconstpointer  ptr1,
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return uricmp (fd1->path, fd2->path);
+	return gth_sort_by_full_path (fd1->path, fd2->path);
 }
 
 
 static int
-comp_func_comment (gconstpointer  ptr1,
-		   gconstpointer  ptr2)
+comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 {
 	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
-        if ((fd1->comment == NULL) && (fd2->comment == NULL))
-                return 0;
-        if (fd1->comment == NULL)
-                return 1;
-        if (fd2->comment == NULL)
-                return -1;
-
-	return g_utf8_collate ( g_utf8_casefold (fd1->comment,-1), g_utf8_casefold (fd2->comment,-1) );
+	return gth_sort_by_comment_then_name (fd1->comment, fd2->comment,
+					fd1->path, fd2->path);
 }
 
 

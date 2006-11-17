@@ -1,5 +1,30 @@
 2006-11-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/Makefile.am:
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_comment_then_name),
+	(gth_sort_by_size_then_name), (gth_sort_by_filetime_then_name),
+	(gth_sort_by_filename_but_ignore_path), (gth_sort_by_full_path):
+	* libgthumb/gth-sort-utils.h:
+	  Added gth-sort-utils.* to rationalize sorting functions.
+	  Part of bug 373557.
+
+	* libgthumb/gth-file-view-list.c: (comp_func_name),
+	(comp_func_size), (comp_func_time), (comp_func_path),
+	(comp_func_comment):
+	* libgthumb/gth-file-view-thumbs.c: (comp_func_name),
+	(comp_func_size), (comp_func_time), (comp_func_path),
+	(comp_func_comment):
+	* src/catalog-png-exporter.c: (comp_func_name), (comp_func_path),
+	(comp_func_comment), (comp_func_time), (comp_func_size):
+	* src/catalog-web-exporter.c: (comp_func_name), (comp_func_path),
+	(comp_func_comment), (comp_func_time), (comp_func_size):
+	  Use new gth-sort-utils.c functions for consistent sorting.
+
+	* libgthumb/glib-utils.c: (strcmp_null_tollerant):
+	  Removed unnecessary comparisons (logically impossible).
+
+2006-11-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/catalog-web-exporter.c: (image_data_new):
 	  Corrected output file naming of non-jpeg images in web
           album export. Always use original file extension.

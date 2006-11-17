@@ -41,6 +41,7 @@
 #include "gthumb-slide.h"
 #include "glib-utils.h"
 #include "main.h"
+#include "gth-sort-utils.h"
 
 
 static void begin_export       (CatalogPngExporter *ce);
@@ -1197,8 +1198,7 @@ comp_func_name (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return strcasecmp (file_name_from_path (data_a->filename), 
-			   file_name_from_path (data_b->filename));
+	return gth_sort_by_filename_but_ignore_path (data_a->filename,data_b->filename);
 }
 
 
@@ -1210,11 +1210,11 @@ comp_func_path (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	return strcasecmp (data_a->filename, data_b->filename);
+	return gth_sort_by_full_path (data_a->filename, data_b->filename);
 }
 
 
-static gint
+static int
 comp_func_comment (gconstpointer a, gconstpointer b)
 {
 	ImageData *data_a, *data_b;
@@ -1222,14 +1222,8 @@ comp_func_comment (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-        if ((data_a->comment == NULL) && (data_b->comment == NULL))
-	                return 0;
-        if (data_a->comment == NULL)
-	                return 1;
-        if (data_b->comment == NULL)
-	                return -1;
-
-	return g_utf8_collate ( g_utf8_casefold (data_a->comment,-1), g_utf8_casefold (data_b->comment,-1) );
+	return gth_sort_by_comment_then_name (data_a->comment, data_b->comment,
+					data_a->filename, data_b->filename);
 }
 
 
@@ -1241,12 +1235,8 @@ comp_func_time (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	if (data_a->file_time == data_b->file_time)
-		return 0;
-	else if (data_a->file_time > data_b->file_time)
-		return 1;
-	else
-		return -1;
+	return gth_sort_by_filetime_then_name (data_a->file_time, data_b->file_time,
+						data_a->filename, data_b->filename);
 }
 
 
@@ -1258,12 +1248,7 @@ comp_func_size (gconstpointer a, gconstpointer b)
 	data_a = IMAGE_DATA (a);
 	data_b = IMAGE_DATA (b);
 
-	if (data_a->file_size == data_b->file_size)
-		return 0;
-	else if (data_a->file_size > data_b->file_size)
-		return 1;
-	else
-		return -1;
+	return gth_sort_by_size_then_name (data_a->file_size, data_b->file_size, data_a->filename, data_b->filename);
 }
 
 
