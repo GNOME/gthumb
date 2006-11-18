@@ -865,7 +865,6 @@ file_respects_search_criteria (DialogData *data,
 	char        *place;
 	int          keywords_n;
 	time_t       time = 0;
-	const char  *home_dir;
 	const char  *name_only;
 
 	if (! file_is_image (filename, eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE)))
@@ -923,12 +922,7 @@ file_respects_search_criteria (DialogData *data,
 		 && (time > data->search_data->date + ONE_DAY))
 		match_date = TRUE;
 
-	home_dir = g_get_home_dir ();
-	if (path_in_path (home_dir, filename))
-		name_only = filename + strlen (home_dir);
-	else
-		name_only = filename;
-
+	name_only = filename + strlen (data->search_data->start_from);
 	result = (match_patterns (data->file_patterns, name_only)
 		  && match_patterns (data->comment_patterns, comment)
 		  && match_patterns (data->place_patterns, place)

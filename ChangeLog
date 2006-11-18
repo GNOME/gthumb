@@ -1,3 +1,9 @@
+2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-search.c (file_respects_search_criteria): 
+	
+	ignore the path till the starting folder when matching the filepath
+
 2006-11-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/gthumb.schemas.in:
@@ -21,7 +27,7 @@
 	  Added sort by Exif DataTime tag. Bugs 373557, 142590.
 
 2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
-
+	
 	* src/gth-browser-ui.h: 
 	
 	removed Save from the toolbar, moved Comment and Categories to the end.
