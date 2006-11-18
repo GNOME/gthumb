@@ -1,5 +1,9 @@
 2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-browser.c (add_rotate_toolbar_item): 
+	
+	added a separator before the rotate toolbar item.
+	
 	* src/dlg-search.c (file_respects_search_criteria): 
 	
 	ignore the path till the starting folder when matching the filepath

@@ -292,7 +292,7 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
-#define ROTATE_TOOLITEM_POS    11
+#define ROTATE_TOOLITEM_POS    12
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
@@ -5184,13 +5184,19 @@ add_rotate_toolbar_item (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;	
 
+	priv->sep_rotate_tool_item = gtk_separator_tool_item_new ();
+	gtk_widget_show (GTK_WIDGET (priv->sep_rotate_tool_item));
+	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
+			    priv->sep_rotate_tool_item,
+			    ROTATE_TOOLITEM_POS);
+		    
 	if (priv->rotate_tool_item != NULL) {
 		gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
 				    priv->rotate_tool_item, 
 				    ROTATE_TOOLITEM_POS + 1);
 		return;
 	}
-
+			    
 	priv->rotate_tool_item = gtk_menu_tool_button_new_from_stock (GTHUMB_STOCK_TRANSFORM);
 	g_object_ref (priv->rotate_tool_item);
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item),
@@ -5200,7 +5206,6 @@ add_rotate_toolbar_item (GthBrowser *browser)
 	gtk_menu_tool_button_set_arrow_tooltip (GTK_MENU_TOOL_BUTTON (priv->rotate_tool_item), priv->tooltips,	_("Rotate images without loss of quality"), NULL);
 	gtk_action_connect_proxy (gtk_ui_manager_get_action (priv->ui, "/MenuBar/Tools/Tools_JPEGRotate"),
 				  GTK_WIDGET (priv->rotate_tool_item));
-
 	gtk_widget_show (GTK_WIDGET (priv->rotate_tool_item));
 	gtk_toolbar_insert (GTK_TOOLBAR (priv->toolbar), 
 			    priv->rotate_tool_item, 
@@ -5214,7 +5219,6 @@ remove_custom_tool_item (GthBrowser  *browser,
 {
 	if (tool_item == NULL)
 		return;
-
 	if (gtk_widget_get_parent ((GtkWidget*) tool_item) != NULL)
 		gtk_container_remove (GTK_CONTAINER (browser->priv->toolbar), 
 				      (GtkWidget*) tool_item);
@@ -5228,10 +5232,10 @@ set_mode_specific_ui_info (GthBrowser        *browser,
 {
 	GthBrowserPrivateData *priv = browser->priv;
 
+	remove_custom_tool_item (browser, priv->sep_rotate_tool_item);		
+	remove_custom_tool_item (browser, priv->rotate_tool_item);
 	if (priv->toolbar_merge_id != 0)
 		gtk_ui_manager_remove_ui (priv->ui, priv->toolbar_merge_id);
-	remove_custom_tool_item (browser, priv->rotate_tool_item);
-	
 	gtk_ui_manager_ensure_update (priv->ui);
 
 	if (content != GTH_SIDEBAR_NO_LIST) {
