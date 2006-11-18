@@ -38,12 +38,12 @@ static GtkActionEntry gth_fullscreen_action_entries[] = {
 	  NULL,
 	  G_CALLBACK (gth_fullscreen_activate_action_close) },
 
-	{ "View_NextImage", GTHUMB_STOCK_NEXT_IMAGE,
+	{ "View_NextImage", GTK_STOCK_GO_FORWARD,
 	  N_("Next"), NULL,
 	  N_("View next image"),
 	  G_CALLBACK (gth_fullscreen_activate_action_view_next_image) },
 
-	{ "View_PrevImage", GTHUMB_STOCK_PREVIOUS_IMAGE,
+	{ "View_PrevImage", GTK_STOCK_GO_BACK,
 	  N_("Previous"), NULL,
 	  N_("View previous image"),
 	  G_CALLBACK (gth_fullscreen_activate_action_view_prev_image) },

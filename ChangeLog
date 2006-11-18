@@ -1,3 +1,18 @@
+2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-browser-ui.h: 
+	
+	removed Save from the toolbar, moved Comment and Categories to the end.
+	
+	* src/gth-browser-actions-entries.h: 
+	* libgthumb/gthumb-stock.c: 
+	* libgthumb/icons/Makefile.am: 
+	* src/gth-fullscreen-actions-entries.h: 
+	
+	use GTK_STOCK_GO_[BACK|FORWARD] instead of GTUHMB_STOCK_[NEXT|PREV]_IMAGE.
+	
+	* src/gth-browser.c: include rotation-utils.h
+
 2006-11-17  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/Makefile.am:

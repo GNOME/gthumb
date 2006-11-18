@@ -57,6 +57,7 @@
 #include "gth-file-view.h"
 #include "gth-fullscreen.h"
 #include "gth-location.h"
+#include "gth-nav-window.h"
 #include "gth-pixbuf-op.h"
 #include "gthumb-info-bar.h"
 #include "gthumb-preloader.h"
@@ -65,9 +66,9 @@
 #include "image-viewer.h"
 #include "jpeg-utils.h"
 #include "main.h"
-#include "gth-nav-window.h"
 #include "pixbuf-utils.h"
 #include "thumb-cache.h"
+#include "rotation-utils.h"
 
 #include <libexif/exif-data.h>
 #include "jpegutils/jpeg-data.h"

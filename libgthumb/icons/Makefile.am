@@ -37,10 +37,8 @@ IMAGES=					\
 	maintenance-16.png		\
 	mirror-16.png			\
 	mirror-24.png			\
-	next-image-24.png		\
 	posterize-16.png		\
 	posterize-22.png		\
-	prev-image-24.png		\
 	preview-comment-16.png		\
 	preview-data-16.png		\
 	preview-image-16.png		\
@@ -106,10 +104,8 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list maintenance_16_rgba $(srcdir)/maintenance-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list mirror_16_rgba $(srcdir)/mirror-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list mirror_24_rgba $(srcdir)/mirror-24.png >> $(srcdir)/pixbufs.h
-	gdk-pixbuf-csource --raw --build-list next_image_24_rgba $(srcdir)/next-image-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list posterize_16_rgba $(srcdir)/posterize-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list posterize_22_rgba $(srcdir)/posterize-22.png >> $(srcdir)/pixbufs.h
-	gdk-pixbuf-csource --raw --build-list prev_image_24_rgba $(srcdir)/prev-image-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_comment_16_rgba $(srcdir)/preview-comment-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_data_16_rgba $(srcdir)/preview-data-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list preview_image_16_rgba $(srcdir)/preview-image-16.png >> $(srcdir)/pixbufs.h
