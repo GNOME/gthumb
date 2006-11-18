@@ -236,7 +236,7 @@
 	<default>name</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: none, name, path, size, time, comment.
+	  <long> Possible values are: none, name, path, size, time, exifdate, comment.
 	  </long>
 	</locale>
       </schema>

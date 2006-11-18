@@ -100,6 +100,7 @@ static const gchar *main_ui_info =
 "        <menuitem action='SortByPath'/>"
 "        <menuitem action='SortBySize'/>"
 "        <menuitem action='SortByTime'/>"
+"	 <menuitem action='SortByExifDate'/>"
 "        <menuitem action='SortByComment'/>"
 "        <menuitem action='SortManual'/>"
 "        <separator/>"

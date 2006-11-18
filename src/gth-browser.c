@@ -1149,6 +1149,7 @@ window_sync_sort_menu (GthBrowser    *browser,
 	case GTH_SORT_METHOD_BY_PATH: prop = "SortByPath"; break;
 	case GTH_SORT_METHOD_BY_SIZE: prop = "SortBySize"; break;
 	case GTH_SORT_METHOD_BY_TIME: prop = "SortByTime"; break;
+	case GTH_SORT_METHOD_BY_EXIF_DATE: prop = "SortByExifDate"; break;
 	case GTH_SORT_METHOD_BY_COMMENT: prop = "SortByComment"; break;
 	case GTH_SORT_METHOD_MANUAL:  prop = "SortManual"; break;
 	default: prop = "X"; break;

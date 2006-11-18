@@ -112,6 +112,7 @@ typedef struct {
 	char             *filename;
 	GnomeVFSFileSize  file_size;
 	time_t            file_time;
+	time_t		  exif_time;
 	GdkPixbuf        *thumb;
 	int               image_width;
 	int               image_height;
@@ -1241,6 +1242,19 @@ comp_func_time (gconstpointer a, gconstpointer b)
 
 
 static gint
+comp_func_exif_date (gconstpointer a, gconstpointer b)
+{
+	ImageData *data_a, *data_b;
+
+	data_a = IMAGE_DATA (a);
+	data_b = IMAGE_DATA (b);
+
+	return gth_sort_by_filetime_then_name (data_a->exif_time, data_b->exif_time,
+						data_a->filename, data_b->filename);
+}
+
+
+static gint
 comp_func_size (gconstpointer a, gconstpointer b)
 {
 	ImageData *data_a, *data_b;
@@ -1280,6 +1294,9 @@ get_sortfunc (CatalogPngExporter *ce)
 	case GTH_SORT_METHOD_BY_COMMENT:
 		func = comp_func_comment;
 		break;
+	case GTH_SORT_METHOD_BY_EXIF_DATE:
+		func = comp_func_exif_date;
+		break;	
 	case GTH_SORT_METHOD_NONE:
 		func = comp_func_none;
 		break;
@@ -1369,6 +1386,9 @@ image_loader_done (ImageLoader *iloader,
 
 	/* file time. */
 	idata->file_time = get_file_mtime (idata->filename);
+
+	/* time in exif tag, if present */
+	idata->exif_time = get_exif_time (idata->filename);
 
 	/* thumbnail. */
 	idata->thumb = pixbuf = image_loader_get_pixbuf (iloader);

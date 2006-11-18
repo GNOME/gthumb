@@ -28,7 +28,7 @@
 #include "file-data.h"
 #include "file-utils.h"
 #include "comments.h"
-
+#include "gth-exif-utils.h"
 
 #define MAX_COMMENT_LEN 60
 
@@ -50,6 +50,7 @@ file_data_new (const char       *path,
 		fd->ctime = info->ctime;
 		fd->mtime = info->mtime;
 	}
+	fd->exif_time = get_exif_time (fd->path);
 	fd->error = FALSE;
 	fd->thumb = FALSE;
 	fd->comment = g_strdup ("");
@@ -88,6 +89,8 @@ file_data_update (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
+
+	fd->exif_time = get_exif_time (fd->path);
 
 	gnome_vfs_file_info_unref (info);
 }

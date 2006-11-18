@@ -1,3 +1,25 @@
+2006-11-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* data/gthumb.schemas.in:
+	* libgthumb/file-data.c: (file_data_new), (file_data_update):
+	* libgthumb/file-data.h:
+	* libgthumb/gth-file-view-list.c: (comp_func_exif_date),
+	(get_compfunc_from_method):
+	* libgthumb/gth-file-view-thumbs.c: (comp_func_exif_date),
+	(get_compfunc_from_method):
+	* libgthumb/preferences.c:
+	* libgthumb/typedefs.h:
+	* src/catalog-png-exporter.c: (comp_func_exif_date),
+	(get_sortfunc), (image_loader_done):
+	* src/catalog-web-exporter.c: (comp_func_exif_date),
+	(get_sortfunc), (image_loader_done):
+	* src/dlg-png-exporter.c: (dlg_png_exporter_pref):
+	* src/dlg-web-exporter.c: (dlg_web_exporter):
+	* src/gth-browser-actions-entries.h:
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_sync_sort_menu):
+	  Added sort by Exif DataTime tag. Bugs 373557, 142590.
+
 2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser-ui.h: 

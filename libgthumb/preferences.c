@@ -97,6 +97,7 @@ static EnumStringTable arrange_type_table [] = {
         { GTH_SORT_METHOD_BY_SIZE, "size" },
         { GTH_SORT_METHOD_BY_TIME, "time" },
         { GTH_SORT_METHOD_BY_COMMENT, "comment" },
+	{ GTH_SORT_METHOD_BY_EXIF_DATE, "exifdate" },
         { GTH_SORT_METHOD_MANUAL,  "manual" },
 	{ 0, NULL }
 };
