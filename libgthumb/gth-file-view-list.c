@@ -1566,12 +1566,15 @@ comp_func_time (gconstpointer  ptr1,
 
 
 static int
-comp_func_exif_date (FileData *fd1, FileData *fd2)
+comp_func_exif_date (gconstpointer  ptr1,
+		     gconstpointer  ptr2)
 {
+	FileData *fd1 = (FileData *) ptr1, *fd2 = (FileData *) ptr2;
+	
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_exiftime_then_name (fd1,fd2);
+	return gth_sort_by_exiftime_then_name (fd1, fd2);
 }
 
 
@@ -1594,7 +1597,7 @@ comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
 	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
 	return gth_sort_by_comment_then_name (fd1->comment, fd2->comment,
-					fd1->path, fd2->path);
+					      fd1->path, fd2->path);
 }
 
 

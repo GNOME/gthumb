@@ -42,6 +42,7 @@
 #include "glib-utils.h"
 #include "main.h"
 #include "gth-sort-utils.h"
+#include "gth-exif-utils.h"
 
 
 static void begin_export       (CatalogPngExporter *ce);

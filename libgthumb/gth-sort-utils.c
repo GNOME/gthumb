@@ -24,12 +24,19 @@
 #include <glib.h>
 #include <gnome.h>
 #include "file-data.h"
+#include "file-utils.h"
+#include "gth-exif-utils.h"
+#include "gth-sort-utils.h"
 
-gint gth_sort_by_comment_then_name (const gchar *string1, const gchar *string2,
-			  const gchar *name1, const gchar *name2)
+
+int 
+gth_sort_by_comment_then_name (const char *string1, 
+			       const char *string2,
+			       const char *name1, 
+			       const char *name2)
 {
-	gint collate_result;
-	gint name_result;
+	int collate_result;
+	int name_result;
 
 	name_result = gth_sort_by_filename_but_ignore_path (name1, name2);
 
@@ -48,8 +55,11 @@ gint gth_sort_by_comment_then_name (const gchar *string1, const gchar *string2,
 		return name_result;
 }
 
-gint gth_sort_by_size_then_name (GnomeVFSFileSize size1, GnomeVFSFileSize size2,
-				const gchar *name1, const gchar *name2)
+
+int gth_sort_by_size_then_name (GnomeVFSFileSize  size1, 
+                                GnomeVFSFileSize  size2,
+				const char       *name1, 
+				const char       *name2)
 {
 	if (size1 < size2) return -1;
 	if (size1 > size2) return 1;
@@ -58,8 +68,10 @@ gint gth_sort_by_size_then_name (GnomeVFSFileSize size1, GnomeVFSFileSize size2,
 }
 
 
-gint gth_sort_by_filetime_then_name (time_t time1, time_t time2,
-				const gchar *name1, const gchar *name2)
+int gth_sort_by_filetime_then_name (time_t      time1, 
+ 				    time_t      time2,
+				    const char *name1, 
+				    const char *name2)
 {
 	if (time1 < time2) return -1;
 	if (time1 > time2) return 1;
@@ -68,7 +80,9 @@ gint gth_sort_by_filetime_then_name (time_t time1, time_t time2,
 }
 
 
-gint gth_sort_by_exiftime_then_name (FileData *fd1, FileData *fd2)
+int 
+gth_sort_by_exiftime_then_name (FileData *fd1, 
+		                FileData *fd2)
 {
 	/* To reduce file accesses, the exif time is only recorded in the
 	   FileData structures when absolutely required, rather than when
@@ -95,7 +109,9 @@ gint gth_sort_by_exiftime_then_name (FileData *fd1, FileData *fd2)
 }
 
 
-gint gth_sort_by_filename_but_ignore_path (const gchar *name1, const gchar *name2)
+int 
+gth_sort_by_filename_but_ignore_path (const char *name1, 
+				      const char *name2)
 {
 	/* This sorts by the filename. It ignores the path portion, if present. */
 
@@ -104,7 +120,8 @@ gint gth_sort_by_filename_but_ignore_path (const gchar *name1, const gchar *name
 }
 	
 
-gint gth_sort_by_full_path (const char *path1, const char *path2)
+int gth_sort_by_full_path (const char *path1, 
+			   const char *path2)
 {
 	return uricmp (path1, path2);
 }

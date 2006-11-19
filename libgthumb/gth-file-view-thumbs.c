@@ -648,9 +648,11 @@ comp_func_time (gconstpointer  ptr1,
 
 
 static int
-comp_func_exif_date (GthImageListItem *item1, GthImageListItem *item2)
+comp_func_exif_date (gconstpointer  ptr1,
+		     gconstpointer  ptr2)
 {
-	FileData         *fd1, *fd2;
+	const GthImageListItem *item1 = ptr1, *item2 = ptr2;
+	FileData               *fd1, *fd2;
 
 	fd1 = item1->data;
 	fd2 = item2->data;
