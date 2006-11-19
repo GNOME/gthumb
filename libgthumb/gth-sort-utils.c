@@ -23,6 +23,7 @@
 #include <string.h>
 #include <glib.h>
 #include <gnome.h>
+#include "file-data.h"
 
 gint gth_sort_by_comment_then_name (const gchar *string1, const gchar *string2,
 			  const gchar *name1, const gchar *name2)
@@ -64,6 +65,33 @@ gint gth_sort_by_filetime_then_name (time_t time1, time_t time2,
 	if (time1 > time2) return 1;
 
 	return gth_sort_by_filename_but_ignore_path (name1, name2);
+}
+
+
+gint gth_sort_by_exiftime_then_name (FileData *fd1, FileData *fd2)
+{
+	/* To reduce file accesses, the exif time is only recorded in the
+	   FileData structures when absolutely required, rather than when
+	   generating file lists. This reduces wait times when browsing
+	   in other sort modes. */
+
+	/* Update the exif DateTime tags in memory if they haven't been
+	   read yet, or if the file has changed. */
+
+	if (fd1->exif_time_recorded_at != fd1->mtime) {	
+		fd1->exif_time = get_exif_time(fd1->path);
+		fd1->exif_time_recorded_at = fd1->mtime;
+	}
+
+	if (fd2->exif_time_recorded_at != fd2->mtime) {
+		fd2->exif_time = get_exif_time(fd2->path);
+		fd2->exif_time_recorded_at = fd2->mtime;
+	}
+
+	if (fd1->exif_time < fd2->exif_time) return -1;
+	if (fd1->exif_time > fd2->exif_time) return 1;
+
+	return gth_sort_by_filename_but_ignore_path (fd1->path, fd2->path);
 }
 
 

@@ -39,6 +39,7 @@ typedef struct {
 	time_t              ctime;
 	time_t              mtime;
 	time_t		    exif_time;
+	time_t		    exif_time_recorded_at;
 	guint               error : 1;     /* Whether an error occurred loading
 					    * this file. */
 	guint               thumb : 1;     /* Whether we have a thumb of this

@@ -28,7 +28,6 @@
 #include "file-data.h"
 #include "file-utils.h"
 #include "comments.h"
-#include "gth-exif-utils.h"
 
 #define MAX_COMMENT_LEN 60
 
@@ -50,7 +49,14 @@ file_data_new (const char       *path,
 		fd->ctime = info->ctime;
 		fd->mtime = info->mtime;
 	}
-	fd->exif_time = get_exif_time (fd->path);
+
+	/* The Exif DateTime tag is only recorded on an as-needed basis during
+	   DateTime sorts. The tag in memory is refreshed if the file mtime has
+	   changed, so it is recorded as well. */
+
+	fd->exif_time = 0;
+	fd->exif_time_recorded_at=0;
+
 	fd->error = FALSE;
 	fd->thumb = FALSE;
 	fd->comment = g_strdup ("");
@@ -89,8 +95,6 @@ file_data_update (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
-
-	fd->exif_time = get_exif_time (fd->path);
 
 	gnome_vfs_file_info_unref (info);
 }

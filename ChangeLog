@@ -1,3 +1,17 @@
+2006-11-18  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/file-data.c: (file_data_new), (file_data_update):
+	* libgthumb/file-data.h:
+	* libgthumb/gth-file-view-list.c: (comp_func_exif_date):
+	* libgthumb/gth-file-view-thumbs.c: (comp_func_exif_date):
+	* libgthumb/gth-sort-utils.c: (gth_sort_by_filetime_then_name),
+	(gth_sort_by_exiftime_then_name):
+	* libgthumb/gth-sort-utils.h:
+
+	Read exif DateTime tags for files in browser view only at
+	sort time, and cache them. This eliminates unnecessary file reads
+	in the other sort modes. Bug 142590.
+
 2006-11-18  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c (add_rotate_toolbar_item): 

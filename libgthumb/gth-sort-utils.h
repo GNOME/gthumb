@@ -23,6 +23,8 @@
 #ifndef _GTH_SORT_UTILS_H
 #define _GTH_SORT_UTILS_H
 
+#include "file-data.h"
+
 gint gth_sort_by_comment_then_name (const gchar *string1, const gchar *string2,
 			  const gchar *name1, const gchar *name2);
 gint gth_sort_by_size_then_name (GnomeVFSFileSize size1, GnomeVFSFileSize size2,
@@ -31,6 +33,7 @@ gint gth_sort_by_filetime_then_name (time_t time1, time_t time2,
 				const gchar *name1, const gchar *name2);
 gint gth_sort_by_filename_but_ignore_path (const gchar *name1, const gchar *name2);
 gint gth_sort_by_full_path (const char *path1, const char *path2);
+gint gth_sort_by_exiftime_then_name (FileData *fd1, FileData *fd2);
 
 #endif /* _GTH_SORT_UTILS_H */
 

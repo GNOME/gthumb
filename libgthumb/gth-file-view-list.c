@@ -1566,16 +1566,12 @@ comp_func_time (gconstpointer  ptr1,
 
 
 static int
-comp_func_exif_date (gconstpointer  ptr1,
-		gconstpointer  ptr2)
+comp_func_exif_date (FileData *fd1, FileData *fd2)
 {
-	const FileData *fd1 = ptr1, *fd2 = ptr2;
-
 	if ((fd1 == NULL) || (fd2 == NULL))
 		return 0;
 
-	return gth_sort_by_filetime_then_name (fd1->exif_time, fd2->exif_time,
-						 fd1->path, fd2->path);
+	return gth_sort_by_exiftime_then_name (fd1,fd2);
 }
 
 
