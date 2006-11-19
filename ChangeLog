@@ -1,3 +1,10 @@
+2006-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-location.c:
+	
+	Fixed bug #356623 – gThumb crashed when I inserted a blank CD-R disk
+	Patch by manuel
+
 2006-11-05  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS:
