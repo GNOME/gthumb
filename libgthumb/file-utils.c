@@ -1572,6 +1572,29 @@ resolve_all_symlinks (const char  *text_uri,
 }
 
 
+gboolean
+uri_is_root (const char *uri)
+{
+	int len;
+	
+	if (uri == NULL)
+		return FALSE;
+		
+	if (strcmp (uri, "/") == 0)
+		return TRUE;
+		
+	len = strlen (uri);
+	if (strncmp (uri + len - 3, "://", 3) == 0)
+		return TRUE;
+	if (strncmp (uri + len - 2, ":/", 2) == 0)
+		return TRUE;
+	if (strncmp (uri + len - 1, ":", 1) == 0)
+		return TRUE;
+	
+	return FALSE;
+}
+
+
 /* Catalogs */
 
 

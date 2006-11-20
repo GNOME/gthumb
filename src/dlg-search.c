@@ -780,11 +780,12 @@ match_patterns (char       **patterns,
 		return FALSE;
 
 	case_string = g_utf8_casefold (string, -1);
-	for (i = 0; patterns[i] != NULL; i++) 
+	for (i = 0; patterns[i] != NULL; i++) {
 		if (g_pattern_match_simple (patterns[i], case_string)) {
 			retval = TRUE;
 			break;
 		}
+	}
 	g_free (case_string);
 
 	return retval;
@@ -795,13 +796,16 @@ static void
 load_parents_comments (DialogData *data,
 		       const char *filename)
 {
-	gboolean  root_folder;
-	char     *parent = g_strdup (filename);
+	char *parent = g_strdup (filename);
 
 	do {
 		char *tmp = parent;
+		
 		parent = remove_level_from_path (tmp);
 		g_free (tmp);
+
+		if (parent == NULL)
+			break;
 
 		if (g_hash_table_lookup (data->folders_comment, parent) == NULL) {
 			CommentData *comment_data = comments_load_comment (parent, FALSE);
@@ -813,9 +817,7 @@ load_parents_comments (DialogData *data,
 					     comment_data);
 		}
 
-		root_folder = (strcmp (parent, "/") == 0);
-
-	} while (! root_folder);
+	} while (! uri_is_root (parent));
 
 	g_free (parent);
 }
@@ -826,8 +828,7 @@ add_parents_comments (CommentData *comment_data,
 		      DialogData  *data, 
 		      const char  *filename)
 {
-	gboolean  root_folder;
-	char     *parent = g_strdup (filename);
+	char *parent = g_strdup (filename);
 
 	do {
 		char        *tmp = parent;
@@ -835,6 +836,9 @@ add_parents_comments (CommentData *comment_data,
 
 		parent = remove_level_from_path (tmp);
 		g_free (tmp);
+
+		if (parent == NULL)
+			break;
 
 		parent_data = g_hash_table_lookup (data->folders_comment, parent);
 
@@ -844,9 +848,7 @@ add_parents_comments (CommentData *comment_data,
 				comment_data_add_keyword (comment_data, parent_data->keywords[i]);
 		}
 
-		root_folder = (strcmp (parent, "/") == 0);
-
-	} while (! root_folder);
+	} while (! uri_is_root (parent));
 
 	g_free (parent);
 }
@@ -1017,7 +1019,7 @@ directory_load_cb (GnomeVFSAsyncHandle *handle,
 		switch (info->type) {
 		case GNOME_VFS_FILE_TYPE_REGULAR:
 			full_uri = gnome_vfs_uri_append_file_name (data->uri, info->name);
-			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_TOPLEVEL_METHOD);
+			str_uri = gnome_vfs_uri_to_string (full_uri, GNOME_VFS_URI_HIDE_NONE);
 			unesc_uri = gnome_vfs_unescape_string (str_uri, NULL);
 
 			if (file_respects_search_criteria (data, unesc_uri)) 

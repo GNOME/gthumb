@@ -1,3 +1,12 @@
+2006-11-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/dlg-search.c (directory_load_cb): 
+	* libgthumb/file-utils.c (uri_is_root): 
+	* libgthumb/file-utils.h: new function
+	
+	add the toplevel method the filename and use the uri_is_root function to
+	check whether an uri is the root folder.
+
 2006-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-viewer.c: 
