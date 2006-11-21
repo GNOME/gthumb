@@ -1,5 +1,13 @@
 2006-11-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser-actions-entries.h:
+	  Added ctrl+shift+N shortcut for new folder. Bug 171048.
+
+	* src/gth-browser.c: (key_press_cb):
+	  Added F5 shortcut for refresh (adds to Ctrl+R). Bug 171048.
+
+2006-11-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* doc/C/gthumb.xml:
 	  Removed mention of the "Q" shortcut, because it does
 	  not work (lower-case function makes it useless).

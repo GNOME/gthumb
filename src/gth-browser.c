@@ -3227,6 +3227,10 @@ key_press_cb (GtkWidget   *widget,
 		gth_browser_activate_action_go_home (NULL, browser);
 		return TRUE;
 
+	case GDK_F5:
+		gth_browser_refresh (browser);
+		return TRUE;
+
 	default:
 		break;
 	}

@@ -275,7 +275,7 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_categories) },
 
 	{ "EditCurrentDir_New", NULL,
-	  N_("_New Folder..."), NULL,
+	  N_("_New Folder..."), "<shift><ctrl>N",
 	  N_("Create a new folder"),
 	  G_CALLBACK (gth_browser_activate_action_edit_current_dir_new) },
 
