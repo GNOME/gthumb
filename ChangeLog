@@ -1,3 +1,17 @@
+2006-11-21  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* doc/C/gthumb.xml:
+	  Removed mention of the "Q" shortcut, because it does
+	  not work (lower-case function makes it useless).
+	  
+	* src/gth-browser.c: (toggle_image_preview_visibility),
+	(key_press_cb), (gth_browser_hide_sidebar),
+	(gth_browser_show_image_pane):
+	  Removed the Escape shortcut (to close image preview),
+	  because it is unexpected behaviour. Replaced Q/Esc functionality
+	  by expanding the functionality of the "i" shortcut to toggle 
+	  the preview/properties/comments in all modes.
+
 2006-11-20  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/dlg-search.c (directory_load_cb): 

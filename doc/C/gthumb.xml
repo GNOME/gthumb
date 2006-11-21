@@ -2851,19 +2851,6 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo action="simul"><keycap>Q</keycap></keycombo>
-	      </para>
-	    </entry>
-            <entry>
-	      <para>View/Hide the image properties pane.</para>
-	    </entry>
-            <entry>
-	      <para>no</para>
-	    </entry>
-	  </row>
-	  <row rowsep="0">
-            <entry>
-	      <para>
 	        <keycombo action="simul"><keycap>q</keycap></keycombo>
 	      </para>
 	    </entry>

@@ -2943,31 +2943,15 @@ change_image_preview_content (GthBrowser *browser)
 
 
 static void
-show_image_preview (GthBrowser *browser)
-{
-	browser->priv->preview_visible = TRUE;
-	gth_browser_show_image_pane (browser);
-}
-
-
-static void
-hide_image_preview (GthBrowser *browser)
-{
-	browser->priv->preview_visible = FALSE;
-	gth_browser_hide_image_pane (browser);
-}
-
-
-static void
 toggle_image_preview_visibility (GthBrowser *browser)
 {
 	if (! browser->priv->sidebar_visible) 
 		return;
 
 	if (browser->priv->preview_visible) 
-		hide_image_preview (browser);
+		gth_browser_hide_image_pane (browser);
 	 else 
-		show_image_preview (browser);
+		gth_browser_show_image_pane (browser);
 }
 
 
@@ -3079,7 +3063,7 @@ key_press_cb (GtkWidget   *widget,
 			toggle_image_preview_visibility (browser);
 		 else {
 			if (! priv->preview_visible)
-				show_image_preview (browser);
+				gth_browser_show_image_pane (browser);
 			gth_browser_set_preview_content (browser, content);
 		}
 	}
@@ -3105,18 +3089,15 @@ key_press_cb (GtkWidget   *widget,
 			gth_browser_show_sidebar (browser);
 		return TRUE;
 
-		/* Change image pane content. */
+		/* Show / hide image info */
 	case GDK_i:
+		toggle_image_preview_visibility (browser);
 		toggle_image_data_visibility (browser);
 		return TRUE;
 
+		/* Cycle through the content shown in preview pane */
 	case GDK_q:
 		change_image_preview_content (browser);
-		return TRUE;
-
-		/* Hide/Show image pane. */
-	case GDK_Q:
-		toggle_image_preview_visibility (browser);
 		return TRUE;
 
 		/* Full screen view. */
@@ -3244,11 +3225,6 @@ key_press_cb (GtkWidget   *widget,
 		/* Go home */
 	case GDK_h:
 		gth_browser_activate_action_go_home (NULL, browser);
-		return TRUE;
-
-	case GDK_Escape:
-		if (priv->image_pane_visible)
-			gth_browser_hide_image_pane (browser);
 		return TRUE;
 
 	default:
@@ -7437,13 +7413,14 @@ void
 gth_browser_hide_sidebar (GthBrowser *browser)
 {
 	GthBrowserPrivateData *priv = browser->priv;
+	GtkWidget             *widget_to_focus = priv->viewer;
 
 	if (priv->image_path == NULL)
 		return;
 
 	_hide_sidebar (browser);
 
-	gtk_widget_grab_focus (priv->viewer);
+	gtk_widget_grab_focus (widget_to_focus);
 
 	window_update_sensitivity (browser);
 	window_update_statusbar_zoom_info (browser);
@@ -7542,6 +7519,7 @@ gth_browser_show_image_pane (GthBrowser *browser)
 
 	if (priv->sidebar_visible) {
 		priv->preview_visible = TRUE;
+
 		/* Sync menu and toolbar. */
 		set_action_active_if_different (browser, 
 						"View_ShowPreview", 
@@ -7549,7 +7527,7 @@ gth_browser_show_image_pane (GthBrowser *browser)
 	}
 
 	gtk_widget_show (priv->image_pane);
-	gtk_widget_grab_focus (priv->viewer);
+	gtk_widget_grab_focus (gth_file_view_get_widget (priv->file_list->view));
 
 	window_update_statusbar_zoom_info (browser);
 	window_update_sensitivity (browser);
