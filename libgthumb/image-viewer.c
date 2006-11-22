@@ -59,6 +59,7 @@ enum {
 	IMAGE_LOADED,
 	ZOOM_CHANGED,
 	REPAINTED,
+	MOUSE_WHEEL_SCROLL,
 	SCROLL,
 	LAST_SIGNAL
 };
@@ -172,6 +173,16 @@ image_viewer_class_init (ImageViewerClass *class)
 			      gthumb_marshal_VOID__VOID,
 			      G_TYPE_NONE, 
 			      0);
+        image_viewer_signals[MOUSE_WHEEL_SCROLL] =
+		g_signal_new ("mouse_wheel_scroll",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ImageViewerClass, mouse_wheel_scroll),
+			      NULL, NULL,
+			      gthumb_marshal_VOID__ENUM,
+			      G_TYPE_NONE, 
+			      1, GDK_TYPE_SCROLL_DIRECTION);
+
 	class->set_scroll_adjustments = set_scroll_adjustments;
         widget_class->set_scroll_adjustments_signal =
 		g_signal_new ("set_scroll_adjustments",
@@ -1416,14 +1427,18 @@ image_viewer_scroll_event (GtkWidget        *widget,
 		}
 	}
 	
-	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN)
-		adj = viewer->vadj;
-	else
-		adj = viewer->hadj;
+	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_DOWN) {
+		g_signal_emit (G_OBJECT (viewer), 
+			            image_viewer_signals[MOUSE_WHEEL_SCROLL],
+		 	            0, event->direction);
+		return TRUE;
+	}
+
+	adj = viewer->hadj;
 	
-	if (event->direction == GDK_SCROLL_UP || event->direction == GDK_SCROLL_LEFT)
+	if (event->direction == GDK_SCROLL_LEFT)
 		new_value = adj->value - adj->page_increment / 2;
-	else
+	else if (event->direction == GDK_SCROLL_RIGHT)
 		new_value = adj->value + adj->page_increment / 2;
 
 	new_value = CLAMP (new_value, adj->lower, adj->upper - adj->page_size);

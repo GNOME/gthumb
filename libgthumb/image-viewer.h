@@ -172,6 +172,7 @@ struct _ImageViewerClass
                                          GtkAdjustment *hadj,
                                          GtkAdjustment *vadj);
 	void (* repainted)              (ImageViewer   *viewer);
+	void (* mouse_wheel_scroll)	(ImageViewer   *viewer, GdkScrollDirection direction);
 
 	/* -- Key binding signals -- */
 

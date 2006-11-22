@@ -3331,6 +3331,25 @@ image_clicked_cb (GtkWidget  *widget,
 }
 
 
+static gboolean
+mouse_wheel_scrolled_cb (GtkWidget 		*widget, 
+  		   	 GdkScrollDirection 	 direction,
+			 GthBrowser		*browser)
+{
+	GthBrowserPrivateData *priv = browser->priv;
+
+	if (priv->setting_file_list || priv->changing_directory)
+		return TRUE;
+        
+	if (direction == GDK_SCROLL_UP) 
+		gth_browser_show_next_image (browser, FALSE);
+	else
+		gth_browser_show_prev_image (browser, FALSE);
+	
+	return TRUE;
+}		   
+
+
 static int
 image_button_press_cb (GtkWidget      *widget, 
 		       GdkEventButton *event,
@@ -6498,6 +6517,10 @@ gth_browser_construct (GthBrowser  *browser,
 				"clicked",
 				G_CALLBACK (image_clicked_cb), 
 				browser);
+	g_signal_connect_after (G_OBJECT (priv->viewer), 
+				"mouse_wheel_scroll",
+				G_CALLBACK (mouse_wheel_scrolled_cb), 
+				browser);	
 	g_signal_connect (G_OBJECT (priv->viewer), 
 			  "focus_in_event",
 			  G_CALLBACK (image_focus_changed_cb), 
