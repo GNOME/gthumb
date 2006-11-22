@@ -1,5 +1,10 @@
 2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser.c: (key_press_cb):
+	  Forgot to free a list added in the last commit. Fixed.
+
+2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* doc/C/gthumb.xml:
 	* src/gth-browser.c: (key_press_cb):
 	* src/gth-fullscreen.c: (viewer_key_press_cb):

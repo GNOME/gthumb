@@ -3222,8 +3222,10 @@ key_press_cb (GtkWidget   *widget,
 	case GDK_g:
 		list = gth_window_get_file_list_selection (window);
 		
-		if (list != NULL)
+		if (list != NULL) {
 			exec_command ("gimp-remote",list);
+			g_list_free (list);
+		}
 
 		return TRUE;
 
