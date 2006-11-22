@@ -1,5 +1,14 @@
 2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* doc/C/gthumb.xml:
+	* src/gth-browser.c: (key_press_cb):
+	* src/gth-fullscreen.c: (viewer_key_press_cb):
+	* src/gth-window-actions-entries.h:
+	  Changed the animation toggle from "g" to "a".
+	  Added a gimp shortcut key "g". Updated docs.
+
+2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gthumb-marshal.list:
 	* libgthumb/image-viewer.c: (image_viewer_class_init),
 	(image_viewer_scroll_event):

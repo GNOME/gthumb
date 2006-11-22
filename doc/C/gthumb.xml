@@ -2949,6 +2949,19 @@
 	      <para>no</para>
 	    </entry>
 	  </row>
+          <row rowsep="0">
+            <entry>
+              <para>
+                <keycombo><keycap>g</keycap></keycombo>
+              </para>
+            </entry>
+            <entry>
+              <para>Open the selected images with the GIMP, if installed.</para>
+            </entry>
+            <entry>
+              <para>no</para>
+            </entry>
+          </row>
 	  <row rowsep="0">
             <entry>
 	      <para>
@@ -2956,7 +2969,7 @@
 	      </para>
 	    </entry>
             <entry>
-	      <para>Delete the seleceted images.</para>
+	      <para>Delete the selected images.</para>
 	    </entry>
             <entry>
 	      <para>yes</para>
@@ -3139,7 +3152,7 @@
 	  <row rowsep="0">
             <entry>
 	      <para>
-	        <keycombo><keycap>g</keycap></keycombo>
+	        <keycombo><keycap>a</keycap></keycombo>
 	      </para>
 	    </entry>
             <entry>

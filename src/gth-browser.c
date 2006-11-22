@@ -3027,7 +3027,8 @@ key_press_cb (GtkWidget   *widget,
 	ImageViewer           *viewer = IMAGE_VIEWER (priv->viewer);
 	gboolean               sel_not_null;
 	gboolean               image_is_void;
-
+	GList		      *list = NULL;
+	
 	if (GTK_WIDGET_HAS_FOCUS (priv->preview_button_image)
 	    || GTK_WIDGET_HAS_FOCUS (priv->preview_button_data)
 	    || GTK_WIDGET_HAS_FOCUS (priv->preview_button_comment))
@@ -3215,6 +3216,15 @@ key_press_cb (GtkWidget   *widget,
 			break;
 
 		gth_window_activate_action_file_open_with (NULL, browser);
+		return TRUE;
+
+		/* gimp hotkey */
+	case GDK_g:
+		list = gth_window_get_file_list_selection (window);
+		
+		if (list != NULL)
+			exec_command ("gimp-remote",list);
+
 		return TRUE;
 
 		/* Go up one level */

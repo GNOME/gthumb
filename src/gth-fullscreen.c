@@ -1158,7 +1158,7 @@ viewer_key_press_cb (GtkWidget   *widget,
 		break;
 
 		/* Toggle animation. */
-	case GDK_g:
+	case GDK_a:
 		gth_window_set_animation (window, ! gth_window_get_animation (window));
 		break;
 

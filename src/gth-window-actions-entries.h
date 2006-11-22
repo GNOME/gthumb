@@ -308,7 +308,7 @@ static guint gth_window_action_entries_size = G_N_ELEMENTS (gth_window_action_en
 
 static GtkToggleActionEntry gth_window_action_toggle_entries[] = {
 	{ "View_PlayAnimation", NULL,
-	  N_("Play _Animation"), "G",
+	  N_("Play _Animation"), "A",
 	  N_("Start or stop current animation"),
 	  G_CALLBACK (gth_window_activate_action_view_toggle_animation), 
 	  TRUE }
