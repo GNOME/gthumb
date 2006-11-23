@@ -38,6 +38,7 @@
 #include "file-utils.h"
 #include "dlg-file-utils.h"
 #include "preferences.h"
+#include "gth-sort-utils.h"
 
 enum {
 	RS_OLDNAME_COLUMN,
@@ -45,8 +46,14 @@ enum {
 	RS_NUM_COLUMNS
 };
 
-int            sort_method_to_idx[] = { -1, 0, -1, 1, 2, 3 };
-GthSortMethod  idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME, GTH_SORT_METHOD_BY_SIZE, GTH_SORT_METHOD_BY_TIME, GTH_SORT_METHOD_MANUAL };
+static int           sort_method_to_idx[] = { -1, 0, 1, 2, 3, 4, 5 };
+static GthSortMethod idx_to_sort_method[] = { GTH_SORT_METHOD_BY_NAME,
+                                              GTH_SORT_METHOD_BY_PATH,
+                                              GTH_SORT_METHOD_BY_SIZE,
+                                              GTH_SORT_METHOD_BY_TIME,
+                                              GTH_SORT_METHOD_BY_EXIF_DATE,
+                                              GTH_SORT_METHOD_BY_COMMENT,
+                                              GTH_SORT_METHOD_MANUAL};
 
 
 #define GLADE_FILE "gthumb_tools.glade"
@@ -66,6 +73,7 @@ typedef struct {
 	GList         *original_file_list;
 	GList         *file_list;
 	GList         *new_names_list;
+	GthSortMethod  sort_method;
 } DialogData;
 
 
@@ -130,64 +138,123 @@ ok_clicked_cb (GtkWidget  *widget,
 }
 
 
-static gint
-sort_by_name (gconstpointer  ptr1,
-              gconstpointer  ptr2)
+static int
+comp_func_name (gconstpointer  ptr1,
+		gconstpointer  ptr2)
 {
-	const FileData *fdata1 = ptr1, *fdata2 = ptr2;
-	return strcasecmp (fdata1->name, fdata2->name); 
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
+
+	if ((fd1 == NULL) || (fd2 == NULL))
+		return 0;
+
+	return gth_sort_by_filename_but_ignore_path (fd1->name, fd2->name);
 }
 
 
-static gint
-sort_by_size (gconstpointer  ptr1,
-              gconstpointer  ptr2)
+static int
+comp_func_size (gconstpointer  ptr1,
+		gconstpointer  ptr2)
 {
-	const FileData *fdata1 = ptr1, *fdata2 = ptr2;
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
-	if (fdata1->size == fdata2->size)
-		return sort_by_name (ptr1, ptr2);
-	else if (fdata1->size > fdata2->size)
-		return 1;
-	else
-		return -1;
+	if ((fd1 == NULL) || (fd2 == NULL))
+		return 0;
+
+	return gth_sort_by_size_then_name (fd1->size, fd2->size, fd1->path, fd2->path);
 }
 
 
-static gint
-sort_by_time (gconstpointer  ptr1,
-              gconstpointer  ptr2)
+static int
+comp_func_time (gconstpointer  ptr1,
+		gconstpointer  ptr2)
 {
-	const FileData *fdata1 = ptr1, *fdata2 = ptr2;
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
 
-	if (fdata1->mtime == fdata2->mtime)
-		return sort_by_name (ptr1, ptr2);
-	else if (fdata1->mtime > fdata2->mtime)
-		return 1;
-	else
-		return -1;
+	if ((fd1 == NULL) || (fd2 == NULL))
+		return 0;
+
+	return gth_sort_by_filetime_then_name (fd1->mtime, fd2->mtime,
+						 fd1->path, fd2->path);
 }
 
 
-static gint
-sort_by_manual_order (gconstpointer  ptr1,
-		      gconstpointer  ptr2)
+static int
+comp_func_exif_date (gconstpointer  ptr1,
+		     gconstpointer  ptr2)
+{
+	FileData *fd1 = (FileData *) ptr1, *fd2 = (FileData *) ptr2;
+	
+	if ((fd1 == NULL) || (fd2 == NULL))
+		return 0;
+
+	return gth_sort_by_exiftime_then_name (fd1, fd2);
+}
+
+
+static int
+comp_func_path (gconstpointer  ptr1,
+		gconstpointer  ptr2)
+{
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
+
+	if ((fd1 == NULL) || (fd2 == NULL))
+		return 0;
+
+	return gth_sort_by_full_path (fd1->path, fd2->path);
+}
+
+
+static int
+comp_func_comment (gconstpointer ptr1, gconstpointer ptr2)
+{
+	const FileData *fd1 = ptr1, *fd2 = ptr2;
+
+	return gth_sort_by_comment_then_name (fd1->comment, fd2->comment,
+					      fd1->path, fd2->path);
+}
+
+
+static int
+comp_func_none (gconstpointer  ptr1,
+		gconstpointer  ptr2)
 {
 	return -1;
 }
 
 
 static GCompareFunc
-get_compare_func_from_idx (int column_index)
+get_sortfunc (DialogData *data)
 {
-	static GCompareFunc compare_funcs[4] = {
-		sort_by_name,
-		sort_by_size,
-		sort_by_time,
-		sort_by_manual_order
-	};
+        GCompareFunc func;
 
-	return compare_funcs [column_index % 4];
+        switch (data->sort_method) {
+        case GTH_SORT_METHOD_BY_NAME:		
+                func = comp_func_name;
+                break;
+        case GTH_SORT_METHOD_BY_TIME:
+                func = comp_func_time;
+                break;
+        case GTH_SORT_METHOD_BY_SIZE:
+                func = comp_func_size;
+                break;
+        case GTH_SORT_METHOD_BY_PATH:
+                func = comp_func_path;
+                break;
+        case GTH_SORT_METHOD_BY_COMMENT:
+                func = comp_func_comment;
+                break;
+        case GTH_SORT_METHOD_BY_EXIF_DATE:
+                func = comp_func_exif_date;
+                break;
+        case GTH_SORT_METHOD_NONE:
+                func = comp_func_none;
+                break;
+        default:
+                func = comp_func_none;
+                break;
+        }
+
+        return func;
 }
 
 
@@ -218,17 +285,16 @@ static void
 update_list (DialogData *data)
 {
 	GList  *scan, *on_scan, *nn_scan;
-	int     idx;
 	int     start_at;
 	char  **template;
 	const char   *template_s;
 
-	idx = gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox));
+	data->sort_method = idx_to_sort_method [gtk_combo_box_get_active (GTK_COMBO_BOX (data->rs_sort_combobox))];
 
 	if (data->file_list != NULL)
 		g_list_free (data->file_list);
 	data->file_list = g_list_copy (data->original_file_list);
-	data->file_list = g_list_sort (data->file_list, get_compare_func_from_idx (idx));
+	data->file_list = g_list_sort (data->file_list, get_sortfunc (data));
 	
 	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton)))
 		data->file_list = g_list_reverse (data->file_list);
@@ -410,14 +476,24 @@ dlg_rename_series (GthBrowser *browser)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (data->rs_list_treeview),
 				     column);
 
-	gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
-				   _("by size"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
-				   _("by modified time"));
-	if (reorderable)
-		gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
-					   _("manual order"));
-
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                   _("by path"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                   _("by size"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                   _("by file modified time"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                   _("by Exif DateTime tag"));
+        gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                   _("by comment"));
+        if (reorderable)
+                gtk_combo_box_append_text (GTK_COMBO_BOX (data->rs_sort_combobox),
+                                           _("manual order"));
+	idx = sort_method_to_idx [pref_get_rename_sort_order ()];
+	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
+		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
+	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_sort_combobox), idx);
+	
 	/**/
 
 	svalue = eel_gconf_get_string (PREF_RENAME_SERIES_TEMPLATE, "###");
@@ -426,10 +502,6 @@ dlg_rename_series (GthBrowser *browser)
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (data->rs_start_at_spinbutton), eel_gconf_get_integer (PREF_RENAME_SERIES_START_AT, 1));
 
-	idx = sort_method_to_idx [pref_get_rename_sort_order ()];
-	if (!reorderable && (sort_method_to_idx[GTH_SORT_METHOD_MANUAL] == idx))
-		idx = sort_method_to_idx[GTH_SORT_METHOD_BY_NAME];
-	gtk_combo_box_set_active (GTK_COMBO_BOX (data->rs_sort_combobox), idx);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->rs_reverse_checkbutton), eel_gconf_get_boolean (PREF_RENAME_SERIES_REVERSE, FALSE));
 

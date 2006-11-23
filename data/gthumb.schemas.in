@@ -1247,7 +1247,7 @@
 	<default>name</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: name, size, time.
+	  <long> Possible values are: none, name, path, size, time, exifdate, comment.
 	  </long>
 	</locale>
       </schema>
@@ -1461,7 +1461,7 @@
 	<default>name</default>
 	<locale name="C">
 	  <short></short>
-	  <long> Possible values are: name, path, size, time.
+	  <long> Possible values are: none, name, path, size, time, exifdate, comment.
 	  </long>
 	</locale>
       </schema>

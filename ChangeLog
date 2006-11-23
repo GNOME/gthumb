@@ -1,5 +1,15 @@
 2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/gthumb.schemas.in:
+	* src/dlg-rename-series.c: (comp_func_name), (comp_func_size),
+	(comp_func_time), (comp_func_exif_date), (comp_func_path),
+	(comp_func_comment), (comp_func_none), (get_sortfunc),
+	(update_list), (dlg_rename_series):
+	  Extended the sort-by-comment and sort-by-ExifDateTime
+	  modes to series renaming. Bugs 373557, 167791.	
+
+2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* data/glade/gthumb_preferences.glade:
 	* data/gthumb.schemas.in:
 	* doc/C/gthumb.xml:
