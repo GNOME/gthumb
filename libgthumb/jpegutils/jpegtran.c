@@ -53,11 +53,11 @@
 
 #include <libexif/exif-data.h>
 
-static void
-jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
-						struct jpeg_compress_struct *dstinfo,
-						JXFORM_CODE transformation,
-						gboolean trim);
+static int
+jpegtran_thumbnail (const void *idata, size_t isize,
+		void **odata, size_t *osize,
+		JXFORM_CODE transformation,
+		gboolean trim);
 
 /* error handler data */
 struct error_handler_data {
@@ -216,34 +216,22 @@ update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 		return;
 
 	if (edata->data && edata->data[0] == 0xff && edata->data[1] == 0xd8) {
-    	/* Allocate output buffer */
-    	unsigned int osize = edata->size * 2;
-    	unsigned char *out = malloc(osize);
+		/* Allocate output buffer */
+		unsigned int osize = edata->size * 2;
+		unsigned char *out = malloc(osize);
+    	
+		/* Transform thumbnail */
+		if (jpegtran_thumbnail (edata->data, edata->size, 
+				(void**)&out, &osize, transform, FALSE) != 0) {
+			/* Discard thumbnail */
+			free(out);
+			free(edata->data);
+			edata->data = NULL;
+			edata->size = 0;
+			return;
+		}
 
-		/* Initialize the JPEG decompression object
-		 * with default error handling. */
-		src.err = jpeg_std_error(&jsrcerr);
-		jpeg_create_decompress(&src);	
-
-		/* Initialize the JPEG compression object
-		 * with default error handling. */
-		dst.err = jpeg_std_error(&jdsterr);
-		jpeg_create_compress(&dst);
-		
-		/* Specify data source for decompression */
-		jpeg_memory_src (&src, edata->data, edata->size);
-		
-		/* Specify data source for decompression */
-		jpeg_memory_dest (&dst, &out, &osize);
-
-		/* transform image */
-		jpegtran_internal(&src, &dst, transform, FALSE);
-
-		/* cleanup */
-		jpeg_destroy_decompress(&src);
-		jpeg_destroy_compress(&dst);
-
-		/* replace thumbnail */
+		/* Replace thumbnail */
 		free(edata->data);
 		edata->data = out;
 		edata->size = osize;
@@ -259,17 +247,17 @@ update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
 	unsigned char *data = NULL;
 	unsigned int size;
    
-   if (src == NULL)
+	if (src == NULL)
 		return;
    
-   // Find exif data.
+	// Find exif data.
 	for (mark = src->marker_list; mark != NULL; mark = mark->next) {
 		if (mark->marker != JPEG_APP0 +1)
 			continue;
 		edata = exif_data_new_from_data(mark->data, mark->data_length);
 		break;
 	}
-   if (edata == NULL)
+	if (edata == NULL)
 		return;
 
 	// Adjust exif orientation (set to top-left)
@@ -296,9 +284,9 @@ update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
 
 static void
 jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
-						struct jpeg_compress_struct *dstinfo,
-						JXFORM_CODE transformation,
-						gboolean trim)
+		struct jpeg_compress_struct *dstinfo,
+		JXFORM_CODE transformation,
+		gboolean trim)
 {
 	jpeg_transform_info            transformoption; 
 	jvirt_barray_ptr              *src_coef_arrays;
@@ -355,12 +343,80 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 }
 
 
+static int
+jpegtran_thumbnail (const void *idata, size_t isize,
+		void **odata, size_t *osize,
+		JXFORM_CODE transformation,
+		gboolean trim)
+{
+	struct jpeg_decompress_struct  srcinfo;
+	struct jpeg_compress_struct    dstinfo;
+	struct error_handler_data      jsrcerr, jdsterr;
+
+	/* Initialize the JPEG decompression object with default error 
+	 * handling. */
+	srcinfo.err = jpeg_std_error (&(jsrcerr.pub));
+	jsrcerr.pub.error_exit = fatal_error_handler;
+	jsrcerr.pub.output_message = output_message_handler;
+	jsrcerr.filename = NULL;
+	jsrcerr.error = NULL;
+
+	jpeg_create_decompress (&srcinfo);
+
+	/* Initialize the JPEG compression object with default error 
+	 * handling. */
+	dstinfo.err = jpeg_std_error (&(jdsterr.pub));
+	jdsterr.pub.error_exit = fatal_error_handler;
+	jdsterr.pub.output_message = output_message_handler;
+	jdsterr.filename = NULL;
+	jdsterr.error = NULL;
+
+	jpeg_create_compress (&dstinfo);
+	
+	dstinfo.err->trace_level = 0;
+	dstinfo.arith_code = FALSE;
+	dstinfo.optimize_coding = FALSE;
+
+	jsrcerr.pub.trace_level = jdsterr.pub.trace_level;
+	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
+
+	/* Decompression error handler */
+	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		return 1;
+	}
+
+	/* Compression error handler */
+	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
+		jpeg_destroy_compress (&dstinfo);
+		jpeg_destroy_decompress (&srcinfo);
+		return 1;
+	}
+
+	/* Specify data source for decompression */
+	jpeg_memory_src (&srcinfo, idata, isize);
+	
+	/* Specify data destination for compression */
+	jpeg_memory_dest (&dstinfo, odata, osize);
+
+	/* Apply transformation */
+	jpegtran_internal(&srcinfo, &dstinfo, transformation, trim);
+
+	/* Release memory */
+	jpeg_destroy_compress (&dstinfo);
+	jpeg_destroy_decompress (&srcinfo);
+
+	return 0;
+}
+
+
 int
-jpegtran (char         *input_filename,
-	  char         *output_filename,
-	  JXFORM_CODE   transformation,
-	  gboolean	trim,
-	  GError      **error)
+jpegtran (const char *input_filename,
+		const char *output_filename,
+		JXFORM_CODE transformation,
+		gboolean trim,
+		GError **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
@@ -407,17 +463,17 @@ jpegtran (char         *input_filename,
 	jsrcerr.pub.trace_level = jdsterr.pub.trace_level;
 	srcinfo.mem->max_memory_to_use = dstinfo.mem->max_memory_to_use;
 
+	/* Decompression error handler */
 	if (sigsetjmp (jsrcerr.setjmp_buffer, 1)) {
-		/* Release memory and close files */
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);
 		fclose (output_file);
 		return 1;
 	}
-
+	
+	/* Compression error handler */
 	if (sigsetjmp (jdsterr.setjmp_buffer, 1)) {
-		/* Release memory and close files */
 		jpeg_destroy_compress (&dstinfo);
 		jpeg_destroy_decompress (&srcinfo);
 		fclose (input_file);

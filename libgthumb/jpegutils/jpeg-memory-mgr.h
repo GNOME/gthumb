@@ -26,7 +26,7 @@
 #include <jpeglib.h>
 
 GLOBAL(void)
-jpeg_memory_src (j_decompress_ptr cinfo, void *data, size_t size);
+jpeg_memory_src (j_decompress_ptr cinfo, const void *data, size_t size);
 
 GLOBAL(void)
 jpeg_memory_dest (j_compress_ptr cinfo, void **data, size_t *size);

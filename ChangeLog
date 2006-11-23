@@ -1,5 +1,16 @@
 2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* libgthumb/jpegutils/jpeg-memory-mgr.c: (jpeg_memory_src):
+	* libgthumb/jpegutils/jpeg-memory-mgr.h:
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail),
+	(update_exif_data), (jpegtran_internal), (jpegtran_thumbnail),
+	(jpegtran):
+	* libgthumb/jpegutils/jpegtran.h:
+	  Added error handling to jpeg/exif thumbnail
+	  transformation code. Patch by Jef Driesen. Bug 361913.
+
+2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/gthumb-stock.c:
 	* libgthumb/gthumb-stock.h:
 	* libgthumb/icons/Makefile.am:

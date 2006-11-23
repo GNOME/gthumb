@@ -29,10 +29,10 @@
 #include "transupp.h"
 
 
-int  jpegtran (char         *input_filename,
-	       char         *output_filename,
-	       JXFORM_CODE   transformation,
-	       gboolean	     trim,
-	       GError      **error);
+int jpegtran (const char *input_filename,
+		const char *output_filename,
+		JXFORM_CODE transformation,
+		gboolean trim,
+		GError **error);
 
 #endif /* JPEGTRAN_H */
