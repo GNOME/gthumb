@@ -1,5 +1,12 @@
 2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* src/gth-browser-ui.h:
+	* src/gth-fullscreen-ui.h:
+	* src/gth-viewer-ui.h:
+	  Re-positioned zoom-to-width toolbar item.
+
+2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* libgthumb/jpegutils/jpeg-memory-mgr.c: (jpeg_memory_src):
 	* libgthumb/jpegutils/jpeg-memory-mgr.h:
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail),
