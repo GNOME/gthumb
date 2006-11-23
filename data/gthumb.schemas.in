@@ -349,6 +349,19 @@
       </schema>
 
       <schema>
+        <key>/schemas/apps/gthumb/viewer/scrollbar_position_reset</key>
+        <applyto>/apps/gthumb/viewer/scrollbar_position_reset</applyto>
+        <owner>gthumb</owner>
+        <type>string</type>
+        <default>high</default>
+        <locale name="C">
+          <short></short>
+          <long> Possible values are: reset, keep.
+          </long>
+        </locale>
+      </schema>
+
+      <schema>
 	<key>/schemas/apps/gthumb/viewer/check_type</key>
 	<applyto>/apps/gthumb/viewer/check_type</applyto>
 	<owner>gthumb</owner>

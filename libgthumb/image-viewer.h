@@ -67,6 +67,12 @@ typedef enum { /*< skip >*/
 
 
 typedef enum { /*< skip >*/
+        GTH_SCROLLBAR_POSITION_RESET = 0,
+        GTH_SCROLLBAR_POSITION_KEEP
+} GthScrollbarPositionReset;
+
+
+typedef enum { /*< skip >*/
 	GTH_CHECK_TYPE_LIGHT,
 	GTH_CHECK_TYPE_MIDTONE,
 	GTH_CHECK_TYPE_DARK

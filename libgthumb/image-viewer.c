@@ -1675,8 +1675,10 @@ image_viewer_set_void (ImageViewer *viewer)
 
 	viewer->frame_pixbuf = NULL;
 
-	viewer->x_offset = 0;
-	viewer->y_offset = 0;
+        if (pref_get_scrollbar_position_reset () == GTH_SCROLLBAR_POSITION_RESET) {
+                viewer->x_offset = 0;
+                viewer->y_offset = 0;
+        }
 
 	gtk_widget_queue_resize (GTK_WIDGET (viewer));
 	gtk_widget_queue_draw (GTK_WIDGET (viewer));
@@ -1891,8 +1893,10 @@ image_loaded (ImageLoader *il,
 
 	halt_animation (viewer);
 
-	viewer->x_offset = 0;
-	viewer->y_offset = 0;
+	if (pref_get_scrollbar_position_reset () == GTH_SCROLLBAR_POSITION_RESET) {
+		viewer->x_offset = 0;
+		viewer->y_offset = 0;
+	}
 
 	if (viewer->anim != NULL) {
 		g_object_unref (viewer->anim);

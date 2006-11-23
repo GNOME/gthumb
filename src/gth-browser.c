@@ -3354,9 +3354,9 @@ mouse_wheel_scrolled_cb (GtkWidget 		*widget,
 		return TRUE;
         
 	if (direction == GDK_SCROLL_UP) 
-		gth_browser_show_next_image (browser, FALSE);
-	else
 		gth_browser_show_prev_image (browser, FALSE);
+	else
+		gth_browser_show_next_image (browser, FALSE);
 	
 	return TRUE;
 }		   

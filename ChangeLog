@@ -1,5 +1,24 @@
 2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* data/glade/gthumb_preferences.glade:
+	* data/gthumb.schemas.in:
+	* doc/C/gthumb.xml:
+	* libgthumb/image-viewer.c: (image_viewer_set_void),
+	(image_loaded):
+	* libgthumb/image-viewer.h:
+	* libgthumb/preferences.c:
+	* libgthumb/preferences.h:
+	* src/dlg-preferences.c: (opt_scrollbar_position_reset_cb),
+	(opt_scrollbar_position_keep_cb), (dlg_preferences):
+	  Added preference for scrollbar positioning after
+	  next/previous. Bug 309156.
+
+	* src/gth-browser.c: (mouse_wheel_scrolled_cb):
+	  Tweaked mouse wheel implementation, so that
+	  wheel down = page down = next image.
+
+2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-browser.c: (key_press_cb):
 	  Forgot to free a list added in the last commit. Fixed.
 

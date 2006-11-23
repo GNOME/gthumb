@@ -2649,14 +2649,43 @@
 	    </para>
 	  </listitem>
 	</varlistentry>
+        <!-- ########### -->
+        <varlistentry>
+          <term><guilabel>Zoom quality</guilabel></term>
+          <listitem>
+            <para>This controls the method used for showing rescaled
+            image. Possible choices are high quality (slow on old
+            machines or when viewing big images) and low
+            quality (always fast).
+            </para>
+          </listitem>
+        </varlistentry>
         <!-- ########### --> 
 	<varlistentry>
-	  <term><guilabel>Zoom quality</guilabel></term>
+	  <term><guilabel>Scrollbar positions after using Next/Previous</guilabel></term>
 	  <listitem>
-	    <para>This controls the method used for showing rescaled 
-	    image. Possible choices are high quality (slow on old
-	    machines or when viewing big images) and low
-	    quality (always fast).
+	    <para>
+	    Depending on the selected zoom level, your images may be larger than the
+	    display window. If this happens, vertical and/or horizontal scrollbars will
+	    be present, allowing you to view different areas of your image.
+	    </para>
+	    <para>
+	    When you navigate from one image to another using the Next/Previous
+	    controls, the positions of the scrollbars can be retained, or they can be 
+	    reset to the default position.
+	    </para>
+	    <para>
+	    If you are viewing pages of scanned text, for example, you will probably want to
+	    set this to <guilabel>Reset to top-left of image</guilabel>, so that the
+            top of the page is shown when you move to a new image.
+            </para>
+	    <para>
+	    If you are trying to compare small areas on several large images
+	    (perhaps to compare similar images taken at different times, such
+	    as photos taken in a "continuous" mode on a digital camera, or
+	    satellite images of the same area at different dates)
+	    then the <guilabel>Keep same position</guilabel> mode is probably more
+	    appropriate for you.
 	    </para>
 	  </listitem>
 	</varlistentry>
