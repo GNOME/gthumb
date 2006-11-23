@@ -67,7 +67,8 @@ static struct {
 	{ GTHUMB_STOCK_SLIDESHOW,           slideshow_24_rgba,           slideshow_16_rgba },
 	{ GTHUMB_STOCK_SWAP,                swap_24_rgba,                swap_16_rgba },
 	{ GTHUMB_STOCK_THRESHOLD,           threshold_16_rgba,           NULL },
-	{ GTHUMB_STOCK_TRANSFORM,           transform_24_rgba,           transform_16_rgba }
+	{ GTHUMB_STOCK_TRANSFORM,           transform_24_rgba,           transform_16_rgba },
+	{ GTHUMB_STOCK_ZOOM_WIDTH,	    zoom_width_24_rgba,		 zoom_width_16_rgba }
 };
 
 

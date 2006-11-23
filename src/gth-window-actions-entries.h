@@ -216,6 +216,11 @@ static GtkActionEntry gth_window_action_entries[] = {
 	  N_("Zoom to fit window"),
 	  G_CALLBACK (gth_window_activate_action_view_zoom_fit) },
 
+        { "View_ZoomWidth", GTHUMB_STOCK_ZOOM_WIDTH,
+          N_("Width"), "W",
+          N_("Zoom to fit width"),
+          G_CALLBACK (gth_window_activate_action_view_zoom_to_width) },
+
 	{ "View_StepAnimation", NULL,
 	  N_("Step A_nimation"), "J",
 	  N_("View next animation frame"),

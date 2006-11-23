@@ -1277,6 +1277,23 @@ zoom_to_fit (ImageViewer *viewer)
 }
 
 
+static void
+zoom_to_width (ImageViewer *viewer)
+{
+        GdkPixbuf *buf;
+        double     new_zoom_level;
+        int        gdk_width;
+
+        buf = image_viewer_get_current_pixbuf (viewer);
+
+        gdk_width = GTK_WIDGET (viewer)->allocation.width - viewer->frame_border2;
+        new_zoom_level = (double) gdk_width / gdk_pixbuf_get_width (buf);
+
+        if (new_zoom_level > 0.0) 
+                image_viewer_set_zoom (viewer, new_zoom_level);
+}
+
+
 static void 
 image_viewer_size_allocate (GtkWidget       *widget, 
 			    GtkAllocation   *allocation)
@@ -2076,6 +2093,19 @@ image_viewer_zoom_in (ImageViewer *viewer)
 	new_zoom = get_next_zoom (viewer->zoom_level);
 	
 	image_viewer_set_zoom (viewer, new_zoom);
+}
+
+
+void
+image_viewer_zoom_to_width (ImageViewer *viewer)
+{
+        g_return_if_fail (viewer != NULL);
+        g_return_if_fail (viewer->loader != NULL);
+
+        if (image_viewer_get_current_pixbuf (viewer) == NULL)
+                return;
+
+	zoom_to_width (viewer);
 }
 
 

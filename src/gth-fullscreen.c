@@ -485,6 +485,9 @@ update_zoom_sensitivity (GthFullscreen *fullscreen)
 	set_action_sensitive (fullscreen, 
 			      "View_ZoomFit",
 			      !image_is_void);
+        set_action_sensitive (fullscreen,
+                              "View_ZoomWidth",
+                              !image_is_void);
 }
 
 
@@ -1077,6 +1080,23 @@ delete_current_image (GthFullscreen *fullscreen)
 
 
 static gboolean
+mouse_wheel_scrolled_cb (GtkWidget              *widget,
+                         GdkScrollDirection      direction,
+                         gpointer                data)
+{
+	GthFullscreen *fullscreen = data;
+	GthFullscreenPrivateData *priv = fullscreen->priv;
+
+        if (direction == GDK_SCROLL_UP)
+                gth_fullscreen_show_prev_image (fullscreen);
+        else
+                gth_fullscreen_show_next_image (fullscreen);
+
+        return TRUE;
+}
+
+
+static gboolean
 viewer_key_press_cb (GtkWidget   *widget, 
 		     GdkEventKey *event,
 		     gpointer     data)
@@ -1510,6 +1530,10 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  "key_press_event",
 			  G_CALLBACK (viewer_key_press_cb),
 			  fullscreen);
+        g_signal_connect_after (G_OBJECT (priv->viewer),
+                          "mouse_wheel_scroll",
+                          G_CALLBACK (mouse_wheel_scrolled_cb),
+                          fullscreen);
 	g_signal_connect_after (G_OBJECT (priv->viewer),
 				"expose_event",
 				G_CALLBACK (fs_expose_event_cb),

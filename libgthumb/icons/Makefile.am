@@ -60,7 +60,9 @@ IMAGES=					\
 	transform-16.png		\
 	transform-24.png		\
 	threshold-16.png		\
-	unknown-48.png
+	unknown-48.png			\
+	zoom-width-16.png		\
+	zoom-width-24.png
 
 noinst_DATA = pixbufs.h
 CLEANFILES = $(noinst_DATA)
@@ -128,6 +130,8 @@ pixbufs.h: $(IMAGES)
 	gdk-pixbuf-csource --raw --build-list transform_16_rgba $(srcdir)/transform-16.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list transform_24_rgba $(srcdir)/transform-24.png >> $(srcdir)/pixbufs.h
 	gdk-pixbuf-csource --raw --build-list unknown_48_rgba $(srcdir)/unknown-48.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list zoom_width_16_rgba $(srcdir)/zoom-width-16.png >> $(srcdir)/pixbufs.h
+	gdk-pixbuf-csource --raw --build-list zoom_width_24_rgba $(srcdir)/zoom-width-24.png >> $(srcdir)/pixbufs.h
 
 XPM_IMAGES =			\
 	nav_button.xpm

@@ -421,6 +421,9 @@ window_update_zoom_sensitivity (GthBrowser *browser)
 	set_action_sensitive (browser, 
 			      "View_ZoomFit",
 			      image_is_visible && !image_is_void);
+	set_action_sensitive (browser,
+                              "View_ZoomWidth",
+                              image_is_visible && !image_is_void);
 }
 
 

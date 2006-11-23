@@ -1,3 +1,28 @@
+2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/gthumb-stock.c:
+	* libgthumb/gthumb-stock.h:
+	* libgthumb/icons/Makefile.am:
+	* libgthumb/icons/zoom-width-16.png:
+	* libgthumb/icons/zoom-width-24.png:
+	* libgthumb/image-viewer.c: (zoom_to_width),
+	(image_viewer_zoom_in), (image_viewer_zoom_to_width):
+	* src/gth-browser-ui.h:
+	* src/gth-browser.c: (window_update_zoom_sensitivity):
+	* src/gth-fullscreen-ui.h:
+	* src/gth-fullscreen.c: (update_zoom_sensitivity)
+	* src/gth-viewer-ui.h:
+	* src/gth-viewer.c: (viewer_update_zoom_sensitivity):
+	* src/gth-window-actions-callbacks.c:
+	(gth_window_activate_action_view_zoom_to_width):
+	* src/gth-window-actions-callbacks.h:
+	* src/gth-window-actions-entries.h:
+	  Added a zoom-to-fit-width function. Bug 148971.
+
+        * src/gth-fullscreen.c: (mouse_wheel_scrolled_cb), 
+	(gth_fullscreen_construct):
+	  Extended mouse-wheel navigation to fullscreen mode.
+
 2006-11-22  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* data/gthumb.schemas.in:

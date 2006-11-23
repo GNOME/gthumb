@@ -212,6 +212,9 @@ viewer_update_zoom_sensitivity (GthViewer *viewer)
 	set_action_sensitive (viewer, 
 		       "View_ZoomFit",
 		       image_is_visible && !image_is_void);
+        set_action_sensitive (viewer,
+                       "View_ZoomWidth",
+                       image_is_visible && !image_is_void);
 }
 
 

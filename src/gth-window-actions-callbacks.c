@@ -541,6 +541,15 @@ gth_window_activate_action_view_zoom_in (GtkAction *action,
 
 
 void
+gth_window_activate_action_view_zoom_to_width (GtkAction *action,
+                                         gpointer   data)
+{
+        GthWindow *window = GTH_WINDOW (data);
+        image_viewer_zoom_to_width (gth_window_get_image_viewer (window));
+}
+
+
+void
 gth_window_activate_action_view_zoom_out (GtkAction *action,
 					  gpointer   data)
 {
