@@ -1,7 +1,9 @@
 version 2.8.0
 -------------
-
-	* Fixes image scaling memory leak (bug #349576)
+	* Always reset the exif orientation field after a rotation.
+	* Fixed image scaling memory leak (bug #349576)
+	* Fixed bug #356623 – gThumb crashed when I inserted a blank CD-R disk
+	* Fixed printing of multiline comments.
 
 version 2.7.9
 -------------

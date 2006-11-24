@@ -1,3 +1,10 @@
+2006-11-24  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	[ gthumb 2.8.0 released ]
+	
+	* NEWS: 
+	* configure.in: updated for 2.8.0
+
 2006-11-19  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-location.c:
