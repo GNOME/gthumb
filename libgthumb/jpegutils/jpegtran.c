@@ -209,29 +209,30 @@ update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 	struct jpeg_compress_struct dst;
 	struct jpeg_error_mgr jsrcerr, jdsterr;
 	
-	if (edata == NULL)
+	if (edata == NULL || edata->data == NULL)
 		return;
 
 	if (transform == JXFORM_NONE)
 		return;
 
-	if (edata->data && edata->data[0] == 0xff && edata->data[1] == 0xd8) {
-		/* Allocate output buffer */
-		unsigned int osize = edata->size * 2;
-		unsigned char *out = malloc(osize);
+	/* Allocate a new thumbnail buffer (twice the size of the original thumbnail).
+	 * WARNING: If this buffer is too small (very unlikely, but not impossible),
+	 * jpegtran will return an error and the thumbnail will be discarded.
+	 * To prevent this, the size of the buffer should be increased somehow.
+	 */
+	unsigned int osize = edata->size * 2;
+	unsigned char *out = malloc(osize);
     	
-		/* Transform thumbnail */
-		if (jpegtran_thumbnail (edata->data, edata->size, 
-				(void**)&out, &osize, transform, FALSE) != 0) {
-			/* Discard thumbnail */
-			free(out);
-			free(edata->data);
-			edata->data = NULL;
-			edata->size = 0;
-			return;
-		}
-
-		/* Replace thumbnail */
+	/* Transform thumbnail */
+	if (jpegtran_thumbnail (edata->data, edata->size, 
+			(void**)&out, &osize, transform, FALSE) != 0) {
+		/* Failed: Discard thumbnail */
+		free(out);
+		free(edata->data);
+		edata->data = NULL;
+		edata->size = 0;
+	} else {
+		/* Success: Replace thumbnail */
 		free(edata->data);
 		edata->data = out;
 		edata->size = osize;

@@ -1,3 +1,9 @@
+2006-11-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):
+	  Discard corrupted thumbnails if present.
+	  Patch by Jef Driesen. Bug 361913.
+
 2006-11-23  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser-ui.h:
