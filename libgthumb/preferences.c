@@ -138,14 +138,6 @@ static EnumStringTable transp_type_table [] = {
 	{ 0, NULL }
 };
 
-
-static EnumStringTable scrollbar_position_reset_table [] = {
-        { GTH_SCROLLBAR_POSITION_RESET, "reset" },
-        { GTH_SCROLLBAR_POSITION_KEEP,  "keep" },
-        { 0, NULL }
-};
-
-
 static EnumStringTable check_type_table [] = {
 	{ GTH_CHECK_TYPE_MIDTONE, "midtone" },
 	{ GTH_CHECK_TYPE_LIGHT,   "light" },
@@ -471,7 +463,6 @@ GET_SET_FUNC(sort_order,             PREF_SORT_IMAGES,         GtkSortType)
 GET_SET_FUNC(zoom_quality,           PREF_ZOOM_QUALITY,        GthZoomQuality)
 GET_SET_FUNC(zoom_change,            PREF_ZOOM_CHANGE,         GthZoomChange)
 GET_SET_FUNC(transp_type,            PREF_TRANSP_TYPE,         GthTranspType)
-GET_SET_FUNC(scrollbar_position_reset,  PREF_SCROLLBAR_POSITION_RESET,	GthScrollbarPositionReset)
 GET_SET_FUNC(check_type,             PREF_CHECK_TYPE,          GthCheckType)
 GET_SET_FUNC(check_size,             PREF_CHECK_SIZE,          GthCheckSize)
 GET_SET_FUNC(slideshow_direction,    PREF_SLIDESHOW_DIR,       GthDirectionType)

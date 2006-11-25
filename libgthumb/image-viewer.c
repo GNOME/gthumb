@@ -372,6 +372,8 @@ image_viewer_init (ImageViewer *viewer)
 
 	viewer->cursor = NULL;
 	viewer->cursor_void = NULL;
+	
+	viewer->reset_scrollbars = TRUE;
 
 	/* Create the widget. */
 
@@ -1692,7 +1694,7 @@ image_viewer_set_void (ImageViewer *viewer)
 
 	viewer->frame_pixbuf = NULL;
 
-        if (pref_get_scrollbar_position_reset () == GTH_SCROLLBAR_POSITION_RESET) {
+        if (viewer->reset_scrollbars) {
                 viewer->x_offset = 0;
                 viewer->y_offset = 0;
         }
@@ -1910,7 +1912,7 @@ image_loaded (ImageLoader *il,
 
 	halt_animation (viewer);
 
-	if (pref_get_scrollbar_position_reset () == GTH_SCROLLBAR_POSITION_RESET) {
+	if (viewer->reset_scrollbars) {
 		viewer->x_offset = 0;
 		viewer->y_offset = 0;
 	}
@@ -2500,6 +2502,21 @@ image_viewer_get_scroll_offset  (ImageViewer *viewer,
 	g_return_if_fail (IS_IMAGE_VIEWER (viewer));
 	*x = viewer->x_offset;
 	*y = viewer->y_offset;
+}
+
+
+void
+image_viewer_set_reset_scrollbars (ImageViewer *viewer,
+  				   gboolean     reset)
+{
+	viewer->reset_scrollbars = reset;
+}
+
+						
+gboolean
+image_viewer_get_reset_scrollbars (ImageViewer *viewer)
+{
+	return viewer->reset_scrollbars;
 }
 
 

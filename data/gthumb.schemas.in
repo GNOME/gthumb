@@ -349,14 +349,14 @@
       </schema>
 
       <schema>
-        <key>/schemas/apps/gthumb/viewer/scrollbar_position_reset</key>
-        <applyto>/apps/gthumb/viewer/scrollbar_position_reset</applyto>
+        <key>/schemas/apps/gthumb/viewer/reset_scrollbars</key>
+        <applyto>/apps/gthumb/viewer/reset_scrollbars</applyto>
         <owner>gthumb</owner>
-        <type>string</type>
-        <default>high</default>
+        <type>bool</type>
+        <default>true</default>
         <locale name="C">
           <short></short>
-          <long> Possible values are: reset, keep.
+          <long> Whether to reset the scrollbar positions after changing image 
           </long>
         </locale>
       </schema>

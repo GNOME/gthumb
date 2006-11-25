@@ -65,13 +65,6 @@ typedef enum { /*< skip >*/
 	GTH_TRANSP_TYPE_CHECKED
 } GthTranspType;
 
-
-typedef enum { /*< skip >*/
-        GTH_SCROLLBAR_POSITION_RESET = 0,
-        GTH_SCROLLBAR_POSITION_KEEP
-} GthScrollbarPositionReset;
-
-
 typedef enum { /*< skip >*/
 	GTH_CHECK_TYPE_LIGHT,
 	GTH_CHECK_TYPE_MIDTONE,
@@ -162,6 +155,7 @@ struct _ImageViewer
 
 	gboolean         next_scroll_repaint; /* used in fullscreen mode to delete the 
 					       * comment before scrolling. */
+	gboolean         reset_scrollbars;
 };
 
 
@@ -257,6 +251,8 @@ void           image_viewer_zoom_out           (ImageViewer *viewer);
 
 void           image_viewer_zoom_to_fit        (ImageViewer *viewer);
 
+void           image_viewer_zoom_to_width      (ImageViewer *viewer);
+
 gboolean       image_viewer_is_zoom_to_fit     (ImageViewer *viewer);
 
 void           image_viewer_zoom_to_fit_if_larger    (ImageViewer *viewer);
@@ -293,6 +289,7 @@ gboolean       image_viewer_is_black_background (ImageViewer *viewer);
 
 
 /* Scrolling. */
+
 void           image_viewer_scroll_to          (ImageViewer *viewer,
 						gint x_offset,
 						gint y_offset);
@@ -312,6 +309,11 @@ void           image_viewer_scroll_page_y      (ImageViewer *viewer,
 void           image_viewer_get_scroll_offset  (ImageViewer *viewer,
 						int         *x,
 						int         *y);
+
+void           image_viewer_set_reset_scrollbars (ImageViewer *viewer,
+  						  gboolean     reset);
+						
+gboolean       image_viewer_get_reset_scrollbars (ImageViewer *viewer);
 
 /* Cursor. */
 void           image_viewer_show_cursor        (ImageViewer *viewer);

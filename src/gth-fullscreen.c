@@ -1080,12 +1080,11 @@ delete_current_image (GthFullscreen *fullscreen)
 
 
 static gboolean
-mouse_wheel_scrolled_cb (GtkWidget              *widget,
-                         GdkScrollDirection      direction,
-                         gpointer                data)
+mouse_wheel_scrolled_cb (GtkWidget          *widget,
+                         GdkScrollDirection  direction,
+                         gpointer            data)
 {
 	GthFullscreen *fullscreen = data;
-	GthFullscreenPrivateData *priv = fullscreen->priv;
 
         if (direction == GDK_SCROLL_UP)
                 gth_fullscreen_show_prev_image (fullscreen);

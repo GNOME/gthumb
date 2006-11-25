@@ -1,3 +1,21 @@
+2006-11-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* data/glade/gthumb_preferences.glade:
+	* src/gth-fullscreen.c (mouse_wheel_scrolled_cb): 
+	* libgthumb/preferences.c (pref_get_check_type): 
+	* libgthumb/preferences.h: 
+	* src/gth-browser.c: 
+	* data/gthumb.schemas.in:
+	* src/dlg-preferences.c (dlg_preferences): 
+	* libgthumb/image-viewer.c: 
+	* libgthumb/image-viewer.h: 
+	* src/gth-viewer.c: 
+	
+	Use a simple boolean value for the reset_scrollbars option.  Do not read 
+	the gconf preference from the image-viewer widget, use a notification value
+	signal from the gth-browser widget instead.  Put the rotate tool at the end
+	of the toolbar in the viewer window.  Fixed some warnings.
+
 2006-11-24  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* libgthumb/jpegutils/jpegtran.c: (update_exif_thumbnail):

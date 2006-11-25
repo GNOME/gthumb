@@ -64,7 +64,7 @@
 #define  PREF_ZOOM_QUALITY           "/apps/gthumb/viewer/zoom_quality"
 #define  PREF_ZOOM_CHANGE            "/apps/gthumb/viewer/zoom_change"
 #define  PREF_TRANSP_TYPE            "/apps/gthumb/viewer/transparency_type"
-#define  PREF_SCROLLBAR_POSITION_RESET	"/apps/gthumb/viewer/scrollbar_position_reset"
+#define  PREF_RESET_SCROLLBARS       "/apps/gthumb/viewer/reset_scrollbars"
 #define  PREF_CHECK_TYPE             "/apps/gthumb/viewer/check_type"
 #define  PREF_CHECK_SIZE             "/apps/gthumb/viewer/check_size"
 #define  PREF_BLACK_BACKGROUND       "/apps/gthumb/viewer/black_background"
@@ -265,8 +265,6 @@ GthZoomChange      pref_get_zoom_change            (void);
 void               pref_set_zoom_change            (GthZoomChange value);
 GthTranspType      pref_get_transp_type            (void);
 void               pref_set_transp_type            (GthTranspType value);
-GthScrollbarPositionReset 	pref_get_scrollbar_position_reset     (void);
-void               		pref_set_scrollbar_position_reset     (GthScrollbarPositionReset value);
 GthCheckType       pref_get_check_type             (void);
 void               pref_set_check_type             (GthCheckType value);
 GthCheckSize       pref_get_check_size             (void);

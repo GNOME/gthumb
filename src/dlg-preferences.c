@@ -86,8 +86,7 @@ typedef struct {
 	GtkWidget  *opt_zoom_change;
 	GtkWidget  *opt_transparency;
 
-	GtkWidget  *opt_scrollbar_position_reset;
-	GtkWidget  *opt_scrollbar_position_keep;
+	GtkWidget  *toggle_reset_scrollbars;
 
 	GtkWidget  *radio_ss_direction_forward;
 	GtkWidget  *radio_ss_direction_reverse;
@@ -331,22 +330,10 @@ zoom_change_changed_cb (GtkOptionMenu *option_menu,
 
 
 static void
-opt_scrollbar_position_reset_cb (GtkToggleButton *button,
-                      DialogData      *data)
+reset_scrollbars_toggled_cb (GtkToggleButton *button, 
+			     DialogData      *data)
 {
-        if (! gtk_toggle_button_get_active (button))
-                return;
-        pref_set_scrollbar_position_reset (GTH_SCROLLBAR_POSITION_RESET);
-}
-
-
-static void
-opt_scrollbar_position_keep_cb (GtkToggleButton *button,
-                      DialogData      *data)
-{
-        if (! gtk_toggle_button_get_active (button))
-                return;
-        pref_set_scrollbar_position_reset (GTH_SCROLLBAR_POSITION_KEEP);
+	eel_gconf_set_boolean (PREF_RESET_SCROLLBARS, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars)));
 }
 
 
@@ -418,8 +405,7 @@ dlg_preferences (GthBrowser *browser)
         data->opt_zoom_change = glade_xml_get_widget (data->gui, "opt_zoom_change");
 	data->opt_transparency = glade_xml_get_widget (data->gui, "opt_transparency");
 
-	data->opt_scrollbar_position_reset = glade_xml_get_widget (data->gui, "opt_scrollbar_position_reset");
-	data->opt_scrollbar_position_keep = glade_xml_get_widget (data->gui, "opt_scrollbar_position_keep");
+	data->toggle_reset_scrollbars = glade_xml_get_widget (data->gui, "toggle_reset_scrollbars");
 
         data->radio_ss_direction_forward = glade_xml_get_widget (data->gui, "radio_ss_direction_forward");
         data->radio_ss_direction_reverse = glade_xml_get_widget (data->gui, "radio_ss_direction_reverse");
@@ -501,12 +487,8 @@ dlg_preferences (GthBrowser *browser)
 
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_zoom_change), pref_get_zoom_change ());
 	gtk_option_menu_set_history (GTK_OPTION_MENU (data->opt_transparency), image_viewer_get_transp_type (gth_window_get_image_viewer (GTH_WINDOW (browser))));
-
-        if (pref_get_scrollbar_position_reset () == GTH_SCROLLBAR_POSITION_RESET)
-                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_scrollbar_position_reset), TRUE);
-        else
-                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->opt_scrollbar_position_keep), TRUE);
-
+               
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (data->toggle_reset_scrollbars), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
 	/* * slide show */
 
@@ -621,14 +603,9 @@ dlg_preferences (GthBrowser *browser)
 			  "changed",
 			  G_CALLBACK (transp_type_changed_cb),
 			  data);
-
-        g_signal_connect (G_OBJECT (data->opt_scrollbar_position_reset),
+        g_signal_connect (G_OBJECT (data->toggle_reset_scrollbars),
                           "toggled",
-                          G_CALLBACK (opt_scrollbar_position_reset_cb),
-                          data);
-        g_signal_connect (G_OBJECT (data->opt_scrollbar_position_keep),
-                          "toggled",
-                          G_CALLBACK (opt_scrollbar_position_keep_cb),
+                          G_CALLBACK (reset_scrollbars_toggled_cb),
                           data);
 
 	/* run dialog. */

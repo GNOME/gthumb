@@ -80,7 +80,7 @@
 
 #include "icons/pixbufs.h"
 
-#define GCONF_NOTIFICATIONS 18
+#define GCONF_NOTIFICATIONS 19
 
 #define VIEW_AS_DELAY 500
 
@@ -4793,6 +4793,19 @@ pref_black_background_changed (GConfClient *client,
 }
 
 
+static void
+pref_reset_scrollbars_changed (GConfClient *client,
+			       guint        cnxn_id,
+			       GConfEntry  *entry,
+			       gpointer     user_data)
+{
+	GthBrowser  *browser = user_data;
+	ImageViewer *image_viewer = IMAGE_VIEWER (browser->priv->viewer);
+
+	image_viewer_set_reset_scrollbars (image_viewer, eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
+}
+
+
 static GthFileList *
 create_new_file_list (GthBrowser *browser)
 {
@@ -7019,6 +7032,11 @@ gth_browser_construct (GthBrowser  *browser,
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
 					   PREF_BLACK_BACKGROUND,
 					   pref_black_background_changed,
+					   browser);
+
+	priv->cnxn_id[i++] = eel_gconf_notification_add (
+					   PREF_RESET_SCROLLBARS,
+					   pref_reset_scrollbars_changed,
 					   browser);
 
 	priv->cnxn_id[i++] = eel_gconf_notification_add (
