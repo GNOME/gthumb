@@ -422,9 +422,7 @@ get_file_info_data_free (GetFileInfoData *data)
 		g_list_free (data->uri_list);
 	}
 
-	if (data->new_list != NULL)
-		path_list_free (data->new_list);
-
+	path_list_free (data->new_list);
 	file_data_list_free (data->filtered);
 
 	g_free (data);
@@ -491,10 +489,6 @@ set_list__step2 (GetFileInfoData *gfi_data)
 	GList               *scan;
 	gboolean             fast_file_type;
 
-	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
-	gth_file_view_clear (file_list->view); 
-	gth_file_list_free_list (file_list);
-	
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
 
@@ -530,6 +524,7 @@ set_list__step2 (GetFileInfoData *gfi_data)
 	path_list_free (gfi_data->new_list);
 	gfi_data->new_list = NULL;
 
+	gth_file_list_free_list (file_list);
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
 				       (GNOME_VFS_FILE_INFO_DEFAULT 
@@ -551,6 +546,9 @@ gth_file_list_set_list (GthFileList   *file_list,
 	GetFileInfoData *gfi_data;
 
 	g_return_if_fail (file_list != NULL);
+
+	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
+	gth_file_view_clear (file_list->view);
 
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
 
@@ -638,9 +636,11 @@ add_list_in_chunks (gpointer callback_data)
 	if (gfi_data->filtered == NULL) {
 		DoneFunc  done_func;
 
+		gth_file_view_freeze (file_list->view);
 		gth_file_view_sorted (file_list->view,
 			      	      file_list->sort_method,
 			              file_list->sort_type);
+		gth_file_view_thaw (file_list->view);
 
 		file_list->enable_thumbs = gfi_data->enable_thumbs;
 
@@ -680,10 +680,6 @@ add_list_in_chunks (gpointer callback_data)
 						      fd->comment,
 						      fd);
 	}
-
-	/*gth_file_view_sorted (file_list->view,
-			      file_list->sort_method,
-			      file_list->sort_type);*/
 
 	gth_file_view_thaw (file_list->view);
 
@@ -786,6 +782,9 @@ add_list__step2 (GetFileInfoData *gfi_data)
 		if (uri != NULL)
 			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
 	}
+
+	path_list_free (gfi_data->new_list);
+	gfi_data->new_list = NULL;
 	
 	if (gfi_data->uri_list == NULL) {
 		if (gfi_data->done_func != NULL)

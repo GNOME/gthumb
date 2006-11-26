@@ -466,13 +466,11 @@ dir_list_refresh_continue (PathListData *pld,
 	/* * Add the ".." entry if the current path is not "/". 
 	 * path_list_new does not include the "." and ".." elements. */
 
-	if (! same_uri (dir_list->path, "/"))
+	if (! uri_is_root (dir_list->path))
 		filtered = g_list_prepend (filtered, g_strdup (".."));
 
 	dir_list->list = filtered;
-
-	g_list_foreach (new_dir_list, (GFunc) g_free, NULL);
-	g_list_free (new_dir_list);
+	path_list_free (new_dir_list);
 
 	/* Update the view. */
 

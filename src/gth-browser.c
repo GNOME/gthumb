@@ -1184,7 +1184,6 @@ set_list_interrupted_cb (gpointer callback_data)
 
 	sli_data->browser->priv->can_set_file_list = TRUE;
 	
-	/*path_list_free (sli_data->list);*/
 	g_free (sli_data);
 }
 
@@ -7732,7 +7731,6 @@ go_to_directory_continue (DirList  *dir_list,
 	GthBrowser            *browser = data;
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *path;
-	GList                 *file_list;
 
 	gth_browser_stop_activity_mode (browser);
 
@@ -7779,9 +7777,8 @@ go_to_directory_continue (DirList  *dir_list,
 
 	/**/
 
-	file_list = dir_list_get_file_list (priv->dir_list);
 	window_set_file_list (browser, 
-			      file_list, 
+			      dir_list_get_file_list (priv->dir_list), 
 			      priv->sort_method,
 			      priv->sort_type,
 			      set_dir_list_continue, browser);

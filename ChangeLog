@@ -1,5 +1,17 @@
+2006-11-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-image-list.c (gth_image_list_expose): use the allocation
+	size instead of the size returned by gdk_drawable_get_size
+	
+	* src/dir-list.c (dir_list_refresh_continue): use path_list_free
+
 2006-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+    * libgthumb/file-list.c (path_list_dup): special case when list == NULL
+
+	* libgthumb/gth-image-list.c (gth_image_list_clear): freeze the ui while
+	clearing the image list.
+	
 	* libgthumb/jpegutils/jpegtran.c: reformatted.
 
 	* libgthumb/gth-file-view-thumbs.c:
