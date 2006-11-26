@@ -196,10 +196,6 @@ static const gchar *main_ui_info =
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='ToolBar'>"
-"    <toolitem action='View_ShowFolders'/>"
-"    <toolitem action='View_ShowCatalogs'/>"
-"    <toolitem action='View_ShowImage'/>"
-"    <separator/>"
 "    <placeholder name='ModeCommands'/>"
 "  </toolbar>"
 "  <popup name='FilePopup'>"
@@ -322,12 +318,12 @@ static const gchar *folder_ui_info =
 "        <menuitem action='EditCurrentDir_New'/>"
 "        <menu name='Folder' action='FileFolderMenu'>"
 "          <menuitem action='EditCurrentDir_Open'/>"
-"          <separator name='sep01'/>"
+"          <separator/>"
 "          <menuitem action='EditCurrentDir_Rename'/>"
 "          <menuitem action='EditCurrentDir_Delete'/>"
 "          <menuitem action='EditCurrentDir_Copy'/>"
 "          <menuitem action='EditCurrentDir_Move'/>"
-"          <separator name='sep02'/>"
+"          <separator>"
 "          <menuitem action='EditCurrentDir_Categories'/>"
 "        </menu>"
 "      </placeholder>"
@@ -379,6 +375,9 @@ static const gchar *browser_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
 "    <placeholder name='ModeCommands'>"
+"      <toolitem action='View_ShowFolders'/>"
+"      <toolitem action='View_ShowCatalogs'/>"
+"      <separator/>"
 "      <toolitem action='View_Fullscreen'/>"
 "      <toolitem action='Tools_Slideshow'/>"
 "      <separator/>"
@@ -390,11 +389,13 @@ static const gchar *browser_ui_info =
 "  </toolbar>"
 "</ui>";
 
-
 static const gchar *viewer_ui_info =
 "<ui>"
 "  <toolbar name='ToolBar'>"
 "    <placeholder name='ModeCommands'>"
+"      <toolitem action='View_CloseImageMode'/>"
+"      <toolitem action='File_Save'/>"
+"      <separator/>"
 "      <toolitem action='View_PrevImage'/>"
 "      <toolitem action='View_NextImage'/>"
 "      <separator/>"
@@ -405,12 +406,8 @@ static const gchar *viewer_ui_info =
 "      <toolitem action='View_Zoom100'/>"
 "      <toolitem action='View_ZoomFit'/>"
 "      <toolitem action='View_ZoomWidth'/>"
-"      <separator/>"
-"      <toolitem action='ToolBar_EditComment'/>"
-"      <toolitem action='ToolBar_EditCategories'/>"
 "    </placeholder>"
 "  </toolbar>"
 "</ui>";
-
 
 #endif /* GTH_BROWSER_UI_H */

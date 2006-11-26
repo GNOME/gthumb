@@ -292,7 +292,7 @@ static GthWindowClass *parent_class = NULL;
 #define PRELOADED_IMAGE_MAX_DIM1 (3000*3000)
 #define PRELOADED_IMAGE_MAX_DIM2 (1500*1500)
 
-#define ROTATE_TOOLITEM_POS    12
+#define ROTATE_TOOLITEM_POS    11
 
 #define GLADE_EXPORTER_FILE    "gthumb_png_exporter.glade"
 #define HISTORY_LIST_MENU      "/MenuBar/Go/HistoryList"
@@ -1184,49 +1184,44 @@ set_list_interrupted_cb (gpointer callback_data)
 
 	sli_data->browser->priv->can_set_file_list = TRUE;
 	
-	g_list_foreach (sli_data->list, (GFunc) g_free, NULL);
-	g_list_free (sli_data->list);
+	/*path_list_free (sli_data->list);*/
 	g_free (sli_data);
 }
 
 
 static void
-window_set_file_list (GthBrowser   *browser, 
-		      GList        *list,
-		      GthSortMethod sort_method,
-		      GtkSortType   sort_type,
-		      DoneFunc      done_func,
-		      gpointer      done_func_data)
+window_set_file_list (GthBrowser    *browser, 
+		      GList         *list,
+		      GthSortMethod  sort_method,
+		      GtkSortType    sort_type,
+		      DoneFunc       done_func,
+		      gpointer       done_func_data)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	WindowSetListData     *data;
 
-	if (! priv->can_set_file_list)
+	if (! priv->can_set_file_list) {
+		path_list_free (list);
 		return;
+	}
 
 	priv->can_set_file_list = FALSE;
 
-	data = g_new (WindowSetListData, 1);
+	data = g_new0 (WindowSetListData, 1);
 	data->browser = browser;
 	data->done_func = done_func;
 	data->done_func_data = done_func_data;
 
 	if (priv->setting_file_list) {
 		SetListInterruptedData *sli_data;
-		GList                  *scan;
 
-		sli_data = g_new (SetListInterruptedData, 1);
+		sli_data = g_new0 (SetListInterruptedData, 1);
 
 		sli_data->wsl_data = data;
 		sli_data->browser = browser;
 		sli_data->sort_method = sort_method;
 		sli_data->sort_type = sort_type;
-	
-		sli_data->list = NULL;
-		for (scan = list; scan; scan = scan->next) {
-			char *path = g_strdup ((char*)(scan->data));
-			sli_data->list = g_list_prepend (sli_data->list, path);
-		}
+		sli_data->list = list;
 
 		gth_file_list_interrupt_set_list (priv->file_list,
 						  set_list_interrupted_cb,
@@ -1360,10 +1355,11 @@ go_to_uri (GthBrowser  *browser,
 	if (uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri)) {
 		char *file_uri = get_uri_from_path (remove_scheme_from_uri (uri));
 
-		if (path_is_dir (file_uri))
-			gth_browser_go_to_catalog_directory (browser, file_uri);
-		else
+		if (file_extension_is (file_uri, CATALOG_EXT))
 			gth_browser_go_to_catalog (browser, file_uri);
+		else 
+			gth_browser_show_catalog_directory (browser, file_uri);
+
 		g_free (file_uri);
 
 	} else if (path_is_file (uri)) {
@@ -2596,7 +2592,7 @@ catalog_activate (GthBrowser *browser,
 			      sort_type,
 			      catalog_activate_continue,
 			      browser);
-
+	catalog->list = NULL;
 	catalog_free (catalog);
 
 	return TRUE;
@@ -5453,9 +5449,9 @@ gth_browser_notify_files_created (GthBrowser *browser,
 				  GList      *list)
 {
 	GthBrowserPrivateData *priv = browser->priv;
-	GList *scan;
-	GList *created_in_current_dir = NULL;
-	char  *current_dir;
+	GList                 *scan;
+	GList                 *created_in_current_dir = NULL;
+	char                  *current_dir;
 
 	if (priv->sidebar_content != GTH_SIDEBAR_DIR_LIST)
 		return;
@@ -5473,15 +5469,13 @@ gth_browser_notify_files_created (GthBrowser *browser,
 			continue;
 
 		if (same_uri (parent_dir, current_dir))
-			created_in_current_dir = g_list_prepend (created_in_current_dir, path);
+			created_in_current_dir = g_list_prepend (created_in_current_dir, g_strdup (path));
 
 		g_free (parent_dir);
 	}
 
-	if (created_in_current_dir != NULL) {
+	if (created_in_current_dir != NULL) 
 		notify_files_added (browser, created_in_current_dir);
-		g_list_free (created_in_current_dir);
-	}
 }
 
 
@@ -5596,7 +5590,7 @@ notify_files_deleted (GthBrowser *browser,
 	if (list == NULL)
 		return;
 
-	data = g_new (FilesDeletedData, 1);
+	data = g_new0 (FilesDeletedData, 1);
 
 	data->browser = browser;
 	data->list = path_list_dup (list);
@@ -5733,7 +5727,7 @@ monitor_update_cat_files_cb (GthMonitor      *monitor,
 
 	switch (event) {
 	case GTH_MONITOR_EVENT_CREATED:
-		notify_files_added (browser, list);
+		notify_files_added (browser, path_list_dup (list));
 		break;
 
 	case GTH_MONITOR_EVENT_DELETED:
@@ -6329,7 +6323,7 @@ gth_browser_construct (GthBrowser  *browser,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-
+	
 	gnome_app_add_docked (GNOME_APP (browser),
 			      gtk_ui_manager_get_widget (ui, "/MenuBar"),
 			      "MenuBar",
@@ -6620,10 +6614,9 @@ gth_browser_construct (GthBrowser  *browser,
 				  NULL);
 
 	priv->dir_list_pane = dir_list_vbox = gtk_vbox_new (FALSE, 6);
-
+		    
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->location, 
 			    FALSE, FALSE, 0);
-
 	gtk_box_pack_start (GTK_BOX (dir_list_vbox), priv->notebook, 
 			    TRUE, TRUE, 0);
 
@@ -7787,11 +7780,11 @@ go_to_directory_continue (DirList  *dir_list,
 	/**/
 
 	file_list = dir_list_get_file_list (priv->dir_list);
-	window_set_file_list (browser, file_list, 
+	window_set_file_list (browser, 
+			      file_list, 
 			      priv->sort_method,
 			      priv->sort_type,
 			      set_dir_list_continue, browser);
-	g_list_free (file_list);
 }
 
 
@@ -7976,40 +7969,65 @@ gth_browser_get_current_directory (GthBrowser *browser)
 
 
 void
+gth_browser_show_catalog_directory (GthBrowser *browser,
+			            const char *catalog_dir)
+{
+	char *catalog_dir2;
+	
+	if ((catalog_dir == NULL) || (strlen (catalog_dir) == 0)) 
+		catalog_dir2 = g_strconcat (get_home_uri (),
+					   "/",
+					   RC_CATALOG_DIR,
+					   NULL);
+	else
+		catalog_dir2 = g_strdup (catalog_dir);
+
+	gth_browser_set_sidebar_content (browser, GTH_SIDEBAR_CATALOG_LIST);
+	gth_browser_go_to_catalog_directory (browser, catalog_dir2);
+	gth_browser_go_to_catalog (browser, NULL);
+	
+	g_free (catalog_dir2);
+}	
+	
+
+void
 gth_browser_go_to_catalog_directory (GthBrowser *browser,
 				     const char *catalog_dir)
 {
 	GthBrowserPrivateData *priv = browser->priv;
 	char                  *base_dir;
-	char                  *catalog_dir2;
-	char                  *catalog_dir3;
+	char                  *catalog_dir2 = NULL;
+	char                  *catalog_dir3 = NULL;
 	char                  *current_path;
 	gboolean               reset_history = FALSE;
+
+	if (catalog_dir == NULL) 
+		return;
 
 	catalog_dir2 = remove_special_dirs_from_path (catalog_dir);
 	catalog_dir3 = remove_ending_separator (catalog_dir2);
 	g_free (catalog_dir2);
 
 	if (catalog_dir3 == NULL)
-		return; 
-
-	/* Go up one level until a directory exists. */
+		return;
 
 	base_dir = g_strconcat (get_home_uri (),
 				"/",
 				RC_CATALOG_DIR,
 				NULL);
+
+	/* Go up one level until a directory exists. */
 	
-	while (! same_uri (base_dir, catalog_dir3) && ! path_is_dir (catalog_dir3)) {
+	while ((catalog_dir3 != NULL) && ! same_uri (base_dir, catalog_dir3) && ! path_is_dir (catalog_dir3)) {
 		char *new_dir = remove_level_from_path (catalog_dir3);
 		g_free (catalog_dir3);
 		catalog_dir3 = new_dir;
 		reset_history = TRUE;
 	}
 
-	if (catalog_dir3 == NULL)
+	if (catalog_dir3 == NULL) 
 		return;
-
+		
 	/**/
 
 	catalog_list_change_to (priv->catalog_list, catalog_dir3);

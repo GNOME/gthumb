@@ -33,78 +33,57 @@ typedef void (*DirListDoneFunc) (DirList *dir_list, gpointer data);
 
 
 struct _DirList {
-	gchar     *path;           /* The directory we are showing. */
-	gchar     *try_path;       /* The directory we are loading. */
-
-	GList     *list;           /* The directory name list (gchar* 
-				    * elements). */
-	GList     *file_list;      /* The file name list (gchar* elements). */
-
-	GtkListStore     *list_store;
-	GtkWidget        *list_view;      /* The widget that shows the list. */
-	GtkWidget        *root_widget;    /* The widget that contains all. */
-	GtkCellRenderer  *text_renderer;
-
-	gboolean   show_dot_files; /* Whether to show file names that begin 
-				    * with a dot. */
-	gboolean   single_click;
-	GtkTreePath *hover_path;
-
-	gchar     *old_dir;
-
-	DirListDoneFunc done_func; /* Function called when the 
-				    * dir_list_change_to function has been
-				    * completed. Can be NULL. */
-	gpointer   done_data;
-
-	PathListHandle *dir_load_handle;
-	GnomeVFSResult result;     /* Result of the directory loading. */
+	char            *path;           /* The directory we are showing. */
+	char            *try_path;       /* The directory we are loading. */
+	GList           *list;           /* The directory name list (gchar* 
+				          * elements). */
+	GList           *file_list;      /* The file name list (gchar* elements). */
+	GtkListStore    *list_store;
+	GtkWidget       *list_view;      /* The widget that shows the list. */
+	GtkWidget       *root_widget;    /* The widget that contains all. */
+	GtkCellRenderer *text_renderer;
+	gboolean         show_dot_files; /* Whether to show file names that begin 
+				          * with a dot. */
+	gboolean         single_click;
+	GtkTreePath     *hover_path;
+	char            *old_dir;
+	DirListDoneFunc  done_func;      /* Function called when the 
+			     	          * dir_list_change_to function has been
+				          * completed. Can be NULL. */
+	gpointer         done_data;
+	PathListHandle  *dir_load_handle;
+	GnomeVFSResult   result;         /* Result of the directory loading. */
 };
 
 
-DirList *      dir_list_new                      ();
-
+DirList *      dir_list_new                      (void);
 void           dir_list_update_underline         (DirList         *dir_list);
-
 void           dir_list_update_icon_theme        (DirList         *dir_list);
-
 void           dir_list_free                     (DirList         *dir_list);
-
 void           dir_list_change_to                (DirList         *dir_list, 
-						  const gchar     *path,
+						  const char      *path,
 						  DirListDoneFunc  func,
 						  gpointer         data);
-
 void           dir_list_interrupt_change_to      (DirList         *dir_list,
 						  DoneFunc         f,
 						  gpointer         data);
-
 void           dir_list_add_directory            (DirList         *dir_list,
 						  const char      *path);
-
 void           dir_list_remove_directory         (DirList         *dir_list,
 						  const char      *path);
-
 char *         dir_list_get_name_from_iter       (DirList         *dir_list,
 						  GtkTreeIter     *iter);
-
-gchar *        dir_list_get_path_from_tree_path  (DirList         *dir_list,
+char *         dir_list_get_path_from_tree_path  (DirList         *dir_list,
 						  GtkTreePath     *path);
-
-gchar *        dir_list_get_path_from_iter       (DirList         *dir_list,
+char *         dir_list_get_path_from_iter       (DirList         *dir_list,
 						  GtkTreeIter     *iter);
-
-gchar *        dir_list_get_path_from_row        (DirList         *dir_list,
+char *         dir_list_get_path_from_row        (DirList         *dir_list,
 						  gint             row);
-
 int            dir_list_get_row_from_path        (DirList         *dir_list,
 						  const char      *path);
-
 gboolean       dir_list_get_selected_iter        (DirList         *dir_list, 
 						  GtkTreeIter     *iter);
-
 gchar *        dir_list_get_selected_path        (DirList         *dir_list);
-
 GList *        dir_list_get_file_list            (DirList         *dir_list);
 
 

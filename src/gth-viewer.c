@@ -71,7 +71,7 @@
 #define PANE_MIN_SIZE 60
 #define GCONF_NOTIFICATIONS 3
 #define OPEN_TOOLITEM_POS 0
-#define ROTATE_TOOLITEM_POS 11
+#define ROTATE_TOOLITEM_POS 10
 
 
 GthViewer *SingleViewer = NULL;

@@ -377,6 +377,7 @@ typedef struct {
 	GthFileList *file_list;
 	GList       *filtered;
 	GList       *uri_list;
+	GList       *new_list;
 	DoneFunc     done_func;
 	gpointer     done_func_data;
 	guint        timeout_id;
@@ -386,9 +387,10 @@ typedef struct {
 
 
 static GetFileInfoData *
-get_file_info_data_new (GthFileList *file_list, 
-			DoneFunc  done_func,
-			gpointer  done_func_data)
+get_file_info_data_new (GthFileList *file_list,
+			GList       *new_list, 
+			DoneFunc     done_func,
+			gpointer     done_func_data)
 {
 	GetFileInfoData * data;
 
@@ -396,6 +398,7 @@ get_file_info_data_new (GthFileList *file_list,
 	data->file_list = file_list;
 	data->filtered = NULL;
 	data->uri_list = NULL;
+	data->new_list = new_list;
 	data->done_func = done_func;
 	data->done_func_data = done_func_data;
 	data->timeout_id = 0;
@@ -418,6 +421,9 @@ get_file_info_data_free (GetFileInfoData *data)
 				NULL);
 		g_list_free (data->uri_list);
 	}
+
+	if (data->new_list != NULL)
+		path_list_free (data->new_list);
 
 	file_data_list_free (data->filtered);
 
@@ -482,7 +488,13 @@ set_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
 	GthFileList         *file_list = gfi_data->file_list;
+	GList               *scan;
+	gboolean             fast_file_type;
 
+	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
+	gth_file_view_clear (file_list->view); 
+	gth_file_list_free_list (file_list);
+	
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
 
@@ -495,9 +507,28 @@ set_list__step2 (GetFileInfoData *gfi_data)
 			(*done_func) (file_list->interrupt_done_data);
 		get_file_info_data_free (gfi_data);
 		return;
+	} 	
+
+	/**/
+
+	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	for (scan = gfi_data->new_list; scan; scan = scan->next) {
+		char        *full_path = scan->data;
+		const char  *name_only = file_name_from_path (full_path);
+		GnomeVFSURI *uri;
+
+		if ((! gfi_data->file_list->show_dot_files 
+		     && file_is_hidden (name_only))
+		    || ! file_is_image (full_path, fast_file_type))
+			continue;
+
+		uri = new_uri_from_path (full_path);
+		if (uri != NULL)
+			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
 	}
 
- 	gth_file_list_free_list (file_list);
+	path_list_free (gfi_data->new_list);
+	gfi_data->new_list = NULL;
 
 	gnome_vfs_async_get_file_info (&handle,
 				       gfi_data->uri_list,
@@ -518,39 +549,19 @@ gth_file_list_set_list (GthFileList   *file_list,
 			gpointer       done_func_data)
 {
 	GetFileInfoData *gfi_data;
-	GList           *scan;
-	gboolean         fast_file_type;
 
 	g_return_if_fail (file_list != NULL);
 
 	g_signal_emit (G_OBJECT (file_list), gth_file_list_signals[BUSY], 0);
 
-	gth_file_view_set_no_image_text (file_list->view, _("Wait please..."));
-	gth_file_view_clear (file_list->view); 
-
 	file_list->sort_method = sort_method;
 	file_list->sort_type = sort_type;
 	file_list->interrupt_set_list = FALSE;
+
 	gfi_data = get_file_info_data_new (file_list, 
+					   new_list,
 					   done_func, 
 					   done_func_data);
-
-	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
-
-	for (scan = new_list; scan; scan = scan->next) {
-		char        *full_path = scan->data;
-		const char  *name_only = file_name_from_path (full_path);
-		GnomeVFSURI *uri;
-
-		if ((! gfi_data->file_list->show_dot_files 
-		     && file_is_hidden (name_only))
-		    || ! file_is_image (full_path, fast_file_type))
-			continue;
-
-		uri = new_uri_from_path (full_path);
-		if (uri != NULL)
-			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
-	}
 
 	if (file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (file_list, 
@@ -627,6 +638,10 @@ add_list_in_chunks (gpointer callback_data)
 	if (gfi_data->filtered == NULL) {
 		DoneFunc  done_func;
 
+		gth_file_view_sorted (file_list->view,
+			      	      file_list->sort_method,
+			              file_list->sort_type);
+
 		file_list->enable_thumbs = gfi_data->enable_thumbs;
 
 		if ((file_list->list != NULL) && file_list->enable_thumbs)  
@@ -666,9 +681,9 @@ add_list_in_chunks (gpointer callback_data)
 						      fd);
 	}
 
-	gth_file_view_sorted (file_list->view,
+	/*gth_file_view_sorted (file_list->view,
 			      file_list->sort_method,
-			      file_list->sort_type);
+			      file_list->sort_type);*/
 
 	gth_file_view_thaw (file_list->view);
 
@@ -739,7 +754,9 @@ add_list__step2 (GetFileInfoData *gfi_data)
 {
 	GnomeVFSAsyncHandle *handle;
 	GthFileList         *file_list = gfi_data->file_list;
-
+	GList               *scan;	
+	gboolean             fast_file_type;
+	
 	if (file_list->interrupt_set_list) {
 		DoneFunc done_func;
 
@@ -747,6 +764,32 @@ add_list__step2 (GetFileInfoData *gfi_data)
 		file_list->interrupt_done_func = NULL;
 		if (done_func != NULL)
 			(*done_func) (file_list->interrupt_done_data);
+		get_file_info_data_free (gfi_data);
+		return;
+	}
+
+	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
+	for (scan = gfi_data->new_list; scan; scan = scan->next) {
+		char        *full_path = scan->data;
+		const char  *name_only = file_name_from_path (full_path);
+		GnomeVFSURI *uri;
+
+		if (gth_file_list_pos_from_path (file_list, full_path) != -1)
+			continue;
+
+		if ((! gfi_data->file_list->show_dot_files 
+		     && file_is_hidden (name_only))
+		    || ! file_is_image (full_path, fast_file_type))
+			continue;
+		
+		uri = new_uri_from_path (full_path);
+		if (uri != NULL)
+			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
+	}
+	
+	if (gfi_data->uri_list == NULL) {
+		if (gfi_data->done_func != NULL)
+			(*gfi_data->done_func) (gfi_data->done_func_data);
 		get_file_info_data_free (gfi_data);
 		return;
 	}
@@ -768,42 +811,14 @@ gth_file_list_add_list (GthFileList *file_list,
 			gpointer     done_func_data)
 {
 	GetFileInfoData *gfi_data;
-	GList           *scan;
-	gboolean         fast_file_type;
 
 	g_return_if_fail (file_list != NULL);
 
 	file_list->interrupt_set_list = FALSE;
 	gfi_data = get_file_info_data_new (file_list, 
+					   new_list,
 					   done_func, 
 					   done_func_data);
-
-	fast_file_type = eel_gconf_get_boolean (PREF_FAST_FILE_TYPE, TRUE);
-
-	for (scan = new_list; scan; scan = scan->next) {
-		char        *full_path = scan->data;
-		const char  *name_only = file_name_from_path (full_path);
-		GnomeVFSURI *uri;
-
-		if (gth_file_list_pos_from_path (file_list, full_path) != -1)
-			continue;
-
-		if ((! gfi_data->file_list->show_dot_files 
-		     && file_is_hidden (name_only))
-		    || ! file_is_image (full_path, fast_file_type))
-			continue;
-		
-		uri = new_uri_from_path (full_path);
-		if (uri != NULL)
-			gfi_data->uri_list = g_list_prepend (gfi_data->uri_list, uri);
-	}
-	
-	if (gfi_data->uri_list == NULL) {
-		get_file_info_data_free (gfi_data);
-		if (done_func != NULL)
-			(*done_func) (done_func_data);
-		return;
-	}
 
 	if (file_list->doing_thumbs)
 		gth_file_list_interrupt_thumbs (file_list, 

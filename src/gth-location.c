@@ -591,8 +591,8 @@ update_drives (GthLocation *loc)
 	/* Home, File System */
 
 	insert_drive_from_uri (loc, get_home_uri (), pos++);
+	insert_drive_from_uri (loc, "catalog://", pos++);
 	insert_drive_from_uri (loc, "file://", pos++);
-
 
 	/* Other drives */
 

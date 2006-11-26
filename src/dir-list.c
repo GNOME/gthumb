@@ -95,7 +95,8 @@ add_columns (DirList     *dir_list,
 {
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
-
+	GValue             value = { 0, };
+	
 	/* The Name column. */
 
 	column = gtk_tree_view_column_new ();
@@ -107,6 +108,11 @@ add_columns (DirList     *dir_list,
 					     NULL);
 	
 	dir_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
+	
+        g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+        g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+        g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+        g_value_unset (&value);
 
         gtk_tree_view_column_pack_start (column,
                                          renderer,
@@ -291,28 +297,12 @@ dir_list_free (DirList *dir_list)
 {
 	g_return_if_fail (dir_list != NULL);
 
-	if (dir_list->path != NULL)
-		g_free (dir_list->path);
-
-	if (dir_list->try_path != NULL)
-		g_free (dir_list->try_path);
-
-	if (dir_list->old_dir != NULL)
-		g_free (dir_list->old_dir);
-
-	if (dir_list->file_list != NULL) {
-		g_list_foreach (dir_list->file_list, (GFunc) g_free, NULL);
-		g_list_free (dir_list->file_list);
-	}
-
-	if (dir_list->list != NULL) {
-		g_list_foreach (dir_list->list, (GFunc) g_free, NULL);
-		g_list_free (dir_list->list);
-	}
-
-	if (dir_list->dir_load_handle != NULL)
-		g_free (dir_list->dir_load_handle);
-
+	path_list_free (dir_list->file_list);
+	path_list_free (dir_list->list);
+	g_free (dir_list->path);
+	g_free (dir_list->try_path);
+	g_free (dir_list->old_dir);
+	g_free (dir_list->dir_load_handle);
 	g_free (dir_list);
 }
 
@@ -464,10 +454,7 @@ dir_list_refresh_continue (PathListData *pld,
 
 	/* Set the new file list. */
 
-	if (dir_list->file_list != NULL) {
-		g_list_foreach (dir_list->file_list, (GFunc) g_free, NULL);
-		g_list_free (dir_list->file_list);
-	}
+	path_list_free (dir_list->file_list);
 	dir_list->file_list = new_file_list;
 
 	/* Set the new dir list */
@@ -814,5 +801,5 @@ GList *
 dir_list_get_file_list (DirList *dir_list)
 {
 	g_return_val_if_fail (dir_list != NULL, NULL);
-	return g_list_copy (dir_list->file_list);
+	return path_list_dup (dir_list->file_list);
 }

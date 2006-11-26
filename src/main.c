@@ -1061,8 +1061,12 @@ get_icon_for_uri (GtkWidget  *widget,
 
 	if (folder_is_film (uri))
 		stock_id = GTHUMB_STOCK_FILM;
-	else if (uri_scheme_is_catalog (uri)) 
-		stock_id = GTHUMB_STOCK_CATALOG;
+	else if (uri_scheme_is_catalog (uri)) {
+		if (file_extension_is (uri, CATALOG_EXT))
+			stock_id = GTHUMB_STOCK_CATALOG;
+		else
+			stock_id = GTHUMB_STOCK_LIBRARY;
+	}
 	else if (uri_scheme_is_search (uri))	
 		stock_id = GTHUMB_STOCK_SEARCH;
 

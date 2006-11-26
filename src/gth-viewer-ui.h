@@ -139,7 +139,6 @@ static const gchar *viewer_window_ui_info =
 "    <toolitem action='View_ZoomOut'/>"
 "    <toolitem action='View_Zoom100'/>"
 "    <toolitem action='View_ZoomFit'/>"
-"    <toolitem action='View_ZoomWidth'/>"
 "  </toolbar>"
 "  <popup name='ImagePopupMenu'>"
 "    <menuitem action='View_Fullscreen'/>"

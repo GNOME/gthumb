@@ -1,3 +1,49 @@
+2006-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/jpegutils/jpegtran.c: reformatted.
+
+	* libgthumb/gth-file-view-thumbs.c:
+	* libgthumb/gth-file-view.h:
+	* libgthumb/gth-file-view.c: 
+	* libgthumb/typedefs.h: 
+	
+	started support for file list filtering.
+
+	* gthumb-stock.c:
+	* gthumb-stock.h: added GTHUMB_STOCK_LIBRARY
+	* libgthumb/file-utils.c: 
+	* src/gth-location.c:
+	* src/main.c:
+	
+	started support for catalog directories in the history list.
+
+	* libgthumb/gth-file-list.c:
+	* libgthumb/gth-file-list.h:
+	* components/catalog-view/catalog-nautilus-view.c 
+	(catalog_nautilus_view_load_location): stop thumbnails loading before
+	filtering the file_list.  Do not duplicate the entire file_list, simply
+	use the one passed as parameter.
+	
+	* src/gth-viewer.c:
+	* src/gth-viewer-ui.h: 
+	* src/gth-browser-ui.h: 
+	* src/gth-browser-actions-callbacks.c: 
+	* src/gth-browser-actions-callbacks.h: 
+	* src/gth-browser-actions-entries.h: 
+	
+	reorganized toolbars.
+	
+	* src/gth-browser.c (gth_browser_construct): added a location toolbar.
+	
+	* libgthumb/jpegutils/jpegtran.c (update_exif_thumbnail): use 
+	g_malloc/g_free instead of malloc/free.
+	
+	* src/gth-browser-actions-entries.h: use "by modification time" instead of
+	"by file time".
+	* libgthumb/gth-file-view-list.c (add_columns): 
+	* src/dir-list.c (add_columns): 
+	* src/catalog-list.c (add_columns): added ellipsize property.
+
 2006-11-25  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* data/glade/gthumb_preferences.glade:

@@ -289,6 +289,11 @@ static GtkActionEntry gth_browser_action_entries[] = {
 	  N_("View previous image"),
 	  G_CALLBACK (gth_browser_activate_action_view_prev_image) },
 
+        { "View_CloseImageMode", GTK_STOCK_CLOSE,
+	  NULL, NULL,
+	  NULL,
+	  G_CALLBACK (gth_browser_activate_action_close_image_mode) },
+
 	{ "Go_Back", GTK_STOCK_GO_BACK,
 	  NULL, "<alt>Left",
 	  N_("Go to the previous visited location"),
@@ -418,6 +423,7 @@ static GtkToggleActionEntry gth_browser_action_toggle_entries[] = {
 	  N_("View image comment"),
 	  G_CALLBACK (gth_browser_activate_action_view_show_info), 
 	  TRUE },
+	  
 	{ "SortReversed", NULL,
 	  N_("_Reversed Order"), NULL,
 	  N_("Reverse images order"),
@@ -438,10 +444,10 @@ static GtkRadioActionEntry gth_browser_sort_by_entries[] = {
 	  N_("by _Size"), NULL,
 	  N_("Sort images by file size"), GTH_SORT_METHOD_BY_SIZE },
 	{ "SortByTime", NULL,
-	  N_("by File _Time"), NULL,
+	  N_("by Modification _Time"), NULL,
 	  N_("Sort images by file modification time"), GTH_SORT_METHOD_BY_TIME },
 	{ "SortByExifDate", NULL,
-	  N_("by Exif _DateTime"), NULL,
+	  N_("by _Exif Time"), NULL,
 	  N_("Sort images by Exif DateTime tag"), GTH_SORT_METHOD_BY_EXIF_DATE },
 	{ "SortByComment", NULL,
 	  N_("by _Comment"), NULL,

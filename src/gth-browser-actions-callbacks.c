@@ -2034,6 +2034,14 @@ gth_browser_activate_action_view_show_info (GtkAction  *action,
 
 
 void
+gth_browser_activate_action_close_image_mode (GtkAction  *action,
+					      GthBrowser *browser)
+{
+	gth_browser_show_sidebar (browser);
+}
+
+
+void
 gth_browser_activate_action_sort_reversed (GtkAction  *action,
 					   GthBrowser *browser)
 {

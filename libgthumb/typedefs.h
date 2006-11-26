@@ -235,18 +235,16 @@ typedef enum { /*< skip >*/
 } GthDropPosition;
 
 
-typedef void (*ErrorFunc)      (gpointer data);
-
-typedef void (*DoneFunc)       (gpointer data);
-
-typedef void (*ProgressFunc)   (gfloat percent, 
-				gpointer data);
-
-typedef void (*AreaReadyFunc)  (guint x,
-				guint y, 
-				guint w, 
-				guint h, 
-				gpointer data);
+typedef void (*ErrorFunc)          (gpointer data);
+typedef void (*DoneFunc)           (gpointer data);
+typedef void (*ProgressFunc)       (gfloat percent, 
+				    gpointer data);
+typedef void (*AreaReadyFunc)      (guint x,
+				    guint y, 
+				    guint w, 
+				    guint h, 
+				    gpointer data);
+typedef gboolean (*GthVisibleFunc) (gpointer data);
 
 
 #endif /* TYPEDEFS_H */

@@ -106,6 +106,7 @@ DEFINE_ACTION(gth_browser_activate_action_view_statusbar)
 DEFINE_ACTION(gth_browser_activate_action_view_thumbnails)
 DEFINE_ACTION(gth_browser_activate_action_view_show_preview)
 DEFINE_ACTION(gth_browser_activate_action_view_show_info)
+DEFINE_ACTION(gth_browser_activate_action_close_image_mode)
 DEFINE_ACTION(gth_browser_activate_action_sort_reversed)
 
 #endif /* GTH_BROWSER_ACTIONS_CALLBACKS_H */

@@ -592,6 +592,15 @@ gfv_get_last_visible (GthFileView *file_view)
 }
 
 
+static void
+gfv_set_visible_func (GthFileView    *file_view,
+                      GthVisibleFunc  func,
+                      gpointer        data)
+{
+	/* FIXME */
+}
+
+
 /* Sort */
 
 
@@ -1046,6 +1055,7 @@ gth_file_view_thumbs_class_init (GthFileViewThumbsClass *file_view_thumbs_class)
 	file_view_class->get_image_at         = gfv_get_image_at;
 	file_view_class->get_first_visible    = gfv_get_first_visible;
 	file_view_class->get_last_visible     = gfv_get_last_visible;
+	file_view_class->set_visible_func     = gfv_set_visible_func;
 	file_view_class->sorted               = gfv_sorted;
 	file_view_class->unsorted             = gfv_unsorted;
 	file_view_class->image_activated      = gfv_image_activated;

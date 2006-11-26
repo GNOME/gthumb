@@ -111,8 +111,6 @@ catalog_nautilus_view_load_location (PortableServer_Servant  servant,
 				GTK_SORT_ASCENDING,
 				set_list_done,
 				nautilus_view);
-
-	path_list_free (file_list);
 }
 
 

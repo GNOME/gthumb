@@ -1158,14 +1158,16 @@ get_uri_display_name (const char *uri)
 	/* if it is a catalog then remove the extension */
 	
 	catalog_or_search = uri_scheme_is_catalog (uri) || uri_scheme_is_search (uri);
-	if (catalog_or_search)
+	if (catalog_or_search && file_extension_is (uri, CATALOG_EXT))
 		tmp_path[strlen (tmp_path) - strlen (CATALOG_EXT)] = 0;
 			 
-	if ((tmp_path == NULL) 
-	    || (strcmp (tmp_path, "") == 0)
-	    || (strcmp (tmp_path, "/") == 0))
-		name = g_strdup (_("File System"));
-	else {
+	if ((tmp_path == NULL) || (strcmp (tmp_path, "") == 0)
+	    || (strcmp (tmp_path, "/") == 0)) {
+	    	if (catalog_or_search)
+	    		name = g_strdup (_("Catalogs"));
+	    	else
+			name = g_strdup (_("File System"));
+	} else {
 		if (catalog_or_search) {
 			char *base_uri;
 			int   base_uri_len;

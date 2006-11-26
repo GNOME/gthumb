@@ -72,6 +72,8 @@ void            gth_browser_go_to_directory              (GthBrowser        *bro
 const char *    gth_browser_get_current_directory        (GthBrowser        *browser);
 void            gth_browser_go_to_catalog_directory      (GthBrowser        *browser,
 							  const gchar       *dir_path);
+void            gth_browser_show_catalog_directory       (GthBrowser        *browser,
+			                                  const char        *catalog_dir);							  
 void            gth_browser_go_to_catalog                (GthBrowser        *browser,
 							  const gchar       *catalog_path);
 const char *    gth_browser_get_current_catalog          (GthBrowser        *browser);

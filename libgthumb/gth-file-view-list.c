@@ -1478,7 +1478,8 @@ add_columns (GtkTreeView *treeview)
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 	int                i, j;
-
+	GValue             value = { 0, };
+	
 	/* The Name column. */
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Name"));
@@ -1490,6 +1491,11 @@ add_columns (GtkTreeView *treeview)
                                              NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
+        g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+        g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+        g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+        g_value_unset (&value);
+        	
 	gtk_tree_view_column_pack_start (column,
 					 renderer,
 					 TRUE);
@@ -1497,7 +1503,7 @@ add_columns (GtkTreeView *treeview)
                                              "text", COLUMN_NAME,
                                              NULL);
 
-	gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
+	/*gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);*/
 	/*
 	gtk_tree_view_column_set_sort_column_id (column, COLUMN_NAME);
 	gtk_tree_view_column_set_sort_column_id (column, COLUMN_PATH);

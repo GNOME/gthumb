@@ -93,8 +93,9 @@ static void
 add_columns (CatalogList *cat_list,
 	     GtkTreeView *treeview)
 {
-	GtkCellRenderer *renderer;
+	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
+	GValue             value = { 0, };
 	
 	/* The Name column. */
 
@@ -107,6 +108,11 @@ add_columns (CatalogList *cat_list,
 					     NULL);
 	
 	cat_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
+	
+	g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
+        g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
+        g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
+        g_value_unset (&value);
 
         gtk_tree_view_column_pack_start (column,
                                          renderer,

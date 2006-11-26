@@ -147,28 +147,31 @@ typedef struct {
 	
 	/* Visibility */
 	
-	void           (* enable_thumbs)        (GthFileView *file_view,
-						 gboolean     enable_thumbs);
-	void           (* set_view_mode)        (GthFileView *file_view,
-						 GthViewMode  mode);
-	GthViewMode    (* get_view_mode)        (GthFileView *file_view);
-	void           (* moveto)               (GthFileView *file_view,
-						 int          pos, 
-						 double       yalign);
-	GthVisibility  (* image_is_visible)     (GthFileView *file_view,
-						 int          pos);
-	int            (* get_image_at)         (GthFileView *file_view, 
-						 int          x, 
-						 int          y);
-	int            (* get_first_visible)    (GthFileView *file_view);
-	int            (* get_last_visible)     (GthFileView *file_view);
-	
+	void           (* enable_thumbs)        (GthFileView    *file_view,
+						 gboolean        enable_thumbs);
+	void           (* set_view_mode)        (GthFileView    *file_view,
+						 GthViewMode     mode);
+	GthViewMode    (* get_view_mode)        (GthFileView    *file_view);
+	void           (* moveto)               (GthFileView    *file_view,
+						 int             pos, 
+						 double          yalign);
+	GthVisibility  (* image_is_visible)     (GthFileView    *file_view,
+						 int             pos);
+	int            (* get_image_at)         (GthFileView    *file_view, 
+						 int             x, 
+						 int             y);
+	int            (* get_first_visible)    (GthFileView    *file_view);
+	int            (* get_last_visible)     (GthFileView    *file_view);
+        void           (* set_visible_func)     (GthFileView    *file_view,
+                                                 GthVisibleFunc  func,
+                                                 gpointer        data);
+
 	/* Sort */
 	
 	void           (* sorted)               (GthFileView   *file_view,
 						 GthSortMethod  sort_method,
 						 GtkSortType    sort_type);
-	void           (* unsorted)             (GthFileView *file_view);
+	void           (* unsorted)             (GthFileView   *file_view);
 	
 	/* Misc */
 	
@@ -308,6 +311,12 @@ int            gth_file_view_get_image_at         (GthFileView *file_view,
 						   int          y);
 int            gth_file_view_get_first_visible    (GthFileView *file_view);
 int            gth_file_view_get_last_visible     (GthFileView *file_view);
+
+/* Filter */
+				   
+void           gth_file_view_set_visible_func     (GthFileView    *file_view,
+                                                   GthVisibleFunc  func,
+                                                   gpointer        data);
 
 /* Sort */
 

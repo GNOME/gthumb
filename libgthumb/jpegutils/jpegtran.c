@@ -53,18 +53,22 @@
 
 #include <libexif/exif-data.h>
 
+
 static int
-jpegtran_thumbnail (const void *idata, size_t isize,
-		void **odata, size_t *osize,
-		JXFORM_CODE transformation,
-		gboolean trim);
+jpegtran_thumbnail (const void   *idata, 
+		    size_t        isize,
+		    void        **odata, 
+		    size_t       *osize,
+		    JXFORM_CODE   transformation,
+		    gboolean      trim);
+
 
 /* error handler data */
 struct error_handler_data {
-	struct jpeg_error_mgr pub;
-	sigjmp_buf setjmp_buffer;
-        GError **error;
-	const char *filename;
+	struct jpeg_error_mgr   pub;
+	sigjmp_buf              setjmp_buffer;
+        GError                **error;
+	const char             *filename;
 };
 
 
@@ -108,7 +112,7 @@ output_message_handler (j_common_ptr cinfo)
 static void
 update_exif_orientation(ExifData *edata)
 {
-	unsigned int i;
+	unsigned int  i;
 	ExifByteOrder byte_order;
 	
 	if (edata == NULL)
@@ -160,7 +164,8 @@ swap_fields (ExifContent *content,
 
 
 static void
-update_exif_dimensions (ExifData *edata, JXFORM_CODE transform)
+update_exif_dimensions (ExifData    *edata, 
+		        JXFORM_CODE  transform)
 {
 	unsigned int i;
 	
@@ -203,12 +208,9 @@ update_exif_dimensions (ExifData *edata, JXFORM_CODE transform)
 
 
 static void
-update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
+update_exif_thumbnail (ExifData    *edata, 
+		       JXFORM_CODE  transform)
 {
-	struct jpeg_decompress_struct src;
-	struct jpeg_compress_struct dst;
-	struct jpeg_error_mgr jsrcerr, jdsterr;
-	
 	if (edata == NULL || edata->data == NULL)
 		return;
 
@@ -221,19 +223,19 @@ update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 	 * To prevent this, the size of the buffer should be increased somehow.
 	 */
 	unsigned int osize = edata->size * 2;
-	unsigned char *out = malloc(osize);
+	unsigned char *out = g_malloc (osize);
     	
 	/* Transform thumbnail */
 	if (jpegtran_thumbnail (edata->data, edata->size, 
 			(void**)&out, &osize, transform, FALSE) != 0) {
 		/* Failed: Discard thumbnail */
-		free(out);
-		free(edata->data);
+		g_free (out);
+		g_free (edata->data);
 		edata->data = NULL;
 		edata->size = 0;
 	} else {
 		/* Success: Replace thumbnail */
-		free(edata->data);
+		g_free (edata->data);
 		edata->data = out;
 		edata->size = osize;
 	}
@@ -241,12 +243,13 @@ update_exif_thumbnail (ExifData *edata, JXFORM_CODE transform)
 
 
 static void
-update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
+update_exif_data (struct jpeg_decompress_struct *src, 
+                  JXFORM_CODE                    transform)
 {
-	jpeg_saved_marker_ptr mark = NULL;
-	ExifData *edata = NULL;
-	unsigned char *data = NULL;
-	unsigned int size;
+	jpeg_saved_marker_ptr  mark = NULL;
+	ExifData              *edata = NULL;
+	unsigned char         *data = NULL;
+	unsigned int           size;
    
 	if (src == NULL)
 		return;
@@ -285,13 +288,13 @@ update_exif_data(struct jpeg_decompress_struct *src, JXFORM_CODE transform)
 
 static void
 jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
-		struct jpeg_compress_struct *dstinfo,
-		JXFORM_CODE transformation,
-		gboolean trim)
+		   struct jpeg_compress_struct   *dstinfo,
+		   JXFORM_CODE                    transformation,
+		   gboolean                       trim)
 {
-	jpeg_transform_info            transformoption; 
-	jvirt_barray_ptr              *src_coef_arrays;
-	jvirt_barray_ptr              *dst_coef_arrays;
+	jpeg_transform_info  transformoption; 
+	jvirt_barray_ptr    *src_coef_arrays;
+	jvirt_barray_ptr    *dst_coef_arrays;
 
 	transformoption.transform = transformation;
 	transformoption.trim = trim;
@@ -345,10 +348,12 @@ jpegtran_internal (struct jpeg_decompress_struct *srcinfo,
 
 
 static int
-jpegtran_thumbnail (const void *idata, size_t isize,
-		void **odata, size_t *osize,
-		JXFORM_CODE transformation,
-		gboolean trim)
+jpegtran_thumbnail (const void   *idata, 
+		    size_t        isize,
+		    void        **odata, 
+		    size_t       *osize,
+		    JXFORM_CODE   transformation,
+		    gboolean      trim)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;
@@ -413,11 +418,11 @@ jpegtran_thumbnail (const void *idata, size_t isize,
 
 
 int
-jpegtran (const char *input_filename,
-		const char *output_filename,
-		JXFORM_CODE transformation,
-		gboolean trim,
-		GError **error)
+jpegtran (const char   *input_filename,
+	  const char   *output_filename,
+	  JXFORM_CODE   transformation,
+	  gboolean      trim,
+	  GError      **error)
 {
 	struct jpeg_decompress_struct  srcinfo;
 	struct jpeg_compress_struct    dstinfo;

@@ -43,6 +43,7 @@
 #define GTHUMB_STOCK_INDEX_IMAGE          "gthumb-index-image"
 #define GTHUMB_STOCK_INVERT               "gthumb-invert"
 #define GTHUMB_STOCK_LEVELS               "gthumb-levels"
+#define GTHUMB_STOCK_LIBRARY              "gthumb-library"
 #define GTHUMB_STOCK_MIRROR               "gthumb-mirror"
 #define GTHUMB_STOCK_NEXT_IMAGE           "gthumb-next-image"
 #define GTHUMB_STOCK_POSTERIZE            "gthumb-posterize"
