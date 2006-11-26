@@ -1724,7 +1724,8 @@ gth_image_list_expose (GtkWidget      *widget,
 		if (no_image_msg == NULL)
 			return TRUE;
 
-		gdk_drawable_get_size (priv->bin_window, &w, &h);
+		w = widget->allocation.width;
+		h = widget->allocation.height;
 		
 		pango_layout_set_width (layout, w * PANGO_SCALE);
 		pango_layout_set_text (layout, no_image_msg, strlen (no_image_msg));
@@ -3816,6 +3817,8 @@ gth_image_list_clear (GthImageList *image_list)
 
 	g_return_if_fail (image_list != NULL);
 
+	gth_image_list_freeze (image_list);
+
 	if (priv->image_list != NULL) {
 		GList *scan;
 
@@ -3839,8 +3842,7 @@ gth_image_list_clear (GthImageList *image_list)
 	gtk_adjustment_set_value (priv->hadjustment, 0);
 	gtk_adjustment_set_value (priv->vadjustment, 0);
 
-	layout_all_images (image_list);
-	keep_focus_consistent (image_list);
+	gth_image_list_thaw (image_list);
 }
 
 

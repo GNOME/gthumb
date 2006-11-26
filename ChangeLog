@@ -1,3 +1,13 @@
+2006-11-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-image-list.c (gth_image_list_expose): use allocation
+	size instead og gdk_drawable_get_size function.
+
+2006-11-26  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* libgthumb/gth-image-list.c (gth_image_list_clear): freeze the ui 
+	while clearing the image list.
+
 2006-11-25  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/rotation-utils.c: (reset_orientation_field),
