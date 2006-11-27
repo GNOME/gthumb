@@ -1,3 +1,10 @@
+2006-11-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (key_press_cb):
+	  Add Escape key to quit viewer mode (show sidebar).
+	  ("Escape" doesn't work as an accelator for the Close
+	  toolbar item, for some reason).
+
 2006-11-27  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* libgthumb/gth-image-list.c (gth_image_list_expose): use the allocation

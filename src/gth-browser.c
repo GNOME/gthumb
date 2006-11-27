@@ -3088,6 +3088,12 @@ key_press_cb (GtkWidget   *widget,
 			gth_browser_show_sidebar (browser);
 		return TRUE;
 
+		/* Show sidebar */
+	case GDK_Escape:
+		if (!priv->sidebar_visible)
+                        gth_browser_show_sidebar (browser);
+		return TRUE;
+
 		/* Show / hide image info */
 	case GDK_i:
 		toggle_image_preview_visibility (browser);
