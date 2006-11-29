@@ -34,11 +34,13 @@ enum {
         PROP_CLOSE_ON_SAVE
 };
 
-static GnomeAppClass *parent_class = NULL;
+static GtkWindowClass *parent_class = NULL;
 static GList *window_list = NULL;
 
 
 struct _GthWindowPrivateData {
+	GtkWidget  *table;
+	GtkWidget  *contents;
 	GtkWidget  *comment_dlg;
 	GtkWidget  *categories_dlg;
 	gboolean    slideshow;
@@ -288,6 +290,12 @@ gth_window_init (GthWindow *window)
 	GthWindowPrivateData *priv;
 
 	priv = window->priv = g_new0 (GthWindowPrivateData, 1);
+
+	priv->table = gtk_table_new (4, 1, FALSE);
+	gtk_container_add (GTK_CONTAINER (window), priv->table);
+	gtk_widget_show(priv->table);
+
+	priv->contents = NULL;
 	priv->comment_dlg = NULL;
 	priv->categories_dlg = NULL;
 	priv->undo_history = NULL;
@@ -315,7 +323,7 @@ gth_window_get_type ()
 			(GInstanceInitFunc) gth_window_init
 		};
 
-		type = g_type_register_static (GNOME_TYPE_APP,
+		type = g_type_register_static (GTK_TYPE_WINDOW,
 					       "GthWindow",
 					       &type_info,
 					       0);
@@ -571,6 +579,50 @@ gth_window_get_can_redo (GthWindow *window)
 {
 	g_return_val_if_fail (GTH_IS_WINDOW (window), FALSE);
 	return window->priv->redo_history != NULL;
+}
+
+
+void
+gth_window_attach (GthWindow     *window,
+		   GtkWidget     *child,
+		   GthWindowArea  area)
+{
+	gint position;
+	g_return_if_fail (window != NULL);
+	g_return_if_fail (GTH_IS_WINDOW (window));
+	g_return_if_fail (child != NULL);
+	g_return_if_fail (GTK_IS_WIDGET (child));
+
+	switch(area)
+	{
+		case GTH_WINDOW_MENUBAR:
+			position = 0;
+			break;
+		case GTH_WINDOW_TOOLBAR:
+			position = 1;
+			break;
+		case GTH_WINDOW_CONTENTS:
+			position = 2;
+			if(window->priv->contents != NULL)
+				gtk_widget_destroy (window->priv->contents);
+			window->priv->contents = child;
+			break;
+		case GTH_WINDOW_STATUSBAR:
+			position = 3;
+			break;
+		default:
+			g_critical("%s: area not recognized!", G_STRFUNC);
+			return;
+			break;
+	}
+
+	gtk_table_attach (GTK_TABLE (window->priv->table), 
+			  child,
+			  0, 1,
+			  position, position + 1,
+			  GTK_EXPAND | GTK_FILL,
+			  ((area == GTH_WINDOW_CONTENTS) ? GTK_EXPAND : 0) | GTK_FILL,
+			  0, 0);
 }
 
 

@@ -1,3 +1,15 @@
+2006-11-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-browser.c: (gth_browser_notify_update_layout_cb),
+	(gth_browser_construct):
+	* src/gth-fullscreen.c: (gth_fullscreen_construct):
+	* src/gth-viewer.c: (gth_viewer_construct):
+	* src/gth-window.c: (gth_window_init), (gth_window_get_type),
+	(gth_window_get_can_redo), (gth_window_attach):
+	* src/gth-window.h:
+	  Replaced deprecated gnome_app functions with gtk equivalents.
+	  Bug 171601. Patch by Manuel Braga.
+
 2006-11-27  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (key_press_cb):

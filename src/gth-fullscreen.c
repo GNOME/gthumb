@@ -1559,7 +1559,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 			  fullscreen);
 
 	gtk_widget_show (priv->viewer);
-	gnome_app_set_contents (GNOME_APP (fullscreen), priv->viewer);
+	gth_window_attach(GTH_WINDOW (fullscreen), priv->viewer, GTH_WINDOW_CONTENTS);
 
 	/**/
 

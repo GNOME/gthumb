@@ -4505,7 +4505,7 @@ gth_browser_notify_update_layout_cb (gpointer data)
 	gtk_paned_set_position (GTK_PANED (paned1), paned1_pos);
 	gtk_paned_set_position (GTK_PANED (paned2), paned2_pos);
 
-	gnome_app_set_contents (GNOME_APP (browser), paned1);
+	gth_window_attach (GTH_WINDOW (browser), paned1, GTH_WINDOW_CONTENTS);
 
 	gtk_widget_show (paned1);
 	gtk_widget_show (paned2);
@@ -6328,15 +6328,8 @@ gth_browser_construct (GthBrowser  *browser,
 		g_message ("building menus failed: %s", error->message);
 		g_error_free (error);
 	}
-	
-	gnome_app_add_docked (GNOME_APP (browser),
-			      gtk_ui_manager_get_widget (ui, "/MenuBar"),
-			      "MenuBar",
-			      (BONOBO_DOCK_ITEM_BEH_NEVER_VERTICAL 
-			       | BONOBO_DOCK_ITEM_BEH_EXCLUSIVE 
-			       | (eel_gconf_get_boolean (PREF_DESKTOP_MENUBAR_DETACHABLE, TRUE) ? BONOBO_DOCK_ITEM_BEH_NORMAL : BONOBO_DOCK_ITEM_BEH_LOCKED)),
-			      BONOBO_DOCK_TOP,
-			      1, 1, 0);
+
+	gth_window_attach (GTH_WINDOW (browser), gtk_ui_manager_get_widget (ui, "/MenuBar"), GTH_WINDOW_MENUBAR);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
@@ -6345,20 +6338,13 @@ gth_browser_construct (GthBrowser  *browser,
 	set_action_important (browser, "/ToolBar/View_ShowCatalogs", TRUE);
 	set_action_important (browser, "/ToolBar/View_ShowImage", TRUE);
 
-	gnome_app_add_docked (GNOME_APP (browser),
-			      toolbar,
-			      "ToolBar",
-			      (BONOBO_DOCK_ITEM_BEH_NEVER_VERTICAL 
-			       | BONOBO_DOCK_ITEM_BEH_EXCLUSIVE 
-			       | (eel_gconf_get_boolean (PREF_DESKTOP_TOOLBAR_DETACHABLE, TRUE) ? BONOBO_DOCK_ITEM_BEH_NORMAL : BONOBO_DOCK_ITEM_BEH_LOCKED)),
-			      BONOBO_DOCK_TOP,
-			      2, 1, 0);
+	gth_window_attach (GTH_WINDOW (browser), toolbar, GTH_WINDOW_TOOLBAR);
 
 	priv->statusbar = gtk_statusbar_new ();
 	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (priv->statusbar), TRUE);
 	priv->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "gth_help_message");
 	priv->list_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "gth_list_info");
-	gnome_app_set_statusbar (GNOME_APP (browser), priv->statusbar);
+	gth_window_attach (GTH_WINDOW (browser), priv->statusbar, GTH_WINDOW_STATUSBAR);
 
 	g_signal_connect (G_OBJECT (browser), 
 			  "delete_event",
@@ -6601,7 +6587,7 @@ gth_browser_construct (GthBrowser  *browser,
 		priv->content_pane = paned2 = gtk_vpaned_new (); 
 	}
 
-	gnome_app_set_contents (GNOME_APP (browser), priv->main_pane);
+	gth_window_attach (GTH_WINDOW (browser), priv->main_pane, GTH_WINDOW_CONTENTS);
 
 	if (priv->layout_type == 3)
 		gtk_paned_pack2 (GTK_PANED (paned1), paned2, TRUE, FALSE);

@@ -1610,26 +1610,12 @@ gth_viewer_construct (GthViewer   *viewer,
 	menubar = gtk_ui_manager_get_widget (ui, "/MenuBar");
 	gtk_widget_show (menubar);
 
-	gnome_app_add_docked (GNOME_APP (viewer),
-			      menubar,
-			      "MenuBar",
-			      (BONOBO_DOCK_ITEM_BEH_NEVER_VERTICAL 
-			       | BONOBO_DOCK_ITEM_BEH_EXCLUSIVE 
-			       | (eel_gconf_get_boolean (PREF_DESKTOP_MENUBAR_DETACHABLE, TRUE) ? BONOBO_DOCK_ITEM_BEH_NORMAL : BONOBO_DOCK_ITEM_BEH_LOCKED)),
-			      BONOBO_DOCK_TOP,
-			      1, 1, 0);
+	gth_window_attach (GTH_WINDOW (viewer), menubar, GTH_WINDOW_MENUBAR);
 
 	priv->toolbar = toolbar = gtk_ui_manager_get_widget (ui, "/ToolBar");
 	gtk_toolbar_set_show_arrow (GTK_TOOLBAR (toolbar), TRUE);
 
-	gnome_app_add_docked (GNOME_APP (viewer),
-			      toolbar,
-			      "ToolBar",
-			      (BONOBO_DOCK_ITEM_BEH_NEVER_VERTICAL 
-			       | BONOBO_DOCK_ITEM_BEH_EXCLUSIVE 
-			       | (eel_gconf_get_boolean (PREF_DESKTOP_TOOLBAR_DETACHABLE, TRUE) ? BONOBO_DOCK_ITEM_BEH_NORMAL : BONOBO_DOCK_ITEM_BEH_LOCKED)),
-			      BONOBO_DOCK_TOP,
-			      2, 1, 0);
+	gth_window_attach (GTH_WINDOW (viewer), toolbar, GTH_WINDOW_TOOLBAR);
 
 	priv->image_popup_menu = gtk_ui_manager_get_widget (ui, "/ImagePopupMenu");
 
@@ -1642,7 +1628,7 @@ gth_viewer_construct (GthViewer   *viewer,
 	priv->help_message_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "help_message");
 	priv->image_info_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "image_info");
 	priv->progress_cid = gtk_statusbar_get_context_id (GTK_STATUSBAR (priv->statusbar), "progress");
-	gnome_app_set_statusbar (GNOME_APP (viewer), priv->statusbar);
+	gth_window_attach (GTH_WINDOW (viewer), priv->statusbar, GTH_WINDOW_STATUSBAR);
 
 	gtk_statusbar_set_has_resize_grip (GTK_STATUSBAR (priv->statusbar), TRUE);
 
@@ -1855,7 +1841,7 @@ gth_viewer_construct (GthViewer   *viewer,
         gtk_widget_show_all (image_vbox);
 	gtk_widget_hide (priv->image_data_hpaned); /* FIXME */
 
-	gnome_app_set_contents (GNOME_APP (viewer), image_vbox);
+	gth_window_attach (GTH_WINDOW (viewer), image_vbox, GTH_WINDOW_CONTENTS);
 
 	/**/
 

@@ -23,7 +23,7 @@
 #ifndef GTH_WINDOW_H
 #define GTH_WINDOW_H
 
-#include <libgnomeui/gnome-app.h>
+#include <gtk/gtkwindow.h>
 #include "gth-pixbuf-op.h"
 #include "image-viewer.h"
 
@@ -41,13 +41,13 @@ typedef struct _GthWindowPrivateData GthWindowPrivateData;
 
 struct _GthWindow
 {
-	GnomeApp __parent;
+	GtkWindow __parent;
 	GthWindowPrivateData *priv;
 };
 
 struct _GthWindowClass
 {
-	GnomeAppClass __parent_class;
+	GtkWindowClass __parent_class;
 
 	/*<virtual functions>*/
 
@@ -99,6 +99,16 @@ void           gth_window_redo                           (GthWindow   *window);
 void           gth_window_clear_undo_history             (GthWindow   *window);
 gboolean       gth_window_get_can_undo                   (GthWindow   *window);
 gboolean       gth_window_get_can_redo                   (GthWindow   *window);
+
+typedef enum {
+	GTH_WINDOW_MENUBAR,
+	GTH_WINDOW_TOOLBAR,
+	GTH_WINDOW_CONTENTS,
+	GTH_WINDOW_STATUSBAR,
+} GthWindowArea;
+void           gth_window_attach                         (GthWindow     *window,
+							  GtkWidget     *child,
+							  GthWindowArea  area);
 
 void           gth_window_set_categories_dlg             (GthWindow   *window,
 							  GtkWidget   *dialog);
