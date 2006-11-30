@@ -712,7 +712,7 @@ update_buttons_sensitivity (DialogData *data)
 		image_pos = -1;
 
 	gtk_widget_set_sensitive (data->i_prev_button, image_pos > 0);
-	gtk_widget_set_sensitive (data->i_next_button, (image_pos != -1) && (image_pos < gth_file_view_get_images (file_list->view) - 1));
+	gtk_widget_set_sensitive (data->i_next_button, (image_pos != -1) && (image_pos < gth_file_view_get_images (gth_file_list_get_view (file_list)) - 1));
 }
 
 

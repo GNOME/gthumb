@@ -1026,7 +1026,7 @@ gth_browser_activate_action_edit_dir_view (GtkAction  *action,
 {
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL) 
 		return;
 	gth_browser_go_to_directory (browser, path);
@@ -1041,7 +1041,7 @@ gth_browser_activate_action_edit_dir_view_new_window (GtkAction  *action,
 	char *path;
 	char *uri;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL) 
 		return;
 
@@ -1077,7 +1077,7 @@ gth_browser_activate_action_edit_dir_open (GtkAction  *action,
 {
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL) 
 		return;
 	show_folder (GTK_WINDOW (browser), path);
@@ -1198,7 +1198,7 @@ gth_browser_activate_action_edit_dir_rename (GtkAction  *action,
 {
 	char *old_path;
 
-	old_path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	old_path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (old_path == NULL)
 		return;
 
@@ -1331,7 +1331,7 @@ gth_browser_activate_action_edit_dir_delete (GtkAction  *action,
 {
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL)
 		return;
 	folder_delete (GTK_WINDOW (browser), path);
@@ -1547,7 +1547,7 @@ gth_browser_activate_action_edit_dir_copy (GtkAction  *action,
 {
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL)
 		return;
 	folder_copy (GTH_WINDOW (browser), path, FALSE);
@@ -1561,7 +1561,7 @@ gth_browser_activate_action_edit_dir_move (GtkAction  *action,
 {	
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL)
 		return;
 	folder_copy (GTH_WINDOW (browser), path, TRUE);
@@ -1588,7 +1588,7 @@ edit_current_folder_categories__done (gpointer data)
 		const char  *filename = scan->data;
 		CommentData *cdata;
 		GList       *scan2;
-		DirList     *dir_list;
+		GthDirList  *dir_list;
 
 		cdata = comments_load_comment (filename, FALSE);
 		if (cdata == NULL)
@@ -1609,8 +1609,8 @@ edit_current_folder_categories__done (gpointer data)
 
 		dir_list = gth_browser_get_dir_list (fcdata->browser);
 		if (path_in_path (dir_list->path, filename)) {
-			dir_list_remove_directory (dir_list, filename);
-			dir_list_add_directory (dir_list, filename);
+			gth_dir_list_remove_directory (dir_list, filename);
+			gth_dir_list_add_directory (dir_list, filename);
 		}
 	}
 
@@ -1652,7 +1652,7 @@ gth_browser_activate_action_edit_dir_categories (GtkAction  *action,
 {
 	char *path;
 
-	path = dir_list_get_selected_path (gth_browser_get_dir_list (browser));
+	path = gth_dir_list_get_selected_path (gth_browser_get_dir_list (browser));
 	if (path == NULL)
 		return;
 	edit_current_folder_categories (browser, path);
@@ -1893,7 +1893,7 @@ gth_browser_activate_action_bookmarks_add (GtkAction  *action,
 		g_free (prefix);
 
 	} else {
-		DirList *dir_list = gth_browser_get_dir_list (browser);
+		GthDirList *dir_list = gth_browser_get_dir_list (browser);
 
 		if (dir_list->path == NULL)
 			return;

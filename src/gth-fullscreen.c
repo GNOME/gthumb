@@ -244,9 +244,6 @@ preloader_requested_done_cb (GThumbPreloader *gploader,
 	loader = gthumb_preloader_get_loader (priv->preloader, priv->requested_path);
 	if (loader != NULL) 
 		image_viewer_load_from_image_loader (IMAGE_VIEWER (priv->viewer), loader);
-	/*
-	image_loaded (fullscreen);
-	*/
 }
 
 

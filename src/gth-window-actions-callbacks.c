@@ -577,7 +577,7 @@ gth_window_activate_action_view_zoom_fit (GtkAction *action,
 	if (image_viewer->zoom_fit) 
 		image_viewer->zoom_fit = FALSE;
 	else 
-		image_viewer_zoom_to_fit (image_viewer);
+		image_viewer_zoom_to_fit_if_larger (image_viewer);
 }
 
 

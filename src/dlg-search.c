@@ -111,8 +111,8 @@ typedef struct {
 	GtkWidget      *s_date_optionmenu;
 	GtkWidget      *s_date_dateedit;
 
-	GtkWidget      *p_progress_tree_view;
-	GtkListStore   *p_progress_tree_model;
+	GthFileList    *file_list;
+
 	GtkWidget      *p_current_dir_entry;
 	GtkWidget      *p_notebook;
 	GtkWidget      *p_view_button;
@@ -515,9 +515,8 @@ dlg_search_ui (GthBrowser *browser,
 	       char       *catalog_path, 
 	       gboolean    start_search)
 {
-	DialogData        *data;
-	GtkCellRenderer   *renderer;
-	GtkTreeViewColumn *column;
+	DialogData *data;
+	GtkWidget  *progress_hbox;
 
 	g_return_if_fail (GTH_IS_BROWSER (browser));
 
@@ -559,7 +558,6 @@ dlg_search_ui (GthBrowser *browser,
 
 	if (catalog_path == NULL) {
 		data->search_progress_dialog = glade_xml_get_widget (data->gui, "search_progress_dialog");
-		data->p_progress_tree_view = glade_xml_get_widget (data->gui, "p_progress_treeview");
 		data->p_current_dir_entry = glade_xml_get_widget (data->gui, "p_current_dir_entry");
 		data->p_notebook = glade_xml_get_widget (data->gui, "p_notebook");
 		data->p_view_button = glade_xml_get_widget (data->gui, "p_view_button");
@@ -568,9 +566,9 @@ dlg_search_ui (GthBrowser *browser,
 		data->p_close_button = glade_xml_get_widget (data->gui, "p_close_button");
 		data->p_searching_in_hbox = glade_xml_get_widget (data->gui, "p_searching_in_hbox");
 		data->p_images_label = glade_xml_get_widget (data->gui, "p_images_label");
+		progress_hbox = glade_xml_get_widget (data->gui, "p_progress_hbox");
 	} else {
 		data->search_progress_dialog = glade_xml_get_widget (data->gui, "edit_search_progress_dialog");
-		data->p_progress_tree_view = glade_xml_get_widget (data->gui, "ep_progress_treeview");
 		data->p_current_dir_entry = glade_xml_get_widget (data->gui, "ep_current_dir_entry");
 		data->p_notebook = glade_xml_get_widget (data->gui, "ep_notebook");
 		data->p_view_button = glade_xml_get_widget (data->gui, "ep_view_button");
@@ -579,8 +577,13 @@ dlg_search_ui (GthBrowser *browser,
 		data->p_close_button = glade_xml_get_widget (data->gui, "ep_close_button");
 		data->p_searching_in_hbox = glade_xml_get_widget (data->gui, "ep_searching_in_hbox");
 		data->p_images_label = glade_xml_get_widget (data->gui, "ep_images_label");
+		progress_hbox = glade_xml_get_widget (data->gui, "ep_progress_hbox");		
 	}
 
+	data->file_list = gth_file_list_new ();
+	gtk_widget_show_all (data->file_list->root_widget);
+	gtk_box_pack_start (GTK_BOX (progress_hbox), data->file_list->root_widget, TRUE, TRUE, 0);
+	
 	/* Set widgets data. */
 
 	if (catalog_path == NULL) {
@@ -639,33 +642,6 @@ dlg_search_ui (GthBrowser *browser,
 
 		catalog_free (catalog);
 	}
-
-	/**/
-
-	data->p_progress_tree_model = gtk_list_store_new (P_NUM_COLUMNS, 
-							  G_TYPE_STRING,
-							  G_TYPE_STRING);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (data->p_progress_tree_view),
-				 GTK_TREE_MODEL (data->p_progress_tree_model));
-	g_object_unref (G_OBJECT (data->p_progress_tree_model));
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Filename"),
-							   renderer,
-							   "text", P_FILENAME_COLUMN,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, P_FILENAME_COLUMN);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (data->p_progress_tree_view),
-				     column);
-
-	renderer = gtk_cell_renderer_text_new ();
-	column = gtk_tree_view_column_new_with_attributes (_("Folder"),
-							   renderer,
-							   "text", P_FOLDER_COLUMN,
-							   NULL);
-	gtk_tree_view_column_set_sort_column_id (column, P_FOLDER_COLUMN);
-	gtk_tree_view_append_column (GTK_TREE_VIEW (data->p_progress_tree_view),
-				     column);
 
 	/**/
 
@@ -938,42 +914,18 @@ file_respects_search_criteria (DialogData *data,
 
 
 static void
-add_file_list (DialogData *data, GList *file_list)
+add_file_list (DialogData *data, 
+	       GList      *file_list)
 {
-	GList *scan;
-	char  *images;
-
-	for (scan = file_list; scan; scan = scan->next) {
-		GtkTreeIter  iter;
-		char        *path = (char*) scan->data;
-		const char  *filename;
-		char        *folder;
-		char        *utf8_file;
-		char        *utf8_folder;
-
-		filename = file_name_from_path (path);
-		folder = remove_level_from_path (path);
-
-		utf8_file = g_filename_display_name (filename);
-		utf8_folder = g_filename_display_name (folder);
-		
-		gtk_list_store_append (data->p_progress_tree_model, &iter);
-		gtk_list_store_set (data->p_progress_tree_model, 
-				    &iter,
-				    P_FILENAME_COLUMN, utf8_file,
-				    P_FOLDER_COLUMN, utf8_folder,
-				    -1);
-
-		g_free (utf8_file);
-		g_free (utf8_folder);
-		g_free (folder);
-	}
+	char *images;
 
 	data->files = g_list_concat (data->files, file_list);
 
 	images = g_strdup_printf ("%d", g_list_length (data->files));
 	gtk_label_set_text (GTK_LABEL (data->p_images_label), images);
 	g_free (images);
+	
+	gth_file_list_add_list (data->file_list, path_list_dup (file_list));
 }
 
 
@@ -1133,8 +1085,8 @@ search_images_async (DialogData *data)
 	SearchData *search_data = data->search_data;
 
 	free_search_results_data (data);
-	gtk_list_store_clear (data->p_progress_tree_model);
-
+	gth_file_list_set_list (data->file_list, NULL, pref_get_arrange_type (), pref_get_sort_order ());
+	
 	search_dir_async (data, search_data->start_from);
 }
 

@@ -31,7 +31,6 @@
 
 #include "catalog.h"
 #include "comments.h"
-#include "dir-list.h"
 #include "main.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
@@ -39,6 +38,7 @@
 #include "gth-application.h"
 #include "gth-browser.h"
 #include "gth-browser-actions-callbacks.h"
+#include "gth-dir-list.h"
 #include "gth-image-list.h"
 #include "gth-viewer.h"
 #include "gthumb-init.h"

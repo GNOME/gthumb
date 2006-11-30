@@ -43,8 +43,6 @@ gthumb_SOURCES = 				\
 	bookmark-list.h				\
 	catalog-list.c				\
 	catalog-list.h				\
-	dir-list.c				\
-	dir-list.h				\
 	dlg-bookmarks.c				\
 	dlg-bookmarks.h				\
 	dlg-brightness-contrast.c		\
@@ -99,6 +97,8 @@ gthumb_SOURCES = 				\
 	gth-browser-actions-callbacks.h		\
 	gth-browser-actions-callbacks.c		\
 	gth-browser-ui.h			\
+	gth-dir-list.c				\
+	gth-dir-list.h				\
 	gth-exif-data-viewer.c			\
 	gth-exif-data-viewer.h			\
 	gth-folder-selection-dialog.c		\

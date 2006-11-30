@@ -33,14 +33,6 @@ static BonoboObjectClass *parent_class;
 
 
 static void
-set_list_done (gpointer data)
-{
-	CatalogNautilusView *nautilus_view = data;
-	Nautilus_ViewFrame_report_load_complete (nautilus_view->view_frame, NULL);
-}
-
-
-static void
 catalog_nautilus_view_load_location (PortableServer_Servant  servant,
 				     const char             *location,
 				     CORBA_Environment      *ev)
@@ -108,9 +100,7 @@ catalog_nautilus_view_load_location (PortableServer_Servant  servant,
 	gth_file_list_set_list (nautilus_view->control->file_list, 
 				file_list,
 				GTH_SORT_METHOD_BY_NAME,
-				GTK_SORT_ASCENDING,
-				set_list_done,
-				nautilus_view);
+				GTK_SORT_ASCENDING);
 }
 
 

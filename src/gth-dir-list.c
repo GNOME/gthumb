@@ -3,7 +3,7 @@
 /*
  *  GThumb
  *
- *  Copyright (C) 2001, 2003 Free Software Foundation, Inc.
+ *  Copyright (C) 2001, 2003, 2006 Free Software Foundation, Inc.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -28,20 +28,19 @@
 #include <libgnomevfs/gnome-vfs-async-ops.h>
 
 #include "typedefs.h"
-#include "dir-list.h"
+#include "gth-dir-list.h"
 #include "gth-file-list.h"
 #include "file-data.h"
 #include "file-utils.h"
 #include "gconf-utils.h"
+#include "gthumb-marshal.h"
+#include "gthumb-stock.h"
 #include "main.h"
 #include "pixbuf-utils.h"
 #include "icons/pixbufs.h"
-#include "gthumb-stock.h"
 #include "comments.h"
 
-
 #define DEF_SHOW_HIDDEN FALSE
-
 
 enum {
 	DIR_LIST_COLUMN_ICON,
@@ -50,17 +49,76 @@ enum {
 	DIR_LIST_NUM_COLUMNS
 };
 
+enum {
+	STARTED,
+	DONE,
+	LAST_SIGNAL
+};
+
+static GObjectClass *parent_class = NULL;
+static guint         gth_dir_list_signals[LAST_SIGNAL] = { 0 };
+
+
+static void 
+gth_dir_list_finalize (GObject *object)
+{
+	GthDirList *dir_list;
+
+        g_return_if_fail (GTH_IS_DIR_LIST (object));
+	dir_list = GTH_DIR_LIST (object);
+
+	path_list_free (dir_list->file_list);
+	path_list_free (dir_list->list);
+	g_free (dir_list->path);
+	g_free (dir_list->try_path);
+	g_free (dir_list->old_dir);
+	g_free (dir_list->dir_load_handle);
+
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+
+static void
+gth_dir_list_class_init (GthDirListClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+
+	gth_dir_list_signals[STARTED] =
+		g_signal_new ("started",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthDirListClass, started),
+			      NULL, NULL,
+			      gthumb_marshal_VOID__VOID,
+			      G_TYPE_NONE, 
+			      0);
+	gth_dir_list_signals[DONE] =
+		g_signal_new ("done",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (GthDirListClass, done),
+			      NULL, NULL,
+			      gthumb_marshal_VOID__VOID,
+			      G_TYPE_NONE, 
+			      0);
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = gth_dir_list_finalize;
+}
+
 
 static void
 filename_cell_data_func (GtkTreeViewColumn *column,
 			 GtkCellRenderer   *renderer,
 			 GtkTreeModel      *model,
 			 GtkTreeIter       *iter,
-			 DirList           *dir_list)
+			 GthDirList        *dir_list)
 {
-	char *text;
-	GtkTreePath *path;
-	PangoUnderline underline;
+	char           *text;
+	GtkTreePath    *path;
+	PangoUnderline  underline;
 
 	gtk_tree_model_get (model, iter,
 			    DIR_LIST_COLUMN_UTF_NAME, &text,
@@ -90,7 +148,7 @@ filename_cell_data_func (GtkTreeViewColumn *column,
 
 
 static void
-add_columns (DirList     *dir_list,
+add_columns (GthDirList  *dir_list,
 	     GtkTreeView *treeview)
 {
 	GtkCellRenderer   *renderer;
@@ -136,7 +194,7 @@ file_motion_notify_callback (GtkWidget      *widget,
 			     GdkEventMotion *event,
 			     gpointer        user_data)
 {
-	DirList     *dir_list = user_data;
+	GthDirList     *dir_list = user_data;
 	GdkCursor   *cursor;
 	GtkTreePath *last_hover_path;
 	GtkTreeIter  iter;
@@ -187,11 +245,11 @@ file_motion_notify_callback (GtkWidget      *widget,
 
 
 static gboolean 
-file_leave_notify_callback (GtkWidget *widget,
+file_leave_notify_callback (GtkWidget        *widget,
 			    GdkEventCrossing *event,
-			    gpointer user_data)
+			    gpointer          user_data)
 {
-	DirList     *dir_list = user_data;
+	GthDirList  *dir_list = user_data;
 	GtkTreeIter  iter;
 
 	if (dir_list->single_click && (dir_list->hover_path != NULL)) {
@@ -212,14 +270,11 @@ file_leave_notify_callback (GtkWidget *widget,
 }
 
 
-DirList *
-dir_list_new ()
+static void
+gth_dir_list_init (GthDirList *dir_list)
 {
-	DirList     *dir_list = NULL;
 	GtkTreeView *list_view;
 	GtkWidget   *scrolled;
-
-	dir_list = g_new0 (DirList, 1);
 
 	/* Set default values. */
 
@@ -269,13 +324,46 @@ dir_list_new ()
 	dir_list->list_view = (GtkWidget*) list_view;
 	gtk_container_add (GTK_CONTAINER (scrolled), dir_list->list_view);
 	dir_list->root_widget = scrolled;
+}
 
-	return dir_list;
+
+GType
+gth_dir_list_get_type (void)
+{
+	static GType type = 0;
+
+	if (! type) {
+		GTypeInfo type_info = {
+			sizeof (GthDirListClass),
+                        NULL,
+                        NULL,
+                        (GClassInitFunc) gth_dir_list_class_init,
+                        NULL,
+                        NULL,
+                        sizeof (GthDirList),
+                        0,
+                        (GInstanceInitFunc) gth_dir_list_init
+                };
+
+                type = g_type_register_static (G_TYPE_OBJECT,
+                                               "GthDirList",
+                                               &type_info,
+                                               0);
+        }
+
+        return type;
+}
+
+
+GthDirList *
+gth_dir_list_new (void)
+{
+	return GTH_DIR_LIST (g_object_new (GTH_TYPE_DIR_LIST, NULL));
 }
 
 
 void
-dir_list_update_underline (DirList *dir_list)
+gth_dir_list_update_underline (GthDirList *dir_list)
 {
 	GdkWindow  *win;
 	GdkDisplay *display;
@@ -292,23 +380,8 @@ dir_list_update_underline (DirList *dir_list)
 }
 
 
-void
-dir_list_free (DirList *dir_list)
-{
-	g_return_if_fail (dir_list != NULL);
-
-	path_list_free (dir_list->file_list);
-	path_list_free (dir_list->list);
-	g_free (dir_list->path);
-	g_free (dir_list->try_path);
-	g_free (dir_list->old_dir);
-	g_free (dir_list->dir_load_handle);
-	g_free (dir_list);
-}
-
-
 static gboolean
-is_a_film (DirList    *dir_list,
+is_a_film (GthDirList *dir_list,
 	   const char *name)
 {
 	gboolean   film = FALSE;
@@ -323,7 +396,7 @@ is_a_film (DirList    *dir_list,
 
 
 static void
-dir_list_update_view (DirList *dir_list)
+gth_dir_list_update_view (GthDirList *dir_list)
 {
 	GdkPixbuf *dir_pixbuf;
 	GdkPixbuf *up_pixbuf;
@@ -373,27 +446,23 @@ dir_list_update_view (DirList *dir_list)
 
 
 void
-dir_list_update_icon_theme (DirList *dir_list)
+gth_dir_list_update_icon_theme (GthDirList *dir_list)
 {
-	dir_list_update_view (dir_list);
+	gth_dir_list_update_view (dir_list);
 }
 
 
 static void
-dir_list_refresh_continue (PathListData *pld, 
-			   gpointer      data)
+gth_dir_list_refresh_continue (PathListData *pld, 
+			       gpointer      data)
 {
-	DirList   *dir_list = data;
-	GList     *new_dir_list = NULL;
-	GList     *new_file_list = NULL;
-	GList     *filtered;
+	GthDirList *dir_list = data;
+	GList      *new_dir_list = NULL;
+	GList      *new_file_list = NULL;
+	GList      *filtered;
 
-	if (pld == NULL) {
-		if (dir_list->done_func) 
-			dir_list->done_func (dir_list, dir_list->done_data);
-		dir_list->done_func = NULL;
+	if (pld == NULL) 
 		return;
-	}
 
 	dir_list = data;
 	dir_list->result = pld->result;
@@ -405,9 +474,6 @@ dir_list_refresh_continue (PathListData *pld,
 
 	if (pld->result != GNOME_VFS_ERROR_EOF) {
 		path_list_data_free (pld);
-		if (dir_list->done_func) 
-			dir_list->done_func (dir_list, dir_list->done_data);
-		dir_list->done_func = NULL;
 		return;
 	}
 
@@ -460,7 +526,7 @@ dir_list_refresh_continue (PathListData *pld,
 	/* Set the new dir list */
 
 	filtered = dir_list_filter_and_sort (new_dir_list, 
-					     TRUE, 
+			         	     TRUE, 
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
 	/* * Add the ".." entry if the current path is not "/". 
@@ -474,7 +540,7 @@ dir_list_refresh_continue (PathListData *pld,
 
 	/* Update the view. */
 
-	dir_list_update_view (dir_list);
+	gth_dir_list_update_view (dir_list);
 
 	/* Make past dir visible in the list. */
 
@@ -509,51 +575,50 @@ dir_list_refresh_continue (PathListData *pld,
 		dir_list->old_dir = NULL;
 	}
 
-	if (dir_list->done_func) 
-		dir_list->done_func (dir_list, dir_list->done_data);
-	dir_list->done_func = NULL;
+	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0);	
+}
+
+
+static void
+gth_dir_list_change_to__step2 (gpointer callback_data)
+{
+	GthDirList *dir_list = callback_data;
+	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_refresh_continue, dir_list);
 }
 
 
 void
-dir_list_change_to (DirList         *dir_list,
-		    const gchar     *path,
-		    DirListDoneFunc  func,
-		    gpointer         data)
+gth_dir_list_change_to (GthDirList *dir_list,
+		        const char *path)
 {
 	g_return_if_fail (dir_list != NULL);
 
-	dir_list->done_func = func;
-	dir_list->done_data = data;
-
 	if ((path != dir_list->try_path) && (dir_list->try_path != NULL)) 
 		g_free (dir_list->try_path);
-	dir_list->try_path = g_strdup (path);
+	dir_list->try_path = remove_ending_separator (path);
 
 	if (dir_list->dir_load_handle != NULL)
-		path_list_handle_free (dir_list->dir_load_handle);
-
-	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, dir_list_refresh_continue, dir_list);
+		path_list_async_interrupt (dir_list->dir_load_handle, gth_dir_list_change_to__step2, dir_list);
+	else
+		dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_refresh_continue, dir_list);
 }
 
 
 void
-dir_list_interrupt_change_to (DirList  *dir_list,
-			      DoneFunc  f,
-			      gpointer  data)
+gth_dir_list_stop (GthDirList *dir_list)
 {
 	g_return_if_fail (dir_list != NULL);
 
 	if (dir_list->dir_load_handle != NULL) {
-		path_list_async_interrupt (dir_list->dir_load_handle, f, data);
+		path_list_async_interrupt (dir_list->dir_load_handle, NULL, NULL);
 		dir_list->dir_load_handle = NULL;
 	}
 }
 
 
 void
-dir_list_add_directory (DirList         *dir_list,
-			const char      *path)
+gth_dir_list_add_directory (GthDirList *dir_list,
+			    const char *path)
 {
 	const char  *name_only;
 	GList       *scan;
@@ -614,8 +679,8 @@ dir_list_add_directory (DirList         *dir_list,
 
 
 void
-dir_list_remove_directory (DirList         *dir_list,
-			   const char      *path)
+gth_dir_list_remove_directory (GthDirList *dir_list,
+			       const char *path)
 {
 	GList        *scan, *link = NULL;
 	const char   *name_only;
@@ -657,8 +722,8 @@ dir_list_remove_directory (DirList         *dir_list,
 
 
 char *
-dir_list_get_name_from_iter (DirList     *dir_list,
-			     GtkTreeIter *iter)
+gth_dir_list_get_name_from_iter (GthDirList  *dir_list,
+			         GtkTreeIter *iter)
 {
 	char *utf8_name;
 
@@ -673,9 +738,9 @@ dir_list_get_name_from_iter (DirList     *dir_list,
 }
 
 
-gchar *
-dir_list_get_path_from_iter (DirList     *dir_list,
-			     GtkTreeIter *iter)
+char *
+gth_dir_list_get_path_from_iter (GthDirList  *dir_list,
+			         GtkTreeIter *iter)
 {
 	char *name;
 	char *new_path;
@@ -710,8 +775,8 @@ dir_list_get_path_from_iter (DirList     *dir_list,
 
 
 int
-dir_list_get_row_from_path (DirList     *dir_list,
-			    const char  *path)
+gth_dir_list_get_row_from_path (GthDirList *dir_list,
+			        const char *path)
 {
 	GList      *scan;
 	const char *name;
@@ -738,8 +803,8 @@ dir_list_get_row_from_path (DirList     *dir_list,
 
 
 char *
-dir_list_get_path_from_tree_path (DirList     *dir_list,
-				  GtkTreePath *path)
+gth_dir_list_get_path_from_tree_path (GthDirList  *dir_list,
+				      GtkTreePath *path)
 {
 	GtkTreeIter iter;
 
@@ -750,13 +815,13 @@ dir_list_get_path_from_tree_path (DirList     *dir_list,
                                        path)) 
                 return NULL;
 	
-	return dir_list_get_path_from_iter (dir_list, &iter);
+	return gth_dir_list_get_path_from_iter (dir_list, &iter);
 }
 
 
-gchar *
-dir_list_get_path_from_row (DirList *dir_list,
-			    int      row)
+char *
+gth_dir_list_get_path_from_row (GthDirList *dir_list,
+			        int         row)
 {
 	GtkTreePath *path;
 	gchar       *result;
@@ -765,7 +830,7 @@ dir_list_get_path_from_row (DirList *dir_list,
 
 	path = gtk_tree_path_new ();
 	gtk_tree_path_append_index (path, row);
-	result = dir_list_get_path_from_tree_path (dir_list, path);
+	result = gth_dir_list_get_path_from_tree_path (dir_list, path);
 	gtk_tree_path_free (path);
 
 	return result;
@@ -773,8 +838,8 @@ dir_list_get_path_from_row (DirList *dir_list,
 
 
 gboolean
-dir_list_get_selected_iter (DirList     *dir_list, 
-			    GtkTreeIter *iter)
+gth_dir_list_get_selected_iter (GthDirList  *dir_list, 
+				GtkTreeIter *iter)
 {
 	GtkTreeView      *tree_view;
 	GtkTreeSelection *selection;
@@ -785,18 +850,18 @@ dir_list_get_selected_iter (DirList     *dir_list,
 }
 
 
-gchar *
-dir_list_get_selected_path (DirList *dir_list)
+char *
+gth_dir_list_get_selected_path (GthDirList *dir_list)
 {
 	GtkTreeIter iter;
-	if (! dir_list_get_selected_iter (dir_list, &iter))
+	if (! gth_dir_list_get_selected_iter (dir_list, &iter))
 		return NULL;
-	return dir_list_get_path_from_iter (dir_list, &iter);
+	return gth_dir_list_get_path_from_iter (dir_list, &iter);
 }
 
 
 GList *
-dir_list_get_file_list (DirList *dir_list)
+gth_dir_list_get_file_list (GthDirList *dir_list)
 {
 	g_return_val_if_fail (dir_list != NULL, NULL);
 	return path_list_dup (dir_list->file_list);

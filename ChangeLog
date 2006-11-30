@@ -1,3 +1,42 @@
+2006-11-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* src/gth-window-actions-callbacks.c: 
+	
+	Perform a fit_if_larger zoom instead of a zoom_to_fit zoom.
+	
+	* src/gth-fullscreen.c: 
+	
+	Removed a useless comment.
+	
+	* src/dlg-search.c: 
+	
+	Usa a gth-file-list widget to display the found images.
+	
+	* src/catalog-list.h: 
+	
+	Reformatted
+	
+	* components/catalog-view/catalog-nautilus-view.c: 
+	* libgthumb/gth-file-list.c: 
+	* libgthumb/gth-file-list.h:
+	* src/dir-list.c: removed
+	* src/dir-list.h: removed
+	* src/gth-dir-list.c:
+	* src/gth-dir-list.h: renamed dir-list.[ch] as gth-dir-list.[ch]
+	* src/dlg-image-prop.c: 
+	* src/gth-browser.c:
+	* src/gth-browser.h:
+	* src/main.c:
+	* src/Makefile.am:
+		
+	Use a signal based system for loading and showing images instead of the 
+	error-prone callback based system.
+	
+	* src/gth-browser.c:
+	
+	Fixed bug #377846 – gtk_toolbar_remove: assertion `content_to_remove 
+	!= NULL' failed
+
 2006-11-29  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* src/gth-browser.c: (gth_browser_notify_update_layout_cb),

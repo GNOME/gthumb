@@ -26,7 +26,7 @@
 #include "gth-file-list.h"
 #include "gth-file-view.h"
 #include "catalog-list.h"
-#include "dir-list.h"
+#include "gth-dir-list.h"
 #include "gth-window.h"
 #include "typedefs.h"
 
@@ -101,7 +101,7 @@ void            gth_browser_set_sort_type                (GthBrowser        *bro
 
 GthFileList *   gth_browser_get_file_list                (GthBrowser        *browser);
 GthFileView *   gth_browser_get_file_view                (GthBrowser        *browser);
-DirList *       gth_browser_get_dir_list                 (GthBrowser        *browser);
+GthDirList *    gth_browser_get_dir_list                 (GthBrowser        *browser);
 CatalogList *   gth_browser_get_catalog_list             (GthBrowser        *browser);
 
 void            gth_browser_load_uri                     (GthBrowser        *browser,
