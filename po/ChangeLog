@@ -1,3 +1,7 @@
+2006-11-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
+
+	* POTFILES.in: removed dir-list.[ch], added gth-dir-list.[ch]
+	
 2006-11-24  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.

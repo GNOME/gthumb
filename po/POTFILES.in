@@ -123,8 +123,6 @@ src/catalog-png-exporter.c
 src/catalog-png-exporter.h
 src/catalog-web-exporter.c
 src/catalog-web-exporter.h
-src/dir-list.c
-src/dir-list.h
 src/dlg-bookmarks.c
 src/dlg-bookmarks.h
 src/dlg-brightness-contrast.c
@@ -186,6 +184,8 @@ src/gth-browser-actions-entries.h
 src/gth-browser.c
 src/gth-browser.h
 src/gth-browser-ui.h
+src/gth-dir-list.c
+src/gth-dir-list.h
 src/gth-exif-data-viewer.c
 src/gth-exif-data-viewer.h
 src/gth-folder-selection-dialog.c
