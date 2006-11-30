@@ -22,7 +22,8 @@ INCLUDES =					\
 	-DPIXMAPSDIR=\""$(datadir)/pixmaps/"\"	\
 	-DBONOBO_UIDIR=\""$(uidir)/"\"		\
 	-DGTHUMB_GLADEDIR=\""$(gladedir)"\"	\
-	-I$(top_srcdir)/libgthumb		
+	-I$(top_srcdir)/libgthumb		\
+	-I../libgthumb		
 
 bin_PROGRAMS = gthumb
 

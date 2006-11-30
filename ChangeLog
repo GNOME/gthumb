@@ -1,5 +1,11 @@
 2006-11-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/Makefile.am:
+	* src/Makefile.am:
+	
+	Fixed bug #355353 – gthumb should build when srcdir != objdir
+	Patch by Marty Leisner
+
 	* src/gth-window-actions-callbacks.c: 
 	
 	Perform a fit_if_larger zoom instead of a zoom_to_fit zoom.
