@@ -1,25 +1,5 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-components/catalog-view/GNOME_GThumb_CatalogView.server.in.in
-components/catalog-view/GNOME_GThumb_CatalogView.xml.in
-components/catalog-view/catalog-control.c
-components/catalog-view/catalog-control.h
-components/catalog-view/catalog-nautilus-view.c
-components/catalog-view/catalog-nautilus-view.h
-components/catalog-view/iids.h
-components/catalog-view/main.c
-components/image-viewer/GNOME_GThumb_Viewer.server.in.in
-components/image-viewer/GNOME_GThumb_Viewer.xml.in
-components/image-viewer/iids.h
-components/image-viewer/main.c
-components/image-viewer/ui.c
-components/image-viewer/ui.h
-components/image-viewer/viewer-control.c
-components/image-viewer/viewer-control.h
-components/image-viewer/viewer-nautilus-view.c
-components/image-viewer/viewer-nautilus-view.h
-components/image-viewer/viewer-stream.c
-components/image-viewer/viewer-stream.h
 data/GNOME_GThumb.server.in.in
 data/albumthemes/text.h
 data/glade/gthumb.glade

@@ -3,7 +3,6 @@ SUBDIRS =		\
 	po		\
 	libgthumb	\
 	src		\
-	components	\
 	doc		\
 	data
 

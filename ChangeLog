@@ -1,5 +1,12 @@
 2006-11-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* Makefile.am:
+	* configure.in:
+	* components/*: deleted
+	
+	Removed the Bonobo components because they are unused and untested since a
+	long time. Bonobo is dying :(
+
 	* libgthumb/Makefile.am:
 	* src/Makefile.am:
 	
