@@ -339,9 +339,8 @@ gamma_info_init (GSFade *fade)
 
         return TRUE;
  FAIL:
-        return FALSE;
-
 #endif /* HAVE_XF86VMODE_GAMMA */
+        return FALSE;
 }
 
 static void
