@@ -1,3 +1,7 @@
+2006-11-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* NEWS: updated news for 2.9.0, based on earlier commits.
+
 2006-11-30  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gs-fade.c (gamma_info_init): return FALSE when HAVE_XF86VMODE_GAMMA is false.

@@ -17,6 +17,16 @@ version 2.9.0
 	* Fixes image scaling memory leak (bug #349576)
 	* Adds support for multiple auto-detected cameras (or
 	  multiple modes for single cameras). Bug 361967.
+	* Shortcut: press "g" to launch gimp.
+	* Shortcut: press "i" for image info.
+	* Replaced deprecated gnome_app functions. Bug 171601.
+	* Added a zoom-to-width mode for viewing scanned text. Bug 148971.
+	* Added mousewheel navigation. Bug 131416.
+	* Added sort-by-comment and by Exif DateTime. Bugs 373557, 167791.
+	* Fixed critical bug 356623 - gth_location_new crasher.
+	* Added a new "BestFit" web album theme. Bug 319933.
+	* Added iso-code escaping of non-ASCII characters in web albums.
+	* More secure method of temporary file generation. Bug 358894.
 
 version 2.7.9
 -------------
