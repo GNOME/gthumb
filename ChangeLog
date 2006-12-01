@@ -1,5 +1,17 @@
 2006-12-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* libgthumb/catalog.c (catalog_free):
+	(catalog_write_to_disk):
+	(catalog_new):
+	(catalog_remove_item):
+	(catalog_add_item):
+	(catalog_load_from_disk__common):
+	(error_on_saving):
+	* libgthumb/typedefs.h: fixed catalog sorting.
+
+	* src/gth-exif-data-viewer.c (add_to_exif_display_list):
+	(update_exif_data): removed unused function and variable.
+
 	* src/gth-browser.c (gth_browser_construct): init the reset_scrollbars
 	option.
 

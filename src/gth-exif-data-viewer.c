@@ -229,33 +229,6 @@ tag_is_present (GtkTreeModel *model,
 }
 
 
-static ExifEntry *
-get_entry_from_tag (ExifData *edata,
-		    int       tag)
-{
-	int i, j;
-
-	for (i = 0; i < EXIF_IFD_COUNT; i++) {
-		ExifContent *content = edata->ifd[i];
-
-		if ((content == NULL) || (content->count == 0))
-			continue;
-
-		for (j = 0; j < content->count; j++) {
-			ExifEntry *e = content->entries[j];
-
-			if (! content->entries[j])
-				continue;
-
-			if (e->tag == tag)
-				return e;
-		}
-	}
-
-	return NULL;
-}
-
-
 static void
 add_to_exif_display_list (GthExifDataViewer *edv,
 			  const char 	    *utf8_name,
@@ -301,7 +274,6 @@ update_exif_data (GthExifDataViewer *edv,
 
         for (i = 0; i < EXIF_IFD_COUNT; i++) {
                 ExifContent *content = edata->ifd[i];
-		ExifEntry   *e;
 		const char  *value;
 		char        *utf8_name;
 		char        *utf8_value;

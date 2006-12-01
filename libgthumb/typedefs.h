@@ -120,8 +120,8 @@ typedef enum { /*< skip >*/
 } GthPrintUnit;
 
 
-/* keep the order of the items in sync with the order of the 
- * sort_by_radio_list structure in the file menu.h */
+/* keep the order of the items in sync with the order of the
+ * sort_names structure in the file libgthumb/catalog.c */
 typedef enum { /*< skip >*/
 	GTH_SORT_METHOD_NONE,
 	GTH_SORT_METHOD_BY_NAME,
@@ -167,7 +167,7 @@ typedef enum { /*< skip >*/
 	GTH_CAPTION_DATE_TIME           = 1 << 14
 } GthCaptionFields;
 
- 
+
 typedef enum { /*< skip >*/
 	GTH_FRAME_STYLE_NONE               = 1 << 0,
 	GTH_FRAME_STYLE_SIMPLE             = 1 << 1,
@@ -219,11 +219,11 @@ typedef enum { /*< skip >*/
 } GthTransform;
 /* The GthTransform numeric values range from 1 to 8, corresponding to
 the valid range of Exif orientation tags. The name associated with each
-numeric valid describes the data transformation required that will allow 
+numeric valid describes the data transformation required that will allow
 the orientation value to be reset to "1" without changing the displayed image.
-GthTransform and ExifShort values are interchangeably in a number of places. 
+GthTransform and ExifShort values are interchangeably in a number of places.
 The main difference is that ExifShort can have a value of zero, corresponding
-to an error or an absence of an Exif orientation tag. See bug 361913 for 
+to an error or an absence of an Exif orientation tag. See bug 361913 for
 additional details. */
 
 
@@ -237,12 +237,12 @@ typedef enum { /*< skip >*/
 
 typedef void (*ErrorFunc)          (gpointer data);
 typedef void (*DoneFunc)           (gpointer data);
-typedef void (*ProgressFunc)       (gfloat percent, 
+typedef void (*ProgressFunc)       (gfloat percent,
 				    gpointer data);
 typedef void (*AreaReadyFunc)      (guint x,
-				    guint y, 
-				    guint w, 
-				    guint h, 
+				    guint y,
+				    guint w,
+				    guint h,
 				    gpointer data);
 typedef gboolean (*GthVisibleFunc) (gpointer data);
 

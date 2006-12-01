@@ -41,10 +41,10 @@
 #define MAX_LINE_LENGTH 4096
 #define FILE_PERMISSIONS 0600
 
-static char *sort_names[] = { "none", "name", "path", "size", "time", "manual" };
+static char *sort_names[] = { "none", "name", "path", "size", "time", "exif-date", "comment", "manual" };
 
 
-Catalog*  
+Catalog*
 catalog_new ()
 {
 	Catalog *catalog;
@@ -65,7 +65,7 @@ catalog_free (Catalog *catalog)
 {
 	if (catalog->path)
 		g_free (catalog->path);
-	if (catalog->list) 
+	if (catalog->list)
 		path_list_free (catalog->list);
 	if (catalog->search_data)
 		search_data_free (catalog->search_data);
@@ -170,13 +170,13 @@ catalog_load_from_disk__common (Catalog     *catalog,
 	 *    "*.jpg"            Line 4 : file pattern.
 	 *    ""                 Line 5 : comment pattern.
 	 *    "Rome; Paris"      Line 6 : place pattern.
-	 *    0"Formula 1"       Line 7 : old versions have only a keywords 
+	 *    0"Formula 1"       Line 7 : old versions have only a keywords
 	 *                                pattern, new versions have a 0 or 1
-	 *                                (0 = must match at leaset one 
+	 *                                (0 = must match at leaset one
 	 *                                keyword; 1 = must match all keywords)
 	 *				  followed by the keywords pattern.
 	 *    1022277600         Line 8 : date in time_t format.
-	 *    0                  Line 9 : date scope (DATE_ANY      = 0, 
+	 *    0                  Line 9 : date scope (DATE_ANY      = 0,
 	 *                                            DATE_BEFORE   = 1,
 	 *                                            DATE_EQUAL_TO = 2,
 	 *                                            DATE_AFTER    = 3)
@@ -184,11 +184,11 @@ catalog_load_from_disk__common (Catalog     *catalog,
 	 *    "filename_2"
 	 *    ...
 	 *    "filename_n"
-	 *   
+	 *
 	 */
-	while ((result = _gnome_vfs_read_line (handle, 
-					       line, 
-					       MAX_LINE_LENGTH, 
+	while ((result = _gnome_vfs_read_line (handle,
+					       line,
+					       MAX_LINE_LENGTH,
 					       NULL)) == GNOME_VFS_OK) {
 		char *file_name;
 
@@ -264,7 +264,7 @@ catalog_load_from_disk__common (Catalog     *catalog,
 
 			_gnome_vfs_read_line (handle, line, sizeof (line), NULL);
 			sscanf (line, "%d", &date_scope);
-			search_data_set_date_scope (catalog->search_data, 
+			search_data_set_date_scope (catalog->search_data,
 						    date_scope);
 
 			continue;
@@ -325,7 +325,7 @@ catalog_load_search_data_from_disk (Catalog     *catalog,
 
 static gboolean
 error_on_saving (GnomeVFSHandle  *handle,
-		 char            *path, 
+		 char            *path,
 		 GError         **gerror)
 {
 	gnome_vfs_close (handle);
@@ -365,67 +365,67 @@ catalog_write_to_disk (Catalog     *catalog,
 		SearchData *search_data = catalog->search_data;
 
 		/* write search data. */
-		if (_gnome_vfs_write_line (handle, SEARCH_HEADER) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle, SEARCH_HEADER) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "\"%s\"", 
-					   search_data->start_from) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
+					   search_data->start_from) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "\"%s\"", 
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
 					   (search_data->recursive ? "TRUE" : "FALSE")) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "\"%s\"", 
-					   search_data->file_pattern) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
+					   search_data->file_pattern) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "\"%s\"", 
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
 					   search_data->comment_pattern) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "\"%s\"", 
-					   search_data->place_pattern) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle,
+					   "\"%s\"",
+					   search_data->place_pattern) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "%d\"%s\"", 
+		if (_gnome_vfs_write_line (handle,
+					   "%d\"%s\"",
 					   catalog->search_data->all_keywords,
-					   search_data->keywords_pattern) != GNOME_VFS_OK) 
+					   search_data->keywords_pattern) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "%ld", 
-					   search_data->date) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle,
+					   "%ld",
+					   search_data->date) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 
-		if (_gnome_vfs_write_line (handle, 
-					   "%d", 
-					   catalog->search_data->date_scope) != GNOME_VFS_OK) 
+		if (_gnome_vfs_write_line (handle,
+					   "%d",
+					   catalog->search_data->date_scope) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
 	}
 
 	/* sort method */
 
-	if (_gnome_vfs_write_line (handle, 
-				   "%s%s", 
-				   SORT_FIELD, 
-				   sort_names[catalog->sort_method]) != GNOME_VFS_OK) 
+	if (_gnome_vfs_write_line (handle,
+				   "%s%s",
+				   SORT_FIELD,
+				   sort_names[catalog->sort_method]) != GNOME_VFS_OK)
 		return error_on_saving (handle, catalog->path, gerror);
 
 	/* write the file list. */
 
-	for (scan = catalog->list; scan; scan = scan->next) 
+	for (scan = catalog->list; scan; scan = scan->next)
 		if (_gnome_vfs_write_line (handle,
-					   "\"%s\"", 
-					   (char*) scan->data) != GNOME_VFS_OK) 
+					   "\"%s\"",
+					   (char*) scan->data) != GNOME_VFS_OK)
 			return error_on_saving (handle, catalog->path, gerror);
-	
+
 	return gnome_vfs_close (handle) == GNOME_VFS_OK;
 }
 
@@ -435,12 +435,12 @@ catalog_add_item (Catalog *catalog,
 		  const char *file_path)
 {
 	g_return_if_fail (catalog != NULL);
-	g_return_if_fail (file_path != NULL);	
+	g_return_if_fail (file_path != NULL);
 
-	if (g_list_find_custom (catalog->list, 
-				file_path, 
+	if (g_list_find_custom (catalog->list,
+				file_path,
 				(GCompareFunc) uricmp) == NULL)
-		catalog->list = g_list_prepend (catalog->list, 
+		catalog->list = g_list_prepend (catalog->list,
 						g_strdup (file_path));
 }
 
@@ -465,9 +465,9 @@ catalog_remove_item (Catalog *catalog,
 	int    i = 0;
 
 	g_return_val_if_fail (catalog != NULL, -1);
-	g_return_val_if_fail (file_path != NULL, -1);	
+	g_return_val_if_fail (file_path != NULL, -1);
 
-	for (scan = catalog->list; scan; scan = scan->next, i++) 
+	for (scan = catalog->list; scan; scan = scan->next, i++)
 		if (same_uri ((char*) scan->data, file_path))
 			break;
 
