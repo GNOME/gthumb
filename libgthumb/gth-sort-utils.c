@@ -29,10 +29,10 @@
 #include "gth-sort-utils.h"
 
 
-int 
-gth_sort_by_comment_then_name (const char *string1, 
+int
+gth_sort_by_comment_then_name (const char *string1,
 			       const char *string2,
-			       const char *name1, 
+			       const char *name1,
 			       const char *name2)
 {
 	int collate_result;
@@ -46,7 +46,7 @@ gth_sort_by_comment_then_name (const char *string1,
                 return 1;
         if (string1 == NULL)
                 return -1;
-	
+
 	collate_result = g_utf8_collate ( g_utf8_casefold (string1,-1), g_utf8_casefold (string2,-1) );
 
 	if (collate_result)
@@ -56,9 +56,9 @@ gth_sort_by_comment_then_name (const char *string1,
 }
 
 
-int gth_sort_by_size_then_name (GnomeVFSFileSize  size1, 
+int gth_sort_by_size_then_name (GnomeVFSFileSize  size1,
                                 GnomeVFSFileSize  size2,
-				const char       *name1, 
+				const char       *name1,
 				const char       *name2)
 {
 	if (size1 < size2) return -1;
@@ -68,9 +68,9 @@ int gth_sort_by_size_then_name (GnomeVFSFileSize  size1,
 }
 
 
-int gth_sort_by_filetime_then_name (time_t      time1, 
+int gth_sort_by_filetime_then_name (time_t      time1,
  				    time_t      time2,
-				    const char *name1, 
+				    const char *name1,
 				    const char *name2)
 {
 	if (time1 < time2) return -1;
@@ -80,8 +80,8 @@ int gth_sort_by_filetime_then_name (time_t      time1,
 }
 
 
-int 
-gth_sort_by_exiftime_then_name (FileData *fd1, 
+int
+gth_sort_by_exiftime_then_name (FileData *fd1,
 		                FileData *fd2)
 {
 	/* To reduce file accesses, the exif time is only recorded in the
@@ -92,14 +92,14 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 	/* Update the exif DateTime tags in memory if they haven't been
 	   read yet, or if the file has changed. */
 
-	if (fd1->exif_time_recorded_at != fd1->mtime) {	
-		fd1->exif_time = get_exif_time(fd1->path);
-		fd1->exif_time_recorded_at = fd1->mtime;
+	if (! fd1->exif_data_loaded) {
+		fd1->exif_time = get_exif_time (fd1->path);
+		fd1->exif_data_loaded = TRUE;
 	}
 
-	if (fd2->exif_time_recorded_at != fd2->mtime) {
-		fd2->exif_time = get_exif_time(fd2->path);
-		fd2->exif_time_recorded_at = fd2->mtime;
+	if (! fd2->exif_data_loaded) {
+		fd2->exif_time = get_exif_time (fd2->path);
+		fd2->exif_data_loaded = TRUE;
 	}
 
 	if (fd1->exif_time < fd2->exif_time) return -1;
@@ -109,18 +109,18 @@ gth_sort_by_exiftime_then_name (FileData *fd1,
 }
 
 
-int 
-gth_sort_by_filename_but_ignore_path (const char *name1, 
+int
+gth_sort_by_filename_but_ignore_path (const char *name1,
 				      const char *name2)
 {
 	/* This sorts by the filename. It ignores the path portion, if present. */
 
-	return strcasecmp (file_name_from_path (name1), 
+	return strcasecmp (file_name_from_path (name1),
 			   file_name_from_path (name2));
 }
-	
 
-int gth_sort_by_full_path (const char *path1, 
+
+int gth_sort_by_full_path (const char *path1,
 			   const char *path2)
 {
 	return uricmp (path1, path2);

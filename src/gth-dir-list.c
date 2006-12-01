@@ -59,7 +59,7 @@ static GObjectClass *parent_class = NULL;
 static guint         gth_dir_list_signals[LAST_SIGNAL] = { 0 };
 
 
-static void 
+static void
 gth_dir_list_finalize (GObject *object)
 {
 	GthDirList *dir_list;
@@ -92,7 +92,7 @@ gth_dir_list_class_init (GthDirListClass *class)
 			      G_STRUCT_OFFSET (GthDirListClass, started),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 	gth_dir_list_signals[DONE] =
 		g_signal_new ("done",
@@ -101,7 +101,7 @@ gth_dir_list_class_init (GthDirListClass *class)
 			      G_STRUCT_OFFSET (GthDirListClass, done),
 			      NULL, NULL,
 			      gthumb_marshal_VOID__VOID,
-			      G_TYPE_NONE, 
+			      G_TYPE_NONE,
 			      0);
 
 	object_class = G_OBJECT_CLASS (class);
@@ -128,14 +128,14 @@ filename_cell_data_func (GtkTreeViewColumn *column,
 		path = gtk_tree_model_get_path (model, iter);
 
 		if (dir_list->hover_path == NULL ||
-		    gtk_tree_path_compare (path, dir_list->hover_path)) 
+		    gtk_tree_path_compare (path, dir_list->hover_path))
 			underline = PANGO_UNDERLINE_NONE;
-		else 
+		else
 			underline = PANGO_UNDERLINE_SINGLE;
-		
+
 		gtk_tree_path_free (path);
 
-	} else 
+	} else
 		underline = PANGO_UNDERLINE_NONE;
 
 	g_object_set (G_OBJECT (renderer),
@@ -154,19 +154,19 @@ add_columns (GthDirList  *dir_list,
 	GtkCellRenderer   *renderer;
 	GtkTreeViewColumn *column;
 	GValue             value = { 0, };
-	
+
 	/* The Name column. */
 
 	column = gtk_tree_view_column_new ();
-	
+
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer,
 					     "pixbuf", DIR_LIST_COLUMN_ICON,
 					     NULL);
-	
+
 	dir_list->text_renderer = renderer = gtk_cell_renderer_text_new ();
-	
+
         g_value_init (&value, PANGO_TYPE_ELLIPSIZE_MODE);
         g_value_set_enum (&value, PANGO_ELLIPSIZE_END);
         g_object_set_property (G_OBJECT (renderer), "ellipsize", &value);
@@ -179,7 +179,7 @@ add_columns (GthDirList  *dir_list,
                                              "text", DIR_LIST_COLUMN_UTF_NAME,
                                              NULL);
 
-        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);        
+        gtk_tree_view_column_set_sizing (column, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
 	gtk_tree_view_column_set_sort_column_id (column, DIR_LIST_COLUMN_UTF_NAME);
 	gtk_tree_view_column_set_cell_data_func (column, renderer,
 						 (GtkTreeCellDataFunc) filename_cell_data_func,
@@ -198,11 +198,11 @@ file_motion_notify_callback (GtkWidget      *widget,
 	GdkCursor   *cursor;
 	GtkTreePath *last_hover_path;
 	GtkTreeIter  iter;
- 	
-	if (! dir_list->single_click) 
+
+	if (! dir_list->single_click)
 		return FALSE;
 
-	if (event->window != gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view))) 
+	if (event->window != gtk_tree_view_get_bin_window (GTK_TREE_VIEW (dir_list->list_view)))
                 return FALSE;
 
 	last_hover_path = dir_list->hover_path;
@@ -212,11 +212,11 @@ file_motion_notify_callback (GtkWidget      *widget,
 				       &dir_list->hover_path,
 				       NULL, NULL, NULL);
 
-	if (dir_list->hover_path != NULL) 
+	if (dir_list->hover_path != NULL)
 		cursor = gdk_cursor_new (GDK_HAND2);
-	else 
+	else
 		cursor = NULL;
-	
+
 	gdk_window_set_cursor (event->window, cursor);
 
 	/* only redraw if the hover row has changed */
@@ -229,7 +229,7 @@ file_motion_notify_callback (GtkWidget      *widget,
 			gtk_tree_model_row_changed (GTK_TREE_MODEL (dir_list->list_store),
 						    last_hover_path, &iter);
 		}
-		
+
 		if (dir_list->hover_path) {
 			gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
 						 &iter, dir_list->hover_path);
@@ -237,14 +237,14 @@ file_motion_notify_callback (GtkWidget      *widget,
 						    dir_list->hover_path, &iter);
 		}
 	}
-	
+
 	gtk_tree_path_free (last_hover_path);
 
  	return FALSE;
 }
 
 
-static gboolean 
+static gboolean
 file_leave_notify_callback (GtkWidget        *widget,
 			    GdkEventCrossing *event,
 			    gpointer          user_data)
@@ -254,7 +254,7 @@ file_leave_notify_callback (GtkWidget        *widget,
 
 	if (dir_list->single_click && (dir_list->hover_path != NULL)) {
 		gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
-					 &iter, 
+					 &iter,
 					 dir_list->hover_path);
 		gtk_tree_model_row_changed (GTK_TREE_MODEL (dir_list->list_store),
 					    dir_list->hover_path,
@@ -294,7 +294,7 @@ gth_dir_list_init (GthDirList *dir_list)
 
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),
-					GTK_POLICY_AUTOMATIC, 
+					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled),
                                              GTK_SHADOW_ETCHED_IN);
@@ -310,13 +310,13 @@ gth_dir_list_init (GthDirList *dir_list)
         gtk_tree_view_set_enable_search (list_view, TRUE);
         gtk_tree_view_set_search_column (list_view, DIR_LIST_COLUMN_UTF_NAME);
 
-	g_signal_connect (G_OBJECT (list_view), 
+	g_signal_connect (G_OBJECT (list_view),
 			  "motion_notify_event",
-			  G_CALLBACK (file_motion_notify_callback), 
+			  G_CALLBACK (file_motion_notify_callback),
 			  dir_list);
-	g_signal_connect (G_OBJECT (list_view), 
+	g_signal_connect (G_OBJECT (list_view),
 			  "leave_notify_event",
-			  G_CALLBACK (file_leave_notify_callback), 
+			  G_CALLBACK (file_leave_notify_callback),
 			  dir_list);
 
 	/**/
@@ -375,7 +375,7 @@ gth_dir_list_update_underline (GthDirList *dir_list)
 		gdk_window_set_cursor (win, NULL);
 
 	display = gtk_widget_get_display (GTK_WIDGET (dir_list->list_view));
-	if (display != NULL) 
+	if (display != NULL)
 		gdk_display_flush (display);
 }
 
@@ -453,7 +453,7 @@ gth_dir_list_update_icon_theme (GthDirList *dir_list)
 
 
 static void
-gth_dir_list_refresh_continue (PathListData *pld, 
+gth_dir_list_change_to__step3 (PathListData *pld,
 			       gpointer      data)
 {
 	GthDirList *dir_list = data;
@@ -461,7 +461,7 @@ gth_dir_list_refresh_continue (PathListData *pld,
 	GList      *new_file_list = NULL;
 	GList      *filtered;
 
-	if (pld == NULL) 
+	if (pld == NULL)
 		return;
 
 	dir_list = data;
@@ -496,7 +496,7 @@ gth_dir_list_refresh_continue (PathListData *pld,
 		g_free (previous_dir);
 	}
 
-	if (dir_list->path != NULL) 
+	if (dir_list->path != NULL)
 		g_free (dir_list->path);
 	dir_list->path = dir_list->try_path;
 	dir_list->try_path = NULL;
@@ -513,8 +513,7 @@ gth_dir_list_refresh_continue (PathListData *pld,
 	/* Delete the old dir list. */
 
 	if (dir_list->list != NULL) {
-		g_list_foreach (dir_list->list, (GFunc) g_free, NULL);
-		g_list_free (dir_list->list);
+		path_list_free (dir_list->list);
 		dir_list->list = NULL;
 	}
 
@@ -525,11 +524,11 @@ gth_dir_list_refresh_continue (PathListData *pld,
 
 	/* Set the new dir list */
 
-	filtered = dir_list_filter_and_sort (new_dir_list, 
-			         	     TRUE, 
+	filtered = dir_list_filter_and_sort (new_dir_list,
+			         	     TRUE,
 					     eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN));
 
-	/* * Add the ".." entry if the current path is not "/". 
+	/* * Add the ".." entry if the current path is not "/".
 	 * path_list_new does not include the "." and ".." elements. */
 
 	if (! uri_is_root (dir_list->path))
@@ -552,7 +551,7 @@ gth_dir_list_refresh_continue (PathListData *pld,
 		row = -1;
 		scan = dir_list->list;
 		while (scan && !found) {
-			if (same_uri (dir_list->old_dir, scan->data)) 
+			if (same_uri (dir_list->old_dir, scan->data))
 				found = TRUE;
 			scan = scan->next;
 			row++;
@@ -575,7 +574,7 @@ gth_dir_list_refresh_continue (PathListData *pld,
 		dir_list->old_dir = NULL;
 	}
 
-	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0);	
+	g_signal_emit (dir_list, gth_dir_list_signals[DONE], 0);
 }
 
 
@@ -583,7 +582,7 @@ static void
 gth_dir_list_change_to__step2 (gpointer callback_data)
 {
 	GthDirList *dir_list = callback_data;
-	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_refresh_continue, dir_list);
+	dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step3, dir_list);
 }
 
 
@@ -593,14 +592,16 @@ gth_dir_list_change_to (GthDirList *dir_list,
 {
 	g_return_if_fail (dir_list != NULL);
 
-	if ((path != dir_list->try_path) && (dir_list->try_path != NULL)) 
+	g_signal_emit (dir_list, gth_dir_list_signals[STARTED], 0);
+
+	if ((path != dir_list->try_path) && (dir_list->try_path != NULL))
 		g_free (dir_list->try_path);
 	dir_list->try_path = remove_ending_separator (path);
 
 	if (dir_list->dir_load_handle != NULL)
 		path_list_async_interrupt (dir_list->dir_load_handle, gth_dir_list_change_to__step2, dir_list);
 	else
-		dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_refresh_continue, dir_list);
+		dir_list->dir_load_handle = path_list_async_new (dir_list->try_path, gth_dir_list_change_to__step3, dir_list);
 }
 
 
@@ -635,15 +636,15 @@ gth_dir_list_add_directory (GthDirList *dir_list,
 
 	/* check whether dir is already present */
 
-	for (scan = dir_list->list; scan; scan = scan->next) 
+	for (scan = dir_list->list; scan; scan = scan->next)
 		if (same_uri (name_only, (char*)scan->data))
 			return;
 
 	/* insert dir in the list */
-	
-	if (! (file_is_hidden (name_only) 
+
+	if (! (file_is_hidden (name_only)
 	       && ! eel_gconf_get_boolean (PREF_SHOW_HIDDEN_FILES, DEF_SHOW_HIDDEN))
-	    && ! same_uri (name_only, CACHE_DIR)) 
+	    && ! same_uri (name_only, CACHE_DIR))
 		dir_list->list = g_list_prepend (dir_list->list, g_strdup (name_only));
 	dir_list->list = g_list_sort (dir_list->list, (GCompareFunc) strcasecmp);
 
@@ -700,11 +701,11 @@ gth_dir_list_remove_directory (GthDirList *dir_list,
 		pos++;
 	}
 
-	if (link == NULL) 
+	if (link == NULL)
 		return;
 
 	/**/
-	
+
 	dir_list->list = g_list_remove_link (dir_list->list, link);
 	g_free (link->data);
 	g_list_free (link);
@@ -714,7 +715,7 @@ gth_dir_list_remove_directory (GthDirList *dir_list,
 	if (! gtk_tree_model_iter_nth_child (GTK_TREE_MODEL (dir_list->list_store),
 					     &iter,
 					     NULL,
-					     pos)) 
+					     pos))
 		return;
 
 	gtk_list_store_remove (dir_list->list_store, &iter);
@@ -729,7 +730,7 @@ gth_dir_list_get_name_from_iter (GthDirList  *dir_list,
 
 	g_return_val_if_fail (dir_list != NULL, NULL);
 
-	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store),
 			    iter,
 			    DIR_LIST_COLUMN_UTF_NAME, &utf8_name,
 			    -1);
@@ -745,12 +746,12 @@ gth_dir_list_get_path_from_iter (GthDirList  *dir_list,
 	char *name;
 	char *new_path;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store), 
+	gtk_tree_model_get (GTK_TREE_MODEL (dir_list->list_store),
 			    iter,
 			    DIR_LIST_COLUMN_NAME, &name,
 			    -1);
 
-	if (name == NULL) 
+	if (name == NULL)
 		return NULL;
 
 	if (strcmp (name, ".") == 0)
@@ -759,18 +760,18 @@ gth_dir_list_get_path_from_iter (GthDirList  *dir_list,
 		new_path = remove_level_from_path (dir_list->path);
 	else {
 		if (same_uri (dir_list->path, "/"))
-			new_path = g_strconcat (dir_list->path, 
-						name, 
+			new_path = g_strconcat (dir_list->path,
+						name,
 						NULL);
 		else
-			new_path = g_strconcat (dir_list->path, 
-						"/", 
-						name, 
+			new_path = g_strconcat (dir_list->path,
+						"/",
+						name,
 						NULL);
 	}
 	g_free (name);
 
-	return new_path;	
+	return new_path;
 }
 
 
@@ -793,7 +794,7 @@ gth_dir_list_get_row_from_path (GthDirList *dir_list,
 	name = file_name_from_path (path);
 
 	for (pos = 0, scan = dir_list->list; scan; scan = scan->next) {
-		if (same_uri (name, (char*) scan->data)) 
+		if (same_uri (name, (char*) scan->data))
 			return pos;
 		pos++;
 	}
@@ -812,9 +813,9 @@ gth_dir_list_get_path_from_tree_path (GthDirList  *dir_list,
 
 	if (! gtk_tree_model_get_iter (GTK_TREE_MODEL (dir_list->list_store),
                                        &iter,
-                                       path)) 
+                                       path))
                 return NULL;
-	
+
 	return gth_dir_list_get_path_from_iter (dir_list, &iter);
 }
 
@@ -838,7 +839,7 @@ gth_dir_list_get_path_from_row (GthDirList *dir_list,
 
 
 gboolean
-gth_dir_list_get_selected_iter (GthDirList  *dir_list, 
+gth_dir_list_get_selected_iter (GthDirList  *dir_list,
 				GtkTreeIter *iter)
 {
 	GtkTreeView      *tree_view;

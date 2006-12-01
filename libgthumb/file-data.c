@@ -33,7 +33,7 @@
 
 
 FileData *
-file_data_new (const char       *path, 
+file_data_new (const char       *path,
 	       GnomeVFSFileInfo *info)
 {
 	FileData *fd;
@@ -54,8 +54,8 @@ file_data_new (const char       *path,
 	   DateTime sorts. The tag in memory is refreshed if the file mtime has
 	   changed, so it is recorded as well. */
 
+	fd->exif_data_loaded = FALSE;
 	fd->exif_time = 0;
-	fd->exif_time_recorded_at=0;
 
 	fd->error = FALSE;
 	fd->thumb = FALSE;
@@ -95,6 +95,7 @@ file_data_update (FileData *fd)
 	fd->size = info->size;
 	fd->mtime = info->mtime;
 	fd->ctime = info->ctime;
+	fd->exif_data_loaded = FALSE;
 
 	gnome_vfs_file_info_unref (info);
 }
@@ -191,7 +192,7 @@ file_data_list_free (GList *list)
 }
 
 
-const char * 
+const char *
 file_data_local_path (FileData *fd)
 {
 	return get_file_path_from_uri (fd->path);

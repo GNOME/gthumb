@@ -47,7 +47,7 @@ struct _GthFileList {
 	GtkWidget     *root_widget;       /* The widget that contains all. */
 	GtkWidget     *drag_source;
 	gboolean       enable_thumbs;     /* Whether to show the thumbnails. */
-	gboolean       busy; 
+	gboolean       busy;
 	GthFileListPrivateData *priv;
 };
 
@@ -55,7 +55,7 @@ struct _GthFileListClass {
 	GObjectClass __parent;
 
 	/* -- signals -- */
-	
+
 	void (*busy) (GthFileList *file_list);
 	void (*idle) (GthFileList *file_list);
 	void (*done) (GthFileList *file_list);
@@ -79,7 +79,7 @@ void         gth_file_list_set_sort_method      (GthFileList   *file_list,
 void         gth_file_list_set_sort_type        (GthFileList   *file_list,
 						 GtkSortType    sort_type,
 						 gboolean       update);
-int          gth_file_list_pos_from_path        (GthFileList   *file_list, 
+int          gth_file_list_pos_from_path        (GthFileList   *file_list,
 						 const char    *path);
 GList*       gth_file_list_get_all              (GthFileList   *file_list);
 GList*       gth_file_list_get_all_from_view    (GthFileList   *file_list);
@@ -89,7 +89,7 @@ GList*       gth_file_list_get_selection_as_fd  (GthFileList   *file_list);
 int          gth_file_list_get_selection_length (GthFileList   *file_list);
 char*        gth_file_list_path_from_pos        (GthFileList   *file_list,
 						 int            pos);
-gboolean     gth_file_list_is_selected          (GthFileList   *file_list, 
+gboolean     gth_file_list_is_selected          (GthFileList   *file_list,
 						 int            pos);
 void         gth_file_list_select_image_by_pos  (GthFileList   *file_list,
 						 int            pos);
@@ -110,10 +110,10 @@ int          gth_file_list_prev_image           (GthFileList   *file_list,
 						 gboolean       without_error,
 						 gboolean       only_selected);
 void         gth_file_list_delete               (GthFileList   *file_list,
-						 const char    *uri);						 
+						 const char    *uri);
 void         gth_file_list_rename               (GthFileList   *file_list,
-		      				 const char    *from_uri, 
-		      				 const char    *to_uri);						 
+		      				 const char    *from_uri,
+		      				 const char    *to_uri);
 void         gth_file_list_update_comment       (GthFileList   *file_list,
 						 const char    *uri);
 void         gth_file_list_update_thumb         (GthFileList   *file_list,

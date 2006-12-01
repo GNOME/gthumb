@@ -38,8 +38,8 @@ typedef struct {
 	GnomeVFSFileSize    size;
 	time_t              ctime;
 	time_t              mtime;
+	guint               exif_data_loaded : 1;
 	time_t		    exif_time;
-	time_t		    exif_time_recorded_at;
 	guint               error : 1;     /* Whether an error occurred loading
 					    * this file. */
 	guint               thumb : 1;     /* Whether we have a thumb of this
@@ -48,7 +48,7 @@ typedef struct {
 } FileData;
 
 
-FileData *   file_data_new               (const char       *path, 
+FileData *   file_data_new               (const char       *path,
 					  GnomeVFSFileInfo *info);
 void         file_data_ref               (FileData         *fd);
 void         file_data_unref             (FileData         *fd);
