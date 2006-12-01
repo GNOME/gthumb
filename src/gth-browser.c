@@ -6972,6 +6972,7 @@ gth_browser_construct (GthBrowser  *browser,
 				       pref_get_transp_type ());
 	image_viewer_set_black_background (IMAGE_VIEWER (priv->viewer),
 					   eel_gconf_get_boolean (PREF_BLACK_BACKGROUND, FALSE));
+	image_viewer_set_reset_scrollbars (IMAGE_VIEWER (priv->viewer), eel_gconf_get_boolean (PREF_RESET_SCROLLBARS, TRUE));
 
 	/*
 	if (path_is_file (uri)) {

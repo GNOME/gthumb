@@ -1,8 +1,10 @@
 2006-12-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
-	* src/gth-fullscreen.c: (gth_fullscreen_construct):
+	* src/gth-browser.c (gth_browser_construct): init the reset_scrollbars
+	option.
 
-	Init to fit-size_if_larger when using keep_prev_zoom.
+	* src/gth-fullscreen.c: (gth_fullscreen_construct):	Init to
+	fit-size_if_larger when using keep_prev_zoom.
 
 	* src/gth-exif-data-viewer.c (add_to_exif_display_list): fixed compiler
 	warning.
