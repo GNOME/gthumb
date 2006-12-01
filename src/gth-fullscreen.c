@@ -1516,7 +1516,7 @@ gth_fullscreen_construct (GthFullscreen *fullscreen,
 
 	if (zoom_change == GTH_ZOOM_CHANGE_FIT_SIZE)
 		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_SIZE);
-	else if (zoom_change == GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER)
+	else if ((zoom_change == GTH_ZOOM_CHANGE_FIT_SIZE_IF_LARGER) || (zoom_change == GTH_ZOOM_CHANGE_KEEP_PREV))
 		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_SIZE_IF_LARGER);
 	else if (zoom_change == GTH_ZOOM_CHANGE_FIT_WIDTH_IF_LARGER)
 		image_viewer_set_fit_mode (IMAGE_VIEWER (priv->viewer), GTH_FIT_WIDTH_IF_LARGER);
