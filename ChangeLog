@@ -1,3 +1,9 @@
+2006-12-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: (update_file_info):
+	  Prefix filesystem-based fields with "File ", to distinguish from
+	  Exif data.
+
 2006-11-30  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
 	* NEWS: updated news for 2.9.0, based on earlier commits.

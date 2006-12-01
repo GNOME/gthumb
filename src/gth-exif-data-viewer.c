@@ -487,35 +487,35 @@ update_file_info (GthExifDataViewer *edv)
 
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("Name"), 
+			    NAME_COLUMN, _("File Name"), 
 			    VALUE_COLUMN, utf8_name,
 			    POS_COLUMN, -4,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("Size"), 
+			    NAME_COLUMN, _("File Dimensions"), 
 			    VALUE_COLUMN, size_txt,
 			    POS_COLUMN, -3,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("Bytes"), 
+			    NAME_COLUMN, _("File Size"), 
 			    VALUE_COLUMN, file_size_txt,
 			    POS_COLUMN, -2,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("Modified"),
+			    NAME_COLUMN, _("File Modified"),
 			    VALUE_COLUMN, utf8_time_txt,
 			    POS_COLUMN, -1,
 			    -1);
 
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("Type"),
+			    NAME_COLUMN, _("File Type"),
 			    VALUE_COLUMN, gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)),
 			    POS_COLUMN, -1,
 			    -1);
