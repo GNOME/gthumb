@@ -1,5 +1,8 @@
 2006-12-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
+	* src/gth-exif-data-viewer.c (add_to_exif_display_list): fixed compiler
+	warning.
+
 	* src/gth-browser.c:
 	* src/dlg-file-utils.c:
 	* src/gth-fullscreen.c:
@@ -12,8 +15,8 @@
 	* data/glade/gthumb_preferences.glade:
 
 	Added a fit_width_if_larger mode for the image_viewer and use it for the
-	zoom_width toolbar button.  Init the viewer to zoom_fit_if_larger mode when
-	using the keep_previous_zoom mode.
+	zoom_width toolbar button.  Init the viewer to zoom_fit_if_larger mode
+	when using the keep_previous_zoom mode.
 
 	* data/gthumb.schemas.in: set keep_prev as default value for the
 	zoom_change key.

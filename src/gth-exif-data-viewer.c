@@ -118,7 +118,7 @@ gth_exif_data_viewer_construct (GthExifDataViewer *edv)
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (edv->priv->image_exif_view), FALSE);
 	gtk_tree_view_set_rules_hint (GTK_TREE_VIEW (edv->priv->image_exif_view), TRUE);
 	edv->priv->image_exif_model = gtk_list_store_new (3,
-							  G_TYPE_STRING, 
+							  G_TYPE_STRING,
 							  G_TYPE_STRING,
 							  G_TYPE_INT);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (edv->priv->image_exif_view),
@@ -184,7 +184,7 @@ gth_exif_data_viewer_get_type ()
 }
 
 
-GtkWidget*     
+GtkWidget*
 gth_exif_data_viewer_new (gboolean view_file_info)
 {
 	GtkWidget *widget;
@@ -216,7 +216,7 @@ tag_is_present (GtkTreeModel *model,
 				    &iter,
 				    NAME_COLUMN, &tag_name2,
 				    -1);
-		if ((tag_name2 != NULL) 
+		if ((tag_name2 != NULL)
 		    && (strcmp (tag_name, tag_name2) == 0)) {
 			g_free (tag_name2);
 			return TRUE;
@@ -238,13 +238,13 @@ get_entry_from_tag (ExifData *edata,
 	for (i = 0; i < EXIF_IFD_COUNT; i++) {
 		ExifContent *content = edata->ifd[i];
 
-		if ((content == NULL) || (content->count == 0)) 
+		if ((content == NULL) || (content->count == 0))
 			continue;
 
 		for (j = 0; j < content->count; j++) {
 			ExifEntry *e = content->entries[j];
 
-			if (! content->entries[j]) 
+			if (! content->entries[j])
 				continue;
 
 			if (e->tag == tag)
@@ -258,8 +258,8 @@ get_entry_from_tag (ExifData *edata,
 
 static void
 add_to_exif_display_list (GthExifDataViewer *edv,
-			  char 		    *utf8_name,
-			  char 		    *utf8_value,
+			  const char 	    *utf8_name,
+			  const char	    *utf8_value,
 	 		  int		     position)
 {
 	GtkTreeIter   iter;
@@ -293,7 +293,7 @@ update_exif_data (GthExifDataViewer *edv,
 	else
 		exif_data_ref (edata);
 
-	if (edata == NULL) 
+	if (edata == NULL)
                 return;
 
 	/* Iterate through every IFD in the Exif data, checking for tags. The GPS tags are
@@ -322,7 +322,7 @@ update_exif_data (GthExifDataViewer *edv,
 				/* The tag IDs for the GPS and non-GPS IFDs overlap slightly,
 				   so it is important to use the exif_tag_get_name_in_ifd
 				   function, and not the older exif_tag_get_name function. */
-	
+
 				value = exif_tag_get_name_in_ifd (e->tag, exif_content_get_ifd (content));
 
 				if (value == NULL)
@@ -333,7 +333,7 @@ update_exif_data (GthExifDataViewer *edv,
 					g_free (utf8_name);
 					continue;
 				}
-		
+
 				value = get_exif_entry_value (e);
 				if (value == NULL) {
 					g_free (utf8_name);
@@ -341,8 +341,8 @@ update_exif_data (GthExifDataViewer *edv,
 				}
 
 				utf8_value = g_strdup (value);
-				if ((utf8_value == NULL) 
-				    || (*utf8_value == 0) 
+				if ((utf8_value == NULL)
+				    || (*utf8_value == 0)
 				    || _g_utf8_all_spaces (utf8_value)) {
 					g_free (utf8_name);
 					g_free (utf8_value);
@@ -358,7 +358,7 @@ update_exif_data (GthExifDataViewer *edv,
 						continue;
 					} else
 						date_added = TRUE;
-				}	
+				}
 
 				if ((e->tag == EXIF_TAG_APERTURE_VALUE)
 				    || (e->tag == EXIF_TAG_FNUMBER)) {
@@ -366,7 +366,7 @@ update_exif_data (GthExifDataViewer *edv,
 						g_free (utf8_name);
 						g_free (utf8_value);
 						continue;
-					} else 
+					} else
 						aperture_added = TRUE;
 				}
 
@@ -382,7 +382,7 @@ update_exif_data (GthExifDataViewer *edv,
 
 				ExifMnoteData *mnote = exif_data_get_mnote_data (edata);
 
-				if (mnote == NULL) 
+				if (mnote == NULL)
 					continue;
 
 				/* Supported MakerNote Found */
@@ -422,9 +422,9 @@ update_exif_data (GthExifDataViewer *edv,
 	                        	}
 
 					add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);
-					
+
 	   	                        g_free (utf8_name);
-		                        g_free (utf8_value);			
+		                        g_free (utf8_value);
 				}
 
 				/* Another blank line for prettiness */
@@ -437,7 +437,7 @@ update_exif_data (GthExifDataViewer *edv,
 	}
 
 	/* Put a blank line between the file info and the exif info, if both are present. */
-	if (edv->priv->view_file_info && !list_is_empty) 
+	if (edv->priv->view_file_info && !list_is_empty)
 		add_to_exif_display_list (edv, "", "", -1);
 
 	exif_data_unref (edata);
@@ -470,13 +470,13 @@ update_file_info (GthExifDataViewer *edv)
 		height = 0;
 	}
 	size_txt = g_strdup_printf (_("%d x %d pixels"), width, height);
-	
+
 	mtime = get_file_mtime (edv->priv->path);
 	tm = localtime (&mtime);
 	strftime (time_txt, 50, _("%d %B %Y, %H:%M"), tm);
 	utf8_time_txt = g_locale_to_utf8 (time_txt, -1, 0, 0, 0);
 	sec = g_timer_elapsed (image_loader_get_timer (edv->priv->viewer->loader),  NULL);
-		
+
 	file_size = get_file_size (edv->priv->path);
 	file_size_txt = gnome_vfs_format_file_size_for_display (file_size);
 
@@ -529,8 +529,8 @@ gth_exif_data_viewer_update (GthExifDataViewer *edv,
 		edv->priv->viewer = viewer;
 
 	gtk_list_store_clear (edv->priv->image_exif_model);
-	
-	if (path == NULL) 
+
+	if (path == NULL)
 		return;
 
 	if (edv->priv->view_file_info)
