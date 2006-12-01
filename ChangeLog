@@ -1,3 +1,9 @@
+2006-12-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
+	* src/gth-exif-data-viewer.c: (add_to_exif_display_list),
+	(update_exif_data), (update_file_info):
+	  Added the ability to view Exif "MakerNote" data.
+
 2006-12-01  Paolo Bacchilega  <paobac@cvs.gnome.org>
 
 	* src/gth-browser.c:

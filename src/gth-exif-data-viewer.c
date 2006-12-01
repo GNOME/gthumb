@@ -40,7 +40,7 @@
 #include <libexif/exif-content.h>
 #include <libexif/exif-entry.h>
 #include <libexif/exif-tag.h>
-
+#include <libexif/exif-mnote-data.h>
 
 enum {
 	NAME_COLUMN,
@@ -257,16 +257,32 @@ get_entry_from_tag (ExifData *edata,
 
 
 static void
+add_to_exif_display_list (GthExifDataViewer *edv,
+			  char 		    *utf8_name,
+			  char 		    *utf8_value,
+	 		  int		     position)
+{
+	GtkTreeIter   iter;
+
+	gtk_list_store_append (edv->priv->image_exif_model, &iter);
+        gtk_list_store_set (edv->priv->image_exif_model, &iter,
+        			NAME_COLUMN, utf8_name,
+				VALUE_COLUMN, utf8_value,
+				POS_COLUMN, position,
+                                -1);
+}
+
+
+static void
 update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
 	const char   *path;
 	unsigned int  i,j;
+	int	      pos_shift=0;
 	gboolean      date_added = FALSE;
 	gboolean      aperture_added = FALSE;
 	gboolean      list_is_empty = TRUE;
-	GtkTreeIter   iter;
-
 
 	path = get_file_path_from_uri (edv->priv->path);
 	if (path == NULL)
@@ -279,6 +295,9 @@ update_exif_data (GthExifDataViewer *edv,
 
 	if (edata == NULL) 
                 return;
+
+	/* Iterate through every IFD in the Exif data, checking for tags. The GPS tags are
+	   stored in their own private IFD. */
 
         for (i = 0; i < EXIF_IFD_COUNT; i++) {
                 ExifContent *content = edata->ifd[i];
@@ -295,73 +314,131 @@ update_exif_data (GthExifDataViewer *edv,
 
                         if (! content->entries[j])
                                 continue;
-			
-			value = exif_tag_get_name_in_ifd (e->tag, exif_content_get_ifd (content));
-			if (value == NULL)
-				continue;
 
-			utf8_name = g_strdup (value);
-			if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
-				g_free (utf8_name);
-				continue;
-			}
+			/* Accept all tags, but handle "maker notes" separately below */
+
+			if (e->tag != EXIF_TAG_MAKER_NOTE) {
+
+				/* The tag IDs for the GPS and non-GPS IFDs overlap slightly,
+				   so it is important to use the exif_tag_get_name_in_ifd
+				   function, and not the older exif_tag_get_name function. */
+	
+				value = exif_tag_get_name_in_ifd (e->tag, exif_content_get_ifd (content));
+
+				if (value == NULL)
+					continue;
+
+				utf8_name = g_strconcat (_("Exif"), ": ", value, NULL);
+				if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
+					g_free (utf8_name);
+					continue;
+				}
 		
-			value = get_exif_entry_value (e);
-			if (value == NULL) {
-				g_free (utf8_name);
-				continue;
-			}
+				value = get_exif_entry_value (e);
+				if (value == NULL) {
+					g_free (utf8_name);
+					continue;
+				}
 
-			utf8_value = g_strdup (value);
-			if ((utf8_value == NULL) 
-			    || (*utf8_value == 0) 
-			    || _g_utf8_all_spaces (utf8_value)) {
+				utf8_value = g_strdup (value);
+				if ((utf8_value == NULL) 
+				    || (*utf8_value == 0) 
+				    || _g_utf8_all_spaces (utf8_value)) {
+					g_free (utf8_name);
+					g_free (utf8_value);
+					continue;
+				}
+
+				if ((e->tag == EXIF_TAG_DATE_TIME)
+				    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
+				    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
+					if (date_added) {
+						g_free (utf8_name);
+						g_free (utf8_value);
+						continue;
+					} else
+						date_added = TRUE;
+				}	
+
+				if ((e->tag == EXIF_TAG_APERTURE_VALUE)
+				    || (e->tag == EXIF_TAG_FNUMBER)) {
+					if (aperture_added) {
+						g_free (utf8_name);
+						g_free (utf8_value);
+						continue;
+					} else 
+						aperture_added = TRUE;
+				}
+
+				add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);
+
 				g_free (utf8_name);
 				g_free (utf8_value);
-				continue;
 			}
+			else {
+				/* Maker Notes have their own sub-structure which must be
+				   iterated through. libexif only knows how to handle certain
+				   types of manufacturer note styles. */
 
-			if ((e->tag == EXIF_TAG_DATE_TIME)
-			    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
-			    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
-				if (date_added) {
-					g_free (utf8_name);
-					g_free (utf8_value);
+				ExifMnoteData *mnote = exif_data_get_mnote_data (edata);
+
+				if (mnote == NULL) 
 					continue;
-				} else
-					date_added = TRUE;
+
+				/* Supported MakerNote Found */
+				unsigned int k;
+				unsigned int subnote_count = exif_mnote_data_count (mnote);
+				char	     mnote_buf[1024];
+
+				/* Add a blank line in the list, to make it pretty */
+				++pos_shift;
+				add_to_exif_display_list (edv, "", "", i+pos_shift);
+
+				/* Iterate through each "sub-note" */
+				for (k = 0; k < subnote_count; k++) {
+	                               	value = exif_mnote_data_get_title (mnote, k);
+
+        	                       	if (value == NULL)
+                	                	continue;
+
+					++pos_shift;
+
+	      	                       	utf8_name = g_strconcat (_("Note"), ": ", value, NULL);
+
+                	               	if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
+                        	               	g_free (utf8_name);
+                                	       	continue;
+	                               	}
+
+        	                       	exif_mnote_data_get_value (mnote, k, mnote_buf, sizeof (mnote_buf));
+
+					utf8_value = g_strdup (mnote_buf);
+	                               	if ((utf8_value == NULL)
+        	                           || (*utf8_value == 0)
+                	                   || _g_utf8_all_spaces (utf8_value)) {
+                        	              	g_free (utf8_name);
+                                	      	g_free (utf8_value);
+                                        	continue;
+	                        	}
+
+					add_to_exif_display_list (edv, utf8_name, utf8_value, i+pos_shift);
+					
+	   	                        g_free (utf8_name);
+		                        g_free (utf8_value);			
+				}
+
+				/* Another blank line for prettiness */
+                                ++pos_shift;
+				add_to_exif_display_list (edv, "", "", i+pos_shift);
 			}
 
-			if ((e->tag == EXIF_TAG_APERTURE_VALUE)
-			    || (e->tag == EXIF_TAG_FNUMBER)) {
-				if (aperture_added) {
-					g_free (utf8_name);
-					g_free (utf8_value);
-					continue;
-				} else 
-					aperture_added = TRUE;
-			}
-
-			gtk_list_store_append (edv->priv->image_exif_model, &iter);
-			gtk_list_store_set (edv->priv->image_exif_model, &iter,
-					    NAME_COLUMN, utf8_name,
-					    VALUE_COLUMN, utf8_value,
-					    POS_COLUMN, i,
-					    -1);
 			list_is_empty = FALSE;
-			g_free (utf8_name);
-			g_free (utf8_value);
 		}
 	}
 
-	if (edv->priv->view_file_info && !list_is_empty) {
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, "",
-			    VALUE_COLUMN, "",
-			    POS_COLUMN, -1,
-			    -1);
-	}
+	/* Put a blank line between the file info and the exif info, if both are present. */
+	if (edv->priv->view_file_info && !list_is_empty) 
+		add_to_exif_display_list (edv, "", "", -1);
 
 	exif_data_unref (edata);
 }
@@ -379,7 +456,6 @@ update_file_info (GthExifDataViewer *edv)
 	double             sec;
 	GnomeVFSFileSize   file_size;
 	char              *file_size_txt;
-	GtkTreeIter        iter;
 
 	if (edv->priv->viewer == NULL)
 		return;
@@ -406,40 +482,11 @@ update_file_info (GthExifDataViewer *edv)
 
 	/**/
 
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("File Name"), 
-			    VALUE_COLUMN, utf8_name,
-			    POS_COLUMN, -6,
-			    -1);
-	
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("File Dimensions"), 
-			    VALUE_COLUMN, size_txt,
-			    POS_COLUMN, -5,
-			    -1);
-	
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("File Size"), 
-			    VALUE_COLUMN, file_size_txt,
-			    POS_COLUMN, -4,
-			    -1);
-	
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("File Modified"),
-			    VALUE_COLUMN, utf8_time_txt,
-			    POS_COLUMN, -3,
-			    -1);
-
-	gtk_list_store_append (edv->priv->image_exif_model, &iter);
-	gtk_list_store_set (edv->priv->image_exif_model, &iter,
-			    NAME_COLUMN, _("File Type"),
-			    VALUE_COLUMN, gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)),
-			    POS_COLUMN, -2,
-			    -1);
+	add_to_exif_display_list (edv, _("File: Name"), utf8_name, -6);
+	add_to_exif_display_list (edv, _("File: Dimensions"), size_txt, -5);
+	add_to_exif_display_list (edv, _("File: Size"), file_size_txt, -4);
+	add_to_exif_display_list (edv, _("File: Modified"), utf8_time_txt, -3);
+	add_to_exif_display_list (edv, _("File: Type"), gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)), -2);
 
 	/**/
 
