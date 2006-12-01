@@ -27,6 +27,7 @@ version 2.9.0
 	* Added a new "BestFit" web album theme. Bug 319933.
 	* Added iso-code escaping of non-ASCII characters in web albums.
 	* More secure method of temporary file generation. Bug 358894.
+	* Can display GPS-related Exif tags now. Bug 339648.
 
 version 2.7.9
 -------------

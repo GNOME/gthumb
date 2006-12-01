@@ -1,5 +1,18 @@
 2006-12-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
 
+	* configure.in:
+	  Update libexif requirement to 0.6.13, from 0.6.9
+
+	* doc/C/gthumb.xml:
+	  Corrected spelling error ("usefull")
+
+	* src/gth-exif-data-viewer.c: (update_exif_data),
+	(update_file_info):
+	  Removed filtering of Exif tags - all are shown now. Added the ability
+	  to display GPS-related Exif tags. Bug 339648.
+
+2006-12-01  Michael J. Chudobiak  <mjc@cvs.gnome.org>
+
 	* src/gth-exif-data-viewer.c: (update_file_info):
 	  Prefix filesystem-based fields with "File ", to distinguish from
 	  Exif data.

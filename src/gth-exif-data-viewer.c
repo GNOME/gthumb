@@ -39,6 +39,7 @@
 #include <libexif/exif-data.h>
 #include <libexif/exif-content.h>
 #include <libexif/exif-entry.h>
+#include <libexif/exif-tag.h>
 
 
 enum {
@@ -196,89 +197,6 @@ gth_exif_data_viewer_new (gboolean view_file_info)
 }
 
 
-static ExifTag usefull_tags[] = {
-	0, 
-
-	EXIF_TAG_EXPOSURE_TIME,
-	EXIF_TAG_EXPOSURE_PROGRAM,
-	EXIF_TAG_EXPOSURE_MODE,
-	EXIF_TAG_EXPOSURE_BIAS_VALUE,
-	EXIF_TAG_FLASH,
-	EXIF_TAG_FLASH_ENERGY,
-	EXIF_TAG_SPECTRAL_SENSITIVITY,
-	EXIF_TAG_SHUTTER_SPEED_VALUE,
-	EXIF_TAG_APERTURE_VALUE,
-	EXIF_TAG_FNUMBER,
-	EXIF_TAG_BRIGHTNESS_VALUE,
-	EXIF_TAG_LIGHT_SOURCE,
-	EXIF_TAG_FOCAL_LENGTH,
-	EXIF_TAG_WHITE_BALANCE,
-	EXIF_TAG_WHITE_POINT,
-	EXIF_TAG_DIGITAL_ZOOM_RATIO,
-	EXIF_TAG_SUBJECT_DISTANCE,
-	EXIF_TAG_SUBJECT_DISTANCE_RANGE,
-	EXIF_TAG_METERING_MODE,
-	EXIF_TAG_ISO_SPEED_RATINGS,
-	EXIF_TAG_CONTRAST,
-	EXIF_TAG_SATURATION,
-	EXIF_TAG_SHARPNESS,
-	EXIF_TAG_FOCAL_LENGTH_IN_35MM_FILM,
-	EXIF_TAG_BATTERY_LEVEL,
-
-	0,
-
-	EXIF_TAG_DATE_TIME,
-	EXIF_TAG_DATE_TIME_ORIGINAL,
-	EXIF_TAG_DATE_TIME_DIGITIZED,
-	EXIF_TAG_ORIENTATION,
-	EXIF_TAG_BITS_PER_SAMPLE,
-	EXIF_TAG_SAMPLES_PER_PIXEL,
-	EXIF_TAG_COMPRESSION,
-	EXIF_TAG_DOCUMENT_NAME,
-	EXIF_TAG_IMAGE_DESCRIPTION,
-	EXIF_TAG_MAKER_NOTE,
-
-	0,
-
-	/*
-	EXIF_TAG_RELATED_IMAGE_WIDTH,
-	EXIF_TAG_RELATED_IMAGE_LENGTH,
-	EXIF_TAG_IMAGE_WIDTH,
-	EXIF_TAG_IMAGE_LENGTH,
-	*/
-	EXIF_TAG_PIXEL_X_DIMENSION,
-	EXIF_TAG_PIXEL_Y_DIMENSION,
-	EXIF_TAG_X_RESOLUTION,
-	EXIF_TAG_Y_RESOLUTION,
-	EXIF_TAG_RESOLUTION_UNIT,
-
-	/*
-	0,
-
-	EXIF_TAG_ARTIST,
-	EXIF_TAG_COPYRIGHT,
-	EXIF_TAG_MAKER_NOTE,
-	EXIF_TAG_USER_COMMENT,
-	EXIF_TAG_SUBJECT_LOCATION,
-	EXIF_TAG_SCENE_TYPE,
-	*/
-
-	0,
-
-	EXIF_TAG_MAKE,
-	EXIF_TAG_MODEL,
-	EXIF_TAG_MAX_APERTURE_VALUE,
-	EXIF_TAG_SENSING_METHOD,
-	EXIF_TAG_FOCAL_PLANE_X_RESOLUTION,
-	EXIF_TAG_FOCAL_PLANE_Y_RESOLUTION,
-	EXIF_TAG_FOCAL_PLANE_RESOLUTION_UNIT,
-
-	0,
-
-	EXIF_TAG_EXIF_VERSION
-};
-
-
 static gboolean
 tag_is_present (GtkTreeModel *model,
 		const char   *tag_name)
@@ -343,11 +261,12 @@ update_exif_data (GthExifDataViewer *edv,
 		  ExifData          *edata)
 {
 	const char   *path;
-	unsigned int  i;
+	unsigned int  i,j;
 	gboolean      date_added = FALSE;
 	gboolean      aperture_added = FALSE;
-	gboolean      last_entry_is_void = ! edv->priv->view_file_info;
 	gboolean      list_is_empty = TRUE;
+	GtkTreeIter   iter;
+
 
 	path = get_file_path_from_uri (edv->priv->path);
 	if (path == NULL)
@@ -361,85 +280,87 @@ update_exif_data (GthExifDataViewer *edv,
 	if (edata == NULL) 
                 return;
 
-	for (i = 0; i < G_N_ELEMENTS (usefull_tags); i++) {
+        for (i = 0; i < EXIF_IFD_COUNT; i++) {
+                ExifContent *content = edata->ifd[i];
 		ExifEntry   *e;
-		GtkTreeIter  iter;
 		const char  *value;
 		char        *utf8_name;
 		char        *utf8_value;
+
+                if (! edata->ifd[i] || ! edata->ifd[i]->count)
+                        continue;
+
+                for (j = 0; j < content->count; j++) {
+                        ExifEntry *e = content->entries[j];
+
+                        if (! content->entries[j])
+                                continue;
+			
+			value = exif_tag_get_name_in_ifd (e->tag, exif_content_get_ifd (content));
+			if (value == NULL)
+				continue;
+
+			utf8_name = g_strdup (value);
+			if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
+				g_free (utf8_name);
+				continue;
+			}
 		
-		if ((usefull_tags[i] == 0) && ! last_entry_is_void) {
+			value = get_exif_entry_value (e);
+			if (value == NULL) {
+				g_free (utf8_name);
+				continue;
+			}
+
+			utf8_value = g_strdup (value);
+			if ((utf8_value == NULL) 
+			    || (*utf8_value == 0) 
+			    || _g_utf8_all_spaces (utf8_value)) {
+				g_free (utf8_name);
+				g_free (utf8_value);
+				continue;
+			}
+
+			if ((e->tag == EXIF_TAG_DATE_TIME)
+			    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
+			    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
+				if (date_added) {
+					g_free (utf8_name);
+					g_free (utf8_value);
+					continue;
+				} else
+					date_added = TRUE;
+			}
+
+			if ((e->tag == EXIF_TAG_APERTURE_VALUE)
+			    || (e->tag == EXIF_TAG_FNUMBER)) {
+				if (aperture_added) {
+					g_free (utf8_name);
+					g_free (utf8_value);
+					continue;
+				} else 
+					aperture_added = TRUE;
+			}
+
 			gtk_list_store_append (edv->priv->image_exif_model, &iter);
 			gtk_list_store_set (edv->priv->image_exif_model, &iter,
-					    NAME_COLUMN, "",
-					    VALUE_COLUMN, "",
+					    NAME_COLUMN, utf8_name,
+					    VALUE_COLUMN, utf8_value,
 					    POS_COLUMN, i,
 					    -1);
-			last_entry_is_void = TRUE;
-			continue;
-		}
-
-		e = get_entry_from_tag (edata, usefull_tags[i]);
-		if (e == NULL)
-			continue;
-
-		value = exif_tag_get_name (e->tag);
-		if (value == NULL)
-			continue;
-
-		utf8_name = g_strdup (value);
-		if (tag_is_present (GTK_TREE_MODEL (edv->priv->image_exif_model), utf8_name)) {
-			g_free (utf8_name);
-			continue;
-		}
-		
-		value = get_exif_entry_value (e);
-		if (value == NULL) {
-			g_free (utf8_name);
-			continue;
-		}
-
-		utf8_value = g_strdup (value);
-		if ((utf8_value == NULL) 
-		    || (*utf8_value == 0) 
-		    || _g_utf8_all_spaces (utf8_value)) {
+			list_is_empty = FALSE;
 			g_free (utf8_name);
 			g_free (utf8_value);
-			continue;
 		}
+	}
 
-		if ((e->tag == EXIF_TAG_DATE_TIME)
-		    || (e->tag == EXIF_TAG_DATE_TIME_ORIGINAL)
-		    || (e->tag == EXIF_TAG_DATE_TIME_DIGITIZED)) {
-			if (date_added) {
-				g_free (utf8_name);
-				g_free (utf8_value);
-				continue;
-			} else
-				date_added = TRUE;
-		}
-
-		if ((e->tag == EXIF_TAG_APERTURE_VALUE)
-		    || (e->tag == EXIF_TAG_FNUMBER)) {
-			if (aperture_added) {
-				g_free (utf8_name);
-				g_free (utf8_value);
-				continue;
-			} else 
-				aperture_added = TRUE;
-		}
-
-		gtk_list_store_append (edv->priv->image_exif_model, &iter);
-		gtk_list_store_set (edv->priv->image_exif_model, &iter,
-				    NAME_COLUMN, utf8_name,
-				    VALUE_COLUMN, utf8_value,
-				    POS_COLUMN, i,
-				    -1);
-		g_free (utf8_name);
-		g_free (utf8_value);
-
-		last_entry_is_void = FALSE;
-		list_is_empty = FALSE;
+	if (edv->priv->view_file_info && !list_is_empty) {
+	gtk_list_store_append (edv->priv->image_exif_model, &iter);
+	gtk_list_store_set (edv->priv->image_exif_model, &iter,
+			    NAME_COLUMN, "",
+			    VALUE_COLUMN, "",
+			    POS_COLUMN, -1,
+			    -1);
 	}
 
 	exif_data_unref (edata);
@@ -489,35 +410,35 @@ update_file_info (GthExifDataViewer *edv)
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("File Name"), 
 			    VALUE_COLUMN, utf8_name,
-			    POS_COLUMN, -4,
+			    POS_COLUMN, -6,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("File Dimensions"), 
 			    VALUE_COLUMN, size_txt,
-			    POS_COLUMN, -3,
+			    POS_COLUMN, -5,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("File Size"), 
 			    VALUE_COLUMN, file_size_txt,
-			    POS_COLUMN, -2,
+			    POS_COLUMN, -4,
 			    -1);
 	
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("File Modified"),
 			    VALUE_COLUMN, utf8_time_txt,
-			    POS_COLUMN, -1,
+			    POS_COLUMN, -3,
 			    -1);
 
 	gtk_list_store_append (edv->priv->image_exif_model, &iter);
 	gtk_list_store_set (edv->priv->image_exif_model, &iter,
 			    NAME_COLUMN, _("File Type"),
 			    VALUE_COLUMN, gnome_vfs_mime_get_description (get_mime_type (edv->priv->path)),
-			    POS_COLUMN, -1,
+			    POS_COLUMN, -2,
 			    -1);
 
 	/**/
